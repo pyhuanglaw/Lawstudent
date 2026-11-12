@@ -24,6 +24,14 @@ const XS3=(function(){
   S.SHOP_REAL=(()=>{ const GX=-16.5, mk=(id,place,key,cz,w,d,h)=>({id,place,key,w,d,h,x:GX-0.02-d/2,z:cz,ry:Math.PI/2,cx:GX,cz,ex:0,ez:w/2});
     return [mk('dabu','xs_dabu','bldg.xs_dabu',-16.7,7.4,12,3.4), mk('haopai','xs_haopai','bldg.xs_haopai',-23.2,4.4,14,3.4), mk('xsports','xs_xsports','bldg.xs_xsports',-33,14,16,3.4),
             mk('shanlan','xs_shanlan','bldg.xs_shanlan',10.2,14,18,3.95), mk('dakou','xs_dakou','bldg.xs_dakou_1f',40.4,12,16,3.6), mk('nanyang','xs_nanyang','bldg.xs_nanyang',25.3,9,14,4.5)];   /* 南洋戲院：大廳（NANYANG_LAYOUT.lobby 9×14×4.5） */ })();
+  /* 同弦樂器打烊要看得出來關了（BB 11-12 FAIL：新生南路 23:30 標籤「已閉館」，櫥窗吊燈亮、吉他牆照得清楚、沒有鐵捲門；同一條街大步、好拍、山嵐、新運動都有）。
+     店在二樓、一樓櫥窗和樓梯口是街景模型自己的，不在 SHOP_REAL（沒有室內模型可以放）——所以原本只有一樓簡化的店內（sk_in_tongxian）會調暗，二樓那張亮窗卡（xs_fronts_lit）一直亮、也沒有鐵門。
+     ① SHOP_LIT_PLACE：街景模型的亮窗卡 xs_fronts_lit（node extras.xsShops＝xsports,tongxian,shanlan,nanyang,dakou；第二組 UV＝店編號）照營業時間調暗——和公館同一套（Z3.ggShopLit）。
+     ② SHOP_SHUT：一樓櫥窗、樓梯口各一片鐵捲門（Z3.shopShutters，和其他店同一張浪板）。位置照 tools/blender/env_second/wz_street.py XS_FRONTS 的 tongxian：
+        這一棟的中心 z −8.9（模型量的：sk_in_tongxian z −9.50～−5.85、樓梯燈 z −10.43）、本地 +x＝北（−z）；櫥窗 glass (−3.0, 0.55) → z −9.45～−5.9；樓梯口 stair x 1.45～2.95 → z −11.85～−10.35、高 GH−0.38＝3.82。 */
+  S.SHOP_LIT_PLACE={xsports:'xs_xsports',tongxian:'xs_tongxian',shanlan:'xs_shanlan',nanyang:'xs_nanyang',dakou:'xs_dakou'};
+  S.SHOP_SHUT=(()=>{ const GX=-16.5, C=-8.9, mk=(id,x0,x1,sh)=>({id,place:'xs_tongxian',cx:GX,cz:+(C-(x0+x1)/2).toFixed(3),ry:Math.PI/2,sw:+(x1-x0+0.2).toFixed(2),sh});
+    return [mk('tongxian',-3.0,0.55,3.0), mk('tongxian_stair',1.45,2.95,3.82)]; })();
   S.NO_ARCADE_REC=0.2;
   /* XS-FARVIEW-1105：街的兩頭（走不到的遠景）。數字和 tools/blender/env_second/wz_street.py --set xinsheng_far 的 XSF 同一組，改一邊要一起改（tests/xs_farview_unit.js 比對 GLB）*/
   S.FAR={zN:-178,zS:178,armN:[-100,-84],armS:[74,90],armRoad:2};   // 沒有騎樓的那幾段：一樓牆在立面（facade.upper）往裡 0.2 m（wz_street.py 住家／鐵捲門的 rec）
@@ -206,7 +214,9 @@ const XS3=(function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       const xsR=c.scene.clone(true); Z3.attachWenzhouModel(E,g,xsR,'xsfb','xinsheng_street_glb');
       if(Z3.shopInsideLit) Z3.shopInsideLit(xsR,zone,S.SHOP_IN_PLACE);
-      if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.SHOP_REAL); if(Z3.shopRealGlow) Z3.shopRealGlow(g,'xinsheng_street_glb',zone,S.SHOP_REAL);   /* SHOP-REAL-INSIDE-1112：附近的店換成真的室內模型（簡化的 sk_in_<店> 只當載入前的備用）*/   /* SHOP-WINDOW-3D-1112：立體店內（sk_in_<店>）打烊就關燈 */
+      if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.SHOP_REAL); if(Z3.shopRealGlow) Z3.shopRealGlow(g,'xinsheng_street_glb',zone,S.SHOP_REAL);
+      if(Z3.shopShutters) Z3.shopShutters(E,g,zone,S.SHOP_SHUT);   /* 同弦樂器：一樓櫥窗、樓梯口的鐵捲門 */
+      if(Z3.ggShopLit) Z3.ggShopLit(xsR,zone,S.SHOP_LIT_PLACE,{glow:false});   /* 二樓以上的亮窗卡：打烊的店調暗（這條街的光暈只有樓梯燈和一個招牌，不跟著熄）*/   /* SHOP-REAL-INSIDE-1112：附近的店換成真的室內模型（簡化的 sk_in_<店> 只當載入前的備用）*/   /* SHOP-WINDOW-3D-1112：立體店內（sk_in_<店>）打烊就關燈 */
       }).catch(e=>console.warn('新生南路正式模型載入失敗，用方塊立面',e));
     /* XS-FARVIEW-1105：街兩頭的樓房（正式模型，遠景：不投影）；接上以後這一區不畫引擎的城市剪影圓筒（engine3d.js 讀 zone.noSkylineCity；圓筒在校園那一側正好落在校園裡）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_far']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_far').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;

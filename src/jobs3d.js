@@ -424,6 +424,46 @@ const JOBS=(function(){
     const here=()=>E.npcs.some(n=>n&&n.charId===id)||!!(GM.npc&&GM.npc[id]); if(here()) return true;
     let ent=null; try{ ent=STORY.schedEnt(CHARACTERS[id],Object.assign({},G,{hour:at.hour})); }catch(e){ ent=null; } if(!ent||ent.zone!==G.zone) return false;
     try{ SHOPLIFE.bringIn(GM,id,ent); }catch(e){ console.warn('JOBS.mealBring',e); } return here(); };
+  /* 2026-11-12（BB 在使用者電腦判 FAIL：YUE_SIS、SHIFT7_425 四次都一樣——學姊說「你在這裡。幾點下班？」那一刻她在 (−1.1, 2.05)、走路姿勢、obj.visible=false，講完、下班以後才看得到她坐著；朋友版、交往版都一樣）。
+     原因（兩件，都不是學姊那條規則自己的問題，可昕、同學走的是同一段）：
+       ① S.mealBring 帶進來的人從門口「走」到位子，那一句出來的時候還在半路；
+       ② 祐廷站在櫃台後，跟隨鏡頭對著櫃台——門口、靠窗那幾桌在鏡頭後面，引擎每一格照鏡頭的視錐算 obj.visible（engine3d.js updateNPC），在鏡頭外＝false。
+     改法（只改這一段的走位，台詞一個字不動）：
+       S.mealWalkIn：進門以後先走到祐廷面前（櫃台外面：點餐那一點，或祐廷正前方站得住的地方），不是直接去位子；位子照舊留著（n.seatTarget）。
+       S.mealStand ：她那一句以前——還沒走到就等她走到（最多 2.5 秒），再不然直接站好；面向祐廷、n.hidden=false。人就在祐廷面前＝在鏡頭裡。
+                     萬一還是不在鏡頭裡（已經坐在遠處的位子、鏡頭被玩家轉到別的方向）＝切過肩鏡頭（GM.cine 'ots'）對著她。
+       S.mealSeat  ：「（你幫她點了餐。）」以後才走去位子坐下（原本那一段 populateSchedule 的 onArrive），切過的鏡頭收回來。
+     已經坐在店裡的人（照作息早就到了）＝不搬，只確認看得到。沒有 3D（Node 測試的替身沒有 moveTo 的路）＝直接站好／坐好，不等。*/
+  S.mealNpc=function(GM,id){ const E=GM&&GM.E; if(!E) return null; return (E.npcs||[]).find(n=>n&&n.charId===id)||(GM.npc&&GM.npc[id])||null; };
+  S.MEAL_WAIT=2.5;
+  S.mealSpot=function(GM,n){ const E=GM&&GM.E, P=E&&E.player; if(!P||!P.obj) return null; const o=P.obj.position, yaw=P.obj.rotation.y||0, fx=Math.sin(yaw), fz=Math.cos(yaw), lv=P.lv|0;
+    const ok=(x,z)=>{ const d=Math.hypot(x-o.x,z-o.z); if(d<1||d>3.6) return false; if(E.canStand&&!E.canStand(x,z,0.32,lv)) return false;
+      return !(E.npcs||[]).some(m=>m&&m!==n&&m.obj&&!m.hidden&&(m.lv|0)===lv&&Math.hypot(m.obj.position.x-x,m.obj.position.z-z)<0.6); };
+    const C=[], L=E.zone&&E.zone.shopLayout, op=L&&Array.isArray(L.points)?L.points.find(p=>p&&p.id==='order'):null; if(op&&typeof op.x==='number') C.push([op.x,op.z]);
+    for(const d of [1.7,2,2.3,2.6,1.4]) C.push([+(o.x+fx*d).toFixed(2),+(o.z+fz*d).toFixed(2)]);
+    for(const c of C) if(ok(c[0],c[1])) return {x:c[0],z:c[1],lv,yaw:Math.atan2(o.x-c[0],o.z-c[1])}; return null; };
+  S.mealInView=function(GM,n){ try{ const E=GM&&GM.E, cam=E&&E.camera; if(!cam||!n||!n.obj||typeof THREE==='undefined'||typeof THREE.Vector3!=='function') return null;
+      const p=n.obj.position, v=new THREE.Vector3(p.x,(p.y||0)+1.2,p.z); if(!v||typeof v.project!=='function') return null; v.project(cam);
+      if(!(typeof v.x==='number'&&isFinite(v.x)&&isFinite(v.y)&&isFinite(v.z))) return null; return v.z>-1&&v.z<1&&Math.abs(v.x)<0.92&&Math.abs(v.y)<0.92; }catch(e){ return null; } };
+  S.mealWalkIn=function(GM,id){ const E=GM&&GM.E, n=S.mealNpc(GM,id); if(!E||!n||!n.obj) return null; const st={n,sp:null,sit:null,seat:null,arrived:false,cine:false}; n.hidden=false;
+    if(n.seat||!n.seatTarget||typeof n.onArrive!=='function') return st;   /* 已經坐著（或不是走去坐的）＝不搬 */
+    const sit=n.onArrive, sp=S.mealSpot(GM,n); if(!sp){ n.path=null; n.onArrive=null; try{ sit(n); }catch(e){ console.warn('JOBS.mealWalkIn',e); } return st; }   /* 祐廷面前站不了人＝直接坐好 */
+    st.sp=sp; st.sit=sit; st.seat=n.seatTarget; n.onArrive=null; const arrive=()=>{ st.arrived=true; n.faceYaw=sp.yaw; };
+    if(!(E.moveTo&&E.moveTo(n,sp.x,sp.z,arrive,sp.lv))){ n.path=null; if(E.placeAt) E.placeAt(n,sp.x,sp.z,sp.lv); else { n.obj.position.x=sp.x; n.obj.position.z=sp.z; } n.obj.rotation.y=sp.yaw; arrive(); }
+    return st; };
+  S.mealStand=async function(GM,st){ const E=GM&&GM.E, n=st&&st.n; if(!E||!n||!n.obj) return false;
+    if(st.sp&&!st.arrived){ const wait=typeof setTimeout==='function'&&n.path?S.MEAL_WAIT:0; for(let t=0;t<wait&&!st.arrived&&n.path;t+=0.1) await new Promise(r=>setTimeout(r,100));
+      if(!st.arrived){ n.path=null; n.onArrive=null; if(E.placeAt) E.placeAt(n,st.sp.x,st.sp.z,st.sp.lv); else { n.obj.position.x=st.sp.x; n.obj.position.z=st.sp.z; } st.arrived=true; } }
+    if(st.sp){ n.obj.rotation.y=st.sp.yaw; n.faceYaw=st.sp.yaw; n.speed=0; n.pose=n.idlePose='idle'; }
+    n.hidden=false; n.obj.visible=true;   /* n.hidden：引擎每一格照它算顯示（只設 obj.visible 會被蓋回去）*/
+    if(E.player&&E.player.obj&&!n.seat){ n.lookAt=E.player.obj.position; n._sayLook=true; }   /* 看著祐廷；整段結束（game3d.js sceneEnd）放開 */
+    if(S.mealInView(GM,n)===false&&GM.cine&&E.player&&E.player.obj){ try{ GM.cine('ots',E.player.obj,n.obj,{snap:true}); st.cine=true; }catch(e){ console.warn('JOBS.mealStand',e); } }
+    return true; };
+  S.mealSeat=function(GM,st){ const E=GM&&GM.E, n=st&&st.n; if(!E||!n) return false; if(st.cine&&E.endCinematic){ try{ E.endCinematic(); }catch(e){} st.cine=false; }
+    if(!st.sp||!st.sit) return false; const sit=st.sit, seat=st.seat; st.sit=null; if(!(E.npcs||[]).includes(n)||n.seat) return false;   /* 這中間被別的系統帶走、已經坐下＝不管 */
+    n.faceYaw=null; let ap=null; try{ ap=seat?((GM.seatApproach&&GM.seatApproach(seat))||[seat.x,seat.z]):null; }catch(e){ ap=seat?[seat.x,seat.z]:null; }
+    if(!(ap&&E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,seat.lv|0))){ try{ sit(n); }catch(e){ console.warn('JOBS.mealSeat',e); } }
+    return true; };
   /* AA_828 第 10 節第 1 點（企劃線 33e9522155；2026-11-12 第七輪）：「學姊『你在這裡。幾點下班？』每學期說一次（每學期她第一次來那天）；同學期第二次來（交往中）只有進店坐下＋旁白。」
      只改照自己的規則來的人（S.yueMetOnly：資料 yueMeal.sis 那一條——學姊）：那一組說過沒有照學期記（G.jobs.yue.mealHiT＝{人物: 上一次說的那個學期}）；這個學期還沒說過＝整組演一次，說過＝只有最後那一句旁白。
      其他人（阿哲、可昕、共用句的同學）照舊每人一生一次（mealHi）。原本（第六輪）：學姊也是一生一次。
@@ -437,8 +477,12 @@ const JOBS=(function(){
     for(const id of S.yueMealIds()){ const slot=S.mealHere(G,id); if(!slot) continue; const at=S.mealAt(G,id)||{slot,hour:G.hour}; const c=typeof CHARACTERS!=='undefined'?CHARACTERS[id]:null, done=Y.done[c&&c.gender==='f'?'f':'m'];
       if(!S.mealBring(GM,id,at)) continue;   /* 人帶不進店裡＝不演只有台詞的那一段 */
       const perTerm=!!T&&S.yueMetOnly(id), first=perTerm?MT[id]!==T:!M.includes(id);   /* 學姊：這個學期還沒說過；其他人：一生一次 */
-      if(first){ await say(GM,null,Y.narr); await say(GM,id,S.yueOwn(c)||Y.ask); await say(GM,'player',Y.me); await say(GM,null,done); if(!M.includes(id)) M.push(id); if(perTerm) MT[id]=T; }
-      else await say(GM,null,done);
+      let st=null; try{ st=S.mealWalkIn(GM,id); }catch(e){ console.warn('JOBS.mealWalkIn',e); }   /* 進門先走到祐廷面前（上面那一段）*/
+      const stand=async()=>{ if(!st) return; try{ await S.mealStand(GM,st); }catch(e){ console.warn('JOBS.mealStand',e); } };
+      try{
+        if(first){ await say(GM,null,Y.narr); await stand(); await say(GM,id,S.yueOwn(c)||Y.ask); await say(GM,'player',Y.me); await say(GM,null,done); if(!M.includes(id)) M.push(id); if(perTerm) MT[id]=T; }
+        else { await stand(); await say(GM,null,done); }
+      } finally { if(st){ try{ S.mealSeat(GM,st); }catch(e){ console.warn('JOBS.mealSeat',e); } } }
       { const F=G.flags||(G.flags={}), r=F.SHOP_MEAL_HI&&typeof F.SHOP_MEAL_HI==='object'?F.SHOP_MEAL_HI:(F.SHOP_MEAL_HI={}), v=r[id]; r[id]=[G.day,slot,Array.isArray(v)?(v[2]|0):0]; }
       if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.yueDateMark){ try{ SHOPLIFE.yueDateMark(G,id); }catch(e){} }   /* 可昕（交往中才來，一學期最多兩次；AA_828 第 7 節第 2 點）、學姊（每學期一次、交往中兩次；第 9 節第 1 點）：這一次算來過 */
       any=true; }

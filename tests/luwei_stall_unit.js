@@ -16,6 +16,9 @@
      舊：白名單 1f5d6efed；17:59＝away；12:00 按了＝旁白 not_open；互動點一直在；選老樣子＝老闆說「好。一樣。」；第二次以後吃完沒有旁白。
      新：白名單 33e952215（1f5d6efed、44ed07c50 進 history；33e952215＝AA 更正 d：「好。一樣。」還是老闆說的，44ed07c50 寫「祐廷回的」是 AA 說錯——這支測試中間一度改成祐廷，已改回原本的期望）；17:00～18:00＝prep（攤車、老闆出現，按了＝not_open）、16:59＝away；白天（away）沒有按鈕（互動點 hidden）、按了也不說話；
          選老樣子＝老闆「好。一樣。」（和原本一樣，沒有改）；第二次起吃完輪流兩句（b_after）。
+   同一天第三次改期望（BB 在使用者電腦判 FAIL：17:00～18:00 攤車擺好了、老闆站著，按了卻說「（攤子還沒推出來。六點以後才有。）」——字和畫面矛盾；字是 AA 定的不改，改畫面）：
+     舊：17:00～18:00（prep）攤車、老闆出現、有按鈕，按了＝旁白 not_open；颱風假的按鈕 17:00 起有。
+     新：prep 那一小時和白天一樣——攤車、老闆都不在、沒有按鈕、按了不說話；18:00 才出現；颱風假的按鈕 18:00 起有。S.state 還是回 'prep'（稿的時段照舊讀進來）；not_open 那一句不會說到（稿 lawww_1112.e：「做不到這一段就整句不用」）。
    同一天（LAWWW2 7c374c3d0 驗收後）：模型換 luwei_stall_cart.glb、阻擋改一個矩形、攤車不在時老闆也要藏（n.hidden；舊：只設 obj.visible，engine 每格改回來）。
    8 lawww_1112：輪流兩句逐字、順序、存檔；按鈕什麼時候有；回話是誰說的 */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -81,9 +84,9 @@ const NEXT=['（袋子很燙。你換了一隻手拿。）','（王子麵吸飽�
   { const st=(h,day)=>S.state({day:day==null?DAY:day,hour:h});
     check('2. 16:59 不在、17:00 在擺（prep）、17:59 在擺、18:00 營業、23:59 營業、0:00 在收、0:59 在收、1:00 不在、12:00 不在（舊期望：17:59 不在）', J([16.99,17,17.99,18,23.99,0,0.99,1,12].map(h=>st(h)))===J(['away','prep','prep','open','open','closing','closing','away','away']), J([16.99,17,17.99,18,23.99,0,0.99,1,12].map(h=>st(h))));
     const g=(h,day)=>({day:day==null?DAY:day,hour:h});
-    check('2. 攤車和老闆：17:00 起在、1:00 起不在；能買只有 18:00～24:00', J([16.99,17,17.5,18,23.99,0.5,1,12].map(h=>S.present(g(h))))===J([false,true,true,true,true,true,false,false])&&J([17.5,18,23.99,0.5].map(h=>S.isOpen(g(h))))===J([false,true,true,false]));
-    check('2. 按鈕（稿 e）：白天沒有（1:00～16:59）；17:00～隔天 0:59 有', J([1,6,12,16.99,17,17.99,18,22,23.99,0,0.99].map(h=>S.button(g(h))))===J([false,false,false,false,true,true,true,true,true,true,true]), J([1,6,12,16.99,17,17.99,18,22,23.99,0,0.99].map(h=>S.button(g(h)))));
-    check('2. 颱風假的按鈕：平常有攤子的那一段（17:00～0:59）有（按了＝位置是空的）、白天沒有', TY!=null&&J([12,16.99,17,20,0.5,1].map(h=>S.button(g(h,TY))))===J([false,false,true,true,true,false]), J([12,16.99,17,20,0.5,1].map(h=>S.button(g(h,TY)))));
+    check('2. 攤車和老闆：18:00 起在（17:00～17:59 還沒出現——舊期望：17:00 起在）、1:00 起不在；能買只有 18:00～24:00', J([16.99,17,17.5,17.99,18,23.99,0.5,1,12].map(h=>S.present(g(h))))===J([false,false,false,false,true,true,true,false,false])&&J([17.5,18,23.99,0.5].map(h=>S.isOpen(g(h))))===J([false,true,true,false]));
+    check('2. 按鈕（稿 e）：白天沒有（1:00～17:59；舊期望：17:00 起有）；18:00～隔天 0:59 有', J([1,6,12,16.99,17,17.99,18,22,23.99,0,0.99].map(h=>S.button(g(h))))===J([false,false,false,false,false,false,true,true,true,true,true]), J([1,6,12,16.99,17,17.99,18,22,23.99,0,0.99].map(h=>S.button(g(h)))));
+    check('2. 颱風假的按鈕：平常有攤子的那一段（18:00～0:59；舊期望：17:00 起）有（按了＝位置是空的）、白天沒有', TY!=null&&J([12,16.99,17,17.99,18,20,0.5,1].map(h=>S.button(g(h,TY))))===J([false,false,false,false,true,true,true,false]), J([12,16.99,17,20,0.5,1].map(h=>S.button(g(h,TY)))));
     check('2. 資料：prep 17～18（接到開賣）、dayButton false、熟客句和回話都是老闆（稿 d，33e952215 更正）', !!D.prep&&D.prep.from===17&&D.prep.to===D.open.from&&D.dayButton===false&&D.spice.replyBy==='keeper'&&D.spice.regularBy==='keeper', J([D.prep,D.dayButton,D.spice.replyBy]));
     check('2. 颱風假（'+(TY!=null?CALENDAR.dateOf(TY).key:'沒有')+'）整天不出攤', TY!=null&&[12,19,22.5].every(h=>st(h,TY)==='typhoon')&&!S.present({day:TY,hour:20}), String(TY));
     check('2. 半價：21:59 原價、22:00 起半價', J(S.prices({day:DAY,hour:21.99}))===J([60,90,120,45])&&J(S.prices({day:DAY,hour:22}))===J([30,45,60,25])&&!S.isHalf({day:DAY,hour:21.99})&&S.isHalf({day:DAY,hour:23.9})); }
@@ -101,7 +104,10 @@ const NEXT=['（袋子很燙。你換了一隻手拿。）','（王子麵吸飽�
     check('3. 12:00：攤車不在、不擋；按鈕收起來（互動點 hidden，走到那裡也不出「看滷味」）', q.shown===false&&q.model.visible===false&&q.cells==null&&E.canStand(S.AT.x,S.AT.z,0.3,0)&&q.it===it&&it.hidden===true
       &&(()=>{ const p=E.player.obj.position, p0=[p.x,p.z]; p.set(c.x,0,c.z); const n=E.nearestInteractable?E.nearestInteractable():null; p.set(p0[0],0,p0[1]); return !(n&&n.lwStall); })());
     G.hour=17.5; E.player.obj.position.set(60,0,14); S.sync(GM,z);
-    check('3. 17:30 在擺：攤車出現、擋起來、按鈕出來（走到那裡是「看滷味」）', q.shown===true&&q.model.visible===true&&Array.isArray(q.cells)&&q.cells.length>0&&it.hidden===false
+    check('3. 17:30：攤車還沒出現、不擋、沒有按鈕（走到那裡也不出「看滷味」）——舊期望：攤車出現、擋起來、按鈕出來', q.shown===false&&q.model.visible===false&&q.cells==null&&E.canStand(S.AT.x,S.AT.z,0.3,0)&&it.hidden===true
+      &&(()=>{ const p=E.player.obj.position, p0=[p.x,p.z]; p.set(c.x,0,c.z); const n=E.nearestInteractable?E.nearestInteractable():null; p.set(p0[0],0,p0[1]); return !(n&&n.lwStall); })());
+    G.hour=18; S.sync(GM,z);
+    check('3. 18:00 開賣：攤車出現、擋起來、按鈕出來（走到那裡是「看滷味」）', q.shown===true&&q.model.visible===true&&Array.isArray(q.cells)&&q.cells.length>0&&it.hidden===false
       &&(()=>{ const p=E.player.obj.position, p0=[p.x,p.z]; p.set(c.x,0,c.z); const n=E.nearestInteractable?E.nearestInteractable():it; p.set(p0[0],0,p0[1]); return !!n&&n.lwStall===q.id; })());
     G.hour=12; S.sync(GM,z);
     G.hour=20; E.player.obj.position.set(S.AT.x,0,S.AT.z); S.sync(GM,z);
@@ -118,7 +124,8 @@ const NEXT=['（袋子很燙。你換了一隻手拿。）','（王子麵吸飽�
     G.hour=2; z.applyTimeOutdoor(2,E);
     check('3. 2:00 收走：攤車、老闆不在（n.hidden，engine 才不會每格改回來）、按鈕不在；導航和原本一模一樣', it.hidden===true&&kp.hidden===true&&q.shown===false&&q.model.visible===false&&kp.obj.visible===false&&q.cells==null&&q.isOpen===false&&J(Array.from(z.nav.b))===J(Array.from(b0)));
     G.day=TY; G.hour=20; z.applyTimeOutdoor(20,E); check('3. 颱風假 20:00：位置是空的（按鈕在：按了是那一句旁白）', q.shown===false&&kp.obj.visible===false&&q.cells==null&&it.hidden===false);
-    G.day=DAY; G.hour=17.2; z.applyTimeOutdoor(17.2,E); check('3. 17:12 在擺：老闆也出現', q.shown===true&&kp.obj.visible===true&&kp.hidden===false&&it.hidden===false);
+    G.day=DAY; G.hour=17.2; z.applyTimeOutdoor(17.2,E); check('3. 17:12：攤車、老闆都還沒出現、沒有按鈕（舊期望：在擺、老闆也出現）', q.shown===false&&q.model.visible===false&&kp.obj.visible===false&&kp.hidden===true&&it.hidden===true);
+    G.hour=18.05; z.applyTimeOutdoor(18.05,E); check('3. 18:03 開賣：攤車、老闆出現（n.hidden 放開）、按鈕在', q.shown===true&&q.model.visible===true&&kp.obj.visible===true&&kp.hidden===false&&it.hidden===false);
     G.hour=14; z.applyTimeOutdoor(14,E); check('3. 14:00 白天：攤車沒了、老闆也藏起來（hidden＋看不到）', q.shown===false&&kp.hidden===true&&kp.obj.visible===false);
     E.npcs=[]; G.hour=14; STORY.populate('gongguan',GM); const kp2=E.npcs.find(n=>n.stallKeeper==='st_luwei'); check('3. 白天進區域：老闆一放進來就是藏的', !!kp2&&kp2.hidden===true&&kp2.obj.visible===false);
     check('3. 模型＝只有攤車那一版（檔案在、LICENSES.md 有登記）；阻擋一個矩形 [x−1.5, x+1.3, z−1.25, z+0.45]', S.GLB==='assets/models/env/second_ai/luwei_stall_cart.glb'&&fs.existsSync(path.join(ROOT,S.GLB))&&fs.readFileSync(path.join(ROOT,'LICENSES.md'),'utf8').includes('luwei_stall_cart.glb')
@@ -153,7 +160,7 @@ const NEXT=['（袋子很燙。你換了一隻手拿。）','（王子麵吸飽�
     check('4. 上次不要辣：熟客句＝現有的「一樣不要辣？」', texts()[1]==='一樣不要辣？'&&texts()[1]===EL.staff[KEY].line5, J(texts())); }
   { fresh(12); const r1=await S.interact(GM,zone), a=J(said); fresh(0.5,{day:DAY+1}); const r2=await S.interact(GM,zone), b=J(said); fresh(20,{day:TY}); const r3=await S.interact(GM,zone), c=J(said);
     fresh(17.5); const r0=await S.interact(GM,zone), a0=J(said);
-    check('4. 12:00 白天：不說話（舊期望：旁白 not_open；稿 e：白天不放按鈕，not_open 只留給在擺的那一小時）；17:30 在擺「攤子還沒推出來」；0:30「鍋子蓋起來了」；颱風假 20:00「位置是空的」：各一句旁白、不出選單、不扣錢', r0==='prep'&&a0===J([[null,D.lines.not_open]])&&r1==='away'&&a===J([])&&r2==='closing'&&b===J([[null,D.lines.closed]])&&r3==='typhoon'&&c===J([[null,D.lines.typhoon]])&&opts.length===0&&G.money===5000, J([a,b,c])); }
+    check('4. 12:00 白天：不說話（舊期望：旁白 not_open；稿 e：白天不放按鈕）；17:30 也不說話（舊期望：旁白「攤子還沒推出來」——那時候畫面上攤車已經擺好了，BB 判矛盾；現在那一小時沒有攤車、沒有按鈕）；0:30「鍋子蓋起來了」；颱風假 20:00「位置是空的」：各一句旁白、不出選單、不扣錢', r0==='prep'&&a0===J([])&&r1==='away'&&a===J([])&&r2==='closing'&&b===J([[null,D.lines.closed]])&&r3==='typhoon'&&c===J([[null,D.lines.typhoon]])&&opts.length===0&&G.money===5000, J([a,b,c])); }
 
   /* ===== 5 和人一起來 ===== */
   { fresh(20.5); picks=['夾一般的量','小辣']; const r=await EAT.outingFirst(GM,{place:'公館滷味攤'});
