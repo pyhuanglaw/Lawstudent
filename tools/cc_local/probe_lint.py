@@ -8,6 +8,9 @@
        3. 「'格式' % (參數...)」的 %s／%d／%g… 數目和參數數目一致（用 ast：跨行串接的字串會先合成一個，不會誤報）；
           右邊是單一名稱、但格式裡有 2 個以上 % 的，也算錯（R6、R10 今晚就是這兩種）
   .js：node --check（語法）
+  探針清單（CC_02 丁，使用者 2026-11-12 要求、強制）：指定檔名的 cc_*.py 探針（＝剛新寫或改過的那幾支），檔頭要有一行
+       「CC_02 清單 YYYY-MM-DD：1✓ 2✓ 3n/a（原因） … 13✓」——1～13 每一點都要有 ✓ 或 n/a（原因）；少一點、n/a 沒寫原因＝FAIL。
+       不給參數全掃時不查這一項（舊探針很多還沒有清單），只要一改、一指定就要補。
 結果：每個問題一行「FAIL 檔案:行 說明」，最後 ALL PASS／FAILED n；exit 0／1。
 """
 import ast, os, re, subprocess, sys, py_compile
@@ -85,6 +88,24 @@ def check_py(path, out):
         pass
 
 
+CHK_LINE = re.compile(r'CC_02 清單 (\d{4}-\d{2}-\d{2})：(.*)')
+CHK_ITEM = re.compile(r'(?<![0-9])(1[0-3]|[1-9])(✓|n/a（[^）]+）)')
+
+
+def check_checklist(path, out):
+    """CC_02 丁：新寫／修改的探針，檔頭要有一行逐條過的 13 點清單（使用者 2026-11-12：「你要自己寫規則讓以後不會再做這種事」）"""
+    src = open(path, encoding='utf-8').read()
+    m = None
+    for ln in src.splitlines()[:80]:
+        m = CHK_LINE.search(ln)
+        if m: break
+    if not m:
+        out.append('%s：檔頭沒有「CC_02 清單 YYYY-MM-DD：1✓ 2✓ … 13✓」——改探針前要先逐條過 CC_02 丙的 13 點，寫進檔頭（CC_02 丁）' % path); return
+    got = {int(a): b for a, b in CHK_ITEM.findall(m.group(2))}
+    miss = [k for k in range(1, 14) if k not in got]
+    if miss: out.append('%s：CC_02 清單少了第 %s 點（每一點都要寫 ✓ 或 n/a（原因））' % (path, '、'.join(map(str, miss))))
+
+
 def check_js(path, out):
     r = subprocess.run(['node', '--check', path], capture_output=True, text=True)
     if r.returncode != 0:
@@ -109,6 +130,8 @@ def main(args):
     for p in targets(args):
         n += 1
         (check_py if p.endswith('.py') else check_js)(p, out)
+        if args and os.path.isfile(p) and p.endswith('.py') and os.path.basename(p).startswith('cc_') and 'test_tools' in os.path.abspath(p) and not os.path.basename(p).endswith('_lib.py'):
+            check_checklist(p, out)   # CC_02 丁：指定的探針檔（剛改的）要有 13 點清單
     for line in out:
         print('FAIL ' + (line[len(ROOT) + 1:] if line.startswith(ROOT + '/') else line))
     try:
