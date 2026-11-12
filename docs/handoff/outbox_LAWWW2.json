@@ -8784,10 +8784,10 @@
   {
    "branch": "claude/focused-cray-c9uwvw",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACK",
    "state": "已交付",
    "noDirectIntegrate": false,
-   "sha": "(本 commit)",
+   "sha": "b716acd9ae",
    "task": "SHOP-REAL-INSIDE-1112",
    "title": "溫州街第二包：林家乾麵換真的室內＋WZ-SUNNY-DOOR-1112 SUNNY SIDE 店外的門對齊室內",
    "files": [
@@ -8795,7 +8795,8 @@
     "docs/art-rebuild/second_ai/wip/wz_real_inside_1112/README.md"
    ],
    "remaining": "林家打烊後攤車還在鐵捲門外；劇情寫死 SUNNY SIDE 門口 (42,…) 的站位沒搜",
-   "next": "LAWWW-C 套 patch、CC 拍兩間店外／店內、BB 判"
+   "next": "LAWWW-C 套 patch、CC 拍兩間店外／店內、BB 判",
+   "ackNote": "LAWWW-C 11-12 12:21Z：已進開發分支（762104842a 之前那一筆）"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
@@ -8803,15 +8804,31 @@
    "ack": "DELIVERED",
    "state": "已交付",
    "noDirectIntegrate": false,
-   "sha": "(本 commit)",
+   "sha": "6b3b243094",
    "task": "L118-IT-REACH-1111",
    "title": "118 巷店內按鈕的值搬回配置（tools/lane118/it_fix.py），遊戲程式的覆寫表清空",
    "files": [
-    "docs/art-rebuild/second_ai/wip/l118_it_reach_1112/l118_it_reach_v1.patch",
+    "docs/art-rebuild/second_ai/wip/l118_it_reach_1112/l118_it_reach_v2.patch",
     "docs/art-rebuild/second_ai/wip/l118_it_reach_1112/README.md"
    ],
    "remaining": "沒有在瀏覽器重驗（數值和線上版一樣）",
    "next": "LAWWW-C 套 patch；CC 回歸 118牛排、辛亥韓食坐下"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "TZ-SHUTTER-POS-1112",
+   "title": "汀州路沒有騎樓的四間：店內模型和鐵捲門往街上多出 3.2 m（REAL_DEP 0.3→3.5）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_shutter_pos_1112/tz_shutter_pos_v1.patch",
+    "docs/art-rebuild/second_ai/wip/tz_shutter_pos_1112/README.md"
+   ],
+   "remaining": "白天聯通、越好吃、客居三間的店內畫面雲端沒拍到（模型沒載完）",
+   "next": "LAWWW-C 套 patch、CC 拍四間 14:00／23:30、BB 重判"
   }
  ]
 }
