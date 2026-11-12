@@ -1060,3 +1060,15 @@
        4556aa65c..8a976f69c  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [20:25:14] ==== END   TUTOR_BACK  exit=1  137s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8a976f69c..a0882950c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:25:19] ==== END   YUE_SIS_18a3  exit=1  189s   ====
+[20:25:22] memory 41% before starting LUWEI_72fc (2 running)
+[20:25:22] ==== START LUWEI_72fc  (probe @ 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3) ====
+[20:25:25] [res] cpu=2% mem=41% (12.9/31.4 GB) chrome_testing=5  START LUWEI_72fc
+[20:25:25] memory 41% before starting FN_DOOR_72fc (2 running)
+[20:25:25] ==== START FN_DOOR_72fc  (probe @ 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3) ====
+[20:25:28] [res] cpu=4% mem=43% (12.9/31.4 GB) chrome_testing=5  START FN_DOOR_72fc
+[20:27:49] 正在跑：BAR_GROUP_72fc（已跑 4 分／上限 25 分）、LUWEI_72fc（已跑 2 分／上限 30 分）、FN_DOOR_72fc（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:28:09] [res] cpu=8% mem=46% (14.7/31.4 GB) chrome_testing=10  END BAR_GROUP_72fc
