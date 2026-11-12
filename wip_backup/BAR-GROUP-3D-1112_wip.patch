@@ -1,0 +1,364 @@
+diff --git a/docs/handoff/story_import_allow.json b/docs/handoff/story_import_allow.json
+index e58c23e156..e011ea0804 100644
+--- a/docs/handoff/story_import_allow.json
++++ b/docs/handoff/story_import_allow.json
+@@ -8792,6 +8792,15 @@
+      "note": "被 8e41821f4a 取代（第二版：公館燒臘 11:00～23:00 不公休、頁間書屋 10:00 開、禮貌生財照原本 19:00～23:30 每天、誰說打烊那一句、上師一句）"
+     }
+    ]
++  },
++  {
++   "path": "docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md",
++   "sha": "48d153407",
++   "status": "approved",
++   "approvedBy": "AA（BAR-GROUP-3D-1112）；48d153407＝AA-C 2026-11-12 答 LAWWW-C（座位、演完留在二樓、要改的一句；D109）",
++   "task": "BAR-GROUP-3D-1112",
++   "kind": "md",
++   "note": "律師讀書小組在大口漢堡二樓的三場（ev_bar_group_start／_out／_three）改在 3D 演的座位與舞台指示（AA-C 11-12 定，分支 claude/magical-albattani-bk7b4n）。台詞只改「要改的一句」那一列：src/data/r2y4b_events.js（手寫檔，沒有產生器）ev_bar_group_night「first」那一段的第一句旁白（ev_bar_group_out 共用同一份台詞）「（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）」→「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」——手改一處、照表一字不差（稿是 md 的表，不是 apply_line_rows.py 的 JSON）；其他台詞不動。座位、流程在 src/r2y4b3d.js（S.barSeats／barCast／barStage／barPlay）。逐字對稿、其他台詞沒動的雜湊：tests/bar_group_3d_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+   }
+  ]
+ }
+\ No newline at end of file
+diff --git a/src/data/r2y4b_events.js b/src/data/r2y4b_events.js
+index 5ae375a2a6..6b53b4e36a 100644
+--- a/src/data/r2y4b_events.js
++++ b/src/data/r2y4b_events.js
+@@ -576,7 +576,7 @@ const R2Y4B_EVENTS=(function(){
+       ...threeRows(),
+       {end:true},
+       {label:'first'},
+-      {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）'},
++      {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）'},   /* AA_836（企劃線 48d153407，BAR-GROUP-3D-1112）：三個人都在時語彤坐可昕旁邊、祐廷在對面，不是「長桌另一頭」*/
+       {if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）'},   /* AA_350 N1 白天版 */
+       ...CG20_LINES,   /* AA-B 11-01 CG-20 (a)：白天那句照留，後面加旁白再放 CG */
+       {speaker:'heroine_03',text:'我們一起考。……我先考你。'},   /* AA_642 第 4 節 */
+diff --git a/src/r2y4b3d.js b/src/r2y4b3d.js
+index d36328073c..81e7430c31 100644
+--- a/src/r2y4b3d.js
++++ b/src/r2y4b3d.js
+@@ -664,7 +664,7 @@ const R2Y4B=(function(){
+   const groupStartPhone=G=>{ const d=DK(GS), F=G.flags; if(d==null||G.day<d||G.day>d+1||F.BAR_GROUP_KIND!=null||!S.groupOn(G)||!at(G,GS,0)) return; const kind=S.groupKind(G); if(!kind){ F.BAR_GROUP_KIND='none'; return; }
+     F.BAR_GROUP_KIND=kind; F.BAR_STUDY_GROUP=kind==='kexin'?['kexin']:(kind==='yutong'?['yutong']:['kexin','yutong']); F.BAR_GROUP_START=kind==='split'?'kexin':kind;   /* 分開讀：成立那一晚照可昕的視訊 */
+     const st=F.BAR_GROUP_START, video=st==='kexin';
+-    plan(G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:d,h:21.5,late:0.5,place:video?'視訊':'大口漢堡',verb:video?'接起來':undefined,title:'律師讀書小組'+(video?'（視訊）':'（大口漢堡）'),travel:video?'':'走過去約 15 分鐘',travelH:video?0:0.25}); };
++    const o={id:'y4_bar_group_start',ev:'ev_bar_group_start',day:d,h:21.5,late:0.5,place:video?'視訊':'大口漢堡',verb:video?'接起來':undefined,title:'律師讀書小組'+(video?'（視訊）':'（大口漢堡）'),travel:video?'':'走過去約 15 分鐘',travelH:video?0:0.25}; plan(G,video?o:S.bar3d(o)); };   /* 不是視訊的：到 3D 的大口漢堡二樓演（BAR-GROUP-3D-1112，下面 S.bar3d）*/
+   S.kxVday=G=>!!(G.flags.KX_VDAY&&G.flags.KX_VDAY[4]==='video');
+   S.kxIn=G=>Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('kexin')&&dating(G,'kexin');   /* 之後分手的人，那天以後不再出現 */
+   S.ytIn=G=>Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('yutong')&&!isEx(G,'heroine_03');
+@@ -708,11 +708,83 @@ const R2Y4B=(function(){
+   const groupVideoRules=G=>{ const F=G.flags; if(!F.BAR_GROUP_KIND||F.BAR_GROUP_KIND==='none'||!evDone(G,'ev_bar_group_start')) return;
+     if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>/^y4_bar_(vid|out)_/.test(q.id)&&q.state==='planned')) return;   /* 一次只排下一場 */
+     for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='video'&&s.mode!=='nccu'&&s.mode!=='noodle')) continue; if(now(G)>T(d,s.t0+0.5)) continue; if(outGet(G,'y4_bar_vid_'+d)||outGet(G,'y4_bar_out_'+d)) continue; if(F.BAR_GROUP_LAST===d) continue;
+-      if(s.mode==='noodle'){ plan(G,{id:'y4_bar_out_'+d,ev:'ev_bar_group_out',day:d,h:s.t0,late:0.5,place:'大口漢堡',no:'今天先不讀',title:'律師讀書小組（大口漢堡）',travel:'走過去約 15 分鐘',travelH:0.25,back:'回到首都帝大。'}); break; }   /* AA_642 第 6 節：平日晚上在大口漢堡二樓（2D）*/
++      if(s.mode==='noodle'){ plan(G,S.bar3d({id:'y4_bar_out_'+d,ev:'ev_bar_group_out',day:d,h:s.t0,late:0.5,place:'大口漢堡',no:'今天先不讀',title:'律師讀書小組（大口漢堡）',travel:'走過去約 15 分鐘',travelH:0.25,back:'回到首都帝大。'})); break; }   /* AA_642 第 6 節：平日晚上在大口漢堡二樓；BAR-GROUP-3D-1112：到 3D 的二樓演（S.bar3d 加 goto、拿掉 back；區域沒載入＝照舊 2D）*/
+       const nc=s.mode==='nccu'; plan(G,{id:'y4_bar_vid_'+d,ev:'ev_bar_group_video',day:d,h:s.t0,late:0.5,place:nc?'木柵大學':'視訊',verb:nc?undefined:'接起來',no:'今天先不讀',title:'律師讀書小組（'+(nc?'木柵大學':'視訊')+'）',travel:nc?'開車約 40 分鐘':'',travelH:nc?2/3:0,back:nc?'回到首都帝大。':'視訊結束。'}); break; } };
+   S.groupStop=function(G){ if(!graduated(G)) return null; for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='noodle'&&s.mode!=='library')||G.flags.BAR_GROUP_LAST===d) continue; const t=T(d,s.t0); if(t>now(G)) return t; } return null; };   /* 畢業後篇：麵店、總圖那幾晚停一下 */
+   const groupThreeRules=G=>{ const d=DK('2029-06-23'), F=G.flags; if(d==null||G.day<d-3||G.day>d||F.BAR_GROUP_KIND!=='three'||!S.kxIn(G)||!S.ytIn(G)||outGet(G,'y4_bar_three')) return;
+-    if(now(G)<T(d,19.25)) plan(G,{id:'y4_bar_three',ev:'ev_bar_group_three',day:d,h:19,late:0.25,place:'大口漢堡',title:'三個人的長桌（大口漢堡）',travel:'走過去約 15 分鐘',travelH:0.25}); };
++    if(now(G)<T(d,19.25)) plan(G,S.bar3d({id:'y4_bar_three',ev:'ev_bar_group_three',day:d,h:19,late:0.25,place:'大口漢堡',title:'三個人的長桌（大口漢堡）',travel:'走過去約 15 分鐘',travelH:0.25})); };
++  /* ===================== BAR-GROUP-3D-1112：律師讀書小組在大口漢堡二樓的三場（ev_bar_group_start／_out／_three）改在 3D 演 =====================
++     座位、演完留在二樓：AA_836（企劃線 48d153407，AA-C 定）。做法＝現有的「到現場的出遊」（OUT.plan 的 goto；outings3d.js S.go：只帶到那裡、人留在那裡）：
++     - 排的時候加 goto＝二樓中間那張長桌南側中間的椅子後面（S.barGoto；區域或配置沒載入＝不加，照舊 2D 深色底）。舊存檔裡已經排好、沒有 goto 的那一場：還沒出發的補上（S.barUpgrade）。
++     - 「出發」→ OUT.go 帶到大口漢堡二樓。畫面還黑著（STORY.populate）就排好：中間那張長桌六個位子留給這一場（CROWD.shopSeatTake：坐在那裡的路人整桌拿掉、之後不來坐）、
++       可昕／語彤坐好、祐廷坐下（S.barStage）；OUT.go 回來接著演（S.barPlay）：同一個事件、同一份台詞，只把「大口漢堡・二樓」那一步的深色底拿掉（bg:false）、底用 freeze（看得到 3D）。
++     - 演完：時間往後（ev.hours，和 2D 一樣）、那個時段算用掉（CLS.slotFillSpan）、她們離開、祐廷站起來留在二樓（不排「時段用完」的回宿舍、沒有「回到首都帝大。」）。
++     - 中途被踢回標題：到了那裡存過檔（OUT.go），讀檔＝人在二樓、那一場記成到了還沒演（q.state done、沒有 q.bar3d）→ 進區域重新排好、S.tick 接著演；當天走出去再回二樓那張桌子旁邊也會演。隔天＝不演（和錯過一樣）。
++     座位（src/data/dakou_layout.js 的 floor2.longTables、DAKOU_SEATS2 的算法；x 往東、z 往南，樓梯在東牆 x 5.25＝+x 那一側）：中間長桌 (−1.0,−1.0)；
++       祐廷 南側中間 (−1.0,−0.25) 朝北；可昕 正對面 (−1.0,−1.75) 朝南；三個人／只有可昕：語彤在可昕旁邊靠樓梯 (0.0,−1.75)（只有可昕＝這個位子空著）；只有語彤：語彤在祐廷旁邊靠樓梯 (0.0,−0.25)。
++     存檔：只在那一場出遊（G.outings）上多 goto、bar3d（演過＝那一天；演到出錯＝'failed'）；舊存檔沒有＝照上面補。測試：node tests/bar_group_3d_1112_unit.js */
++  const BAR_Z='xs_dakou', BAR_EVS=['ev_bar_group_start','ev_bar_group_out','ev_bar_group_three'], BAR_SCENE='大口漢堡・二樓', BAR_PLACE='大口漢堡';
++  S.BAR_Z=BAR_Z; S.BAR_EVS=BAR_EVS;
++  const barEv=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e&&e.id===id)||null:null;
++  S.barSeats=function(){ const L=typeof DAKOU_LAYOUT!=='undefined'&&DAKOU_LAYOUT&&DAKOU_LAYOUT.shop, f=L&&L.floor2; if(!f||!Array.isArray(f.longTables)||f.longTables.length<3||!L.stairs||!L.levels||!L.levels[1]) return null;
++    const T0=f.longTables.slice().sort((a,b)=>a.z-b.z)[Math.floor(f.longTables.length/2)], y=L.levels[1].y, sx=L.stairs.x>=T0.x?1:-1, dz=0.75, r=v=>+v.toFixed(2);   /* 中間那一張；dx ±1、dz ±0.75＝DAKOU_SEATS2；sx＝樓梯那一側 */
++    const st=(x,z,yaw)=>({x:r(x),z:r(z),yaw,lv:1,y});
++    return {table:{x:T0.x,z:T0.z}, me:st(T0.x,T0.z+dz,Math.PI), kx:st(T0.x,T0.z-dz,0), ytOpp:st(T0.x+sx,T0.z-dz,0), ytBeside:st(T0.x+sx,T0.z+dz,Math.PI), stand:{x:r(T0.x),z:r(T0.z+dz+0.7),yaw:Math.PI,lv:1},
++      all:[-1,0,1].flatMap(dx=>[st(T0.x+dx,T0.z-dz,0),st(T0.x+dx,T0.z+dz,Math.PI)])}; };
++  S.barGoto=function(){ if(typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES[BAR_Z]) return null; const P=S.barSeats(); return P?{zone:BAR_Z,x:P.stand.x,z:P.stand.z,yaw:P.stand.yaw,lv:1}:null; };
++  S.bar3d=function(o){ const g=S.barGoto(); if(g&&o){ o.goto=g; delete o.back; } return o; };
++  /* 舊存檔：已經排好、還沒出發、沒有 goto 的那一場補上（視訊的 place 是「視訊」，不動；正在演的 2D 那一場 q.arrived 不動）*/
++  S.barUpgrade=function(G){ if(typeof OUT==='undefined'||!OUT.rec) return 0; let n=0; for(const q of OUT.rec(G)){ if(!q||q.state!=='planned'||q.goto||q.arrived||!BAR_EVS.includes(q.ev)||q.place!==BAR_PLACE) continue; const g=S.barGoto(); if(!g) break; q.goto=g; delete q.back; n++; } return n; };
++  /* 這一場誰在（AA_836 第 2～4 點）：[{id, seat}] */
++  S.barCast=function(G,q){ const P=S.barSeats(), F=G.flags||{}; if(!P||!q) return []; let kx=false, yt=false;
++    if(q.ev==='ev_bar_group_start'){ const st=F.BAR_GROUP_START; kx=st==='three'; yt=st==='three'||st==='yutong'; }
++    else if(q.ev==='ev_bar_group_three'){ kx=true; yt=true; }
++    else { const s=S.session(G,q.day!=null?q.day:G.day), w=s&&s.who; if(w==='three'){ kx=true; yt=true; } else if(w==='kexin') kx=true; else if(w==='yutong') yt=true; else { kx=S.kxIn(G); yt=S.ytIn(G); } }
++    const out=[]; if(kx) out.push({id:'kexin',seat:P.kx}); if(yt) out.push({id:'heroine_03',seat:kx?P.ytOpp:P.ytBeside}); return out; };
++  /* 到了、還沒演的那一場（今天的；一次性的那兩場演過、今天讀過的不算）*/
++  S.barPending=function(G){ if(!G||typeof OUT==='undefined'||!OUT.rec) return null;
++    return OUT.rec(G).find(q=>q&&q.goto&&q.goto.zone===BAR_Z&&BAR_EVS.includes(q.ev)&&q.state==='done'&&!q.bar3d&&q.day===G.day&&!(q.ev==='ev_bar_group_out'?G.flags.BAR_GROUP_LAST===G.day:evDone(G,q.ev)))||null; };
++  const barNear=(a,b,r)=>!!a&&!!b&&Math.hypot(a.x-b.x,a.z-b.z)<(r||0.4);
++  const barZoneSeat=(E,st)=>{ const L=E&&E.zone&&Array.isArray(E.zone.seats)?E.zone.seats:[]; return L.find(q=>q&&(q.lv|0)===1&&barNear(q,st,0.12))||st; };   /* 區域裡真的那個座位（路人、「坐下」的按鈕認同一個物件）*/
++  S.barStaged=function(GM,q){ const C=S.barCast(GM.G,q); return C.every(c=>{ const n=GM.npc&&GM.npc[c.id]; return !!n&&n.barGroup===q.id; }); };
++  /* 排好：那張長桌留給這一場、人坐好。祐廷：剛到（站在椅子後面／已經在那個位子上）就坐下；o.force＝開演前一定坐 */
++  S.barStage=function(GM,o){ o=o||{}; const G=GM&&GM.G, E=GM&&GM.E, P0=E&&E.player; if(!G||!E||G.zone!==BAR_Z) return null; const q=o.q||S.barPending(G), P=S.barSeats(); if(!q||!P) return null;
++    const cast=S.barCast(G,q), ids=cast.map(c=>c.id), C=typeof CROWD!=='undefined'&&CROWD.shopSeatTake?CROWD:null;
++    const staged=cast.length>0&&S.barStaged(GM,q);   /* 已經排好（進門那一下排過）：不再清一次桌子 */
++    if(!staged) for(const n of (E.npcs||[]).slice()){ if(!n||n.barGroup===q.id) continue; const s=n.seat||n.seatTarget; if(!s||(s.lv|0)!==1||!P.all.some(t=>barNear(s,t))) continue; if(typeof n.crowd==='string'&&/^shop_/.test(n.crowd)) continue;   /* 店裡的路人：下面 shopSeatTake 整桌一起拿掉 */
++      const k=Object.keys(GM.npc||{}).find(key=>GM.npc[key]===n); if(k&&GM.removeNPC) GM.removeNPC(k); else if(E.removeNPC) E.removeNPC(n); }   /* 照作息剛好坐在這張桌子的人：這一場不在這裡 */
++    if(C&&!staged) for(const t of P.all){ try{ C.shopSeatTake(BAR_Z,barZoneSeat(E,t),{G,GM,E,instant:true,day:G.day,whoId:'bargroup'}); }catch(e){ console.warn('R2Y4B.barStage',e); } }
++    if(GM.spawnCharacter) for(const c of cast){ const cur=GM.npc&&GM.npc[c.id]; if(cur&&cur.barGroup===q.id) continue; if(cur&&GM.removeNPC) GM.removeNPC(c.id);
++      const seat=barZoneSeat(E,c.seat), n=GM.spawnCharacter(c.id,seat.x,seat.z,{seat,lv:1,yaw:seat.yaw}); if(n){ n.frozen=true; n.barGroup=q.id; } }
++    if(P0&&GM.sitAt){ const p=P0.obj&&P0.obj.position, here=!!p&&(P0.lv|0)===1&&(barNear(p,P.stand,0.6)||barNear(p,P.me,0.6)); if(o.force||(here&&!P0.seat)){ const me=barZoneSeat(E,P.me); if(P0.seat&&!barNear(P0.seat,me)&&GM.standUp) GM.standUp(P0); if(!P0.seat) GM.sitAt(P0,me); } }
++    return {q,cast:ids}; };
++  let barOn=false;
++  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y4b3d:barOn']=()=>{ barOn=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
++  /* 3D 版的事件：同一個事件（id、台詞、after 都一樣），只有底不一樣 */
++  S.bar3dEvent=function(ev0){ return Object.assign({},ev0,{background:'freeze',dialogue:(ev0.dialogue||[]).map(l=>l&&l.scene===BAR_SCENE&&l.bg==='dark'?Object.assign({},l,{bg:false}):l)}); };
++  S.barPlay=async function(GM,q){ const G=GM&&GM.G, E=GM&&GM.E, P0=E&&E.player, ev0=q&&barEv(q.ev); if(barOn||!G||!P0||!ev0||q.bar3d||G.zone!==BAR_Z||typeof EVENTS==='undefined') return false; barOn=true;
++    if(GM.sceneBegin) GM.sceneBegin();
++    try{ for(let i=0;i<40&&EVENTS.running;i++) await GM.sleep(250);   /* 進門那一下別的事件先演完 */
++      if(EVENTS.running||G.zone!==BAR_Z||q.bar3d) return false;
++      if(!S.barStage(GM,{q,force:true})) return false;
++      const n0=(G.events&&G.events.done&&G.events.done[ev0.id])|0, h0=G.hour, t0=G.day*24+G.hour;
++      if(typeof OUT!=='undefined'&&Array.isArray(OUT.BEFORE)) for(const f of OUT.BEFORE){ try{ await f(GM,q,ev0); }catch(e){ console.warn('OUT.BEFORE',e); } }   /* 和 2D 的出遊一樣：開頭、結尾的掛勾照跑 */
++      await EVENTS.run(S.bar3dEvent(ev0));
++      if(((G.events&&G.events.done&&G.events.done[ev0.id])|0)===n0){ if(EVENTS.failed&&EVENTS.failed[ev0.id]) q.bar3d='failed'; return false; }   /* 沒演到（別的事件佔著）＝留著，S.tick 再試；演到出錯＝不再試 */
++      q.bar3d=G.day; if(typeof OUT!=='undefined'&&OUT.runAfter) await OUT.runAfter(GM,q,ev0);
++      if(GM.fade) await GM.fade(true);
++      const P=S.barSeats(); for(const c of S.barCast(G,q)){ const n=GM.npc&&GM.npc[c.id]; if(n&&n.barGroup===q.id&&GM.removeNPC) GM.removeNPC(c.id); }
++      if(P&&typeof CROWD!=='undefined'&&CROWD.shopSeatFree) for(const t of P.all) CROWD.shopSeatFree(BAR_Z,barZoneSeat(E,t));
++      if(P0.seat&&GM.standUp) GM.standUp(P0);
++      if(GM.advance) GM.advance(ev0.hours||2); if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,h0+(G.day*24+G.hour-t0));
++      if(GM.fade) await GM.fade(false); if(GM.autosave) GM.autosave(); return true;
++    } finally { barOn=false; if(GM.sceneEnd) GM.sceneEnd(); } };
++  /* S.tick：到了還沒演（讀檔、當天走回來）＝人在二樓那張長桌旁邊就演 */
++  S.barDue=function(GM){ const G=GM&&GM.G, E=GM&&GM.E, P0=E&&E.player; if(barOn||!G||G.zone!==BAR_Z||!P0||(P0.lv|0)!==1||!P0.obj) return null; const q=S.barPending(G), P=q&&S.barSeats(); if(!P) return null;
++    return barNear(P0.obj.position,P.table,3.2)?q:null; };
++  if(typeof STORY!=='undefined'&&STORY.populate&&!STORY._bar3dPop){ STORY._bar3dPop=true; const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId===BAR_Z) S.barStage(GM); }catch(e){ console.warn('R2Y4B.barStage',e); } return r; }; }
++  if(typeof OUT!=='undefined'&&OUT.go&&!OUT._bar3dGo){ OUT._bar3dGo=true; const go0=OUT.go; OUT.go=async function(GM,q,o){ const r=await go0.apply(this,arguments);
++    if(r&&q&&q.goto&&q.goto.zone===BAR_Z&&BAR_EVS.includes(q.ev)&&!q.bar3d&&GM&&GM.G&&GM.G.zone===BAR_Z){ try{ await S.barPlay(GM,q); }catch(e){ console.warn('R2Y4B.barPlay',e); } } return r; }; }
+ 
+   /* ===================== 2-Y4-61 沛珊大四下的學期末（6/8（五）台南；AA_254 第 6 節的心意邀約、女朋友的約會、第二次）===================== */
+   const PSD='2029-06-08';
+@@ -744,7 +816,7 @@ const R2Y4B=(function(){
+     const y=d=>DK(d); const n=G.day; if(n<y('2028-08-01')) return;
+     try{ usCanyonPhone(G); saWeekly(G); sisCanyonRules(G); }catch(e){ console.warn('R2Y4B 2028',e); }
+     if(n<y('2029-02-20')) return;
+-    groupStartPhone(G); groupVideoRules(G); groupThreeRules(G);
++    S.barUpgrade(G); groupStartPhone(G); groupVideoRules(G); groupThreeRules(G);
+     azaleaPhone(G); mxPhone(G); gradPhone(G); springPhone(G,GM); psOpenPhone(G); ytAuntPhone(G); kxBdayPhone(G); ballPhone(G); k25Phone(G); ps61Phone(G);
+     julyRules(G); mxDepartRules(G); anRules(G); apartRules(G);
+     if(F.ZR_BACK==null&&n>=y('2029-08-25')&&knows('heroine_02',G)) F.ZR_BACK=G.day; };   /* 2-Y4-47 第 4 節：芷若回國（8/25）以後記一次 */
+@@ -761,6 +833,7 @@ const R2Y4B=(function(){
+     if(S.springCarDue(G)) return go(()=>S.springCar(GM));
+     if(S.kxBdayDue(G)) return go(()=>S.kxBdayPrompt(GM));
+     { const n=S.usFallDue(G); if(n) return go(()=>S.usFall(GM,n)); }
++    { const q=S.barDue(GM); if(q) return go(()=>S.barPlay(GM,q)); }   /* BAR-GROUP-3D-1112：到了大口漢堡二樓、還沒演的那一場 */
+     return false; };
+ 
+   /* ===================== 畢業後篇（PG）：訊息、場景表、停一下 ===================== */
+diff --git a/tests/aa468_evdup2_unit.js b/tests/aa468_evdup2_unit.js
+index 2058edea3d..0d0a8a6a9d 100644
+--- a/tests/aa468_evdup2_unit.js
++++ b/tests/aa468_evdup2_unit.js
+@@ -34,7 +34,7 @@ const fresh=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone,Object.assign({EXCH
+ const run=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); await EVENTS.run(ev(id)); return H.said.map(s=>s.t); };
+ const OLD_K=['刑總那題，你先講結論，再講理由。講完我再問。','這題你上禮拜錯過。……我記得。再一次。','你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。','好，換你出題。出一題你自己也不確定的。'];
+ const OLD_Y=['押租金那個，你講給我聽。不要講條號。','……這個詞我在社會系也學過，可是意思不一樣。你講你們的。','你剛剛那一段，跟上禮拜講的不一樣。哪一個對？','我出一題我自己不會的。你答完，我抄下來。'];
+-const YT_FIRST=['（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）','我們一起考。……我先考你。',   /* AA_642 第 4 節（AA_629：她 2029 也考）*/'買賣不破租賃那一條。你講給我聽，講到我聽得懂。'];
++const YT_FIRST=['（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）','我們一起考。……我先考你。',   /* AA_642 第 4 節（AA_629：她 2029 也考）*/'買賣不破租賃那一條。你講給我聽，講到我聽得懂。'];
+ /* 讀書小組：kind＝kexin／yutong／split／three；2/26～8/3 每一場（S.session）照時間跑事件，回傳 [{k,sat,mode,L}] */
+ const bar=async(kind,flags)=>{ const G=fresh('2029-02-22',23,'dorm',Object.assign({Y4_PATH:'bar',BAR_GROUP_KIND:kind,BAR_STUDY_GROUP:kind==='kexin'?['kexin']:(kind==='yutong'?['yutong']:['kexin','yutong']),BAR_GROUP_START:kind==='split'?'kexin':kind},flags||{}));
+   if(kind!=='yutong') H.date('kexin'); if(kind!=='kexin') H.FRIEND('heroine_03'); if(kind==='three') ROM.learn(G,'heroine_03','kexin','test'); G.events.done.ev_bar_group_start=1; return G; };
+diff --git a/tests/bar_group_3d_1112_unit.js b/tests/bar_group_3d_1112_unit.js
+new file mode 100644
+index 0000000000..040f493dc9
+--- /dev/null
++++ b/tests/bar_group_3d_1112_unit.js
+@@ -0,0 +1,173 @@
++// BAR-GROUP-3D-1112：律師讀書小組在大口漢堡二樓的三場（ev_bar_group_start／_out／_three）改在 3D 的二樓演——不需要瀏覽器。
++//   座位、演完留在二樓、改的那一句：AA_836（企劃線 48d153407，AA-C 定）。程式 src/r2y4b3d.js（S.bar3d／barStage／barPlay…）、台詞 src/data/r2y4b_events.js。
++//   0 載入、LOADLOCKS 登記、STORY.populate／OUT.go 接上
++//   1 座位照配置算：中間長桌、樓梯在 +x 那一側；四個位子都是 DAKOU_SEATS2() 裡真的座位
++//   2 排的出遊帶 goto（xs_dakou、二樓）；視訊的（只有可昕／分開讀的成立那一晚、之後的視訊、木柵大學）沒有 goto
++//   3 三個人（成立那一晚、6/23、平日晚上）：到了＝人在大口漢堡二樓、可昕正對面、語彤在可昕旁邊靠樓梯、祐廷坐南側中間；底是 freeze（沒有深色底）；台詞和 2D 一樣；
++//     演完人留在大口漢堡、站起來、她們離開、時間往後、長桌的預約放開；路人、照作息坐在那張桌子的人先拿掉
++//   4 只有語彤（成立那一晚、她的讀書夜）：語彤坐祐廷旁邊靠樓梯、沒有可昕；「第一次」那三句（改的那一句在這裡）
++//   5 只有可昕在場：可昕正對面、語彤的位子空著（留著不給路人）
++//   6 台詞：三場＋總圖那一場＋視訊那一場，除了 AA_836 那一句以外一字不差（和改之前的雜湊比）；那一句和 AA_836 的表一字不差（git 讀得到企劃線那個 commit 才比）
++//   7 視訊、總圖的照舊：ev_bar_group_video 還是 2D 出遊（深色底、不換區域）；ev_bar_group_night 還是總圖的 auto 事件；只有可昕的成立那一晚還是視訊
++//   8 舊存檔：已經排好、沒有 goto 的那一場——區域沒載入＝照舊 2D 演完（不卡）；載入了＝還沒出發的補上 goto；正在演的（arrived）不動
++//   9 到了還沒演（讀檔）：人在二樓那張桌子旁邊＝S.tick 接著演；人在一樓＝先不演；隔天＝不演
++// 修改前（開發分支 bc559a032）：沒有 S.bar3d／barStage／barPlay，三場都是深色底的 2D——第 0 項起 FAIL。用法：node tests/bar_group_3d_1112_unit.js
++const H=require('./pg_harness.js');
++const fs=require('fs'), vm=require('vm'), path=require('path'), crypto=require('crypto'), cp=require('child_process');
++const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(NOODLE_CLOSED|R2Y4B|R2Y4B_EVENTS|DAKOU_LAYOUT)$/.test(n)?'globalThis.'+n+'=':m).replace(/^function (DAKOU_SEATS2)\(/m,'globalThis.$1=function('); vm.runInThisContext(src,{filename:f}); };
++const {check,GM,E}=H, J=JSON.stringify, Z='xs_dakou';
++const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };
++global.CG_REGISTRY={};
++/* 假的區域、路人系統、人物 */
++global.Z3={ZONES:{[Z]:{id:Z}}};
++const taken=[], freed=[]; global.CROWD={ shopSeatTake(zone,st,o){ taken.push([zone,st.x,st.z,st.lv|0,!!(o&&o.instant)]); for(const n of E.npcs.slice()) if(typeof n.crowd==='string'&&n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.4) E.npcs.splice(E.npcs.indexOf(n),1); return st; }, shopSeatFree(zone,st){ freed.push([zone,st.x,st.z]); return true; } };
++let pops=0; STORY.populate=function(){ pops++; };   /* 原本的 STORY.populate（要整個引擎）換成空的；r2y4b3d.js 包在它外面 */
++load('src/noodle_closed3d.js'); load('src/data/dakou_layout.js'); load('src/data/r2y4b_events.js'); load('src/r2y4b3d.js');
++const S=R2Y4B, D=k=>STORY.dayOfKey(k), ev=id=>STORY_EVENTS.find(e=>e.id===id);
++GM.spawnCharacter=(id,x,z,o)=>{ if(GM.npc[id]) return GM.npc[id]; const n={id,charId:id,obj:{position:{x,y:0,z},rotation:{y:(o&&o.yaw)||0}},seat:(o&&o.seat)||null,lv:(o&&o.lv)|0,pose:'sit'}; GM.npc[id]=n; E.npcs.push(n); return n; };
++GM.removeNPC=id=>{ const n=GM.npc[id]; if(n){ const i=E.npcs.indexOf(n); if(i>=0) E.npcs.splice(i,1); delete GM.npc[id]; } };
++E.removeNPC=n=>{ const i=E.npcs.indexOf(n); if(i>=0) E.npcs.splice(i,1); };
++GM.sitAt=(n,s)=>{ n.seat=s; n.obj.position.x=s.x; n.obj.position.z=s.z; n.obj.rotation.y=s.yaw||0; if(s.lv!=null) n.lv=s.lv; };
++GM.standUp=n=>{ if(n&&n.seat){ n.obj.position.z=n.seat.z+0.75; n.seat=null; } };
++let crowdOnEnter=null;   /* 進門以前先放好的路人、有名字的人（STORY.populate 原本那一段做的事）*/
++GM.enter=async(z,sp)=>{ H.entered.push(z); H.G.zone=z; GM.npc={}; E.npcs=[]; E.player.seat=null; if(sp){ E.player.obj.position.x=sp.x; E.player.obj.position.z=sp.z; E.player.obj.rotation.y=sp.yaw||0; E.player.lv=sp.lv|0; }
++  E.zone={roomAt:()=>null,seats:z===Z?DAKOU_LAYOUT.shop.floor2.seats.map(s=>({kind:'shop',x:s.x,z:s.z,yaw:s.yaw,lv:1,y:3.6})):[]}; if(crowdOnEnter) crowdOnEnter(); STORY.populate(z,GM); };
++/* 第一句台詞那一刻的場面（誰坐哪裡）*/
++let shot=null; const say0=GM.say; GM.say=async(who,t)=>{ if(!shot) shot={zone:H.G.zone,me:E.player.seat?{x:E.player.seat.x,z:E.player.seat.z,yaw:E.player.seat.yaw,lv:E.player.seat.lv}:null,npcs:E.npcs.map(n=>({id:n.id||n.crowd||'?',x:n.seat?n.seat.x:null,z:n.seat?n.seat.z:null,yaw:n.seat?n.seat.yaw:null,lv:n.seat?n.seat.lv:null,same:!!n.seat&&E.zone.seats.includes(n.seat)})),meSame:!!E.player.seat&&E.zone.seats.includes(E.player.seat)}; return say0(who,t); };
++const fresh=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone,Object.assign({EXCHANGE_ROUTE:'TW',EXCH_RULE:1},flags||{})); G.acts={att:{}}; G.outings=[]; H.at(key,h); G.zone=zone||'dorm'; GM.npc={}; E.npcs=[]; E.zone={roomAt:()=>null,seats:[]}; E.player.seat=null; E.player.lv=0; E.player.obj.position.x=0; E.player.obj.position.z=0; caps.length=0; taken.length=0; freed.length=0; shot=null; crowdOnEnter=null; return G; };
++const at=(key,h)=>H.at(key,h);
++const phone=()=>{ S.phone(H.G,GM); PHONE.tick(H.G); };
++const has=t=>H.said.some(s=>s.t===t);
++const texts=()=>H.said.map(s=>s.t);
++const reset=()=>{ H.said=[]; H.opts=[]; H.cgs=[]; H.cards=[]; H.bgs=[]; H.entered=[]; caps.length=0; shot=null; };
++const run=async id=>{ reset(); await EVENTS.run(ev(id)); };
++const goOut=async id=>{ const q=OUT.get(H.G,id); reset(); if(!q) return false; await OUT.go(GM,q); return true; };
++const three=()=>{ fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'}); H.date('kexin'); H.FRIEND('heroine_03'); ROM.learn(H.G,'heroine_03','kexin','test'); at('2029-02-23',8); phone(); };
++const ytOnly=()=>{ fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'}); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); };
++const who=id=>shot&&shot.npcs.find(n=>n.id===id);
++const eq=(a,x,z,yaw)=>!!a&&Math.abs(a.x-x)<1e-6&&Math.abs(a.z-z)<1e-6&&Math.abs(a.yaw-yaw)<1e-6&&a.lv===1;
++const NEW='（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）', OLD='（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）';
++const wait=()=>new Promise(r=>setTimeout(r,20));
++
++(async()=>{
++  /* ===== 0 ===== */
++  const idx=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
++  check('0. 載入：S.bar3d／barGoto／barSeats／barCast／barStage／barPlay／barUpgrade／barDue；LOADLOCKS 有 r2y4b3d:barOn；STORY.populate、OUT.go 包上；index.html 的 dakou_layout.js 在 r2y4b3d.js 前面',
++    !!S&&['bar3d','barGoto','barSeats','barCast','barStage','barPlay','barUpgrade','barDue','barPending','bar3dEvent'].every(k=>typeof S[k]==='function')&&typeof (globalThis.LOADLOCKS||{})['r2y4b3d:barOn']==='function'
++    &&STORY._bar3dPop===true&&OUT._bar3dGo===true&&idx.indexOf('src/data/dakou_layout.js')>0&&idx.indexOf('src/data/dakou_layout.js')<idx.indexOf('src/r2y4b3d.js'));
++  if(H.fails) return H.done();
++  (globalThis.LOADLOCKS||{})['r2y4b3d:barOn']();
++
++  /* ===== 1 座位 ===== */
++  { const P=S.barSeats(), L=DAKOU_LAYOUT.shop, all=DAKOU_SEATS2(), inList=s=>all.some(q=>Math.abs(q.x-s.x)<1e-6&&Math.abs(q.z-s.z)<1e-6&&Math.abs(q.yaw-s.yaw)<1e-6&&q.y===3.6);
++    check('1. 中間長桌 (−1,−1)；樓梯 x '+L.stairs.x+' 在長桌東邊＝+x 是靠樓梯那一側', P.table.x===-1&&P.table.z===-1&&L.stairs.x>P.table.x&&L.stairHole.x0>P.table.x+L.floor2.longW/2, J(P.table));
++    check('1. 祐廷 南側中間 (−1,−0.25) 朝北；可昕 正對面 (−1,−1.75) 朝南；語彤（可昕旁邊靠樓梯）(0,−1.75)；語彤（祐廷旁邊靠樓梯）(0,−0.25)', eq(P.me,-1,-0.25,Math.PI)&&eq(P.kx,-1,-1.75,0)&&eq(P.ytOpp,0,-1.75,0)&&eq(P.ytBeside,0,-0.25,Math.PI), J([P.me,P.kx,P.ytOpp,P.ytBeside]));
++    check('1. 四個位子都是 DAKOU_SEATS2() 的座位；整張桌子六個；到了站的地方在椅子後面（不在桌子、隔壁桌的阻擋裡）', [P.me,P.kx,P.ytOpp,P.ytBeside].every(inList)&&P.all.length===6&&P.all.every(inList)
++      &&!L.floor2.blocks.some(b=>Math.abs(P.stand.x-b[0])<b[2]/2+0.32&&Math.abs(P.stand.z-b[1])<b[3]/2+0.32), J(P.stand));
++    const g=S.barGoto(); check('1. goto＝{zone xs_dakou, 二樓 lv 1, 朝北}', !!g&&g.zone===Z&&g.lv===1&&g.x===P.stand.x&&g.z===P.stand.z&&Math.abs(g.yaw-Math.PI)<1e-9, J(g)); }
++
++  /* ===== 2 排的出遊 ===== */
++  { three(); const q=OUT.get(H.G,'y4_bar_group_start');
++    check('2. 三個人：2/23 21:30 成立那一晚帶 goto（大口漢堡二樓）', H.G.flags.BAR_GROUP_KIND==='three'&&!!q&&q.ev==='ev_bar_group_start'&&q.h===21.5&&q.place==='大口漢堡'&&!!q.goto&&q.goto.zone===Z&&q.goto.lv===1, J(q));
++    H.G.events.done.ev_bar_group_start=1; q.state='done'; q.bar3d=H.G.day; at('2029-02-25',20); phone(); const qo=OUT.get(H.G,'y4_bar_out_'+D('2029-02-26'));
++    check('2. 平日晚上那一場帶 goto、沒有 back（演完留在二樓，不說「回到首都帝大。」）', !!qo&&qo.ev==='ev_bar_group_out'&&qo.h===21&&!!qo.goto&&qo.goto.zone===Z&&qo.goto.lv===1&&qo.back===undefined&&qo.no==='今天先不讀', J(qo));
++    at('2029-06-21',12); phone(); const q3=OUT.get(H.G,'y4_bar_three'); check('2. 6/23 三個人的長桌帶 goto', !!q3&&q3.ev==='ev_bar_group_three'&&q3.h===19&&!!q3.goto&&q3.goto.zone===Z&&q3.goto.lv===1, J(q3));
++    fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'}); H.date('kexin'); at('2029-02-23',8); phone(); const qk=OUT.get(H.G,'y4_bar_group_start');
++    check('2. 只有可昕：成立那一晚是視訊，沒有 goto', H.G.flags.BAR_GROUP_KIND==='kexin'&&!!qk&&qk.place==='視訊'&&qk.verb==='接起來'&&!qk.goto, J(qk));
++    H.G.events.done.ev_bar_group_start=1; qk.state='done'; at('2029-02-25',20); phone(); const qv=OUT.rec(H.G).find(x=>/^y4_bar_vid_/.test(x.id));
++    check('2. 只有可昕：之後的視訊（ev_bar_group_video）沒有 goto、back 照舊', !!qv&&qv.ev==='ev_bar_group_video'&&!qv.goto&&qv.back==='視訊結束。', J(qv)); }
++
++  /* ===== 3 三個人 ===== */
++  { three(); at('2029-02-23',21.2);
++    crowdOnEnter=()=>{ const st=E.zone.seats.find(s=>s.x===-1&&s.z===-1.75), st2=E.zone.seats.find(s=>s.x===-2&&s.z===-0.25), far=E.zone.seats.find(s=>s.x===2.4&&s.z===-5.2)||E.zone.seats.find(s=>Math.abs(s.x-(-1))>3);
++      E.npcs.push({crowd:'shop_xs_dakou_1',seat:st,obj:{position:{x:st.x,y:0,z:st.z},rotation:{y:0}}}); const zh={id:'zhe',seat:st2,lv:1,obj:{position:{x:st2.x,y:0,z:st2.z},rotation:{y:0}}}; GM.npc.zhe=zh; E.npcs.push(zh);
++      E.npcs.push({crowd:'shop_xs_dakou_9',seat:far,obj:{position:{x:far.x,y:0,z:far.z},rotation:{y:0}}}); };
++    const q=OUT.get(H.G,'y4_bar_group_start'), h0=H.G.hour; await goOut('y4_bar_group_start');
++    check('3. 出發＝到大口漢堡（xs_dakou），進區域時排好（STORY.populate）', J(H.entered)===J([Z])&&pops>=1&&!!shot&&shot.zone===Z, J(H.entered));
++    check('3. 成立那一晚（三個人）：祐廷坐南側中間、可昕正對面、語彤在可昕旁邊靠樓梯；都是區域裡真的座位', !!shot&&eq(shot.me,-1,-0.25,Math.PI)&&shot.meSame&&eq(who('kexin'),-1,-1.75,0)&&who('kexin').same&&eq(who('heroine_03'),0,-1.75,0)&&who('heroine_03').same, J(shot));
++    check('3. 那張長桌六個位子留給這一場（CROWD.shopSeatTake，instant）；坐在那張桌子的路人、照作息的人拿掉，別桌的路人不動', taken.length===6&&taken.every(t=>t[0]===Z&&t[3]===1&&t[4])&&!!shot&&!shot.npcs.some(n=>n.id==='shop_xs_dakou_1'||n.id==='zhe')&&shot.npcs.some(n=>n.id==='shop_xs_dakou_9'), J(shot&&shot.npcs.map(n=>n.id)));
++    check('3. 底是 freeze（看得到 3D），沒有深色底；地點字幕、標題照舊', H.bgs[0]==='freeze'&&!H.bgs.includes('dark')&&caps.includes('律師讀書小組'), J([H.bgs,caps]));
++    check('3. 台詞和 2D 一樣（四句）', J(texts())===J(['（開學第一個週五晚上，大口漢堡二樓。長桌上多了一張手寫的表，可昕寫的。）','每週一、三、五晚上，週六整天。……有意見現在說。','週末我在茶屋。你們平常在這裡讀，我順便考你們。','……好。那表上多一格。']), J(texts()));
++    check('3. 演完：人留在大口漢堡、站起來（不坐著、不回宿舍）、她們離開、事件記成演過、時間往後 1 小時、預約放開、出遊 done＋bar3d', H.G.zone===Z&&J(H.entered)===J([Z])&&!E.player.seat&&E.player.lv===1&&!GM.npc.kexin&&!GM.npc.heroine_03&&H.G.events.done.ev_bar_group_start===1
++      &&q.state==='done'&&q.bar3d===H.G.day&&Math.abs(H.G.hour-(21.5+1))<1e-6&&h0<21.5&&freed.length===6&&!S.barPending(H.G), J([H.G.zone,H.G.hour,q.state,q.bar3d,freed.length]));
++    /* 平日晚上（三個人）*/
++    at('2029-02-25',20); phone(); at('2029-02-26',20.9); taken.length=0; freed.length=0; crowdOnEnter=null; const qo=OUT.get(H.G,'y4_bar_out_'+D('2029-02-26')); await goOut(qo.id);
++    check('3. 平日晚上（三個人）：一樣的三個位子；可昕那一句；演完 BAR_GROUP_N＝1、留在二樓、時間往後 2 小時（20:54 出發＋15 分鐘到＋2 小時）', !!shot&&eq(shot.me,-1,-0.25,Math.PI)&&eq(who('kexin'),-1,-1.75,0)&&eq(who('heroine_03'),0,-1.75,0)&&H.said.length===1&&has('刑總那題，你先講結論，再講理由。講完我再問。')
++      &&H.G.flags.BAR_GROUP_N===1&&H.G.flags.BAR_GROUP_LAST===H.G.day&&H.G.zone===Z&&!E.player.seat&&Math.abs(H.G.hour-(20.9+0.25+2))<1e-6&&H.bgs[0]==='freeze'&&!H.bgs.includes('dark'), J([shot,texts(),H.G.hour]));
++    /* 6/23 */
++    at('2029-06-21',12); phone(); at('2029-06-23',18.8); await goOut('y4_bar_three');
++    check('3. 6/23 三個人的長桌：一樣的三個位子；三句一樣；演完留在二樓', !!shot&&eq(shot.me,-1,-0.25,Math.PI)&&eq(who('kexin'),-1,-1.75,0)&&eq(who('heroine_03'),0,-1.75,0)
++      &&J(texts())===J(['（長桌上攤著三疊考古題。語彤把桌上的空杯子疊起來，拿去回收。可昕在算時間。）','還有四十二天。','先吃，湯要涼了。'])&&H.G.zone===Z&&!E.player.seat&&H.G.events.done.ev_bar_group_three===1&&caps.includes('三個人的長桌'), J([shot,texts()])); }
++
++  /* ===== 4 只有語彤 ===== */
++  { ytOnly(); at('2029-02-23',21.2); await goOut('y4_bar_group_start');
++    check('4. 只有語彤的成立那一晚：語彤坐祐廷旁邊靠樓梯 (0,−0.25) 朝北，不坐對面；沒有可昕；兩句一樣', H.G.flags.BAR_GROUP_KIND==='yutong'&&!!shot&&eq(shot.me,-1,-0.25,Math.PI)&&eq(who('heroine_03'),0,-0.25,Math.PI)&&!who('kexin')
++      &&J(texts())===J(['我今年也考。……你考的那幾科，我也要考。','所以你讀的時候，我也在旁邊讀我的。'])&&H.bgs[0]==='freeze'&&!H.bgs.includes('dark')&&H.G.zone===Z, J([shot,texts(),H.bgs]));
++    at('2029-02-25',20); phone(); at('2029-02-26',20.9); const qo=OUT.get(H.G,'y4_bar_out_'+D('2029-02-26')); await goOut(qo&&qo.id);
++    check('4. 只有語彤的讀書夜（第一次）：語彤坐旁邊；「第一次」三句，第一句是 AA_836 改的那一句', !!qo&&!!qo.goto&&!!shot&&eq(who('heroine_03'),0,-0.25,Math.PI)&&!who('kexin')&&J(texts())===J([NEW,'我們一起考。……我先考你。','買賣不破租賃那一條。你講給我聽，講到我聽得懂。'])&&H.G.flags.BAR_GROUP_YT_FIRST===H.G.day, J([shot,texts()])); }
++
++  /* ===== 5 只有可昕在場（現在的排法不會排到，位子照 AA_836 第 4 點）===== */
++  { three(); const s0=S.session; S.session=()=>({mode:'noodle',t0:21,t1:23,who:'kexin'}); try{
++      const d=D('2029-02-26'); at('2029-02-26',20.9); const q={id:'y4_bar_out_'+d,ev:'ev_bar_group_out',day:d,h:21,state:'done',goto:S.barGoto()}; H.G.outings.push(q); const c=S.barCast(H.G,q);
++      await GM.enter(Z,q.goto); const P=S.barSeats();
++      check('5. 只有可昕：可昕正對面、語彤不在；語彤的位子 (0,−1.75) 留著（預約、沒有人坐）', c.length===1&&c[0].id==='kexin'&&eq(c[0].seat,-1,-1.75,0)&&!!GM.npc.kexin&&eq(GM.npc.kexin.seat,-1,-1.75,0)&&!GM.npc.heroine_03
++        &&taken.some(t=>t[1]===P.ytOpp.x&&t[2]===P.ytOpp.z)&&!E.npcs.some(n=>n.seat&&n.seat.x===0&&n.seat.z===-1.75)&&!!E.player.seat&&E.player.seat.x===-1&&E.player.seat.z===-0.25, J([c,taken.length]));
++    } finally { S.session=s0; } }
++
++  /* ===== 6 台詞 ===== */
++  { const IDS=['ev_bar_group_start','ev_bar_group_out','ev_bar_group_three','ev_bar_group_night','ev_bar_group_video'];
++    const snap=()=>J(IDS.map(id=>[id,ev(id).title,ev(id).dialogue.map(l=>[l.speaker===undefined?'-':l.speaker,l.text||'',l.expression||'',l.scene===undefined?'-':l.scene,l.bg===undefined?'-':l.bg,l.label||'',l.goto||'',!!l.end,(l.choice||[]).map(c=>c.text)])]));
++    const sha=s=>crypto.createHash('sha256').update(s).digest('hex'), now=snap();
++    const BASE='1354551ef3df2fd876886bbe9c5336b0bc1b7fd59f88069405016561168ee292';   /* 改之前（開發分支 bc559a032）同一個算法的雜湊 */
++    check('6. 五場的台詞、說話的人、表情、地點字幕、底、標題：除了 AA_836 那一句以外和改之前一字不差', now.split(NEW).length===3&&!now.includes(OLD)&&sha(now.split(NEW).join(OLD))===BASE, sha(now.split(NEW).join(OLD)));
++    check('6. 2D 的事件資料沒動：三場的 background 還是 dark、「大口漢堡・二樓」那一步還是深色底（舊存檔、區域沒載入時照舊演）', ['ev_bar_group_start','ev_bar_group_out','ev_bar_group_three'].every(id=>ev(id).background==='dark'&&ev(id).trigger==='outing'&&ev(id).dialogue.some(l=>l.scene==='大口漢堡・二樓'&&l.bg==='dark')));
++    const e3=S.bar3dEvent(ev('ev_bar_group_start')), e0=ev('ev_bar_group_start');
++    check('6. 3D 版：同一個 id、同一份台詞（每一行是同一個物件），只有「大口漢堡・二樓」那兩步 bg:false、底 freeze；視訊那一步不動', e3.id===e0.id&&e3.background==='freeze'&&e3.dialogue.length===e0.dialogue.length
++      &&e3.dialogue.every((l,i)=>l===e0.dialogue[i]||(e0.dialogue[i].scene==='大口漢堡・二樓'&&l.scene==='大口漢堡・二樓'&&l.bg===false))&&e3.dialogue.filter(l=>l.bg===false).length===2&&e3.dialogue.some(l=>l.scene==='視訊'&&l.bg==='video'));
++    let doc=null; try{ doc=cp.execFileSync('git',['-C',H.ROOT,'show','48d153407:docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
++    if(doc){ const row=doc.split('\n').find(l=>/^\| r2y4b_events\.js/.test(l))||'', c=row.split('|').map(x=>x.trim()); check('6. 那一句和 AA_836（企劃線 48d153407）的表一字不差（舊→新）', c[2]===OLD&&c[3]===NEW, row); }
++    else console.log('SKIP 6. 讀不到企劃線 48d153407（沒有 fetch）：AA_836 的表不比，新句照測試裡抄的那一句');
++    const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.find(f=>/AA_836_/.test(f.path));
++    check('6. 白名單登記 AA_836＠48d153407（approved）', !!allow&&allow.status==='approved'&&/^48d153407/.test(allow.sha)&&allow.task==='BAR-GROUP-3D-1112', J(allow&&[allow.sha,allow.status])); }
++
++  /* ===== 7 視訊、總圖照舊 ===== */
++  { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar',KX_VDAY:{4:'video'}}); H.date('kexin'); at('2029-02-23',8); phone(); at('2029-02-23',21.4); await goOut('y4_bar_group_start');
++    check('7. 只有可昕的成立那一晚：視訊照舊（不換區域、深色底開始、兩句一樣）', H.entered.length===0&&H.G.zone==='dorm'&&H.bgs[0]==='dark'&&has('情人節那張表，我把八月以前都排完了。')&&has('你那一欄不喜歡的地方圈起來，我改。')&&!GM.npc.kexin, J([H.entered,H.bgs,texts()]));
++    phone(); const v=OUT.rec(H.G).find(x=>/^y4_bar_vid_/.test(x.id)&&x.state==='planned'); at('2029-02-26',20.9); await goOut(v&&v.id);
++    check('7. 之後的視訊（ev_bar_group_video）：2D 出遊照舊（不換區域、深色底、可昕那一句、BAR_GROUP_N＝1）', !!v&&!v.goto&&H.entered.length===0&&H.bgs[0]==='dark'&&has('刑總那題，你先講結論，再講理由。講完我再問。')&&H.G.flags.BAR_GROUP_N===1&&!v.bar3d, J([H.entered,H.bgs,texts()]));
++    const n=ev('ev_bar_group_night'), vd=ev('ev_bar_group_video');
++    check('7. ev_bar_group_night 還是總圖的 auto 事件（location、background blur）；ev_bar_group_video 還是 outing、dark、kxAway', n.trigger==='auto'&&J(n.location)===J(['library','library_hall'])&&n.background==='blur'&&vd.trigger==='outing'&&vd.background==='dark'&&vd.kxAway===true&&!S.BAR_EVS.includes(n.id)&&!S.BAR_EVS.includes(vd.id));
++    ytOnly(); H.G.events.done.ev_bar_group_start=1; at('2029-03-03',11); H.G.zone='library_hall'; const due=EVENTS.check(n); await run('ev_bar_group_night');
++    check('7. 只有語彤：週六在總圖照舊（白天版的第一句，不是改的那一句）', due&&has('（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）')&&!has(NEW)&&H.bgs[0]==='blur', J(texts())); }
++
++  /* ===== 8 舊存檔 ===== */
++  { const old=()=>{ fresh('2029-02-23',21.2,'dorm',{Y4_PATH:'bar',BAR_GROUP_KIND:'three',BAR_STUDY_GROUP:['kexin','yutong'],BAR_GROUP_START:'three'}); H.date('kexin'); H.FRIEND('heroine_03');
++      OUT.plan(H.G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:D('2029-02-23'),h:21.5,late:0.5,place:'大口漢堡',title:'律師讀書小組（大口漢堡）',travel:'走過去約 15 分鐘',travelH:0.25}); return OUT.get(H.G,'y4_bar_group_start'); };
++    let q=old(); const z0=global.Z3; global.Z3={ZONES:{}};
++    try{ phone(); const noUp=!q.goto; await goOut('y4_bar_group_start');
++      check('8. 舊存檔、區域沒載入：不補 goto；照舊 2D 演完（深色底、四句、done、不卡）', noUp&&H.entered.length===0&&H.bgs[0]==='dark'&&H.said.length===4&&q.state==='done'&&H.G.events.done.ev_bar_group_start===1&&!S.barPending(H.G), J([H.entered,H.bgs,q.state])); }
++    finally { global.Z3=z0; }
++    q=old(); const qa={id:'y4_bar_out_x',ev:'ev_bar_group_out',day:H.G.day,h:21,state:'planned',arrived:true,place:'大口漢堡',back:'回到首都帝大。'}, qv={id:'y4_bar_vid_x',ev:'ev_bar_group_video',day:H.G.day+1,h:21,state:'planned',place:'視訊'}, qd={id:'y4_bar_out_y',ev:'ev_bar_group_out',day:H.G.day-2,h:21,state:'done',place:'大口漢堡'}, qm={id:'y4_bar_out_z',ev:'ev_bar_group_out',day:H.G.day-4,h:21,state:'missed',place:'大口漢堡'};
++    H.G.outings.push(qa,qv,qd,qm); phone();
++    check('8. 舊存檔、區域有載入：還沒出發的那一場補上 goto；正在演的（arrived）、視訊的、演過的、錯過的不動', !!q.goto&&q.goto.zone===Z&&q.goto.lv===1&&!qa.goto&&qa.back==='回到首都帝大。'&&!qv.goto&&!qd.goto&&!qm.goto&&!S.barPending(H.G), J([q.goto,qa,qd]));
++    await goOut('y4_bar_group_start');
++    check('8. 補過的那一場：出發＝3D（到 xs_dakou、三個位子、四句、演完留在那裡）', J(H.entered)===J([Z])&&!!shot&&eq(who('kexin'),-1,-1.75,0)&&eq(who('heroine_03'),0,-1.75,0)&&H.said.length===4&&H.G.zone===Z&&q.bar3d===H.G.day, J([H.entered,shot]));
++    q=old(); qd.state='done'; H.G.outings.push({id:'old_done',ev:'ev_bar_group_three',day:H.G.day,h:19,state:'done',place:'大口漢堡'});
++    check('8. 舊存檔 2D 演過的（done、沒有 goto）：不算「到了還沒演」，進大口漢堡不會重演', !S.barPending(H.G)); }
++
++  /* ===== 9 到了還沒演（讀檔）===== */
++  { three(); at('2029-02-23',21.4); const q=OUT.get(H.G,'y4_bar_group_start'); q.state='done';   /* OUT.go 到了、存檔、還沒演就被踢回標題 */
++    const P=S.barSeats(); reset(); await GM.enter(Z,{x:P.me.x,z:P.me.z,yaw:Math.PI,lv:1});   /* 讀檔：人在那個位子上 */
++    check('9. 讀檔進區域：重新排好（可昕、語彤坐好、祐廷坐下）', S.barPending(H.G)===q&&!!GM.npc.kexin&&!!GM.npc.heroine_03&&!!E.player.seat&&E.player.seat.x===-1&&E.player.seat.z===-0.25, J([!!GM.npc.kexin,E.player.seat]));
++    const r=S.tick(GM); await wait(); await wait();
++    check('9. S.tick 接著演：四句、演完留在二樓、不再算還沒演', r===true&&H.said.length===4&&q.bar3d===H.G.day&&H.G.events.done.ev_bar_group_start===1&&H.G.zone===Z&&!E.player.seat&&!S.barPending(H.G)&&S.tick(GM)===false, J([r,texts(),q.bar3d]));
++    three(); at('2029-02-23',21.4); const q2=OUT.get(H.G,'y4_bar_group_start'); q2.state='done'; reset(); await GM.enter(Z,{x:0,z:6.4,yaw:Math.PI,lv:0});
++    const r0=S.tick(GM); await wait();
++    check('9. 人從一樓店門進來：她們已經在二樓坐好、祐廷不會被搬上去；在一樓不演', r0===false&&H.said.length===0&&!!GM.npc.kexin&&!E.player.seat&&E.player.lv===0&&S.barPending(H.G)===q2, J([r0,H.said.length,E.player.lv]));
++    E.player.lv=1; E.player.obj.position.x=1.2; E.player.obj.position.z=0.4; const r1=S.tick(GM); await wait(); await wait();
++    check('9. 走上二樓、到那張長桌旁邊＝坐下開演', r1===true&&H.said.length===4&&!!shot&&eq(shot.me,-1,-0.25,Math.PI)&&q2.bar3d===H.G.day, J([r1,shot&&shot.me]));
++    three(); at('2029-02-23',21.4); const q3=OUT.get(H.G,'y4_bar_group_start'); q3.state='done'; at('2029-02-24',10); reset(); await GM.enter(Z,{x:P.me.x,z:P.me.z,yaw:Math.PI,lv:1}); const r2=S.tick(GM); await wait();
++    check('9. 隔天才進去：不演、不排人（和錯過一樣）', !S.barPending(H.G)&&r2===false&&H.said.length===0&&!GM.npc.kexin&&!E.player.seat, J([r2,H.said.length])); }
++
++  H.done();
++})().catch(e=>{ console.error(e); process.exit(1); });
+diff --git a/tests/r2y4b_events_unit.js b/tests/r2y4b_events_unit.js
+index b2b865d6e7..453c87e105 100644
+--- a/tests/r2y4b_events_unit.js
++++ b/tests/r2y4b_events_unit.js
+@@ -499,7 +499,7 @@ const date=id=>H.date(id);
+   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); at('2029-02-23',21.2); await goOut('y4_bar_group_start');
+     check('BG2 只有語彤：「我今年也考。……你考的那幾科，我也要考。」（AA_642 第 4 節）「所以你讀的時候，我也在旁邊讀我的。」', H.G.flags.BAR_GROUP_KIND==='yutong'&&has('我今年也考。……你考的那幾科，我也要考。')&&has('所以你讀的時候，我也在旁邊讀我的。'));
+     at('2029-02-26',21.5); await run('ev_bar_group_out');
+-    check('2-Y4-58 只有語彤的第一次（大口漢堡二樓）：「（十點，語彤買了三杯熱可可上來…）」「我們一起考。……我先考你。」（AA_642 第 4 節）「買賣不破租賃那一條。你講給我聽，講到我聽得懂。」', has('（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）')&&has('我們一起考。……我先考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。'));
++    check('2-Y4-58 只有語彤的第一次（大口漢堡二樓）：「（十點，語彤買了三杯熱可可上來…）」「我們一起考。……我先考你。」（AA_642 第 4 節）「買賣不破租賃那一條。你講給我聽，講到我聽得懂。」', has('（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）')&&has('我們一起考。……我先考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。'));
+     at('2029-03-03',11); H.G.zone='library_hall'; check('2-Y4-58 只有語彤：週六在總圖', EVENTS.check(ev('ev_bar_group_night'))&&S.session(H.G,H.G.day).mode==='library');
+     at('2029-06-23',18); phone(); check('2-Y4-58 只有一個人的玩家：沒有 6/23 那一場', !OUT.get(H.G,'y4_bar_three')); }
+   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar',KX_VDAY:{4:'video'}},'TW'); date('kexin'); at('2029-02-23',8); phone(); const q=OUT.get(H.G,'y4_bar_group_start'); at('2029-02-23',21.4); await goOut('y4_bar_group_start');
+@@ -509,7 +509,7 @@ const date=id=>H.date(id);
+     fresh('2029-02-23',21.4,'dorm',{Y4_PATH:'bar',BAR_GROUP_KIND:'kexin',BAR_STUDY_GROUP:['kexin'],BAR_GROUP_START:'kexin'},'TW'); date('kexin'); OUT.plan(H.G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:D('2029-02-23'),h:21.5,place:'視訊',title:'t',travelH:0}); await goOut('y4_bar_group_start');
+     check('2-Y4-58 沒有 2/14 那張表：第一句換成「我排了一張表，到八月，一天三科。」', has('我排了一張表，到八月，一天三科。')&&!has('情人節那張表，我把八月以前都排完了。')); }
+   /* AA_345 G6 58：兩個人互不知情、分開讀：成立那晚走可昕的視訊；語彤「只有語彤的第一次」放在她的第一個週五晚上 3/2 21:00，週六白天（總圖）不演 */
+-  { const FIRST='（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）';
++  { const FIRST='（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）';
+     fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); date('kexin'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); const q=OUT.get(H.G,'y4_bar_group_start');
+     check('G6-58 分開讀（兩人互不知情）：成立那晚是可昕的視訊', H.G.flags.BAR_GROUP_KIND==='split'&&!!q&&q.place==='視訊');
+     at('2029-03-02',21.5); const ss=S.session(H.G,H.G.day), due=!!ss&&ss.mode==='noodle'&&ss.who==='yutong'&&!EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_out');   /* 那一晚是大口漢堡的 2D 出遊（排程在上面 2/26 那一段看過）*/
