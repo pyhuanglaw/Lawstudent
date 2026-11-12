@@ -47,7 +47,7 @@ const P=CUR.people[PS];
     check('3. 換了字的只有 theme、topic（第 1、8 拍）、lines、ask、第 5 拍 cite、opts[].reply',P.theme!==O.theme&&ch.every(x=>/^\d\.(topic|lines|ask|cite)$/.test(x))&&J(ch.filter(x=>/topic/.test(x)))===J(['1.topic','8.topic'])&&J(ch.filter(x=>/cite/.test(x)))===J(['5.cite']),J(ch)); });
 
   await sec(4,async()=>{ if(!OLD) return; const other=Object.keys(OLD.people).filter(k=>k!==PS);
-    check('4. 其他人的故事線（'+other.length+' 位）和重寫以前一樣',J(Object.keys(CUR.people))===J(Object.keys(OLD.people))&&other.every(k=>J(CUR.people[k])===J(OLD2.people[k])),J(other.filter(k=>J(CUR.people[k])!==J(OLD2.people[k])))); });
+    check('4. 其他人的故事線（'+other.length+' 位）和重寫以前一樣',J(Object.keys(CUR.people))===J(Object.keys(OLD.people))&&other.every(k=>J(CUR.people[k])===J(k==='kexin'?Object.assign({},OLD2.people[k],{beats:OLD2.people[k].beats.filter(b=>b.n!==4&&b.n!==5)}):OLD2.people[k]))/* 可昕第 4、5 拍（CANON-NO-ECON-1112 第三批：這一項拿掉）*/,J(other.filter(k=>J(CUR.people[k])!==J(OLD2.people[k])))); });
 
   await sec(5,async()=>{ const all=J(P); const old=['早餐店','蛋餅','端七盤','四點半','煎台','不好意思，我問太多了','～'].filter(t=>all.includes(t));
     check('5. 她的故事線沒有重寫前的字（早餐店、蛋餅、端七盤、四點半、煎台、「不好意思，我問太多了」、句尾的「～」）',old.length===0,J(old));
