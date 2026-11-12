@@ -54,8 +54,22 @@ _CJK = _re.compile('[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]')
 
 
 def read_fix(s):
-    """匯入工具讀稿一律走這裡：先 alison()，再照 docs/WORLD_NAMING.md 換名（world()），再照 AA_542 換麵店團的字（ndl542()），最後照 AA_897 第 2 節換整句（canon897()）。"""
-    return canon897(ndl542(aa655(world(alison(s)))))
+    """匯入工具讀稿一律走這裡：先 alison()，再照 docs/WORLD_NAMING.md 換名（world()），再照 AA_542 換麵店團的字（ndl542()）。"""
+    return ndl542(aa655(world(alison(s))))
+
+
+def read_fix_c(s):
+    """read_fix 再加 AA_897 第 2 節整句換（canon897()）。只給產生檔裡有那些整句的匯入工具用（import_aa720、import_arc_rot、import_flower_class、import_gift_holiday、
+    import_gym_equip、import_place_acc、import_sport_invites、import_study_scenes 開頭 IG.use_canon897()）；覆寫檔（overlay_rows）、回覆池、梯子照 read_fix，不能動稿的字。"""
+    return canon897(_read_fix0(s))
+
+
+_read_fix0 = read_fix
+
+
+def use_canon897():
+    """這支匯入工具讀稿改走 read_fix_c（CANON-NO-ECON-1112 第四批，AA_897 第 2 節）：IG.read_fix 換成 read_fix_c（只在這個行程裡）。"""
+    globals()['read_fix'] = read_fix_c
 
 
 _C897 = None

@@ -10,6 +10,7 @@ import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as IG
+IG.use_canon897()   # CANON-NO-ECON-1112 第四批：讀稿再照 AA_897 第 2 節換整句（tools/story/canon897_fix.json）
 
 DOC = 'docs/story_planning/AA_820_flower_class.json'
 OUT = 'src/data/flower_class.js'
