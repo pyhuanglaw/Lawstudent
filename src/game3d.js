@@ -27,9 +27,15 @@ const GAME = (function(){
      只留橫幅：訊息本身照舊已經進手機；最多留三則、同一句不重複；只在記憶體，讀檔不帶 */
   const tHeld=[]; let tHeldTimer=null; const working=()=>{ try{ return typeof JOBS!=='undefined'&&!!JOBS.running; }catch(e){ return false; } };
   function toastHeldPump(){ tHeldTimer=null; if(!tHeld.length) return; if(working()){ tHeldTimer=setTimeout(toastHeldPump,1000); return; } const L=tHeld.splice(0); for(const [t,ms,hold] of L) toast(t,ms,hold); }
-  function toast(t,ms,hold){ if(/^手機｜/.test(String(t))&&working()){ if(!tHeld.some(x=>x[0]===t)){ tHeld.push([t,ms,hold]); if(tHeld.length>3) tHeld.shift(); } if(!tHeldTimer) tHeldTimer=setTimeout(toastHeldPump,1000); return; }
+  /* 上班開始的那一刻已經在畫面上、或排著還沒出的手機橫幅也一起留到下班（CC 11-12 SHIFT_SHOTS_72fc：南洋上班第一句上面還掛著「手機｜可昕：我們選一天…」——橫幅是 18:00 上班前一刻出的，上面那一段只擋上班以後才來的）。JOBS 不用呼叫：橫幅出現時起一個 250 ms 的檢查，還掛著的時候開始上班＝收起來、留到下班 */
+  const isPhone=t=>/^手機｜/.test(String(t)); let tWatch=null;
+  function heldPush(t,ms,hold){ if(!tHeld.some(x=>x[0]===t)){ tHeld.push([t,ms,hold]); if(tHeld.length>3) tHeld.shift(); } if(!tHeldTimer) tHeldTimer=setTimeout(toastHeldPump,1000); }
+  function toastWorkHold(){ if(!working()) return false; let any=false; for(let i=TQ.length-1;i>=0;i--) if(isPhone(TQ[i][0])){ const x=TQ.splice(i,1)[0]; heldPush(x[0],x[1],x[2]); any=true; }
+    if(tCur&&isPhone(tCur)){ const t=tCur, el=$('toast'); clearTimeout(tHide); tHide=null; tCur=''; tMin=0; if(el){ el.style.opacity=0; el.classList.add('hide'); el.textContent=''; } heldPush(t); any=true; toastPump(); } return any; }
+  function toastWatch(){ if(tWatch) return; tWatch=setInterval(()=>{ const live=(tCur&&isPhone(tCur))||TQ.some(x=>isPhone(x[0])); if(!live){ clearInterval(tWatch); tWatch=null; return; } toastWorkHold(); },250); }
+  function toast(t,ms,hold){ if(isPhone(t)&&working()){ heldPush(t,ms,hold); return; } if(isPhone(t)) toastWatch();
     if(t===tCur){ toastShow(t,ms,hold); return; } if(TQ.some(x=>x[0]===t)) return; if(tCur&&Date.now()<tMin){ TQ.push([t,ms,hold]); if(TQ.length>3){ const i=TQ.findIndex(x=>!x[2]); TQ.splice(i>=0?i:0,1); }   /* 排太多：先丟不是提示的 */ toastPump(); return; } toastShow(t,ms,hold); }
-  toast.queue=()=>TQ.map(x=>x[0]);   /* 測試用 */
+  toast.queue=()=>TQ.map(x=>x[0]); toast.workHold=toastWorkHold; toast.held=()=>tHeld.map(x=>x[0]);   /* 測試用 */
   /* 讀檔、開新遊戲：上一局排著、還在畫面上的提示收掉（BUG-LOAD-INVITE-LEAK-1107：讀完 13:48 的檔，畫面還是上一局的「提醒：14:00 和杜可昕約在……」）*/
   function toastClear(){ TQ.length=0; clearTimeout(tNext); tNext=null; clearTimeout(tHide); tHide=null; tCur=''; tMin=0; const el=$('toast'); if(el){ el.classList.add('hide'); el.style.opacity=0; el.textContent=''; } }
   GM.toastClear=toastClear;
