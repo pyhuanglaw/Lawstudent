@@ -1583,13 +1583,13 @@ const Z3 = (function(){
     if(!(opt&&opt.shutter===false)&&typeof document!=='undefined'&&THREE.CanvasTexture&&THREE.PlaneGeometry){ let mat=null;
       try{ const c=document.createElement('canvas'); c.width=64; c.height=256; const x=c.getContext('2d'); for(let i=0;i<16;i++){ const y=i*16, gr=x.createLinearGradient(0,y,0,y+16); gr.addColorStop(0,'#9a9c9e'); gr.addColorStop(0.45,'#c9cbcc'); gr.addColorStop(0.8,'#a9abad'); gr.addColorStop(1,'#6f7173'); x.fillStyle=gr; x.fillRect(0,y,64,16); }
         const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; if(THREE.SRGBColorSpace) t.colorSpace=THREE.SRGBColorSpace; mat=new THREE.MeshLambertMaterial({map:t,side:THREE.DoubleSide}); mat.name='shopreal_shutter'; }catch(e){ mat=null; }
-      if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, nx=Math.sin(s.ry||0), nz=Math.cos(s.ry||0),   /* 朝街的方向＝室內的正面（+z）轉 ry。原本用「室內中心 → 玻璃面中心」：室內不在這一棟正中間的（SUNNY SIDE 偏東 0.62 m）鐵捲門會斜 7°、一頭縮到玻璃後面 */ sr=Array.isArray(s.sx)?s.sx:null, sw=sr?(sr[1]-sr[0]+0.2):(s.sw||(s.w-0.3)), sh=s.sh||3.0, lx=sr?(sr[0]+sr[1])/2:0, ry=s.ry||0, ox=lx*Math.cos(ry), oz=-lx*Math.sin(ry);   /* sx＝[室內 x0, x1]：只蓋門窗那一段（沒給＝整間寬）*/
-        const geo=new THREE.PlaneGeometry(sw,sh); const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*sw/0.8,uv.getY(i)*sh/2.0); const m=new THREE.Mesh(geo,mat); m.name='shop_shutter_'+s.id; m.userData.dyn=true;
-        m.position.set(cx+ox+nx*0.06,(s.y||0)+sh/2,cz+oz+nz*0.06); m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s);
+      if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, nx=Math.sin(s.ry||0), nz=Math.cos(s.ry||0),   /* 朝街的方向＝室內的正面（+z）轉 ry。原本用「室內中心 → 玻璃面中心」：室內不在這一棟正中間的（SUNNY SIDE 偏東 0.62 m）鐵捲門會斜 7°、一頭縮到玻璃後面 */ sr=Array.isArray(s.sx)?s.sx:null, sw=sr?(sr[1]-sr[0]+0.2):(s.sw||(s.w-0.3)), sh=s.sh||3.0, sb=Math.max(0,Math.min(sh-0.4,s.sb||0)), hh=sh-sb, lx=sr?(sr[0]+sr[1])/2:0, ry=s.ry||0, ox=lx*Math.cos(ry), oz=-lx*Math.sin(ry);   /* sx＝[室內 x0, x1]：只蓋門窗那一段（沒給＝整間寬）*/
+        const geo=new THREE.PlaneGeometry(sw,hh); const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*sw/0.8,uv.getY(i)*hh/2.0); const m=new THREE.Mesh(geo,mat); m.name='shop_shutter_'+s.id; m.userData.dyn=true;
+        m.position.set(cx+ox+nx*0.06,(s.y||0)+sb+hh/2,cz+oz+nz*0.06);   /* s.sb（SHOP-WINDOW-3D-1112 v2，AA_902 溫特寶邸打烊「鐵捲門拉一半」）：門片下緣離地 sb 公尺，軌道照舊到地 */ m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s);
         /* SHUTTER-DEPTH-1112（LAWWW2-C；BB：鐵捲門一片平的）：上面的捲箱、底下的底條、兩邊的軌道——掛在那一片下面（一起顯示／藏），整條街共用一個素色金屬材質；捲箱往街上凸 0.2 m、有影子面 */
         if(THREE.BoxGeometry){ if(!mat.userData.frame){ mat.userData.frame=new THREE.MeshLambertMaterial({color:0x8d9092}); mat.userData.frame.name='shopreal_shutter_frame'; mat.userData.dark=new THREE.MeshLambertMaterial({color:0x5d6062}); mat.userData.dark.name='shopreal_shutter_dark'; }
           const part=(n,w,h,d,x,y,z,mm)=>{ const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mm); q.name='shop_shutter_'+n+'_'+s.id; q.position.set(x,y,z); q.userData.dyn=true; m.add(q); return q; };
-          part('box',sw+0.16,0.3,0.24,0,sh/2-0.15,0.1,mat.userData.frame); part('bar',sw-0.04,0.09,0.07,0,-sh/2+0.045,0.03,mat.userData.dark); part('railL',0.08,sh-0.28,0.08,-sw/2+0.02,-0.14,0.03,mat.userData.dark); part('railR',0.08,sh-0.28,0.08,sw/2-0.02,-0.14,0.03,mat.userData.dark); }
+          part('box',sw+0.16,0.3,0.24,0,hh/2-0.15,0.1,mat.userData.frame); part('bar',sw-0.04,0.09,0.07,0,-hh/2+0.045,0.03,mat.userData.dark); part('railL',0.08,sh-0.28,0.08,-sw/2+0.02,-0.14-sb/2,0.03,mat.userData.dark); part('railR',0.08,sh-0.28,0.08,sw/2-0.02,-0.14-sb/2,0.03,mat.userData.dark); }
         g.add(m); s.shutter=m; } }
     const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
     const basic=(m,s,cache)=>{ if(!m) return m; let b=cache.get(m); if(b) return b; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
@@ -1600,6 +1600,15 @@ const Z3 = (function(){
     const light=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; let open=true;
       if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07; if(k===s.k) return; s.k=k; for(const b of s.mats) b.color.copy(b.userData.base).multiplyScalar(k); };
     /* 先上傳貼圖、先編譯材質，而且分幀：一幀只上傳一張貼圖（一次全部上傳本身就是一頓），全部上傳完再編譯，然後才算「可以顯示」（s.ready）。 */
+    /* SHOP-FIRST-APPROACH r7（LAWWW2-C 11-12；BB_379 r6：最長一幀前 30 ms 沒有任何記錄到的事件＝卡在 GPU 端第一次畫這一間（貼圖上傳、program link、頂點上傳）或 GC）：
+       零件都打開以後，在畫面外先「真的畫一次」整間：同一個鏡頭、只畫 1×1 像素（viewport＋scissor 都設 1×1，畫在畫布左下角那一點；這一幀的正式畫面接著整張清掉重畫，看不到），
+       用一個暫時的場景（同一個霧——霧會改著色器，不一樣的話正式畫的時候又要編一次）。材質都是不受光的 MeshBasic，跟燈沒有關係。不用 1×1 的 render target：畫到 render target 時 three.js 用不同的輸出色彩空間／色調映射，編的是另一個著色器。
+       ?noshoppre 關掉（CC 對照用）。量測：prof.step.pre。*/
+    const PRE=!(typeof location!=='undefined'&&/[?&]noshoppre\b/.test(location.search||''));
+    const preDraw=s=>{ const Rn=E.renderer; if(!Rn||!s.grp||!E.camera||!THREE.Scene||!THREE.Vector4) return; const par=s.grp.parent, vis=s.grp.visible, vp=new THREE.Vector4(), sc=new THREE.Vector4(), st=Rn.getScissorTest?Rn.getScissorTest():false;
+      const tmp=new THREE.Scene(); tmp.fog=E.scene&&E.scene.fog||null; try{ Rn.getViewport(vp); Rn.getScissor(sc); tmp.add(s.grp); s.grp.visible=true; s.grp.updateMatrixWorld(true);
+        Rn.setViewport(0,0,1,1); Rn.setScissor(0,0,1,1); Rn.setScissorTest(true); Rn.render(tmp,E.camera); }catch(e){}
+      try{ Rn.setViewport(vp); Rn.setScissor(sc); Rn.setScissorTest(st); }catch(e){} if(par) par.add(s.grp); s.grp.visible=vis; };
     const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set();
       /* SHOP-FIRST-APPROACH-1112（LAWWW2-C；BB FIRST_gg_desk_r3：公館燒臘 233 ms、新生南路 150 ms、SUNNY 333 ms，都是第一次走近建店內那一幀）：材質第一次畫時 WebGL 在主執行緒同步編譯、連結著色器——
          一開始就用 compileAsync 把這一間全部的材質送去編（有 KHR_parallel_shader_compile 的話不卡主執行緒；照場景的燈編，之後畫的時候直接用同一個程式），編好以前零件先不打開（warmRun 看 s.compiling）。
@@ -1608,8 +1617,9 @@ const Z3 = (function(){
          （Rn.compile(那個網格, 鏡頭, 整個場景)，同一組材質只編一次），全部送出以後再 compileAsync 整間等 isReady（材質都準備過了，這一步不再編）。排在貼圖上傳後面、零件打開前面。 */
       const cj=[]; { const Rn=E.renderer; if(Rn&&Rn.compile&&E.camera&&E.scene&&s.grp&&s.list&&s.list.length){ const keys=new Set();
           for(const o of s.list) (o.traverse?o.traverse.bind(o):(f=>f(o)))(m=>{ if(!m.material) return; const ms=Array.isArray(m.material)?m.material:[m.material]; const k=ms.map(x=>x.uuid||x.id||'').join('|'); if(keys.has(k)) return; keys.add(k); cj.push({s,c:m}); });
-          if(cj.length){ s.compiling=true; s.ct0=now(); cj.push({s,cwait:true}); } } } for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const q of cj) warmQ.push(q); for(const o of s.list) warmQ.push({s,m:o}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
+          if(cj.length){ s.compiling=true; s.ct0=now(); cj.push({s,cwait:true}); } } } for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const q of cj) warmQ.push(q); for(const o of s.list) warmQ.push({s,m:o}); if(PRE) warmQ.push({s,pre:true}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
     const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(j.stage){ stage(j); return; } if(!j.s.built) return;
+      if(j.pre){ preDraw(j.s); return; }
       if(j.c){ try{ Rn.compile(j.c,E.camera,E.scene); }catch(e){} return; } if(j.cwait){ const s=j.s; const fin=()=>{ if(!s.compiling) return; s.compiling=false; rec(prof.step,'compileWait',now()-s.ct0,s.id); }; try{ const pr=Rn&&Rn.compileAsync?Rn.compileAsync(s.grp,E.camera,E.scene):null; if(pr&&pr.then){ pr.then(fin,fin); if(typeof setTimeout==='function') setTimeout(fin,2500); } else fin(); }catch(e){ fin(); } return; }   /* 2.5 秒保險：等不到 isReady 也照常一幀一個打開 */
       try{ if(j.m){ if(!j.s.grp.visible){ j.s.grp.visible=true; j.s.k=-1; light(j.s); if(j.s.want) fallback(j.s,false); } j.m.visible=true; j.m.frustumCulled=false; } else if(j.t&&Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
       if(j.done){ for(const o of j.s.list) o.frustumCulled=true; j.s.ready=true; show(j.s,!!j.s.want); } };
@@ -1647,9 +1657,9 @@ const Z3 = (function(){
        load＝模型載入完成的那一幀整幀多長（解析 GLB 在主執行緒）。每一格 {n 次數, max 最長 ms, sum 合計 ms, who 最長那一次是哪一間}。只記數字，不影響行為。 */
     const now=()=>(typeof performance!=='undefined'&&performance.now?performance.now():0), prof={step:{},frame:{},reset(){ this.step={}; this.frame={}; }}, rec=(t,k,ms,id)=>{ const o=t[k]||(t[k]={n:0,max:0,sum:0,who:''}); o.n++; o.sum=Math.round((o.sum+ms)*10)/10; if(ms>o.max){ o.max=Math.round(ms*10)/10; o.who=id||''; } };
     let lastT=0, lastK=null, lastId='';
-    const kindOf=j=>j.stage?j.stage:(j.c?'compile':(j.cwait?'cwait':(j.t?'tex':(j.m?'mesh':(j.hold?'hold':'done')))));
-    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ if(warmQ[0].s&&warmQ[0].s.compiling&&(warmQ[0].m||warmQ[0].hold||warmQ[0].done)){ const k=warmQ.findIndex(q=>!(q.s&&q.s.compiling&&(q.m||q.hold||q.done))); if(k<0) break; warmQ.unshift(warmQ.splice(k,1)[0]); }   /* 還在編著色器的那一間：先做別的（別間的貼圖、clone、prep），都沒有就這一幀不做 */
-      const j=warmQ[0], stop=!!(j.hold||j.done||j.c||j.stage==='clone'), k=kindOf(j), id=j.s&&j.s.id, t0=now(); warmStep(); rec(prof.step,k,now()-t0,id); lastK=k; lastId=id; if(stop) break; } };
+    const kindOf=j=>j.stage?j.stage:(j.pre?'pre':j.c?'compile':(j.cwait?'cwait':(j.t?'tex':(j.m?'mesh':(j.hold?'hold':'done')))));
+    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ if(warmQ[0].s&&warmQ[0].s.compiling&&(warmQ[0].m||warmQ[0].pre||warmQ[0].hold||warmQ[0].done)){ const k=warmQ.findIndex(q=>!(q.s&&q.s.compiling&&(q.m||q.pre||q.hold||q.done))); if(k<0) break; warmQ.unshift(warmQ.splice(k,1)[0]); }   /* 還在編著色器的那一間：先做別的（別間的貼圖、clone、prep），都沒有就這一幀不做 */
+      const j=warmQ[0], stop=!!(j.hold||j.done||j.c||j.pre||j.stage==='clone'), k=kindOf(j), id=j.s&&j.s.id, t0=now(); warmStep(); rec(prof.step,k,now()-t0,id); lastK=k; lastId=id; if(stop) break; } };
     zone.update=function(dt,E2){ const t=now(); if(lastT&&lastK){ rec(prof.frame,lastK,t-lastT,lastId); lastK=null; } lastT=t; if(up0) up0.call(this,dt,E2);
       const ld=shops.find(s=>s.loading), on0=shops.filter(s=>s.on).length; warmRun(); f++;
       if(f%20===1||(f%5===1&&shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready))){ const t1=now(); tick(); rec(prof.step,'tick',now()-t1,''); }

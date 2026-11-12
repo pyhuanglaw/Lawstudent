@@ -83,7 +83,8 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
     const mm=new RegExp("'"+q.id+"': dict\\((arcade=False, )?dep=([0-9.]+), real=True, back=([0-9.]+)").exec(ws); if(mm){ const noArc=!!mm[1]; mm[1]=String(+mm[2]+(noArc?T.facade.arcade:0)); mm[2]=mm[3]; }   /* TZ-SHUTTER-POS-1112：沒有騎樓的店整棟退 arcade（3.2 m）到店面線，玻璃離立面＝arcade＋dep（原本這一項只比 dep，四間都少 3.2 m 也過） */
     ok(mm&&+mm[2]>=q.d+0.1-1e-9&&Math.abs(+mm[1]-Math.abs(q.cx-(w?T.facade.west:T.facade.east)))<1e-9,'㉖ wz_street.py '+q.id+'：real、牆挖 '+(mm&&mm[2])+' m、玻璃離立面 '+(mm&&mm[1])+' m 和遊戲的設定一樣'); } }
 { const z3=fs.readFileSync(path.join(__dirname,'..','src/zones3d.js'),'utf8');
-  ok(/part\('box',sw\+0\.16,0\.3,0\.24,0,sh\/2-0\.15/.test(z3)&&/part\('bar'/.test(z3)&&/part\('railL'/.test(z3)&&/part\('railR'/.test(z3)&&/m\.add\(q\)/.test(z3),'㉟b SHUTTER-DEPTH-1112：鐵捲門有捲箱（不高過門窗那一段的頂）、底條、兩邊軌道，掛在那一片下面一起顯示／藏');
+  ok(/sb=Math\.max\(0,Math\.min\(sh-0\.4,s\.sb\|\|0\)\)/.test(z3)&&/\(s\.y\|\|0\)\+sb\+hh\/2/.test(z3),'㉟c SHOP-WINDOW-3D-1112 v2：s.sb＝鐵捲門拉一半（門片下緣離地 sb，沒給＝拉到地，和原本一樣）');
+  ok(/part\('box',sw\+0\.16,0\.3,0\.24,0,(?:sh|hh)\/2-0\.15/.test(z3)&&/part\('bar'/.test(z3)&&/part\('railL'/.test(z3)&&/part\('railR'/.test(z3)&&/m\.add\(q\)/.test(z3),'㉟b SHUTTER-DEPTH-1112：鐵捲門有捲箱（不高過門窗那一段的頂）、底條、兩邊軌道，掛在那一片下面一起顯示／藏');
   ok(/shop_shutter_'\+s\.id/.test(z3)&&/s\.shutter\.visible=!isOpen\(s\)/.test(z3)&&/m\.visible=!isOpen\(s\)/.test(z3),'㉟ 打烊拉下鐵捲門：每一間在玻璃外放一片（shop_shutter_<店>），營業中藏、打烊顯示，每一拍照營業時間更新（BB 11-12：鮮果打烊沒有鐵門）'); }
 { const z3=fs.readFileSync(path.join(__dirname,'..','src/zones3d.js'),'utf8');
   ok(/if\(s\.kx&&s\.kx!==1\) r\.scale\.x=s\.kx;/.test(z3),'㊱ kx：室內可以在寬度方向縮一點（公館：牆厚會伸進隔壁店）'); }
@@ -118,5 +119,21 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
   const S1=R3.shops[1]; ok(S1.built,'㊹ 編的時候別間照樣建（第二間 built '+S1.built+'）');
   res.forEach(f=>f()); st(200); ok(S0.compiling===false&&S0.ready&&S0.on,'㊺ 編好以後照舊一幀一個打開、顯示（ready '+S0.ready+'、on '+S0.on+'）');
   ok(R3.prof.step.compile&&R3.prof.step.compile.n>=1&&R3.prof.step.compileWait&&R3.prof.step.compileWait.n>=1,'㊻ prof 記 compile（每一個材質主執行緒花多久）、compileWait（送出到全部 isReady 多久）'); }
+/* SHOP-FIRST-APPROACH r7：零件都打開以後，畫面外先畫一次整間（1×1 viewport＋scissor、暫時的場景同一個霧），畫完 viewport／scissor／父物件／顯示狀態都還原 */
+{ const g4={children:[],add(o){ if(o.parent&&o.parent!==this&&o.parent.remove) o.parent.remove(o); this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; }};
+  class V4{ constructor(x=0,y=0,z=0,w=0){ this.x=x; this.y=y; this.z=z; this.w=w; } copy(v){ this.x=v.x; this.y=v.y; this.z=v.z; this.w=v.w; return this; } }
+  class Sc{ constructor(){ this.children=[]; this.fog=null; } add(o){ if(o.parent&&o.parent!==this&&o.parent.remove) o.parent.remove(o); this.children.push(o); o.parent=this; } remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; } }
+  let VP=new V4(0,0,800,600), SCI=new V4(0,0,800,600), ST=false; const draws=[];
+  const RN={compile(){}, initTexture(){}, getViewport(v){ return v.copy(VP); }, getScissor(v){ return v.copy(SCI); }, getScissorTest(){ return ST; },
+    setViewport(x,y,w,h){ VP=(x&&x.isV4!==undefined)||typeof x==='object'?new V4(x.x,x.y,x.z,x.w):new V4(x,y,w,h); }, setScissor(x,y,w,h){ SCI=typeof x==='object'?new V4(x.x,x.y,x.z,x.w):new V4(x,y,w,h); }, setScissorTest(b){ ST=b; },
+    render(scn,cam){ draws.push({scn,cam,vp:[VP.z,VP.w],sci:[SCI.z,SCI.w],st:ST,vis:scn.children.map(o=>o.visible),fog:scn.fog}); }};
+  const FOG={isFog:1}, z4={update:null}, E4={zone:z4,player:{obj:{position:new V3(-100,0,-1)}},renderer:RN,camera:{isCam:1},scene:{isScene:1,fog:FOG}};
+  const c4={THREE:{Box3,Vector3:V3,Vector4:V4,Scene:Sc,Color,MeshBasicMaterial:Basic},ASSETS:{manifest:{k0:{}},loadOne(){ return {then(f){ f({scene:mkScene()}); return {catch(){}}; }}; }},GAME:{G:{hour:14,day:3}},PLACES:{isOpen:()=>true,typhoonClosed:()=>false},console,setTimeout:()=>0};
+  vm.createContext(c4); vm.runInContext(src.slice(a,b)+'; this.fn=shopInsideReal;',c4);
+  const R4=c4.fn(E4,g4,z4,[{id:0,place:'p0',key:'k0',w:7.4,d:12,h:3.4,x:-100,z:-10,ry:0,cx:-100,cz:-4,ex:3,ez:0}],{lite:false,shutter:false}); const S4=R4.shops[0];
+  for(let i=0;i<400&&!(S4.ready&&S4.on);i++) z4.update(0.016,E4);
+  const d=draws[0];
+  ok(draws.length===1&&d.cam===E4.camera&&d.vp[0]===1&&d.vp[1]===1&&d.sci[0]===1&&d.sci[1]===1&&d.st===true&&d.vis[0]===true&&d.fog===FOG,'㊼ SHOP-FIRST r7：零件都打開以後畫面外先畫一次整間（同一個鏡頭、1×1、scissor、同一個霧）：'+draws.length+' 次');
+  ok(VP.z===800&&VP.w===600&&SCI.z===800&&ST===false&&S4.grp.parent===g4&&S4.ready&&S4.on&&R4.prof.step.pre&&R4.prof.step.pre.n===1,'㊼b 畫完 viewport／scissor 還原、店內掛回原來的地方、照常顯示；prof.step.pre 有記'); }
 { const P=Rr.prof; ok(P&&P.step&&P.frame&&typeof P.reset==='function'&&P.step.clone&&P.step.clone.n>=1&&P.step.prep&&P.step.mesh&&P.step.tick&&Object.values(P.step).every(o=>o.max>=0&&o.sum>=0),'㊶ shopReal.prof：每一種工作（clone／prep／tex／mesh／tick…）記次數、最長、合計——CC 在電腦上看哪一步是那 150 ms（'+Object.keys(P.step).join('、')+'）'); }
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
