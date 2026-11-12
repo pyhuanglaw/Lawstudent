@@ -9,8 +9,10 @@
 CC_02 清單 2026-11-12：1✓（日子照事件的 term／time 給的區間） 2✓（事件、拍子從遊戲資料讀：STORY_EVENTS、HEROINE_ARCS） 3✓（每一場重新讀檔） 4✓（選單選第 1 個、全部記） 5n/a（抽演：直接演，不走路觸發） 6✓（一句一句點） 7✓ 8n/a（不判，字給 BB） 9n/a（不藏人：要看誰在場） 10✓（條件事件關掉） 11✓ 12✓（每一場同樣欄位） 13✓（讀檔、直接演、她站好都是捷徑，標）
   GIFT＝節日送禮（AA_732～734，src/gifthol3d.js GIFTH）：GIFTS 每一組（誰@節日那天）【前置／捷徑】讀檔到 campus 那天 15:00、她站到祐廷前面、包包【捷徑】放兩樣（她 love 的一樣＋ok 的一樣）→
       照玩家走到她旁邊按互動 → 選「送她禮物…」→ 選 love 那一樣 → 一句一句記（open 句、item 句、herGive 回禮）→ 截圖。預設學姊、以安聖誕、語彤情人節。
-用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=EV,ARC,GIFT] [GIFTS=heroine_05@2025-12-24+…] [EVS=ev_a,ev_b] [EVDAY=ev_a@2028-10-05@19+…] [ARCS=heroine_01,heroine_05] [BEAT=1] python3 cc_aa_scenes_probe.py <url> <out>"""
-import os, sys, json, asyncio
+  DATE＝學姊約會（AA_837／838，src/date3d.js）：DATES 每一個地點【前置／捷徑】讀檔到宿舍 DATE_DAY（週六）08:00、和學姊熟（met、關係高）→【捷徑】DATE.book（約會選單選完以後呼叫的同一支）排那一天 →
+      照玩家：時間到等「出發」（DATE.prompt）按下去 → 約會場景一句一句點（每個互動點的選項選第 1 個）→ 記每句、底圖、地點字幕、錢前後、回到哪。預設 D01、D02、D04。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=EV,ARC,GIFT,DATE] [DATES=D01,D02,D04] [DATE_WHO=heroine_05] [DATE_DAY=2025-10-18] [GIFTS=heroine_05@2025-12-24+…] [EVS=ev_a,ev_b] [EVDAY=ev_a@2028-10-05@19+…] [ARCS=heroine_01,heroine_05] [BEAT=1] python3 cc_aa_scenes_probe.py <url> <out>"""
+import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
 import playlib as L
@@ -20,6 +22,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]
 PARTS = set((os.environ.get('PARTS') or 'EV,ARC,GIFT').split(','))
+DATES = [x for x in (os.environ.get('DATES') or 'D01,D02,D04').split(',') if x]; DATE_WHO = os.environ.get('DATE_WHO') or 'heroine_05'; DATE_DAY = os.environ.get('DATE_DAY') or '2025-10-18'
 GIFTS = [x.split('@') for x in (os.environ.get('GIFTS') or 'heroine_05@2025-12-24+heroine_01@2025-12-24+heroine_03@2026-02-14').split('+') if '@' in x]   # 誰@哪一天（節日）
 EVS = [x for x in (os.environ.get('EVS') or 'ev_sis_w1,ev_sis_family_dinner,ev_grad_debate,ev_sis_video,ev_sis_video_gf,ev_us_canyon').split(',') if x]
 EVDAY = {}
@@ -143,6 +146,48 @@ async def part_gift(pg, cdp, res):
         res.setdefault('gift', {})[who + '@' + day] = {'prep': g, 'picked': picked, 'lines': lines, 'after': after}
 
 
+DATE_PREP = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
+  try{ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(a.who,{fam:60,trust:50,comf:50,aff:30}); }catch(e){}
+  const r=DATE.book(G,{who:a.who,locs:[a.loc],day:G.day,by:'player'}); const q=(G.outings||[]).find(x=>x&&x.dateTrip===r.trip)||null;
+  return {book:r.ok?{trip:r.trip, depart:r.depart, back:r.back, kind:r.kind, transport:r.transport, fare:r.fare}:r, out:q?{id:q.id, h:q.h, travelH:q.travelH, title:q.title}:null, money:G.money|0}; })"""
+
+
+async def part_date(pg, cdp, res):
+    for loc in DATES:
+        tag = '[DATE %s %s]' % (DATE_WHO, loc)
+        await pg.goto(URL); await L.wait_loaded(pg)
+        await D.load_zone(pg, cdp, 'dorm', DATE_DAY, 8.0, wait=5000)
+        b = await pg.evaluate(DATE_PREP, {'who': DATE_WHO, 'loc': loc})
+        R.setup('%s 【前置／捷徑】讀檔到宿舍 %s 08:00、和她熟 →【捷徑】DATE.book：%s' % (tag, DATE_DAY, J(b)))
+        if not R.check('%s 排得進約會（DATE.book ok）' % tag, bool(b.get('out')), J(b)): continue
+        h0 = b['out']['h'] - (b['out']['travelH'] or 0) - 0.2
+        await pg.evaluate("(h=>{ GAME.G.hour=h; })", h0); await pg.wait_for_timeout(500)
+        R.setup('%s 【捷徑】時間撥到 %.2f（出發前 12 分鐘）' % (tag, h0))
+        lines = []; picked = []; got = False; t0 = time.time()
+        while time.time() - t0 < 400:
+            st = await pg.evaluate(STEP)
+            if st['choices']:
+                i = next((n for n, t in enumerate(st['choices']) if t.startswith('出發')), None)
+                if i is not None: got = True
+                else: i = 0
+                picked.append([st['choices'], st['choices'][i]]); await pg.screenshot(path=os.path.join(OUT, 'date_%s_menu_%02d.png' % (loc, len(picked))))
+                await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(900); continue
+            if st['dlg']:
+                if not lines or lines[-1]['t'] != st['t']:
+                    lines.append({'who': st['who'], 't': st['t'], 'cap': st['cap'], 'bg': st['bg']}); await pg.screenshot(path=os.path.join(OUT, 'date_%s_%02d.png' % (loc, len(lines))))
+                await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(550); continue
+            if got and lines and time.time() - t0 > 20:
+                await pg.wait_for_timeout(2000); st2 = await pg.evaluate(STEP)
+                if not st2['dlg'] and not st2['choices']: break
+            await pg.wait_for_timeout(600)
+        af = await pg.evaluate("(()=>({zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), money:GAME.G.money|0, trips:(GAME.G.trips||[]).slice(-1).map(t=>({status:t.status, spots:t.spots}))}))()")
+        R.note('%s 選單一路 %s' % (tag, J([p_[1] for p_ in picked])))
+        R.note('%s 句子（說話的人｜字｜字幕｜底）：%s' % (tag, J([(x['who'], x['t'], x['cap'], (x['bg'] or {}).get('img')) for x in lines])))
+        R.note('%s 演完：%s（出發前錢 %s）' % (tag, J(af), b.get('money')))
+        R.check('%s 時間到跳「出發」、約會演得完' % tag, got and len(lines) > 2, J([got, len(lines)]))
+        res.setdefault('date', {})[loc] = {'book': b, 'picked': picked, 'lines': lines, 'after': af}
+
+
 async def main():
     print('CC AA 重匯抽演：SHA %s；PARTS %s；EVS %s；ARCS %s 第 %d 拍' % (SHA or '?', sorted(PARTS), EVS, ARCS, BEAT), flush=True)
     res = {'sha': SHA}
@@ -156,6 +201,9 @@ async def main():
         if 'ARC' in PARTS:
             try: await part_arc(pg, cdp, res)
             except Exception as e: R.check('[ARC] 沒有探針例外', False, str(e)[:200])
+        if 'DATE' in PARTS:
+            try: await part_date(pg, cdp, res)
+            except Exception as e: R.check('[DATE] 沒有探針例外', False, str(e)[:200])
         if 'GIFT' in PARTS:
             try: await part_gift(pg, cdp, res)
             except Exception as e: R.check('[GIFT] 沒有探針例外', False, str(e)[:200])
