@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "CLUBBOARD_terms",
+  "sha": "9aaa31edb9e6cfed31271cce28ec7041d37b0306",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_interact_probe.py",
+  "env": "TAG=clubboard_terms;ZONE=wz_offbeat;LABEL=社團佈告欄;CASES=2026-03-04@15+2026-09-16@15+2027-03-03@15;EACH=1;SHA=9aaa31edb9e6cfed31271cce28ec7041d37b0306",
+  "machine": "MSI",
+  "start": "2026-11-12T20:51:18",
+  "end": "2026-11-12T20:54:55",
+  "seconds": 216,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

@@ -1206,3 +1206,12 @@
 [20:51:18] ==== START CLUBBOARD_terms  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
 [20:51:21] [res] cpu=4% mem=42% (12.7/31.4 GB) chrome_testing=4  START CLUBBOARD_terms
 [20:52:16] [res] cpu=17% mem=42% (13.3/31.4 GB) chrome_testing=8  END SUNNY_DOOR_walk
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       04f3bd7809..cf5f2e81ec  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:52:21] ==== END   SUNNY_DOOR_walk  exit=1  126s   ====
+[20:52:24] memory 43% before starting INVITE_TZ_yue (2 running)
+[20:52:24] ==== START INVITE_TZ_yue  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[20:52:27] [res] cpu=6% mem=43% (13.5/31.4 GB) chrome_testing=8  START INVITE_TZ_yue
+[20:52:49] 正在跑：LIN_REAL（已跑 1 分／上限 40 分）、CLUBBOARD_terms（已跑 1 分／上限 25 分）、INVITE_TZ_yue（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:54:54] [res] cpu=9% mem=40% (12.8/31.4 GB) chrome_testing=5  END CLUBBOARD_terms
