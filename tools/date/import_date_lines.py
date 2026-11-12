@@ -885,6 +885,11 @@ if A780:
 #    照格號（date_rewrite.py list 的順序＝下面 slot_refs）換在遊戲那一格：現在是舊字＝換；已經是新字＝跳過（源稿之後 apply 了、33 筆換版）；都不是＝停下來。格數對不上也停。
 # ② 稿的 path_rows 兩列（原句沒進改稿紀錄、是 null 格：子晴 D06.cafe 第一次選項的回覆、語彤 D10.boat remember）：照 path 換（path 可以寫 ['D06.cafe']；指到一句 {who,text}＝換 text），做法同 AA_767。
 # 稿的 SHE_PAYS_add、SPLIT 在 tools/date/import_she_pays.py（她請客、平分）；「不列」那一節（closing／arrive 說的請客）不做。白名單沒有 AA_812＝不疊（改稿紀錄也不讀）
+# 2026-11-12 X324 第三次重匯（SHA 見 tests/date_src_sha.js 的 ALLOW_SHA 那一列）：path_rows 第一列（子晴 D06.cafe 第一次選項的回話「好。下次我請你吃滷味。」→「好。下次我請。」）被 AA 後來的決定取代——
+# AA_846 那一格改成「下次我請你吃滷味。」（AA_846 _meta.late_fix「11-12 10:4x：D06.cafe 改回「下次我請你吃滷味。」（AA_812 再訪有兌現）」，源稿已經是這一句），AA_812 的 path_rows 還沒跟著改。
+# 只認這一列、而且遊戲那一格剛好是下面寫的字才跳過（別的字照舊停下來）；AA 把 AA_812 path_rows 改掉以後這一筆就用不到、可以拿掉。
+SUPER812 = {"loc.D06.lines.heroine_04.hotspots['D06.cafe'].first.choice[1].reply[0]": ('好。下次我請你吃滷味。', '下次我請你吃滷味。', 'AA_846_zq_hao_replies.json 的 _meta.late_fix')}
+SKIP812 = []
 A812 = G.approved_files(ALLOW, SP + 'AA_812_')
 R812, REC812 = [], []
 if A812:
@@ -997,6 +1002,9 @@ def apply812(body):
         if not isinstance(cur, str):
             sys.exit(f'AA_812：{r["path"]} 不是一句台詞')
         if cur == r['new']: continue
+        sp = SUPER812.get(r['path'])
+        if sp and r['old'] == sp[0] and cur == sp[1]:   # 這一格 AA 後來在源稿改了字（見 SUPER812）：不換
+            SKIP812.append((r['path'], r['old'], r['new'], cur, sp[2])); continue
         if cur != r['old'] and cur != N(r['old']):
             sys.exit(f'AA_812：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
         if N(r['new']) != r['new']:
@@ -1108,7 +1116,8 @@ with open(dst, 'w', encoding='utf8') as fo:
         print(f'AA_780@{S780}：以安、子晴、語彤、芷若「第二次當天取消」那一句 5 列（照 path），換了 {n780} 列')
     if A812:
         body, n812 = apply812(body)
-        print(f'AA_812@{S812}：懸著的「下次我請」——改稿紀錄 {len(REC812)} 格（照格號：' + '、'.join(f'{os.path.basename(r["rec"])} 第 {r["n"]} 格' for r in REC812) + f'）＋path_rows {len(R812)} 列（照 path），換了 {n812} 格')
+        print(f'AA_812@{S812}：懸著的「下次我請」——改稿紀錄 {len(REC812)} 格（照格號：' + '、'.join(f'{os.path.basename(r["rec"])} 第 {r["n"]} 格' for r in REC812) + f'）＋path_rows {len(R812)} 列（照 path），換了 {n812} 格'
+              + ''.join(f'；path_rows 跳過 1 列：{p}「{o}」→「{n}」（那一格源稿後來改成「{c}」，{w}）' for p, o, n, c, w in SKIP812))
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))

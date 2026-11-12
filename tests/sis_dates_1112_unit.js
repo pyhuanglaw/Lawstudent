@@ -33,7 +33,7 @@ const ADDP=ADD.flatMap(a=>Object.keys(leaves(a.set,'',{})).map(p=>[a.loc,a.path+
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+PREV+' 在 history',C.ALLOW_SHA==='41f77eab53'&&C.HAO_1112_PREV==='a573a50dca'&&PREV==='b22e4d1277'&&bad.length===0,J(bad));   /* 2026-11-12（X324「好」開頭回話 AA_842～845@41f77eab53）：白名單再換 41f77eab53（只動學姊、語彤、沛珊、芷若第一次選項的回話 259 格，見 date_src_sha.js HAO_1112）；a573a50dca＝C.HAO_1112_PREV。舊期望：C.ALLOW_SHA==='a573a50dca' */
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+PREV+' 在 history',C.ALLOW_SHA==='d7d818f8a8'&&C.HAO2_1112_PREV==='41f77eab53'&&C.HAO_1112_PREV==='a573a50dca'&&PREV==='b22e4d1277'&&bad.length===0,J(bad));   /* 2026-11-12（X324「好」開頭回話 AA_842～845@41f77eab53）：白名單再換 41f77eab53（只動學姊、語彤、沛珊、芷若第一次選項的回話 259 格，見 date_src_sha.js HAO_1112）；a573a50dca＝C.HAO_1112_PREV。舊期望：C.ALLOW_SHA==='a573a50dca' */   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：白名單再換 d7d818f8a8（子晴 81、可昕 83 格選項回話、語彤 66 格再訪句、學姊 5／芷若 2／沛珊 1 格再改，共 238 格）；41f77eab53＝C.HAO2_1112_PREV。舊期望：C.ALLOW_SHA==='41f77eab53' */
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 2
@@ -49,19 +49,21 @@ const ADDP=ADD.flatMap(a=>Object.keys(leaves(a.set,'',{})).map(p=>[a.loc,a.path+
 { const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.ALLOW_SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
   if(Object.keys(SRC).length===33&&Object.keys(OLD).length===33){
     /* 2026-11-12（X324「好」開頭回話 AA_842～845@41f77eab53）：ALLOW_SHA 那一版又多改了四個人 259 格（date_src_sha.js HAO_1112；逐格在 tests/hao_dates_1112_unit.js）——先用 unHao 還原成 a573a50dca 的字再和上一版比。舊寫法：直接拿 SRC[k] 比 */
-    for(const k of LOCS){ SRC[k]=JSON.parse(J(SRC[k])); for(const w of C.HAO_WHO) C.unHao(SRC[k].lines&&SRC[k].lines[w],w,k); }
+    /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：ALLOW_SHA 那一版再多改 238 格（HAO2_1112）——先用 unHao2 還原成 41f77eab53 的字，再 unHao。舊寫法：只 unHao */
+    for(const k of LOCS){ SRC[k]=JSON.parse(J(SRC[k])); for(const w of C.HAO2_WHO) C.unHao2(SRC[k].lines&&SRC[k].lines[w],w,k); for(const w of C.HAO_WHO) C.unHao(SRC[k].lines&&SRC[k].lines[w],w,k); }
     const diff=[]; for(const k of LOCS){ const a=leaves(OLD[k],'',{}), b=leaves(SRC[k],'',{}); for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]) diff.push([k,p,a[p],b[p]]); }
     const want=[...R.map(r=>J([r.loc,'/lines/'+SIS+'/'+r.path,r.old,r.new])),...ADDP.map(([k,p,v])=>J([k,'/lines/'+SIS+'/'+p,undefined,v]))].sort(), have=diff.map(x=>J(x)).sort();
-    check('3. 源稿 '+C.ALLOW_SHA+'（「好」開頭回話 259 格先還原＝'+C.HAO_1112_PREV+'）和上一版 '+PREV+' 逐格比（含 fx）：只有學姊 78 格不同、old／new 都照稿，加上 D01 交往到達多的一套（'+ADDP.length+' 格）；別人 0 格',diff.length===78+ADDP.length&&ADDP.length===3&&J(want)===J(have),J(have.filter(x=>!want.includes(x)).slice(0,3)));
+    check('3. 源稿 '+C.ALLOW_SHA+'（第三次重匯 238 格、「好」開頭回話 259 格先還原＝'+C.HAO_1112_PREV+'）和上一版 '+PREV+' 逐格比（含 fx）：只有學姊 78 格不同、old／new 都照稿，加上 D01 交往到達多的一套（'+ADDP.length+' 格）；別人 0 格',diff.length===78+ADDP.length&&ADDP.length===3&&J(want)===J(have),J(have.filter(x=>!want.includes(x)).slice(0,3)));
     check('3. 源稿拿掉 fx、用 src248 還原（可昕 72、以安 59、學姊 78 格＋多的一套）＝上一版拿掉 fx、還原同樣那幾格',LOCS.every(k=>J(C.src248(k,SRC[k]))===J(C.src248(k,OLD[k]))),J(LOCS.filter(k=>J(C.src248(k,SRC[k]))!==J(C.src248(k,OLD[k])))));
   } else console.log('（跳過第 3 項：讀不到源稿，企劃線沒 fetch）'); }
 
 // 4
 { /* 2026-11-12（X324「好」開頭回話 AA_842@41f77eab53）：78 格裡 D22.maple 第一次選「我們慢慢走。」的回話這一版又改了（拿掉開頭的「好。」）——那一格現在認 HAO_1112 的 new（上一版的字要＝這裡的 new）。舊期望：78 格都＝這一輪的 new */
-  const later=r=>{ const h=C.HAO_1112.find(x=>x.who===SIS&&x.loc===r.loc&&x.path===r.path); return h&&h.old===(r.game||r.new)?h.new:(r.game||r.new); };
-  check('4. 78 格裡之後又改過的只有一格（D22.maple 那句回話，AA_842）',J(R.filter(r=>later(r)!==(r.game||r.new)).map(r=>r.loc+'/'+r.path))===J(['D22/hotspots/D22.maple/first/choice/0/reply/0/text']));
+  /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：78 格裡 D20.trolley 第一次選「現在不覺得了？」的回話這一版又改了（AA_842 late_fix「還是覺得。可是我想坐。」）——那一格現在認 HAO2_1112 的 new。舊期望：之後又改過的只有 D22.maple 一格 */
+  const later=r=>{ let v=(r.game||r.new); const h=C.HAO_1112.find(x=>x.who===SIS&&x.loc===r.loc&&x.path===r.path); if(h&&h.old===v) v=h.new; const h2=C.HAO2_1112.find(x=>x.who===SIS&&x.loc===r.loc&&x.path===r.path); if(h2&&h2.old===v) v=h2.new; return v; };
+  check('4. 78 格裡之後又改過的只有兩格（D20.trolley 那句回話，AA_842 late_fix；D22.maple 那句回話，AA_842）',J(R.filter(r=>later(r)!==(r.game||r.new)).map(r=>r.loc+'/'+r.path))===J(['D20/hotspots/D20.trolley/first/choice/1/reply/0/text','D22/hotspots/D22.maple/first/choice/0/reply/0/text']),J(R.filter(r=>later(r)!==(r.game||r.new)).map(r=>r.loc+'/'+r.path)));
   const bad=R.filter(r=>get(NOW.loc[r.loc].lines[SIS],r.path)!==later(r)).map(r=>r.loc+' '+r.path+'：稿「'+r.new+'」遊戲「'+get(NOW.loc[r.loc].lines[SIS],r.path)+'」');
-  check('4. 遊戲那 78 格＝稿的新字（D22.maple 那一格＝AA_842 再改的字）',bad.length===0,J(bad.slice(0,4)));
+  check('4. 遊戲那 78 格＝稿的新字（D20.trolley、D22.maple 那兩格＝AA_842 再改的字）',bad.length===0,J(bad.slice(0,4)));
   const g=R.filter(r=>r.game);
   check('4. 和稿不一樣的格子：0（沒有被 AA_694 規則改到的句子）',g.length===0&&R.every(r=>require('./ellipsis694.js').strip(r.new)===r.new)&&ADD.every(a=>require('./ellipsis694.js').strip(a.set.lines[0].text)===a.set.lines[0].text),J(g.map(r=>[r.new,r.game])));
   const d=get(NOW.loc.D01.lines[SIS],'arrive/dating');
@@ -72,6 +74,7 @@ const ADDP=ADD.flatMap(a=>Object.keys(leaves(a.set,'',{})).map(p=>[a.loc,a.path+
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
     const want=[...R.map(r=>'/loc/'+r.loc+'/lines/'+SIS+'/'+r.path),...ADDP.map(([k,p])=>'/loc/'+k+'/lines/'+SIS+'/'+p)].sort();
     { const HAOP=C.HAO_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>!want.includes(p)), all=diff.slice(); diff.length=0; for(const p of all) if(!HAOP.includes(p)) diff.push(p); check('5. 之後 AA_842～845（41f77eab53）四個人第一次選項的回話 259 格也換了字（date_src_sha.js HAO_1112；逐格在 tests/hao_dates_1112_unit.js；D22.maple 那一格兩輪都改、留在這一輪的 78 格裡）——這裡先拿掉再比',HAOP.length===258&&HAOP.every(p=>all.includes(p)),J(HAOP.filter(p=>!all.includes(p)))); }   /* 2026-11-12（X324「好」開頭回話）：舊期望是整份只差這 78 格＋多的一套 */
+    { const X=new Set([...C.HAO_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path),...want]), H2=C.HAO2_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>!X.has(p)), all=diff.slice(); diff.length=0; for(const p of all) if(!H2.includes(p)) diff.push(p); check('5. 之後第三次重匯（d7d818f8a8）子晴、可昕第一次選項的回話、語彤再訪句和 late 8 格一共 238 格也換了字（date_src_sha.js HAO2_1112；逐格在 tests/hao2_dates_1112_unit.js；其中 7 格 HAO_1112 也有，上面拿過了；學姊 D20.trolley 那一格這一輪的 78 格裡也有、留在這一輪）——這裡先拿掉再比',H2.length===230&&H2.every(p=>all.includes(p)),J(H2.filter(p=>!all.includes(p)))); }   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 78 格＋多的一套 3 格不同（別人、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 78 格重匯以前＝稿的 old；多的那一套重匯以前沒有',R.every(r=>a['/loc/'+r.loc+'/lines/'+SIS+'/'+r.path]===r.old)&&ADDP.every(([k,p])=>!(('/loc/'+k+'/lines/'+SIS+'/'+p) in a)));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812（別支測試「和重匯以前比」用的還原是對的）',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));

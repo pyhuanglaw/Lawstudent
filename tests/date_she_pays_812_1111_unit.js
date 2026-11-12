@@ -16,7 +16,7 @@ require('./alison.js');
 const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), os=require('os');
-const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', SP='docs/story_planning/', SHA='f1fab0ec6', PREV='248c8e390', SHA812='633b7f7d6';   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：AA_812 這份稿換 633b7f7d6（SHA812）；改稿紀錄 date_rewrite/ 五份、path_rows 照舊 f1fab0ec6（SHA）。舊：AA_812 也是 SHA */
+const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', SP='docs/story_planning/', SHA='f1fab0ec6', PREV='248c8e390', SHA812='d7d818f8a8', SHA812_PREV='633b7f7d6';   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：AA_812 這份稿再換 d7d818f8a8（她請／平分名單五句同步「好」開頭回話的新字；path_rows 沒動）。舊：SHA812='633b7f7d6' */   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：AA_812 這份稿換 633b7f7d6（SHA812）；改稿紀錄 date_rewrite/ 五份、path_rows 照舊 f1fab0ec6（SHA）。舊：AA_812 也是 SHA */
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26}); }catch(e){ return null; } };
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
@@ -78,14 +78,14 @@ const REC=[
   {rec:'peishan_D21',who:PS,loc:'D21',n:20,old:'你要吃什麼？我請你，上次是你請的。',new:'你要吃什麼？這攤我請。'},
   {rec:'kx_D15',who:KX,loc:'D15',n:10,old:'宵夜下次我請。我已經挑好了。',new:'宵夜我請。我已經挑好了，在山下。'}];
 const PATHS=[
-  {at:'/loc/D06/lines/heroine_04/hotspots/D06.cafe/first/choice/1/reply/0/text',old:'好。下次我請你吃滷味。',new:'好。下次我請。'},
+  {at:'/loc/D06/lines/heroine_04/hotspots/D06.cafe/first/choice/1/reply/0/text',old:'好。下次我請你吃滷味。',new:'好。下次我請。',now:'下次我請你吃滷味。'},   /* now：2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）——AA 在 AA_846 late_fix 把這一格改回「下次我請你吃滷味。」，這一列被取代（遊戲那一格現在是 now） */
   {at:'/loc/D10/lines/heroine_03/hotspots/D10.boat/remember/lines/0/text',old:'上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。',new:'上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。這次船票我請。'}];
 
 (async()=>{
   await sec(1,async()=>{ const A=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
     const e812=A.filter(x=>x.path===SP+'AA_812_date_pays_promises.json'), eRec=A.filter(x=>x.path.startsWith(SP+'date_rewrite/'));
     /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：白名單 AA_812 換 633b7f7d6、f1fab0ec6 留在 history。舊期望：sha＝f1fab0ec6、沒有 history */
-    check('1. 白名單 AA_812_date_pays_promises.json 一筆：'+SHA812+'（history 有 '+SHA+'）、approved、有 approvedBy、task DLG-FULL-REVIEW-1110',e812.length===1&&e812[0].sha===SHA812&&(e812[0].history||[]).some(h=>h.sha===SHA)&&e812[0].status==='approved'&&!!e812[0].approvedBy&&e812[0].task==='DLG-FULL-REVIEW-1110',J(e812.map(x=>[x.sha,x.status,(x.history||[]).map(h=>h.sha)])));
+    check('1. 白名單 AA_812_date_pays_promises.json 一筆：'+SHA812+'（history 有 '+SHA+'、'+SHA812_PREV+'）、approved、有 approvedBy、task DLG-FULL-REVIEW-1110',e812.length===1&&e812[0].sha===SHA812&&(e812[0].history||[]).some(h=>h.sha===SHA)&&(e812[0].history||[]).some(h=>h.sha===SHA812_PREV)&&e812[0].status==='approved'&&!!e812[0].approvedBy&&e812[0].task==='DLG-FULL-REVIEW-1110',J(e812.map(x=>[x.sha,x.status,(x.history||[]).map(h=>h.sha)])));
     check('1. 白名單改稿紀錄 date_rewrite/ 剛好五筆（kx_D15、peishan_D15、peishan_D21、sis_D06、zq_D06）：都是 '+SHA+'、approved、approvedBy 寫著 AA_812 懸著的承諾',J(eRec.map(x=>x.path.slice((SP+'date_rewrite/').length)).sort())===J(['kx_D15.json','peishan_D15.json','peishan_D21.json','sis_D06.json','zq_D06.json'])&&eRec.every(x=>x.sha===SHA&&x.status==='approved'&&/f1fab0ec6（AA 11-11 AA_812 懸著的承諾）/.test(x.approvedBy||'')&&x.task==='DLG-FULL-REVIEW-1110'),J(eRec.map(x=>[x.path,x.sha])));
     /* 2026-11-11 19:03 起 D01～D33 再換 52c3ee258（AA 加選項 fx，X324；只多 fx、字和 248c8e390 一樣）：那一版也算，248c8e390 要在 history */
     check('1. 白名單 date_system/lines/D01～D33 還是 '+PREV+'（或之後只加 fx 的 '+require('./date_src_sha.js').ALLOW_SHA+'、'+PREV+' 在 history）（AA_812 沒有改源稿 Dxx.json；改稿紀錄是另外一層）',A.filter(x=>/date_system\/lines\/D\d\d\.json$/.test(x.path)).every(x=>x.sha===PREV||(x.sha===require('./date_src_sha.js').ALLOW_SHA&&(x.history||[]).some(h=>h.sha===PREV)))&&A.filter(x=>/date_system\/lines\/D\d\d\.json$/.test(x.path)).length===33);
@@ -93,7 +93,7 @@ const PATHS=[
     check('1. src/data/she_pays.js 和重匯一致（tools/date/import_she_pays.py --check）；來源寫 AA_782＋AA_812',sp.status===0&&D.src.endsWith('＋'+SP+'AA_812_date_pays_promises.json@'+SHA812),   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）。舊期望：@'+SHA（f1fab0ec6） */(sp.stdout||sp.stderr||'').slice(-200));
     const out=path.join(os.tmpdir(),'date_lines_812_'+process.pid+'.js'); const r=cp.spawnSync('python3',[path.join(H.ROOT,'tools/date/import_date_lines.py'),'--out',out],{encoding:'utf8',timeout:300000});
     const same=r.status===0&&fs.existsSync(out)&&fs.readFileSync(out,'utf8')===read('src/data/date_lines.js'); try{ fs.unlinkSync(out); }catch(e){}
-    check('1. src/data/date_lines.js 和重匯一致（tools/date/import_date_lines.py --out；AA_812 那一步：改稿紀錄 5 格＋path_rows 2 列，換了 7 格）',same&&/AA_812@633b7f7d6：懸著的「下次我請」——改稿紀錄 5 格.*換了 7 格/.test(r.stdout||'')   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：匯入工具印 AA_812@633b7f7d6。舊期望：AA_812@f1fab0ec6 */,(r.stderr||'').slice(-300));
+    check('1. src/data/date_lines.js 和重匯一致（tools/date/import_date_lines.py --out；AA_812 那一步：改稿紀錄 5 格＋path_rows 2 列，換了 6 格、path_rows 跳過 1 列＝子晴 D06.cafe）',same&&new RegExp('AA_812@'+SHA812+'：懸著的「下次我請」——改稿紀錄 5 格.*換了 6 格；path_rows 跳過 1 列：[^；\\n]*D06\\.cafe[^；\\n]*「好。下次我請你吃滷味。」→「好。下次我請。」（那一格源稿後來改成「下次我請你吃滷味。」').test(r.stdout||'')   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：AA 在 AA_846 late_fix 把子晴 D06.cafe 那一格改回「下次我請你吃滷味。」，path_rows 第一列被取代（工具 SUPER812 只跳過這一列）。舊期望：/AA_812@633b7f7d6：…換了 7 格/ */   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：匯入工具印 AA_812@633b7f7d6。舊期望：AA_812@f1fab0ec6 */,(r.stderr||'').slice(-300));
     /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：來源 AA_812@633b7f7d6，五份改稿紀錄照舊 @f1fab0ec6。舊期望：六份都 @f1fab0ec6 */
     check('1. date_lines.js 的來源寫著 AA_812（@'+SHA812+'）和五份改稿紀錄（@'+SHA+'）',NOW.source.includes('＋AA_812_date_pays_promises.json@'+SHA812)&&!NOW.source.includes('AA_812_date_pays_promises.json@'+SHA)&&['kx_D15.json','peishan_D15.json','peishan_D21.json','sis_D06.json','zq_D06.json'].every(f=>NOW.source.includes('＋'+f+'@'+SHA))); });
 
@@ -104,18 +104,18 @@ const PATHS=[
       if(a&&b){ const A=JSON.parse(a)[x.loc], B=JSON.parse(b)[x.loc], d=A.map((v,i)=>v===B[i]?null:[i+1,v,B[i]]).filter(Boolean);
         check('2. 改稿紀錄 '+x.rec+'：'+PREV+' → '+SHA+' 只差第 '+x.n+' 格（舊句→新句，AA_812 這一次）；格數＝遊戲她在 '+x.loc+' 的格數',J(d)===J([[x.n,x.old,x.new]])&&B.length===sl.length,J(d)); }
       else console.log('（這份 checkout 讀不到企劃線的 date_rewrite/'+x.rec+'.json：不比改稿紀錄）'); }
-    for(const x of PATHS) check('2. path_rows：'+x.at+' 是新句「'+x.new+'」、整份 date_lines.js 沒有舊句',getAt(NOW,x.at)===x.new&&!Object.values(leaves(NOW,'',{})).includes(x.old),J(getAt(NOW,x.at)));
+    for(const x of PATHS) check('2. path_rows：'+x.at+' 是'+(x.now?'AA 後來改回的「'+x.now+'」（這一列被 AA_846 late_fix 取代）':'新句「'+x.new+'」')+'、整份 date_lines.js 沒有舊句',getAt(NOW,x.at)===(x.now||x.new)&&!Object.values(leaves(NOW,'',{})).includes(x.old),J(getAt(NOW,x.at)));
     if(A812){ const pr=A812.path_rows.map(r=>({path:r.path,old:r.old,new:r.new}));
-      check('2. 稿 AA_812@'+SHA812+' 的 path_rows 兩列＝上面兩格（舊句、新句一字不差；633b7f7d6 沒動 path_rows）',pr.length===2&&pr.every((r,i)=>r.old===PATHS[i].old&&r.new===PATHS[i].new)&&/D06\.cafe/.test(pr[0].path)&&/D10\.boat/.test(pr[1].path),J(pr)); }
+      check('2. 稿 AA_812@'+SHA812+' 的 path_rows 兩列＝上面兩格（舊句、新句一字不差；633b7f7d6、d7d818f8a8 都沒動 path_rows）',pr.length===2&&pr.every((r,i)=>r.old===PATHS[i].old&&r.new===PATHS[i].new)&&/D06\.cafe/.test(pr[0].path)&&/D10\.boat/.test(pr[1].path),J(pr)); }
     else console.log('（這份 checkout 讀不到企劃線的 AA_812：不比稿）'); });
 
   await sec(3,async()=>{ const all=leaves(NOW,'',{});
     /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：SPLIT 學姊 D22.fish 多一句「好。你堅持的話。」、D30.stall 那一句拿掉＝還是 11 句、互動點 10 個。舊期望：平分 11 句（11 個互動點） */
     check('3. 稿的數量：她付全部 18 句（17 個互動點）、平分 11 句（10 個互動點：學姊 D22.fish 兩句）；cells812＝18＋11 列',PAYS.length===18&&new Set(PAYS.map(c=>c.who+' '+c.pid)).size===17&&SPL.length===11&&new Set(SPL.map(c=>c.who+' '+c.pid)).size===10,J([PAYS.length,SPL.length,new Set(SPL.map(c=>c.who+' '+c.pid)).size]));
     if(A812){ const flat=X=>[].concat(...Object.keys(X).map(w=>[].concat(...Object.keys(X[w]).map(p=>X[w][p].map(t=>[w,p,t])))));
-      check('3. cells812 和稿 AA_812@'+SHA812+' 的 SHE_PAYS_add、SPLIT 一字不差、同樣的順序（源稿後來換了字的三句拿 was 比）',J(PAYS.map(c=>[c.who,c.pid,c.was||c.text]))===J(flat(A812.SHE_PAYS_add))&&J(SPL.map(c=>[c.who,c.pid,c.was||c.text]))===J(flat(A812.SPLIT)));   /* 2026-11-12（X324「好」開頭回話 AA_842／AA_843@41f77eab53）：稿 AA_812 還是舊字，遊戲那三格 AA 拿掉了開頭的「好。」——cells812 的 text 是現在的字、was 是 AA_812 寫的（import_she_pays.py REWORD）。舊期望：text 和稿一字不差 */
+      check('3. cells812 和稿 AA_812@'+SHA812+' 的 SHE_PAYS_add、SPLIT 一字不差、同樣的順序（稿已經同步新字，沒有 was）',J(PAYS.map(c=>[c.who,c.pid,c.was||c.text]))===J(flat(A812.SHE_PAYS_add))&&J(SPL.map(c=>[c.who,c.pid,c.was||c.text]))===J(flat(A812.SPLIT)));   /* 2026-11-12（X324「好」開頭回話 AA_842／AA_843@41f77eab53）：稿 AA_812 還是舊字，遊戲那三格 AA 拿掉了開頭的「好。」——cells812 的 text 是現在的字、was 是 AA_812 寫的（import_she_pays.py REWORD）。舊期望：text 和稿一字不差 */
       const rw=PAYS.concat(SPL).filter(c=>c.was).map(c=>[c.kind,c.who,c.pid,c.was,c.text]);
-      check('3. 換了字的只有三句：語彤 D12.pier 她請、學姊 D22.fish 平分兩句（都是拿掉開頭的「好。」）',J(rw)===J([['pays','heroine_03','D12.pier','好。盡頭有一個賣咖啡的貨櫃，我請你。','盡頭有一個賣咖啡的貨櫃，我請你。'],['split','heroine_05','D22.fish','好。飯我請，飲料你請。','飯我請，飲料你請。'],['split','heroine_05','D22.fish','好。你堅持的話。','你堅持的話。']]),J(rw)); }
+      check('3. 換了字的（cells812 有 was）：0 句——AA 在 d7d818f8a8 把 AA_812 同步成新字，import_she_pays.py 的 REWORD 清空',J(rw)===J([]),J(rw)); }   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）。舊期望：三句有 was（語彤 D12.pier 她請「好。盡頭有一個賣咖啡的貨櫃，我請你。」、學姊 D22.fish 平分「好。飯我請，飲料你請。」「好。你堅持的話。」） */
     const bad=[];
     for(const c of C812){ const h=HS(c.who,c.pid), L=leaves(h,'',{}), at=Object.keys(L).filter(p=>L[p]===c.text);
       if(at.length!==1) bad.push(c.who+' '+c.pid+' 「'+c.text+'」在她那個互動點底下 '+at.length+' 處');
@@ -184,7 +184,7 @@ const PATHS=[
        舊期望：S.REMEMBER_IF 照舊換成備用句「這家的位子我記得，靠牆那桌插座最近。」——咖啡廳照扣 160 */
     check('7. 沒旗標（第一次選了另一個）：S.REMEMBER_IF 沒有 D06.cafe 那一列（AA_812@'+SHA812+'），一樣聽「這家我來過兩次了。這次我請，你不要算。」——咖啡廳不扣；聽不到 AA_775 的備用句',!RI&&!DATE.REMEMBER_IF.some(r=>r.loc==='D06'||r.pid==='D06.cafe')&&!!b.b.ok&&b.said.includes('這家我來過兩次了。這次我請，你不要算。')&&!b.said.includes('這家的位子我記得，靠牆那桌插座最近。')&&J(paid(b,P.name))==='[]'&&!('shePaid' in (b.t||{})),J([b.b.why,b.ch,b.said.slice(0,4)]));
     const f=await trip(ZQ,'D06.cafe','first',null,1);
-    check('7. 第一次選「我請妳。」她回「好。下次我請。」（path_rows；滷味拿掉了）、記 ZQ_D06_TREAT；咖啡廳照扣 160（這一次是祐廷請）',!!f.b.ok&&f.said.includes('好。下次我請。')&&!f.said.some(x=>/滷味/.test(x))&&H.G.flags.ZQ_D06_TREAT!=null&&J(paid(f,P.name))===J([P.cost]),J([f.b.why,f.ch,f.said.slice(0,4)])); });
+    check('7. 第一次選「我請妳。」她回「下次我請你吃滷味。」（AA_846 late_fix 改回）、記 ZQ_D06_TREAT；咖啡廳照扣 160（這一次是祐廷請）',!!f.b.ok&&f.said.includes('下次我請你吃滷味。')&&!f.said.includes('好。下次我請。')&&H.G.flags.ZQ_D06_TREAT!=null&&J(paid(f,P.name))===J([P.cost]),J([f.b.why,f.ch,f.said.slice(0,4)])); });   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：AA 把這句回話改回「下次我請你吃滷味。」（AA_846 _meta.late_fix）。舊期望：f.said.includes('好。下次我請。')&&!f.said.some(x=>/滷味/.test(x)) */
 
   await sec(8,async()=>{ const code=read('src/date3d.js').replace(/\/\*[\s\S]*?\*\//g,''), n=s=>code.split(s).length-1;
     check('8. 程式：S.scene、S.dayRound 兩條路都在 S.spotLine 演完的當下 S.takeSplit、S.takeShePaid 各看一次，S.halfOf(free?0:S.pointCost(p,t),half) 扣；S.spotLine 一開始兩個都清；只有 S.playSet 演到她那一句才記（S.splitMark）；快速約會那一段沒有 half',
