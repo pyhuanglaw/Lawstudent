@@ -8400,7 +8400,13 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "task": "LANE118 五個原始檔",
-   "files": [],
+   "files": [
+    "tests/l118_shops_notrap_1111_unit.js",
+    "tools/blender/env_second/l118_food_tex.py",
+    "tools/blender/env_second/l118_signs_tex.py",
+    "tools/blender/env_second/textures/gen/l118_signs_atlas.jpg",
+    "tools/blender/env_second/textures/gen/l118_signs_atlas.json"
+   ],
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "118 巷五個原始檔的保存（檢查點 commit；之後的交件另有登記）：118 巷新增的五個原始檔在自己的分支留一份（第二批的最後版本；正式的在交付的 patch 裡）：新測試、餐點圖和招牌貼圖的腳本、招牌貼圖集",
@@ -8412,7 +8418,14 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "task": "NTU-REF-1110 ③-1",
-   "files": [],
+   "files": [
+    "assets/models/env/second_ai/campus_male1.glb",
+    "assets/models/env/second_ai/campus_male1.json",
+    "docs/art-rebuild/second_ai/wip/ntu_ref_male1_1110/README.md",
+    "docs/art-rebuild/second_ai/wip/ntu_ref_male1_1110/male1_before_after.jpg",
+    "docs/art-rebuild/second_ai/wip/ntu_ref_male1_1110/ntu_ref_male1_unit.js",
+    "tools/blender/env_second/campus_male1.py"
+   ],
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "男一舍清水模 WIP 保存（檢查點 commit；之後的交件另有登記）：NTU-REF-1110 ③-1 WIP：男一舍清水模＋樓梯塔圓窗（模型、測試好了，回歸跑中）",
@@ -8424,7 +8437,14 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "task": "PERF-CAMPUS-GLB ②",
-   "files": [],
+   "files": [
+    "assets/models/env/second_ai/campus_admin.glb",
+    "assets/models/env/second_ai/campus_admin.json",
+    "assets/models/env/second_ai/campus_arts.glb",
+    "assets/models/env/second_ai/campus_arts.json",
+    "assets/models/env/second_ai/campus_hist.glb",
+    "assets/models/env/second_ai/campus_hist.json"
+   ],
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "WIP 保存（檢查點 commit；之後的交件另有登記）：PERF-CAMPUS-GLB ② WIP：窗邊洗石子、木窗框另一張不投影的貼圖集（ck_win_tiles）；三棟 draw call 47 → 18（teach 類鏡頭），三角形 37k → 64k；回歸跑中",
@@ -8436,7 +8456,14 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "task": "PUTONG101-WINDOW v2",
-   "files": [],
+   "files": [
+    "assets/models/env/second_ai/campus_boya.glb",
+    "assets/models/env/second_ai/campus_boya.json",
+    "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2/README.md",
+    "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2/putong101_window_unit.js",
+    "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2/regression.log",
+    "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2/zones3d_wip.patch"
+   ],
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "WIP 保存（檢查點 commit；之後的交件另有登記）：PUTONG101-WINDOW v2 WIP：博思一樓玻璃外加「反射天空」（測試全過，但 teach_east_drawcall 博雅 5>4，等 LAWWW 決定 A／B；不要整合）",
@@ -8448,7 +8475,12 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "task": "LIB-B1-COURT-ART-1110 v1b",
-   "files": [],
+   "files": [
+    "assets/models/env/second_ai/lib_b1_court.glb",
+    "assets/models/env/second_ai/lib_b1_court.json",
+    "docs/art-rebuild/second_ai/wip/lib_b1_court_1110/README.md",
+    "docs/art-rebuild/second_ai/wip/lib_b1_court_1110/b1c_v1_sheet.jpg"
+   ],
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "WIP 保存（檢查點 commit；之後的交件另有登記）：WIP LIB-B1-COURT-ART-1110：v1b（牆頂葉子縮小）重匯＋README、對照圖；接線 patch 回歸跑中",
