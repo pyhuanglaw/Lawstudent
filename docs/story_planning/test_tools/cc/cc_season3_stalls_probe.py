@@ -71,19 +71,20 @@ NODE_JS = r"""(a=>{ const E=GAME.E, z=E.zone, root=z&&z.seasonRoot; if(!root) re
   root.traverse(o=>{ if(o.name==='SEASON_'+a.code+'_on') node=o; }); if(!node) return {root:true,node:false,codes:z.seasonCodes||null};
   let v=true; for(let o=node;o;o=o.parent) if(!o.visible){ v=false; break; } let meshes=0; node.traverse(o=>{ if(o.isMesh) meshes++; });
   const box=new THREE.Box3().setFromObject(node); let inView=null; if(a.cam){ const cam=E.camera; cam.updateMatrixWorld(); const M=new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse); inView=!box.isEmpty()&&new THREE.Frustum().setFromProjectionMatrix(M).intersectsBox(box); }
-  return {root:true,node:true,visible:v,meshes,inView,codes:z.seasonCodes||null,box:box.isEmpty()?null:[box.min.x,box.max.x,box.min.z,box.max.z].map(n=>+n.toFixed(2))}; })"""
+  return {root:true,node:true,visible:v,meshes,inView,codes:z.seasonCodes||null,box:box.isEmpty()?null:[box.min.x,box.max.x,box.min.z,box.max.z,box.min.y,box.max.y].map(n=>+n.toFixed(2))}; })"""
 ITS_JS = r"""(a=>{ const E=GAME.E; return E.interactables.filter(i=>!i.hidden&&(a.kind==='stall'?(i.seasonStall===a.key||(a.label&&i.label===a.label)):(i.seasonLook===a.key||(a.label&&i.label===a.label&&Math.hypot(i.x-a.x,i.z-a.z)<2))))
   .map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||null,stall:i.seasonStall||null,look:i.seasonLook||null,fn:typeof i.onInteract==='function'})); })"""
 NEARBY_JS = r"""(a=>GAME.E.interactables.filter(i=>!i.hidden&&Math.hypot(i.x-a.x,i.z-a.z)<a.r).map(i=>({label:i.label||'',x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.8,prio:i.prio||0})))"""
 # 互動範圍裡挑站得住的點：照 engine3d.js nearestInteractable 的規則（d<radius||1.8、d−prio 最小；同層、不藏）找「最近的就是它」的格子；只用來挑走到哪裡，判的是畫面上的互動鍵
 SPOT_JS = r"""(a=>{ const E=GAME.E, its=E.interactables.filter(i=>!i.hidden&&!(E.levels&&i.lv!==undefined&&(i.lv|0)!==0));
   const me=its.find(i=>a.kind==='stall'?i.seasonStall===a.key:(i.seasonLook===a.key)); if(!me) return {err:'沒有那個互動點'};
-  const R=me.radius||1.8, cand=[]; let tried=0, stand=0;
-  for(let x=me.x-R; x<=me.x+R+1e-6; x+=0.1) for(let z=me.z-R; z<=me.z+R+1e-6; z+=0.1){ const d=Math.hypot(x-me.x,z-me.z); if(d>R-0.15) continue; tried++; if(!E.canStand(x,z,0.3,0)) continue; stand++;
+  const R=me.radius||1.8, cand=[]; let tried=0, stand=0, nearStand=null;
+  for(let x=me.x-R-1.5; x<=me.x+R+1.5+1e-6; x+=0.05) for(let z=me.z-R-1.5; z<=me.z+R+1.5+1e-6; z+=0.05){ const d=Math.hypot(x-me.x,z-me.z); if(d>R+1.5) continue; const ok=E.canStand(x,z,0.3,0); if(ok&&(nearStand==null||d<nearStand)) nearStand=d;
+    if(d>=R-0.02) continue; tried++; if(!ok) continue; stand++;   /* 遊戲：d<radius 才出按鈕（engine3d.js nearestInteractable）；留 2 cm */
     let best=null, bd=1e9, sec=1e9; for(const it of its){ if(it.seat&&it.seat.taken) continue; const dd=Math.hypot(it.x-x,it.z-z); if(dd<(it.radius||1.8)){ const s=dd-(it.prio||0); if(s<bd){ sec=bd; bd=s; best=it; } else if(s<sec) sec=s; } }
-    if(best!==me) continue; cand.push({x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2),margin:+Math.min(9,sec-bd).toFixed(2)}); }
-  cand.sort((p,q)=>((q.margin>=0.3)-(p.margin>=0.3))||(p.d-q.d));
-  return {me:{x:me.x,z:me.z,r:R,label:me.label}, tried, stand, n:cand.length, best:cand[0]||null}; })"""
+    if(best!==me) continue; cand.push({x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2),margin:+Math.min(9,sec-bd).toFixed(2),edge:d>R-0.15}); }
+  cand.sort((p,q)=>((q.margin>=0.3)-(p.margin>=0.3))||(p.edge-q.edge)||(p.d-q.d));   /* 先挑離別的互動點遠、不在範圍邊上（0.15 m 內）的；只有邊上站得住也照試（玩家停偏一點就沒按鈕＝記下來）*/
+  return {me:{x:me.x,z:me.z,r:R,label:me.label}, tried, stand, n:cand.length, nearestStand:nearStand==null?null:+nearStand.toFixed(2), best:cand[0]||null}; })"""
 # 起點：離站位 4～7 m、站得住、pathTo 有路而且不繞（≤ 直線 1.8 倍）、不在任何季節互動點範圍裡；先試「往外」（攤子 → 客人那一面）的方向
 START_JS = r"""(a=>{ const E=GAME.E, out=[], why={stand:0,path:0,detour:0,inR:0}; const base=Math.atan2(a.ox,a.oz);
   for(const dist of [5,6,4,7]) for(let k=0;k<24;k++){ const ang=base+(k%2?1:-1)*Math.ceil(k/2)*Math.PI/12, x=a.x+Math.sin(ang)*dist, z=a.z+Math.cos(ang)*dist;
@@ -444,10 +445,12 @@ async def look_one(pg, cdp, lid, errs, parts):
                     else: await walk_diag(pg, tag, sp['best']['x'], sp['best']['z'])
                     fb1 = (await D.st(pg))['fb']; mv = await D.pushable(pg, cdp)
                     R.check('%s walkFallbacks 沒加（%d → %d）、推得動 ≥%.1f m' % (tag, fb0, fb1, PUSH_MIN), fb1 == fb0 and mv >= PUSH_MIN, J(mv))
-            cam = {'eye': [q['x'], 2.2, q['z'] + 4.0], 'look': [q['x'], 1.0, q['z']], 'lens': 24}   # 沒有站位時的備用：+z 那一側 4 m
-            if sp.get('best'):   # 從看的位置往玩家站的那一側退 4 m（CC_02 乙 9）
+            bx = (nd or {}).get('box')   # 看的是模型節點的中心（燈籠掛在 3 m 以上：看 y 中心，不是 1 m）
+            tgt = [round((bx[0] + bx[1]) / 2, 2), round((bx[4] + bx[5]) / 2, 2), round((bx[2] + bx[3]) / 2, 2)] if bx else [q['x'], 1.0, q['z']]
+            cam = {'eye': [q['x'], 1.7, q['z'] + 3.0], 'look': tgt, 'lens': 24}   # 沒有站位時的備用：+z 那一側 3 m
+            if sp.get('best'):   # 機位＝玩家站的位置再往外退 2 m、眼睛高 1.7 m（CC_02 乙 9：r1 從看的位置退 4 m，花序那一張鏡頭在牆裡）
                 dx, dz = sp['best']['x'] - q['x'], sp['best']['z'] - q['z']; m = math.hypot(dx, dz) or 1
-                cam = {'eye': [round(q['x'] + dx / m * 4.0, 2), 2.2, round(q['z'] + dz / m * 4.0, 2)], 'look': [q['x'], 1.0, q['z']], 'lens': 24}
+                cam = {'eye': [round(sp['best']['x'] + dx / m * 2.0, 2), 1.7, round(sp['best']['z'] + dz / m * 2.0, 2)], 'look': tgt, 'lens': 24}
             await snap(pg, 'season3_%s_look_%s' % (TAG, lid), cam, code)
             R.check('%s 沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 3]))
     if 'LOOKOUT' in parts:

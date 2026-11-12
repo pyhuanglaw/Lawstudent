@@ -20,6 +20,8 @@ P0_STUTTER2_v91025_dsf1 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | doc
 P0_STUTTER2_v91025_dsf1_25 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025_dsf1_25;VIEW=2308x1064;DSF=1.25;HOUR=17.58;ZONES=wenzhou,campus;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 P0_STUTTER2_v91025_dsf1_5 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025_dsf1_5;VIEW=2308x1064;DSF=1.5;HOUR=17.58;ZONES=wenzhou,campus;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 P0_STUTTER2_v91025_dsf2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025_dsf2;VIEW=2308x1064;DSF=2;HOUR=17.58;ZONES=wenzhou,campus;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+# P0 BB-C 05:03：27710fb967（LAWWW2 207d70f5f：窗景、泰米蘭花、東南大聯／汀州聯通天花板 3.3 m、正面牆零件跟牆淡出）——泰米、東南大聯、汀州聯通重拍（對照 1cd2／bd86 的 FAIL）；店內照探針 TZ 模式（雲端驗過）
+P0_SHOPVIEW_2771_tz3 | 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37 | probe | docs/story_planning/test_tools/cc/cc_shop_view_probe.py | index.html | 15 | SHOPS=taimi,dongnan,liantong;HOURS=14,20.5;SHA=27710fb9673ec113f5cdf8f532dd0f66dfeb4b37
 
 P0_STUTTER_v91021 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91021;RUN_S=10;SHA=aa0f3bcd30eea217ec732963851ea5f3b35e8d97
 P0_STUTTER_v91025 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
