@@ -225,7 +225,8 @@ const R2Y3B=(function(){
 
   /* ===================== 2-Y3-44 可昕 K20：5/11 21:00 她約；5/12 19:00 公館河濱；沒去河濱、日本路線＝沒有（電話版拿掉）===================== */
   S.kxDirHeard=G=>{ const F=G.flags; F.KX_DIR=Object.assign({},F.KX_DIR&&typeof F.KX_DIR==='object'?F.KX_DIR:{},{Y3:'heard'}); };
-  S.k20Phone=function(G){ const d11=D('2028-05-11'), d12=D('2028-05-12'), d13=D('2028-05-13'); if(d11==null||G.day<d11||G.day>(d13!=null?d13:d12)+1||!dating(G,'kexin')) return; const F=G.flags, K=M('p:kexin','kexin'), jp=inJP(G,d12);
+  S.kxFriend=G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&!!SOCIAL.stage&&SOCIAL.STAGES.indexOf(SOCIAL.stage('kexin'))>=SOCIAL.STAGES.indexOf('FRIEND')&&!!(typeof STORY==='undefined'||!STORY.kxKnown||STORY.kxKnown(G));   /* AA_873 ⑤：朋友以上就有（不分交往）*/
+  S.k20Phone=function(G){ const d11=D('2028-05-11'), d12=D('2028-05-12'), d13=D('2028-05-13'); if(d11==null||G.day<d11||G.day>(d13!=null?d13:d12)+1||!(dating(G,'kexin')||S.kxFriend(G))) return; const F=G.flags, K=M('p:kexin','kexin'), jp=inJP(G,d12);
     if(!jp&&now(G)>=T(d11,21)&&now(G)<T(d12,19)&&!PHONE.sent(G,'y3_kx_k20'))
       PHONE.at(G,d11,21,[Object.assign(K('明天傍晚七點，河濱。我想跟你說一件實習遇到的事。'),{ask:{id:'y3_kx_k20',until:T(d12,18),opts:[
         {t:'好。',say:[{from:'kexin',text:'嗯。'}],set:{KX_K20_GO:true}},{t:'明天不行。',say:[{from:'kexin',text:'……好。那禮拜六，一樣七點，河濱。'}],set:{KX_K20_GO:'sat'}}]}})],'y3_kx_k20');   /* AA_900 第 4 節：改週六（原本的電話拿掉）*/

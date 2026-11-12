@@ -7,6 +7,14 @@
    ev_peishan_doubt、ev_peishan_bohan_w4、ev_peishan_table_bench（對話＋after 寫進手機那一句）、ev_peishan_table_mail、ev_peishan_tutoring、ev_peishan_handover。只換她的句子；選項、條件、旗標、數值不動。逐字對稿：tests/peishan_events_1111_unit.js */
 /* 群戲「只有認識的人在場」（交接包 v1 交付清單第 0 節第 1 點）：if:EV_KNOWS('id')／if:EV_KNOWS('a','b')＝都認識了（STORY.knows：FIRST_MET；Alison met_yu；阿哲開場就熟）*/
 let KX_END_C=null;   /* ev_kx_y1s1_end：期末最後一科考完的時間（算一次）*/
+/* 可昕自己的線（AA_873）：朋友以上（min：FAMILIAR／FRIEND）或交往中、今天在臺北（寒暑假回高雄不算）；不讀 dating_kexin 以外的交往狀態 */
+const KX_LINE_OK=(G,min)=>{ if(!G||(G.stage||'law')!=='law'||typeof STORY==='undefined') return false; if(STORY.kxKnown&&!STORY.kxKnown(G)) return false;
+  if(STORY.abroad&&STORY.abroad(G)) return false; if(STORY.presence&&!STORY.presence('kexin',G).here) return false;
+  if(G.flags&&G.flags.dating_kexin===true) return true; if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.stage) return false;
+  return SOCIAL.STAGES.indexOf(SOCIAL.stage('kexin'))>=SOCIAL.STAGES.indexOf(min); };
+/* AA_873 ④：大三上人在國外的順延到回來以後的那個學期同樣的週次——現在這一學期以前的學期，那一週人都在國外才算輪到這一學期 */
+const KX_LINE_TERM=(G,terms,wk)=>{ if(typeof CALENDAR==='undefined'||typeof STORY==='undefined'||!STORY.termDay) return true; const t=CALENDAR.termOf(G.day); if(!t) return false; const i=terms.indexOf(t.id); if(i<0) return false;
+  for(let k=0;k<i;k++){ const d=STORY.termDay(terms[k],wk,1); if(d==null) continue; if(!(STORY.abroad&&STORY.abroad(Object.assign({},G,{day:d})))) return false; } return true; };
 const EV_KNOWS=(...ids)=>({custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&ids.every(id=>STORY.knows(id,G))});
 /* 柏翰×沛珊那一段（大一下第 7 週起的 partner、4/15 期中晚餐公開、大二上第 6 週分手、ps_split_group）：認識沛珊、而且沒有和她交往（AA_374 第 11 項）*/
 const PS_BH={custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_peishan',G)&&!(G.flags&&G.flags.dating_classmate_peishan)};
@@ -2676,6 +2684,103 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'kexin',text:'那我帶東西上來。你吃不吃辣？高雄的東西都有一點甜，先跟你講。'},{goto:'z'},
       {label:'b'},{speaker:'kexin',text:'想去哪就去。不要到開學才後悔。'},
       {label:'z'} ] },
+  /* ===== 可昕自己的線：大一下到大四的六拍（CANON-NO-ECON-1112 第四批；企劃線 AA_873 定稿，BB_416）=====
+     不分交往：朋友以上（①②③ 熟悉、④⑥ 朋友；交往中的一樣看得到，台詞兩種都通）＋那一週在校園遇到她（STORY.presence here）；錯過那一週順延到學期末前（carryTo）。
+     ②③④ 沿用原本的事件 id（內文整場換，原本的手機邀約、視訊、電話拿掉）；①⑥ 是新事件；⑤ 河濱＝ev_kexin_k20（r2y3b_events.js，日子照 AA_900 第 4 節）。
+     ④ 祐廷大三上人在國外的：順延到回來以後的那個學期（大三下或大四上）同樣的週次（KX_LINE_TERM）。「室友」「大一學妹」不是人物：只有名牌、沒有立繪。 */
+  { id:'ev_kx_s1_deposit', title:'', participants:['kexin'], location:'campus', trigger:'auto', near:{x:20,z:57,r:9}, term:['Y1S2'], weeks:[12], carryTo:15, time:[16.5,20], once:true, background:'blur',
+    prereq:{custom:G=>KX_LINE_OK(G,'FAMILIAR')},
+    dialogue:[
+      {speaker:null,text:'（宿舍樓下的長椅。可昕旁邊坐著她室友，兩個人中間攤著幾張紙。室友眼睛是紅的。）'},
+      {speaker:'kexin',text:'你來得剛好。你看得懂租約嗎？'},
+      {speaker:'kexin',text:'她暑假要搬出去住，簽了約、付了押金。現在不想租了，房東說押金一毛都不退。'},
+      {choice:[{text:'「我看看。」',goto:'a'},{text:'「這個要問老師吧。」',goto:'b'}]},
+      {label:'a'},{speaker:null,text:'（你把那幾張紙看了一遍。有幾行字很小。）'},{speaker:'kexin',text:'你看這麼久，是看懂了還是沒看懂？……我也是。走，去問助教。'},{goto:'z'},
+      {label:'b'},{speaker:'kexin',text:'我知道要問。可是她現在就在哭，我不能叫她哭到禮拜一。'},
+      {label:'z'},
+      {speaker:null,text:'（她把租約拿回去，一行一行用手指著念。念到第三頁她停下來。）'},
+      {speaker:'kexin',text:'這裡。「簽約後反悔，押金不退」是房東自己講的。紙上寫的是另一回事，寫的是搬進去以後的事。'},
+      {speaker:'kexin',text:'她根本還沒搬進去。'},
+      {speaker:'kexin',text:'（對室友）我沒有說妳一定拿得回來。我是說，他講的那句話，紙上沒有。妳明天拿這一頁去問他，叫他指給妳看是哪一行。'},
+      {speaker:null,text:'（室友看著那一頁，過了一會兒，把眼淚擦掉了。）'},
+      {speaker:'室友',text:'……妳這樣講我就懂了。我本來以為是我笨。'},
+      {speaker:'kexin',text:'妳哪裡笨。是字太小。'},
+      {speaker:null,text:'（室友先上樓了。可昕把剩下的紙疊好。）'},
+      {speaker:'kexin',text:'我剛剛其實很怕講錯。'},
+      {speaker:'kexin',text:'可是她聽懂的時候，整個人就不抖了。你有看到嗎。'},
+      {set:{KX_S1:true}} ] },
+  /* ① 大一下沒遇到的玩家：下學期（大二上）第一次遇到她時用一句帶過（AA_873 ①） */
+  { id:'ev_kx_s1_heard', title:'', participants:['kexin'], location:['linze','campus'], trigger:'enter', term:['Y2S1'], once:true, background:'blur',
+    prereq:{custom:G=>KX_LINE_OK(G,'FAMILIAR')&&!G.flags.KX_S1&&!(G.events&&G.events.done&&G.events.done.ev_kx_s1_deposit)},
+    dialogue:[ {speaker:null,text:'（她說上學期幫室友看了一份租約，押金後來拿回一半。）'},{set:{KX_S1:'heard'}} ] },
+  { id:'ev_kexin_bad_exam', title:'', participants:['kexin'], location:'linze', trigger:'enter', term:['Y2S1'], weeks:[11], carryTo:15, time:[12,18], once:true, background:'blur',
+    prereq:{custom:G=>KX_LINE_OK(G,'FAMILIAR')},
+    dialogue:[
+      {speaker:null,text:'（期中考卷發回來。可昕把她那一份對摺，再對摺，塞進包包最底下。）'},
+      {speaker:'kexin',text:'不要問我幾分。'},
+      {speaker:'kexin',text:'……我每一題都知道在問什麼。老師在旁邊寫了三次「理由？」。'},
+      {choice:[{text:'「妳上課都講得出來。」',goto:'a'},{text:'「要不要我問妳？」',set:{KX_S2_ASKED:true},goto:'b'}]},
+      {label:'a'},{speaker:'kexin',text:'對。講的時候有人會追問我，我就會往下講。寫的時候沒有人問，我寫完結論就覺得講完了。'},{goto:'z'},
+      {label:'b'},{speaker:'kexin',text:'現在？……好。你問。'},
+      {speaker:null,text:'（你拿她的考卷，指著第一題問她為什麼。她講了，講得很順。你再問一次為什麼，她又往下講了一層。）'},
+      {speaker:'kexin',text:'……剛剛那一段，我考卷上一個字都沒有寫。'},
+      {label:'z'},
+      {speaker:'kexin',text:'我以前覺得講得出來就是會。'},
+      {speaker:'kexin',text:'結果只有一半。另一半是沒有人問的時候，我自己要問自己。'},
+      {speaker:null,text:'（她把考卷從包包底下拿出來，攤平，壓在課本下面。）'},
+      {speaker:'kexin',text:'這張我要留著。很醜，可是我要留著。'},
+      {set:{KX_S2:true}} ] },
+  { id:'ev_kexin_tutor_practice', title:'', participants:['kexin'], location:'linze', trigger:'enter', term:['Y2S2'], weeks:[7], carryTo:15, time:[16,19.5], once:true, background:'blur',
+    prereq:{custom:G=>KX_LINE_OK(G,'FAMILIAR')},
+    dialogue:[
+      {speaker:null,text:'（系館一樓的討論桌。可昕對面坐著三個大一的，桌上是攤開的課本。你經過，她抬頭看到你，用下巴指了一下旁邊的空位。）'},
+      {speaker:'kexin',text:'坐。他們說有一題看不懂，來問我。我也不知道為什麼是問我。'},
+      {speaker:'大一學妹',text:'因為學姊上次在走廊跟人講話，我們聽得懂。'},
+      {speaker:'kexin',text:'……我那次是在吵架。'},
+      {speaker:null,text:'（她把課本轉過去，不念課本上的字，用自己的話講了一遍。講到一半，一個學弟在滑手機。）'},
+      {speaker:'kexin',text:'你。你是來問的還是來坐的？'},
+      {speaker:null,text:'（學弟把手機蓋起來。）'},
+      {speaker:'kexin',text:'我不會講第二次。我等一下也要念我自己的。'},
+      {choice:[{text:'（不插話，聽她講完）',goto:'a'},{text:'「這裡我補一句。」',goto:'b'}]},
+      {label:'a'},{speaker:null,text:'（她講完，三個人都在寫。那個學弟寫得最久。）'},{goto:'z'},
+      {label:'b'},{speaker:'kexin',text:'好，你補。（你補完）……對，這個我漏了。你們記他講的那句。'},
+      {label:'z'},
+      {speaker:null,text:'（三個大一的走了。學妹走到門口又回頭。）'},
+      {speaker:'大一學妹',text:'學姊，妳講的比課本好懂。'},
+      {speaker:'kexin',text:'課本比較對。我只是比較吵。'},
+      {speaker:null,text:'（她把課本收起來，過了幾秒。）'},
+      {speaker:'kexin',text:'她那句話我會記很久。你不要笑。'},
+      {set:{KX_S3:true}} ] },
+  { id:'ev_kexin_call_helper', title:'', participants:['kexin'], location:'campus', trigger:'auto', near:{x:20,z:57,r:9}, term:['Y3S1','Y3S2','Y4S1'], weeks:[9], carryTo:15, time:[19,23], once:true, background:'blur',
+    prereq:{custom:G=>KX_LINE_OK(G,'FRIEND')&&KX_LINE_TERM(G,['Y3S1','Y3S2','Y4S1'],9)},
+    dialogue:[
+      {speaker:null,text:'（她在路燈下等你。手上拿著兩杯飲料，一杯遞過來。）'},
+      {speaker:'kexin',text:'你這禮拜幫了幾個人？'},
+      {speaker:'kexin',text:'搬東西、改報告、修電腦。我都有聽說。'},
+      {speaker:'kexin',text:'那你自己的事，誰幫？'},
+      {choice:[{text:'「……是我自己。」',set:{KX_HELPER_CALL:'admit'},goto:'c1'},{text:'（轉移話題）',set:{KX_HELPER_CALL:'dodge'},goto:'c2'},{text:'「那妳呢？誰幫妳？」',set:{KX_HELPER_CALL:'ask_back'},goto:'c3'}]},
+      {label:'c1'},{speaker:'kexin',text:'我知道。我只是想聽你自己講。'},{goto:'end'},
+      {label:'c2'},{speaker:'kexin',text:'好。今天先不問。飲料喝完再走。'},{goto:'end'},
+      {label:'c3'},{speaker:'kexin',text:'我？我會開口。我室友、沛珊，被我煩過的都知道。'},{speaker:'kexin',text:'你也可以開口。我不一定幫得上，可是我會罵你為什麼不早講。'},
+      {label:'end'},
+      {speaker:null,text:'（她把吸管插好，喝了一口。）'},
+      {speaker:'kexin',text:'我沒有在念你。'},
+      {speaker:'kexin',text:'我看到一個人一直在幫別人，會想知道他自己好不好。這樣而已。'} ] },
+  { id:'ev_kx_s6_same', title:'', participants:['kexin'], location:'linze', trigger:'enter', term:['Y4S2'], weeks:[10], carryTo:14, time:[12,18], once:true, background:'blur',
+    prereq:{custom:G=>KX_LINE_OK(G,'FRIEND')},
+    dialogue:[
+      {speaker:null,text:'（系館的布告欄前面。她在看一張國考的時程表，看完把手機收起來。）'},
+      {speaker:'kexin',text:'很多人問我要考哪一個。'},
+      {speaker:'kexin',text:'我本來也覺得要先選好。律師、司法官，選一個，然後照那個念。'},
+      {choice:[{text:'「現在呢？」',goto:'a'},{text:'「妳想當哪一個？」',goto:'b'}]},
+      {label:'a'},{speaker:'kexin',text:'現在我覺得那是後面的事。'},{goto:'z'},
+      {label:'b'},{speaker:'kexin',text:'都可以。我講真的。'},
+      {label:'z'},
+      {speaker:'kexin',text:'不管最後坐在哪一邊，我要做的是同一件事——有人拿著一張看不懂的紙站在那裡，我過去，用他聽得懂的話講一遍。'},
+      {speaker:'kexin',text:'考不考得上，都可以這樣做。'},
+      {speaker:null,text:'（她看了你一眼。）'},
+      {speaker:'kexin',text:'這句不准跟阿哲講。他好不容易才不怕我。'},
+      {set:{KX_S6:true}} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、

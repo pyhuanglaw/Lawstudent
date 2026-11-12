@@ -165,10 +165,7 @@ const R2Y3A=(function(){
   S.NEED_MIN=8;
   S.helperOk=G=>dating(G,'kexin')&&!!G.needed&&(G.needed.answered|0)>=S.NEED_MIN;
   const CD1='2027-10-18', CD2='2027-10-22';
-  S.callPhone=function(G){ const F=G.flags, d1=DK(CD1), d2=DK(CD2); if(d1==null||G.day<d1||G.day>d2+1) return;
-    if(F.KX_HELPER_CALL==null&&S.helperOk(G)){
-      if(G.day===d1&&G.hour>=22&&!outGet(G,'y3_kx_call1')) plan(G,CALL('y3_kx_call1','ev_kexin_call_helper',d1,G.hour));   /* 22:00 起響；在做別的事的，結束後響（S.tick 在劇情中不跑）；10 分鐘沒接＝沒接 */
-      else if(G.day>d1&&!outGet(G,'y3_kx_call1')) S.helperMissed(G); } };   /* 睡過了（WAKE_AT 叫不醒的情況）：當作沒接（10/22 的第二通：CANON-NO-ECON-1112 第三批拿掉）*/
+  S.callPhone=function(G){};   /* CANON-NO-ECON-1112 第四批：AA_873 ④ 改成當面（events.js ev_kexin_call_helper，大三上第 9 週），10/18 的電話拿掉 */
   S.helperMissed=function(G){ const d1=DK(CD1); G.flags.KX_HELPER_CALL='missed'; PHONE.at(G,d1,22+1/6,[K('你在忙。……沒事，不是急的。')],'y3_kx_call1_missed'); };   /* 沒接的沒有 10/22 那一通 */
   /* 讀它的：AA_315 1A-04（story3d.js 的感冒那一週）——'admit' 或 KX_HELPER_CALL2:'tell' 的玩家，10/23 起床時「（傳訊息跟可昕說……）」排第一（AA_326 2-Y3-10 第 4 節）。
      那一串選項照 ROM.partners 的順序（cwPartners）：只在 10/23 那一天、只對這兩種玩家，把可昕排到最前面（不改 story3d.js）*/
@@ -176,7 +173,6 @@ const R2Y3A=(function(){
   if(typeof ROM!=='undefined'&&ROM.partners&&!ROM._r2y3aKxFirst){ const orig=ROM.partners; ROM._r2y3aKxFirst=true;
     ROM.partners=function(G){ const L=orig.apply(this,arguments); return Array.isArray(L)&&S.kxFirst(G)&&L.includes('kexin')?['kexin'].concat(L.filter(id=>id!=='kexin')):L; }; }
   S.wakeAt=function(G){ const F=(G&&G.flags)||{}; if(!law(G)) return null; const d1=DK(CD1), d2=DK(CD2);
-    if(G.day===d1&&G.hour<22&&F.KX_HELPER_CALL==null&&S.helperOk(G)) return 22;
     return null; };
 
   /* ===================== 2-Y3-11 刑訴旁聽作業 ===================== */
@@ -267,11 +263,7 @@ const R2Y3A=(function(){
       PHONE.at(G,dm,atH(G,dm,21),[Yt('續約了。五年。'),Yt('秀琴姨說要煮一桌菜請你吃。……她說『那個學法律的』。')],'y3_lease_msg');   /* AA_625 第 14 節不在場版的兩句 */ F.YT_EV14='heard'; } };   /* AA_376 #10：轉述和現場一致（「我高中的時候來過。」）*/
 
   /* ===================== 2-Y3-19 可昕 K17 ===================== */
-  S.k17Phone=function(G){ const F=G.flags; if(!dating(G,'kexin')) return; const n=now(G), d8=DK('2027-12-08');
-    if(d8!=null&&G.day>=d8&&G.day<=d8+1){ const d9=d8+1;
-      if(n>=T(d8,21)&&n<T(d9,21.75)&&!sent(G,'y3_k17')) PHONE.at(G,d8,atH(G,d8,21),[K('明天晚上九點四十五，視訊。你讀書會結束以後。'),Object.assign(K('我有一件事要你幫忙。'),{ask:{id:'y3_k17',until:T(d9,21.75),opts:[{t:'好。',say:[Kr('好。')],set:{KX_K17_GO:true}},{t:'明天不行。',say:[Kr('好。那我對著牆講。')]}]}})],'y3_k17');
-      if(F.KX_K17_GO&&!outGet(G,'y3_k17')&&n<T(d9,22)) plan(G,VIDEO('y3_k17','ev_kexin_tutor_practice',d9,21.75,'可昕的視訊',{late:0.25})); }
-    /* 4/25 學弟妹的飯（外校）、人在國外的視訊版：CANON-NO-ECON-1112 第三批拿掉 */ };
+  S.k17Phone=function(G){};   /* CANON-NO-ECON-1112 第四批：AA_873 ③ 換成大二下第 7 週系館那一場（events.js），12/8 的邀約和視訊拿掉 */
 
   /* ===================== 2-Y3-20 語彤事件 13：12/16 17:00 兩則 ===================== */
   S.yt13Phone=function(G){ const d=DK('2027-12-16'); if(d==null||G.day!==d||G.hour<17||G.hour>=19.75||sent(G,'y3_yt13')||!met(G,'heroine_03','FRIEND')) return; silentContact(G,'heroine_03');

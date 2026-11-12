@@ -245,19 +245,7 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'heroine_05',text:'颱風天這樣讀，剛好。'},
       {set:{SIS_TYPHOON_Y3_ONLINE:'went'}} ] };
 
-  /* ---------- 2-Y3-10 可昕「主線 4 的那通電話」：10/18（一）22:00 演出來的電話；轉移話題的 10/22（五）22:00 再一次。id 一定用 ev_kexin_call_helper ---------- */
-  const CALL1={ id:'ev_kexin_call_helper', title:'電話', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,
-    dialogue:[ {scene:'電話'},
-      {speaker:null,text:'（電話。她那邊很安靜，像是在宿舍的走廊。）'},
-      {speaker:'kexin',expression:'serious',text:'你這禮拜幫了幾個人？'},
-      {speaker:'kexin',expression:'annoyed',text:'搬家、改報告、修電腦。……我都有聽說。'},
-      {speaker:'kexin',expression:'serious',text:'那你自己的事，誰幫？'},
-      {choice:[{text:'「……是我。」',set:{KX_HELPER_CALL:'admit'},goto:'c1'},{text:'（轉移話題）',set:{KX_HELPER_CALL:'dodge'},goto:'c2'},{text:'「那妳呢？誰幫妳？」',set:{KX_HELPER_CALL:'ask_back'},goto:'c3'}]},
-      {label:'c1'},{speaker:'kexin',expression:'smile',text:'我知道。我只是想聽你自己說。'},{goto:'end'},
-      {label:'c2'},{speaker:'kexin',expression:'neutral',text:'好。……今天先不問。'},{goto:'end'},
-      {label:'c3'},{speaker:'kexin',expression:'smile',text:'我？我讓予樂幫我。……你也可以讓我幫你。'},
-      {label:'end'},{speaker:'kexin',expression:'smile',text:'好。早點睡。'},{speaker:null,text:'（她掛掉了。）'} ],
-    outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.helperMissed(G); } };
+  /* ---------- 2-Y3-10 可昕「那你自己的事，誰幫」：CANON-NO-ECON-1112 第四批照 AA_873 ④ 改當面（id ev_kexin_call_helper 留著），定義搬到 events.js ---------- */
 
   /* ---------- 2-Y3-11 刑訴旁聽作業（AA_252 5-1；第 7～11 週平日下午自己去地院旁聽一場刑事庭）：約了誰在 r2y3a3d.js 的 F.CRIMPRO_WITH；這一趟跟誰去在出遊的 q.crWith ---------- */
   const CW=v=>({custom:G=>!!G.flags&&G.flags._CR_WITH===v});
@@ -413,15 +401,7 @@ const R2Y3A_EVENTS=(function(){
     prereq:{custom:G=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5)},
     dialogue:[ {speaker:null,text:'（總圖三樓，靠窗那張桌子。以安和芯慈坐在一起，中間攤著兩份考卷。芯慈笑了一下。）'},{set:{CI5:'far',XC5_RECONCILE:true}} ] };
 
-  /* ---------- 2-Y3-19 可昕 K17「學弟妹的練習對象」（裁定 #9、#10）：12/9（四）21:45 視訊；大三下 4/26（三）18:30 政大山下（日本路線＝19:30 視訊被看）---------- */
-  const TUTOR={ id:'ev_kexin_tutor_practice', title:'學弟妹的練習對象', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    dialogue:[ {scene:'視訊',bg:'video'},
-      {speaker:'kexin',expression:'smile',text:'我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。'},   /* 聽過舊 K5-L3（KX5_HYPO_SENIOR）的另一句：可昕閒聊整組換 AA_865，那個記憶不會再有（CANON-NO-ECON-1112 第三批）*/
-      {choice:[{text:'（聽懂了）',set:{KX_K17:'heard'},goto:'p1'},{text:'（假裝聽懂）',set:{KX_K17:'fake'},goto:'p2'},{text:'（故意問一個怪問題）',set:{KX_K17:'odd'},goto:'p3'}]},
-      {label:'p1'},{speaker:'kexin',expression:'teasing',text:'真的？那你講一次給我聽。'},{goto:'end'},
-      {label:'p2'},{speaker:'kexin',expression:'teasing',text:'你假裝聽懂的時候，會點頭點兩次。'},{goto:'end'},
-      {label:'p3'},{speaker:null,text:'（她把那題放進講義。）'},{speaker:'kexin',expression:'smile',text:'這題是一個法律系的學弟問的。'},
-      {label:'end'} ] };
+  /* ---------- 2-Y3-19 可昕「學弟妹來問」：CANON-NO-ECON-1112 第四批照 AA_873 ③ 換成大二下第 7 週系館那一場（id ev_kexin_tutor_practice 留著），定義搬到 events.js ---------- */
 
   /* ---------- 2-Y3-20 語彤事件 13「空出來的週四」（裁定 #11）：12/16（四）18:00～19:45 總圖三樓（作息在 r2y3a3d.js），和語彤 FRIEND 以上，走到她旁邊就演。YT_EV13 一律記（S.y3Facts）；演過的另外記 YT_EV13_SEEN ---------- */
   const NGF_YT=ndt('heroine_03');
@@ -472,6 +452,6 @@ const R2Y3A_EVENTS=(function(){
     after:G=>{ const r=R(); if(r){ r.kxYear(G,'KX_VDAY','video'); r.vdayGiraffe(G); } },
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.vdayMissed(G); } };
 
-  return [KH_A,KH_B,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,DAD_STUCK,TY_NOODLE,TY_FAMILY,CALL1,COURT,ADMIN,ADMIN_TOGETHER,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,TUTOR,THU,XMAS,VDAY];
+  return [KH_A,KH_B,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,DAD_STUCK,TY_NOODLE,TY_FAMILY,COURT,ADMIN,ADMIN_TOGETHER,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,THU,XMAS,VDAY];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3A_EVENTS);

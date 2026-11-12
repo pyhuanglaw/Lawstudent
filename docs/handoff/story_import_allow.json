@@ -9639,6 +9639,33 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "social3d.js 去向、記憶標籤（ECON_NIGHT、HEARD_ECON_NIGHT、XUN_PATH 拿掉；KNOWS_ECON_YEAR、MIRROR_PEISHAN 還有地方在設，暫留）、KX_BDAY2_CAKE；msg_replies／activity_scenes 照 tools/story/canon1112_rows.py 疊在稿上重匯（訊息本身在 bbpack3d／y2b3d／r3_3d 一起換）；第 4 節 invites.js 沒做（那幾格在 AA_784 覆蓋層上，要 AA 出覆蓋層格式的列）；assets3d.js、WN_COMMON 沒動（第四批，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_900_可昕第三批A留下的六件.md",
+   "sha": "da666ecda9",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1～4、6 節手寫進程式一字照稿：social3d.js KX2_BDAY_TOLD 顯示字、y2r2_3d.js 回程的公車同班版（班上的群組、阿哲揪、交往中才有）、r2y4b3d.js y6_kx_shelf 與 pgdates3d.js 2030-10 那一行拿掉、r2y3b3d.js K20「明天不行。」改週六同一場；第 6 節照 AA_901 第 1 項（邀約留著、當面）；第 5 節跟 AA_874、第 7 節跟 AA_875（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_901_第四批二留下的十一件.md",
+   "sha": "16ee312e27",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "只做第 1 項（大二互考邀約 y2r2_q_ask 那一句，BB_434 小改的字；src/y2r2_3d.js），其他項 LAWWW-C 另外排（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_873_可昕自己的線_大一下到大四.md",
+   "sha": "588342dd8c",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "六拍手寫進程式一字照稿：①⑥ 新事件、②③④ 沿用 id 整場換（events.js 可昕自己的線；原本的邀約、視訊、電話拿掉）、⑤ ev_kexin_k20 換字（r2y3b_events.js）並放寬到朋友以上（r2y3b3d.js）；⑤ 的日子照 AA_900 第 4 節（大三下 5/12），不是表上的大三上第 13 週。逐字對稿 tests/kx_line_873_unit.js、y2b_events_unit.js、r2y3a_events_unit.js、r2y3b_events_unit.js（第四批第三份，LAWWW 的子代理）"
   }
  ]
 }

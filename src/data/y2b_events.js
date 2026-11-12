@@ -24,23 +24,7 @@ const Y2B_EVENTS=(function(){
   const Q6=G=>done(G,'ev_ziqing_secret_game')||has('heroine_04','PLAYTESTED');   /* 看過 Q6（Q8b 還沒做，同 story3d.js 的期末飯）*/
   const ZQD={custom:G=>dating(G,'heroine_04')}, ZRD={custom:G=>dating(G,'heroine_02')};   /* AA_554：和她交往中（BB_189 的「和她交往中」版本；不是和別人交往中）*/
 
-  /* ---- 1B-01 可昕 K10c「她第一次考壞一科」（AA_316；BB_97 9-4、AA_177 第 8 節②）：11/19 20:30 政大自強十舍樓下的長椅 ---- */
-  const BAD_EXAM={ id:'ev_kexin_bad_exam', title:'她第一次考壞一科', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
-    dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
-      {speaker:null,text:'（她坐在長椅上，膝蓋上攤著物權的課本。看到你，把課本闔起來一半。）'},
-      {speaker:'kexin',expression:'surprised',text:'你真的來了。'},
-      {speaker:'kexin',expression:'serious',text:'先說好，你一安慰我就回去。'},
-      {choice:[{text:'「我幫妳出題，答對才吃宵夜。」',set:{KX_BAD_EXAM:'quiz'},goto:'q'},{text:'「我陪妳把那一章再讀一次。」',set:{KX_BAD_EXAM:'study'},goto:'s'},{text:'「沒關係。物權又不會跑。它有一半是不動產。」',set:{KX_BAD_EXAM:'joke'},goto:'j'}]},
-      {label:'q'},{speaker:'kexin',expression:'smile',text:'……好。出難一點。'},{goto:'end'},
-      {label:'s'},{speaker:'kexin',expression:'neutral',text:'好。'},{speaker:null,text:'（她停了一下）'},{speaker:'kexin',expression:'teasing',text:'你不要先翻答案。'},{goto:'end'},
-      {label:'j'},{speaker:null,text:'（她沒笑。三秒後，笑了。）'},{speaker:'kexin',expression:'smile',text:'……好。我收下。'},
-      {label:'end'},{advance:toH(21.5)},
-      {speaker:null,text:'（九點半。她把課本收進包包，站起來。）'},
-      {speaker:'kexin',expression:'smile',text:'好了。你回去開車小心。'},
-      {speaker:'kexin',expression:'smile',text:'……今天這樣剛好。'} ],   /* AA_316（2026-10-21 AA-C）：原「……謝謝你沒有安慰我。」是口氣表 0-3 的模板句 */
-    consequences:{mem:[{npc:'kexin',tag:'HELPED',note:'物權考壞那晚'}]},
-    /* 答應了但沒到：20:50 兩則、記 'self'（之後不追問，不扣分）；11/22 那則由 y2b3d.js 照 'self' 發 */
-    outingMissed:(G)=>{ if(!G.flags.KX_BAD_EXAM) G.flags.KX_BAD_EXAM='self'; const d=D('2026-11-19'); if(typeof PHONE!=='undefined'&&d!=null) PHONE.at(G,d,20+50/60,[{th:'p:kexin',from:'kexin',text:'……你沒來。'},{th:'p:kexin',from:'kexin',text:'沒關係。我自己讀。'}],'y2_kx_bad_missed'); } };
+  /* ---- 1B-01 可昕「她第一次考壞一科」：CANON-NO-ECON-1112 第四批照 AA_873 ② 整場換（id 留著），定義搬到 events.js（可昕自己的線）；原本的邀約、出遊拿掉 ---- */
 
   /* ---- 1B-02 語彤事件 8「買賣不破租賃」：下課後（手機，要有她的聯絡方式；課堂那一段在 y2b3d.js，演過記 Y2B_LEASE_DAY）---- */
   const LEASE_TEXT={ id:'ev_yt_lease_text', title:'買賣不破租賃', participants:[], location:'any', trigger:'manual', afterClass:'oblig_spec', classFirst:true, once:true, term:['Y2S2'], weeks:[6], background:'blur',
@@ -283,6 +267,6 @@ const Y2B_EVENTS=(function(){
     after:G=>{ const y=Y2(); if(y&&y.psBackAnswered) y.psBackAnswered(G); },
     outingMissed:G=>{ const y=Y2(); if(y&&y.psBackMissed) y.psBackMissed(G); } };
 
-  return [BAD_EXAM,LEASE_TEXT,AUNT_RETELL,MOTHER_MAP,DAD_VISIT,DAD_SORRY,LAST_SHIFT,TA_NEWS,TA_NEWS_LIB,UMBRELLA,CAPSTONE,XMAS_VIDEO,BDAY_VIDEO,PS_BACK_CALL];
+  return [LEASE_TEXT,AUNT_RETELL,MOTHER_MAP,DAD_VISIT,DAD_SORRY,LAST_SHIFT,TA_NEWS,TA_NEWS_LIB,UMBRELLA,CAPSTONE,XMAS_VIDEO,BDAY_VIDEO,PS_BACK_CALL];
 })();
 Array.prototype.push.apply(STORY_EVENTS,Y2B_EVENTS);

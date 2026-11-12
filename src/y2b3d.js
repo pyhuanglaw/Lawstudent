@@ -31,18 +31,10 @@ const Y2B=(function(){
 
   /* ===================== 手機（STORY.PHONE_RULES：每 0.5 秒）===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; const F=G.flags;
-    /* ---- 1B-01 可昕 K10c：11/18 21:00 → 答應＝11/19 20:30 出遊（19:50 出發）；沒去、婉拒、沒回＝11/22 22:00；去了的 12/2 21:00；三種都有的 12/5 ---- */
-    { const d18=D('2026-11-18'), d19=D('2026-11-19'), d22=D('2026-11-22'), d02=D('2026-12-02'), d05=D('2026-12-05');
-      if(d18!=null&&G.day>=d18&&G.day<=d05+2){ const until=T(d19,19+50/60);
-        if(dating(G,'kexin')&&past(G,'2026-11-18',21)&&now(G)<until&&!PHONE.sent(G,'y2_kx_bad_exam'))
-          PHONE.at(G,d18,21,[K('物權。'),K('我考壞了。'),Object.assign(K('……不要安慰我。'),{ask:{id:'y2_kx_bad_exam',until,opts:[{t:'明天晚上我過去。不安慰。',say:[K('……好。八點半，樓下。')],set:{KX_BAD_EXAM_GO:true}},{t:'好。不安慰。',say:[K('嗯。')],set:{KX_BAD_EXAM:'self'}}]}})],'y2_kx_bad_exam');
-        if(F.KX_BAD_EXAM_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'y2_kx_bad_exam')) OUT.plan(G,{id:'y2_kx_bad_exam',ev:'ev_kexin_bad_exam',day:d19,h:20.5,late:0.25,place:'木柵大學・宿舍樓下',title:'木柵大學・宿舍樓下 20:30',travel:'開車 約 40 分鐘',travelH:2/3});
-        { const m=PHONE.byAsk(G,'y2_kx_bad_exam'); if(m&&m.ans==null&&now(G)>until&&!F.KX_BAD_EXAM) F.KX_BAD_EXAM='self'; }   /* 不回 */
-        if(F.KX_BAD_EXAM==='self'&&dating(G,'kexin')&&!PHONE.sent(G,'y2_kx_bad_self')) PHONE.at(G,d22,22,[K('解決了。不用安慰我。')],'y2_kx_bad_self');
-        if(dating(G,'kexin')&&past(G,'2026-12-02',21)&&!PHONE.sent(G,'y2_kx_bad_1202')){ const v=F.KX_BAD_EXAM;
-          const L=v==='quiz'?[K('你上次出的太簡單。下次我出。')]:v==='study'?[K('（照片：那一章畫滿重點）'),K('這一章現在是我的。')]:v==='joke'?[K('你那句不動產，我在讀書會講了。'),K('只有予樂笑。')]:null;   /* 照片圖沒有：先用文字（AA_316 第 5 節）*/
-          if(L) PHONE.at(G,d02,21,L,'y2_kx_bad_1202'); }
-        if(F.KX_BAD_EXAM&&dating(G,'kexin')&&past(G,'2026-12-05',21+10/60)&&!PHONE.sent(G,'y2_kx_bad_1205')) PHONE.at(G,d05,21+10/60,[K('物權考壞的那一章，我講給我室友聽，講到她懂。')],'y2_kx_bad_1205'); } }   /* 12/5 摘要日 21:10（可昕手機小事的慣例時間，AA_336 B4）*/
+    /* ---- 1B-01 可昕 K10c：邀約、出遊、11/22 和 12/2 那兩則私訊 CANON-NO-ECON-1112 第四批拿掉（AA_873 ② 改成大二上第 11 週在系館遇到，events.js；選項換了，原本三種回答不會再有）。
+       12/5 21:10 那一則照留（AA_897 換字）：交往中、那一場 12/5 以前演過 ---- */
+    { const d05=D('2026-12-05'); if(d05!=null&&G.day>=d05&&G.day<=d05+2&&dating(G,'kexin')&&G.events&&G.events.last&&G.events.last.ev_kexin_bad_exam!=null&&G.events.last.ev_kexin_bad_exam<=d05&&past(G,'2026-12-05',21+10/60)&&!PHONE.sent(G,'y2_kx_bad_1205'))
+        PHONE.at(G,d05,21+10/60,[K('物權考壞的那一章，我講給我室友聽，講到她懂。')],'y2_kx_bad_1205'); }   /* 12/5 摘要日 21:10（可昕手機小事的慣例時間，AA_336 B4）*/
     /* ---- 1B-02 語彤事件 8：傳了訊息的那天 21:30 ---- */
     /* 21:30「我拿給阿姨看了」那兩則：AA_625 第 8 節換成當下「我明天跟她說。」，拿掉（YT-REWRITE-1103）*/
     /* ---- 1B-03 語彤事件 9 在場版（D118-B5a）：法服值班的出發選單拿掉了，5/22 單獨排一次（社員、認識語彤、還沒演；AA 經 LAWWW 確認仍有效，BB_251 DONE-B04）。

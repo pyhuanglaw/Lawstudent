@@ -347,16 +347,25 @@ const R2Y3B_EVENTS=(function(){
     after:G=>{ const x=X(); if(x&&G.flags.AN_NOTICE_REPAIR_OK) x.repairAdd(G,'heroine_01'); } };   /* 「……好。」＝REPAIR +1（AA_254 第 10 節）*/
 
   /* ---------- 2-Y3-44 可昕 K20「一個人聽懂了自己的處境」：5/12（五）19:00 公館河濱（5/11 她約）；沒去河濱、日本路線＝21:00 演出來的電話 ---------- */
-  const K20_AB=[ {label:'a'},{speaker:'kexin',expression:'surprised',text:'你怎麼知道？'},{speaker:'player',text:'妳每次都先等我講完。'},{goto:'end'},
-    {label:'b'},{speaker:'kexin',expression:'teasing',text:'會。所以你要負責宵夜。'},{if:fl('KX_SUMMER','tired'),speaker:'kexin',expression:'laugh',text:'這句我大二說過了。好，這次換你說一句。'},{goto:'end'} ];   /* KX_SUMMER 'tired'：大二 K14 選過「會不會很累？」*/
+  /* CANON-NO-ECON-1112 第四批：照 AA_873 ⑤（定稿，BB_416）整場換字——前因（暑假在事務所打雜、櫃台的阿姨）她自己交代；核心兩句和選項三的回覆照原本；原本的 K20_AB 整段換。
+     朋友以上就有（不分交往；邀約在 r2y3b3d.js S.k20Phone），日子照 AA_900 第 4 節（5/12；「明天不行。」＝5/13 週六同一場）*/
   const K20={ id:'ev_kexin_k20', title:'一個人聽懂了自己的處境', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'河濱',bg:'riverside'},
       {speaker:null,text:'（公館的河濱。她靠著欄杆，看了很久的河才開口。）'},
+      {speaker:'kexin',expression:'neutral',text:'暑假我在事務所打雜，你記得吧。'},
+      {speaker:'kexin',expression:'neutral',text:'有一天櫃台來了一個阿姨，手上拿著一張紙，站了很久。律師都在忙。'},
+      {speaker:'kexin',expression:'neutral',text:'我過去看了一眼。那張紙不難，只是每個字她都沒看過。'},
+      {speaker:'kexin',expression:'smile',text:'我用我的話講了一遍，五分鐘。她說：「原來是這樣。那我不怕了。」'},
+      {speaker:'kexin',expression:'neutral',text:'後來律師出來看了，講的跟我差不多，只是比我多講了兩件事。'},
+      {speaker:'kexin',expression:'serious',text:'她的事一點都沒有變。紙還是那張紙。可是她走出去的時候，背是直的。'},
+      {speaker:null,text:'（河面上有一艘划船隊的船過去。）'},
       {speaker:'kexin',expression:'serious',text:'有個人聽懂了自己的處境，就不那麼怕了。'},
       {speaker:'kexin',expression:'serious',text:'我想做這個。'},
-      {choice:[{text:'「那妳會很適合。」',goto:'a'},{text:'「做這個要很累。」',goto:'b'},{text:'（不說話，陪她看河）',goto:'c'}]} ].concat(K20_AB,[
-      {label:'c'},{speaker:null,text:'（她靠著欄杆。）'},{speaker:'kexin',expression:'smile',text:'你不問，很好。那個人的事是他的。'},
-      {label:'end'},{set:{KX_K20:'river'}} ]),
+      {choice:[{text:'「那妳會很適合。」',goto:'a'},{text:'「做這個會很累。」',goto:'b'},{text:'（不說話，陪她看河）',goto:'c'}]},
+      {label:'a'},{speaker:'kexin',expression:'teasing',text:'你不要這麼快講。我講話很衝，你知道的。'},{speaker:'kexin',expression:'smile',text:'……可是那個阿姨沒有嫌我衝。她說我講得很清楚。'},{goto:'end'},
+      {label:'b'},{speaker:'kexin',expression:'neutral',text:'我知道。那天我回去躺在床上，什麼都不想做。'},{speaker:'kexin',expression:'smile',text:'可是我隔天還想去櫃台看有沒有人站在那裡。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'（她靠著欄杆。）'},{speaker:'kexin',expression:'smile',text:'你不問，很好。那個阿姨的事是她的，我只能講到這裡。'},
+      {label:'end'},{set:{KX_K20:'river'}} ],
     after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
 
   /* ---------- 2-Y3-45 方奕廷 F3「我買了」：5/29（一）21:00 演出來的電話（芷若的心意邀約條件那天已到＝延到 6/19）；之後第一次在 Café 點餐，芷若的兩句（日本路線＝8/5 回國以後、9/1 以前第一次進 Café，過去式那兩句）---------- */
