@@ -7,5 +7,192 @@
   "what": "約會源稿裡以安 35 則三連短句，改 31 則（已直接改 date_system/lines 源稿），留 4 則：D16「冷。好冷。我收回決定。」、D18「手。階梯滑。真的很滑。」、D20「橋在晃。是有人在跑。你不要跑。」、D21「手帕要怎麼洗？會不會退色？我去問老師。」——這幾句短是因為當下的動作或連著問。",
   "note": "送 BB 第二意見後定稿（D153）。"
  },
- "rows": []
+ "rows": [
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "heroine_01",
+   "old": "我們輪流。一人一關。你先。",
+   "new": "我們輪流，一人一關，你先。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "heroine_01",
+   "old": "爆米花太甜。我吃了一半。好，大半。",
+   "new": "爆米花太甜了，結果我還是吃了一半。好，大半。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "heroine_01",
+   "old": "買。上課用得到。還有，我想看。",
+   "new": "買。上課用得到，而且我自己也想看。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "heroine_01",
+   "old": "大部分不對。可是很好看。不衝突。",
+   "new": "大部分不對，可是很好看，這兩件事不衝突。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "heroine_01",
+   "old": "真的。那隻插隊了。好，有例外。",
+   "new": "真的，那隻插隊了。好，有例外。"
+  },
+  {
+   "src": "date_system/lines/D13.json",
+   "who": "heroine_01",
+   "old": "好。你對。我改。",
+   "new": "好，你說得對，我改。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "heroine_01",
+   "old": "大家都在拍。我不拍。我記得就好。",
+   "new": "大家都在拍。我不拍了，我自己記得就好。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "heroine_01",
+   "old": "好。你選。我聽聽看。",
+   "new": "好，你選，我聽聽看你平常都聽什麼。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "heroine_01",
+   "old": "光害。可是有四顆。我數過了。",
+   "new": "有光害，可是還看得到四顆，我數過了。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "heroine_01",
+   "old": "第五顆是飛機。我收回四顆。不，維持四顆。",
+   "new": "第五顆是飛機。那我收回……不對，還是四顆。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "heroine_01",
+   "old": "好。你選。好，我選。",
+   "new": "好，你選。……好啦，我選。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "heroine_01",
+   "old": "我帶了三明治。切得很整齊。不要笑。",
+   "new": "我帶了三明治，切得很整齊。你不要笑。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "heroine_01",
+   "old": "配角。配角也很重要。我等一下吃。",
+   "new": "這個是配角。配角也很重要，我等一下再吃。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "heroine_01",
+   "old": "謝謝。我換你一顆。公平。",
+   "new": "謝謝。那我換你一顆，這樣公平。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "heroine_01",
+   "old": "好。一張。我站這裡。",
+   "new": "好，拍一張就好。我站這裡可以嗎？"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "heroine_01",
+   "old": "這壺茶多少錢？好，不貴。我請。",
+   "new": "這壺茶多少錢？好，不貴，這壺我請。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "heroine_01",
+   "old": "金瓜石。以前是礦山。我查過。",
+   "new": "金瓜石以前是礦山，我來之前查過。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "heroine_01",
+   "old": "山上的路很彎。我有一點暈。一下就好。",
+   "new": "山上的路很彎，我有一點暈。休息一下就好。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "heroine_01",
+   "old": "步道好陡。我在喘。不要計時。",
+   "new": "步道好陡，我已經在喘了。你不要計時。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "heroine_01",
+   "old": "香腸好燙。我等它涼。你不要先吃完。",
+   "new": "香腸好燙，我等它涼一點。你不要先吃完。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "heroine_01",
+   "old": "對。找不到。就說很綠。",
+   "new": "對，我找不到別的詞，就說很綠。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "heroine_01",
+   "old": "它一直晃。我抓著扶手。不是怕。",
+   "new": "它一直晃，所以我抓著扶手。不是怕。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "heroine_01",
+   "old": "牛角形的麵包。大家都在買。我也買一個。",
+   "new": "牛角形的麵包，大家都在買。那我也買一個。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "heroine_01",
+   "old": "湯裡有薑。我不太吃薑。今天吃了。",
+   "new": "湯裡有薑。我平常不太吃薑，今天吃了。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "heroine_01",
+   "old": "不。我要泡。你都泡了。",
+   "new": "不要，我要泡。你都泡了。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "heroine_01",
+   "old": "樹變高了。還是我變矮了。不可能。",
+   "new": "樹變高了。還是我變矮了？不可能。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "heroine_01",
+   "old": "好。草地是乾的。我摸過了。",
+   "new": "好。草地是乾的，我剛剛摸過了。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "heroine_01",
+   "old": "鞋子要脫嗎？我看一下。不用。",
+   "new": "鞋子要脫嗎？我看一下……不用。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "heroine_01",
+   "old": "可以嗎？好。只坐一下。",
+   "new": "可以嗎？好，那只坐一下。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "heroine_01",
+   "old": "好。不准走太快。我要看門牌。",
+   "new": "好。你不准走太快，我要一間一間看門牌。"
+  },
+  {
+   "src": "date_system/lines/D30.json",
+   "who": "heroine_01",
+   "old": "好。你說了算。今天。",
+   "new": "好，今天你說了算。"
+  }
+ ]
 }
