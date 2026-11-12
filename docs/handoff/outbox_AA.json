@@ -7368,7 +7368,23 @@
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "src 對照表（丙）12 份全部交完；LAWWW 分批換。AA_897 第 2 節等 BB。合一批後 AA 再掃一次（17:57Z 掃 ab9ab0fbe：806 個字串、沒有新增）"
+   "next": "src 對照表（丙）12 份全部交完；LAWWW 分批換。AA_897 定稿（BB_431 採用 17:57）。合一批後 AA 再掃一次（17:57Z 掃 ab9ab0fbe：806 個字串、沒有新增）"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a9465983f",
+   "files": [
+    "docs/story_planning/AA_7*.json",
+    "docs/story_planning/AA_8*.json",
+    "docs/story_planning/AA_897_src對照表_收尾.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T18:1x",
+   "receiver": "LAWWW",
+   "ack": "",
+   "noDirectIntegrate": false,
+   "next": "AA_7xx／8xx 企劃原稿換成代號、canon_scan 乾淨；舊覆寫檔 _meta 加 canon_1112「不要再從本檔重匯」。AA_897 定稿，第 1 節電影四句改字不放例外（movie_plots.js 1404／4577／4600、nanyang_movies.js 295、movie_plots.js 2898 的 when 欄）。"
   }
  ],
  "items": [
