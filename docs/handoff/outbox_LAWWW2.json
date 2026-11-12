@@ -8619,6 +8619,22 @@
    "noDirectIntegrate": false,
    "remaining": "src/luwei3d.js 三處要 LAWWW 改（換檔、阻擋一塊、白天藏老闆）；光暈沒加；換檔後遊戲內沒拍",
    "next": "LAWWW-C 套 patch 改程式、CC 拍"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "c64d648f0",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED（11-12），未 ACK",
+   "task": "SHOP-REAL-INSIDE 公館第四批：花序 G11 換真的室內＋kx",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_batch4_v1.patch",
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md",
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/flower_notes_real.jpg"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "remaining": "kx 套到十二間沒有逐間重拍；花序二樓窗仍是照片；十三間預載記憶體沒量",
+   "next": "LAWWW-C 套 patch、CC 量記憶體和首次靠近的幀"
   }
  ]
 }
