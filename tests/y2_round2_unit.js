@@ -301,27 +301,27 @@ const K=t=>'kexin:'+t;
   // 14. 2-Y2-16 回程的公車
   fresh('2027-04-28',20,'dorm',{met_yu:true}); date('kexin'); run('2027-04-28',20.75,21.25); check('14. 沒有 K12（KX_CIRCLES_MET、麵店分店群組）：沒有',!PHONE.sent(G,'y2r2_u_ask'));
   const bus=(flags)=>{ fresh('2027-04-28',20,'dorm',Object.assign({met_yu:true,KX_CIRCLES_MET:true},flags||{})); date('kexin'); PHONE.join(G,'noodle_branch','麵店分店'); run('2027-04-28',20.75,21.25); };
-  bus();
-  check('14. 4/28 21:00 麵店分店：阿哲、Alison「我也要！！」；最後一則可以回（去／不行）（CANON-NO-ECON-1112 第四批：照 AA_889 換字）',JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['zhe:下週六下午一點，老街。搭公車去，這次沒有人要開車。','yu:我也要！！'])&&JSON.stringify(PHONE.byAsk(G,'y2r2_u_ask').ask.opts.map(o=>o.t))===JSON.stringify(['去。','那天不行。']),JSON.stringify(txt('g:noodle_branch')));
+  bus({KX_NCCU_FRIENDS:true});
+  check('14. 4/28 21:00 麵店分店：予樂、阿哲「+1」、Alison「我也要！！」；最後一則可以回（去／不行）',JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1','yu:我也要！！'])&&JSON.stringify(PHONE.byAsk(G,'y2r2_u_ask').ask.opts.map(o=>o.t))===JSON.stringify(['去。','那天不行。']),JSON.stringify(txt('g:noodle_branch')));
   ans('y2r2_u_ask',0); { const q=OUT.get(G,'y2r2_u'); check('14. 「去。」＝5/8 13:00 老街',!!q&&q.day===D('2027-05-08')&&q.h===13); }
   to('2027-05-08',13.2); tick(); check('14. 5/8 群組名稱改成「老街限定」',PHONE.rec(G).groups.noodle_branch.name==='老街限定');
   await go('y2r2_u',12); picks=['留下來'];
-  check('14. U1 老街逐字：「這家寫百年老店。」「……隔壁那家也寫。」；阿哲命名（{name}）、Alison「書記」（CANON-NO-ECON-1112 第四批：照 AA_889 換字）',has('（山邊的老街。一條上坡的窄路，兩邊都是賣吃的。）')&&has('（在第一家店門口）這家寫百年老店。')&&has('……隔壁那家也寫。')&&has('祐廷，你是「今天不用開車的人」。')&&has('可昕是「老街考古學家」。我是「試吃大使」。')&&has('Alison 是『書記』。')&&has('那你命名你自己？')&&has('我是「命名官」。這個不能投票。')&&said.filter(s=>/命名官|老街限定的名字/.test(s.t)).every(s=>s.who&&s.who!=='予'+'樂')&&!any(/假設/),JSON.stringify(said.map(s=>s.t)));
+  check('14. U1 老街逐字：「這家寫百年老店。」「……隔壁那家也寫。」；綽號（{name}）、Alison「書記」、邵鈞詹靖',has('（山邊的老街。一條上坡的窄路，兩邊都是賣吃的。）')&&has('（在第一家店門口）這家寫百年老店。')&&has('……隔壁那家也寫。')&&has('祐廷，你是「放假的司機」。')&&has('Alison 是『書記』。')&&has('邵鈞是『拍照的那個』，詹靖是『找廁所的那個』。')&&has('……這個不能改嗎？')&&has('我是「命名官」。這個不能投票。')&&!any(/假設/),JSON.stringify(said.map(s=>s.t)));
   check('14. 17:00 二選一 → 公車上「車開過一個彎。你不記得自己什麼時候睡著的。」；KX_BUS_HOME kissed；回到臺北 22:30',JSON.stringify(opts[0])===JSON.stringify(['「留下來吃晚餐。」','「我先回去。」'])&&has('車開過一個彎。你不記得自己什麼時候睡著的。')&&G.flags.KX_BUS_HOME==='kissed'&&Math.abs(G.hour-22.5)<0.01,String(G.hour));
   run('2027-05-08',22.75,23.25); { const L=TH('p:kexin').slice(-3); check('14. 23:00 三則（置頂、可以回）',JSON.stringify(L.map(m=>m.text))===JSON.stringify(['你剛剛在公車上睡著了。靠在我肩上。','我親了你一下。你沒醒。','先跟你說一聲。'])&&L.every(m=>m.pin)&&!!PHONE.byAsk(G,'y2r2_u_kiss')); }
   ans('y2r2_u_kiss',2); check('14. 回長頸鹿貼圖 →（她回一隻長頸鹿）「你就是這隻。睡著的那隻。」',JSON.stringify(txt('p:kexin').slice(-3))===JSON.stringify(['player:（貼圖：長頸鹿）',K('（她回一隻長頸鹿）'),K('你就是這隻。睡著的那隻。')]));
   run('2027-05-08',21.5,21.75); check('14. 留下來的沒有照片',!PHONE.sent(G,'y2r2_u_photo'));
   to('2027-05-09',9); tick(); check('14. 隔天群組名稱改回「麵店分店」',PHONE.rec(G).groups.noodle_branch.name==='麵店分店');
   bus(); ans('y2r2_u_ask',0); said=[]; picks=['先回去']; await go('y2r2_u',12);
-  check('14. U2 先走：「好。到家傳一隻長頸鹿貼圖給我。」；沒有公車；沒有 Alison（不認識）以外的人',has('好。到家傳一隻長頸鹿貼圖給我。')&&!any(/睡著/)&&G.flags.KX_BUS_HOME==='left');
-  run('2027-05-08',21.25,23.25); check('14. 先走：21:30 群組兩張照片；沒有 23:00',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['zhe:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&!PHONE.sent(G,'y2r2_u_kiss'));
+  check('14. U2 先走：「好。到家傳一隻長頸鹿貼圖給我。」；沒有公車；沒有 Alison（不認識）以外的人',has('好。到家傳一隻長頸鹿貼圖給我。')&&!any(/睡著/)&&G.flags.KX_BUS_HOME==='left'&&!has('邵鈞是『拍照的那個』，詹靖是『找廁所的那個』。'));
+  run('2027-05-08',21.25,23.25); check('14. 先走：21:30 群組兩張照片；沒有 23:00',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['yule:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&!PHONE.sent(G,'y2r2_u_kiss'));
   { const k12=ev('ev_kexin_two_circles'); if(k12&&typeof k12.after==='function'){ fresh('2027-03-25',20.5,'noodle',{met_yu:true}); date('kexin'); meet('classmate_bohan'); G.flags.KX_CIRCLES_MET=true; k12.after(G); run('2027-04-28',20.75,21.25);
-    check('14. 接 1B-07 的 K12（ev_kexin_two_circles 結束建的「麵店分店」和成員）：4/28 邀約在那個群組；AA_375 第 15 項：Alison、柏翰 19:40 先去讀書會，群組不算他們——只有阿哲',PHONE.inGroup(G,'noodle_branch')&&JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['zhe:下週六下午一點，老街。搭公車去，這次沒有人要開車。']),JSON.stringify(txt('g:noodle_branch'))); }
+    check('14. 接 1B-07 的 K12（ev_kexin_two_circles 結束建的「麵店分店」和成員）：4/28 邀約在那個群組；AA_375 第 15 項：Alison、柏翰 19:40 先去讀書會，群組不算他們——只有阿哲',PHONE.inGroup(G,'noodle_branch')&&JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1']),JSON.stringify(txt('g:noodle_branch'))); }
     else check('14. 1B-07 的 ev_kexin_two_circles 還沒進來（這個檢查跳過）',true); }
-  bus({NOODLE_BRANCH_MEMBERS:['kexin','zhe','classmate_bohan']});
-  check('14. 1B-07 記的成員（Alison 那天不在、柏翰在）：邀約是阿哲、柏翰「那天我在總圖。」，沒有 Alison（CANON-NO-ECON-1112 第四批：照 AA_889 換字）',JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['zhe:下週六下午一點，老街。搭公車去，這次沒有人要開車。','classmate_bohan:那天我在總圖。']),JSON.stringify(txt('g:noodle_branch')));
+  bus({NOODLE_BRANCH_MEMBERS:['kexin','yule','zhe','classmate_bohan']});
+  check('14. 1B-07 記的成員（Alison 那天不在、柏翰在）：邀約是阿哲「+1」、柏翰「那天我在總圖。」，沒有 Alison',JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1','classmate_bohan:那天我在總圖。']),JSON.stringify(txt('g:noodle_branch')));
   ans('y2r2_u_ask',0); said=[]; picks=['先回去']; await go('y2r2_u',12); check('14. Alison 不在群組：老街沒有「書記」',!has('Alison 是『書記』。'));
-  bus(); ans('y2r2_u_ask',1); run('2027-05-08',12,21.75); check('14. U3 沒參加：群組兩張照片、沒有提公車；KX_BUS_HOME no',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['zhe:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&G.flags.KX_BUS_HOME==='no'&&!txt('g:noodle_branch').some(t=>/公車上/.test(t)));
+  bus(); ans('y2r2_u_ask',1); run('2027-05-08',12,21.75); check('14. U3 沒參加：群組兩張照片、沒有提公車；KX_BUS_HOME no',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['yule:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&G.flags.KX_BUS_HOME==='no'&&!txt('g:noodle_branch').some(t=>/公車上/.test(t)));
 
   // 15. 2-Y2-17 芷若
   fresh('2027-05-11',22,'dorm'); R('heroine_02','FRI'); date('heroine_02'); run('2027-05-11',22.5,22.75);

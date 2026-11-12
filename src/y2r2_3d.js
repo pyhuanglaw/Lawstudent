@@ -192,20 +192,21 @@ const Y2R2=(function(){
   const UGO=id=>({custom:G=>!!(G.flags.Y2R2_U_WHO||[]).includes(id)});
   const inBranch=(G,id)=>Array.isArray(G.flags.NOODLE_BRANCH_MEMBERS)?G.flags.NOODLE_BRANCH_MEMBERS.includes(id):knows(id,G);   /* 「麵店分店」的成員（1B-07 記在 NOODLE_BRANCH_MEMBERS；沒有的舊存檔＝K12 那天認識才在，同 1B-07 的規則）*/
   EV.push({ id:'ev_kexin_bus_home', title:'回程的公車', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    beforeOuting:(G)=>{ const W=['kexin','zhe']; if(inGroup(G,'noodle_branch')&&inBranch(G,'yu')) W.push('yu'); G.flags.Y2R2_U_WHO=W; },   /* CANON-NO-ECON-1112 第四批：照 AA_889 換字（室友的角色給阿哲；外校同學拿掉）*/
+    beforeOuting:(G)=>{ const W=['kexin','yule','zhe']; if(inGroup(G,'noodle_branch')&&inBranch(G,'yu')) W.push('yu'); if(G.flags.KX_NCCU_FRIENDS) W.push('nccu'); G.flags.Y2R2_U_WHO=W; },
     outingMissed:(G)=>{ G.flags.KX_BUS_HOME='no'; },
     dialogue:[ {scene:'老街',bg:'trip_oldtown'},
       {speaker:null,text:'（山邊的老街。一條上坡的窄路，兩邊都是賣吃的。）'},
       {speaker:'kexin',expression:'neutral',text:'（在第一家店門口）這家寫百年老店。'},
       {speaker:'kexin',expression:'teasing',text:'……隔壁那家也寫。'},
-      {speaker:'zhe',text:'今天每個人都要有一個老街限定的名字。'},
-      {speaker:'zhe',text:'{name}，你是「今天不用開車的人」。'},
-      {speaker:'zhe',text:'可昕是「老街考古學家」。我是「試吃大使」。'},
-      {if:UGO('yu'),speaker:'zhe',text:'Alison 是『書記』。'},
-      {speaker:'kexin',expression:'neutral',text:'那你命名你自己？'},
-      {speaker:'zhe',text:'我是「命名官」。這個不能投票。'},
+      {speaker:'予樂',text:'今天每個人都要有一個老街限定的名字。'},
+      {speaker:'予樂',text:'{name}，你是「放假的司機」。'},
+      {speaker:'予樂',text:'可昕是「老街考古學家」。阿哲是「試吃大使」。'},
+      {if:UGO('yu'),speaker:'予樂',text:'Alison 是『書記』。'},
+      {if:UGO('nccu'),speaker:'予樂',text:'邵鈞是『拍照的那個』，詹靖是『找廁所的那個』。'},{if:UGO('nccu'),speaker:'詹靖',text:'……這個不能改嗎？'},
+      {speaker:'kexin',expression:'neutral',text:'那妳呢？'},
+      {speaker:'予樂',text:'我是「命名官」。這個不能投票。'},
       {advance:G=>G.hour<17?17-G.hour:0},
-      {speaker:'zhe',text:'要先回去的舉手。剩下的吃完晚餐，搭晚上的公車。'},
+      {speaker:'予樂',text:'要先回去的舉手。剩下的吃完晚餐，搭晚上的公車。'},
       {choice:[{text:'「留下來吃晚餐。」',set:{KX_BUS_HOME:'kissed'},goto:'bus'},{text:'「我先回去。」',set:{KX_BUS_HOME:'left'},goto:'left'}]},
       {label:'left'},{speaker:'kexin',expression:'smile',text:'好。到家傳一隻長頸鹿貼圖給我。'},{end:true},
       {label:'bus'},{advance:G=>G.hour<21.5?21.5-G.hour:0},{scene:'公車上',bg:'dark'},   /* 吃完晚餐、晚上的公車（21:30 上車，回到臺北 22:30；23:00 她傳）*/
@@ -534,14 +535,14 @@ const Y2R2=(function(){
     /* --- 2-Y2-16 回程的公車 --- */
     { const a=d('u0'), m=d('u'); if(kx(G)&&a!=null&&!!F.KX_CIRCLES_MET&&inGroup(G,'noodle_branch')){ const N=(from,text,name)=>Object.assign({th:'g:noodle_branch',from,text},name?{name}:{});
         if(win(G,a,21,3)&&!sent(G,'y2r2_u_ask')){ const L=[]; const ask={id:'y2r2_u_ask',until:abs(m,12.5),opts:[{t:'去。',set:{KX_U:'yes'}},{t:'那天不行。',set:{KX_U:'no'}}]};
-          L.push(N('zhe','下週六下午一點，老街。搭公車去，這次沒有人要開車。')); if(inBranch(G,'yu')) L.push(N('yu','我也要！！')); if(inBranch(G,'classmate_bohan')) L.push(N('classmate_bohan','那天我在總圖。'));
+          L.push(N('yule','下週六下午一點，老街。搭公車去。司機這次放假。','予樂')); if(inBranch(G,'zhe')) L.push(N('zhe','+1')); if(inBranch(G,'yu')) L.push(N('yu','我也要！！')); if(inBranch(G,'classmate_bohan')) L.push(N('classmate_bohan','那天我在總圖。'));
           L[L.length-1]=Object.assign(L[L.length-1],{ask}); at(G,a,21,L,'y2r2_u_ask'); }
         if(F.KX_U==='yes'&&!outGet(G,'y2r2_u')&&now(G)<abs(m,13.25)) plan(G,{id:'y2r2_u',ev:'ev_kexin_bus_home',day:m,h:13,late:0.25,place:'老街',title:'老街（公館燒臘分店）',travel:'搭公車約 50 分鐘',travelH:5/6});
         if(G.day===m&&G.hour>=13&&inGroup(G,'noodle_branch')&&!F.Y2R2_U_RENAMED){ F.Y2R2_U_RENAMED=1; const g=PHONE.rec(G).groups.noodle_branch; if(g){ F.Y2R2_U_OLDNAME=g.name; g.name='老街限定'; } }   /* 群組名稱當天改成「老街限定」，隔天改回「麵店分店」*/
         if(G.day>m&&F.Y2R2_U_RENAMED===1){ F.Y2R2_U_RENAMED=2; const g=PHONE.rec(G).groups.noodle_branch; if(g) g.name=F.Y2R2_U_OLDNAME||'公館燒臘分店'; }
         if(F.KX_BUS_HOME==='kissed'&&win(G,m,23,2)&&!sent(G,'y2r2_u_kiss')) at(G,m,23,[Object.assign(K('你剛剛在公車上睡著了。靠在我肩上。'),{pin:true}),Object.assign(K('我親了你一下。你沒醒。'),{pin:true}),Object.assign(K('先跟你說一聲。'),{pin:true,ask:{id:'y2r2_u_kiss',opts:[{t:'我醒著。',say:[{from:'kexin',text:'騙人。你在打呼。'}]},{t:'那我要補一個。',say:[{from:'kexin',text:'……下次你醒著的時候。'}]},{t:'（傳一個長頸鹿貼圖）',post:'（貼圖：長頸鹿）',say:[{from:'kexin',text:'（她回一隻長頸鹿）'},{from:'kexin',text:'你就是這隻。睡著的那隻。'}]}]}})],'y2r2_u_kiss');
-        const q=outGet(G,'y2r2_u'); if(F.KX_BUS_HOME!=='kissed'&&win(G,m,21.5,2)&&sent(G,'y2r2_u_ask')&&!done(G,'ev_kexin_bus_home')&&!sent(G,'y2r2_u_photo')){ if(!F.KX_BUS_HOME) F.KX_BUS_HOME='no'; at(G,m,21.5,[N('zhe','📷（老街的階梯，一排人的背影）'),N('zhe','📷（一桌試吃的小碟子）')],'y2r2_u_photo'); }
-        if(F.KX_BUS_HOME==='left'&&win(G,m,21.5,2)&&!sent(G,'y2r2_u_photo')) at(G,m,21.5,[N('zhe','📷（老街的階梯，一排人的背影）'),N('zhe','📷（一桌試吃的小碟子）')],'y2r2_u_photo'); } }
+        const q=outGet(G,'y2r2_u'); if(F.KX_BUS_HOME!=='kissed'&&win(G,m,21.5,2)&&sent(G,'y2r2_u_ask')&&!done(G,'ev_kexin_bus_home')&&!sent(G,'y2r2_u_photo')){ if(!F.KX_BUS_HOME) F.KX_BUS_HOME='no'; at(G,m,21.5,[N('yule','📷（老街的階梯，一排人的背影）','予樂'),N('zhe','📷（一桌試吃的小碟子）')],'y2r2_u_photo'); }
+        if(F.KX_BUS_HOME==='left'&&win(G,m,21.5,2)&&!sent(G,'y2r2_u_photo')) at(G,m,21.5,[N('yule','📷（老街的階梯，一排人的背影）','予樂'),N('zhe','📷（一桌試吃的小碟子）')],'y2r2_u_photo'); } }
     /* --- 2-Y2-17 芷若：交往中 5/11 22:40 --- */
     { const m=d('zrc'); if(m!=null&&law(G)&&dating(G,'heroine_02')){ const Z=t=>({th:'p:heroine_02',from:'heroine_02',text:t});
         if(win(G,m,22+40/60,1)&&!sent(G,'y2r2_zr_admit')) at(G,m,22+40/60,[Z('信來了。'),Z('……錄取了。'),Object.assign(Z('我現在不想打字。你可以打給我嗎。'),{ask:{id:'y2r2_zr_admit',until:abs(m,23.5),opts:[{t:'（打給她）',post:false,set:{ZR_ADMIT_CALL_GO:true}}]}})],'y2r2_zr_admit');
