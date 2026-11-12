@@ -61,6 +61,7 @@ const ZONE_ASSETS={
   "soclib_2f":["bldg.soclib2f_interior"],
   "tingzhou":["bldg.tingzhou_street","bldg.tingzhou_stalls","bldg.wz_scooter"],
   "tz_limao":["bldg.tz_limao_interior"],
+  "tz_keju":["bldg.tz_keju_interior"],
   "tz_taimi":["bldg.tz_taimi_interior"],
   "tz_yuehaochi":["bldg.tz_yuehaochi_interior"],
   "tz_xile":["bldg.tz_xile_interior"],

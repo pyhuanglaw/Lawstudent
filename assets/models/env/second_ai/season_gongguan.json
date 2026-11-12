@@ -5,7 +5,7 @@
  "tris_drawn": 28382,
  "materials": 3,
  "out": "assets/models/env/second_ai/season_gongguan.glb",
- "bytes": 1905904,
+ "bytes": 1905960,
  "texres": 1024,
  "set": "gongguan",
  "doors": 11,
@@ -106,16 +106,16 @@
   ],
   "YAM": [
    [
-    -63.6,
-    -62.4,
+    -61.0,
+    -59.8,
     17.65,
     18.3
    ]
   ],
   "MOONCAKE": [
    [
-    -31.4,
-    -30.0,
+    -33.6,
+    -32.2,
     18.15,
     18.75
    ]

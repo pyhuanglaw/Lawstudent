@@ -52866,7 +52866,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-12 04:0x LAWWW-C】越好吃小館室內第 1 版已整合（LAWWW2 3928cdfc1 tz5_yuehaochi_v1.patch；區域 tz_yuehaochi，汀州路店門「進越好吃小館」；tz_shops／tingzhou 五支 Node 過；瀏覽器沒跑→BB 排 CC）；互動點要 AA 的字：tz_yue_order（河粉、春捲、法國麵包、越南咖啡的選單和價錢）、tz_yue_menu、tz_yue_herbs、tz_yue_kitchen、tz_yue_hats、店員；下一間客居雲南｜【11-12 LAWWW-C】使用者 03:5x「你們自己決定」→ LAWWW 定：LAWWW2 第 2 版外觀（騎樓混合：五間照概念圖直接臨人行道、其他老公寓保留騎樓）→ 接著五間室內（一間一間交、最多 3 版 D141；店內字、商品找 AA；店名不改 D147）→ LAWWW 接區域入口、地圖、快速前往 → BB 判｜外觀進遊戲、使用者看過再決定要不要做室內（D141：先進遊戲）",
+   "next": "【11-12 04:1x LAWWW-C】客居雲南室內第 1 版已整合（LAWWW2 28c3682f8 tz5_keju_v1.patch；區域 tz_keju、16 座；順便修越好吃的菜單貼圖）；互動點要 AA 的字：tz_keju_order（過橋米線、米干、涼拌、普洱茶）、tz_keju_menu、tz_keju_tea、tz_keju_kitchen、tz_keju_batik；下一間東南大聯商行｜【11-12 04:0x LAWWW-C】越好吃小館室內第 1 版已整合（LAWWW2 3928cdfc1 tz5_yuehaochi_v1.patch；區域 tz_yuehaochi，汀州路店門「進越好吃小館」；tz_shops／tingzhou 五支 Node 過；瀏覽器沒跑→BB 排 CC）；互動點要 AA 的字：tz_yue_order（河粉、春捲、法國麵包、越南咖啡的選單和價錢）、tz_yue_menu、tz_yue_herbs、tz_yue_kitchen、tz_yue_hats、店員；下一間客居雲南｜【11-12 LAWWW-C】使用者 03:5x「你們自己決定」→ LAWWW 定：LAWWW2 第 2 版外觀（騎樓混合：五間照概念圖直接臨人行道、其他老公寓保留騎樓）→ 接著五間室內（一間一間交、最多 3 版 D141；店內字、商品找 AA；店名不改 D147）→ LAWWW 接區域入口、地圖、快速前往 → BB 判｜外觀進遊戲、使用者看過再決定要不要做室內（D141：先進遊戲）",
    "xai": {
     "spec": "X322",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -54106,6 +54106,36 @@
    "authorized": "使用者直接要求（選擇題「照四步做」）",
    "evidence": "",
    "sha": ""
+  },
+  {
+   "id": "MOONCAKE-EXIT-1112",
+   "title": "中秋禮盒桌擋住日和便利店出來的落點；同一類：烤地瓜攤蓋住公館燒臘落點（BB 11-12 03:53 GAME_BUG）",
+   "area": "BUG",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "【11-12 LAWWW-C】LAWWW2 c7205db55 mooncake_exit_v1.patch 已整合：禮盒桌往西 2.2 m、烤地瓜攤往東 2.6 m（season_deco.js＋season_gongguan.glb 兩個節點平移）；tests/season_exit_clear_1112_unit.js（修改前 FAIL）＋季節、夜市相關過；BB 排瀏覽器",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "中秋前後從日和便利店走出來",
+    "mainline": false,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-12 03:53；LAWWW2-C 交件",
+   "authorized": "擋玩的 bug",
+   "evidence": "",
+   "sha": "c7205db55",
+   "xai": {
+    "receiver": "BB",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "wip/mooncake_exit_1112/README",
+    "acceptance": "中秋、冬天從日和便利店／公館燒臘出來不卡",
+    "ack": "ACK"
+   }
   }
  ]
 }
