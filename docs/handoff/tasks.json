@@ -54500,6 +54500,34 @@
    },
    "source": "使用者 11-12 對 LAWWW-C",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "PLACE-GATE-TOOL-1112",
+   "title": "P0 地點關卡工具（D154）：第一層 tests/place_gate_unit.js（LAWWW）＋第二層 cc_place_gate_probe.py（CC）；每個進得去的地點機器先查店員、客人、窗景、天花板、純色塊、視差、閃、進出、買東西（X360）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "使用者 11-12：「這要寫進測試規則！！避免以後要我真的開遊戲才能發現……請你查 GitHub 開源遊戲的測試方法……寫進你的規則 之後跟我講修改了什麼」。規則已寫（ROLE_BB 2.6、CLAUDE.md §8 第 7 點，HV-35）。工具：①LAWWW：place_gate_unit.js，從 SHOP-LIFE-AUDIT-1112 子代理的 shop_life_audit_1112_unit.js 擴成全部地點＋天花板／窗景／疊面的模型檢查，接進 node-unit-auto ②CC：cc_place_gate_probe.py（四個鏡頭、往上、左右移、連拍、機器判讀），先在今天有問題的版本（泰米、東南大聯、新生南路櫥窗、日常失速）跑一次確認每一項都抓得到，再跑全部地點 ③BB：2.6 的七項寫進驗收表",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
   }
  ]
 }
