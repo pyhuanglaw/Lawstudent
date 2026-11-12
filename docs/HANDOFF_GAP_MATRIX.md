@@ -22,7 +22,8 @@
   - MIDTERM-LINES-1112（AA，P1）：AA_923 定稿 96c3a668eb，併在第五批。
   - KX-DRIFT-SAMEDEPT-1112：已整合待測試，等 BB 瀏覽器（D1／D1c／D2／D3／D4、D5 長椅、21:00 電話、第 61 天午餐）。
   - SHOP-REALISM-1112（D159／D160）：溫特寶邸 v2 等 LAWWW2 patch＋並排圖，LAWWW 先看再整合；tests/shop_cc0_unit.js（LAWWW2 寫）接 node-unit-auto；SHOP_STANDARD_STATUS 加「CC0 素材」欄。
-  - SHOP-STANDARD-BACKFILL-1112：WZ_ICE_r3（CC 佇列最前面）；阿忠鮮果公休收攤節點（LAWWW2）→ LAWWW 接 PLACES.isOpen('wz_fruit')；清州刀削麵打烊湯鍋檯（P3，LAWWW2）。
+  - SHOP-STANDARD-BACKFILL-1112：WZ_ICE_r3（CC 佇列，要 7f2c6bd31f 以後）；WZ-FRUIT-CLOSED-1112（LAWWW2 收攤節點 → LAWWW 接 PLACES.isOpen('wz_fruit')）；L118-KOREA-STAND-1112（清州刀削麵打烊湯鍋檯，P3，LAWWW2）。
+  - 溫特寶邸 v2（SHOP-REALISM-1112）是 LAWWW2 的 WIP、沒交件：`docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/`（LAWWW2 分支 claude/focused-cray-c9uwvw 5b317a192f；patch 底 21773bf35b、GLB 寬 4.96）。
   - L118 座位（LAWWW2，P2）：辛亥韓食 #6／#12、大學食堂 #5。
   - BUG-RUN-STUTTER-1112／FIRST r7：第一次走近卡 0.18～0.2 秒，原因在整條街（LAWWW2 查）。
   - PLACE-GATE-TOOL-1112：「層架上才算」沒做；程式拼的道具量不到。
