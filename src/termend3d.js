@@ -72,6 +72,7 @@ const TERMEND=(function(){
     if(id==='heroine_05'&&DATE.sisPreexam&&DATE.sisPreexam(G)) return {ok:true,decline:'preexam'}; if(id==='heroine_05'&&DATE.sisPrerank&&DATE.sisPrerank(G)) return {ok:true,decline:'prerank'}; return {ok:true}; };
   S.heartWhy=function(G,id,w){ if(typeof DATE==='undefined'||!DATE.log) return false; const Lx=L(); if(!Lx||!Lx.HEART[id]) return false;
     if(G.flags&&G.flags['dating_'+id]) return false;   /* C4：交往中＝女朋友的學期末約會 */
+    if(id==='kexin'&&G.flags&&G.flags.KX_ENDED==='drift') return false;   /* CANON-NO-ECON-1112 第四批（AA_895 第 2 節、AA_876）：和可昕「慢慢分開」以後，心意邀約不再有她 */
     { const h0=S.heart(id,w&&w.id); if(!h0||h0.invite==null) return false; }   /* SHE-FIRST-1110：台詞在 TERMEND_OPTS.HEART 的人（芷若、沛珊）沒載到那一份＝沒有邀約句，不發 */
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return false;   /* C8：分手以後還不能重新開始 */
     if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) return false;   /* AA_600 S5（企劃線 031414cad）：以安、學姊是前任＝不發心意邀約、也不傳 NOPE 那一句；要復合只走祐廷主動的路（約會結尾告白、挽回）*/
