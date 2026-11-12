@@ -3,6 +3,20 @@
 
 
 
+## 進度（2026-11-12 07:00 UTC，LAWWW2-C）
+
+- **規則包同步 D157 做完**：9640f9fae（使用者 11-12 在這個視窗允許；`rules_sync.py --check` 和 RULE_SOURCE 一樣）。hook 要重開工作階段才生效。稱呼使用者用「你／他」（D150）。
+- **SHUIYUAN-MARKET-LANE v1**（1530a5411）LAWWW-C 已整合。
+- **SHOP-WINDOW-3D-1112**（`wip/shop_window3d_1112/README.md`）：新生南路六間的櫥窗從「貼參考圖」改成 3 m 深的立體店內。
+  - 第 1 包大步球鞋 e61b6de33 → 已整合、**BB 判 PASS（BB_379）**；第 2 包好拍／新生運動／山嵐／同弦／大口 f578889d0 → 已整合；第 2b 包顏色對回室內 a37d5fab8 → 已交（DELIVERED，等 ACK）。
+  - 做法：`wz_shopkit.py` 的 `xs_inside3d()`＋`XS_IN3D` 表（一間一個函式）；`wz_street.py` 的 `XS_FRONTS[店]['back']=3.1`；遊戲 `Z3.shopInsideLit(root, zone, {店: 地點})` 打烊調暗（汀州路、公館、118 巷接同一個）。
+  - 重建新生南路：開發分支的 worktree 裡 `/opt/blenv/bin/python tools/blender/env_second/wz_street.py -- --set xinsheng --out <glb>`（6 秒）；`textures/gen/xs_fronts_atlas.jpg` 要用線上 GLB 取出來的那一張（已進開發分支；內容是 WebP）。建完比圖的 md5、同鏡頭渲染。
+  - 坑：`xf_cyl` 直立的圓柱頂點色會掉成白的 → 用 `_xs_vcyl`（車削）；`merge_by_material` 會把同材質的店內合成一個網格 → `_seg` 讓新生南路一間一個。
+  - **還沒做**：①南洋戲院門廳（現在一張圖貼正面）②各店櫥窗的擺設照 `*_layout.js` 逐件對（BB_379；現在只對了顏色）③打烊除了變暗還要鐵捲門或牌子、招牌亮度（LAWWW 06:26）④汀州路 → 公館 同一套 ⑤`views/tz_*`、公館三張窗景重拍 ⑥新生運動廣場 10,300 面，等 CC 的手機數字再決定要不要減。
+- 椰影大道 (2,−123.66) 擋路（CC 量測）：＝校園北邊界 z −124（zones3d.js 那一排灌木），不是 bug；已回 LAWWW-C，要不要補密灌木由他決定。
+- 佇列（LAWWW-C 的順序）：櫥窗立體（上面 ①～⑤）→ SHOP-LIFE-AUDIT 五項 → 12 間矮天花板（等 CC 確認）→ 溫特寶邸室內（暫停）。
+- 沒記帳的：今天的交付還沒登記 `outbox_LAWWW2.json`（約 12 筆）、`user_asks_LAWWW2.json`。
+
 ## 進度（2026-11-12 05:45 UTC；LAWWW2-C）——以這一節為準，下面 04:5x 那一節是舊的
 
 - 今天使用者連續回報（經 LAWWW-C 轉）的順序：室內窗景 P0 → 兩個「閃」→ 林家乾麵街景 → **水源市場巷子（正在做）** → 櫥窗立體（新生南路 → 汀州路 → 公館）→ 店面盤點五項、L118 打烊看得出來關了。汀州路最後一間溫特寶邸室內**停著**（排在這些之後）。
