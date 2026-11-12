@@ -121,12 +121,11 @@
    "verdict": "部分",
    "fail": [],
    "pending": [
-    "效能：第一次走近店門最長一幀 ≤50 ms（f8a0 量到 233 ms；LAWWW2 改預先載入後 CC 重量）",
-    "閃（等 FLK_STRIPS_still，鏡頭固定的新連拍）"
+    "效能：第一次走近店門最長一幀 ≤50 ms（f8a0 量到 233 ms；LAWWW2 改預先載入後 CC 重量）"
    ],
    "at": "2026-11-12T11:5x",
    "ref": "BB_379 第 2 包",
-   "note": "f8a0 SHOP-REAL-INSIDE ⑦b 仍 PASS（07:4x 看圖）；1b PASS（BB0719_flk_1b 近照：店員在櫃台後、客人面向貨架或吧檯＝在逛）；⑥閃 作廢重判（FLK_STRIPS 1e239a98 條圖是探針故意每格轉鏡頭 0.01 rad 拍的，看不出疊面；等 FLK_STRIPS_still）；1b 再看一次 PASS（機器說店員在家具裡＝站在櫃台後；客人離牆 0.35 m＝坐在靠窗吧檯看書）"
+   "note": "f8a0 SHOP-REAL-INSIDE ⑦b 仍 PASS（07:4x 看圖）；1b PASS（BB0719_flk_1b 近照：店員在櫃台後、客人面向貨架或吧檯＝在逛）；⑥閃 作廢重判（FLK_STRIPS 1e239a98 條圖是探針故意每格轉鏡頭 0.01 rad 拍的，看不出疊面；等 FLK_STRIPS_still）；1b 再看一次 PASS（機器說店員在家具裡＝站在櫃台後；客人離牆 0.35 m＝坐在靠窗吧檯看書）；⑥閃 PASS（STRIP_VERIFY_dakou 6b2834fae8：固定相機、漂移 0 mm，連拍沒有任何一格翻動）"
   },
   {
    "zone": "xs_nanyang",
