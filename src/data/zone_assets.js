@@ -63,6 +63,7 @@ const ZONE_ASSETS={
   "tz_limao":["bldg.tz_limao_interior"],
   "tz_keju":["bldg.tz_keju_interior"],
   "tz_dongnan":["bldg.tz_dongnan_interior"],
+  "tz_liantong":["bldg.tz_liantong_interior"],
   "tz_taimi":["bldg.tz_taimi_interior"],
   "tz_yuehaochi":["bldg.tz_yuehaochi_interior"],
   "tz_xile":["bldg.tz_xile_interior"],

@@ -54225,7 +54225,7 @@
    "id": "L118-DRINK-WALL-FLICKER-1112",
    "title": "118 巷喝不喝咖啡店面：牆壁一直在閃（疊面閃爍；使用者截圖：櫃檯後面的石紋牆、杯架那一面）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -54238,7 +54238,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "使用者 11-12 實玩「飲料店牆壁一直在閃」；LAWWW2 查 lane118 街景／l118 店面 GLB 那一面是不是兩片面疊在一起，其他幾間一起掃",
+   "next": "【LAWWW-C 11-12】LAWWW2-C e6fdba625 patch 已整合：原因＝兩片牆疊在同一平面（喝不喝咖啡、果茶社後牆；日常失速西牆北牆×外殼內面），挪頂點 0.8～1.2 cm；tests/shop_flicker_1112_unit.js ALL PASS；瀏覽器要 CC 在使用者電腦走動、轉鏡頭確認不閃｜使用者 11-12 實玩「飲料店牆壁一直在閃」；LAWWW2 查 lane118 街景／l118 店面 GLB 那一面是不是兩片面疊在一起，其他幾間一起掃",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -54337,7 +54337,7 @@
    "id": "WZ-OFFBEAT-WINDOW-FLICKER-1112",
    "title": "溫州街「日常失速」：從店外面往裡看會一直閃（使用者截圖：整面落地窗裡的室內；立體感使用者說還好）（X353）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -54350,7 +54350,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "使用者 11-12（線上版 v9.10.25）：「日常失速還好，但從店外面看進去會一直閃」。LAWWW2：查街景那一包的室內和玻璃／牆是不是疊面（z-fighting）、透明排序、或室內和街景兩份重疊；和 L118-DRINK-WALL-FLICKER-1112 一起查，同一種原因就一起修。之後 SHOP-WINDOW-3D-1112 新做的櫥窗室內也要先確認不閃才交",
+   "next": "【LAWWW-C 11-12】LAWWW2-C e6fdba625 patch 已整合：原因＝兩片牆疊在同一平面（喝不喝咖啡、果茶社後牆；日常失速西牆北牆×外殼內面），挪頂點 0.8～1.2 cm；tests/shop_flicker_1112_unit.js ALL PASS；瀏覽器要 CC 在使用者電腦走動、轉鏡頭確認不閃｜使用者 11-12（線上版 v9.10.25）：「日常失速還好，但從店外面看進去會一直閃」。LAWWW2：查街景那一包的室內和玻璃／牆是不是疊面（z-fighting）、透明排序、或室內和街景兩份重疊；和 L118-DRINK-WALL-FLICKER-1112 一起查，同一種原因就一起修。之後 SHOP-WINDOW-3D-1112 新做的櫥窗室內也要先確認不閃才交",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",

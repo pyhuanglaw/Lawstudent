@@ -2335,7 +2335,7 @@ def _drink(px, w, zf, zb, cm, pid, style):
         fx = mx + 0.2 + nb * 0.4 + 0.05
         if fx + 0.2 < b1: px.cyl(cp('#e9e9e6'), (fx + 0.1, 0.9, zb + 0.3), (fx + 0.1, 1.02, zb + 0.3), 0.09, seg=10); px.cyl(gl, (fx + 0.1, 1.02, zb + 0.3), (fx + 0.1, 1.32, zb + 0.3), 0.075, seg=10)   # 果汁機
     # 後牆：trad 白磁磚＋不鏽鋼層架（杯子、茶葉罐）＋深藍的菜單板；fruit 米白牆＋木層板（玻璃罐裡的糖漬水果）
-    px.box(acc(SK['f_white']) if trad else acc(flat('l118_drink_cream', '#f2ead8', rough=0.9)), -w / 2 + 0.05, w / 2 - 0.05, 0.0, 2.95, zb - 0.05, zb)
+    px.box(acc(SK['f_white']) if trad else acc(flat('l118_drink_cream', '#f2ead8', rough=0.9)), -w / 2 + 0.05, w / 2 - 0.05, 0.0, 2.95, zb - 0.038, zb + 0.012)   # L118-DRINK-WALL-FLICKER-1112（使用者 11-12「飲料店牆壁一直在閃」）：原本 zb−0.05～zb，和 shallow_interior 畫的後牆（頂點色，也是 zb−0.05～zb）兩片疊在同一個平面；這一片往店裡挪 1.2 cm（已交的 lane118_street.glb 用 glb_shift_plane.py 挪了同樣的量，沒有重建）
     s0, s1 = b0 + 0.05, b1 - 0.05
     for y in ((1.75, 2.1) if trad else (1.6, 1.98)):
         px.box(st if trad else acc(SK['wood_lt']), s0, s1, y, y + 0.03, zb, zb + 0.26)
