@@ -15,6 +15,12 @@
 # BB-C 03:30 第 1 項：木曜日第 7 項起點改成一樓出口旁邊最低的點（雲端 be1e 量：第 0 層只有進門那段樓梯間、沒有平地板）
 # ===== P0 CC-C 11-12 04:3x（BB-C 04:23，使用者在線上 v9.10.25 回報）：最前面跑 =====
 # A BUG-RUN-STUTTER-1112：跑步一頓一頓——v9.10.21 aa0f3bcd3、v9.10.25 dc3d33941（線上）各一次；溫州街、椰林大道、公館：站 5 秒／跑 10 秒／走 10 秒每幀時間差（雲端 be1e 驗過流程）
+# ===== P0 CC-C 11-12 05:0x（LAWWW-C 04:42）：跑步頓第二輪——使用者是電腦 Chrome 2308×1064 大視窗＋觸控版面；v9.10.25 線上那版、四個 DSF、溫州街 17:35＋椰林大道（查 24 m 停住）；雲端 be1e 驗過流程（SwiftShader 大畫布只跑得動 2～3 m，數字不能用）=====
+P0_STUTTER2_v91025_dsf1 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025_dsf1;VIEW=2308x1064;DSF=1;HOUR=17.58;ZONES=wenzhou,campus;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+P0_STUTTER2_v91025_dsf1_25 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025_dsf1_25;VIEW=2308x1064;DSF=1.25;HOUR=17.58;ZONES=wenzhou,campus;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+P0_STUTTER2_v91025_dsf1_5 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025_dsf1_5;VIEW=2308x1064;DSF=1.5;HOUR=17.58;ZONES=wenzhou,campus;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+P0_STUTTER2_v91025_dsf2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025_dsf2;VIEW=2308x1064;DSF=2;HOUR=17.58;ZONES=wenzhou,campus;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+
 P0_STUTTER_v91021 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91021;RUN_S=10;SHA=aa0f3bcd30eea217ec732963851ea5f3b35e8d97
 P0_STUTTER_v91025 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # B SHOP-INTERIOR-VIEW-1112：泰米村食先跑（14:00、20:30；1cd2116ee1；雲端 14:00 驗過流程、五張都拍到），BB 看了再跑全部
