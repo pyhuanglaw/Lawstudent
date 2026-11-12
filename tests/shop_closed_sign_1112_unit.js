@@ -25,7 +25,7 @@ if(typeof Z3.shopRealGlow!=='function'){ console.log('FAILED '+fails); process.e
 const mk=(f,name,list)=>{ const J=glb(f), g=new THREE.Group(), root=new THREE.Group(); root.name=name; g.add(root); const glows=[];
   for(const n of J.nodes){ if(!/^GLOW_/.test(n.name||'')||!n.translation) continue; const o=new THREE.Object3D(); o.name=n.name; o.position.set(n.translation[0],n.translation[1],n.translation[2]); o.userData={glow:'rgba(255,220,170,1)',size:1.4,day:0,night:0.9}; root.add(o); glows.push(o); }
   const gm=Z3.glowBatch(E,g,root,glows,name+'_glows'); const zone={update:null}; const R=Z3.shopRealGlow(g,name,zone,list); return {g,gm,R,zone,list}; };
-for(const [label,f,name,list,min] of [['溫州街','wenzhou_street.glb','wenzhou_street_glb',Z3.wzShopReal(),10],['汀州路','tingzhou_street.glb','tingzhou_street_glb',TZ3.shopReal(),10],['新生南路','xinsheng_street.glb','xinsheng_street_glb',XS3.SHOP_REAL,0]]){
+for(const [label,f,name,list,min] of [['溫州街','wenzhou_street.glb','wenzhou_street_glb',Z3.wzShopReal().concat(Z3.WZ_GLOW_ONLY||[]),30],['汀州路','tingzhou_street.glb','tingzhou_street_glb',TZ3.shopReal(),10],['新生南路','xinsheng_street.glb','xinsheng_street_glb',XS3.SHOP_REAL,0]]){
   const A=mk(f,name,list); if(!A.R){ check('1. '+label+'：接得上',false,'回傳 null（清單 '+(list&&list.length)+' 間）'); continue; }
   const items=A.gm.userData.glowBatch.items, aS=A.gm.geometry.attributes.aShop; let far=[], bad=[];
   items.forEach((it,i)=>{ const s=aS.getX(i*4); if(!s) return; if(/^GLOW_(arcadelamp|doorlamp|sconce|goose|lantern|.*stairlamp)/.test(it.n)) bad.push(it.n); const pl=A.R.ids[s-1]; const d=Math.min(...list.filter(q=>q.place===pl).map(q=>Math.hypot(it.x-q.cx,it.z-q.cz))); if(d>12) far.push(it.n+'→'+pl+' '+d.toFixed(1)); });
