@@ -1,0 +1,125 @@
+{
+ "_meta": {
+  "doc": "AA_906 芷若第二批（DLG-FULL-REVIEW-1110）：鬧著講的「……」開頭、重複的「今天沒班」",
+  "by": "AA-C 2026-11-12 20:2x",
+  "status": "待 BB 第二意見（D153）",
+  "what": "笑著講、補一句的「……」拿掉；真的停住（多段感情被發現、交換申請拖著、打烊多擦一次吧檯）照留。「今天沒班」五處留兩處（閒聊「今天沒班，我要去書店晃一下。」、一起活動「今天我沒班。整個下午都沒有。」），其他換說法。",
+  "apply": "old 是開發分支 src 現在的字（以檔案內唯一一句整句對）；ladder、activity_scenes 改源稿重匯；其他照 file／old／new 換。"
+ },
+ "rows": [
+  {
+   "file": "src/data/ladder.js",
+   "old": "……你這樣講好像我在偷看。好啦，是有一點。",
+   "new": "你這樣講好像我在偷看。好啦，是有一點。",
+   "note": "源稿已改：ladder/build_ladder_bb.py、ladder/ladder_bb.json"
+  },
+  {
+   "file": "src/data/ladder.js",
+   "old": "……你這句好肉麻喔。好啦，我這禮拜去配。",
+   "new": "你這句好肉麻喔。好啦，我這禮拜去配。",
+   "note": "源稿已改：ladder/ladder_bb_y1s2.json、ladder/build_ladder_bb_y1s2.py"
+  },
+  {
+   "file": "src/data/ladder.js",
+   "old": "……要排隊。第一個是我媽，她要檢查。",
+   "new": "要排隊喔。第一個是我媽，她要檢查。",
+   "note": "源稿已改：ladder/ladder_bb_y2s1.json、ladder/build_ladder_bb_y2s1.py"
+  },
+  {
+   "file": "src/data/ladder.js",
+   "old": "……我不會跟她說你這樣講。她會得意。",
+   "new": "我不會跟她說你這樣講。她會得意。",
+   "note": "源稿已改：ladder/build_ladder_bb_y2s2.py、ladder/ladder_bb_y2s2.json"
+  },
+  {
+   "file": "src/data/ladder.js",
+   "old": "今天沒班。我出來買東西，順便走一走。",
+   "new": "我出來買東西，順便走一走。休假的特權。",
+   "note": "源稿已改：ladder/build_ladder_bb_y2s2.py、ladder/ladder_bb_y2s2.json"
+  },
+  {
+   "file": "src/data/termend_lines.js",
+   "old": "……你不准趁我不在，去別家喝咖啡。",
+   "new": "你不准趁我不在，去別家喝咖啡。",
+   "note": "src 直接換（企劃線沒有源稿）"
+  },
+  {
+   "file": "src/data/termend_lines.js",
+   "old": "……六月的週五，你先全部給我。",
+   "new": "六月的週五，你先全部給我。",
+   "note": "src 直接換（企劃線沒有源稿）"
+  },
+  {
+   "file": "src/data/termend_opts.js",
+   "old": "……店長明天一定會看出來。",
+   "new": "店長明天一定會看出來。",
+   "note": "源稿已改：AA_748_termend_heart_v2.json"
+  },
+  {
+   "file": "src/data/termend_opts.js",
+   "old": "……好啦，可能兩天。",
+   "new": "好啦，可能兩天。",
+   "note": "源稿已改：AA_749_termend_gf_v2.json"
+  },
+  {
+   "file": "src/data/events.js",
+   "old": "……老闆會以為你是股東。",
+   "new": "老闆會以為你是股東。",
+   "note": "AA_789_events_zr 已有這一列（還沒匯進 src），照那份匯就好"
+  },
+  {
+   "file": "src/data/events.js",
+   "old": "……好啦，那部電影沒有結局可以劇透。你這樣算答應了嗎？",
+   "new": "好啦，那部電影沒有結局可以劇透。你這樣算答應了嗎？",
+   "note": "AA_789_events_zr 已有這一列（還沒匯進 src），照那份匯就好"
+  },
+  {
+   "file": "src/data/events.js",
+   "old": "……好，這個可以拍成短片。我剪片。你負責講。",
+   "new": "好，這個可以拍成短片。我剪片。你負責講。",
+   "note": "AA_789_events_zr 已有這一列（還沒匯進 src），照那份匯就好"
+  },
+  {
+   "file": "src/data/activity_scenes.js",
+   "old": "今天也沒班。",
+   "new": "我把班換掉了。",
+   "note": "源稿已改：AA_708_activity_scenes.json"
+  },
+  {
+   "file": "src/data/activity_scenes.js",
+   "old": "今天我沒班。我是客人。",
+   "new": "我是客人。不要叫我幫忙收杯子。",
+   "note": "源稿已改：AA_708_activity_scenes.json"
+  },
+  {
+   "file": "src/data/vac_activities.js",
+   "old": "……第一杯，我還是做給你。坐。",
+   "new": "第一杯，我還是做給你。坐。",
+   "note": "src 直接換（企劃線沒有源稿）"
+  },
+  {
+   "file": "src/data/vac_activities.js",
+   "old": "……今天的咖啡不是我做的，學妹做的。你喝喝看。比我好喝的話，我會生氣。",
+   "new": "今天的咖啡不是我做的，學妹做的。你喝喝看。比我好喝的話，我會生氣。",
+   "note": "src 直接換（企劃線沒有源稿）"
+  },
+  {
+   "file": "src/data/movie_plots.js",
+   "old": "……好啦，一半一半。",
+   "new": "好啦，一半一半。",
+   "note": "源稿已改：AA_745_movie_plots_3.json、AA_745_fallback.json"
+  },
+  {
+   "file": "src/data/movie_plots.js",
+   "old": "……好啦，第六個晚上我也看了一下手機。",
+   "new": "好啦，第六個晚上我也看了一下手機。",
+   "note": "源稿已改：AA_745_movie_plots_1.json"
+  },
+  {
+   "file": "src/data/msg_replies.js",
+   "old": "……子晴說要請我吃飯，結果是我請她。",
+   "new": "子晴說要請我吃飯，結果是我請她。",
+   "note": "源稿已改：AA_709_msg_replies.json"
+  }
+ ]
+}

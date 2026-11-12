@@ -67,7 +67,7 @@ D['characters'][ZR] = {'steps': [
   'lines':['這副眼鏡是高中配的。度數早就不對了。','可是換了又要重新習慣。我一直拖。'],
   'extraIf':[{'if':mem(ZR,'SHARED_SECRET'),'lines':['……交換的申請也是，一直拖。']}],
   'choices':[ch('「看不清楚不會累嗎？」','會啊。看投影片要瞇眼，看久了頭痛。'),
-             ch('「換了也還是妳在看。」','……你這句好肉麻喔。好啦，我這禮拜去配。',rel={'comf':1})],'rel':{'fam':2,'trust':1},'mem':'ZR2_GLASSES',
+             ch('「換了也還是妳在看。」','你這句好肉麻喔。好啦，我這禮拜去配。',rel={'comf':1})],'rel':{'fam':2,'trust':1},'mem':'ZR2_GLASSES',
   'note':'extraIf：Z4（第 12 週，SHARED_SECRET）聽過交換申請的玩家，她多一句；沒聽過的玩家不知道交換的事（2026-10-17 口語改稿：BB_167 SC1 #17、選項①回覆 #12）'},
  {'id':'Z2-L7','if':st(ZR,'FAMILIAR'),'unlessWorking':True,'week':[6,16],
   'lines':['打烊以後，我會自己在店裡坐十分鐘。不開燈。','老闆說很浪費。可是十分鐘的電費，我算過，一塊多。'],
