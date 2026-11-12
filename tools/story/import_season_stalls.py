@@ -79,7 +79,14 @@ def build(d):
     S = {k: stall(k, d['stalls'][k]) for k in d['stalls']}
     if not S:
         die('stalls 是空的')
-    L = {k: NMI.txt(d['looks'][k], f'looks.{k}') for k in d['looks']}
+    # 2026-11-12（AA_793@58c5c2c1bb）：looks.<id> 可以是「照季節各一句」的物件（花序門口的花：spring／may／summer／autumn／winter；note 是給人看的說明，不匯）
+    def look(v, w):
+        if isinstance(v, dict):
+            o = {k: NMI.txt(v[k], f'{w}.{k}') for k in v if k != 'note'}
+            if 'spring' not in o: die(f'{w}：照季節的物件要有 spring（沒有對到的季節用它）')
+            return o
+        return NMI.txt(v, w)
+    L = {k: look(d['looks'][k], f'looks.{k}') for k in d['looks']}
     if sorted(d['looksFruit']) != sorted(FRUITS):
         die(f'looksFruit 要剛好是 {FRUITS}（{sorted(d["looksFruit"])}）；水果換了先改這支工具和 src/season_stalls3d.js 的 FRUIT')
     F = {k: NMI.txt(d['looksFruit'][k], f'looksFruit.{k}') for k in d['looksFruit']}

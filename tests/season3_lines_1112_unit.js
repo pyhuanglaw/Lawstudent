@@ -13,7 +13,7 @@
    9  不改存檔：買完、看完以後存檔沒有多欄位
    修改前（42a854dee9：沒有 season_stalls.js、season_stalls3d.js、import_season_stalls.py）：0 就 FAIL。用法：node tests/season3_lines_1112_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), SHA='e2ea0ea3c', SRC='docs/story_planning/AA_793_season3_stalls.json';
+const ROOT=path.resolve(__dirname,'..'), SHA='58c5c2c1bb'/* 2026-11-12 重匯（舊 e2ea0ea3c）：花序門口的花照季節各一句、水果箱只演當季一句、花束攤老闆娘 */, SRC='docs/story_planning/AA_793_season3_stalls.json';
 global.window=global;
 process.on('unhandledRejection',()=>{});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
@@ -52,7 +52,7 @@ const TABLE={   /* 稿的名字、品名、價錢、鐘點（AA_793 @e2ea0ea3c�
   let raw=null; try{ raw=JSON.parse(cp.execFileSync('git',['-C',ROOT,'show',SHA+':'+SRC],{encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']})); }catch(e){}
   if(!raw) check('2. 整份逐字比企劃稿（這個複本沒有企劃線的 '+SHA+'，略過）',true);
   else { const diff=[]; for(const k in raw.stalls){ const a=raw.stalls[k], b=SS.stalls[k]||{}; for(const f of Object.keys(a)) if(!eq(a[f],b[f])) diff.push(k+'.'+f); for(const f of Object.keys(b)) if(!(f in a)&&f!=='open') diff.push(k+'.'+f+'（稿上沒有）'); }
-    if(!eq(raw.looks,SS.looks)) diff.push('looks'); if(!eq(raw.looksFruit,SS.looksFruit)) diff.push('looksFruit');
+    { const rl=JSON.parse(JSON.stringify(raw.looks)); for(const k in rl) if(rl[k]&&typeof rl[k]==='object') delete rl[k].note; if(!eq(rl,SS.looks)) diff.push('looks'); } if(!eq(raw.looksFruit,SS.looksFruit)) diff.push('looksFruit');
     check('2. 整份逐字比企劃稿（'+SHA+'）：六攤每一個欄位、looks 五句、looksFruit 五句一個字都不差',!diff.length&&eq(Object.keys(raw.stalls),Object.keys(SS.stalls))&&Object.keys(raw.looks).length===5&&Object.keys(raw.looksFruit).length===5,diff.join(' ')); } }
 
 /* 3 對到 season_deco.js */
@@ -77,7 +77,7 @@ const dayNot=(code,hour)=>{ for(let d=30;d<=1500;d++) if(!SD3.on(code,d,{hour,we
 /* 進區域：照 X 的日期、鐘點建（SD3 在這一刻決定今天擺哪幾攤）*/
 const enter=(zid,X)=>{ global.GAME=X.GM; const E={interactables:[]}; const z=Z3.ZONES[zid].build(E); E.zone=z; return {E,z}; };
 const isNarr=t=>NM3.isNarr(t);
-const WHO={sea_yam:'阿伯',sea_aiyu:'阿姨',sea_mooncake:'店員',sea_couplet:'老闆',sea_bouquet:'老闆',sea_textbook:'店員'};   /* 稿的旁白裡的稱呼；沒有的照夜市的「老闆」*/
+const WHO={sea_yam:'阿伯',sea_aiyu:'阿姨',sea_mooncake:'店員',sea_couplet:'老闆',sea_bouquet:'老闆娘'/* 2026-11-12 AA_793 lawww_1112 ①（舊：老闆）*/,sea_textbook:'店員'};   /* 稿的旁白裡的稱呼；沒有的照夜市的「老闆」*/
 
 (async()=>{
   /* 4 每一樣各買一次 */
@@ -131,11 +131,12 @@ const WHO={sea_yam:'阿伯',sea_aiyu:'阿姨',sea_mooncake:'店員',sea_couplet:
       if(its.length!==1||typeof P.onInteract!=='function'){ bad.push(id+' '+code+' 互動點 '+its.length); continue; }
       if(P.label!==q.label||P.x!==q.x||P.z!==q.z) bad.push(id+' 按鈕或位置');
       const got=z.seasonLooks.find(s=>s.id===id); if(!got||got.code!==code) bad.push(id+' 今天那一組 '+(got&&got.code));
-      await P.onInteract(P); const want=[SS.looks[id]].concat(id==='sea_fruit'?SS3.FRUIT[code].map(f=>SS.looksFruit[f]):[]).map(t=>[null,t]);
-      if(!eq(X.log,want)||X.menus.length||X.G.money!==1000||X.G.hour!==h) bad.push(id+' '+code+' 念的 '+JSON.stringify(X.log).slice(0,80)); }
-    const F=c=>SS3.lookLines({id:'sea_fruit',code:c}).slice(1);
+      await P.onInteract(P); /* 2026-11-12 改期望（AA_793 lawww_1112 ③⑤）：水果箱只念當季那一句（冬天兩種其中一句）；花台照那一季的一句。舊期望：通用句＋當季每一句；花台一句通用的 */
+      const opts=id==='sea_fruit'?SS3.FRUIT[code].map(f=>SS.looksFruit[f]):[typeof SS.looks[id]==='object'?(SS.looks[id][SS3.LOOK_SEASON[code]]||SS.looks[id].spring):SS.looks[id]];
+      if(!(X.log.length===1&&X.log[0][0]===null&&opts.includes(X.log[0][1]))||X.menus.length||X.G.money!==1000||X.G.hour!==h) bad.push(id+' '+code+' 念的 '+JSON.stringify(X.log).slice(0,80)); }
+    const F=c=>{ const r0=SS3.rnd, out=[]; for(const v of [0,0.99]){ SS3.rnd=()=>v; const L=SS3.lookLines({id:'sea_fruit',code:c}); if(L.length===1&&!out.includes(L[0])) out.push(L[0]); } SS3.rnd=r0; return out; };   /* 隨機取到的每一句（只演一句）*/
     check('8. 落地布置五項（水果四組、花台四組共 11 個日子）：有的那一天有「看」，按了念稿的那一句（沒有名字、不出選單、不扣錢、時間不動）',!bad.length&&n===11,bad.slice(0,6).join(' | ')+' n='+n);
-    check('8. 當季水果照今天那一組多念一句：春枇杷、夏芒果、秋文旦、冬椪柑＋草莓（兩句）',eq(F('FRUITSPRING'),[SS.looksFruit.loquat])&&eq(F('FRUITSUMMER'),[SS.looksFruit.mango])&&eq(F('FRUITAUTUMN'),[SS.looksFruit.pomelo])&&eq(F('FRUITWINTER'),[SS.looksFruit.ponkan,SS.looksFruit.strawberry]));
+    check('8. 當季水果只念今天那一組的一句、不念通用句：春枇杷、夏芒果、秋文旦、冬椪柑或草莓（隨機其中一句）；四個季節的花台各自的句子不一樣',eq(F('FRUITSPRING'),[SS.looksFruit.loquat])&&eq(F('FRUITSUMMER'),[SS.looksFruit.mango])&&eq(F('FRUITAUTUMN'),[SS.looksFruit.pomelo])&&eq(F('FRUITWINTER'),[SS.looksFruit.ponkan,SS.looksFruit.strawberry])&&new Set(['FNSPRING','FNMAY','FNJUNE','FNXMAS'].map(c=>SS3.lookLines({id:'flower_notes_season',code:c})[0])).size===4);
     { const d=dayFor('MOONBBQ',18), X=game(1000,d,12,0), {E,z}=enter('gongguan',X), q=DECO.zones.gongguan.looks.MOONBBQ[0], r=await SS3.look(X.GM,z,q);
       check('8. 沒顯示的布置（中秋當天中午：烤肉架晚上才有）沒有「看」，硬叫也不念',!E.interactables.some(x=>x.seasonLook==='sea_moon_bbq')&&r===null&&!X.log.length); } }
 

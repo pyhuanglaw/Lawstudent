@@ -16,7 +16,7 @@ const SS3=(function(){
   const DECO=()=>typeof SEASON_DECO!=='undefined'?SEASON_DECO:null;
   const NM=()=>typeof NM3!=='undefined'?NM3:null;
   const GMof=()=>typeof GAME!=='undefined'?GAME:null;
-  S.VENDOR={sea_yam:{name:'阿伯'},sea_aiyu:{name:'阿姨'},sea_mooncake:{name:'店員'},sea_textbook:{name:'店員'}};   /* 稿的旁白裡的稱呼；沒有列的＝NM3.OWNER */
+  S.VENDOR={sea_yam:{name:'阿伯'},sea_aiyu:{name:'阿姨'},sea_mooncake:{name:'店員'},sea_textbook:{name:'店員'},sea_bouquet:{name:'老闆娘'}};   /* AA_793 lawww_1112 ①：畢業花束那一攤是女的 */   /* 稿的旁白裡的稱呼；沒有列的＝NM3.OWNER */
   S.FRUIT={FRUITSPRING:['loquat'],FRUITSUMMER:['mango'],FRUITAUTUMN:['pomelo'],FRUITWINTER:['ponkan','strawberry']};   /* season_deco.js 的那一組 → 稿 looksFruit 的哪幾句 */
   S.who=key=>S.VENDOR[key]||NM().OWNER;
   S.stallOf=key=>{ const d=D(); return d&&d.stalls[key]||null; };
@@ -26,7 +26,9 @@ const SS3=(function(){
   S.interact=async function(GM,zone,q){ const st=S.stallOf(q.key), nm=NM(); if(!st||!nm||!S.shown(zone,q)) return null;
     if(!S.openNow(GM.G,st)){ await GM.say(null,st.closed); return 'closed'; }
     return nm.serve(GM,q.key,st,S.who(q.key),()=>st.look,st.greet); };
-  S.lookLines=function(q){ const d=D(), t=d&&d.looks[q.id]; if(!t) return []; const out=[t]; if(q.id==='sea_fruit') for(const f of (S.FRUIT[q.code]||[])) if(d.looksFruit[f]) out.push(d.looksFruit[f]); return out; };
+  S.rnd=()=>Math.random();
+  S.LOOK_SEASON={FNSPRING:'spring',FNMAY:'may',FNJUNE:'summer',FNXMAS:'winter'};   /* 花序門口花台的季節代號（season_deco.js）→ 稿的 key */
+  S.lookLines=function(q){ const d=D(); let t=d&&d.looks[q.id]; if(t&&typeof t==='object') t=t[S.LOOK_SEASON[q.code]]||t.spring;   /* 照現在擺的那一季只出一句（AA_793@58c5c2c1bb；沒有對到的用 spring）*/ if(!t) return []; if(q.id==='sea_fruit'){ const fr=(S.FRUIT[q.code]||[]).map(f=>d.looksFruit[f]).filter(Boolean); if(fr.length) return [fr[Math.floor(S.rnd()*fr.length)]]; }   /* AA_793 lawww_1112 ③：只演當季水果那一句（冬天兩種隨機一句）；沒有當季句才演通用句 */ return [t]; };
   S.look=async function(GM,zone,q){ if(!zone||!Array.isArray(zone.seasonLooks)||zone.seasonLooks.indexOf(q)<0) return null; const L=S.lookLines(q); for(const t of L) await GM.say(null,t); return L.length?'look':null; };
   /* 區域建好（SD3.attach 之後）：今天擺的攤、今天有的布置加互動點 */
   S.attach=function(E,zone){ if(!E||!Array.isArray(E.interactables)||!zone||zone._ss3||!D()||!NM()) return 0; zone._ss3=true; let n=0;

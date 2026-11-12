@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_season_stalls.py（docs/story_planning/AA_793_season3_stalls.json@e2ea0ea3c）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_season_stalls.py（docs/story_planning/AA_793_season3_stalls.json@58c5c2c1bb）。不要手改，改企劃稿再重新匯入。
    季節攤販六攤的看、買＋季節落地布置的看（SEASON3-LINES-1111）：名字、品名、價錢、台詞一字照 AA_793；open 是從稿上的 hours 讀出來的。
    對到 src/data/season_deco.js 的哪一攤、哪一項、怎麼演：src/season_stalls3d.js */
 'use strict';
 const SEASON_STALLS={
- "src": "docs/story_planning/AA_793_season3_stalls.json@e2ea0ea3c",
+ "src": "docs/story_planning/AA_793_season3_stalls.json@58c5c2c1bb",
  "stalls": {
   "sea_yam": {
    "name": "烤地瓜",
@@ -285,7 +285,13 @@ const SEASON_STALLS={
   "sea_fruit": "（兩個木箱並排，上面是當季的水果，旁邊一張手寫的卡：「現在最好吃的」。沒有寫價錢。）",
   "sea_moon_pomelo": "（文旦裝在竹編的禮籃裡，一籃八顆，綁著紅色的緞帶。）",
   "sea_lantern": "（小公園入口上方拉了一串燈籠，紅的黃的都有，有一個是兔子的形狀。）",
-  "flower_notes_season": "（門口花台的盆花換了，跟著季節換：春天是鬱金香、五月是康乃馨、夏天是向日葵、冬天是聖誕紅。）",
+  "flower_notes_season": {
+   "spring": "（門口花台的盆花換成鬱金香了。）",
+   "may": "（門口花台擺了一排康乃馨，每一盆插著一張小卡。）",
+   "summer": "（門口花台換成向日葵，全部朝著馬路那一邊。）",
+   "autumn": "（門口花台換了一批小菊花，顏色比夏天淡。）",
+   "winter": "（門口花台換成聖誕紅，花盆包了一層金色的紙。）"
+  },
   "sea_moon_bbq": "（鐵捲門前面擺了一個烤肉架，炭剛點起來，一家人坐在小板凳上等火。）"
  },
  "looksFruit": {
