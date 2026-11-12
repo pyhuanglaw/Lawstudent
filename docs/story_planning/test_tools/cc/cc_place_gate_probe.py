@@ -13,8 +13,8 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗加「細節比例」、店外改射線深度（PC GATE_CAL 1cd2／bd86 校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
-用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 EDGE_LO=3 EDGE_HI=8 ZF_LO=0.3 ZF_HI=1.5] python3 cc_place_gate_probe.py <url> <out>"""
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
@@ -29,8 +29,9 @@ ZONES = [z for z in (os.environ.get('ZONES') or 'tz_taimi').split(',') if z]
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,20.5').split(',') if h]
 PARTS = set((os.environ.get('PARTS') or '1,2,3,4,5,6,7').split(','))
 PAR_LO, PAR_HI = float(os.environ.get('PAR_LO') or '0.05'), float(os.environ.get('PAR_HI') or '0.15')   # 射線：門面後面還有東西的比例
-EDGE_LO, EDGE_HI = float(os.environ.get('EDGE_LO') or '3'), float(os.environ.get('EDGE_HI') or '8')
-ZF_LO, ZF_HI = float(os.environ.get('ZF_LO') or '0.3'), float(os.environ.get('ZF_HI') or '1.5')
+WIN_LO, WIN_HI = float(os.environ.get('WIN_LO') or '40'), float(os.environ.get('WIN_HI') or '55')   # 窗：最大那塊和中間色差 ≤16 的比例（%）
+ZF_LO, ZF_HI = float(os.environ.get('ZF_LO') or '0.3'), float(os.environ.get('ZF_HI') or '1.5')   # 只當參考（校正 r2）
+BURST_FAIL = int(os.environ.get('BURST_FAIL') or '3')
 R = L.Run('gate_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = '2025-10-22'
@@ -66,7 +67,9 @@ ANA_JS = r"""(async a=>{ const im=await new Promise(res=>{ const q=new Image(); 
   const bin=(x0,y0,x1,y1)=>{ const m=new Map(); let n=0; for(let y=Math.floor(y0*H);y<Math.ceil(y1*H);y++) for(let x=Math.floor(x0*W);x<Math.ceil(x1*W);x++){ const o=(y*W+x)*4, key=(d[o]>>3)+'_'+(d[o+1]>>3)+'_'+(d[o+2]>>3); m.set(key,(m.get(key)||0)+1); n++; }
     let best=0, bk=null; for(const [kk,v] of m) if(v>best){ best=v; bk=kk; } let ed=0, ne=0; const L=o=>0.299*d[o]+0.587*d[o+1]+0.114*d[o+2];
     for(let y=Math.floor(y0*H);y<Math.ceil(y1*H);y++) for(let x=Math.floor(x0*W);x<Math.ceil(x1*W)-1&&x<W-1;x++){ const o=(y*W+x)*4; ne++; if(Math.abs(L(o)-L(o+4))>12) ed++; }
-    return {top_pct:n?+(best*100/n).toFixed(1):0, top_rgb:bk?bk.split('_').map(v=>v*8+4):null, n, edge_pct:ne?+(ed*100/ne).toFixed(1):0}; };
+    const R_=[],G_=[],B_=[]; for(let y=Math.floor(y0*H);y<Math.ceil(y1*H);y++) for(let x=Math.floor(x0*W);x<Math.ceil(x1*W);x++){ const o=(y*W+x)*4; R_.push(d[o]); G_.push(d[o+1]); B_.push(d[o+2]); }
+    const md=A=>{ const q=A.slice().sort((p,r)=>p-r); return q[q.length>>1]||0; }, mr=md(R_), mg=md(G_), mb=md(B_); let nm=0; for(let i=0;i<R_.length;i++) if(Math.max(Math.abs(R_[i]-mr),Math.abs(G_[i]-mg),Math.abs(B_[i]-mb))<=16) nm++;
+    return {top_pct:n?+(best*100/n).toFixed(1):0, top_rgb:bk?bk.split('_').map(v=>v*8+4):null, n, edge_pct:ne?+(ed*100/ne).toFixed(1):0, near_med_pct:R_.length?+(nm*100/R_.length).toFixed(1):0, med:[mr,mg,mb]}; };
   let mag=0, sky=0, n3=0; for(let i=0;i<d.length;i+=4){ if(d[i]>170&&d[i+2]>140&&d[i+1]<90) mag++; } for(let y=0;y<Math.floor(H/3);y++) for(let x=0;x<W;x++){ const o=(y*W+x)*4; n3++; if(d[o+2]>d[o]+20&&d[o+2]>=d[o+1]&&d[o+2]>=60) sky++; }
   let skyAll=0; for(let i=0;i<d.length;i+=4){ if(d[i+2]>d[i]+20&&d[i+2]>=d[i+1]&&d[i+2]>=60) skyAll++; }
   return {magenta_pct:+(mag*100/(W*H)).toFixed(2), sky_top_pct:+(sky*100/n3).toFixed(1), sky_all_pct:+(skyAll*400/d.length).toFixed(1), whole:bin(0,0,1,1), rects:(a.rects||[]).map(r=>Object.assign({rect:r},bin(r[0],r[1],r[2],r[3])))}; })"""
@@ -199,13 +202,15 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     aup = await pg.evaluate(ANA_JS, {'u': sup['u']}); a5 = await pg.evaluate(ANA_JS, {'u': u5})
     # ② 窗景
     if a2['rects']:
-        big = [r for r in a2['rects'] if r['n'] >= 300] or a2['rects']
-        worst = max(big, key=lambda r: r['top_pct']); flat = min(big, key=lambda r: r.get('edge_pct', 100)); row['m']['window'] = {'rects': a2['rects'][:6]}
-        # 單色（一種顏色 >80%）或沒有細節（相鄰像素亮度差 >12 的比例 < EDGE_LO）＝FAIL；EDGE_LO～EDGE_HI＝UNKNOWN（校正：1cd2 泰米 20:30 夜窗、2771 修好）
-        if worst['top_pct'] > 80 or flat.get('edge_pct', 100) < EDGE_LO: row['v']['2_window'] = 'FAIL'
-        elif flat.get('edge_pct', 100) < EDGE_HI: row['v']['2_window'] = 'UNKNOWN'
+        area = lambda r: (r['rect'][2] - r['rect'][0]) * (r['rect'][3] - r['rect'][1])
+        main = max(a2['rects'], key=area); worst = max(a2['rects'], key=lambda r: r['top_pct']); row['m']['window'] = {'rects': a2['rects'][:6]}
+        # 校正 r2（PC GATE_CAL 1cd2_r2／2771，CC 在雲端用電腦拍的圖算）：最大那一塊窗，和中間色差 ≤16 的像素比例 near_med_pct——
+        #   有問題的 1cd2 泰米夜窗 67%（白天 65%）；修好的 2771 泰米 26%／18%、東南大聯 15%；日常失速 28～31%（門邊小塊的不算：面積小、雜）。
+        nmp = main.get('near_med_pct', 0)
+        if worst['top_pct'] > 80 or nmp >= WIN_HI: row['v']['2_window'] = 'FAIL'
+        elif nmp >= WIN_LO: row['v']['2_window'] = 'UNKNOWN'
         else: row['v']['2_window'] = 'PASS'
-        row['m']['window']['worst'] = [worst['top_pct'], worst['top_rgb'], worst['rect'][4]]; row['m']['window']['least_edges'] = [flat.get('edge_pct'), flat['rect'][4]]
+        row['m']['window']['worst'] = [worst['top_pct'], worst['top_rgb'], worst['rect'][4]]; row['m']['window']['main'] = [nmp, main.get('med'), main['rect'][4], round(area(main), 3), main.get('edge_pct')]
     else:
         row['v']['2_window'] = 'UNKNOWN'; row['m']['window'] = {'why': '找不到窗玻璃的網格（名字／材質沒有 glass、window、窗，也沒有半透明材質）'}
     # ③ 天花板
@@ -224,7 +229,10 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         z2 = await pg.evaluate(ZF_JS, {'from': [cx, 1.6, cz], 'at': [ex - ux * 2.0, 1.8, ez - uz * 2.0]})
         bu = await pg.evaluate(BURST_JS, {})
         zmax = max(z1['median'], z2['median']); row['m']['flicker'] = {'zf_entry': z1, 'zf_window': z2, 'burst': bu}
-        row['v']['6_flicker'] = v3(ZF_LO, ZF_HI, zmax, low_bad=False)
+        # 校正 r2：0.05° 成對差在正常和已知會閃的店都在 0.2～1.1%（鋸齒），分不出來＝只當參考；改看連拍：同一格畫面亮度來回翻 ≥3 次的格子數
+        #   0 格＝PASS；1～2 格＝UNKNOWN（交 BB 看連拍）；≥ BURST_FAIL 格＝FAIL（暫定，等有已知會閃的室內再校正）
+        nb = (bu or {}).get('blocks_flipping', 0) or 0
+        row['v']['6_flicker'] = 'PASS' if nb == 0 else ('FAIL' if nb >= BURST_FAIL else 'UNKNOWN')
     await pg.evaluate(D.HUD + '(true)')
     # ⑦ 做得到
     fn = None
