@@ -56607,6 +56607,32 @@
     "acceptance": "AA_923 進開發分支＋BB 瀏覽器",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "YEJIAN-SHAOLA-BUY-1112",
+   "title": "頁間書屋買書＋公館燒臘點餐（AA_853；店面標準第 3、4 點）",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "status": "已整合待測試",
+   "src": "AA-C outbox 456（07d3f708f）",
+   "next": "【LAWWW-C 11-12 22:2x】已整合（src/data/yejian_shaola_buy.js、yejian_buy3d.js、shaola_order3d.js，a335ab1dc4）；等 BB 瀏覽器（地點關卡第 4 點）。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_853（07d3f708f）",
+    "acceptance": "買得到、價錢、錢不夠、BB 瀏覽器",
+    "ack": "ACTIONED"
+   },
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   }
   }
  ]
 }
