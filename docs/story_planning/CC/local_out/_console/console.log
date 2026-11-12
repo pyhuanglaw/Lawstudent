@@ -1187,3 +1187,12 @@
 [05:56:52] 正在跑：YY_SEATS_edf2（已跑 10 分／上限 40 分）、SSB_tz_a（已跑 7 分／上限 90 分）、SSB_tz_b（已跑 6 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:01:52] 正在跑：YY_SEATS_edf2（已跑 15 分／上限 40 分）、SSB_tz_a（已跑 12 分／上限 90 分）、SSB_tz_b（已跑 11 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:02:47] [res] cpu=58% mem=51% (16.4/31.4 GB) chrome_testing=10  END YY_SEATS_edf2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       58f25b6d2e..b3dc3f4d20  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:02:59] ==== END   YY_SEATS_edf2  exit=1  1004s   ====
+[06:03:07] memory 49% before starting WZ_ICE_r2 (2 running)
+[06:03:07] ==== START WZ_ICE_r2  (probe @ d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610) ====
+[06:03:10] [res] cpu=22% mem=49% (15.6/31.4 GB) chrome_testing=10  START WZ_ICE_r2
+[06:03:10] worktree add d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610: invalid reference - fetching main and the commit itself
+[06:05:53] [res] cpu=29% mem=53% (16.7/31.4 GB) chrome_testing=10  END WZ_ICE_r2
