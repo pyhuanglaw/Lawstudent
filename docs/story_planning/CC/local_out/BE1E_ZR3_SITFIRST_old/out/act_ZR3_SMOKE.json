@@ -1,0 +1,749 @@
+{
+ "tag": "ZR3_SMOKE",
+ "cfg": {
+  "who": "heroine_02",
+  "kind": "movie",
+  "k": 3,
+  "n": 2,
+  "stage": 4,
+  "pick": 0,
+  "dating": true,
+  "alt": true,
+  "smoke": true,
+  "shot_on": [
+   "中間隔著一點點",
+   "沒有移開"
+  ],
+  "base_word": "中間隔著一點點",
+  "alt_word": "沒有移開",
+  "h_pref": 14,
+  "flags": {
+   "ZR_MOVIE_TWICE": true
+  }
+ },
+ "pick": {
+  "key": "2025-10-18",
+  "cal": {
+   "k": "2025-10-18",
+   "d": 32,
+   "wd": 6,
+   "hol": false,
+   "typh": false,
+   "term": "Y1S1",
+   "week": 7,
+   "exam": false
+  },
+  "setup": {
+   "notes": [
+    "拿掉 dating_kexin"
+   ],
+   "arc": null,
+   "stage": 4,
+   "sstage": "RELATIONSHIP",
+   "rel": {
+    "fam": 66,
+    "trust": 50,
+    "aff": 0,
+    "resp": 0,
+    "comf": 45,
+    "rom": 0,
+    "npcRom": 14,
+    "seen": 0,
+    "talked": 0
+   },
+   "dating": true,
+   "canConfess": {
+    "ok": false,
+    "why": "stage",
+    "stage": 4
+   },
+   "ups": 1,
+   "canInvite": true,
+   "whyNot": "",
+   "hasPage": false,
+   "altOn": {
+    "datingOrReady": true,
+    "anShopPage": false
+   },
+   "name": "祐廷"
+  },
+  "place": {
+   "id": "xs_nanyang",
+   "name": "南洋戲院",
+   "verb": "去南洋戲院看電影",
+   "verbStudy": null,
+   "zone": "xs_nanyang",
+   "cats": [
+    "fun"
+   ],
+   "why": "",
+   "lib": false
+  },
+  "time": {
+   "t": "今天 14:00",
+   "h": 14,
+   "res": "accept",
+   "why": null,
+   "te": false
+  },
+  "film": {
+   "film": "m2509a",
+   "ok": true,
+   "key": "3",
+   "title": "第十三號月台",
+   "withMid": false,
+   "withKind": null
+  },
+  "force": false
+ },
+ "ev": [
+  {
+   "k": "cap",
+   "i": 4,
+   "t": "（約好的是 14:00。還早。你在門口的長椅坐了一下。）"
+  },
+  {
+   "k": "say",
+   "i": 5,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "今天這部，我等很久了。",
+   "h": 13.768,
+   "d": 32,
+   "z": "xs_nanyang_hall",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 6,
+   "who": "",
+   "cid": "",
+   "t": "（她站在海報前面看了很久，看的是導演的名字。）",
+   "h": 13.768,
+   "d": 32,
+   "z": "xs_nanyang_hall",
+   "dark": false
+  },
+  {
+   "k": "lights",
+   "i": 7,
+   "on": false,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "i": 8,
+   "who": "",
+   "cid": "",
+   "t": "（燈暗下來，《第十三號月台》開始了。）",
+   "h": 13.768,
+   "d": 32,
+   "z": "xs_nanyang_hall",
+   "dark": true
+  },
+  {
+   "k": "say",
+   "i": 9,
+   "who": "",
+   "cid": "",
+   "t": "緊急照明的紅燈下，整節車廂的人一起低頭看自己的票。",
+   "h": 14.768,
+   "d": 32,
+   "z": "xs_nanyang_hall",
+   "dark": true
+  },
+  {
+   "k": "say",
+   "i": 10,
+   "who": "",
+   "cid": "",
+   "t": "（演到一半，她的手放在扶手上。你的手也在那裡。她沒有移開。）",
+   "h": 14.768,
+   "d": 32,
+   "z": "xs_nanyang_hall",
+   "dark": true
+  },
+  {
+   "k": "cap",
+   "i": 11,
+   "t": "南洋戲院・林芷若・（2 小時）"
+  },
+  {
+   "k": "lights",
+   "i": 12,
+   "on": true,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "adj",
+   "i": 13,
+   "id": "heroine_02",
+   "d": {
+    "fam": 3,
+    "trust": 1,
+    "comf": 2
+   },
+   "before": {
+    "fam": 66,
+    "trust": 50,
+    "aff": 0,
+    "resp": 0,
+    "comf": 45,
+    "rom": 0,
+    "npcRom": 14,
+    "seen": 2,
+    "talked": 0
+   },
+   "after": {
+    "fam": 69,
+    "trust": 51,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 0,
+    "npcRom": 14,
+    "seen": 2,
+    "talked": 0
+   }
+  },
+  {
+   "k": "adj",
+   "i": 14,
+   "id": "heroine_02",
+   "d": {
+    "npcRom": 1,
+    "rom": 1,
+    "trust": 1
+   },
+   "before": {
+    "fam": 69,
+    "trust": 51,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 0,
+    "npcRom": 14,
+    "seen": 2,
+    "talked": 0
+   },
+   "after": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 15,
+    "seen": 2,
+    "talked": 0
+   }
+  },
+  {
+   "k": "lights",
+   "i": 15,
+   "on": true,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "ch",
+   "i": 16,
+   "opts": [
+    "（手不動）",
+    "（把手翻過來）"
+   ],
+   "dim": [
+    false,
+    false
+   ],
+   "pick": 0,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "adj",
+   "i": 17,
+   "id": "heroine_02",
+   "d": {},
+   "before": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 15,
+    "seen": 3,
+    "talked": 0
+   },
+   "after": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 15,
+    "seen": 3,
+    "talked": 0
+   }
+  },
+  {
+   "k": "adj",
+   "i": 18,
+   "id": "heroine_02",
+   "d": {
+    "npcRom": 1
+   },
+   "before": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 15,
+    "seen": 3,
+    "talked": 0
+   },
+   "after": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 16,
+    "seen": 3,
+    "talked": 0
+   }
+  },
+  {
+   "k": "fx",
+   "i": 19,
+   "id": "heroine_02",
+   "fx": {
+    "love": 1
+   },
+   "cap": "movie:m2509a",
+   "ret": {
+    "npcRom": 1
+   },
+   "before": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 15,
+    "seen": 3,
+    "talked": 0
+   },
+   "after": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 16,
+    "seen": 3,
+    "talked": 0
+   }
+  },
+  {
+   "k": "say",
+   "i": 20,
+   "who": "",
+   "cid": "",
+   "t": "（她的手也沒有動。兩隻手就這樣放到片尾。）",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 21,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "你什麼時候猜到的？",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "ch",
+   "i": 22,
+   "opts": [
+    "我一開始就懷疑對講機那個聲音。",
+    "老工人出來的時候，我以為結束了。",
+    "我沒有在猜。我只想趕快出隧道。"
+   ],
+   "dim": [
+    false,
+    false,
+    false
+   ],
+   "pick": 0,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 23,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "對！那裡！我差點叫出來。",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "adj",
+   "i": 24,
+   "id": "heroine_02",
+   "d": {
+    "npcRom": 1
+   },
+   "before": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 16,
+    "seen": 3,
+    "talked": 0
+   },
+   "after": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 17,
+    "seen": 3,
+    "talked": 0
+   }
+  },
+  {
+   "k": "fx",
+   "i": 25,
+   "id": "heroine_02",
+   "fx": {
+    "love": 1
+   },
+   "cap": "movie:m2509a",
+   "ret": {
+    "npcRom": 1
+   },
+   "before": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 16,
+    "seen": 3,
+    "talked": 0
+   },
+   "after": {
+    "fam": 69,
+    "trust": 52,
+    "aff": 0,
+    "resp": 0,
+    "comf": 47,
+    "rom": 1,
+    "npcRom": 17,
+    "seen": 3,
+    "talked": 0
+   }
+  },
+  {
+   "k": "say",
+   "i": 26,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "下個月光典有影展。都是很老的片，修復過的。",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 27,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "我每年都去。一個人。",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 28,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "我有一本票根本，一場貼一張。",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 29,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "國中到現在，每一頁都只有一張。",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "ch",
+   "i": 30,
+   "opts": [
+    "「國中就開始了？」",
+    "「為什麼都一個人？」",
+    "（聽她說完）"
+   ],
+   "dim": [
+    false,
+    false,
+    false
+   ],
+   "pick": 0,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 31,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "對。我很早就是這種人。不用可憐我，我很快樂。",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 32,
+   "who": "林芷若",
+   "cid": "heroine_02",
+   "t": "……字幕跑完了，我們還沒走。",
+   "h": 15.768,
+   "d": 32,
+   "z": "xs_nanyang",
+   "dark": false
+  },
+  {
+   "k": "cap",
+   "i": 33,
+   "t": "（下午的時間用完了）你在南洋戲院待到 18:00。"
+  }
+ ],
+ "screen": [
+  [
+   "林芷若（手機）",
+   "南洋？好。……早場的話，人比較少。",
+   "dorm",
+   10.023
+  ],
+  [
+   "",
+   "約好 今天 14:00，南洋戲院。",
+   "dorm",
+   10.023
+  ],
+  [
+   "林芷若",
+   "今天這部，我等很久了。",
+   "xs_nanyang_hall",
+   13.768
+  ],
+  [
+   "",
+   "（她站在海報前面看了很久，看的是導演的名字。）",
+   "xs_nanyang_hall",
+   13.768
+  ],
+  [
+   "",
+   "（燈暗下來，《第十三號月台》開始了。）",
+   "xs_nanyang_hall",
+   13.768
+  ],
+  [
+   "",
+   "緊急照明的紅燈下，整節車廂的人一起低頭看自己的票。",
+   "xs_nanyang_hall",
+   14.768
+  ],
+  [
+   "",
+   "（演到一半，她的手放在扶手上。你的手也在那裡。她沒有移開。）",
+   "xs_nanyang_hall",
+   14.768
+  ],
+  [
+   "",
+   "（她的手也沒有動。兩隻手就這樣放到片尾。）",
+   "xs_nanyang",
+   15.768
+  ],
+  [
+   "林芷若",
+   "你什麼時候猜到的？",
+   "xs_nanyang",
+   15.768
+  ],
+  [
+   "林芷若",
+   "對！那裡！我差點叫出來。",
+   "xs_nanyang",
+   15.768
+  ],
+  [
+   "林芷若",
+   "下個月光典有影展。都是很老的片，修復過的。",
+   "xs_nanyang",
+   15.768
+  ],
+  [
+   "林芷若",
+   "我每年都去。一個人。",
+   "xs_nanyang",
+   15.768
+  ],
+  [
+   "林芷若",
+   "我有一本票根本，一場貼一張。",
+   "xs_nanyang",
+   15.768
+  ],
+  [
+   "林芷若",
+   "國中到現在，每一頁都只有一張。",
+   "xs_nanyang",
+   15.768
+  ],
+  [
+   "林芷若",
+   "對。我很早就是這種人。不用可憐我，我很快樂。",
+   "xs_nanyang",
+   15.768
+  ],
+  [
+   "林芷若",
+   "……字幕跑完了，我們還沒走。",
+   "xs_nanyang",
+   15.768
+  ]
+ ],
+ "before": {
+  "rec": {
+   "n": 2,
+   "k": 3,
+   "last": null,
+   "rot": -1
+  },
+  "rel": {
+   "fam": 66,
+   "trust": 50,
+   "aff": 0,
+   "resp": 0,
+   "comf": 45,
+   "rom": 0,
+   "npcRom": 14,
+   "seen": 0,
+   "talked": 0
+  },
+  "day": 32,
+  "hour": 10.02,
+  "zone": "dorm",
+  "set": null,
+  "unlock": null,
+  "invites": [],
+  "trips": [],
+  "arcInv": null,
+  "dlog": {
+   "count": 0,
+   "study6": null
+  },
+  "beats": {
+   "k": 1,
+   "last": 32,
+   "ans": {},
+   "missed": []
+  }
+ },
+ "after": {
+  "rec": {
+   "n": 3,
+   "k": 4,
+   "last": 32,
+   "rot": -1
+  },
+  "rel": {
+   "fam": 69,
+   "trust": 52,
+   "aff": 0,
+   "resp": 0,
+   "comf": 47,
+   "rom": 1,
+   "npcRom": 17,
+   "seen": 3,
+   "talked": 0
+  },
+  "day": 32,
+  "hour": 18.02,
+  "zone": "xs_nanyang",
+  "set": null,
+  "unlock": null,
+  "invites": [
+   {
+    "id": "iv1",
+    "who": "heroine_02",
+    "place": "xs_nanyang",
+    "zone": "xs_nanyang",
+    "day": 32,
+    "h": 14,
+    "state": "done",
+    "accepted": true,
+    "by": "player",
+    "now": false,
+    "label": "和林芷若約在南洋戲院看《第十三號月台》",
+    "film": "m2509a",
+    "kxd": 1,
+    "early": 1,
+    "rem": 1,
+    "waitSeat": null,
+    "opened": 1
+   }
+  ],
+  "trips": [],
+  "arcInv": null,
+  "dlog": {
+   "count": 0,
+   "study6": null
+  },
+  "beats": {
+   "k": 1,
+   "last": 32,
+   "ans": {},
+   "missed": []
+  }
+ }
+}
