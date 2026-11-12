@@ -39,7 +39,11 @@
      只點 afterOnly 那一樣（咖啡）＝15 分鐘（S.HRS.mealDrink）、不算一餐（不登記 EAT）；
      開門以前（清晨 6 點到開門）按店門＝notOpen（稿的 staff.not_open）那一句旁白＋開放時間，不用打烊的 sign（以上 AA 11-12 回 LAWWW-C 七問，稿 _meta.lawww_1112）；
      坐下＝稿只有一句（seat.sit）就每一桌都說那一句；互動點按鈕的字照稿（labels，S.attach 換掉配置的字）。約去吃這一批不做、沒有公休、颱風假照通用的（只寫開放時間）（AA 11-12）。
-     下一間（客居雲南 tz_keju）：AA 交同樣格式的稿、匯入工具加一列、places.js 加名字和時間就好，這支不用改。
+     客居雲南 tz_keju（SHOP-LIFE-AA826-1112；AA_825 企劃線 90fb5fa77）：同一套、同一個資料檔。11:00～21:00 中午不休息；六樣菜、一次點好幾樣只演第一樣的「吃」（eatFirst＝稿的順序，由上到下）；
+     點完那一句：有點過橋米線＝afterHas（稿的 order.after_guoqiao「好，過橋米線。等一下湯很燙，不要直接喝。」），其他＝after 兩句隨機；沒有 afterOnly＝點什麼都算一餐、吃 30 分鐘。
+     稿的 looks 對配置的點（匯入工具 SCRIPTS 的 look_map）：menu＝tz_keju_menu、wall＝tz_keju_batik（按鈕的字照稿「看牆上」）；table（看桌上）配置沒有點＝不接；
+     配置的 tz_keju_tea（看茶餅櫃）、tz_keju_kitchen（看廚房）稿沒有句子＝照 tz_shops3d.js 原本的（只有店名那一句），回報給 AA。老闆娘＝路人底模 64（偶數＝女性）。
+     下一間：AA 交同樣格式的稿、匯入工具加一列、places.js 加名字和時間就好，這支不用改。
    - 汀州路的雜貨店（TINGZHOU-SHOPS5-1110；東南大聯商行 tz_dongnan，AA_823 @ 3d0ab9944）：字在 src/data/tz_grocery_lines.js（TZ_GROCERY_LINES，tools/shops/import_tz_grocery.py 匯入）。
      有載到那個檔＝S.addGroceries 把每一間加進 S.ZONES／S.LAYID／台詞表，進門、打烊、門口（開門以前＝notOpen、打烊以後＝sign）、店員、按鈕的字都走上面同一套；沒有座位。這裡只多：
      貨架（S.groceryShelf；四個點）＝稿的「看」那一句旁白 → 這個貨架的東西（稿的名字＋價錢；那一樣的一句說明當選項的提示，和泰米村食的菜單說明一樣）→ 選了＝稿的 pick 那一句旁白（每拿一樣說一次）、拿在手上（一樣最多一份、可以拿好幾樣；
@@ -73,7 +77,7 @@ const GG3=(function(){
   S.TAIMI_KEY={'打拋豬肉飯':'打拋','泰式椒麻雞飯':'椒麻雞','綠咖哩雞肉飯':'綠咖哩','泰式紅咖哩飯':'紅咖哩','泰式炒河粉':'炒河粉','泰式酸辣湯':'酸辣湯','泰式奶茶':'奶茶'};   /* 句子提到哪一道＝那一道有點才說 */
   S.TAIMI_CAT=n=>/湯$/.test(n)?'soup':(/茶$/.test(n)?'drink':'main');   /* 主餐＋湯＋飲料（AA_742）*/
   S.RONG_PEN=['原子筆（一枝）','三色筆','自動鉛筆','螢光筆（五色一組）'];   /* 「老闆把你買的筆一枝一枝在試寫紙上畫過」＝買了這幾樣才說 */
-  S.CLERK_I={gg_antai:60,gg_xianguo:61,tz_taimi:62,gg_rongendian:63,tz_yindehao:65,tz_yuehaochi:66,tz_dongnan:67,tz_liantong:69};   /* 店員的路人模型（STORY.extraSpec：偶數＝女性、奇數＝男性；藥師、老闆娘是女的，鮮果、榮恩典、東南大聯的老闆、汀州聯通的店員（稿：「他」）是男的）*/
+  S.CLERK_I={gg_antai:60,gg_xianguo:61,tz_taimi:62,gg_rongendian:63,tz_yindehao:65,tz_yuehaochi:66,tz_dongnan:67,tz_liantong:69,tz_keju:64};   /* 店員的路人模型（STORY.extraSpec：偶數＝女性、奇數＝男性；藥師、老闆娘是女的，鮮果、榮恩典、東南大聯的老闆、汀州聯通的店員（稿：「他」）是男的）*/
   S.RENAME=[['公館・日日定食','汀州路・泰米村食'],['公館的日日定食','汀州路的泰米村食'],['日日定食','泰米村食']];   /* AA_742 第 ③ 節：舊存檔的行程地點 */
   /* 系統字（稿上沒有；回報給 AA）*/
   S.SYS={no:'不用了',buy:'買',done:'點好了',noCut:'不用切',short:'錢不夠',bought:'買了',washed:'今天洗過了。'};
@@ -258,8 +262,8 @@ const GG3=(function(){
     const names=bk.map(q=>q.n), total=tot();
     if((G.money|0)<total){ await GM.say(null,M.short); return 'short'; }   /* 錢不夠：稿的那一句旁白，不扣錢 */
     GM.money(-total,T.name); S.last={items:names,total,spice:{},day:G.day,zone:k};
-    const only=!!M.afterOnly&&bk.length===1&&bk[0].id===M.afterOnly.id, noX=!!M.afterNo&&!bk.some(q=>M.afterNo.ids.includes(q.id));
-    await GM.say(B,only?M.afterOnly.line:(noX?M.afterNo.line:pick(M.after)));   /* 沒點河粉＝after_no_pho（「香草自己夾喔」只在有點河粉時說）*/
+    const only=!!M.afterOnly&&bk.length===1&&bk[0].id===M.afterOnly.id, noX=!!M.afterNo&&!bk.some(q=>M.afterNo.ids.includes(q.id)), hasX=!!M.afterHas&&bk.some(q=>M.afterHas.ids.includes(q.id));
+    await GM.say(B,only?M.afterOnly.line:(hasX?M.afterHas.line:(noX?M.afterNo.line:pick(M.after))));   /* 沒點河粉＝after_no_pho（「香草自己夾喔」只在有點河粉時說）；有點過橋米線＝after_guoqiao（客居雲南，AA_825）*/
     if(!only&&typeof EAT!=='undefined'&&EAT.ordered){ try{ if(EAT.addShop&&!(EAT.SHOPS_X&&EAT.SHOPS_X[T.name])) EAT.addShop(T.name,{shop:'汀州路・'+T.name,staff:{who:T.who,line5:null,same:null,alt:null},first:null,door:false}); await EAT.ordered(GM,T.name,names.join('、')); }catch(e){ console.warn('EAT.ordered',e); } }
     const was=!!(GM.E&&GM.E.player&&GM.E.player.seat);
     await S.seated(GM,async st=>{ if(st&&!was) await S.onSeat(GM,st);

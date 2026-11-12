@@ -183,7 +183,7 @@ await sec(9,async()=>{ const miss=[], bad=[];
 
 // ---- 10 原本六間照舊、載入 ----
 await sec(10,async()=>{ const X=GG3_LINES.tz_taimi;
-  check('10 原本六間都還在（越好吃小館排在後面）',J(GG3.ZONES)===J(['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao',Z])&&J(GG3.MEALS)===J([Z])&&GG3.ACT.tz_taimi_order===GG3.taimiOrder&&GG3.ACT.tz_yue_order===GG3.mealOrder);
+  check('10 原本六間都還在（越好吃小館排在後面；再後面是客居雲南，SHOP-LIFE-AA826-1112）',J(GG3.ZONES)===J(['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao',Z,'tz_keju'])&&J(GG3.MEALS)===J([Z,'tz_keju'])&&GG3.ACT.tz_taimi_order===GG3.taimiOrder&&GG3.ACT.tz_yue_order===GG3.mealOrder);
   { const G=fresh('2025-10-07',12,'tz_taimi'); H.said=[]; await STORY.onSeat(GM,{x:-2.22,z:3.6,yaw:0,table:'taimi_t1'}); const a=said(); H.said=[]; await STORY.onSeat(GM,{x:2.1,z:3,yaw:0,table:'taimi_t6'}); const b=said(); G.zone='tz_xile'; H.said=[]; await STORY.onSeat(GM,{x:0,z:0,table:'xile_t1'});
     check('10 泰米村食坐下照舊（兩人桌／四人桌各自那一句）、洗樂不說',J(a)===J([[null,X.seat.two]])&&J(b)===J([[null,X.seat.four]])&&!H.said.length,J([a,b,said()])); }
   { const G=fresh('2025-10-07',18,'tz_taimi'); H.picks=['泰式椒麻雞飯','點好了']; await GG3.taimiOrder(GM); check('10 泰米村食點餐照舊（椒麻雞 130）',G.money===4870,String(G.money)); }
@@ -191,7 +191,7 @@ await sec(10,async()=>{ const X=GG3_LINES.tz_taimi;
   check('10 index.html 載入資料檔（在六間的資料檔後面、GG3 前面；版本號照旁邊的寫法）',at(DATA)>at('src/data/gg3_shops_lines.js')&&at('src/data/gg3_shops_lines.js')>0&&at(DATA)<at('src/gg3shops3d.js')&&(html.match(/src="src\/data\/tz_meal_lines\.js\?v=([\d.]+)"/)||[])[1]===(html.match(/src="src\/gg3shops3d\.js\?v=([\d.]+)"/)||[])[1]);
   const bad=[]; for(const f of ['src/gg3shops3d.js',DATA,'src/data/places.js']){ const r=cp.spawnSync(process.execPath,['--check',path.join(ROOT,f)],{encoding:'utf8'}); if(r.status!==0) bad.push(f+' '+r.stderr.slice(0,160)); }
   check('10 node --check',!bad.length,J(bad));
-  check('10 客居雲南還沒有稿：不接（不寫字）',!TZ_MEAL_LINES.tz_keju&&!GG3.ZONES.includes('tz_keju')&&!PLACES.hours.tz_keju); });
+  check('10 客居雲南有稿了（AA_825，SHOP-LIFE-AA826-1112；測試在 tests/tz_keju_aa825_1112_unit.js）：越好吃小館的資料沒有被動到（沒有 afterHas）',!!TZ_MEAL_LINES.tz_keju&&T.meal.afterHas===null&&T.meal.point==='tz_yue_order'); });
 
 // ---- 11 子程序 A：遊戲真正的區域 ----
 await sec(11,()=>{ const r=cp.spawnSync(process.execPath,[__filename,'A'],{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26});
