@@ -1574,8 +1574,19 @@ const Z3 = (function(){
     const shops=list.map(q=>Object.assign({near:26,far:40,on:false,built:false,loading:false,grp:null,mats:[],meshes:0,k:-1},q));
     /* 兩種接法（CC 11-12 在使用者電腦量：兩間同時接 60 fps 沒掉，但第一次走近最長一幀 233 ms——那一下在載入、上傳貼圖、編譯材質）：
        · 一般（電腦）：進這一區就一間一間先做好（每 20 幀做一間：載入、換材質、貼圖先上傳、材質先編譯），掛在場景裡但不顯示；走近只是打開顯示，走遠關掉，不釋放。
-       · 省資源 lite（畫質 low 或觸控裝置；opt.lite 可以指定；medium 的電腦走上面那一種）：只接最近的一間，走近才載入、其他的拿掉並釋放。 */
-    const lite=opt&&opt.lite!==undefined?!!opt.lite:(!!(E.q&&E.q.level==='low')/* 2026-11-12 CC 量到電腦預設畫質 medium 也被當省資源＝預載沒排（warmQ 0）、第一次走近照樣頓：改成只有 low 或觸控裝置才省資源 */||(typeof window!=='undefined'&&('ontouchstart' in window||(window.navigator&&window.navigator.maxTouchPoints>0))));
+       · 省資源 lite（畫質 low／medium 或觸控裝置；opt.lite 可以指定）：只接最近的一間，走近才載入、其他的拿掉並釋放。 */
+    /* 11-12 第 2 版（CC 在使用者電腦量：進區域 10 秒每一間還是 built:false＝預載沒生效——遊戲預設畫質是 medium，第 1 版把 medium 也算成省資源）：省資源只有畫質 low 或觸控裝置。 */
+    const lite=opt&&opt.lite!==undefined?!!opt.lite:(!!(E.q&&E.q.level==='low')||(typeof window!=='undefined'&&('ontouchstart' in window||(window.navigator&&window.navigator.maxTouchPoints>0))));
+    /* 打烊拉下鐵捲門（11-12 第 2 版；BB FAIL：汀州鮮果 23:30 打烊後水果攤還擺在門口、沒有鐵門——§12 第 1 點「打烊看得出來關了（燈暗、鐵門或門關上）」）：
+       每一間在店面玻璃外 6 cm 放一片鐵捲門（橫條浪板，整條街共用一張貼圖、一個材質），營業中藏起來、打烊（PLACES.isOpen 假、颱風停業）才顯示；一直掛著，不跟室內模型一起載入。
+       寬＝s.sw（沒給＝室內寬 −0.3）、高＝s.sh（沒給 3.0）；朝街的方向＝室內中心 → 玻璃面中心。opt.shutter===false 不做。 */
+    const isOpen=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; return !(G&&P&&P.isOpen&&s.place)||(!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day))); };
+    if(!(opt&&opt.shutter===false)&&typeof document!=='undefined'&&THREE.CanvasTexture&&THREE.PlaneGeometry){ let mat=null;
+      try{ const c=document.createElement('canvas'); c.width=64; c.height=256; const x=c.getContext('2d'); for(let i=0;i<16;i++){ const y=i*16, gr=x.createLinearGradient(0,y,0,y+16); gr.addColorStop(0,'#9a9c9e'); gr.addColorStop(0.45,'#c9cbcc'); gr.addColorStop(0.8,'#a9abad'); gr.addColorStop(1,'#6f7173'); x.fillStyle=gr; x.fillRect(0,y,64,16); }
+        const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; if(THREE.SRGBColorSpace) t.colorSpace=THREE.SRGBColorSpace; mat=new THREE.MeshLambertMaterial({map:t,side:THREE.DoubleSide}); mat.name='shopreal_shutter'; }catch(e){ mat=null; }
+      if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, dx=cx-s.x, dz=cz-s.z, L=Math.hypot(dx,dz)||1, nx=dx/L, nz=dz/L, sw=s.sw||(s.w-0.3), sh=s.sh||3.0;
+        const geo=new THREE.PlaneGeometry(sw,sh); const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*sw/0.8,uv.getY(i)*sh/2.0); const m=new THREE.Mesh(geo,mat); m.name='shop_shutter_'+s.id; m.userData.dyn=true;
+        m.position.set(cx+nx*0.06,(s.y||0)+sh/2,cz+nz*0.06); m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s); g.add(m); s.shutter=m; } }
     const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
     const basic=(m,s,cache)=>{ if(!m) return m; let b=cache.get(m); if(b) return b; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
       if(!map){ if(m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&!m.vertexColors) col.copy(m.emissive); else if(m.color) col.copy(m.color); } else if(m.map&&m.color) col.copy(m.color);
@@ -1585,27 +1596,27 @@ const Z3 = (function(){
     const light=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; let open=true;
       if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07; if(k===s.k) return; s.k=k; for(const b of s.mats) b.color.copy(b.userData.base).multiplyScalar(k); };
     /* 先上傳貼圖、先編譯材質，而且分幀：一幀只上傳一張貼圖（一次全部上傳本身就是一頓），全部上傳完再編譯，然後才算「可以顯示」（s.ready）。 */
-    const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set(); for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } warmQ.push({s,done:true}); };
+    const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set(); for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const o of s.list) warmQ.push({s,m:o}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
     const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(!j.s.built) return;
-      try{ if(j.done){ if(Rn&&Rn.compile&&E.camera){ const v=j.s.grp.visible; j.s.grp.visible=true; Rn.compile(j.s.grp,E.camera,E.scene||j.s.grp); j.s.grp.visible=v; } } else if(Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
-      if(j.done){ j.s.ready=true; if(j.s.want) show(j.s,true); } };
+      try{ if(j.m){ if(!j.s.grp.visible){ j.s.grp.visible=true; j.s.k=-1; light(j.s); if(j.s.want) fallback(j.s,false); } j.m.visible=true; j.m.frustumCulled=false; } else if(j.t&&Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
+      if(j.done){ for(const o of j.s.list) o.frustumCulled=true; j.s.ready=true; show(j.s,!!j.s.want); } };
     const show=(s,v)=>{ if(!s.grp) return; s.grp.visible=v; s.on=v; fallback(s,!v); if(v){ s.k=-1; light(s); } };
     const build=(s,vis)=>{ if(s.built||s.loading||typeof ASSETS==='undefined'||!ASSETS.manifest[s.key]) return; s.loading=true;
       ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.built) return; const r=c.scene.clone(true); r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true);
-        const cache=new Map(); let n=0;
+        const cache=new Map(); let n=0; s.list=[];
         r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(!o.isMesh||!o.geometry) return; let nm=''; for(let q=o;q&&q!==r;q=q.parent) nm=(q.name||'')+'/'+nm;
           if(HIDE.test(nm)){ o.visible=false; return; } { let dv=null; for(let q=o;q&&q!==r&&!dv;q=q.parent) dv=q.userData&&q.userData.dir; if(Array.isArray(dv)&&dv[2]<-0.9&&Math.abs(dv[0])<0.1){ o.visible=false; return; } }   /* 正面牆：模型自訂屬性 dir＝[0,0,−1]（牆淡出用的「這面牆朝室內的方向」；汀州路的店叫 WALL_S、WALL_Sfix_*，名字對不上 WALL_front）*/
           if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
           if(Math.abs(C.x)>s.w/2+0.4||Math.abs(C.z)>s.d/2+0.4||C.y>s.h+0.6||C.y<-0.5){ o.visible=false; return; }
-          o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,cache)):basic(o.material,s,cache); n++; });
+          o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,cache)):basic(o.material,s,cache); o.visible=false; s.list.push(o); n++; });
         r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; r.visible=false; g.add(r); s.grp=r; s.built=true; s.meshes=n; s.want=!!vis; warm(s); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
-    const detach=s=>{ if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; fallback(s,true); };
+    const detach=s=>{ if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); fallback(s,true); };
     const dist=(s,p)=>Math.hypot(Math.max(0,Math.abs(p.x-(s.cx===undefined?s.x:s.cx))-(s.ex||0)),Math.max(0,Math.abs(p.z-(s.cz===undefined?s.z:s.cz))-(s.ez||0)));
     const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return; for(const s of shops) s.dd=dist(s,p); const by=shops.slice().sort((a,b)=>a.dd-b.dd);
       if(lite){ const n0=by[0]; for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if(s.built&&(s!==n0||s.dd>s.far)) detach(s); } }
       else{ for(const s of shops){ if(s.built){ if(s.dd<s.near){ s.want=true; if(s.ready&&!s.on) show(s,true); } else if(s.dd>s.far){ s.want=false; if(s.on) show(s,false); } } }
         if(!shops.some(s=>s.loading)){ const nx=typeof ASSETS!=='undefined'?by.find(s=>!s.built&&ASSETS.manifest[s.key]):null; if(nx) build(nx,nx.dd<nx.near); } }
-      for(const s of shops) if(s.on) light(s); };
+      for(const s of shops){ if(s.on) light(s); if(s.shutter) s.shutter.visible=!isOpen(s); } };
     let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); warmStep(); if((f++)%20===0) tick(); }; tick();
     const R={shops,tick,detach,lite,warmQ}; zone.shopReal=R; return R; }
   const GG_SHOP_REAL=(()=>{ const mk=(id,place,key,cx,w,d,h)=>({id,place,key,w,d,h,x:cx,z:22.02+d/2,ry:Math.PI,cx,cz:22,ex:w/2,ez:0}); return [mk('G04','gg_antai','bldg.gg_antai_interior',-18.6,9,10,3.3),mk('G08','gg_xianguo','bldg.gg_xianguo_interior',19.6,8,10,3.3),mk('G13','gg_rongendian','bldg.gg_rongendian_interior',64.1,9,10,3.3)]; })();   /* SHOP-REAL-INSIDE 公館第一批（LAWWW2-C 11-12 自查 docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112）：安泰藥局、汀州鮮果、榮恩典文具社——店外原本是照片卡（榮恩典暖色塞滿、店內白而疏；鮮果深色背景、店內白牆），改成玻璃後面放走進去的那一顆室內模型。店面玻璃在 z 22（立面 19＋騎樓 3），室內正面 +z 轉到朝 −z（ry π）；中心 x＝wz_street.py 那一棟的中心 */

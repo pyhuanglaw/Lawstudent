@@ -35,7 +35,7 @@ ctx.GAME.G.hour=23; step(21); ok(Math.abs(fl.material.color.r-0.07)<1e-6,'⑫ �
 ctx.GAME.G.hour=12; step(21); ok(Math.abs(fl.material.color.r-0.86)<1e-6,'⑬ 開門：調回來');
 E.player.obj.position.z=24; step(21); ok(s.on,'⑭ 走到離店面 37 m：還沒超過 far（40），留著（near 26、far 40：不會在邊界上一直接上又拿掉）');
 E.player.obj.position.z=40; step(21); ok(!s.on&&g.children.length===0&&disposed===3&&zone.shopInLit.items[0].mesh.visible===true,'⑮ 走遠：拿掉、材質釋放（'+disposed+' 個）、簡化的店內放回來');
-E.player.obj.position.z=-16; step(21); ok(s.on&&loads===2,'⑯ 再走回來：重新接上');
+E.player.obj.position.z=-16; step(41); ok(s.on&&loads===2,'⑯ 再走回來：重新接上');
 /* 一般模式（電腦）：進區域就先做好、不顯示；走近只開顯示（CC 11-12：第一次走近最長一幀 233 ms） */
 { loads=0; let inits=0, compiles=0; const g2={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); }};
   const z2={update:null,shopInLit:{items:[{id:'dabu',mesh:{visible:true}},{id:'haopai',mesh:{visible:true}}]}}; const E2={zone:z2,q:{level:'high'},camera:{},scene:{},renderer:{initTexture(){ inits++; },compile(){ compiles++; }},player:{obj:{position:new V3(-12,0,60)}}};
@@ -45,7 +45,10 @@ E.player.obj.position.z=-16; step(21); ok(s.on&&loads===2,'⑯ 再走回來：�
   ok(R2.lite===false&&loads===1&&a1.built&&!a1.on&&g2.children[0].visible===false,'㉗ 一般模式：玩家在遠處，第一間（最近的）先做好、掛著不顯示');
   ok(!a2.built,'㉙ 一次只做一間（分幀）');
   ok(inits===0&&!a1.ready,'㉘a 貼圖不在做好的那一幀一次上傳（那樣本身就是一頓）'); st(1); ok(inits===1&&compiles===0,'㉘b 一幀上傳一張貼圖'); st(3);
-  ok(inits>=1&&compiles>=1&&a1.ready,'㉘ 貼圖先上傳（initTexture '+inits+' 次）、全部上傳完才編譯材質（compile '+compiles+' 次），然後才算可以顯示——不留到走近那一幀');
+  { const vis0=a1.list.filter(o=>o.visible).length; st(1); const vis1=a1.list.filter(o=>o.visible).length; ok(!a1.ready&&vis1-vis0<=1&&a1.list.every(o=>!o.visible||o.frustumCulled===false),'㉘c 第 2 版：零件一幀打開一個、先不做視錐裁切（一定畫得到：頂點資料、材質跟著分幀上傳）');
+    st(a1.list.length+3); ok(inits>=1&&compiles===0&&a1.ready&&a1.list.every(o=>o.visible&&o.frustumCulled===true)&&g2.children[0].visible===false,'㉘ 貼圖（initTexture '+inits+' 次）、零件都畫過一幀以後才算可以顯示，視錐裁切還原；玩家在遠處＝關掉顯示。不再一次 compile 整間'); }
+  { const E3={zone:{update:null},q:{level:'medium'},renderer:{},player:{obj:{position:new V3(0,0,0)}}}; const R3=ctx.fn(E3,{children:[],add(){},remove(){}},E3.zone,[{id:'x',key:'none',w:1,d:1,h:1,x:0,z:0}]); const E4={zone:{update:null},q:{level:'low'},renderer:{},player:{obj:{position:new V3(0,0,0)}}}; const R4=ctx.fn(E4,{children:[],add(){},remove(){}},E4.zone,[{id:'x',key:'none',w:1,d:1,h:1,x:0,z:0}]);
+    ok(R3.lite===false&&R4.lite===true,'㉞ 預設畫質 medium 也預載（CC 11-12：電腦上進區域 10 秒每一間還是 built:false）；只有 low 或觸控裝置才省資源'); }
   st(21); ok(a2.built&&loads===2&&!a2.on,'㉚ 下一拍做第二間');
   ok(z2.shopInLit.items[0].mesh.visible===true,'㉛ 還沒顯示的時候簡化的店內照舊顯示');
   E2.player.obj.position.z=-18; st(21); ok(a1.on&&a2.on&&g2.children.every(q=>q.visible)&&loads===2&&z2.shopInLit.items[0].mesh.visible===false,'㉜ 走近：只是打開顯示（沒有再載入），簡化的店內藏起來');
@@ -75,4 +78,6 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
     ok(Math.abs(L.w-(sp.z1-sp.z0))<=0.6&&q.w===L.w&&q.d===L.d&&q.key===L.asset&&q.place===L.zone,'㉔ '+q.id+'：室內 '+L.w+'×'+L.d+' 對著街上那一間（寬 '+(sp.z1-sp.z0)+'）、模型 '+q.key);
     ok(w?(q.ry===Math.PI/2&&q.x<T.facade.west):(q.ry===-Math.PI/2&&q.x>T.facade.east),'㉕ '+q.id+'：'+(w?'西側朝東':'東側朝西')+'，放在立面後面');
     const mm=new RegExp("'"+q.id+"': dict\\((?:arcade=False, )?dep=([0-9.]+), real=True, back=([0-9.]+)").exec(ws); ok(mm&&+mm[2]>=q.d+0.1-1e-9&&Math.abs(+mm[1]-Math.abs(q.cx-(w?T.facade.west:T.facade.east)))<1e-9,'㉖ wz_street.py '+q.id+'：real、牆挖 '+(mm&&mm[2])+' m、玻璃離立面 '+(mm&&mm[1])+' m 和遊戲的設定一樣'); } }
+{ const z3=fs.readFileSync(path.join(__dirname,'..','src/zones3d.js'),'utf8');
+  ok(/shop_shutter_'\+s\.id/.test(z3)&&/s\.shutter\.visible=!isOpen\(s\)/.test(z3)&&/m\.visible=!isOpen\(s\)/.test(z3),'㉟ 打烊拉下鐵捲門：每一間在玻璃外放一片（shop_shutter_<店>），營業中藏、打烊顯示，每一拍照營業時間更新（BB 11-12：鮮果打烊沒有鐵門）'); }
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
