@@ -107,6 +107,21 @@ async def stuck_shot(pg, tag, n):
     R.note('%s 【卡住截圖】%s_game.png／_top.png；1.2 m 內的網格 %s' % (tag, nm, J(near)))
 
 
+TAP_VERIFY = r"""((a)=>{ const E=GAME.E, cam=E.camera, L=E.zone&&E.zone.levelGroups, fy=(L&&L[a.lv|0])?L[a.lv|0].y:0, W=innerWidth, H=innerHeight;
+  const v=new THREE.Vector3(a.x,fy,a.z).project(cam); const sx=Math.round((v.x+1)/2*W), sy=Math.round((1-v.y)/2*H);
+  if(!(v.z<1&&sx>40&&sx<W-40&&sy>=120&&sy<H-40)) return {ok:false, why:'off', sx, sy};
+  let r=null; try{ r=E.screenToFloor(sx,sy); }catch(e){ return {ok:false, why:'s2f err', sx, sy}; }
+  const rr=r?{x:+(+r.x).toFixed(2), z:+(+r.z).toFixed(2), lv:(r.lv|0)}:null; const ok=!!rr&&Math.hypot(rr.x-a.x,rr.z-a.z)<=1&&rr.lv===(a.lv|0);
+  return {ok, why:ok?'':'s2f 落在別處', sx, sy, r:rr, x:a.x, z:a.z}; })"""
+TAP_ALT = r"""((a)=>{ const E=GAME.E, P=E.player.obj.position, cam=E.camera, L=E.zone&&E.zone.levelGroups, fy=(L&&L[a.lv|0])?L[a.lv|0].y:0, W=innerWidth, H=innerHeight;
+  const dx=a.x-P.x, dz=a.z-P.z, D=Math.hypot(dx,dz)||1;
+  for(let back=0.5; back<D-0.8; back+=0.5){ const x=a.x-dx/D*back, z=a.z-dz/D*back; if(E.canStand&&!E.canStand(x,z,0.3,a.lv|0)) continue;
+    const v=new THREE.Vector3(x,fy,z).project(cam), sx=Math.round((v.x+1)/2*W), sy=Math.round((1-v.y)/2*H); if(!(v.z<1&&sx>40&&sx<W-40&&sy>=120&&sy<H-40)) continue;
+    let r=null; try{ r=E.screenToFloor(sx,sy); }catch(e){ continue; } if(!r) continue; const rr={x:+(+r.x).toFixed(2), z:+(+r.z).toFixed(2), lv:(r.lv|0)};
+    if(Math.hypot(rr.x-x,rr.z-z)<=1&&rr.lv===(a.lv|0)&&Math.hypot(x-P.x,z-P.z)>1.0) return {ok:true, alt:true, back, sx, sy, r:rr, x:+x.toFixed(2), z:+z.toFixed(2)}; }
+  return {ok:false, why:'沿線找不到看得到的點'}; })"""
+
+
 async def tap_walk(pg, cdp, ax, ay, lv_):
     a = [ax, ay]
     # 11-13 BB-C（WZ_TAP_28＝TEST_BUG）：遠的目標投影到地平線、點到最上面 HUD 列（y 49）＝人不動。
@@ -119,8 +134,18 @@ async def tap_walk(pg, cdp, ax, ay, lv_):
         if pick and pick.get('turn'):   # 11-13 BB-C r2：目標在鏡頭後（proj -109）＝先轉鏡頭，不亂點
             await L.turn_camera_to(pg, cdp, a[0], a[1]); await pg.wait_for_timeout(700); log_.append({'turn': True, 'pl': [round(p[0], 2), round(p[1], 2)], 'proj': pick.get('sy')}); continue
         gx, gz = (pick['x'], pick['z']) if pick and pick.get('x') is not None else (a[0], a[1])
-        hit = await L.tap_ground(pg, cdp, gx, gz, lv=lv_); n_ += 1
-        log_.append({'n': n_, 'pl': [round(p[0], 2), round(p[1], 2)], 'goal': [round(gx, 2), round(gz, 2)], 'seg': bool(pick and pick.get('seg')), 'screen': hit and [round(hit.get('sx', -1)), round(hit.get('sy', -1))], 'proj': pick and pick.get('sy')})
+        lvq = lv_ if lv_ is not None else p[2]
+        # 11-13 BB-C r3A（樓梯口點在桌面上、一樓地板點在自己腳下）：點之前用遊戲自己的 screenToFloor 驗證——落在目標 1 m 內、同一層才點；
+        # 不行就沿玩家→目標那條線找別的點（從目標往回 0.5 m 一步），再不行就轉鏡頭、這一次不點
+        vf = await pg.evaluate(TAP_VERIFY, {'x': gx, 'z': gz, 'lv': lvq})
+        if not vf.get('ok'):
+            alt = await pg.evaluate(TAP_ALT, {'x': gx, 'z': gz, 'lv': lvq})
+            if alt and alt.get('ok'): vf = alt; gx, gz = alt['x'], alt['z']
+        if not vf.get('ok'):
+            log_.append({'n': n_, 'pl': [round(p[0], 2), round(p[1], 2)], 'goal': [round(gx, 2), round(gz, 2)], 'verify_fail': vf})
+            await L.turn_camera_to(pg, cdp, gx, gz); await pg.wait_for_timeout(700); continue
+        await L.touch_tap(cdp, vf['sx'], vf['sy']); hit = {'sx': vf['sx'], 'sy': vf['sy']}; n_ += 1
+        log_.append({'n': n_, 'pl': [round(p[0], 2), round(p[1], 2)], 'goal': [round(gx, 2), round(gz, 2)], 'seg': bool(pick and pick.get('seg')), 'screen': [vf['sx'], vf['sy']], 's2f': vf.get('r'), 'proj': pick and pick.get('sy')})
         await pg.wait_for_timeout(600)   # 11-13 LAWWW-C：點地找不到路的提示（「那邊過不去。」）有沒有跳
         log_[-1]['toast'] = await pg.evaluate("(()=>{ const t=document.getElementById('toast'); return t&&t.offsetParent?(t.textContent||'').trim().slice(0,40):''; })()")
         if log_[-1]['toast'] and n_ <= 3: await pg.screenshot(path=os.path.join(OUT, 'tap_toast_%s_%d.png' % (TAG, n_)))
