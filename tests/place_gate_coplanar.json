@@ -240,9 +240,9 @@
   "top": "txs_wall×txs_vcm 0.6 m² @[-2.8,-2.16,-2.1]"
  },
  "assets/models/env/second_ai/tz_dongnan_interior.glb": {
-  "sha1": "d8c4ccc6f59fd7fa4beb5e3d264948d83cad8bd3",
+  "sha1": "2a65333ea7d9fecebae6739f8aa707cd52cf4d9b",
   "wall": 41.32,
-  "always": 81.58,
+  "always": 72.47,
   "top": "WALL_W×S_vc 16.545 m² @[-3.75,2.15,-1.58]"
  },
  "assets/models/env/second_ai/tz_keju_interior.glb": {
@@ -252,7 +252,7 @@
   "top": "S_vc×WALL_E 12.518 m² @[2.75,2.48,-0.74]"
  },
  "assets/models/env/second_ai/tz_liantong_interior.glb": {
-  "sha1": "521787f678691977cf1efe47fa4ccc5f2ef909b9",
+  "sha1": "8a4ab2f829d5f57ea8279a9ea4f0715160a635a9",
   "wall": 24.03,
   "always": 43.98,
   "top": "WALL_W×S_vc 8.382 m² @[-2.25,1.67,-0.64]"

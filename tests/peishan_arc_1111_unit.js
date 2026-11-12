@@ -17,6 +17,8 @@ const loadArcs=s=>{ try{ return new Function(s.replace("'use strict';",'')+';ret
 const CUR=loadArcs(fs.readFileSync(path.join(H.ROOT,'src/data/heroine_arcs.js'),'utf8'));
 const raw=show(SHA,F), A=raw?JSON.parse(raw).classmate_peishan:null;
 const ob=show(BASE,'src/data/heroine_arcs.js'), OLD=ob?loadArcs(ob):null;
+/* 2026-11-12 STALE-SOURCES-1112：AA_712 重匯到 abb9609116（上一任 AA 11-11 整理其他六位的台詞），其他人改和重匯那個 commit（224c231f3c）比；舊期望：和 BASE 一樣 */
+const ob2=show('224c231f3c','src/data/heroine_arcs.js'), OLD2=ob2?loadArcs(ob2):OLD;
 const P=CUR.people[PS];
 
 (async()=>{
@@ -45,7 +47,7 @@ const P=CUR.people[PS];
     check('3. 換了字的只有 theme、topic（第 1、8 拍）、lines、ask、第 5 拍 cite、opts[].reply',P.theme!==O.theme&&ch.every(x=>/^\d\.(topic|lines|ask|cite)$/.test(x))&&J(ch.filter(x=>/topic/.test(x)))===J(['1.topic','8.topic'])&&J(ch.filter(x=>/cite/.test(x)))===J(['5.cite']),J(ch)); });
 
   await sec(4,async()=>{ if(!OLD) return; const other=Object.keys(OLD.people).filter(k=>k!==PS);
-    check('4. 其他人的故事線（'+other.length+' 位）和重寫以前一樣',J(Object.keys(CUR.people))===J(Object.keys(OLD.people))&&other.every(k=>J(CUR.people[k])===J(OLD.people[k])),J(other.filter(k=>J(CUR.people[k])!==J(OLD.people[k])))); });
+    check('4. 其他人的故事線（'+other.length+' 位）和重寫以前一樣',J(Object.keys(CUR.people))===J(Object.keys(OLD.people))&&other.every(k=>J(CUR.people[k])===J(OLD2.people[k])),J(other.filter(k=>J(CUR.people[k])!==J(OLD2.people[k])))); });
 
   await sec(5,async()=>{ const all=J(P); const old=['早餐店','蛋餅','端七盤','四點半','煎台','不好意思，我問太多了','～'].filter(t=>all.includes(t));
     check('5. 她的故事線沒有重寫前的字（早餐店、蛋餅、端七盤、四點半、煎台、「不好意思，我問太多了」、句尾的「～」）',old.length===0,J(old));

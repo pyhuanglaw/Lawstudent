@@ -24,7 +24,7 @@ const hasOld = s => OLD.test(s) || OLD_CTX.some(([rx, pre]) => { rx.lastIndex = 
   const text = html.replace(/<[^>]+>/g, '\n');
   const bad = text.split('\n').filter(hasOld);
   ok(!bad.length, '2. index.html 玩家看得到的字沒有舊名　' + bad.slice(0, 3).join(' ／ '));
-  ok(/<span id="clockZ">首都帝大校園<\/span>/.test(html) && /你是首都帝大法律系一年級的學生。走進法學院、椰影大道/.test(html), '2b. HUD「首都帝大校園」、說明頁「首都帝大法律系」「椰影大道」'); }
+  ok(/<span id="clockZ">首都帝大校園<\/span>/.test(html) && /* 2026-11-12 HELP-GUIDE-1110：說明頁的字搬到 src/data/help_text.js、AA 改過（舊期望：index.html 有「你是首都帝大法律系一年級的學生。走進法學院、椰影大道」）*/ /你是首都帝大的學生。/.test(require('fs').readFileSync(require('path').join(__dirname,'..','src/data/help_text.js'),'utf8')), '2b. HUD「首都帝大校園」、說明頁（help_text.js）「首都帝大」'); }
 
 /* 3 */
 const soc = fs.readFileSync(path.join(ROOT, 'src/social3d.js'), 'utf8');

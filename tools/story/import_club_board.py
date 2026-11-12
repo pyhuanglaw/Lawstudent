@@ -15,7 +15,7 @@ def main():
     if len(hits) != 1: die(f'{PATH} 白名單要剛好一筆 approved')
     sha = hits[0]['sha']; ok, why = IG.allowed(PATH, sha, allow)
     if not ok: die(why)
-    md = subprocess.check_output(['git', '-C', ROOT, 'show', f'{sha}:{PATH}']).decode('utf-8')
+    md = IG.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{sha}:{PATH}']).decode('utf-8'))
     s1 = md.split('## 1.')[1].split('## 2.')[0]
     m = re.search(r'^- 開頭：(.+)$', s1, re.M); intro = m and m.group(1).strip()
     m = re.search(r'^- 最後一行：(.+)$', s1, re.M); last = m and m.group(1).strip()
