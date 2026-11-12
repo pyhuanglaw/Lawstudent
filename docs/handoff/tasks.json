@@ -47583,7 +47583,8 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED（11-05）；LAWWW 11-12 才發現沒接"
    },
-   "sha": "1ed0d4690a"
+   "sha": "1ed0d4690a",
+   "evidence": "BB-C 2026-11-12 12:08 判 PASS（企劃線 20956fd43d BB_379；CC 在使用者電腦跑 CLUBBOARD_7e40、CLUBBOARD_each_r2：9/5 社博傳單、9/7 撤掉、五個社團都按得到、各有時間地點怎麼加入）；程式 5009c9789f"
   },
   {
    "id": "SHOP-CROWD-NEW-1105",
