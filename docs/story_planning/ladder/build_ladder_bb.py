@@ -31,7 +31,7 @@ D['characters'][ZR] = {'steps': [
  {'id':'Z-L3','if':{**st(ZR,'ACQUAINTANCE'),'attended':{'course':'econ_principles_1','min':1}},'skipIf':st(ZR,'FAMILIAR'),'unlessWorking':True,
   'lines':['週五經原你是不是坐前面？我坐你後面兩排。','我是第二次修啦。第一次期中考完我就沒去了。','那學期很亂。'],
   'linesIf':[{'if':{'events':['ev_zhiruo_ge_group']},'lines':['經原我是第二次修啦。第一次期中考完我就沒去了。','那學期很亂。']}],
-  'choices':[ch('「這次我盯著妳，不讓妳翹。」','好啊，那你要記得叫我。我早上真的爬不起來。'),ch('「那學期怎麼了？」','就……很多事啦。之後再跟你講。',mem='ZR_ASKED_MESSY')],'rel':{'fam':3},
+  'choices':[ch('「這次我盯著妳，不讓妳翹。」','好啊，那你要記得叫我。我早上真的爬不起來。'),ch('「那學期怎麼了？」','就……很多事啦。那時候我開始在店裡排很多班。',mem='ZR_ASKED_MESSY')],'rel':{'fam':3},
   'note':'2026-10-16 BB-B：原本 if 要 ev_zhiruo_ge_group（Y1S1 一次性的 auto 事件，錯過就永遠卡在 Z-L3）→ 拿掉；分組過的玩家（linesIf）不說「坐你後面兩排」那句；選項改成兩種玩家都說得通。（AA_200 第 2 節第 2 項：經原第一堂 9/5，上過經原才開這層；條件寫法照 AA_200 2-1。一次都沒去經原、已經到 FAMILIAR 的玩家 skipIf 算過，不卡住）'},
  {'id':'Z-L4','if':st(ZR,'FAMILIAR'),'unlessWorking':True,
   'lines':['店裡很多熟客一進來就說「跟上次一樣」。','我滿喜歡聽到這句的，不用想要推薦什麼。'],
