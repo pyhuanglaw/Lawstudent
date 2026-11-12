@@ -1,0 +1,35 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHUT_TZ_2330\out
+CC 店門口：worktree ?；tingzhou 23.5；TAG tz2330；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-10-18 23.5（條件事件、手機關）
+  [  61.0s] tz_taimi 出口：{"label": "進泰米村食", "x": -7.3, "z": -1, "a": 0, "eye": [-7.3, 1.6, 3.5], "look": [-7.3, 1.3, -1]}
+PASS tz_taimi 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_tz_taimi_tz2330 不是黑畫面（平均亮度 47.9、變化 33.5）  [47.9, 33.5]
+  [  63.3s] [截圖] front_tz_taimi_tz2330：鏡頭 {"eye": [-7.3, 1.6, 3.5], "look": [-7.3, 1.3, -1], "lens": 18, "vfov": 58.72}、亮度 [47.9, 33.5]
+  [  63.3s] tz_liantong 出口：{"label": "進汀州聯通", "x": -7.3, "z": 10.75, "a": 0, "eye": [-7.3, 1.6, 15.25], "look": [-7.3, 1.3, 10.75]}
+PASS tz_liantong 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_tz_liantong_tz2330 不是黑畫面（平均亮度 53.2、變化 30.2）  [53.2, 30.2]
+  [  65.5s] [截圖] front_tz_liantong_tz2330：鏡頭 {"eye": [-7.3, 1.6, 15.25], "look": [-7.3, 1.3, 10.75], "lens": 18, "vfov": 58.72}、亮度 [53.2, 30.2]
+  [  65.5s] tz_dongnan 出口：{"label": "進東南大聯商行", "x": -7.3, "z": 16.75, "a": 0, "eye": [-7.3, 1.6, 21.25], "look": [-7.3, 1.3, 16.75]}
+PASS tz_dongnan 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_tz_dongnan_tz2330 不是黑畫面（平均亮度 51.3、變化 29.6）  [51.3, 29.6]
+  [  67.6s] [截圖] front_tz_dongnan_tz2330：鏡頭 {"eye": [-7.3, 1.6, 21.25], "look": [-7.3, 1.3, 16.75], "lens": 18, "vfov": 58.72}、亮度 [51.3, 29.6]
+  [  67.6s] tz_keju 出口：{"label": "進客居雲南", "x": -7.3, "z": 23.25, "a": 0, "eye": [-7.3, 1.6, 27.75], "look": [-7.3, 1.3, 23.25]}
+PASS tz_keju 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_tz_keju_tz2330 不是黑畫面（平均亮度 59.3、變化 32.1）  [59.3, 32.1]
+  [  69.7s] [截圖] front_tz_keju_tz2330：鏡頭 {"eye": [-7.3, 1.6, 27.75], "look": [-7.3, 1.3, 23.25], "lens": 18, "vfov": 58.72}、亮度 [59.3, 32.1]
+  [  69.8s] tz_yuehaochi 出口：{"label": "進越好吃小館", "x": -7.3, "z": 29, "a": 0, "eye": [-7.3, 1.6, 33.5], "look": [-7.3, 1.3, 29]}
+PASS tz_yuehaochi 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_tz_yuehaochi_tz2330 不是黑畫面（平均亮度 51.2、變化 28.7）  [51.2, 28.7]
+  [  71.8s] [截圖] front_tz_yuehaochi_tz2330：鏡頭 {"eye": [-7.3, 1.6, 33.5], "look": [-7.3, 1.3, 29], "lens": 18, "vfov": 58.72}、亮度 [51.2, 28.7]
+  [  71.8s] tz_xile 出口：{"label": "進洗樂洗衣坊", "x": 7.3, "z": -5.5, "a": 0, "eye": [7.3, 1.6, -1], "look": [7.3, 1.3, -5.5]}
+PASS tz_xile 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_tz_xile_tz2330 不是黑畫面（平均亮度 54.4、變化 37.5）  [54.4, 37.5]
+  [  74.0s] [截圖] front_tz_xile_tz2330：鏡頭 {"eye": [7.3, 1.6, -1], "look": [7.3, 1.3, -5.5], "lens": 18, "vfov": 58.72}、亮度 [54.4, 37.5]
+  [  74.0s] tz_yindehao 出口：{"label": "進印得好", "x": 7.3, "z": 5.75, "a": 0, "eye": [7.3, 1.6, 10.25], "look": [7.3, 1.3, 5.75]}
+PASS tz_yindehao 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_tz_yindehao_tz2330 不是黑畫面（平均亮度 54、變化 39.1）  [54, 39.1]
+  [  76.1s] [截圖] front_tz_yindehao_tz2330：鏡頭 {"eye": [7.3, 1.6, 10.25], "look": [7.3, 1.3, 5.75], "lens": 18, "vfov": 58.72}、亮度 [54, 39.1]
+PASS 沒有 JS 例外  []
+ALL PASS
