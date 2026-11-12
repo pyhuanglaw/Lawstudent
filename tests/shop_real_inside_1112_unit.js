@@ -10,16 +10,16 @@ class V3{ constructor(x=0,y=0,z=0){ this.x=x; this.y=y; this.z=z; } set(x,y,z){ 
 class Box3{ copy(o){ this.c=o.c; return this; } applyMatrix4(){ return this; } getCenter(v){ v.x=this.c[0]; v.y=this.c[1]; v.z=this.c[2]; return v; } }
 let disposed=0; class Basic{ constructor(o){ Object.assign(this,o); this.color=new Color(); this.userData={}; } dispose(){ disposed++; } }
 const mesh=(name,c,mat)=>({name,isMesh:true,visible:true,geometry:{boundingBox:{c}},material:mat,matrixWorld:{},children:[],parent:null});
-const mkScene=()=>{ const wood={name:'wood',map:{id:1},color:new Color(1,1,1)}, vc={name:'vc',vertexColors:true,color:new Color(1,1,1)}, led={name:'led',emissive:new Color(1,0.8,0.6),color:new Color(0,0,0)};
+const mkScene=()=>{ const wood={name:'wood',map:{id:1,image:{}},color:new Color(1,1,1)}, vc={name:'vc',vertexColors:true,color:new Color(1,1,1)}, led={name:'led',emissive:new Color(1,0.8,0.6),color:new Color(0,0,0)};
   const kids=[mesh('floor',[0,0,0],wood),mesh('WALL_left_wood',[-3.6,1.5,0],wood),mesh('WALL_front_front_glass',[0,1.5,6],vc),mesh('dabu_sun',[1,0.01,4],wood),mesh('nightboard',[20,2,0],wood),mesh('shelf',[2,1,-3],vc),mesh('lamp',[0,3.2,0],led),Object.assign(mesh('WALL_S',[0,1.7,6.1],wood),{userData:{dir:[0,0,-1]}}),Object.assign(mesh('WALL_E',[3.6,1.7,0],wood),{userData:{dir:[-1,0,0]}})];
   const r={name:'Scene',children:kids,parent:null,userData:{},position:new V3(),rotation:{y:0,set(){ this.y=0; }},updateMatrixWorld(){},traverse(f){ f(this); kids.forEach(f); },clone(){ return mkScene(); }}; kids.forEach(k=>k.parent=r); return r; };
 let loads=0; const g={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; }};
 const zone={update:null,shopInLit:{items:[{id:'dabu',mesh:{visible:true}}]}}; const E={zone,player:{obj:{position:new V3(-12,0,60)}}};
 const ctx={THREE:{Box3,Vector3:V3,Color,MeshBasicMaterial:Basic},ASSETS:{manifest:{'bldg.xs_dabu':{}},loadOne(){ loads++; return {then(f){ f({scene:mkScene()}); return {catch(){}}; }}; }},GAME:{G:{hour:14,day:3}},PLACES:{isOpen:(z,h)=>h>=11&&h<22,typhoonClosed:()=>false},console};
 vm.createContext(ctx); vm.runInContext(src.slice(a,b)+'; this.fn=shopInsideReal;',ctx);
-const Rr=ctx.fn(E,g,zone,[{id:'dabu',place:'xs_dabu',key:'bldg.xs_dabu',w:7.4,d:12,h:3.4,x:-22.52,z:-16.7,ry:Math.PI/2,cx:-16.5,cz:-16.7,ex:0,ez:3.7}]);
+const Rr=ctx.fn(E,g,zone,[{id:'dabu',place:'xs_dabu',key:'bldg.xs_dabu',w:7.4,d:12,h:3.4,x:-22.52,z:-16.7,ry:Math.PI/2,cx:-16.5,cz:-16.7,ex:0,ez:3.7}],{lite:true});
 const s=Rr.shops[0]; const step=n=>{ for(let i=0;i<n;i++) zone.update(0.016,E); };
-ok(!s.on&&loads===0,'③ 玩家在 75 m 外：不載入（整條街全接手機吃不消）');
+ok(!s.on&&loads===0,'③ 省資源模式（手機）：玩家在 75 m 外不載入');
 E.player.obj.position.z=-10; step(21);
 ok(s.on&&loads===1&&g.children.length===1,'④ 走到 26 m 內：載入那一間的室內模型、接上');
 const grp=g.children[0]; const vis=n=>grp.children.find(q=>q.name===n).visible;
@@ -36,6 +36,20 @@ ctx.GAME.G.hour=12; step(21); ok(Math.abs(fl.material.color.r-0.86)<1e-6,'⑬ �
 E.player.obj.position.z=24; step(21); ok(s.on,'⑭ 走到離店面 37 m：還沒超過 far（40），留著（near 26、far 40：不會在邊界上一直接上又拿掉）');
 E.player.obj.position.z=40; step(21); ok(!s.on&&g.children.length===0&&disposed===3&&zone.shopInLit.items[0].mesh.visible===true,'⑮ 走遠：拿掉、材質釋放（'+disposed+' 個）、簡化的店內放回來');
 E.player.obj.position.z=-16; step(21); ok(s.on&&loads===2,'⑯ 再走回來：重新接上');
+/* 一般模式（電腦）：進區域就先做好、不顯示；走近只開顯示（CC 11-12：第一次走近最長一幀 233 ms） */
+{ loads=0; let inits=0, compiles=0; const g2={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); }};
+  const z2={update:null,shopInLit:{items:[{id:'dabu',mesh:{visible:true}},{id:'haopai',mesh:{visible:true}}]}}; const E2={zone:z2,q:{level:'high'},camera:{},scene:{},renderer:{initTexture(){ inits++; },compile(){ compiles++; }},player:{obj:{position:new V3(-12,0,60)}}};
+  ctx.ASSETS.manifest['bldg.xs_haopai']={}; ctx.GAME.G.hour=14;
+  const R2=ctx.fn(E2,g2,z2,[{id:'dabu',place:'xs_dabu',key:'bldg.xs_dabu',w:7.4,d:12,h:3.4,x:-22.52,z:-16.7,ry:Math.PI/2,cx:-16.5,cz:-16.7,ex:0,ez:3.7},{id:'haopai',place:'xs_haopai',key:'bldg.xs_haopai',w:4.4,d:14,h:3.4,x:-23.52,z:-23.2,ry:Math.PI/2,cx:-16.5,cz:-23.2,ex:0,ez:2.2}],{lite:false});
+  const st=n=>{ for(let i=0;i<n;i++) z2.update(0.016,E2); }; const [a1,a2]=R2.shops;
+  ok(R2.lite===false&&loads===1&&a1.built&&!a1.on&&g2.children[0].visible===false,'㉗ 一般模式：玩家在遠處，第一間（最近的）先做好、掛著不顯示');
+  ok(!a2.built,'㉙ 一次只做一間（分幀）');
+  ok(inits===0&&!a1.ready,'㉘a 貼圖不在做好的那一幀一次上傳（那樣本身就是一頓）'); st(1); ok(inits===1&&compiles===0,'㉘b 一幀上傳一張貼圖'); st(3);
+  ok(inits>=1&&compiles>=1&&a1.ready,'㉘ 貼圖先上傳（initTexture '+inits+' 次）、全部上傳完才編譯材質（compile '+compiles+' 次），然後才算可以顯示——不留到走近那一幀');
+  st(21); ok(a2.built&&loads===2&&!a2.on,'㉚ 下一拍做第二間');
+  ok(z2.shopInLit.items[0].mesh.visible===true,'㉛ 還沒顯示的時候簡化的店內照舊顯示');
+  E2.player.obj.position.z=-18; st(21); ok(a1.on&&a2.on&&g2.children.every(q=>q.visible)&&loads===2&&z2.shopInLit.items[0].mesh.visible===false,'㉜ 走近：只是打開顯示（沒有再載入），簡化的店內藏起來');
+  const d0=disposed; E2.player.obj.position.z=60; st(21); ok(!a1.on&&a1.built&&g2.children.length===2&&disposed===d0,'㉝ 走遠：關掉顯示、不釋放（再走近不用重做）'); }
 /* 新生南路的設定 */
 const xs=fs.readFileSync(path.join(R,'src/xinsheng3d.js'),'utf8'); ok(/Z3\.shopInsideReal\(E,g,zone,S\.SHOP_REAL\)/.test(xs),'⑰ xinsheng3d.js 接上');
 const lay={dabu:['DABU_LAYOUT','dabu_layout.js',q=>q],haopai:['HAOPAI_LAYOUT','haopai_layout.js',q=>q.haopai],xsports:['XINSHENG_SPORTS_LAYOUT','xinsheng_sports_layout.js',q=>q],shanlan:['SHANLAN_LAYOUT','shanlan_layout.js',q=>q],dakou:['DAKOU_LAYOUT','dakou_layout.js',q=>q.shop],nanyang:['NANYANG_LAYOUT','nanyang_layout.js',q=>q.lobby]};

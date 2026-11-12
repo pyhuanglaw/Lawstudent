@@ -1567,32 +1567,46 @@ const Z3 = (function(){
      · 室內模型自己的正面牆（WALL_front*：街景模型已經有店面的玻璃和框）、陽光斑、窗景卡、光暈不放；範圍外的零件（夜景板之類）不放。
      · 材質換成不受場景光的（MeshBasicMaterial，貼圖／頂點色照舊）：街上的太陽照不進店裡，店是被自己的燈照亮的；亮度 0.86，打烊（PLACES.isOpen 假、颱風停業）0.07。
      · 接上以後把街景模型裡那一間的簡化店內（sk_in_<店>，載入前的備用）藏起來；拿掉就放回來。
-     回傳 {shops, tick}，也記在 zone.shopReal（測試、CC 在瀏覽器看：shops[i].on 接上了沒、meshes 幾個零件、k 亮度）。 */
-  function shopInsideReal(E,g,zone,list){ if(!E||!g||!zone||!Array.isArray(list)||!list.length) return null;
+     回傳 {shops, tick, lite}，也記在 zone.shopReal（測試、CC 在瀏覽器看：shops[i].built 做好了沒、on 顯示中、meshes 幾個零件、k 亮度）。 */
+  function shopInsideReal(E,g,zone,list,opt){ if(!E||!g||!zone||!Array.isArray(list)||!list.length) return null;
     const HIDE=/(^|\/)(WALL_front|GLOW_)|sun|VIEW_|_view(_|$)/i, B=new THREE.Box3(), C=new THREE.Vector3(), LIT=0.86;
-    const shops=list.map(q=>Object.assign({near:26,far:40,on:false,loading:false,grp:null,mats:[],meshes:0,k:-1},q));
+    const shops=list.map(q=>Object.assign({near:26,far:40,on:false,built:false,loading:false,grp:null,mats:[],meshes:0,k:-1},q));
+    /* 兩種接法（CC 11-12 在使用者電腦量：兩間同時接 60 fps 沒掉，但第一次走近最長一幀 233 ms——那一下在載入、上傳貼圖、編譯材質）：
+       · 一般（電腦）：進這一區就一間一間先做好（每 20 幀做一間：載入、換材質、貼圖先上傳、材質先編譯），掛在場景裡但不顯示；走近只是打開顯示，走遠關掉，不釋放。
+       · 省資源 lite（畫質 low／medium 或觸控裝置；opt.lite 可以指定）：只接最近的一間，走近才載入、其他的拿掉並釋放。 */
+    const lite=opt&&opt.lite!==undefined?!!opt.lite:(!!(E.q&&E.q.level&&E.q.level!=='high')||(typeof window!=='undefined'&&('ontouchstart' in window||(window.navigator&&window.navigator.maxTouchPoints>0))));
     const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
     const basic=(m,s,cache)=>{ if(!m) return m; let b=cache.get(m); if(b) return b; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
       if(!map){ if(m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&!m.vertexColors) col.copy(m.emissive); else if(m.color) col.copy(m.color); } else if(m.map&&m.color) col.copy(m.color);
       b=new THREE.MeshBasicMaterial({map,vertexColors:!!m.vertexColors,transparent:!!m.transparent,opacity:m.opacity===undefined?1:m.opacity,alphaTest:m.alphaTest||0,side:m.side,depthWrite:m.depthWrite!==false});
+      if(m.vertexColors&&m.metalness>0.2) col.multiplyScalar(2.2);   /* 金屬的頂點色零件（南洋戲院大廳的老放映機）不受光以後是純黑的剪影：提亮一點 */
       b.name='shopreal_'+(m.name||''); b.userData.base=col; b.color.copy(col); cache.set(m,b); s.mats.push(b); return b; };
     const light=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; let open=true;
       if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07; if(k===s.k) return; s.k=k; for(const b of s.mats) b.color.copy(b.userData.base).multiplyScalar(k); };
-    const attach=s=>{ if(s.on||s.loading||typeof ASSETS==='undefined'||!ASSETS.manifest[s.key]) return; s.loading=true;
-      ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.on) return; const r=c.scene.clone(true); r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true);
+    /* 先上傳貼圖、先編譯材質，而且分幀：一幀只上傳一張貼圖（一次全部上傳本身就是一頓），全部上傳完再編譯，然後才算「可以顯示」（s.ready）。 */
+    const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set(); for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } warmQ.push({s,done:true}); };
+    const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(!j.s.built) return;
+      try{ if(j.done){ if(Rn&&Rn.compile&&E.camera){ const v=j.s.grp.visible; j.s.grp.visible=true; Rn.compile(j.s.grp,E.camera,E.scene||j.s.grp); j.s.grp.visible=v; } } else if(Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
+      if(j.done){ j.s.ready=true; if(j.s.want) show(j.s,true); } };
+    const show=(s,v)=>{ if(!s.grp) return; s.grp.visible=v; s.on=v; fallback(s,!v); if(v){ s.k=-1; light(s); } };
+    const build=(s,vis)=>{ if(s.built||s.loading||typeof ASSETS==='undefined'||!ASSETS.manifest[s.key]) return; s.loading=true;
+      ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.built) return; const r=c.scene.clone(true); r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true);
         const cache=new Map(); let n=0;
         r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(!o.isMesh||!o.geometry) return; let nm=''; for(let q=o;q&&q!==r;q=q.parent) nm=(q.name||'')+'/'+nm;
           if(HIDE.test(nm)){ o.visible=false; return; } { let dv=null; for(let q=o;q&&q!==r&&!dv;q=q.parent) dv=q.userData&&q.userData.dir; if(Array.isArray(dv)&&dv[2]<-0.9&&Math.abs(dv[0])<0.1){ o.visible=false; return; } }   /* 正面牆：模型自訂屬性 dir＝[0,0,−1]（牆淡出用的「這面牆朝室內的方向」；汀州路的店叫 WALL_S、WALL_Sfix_*，名字對不上 WALL_front）*/
           if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
           if(Math.abs(C.x)>s.w/2+0.4||Math.abs(C.z)>s.d/2+0.4||C.y>s.h+0.6||C.y<-0.5){ o.visible=false; return; }
           o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,cache)):basic(o.material,s,cache); n++; });
-        r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; g.add(r); s.grp=r; s.on=true; s.meshes=n; s.k=-1; light(s); fallback(s,false); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
-    const detach=s=>{ if(!s.on) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.grp=null; s.on=false; s.meshes=0; fallback(s,true); };
-    const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return;
-      for(const s of shops){ const dx=Math.max(0,Math.abs(p.x-(s.cx===undefined?s.x:s.cx))-(s.ex||0)), dz=Math.max(0,Math.abs(p.z-(s.cz===undefined?s.z:s.cz))-(s.ez||0)), dd=Math.hypot(dx,dz);
-        if(!s.on&&dd<s.near) attach(s); else if(s.on&&dd>s.far) detach(s); if(s.on) light(s); } };
-    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%20===0) tick(); }; tick();
-    const R={shops,tick,detach}; zone.shopReal=R; return R; }
+        r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; r.visible=false; g.add(r); s.grp=r; s.built=true; s.meshes=n; s.want=!!vis; warm(s); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
+    const detach=s=>{ if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; fallback(s,true); };
+    const dist=(s,p)=>Math.hypot(Math.max(0,Math.abs(p.x-(s.cx===undefined?s.x:s.cx))-(s.ex||0)),Math.max(0,Math.abs(p.z-(s.cz===undefined?s.z:s.cz))-(s.ez||0)));
+    const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return; for(const s of shops) s.dd=dist(s,p); const by=shops.slice().sort((a,b)=>a.dd-b.dd);
+      if(lite){ const n0=by[0]; for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if(s.built&&(s!==n0||s.dd>s.far)) detach(s); } }
+      else{ for(const s of shops){ if(s.built){ if(s.dd<s.near){ s.want=true; if(s.ready&&!s.on) show(s,true); } else if(s.dd>s.far){ s.want=false; if(s.on) show(s,false); } } }
+        if(!shops.some(s=>s.loading)){ const nx=typeof ASSETS!=='undefined'?by.find(s=>!s.built&&ASSETS.manifest[s.key]):null; if(nx) build(nx,nx.dd<nx.near); } }
+      for(const s of shops) if(s.on) light(s); };
+    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); warmStep(); if((f++)%20===0) tick(); }; tick();
+    const R={shops,tick,detach,lite,warmQ}; zone.shopReal=R; return R; }
   const ggLitWired=new WeakMap();   /* 接過窗卡打烊調暗的材質 → {lit, U, mine, compiled, rewrap, entries}（第二次進公館沿用，見 ggShopLit 裡的註解）*/
   function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
     let ex=null; root.traverse(o=>{ if(!ex&&o.userData&&o.userData.xsShops) ex=o.userData.xsShops; }); const ids=String(ex||'ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb').split(',');
