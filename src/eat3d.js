@@ -9,7 +9,7 @@
       AA_336 A1：六張犁麵舖的大碗小碗、蛋包飯研究所的全熟半熟不加點餐步驟，老樣子一律用主句（「好。大碗。」「好，半熟。」），上次點什麼的換句不做。
       AA_336 A4：便利商店「加熱」只有微波義大利麵算；第 5 次那一句「要加熱嗎？……你每次都要。」只給上次有加熱的，上次沒加熱的換成 line5Alt（「一樣不用加熱，對吧。」），祐廷回「好。」。
       Café 芷若在班＝照她自己的點法（ASKED_HER_DRINK、CAFE_VISITS），這一套不用；沒見過芷若＝老闆那句（「芷若交代過」）不說。阿鳳麵店語彤在顧店＝第 5 次那一句換她說。
-      便利商店：祐廷在那一間打工的（JOBS.at(G,'cvs')，打工系統還沒有）不演。宵夜滷味攤沒有點餐選單：只有 ② 第一次去的旁白（考完的宵夜，outings3d.js）。
+      便利商店：祐廷在那一間打工的（JOBS.at(G,'cvs')，打工系統還沒有）不演。宵夜滷味攤：點餐在 src/luwei3d.js（AA_841：四種夾法、辣度、十點後半價；熟客句照辣度換）；② 第一次去的旁白照舊（考完的宵夜 outings3d.js 也走那裡）。
    存檔：G.eat＝{n:{店:次數}, last:{店:品項}, l5:{店:第幾天}, first:{店:第幾天}, ate:[{shop,item,day}], tog:{人:第幾天}}；舊存檔沒有就從空的開始。
    接線（各一兩行）：lane118.js 點餐、story3d.js counter（Café、便利商店）、麵店、wzshops3d.js（AA_172 三家；AA_364 四家用 EAT.addShop 登記）、outings3d.js（滷味攤）、game3d.js 筆記本。測試：node tests/eat_unit.js、node tests/wz_aa364_shops_unit.js */
 'use strict';
@@ -129,8 +129,11 @@ const EAT=(function(){
     } finally { GM.sceneEnd(); } };
   /* 點完的共用一段：次數、吃過的、第一次的旁白，接著問一起吃；回傳 true＝一起吃了 */
   S.after=async function(GM,key,item){ await S.ordered(GM,key,item); return S.together(GM,key); };
-  /* 宵夜滷味攤（考完的宵夜，outings3d.js S.go 演事件之前）：沒有點餐選單，只有第一次的旁白、吃過的 */
-  S.outingFirst=async function(GM,q){ if(!q||q.place!=='公館滷味攤') return false; return S.ordered(GM,'宵夜（滷味攤）','滷味'); };
+  /* 宵夜滷味攤（考完的宵夜，outings3d.js S.go 演事件之前）：選夾法和辣度（AA_841，src/luwei3d.js 的 LW3.order：扣錢、記上次的；選「算了」、錢不夠＝這一趟沒吃），再照原本的第一次的旁白、吃過的。
+     沒有 LW3（或稿沒載到）＝照舊：沒有點餐選單，只有第一次的旁白、吃過的 */
+  S.outingFirst=async function(GM,q){ if(!q||q.place!=='公館滷味攤') return false;
+    if(typeof LW3!=='undefined'&&LW3.order&&typeof LUWEI_STALL!=='undefined'){ const r=await LW3.order(GM,{outing:true}); return !!r&&r!=='no'&&r!=='poor'; }
+    return S.ordered(GM,'宵夜（滷味攤）','滷味'); };
   /* Café 芷若在班時的點餐是她的事件（CAFE_VISITS）：第一次點過就記進吃過的（不補演旁白），之後老闆那邊點也不再演第一次 */
   S.tickCafe=function(GM){ const G=GM.G; if(!G||!G.flags) return false; const v=+G.flags.CAFE_VISITS||0; if(v<1) return false; const R=S.rec(G), key='兩點半 Café';
     if(R.first[key]==null){ R.first[key]=G.day; const it=G.flags.zhiruoFirstOrder||'拿鐵'; const shop=S.FIRST_KEY[key]; if(!R.ate.some(a=>a.shop===shop)) R.ate.push({shop,item:it,day:G.day}); }
