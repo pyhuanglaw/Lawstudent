@@ -1,0 +1,438 @@
+{
+ "_meta": {
+  "doc": "AA_822 可昕第三批（X324 續改）：約會「記得上次」那一格（remember）開頭的「上次」",
+  "by": "AA-C 2026-11-12",
+  "task": "DLG-FULL-REVIEW-1110",
+  "what": "可昕 remember 122 句全部用「上次」開頭。這一格本來就只在再去同一個地方時出現，不用每句都報「上次」：「上次那個／那隻／那張…」直接從東西講起（拿掉「上次」）；「上次…這次…」對比的、「上次說要…」的照留。另：D19「考期中考」→「考期末考」（沒有期中考）。已直接改 date_system/lines 源稿。",
+  "before_after": "上次開頭 122 → 62"
+ },
+ "rows": [
+  {
+   "src": "date_system/lines/D01.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個展換掉了。我們那條規則還在，我有在記。",
+   "new": "那個展換掉了。我們那條規則還在，我有在記。"
+  },
+  {
+   "src": "date_system/lines/D01.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻耳環，我戴去上課。老師看了兩次，很成功。",
+   "new": "那隻耳環，我戴去上課。老師看了兩次，很成功。"
+  },
+  {
+   "src": "date_system/lines/D01.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那張背影，我設成桌布了。同學問是誰，我說路人。",
+   "new": "那張背影，我設成桌布了。同學問是誰，我說路人。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻烏龜爬到另一邊了，牠有進步。",
+   "new": "那隻烏龜爬到另一邊了，牠有進步。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個遊戲，我回去查了攻略。很不浪漫。",
+   "new": "那個遊戲，我回去查了攻略。很不浪漫。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻長頸鹿，脖子被我壓歪了。我有道歉。",
+   "new": "那隻長頸鹿，脖子被我壓歪了。我有道歉。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那筆三百二，我記在「很值得」那一欄。",
+   "new": "那筆三百二，我記在「很值得」那一欄。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那部我後來又想了一次，我還是對的。",
+   "new": "那部我後來又想了一次，我還是對的。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次買的那個小東西，我掛在包包上了。你沒發現。",
+   "new": "買的那個小東西，我掛在包包上了。你沒發現。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那家冰換口味了，我們試新的。",
+   "new": "那家冰換口味了，我們試新的。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那張長椅空著，我們運氣變好了。",
+   "new": "那張長椅空著，我們運氣變好了。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那本講經濟的電影書讀完了，結論很普通。",
+   "new": "那本講經濟的電影書讀完了，結論很普通。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那幅畫的價錢，我回去查了。不告訴你。",
+   "new": "那幅畫的價錢，我回去查了。不告訴你。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次拍的那兩杯，我設成鎖定畫面了。不是因為你。",
+   "new": "拍的那兩杯，我設成鎖定畫面了。不是因為你。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那扇門，我記得編號。不說出來。",
+   "new": "那扇門，我記得編號。不說出來。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那封「不要為我擔心」的信，我回去讀了全文。",
+   "new": "那封「不要為我擔心」的信，我回去讀了全文。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個沒有回答的問題，我自己想了答案。不會。",
+   "new": "那個沒有回答的問題，我自己想了答案。不會。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個外交官在吃竹子，牠加班了。",
+   "new": "那個外交官在吃竹子，牠加班了。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻站最高的被擠下來了。",
+   "new": "那隻站最高的被擠下來了。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻小長頸鹿長高了，我拍了對比照。",
+   "new": "那隻小長頸鹿長高了，我拍了對比照。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個一直揮手的小孩沒來。",
+   "new": "那個一直揮手的小孩沒來。"
+  },
+  {
+   "src": "date_system/lines/D09.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那盞一直閃的燈修好了。",
+   "new": "那盞一直閃的燈修好了。"
+  },
+  {
+   "src": "date_system/lines/D09.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻貓又在，牠認得我了。",
+   "new": "那隻貓又在，牠認得我了。"
+  },
+  {
+   "src": "date_system/lines/D10.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那攤換了一個口味，我們試試新的。",
+   "new": "那攤換了一個口味，我們試試新的。"
+  },
+  {
+   "src": "date_system/lines/D11.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個「平等」的筆記，我真的寫進去了。",
+   "new": "那個「平等」的筆記，我真的寫進去了。"
+  },
+  {
+   "src": "date_system/lines/D12.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個竹籃，我拿來放保養品。很合理。",
+   "new": "那個竹籃，我拿來放保養品。很合理。"
+  },
+  {
+   "src": "date_system/lines/D12.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那三分鐘，我們數到兩分半就喝了。",
+   "new": "那三分鐘，我們數到兩分半就喝了。"
+  },
+  {
+   "src": "date_system/lines/D12.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次拍你那張，你的眼睛是閉的。我還是留著。",
+   "new": "拍你那張，你的眼睛是閉的。我還是留著。"
+  },
+  {
+   "src": "date_system/lines/D13.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次的照片，我印出來貼在書桌前面。",
+   "new": "的照片，我印出來貼在書桌前面。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次拍的那張橋，我拿去當報告的封面。跟內容無關。",
+   "new": "拍的那張橋，我拿去當報告的封面。跟內容無關。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻長頸鹿換成小船了，配合場地。",
+   "new": "那隻長頸鹿換成小船了，配合場地。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次拍你的那張，你笑得好傻。我設成你的來電照片了。",
+   "new": "拍你的那張，你笑得好傻。我設成你的來電照片了。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那首歌，予樂問我好不好用。我說很好用。",
+   "new": "那首歌，予樂問我好不好用。我說很好用。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個貝殼，予樂放在她桌上了。",
+   "new": "那個貝殼，予樂放在她桌上了。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次拍的那張，你眼睛閉著。我還是留著。",
+   "new": "拍的那張，你眼睛閉著。我還是留著。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那顆像我的石頭，我找不到了。你說我看錯，我沒有。",
+   "new": "那顆像我的石頭，我找不到了。你說我看錯，我沒有。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個位子被別人訂走了。這個也可以，我不高興一下就好。",
+   "new": "那個位子被別人訂走了。這個也可以，我不高興一下就好。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻章魚，我掛在包包上。同學問我為什麼，我說沒有為什麼。",
+   "new": "那隻章魚，我掛在包包上。同學問我為什麼，我說沒有為什麼。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次的好運我拿去考期中考了，有用。",
+   "new": "上次的好運我拿去考期末考了，有用。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻貓換了一個地方睡。",
+   "new": "那隻貓換了一個地方睡。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次拍給予樂的那張，她說好老。我說對。",
+   "new": "拍給予樂的那張，她說好老。我說對。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次給予樂的牛角，她說好吃。我說是你挑的。",
+   "new": "給予樂的牛角，她說好吃。我說是你挑的。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那兩條，你那條我拿走了。你又沒在用。",
+   "new": "那兩條，你那條我拿走了。你又沒在用。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次在這裡拍的那張，背景很好看。我也很好看，我自己講。",
+   "new": "在這裡拍的那張，背景很好看。我也很好看，我自己講。"
+  },
+  {
+   "src": "date_system/lines/D22.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個問題我查到了。算了，你也不想知道。",
+   "new": "那個問題我查到了。算了，你也不想知道。"
+  },
+  {
+   "src": "date_system/lines/D22.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那碗湯，我回去想了三天。",
+   "new": "那碗湯，我回去想了三天。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個鐘還是快一分鐘。",
+   "new": "那個鐘還是快一分鐘。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那張明信片，我寄給自己了。昨天收到。",
+   "new": "那張明信片，我寄給自己了。昨天收到。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個跌五次的人，站得很穩了。",
+   "new": "那個跌五次的人，站得很穩了。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那堆椅子的作品，換掉了。有點可惜。",
+   "new": "那堆椅子的作品，換掉了。有點可惜。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那個賣風箏的阿伯也在。",
+   "new": "那個賣風箏的阿伯也在。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次買的小木盒，我拿來放你給我的票根。",
+   "new": "買的小木盒，我拿來放你給我的票根。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那節車廂有人在裡面拍照，我們等一下。",
+   "new": "那節車廂有人在裡面拍照，我們等一下。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那區講翻譯的，我回去想了很久。法條也是這樣。",
+   "new": "那區講翻譯的，我回去想了很久。法條也是這樣。"
+  },
+  {
+   "src": "date_system/lines/D29.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那台起重機還在同一個位置。它這幾個月都在幹嘛。",
+   "new": "那台起重機還在同一個位置。它這幾個月都在幹嘛。"
+  },
+  {
+   "src": "date_system/lines/D30.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那顆最圓的，我找不到了。",
+   "new": "那顆最圓的，我找不到了。"
+  },
+  {
+   "src": "date_system/lines/D32.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那隻叫予樂的羊，還是很吵。",
+   "new": "那隻叫予樂的羊，還是很吵。"
+  },
+  {
+   "src": "date_system/lines/D32.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那顆高麗菜，我們宿舍吃了一個禮拜的泡麵加菜。",
+   "new": "那顆高麗菜，我們宿舍吃了一個禮拜的泡麵加菜。"
+  },
+  {
+   "src": "date_system/lines/D33.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那部，我後來查了影評。影評跟我想的一樣，我安心了。",
+   "new": "那部，我後來查了影評。影評跟我想的一樣，我安心了。"
+  },
+  {
+   "src": "date_system/lines/D33.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次那家換菜單了，我們吃新的。",
+   "new": "那家換菜單了，我們吃新的。"
+  },
+  {
+   "src": "date_system/lines/D33.json",
+   "who": "kexin",
+   "where": "remember",
+   "old": "上次拍的照片，燈太多，看不到我。重拍。",
+   "new": "拍的照片，燈太多，看不到我。重拍。"
+  }
+ ]
+}
