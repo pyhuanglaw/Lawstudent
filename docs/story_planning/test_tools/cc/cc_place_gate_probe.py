@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -258,6 +258,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         # 判法改射線（PC GATE_CAL：左右移 1.5 m 連平面圖的畫面也整個變，像素差不能分立體）：從店外鏡頭往門面打 24×16 條，略過玻璃、半透明、人；
         # 門面距離＝最常見的距離（0.25 m 一格），門面後面 0.8 m 以上還打得到東西的比例＝deep；平面圖／貼在玻璃後面的卡片 deep≈0
         rays = await pg.evaluate(DEPTH_JS, {'from': list(base), 'at': list(tgt)})
+        # BB-C 06:26（X352 SHOP-WINDOW-3D）：店外也連拍——遊戲鏡頭在門外，邊轉 5 秒（同 BURST_JS），看櫥窗裡有沒有閃
+        try: row['m']['outside_burst'] = await pg.evaluate(BURST_JS, {})
+        except Exception as e: row['m']['outside_burst'] = {'error': repr(e)[:120]}
         row['m']['parallax'] = {'pixel_diff_info_only': pd, 'rays': rays}; row['m']['outside_magenta'] = a4['magenta_pct']
         row['v']['5_parallax'] = v3(PAR_LO, PAR_HI, rays.get('deep', 0), low_bad=True) if rays.get('n', 0) >= 50 else 'UNKNOWN'
     elif '5' in PARTS:

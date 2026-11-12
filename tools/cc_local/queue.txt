@@ -6,6 +6,9 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# ===== P0 BB-C 06:26（使用者點名 X352 SHOP-WINDOW-3D-1112 第 1 包：大步球鞋櫥窗立體店內，LAWWW2 e61b6de33＝開發分支 207a8216d9）最前面；dc3d 舊貼圖版同機位對照 =====
+X352_DABU_new | 207a8216d90c98f979b857f258e496209c2499a8 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=x352_new;ZONES=xs_dabu;HOURS=14,20.5,22;SHA=207a8216d90c98f979b857f258e496209c2499a8
+X352_DABU_old | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=x352_old;ZONES=xs_dabu;HOURS=14,20.5,22;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # ===== P0 LAWWW-C 05:29 跑步頓第三輪「玩久了」：使用者第 51 天存檔、照他的路線換區 18 站、前後各跑 10 秒、最後 10 秒 CDP Profiler、椰影大道 (2,−123.66) 物件；線上 dc3d（沒有泰米＝跳過）＋98ec 各一次 =====
 P0_LONGPLAY_dc3d | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_longplay_stutter_probe.py | index.html | 50 | TAG=dc3d;VIEW=2308x1064;DSF=1;HOUR=17.58;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 P0_LONGPLAY_98ec | 98ec5b0f66120b7dcb37acfc5c362be73051f6bf | probe | docs/story_planning/test_tools/cc/cc_longplay_stutter_probe.py | index.html | 50 | TAG=98ec;VIEW=2308x1064;DSF=1;HOUR=17.58;SHA=98ec5b0f66120b7dcb37acfc5c362be73051f6bf
@@ -18,6 +21,9 @@ ST4_a2_pwdefault | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story
 ST4_b_lowpower | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | SOLO=1;TAG=st4_b_lowpower;VIEW=2308x1064;DSF=1;HOUR=17.58;ZONES=wenzhou;RUN_S=10;CC_GPU=0;EXTRA_ARGS=--force_low_power_gpu;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 ST4_c_disablegpu | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | SOLO=1;TAG=st4_c_disablegpu;VIEW=2308x1064;DSF=1;HOUR=17.58;ZONES=wenzhou;RUN_S=10;CC_GPU=0;EXTRA_ARGS=--disable-gpu;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 ST4_d_chrome | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | SOLO=1;TAG=st4_d_chrome;VIEW=2308x1064;DSF=1;HOUR=17.58;ZONES=wenzhou;RUN_S=10;CC_GPU=0;CHANNEL=chrome;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+# LAWWW-C 06:26：有視窗兩支。runner 的 config HEADLESS=1 會蓋過單項的 CC_HEADLESS=0（run_queue.py 1364 行）＝單項覆寫做不到；先 HOLD，BB 決定（改全域、或讓探針自己開視窗）
+#HOLD等BB決定有視窗 ST4_e_headed_default | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | SOLO=1;CC_HEADLESS=0;TAG=st4_e_headed_default;VIEW=2308x1064;DSF=1;HOUR=17.58;ZONES=wenzhou;RUN_S=10;CC_GPU=0;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+#HOLD等BB決定有視窗 ST4_f_headed_chrome | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | SOLO=1;CC_HEADLESS=0;TAG=st4_f_headed_chrome;VIEW=2308x1064;DSF=1;HOUR=17.58;ZONES=wenzhou;RUN_S=10;CC_GPU=0;CHANNEL=chrome;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 P0_LONGPLAY_fix_solo | 2b6a545be878d1436ade6e987bb25822dadb1521 | probe | docs/story_planning/test_tools/cc/cc_longplay_stutter_probe.py | index.html | 50 | SOLO=1;TAG=fix_solo;VIEW=2308x1064;DSF=1;HOUR=17.58;SHA=2b6a545be878d1436ade6e987bb25822dadb1521
 P0_LONGPLAY_dc3d_solo2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_longplay_stutter_probe.py | index.html | 50 | SOLO=1;TAG=dc3d_solo2;VIEW=2308x1064;DSF=1;HOUR=17.58;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # ===== P0 CC-C 11-12 05:4x（使用者 05:3x：電腦閒著、雲端慢——不再先雲端驗，直接排電腦；BB-C 05:26 ①③、雲端停下的十項全部改排這裡）=====
