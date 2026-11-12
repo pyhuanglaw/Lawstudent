@@ -13,6 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
+11-12 BB-C 14:43：⑥ 機器判改看藏人那一輪連拍（有人那一輪翻的多半是客人在走，只記、也切條圖 strip_*_people_*）。
 CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；STRIPS=1 藏人那一輪每個翻動格子切 12 張條圖（BB-C 10:23）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
@@ -289,10 +290,12 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     if '6' in PARTS:
         z1 = await pg.evaluate(ZF_JS, {'from': [ex + ux * 1.0, 1.6, ez + uz * 1.0], 'at': [cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8]})
         z2 = await pg.evaluate(ZF_JS, {'from': [cx, 1.6, cz], 'at': [ex - ux * 2.0, 1.8, ez - uz * 2.0]})
-        bu = await pg.evaluate(BURST_JS, {'overlay': True, 'pan': PAN})
+        bu = await pg.evaluate(BURST_JS, {'overlay': True, 'pan': PAN, 'strips': STRIPS})   # 11-12 BB-C 14:43：有人那一輪也切條圖（日和 20:30 有人 4 格翻、藏人 0 格，原本沒有條圖）
         await pg.evaluate(HIDE_PEOPLE + '(true)'); bu2 = await pg.evaluate(BURST_JS, {'overlay': True, 'strips': STRIPS, 'pan': PAN}); await pg.evaluate(HIDE_PEOPLE + '(false)')
         for st_ in (bu2.pop('strips', None) or []):   # 藏人那一輪的翻動格子：同一格 12 張並排（上面 ms＝連拍開始後幾毫秒、g＝遊戲時間）
             open(os.path.join(OUT, 'strip_%s_%s_b%02d_r%dc%d_f%d.jpg' % (zid, hh, st_['i'], st_['by'], st_['bx'], st_['flips'])), 'wb').write(base64.b64decode(st_['url'].split(',', 1)[1]))
+        for st_ in (bu.pop('strips', None) or []):   # 有人那一輪（檔名 _people）
+            open(os.path.join(OUT, 'strip_%s_%s_people_b%02d_r%dc%d_f%d.jpg' % (zid, hh, st_['i'], st_['by'], st_['bx'], st_['flips'])), 'wb').write(base64.b64decode(st_['url'].split(',', 1)[1]))
         # BB-C 07:19 ②：翻動的格子圈在截圖上（數字＝翻幾次）；另外把人都藏起來再連拍一次＝分得出是人在走還是真的閃
         for nm_, x_ in (('', bu), ('_nopeople', bu2)):
             if x_.get('img'): open(os.path.join(OUT, 'burst_%s_%s%s.jpg' % (zid, hh, nm_)), 'wb').write(base64.b64decode(x_['img'].split(',', 1)[1]))
@@ -301,7 +304,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         zmax = max(z1['median'], z2['median']); row['m']['flicker'] = {'zf_entry': z1, 'zf_window': z2, 'burst': bu}
         # 校正 r2：0.05° 成對差在正常和已知會閃的店都在 0.2～1.1%（鋸齒），分不出來＝只當參考；改看連拍：同一格畫面亮度來回翻 ≥3 次的格子數
         #   0 格＝PASS；1～2 格＝UNKNOWN（交 BB 看連拍）；≥ BURST_FAIL 格＝FAIL（暫定，等有已知會閃的室內再校正）
-        nb = (bu or {}).get('blocks_flipping', 0) or 0
+        # 11-12 BB-C 14:43（日和 20:30）：有人那一輪翻的格子多半是客人在走；機器判改看藏人那一輪，有人那一輪只記（兩輪的格子都切條圖）
+        nb = (bu2 or {}).get('blocks_flipping', 0) or 0
+        row['m']['burst_people'] = {'blocks_flipping': (bu or {}).get('blocks_flipping'), 'max_flips': (bu or {}).get('max_flips'), 'flip3': [i for i, v in enumerate((bu or {}).get('per') or []) if v >= 3]}
         row['m']['cam_drift_mm'] = {'burst': (bu or {}).get('cam_drift_mm'), 'burst_nopeople': (bu2 or {}).get('cam_drift_mm'), 'game_cam': [(bu or {}).get('game_cam_drift_mm'), (bu2 or {}).get('game_cam_drift_mm')], 'settle': [(bu or {}).get('settle'), (bu2 or {}).get('settle')]}
         row['v']['6_flicker'] = 'PASS' if nb == 0 else ('FAIL' if nb >= BURST_FAIL else 'UNKNOWN')
         if max(row['m']['cam_drift_mm']['burst'] or 0, row['m']['cam_drift_mm']['burst_nopeople'] or 0) > 5: row['v']['6_flicker'] = 'INVALID'   # BB-C 11:43：拍照鏡頭漂 >5 mm＝這次連拍不能判（不標 FAIL）
