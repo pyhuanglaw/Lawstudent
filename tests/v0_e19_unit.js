@@ -39,7 +39,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   // 內容（舊存檔已經排好的出遊照演；之後改寫的參考）：直接跑事件
   const go=async pick=>{ fresh(J2,19,'campus'); picks=[pick]; said=[]; await EVENTS.run(e19); return said.map(x=>x.t); };
   L=await go('是不是喜歡');
-  check('3. 直接問：「……你覺得呢？」…「……不是唐睿。」…「我要趕捷運了。寒假快樂。」→「誤會解開了一半。另一半，你沒有問。」、E19_ASK＝direct',L.includes('……不是唐睿。')&&L.includes('（她自己站起來）我要趕捷運了。寒假快樂。')&&L[L.length-1]==='誤會解開了一半。另一半，你沒有問。'&&G.flags.E19_ASK==='direct');
+  check('3. 直接問：「你覺得呢？」…「不是唐睿。」…「我要趕捷運了。寒假快樂。」→「誤會解開了一半。另一半，你沒有問。」、E19_ASK＝direct',L.includes('不是唐睿。')&&L.includes('（她自己站起來）我要趕捷運了。寒假快樂。')&&L[L.length-1]==='誤會解開了一半。另一半，你沒有問。'&&G.flags.E19_ASK==='direct');
   await go('很會講話'); check('3. 開玩笑問：「對啊。比某些人會。」、joke',said[said.length-1].t==='對啊。比某些人會。'&&G.flags.E19_ASK==='joke');
   await go('不問'); check('3. 不問：E19_ASK＝none',G.flags.E19_ASK==='none');
   await new Promise(r=>setTimeout(r,30));

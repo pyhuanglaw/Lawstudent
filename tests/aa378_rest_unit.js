@@ -72,7 +72,7 @@ const cp=require('child_process'), SPEC_SHA='5cd35678';
   { const e=STORY_EVENTS.find(x=>x.id==='ev_kexin_anniversary_yn'), L=(e&&e.dialogue)||[], i=L.findIndex(l=>l.label==='y4'), ch=i>=0?L.slice(i).find(l=>l.choice):null;
     const rep=lab=>{ const j=L.findIndex(l=>l.label===lab); return j>=0?L[j+1].text:null; };
     const C=ch?ch.choice.map(c=>[c.text,rep(c.goto)]):null;
-    check('10. #10 可昕第四年：「（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。」＋自己一組選項（「明年也一起過。」→「好。寫進表格。」／「時間好快。」→「對啊。四年前你還不知道木柵大學怎麼走。」／（不說話，看著她）→「……幹嘛一直看。」）',
-      i>=0&&L[i+1].text==='（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'&&JSON.stringify(C)===JSON.stringify([['「明年也一起過。」','好。寫進表格。'],['「時間好快。」','對啊。四年前你還不知道木柵大學怎麼走。'],['（不說話，看著她）','……幹嘛一直看。']]),JSON.stringify(C)); }
+    check('10. #10 可昕第四年：「（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。」＋自己一組選項（「明年也一起過。」→「好。寫進表格。」／「時間好快。」→「對啊。四年前你還不知道木柵大學怎麼走。」／（不說話，看著她）→「幹嘛一直看。」）',
+      i>=0&&L[i+1].text==='（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'&&JSON.stringify(C)===JSON.stringify([['「明年也一起過。」','好。寫進表格。'],['「時間好快。」','對啊。四年前你還不知道木柵大學怎麼走。'],['（不說話，看著她）','幹嘛一直看。']]),JSON.stringify(C)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

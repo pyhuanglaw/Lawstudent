@@ -58,7 +58,7 @@ GM.money=function(n){ G.money+=n; };
     q.state='missed'; G.hour=23.9; STORY.phoneRules(GM); PHONE.tick(G); G.hour=24.1; STORY.phoneRules(GM); PHONE.tick(G); const qc=OUT.get(G,'kx_nye_call_y2');
     check('5-2. 答應高雄沒去：KX_NYE[2]＝missed；00:05 她打來（演出來的電話，AA_313 2-3 B）；當晚不傳那兩句',G.flags.KX_NYE[2]==='missed'&&!!qc&&qc.day===d31+1&&Math.abs(qc.h-5/60)<1e-6&&qc.ev==='ev_kexin_nye_missed_call'&&qc.verb==='接起來'&&!txt('p:kexin').includes('kexin:愛河的煙火，我一個人看了。'),JSON.stringify(qc));
     { const sv=said; said=[]; G.day=d31+1; G.hour=0.05; await OUT.go(GM,qc); const Lc=lines(); said=sv;
-      check('5-2. 00:05 的電話照稿：「你在哪。」「……臺北。」「我在愛河等到零點。」「……新年快樂。我要回家了。」（她掛掉了。）',JSON.stringify(Lc)===JSON.stringify(['（電話。很吵，她那邊還有人在放煙火。）','杜可昕：你在哪。','祐廷：……臺北。','杜可昕：我在愛河等到零點。','杜可昕：……新年快樂。我要回家了。','（她掛掉了。）']),JSON.stringify(Lc)); }
+      check('5-2. 00:05 的電話照稿：「你在哪。」「……臺北。」「我在愛河等到零點。」「新年快樂。我要回家了。」（她掛掉了。）',JSON.stringify(Lc)===JSON.stringify(['（電話。很吵，她那邊還有人在放煙火。）','杜可昕：你在哪。','祐廷：……臺北。','杜可昕：我在愛河等到零點。','杜可昕：新年快樂。我要回家了。','（她掛掉了。）']),JSON.stringify(Lc)); }
     G.day=d31+1; G.hour=9.05; PHONE.tick(G); const mm=TH('p:kexin').filter(m=>m.tag==='kx_nye_miss_y2');
     check('5-2. 答應高雄沒去：「愛河的煙火，我一個人看了。」「……新年快樂。」改到隔天早上 09:00',mm.map(m=>m.text).join('｜')==='愛河的煙火，我一個人看了。｜……新年快樂。'&&mm.every(m=>m.day===d31+1&&Math.abs(m.h-9)<0.06),JSON.stringify(mm.map(m=>[m.day,m.h,m.text])));
     fresh(d31-7,20,'dorm',{dating_kexin:true}); run(20,21.2); G.day=d31; G.hour=21.1; STORY.phoneRules(GM); G.hour=23.8; STORY.phoneRules(GM); const v=OUT.get(G,'kx_nye_video_y2');

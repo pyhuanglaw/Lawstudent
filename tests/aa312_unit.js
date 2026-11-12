@@ -18,7 +18,7 @@ await sec(1,()=>{
   const e=ev('ev_kexin_anniversary_yn'), y3=lab(e,'y3'), b0=lab(e,'b0')[0], b1=lab(e,'b1')[0], b2=lab(e,'b2')[0], b3=lab(e,'b3')[0];
   check('1. K13 第三年卡片：「（把卡片翻到第一頁）第三年。」（「我們好像真的會一直轉下去」拿掉）',y3[0].text==='（把卡片翻到第一頁）第三年。'&&y3[1].goto==='b0'&&!SRC.includes("text:'（把卡片翻到第一頁）第三年。我們好像真的會一直轉下去。'"),J(y3));
   check('1. K13 選項：「明年換我寫。」「每年都寫這麼多？」「（不說話，看著她）」',J(b0.choice.map(c=>c.text))===J(['「明年換我寫。」','「每年都寫這麼多？」','（不說話，看著她）']),J(b0));
-  check('1. K13 回覆：b1「好。要手寫喔。」、b2「你每年都只看第一頁。」（teasing）、b3 照舊「……幹嘛一直看。」',b1.text==='好。要手寫喔。'&&b2.text==='你每年都只看第一頁。'&&b2.expression==='teasing'&&b3.text==='……幹嘛一直看。'&&!SRC.includes("text:'那就一起暈。'")&&!SRC.includes("text:'「轉到頭暈怎麼辦？」'"),J([b1,b2,b3]));
+  check('1. K13 回覆：b1「好。要手寫喔。」、b2「你每年都只看第一頁。」（teasing）、b3 照舊「幹嘛一直看。」',b1.text==='好。要手寫喔。'&&b2.text==='你每年都只看第一頁。'&&b2.expression==='teasing'&&b3.text==='幹嘛一直看。'&&!SRC.includes("text:'那就一起暈。'")&&!SRC.includes("text:'「轉到頭暈怎麼辦？」'"),J([b1,b2,b3]));
   check('1. AA_262 (b) 第 2 條（第四年自己一組選項）已經做過（AA_378 #10），照留',lab(e,'y4')[0].text==='（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'); });
 
 await sec(2,()=>{

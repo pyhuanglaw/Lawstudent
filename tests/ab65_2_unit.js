@@ -38,7 +38,7 @@ await sec(1,async()=>{
   check('1. 讀書會學姊開場：事件已退休（AA_218 17-4）＝不做（AA_207 §6）；AA 的句子不在程式裡',!!sw&&!!sw.retired&&!SRC.includes('來了喔，隨便坐。今天讀刑訴，聽不懂沒關係。'));
   /* ④⑤ 可昕導遊③、來台大③：後來的改稿（AA_313／AA_372／AA_295）已經換掉整段，假設題不在了＝不做 */
   const tour=texts(ev('ev_kexin_tour_nccu')), ntu=texts(ev('ev_kexin_visits_ntu'));
-  check('1. 導遊③：已經被後來的改稿取代（現在「……你答得太快了。我會點很多喔。」）；沒有「假設」、AA 的「沒有，我也剛到。」不加',tour.includes('……你答得太快了。我會點很多喔。')&&!tour.some(t=>/假設/.test(t))&&!tour.includes('沒有，我也剛到。'),J(tour.slice(-6)));
+  check('1. 導遊③：已經被後來的改稿取代（現在「你答得太快了。我會點很多喔。」）；沒有「假設」、AA 的「沒有，我也剛到。」不加',tour.includes('你答得太快了。我會點很多喔。')&&!tour.some(t=>/假設/.test(t))&&!tour.includes('沒有，我也剛到。'),J(tour.slice(-6)));
   check('1. 來台大③：已經被後來的改稿取代（現在「我沒有每天遲到。」→「證據呢？」）；AA 的「好啦，你沒有。」不加',ntu.includes('證據呢？')&&!ntu.some(t=>/假設/.test(t))&&!ntu.includes('好啦，你沒有。'),J(ntu));
   /* ⑥ 家裡的事（§6 更正結尾）*/
   const mm=texts(ev('ev_mingxuan_money'));
@@ -90,7 +90,7 @@ await sec(6,async()=>{
 await sec(7,()=>{
   /* AA_207 §7（AA-B 10-23 19:3x，回 LAWWW-B 19:22 施工時發現的六處）*/
   const bd=texts(ev('ev_kexin_birthday_y1'));
-  check('7-1. 可昕生日 #c：「……很會講欸。」（原本「……好，算你過。」替玩家打分）；導遊 s3「……你答得太快了。我會點很多喔。」照舊',bd.includes('……很會講欸。')&&!bd.includes('……好，算你過。')&&texts(ev('ev_kexin_tour_nccu')).includes('……你答得太快了。我會點很多喔。'),J(bd));
+  check('7-1. 可昕生日 #c：「很會講欸。」（原本「……好，算你過。」替玩家打分）；導遊 s3「你答得太快了。我會點很多喔。」照舊',bd.includes('很會講欸。')&&!bd.includes('……好，算你過。')&&texts(ev('ev_kexin_tour_nccu')).includes('你答得太快了。我會點很多喔。'),J(bd));
   check('7-2. 學姊 sis_yutong 第三則：「然後叫阿姨先睡覺。」（「這種事，準備好就不可怕。」標語句拿掉）',ST.includes("W('然後叫阿姨先睡覺。')]")&&!ST.includes('準備好就不可怕'));
   const ntu=texts(ev('ev_kexin_visits_ntu'));
   check('7-3. K2 可昕：「我們的舊系館。……裡面的販賣機還是壞的。」',ntu.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!ntu.some(t=>/都不會進去了吧/.test(t)),J(ntu));

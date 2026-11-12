@@ -19,8 +19,8 @@ check('0. 白名單有 AA_814@91c6aaf9f（approved）',!!e&&e.sha===SHA&&e.statu
 let doc=null; try{ doc=cp.execFileSync('git',['-C',ROOT,'show',SHA+':'+DOC],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(err){ doc=null; }
 // 1. 新台詞：稿裡有、遊戲檔裡有
 const LINES=[
-  ['src/data/events.js','……還不知道。整科就那一份，我只是記錯日子。'],
-  ['src/data/events.js','……宿舍月底要退。我本來想，回高雄讀。'],['src/data/events.js','我媽說，姊姊的房間空著。'],['src/data/events.js','……你問過了？'],['src/data/events.js','上禮拜就問了。'],['src/data/events.js','那我明天搬。……輸的人，幫忙扛書。'],
+  ['src/data/events.js','還不知道。整科就那一份，我只是記錯日子。'],
+  ['src/data/events.js','宿舍月底要退。我本來想，回高雄讀。'],['src/data/events.js','我媽說，姊姊的房間空著。'],['src/data/events.js','你問過了？'],['src/data/events.js','上禮拜就問了。'],['src/data/events.js','那我明天搬。……輸的人，幫忙扛書。'],
   ['src/data/vac_activities.js','歡迎回來！我在台中，桌上的考古題疊得比你的行李還高。'],['src/data/vac_activities.js','下次放風的那個下午，你要從第一天開始講。'],
   ['src/data/vac_activities.js','我現在連台中市區都很少去耶。……等我考完，第一個要去的地方給你選。'],
   ['src/data/r2y4a_events.js','（交換生一個一個把行李推上車。你的機票是二十一號。）'],['src/data/r2y4a_events.js','（巴士開走了。你還要再待五天。）'],

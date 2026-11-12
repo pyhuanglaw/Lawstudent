@@ -107,7 +107,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     const go=async(flags,events,pick)=>{ fresh(SAT,15.7,'campus',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q2=OUT.get(G,'kx_ntu'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q2); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「今天沒有遲到。」');
     check('K2：旁白用「你」（BB 2026-10-14）：「社科院門口，可昕和品妤已經在等你。」「品妤先回去了。你們沿著椰影大道走出校門，在附近吃晚餐。」（AA_313 第 2 節第 8 列）；品妤第一次出現＝「好久不見。你現在每天都在對面那棟喔？」（AA_207 §4-6：不報全名）；可昕「我們的舊系館。……裡面的販賣機還是壞的。」（AA_207 §7 第 3 列：原本接在品妤的問句後面又是一個問句）',r.L[0]==='社科院門口，可昕和品妤已經在等你。'&&r.L.includes('品妤先回去了。你們沿著椰影大道走出校門，在附近吃晚餐。')&&!r.L.includes('品妤先回去了。你們沿著椰影大道，一路走到公館吃晚餐。')&&r.L.includes('好久不見。你現在每天都在對面那棟喔？')&&!r.L.includes('你來了。')&&r.L.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!r.L.includes('我們的舊系館。……你現在每天經過，都不會進去了吧？'),JSON.stringify(r.L.slice(0,4)));
-    check('K2：霖澤館前三選一（AA_295）；「今天沒有遲到。」→「……因為我在。」她笑',JSON.stringify(r.O)===JSON.stringify(['「遲到走後門。」','「今天沒有遲到。」','「我沒有每天遲到。」'])&&r.L.includes('A館。以前每天從社科院看過來。……第一次走進來。')&&r.L.includes('你每天第一堂都從這個門進去？……遲到的時候也是？')&&r.L.includes('……因為我在。')&&r.L.includes('她笑。'));
+    check('K2：霖澤館前三選一（AA_295）；「今天沒有遲到。」→「因為我在。」她笑',JSON.stringify(r.O)===JSON.stringify(['「遲到走後門。」','「今天沒有遲到。」','「我沒有每天遲到。」'])&&r.L.includes('A館。以前每天從社科院看過來。……第一次走進來。')&&r.L.includes('你每天第一堂都從這個門進去？……遲到的時候也是？')&&r.L.includes('因為我在。')&&r.L.includes('她笑。'));
     check('K2：K1 還沒去過＝分開時「下次換你來，我當導遊。」；記 MET_PINYU',r.L.includes('下次換你來，我當導遊。')&&G.flags.MET_PINYU===true);
     r=await go({MET_PINYU:true},['ev_kexin_tour_nccu'],'「我沒有每天遲到。」');
     check('K2：之前遇過品妤＝只點頭「你來了。」；K1 去過＝沒有「下次換你來」；「我沒有每天遲到。」→「證據呢？」',r.L.includes('你來了。')&&!r.L.some(t=>t.startsWith('曾品妤。'))&&!r.L.includes('下次換你來，我當導遊。')&&r.L.includes('證據呢？'));
@@ -170,9 +170,9 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     fresh(BD,6,'dorm',{dating_kexin:true}); run(6,6.2); d=draft(); keepOn(BD+1,0.2); const late=PHONE.answer(G,d.ask.id,0); check('草稿過了當天就不能傳',late===null);
     const go=async(flags,events,pick)=>{ fresh(BD,18.2,'dorm',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; run(18.2,18.3); const q3=OUT.get(G,'kx_bday'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q3); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「猜的。」');
-    check('去木柵大學＝旁白「木柵大學的晚上，山上的風比首都帝大冷一點。」→「……你怎麼知道我幾點下課？」；沒見過予樂＝沒有「問予樂的。」；整段沒有「生日」',r.L[0]==='木柵大學的晚上，山上的風比首都帝大冷一點。'&&r.L.includes('……你怎麼知道我幾點下課？')&&JSON.stringify(r.O)===JSON.stringify(['「妳的課表在我手機裡。」','「猜的。」'])&&!r.L.some(t=>/生日/.test(t)),JSON.stringify(r.L.slice(0,4)));
-    check('「猜的。」→「猜錯的話，你要在這裡等多久？」「等到猜對。」「……很會講欸。」（AA_207 §7 第 1 列：原本「……好，算你過。」替玩家打分）；予樂沒見過＝「予樂看了你一眼，對可昕說：」「好，我先走。」',['猜錯的話，你要在這裡等多久？','等到猜對。','……很會講欸。','予樂看了你一眼，對可昕說：','好，我先走。'].every(t=>r.L.includes(t))&&!r.L.includes('……好，算你過。'));
-    check('小吃街「今天本來是一個普通的週三。」「……你從台北開上來喔？山路晚上很暗欸。」（AA_207 §5／BB_167 SC4 第 33 列）「今天你點餐。」；沒有「老闆記得你的點法。」',['今天本來是一個普通的週三。','……你從台北開上來喔？山路晚上很暗欸。','今天你點餐。'].every(t=>r.L.includes(t))&&!r.L.includes('老闆記得你的點法。'));
+    check('去木柵大學＝旁白「木柵大學的晚上，山上的風比首都帝大冷一點。」→「你怎麼知道我幾點下課？」；沒見過予樂＝沒有「問予樂的。」；整段沒有「生日」',r.L[0]==='木柵大學的晚上，山上的風比首都帝大冷一點。'&&r.L.includes('你怎麼知道我幾點下課？')&&JSON.stringify(r.O)===JSON.stringify(['「妳的課表在我手機裡。」','「猜的。」'])&&!r.L.some(t=>/生日/.test(t)),JSON.stringify(r.L.slice(0,4)));
+    check('「猜的。」→「猜錯的話，你要在這裡等多久？」「等到猜對。」「很會講欸。」（AA_207 §7 第 1 列：原本「……好，算你過。」替玩家打分）；予樂沒見過＝「予樂看了你一眼，對可昕說：」「好，我先走。」',['猜錯的話，你要在這裡等多久？','等到猜對。','很會講欸。','予樂看了你一眼，對可昕說：','好，我先走。'].every(t=>r.L.includes(t))&&!r.L.includes('……好，算你過。'));
+    check('小吃街「今天本來是一個普通的週三。」「你從台北開上來喔？山路晚上很暗欸。」（AA_207 §5／BB_167 SC4 第 33 列）「今天你點餐。」；沒有「老闆記得你的點法。」',['今天本來是一個普通的週三。','你從台北開上來喔？山路晚上很暗欸。','今天你點餐。'].every(t=>r.L.includes(t))&&!r.L.includes('老闆記得你的點法。'));
     keepOn(BD+1,7.5); run(7.5,8.2); check('去了＝KX_DEC3 {1:"visit"}',G.flags.KX_DEC3[1]==='visit');
     r=await go({K1_ORDER:'let_her'},['ev_kexin_tour_nccu','ev_kexin_yule_pass'],'「問予樂的。」');
     check('見過予樂＝有「問予樂的。」→ 予樂「我什麼都沒說。」可昕「她說了。她每次說謊都先撥頭髮。」、予樂「好，我先走。司機，載好她。」',r.O.includes('「問予樂的。」')&&r.L.includes('我什麼都沒說。')&&r.L.includes('她說了。她每次說謊都先撥頭髮。')&&r.L.includes('好，我先走。司機，載好她。')&&!r.L.includes('予樂看了你一眼，對可昕說：'));

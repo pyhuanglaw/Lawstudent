@@ -38,7 +38,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('2. AA_303 第 2 節 12（整段換：坐在湖邊聊天、剛好聊到長頸鹿）：傍晚湖邊 →「休學的人，今天做了什麼？」→「去書店站了一下午。」→「看什麼？」「……法律的。」「喔。」→ 鷺鷥 → 動物園的長頸鹿、尾巴 →「我要第三隻手，幫妳拿尾巴。」→「（愣了一下，笑出來）……你在講什麼。」→「好冷。走吧。」、E12_ANSWER＝hand；沒有「假設」、沒有保齡球照片',L[0]==='（傍晚。她剛上完體育課，你們坐在映月湖邊的椅子上。湖對面的燈一盞一盞亮起來。）'&&L[1]==='休學的人，今天做了什麼？'&&JSON.stringify(L.slice(2,5))===JSON.stringify(['看什麼？','……法律的。','喔。'])&&L[5]==='（湖邊有一隻鷺鷥，腳很長，站著不動。）'&&L.includes('……我小時候在動物園，看長頸鹿看了一整個下午。')&&L.includes('我最喜歡牠的尾巴。尾端有一撮毛，可以趕蒼蠅。')&&L[L.length-2]==='（愣了一下，笑出來）……你在講什麼。'&&L[L.length-1]==='好冷。走吧。'&&!L.some(t=>/假設|保齡球/.test(t))&&G.flags.E12_ANSWER==='hand',JSON.stringify(L));
   at(D6,18.4); check('2. 演過了：18:15 沒有手機版',!PHONE.sent(G,'y0_e12_phone'));
   for(const [l5a,ans,line] of [[true,'latte','對。所以它是馬。'],[false,'how','看了一整個下午啊。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); if(l5a) G.events.done.ev_y0_l5a=1; picks=['睡到中午','拉花']; said=[]; await EVENTS.run(e12); const L3=said.map(x=>x.t);
-    check('2. 「拉花那隻，尾巴也沒畫。」只在 10/12 長頸鹿拉花去過才有（'+(l5a?'去過＝選得到':'沒去＝沒有這個選項，落到第一個')+'）→ E12_ANSWER＝'+ans,G.flags.E12_ANSWER===ans&&L3.includes('……好羨慕。')&&L3.includes(line),JSON.stringify(L3.slice(-3))); }
+    check('2. 「拉花那隻，尾巴也沒畫。」只在 10/12 長頸鹿拉花去過才有（'+(l5a?'去過＝選得到':'沒去＝沒有這個選項，落到第一個')+'）→ E12_ANSWER＝'+ans,G.flags.E12_ANSWER===ans&&L3.includes('好羨慕喔。')&&L3.includes(line),JSON.stringify(L3.slice(-3))); }
   // 沒到
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; G.zone='dorm'; at(D6,18.4); check('3. 18:30 以前不發手機版（AA_307 第 10 列）',!PHONE.sent(G,'y0_e12_phone'));
   at(D6,18.6); const T=PHONE.thread(G,'p:kexin').map(m=>m.text);

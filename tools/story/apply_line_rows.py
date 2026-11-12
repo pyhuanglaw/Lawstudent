@@ -5,6 +5,7 @@
   - 稿從 git show <commit>:<稿路徑> 讀（企劃線要先 fetch）。
   - 那一列的 file 第 line 行要剛好有一次 old；行號差了（前面有人加減行）就在整個檔找，整個檔剛好一次才換，並印出實際行號。
   - 換完 old 不能還在那個檔的程式和字串裡（同一句兩處、只換一處＝停；註解裡提到的列出來、不動）。已經換過的（沒有舊句、有新句）印出來跳過，重跑不會壞。
+  - --by-line：只換稿指定的那一行；別的行還有同一句（短句、別人也說）列出來、不停（稿是逐行審過的才用）。
   - 自動產生的檔（檔頭寫「自動產生」）不換——那種要改源稿重匯，回報 AA。加 --skip-generated＝那幾列列出來、其他照換。
 """
 import json, os, re, subprocess, sys
@@ -71,6 +72,13 @@ def main():
         left = [r['old'] for r in rows if r['file'] == f and r['old'] in code and r['old'] not in r['new']]
         for o in sorted({r['old'] for r in rows if r['file'] == f and r['old'] in t and r['old'] not in code and r['old'] not in r['new']}):
             print(f'  （{f} 的註解裡還提到舊句「{o}」——說明文字，不動）')
+        if left and '--by-line' in sys.argv:
+            # --by-line（2026-11-12，AA_818 可昕 70 列）：稿是「這一行的這一句」，很短的句子（「……好。」）別的行、別人也有——那些不是這一列要改的。
+            # 只要求每一列自己那一行換掉了；別的行還有同一句的列出來給人看，不停。
+            for o in sorted(set(left)):
+                where = [i + 1 for i, l in enumerate(L) if o in l]
+                print(f'  （{f} 別的行還有「{o}」：第 {where[:12]} 行——不是這份稿指定的行，不動）')
+            left = []
         if left:
             die(f'{f} 換完還有舊句：{left[:3]}')
         if apply:
