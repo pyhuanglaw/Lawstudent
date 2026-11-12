@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SHAOLA_opp_r3",
+  "sha": "a57b6ec8ab549a16ff15a53c38edcba63429f019",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_shaola_probe.py",
+  "env": "PARTS=OPP;OPP_HOURS=12.5,18.5;SHA=a57b6ec8ab549a16ff15a53c38edcba63429f019",
+  "machine": "MSI",
+  "start": "2026-11-13T01:55:53",
+  "end": "2026-11-13T01:58:20",
+  "seconds": 147,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 14,
+    "mem": 44,
+    "used_gb": 14.0,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

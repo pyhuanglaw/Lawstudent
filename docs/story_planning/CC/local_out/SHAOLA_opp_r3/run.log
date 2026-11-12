@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shaola_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHAOLA_opp_r3\out
+CC 公館燒臘點餐與記帳：SHA a57b6ec8ab；PARTS ['OPP']；2025-10-15 18.50
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.4s] 菜單（YEJIAN_SHAOLA_BUY.noodle）：{"menu": [["叉燒飯", 90], ["油雞飯", 90], ["燒鴨飯", 100], ["雙拼飯", 110], ["三寶飯", 130], ["例湯", 20]], "addon": [["加滷蛋", 15]], "staff": {"who": "阿鳳阿姨", "greet": "內用外帶？內用自己找位子，好了我叫你。", "order_done": "好，等一下。湯自己舀，在那邊。", "call": "同學，你的好了。", "no_money": "（阿姨看了你一眼。）先吃，下次一起算。", "tab_pay": "上次的一起算，總共 {n}。", "tab_refuse": "上次那一碗還在帳上。今天喝碗湯就好，湯不用錢。"}}
+PASS 有燒臘的資料
+  [  59.4s] [OPP] 12.50 座位：[{"ix": 0, "label": "坐下吃飯", "x": -1.55, "z": 4.62, "lv": 0, "sx": -2.1, "sz": 4.62, "occ": false, "pair": [-2.1, 3.38], "pairOcc": false}, {"ix": 1, "label": "坐下吃飯", "x": -1.55, "z": 2.82, "lv": 0, "sx": -2.1, "sz": 2.82, "occ": true, "pair": [-2.1, 1.58], "pairOcc": true}, {"ix": 2, "label": "坐下吃飯", "x": -1.55, "z": 1.02, "lv": 0, "sx": -2.1, "sz": 1.02, "occ": false, "pair": [-2.1, -0.22], "pairOcc": false}, {"ix": 3, "label": "坐下吃飯", "x": -1.55, "z": -0.78, "lv": 0, "sx": -2.1, "sz": -0.78, "occ": false, "pair": [-2.1, -2.02], "pairOcc": true}, {"ix": 4, "label": "坐下吃飯", "x": -1.55, "z": -2.58, "lv": 0, "sx": -2.1, "sz": -2.58, "occ": false, "pair": [-2.1, -3.82], "pairOcc": false}]
+  [  84.2s] [OPP] 18.50 座位：[{"ix": 0, "label": "坐下吃飯", "x": -1.55, "z": 4.62, "lv": 0, "sx": -2.1, "sz": 4.62, "occ": false, "pair": [-2.1, 3.38], "pairOcc": true}, {"ix": 1, "label": "坐下吃飯", "x": -1.55, "z": 2.82, "lv": 0, "sx": -2.1, "sz": 2.82, "occ": false, "pair": [-2.1, 1.58], "pairOcc": false}, {"ix": 2, "label": "坐下吃飯", "x": -1.55, "z": 1.02, "lv": 0, "sx": -2.1, "sz": 1.02, "occ": false, "pair": [-2.1, -0.22], "pairOcc": false}, {"ix": 3, "label": "坐下吃飯", "x": -1.55, "z": -0.78, "lv": 0, "sx": -2.1, "sz": -0.78, "occ": false, "pair": [-2.1, -2.02], "pairOcc": false}, {"ix": 4, "label": "坐下吃飯", "x": -1.55, "z": -2.58, "lv": 0, "sx": -2.1, "sz": -2.58, "occ": true, "pair": [-2.1, -3.82], "pairOcc": true}]
+  [前置／捷徑] [OPP] 【前置／捷徑】讀檔進公館燒臘 2025-10-15 18.50；有客人坐、對面空著的「坐下吃飯」0 張；兩張都有人 1 張
+FAIL [OPP] 找得到有客人坐、對面空著的那一張
+PASS 沒有 JS 例外  []
+FAILED 1: [OPP] 找得到有客人坐、對面空著的那一張
