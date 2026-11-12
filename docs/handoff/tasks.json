@@ -55092,6 +55092,36 @@
     "ack": "DELIVERED",
     "acceptance": "BB 照 §12 七項在瀏覽器判 PASS"
    }
+  },
+  {
+   "id": "SHOP-OUT-IN-AUDIT-1112",
+   "title": "公館十三間店外看進去／走進去是不是一樣：LAWWW2 自查表（§12 第 1 點）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "6827c36a3b",
+   "next": "【LAWWW-C 11-12 11:5x UTC】LAWWW2 outbox 第 448 筆（9a7413056）登記對不到總表，補開；公館十三間已全部換成真的室內（6827c36a3b），等 CC 拍 ⑦b、BB 判",
+   "source": "LAWWW2 outbox 第 448 筆；CLAUDE.md §12",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "BB",
+    "receiver": "BB",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 448 筆",
+    "ack": "DELIVERED",
+    "acceptance": "BB 照 §12 第 1 點（⑦b）判 PASS"
+   }
   }
  ]
 }
