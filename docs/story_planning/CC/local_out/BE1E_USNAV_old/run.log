@@ -1,0 +1,60 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_us_nav_traps_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BE1E_USNAV_old\out
+CC US-NAV-TRAPS 瀏覽器：TAG old；SHA fe347b5e8ce9daba6502044c2cb89e60f3035a2a；PARTS A,B,C,D；SEAMS 1,2；REPS 5；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [縫1 超市街燈桿和車頭中間] 【前置／捷徑】讀檔到 us_market_street 2028-10-12 14:00 (27.85, -2.30)；先讀進區域，找起點
+PASS [A 縫1 超市街燈桿和車頭中間] 讀到 us_market_street  {"zone": "us_market_street", "x": 27.25, "z": -2.25, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+PASS [A 縫1 超市街燈桿和車頭中間] 縫中心外 0.4～1.0 m 有站得住的起點
+  [  46.1s] [A 縫1 超市街燈桿和車頭中間] 站得住的候選 13 個；用的起點 [{"x": 27.591, "z": -4.766, "d": 1, "ang": 195}, {"x": 28.623, "z": -3.593, "d": 0.8, "ang": 75}, {"x": 27.591, "z": -2.834, "d": 1, "ang": 345}]
+  [ 452.8s] [A 縫1 超市街燈桿和車頭中間] 推了 60 次；推完在縫裡（外擴 0.1 m）0 次；卡住 0 次；E.unstick 0 次
+PASS [A 縫1 超市街燈桿和車頭中間] 0 次卡住（推進去以後 16 個方向都出不來）  []
+PASS [A 縫1 超市街燈桿和車頭中間] E.unstick 0 次（遊戲自己把人推出來不算過）  [0, 0]
+PASS [A 縫1 超市街燈桿和車頭中間] 沒有 JS 例外  []
+  [ 452.8s] [A 縫1 超市街燈桿和車頭中間] 【修改前】瀏覽器 0 次卡住＝瀏覽器重現不了（BB 03:53：新版 0 次卡住、0 次 unstick 就算 PASS）
+  [前置／捷徑] [縫1 超市街燈桿和車頭中間] 【前置／捷徑】讀檔到 us_market_street 2028-10-12 14:00 (27.59, -4.77)；點地第 1 次的起點
+  [ 471.0s] [B 縫1 超市街燈桿和車頭中間] 第 1 次點縫中心：點到 {"sx": 405.855476077068, "sy": 256.54611685597416, "y": 0, "ok": true, "hit": [27.85, -3.8, 0, 0]}；停在 {"x": 27.679, "z": -4.014, "y": 0, "lv": 0, "run": false, "zone": "us_market_street"}；之後搖桿推 10.96 m
+PASS [B 縫1 超市街燈桿和車頭中間] 第 1 次：點到畫面（不是沒點到）
+PASS [B 縫1 超市街燈桿和車頭中間] 第 1 次：人沒停在縫裡、之後推得走 ≥0.3 m  {"pos": {"x": 27.679, "z": -4.014, "y": 0, "lv": 0, "run": false, "zone": "us_market_street"}, "moved": 10.96}
+  [前置／捷徑] [縫1 超市街燈桿和車頭中間] 【前置／捷徑】讀檔到 us_market_street 2028-10-12 14:00 (27.59, -4.77)；點地第 2 次的起點
+  [ 489.1s] [B 縫1 超市街燈桿和車頭中間] 第 2 次點縫中心：點到 {"sx": 405.855476077068, "sy": 256.5461168559742, "y": 0, "ok": true, "hit": [27.85, -3.8, 0, 0]}；停在 {"x": 27.665, "z": -4.001, "y": 0, "lv": 0, "run": false, "zone": "us_market_street"}；之後搖桿推 10.85 m
+PASS [B 縫1 超市街燈桿和車頭中間] 第 2 次：點到畫面（不是沒點到）
+PASS [B 縫1 超市街燈桿和車頭中間] 第 2 次：人沒停在縫裡、之後推得走 ≥0.3 m  {"pos": {"x": 27.665, "z": -4.001, "y": 0, "lv": 0, "run": false, "zone": "us_market_street"}, "moved": 10.85}
+  [前置／捷徑] [縫1 超市街燈桿和車頭中間] 【前置／捷徑】讀檔到 us_market_street 2028-10-12 14:00 (27.59, -4.77)；點地第 3 次的起點
+  [ 506.9s] [B 縫1 超市街燈桿和車頭中間] 第 3 次點縫中心：點到 {"sx": 405.855476077068, "sy": 256.5461168559742, "y": 0, "ok": true, "hit": [27.85, -3.8, 0, 0]}；停在 {"x": 27.68, "z": -4.014, "y": 0, "lv": 0, "run": false, "zone": "us_market_street"}；之後搖桿推 10.85 m
+PASS [B 縫1 超市街燈桿和車頭中間] 第 3 次：點到畫面（不是沒點到）
+PASS [B 縫1 超市街燈桿和車頭中間] 第 3 次：人沒停在縫裡、之後推得走 ≥0.3 m  {"pos": {"x": 27.68, "z": -4.014, "y": 0, "lv": 0, "run": false, "zone": "us_market_street"}, "moved": 10.85}
+  [前置／捷徑] [縫1 超市街燈桿和車頭中間] 【前置／捷徑】讀檔到 us_market_street 2028-10-12 14:00 (26.35, -5.30)；截圖
+  [ 520.5s] [D 縫1] 截圖 usnav_old_D_seam1.png（新、舊同一台相機：(23.5, 4.2, -9.5) → (27.85, 0.6, -3.8)）
+  [前置／捷徑] [縫2 會所櫃台東頭牆裡] 【前置／捷徑】讀檔到 us_clubhouse_in 2028-10-12 14:00 (3.10, 1.85)；先讀進區域，找起點
+PASS [A 縫2 會所櫃台東頭牆裡] 讀到 us_clubhouse_in  {"zone": "us_clubhouse_in", "x": 3.4, "z": 1.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+PASS [A 縫2 會所櫃台東頭牆裡] 縫中心外 0.4～1.0 m 有站得住的起點
+  [ 540.8s] [A 縫2 會所櫃台東頭牆裡] 站得住的候選 35 個；用的起點 [{"x": 3.4, "z": 0.87, "d": 0.6, "ang": 30}, {"x": 3.446, "z": 0.15, "d": 0.4, "ang": 120}, {"x": 2.327, "z": 0.557, "d": 0.8, "ang": 285}]
+  [ 982.8s] [A 縫2 會所櫃台東頭牆裡] 推了 60 次；推完在縫裡（外擴 0.1 m）9 次；卡住 0 次；E.unstick 0 次
+PASS [A 縫2 會所櫃台東頭牆裡] 0 次卡住（推進去以後 16 個方向都出不來）  []
+PASS [A 縫2 會所櫃台東頭牆裡] E.unstick 0 次（遊戲自己把人推出來不算過）  [1, 1]
+PASS [A 縫2 會所櫃台東頭牆裡] 沒有 JS 例外  []
+  [ 982.8s] [A 縫2 會所櫃台東頭牆裡] 【修改前】瀏覽器 0 次卡住＝瀏覽器重現不了（BB 03:53：新版 0 次卡住、0 次 unstick 就算 PASS）
+  [前置／捷徑] [縫2 會所櫃台東頭牆裡] 【前置／捷徑】讀檔到 us_clubhouse_in 2028-10-12 14:00 (3.40, 0.87)；點地第 1 次的起點
+  [1004.5s] [B 縫2 會所櫃台東頭牆裡] 第 1 次點縫中心：點到 {"sx": 425.81723742253695, "sy": 275.8430269076889, "y": 0, "ok": true, "hit": [3.1, 0.35, 0, 0]}；停在 {"x": 2.378, "z": 0.601, "y": 0, "lv": 0, "run": false, "zone": "us_clubhouse_in"}；之後搖桿推 3.72 m
+PASS [B 縫2 會所櫃台東頭牆裡] 第 1 次：點到畫面（不是沒點到）
+PASS [B 縫2 會所櫃台東頭牆裡] 第 1 次：人沒停在縫裡、之後推得走 ≥0.3 m  {"pos": {"x": 2.378, "z": 0.601, "y": 0, "lv": 0, "run": false, "zone": "us_clubhouse_in"}, "moved": 3.72}
+  [前置／捷徑] [縫2 會所櫃台東頭牆裡] 【前置／捷徑】讀檔到 us_clubhouse_in 2028-10-12 14:00 (3.40, 0.87)；點地第 2 次的起點
+  [1025.0s] [B 縫2 會所櫃台東頭牆裡] 第 2 次點縫中心：點到 {"sx": 425.81723729154163, "sy": 275.8430269465052, "y": 0, "ok": true, "hit": [3.1, 0.35, 0, 0]}；停在 {"x": 2.378, "z": 0.621, "y": 0, "lv": 0, "run": false, "zone": "us_clubhouse_in"}；之後搖桿推 3.72 m
+PASS [B 縫2 會所櫃台東頭牆裡] 第 2 次：點到畫面（不是沒點到）
+PASS [B 縫2 會所櫃台東頭牆裡] 第 2 次：人沒停在縫裡、之後推得走 ≥0.3 m  {"pos": {"x": 2.378, "z": 0.621, "y": 0, "lv": 0, "run": false, "zone": "us_clubhouse_in"}, "moved": 3.72}
+  [前置／捷徑] [縫2 會所櫃台東頭牆裡] 【前置／捷徑】讀檔到 us_clubhouse_in 2028-10-12 14:00 (3.40, 0.87)；點地第 3 次的起點
+  [1045.2s] [B 縫2 會所櫃台東頭牆裡] 第 3 次點縫中心：點到 {"sx": 425.81723733581714, "sy": 275.8430269361398, "y": 0, "ok": true, "hit": [3.1, 0.35, 0, 0]}；停在 {"x": 2.378, "z": 0.601, "y": 0, "lv": 0, "run": false, "zone": "us_clubhouse_in"}；之後搖桿推 3.72 m
+PASS [B 縫2 會所櫃台東頭牆裡] 第 3 次：點到畫面（不是沒點到）
+PASS [B 縫2 會所櫃台東頭牆裡] 第 3 次：人沒停在縫裡、之後推得走 ≥0.3 m  {"pos": {"x": 2.378, "z": 0.601, "y": 0, "lv": 0, "run": false, "zone": "us_clubhouse_in"}, "moved": 3.72}
+  [前置／捷徑] [縫2 會所櫃台東頭牆裡] 【前置／捷徑】讀檔到 us_clubhouse_in 2028-10-12 14:00 (1.60, -1.15)；截圖
+  [1058.0s] [D 縫2] 截圖 usnav_old_D_seam2.png（新、舊同一台相機：(0.6, 2.4, 2.8) → (3.1, 0.8, 0.35)）
+  [前置／捷徑] [C AA_814 3-1 C 棟廚房] 【前置／捷徑】讀檔到 us_shared 2028-09-13 18.75 時 (-3.0, 1.8)（src/r2y4a3d.js 的出生點）
+PASS [黑畫面] usnav_old_C_us_shared 不是黑畫面（平均亮度 140.5、變化 61.1）  [140.5, 61.1]
+PASS [C AA_814 3-1 C 棟廚房] 讀到 us_shared、站得住  {"st": {"zone": "us_shared", "x": -3, "z": 1.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看爐子", "stand": true, "fb": 0, "hour": 18.81}, "pos": {"x": -3, "z": 1.8, "y": 0, "lv": 0, "run": false, "zone": "us_shared"}, "stand": true}
+PASS [C AA_814 3-1 C 棟廚房] 四個方向至少一個推得走 ≥0.3 m  0.46
+  [前置／捷徑] [C AA_814 3-2 社區門口] 【前置／捷徑】讀檔到 us_outside 2028-12-16 7.27 時 (-35.0, 0.0)（src/r2y4a3d.js 的出生點）
+PASS [黑畫面] usnav_old_C_us_outside 不是黑畫面（平均亮度 57.9、變化 53.8）  [57.9, 53.8]
+PASS [C AA_814 3-2 社區門口] 讀到 us_outside、站得住  {"st": {"zone": "us_outside", "x": -35, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 7.34}, "pos": {"x": -35, "z": 0, "y": 0, "lv": 0, "run": false, "zone": "us_outside"}, "stand": true}
+PASS [C AA_814 3-2 社區門口] 四個方向至少一個推得走 ≥0.3 m  10.85
+PASS 全程沒有 JS 例外  []
+ALL PASS
