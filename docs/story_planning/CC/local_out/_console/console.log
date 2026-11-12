@@ -540,3 +540,20 @@
 [17:07:40] [res] cpu=2% mem=32% (10.3/31.4 GB) chrome_testing=0  START TZ_REAL_perf
 [17:07:48] 正在跑：TZ_REAL_perf（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:11:06] [res] cpu=2% mem=33% (10.5/31.4 GB) chrome_testing=0  END TZ_REAL_perf
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       dadaca5b8..f958aa115  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:11:12] ==== END   TZ_REAL_perf  exit=0  209s   ====
+[17:11:21] memory 34% before starting HELP_GUIDE_b2 (0 running)
+[17:11:21] memory 34% before starting HELP_GUIDE_new2 (1 running)
+[17:11:21] ==== START HELP_GUIDE_b2  (probe @ 1ca8b70aac5125afdaf5e955430403f85252d659) ====
+[17:11:21] solo item TZ_REAL_perf_night waits: no new items start until the 2 running item(s) finish
+[17:11:21] ==== START HELP_GUIDE_new2  (probe @ 1ca8b70aac5125afdaf5e955430403f85252d659) ====
+[17:11:24] [res] cpu=2% mem=34% (10.7/31.4 GB) chrome_testing=0  START HELP_GUIDE_b2
+[17:11:24] [res] cpu=2% mem=34% (10.7/31.4 GB) chrome_testing=0  START HELP_GUIDE_new2
+[17:12:49] 正在跑：HELP_GUIDE_b2（已跑 1 分／上限 25 分）、HELP_GUIDE_new2（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:16:31] memory 47% before starting ZN_SHANLAN_r2 (2 running)
+[17:16:31] ==== START ZN_SHANLAN_r2  (probe @ d4daa6326c81c2ba7a57c266235dec49cd7b5ab6) ====
+[17:16:34] [res] cpu=4% mem=47% (14.8/31.4 GB) chrome_testing=10  START ZN_SHANLAN_r2
+[17:17:49] 正在跑：HELP_GUIDE_b2（已跑 6 分／上限 25 分）、HELP_GUIDE_new2（已跑 6 分／上限 25 分）、ZN_SHANLAN_r2（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:18:34] [res] cpu=15% mem=45% (14.2/31.4 GB) chrome_testing=10  END ZN_SHANLAN_r2
