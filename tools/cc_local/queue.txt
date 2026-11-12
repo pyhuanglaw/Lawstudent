@@ -6,6 +6,9 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# ===== P0 BB-C 06:26（使用者點名 X352 SHOP-WINDOW-3D-1112 第 1 包：大步球鞋櫥窗立體店內，LAWWW2 e61b6de33＝開發分支 207a8216d9）最前面；dc3d 舊貼圖版同機位對照 =====
+X352_DABU_new | 207a8216d90c98f979b857f258e496209c2499a8 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=x352_new;ZONES=xs_dabu;HOURS=14,20.5,22;SHA=207a8216d90c98f979b857f258e496209c2499a8
+X352_DABU_old | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=x352_old;ZONES=xs_dabu;HOURS=14,20.5,22;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # ===== P0 LAWWW-C 05:29 跑步頓第三輪「玩久了」：使用者第 51 天存檔、照他的路線換區 18 站、前後各跑 10 秒、最後 10 秒 CDP Profiler、椰影大道 (2,−123.66) 物件；線上 dc3d（沒有泰米＝跳過）＋98ec 各一次 =====
 P0_LONGPLAY_dc3d | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_longplay_stutter_probe.py | index.html | 50 | TAG=dc3d;VIEW=2308x1064;DSF=1;HOUR=17.58;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 P0_LONGPLAY_98ec | 98ec5b0f66120b7dcb37acfc5c362be73051f6bf | probe | docs/story_planning/test_tools/cc/cc_longplay_stutter_probe.py | index.html | 50 | TAG=98ec;VIEW=2308x1064;DSF=1;HOUR=17.58;SHA=98ec5b0f66120b7dcb37acfc5c362be73051f6bf
