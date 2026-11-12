@@ -4831,6 +4831,36 @@
    "status": "進行中",
    "task": "HANDOFF-C-1112",
    "note": "帳號 A 沒交班（no-handoff），LAWWW-C 依使用者指示接班（duty register --user-ok）"
+  },
+  {
+   "id": "UA-LAWWW-1112-02",
+   "at": "2026-11-12T03:5xZ",
+   "quote": "LAWWW2 的第 2 版還沒改。室內要等你看過外觀再決定。 你們自己決定",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X322",
+   "task": "TINGZHOU-SHOPS5-1110",
+   "note": "汀州路五間：第 2 版外觀、要不要做室內都由職位決定，不等使用者看"
+  },
+  {
+   "id": "UA-LAWWW-1112-03",
+   "at": "2026-11-12T03:5xZ",
+   "quote": "（LAWWW-C 的決定）汀州路五間：LAWWW2 做完第 2 版外觀（騎樓混合）接著做五間室內，一間一間交",
+   "kind": "AI解讀",
+   "confirmed": true,
+   "delegatedBy": "UA-LAWWW-1112-02",
+   "status": "進行中",
+   "wants": "X322",
+   "task": "TINGZHOU-SHOPS5-1110"
+  },
+  {
+   "id": "UA-LAWWW-1112-04",
+   "at": "2026-11-12T03:5xZ",
+   "quote": "不用 Fable 模型，各工作階段用 Opus 5.5那是那個帳號fable到上限 現在繼續fable",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X342",
+   "note": "X342 更新：帳號 C 照使用者切的模型（Fable）用"
   }
  ]
 }
