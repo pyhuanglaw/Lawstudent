@@ -200,3 +200,11 @@
 [23:43:03] [res] cpu=26% mem=42% (13.4/31.4 GB) chrome_testing=9  START NAV_WZ_notch_rev
 [23:46:51] 正在跑：NAV_CAMPUS_notch（已跑 9 分／上限 30 分）、SOFA_SOCLIB2F（已跑 4 分／上限 40 分）、NAV_WZ_notch_rev（已跑 3 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:48:45] [res] cpu=8% mem=44% (14.8/31.4 GB) chrome_testing=10  END NAV_WZ_notch_rev
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       df935b2c74..05d9b30dfa  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:48:56] ==== END   NAV_WZ_notch_rev  exit=1  345s   ====
+[23:49:00] memory 44% before starting NAV_SOCLIB_notch_rev (2 running)
+[23:49:00] ==== START NAV_SOCLIB_notch_rev  (probe @ dec3622d75d7fcc98143c5e7f960872ae41cfef0) ====
+[23:49:03] [res] cpu=10% mem=44% (14.1/31.4 GB) chrome_testing=10  START NAV_SOCLIB_notch_rev
+[23:50:39] [res] cpu=4% mem=45% (14.2/31.4 GB) chrome_testing=10  END NAV_CAMPUS_notch
