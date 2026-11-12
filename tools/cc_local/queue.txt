@@ -2075,3 +2075,10 @@ SAVE_LZ_A | ed70b6d3589dc2731171347afa6d623f2b0339ca | probe | docs/story_planni
 # ===== CC-C 11-12 21:3x：r2（探針修：WZ_REAL 遊戲鏡頭轉向店面；地點關卡點椅子前截圖）→ 新 head a1efc3b6ab
 WZ_REAL_r2 | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 25 | SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492
 LIN_REAL_r2 | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=lin_real;ZONES=wz_lin;HOURS=12.5,20;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492
+# ===== CC-C 11-12：DATE35（BB-C 12:38 第 10 項）：X324 約會台詞第四次重匯 35 格抽 6 格（不含可昕），每句截圖
+DATE35_AN | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 20 | TAG=d35an;WHO=heroine_01;PARTS=D24;VISIT=first;STAGES=friend6;PICK=1;ORDER=D24=D24.station;SPOTS=1;SHOT_ALL=1;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492
+DATE35_ZQ | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 20 | TAG=d35zq;WHO=heroine_04;PARTS=D06;VISIT=first;STAGES=friend6;PICK=1;ORDER=D06=D06.cafe;SPOTS=1;SHOT_ALL=1;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492
+DATE35_PS_ARR | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 30 | TAG=d35psa;WHO=classmate_peishan;PARTS=D01,D05;VISIT=again;STAGES=dating;SPOTS=1;SHOT_ALL=1;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492
+DATE35_PS_CLO | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 30 | TAG=d35psc;WHO=classmate_peishan;PARTS=D02,D08;VISIT=first;STAGES=friend6;SPOTS=1;SHOT_ALL=1;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492
+# ===== CC-C 11-12：BB-C e0ae8b13c8：美國中秋 2028-10-03，月餅「九月中到中秋」→ ASIA 用 2028-09-25 重跑（看月餅那題、買了進 GIFTH.bag）
+US_CART_ASIA_moon | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_us_cart_probe.py | index.html | 15 | CASES=ASIA;DAY=2028-09-25;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492

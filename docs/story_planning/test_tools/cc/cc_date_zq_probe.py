@@ -58,6 +58,8 @@ D34：舊版（線上 779ddd650）＝舊稿：每個地點有 17～34 格字不�
   第 3 項（交往格只給交往）是引擎的閘門，這次沒有改，兩版都應該 PASS（舊稿 D03、D08、D26 也有牽手／靠肩，同樣只在交往格）。
   舊版對照：LW_TESTS=<舊版樹>/tests TAG=old SHA=779ddd650 PARTS=D26 python3 cc_date_zq_probe.py <url> <out>（逐字比的是「舊樹自己的 date_lines.js」→ 1、2 項兩版都 PASS；
   要看舊版對新稿 FAIL：加 REF_TREE=<新版樹>，拿新版的 date_lines.js 當標準）。
+CC_02 清單 2026-11-12：1✓（日子照 DATE.check 從大一上週六挑、一整天地點 09:00） 2✓（地點、互動點、選項照 date_lines.js／date_locations.js 從受測樹讀） 3✓（每個地點、每個階段重新讀檔） 4✓（選項照序號或字） 5✓（照玩家從手機約、出發、選互動點） 6✓（一句一句點） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：約會畫面） 10✓（quiet_events 條件事件關掉） 11✓ 12✓（每格同樣欄位） 13✓（讀檔、關係值、交往旗標是捷徑，R.setup 標）
+11-12 加：SHOT_ALL=1 每句截圖；ORDER=D24=D24.station+…（先點哪個互動點）；只有「一整天」的地點（date_locations kinds＝day）09:00 出發。
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=D01,D03 [STAGES=friend,dating] [PICK=0] [REF_TREE=<樹>] python3 cc_date_zq_probe.py <url> <out>（URL 不加 ?turbo）"""
 import os, sys, json, asyncio, time, re, subprocess
 LWT = os.environ.get('LW_TESTS') or 'tests'
@@ -78,6 +80,8 @@ REF = os.path.abspath(os.environ.get('REF_TREE') or ROOT)
 ZQ = (os.environ.get('WHO') or 'heroine_04').strip()   # 換人：WHO=heroine_01（以安）……；地點清單、源稿、心願都照這個人切換（變數名照舊叫 ZQ）
 SPOTS = max(1, min(4, int(os.environ.get('SPOTS') or 3)))   # 每趟點幾個互動點；4＝點滿（收尾句直接接在最後一個點後面，記【觀察】）
 REVISIT_LOC = (os.environ.get('REVISIT_LOC') or 'D01').strip().upper()   # REVISIT 用哪個地點（以安之後跑 D07）
+SHOT_ALL = os.environ.get('SHOT_ALL') == '1'   # 11-12 DATE35：每一句都截圖（最多 60 張），不只第一句
+ORDER_ENV = os.environ.get('ORDER') or ''   # 11-12 DATE35：例 D24=D24.station+D24.street；指定先點哪個互動點
 J = lambda o: json.dumps(o, ensure_ascii=False)
 R = L.Run('date_zq_' + TAG, OUT)
 LINES_TXT = os.path.join(OUT, 'zq_lines.txt')
@@ -107,6 +111,8 @@ AN_D26_MORNING = '早。我買了以前上學路上那家的飯糰，兩個，�
 OVERNIGHT = {'D26'}   # 這些地點跑兩天一夜（09:00 出發）；其他照半天 15:00（子晴 15:00 以後才約得到）
 # 點的上限：SPOTS 個（預設 3）。點滿 4 個（兩天一夜每天 2 個）時引擎不再出「差不多了」選單，收尾句直接接在最後一個點後面——探針照稿的格數切開，另外印【觀察】
 MAXP = SPOTS
+for _o in [x for x in ORDER_ENV.split(';') if '=' in x]:
+    ORDER[_o.split('=')[0].strip().upper()] = [p.strip() for p in _o.split('=', 1)[1].split('+') if p.strip()]
 SUF = '' if SPOTS == 3 else '_s%d' % SPOTS   # tag／json 檔名的尾巴（SPOTS=4 的和預設的分開存）
 # 日子：2025 學年大一上的週六（避開 10/06 中秋、10/13 颱風、期中考週；第一個 DATE.check 過的那一天）
 DAY_KEYS = ['2025-09-27', '2025-10-04', '2025-10-18', '2025-10-25', '2025-11-22', '2025-11-29', '2025-12-06']
@@ -142,10 +148,12 @@ except Exception:
 def loc_cfg(loc):
     """地點設定：類別、出發、種類、點的順序（沒有指定的照 date_lines.js 的 points 順序）"""
     ov = loc in OVERNIGHT
+    kinds = (((DD.get('locations') or {}).get(loc) or {}).get('kinds') or [])
+    day = (not ov) and 'day' in kinds and 'half' not in kinds   # 11-12：一整天（09:00～19:00）的地點 09:00 出發（D24 礁溪等）
     grp = '兩天一夜…' if ov else next((g for g, ids in GROUPS.items() if loc in ids), '其他')
     pts = list(((DL['loc'].get(loc) or {}).get('points') or {}).keys())
     order = [p for p in ORDER.get(loc, []) if p in pts] + [p for p in pts if p not in ORDER.get(loc, [])]
-    return dict(group=grp, dep=9 if ov else 15, kind='overnight' if ov else 'half', order=order, wishOf=((DD.get('locations') or {}).get(loc) or {}).get('wishOf'))
+    return dict(group=grp, dep=9 if (ov or day) else 15, kind='overnight' if ov else ('day' if day else 'half'), order=order, wishOf=((DD.get('locations') or {}).get(loc) or {}).get('wishOf'))
 
 
 LOCS = {k: loc_cfg(k) for k in sorted((DL.get('loc') or {}).keys())}
@@ -554,8 +562,8 @@ async def play(pg, cdp, cfg, screen, shots_tag, max_s=900, close_first=None, s4n
     menu = Menu(); t0 = time.time(); picked = []; nshot = [0]; stopped = False; want = [None]
     async def maybe_shot(full):
         # 每格一張以內：選了互動點以後的第一句（再訪格、交往格都在這裡）、肢體句、晚上那句
-        if nshot[0] >= 12: return
-        tag = want[0] or ('contact' if CONTACT.search(full) else ('night' if full.startswith('（晚上') else None))
+        if nshot[0] >= (60 if SHOT_ALL else 12): return
+        tag = want[0] or ('contact' if CONTACT.search(full) else ('night' if full.startswith('（晚上') else None)) or ('L%02d' % (nshot[0] + 1) if SHOT_ALL else None)
         if not tag: return
         want[0] = None; nshot[0] += 1; await R.shot(pg, '%s_%s' % (shots_tag, tag))
     done_t = None
@@ -818,7 +826,7 @@ async def one_date(pg, cdp, errs, tag, loc, stage, dating, visits, picks, last, 
         day = ch['pick']['d']; dkey = ch['pick']['k']
     else:
         day, dkey = day_override
-    h0 = 7.6 if cfg['kind'] == 'overnight' else 13.3
+    h0 = 7.6 if cfg['kind'] in ('overnight', 'day') else 13.3
     rb = await base(pg, day, h0, dating, stage, keepG)
     R.setup('[%s] 讀檔（applySave、quiet_events）：宿舍、%s（第 %d 天）%.2f 點、晴天、錢 40000；聯絡方式；關係 %s → 第 %s 階；%s' % (
         tag, dkey, day, h0, J(rb['r']), rb['stage'], ('交往中（flags.dating_%s）' % ZQ) if dating else '沒有交往'))
