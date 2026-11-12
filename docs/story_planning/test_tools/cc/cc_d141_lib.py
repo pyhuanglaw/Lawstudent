@@ -181,6 +181,10 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
         tapped = None
         await pg.screenshot(path=os.path.join(OUT, '%s_tap%02d_before.png' % (shot_prefix, k + 1)))   # 11-12 LIN_REAL ⑦：點之前的畫面，配合 log 的螢幕座標看點到哪
         for _ in range(4):
+            # 11-13 BB-C（L118 r3 #14 投影 None）：椅子在鏡頭後或出畫面＝先轉鏡頭再點，投影記下來
+            pj = await pg.evaluate("((a)=>{ const E=GAME.E, cam=E.camera, L=E.zone&&E.zone.levelGroups, fy=(L&&L[a.lv|0])?L[a.lv|0].y:0; const v=new THREE.Vector3(a.x,fy+0.45,a.z).project(cam); return {sx:Math.round((v.x+1)/2*innerWidth), sy:Math.round((1-v.y)/2*innerHeight), front:v.z<1}; })", {'x': s['sx'], 'z': s['sz'], 'lv': s['slv']})
+            if not (pj['front'] and 40 < pj['sx'] < (await pg.evaluate('innerWidth')) - 40 and 120 <= pj['sy']):
+                R.note('%s 椅子投影 %s 不在可點範圍：先轉鏡頭' % (t, J(pj))); await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); await pg.wait_for_timeout(600)
             tapped = await L.tap_ground(pg, cdp, s['sx'], s['sz'], lv=s['slv'])
             if tapped: break
             await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); await pg.wait_for_timeout(400)
