@@ -53703,7 +53703,7 @@
    "id": "PHONE-GO-PROMPT-1111",
    "title": "手機按「前往」後手機沒收起來，底下跳出的「直接過去／自己走過去」被手機蓋住——玩家看起來像按了沒反應（收手機才看到）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -53716,8 +53716,14 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 14:2x BB V25_L118_C5 抓到，列 v9.10.25「這版沒做完」不擋；發版後】按「前往」時自動收手機（或 goPrompt 開的時候先收手機）。",
-   "xai": []
+   "next": "【11-12 LAWWW-C】game3d.js data-invgo：按「前往」先收手機（和 data-go 同做法），畫面上有選單在等＝提示「先選完畫面上的選項」；tests/phone_go_prompt_1111_unit.js（修改前 3 項 FAIL）＋inv_go 四支過。交 BB 排瀏覽器｜【11-11 14:2x BB V25_L118_C5 抓到，列 v9.10.25「這版沒做完」不擋；發版後】按「前往」時自動收手機（或 goPrompt 開的時候先收手機）。",
+   "xai": {
+    "receiver": "BB",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "BB_343 第 62 行（V25_L118_C5）",
+    "acceptance": "瀏覽器：goPrompt 選單開著時開手機按「前往」＝手機收起來、看得到選單；平常按前往照舊出發",
+    "ack": "SENT"
+   }
   },
   {
    "id": "AA-PRIO-GAP-1111",
