@@ -64,6 +64,13 @@ def hours(s):
     op = [[hm(x), hm(y)] for x, y in re.findall(r'(\d{1,2}:\d{2})～(\d{1,2}:\d{2})', a)]
     closed = [] if '每天' in b else [WD[c] for c in re.findall(r'週([日一二三四五六])', b)]
     if not op: sys.exit('看不懂營業時間：' + s)
+    # L118-HOURS-1112（使用者 2026-11-12：「我下午3點去幾乎每一家店都沒有開」「他們的營業時間至少是從中午開始到晚上吧」）：
+    # 稿上分午、晚兩段（中間 14:00～17:00 休息）的店一律不休息＝從第一段開門到最後一段打烊連著開；公休日照稿。
+    # 顯示的字也照連著的時間寫（只把兩段併成一段，其他字照稿）；企劃線 AA_280 的表 AA 會跟著改，改完這一段就是空轉。
+    if len(op) > 1:
+        fm = lambda v: '%d:%02d' % (int(v), round((v - int(v)) * 60))
+        op = [[op[0][0], op[-1][1]]]
+        s = fm(op[0][0]) + '～' + fm(op[0][1]) + ('；' + b if b else '')
     return {'open': op, 'closed': closed, 'text': s}
 
 

@@ -141,8 +141,12 @@ const PLACES={
       /* 公館商圈：面向南邊的店（yaw 0；鏡頭在背後、校門那一側）。原本 yaw π 面向校門，店在鏡頭後面，要去店裡只能往鏡頭走（CAM-GONGGUAN-GATE-1107，LAWWW2-B）。
          位置和「走出校門」同一點 (−2.5, −29)（BB-B 11-07 18:40 P3：原本 (0, −30) 鏡頭和人中間是校門正前方那一台機車 (0, −32)，直向畫面擋住腿）*/
       ['gongguan','公館商圈',{x:-2.5,z:-29,yaw:0}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','公館燒臘',{x:0,z:3.4,yaw:Math.PI}],['cvs','日和便利店',IN('cvs')||{x:0,z:3.4,yaw:Math.PI}],['bookstore','頁間書屋',IN('bookstore')||{x:0,z:4,yaw:Math.PI}],AK&&['aoki','青木茶室',AK],AF&&['afar','afar café',AF],DB&&['daybreak','Daybreak',DB],YY&&['yangyang','洋洋鹹酥雞',YY],CR&&['corner_records','轉角唱片',CR]].concat(TZ,[
-      ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','2:30 AM',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['wz_offbeat','日常失速',{x:-3.9,z:3.0,yaw:Math.PI}],['wz_teahouse','一盞',null]],WZ,XS,[['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]]).filter(Boolean); },
+      ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}]].concat(PLACES.l118List(),[['cafe','2:30 AM',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['wz_offbeat','日常失速',{x:-3.9,z:3.0,yaw:Math.PI}],['wz_teahouse','一盞',null]]),WZ,XS,[['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]]).filter(Boolean); },
   /* 汀州路使用者指定名字的八間店（配置 src/data/tingzhou_layout.js 的 id；X321 三間＋X322 五間，名字照配置）。順序：巷子出來先看到的三間、再照概念圖由北往南 */
+  /* 118 巷的每一間店（L118-QUICKGO-1112，使用者 2026-11-12：「118巷在手機快速到達一家店都沒有」）：店名照配置 src/data/lane118_layout.js，落在那一間的店門口、面對店面
+     （和 src/lane118.js 的 S.door 同一點：立面往巷子裡 0.9 m、店面中間）；118 巷一開始就知道，所以每一間也一開始就列 */
+  l118Door(id){ const L=typeof LANE118_LAYOUT!=='undefined'?LANE118_LAYOUT:null, q=L&&L.shops.find(s=>s.id===id); if(!q||!q.name) return null; const w=q.side==='W'; return {x:+((w?L.facade.west+0.9:L.facade.east-0.9)).toFixed(2),z:+((q.z0+q.z1)/2).toFixed(2),yaw:w?-Math.PI/2:Math.PI/2}; },
+  l118List(){ const L=typeof LANE118_LAYOUT!=='undefined'?LANE118_LAYOUT:null; if(!L) return []; return L.shops.filter(q=>q.name&&q.menu).map(q=>{ const sp=PLACES.l118Door(q.id); return sp?['lane118',q.name,sp]:null; }).filter(Boolean); },
   TZ_SHOPS:['taimi','xile','yindehao','wente','liantong','dongnan','keju','yuehaochi'],
   /* 汀州路一間店的店門口（站的地方、面對店面）：和 tingzhou3d.js 的店門互動點同一點；西側的店在 −x＝面向西（yaw −π/2），東側面向東 */
   tzDoor(id){ const L=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, q=L&&L.shops.find(s=>s.id===id); if(!q) return null; const sx=q.side==='W'?-1:1, F=L.facade; return {x:+((sx>0?F.east:F.west)+sx*(F.arcade-0.9)).toFixed(2),z:+((q.z0+q.z1)/2).toFixed(2),yaw:sx*Math.PI/2}; },

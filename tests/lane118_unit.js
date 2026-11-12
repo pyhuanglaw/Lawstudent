@@ -41,7 +41,9 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('0. 十一間店、10 列常客、店 id 和配置 lane118_layout.js 一樣',LANE118_SHOPS.shops.length===11&&LANE118_SHOPS.regulars.length===10&&LANE118_SHOPS.shops.every(s=>LANE118_LAYOUT.shops.some(q=>q.id===s.id))); }
   // 1. 營業時間
   { law('2025-09-08',12.5); check('1. 週一 12:30：刀削麵開、奈良咖哩（週一休）沒開、義大麵屋（週一休）沒開、喝不喝咖啡開',L118.isOpen('korea',G)&&!L118.isOpen('omu',G)&&!L118.isOpen('pasta',G)&&L118.isOpen('drink_a',G));
-    G.hour=15; check('1. 週一 15:00：刀削麵午休沒開、大學食堂午休沒開、飲料店開',!L118.isOpen('korea',G)&&!L118.isOpen('cafe2',G)&&L118.isOpen('drink_b',G));
+    /* 2026-11-12（L118-HOURS-1112，使用者：「我下午3點去幾乎每一家店都沒有開」「他們的營業時間至少是從中午開始到晚上吧」）：118 巷的店不午休，開門到打烊連著開。舊期望：週一 15:00 刀削麵、大學食堂午休沒開 */
+    G.hour=15; check('1. 週一 15:00：刀削麵、大學食堂、飲料店都開（不午休）；公休日照舊（義大麵屋週一休）',L118.isOpen('korea',G)&&L118.isOpen('cafe2',G)&&L118.isOpen('drink_b',G)&&!L118.isOpen('pasta',G));
+    { const SH=LANE118_SHOPS.shops, mid=SH.filter(s=>!s.hours.open.some(([a,b])=>a<=12&&b>=19)); check('1. 每一間店都至少從中午 12:00 開到晚上 19:00、中間不休息',mid.length===0&&SH.every(s=>s.hours.open.length===1),mid.map(s=>s.name+' '+s.hours.text).join('｜')); }
     G.hour=12.5; said=[]; await L118.order(GM,'omu'); check('1. 沒開的店：「（鐵門拉下來一半。門上貼著營業時間。）」、沒扣錢',J(lines())===J(['（鐵門拉下來一半。門上貼著營業時間。）'])&&G.money===5000,J(lines())); }
   // 2. 一個人點餐
   { law('2025-09-08',12.5); let paid=0; const m0=GM.money; GM.money=d=>{ paid+=d; G.money+=d; }; picks=[0]; said=[]; await L118.order(GM,'korea'); GM.money=m0;
