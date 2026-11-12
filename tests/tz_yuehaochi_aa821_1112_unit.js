@@ -1,18 +1,20 @@
-// 汀州路・越好吃小館（tz_yuehaochi）的店內文字（TINGZHOU-SHOPS5-1110；AA_821，企劃線 65e38a5de）——不需要瀏覽器（D131）。
+// 汀州路・越好吃小館（tz_yuehaochi）的店內文字（TINGZHOU-SHOPS5-1110；AA_821，企劃線 7917d4289）——不需要瀏覽器（D131）。
 //   1  資料檔 src/data/tz_meal_lines.js 逐字對稿（店名、老闆娘的句子、六樣菜的名字／價錢／吃的兩句、點餐、四個「看」的按鈕和句子、坐下）；匯入工具 --check；白名單
 //   2  營業時間每天 11:00～21:00（places.js）、名字、颱風假關、算汀州路
-//   3  關門時按店門：打烊以後＝稿的門口那一句＋開放時間、不進去；開門以前只寫開放時間；開著不擋
+//   3  關門時按店門：打烊以後＝稿的門口那一句＋開放時間、不進去；開門以前（06～11）＝稿的 staff.not_open＋開放時間；開著不擋
 //   4  進門：一天第一次老闆娘一句、同一天再進來不說
 //   5  打烊：人還在店裡＝老闆娘「我們今天要打烊了。」、走到汀州路；讀檔回到打烊以後＝不說、走出去
 //   6  點餐：「要吃什麼？」→ 六樣（稿的名字、價錢）→ 扣錢、點完一句、吃的兩句、吃 30 分鐘（和泰米村食一樣）、坐下那一句、吃過的登記
-//   7  只點咖啡＝「咖啡要等它滴完，不要急著攪。」；咖啡＋別的＝一般那兩句
+//      點好幾樣只演一樣的「吃」（河粉 > 春捲 > 法國麵包 > 咖啡；兩碗河粉＝先點的）；沒點河粉＝order.after_no_pho（不說「香草自己夾喔」）
+//   7  只點咖啡＝「咖啡要等它滴完，不要急著攪。」、15 分鐘、不算一餐（不登記 EAT）；咖啡＋別的＝照一般的
+//   （3 的開門以前、6 的只演一樣／沒點河粉、7 的 15 分鐘／不算一餐＝AA 11-12 回 LAWWW-C 七問，稿 _meta.lawww_1112；改以前的 bd8643003a 這幾項 FAIL）
 //   8  錢不夠＝稿的那一句旁白、不扣錢、時間不動；「不用了」＝不扣錢
 //   9  四個「看」：配置的點都接上、按了就是稿的那一句；坐下（每一桌）＝稿的那一句
 //   10 原本六間照舊（泰米村食的點餐、坐下不受影響）；index.html 載入順序；node --check
 //   11 （子程序 A：建出遊戲真正的區域）四個「看」和點餐在配置的位置、按鈕的字照稿、16 個座位補成 zone.seats、店員站在配置的位置（開店才有）
 // 修改前（9dedfa2088）：沒有資料檔、GG3 不認得 tz_yuehaochi、沒有營業時間、互動點只有「（越好吃小館）」——FAIL。
 // 用法：node tests/tz_yuehaochi_aa821_1112_unit.js
-const Z='tz_yuehaochi', SHA='65e38a5de', DOC='docs/story_planning/AA_821_tz_yuehaochi.json', DATA='src/data/tz_meal_lines.js';
+const Z='tz_yuehaochi', SHA='7917d4289', DOC='docs/story_planning/AA_821_tz_yuehaochi.json', DATA='src/data/tz_meal_lines.js';
 if(process.argv[2]==='A') partA(); else partB();
 
 function partA(){
@@ -78,9 +80,13 @@ await sec(1,()=>{ let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+D
   else { const A=JSON.parse(raw);
     check('1 店名「越好吃小館」、說話的人、營業時間照稿',T.name===A.shop.name&&T.name==='越好吃小館'&&T.who===A.staff.who&&T.hours===A.shop.hours,J([T.name,T.who,T.hours]));
     check('1 老闆娘進門三句、打烊、門口、錢不夠照稿',J(T.door)===J(A.staff.greet.map(t=>[A.staff.who,t]))&&T.door.length===3&&T.close===A.staff.closed_line&&T.sign===A.staff.closed_outside&&M.short===A.staff.no_money,J([T.door,T.close,T.sign,M.short]));
+    check('1 開門以前門口那一句（staff.not_open，旁白）照稿',typeof A.staff.not_open==='string'&&T.notOpen===A.staff.not_open&&/^（.*）$/.test(T.notOpen)&&T.notOpen!==T.sign,J(T.notOpen));
     const ids=Object.keys(A.items); check('1 六樣菜：id、名字、價錢、吃的兩句照稿（順序也照稿）',ids.length===6&&J(M.menu)===J(ids.map(id=>({id,n:A.items[id].name,p:A.items[id].price,eat:A.items[id].eat})))&&M.menu.every(q=>q.eat.length===2),J(M.menu.map(q=>[q.id,q.n,q.p])));
     check('1 價錢：牛肉河粉 130、雞肉河粉 120、生春捲（兩捲）80、炸春捲（四條）90、越式法國麵包 75、越南冰咖啡 60',J(M.menu.map(q=>[q.n,q.p]))===J([['牛肉河粉',130],['雞肉河粉',120],['生春捲（兩捲）',80],['炸春捲（四條）',90],['越式法國麵包',75],['越南冰咖啡',60]]));
     check('1 點餐：kind、要吃什麼、點完兩句、只點咖啡那一句照稿',M.point===A.order.id&&M.point==='tz_yue_order'&&M.ask===A.order.ask&&J(M.after)===J(A.order.after)&&J(M.afterOnly)===J({id:'tz_yue_coffee',line:A.order.after_coffee_only})&&T.labels[A.order.id]===A.order.button,J([M.ask,M.after,M.afterOnly]));
+    check('1 沒點河粉那一句（order.after_no_pho）照稿、對到兩樣河粉',typeof A.order.after_no_pho==='string'&&J(M.afterNo)===J({ids:['tz_yue_pho_beef','tz_yue_pho_chicken'],line:A.order.after_no_pho})&&!/香草/.test(M.afterNo.line),J(M.afterNo));
+    check('1 只演一樣的順序：河粉 > 春捲 > 法國麵包 > 咖啡（六樣菜各在一組；稿 _meta.lawww_1112 ②）',/河粉 > 春捲 > 法國麵包 > 咖啡/.test(A._meta.lawww_1112)&&J(M.eatFirst)===J([['tz_yue_pho_beef','tz_yue_pho_chicken'],['tz_yue_roll_fresh','tz_yue_roll_fried'],['tz_yue_banhmi'],['tz_yue_coffee']])
+      &&M.eatFirst.every((g,i)=>g.every(id=>item(id).n.includes(['河粉','春捲','法國麵包','咖啡'][i]))),J(M.eatFirst));
     const ks=Object.keys(A.looks); check('1 四個「看」（菜單、香草檯、廚房、斗笠）：句子、按鈕的字照稿',J(ks)===J(['tz_yue_menu','tz_yue_herbs','tz_yue_kitchen','tz_yue_hats'])&&ks.every(k=>J(T.look[k])===J([A.looks[k].t])&&T.labels[k]===A.looks[k].button)&&Object.keys(T.look).length===4&&Object.keys(T.labels).length===5,J([T.look,T.labels]));
     check('1 坐下那一句照稿',J(T.seat)===J({sit:A.seat.sit}));
     /* 資料檔裡每一個字串都原封不動在稿裡（程式用的 id、配置 id 除外）*/
@@ -102,7 +108,9 @@ await sec(2,()=>{ const d0=DK('2025-10-05');
 await sec(3,async()=>{ const door=async(key,h)=>{ fresh(key,h,'tingzhou'); const r=await STORY.interact({exit:{to:Z},label:'進'+T.name},GM); return {r,said:said(),t:toasts.slice()}; };
   { const x=await door('2025-10-07',21.5); check('3 21:30 按店門：稿的門口那一句（旁白）、不進去、寫開放時間',x.r===true&&J(x.said)===J([[null,T.sign]])&&!H.entered.length&&x.t.length===1&&/越好吃小館/.test(x.t[0]),J([x.said,x.t])); }
   { const x=await door('2025-10-07',2); check('3 半夜 02:00 按店門：同一句',x.r===true&&J(x.said)===J([[null,T.sign]])&&!H.entered.length,J(x.said)); }
-  { const x=await door('2025-10-07',9); check('3 09:00（開門以前）：不說話、只寫開放時間（和泰米村食一樣）',x.r===true&&!x.said.length&&x.t.length===1&&/11:00/.test(x.t[0]),J([x.said,x.t])); }
+  for(const h of [6,9,10.98]){ const x=await door('2025-10-07',h); check('3 '+h+' 點（開門以前）：稿的 staff.not_open 那一句（旁白；不是打烊的那一句）、不進去、寫開放時間',x.r===true&&J(x.said)===J([[null,T.notOpen]])&&T.notOpen==='（鐵門只拉起一半。裡面的大湯鍋已經在滾了，味道飄到騎樓。小黑板寫十一點開。）'&&!H.entered.length&&x.t.length===1&&/11:00/.test(x.t[0]),J([x.said,x.t])); }
+  { const x=await door('2025-10-07',5.9); check('3 05:54（清晨 6 點以前）：還是打烊的那一句',x.r===true&&J(x.said)===J([[null,T.sign]]),J(x.said)); }
+  { fresh('2025-10-07',9,'tingzhou'); const a=GG3.doorLine('tz_taimi',H.G); check('3 泰米村食（稿沒有 not_open）開門以前照舊不說',a===null&&!GG3_LINES.tz_taimi.notOpen,J(a)); }
   { const x=await door('2025-10-07',12); check('3 12:00 開著：不擋',x.r!==true||!x.said.length,J(x)); }
   { const TC=PLACES.typhoonClosed; PLACES.typhoonClosed=z=>PLACES.typhoonShops.includes(z);
     try{ const x=await door('2025-10-07',12); check('3 颱風假（稿上沒有那一句）：不說話、只寫「颱風假」',x.r===true&&!x.said.length&&/颱風假/.test(x.t[0]||''),J(x)); } finally { PLACES.typhoonClosed=TC; } } });
@@ -128,22 +136,34 @@ await sec(6,async()=>{ const pho=item('tz_yue_pho_beef'), roll=item('tz_yue_roll
     check('6 牛肉河粉＋炸春捲：扣 130＋90',G.money===5000-220,String(G.money));
     check('6 點完老闆娘一句（稿的 after 第一句；不是只點咖啡那一句）',s.some(x=>J(x)===J(['老闆娘',M.after[0]]))&&!H.has(M.afterOnly.line)&&!H.has(M.after[1]),J(s));
     const i0=s.findIndex(x=>x[1]===T.seat.sit), tail=s.slice(i0);
-    check('6 坐到空位（坐下那一句）→ 兩樣「吃」的第一句 → 第二句（都是旁白、照稿）',i0>0&&J(tail)===J([[null,T.seat.sit],[null,pho.eat[0]],[null,roll.eat[0]],[null,pho.eat[1]],[null,roll.eat[1]]]),J(tail));
+    check('6 坐到空位（坐下那一句）→ 只演河粉的「吃」兩句（炸春捲的不演；都是旁白、照稿）',i0>0&&J(tail)===J([[null,T.seat.sit],[null,pho.eat[0]],[null,pho.eat[1]]])&&!roll.eat.some(t=>H.has(t)),J(tail));
     check('6 吃 30 分鐘（和泰米村食一樣）、吃完站起來',near(G.hour-h0,0.5)&&near(GG3.HRS.mealEat,GG3.HRS.taimiEat)&&!E.player.seat,String(G.hour-h0));
     check('6 吃過的登記（EAT：汀州路・越好吃小館；和泰米村食同一種登記）',!!(G.eat&&G.eat.ate&&G.eat.ate.some(a=>a.shop==='汀州路・越好吃小館'&&/牛肉河粉/.test(a.item)&&/炸春捲/.test(a.item))),J(G.eat)); }
   { const G=fresh('2025-10-07',18,Z); E.interactables=seatsOf(LY); H.picks=['雞肉河粉','點好了']; GG3.rand=()=>0.99; await GG3.mealOrder(GM);
     check('6 雞肉河粉（隨機到第二句）：扣 120、老闆娘「好，馬上來。香草自己夾喔。」、吃的兩句',G.money===4880&&H.has(M.after[1])&&!H.has(M.after[0])&&H.has(item('tz_yue_pho_chicken').eat[0])&&H.said[H.said.length-1].t===item('tz_yue_pho_chicken').eat[1],J(said())); }
   { const G=fresh('2025-10-07',12,Z); E.interactables=seatsOf(LY); E.player.seat=E.interactables[0].seat; H.picks=['越式法國麵包','點好了']; await GG3.mealOrder(GM);
     check('6 已經坐著點：不換位子、不再說坐下那一句，吃的兩句照說',G.money===4925&&!H.has(T.seat.sit)&&H.has(item('tz_yue_banhmi').eat[0])&&H.has(item('tz_yue_banhmi').eat[1]),J(said())); }
+  const eats=()=>said().filter(x=>x[0]===null&&M.menu.some(q=>q.eat.includes(x[1]))).map(x=>x[1]);
+  for(const [picks,id,why] of [[['越式法國麵包','生春捲','雞肉河粉','牛肉河粉'],'tz_yue_pho_chicken','兩碗河粉＝先點的雞肉河粉'],[['越南冰咖啡','越式法國麵包','炸春捲','生春捲'],'tz_yue_roll_fried','沒有河粉＝春捲，先點的炸春捲'],
+      [['越南冰咖啡','越式法國麵包'],'tz_yue_banhmi','法國麵包在咖啡前面'],[['越南冰咖啡','牛肉河粉'],'tz_yue_pho_beef','後點的河粉也排最前面']]){
+    const G=fresh('2025-10-07',12,Z); E.interactables=seatsOf(LY); H.picks=picks.concat(['點好了']); const h0=G.hour; await GG3.mealOrder(GM);
+    check('6 點 '+picks.join('＋')+'：只演「'+item(id).n+'」的兩句（'+why+'）、照樣吃 30 分鐘、每一樣都登記',J(eats())===J(item(id).eat)&&near(G.hour-h0,0.5)&&G.eat.ate.length===1&&picks.every(n=>G.eat.ate[0].item.includes(n)),J([eats(),G.hour-h0,G.eat])); }
+  check('6 GG3.mealPick：沒有 eatFirst 的店＝先點的那一樣',GG3.mealPick({},[item('tz_yue_coffee'),pho])===item('tz_yue_coffee')&&GG3.mealPick(M,[item('tz_yue_coffee'),pho])===pho);
+  for(const rv of [0,0.99]){ const G=fresh('2025-10-07',12,Z); E.interactables=seatsOf(LY); H.picks=['炸春捲','越式法國麵包','點好了']; GG3.rand=()=>rv; await GG3.mealOrder(GM); const s=said();
+    check('6 沒點河粉（炸春捲＋法國麵包；隨機 '+rv+'）：老闆娘「好，找位子坐，等一下端過去。」（order.after_no_pho），不說「香草自己夾喔」',s.some(x=>J(x)===J(['老闆娘','好，找位子坐，等一下端過去。']))&&M.afterNo.line==='好，找位子坐，等一下端過去。'&&!H.has(M.after[1])&&!s.some(x=>/香草自己夾/.test(x[1])),J(s)); }
+  { const G=fresh('2025-10-07',12,Z); E.interactables=seatsOf(LY); H.picks=['生春捲','雞肉河粉','點好了']; GG3.rand=()=>0.99; await GG3.mealOrder(GM);
+    check('6 有點河粉（生春捲＋雞肉河粉；隨機到第二句）：照樣可以說「好，馬上來。香草自己夾喔。」',H.has('好，馬上來。香草自己夾喔。')&&M.after[1]==='好，馬上來。香草自己夾喔。',J(said())); }
   { const G=fresh('2025-10-07',12,Z); E.interactables=seatsOf(LY); H.picks=['牛肉河粉','雞肉河粉','生春捲','炸春捲','越式法國麵包','越南冰咖啡','點好了']; await GG3.mealOrder(GM);
     check('6 六樣都點：扣 555、每一樣最多一份（最後只剩「點好了」「不用了」）',G.money===5000-555&&J(Array.from(H.opts[6]))===J(['點好了','不用了']),J([G.money,Array.from(H.opts[6]||[])])); } });
 
 // ---- 7 只點咖啡 ----
 await sec(7,async()=>{ const cf=item('tz_yue_coffee');
-  { const G=fresh('2025-10-07',15,Z); E.interactables=seatsOf(LY); H.picks=['越南冰咖啡','點好了']; const r=await GG3.mealOrder(GM); const s=said();
+  { const G=fresh('2025-10-07',15,Z); E.interactables=seatsOf(LY); H.picks=['越南冰咖啡','點好了']; const h0=G.hour; const r=await GG3.mealOrder(GM); const s=said();
+    check('7 只點越南冰咖啡：過 15 分鐘（不是 30 分鐘）',near(G.hour-h0,0.25)&&near(GG3.HRS.mealDrink,0.25),String(G.hour-h0));
+    check('7 只點越南冰咖啡：不算一餐（EAT 沒有登記吃過）、照樣坐下、喝完站起來',!(G.eat&&G.eat.ate&&G.eat.ate.length)&&H.has(T.seat.sit)&&!E.player.seat,J(G.eat));
     check('7 只點越南冰咖啡：扣 60、老闆娘「咖啡要等它滴完，不要急著攪。」（不說一般那兩句）、咖啡的兩句',r==='越南冰咖啡'&&G.money===4940&&s.some(x=>J(x)===J(['老闆娘','咖啡要等它滴完，不要急著攪。']))&&!M.after.some(t=>H.has(t))&&H.has(cf.eat[0])&&s[s.length-1][1]===cf.eat[1],J(s)); }
-  { const G=fresh('2025-10-07',15,Z); E.interactables=seatsOf(LY); H.picks=['越南冰咖啡','生春捲','點好了']; await GG3.mealOrder(GM);
-    check('7 咖啡＋生春捲：不是「只點咖啡」＝一般那一句',G.money===4860&&!H.has(M.afterOnly.line)&&H.has(M.after[0]),J(said())); } });
+  { const G=fresh('2025-10-07',15,Z); E.interactables=seatsOf(LY); H.picks=['越南冰咖啡','生春捲','點好了']; const h0=G.hour; await GG3.mealOrder(GM);
+    check('7 咖啡＋生春捲：不是「只點咖啡」＝沒點河粉那一句、30 分鐘、算一餐（登記）',G.money===4860&&!H.has(M.afterOnly.line)&&H.has(M.afterNo.line)&&near(G.hour-h0,0.5)&&!!(G.eat&&G.eat.ate&&G.eat.ate.length===1&&/越南冰咖啡/.test(G.eat.ate[0].item)),J([said(),G.eat])); } });
 
 // ---- 8 錢不夠、不用了 ----
 await sec(8,async()=>{ { const G=fresh('2025-10-07',12,Z); G.money=100; E.interactables=seatsOf(LY); H.picks=['牛肉河粉','點好了']; const h0=G.hour; const r=await GG3.mealOrder(GM); const s=said();

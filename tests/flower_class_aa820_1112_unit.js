@@ -1,8 +1,9 @@
-// 花序 Flower Notes 二樓花藝課（FLOWER-CLASS-1112，USER_WANTS X346；AA_820 企劃線 65e38a5de）——不需要瀏覽器（D131）。
-// 稿一律用 git show 65e38a5de 讀來逐字比（不寫死台詞）；讀不到（淺層 clone）＝「逐字對稿」那幾項跳過（印 SKIP），其他拿匯入的資料比。
-//   0. 檔案在、index.html 的載入順序；匯入工具 --check；白名單有 AA_820@65e38a5de
+// 花序 Flower Notes 二樓花藝課（FLOWER-CLASS-1112，USER_WANTS X346；AA_820 企劃線 7917d4289）——不需要瀏覽器（D131）。
+// 稿一律用 git show 7917d4289 讀來逐字比（不寫死台詞）；讀不到（淺層 clone）＝「逐字對稿」那幾項跳過（印 SKIP），其他拿匯入的資料比。
+//   0. 檔案在、index.html 的載入順序；匯入工具 --check；白名單有 AA_820@7917d4289
 //   1. 逐字對稿：signup、三門課（名字、價錢、時數、makes、lines、again）、三樣成品、give、together、story
 //   2. 報名的互動點（二樓、按鈕＝稿的字）；三門課每一門：staff_ask → 清單 → 扣稿上的價錢、時間往後稿上的時數、成品進包包（shop gg_flower）、演稿上的 lines
+//      下課（轉亮以後、成品進包包時）：signup.done 兩句（花藝師一句＋旁白，{物}＝成品名；三門課共用；AA 11-12 回 LAWWW-C 七問①，改以前的 bd8643003a FAIL）；一起上課不演
 //   3. 同一門課第二次＝again 那一句；一個禮拜一次（week_limit）、下禮拜可以；錢不夠（no_money）；包包滿了；營業時間（closed、灰掉）
 //   4. 成品不能買（買花清單沒有、sells 沒有）；物品分頁不寫價錢
 //   5. 送她：交往中／還沒交往的反應（{物}＝成品名）、不演一般的 ok 那一格、不加一般送禮的好感；平常日子也可以送；節日照原本的選單（open 照演）；可以再送一次
@@ -15,7 +16,7 @@
 const H=require('./pg_harness.js');
 const {check,GM}=H;
 const fs=require('fs'), path=require('path'), vm=require('vm'), cp=require('child_process');
-const SHA='65e38a5de', DOC='docs/story_planning/AA_820_flower_class.json';
+const SHA='7917d4289', DOC='docs/story_planning/AA_820_flower_class.json';
 const J=JSON.stringify;
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let s=fs.readFileSync(p,'utf8'); s=s.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); return true; };
@@ -57,6 +58,7 @@ const same=(r,want)=>J(got(r))===J(want);
   if(!ready){ console.log('FAILED '+H.fails); process.exit(1); }
   const X=FLOWER_CLASS, T=X.signup, KEYS=['basic','design','season'], PEOPLE=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'], SIS='heroine_05', AN='heroine_01';
   const ITEMS=Object.keys(X.items), nameI=g=>X.items[g].name;
+  const DONE=c=>flat(T.done||[],{narr:true,thing:nameI(c.makes)});   /* 下課兩句（signup.done；{物}＝那一門課的成品名）*/
 
   /* ======================= 1 逐字對稿 ======================= */
   vs('1. signup、classes、items、give、together、story 六節和稿逐字一樣（每一句、名字、價錢、時數）',d=>{ const bad=['signup','classes','items','give','together','story'].filter(k=>J(X[k])!==J(d[k])); return [!bad.length,bad.join('、')]; });
@@ -73,12 +75,14 @@ const same=(r,want)=>J(got(r))===J(want);
     check('2. 報名的互動點：一個、二樓、按鈕＝稿的「'+T.button+'」、在示範長桌前面（桌子旁邊 1 m 內、不在桌子裡）、站在那裡最近的就是它',P.length===1&&p.lv===1&&p.label===T.button&&p.x>dm.x-dm.w/2&&p.x<dm.x+dm.w/2&&p.z>dm.z+dm.d/2+0.33&&p.z<dm.z+dm.d/2+1&&near===p,p?J([p.x,p.z,near&&near.label]):'');
     const lk=IT.find(i=>i.fnLook==='demo_table'); check('2. 原本的「看示範桌」還在（字沒動）',!!lk&&lk.label===L.looks.find(q=>q.id==='demo').label&&lk.look===FLOWER_NOTES_TEXT.looks.demo_table);
     const bad=[]; for(const k of KEYS){ const c=X.classes[k], G=setup('2025-10-15',14); const r=await run(()=>STORY.interact(SIGN,GM),[c.name]);
-      const want=[['花藝師',T.staff_ask]].concat(flat(c.lines,{narr:true})), bag=GIFTH.bag(G);
+      const body=[['花藝師',T.staff_ask]].concat(flat(c.lines,{narr:true})), want=body.concat(DONE(c)), bag=GIFTH.bag(G);
       const ok=r.r===true&&same(r,want)&&G.money===5000-c.price&&Math.abs(G.hour-(14+c.hours))<1e-9&&bag.length===1&&bag[0].id===c.makes&&bag[0].shop==='gg_flower'&&bag[0].day===G.day
         &&J(r.O[0].slice())===J(KEYS.map(q=>X.classes[q].name+'　'+X.classes[q].price+' 元').concat(['算了']))&&r.O.length===1
-        &&fades.length===2&&fades[0][0]===true&&fades[0][1]===1&&fades[0][2]===14&&fades[1][0]===false&&fades[1][1]===want.length;
+        &&fades.length===2&&fades[0][0]===true&&fades[0][1]===1&&fades[0][2]===14&&fades[1][0]===false&&fades[1][1]===body.length&&toasts.length===1&&toasts[0]===nameI(c.makes)+'（包包 1/'+GIFTH.MAX+'）';
       if(!ok) bad.push(k+' '+J([G.money,G.hour,bag,r.O,fades,got(r).slice(0,3)])); }
-    check('2. 三門課每一門：花藝師 staff_ask → 清單（課名＋價錢、算了）→ 轉暗 → 稿的 lines（字串＝旁白、花藝師說的；（動作）拆出來）→ 扣稿上的價錢、時間往後稿上的時數、成品進包包（shop gg_flower）',!bad.length,bad.join(' ／ ').slice(0,500));
+    check('2. 三門課每一門：花藝師 staff_ask → 清單（課名＋價錢、算了）→ 轉暗 → 稿的 lines（字串＝旁白、花藝師說的；（動作）拆出來）→ 轉亮 → 下課兩句（signup.done）→ 扣稿上的價錢、時間往後稿上的時數、成品進包包（shop gg_flower）、原本的提示還在',!bad.length,bad.join(' ／ ').slice(0,500));
+    vs('2. 下課兩句照稿：花藝師「可以帶回去了。今天的花，回去先剪一點莖再插水。」＋旁白「（你把○○放進店裡給的紙袋，提著下樓。）」（{物}＝那一門課的成品名）',d=>{ const dn=d.signup.done; return [J(dn)===J([{who:'花藝師',t:'可以帶回去了。今天的花，回去先剪一點莖再插水。'},'（你把{物}放進店裡給的紙袋，提著下樓。）'])&&J(T.done)===J(dn)
+      &&KEYS.every(k=>J(DONE(X.classes[k]))===J([['花藝師','可以帶回去了。今天的花，回去先剪一點莖再插水。'],[null,'（你把'+nameI(X.classes[k].makes)+'放進店裡給的紙袋，提著下樓。）']])),J(dn)]; });
     { const G=setup('2025-10-15',14); let note=null; const c0=GM.choose; GM.choose=async(o,opt)=>{ note=opt&&opt.note; return c0(o,opt); }; const r=await run(()=>STORY.interact(SIGN,GM),['算了']); GM.choose=c0;
       check('2. 清單上面那一行＝稿的 menu_title；選「算了」＝不扣錢、不過時間、沒有成品、沒有用掉這個禮拜的一次',note===T.menu_title&&G.money===5000&&G.hour===14&&!GIFTH.bag(G).length&&!FCLASS.weekUsed(G)&&!fades.length,J([note,G.money,G.hour])); }
     { const G=setup('2025-10-15',14,{zone:'campus'}); const r=await run(()=>STORY.interact(SIGN,GM),[X.classes.basic.name]); check('2. 不在花序（別的區域同樣的互動點）不會開報名',!r.L.includes(T.staff_ask)&&G.money===5000); }
@@ -93,9 +97,9 @@ const same=(r,want)=>J(got(r))===J(want);
     const wk=[]; for(const [key,want] of [['2025-10-13',true],['2025-10-19',true],['2025-10-12',false],['2025-10-20',false]]){ G.day=D(key); G.hour=14; wk.push(FCLASS.weekUsed(G)===want); }
     check('3. 一個禮拜＝週一到週日：10/15（三）上過 → 10/13（一）、10/19（日）算同一週；10/12（日）、10/20（一）不算',wk.every(Boolean),J(wk));
     G.day=D('2025-10-20'); G.hour=14; const r2=await run(()=>STORY.interact(SIGN,GM),[c.name]);
-    check('3. 下禮拜可以再上；同一門課第二次＝只演 again 那一句（旁白），不重演整段；一樣扣錢、過時間、拿成品',same(r2,[['花藝師',T.staff_ask],[null,c.again]])&&G.money===5000-2*c.price&&G.hour===14+c.hours&&GIFTH.bag(G).length===2&&GIFTH.bag(G).every(b=>b.id===c.makes),J(got(r2)));
+    check('3. 下禮拜可以再上；同一門課第二次＝只演 again 那一句（旁白），不重演整段；一樣扣錢、過時間、拿成品',same(r2,[['花藝師',T.staff_ask],[null,c.again]].concat(DONE(c)))&&G.money===5000-2*c.price&&G.hour===14+c.hours&&GIFTH.bag(G).length===2&&GIFTH.bag(G).every(b=>b.id===c.makes),J(got(r2)));
     G.day=D('2025-10-27'); G.hour=14; const c2=X.classes.design; const r3=await run(()=>STORY.interact(SIGN,GM),[c2.name]);
-    check('3. 換一門沒上過的課：演那一門完整的 lines（again 是每一門課各自算）',same(r3,[['花藝師',T.staff_ask]].concat(flat(c2.lines,{narr:true})))&&GIFTH.bag(G).some(b=>b.id===c2.makes),J(got(r3).slice(0,3)));
+    check('3. 換一門沒上過的課：演那一門完整的 lines（again 是每一門課各自算）',same(r3,[['花藝師',T.staff_ask]].concat(flat(c2.lines,{narr:true}),DONE(c2)))&&GIFTH.bag(G).some(b=>b.id===c2.makes),J(got(r3).slice(0,3)));
     { const G=setup('2025-10-15',14,{money:c.price-1}); const r=await run(()=>STORY.interact(SIGN,GM),[c.name]);
       check('3. 錢不夠：no_money（旁白）、不扣錢、不過時間、沒有成品、這個禮拜還可以再來',same(r,[['花藝師',T.staff_ask],[null,T.no_money]])&&G.money===c.price-1&&G.hour===14&&!GIFTH.bag(G).length&&!FCLASS.weekUsed(G)&&!fades.length,J(got(r))); }
     { const G=setup('2025-10-15',14); for(let k=0;k<GIFTH.MAX;k++) GIFTH.rec(G).bag.push({id:'g_card',day:G.day,shop:'cvs'}); const r=await run(()=>STORY.interact(SIGN,GM),[c.name]);
@@ -133,6 +137,9 @@ const same=(r,want)=>J(got(r))===J(want);
       const O=STORY.TALK_OPTS.map(f=>f(G,AN,GM)||[]).flat().filter(o=>o.t===GIFTH.TALK); const r=await run(()=>O[0].run(GM,who(AN)),[nameI('g_fc_wreath')]); const R=GIFT_HOLIDAY.react[AN], band=GIFTH.band(G,AN);
       const want=[hand('g_fc_wreath',AN)].concat(flat(R.open.xmas[band],{w:nm(AN)})).concat(flat(X.give[AN].friend,{w:nm(AN),thing:nameI('g_fc_wreath')}));
       check('5. 節日（聖誕）：照原本的選單一個「送她禮物…」（包包裡的都列）；送成品＝節日的 open 照演、接 give 的反應（不演 ok 那一格）；算這個節日送過她',O.length===1&&r.O[0].length===3&&same(r,want)&&J(SOCIAL.rel(AN))===a&&!!GIFTH.rec(G).sent[AN+'|xmas|2025']&&GIFTH.bag(G).length===1&&!R.ok[band].some(t=>r.L.includes(t)),J(got(r)).slice(0,300)); }
+    { const ZR='heroine_02', G=setup('2025-12-24',15,{zone:'cafe',dating:[ZR]}); GIFTH.rec(G).bag.push({id:'g_fc_wreath',day:G.day,shop:'gg_flower'}); const R=GIFT_HOLIDAY.react[ZR], band=GIFTH.band(G,ZR);
+      const r=await run(()=>GIFTH.counterGive(GM,who(ZR),ZR),[nameI('g_fc_wreath')]); const want=[hand('g_fc_wreath',ZR)].concat(flat(R.open.xmas[band],{w:nm(ZR)})).concat(flat(X.give[ZR].dating,{w:nm(ZR),thing:nameI('g_fc_wreath')}));
+      check('5. 節日在吧檯送芷若成品：照她在這份稿的反應（後面是節日原本的回禮），不接「'+GIFTH.COUNTER_NARR+'」（AA 11-12 回 LAWWW-C 七問⑦）',J(got(r).slice(0,want.length))===J(want)&&!r.L.includes(GIFTH.COUNTER_NARR)&&!GIFTH.bag(G).length,J(got(r)).slice(0,300)); }
     { const G=setup('2025-10-15',15,{zone:'campus',dating:[AN]}); const g='g_fc_bouquet'; for(let k=0;k<2;k++) GIFTH.rec(G).bag.push({id:g,day:G.day,shop:'gg_flower'});
       const go=async()=>{ const O=FCLASS.talkOpts(G,AN); return O.length?run(()=>O[0].run(GM,who(AN)),[nameI(g)]):null; }; const r1=await go(), r2=await go(), r3=await go();
       check('5. 同一樣成品可以再送同一個人（重複上課做的）：兩次都照 give；包包空了就沒有選項',!!r1&&!!r2&&r3===null&&J(got(r1))===J(got(r2))&&!GIFTH.bag(G).length&&!GIFTH.givenTo(G,AN,g)&&GIFTH.givenTo(G,AN,'g_fn_rose')===false); } });
@@ -140,13 +147,13 @@ const same=(r,want)=>J(got(r))===J(want);
   /* ======================= 6 first_class ======================= */
   await sec(6,async()=>{ const F=X.story.first_class, c=X.classes.design, sets=[]; const pres0=STORY.presence, busy0=INV.busyAt; STORY.presence=()=>({here:true}); INV.busyAt=()=>null; try{
     for(let i=0;i<F.choice.length;i++){ const ch=F.choice[i], G=setup('2025-10-15',14,{dating:['heroine_03']}); const a=J(SOCIAL.rel('heroine_03')); const r=await run(()=>STORY.interact(SIGN,GM),[c.name,T.button,ch.t]);
-      const want=[['花藝師',T.staff_ask],[null,c.lines[0]]].concat(flat(F.lines,{narr:true})).concat(flat(ch.re,{w:'花藝師'})).concat(flat(c.lines.slice(1),{narr:true}));
+      const want=[['花藝師',T.staff_ask],[null,c.lines[0]]].concat(flat(F.lines,{narr:true})).concat(flat(ch.re,{w:'花藝師'})).concat(flat(c.lines.slice(1),{narr:true}),DONE(c));
       const fl=Object.keys(G.flags).filter(k=>/^FC_DESC_/.test(k)); sets.push(same(r,want)&&J(fl)===J([ch.set])&&G.flags[ch.set]===true&&J(r.O[2].slice())===J(F.choice.map(q=>q.t))&&J(SOCIAL.rel('heroine_03'))===a&&GIFTH.bag(G).length===1); if(!sets[i]) console.log('   6 選項 '+i+'：'+J(got(r)).slice(0,300)+' 旗標 '+fl); }
     check('6. 第一次上課＋有交往中的對象：接在那一門課第一句旁白後面演 first_class（花藝師三句、選項三個、那一項的 re），再演完課；三個選項各記一個旗標（FC_DESC_direct／busy／none）、不加好感',sets.length===3&&sets.every(Boolean)&&J(F.choice.map(q=>q.set))===J(['FC_DESC_direct','FC_DESC_busy','FC_DESC_none']),J(sets));
     { const G=setup('2025-10-15',14,{lv:{[AN]:4}}); const r=await run(()=>STORY.interact(SIGN,GM),[c.name]);
-      check('6. 沒有交往中的對象：不演 first_class、沒有旗標；之後交了女朋友再上課也不演（只有第一次）',same(r,[['花藝師',T.staff_ask]].concat(flat(c.lines,{narr:true})))&&!Object.keys(G.flags).some(k=>/^FC_DESC_/.test(k)));
+      check('6. 沒有交往中的對象：不演 first_class、沒有旗標；之後交了女朋友再上課也不演（只有第一次）',same(r,[['花藝師',T.staff_ask]].concat(flat(c.lines,{narr:true}),DONE(c)))&&!Object.keys(G.flags).some(k=>/^FC_DESC_/.test(k)));
       G.flags.dating_heroine_01=true; G.day=D('2025-10-22'); G.hour=14; const c2=X.classes.basic; const r2=await run(()=>STORY.interact(SIGN,GM),[c2.name,T.button]);
-      check('6. 第二次上課（已經交往）：不演 first_class',same(r2,[['花藝師',T.staff_ask]].concat(flat(c2.lines,{narr:true})))&&!Object.keys(G.flags).some(k=>/^FC_DESC_/.test(k)),J(got(r2).slice(0,4))); }
+      check('6. 第二次上課（已經交往）：不演 first_class',same(r2,[['花藝師',T.staff_ask]].concat(flat(c2.lines,{narr:true}),DONE(c2)))&&!Object.keys(G.flags).some(k=>/^FC_DESC_/.test(k)),J(got(r2).slice(0,4))); }
     } finally { STORY.presence=pres0; INV.busyAt=busy0; } });
 
   /* ======================= 7 一起上課 ======================= */

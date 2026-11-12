@@ -9,12 +9,14 @@
 src/data/places.js 加名字、營業時間、颱風假（和 tz_taimi 一樣）。流程不用改。
 
 稿的格式（AA_821）：
-  shop {id, name, hours, note}　staff {who, greet[], closed_line, closed_outside, no_money}
-  items {<id>: {name, price, eat[]}}　order {id, button, ask, after[], after_<x>_only?}　looks {<kind>: {button, t}}　seat {sit}
+  shop {id, name, hours, note}　staff {who, greet[], closed_line, closed_outside, no_money, not_open?}
+  items {<id>: {name, price, eat[]}}　order {id, button, ask, after[], after_<x>_only?, after_no_<x>?}　looks {<kind>: {button, t}}　seat {sit}
 資料檔的格式（照 GG3_LINES 的寫法，src/gg3shops3d.js 直接讀）：
   name、who、layout、hours（稿的字串；真的檢查的時間在 places.js）、door＝[[說話的人, 字]…]（稿的 greet：一天第一次進門說一句，和泰米村食的「進門」一樣）、
-  close（closed_line：打烊時人還在店裡）、sign（closed_outside：打烊以後到門口）、look {kind: [字]}、labels {kind: 按鈕的字}、seat {sit}、
-  meal {point（點餐的 kind）、ask、menu [{id, n, p, eat[]}]、after[]、afterOnly {id, line}（只點那一樣時說的；稿的 after_<x>_only＝id 結尾是 _<x> 的那一樣）、short（no_money）}
+  close（closed_line：打烊時人還在店裡）、sign（closed_outside：打烊以後到門口）、notOpen（not_open：開門以前到門口；稿有才有）、look {kind: [字]}、labels {kind: 按鈕的字}、seat {sit}、
+  meal {point（點餐的 kind）、ask、menu [{id, n, p, eat[]}]、after[]、afterOnly {id, line}（只點那一樣時說的；稿的 after_<x>_only＝id 結尾是 _<x> 的那一樣）、
+        afterNo {ids[], line}（稿的 after_no_<x>：沒有點 id 裡有 _<x> 那一段的菜時說的；after[] 只在有點的時候說）、
+        eatFirst [[id…]…]（SCRIPTS 的 eat_first：一次點好幾樣只演一樣的「吃」，照這幾組的順序挑第一樣；每一樣菜剛好在一組）、short（no_money）}
 
 測試：node tests/tz_yuehaochi_aa821_1112_unit.js（逐字對稿）。
 用法：python3 tools/shops/import_tz_meals.py [--check]（--check：只比對，資料檔和稿匯出來的不一樣＝結束碼 1）"""
@@ -28,7 +30,8 @@ import import_guard as IG
 OUT = 'src/data/tz_meal_lines.js'
 # 一間一列。客居雲南（tz_keju）還沒有稿：AA 交了以後加一列就好
 SCRIPTS = [
-    {'zone': 'tz_yuehaochi', 'layout': 'yuehaochi', 'path': 'docs/story_planning/AA_821_tz_yuehaochi.json', 'sha': '65e38a5de'},
+    {'zone': 'tz_yuehaochi', 'layout': 'yuehaochi', 'path': 'docs/story_planning/AA_821_tz_yuehaochi.json', 'sha': '7917d4289',
+     'eat_first': ['pho', 'roll', 'banhmi', 'coffee']},   # 一次點好幾樣只演一樣的「吃」：照這個順序挑（AA_821 _meta.lawww_1112 ②：河粉 > 春捲 > 法國麵包 > 咖啡；字＝菜的 id 裡的那一段）
 ]
 CHANGED = []
 
@@ -89,7 +92,7 @@ def one(spec):
         die(f"{W}：稿的 shop.id 是 {shop['id']}")
     if not re.match(r'^\d{1,2}:\d{2}～\d{1,2}:\d{2}$', shop['hours']):
         die(f"{W} shop.hours：要是「11:00～21:00」這樣（{shop['hours']}）；一天兩段、公休日先改這支工具")
-    staff = keys(doc['staff'], ['who', 'greet', 'closed_line', 'closed_outside', 'no_money'], W + ' staff')
+    staff = keys(doc['staff'], ['who', 'greet', 'closed_line', 'closed_outside', 'no_money'], W + ' staff', opt=['not_open'])
     who = fix(staff['who'], W + ' staff.who')
     items = doc['items']
     if not isinstance(items, dict) or not items:
@@ -102,7 +105,23 @@ def one(spec):
         menu.append({'id': iid, 'n': fix(it['name'], f'{W} items.{iid}.name'), 'p': it['price'], 'eat': [narr(x, f'{W} items.{iid}.eat') for x in strs(it['eat'], f'{W} items.{iid}.eat')]})
     order = doc['order']
     only_keys = [k for k in order if re.match(r'^after_[a-z0-9]+_only$', k)] if isinstance(order, dict) else []
-    keys(order, ['id', 'button', 'ask', 'after'], W + ' order', opt=only_keys)
+    no_keys = [k for k in order if re.match(r'^after_no_[a-z0-9]+$', k)] if isinstance(order, dict) else []
+    keys(order, ['id', 'button', 'ask', 'after'], W + ' order', opt=only_keys + no_keys)
+    if len(no_keys) > 1:
+        die(W + ' order：after_no_<x> 只認得一個')
+    seg = lambda x: [m['id'] for m in menu if x in m['id'].split('_')]   # id 裡有 _<x> 那一段的菜
+    after_no = None
+    for k in no_keys:
+        hit = seg(k[len('after_no_'):])
+        if not hit:
+            die(f'{W} order.{k}：對不到 id 裡有那一段的菜')
+        after_no = {'ids': hit, 'line': fix(order[k], f'{W} order.{k}')}
+    eat_first = None
+    if spec.get('eat_first'):
+        eat_first = [seg(x) for x in spec['eat_first']]
+        flat = [i for g in eat_first for i in g]
+        if any(not g for g in eat_first) or sorted(flat) != sorted(m['id'] for m in menu):
+            die(f'{W} eat_first：每一樣菜要剛好在一組（{eat_first}）；稿加了菜、改了 id 先改 SCRIPTS')
     if len(only_keys) > 1:
         die(W + ' order：after_<x>_only 只認得一個')
     after_only = None
@@ -123,12 +142,15 @@ def one(spec):
         look[kind] = [narr(v['t'], f'{W} looks.{kind}.t')]
         labels[kind] = fix(v['button'], f'{W} looks.{kind}.button')
     seat = keys(doc['seat'], ['sit'], W + ' seat')
-    return {'name': fix(shop['name'], W + ' shop.name'), 'who': who, 'layout': spec['layout'], 'hours': shop['hours'],
+    out = {'name': fix(shop['name'], W + ' shop.name'), 'who': who, 'layout': spec['layout'], 'hours': shop['hours'],
             'door': [[who, t] for t in strs(staff['greet'], W + ' staff.greet')],
             'close': fix(staff['closed_line'], W + ' staff.closed_line'), 'sign': narr(staff['closed_outside'], W + ' staff.closed_outside'),
             'look': look, 'labels': labels, 'seat': {'sit': narr(seat['sit'], W + ' seat.sit')},
             'meal': {'point': order['id'], 'ask': fix(order['ask'], W + ' order.ask'), 'menu': menu, 'after': strs(order['after'], W + ' order.after'),
-                     'afterOnly': after_only, 'short': fix(staff['no_money'], W + ' staff.no_money')}}
+                     'afterOnly': after_only, 'afterNo': after_no, 'eatFirst': eat_first, 'short': fix(staff['no_money'], W + ' staff.no_money')}}
+    if 'not_open' in staff:
+        out['notOpen'] = narr(staff['not_open'], W + ' staff.not_open')
+    return out
 
 
 def build():

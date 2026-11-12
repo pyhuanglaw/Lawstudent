@@ -1,9 +1,9 @@
-/* 自動產生：tools/flower/import_flower_class.py（docs/story_planning/AA_820_flower_class.json@65e38a5de）。不要手改，改企劃 AA_820 再重新匯入。
+/* 自動產生：tools/flower/import_flower_class.py（docs/story_planning/AA_820_flower_class.json@7917d4289）。不要手改，改企劃 AA_820 再重新匯入。
    花序 Flower Notes 二樓花藝課（FLOWER-CLASS-1112，USER_WANTS X346；播放 src/flower_class3d.js）：signup＝報名、classes＝三門課、items＝三樣成品（不能買）、
    give＝送她的反應、together＝一起上課、story＝第一次上課／學姊三場／其他六位幾天以後的一句。note、cond、when 是說明，不演。 */
 'use strict';
 const FLOWER_CLASS={
- "src": "docs/story_planning/AA_820_flower_class.json@65e38a5de",
+ "src": "docs/story_planning/AA_820_flower_class.json@7917d4289",
  "staff": "花藝師",
  "people": [
   "heroine_01",
@@ -21,7 +21,14 @@ const FLOWER_CLASS={
   "staff_ask": "要上課嗎？今天下午還有位子。材料都在桌上，人來就好。",
   "no_money": "（你看了一下價錢，又把報名表放回去。）",
   "week_limit": "這個禮拜的課你上過了，下禮拜再來。花要放幾天，才看得出自己哪裡綁歪。",
-  "closed": "（示範長桌收乾淨了，剪刀一把一把插回筒子裡。今天沒有課了。）"
+  "closed": "（示範長桌收乾淨了，剪刀一把一把插回筒子裡。今天沒有課了。）",
+  "done": [
+   {
+    "who": "花藝師",
+    "t": "可以帶回去了。今天的花，回去先剪一點莖再插水。"
+   },
+   "（你把{物}放進店裡給的紙袋，提著下樓。）"
+  ]
  },
  "classes": {
   "basic": {
