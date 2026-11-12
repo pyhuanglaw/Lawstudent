@@ -326,7 +326,7 @@ const DATE=(function(){
   S.playerAbroad=(G,day)=>typeof STORY!=='undefined'&&!!STORY.abroad&&!!STORY.abroad(Object.assign({},G,{day}));
   /* 出發地（AA_128 4-1、11-1）：寒暑假住家裡（法律系的寒暑假；經濟系休學以後、畢業退宿以後、交換退宿以後也住家裡）＝不加回家取車的時間 */
   S.fromHomeOn=function(G,day){ if(typeof HOME==='undefined') return false; if((G.stage||'law')==='law'&&HOME.breakOf&&HOME.breakOf(day)) return true;
-    if((HOME.baseMode&&HOME.baseMode(G))||(HOME.pgHome&&HOME.pgHome(G))) return true; return typeof STORY!=='undefined'&&!!STORY.movedOut&&!!STORY.movedOut(Object.assign({},G,{day})); };
+    if((HOME.pgHome&&HOME.pgHome(G))) return true; return typeof STORY!=='undefined'&&!!STORY.movedOut&&!!STORY.movedOut(Object.assign({},G,{day})); };
   /* 當天來回：那一天她在臺北，或就在那個地點的城市（照 overnightWhere 的一天版）*/
   S.dayWhere=function(G,id,day,locs){ const dest=cityOf((S.loc(locs[0])||{}).area), p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,Object.assign({},G,{day})):{here:true};
     if(!p.here&&(p.lost||p.kind==='unreachable')) return {ok:false,why:'她那時候'+(p.away||'聯絡不到')+'。'};

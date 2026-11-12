@@ -133,7 +133,7 @@ const DM3=(function(){
   const FLOOR_ZH=['','一','二','三','四','五','六','七','八','九'];
   function homeFloor(h){ const d=h&&h.lv?+String(h.plate||'2')[0]:1; return d>=1&&d<=9?d:2; }
   const OLD_HOME={id:'r203',lv:1,x:5.5,side:'N',label:'203 寢室',plate:'203',closed:'203 寢室。門關著。'};
-  function homeOf(G){ const F=(G&&G.flags)||{}, econ=false; const key=econ?'y1':F.ROOM_Y4?'y4':F.ROOM_Y3?'y3':F.ROOM_Y2?'y2':'y1'; const h=Object.assign({key},HOMES[key]); if(econ) h.plate='412';
+  function homeOf(G){ const F=(G&&G.flags)||{}; const key=F.ROOM_Y4?'y4':F.ROOM_Y3?'y3':F.ROOM_Y2?'y2':'y1'; const h=Object.assign({key},HOMES[key]);
     h.label='回房間（'+h.plate+'）'; h.spawn={x:h.x,z:0.4,lv:h.lv,yaw:0}; h.floor=homeFloor(h); h.floorZh=FLOOR_ZH[h.floor]+'樓'; return h; }
   /* 房間（dorm 區域）的「走出房間」：出去站在自己那一扇門前。搬了房間（主線 3）以後，人還在房間裡，就地改出口 */
   function fixRoomExit(E,G){ if(!E||!E.interactables) return; for(const it of E.interactables) if(it.exit&&it.exit.to==='dorm_hall') it.exit.spawn=Object.assign({},homeOf(G).spawn); }

@@ -22,14 +22,13 @@ const VACFILL=(function(){
   if(!X) return S;
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const T=(d,h)=>d*24+h, NOW=G=>T(G.day,G.hour);
-  const law=G=>!!G&&(G.stage||'law')==='law', econ=G=>false;
+  const law=G=>!!G&&(G.stage||'law')==='law';
   const Fl=G=>G.flags||(G.flags={});
   const wdOf=d=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:((d%7)+7)%7;
   const inGrp=(G,g)=>typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,g);
   const met=id=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,'FIRST_MET');
   const atLeast=(id,st)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!met(id)) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage(id))>=A.indexOf(st); };
   const dat=(G,id)=>Fl(G)['dating_'+id]===true;
-  const south=G=>['sea','shop'].includes(Fl(G).E35_PLAN);   /* 7/10 約好 7/19 南下高雄（7/19～7/23 在高雄，econff3d.js 的字卡）*/
   const done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
   const sent=(G,tag)=>typeof PHONE!=='undefined'&&PHONE.sent(G,tag);
   const arrived=(G,tag)=>(G.msgs||[]).some(m=>m&&m.tag===tag)||!!(G.phone&&(G.phone.cut||[]).includes(tag));   /* 已經送到手機（排著還沒送到的不算）*/
@@ -162,7 +161,7 @@ const VACFILL=(function(){
   /* 回覆以後的下一則：2-2「在想妳。」＝十點半那一張照片（對話串裡的旁白）*/
   S.follow=function(G){ const F=Fl(G);
     if(F.VF_Y2_0724==='miss'&&law(G)&&!sent(G,'vf_y2_0724_photo')){ const d=S.dayOf(S.MSGS.find(m=>m.tag==='vf_y2_0724'),G); if(d!=null&&G.day>=d&&G.day<=d+1) PHONE.at(G,d,Math.max(22.5,NOW(G)-T(d,0)),[item('p:'+AN,null,X.y2_0724.photo)],'vf_y2_0724_photo'); } };   /* 十點半以後才回的：回的那一刻 */
-  S.phone=function(G){ if(!G||!G.flags||typeof PHONE==='undefined') return; if(!law(G)&&!econ(G)) return;
+  S.phone=function(G){ if(!G||!G.flags||typeof PHONE==='undefined') return; if(!law(G)) return;
     for(const m of S.MSGS){ try{ S.send(G,m); }catch(e){ console.warn('VACFILL '+m.tag,e); } }
     try{ S.follow(G); S.plans(G); }catch(e){ console.warn('VACFILL plans',e); } };
 
@@ -208,12 +207,6 @@ const VACFILL=(function(){
     if(GM.sceneBegin) GM.sceneBegin(); try{ await GM.say(null,line); } finally { if(GM.sceneEnd) GM.sceneEnd(); }
     return line; };
 
-  /* ===================== 1-5 7/27 去學校走一走：走路的期間不自動回家 ===================== */
-  S.walkOn=function(G){ return false; 
-    };
-  S.PORTAL={x0:27,x1:41,z0:-121,z1:-103.5};   /* 霖澤館穿堂（CK.lawhall：中心 (34,-112)、深 18、穿堂寬 14；正面 z −103）*/
-  S.walkTick=function(GM){ const G=GM&&GM.G; return false; 
-    };
 
   /* ===================== 4 大四寒假 1/20 以安「我去。」：之後一週每天在總圖三樓 ===================== */
   S.AN_LIB={days:[0,1,2,3,4,5,6],from:9,to:17,zone:'library',act:'read',dates:[['2029-01-21','2029-01-27']],if:{custom:G=>!!(G&&G.flags&&G.flags.VF_Y4_AN_LIB==='go')},note:'AA_440 第 4 節（大四寒假 1/20）：回了「我去。」的那一週她每天在總圖三樓（總圖寒假開到五點），照總圖的座位系統坐她對面'};
@@ -228,7 +221,7 @@ const VACFILL=(function(){
       HOME.ffMenu=Object.assign(async function(){ ffDepth++; try{ return await f0.apply(this,arguments); } finally { ffDepth--; } },{_vacfill:true}); }
     return true; };
   S.install(); S.schedule();
-  S.tick=function(GM){ S.install(); return S.walkTick(GM); };
+  S.tick=function(GM){ S.install(); return false; };
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt)); }

@@ -438,7 +438,7 @@ const JOBS=(function(){
   /* 夜班（週五 22:00～02:00）：下班回宿舍睡到隔天 10:00（AA_433 第 1 節「隔天 10:00 以前祐廷在宿舍睡覺，不排別的」；隔天早上的班 S.excused 自動請假）*/
   /* AA_829 第 5 節第 4 點：回祐廷現在住的地方（看當時住哪）睡到 10:00，旁白不寫地點；便利商店夜班比照。住哪照 STORY.forceHome 那一套分：
      住家裡（放假回家住、畢業後退宿住家裡：HOME.breakMode／baseMode／pgHome）＝回家（HOME.go，家裡的那一套接手，不另外睡）；公館的套房（HOME.suite，沒有 3D）＝直接睡，STORY.sleepNow 醒來就在套房（公館）；其他＝宿舍 */
-  S.liveAt=function(G){ const H=typeof HOME!=='undefined'?HOME:null; try{ if(H&&((H.breakMode&&H.breakMode(G))||(H.baseMode&&H.baseMode(G))||(H.pgHome&&H.pgHome(G)))) return 'home'; if(H&&H.suite&&H.suite(G)) return 'suite'; }catch(e){} return 'dorm'; };
+  S.liveAt=function(G){ const H=typeof HOME!=='undefined'?HOME:null; try{ if(H&&((H.breakMode&&H.breakMode(G))||(H.pgHome&&H.pgHome(G)))) return 'home'; if(H&&H.suite&&H.suite(G)) return 'suite'; }catch(e){} return 'dorm'; };
   S.nightSleep=async function(GM,d){ const G=GM.G; G.flags.JOB_NIGHT=d; if(typeof STORY==='undefined'||!STORY.sleepNow) return false; if(GM.E&&GM.E.player&&GM.E.player.busy) return false;
     G.flags.companion=null; const at=S.liveAt(G);
     if(at==='home'&&HOME.go){ if(!(HOME.at&&HOME.at(G))) await HOME.go(GM); return true; }

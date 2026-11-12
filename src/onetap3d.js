@@ -32,7 +32,7 @@ const ONETAP=(function(){
   const nowLine=G=>'現在：'+WEEK[((G.weekday|0)%7+7)%7]+' '+hm(G.hour);
   /* ---------- 1. 回去睡覺 ---------- */
   S.where=function(G){ if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)) return {k:'jp',name:'日本的宿舍'};
-    if(typeof HOME!=='undefined'&&((HOME.breakMode&&HOME.breakMode(G))||(HOME.baseMode&&HOME.baseMode(G))||(HOME.pgHome&&HOME.pgHome(G))||(typeof JP!=='undefined'&&JP.homeOn&&JP.homeOn(G)))) return {k:'home',name:'家'};   /* 放假住家裡、經濟系休學住家裡、畢業後住家裡、日本路線出發前後住家裡（forceHome＋jp3d.js 包的那一段）*/
+    if(typeof HOME!=='undefined'&&((HOME.breakMode&&HOME.breakMode(G))||(HOME.pgHome&&HOME.pgHome(G))||(typeof JP!=='undefined'&&JP.homeOn&&JP.homeOn(G)))) return {k:'home',name:'家'};   /* 放假住家裡、經濟系休學住家裡、畢業後住家裡、日本路線出發前後住家裡（forceHome＋jp3d.js 包的那一段）*/
     if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)) return {k:'us',name:'公寓',zone:'us_apartment'};
     if(typeof HOME!=='undefined'&&HOME.suite&&HOME.suite(G)) return {k:'suite',name:'公館的套房',zone:'gongguan'};
     const no=typeof DM3!=='undefined'&&DM3.homeOf?DM3.homeOf(G).plate:'203'; return {k:'dorm',name:'宿舍 '+no,zone:'dorm'}; };   /* 房號照現在住的（經濟系 412、大二 312、大三 507、大四 409；DM3.homeOf）——原本寫死 203（BB-B 11-07 BUG-ONETAP-DORM203-1107）*/

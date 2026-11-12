@@ -152,7 +152,7 @@ const OUT=(function(){
   S.homeSaid=null;   /* AA_529 6-1：這一趟演完、階梯前面已經說了「（晚上，回到家。）」的出遊 id */
   S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome); S.homeSaid=null;   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
     if(q.camp&&typeof STORY!=='undefined'&&STORY.campY1){ q.state='done'; await STORY.campY1(GM,{next:false});   /* 法律系迎新宿營（經濟系路線，AA_205 2-3）：三天全部在 S.campY1 演，演完回到 8/24 下午的家 */
-      if(!(o&&o.fromHome)&&typeof HOME!=='undefined'&&HOME.arriveQuiet&&HOME.baseMode&&HOME.baseMode(G)) HOME.arriveQuiet(GM).catch(e=>console.warn('HOME.arriveQuiet',e)); return true; }
+      return true; }
     const dt=!!q.dateTrip&&typeof DATE!=='undefined';   /* 校外單獨約會：抵達後演 DATE.scene（不是 STORY_EVENTS 的事件）*/
     if(dt||(!q.goto&&ev&&typeof EVENTS!=='undefined')){ if(GM.autosave) GM.autosave(); running.add(q.id); } else q.state='done';   /* 出發前先存一次（使用者 2026-10-16：去政大找可昕跳回標題、自動存檔在出發前很久，要一直重來）；演完才標 done */
     if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(S.tt(q.title),tr.travel,2400); const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.syncWeekday) GM.syncWeekday(); if(GM.updateHUD) GM.updateHUD();
@@ -184,7 +184,7 @@ const OUT=(function(){
       if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await S.runAfter(GM,q,ev);   /* 結尾、分開以前（OUT.AFTER）：畫面還在那裡（可昕在場的還在右邊）*/
     if(kxTail&&ADV.active) ADV.end();
-    await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); if(typeof CLS!=='undefined'&&CLS.queueJump&&!(o&&o.fromHome)) CLS.queueJump(G); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); if(typeof CLS!=='undefined'&&CLS.queueJump&&!(o&&o.fromHome)) CLS.queueJump(G); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):false))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
     if(typeof ev.afterBack==='function') await ev.afterBack(G,GM,q);   /* 回程的地點字幕之後才接的（例：ev_y0_gather「（回家的路上，手機震了一下。）」排在「在公館的路口散了。」後面，AA_529 第⑤點）；劇情還沒結束（sceneEnd 在 finally）*/
     } finally { GM.sceneEnd(); S.fromHome=false; afterDone.delete(q.id); }
     if(GM.autosave) GM.autosave(); return true; };
