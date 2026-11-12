@@ -54556,6 +54556,62 @@
    },
    "source": "使用者 11-12 對 LAWWW-C",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "SHOP-JOBS-1112",
+   "title": "新店打工：山嵐書店、花序（上過一次花藝課才能應徵）、越好吃小館、大口漢堡、南洋戲院（X178）——應徵和每一班內容池（AA_431／AA_165 格式）；AA 寫稿、LAWWW 接（X356）",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "AA-C 11-12 05:11 提的名單（其他新店不開）；AA 先寫山嵐書店和南洋戲院。稿到了 LAWWW 接進 src/jobs3d.js（G.jobs）。使用者 11-12：「而且不是還要可以打工嗎」",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
+  },
+  {
+   "id": "SHOP-LIFE-AA826-1112",
+   "title": "店面盤點後續（AA_825 客居雲南菜單點餐、AA_826 四間店員招呼＋吃飯遇到同學的第一句、名單加學姊 0.6／語彤 0.4、同一人同一天最多遇到一次）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "AA-C 11-12 05:11：兩份稿送 BB 第二意見中，定稿 SHA 到了就派子代理接（客居雲南照越好吃的做法；花序、越好吃、客居的 staff.greet 接上；meal_hello 九人各兩句＋學姊交往中一組；禮貌生財不另加店員；AA_742 午休作廢重匯 gg3_shops_lines.js）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
   }
  ]
 }
