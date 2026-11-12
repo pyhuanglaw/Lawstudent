@@ -60,3 +60,11 @@
   - `wip/` 裡 58 個舊的 `.patch` 檔內文也被替換了——這些都是已經整合過的歷史 patch，**不能再拿來套**（上下文對不上）；今天還沒收的三包（l118_it_reach_v2、tz_shutter_pos_v1、moku_stair_void_v1）沒有被動到。
   - `user_asks_LAWWW2.json` 裡使用者原話欄位有那些字的也換成代號了（照 D158 不留字；原話以 Git 歷史為準）。
 - 還沒清的：檔名和英文識別字（`--latin`）、`tools/blender/char_second/` 裡舊序章人物的建模腳本（等 LAWWW 通知後和模型一起刪）。
+
+## 七、開發分支上歸美術的檔怎麼清（11-12 13:3x）
+- 不交 patch：patch 的「−」行會帶著那些字，放上 GitHub 等於又留一份。改交工具 `canon_clean.py`（同資料夾；字表從 `tools/handoff/canon_scan.py` 拿，本身不寫那些字）。
+- 在開發分支跑：`python3 docs/art-rebuild/second_ai/wip/canon_cleanup_1112/canon_clean.py tools/blender tools/lane118 assets/models docs/campus docs/art-rebuild`
+  - 我在開發分支（762104842a 之後）的複本上跑過：改 81 個檔（建模腳本 39 支的註解、模型說明 json、美術與校園文件、舊 patch），掃描工具對這五個路徑＝0 檔 0 處；39 支 Python 都編得過、json 都讀得進來；`tests/` 裡會讀 `tools/blender`、配置 json、`docs/campus` 的測試全部跑過沒有紅。
+  - 代號對照：字表第 1～4、7 個＝舊序章；第 5、6、8 個＝外校；第 9 個＝外校宿舍；第 10～16 個＝舊序章人物甲（兩個寫法）、乙、丙、丁、戊、己；第 17 個＝外校室友。另外兩個字表沒有的寫法也換（工具裡的 EXTRA）。
+  - 不動 `行政大樓`、國考那幾個例外（和掃描工具同一組 OK 規則）。
+- 這支只換中文；檔名和英文識別字（`--latin`）不動。
