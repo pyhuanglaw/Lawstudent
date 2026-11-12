@@ -10,7 +10,7 @@
        人還在店裡到了打烊：照 AA_700（src/xs_close3d.js）花藝師「我們今天要打烊了。」、走到公館門口（XSCLOSE.ZONES.flower_notes）。
    - 「看」：稿的 looks 13 個 key＝配置的 kind。配置原本有位置的五個（永生花、鮮花花束、冷藏花櫃、黑板、示範桌）照配置的位置和按鈕；
        其他八個（兩個展示台、櫃檯、包裝紙牆、樓梯口的牌子、花器層架、矮櫃、大盆植物）的位置在這裡（S.EXTRA，站在那樣東西旁邊），按鈕「看看」。
-       配置的「看中央展示台」稿沒有句子＝不放。二樓只有看和坐（稿：這一版沒有上課的流程）。
+       配置的「看中央展示台」稿沒有句子＝不放。二樓的看和坐在這裡；上課（AA_820，FLOWER-CLASS-1112）在 src/flower_class3d.js。
    存檔：沒有新欄位（買的東西照舊在 G.flags.GIFTH.bag）。測試：node tests/flower_notes_aa792_1112_unit.js、node tests/flower_notes_unit.js */
 'use strict';
 const FNS=(function(){

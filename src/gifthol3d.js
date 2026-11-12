@@ -97,7 +97,8 @@ const GIFTH=(function(){
   /* AA_416 1-8 舊的送禮（G.fest.gifts）：同名的那一樣算送過了；以安 2028 情人節的鋼筆（AN_VDAY_GIFT pen，AA_733 reuse）*/
   const oldGiven=(G,pid,gid)=>{ const it=S.item(gid); if(!it) return false; if(pid==='heroine_01'&&gid==='g_fountain'&&G.flags&&G.flags.AN_VDAY_GIFT==='pen') return true;
     const ids=((G.fest&&G.fest.gifts)||{})[pid]||[]; if(!ids.length) return false; const P=(FD().PEOPLE||{})[pid]||{}; return (P.gifts||[]).some(g=>ids.includes(g.id)&&g.name===it.name); };
-  S.givenTo=(G,pid,gid)=>(F(G).given[pid]||[]).includes(gid)||oldGiven(G,pid,gid);
+  /* made（FLOWER-CLASS-1112，AA_820）：花藝課自己做的成品——可以重複上課、重複送（稿：「之後再送照 give 的三句」），不套「同一樣同一個人一輩子一次」*/
+  S.givenTo=(G,pid,gid)=>!(S.item(gid)||{}).made&&((F(G).given[pid]||[]).includes(gid)||oldGiven(G,pid,gid));
   /* special 兩樣（不用買、不佔包包）：子晴的測試報告（玩過她的測試版 ZQ_TB_PLAYED）、學姊的「今天先不改了」券（W8 以後 STORY.sisW8）*/
   S.SPECIAL_ON={g_test_report:G=>!!(G.flags&&G.flags.ZQ_TB_PLAYED!=null),g_no_edit:G=>typeof STORY!=='undefined'&&STORY.sisW8?!!STORY.sisW8(G):false};
   S.specials=G=>Object.keys(S.SPECIAL_ON).filter(gid=>S.item(gid)&&S.SPECIAL_ON[gid](G));
@@ -160,11 +161,14 @@ const GIFTH=(function(){
   /* 交出去：記錄、演反應、好感、記憶。o.date＝節日約會裡（不演 open）*/
   S.hand=async function(GM,who,pid,gid,h,o){ const G=GM.G, R=F(G), it=S.item(gid); if(!it) return null; o=o||{};
     if(it.shop!=='special'){ const k=R.bag.findIndex(b=>b&&b.id===gid); if(k>=0) R.bag.splice(k,1); }
-    (R.given[pid]||(R.given[pid]=[])).push(gid); R.sent[hkey(pid,h.k,h.y)]=gid;
-    if(h.k!=='bday'){ const L=R.fest[h.k+'|'+h.y]||(R.fest[h.k+'|'+h.y]=[]); if(!L.includes(pid)) L.push(pid); }
+    (R.given[pid]||(R.given[pid]=[])).push(gid); if(h) R.sent[hkey(pid,h.k,h.y)]=gid;   /* h＝null：不是節日（只有 made 的成品，src/flower_class3d.js）*/
+    if(h&&h.k!=='bday'){ const L=R.fest[h.k+'|'+h.y]||(R.fest[h.k+'|'+h.y]=[]); if(!L.includes(pid)) L.push(pid); }
     const T=X().react[pid], band=S.band(G,pid), cat=S.cat(pid,gid);
-    await GM.say(null,'你把'+it.name+'遞給'+(who&&who.name||nm(pid))+'。');
     const q=o.quiet?{first:true}:null;   /* ② 讀書區：她的第一句前面加「（小聲）」*/
+    /* made 的成品（AA_820 花藝課）：反應照那份稿（S.MADE，src/flower_class3d.js 掛上來）——不演 item／love-ok-no 那幾格、不加一般送禮的好感（稿沒有寫的不加）；節日的 open 照演 */
+    if(it.made&&typeof S.MADE==='function'){ await S.MADE(GM,who,pid,gid,{q,hand:()=>GM.say(null,'你把'+it.name+'遞給'+(who&&who.name||nm(pid))+'。'),open:()=>(h&&!o.date)?play(GM,who,T.open[h.k][band],q):null});
+      if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(pid,'GIFT_GIVEN_'+pid,it.name); if(GM.autosave) GM.autosave(); return 'made'; }
+    await GM.say(null,'你把'+it.name+'遞給'+(who&&who.name||nm(pid))+'。');
     if(!o.date) await play(GM,who,T.open[h.k][band],q);
     const ic=T.item[gid]; await play(GM,who,ic?(ic[band]||ic['*']):T[cat][band],q);
     S.adjust(G,pid,cat);
@@ -322,7 +326,7 @@ const GIFTH=(function(){
   /* 選單「物品」分頁（X291）：包包裡的禮物（品名、哪裡買、說明）＋她送的；今天帶在身上的飲料、早餐（gift3d.js）也列 */
   S.bagHTML=function(G){ let h='<div class="item"><b>包包裡的禮物（'+S.bag(G).length+'/'+S.MAX+'）</b><div class="muted">節日、她的生日當面見到她，說話的時候可以送。不會過期。</div></div>';
     const B=S.bag(G); if(!B.length) h+='<div class="item muted">還沒有買。各家店的「'+S.LABEL+'」可以買。</div>';
-    for(const b of B){ const it=S.item(b.id); h+='<div class="item"><b>'+esc(it.name)+'</b><div class="muted">'+esc(S.shopName(b.shop))+'・'+it.price+' 元</div><div>'+esc(it.line)+'</div></div>'; }
+    for(const b of B){ const it=S.item(b.id); h+='<div class="item"><b>'+esc(it.name)+'</b><div class="muted">'+esc(S.shopName(b.shop))+(it.price!=null?'・'+it.price+' 元':'')+'</div><div>'+esc(it.line)+'</div></div>'; }
     for(const gid of S.specials(G)){ const it=S.item(gid); if(!(it.only||[]).some(p=>!S.givenTo(G,p,gid))) continue; h+='<div class="item"><b>'+esc(it.name)+'</b><div class="muted">'+esc(it.how||'')+'</div></div>'; }
     if(Array.isArray(G.carry)&&typeof GIFT!=='undefined'&&GIFT.carry){ const C=GIFT.carry(G); if(C.length) h+='<div class="item"><b>今天帶在身上的</b>'+C.map(c=>'<div>· '+esc(c.n)+'</div>').join('')+'<div class="muted">飲料、早餐放不到明天。</div></div>'; }
     const RV=S.recvList(G); h+='<div class="item"><b>她送的</b></div>'; if(!RV.length) h+='<div class="item muted">還沒有。</div>';

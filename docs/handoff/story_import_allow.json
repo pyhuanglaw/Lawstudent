@@ -7954,6 +7954,15 @@
    "task": "TINGZHOU-SHOPS5-1110",
    "kind": "json",
    "note": "汀州路・越好吃小館（tz_yuehaochi）店內文字：老闆娘進門三句、打烊、門口、錢不夠、六樣菜（名字、價錢、吃的兩句）、點餐（要吃什麼、點完兩句、只點咖啡那一句）、看菜單／香草檯／廚房／斗笠（按鈕的字和句子）、坐下（tools/shops/import_tz_meals.py → src/data/tz_meal_lines.js；流程 src/gg3shops3d.js；tests/tz_yuehaochi_aa821_1112_unit.js 逐字對照）"
+  },
+  {
+   "path": "docs/story_planning/AA_820_flower_class.json",
+   "sha": "65e38a5de",
+   "status": "approved",
+   "approvedBy": "AA（FLOWER-CLASS-1112）",
+   "task": "FLOWER-CLASS-1112",
+   "kind": "json",
+   "note": "X346 花序 Flower Notes 二樓花藝課：報名、三門課、三樣成品（不能買）、送她的反應、一起上課、第一次上課／學姊三場／其他六位幾天以後的一句——tools/flower/import_flower_class.py → src/data/flower_class.js（播放 src/flower_class3d.js）"
   }
  ]
 }
