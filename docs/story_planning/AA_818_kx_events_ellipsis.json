@@ -1,0 +1,429 @@
+{
+ "_meta": {
+  "task": "DLG-FULL-REVIEW-1110",
+  "who": "kexin",
+  "base": "origin/claude/confident-ritchie-8rwh7t@4e248bb55",
+  "rule": "可昕不爽會講：刪節號開頭只留真的說不出口的地方（AA_754 目標 3）",
+  "keep_lines": [
+   830,
+   2202,
+   2233,
+   2246,
+   2502,
+   2509,
+   2593,
+   2627,
+   2629,
+   2668,
+   2692,
+   2693,
+   2756,
+   2938,
+   2940,
+   2954,
+   2956,
+   2961,
+   3180,
+   3184,
+   3514
+  ]
+ },
+ "rows": [
+  {
+   "file": "src/data/events.js",
+   "line": 98,
+   "old": "……你那邊卡了一秒啦。新年快樂。",
+   "new": "你那邊卡了一秒啦。新年快樂。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 794,
+   "old": "……你答得太快了。我會點很多喔。",
+   "new": "你答得太快了。我會點很多喔。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 824,
+   "old": "……這句我會轉告她。",
+   "new": "這句我會轉告她。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 1534,
+   "old": "……那我先說：新年快樂。",
+   "new": "那我先說：新年快樂。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 1737,
+   "old": "……真的很冰喔。",
+   "new": "真的很冰喔。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 1738,
+   "old": "……對，濕了。好冰。",
+   "new": "對，濕了。好冰。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 1749,
+   "old": "……好。那現在算第一次。",
+   "new": "好。那現在算第一次。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 1791,
+   "old": "……嗯，我也是。",
+   "new": "嗯，我也是。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2006,
+   "old": "……因為我在。",
+   "new": "因為我在。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2057,
+   "old": "……你怎麼知道我幾點下課？",
+   "new": "你怎麼知道我幾點下課？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2061,
+   "old": "……很會講欸。",
+   "new": "很會講欸。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2069,
+   "old": "……你從台北開上來喔？山路晚上很暗欸。",
+   "new": "你從台北開上來喔？山路晚上很暗欸。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2083,
+   "old": "……好。現在許願。",
+   "new": "好。現在許願。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2127,
+   "old": "……寒假還在讀民總的人，都這樣回答。",
+   "new": "寒假還在讀民總的人，都這樣回答。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2162,
+   "old": "……原本那張呢？",
+   "new": "原本那張呢？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2163,
+   "old": "……這本我要用完。",
+   "new": "這本我要用完。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2164,
+   "old": "……這是我收過最燙的禮物。",
+   "new": "這是我收過最燙的禮物。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2169,
+   "old": "……你算過？",
+   "new": "你算過？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2194,
+   "old": "……原本那張呢？",
+   "new": "原本那張呢？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2196,
+   "old": "……這是我收過最燙的禮物。",
+   "new": "這是我收過最燙的禮物。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2218,
+   "old": "……幹嘛一直看。",
+   "new": "幹嘛一直看。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2222,
+   "old": "……幹嘛一直看。",
+   "new": "幹嘛一直看。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2238,
+   "old": "……新年快樂。我要回家了。",
+   "new": "新年快樂。我要回家了。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2245,
+   "old": "……明天我有課。",
+   "new": "明天我有課。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2258,
+   "old": "……一半。回去我再讀一次。",
+   "new": "一半。回去我再讀一次。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2259,
+   "old": "……下一題。",
+   "new": "下一題。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2346,
+   "old": "……誰要穿你的。",
+   "new": "誰要穿你的。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2382,
+   "old": "……不客氣。",
+   "new": "不客氣。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2414,
+   "old": "……整頁都算了，最後一步寫錯。氣死。",
+   "new": "整頁都算了，最後一步寫錯。氣死。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2427,
+   "old": "……你不用回答。我猜還沒開始。",
+   "new": "你不用回答。我猜還沒開始。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2467,
+   "old": "……你休學在家，每天到底在幹嘛？",
+   "new": "你休學在家，每天到底在幹嘛？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2506,
+   "old": "……還不知道。整科就那一份，我只是記錯日子。",
+   "new": "還不知道。整科就那一份，我只是記錯日子。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2599,
+   "old": "……結果呢？",
+   "new": "結果呢？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2601,
+   "old": "……有。湖邊很有氣氛。",
+   "new": "有。湖邊很有氣氛。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2623,
+   "old": "……你是不是很笨。",
+   "new": "你是不是很笨。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2642,
+   "old": "……十五分鐘。跟你那時候一樣。",
+   "new": "十五分鐘。跟你那時候一樣。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2646,
+   "old": "……一點都不想被歡迎。",
+   "new": "一點都不想被歡迎。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2662,
+   "old": "……拍好看一點。",
+   "new": "拍好看一點。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2673,
+   "old": "……你是說真的？",
+   "new": "你是說真的？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2675,
+   "old": "……好。我盯你。",
+   "new": "好。我盯你。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2688,
+   "old": "……好。謝謝。",
+   "new": "好。謝謝。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2691,
+   "old": "……你確定？",
+   "new": "你確定？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2691,
+   "old": "……好。在家讀。",
+   "new": "好。在家讀。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2696,
+   "old": "……宿舍月底要退。我本來想，回高雄讀。",
+   "new": "宿舍月底要退。我本來想，回高雄讀。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2698,
+   "old": "……你問過了？",
+   "new": "你問過了？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2706,
+   "old": "……第一件。我們在一起了。",
+   "new": "第一件。我們在一起了。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2713,
+   "old": "……妳這是命令。",
+   "new": "妳這是命令。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2724,
+   "old": "……蛤？",
+   "new": "蛤？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2843,
+   "old": "……非賣品。",
+   "new": "非賣品。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2844,
+   "old": "……再坐五分鐘。",
+   "new": "再坐五分鐘。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2845,
+   "old": "……你真的很不會安慰人。",
+   "new": "你真的很不會安慰人。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2901,
+   "old": "……就一題。",
+   "new": "就一題。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2989,
+   "old": "……好。每週一天。",
+   "new": "好。每週一天。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 2990,
+   "old": "……你說的喔。",
+   "new": "你說的喔。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3084,
+   "old": "……沒有人的話，我坐了。我一點二十才有課，還有一個小時。",
+   "new": "沒有人的話，我坐了。我一點二十才有課，還有一個小時。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3124,
+   "old": "……我餓了。剛剛在夜市都在講話。",
+   "new": "我餓了。剛剛在夜市都在講話。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3169,
+   "old": "……你們兩個是同一國的。",
+   "new": "你們兩個是同一國的。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3267,
+   "old": "……不要回答。豆花要冷了。",
+   "new": "不要回答。豆花要冷了。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3270,
+   "old": "……誠實。所以要謝謝你休學。",
+   "new": "誠實。所以要謝謝你休學。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3394,
+   "old": "……你上禮拜說「還不知道」。",
+   "new": "你上禮拜說「還不知道」。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3396,
+   "old": "……好。我不問了。等你想說完整的再說。",
+   "new": "好。我不問了。等你想說完整的再說。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3409,
+   "old": "……你覺得呢？",
+   "new": "你覺得呢？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3411,
+   "old": "……不是唐睿。",
+   "new": "不是唐睿。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3508,
+   "old": "……你等一下要回宿舍讀書嗎？",
+   "new": "你等一下要回宿舍讀書嗎？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3813,
+   "old": "……嗯。新年快樂。",
+   "new": "嗯。新年快樂。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3832,
+   "old": "……你先考完再說。",
+   "new": "你先考完再說。"
+  }
+ ]
+}
