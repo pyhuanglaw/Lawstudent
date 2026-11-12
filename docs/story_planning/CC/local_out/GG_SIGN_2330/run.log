@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_campus_view_shot_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_SIGN_2330\out
+CC 校園定點截圖：worktree ?；TAG gg_sign_2330；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 gongguan 23.50 時、站 (-45.0, 8.0)；鏡頭直接擺 yaw 0.0 rad、距離 6.0
+  [  53.7s] gg1_235：{"yaw": 0, "dist": 6, "cam": [-45, 2.96, 13.86], "player": [-45, 0, 8], "zone": "gongguan", "hour": 23.59}
+PASS gg1_235 在 gongguan、玩家在 (-45.0, 8.0) 0.6 m 內  {"yaw": 0, "dist": 6, "cam": [-45, 2.96, 13.86], "player": [-45, 0, 8], "zone": "gongguan", "hour": 23.59}
+  [  54.5s] gg1_235 另一台相機：玩家位置高 1.6 m → (-45.0, 3.5, 20.0) fov 70.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 gongguan 23.50 時、站 (-10.0, 8.0)；鏡頭直接擺 yaw 0.0 rad、距離 6.0
+  [  73.1s] gg2_235：{"yaw": 0, "dist": 6, "cam": [-10, 2.96, 13.86], "player": [-10, 0, 8], "zone": "gongguan", "hour": 23.59}
+PASS gg2_235 在 gongguan、玩家在 (-10.0, 8.0) 0.6 m 內  {"yaw": 0, "dist": 6, "cam": [-10, 2.96, 13.86], "player": [-10, 0, 8], "zone": "gongguan", "hour": 23.59}
+  [  73.9s] gg2_235 另一台相機：玩家位置高 1.6 m → (-10.0, 3.5, 20.0) fov 70.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 gongguan 23.50 時、站 (25.0, 8.0)；鏡頭直接擺 yaw 0.0 rad、距離 6.0
+  [  91.4s] gg3_235：{"yaw": 0, "dist": 6, "cam": [25, 2.96, 13.86], "player": [25, 0, 8], "zone": "gongguan", "hour": 23.6}
+PASS gg3_235 在 gongguan、玩家在 (25.0, 8.0) 0.6 m 內  {"yaw": 0, "dist": 6, "cam": [25, 2.96, 13.86], "player": [25, 0, 8], "zone": "gongguan", "hour": 23.6}
+  [  92.2s] gg3_235 另一台相機：玩家位置高 1.6 m → (25.0, 3.5, 20.0) fov 70.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 gongguan 23.50 時、站 (60.0, 8.0)；鏡頭直接擺 yaw 0.0 rad、距離 6.0
+  [ 109.4s] gg4_235：{"yaw": 0, "dist": 6, "cam": [60, 2.96, 13.86], "player": [60, 0, 8], "zone": "gongguan", "hour": 23.6}
+PASS gg4_235 在 gongguan、玩家在 (60.0, 8.0) 0.6 m 內  {"yaw": 0, "dist": 6, "cam": [60, 2.96, 13.86], "player": [60, 0, 8], "zone": "gongguan", "hour": 23.6}
+  [ 110.2s] gg4_235 另一台相機：玩家位置高 1.6 m → (60.0, 3.5, 20.0) fov 70.0
+PASS 沒有 JS 例外  []
+ALL PASS
