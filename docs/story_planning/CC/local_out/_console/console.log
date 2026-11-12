@@ -54,3 +54,12 @@
 [13:37:51] [res] cpu=3% mem=36% (11.5/31.4 GB) chrome_testing=0  START GATE_CAL_1cd2
 [13:37:51] [res] cpu=3% mem=36% (11.5/31.4 GB) chrome_testing=0  START GATE_CAL_bd86
 [13:41:28] [res] cpu=8% mem=48% (15.1/31.4 GB) chrome_testing=10  END GATE_CAL_bd86
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d29bc2d09..e2e313247  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:41:36] ==== END   GATE_CAL_bd86  exit=1  220s   ====
+[13:41:47] memory 49% before starting GATE_CAL_2771 (2 running)
+[13:41:47] ==== START GATE_CAL_2771  (probe @ 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37) ====
+[13:41:50] [res] cpu=7% mem=49% (15.5/31.4 GB) chrome_testing=10  START GATE_CAL_2771
+[13:42:48] 正在跑：GATE_CAL_1cd2（已跑 5 分／上限 40 分）、GATE_CAL_dc3d_xs（已跑 5 分／上限 50 分）、GATE_CAL_2771（已跑 1 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:43:26] [res] cpu=12% mem=48% (15.4/31.4 GB) chrome_testing=10  END GATE_CAL_1cd2
