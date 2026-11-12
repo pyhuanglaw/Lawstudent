@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "FIRST_sunny_desk",
+  "sha": "07f294852ffac8d2bba2664ba9ed4eb2753834bd",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_xs_inside_perf_probe.py",
+  "env": "SOLO=1;DESKTOP=1;TAG=first_sunny_desk;ZONE=wenzhou;PAIR=wz_teishoku,wz_brunch;FAR=45;TRIPS=1;SHA=07f294852ffac8d2bba2664ba9ed4eb2753834bd",
+  "machine": "MSI",
+  "start": "2026-11-13T00:30:48",
+  "end": "2026-11-13T00:34:37",
+  "seconds": 229,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 7,
+    "mem": 41,
+    "used_gb": 13.1,
+    "chrome_testing": 5
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
