@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_help_guide_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HELP_GUIDE_b3\out
+CC HELP-GUIDE：SHA 1ca8b70aac；PARTS ['FLOW']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [FLOW] 【前置／捷徑】讀檔 tests/fixtures/user_save_day36_1105.json 改到 7.5（day 36 7.511443999999994 classroom）＋HINT_SEEN 設成 {}＝一則都還沒看過
+  [  94.1s] [FLOW] 開手機（真的按 #btnPhone）
+  [ 140.6s] [FLOW] 用掉一個時段【捷徑 CLS.slotUse】{"p": "am", "used": "{\"am\":1,\"pm\":0,\"ev\":0}"}
+  [ 144.3s] [FLOW] 快上課【捷徑 CLS.skipTo 到 8.57】下一堂 {"day": 36, "t0": 9.166666666666666, "name": "刑法總則（一）", "gday": 36, "h": 8.12} → True
+  [ 230.9s] [FLOW] 花錢【捷徑 GAME.money(-60)】
+  [ 280.0s] [FLOW] 存檔（真的按選單→存檔→「存檔」）
+PASS [FLOW] 「free」出現一次（1 次；顯示 [6.9] 秒）  [{"t": 27315.10000014305, "k": "free", "txt": "現在可以自由活動了。拖搖桿或點地面走路；靠近人或門，右下角會出現按鈕。", "day": 36, "h": 7.54, "ms": 6500}]
+PASS [FLOW] 「slot」出現一次（1 次；顯示 [6.9] 秒）  [{"t": 117636.5, "k": "slot", "txt": "一天分上午、下午、晚上三段，每一段做一件主要的事。吃飯、聊天不算。", "day": 36, "h": 8.12, "ms": 6500}]
+PASS [FLOW] 「cls」出現一次（1 次；顯示 [6.9] 秒）  [{"t": 163913.79999995232, "k": "cls", "txt": "快上課了。打開手機「今天」可以直接去教室；沒去也不會被扣分。", "day": 36, "h": 8.84, "ms": 6500}]
+PASS [FLOW] 「phone」出現一次（1 次；顯示 [6.8] 秒）  [{"t": 72577.10000014305, "k": "phone", "txt": "手機打開的時候，時間會停住。上面那一排可以換頁：課表、地點、訊息、朋友……", "day": 36, "h": 7.82, "ms": 6500}]
+PASS [FLOW] 「invite」出現一次（1 次；顯示 [7.1] 秒）  [{"t": 300636.2999999523, "k": "invite", "txt": "想約人：當面說話時選「約他去…」，或在手機「朋友」頁按「約」。", "day": 36, "h": 9.72, "ms": 6500}]
+PASS [FLOW] 「travel」出現一次（1 次；顯示 None 秒）  [{"t": 348136.2999999523, "k": "travel", "txt": "去過的地方，之後在手機「地點」可以直接過去。", "day": 36, "h": 10.03, "ms": 6500}]
+PASS [FLOW] 「buy」出現一次（1 次；顯示 [7] 秒）  [{"t": 209013.90000009537, "k": "buy", "txt": "買東西會直接扣錢，右上角看得到還剩多少。", "day": 36, "h": 9.14, "ms": 6500}]
+PASS [FLOW] 「save」出現一次（1 次；顯示 [7.3] 秒）  [{"t": 255199.20000004768, "k": "save", "txt": "遊戲平常會自己存檔。選單「存檔」還可以把存檔匯出，換手機的時候用。", "day": 36, "h": 9.42, "ms": 6500}]
+  [ 374.8s] [FLOW] 其他也出的：{}；全部順序 [["free", 36, 7.54], ["phone", 36, 7.82], ["slot", 36, 8.12], ["cls", 36, 8.84], ["buy", 36, 9.14], ["save", 36, 9.42], ["invite", 36, 9.72], ["travel", 36, 10.03]]；每一則實際顯示秒數 {"free": [6.9], "phone": [6.8], "slot": [6.9], "cls": [6.9], "buy": [7], "save": [7.3], "invite": [7.1]}
+PASS [FLOW] 沒有一種出兩次  {"free": 1, "phone": 1, "slot": 1, "cls": 1, "buy": 1, "save": 1, "invite": 1, "travel": 1}
+  [前置／捷徑] [FLOW] 讀回剛剛的自動存檔（HINT_SEEN {'free': 1, 'phone': 1, 'slot': 1, 'cls': 1, 'buy': 1, 'save': 1, 'invite': 1, 'travel': 1}）再等 50 秒
+PASS [FLOW] 讀回來以後看過的不再出  []
+PASS 沒有 JS 例外  []
+ALL PASS
