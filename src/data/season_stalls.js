@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_season_stalls.py（docs/story_planning/AA_793_season3_stalls.json@a82fe117b）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_season_stalls.py（docs/story_planning/AA_793_season3_stalls.json@3cb2939d0）。不要手改，改企劃稿再重新匯入。
    季節攤販六攤的看、買＋季節落地布置的看（SEASON3-LINES-1111）：名字、品名、價錢、台詞一字照 AA_793；open 是從稿上的 hours 讀出來的。
    對到 src/data/season_deco.js 的哪一攤、哪一項、怎麼演：src/season_stalls3d.js */
 'use strict';
 const SEASON_STALLS={
- "src": "docs/story_planning/AA_793_season3_stalls.json@a82fe117b",
+ "src": "docs/story_planning/AA_793_season3_stalls.json@3cb2939d0",
  "stalls": {
   "sea_yam": {
    "name": "烤地瓜",
@@ -289,7 +289,7 @@ const SEASON_STALLS={
    "spring": "（門口花台的盆花換成鬱金香了。）",
    "may": "（門口花台擺了一排康乃馨，每一盆插著一張小卡。）",
    "summer": "（門口花台換成向日葵，全部朝著馬路那一邊。）",
-   "plain": "（門口花台上是幾盆常綠的盆栽，葉子擦得很亮。旁邊立著一張小卡：「當季的花在裡面」。）",
+   "plain": "（門兩邊各一棵小樹，種在白色的方盆裡。櫥窗下的長花箱開著小花，粉的、紫的、白的。）",
    "winter": "（門口花台換成聖誕紅，花盆包了一層金色的紙。）"
   },
   "sea_moon_bbq": "（鐵捲門前面擺了一個烤肉架，炭剛點起來，一家人坐在小板凳上等火。）"

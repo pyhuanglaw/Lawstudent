@@ -13,7 +13,7 @@
    9  不改存檔：買完、看完以後存檔沒有多欄位
    修改前（42a854dee9：沒有 season_stalls.js、season_stalls3d.js、import_season_stalls.py）：0 就 FAIL。用法：node tests/season3_lines_1112_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), SHA='a82fe117b'/* 2026-11-12 重匯（舊 e2ea0ea3c）：花序門口的花照季節各一句、水果箱只演當季一句、花束攤老闆娘 */, SRC='docs/story_planning/AA_793_season3_stalls.json';
+const ROOT=path.resolve(__dirname,'..'), SHA='3cb2939d0'/* 2026-11-12 重匯（舊 e2ea0ea3c、a82fe117b；3cb2939d0 只改花序平常那一句）：花序門口的花照季節各一句、水果箱只演當季一句、花束攤老闆娘 */, SRC='docs/story_planning/AA_793_season3_stalls.json';
 global.window=global;
 process.on('unhandledRejection',()=>{});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };

@@ -38,7 +38,7 @@ const SS3=(function(){
       const it=E.interactables.find(i=>i.seasonLook===q.id&&i.x===q.x&&i.z===q.z);   /* SD3 已經放了（hidden 拿掉以後）＝只接上按了以後的事 */
       if(it){ if(!it.onInteract) it.onInteract=on; } else E.interactables.push({x:q.x,z:q.z,radius:q.r||1.0,label:q.label,seasonLook:q.id,onInteract:on});
       n++; }
-    /* 花序門口的花：四段季節布置以外的日子也有「看門口的花」，念稿的 plain 那一句（AA_793@a82fe117b；位置、按鈕字照 season_deco.js 那一筆）*/
+    /* 花序門口的花：四段季節布置以外的日子也有「看門口的花」，念稿的 plain 那一句（AA_793@3cb2939d0；位置、按鈕字照 season_deco.js 那一筆）*/
     { const P=S.plainLook(zone); if(P){ E.interactables.push({x:P.x,z:P.z,radius:P.r||1.0,label:P.label,seasonLook:P.id,plain:true,onInteract:async()=>{ const GM=GMof(); if(!GM) return null; await GM.say(null,P.text); return 'look'; }}); n++; } }
     return n; };
   S.PLAIN_ID='flower_notes_season';
