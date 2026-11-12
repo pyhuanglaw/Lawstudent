@@ -56162,7 +56162,7 @@
    },
    "source": "LAWWW2-C 11-12 15:10 UTC（原 ECON-NAV-TRAPS-1111 巡到、法律系也會走到的場景；那一筆取消後另開）",
    "authorized": "D108（場景程式歸 LAWWW2）、D141（擋玩優先）",
-   "sha": "PENDING",
+   "sha": "ba78f68798",
    "next": "【LAWWW-C 11-12 15:1x UTC】LAWWW2 0ddcff1c0d 的 nav_notch_traps_v1.patch 合進開發分支；Node：nav_notch_traps_1112、place_gate、us_nav_traps_1111、nav_soclib、soclib2f、soclib_hours 都 exit 0。瀏覽器還沒走 → CC 排使用者電腦、BB 判。先將就的：是擋導航格子，畫面上那條縫還在。",
    "xai": {
     "from": "LAWWW2",
@@ -56193,7 +56193,7 @@
    },
    "source": "LAWWW2-C 11-12 15:10 UTC（原 ECON-NAV-TRAPS-1111 巡到、法律系也會走到的場景；那一筆取消後另開）",
    "authorized": "D108（場景程式歸 LAWWW2）、D141（擋玩優先）",
-   "sha": "PENDING",
+   "sha": "ba78f68798",
    "next": "【LAWWW-C 11-12 15:1x UTC】LAWWW2 0ddcff1c0d 的 nav_notch_traps_v1.patch 合進開發分支；Node：nav_notch_traps_1112、place_gate、us_nav_traps_1111、nav_soclib、soclib2f、soclib_hours 都 exit 0。瀏覽器還沒走 → CC 排使用者電腦、BB 判。先將就的：是擋導航格子，畫面上那條縫還在。",
    "xai": {
     "from": "LAWWW2",
@@ -56224,7 +56224,7 @@
    },
    "source": "LAWWW2-C 11-12 15:10 UTC（原 ECON-NAV-TRAPS-1111 巡到、法律系也會走到的場景；那一筆取消後另開）",
    "authorized": "D108（場景程式歸 LAWWW2）、D141（擋玩優先）",
-   "sha": "PENDING",
+   "sha": "ba78f68798",
    "next": "【LAWWW-C 11-12 15:1x UTC】LAWWW2 0ddcff1c0d 的 nav_notch_traps_v1.patch 合進開發分支；Node：nav_notch_traps_1112、place_gate、us_nav_traps_1111、nav_soclib、soclib2f、soclib_hours 都 exit 0。瀏覽器還沒走 → CC 排使用者電腦、BB 判。先將就的：是擋導航格子，畫面上那條縫還在。",
    "xai": {
     "from": "LAWWW2",
@@ -56255,7 +56255,7 @@
    },
    "source": "LAWWW2-C 11-12 15:10 UTC（原 ECON-NAV-TRAPS-1111 巡到、法律系也會走到的場景；那一筆取消後另開）",
    "authorized": "D108（場景程式歸 LAWWW2）、D141（擋玩優先）",
-   "sha": "PENDING",
+   "sha": "ba78f68798",
    "next": "【LAWWW-C 11-12 15:1x UTC】LAWWW2 0ddcff1c0d 的 nav_notch_traps_v1.patch 合進開發分支；Node：nav_notch_traps_1112、place_gate、us_nav_traps_1111、nav_soclib、soclib2f、soclib_hours 都 exit 0。瀏覽器還沒走 → CC 排使用者電腦、BB 判。先將就的：是擋導航格子，畫面上那條縫還在。",
    "xai": {
     "from": "LAWWW2",
