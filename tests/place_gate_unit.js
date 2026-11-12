@@ -177,6 +177,20 @@ const camYOf=z=>CAM?+(CAM.head+CAM.lift+Math.sin(CAM.pitch)*((Z3.ZONES[z]&&Z3.ZO
 
 /* ---------- 模型檔：GLB 的 JSON、玻璃材質、牆的疊面 ---------- */
 const glbJson=p=>{ try{ const fd=fs.openSync(path.join(ROOT,p),'r'); const h=Buffer.alloc(20); fs.readSync(fd,h,0,20,0); const n=h.readUInt32LE(12); const b=Buffer.alloc(n); fs.readSync(fd,b,0,n,20); fs.closeSync(fd); return JSON.parse(b.toString('utf8')); }catch(e){ return null; } };
+/* 質感：同一個網格裡「同尺寸的東西一排重複」（合併成一個網格的等大方塊；BB-C 11-12 21:1x 建議）——每個連通塊（三邊 ≥3 cm、兩邊 ≥10 cm）的包圍盒（公分）一樣的 ≥8 個 */
+const REP_SKIP=/CEIL|WALL|light|lamp|joist|glass|trim|frame|tile|floor|stair|step|rail|led|emit|price/i;   /* 牆、天花板、燈、層板條：本來就一樣大，不算 */
+const glbRepeats=p=>{ try{ const f=fs.readFileSync(path.join(ROOT,p)); const n=f.readUInt32LE(12); const j=JSON.parse(f.slice(20,20+n).toString('utf8')); const b0=20+n+8; const out=[];
+  const CT={5121:[1,'readUInt8'],5123:[2,'readUInt16LE'],5125:[4,'readUInt32LE'],5126:[4,'readFloatLE']}, NC={SCALAR:1,VEC2:2,VEC3:3,VEC4:4};
+  const rd=i=>{ const a=j.accessors[i], bv=j.bufferViews[a.bufferView]; const [sz,fn]=CT[a.componentType], nc=NC[a.type], st=bv.byteStride||sz*nc, off=b0+(bv.byteOffset||0)+(a.byteOffset||0); const r=new Array(a.count*nc);
+    for(let k=0;k<a.count;k++) for(let c=0;c<nc;c++) r[k*nc+c]=f[fn](off+k*st+c*sz); return r; };
+  for(const m of (j.meshes||[])) for(const q of (m.primitives||[])){ if(q.indices==null||!q.attributes||q.attributes.POSITION==null) continue; const P=rd(q.attributes.POSITION), I=rd(q.indices), nv=P.length/3; if(nv>60000) continue;
+    const par=new Int32Array(nv).map((_,i)=>i); const fd=x=>{ while(par[x]!==x){ par[x]=par[par[x]]; x=par[x]; } return x; };
+    for(let t=0;t<I.length;t+=3){ const a=fd(I[t]), b=fd(I[t+1]), c=fd(I[t+2]); par[b]=a; par[fd(c)]=a; }
+    if(REP_SKIP.test(m.name||'')) continue;
+    const bb=new Map(); for(let v=0;v<nv;v++){ const r=fd(v); let e=bb.get(r); if(!e) bb.set(r,e=[1e9,1e9,1e9,-1e9,-1e9,-1e9,0]); e[6]++; for(let c=0;c<3;c++){ const x=P[v*3+c]; if(x<e[c]) e[c]=x; if(x>e[c+3]) e[c+3]=x; } }
+    if(bb.size<6) continue; const cnt=new Map(); for(const e of bb.values()){ const d=[0,1,2].map(c=>Math.round((e[c+3]-e[c])*100)); if(Math.min(...d)<3||d.filter(x=>x>=10).length<2) continue; const k=d.join('×'); cnt.set(k,(cnt.get(k)||0)+1); }
+    let best=null; for(const [k,c] of cnt) if(c>=8&&(!best||c>best[1])) best=[k,c]; if(best) out.push({mesh:m.name||'?',k:best[1],size:best[0]+' cm'}); }
+  return out; }catch(e){ return []; } };
 const glbsOf=z=>{ const L=tzLay(z); const list=[]; if(L&&L.glb) list.push(L.glb); if(has('ZONE_ASSETS')&&ZONE_ASSETS[z]) for(const a of ZONE_ASSETS[z]){ if(!/^bldg\./.test(a)) continue; const e=ASSETS.manifest&&ASSETS.manifest[a]; if(e&&e.url&&!list.includes(e.url)) list.push(e.url); } return list.filter(p=>fs.existsSync(path.join(ROOT,p))); };
 const COP_FILE=path.join(ROOT,'tests/place_gate_coplanar.json'), COP_TOOL=path.join(ROOT,'tools/glb_coplanar.py'), WALL_RE=/wall|shell|外殼|牆/i;
 let COP={}; try{ COP=JSON.parse(fs.readFileSync(COP_FILE,'utf8')); }catch(e){}
@@ -236,14 +250,14 @@ async function checkShop(z){ const nm=nameOf(z), ty=TYPE[z], L=tzLay(z), s118=l1
       if(cur.wall>0.05) sus.push(path.basename(p)+' '+cur.wall+' m²'); }
     if(!gl.length) set(z,'coplanar','L2','找不到這一區的室內模型檔'); else if(st==='FAIL') fail(z,'coplanar',msg); else if(sus.length) set(z,'coplanar','L2','疑似牆面疊面 '+sus.join('、')+'（基準；連拍確認閃不閃）'); else pass(z,'coplanar'); }
   /* 質感（D159，CLAUDE.md §9 2a）：第一層只量、不判（BB 看圖判）——模型裡沒貼圖的純色零件、等大方塊零件各佔多少 */
-  { const gl=glbsOf(z); let n=0, flat=0, box=0;
-    for(const p of gl){ const j=glbJson(p); if(!j) continue; const mats=j.materials||[], acc=j.accessors||[];
+  { const gl=glbsOf(z); let n=0, flat=0, box=0, rep=[];
+    for(const p of gl){ const j=glbJson(p); if(!j) continue; const mats=j.materials||[], acc=j.accessors||[]; rep=rep.concat(glbRepeats(p));
       for(const m of (j.meshes||[])) for(const q of (m.primitives||[])){ n++; const mt=q.material!=null?mats[q.material]:null; const pb=mt&&mt.pbrMetallicRoughness||{};
         if(!pb.baseColorTexture) flat++; const pos=acc[q.attributes&&q.attributes.POSITION], idx=q.indices!=null?acc[q.indices]:null;
         if(pos&&pos.count<=24&&idx&&idx.count===36) box++; } }
     if(!n) set(z,'texture','L2','找不到這一區的室內模型檔（程式拼的道具第一層量不到）');
-    else { const fp=Math.round(flat*100/n), bp=Math.round(box*100/n), warn=fp>=50||bp>=25;
-      set(z,'texture','L2',(warn?'★ 警告 ':'')+'零件 '+n+' 個：沒貼圖的純色 '+fp+'%、方塊 '+box+' 個（'+bp+'%）'+(warn?'（純色 ≥50% 或方塊 ≥25%｜SHOP-REALISM-1112）':'')); } }
+    else { const fp=Math.round(flat*100/n), bp=Math.round(box*100/n); rep.sort((a,b)=>b.k-a.k); const warn=fp>=50||bp>=25||rep.length>0;
+      set(z,'texture','L2',(warn?'★ 警告 ':'')+'零件 '+n+' 個：沒貼圖的純色 '+fp+'%、方塊 '+box+' 個（'+bp+'%）'+(rep.length?'；同一網格裡同尺寸重複 '+rep.slice(0,3).map(r=>r.mesh+' '+r.k+' 個 '+r.size).join('、'):'')+(warn?'（純色 ≥50%、方塊 ≥25% 或同尺寸重複 ≥8｜SHOP-REALISM-1112）':'')); } }
   /* --- 尖峰有客人（吃的、喝的；平日 12:30、18:30）--- */
   if(ty==='eat'||ty==='drink'){ const bad=[]; let n=0; for(const h of [12.5,18.5]){ const ds=DAYS.filter(d=>isOpen(z,d,h)); if(!ds.length) continue; n++; let mx=0; for(const d of ds){ enter(z,d,h); mx=Math.max(mx,anon().length); if(mx) break; } if(!mx) bad.push(PLACES.hhmm(h)+'（看了 '+ds.length+' 個平日）'); }
     if(!n) fail(z,'cust','平日 12:30、18:30 都沒開，量不到尖峰'); else if(bad.length) fail(z,'cust','尖峰沒有任何路人客人：'+bad.join('、')); else pass(z,'cust'); } else na(z,'cust');
