@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_route_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NAV_WZ_notch_rev\out
+CC 照玩家走路線：TAG nav_wz_rev；SHA dec3622d75；wenzhou 2025-10-14 14.0；ROUTE ['walk:20.75,5.75', 'burst:in', 'walk:10,5.75', 'exit:gongguan']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-14 14.0 (10, 5.75) lv0（條件事件關掉）
+PASS 讀到 wenzhou  {"zone": "wenzhou", "x": 11.25, "z": 4.25, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+  [  54.8s] [00 start]  區域 wenzhou lv0 (11.25, 4.25) y=0 站得住=True 坐著=False pose=idle；鏡頭 [11.25, 2.78, -0.82] 到頭 5.17 m、被 [] 擋；互動鍵「互動」
+  [ 176.4s] 走不到「walk:20.75,5.75」：最後位置 (22.5,5.68)，目標 (20.75,5.75)；點地面 17 次、轉鏡頭 0 次、搖桿 36 次
+  [ 176.4s]   這段時間：畫面 5526 格／122 秒、遊戲時間 14.05→14.86、paused=False、開著的面板 []
+  [ 176.8s] [01 walk:20.75,5.75] 【卡住偵測】取樣 230 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [ 178.2s] [01 walk]  區域 wenzhou lv0 (22.5, 5.68) y=0 站得住=True 坐著=False pose=idle；鏡頭 [22.5, 2.78, 0.6] 到頭 5.21 m、被 [] 擋；互動鍵「看公布欄」
+  [ 184.0s] [02 burst]  區域 wenzhou lv0 (22.5, 5.68) y=0 站得住=True 坐著=False pose=idle；鏡頭 [22.5, 2.78, 0.6] 到頭 5.21 m、被 [] 擋；互動鍵「看公布欄」
+  [ 304.9s] 走不到「walk:10,5.75」：最後位置 (8.67,4.66)，目標 (10.0,5.75)；點地面 18 次、轉鏡頭 0 次、搖桿 28 次
+  [ 304.9s]   這段時間：畫面 5421 格／121 秒、遊戲時間 14.91→15.71、paused=False、開著的面板 []
+  [ 305.2s] [03 walk:10,5.75] 【卡住偵測】取樣 230 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [ 306.7s] [03 walk]  區域 wenzhou lv0 (8.67, 4.66) y=0 站得住=True 坐著=False pose=idle；鏡頭 [8.67, 2.78, -0.41] 到頭 5.23 m、被 [{"name": "traffic_mirror_1<wz_props0>", "d": 4.99}] 擋；互動鍵「看書店的櫥窗」
+FAIL [04 exit:gongguan] 找得到往 gongguan 的出口  [["往新生南路", "xinsheng"], ["進去日常失速", "wz_offbeat"], ["進入 2:30 AM", "cafe"], ["上二樓（木曜日）", "wz_mokuyobi"], ["進去 SUNNY SIDE", "wz_brunch"], ["進去阿德影印輸出", "wz_print"], ["進去一盞", "wz_teahouse"], ["進去林家乾麵", "wz_lin"], ["進去小路", "wz_teishoku"]]
+PASS 沒有 JS 例外  []
+FAILED 1: [04 exit:gongguan] 找得到往 gongguan 的出口
