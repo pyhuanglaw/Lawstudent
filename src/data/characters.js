@@ -208,7 +208,7 @@ const CHARACTERS = {
   prof_wu:{ id:'prof_wu', name:'吳教授', fullname:'吳承翰', gender:'m', social_layer:'E', visual_tier:1, course:'刑法總則、刑法分則', weekday:3, time:[9.17,12.17], field:'刑法', teaching_style:'很重視學說；會為一個概念講兩週', exam_style:'題目很短，答案很長', temperament:'熱情、健忘', char3d:{spec:'prof'}, portrait:'prof_wu' },
   /* 魏教授（AA_159；經濟學原理的老師，只有聲音和講台上的遠景、不用立繪，AA_145 §5）：social_layer 照其他教授寫 E（story3d.js 的作息走課表：CLS.profWhere；上課時站在博雅 101 的講台）；office:false＝下課後不去萬才館。
      外觀照 BB_201 第 8 節（細框眼鏡另外一個 GLB；AA_159 的「不戴眼鏡」是更早的版本）。 */
-  prof_wei:{ id:'prof_wei', name:'魏教授', fullname:'魏宏仁', alias:['魏教授'], gender:'m', department:'社會科學院'/* AA_888 第 4 節（CANON-NO-ECON-1112 第四批）：開課單位寫社科院 */, role:'professor', social_layer:'E', visual_tier:0, office:false, course:'經濟學原理',
+  prof_wei:{ id:'prof_wei', name:'魏老師', fullname:'魏宏仁', alias:['魏老師'], gender:'m', department:'社會科學院'/* AA_888 第 4 節（CANON-NO-ECON-1112 第四批）：開課單位寫社科院 */, role:'professor', social_layer:'E', visual_tier:0, office:false, course:'經濟學原理',
     personality:'經濟學原理的老師。說話慢、愛反問，喜歡用一個數字說一件事；記得前排同學的名字。',
     note:'照課表的教授聲音；法律系大一上、下的「經濟學原理」老師（社科院，AA_888 第 4 節）。（不顯示）',
     look:'五十多歲，灰黑短髮，白襯衫外面套深藍色毛衣背心，袖子捲到手肘，手上永遠拿著一支白板筆',
