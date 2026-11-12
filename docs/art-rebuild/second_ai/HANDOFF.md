@@ -58,6 +58,14 @@
 - 水源市場巷子（SHUIYUAN-MARKET-LANE-1112）LAWWW 裁定的做法：市場一棟三層樓 x 5～29、z 28～40，北面臨巷；新巷子 x 5～29、z 21～28（寬 7 m），十二攤兩側交錯；e_cvs、e_shoes 兩格通用店面拿掉；原巷 A 留著可走、不擺攤、不通公館；斑馬線搬到 z 24.5；公館那側巷口標籤先不改。交件：layout＋兩個 GLB＋tingzhou_walk 路線＋新舊座標對照表＋四張遊戲內截圖。
 - 記帳還沒補：outbox（今天八件）、user_asks（11-12）、`TODO_SHORTCUTS.md`。
 
+## 進度（2026-11-12 18:1x UTC；LAWWW2-C）
+
+- 今天下午交、都已整合（LAWWW-C ACK＋ACTIONED）：共用場景小縫（NAV-NOTCH-*，ba78f68798）、打烊招牌燈（公館 GG_SHOP_REAL、各街 shopRealGlow、溫州街 WZ_GLOW_ONLY 含阿忠鮮果、wz_signs_atlas 每間開關 shopSignLit、樓上住戶招牌排除、汀州路店面板 ggShopLit）、鐵捲門捲箱底條軌道、社科院一樓夾縫（SOCLIB2F-PLANT-TRAP）、花序二樓點地下樓（engine3d.js tapThroughEdge）、118 巷暗殼＋鏡頭 4.2→3.6（L118-DIAN-CEILING；place_gate 八項過）、南洋上班固定鏡頭座標（A 組）、店內先背景編著色器（SHOP-FIRST-APPROACH 第一包 compileAsync，df0db36693）。
+- 等 CC 資料才能接著做：①SHOP-FIRST-APPROACH 三條街 shopReal.prof（step.compile／mesh／tex、frame.load）→ 若長幀在 load 或 tex 再做第二包；②WZ-SUNNY-TAPNAV-1112（溫州街卡在 (27.6,−1.6)；Node 走得到，要卡住時的 player.path、3 m 內 npcs／extras、screenToFloor 回傳＋截圖）；③社科院沙發起身 10.5 m（P2，Node 重現不出來，要 SOFA_SOCLIB2F_r2 紀錄）。
+- 結案：SOCLIB2F-EXIT-TAP-1112 BB 撤成探針問題（二樓看不到一樓出口）。榮恩典玻璃糊（舊截圖是照片卡時代的，等 CC 新同機位）。
+- 還沒做：溫特寶邸室內、禮貌生財真店內、L118-CLOSED-LOOKS-OPEN-1112、D158 刪檔 patch（等 LAWWW 通知）、招牌貼圖解析度（榮恩典招牌近看馬賽克）。
+- 工作樹：`$SP/wt_tz5`（跟開發分支，tmp commit 打包 patch 用；沒有未交的改動）。
+
 ## 進度（2026-11-12 15:3x UTC；LAWWW2-C）
 
 - **已取消、不再做（使用者 11-12，D158／CANON-NO-ECON-1112）**：ART-11、ART-V0-DORM、V0-ART-DORM、ART-JIAHAO-JOY、ECON-NAV-TRAPS-1111。下面舊清單裡這五筆都作廢。

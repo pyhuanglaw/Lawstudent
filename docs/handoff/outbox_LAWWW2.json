@@ -9099,10 +9099,10 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "ae408f8302",
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-FIRST-APPROACH-1112",
    "title": "第一次走近店面的長幀：店內建好就 compileAsync（背景編著色器），編好前零件不打開",
@@ -9111,7 +9111,8 @@
     "docs/art-rebuild/second_ai/wip/shop_first_approach_1112/README.md"
    ],
    "remaining": "沒有 prof 數字、瀏覽器沒跑",
-   "next": "LAWWW-C 套 patch；CC FIRST_gg_desk 重跑＋讀 prof"
+   "next": "LAWWW-C 套 patch；CC FIRST_gg_desk 重跑＋讀 prof",
+   "ackNote": "LAWWW-C df0db36693"
   }
  ]
 }
