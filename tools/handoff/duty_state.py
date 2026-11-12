@@ -119,7 +119,7 @@ def verify(args, d=None, out=None):
         d, err = load(src)
         if err:
             print(f'[致命] {err}')
-            print('結果：不能判斷誰在值班——不要猜、不要用 commit 時間決定；照總入口第 4 節第 2 步回報使用者，由使用者指定。')
+            print('結果：不能判斷誰在值班——不要猜、不要用 commit 時間決定；照 CLAUDE.md §4 第 2 步回報使用者，由使用者指定。')
             return 2
     st = d.get('accountState') or {}
     on = [a for a, v in st.items() if v == 'on']
@@ -249,7 +249,7 @@ def verify(args, d=None, out=None):
             if s.get('account') != lh.get('from'):
                 A(7, f'{r}：交班快照 {fn} 的帳號是 {s.get("account")}，不是上一任 {lh.get("from")}')
         except FileNotFoundError:
-            A(7, f'{r}：上一次交班的快照 {fn} 找不到——照總入口第 4 節做 REMEDIAL_FULL_AUDIT')
+            A(7, f'{r}：上一次交班的快照 {fn} 找不到——照 CLAUDE.md §4 第 7 步做 REMEDIAL_FULL_AUDIT')
         except Exception as e:
             A(7, f'{r}：上一次交班的快照 {fn} 壞掉（{e}）——REMEDIAL_FULL_AUDIT')
     if lh.get('kind') == 'emergency':
@@ -257,7 +257,7 @@ def verify(args, d=None, out=None):
     # 8 換班中
     if d.get('pending'):
         A(8, f'換班還沒完成：{json.dumps(d["pending"], ensure_ascii=False)}')
-    # 9 總入口的值班表要和 duty.json 一致
+    # 9 AI_SESSION_HANDOFF.md 第 1 節的值班表要和 duty.json 一致
     try:
         doc = src.read(ROSTER_DOC)
         if d.get('onDuty') and f'{d["onDuty"]} 值班中' not in doc:
@@ -304,7 +304,7 @@ def plan(args):
     lh = d.get('lastHandoff') or {}
     if lh:
         print(f'  上一次交班：{lh.get("from")} {lh.get("at")}（{lh.get("kind", "handoff")}），快照：{json.dumps(lh.get("snapshots") or {}, ensure_ascii=False)}')
-    print('步驟（總入口第 4 節，14 步）：fetch → RULE_SOURCE（duty.json 的 ruleSource）→ 讀規則與第 13 節 → 上一任（上面）→ 各職位交接檔（六類；含 CC）→ '
+    print('步驟（CLAUDE.md §4，14 步）：fetch → RULE_SOURCE（duty.json 的 ruleSource）→ 讀規則與第 13 節 → 上一任（上面）→ 各職位交接檔（六類；含 CC）→ '
           'check_handoff.py check（任務、交付、快照）→ duty verify → 找未整合／未測／WIP（BRANCH_INVENTORY、deliveries）→ 確認任務都在 → '
           '確認輪到自己寫入 → 合併（不 rebase、不 force push）→ duty register＋commit＋push → 接班確認 → 接續已批准的工作')
     return 0
@@ -325,6 +325,18 @@ def _write(root, path, obj):
 
 def register(args):
     src = Src(args.root)
+    # D157（2026-11-12）：規則包比 RULE_SOURCE 舊就不給登記——工作階段啟動時載入的是自己分支的 CLAUDE.md，舊的等於沒讀到新規則
+    try:
+        import subprocess as _sp, os as _os
+        _rs = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'rules_sync.py')
+        if _os.path.exists(_rs) and not _os.environ.get('RULES_SYNC_SKIP'):
+            _r = _sp.run([sys.executable, _rs, '--check'], capture_output=True, text=True, cwd=args.root or None)
+            if _r.returncode == 1:
+                print(_r.stdout.strip())
+                print('[致命] 規則包是舊的，先跑 python3 tools/handoff/rules_sync.py --apply、commit＋push，再登記（D157）')
+                return 1
+    except Exception as _e:
+        print(f'[資訊] 規則包沒檢查到（{_e}）')
     ref, err = _role_ref(args)
     if err:
         print(f'[致命] {err}——沒有值班狀態不能登記；回報使用者')

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""交接自動對帳（D82；規則：docs/AI_SESSION_HANDOFF.md 第 4、5 節）。
+"""交接自動對帳（D82；規則：CLAUDE.md §4；LAWWW 的做法 docs/rules/ROLE_LAWWW.md 第 3、4 節）。
 
 只讀不寫任務：這支工具**不改、不取消、不刪任何任務**，只列出異常。
 唯一會寫檔的是 `snapshot` 指令（在 docs/handoff/snapshots/ 新增一個快照檔）。
@@ -30,7 +30,7 @@ check 的七項（使用者 2026-10-16 指示）＋兩項補充：
 先移 scannedThrough 再 check，什麼都掃不到（2026-10-16 犯過一次）。
 
 結束碼：0＝十二項都檢查了、沒有異常；1＝有異常、或有一項沒辦法檢查（不虛報正常）；
-        2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見總入口第 4 節）。
+        2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見 CLAUDE.md §4 第 7 步）。
 """
 import argparse, hashlib, json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -172,7 +172,7 @@ def check(args):
         data = json.loads(src.read(TASKS))
     except Exception as e:
         print(f'[致命] {TASKS} 讀不了：{e}')
-        print('結果：REMEDIAL_FULL_AUDIT（任務索引壞掉，照總入口第 4 節補做全面盤點）')
+        print('結果：REMEDIAL_FULL_AUDIT（任務索引壞掉，照 CLAUDE.md §4 第 7 步補做全面盤點）')
         return 2
     statuses = data.get('statuses') or []
     tasks = data.get('tasks') or []
@@ -188,7 +188,7 @@ def check(args):
     snap, err = load_snapshot(src, args.role, args.snapshot)
     if err:
         print(f'[快照] {err}')
-        print('結果：REMEDIAL_FULL_AUDIT——上次交班的狀態對不起來，這次接班要補做一次全面盤點（總入口第 4 節），不能當作正常。')
+        print('結果：REMEDIAL_FULL_AUDIT——上次交班的狀態對不起來，這次接班要補做一次全面盤點（CLAUDE.md §4 第 7 步），不能當作正常。')
         snap_missing = True
     else:
         snap_missing = False
@@ -499,7 +499,7 @@ def queue(args):
 
 
 # D93／HV-11：逐職位核對。各職位交接檔裡「全部待辦」那一節，每一項都要在 tasks.json 找得到。
-ROLE_FILES = {   # duty.json 的 progressFile 寫錯或不存在時的備用（AI_SESSION_HANDOFF.md 第 1 節）
+ROLE_FILES = {   # duty.json 的 progressFile 寫錯或不存在時的備用（CLAUDE.md §4 的交接檔表）
     'LAWWW2': ['docs/art-rebuild/second_ai/HANDOFF.md'],
     'AA': ['docs/story_planning/AA_交接紀錄.md'],
     'BB': ['docs/story_planning/BB_00_協作規範與交接紀錄.md', 'docs/story_planning/BB_00_交接紀錄.md'],
@@ -690,7 +690,7 @@ def roles(args):
             continue
         start, sec, probs = INC.todo_check(text)
         for pr in probs:   # 找不到段落、0 項、沒有任何 ID：都是異常，不能假通過（2026-10-17 事故）
-            bad.append(f'{role}：{where}：{pr}（AI_SESSION_HANDOFF.md 第 5 節 B 類）')
+            bad.append(f'{role}：{where}：{pr}（CLAUDE.md §4 交班 B 類）')
         if start is None:
             continue
         sha = subprocess.run(['git', 'rev-parse', '--short', f'origin/{where.split(":")[0][7:]}'], cwd=args.root, capture_output=True, text=True).stdout.strip()
@@ -876,6 +876,163 @@ def askuser(args):
     return 1 if bad else 0
 
 
+OPEN_WANT = ('還沒做', '進行中', '做好了沒進遊戲')
+
+
+def userwork(args):
+    """USERWORK-1110（使用者 11-10 17:1x：「交班的規則到底出了什麼問題會讓你需要我問你才會知道」）：
+    使用者交代、還沒做完（USER_WANTS 狀態還沒做／進行中／做好了沒進遊戲）、總表上歸這個職位的事，逐項列出這一班有沒有動過
+    （這一班＝duty.json LAWWW since 起，commit 訊息提到列號或任務 ID 才算）。原本「進行中」沒有任何檢查會報（check_orphans 只看暫停、等待、待整合；
+    asks 只對狀態一不一樣；queue 有四百多項「已整合待測試」把它們壓在後面），上一班留下的使用者要求整班沒人動也看不出來。
+    接班第 9 步、每批工作結束、交班存快照前跑；有「這一班還沒動」＝結束碼 1：接班確認逐項寫下一步和什麼時候做，不能只寫 OK。"""
+    src = Src(args.root, args.ref)
+    tasks = {t.get('id'): t for t in (json.loads(src.read(TASKS)).get('tasks') or [])}
+    text = src.read('docs/handoff/USER_WANTS.md')
+    status = wants_rows(text)
+    since = duty_since(src)
+    r = subprocess.run(['git', '-C', args.root, 'log', args.ref or 'HEAD', '--format=%s%n%b'] + ([f'--since={since}'] if since else ['-200']), capture_output=True)
+    log = r.stdout.decode('utf-8', 'replace') if not r.returncode else ''
+    role = args.owner
+    out = []
+    for l in text.splitlines():
+        m = WANT_ROW.match(l)
+        if not m:
+            continue
+        wid = m.group(1)
+        st = status.get(wid, '')
+        if not st.startswith(OPEN_WANT):
+            continue
+        tids = [t for t in re.findall(r'[A-Z][A-Z0-9]+(?:-[A-Z0-9]+)+', l) if t in tasks]
+        owners = {tasks[t].get('owner') for t in tids}
+        if role not in owners and not (not tids and role in l.split(' | ')[-2:][0]):
+            continue
+        mine = [t for t in tids if tasks[t].get('owner') == role] or tids
+        touched = (re.search(r'(?<![A-Z0-9])' + re.escape(wid) + r'(?![0-9])', log) is not None) or any(t in log for t in mine)
+        out.append((touched, wid, st, mine))
+    nb = lastnote(src, tasks, log) if role == 'LAWWW' else 0
+    if not out:
+        print(f'使用者交代、還沒做完、歸 {role} 的：0 項。' + ('結果：OK' if not nb else f'結果：上一班交代的 {nb} 項這一班還沒動'))
+        return 1 if nb else 0
+    bad = [o for o in out if not o[0]]
+    print(f'使用者交代、還沒做完、歸 {role} 的 {len(out)} 項（這一班：LAWWW {since or "接班時間不明"} 起；commit 提到列號或任務 ID＝這一班動過）：')
+    for touched, wid, st, mine in sorted(out, key=lambda o: (o[0], o[1])):
+        print(f'- [{"這一班動過" if touched else "這一班還沒動"}] {wid}（{st[:40]}）→ {", ".join(f"{t}:{tasks[t].get(chr(115)+chr(116)+chr(97)+chr(116)+chr(117)+chr(115))}" for t in mine) or "（沒有任務 ID）"}')
+    print('結果：OK' if not (bad or nb) else f'結果：{len(bad)} 項使用者要求、{nb} 項上一班交代的這一班還沒動——接班確認逐項寫下一步和什麼時候做；使用者的要求、上一班交代的排在接別人的交付之前')
+    return 1 if (bad or nb) else 0
+
+
+def lastnote(src, tasks, log):
+    """上一班 LAWWW 交班快照（HANDOFF_GAP_MATRIX 第 11 節最上面那一則）：印「下一班第一件事」和 B｜全部未完成 每一條；
+    這一班 commit 沒提到它的任務 ID（或那一條沒有任務 ID）＝還沒動（D145：帳號 B 交班寫了 AA_342 svc 兩句、256bcdc42 匯入，都沒有任務 ID，帳號 A 整班沒做）。"""
+    try:
+        text = src.read('docs/HANDOFF_GAP_MATRIX.md')
+    except Exception:
+        return 0
+    i = text.find('## 11. 交班快照歷史')
+    if i < 0:
+        return 0
+    j = text.find('\n### ', i)
+    k = text.find('\n### ', j + 5)
+    sec = text[j:k if k > 0 else len(text)]
+    head = sec.strip().splitlines()[0] if sec.strip() else ''
+    first = next((l for l in sec.splitlines() if '下一班第一件事' in l), '')
+    print(f'\n上一班的交班（{head.lstrip("# ")[:80]}）：')
+    if first:
+        print('  下一班第一件事：' + re.sub(r'\*\*', '', first).split('：', 1)[-1][:300])
+    b = sec.find('**B｜')
+    if b < 0:
+        return 0
+    e = sec.find('\n- **C｜', b)
+    blk = sec[b:e if e > 0 else len(sec)]
+    items = []
+    for l in blk.splitlines()[1:]:
+        l = l.strip()
+        if not l.startswith('- '):
+            continue
+        for part in re.split(r'[；;]', l[2:]):
+            part = part.strip()
+            if len(part) < 4:
+                continue
+            ids = [t for t in re.findall(r'[A-Z][A-Z0-9]+(?:-[A-Z0-9]+)+', part) if t in tasks]
+            shas = re.findall(r'\b[0-9a-f]{9}\b', part)
+            done = any(t in log for t in ids) or any(sh in log for sh in shas)
+            items.append((done, part, ids))
+    nb = 0
+    for done, part, ids in items:
+        if not done:
+            nb += 1
+        tag = '這一班動過' if done else ('這一班還沒動' if ids else '這一班還沒動｜沒有任務 ID（表外：先建任務）')
+        print(f'  - [{tag}] {part[:160]}')
+    return nb
+
+
+def releasegate(args):
+    """D146（使用者 11-10 17:4x：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期 某個程度可以約對方出去校外玩 也一定要在下個版本」）：
+    USER_WANTS 列有【下一版必須】的，連到的任務都要「已驗收」（BB 在瀏覽器判 PASS）才可以發布；有一項沒有＝結束碼 1，不准發布。發布前必跑。"""
+    src = Src(args.root, args.ref)
+    tasks = {t.get('id'): t for t in (json.loads(src.read(TASKS)).get('tasks') or [])}
+    text = src.read('docs/handoff/USER_WANTS.md')
+    bad, n = [], 0
+    for l in text.splitlines():
+        m = WANT_ROW.match(l)
+        if not m or '【下一版必須】' not in l:
+            continue
+        n += 1
+        tids = [t for t in re.findall(r'[A-Z][A-Z0-9]+(?:-[A-Z0-9]+)+', l) if t in tasks]
+        st = {t: tasks[t].get('status') for t in tids}
+        ok = bool(tids) and all(v in ('已驗收',) for v in st.values())
+        print(f'- [{"可以" if ok else "還不行"}] {m.group(1)} → ' + (', '.join(f'{t}:{v}' for t, v in st.items()) or '（沒有任務 ID）'))
+        if not ok:
+            bad.append(m.group(1))
+    print(f'【下一版必須】{n} 項；' + ('結果：OK，可以發布' if not bad else f'結果：{len(bad)} 項還沒驗收（{", ".join(bad)}）——不准發布'))
+    return 1 if bad else 0
+
+
+def loose(args):
+    """LOOSE-1110（D148，使用者 2026-11-10：「發現了很多什麼已經做過，結果忘記了交班，或你不知道什麼分支還在他的那邊」）：
+    做好了、卻沒進開發分支的東西——本機分支（含子代理 worktree 分支）、本機 worktree、沒 commit 的檔、沒 push 的 commit、
+    狀態寫「進行中／待開工」而 next 提到子代理的任務。每批工作結束、交班存快照前、接班第 9 步都跑；結束碼 1＝有東西還沒收進來。"""
+    import subprocess
+    def git(*a):
+        return subprocess.run(['git'] + list(a), cwd=str(ROOT), capture_output=True, text=True).stdout
+    head = git('rev-parse', '--abbrev-ref', 'HEAD').strip()
+    bad = []
+    for ln in git('for-each-ref', '--format=%(refname:short)', 'refs/heads').split():
+        if ln in (head, 'main'):
+            continue
+        n = git('rev-list', '--count', head + '..' + ln).strip() or '0'
+        if n != '0':
+            files = [f for f in git('diff', '--name-only', head + '...' + ln).split('\n') if f][:6]
+            bad.append('本機分支 %s 有 %s 個 commit 不在 %s（%s…）——合併，或確認不要再刪' % (ln, n, head, '、'.join(files)))
+        else:
+            print('[資訊] 本機分支 %s 已經全部在 %s 裡，可以刪' % (ln, head))
+    wts = [l for l in git('worktree', 'list').split('\n') if l.strip()]
+    for l in wts[1:]:
+        print('[資訊] worktree：' + l.strip())
+    dirty = [l for l in git('status', '--porcelain').split('\n') if l.strip()]
+    if dirty:
+        bad.append('工作目錄有 %d 個沒 commit 的檔（%s…）' % (len(dirty), '、'.join(x[3:] for x in dirty[:5])))
+    up = git('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}').strip()
+    if up:
+        n = git('rev-list', '--count', up + '..HEAD').strip()
+        if n and n != '0':
+            bad.append('有 %s 個 commit 還沒 push 到 %s' % (n, up))
+    else:
+        bad.append('目前分支沒有設定遠端（沒 push 過）')
+    try:
+        tasks = json.load(open(os.path.join(ROOT, 'docs/handoff/tasks.json'), encoding='utf-8'))['tasks']
+    except Exception as e:
+        tasks = []; bad.append('讀不到 tasks.json：%s' % e)
+    for t in tasks:
+        if t.get('status') in ('進行中', '待開工') and re.search(r'子代理(在做|實作|正在)', str(t.get('next') or '')):
+            bad.append('任務 %s 寫「%s」、next 說子代理在做——子代理做完了嗎？成果合進來了嗎？（%s）' % (t['id'], t['status'], str(t.get('next'))[:60]))
+    for b in bad:
+        print('[異常] ' + b)
+    print('結果：' + ('異常 %d 項——有做好的東西還沒收進開發分支，不得宣稱交接完整' % len(bad) if bad else 'OK（沒有散落在外面的成果）'))
+    return 1 if bad else 0
+
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', default=ROOT)
@@ -902,13 +1059,20 @@ def main(argv=None):
     k.add_argument('--ref')
     u = sub.add_parser('askuser', help='ASK-USER-LIST-1104：等使用者的任務清單（接班確認逐項寫問了／沒問、交班寫進下一班第一步）')
     u.add_argument('--ref')
+    w = sub.add_parser('userwork', help='USERWORK-1110：使用者交代、還沒做完、歸這個職位的事，這一班有沒有動過（接班確認逐項寫）')
+    w.add_argument('--owner', default='LAWWW')
+    w.add_argument('--ref')
+    lo = sub.add_parser('loose', help='D148：做好了卻沒進開發分支的東西（本機分支、子代理 worktree、沒 commit、沒 push、任務寫子代理在做）')
+    lo.add_argument('--ref')
+    g = sub.add_parser('releasegate', help='D146：USER_WANTS【下一版必須】的任務都已驗收才可以發布')
+    g.add_argument('--ref')
     i = sub.add_parser('incr', help='增量核對：各職位水位線以後的新 commit、outbox、WIP 索引')
     i.add_argument('--ref')
     i.add_argument('--advance', action='append', choices=INC.ROLES + ['all'], help='全部分類、沒有異常、已 push 才前進水位線')
     i.add_argument('--by', help='誰核對的（例：LAWWW-C）')
     duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'userwork': userwork, 'releasegate': releasegate, 'loose': loose, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':
