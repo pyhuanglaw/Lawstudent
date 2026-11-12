@@ -54186,9 +54186,9 @@
    "title": "GitHub 上所有「麵店團」改成「桌遊團」（X347；X182 11-03 已改名，舊名還留在註解、文件、測試）",
    "area": "DOCS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "【11-12 LAWWW-C】開發分支 242 個檔 1201 處已換（tools/handoff/ndl_purge.py --apply；--list 列留下來的）；相關測試跑完、GHA 綠 → 傳 SHA 給 BB 用 git grep 驗；date_wish.js 等 AA 改完企劃線來源重匯；內部代號 noodle_team 不改（D115）",
+   "next": "【LAWWW-C 11-12 08:5x 複查】開發分支 src＋index.html 剩 7 處「麵店團」：story3d.js 4 處＋bgnight3d.js 1 處都是註解或把舊存檔的群組名改成桌遊團要用的對照（S.NDL_OLD_NAMES，刻意留）；src/data/date_wish.js 1 處在 note 欄（不給玩家看；來源 wish_aa.json 是 AA 的，等 AA 改企劃線再重匯）。**玩家看得到的地方：0 處**（這是 grep 的結論，還沒請 BB 用 git grep＋遊戲裡的群組名驗）。tests 9 檔、tools 5 檔、docs 4 檔留著的清單在 `python3 tools/handoff/ndl_purge.py --list`（測舊存檔升級、歷史紀錄）。剩：BB 驗、AA 改 wish_aa.json 的 note｜【11-12 LAWWW-C】開發分支 242 個檔 1201 處已換（tools/handoff/ndl_purge.py --apply；--list 列留下來的）；相關測試跑完、GHA 綠 → 傳 SHA 給 BB 用 git grep 驗；date_wish.js 等 AA 改完企劃線來源重匯；內部代號 noodle_team 不改（D115）",
    "first": {
     "term": "Y1S1",
     "week": null,
