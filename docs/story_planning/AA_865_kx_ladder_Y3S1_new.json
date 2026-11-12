@@ -4,7 +4,8 @@
   "by": "AA-C 2026-11-12",
   "voice": "總表第 2 節；沒有記帳、愛算、排表的個性（UA-AA-1112-15）。",
   "cond": "條件讀熟悉階段，不讀 dating_kexin；拿掉 context:'date'；短招呼只在 KX_MET 以後。舊記憶 tag（KX5_OLD_PEOPLE、KX5_SHORT_MEET、KX5_HYPO_SENIOR、KX5_HELPER_Q、KX5_RECOPY、KX5_LEARN_WORRY、KX5_XMAS_PHOTO、KX5_SHORT_ONES）一起拿掉；沒有新 tag。祐廷這學期在日本或美國的玩家遇不到她，這一組只給人在臺灣的。",
-  "status": "待 BB 第二意見（D153）；BB 看過以後直接換進源稿"
+  "status": "定稿（BB_410：短招呼的摘眼鏡和 K5-L3 衝突，換成撥頭髮）",
+  "applied": "已直接換進源稿 ladder/ladder_bb_y3s1.json；本檔留著對照。"
  },
  "term": "Y3S1",
  "who": "kexin",
@@ -245,7 +246,7 @@
   "base": [
    "嗨。",
    "你今天幾堂？",
-   "（她把眼鏡摘下來塞進包包）嗨。",
+   "（她把頭髮撥到耳後）嗨。",
    "吃了沒？",
    "（她朝你抬了一下下巴）"
   ],
