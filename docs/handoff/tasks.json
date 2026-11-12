@@ -54281,7 +54281,7 @@
    "id": "GIFT-ALL-DRINK-SHOPS-1112",
    "title": "全遊戲賣飲料的店都可以「買一份帶走送人」：LAWWW 自己盤點、一次接完（X350）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -54294,7 +54294,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【11-12 04:2x LAWWW-C】使用者：「你現在應該要認真審查游戲裡面有哪些有賣飲料的店都可以送……你應該要自己決定啊」。查證：每個人收到飲料的反應是「飲料」這一類的通用句（只有最愛、有意見那幾樣綁品項），所以新品項不用新台詞就能送——上一則跟 AA 說「要寫才送得出去」是錯的，已更正。子代理在做（分支 gift-all-drinks-1112，檢查點 wip_backup/gift_all_drinks_1112.bundle）：盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md、gift3d.js 通用機制、每一個點餐流程接上、tests/gift_all_drink_shops_1112_unit.js；回來當回合合併",
+   "next": "【LAWWW-C 11-12】子代理交件已合併：再開 17 間店（青木茶室外帶窗、頁間書屋、大口漢堡、SUNNY SIDE、帝大紅茶、阿忠鮮果、日常失速、木曜日、afar、Daybreak、洋洋鹹酥雞、泰米村食、夜市黑糖鮮奶和甘蔗汁、體育館販賣機、118 巷喝不喝咖啡全品項、果茶社），各用自己的菜單和價錢；不開：小路（酒）、一盞和青木內用（壺茶）、甜湯冰品、湯；清單 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md；tests/gift_all_drink_shops_1112_unit.js ALL PASS（46 項）；瀏覽器沒跑→BB｜【11-12 04:2x LAWWW-C】使用者：「你現在應該要認真審查游戲裡面有哪些有賣飲料的店都可以送……你應該要自己決定啊」。查證：每個人收到飲料的反應是「飲料」這一類的通用句（只有最愛、有意見那幾樣綁品項），所以新品項不用新台詞就能送——上一則跟 AA 說「要寫才送得出去」是錯的，已更正。子代理在做（分支 gift-all-drinks-1112，檢查點 wip_backup/gift_all_drinks_1112.bundle）：盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md、gift3d.js 通用機制、每一個點餐流程接上、tests/gift_all_drink_shops_1112_unit.js；回來當回合合併",
    "xai": {
     "receiver": "BB",
     "branch": "claude/adoring-meitner-mqzst8",
