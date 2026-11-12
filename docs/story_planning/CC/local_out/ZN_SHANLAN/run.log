@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_zn_shanlan_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ZN_SHANLAN\out
+CC 宋知寧山嵐二樓：SHA d4daa6326c；FIX tests/fixtures/user_save_day51b_1110.json；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.4s] 要試的週末：[{"day": 53, "key": "2025-11-08", "wd": 6, "exam": false}, {"day": 54, "key": "2025-11-09", "wd": 0, "exam": false}, {"day": 60, "key": "2025-11-15", "wd": 6, "exam": false}, {"day": 61, "key": "2025-11-16", "wd": 0, "exam": false}, {"day": 67, "key": "2025-11-22", "wd": 6, "exam": false}, {"day": 68, "key": "2025-11-23", "wd": 0, "exam": false}, {"day": 74, "key": "2025-11-29", "wd": 6, "exam": false}, {"day": 75, "key": "2025-11-30", "wd": 0, "exam": false}, {"day": 81, "key": "2025-12-06", "wd": 6, "exam": false}, {"day": 82, "key": "2025-12-07", "wd": 0, "exam": false}]
+  [前置／捷徑] [2025-11-08_sat] 【前置／捷徑】讀檔到 xs_shanlan 2025-11-08 15.0（第 5 則已發、前一天搬過來；條件事件關掉）
+  [  46.6s] [2025-11-08_sat] 遊戲的決定 [{"k": "53:xs_shanlan:pm", "who": null, "place": null, "cancel": null}]；她的班 {"spot": "xs_shanlan", "days": [6, 0], "from": 14, "to": 17}；搬了=True；找到=False
+  [前置／捷徑] [2025-11-09_sun] 【前置／捷徑】讀檔到 xs_shanlan 2025-11-09 15.5（第 5 則已發、前一天搬過來；條件事件關掉）
+  [  56.6s] [2025-11-09_sun] 遊戲的決定 [{"k": "54:xs_shanlan:pm", "who": "npc_songzn", "place": {"stand": [-3.6, -4, -1.5708, 1]}, "cancel": null}]；她的班 {"spot": "xs_shanlan", "days": [6, 0], "from": 14, "to": 18}；搬了=True；找到=True
+  [前置／捷徑] [2025-11-09_sun] 【前置／捷徑】同一天同一時段再讀一次檔，玩家放到二樓她面前 2 m（lv 1）
+FAIL [2025-11-09_sun] 再讀一次她還在同一個地方（同一天同一時段＝同一個決定）  {"a": [-3.6, -4], "b": [4.8, -6.5]}
+  [  67.8s] [2025-11-09_sun] 她：lv 1 位置 (4.8, -6.5, y 4.2)；地板 {"d": 1.2, "y": 4.2, "name": ""}（差 0）；面向 yaw -1.571、面前 1.5 m 打到 {"d": 0.7, "y": 5.6, "name": ""}；1 m 內互動點 []；四周導航 [true, true, true, true, true, true, false, true]；站的地方能走=True；姿勢 idle；按鈕「和知寧說話」；1 m 內最近的家具 [] 
+PASS [2025-11-09_sun] 她在二樓（lv 1）  1
+  [前置／捷徑] [2025-11-15_sat] 【前置／捷徑】讀檔到 xs_shanlan 2025-11-15 15.0（第 5 則已發、前一天搬過來；條件事件關掉）
+  [  77.9s] [2025-11-15_sat] 遊戲的決定 [{"k": "60:xs_shanlan:pm", "who": "npc_songzn", "place": {"stand": [2.8, -5.5, 1.5708, 1]}, "cancel": null}]；她的班 {"spot": "xs_shanlan", "days": [6, 0], "from": 14, "to": 17}；搬了=True；找到=True
+  [前置／捷徑] [2025-11-15_sat] 【前置／捷徑】同一天同一時段再讀一次檔，玩家放到二樓她面前 2 m（lv 1）
+FAIL [2025-11-15_sat] 再讀一次她還在同一個地方（同一天同一時段＝同一個決定）  {"a": [2.8, -5.5], "b": [4.8, -6.5]}
+  [  88.3s] [2025-11-15_sat] 她：lv 1 位置 (4.8, -6.5, y 4.2)；地板 {"d": 1.2, "y": 4.2, "name": ""}（差 0）；面向 yaw -1.571、面前 1.5 m 打到 {"d": 0.7, "y": 5.6, "name": ""}；1 m 內互動點 []；四周導航 [true, true, true, true, true, true, false, true]；站的地方能走=True；姿勢 idle；按鈕「和知寧說話」；1 m 內最近的家具 [] 
+PASS [2025-11-15_sat] 她在二樓（lv 1）  1
+PASS 週六找到她（1 次）  [[{"k": "53:xs_shanlan:pm", "who": null, "place": null, "cancel": null}], [{"k": "60:xs_shanlan:pm", "who": "npc_songzn", "place": {"stand": [2.8, -5.5, 1.5708, 1]}, "cancel": null}]]
+PASS 週日找到她（1 次）  [[{"k": "54:xs_shanlan:pm", "who": "npc_songzn", "place": {"stand": [-3.6, -4, -1.5708, 1]}, "cancel": null}]]
+PASS 沒有 JS 例外  []
+FAILED 2: [2025-11-09_sun] 再讀一次她還在同一個地方（同一天同一時段＝同一個決定）；[2025-11-15_sat] 再讀一次她還在同一個地方（同一天同一時段＝同一個決定）

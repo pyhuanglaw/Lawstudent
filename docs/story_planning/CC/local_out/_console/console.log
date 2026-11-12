@@ -476,3 +476,12 @@
 [16:47:48] 正在跑：TZ_REAL_consist（已跑 15 分／上限 60 分）、HELP_GUIDE_a（已跑 5 分／上限 30 分）、HELP_GUIDE_b（已跑 4 分／上限 35 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:52:48] 正在跑：TZ_REAL_consist（已跑 20 分／上限 60 分）、HELP_GUIDE_a（已跑 10 分／上限 30 分）、HELP_GUIDE_b（已跑 9 分／上限 35 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:53:10] [res] cpu=1% mem=47% (15.0/31.4 GB) chrome_testing=9  END HELP_GUIDE_a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b25ead1d9..7ff8ce360  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:53:19] ==== END   HELP_GUIDE_a  exit=1  661s   ====
+[16:53:27] memory 48% before starting ZN_SHANLAN (2 running)
+[16:53:27] ==== START ZN_SHANLAN  (probe @ d4daa6326c81c2ba7a57c266235dec49cd7b5ab6) ====
+[16:53:30] [res] cpu=6% mem=48% (15.2/31.4 GB) chrome_testing=9  START ZN_SHANLAN
+[16:53:30] worktree add d4daa6326c81c2ba7a57c266235dec49cd7b5ab6: invalid reference - fetching main and the commit itself
+[16:55:49] [res] cpu=6% mem=47% (14.8/31.4 GB) chrome_testing=9  END ZN_SHANLAN
