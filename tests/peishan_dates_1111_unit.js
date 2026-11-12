@@ -37,7 +37,7 @@ const texts=(x,o)=>{ if(Array.isArray(x)) x.forEach(v=>texts(v,o)); else if(x&&t
    （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
 const NOW812=DL(read('src/data/date_lines.js')), NOW=require('./date_src_sha.js').un812(NOW812);
 check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',require('./date_src_sha.js').CELLS_812.length===7&&require('./date_src_sha.js').CELLS_812.every(r=>require('./date_src_sha.js').cell812(NOW812,r)===r.new&&require('./date_src_sha.js').cell812(NOW,r)===r.old),JSON.stringify(require('./date_src_sha.js').CELLS_812.map(r=>require('./date_src_sha.js').cell812(NOW812,r))));
-const SRC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=require('./date_src_sha.js').noFx(JSON.parse(t));   /* 52c3ee258 起源稿有 fx：只比字（date_src_sha.js noFx） */ }
+const SRC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=require('./date_src_sha.js').src248(k,JSON.parse(t));   /* 52c3ee258 起源稿有 fx：只比字（date_src_sha.js noFx）；2026-11-12（X324「好」開頭回話 AA_844@41f77eab53）：沛珊 43 格這一版換了字——遊戲那邊 un812 已經還原，源稿也用 src248 還原再比（那 43 格本身在 tests/hao_dates_1112_unit.js 逐格驗）。舊寫法：noFx(JSON.parse(t)) */ }
 const haveSrc=Object.keys(SRC).length===33;
 
 (async()=>{
