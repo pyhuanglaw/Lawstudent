@@ -47573,7 +47573,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-12 09:2x】已接：日常失速東牆「看社團佈告欄」→ 開頭一句 → 選要看哪一張（這學期有活動的社團）→ 每張兩句（時間地點／怎麼加入＋一句話）→ 最後一行；社博 9/6 以前多一行；法服兩句不再寫隔週（AA_701@4f5f78fd23，tools/story/import_club_board.py）。tests/club_board_1112_unit.js 過。待 CC 在瀏覽器點一次、BB 判。問 AA：大一下只列吉他社、法服兩張、大三起一張都沒有（照 activities.js 的 term）是不是本意；msg3d.js:191 學姊訊息、activities.js:123 海報還寫「隔週週六」要不要改｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】AA 11-05 就交了 AA_701（4f5f78fd23），一直沒接——是 LAWWW 的漏；現在不卡任何人，LAWWW 排進佇列實作（布告欄「看看」＋法服文字；club_fair.js:20、activities.js:37,123 的「隔週週六」舊字一起換）｜AA 照現有社團設定（社課時間、地點、加入方式）每社一則 → LAWWW 接成布告欄「看看」（日常失速＋其他社團海報牆）",
+   "next": "【LAWWW-C 11-12 10:3x】AA_701 第 3 節（943f66532）已接 1ed0d4690a：開頭用牆上 AA_648 隨機句、沒有活動的學期多一句、學姊訊息不再寫隔週；剩 activities.js:123 法服海報 text／textLater 兩句等 AA 給完整新句；CC 點一次截圖給 BB｜【LAWWW-C 11-12 09:2x】已接：日常失速東牆「看社團佈告欄」→ 開頭一句 → 選要看哪一張（這學期有活動的社團）→ 每張兩句（時間地點／怎麼加入＋一句話）→ 最後一行；社博 9/6 以前多一行；法服兩句不再寫隔週（AA_701@4f5f78fd23，tools/story/import_club_board.py）。tests/club_board_1112_unit.js 過。待 CC 在瀏覽器點一次、BB 判。問 AA：大一下只列吉他社、法服兩張、大三起一張都沒有（照 activities.js 的 term）是不是本意；msg3d.js:191 學姊訊息、activities.js:123 海報還寫「隔週週六」要不要改｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】AA 11-05 就交了 AA_701（4f5f78fd23），一直沒接——是 LAWWW 的漏；現在不卡任何人，LAWWW 排進佇列實作（布告欄「看看」＋法服文字；club_fair.js:20、activities.js:37,123 的「隔週週六」舊字一起換）｜AA 照現有社團設定（社課時間、地點、加入方式）每社一則 → LAWWW 接成布告欄「看看」（日常失速＋其他社團海報牆）",
    "source": "UA-LAWWW-1105-19",
    "authorized": "使用者原話",
    "xai": {
@@ -47583,7 +47583,7 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED（11-05）；LAWWW 11-12 才發現沒接"
    },
-   "sha": "65c6d7d9c5"
+   "sha": "1ed0d4690a"
   },
   {
    "id": "SHOP-CROWD-NEW-1105",
@@ -54810,7 +54810,7 @@
     "prereqNote": []
    },
    "sha": "fcbc3aab31",
-   "next": "【LAWWW-C 11-12 10:1x】BB：汀州路七間 ⑦b 全 PASS；但 TZ_REAL_perf（含預載）第一次走近最長一幀 166.7 ms、>50 ms 5 次＝FAIL（門檻 50 ms）；東南大聯店內跑步最長 217 ms。和 LAWWW2 再看（分幀掛上、手機只接最近一間）｜【LAWWW-C 11-12 07:4x】新生南路五間 f8a00372bb、南洋 fcbc3aab31 已進開發分支。BB 看圖：六間 ⑦b（店外＝店內）PASS；CC XS_REAL_perf：兩間同時載入 60 fps、calls 179→377，走遠降回、三趟不再漲；**第一次走近最長一幀 233 ms＝BB 判 FAIL（門檻 ≤50 ms）**→ LAWWW2 改成進區域預先載入／分幀掛上、手機只接最近一間，修好 CC 重量。南洋四角度等 CC 拍、BB 判；黑剪影 LAWWW2 加底亮度。汀州路泰米／東南大聯／汀州聯通 BB 判 ⑦a FAIL→照這個做法；東南大聯商品彩色方塊 ④ FAIL→換商品模型。溫州街、公館、日常失速、木曜日 LAWWW2 逐間拍並排自查（118 巷九間自查一致）",
+   "next": "【LAWWW-C 11-12 10:3x】CC 查到預載沒排（電腦預設畫質 medium 被當省資源）→ 1ed0d4690a 改成只有 low／觸控才省資源，等 CC 重量；公館三間（安泰、汀州鮮果、榮恩典）＋燒臘招牌已合 3cceeb5684（LAWWW2 2635709d4）；手機第一次走近的頓 LAWWW2 做分幀；公館其餘九間 LAWWW2 逐間換（洋洋、燒臘先）｜【LAWWW-C 11-12 10:1x】BB：汀州路七間 ⑦b 全 PASS；但 TZ_REAL_perf（含預載）第一次走近最長一幀 166.7 ms、>50 ms 5 次＝FAIL（門檻 50 ms）；東南大聯店內跑步最長 217 ms。和 LAWWW2 再看（分幀掛上、手機只接最近一間）｜【LAWWW-C 11-12 07:4x】新生南路五間 f8a00372bb、南洋 fcbc3aab31 已進開發分支。BB 看圖：六間 ⑦b（店外＝店內）PASS；CC XS_REAL_perf：兩間同時載入 60 fps、calls 179→377，走遠降回、三趟不再漲；**第一次走近最長一幀 233 ms＝BB 判 FAIL（門檻 ≤50 ms）**→ LAWWW2 改成進區域預先載入／分幀掛上、手機只接最近一間，修好 CC 重量。南洋四角度等 CC 拍、BB 判；黑剪影 LAWWW2 加底亮度。汀州路泰米／東南大聯／汀州聯通 BB 判 ⑦a FAIL→照這個做法；東南大聯商品彩色方塊 ④ FAIL→換商品模型。溫州街、公館、日常失速、木曜日 LAWWW2 逐間拍並排自查（118 巷九間自查一致）",
    "xai": {
     "from": "BB（BB_379）、使用者 11-12 對 BB",
     "to": "LAWWW2",
@@ -54881,6 +54881,36 @@
     "spec": "AA-C 11-12 08:35／08:36 訊息",
     "acceptance": "check_stale_sources.py 列出的 JSON 源稿每一份不是已重匯、就是 AA 寫明不用匯",
     "ack": "ACK"
+   }
+  },
+  {
+   "id": "CLUB-LATER-TERMS-1112",
+   "title": "系籃、辯論社、登山社在遊戲裡只有大一上有活動：大一下以後加入的社團沒事做、布告欄大三起一張都沒有——AA 寫之後學期的社課內容，LAWWW 接",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "大一下開學",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "AA 排在使用者點名的台詞整理（DLG-FULL-REVIEW-1110）之後",
+   "source": "AA-C 2026-11-12 10:10（AA_701 第 3 節第 5 點）；LAWWW-C 接布告欄時發現",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW",
+    "to": "AA",
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_701 第 3 節第 5 點（943f66532）",
+    "acceptance": "三個社團大一下以後每學期有社課或活動可以參加，布告欄列得出來",
+    "ack": "SENT"
    }
   }
  ]
