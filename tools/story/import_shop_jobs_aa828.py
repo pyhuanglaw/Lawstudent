@@ -20,6 +20,10 @@
 第 8 節「第四輪合併後五問」（1e539b8eb9；和第 6 節第 3 點衝突的以第 8 節為準）：
   第 1、2 點：沒認識過宋知寧的玩家她不出現在山嵐、「新來的？…」那一版不演——jobs.shanlan.co 不再有 new、newFrom（稿上第 4 節第 7 點、第 6 節第 3 點的字還在，照舊對一次，只是不匯）；
   第 5 點：家教回「不了」以後不再問——reapply.tutorAskOnce＝true、reapply.tutorNo＝那個回答的字（流程 src/jobs3d.js S.tutorReAsk）。第 3、4 點是「照現在的做法」，不進資料。
+第 9 節「第五輪四問」（3e9cd7d9d4）：
+  第 1 點：學姊來越好吃不走晚餐名單的亂數——yueMeal.sis＝{who（要有自己的那一句）、met＝認識她看的旗標、inTaiwan、slot、termMax＝每學期幾次、datingMax＝交往中一學期幾次、gapWeeks＝第二次隔幾週}（流程 src/shoplife3d.js S.yueDatePlan）；
+  第 2 點：家教回「不了」以後下一個學期開學起，那一則家教的對話底下多一個回覆選項——reapply.tutorBack＝{opt＝選項的字、re＝對方回的那一句}；
+  第 3 點：那一則沒回、過期也算問過，一樣用第 2 點的選項——reapply.tutorBack.expired＝true（流程 src/jobs3d.js S.tutorBack／tutorReAsked）。第 4 點是「可以」，不進資料。
 規則的字（第 3 節「給 LAWWW」、每一節的說明）是給實作看的，不進遊戲（流程在 src/jobs3d.js）。台詞一字不改；有名字說的話拿掉外面那一對「」（對話框已經寫了是誰說的）；
 選項、旁白照稿。白名單照 import_guard；讀稿照 read_fix。
 用法：python3 tools/story/import_shop_jobs_aa828.py [--ref <commit>] [--check]"""
@@ -203,6 +207,23 @@ def build(md):
     # ---- 第 8 節第 5 點：家教回「不了」以後不再問 ----
     h5 = need(re.search(r'^5\. 家教：回「(.+?)」以後\*\*不再問\*\*（只問一次）。', q8, re.M), '第 8 節第 5 點（家教只問一次）')
     extra['reapply']['tutorAskOnce'], extra['reapply']['tutorNo'] = True, fx(h5.group(1))
+    # ---- 第 9 節「第五輪四問」----
+    q9 = section(md, '## 9. 回 LAWWW')
+    CN = {'一': 1, '兩': 2, '二': 2, '三': 3, '四': 4}
+    s1 = need(re.search(r'^1\. \*\*(\S+?)來越好吃「(.+?)」不走(晚餐|午餐)名單的亂數，另定\*\*：認識她（([a-z_0-9]+)）、她人在臺灣的學期、祐廷在越好吃有蓋到\3的班——每學期第(\S)次符合的那一天演(\S)次；'
+                        r'交往中一學期(\S)次（第二次隔至少(\S)週）。', q9, re.M), '第 9 節第 1 點（學姊來越好吃）')
+    sis = fx(s1.group(1))
+    if extra['yueMeal']['own'].get(sis) != fx(s1.group(2)) or s1.group(5) != '一' or any(s1.group(i) not in CN for i in (6, 7, 8)):
+        raise SystemExit('第 9 節第 1 點：那一句和第 7 節第 3 點不一樣，或次數看不懂')
+    extra['yueMeal']['sis'] = {'who': sis, 'met': s1.group(4), 'inTaiwan': True, 'slot': {'晚餐': 'dinner', '午餐': 'lunch'}[s1.group(3)],
+                               'termMax': CN[s1.group(6)], 'datingMax': CN[s1.group(7)], 'gapWeeks': CN[s1.group(8)]}
+    s2 = need(re.search(r'^2\. \*\*家教回「(.+?)」以後怎麼再接\*\*：下一個學期開學起，手機「訊息」那一則家教的對話底下多一個回覆選項「(.+?)」；對方回：「(.+?)」之後照原本答應的流程。\s*$', q9, re.M), '第 9 節第 2 點（家教再接）')
+    if fx(s2.group(1)) != extra['reapply']['tutorNo']:
+        raise SystemExit('第 9 節第 2 點：那個回答的字和第 8 節第 5 點不一樣')
+    extra['reapply']['tutorBack'] = {'opt': fx(s2.group(2)), 're': fx(s2.group(3))}
+    need(re.search(r'^3\. 家教那一則沒回、過期：也算問過，不再問；一樣用第 2 點的回覆選項自己回去找。\s*$', q9, re.M), '第 9 節第 3 點（沒回、過期）')
+    extra['reapply']['tutorBack']['expired'] = True
+    need(re.search(r'^4\. 上班時來吃飯的人真的走進店裡坐下；沒位子或她有更優先的事就整段不演、不算次數：可以。\s*$', q9, re.M), '第 9 節第 4 點（帶不進來不演）')
     return jobs, extra
 
 
