@@ -42,7 +42,7 @@ const WHOIS=(()=>{
     {c:2,id:'camp',if:G=>camp(G,'zhe'),t:'宿營撕名牌，撕掉你名牌的那個。'},   /* AA 11-03：阿哲在第八小隊、撕名牌認識；遊覽車那一行拿掉（CAMP_BUS 固定 'win'）*/
     {c:2,id:'w1',if:G=>done(G,'ev_zhe_w1_meet')&&!camp(G,'zhe'),t:'開學第一堂課，他從後面戳你肩膀，問附近中午吃什麼。'},
     {c:2,id:'room',if:G=>{ const r=rm(G); return r.four||r.y2; },t:G=>{ const r=rm(G); return (r.y2?(r.four?'室友：大一 203、大二 312。':'大二同住 312。'):'大一同住 203。')+((r.y3||r.y4)&&y(G,3)?'大三起他搬去別間。':''); }},   /* 5-1：室友＋大三搬走一行 */
-    {c:3,id:'ge',keep:true,if:f('ZHE_CALLS_GE'),t:'知道你比大家大一歲以後，他都叫你「哥」。'},
+    {c:3,id:'ge',keep:true,if:f('ZHE_CALLS_GE'),t:'知道你學測數學滿級分以後，他都叫你「哥」。'/* AA_884 第 2 節 */},
     {c:3,id:'grp',if:G=>{ const d=F(G).noodleTableDay; return !F(G).BGN_JOIN&&d!=null&&(G.day>d||inGrp(G,'noodle_team')); },t:G=>'常揪大家吃飯。群組「'+grp(G)+'」是他建的。'},   /* 群組那天 21:00 才建好 */
     {c:3,id:'ball',t:G=>(done(G,'ev_zhe_game_y2')?'打系籃，17 號。':'打系籃。')+(F(G).ZHE3?'大三當上隊長。':''),ord:G=>F(G).ZHE3?R.zhe.findIndex(r=>r.id==='fin')-0.5:(done(G,'ev_zhe_game_y2')?R.zhe.findIndex(r=>r.id==='yu')-0.5:R.zhe.findIndex(r=>r.id==='ball'))},   /* 5-1：系籃一行（演過 ev_zhe_game_y2＝17 號、ZHE3＝隊長）；擠的順序照最後一次換說法的時候 */
     {c:3,id:'ballyou',if:G=>!!(F(G).CLUB_dept_basketball||F(G).ball_invite),t:'你也在系籃，幫忙記分。'},

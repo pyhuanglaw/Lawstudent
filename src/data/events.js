@@ -98,8 +98,7 @@ const NYE_ROOF_Y1=[
   {speaker:null,text:'訊號慢了一秒，她的「新年快樂」晚到。'},
   {speaker:'kexin',expression:'smile',text:'你那邊卡了一秒啦。新年快樂。'},
   {speaker:null,text:'你轉告阿哲。阿哲對著天空喊——'},
-  {if:{flags:['KX_MET_NOODLE_TEAM']},speaker:'zhe',expression:'laugh',text:'可昕新年快樂！'},
-  {unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'zhe',expression:'laugh',text:'木柵大學的那位，新年快樂！'},
+  {speaker:'zhe',expression:'laugh',text:'可昕新年快樂！'},   /* AA_886 第 2 節（CANON-NO-ECON-1112 第四批）：她是同班同學，阿哲認得——兩列合成一列、不看旗標 */
   {label:'nye_r_after_kx'},
   {speaker:null,text:'（倒數是 Alison 起的頭，數到三，大家才跟上。）'},
   {speaker:null,text:'（零點。很遠的地方，煙火亮了。只看得到上半截。）'},
@@ -381,7 +380,7 @@ const STORY_EVENTS=[
     prereq:{custom:G=>G.flags.ZQ_ASK_KAI_D!=null&&G.day>=G.flags.ZQ_ASK_KAI_D},
     dialogue:[ {scene:'資工系館・走廊',bg:'csie_corridor'},   /* 11-02 使用者生成（原本暗底）*/
       {speaker:'heroine_04',expression:'neutral',text:'欸，你室友……有女朋友嗎？'},
-      {speaker:'kai',text:'有啊，木柵大學的。怎樣？'},
+      {speaker:'kai',text:'有啊，在台中念書。怎樣？'},   /* AA_886 第 2 節 */
       {speaker:'heroine_04',expression:'smile',text:'沒有啊，問問。'} ] },
   { id:'ev_sis_club_expo', title:'社團博覽會・法服', participants:['heroine_05'], location:'campus', trigger:'manual', once:true, background:'blur',
     prereq:{custom:G=>!G.flags.SIS_CLUB_EXPO},
@@ -744,8 +743,8 @@ const STORY_EVENTS=[
       {label:'no'},{speaker:'heroine_01',expression:'neutral',text:'好。那我自己寫，寫完給你看。'},
       {label:'end'} ] },
   /* 迎新（交接包 v1 A11：AA_71 2-1＋沛珊 P0 BB_95 3-3）：參加法律系迎新的活動時演（src/data/activities.js 的 welcome_y1s1：第 4 週週六傅鐘前；classes3d.js 的 attendActivity 讀活動的 event）。
-     只有認識的人在場（交付清單第 0 節第 1 點）：Alison、柏翰沒見過就跳過那兩句；以安見過才算在場（說了經濟系那一年，她記得 KNOWS_ECON_YEAR）。
-     自我介紹由玩家選說多少（不能替玩家說出經濟系那一年，AA_12 0-4）：只有「念過經濟系，一個多月」設 ECON_PAST_SHARED='full'；「大一歲」不設；說過的事不會變成沒說過（重修經原已經說過的照舊）。
+     只有認識的人在場（交付清單第 0 節第 1 點）：Alison、柏翰沒見過就跳過那兩句。
+     自我介紹三個選項照 AA_883（企劃線 db44bb9ab，定稿 BB_422；CANON-NO-ECON-1112 第四批）：都不設旗標、不加減數值；「哥」的來源在宿營打牌（AA_859 ZHE_CALLS_GE），這裡只讀。「學長」是帶隊的學長，沒有名字、立繪。
      沛珊 P0：大地遊戲同一組、「奇怪的問題」只在這裡一次；記 FIRST_MET（participants）＋聯絡方式（迎新的群組）。第一句、「輪到你。」、大地遊戲那句是 LAWWW 加的場景說明（AA_355 第 2 節：AA 看過、照用）*/
   /* 民總報告分組的補救（AA_160 3-4 C、R3，AA-B 2026-10-16 寫的台詞）：第 4、5 週民總都沒去、分組事件沒演過——第 6 週起第一次在教室或總圖遇到以安，
      她說把你寫進她那組了；記同一個 REPORT_PARTNER（備註 assigned_absent）＋REPORT_PARTNER_LATE，後面讀 REPORT_PARTNER 的事件照常接。分組是事實、不是玩家經歷的場面（R4）*/
@@ -758,9 +757,9 @@ const STORY_EVENTS=[
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'Alison 自我介紹講了三分鐘她的三個社團。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)&&STORY.knows('classmate_bohan',G)},speaker:'classmate_bohan',expression:'neutral',text:'（小聲）她剛剛講了四個。'},
       {speaker:null,text:'輪到你。'},
-      {choice:[{text:'「我叫{name}，臺北人。」',goto:'game'},{text:'「我比大家大一歲。」',goto:'older'}]},   /* CANON-1112（AA_859「一起拿掉的」）：第三個選項和它後面那一支（全場「喔——」、補問那一句、兩種回答）拿掉；AA 的迎新新稿到了再接。「大一歲」那個選項 AA_859 沒寫到，先留著、列給 AA */
-      /* AA_313 5-3、5-4：說了「哥」就記 ZHE_CALLS_GE（之後阿哲照這個叫）；還不認識阿哲、Alison 的（8/31 迎新在宿營、開學以前）說話的人寫「旁邊一個男生」「前面一個女生」*/
-      {label:'older'},{if:EV_KNOWS('zhe'),speaker:'zhe',expression:'laugh',text:'那我們叫你哥？'},{unless:EV_KNOWS('zhe'),speaker:'旁邊一個男生',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{set:{ZHE_CALLS_GE:true}},{goto:'game'},
+      {choice:[{text:'「我叫{name}，臺北人。」',goto:'game'},{text:'「我叫{name}。從小就想念這裡。」',goto:'here'},{text:'「我叫{name}。……就這樣。」',goto:'short'}]},   /* AA_883（CANON-NO-ECON-1112 第四批）*/
+      {label:'here'},{speaker:null,text:'（前面有人回頭看了你一眼。）'},{if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'（小聲）哥講得好認真。'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'旁邊一個男生',text:'（小聲）好認真。'},{goto:'game'},
+      {label:'short'},{speaker:null,text:'（全場安靜了一秒，有人笑出來。）'},{speaker:'學長',text:'好，很有效率。下一個。'},{goto:'game'},
       {label:'game'},{speaker:null,text:'大地遊戲，你和沛珊同一組。最後一關：用一句話說為什麼念法律。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？'},
       {choice:[{text:'（替她答）「她想知道法律外面還有什麼。」',goto:'answer'},{text:'「我也還在找。」',goto:'search'}]},
@@ -778,7 +777,7 @@ const STORY_EVENTS=[
      旁白「可昕到了……」「她在桌下踢你一下……」、圖書館那一句、停車場的兩個選項之後沒有回應，是照 BB 的流程寫成的；BB-B 看過（e0e7a359，第①級）：小吃街加予樂口頭禪那句、宿舍樓下改成讀自己的書、校門加兩句 */
   /* 中秋烤肉（交付清單 A13：AA_71 2-2、AA_109 7-3）＋可昕 K3 第一次見桌遊團（BB_95 9-4）：大一上第 5 週週六 15:00 河濱（出遊；阿哲在桌遊團群組、沒有群組的私訊揪，story3d.js）。
      只有認識的人在場（交付清單第 0 節第 1 點）：AA 的「小事」每一句看那個人認識了沒；語彤不在就沒有阿姨醃的肉那一段。可昕：前一天她問，回「來我們這邊」才來（KX_BBQ_COME）。
-     介紹她三選一（BB 2026-10-14）：只有第三個、而且原本不是 full 才把 ECON_PAST_SHARED 升成 full（以安在場加 KNOWS_ECON_YEAR）；之後阿哲和她比冷笑話，玩家選誰贏。
+     介紹她三選一（BB 2026-10-14）；之後阿哲和她比冷笑話，玩家選誰贏。
      AA 的「小事」是條列，旁白照條列的字寫成句子。AA 2026-10-14：沒有桌遊團群組的玩家第一句是「大家借了」；加「你被分到顧火。火一直熄。」；
      只記 MIDAUTUMN_Y1，不加數值、不記 SHARED_MEAL */
   { id:'ev_mid_autumn_bbq', title:'中秋烤肉', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
@@ -789,12 +788,10 @@ const STORY_EVENTS=[
       {unless:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'阿哲負責烤。'},
       {cg:'cg_midautumn_riverside'},   /* CG-14 中秋的河濱（BB 2026-10-14 ART_APPROVED）：去烤肉的玩家都有，從這一句起 */
       {speaker:null,text:'你被分到顧火。火一直熄。'},
-      {if:{flags:['ZHE_CALLS_GE']},goto:'ge_after'},   /* AA_195 4-9（CAMP-FIX-614 程式 7）：到中秋烤肉還沒有「哥」的玩家（夜談選「跟你們一樣啦」），阿哲問同一段；選項、效果同夜談 */
-      {speaker:'zhe',text:'欸，明軒說你比我們大一屆？'},   /* AA_372 第 10 項：宿營時明軒問過一字不差的同一句 */
-      {choice:[{text:'「我大一歲。」',goto:'ge_old'},{text:'「我念過一個多月經濟，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'ge_econ'},{text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'ge_said'},{text:'「跟你們一樣啦。」',goto:'ge_same'}]},
-      {label:'ge_old'},{speaker:'zhe',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'（把剛烤好的那串遞給你）哥，這串給你。'},{set:{ZHE_CALLS_GE:true}},{goto:'ge_after'},   /* AA-B 02:13：烤肉版不說「晚安」*/
-      {label:'ge_econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},{goto:'ge_after'},
-      {label:'ge_said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},{goto:'ge_after'},
+      {if:{flags:['ZHE_CALLS_GE']},goto:'ge_after'},   /* 到中秋烤肉還沒有「哥」的玩家（沒去宿營、沒打那局牌的）：AA_884 第 1 節（企劃線 db44bb9ab，定稿 BB_422；CANON-NO-ECON-1112 第四批）——來源統一成學測數學滿級分 */
+      {speaker:'zhe',text:'欸，你學測數學幾級？'},
+      {choice:[{text:'「十五。」',goto:'ge_15'},{text:'「不告訴你。」',goto:'ge_same'}]},
+      {label:'ge_15'},{speaker:'zhe',text:'……滿級分？'},{speaker:'zhe',text:'（把剛烤好的那串遞給你）哥，這串給你。'},{set:{ZHE_CALLS_GE:true}},{goto:'ge_after'},   /* AA-B 02:13：烤肉版不說「晚安」*/
       {label:'ge_same'},{speaker:'zhe',text:'好喔。'},
       {label:'ge_after'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)},speaker:null,text:'以安帶了一張「烤肉時間表」。'},
@@ -946,15 +943,12 @@ const STORY_EVENTS=[
     missedPhoto:(G,day)=>{ if(typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')||!PS_BH.custom(G)) return false;   /* 和沛珊交往中：沒有柏翰那一段（AA_374 第 11 項）*/
       const ok=PHONE.at(G,day,20.5,[{th:'g:noodle_team',from:'zhe',text:'📷（一顆切成兩半的滷蛋）'},{th:'g:noodle_team',from:'zhe',text:'柏翰幫沛珊切的'},{th:'g:noodle_team',from:'zhe',text:'……他們在一起了'}],'zhe_supper_mid2_egg');   /* AA_373 #16：照交接包 v2（2026-10-16 改）——阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（原本只有「……喔。」看不出發生什麼事）*/
       if(ok&&typeof SOCIAL!=='undefined') SOCIAL.remember('classmate_peishan','HEARD_ABOUT','和柏翰在一起了（聽說）'); return ok; } },
-  /* 語彤（AA 的角色；AA 2026-10-13 同意）：週一、五 17:20 社會系下課（週三 17:40 她在 118 巷，AA_320），社科院門口（社會系館旁）。照 ECON_PAST_SHARED：full＝「又回來看舊系館？」；none（沒說過）＝她知道一半，記 YT_KNOWS_ECON；
-     half（說過自學）＝玩家選「我以前常來這棟借書。」（維持原本的說法）或「……其實我念過一個多月。」（升成 full，之後桌遊團也知道——稿寫「念過一年」，同一列已經更正「念了一年」是作廢的設定；給 AA 的問題）。一次 */
+  /* 語彤（AA 的角色；AA 2026-10-13 同意）：週一、五 17:20 社會系下課（週三 17:40 她在 118 巷，AA_320），社科院門口（社會系館旁）。一次。
+     AA_886 第 2 節（CANON-NO-ECON-1112 第四批）：祐廷來借書，不分支（原本照祐廷說過多少分三支、記 YT_KNOWS_ECON，拿掉）*/
   { id:'ev_b106d2_yutong', title:'', participants:['heroine_03'], location:'campus', trigger:'auto', npcNear:'heroine_03', nearDist:3, term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,5], time:[17+20/60,17+50/60], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.b106d2Due&&STORY.b106d2Due(G,'heroine_03')&&typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','FIRST_MET')},
     dialogue:[ {speaker:'heroine_03',text:'你怎麼在我們這一區？'},
-      {if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'full'},{if:{flagIs:{ECON_PAST_SHARED:'half'}},goto:'half'},
-      {speaker:'player',text:'我以前在這棟上過課。'},{speaker:'heroine_03',text:'……你以前是經濟系的？'},{speaker:'player',text:'念了一個多月。'},{set:{YT_KNOWS_ECON:true}},{goto:'end'},
-      {label:'full'},{speaker:'heroine_03',text:'又回來看舊系館？'},{goto:'end'},
-      {label:'half'},{choice:[{text:'「我以前常來這棟借書。」',goto:'end'},{text:'「……其實我念過一個多月。」',set:{ECON_PAST_SHARED:'full'},goto:'end'}]},
+      {speaker:'player',text:'我來借書。'},{speaker:'heroine_03',text:'法律系的來這裡借書？'},{speaker:'player',text:'總圖人太多。'},{speaker:'heroine_03',text:'……這裡也不少。坐那邊，那排插座是好的。'},
       {label:'end'} ],
     after:G=>STORY.b106d2Done(G,'heroine_03',null) },
   /* ===== BB_105 大一女舍門口（企劃線 BB_105@68a8479e，AA-C 2026-10-18 審過＝可以實作；白名單 LAWWW-C 10-21 已登記；V1-B105-D2）：D4、D4b（這裡）；D7 宿舍的人們、D9 法服的攤位在 src/crowd3d.js。
@@ -2428,7 +2422,7 @@ const STORY_EVENTS=[
         {if:DH('heroine_04'),speaker:'heroine_04',expression:'neutral',text:'……今天晚上講給你聽。不是改天。'},{if:DH('heroine_04'),stamp:['ZQ_LAB_DH_DAY']},{mem:[{npc:'heroine_04',tag:'LAB_LETTER',note:'叫她接爸爸的電話'}]},{set:{LAB_LETTER_DAD:true}},
       {label:'end'} ] },
   /* 沛珊 P3 我要重考（BB_97 4-2，BB-B 定稿；CG BCG-16）：大二上第 5 週平日 12–13 下課時，霖澤館走廊（備案：校園的霖澤館前）、前置 P2 或 P2b、和她有點熟以上、只一次。
-     她走過來（spawn）。開頭照 NOT_FOR_ME；有 SIS_ANSWERED_WHY 多一句；第三個選項記 MIRROR_PEISHAN（ECON_PAST_SHARED＝full 的玩家她換一句）。三個選項都不改變她的決定 */
+     她走過來（spawn）。開頭照 NOT_FOR_ME；有 SIS_ANSWERED_WHY 多一句；第三個選項記 MIRROR_PEISHAN（AA_886 第 2 節：「要考的話，我陪妳念。」、她的回覆合成一版、不留約定）。三個選項都不改變她的決定 */
   /* P3「我要重考」只對交往中的玩家（AA_281 第 4 節 B-5，使用者 10-18：她什麼都不說；交往中的才知道）*/
   { id:'ev_peishan_decision', title:'我要重考', participants:['classmate_peishan'], location:['linze','campus'], trigger:'auto', term:['Y2S1'], weeks:[5], weekday:[1,2,3,4,5], time:[12,13], once:true, background:'blur',
     spawn:{npc:'classmate_peishan',dist:2.2},
@@ -2441,13 +2435,11 @@ const STORY_EVENTS=[
       {speaker:'classmate_peishan',expression:'neutral',text:'我決定了。我要重考。去念教育。'},
       {speaker:'classmate_peishan',expression:'thinking',text:'……我還沒跟我爸媽說。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'你覺得呢？'},
-      {choice:[{text:'「妳想去就去。」',goto:'a'},{text:'「妳爸媽會怎麼想？」',goto:'b'},{text:'「我也重考過。考完就不怕了。」',goto:'c'}]},
+      {choice:[{text:'「妳想去就去。」',goto:'a'},{text:'「妳爸媽會怎麼想？」',goto:'b'},{text:'「要考的話，我陪妳念。」',goto:'c'}]},   /* AA_886 第 2 節（CANON-NO-ECON-1112 第四批）*/
       {label:'a'},{speaker:null,text:'她點頭。'},{speaker:'classmate_peishan',expression:'neutral',text:'嗯。考試這件事不難。'},{speaker:'classmate_peishan',expression:'thinking',text:'難的是回家，跟我爸媽講。'},{goto:'end'},   /* AA_428 §2 第 8 點：#a 現行版有後來的來源（AA_313 6-4 換掉 SC4 原句「難的是星期六回家，站在那張榜單前面。」）＝照現行；SC4 #23 的改稿「嗯。考試我不怕。」「我比較怕星期六回家要怎麼開口。」不換 */
       {label:'b'},{speaker:'classmate_peishan',expression:'neutral',text:'我爸會不講話。我媽會一直問我以後要做什麼。'},{speaker:'classmate_peishan',expression:'smile',text:'……我會說我想當老師。她應該會再問三次。'},{goto:'end'},
-      {label:'c'},{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_peishan',expression:'surprised',text:'……你重考過？'},{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:null,text:'她眼睛亮起來。'},
-      {unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_peishan',expression:'smile',text:'那你要教我。'},
-      {if:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_peishan',expression:'smile',text:'你說過你重考過。那你要教我。'},
-      {mem:[{npc:'classmate_peishan',tag:'MIRROR_PEISHAN',note:'大二說她要重考的那天'}]},
+      {label:'c'},{speaker:'classmate_peishan',expression:'neutral',text:'……你自己的書念完了嗎？'},{speaker:null,text:'（她笑了。）'},{speaker:'classmate_peishan',expression:'smile',text:'好。那你先把你的念完。'},
+      {mem:[{npc:'classmate_peishan',tag:'MIRROR_PEISHAN',note:'大二她說要換一條路的那天，你說要陪她念'}]},
       {label:'end'} ],
     consequences:{flags:{PEISHAN_RETAKE:true},memo:'沛珊說她要重考，去念教育'} },
   /* 學姊 W7「妳自己相信這個題目嗎」（BB_97 2-2，BB-B 定稿；位置照 AA_146／AA_140 G08 統一在霖澤館）：大二上第 6～9 週平日 15–17，經過霖澤館（教授研究室走廊，2D「研究室門口」背景還沒有＝深色底）；
@@ -2705,10 +2697,8 @@ const SMALLTALK={
               {t:'期末成發你要來。',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}],stage:{npc:'heroine_04',min:'FAMILIAR'}},term:['Y1S2','Y2S2'],week:[10,13]}],   /* 手指痛＝學過和弦；成發在大一下、大二下第 14 週（AA_120 第 1 節、BB_96 4-4）。大二下的成發（Q9）還沒做，先只在大一下說（BB_134 1-8，AA-B 2026-10-16：先關，和 Q9 一起做時把 'Y2S2' 加回來）——AA_325 2-Y2-19 做了 Q9，'Y2S2' 加回來 */
   heroine_05:[{t:'我大一的時候，判決只背結論。後來都要重讀。',term:['Y1S1','Y1S2']},{t:'總圖三樓靠窗那排，九點前就滿了。',term:['Y1S1']},{t:'……我沒事。只是沒睡。',if:{stage:{npc:'heroine_05',min:'FAMILIAR'}}}],
   classmate_bohan:['我在寫考古題，第二題卡住了。',{t:'期末還有{n}天，我排了一份進度表，要的話傳你。',final:[7,14],once:'term'}],   /* AA_209 附錄A §2 */   /* AA_120 7-1 第 1 項：{n}＝到這學期第一個期末考時段的天數（D118 沒有期中考，AA_578 第 2 節 #1：原本到期中考、「期中」→「期末」；照課表和日曆，story3d.js 的 smallTalk），7～14 天才說、每學期一次 */
-  classmate_xinci:[{t:'筆記我還你了，你有收到嗎？',if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},once:true},/* AA_120 7-1 第 2 項：雙主修三個版本照她知道多少（ECON_PAST_SHARED）；到了雙主修事件就不再說 */
-    {t:'雙主修要多修好多學分，我排了好幾種課表，每一種都好滿。',/* AA_209 附錄A §2 */term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double']},unless:{flagIs:{ECON_PAST_SHARED:['full','half']}}},
-    {t:'你說你自學過一點經濟。個經和總經，你覺得哪一個比較會卡住人？我排課表就卡在這一格。',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SHARED:'half'}}},
-    {t:'你念過經濟系，我只問一件事：經濟系的期末，會不會跟法律系的撞在同一週？',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SHARED:'full'}}}],
+  classmate_xinci:[{t:'筆記我還你了，你有收到嗎？',if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},once:true},/* 到了雙主修事件就不再說；AA_886 第 2 節（CANON-NO-ECON-1112 第四批）：只留第一句、拿掉條件，另外兩句刪 */
+    {t:'雙主修要多修好多學分，我排了好幾種課表，每一種都好滿。',/* AA_209 附錄A §2 */term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double']}}],
   /* 明軒、宥辰的閒聊（AA_497 4-5、1-10，企劃線 7a38216ca）：取代原本兩句撐四年；每句一次（once）、照學期（term）；說完以後的一句旁白在 STORY.SMALL_AFTER（src/sup497_3d.js）。
      原句：「阿哲說週五練球。」只限大一；「你看起來很累。睡飽比較重要。」照原本的條件（前一晚很晚睡、當天第一次）；宥辰的兩句照原本的條件（8～13 點／DJ 那段之前），稿上那一句沒有「bar」照稿 */
   classmate_mingxuan:[{t:'阿哲說週五練球。',term:['Y1S1','Y1S2'],once:true},{t:'你看起來很累。睡飽比較重要。',if:{lateNight:true},once:true,prio:1},
@@ -2766,7 +2756,7 @@ const STORY_EVENTS_V11=[
   // ── 芷若 arc ──
   /* 阿哲初遇（AA_195 4-8，AA-B d5b5d188；台詞是 AA 的）：只限開學改 9/1 的局、還沒認識阿哲。9/1（一）憲法第一堂開始前，在 201 坐下以後；
      那天沒遇到（沒去、上課以後才進教室）改 9/3（三）刑總第一堂前（第二句換）。兩堂都沒遇到，9/4 campusMorning 演初遇版（story3d.js zheW1Morning）。
-     「念過經濟系」留給 P4（9/5）、「叫你哥」留給迎新，這一場不提。阿哲從玩家後面那一排出現（spawn dist −1.1）*/
+     「叫你哥」留給宿營打牌（AA_884 第 3 節），這一場不提。阿哲從玩家後面那一排出現（spawn dist −1.1）*/
   { id:'ev_zhe_w1_meet', title:'第一堂課前', participants:['zhe'], location:'classroom', trigger:'seat', time:[7,9+10/60], once:true, background:'blur', spawn:{npc:'zhe',dist:-1.1,pose:'idle'},
     prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)&&!G.flags.ZHE_W1_DORM&&(!G.flags.MET_ZHE||(STORY.metAtCamp&&STORY.metAtCamp(G,'zhe')))&&(G.day===STORY.dayOfKey('2025-09-01')||G.day===STORY.dayOfKey('2025-09-03'))},   /* 宿營認識的（CAMP-L1）：演宿營版（AA_205 6-2：已經認識，不換名字、不加熟悉）*/
     dialogue:[ {unless:{custom:G=>typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,'zhe')},speaker:null,text:'（你坐下沒多久，後面的人用筆輕輕戳了一下你的肩膀。）'},
@@ -3239,7 +3229,7 @@ const Y4_EVENTS=(function(){
     {if:{custom:US},speaker:'player',text:'美國。大四上。'},{if:{custom:US},speaker:'姊姊',text:'八月。那還有一個暑假。'},
     {if:{custom:TW},speaker:'player',text:'沒填。留在臺灣。'},{if:{custom:TW},speaker:'姊姊',text:'留下來也是選了一個。'},
     {speaker:'姊姊',text:'我念歷史的時候，親戚說「念那個以後要幹嘛」。我念到研究所又休學。去補習班教書。現在在出版社。'},
-    {speaker:'姊姊',text:'你也換過一次。經濟念一個多月就休學，說要重考。……媽那陣子都睡不好，只是沒跟你說。'},
+    {speaker:'姊姊',text:'你國中就說要念法律。親戚說太早決定，媽那陣子也擔心，只是沒跟你說。'},   /* AA_886 第 2 節（CANON-NO-ECON-1112 第四批）*/
     {speaker:'姊姊',text:'結果你看。你自己選的，你就念得下去。'},
     {speaker:'姊姊',text:'你從小遇到事情就去翻那本書。……你知道嗎，那時候我覺得你很怪。現在覺得還好。'},
     {choice:[{text:'「妳後悔換方向嗎？」',set:{SISTER_TALK:'regret'},goto:'st_regret'},
