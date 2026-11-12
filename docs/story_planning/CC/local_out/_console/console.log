@@ -1155,3 +1155,13 @@
 [20:37:14] [res] cpu=3% mem=45% (14.1/31.4 GB) chrome_testing=8  START WZ_REAL_consist_72fc
 [20:37:49] 正在跑：GIFT_REDTEA_72fc（已跑 1 分／上限 20 分）、WZ_REAL_72fc（已跑 1 分／上限 25 分）、WZ_REAL_consist_72fc（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:39:26] [res] cpu=9% mem=49% (15.4/31.4 GB) chrome_testing=8  END GIFT_REDTEA_72fc
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       98e36766d..27d11c0ac  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:39:35] ==== END   GIFT_REDTEA_72fc  exit=0  207s   ====
+[20:39:45] memory 48% before starting LUWEI_f3e1 (2 running)
+[20:39:45] ==== START LUWEI_f3e1  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[20:39:48] [res] cpu=14% mem=49% (15.3/31.4 GB) chrome_testing=8  START LUWEI_f3e1
+[20:39:48] worktree add 9aaa31edb9e6cfed31271cce28ec7041d37b0306: invalid reference - fetching main and the commit itself
+[20:42:49] 正在跑：WZ_REAL_72fc（已跑 6 分／上限 25 分）、WZ_REAL_consist_72fc（已跑 5 分／上限 40 分）、LUWEI_f3e1（已跑 3 分／上限 35 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:44:01] [res] cpu=11% mem=45% (14.3/31.4 GB) chrome_testing=8  END WZ_REAL_72fc
