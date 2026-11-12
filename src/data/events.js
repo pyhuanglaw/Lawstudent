@@ -1200,12 +1200,12 @@ const STORY_EVENTS=[
      「好。」＝河堤（出遊，和 K1b 的河堤共用背景；回宿舍的路上桌遊團群組傳頂樓的照片）；「我想在臺北跟桌遊團跨年。」＝宿舍頂樓，零點前一分鐘她打視訊來（不扣分；她不在這裡和桌遊團見面）。
      沒有回她、在桌遊團群組裡的玩家照 AA 的群戲去頂樓（沒有視訊）。記 KX_NYE:{1:'river'|'roof'}（BB_107 第 13 節：節日每年一筆）*/
   { id:'ev_nye_river', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, kxAway:true,
-    outingMissed:(G,GM,q)=>{ G.flags.KX_NYE=Object.assign({},G.flags.KX_NYE||{},{1:'missed'}); },   /* AA_313 第 2 節第 15 列（2-3 B）：KX_NYE[1]＝missed 同大二～大四（00:05 她打來的電話：CANON-NO-ECON-1112 第三批拿掉）*/   /* kxAway：結尾一個人在回程的高鐵上（AA_309 第 3 列，不接她的閒聊）*/   /* AA_276 第 3 節第 1 點：去高雄跨年；0.5 小時＋凌晨一點的高鐵回臺北 */
+    outingMissed:(G,GM,q)=>{ G.flags.KX_NYE=Object.assign({},G.flags.KX_NYE||{},{1:'missed'}); if(typeof PHONE!=='undefined'&&q&&q.day!=null) PHONE.at(G,q.day,24+5/60,[{th:'p:kexin',from:'kexin',text:'新年快樂。河邊沒什麼人，我自己看完了。'}],'kx_nye_missed_y1'); },   /* CANON-NO-ECON-1112 第四批（AA_877 #3）：沒去＝她當晚傳一則，不追問 */   /* AA_313 第 2 節第 15 列（2-3 B）：KX_NYE[1]＝missed 同大二～大四（00:05 她打來的電話：CANON-NO-ECON-1112 第三批拿掉）*/   /* kxAway：結尾一個人在回程的高鐵上（AA_309 第 3 列，不接她的閒聊）*/   /* AA_276 第 3 節第 1 點：去高雄跨年；0.5 小時＋凌晨一點的高鐵回臺北 */
     dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},   /* 愛河邊跨年深夜（ART-KH-BUS，BB-C 23612343；原本暫用河濱 riverside）*/
       {speaker:null,text:'河堤上的人不多。煙火在很遠的地方，聲音晚了好幾秒才到。'},
       {speaker:'kexin',expression:'smile',text:'今年我們不去人多的地方。'},
       {speaker:'kexin',expression:'teasing',text:'明年你最想做什麼？……一件就好。'},
-      {choice:[{text:'「每個禮拜都見到妳。」',goto:'a'},{text:'「把民總讀完。」',goto:'b'},{text:'「妳先說。」',goto:'c'}]},
+      {choice:[{text:'「跟妳一起把大一念完。」',goto:'a'},{text:'「把民總讀完。」',goto:'b'},{text:'「妳先說。」',goto:'c'}]},   /* CANON-NO-ECON-1112 第四批：選項一照 AA_877 #3 換字 */
       {label:'a'},{speaker:'kexin',expression:'smile',text:'那我先說：新年快樂。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',expression:'smile',text:'好無聊。'},{speaker:null,text:'她數到三。'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',expression:'smile',text:'明年的這個時候，也在這裡看。……新年快樂。'},
@@ -1400,9 +1400,9 @@ const STORY_EVENTS=[
      車上的規則 → 目的地三選一（山上看星星只給第 6 週天文課有去的玩家：CLS.attendedWeek 'Y1S2:ge_y1s2:w6'，那一堂有同學說「連假的時候，我要去山上看星星。」）→ 到了（2D，依目的地）一題假設題、
      怎麼接都可以 → 回程（車上，晚上）。記 KX_TRIP:{Y1S2:'sea'|'oldtown'|'stars'}。旅行的照片（房間物件）：照片上寫的字照 BB-B 定稿，在 story3d.js 的房間物件 */
   { id:'ev_kexin_trip_spring_y1', title:'春假：開車旅行', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,   /* 07:40 政大校門接她 → 08:00 出發 … 晚上送她回政大、車開回家（AA_147 #1；台詞不改）*/
-    dialogue:[ {scene:'木柵大學・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
+    dialogue:[ {scene:'女生宿舍樓下',bg:'dark'},{scene:'車上',bg:'car'},   /* CANON-NO-ECON-1112 第四批（AA_877 #4）：早上到女生宿舍樓下接她、晚上送回宿舍 */
       {speaker:'kexin',expression:'smile',text:'規則。我管音樂，你管方向。'},
-      {speaker:'kexin',expression:'teasing',text:'誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。'},   /* AA_373 #11：她傳過「我做了行程表。第二頁是我想吃的，第三頁才是行程。」*/
+      {speaker:'kexin',expression:'teasing',text:'誰都不能管對方的。目的地，現在決定。'},   /* AA_373 #11：她傳過「我做了行程表。第二頁是我想吃的，第三頁才是行程。」*/
       {choice:[{text:'海邊',set:{KX_TRIP_Y1S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',set:{KX_TRIP_Y1S2:'oldtown'},goto:'d_old'},
         {text:'山上看星星',if:{custom:G=>typeof CLS!=='undefined'&&!!CLS.attendedWeek&&CLS.attendedWeek(G,'Y1S2:ge_y1s2:w6')},set:{KX_TRIP_Y1S2:'stars'},goto:'d_star'}]},
       {label:'d_sea'},{speaker:'kexin',expression:'smile',text:'好。我要把腳弄濕。'},{scene:'海邊',bg:'trip_sea'},
@@ -1417,7 +1417,7 @@ const STORY_EVENTS=[
       {label:'o1'},{speaker:'kexin',expression:'smile',text:'好。這家的證據是牆上的照片，我信了。'},{goto:'back'},
       {label:'o2'},{speaker:'kexin',expression:'smile',text:'那要排很久。……排就排。'},{goto:'back'},
       {label:'o3'},{speaker:'kexin',expression:'teasing',text:'好。那我們要多吃幾家。'},{goto:'back'},
-      {label:'d_star'},{speaker:'kexin',expression:'teasing',text:'看星星？……你們這禮拜上了什麼課？好，我們去驗證。'},/* AA_373 #11：沒有人告訴過她通識課的事 */{scene:'山上',bg:'trip_mountain'},
+      {label:'d_star'},{speaker:'kexin',expression:'teasing',text:'看星星？臺北根本看不到幾顆。好，我們去看山上有沒有比較多。'},/* AA_877 #4（BB_419）：不靠通識課 */{scene:'山上',bg:'trip_mountain'},
       {speaker:'kexin',expression:'teasing',text:'今天的月亮好亮。……你上次認真看月亮，是什麼時候？'},
       {choice:[{text:'「中秋吧。」',goto:'m1'},{text:'「現在。」',goto:'m2'},{text:'「跟妳一起看的時候。」',goto:'m3'}]},
       {label:'m1'},{speaker:'kexin',expression:'teasing',text:'那是過節。不算。'},{goto:'back'},
@@ -1751,6 +1751,7 @@ const STORY_EVENTS=[
     outingMissed:(G,GM,q)=>{ G.flags.KX_VDAY=Object.assign({},G.flags.KX_VDAY||{},{1:'missed'}); if(typeof PHONE==='undefined') return; const late=G.day>q.day||G.hour>=21;
       PHONE.at(G,late?G.day:q.day,late?G.hour:21,[{th:'p:kexin',from:'kexin',text:'📷（她的窗戶）'},{th:'p:kexin',from:'kexin',text:'你那邊的天氣，我自己查了。情人節快樂。'}],'kx_vday1_photo'); },
     dialogue:[ {scene:'視訊',bg:'video'},
+      {speaker:null,text:'（寒假。她在高雄，鏡頭後面是她房間的窗戶。）'},   /* CANON-NO-ECON-1112 第四批（AA_877 #10）：開頭加旁白 */
       {speaker:'kexin',expression:'smile',text:'你那邊的天氣？'},
       {choice:[{text:'「晴天。很冷。」',set:{_kxVwx:'sunny'},goto:'w1'},{text:'「下雨。」',set:{_kxVwx:'rain'},goto:'w2'},{text:'（把鏡頭轉向窗外）',set:{_kxVwx:'window'},goto:'w3'}]},
       {label:'w1'},{speaker:'kexin',expression:'smile',text:'臺北的冷是濕的，我這邊是乾的。……你多穿一件。'},{goto:'q'},
@@ -1759,10 +1760,16 @@ const STORY_EVENTS=[
       {label:'q'},{speaker:'kexin',expression:'teasing',text:'情人節我們不在同一個地方。……你今天做了什麼？'},
       {choice:[{text:'「讀民總。」',goto:'a1'},{text:'「傳訊息給妳。」',goto:'a2'},{text:'「我不知道。我想見妳。」',set:{KX_VDAY_SEE:true},goto:'a3'}]},
       {label:'a1'},{speaker:'kexin',expression:'laugh',text:'寒假還在讀民總的人，都這樣回答。'},{speaker:null,text:'她笑。'},{goto:'end'},
-      {label:'a2'},{speaker:'kexin',expression:'smile',text:'那開學以後，我們補過一次。'},{goto:'end'},
-      {label:'a3'},{speaker:null,text:'嘴角先動了。'},{speaker:'kexin',expression:'smile',text:'開學第二個週末。我寫進行事曆了。'},   /* AA_373 #10：第一次「我們的日子」在第 2 週（3/2 她才傳；第一個週末 2/28～3/1 已經過了）*/
+      {label:'a2'},{speaker:'kexin',expression:'smile',text:'那開學以後，我們補過一次。'},{set:{KX_VDAY_MAKEUP:true}},{goto:'end'},
+      {label:'a3'},{speaker:null,text:'嘴角先動了。'},{speaker:'kexin',expression:'smile',text:'開學第一天，下課不要先走。'},{set:{KX_VDAY_MAKEUP:true}},   /* AA_877 #10：兌現＝大一下開學第一天下課（ev_kexin_vday_makeup_y1）*/   /* AA_373 #10：第一次「我們的日子」在第 2 週（3/2 她才傳；第一個週末 2/28～3/1 已經過了）*/
       {label:'end'},{speaker:'kexin',expression:'smile',text:'情人節快樂。臺北冷，穿厚一點。'} ],
     after:G=>{ const F=G.flags; F.KX_VDAY=Object.assign({},F.KX_VDAY||{},{1:'video'}); if(F._kxVwx){ F.KX_VDAY_WX=Object.assign({},F.KX_VDAY_WX||{},{1:F._kxVwx}); delete F._kxVwx; } } },
+  /* 情人節補過（CANON-NO-ECON-1112 第四批，AA_877 #10）：情人節視訊選二、選三的（KX_VDAY_MAKEUP），大一下開學第一週第一次下課，她在教室門口等，一句，然後照一般約會邀約（地點玩家選，INV.flow）*/
+  { id:'ev_kexin_vday_makeup_y1', title:'', participants:['kexin'], location:'any', trigger:'class', term:['Y1S2'], weeks:[1], carryTo:2, once:true, background:'blur',
+    afterClass:function(it){ return !!(it&&it.c&&!it.exam); },
+    prereq:{custom:G=>G.flags.dating_kexin===true&&!!G.flags.KX_VDAY_MAKEUP},
+    dialogue:[ {speaker:null,text:'（她在教室門口等。）'},{speaker:'kexin',text:'走。情人節補過。'},
+      {call:async(G,GM)=>{ if(typeof INV!=='undefined'&&INV.flow) await INV.flow(GM,'kexin',null,false); }} ] },
   /* 9-3 K5「我們的日子」的第一次（同一週選的那一天）：照選的方式見面，短。沒到：「我等了二十分鐘。……下週同一天。這次不要讓我等。」（只一次；AA_313 第 2 節第 22 列，原本「我等了一下。沒關係，下週同一天。」太溫和）。舞台說明改旁白 */
   /* K5 之後每週的「我們的日子」（AA-B 2026-10-16 裁定）：一句地點字幕，接著 OUT.go 推進她的閒聊階梯（沒有新台詞）。
      第 5 週起第一次（K7 有準備東西的玩家）：字幕之後先說「你送的那個，我放在書桌上。」（只一次）。撞到別的出遊、選了別的＝「好，這週換一天。」；單純略過沒有台詞 */
@@ -2161,7 +2168,7 @@ const STORY_EVENTS=[
   /* 可昕（交往中）大二～大四的跨年（AA_210 5-2，AA-C 881ed505／28ac4ea3；寒假她在高雄，AA_276）：去高雄＝ev_kx_nye_river_y2～y4（照大一 ev_nye_river；高鐵 2980 出發時扣）；
      留在臺北＝（23:59 的視訊：CANON-NO-ECON-1112 第三批拿掉；大二在頂樓的版本接在 ev_y2_newyear 裡）。台詞一字照 5-2
      AA_467 第 2 節（企劃線 5bbd16ab1）：大三、大四的零點那句、結尾那句換成那一年的事（大二照舊）*/
-  { id:'ev_kx_nye_river_y2', title:'跨年（大二・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, kxAway:true,
+  { id:'ev_kx_nye_river_y2', title:'跨年（大二・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
     dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她站在橋下等你，手插在外套口袋裡。）'},
       {if:{custom:G=>(G.flags.KX_NYE||{})[1]==='river'},speaker:'kexin',expression:'teasing',text:'第二年了。你認得路了吧。'},{if:{custom:G=>(G.flags.KX_NYE||{})[1]!=='river'},speaker:'kexin',expression:'smile',text:'這邊人比較少。我小時候都在這裡看。'},
@@ -2171,7 +2178,7 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:null,text:'（她沒有看你，但手沒有抽回去。）'},
       {label:'end'},{speaker:null,text:'（凌晨一點，加開的那班高鐵。）'},{set:{KX_NYE_DONE:2}} ],
     consequences:{memo:'跨年：高雄・愛河邊（大二）'} },
-  { id:'ev_kx_nye_river_y3', title:'跨年（大三・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, kxAway:true,
+  { id:'ev_kx_nye_river_y3', title:'跨年（大三・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
     dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她帶了兩個暖暖包，一個塞進你的外套口袋。）'},{speaker:'kexin',expression:'smile',text:'今年比去年冷。'},
       {speaker:null,text:'（零點。煙火一放，你口袋裡的暖暖包還是熱的。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},
@@ -2180,7 +2187,7 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'kexin',expression:'teasing',text:'不用。那個本來就是你的。'},
       {label:'end'},{speaker:null,text:'（凌晨一點的高鐵。暖暖包到台中才冷掉。）'},{set:{KX_NYE_DONE:3}} ],
     consequences:{memo:'跨年：高雄・愛河邊（大三）'} },
-  { id:'ev_kx_nye_river_y4', title:'跨年（大四・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, kxAway:true,
+  { id:'ev_kx_nye_river_y4', title:'跨年（大四・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
     dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她已經占好了位置，就在橋旁邊。）'},{speaker:'kexin',expression:'laugh',text:'這個位置我從國中就想占。今年終於占到。'},
       {speaker:null,text:'（零點。煙火就在橋的正上方。這個位置，真的看得最清楚。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},

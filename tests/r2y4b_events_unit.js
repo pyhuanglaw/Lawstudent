@@ -136,10 +136,10 @@ const date=id=>H.date(id);
     await goOut('y4_spring_kx',['山上看星星']);
     check('2-Y4-35 和可昕開車（照 1C-01）：沒去過的才列、「山上看星星」一定在（AA_336 C7）；去過星星＝「今天看得到。……上次那顆，真的是星星。」；記 KX_TRIP.Y4S2；沒有假設題', JSON.stringify(H.opts[0])===JSON.stringify(['別的城市的老街','山上看星星'])&&has('今天看得到。……上次那顆，真的是星星。')&&H.G.flags.KX_TRIP.Y4S2==='stars');
     { const ga='（回程她沒有睡。過了收費站，她把音樂關小。）', i=iOf(ga);
-      check('G3 車上開場、回程是大四版（AA_345 G3）：「沒有行程表。音樂我管，方向你管。」「……目的地也你管。我只是想坐在車上。」→ 目的地 → 回程「（回程她沒有睡。過了收費站，她把音樂關小。）」（旁白）「……畢業以後，還是要開。」；沒有大一、大二的句子', H.said[0]&&H.said[0].t==='沒有行程表。音樂我管，方向你管。'&&H.said[1]&&H.said[1].t==='……目的地也你管。我只是想坐在車上。'&&i>iOf('今天看得到。……上次那顆，真的是星星。')&&H.said[i].who===null&&H.said[i+1]&&H.said[i+1].t==='……畢業以後，還是要開。'&&H.said[i+1].who!==null&&!H.said.some(s=>/規則|誰都不能管對方的|我要陪你開車|我真的不睡|她睡著了|她又睡著了/.test(s.t)), JSON.stringify(H.said.map(s=>s.t))); }
+      check('G3 車上開場、回程是大四版（AA_345 G3）：「沒有行程表。音樂我管，方向你管。」「……目的地也你管。我只是想坐在車上。」→ 目的地 → 回程「（回程她沒有睡。過了收費站，她把音樂關小。）」（旁白）「……畢業以後，還是要開。」；沒有大一、大二的句子', H.said[0]&&H.said[0].t==='音樂我管，方向你管。'&&H.said[1]&&H.said[1].t==='……目的地也你管。我只是想坐在車上。'&&i>iOf('今天看得到。……上次那顆，真的是星星。')&&H.said[i].who===null&&H.said[i+1]&&H.said[i+1].t==='……畢業以後，還是要開。'&&H.said[i+1].who!==null&&!H.said.some(s=>/規則|誰都不能管對方的|我要陪你開車|我真的不睡|她睡著了|她又睡著了/.test(s.t)), JSON.stringify(H.said.map(s=>s.t))); }   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
     fresh('2029-04-03',7.6,'dorm',{KX_TRIP:{Y1S2:'stars',Y2S2:'sea',Y4WIN:'oldtown'}}); date('kexin'); OUT.plan(H.G,{id:'y4_spring_kx',ev:'ev_kexin_trip_spring_y4',day:D('2029-04-03'),h:7+40/60,place:'木柵大學校門口',title:'t',travelH:40/60});
     await goOut('y4_spring_kx',[0]);
-    check('2-Y4-35 三個都去過＝迷路到的地方；KX_TRIP.Y4S2 lost（AA_350 N3：開場、回程也用大四版「沒有行程表。音樂我管，方向你管。」…「（回程她沒有睡。過了收費站，她把音樂關小。）」「……畢業以後，還是要開。」，中間迷路那一段照用；沒有大一、大二版的「這次我不出行程表」「行程表我回去再補」）', H.said[0]&&H.said[0].t==='沒有行程表。音樂我管，方向你管。'&&has('……目的地也你管。我只是想坐在車上。')&&has('（販賣機吃了你的硬幣。）')&&iOf('（回程她沒有睡。過了收費站，她把音樂關小。）')>iOf('（販賣機吃了你的硬幣。）')&&has('……畢業以後，還是要開。')&&!H.said.some(s=>/這次我不出行程表|我會忍住不看|行程表我回去再補|記在行程表上/.test(s.t))&&has('……十塊。回去再記。')&&H.G.flags.KX_TRIP.Y4S2==='lost', JSON.stringify(H.said.map(s=>s.t))); }
+    check('2-Y4-35 三個都去過＝迷路到的地方；KX_TRIP.Y4S2 lost（AA_350 N3：開場、回程也用大四版「沒有行程表。音樂我管，方向你管。」…「（回程她沒有睡。過了收費站，她把音樂關小。）」「……畢業以後，還是要開。」，中間迷路那一段照用；沒有大一、大二版的「這次我不出行程表」「行程表我回去再補」）', H.said[0]&&H.said[0].t==='音樂我管，方向你管。'&&has('……目的地也你管。我只是想坐在車上。')&&has('（販賣機吃了你的硬幣。）')&&iOf('（回程她沒有睡。過了收費站，她把音樂關小。）')>iOf('（販賣機吃了你的硬幣。）')&&has('……畢業以後，還是要開。')&&!H.said.some(s=>/這次我不出行程表|我會忍住不看|行程表我回去再補|記在行程表上/.test(s.t))&&has('……十塊。算它的。')&&H.G.flags.KX_TRIP.Y4S2==='lost', JSON.stringify(H.said.map(s=>s.t))); }   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   /* ===== 2-Y4-36 沛珊 P6 公開課 ===== */
   const PSB=()=>{ H.FAMILIAR('classmate_peishan'); H.G.flags.PS_BACK_FIRST=D('2028-08-10'); contact('classmate_peishan'); };
   { fresh('2029-04-12',20,'dorm'); PSB(); at('2029-04-12',21); phone();
@@ -177,7 +177,7 @@ const date=id=>H.date(id);
     H.opts=[]; H.picks=[2]; await S.kxBdayPrompt(GM); const q=OUT.get(H.G,'y4_kx_bday');
     check('2-Y4-38 四個做法：傳一句／寫在讀書計畫表（有 KX_STUDY_PLAN）／開車上山送湯餃／晚一點；選開車＝出遊（木柵大學宿舍樓下）', H.opts[0].length===4&&/讀書計畫表/.test(H.opts[0][1])&&!!q&&q.day===D('2029-04-24'));
     at('2029-04-24',20.4); await goOut('y4_kx_bday');
-    check('K1 開車送湯餃：「……你開上山就為了這個？」「湯還是熱的。」；KX_BDAY[4] visit', has('……你開上山就為了這個？')&&has('湯還是熱的。')&&H.G.flags.KX_BDAY[4]==='visit'); }
+    check('K1 開車送湯餃：「……你開上山就為了這個？」「湯還是熱的。」；KX_BDAY[4] visit', has('……你排了多久？後門那家晚上都要排。')&&has('湯還是熱的。')&&H.G.flags.KX_BDAY[4]==='visit'); }   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   { fresh('2029-04-24',10,'dorm'); date('kexin'); H.G.msgs=[]; PHONE.at(H.G,D('2029-04-23'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y4_kx_bday'); PHONE.tick(H.G); H.opts=[]; H.picks=[0]; await S.kxBdayPrompt(GM); at('2029-04-24',10.5); PHONE.tick(H.G);
     check('2-Y4-38 沒有 KX_STUDY_PLAN：沒有寫在表上那一個；傳一句「生日快樂。」→「收到。……謝謝你照做。」；quiet', H.opts[0].length===3&&th('p:kexin').includes('生日快樂。')&&th('p:kexin').includes('收到。……謝謝你照做。')&&H.G.flags.KX_BDAY[4]==='quiet'); }
   { fresh('2029-04-24',10,'dorm',{KX_STUDY_PLAN:true}); date('kexin'); PHONE.at(H.G,D('2029-04-23'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y4_kx_bday'); PHONE.tick(H.G); H.picks=[1]; await S.kxBdayPrompt(GM); at('2029-04-24',10.5); PHONE.tick(H.G);

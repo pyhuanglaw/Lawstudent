@@ -39,9 +39,8 @@ const R2Y3A_EVENTS=(function(){
       /* AA_525 3-9（K-11）：晚上那通電話她說了「那你下次要當面恭喜我。」的（演過 ev_kexin_summer_plan_call：6/2 沒到 Y2R2_K14_NOSHOW、沒答應的兩種人都聽過，AA_526 第 2 節）＝接人以後當面補；選項只有一個 */
       {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_kexin_summer_plan_call)},goto:'aa525_k11_end'},
       {speaker:'kexin',expression:'neutral',text:'……當面。'},{choice:[{text:'「恭喜。」',goto:'aa525_k11'}]},{label:'aa525_k11'},{speaker:'kexin',expression:'smile',text:'好。收到了。'},{label:'aa525_k11_end'},
-      {speaker:'kexin',expression:'tired',text:'這週我影印了一千兩百頁。今天不要有紙。'},
-      {speaker:'kexin',expression:'teasing',text:'行程表除外。'},
-      {speaker:null,text:'（她把手機轉過來。今天的行程表只有三行：渡輪、燈塔、吃東西。）'},
+      {speaker:'kexin',expression:'tired',text:'上個月我影印了一千兩百頁。今天不要有紙。'},   /* CANON-NO-ECON-1112 第四批：照 AA_878 #26 換字（行程表那兩列合成一句）*/
+      {speaker:'kexin',expression:'teasing',text:'今天只做三件事。渡輪、燈塔、吃東西。'},
       {scene:'高雄・旗津',bg:'kh_cijin'},   /* 地點字幕；旗津的背景還沒有，kh_cijin＝港邊的圖（outings3d.js）*/
       {speaker:null,text:'（渡輪只開十分鐘。她站在船邊，頭髮一直被風吹到臉上，她也不管。）'},
       {speaker:null,text:'（太陽很大。她把防曬乳擠了兩次，一次給你。）'},
@@ -69,7 +68,7 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'kexin',expression:'thinking',text:'牛郎織女要等一年。'},
       {speaker:'kexin',expression:'smile',text:'我們有車。'},
       {choice:[{text:'「還有高鐵。」',goto:'q1'},{text:'「明年也來？」',goto:'q2'},{text:'（把頭靠在她肩上）',goto:'q3'}]},
-      {label:'q1'},{speaker:'kexin',expression:'smile',text:'高鐵要錢。車也要錢。……好啦，都算。'},{goto:'back'},
+      {label:'q1'},{speaker:'kexin',expression:'smile',text:'高鐵很貴欸。所以你來了就要待久一點。'}/* AA_878 #27 */,{goto:'back'},
       {label:'q2'},{speaker:'kexin',expression:'serious',text:'明年我在哪裡還不知道。……你先記著。'},{goto:'back'},
       {label:'q3'},{speaker:'kexin',expression:'embarrassed',text:'……很重。'},{speaker:null,text:'（她沒有推開。）'},
       {label:'back'},{advance:toH(21.5)},
@@ -424,7 +423,7 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-21 可昕 聖誕「她還在趕報告」：12/25（六）21:00 視訊（10 分鐘沒接＝沒接）；禮物在學期末那一場換（termend_lines.js KX.Y3S1，不另外做）---------- */
   const XMAS={ id:'ev_kexin_xmas_y3', title:'她還在趕報告', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
     dialogue:[ {scene:'視訊',bg:'video'},
-      {speaker:'kexin',expression:'tired',text:'聖誕快樂。我報告還差兩頁。你們考完了吧？'},
+      {speaker:'kexin',expression:'tired',text:'聖誕快樂。我報告還差兩頁。教授說明天中午以前。'},   /* CANON-NO-ECON-1112 第四批：照 AA_878 #38 第一列換字（改當面的其他列等當面版的邀約字，見交接）*/
       {speaker:'kexin',expression:'smile',text:'螢幕開著。你陪我就好。'},
       {speaker:null,text:'（她低頭打字。你看著螢幕裡她的頭頂，看了一個多小時。）'},
       {advance:toH(22.5)},
@@ -443,12 +442,12 @@ const R2Y3A_EVENTS=(function(){
   const VDAY={ id:'ev_kexin_valentine_y3', title:'情人節', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:null,text:'（視訊。她那邊是高雄的房間，窗戶開著。）'},
-      {speaker:'kexin',expression:'smile',text:'情人節快樂。三十分鐘。……我們越來越會了。'},
-      {choice:[{text:'「三十分鐘夠嗎？」',goto:'v1'},{text:'「妳那邊好吵。」',goto:'v2'},{text:'（把窗外轉給她看）',goto:'v3'}]},
-      {label:'v1'},{speaker:'kexin',expression:'teasing',text:'不夠。……這禮拜六我就上去了。'},{goto:'end'},
+      {speaker:'kexin',expression:'smile',text:'情人節快樂。我在幫我媽包水餃，手是濕的，只能講一下。'},   /* CANON-NO-ECON-1112 第四批：照 AA_878 #40 換字（三十分鐘的計時拿掉）*/
+      {choice:[{text:'「一下是多久？」',goto:'v1'},{text:'「妳那邊好吵。」',goto:'v2'},{text:'（把窗外轉給她看）',goto:'v3'}]},
+      {label:'v1'},{speaker:'kexin',expression:'teasing',text:'包完這一盤。禮拜六我就上臺北了。'},{goto:'end'},
       {label:'v2'},{speaker:'kexin',expression:'laugh',text:'是我媽在陽台澆花。她說你好。'},{goto:'end'},
       {label:'v3'},{speaker:'kexin',expression:'teasing',text:'臺北又在下雨。……我就知道。'},
-      {label:'end'},{speaker:null,text:'（三十分鐘一到，她真的掛了。三秒後，她傳來一張長頸鹿的貼圖。）'} ],
+      {label:'end'},{speaker:null,text:'（她媽在旁邊喊水滾了。她掛了。過了一會兒，她傳來一張長頸鹿的貼圖。）'} ],
     after:G=>{ const r=R(); if(r){ r.kxYear(G,'KX_VDAY','video'); r.vdayGiraffe(G); } },
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.vdayMissed(G); } };
 

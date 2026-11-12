@@ -2322,7 +2322,7 @@ const STORY = (function(){
        4/2 過了還沒選＝留在宿舍（不傳可昕的回覆：玩家沒有回她）*/
     { const D=S.springDays(); if(D.inv1&&G.day>=D.inv1-1&&G.day<=D.d0+3){
         if(PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'an_spring_y1')&&G.day<=D.dl) PHONE.at(G,D.inv1,21,[{th:'g:noodle_team',from:'heroine_01',text:'春假要不要一起出去？我做行程表。'}],'an_spring_y1');
-        if(F.dating_kexin&&!PHONE.sent(G,'kx_spring_y1')&&G.day<=D.dl) PHONE.at(G,D.inv2,21.5,[{th:'p:kexin',from:'kexin',text:'春假我們開車去哪裡？'},{th:'p:kexin',from:'kexin',text:'我做了行程表。第二頁是我想吃的，第三頁才是行程。'}],'kx_spring_y1');
+        if(F.dating_kexin&&!PHONE.sent(G,'kx_spring_y1')&&G.day<=D.dl) PHONE.at(G,D.inv2,21.5,[{th:'p:kexin',from:'kexin',text:'春假我們開車去哪裡？'},{th:'p:kexin',from:'kexin',text:'春假出去。我只想好要吃什麼，其他到車上再說。'}],'kx_spring_y1');   /* CANON-NO-ECON-1112 第四批：照 AA_877 #4 換字 */
         if(G.day>D.dl&&F.SPRING_Y1==null&&(PHONE.sent(G,'an_spring_y1')||PHONE.sent(G,'kx_spring_y1'))) S.springChoose(GM,'dorm',{silent:true}); } }
     /* 重訪日 1（交接包 v2 C20；BB_96 9-10）：大一最後一天中午，交往中的玩家可昕傳「最後一天。你說的那張桌子，我六點到。」；收到以後目標改成 18:00 兩點半 Café */
     /* 2026-10-17 使用者取消重訪日（AA_249）：下面整段停用（S.REVISIT_OFF），學期末聚餐的新系統跟 HOLIDAY-SYS 一起做 */
@@ -2387,7 +2387,7 @@ const STORY = (function(){
      桌遊團那一趟（4/3～4/4）的事件 ev_noodle_trip_spring_y1 在 events.js（AA_355 第 3 節：已經有了；找不到事件才不排）。silent：沒選就過了 4/2（可昕不回） */
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G, F=G.flags, D=S.springDays(), kx=!!F.dating_kexin, grp=PHONE.inGroup(G,'noodle_team'); F.SPRING_Y1=k;
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);
-    if(k==='kexin'&&typeof OUT!=='undefined') OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D.d0,h:7+40/60,place:'木柵大學校門口',title:'春假：開車旅行',travel:'開車到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});   /* AA_147 第 1 節 #1：祐廷開車、可昕坐副駕駛——07:00 從宿舍回家取車（+30 分）→ 07:40 政大校門接她 → 08:00 出發；回程送她回政大、車開回家（+30 分）*/
+    if(k==='kexin'&&typeof OUT!=='undefined') OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D.d0,h:7+40/60,place:'女生宿舍樓下',title:'春假：開車旅行',travel:'先回家開車，再到宿舍樓下接她',travelH:40/60,back:'送她回宿舍，再把車開回家。'});   /* CANON-NO-ECON-1112 第四批（AA_877 #4；地點、移動的字同 AA_896 K18）*/   /* AA_147 第 1 節 #1：祐廷開車、可昕坐副駕駛——07:00 從宿舍回家取車（+30 分）→ 07:40 政大校門接她 → 08:00 出發；回程送她回政大、車開回家（+30 分）*/
     if(k==='noodle'){ if(kx){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那我們暑假再去，我先選地方。','你們去哪裡，照片要傳給我。'],'kx_spring_reply'); KX(D.d0,21.5,['📷（她和予樂的宵夜）','予樂說她今天代替你。她吃得比你多。'],'kx_spring_photo'); F.KX_TRIP_DEFERRED='summer'; }
       if(typeof OUT!=='undefined'&&typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e.id==='ev_noodle_trip_spring_y1')) OUT.plan(G,{id:'ndl_trip_y1s2',ev:'ev_noodle_trip_spring_y1',day:D.d0,h:8,place:'台北車站',title:'春假・小旅行',travel:'',travelH:0.5,back:'回到台北。'}); }
     if(k==='dorm'&&kx){ if(!o.silent) KX(G.day,G.hour+0.1,['留在宿舍？……好。那暑假我們去遠一點。'],'kx_spring_reply'); KX(D.d0+1,16,['📷（木柵大學山上的階梯）','山上都沒人，我自己爬上去了。'],'kx_spring_photo');/* AA_209 附錄B §2 */ F.KX_TRIP_DEFERRED='summer'; }
@@ -4035,6 +4035,7 @@ const STORY = (function(){
   S.KX_NYE_Y={2:{nye:'2026-12-31',ask:G=>['今年跨年，高雄還是頂樓？'],opts:[{t:'高雄。',k:'river',r:'好。我去車站接你。幾點的車先跟我說。'},{t:'頂樓。',k:'video',r:'好。零點我打視訊。'}]},
     3:{nye:'2027-12-31',ask:G=>['跨年。我列了選項。','一、你來高雄。二、零點視訊。沒有三。'].concat((G.flags.KX_NYE||{})[2]==='video'?['去年是二。今年我比較想要一。']:[]),opts:[{t:'一。',k:'river',r:'好。車站見。'},{t:'二。',k:'video',r:'好。零點。'}]},
     4:{nye:'2028-12-31',ask:G=>(G.flags.EXCHANGE_ROUTE==='US'?['你的時差調回來了嗎？']:[]).concat(['跨年。高雄或視訊，你選。我兩個都可以。']),opts:[{t:'高雄。',k:'river',r:'好。我去車站接你。'},{t:'視訊。',k:'video',r:'好。那我零點準時打。'}]}};
+  S.KX_NYE_MSG={2:'新年快樂。河邊今年人比較多。',3:'新年快樂。暖暖包我多帶了一個，自己用掉了。',4:'新年快樂。那個位置今年被別人占走了。'};   /* AA_878 #19～21 */
   S.kxNye=function(GM){ const G=GM.G, F=G.flags; if(!F.dating_kexin||typeof PHONE==='undefined'||typeof OUT==='undefined') return; const hh=G.hour;
     for(const y of [2,3,4]){ const C=S.KX_NYE_Y[y], nye=S.dayOfKey(C.nye); if(nye==null||G.day<nye-7||G.day>nye+1) continue; const K=F.KX_NYE||(F.KX_NYE={}), tag='kx_nye_y'+y, th='p:kexin';
       if(!PHONE.sent(G,tag)&&(G.day>nye-7||hh>=21)&&(G.day<nye||hh<21)){ const L=C.ask(G).map(t=>({th,from:'kexin',text:t})); L[L.length-1].ask={id:tag,until:nye*24+21,opts:C.opts.map(o=>Object.assign({t:o.t,set:{['KX_NYE_PICK'+y]:o.k},say:[{from:'kexin',text:o.r}]},o.k==='river'?{need:{money:2980,why:'高鐵票錢不夠。'}}:{}))}; PHONE.at(G,G.day===nye-7?Math.max(nye-7,G.day):G.day,G.day===nye-7?Math.max(21,hh):hh,L,tag); }
@@ -4042,6 +4043,7 @@ const STORY = (function(){
       if(G.day===nye&&hh>=21&&!K[y]) K[y]='video';   /* 12/31 21:00 以前沒回她：當作選視訊 */
       if(G.day!==nye&&!(G.day===nye+1&&hh<1)) continue;
       if(K[y]==='river'&&!OUT.get(G,'kx_nye_y'+y)&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'kx_nye_y'+y,ev:'ev_kx_nye_river_y'+y,day:nye,h:23.5,late:0.25,place:'高雄・愛河邊',title:'去高雄跨年（高鐵約一個半小時）',travel:'高鐵約一個半小時',travelH:1.5,back:'回到臺北。'});
+      if(K[y]&&K[y]!=='river'&&K[y]!=='missed'&&(G.day>nye||hh>=24-1e-9||G.day===nye+1)&&!PHONE.sent(G,'kx_nye_msg_y'+y)) PHONE.at(G,nye,24,[{th,from:'kexin',text:S.KX_NYE_MSG[y]}],'kx_nye_msg_y'+y);   /* CANON-NO-ECON-1112 第四批（AA_878 #19～21）：沒去高雄的那年，零點她傳一則（三年輪），視訊那一場已拿掉 */
       const kq=OUT.get(G,'kx_nye_y'+y); if(K[y]==='river'&&kq&&kq.state==='missed'){ K[y]='missed'; PHONE.at(G,nye+1,9,[{th,from:'kexin',text:'愛河的煙火，我一個人看了。'},{th,from:'kexin',text:'……新年快樂。'}],'kx_nye_miss_y'+y); }   /* AA_313 第 2 節第 37 列（2-3 B）：這兩句在隔天早上（00:05 她打來的電話：CANON-NO-ECON-1112 第三批拿掉）*/
     } };   /* 留在臺北的那一年 23:59 的視訊：CANON-NO-ECON-1112 第三批拿掉 */
   /* 跨年大二（AA_210 第 1 節＋第 5 節，881ed505）：12/31 21:00 桌遊團群組五句（以安不認識＝柏翰那句開頭）→ 23:30 頂樓（出遊選單）；00:05 群組（阿哲的照片、Alison；拍了照的多一張）；

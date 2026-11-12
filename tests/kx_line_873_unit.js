@@ -1,4 +1,4 @@
-// 可昕自己的線（CANON-NO-ECON-1112 第四批；企劃線 AA_873 定稿，BB_416）：①～⑥ 的觸發條件、逐字（② 在 tests/y2b_events_unit.js、④ 在 tests/r2y3a_events_unit.js、⑤ 在 tests/r2y3b_events_unit.js）。用法：node tests/kx_line_873_unit.js
+// 可昕自己的線（CANON-NO-ECON-1112 第四批；企劃線 AA_873 定稿，BB_416）：①～⑥ 的觸發條件、逐字（② 在 tests/y2b_events_unit.js、④ 在 tests/r2y3a_events_unit.js、⑤ 在 tests/r2y3b_events_unit.js）；檔尾加 AA_877、AA_878 補的機制（情人節補過、跨年沒去那一則）。用法：node tests/kx_line_873_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -51,5 +51,15 @@ const J=JSON.stringify;
   fresh('2029-04-25',14,'linze',{KX_MET:true}); R('kexin','FRI'); check('⑥. 朋友：條件成立', EVENTS.checkAt(ev('ev_kx_s6_same'))); await run('ev_kx_s6_same',[1]);
   check('⑥. 照 AA_873 ⑥ 逐字（選「妳想當哪一個？」）；記 KX_S6', J(all())===J(['（系館的布告欄前面。她在看一張國考的時程表，看完把手機收起來。）','很多人問我要考哪一個。','我本來也覺得要先選好。律師、司法官，選一個，然後照那個念。','都可以。我講真的。','不管最後坐在哪一邊，我要做的是同一件事——有人拿著一張看不懂的紙站在那裡，我過去，用他聽得懂的話講一遍。','考不考得上，都可以這樣做。','（她看了你一眼。）','這句不准跟阿哲講。他好不容易才不怕我。'])&&G.flags.KX_S6===true, J(all()));
   check('全部. 六拍不讀 dating_kexin、沒有「如果」「比你」', ['ev_kx_s1_deposit','ev_kexin_bad_exam','ev_kexin_tutor_practice','ev_kexin_call_helper','ev_kx_s6_same'].every(id=>!/dating_kexin|如果|比你/.test(J(ev(id).dialogue))));
+  /* ===== AA_877／878 補的機制（CANON-NO-ECON-1112 第四批）===== */
+  { const e=ev('ev_kexin_vday_makeup_y1'); fresh('2026-02-23',10,'classroom',{dating_kexin:true,KX_VDAY_MAKEUP:true});
+    check('AA_877 #10. 情人節補過：大一下開學第一週下課、交往中、選過二或三＝她在教室門口那一句', !!e&&e.trigger==='class'&&J(e.term)===J(['Y1S2'])&&J(e.weeks)===J([1])&&EVENTS.cond(e.prereq)&&J(e.dialogue.slice(0,2).map(l=>l.text))===J(['（她在教室門口等。）','走。情人節補過。']));
+    fresh('2026-02-23',10,'classroom',{dating_kexin:true}); check('AA_877 #10. 選一（讀民總）的：沒有', !EVENTS.cond(e.prereq)); }
+  { const e=ev('ev_nye_river'), nye=D('2025-12-31'); fresh('2025-12-31',23.9,'dorm',{dating_kexin:true}); e.outingMissed(G,GM,{day:nye}); G.day=nye+1; G.hour=0.2; PHONE.tick(G);
+    check('AA_877 #3. 高雄跨年沒去：當晚她傳「新年快樂。河邊沒什麼人，我自己看完了。」', (G.msgs||[]).some(m=>m.th==='p:kexin'&&m.text==='新年快樂。河邊沒什麼人，我自己看完了。')&&G.flags.KX_NYE[1]==='missed'); }
+  for(const [y,key,t] of [[2,'2026-12-31','新年快樂。河邊今年人比較多。'],[3,'2027-12-31','新年快樂。暖暖包我多帶了一個，自己用掉了。'],[4,'2028-12-31','新年快樂。那個位置今年被別人占走了。']]){
+    fresh(key,23.5,'dorm',{dating_kexin:true,KX_NYE:{[y]:'video'}}); STORY.kxNye(GM); G.day=D(key)+1; G.hour=0.3; STORY.kxNye(GM); PHONE.tick(G);
+    check('AA_878 #19～21. 大'+['','','二','三','四'][y]+'沒去高雄：零點她傳一則「'+t+'」；沒有視訊', (G.msgs||[]).some(m=>m.th==='p:kexin'&&m.text===t)&&!(G.outings||[]).some(q=>/視訊/.test(q.place||'')), J((G.msgs||[]).filter(m=>m.th==='p:kexin').map(m=>m.text))); }
+  check('AA_878 #19～21. 三場高雄跨年的 kxAway 拿掉', [2,3,4].every(y=>!ev('ev_kx_nye_river_y'+y).kxAway));
   if(fails){ console.log('FAILED '+fails); process.exit(1); } console.log('ALL PASS');
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

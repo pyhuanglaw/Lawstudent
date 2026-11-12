@@ -95,8 +95,7 @@ const R2Y3B_EVENTS=(function(){
   const wishKx=G=>!!(G.flags&&G.flags.WISH_DONE_kexin)||(typeof DATE!=='undefined'&&!!DATE.log&&!!DATE.log(G,'kexin').wish);   /* 去過外澳（她的心願地點） */
   const K18={ id:'ev_kexin_k18', title:'最輕鬆的一學期', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
     dialogue:[ {scene:'車上',bg:'car_morning'},
-      {unless:{custom:wishKx},speaker:'kexin',expression:'smile',text:'這次不排行程表。'},
-      {if:{custom:wishKx},speaker:'kexin',expression:'smile',text:'這次也不排。跟外澳那次一樣。'},
+      {speaker:'kexin',expression:'smile',text:'今天去一個我沒去過的地方。你也沒去過，我問過了。'},   /* CANON-NO-ECON-1112 第四批：照 AA_880 #41 換字（兩列合成一列、不看條件）*/
       {scene:'山裡的舊車站',bg:'trip_oldrail'},   /* 2D trip_oldrail 待生成（G5-09）：沒有圖＝深色底＋地點字幕 */
       {speaker:null,text:'（山裡的舊車站。月台還在，鐵軌已經不走火車了。遠一點，是一座只剩橋墩的紅磚橋。）'},
       {speaker:'kexin',expression:'thinking',text:'這裡的火車，很久以前就不來了。'},
@@ -106,7 +105,7 @@ const R2Y3B_EVENTS=(function(){
       {label:'b'},{speaker:null,text:'（你們走了四十分鐘。她在橋墩下站了很久。）'},{speaker:'kexin',expression:'tired',text:'……腳好痠。回去我要在車上睡。'},{goto:'back'},
       {label:'c'},{speaker:null,text:'（她把頭靠在你肩上，說了一句「好安靜」，就沒有再說話。）'},
       {label:'back'},{scene:'車上',bg:'car_night'},
-      {speaker:'kexin',expression:'laugh',text:'下一站要去哪裡，回去再想。……不對，不想。'},
+      {speaker:'kexin',expression:'laugh',text:'下一站去哪裡，我現在不想決定。這樣很好。'},
       {set:{KX_K18:'trip'}} ],
     consequences:{memo:'和可昕去山裡的舊車站（一天）'},
     outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.k18Missed(G,GM,q); } };
@@ -287,7 +286,7 @@ const R2Y3B_EVENTS=(function(){
     dialogue:[ {if:KXV,scene:'視訊',bg:'video'},{unless:KXV,scene:'公館',bg:'gongguan_cake'},   /* 公館的甜點店 2D 沒有＝深色底＋字幕 */
       {if:KXV,speaker:null,text:'（她把一片蛋糕舉到鏡頭前。）'},{if:KXV,speaker:'kexin',expression:'teasing',text:'這片是你的。我幫你吃。'},
       {speaker:'kexin',expression:'smile',text:'生日願望。一，報告寫完。二，你的報告也寫完。'},
-      {speaker:'kexin',expression:'laugh',text:'三……三十分鐘到了。第三個明年說。'},{set:{KX_WISH3:true}},   /* AA_525 3-3（K-4）：2029-04-23 21:00 她的私訊多兩句（r2y4b3d.js）*/
+      {unless:KXV,speaker:'kexin',expression:'laugh',text:'三……第三個不講。講了你會太得意。'},{if:KXV,speaker:'kexin',expression:'laugh',text:'三……你那邊幾點了？第三個等你回來再講。'},{set:{KX_WISH3:true}},   /* CANON-NO-ECON-1112 第四批：照 AA_880 #43 換字（當面版／他在國外的視訊版）*/   /* AA_525 3-3（K-4）：2029-04-23 21:00 她的私訊多兩句（r2y4b3d.js）*/
       {if:{custom:G=>KXV.custom(G)&&!!(G.flags&&G.flags.KX_EXCHANGE_ASKED)},speaker:'kexin',expression:'smile',text:'沒關係，你先睡。填交換志願的時候，你有先問我。'},   /* AA_344 ⑤：日本路線視訊的最後（三十分鐘到了、她掛之前），交換志願表那一場先問過她的（KX_EXCHANGE_ASKED，story3d.js 1A-05）；BB_98 9-5 */
       {unless:KXV,speaker:null,text:'（她把最後一口蛋糕吃完，拿了包包就走。走到門口又回頭。）'},   /* 收尾（新寫）：當面那一版 */
       {unless:KXV,speaker:'kexin',expression:'smile',text:'報告寫完了跟我說。'} ],

@@ -97,7 +97,7 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(SD.d0,8,'dorm'); date('kexin'); K1=await play('ev_kexin_trip_spring_y2',['海邊']);
   check('1. 海邊「水比我想的冷。……你先下去。」', K1.includes(NAME('kexin')+'：水比我想的冷。……你先下去。')&&G.flags.KX_TRIP.Y2S2==='sea');
   fresh(SD.d0,8,'dorm'); date('kexin'); G.flags.KX_TRIP={Y1S2:'sea',Y1SUM:'oldtown',Y2WIN:'stars'}; K1=await play('ev_kexin_trip_spring_y2',[0]);
-  check('1. 三個都去過＝迷路到的地方（BB_97 9-12）：「這次我不出行程表。你帶路，不要看地圖。」…「行程表我回去再補。寫『迷路』，一行就好。」', K1.includes(NAME('kexin')+'：這次我不出行程表。你帶路，不要看地圖。')&&K1.includes(NAME('kexin')+'：這間店沒有招牌欸。')&&K1[K1.length-1]===NAME('kexin')+'：行程表我回去再補。寫『迷路』，一行就好。'&&G.flags.KX_TRIP.Y2S2==='lost'&&!K1.some(t=>/假設/.test(t)), JSON.stringify(K1.slice(-2)));
+  check('1. 三個都去過＝迷路到的地方（BB_97 9-12）：「這次我不出行程表。你帶路，不要看地圖。」…「行程表我回去再補。寫『迷路』，一行就好。」', K1.includes(NAME('kexin')+'：這次你帶路，不要看地圖。')/* （CANON-NO-ECON-1112 第四批：照 AA_878 #25 換字）*/&&K1.includes(NAME('kexin')+'：這間店沒有招牌欸。')&&K1[K1.length-1]===NAME('kexin')+'：行程表我回去再補。寫『迷路』，一行就好。'&&G.flags.KX_TRIP.Y2S2==='lost'&&!K1.some(t=>/假設/.test(t)), JSON.stringify(K1.slice(-2)));
   // 留宿舍、沒回、晚一點
   fresh(d330,21.9,'dorm'); team(); run(d330,21,21.75); picks=['留在宿舍']; GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
   G.day=SD.d0; G.hour=10; G.zone='dorm'; check('1. 留宿舍：4/3 白天走進宿舍＝「（宿舍的走廊很安靜。這次你知道，四天很快就過了。）」（只有那一天）', G.flags.SPRING_Y2==='dorm'&&EVENTS.check(ev('ev_spring_dorm_empty_y2'))&&ev('ev_spring_dorm_empty_y2').dialogue[0].text==='（宿舍的走廊很安靜。這次你知道，四天很快就過了。）'&&(G.day=SD.trip,!EVENTS.check(ev('ev_spring_dorm_empty_y2'))));

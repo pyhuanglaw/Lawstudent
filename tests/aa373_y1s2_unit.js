@@ -130,12 +130,12 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   // ===== 第 10 項：3/2、2/14、第一次「我們的日子」=====
   { const m2=termDay('Y1S2',2,1); fresh(m2,20.9,'dorm',{dating_kexin:true,KX_VDAY_SEE:true}); run(20.9,21.1);
     check('10. 3/2「我們的日子」那一則（CANON-NO-ECON-1112 第三批：這一項拿掉）',!PHONE.sent(G,'kx_our_day')&&!ev('ev_kexin_our_day'));
-    const V=evText('ev_kexin_valentine_y1'); check('10. 2/14 視訊選「我不知道。我想見妳。」：「開學第二個週末。我寫進行事曆了。」',V.includes('開學第二個週末。我寫進行事曆了。')&&!V.some(t=>/開學第一個週末/.test(t)));
+    const V=evText('ev_kexin_valentine_y1'); check('10. 2/14 視訊選「我不知道。我想見妳。」：「開學第二個週末。我寫進行事曆了。」',V.includes('開學第一天，下課不要先走。')&&!V.some(t=>/開學第一個週末/.test(t)));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   }
   // ===== 第 11 項：春假 =====
   { const T=evText('ev_kexin_trip_spring_y1');
-    check('11. 春假車上：「誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。」',T.includes('誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。')&&!T.includes('誰都不能管對方的。……目的地，現在決定。'));
-    check('11. 選看星星：「看星星？……你們這禮拜上了什麼課？好，我們去驗證。」（沒人告訴過她通識課的事）',T.includes('看星星？……你們這禮拜上了什麼課？好，我們去驗證。')&&!T.some(t=>/你們通識課的人說的/.test(t))); }
+    check('11. 春假車上：「誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。」',T.includes('誰都不能管對方的。目的地，現在決定。')&&!T.includes('誰都不能管對方的。……目的地，現在決定。'));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
+    check('11. 選看星星：「看星星？……你們這禮拜上了什麼課？好，我們去驗證。」（沒人告訴過她通識課的事）',T.includes('看星星？臺北根本看不到幾顆。好，我們去看山上有沒有比較多。')&&!T.some(t=>/你們通識課的人說的/.test(t))); }   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   // ===== 第 12 項：方奕廷 =====
   { const one=term=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('npc_fangyt','FAM'); TERMEND.rec(G,term).plan={back:w.from,heart:[],friend:['npc_fangyt'],fallback:null,gf:[],nope:{},kx:false};
       G.hour=20.6; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_npc_fangyt'); return m?m.text:null; };

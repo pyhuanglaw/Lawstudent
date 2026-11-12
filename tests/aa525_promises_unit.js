@@ -267,7 +267,7 @@ await sec('3-2',async()=>{
 });
 await sec('3-3',async()=>{
   fresh('2028-04-24',18,{dating_kexin:true}); H.FRIEND(KX); await runEv('ev_kexin_birthday_y3');
-  check('3-3. 大三生日「三……三十分鐘到了。第三個明年說。」＝記 KX_WISH3',has('三……三十分鐘到了。第三個明年說。')&&H.G.flags.KX_WISH3===true);
+  check('3-3. 大三生日「三……三十分鐘到了。第三個明年說。」＝記 KX_WISH3',has('三……第三個不講。講了你會太得意。')&&H.G.flags.KX_WISH3===true);   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   const p=w=>{ fresh('2029-04-23',21,Object.assign({dating_kexin:true,EXCHANGE_ROUTE:'TW'},w?{KX_WISH3:true}:{})); H.FRIEND(KX); STORY.phoneRules(GM); tick(); const m=(H.G.msgs||[]).filter(x=>x.tag==='y4_kx_bday'); return {t:m.map(x=>x.text),ask:m.filter(x=>x.ask).map(x=>x.text)}; };
   const A=p(true), B=p(false);
   check('3-3. 2029-04-23 21:00「明天我生日。今年不要慶祝…」後面多「第三個願望。去年說今年說。」「我們兩個都考過。」（KX_WISH3；回覆掛在最後一則）',J(A.t)===J(['明天我生日。今年不要慶祝，我們都在準備考試。','第三個願望。去年說今年說。','我們兩個都考過。'])&&J(A.ask)===J(['我們兩個都考過。']),J(A));
@@ -321,8 +321,8 @@ await sec('3-8',async()=>{
 await sec('3-9',async()=>{
   const kh=async(noshow,call)=>{ fresh('2027-08-07',10,Object.assign({dating_kexin:true},noshow?{Y2R2_K14_NOSHOW:true}:{})); H.FRIEND(KX); if(call) H.G.events.done.ev_kexin_summer_plan_call=true; await runEv('ev_kexin_trip_summer_y2',['恭喜']); return {s:said(),o:H.opts.slice()}; };
   const A=await kh(true,true), B=await kh(false,true), C=await kh(true,false), Dd=await kh(false,false);
-  check('3-9. 高雄的兩天開頭（6/2 沒去、晚上的電話說了「那你下次要當面恭喜我。」）：「……當面。」→ 選項只有「恭喜。」→「好。收到了。」，在「這週我影印了一千兩百頁…」之前',seq(['……當面。','好。收到了。','這週我影印了一千兩百頁。今天不要有紙。'],A.s)&&J(A.o[0])===J(['「恭喜。」']),J({s:A.s.slice(0,6),o:A.o[0]}));
-  check('3-9. AA_526 第 2 節：沒答應 6/2（沒有 Y2R2_K14_NOSHOW）但接到那通電話的也補，台詞一樣',seq(['……當面。','好。收到了。','這週我影印了一千兩百頁。今天不要有紙。'],B.s)&&J(B.o[0])===J(['「恭喜。」']),J(B.s.slice(3,6)));
+  check('3-9. 高雄的兩天開頭（6/2 沒去、晚上的電話說了「那你下次要當面恭喜我。」）：「……當面。」→ 選項只有「恭喜。」→「好。收到了。」，在「這週我影印了一千兩百頁…」之前',seq(['……當面。','好。收到了。','上個月我影印了一千兩百頁。今天不要有紙。'],A.s)&&J(A.o[0])===J(['「恭喜。」']),J({s:A.s.slice(0,6),o:A.o[0]}));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
+  check('3-9. AA_526 第 2 節：沒答應 6/2（沒有 Y2R2_K14_NOSHOW）但接到那通電話的也補，台詞一樣',seq(['……當面。','好。收到了。','上個月我影印了一千兩百頁。今天不要有紙。'],B.s)&&J(B.o[0])===J(['「恭喜。」']),J(B.s.slice(3,6)));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   check('3-9. 沒演過那通電話（不管有沒有 NOSHOW）＝沒有',!C.s.includes('……當面。')&&!Dd.s.includes('……當面。'));
 });
 await sec('3-10',async()=>{

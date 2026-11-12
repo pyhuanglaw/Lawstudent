@@ -171,8 +171,8 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.springPhoto(G); } },
   /* 和可昕開車（照 AA_324 1C-01 可昕那一選：目的地從還沒去過的裡面選；都去過＝迷路到的地方；沒有假設題）。車上開場、回程照 AA_345 G3。記 KX_TRIP.Y4S2 */
   { id:'ev_kexin_trip_spring_y4', title:'春假：開車旅行（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
-    dialogue:[ {scene:'木柵大學・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
-      {speaker:'kexin',expression:'smile',text:'沒有行程表。音樂我管，方向你管。'},   /* 車上開場、回程：大四版（AA_345 G3 新寫），不沿用大一、大二；三個地方都去過（迷路那一版）也一樣（AA_350 N3）*/
+    dialogue:[ {scene:'女生宿舍樓下',bg:'dark'},{scene:'車上',bg:'car'},   /* CANON-NO-ECON-1112 第四批（AA_880 #46）*/
+      {speaker:'kexin',expression:'smile',text:'音樂我管，方向你管。'},   /* 車上開場、回程：大四版（AA_345 G3 新寫），不沿用大一、大二；三個地方都去過（迷路那一版）也一樣（AA_350 N3）*/
       {speaker:'kexin',expression:'smile',text:'……目的地也你管。我只是想坐在車上。'},
       {if:{custom:G=>R().kxAllSeen(G)},goto:'lost'},
       {choice:[{text:'海邊',if:{custom:G=>!R().kxSeen(G).includes('sea')},set:{KX_TRIP_Y4S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:{custom:G=>!R().kxSeen(G).includes('oldtown')},set:{KX_TRIP_Y4S2:'oldtown'},goto:'d_old'},{text:'山上看星星',set:{KX_TRIP_Y4S2:'stars'},goto:'d_star'}]},   /* 「山上看星星」一定在（AA_336 C7 改的 1C-01 做法；只照「還沒去過的」的話「今天看得到。……」永遠不會出現）*/
@@ -185,7 +185,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:null,text:'（開了一個多小時，轉錯三次彎。路的盡頭是一片田，一間沒有招牌的雜貨店，門口一台舊的投幣販賣機。）'},
       {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'……我們到底在哪。'},
       {choice:[{text:'「買兩罐汽水。」',goto:'l1'},{text:'「下次再來？」',goto:'l2'},{text:'（坐在店門口的長椅）',goto:'l3'}]},
-      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。回去再記。'},{goto:'lb'},   /* AA_350 R0：大四版開場說「沒有行程表」，這一拍不再說記在行程表上 */
+      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。算它的。'},{goto:'lb'},   /* AA_350 R0：大四版開場說「沒有行程表」，這一拍不再說記在行程表上 */
       {label:'l2'},{speaker:'kexin',expression:'laugh',text:'你記得路嗎？我完全不知道我們在哪。'},{goto:'lb'},
       {label:'l3'},{speaker:null,text:'（田裡的風吹過來。她拍了一張照片，照片裡只有路。）'},
       {label:'lb'},{goto:'back'},
@@ -217,11 +217,13 @@ const R2Y4B_EVENTS=(function(){
     consequences:{memo:'去台南看沛珊的公開課'},
     beforeOuting:(G,GM)=>{ const r=R(); if(r) r.payFare(GM,'tainan'); },   /* 高鐵票錢照扣（AA_282 第 3 節）*/
     outingMissed:G=>{ const r=R(); if(r) r.psOpenMissed(G); } },
-  /* ---------- 2-Y4-38 可昕的生日「今年不要慶祝」：開車上山，送一碗山下那家的酸辣湯餃，不進去（4/24 晚上；nccu_dorm）---------- */
-  { id:'ev_kexin_bday_visit_y4', title:'生日（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
-    dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
-      {speaker:'kexin',expression:'surprised',text:'……你開上山就為了這個？'},
-      {speaker:'kexin',expression:'smile',text:'湯還是熱的。'} ],
+  /* ---------- 2-Y4-38 可昕的生日「今年不要慶祝」：帶一碗後門那家的熱湯餃到女生宿舍樓下，不進去（4/24 晚上）。CANON-NO-ECON-1112 第四批照 AA_880 #47 換字、加兩列，kxAway 拿掉 ---------- */
+  { id:'ev_kexin_bday_visit_y4', title:'生日（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
+    dialogue:[ {scene:'女生宿舍樓下',bg:'dark'},
+      {speaker:'kexin',expression:'surprised',text:'……你排了多久？後門那家晚上都要排。'},
+      {speaker:'kexin',expression:'smile',text:'湯還是熱的。'},
+      {speaker:null,text:'（她坐在樓下的長椅上喝湯，書還夾在手臂下面。）'},
+      {speaker:'kexin',expression:'smile',text:'今天我室友幫我過了，蛋糕很甜。這碗是鹹的，剛好。'} ],
     after:G=>{ const r=R(); if(r) r.kxBdaySet(G,'visit'); },   /* KX_BDAY:{4:'visit'}（AA_327 2-Y4-38 第 4 節）*/
     outingMissed:G=>{ const r=R(); if(r) r.kxBdayMissed(G); } },
   /* ---------- 2-Y4-39 系籃最後一場（5/12（六）10:00 新體育館）＋吉他社成發（19:00）---------- */
