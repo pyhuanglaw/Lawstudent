@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_look_all_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LM_FRONT_KNOWN_72fc\out
+CC 全部的看：TAG lm_front_known；SHA 72fc1ffc88；ZONE tz_limao；SEL tzPoint:books/cabinet/scroll；CASES [['2025-10-14', '20']]；FLAGS {'LM_KNOWN': True}
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [2025-10-14 20] 【前置／捷徑】讀檔到 tz_limao 2025-10-14 20（條件事件關掉）；旗標 {"LM_KNOWN": true}
+PASS [2025-10-14 20] 讀到 tz_limao  {"zone": "tz_limao", "x": 0.9, "z": 3.3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.05}
+  [  38.1s] [2025-10-14 20] 照 SEL=tzPoint:books/cabinet/scroll 挑到 3 個：[{"ix": 4, "x": -1.4, "z": 2.9, "lv": 0, "r": 0.8, "label": "看書櫃", "key": "books", "hidden": false}, {"ix": 5, "x": 1.4, "z": 1.6, "lv": 0, "r": 0.8, "label": "看玻璃櫃", "key": "cabinet", "hidden": false}, {"ix": 6, "x": -0.8, "z": -0.6, "lv": 0, "r": 0.8, "label": "看掛畫", "key": "scroll", "hidden": false}]
+PASS [2025-10-14 20] 挑得到互動點  ["離開禮貌生財", "坐下", "坐下", "坐下", "看書櫃", "看玻璃櫃", "看掛畫", "書房的門"]
+  [  40.8s] 到達「看書櫃」附近（0.06 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  44.1s] [2025-10-14 20] #0「看書櫃」 互動鍵「看書櫃」（離點 0.06 m、lv 0）→ ["｜（最下面那一層，書背還是朝裡面。跟書房那面牆上的，應該是同一批。）"]；toast ["現在可以自由活動了。拖搖桿或點地面走路；靠近人或門，右下角會出現按鈕。"]
+PASS [2025-10-14 20] #0「看書櫃」 互動鍵對到這個點、按了有字  ["看書櫃", ["｜（最下面那一層，書背還是朝裡面。跟書房那面牆上的，應該是同一批。）"]]
+  [  46.7s] 到達「看玻璃櫃」附近（0.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  50.0s] [2025-10-14 20] #1「看玻璃櫃」 互動鍵「看玻璃櫃」（離點 0.11 m、lv 0）→ ["｜（沒有標籤的那一罐少了一半。有標籤的那罐，看起來沒有人動過。）"]；toast ["現在可以自由活動了。拖搖桿或點地面走路；靠近人或門，右下角會出現按鈕。"]
+PASS [2025-10-14 20] #1「看玻璃櫃」 互動鍵對到這個點、按了有字  ["看玻璃櫃", ["｜（沒有標籤的那一罐少了一半。有標籤的那罐，看起來沒有人動過。）"]]
+  [  55.2s] 到達「看掛畫」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  58.5s] [2025-10-14 20] #2「看掛畫」 互動鍵「看掛畫」（離點 0.23 m、lv 0）→ ["｜（「禮貌生財」。這幾個字的筆畫，跟書房那疊便條紙上的「買茶葉」是同一個人寫的"]；toast ["現在可以自由活動了。拖搖桿或點地面走路；靠近人或門，右下角會出現按鈕。"]
+PASS [2025-10-14 20] #2「看掛畫」 互動鍵對到這個點、按了有字  ["看掛畫", ["｜（「禮貌生財」。這幾個字的筆畫，跟書房那疊便條紙上的「買茶葉」是同一個人寫的"]]
+PASS 沒有 JS 例外  []
+ALL PASS
