@@ -1,5 +1,5 @@
 """BB 的普通課堂內容（企劃分支 docs/story_planning/syllabus/*.json，格式見 AA_104 第 1 節）→ src/data/syllabus.js。
-匯入法律系八學期（Y1S1～Y4S2）、日文（JP）、經濟系那一年（Y0S1、Y0S2；AA 2026-10-14 要求一起匯入——遊戲裡還沒有經濟系那一年的課，內容先放著、不會出現）。
+匯入法律系八學期（Y1S1～Y4S2）、日文（JP）。舊序章那一年的兩份源稿 AA 已刪（CANON-NO-ECON-1112），不再匯入；out['y0'] 留著空陣列，遊戲讀它的地方照舊。
 拿掉給法律審查的 review、給企劃的 ref（不顯示）；其他欄位照原樣（board 三行、line、react[{who,text}]、tpl A／B（obs）／C（call）、special、skip、pools、second＝一週兩格的課第二格的短片段 second_slot_lines）。
 週層級的 recall（例：大一下憲法二第 12 週回想 B4 演講）照匯入（v2 C15；AA-B 2026-10-16：帳號 A 的「先不匯入」是 v2 解除暫緩以前的事，作廢）。
 法律審查（AA_122 第 0a 節）：SYLLABUS.reviewed＝可以顯示 BB 內容的週（'課程代號|週次'），照 BB_115_法律審查清單.json 產生——那一週的審查項目
@@ -20,7 +20,7 @@ import import_guard as GUARD
 REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
 LABEL = None
 if '@' in REF: LABEL, REF = REF.split('@', 1)   # 分支@commit：讀 commit、來源寫分支名
-TERMS = ['Y0S1', 'Y0S2', 'Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2', 'JP']
+TERMS = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2', 'JP']
 PASS = ('無誤', '已修正', '補充')   # BB_115 的 review.result：通過的三種（沒有 result＝還沒審）
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 OVR = dict(a.split('=', 1) for a in sys.argv[2:] if '=' in a)   # 個別檔案改用別的 ref（例：Y0S1.json=9ebf6663）
