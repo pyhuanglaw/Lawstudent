@@ -1,5 +1,5 @@
 """CC-B（帳號 B）11-08：BUG-Y0-E01-UNDER-CARD-1108 驗收（LAWWW-B 5292ead4d：newGameEcon fade → enter('dorm') 加 y0Gate，進房間才開 E01）。判定＝BB。
-照 tests/flow_v0_start.py 的開法：標題「新遊戲」（經濟系開局）→ 點對話、選第一個 → E01 → 9/2 早上阿勳那一句。RUNS 次（預設 3），每次重開瀏覽器。
+照 tests/flow_v0_start.py 的開法：標題「新遊戲」（舊序章系所開局）→ 點對話、選第一個 → E01 → 9/2 早上舊序章同學那一句。RUNS 次（預設 3），每次重開瀏覽器。
 讀遊戲前就包 GAME.say：每一句出來的「那一刻」同步記 #fade 有沒有 on、#title3 opacity、G.zone、E.zone id、手機開著沒；E01 第一句另外截圖。
 字卡那段（第一句以前）每 200 ms 看手機有沒有自己跳出來。fade_block＝對話框開著、#fade 不透明且擋點擊，連續 3 次（同 flow_v0_to1017）。
 用法：LW_TESTS=<wt>/tests [RUNS=3] python3 cc_e01_card_probe.py <url> <out>"""
@@ -70,7 +70,7 @@ async def one(p, k, rec):
         R.check('%s 第一句後 500 ms #fade opacity 0（淡出完成）' % tag, bool(first) and first[0].get('fadeOp500') == 0, J({k: x.get(k) for k in ('fadeOp', 'fadeOp500', 'fadeOn500')}))
         R.check('%s 第一句只出現一次（沒有重演）' % tag, len(first) == 1, str(len(first)))
         R.check('%s fade_block＝0' % tag, fade_block == 0, str(fade_block))
-        R.check('%s 睡到 9/2、阿勳那一句（E01_MORNING）' % tag, st['morning'] and st['key'] >= '2024-09-02', J(st))
+        R.check('%s 睡到 9/2、舊序章同學那一句（E01_MORNING）' % tag, st['morning'] and st['key'] >= '2024-09-02', J(st))
         R.check('%s 字卡那段手機沒有自己跳出來' % tag, not ph, J(ph[:2]))
         R.check('%s 沒有 JS 例外' % tag, not errs, J(errs[:3]))
         rec.append({'k': k, 'said': said[:60], 'phone': ph[:5], 'end': st, 'fade_block': fade_block, 'log': log})

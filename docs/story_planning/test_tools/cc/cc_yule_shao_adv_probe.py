@@ -1,17 +1,17 @@
-"""CC（帳號 A）11-03：予樂、邵鈞同框那一場的立繪（BB 16:27；LAWWW f110787dd BUG-ADV-NOPORTRAIT-DIM-1103 改了 yule_portrait 第 4 項的期望）。
+"""CC（帳號 A）11-03：舊序章同學、邵鈞同框那一場的立繪（BB 16:27；LAWWW f110787dd BUG-ADV-NOPORTRAIT-DIM-1103 改了 yule_portrait 第 4 項的期望）。
   原本：邵鈞（沒有立繪）說話＝佔一框 compact、只暗另一邊；現在：沒有立繪就不佔框、台上的人都變暗。期望改了就要看畫面。
-  場景：src/y2r2_3d.js ev_kexin_film_night「系上的電影夜」（大二上 12/11（五）19:00 木柵大學系上的小教室）：
-    予樂「破冰。每個人講一樣，你包包裡最沒用的東西。」→ 選「去年的考古題。」→ 邵鈞「……這個我有興趣。」→ 旁白 → 予樂「外系的，一個都沒少。」→ 可昕。
-  【前置／捷徑】讀檔到 2026-12-11 18:50 校園、旗標 YL_IMPRESSION=funny（予樂開場那一句）、ENC_D13_KX 沒有（可昕介紹邵鈞那一句）；
+  場景：src/y2r2_3d.js ev_kexin_film_night「系上的電影夜」（大二上 12/11（五）19:00 外校大學系上的小教室）：
+    舊序章同學「破冰。每個人講一樣，你包包裡最沒用的東西。」→ 選「去年的考古題。」→ 邵鈞「……這個我有興趣。」→ 旁白 → 舊序章同學「外系的，一個都沒少。」→ 可昕。
+  【前置／捷徑】讀檔到 2026-12-11 18:50 校園、旗標 YL_IMPRESSION=funny（舊序章同學開場那一句）、ENC_D13_KX 沒有（可昕介紹邵鈞那一句）；
     用遊戲自己的事件引擎 void EVENTS.run(那個事件) 開演（不等出遊的邀約）——只為了看 ADV 的立繪，不是玩家流程。
   每一句記下：說話的人（#dlgName）、兩個框（ADV.slots 的 charId、DOM 的 show／dim／off／有沒有圖）。
   檢查：
-    ① 演到邵鈞那一句、予樂那幾句
+    ① 演到邵鈞那一句、舊序章同學那幾句
     ② 邵鈞說話時：沒有一框是邵鈞（不佔框）、台上有圖的框都 .dim；
-    ③ 予樂說話時：予樂那一框亮（沒有 .dim）、其他有圖的框 .dim
+    ③ 舊序章同學說話時：舊序章同學那一框亮（沒有 .dim）、其他有圖的框 .dim
     ④ 整場沒有空框：show 的框都有圖（不是 compact 的空殼）
     ⑤ 立繪不跳來跳去：同一個人一上台就一直在同一框（左／右不換），中途沒有被擠下去又上來
-    截圖：邵鈞那一句、予樂（破冰）那一句，橫向、直向各一張。
+    截圖：邵鈞那一句、舊序章同學（破冰）那一句，橫向、直向各一張。
 用法：LW_TESTS=<wt>/tests SHA=<sha> python3 cc_yule_shao_adv_probe.py <url> <out>
 exit 0＝ALL PASS；1＝有 FAIL。Playwright 手機模擬，不是 iPhone 實機。"""
 import os, sys, json, asyncio, time
@@ -70,7 +70,7 @@ async def main():
                 if sig != last:
                     await pg.wait_for_timeout(900)   # 立繪換框、變暗有 0.3 秒的 transition
                     sl = await pg.evaluate(SLOTS); lines.append({'name': s['name'], 'text': s['text'], 'slots': sl}); last = sig
-                    key = 'shao' if s['name'] == '邵鈞' else ('yule' if s['name'] == '予樂' and s['text'].startswith('破冰') else None)
+                    key = 'shao' if s['name'] == '邵鈞' else ('yule' if s['name'] == '舊序章同學' and s['text'].startswith('破冰') else None)
                     if key and key not in shots:
                         await pg.screenshot(path=os.path.join(OUT, '%s_land.png' % key))
                         await pg.set_viewport_size({'width': 390, 'height': 844}); await pg.wait_for_timeout(2000)
@@ -80,14 +80,14 @@ async def main():
             await pg.wait_for_timeout(600)
         with open(os.path.join(OUT, 'lines.json'), 'w', encoding='utf-8') as f: json.dump({'lines': lines, 'shots': shots}, f, ensure_ascii=False, indent=1)
         for l in lines: print('  %-6s %-30s %s' % (l['name'] or '（旁白）', l['text'], J([(x['s'], x['id'], 'show' if x['show'] else '-', 'dim' if x['dim'] else '', 'img' if x['img'] else 'noimg') for x in l['slots']])), flush=True)
-        shao = [l for l in lines if l['name'] == '邵鈞']; yule = [l for l in lines if l['name'] == '予樂']
-        check('① 演到邵鈞那一句、予樂那幾句', bool(shao) and len(yule) >= 2, J({'shao': len(shao), 'yule': len(yule)}))
+        shao = [l for l in lines if l['name'] == '邵鈞']; yule = [l for l in lines if l['name'] == '舊序章同學']
+        check('① 演到邵鈞那一句、舊序章同學那幾句', bool(shao) and len(yule) >= 2, J({'shao': len(shao), 'yule': len(yule)}))
         for tag, sl in [('句子', l['slots']) for l in shao] + [('截圖 ' + o, shots['shao'][o]) for o in ('land', 'port') if 'shao' in shots]:
             on = [x for x in sl if x['show'] and x['img']]
             check('② 邵鈞說話（%s）：不佔框、台上有圖的框都變暗' % tag, not any(x['id'] == '邵鈞' for x in sl) and all(x['dim'] for x in on), J(sl))
         for tag, sl in [('「%s」' % l['text'][:10], l['slots']) for l in yule] + [('截圖 ' + o, shots['yule'][o]) for o in ('land', 'port') if 'yule' in shots]:
             me = [x for x in sl if x['id'] == 'yule' and x['show']]; oth = [x for x in sl if x['id'] != 'yule' and x['show'] and x['img']]
-            check('③ 予樂說話（%s）：她那一框亮、其他有圖的框變暗' % tag, len(me) == 1 and not me[0]['dim'] and me[0]['img'] and all(x['dim'] for x in oth), J(sl))
+            check('③ 舊序章同學說話（%s）：她那一框亮、其他有圖的框變暗' % tag, len(me) == 1 and not me[0]['dim'] and me[0]['img'] and all(x['dim'] for x in oth), J(sl))
         empty = [(l['name'], l['text'], x) for l in lines for x in l['slots'] if x['show'] and not x['img']]
         check('④ 整場沒有空框（show 的框都有圖）', not empty, J(empty[:4]))
         where = {}; jumps = []

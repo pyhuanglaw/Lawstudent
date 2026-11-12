@@ -6,7 +6,7 @@
 不是 iPhone：Playwright 手機橫向模擬（844×390，SwiftShader）。不用 ?turbo。
 
 CASES（同一個瀏覽器依序跑）：
-  econ_ctrl  【前置／捷徑】load_state：經濟系（stage econ）2024-10-19（六）19:00 公館便利商店門口 (-29.4,18)，**沒有**退宿旗標 → d：宿舍要在列表裡（避免探針永遠 PASS）
+  econ_ctrl  【前置／捷徑】load_state：舊序章系所（stage econ）2024-10-19（六）19:00 公館便利商店門口 (-29.4,18)，**沒有**退宿旗標 → d：宿舍要在列表裡（避免探針永遠 PASS）
   econ_moved 【前置／捷徑】同上＋flags.Y0_MOVED_OUT=true（HOME.baseMode 成立）→ a：沒有宿舍；b：最上面有「回臺北的家」（data-gohome）
   law_ctrl   【前置／捷徑】load_state：法律系第 8 天（週四）13:30 校園 (34,-98)，沒有 MOVED_OUT → d：宿舍要在列表裡
   law_moved  【前置／捷徑】同上＋flags.MOVED_OUT=8（HOME.movedOut 的旗標；日期是人造的，正式遊戲是大四畢業後才有）→ a：沒有宿舍；
@@ -15,7 +15,7 @@ CASES（同一個瀏覽器依序跑）：
              重新整理 → 標題畫面「讀取／匯入存檔」→ 欄位 1「讀取」（照玩家點；走 validate＋migrate）→ 沒有宿舍（econ 另查有回家）
 驗證動作照玩家：CDP 觸控點 #btnPhone（手機）→ #phoneTabs 的「地點」分頁；讀 #phoneBody 的 .phrow（名稱、data-place 的 zone、data-gohome），不讀畫面判斷別的。
 讀檔後的條件事件、手機自動打開關掉（quiet_events／STORY.phoneAuto；【前置】）。
-經濟系退宿（休學在家）人在外面、空下來 3 秒，遊戲會自動回家（src/econff3d.js ECONFF.tick2，D102 ③）——PC（快）上 3.5 秒的等待裡就回家了，
+舊序章系所退宿（舊序章離校在家）人在外面、空下來 3 秒，遊戲會自動回家（src/econff3d.js ECONFF.tick2，D102 ③）——PC（快）上 3.5 秒的等待裡就回家了，
   手機沒開、HOME.at=true，讀到的是上一個案例留下來的舊列表（2026-11-03 A2_dorm FAIL 的原因）。【前置】讀檔前把 ECONFF.tick2 換成空函式（只關自動回家，
   判斷不變），讀檔後等「旗標、stage、zone、遊戲在跑、不在家、沒有對話」真的成立才打開手機；讀列表時再要求手機開著、不在家。
 用法：LW_TESTS=<工作樹>/tests [SHA=<sha>] [CASES=econ_ctrl,...] python3 cc_dorm_moveout_probe.py '<URL>/index.html' <輸出資料夾>
@@ -116,7 +116,7 @@ QUIET_HOME_JS = "(()=>{ if(typeof ECONFF!=='undefined'&&ECONFF.tick2){ ECONFF.ti
 
 
 async def quiet_autohome(pg):
-    setup('關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝%s）' % (await pg.evaluate(QUIET_HOME_JS)))
+    setup('關掉舊序章系所舊序章離校在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝%s）' % (await pg.evaluate(QUIET_HOME_JS)))
 
 
 async def wait_ready(pg, case, st, econ, moved):

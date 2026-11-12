@@ -17,7 +17,7 @@
 | 序列化 | `src/game3d.js:321` `snapshot()`＝`Object.assign({},G,{pos,hour,savedAt,v})`——整個 `G` 原樣存 |
 | 寫入 | `src/game3d.js:349` `write(key,obj)`＝`localStorage.setItem(key,JSON.stringify(obj))`，**沒有壓縮**（0a PASS） |
 | 寫入失敗 | `write` 只 `catch` 後回傳 `false`。`autosave`（`game3d.js:351`）**不看回傳值、不提示**；`saveSlot`（`:372`）只 toast「存檔失敗（瀏覽器儲存不可用）」；快速存檔（`:732`）有看回傳值 |
-| 會佔空間的 key | `fatiao3d_auto`、`fatiao3d_quick`、`fatiao3d_slot_1..3`、`fatiao3d_backup`（每次存欄位／快速存檔前，把舊的那一份寫進來）、`fatiao3d_backup_new_<savedAt>`（開新遊戲前，**最多 3 份**，`:358` `NEW_KEEP=3`）、`fatiao3d_backup_y0end`（經濟系最後一天，`story3d.js:83`）、`fatiao3d_backup_fm120_<savedAt>`（只有舊存檔遷移時）、`fatiao3d_settings`、`fatiao3d_stuck`（最多 5 筆）。`fatiao3d_live` 在 sessionStorage，另算 |
+| 會佔空間的 key | `fatiao3d_auto`、`fatiao3d_quick`、`fatiao3d_slot_1..3`、`fatiao3d_backup`（每次存欄位／快速存檔前，把舊的那一份寫進來）、`fatiao3d_backup_new_<savedAt>`（開新遊戲前，**最多 3 份**，`:358` `NEW_KEEP=3`）、`fatiao3d_backup_y0end`（舊序章系所最後一天，`story3d.js:83`）、`fatiao3d_backup_fm120_<savedAt>`（只有舊存檔遷移時）、`fatiao3d_settings`、`fatiao3d_stuck`（最多 5 筆）。`fatiao3d_live` 在 sessionStorage，另算 |
 | 大小算法 | 照任務要求：字元數 × 2（UTF-16）。存檔內容大多是中文，JSON 不轉義中文 |
 
 腳本把 `game3d.js` 的 `snapshot`、`addNote` 原始碼抽出來執行（不是自己重寫），序列化照 `write` 用 `JSON.stringify`。
@@ -93,7 +93,7 @@
 | ＋開新遊戲前的備份 3 份（9 份） | **6.26 MB ✗** | **6.71 MB ✗** | 10.72 MB ✗ |
 | ＋fm120 遷移備份（10 份，最壞） | 6.96 MB ✗ | 7.45 MB ✗ | 11.91 MB ✗ |
 
-（另加 settings 151 字、stuck 約 985 字、key 名稱 273 字、經濟系 y0end 備份約 5.6 萬～9.4 萬字（估），影響很小。）
+（另加 settings 151 字、stuck 約 985 字、key 名稱 273 字、舊序章系所 y0end 備份約 5.6 萬～9.4 萬字（估），影響很小。）
 
 - 要讓 10 份同時放得下，單一存檔要在 26.2 萬字（512 KB）以下——**TW 一般玩家畢業時 36.5 萬字，已經是這個上限的 1.4 倍**；重度玩家是 2.4 倍。
 - 一般玩家只用自動存檔：**畢業時約 1.4 MB，沒問題**；把三格存檔、快速存檔都用上：4.2～4.5 MB，**接近上限**；再開過新遊戲（留下 3 份 `backup_new_`）就超過。

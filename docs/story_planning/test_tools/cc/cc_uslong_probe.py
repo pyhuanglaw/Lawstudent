@@ -1,4 +1,4 @@
-"""CC（帳號 A）11-10：何俊朗自己的 3D 模型（US-LONG-3D-1110；BB 19:31 P0 第 3 項；候選 6ef185726）。Playwright（PC GPU）≠ iPhone。
+"""CC（帳號 A）11-10：舊序章同學自己的 3D 模型（US-LONG-3D-1110；BB 19:31 P0 第 3 項；候選 6ef185726）。Playwright（PC GPU）≠ iPhone。
 對照的程式（6ef185726）：src/us_life3d.js S.longModel（manifest char.us_long lazy：第一次要用才下載，下載完以前備用人物藏起來、GM.upgradeModels 換上；
   下載失敗 S._longFail＝true、S.longReveal 把藏起來的人露出來、之後用路人樣子）、specOf（Legal Writing 'lw' 課他在教室：見過他坐你右邊）、
   clubSync（會所：S.longHere 平日 19～22、要 MET_LONG）；character3d.js C.MODEL_PROPS char.us_long＝圓框眼鏡、後背包、奶茶杯鑰匙圈。
@@ -37,7 +37,7 @@ async def base(pg, cdp, key, h, zone):
     await pg.evaluate("(f=>{ Object.assign(GAME.G.flags, f); })(%s)" % USF)
     snap = await pg.evaluate("()=>GAME.snapshot()"); await L.load_state(pg, snap, quiet_events=False, quiet_phone=True)
     await pg.wait_for_timeout(9000); await L.close_panels(pg, cdp); await L.phone_away(pg, cdp)
-    R.setup('【前置／捷徑】讀檔到 %s %s %.2f＋交換旗標＋MET_LONG（見過何俊朗）' % (zone, key, h))
+    R.setup('【前置／捷徑】讀檔到 %s %s %.2f＋交換旗標＋MET_LONG（見過舊序章同學）' % (zone, key, h))
 
 
 async def enter(pg, cdp, tag, pred, want_zone):
@@ -68,13 +68,13 @@ async def check_long(pg, cdp, tag, sel):
         s = await L.state(pg)
         if s['dlg']: await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(500)
-    R.note('%s 何俊朗（%.1f 秒內）：%s；過程（最後 6 筆）：%s' % (tag, time.time() - t0, J(st), J(seen[-6:])))
-    if not R.check('%s 何俊朗在場（%s 秒找到）' % (tag, first), bool(st and st['found']), J(st)): return None
+    R.note('%s 舊序章同學（%.1f 秒內）：%s；過程（最後 6 筆）：%s' % (tag, time.time() - t0, J(st), J(seen[-6:])))
+    if not R.check('%s 舊序章同學在場（%s 秒找到）' % (tag, first), bool(st and st['found']), J(st)): return None
     if not st['vis']:   # r2：obj.visible＝false 多半是畫面外剔除（engine 每格照遊戲鏡頭設回來；r1 會所他在鏡頭外）→ 走近一點讓他進遊戲鏡頭再看
         me = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; return [P.x,P.z]; })()")
         import math
         dx, dz = me[0] - st['x'], me[1] - st['z']; d = math.hypot(dx, dz) or 1
-        await L.go_to(pg, cdp, R, st['x'] + dx / d * 1.8, st['z'] + dz / d * 1.8, 0.6, '%s 走近何俊朗（讓他進遊戲鏡頭）' % tag, max_s=90)
+        await L.go_to(pg, cdp, R, st['x'] + dx / d * 1.8, st['z'] + dz / d * 1.8, 0.6, '%s 走近舊序章同學（讓他進遊戲鏡頭）' % tag, max_s=90)
         await pg.wait_for_timeout(1500); st = await pg.evaluate("(%s)(%s)" % (LONG, J(sel))); R.note('%s 走近以後：%s' % (tag, J(st)))
     R.check('%s 看得到（obj.visible、子物件有露出來，不是一直隱形）' % tag, st['vis'] and st['kidsVis'] > 0 and not st['degradedHidden'], J(st))
     if BLOCK:
@@ -103,7 +103,7 @@ async def check_long(pg, cdp, tag, sel):
 
 
 async def main():
-    print('CC 何俊朗 3D：CASES %s；BLOCK %s；Playwright ≠ iPhone' % (','.join(CASES), BLOCK), flush=True)
+    print('CC 舊序章同學 3D：CASES %s；BLOCK %s；Playwright ≠ iPhone' % (','.join(CASES), BLOCK), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         blocked = []

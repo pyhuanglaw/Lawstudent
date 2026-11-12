@@ -9,7 +9,7 @@ CASES（逗號分隔）：
   MID     2028-10-26 週四 12:30 公寓一鍵上課 → 期中報告在 3D 演（玩家、德國同學站講桌兩邊、教授坐第 1 排最右邊）；對話框每一頁截圖
   EXAM    2028-12-06 週三 08:30 → 期末考（教授站講桌後面）
   FINAL   2028-12-07 週四 12:30 → 期末報告，選「只講」那一個（b），每秒記教授位置（要經過玩家走到門口）
-  LAST    2028-12-08 週五 08:00 → 最後一堂（何俊朗念句子那一拍站起來）
+  LAST    2028-12-08 週五 08:00 → 最後一堂（舊序章同學念句子那一拍站起來）
   PERF    WALK 的坐著上課那段量 10 秒幀率（E.frame）、路人數；畫質照遊戲設定（PC 的 medium）
 判斷是 BB 的；這裡記資料、截圖、CC 初判。Playwright（PC GPU）≠ iPhone。
 用法：LW_TESTS=<wt>/tests [CASES=GATE,WALK,ONE,MID,EXAM,FINAL,LAST] [Q=medium] python3 cc_us_class_story_probe.py <url> <out>"""

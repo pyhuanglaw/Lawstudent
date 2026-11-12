@@ -6,7 +6,7 @@ A 載入：片單的每個 id → 在 S.POSTERS 裡、fetch 200、Image 解碼�
   片名寬度：照 drawPoster 同一個字型縮字，記最後字級；縮到 28 還 >460＝會超出。
   所有 72 張用遊戲自己的 S.drawPoster 畫（圖＋片名）拼一張 poster_all72.jpg（12×6）。
 B 大廳：每一段挑那一段當中的一天（YYYY-MM-15）【前置／捷徑】讀檔到大廳 14:00 → 等兩張海報都貼上（mesh.visible）→ 拍照鏡頭對右牆兩張（不改遊戲鏡頭）；
-  2025-09 以前（經濟系大一 Y0）是負的天數（STORY.dayOfKey 從 −420 天找），照樣讀得到。拼 poster_lobby.jpg。
+  2025-09 以前（舊序章系所大一 Y0）是負的天數（STORY.dayOfKey 從 −420 天找），照樣讀得到。拼 poster_lobby.jpg。
 C 1 廳：讀檔到 1 廳一次 →【捷徑】每一段抽一張（單數段 a、雙數段 b）MOVIES.showScreen(id) → 等貼上 → 拍銀幕。拼 poster_hall.jpg。
 用法：LW_TESTS=<wt>/tests [PARTS=A,B,C] python3 cc_poster_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, base64

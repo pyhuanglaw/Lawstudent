@@ -73,7 +73,7 @@
 每一次說話前把 GAME.lastTalkError 清成 null、說完再讀（de38333d1 起的 GM.guardTalk：說話丟例外會收掉那一段並記在這裡）：有值＝FAIL「說話途中丟例外」；
   卡住時摘要寫「卡住的種類」：lastTalkError 有值＝例外；沒有 guardTalk 的版本（e1603907e）看 JS 例外；兩個都沒有＝await 卡住。
 CASES（逗號分隔）：人物 id（heroine_01,zhe…）或群組 rom（可攻略 8 位）、friends（朋友 19 位）、pool（法律系不熟同學 20 位）、all（全部）。預設 rom。
-環境變數：STEPS（預設 media,first,greet,up,ladder,menu,invite,invite_study,reload,date,phone,phone_date,shop,walk）、STUDY_ONLY（1＝invite／phone_date 只跑念書）、STUDY_VARIANTS、DATE_BRANCH_MAX、AFTER_S、ROSTER、LAD_TERMS（預設 Y1S1；經濟系的人自動 Y0S1；all＝她有資料的每一學期）、
+環境變數：STEPS（預設 media,first,greet,up,ladder,menu,invite,invite_study,reload,date,phone,phone_date,shop,walk）、STUDY_ONLY（1＝invite／phone_date 只跑念書）、STUDY_VARIANTS、DATE_BRANCH_MAX、AFTER_S、ROSTER、LAD_TERMS（預設 Y1S1；舊序章系所的人自動 Y0S1；all＝她有資料的每一學期）、
   LAD_MAX（每學期最多測幾層，0＝全部）、LAD_CHOICES（1＝每個選項都點，0＝只點第一個）、MENU_MAX（預設 10）、WALK_S（走到他旁邊最多幾秒，預設 240）、
   STUCK_S（沒進展幾秒算卡住，預設 15）、DATE_WAIT_H（預設 0.4）、PLAY_S（一段最多幾秒，預設 900）、PHONE_AUTO（1＝不關自動打開手機）、QUICK（1＝沒卡住檢查只看狀態，不推搖桿、不點地、不按 HUD）。
 每個人跑完印「== 人物 名字 結果 PASS／FAIL（n）」，FAIL 先印摘要；最後 ALL PASS 或 FAILED n；exit 0／1。
@@ -159,7 +159,7 @@ AA649 = {
             'heroine_04': ('（小聲）圖書館的冷氣好冷。……你外套借我。', '我寫了一整頁的程式。你讀了幾頁？'),
             'heroine_05': ('（小聲）我寫我的報告，你有問題可以問我。', '讀得不錯。……下次我考你。'),
             'classmate_peishan': ('（小聲）我第一次在這裡讀書耶。', '下次我帶零食。……啊，圖書館不能吃。'),
-            'kexin': ('（小聲）你們的總圖好大。', '我要趕車回木柵了。……今天謝謝你。')}}
+            'kexin': ('（小聲）你們的總圖好大。', '我要趕車回外校了。……今天謝謝你。')}}
 FULL_HOOK_JS = r"""(on=>{ clearInterval(window.__CCFULL); if(!on) return 0; window.__CCFULL=setInterval(()=>{ try{ const G=GAME.G, E=GAME.E; if(G.zone!=='library_hall'||!E.zone||!E.zone.seats) return; const P=E.player;
     for(const q of E.zone.seats){ if((q.lv|0)!==1) continue; if(P.seat===q) continue; if(!q.__cc){ q.__cc=1; q.taken=true; } } }catch(e){} },300); return 1; })"""
 LEAD_JS = r"""(a=>{ const G=GAME.G, E=GAME.E, P=E.player, pp=P.obj.position; const L=(G.invites||[]).filter(v=>v.who===a.id); const iv=(a.iv&&L.find(v=>v.id===a.iv))||L[L.length-1]||null;
@@ -213,7 +213,7 @@ BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone'
          'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True,
          'fundsV2': 1, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 同 cc_an_smoke_probe.py（法律系開學以後、開場演完）
 ECON0 = {'ECON_CAMP_OPEN': True, 'E15_BUS': 'nosleep', 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'E01_MORNING': True, 'KX_FIRST_MSG': True,
-         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 同 cc_pe_aa644_probe.py（經濟系那一年）
+         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 同 cc_pe_aa644_probe.py（舊序章系所那一年）
 VISITED = ('noodle', 'cafe', 'library_hall', 'library', 'lawlib', 'wancai', 'linze', 'gongguan', 'wenzhou', 'soclib', 'cvs', 'bookstore')
 HOURS = [9.5, 10.5, 12.5, 14.0, 15.5, 17.0, 18.5, 20.0]
 PREF_ZONE = ['campus', 'library', 'cafe', 'library_hall', 'lawlib', 'wancai', 'wenzhou', 'gongguan', 'soclib', 'noodle', 'linze', 'gongtong', 'putong', 'boya']

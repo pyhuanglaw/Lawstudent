@@ -11,10 +11,10 @@
     swim_closed  大一上第 13 週 2025-11-24（第四個星期一 B1 休館）：照舊在球場、旁白「（今天在球場講游泳的安全守則。下週下水。）」
     late         大一上第 14 週 2025-12-01（一，游泳週）：開始以後才走進去＝遲到 1～15 分鐘：R.late、出席 +1、沒有 R.abs；旁白照說
     absent       大一上第 11 週 2025-11-10（一）：人在校園、不去，站著等到「沒去」：沒有 done、出席不加（點名週＝缺一次）
-    econ_card    經濟系快轉（d5138cd27 起，AA_644 第 6 節）：讀檔 2024-09-02 早上男宿（E01_MORNING；正常網址），照遊戲的事件接事件跑到 9/13 保齡球以後，
-                 記每一張日期卡（#title3）和對話；「（體育課暖身跑了六圈。韋綸跑在最前面，回頭喊你們快一點。）」逐字 1 次、沒有別的體育課句子、9/4 和 9/11 自動算出席
-    econ_ff      經濟系那一年 2024-09-11，照正常網址讀檔：只記錄「事件接事件」（econff3d.js）會不會把體育課跳過、自動算出席（INFO，不判 FAIL）
-    econ         同一堂，網址加 ?nofastecon（[前置／捷徑]，關掉事件接事件）：旁白名字換經濟系的同學、沒有法律系的名字
+    econ_card    舊序章系所快轉（d5138cd27 起，AA_644 第 6 節）：讀檔 2024-09-02 早上男宿（E01_MORNING；正常網址），照遊戲的事件接事件跑到 9/13 保齡球以後，
+                 記每一張日期卡（#title3）和對話；「（體育課暖身跑了六圈。舊序章同學跑在最前面，回頭喊你們快一點。）」逐字 1 次、沒有別的體育課句子、9/4 和 9/11 自動算出席
+    econ_ff      舊序章系所那一年 2024-09-11，照正常網址讀檔：只記錄「事件接事件」（econff3d.js）會不會把體育課跳過、自動算出席（INFO，不判 FAIL）
+    econ         同一堂，網址加 ?nofastecon（[前置／捷徑]，關掉事件接事件）：旁白名字換舊序章系所的同學、沒有法律系的名字
                  （PE644 第一次跑：讀檔 15:10 → 空下來 1.5 秒就跳到 9/12 21:00，體育課自動算出席，門口沒有「進去上課」）
   每一個 CASE 的檢查：
     ① 第一句對話時人在 gym／gym_b1、ADV 背景 freeze ② 玩家站位 ③ 老師站位、朝向、名牌 ④ 同學人數、半圈／長椅、面向老師
@@ -57,11 +57,11 @@ DOC_SWIM_WEEKS = {'pe_y1s1': [10, 11, 12, 13, 14, 15, 16]}
 DOC_CLOSED = '（今天在球場講游泳的安全守則。下週下水。）'
 LAW_NAMES = {'阿哲': 'zhe', '柏翰': 'classmate_bohan', '明軒': 'classmate_mingxuan', 'Alison': 'yu', '芯慈': 'classmate_xinci'}
 LAW_FRIENDS = ['zhe', 'classmate_bohan', 'classmate_mingxuan', 'yu', 'classmate_xinci', 'classmate_youchen']
-ECON_NAMES = {'韋綸': 'econ_weilun', '阿勳': 'econ_zhengxun'}   # 稿：「名字改成經濟系的同學（阿勳、韋綸）」——沒寫誰換誰
+ECON_NAMES = {'舊序章同學': 'econ_weilun', '舊序章同學': 'econ_zhengxun'}   # 稿：「名字改成舊序章系所的同學（舊序章同學、舊序章同學）」——沒寫誰換誰
 ECON_FRIENDS = ['econ_weilun', 'econ_zhengxun']
 
-# 經濟系快轉的日期卡（AA_644 第 6 節，企劃線 27c0193e9；開發 d5138cd27 econff3d.js S.PE_FF）
-PE_FF = '（體育課暖身跑了六圈。韋綸跑在最前面，回頭喊你們快一點。）'
+# 舊序章系所快轉的日期卡（AA_644 第 6 節，企劃線 27c0193e9；開發 d5138cd27 econff3d.js S.PE_FF）
+PE_FF = '（體育課暖身跑了六圈。舊序章同學跑在最前面，回頭喊你們快一點。）'
 CARD_REC = r"""(()=>{ if(window.__CARDS) return true; window.__CARDS=[]; const parse=h=>{ const i=h.indexOf('<small>'); const t=(i<0?h:h.slice(0,i)).replace(/<[^>]+>/g,'').trim(); const sub=i<0?'':h.slice(i+7).replace(/<\/small>.*$/s,'');
     return {text:t, sub:sub.split(/<br\s*\/?>/i).map(x=>x.replace(/<[^>]+>/g,'').trim()).filter(Boolean)}; };
   const el=document.getElementById('title3'); let lastH='';
@@ -173,7 +173,7 @@ def expected_line(cid, week, here, names, rename=None):
     if not (1 <= week <= len(rows)): return None, []
     t = rows[week - 1]
     alts = []
-    if rename:   # 經濟系：阿哲／柏翰 換成經濟系的同學（稿沒寫誰換誰：韋綸、阿勳、有人都接受，但要和那個人在不在一致）
+    if rename:   # 舊序章系所：阿哲／柏翰 換成舊序章系所的同學（稿沒寫誰換誰：舊序章同學、舊序章同學、有人都接受，但要和那個人在不在一致）
         for law in ('阿哲', '柏翰'):
             if law in t:
                 for nm, idd in names.items():
@@ -350,7 +350,7 @@ def check_narration(tag, fh, r, pool_lines, names, rename=None):
     hit = [t for t in texts if t in alts]
     print('  %s 稿上第 %s 週（%s）：%s；遊戲 CLS.peNarr＝%s' % (tag, week, cid, J(alts), J(sn.get('gameNarr'))), flush=True)
     check('%s ⑥ 這週的旁白和 AA_644 稿逐字一樣（名字照在場與否換「有人」）' % tag, len(hit) >= 1, '說了：%s' % J(texts[:12]))
-    narrish = [t for t in texts if t.startswith('（') and t.endswith('）') and (t in doc_all or '有人' in t or any(t.replace(a, b) in doc_all for a, b in (('有人', '阿哲'), ('有人', '柏翰'), ('有人', '明軒'), ('有人', 'Alison '), ('有人', '芯慈'), ('韋綸', '阿哲'), ('阿勳', '柏翰'), ('韋綸', '柏翰'), ('阿勳', '阿哲'))))]
+    narrish = [t for t in texts if t.startswith('（') and t.endswith('）') and (t in doc_all or '有人' in t or any(t.replace(a, b) in doc_all for a, b in (('有人', '阿哲'), ('有人', '柏翰'), ('有人', '明軒'), ('有人', 'Alison '), ('有人', '芯慈'), ('舊序章同學', '阿哲'), ('舊序章同學', '柏翰'), ('舊序章同學', '柏翰'), ('舊序章同學', '阿哲'))))]
     check('%s ⑥ 稿上的旁白只出現一句' % tag, len(narrish) == 1, J(narrish))
     pl = [t for t in texts if any(x and x in t for x in pool_lines['lines'])] + [t for t in texts if any(x and x in t for x in pool_lines['react'])]
     check('%s ⑥ 沒有台詞池那一句／同學反應（旁白取代）' % tag, not pl, J(pl[:3]))
@@ -490,9 +490,9 @@ async def main():
                 await pg.screenshot(path=os.path.join(OUT, 'absent_after.png'))
 
         if 'econ_card' in CASES:
-            # AA_644 第 6 節（企劃線 27c0193e9；開發 d5138cd27）：經濟系快轉第一次跨過體育課（pe_y0s1，週三 pm2），日期卡多一句 ECONFF.PE_FF，整段只出一次。
+            # AA_644 第 6 節（企劃線 27c0193e9；開發 d5138cd27）：舊序章系所快轉第一次跨過體育課（pe_y0s1，週三 pm2），日期卡多一句 ECONFF.PE_FF，整段只出一次。
             # 日期卡＝GM.titleCard(text, sub, ms) → #title3 的 innerHTML＝text＋<small>sub</small>，sub 裡多句用 <br> 接（econff3d.js S.peAdd）
-            print('== econ_card 經濟系快轉 9/2 → 9/13：日期卡的體育課那一句（正常網址，事件接事件照跑）', flush=True)
+            print('== econ_card 舊序章系所快轉 9/2 → 9/13：日期卡的體育課那一句（正常網址，事件接事件照跑）', flush=True)
             u = URL + ('&' if '?' in URL else '?') + 'cc_econ_card'
             await pg.goto(u); check('econ_card：遊戲載入（正常網址，沒有 nofastecon）', await L.wait_loaded(pg))
             await pg.evaluate("localStorage.clear()")
@@ -502,7 +502,7 @@ async def main():
             st = {'stage': 'econ', 'name': '祐廷', 'day': d, 'weekday': 1, 'hour': 7.6, 'zone': 'dorm', 'pos': None, 'weather': 'clear', 'energy': 100, 'money': 20000,
                   'flags': F, 'contacts': {k: d - 8 for k in ('kexin', 'econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_jiahao', 'econ_pinyu')},
                   'events': {'done': {}, 'last': {}, 'count': 0}}
-            print('  [前置／捷徑] 讀檔：2024-09-02（一）07:36 經濟系男宿（E01_MORNING 以後、ECONFF 還沒開始；條件事件、手機照開；網址沒有 nofastecon）', flush=True)
+            print('  [前置／捷徑] 讀檔：2024-09-02（一）07:36 舊序章系所男宿（E01_MORNING 以後、ECONFF 還沒開始；條件事件、手機照開；網址沒有 nofastecon）', flush=True)
             print('  [前置／記錄] 頁面裡掛 MutationObserver 看 #title3（日期卡）、包一層 GAME.titleCard 只記參數（不改行為）', flush=True)
             await L.load_state(pg, st)
             ff0 = await pg.evaluate("(()=>{ const G=GAME.G; return {ffOn:typeof ECONFF!=='undefined'&&ECONFF.on?!!ECONFF.on(G):null, PE_FF:typeof ECONFF!=='undefined'?ECONFF.PE_FF||null:null}; })()")
@@ -538,7 +538,7 @@ async def main():
             check('econ_card 日期卡那一句「%s」逐字出現 1 次（不是 0 次、不是 2 次）' % PE_FF, n_pe == 1, '%d 次；日期卡：%s' % (n_pe, J([(c['text'], c['sub']) for c in src])))
             econ_doc = set()
             for t in DOC['pe_y1s1'][:8]:
-                for a in ('韋綸', '阿勳', '有人'):
+                for a in ('舊序章同學', '舊序章同學', '有人'):
                     econ_doc.add(t.replace('阿哲', a).replace('柏翰', a))
             other = [x for x in subs + talk if x != PE_FF and ('體育' in x or '暖身' in x or x in econ_doc)]
             check('econ_card 同一段快轉裡沒有別的體育課句子（日期卡、對話）', not other, J(other))
@@ -549,9 +549,9 @@ async def main():
             if hit: info('econ_card 那一句在哪一張日期卡', J(hit[0]))
 
         if 'econ_ff' in CASES:
-            # 經濟系 9/2～10/31 是「事件接事件」（src/econff3d.js ECONFF.on：stage econ、E01_MORNING、沒有 Y0_MOVED_OUT）：
+            # 舊序章系所 9/2～10/31 是「事件接事件」（src/econff3d.js ECONFF.on：stage econ、E01_MORNING、沒有 Y0_MOVED_OUT）：
             # 玩家空下來 1.5 秒就黑幕跳到下一個事件，中間的課自動算出席（R.note['skip_'+key]）——PE644 第一次跑 econ 就是這樣跳到 9/12 21:00
-            print('== econ_ff 經濟系那一年、照正常網址（事件接事件）：記錄體育課會不會被跳過', flush=True)
+            print('== econ_ff 舊序章系所那一年、照正常網址（事件接事件）：記錄體育課會不會被跳過', flush=True)
             fh = await find_class(pg, '2024-09-11', 'econ')
             if fh.get('it'):
                 h = fh['it']['t0'] - 0.4; F = dict(FLAGS); F.update(ECON0)
@@ -559,12 +559,12 @@ async def main():
                 await load(pg, cdp, st, '2024-09-11 %.2f 時、體育館門口南邊、stage=econ（正常網址）' % h)
                 ff = await pg.evaluate(js(r"""(k=>{ const G=GAME.G, R=CLS.rec(G); return {ffOn:typeof ECONFF!=='undefined'&&ECONFF.on?!!ECONFF.on(G):null, day:G.day, hour:+(+G.hour).toFixed(2), done:!!R.done[k], skipNote:!!(R.note||{})['skip_'+k]}; })(__A__)""", fh['it']['key']))
                 print('  讀檔 9 秒後：%s' % J(ff), flush=True)
-                info('econ_ff [稿對照] 正常玩經濟系那一年，體育課是被「事件接事件」自動算出席、不演的',
+                info('econ_ff [稿對照] 正常玩舊序章系所那一年，體育課是被「事件接事件」自動算出席、不演的',
                      '事件接事件=%s；體育課 done=%s、自動出席記號 skip=%s、時間跳到 day %s %.2f 時（讀檔 day %s %.2f 時）' % (ff['ffOn'], ff['done'], ff['skipNote'], ff['day'], ff['hour'], fh['day'], h))
                 await pg.screenshot(path=os.path.join(OUT, 'econ_ff_after_load.png'))
 
         if 'econ' in CASES:
-            print('== econ 經濟系那一年（網址加 ?nofastecon：關掉事件接事件，才走得到門口上體育課）', flush=True)
+            print('== econ 舊序章系所那一年（網址加 ?nofastecon：關掉事件接事件，才走得到門口上體育課）', flush=True)
             u = URL + ('&' if '?' in URL else '?') + 'nofastecon'
             print('  [前置／捷徑] 重新載入 %s（econff3d.js 給測試舊流程用的開關；正常玩不會這樣）' % u, flush=True)
             await pg.goto(u); check('econ：遊戲載入（nofastecon）', await L.wait_loaded(pg))
@@ -575,9 +575,9 @@ async def main():
                 law = [t for t in x['texts'] if any(n in t for n in ('阿哲', '柏翰', '明軒', 'Alison', '芯慈', '宥辰'))]
                 check('econ ⑥ 旁白、對話裡沒有法律系同學的名字', not law, J(law))
                 fr = [q['id'] for q in (x['r']['snap'] or {}).get('people', []) if q['friend']]
-                check('econ ⑧ 站進半圈的只有經濟系的同學', all(i in ECON_FRIENDS for i in fr), J(fr))
+                check('econ ⑧ 站進半圈的只有舊序章系所的同學', all(i in ECON_FRIENDS for i in fr), J(fr))
                 check('econ ⑩ 下課：done', x['r1']['st'] == 'done', J(x['r1']))
-                info('econ [稿對照]', '稿只寫「名字改成經濟系的同學（阿勳、韋綸）」，沒寫阿哲、柏翰各換誰；遊戲：阿哲→韋綸、柏翰→阿勳（LAWWW 註「給 AA 確認」）')
+                info('econ [稿對照]', '稿只寫「名字改成舊序章系所的同學（舊序章同學、舊序章同學）」，沒寫阿哲、柏翰各換誰；遊戲：阿哲→舊序章同學、柏翰→舊序章同學（LAWWW 註「給 AA 確認」）')
 
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()

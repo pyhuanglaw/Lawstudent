@@ -308,13 +308,13 @@ C1112_TZMEAL | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_pla
 C1112_SHOPV_gen | 105d3d42c45f365136a1fe7046aed8b36c77b417 | probe | docs/story_planning/test_tools/cc/cc_shop_view_probe.py | index.html | 40 | ZONES=gg_antai,l118_korea,xs_dabu,wz_brunch,tz_dongnan;HOURS=14,20.5;SHA=105d3d42c45f365136a1fe7046aed8b36c77b417
 C1112_PHONEGO | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_phone_go_prompt_probe.py | index.html | 30 | TAG=new;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
 C1112_TZYUE | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 40 | PARTS=INT;SHOPS=yuehaochi;HOURS=14;SEATS=1;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
-#PAUSE CANON-NO-ECON-1112（LAWWW-C 12:09 P0：經濟系／重考／政大／可昕交往線先停）C1112_X324v3 | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_x324_ladder_probe.py | index.html | 40 | TAG=new;CASES=KX,FIVE;WHO=heroine_01,heroine_03;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+#PAUSE CANON-NO-ECON-1112（LAWWW-C 12:09 P0：舊序章系所／舊序章考試／外校／可昕交往線先停）C1112_X324v3 | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_x324_ladder_probe.py | index.html | 40 | TAG=new;CASES=KX,FIVE;WHO=heroine_01,heroine_03;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 C1112_H23YT | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;YTMET=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 C1112_STAIRDIAG | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 25 | PUSH=diag;X_LIST=-3.75;TRIPS=1;RUN=0;FPSCAP=0;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 C1112_STALLDIAG | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 25 | PUSH=tap;STALLDIAG=1;X_LIST=-3.75;TRIPS=1;RUN=0;FPSCAP=0;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 # 子代理的三支（還在改；第一次在電腦跑）
 C1112_SEASON3 | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_season3_stalls_probe.py | index.html | 40 | TAG=new;PARTS=BUY,NIGHT,LOOK;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
-#PAUSE CANON-NO-ECON-1112（LAWWW-C 12:09 P0：經濟系／重考／政大／可昕交往線先停）C1112_FCLASS | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_flower_class_probe.py | index.html | 90 | TAG=new;CASES=POOR,COURSES,SIS,CLOSED,GIFT;WHO=kexin;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
+#PAUSE CANON-NO-ECON-1112（LAWWW-C 12:09 P0：舊序章系所／舊序章考試／外校／可昕交往線先停）C1112_FCLASS | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_flower_class_probe.py | index.html | 90 | TAG=new;CASES=POOR,COURSES,SIS,CLOSED,GIFT;WHO=kexin;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
 C1112_GIFTDRINK | 105d3d42c45f365136a1fe7046aed8b36c77b417 | probe | docs/story_planning/test_tools/cc/cc_gift_drink_probe.py | index.html | 40 | TAG=new;SHA=105d3d42c45f365136a1fe7046aed8b36c77b417
 
 # ===== P1 BB 21:00：BUG-NY-EXIT-1110 看完電影走不出南洋大廳？線上 main 779ddd650＋開發分支最新 9f20f1808，觸控／搖桿各一次（排最前面）=====
@@ -1010,7 +1010,7 @@ MT2_ps | 25c3039ec5f4b9714c09859860f9a36122db8922 | probe | docs/story_planning/
 #SUPERSEDED(BB 20:12 改 16 間 GG16) GG_SIGNS_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=old
 # ===== BB 19:52：deploy 改跑發布樹 951824630（6ef185726＋版本字樣，只動 index.html），預期 v9.10.24 =====
 F25_deploy_rel | 9518246301e9b9efa224f45231d9b3b69b3fb1a3 | game | tests/deploy_check.py | index.html | 15 | XARGS={url} v9.10.24;CC_HEADLESS=0
-# ===== P0 BB 19:31：v9.10.24 候選改 6ef185726（fe5 之後：何俊朗 3D、海報片名描邊、規則文件）；fe5 跑過的照算，只加這幾支，排最前面 =====
+# ===== P0 BB 19:31：v9.10.24 候選改 6ef185726（fe5 之後：舊序章同學 3D、海報片名描邊、規則文件）；fe5 跑過的照算，只加這幾支，排最前面 =====
 F25_deploy | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
 F25_posters | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_poster_probe.py | index.html | 10 | PARTS=A
 F25_uslong | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_uslong_probe.py | index.html | 15 | CASES=CLASS,CLUB

@@ -1,6 +1,6 @@
-"""CC-B（帳號 B）11-09：BB-TEST-AA355-358-1021 第 3 條（AA_358 2-3）：可昕告白 E26（經濟系 10/17 車上）——中秋系烤去／沒去兩種。判定＝BB。
-做法：照 tests/flow_v0_to1017.py（新遊戲 → 經濟系 → 一路玩到 10/17 晚上，真實玩家流程、不用 turbo）整支跑，只多三件：
-  ① 9/21 16:00 韋綸私訊「烤肉你要去嗎？」：E08=yes 回「好」、E08=no 回「今天不行」（玩家在手機上點；原本的流程不回這種非必回的訊息）
+"""CC-B（帳號 B）11-09：BB-TEST-AA355-358-1021 第 3 條（AA_358 2-3）：可昕告白 E26（舊序章系所 10/17 車上）——中秋系烤去／沒去兩種。判定＝BB。
+做法：照 tests/flow_v0_to1017.py（新遊戲 → 舊序章系所 → 一路玩到 10/17 晚上，真實玩家流程、不用 turbo）整支跑，只多三件：
+  ① 9/21 16:00 舊序章同學私訊「烤肉你要去嗎？」：E08=yes 回「好」、E08=no 回「今天不行」（玩家在手機上點；原本的流程不回這種非必回的訊息）
   ② 記下全部台詞（ADV.log＋GAME.say）；
   ③ 最後檢查 10/17 車上那一段：E08=yes＝「中秋系烤那天，妳一直跟他講話。」「他在問我會計作業。他問了一個晚上。」；E08=no＝「妳那陣子一直跟他講話。」「他在問我會計作業。他每次都問。」；
      另外 E08=no 要收到可昕「你沒來。火很小，月亮很晚才出來。」、E08=yes 要演過 ev_y0_e08。
@@ -27,8 +27,8 @@ PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
             print('   [E08=@E08@] 停在 %s %s；私訊原文「%s」；回覆鍵 %s；toast「%s」；caption「%s」' % (info['d'], info['h'], info['text'], info['opts'], info['toast'], info['caption']), flush=True)
         if @NONE@:
             return await L.close_panels(pg, cdp)
-        if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   [E08=@E08@] 韋綸「烤肉你要去嗎？」：回「%s」（E08_GO=%s）' % (c[2], await pg.evaluate("GAME.G.flags.E08_GO||null")), flush=True)
-        else: print('   [E08] 韋綸的訊息開了但找不到「@ANSRAW@」', flush=True)
+        if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   [E08=@E08@] 舊序章同學「烤肉你要去嗎？」：回「%s」（E08_GO=%s）' % (c[2], await pg.evaluate("GAME.G.flags.E08_GO||null")), flush=True)
+        else: print('   [E08] 舊序章同學的訊息開了但找不到「@ANSRAW@」', flush=True)
         if @FAST@:   # BB-B 21:25：回完不關面板，馬上切「今天」按「等到晚上」，要比事件接事件 1.5 秒的自動跳快
             fr = await pg.evaluate("""(()=>{ const h0=+(+GAME.G.hour).toFixed(3); const tb=document.querySelector('#phoneTabs button[data-ptab=today]'); if(tb) tb.click();
               const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; const b=bs.find(x=>/20:00/.test(x.textContent))||bs[bs.length-1]; const lab=b?b.textContent.trim():null; if(b) b.click(); return {pressAt:h0, label:lab, n:bs.length}; })()""")
@@ -47,7 +47,7 @@ assert PATCH1_OLD in src; src = src.replace(PATCH1_OLD, PATCH1_NEW, 1)
 SKF_OLD = '    await L.tap(pg, cdp, \'#btnPhone\'); await pg.wait_for_timeout(900)\n    await pg.evaluate("(()=>{ const b=document.querySelector(\'#phoneTabs button[data-ptab=\\"today\\"]\'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)\n    g = await pg.evaluate('
 assert SKF_OLD in src, 'skip_time 開頭對不上'
 SKF_NEW = """    pend = await pg.evaluate("(()=>{ try{ const G=GAME.G; if(G.flags.E08_GO) return null; return PHONE.pending(G).some(q=>q.ask&&PHONE.th(q)==='p:econ_weilun')?1:null; }catch(e){ return null; } })()")
-    if pend:   # 11-09 PC：4154 停在 16:00、私訊在待回覆，但手機不會自己打開——按跳過時間之前先處理（照玩家：看到「韋綸傳訊息來」就打開手機）
+    if pend:   # 11-09 PC：4154 停在 16:00、私訊在待回覆，但手機不會自己打開——按跳過時間之前先處理（照玩家：看到「舊序章同學傳訊息來」就打開手機）
         r = await close_or_answer(pg, cdp, None)
         if @NONE@:
             print('   [E08] 私訊在待回覆，不回（E08=none），照樣按跳過時間', flush=True)
@@ -66,7 +66,7 @@ LOGSK_NEW = LOGSK_OLD + """    if c:
         except Exception as e: print('   [9/21 跳過後] 記錄失敗 %r' % e, flush=True)
 """
 src = src.replace(LOGSK_OLD, LOGSK_NEW, 1)
-if os.environ.get('WAIT0921') == '1':   # BB-B 18:14：9/21 不要一次跳過 16:00 的韋綸私訊——只按目標時間 ≤ 16:00 的「跳過時間」，沒有就站著等
+if os.environ.get('WAIT0921') == '1':   # BB-B 18:14：9/21 不要一次跳過 16:00 的舊序章同學私訊——只按目標時間 ≤ 16:00 的「跳過時間」，沒有就站著等
     SK_OLD = "    c = await pg.evaluate(\"(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[bs.length-1];"
     assert SK_OLD in src
     SK_NEW = """    w0921 = await pg.evaluate("(()=>{ const G=GAME.G; return CALENDAR.dateOf(G.day).key==='2024-09-21'&&G.hour<16; })()")
@@ -87,7 +87,7 @@ PATCH2_NEW = '''        if not SEG_TO:
             LOG = await pg.evaluate("window.__LOG||[]")
             json.dump(LOG, open(os.path.join(OUT, 'lines.json'), 'w'), ensure_ascii=False, indent=0)
             d17 = [q for q in LOG if q['d'] == '2024-10-17']
-            run.note('10/17 的台詞 %%d 句；E26 附近：' %% len(d17) + json.dumps([q['n'] + '：' + q['t'] for q in d17 if any(k in q['t'] for k in ('唐睿', '講話', '會計作業', '喜歡'))], ensure_ascii=False))
+            run.note('10/17 的台詞 %%d 句；E26 附近：' %% len(d17) + json.dumps([q['n'] + '：' + q['t'] for q in d17 if any(k in q['t'] for k in ('舊序章同學', '講話', '會計作業', '喜歡'))], ensure_ascii=False))
             a_yes = ['中秋系烤那天，妳一直跟他講話。', '他在問我會計作業。他問了一個晚上。']; a_no = ['妳那陣子一直跟他講話。', '他在問我會計作業。他每次都問。']
             txt = [q['t'] for q in d17]; has = lambda s: any(s in t for t in txt)
             e08done = await pg.evaluate("!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_y0_e08)")
