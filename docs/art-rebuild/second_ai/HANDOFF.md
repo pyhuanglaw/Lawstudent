@@ -21,6 +21,12 @@
 | 鐵捲門高度逐間給（南洋戲院玻璃 3.6）、捲門箱 | 還沒做 | — |
 | 記帳：outbox_LAWWW2.json、user_asks_LAWWW2.json 今天的交付沒登 | 欠 | docs/handoff/ |
 
+**11:55 UTC 補**：公館十二間都換好並交了（第一～三批；LAWWW 已接到第二批 14e53d6bf，第三批 gg_batch3_v1.patch＋聯通螢幕 liantong_screen_v1.patch DELIVERED 待 ACK）。溫州街自查完：要換 SUNNY SIDE（B7）、小路（B3）、日常失速（W2）三間——
+- 日常失速：街景模型裡已經嵌了一份烘光的立體店內（offbeat_storefront，wz_street.py 最後一段），顏色偏粉；換法＝real 時不嵌那一份，遊戲用 Z3.shopInsideReal 放 bldg.wz_offbeat_interior（鍵在載入時已登錄）：位置 (−42.52, −13.5)、ry π/2、11×10×3.4、玻璃面 x −37.5。
+- SUNNY SIDE、小路：溫州街一般店面（wz_shopkit shopfront_v2＋shallow_interior，街景模型裡叫 sk_in_B7、sk_in_B3），要加 real 分支（不放簡化店內、一樓量體往後挖）；室內 sunnyside_layout.js 6.4×10×3.2、小路 komichi。
+- 溫州街重建可行：`wz_street.py --set wenzhou` 23 秒，重建的節點、網格、材質數和內嵌貼圖 md5 都和線上的一樣；**線上那顆另外跑過 `glb_slim.py`**（13.8 MB→10.4 MB），重建後要再跑一次。
+- 阿忠鮮果營業中沒有老闆（已報 LAWWW，closed3d.js）；夜市顧攤沒有穿模。
+
 **坑**：雲端瀏覽器（SwiftShader）一幀要幾百毫秒，fast_shots 的 wait 有上限，要用 `js` 手動推 zone.update；一般模式（預載）下一次載十幾間很慢。公館店面玻璃在 z 22、室內 ry=π；各店中心 x 見 zones3d.js GG_SHOP_REAL。
 
 ## 進度（2026-11-12 07:00 UTC，LAWWW2-C）——舊
