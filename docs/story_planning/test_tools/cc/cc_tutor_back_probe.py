@@ -5,6 +5,7 @@
   ②【捷徑】日子直接跳到下一個學期（大二上）開學第一天 12:30（不讀檔、同一個存檔往後）→ 手機檢查跑一次 → 記 JOBS.tutorBackDue、選項掛在哪一則（第幾則、哪一句、ask id）→
      照玩家：打開手機 →「訊息」→ 明軒那一串 → 截圖（剛打開看得到選項嗎：按鈕在不在對話框的可視範圍、要不要往回捲、有沒有被蓋到）→ 看不到就捲到它再截一張 →
      按「我現在可以接家教了。」→ 截圖 → 記明軒回的那句、TUTOR_RE_ANS／TUTOR_STOP／TUTOR_TERM_Y2S1 → 再跑一次手機檢查 → 記有沒有排下一堂家教（G.outings 裡 tutor 的那幾筆）。
+11-12 r3：PHONE.tick 第二個參數要是函式（r2 傳 true → notify is not a function，BB-C 13:30）；打開那一串前先關手機。
 CC_02 清單 2026-11-12：1✓（日子從遊戲讀：CALENDAR.termDays 大一下、大二上開學日） 2✓（明軒那一串、選項從畫面的 data-th／data-ask 找） 3✓（同一個存檔往後，不重讀） 4✓（選項照字找「我現在可以接家教了。」） 5n/a（手機操作，不走路） 6✓（每一步等 1～1.6 秒） 7✓ 8n/a（不判，給 BB） 9n/a（手機截圖不藏東西） 10✓（條件事件關掉） 11✓ 12✓（兩次打開手機同樣欄位） 13✓（讀檔、旗標、跳日子標【捷徑】）
 三種起點（CASES，BB-C 11:51 照 AA_828 §10，同一支）：NO＝①按「不了」（上面這條）；EXPIRE＝開學那一則完全不回、讓它過期（第 4 題：一樣要出選項）；
   SKIP3＝開學那一則回「來」，然後【捷徑】記成連續三週沒去先停（G.flags.TUTOR_STOP＝大一下開學後第 30 天；第 6 題：不算回「不了」，下學期明軒要先問一次＝tutor_re_Y2S1，不是直接掛選項）。
@@ -25,7 +26,7 @@ MX = 'p:classmate_mingxuan'
 CASES = [c for c in (os.environ.get('CASES') or 'NO,EXPIRE,SKIP3').split(',') if c]
 TERMS = r"""(()=>{ const a=CALENDAR.termDays('Y1S1'), b=CALENDAR.termDays('Y1S2'), c=CALENDAR.termDays('Y2S1'); const k=d=>CALENDAR.dateOf(d).key; return {y1s1:a, y1s2:b, y2s1:c, k1:k(b.from), k2:k(c.from)}; })()"""
 PREP = r"""(a=>{ const G=GAME.G, F=G.flags; F.JOB_TUTOR=true; F.tutorFromDay=a.from; if(!G.contacts) G.contacts={}; if(G.contacts.classmate_mingxuan==null) G.contacts.classmate_mingxuan=2;
-  G.hour=12.05; let n=null; try{ JOBS.phone(G); n=PHONE.tick?PHONE.tick(G,true):null; }catch(e){ return 'ERR '+String(e).slice(0,120); } return {start:JOBS.tutorStartTerm?JOBS.tutorStartTerm(G):null, delivered:n, queued:(PHONE.rec(G).q||[]).length}; })"""
+  G.hour=12.05; let n=null; try{ JOBS.phone(G); n=PHONE.tick?PHONE.tick(G,()=>{}):null; }catch(e){ return 'ERR '+String(e).slice(0,120); } return {start:JOBS.tutorStartTerm?JOBS.tutorStartTerm(G):null, delivered:n, queued:(PHONE.rec(G).q||[]).length}; })"""
 MSGS = r"""(th=>{ const G=GAME.G; const L=(G.msgs||[]).filter(m=>m&&PHONE.th(m)===th); return L.map((m,i)=>({i, from:m.from||null, text:String(m.text||''), day:m.day, h:m.h, tag:m.tag||null, ask:m.ask?{id:m.ask.id, opts:(m.ask.opts||[]).map(o=>o.t), until:m.ask.until, open:PHONE.askOpen(G,m)}:null, ans:m.ans==null?null:m.ans})); })"""
 VIEW = r"""(()=>{ const pb=document.getElementById('phoneBody'); if(!pb) return {open:false}; const sc=[pb,...pb.querySelectorAll('*')].find(e=>e.scrollHeight>e.clientHeight+4&&/(auto|scroll)/.test(getComputedStyle(e).overflowY))||pb; const R=sc.getBoundingClientRect();
   const btn=[...pb.querySelectorAll('[data-ask]')].map(b=>{ const r=b.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, top=document.elementFromPoint(cx,cy);
@@ -37,6 +38,7 @@ TUT = r"""(()=>{ const G=GAME.G, F=G.flags; const O=(typeof OUT!=='undefined'&&O
 
 
 async def open_thread(pg, cdp):
+    await close_phone(pg, cdp)   # 11-12 r3：上一次留著同一串的畫面，列表不在 → 點不到（r2 ② 點到 False）；先關掉再照玩家打開
     if not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
     await L.tap(pg, cdp, '#phoneTabs button[data-ptab="msg"]'); await pg.wait_for_timeout(1000)
@@ -74,7 +76,7 @@ async def one(pg, cdp, T, case, res):
         await pg.evaluate("(a=>{ GAME.G.flags.TUTOR_STOP=a; })", T['y1s2']['from'] + 30)
         R.setup('%s ①b【捷徑】記成連續三週沒去先停：G.flags.TUTOR_STOP＝大一下開學後第 30 天（沒有 TUTOR_RE_NO）' % tag)
     t1 = await pg.evaluate(TUT); R.note('%s ① 之後旗標：%s' % (tag, J(t1['flags'])))
-    await pg.evaluate("(a=>{ const G=GAME.G; G.day=a.d; G.weekday=CALENDAR.dateOf(a.d).wd%7; G.hour=12.5; try{ JOBS.phone(G); PHONE.tick(G,true); JOBS.phone(G); PHONE.tick(G,true); }catch(e){} })", {'d': T['y2s1']['from']})
+    await pg.evaluate("(a=>{ const G=GAME.G; G.day=a.d; G.weekday=CALENDAR.dateOf(a.d).wd%7; G.hour=12.5; try{ JOBS.phone(G); PHONE.tick(G,()=>{}); JOBS.phone(G); PHONE.tick(G,()=>{}); }catch(e){} })", {'d': T['y2s1']['from']})
     await pg.wait_for_timeout(1500)
     R.setup('%s ②【捷徑】日子直接跳到 %s（大二上開學第一天）12:30、跑一次 JOBS.phone' % (tag, T['k2']))
     t2 = await pg.evaluate(TUT); m2 = await pg.evaluate(MSGS, MX)

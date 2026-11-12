@@ -24,6 +24,7 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]
 PARTS = set((os.environ.get('PARTS') or 'EV,ARC,GIFT').split(','))
 SUPPER_DAY = os.environ.get('SUPPER_DAY') or '2025-10-15'   # 週三晚上（室友照作息在房間）
+SUPPER_H = float(os.environ.get('SUPPER_H') or 22.75)   # 11-12 r2：週三阿哲 22:00、柏翰 22:30 回來、23:30 上床（story3d.js r203Plan）→ 22:45 三個人都在
 DATES = [x for x in (os.environ.get('DATES') or 'D01,D02,D04').split(',') if x]; DATE_WHO = os.environ.get('DATE_WHO') or 'heroine_05'; DATE_DAY = os.environ.get('DATE_DAY') or '2025-10-18'
 GIFTS = [x.split('@') for x in (os.environ.get('GIFTS') or 'heroine_05@2025-12-24+heroine_01@2025-12-24+heroine_03@2026-02-14').split('+') if '@' in x]   # 誰@哪一天（節日）
 EVS = [x for x in (os.environ.get('EVS') or 'ev_sis_w1,ev_sis_family_dinner,ev_grad_debate,ev_sis_video,ev_sis_video_gf,ev_us_canyon').split(',') if x]
@@ -199,9 +200,12 @@ async def part_supper(pg, cdp, res):
     for term, day in (('Y1S1', SUPPER_DAY),):
         tag = '[SUPPER %s %s]' % (term, day)
         await pg.goto(URL); await L.wait_loaded(pg)
-        await D.load_zone(pg, cdp, 'dorm', day, 21.75, wait=8000)
+        dd = await pg.evaluate("(k=>STORY.dayOfKey(k))", day)
+        fl = await pg.evaluate("(()=>Object.assign({}, GAME.defaults('祐廷').flags||{}, {DORM_FOUR:true}))()")   # 四人房（DORM_FOUR）：203 室友作息只在這個旗標下（story3d.js r203On）；load_state 會整個蓋掉 flags，所以先拿預設的再加
+        await L.load_state(pg, {'zone': 'dorm', 'hour': SUPPER_H, 'day': dd, 'weather': 'clear', 'flags': fl}, quiet_events=True)
+        await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
         pr = await pg.evaluate(SUPPER_PREP, {'term': term, 'packs': 1})
-        R.setup('%s 【前置／捷徑】讀檔到宿舍 203 %s 21:45、物品放一袋東南大聯泡麵（五包裝）：遊戲自己的條件 TZIS.due=%s（室友都在 %s、學期內 %s、室友在場景 %s）' % (tag, day, pr['due'], pr['allIn'], pr['era'], pr['mates']))
+        R.setup('%s 【前置／捷徑】讀檔到宿舍 203 %s %.2f、四人房 DORM_FOUR、物品放一袋東南大聯泡麵（五包裝）：遊戲自己的條件 TZIS.due=%s（室友都在 %s、學期內 %s、室友在場景 %s）' % (tag, day, SUPPER_H, pr['due'], pr['allIn'], pr['era'], pr['mates']))
         R.check('%s 條件成立（TZIS.due：泡麵、21 點後、203、室友都在）' % tag, pr['due'] is True, J(pr))
         await pg.evaluate("(t=>{ window.__evDone=false; EVENTS.run(STORY_EVENTS.find(e=>e.id===TZIS.evId(t))).then(()=>{ window.__evDone=true; }).catch(x=>{ window.__evDone='ERR '+String(x).slice(0,100); }); })", term)
         R.setup('%s 【捷徑】EVENTS.run 那一場（不等自動觸發）' % tag)
