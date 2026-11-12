@@ -142,7 +142,10 @@ const SHOPS=()=>[
     /* 冬天（一月）：以安的 winterCold */
     const wk=LN.heroine_01.drink.ctx&&LN.heroine_01.drink.ctx.winterCold; let dWin=null; for(let d=1;d<900&&dWin==null;d++){ const dt=CALENDAR.dateOf(d), t=CALENDAR.termOf&&CALENDAR.termOf(d); if(dt.m===1&&!(t&&t.exam==='final')) dWin=d; }
     const pk=(key,nm)=>{ const G=fresh(); G.day=dWin; G.hour=14; H.rel('heroine_01',45,30,0); return GIFT.pick(G,'heroine_01',{n:nm,cat:'drink',day:dWin,shop:GIFT.shopDef(key).name}).kind; };
-    check('F. 一月送以安：日常失速的冰拿鐵、泰米的泰式奶茶＝winterCold；喝不喝咖啡的紅茶、冬瓜茶＝一般（不說「這麼冷的天，你買冰的？」）',!!wk&&dWin!=null&&pk('日常失速','冰拿鐵')==='winterCold'&&pk('泰米村食','泰式奶茶')==='winterCold'&&pk('喝不喝咖啡','紅茶')==='yes'&&pk('喝不喝咖啡','冬瓜茶')==='yes',J([dWin,dWin&&pk('日常失速','冰拿鐵'),dWin&&pk('喝不喝咖啡','紅茶')])); }
+    check('F. 一月送以安：日常失速的冰拿鐵、泰米的泰式奶茶＝winterCold；喝不喝咖啡的紅茶、冬瓜茶＝一般（不說「這麼冷的天，你買冰的？」）',!!wk&&dWin!=null&&pk('日常失速','冰拿鐵')==='winterCold'&&pk('泰米村食','泰式奶茶')==='winterCold'&&pk('喝不喝咖啡','紅茶')==='yes'&&pk('喝不喝咖啡','冬瓜茶')==='yes',J([dWin,dWin&&pk('日常失速','冰拿鐵'),dWin&&pk('喝不喝咖啡','紅茶')]));
+    /* 2026-11-12（AA_710＠f6aa917593：一盞茶屋外帶的 note 多一句「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」）。修改前：一盞的冷泡茶不算冷也不算熱＝一月送以安是一般的那一格（yes） */
+    check('F. 一月送以安：一盞茶屋外帶的冷泡烏龍、冷泡紅玉＝winterCold（稿：冷泡茶算冰的）；十月送＝一般',!!wk&&dWin!=null&&pk('溫州街・一盞','冷泡烏龍（一瓶）')==='winterCold'&&pk('溫州街・一盞','冷泡紅玉（一瓶）')==='winterCold'
+      &&(()=>{ const G=fresh(); let d=null; for(let x=1;x<900&&d==null;x++){ const dt=CALENDAR.dateOf(x), t=CALENDAR.termOf&&CALENDAR.termOf(x); if(dt.m===10&&!(t&&t.exam)) d=x; } G.day=d; G.hour=14; H.rel('heroine_01',45,30,0); return GIFT.pick(G,'heroine_01',{n:'冷泡烏龍（一瓶）',cat:'drink',day:d,shop:'一盞茶屋'}).kind==='yes'; })(),J([dWin&&pk('溫州街・一盞','冷泡烏龍（一瓶）')])); }
   /* ---------- G：每一支點餐流程 ---------- */
   { const GOPT=GIFT.SHOP_OPT, res=[];
     /* run：跑那一支流程；picks＝一路要選的字；回 {menu: 出現「買一份帶走送人…」的那一份選單, carry, paid, said} */

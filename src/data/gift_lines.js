@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@335301d353、docs/story_planning/AA_728_gifts_friends.json@bb3bdad7df）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
+/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@f6aa917593、docs/story_planning/AA_728_gifts_friends.json@bb3bdad7df）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
    沛珊最愛的米漿第二句照 AA_766_peishan_leftover2.json@1e647bb05（X327；tools/story/ps766.py 疊的）。
    送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友（AA_728；稿寫 unused 的不匯入）*/
 'use strict';
 const GIFT_LINES={
- "src": "docs/story_planning/AA_710_gifts.json@335301d353",
+ "src": "docs/story_planning/AA_710_gifts.json@f6aa917593",
  "people": {
   "heroine_01": {
    "drink": {
@@ -1804,6 +1804,10 @@ const GIFT_LINES={
      90
     ]
    ],
+   "temp": {
+    "冷泡烏龍（一瓶）": "cold",
+    "冷泡紅玉（一瓶）": "cold"
+   },
    "staffLine": "外帶的在這裡。喝之前搖一下。",
    "onShift": {
     "who": "heroine_03",
@@ -1814,7 +1818,7 @@ const GIFT_LINES={
    },
    "where": "櫃台旁邊的小冰箱（沒有這個模型就掛在櫃台的點餐選單最下面）",
    "decide": "開外帶，只賣冷泡茶，不賣壺裝。",
-   "note": "語彤那一格「一盞茶屋的茶（任何一樣）」就對這兩樣。語彤自己當班的時候買來送她，她收：「你在我店裡買茶送我。……好，我下班喝。」（只在她當班、而且是送她的時候換這一句，其他時候照她原本的收禮句。）"
+   "note": "語彤那一格「一盞茶屋的茶（任何一樣）」就對這兩樣。語彤自己當班的時候買來送她，她收：「你在我店裡買茶送我。……好，我下班喝。」（只在她當班、而且是送她的時候換這一句，其他時候照她原本的收禮句。） 冷泡茶算冰的（冬天送的反應照冰飲那一套）。"
   }
  },
  "friends": {

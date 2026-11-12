@@ -98,7 +98,8 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
       &&q.state==='done'&&q.bar3d===H.G.day&&Math.abs(H.G.hour-(21.5+1))<1e-6&&h0<21.5&&freed.length===6&&!S.barPending(H.G), J([H.G.zone,H.G.hour,q.state,q.bar3d,freed.length]));
     /* 平日晚上（三個人）*/
     at('2029-02-25',20); phone(); at('2029-02-26',20.9); taken.length=0; freed.length=0; crowdOnEnter=null; const qo=OUT.get(H.G,'y4_bar_out_'+D('2029-02-26')); await goOut(qo.id);
-    check('3. 平日晚上（三個人）：一樣的三個位子；可昕那一句；演完 BAR_GROUP_N＝1、留在二樓、時間往後 2 小時（20:54 出發＋15 分鐘到＋2 小時）', !!shot&&eq(shot.me,-1,-0.25,Math.PI)&&eq(who('kexin'),-1,-1.75,0)&&eq(who('heroine_03'),0,-1.75,0)&&H.said.length===1&&has('刑總那題，你先講結論，再講理由。講完我再問。')
+    /* 2026-11-12（AA_836 文末「補（12:2x）」，企劃線 f6aa917593：三杯熱可可那一版在三個人都在的讀書夜也演一次）：三個人第一個平日的讀書夜，可昕那一句前面多三杯那一句（NEW；旁白），演完記 BAR_GROUP_COCOA3。舊期望：H.said.length===1（只有可昕那一句） */
+    check('3. 平日晚上（三個人）：一樣的三個位子；三杯熱可可那一句（旁白）→ 可昕那一句；演完 BAR_GROUP_N＝1、BAR_GROUP_COCOA3＝那一天、留在二樓、時間往後 2 小時（20:54 出發＋15 分鐘到＋2 小時）', !!shot&&eq(shot.me,-1,-0.25,Math.PI)&&eq(who('kexin'),-1,-1.75,0)&&eq(who('heroine_03'),0,-1.75,0)&&H.said.length===2&&H.said[0].t===NEW&&H.said[1].t==='刑總那題，你先講結論，再講理由。講完我再問。'&&H.G.flags.BAR_GROUP_COCOA3===H.G.day
       &&H.G.flags.BAR_GROUP_N===1&&H.G.flags.BAR_GROUP_LAST===H.G.day&&H.G.zone===Z&&!E.player.seat&&Math.abs(H.G.hour-(20.9+0.25+2))<1e-6&&H.bgs[0]==='freeze'&&!H.bgs.includes('dark'), J([shot,texts(),H.G.hour]));
     /* 6/23 */
     at('2029-06-21',12); phone(); at('2029-06-23',18.8); await goOut('y4_bar_three');
@@ -124,7 +125,10 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
   { const IDS=['ev_bar_group_start','ev_bar_group_out','ev_bar_group_three','ev_bar_group_night','ev_bar_group_video'];
     const snap=()=>J(IDS.map(id=>[id,ev(id).title,ev(id).dialogue.map(l=>[l.speaker===undefined?'-':l.speaker,l.text||'',l.expression||'',l.scene===undefined?'-':l.scene,l.bg===undefined?'-':l.bg,l.label||'',l.goto||'',!!l.end,(l.choice||[]).map(c=>c.text)])]));
     const sha=s=>crypto.createHash('sha256').update(s).digest('hex'), now0=snap();
-    const snap2=()=>J(IDS.map(id=>[id,ev(id).title,ev(id).dialogue.filter(l=>l.text!==NEW2).map(l=>[l.speaker===undefined?'-':l.speaker,l.text||'',l.expression||'',l.scene===undefined?'-':l.scene,l.bg===undefined?'-':l.bg,l.label||'',l.goto||'',!!l.end,(l.choice||[]).map(c=>c.text)])])), now=snap2();
+    /* 2026-11-12（AA_836 文末「補（12:2x）」，企劃線 f6aa917593：三杯熱可可那一版在三個人都在的讀書夜也演一次）：ev_bar_group_night／_out 各多一列（cocoa3:true；字＝NEW，條件 R2Y4B.cocoa3Due）——和 NEW2 那一列一樣先拿掉再和改之前比。舊寫法：只拿掉 NEW2 */
+    { const c3=IDS.map(id=>ev(id).dialogue.filter(l=>l.cocoa3)), ok=id=>{ const d=ev(id).dialogue, i=d.findIndex(l=>l.cocoa3), f=d.findIndex(l=>l.label==='first'); return i>0&&d[i].text===NEW&&d[i].speaker===null&&!!d[i].if&&d[i+1].speaker==='kexin'&&i<f&&d[f+1].text===NEW&&!d[f+1].cocoa3; };
+      check('6. 三杯那一版多的一列（cocoa3）只在 ev_bar_group_out、ev_bar_group_night 各一列：字＝NEW（就是「第一次」那一段的那一列，不另外抄）、旁白、排在可昕第一句以前；資料檔 src/data/r2y4b_events.js 裡 NEW 還是只有一處', J(c3.map(a=>a.length))===J([0,1,0,1,0])&&ok('ev_bar_group_out')&&ok('ev_bar_group_night')&&fs.readFileSync(path.join(H.ROOT,'src/data/r2y4b_events.js'),'utf8').split(NEW).length===2&&!fs.readFileSync(path.join(H.ROOT,'src/r2y4b3d.js'),'utf8').includes(NEW), J(c3.map(a=>a.length))); }
+    const snap2=()=>J(IDS.map(id=>[id,ev(id).title,ev(id).dialogue.filter(l=>l.text!==NEW2&&!l.cocoa3).map(l=>[l.speaker===undefined?'-':l.speaker,l.text||'',l.expression||'',l.scene===undefined?'-':l.scene,l.bg===undefined?'-':l.bg,l.label||'',l.goto||'',!!l.end,(l.choice||[]).map(c=>c.text)])])), now=snap2();
     const n2=IDS.map(id=>ev(id).dialogue.filter(l=>l.text===NEW2)), idx2=IDS.map(id=>{ const d=ev(id).dialogue, i=d.findIndex(l=>l.text===NEW2); return i>0&&d[i-1].text===NEW&&d[i].speaker===null&&!d[i].expression&&!d[i].scene&&!d[i].label&&!d[i].goto&&!d[i].end&&!d[i].choice; });
     check('6. 兩杯那一版（NEW2）只在 ev_bar_group_out、ev_bar_group_night 各一列、緊接在三杯那一版後面、是旁白；其他三場沒有', J(n2.map(a=>a.length))===J([0,1,0,1,0])&&idx2[1]&&idx2[3]&&now0.split(NEW2).length===3, J(n2.map(a=>a.length)));
     const BASE='1354551ef3df2fd876886bbe9c5336b0bc1b7fd59f88069405016561168ee292';   /* 改之前（開發分支 bc559a032）同一個算法的雜湊 */
@@ -139,7 +143,11 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
       check('6. 分兩版的兩句和 AA_836 文末（企劃線 44ed07c50）一字不差：「三個人都在：」NEW、「只有語彤和你（可昕不在場的讀書夜）：」NEW2', doc.includes('熱可可那句分兩版')&&tail.includes('- 三個人都在：'+NEW)&&tail.includes('- 只有語彤和你（可昕不在場的讀書夜）：'+NEW2), tail.slice(0,200)); }
     else console.log('SKIP 6. 讀不到企劃線 44ed07c50（沒有 fetch）：AA_836 的表不比，新句照測試裡抄的那一句');
     const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.find(f=>/AA_836_/.test(f.path));
-    check('6. 白名單登記 AA_836＠44ed07c50（approved；48d153407 在 history）', !!allow&&allow.status==='approved'&&/^44ed07c50/.test(allow.sha)&&allow.task==='BAR-GROUP-3D-1112'&&(allow.history||[]).some(h=>/^48d153407/.test(h.sha)), J(allow&&[allow.sha,allow.status,allow.history]));
+    /* 2026-11-12（AA_836 文末「補（12:2x）」，企劃線 f6aa917593：三杯熱可可那一版在三個人都在的讀書夜也演一次）：白名單換 f6aa917593。舊期望：sha 44ed07c50、48d153407 在 history */
+    check('6. 白名單登記 AA_836＠f6aa917593（approved；44ed07c50、48d153407 在 history）', !!allow&&allow.status==='approved'&&/^f6aa917593/.test(allow.sha)&&allow.task==='BAR-GROUP-3D-1112'&&(allow.history||[]).some(h=>/^48d153407/.test(h.sha))&&(allow.history||[]).some(h=>/^44ed07c50/.test(h.sha)), J(allow&&[allow.sha,allow.status,allow.history]));
+    { let d2=null; try{ d2=cp.execFileSync('git',['-C',H.ROOT,'show','f6aa917593:docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
+      if(d2) check('6. AA_836 文末補（12:2x）逐句在：「三個人都在的那一版，在三個人都在的讀書夜也要演（一次）；不是只有「只有語彤」的晚上才有熱可可。」；分兩版那兩句沒動', d2.includes('- 補（12:2x）：三個人都在的那一版，在三個人都在的讀書夜也要演（一次）；不是只有「只有語彤」的晚上才有熱可可。')&&d2.includes('- 三個人都在：'+NEW)&&d2.includes('- 只有語彤和你（可昕不在場的讀書夜）：'+NEW2), d2.slice(d2.indexOf('熱可可那句分兩版'),d2.indexOf('熱可可那句分兩版')+300));
+      else console.log('SKIP 6. 讀不到企劃線 f6aa917593（沒有 fetch）：AA_836 文末補不比'); }
     /* 三個人都在的晚上走到「第一次」那一段＝三杯那一版；只有語彤＝兩杯那一版；週六總圖＝白天版（兩版都不演）*/
     { const s0=S.session, g0=S.groupLine; try{ three(); H.G.events.done.ev_bar_group_start=1; at('2029-02-26',21.5); S.groupLine=()=>'yt_first';
         S.session=()=>({mode:'noodle',t0:21,t1:23,who:'three'}); await run('ev_bar_group_out'); const a=texts().slice();

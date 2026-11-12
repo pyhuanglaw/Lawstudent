@@ -7454,12 +7454,12 @@
   },
   {
    "path": "docs/story_planning/AA_710_gifts.json",
-   "sha": "335301d353",
+   "sha": "f6aa917593",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）；31c1c4e2c（AA D109 11-11 10:30「X324 G 區第三份：送早餐飲料改源稿」：句首「……」18 處、可昕「謝謝。我等一下吃，你不要一直看我。」、沛珊米漿第二句同步 AA_766）；86619c1195（AA-C D109 11-12 04:18「AA_710 飲料八格…定稿（BB_378 六點採納）」，X350 使用者「買飲料送給可攻略的對象到底是要怎麼觸發」：所有飲料店賣的飲料都可以買來送，新增八格 opinion——七人各一樣各店菜單上的飲料＋語彤「一盞茶屋的茶（任何一樣）」；STALE-SOURCES-1112）；335301d353：AA-C 11-12 11:08 三件定了（_meta.lawww_1112b：一盞外帶冷泡茶、學姊紅茶任何一家都算、芯慈收花補一句）",
+   "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）；31c1c4e2c（AA D109 11-11 10:30「X324 G 區第三份：送早餐飲料改源稿」：句首「……」18 處、可昕「謝謝。我等一下吃，你不要一直看我。」、沛珊米漿第二句同步 AA_766）；86619c1195（AA-C D109 11-12 04:18「AA_710 飲料八格…定稿（BB_378 六點採納）」，X350 使用者「買飲料送給可攻略的對象到底是要怎麼觸發」：所有飲料店賣的飲料都可以買來送，新增八格 opinion——七人各一樣各店菜單上的飲料＋語彤「一盞茶屋的茶（任何一樣）」；STALE-SOURCES-1112）；335301d353：AA-C 11-12 11:08 三件定了（_meta.lawww_1112b：一盞外帶冷泡茶、學姊紅茶任何一家都算、芯慈收花補一句）；f6aa917593（AA-C 11-12 回 LAWWW：一盞茶屋外帶的 note 加「冷泡茶算冰的」）",
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
-   "note": "第二版（BB_304 第 7 節）：七位送飲料、早餐：yes（need 1／4、dating 交往中；pool 兩三組輪流）、no（一天第二次，輪流）、fav（七位都有，AA_410）、opinion（她有意見的那一樣）、ctx（again／exam／night／winterCold／summerHot）；tools/story/import_gifts.py → src/data/gift_lines.js",
+   "note": "第二版（BB_304 第 7 節）：七位送飲料、早餐：yes（need 1／4、dating 交往中；pool 兩三組輪流）、no（一天第二次，輪流）、fav（七位都有，AA_410）、opinion（她有意見的那一樣）、ctx（again／exam／night／winterCold／summerHot）；tools/story/import_gifts.py → src/data/gift_lines.js；2026-11-12 改到 f6aa917593（_meta.lawww_1112b「一盞茶屋外帶」note 多一句「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」；其他一個字都沒動）",
    "history": [
     {
      "sha": "4be26c44d",
@@ -7484,6 +7484,10 @@
     {
      "sha": "86619c1195",
      "note": "被 335301d353 取代（AA-C 11-12 11:08 三件定了（_meta.lawww_1112b：一盞外帶冷泡茶、學姊紅茶任何一家都算、芯慈收花補一句））"
+    },
+    {
+     "sha": "335301d353",
+     "note": "被 f6aa917593 取代（_meta.lawww_1112b「一盞茶屋外帶」note 多一句「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」；其他一個字都沒動）"
     }
    ]
   },
@@ -9568,16 +9572,20 @@
   },
   {
    "path": "docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md",
-   "sha": "44ed07c50",
+   "sha": "f6aa917593",
    "status": "approved",
-   "approvedBy": "AA（BAR-GROUP-3D-1112）；44ed07c50＝AA-C 2026-11-12 回 LAWWW-C 合併後的問題（文末「補：熱可可那句分兩版」；D109）；48d153407＝座位、演完留在二樓、要改的一句",
+   "approvedBy": "AA（BAR-GROUP-3D-1112）；44ed07c50＝AA-C 2026-11-12 回 LAWWW-C 合併後的問題（文末「補：熱可可那句分兩版」；D109）；48d153407＝座位、演完留在二樓、要改的一句；f6aa917593（AA-C 11-12 12:2x 文末補：三個人都在的那一版在三個人都在的讀書夜也要演（一次））",
    "task": "BAR-GROUP-3D-1112",
    "kind": "md",
-   "note": "律師讀書小組在大口漢堡二樓的三場（ev_bar_group_start／_out／_three）改在 3D 演的座位與舞台指示（AA-C 11-12 定，分支 claude/magical-albattani-bk7b4n）。台詞只改「要改的一句」那一列：src/data/r2y4b_events.js（手寫檔，沒有產生器）ev_bar_group_night「first」那一段的第一句旁白（ev_bar_group_out 共用同一份台詞）「（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）」→「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」——手改一處、照表一字不差（稿是 md 的表，不是 apply_line_rows.py 的 JSON）；其他台詞不動。座位、流程在 src/r2y4b3d.js（S.barSeats／barCast／barStage／barPlay）。逐字對稿、其他台詞沒動的雜湊：tests/bar_group_3d_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核｜2026-11-12 換 44ed07c50：文末分兩版——三個人都在＝「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」（原列加條件 session.who===three）；只有語彤和你＝「（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）」（新加一列）；手改、照稿一字不差。",
+   "note": "律師讀書小組在大口漢堡二樓的三場（ev_bar_group_start／_out／_three）改在 3D 演的座位與舞台指示（AA-C 11-12 定，分支 claude/magical-albattani-bk7b4n）。台詞只改「要改的一句」那一列：src/data/r2y4b_events.js（手寫檔，沒有產生器）ev_bar_group_night「first」那一段的第一句旁白（ev_bar_group_out 共用同一份台詞）「（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）」→「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」——手改一處、照表一字不差（稿是 md 的表，不是 apply_line_rows.py 的 JSON）；其他台詞不動。座位、流程在 src/r2y4b3d.js（S.barSeats／barCast／barStage／barPlay）。逐字對稿、其他台詞沒動的雜湊：tests/bar_group_3d_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核｜2026-11-12 換 44ed07c50：文末分兩版——三個人都在＝「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」（原列加條件 session.who===three）；只有語彤和你＝「（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）」（新加一列）；手改、照稿一字不差。；2026-11-12 改到 f6aa917593（文末補（12:2x）：熱可可三杯那一版在三個人都在的讀書夜也演一次；其他沒動）",
    "history": [
     {
      "sha": "48d153407",
      "approvedBy": "AA（BAR-GROUP-3D-1112）；48d153407＝AA-C 2026-11-12 答 LAWWW-C（座位、演完留在二樓、要改的一句；D109）"
+    },
+    {
+     "sha": "44ed07c50",
+     "note": "被 f6aa917593 取代（文末補（12:2x）：熱可可三杯那一版在三個人都在的讀書夜也演一次；其他沒動）"
     }
    ]
   },

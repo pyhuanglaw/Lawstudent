@@ -65,7 +65,7 @@ const GIFT=(function(){
     'bookstore.cafe_order':{name:'頁間書屋',rows:()=>{ const s=g_('GGS'); return s?s.MENU['bookstore.cafe_order'].items:[]; }},
     '大口漢堡':{rows:G=>{ const s=g_('DKS'); return s?s.menu(G):[]; }},
     '溫州街・半熟':{name:'SUNNY SIDE',rows:()=>{ const s=g_('WZS'); return s?s.BRUNCH:[]; }},
-    '溫州街・一盞':{name:'一盞茶屋',rows:()=>{ const t=S.takeout('一盞茶屋'); return t?t.items:[]; },drink:()=>true,takeout:true},   /* YIZHAN-TAKEOUT-1112：外帶只賣冷泡茶兩樣（AA_710 _meta.lawww_1112b；品名、價錢在 GIFT_LINES.takeout，tools/story/import_gifts.py 匯的）。key＝wzshops3d.js 點餐的 key；記在 G.carry 的店名「一盞茶屋」＝語彤那一格 shopAny。室內模型沒有冰箱（wz_shops_layout.js、yizhan.glb 都沒有）＝照稿掛在櫃台點餐選單最下面 */
+    '溫州街・一盞':{name:'一盞茶屋',rows:()=>{ const t=S.takeout('一盞茶屋'); return t?t.items:[]; },drink:()=>true,takeout:true,temp:r=>{ const t=S.takeout('一盞茶屋'); return t&&t.temp?t.temp[Array.isArray(r)?r[0]:(r&&r.n)]||null:null; }},   /* 2026-11-12（AA_710＠f6aa917593 note：「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」）：冷熱照 GIFT_LINES.takeout 的 temp（匯入工具從稿讀；原本品名沒有「冰」字＝不算冷也不算熱）*/   /* YIZHAN-TAKEOUT-1112：外帶只賣冷泡茶兩樣（AA_710 _meta.lawww_1112b；品名、價錢在 GIFT_LINES.takeout，tools/story/import_gifts.py 匯的）。key＝wzshops3d.js 點餐的 key；記在 G.carry 的店名「一盞茶屋」＝語彤那一格 shopAny。室內模型沒有冰箱（wz_shops_layout.js、yizhan.glb 都沒有）＝照稿掛在櫃台點餐選單最下面 */
     '帝大紅茶':{rows:G=>{ const s=g_('WZS'); return s?s.menu364('tea',G):[]; }},
     '阿忠鮮果':{rows:G=>{ const s=g_('WZS'); return s?s.fruitMenu(G):[]; }},
     '日常失速':{rows:()=>{ const s=g_('OFFB'); return s?s.L.menu:[]; }},
