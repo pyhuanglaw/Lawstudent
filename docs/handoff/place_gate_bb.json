@@ -390,15 +390,14 @@
   },
   {
    "zone": "l118_tea",
-   "sha": "9f331db438",
+   "sha": "a57b6ec8ab",
    "verdict": "部分",
    "fail": [],
    "pending": [
-    "④ 點餐：探針走到點餐點、跳出菜單但沒選（picked []）＝探針沒處理這個菜單，請 CC 重跑",
     "打烊樣子（L118-CLOSED-LOOKS-OPEN-1112）"
    ],
-   "note": "L118_SEAT_dian_tea 12:15：店員、客人、窗、天花板、純色塊 PASS",
-   "at": "2026-11-12T17:4xZ",
+   "note": "L118_SEAT_dian_tea 12:15：店員、客人、窗、天花板、純色塊 PASS；20:0x L118_TEA_order_r2（a57b）：點餐 PASS，其他各項 PASS",
+   "at": "2026-11-12T20:0xZ",
    "ref": "BB_379 11-12 17:4x"
   }
  ]
