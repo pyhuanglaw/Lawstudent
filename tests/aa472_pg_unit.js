@@ -67,7 +67,7 @@ await tsec(3,async()=>{ const S3=sec(3);
     check('3. 卡片那一段：不出「（她把卡片推過來）」、不出第二～五年的卡片句、不出「後面幾頁，她說：『回去再看。』」、沒有選項',!T.includes('（她把卡片推過來）')&&!T.some(t=>/把卡片翻到第一頁/.test(t))&&!T.includes('後面幾頁，她說：『回去再看。』')&&!r.O.length&&T[T.length-1]===CARD[4][1],J([T.slice(-3),r.O]));
     check('3. 數值、旗標照第二～五年：KX_ANNIV {6:地點}、暫存旗標清掉',r.G.flags.KX_ANNIV[6]==='river'&&r.G.flags._kxAY==null&&r.G.flags.K7_GIFT_6==='none'); }
   { const r=await play({KX_ANNIV5_WHAT:true}), T=r.L.map(x=>x[1]); check('3. 第五年選了「寫什麼？」的：地點之後「'+OPEN2+'」',T.includes(OPEN2)&&!T.includes(OPEN),J(T.slice(0,3))); }
-  { const r=await play({},'ticket'), T=r.L.map(x=>x[1]); check('3. 禮物照第二～五年那一組（票根：她的反應照現在）、接卡片那一段',T.includes('（她把票根翻到背面，看了那個日期很久。）')&&T.indexOf('（她把票根翻到背面，看了那個日期很久。）')<T.indexOf(CARD[0][1]),J(T)); }
+  { const r=await play({},'ticket'), T=r.L.map(x=>x[1]); check('3. 禮物照第二～五年那一組（票根：她的反應照現在）、接卡片那一段',T.includes('（她把發票翻到背面，看了那個日期很久。）')&&T.indexOf('（她把發票翻到背面，看了那個日期很久。）')<T.indexOf(CARD[0][1]),J(T)); }   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）票根→發票 */
   /* 第五年選了「寫什麼？」才記 KX_ANNIV5_WHAT（第六年地點之後那一句用）*/
   for(const [k,want] of [[1,true],[0,false],[2,false]]){ const G=grad('2029-10-17',18,{KX_ANNIV:{4:'shop'},KX_ANNIV_PLACE_5:'river'}); H.FRIEND('kexin'); H.date('kexin');
     OUT.plan(G,{id:'kx_anniv5',ev:'ev_kexin_anniversary_yn',day:D('2029-10-17'),h:18.5,year:5,ap:'river',place:'河堤',title:'週年：河堤',travel:'騎車約 15 分鐘',travelH:0.25}); H.said=[]; H.picks=[k]; await OUT.go(GM,OUT.get(G,'kx_anniv5'));

@@ -33,7 +33,7 @@ const PHONE=(function(){
   const mk=(G,it,day,h)=>{ const hh=((h%24)+24)%24, dd=day+Math.floor(h/24); const th=it.th||(it.who?'p:'+it.who:'sys');
     const m={day:dd,h:+hh.toFixed(2),who:it.who!==undefined?it.who:(th.startsWith('p:')&&it.from!=='player'?th.slice(2):null),text:it.text,iv:null,th};
     if(it.from) m.from=it.from; if(it.name) m.name=it.name;
-    if(it.from==='heroine_05'&&typeof m.text==='string'&&typeof SOCIAL!=='undefined'&&SOCIAL.ytNameT){ m.text=SOCIAL.ytNameT(m.text,'heroine_05'); m.ytFix=1; }   /* AA_591 整合九件第 8 件（AA 11-02 21:25）：交往中學姊叫「林{name}」——送出的那一刻就把字定下來存進訊息（之後分手、或之前的訊息後來交往，都不再改）；game3d.js 的 ytT 不再動有 ytFix 的訊息 */ if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/
+    if(it.from==='heroine_05'&&typeof m.text==='string'&&typeof SOCIAL!=='undefined'&&SOCIAL.ytNameT){ m.text=SOCIAL.ytNameT(m.text,'heroine_05'); m.ytFix=1; }   /* AA_591 整合九件第 8 件（AA 11-02 21:25）：交往中學姊叫「林{name}」——送出的那一刻就把字定下來存進訊息（之後分手、或之前的訊息後來交往，都不再改）；game3d.js 的 ytT 不再動有 ytFix 的訊息 */ if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(it.rk) m.rk=it.rk;   /* rk：回覆選項對的那一句（AA_709；字有代入的訊息，例：可昕週年「下禮拜{週幾}週年。」，src/msgreply3d.js S.find）*/ if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/
     if(it.narr) m.narr=true;   /* narr：一對一對話串裡的旁白（手機畫面一行灰字；AA_723 沛珊 reply1 最後那句「（之後她就沒有再回。）」，src/ps_silence3d.js）*/
     if(it.quiet) m.quiet=true;   /* quiet：不用回、快轉不停在這一則（收進手機、有紅點；經濟系社團群組三則，AA_529 第⑦點）。各個快轉的「收到訊息就停」都不算它（PHONE.loud）*/
     if(it.play) m.play=true;   /* play：錄音（宥辰的週五的歌，AA_497 1-4）——折起來的是點開聽到的那一句旁白，手機上寫「（點開聽）」*/

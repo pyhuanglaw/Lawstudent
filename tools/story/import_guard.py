@@ -58,6 +58,41 @@ def read_fix(s):
     return ndl542(aa655(world(alison(s))))
 
 
+def read_fix_c(s):
+    """read_fix 再加 AA_897 第 2 節整句換（canon897()）。只給產生檔裡有那些整句的匯入工具用（import_aa720、import_arc_rot、import_flower_class、import_gift_holiday、
+    import_gym_equip、import_place_acc、import_sport_invites、import_study_scenes 開頭 IG.use_canon897()）；覆寫檔（overlay_rows）、回覆池、梯子照 read_fix，不能動稿的字。"""
+    return canon897(_read_fix0(s))
+
+
+_read_fix0 = read_fix
+
+
+def use_canon897():
+    """這支匯入工具讀稿改走 read_fix_c（CANON-NO-ECON-1112 第四批，AA_897 第 2 節）：IG.read_fix 換成 read_fix_c（只在這個行程裡）。"""
+    globals()['read_fix'] = read_fix_c
+
+
+_C897 = None
+
+
+def canon897(s):
+    """CANON-NO-ECON-1112 第四批（AA_897 第 2 節，AA-C 定稿）：產生檔裡舊序章、外校的整句照 tools/story/canon897_fix.json 換（企劃原稿已改成代號，不能重匯新版）。"""
+    global _C897
+    if not isinstance(s, str):
+        return s
+    if _C897 is None:
+        import json as _json, os as _os
+        try:
+            with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'canon897_fix.json'), encoding='utf-8') as f:
+                _C897 = _json.load(f).get('pairs', [])
+        except (OSError, ValueError):
+            _C897 = []
+    for a, b in _C897:
+        if a in s:
+            s = s.replace(a, b)
+    return s
+
+
 _A655 = None
 _LAT = _re.compile('[㐀-䶿一-鿿ぁ-ゖァ-ヺ豈-﫿]')   # 中文字、假名（不含「・」「ー」）
 

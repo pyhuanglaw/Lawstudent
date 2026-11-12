@@ -72,8 +72,8 @@ const NAME=id=>SOCIAL.displayName(id);
   { const q=OUT.get(G,'ndl_trip_y2s2');
     check('1. 選桌遊團：SPRING_Y2 noodle、4/4 08:00 出遊（回家取車）', G.flags.SPRING_Y2==='noodle'&&!!q&&q.day===SD.trip&&q.h===8&&q.ev==='ev_spring_y2_noodle'&&q.travelH===0.5, JSON.stringify(q)); }
   run(d330,22,22.25); run(SD.d0,21.5,21.75);
-  check('1. 可昕：「好。那暑假再去。」、春假一張讀書會的照片（BB_97 9-12）、KX_TRIP_DEFERRED summer', txt('p:kexin').includes('kexin:好。那暑假再去。')&&txt('p:kexin').some(t=>/讀書會/.test(t))&&G.flags.KX_TRIP_DEFERRED==='summer');
-  check('1. C13 照片：「📷（她和予樂在讀書會的長桌，桌上兩疊講義）」接「春假。我們在讀書。」', JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify(['kexin:📷（她和予樂在讀書會的長桌，桌上兩疊講義）','kexin:春假。我們在讀書。']), JSON.stringify(txt('p:kexin').slice(-2)));
+  check('1. 可昕：「好。那暑假再去。」、春假一張讀書的照片（BB_97 9-12；AA_897 換成宿舍交誼廳）、KX_TRIP_DEFERRED summer', txt('p:kexin').includes('kexin:好。那暑假再去。')&&txt('p:kexin').some(t=>/宿舍交誼廳/.test(t))&&G.flags.KX_TRIP_DEFERRED==='summer');   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
+  check('1. C13 照片：「📷（她和室友在宿舍交誼廳，桌上兩疊講義）」接「春假。我們在讀書。」', JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify(['kexin:📷（她和室友在宿舍交誼廳，桌上兩疊講義）','kexin:春假。我們在讀書。']), JSON.stringify(txt('p:kexin').slice(-2)));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   // S1、S2
   fresh(SD.trip,8,'dorm'); team(); R('classmate_peishan','ACQ'); let L1=await play('ev_spring_y2_noodle',[0]);
   check('1. S1 車上：「（後座擠了三個人。）」（AA_599 補：不寫取車）→ 市場 → 海邊 → 回程', L1[0]==='（後座擠了三個人。）'&&has('（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）')&&has('（第二站是海邊。四月的風還有點冷。）')&&L1[L1.length-1]==='（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）', JSON.stringify(L1.slice(0,3)));
@@ -97,7 +97,7 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(SD.d0,8,'dorm'); date('kexin'); K1=await play('ev_kexin_trip_spring_y2',['海邊']);
   check('1. 海邊「水比我想的冷。……你先下去。」', K1.includes(NAME('kexin')+'：水比我想的冷。……你先下去。')&&G.flags.KX_TRIP.Y2S2==='sea');
   fresh(SD.d0,8,'dorm'); date('kexin'); G.flags.KX_TRIP={Y1S2:'sea',Y1SUM:'oldtown',Y2WIN:'stars'}; K1=await play('ev_kexin_trip_spring_y2',[0]);
-  check('1. 三個都去過＝迷路到的地方（BB_97 9-12）：「這次我不出行程表。你帶路，不要看地圖。」…「行程表我回去再補。寫『迷路』，一行就好。」', K1.includes(NAME('kexin')+'：這次我不出行程表。你帶路，不要看地圖。')&&K1.includes(NAME('kexin')+'：這間店沒有招牌欸。')&&K1[K1.length-1]===NAME('kexin')+'：行程表我回去再補。寫『迷路』，一行就好。'&&G.flags.KX_TRIP.Y2S2==='lost'&&!K1.some(t=>/假設/.test(t)), JSON.stringify(K1.slice(-2)));
+  check('1. 三個都去過＝迷路到的地方（BB_97 9-12）：「這次我不出行程表。你帶路，不要看地圖。」…「行程表我回去再補。寫『迷路』，一行就好。」', K1.includes(NAME('kexin')+'：這次你帶路，不要看地圖。')/* （CANON-NO-ECON-1112 第四批：照 AA_878 #25 換字）*/&&K1.includes(NAME('kexin')+'：這間店沒有招牌欸。')&&K1[K1.length-1]===NAME('kexin')+'：行程表我回去再補。寫『迷路』，一行就好。'&&G.flags.KX_TRIP.Y2S2==='lost'&&!K1.some(t=>/假設/.test(t)), JSON.stringify(K1.slice(-2)));
   // 留宿舍、沒回、晚一點
   fresh(d330,21.9,'dorm'); team(); run(d330,21,21.75); picks=['留在宿舍']; GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
   G.day=SD.d0; G.hour=10; G.zone='dorm'; check('1. 留宿舍：4/3 白天走進宿舍＝「（宿舍的走廊很安靜。這次你知道，四天很快就過了。）」（只有那一天）', G.flags.SPRING_Y2==='dorm'&&EVENTS.check(ev('ev_spring_dorm_empty_y2'))&&ev('ev_spring_dorm_empty_y2').dialogue[0].text==='（宿舍的走廊很安靜。這次你知道，四天很快就過了。）'&&(G.day=SD.trip,!EVENTS.check(ev('ev_spring_dorm_empty_y2'))));

@@ -95,10 +95,10 @@ const talk=async(id,picks)=>{ H.said=[]; H.picks=[].concat(picks||[]); await GRA
     check('5. 大一上期末考週（第 16 週）：桌上的泡麵「考試週限定」',T&&T.week===16&&L2.some(x=>x[0]==='桌上的泡麵'&&/考試週限定/.test(x[1])),J([T,L2])); }
   /* 6 第 4 節 */
   { const ev=STORY_EVENTS.find(e=>e.id==='ev_kexin_grades_open');
-    const run=async n=>{ const G=H.fresh('2026-01-05',21,'dorm',{}); setScore(G,'Y1S1',n); H.said=[]; await EVENTS.runLines(ev.dialogue,{id:'t',participants:['kexin']}); return said().filter(t=>t!=='三、二、一——'); };
+    const run=async n=>{ const G=H.fresh('2026-01-05',21,'dorm',{}); setScore(G,'Y1S1',n); H.said=[]; await EVENTS.runLines(ev.dialogue,{id:'t',participants:['kexin']}); return said().filter(t=>t!=='三、二、一——'&&t!=='（寒假。她在高雄，視訊那頭聽得到她家的電視。）'); };   /* （CANON-NO-ECON-1112 第四批：照 AA_875 換字）開頭多一句旁白 */
     const hi=await run(5), mid=await run(3), lo=await run(2), f=await run(0);
     check('6. 可昕一起打開（大一上）：高「……你偷念。」「好，這次才是真的放假。」「你請。」；中照舊；低「……都過了。」「下學期我們一起念。我排時間。」；被當「……有一科沒過。」「好。下學期那一科，我陪你念。」（不再說都過了）',
-      J(hi)===J(['……你偷念。','好，這次才是真的放假。','你請。'])&&J(mid)===J(['……都過了。好，這次才是真的放假。'])&&J(lo)===J(['……都過了。','下學期我們一起念。我排時間。'])&&J(f)===J(['……有一科沒過。','好。下學期那一科，我陪你念。']),J({hi,mid,lo,f}));
+      J(hi)===J(['……你偷念。','好，這次才是真的放假。','你請。'])&&J(mid)===J(['……都過了。好，這次才是真的放假。'])&&J(lo)===J(['……都過了。','下學期一起念。你躲的話，我去你宿舍樓下叫。'])/* （CANON-NO-ECON-1112 第四批：照 AA_875 換字）舊：「下學期我們一起念。我排時間。」*/&&J(f)===J(['……有一科沒過。','好。下學期那一科，我陪你念。']),J({hi,mid,lo,f}));
     const src=fs.readFileSync(path.join(H.ROOT,'src/r2y4a3d.js'),'utf8'); check('6. 大四上「各說一科最滿意的」多「沒有最滿意的。」→「那說一科最不滿意的。我陪你。」',/沒有最滿意的。[\s\S]{0,200}那說一科最不滿意的。我陪你。/.test(src)); }
   /* 7 吧檯班的芷若（BB-B 11-01：點餐那條路沒有走 PRE_TALK）：成績那段照演，演完照常點餐；不在期間＝直接點餐 */
   { if(STORY._bindGM) STORY._bindGM(GM); const bar=async(key,setup)=>{ const G=H.fresh(key,15,'cafe',{}); setScore(G,'Y1S1',3); H.FAMILIAR('heroine_02'); if(setup) setup(G); H.said=[]; H.picks=[];

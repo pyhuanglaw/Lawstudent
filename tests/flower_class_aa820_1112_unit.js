@@ -22,7 +22,9 @@ const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let s=fs.readFileSync(p,'utf8'); s=s.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); return true; };
 const FILES=['src/data/fest_events.js','src/fest3d.js','src/xs_close3d.js','src/data/flower_notes_layout.js','src/data/gift_holiday.js','src/gifthol3d.js','src/data/flower_notes_text.js','src/flower_notes_sys3d.js','src/data/flower_class.js','src/flower_class3d.js'];
 let missing=[], err=''; try{ for(const f of FILES) if(!load(f)) missing.push(f); }catch(e){ err=String(e&&e.stack||e); }
-let DOCJ=null, docErr=''; try{ DOCJ=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show',SHA+':'+DOC],{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<24})); }catch(e){ docErr=String(e.stderr||e.message).trim().split('\n').pop(); }
+/* CANON-NO-ECON-1112 第四批：匯入工具讀稿再照 AA_897 第 2 節換整句（tools/story/canon897_fix.json，import_guard.use_canon897）——對稿前稿也照換 */
+const C897=JSON.parse(read('tools/story/canon897_fix.json')).pairs, c897=s=>C897.reduce((a,[o,n])=>a.split(o).join(n),s);
+let DOCJ=null, docErr=''; try{ DOCJ=JSON.parse(c897(cp.execFileSync('git',['-C',H.ROOT,'show',SHA+':'+DOC],{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<24}))); }catch(e){ docErr=String(e.stderr||e.message).trim().split('\n').pop(); }
 const vs=(name,f)=>{ if(!DOCJ) return console.log('SKIP '+name+'　讀不到稿（git show '+SHA+'：'+docErr+'）——只跳過逐字對稿'); let r; try{ r=f(DOCJ); }catch(e){ r=[false,String(e)]; } check(name,!!r[0],r[1]); };
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中斷這一節）',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const D=k=>H.D(k);

@@ -64,7 +64,7 @@ const NEW=[
   '（她把一盒蛋餅放到你面前。）','說好的！','……我家的早餐比這個好吃！','謝謝！',
   '（吃完飯，她從包包拿出一個小盒子，推過來。）','聖誕的。說好考完換。','（你也把準備好的那一份拿出來。）','還有，去年說的。今年的第二頁，你排。','河濱，看燈。','……抄我的。好。','山上，看夜景。','好。你開車。','（那一晚的第二頁，是你排的。）',
   '（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）','摩天輪。說好的。','（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）',
-  '第三個願望。去年說今年說。','我們兩個都考過。','（這一次，第一張卡片是你寫的。你把它推過去。）','（翻開，讀完）……你的字。','第四年。……明年這一天，我們都畢業了。','明年的卡片，又換你寫。',
+  '第三個願望。去年沒講的那個。','我們兩個都考過。','（這一次，第一張卡片是你寫的。你把它推過去。）','（翻開，讀完）……你的字。','第四年。','明年的卡片，又換你寫。',   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
   '下次你來，我們吃山下那家。','今天是可昕實習第一天。','……喂。你真的打了。','影印了一整天。','影印機我取了名字。叫債務人。',
   '……蛋糕你挑。只有這個你挑。','（木柵大學門口的流蘇開了。白白的一整片。）',
   '開學我就上去了。台北見。','……好。下次找一個我們都沒去過的地方。','……真的喔？那我帶你去夜市。','……牠脖子很短。就這樣。','……不用補。睡飽一點。',
@@ -97,7 +97,8 @@ await sec(0,()=>{
   /* 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：沛珊「國中走路上學那條路」那兩句、重考期回覆池 share_food 重寫了，新句對 AA_757 的 hometown_rows（tests/peishan_dates_1111_unit.js 逐字對），不在 AA_525 */
   const PS757=['國中三年我每天在這條路上用跑的，因為都快遲到。','那時候覺得好遠。現在走起來好近。','看起來好好吃！！我考完要一次吃回來！',
     '今天那一題你講得很好，我找不到地方吐槽。再多講一點。'];   /* 最後一句：AA_761_peishan_events_1.json@dbfc596a5 的 ev_peishan_bohan_w4（原本 AA_525 的「今天那一題，你講得很好。……我想多聽你講。」；tests/peishan_events_1111_unit.js 逐字對） */
-  const miss=NEW.filter(t=>!inDoc(t)&&!PS757.includes(t));
+  const C1112=['第三個願望。去年沒講的那個。'];   /* （CANON-NO-ECON-1112 第四批：照 AA_882 第 2 節換字）不在 AA_525，對 AA_882 */
+  const miss=NEW.filter(t=>!inDoc(t)&&!PS757.includes(t)&&!C1112.includes(t));
   check('0. 新加的 '+NEW.length+' 句每一句都一字不差在稿裡',!miss.length,J(miss));
   const files=listSrc(), hit=[]; for(const f of files){ const s=stripComments(SRC(f)); for(const t of OLD) if(s.includes(t)) hit.push(f+'：'+t); }
   check('0. 改掉的 '+OLD.length+' 句舊句：src 裡（不算註解）都不在了',!hit.length,J(hit));
@@ -261,16 +262,16 @@ await sec('3-2',async()=>{
   H.G.flags.KX_ANNIV={4:'missed'}; const ok2=USL.sumOk(H.G,s); H.G.flags.KX_ANNIV={4:'video'}; H.G.flags.dating_kexin=false; const ok3=USL.sumOk(H.G,s);
   check('3-2. 美國生活的日期旁白 2028-10-25 18:00「（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）」：交往中、KX_ANNIV[4] video 才有',!!s&&s.h===18&&USL.sumLine(H.G,s)==='（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）'&&ok1&&due1&&!ok2&&!ok3,J({ok1,due1,ok2,ok3}));
   const A=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US',KX_ANNIV:{4:'video'}},[0]);
-  check('3-2. 大四上期末飯（美國路線、KX_ANNIV[4] video）：飯桌最後「摩天輪。說好的。」＋旁白，在收尾旁白之前',seq(['摩天輪。說好的。','（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）','（她送你到停車場，站著等你倒車出去。）']),J(A.slice(-4)));
+  check('3-2. 大四上期末飯（美國路線、KX_ANNIV[4] video）：飯桌最後「摩天輪。說好的。」＋旁白，在收尾旁白之前',seq(['摩天輪。說好的。','（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）','（她陪你走回宿舍區，在路口停下來。）']),J(A.slice(-4)));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   const B=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'TW',KX_ANNIV:{4:'video'}},[0]), C=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US',KX_ANNIV:{4:'missed'}},[0]);
   check('3-2. 臺灣路線、沒接視訊＝沒有摩天輪',!B.includes('摩天輪。說好的。')&&!C.includes('摩天輪。說好的。'));
 });
 await sec('3-3',async()=>{
   fresh('2028-04-24',18,{dating_kexin:true}); H.FRIEND(KX); await runEv('ev_kexin_birthday_y3');
-  check('3-3. 大三生日「三……三十分鐘到了。第三個明年說。」＝記 KX_WISH3',has('三……三十分鐘到了。第三個明年說。')&&H.G.flags.KX_WISH3===true);
+  check('3-3. 大三生日「三……三十分鐘到了。第三個明年說。」＝記 KX_WISH3',has('三……第三個不講。講了你會太得意。')&&H.G.flags.KX_WISH3===true);   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   const p=w=>{ fresh('2029-04-23',21,Object.assign({dating_kexin:true,EXCHANGE_ROUTE:'TW'},w?{KX_WISH3:true}:{})); H.FRIEND(KX); STORY.phoneRules(GM); tick(); const m=(H.G.msgs||[]).filter(x=>x.tag==='y4_kx_bday'); return {t:m.map(x=>x.text),ask:m.filter(x=>x.ask).map(x=>x.text)}; };
   const A=p(true), B=p(false);
-  check('3-3. 2029-04-23 21:00「明天我生日。今年不要慶祝…」後面多「第三個願望。去年說今年說。」「我們兩個都考過。」（KX_WISH3；回覆掛在最後一則）',J(A.t)===J(['明天我生日。今年不要慶祝，我們都在準備考試。','第三個願望。去年說今年說。','我們兩個都考過。'])&&J(A.ask)===J(['我們兩個都考過。']),J(A));
+  check('3-3. 2029-04-23 21:00「明天我生日。今年不要慶祝…」後面多「第三個願望。去年說今年說。」「我們兩個都考過。」（KX_WISH3；回覆掛在最後一則）',J(A.t)===J(['明天我生日。今年不要慶祝，我們都在準備考試。','第三個願望。去年沒講的那個。','我們兩個都考過。'])&&J(A.ask)===J(['我們兩個都考過。']),J(A));   /* （CANON-NO-ECON-1112 第四批：照 AA_882 換字）*/
   check('3-3. 沒有 KX_WISH3＝照舊一則',J(B.t)===J(['明天我生日。今年不要慶祝，我們都在準備考試。'])&&J(B.ask)===J(['明天我生日。今年不要慶祝，我們都在準備考試。']),J(B));
 });
 await sec('3-4',async()=>{
@@ -278,8 +279,8 @@ await sec('3-4',async()=>{
   const A=await anniv(3,{},[0]), f=H.G.flags.KX_CARD_MINE;
   check('3-4. 第三年「明年換我寫。」→「好。要手寫喔。」＝記 KX_CARD_MINE',A.includes('好。要手寫喔。')&&f===true,J(A.slice(-3)));
   const B=await anniv(4,{KX_CARD_MINE:true},[0]), C=await anniv(4,{},[0]);
-  check('3-4. 第四年（KX_CARD_MINE）：「（這一次，第一張卡片是你寫的。你把它推過去。）」「（翻開，讀完）……你的字。」「第四年。……明年這一天，我們都畢業了。」，後面接現有的三個選項',seq(['（這一次，第一張卡片是你寫的。你把它推過去。）','（翻開，讀完）……你的字。','第四年。……明年這一天，我們都畢業了。','好。寫進表格。'],B)&&!B.includes('（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'),J(B.slice(-6)));
-  check('3-4. 第四年沒有 KX_CARD_MINE＝照舊「（把卡片翻到第一頁）第四年。……」',C.includes('（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。')&&!C.includes('（翻開，讀完）……你的字。'));
+  check('3-4. 第四年（KX_CARD_MINE）：「（這一次，第一張卡片是你寫的。你把它推過去。）」「（翻開，讀完）……你的字。」「第四年。……明年這一天，我們都畢業了。」，後面接現有的三個選項',seq(['（這一次，第一張卡片是你寫的。你把它推過去。）','（翻開，讀完）……你的字。','第四年。','好。你講的。'],B)&&!B.includes('（把卡片翻到第一頁）第四年。'),J(B.slice(-6)));   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
+  check('3-4. 第四年沒有 KX_CARD_MINE＝照舊「（把卡片翻到第一頁）第四年。……」',C.includes('（把卡片翻到第一頁）第四年。')&&!C.includes('（翻開，讀完）……你的字。'));   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
   const D5=await anniv(5,{KX_CARD_MINE:true},[0]), E5=await anniv(5,{},[0]);
   check('3-4. 第五年：KX_CARD_MINE＝「（把卡片翻到第一頁）第五年。……明年的卡片，又換你寫。」；沒有照舊',D5.includes('（把卡片翻到第一頁）第五年。……明年的卡片，又換你寫。')&&E5.includes('（把卡片翻到第一頁）第五年。……明年的卡片，換你寫。'),J([D5.slice(-4),E5.slice(-4)]));
   const v=ev('ev_kexin_anniversary_video');
@@ -321,15 +322,15 @@ await sec('3-8',async()=>{
 await sec('3-9',async()=>{
   const kh=async(noshow,call)=>{ fresh('2027-08-07',10,Object.assign({dating_kexin:true},noshow?{Y2R2_K14_NOSHOW:true}:{})); H.FRIEND(KX); if(call) H.G.events.done.ev_kexin_summer_plan_call=true; await runEv('ev_kexin_trip_summer_y2',['恭喜']); return {s:said(),o:H.opts.slice()}; };
   const A=await kh(true,true), B=await kh(false,true), C=await kh(true,false), Dd=await kh(false,false);
-  check('3-9. 高雄的兩天開頭（6/2 沒去、晚上的電話說了「那你下次要當面恭喜我。」）：「……當面。」→ 選項只有「恭喜。」→「好。收到了。」，在「這週我影印了一千兩百頁…」之前',seq(['……當面。','好。收到了。','這週我影印了一千兩百頁。今天不要有紙。'],A.s)&&J(A.o[0])===J(['「恭喜。」']),J({s:A.s.slice(0,6),o:A.o[0]}));
-  check('3-9. AA_526 第 2 節：沒答應 6/2（沒有 Y2R2_K14_NOSHOW）但接到那通電話的也補，台詞一樣',seq(['……當面。','好。收到了。','這週我影印了一千兩百頁。今天不要有紙。'],B.s)&&J(B.o[0])===J(['「恭喜。」']),J(B.s.slice(3,6)));
+  check('3-9. 高雄的兩天開頭（6/2 沒去、晚上的電話說了「那你下次要當面恭喜我。」）：「……當面。」→ 選項只有「恭喜。」→「好。收到了。」，在「這週我影印了一千兩百頁…」之前',seq(['……當面。','好。收到了。','上個月我影印了一千兩百頁。今天不要有紙。'],A.s)&&J(A.o[0])===J(['「恭喜。」']),J({s:A.s.slice(0,6),o:A.o[0]}));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
+  check('3-9. AA_526 第 2 節：沒答應 6/2（沒有 Y2R2_K14_NOSHOW）但接到那通電話的也補，台詞一樣',seq(['……當面。','好。收到了。','上個月我影印了一千兩百頁。今天不要有紙。'],B.s)&&J(B.o[0])===J(['「恭喜。」']),J(B.s.slice(3,6)));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   check('3-9. 沒演過那通電話（不管有沒有 NOSHOW）＝沒有',!C.s.includes('……當面。')&&!Dd.s.includes('……當面。'));
 });
 await sec('3-10',async()=>{
   const mk=sentMsg=>dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US'},[0]).then(x=>x);
   fresh('2029-01-17',18,{dating_kexin:true,EXCHANGE_ROUTE:'US'}); H.FRIEND(KX); PHONE.at(H.G,D('2028-12-14'),7.5,[{th:'p:kexin',from:'kexin',text:'你說了四年的麵。……今天少你一碗。'},{th:'p:kexin',from:'kexin',text:'23 號回來，第一碗我請。'}],'y4_a23_us_kx'); tick();
   H.said=[]; H.opts=[]; H.picks=[0]; await TERMEND.kexinDinner(GM,{term:'Y4S1',kind:'kexin'}); const A=said();
-  check('3-10. 大四上期末飯（美國路線、交往中、收過「23 號回來，第一碗我請。」）：飯桌一開始「第一碗。說好我請。」「（她先去付了錢。）」',A[0]==='（山下那家店，她點了兩人份，沒有問你。）'&&seq(['第一碗。說好我請。','（她先去付了錢。）','大四了，考完期末就剩一個學期。'])   /* 2026-11-11 改期望（AA 改斷句、意思不變；bd1a6fda3）：原本「大四了。考完期末，就剩一個學期。」 */   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版） */,J(A.slice(0,5)));
+  check('3-10. 大四上期末飯（美國路線、交往中、收過「23 號回來，第一碗我請。」）：飯桌一開始「第一碗。說好我請。」「（她先去付了錢。）」',A[0]==='（後門那家店，她點了兩人份，沒有問你。）'&&seq(['第一碗。說好我請。','（她先去付了錢。）','大四了，考完期末就剩一個學期。'])   /* 2026-11-11 改期望（AA 改斷句、意思不變；bd1a6fda3）：原本「大四了。考完期末，就剩一個學期。」 */   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版） */,J(A.slice(0,5)));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   const B=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US'},[0]);
   check('3-10. 沒收過那兩則＝沒有',!B.includes('第一碗。說好我請。'));
 });

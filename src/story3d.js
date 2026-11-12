@@ -1836,40 +1836,44 @@ const STORY = (function(){
     /* K7 交往週年（BB_96 9-4；日子 AA_224 第 2 組＋AA-C 2026-10-17 Q1）：每年 10/17，第一年 2025-10-17（五）。前一週同一天 10/10 21:00 她傳「下禮拜五是我們的週年。」、玩家選地點（KX_ANNIV_PLACE）；
        當天 18:30 出遊（她政大下課過來），前一晚 21:00 起選準備的東西（K7_GIFT）。第二～四年在下面（AA_224 2-c）。
        沒選地點、沒去、婉拒＝當晚卡片的照片「週年快樂。下次你準備。」，記 KX_ANNIV {1:'missed'}（ev_kexin_anniversary_y1 的 outingMissed）*/
-    { const a1=S.dayOfKey(S.KX_ANNIV_DAY), a0=a1!=null?a1-7:null; if(a0!=null&&F.dating_kexin&&G.day>=a0-1&&G.day<=a1+1){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
-        if(!PHONE.sent(G,'kx_anniv_ask')) PHONE.at(G,a0,21,[K('下禮拜五是我們的週年。'),Object.assign(K('地點你選。我準備一樣東西，你也準備一樣。'),{ask:{until:a1*24+18.5,opts:kxAnnivPlaceOpts(F,K,'KX_ANNIV_PLACE')}})],'kx_anniv_ask');
+    /* CANON-NO-ECON-1112 第四批（AA_879 第 1 節）：週年＝在一起那天（G.flags.confessed.kexin；沒有＝ROM 的 sinceDay）的同月同日，S.kxAnnivAt；那天已經放假、她在高雄＝提前到學期最後一天晚上（early，她開場多一句）；
+       祐廷那天在國外＝視訊（S.kxAnnivVideo）。邀約那一句的星期幾照算出來的那一天填（台詞不寫死）。舊存檔沒有在一起那一天＝照原本的 10/17（S.KX_ANNIV_DAYS）*/
+    { const A1=S.kxAnnivAt(G,1), a1=A1?A1.day:null, a0=a1!=null?a1-7:null; if(a0!=null&&F.dating_kexin&&G.day>=a0-1&&G.day<=a1+1){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
+        if(S.kxAnnivVideo(G,1)) S.kxAnnivVideoPlan(G,1,a1);
+        else { if(!PHONE.sent(G,'kx_anniv_ask')) PHONE.at(G,a0,21,[K('下禮拜'+S.wdName(a1)+'是我們的週年。'),Object.assign(K('地點你選。我準備一樣東西，你也準備一樣。'),{ask:{until:a1*24+18.5,opts:kxAnnivPlaceOpts(F,K,'KX_ANNIV_PLACE')}})],'kx_anniv_ask');
         const AP=F.KX_ANNIV_PLACE; if(AP&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_anniv1')){ const P=KX_ANNIV_PLACE[AP];
-          OUT.plan(G,{id:'kx_anniv1',ev:'ev_kexin_anniversary_y1',day:a1,h:18.5,place:P[0],title:P[1],travel:P[2],travelH:P[3]}); }
-        if(!AP&&G.day*24+G.hour>=a1*24+19.5&&!(F.KX_ANNIV&&F.KX_ANNIV[1])){ F.KX_ANNIV=Object.assign({},F.KX_ANNIV||{},{1:'missed'}); S.kxAnnivMissed(G,1,a1); } } }   /* AA_313 第 2 節第 10 列：沒選地點＝當晚 21:00 她打來、照片隔天中午 */
+          OUT.plan(G,{id:'kx_anniv1',ev:'ev_kexin_anniversary_y1',day:a1,h:18.5,early:!!A1.early,place:P[0],title:P[1],travel:P[2],travelH:P[3]}); } }
+        if(!S.kxAnnivVideo(G,1)&&!F.KX_ANNIV_PLACE&&G.day*24+G.hour>=a1*24+19.5&&!(F.KX_ANNIV&&F.KX_ANNIV[1])){ F.KX_ANNIV=Object.assign({},F.KX_ANNIV||{},{1:'missed'}); S.kxAnnivMissed(G,1,a1); } } }   /* AA_313 第 2 節第 10 列：沒選地點＝當晚 21:00 她打來、照片隔天中午 */
     /* K7 第二～四年（AA_224 2-c，AA-C ff3f2a4b）：每年 10/17、還在交往中才有；結構同第一年（前一週同一天 21:00 邀約、前一晚 21:00 起選準備的東西、當天 18:30；禮物四選一照第一年；卡片換句，ev_kexin_anniversary_yn）。
        旗標一年一組：地點 KX_ANNIV_PLACE_n、準備的東西 K7_GIFT_n、結果 KX_ANNIV[n]（地點／'missed'／'video'）。
        第二年 2026-10-17（六）她選地方＝政大山下（訊息送出就定）；第三年 2027-10-17（日）、第四年 2028-10-17（二）三個地點照第一年（選項與她的回覆同第一年）、沒選＝和第一年一樣卡片的照片。
        第四年祐廷在美國（交換路線 US、那天在國外）＝她晚上九點打視訊（ev_kexin_anniversary_video）、不選地點與禮物：台灣 21:00＝當地早上 09:00（AA_340 S8，S.tzOffset）*/
-    for(const n of [2,3,4,5,6]){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); if(an==null||!F.dating_kexin||G.day<an-8||G.day>an+1||(F.KX_ANNIV&&F.KX_ANNIV[n])) continue;   /* 第五年 2029-10-17（三）（AA_357 3-2）：前一週 10/10 21:00 她問，其他照第 2～4 年 */
+    for(const n of [2,3,4,5,6]){ const AN=S.kxAnnivAt(G,n), an=AN?AN.day:null; if(an==null||!F.dating_kexin||G.day<an-8||G.day>an+1||(F.KX_ANNIV&&F.KX_ANNIV[n])) continue;   /* 第五年 2029-10-17（三）（AA_357 3-2）：前一週 10/10 21:00 她問，其他照第 2～4 年 */
       if(n===6&&!S.kxAnniv6On(G)) continue;   /* 第六年 2030-10-17（四）（AA_472 第 3 節）：第五年有演到的才有 */
       const th='p:kexin', K=t=>({th,from:'kexin',text:t}), key='KX_ANNIV_PLACE_'+n;
-      if(S.kxAnnivVideo(G,n)){ if(typeof OUT!=='undefined'){ const q=OUT.get(G,'kx_anniv4v'); if(!q) OUT.plan(G,{id:'kx_anniv4v',ev:'ev_kexin_anniversary_video',day:an,h:21+(S.tzOffset(G,an)||0),year:n,place:'視訊',title:'可昕的視訊：週年',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。',alarm:true}); else if(q.state==='planned'&&!q.alarm) q.alarm=true; } continue; }   /* alarm：當地早上 09:00，睡覺會停在 08:30（BB 14:45：沒有 alarm＝照常睡到中午就錯過；舊存檔已經排好的補上）*/
-      if(n===2){ if(!PHONE.sent(G,'kx_anniv_ask2')) PHONE.at(G,an-7,21,[K('下禮拜六週年。這次我選地方。')],'kx_anniv_ask2'); if(!F[key]&&G.day*24+G.hour>=(an-7)*24+21) F[key]='shop'; }
-      else if(n===5){ if(!PHONE.sent(G,'kx_anniv_ask5')) PHONE.at(G,an-7,21,[K('下禮拜三。第五年。'),Object.assign(K('……地點你選。我那天下午有空。'),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask5'); }   /* AA_357 3-2 */
-      else if(n===6){ if(!PHONE.sent(G,'kx_anniv_ask6')) PHONE.at(G,an-7,21,[K('十七號晚上，老時間。'),K('……卡片記得帶。')],'kx_anniv_ask6');   /* AA_476 A-3（企劃線 6ad997806）：前一週 10/10（四）21:00 她私訊兩則，不用回、不寫地點 */
+      if(S.kxAnnivVideo(G,n)){ S.kxAnnivVideoPlan(G,n,an); continue; }   /* alarm：當地早上 09:00，睡覺會停在 08:30（BB 14:45：沒有 alarm＝照常睡到中午就錯過；舊存檔已經排好的補上）*/
+      if(n===2){ if(!PHONE.sent(G,'kx_anniv_ask2')) PHONE.at(G,an-7,21,[Object.assign(K('下禮拜'+S.wdName(an)+'週年。這次我選地方。'),{rk:'下禮拜六週年。這次我選地方。'})],'kx_anniv_ask2');   /* rk：AA_709 的回覆選項對原句（週幾照實際那天）*/ if(!F[key]&&G.day*24+G.hour>=(an-7)*24+21) F[key]='shop'; }
+      else if(n===5){ if(!PHONE.sent(G,'kx_anniv_ask5')) PHONE.at(G,an-7,21,[K('下禮拜'+S.wdName(an)+'。第五年。'),Object.assign(K('……地點你選。我那天下午有空。'),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask5'); }   /* AA_357 3-2 */
+      else if(n===6){ if(!PHONE.sent(G,'kx_anniv_ask6')) PHONE.at(G,an-7,21,[K(S.cnDayNum(CALENDAR.dateOf(an).d)+'號晚上，老時間。'),K('……卡片記得帶。')],'kx_anniv_ask6');   /* AA_476 A-3（企劃線 6ad997806）：前一週 10/10（四）21:00 她私訊兩則，不用回、不寫地點 */
         if(!F[key]&&G.day*24+G.hour>=(an-7)*24+21) F[key]=S.kxAnniv6Place(G); }   /* AA_472 第 3 節：地點照 KX_ANNIV_PLACE_6，沒有就照第五年的地點；10/10 21:00 起排（排進行程照現在）*/
-      else if(!PHONE.sent(G,'kx_anniv_ask'+n)) PHONE.at(G,an-7,21,[Object.assign(K(n===3?'下禮拜天。第三年。地點你選。':'下禮拜二。第四年。……平日也要過。'),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask'+n);
-      const AP=F[key]; if(AP&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_anniv'+n)){ const P=KX_ANNIV_PLACE[AP]; OUT.plan(G,{id:'kx_anniv'+n,ev:'ev_kexin_anniversary_yn',day:an,h:18.5,year:n,ap:AP,place:P[0],title:P[1],travel:P[2],travelH:P[3]}); }
+      else if(!PHONE.sent(G,'kx_anniv_ask'+n)) PHONE.at(G,an-7,21,[Object.assign(K(n===3?'下禮拜'+S.wdName(an)+'。第三年。地點你選。':'下禮拜'+S.wdName(an)+'。第四年。'+(S.wdName(an)==='六'||S.wdName(an)==='天'?'':'……平日也要過。')),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask'+n);
+      const AP=F[key]; if(AP&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_anniv'+n)){ const P=KX_ANNIV_PLACE[AP]; OUT.plan(G,{id:'kx_anniv'+n,ev:'ev_kexin_anniversary_yn',day:an,h:18.5,year:n,ap:AP,early:!!AN.early,place:P[0],title:P[1],travel:P[2],travelH:P[3]}); }
       if(!AP&&G.day*24+G.hour>=an*24+19.5){ F.KX_ANNIV=Object.assign({},F.KX_ANNIV||{},{[n]:'missed'}); S.kxAnnivMissed(G,n,an); } }   /* AA_313 第 2 節第 36 列：同第一年 */
     /* 情人節（BB_96 9-1，寒假，各自在家）：2/14 20:00 她打視訊來（出遊系統「接起來」；在家也會問，home3d.js）；沒接＝窗戶的照片（outingMissed）*/
     { const vd=S.dayOfKey('2026-02-14'); if(vd&&F.dating_kexin&&G.day>=vd-7&&G.day<=vd&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_vday1')) OUT.plan(G,{id:'kx_vday1',ev:'ev_kexin_valentine_y1',day:vd,h:20,place:'視訊',title:'可昕的視訊：情人節',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'}); }
     /* 可昕的視訊一起讀書（期末考週）、第一份報告交出去的晚上（12/3，開車去外校）：CANON-NO-ECON-1112 第三批拿掉 */
-    /* 可昕的生日（BB_96 9-7b；4/24 大一下第 9 週週五；AA_140 G01）：早上行事曆「可昕生日」（祐廷自己記的）；草稿「生日快樂。」（23:59 前，她回「謝謝。今天換你說一件好笑的事給我聽。」；AA_459 第 5 節原本是「收到。」）；
-       18:00 出遊提示（ev_kexin_birthday_y1s2）。過了那一天：去過＝visit、只傳訊息＝message、都沒做＝none＋隔天早上她只傳「我等了一天。」（一次，之後照常）。KX_BDAY:{1:…}（BB_107：每年一筆；大一的記在這一天）。
-       之後幾年的 4/24：大二下第 9 週、大三下第 11 週、大四下第 10 週（AA_140 G01），跟著 v3～v5 做 */
+    /* 可昕的生日（4/24 大一下第 9 週週五）：CANON-NO-ECON-1112 第四批照 AA_874 B 版（交往中）——早上行事曆「可昕生日」、草稿「生日快樂。」照舊；
+       12:00 她私訊「晚上八點，映月湖。不要吃太飽。」→ 20:00 映月湖（ev_kexin_birthday_y1s2，走路約 10 分鐘）。過了那一天：去過＝visit、只傳訊息＝message、都沒做＝none（KX_BDAY:{1:…}）；
+       沒赴約＝不補場、不再傳「我等了一天。」，之後第一次遇到她那一句（events.js ev_kexin_birthday_y1s2_next，KX_BDAY_Y1_NOSHOW）。A 版（還沒交往）在 events.js（系館遇到）。 */
     { const bd=termDay('Y1S2',9,5);
       if(bd&&F.dating_kexin&&G.day===bd){
         if(h(G)>=6&&!F.kxBdayCal){ F.kxBdayCal=1; if(GM.toast) GM.toast('行事曆：可昕生日',5200); }
         if(!PHONE.sent(G,'kx_bday_draft')) PHONE.at(G,bd,Math.max(6,h(G)),[{th:'p:kexin',from:'player',who:null,text:'（草稿）',
           ask:{until:bd*24+24,opts:[{t:'生日快樂。',set:{KX_BDAY_MSG:true},say:[{from:'kexin',text:'謝謝。今天換你說一件好笑的事給我聽。'}]/* AA_459 第 5 節：「收到。」是學姊在家族群組的招牌，可昕不用 */}]}}],'kx_bday_draft');
-        if(typeof OUT!=='undefined'&&!OUT.get(G,'kx_bday_y1s2')) OUT.plan(G,{id:'kx_bday_y1s2',ev:'ev_kexin_birthday_y1s2',day:bd,h:18.75,place:'映月湖',title:'可昕的生日',travel:'走路',travelH:0.1}); }   /* AA_887 第 2 節（AA_874 B 版；CANON-NO-ECON-1112 第四批）：只排給交往中的玩家 */
+        if(h(G)<20&&!PHONE.sent(G,'kx_bday_y1s2_ask')) PHONE.at(G,bd,Math.max(12,h(G)),[{th:'p:kexin',from:'kexin',text:'晚上八點，映月湖。不要吃太飽。'}],'kx_bday_y1s2_ask');
+        if(typeof OUT!=='undefined'&&PHONE.sent(G,'kx_bday_y1s2_ask')&&!OUT.get(G,'kx_bday_y1s2')&&G.day*24+h(G)<bd*24+20.25) OUT.plan(G,{id:'kx_bday_y1s2',ev:'ev_kexin_birthday_y1s2',day:bd,h:20,late:0.25,place:'映月湖',title:'可昕的生日',travel:'走路',travelH:0.1}); }   /* AA_874 B 版（晚上八點那則訊息、20:00）＋AA_887 第 2 節（title、travel）；只排給交往中的玩家 */
       if(bd&&F.dating_kexin&&G.day>bd&&G.day<=bd+7&&!(F.KX_BDAY&&F.KX_BDAY[1])){ const v=F.KX_BDAY_VISIT?'visit':(F.KX_BDAY_MSG?'message':'none'); F.KX_BDAY=Object.assign({},F.KX_BDAY||{},{1:v});
-        if(v==='none') PHONE.at(G,bd+1,8,[{th:'p:kexin',from:'kexin',text:'我等了一天。'}],'kx_bday_none'); } }
+        if(v!=='visit') F.KX_BDAY_Y1_NOSHOW=bd; } }
     /* 颱風假 T1b「照常上課的喜劇」（BB_110 第 2 節、交付清單 B3）：颱風假（calendar.js 的 TYPHOON：第 7 週週一，憲法（上）那天）前一晚 20:30 新聞通知「明天停止上班上課。」、21:00 張教授的信（通知），
        21:20 起桌遊團群組（那天以前就在群組裡的玩家）：阿哲、Alison、柏翰、阿哲；最後一則可以回三種（到颱風假當天 24:00）。睡著、跳過時間的玩家照原本的時間補收（PHONE.at）。
        AA 角色的台詞（阿哲、Alison、柏翰）照 BB_110，AA 可以改 */
@@ -2321,7 +2325,7 @@ const STORY = (function(){
        4/2 過了還沒選＝留在宿舍（不傳可昕的回覆：玩家沒有回她）*/
     { const D=S.springDays(); if(D.inv1&&G.day>=D.inv1-1&&G.day<=D.d0+3){
         if(PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'an_spring_y1')&&G.day<=D.dl) PHONE.at(G,D.inv1,21,[{th:'g:noodle_team',from:'heroine_01',text:'春假要不要一起出去？我做行程表。'}],'an_spring_y1');
-        if(F.dating_kexin&&!PHONE.sent(G,'kx_spring_y1')&&G.day<=D.dl) PHONE.at(G,D.inv2,21.5,[{th:'p:kexin',from:'kexin',text:'春假我們開車去哪裡？'},{th:'p:kexin',from:'kexin',text:'我做了行程表。第二頁是我想吃的，第三頁才是行程。'}],'kx_spring_y1');
+        if(F.dating_kexin&&!PHONE.sent(G,'kx_spring_y1')&&G.day<=D.dl) PHONE.at(G,D.inv2,21.5,[{th:'p:kexin',from:'kexin',text:'春假我們開車去哪裡？'},{th:'p:kexin',from:'kexin',text:'春假出去。我只想好要吃什麼，其他到車上再說。'}],'kx_spring_y1');   /* CANON-NO-ECON-1112 第四批：照 AA_877 #4 換字 */
         if(G.day>D.dl&&F.SPRING_Y1==null&&(PHONE.sent(G,'an_spring_y1')||PHONE.sent(G,'kx_spring_y1'))) S.springChoose(GM,'dorm',{silent:true}); } }
     /* 重訪日 1（交接包 v2 C20；BB_96 9-10）：大一最後一天中午，交往中的玩家可昕傳「最後一天。你說的那張桌子，我六點到。」；收到以後目標改成 18:00 兩點半 Café */
     /* 2026-10-17 使用者取消重訪日（AA_249）：下面整段停用（S.REVISIT_OFF），學期末聚餐的新系統跟 HOLIDAY-SYS 一起做 */
@@ -2415,7 +2419,14 @@ const STORY = (function(){
     G.hour=hour; if(E) E.hour=hour; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear'); F.companion=null; F.nightKai=false; if(GM.updateHUD) GM.updateHUD(); };
   S.firstColdDay=()=>termDay('Y1S1',15,1);   /* 第一波寒流（AA_71 十二月；阿哲的薑母鴨、AA_12 紙箱旁白也用這一天：「冬天的衣服」紙箱的兩版在 src/y1fill3d.js，AA_347 5-1）*/
   /* 成績單先等一下（classes3d.js 的 morning 呼叫；回傳 true＝先不發，晚上視訊一起打開）：只有大一上、和可昕約好的玩家問一次 */
+  S.kxGradeFriend=G=>S.kxKnown(G)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&!!SOCIAL.stage&&SOCIAL.STAGES.indexOf(SOCIAL.stage('kexin'))>=SOCIAL.STAGES.indexOf('CLOSE_FRIEND');   /* 好朋友那一階（比 FRIEND 高一階，AA_875、BB_418）*/
   S.holdGrades=async function(GM,termId){ const G=GM.G, F=G.flags;
+    /* AA_875 第 1 節（CANON-NO-ECON-1112 第四批）：沒在交往、好朋友那一階（CLOSE_FRIEND）以上＝成績出來那天她傳「成績出來了。九點，一起開。」、21:00 視訊一起開（她在高雄）。
+       沒有約定，成績單照常先發（同大一上「先看」的玩家）；交往中的照下面原本的約定 */
+    if((termId==='Y1S1'||termId==='Y1S2')&&!F.dating_kexin&&S.kxGradeFriend(G)&&typeof OUT!=='undefined'){ const id=termId==='Y1S1'?'kx_grades':'kx_grades2';
+      if(!OUT.get(G,id)&&!PHONE.sent(G,id+'_fr')){ PHONE.at(G,G.day,h(G),[{th:'p:kexin',from:'kexin',text:'成績出來了。九點，一起開。'}],id+'_fr');
+        OUT.plan(G,{id,ev:termId==='Y1S1'?'ev_kexin_grades_open':'ev_kexin_grades_open_y1s2',day:G.day,h:21,place:'視訊',title:'可昕的視訊：一起打開成績',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊掛掉了。'}); }
+      return false; }
     if(termId==='Y1S2'){ if(!F.dating_kexin||F.KX_GRADES_Y1S2!=='together'||F.KX_GRADES2_DAY!=null||typeof OUT==='undefined') return false;   /* 大一下 together（AA_157 第 2 節）：暑假第一天早上先問、21:00 視訊；best_one 照常發（晚上的一問一答在 phoneRules）*/
       F.KX_GRADES2_DAY=G.day; GM.sceneBegin(); let k=0; try{ await GM.say(null,'大一下的成績出來了。'); k=await GM.choose([{t:'先看。'},{t:'等到晚上。'}]); } finally { GM.sceneEnd(); }
       if(k===0) F.KX_GRADES2_PEEK=true;
@@ -2682,7 +2693,7 @@ const STORY = (function(){
     if(G&&S.kaiRoommate(G)) L.push(['阿凱的泡麵評鑑表',S.kaiSheet(G)]);
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')) L.push(['三張連號的票根',['三張連號的票根，你留著中間那張。','另外兩張在他們那裡。……應該吧。']]);   /* 電影票根（BB_96 3-5c）：同一個存檔只會有一種 */
       else if(SOCIAL.has('heroine_02','WATCHED_FILM')) L.push(['電影票根',F.ZR_MATINEE_SEEN?['二輪戲院的票根。《父親的午後》，午場 11:40。','票根的角折了一下。是散場時太陽太大，你拿它擋了一下。']:['二輪戲院的票根。《進城的那一週》，早場。','你把它夾在民總課本裡。課本換了，票根留著。']]); }
-    { const A=F.KX_ANNIV&&F.KX_ANNIV[1]; if(A&&A!=='missed') L.push(['她的週年卡片','那天在最高的地方，你說在一起吧。我說好。']);   /* AA_303 第 2 節 9 */ }
+    { const A=F.KX_ANNIV&&F.KX_ANNIV[1]; if(A&&A!=='missed'&&A!=='video') L.push(['她的週年卡片','那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。']);   /* 說明用她卡片第一頁那句（AA-B 2026-10-16）；CANON-NO-ECON-1112 第四批照 AA_879 第 4 節換成新的第一頁 */ }
     /* K7 週年去了的玩家（AA-B 2026-10-16：標籤「她的週年卡片」、說明用她卡片第一頁那句，不另寫）*/
     { const T=F.KX_TRIP&&F.KX_TRIP.Y1S2, txt={sea:'海邊。她拎著鞋子站在浪裡，褲管濕到膝蓋。',oldtown:'老街。牆上貼滿發黃的老照片，她站在中間，手上拿著第三家的點心。',stars:'山上。照片幾乎全黑，右上角有一個小白點。她說那是星星。你覺得是路燈。'}[T]; if(txt) L.push(['旅行的照片',txt]); }   /* 可昕 K8 春假旅行（BB_96 9-5，BB 14265eb）*/
     for(const f of S.ROOM_EXTRA){ try{ f(G,L); }catch(e){ console.warn('STORY.ROOM_EXTRA',e); } }   /* 事件包各自的房間物件（例：AA_325 她的聖誕卡片、高雄夜市的照片）*/
@@ -3047,14 +3058,28 @@ const STORY = (function(){
   /* P2b 門口有人在揪（AA_154 2-5a；事件 ev_y0_p2b）：P2 演過（P2_PICK）以後；AA_272 第 13 節改成第 6～7 週的週一經濟學原理下課（10/7、10/14），兩次都揪（原本第 6～16 週週四會計下課、擲 40%：10/10 國慶、10/17 休學，一次都不會觸發）；
      同一週最多一次（P2B_SEEN）；那天已經約了別的出遊（OUT 排定、邀約答應）不揪。
      P2B_END：跟去的結束時間（food 19:30、river 17:00、night 21:00／21:30）。 */
-  S.KX_ANNIV_DAY='2025-10-17';   /* K7 第一年的交往週年（AA_224 第 2 組：每年 10/17）*/
+  S.KX_ANNIV_DAY='2025-10-17';   /* K7 第一年的交往週年（AA_224 第 2 組：每年 10/17）——舊存檔沒有在一起那一天的才用（AA_879）*/
+  S.WD_CN=['天','一','二','三','四','五','六'];
+  S.cnDayNum=k=>{ const C=['零','一','二','三','四','五','六','七','八','九','十']; return k<=10?C[k]:(k<20?'十'+C[k-10]:C[Math.floor(k/10)]+'十'+(k%10?C[k%10]:'')); };   /* 第六年「X號晚上」照算出來的那一天（原本寫死「十七號」）*/
+  S.wdName=day=>{ const w=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(day).wd%7:0; return S.WD_CN[w]; };   /* 邀約那一句的「下禮拜X」照算出來的那一天（AA_879：台詞不寫死星期幾）*/
+  /* AA_879 第 1 節：在一起那一天（告白成功那天 G.flags.confessed.kexin；沒有＝新設定的局 ROM 記的 sinceDay）。都沒有＝舊存檔，回 null（照原本的 10/17）*/
+  S.kxTogetherDay=G=>{ const F=(G&&G.flags)||{}; if(F.confessed&&typeof F.confessed.kexin==='number') return F.confessed.kexin; if(S.kxNew(G)&&typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,'kexin'); if(R&&typeof R.sinceDay==='number') return R.sinceDay; } return null; };   /* 學期末那頓飯（termend3d.js）走 ROM.start＝sinceDay；只看新設定的局（S.kxNew），舊存檔照 10/17 */
+  /* 第 n 年的週年：{day, early}。early＝同月同日那天已經放假、她在高雄（STORY.presence 不在），提前到她回高雄前的學期最後一天晚上 */
+  S.kxAnnivAt=function(G,n){ const b=S.kxTogetherDay(G); if(b==null||typeof CALENDAR==='undefined'){ const d=S.dayOfKey(S.KX_ANNIV_DAYS[n]); return d==null?null:{day:d,early:false}; }
+    const t=CALENDAR.dateOf(b), p2=x=>(x<10?'0':'')+x; let d=S.dayOfKey((t.y+n)+'-'+p2(t.m)+'-'+p2(t.d)); if(d==null&&t.m===2&&t.d===29) d=S.dayOfKey((t.y+n)+'-02-28'); if(d==null) return null;
+    if(!CALENDAR.termOf(d)&&!S.abroad(Object.assign({},G,{day:d}))&&!S.presence('kexin',Object.assign({},G,{day:d})).here){ let x=d; while(x>d-60&&!CALENDAR.termOf(x)) x--; if(CALENDAR.termOf(x)) return {day:x,early:true}; }
+    return {day:d,early:false}; };
+  S.kxAnnivDay=(G,n)=>{ const A=S.kxAnnivAt(G,n); return A?A.day:null; };
+  /* 祐廷那天在國外（交換）＝她晚上九點打視訊（AA_879 第 1 節：交換那一種的視訊版留著；原本只有第四年美國路線）*/
+  S.kxAnnivVideoPlan=function(G,n,an){ if(typeof OUT==='undefined') return; const id=n===4?'kx_anniv4v':'kx_anniv'+n+'v', q=OUT.get(G,id);
+    if(!q) OUT.plan(G,{id,ev:'ev_kexin_anniversary_video',day:an,h:21+(S.tzOffset(G,an)||0),year:n,place:'視訊',title:'可昕的視訊：週年',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。',alarm:true}); else if(q.state==='planned'&&!q.alarm) q.alarm=true; };
   S.KX_ANNIV_DAYS=[null,'2025-10-17','2026-10-17','2027-10-17','2028-10-17','2029-10-17','2030-10-17'];   /* 第 n 年（AA_224 2-c）；第五年（AA_357 3-2，畢業後篇，不分延畢）；第六年（AA_472 第 3 節，交換延畢也一樣）*/
   /* 第六年（AA_472 第 3 節，企劃線 1ebcf530e）：交往中、第五年有演到的（KX_ANNIV[5] 是地點，不是 missed／video）；地點照第五年；卡片在祐廷手上（ev_kexin_anniversary_yn 的 y6）*/
   S.kxAnniv6On=G=>{ const F=(G&&G.flags)||{}, A=F.KX_ANNIV&&F.KX_ANNIV[5]; return !!F.dating_kexin&&!!A&&A!=='missed'&&A!=='video'; };
   S.kxAnniv6Place=G=>{ const F=G.flags||{}; for(const p of [F.KX_ANNIV_PLACE_6,F.KX_ANNIV_PLACE_5,F.KX_ANNIV&&F.KX_ANNIV[5]]) if(p&&KX_ANNIV_PLACE[p]) return p; return 'shop'; };
   /* 畢業後篇跳到下一件事的停點（postgrad3d.js S.stops）：第六年還沒排的時候——10/10 21:00 她的私訊還沒傳＝停在 21:00（長跳每 6 小時看一次會晚到 23:00）；
      私訊傳了、出遊還沒排（例：那一則被別的方式略過）＝停在那天該問「出發」的時間（長跳會跳過 18:30）*/
-  S.kxAnniv6Stop=function(G){ const F=(G&&G.flags)||{}, an=S.dayOfKey(S.KX_ANNIV_DAYS[6]), now=G.day*24+(+G.hour||0); if(an==null||!S.kxAnniv6On(G)||(F.KX_ANNIV&&F.KX_ANNIV[6])) return null;
+  S.kxAnniv6Stop=function(G){ const F=(G&&G.flags)||{}, an=S.kxAnnivDay(G,6), now=G.day*24+(+G.hour||0); if(an==null||!S.kxAnniv6On(G)||(F.KX_ANNIV&&F.KX_ANNIV[6])) return null;
     if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'kx_anniv_ask6')){ const t=(an-7)*24+21; if(t>now) return t; }
     if(typeof OUT!=='undefined'&&OUT.get(G,'kx_anniv6')) return null;
     const P=KX_ANNIV_PLACE[S.kxAnniv6Place(G)]||KX_ANNIV_PLACE.shop, tr=typeof OUT!=='undefined'&&OUT.trip?OUT.trip(G,{travelH:P[3],travel:P[2]}):{travelH:P[3]}, t=an*24+18.5-(+tr.travelH||0)-0.25;   /* 同 OUT.due（人在家＝至少 30 分鐘）*/
@@ -3064,14 +3089,15 @@ const STORY = (function(){
      原本當晚的照片「週年快樂。下次你準備。」改到隔天中午（AA：當作她自己消了一點）。tag 照舊（第一年 kx_anniv_photo、第 n 年 kx_anniv_photo＋n）*/
   S.kxAnnivMissed=function(G,n,day){ const tag=n===1?'kx_anniv_photo':'kx_anniv_photo'+n, K=t=>({th:'p:kexin',from:'kexin',text:t});
     if(n===6){ if(typeof PHONE!=='undefined') PHONE.at(G,day,22,[K('卡片你留著。……明年一起給我。')],'kx_anniv_miss6'); return; }   /* AA_472 第 3 節：第六年卡片在祐廷手上——沒有 21:00 的電話（電話裡「卡片我寫好了。我自己帶回去。」對不上）、沒有隔天卡片的照片，改成她 22:00 私訊一句 */
-    if(typeof PHONE!=='undefined') PHONE.at(G,day+1,12,[K('📷（一張卡片）'),K('週年快樂。下次你準備。')],tag); };
+    if(typeof PHONE!=='undefined') PHONE.at(G,day+1,12,[K('📷（一張卡片）'),K('卡片我寫了。你沒來，先給你看第一頁。'),K('週年快樂。下次你準備。')],tag);   /* CANON-NO-ECON-1112 第四批（AA_879 第 1 節）：加一則 */
+    if(G.flags) G.flags.KX_ANNIV_MISSED_DAY=day; };   /* 那天她算不爽（AA_876 第 2 節「當天有沒有去找她」讀）*/
   const KX_ANNIV_PLACE={wheel:['摩天輪','週年：摩天輪','開車約 40 分鐘',2/3],shop:['學校後門・湯餃店','週年：後門那家湯餃','走路',0.1]/* AA_887 第 2 節 */,river:['河堤','週年：河堤','騎車約 15 分鐘',0.25]};
   function kxAnnivPlaceOpts(F,K,key){ return [{t:'摩天輪。',set:{[key]:'wheel'},say:[K('好。坐到最上面那一格。')]},{t:'後門那家湯餃。',set:{[key]:'shop'},say:[K('老闆會以為今天很普通。我們不要告訴他。')]},
     {t:'河堤。',set:{[key]:'river'},say:[K(F.KX_NYE&&F.KX_NYE[1]==='river'?'好。這次不看煙火，看河。':'好。河堤晚上風大，穿外套。')]}/* AA_209 附錄B §2：跨年去河堤的（KX_NYE[1]==='river'）照舊，其他玩家換這句 */]; }
   /* 第四年他在美國（那一天在國外）＝視訊 */
-  S.kxAnnivVideo=function(G,n){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); return n===4&&an!=null&&S.routeAbroadRoute(G)==='US'&&S.abroad(Object.assign({},G,{day:an})); };
+  S.kxAnnivVideo=function(G,n){ const an=S.kxAnnivDay(G,n); return an!=null&&!!S.routeAbroadRoute(G)&&S.abroad(Object.assign({},G,{day:an})); };   /* AA_879：那天祐廷在國外（哪一年都一樣；原本只看第四年美國）*/
   /* 第二～四年選準備的東西的時候（前一晚 21:00 起、當天 18:30 前；地點定了、還沒選、不是視訊）：回傳第幾年（沒有＝0）；eve＝true 時只在前一晚成立（「明天是週年」那一句）*/
-  S.kxAnnivGiftYear=function(G,eve){ const F=G.flags||{}; if(!F.dating_kexin) return 0; for(const n of [2,3,4,5,6]){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); if(an==null||!F['KX_ANNIV_PLACE_'+n]||F['K7_GIFT_'+n]!=null||S.kxAnnivVideo(G,n)) continue;
+  S.kxAnnivGiftYear=function(G,eve){ const F=G.flags||{}; if(!F.dating_kexin) return 0; for(const n of [2,3,4,5,6]){ const an=S.kxAnnivDay(G,n); if(an==null||!F['KX_ANNIV_PLACE_'+n]||F['K7_GIFT_'+n]!=null||S.kxAnnivVideo(G,n)) continue;
       const night=G.day===an-1&&G.hour>=21, day=G.day===an&&G.hour<18.5; if(eve?night:(night||day)) return n; } return 0; };
   S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
   /* 睡著、跳過時間要停下來接的電話：現在沒有（原本只有 8/30 那一場，CANON-1112 整場拿掉）；掛勾留著（classes3d.js、home3d.js 和床邊的選單在讀）*/
@@ -4028,6 +4054,7 @@ const STORY = (function(){
   S.KX_NYE_Y={2:{nye:'2026-12-31',ask:G=>['今年跨年，高雄還是頂樓？'],opts:[{t:'高雄。',k:'river',r:'好。我去車站接你。幾點的車先跟我說。'},{t:'頂樓。',k:'video',r:'好。零點我打視訊。'}]},
     3:{nye:'2027-12-31',ask:G=>['跨年。我列了選項。','一、你來高雄。二、零點視訊。沒有三。'].concat((G.flags.KX_NYE||{})[2]==='video'?['去年是二。今年我比較想要一。']:[]),opts:[{t:'一。',k:'river',r:'好。車站見。'},{t:'二。',k:'video',r:'好。零點。'}]},
     4:{nye:'2028-12-31',ask:G=>(G.flags.EXCHANGE_ROUTE==='US'?['你的時差調回來了嗎？']:[]).concat(['跨年。高雄或視訊，你選。我兩個都可以。']),opts:[{t:'高雄。',k:'river',r:'好。我去車站接你。'},{t:'視訊。',k:'video',r:'好。那我零點準時打。'}]}};
+  S.KX_NYE_MSG={2:'新年快樂。河邊今年人比較多。',3:'新年快樂。暖暖包我多帶了一個，自己用掉了。',4:'新年快樂。那個位置今年被別人占走了。'};   /* AA_878 #19～21 */
   S.kxNye=function(GM){ const G=GM.G, F=G.flags; if(!F.dating_kexin||typeof PHONE==='undefined'||typeof OUT==='undefined') return; const hh=G.hour;
     for(const y of [2,3,4]){ const C=S.KX_NYE_Y[y], nye=S.dayOfKey(C.nye); if(nye==null||G.day<nye-7||G.day>nye+1) continue; const K=F.KX_NYE||(F.KX_NYE={}), tag='kx_nye_y'+y, th='p:kexin';
       if(!PHONE.sent(G,tag)&&(G.day>nye-7||hh>=21)&&(G.day<nye||hh<21)){ const L=C.ask(G).map(t=>({th,from:'kexin',text:t})); L[L.length-1].ask={id:tag,until:nye*24+21,opts:C.opts.map(o=>Object.assign({t:o.t,set:{['KX_NYE_PICK'+y]:o.k},say:[{from:'kexin',text:o.r}]},o.k==='river'?{need:{money:2980,why:'高鐵票錢不夠。'}}:{}))}; PHONE.at(G,G.day===nye-7?Math.max(nye-7,G.day):G.day,G.day===nye-7?Math.max(21,hh):hh,L,tag); }
@@ -4035,6 +4062,7 @@ const STORY = (function(){
       if(G.day===nye&&hh>=21&&!K[y]) K[y]='video';   /* 12/31 21:00 以前沒回她：當作選視訊 */
       if(G.day!==nye&&!(G.day===nye+1&&hh<1)) continue;
       if(K[y]==='river'&&!OUT.get(G,'kx_nye_y'+y)&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'kx_nye_y'+y,ev:'ev_kx_nye_river_y'+y,day:nye,h:23.5,late:0.25,place:'高雄・愛河邊',title:'去高雄跨年（高鐵約一個半小時）',travel:'高鐵約一個半小時',travelH:1.5,back:'回到臺北。'});
+      if(K[y]&&K[y]!=='river'&&K[y]!=='missed'&&(G.day>nye||hh>=24-1e-9||G.day===nye+1)&&!PHONE.sent(G,'kx_nye_msg_y'+y)) PHONE.at(G,nye,24,[{th,from:'kexin',text:S.KX_NYE_MSG[y]}],'kx_nye_msg_y'+y);   /* CANON-NO-ECON-1112 第四批（AA_878 #19～21）：沒去高雄的那年，零點她傳一則（三年輪），視訊那一場已拿掉 */
       const kq=OUT.get(G,'kx_nye_y'+y); if(K[y]==='river'&&kq&&kq.state==='missed'){ K[y]='missed'; PHONE.at(G,nye+1,9,[{th,from:'kexin',text:'愛河的煙火，我一個人看了。'},{th,from:'kexin',text:'……新年快樂。'}],'kx_nye_miss_y'+y); }   /* AA_313 第 2 節第 37 列（2-3 B）：這兩句在隔天早上（00:05 她打來的電話：CANON-NO-ECON-1112 第三批拿掉）*/
     } };   /* 留在臺北的那一年 23:59 的視訊：CANON-NO-ECON-1112 第三批拿掉 */
   /* 跨年大二（AA_210 第 1 節＋第 5 節，881ed505）：12/31 21:00 桌遊團群組五句（以安不認識＝柏翰那句開頭）→ 23:30 頂樓（出遊選單）；00:05 群組（阿哲的照片、Alison；拍了照的多一張）；

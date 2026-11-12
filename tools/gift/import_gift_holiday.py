@@ -32,6 +32,7 @@ import json, os, re, subprocess, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as IG
+IG.use_canon897()   # CANON-NO-ECON-1112 第四批：讀稿再照 AA_897 第 2 節換整句（tools/story/canon897_fix.json）
 
 P1 = 'docs/story_planning/AA_732_gift_holiday_1.json'
 P2 = 'docs/story_planning/AA_733_gift_holiday_2.json'

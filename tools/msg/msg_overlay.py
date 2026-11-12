@@ -13,8 +13,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(
 import overlay_rows as OV
 
 
+# 被後來的稿整列拿掉的覆蓋層列（那一則已經不在了，略過、不當成對不到）：
+#   CANON-NO-ECON-1112 第四批：AA_881 第 2 節拿掉可昕「走向 C」的生日那一列（AA_785 的「謝謝。……你還記得。」→「謝謝。你還記得。」）
+SUPERSEDED = {('kexin', 'people.kexin.replies[3].msgs[0]', '謝謝。……你還記得。')}
+
+
 def apply_text(text, file, root, log=None):
-    R = OV.rows(root, file)
+    R = [x for x in OV.rows(root, file) if (x.get('who'), x.get('at'), x.get('old')) not in SUPERSEDED]
     if not R:
         return text
     L = text.split('\n')

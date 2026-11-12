@@ -147,10 +147,10 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
     if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const LR=require('./line_rows_expect.js'), FF='src/data/feed_'+term.toLowerCase()+'.js';   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊大三下 ps1f～ps5f、大四上 ps1g～ps3g 句尾「～」改掉、多一拍（AA_808 feed_y3s2 第 60～64 列、feed_y4s1 第 47～49 列）——①遊戲字先換回稿上的舊句（toOldS）再在稿裡找；②稿那一列往前換成新句（fwdDeep）再和遊戲比；舊稿不改。舊期望：遊戲字本身在稿裡、稿那一列原樣和遊戲比 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(LR.toOldS(t,FF))&&!AA518_T.has(t));
+    const L=strs(S), bad=L.filter(t=>!require('./kx885_expect.js').has(t)/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!md.includes(LR.toOldS(t,FF))&&!AA518_T.has(t));
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+(term==='Y3S2'?SHA508:SHA)+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y3S2'?200:160)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列（表下面才寫的另一版：比一般的那一版）*/
-    const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[], went={};
+    const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)&&!require('./kx885_expect.js').skip(expectRow(term,r).id)), wrong=[], wd=[], went={};
     for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); for(const k of ['pic','say','cm','dm']) e[k]=LR.fwdDeep(e[k],FF);   /* AA_808 往前換（見上）*/ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(p&&p.went) went[p.id]=p.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null, nw=p&&NOTE_WENT[p.id];
@@ -158,7 +158,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
         &&(nw?p.went===nw:p.went===e.went)&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;
       if(!same) wrong.push(e.id+(p?'':'（沒有）')); }
     const wantW=term==='Y3S2'?{an4f:'anJP',an7f:'anJP',yt7f:'ytAunt',zq3f:'zqNamed'}:{sis1g:'sisUS',sis2g:'sisUS',sis3g:'sisUS'};
-    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；兩個版本的列：'+J(went)+'）',rows.length===S.posts.length&&!wrong.length&&C(went)===C(wantW),J(wrong.slice(0,10)));
+    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；兩個版本的列：'+J(went)+'）',rows.length===S.posts.filter(p=>!require('./kx885_expect.js').skip(p.id)).length&&!wrong.length&&C(went)===C(wantW),J(wrong.slice(0,10)));
     check('0. '+term+' 稿上的日期和星期對得上（'+rows.length+' 列）',!wd.length,J(wd));
     /* ② 稿 → 遊戲：私訊、2D 短場的旁白 */
     const Q=dmQuotes(md), all=new Set(L), optT=new Set(); for(const q of S.dms) if(q.ask) for(const o of q.ask.opts) optT.add(o.t);
@@ -180,7 +180,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   const src=['src/data/feed_y3s2.js','src/data/feed_y4s1.js','src/data/heard_lines.js'].map(f=>fs.existsSync(path.join(H.ROOT,f))?fs.readFileSync(path.join(H.ROOT,f),'utf8'):'').join('\n');
   const GONE9=['不知道。我叫牠所長。','新住處門口，兩雙鞋','搬到山下了。','不用爬山了？','不用。予樂開心到哭。','子晴學姊上班以後，社課一次都沒來。可是她每個月寄一條新的導線給社團。'];
   check('0. AA_510 0-1 改的三處（28f981438）：芷若第 3 則「我叫牠房東。……」、可昕第 1 則「第四年。」宿舍窗外的山；'+OLD509+' 的舊句子（所長、搬到山下、晨希那句）不在遊戲裡',
-    !!P('zr3g').dm&&P('zr3g').dm[1]==='不知道。我叫牠房東。牠坐在長椅上的樣子，像長椅是牠的。'&&P('kx1g').say==='第四年。'&&P('kx1g').pic==='宿舍窗外的山，和大一那張同一個角度'
+    !!P('zr3g').dm&&P('zr3g').dm[1]==='不知道。我叫牠房東。牠坐在長椅上的樣子，像長椅是牠的。'&&P('kx1g').say==='第四年。'&&P('kx1g').pic==='宿舍窗外，和大一那張同一個角度'/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
     &&(old.Y4S1||'').length>2000&&GONE9.every(t=>old.Y4S1.includes(t)&&!m9.includes(t)&&!src.includes(t)),J(GONE9.filter(t=>src.includes(t)||!(old.Y4S1||'').includes(t))));
   /* AA_509 0-1 改 AA_508 的四處：4c3dc1491 就改好了（28f981438 的 AA_508 和 4c3dc1491 一字不差）*/
   const four=['宿舍的書桌，一個日本帶回來的便當盒','還沒。想留到開學，大家都在的時候。',Yf('（阿姨先說「沒什麼好講的」。然後一直講到很晚。）'),'……不能說。她說十週年那天再說。','謝謝。……公園那隻貓，幫我看一下。'];

@@ -290,7 +290,7 @@ const R3=(function(){
     KX('y2_kx_k10c',Tm=>inT(Tm,'Y2S1','Y2S1'),21+10/60,'物權考壞的那一章，我講給我室友聽，講到她懂。',{ok:(G,day)=>kxOn(G)&&done(G,'ev_kexin_bad_exam')&&G.events.last&&G.events.last.ev_kexin_bad_exam!=null&&(day==null?G.day:day)-G.events.last.ev_kexin_bad_exam>=14}),   /* K10c 演過 14 天以後 */
     KX('y2_kx_giraffe1',Tm=>inT(Tm,'Y2S1','Y4S2',9),23+10/60,null,{items:G=>[P1('kexin','（長頸鹿貼圖）'),P1('kexin','以後我傳這隻，就是累了、不想打字',1/60),Object.assign(P1('kexin','你回一隻一樣的就好',2/60),{ask:{id:'dp_y2_kx_giraffe1',until:until(G),opts:[giraffe]}})]}),
     KX('y2_kx_giraffe',Tm=>inT(Tm,'Y2S1','Y4S2',11),23+10/60,null,{max:()=>12,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y2_kx_giraffe1')&&termN(G,'y2_kx_giraffe')<2,items:(G,n)=>{ termInc(G,'y2_kx_giraffe'); return [Object.assign(P1('kexin','（長頸鹿貼圖）'),{ask:{id:'dp_y2_kx_giraffe_'+n,until:until(G),opts:[giraffe]}})]; }}),
-    KX('y3_kx_lunch',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,['📷（木柵大學山下那家的碗）','午餐。']),
+    KX('y3_kx_lunch',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,['📷（後門那家的碗）','午餐。']),
     KX('y3_kx_mid',Tm=>inT(Tm,'Y3S1','Y3S1',10),21+10/60,null,{items:G=>[Object.assign(P1('kexin','民訴期中考完了。最後一題沒寫完。'),{ask:{id:'dp_y3_kx_mid',until:until(G),opts:[{t:'考哪一題？',say:[{from:'kexin',text:'你們老師上禮拜講的那個。……我們老師一定是約好的。'}]},{t:'不要想了。',say:[{from:'kexin',text:'好。不想。'},{from:'kexin',text:'……還是會想。'}]}]}})]}),
     KX('y3_kx_zhan',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,G=>metZhan(G)?'詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。':'我那個拍片的朋友詹靖，拍了山下那家的老闆一整天。老闆只說了一句：好。'),
     KX('y3_kx_eh1',Tm=>inT(Tm,'Y3S1','Y4S2',4),22+40/60,null,{items:G=>[P1('kexin','欸。'),Object.assign(P1('kexin','……以後我只打一個『欸』，就是想找你講話。',1/60),{ask:{id:'dp_y3_kx_eh1',until:until(G),opts:[{t:'在。',say:[{from:'kexin',text:'好。……沒事了。'}]}]}})]}),

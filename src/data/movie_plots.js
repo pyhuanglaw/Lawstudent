@@ -1,12 +1,12 @@
-/* 自動產生：tools/movie/import_movie_plots.py（docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_2.json@07d50af2f7、docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09、docs/story_planning/AA_745_fallback.json@4e41f0d09、docs/story_planning/AA_751_peishan_termend.json@768b9a131（fallback.classmate_peishan 整組））。不要手改，改企劃 AA_745 再重新匯入。
+/* 自動產生：tools/movie/import_movie_plots.py（docs/story_planning/AA_745_movie_plots_1.json@a9465983f0、docs/story_planning/AA_745_movie_plots_2.json@a9465983f0、docs/story_planning/AA_745_movie_plots_3.json@a9465983f0、docs/story_planning/AA_745_fallback.json@4e41f0d09、docs/story_planning/AA_751_peishan_termend.json@768b9a131（fallback.classmate_peishan 整組））。不要手改，改企劃 AA_745 再重新匯入。
    南洋戲院每部片的情節（plot）、大家會記得的那一幕（scene）、散場後聊什麼（talk）、和誰看多出來的（with）——MOVIE-TALK-1110；
    again＝同一部片和同一個人第二次看的旁白；need／later／pick／cond＝稿上的條件、時機、一定挑／不看的片、note 裡的條件（對照表在匯入工具）。播放在 src/movies3d.js */
 'use strict';
 const MOVIE_PLOTS={
  "src": [
-  "docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09",
-  "docs/story_planning/AA_745_movie_plots_2.json@07d50af2f7",
-  "docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09",
+  "docs/story_planning/AA_745_movie_plots_1.json@a9465983f0",
+  "docs/story_planning/AA_745_movie_plots_2.json@a9465983f0",
+  "docs/story_planning/AA_745_movie_plots_3.json@a9465983f0",
   "docs/story_planning/AA_745_fallback.json@4e41f0d09",
   "docs/story_planning/AA_751_peishan_termend.json@768b9a131（fallback.classmate_peishan 整組）"
  ],
@@ -1095,7 +1095,7 @@ const MOVIE_PLOTS={
       "薪水沒有很高。"
      ],
      "set": "KX_SAW_THIRD_WITNESS",
-     "note": "經濟系那一年看的。之後兩人決定重考法律（2025-01-31～02-02 高雄）那一段，有這個旗標的話，可昕在蓮池潭那一場多一句：「你記不記得那部三個證人的電影。」沒有就不加。"
+     "note": "舊序章那一年看的（已不在遊戲裡）。"
     }
    }
   },
@@ -1401,7 +1401,7 @@ const MOVIE_PLOTS={
    }
   },
   "m2505b": {
-   "plot": "重考生阿丞每天第一個進市立圖書館、最後一個走。管理員阿姨開始幫他留靠插座的位子，卻從來沒跟他講過話。片子很慢：便當、計時器、寫不完的數學、一次模擬考考砸以後在樓梯間坐了一個下午。考試那天寫到最後一題，筆沒水了，他舉手，監考老師把自己胸前口袋的筆給他。成績沒有拍。最後一幕是他回圖書館還書，位子上坐了另一個穿制服的人，阿姨在幫那個人留插座。",
+   "plot": "第二次考試的考生阿丞每天第一個進市立圖書館、最後一個走。管理員阿姨開始幫他留靠插座的位子，卻從來沒跟他講過話。片子很慢：便當、計時器、寫不完的數學、一次模擬考考砸以後在樓梯間坐了一個下午。考試那天寫到最後一題，筆沒水了，他舉手，監考老師把自己胸前口袋的筆給他。成績沒有拍。最後一幕是他回圖書館還書，位子上坐了另一個穿制服的人，阿姨在幫那個人留插座。",
    "scene": "閉館音樂響了，整層樓只剩他一個人在收書包，燈一排一排關掉。",
    "talk": {
     "by": "none",
@@ -2410,7 +2410,7 @@ const MOVIE_PLOTS={
        }
       }
      ],
-     "note": "KX_SHIP_REPORT：下一個週六多一則可以約的行程「陪可昕找判決（木柵大學圖書館）」，照約念書演，不另外寫台詞；沒有程式位置就只記旗標。"
+     "note": "KX_SHIP_REPORT：下一個週六多一則可以約的行程「陪可昕找判決（法律系館圖書室）」，照約念書演，不另外寫台詞；沒有程式位置就只記旗標。"
     }
    }
   },
@@ -4574,7 +4574,7 @@ const MOVIE_PLOTS={
    }
   },
   "m2907a": {
-   "plot": "國考前一晚，同一間自習室的三個考生：重考第四年的、應屆的、白天在銀行上班的。晚上十點，三個人同時發現入場證不見了。他們翻遍自習室、追垃圾車、打給已經睡了的影印店老闆，一路上把四年、一年、下班後的三年怎麼念的都講出來了。凌晨三點在便利商店的影印機裡找到：三張疊在一起，是白天輪流去印入場證的時候忘在裡面的。三個人坐在店門口吃了泡麵。隔天誰考上，沒有拍。",
+   "plot": "國考前一晚，同一間自習室的三個考生：考第四年的、應屆的、白天在銀行上班的。晚上十點，三個人同時發現入場證不見了。他們翻遍自習室、追垃圾車、打給已經睡了的影印店老闆，一路上把四年、一年、下班後的三年怎麼念的都講出來了。凌晨三點在便利商店的影印機裡找到：三張疊在一起，是白天輪流去印入場證的時候忘在裡面的。三個人坐在店門口吃了泡麵。隔天誰考上，沒有拍。",
    "scene": "垃圾車的音樂越來越遠，三個人在巷子裡追。",
    "talk": {
     "by": "her",
@@ -4597,7 +4597,7 @@ const MOVIE_PLOTS={
       "kind": "ask"
      },
      {
-      "t": "「重考第四年那個，我笑不出來。」",
+      "t": "「考第四年那個，我笑不出來。」",
       "re": {
        "kexin": "我們不會到第四年。",
        "kexin2": "……到了也沒關係。到了再說。",

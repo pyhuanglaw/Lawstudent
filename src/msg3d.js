@@ -397,9 +397,9 @@ const MSG=(function(){
       out.push({key:c.key,day:d}); }
     return out.sort((a,b)=>b.day-a.day); };
   /* 生日的分年份列：y2026_2027＝那幾年；y2028_japan＝那一年而且祐廷在日本；route_c（可昕走向 C）還沒有這條路線＝不用 */
-  const bdayRowOk=(G,key)=>{ if(key==null) return true; const m=String(key).match(/^y(\d{4}(?:_\d{4})*)/); if(!m||!m[1].split('_').map(Number).includes(calY(G))) return false;
+  const bdayRowOk=(G,key,id)=>{ if(key==null) return true; const m=String(key).match(/^y(\d{4}(?:_\d{4})*)/); if(!m||!m[1].split('_').map(Number).includes(calY(G))) return false;
     if(/_japan$/.test(key)) return typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='JP'&&!!STORY.abroad&&STORY.abroad(G);
-    if(/_(not)?us$/.test(key)){ const us=typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'; return /_notus$/.test(key)?!us:us; }   /* 方奕廷 2028 生日：「你那邊應該還是昨天」只給美國路線（AA_369 L8）*/
+    if(/_(not)?us$/.test(key)){ const us=typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'&&(id!=='kexin'||(!!STORY.abroad&&STORY.abroad(G))); return /_notus$/.test(key)?!us:us; }   /* 可昕 y2028_us（AA_881）：祐廷人在美國那一天才算（她的 4/24 他還在臺灣＝不出）*/   /* 方奕廷 2028 生日：「你那邊應該還是昨天」只給美國路線（AA_369 L8）*/
     return true; };
   /* 第二批的標籤（AA_257 寫在句子後面括號裡的） */
   const TAG2=[[/^過年(；初三 15:00 以後才回)?$/,G=>S.lunarNY(G)],[/^1\/1，大一、大二$/,G=>isMD(G,1,1)&&yearNow(G)>=1&&yearNow(G)<=2],
@@ -411,7 +411,7 @@ const MSG=(function(){
   S.pick2=function(G,id,topic,peek){ const P=POOL2().people[id]; if(!P) return null; const o=S.open(G,id), tier=o.mode==='business'?'A':S.tier(G,id), R=S.rec(G);   /* 學姊閒聊條件不成立：四個話題都用 A（事務版；BB_178 10-6）*/
     let all=(P.replies||[]).filter(e=>e.topic===topic), act=null;
     if(topic==='thanks'||topic==='ok'){ act=S.conds2(G,id,topic)[0]; if(!act) return null; all=all.filter(e=>e.cond==null||e.cond===act.key); }
-    if(topic==='bday') all=all.filter(e=>bdayRowOk(G,e.cond));
+    if(topic==='bday') all=all.filter(e=>bdayRowOk(G,e.cond,id));
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inT=all.filter(e=>e.tier===tr); if(!inT.length) continue;
       const spec=inT.filter(e=>e.cond!=null), ok=(spec.length?spec:inT).filter(e=>usable2(G,id,e));

@@ -6,6 +6,7 @@ INVITE_DATA.people[人].acc／firstAt／sport／beforeLearn 和 INVITE_DATA.spor
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_guard as IG
+IG.use_canon897()   # CANON-NO-ECON-1112 第四批：讀稿再照 AA_897 第 2 節換整句（tools/story/canon897_fix.json）
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_715_sport_gym_pool_invites.json'

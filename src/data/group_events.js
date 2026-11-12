@@ -45,7 +45,7 @@ const GROUP_EVENTS=(function(){
     outingMissed:G=>{ const g=G1(); if(g) g.springPhoto(G); } },
   /* 和可昕的那一趟（BB_97 9-12；AA_324 第 2 節：到了的假設題拿掉，換成她到了以後的一句）。出發、回程照大一那一趟（BB_96 9-5 的流程）。記 KX_TRIP.Y2S2 */
   { id:'ev_kexin_trip_spring_y2', title:'春假：開車旅行（大二）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
-    dialogue:[ {scene:'木柵大學・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
+    dialogue:[ {scene:'女生宿舍樓下',bg:'dark'},{scene:'車上',bg:'car'},   /* CANON-NO-ECON-1112 第四批（AA_878 #25）*/
       {if:kxAll,goto:'lost'},
       {speaker:'kexin',expression:'smile',text:'我管音樂。你管方向。'},   /* 車上開場、回程：大二版（AA_336 C8），不沿用大一 */
       {speaker:'kexin',expression:'teasing',text:'……目的地，現在決定。'},
@@ -56,7 +56,7 @@ const GROUP_EVENTS=(function(){
       {label:'back'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'今年我真的不睡。'},{speaker:null,text:'（過了收費站，她又睡著了。音樂還是她選的。）'},{goto:'fin'},
       /* 三個都去過：迷路到的地方（BB_97 9-12，BB-C 10-17 已拿掉假設題；2D 鄉間小路）*/
       {label:'lost'},{set:{KX_TRIP_Y2S2:'lost'}},
-      {speaker:'kexin',expression:'teasing',text:'這次我不出行程表。你帶路，不要看地圖。'},{speaker:'kexin',expression:'embarrassed',text:'……我會忍住不看。大概。'},
+      {speaker:'kexin',expression:'teasing',text:'這次你帶路，不要看地圖。'},{speaker:'kexin',expression:'embarrassed',text:'我會忍住不講話。大概。'},   /* CANON-NO-ECON-1112 第四批：照 AA_878 #25 換字 */
       {scene:'迷路到的地方',bg:'country_road'},
       {speaker:null,text:'（開了一個多小時，轉錯三次彎。路的盡頭是一片田，一間沒有招牌的雜貨店，門口一台舊的投幣販賣機。）'},
       {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'……我們到底在哪。'},

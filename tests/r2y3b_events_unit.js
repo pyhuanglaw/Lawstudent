@@ -109,11 +109,11 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   answer('y3_kx_k18',0); rules(); const k18=OUT.get(G,'y3_kx_k18');
   check('R0. 「好。八點，木柵大學校門口。」→「好。不要遲到。」；排 3/18 08:00 木柵大學校門口', txt('p:kexin').includes('kexin:好。不要遲到。')&&k18&&k18.day===D('2028-03-18')&&k18.h===8);
   picks=[0]; await run('ev_kexin_k18');
-  check('R1. 去了：「……可是月台還在等。」；第一個選項是「月台在等誰？」→「……不知道。我亂講的。」；KX_K18 trip', has('……可是月台還在等。')&&opts[0][0]==='「月台在等誰？」'&&has('……不知道。我亂講的。')&&has('下一站要去哪裡，回去再想。……不對，不想。')&&G.flags.KX_K18==='trip'&&has('這次不排行程表。'));
+  check('R1. 去了：「……可是月台還在等。」；第一個選項是「月台在等誰？」→「……不知道。我亂講的。」；KX_K18 trip', has('……可是月台還在等。')&&opts[0][0]==='「月台在等誰？」'&&has('……不知道。我亂講的。')&&has('下一站去哪裡，我現在不想決定。這樣很好。')&&G.flags.KX_K18==='trip'&&has('今天去一個我沒去過的地方。你也沒去過，我問過了。'));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   { const L=JSON.stringify(ev('ev_kexin_k18').dialogue); check('R1. 沒有假設題（「假設」「妳不是說不出」）', !/假設|妳不是說不出/.test(L)); }
   { const s=((LADDER.byTerm.Y3S2||{}).kexin||{steps:[]}).steps.find(x=>x.id==='K6-L3'); check('R2. 閒聊階梯 K6-L3 換成 AA_866 新稿（不再讀 KX_K18）（CANON-NO-ECON-1112 第三批：這一項拿掉）', !!s&&!JSON.stringify(s).includes('KX_K18')); }
   fresh('2028-03-18',8,'dorm'); date('kexin'); DATE.log(G,'kexin').wish=true; await run('ev_kexin_k18');
-  check('R. 去過外澳：「這次也不排。跟外澳那次一樣。」', has('這次也不排。跟外澳那次一樣。')&&!has('這次不排行程表。'));
+  check('R. 去過外澳：一樣是那一句（AA_880 #41：兩列合成一列、不看條件）', has('今天去一個我沒去過的地方。你也沒去過，我問過了。')&&!has('這次也不排。跟外澳那次一樣。'));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   fresh('2028-03-15',21.6,'dorm'); date('kexin'); rules(); answer('y3_kx_k18',0); rules(); at('2028-03-18',8.3); OUT.tick(GM); const call=OUT.get(G,'y3_kx_k18_call');
   check('R3. 沒到：KX_K18 missed、KX_RUB +1；08:15 的電話（CANON-NO-ECON-1112 第三批：這一項拿掉）', OUT.get(G,'y3_kx_k18').state==='missed'&&!call&&G.flags.KX_K18==='missed'&&G.flags.KX_RUB===1);
   at('2028-03-18',18.1); rules();
@@ -232,7 +232,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   answer('y3_kx_bday_ask',0); rules(); const bq=OUT.get(G,'kx_bday_y3');
   check('B1. 「好。」→ 排 4/24 18:00 公館', !!bq&&bq.day===D('2028-04-24')&&bq.h===18);
   at('2028-04-24',18); await run('ev_kexin_birthday_y3');
-  check('B2. 去了：「三……三十分鐘到了。第三個明年說。」、收尾「報告寫完了跟我說。」；KX_BDAY[3] met', has('生日願望。一，報告寫完。二，你的報告也寫完。')&&has('三……三十分鐘到了。第三個明年說。')&&has('報告寫完了跟我說。')&&G.flags.KX_BDAY[3]==='met');
+  check('B2. 去了：「三……三十分鐘到了。第三個明年說。」、收尾「報告寫完了跟我說。」；KX_BDAY[3] met', has('生日願望。一，報告寫完。二，你的報告也寫完。')&&has('三……第三個不講。講了你會太得意。')&&has('報告寫完了跟我說。')&&G.flags.KX_BDAY[3]==='met');   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   { const L=JSON.stringify(ev('ev_kexin_birthday_y3').dialogue); check('B. 沒有假設題、沒有拿祐廷比較', !/假設|如果|比你/.test(L)); }
   check('B3. 閒聊階梯 K6-L5 換成 AA_866 新稿（不再讀那一場生日）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!((LADDER.byTerm.Y3S2||{}).kexin||{steps:[]}).steps.find(x=>x.id==='K6-L5'));
   fresh('2028-04-24',12,'dorm',{KX_BDAY:{1:'visit'}}); date('kexin');
@@ -245,11 +245,11 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-04-24',12,'dorm',{EXCHANGE_ROUTE:'JP'}); date('kexin'); date('heroine_01'); rules(); const bv=OUT.get(G,'kx_bday_y3');
   check('B. 日本路線：4/24 臺灣 21:00＝日本 22:00 視訊（人在日本：遊戲時鐘＝日本時間，AA_341 J-S13）；「這片是你的。我幫你吃。」、沒有走到門口那一句；KX_BDAY[3] video', !!bv&&bv.h===22&&bv.place==='視訊'&&(at('2028-04-24',22),true));
   await run('ev_kexin_birthday_y3');
-  check('B. 日本路線視訊的台詞', has('這片是你的。我幫你吃。')&&has('三……三十分鐘到了。第三個明年說。')&&!has('報告寫完了跟我說。')&&G.flags.KX_BDAY[3]==='video');
+  check('B. 日本路線視訊的台詞', has('這片是你的。我幫你吃。')&&has('三……你那邊幾點了？第三個等你回來再講。')&&!has('三……第三個不講。講了你會太得意。')&&!has('報告寫完了跟我說。')&&G.flags.KX_BDAY[3]==='video');   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   check('B. AA_344 ⑤ 沒有 KX_EXCHANGE_ASKED：沒有「沒關係，你先睡。……」', !has('沒關係，你先睡。填交換志願的時候，你有先問我。'));
   fresh('2028-04-24',12,'dorm',{EXCHANGE_ROUTE:'JP',KX_EXCHANGE_ASKED:true}); date('kexin'); date('heroine_01'); rules(); at('2028-04-24',21); await run('ev_kexin_birthday_y3');
   { const L=said.map(s=>s.t), i=L.indexOf('沒關係，你先睡。填交換志願的時候，你有先問我。');
-    check('B. AA_344 ⑤ 日本路線視訊、填志願時先問過她（KX_EXCHANGE_ASKED）：「三……三十分鐘到了。第三個明年說。」之後、最後一句「沒關係，你先睡。填交換志願的時候，你有先問我。」', i>0&&L[i-1]==='三……三十分鐘到了。第三個明年說。'&&i===L.length-1&&said[i].who!==null, JSON.stringify(L)); }
+    check('B. AA_344 ⑤ 日本路線視訊、填志願時先問過她（KX_EXCHANGE_ASKED）：「三……三十分鐘到了。第三個明年說。」之後、最後一句「沒關係，你先睡。填交換志願的時候，你有先問我。」', i>0&&L[i-1]==='三……你那邊幾點了？第三個等你回來再講。'&&i===L.length-1&&said[i].who!==null, JSON.stringify(L)); }   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   fresh('2028-04-23',21.1,'dorm',{KX_BDAY:{1:'visit',2:'met'},KX_EXCHANGE_ASKED:true}); date('kexin'); rules(); answer('y3_kx_bday_ask',0); rules(); at('2028-04-24',18); await run('ev_kexin_birthday_y3');
   check('B. AA_344 ⑤ 當面那一版（不是日本路線）有 KX_EXCHANGE_ASKED 也沒有這一句', has('報告寫完了跟我說。')&&!has('沒關係，你先睡。填交換志願的時候，你有先問我。'));
 
@@ -289,12 +289,14 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   answer('y3_kx_k20',0); rules(); const kq=OUT.get(G,'y3_kx_k20');
   check('K20-0. 「好。」→ 排 5/12 19:00 公館河濱', !!kq&&kq.day===D('2028-05-12')&&kq.h===19);
   picks=[1]; await run('ev_kexin_k20');
-  check('K20-1. 去了：「有個人聽懂了自己的處境，就不那麼怕了。」；「做這個要很累。」→「會。所以你要負責宵夜。」；KX_DIR.Y3 heard、KX_K20 river', has('有個人聽懂了自己的處境，就不那麼怕了。')&&has('會。所以你要負責宵夜。')&&!has('這句我大二說過了。好，這次換你說一句。')&&G.flags.KX_DIR.Y3==='heard'&&G.flags.KX_K20==='river');   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……這句我大二說過了。好，這次換你說一句。」 */
-  fresh('2028-05-12',19,'dorm',{KX_SUMMER:'tired'}); date('kexin'); picks=[1]; await run('ev_kexin_k20');
-  check('K20. KX_SUMMER tired：多「這句我大二說過了。好，這次換你說一句。」', has('這句我大二說過了。好，這次換你說一句。'));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……這句我大二說過了。好，這次換你說一句。」 */
+  check('K20-1. 去了（CANON-NO-ECON-1112 第四批：照 AA_873 ⑤ 換字）：前因她自己交代（事務所、櫃台的阿姨）、核心兩句；「做這個會很累。」→ 那兩句；KX_DIR.Y3 heard、KX_K20 river', has('暑假我在事務所打雜，你記得吧。')&&has('她的事一點都沒有變。紙還是那張紙。可是她走出去的時候，背是直的。')&&has('有個人聽懂了自己的處境，就不那麼怕了。')&&has('我想做這個。')&&JSON.stringify(opts[0])===JSON.stringify(['「那妳會很適合。」','「做這個會很累。」','（不說話，陪她看河）'])&&has('我知道。那天我回去躺在床上，什麼都不想做。')&&has('可是我隔天還想去櫃台看有沒有人站在那裡。')&&G.flags.KX_DIR.Y3==='heard'&&G.flags.KX_K20==='river', JSON.stringify(said.map(x=>x.t)));   /* 舊期望（AA_801）：「做這個要很累。」→「會。所以你要負責宵夜。」、KX_SUMMER tired 多一句——AA_873 ⑤ 整段換掉 */
+  fresh('2028-05-12',19,'dorm'); date('kexin'); picks=[2]; await run('ev_kexin_k20');
+  check('K20. 選項三（照原本）：「你不問，很好。那個阿姨的事是她的，我只能講到這裡。」', has('你不問，很好。那個阿姨的事是她的，我只能講到這裡。'));
+  fresh('2028-05-11',21.1,'dorm',{KX_MET:true}); R('kexin','FRI'); rules(); check('K20. 沒交往、朋友以上：一樣約（AA_873：不分交往）', txt('p:kexin').includes('kexin:明天傍晚七點，河濱。我想跟你說一件實習遇到的事。'));
   fresh('2028-05-11',21.1,'dorm'); date('kexin'); rules(); answer('y3_kx_k20',1); at('2028-05-12',20.6); rules(); at('2028-05-12',21.5); rules();
   check('K20-2. 沒去：21:00 的電話（CANON-NO-ECON-1112 第三批：這一項拿掉）', !OUT.get(G,'y3_kx_k20_call')&&!STORY_EVENTS.some(e=>e.id==='ev_kexin_k20_call'));
-  check('K20-3. 沒有案件內容、實習單位', !/案件|事務所|法扶|法院/.test(JSON.stringify(ev('ev_kexin_k20').dialogue)));
+  { const q=OUT.get(G,'y3_kx_k20'); check('K20-2b. 「明天不行。」→「……好。那禮拜六，一樣七點，河濱。」、KX_K20_GO sat、5/13（六）19:00 同一場（CANON-NO-ECON-1112 第四批：照 AA_900 第 4 節）', txt('p:kexin').includes('kexin:……好。那禮拜六，一樣七點，河濱。')&&G.flags.KX_K20_GO==='sat'&&!!q&&q.ev==='ev_kexin_k20'&&q.day===D('2028-05-13')&&q.h===19, JSON.stringify(q)); }
+  check('K20-3. 沒有案件內容（AA_873 ⑤：不寫那張紙是什麼、阿姨是什麼案子）', !/案件|案子是|法扶|法院|判決/.test(JSON.stringify(ev('ev_kexin_k20').dialogue)));   /* （CANON-NO-ECON-1112 第四批：照 AA_873 換字）她自己講了「事務所」，舊期望連「事務所」都不准 */
   fresh('2028-05-12',21.6,'dorm',{EXCHANGE_ROUTE:'JP'}); date('kexin'); date('heroine_01'); rules();
   check('K20. 日本路線：沒有河濱的邀約、也沒有電話（CANON-NO-ECON-1112 第三批：這一項拿掉）', !PHONE.sent(G,'y3_kx_k20')&&!OUT.get(G,'y3_kx_k20_call'));
 

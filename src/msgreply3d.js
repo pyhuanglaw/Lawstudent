@@ -12,7 +12,7 @@ const MSGR=(function(){
   const D=()=>(typeof MSG_REPLIES!=='undefined'&&MSG_REPLIES.people)||{};
   S.OPEN_H=36;   /* 一天半內可以回 */
   S.find=(id,text)=>{ const L=D()[id]; if(!L||typeof text!=='string') return null; const i=L.findIndex(e=>e.text===text); return i<0?null:{i,e:L[i]}; };
-  S.attach=function(G,m){ if(!m||m.ask||!m.from||m.from==='player') return false; const id=m.from; if(m.th&&m.th!=='p:'+id) return false; const f=S.find(id,m.text); if(!f) return false;
+  S.attach=function(G,m){ if(!m||m.ask||!m.from||m.from==='player') return false; const id=m.from; if(m.th&&m.th!=='p:'+id) return false; const f=S.find(id,m.rk||m.text); if(!f) return false;   /* m.rk：有代入字的訊息對 AA_709 原句（phone3d.js）*/
     m.ask={id:'r709:'+id+':'+f.i+':'+m.day,until:m.day*24+m.h+S.OPEN_H,opts:f.e.opts.map(o=>Object.assign({t:o.t,say:(o.say||[]).map(t=>({from:id,text:t})),rel:o.rel,relWho:id},o.tell?{tell:o.tell}:{},o.fx?{fx:o.fx,fxWho:id}:{}))};   /* fx：DLG-FX-MECH-1110（PHONE.answer 算）*/
     if(f.e.set&&G&&G.flags&&G.flags[f.e.set]==null) G.flags[f.e.set]=G.day;   /* 收到這一串就記（AA_709：以安 AN_MSG_MOM_OK、AN_MSG_JAPAN；AA_712 以安第 4 拍的 alt 看這個）*/
     return true; };

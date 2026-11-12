@@ -79,9 +79,9 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
     check('2. 平日晚上那一場帶 goto、沒有 back（演完留在二樓，不說「回到首都帝大。」）', !!qo&&qo.ev==='ev_bar_group_out'&&qo.h===21&&!!qo.goto&&qo.goto.zone===Z&&qo.goto.lv===1&&qo.back===undefined&&qo.no==='今天先不讀', J(qo));
     at('2029-06-21',12); phone(); const q3=OUT.get(H.G,'y4_bar_three'); check('2. 6/23 三個人的長桌帶 goto', !!q3&&q3.ev==='ev_bar_group_three'&&q3.h===19&&!!q3.goto&&q3.goto.zone===Z&&q3.goto.lv===1, J(q3));
     fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'}); H.date('kexin'); at('2029-02-23',8); phone(); const qk=OUT.get(H.G,'y4_bar_group_start');
-    check('2. 只有可昕：成立那一晚是視訊，沒有 goto', H.G.flags.BAR_GROUP_KIND==='kexin'&&!!qk&&qk.place==='視訊'&&qk.verb==='接起來'&&!qk.goto, J(qk));
-    H.G.events.done.ev_bar_group_start=1; qk.state='done'; at('2029-02-25',20); phone(); const qv=OUT.rec(H.G).find(x=>/^y4_bar_vid_/.test(x.id));
-    check('2. 只有可昕：之後的視訊（ev_bar_group_video）不排（CANON-NO-ECON-1112 第三批：這一項拿掉）',!qv); }
+    check('2. 只有可昕：成立那一晚也在大口漢堡二樓、帶 goto（CANON-NO-ECON-1112 第四批：照 AA_875 換字）', H.G.flags.BAR_GROUP_KIND==='kexin'&&!!qk&&qk.place==='大口漢堡'&&!!qk.goto&&qk.goto.zone===Z, J(qk));
+    H.G.events.done.ev_bar_group_start=1; qk.state='done'; qk.bar3d=H.G.day; at('2029-02-25',20); phone(); const qv=OUT.get(H.G,'y4_bar_out_'+D('2029-02-26'));
+    check('2. 只有可昕：之後的平日晚上＝大口漢堡二樓（ev_bar_group_out、帶 goto），不是視訊（CANON-NO-ECON-1112 第四批：照 AA_875 換字）',!!qv&&qv.ev==='ev_bar_group_out'&&!!qv.goto&&!OUT.rec(H.G).some(x=>x.place==='視訊'), J(qv)); }
 
   /* ===== 3 三個人 ===== */
   { three(); at('2029-02-23',21.2);
@@ -93,7 +93,7 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
     check('3. 成立那一晚（三個人）：祐廷坐南側中間、可昕正對面、語彤在可昕旁邊靠樓梯；都是區域裡真的座位', !!shot&&eq(shot.me,-1,-0.25,Math.PI)&&shot.meSame&&eq(who('kexin'),-1,-1.75,0)&&who('kexin').same&&eq(who('heroine_03'),0,-1.75,0)&&who('heroine_03').same, J(shot));
     check('3. 那張長桌六個位子留給這一場（CROWD.shopSeatTake，instant）；坐在那張桌子的路人、照作息的人拿掉，別桌的路人不動', taken.length===6&&taken.every(t=>t[0]===Z&&t[3]===1&&t[4])&&!!shot&&!shot.npcs.some(n=>n.id==='shop_xs_dakou_1'||n.id==='zhe')&&shot.npcs.some(n=>n.id==='shop_xs_dakou_9'), J(shot&&shot.npcs.map(n=>n.id)));
     check('3. 底是 freeze（看得到 3D），沒有深色底；地點字幕、標題照舊', H.bgs[0]==='freeze'&&!H.bgs.includes('dark')&&caps.includes('律師讀書小組'), J([H.bgs,caps]));
-    check('3. 台詞和 2D 一樣（四句）', J(texts())===J(['（開學第一個週五晚上，大口漢堡二樓。長桌上多了一張手寫的表，可昕寫的。）','每週一、三、五晚上，週六整天。……有意見現在說。','週末我在茶屋。你們平常在這裡讀，我順便考你們。','……好。那表上多一格。']), J(texts()));
+    check('3. 台詞和 2D 一樣（四句）（CANON-NO-ECON-1112 第四批：照 AA_875 換字）', J(texts())===J(['（開學第一個週五晚上，大口漢堡二樓。可昕已經坐在長桌最裡面，考古題攤開了。）','每週一、三、五晚上，週六整天。……有意見現在說。','週末我在茶屋。你們平常在這裡讀，我順便考你們。','好。那妳考我們的時候不要放水。']), J(texts()));
     check('3. 演完：人留在大口漢堡、站起來（不坐著、不回宿舍）、她們離開、事件記成演過、時間往後 1 小時、預約放開、出遊 done＋bar3d', H.G.zone===Z&&J(H.entered)===J([Z])&&!E.player.seat&&E.player.lv===1&&!GM.npc.kexin&&!GM.npc.heroine_03&&H.G.events.done.ev_bar_group_start===1
       &&q.state==='done'&&q.bar3d===H.G.day&&Math.abs(H.G.hour-(21.5+1))<1e-6&&h0<21.5&&freed.length===6&&!S.barPending(H.G), J([H.G.zone,H.G.hour,q.state,q.bar3d,freed.length]));
     /* 平日晚上（三個人）*/
@@ -104,7 +104,7 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
     /* 6/23 */
     at('2029-06-21',12); phone(); at('2029-06-23',18.8); await goOut('y4_bar_three');
     check('3. 6/23 三個人的長桌：一樣的三個位子；三句一樣；演完留在二樓', !!shot&&eq(shot.me,-1,-0.25,Math.PI)&&eq(who('kexin'),-1,-1.75,0)&&eq(who('heroine_03'),0,-1.75,0)
-      &&J(texts())===J(['（長桌上攤著三疊考古題。語彤把桌上的空杯子疊起來，拿去回收。可昕在算時間。）','還有四十二天。','先吃，湯要涼了。'])&&H.G.zone===Z&&!E.player.seat&&H.G.events.done.ev_bar_group_three===1&&caps.includes('三個人的長桌'), J([shot,texts()])); }
+      &&J(texts())===J(['（長桌上攤著三疊考古題。語彤把桌上的空杯子疊起來，拿去回收。可昕把考古題翻回第一頁。）','再一輪。這次換我被問。','先吃，湯要涼了。'])/*（CANON-NO-ECON-1112 第四批：照 AA_875 換字）*/&&H.G.zone===Z&&!E.player.seat&&H.G.events.done.ev_bar_group_three===1&&caps.includes('三個人的長桌'), J([shot,texts()])); }
 
   /* ===== 4 只有語彤 ===== */
   { ytOnly(); at('2029-02-23',21.2); await goOut('y4_bar_group_start');
@@ -131,12 +131,12 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
     const snap2=()=>J(IDS.map(id=>[id,ev(id).title,ev(id).dialogue.filter(l=>l.text!==NEW2&&!l.cocoa3).map(l=>[l.speaker===undefined?'-':l.speaker,l.text||'',l.expression||'',l.scene===undefined?'-':l.scene,l.bg===undefined?'-':l.bg,l.label||'',l.goto||'',!!l.end,(l.choice||[]).map(c=>c.text)])])), now=snap2();
     const n2=IDS.map(id=>ev(id).dialogue.filter(l=>l.text===NEW2)), idx2=IDS.map(id=>{ const d=ev(id).dialogue, i=d.findIndex(l=>l.text===NEW2); return i>0&&d[i-1].text===NEW&&d[i].speaker===null&&!d[i].expression&&!d[i].scene&&!d[i].label&&!d[i].goto&&!d[i].end&&!d[i].choice; });
     check('6. 兩杯那一版（NEW2）只在 ev_bar_group_out、ev_bar_group_night 各一列、緊接在三杯那一版後面、是旁白；其他三場沒有', J(n2.map(a=>a.length))===J([0,1,0,1,0])&&idx2[1]&&idx2[3]&&now0.split(NEW2).length===3, J(n2.map(a=>a.length)));
-    const BASE='1354551ef3df2fd876886bbe9c5336b0bc1b7fd59f88069405016561168ee292';   /* 改之前（開發分支 bc559a032）同一個算法的雜湊 */
+    const BASE='cbfa469705cd0218b95b404432b24b76d2d765c2b4801e4c5e08f8d10eb34399';   /* （CANON-NO-ECON-1112 第四批：照 AA_875 換字）成立那一晚、三個人的長桌、可昕旁白、只有可昕的當面那一版都換了字；舊雜湊（開發分支 bc559a032）1354551ef3df2fd876886bbe9c5336b0bc1b7fd59f88069405016561168ee292 */
     check('6. 五場的台詞、說話的人、表情、地點字幕、底、標題：除了 AA_836 那一句（和文末多的兩杯那一列）以外和改之前一字不差', now.split(NEW).length===3&&!now.includes(OLD)&&sha(now.split(NEW).join(OLD))===BASE, sha(now.split(NEW).join(OLD)));
     check('6. 2D 的事件資料沒動：三場的 background 還是 dark、「大口漢堡・二樓」那一步還是深色底（舊存檔、區域沒載入時照舊演）', ['ev_bar_group_start','ev_bar_group_out','ev_bar_group_three'].every(id=>ev(id).background==='dark'&&ev(id).trigger==='outing'&&ev(id).dialogue.some(l=>l.scene==='大口漢堡・二樓'&&l.bg==='dark')));
     const e3=S.bar3dEvent(ev('ev_bar_group_start')), e0=ev('ev_bar_group_start');
-    check('6. 3D 版：同一個 id、同一份台詞（每一行是同一個物件），只有「大口漢堡・二樓」那兩步 bg:false、底 freeze；視訊那一步不動', e3.id===e0.id&&e3.background==='freeze'&&e3.dialogue.length===e0.dialogue.length
-      &&e3.dialogue.every((l,i)=>l===e0.dialogue[i]||(e0.dialogue[i].scene==='大口漢堡・二樓'&&l.scene==='大口漢堡・二樓'&&l.bg===false))&&e3.dialogue.filter(l=>l.bg===false).length===2&&e3.dialogue.some(l=>l.scene==='視訊'&&l.bg==='video'));
+    check('6. 3D 版：同一個 id、同一份台詞（每一行是同一個物件），只有「大口漢堡・二樓」那三步 bg:false、底 freeze（CANON-NO-ECON-1112 第四批：照 AA_875 換字：只有可昕的那一版也在二樓，原本視訊）', e3.id===e0.id&&e3.background==='freeze'&&e3.dialogue.length===e0.dialogue.length
+      &&e3.dialogue.every((l,i)=>l===e0.dialogue[i]||(e0.dialogue[i].scene==='大口漢堡・二樓'&&l.scene==='大口漢堡・二樓'&&l.bg===false))&&e3.dialogue.filter(l=>l.bg===false).length===3&&!e3.dialogue.some(l=>l.scene==='視訊'));
     let doc=null; try{ doc=cp.execFileSync('git',['-C',H.ROOT,'show','44ed07c50:docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
     if(doc){ const row=doc.split('\n').find(l=>/^\| r2y4b_events\.js/.test(l))||'', c=row.split('|').map(x=>x.trim()); check('6. 那一句和 AA_836（企劃線 44ed07c50）的表一字不差（舊→新）', c[2]===OLD&&c[3]===NEW, row);
       const tail=doc.slice(doc.indexOf('熱可可那句分兩版'));
@@ -158,11 +158,11 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
 
   /* ===== 7 視訊、總圖照舊 ===== */
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar',KX_VDAY:{4:'video'}}); H.date('kexin'); at('2029-02-23',8); phone(); at('2029-02-23',21.4); await goOut('y4_bar_group_start');
-    check('7. 只有可昕的成立那一晚：視訊照舊（不換區域、深色底開始、兩句一樣）', H.entered.length===0&&H.G.zone==='dorm'&&H.bgs[0]==='dark'&&has('情人節那張表，我把八月以前都排完了。')&&has('你那一欄不喜歡的地方圈起來，我改。')&&!GM.npc.kexin, J([H.entered,H.bgs,texts()]));
-    phone(); const v=OUT.rec(H.G).find(x=>/^y4_bar_vid_/.test(x.id)&&x.state==='planned'); at('2029-02-26',20.9); await goOut(v&&v.id);
-    check('7. 之後的視訊（ev_bar_group_video）不排（CANON-NO-ECON-1112 第三批：這一項拿掉）',!v);
+    check('7. 只有可昕的成立那一晚：當面、到大口漢堡二樓演；同一個開頭、語彤那幾句拿掉、表的兩句合成一句（CANON-NO-ECON-1112 第四批：照 AA_875 換字）', J(H.entered)===J([Z])&&J(texts())===J(['（開學第一個週五晚上，大口漢堡二樓。可昕已經坐在長桌最裡面，考古題攤開了。）','每週一、三、五晚上，週六整天。……有意見現在說。','到八月，每個禮拜這幾天，我都在這張桌子。你來不來我都會念。','你哪一科最怕，現在講。我們從那一科開始。'])&&eq(who('kexin'),-1,-1.75,0)&&!who('heroine_03'), J([H.entered,H.bgs,texts()]));
+    H.G.events.done.ev_bar_group_start=1; at('2029-03-02',23.6); phone(); const v=OUT.get(H.G,'y4_bar_vid_'+D('2029-03-03'));
+    check('7. 只有可昕的週六：法律系館・自習室（ev_bar_group_video 的 2D 出遊，不是視訊）（CANON-NO-ECON-1112 第四批：照 AA_875 換字）',!!v&&v.ev==='ev_bar_group_video'&&v.place==='法律系館・自習室'&&!v.verb, J(v));
     const n=ev('ev_bar_group_night'), vd=ev('ev_bar_group_video');
-    check('7. ev_bar_group_night 還是總圖的 auto 事件（location、background blur）；ev_bar_group_video 還是 outing、dark、kxAway', n.trigger==='auto'&&J(n.location)===J(['library','library_hall'])&&n.background==='blur'&&vd.trigger==='outing'&&vd.background==='dark'&&vd.kxAway===true&&!S.BAR_EVS.includes(n.id)&&!S.BAR_EVS.includes(vd.id));
+    check('7. ev_bar_group_night 還是總圖的 auto 事件（location、background blur）；ev_bar_group_video 還是 outing、dark，kxAway 拿掉（AA_875）', n.trigger==='auto'&&J(n.location)===J(['library','library_hall'])&&n.background==='blur'&&vd.trigger==='outing'&&vd.background==='dark'&&!vd.kxAway&&!S.BAR_EVS.includes(n.id)&&!S.BAR_EVS.includes(vd.id));
     ytOnly(); H.G.events.done.ev_bar_group_start=1; at('2029-03-03',11); H.G.zone='library_hall'; const due=EVENTS.check(n); await run('ev_bar_group_night');
     check('7. 只有語彤：週六在總圖照舊（白天版的第一句，不是改的那一句）', due&&has('（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）')&&!has(NEW)&&H.bgs[0]==='blur', J(texts())); }
 
@@ -200,7 +200,8 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
   { let out=''; try{ out=cp.execSync('node tools/story/black_bg_audit.js',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ out=String(e.stdout||''); }
     const sec2=(out.split('## 2.')[1]||'').split('## 3.')[0], sec1=(out.split('## 1.')[1]||'').split('## 2.')[0], sec5=out.split('## 5.')[1]||'';
     const n5=sec5.split('\n').filter(l=>/^\| ev_bar_group_(start|out|three) /.test(l)).reduce((a,l)=>a+(+l.split('|')[5]||0),0);
-    check('10. black_bg_audit：第 1、2 節沒有 ev_bar_group_*；第 5 節列三場共 42 句（xs_dakou；舊期望 41，多 AA_836 文末兩杯那一列）', !!out&&!/ev_bar_group_/.test(sec1)&&!/ev_bar_group_/.test(sec2)&&n5===42&&/`xs_dakou`/.test(sec5), J([n5,/ev_bar_group_/.test(sec2)]));
+    /* （CANON-NO-ECON-1112 第四批：照 AA_875 換字）三場多了只有可昕的那一版（成立那一晚四句＋地點字幕）、平日晚上多她那一組旁白＝57 句（舊期望 42）；只有可昕的週六（ev_bar_group_video，法律系館・自習室）沒有 2D 背景＝深色底＋字幕，列在第 1、2 節（給 BB 的背景清單）*/
+    check('10. black_bg_audit：第 1、2 節的 ev_bar_group_* 只有 ev_bar_group_video；第 5 節列三場共 57 句（xs_dakou）', !!out&&!/ev_bar_group_(start|out|three|night)/.test(sec1+sec2)&&n5===57&&/`xs_dakou`/.test(sec5), J([n5,/ev_bar_group_/.test(sec2)]));
     check('10. OUT.IN3D 登記的剛好是這三場＝{zone xs_dakou, scene 大口漢堡・二樓}（和 S.BAR_Z、S.BAR_EVS、3D 版拿掉深色底的那個地點字幕一樣）；視訊、總圖那兩場沒有', !!OUT.IN3D&&J(Object.keys(OUT.IN3D).sort())===J(S.BAR_EVS.slice().sort())
       &&S.BAR_EVS.every(id=>{ const r=OUT.IN3D[id], e3=S.bar3dEvent(ev(id)); return r.zone===S.BAR_Z&&r.scene==='大口漢堡・二樓'&&e3.dialogue.some(l=>l&&l.scene===r.scene&&l.bg===false)&&!e3.dialogue.some(l=>l&&l.scene===r.scene&&l.bg==='dark'); })); }
 

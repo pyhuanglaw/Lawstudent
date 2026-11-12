@@ -59,7 +59,6 @@ const PGDATE=(function(){
   S.kxMonthOff=function(G,s){ if(s.seg!=='p5') return false; const F=G.flags||{}, ym=s.key.slice(0,7);
     if(ym==='2030-03') return PG.delayed(G)&&(F.GRAD_EXAM_2030===true||F.GRAD_EXAM_RESULT!=null);   /* 延畢、研究所筆試有結果的（3/15 私訊，r2y4a3d.js y5_kx_grad）*/
     if(ym==='2030-08') return PG.retaker(G);   /* 重考的（8/2 私訊，r2y4b3d.js y5_kx_0802）*/
-    if(ym==='2030-10') return !!F.KX_SHELF;   /* 有 KX_SHELF 的（10/1 私訊，y6_kx_shelf）*/
     if(ym==='2030-12') return PG.sits(G,2030)&&!(PG.failed&&PG.failed(G,2030));   /* 2030 年考的（12/13 燒臘店，她最後到）；一試沒過的沒有那一場（A4 取消保底以後）*/
     return false; };
   S.kxWhen=function(G,s){ const K=D().kexin, seg=K.segs[s.seg], d0=DK(s.key); if(d0==null) return null;

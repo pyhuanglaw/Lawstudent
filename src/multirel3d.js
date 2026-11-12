@@ -620,7 +620,7 @@ const MREL=(function(){
         st.meets=(st.meets|0)+1; return null; } },
     kexin:{
       tick(G,st){ const t=now(G); if(st.phase==='ended'||st.phase==='done'||st.phase==='thinking') return null;
-        if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt) return {k:'self',bg:'nccu_gate',cap:'木柵大學',cut:true,run:async GM=>S.kxSelf(GM,st)};
+        if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt) return {k:'self',bg:'dark',cap:'學校後門・湯餃店',cut:true,run:async GM=>S.kxSelf(GM,st)};
         if(S.kxEDue(G,st)) return {k:'kx_e',x:KX,bg:'phone_street_night',cap:'電話',run:async GM=>S.kxE(GM,st)};   /* 結果 E（AA_429 第 2 節）*/
         if(seen(st,'n4')&&!seen(st,'hug')&&st.hugAt!=null&&t>=st.hugAt&&rom(KX)>=80&&!S.liedSince(G,KX,st)) return {k:'hug',x:KX,bg:'phone_street_night',run:async GM=>S.kxHug(GM,st)};
         return null; },
@@ -713,7 +713,7 @@ const MREL=(function(){
     if(st.exposeAt!=null&&!seen(st,'exposed')&&G.day>=st.exposeAt){ mark(st,'exposed',G); await S.run(GM,KX,L().DISC.kexin.exposed,c); }
     await S.run(GM,KX,RL(KX).back,c); mark(st,'back',G); st.phase='talking'; };
   S.kxMemory=function(G,c){ const M=RL(KX).memory, F=G.flags||{}, econ=Object.keys((G.events&&G.events.done)||{}).some(k=>/^ev_y0_/.test(k));
-    const K7={ticket:'摩天輪票根的影本',planner:'行事曆'}, ok={e37:()=>evDone(G,'ev_y0_e37'),sea:()=>F.E35_PLAN==='sea',anniv:()=>econ&&evDone(G,'ev_kexin_anniversary_y1'),k7:()=>!econ&&!!K7[F.K7_GIFT]&&!!(F.KX_ANNIV&&F.KX_ANNIV[1]&&F.KX_ANNIV[1]!=='missed'),econ:()=>econ};
+    const K7={ticket:'在一起那頓飯的發票',planner:'一副耳環'},   /* CANON-NO-ECON-1112 第四批：K7_GIFT 的意思照 AA_879 第 3 節換 */ ok={e37:()=>evDone(G,'ev_y0_e37'),sea:()=>F.E35_PLAN==='sea',anniv:()=>econ&&evDone(G,'ev_kexin_anniversary_y1'),k7:()=>!econ&&!!K7[F.K7_GIFT]&&!!(F.KX_ANNIV&&F.KX_ANNIV[1]&&F.KX_ANNIV[1]!=='missed'),econ:()=>econ};
     for(const r of M) if(ok[r.if]&&ok[r.if]()){ c.k7=K7[F.K7_GIFT]||''; return r.line; } return null; };
   S.kxFour=async function(GM,st){ const G=GM.G, c=S.ctx(G,KX,st.y); await S.run(GM,KX,RL(KX).notEnough,c); mark(st,'n4',G); G.flags.KX_TALKED=G.day; st.hugAt=T(G.day+1,22); };
   S.kxHug=async function(GM,st){ const G=GM.G, c=S.ctx(G,KX,st.y), Rp=RL(KX); mark(st,'hug',G); await S.run(GM,KX,Rp.call,c); if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg('dark'); if(GM.caption) GM.caption('',S.inDorm(G)?'宿舍樓下':'家巷口',2400);

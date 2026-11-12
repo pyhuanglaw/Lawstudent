@@ -41,7 +41,7 @@ const count=(o,t)=>{ let n=0; const w=x=>{ if(J(x)===J(t)&&typeof x===typeof t&&
         if(r) check('2. '+f+' '+id+'：pic、say、cm、dm、貼文時間一字照稿',p[0].pic===r.new.pic&&p[0].say===r.new.say&&J(p[0].cm)===J(r.new.cm)&&J(p[0].dm)===J(r.new.dm)&&p[0].t===r.new.t,J(p[0]));
         if(o) check('2. '+f+' '+id+'：id、who、st 和重寫以前一樣；日期沒變、只改鐘點；其他欄位沒有多沒有少',p[0].who===o.who&&p[0].st===o.st&&p[0].t.slice(0,10)===o.t.slice(0,10)&&J(Object.keys(p[0]).sort())===J(Object.keys(o).sort()),J([p[0].t,o.t,p[0].st,o.st])); }
       /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：其他貼文裡沛珊的句尾「～」照 AA_808 改了（feed_y1s1 3 列、feed_y1s2 5 列、feed_y3s1 6 列、feed_y3s2 9 列、feed_pg 8 列）——BASE 先照 AA_807／808 換過（line_rows_expect.js fixFile）再比。舊期望：其他貼文和 BASE 原樣一字不差 */
-      if(O){ const Of=feedOf(f,require('./line_rows_expect.js').fixFile('src/data/'+f,ob)), rest=x=>J(x.posts.filter(q=>!IDS[f].includes(q.id))); check('2. '+f+'：其他貼文（'+(D.posts.length-IDS[f].length)+' 則）沒有動、順序沒有動（AA_808 那幾句除外）',rest(D)===rest(Of)&&J(D.posts.map(q=>q.id))===J(O.posts.map(q=>q.id))); } }
+      if(O){ const Of=feedOf(f,require('./line_rows_expect.js').fixFile('src/data/'+f,ob)), rest=x=>J(x.posts.filter(q=>!IDS[f].includes(q.id)&&!require('./kx885_expect.js').skip(q.id)));   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */ check('2. '+f+'：其他貼文（'+(D.posts.length-IDS[f].length)+' 則）沒有動、順序沒有動（AA_808 那幾句除外）',rest(D)===rest(Of)&&J(D.posts.map(q=>q.id))===J(O.posts.map(q=>q.id))); } }
     const y32=feedOf('feed_y3s2.js').posts.find(x=>x.id==='ps4f'); check('2. ps4f 的 say 是空字串（照稿）',y32.say===''); });
 
   await sec(3,async()=>{ const DATA={

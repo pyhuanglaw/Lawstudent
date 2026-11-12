@@ -8682,13 +8682,17 @@
   },
   {
    "path": "docs/story_planning/AA_730_nanyang_movies.json",
-   "sha": "7c2de85b6",
+   "sha": "a9465983f0",
    "status": "approved",
    "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
    "task": "MOVIE-REAL-1110",
    "kind": "json",
-   "note": "X274 南洋戲院片單：2024-09～2030-08 每兩個月兩部（72 部）、選片 sceneFilm、大廳黑板、燈暗那一句、一個人看的三句——tools/movie/import_nanyang_movies.py → src/data/nanyang_movies.js（48c0428ab：m2507a 片名改《颱風來以前》，id 不變）；7c2de85b6：m2811a 片名改《一個人的舉重社》、m2809a／m2907b／m2711a 一句話改、m2809a 拿掉書店標籤（AA_745 第二版同一個 commit）",
+   "note": "X274 南洋戲院片單：2024-09～2030-08 每兩個月兩部（72 部）、選片 sceneFilm、大廳黑板、燈暗那一句、一個人看的三句——tools/movie/import_nanyang_movies.py → src/data/nanyang_movies.js（48c0428ab：m2507a 片名改《颱風來以前》，id 不變）；7c2de85b6：m2811a 片名改《一個人的舉重社》、m2809a／m2907b／m2711a 一句話改、m2809a 拿掉書店標籤（AA_745 第二版同一個 commit）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
    "history": [
+    {
+     "sha": "7c2de85b6",
+     "approvedBy": "AA 定稿（D109），LAWWW 11-10 接"
+    },
     {
      "sha": "48c0428ab",
      "approvedBy": "AA（D109）"
@@ -8701,13 +8705,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_1.json",
-   "sha": "4e41f0d09",
+   "sha": "a9465983f0",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
    "history": [
+    {
+     "sha": "4e41f0d09",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "b189e6bdb",
      "approvedBy": "AA（D109）"
@@ -8724,13 +8732,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_2.json",
-   "sha": "07d50af2f7",
+   "sha": "a9465983f0",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）；77f5d0463：第二版（照 BB_308：pick、可昕排球段拿掉；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；07d50af2f7：AA_827 可昕第五批（X324 續改，AA-C 11-12 定稿、BB-C 第二意見）：m2609a 可昕一句「好。你哪天有空。帶電腦。」→「好，你哪天有空？記得帶電腦。」（和 4e41f0d09 只差這一句；11-12 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）；77f5d0463：第二版（照 BB_308：pick、可昕排球段拿掉；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；07d50af2f7：AA_827 可昕第五批（X324 續改，AA-C 11-12 定稿、BB-C 第二意見）：m2609a 可昕一句「好。你哪天有空。帶電腦。」→「好，你哪天有空？記得帶電腦。」（和 4e41f0d09 只差這一句；11-12 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
    "history": [
+    {
+     "sha": "07d50af2f7",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "4e41f0d09",
      "approvedBy": "AA（D109）"
@@ -8751,13 +8763,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_3.json",
-   "sha": "4e41f0d09",
+   "sha": "a9465983f0",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
    "history": [
+    {
+     "sha": "4e41f0d09",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "b189e6bdb",
      "approvedBy": "AA（D109）"
@@ -10227,7 +10243,7 @@
    "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
-   "note": "r2y3b3d.js K18 邀約與照片、y2b_events.js 子晴畢業專題選項、r2y4a3d.js K21／K22／聖誕排程、y34b3d.js K19／K23 排程（第 2 節「可昕第一次考壞」那一行跟著 AA_873 ②，這一批沒做）（第四批，LAWWW 的子代理）"
+   "note": "r2y3b3d.js K18 邀約與照片、y2b_events.js 子晴畢業專題選項、r2y4a3d.js K21／K22／聖誕排程、y34b3d.js K19／K23 排程（第四批，LAWWW 的子代理）；第 2 節「可昕第一次考壞」那一行跟著 AA_873 ② 做了（第四批第三份，events.js ev_kexin_bad_exam）"
   },
   {
    "path": "docs/story_planning/AA_894_src對照表_social_msg_invites_scenes.md",
@@ -10434,7 +10450,13 @@
    "approvedBy": "AA-C 2026-11-12 定稿（BB_434）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
-   "note": "第 5、6 項以安 beat 6／8（tools/story/import_arcs.py CANON901）、第 7 項深夜那一則（tools/msg/to_js.py C901）、第 8 項 invites.js 兩格（AA_784 移出、直接改 src）、第 9 項 assets3d 五列（WN_COMMON 沒做）、第 10 項兩個標籤；第 1～3 項在 y2r2_3d.js／y34b3d.js（第四批三），補 1～8 沒做"
+   "note": "第 5、6 項以安 beat 6／8（tools/story/import_arcs.py CANON901）、第 7 項深夜那一則（tools/msg/to_js.py C901）、第 8 項 invites.js 兩格（AA_784 移出、直接改 src）、第 9 項 assets3d 五列（WN_COMMON 沒做）、第 10 項兩個標籤；第 1～3 項在 y2r2_3d.js／y34b3d.js（第四批三），補 1～8 沒做｜第 1 項（大二互考邀約 y2r2_q_ask，BB_434 小改的字；src/y2r2_3d.js）第四批第三份照 16ee312e27 做（第 1 項兩版同字）",
+   "history": [
+    {
+     "sha": "16ee312e27",
+     "note": "第四批第三份讀的版本（只做第 1 項）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_905_經濟兩字的前提_補.md",
@@ -10471,6 +10493,123 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "沛珊約會再訪 53 格：AA 已套進 date_system/lines 源稿，遊戲經 tools/date/import_date_lines.py 重匯（D18.shop 那一格照 AA_694 拿掉句中「……」）；tests/date_src_sha.js PS914_1112 逐格、tests/zr904_dates_1112_unit.js 對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_900_可昕第三批A留下的六件.md",
+   "sha": "da666ecda9",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1～4、6 節手寫進程式一字照稿：social3d.js KX2_BDAY_TOLD 顯示字、y2r2_3d.js 回程的公車同班版（班上的群組、阿哲揪、交往中才有）、r2y4b3d.js y6_kx_shelf 與 pgdates3d.js 2030-10 那一行拿掉、r2y3b3d.js K20「明天不行。」改週六同一場；第 6 節照 AA_901 第 1 項（邀約留著、當面）；第 5 節跟 AA_874、第 7 節跟 AA_875（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_873_可昕自己的線_大一下到大四.md",
+   "sha": "588342dd8c",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "六拍手寫進程式一字照稿：①⑥ 新事件、②③④ 沿用 id 整場換（events.js 可昕自己的線；原本的邀約、視訊、電話拿掉）、⑤ ev_kexin_k20 換字（r2y3b_events.js）並放寬到朋友以上（r2y3b3d.js）；⑤ 的日子照 AA_900 第 4 節（大三下 5/12），不是表上的大三上第 13 週。逐字對稿 tests/kx_line_873_unit.js、y2b_events_unit.js、r2y3a_events_unit.js、r2y3b_events_unit.js（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_874_可昕大一下生日_兩版.md",
+   "sha": "0050081594",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "兩版手寫進程式一字照稿：B 版 ev_kexin_birthday_y1s2（id 留著，映月湖 20:00，白天她私訊約；story3d.js phoneRules）、A 版 ev_kexin_birthday_y1s2_drink（4/24 下午系館，飲料 60 元，錢不夠記 self）、兩版沒遇到的隔天那一句；B 版沒赴約那一天的短招呼只用「嗨。」沒做。逐字對稿 tests/v2_g01_unit.js（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_875_可昕_成績與讀書小組_照列換字.md",
+   "sha": "1f0843d7e4",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "三節手寫進程式一字照稿：一起看成績兩場（events.js 開頭旁白、換句、拿掉「你欠我的那一次」；沒交往的好朋友那一階＝成績出來那天她傳一句、21:00 視訊，story3d.js holdGrades；交往中的照原本的約定）；律師讀書小組（r2y4b_events.js 成立那一晚、只有可昕那一版當面＋AA_900 第 7 節、k2、可昕旁白整組、三個人的長桌；r2y4b3d.js 朋友以上或交往中就來、分開以後照樣來、平日大口漢堡二樓、週六法律系館・自習室）；畢業後兩行（postgrad_lines.js）（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_877_可昕交往中事件_照列換字_第一批.md",
+   "sha": "04b0a648ef",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "三場照列換字一字照稿（events.js ev_nye_river、ev_kexin_trip_spring_y1、ev_kexin_valentine_y1；story3d.js 春假邀約那一句、排程地點）；跨年沒去那一則、情人節補過（ev_kexin_vday_makeup_y1：開學第一週下課、接一般約會邀約 INV.flow）（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_878_可昕交往中事件_照列換字_第二批.md",
+   "sha": "1af2aa94ff",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "#19～21（kxAway 拿掉、沒去那年零點一則，story3d.js）、#25（group_events.js、group3d.js）、#26、#27、#40（r2y3a_events.js）一字照稿；#38 大三聖誕只換第一列，改當面的其他列沒做：當面版的邀約字（「明天晚上九點，視訊。」）和沒去那一則（「禮物等考完」）要 AA 給（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_880_可昕交往中事件_照列換字_第三批.md",
+   "sha": "e13c1df502",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "四場照列換字一字照稿（r2y3b_events.js K18、大三生日當面／國外兩版；r2y4b_events.js 大四春假、大四生日改女生宿舍樓下＋兩列、kxAway 拿掉）；KX_WISH3 那兩句訊息的字要貼給 AA（AA_880 #43）（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_879_可昕週年_重寫.md",
+   "sha": "ed09dcf1a5",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "週年整場照稿重寫（events.js ev_kexin_anniversary_y1／_yn、ev_k7_gift_prep／_n、視訊那一場改照 q.year）；日子照在一起那一天算、放假她在高雄＝提前到學期最後一天＋她那一句、那天在國外＝視訊（story3d.js S.kxAnnivAt／kxAnnivVideo）；邀約那一句的星期幾、第六年的「X號」照算出來的那一天填（第四年週末時「……平日也要過。」不出）；沒去那一則加一句；房間物件「她的週年卡片」說明換新的第一頁；multirel3d.js K7 禮物名照新意思（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_881_可昕手機回覆池_重寫.md",
+   "sha": "5fb65e2f7a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "可昕回覆池整組照稿：tools/msg/build_msg2.py 的 kexin（A／R／L、style、bdayInfo、條件）重產 src/data/msg2_pool.js（重產一字不差）；AA_785 覆蓋層「走向 C」那一列跟著拿掉（tools/msg/msg_overlay.py SUPERSEDED）；msg3d.js y2028_us 要祐廷人在美國；分開以後前 60 天那三句在 AA_876 那一批（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_882_可昕_長頸鹿鑰匙圈與第三個願望.md",
+   "sha": "5fb65e2f7a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1 節：events.js ev_kx_souvenir（大一下開學第一週、大一上選「臺北。」，兩列照稿、設 KX_SOUVENIR／GIRAFFE_KEYCHAIN；那一盒餅本身 AA_856 沒有字，只演這兩列）；第 2 節：r2y4b3d.js KX_WISH3 那一句（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_885_可昕動態牆_照列換字.md",
+   "sha": "2df00329ab",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "26 則動態逐欄照稿（src/data/feed_*.js，去了／沒去兩版拿掉兩則、kx4f 照片的室友照開頭的換法）；附錄：kx_moot3_lines.js 地點、旁白、吃東西那一句，kx_moot3_3d.js 出遊地點與湯餃店場景；系館地下室照稿寫（遊戲裡系館沒有地下室的 3D，2D 字幕照稿）。對稿 tests/kx885_expect.js、kx_line_873_unit.js（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_897_src對照表_收尾.md",
+   "sha": "90780d4661",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1 節：電影四句照源稿 a9465983f0 重匯（不放例外）；第 2 節：手寫檔照列換字（fit3d、multirel_lines、rel_lines、termend_lines、rom1016_events p4、wz_jobs、needed_msgs、noodle_table、r3_3d 306、group3d 照片、multirel3d 623），產生檔照 tools/story/canon897_fix.json（import_guard.read_fix 最後一步）重匯（study_scenes、arc_rot、flower_class、gift_holiday、sport_invite_lines、gym_equip_lines、invite_place_lines、aa720）；第 3 節只做 game3d 讀不了的舊存檔提示、新生運動廣場球衣說明。沒做：flirt_lines 653／712 拿掉、study_slots 可昕週末那一格（整格要重寫）、第 3 節其他拿掉的（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_876_事件包_可昕慢慢分開_同系版.md",
+   "sha": "04b0a648ef",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "可昕「慢慢分開」同系版：src/kxdrift3d.js 新寫（D0～D6、D1c、她不爽那天、修補期、D6 開學起算 60 天），台詞照第 3 節一字不差；系統字「（不說）」「打給可昕」、地點字幕回報 AA。測試 tests/kx_drift_876_unit.js"
   }
  ]
 }
