@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；不藏玩家：要看真的樣子） 10✓ 11✓ 12✓（每項記證據數字） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；店內照不藏玩家；⑤視差三張藏玩家與路人，只比店面） 10✓ 11✓ 12✓（每項記證據數字） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=4 PAR_HI=10 ZF_LO=0.3 ZF_HI=1.5] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -83,6 +83,7 @@ SHEET_JS = r"""(async a=>{ const ims=await Promise.all(a.urls.map(u=>new Promise
   ims.forEach((im,i)=>{ const x=(i%cols)*w, y=56+Math.floor(i/cols)*h; if(im) g.drawImage(im,x,y,w,h); g.fillStyle='rgba(0,0,0,0.6)'; g.fillRect(x,y,w,20); g.fillStyle=a.flags[i]?'#ff6b6b':'#fff'; g.fillText(a.labels[i]+(a.flags[i]?'  ★'+a.flags[i]:''),x+4,y+15);
     if(im&&a.rects&&a.rects[i]) for(const r of a.rects[i]){ g.strokeStyle='#00e5ff'; g.lineWidth=2; g.strokeRect(x+r[0]*w,y+r[1]*h,(r[2]-r[0])*w,(r[3]-r[1])*h); } });
   return k.toDataURL('image/jpeg',0.85); })"""
+HIDE_PEOPLE = "(h=>{ const E=GAME.E; const L=[E.player].concat(E.npcs||[]); for(const n of L){ if(n&&n.obj){ if(h){ n.obj.userData._ccv=n.obj.visible; n.obj.visible=false; } else if(n.obj.userData._ccv!==undefined){ n.obj.visible=n.obj.userData._ccv; delete n.obj.userData._ccv; } } } return L.length; })"
 GAMECAM = "(()=>{ const E=GAME.E, r=E.renderer; r.render(E.scene,E.camera); return r.domElement.toDataURL('image/png'); })()"
 
 
@@ -179,7 +180,10 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         row['v']['2_window'] = 'UNKNOWN'; row['m']['window'] = {'why': '找不到窗玻璃的網格（名字／材質沒有 glass、window、窗，也沒有半透明材質）'}
     # ③ 天花板
     ce = await pg.evaluate(CEIL_JS, [cx, cz]); row['m']['ceiling'] = {'ray': ce, 'sky_up_pct': aup['sky_all_pct'], 'sky_top_entry': a1['sky_top_pct'], 'sky_top_counter': a3['sky_top_pct']}
-    row['v']['3_ceiling'] = 'PASS' if ce['hit'] else ('FAIL' if aup['sky_all_pct'] >= 30 else 'UNKNOWN')
+    # 往上拍是主要證據（bd86 東南大聯沒天花板：往上 100% 天空，但射線打到 1.5 m 高的吊燈／彩旗，舊判法誤判 PASS）
+    if aup['sky_all_pct'] >= 30: row['v']['3_ceiling'] = 'FAIL'
+    elif ce['hit'] and ce['d'] >= 1.0: row['v']['3_ceiling'] = 'PASS'
+    else: row['v']['3_ceiling'] = 'UNKNOWN'
     # ④ 純色／洋紅
     mags = {k: a['magenta_pct'] for k, a in (('1', a1), ('2', a2), ('3', a3), ('5', a5))}; flat = {k: a['whole']['top_pct'] for k, a in (('1', a1), ('2', a2), ('3', a3), ('5', a5))}
     row['m']['solid'] = {'magenta': mags, 'flat_top_pct': flat}
@@ -209,8 +213,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         oy = sp.get('yaw', 0.0); fx, fz = math.sin(oy), math.cos(oy); px, pz = fz, -fx
         tgt = (sp['x'] - fx * 2.0, 1.4, sp['z'] - fz * 2.0); base = (sp['x'] + fx * 2.5, 1.6, sp['z'] + fz * 2.5)
         await pg.evaluate(D.HUD + '(false)')
+        await pg.evaluate(HIDE_PEOPLE + '(true)')  # 視差只看店面：玩家、路人在畫面中間會把差值灌高
         s4 = await snap(pg, base, tgt); s4l = await snap(pg, (base[0] - px * 1.5, 1.6, base[2] - pz * 1.5), tgt); s4r = await snap(pg, (base[0] + px * 1.5, 1.6, base[2] + pz * 1.5), tgt)
-        await pg.evaluate(D.HUD + '(true)')
+        await pg.evaluate(HIDE_PEOPLE + '(false)'); await pg.evaluate(D.HUD + '(true)')
         pd = await pg.evaluate(CROPDIFF_JS, {'us': [s4l['u'], s4['u'], s4r['u']]}); a4 = await pg.evaluate(ANA_JS, {'u': s4['u']})
         pmin = min(pd['lc'], pd['cr']); row['m']['parallax'] = pd; row['m']['outside_magenta'] = a4['magenta_pct']
         row['v']['5_parallax'] = v3(PAR_LO, PAR_HI, pmin, low_bad=True)
@@ -257,5 +262,6 @@ async def main():
         for k, v in (r.get('v') or {}).items(): summ.setdefault(k, {}).setdefault(v, []).append('%s@%s' % (r['zone'], r['hour']))
     print('【總表】' + J(summ), flush=True)
     print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
+    sys.exit(1 if R.fails else 0)
 
 asyncio.run(main())

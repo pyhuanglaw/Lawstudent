@@ -6,6 +6,31 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# ===== P0 CC-C 11-12 05:4x（使用者 05:3x：電腦閒著、雲端慢——不再先雲端驗，直接排電腦；BB-C 05:26 ①③、雲端停下的十項全部改排這裡）=====
+# ① 地點關卡第二層校正：有問題的版本應該 FAIL（1cd2 泰米夜窗、bd86 東南大聯／汀州聯通沒天花板、dc3d 新生南路 xs 平面櫥窗、1cd2 日常失速閃），修好的 2771 應該 PASS
+GATE_CAL_1cd2 | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=cal_1cd2;ZONES=tz_taimi,wz_offbeat_zr;HOURS=14,20.5;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
+GATE_CAL_bd86 | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=cal_bd86;ZONES=tz_dongnan,tz_liantong;HOURS=14;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
+GATE_CAL_dc3d_xs | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 50 | TAG=cal_dc3d_xs;ZONES=xs_dakou,xs_dabu,xs_haopai;HOURS=14,20.5;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+GATE_CAL_2771 | 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 50 | TAG=cal_2771;ZONES=tz_taimi,tz_dongnan,tz_liantong;HOURS=14,20.5;SHA=27710fb9673ec113f5cdf8f532dd0f66dfeb4b37
+# ③ 98ec5b0f66 SHOP-LIFE-AUDIT：同三間白天一次（店員在不在櫃檯裡、客人、做得到）
+GATE_98EC_tz3 | 98ec5b0f66120b7dcb37acfc5c362be73051f6bf | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=98ec;ZONES=tz_taimi,tz_dongnan,tz_liantong;HOURS=14;SHA=98ec5b0f66120b7dcb37acfc5c362be73051f6bf
+GATE_98EC_xs3 | 98ec5b0f66120b7dcb37acfc5c362be73051f6bf | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=98ec_xs;ZONES=xs_dakou,xs_dabu,xs_haopai;HOURS=14;SHA=98ec5b0f66120b7dcb37acfc5c362be73051f6bf
+# 原本在雲端驗的十項（探針都 probe_lint PASS；第一次在電腦跑，TEST_BUG 由 CC 修了重排）
+C1112_FLK_new | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_shop_flicker_probe.py | index.html | 25 | TAG=new;SPOTS=L118_A,L118_B,WZ_W,WZ_N;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
+C1112_FLK_old | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_shop_flicker_probe.py | index.html | 25 | TAG=old;SPOTS=L118_A,L118_B,WZ_W,WZ_N;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
+C1112_TZMEAL | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_tz_meal_probe.py | index.html | 40 | TAG=new;CASES=ITEMS,SHORT,CLOSE;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
+C1112_SHOPV_gen | 105d3d42c45f365136a1fe7046aed8b36c77b417 | probe | docs/story_planning/test_tools/cc/cc_shop_view_probe.py | index.html | 40 | ZONES=gg_antai,l118_korea,xs_dabu,wz_brunch,tz_dongnan;HOURS=14,20.5;SHA=105d3d42c45f365136a1fe7046aed8b36c77b417
+C1112_PHONEGO | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_phone_go_prompt_probe.py | index.html | 30 | TAG=new;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
+C1112_TZYUE | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 40 | PARTS=INT;SHOPS=yuehaochi;HOURS=14;SEATS=1;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
+C1112_X324v3 | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_x324_ladder_probe.py | index.html | 40 | TAG=new;CASES=KX,FIVE;WHO=heroine_01,heroine_03;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+C1112_H23YT | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;YTMET=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+C1112_STAIRDIAG | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 25 | PUSH=diag;X_LIST=-3.75;TRIPS=1;RUN=0;FPSCAP=0;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+C1112_STALLDIAG | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 25 | PUSH=tap;STALLDIAG=1;X_LIST=-3.75;TRIPS=1;RUN=0;FPSCAP=0;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+# 子代理的三支（還在改；第一次在電腦跑）
+C1112_SEASON3 | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_season3_stalls_probe.py | index.html | 40 | TAG=new;PARTS=BUY,NIGHT,LOOK;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
+C1112_FCLASS | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_flower_class_probe.py | index.html | 90 | TAG=new;CASES=POOR,COURSES,SIS,CLOSED,GIFT;WHO=kexin;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
+C1112_GIFTDRINK | 105d3d42c45f365136a1fe7046aed8b36c77b417 | probe | docs/story_planning/test_tools/cc/cc_gift_drink_probe.py | index.html | 40 | TAG=new;SHA=105d3d42c45f365136a1fe7046aed8b36c77b417
+
 # ===== P1 BB 21:00：BUG-NY-EXIT-1110 看完電影走不出南洋大廳？線上 main 779ddd650＋開發分支最新 9f20f1808，觸控／搖桿各一次（排最前面）=====
 # ★P0 BB 06:09 上師第 4 版臉（64add9fcf；和參考圖＋上一版 b942470ff PACK7_ss_face 並排）
 # ===== P0 BB 07:41（X341「118巷店面做好就可以先推出新版」，BB_343）：118 巷排最前面 =====
