@@ -111,7 +111,7 @@ await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30
 
 await sec(5,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'heroine_01',25,8);
   check('5. 以安的 acc、here、plan 照 AA_415（10-23 較新；AA_576 改稿第一批 b10d0567f）：「好啊。我本來就想去。」等不改成 AA_194 的稿',J(P.heroine_01.acc.cafe)===J(FI('heroine_01',{A:['好啊。我本來就想去。']}))&&J(P.heroine_01.here.library)===J(FI('heroine_01',['我本來就在總圖。二樓靠窗。']))&&J(P.heroine_01.plan.cafe)===J(FI('heroine_01',['今天排滿了。……這個時間可以嗎？'])));
-  check('5. 語彤的 acc 照 AA_415＋AA_630 Z-082（她和燒臘店不是親戚：「……燒臘店？」「好。」）；可昕的半熟、一盞照 AA_415（AA_255 T5）',J(P.heroine_03.acc.noodle)===J(FI('heroine_03',{A:['……燒臘店？','好。']}))&&J(P.kexin.acc.brunch)===J(FI('kexin',{A:['SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。'],R:['好啊，我先查一下菜單。']})));
+  check('5. 語彤的 acc 照 AA_415＋AA_630 Z-082（她和燒臘店不是親戚：「……燒臘店？」「好。」）；可昕的半熟、一盞照 AA_415（AA_255 T5）',J(P.heroine_03.acc.noodle)===J(FI('heroine_03',{A:['……燒臘店？','好。']}))&&J(P.kexin.acc.brunch)===J(FI('kexin',{A:[require('./canon891_1112.js').BRUNCH/* （CANON-NO-ECON-1112 第四批：照 AA_891／AA_894 換字）*/],R:['好啊，我先查一下菜單。']})));
   let out='', rc=0; try{ out=cp.execSync('python3 "'+path.join(H.ROOT,'tools/invite/build_replies.py')+'"',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||e); }
   const same=cp.execSync('git -C "'+H.ROOT+'" status --porcelain -- src/data/invite_replies.js',{encoding:'utf8'}).trim()==='';
   check('5. build_replies.py 照樣通過（AA_415 的「現有」都對得上），重新產生的檔案沒有變',rc===0&&/heroine_01 39 列/.test(out)&&same,out.slice(0,160)); });

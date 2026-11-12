@@ -57,7 +57,8 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
 
   await sec(3, async () => {
     if (!L0) return;
-    const changed = Object.keys(L0).filter(p => L0[p] !== L1[p]), map = new Map(RI.map(x => [x.old, x.new])), bad = [];
+    const A891 = require('./canon891_1112.js');   /* （CANON-NO-ECON-1112 第四批：照 AA_891／AA_894 換字）可昕 brunch A 那一格換成 kx25 同一句，不算覆蓋層 */
+    const changed = Object.keys(L0).filter(p => L0[p] !== L1[p] && !(/^people\.kexin\.acc\.brunch\.A/.test(p) && L1[p] === A891.BRUNCH)), map = new Map(RI.map(x => [x.old, x.new])), bad = [];
     for (const p of changed) { const a = L0[p], b = L1[p]; if (a.startsWith('ƒ')) { if (!require('./kx_rewrite_1112.js').pair(a, b)) bad.push(p + ' 函式變了'); }   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：people.kexin.acc.gym_badminton、firstAt.library 兩個函式裡各換一句字（條件沒變：把那一句換回去＝BASE 的原始碼）。舊期望：函式原始碼一律不變 */ else if (map.get(a) !== b) bad.push(p + '：「' + a + '」→「' + b + '」不是稿上的列'); }
     check('3. 和 BASE ' + BASE + ' 比：路徑一樣（' + Object.keys(L1).length + ' 格）', J(Object.keys(L0).sort()) === J(Object.keys(L1).sort()));
     check('3. 變的 ' + changed.length + ' 格都是稿上的列（舊字→新字；同一個字串掛在好幾個路徑的跟著變）；函式（條件、規則）沒變', bad.length === 0, J(bad.slice(0, 4)));
@@ -73,7 +74,8 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
   await sec(4, async () => {
     const bad = [];
     /* 2026-11-11（X324 G 區，AA_783@60c08798a）：覆蓋層也可以換 say（<列 id>.say，build_replies.py 支援；zr28.say）——say 那一格＝新字。舊期望：只有 <列 id>.lines[i] */
-    for (const x of RR) { const m = /^(\w+)\.(?:lines\[(\d+)\]|(say))$/.exec(x.at), e = m && ir1[m[1]]; if (!e) { bad.push(x.at + ' 沒有這一列'); continue; } if (e.who !== x.who) bad.push(x.at + ' 是 ' + e.who + ' 的'); const cur = m[3] ? e.r.say : txt(e.r.lines[+m[2]]); if (cur !== x.new) bad.push(x.at + ' 現在是「' + cur + '」'); if (!(e.r.ov || []).includes(x.src)) bad.push(x.at + ' 沒有 ov'); }
+    const A891 = require('./canon891_1112.js');   /* （CANON-NO-ECON-1112 第四批：照 AA_891 換字）可昕那幾列後來照 AA_891 再換（canon891，在覆蓋層之後）：照 AA_891 的字算 */
+    for (const x of RR) { const m = /^(\w+)\.(?:lines\[(\d+)\]|(say))$/.exec(x.at), e = m && ir1[m[1]]; if (!e) { bad.push(x.at + ' 沒有這一列'); continue; } if (A891.is(m[1]) && x.who === 'kexin') { if (!A891.ok(e.r)) bad.push(x.at + ' 沒照 AA_891'); continue; } if (e.who !== x.who) bad.push(x.at + ' 是 ' + e.who + ' 的'); const cur = m[3] ? e.r.say : txt(e.r.lines[+m[2]]); if (cur !== x.new) bad.push(x.at + ' 現在是「' + cur + '」'); if (!(e.r.ov || []).includes(x.src)) bad.push(x.at + ' 沒有 ov'); }
     check('4. invite_replies.js：' + RR.length + ' 列，每一列 at 那一格＝新字、那一列有 ov（稿的來源）', bad.length === 0, J(bad.slice(0, 4)));
     const left = [], kept = [];
     for (const x of RR) for (const id in ir1) { const e = ir1[id]; if (!e.r.lines.some(t => txt(t) === x.old)) continue; (e.who === x.who ? left : kept).push(e.who + ' ' + id + '「' + x.old + '」'); }
@@ -83,7 +85,7 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
     delete ir0.kx36; delete ir0.kx38;   /* 可昕 kx36、kx38（CANON-NO-ECON-1112 第三批：這一項拿掉）：BASE 那兩列不比 */
     const at = new Set(RR.map(x => x.at)), d = [];
     for (const id of new Set(Object.keys(ir0).concat(Object.keys(ir1)))) {
-      const a = ir0[id], b = ir1[id]; if (!a || !b) { d.push(id + ' 只有一邊有'); continue; }
+      const a0 = ir0[id], b = ir1[id], a = a0 && a0.who === 'kexin' ? Object.assign({}, a0, { r: A891.apply(a0.r) }) : a0; if (!a || !b) { d.push(id + ' 只有一邊有'); continue; }   /* （CANON-NO-ECON-1112 第四批：照 AA_891 換字）BASE 那一列先照 AA_891 換過再比 */
       const A0 = Object.assign({}, a.r), B0 = Object.assign({}, b.r); delete B0.ov; const la = A0.lines, lb = B0.lines; delete A0.lines; delete B0.lines;
       const sv = RR.find(x => x.at === id + '.say'); if (sv) { if (A0.say !== sv.old || B0.say !== sv.new) d.push(id + '.say 不是稿上的 old→new'); delete A0.say; delete B0.say; }   /* 2026-11-11（X324 G 區，AA_783@60c08798a zr28.say）：稿上換 say 的列，say 照 old→new 算，其他欄位照舊零差異。舊期望：say 一律不變 */
       if (J(A0) !== J(B0) || a.who !== b.who) d.push(id + ' 其他欄位變了');

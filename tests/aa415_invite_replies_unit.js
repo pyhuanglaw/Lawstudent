@@ -67,14 +67,15 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 9144d
   const PS755={ps5:'「早午餐！好啊，那種不用太早起的我最可以。」',ps9:'「好啊。我想坐吧台，可以看他們做。」'};
   /* X324 D 區：有 ov 的列，被換的那一格改比稿（at＝列 id.lines[i] 的 new），而且稿的 old 要在 say（表上原文）裡；其他格照舊在 say 裡 */
   /* 2026-11-11（X324 G 區，AA_783_invite_replies.json@60c08798a）：覆蓋層也換 say（zr28.say：芷若「店長」→「老闆」）——say 被換過的列，稿的 old 要在表上（md），lines 那一格的 old 要在換之前的 say 裡。舊期望：say 本身在表上、lines 的 old 在 r.say 裡 */
-  const bad=[]; for(const id of IDS) for(const r of ROWS(id)){ const sv=r.ov?OE.at('invite_replies',r.id+'.say'):null, say0=sv&&sv.new===r.say?sv.old:r.say; if(sv&&sv.new!==r.say) bad.push(r.id+' say 沒照覆蓋層'); if(!md.includes(say0)&&PS755[r.id]!==say0) bad.push(r.id+' say'); if(r.ex==='rule'||r.ex==='plan') continue; r.lines.forEach((x,k)=>{ const s=typeof x==='string'?x:x.me, o=r.ov?OE.at('invite_replies',r.id+'.lines['+k+']'):null; if(o?!(o.new===s&&say0.includes(o.old)):!r.say.includes(s)) bad.push(r.id+' '+s); }); }
+  const A891=require('./canon891_1112.js');   /* （CANON-NO-ECON-1112 第四批：照 AA_891 換字）可昕那幾列照 AA_891 的字（表上原文還是 AA_415 的舊字）*/
+  const bad=[]; for(const id of IDS) for(const r of ROWS(id)){ if(id==='kexin'&&(r.id in A891.NEW||r.id in A891.SAY_ONLY)){ if(!A891.ok(r)) bad.push(r.id+' 沒照 AA_891'); continue; } const sv=r.ov?OE.at('invite_replies',r.id+'.say'):null, say0=sv&&sv.new===r.say?sv.old:r.say; if(sv&&sv.new!==r.say) bad.push(r.id+' say 沒照覆蓋層'); if(!md.includes(say0)&&PS755[r.id]!==say0) bad.push(r.id+' say'); if(r.ex==='rule'||r.ex==='plan') continue; r.lines.forEach((x,k)=>{ const s=typeof x==='string'?x:x.me, o=r.ov?OE.at('invite_replies',r.id+'.lines['+k+']'):null; if(o?!(o.new===s&&say0.includes(o.old)):!r.say.includes(s)) bad.push(r.id+' '+s); }); }
   check('1. 每一列的原文、台詞都在 AA_415 裡一字不差（覆蓋層換過的格子＝稿的新字，舊字在表上原文裡）',!bad.length,bad.slice(0,6).join('、'));
   const unqS=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;   /* 稿上她說的話有「」，遊戲檔拿掉外面那一對（AA-B 2026-11-08 01:09，build_replies.py 的 strip_quotes）：照稿拿掉「」再比，旁白照原樣比 */
   const has=(id,s)=>ROWS(id).some(r=>r.lines.some(x=>x===FW(id,unqS(s))));   /* X324 D 區：覆蓋層換過的照稿的新字找（子晴「今天不出門。……我想一個人打電動。」→ 拿掉刪節號）*/
   const SPOT=[['heroine_01','「好。我幫你留位子。」'],['heroine_01','「好。各念各的，坐同一張桌子。」'],['heroine_02','「好。你決定地方。我負責記得我們去過哪裡。」'],['heroine_02','（她把吧檯又擦了一遍，才回你。）'],
     ['heroine_03','（她只回一個字，可是三秒就回了。）'],['heroine_03','「週四是我的。……分你。」'],['heroine_04','「好。……我為什麼在緊張。」'],['heroine_04','「今天不出門。……我想一個人打電動。」'],
     ['heroine_05','「好啊。」'],['heroine_05','「好。研究室九點關燈。九點十分，樓下。」'],['classmate_peishan','「好啊！！幾點？」'],['classmate_peishan','「讀書會。九點以後可以。」'],
-    ['kexin','「那天你敢排別的試試看。……好。」'],['kexin','「好。予樂說我不應該答應。我答應了。」']];
+    ['kexin','「那天你敢排別的試試看。……好。」'],['kexin','「好。公館燒臘。我自己付。」']];   /* （CANON-NO-ECON-1112 第四批：照 AA_891 換字）原本抽 kx34，那一句 AA_891 換了，改抽 kx33 */
   const miss=SPOT.filter(([id,s])=>!has(id,s)); check('1. 抽查 14 句（七位各兩句）一字不差',!miss.length,J(miss));
   const exBad=[]; for(const id of IDS) for(const r of ROWS(id)){ if(r.ex!=='acc'&&r.ex!=='first') continue; const p=INVITE_DATA.people[id]||{}, pid=r.tags.find(t=>INV.place(t));
     const v=r.ex==='first'?(p.first||{})[pid]:(p.acc||{})[pid], want=Array.isArray(v)?v:(v&&v[r.band]); if(!Array.isArray(want)||INV.lineKey(want)!==INV.lineKey(r.lines)) exBad.push(r.id); }   /* 不看外面的「」：invites.js 有名字的台詞不加「」（AA-B 2026-11-08 00:21），表上照 AA_415 還有 */
@@ -201,7 +202,7 @@ await sec(9,()=>{ fresh('2026-03-14');
 await sec(10,()=>{ 
   // CANON-NO-ECON-1112：經濟系那一年拿掉（可昕經濟系那一年第 1 階約總圖）
   fresh('2026-03-11','kexin','d'); const k2=INV.personal(H.G,'kexin',INV.place('cafe'),H.G.day,15.5,{res:'accept'});
-  check('10. 法律系交往中約 Café：「首都帝大的 Café？好。我要坐你平常坐的那張。」',txt(k2.lines)==='首都帝大的 Café？好。我要坐你平常坐的那張。',txt(k2.lines));
+  check('10. 法律系交往中約 Café：「Café？好。我要坐你平常坐的那張。」',txt(k2.lines)==='Café？好。我要坐你平常坐的那張。',   /* （CANON-NO-ECON-1112 第四批：照 AA_891 換字）kx21 */txt(k2.lines));
   fresh('2026-03-11','kexin',6); H.G.flags.EX_kexin=true; const st=INV.replyStage(H.G,'kexin'); const ex=[]; for(let i=0;i<4;i++) ex.push(INV.personal(H.G,'kexin',INV.place('cafe'),H.G.day,19,{res:'accept'}));
   const rows=ex.map(r=>rowOf('kexin',r.lines));
   check('10. 分開以後：最多第 4 階、只用「4（分開以後）」的句子（沒有交往中、第 5、6 階）',st===4&&rows.every(r=>r&&r.apart&&r.st[0]===4),st+' '+J(ex.map(r=>txt(r.lines))));
