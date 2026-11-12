@@ -53,7 +53,8 @@ const flat=L=>L.join('');
     check('0. 載入 fest3d、gift_holiday.js、gifthol3d.js',okF&&okG&&typeof GIFTH!=='undefined',err.slice(0,300));
     check('0. gift_holiday.js 和白名單上的 AA_732（5acf44bbc）、AA_733（1edb14888）、AA_734（246ef6735）一致（import_gift_holiday.py --check）',ok&&J(GIFT_HOLIDAY.src)===J(['docs/story_planning/AA_732_gift_holiday_1.json@5acf44bbc','docs/story_planning/AA_733_gift_holiday_2.json@1edb14888','docs/story_planning/AA_734_gift_holiday_3.json@246ef6735']),out.trim().slice(0,200));
     const X=GIFT_HOLIDAY, n=Object.keys(X.items).filter(g=>X.items[g].shop!=='special').length;
-    check('0. 14 家店（山嵐書架、文具區分開＝14 個 key）57 樣＋special 2 樣',Object.keys(X.shops).length===14&&n===57&&X.items.g_test_report.shop==='special'&&X.items.g_no_edit.shop==='special',Object.keys(X.shops).length+' 店 '+n+' 樣');
+    /* 2026-11-12（FLOWER-NOTES-1110）：花序 Flower Notes 照 AA_792（8475a3b85）多八樣（g_fn_*，都在 gg_flower）＝57＋8＝65；AA_732 的 57 樣一樣不少（tests/flower_notes_aa792_1112_unit.js 逐字對 AA_792）*/
+    check('0. 14 家店（山嵐書架、文具區分開＝14 個 key）57 樣＋花序 AA_792 的八樣＝65 樣＋special 2 樣',Object.keys(X.shops).length===14&&n===65&&Object.keys(X.items).filter(g=>/^g_fn_/.test(g)).length===8&&X.items.g_test_report.shop==='special'&&X.items.g_no_edit.shop==='special',Object.keys(X.shops).length+' 店 '+n+' 樣');
     check('0. 八位都有反應（open 四個節 × A～D、love／ok／no）、八位都有她送的（聖誕 B～D2、2/14 C～D2、七夕 C／D）',GIFTH.PEOPLE.every(p=>X.react[p]&&['xmas','vday','qixi','bday'].every(k=>['A','B','C','D'].every(b=>X.react[p].open[k][b].length))&&X.give[p]&&X.give[p].xmas.B&&X.give[p].vday.C&&X.give[p].qixi.D));
     check('0. g_cvs_choco 的 no 有可昕（1edb14888 改的）',X.items.g_cvs_choco.no.includes(KX));
     /* 匯入工具：對不上就停下來 */

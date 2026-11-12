@@ -4,7 +4,7 @@
    區域 flower_notes：兩層 NavGrid（1F y=0、2F y=3.9；同尺寸、同原點，D36）。前半挑高、後半上面是二樓；樓梯沿東牆一跑往北爬，兩層共用；
      最上面一排在第 0 層擋起來（走到那裡之前要換到第 1 層）。二樓不做課程玩法（規格第六節），只有走上去、坐下、看。
    進出：公館店面街 G11 門口「進入花序」→ 一樓門內；一樓門口「離開花序」→ 公館 G11 門前的人行道。公館那一邊的互動點由 S.hookGongguan 加（包住 gongguan 的 build，不改 zones3d.js）。
-   買花：收銀櫃檯前的互動點 kind＝gg_flower（LAWWW 接 GIFTH；沒接之前是「看」一句）。商品、店員台詞、各區的「看」是 AA 的稿，這裡不寫句子。
+   買花：收銀櫃檯前的互動點 kind＝gg_flower（src/flower_notes_sys3d.js 接 GIFTH）。商品、店員台詞、各區的「看」是 AA 的稿（AA_792，src/data/flower_notes_text.js），這裡不寫句子。
    畫面：程序化備用模型（正式模型載入前、載入失敗時；D38 分類 ③）；正式模型（ASSETS 'bldg.flower_notes_interior'，這支自己登記）載入後由 B3.attachFormal 換掉。 */
 'use strict';
 const FN3=(function(){
@@ -81,9 +81,9 @@ const FN3=(function(){
     // 互動點（每一個都標樓層）
     const IT=E.interactables, EX=L.exit, C=L.counter;
     IT.push({x:EX.x,z:EX.z,radius:EX.r,lv:0,label:EX.label,exit:{to:EX.to,spawn:{x:S.GG.cx,z:S.GG.outZ,yaw:Math.PI}}});
-    IT.push({x:C.buyAt.x,z:C.buyAt.z,radius:C.buyAt.r,lv:0,label:'買花',kind:'gg_flower',fnCounter:true,look:'花序 Flower Notes 的包裝收銀櫃檯。'});   /* LAWWW 接買花（GIFTH.shopOpt(G,'gg_flower')）；沒接之前是「看」 */
+    IT.push({x:C.buyAt.x,z:C.buyAt.z,radius:C.buyAt.r,lv:0,label:'買花',kind:'gg_flower',fnCounter:true});   /* 買花接好了（FLOWER-NOTES-1110，src/flower_notes_sys3d.js：花藝師、十樣商品、營業時間）；原本暫用的「看」那一句拿掉，櫃檯的「看」照 AA_792 在包裝那一頭（FNS.lookPoints） */
     for(const q of L.seats1) IT.push({x:q.x,z:q.z,radius:0.7,lv:1,label:'坐下',fnSeat:q.id,seat:{x:q.x,z:q.z,yaw:q.yaw,lv:1,table:'fn_t'+q.table}});
-    zone.fnLooks=L.looks;   /* 各區的「看」（永生花、鮮花花束、冷藏花櫃、展示台、黑板、示範桌）：位置在配置，句子等 AA 的稿，LAWWW 接 */
+    zone.fnLooks=L.looks;   /* 各區的「看」（永生花、鮮花花束、冷藏花櫃、展示台、黑板、示範桌）：位置在配置；句子 AA_792、互動點由 src/flower_notes_sys3d.js 加（中央展示台稿沒有句子＝不放） */
     zone.fnClerk=Object.assign({},C.clerk);
     // 正式模型
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.flower_notes_interior']){ ASSETS.loadOne('bldg.flower_notes_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); }).catch(e=>console.warn('花序室內正式模型載入失敗，用程序化備用模型',e)); }

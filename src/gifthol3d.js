@@ -113,15 +113,18 @@ const GIFTH=(function(){
   S.sells=(G,key)=>{ const s=X()&&X().shops[key]; if(!s) return []; const m=(ymd(G.day)||{}).m||0; return s.items.filter(gid=>!S.SEASON[gid]||S.SEASON[gid](m)); };
   S.shopOpt=function(G,key){ if(!G||!S.sells(G,key).length) return null; const full=S.full(G);
     return {t:S.SHOP_LABEL[key]||S.LABEL,hint:full?'包包已經放了 '+S.MAX+' 樣':'節日、生日的時候送她（包包 '+S.bag(G).length+'/'+S.MAX+'）',dim:full,giftH:key}; };
-  S.buy=async function(GM,key){ const G=GM.G, L=S.sells(G,key); if(!L.length) return null; if(S.full(G)){ GM.toast&&GM.toast('包包已經放了 '+S.MAX+' 樣了'); return null; }
+  /* o.bought(gid)：付了錢、放進包包以後，「你買了…」以前演的（花序的花藝師包花那幾句，src/flower_notes_sys3d.js）*/
+  S.buy=async function(GM,key,o){ const G=GM.G, L=S.sells(G,key); if(!L.length) return null; if(S.full(G)){ GM.toast&&GM.toast('包包已經放了 '+S.MAX+' 樣了'); return null; }
     const opts=L.map(gid=>{ const it=S.item(gid); return {t:it.name+'　'+it.price+' 元',hint:it.line,dim:(G.money|0)<it.price}; }); opts.push({t:'算了'});
     const i=await GM.choose(opts); const gid=L[i]; if(!gid) return null; const it=S.item(gid);
     if((G.money|0)<it.price){ GM.toast&&GM.toast('錢不夠'); return 'poor'; }
     if(GM.money) GM.money(-it.price,'禮物'); else G.money=(G.money|0)-it.price;
-    F(G).bag.push({id:gid,day:G.day,shop:key}); await GM.say(null,'你買了'+it.name+'，放進包包。'); if(GM.autosave) GM.autosave(); return gid; };
+    F(G).bag.push({id:gid,day:G.day,shop:key}); if(o&&o.bought) await o.bought(gid); await GM.say(null,'你買了'+it.name+'，放進包包。'); if(GM.autosave) GM.autosave(); return gid; };
   /* 店家選單接一行：opts 裡有 S.shopOpt 的那一項被選到 → 買 */
   /* 公館站口花攤「晨露花舖」（GG-FLOWER-STALL-1110，LAWWW2 9356eeb39；AA_732 gg_flower）：09:00～21:00 開著，按「看看花攤」就是買花清單；沒開照舊是看（zones3d 的 look）*/
-  S.flowerOpen=G=>{ const h=+G.hour||0; return h>=9&&h<21; };
+  /* 2026-11-12（FLOWER-NOTES-1110）：花攤升級成花序 Flower Notes——買花、營業時間（AA_792：10:00～21:00）、花藝師的句子在 src/flower_notes_sys3d.js（FNS，包在這一支的外面先接）；
+     FNS 沒載入（只載這一支的測試）才走下面原本的 09:00～21:00 */
+  S.flowerOpen=G=>{ if(typeof FNS!=='undefined'&&FNS.on&&FNS.on()) return FNS.open(G); const h=+G.hour||0; return h>=9&&h<21; };
   S.pick=async function(GM,o){ if(!o||!o.giftH) return false; if(o.dim){ GM.toast&&GM.toast(o.hint); return true; } await S.buy(GM,o.giftH); return true; };
 
   /* ---------------- 這個節日、她 ---------------- */
