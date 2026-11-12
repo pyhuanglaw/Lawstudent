@@ -76,7 +76,12 @@ NEAR_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, mine=new Set(); E.
   E.scene.traverse(o=>{ if(!o.isMesh||mine.has(o)||o.visible===false) return; try{ b.setFromObject(o); }catch(e){ return; } if(b.isEmpty()) return;
     const dx=Math.max(b.min.x-P.x,0,P.x-b.max.x), dz=Math.max(b.min.z-P.z,0,P.z-b.max.z); if(Math.hypot(dx,dz)>1.2||b.max.y<P.y+0.05||b.min.y>P.y+1.6) return;
     const sz=b.getSize(v); if(sz.x>40||sz.z>40) return; out.push({name:o.name||(o.parent&&o.parent.name)||'?', d:+Math.hypot(dx,dz).toFixed(2), box:[+b.min.x.toFixed(2),+b.max.x.toFixed(2),+b.min.z.toFixed(2),+b.max.z.toFixed(2),+b.min.y.toFixed(2),+b.max.y.toFixed(2)]}); });
-  out.sort((a,b)=>a.d-b.d); return {at:[+P.x.toFixed(2),+P.z.toFixed(2)], canStandAhead:null, near:out.slice(0,15)}; })()"""
+  out.sort((a,b)=>a.d-b.d); const r2=v=>+(+v).toFixed(2), pl=E.player;
+  const ppl=[].concat((E.npcs||[]).map(n=>['npc',n]),(E.extras||[]).map(n=>['extra',n])).map(([k,n])=>{ const o=n&&(n.obj||n.mesh||n.group); const p=o&&o.position; return p?{k, id:n.id||n.charId||n.name||'', x:r2(p.x), z:r2(p.z), d:r2(Math.hypot(p.x-P.x,p.z-P.z))}:null; }).filter(q=>q&&q.d<=3);
+  return {at:[r2(P.x),r2(P.z)], lv:pl.lv|0, path:Array.isArray(pl.path)?pl.path.slice(0,12).map(q=>Array.isArray(q)?q.map(r2):[r2(q.x),r2(q.z)]):(pl.path??null), pathIdx:pl.pathIdx??pl.pi??null, target:pl.target?(pl.target.isVector3?[r2(pl.target.x),r2(pl.target.z)]:pl.target):null,
+    lastS2F:window.__ccS2F||null, people3m:ppl, near:out.slice(0,15)}; })()"""
+# 11-13 LAWWW-C：記每一次點地 E.screenToFloor 的回傳（卡住那一刻給 LAWWW2）
+S2F_HOOK = r"""(()=>{ const E=GAME.E; if(!E.__ccS2Fw&&E.screenToFloor){ const f0=E.screenToFloor; E.__ccS2Fw=true; E.screenToFloor=function(x,y){ const r=f0.apply(this,arguments); try{ window.__ccS2F={x:+(+x).toFixed(0), y:+(+y).toFixed(0), t:+performance.now().toFixed(0), r:r?(r.isVector3?[+r.x.toFixed(2),+r.y.toFixed(2),+r.z.toFixed(2)]:JSON.parse(JSON.stringify(r,(k,v)=>(v&&v.isVector3)?[+v.x.toFixed(2),+v.y.toFixed(2),+v.z.toFixed(2)]:(v&&v.isObject3D)?(v.name||'obj'):v))):r}; }catch(e){} return r; }; } return !!E.__ccS2Fw; })()"""
 
 
 async def stuck_shot(pg, tag, n):
@@ -133,6 +138,7 @@ async def main():
         else: s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f%s（條件事件關掉）' % (ZONE, DAY, HOUR, (' (%s, %s) lv%d' % (X, Z, LV)) if X is not None else '（出生點）'))
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
+        if STUCKSHOT: R.note('screenToFloor 記錄：%s' % (await pg.evaluate(S2F_HOOK)))
         res['steps'].append({'k': 0, 'kind': 'start', 's': await record(pg, 0, 'start')})
         for k, step in enumerate(ROUTE, 1):
             kind, _, arg = step.partition(':'); t = '[%02d %s]' % (k, step); out = {'k': k, 'step': step}

@@ -6,7 +6,7 @@ ACROSS=1（CC-C 11-12，BB-C 11:31：沿騎樓 4.5 m 拍的鐵捲門是斜的、
 CC_02 清單 2026-11-13：1✓（時間照佇列 14:00、23:30） 2✓（店面從 zone.shopReal、出口從互動點讀） 3n/a（一次讀檔拍一排） 4n/a（不按） 5n/a（拍照：放位置是捷徑） 6✓（讀檔等 12＋5 秒、每間 3 秒） 7✓ 8n/a（不判，給 BB） 9n/a（不藏路人：照街上原樣，藏玩家） 10✓（條件事件關掉） 11✓ 12✓（每間同樣欄位） 13✓（讀檔、放位置捷徑標）
 DOOR=1（BB-C 11:44）：正對門——門（出口互動點）朝外的方向（有 zone.shopReal 用室內正面 ry；沒有＝導航四方向：外面站得住、背後是牆），鏡頭在門前 4.5 m、高 1.6 m、平視門（18 mm）。
 用法：LW_TESTS=<wt>/tests SHOPS=wz_brunch,wz_teishoku,... [TAG=x] [ACROSS=1 DIST=16 | DOOR=1] [DAY=2025-10-18] python3 cc_storefront_probe.py <url> <out>"""
-import os, sys, json, asyncio
+import os, sys, json, asyncio, math
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests')); sys.path.insert(0, HERE)
 import playlib as L
@@ -45,16 +45,24 @@ async def main():
             f = await pg.evaluate(FIND_ACROSS, {'z': z, 'dist': DIST}) if ACROSS else {}
             if ACROSS and f.get('none'):   # 11-13 BB-C：同弦不在 shopReal，舊拍法在門前朝騎樓、拍不到店面＝改成照門的朝向退到對街（DIST／13／10／8 m 第一個站得住的）、高 1.7 m、看門上 3 m（含二樓窗）
                 R.note('%s zone.shopReal 沒有這間（%s）→ 照門的朝向退到對街拍' % (z, json.dumps(f, ensure_ascii=False)))
-                g = None
-                for d in (DIST, 13, 10, 8):
+                # 11-13 BB-C：對街 (-7.6,-7.2) 站不住＝FAIL_SETUP → 沿門朝向 DIST／13／10／8／6／4 m，再試斜對面（門朝向 ±30°）8／6／4 m，第一個站得住的
+                g = None; eye = None; d = None; how = ''
+                for d in (DIST, 13, 10, 8, 6, 4):
                     g = await pg.evaluate(FIND_DOOR, {'z': z, 'd': d})
-                    if g and g.get('standEye'): break
-                if not R.check("FAIL_SETUP 檢查：%s 找得到門、對街站得住" % z, bool(g and g.get("standEye")), json.dumps(g, ensure_ascii=False)): res.append({'zone': z, 'skip': g}); continue
+                    if g and g.get('standEye'): eye = [g['eye'][0], 1.7, g['eye'][2]]; how = '正對 %s m' % d; break
+                if g and not eye:
+                    for d in (8, 6, 4):
+                        for sg in (1, -1):
+                            a_ = math.radians(30 * sg); nx = g['n'][0] * math.cos(a_) - g['n'][1] * math.sin(a_); nz = g['n'][0] * math.sin(a_) + g['n'][1] * math.cos(a_)
+                            ex_, ez_ = g['x'] + nx * d, g['z'] + nz * d
+                            if await pg.evaluate("(a=>GAME.E.canStand(a.x,a.z,0.3,0))", {'x': ex_, 'z': ez_}): eye = [round(ex_, 2), 1.7, round(ez_, 2)]; how = '斜對面 %+d° %s m' % (30 * sg, d); break
+                        if eye: break
+                if not R.check("FAIL_SETUP 檢查：%s 找得到門、對街或斜對面站得住" % z, bool(g and eye), json.dumps(g, ensure_ascii=False)): res.append({'zone': z, 'skip': g}); continue
                 await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); })", {'x': g['x'] + g['n'][0] * 3, 'z': g['z'] + g['n'][1] * 3}); await pg.wait_for_timeout(3000)
-                R.setup('%s 【捷徑】祐廷放到門前 3 m 等 3 秒' % z)
-                eye = [g['eye'][0], 1.7, g['eye'][2]]; look = [g['x'], 3.0, g['z']]
+                R.setup('%s 【捷徑】祐廷放到門前 3 m 等 3 秒；鏡頭 %s' % (z, how))
+                look = [g['x'], 3.0, g['z']]
                 c = await D.user_shot(pg, cdp, 'across_%s_%s' % (z, TAG), {'eye': eye, 'look': look, 'lens': 24}, hide_player=True)
-                R.note('%s 對街正拍：門 (%s, %s)「%s」朝外 %s、鏡頭 %s 退 %s m 看 %s' % (z, g['x'], g['z'], g['label'], g['n'], eye, d, look))
+                R.note('%s 對街拍（%s）：門 (%s, %s)「%s」朝外 %s、鏡頭 %s 看 %s' % (z, how, g['x'], g['z'], g['label'], g['n'], eye, look))
                 res.append({'zone': z, 'across_door': g, 'cam': c}); continue
             if ACROSS and not f.get('none'):
                 await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); })", {'x': f['stand'][0], 'z': f['stand'][1]}); await pg.wait_for_timeout(3000)
