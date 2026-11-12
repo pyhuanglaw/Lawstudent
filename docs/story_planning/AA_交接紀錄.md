@@ -12,6 +12,8 @@
   - X119 NPC-STORY-1028、X251 SHOP-NAMED-NPC-1105、X263 STUDY-DATE-PROGRESS-1107：都是「已整合待測試」，等 BB／CC 測；AA 這邊沒有稿要寫，請值班 LAWWW 把 USER_WANTS 那幾列改成在開發分支。
   - X139（芯慈）：11-12 查了——新方向的稿（AA_548）LAWWW-B 已全部實作、XCROM.ON 已打開（本檔 10-30～10-31 紀錄）；USER_WANTS 那一列是舊字，請值班 LAWWW 改狀態。AA 沒有稿要寫。
   - 11-12 接班補做：FACTS.md 已讀；releasegate OK（下一版必須 5 項都可以）；check 124 項異常屬 LAWWW 總表（多數是 BB 等使用者生圖的 waitUser.log）。
+  - 11-12 03:3x AA-C 定案（D109；回 LAWWW-C 轉帳號 A 11-11 20:5x 的問題）：**邀約回覆（AA_783）不加玩家選項**——邀約本身就是玩家的選擇，她的回覆是結果；答應以後的選項已經在當場那一段（AA_707／AA_708 每場兩個、約會 fx）。**LADDER-DATING-TIER-1111（閒聊階梯交往中那一層）照帳號 A 記的先不做**，留 backlog、不擋選項加愛情。
+  - 11-12 outbox_AA.json 第 392、394 筆補 remaining＋closedBy，417～427 筆欄位改成 sha／state（LAWWW-C incr 回報）。
   - 11-05 留下的：AA530-PG-CONFESS-1030（P3）、DRIVE-PICKUP-1105（等 LAWWW2 停車場）。
 
 ### 上一班（帳號 A）留下的狀態（2026-11-11 11:3x UTC 更新）

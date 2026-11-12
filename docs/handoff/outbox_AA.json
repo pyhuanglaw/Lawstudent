@@ -6190,7 +6190,9 @@
    "next": "LAWWW 先做系統：店家買禮物、包包、節日送禮（規則照 AA_732 rules）；學姊反應可以先接",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "noDirectIntegrate": false
+   "noDirectIntegrate": false,
+   "remaining": "第二批 AA_733（以安、芷若、語彤、子晴、沛珊、可昕、芯慈的反應）、第三批 AA_734（她送祐廷的禮物、門檻、文具區劇情）還沒交",
+   "closedBy": "b844bac36（AA_732～734 三批都已交、LAWWW ACK；見本檔後面 GIFT-HOLIDAY／DLG-FULL-REVIEW 的交付）"
   },
   {
    "task": "SERVICE2-LEGAL-1110",
@@ -6221,7 +6223,9 @@
    "next": "LAWWW 接七位的反應（格式同 AA_732 people.heroine_05）",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "noDirectIntegrate": false
+   "noDirectIntegrate": false,
+   "remaining": "第三批 AA_734（她送祐廷的禮物、門檻、文具區劇情）還沒交",
+   "closedBy": "b844bac36（AA_732～734 三批都已交、LAWWW ACK；見本檔後面 GIFT-HOLIDAY／DLG-FULL-REVIEW 的交付）"
   },
   {
    "task": "GIFT-HOLIDAY-1110",
@@ -6602,47 +6606,47 @@
     "docs/story_planning/AA_807_us_term_reread.json",
     "docs/story_planning/AA_808_peishan_tilde.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:1x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
    "todo": "",
    "next": "LAWWW 照 line rows 換（AA_807 4 列、AA_808 61 列）",
-   "note": "VAC-GAP-ROUTES 重讀美國那學期時發現：X327 漏掉的沛珊句尾「～」、中秋「台南家裡」與設定不合"
+   "note": "VAC-GAP-ROUTES 重讀美國那學期時發現：X327 漏掉的沛珊句尾「～」、中秋「台南家裡」與設定不合",
+   "state": "已交付",
+   "sha": "ad8ed0194"
   },
   {
    "task": "MOVIE-TALK-1110",
    "branch": "claude/story-planning",
-   "commit": "fb1256280",
    "files": [
     "docs/story_planning/AA_811_movie_talk_hehuan_voice.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:1x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "LAWWW 接出遊事件與手機訊息；BB 抽測"
+   "next": "LAWWW 接出遊事件與手機訊息；BB 抽測",
+   "sha": "fb1256280",
+   "state": "已交付"
   },
   {
    "task": "PEISHAN-VOICE-1110",
    "branch": "claude/story-planning",
-   "commit": "333cd2863",
    "files": [
     "docs/story_planning/AA_810_peishan_open_class_mom.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:0x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "LAWWW 照 3 列 line rows 換"
+   "next": "LAWWW 照 3 列 line rows 換",
+   "sha": "333cd2863",
+   "state": "已交付"
   },
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/story-planning",
-   "commit": "f1fab0ec6",
    "files": [
     "docs/story_planning/AA_812_date_pays_promises.json",
     "docs/story_planning/date_rewrite/peishan_D15.json",
@@ -6651,117 +6655,118 @@
     "docs/story_planning/date_rewrite/zq_D06.json",
     "docs/story_planning/date_rewrite/kx_D15.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:2x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "LAWWW 重匯 date_rewrite＋SHE_PAYS／SPLIT"
+   "next": "LAWWW 重匯 date_rewrite＋SHE_PAYS／SPLIT",
+   "sha": "f1fab0ec6",
+   "state": "已交付"
   },
   {
    "task": "GG-SHOPS3-STORY-1110",
    "branch": "claude/story-planning",
-   "commit": "75f5de658",
    "files": [
     "docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:1x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "發版後 LAWWW 接；LAWWW2 五項資料 patch"
+   "next": "發版後 LAWWW 接；LAWWW2 五項資料 patch",
+   "sha": "75f5de658",
+   "state": "已交付"
   },
   {
    "task": "STUDY-EXAM-STORY-1102",
    "branch": "claude/story-planning",
-   "commit": "ba322d6ae",
    "files": [
     "docs/story_planning/syllabus/Y4S1.json",
     "docs/story_planning/syllabus/Y4S2.json",
     "docs/story_planning/syllabus/JP.json"
    ],
-   "status": "已整合",
    "at": "2026-11-11T16:0x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 9d45ef8b3／c170218dd 已匯；BB 抽測"
+   "next": "LAWWW 9d45ef8b3／c170218dd 已匯；BB 抽測",
+   "sha": "ba322d6ae",
+   "state": "已整合"
   },
   {
    "task": "AA-PRIO-GAP-1111",
    "branch": "claude/story-planning",
-   "commit": "91c6aaf9f",
    "files": [
     "docs/story_planning/AA_814_三個優先項目劇情斷點對帳.md",
     "docs/story_planning/00_現行設定總表.md"
    ],
-   "status": "已整合",
    "at": "2026-11-11T16:3x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 7d9d79425 12 項全接；GHA 綠了交 BB 測"
+   "next": "LAWWW 7d9d79425 12 項全接；GHA 綠了交 BB 測",
+   "sha": "91c6aaf9f",
+   "state": "已整合"
   },
   {
    "task": "GG-SHOPS3-STORY-1110",
    "branch": "claude/story-planning",
-   "commit": "8f6650289",
    "files": [
     "docs/story_planning/AA_742_公館六間店_設定與台詞.md"
    ],
-   "status": "已整合",
    "at": "2026-11-11T16:3x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 7d9d79425：打烊照 AA_700、泰米午休、柔軟精、合照說明"
+   "next": "LAWWW 7d9d79425：打烊照 AA_700、泰米午休、柔軟精、合照說明",
+   "sha": "8f6650289",
+   "state": "已整合"
   },
   {
    "task": "STUDY-EXAM-STORY-1102",
    "branch": "claude/story-planning",
-   "commit": "80ed4ea06",
    "files": [
     "docs/story_planning/syllabus/Y4S2.json",
     "docs/story_planning/syllabus/JP.json",
     "docs/story_planning/syllabus/Y1S1.json",
     "docs/story_planning/syllabus/Y1S2.json"
    ],
-   "status": "已整合",
    "at": "2026-11-11T16:3x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "拿掉期中考字樣（D118）；LAWWW 7d9d79425 已重匯"
+   "next": "拿掉期中考字樣（D118）；LAWWW 7d9d79425 已重匯",
+   "sha": "80ed4ea06",
+   "state": "已整合"
   },
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/story-planning",
-   "commit": "52c3ee258",
    "files": [
     "docs/story_planning/date_system/lines/D01.json～D32.json"
    ],
-   "status": "已整合",
    "at": "2026-11-11T19:3x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 4e5a9a47c 重匯；tests/date_fx_x324_1111_unit.js；GHA 綠了交 BB"
+   "next": "LAWWW 4e5a9a47c 重匯；tests/date_fx_x324_1111_unit.js；GHA 綠了交 BB",
+   "sha": "52c3ee258",
+   "state": "已整合"
   },
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/story-planning",
-   "commit": "7732e123e",
    "files": [
     "docs/story_planning/AA_816_ladder_fx.json",
     "docs/story_planning/AA_709_msg_replies.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T21:1x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "X324 最後一塊：閒聊階梯 694 個選項 fx；手機回覆本來就有 rel／npcRom 不另加；交往中一階記 backlog"
+   "next": "X324 最後一塊：閒聊階梯 694 個選項 fx；手機回覆本來就有 rel／npcRom 不另加；交往中一階記 backlog",
+   "sha": "7732e123e",
+   "state": "已交付"
   }
  ],
  "items": [
