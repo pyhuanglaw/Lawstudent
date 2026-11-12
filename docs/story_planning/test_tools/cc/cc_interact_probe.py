@@ -1,7 +1,7 @@
 """CC-C 11-12：通用「走到互動點、按一次、記下整段字」探針（第一個用途：CLUB-BOARD-INFO-1105 日常失速東牆「看社團佈告欄」，LAWWW-C 10:20 交排，結果給 BB 判）。Playwright（PC GPU）≠ iPhone。
 做法：每一組 CASES（日期@時間，+ 分隔）：【前置／捷徑】讀檔 FIX 到 ZONE 那天那個時間（條件事件關掉）→ 找標籤含 LABEL 的互動點 → 真的走過去（go_to）→ 看互動鍵的字 → 按 →
   一路點對話、選項照 PICK（逗號分隔的字，找第一個含那個字的選項；沒有就選第 1 個）→ 每一句旁白、每一次選單都記下來、選單出現時截圖、最後截圖。
-CC_02 清單 2026-11-12：1✓（日期、時間照佇列：大一、大三上各一次） 2✓（互動點照標籤從遊戲找，不寫座標） 3✓（每一組重新讀檔） 4✓（選項照字選、記下全部選項） 5✓（go_to 走過去） 6✓（讀檔等 6 秒、一句一句點） 7✓ 8n/a（不判，字給 BB） 9n/a（截圖不藏東西） 10✓（條件事件關掉） 11✓ 12✓（每句、每個選單、互動鍵字） 13✓（讀檔捷徑標）
+CC_02 清單 2026-11-13：1✓（日期、時間照佇列：大一、大三上各一次） 2✓（互動點照標籤從遊戲找，不寫座標） 3✓（每一組重新讀檔） 4✓（選項照字選、記下全部選項） 5✓（go_to 走過去） 6✓（讀檔等 6 秒、一句一句點） 7✓ 8n/a（不判，字給 BB） 9n/a（截圖不藏東西） 10✓（條件事件關掉） 11✓ 12✓（每句、每個選單、互動鍵字） 13✓（讀檔捷徑標）
 用法（EACH=1＝第一個選單每個選項各按一次）：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONE=wz_offbeat LABEL=社團佈告欄 CASES=2025-10-14@15+2027-09-14@15 [PICK=法律服務社,…] [FIX=…] python3 cc_interact_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -19,7 +19,7 @@ CLOSE = (os.environ.get('CLOSE') or '0') == '1'   # 11-12：互動點特寫（BB
 EACH = (os.environ.get('EACH') or '0') == '1'   # BB-C 10:23：第一個選單的每一個選項各按一次（每個社團那一頁）
 R = L.Run('interact_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-ST = r"""(()=>{ const d=document.getElementById('dlg'); return {dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
+ST = r"""(()=>{ const d=document.getElementById('dlg'), cp=document.getElementById('caption'); return {cap:(cp&&cp.offsetParent&&getComputedStyle(cp).opacity!=='0')?(cp.textContent||'').trim():'', dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
   choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()), busy:!!(GAME.E.player&&GAME.E.player.busy), interact:(document.getElementById('interact')||{}).textContent||''}; })()"""
 
 
@@ -36,7 +36,7 @@ async def main():
             R.setup('%s 【前置／捷徑】讀檔到 %s %s %s（條件事件關掉）' % (tag, ZONE, day, hh))
             if not R.check('%s 讀到 %s' % (tag, ZONE), s['zone'] == ZONE, J(s)): continue
             it = await pg.evaluate("(l=>{ const L=GAME.E.interactables.filter(q=>(q.label||'').indexOf(l)>=0); const i=L.find(q=>!q.hidden)||L[0]; return i?{x:i.x,z:i.z,lv:i.lv|0,label:i.label,hidden:!!i.hidden}:null; })", LABEL)
-            if not R.check('%s 找得到「%s」' % (tag, LABEL), bool(it), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label)"))): continue
+            if not R.check('FAIL_SETUP 檢查：%s 找得到「%s」' % (tag, LABEL), bool(it), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label)"))): continue
             await L.go_to(pg, cdp, R, it['x'], it['z'], 0.7, it['label'], max_s=90, lv=it['lv'])
             st = await pg.evaluate(ST)
             R.note('%s 互動鍵「%s」（互動點 %s）' % (tag, st['interact'], J(it)))
@@ -48,8 +48,15 @@ async def main():
             async def once(first_pick, sub):
                 await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
                 lines = []; menus = []
+                caps = set()
+
+                async def cap_check(st):   # 11-13 BB-C（WZ_FRUIT r1＝TEST_BUG）：「看…」類互動出的是字幕（#caption），不是對話框——字幕也記、也截圖
+                    c = st.get('cap') or ''
+                    if c and c not in caps:
+                        caps.add(c); lines.append('字幕｜' + c); await pg.screenshot(path=os.path.join(OUT, 'cap_%s_%d_%s_%02d.png' % (TAG, n, sub, len(caps))))
                 for k in range(80):
                     st = await pg.evaluate(ST)
+                    await cap_check(st)
                     if st['choices']:
                         menus.append(st['choices']); await pg.screenshot(path=os.path.join(OUT, 'menu_%s_%d_%s_%02d.png' % (TAG, n, sub, len(menus))))
                         if len(menus) == 1 and first_pick is not None: i = min(first_pick, len(st['choices']) - 1)   # lint-ok：序號超出範圍才夾到最後一個（EACH 第一層），不是找不到預設按最後
@@ -60,7 +67,10 @@ async def main():
                         if not lines or lines[-1] != (st['who'] + '｜' + st['t']): lines.append(st['who'] + '｜' + st['t'])
                         if len(lines) <= 1 or (lines[-2:-1] and lines[-2].startswith('▶')): await pg.screenshot(path=os.path.join(OUT, 'line_%s_%d_%s_%02d.png' % (TAG, n, sub, len(lines))))
                         await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
-                    if not st['busy']: break
+                    if not st['busy']:
+                        for _ in range(10):   # 字幕可能在不忙以後才出、或還掛著：再看 3 秒
+                            await cap_check(await pg.evaluate(ST)); await pg.wait_for_timeout(300)
+                        break
                     await pg.wait_for_timeout(600)
                 return lines, menus
             async def walk_each(n):
