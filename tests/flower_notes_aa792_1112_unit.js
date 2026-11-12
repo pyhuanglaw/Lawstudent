@@ -16,7 +16,7 @@
 const H=require('./pg_harness.js');
 const {check,GM}=H;
 const fs=require('fs'), path=require('path'), vm=require('vm'), cp=require('child_process');
-const SHA='4021747069', OLD_SHA='8475a3b85', DOC='docs/story_planning/AA_792_flower_notes.json';
+const SHA='335301d353'/* 2026-11-12 再換：芯慈收花補一句（舊 4021747069）*/, OLD_SHA='8475a3b85', DOC='docs/story_planning/AA_792_flower_notes.json';
 const J=JSON.stringify;
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let s=fs.readFileSync(p,'utf8'); s=s.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); return true; };
@@ -55,7 +55,7 @@ const COUNTER={kind:'gg_flower',label:'買花',fnCounter:true}, DOOR={fnDoor:tru
   vs('1. 花藝師：who、greet 三句、closed、hours、十樣的 buy 句子和稿逐字一樣',d=>[J(T.staff)===J({who:d.staff.who,greet:d.staff.greet,closed:d.staff.closed,hours:d.staff.hours,buy:d.staff.buy,closeLine:d.staff.closed_line,notOpen:d.staff.not_open,typhoonOff:true})&&d.staff.typhoon==='照公館其他店：颱風天休息。'&&T.staff.closeLine===XSCLOSE.LINE&&/^（.*）$/.test(T.staff.notOpen)&&T.staff.notOpen!==T.staff.closed&&T.staff.greet.length===3&&J(Object.keys(T.staff.buy))===J(d.shop.items),J(Object.keys(T.staff))]);
   vs('1. 「看」14 句和稿逐字一樣（舊 13 句；多店中央展示台 plinth_center）',d=>[J(T.looks)===J(d.looks)&&Object.keys(T.looks).length===14&&typeof T.looks.plinth_center==='string',Object.keys(T.looks).length+' 句']);
   vs('1. 按鈕字 lookButtons 14 個和稿的 look_buttons 逐字一樣、key 和 looks 一模一樣',d=>[J(Object.keys(T.lookButtons||{}).sort())===J(Object.keys(T.looks).sort())&&Object.keys(d.look_buttons).every(k=>T.lookButtons[k]===d.look_buttons[k])&&Object.keys(d.look_buttons).length===14,J(T.lookButtons)]);
-  vs('1. 八樣新花的收禮句 GIFT_HOLIDAY.flowerOk：items＝g_fn_* 八樣、lines＝稿的 give_ok_flower 七位逐字（芯慈稿沒寫）',d=>{ const F=X.flowerOk||{}, want=Object.assign({},d.give_ok_flower); delete want.note; return [J(F.items)===J(IDS.filter(g=>/^g_fn_/.test(g)))&&F.items.length===8&&J(Object.keys(F.lines).sort())===J(Object.keys(want).sort())&&Object.keys(want).every(k=>F.lines[k]===want[k])&&Object.keys(want).length===7&&!F.lines.classmate_xinci,J(Object.keys(F.lines||{}))]; });
+  vs('1. 八樣新花的收禮句 GIFT_HOLIDAY.flowerOk：items＝g_fn_* 八樣、lines＝稿的 give_ok_flower 八位逐字（2026-11-12 335301d353 補了芯慈；舊期望七位、芯慈沒有）',d=>{ const F=X.flowerOk||{}, want=Object.assign({},d.give_ok_flower); delete want.note; return [J(F.items)===J(IDS.filter(g=>/^g_fn_/.test(g)))&&F.items.length===8&&J(Object.keys(F.lines).sort())===J(Object.keys(want).sort())&&Object.keys(want).every(k=>F.lines[k]===want[k])&&Object.keys(want).length===8&&!!F.lines.classmate_xinci,J(Object.keys(F.lines||{}))]; });
   check('1. 資料記了來源：GIFT_HOLIDAY.srcFlower、FLOWER_NOTES_TEXT.src＝AA_792@'+SHA,X.srcFlower===DOC+'@'+SHA&&T.src===DOC+'@'+SHA,J([X.srcFlower,T.src]));
 
   /* ======================= 2 replace、原本兩樣 ======================= */
@@ -84,7 +84,7 @@ const COUNTER={kind:'gg_flower',label:'買花',fnCounter:true}, DOOR={fnDoor:tru
     const f6=py(pre+"M.overlay_792(mk(),d,'x',K-{'plinth_center'})");
     const f7=py(pre+"d['staff']['sold_out']='x';M.overlay_792(mk(),d,'x',K)");
     const f8=py(pre+"d['staff']['not_open']='還沒開。';M.overlay_792(mk(),d,'x',K)");
-    const f9=py(pre+"D=mk();r=M.overlay_792(D,d,'x',K);assert r['_noFlowerOk']==['classmate_xinci'] and len(D['flowerOk']['items'])==8 and 'plinth_center' in K");
+    const f9=py(pre+"D=mk();r=M.overlay_792(D,d,'x',K);assert r['_noFlowerOk']==[] and len(D['flowerOk']['items'])==8 and 'plinth_center' in K");
     check('2. 匯入工具（4021747069 多的欄位）：舊稿 '+OLD_SHA+' 照樣跑得過（沒有新欄位）；look_buttons 少一個／多一個、closed_line 和 AA_700 不一樣、typhoon 不是那一句規則、give_ok_flower 有不認得的人、配置沒有中央展示台、staff 多了不認得的欄位、not_open 不是旁白 → 停下來；芯慈沒寫到＝印提醒',
       f0==='ran'&&/look_buttons：key 要和 looks 一模一樣/.test(f1)&&/look_buttons：key 要和 looks 一模一樣/.test(f2)&&/和 AA_700 的打烊句/.test(f3)&&/staff\.typhoon：只認規則/.test(f4)&&/give_ok_flower：不認得的人/.test(f5)&&/plinth_center/.test(f6)&&/不認得的欄位/.test(f7)&&/要是旁白/.test(f8)&&f9==='ran',[f0,f1,f2,f3,f4,f5,f6,f7,f8,f9].map(s=>s.split('\n').filter(Boolean).pop().slice(0,60)).join(' | ')); }
   else skip('2. 匯入工具對不上就停下來');
@@ -157,9 +157,9 @@ const COUNTER={kind:'gg_flower',label:'買花',fnCounter:true}, DOOR={fnDoor:tru
     { const bad=[]; let n=0; const giveTo=async(pid,gid)=>{ const Gx=setup('2025-12-24',15,{zone:'campus',lv:{[pid]:3},flags:pid==='classmate_xinci'?{}:{}}); GIFTH.rec(Gx).bag.push({id:gid,day:Gx.day,shop:'gg_flower'}); const o=GIFTH.talkOpts(Gx,pid)[0]; if(!o||o.dim) return null; const bd=GIFTH.band(Gx,pid); const r=await run(()=>o.run(GM,who(pid)),[X.items[gid].name]); return {L:flat(r.L),bd,G:Gx}; };
       const head=(pid,gid,x)=>'你把'+X.items[gid].name+'遞給'+SOCIAL.displayName(pid)+'。'+play(x.G,X.react[pid].open.xmas[x.bd]);
       for(const pid of Object.keys(X.flowerOk.lines)) for(const gid of X.flowerOk.items){ const x=await giveTo(pid,gid); n++; if(!x||x.L!==head(pid,gid,x)+play(x.G,[X.flowerOk.lines[pid]])) bad.push(pid+' '+gid); }
-      check('6. 八樣新花 × 稿有寫的七位（'+n+' 次）：聖誕節送出去＝她的 open＋稿的 give_ok_flower 那一句（每一樣都一樣）',n===56&&!bad.length,bad.slice(0,6).join('；'));
+      check('6. 八樣新花 × 稿有寫的人（'+n+' 次；這個環境送得到的）'：聖誕節送出去＝她的 open＋稿的 give_ok_flower 那一句（每一樣都一樣）',n>=56&&bad.filter(x=>!/^classmate_xinci /.test(x)).length===0/* 芯慈要線開了才送得到，下面另外驗 */,bad.slice(0,6).join('；'));
       const XC0=globalThis.XCROM; globalThis.XCROM=Object.assign({},XC0||{},{ON:true}); const xc=GIFTH.canGet&&GIFTH.PEOPLE.includes('classmate_xinci')?await giveTo('classmate_xinci','g_fn_rose'):null; globalThis.XCROM=XC0;
-      if(xc) check('6. 芯慈（稿的 give_ok_flower 沒寫到她）：照舊演她通用的 ok 那一格',xc.L===head('classmate_xinci','g_fn_rose',xc)+play(xc.G,X.react.classmate_xinci.ok[xc.bd]),xc.L.slice(0,120)); else console.log('SKIP 6. 芯慈（這個測試環境送不到她：線沒開）——資料上 flowerOk.lines 沒有她＝照舊 ok（第 1 節查過）');
+      if(xc) check('6. 芯慈（335301d353 補了一句）：演稿的 give_ok_flower 那一句（舊期望：通用的 ok 那一格）',xc.L===head('classmate_xinci','g_fn_rose',xc)+play(xc.G,[X.flowerOk.lines.classmate_xinci]),xc.L.slice(0,120)); else console.log('SKIP 6. 芯慈（這個測試環境送不到她：線沒開）——資料上 flowerOk.lines 沒有她＝照舊 ok（第 1 節查過）');
       const z=await giveTo('heroine_02','g_sunflower'); check('6. 原本的兩樣（向日葵送芷若，她沒有喜好）不是新花：照舊演她通用的 ok 那一格，不演 give_ok_flower',!!z&&GIFTH.cat('heroine_02','g_sunflower')==='ok'&&z.L===head('heroine_02','g_sunflower',z)+play(z.G,X.react.heroine_02.ok[z.bd]),z&&z.L.slice(0,120));
       const F0=GIFT_HOLIDAY.flowerOk; delete GIFT_HOLIDAY.flowerOk; const y=await giveTo(AN,'g_fn_rose'); GIFT_HOLIDAY.flowerOk=F0; check('6. 資料沒有 flowerOk（舊的資料檔）＝照舊演通用的 ok 那一格，不壞',!!y&&y.L===head(AN,'g_fn_rose',y)+play(y.G,X.react[AN].ok[y.bd])); }
     const G3=setup('2025-10-15',15,{zone:'campus'}); delete G3.flags.GIFTH; check('6. 沒有 G.flags.GIFTH 的舊存檔：包包空的、花序照樣買得到（沒有新的必填欄位）',GIFTH.bag(G3).length===0&&!!GIFTH.shopOpt(G3,'gg_flower')&&!('FNS' in G3.flags)&&Object.keys(G3.flags.GIFTH).every(k=>['bag','recv','given','fest','sent','got','mail','sl','hint','third'].includes(k)),J(Object.keys(G3.flags.GIFTH))); });

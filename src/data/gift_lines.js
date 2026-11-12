@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@86619c1195、docs/story_planning/AA_728_gifts_friends.json@bb3bdad7df）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
+/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@335301d353、docs/story_planning/AA_728_gifts_friends.json@bb3bdad7df）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
    沛珊最愛的米漿第二句照 AA_766_peishan_leftover2.json@1e647bb05（X327；tools/story/ps766.py 疊的）。
    送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友（AA_728；稿寫 unused 的不匯入）*/
 'use strict';
 const GIFT_LINES={
- "src": "docs/story_planning/AA_710_gifts.json@86619c1195",
+ "src": "docs/story_planning/AA_710_gifts.json@335301d353",
  "people": {
   "heroine_01": {
    "drink": {
@@ -1177,6 +1177,11 @@ const GIFT_LINES={
      {
       "item": "紅茶",
       "n": "紅茶",
+      "ns": [
+       "紅茶",
+       "紅茶（中）",
+       "紅茶（大）"
+      ],
       "pool": [
        {
         "lines": [

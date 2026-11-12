@@ -1,4 +1,4 @@
-/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@1ce262f616、docs/story_planning/AA_733_gift_holiday_2.json@88cfb1c74f、docs/story_planning/AA_734_gift_holiday_3.json@88cfb1c74f；沛珊 5 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d；花序 docs/story_planning/AA_792_flower_notes.json@4021747069）。不要手改，改企劃 AA_732／AA_733／AA_734（花序：AA_792）再重新匯入。
+/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@1ce262f616、docs/story_planning/AA_733_gift_holiday_2.json@88cfb1c74f、docs/story_planning/AA_734_gift_holiday_3.json@88cfb1c74f；沛珊 5 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d；花序 docs/story_planning/AA_792_flower_notes.json@335301d353）。不要手改，改企劃 AA_732／AA_733／AA_734（花序：AA_792）再重新匯入。
    節日、生日送禮（GIFT-HOLIDAY-1110；播放 src/gifthol3d.js）：shops／items＝店家禮物、react＝八位收到的反應、give＝她們送祐廷的、stationery＝山嵐文具區學姊四場、flowerOk＝花序八樣新花送人時各人的那一句（AA_792 give_ok_flower；沒寫到的人照 ok）*/
 'use strict';
 const GIFT_HOLIDAY={
@@ -2717,9 +2717,9 @@ const GIFT_HOLIDAY={
   ],
   "rotNote": "sl_sis_rot 第 3 則只在第 3 階以上（叫名字以後）。"
  },
- "srcFlower": "docs/story_planning/AA_792_flower_notes.json@4021747069",
+ "srcFlower": "docs/story_planning/AA_792_flower_notes.json@335301d353",
  "flowerOk": {
-  "src": "docs/story_planning/AA_792_flower_notes.json@4021747069",
+  "src": "docs/story_planning/AA_792_flower_notes.json@335301d353",
   "items": [
    "g_fn_rose",
    "g_fn_carnation",
@@ -2737,7 +2737,8 @@ const GIFT_HOLIDAY={
    "heroine_04": "給我的？謝謝。我房間沒有花瓶，先用馬克杯。",
    "heroine_05": "謝謝。（她把花拿在手上，走路的時候換到離你遠的那一隻手，沒有被擠到。）",
    "classmate_peishan": "給我的喔！謝謝。我要抱著走一路，讓大家都看到。",
-   "kexin": "謝謝。我帶回宿舍，放在書桌上。"
+   "kexin": "謝謝。我帶回宿舍，放在書桌上。",
+   "classmate_xinci": "謝謝你。我拿去系學會辦公室放，那邊每天都有人在。"
   }
  }
 };

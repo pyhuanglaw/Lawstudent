@@ -68,19 +68,19 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
       /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 第 95～97 列把品項「紅茶拿鐵」改名「鮮奶茶」（語彤、學姊那幾格）——BASE 先照白名單上的 AA_772 換過再比（tests/l118_redo772_expect.js）。舊期望：直接和 BASE 比 */
       const a=lv(P(require('./l118_redo772_expect.js').fixFile(GF,ob)),'',{}), b=lv(P(read(GF)),'',{}), d0=Object.keys(b).filter(k=>a[k]!==b[k]);
       /* 2026-11-11（X324 G 區，AA 31c1c4e2c）：AA_710 源稿改了句首「……」18 處、可昕一句（白名單換 SHA 重匯）——那幾格照 AA_710 be775af69→31c1c4e2c 逐格的改動算對，/src 跟著換；讀不到那兩版＝照舊期望。舊期望：和 BASE 只差沛珊這一格 */
-      /* 2026-11-12（STALE-SOURCES-1112）：白名單再換版——AA_710 86619c1195（X350：新增八格 opinion，舊的格子一個字沒動）、AA_728 bb3bdad7df（使用者 11-08「送飲料只需要給可攻略的對象」：
-         阿哲、阿凱、Alison、柏翰、明軒標 unused 不匯入）。舊期望「格子一樣多」改成：多的只有那八格新的 opinion（品項＝稿 86619c1195 新增的八樣）、少的只有那五位朋友的格子、/friends/src 跟著換；
-         其他照舊（只差沛珊這一格＋31c1c4e2c 改的那幾格）。讀不到 86619c1195＝這一項照舊期望判（會 FAIL，不放寬）*/
-      const o710=show('be775af69','docs/story_planning/AA_710_gifts.json'), n710=show('86619c1195','docs/story_planning/AA_710_gifts.json')||show('31c1c4e2c','docs/story_planning/AA_710_gifts.json'), ch=new Set();
-      const m710=show('31c1c4e2c','docs/story_planning/AA_710_gifts.json'), n2=show('86619c1195','docs/story_planning/AA_710_gifts.json'), NEW8=[];
+      /* 2026-11-12（STALE-SOURCES-1112）：白名單再換版——AA_710 335301d353（X350：新增八格 opinion，舊的格子一個字沒動）、AA_728 bb3bdad7df（使用者 11-08「送飲料只需要給可攻略的對象」：
+         阿哲、阿凱、Alison、柏翰、明軒標 unused 不匯入）。舊期望「格子一樣多」改成：多的只有那八格新的 opinion（品項＝稿 335301d353 新增的八樣）、少的只有那五位朋友的格子、/friends/src 跟著換；
+         其他照舊（只差沛珊這一格＋31c1c4e2c 改的那幾格）。讀不到 335301d353＝這一項照舊期望判（會 FAIL，不放寬）*/
+      const o710=show('be775af69','docs/story_planning/AA_710_gifts.json'), n710=show('335301d353','docs/story_planning/AA_710_gifts.json')||show('31c1c4e2c','docs/story_planning/AA_710_gifts.json'), ch=new Set();
+      const m710=show('31c1c4e2c','docs/story_planning/AA_710_gifts.json'), n2=show('335301d353','docs/story_planning/AA_710_gifts.json'), NEW8=[];
       if(m710&&n2){ const x=JSON.parse(m710), y=JSON.parse(n2); for(const id in y){ if(id[0]==='_') continue; const xo=((x[id].drink||{}).opinion||[]).map(o=>o.item); for(const o of (y[id].drink||{}).opinion||[]) if(!xo.includes(o.item)) NEW8.push(id+'|'+o.item); } }
       const GONE=['zhe','kai','yu','classmate_bohan','classmate_mingxuan'], cur=P(read(GF));
       const addK=Object.keys(b).filter(k=>!(k in a)), delK=Object.keys(a).filter(k=>!(k in b));
       const addOk=NEW8.length===8&&addK.every(k=>{ const m=/^\/people\/([^/]+)\/drink\/opinion\/(\d+)\//.exec(k); if(!m) return false; const o=cur.people[m[1]].drink.opinion[+m[2]]; return !!o&&NEW8.includes(m[1]+'|'+o.item); })&&NEW8.every(t=>{ const [id,item]=t.split('|'); return (cur.people[id].drink.opinion||[]).filter(o=>o.item===item).length===1; });
       const delOk=delK.every(k=>GONE.some(g=>k.indexOf('/friends/people/'+g+'/')===0))&&GONE.every(g=>!cur.friends.people[g])&&!!cur.friends.people.classmate_xinci&&/AA_728_gifts_friends\.json@bb3bdad7df$/.test(b['/friends/src']||'');
-      if(o710&&n710&&/AA_710_gifts\.json@(31c1c4e2c|86619c1195)/.test(b['/src']||'')){ const x=lv(JSON.parse(o710),'',{}), y=lv(JSON.parse(n710),'',{}); for(const k in y) if(x[k]!==y[k]) ch.add(x[k]+'→'+y[k]); }
+      if(o710&&n710&&/AA_710_gifts\.json@(31c1c4e2c|335301d353)/.test(b['/src']||'')){ const x=lv(JSON.parse(o710),'',{}), y=lv(JSON.parse(n710),'',{}); for(const k in y) if(x[k]!==y[k]) ch.add(x[k]+'→'+y[k]); }
       const d=d0.filter(k=>(k in a)&&k!=='/friends/src').filter(k=>!(ch.size&&(k==='/src'||(k!=='/people/'+PS+'/drink/fav/lines/1'&&ch.has(a[k]+'→'+b[k])))));
-      check('4. 整份資料和 BASE 比：原本的格子只差沛珊這一格（別人的、芯慈的沒動；AA_710 31c1c4e2c 改的那幾格照源稿的改動）；多的＝AA_710 86619c1195 新增的八格 opinion、少的＝AA_728 bb3bdad7df 標 unused 的五位朋友',addOk&&delOk&&addK.length>0&&delK.length>0&&J(d)===J(['/people/'+PS+'/drink/fav/lines/1'])&&a[d[0]]==='……我家早餐店也有賣。我從小喝到大的。',J([d,NEW8.length,addOk,delOk,addK.filter(k=>!/\/opinion\//.test(k)).slice(0,3),delK.filter(k=>!GONE.some(g=>k.indexOf('/friends/people/'+g+'/')===0)).slice(0,3)])); } });
+      check('4. 整份資料和 BASE 比：原本的格子只差沛珊這一格（別人的、芯慈的沒動；AA_710 31c1c4e2c 改的那幾格照源稿的改動）；多的＝AA_710 335301d353 新增的八格 opinion、少的＝AA_728 bb3bdad7df 標 unused 的五位朋友',addOk&&delOk&&addK.length>0&&delK.length>0&&J(d)===J(['/people/'+PS+'/drink/fav/lines/1'])&&a[d[0]]==='……我家早餐店也有賣。我從小喝到大的。',J([d,NEW8.length,addOk,delOk,addK.filter(k=>!/\/opinion\//.test(k)).slice(0,3),delK.filter(k=>!GONE.some(g=>k.indexOf('/friends/people/'+g+'/')===0)).slice(0,3)])); } });
 
   await sec(5,async()=>{
     check('5. D4CQ、沛珊送禮的句子裡沒有早餐店、蛋餅、煎',!/早餐店|蛋餅|煎/.test(J(D4CQ))&&!/早餐店|蛋餅|煎台/.test(J(GIFT_LINES.people[PS])),J(D4CQ).match(/.{0,10}(早餐店|蛋餅|煎).{0,10}/g)); });

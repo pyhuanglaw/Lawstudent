@@ -103,7 +103,7 @@ const SHOPS=()=>[
       for(const t of yes) bound.delete(t); return {yes,ctx,no,bound}; };
     const strip=t=>String(t).replace(/\{name\}/g,'祐廷'), parts=t=>{ const s=strip(t), m=/^(（[^）]*）)(.+)$/.exec(s); return m?[m[1],m[2]]:[s]; };
     /* 2026-11-12 STALE-SOURCES-1112：舊期望「各店的品名一律演一般句子、不會是 opinion」（當時 gift_lines.js 沒有綁各店品名的格子）。
-       AA_710 86619c1195（X350）新增七格 opinion 綁各店菜單上的品名（以安檸檬綠茶、芷若珍珠奶茶、語彤冬瓜茶、子晴檸檬多多、學姊紅茶、沛珊葡萄柚多多、可昕百香果綠茶）：
+       AA_710 335301d353（X350）新增七格 opinion 綁各店菜單上的品名（以安檸檬綠茶、芷若珍珠奶茶、語彤冬瓜茶、子晴檸檬多多、學姊紅茶、沛珊葡萄柚多多、可昕百香果綠茶）：
        那個人收到那一樣＝opinion、演稿的那幾句（紅茶三間店都賣＝3 次，共 9 次）；其他人、其他品名照舊是一般句子 */
     const bad=[]; let n=0, kinds={}, nOp=0;
     for(const id of IDS){ const S_=linesOf(LN[id].drink), allow=new Set(), noSet=new Set(), bnd=new Set();
@@ -115,14 +115,14 @@ const SHOPS=()=>[
         n++; if(err){ bad.push(id+' '+key+' '+nm+' 丟例外 '+String(err).slice(0,80)); continue; }
         kinds[k]=(kinds[k]|0)+1; const L=said().slice(1);   /* 第一句＝「你把○○遞給她。」*/
         if(!c||c.cat!=='drink'||!same(Object.keys(c),['n','cat','day','shop'])) bad.push(id+' '+nm+' carry '+J(c));
-        const op=(LN[id].drink.opinion||[]).find(o=>!o.shop&&!o.ns&&!o.shopAny&&o.n===nm);
+        const op=(LN[id].drink.opinion||[]).find(o=>!o.shop&&!o.shopAny&&(o.n===nm&&!o.ns||(o.item==='紅茶'&&Array.isArray(o.ns)&&o.ns.includes(nm))));   /* 2026-11-12：學姊的紅茶那一格有 ns（任何一家的紅茶都算，AA_710 lawww_1112b）；可昕「青茶（有加糖）」那種原本的 ns 照舊不算在這裡 */
         if(op){ nOp++; if(k!=='opinion'||!same(L,[].concat(...op.pool[0].lines.map(parts)))) bad.push(id+' '+nm+' 她對這一樣有意見（opinion），要演那幾句 '+k+' '+J(L)); }
         else{ if(!(k==='yes'||GIFT.CTX.includes(k))) bad.push(id+' '+nm+' kind '+k);
           if(!L.length||L.some(t=>!allow.has(t))||L.some(t=>bnd.has(t))) bad.push(id+' '+nm+' 句子不在她飲料那一格的一般句子裡 '+J(L)); }
         if(said()[0]!=='你把'+c.n+'遞給'+id+'。') bad.push(id+' '+nm+' 第一句 '+said()[0]);
         if(G.carry.length) bad.push(id+' '+nm+' 送了還在身上');
         if(j===0){ H.picks=[nm]; const c2=await GIFT.buy(GM,key,P); H.said=[]; const k2=await GIFT.give(GM,{name:id,charId:id},id,c2); if(k2!=='no'||G.carry.length!==1||said().some(t=>!noSet.has(t))) bad.push(id+' 同一天第二杯 '+k2+' '+J(said())); } } }
-    check('E. 各店的品名 '+pool.length+' 樣 × 七位（'+n+' 次）：都收、不丟例外；她對那一樣有意見的 '+nOp+' 次（AA_710 86619c1195 的七格；紅茶三間店）＝那幾句，其他都是她飲料那一格的一般句子（不是 fav／別的 opinion／只配某一樣的組）；同一天第二杯＝no、東西留著',pool.length>=40&&!bad.length&&nOp===9&&kinds.opinion===9,bad.slice(0,6).join('；')+' '+J(kinds));
+    check('E. 各店的品名 '+pool.length+' 樣 × 七位（'+n+' 次）：都收、不丟例外；她對那一樣有意見的 '+nOp+' 次（AA_710 335301d353 的七格；紅茶三間店）＝那幾句，其他都是她飲料那一格的一般句子（不是 fav／別的 opinion／只配某一樣的組）；同一天第二杯＝no、東西留著',pool.length>=40&&!bad.length&&nOp===11&&kinds.opinion===11/* 2026-11-12 改期望（AA_710 lawww_1112b）：學姊的紅茶多認帝大紅茶的「紅茶（中）」「紅茶（大）」兩樣；舊期望 9 */,bad.slice(0,6).join('；')+' '+J(kinds));
     /* 朋友（芯慈；她的線打開才能送）*/
     const XC0=globalThis.XCROM; globalThis.XCROM={ON:true};
     { const G=fresh(); H.picks=['冬瓜茶']; const c=await GIFT.buy(GM,'喝不喝咖啡'); H.said=[]; const t0=GIFT.talkOpts(G,'classmate_xinci').map(o=>o.t); let k=null, err=null; try{ k=await GIFT.give(GM,{name:'芯慈',charId:'classmate_xinci'},'classmate_xinci',c); }catch(e){ err=e; }

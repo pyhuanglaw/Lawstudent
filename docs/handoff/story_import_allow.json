@@ -7058,9 +7058,9 @@
   },
   {
    "path": "docs/story_planning/AA_710_gifts.json",
-   "sha": "86619c1195",
+   "sha": "335301d353",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）；31c1c4e2c（AA D109 11-11 10:30「X324 G 區第三份：送早餐飲料改源稿」：句首「……」18 處、可昕「謝謝。我等一下吃，你不要一直看我。」、沛珊米漿第二句同步 AA_766）；86619c1195（AA-C D109 11-12 04:18「AA_710 飲料八格…定稿（BB_378 六點採納）」，X350 使用者「買飲料送給可攻略的對象到底是要怎麼觸發」：所有飲料店賣的飲料都可以買來送，新增八格 opinion——七人各一樣各店菜單上的飲料＋語彤「一盞茶屋的茶（任何一樣）」；STALE-SOURCES-1112）",
+   "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）；31c1c4e2c（AA D109 11-11 10:30「X324 G 區第三份：送早餐飲料改源稿」：句首「……」18 處、可昕「謝謝。我等一下吃，你不要一直看我。」、沛珊米漿第二句同步 AA_766）；86619c1195（AA-C D109 11-12 04:18「AA_710 飲料八格…定稿（BB_378 六點採納）」，X350 使用者「買飲料送給可攻略的對象到底是要怎麼觸發」：所有飲料店賣的飲料都可以買來送，新增八格 opinion——七人各一樣各店菜單上的飲料＋語彤「一盞茶屋的茶（任何一樣）」；STALE-SOURCES-1112）；335301d353：AA-C 11-12 11:08 三件定了（_meta.lawww_1112b：一盞外帶冷泡茶、學姊紅茶任何一家都算、芯慈收花補一句）",
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
    "note": "第二版（BB_304 第 7 節）：七位送飲料、早餐：yes（need 1／4、dating 交往中；pool 兩三組輪流）、no（一天第二次，輪流）、fav（七位都有，AA_410）、opinion（她有意見的那一樣）、ctx（again／exam／night／winterCold／summerHot）；tools/story/import_gifts.py → src/data/gift_lines.js",
@@ -7084,6 +7084,10 @@
     {
      "sha": "31c1c4e2c",
      "approvedBy": "（11-12 04:18 以前；86619c1195 取代：X350 新增八格 opinion，品名綁各店菜單上的飲料、一盞整間店）"
+    },
+    {
+     "sha": "86619c1195",
+     "note": "被 335301d353 取代（AA-C 11-12 11:08 三件定了（_meta.lawww_1112b：一盞外帶冷泡茶、學姊紅茶任何一家都算、芯慈收花補一句））"
     }
    ]
   },
@@ -8983,9 +8987,9 @@
   },
   {
    "path": "docs/story_planning/AA_792_flower_notes.json",
-   "sha": "4021747069",
+   "sha": "335301d353",
    "status": "approved",
-   "approvedBy": "AA（FLOWER-NOTES-1110）；4021747069（AA D109 11-12 04:07「AA_792 回 LAWWW 六問（中央展示台、按鈕字、還沒開門、花專用的收禮句）」，_meta.lawww_1112；STALE-SOURCES-1112）",
+   "approvedBy": "AA（FLOWER-NOTES-1110）；4021747069（AA D109 11-12 04:07「AA_792 回 LAWWW 六問（中央展示台、按鈕字、還沒開門、花專用的收禮句）」，_meta.lawww_1112；STALE-SOURCES-1112）；335301d353：AA-C 11-12 11:08 三件定了（_meta.lawww_1112b：一盞外帶冷泡茶、學姊紅茶任何一家都算、芯慈收花補一句）",
    "task": "FLOWER-NOTES-1110",
    "kind": "json",
    "note": "X325 花序 Flower Notes：gg_flower 改名、十樣商品（原本兩樣只換 line、新八樣 love／no 空）、花藝師的句子（greet、buy、closed、hours；4021747069 起多 closed_line、not_open、typhoon）、店裡 14 區的「看」（多 plinth_center）＋按鈕字 look_buttons、八樣新花的收禮句 give_ok_flower、replace 四列——tools/gift/import_gift_holiday.py 的 overlay_792 → src/data/gift_holiday.js、src/data/flower_notes_text.js",
@@ -8993,6 +8997,10 @@
     {
      "sha": "8475a3b85",
      "note": "被 4021747069 取代（AA 11-12 04:07 回 LAWWW-C 六問：補 looks.plinth_center、look_buttons 14 個、staff.closed_line／not_open／typhoon、give_ok_flower 七位）"
+    },
+    {
+     "sha": "4021747069",
+     "note": "被 335301d353 取代（AA-C 11-12 11:08 三件定了（_meta.lawww_1112b：一盞外帶冷泡茶、學姊紅茶任何一家都算、芯慈收花補一句））"
     }
    ]
   },

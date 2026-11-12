@@ -44,6 +44,8 @@ SHOP_ANY = re.compile(r'^(.+)的茶（任何一樣）$')   # 「<店名>的茶�
 PAREN = re.compile(r'^(.*)（([^（）]+)）$')
 # 遊戲裡有這間店、但現在不能「買一份帶走送人」的（稿的店名 → 為什麼）。這幾間的 shopAny 照匯（那一格現在送不到，印出來提醒）；
 #   哪一天 gift3d.js 的 S.SHOPS 加了這間（記在 G.carry 的 name 要用稿的店名），這裡那一列就可以拿掉。
+# AA_710 _meta.lawww_1112b「學姊的紅茶」：任何一家的紅茶都算（帝大紅茶的「紅茶（中）」「紅茶（大）」也算）——品名有「紅茶」、不是奶茶／鮮奶茶／水果紅茶
+BROAD = {('heroine_05', '紅茶'): {'has': '紅茶', 'not': ('奶', '檸檬', '百香', '葡萄柚', '柳橙', '蘋果', '水蜜桃', '芒果', '莓', '果')}}
 SHOP_PENDING = {
     '一盞茶屋': '點餐 key「溫州街・一盞」（src/wzshops3d.js S.TEA）：內用的一壺茶（260 元起），沒有外帶的菜單；盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md 第 2 節列為不放，AA_710 _meta（X350）寫「一盞…也開」——等 LAWWW、AA 定外帶賣什麼',
 }
@@ -164,6 +166,12 @@ def item(v, cat, items, where, sugar, menus=None, miss=None, pend=None):
         if at:
             if cat != 'drink':
                 raise SystemExit(f'{where}.item「{v}」：{"、".join(at)}菜單上的飲料，不能寫在 {cat}')
+            b = BROAD.get((where.split('.')[0], v))
+            if b:   # 這一格不只認品名一字不差的（AA_710 _meta.lawww_1112b）
+                ns = sorted({n for names in menus.values() for n in names if b['has'] in n and not any(x in n for x in b['not'])})
+                if v not in ns:
+                    raise SystemExit(f'{where}.item「{v}」：BROAD 的規則把它自己排掉了（{ns}）')
+                return {'item': v, 'n': v, 'ns': ns}
             return {'item': v, 'n': v}
         msg = f'{where}.item「{v}」：遊戲沒有這個品項（src/gift3d.js S.ITEMS：{"、".join(items)}；可以買來送人的 {len(menus)} 間店菜單上也沒有）'
         if miss is None:

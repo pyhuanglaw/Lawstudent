@@ -1,9 +1,9 @@
-/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_792_flower_notes.json@4021747069）。不要手改，改企劃 AA_792 再重新匯入。
+/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_792_flower_notes.json@335301d353）。不要手改，改企劃 AA_792 再重新匯入。
    花序 Flower Notes（FLOWER-NOTES-1110，USER_WANTS X325；播放 src/flower_notes_sys3d.js）：staff＝花藝師的句子（greet 進買花清單、buy 買了那一樣、closed 打烊以後門口、notOpen 開門以前門口、closeLine 打烊人還在店裡＝AA_700、hours 營業時間、typhoonOff 颱風天休息）、looks＝店裡每一區的「看」（key＝配置的 kind；plinth_center＝配置的 display）、lookButtons＝每一個「看」的按鈕字。
    商品（十樣）在 src/data/gift_holiday.js 的 shops.gg_flower、items。 */
 'use strict';
 const FLOWER_NOTES_TEXT={
- "src": "docs/story_planning/AA_792_flower_notes.json@4021747069",
+ "src": "docs/story_planning/AA_792_flower_notes.json@335301d353",
  "shop": "gg_flower",
  "staff": {
   "who": "花藝師",
