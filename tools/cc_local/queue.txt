@@ -1908,7 +1908,7 @@ ONEOFF_NOODLE_RENAME | be1e5d725634580ee25313a7bbd14f941687bfde | py | tools/cc_
 # BB-C 08:28 SAVE-LZ-1104（BB_384）存檔 B：random_play_sim 從 A（day54_1110）讀檔接著玩到 2029-05-31（大四下），結束寫自動存檔 save_b.json（CC 下載後做成 fixture，再排瀏覽器量測）
 SAVE_LZ_growB | ed70b6d3589dc2731171347afa6d623f2b0339ca | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 120 | XARGS=--seed 1 --root . --start-save tests/fixtures/user_save_day54_1110.json --to 2029-05-31 --max-steps 40000000 --save-out {out}/save_b.json
 # BB-C 09:12 P0 BUG-DAY12-FASTPC-1102：flow_main_day12 在電腦用最新 HEAD 再跑一次（不用 turbo；今天 be1e、11-11 fe5fa4a／ecc3e12a 電腦都 ALL PASS 過）
-DAY12_main_5685 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | game | tests/flow_main_day12.py | index.html | 20 | XARGS={url} {out}
+#取消（BB-C 09:14 判 FIXED，電腦三次 ALL PASS）DAY12_main_5685 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | game | tests/flow_main_day12.py | index.html | 20 | XARGS={url} {out}
 # BB-C 08:56 SOCIAL-STUCK-1104（P1，使用者 11-04「約念書坐下」；掛八天）：STUDY_fix_a～c 從沒在電腦跑過 → 最新 HEAD、每支 ≤20 分鐘（CASES 只留以安＝heroine_01）；探針對不上現在的遊戲＝先記結果、修了再跑（排在 SSB 後、SAVE-LZ 前）
 STUDY_fix_a | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 STUDY_fix_b | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
