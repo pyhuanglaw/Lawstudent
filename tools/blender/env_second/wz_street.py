@@ -184,7 +184,7 @@ if SET == 'gongguan':
         'G09': dict(dep=3.0, wallc='#d9d6cc', shut=True),
         # GG-G10-LANE-MOUTH-1111（使用者 11-11 選擇題「改成真的巷口」）：G10 的一樓是往汀州路那條巷子的巷口（遊戲的「往汀州路（巷子）」互動點在這一格前面）；G10 之後不放店
         'G10': dict(dep=3.0, wallc='#d4d0c4', lane=True, lane_w=4.6, lane_d=13.0),
-        'G11': dict(dep=3.0, wallc='#f6efe1', wall_flat=True, frame='#c9a86a', street='ggfn_sign', street_fit=9.4,   # 花序 Flower Notes：米白洞石色、香檳金細框；兩側大櫥窗、中間雙開玻璃門；招牌帶在騎樓外面；二樓整排玻璃（xs_up）
+        'G11': dict(dep=3.0, real=True, back=14.1, wallc='#f6efe1', wall_flat=True, frame='#c9a86a', street='ggfn_sign', street_fit=9.4,   # 花序 Flower Notes：米白洞石色、香檳金細框；兩側大櫥窗、中間雙開玻璃門；招牌帶在騎樓外面；二樓整排玻璃（xs_up）
                     cards=[('ggfn_winl', -4.3, -1.4, 0.25, 3.1, 0.8, [-2.85]), ('ggfn_door', -1.0, 1.0, 0.0, 2.95, 0.8, [0.0]), ('ggfn_winr', 1.4, 4.3, 0.25, 3.1, 0.8, [2.85])],
                     props=[('fn_tree', -1.2, 0.3), ('fn_tree', 1.2, 0.3), ('fn_box', -4.2, -1.6, 0.03, 0.34), ('fn_box', 1.6, 4.2, 0.03, 0.34)]),   # 第 2 版（BB 11-11 01:50）：牆改平塗的米白石材（wall_flat，比兩邊亮）；門口兩棵白方盆的樹、兩個櫥窗下各一個長花箱（原本只有兩盆小盆栽）；招牌重畫（gg_shops6_tex.fn_sign）
     })
