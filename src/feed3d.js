@@ -153,7 +153,8 @@ const FEED=(function(){
   /* AA_723（企劃線 d8570a14b peishan.posts.rule；AA723-CONFESS-PS-1107）：沛珊沒交往的線（STORY.psNewLine）2026-12-18～2028-12-28 她的動態一則都不發（AA_506～509 §6-3 的 ps1d～ps3g）、
      她先傳的動態私訊也不傳；記成 x:psSilent＝過了就過了，2028-12-29 重聚以後從當時那一則開始照原本的（不補貼）。沉默期回她以前的動態（留言、私訊）她不回（STORY.psSilent）。交往中照原本 */
   S.psOff=(G,day)=>{ if(typeof STORY==='undefined'||!STORY.psNewLine||!STORY.dayOfKey||!STORY.PS_SIL||!STORY.psNewLine(G)) return false; const a=STORY.dayOfKey(STORY.PS_SIL[0]), b=STORY.dayOfKey(STORY.PS_SIL[1]); return a!=null&&b!=null&&day>=a&&day<b; };
-  S.blocked=function(G,p,w){ if(!hasContact(G,p.who)) return 'contact'; if(p.who==='kexin'&&S.kxCool(G)) return 'cool';
+  S.kxMate=G=>typeof STORY!=='undefined'&&!!STORY.kxMate&&STORY.kxMate(G);   /* CANON-1112（AA_856 第 4 節）：同班同學、沒交往過——她的動態牆貼文和私訊都是以女朋友為前提寫的，AA 換成同學版以前不出 */
+  S.blocked=function(G,p,w){ if(!hasContact(G,p.who)) return 'contact'; if(p.who==='kexin'&&S.kxMate(G)) return 'contact'; if(p.who==='kexin'&&S.kxCool(G)) return 'cool';
     if(p.who==='classmate_peishan'&&S.psOff(G,w.day)) return 'psSilent';
     if(!S.stageOk(G,p.who,p.st)&&!(p.stIf&&S.WENT[p.stIf]&&S.WENT[p.stIf](G))) return 'stage';   /* stIf：那個 WENT 成立就不看階段（語彤 8/22「陪她去的玩家也看得到」）*/
     if(p.if&&!(S.COND[p.if]&&S.COND[p.if](G))) return 'if';
@@ -249,7 +250,7 @@ const FEED=(function(){
   S.dtPost=function(G,id){ if(!G&&typeof GAME!=='undefined') G=GAME.G; const D=S.DT(), R=G&&G.flags&&G.flags.FEED, e=R&&R.dt&&R.dt[id], W=e&&D&&D.who&&D.who[e.who]; if(!W) return null; const g=e.g===2?1:0;
     return {id,who:e.who,st:'交往中',dt:true,pic:D.pic[e.loc]||'',say:e.s<0?W.again:(W.say[e.s]||''),cm:W.cm[g],dm:W.dm[g]}; };
   /* ---------- 私訊：這一則傳不傳 ---------- */
-  S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.who==='kexin'&&S.kxCool(G)) return 'cool';
+  S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.who==='kexin'&&S.kxMate(G)) return 'contact'; if(q.who==='kexin'&&S.kxCool(G)) return 'cool';
     if(q.st&&!S.stageOk(G,q.who,q.st)) return 'stage'; if(q.need&&!F[q.need]) return 'need'; if(q.after&&R.dm[q.after]!=='sent') return 'after';
     if(q.if&&!(S.COND[q.if]&&S.COND[q.if](G))) return 'if';   /* 那一則要的條件（語彤 8/21：8/22 人在臺灣）*/
     if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,q.who)) return 'ex';   /* AA_602 第 8 節 (a)＝AA_600 S1：以安（an_mom、an_list、an_mom2、an_done）、學姊（sis_ch3、sis_cap、sis_chishang、sis_rest）她先傳的私訊，分手以後一律不送（不走 coolSkip 每兩則送一則）*/

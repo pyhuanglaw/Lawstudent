@@ -77,7 +77,7 @@ GM.money=function(n){ G.money+=n; };
     fresh(1,20,'dorm',{}); G.stage='law'; run(20,20.9); const o1=PHONE.inGroup(G,'law_class'); run(21,21.2);
     check('14. 舊局：照舊第 1 天 21:00 加進班群',!o1&&PHONE.inGroup(G,'law_class')); }
   // CANON-NO-ECON-1112：經濟系那一年拿掉（第 15 項 經濟系 8/29 早上轉進法律系（toLaw、toLawDue））
-    check('15. 新局的開頭摘要最後一句：「八月底，你回到同一個校園，換了一個系。」',STORY.LAW_START_RECAP_W1.slice(-1)[0]==='八月底，你回到同一個校園，換了一個系。'&&STORY.LAW_START_RECAP_W1.length===STORY.LAW_START_RECAP.length);
+    check('15. 新局的開頭摘要：兩版一樣長、只有最後一句不同（CANON-1112：舊序章拿掉／可昕開局不認識：字照 AA_858 換了，逐字對稿在 tests/canon_opening_1112_unit.js；原本期望最後一句是舊序章那一版）',STORY.LAW_START_RECAP_W1.length===STORY.LAW_START_RECAP.length&&STORY.LAW_START_RECAP_W1.slice(0,-1).join('|')===STORY.LAW_START_RECAP.slice(0,-1).join('|')&&STORY.LAW_START_RECAP_W1.slice(-1)[0]!==STORY.LAW_START_RECAP.slice(-1)[0]);
     // CANON-NO-ECON-1112：經濟系那一年拿掉（第 15 項 ?start0 照舊 8/31 才轉）
   { const play=async(day,hour,flags)=>{ fresh(day,hour,'dorm',flags); G.stage='law'; cards=[]; GM.sceneBegin=()=>{}; GM.letterbox=()=>{}; try{ await STORY.onEnter('dorm',GM); }catch(e){ said.push({t:'例外 '+e.message}); } return {lines:said.map(x=>x.t),cards:cards.slice()}; };
     const w1=await play(D('2025-09-03'),21,{LAW_START_DAY:-18,MAIN_D1:-13});

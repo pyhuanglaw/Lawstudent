@@ -44,7 +44,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('1 例外. 沛珊 6/20、7/5 還在臺北（C02 營隊），7/6 回台中',b.kind!=='home'&&c.kind!=='home'&&d.kind==='home'&&d.home==='台中',J([b.kind,c.kind,d.kind]));
     check('1 例外. 只限那個暑假：寒假 2025-12-22 沛珊照舊在台中；可昕 6/20 在高雄',pr('classmate_peishan','2025-12-22').kind==='home'&&pr('kexin','2026-06-20').kind==='home'); }
   check('1. 學期中 2026-03-10：都在臺北',pr('kexin','2026-03-10').here===true&&pr('classmate_peishan','2026-03-10').here===true);
-  check('1. 經濟系那年的寒假（2025-01-20）不算（照 AA_272）',pr('kexin','2025-01-20','econ').here===true&&STORY.homeAway({day:DK('2025-01-20')})===false);
+  check('1. 大一上開學以前（2025-01-20）不算寒假回老家（CANON-1112：舊序章拿掉／可昕開局不認識——她大一上才到學校，那一天是「還沒到學校」不是「在高雄老家」；原本期望那一天她在臺北）',pr('kexin','2025-01-20').kind!=='home'&&STORY.homeAway({day:DK('2025-01-20')})===false);
   check('1. 其他人不受影響：以安 2026-07-10 照舊',pr('heroine_01','2026-07-10').kind!=='home');
   // 2. 作息：放假在臺北不會出現
   { const g=law('2026-07-10',15); const e=STORY.schedEnt?STORY.schedEnt(CHARACTERS.kexin,g):null; check('2. 暑假的作息：可昕不在臺北的任何區域（schedEnt 沒有 zone）',!e||!e.zone,J(e)); }

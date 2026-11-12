@@ -36,7 +36,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const e=STORY.schedEnt(CHARACTERS.heroine_01,G);
   check('2. 9/22 09:30 以安在 201 上憲法（作息表寫什麼都一樣）',!!e&&e.act==='class'&&e.zone==='classroom',JSON.stringify(e));
   for(const id of ['zhe','yu','classmate_xinci','classmate_bohan']){ const x=STORY.schedEnt(CHARACTERS[id],G); check('2. '+id+' 也在 201',!!x&&x.act==='class'&&x.zone==='classroom',JSON.stringify(x)); }
-  check('3. 學姊（大三）、可昕（政大）、路人不算',!STORY.classmateClass(CHARACTERS.heroine_05,G)&&!STORY.classmateClass(CHARACTERS.kexin,G)&&!STORY.classmateClass(CHARACTERS.pool_1,G));
+  check('3. 學姊（大三）、路人不算；可昕現在是法律系同屆：認識了（KX_MET）＝算、還不認識＝不算（CANON-1112：舊序章拿掉／可昕開局不認識，原本期望她不算；認識以前不在場景裡是 STORY.schedEnt 擋的，見 tests/canon_opening_1112_unit.js）',!STORY.classmateClass(CHARACTERS.heroine_05,G)&&!STORY.classmateClass(CHARACTERS.kexin,G)&&!!STORY.classmateClass(CHARACTERS.kexin,Object.assign({},G,{flags:Object.assign({},G.flags,{KX_MET:true})}))&&!STORY.classmateClass(CHARACTERS.pool_1,G));
   G.hour=15.8; check('4. 15:48 體育（不是必修）：不照課表',!STORY.classmateClass(CHARACTERS.heroine_01,G));
   G.hour=12.5; check('4. 12:30 下課後：不照課表',!STORY.classmateClass(CHARACTERS.heroine_01,G));
   G.day=MON-1; G.weekday=0; G.hour=9.5; check('4. 週日：沒有課',!STORY.classmateClass(CHARACTERS.heroine_01,G));
