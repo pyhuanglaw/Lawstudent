@@ -24,6 +24,8 @@
   第 1 點：學姊來越好吃不走晚餐名單的亂數——yueMeal.sis＝{who（要有自己的那一句）、met＝認識她看的旗標、inTaiwan、slot、termMax＝每學期幾次、datingMax＝交往中一學期幾次、gapWeeks＝第二次隔幾週}（流程 src/shoplife3d.js S.yueDatePlan）；
   第 2 點：家教回「不了」以後下一個學期開學起，那一則家教的對話底下多一個回覆選項——reapply.tutorBack＝{opt＝選項的字、re＝對方回的那一句}；
   第 3 點：那一則沒回、過期也算問過，一樣用第 2 點的選項——reapply.tutorBack.expired＝true（流程 src/jobs3d.js S.tutorBack／tutorReAsked）。第 4 點是「可以」，不進資料。
+第 10 節「第六輪合併後六題」（33e9522155）：六點都是對流程的回答，不進資料（資料和 3e9cd7d9d4 一樣，只有 src 那一版不同）——
+  第 1 點學姊那一句每學期說一次（src/jobs3d.js S.yueMealRun／yueHiT）、第 5 點家教那個選項一律掛明軒最新一則（S.tutorBackSpot）；第 2、3、4、6 點照原本。逐句對稿 tests/shop_jobs_round7_1112_unit.js。
 規則的字（第 3 節「給 LAWWW」、每一節的說明）是給實作看的，不進遊戲（流程在 src/jobs3d.js）。台詞一字不改；有名字說的話拿掉外面那一對「」（對話框已經寫了是誰說的）；
 選項、旁白照稿。白名單照 import_guard；讀稿照 read_fix。
 用法：python3 tools/story/import_shop_jobs_aa828.py [--ref <commit>] [--check]"""

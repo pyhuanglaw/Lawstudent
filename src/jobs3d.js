@@ -52,7 +52,10 @@ const JOBS=(function(){
      第 9 節（企劃線 3e9cd7d9d4；2026-11-12 第六輪）：①學姊來越好吃不走晚餐名單的亂數——每學期第一次符合的那一天、交往中兩次隔三週（規則在資料 yueMeal.sis；src/shoplife3d.js S.yueDatePlan；這裡 S.yueMetOnly：認識她就算，不用到朋友）
        ②家教回「不了」以後，下一個學期開學起明軒那一串多一個回覆選項（資料 reapply.tutorBack；S.tutorBack）③再問的那一則沒回過期也算問過（S.tutorReAsked；開學那一則過期 S.tutorLimbo）④帶不進店裡不演不記：照舊。
        存檔：沒有新旗標（選項掛在那一則訊息的 ask；放假時回的先留在 TUTOR_RE_ANS）。測試 tests/shop_jobs_round6_1112_unit.js
-       存檔：沒有新欄位（照舊 G.jobs.<k>.re、skill、G.jobs.yue.mealHi）；舊規則下已經再應徵過的＝熟練度已經從 0 算，沒有東西可以補，照現在的數字走。 */
+       存檔：沒有新欄位（照舊 G.jobs.<k>.re、skill、G.jobs.yue.mealHi）；舊規則下已經再應徵過的＝熟練度已經從 0 算，沒有東西可以補，照現在的數字走。
+     第 10 節（企劃線 33e9522155；2026-11-12 第七輪；AA 回第六輪六題，改兩點、其餘四點照原本）：①學姊那一組每學期說一次（S.yueMealRun／S.yueHiT；存檔多 G.jobs.yue.mealHiT，沒有＝{}）
+       ⑤家教那個選項一律掛在明軒那一串最新一則底下、之後跟著移（S.tutorBackSpot／S.tutorBack；ask.was）。②③④⑥（次數用完不照名單亂數來、在臺灣用當天判斷、開學那一則過期也給選項、「先停」不算回「不了」）不動。
+       測試 tests/shop_jobs_round7_1112_unit.js */
   /* ---------- 新店打工第二批（AA_829，企劃線 ea5e8f5ae；SHOP-JOBS-1112）：花序 Flower Notes（flower，區域 flower_notes）、越好吃小館（yue，區域 tz_yuehaochi）、大口漢堡（dakou，區域 xs_dakou）----------
      字在 src/data/shop_jobs_aa829.js（tools/story/import_shop_jobs_aa829.py 產生）；整套照第一批（S.apply3、S.runShiftX）。多的：
      - 告示那個按鈕的字照稿（X.look：「看小卡」「看告示」「看立牌」）。位置：花序＝二樓示範長桌西端旁邊；越好吃＝櫃檯西端旁邊；大口漢堡＝一樓櫃檯西端旁邊（都不動模型）。
@@ -203,7 +206,7 @@ const JOBS=(function(){
   /* 應徵（或出國回來重選班表）：選班表 → 撞時段那一句 → 記下來 */
   S.apply=async function(GM,k,o){ o=o||{}; const G=GM.G, J=S.rec(G); const days=await S.pickDays(GM,k); if(!days) return false;
     let j=J[k]; if(!j||j.gone){ const old=j; j=J[k]={since:G.day,from:now(G),day:[],shifts:0,skill:0,missedRun:0,quit:null,gone:null,missPend:false,missN:0,worked:[],chk:G.day-1,wk:{},brk:{},ot:{}};
-      if(old){ j.re=(old.re|0)+1; j.shiftsPrev=(old.shiftsPrev|0)+(old.shifts|0);   /* 以前做過幾班（員工票：AA_828 第 7 節第 5 點）*/ for(const f of ['aliCo','endN','mealHi'].concat(S.keepSkill()?S.KEEP:[])) if(old[f]!=null) j[f]=old[f]; } }   /* 辭職以後再應徵（AA_828 第 4 節第 5 點）：重新算班數；只說一次的那幾樣（Alison 那一句、同學來吃飯那一句）、最後一句輪到哪裡照舊記著。
+      if(old){ j.re=(old.re|0)+1; j.shiftsPrev=(old.shiftsPrev|0)+(old.shifts|0);   /* 以前做過幾班（員工票：AA_828 第 7 節第 5 點）*/ for(const f of ['aliCo','endN','mealHi','mealHiT'].concat(S.keepSkill()?S.KEEP:[])) if(old[f]!=null) j[f]=old[f]; } }   /* 辭職以後再應徵（AA_828 第 4 節第 5 點）：重新算班數；只說一次的那幾樣（Alison 那一句、同學來吃飯那一句）、最後一句輪到哪裡照舊記著。
         第 5 節第 5 點：熟練度保留（「做過的事不會忘」）——skill 和班上演過的小事件、輪到哪一句一起帶過來（S.KEEP）；舊規則下已經再應徵過的存檔＝skill 已經重算，沒有可以補的 */
     fix(j); j.day=days; j.since=o.since!=null?o.since:G.day; j.from=o.since!=null?T(o.since,0):now(G);   /* o.since：「下週開始」（補習班、事務所的面試）*/ j.back=false; j.away=false; j.chk=Math.max(j.chk|0,G.day-1); j.missedRun=0; j.missPend=false;
     const c=S.clashLine(G,k,days); if(c) await say(GM,c[0],c[1]);
@@ -417,10 +420,20 @@ const JOBS=(function(){
     const here=()=>E.npcs.some(n=>n&&n.charId===id)||!!(GM.npc&&GM.npc[id]); if(here()) return true;
     let ent=null; try{ ent=STORY.schedEnt(CHARACTERS[id],Object.assign({},G,{hour:at.hour})); }catch(e){ ent=null; } if(!ent||ent.zone!==G.zone) return false;
     try{ SHOPLIFE.bringIn(GM,id,ent); }catch(e){ console.warn('JOBS.mealBring',e); } return here(); };
-  S.yueMealRun=async function(GM,j){ const G=GM.G, Y=S.yueMeal(); if(!Y) return false; const M=Array.isArray(j.mealHi)?j.mealHi:(j.mealHi=[]); let any=false;
+  /* AA_828 第 10 節第 1 點（企劃線 33e9522155；2026-11-12 第七輪）：「學姊『你在這裡。幾點下班？』每學期說一次（每學期她第一次來那天）；同學期第二次來（交往中）只有進店坐下＋旁白。」
+     只改照自己的規則來的人（S.yueMetOnly：資料 yueMeal.sis 那一條——學姊）：那一組說過沒有照學期記（G.jobs.yue.mealHiT＝{人物: 上一次說的那個學期}）；這個學期還沒說過＝整組演一次，說過＝只有最後那一句旁白。
+     其他人（阿哲、可昕、共用句的同學）照舊每人一生一次（mealHi）。原本（第六輪）：學姊也是一生一次。
+     存檔：mealHiT 舊存檔沒有＝{}。舊存檔 mealHi 裡已經有她（第六輪存的，不知道是哪一個學期說的）＝當作讀進來那時候的學期說過（S.yueHiT；寒暑假＝前一個學期）——S.phone 每次都看，所以讀檔以後第一次跑手機規則就定下來，不會拖到她下一次來才算。
+     再應徵：mealHiT 和 mealHi 一樣帶到新的一份（S.apply）。*/
+  S.termNear=function(G,d){ if(!hasCal()) return null; let t=S.termAt(G,d); for(let x=d-1;!t&&x>d-200;x--) t=S.termAt(G,x); return t?t.id:null; };   /* 這一天的學期；寒暑假＝前一個學期（同 S.year）*/
+  S.yueHiT=function(G,j){ if(!j||typeof j!=='object') return {}; if(!j.mealHiT||typeof j.mealHiT!=='object'||Array.isArray(j.mealHiT)) j.mealHiT={}; const MT=j.mealHiT;
+    if(Array.isArray(j.mealHi)) for(const id of j.mealHi){ if(MT[id]!=null||!S.yueMetOnly(id)) continue; const t=S.termNear(G,G.day); if(t) MT[id]=t; }   /* 舊存檔：說過、沒記學期 */
+    return MT; };
+  S.yueMealRun=async function(GM,j){ const G=GM.G, Y=S.yueMeal(); if(!Y) return false; const M=Array.isArray(j.mealHi)?j.mealHi:(j.mealHi=[]), MT=S.yueHiT(G,j), T=S.termNear(G,G.day); let any=false;
     for(const id of S.yueMealIds()){ const slot=S.mealHere(G,id); if(!slot) continue; const at=S.mealAt(G,id)||{slot,hour:G.hour}; const c=typeof CHARACTERS!=='undefined'?CHARACTERS[id]:null, done=Y.done[c&&c.gender==='f'?'f':'m'];
       if(!S.mealBring(GM,id,at)) continue;   /* 人帶不進店裡＝不演只有台詞的那一段 */
-      if(!M.includes(id)){ await say(GM,null,Y.narr); await say(GM,id,S.yueOwn(c)||Y.ask); await say(GM,'player',Y.me); await say(GM,null,done); M.push(id); }
+      const perTerm=!!T&&S.yueMetOnly(id), first=perTerm?MT[id]!==T:!M.includes(id);   /* 學姊：這個學期還沒說過；其他人：一生一次 */
+      if(first){ await say(GM,null,Y.narr); await say(GM,id,S.yueOwn(c)||Y.ask); await say(GM,'player',Y.me); await say(GM,null,done); if(!M.includes(id)) M.push(id); if(perTerm) MT[id]=T; }
       else await say(GM,null,done);
       { const F=G.flags||(G.flags={}), r=F.SHOP_MEAL_HI&&typeof F.SHOP_MEAL_HI==='object'?F.SHOP_MEAL_HI:(F.SHOP_MEAL_HI={}), v=r[id]; r[id]=[G.day,slot,Array.isArray(v)?(v[2]|0):0]; }
       if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.yueDateMark){ try{ SHOPLIFE.yueDateMark(G,id); }catch(e){} }   /* 可昕（交往中才來，一學期最多兩次；AA_828 第 7 節第 2 點）、學姊（每學期一次、交往中兩次；第 9 節第 1 點）：這一次算來過 */
@@ -553,6 +566,7 @@ const JOBS=(function(){
 
   // ---------- 寒暑假、三週沒去、出國回來（手機）----------
   S.phone=function(G){ if(typeof PHONE==='undefined'||!hasCal()||!law(G)) return; const F=G.flags; S.track(G); S.tutorPhone(G); S.ap2Phone(G);
+    { const jy=S.job(G,'yue'); if(jy&&Array.isArray(jy.mealHi)) S.yueHiT(G,jy); }   /* 舊存檔：學姊那一組說過、沒記學期的補上（AA_828 第 10 節第 1 點）*/
     for(const k of S.KEYS){ const j=S.job(G,k); if(!j||j.gone) continue; fix(j); const s=shop(k), id=s.bossId, th='p:'+id;
       /* 私訊的回覆（PHONE.answer 只能設旗標）：搬進 G.jobs */
       { const v=F['WZJOB_BRK_'+k]; if(typeof v==='string'){ const [bk,a]=v.split(':'); if(bk&&a) j.brk[bk]=a; F['WZJOB_BRK_'+k]=null; } }
@@ -706,8 +720,8 @@ const JOBS=(function(){
        S.tutorReAsked(G,tid)：這一次停了以後，前面的學期已經再問過一次（tutor_re_<學期> 傳過、那個學期過了還停著＝沒回）＝算問過，S.tutorReAsk 不再問（原本：下一個學期又問）。
        S.tutorLimbo(G,tid)：開學那一則「這學期還來嗎」沒回、過期（TUTOR_TERM_<學期> 一直是空的；原本＝之後不排課、也不再問，沒有路回去）——同第 3 點，一樣給回覆選項。
        S.tutorBackDue(G)：現在是可以上家教的學期（大一下～大二下、會考以前、答應的那個學期以後），而且 回過「不了」（那一則在這個學期開學以前）／再問的那一則過期／開學那一則過期。
-       S.tutorBack(G)：符合的時候，把選項掛在明軒那一串「那一則家教的對話」底下——回「不了」的：他回的那一句（stopReply）；沒回過期的：問的那一則（過期的選項換成這一個）；
-         那幾則已經被刪掉（訊息超過 200 則刪最舊的）＝掛在他那一串最新的一則底下。掛著的那一則之後被刪＝下一次再掛（S.tutorPhone 每次都看）。開到會考前一天；一次只掛一個。
+       S.tutorBack(G)：符合的時候，把選項掛在明軒那一串底下（第六輪：掛在「那一則家教的對話」——他回的 stopReply、或問的那一則；**第 10 節第 5 點改成一律掛他最新的一則、之後跟著移**，見 S.tutorBackSpot 上面）。
+         掛著的那一則之後被刪（訊息超過 200 則刪最舊的）＝下一次再掛（S.tutorPhone 每次都看）。開到會考前一天；一次只掛一個。
        回了＝祐廷那一句貼上去、明軒回那一句、TUTOR_RE_ANS 'go'——就是再問回「來」的那條路（S.tutorReTake：TUTOR_STOP 清掉、這個學期記 'go'、TUTOR_RE 加一；堂數照舊留著），S.tutorPlan 排下一堂。
        放假的時候回＝先留著（TUTOR_RE_ANS 不清），開學那天才算（原本：放假回「來」＝白回）。
      存檔不多旗標（掛的選項在那一則訊息的 ask 上，id tutor_back_<哪一天>）；舊存檔讀進來，符合的下一次 S.tutorPhone 就掛上。*/
@@ -723,12 +737,22 @@ const JOBS=(function(){
     if(F.TUTOR_STOP==null) return S.tutorLimbo(G,T.id); if(R.from<=F.TUTOR_STOP) return false;
     if(F.TUTOR_RE_NO!=null&&F.TUTOR_RE_NO<R.from) return true; for(const x of S.ASK_TERMS) if(F['TUTOR_TERM_'+x]==='stop'&&termIdx(x)<termIdx(T.id)) return true;
     return S.tutorReAsked(G,T.id); };
-  S.tutorBackOpen=G=>typeof PHONE!=='undefined'&&Array.isArray(G.msgs)&&G.msgs.some(m=>m&&m.ask&&/^tutor_back_/.test(String(m.ask.id))&&PHONE.askOpen(G,m));
-  S.tutorBack=function(G){ const B=S.tutorBackCfg(), U=TU(); if(!B||!U||typeof PHONE==='undefined'||!PHONE.askOpen||!Array.isArray(G.msgs)||!S.tutorBackDue(G)||S.tutorBackOpen(G)) return false;
-    const th='p:'+MX, L=G.msgs.filter(m=>m&&PHONE.th(m)===th), free=m=>!m.ask||(m.ans==null&&!PHONE.askOpen(G,m)); let a=null;
-    for(let i=L.length-1;i>=0&&!a;i--){ const m=L[i]; if(!free(m)) continue; if((m.from===MX&&m.text===U.stopReply)||(m.ask&&/^tutor_(re|term)_/.test(String(m.ask.id)))) a=m; }
-    for(let i=L.length-1;i>=0&&!a;i--) if(free(L[i])&&!L[i].pin&&L[i].from===MX) a=L[i];
-    if(!a) return false; const kk=S.tutorKK(), ask={id:'tutor_back_'+G.day,opts:[{t:B.opt,say:[mxMsg(B.re)],set:{TUTOR_RE_ANS:'go'}}]}; if(kk!=null) ask.until=kk*24; a.ask=ask; return true; };
+  /* AA_828 第 10 節第 5 點（企劃線 33e9522155；2026-11-12 第七輪）：「那個選項一律掛在明軒那一串最新一則底下，不用往回捲。」
+     原本（第六輪）：先找「那一則家教的對話」（他回的 stopReply、或問的那一則）掛，找不到才掛最新的一則；掛上去以後不動——之後明軒又傳別的，選項就留在上面，要往回捲。
+     現在：S.tutorBackSpot＝明軒那一串裡他傳的最新一則（不算置頂、旁白、約你的那一則）。那一則本來有別的選項：
+       還開著（還回得了）、或已經回過的＝不蓋掉，往前找他最新的一則「沒有選項、或選項過期沒回」的（過期沒回的那一組換成這一個——同原本的後備做法；原本那一組收在 ask.was，選項移走的時候放回去）。一則都找不到＝先不掛，等他有訊息。
+     明軒之後又傳新訊息＝選項跟著移到新的最新一則（舊那一則的拿掉、原本過期的那一組放回去；ask 的 id、期限照舊）；一次只掛一個（多的拿掉）。S.tutorPhone 每次都看。
+     存檔：沒有新旗標（照舊在那一則訊息的 ask 上；多 ask.was＝被換掉的那一組過期的選項，沒有＝原本沒有選項）。舊存檔（第六輪掛在上面的）讀進來，下一次 S.tutorPhone 就移到最新一則。*/
+  const backMine=(G,m)=>!!(m&&m.ask&&/^tutor_back_/.test(String(m.ask.id))&&PHONE.askOpen(G,m));
+  const backOff=m=>{ const w=m.ask&&m.ask.was; if(m.ask) delete m.ask.was; if(w) m.ask=w; else delete m.ask; };
+  S.tutorBackOpen=G=>typeof PHONE!=='undefined'&&Array.isArray(G.msgs)&&G.msgs.some(m=>backMine(G,m));
+  S.tutorBackSpot=function(G,cur){ const th='p:'+MX; for(let i=G.msgs.length-1;i>=0;i--){ const m=G.msgs[i]; if(!m||PHONE.th(m)!==th||m.from!==MX||m.pin||m.narr||m.iv) continue;   /* iv＝約你的那一則（有自己的按鈕）*/
+      if(m===cur||!m.ask||(m.ans==null&&!PHONE.askOpen(G,m))) return m; } return null; };
+  S.tutorBack=function(G){ const B=S.tutorBackCfg(), U=TU(); if(!B||!U||typeof PHONE==='undefined'||!PHONE.askOpen||!Array.isArray(G.msgs)||!S.tutorBackDue(G)) return false;
+    const O=G.msgs.filter(m=>backMine(G,m)), cur=O[0]||null; for(const m of O.slice(1)) backOff(m);   /* 一次只掛一個 */
+    const a=S.tutorBackSpot(G,cur); if(!a||a===cur) return false;
+    let ask; if(cur){ ask=cur.ask; backOff(cur); } else { const kk=S.tutorKK(); ask={id:'tutor_back_'+G.day,opts:[{t:B.opt,say:[mxMsg(B.re)],set:{TUTOR_RE_ANS:'go'}}]}; if(kk!=null) ask.until=kk*24; }
+    if(a.ask) ask.was=a.ask; a.ask=ask; return true; };
   S.tutorReAsk=function(G){ const F=G.flags, U=TU(), RA=S.RA(); if(!U||!RA||!RA.tutor||!F.JOB_TUTOR||F.TUTOR_STOP==null||F.TUTOR_DONE!=null||typeof PHONE==='undefined'||!hasCal()) return false;
     if(RA.tutorAskOnce&&S.tutorSaidNo(G)) return false;
     const T=CALENDAR.termOf(G.day); if(!T||!S.ASK_TERMS.includes(T.id)) return false; const st=S.tutorStartTerm(G); if(!st||S.TUTOR_TERMS.indexOf(T.id)<=S.TUTOR_TERMS.indexOf(st)) return false;

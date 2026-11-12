@@ -34,7 +34,7 @@ const desk=z=>{ H.E.interactables=[]; return JOBS.addDesk(GM,z); };
 const ask=async(it,picks)=>{ H.said=[]; H.opts=[]; dims.length=0; toasts.length=0; H.picks=picks.slice(); await STORY.interact(it,GM); };
 
 const D8=typeof SHOP_JOBS_AA828!=='undefined'?SHOP_JOBS_AA828:null;
-const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA8='3e9cd7d9d4', PREV8='1e539b8eb9';
+const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA8='3e9cd7d9d4', PREV8='1e539b8eb9', NOW8='33e9522155';   /* 第七輪改期望（AA_828 第 10 節）：白名單、資料的來源換成 NOW8（舊期望：SHA8 3e9cd7d9d4）；SHA8 留著對第 9 節的稿（第 1～9 節一字不差） */
 const friend=id=>{ const r=SOCIAL.rel(id); r.fam=40; r.trust=25; };
 /* 假的 3D：座位、門口、生人（照 game3d.js spawnCharacter 回傳的樣子：charId、obj、seat）；STORY.refreshSchedule 是真的 */
 const YUE=typeof TZ_SHOPS_LAYOUT!=='undefined'&&TZ_SHOPS_LAYOUT.yuehaochi?TZ_SHOPS_LAYOUT.yuehaochi:{seats:[{x:-2.6,z:2.25,yaw:0},{x:-2,z:2.25,yaw:0}],spawn:{x:0.75,z:2.9},clerk:{x:1,z:-3.4,yaw:0}};
@@ -75,10 +75,10 @@ const scan=(flags,o)=>{ o=o||{}; const out={}, why={}; let seen={};
 /* ================= 0 白名單、資料、對稿 ================= */
 await sec('0',async()=>{
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), e=allow.files.filter(x=>x.path===DOC8);
-  check('0. 白名單：AA_828@'+SHA8+' approved（一筆）；上一版 '+PREV8+' 在 history（修改前：白名單還是 '+PREV8+'）',e.length===1&&e[0].status==='approved'&&e[0].sha===SHA8&&(e[0].history||[]).some(h=>h.sha===PREV8),J(e.map(x=>x.sha)));
-  check('0. 資料寫明來源那一版',!!D8&&D8.src===DOC8+'@'+SHA8,D8&&D8.src);
+  check('0. 白名單：AA_828@'+NOW8+' approved（一筆）；這一輪的 '+SHA8+'、上一版 '+PREV8+' 在 history（第七輪改：舊期望＝白名單就是 '+SHA8+'；修改前：白名單還是 '+PREV8+'）',e.length===1&&e[0].status==='approved'&&e[0].sha===NOW8&&(e[0].history||[]).some(h=>h.sha===SHA8)&&(e[0].history||[]).some(h=>h.sha===PREV8),J(e.map(x=>x.sha)));
+  check('0. 資料寫明來源那一版（第七輪改：舊期望 @'+SHA8+'）',!!D8&&D8.src===DOC8+'@'+NOW8,D8&&D8.src);
   let ck=''; try{ ck=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_shop_jobs_aa828.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(err){ ck='ERR '+String(err.stderr||err.message||err).slice(0,300); }
-  if(/讀不到|fatal|invalid object|CalledProcessError/i.test(ck)) console.log('（跳過：匯入工具讀不到 '+SHA8+'，企劃線沒 fetch）'); else check('0. tools/story/import_shop_jobs_aa828.py --check：資料和稿一致',/^OK/.test(ck),ck);
+  if(/讀不到|fatal|invalid object|CalledProcessError/i.test(ck)) console.log('（跳過：匯入工具讀不到 '+NOW8+'，企劃線沒 fetch）'); else check('0. tools/story/import_shop_jobs_aa828.py --check：資料和稿一致',/^OK/.test(ck),ck);
   const show=sha=>{ try{ return cp.execFileSync('git',['-C',H.ROOT,'show',sha+':'+DOC8],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(err){ return null; } };
   const doc=show(SHA8);
   const B=D8.reapply.tutorBack, Z=D8.yueMeal.sis;
@@ -113,7 +113,7 @@ await sec('1',async()=>{
   { fresh(d0,17.4,'tz_yuehaochi',{met_sis:true}); const j=hire('yue',[2,4]); world(); clerkNPC(); SHOPLIFE._reset(); snap.length=0; await shift('yue',d0,P3);
     const i=snap.findIndex(s=>s.t===Y.narr), n1=GM.npc[SIS];
     check('1. 那一班：旁白 → 學姊「你在這裡。幾點下班？」→ 祐廷 →（你幫她點了餐。）；她那一句出來的時候人在店裡（照作息進來、坐在位子上）',i>=0&&snap[i+1].t===LINE&&snap[i+1].who===SIS&&snap[i+1].npcs.includes(SIS)&&snap[i+2].t===Y.me&&snap[i+3].t===Y.done.f&&!!n1&&!!n1.seat&&n1.sched===true,J(snap.map(s=>s.t).slice(0,8)));
-    check('1. 這一次算來過（SHOP_YUE_DATE 學姊｜這個學期 一筆）、每人一次的那一組記了（mealHi）',J(H.G.flags.SHOP_YUE_DATE)===J({[SIS+'|Y1S2']:[d0]})&&(j.mealHi||[]).includes(SIS),J(H.G.flags.SHOP_YUE_DATE));
+    check('1. 這一次算來過（SHOP_YUE_DATE 學姊｜這個學期 一筆）、那一組記了（mealHi；第七輪 AA_828 第 10 節第 1 點：學姊改成每學期說一次，另外記 mealHiT——舊：一生一次只看 mealHi；見 shop_jobs_round7）',J(H.G.flags.SHOP_YUE_DATE)===J({[SIS+'|Y1S2']:[d0]})&&(j.mealHi||[]).includes(SIS),J(H.G.flags.SHOP_YUE_DATE));
     const d1=nextShift(d0); at(d1,17.4,'tz_yuehaochi'); SHOPLIFE._reset();
     check('1. 同一個學期下一個有班的日子：照規則不再來（朋友版一學期一次）',SHOPLIFE.yueDatePlan(Object.assign({},H.G,{hour:18.5}),SIS)===null);
     H.G.flags['dating_'+SIS]=true; const soon=SHOPLIFE.yueDatePlan(Object.assign({},H.G,{hour:18.5}),SIS); let d2=d0+21; while(!isShiftWd(d2)) d2++; at(d2,17.4,'tz_yuehaochi'); SHOPLIFE._reset(); const late=JOBS.due(H.G,'yue',d2)?SHOPLIFE.yueDatePlan(Object.assign({},H.G,{hour:18.5}),SIS):'skip';
@@ -149,7 +149,7 @@ await sec('2',async()=>{
   { fresh(s1,13,'dorm',base()); run(); const first=asks(/^tutor_re_Y2S1$/).length; at(s1+40,13); run(); const mid=open().length;
     at(s2,13); run(); const o=open(), again=asks(/^tutor_re_Y2S2$/).length;
     check('3. 再問的那一則沒回、過期：也算問過——下一個學期不再問（舊期望／修改前：下一個學期開學又問一次 tutor_re_Y2S2）',first===1&&mid===0&&again===0,J([first,mid,again]));
-    check('3. 一樣有第 2 點的選項：掛在問的那一則「家長問你這學期還來嗎」底下（過期的「來／不了」換成這一個）',o.length===1&&o[0].text===U.termAsk&&J(o[0].ask.opts.map(q=>q.t))===J([B.opt]),o[0]&&o[0].text);
+    check('3. 一樣有第 2 點的選項：掛在問的那一則「家長問你這學期還來嗎」底下（過期的「來／不了」換成這一個）〔第七輪 AA_828 第 10 節第 5 點：規則改成「明軒最新一則」——這裡問的那一則就是他最新的一則，期望不變；有更新的訊息時的新期望在 shop_jobs_round7〕',o.length===1&&o[0].text===U.termAsk&&J(o[0].ask.opts.map(q=>q.t))===J([B.opt]),o[0]&&o[0].text);
     if(o[0]){ PHONE.answer(H.G,o[0].ask.id,0); run(); } check('3. 回了＝又有家教',H.G.flags.TUTOR_STOP==null&&H.G.flags.TUTOR_TERM_Y2S2==='go'&&!!JOBS.at(H.G,'tutor')); }
   if(!has) return;
   /* 2a 開學那一則回「不了」*/
@@ -158,7 +158,7 @@ await sec('2',async()=>{
     at(s1-1,13); run(); const vac=open().length;
     at(s1,13); run(); const o=open(), m=o[0], i=m?mx().indexOf(m):-1;
     check('2. 開學那一則回「不了」：同一個學期、暑假都沒有那個選項；下一個學期開學那天起，明軒那一串多一個可以回的「我現在可以接家教了。」（只有這一個選項、一次只掛一個）',asked===1&&stopped&&same===0&&vac===0&&o.length===1&&m.th==='p:'+MX&&J(m.ask.opts.map(q=>q.t))===J([B.opt]),J([asked,stopped,same,vac,o.length]));
-    check('2. 掛在「那一則家教的對話」底下：明軒回的「好，我跟家長說。有空回來看看。」那一則（前兩則＝問的、祐廷回的「不了」）',!!m&&m.text===U.stopReply&&m.from===MX&&i>=2&&mx()[i-1].text===U.termOpts[1]&&mx()[i-1].from==='player'&&mx()[i-2].text===U.termAsk,m&&m.text);
+    check('2. 掛在「那一則家教的對話」底下：明軒回的「好，我跟家長說。有空回來看看。」那一則（前兩則＝問的、祐廷回的「不了」）〔第七輪 AA_828 第 10 節第 5 點：規則改成「明軒最新一則」（舊：先找那一則家教的對話）——這裡那一則就是最新的，期望不變；之後他又傳訊息＝跟著移，見 shop_jobs_round7〕',!!m&&m.text===U.stopReply&&m.from===MX&&i>=2&&mx()[i-1].text===U.termOpts[1]&&mx()[i-1].from==='player'&&mx()[i-2].text===U.termAsk,m&&m.text);
     check('2. 明軒不再問（第 8 節第 5 點照舊）；手機那一串算「待回覆」',asks(/^tutor_re_/).length===0&&PHONE.threads(H.G).find(t=>t.th==='p:'+MX).pending===1);
     run(); run(); check('2. 再跑幾次不會多掛',open().length===1);
     const sv=JSON.parse(J(H.G)); check('2. 存檔 JSON 來回不壞（選項在那一則訊息上，沒有多旗標）',J(sv)===J(H.G)&&sv.msgs.some(q=>q.ask&&/^tutor_back_/.test(q.ask.id))&&!Object.keys(H.G.flags).some(k=>/TUTOR_BACK/.test(k)));
