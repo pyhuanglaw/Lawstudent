@@ -11,7 +11,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/data/yejian_shaola_buy.js','src/shaola_order3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);   /* 2026-11-12（GG-SHAOLA-FIX-1112）：燒臘店的點餐搬到 src/shaola_order3d.js（菜單、價錢在 yejian_shaola_buy.js，AA_853），noodleScene 沒有它點不了餐 */
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -28,13 +28,13 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 (async()=>{
   /* ===== 2-1 第二天傍晚的阿鳳麵店（story3d.js noodleScene，經 STORY.interact 的 it.eat）===== */
-  const noodle=async flags=>{ fresh(2,18.6,'noodle',flags); meet('heroine_01'); GM.npc.zhe={name:'阿哲',charId:'zhe',obj:{position:{x:0,y:0,z:0}},seat:{x:0,z:0}}; picks=[0,0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); return lines(); };
+  const noodle=async flags=>{ fresh(2,18.6,'noodle',flags); meet('heroine_01'); GM.npc.zhe={name:'阿哲',charId:'zhe',obj:{position:{x:0,y:0,z:0}},seat:{x:0,z:0}}; picks=[0,0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); return lines(); };   /* 2026-11-12（GG-SHAOLA-FIX-1112，AA_853）：點餐多一層「加滷蛋　15 元／不用了」——picks 的兩個 0＝叉燒飯、加滷蛋；阿哲那組選項沒有 pick＝照舊選第 0 個。下面的期望跟著改：原本 opts.length===1（只有菜單）→ 2（菜單、加滷蛋）；原本阿哲那組選項是 opts[1] → opts[2]（並且多查總共 3 層）。阿哲的台詞、條件的期望一個字都沒動 */
   const ASK='阿哲：所以下午你跟小安去哪了？我在球場看到你們兩個一起走。'   /* AA_372 第 15 項：原本「往校門走」（總圖那條路不是往校門）*/, NO='阿哲：下午沒看到你，我還以為你先回宿舍了。', FAFU='阿哲：對了，法服在招人。學長說一年級去會被操，但真的學得到東西。';
   for(const [k,flags] of [['拒絕小安（anSkipped）',{anSkipped:true}],['沒等到小安（anMissed）',{anMissed:true,anAfter:true}]]){ const L=await noodle(flags), i=L.indexOf(NO);
     check('2-1 '+k+'：阿哲不問「下午你跟小安去哪了」、沒有那組選項，改說「下午沒看到你，我還以為你先回宿舍了。」，接著法服那句照舊',
-      !L.includes(ASK)&&i>0&&L[i-1]==='阿哲：來了。我點了滷蛋，你要不要？'&&L[i+1]===FAFU&&opts.length===1&&!opts.some(o=>o.some(t=>/剛好同路/.test(t)))&&G.flags.zheNoodleDone===true,JSON.stringify([L,opts])); }
+      !L.includes(ASK)&&i>0&&L[i-1]==='阿哲：來了。我點了滷蛋，你要不要？'&&L[i+1]===FAFU&&opts.length===2&&!opts.some(o=>o.some(t=>/剛好同路/.test(t)))&&G.flags.zheNoodleDone===true,JSON.stringify([L,opts])); }
   for(const [plan,ans] of [['cafe','溫州街的咖啡廳。她在整理今天的筆記。'],['library','總圖。她在整理今天的筆記。']]){ const L=await noodle({plan});
-    check('2-1 真的跟小安走了（F.plan＝'+plan+'）：照原句「所以下午你跟小安去哪了？……」和那組選項（「'+ans+'」「沒有啊，剛好同路。」）',L.includes(ASK)&&!L.includes(NO)&&JSON.stringify(opts[1])===JSON.stringify([ans,'沒有啊，剛好同路。'])&&L.includes(FAFU),JSON.stringify([L,opts])); }
+    check('2-1 真的跟小安走了（F.plan＝'+plan+'）：照原句「所以下午你跟小安去哪了？……」和那組選項（「'+ans+'」「沒有啊，剛好同路。」）',L.includes(ASK)&&!L.includes(NO)&&opts.length===3&&JSON.stringify(opts[2])===JSON.stringify([ans,'沒有啊，剛好同路。'])&&L.includes(FAFU),JSON.stringify([L,opts])); }
 
   /* ===== 2-2 下午那段之後第一次找小安說話（story3d.js talkAn 的 anAfter）===== */
   const talk=async(flags,view)=>{ fresh(3,12,'campus',flags); meet('heroine_01'); if(view){ G.flags.cafeView=view; G.choices.cafeView=view; } const n={id:'an',charId:'heroine_01',name:'小安',obj:{position:{x:1,y:0,z:1}},seat:null,lv:0}; GM.npc.an=n; await STORY._day2.talkAn(GM,n); return said.map(s=>s.t); };

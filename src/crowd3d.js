@@ -377,7 +377,10 @@ const CROWD=(function(){
     shop:{L:[[11,0.15],[13,0.25],[15,0.3],[17,0.4],[20,0.4],[21.5,0.2],[22,0.1]],dur:[0.15,0.4],face:0,side:0.4,cap:4},
     cinema:{L:[[9.5,0.12],[9.7,0.6],[10.05,0.6],[10.3,0.1],[12.5,0.12],[12.7,0.65],[13.05,0.65],[13.3,0.1],[15.5,0.12],[15.7,0.65],[16.05,0.65],[16.3,0.1],[19,0.15],[19.2,0.75],[19.55,0.75],[19.8,0.1],[24,0.06]],dur:[0.15,0.35],face:0,side:0.6,cap:8} };
   /* 這一天、這個時刻坐滿幾成（0～0.85）*/
-  S.shopLoad=function(def,G,h,kind){ const k=kind||def.kind, K=S.SHOP_KIND[k]; if(!K) return 0; let L=ramp(K.L,h); const C=typeof CALENDAR!=='undefined'?CALENDAR:null; if(!C) return Math.min(0.85,L);
+  /* 公館燒臘的晚餐比學生餐廳拖得晚（GG-SHAOLA-FIX-1112；BB_379 11-12：20:30 進去 0 位客人）：客人的時段照舊 11:00～14:00、17:00～21:00（LAWWW：14:00 沒有人照設計），
+     但共用的 meal 那一條 19:24 就開始掉、19:48 只剩兩成——20:30 四桌都沒人的日子超過一半（2026-10 連看 28 天有 17 天）。這一間自己的一條（def.L）：晚餐那一段坐到 20:40，之後到 21:00 收掉；白天和 meal 一樣 */
+  S.NOODLE_L=[[10,0.15],[11.25,0.2],[11.6,0.85],[13.4,0.85],[13.8,0.22],[14.5,0.14],[16.5,0.14],[17.25,0.25],[17.6,0.85],[20.65,0.85],[20.95,0.25],[21,0.12],[24,0.1]];
+  S.shopLoad=function(def,G,h,kind){ const k=kind||def.kind, K=S.SHOP_KIND[k]; if(!K) return 0; let L=ramp(!kind&&def.L?def.L:K.L,h);   /* def.L：這一間自己的時段比例（公館燒臘）*/ const C=typeof CALENDAR!=='undefined'?CALENDAR:null; if(!C) return Math.min(0.85,L);
     const kd=C.kind(G.day), wk=C.weekend(G.day)||kd==='holiday', T=C.termOf?C.termOf(G.day):null;
     if(kd!=='term') L*=k==='cvs'?0.8:0.6;   /* 寒暑假：學區的店（台大附近）少四成；便利商店少兩成 */
     if(wk) L*=k==='meal'?0.85:(k==='brunch'||k==='cafe'||k==='tea'||k==='book'||k==='bookseat'||k==='shop'||k==='cinema'?1.35:(k==='bistro'?1.2:1));   /* 週末、國定假日：吃飯的店學生少一點，早午餐、咖啡、茶屋、書店多一點 */
@@ -420,7 +423,7 @@ const CROWD=(function(){
     const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
     /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、桌遊團：只排東西兩張）、日日便利、舊路書房 */
     { const SL=typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop?SHAOLA_LAYOUT.shop:null;   /* 燒臘店 v7（SHAOLA-WIRE-1105）：五張桌子裡第 3 張留給玩家、阿哲、桌遊團（和舊麵店中間那張一樣），客人坐另外四張 */
-      if(SL) add('noodle','meal',[0,3.4],S.pairUnits(seatsOf(SL.seats.filter(q=>q.table!==3))),{noKeep:true});
+      if(SL) add('noodle','meal',[0,3.4],S.pairUnits(seatsOf(SL.seats.filter(q=>q.table!==3))),{noKeep:true,L:S.NOODLE_L});
       else add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true}); }
     /* 公館三間新室內（GG-SHOPS-REDO-1104）：配置有載入＝照新的貨架、書牆（CVS_LAYOUT／YEJIAN_LAYOUT；站的點離家具 0.75 m、面向架子），青木茶室坐配置的座位；沒有＝舊的室內 */
     const CV=typeof CVS_LAYOUT!=='undefined'&&CVS_LAYOUT.shop?CVS_LAYOUT.shop:null, YJ=typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null, AK=typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null, P=Math.PI;

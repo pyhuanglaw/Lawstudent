@@ -219,8 +219,10 @@ await asec('4a',async()=>{ if(!HAS()||!SET.Y1S2){ check('4. 語彤放榜',false,
   /* 之後第一次在一盞點東西：蘇姨一句、不用錢；第二次照付（AA_679 第 3 列：原本接在燒臘店的點餐 noodleScene）*/
   const paid=[], m0=GM.money; GM.money=d=>{ paid.push(d); }; const it={eat:'noodle',seat:{x:0,z:0}}, TEA={wzShop:'teahouse',kind:'tea'};
   try{ fresh(D73,20); who('heroine_03','FRIEND'); walk(D73,20.75); H.G.zone='wz_teahouse'; at(D73+1,14); check('4. 私訊傳了以後：FEED.ytTreatDue',FEED.ytTreatDue(H.G)===true);
-    H.G.zone='noodle'; at(D73+1,18); H.picks=[0]; H.said=[]; await STORY.interact(it,GM);
-    check('4. 燒臘店的點餐不請（照付叉燒飯 100、阿姨不說；請客還留著）',J(paid)===J([-100])&&!H.said.some(x=>/我請/.test(x.t))&&FEED.ytTreatDue(H.G)===true,J({paid,said:H.said}));
+    /* 2026-11-12 改期望（GG-SHAOLA-FIX-1112，AA_853 企劃線 7f7394acc）：原本 picks=[0]、照付叉燒飯 100（paid＝[-100]）。稿的叉燒飯是 90、點了飯多一層「加滷蛋／不用了」——
+       picks 補一個「不用了」，期望 paid＝[-90]。「阿姨不說我請、請客還留著」的期望沒有動；這支的假 GM.money 不會真的扣錢，所以付得起 */
+    H.G.zone='noodle'; at(D73+1,18); H.picks=[0,'不用了']; H.said=[]; await STORY.interact(it,GM);
+    check('4. 燒臘店的點餐不請（照付叉燒飯 90、阿姨不說；請客還留著）',J(paid)===J([-90])&&!H.said.some(x=>/我請/.test(x.t))&&FEED.ytTreatDue(H.G)===true,J({paid,said:H.said}));
     H.G.zone='wz_teahouse'; at(D73+4,14); paid.length=0; H.picks=[0]; H.said=[]; await WZS.interact(GM,TEA); const s1=H.said.map(x=>(x.who?x.who+'：':'')+x.t);
     check('4. 之後第一次在一盞點東西：蘇姨「語彤上了！今天你的茶我請。」、那一杯不用錢（沒有扣錢）',s1[0]==='蘇姨：語彤上了！今天你的茶我請。'&&!paid.length&&FEED.ytTreatDue(H.G)===false&&H.G.flags.FEED.ytTreat===D73+4,J({s1,paid}));
     H.picks=[1]; H.said=[]; await WZS.interact(GM,TEA); check('4. 下一次照付、蘇姨不再說',paid.length===1&&paid[0]<0&&!H.said.some(x=>/今天你的茶我請/.test(x.t)),J({paid,said:H.said}));
