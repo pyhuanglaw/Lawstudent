@@ -38,6 +38,8 @@ HELP_GUIDE_a | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_pla
 HELP_GUIDE_b | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 35 | PARTS=FLOW,SET;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
 # LAWWW-C 08:39 SHOP-JOBS-1112 第四輪（d4daa6326c）：宋知寧在山嵐二樓（週六 14～17、週日 14～18）：在不在、腳踩地板、面向、擋走道、站在按鈕上，各一張圖給 BB
 ZN_SHANLAN | d4daa6326c81c2ba7a57c266235dec49cd7b5ab6 | probe | docs/story_planning/test_tools/cc/cc_zn_shanlan_probe.py | index.html | 25 | SHA=d4daa6326c81c2ba7a57c266235dec49cd7b5ab6
+# BB-C 08:42／08:52 SHOP-JOBS 第四輪 ②③：越好吃上班時可昕（交往中）／學姊來吃飯——那一句演的時候 3D 有沒有她、坐哪、和祐廷相對位置、1 m 內家具；遊戲鏡頭＋俯視（沒有人＝照實記）
+YUE_MEAL | d4daa6326c81c2ba7a57c266235dec49cd7b5ab6 | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 30 | SHA=d4daa6326c81c2ba7a57c266235dec49cd7b5ab6
 # BB-C 08:44（BB_379）：聯通近照櫃台後面看不到店員 → 店員（gate 量到 0.8,−2.5）側面：櫃台旁左右各 1.5 m、腰的高度 1.0 m＋正面；2bfea29 和最新各一
 LT_CLERK_2bfe | 2bfea29f1bd41b948c05b249c746cd556405212e | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=lt_clerk_2bfe;VIEWS=lt_clerk_sideL:tz_liantong:-0.7:-2.5:14:1.5708:3:0.8:1.0:-2.5:60:1.0+lt_clerk_sideR:tz_liantong:2.3:-2.5:14:-1.5708:3:0.8:1.0:-2.5:60:1.0+lt_clerk_front:tz_liantong:0.8:-0.5:14:3.1416:3:0.8:1.0:-2.5:60:1.0
 LT_CLERK_d4da | d4daa6326c81c2ba7a57c266235dec49cd7b5ab6 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=lt_clerk_d4da;VIEWS=lt_clerk_sideL:tz_liantong:-0.7:-2.5:14:1.5708:3:0.8:1.0:-2.5:60:1.0+lt_clerk_sideR:tz_liantong:2.3:-2.5:14:-1.5708:3:0.8:1.0:-2.5:60:1.0+lt_clerk_front:tz_liantong:0.8:-0.5:14:3.1416:3:0.8:1.0:-2.5:60:1.0
