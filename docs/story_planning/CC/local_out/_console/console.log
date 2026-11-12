@@ -357,3 +357,21 @@
 [15:45:11] solo item BB0719_exit waits: no new items start until the 1 running item(s) finish
 [15:47:48] 正在跑：XS_REAL_consist_r2（已跑 8 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:52:13] [res] cpu=1% mem=33% (10.6/31.4 GB) chrome_testing=0  END XS_REAL_consist_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ae134e729..df9717ed9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:52:26] ==== END   XS_REAL_consist_r2  exit=1  766s   ====
+[15:52:35] memory 34% before starting XS_REAL_consist_r3 (0 running)
+[15:52:35] memory 34% before starting XS_REAL_cal_old_r3 (1 running)
+[15:52:35] ==== START XS_REAL_consist_r3  (probe @ fcbc3aab3117c1fec2c1c833b3d44813684e18fd) ====
+[15:52:35] solo item BB0719_exit waits: no new items start until the 2 running item(s) finish
+[15:52:35] ==== START XS_REAL_cal_old_r3  (probe @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
+[15:52:38] [res] cpu=1% mem=34% (10.8/31.4 GB) chrome_testing=0  START XS_REAL_consist_r3
+[15:52:38] [res] cpu=1% mem=34% (10.8/31.4 GB) chrome_testing=0  START XS_REAL_cal_old_r3
+[15:52:48] 正在跑：XS_REAL_consist_r3（已跑 0 分／上限 50 分）、XS_REAL_cal_old_r3（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:57:45] memory 45% before starting TZ_REAL_consist (2 running)
+[15:57:45] ==== START TZ_REAL_consist  (probe @ 2bfea29f1bd41b948c05b249c746cd556405212e) ====
+[15:57:48] [res] cpu=13% mem=45% (14.2/31.4 GB) chrome_testing=8  START TZ_REAL_consist
+[15:57:48] worktree add 2bfea29f1bd41b948c05b249c746cd556405212e: invalid reference - fetching main and the commit itself
+[15:57:48] 正在跑：XS_REAL_consist_r3（已跑 5 分／上限 50 分）、XS_REAL_cal_old_r3（已跑 5 分／上限 15 分）、TZ_REAL_consist（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:00:19] [res] cpu=15% mem=44% (13.9/31.4 GB) chrome_testing=8  END XS_REAL_cal_old_r3
