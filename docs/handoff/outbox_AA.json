@@ -682,7 +682,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "3834f83f",
    "files": [
-    "docs/story_planning/AA_247_麵店團過年照片_大二到大四.md"
+    "docs/story_planning/AA_247_桌遊團過年照片_大二到大四.md"
    ],
    "state": "已交付",
    "remaining": "",
@@ -690,7 +690,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "原 task：AA_247 麵店團過年照片；原 ack：已傳 send_message"
+   "note": "原 task：AA_247 桌遊團過年照片；原 ack：已傳 send_message"
   },
   {
    "task": "MSG-KX-Y0-1018",
@@ -2108,7 +2108,7 @@
    ],
    "state": "已交付",
    "remaining": "無",
-   "next": "LAWWW-B 實作：茶席 BB 四位那一句（src/wzlines3d.js）、WZ-P3 事件＋WZ_P3_HELPED、象棋第四種開局「讓你一隻馬」、麵店團早午餐群組（玩家約＋阿哲一學期揪一次）",
+   "next": "LAWWW-B 實作：茶席 BB 四位那一句（src/wzlines3d.js）、WZ-P3 事件＋WZ_P3_HELPED、象棋第四種開局「讓你一隻馬」、桌遊團早午餐群組（玩家約＋阿哲一學期揪一次）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
@@ -3277,7 +3277,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "cd824bf41",
    "files": [
-    "docs/story_planning/AA_486_回LAWWW_麵店團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
+    "docs/story_planning/AA_486_回LAWWW_桌遊團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
    ],
    "state": "已交付",
    "remaining": "大二以後的長桌閒聊 AA 接著寫",
@@ -3285,14 +3285,14 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "AA_486 第 1 節：不拿掉麵店團，不用問使用者"
+   "note": "AA_486 第 1 節：不拿掉桌遊團，不用問使用者"
   },
   {
    "task": "YT-BBQ-WHY-1027",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "cd824bf41",
    "files": [
-    "docs/story_planning/AA_486_回LAWWW_麵店團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
+    "docs/story_planning/AA_486_回LAWWW_桌遊團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
    ],
    "state": "已交付",
    "remaining": "",
@@ -3307,7 +3307,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "b830dd5eb",
    "files": [
-    "docs/story_planning/AA_487_麵店團長桌閒聊_大二到大四.md"
+    "docs/story_planning/AA_487_桌遊團長桌閒聊_大二到大四.md"
    ],
    "state": "已交付",
    "remaining": "",
@@ -3604,7 +3604,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "回 LAWWW-C 02:14：①AA_494 你判斷的九點全部照你的做法；②AA_496 第 9 節：舊存檔回填 BH4_DONE（events.done 有 ev_bohan_third_floor）、XC5_RECONCILE（ev_xinci_an_answers 或 _far）、XC1_STICKY（ROOM_Y2_ITEMS 有芯慈的便利貼），ZHE4_FINAL 推不出來不回填；系統字「阿哲把你加進了群組「麵店團」。」照用；入口條件、回收句取最下面一列、（對{name}）的寫法都照你的；宥辰「常常趴著」不做，不影響劇情"
+   "note": "回 LAWWW-C 02:14：①AA_494 你判斷的九點全部照你的做法；②AA_496 第 9 節：舊存檔回填 BH4_DONE（events.done 有 ev_bohan_third_floor）、XC5_RECONCILE（ev_xinci_an_answers 或 _far）、XC1_STICKY（ROOM_Y2_ITEMS 有芯慈的便利貼），ZHE4_FINAL 推不出來不回填；系統字「阿哲把你加進了群組「桌遊團」。」照用；入口條件、回收句取最下面一列、（對{name}）的寫法都照你的；宥辰「常常趴著」不做，不影響劇情"
   },
   {
    "task": "HEROINE-LIFE-1028",
@@ -4411,7 +4411,7 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "5eff96441",
    "files": [
-    "docs/story_planning/AA_542_麵店團縮小成背景_改稿規格.md"
+    "docs/story_planning/AA_542_桌遊團縮小成背景_改稿規格.md"
    ],
    "state": "已交付",
    "remaining": "LAWWW-B 實作後 AA 再掃一次、讀一遍",
@@ -4888,10 +4888,10 @@
    "task": "AA623-BOARDGAME-TEAM-1103",
    "sha": "ba43e31a",
    "files": [
-    "docs/story_planning/AA_623_麵店團改成桌遊團.md"
+    "docs/story_planning/AA_623_桌遊團改成桌遊團.md"
    ],
    "receiver": "LAWWW",
-   "next": "AA_623 麵店團改成桌遊團（帳號 A 已交）",
+   "next": "AA_623 桌遊團改成桌遊團（帳號 A 已交）",
    "note": "AA-C 補登記"
   },
   {
@@ -6190,7 +6190,9 @@
    "next": "LAWWW 先做系統：店家買禮物、包包、節日送禮（規則照 AA_732 rules）；學姊反應可以先接",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "noDirectIntegrate": false
+   "noDirectIntegrate": false,
+   "remaining": "第二批 AA_733（以安、芷若、語彤、子晴、沛珊、可昕、芯慈的反應）、第三批 AA_734（她送祐廷的禮物、門檻、文具區劇情）還沒交",
+   "closedBy": "b844bac36（AA_732～734 三批都已交、LAWWW ACK；見本檔後面 GIFT-HOLIDAY／DLG-FULL-REVIEW 的交付）"
   },
   {
    "task": "SERVICE2-LEGAL-1110",
@@ -6221,7 +6223,9 @@
    "next": "LAWWW 接七位的反應（格式同 AA_732 people.heroine_05）",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "noDirectIntegrate": false
+   "noDirectIntegrate": false,
+   "remaining": "第三批 AA_734（她送祐廷的禮物、門檻、文具區劇情）還沒交",
+   "closedBy": "b844bac36（AA_732～734 三批都已交、LAWWW ACK；見本檔後面 GIFT-HOLIDAY／DLG-FULL-REVIEW 的交付）"
   },
   {
    "task": "GIFT-HOLIDAY-1110",
@@ -6602,47 +6606,47 @@
     "docs/story_planning/AA_807_us_term_reread.json",
     "docs/story_planning/AA_808_peishan_tilde.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:1x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
    "todo": "",
    "next": "LAWWW 照 line rows 換（AA_807 4 列、AA_808 61 列）",
-   "note": "VAC-GAP-ROUTES 重讀美國那學期時發現：X327 漏掉的沛珊句尾「～」、中秋「台南家裡」與設定不合"
+   "note": "VAC-GAP-ROUTES 重讀美國那學期時發現：X327 漏掉的沛珊句尾「～」、中秋「台南家裡」與設定不合",
+   "state": "已交付",
+   "sha": "ad8ed0194"
   },
   {
    "task": "MOVIE-TALK-1110",
    "branch": "claude/story-planning",
-   "commit": "fb1256280",
    "files": [
     "docs/story_planning/AA_811_movie_talk_hehuan_voice.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:1x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "LAWWW 接出遊事件與手機訊息；BB 抽測"
+   "next": "LAWWW 接出遊事件與手機訊息；BB 抽測",
+   "sha": "fb1256280",
+   "state": "已交付"
   },
   {
    "task": "PEISHAN-VOICE-1110",
    "branch": "claude/story-planning",
-   "commit": "333cd2863",
    "files": [
     "docs/story_planning/AA_810_peishan_open_class_mom.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:0x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "LAWWW 照 3 列 line rows 換"
+   "next": "LAWWW 照 3 列 line rows 換",
+   "sha": "333cd2863",
+   "state": "已交付"
   },
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/story-planning",
-   "commit": "f1fab0ec6",
    "files": [
     "docs/story_planning/AA_812_date_pays_promises.json",
     "docs/story_planning/date_rewrite/peishan_D15.json",
@@ -6651,117 +6655,285 @@
     "docs/story_planning/date_rewrite/zq_D06.json",
     "docs/story_planning/date_rewrite/kx_D15.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:2x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "LAWWW 重匯 date_rewrite＋SHE_PAYS／SPLIT"
+   "next": "LAWWW 重匯 date_rewrite＋SHE_PAYS／SPLIT",
+   "sha": "f1fab0ec6",
+   "state": "已交付"
   },
   {
    "task": "GG-SHOPS3-STORY-1110",
    "branch": "claude/story-planning",
-   "commit": "75f5de658",
    "files": [
     "docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md"
    ],
-   "status": "已交付",
    "at": "2026-11-11T12:1x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "發版後 LAWWW 接；LAWWW2 五項資料 patch"
+   "next": "發版後 LAWWW 接；LAWWW2 五項資料 patch",
+   "sha": "75f5de658",
+   "state": "已交付"
   },
   {
    "task": "STUDY-EXAM-STORY-1102",
    "branch": "claude/story-planning",
-   "commit": "ba322d6ae",
    "files": [
     "docs/story_planning/syllabus/Y4S1.json",
     "docs/story_planning/syllabus/Y4S2.json",
     "docs/story_planning/syllabus/JP.json"
    ],
-   "status": "已整合",
    "at": "2026-11-11T16:0x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 9d45ef8b3／c170218dd 已匯；BB 抽測"
+   "next": "LAWWW 9d45ef8b3／c170218dd 已匯；BB 抽測",
+   "sha": "ba322d6ae",
+   "state": "已整合"
   },
   {
    "task": "AA-PRIO-GAP-1111",
    "branch": "claude/story-planning",
-   "commit": "91c6aaf9f",
    "files": [
     "docs/story_planning/AA_814_三個優先項目劇情斷點對帳.md",
     "docs/story_planning/00_現行設定總表.md"
    ],
-   "status": "已整合",
    "at": "2026-11-11T16:3x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 7d9d79425 12 項全接；GHA 綠了交 BB 測"
+   "next": "LAWWW 7d9d79425 12 項全接；GHA 綠了交 BB 測",
+   "sha": "91c6aaf9f",
+   "state": "已整合"
   },
   {
    "task": "GG-SHOPS3-STORY-1110",
    "branch": "claude/story-planning",
-   "commit": "8f6650289",
    "files": [
     "docs/story_planning/AA_742_公館六間店_設定與台詞.md"
    ],
-   "status": "已整合",
    "at": "2026-11-11T16:3x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 7d9d79425：打烊照 AA_700、泰米午休、柔軟精、合照說明"
+   "next": "LAWWW 7d9d79425：打烊照 AA_700、泰米午休、柔軟精、合照說明",
+   "sha": "8f6650289",
+   "state": "已整合"
   },
   {
    "task": "STUDY-EXAM-STORY-1102",
    "branch": "claude/story-planning",
-   "commit": "80ed4ea06",
    "files": [
     "docs/story_planning/syllabus/Y4S2.json",
     "docs/story_planning/syllabus/JP.json",
     "docs/story_planning/syllabus/Y1S1.json",
     "docs/story_planning/syllabus/Y1S2.json"
    ],
-   "status": "已整合",
    "at": "2026-11-11T16:3x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "拿掉期中考字樣（D118）；LAWWW 7d9d79425 已重匯"
+   "next": "拿掉期中考字樣（D118）；LAWWW 7d9d79425 已重匯",
+   "sha": "80ed4ea06",
+   "state": "已整合"
   },
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/story-planning",
-   "commit": "52c3ee258",
    "files": [
     "docs/story_planning/date_system/lines/D01.json～D32.json"
    ],
-   "status": "已整合",
    "at": "2026-11-11T19:3x",
    "receiver": "LAWWW",
    "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 4e5a9a47c 重匯；tests/date_fx_x324_1111_unit.js；GHA 綠了交 BB"
+   "next": "LAWWW 4e5a9a47c 重匯；tests/date_fx_x324_1111_unit.js；GHA 綠了交 BB",
+   "sha": "52c3ee258",
+   "state": "已整合"
   },
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/story-planning",
-   "commit": "7732e123e",
    "files": [
     "docs/story_planning/AA_816_ladder_fx.json",
     "docs/story_planning/AA_709_msg_replies.json"
    ],
-   "status": "已交付",
    "at": "2026-11-11T21:1x",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "X324 最後一塊：閒聊階梯 694 個選項 fx；手機回覆本來就有 rel／npcRom 不另加；交往中一階記 backlog｜11-12 補：帳號 A 最後對話＝已匯進開發分支、694 個全對上，等 BB 抽測",
+   "sha": "7732e123e",
+   "state": "已整合"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5701f3313",
+   "files": [
+    "docs/story_planning/AA_818_kx_events_ellipsis.json",
+    "docs/story_planning/AA_819_kx_triple_short.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:0x",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "X324 最後一塊：閒聊階梯 694 個選項 fx；手機回覆本來就有 rel／npcRom 不另加；交往中一階記 backlog"
+   "next": "LAWWW apply_line_rows（AA_818 70 列）、重匯 date_lines／ladder（AA_819）；Y0S1／Y0S2 兩句 LAWWW 定怎麼收；BB_375 第三節排 CC 測"
+  },
+  {
+   "task": "FLOWER-CLASS-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "58c5c2c1b",
+   "files": [
+    "docs/story_planning/AA_820_flower_class.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:0x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 做機制＋接稿（BB_376 第二意見已採納）"
+  },
+  {
+   "task": "SEASON3-LINES-1111",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "58c5c2c1b",
+   "files": [
+    "docs/story_planning/AA_793_season3_stalls.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:0x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 照 _meta.lawww_1112 五點改"
+  },
+  {
+   "task": "NOODLE-NAME-PURGE-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "23e13d523",
+   "files": [
+    "docs/story_planning/（AA 的檔 225 個）"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:0x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "BB grep 驗；LAWWW 重匯匯入源稿"
+  },
+  {
+   "task": "TINGZHOU-AREA-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9f7d19dc7",
+   "files": [
+    "docs/story_planning/AA_821_tz_yuehaochi.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:1x",
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "noDirectIntegrate": true,
+   "remaining": "等 BB 第二意見；其他四間等 LAWWW2 互動點清單",
+   "next": "BB 看完定稿給 LAWWW SHA",
+   "closedBy": "AA_821 定稿，見後面同任務那一筆"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "07d50af2f",
+   "files": [
+    "docs/story_planning/AA_822_kx_remember_last.json",
+    "docs/story_planning/AA_827_kx_triple_short_2.json",
+    "docs/story_planning/AA_781_kx_ladder_Y0S1.json",
+    "docs/story_planning/AA_781_kx_ladder_Y0S2.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "可昕五批都在開發分支 1cb322fc6；BB 排 CC 抽看"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6d503411c",
+   "files": [
+    "docs/story_planning/AA_832_an_triple_short.json",
+    "docs/story_planning/AA_833_an_events_ellipsis.json",
+    "docs/story_planning/AA_834_an_arrive.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "AA_833 已進 41837baa3d；AA_832、AA_834 等 LAWWW 重匯 date_lines"
+  },
+  {
+   "task": "TINGZHOU-AREA-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9f7d19dc7",
+   "files": [
+    "docs/story_planning/AA_821_tz_yuehaochi.json",
+    "docs/story_planning/AA_823_tz_dongnan.json",
+    "docs/story_planning/AA_824_tz_liantong.json",
+    "docs/story_planning/AA_825_tz_keju.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "溫特寶邸等互動點清單"
+  },
+  {
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "8e41821f4",
+   "files": [
+    "docs/story_planning/AA_826_shop_backfill_1.json",
+    "docs/story_planning/AA_831_店面標準補字_營業時間.md"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "禮貌生財三個看點、美國超市的字還沒寫"
+  },
+  {
+   "task": "SHOP-JOBS-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d8afcca6e",
+   "files": [
+    "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md",
+    "docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "瀏覽器還沒跑（BB／CC）"
+  },
+  {
+   "task": "FLOWER-CLASS-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "7917d4289",
+   "files": [
+    "docs/story_planning/AA_820_flower_class.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 6f1308ee5a；BB 測"
   }
  ],
  "items": [
@@ -6805,8 +6977,8 @@
     "LAWWW-C"
    ],
    "status": "READY_FOR_IMPLEMENTATION",
-   "doc": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
-   "summary": "芯慈大二暑假事務所、麵店團香港 8/25～8/28"
+   "doc": "docs/story_planning/AA_256_假期_芯慈事務所_桌遊團出國.md",
+   "summary": "芯慈大二暑假事務所、桌遊團香港 8/25～8/28"
   },
   {
    "id": "AA259-Y3S1-colloquial",

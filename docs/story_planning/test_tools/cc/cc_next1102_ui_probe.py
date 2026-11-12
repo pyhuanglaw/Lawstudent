@@ -1,4 +1,5 @@
 """CC（帳號 A）11-02：下一版 int/next1102（正式 SHA 673ef2185）三個畫面的瀏覽器探針（BB 14:02，LAWWW 建議優先看）。
+【CC_02 清單：未過】CC-C 11-12 只把群組舊名改字成「桌遊團」（使用者 P0 NOODLE-NAME-PURGE-1112；PHONE.join 群組名、說明文字），邏輯沒改。這支還沒照 CC_02 丁逐條過 13 點：排電腦前要先過清單、寫清單行、雲端重跑。
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控；SwiftShader 1～4 fps）。每個 case 的每個方向（直向 390×844、橫向 844×390）各開一個新的瀏覽器。
 URL 照給的跑；TURBO=1（預設）＝自動加 ?turbo（只加快對話等待、走路瞬間到；遊戲時間 dt 上限 0.3 秒＝等時間比較快）——三個 case 要看的畫面（對話框、字幕、黑板貼圖、
 觀念卡對話框）都不受 turbo 影響；報告照樣標示。
@@ -9,7 +10,7 @@ URL 照給的跑；TURBO=1（預設）＝自動加 ?turbo（只加快對話等�
     term ['Y1S2']、weeks [8]、weekday [3]（2026-04-15 週三＝STORY.termDay('Y1S2',8,3)）、time [17,20.5]、once、background 'blur'、prereq PS_BH
     （STORY.knows('classmate_peishan') 且沒有 dating_classmate_peishan）。台詞 6 句：「柏翰幫沛珊把滷蛋切成兩半。」「……喔。」「全桌安靜三秒。」
     「對，我們在一起了。你們吃你們的。」「上禮拜的事。」「（他把另一半滷蛋推回她碗裡。）」。consequences memo（沛珊和柏翰在麵店說了（4/15））。
-    story3d.js phoneRules（4/15、4/16，law 階段、在麵店團群組 noodle_team、認識沛珊、沒和她交往）：4/15 20:30 以前＝PHONE.at(max(17,現在)) 群組兩則
+    story3d.js phoneRules（4/15、4/16，law 階段、在桌遊團群組 noodle_team、認識沛珊、沒和她交往）：4/15 20:30 以前＝PHONE.at(max(17,現在)) 群組兩則
     （柏翰「今天晚上麵店，有空的來。」沛珊「我會到。」，tag psbh_0415_ask）；4/15 20:30 以後或 4/16、事件沒演＝missedPhoto：20:30 阿哲三則
     （📷 切成兩半的滷蛋／柏翰幫沛珊切的／……他們在一起了，tag zhe_supper_mid2_egg）＋ SOCIAL.remember(沛珊,'HEARD_ABOUT')。
     whois3d.js psBh 讀 events.last.ev_psbh_public_0415。
@@ -43,7 +44,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))));
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
-if os.environ.get('TURBO', '1') == '1' and 'turbo' not in URL: URL = URL + ('&' if '?' in URL else '?') + 'turbo'
+REAL = os.environ.get('REAL', '0') == '1'   # 真實流程（BB 對 ancf：不用 OUT.go；URL 不加 ?turbo）
+if REAL: URL = URL.replace('?turbo&', '?').replace('&turbo', '').replace('?turbo', '')
+if not REAL and os.environ.get('TURBO', '1') == '1' and 'turbo' not in URL: URL = URL + ('&' if '?' in URL else '?') + 'turbo'
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
 LST = lambda k, d: [c.strip() for c in os.environ.get(k, d).split(',') if c.strip()]
@@ -53,6 +56,7 @@ NOODLE_SUBS = LST('NOODLE_SUBS', 'in,enter,away')
 BOARD_SUBS = LST('BOARD_SUBS', 'measure,class3d,classcap')
 BOARD3D = os.environ.get('BOARD3D', 'crim_gen1'); BOARDCAP = os.environ.get('BOARDCAP', 'tax_law'); BOARD_WEEK = ENVI('BOARD_WEEK', 8)
 CARD = os.environ.get('CARD', 'securities_w5')
+DESIGN = os.environ.get('ANCF_DESIGN', '62d')   # ancf2 的期待值：62d（62d98bfa5 起：CG-11 第一次巷子、第二次桌邊 CG-27）／ef63（ef63b1877：第二次也在巷子、CG-11 不放）
 EVID = 'ev_psbh_public_0415'
 PS_LINES = ['柏翰幫沛珊把滷蛋切成兩半。', '……喔。', '全桌安靜三秒。', '對，我們在一起了。你們吃你們的。', '上禮拜的事。', '（他把另一半滷蛋推回她碗裡。）']
 A585 = ['civ_general', 'crim_gen1', 'const_1', 'const_2', 'crim_gen2', 'oblig_gen1', 'admin_law', 'crim_spec', 'property', 'oblig_gen2', 'oblig_spec', 'family_law', 'admin_remedy',
@@ -155,7 +159,7 @@ async def wait_free(pg, cdp, max_s=60):
 # ================================================================ (a) noodle
 SETUP_PS = r"""(()=>{ const G=GAME.G; G.contacts=G.contacts||{}; const day0=STORY.dayOfKey('2025-09-24');
   for(const [id,v] of [['classmate_peishan',[45,30,10]],['classmate_bohan',[45,30,10]],['zhe',[65,50,45]]]){ const R=SOCIAL.rel(id); R.fam=v[0]; R.trust=v[1]; R.comf=v[2]; SOCIAL.remember(id,'FIRST_MET',''); if(G.contacts[id]==null) G.contacts[id]=day0; }
-  if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','麵店團');
+  if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','桌遊團');
   const ev=STORY_EVENTS.find(e=>e.id==='__ID__'); const d=STORY.termDay('Y1S2',8,3);
   return {knowsPS:STORY.knows('classmate_peishan',G),knowsBH:STORY.knows('classmate_bohan',G),knowsZhe:STORY.knows('zhe',G),group:PHONE.inGroup(G,'noodle_team'),dating:!!G.flags.dating_classmate_peishan,
     psbh:!!(ev&&ev.prereq&&ev.prereq.custom(G)),termDay:d,key:CALENDAR.dateOf(d).key,ev:ev?{location:ev.location,trigger:ev.trigger,term:ev.term,weeks:ev.weeks,weekday:ev.weekday,time:ev.time,once:ev.once,lines:ev.dialogue.length}:null}; })()""".replace('__ID__', EVID)
@@ -180,7 +184,7 @@ async def noodle_pass(p, run, sub, orient):
         su = await pg.evaluate(SETUP_PS); rec['setup'] = su
         snap = await P.snapshot(pg); await load(pg, cdp, snap)
         await P.events_on(pg)
-        run.setup('[前置] %s：最小存檔 %s（%s 第 %s 週 週三）%s %s；【捷徑】認識沛珊、柏翰、阿哲（SOCIAL FIRST_MET）、加入麵店團群組 → 快照重讀；條件事件打開（只關手機自動打開）；URL %s'
+        run.setup('[前置] %s：最小存檔 %s（%s 第 %s 週 週三）%s %s；【捷徑】認識沛珊、柏翰、阿哲（SOCIAL FIRST_MET）、加入桌遊團群組 → 快照重讀；條件事件打開（只關手機自動打開）；URL %s'
                   % (tag, d['key'], d['term'], d['week'], P_hm(h), zone, URL))
         run.check('%s：前置成立（4/15＝termDay(Y1S2,8,3)、PS_BH 成立、在群組、沒交往）' % tag, su['key'] == '2026-04-15' and su['psbh'] and su['group'] and not su['dating'], J(su))
         z = await pg.evaluate("GAME.G.zone"); rec['zone0'] = z
@@ -227,7 +231,7 @@ async def noodle_pass(p, run, sub, orient):
             okh = await P.wait_hour(pg, cdp, 17.02, max_s=ENVI('EV_MAX', 300))
             ns = await pg.evaluate(NSTATE); rec['at17'] = ns
             ask = [m for m in ns['msgs'] if m['tag'] == 'psbh_0415_ask']
-            run.check('%s：17:00 麵店團群組兩則（柏翰「今天晚上麵店，有空的來。」沛珊「我會到。」）' % tag, okh and len(ask) == 2 and ask[0]['text'] == '今天晚上麵店，有空的來。' and ask[1]['text'] == '我會到。', J(ns))
+            run.check('%s：17:00 桌遊團群組兩則（柏翰「今天晚上麵店，有空的來。」沛珊「我會到。」）' % tag, okh and len(ask) == 2 and ask[0]['text'] == '今天晚上麵店，有空的來。' and ask[1]['text'] == '我會到。', J(ns))
             th = await P.phone_thread(pg, cdp, 'g:noodle_team'); rec['thread17'] = th['text'][-600:]
             rec['shots']['group17'] = await run.shot(pg, tag + '_group17'); await L.close_panels(pg, cdp)
             await P.jump(pg, cdp, run, ['Y1S2', 8, 3], 20 + 27 / 60, 'dorm', note='（沒去麵店，等 20:30）'); await P.events_on(pg)
@@ -576,7 +580,7 @@ async def psbhbg_pass(p, run, orient):
         await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
         st, d = await state_at(pg, ['Y1S2', 8, 3], 16 + 59 / 60, 'noodle'); await load(pg, cdp, st)
         su = await pg.evaluate(SETUP_PS); snap = await P.snapshot(pg); await load(pg, cdp, snap); await P.events_on(pg)
-        run.setup('[前置] %s：最小存檔 %s 16:59 麵店；【捷徑】認識沛珊、柏翰、阿哲、加入麵店團群組 → 快照重讀；條件事件打開；URL %s' % (tag, d['key'], URL))
+        run.setup('[前置] %s：最小存檔 %s 16:59 麵店；【捷徑】認識沛珊、柏翰、阿哲、加入桌遊團群組 → 快照重讀；條件事件打開；URL %s' % (tag, d['key'], URL))
         run.check('%s：前置成立' % tag, su['key'] == '2026-04-15' and su['psbh'], J(su))
         r = await play(pg, cdp, run, tag, shot_if=lambda t, i: ('line1' if t == PS_LINES[0] else ('line4' if t == PS_LINES[3] else None)), max_s=ENVI('EV_MAX', 300))
         R = await pg.evaluate(PL, 0); rec['log'] = R; rec['play'] = r
@@ -682,14 +686,14 @@ AN = 'heroine_01'
 SETUP_AN = r"""(term=>{ const G=GAME.G, id='heroine_01'; G.contacts=G.contacts||{}; const R=SOCIAL.rel(id); R.fam=Math.max(R.fam|0,60); R.trust=Math.max(R.trust|0,50); R.comf=Math.max(R.comf|0,50); R.npcRom=Math.max(+R.npcRom||0,45); R.rom=Math.max(+R.rom||0,45);
   if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); if(G.contacts[id]==null) G.contacts[id]=G.day-30;
   const Lg=DATE.log(G,id); Lg.count=Math.max(Lg.count|0,4); Lg.wish=true; Lg.wishKnown=true;
-  const w=TERMEND.windowOf(term); const P=TERMEND.plan(G,w); const Rt=TERMEND.rec(G);
+  const w=TERMEND.windowOf(term); const cached=!!TERMEND.rec(G,term).plan; const P=TERMEND.plan(G,w); const Rt=TERMEND.rec(G);
   return {term,w:{from:CALENDAR.dateOf(w.from).key,to:CALENDAR.dateOf(w.to).key},plan:{back:P.back!=null?CALENDAR.dateOf(P.back).key:null,heart:P.heart,friend:P.friend,fallback:P.fallback,nope:P.nope},
-    cond:TERMEND.cond(G,id),think:Rt.think,dating:!!G.flags['dating_'+id],stage:SOCIAL.stage(id),npcRom:R.npcRom}; })"""
+    cached,cond:TERMEND.cond(G,id),think:Rt.think,dating:!!G.flags['dating_'+id],stage:SOCIAL.stage(id),npcRom:R.npcRom}; })"""
 TESTATE = r"""(term=>{ const G=GAME.G, id='heroine_01', R=TERMEND.rec(G,term), Rt=TERMEND.rec(G); const q=OUT.get(G,'te_'+term);
   const msgs=(G.msgs||[]).filter(m=>m.th==='p:'+id&&/^te_/.test(m.tag||'')).map(m=>({tag:m.tag,day:CALENDAR.dateOf(m.day).key,h:m.h,text:String(m.text||''),ask:m.ask?m.ask.opts.map(o=>o.t):null}));
   return {picked:R.picked||null,done:R.done||null,result:R.result||null,second:R.second||null,think:Rt.think,dating:!!G.flags['dating_'+id],confessed:G.flags.confessed||null,
     out:q?{day:q.day,key:CALENDAR.dateOf(q.day).key,h:q.h,state:q.state,title:q.title}:null,msgs,queued:PHONE.sent(G,'te_'+term+'_'+id)}; })"""
-AN_KEY = ('想去的店', '和你', '你不說的話', '最下面那一行', '這一行我先不劃掉', '同一家', '走一下', '走出店門')
+AN_KEY = ('想去的店', '和你', '勾了', '你不說的話', '最下面那一行', '這一行我先不劃掉', '同一家', '走一下', '走出店門')
 
 
 async def an_term(pg, cdp, run, tag, term, prefs, land, rec):
@@ -699,6 +703,7 @@ async def an_term(pg, cdp, run, tag, term, prefs, land, rec):
     await P.jump(pg, cdp, run, w0['key'], 10.0, 'dorm', pos=None, note='（%s 期末時段前一天：設條件）' % term)
     su = await pg.evaluate(SETUP_AN, term); R['setup'] = su
     run.setup('【捷徑】%s %s：以安 npcRom≥45、熟度、FIRST_MET、DATE.log 正式約會 4 次＋心願地點（C1、C2）；TERMEND.plan 先算好 → %s' % (tag, term, J(su)))
+    run.check('%s %s：（探針前置）設條件以前這學期的 plan 還沒算過' % (tag, term), not su.get('cached'), J(su))
     run.check('%s %s：心意邀約排了以安（plan.heart）' % (tag, term), AN in su['plan']['heart'], J(su))
     if AN not in su['plan']['heart']: return R
     snap = await P.snapshot(pg)
@@ -716,14 +721,34 @@ async def an_term(pg, cdp, run, tag, term, prefs, land, rec):
     R['after_ok'] = st
     run.check('%s %s：手機邀約（%s）→ 按「好。」→ 排了出遊 te_%s' % (tag, term, J([m['text'] for m in st['msgs']]), term), ans is not None and st['out'] is not None, J({'asks': th['asks'], 'out': st['out'], 'picked': st['picked']}))
     if not st['out']: return R
-    q = st['out']; await P.jump(pg, cdp, run, q['key'], q['h'] - 0.6, 'dorm', note='（飯那天 %s，等出發的提示）' % P_hm(q['h']))
+    q = st['out']; await P.jump(pg, cdp, run, q['key'], q['h'] - (0.52 if REAL else 0.6), 'dorm', note='（飯那天 %s，等出發的提示）' % P_hm(q['h']))
     n0 = await pg.evaluate(PLN)
+    if REAL:   # 真實流程：等出發提示（OUT.due → OUT.prompt 的選單「出發：…」）最多 180 秒、觸控按下去；等不到＝FAIL
+        t1 = time.time(); k = None; s = None
+        while time.time() - t1 < 180:
+            s = await P.ts(pg)
+            if s['phone'] and not s['ch']: await L.phone_away(pg, cdp, tries=2); continue
+            if s['ch']:
+                k = next((i for i, o in enumerate(s['ch']) if o['t'].startswith('出發')), None)
+                if k is not None: break
+                run.note('%s %s：等出發時出現別的選單 %s' % (tag, term, J([o['t'] for o in s['ch']])))
+                await P.tap_choice(pg, cdp, pick_by(s['ch'], ('晚一點',))); await pg.wait_for_timeout(1000); continue
+            if s['dlg']: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(1000)
+        waited = round(time.time() - t1, 1); R['go_wait_s'] = waited
+        if k is None:
+            os_ = await pg.evaluate("t=>{ const q=OUT.get(GAME.G,'te_'+t); let due=null; try{ due=OUT.due(GAME.G); due=due&&due.id; }catch(e){ due='err:'+e.message; } return {hour:+(+GAME.G.hour).toFixed(3),zone:GAME.G.zone,q,due,busy:!!GAME.E.player.busy,dlg:!!(GAME.D&&GAME.D.active)}; }", term)
+            R['go_fail'] = os_; R['shot_nogo'] = await run.shot(pg, '%s_%s_nogo' % (tag, term))
+            run.check('%s %s：出發提示出現（真實流程）' % (tag, term), False, '出發提示 180 秒沒出現 ' + J(os_)); return R
+        R['shot_go'] = await run.shot(pg, '%s_%s_go' % (tag, term))
+        run.check('%s %s：出發提示出現（真實流程，等了 %s 秒）' % (tag, term, waited), True, J([o['t'] for o in s['ch']]))
+        await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200)
     def shot_if(t, i):
         if t == '__choice__': return 'choice%d' % (i + 1)
         if not land: return 'L%02d' % (i + 1)
         return ('L%02d' % (i + 1)) if any(k in t for k in AN_KEY) else None
     r = await play(pg, cdp, run, '%s_%s' % (tag, term), prefs=('出發',) + tuple(prefs), shot_if=shot_if, max_s=ENVI('AN_MAX', 900), idle_s=8)
-    if not r['lines']:
+    if not r['lines'] and not REAL:
         st2 = await pg.evaluate(TESTATE, term); run.setup('【捷徑】%s %s：30 秒內沒有出發的提示（%s）→ 直接 OUT.go(GAME, 那一趟)' % (tag, term, J(st2['out'])))
         await pg.evaluate("t=>{ void OUT.go(GAME, OUT.get(GAME.G,'te_'+t)); }", term); R['forced_go'] = True
         r = await play(pg, cdp, run, '%s_%s' % (tag, term), prefs=tuple(prefs), shot_if=shot_if, max_s=ENVI('AN_MAX', 900), idle_s=8)
@@ -739,7 +764,7 @@ async def ancf_pass(p, run, orient):
     try:
         await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
         await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
-        st, d = await state_at(pg, '2025-12-20', 10.0, 'dorm'); await load(pg, cdp, st)
+        st, d = await state_at(pg, '2025-12-10', 10.0, 'dorm'); await load(pg, cdp, st)   # 期末時段（12/18 起）以前：手機規則不會先把沒有以安的 plan 存起來（PC 快，讀進 12/20 一下就算好 plan＝fallback kai）
         run.setup('[前置] %s：最小存檔（法律系、大一上）；條件事件關掉、手機不自動打開' % tag)
         rec['cg0'] = await pg.evaluate(CGST)
         # 第一次（大一上）：（先不說）→ 她說 →「讓我想想。」
@@ -788,6 +813,234 @@ async def ancf_pass(p, run, orient):
         except Exception: pass
 
 
+# ================================================================ int/m590 0e11c43a3 追加（BB 19:43，BB_246）：ancf2（讓我想想→第二次 she2→好＝she2Yes＋CG-27）、ancfsay（第一次說出來）、examgoal（P5 EXAMDAY-GOAL）
+# 讀碼（0e11c43a3）：0383ed3e2 termend_lines.js heroine_01 she2Yes＝[旁白「（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）」,「……勾了。」]，
+#   sheMem／she2YesMem＝'AN_SHOP_PAGE'（SOCIAL.MEMORY_HIDE：人物面板不顯示，SOCIAL.panelMemories）；termend3d.js walkHome：第一次她說＝記 AN_SHOP_PAGE；第二次選「好。」＝先演 she2Yes、記 AN_SHOP_PAGE 再交往。
+#   CG-27：這一版的 src 裡沒有（CG_REGISTRY 沒有新的手帳圖、she2Yes 沒有 {cg}）；總表 0aaf93529 寫「CG-27 已實作（c9aa5f3ad）」，c9aa5f3ad 不在這個 repo（fetch 後也沒有）＝不在 0e11c43a3。
+#   CG-24（1a5110e07）：cg_valentine_taichung_heroine01 在 an_yt_hol_events.js 的 ev_an_vday_y1（2026-02-14 台中情人節出遊）／ev_an_vday_tc（2029 補救）傍晚車子旁那一拍；
+#   條件：CG_REGISTRY 有登錄、沒有 AN_VDAY_CG。期末飯路線不會經過＝只記條件。
+SOCMEM = r"""(()=>({mem:SOCIAL.memories('heroine_01').map(m=>m.tag),panel:(SOCIAL.panelMemories?SOCIAL.panelMemories('heroine_01'):[]).map(m=>m.tag),hide:SOCIAL.MEMORY_HIDE?[...SOCIAL.MEMORY_HIDE]:null}))()"""
+SHE2YES = ['（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）', '……勾了。']
+
+
+async def ancf2_pass(p, run, orient, route):
+    """route 'think'：大一上（先不說）→「讓我想想。」→ 大一下（先不說）→ she2 →「好。」；route 'say'：大一上「我喜歡妳。」"""
+    tag = 'ancf2_%s_%s' % (route, orient); land = orient == 'land'
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+    pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    rec = {'orient': orient, 'route': route}
+    try:
+        await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        st, d = await state_at(pg, '2025-12-10', 10.0, 'dorm'); await load(pg, cdp, st)   # 期末時段（12/18 起）以前：手機規則不會先把沒有以安的 plan 存起來（PC 快，讀進 12/20 一下就算好 plan＝fallback kai）
+        run.setup('[前置] %s：最小存檔（法律系、大一上）；條件事件關掉、手機不自動打開' % tag)
+        rec['cg0'] = await pg.evaluate(CGST)
+        if route == 'say':
+            R1 = await an_term(pg, cdp, run, tag, 'Y1S1', ('「我喜歡妳。」',), land, rec); rec['Y1S1'] = R1
+            if R1.get('play'):
+                says = [x['t'] for x in R1['log'] if x['k'] == 'say']
+                run.check('%s：第一次說出來＝交往（result yes、dating）、沒有她說的手帳那一段' % tag, R1['end']['result'] == 'yes' and R1['end']['dating'] and not any('想去的店' in t for t in says), J({'end': R1['end'], 'tail': says[-6:]}))
+        else:
+            R1 = await an_term(pg, cdp, run, tag, 'Y1S1', ('（先不說）', '「讓我想想。」'), land, rec); rec['Y1S1'] = R1
+            m1 = await pg.evaluate(SOCMEM); rec['mem1'] = m1
+            run.check('%s：第一次她說＝記 AN_SHOP_PAGE、人物面板不顯示' % tag, 'AN_SHOP_PAGE' in m1['mem'] and 'AN_SHOP_PAGE' not in m1['panel'], J(m1))
+            if R1.get('end'): run.check('%s：第一次「讓我想想」＝think、沒交往' % tag, R1['end']['result'] == 'think' and not R1['end']['dating'], J(R1['end']))
+            if R1.get('log') and DESIGN == '62d':   # 62d98bfa5：第一次（巷子）she 第三拍放 CG-11（新圖：手帳舉到下巴前）；一場只放一張
+                L1 = R1['log']; cg1 = [x['arg'] for x in L1 if x['k'] == 'adv' and x['fn'] == 'cg']
+                j = next((n for n, x in enumerate(L1) if x['k'] == 'say' and x['t'].startswith('（那一頁的標題是「想去的店」')), -1)
+                nxt = next((x for x in L1[j + 1:] if x['k'] in ('say', 'adv')), None) if j >= 0 else None
+                await pg.wait_for_timeout(2000); c1 = await pg.evaluate(CGST); rec['cg_Y1S1'] = {'calls': cg1, 'unlocked': c1['unlocked']}
+                run.check('%s：第一次（巷子，背景 gongguan）she 的「想去的店」那一拍之後放 CG-11、只放這一張、G.cg.unlocked 有它' % tag,
+                          cg1 == ['cg_reason_column_heroine01'] and bool(nxt) and nxt['k'] == 'adv' and nxt.get('arg') == 'cg_reason_column_heroine01' and 'cg_reason_column_heroine01' in c1['unlocked']
+                          and any(x['k'] == 'adv' and x['fn'] == 'begin' and 'gongguan' in J(x['arg']) for x in L1),
+                          J({'calls': cg1, 'next_after_page': nxt, 'unlocked': c1['unlocked']}))
+            R2 = await an_term(pg, cdp, run, tag, 'Y1S2', ('（先不說）', '「好。」'), land, rec); rec['Y1S2'] = R2
+            if R2.get('play'):
+                says = [x['t'] for x in R2['log'] if x['k'] == 'say']
+                i = says.index('上次那一頁，最下面那一行還沒勾。……你要看嗎？') if '上次那一頁，最下面那一行還沒勾。……你要看嗎？' in says else -1
+                rec['after_she2'] = says[i:] if i >= 0 else says[-8:]
+                if DESIGN == '62d':   # 62d98bfa5：第二次在桌邊（againAtTable）：背景＝店（xiaofu）、收尾換「（兩個碗都空了。…）」、不演走出店門那兩句；she2Yes 之後才「（餐盤疊好，拿去回收。）」「（走出店門，…）」
+                    want = SHE2YES + ['（餐盤疊好，拿去回收。）', '（走出店門，她沒有往宿舍那邊走。）']
+                    run.check('%s：she2 之後選「好。」＝承接兩拍＋收盤子、走出店門（逐字）' % tag, i >= 0 and says[i + 1:i + 5] == want, J(rec['after_she2']))
+                    pre = says[:i] if i >= 0 else says
+                    run.check('%s：第二次在桌邊：收尾是「（兩個碗都空了。窗外的路燈已經亮了。）」、she2 以前沒有「走一下。我有東西給你看。」' % tag,
+                              '（兩個碗都空了。窗外的路燈已經亮了。）' in pre and '走一下。我有東西給你看。' not in pre and '（餐盤疊好，拿去回收。外面的路燈已經亮了。）' not in pre, J(pre[-8:]))
+                    begs = [x['arg'] for x in R2['log'] if x['k'] == 'adv' and x['fn'] == 'begin']
+                    run.check('%s：第二次那一段的 ADV.begin 背景是店（xiaofu），不是巷子（gongguan）' % tag, any('xiaofu' in J(a) for a in begs[1:]) and not any('gongguan' in J(a) for a in begs), J(begs))
+                else:
+                    run.check('%s：she2 之後選「好。」＝承接兩拍（逐字）' % tag, i >= 0 and says[i + 1:i + 3] == SHE2YES, J(rec['after_she2']))
+                run.check('%s：第二次「好。」→ 交往（sheSaid）' % tag, R2['end']['result'] == 'sheSaid' and R2['end']['dating'], J(R2['end']))
+                cg2 = [x for x in R2['log'] if x['k'] == 'adv' and x['fn'] == 'cg']; rec['cg_calls_Y1S2'] = cg2
+                cge = await pg.evaluate(CGST); rec['cgEnd'] = cge
+                await pg.wait_for_timeout(3000); cge = await pg.evaluate(CGST); rec['cgEnd'] = cge
+                run.check('%s：CG-27（cg_shop_page_check_heroine01）出現（she2Yes 那一段 ADV.cg、這一場只有它一張、G.cg.unlocked 有它）' % tag, [x['arg'] for x in cg2] == ['cg_shop_page_check_heroine01'] and 'cg_shop_page_check_heroine01' in cge['unlocked'],
+                          J({'cg_calls': cg2, 'unlocked': cge['unlocked'], 'note': 'she2Yes 第一拍 {cg:cg_shop_page_check_heroine01}'}))
+                m2 = await pg.evaluate(SOCMEM); rec['mem2'] = m2
+                run.check('%s：AN_SHOP_PAGE 全程只記一筆（c89a5f9be：第二次已經有就不再記）、人物面板不顯示' % tag, m2['mem'].count('AN_SHOP_PAGE') == 1 and 'AN_SHOP_PAGE' not in m2['panel'], J(m2))
+        cgs = [x for k in ('Y1S1', 'Y1S2') for x in ((rec.get(k) or {}).get('log') or []) if x['k'] == 'adv' and x['fn'] == 'cg']
+        cge = await pg.evaluate(CGST); rec['cgAll'] = cgs
+        if DESIGN == '62d' and route == 'think':
+            c11 = [x for x in cgs if x['arg'] == 'cg_reason_column_heroine01']
+            run.check('%s：CG-11 全程只呼叫一次（大一上 she）、第二次不放' % tag, len(c11) == 1 and c11[0]['d'] == (rec.get('Y1S1') or {}).get('end', {}).get('done', {}).get('day'), J({'cg_calls': cgs}))
+        else:
+            run.check('%s：CG-11（cg_reason_column_heroine01）沒有呼叫、沒有解鎖（說出來那條 yesCg＝null）' % tag, not any('reason_column' in J(x) for x in cgs) and 'cg_reason_column_heroine01' not in cge['unlocked'], J({'cg_calls': cgs, 'unlocked': cge['unlocked']}))
+        with open(os.path.join(OUT, '%s_lines.txt' % tag), 'w', encoding='utf-8') as f:
+            for k in ('Y1S1', 'Y1S2'):
+                Rk = rec.get(k)
+                if not Rk: continue
+                f.write('==== %s ====\n手機：%s\n' % (k, J([m['text'] for m in Rk.get('invite') or []])))
+                for x in (Rk.get('log') or []):
+                    if x['k'] == 'say': f.write('%s：%s\n' % (x['n'] or '（旁白）', x['t']))
+                    elif x['k'] == 'choose': f.write('［選項］%s\n' % J(x['t']))
+                    elif x['k'] == 'adv': f.write('［ADV.%s］%s\n' % (x['fn'], J(x['arg'])))
+                    elif x['k'] == 'caption': f.write('［字幕］%s\n' % x['t'])
+                f.write('結果：%s\n\n' % J(Rk.get('end')))
+    except Exception as e:
+        run.check('%s：跑完（沒有探針例外）' % tag, False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, tag + '_exception')
+        except Exception: pass
+    finally:
+        run.check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3])); rec['errs'] = errs[:5]
+        dump(tag, **rec)
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
+
+EXAMDAY_FIND = r"""(()=>{ const G0=GAME.G; for(let d=-200;d<400;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!=='Y1S1') continue; const G=Object.assign({},G0,{day:d,weekday:CALENDAR.dateOf(d).wd%7,hour:6});
+  const x=CLS.dayItems(G).find(q=>q.exam==='final'); if(x){ let n=null; for(let e=d-1;e>d-10;e--){ const G2=Object.assign({},G0,{day:e,weekday:CALENDAR.dateOf(e).wd%7,hour:6}); if(CLS.dayItems(G2).some(q=>!q.exam)){ n=e; break; } }
+    return {day:d,key:CALENDAR.dateOf(d).key,t0:x.t0,name:x.c.name,room:x.room&&x.room.name,normal:n,normalKey:n!=null?CALENDAR.dateOf(n).key:null}; } } return null; })()"""
+GOALST = r"""(()=>{ const e=document.getElementById('goal'); let ce=null; try{ ce=typeof CLS.curExam==='function'?CLS.curExam(GAME.G):(CLS.curExam||null); if(ce&&typeof ce==='object') ce={key:ce.key||null,exam:ce.exam||null,name:ce.c&&ce.c.name||null}; }catch(x){ ce='err:'+x.message; }
+  const nx=CLS.next(GAME.G); return {goalG:GAME.G.goal==null?null:(typeof GAME.G.goal==='object'?JSON.stringify(GAME.G.goal):String(GAME.G.goal)),dom:e?(e.textContent||'').trim():null,
+    next:nx?{exam:nx.exam||null,t0:nx.t0,name:nx.c.name}:null,curExam:ce,h:+(+GAME.G.hour).toFixed(3),zone:GAME.G.zone}; })()"""
+
+
+async def examgoal_pass(p, run, orient):
+    tag = 'examgoal_%s' % orient; land = orient == 'land'
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+    pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    rec = {'orient': orient}
+    try:
+        await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        st, d = await state_at(pg, '2025-12-20', 10.0, 'dorm'); await load(pg, cdp, st)
+        fd = await pg.evaluate(EXAMDAY_FIND); rec['find'] = fd
+        if not fd: run.check('%s：找得到大一上的期末考日' % tag, False); return
+        for sub, key, h in (('exam', fd['key'], 6.5), ('normal', fd['normalKey'], 6.5)):
+            st, d = await state_at(pg, key, h, 'dorm'); st['goal'] = '—'
+            await load(pg, cdp, st, quiet=False); await P.events_on(pg)
+            run.setup('[前置] %s %s：最小存檔 %s 06:30 宿舍、目標欄「—」（劇情演完沒有目標的狀態）；條件事件照常（起床／室友的劇情照玩家點）' % (tag, sub, key))
+            r = await play(pg, cdp, run, '%s_%s' % (tag, sub), shot_if=lambda t, i: None, max_s=240, idle_s=6)
+            await pg.wait_for_timeout(4000)
+            g = await pg.evaluate(GOALST); rec[sub] = {'goal': g, 'lines': [l['t'] for l in r['lines']], 'chose': r['chose']}
+            rec[sub]['shot'] = await run.shot(pg, '%s_%s_goal' % (tag, sub))
+            run.note('%s %s：途中台詞 %s；選單 %s' % (tag, sub, J([l['t'][:24] for l in r['lines']][:12]), J([c['picked'] for c in r['chose']])))
+            if sub == 'exam':
+                hm = P_hm(fd['t0'])
+                run.check('%s：考試日劇情後目標欄＝「%s 期末考：%s…」（G.goal 與 #goal）' % (tag, hm, fd['name']),
+                          (g['goalG'] or '').startswith(hm + ' 期末考：' + fd['name']) and (hm + ' 期末考：' + fd['name']) in (g['dom'] or ''), J(g))
+            else:
+                run.check('%s：一般有課的日子（%s）目標欄沒有「期末考：」' % (tag, key), '期末考：' not in (g['goalG'] or '') + (g['dom'] or ''), J(g))
+    except Exception as e:
+        run.check('%s：跑完（沒有探針例外）' % tag, False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, tag + '_exception')
+        except Exception: pass
+    finally:
+        run.check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3])); rec['errs'] = errs[:5]
+        dump(tag, **rec)
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
+
+# ---------------- examgoal_wake（BB 對 CC_30：補「起床劇情演完以後」那一條路；直向一趟）
+# a5935aa30：S.goalFor 考試日＝「09:10 期末考：課名（教室）」；S.oneTick：G.goal 空或「—」、今天還有考試＝S.setGoal。
+# 前置：2025-12-14 22:30 宿舍（隔天 12/15 憲法（上）期末考），條件事件照常；之後全部照玩家：走到床（互動點 sleep:true，按鈕「睡覺」）→ 床的選單 → 睡到隔天 → 起床劇情照玩家點 → 讀 G.goal 與 #goal
+# BB 11-03 01:11：量目標的時機＝起床劇情演完、還沒進考場（PC 快，舊寫法等 play() 全部跑完才量＝已經考完、18:56）。
+# 頁面裡每 100 ms 看一次（不靠 Python 輪詢），條件見 EGWATCH 下面那一行
+EGWATCH = r"""((a)=>{ if(window.__EGW) return 'again'; const W=window.__EGW={first:null,menu:null,seen:null,since:null,h0:null,gaps:[]}; const day=a[0], t0=a[1];
+  const snap=()=>{ const G=GAME.G, e=document.getElementById('goal'); return {goalG:G.goal==null?null:(typeof G.goal==='object'?JSON.stringify(G.goal):String(G.goal)),
+    dom:e?(e.textContent||'').trim():null,h:+(+G.hour).toFixed(3),day:G.day,zone:G.zone,ms:Math.round(performance.now())}; };
+  const iv=setInterval(()=>{ try{ const G=GAME.G; if(!G||G.day!==day) return; const ch=document.getElementById('choices'), chOn=!!ch&&!ch.classList.contains('hide');
+    if(chOn&&!W.menu&&[...ch.querySelectorAll('button')].some(b=>/考場/.test(b.textContent||''))) W.menu=snap();
+    const D=GAME.D, P=GAME.E&&GAME.E.player, story=!!(D&&D.active)||chOn||!!(D&&D.busyDepth>0)||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof ADV!=='undefined'&&!!ADV.active);
+    if(story&&!W.seen) W.seen=snap();
+    const free=!!W.seen&&G.hour<t0&&!story&&!!P&&!P.busy&&!GAME.titleIdle;
+    if(!free){ if(W.since!=null&&W.gaps.length<20) W.gaps.push([W.h0,+G.hour.toFixed(3),Math.round(performance.now()-W.since)]); W.since=null; return; }
+    const now=performance.now(); if(W.since==null){ W.since=now; W.h0=+G.hour.toFixed(3); return; }
+    if(now-W.since>=1500&&G.hour-W.h0>=0.02){ W.first=snap(); W.first.freeFrom=W.h0; clearInterval(iv); } }catch(e){} },100); return 'ok'; })"""
+# 「玩家自己的時間」：考試日、起床劇情（對話／選單／事件／ADV）出現過以後、開考前、連續 1.5 秒沒有劇情而且遊戲時間走了 1.2 分鐘以上——劇情和劇情中間的空檔（PC 上 0.001 小時）不算
+BEDIT = "(()=>{ const it=(GAME.E.interactables||[]).find(x=>x.sleep); return it?{x:it.x,z:it.z,label:it.label||null}:null; })()"
+
+
+async def examgoal_wake_pass(p, run, orient):
+    tag = 'examgoal_wake_%s' % orient; land = orient == 'land'
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+    pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    rec = {'orient': orient}
+    try:
+        await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        st, d = await state_at(pg, '2025-12-14', 22.5, 'dorm')
+        await load(pg, cdp, st, quiet=False); await P.events_on(pg)
+        fd = await pg.evaluate(EXAMDAY_FIND); rec['find'] = fd
+        run.setup('[前置] %s：最小存檔 2025-12-14 22:30 宿舍（隔天 %s %s 期末考 %s）；條件事件照常、只關手機自動打開' % (tag, fd and fd['key'], fd and fd['name'], fd and P_hm(fd['t0'])))
+        bed = await pg.evaluate(BEDIT); rec['bed'] = bed
+        if not bed: run.check('%s：宿舍有床的互動點' % tag, False); return
+        if fd: await pg.evaluate(EGWATCH + '(%s)' % J([fd['day'], fd['t0']]))
+        n0 = await pg.evaluate(PLN)
+        arrived = await L.go_to(pg, cdp, run, bed['x'], bed['z'], 0.7, '床', max_s=300, stop=lambda s: s['interact'].startswith('睡覺'))
+        lab = (await P.ts(pg))['lab']
+        run.check('%s：照玩家走到床、按鈕是「睡覺」' % tag, arrived and lab.startswith('睡覺'), J({'lab': lab}))
+        rec['shot_bed'] = await run.shot(pg, tag + '_bed')
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        def shot_if(t, i):
+            if t == '__choice__': return 'choice%d' % (i + 1)
+            return 'L%02d' % (i + 1)
+        r = await play(pg, cdp, run, tag, prefs=('早上', '睡到明天', '睡覺', '照樣', '先起床', '起床'), shot_if=shot_if, max_s=600, idle_s=6)   # 起床選單選「先起床」（考前 10 分鐘自動帶進考場）：才有「劇情演完、還沒進考場」的玩家時間
+        R = await pg.evaluate(PL, n0); rec['log'] = R; rec['play'] = {'lines': [l['t'] for l in r['lines']], 'chose': r['chose']}
+        says = [x for x in R if x['k'] == 'say']; evs = [x['id'] for x in R if x['k'] == 'event']
+        wake_says = [x for x in says if fd and x.get('d') == fd['day']]
+        rec['events'] = evs; rec['wake_says'] = [[x['n'], x['t'], x['h']] for x in wake_says]
+        run.note('%s：EVENTS.run %s；隔天的台詞 %s；選單 %s' % (tag, J(evs), J(rec['wake_says'][:12]), J([c['picked'] for c in r['chose']])))
+        g0 = await pg.evaluate(GOALST); t0 = time.time(); rec['goal_after_story'] = g0
+        run.check('%s：睡到考試日早上、真的有起床劇情（隔天有台詞或事件）' % tag, bool(fd) and await pg.evaluate("GAME.G.day") == fd['day'] and (bool(wake_says) or bool(evs)), J({'day': await pg.evaluate("GAME.G.day"), 'events': evs, 'wake': rec['wake_says'][:6]}))
+        want = '%s 期末考：' % (fd and P_hm(fd['t0']))
+        # BB 11-03 01:07 判定：一天考兩科時遊戲寫「今天考試：09:10 憲法（上）、15:30 體育…」是合理的——期待值改成「目標包含考試時刻和課名」，不要求逐字「09:10 期末考：課名（教室）」
+        wt, wn = (fd and P_hm(fd['t0'])) or '?', (fd and fd['name']) or '?'
+        def has_exam(t): return bool(t) and wt in t and wn in t
+        g = g0; hist = [[0, g0['h'], g0['goalG']]]
+        while time.time() - t0 < 180:
+            g = await pg.evaluate(GOALST)
+            if hist[-1][2] != g['goalG']: hist.append([round(time.time() - t0, 1), g['h'], g['goalG']])
+            if await pg.evaluate("!!(window.__EGW&&window.__EGW.first)"): break   # 量到「起床劇情演完、開考前」就停（不等到考完）
+            if fd and g['h'] >= fd['t0']: break   # 已經開考：量不到了（下面 check 會 FAIL）
+            s = await P.ts(pg)
+            if s['ch'] or s['dlg']: run.note('%s：等目標時又出現對話／選單 %s' % (tag, J([s['txt'][:30], [o['t'] for o in s['ch']]])))
+            if s['dlg']: await L.tap(pg, cdp, '#dlg')
+            elif s['ch']: await P.tap_choice(pg, cdp, pick_by(s['ch'], ('先起床', '起床', '照樣')))
+            await pg.wait_for_timeout(1000)
+        rec['goal_hist'] = hist; rec['goal_final'] = g; rec['shot_goal'] = await run.shot(pg, tag + '_goal')
+        run.note('%s：劇情結束時目標＝%s（遊戲 %s）；變化 %s（實際秒、遊戲時刻、目標）' % (tag, J(g0['goalG']), P_hm(g0['h']), J(hist)))
+        egw = await pg.evaluate("window.__EGW&&{first:window.__EGW.first,menu:window.__EGW.menu,seen:window.__EGW.seen,gaps:window.__EGW.gaps}") or {}
+        rec['goal_pre_exam'] = egw
+        run.note('%s：起床選單出現那一刻的目標 %s' % (tag, J(egw.get('menu'))))
+        run.note('%s：起床劇情演完、開考前第一個玩家時間的目標 %s（之後劇情結束時 %s，僅供參考）' % (tag, J(egw.get('first')), J(g['goalG'])))
+        pre = egw.get('first')
+        run.check('%s：考試日有「起床劇情演完、還沒開考」的時刻（開考 %s 前、沒有對話／選單／事件）' % (tag, wt), bool(pre), J(egw))
+        if pre: g = pre
+        ok2 = bool(pre) and has_exam(g['goalG']) and has_exam(g['dom'])
+        run.note('%s：舊的逐字期待「%s%s（%s）」：G.goal %s' % (tag, want, wn, fd and fd['room'], '相符' if (g['goalG'] or '').startswith(want + wn) else '不相符（BB 判定可接受）'))
+        run.check('%s：起床劇情演完、開考前目標包含「%s」和「%s」（G.goal 與 #goal）' % (tag, wt, wn), ok2, J(g))
+    except Exception as e:
+        run.check('%s：跑完（沒有探針例外）' % tag, False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, tag + '_exception')
+        except Exception: pass
+    finally:
+        run.check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3])); rec['errs'] = errs[:5]
+        dump(tag, **rec)
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     run = L.Run('next1102_ui_' + '+'.join(CASES), OUT)
@@ -807,7 +1060,11 @@ async def main():
                 elif cs == 'psbhbg': await psbhbg_pass(p, run, o)
                 elif cs == 'boardcap2': await boardcap2_pass(p, run, o, BOARDCAP)
                 elif cs == 'ancf': await ancf_pass(p, run, o)
-                else: run.check('CASE %s 認得' % cs, False, '可以用：noodle,board,card,psbhbg,boardcap2,ancf')
+                elif cs == 'ancf2': await ancf2_pass(p, run, o, 'think')
+                elif cs == 'ancfsay': await ancf2_pass(p, run, o, 'say')
+                elif cs == 'examgoal': await examgoal_pass(p, run, o)
+                elif cs == 'examgoal_wake': await examgoal_wake_pass(p, run, o)
+                else: run.check('CASE %s 認得' % cs, False, '可以用：noodle,board,card,psbhbg,boardcap2,ancf,ancf2,ancfsay,examgoal')
     print('SHA', os.environ.get('SHA', '?'), 'CASES', ','.join(CASES), flush=True)
     sys.exit(run.finish())
 

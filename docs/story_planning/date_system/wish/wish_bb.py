@@ -286,7 +286,7 @@ W[K] = dict(
   record=dict(flag='WISH_DONE_kexin', memory=dict(tag='KX_NO_PLAN', text='沒有行程表的一天'), album='沙灘上她的鞋子，遠處那座島（沒有人）'),
   mention=dict(
     **{'if': KX_AFTER_K8}, where='「我們的日子」或視訊的時候', context='date',
-    note='K8 之後（選麵店團或留宿舍、K8 延到暑假的玩家，就是暑假那一趟之後；KX_TRIP_DEFERRED_DONE 是暗示名，LAWWW-B 照實際旗標）',
+    note='K8 之後（選桌遊團或留宿舍、K8 延到暑假的玩家，就是暑假那一趟之後；KX_TRIP_DEFERRED_DONE 是暗示名，LAWWW-B 照實際旗標）',
     lines=['假設有一天，我們出門不帶行程表。', '……我想去外澳。只看海。', '我已經查好火車了。——不對，這樣就不算。'],
     choices=[C('「妳做得到嗎？」', '……假設題的意思，就是還沒做到。'),
              C('「現在就去？」', '笨蛋，明天有課。……可是我記住了。'),

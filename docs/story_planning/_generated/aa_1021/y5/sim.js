@@ -12,7 +12,7 @@ const gd=PG.DK('2029-06-02'); G.flags.GRADUATED=gd; G.flags.MOVED_OUT=PG.DK('202
 const R=PG.rec(G); for(const s of PG.STEPS){ const t=s.at(G); if(t!=null&&t<PG.DK('2029-09-02')*24) R.done[s.id]=1; } R.done.grad=1;
 G.events.done.ev_grad_family=1; G.events.done.ev_grad_lunch=1; G.events.done.ev_grad_envelope=1;
 for(const id of ['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan','kai','npc_fangyt','classmate_youchen']){ H.FRIEND(id); INV.addContact(G,id); }
-PHONE.join(G,'noodle_team','麵店團');
+PHONE.join(G,'noodle_team','桌遊團');
 if(scen!=='base'){ ROM.start(G,scen); }
 G.flags.PS_RECONNECT=true;
 // 把 2029-09-02 以前的訊息規則都當作送過（只看 9/3 以後新出的）

@@ -42,7 +42,7 @@ function sweep(pk) {
   G.acts = { att: {} }; G.outings = []; G.visited = {}; G.contacts = G.contacts || {}; G.msgs = G.msgs || [];
   if (typeof HOME !== 'undefined' && HOME.rec) HOME.rec(G).at = true;
   H.FAMILIAR(AN); H.date(AN); if (!P.dating) ROM.end(G, AN, 'test');
-  for (const [g, n] of [['noodle_team', '麵店團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會']]) { try { PHONE.join(G, g, n); } catch (e) {} }
+  for (const [g, n] of [['noodle_team', '桌遊團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會']]) { try { PHONE.join(G, g, n); } catch (e) {} }
   for (const id of ['zhe', 'kai', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05', 'classmate_peishan']) { try { H.FRIEND(id); SOCIAL.remember(id, 'FIRST_MET', ''); } catch (e) {} }
   const days = [], errs = [];
   for (let d = d0; d <= ret; d++) {

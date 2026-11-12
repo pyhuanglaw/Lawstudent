@@ -1,4 +1,5 @@
 """CC（帳號 A）11-02：D118-B1（卡死與考試例外修正）的 BB 瀏覽器驗收探針。規格：D118_PLAN.md D118-B1「BB 驗收」1、2；通過條件照 BB_222 的 CAR-09、SE-07 共同規則
+【CC_02 清單：未過】CC-C 11-12 只把群組舊名改字成「桌遊團」（使用者 P0 NOODLE-NAME-PURGE-1112；PHONE.join 群組名、說明文字），邏輯沒改。這支還沒照 CC_02 丁逐條過 13 點：排電腦前要先過清單、寫清單行、雲端重跑。
 （TR 逐字稿、【前置／捷徑】、直向橫向各一張、真實流程 walkFallbacks=0）。階段 0＝修改前基準 a3b1bd647（D34：要先 FAIL），LAWWW 交件後用同一支跑修改後。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader，1～4 fps）。
 
@@ -119,7 +120,7 @@ LEAN_JS = {
 PREP_JS = """(()=>{ const G=GAME.G, F=G.flags;
   F.dating_kexin=false; if(F.romance) delete F.romance.kexin; F.ROMANCE_HISTORY=(F.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin'); delete F.DATED_1_kexin; delete F.KX_TOUR_YES;
   const R=CLS.rec(G); R.grades=R.grades||{}; R.grades.Y4S2=R.grades.Y4S2||{};
-  PHONE.join(G,'noodle_team','麵店團');
+  PHONE.join(G,'noodle_team','桌遊團');
   __LEAN__
   return {lean:STORY.careerLean(G),pgOn:PG.on(G),delayed:PG.delayed(G),retaker:PG.retaker(G),sits2029:PG.sits(G,2029),sits2030:PG.sits(G,2030),stage2029:PG.stage(G,2029),
           zone:G.zone,day:CALENDAR.dateOf(G.day).key,h:G.hour,home:!!(G.home&&G.home.at)}; })()"""
@@ -143,7 +144,7 @@ async def load_retake(pg, cdp, run, st, label):
     r = await pg.evaluate(PREP_JS.replace('__LEAN__', LEAN_JS[LEAN]))
     s2 = await pg.evaluate("()=>GAME.snapshot()")
     await L.load_state(pg, s2, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP); await pg.wait_for_timeout(2000)
-    run.setup('[前置] %s；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發、加入麵店團、傾向 %s（%s）→ %s' % (label, LEAN, LEAN_JS[LEAN], J(r)))
+    run.setup('[前置] %s；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發、加入桌遊團、傾向 %s（%s）→ %s' % (label, LEAN, LEAN_JS[LEAN], J(r)))
     return r
 
 
@@ -197,11 +198,11 @@ STATE = """(()=>{ const G=GAME.G, F=G.flags||{}, r=(F.PG&&F.PG.done)||{}; let pa
 MSGS = "(n=>(GAME.G.msgs||[]).slice(n).map(m=>({th:m.th||null,from:m.from||null,who:m.who||null,name:m.name||null,tag:m.tag||null,day:m.day,h:m.h,text:String(m.text==null?'':m.text)})))"
 PHONE_TXT = "(()=>(document.getElementById('phoneBody')||{}).innerText||'')()"
 MUST = "(()=>{ try{ return !!(PHONE.mustOpen&&PHONE.mustOpen(GAME.G)); }catch(e){ return false; } })()"
-SNAP_SAVE = "(()=>{ let snap=null, auto=null; try{ snap=GAME.snapshot(); }catch(e){ snap={err:String(e.message)}; } try{ auto=JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'); }catch(e){ auto={err:String(e.message)}; } return {snap,auto}; })()"
-SLOT_SUM = """(i=>{ try{ const s=JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null'); if(!s) return null; const F=s.flags||{}, r=(F.PG&&F.PG.done)||{};
+SNAP_SAVE = "(()=>{ let snap=null, auto=null; try{ snap=GAME.snapshot(); }catch(e){ snap={err:String(e.message)}; } try{ auto=(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null')); }catch(e){ auto={err:String(e.message)}; } return {snap,auto}; })()"
+SLOT_SUM = """(i=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null')); if(!s) return null; const F=s.flags||{}, r=(F.PG&&F.PG.done)||{};
   return {day:CALENDAR.dateOf(s.day).key, h:s.hour, zone:s.zone, home:!!(s.home&&s.home.at), exam2030:r.exam_2030||null, r1_2030:r.r1_2030||null, first:r.first||null, epi:r.epi||null,
           BAR_SIT_2029:F.BAR_SIT_2029, BAR_STAGE_2029:F.BAR_STAGE_2029, BAR_SIT_2030:F.BAR_SIT_2030, BAR_YEAR:F.BAR_YEAR, FIRST_DAY_SEEN:F.FIRST_DAY_SEEN||null, EPILOGUE_DONE:F.EPILOGUE_DONE||null, savedAt:s.savedAt}; }catch(e){ return {err:String(e.message)}; } })"""
-SLOT_RAW = "(i=>{ try{ return JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null'); }catch(e){ return {err:String(e.message)}; } })"
+SLOT_RAW = "(i=>{ try{ return (GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null')); }catch(e){ return {err:String(e.message)}; } })"
 
 DEBUG_RE = re.compile(r'undefined|NaN|📷\s*$|📷undefined|\bnull\b|\{name\}|\{item\}|\{課名\}|\b(?:heroine_0\d|classmate_[a-z]+|npc_[a-z]+|econ_[a-z]+|pg_[a-z0-9_]+|ev_[a-z0-9_]+|A_bar|A_none|B_grad|B_quit|C_zq|BAR_[A-Z0-9_]+)\b')
 DECL = ('不去了', '先不', '不用了', '算了', '就這樣', '先這樣', '沒事', '先不睡')

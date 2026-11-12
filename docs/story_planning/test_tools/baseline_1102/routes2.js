@@ -1,4 +1,3 @@
-/* BB 11-02 11:1x：D124 以後海商法改選修，新的一局不會再產生 FAIL_DELAY_COURSES:[maritime]；X9 保留，當作「舊存檔已因海商法延畢（D124 救援 b～d 照舊）」的情境。*/
 // BB 基準盤點（修改前）：國考六條路線＋職涯結局，用遊戲自己的「跳到下一件事」從 2029-06-02 一路跑到尾聲。不改任何遊戲檔。
 const LW='/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/lw';
 require(LW+'/tests/alison.js'); const H=require(LW+'/tests/pg_harness.js');
@@ -15,7 +14,7 @@ const y4=async GM=>{ const G=GM.G; if(typeof HOME!=='undefined'&&HOME.at&&HOME.a
   if(STORY.packDue(G)){ await STORY.packY4(GM); return 'pack'; } if(STORY.gradMorningDue(G)){ await STORY.gradFamily(GM); return 'family'; } if(STORY.gradLunchDue(G)){ await STORY.gradLunch(GM); return 'lunch'; }
   if(G.zone==='dorm'&&STORY.gradEnvelopeDue(G)){ await STORY.gradEnvelope(GM); return 'envelope'; } if(STORY.moveOutDue(G)){ await STORY.moveOutY4(GM); return 'moveout'; } return null; };
 const sim=async(name,flags,setup,sc)=>{ sc=sc||{}; const G=H.fresh('2029-06-02',8,'dorm',Object.assign({PACKED_Y4:PG.gradDay()-1},flags)); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);
-  PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人'); warns.length=0;
+  PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人'); warns.length=0;
   const order=[]; let it=0, err=null, stuck=null; const allSaid=[]; const orun=PG.runStep;
   PG.runStep=async function(GM,s){ const r=await orun.call(PG,GM,s); if(r) order.push(s.id); return r; };
   const osay=GM.say; GM.say=async(w,t)=>{ allSaid.push(String(t)); return osay(w,t); };

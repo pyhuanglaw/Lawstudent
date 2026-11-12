@@ -1,4 +1,4 @@
-"""BB-C 10-27：BB_TEST_QUEUE_1027 第 5k 節（社博照實際、學姊訊息、麵店團長桌、健身句、烤肉；使用者 X109、X110、X113、X114）＋5r 第 1 點（社博顧攤的人照距離藏）的瀏覽器驗收。
+"""BB-C 10-27：BB_TEST_QUEUE_1027 第 5k 節（社博照實際、學姊訊息、桌遊團長桌、健身句、烤肉；使用者 X109、X110、X113、X114）＋5r 第 1 點（社博顧攤的人照距離藏）的瀏覽器驗收。
 實作：1cb7bcbb3（36 頂＋十五攤＋顧攤的人＋人流）、5b227d3aa（y1fb：健身句、烤肉三行、麵店長桌、學姊事務版訊息）、b1a71c1a3（AA_489／491）、fe4d31a86（顧攤的人 LOD）。
 程式：src/clubfair3d.js、src/data/club_fair.js、src/data/club_fair_expo_layout.js、src/data/noodle_table.js、src/msg3d.js、src/fit3d.js、story3d.js（ndlTalk*、中秋烤肉 OUT.plan）、events.js（ev_sis_club_expo、ev_mid_autumn_bbq、ev_y2_club_expo）。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader）。預設不用 ?turbo（turbo 把 GM.sleep 壓到 120 ms，時間差和真機不同）。
@@ -10,7 +10,7 @@
             服務台十五攤選單 → 魔術社；攤位附近站著有喊話；舞台前旁白；四張截圖；人有沒有穿進帳篷、浮在外面；顧攤的人照距離藏；16:00 以後互動點消失、顧攤的人收掉
     missed  第 3 項：錯過社博，第 5 週週一 19:00 吉他社社課第一句「（你在門口填了表。）」
     sismsg  第 4 項（X110）：9/3 加了學姊好友＝手機傳訊息有事務版話題＋「問社博」，12:10 回兩則；9/6 16:00 以後換「問法服」
-    noodle  第 5 項（X113）：9/16（二）17:00～21:00 在麵店團群組、走進阿鳳麵店兩秒後長桌閒聊；下一個麵店日（9/18）是下一則
+    noodle  第 5 項（X113）：9/16（二）17:00～21:00 在桌遊團群組、走進阿鳳麵店兩秒後長桌閒聊；下一個麵店日（9/18）是下一則
     gymline 第 6 項：沒辦健身房卡、體能 25 以上，見到阿凱、明軒、以安、沛珊是新句（不說「健身房」）
     bbq     第 7 項（X114）：中秋烤肉，認識語彤＝三行交代（旁白、語彤、旁白）；BBQ_YT=0＝不認識語彤（三行都沒有）
     fair2   第 8 項：大二 2026-09-12 社博 36 頂有人顧攤，走到攤位那一排觸發「今年，你站在攤位後面。」
@@ -376,8 +376,8 @@ async def enter_noodle(c):
 async def m_noodle(c):
     pg, run = c.pg, c.run
     await load_new(c, '2025-09-16', 17.3, 'gongguan', flags={'met_yu': True}, quiet=quiet_for('noodle'),
-                   js="for(const id of ['yu','classmate_bohan','classmate_xinci','heroine_03','heroine_01']) MET(id); PHONE.join(G,'noodle_team','麵店團'); delete G.flags.ndlTalkN; delete G.flags.ndlTalkDay;",
-                   why='noodle：9/16（二）17:18 公館；在麵店團群組、認識麵店團的人（阿哲 MET_ZHE、Alison met_yu、柏翰、芯慈、語彤、以安）')
+                   js="for(const id of ['yu','classmate_bohan','classmate_xinci','heroine_03','heroine_01']) MET(id); PHONE.join(G,'noodle_team','桌遊團'); delete G.flags.ndlTalkN; delete G.flags.ndlTalkDay;",
+                   why='noodle：9/16（二）17:18 公館；在桌遊團群組、認識桌遊團的人（阿哲 MET_ZHE、Alison met_yu、柏翰、芯慈、語彤、以安）')
     NT = await pg.evaluate("NOODLE_TABLE.Y1.map(e=>(e.dialogue||[]).map(l=>l.text).filter(Boolean))")
     run.note('前置：noodleDay=%s、ndlTalkPick=%s、ndlOtherDue（在公館算）=%s' % (await pg.evaluate("STORY.noodleDay(GAME.G.day)"), json.dumps(await pg.evaluate("(p=>p&&{k:p.k,i:p.i})(STORY.ndlTalkPick(GAME.G))")), await pg.evaluate("STORY.ndlOtherDue(GAME.G)")))
     for rnd, (key, want_i) in enumerate((('2025-09-16', 0), ('2025-09-18', 1))):
@@ -427,8 +427,8 @@ async def m_bbq(c):
     sat = await pg.evaluate("CALENDAR.dateOf(STORY.termDay('Y1S1',5,6)).key")
     know = ['yu', 'heroine_01', 'classmate_bohan'] + (['heroine_03'] if yt else [])
     await load_new(c, sat, 14.5, 'dorm', flags={'BBQ_YES': True, 'ZHE_CALLS_GE': True, 'met_yu': True}, quiet=quiet_for('bbq'),
-                   js="for(const id of %s) MET(id); PHONE.join(G,'noodle_team','麵店團');" % json.dumps(know),
-                   why='bbq：第 5 週週六（%s）14:30 宿舍；回過阿哲「去。」（BBQ_YES）、在麵店團群組；%s語彤' % (sat, '認識' if yt else '不認識'))
+                   js="for(const id of %s) MET(id); PHONE.join(G,'noodle_team','桌遊團');" % json.dumps(know),
+                   why='bbq：第 5 週週六（%s）14:30 宿舍；回過阿哲「去。」（BBQ_YES）、在桌遊團群組；%s語彤' % (sat, '認識' if yt else '不認識'))
     run.note('中秋烤肉出遊：%s' % json.dumps(await pg.evaluate("(OUT.get(GAME.G,'bbq')||null)"), ensure_ascii=False))
     n0 = 0; t0 = time.time()   # BB-C 01:2x：讀檔時「出發」提示就跳出來、load_new 裡的 drain 已經按了出發，烤肉在這之前就演完了——第一版從這裡才開始記＝一句都沒有；改成從頭記
     while time.time() - t0 < 900 and not c.late():
