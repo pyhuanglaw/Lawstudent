@@ -268,12 +268,15 @@ const K=t=>'kexin:'+t;
   fresh('2027-04-17',20,'dorm'); date('kexin'); run('2027-04-17',20.75,21.25); to('2027-04-24',12); G.msgChat={bday:{['kexin:2027']:D('2027-04-24')}}; tick(); miss('y2r2_bd'); tick();
   to('2027-04-24',21.75); picks=['今天先不要']; { const q=OUT.get(G,'y2r2_bd_call'); await OUT.prompt(GM,q); } run('2027-04-24',21.8,22.6,0.05);
   { const m=TH('p:kexin').find(x=>x.text==='電話呢。……好啦，訊息也算。'); check('13. 電話那一則選「今天先不要」：22:30 她私訊「電話呢。……好啦，訊息也算。」',!!m&&m.day===D('2027-04-24')&&Math.abs(m.h-22.5)<0.02,JSON.stringify(m)); }
-  /* AA_338 第 2 節：沒回阿哲、當天用 MSG-2 傳生日快樂、她回問「你晚上要上山來，還是我下山」選「妳來公館」＝她回「好 九點」（這一年七點她室友她們先過）→ 21:00 公館 */
+  /* （CANON-NO-ECON-1112 第四批：照 AA_881 換字）AA_881 第 3 節最後一項：L 生日那則的回問和兩個選項（「妳來公館」那一條，AA_338 第 2 節）拿掉，換成 L 生日第三句（不帶選項）。
+     舊期望：她回問、選「妳來公館」→「好 九點」→ 21:00 公館。現在：她回三則、沒有按鈕、不排公館；自己去那一趟照舊。公館那一場留給舊存檔（已經選過的 KX_BD2_GG）*/
   fresh('2027-04-17',20,'dorm'); date('kexin'); INV.addContact(G,'kexin'); run('2027-04-17',20.75,21.25); to('2027-04-24',11); tick();
-  { const r=MSG.send(G,'kexin','bday'); run('2027-04-24',11,12,0.05); const m=(G.msgs||[]).find(x=>x.th==='p:kexin'&&x.ask&&(x.ask.opts||[]).some(o=>o.t==='妳來公館')), o=m&&m.ask.opts.find(x=>x.t==='妳來公館');
-    check('13. MSG-2 生日快樂：她回問「你晚上要上山來，還是我下山」；「妳來公館」這一年回「好 九點」',!!(r&&r.ok)&&!!m&&m.text==='你晚上要上山來，還是我下山'&&JSON.stringify((o.say||[]).map(s=>s.text))===JSON.stringify(['好 九點']),JSON.stringify(m&&m.ask));
-    if(m){ PHONE.answer(G,m.ask.id,m.ask.opts.indexOf(o)); tick(); } const q=OUT.get(G,'y2r2_bd_gg'), dq=OUT.get(G,'y2r2_bd');
-    check('13. 選「妳來公館」→「好 九點」；排 4/24 21:00 公館；自己去那一趟取消',txt('p:kexin').slice(-1)[0]===K('好 九點')&&!!q&&q.day===D('2027-04-24')&&q.h===21&&q.bdV==='gg'&&!!dq&&dq.state==='cancelled',JSON.stringify([q,dq&&dq.state,txt('p:kexin').slice(-2)])); }
+  { const n0=(G.msgs||[]).length, r=MSG.send(G,'kexin','bday'); run('2027-04-24',11,12,0.05); const L=(G.msgs||[]).slice(n0).filter(x=>x.th==='p:kexin'&&x.from==='kexin');
+    check('13. MSG-2 生日快樂（交往中、沒回阿哲）：她回「謝謝」「（長頸鹿貼圖）」「晚上我室友幫我過，過完我下樓找你」，沒有回問、沒有按鈕、不排公館（AA_881）',!!(r&&r.ok)&&JSON.stringify(L.map(m=>m.text))===JSON.stringify(['謝謝','（長頸鹿貼圖）','晚上我室友幫我過，過完我下樓找你'])&&!L.some(m=>m.ask)&&!OUT.get(G,'y2r2_bd_gg'),JSON.stringify(L.map(m=>[m.text,!!m.ask])));
+    const dq=OUT.get(G,'y2r2_bd'); check('13. 傳了生日快樂：自己去女生宿舍樓下那一趟照舊',!!dq&&dq.state==='planned'&&dq.bdV==='drive'); }
+  /* 舊存檔已經選過「妳來公館」（KX_BD2_GG）：21:00 公館那一場照舊 */
+  fresh('2027-04-17',20,'dorm'); date('kexin'); INV.addContact(G,'kexin'); run('2027-04-17',20.75,21.25); to('2027-04-24',11); tick(); G.flags.KX_BD2_GG=true; tick();
+  { const q=OUT.get(G,'y2r2_bd_gg'), dq=OUT.get(G,'y2r2_bd'); check('13. 舊存檔選過「妳來公館」：排 4/24 21:00 公館；自己去那一趟取消',!!q&&q.day===D('2027-04-24')&&q.h===21&&q.bdV==='gg'&&!!dq&&dq.state==='cancelled',JSON.stringify([q,dq&&dq.state])); }
   run('2027-04-24',12,20.25,0.25); check('13. 選了公館：不排電話、自己去那一趟不會再出來',!OUT.get(G,'y2r2_bd_call')&&OUT.get(G,'y2r2_bd').state==='cancelled'&&!OUT.due(G));
   await go('y2r2_bd_gg',20.6); { const W=['（九點，她從公車上下來，手上還拿著半塊蛋糕。）','我室友她們先幫我過了一次。……這是第二次。','明年也這樣。你跟我室友先講好，我假裝不知道。'];
     check('13. 21:00 公館：「（九點，她從公車上下來，手上還拿著半塊蛋糕。）」「我室友她們先幫我過了一次。……這是第二次。」→ 共用那一句；KX_BDAY[2] two（CANON-NO-ECON-1112 第四批：照 AA_889 換字）',JSON.stringify(said.map(s=>s.t).filter(t=>W.includes(t)))===JSON.stringify(W)&&!has('阿哲說你沒回他。……結果你自己來了。')&&G.flags.KX_BDAY[2]==='two',JSON.stringify(said.map(s=>s.t))); }
@@ -282,7 +285,7 @@ const K=t=>'kexin:'+t;
   check('13. 答應了沒到：21:00「你沒來。」「……我室友她們陪我過了。」；隔天不再說「等了一天」（CANON-NO-ECON-1112 第四批：照 AA_889 換字）',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('你沒來。'),K('……我室友她們陪我過了。')])&&!txt('p:kexin').includes(K('昨天是我生日。……我等了一天。')));
   /* AA_343 A1：MSG-2 選「妳來公館」、答應了沒到——21:30「我到了。公館。」、22:00「……我回去了。蛋糕我帶回去。」、記 'none'（不是 'message'）；沒有電話版、隔天沒有「我等了一天」 */
   const ggPick=()=>{ fresh('2027-04-17',20,'dorm'); date('kexin'); INV.addContact(G,'kexin'); run('2027-04-17',20.75,21.25); to('2027-04-24',11); tick(); MSG.send(G,'kexin','bday'); run('2027-04-24',11,12,0.05);
-    const m=(G.msgs||[]).find(x=>x.th==='p:kexin'&&x.ask&&(x.ask.opts||[]).some(o=>o.t==='妳來公館')); if(m){ PHONE.answer(G,m.ask.id,m.ask.opts.findIndex(o=>o.t==='妳來公館')); tick(); } return !!OUT.get(G,'y2r2_bd_gg'); };
+    G.flags.KX_BD2_GG=true; tick(); return !!OUT.get(G,'y2r2_bd_gg'); };   /* （CANON-NO-ECON-1112 第四批：AA_881 拿掉回問，「妳來公館」只剩舊存檔——直接設 KX_BD2_GG）*/
   { const ok=ggPick(); run('2027-04-24',12,22.5,0.25); run('2027-04-25',9.75,10.25);
     const L=TH('p:kexin'), a=L.find(x=>x.text==='我到了。公館。'), b=L.find(x=>x.text==='……我回去了。蛋糕我帶回去。');
     check('13. A1「妳來公館」答應了沒到：21:30「我到了。公館。」、22:00「……我回去了。蛋糕我帶回去。」；KX_BDAY[2] none（不是 message）',ok&&!!a&&a.day===D('2027-04-24')&&Math.abs(a.h-21.5)<0.02&&!!b&&b.day===D('2027-04-24')&&Math.abs(b.h-22)<0.02&&G.flags.KX_BDAY[2]==='none',JSON.stringify([txt('p:kexin'),G.flags.KX_BDAY]));

@@ -92,7 +92,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     check('10. 9-8 三則在每天的手機小事裡（交往中、照週次）；kx2_steps、kx2_yule_hand、kx2_apology（CANON-NO-ECON-1112 第三批：這一項拿掉）',ids.every(id=>D.some(d=>d.id===id))&&!D.some(d=>['kx2_steps','kx2_yule_hand','kx2_apology'].includes(d.id)),ids.filter(id=>!D.some(d=>d.id===id)).join(','));
     /* AA_504 第 0 節第 1 點：kx2_late（第 1～2 週）、kx2_azalea（第 3 週）在手機小事永遠不出（第 4 週才開始），改成可昕的動態第 1、2 則（src/data/feed_y1s2.js kx1b、kx2b，原句照用；tests/aa504_505_feed_unit.js）*/
     const FS=fs.readFileSync(path.join(ROOT,'src/data/feed_y1s2.js'),'utf8');
-    check('10. kx2_late、kx2_azalea 不在手機小事，原句搬到可昕大一下的動態第 1、2 則（AA_504 第 0 節）',!D.some(d=>d.id==='kx2_late'||d.id==='kx2_azalea')&&FS.includes("id:'kx1b',who:'kexin',t:'W1三 08:40',st:'認識',pic:'木柵大學宿舍的走廊，予樂的房門關著',say:'開學了。予樂說這學期要每天早到。今天她遲到。'")&&FS.includes("id:'kx2b',who:'kexin',t:'W3六 10:30',st:'認識',pic:'木柵大學山上的杜鵑花，霧很重',say:'木柵大學也有杜鵑花。可是開在山上，要爬上去才看得到。'"));
+    check('10. kx2_late、kx2_azalea 不在手機小事，原句搬到可昕大一下的動態第 1、2 則（AA_504 第 0 節）',!D.some(d=>d.id==='kx2_late'||d.id==='kx2_azalea')&&FS.includes("id:'kx1b',who:'kexin',t:'W1三 08:40',st:'認識',pic:'宿舍的上舖，室友的棉被還捲成一團',say:'開學了。室友說這學期要每天早到。今天她遲到。'")&&FS.includes("id:'kx2b',who:'kexin',t:'W3六 10:30',st:'認識',pic:'椰影大道旁邊的杜鵑，開了一整排',say:'杜鵑開了。高雄沒有這麼多。'"));   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
     const ex=D.find(d=>d.id==='kx2_example'); fresh(termDay('Y1S2',10,2),10,'dorm',{dating_kexin:true}); const T=CALENDAR.termOf(G.day);
     check('10. 「答案被拿去當範例」：K6b 之後才成立',ex.term(T)&&!ex.ok(G,G.day)&&(G.flags.KX_DIR={Y1:'reasons'},ex.ok(G,G.day))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
