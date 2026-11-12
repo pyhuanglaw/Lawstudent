@@ -75,7 +75,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'back'},{advance:toH(21.5)},
       {scene:'左營站',bg:'kh_station'},
       {speaker:null,text:'（九點半，左營站。她把車停在下客處，沒有熄火。）'},
-      {speaker:'kexin',expression:'smile',text:'到了傳給我。……這次有住一晚。很好。'},
+      {speaker:'kexin',expression:'smile',text:'到了傳給我。這次有住一晚，很好。'},
       {speaker:null,text:'（她等你走進閘門，才把車開走。）'} ],
     after:(G,GM)=>{ const r=R(); if(r) r.khDone(G); } };
   /* C. 答應了、沒出發（8/7 09:30 還沒到左營）：演出來的電話（AA_313 2-3 的做法）*/
@@ -522,7 +522,7 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-21 可昕 聖誕「她還在趕報告」：12/25（六）21:00 視訊（10 分鐘沒接＝沒接）；禮物在學期末那一場換（termend_lines.js KX.Y3S1，不另外做）---------- */
   const XMAS={ id:'ev_kexin_xmas_y3', title:'她還在趕報告', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
     dialogue:[ {scene:'視訊',bg:'video'},
-      {speaker:'kexin',expression:'tired',text:'聖誕快樂。我還差兩頁。……你們考完了吧。'},
+      {speaker:'kexin',expression:'tired',text:'聖誕快樂。我報告還差兩頁。你們考完了吧？'},
       {speaker:'kexin',expression:'smile',text:'螢幕開著。你陪我就好。'},
       {speaker:null,text:'（她低頭打字。你看著螢幕裡她的頭頂，看了一個多小時。）'},
       {advance:toH(22.5)},

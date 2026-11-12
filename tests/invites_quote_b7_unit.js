@@ -217,7 +217,7 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
 /* ---------- 34. 資料和 BASE 逐句比 ---------- */
 { const A=O.data||[], B=N.data||[], bad=[], hit=[];
   if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
-  else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(require('./peishan_rewrite_1111.js').pair(a[1],b[1])) return;   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS） */ if(wrapped(a[1])&&unq(a[1])===b[1]&&OLD23.includes(a[1])) hit.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
+  else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(require('./peishan_rewrite_1111.js').pair(a[1],b[1])) return; if(require('./kx_rewrite_1112.js').pair(a[1],b[1])) return;   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：bbpack_events.js「我來找品妤，順便找你。順序不要問。」照新稿算。舊期望：這一句和 BASE 一字不差 */   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS） */ if(wrapped(a[1])&&unq(a[1])===b[1]&&OLD23.includes(a[1])) hit.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
   check('34. STORY_EVENTS（全部載入以後，每一場的 dialogue，'+B.length+' 個值）和 '+BASE+' 比：只改了這 23 句（一句一次）、只差外面那一對「」，其他一字不差',A.length>30000&&bad.length===0&&J(hit.slice().sort())===J(OLD23.slice().sort()),sample(bad)+'｜'+hit.length); }
 
 /* ---------- 35. 原始碼逐行比（這一個 commit 本身）---------- */

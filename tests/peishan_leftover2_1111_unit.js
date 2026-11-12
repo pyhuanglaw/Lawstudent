@@ -43,7 +43,7 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
     if(A){ const bad=RB.filter(r=>n(Ls,r.new)!==1||n(L,r.new)!==1||n(L,r.old)!==0||cur.includes(r.old));
       check('2. 逐字：25 列每一列的 new 在 D4CQ 剛好一處（整個檔也只有這一處）、old 整個檔都不在了（註解裡也沒有）',bad.length===0,J(bad.map(r=>[r.old,n(L,r.old),n(Ls,r.new)])));
       const flat=[].concat(...WANT.map(q=>[q[1]].concat(...q[2]))); check('2. 寫死的那一份（28 格）＝稿的 25 個 new＋沒換的三個選項',flat.length===28&&RB.every(r=>flat.includes(r.new))&&flat.filter(t=>!RB.some(r=>r.new===t)).sort().join()===['「妳自己呢？」','「讀書。」','「都有。」'].sort().join());
-      const ob=show(BASE,BB); if(ob){ const O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(RB.map(r=>r.old+'→'+r.new));
+      const ob=show(BASE,BB); if(ob){ const O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y&&!require('./kx_rewrite_1112.js').pair(x,y)), set=new Set(RB.map(r=>r.old+'→'+r.new));   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，bbpack_events.js:504）：可昕來找品妤那一句後來換了字（清單在 tests/kx_rewrite_1112.js、逐列對稿 tests/kx_triple2_1112_unit.js）——那一句先不算再比。舊期望：直接和 BASE 比 */
         check('2. 整個檔的字串和 BASE（'+BASE+'）逐個比：一樣多，不一樣的剛好是稿上這 25 句（別的事件、條件、流程沒動）',O.length===L.length&&d.length===25&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,3)));
         const sk=t=>noCom(t).replace(/'(?:[^'\\]|\\.)*'/g,"''").replace(/\s+/g,' '); check('2. 骨架（把字串、註解拿掉、空白收成一格以後的程式）和 BASE 一樣',sk(ob)===sk(cur)); } }
     check('2. 檔裡寫了來源（AA_766_peishan_leftover2.json@'+SHA+'）',cur.includes('AA_766_peishan_leftover2.json@'+SHA)); });

@@ -50,7 +50,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   const PS763=new Set(['沛珊把耳機戴上，在筆記本的邊角畫了一隻很胖的貓。','你來了！不用謝，我順便印的。']);
   /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@1e647bb05）：D4c「沛珊的問題」四題 25 句換字（她自己就是法律系；第 3 題原本問早餐＝作廢的早餐店設定）——這幾句對 AA_766 的 rows（tests/peishan_leftover2_1111_unit.js），不在 BB_137 */
   const PS766=new Set((()=>{ try{ return JSON.parse(git('1e647bb05','AA_766_peishan_leftover2.json')).rows.filter(r=>r.file==='src/data/bbpack_events.js').map(r=>r.new); }catch(e){ return []; } })());
-  { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)||PS763.has(t)||PS766.has(t)) return; if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; if(require('./aa600_doc.js').has(t)) return;   /* AA_600 B29（企劃線 031414cad）前任那一句旁白在 AA_600 的稿裡 */ bad.push(t); };
+  { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)||PS763.has(t)||PS766.has(t)) return; if(require('./kx_rewrite_1112.js').news('src/data/bbpack_events.js').includes(t)) return;   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：可昕來找品妤那一句換字（原本「我來找品妤。……順便找你。順序不要問。」，AA_383 第 7 節）——這一句對 AA_827，不在 AA_383 */ if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; if(require('./aa600_doc.js').has(t)) return;   /* AA_600 B29（企劃線 031414cad）前任那一句旁白在 AA_600 的稿裡 */ bad.push(t); };
     for(const e of BBPACK_EVENTS.filter(e=>!/^ev_kai_keyboard|^ev_b6b_|^ev_b12_/.test(e.id))) for(const l of (e.dialogue||[])){   /* BB_154 阿凱鍵盤（第二輪）照 BB_154 對字：tests/bbpack_r2_unit.js；B6b、B12 照 AA_430 對字：tests/aa430_b6b_b12_unit.js */ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); for(const c of (l.choice||[])) T(c.text); }
     check('0. 每一句台詞、旁白、選項都在稿裡（稿上的動作、說明改成旁白的照字比；補的 '+COMPOSED.size+' 句列在 COMPOSED）',bad.length===0,bad.slice(0,8).join('｜'));
     const used=[...COMPOSED].filter(t=>seen.has(t)); check('0. COMPOSED 每一句都真的用到（沒有多列）',used.length===COMPOSED.size,[...COMPOSED].filter(t=>!seen.has(t)).join('｜')); }
@@ -265,7 +265,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   { const d=TD('Y2S1',3,6); const G=fresh('Y2S1',3,6,13.4,{flags:{dating_kexin:true}}); OUT.plan(G,{id:'kx_od_'+d,ev:'ev_kexin_our_day_wk',day:d,h:14,place:'社科院門口',title:'我們的日子：她來首都帝大',odPlace:'ntu',kxod:'Y2S1'});
     check('5. 第 389 行：交往中、「我們的日子」她來首都帝大那天、約好前 60～15 分鐘社科院門口',chk('ev_kx_pinyu_soc')&&(()=>{ G.hour=13.8; const a=!chk('ev_kx_pinyu_soc'); G.hour=12.9; const b=!chk('ev_kx_pinyu_soc'); G.hour=13.4; return a&&b; })());
     const L=await run('ev_kx_pinyu_soc');
-    check('5. 第 389 行：可昕、沒見過品妤先自我介紹（記 MET_PINYU）、品妤「有證人」（AA_383 第 7 節）',J(L)===J(['我來找品妤。……順便找你。順序不要問。','曾品妤。經濟系，可昕以前的室友。','她先找我的。我有證人。'])&&G.flags.MET_PINYU===true,J(L));
+    check('5. 第 389 行：可昕、沒見過品妤先自我介紹（記 MET_PINYU）、品妤「有證人」（AA_383 第 7 節）',J(L)===J(['我來找品妤，順便找你。順序不要問。','曾品妤。經濟系，可昕以前的室友。','她先找我的。我有證人。'])&&G.flags.MET_PINYU===true,J(L));   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，bbpack_events.js:504）：舊期望「我來找品妤。……順便找你。順序不要問。」 */
     check('5. 第 389 行整個遊戲一次；約好的出遊照舊（這兩句不算見面）',!chk('ev_kx_pinyu_soc')&&OUT.get(G,'kx_od_'+d).state==='planned');
     const G2=fresh('Y2S1',3,6,13.4,{flags:{dating_kexin:true}}); OUT.plan(G2,{id:'kx_od_'+d,ev:'ev_kexin_our_day_wk',day:d,h:14,place:'木柵大學・山下的小吃街',title:'我們的日子：開車去木柵大學',odPlace:'nccu'});
     check('5. 第 389 行：那天約的不是來首都帝大＝沒有',!chk('ev_kx_pinyu_soc'));

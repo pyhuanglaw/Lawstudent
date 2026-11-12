@@ -22,7 +22,7 @@ const lines=e=>(e&&e.dialogue||[]).filter(l=>l.text);
     i>=0&&T[i+1]==='（家。媽媽坐在客廳的桌子前記帳。）'&&T[i+2]==='媽。我今天去辦休學了。'&&T.includes('……想好了？')&&T.includes('（看了你一下）你從小就想念法律。')&&T.includes('我想借車。')&&T[T.length-1]==='鑰匙在老地方。開慢一點。', JSON.stringify(T.slice(i)));
   check('1. 媽媽那段在客廳（home_living），說話的人是「媽媽」', e.dialogue.some(l=>l.bg==='home_living')&&L.filter(l=>l.speaker==='媽媽').length===3);
   const ex=t=>(L.find(l=>l.text===t)||{}).expression;
-  check('1. 電話裡可昕的表情（AA_308 第 9 節）', ex('……蛤？')==='surprised'&&ex('今天？快期中考了耶。')==='surprised'&&ex('你現在在哪。')==='serious'&&ex('你現在回來學校找我。我還有一堂，五點下課。社科院門口。')==='serious'&&ex('休學又不是不能進校門。')==='annoyed'); }
+  check('1. 電話裡可昕的表情（AA_308 第 9 節）', ex('蛤？')==='surprised'/* AA_818（6e8d959407）：「……蛤？」改成「蛤？」 */&&ex('今天？快期中考了耶。')==='surprised'&&ex('你現在在哪。')==='serious'&&ex('你現在回來學校找我。我還有一堂，五點下課。社科院門口。')==='serious'&&ex('休學又不是不能進校門。')==='annoyed'); }
 // 2、3
 { const e=ev('ev_y0_e26'), T=lines(e).map(l=>l.text);
   check('2. 車上那場第一句「（你拿了車鑰匙出門。）」', T[0]==='（你拿了車鑰匙出門。）'&&!T.includes('（你到家，拿了家裡的車鑰匙。）'), T[0]);

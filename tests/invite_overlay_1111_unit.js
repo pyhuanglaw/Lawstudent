@@ -58,7 +58,7 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
   await sec(3, async () => {
     if (!L0) return;
     const changed = Object.keys(L0).filter(p => L0[p] !== L1[p]), map = new Map(RI.map(x => [x.old, x.new])), bad = [];
-    for (const p of changed) { const a = L0[p], b = L1[p]; if (a.startsWith('ƒ')) bad.push(p + ' 函式變了'); else if (map.get(a) !== b) bad.push(p + '：「' + a + '」→「' + b + '」不是稿上的列'); }
+    for (const p of changed) { const a = L0[p], b = L1[p]; if (a.startsWith('ƒ')) { if (!require('./kx_rewrite_1112.js').pair(a, b)) bad.push(p + ' 函式變了'); }   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：people.kexin.acc.gym_badminton、firstAt.library 兩個函式裡各換一句字（條件沒變：把那一句換回去＝BASE 的原始碼）。舊期望：函式原始碼一律不變 */ else if (map.get(a) !== b) bad.push(p + '：「' + a + '」→「' + b + '」不是稿上的列'); }
     check('3. 和 BASE ' + BASE + ' 比：路徑一樣（' + Object.keys(L1).length + ' 格）', J(Object.keys(L0).sort()) === J(Object.keys(L1).sort()));
     check('3. 變的 ' + changed.length + ' 格都是稿上的列（舊字→新字；同一個字串掛在好幾個路徑的跟著變）；函式（條件、規則）沒變', bad.length === 0, J(bad.slice(0, 4)));
     const miss = RI.filter(x => L0[x.at] !== x.old);

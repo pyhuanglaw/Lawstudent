@@ -2309,7 +2309,7 @@ const STORY_EVENTS=[
       {label:'eq'},{speaker:'kexin',expression:'teasing',text:'好，那你是均衡。'},{speaker:null,text:'（她把零食撕開，分了你一半。）'},{goto:'end'},
       {label:'hand'},{speaker:'kexin',expression:'teasing',text:'亞當斯密那個。這個我高中有聽過。'},
       {label:'end'},
-      {speaker:'韋綸',text:'（走過來）欸，{name}，你是 412 的吧？我早上去看過，床架上貼的名字有你。'},{speaker:'韋綸',text:'我也是！我晚上才搬進去。'},{speaker:'唐睿',text:'（從後面探頭）412？那我們同一間。我也是晚上。'},   /* 四人房（AA_208、BB_179 第 8 節）*/
+      {speaker:'韋綸',text:'（走過來）欸，{name}，你是 412 的吧？我早上去看過，床架上貼的名字有你。'},{speaker:'韋綸',text:'我也是！我晚上才搬進去。'},{speaker:'唐睿',text:'（從後面探頭）412？那我們同一間，我也是晚上那一班。'},   /* 四人房（AA_208、BB_179 第 8 節）*/
       {speaker:'家豪學長',text:'要走一圈的，跟我來！'},{speaker:null,text:'（可昕站起來，跟著大家往門口走。）'} ],
     consequences:{meet:['econ_pinyu']},
     after:(G,GM)=>{ if(G.hour%24<15) GM.advance(15-G.hour%24); if(G.zone!=='campus'&&GM.enter) GM.enter('campus',{x:15,z:-68.5,yaw:Math.PI/2}); } },

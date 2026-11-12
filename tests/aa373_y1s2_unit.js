@@ -204,7 +204,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('25／第 6-2 節第 8 題. 視訊互考選「中等的」：沒有「走，山下那攤。」（人不在木柵大學），換成「……下次見面，山下那攤。」',v.includes('一半。回去我再讀一次。')&&!v.includes('走，山下那攤。')&&v.includes('……下次見面，山下那攤。'),J(v));
     const K2=LADDER.byTerm.Y1S2.kexin.steps.find(s=>s.id==='K2-L1'), r=K2&&K2.choices.find(c=>/我也有記/.test(c.t));
     /* 2026-11-11（X324，AA_781_kx_ladder_Y1S2.json@15241f32e rows K2-L1）：拿掉刪節號——舊期望「騙人。……你記幾次？算了，不准說。」；第 25 項要的「沒有『我會比』」照比 */
-    check('25. K2-L1 選「我也有記。」：「騙人。你記幾次？算了，不准說。」（沒有「我會比」；AA_781 拿掉刪節號）',!!r&&r.reply==='騙人。你記幾次？算了，不准說。'&&!/我會比/.test(r.reply),r&&r.reply);
+    check('25. K2-L1 選「我也有記。」：「騙人。你到底記了幾次？算了，不准說出來。」（沒有「我會比」；AA_781 拿掉刪節號）',!!r&&r.reply==='騙人。你到底記了幾次？算了，不准說出來。'&&!/我會比/.test(r.reply),r&&r.reply);   /* 2026-11-12（X324 可昕續改，AA_819 三連短句；AA_781_kx_ladder_Y1S2.json@07d50af2f7 rows K2-L1）：舊期望「騙人。你記幾次？算了，不准說。」 */
     check('25. 對照：互考照留（4/8 的邀約、4/19 的事件、KX_QUIZ 照記）',!!ev('ev_kexin_reschedule')&&L.includes('期中前，兩校互考。')&&(()=>{ const Q=G.flags.KX_QUIZ; return !!Q&&(Q.win|0)+(Q.lose|0)+(Q.draw|0)===1; })(),J(G.flags.KX_QUIZ)); }
   // ===== 第 6 節（企劃線 bdab2f42；AA 22:0x 答 LAWWW 21:44 的比輸贏清單＋十二題）=====
   { const quiz=async(mode,pick)=>{ fresh(termDay('Y1S2',8,7),14,'gongguan',{dating_kexin:true,KX_QUIZ_MODE:mode}); picks=[pick]; said=[]; await EVENTS.run(ev('ev_kexin_reschedule')); return lines(); };

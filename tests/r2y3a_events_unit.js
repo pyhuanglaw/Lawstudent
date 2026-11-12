@@ -80,7 +80,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
       '（渡輪只開十分鐘。她站在船邊，頭髮一直被風吹到臉上，她也不管。）','（太陽很大。她把防曬乳擠了兩次，一次給你。）','（燈塔在山坡上。爬到一半，她停下來喘氣。）','我住高雄二十年，沒上來過。','國中的時候覺得，這是觀光客來的地方。',
       '對。觀光客要拍照。','（她把手機塞給你。）','拍我，還有後面的海。不要拍到別人。','（她騎車送你到旅館門口，沒有熄火。）','明天下午四點，我開車來。……今天早點睡，不要滑手機。'];
     const B=['（下午四點，一台舊舊的家用車停在旅館門口。她沒有下車，按了一下喇叭。）','上車。……音樂你管。','（天黑以後，整個港口的燈都亮了。船慢慢開進來。）','牛郎織女要等一年。','我們有車。','高鐵要錢。車也要錢。……好啦，都算。',   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……我們有車。」 */
-      '（九點半，左營站。她把車停在下客處，沒有熄火。）','到了傳給我。……這次有住一晚。很好。','（她等你走進閘門，才把車開走。）'];
+      '（九點半，左營站。她把車停在下客處，沒有熄火。）','到了傳給我。這次有住一晚，很好。','（她等你走進閘門，才把車開走。）'];   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，r2y3a_events.js:78）：舊期望「到了傳給我。……這次有住一晚。很好。」 */
     check('1. K1 8/7 左營接人（沒去過＝pick）、「今天不要有紙」、旗津、燈塔三選一（預設第一個）、送到旅館（逐字、順序）',JSON.stringify(all().slice(0,A.length))===JSON.stringify(A)&&JSON.stringify(opts[0])===JSON.stringify(['「那今天妳是觀光客。」','「上面風好大。」','（陪她看海，不說話）']),JSON.stringify(all()));
     check('1. K2 8/8 16:00 她開車來接；港邊的山上「牛郎織女要等一年。」「……我們有車。」；三選一；21:30 左營站（逐字、順序）',JSON.stringify(all().slice(A.length,A.length+B.length))===JSON.stringify(B)&&JSON.stringify(opts[1])===JSON.stringify(['「還有高鐵。」','「明年也來？」','（把頭靠在她肩上）']),JSON.stringify(all().slice(A.length)));
     check('1. 地點字幕：高雄・旗津、高雄・港邊的山上（AA 第 5 節）',caps.includes('高雄・旗津')&&caps.includes('高雄・港邊的山上'));
@@ -499,7 +499,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('21. 12/24 21:00 兩則＋「好。」「明天不行。」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('明天晚上九點，視訊。'),K('我還在趕報告。你陪我就好。')])&&JSON.stringify(PHONE.byAsk(G,'y3_kx_xmas').ask.opts.map(o=>o.t))===JSON.stringify(['好。','明天不行。']));
   ans('y3_kx_xmas',0); { const q=OUT.get(G,'y3_kx_xmas'); check('21. 「好。」→「嗯。」→ 12/25 21:00 視訊（10 分鐘沒接＝沒接）',txt('p:kexin').slice(-1)[0]===K('嗯。')&&!!q&&q.day===D('2027-12-25')&&q.h===21&&Math.abs(q.late-1/6)<1e-9); }
   picks=[1]; await go('y3_kx_xmas');
-  { const W=['聖誕快樂。我還差兩頁。……你們考完了吧。','螢幕開著。你陪我就好。','（她低頭打字。你看著螢幕裡她的頭頂，看了一個多小時。）','（十點半，她把螢幕轉過來：最後一頁。）','寫完了。……你還在喔。','你有算喔。……好，算你陪了一個半小時。'];   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……螢幕開著。你陪我就好。」 */
+  { const W=['聖誕快樂。我報告還差兩頁。你們考完了吧？','螢幕開著。你陪我就好。','（她低頭打字。你看著螢幕裡她的頭頂，看了一個多小時。）','（十點半，她把螢幕轉過來：最後一頁。）','寫完了。……你還在喔。','你有算喔。……好，算你陪了一個半小時。'];   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……螢幕開著。你陪我就好。」 */   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，r2y3a_events.js:525）：舊期望「聖誕快樂。我還差兩頁。……你們考完了吧。」 */
     check('21. X1 接了（逐字）：「……螢幕開著。你陪我就好。」；十點半「寫完了。……你還在喔。」；KX_XMAS[3] video',JSON.stringify(all().slice(0,W.length))===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「一直都在。」','「妳寫了一個半小時。」'])&&G.flags.KX_XMAS[3]==='video'&&noSuppose(),JSON.stringify(all())); }
   fresh('2027-12-25',21,'dorm'); date('kexin'); await play('ev_kexin_xmas_y3',[0]); check('21. 「一直都在。」→「好。禮物等我考完再換。」',has('好。禮物等我考完再換。'));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。禮物等我考完再換。」 */
   fresh('2027-12-24',20,'dorm'); date('kexin'); run('2027-12-24',20.75,21.25); ans('y3_kx_xmas',0); miss('y3_kx_xmas'); run('2027-12-25',22.25,22.75);
