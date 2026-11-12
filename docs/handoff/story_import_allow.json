@@ -1473,9 +1473,9 @@
   },
   {
    "path": "docs/story_planning/free_trip/bb_walk_v1.json",
-   "sha": "4e39653c9",
+   "sha": "6221c8e80f",
    "status": "approved",
-   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；4e39653c9：AA_678 第 6、7 列（AA-C 2026-11-04 定稿，D109）芷若 D04 line「那部老片下週重映。週六早場。」、沛珊 D06 dating「下午見！我在繪本區。」（任務 AA678-LINES-1104；cbdbc69bf 到這一版之間另外只有 4618aed21 RENAME-1030 換名，遊戲已經是新名）",
+   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；4e39653c9：AA_678 第 6、7 列（AA-C 2026-11-04 定稿，D109）芷若 D04 line「那部老片下週重映。週六早場。」、沛珊 D06 dating「下午見！我在繪本區。」（任務 AA678-LINES-1104；cbdbc69bf 到這一版之間另外只有 4618aed21 RENAME-1030 換名，遊戲已經是新名）；6221c8e80f（AA-C 11-12 AA_893 定稿（BB_428）、AA_905；LAWWW-C 的子代理代登，待值班 LAWWW 核）",
    "task": "ENC-B3-1017",
    "kind": "text",
    "history": [
@@ -1488,9 +1488,13 @@
      "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
      "task": "ENC-B3-1017",
      "note": "cbdbc69bf：AA_439 第 4 節禁用句第二次掃；2026-11-04 換成 4e39653c9 以前的版本"
+    },
+    {
+     "sha": "4e39653c9",
+     "note": "被 6221c8e80f 取代（AA_893 第 2 節、AA_905：室友、學校）"
     }
    ],
-   "note": "4e39653c9：AA_678 第 6、7 列（src/data/enc_walk.js 不是產生的，照 738cc7ffc 的做法手動換這兩句）"
+   "note": "4e39653c9：AA_678 第 6、7 列（src/data/enc_walk.js 不是產生的，照 738cc7ffc 的做法手動換這兩句）；2026-11-12 改讀 6221c8e80f（CANON-NO-ECON-1112 第四批四：AA_893 第 2 節、AA_905 那一句；src/data/enc_walk.js 照新舊兩版逐格的差手動換 14 句，ENC_D10_KX 手機那一句在 encounters.js）"
   },
   {
    "path": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
@@ -10062,6 +10066,42 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "子晴約會到達句 8 格：AA 已套進 date_system/lines 源稿（同一個 commit），遊戲經 tools/date/import_date_lines.py 重匯；tests/date_src_sha.js ZQ909_1112 逐格、tests/zr904_dates_1112_unit.js 對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_893_src對照表_y4a_encounters.md",
+   "sha": "da666ecda9",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_428）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 2 節 encounters.js／enc_walk.js（室友、學校；淡水 datingAfter 改旁白：encounter3d.js who:null＝旁白）、第 3 節 whois3d／r3_events（條目和那一場之前已拿掉，只剩註解改代號）。第 1 節可昕大四上 9 場在 r2y4a_events.js（第四批三那條線），這一批沒做；偶遇「朋友以上也能遇到」沒做（照舊只給交往中）"
+  },
+  {
+   "path": "docs/story_planning/AA_901_第四批二留下的十一件.md",
+   "sha": "13b99d5da8",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_434）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 5、6 項以安 beat 6／8（tools/story/import_arcs.py CANON901）、第 7 項深夜那一則（tools/msg/to_js.py C901）、第 8 項 invites.js 兩格（AA_784 移出、直接改 src）、第 9 項 assets3d 五列（WN_COMMON 沒做）、第 10 項兩個標籤；第 1～3 項在 y2r2_3d.js／y34b3d.js（第四批三），補 1～8 沒做"
+  },
+  {
+   "path": "docs/story_planning/AA_905_經濟兩字的前提_補.md",
+   "sha": "88e4d555ba",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12（換名詞，不送 BB）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "events.js MENTOR_WHY_TEXT.econ 和兩個選項拿掉、STORY.whyLawKey econ→own；enc_walk.js D04.snack dating（bb_walk_v1 換版）；activity_scenes.js 書店那一句（tools/story/canon1112_rows.py 疊在 AA_708@d30416e6b 上——AA_708 最新版還帶 AA_906 和代號，沒換版）"
+  },
+  {
+   "path": "docs/story_planning/AA_787_encounters.json",
+   "sha": "b508188fb5",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（X324 E 區）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "23 列照 at 一格一格換進 src/data/encounters.js（17）、enc_walk.js（6）；沒有可昕的列（略過 0 列）；不是 overlay（手寫檔，換一次就好；tests/canon1112_ok.js a787 認這幾格）"
   }
  ]
 }

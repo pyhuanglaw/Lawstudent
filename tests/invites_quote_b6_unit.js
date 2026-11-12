@@ -314,7 +314,7 @@ if(process.env.L118_B6_DEBUG){ const r=cmp772((O.data||{}).inv||[],(N.data||{}).
       B=reId(B).filter(x=>!CHG.has(x[0].split('.')[1])); const have=new Set(B.map(x=>x[0].split('.')[1])); A=reId(A).filter(x=>have.has(x[0].split('.')[1])); }
     if(k==='inv'){ const isWant=(a,b)=>kindOf(a,b)==='act'&&want.some(x=>x[1]===a&&x[2]===b); const r=cmp772(A,B,(a,b)=>aa731(a[1],b[1])||isWant(a[1],b[1])); bad.push(...r.bad); for(const [a,b] of r.pairs) if(a[1]!==b[1]&&isWant(a[1],b[1])) hit.push(b[0]); }   /* 2026-11-11：INVITE_DATA 改用地點 id 對、照 AA_772／AA_721 逐格驗（上面 cmp772）*/
     else if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
-    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
+    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(k==='enc'&&(require('./canon1112_ok.js').a787(a[1],b[1])||require('./canon1112_ok.js').ok(b[1])||(/\.datingAfter\.who$/.test(a[0])&&b[1]==='null'))) return;   /* （CANON-NO-ECON-1112 第四批：照 AA_787／AA_893 換字）偶遇那幾格 */ if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
       else if(k==='ev'&&wrapped(a[1])&&unq(a[1])===b[1]&&SEVEN.includes(a[1])) hit7.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
     /* 第七批（tests/invites_quote_b7_unit.js）：STORY_EVENTS 有名字、整句「…」的拿掉外面那一對——這裡看得到的是上面 SEVEN 那 6 句，只認這 6 句、只差外面那一對、一句一次；其他資料（inv、enc、zrzq）沒有 */
     const w7=k==='ev'?SEVEN:[];
