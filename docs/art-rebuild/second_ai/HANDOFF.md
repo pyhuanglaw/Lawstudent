@@ -3,7 +3,17 @@
 
 
 
-## 進度（2026-11-12 11:00 UTC，LAWWW2-C）——以這一節為準
+## 進度（2026-11-12 19:3x UTC；LAWWW2-C）——以這一節為準
+
+- 交、已整合（LAWWW-C ACK＋ACTIONED）：D158 模型清理 ①③ e83488f007（→209b33be09）、② 4fb95b7335（→75e3486b89，含祐廷坐姿 bt 0.0634）；SHOP-FIRST-APPROACH 第二包（一幀編一個材質）＋L118-SEAT-FIX 第一包（118牛排 #1／#10 走近點、大學食堂窗邊按鈕 0.95）15f17bdf30（→6279e713c0）。
+- 等 CC 重跑（LAWWW-C 已排）：FIRST_gg_desk／FIRST_xs_desk（看最長一幀、step.compile.max）；L118_CAM36_a／b（座位探針加記點擊點和物件名字）。等的時候做下面那一包。
+- 做好、回歸跑中、還沒交：L118-CLOSED-LOOKS-OPEN-1112（wip/l118_closed_look_1112，b7caf48abf：鐵捲門半拉、光暈／招牌／店內那一層照 L118.isOpen 調暗；新測試 ALL PASS）。
+- 還沒修（P3）：辛亥韓食 #6 停在兩張按鈕中間、點椅子停錯張、cafe2 #13 走到店外（等 CC 點擊紀錄）；五湖四海 #17／#18 吧台椅停 0.3 m 外（沒人回報）。
+- 宿舍光照下次重烘時處理：lightbake/bake_dorm_room4.sh、pc_ref/dorm_room4_bakein.glb、tools/anim/fit_body_morph.py 還提到外套節點。
+- 還沒做：溫特寶邸室內、禮貌生財真店內、招牌貼圖解析度（榮恩典）、WZ-SUNNY-TAPNAV（等 CC 資料）、INCR 記帳。
+- 工作樹：`$SP/wt_tz5`（跟開發分支 6279e713c0；未 commit 的改動＝L118-CLOSED-LOOKS 那一包 src/zones3d.js＋tests/l118_closed_look_1112_unit.js，已存 patch）。
+
+## 進度（2026-11-12 11:00 UTC，LAWWW2-C）——舊
 
 **在做什麼**：使用者 11-12「新生南路、公館、汀州路的店從外面看是 2D 圖貼在外面，改成像 118 巷一樣」＋對 BB「大步球鞋店外面看進去牆壁是灰色，店裡面是木頭」→ 做法定案：**玻璃後面直接放走進去的那一顆室內模型**（`Z3.shopInsideReal`，zones3d.js；街景腳本那一間加 `real=True, back=室內深+0.1`）。
 
