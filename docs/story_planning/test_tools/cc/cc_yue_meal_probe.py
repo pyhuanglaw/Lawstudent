@@ -9,6 +9,7 @@
   對話照第一個選項一路按，到她那一句（yueMeal.own 的句子或通用的「你在這裡打工喔？」）出來的那一刻停：
   記店裡所有人（E.npcs：誰、位置、坐不坐、姿勢）、她在不在、她和祐廷的距離和方向、她 1 m 內最近的家具；拍遊戲鏡頭一張＋俯視一張（另一台相機，藏玩家以外不動）。
   演完這一班以後再記一次（時間走了以後她會不會出現）。
+11-12 SHIFT7：VISITS=2 同一學期連看兩班（第二班沿用第一班演完的存檔）、整班每一句都記、記 G.jobs.yue.mealHiT。
 CC_02 清單 2026-11-12：1✓（班表從資料讀：週二、週四 17:30；她來不來用遊戲的 JOBS.mealHere 掃，不硬放） 2✓（人物位置從 E.npcs 讀） 3✓（對話照第一個選項；記每一句） 4✓（對話用 #dlg、#choices） 5n/a（不走路，讀檔進店） 6✓（讀檔後等 6 秒） 7✓ 8n/a（不判，有沒有人照實記，BB 判） 9✓（俯視相機藏玩家頭以外不藏人；遊戲鏡頭原樣） 10✓（條件事件關掉；打工的開班不是條件事件，照跑） 11✓ 12✓（記日期、句子、每個人的位置、距離、家具） 13✓（改存檔、捷徑都標；BB-C 10:55 加她每 0.5 秒的位置軌跡〔從門口走進來沒、坐哪〕、上班中跳出的通知）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=KX,SIS,SISD] [TERMS=Y1S2] [FIX=…]（SISD＝學姊交往中；TERMS 依序掃，第一個找到的那一班就演） python3 cc_yue_meal_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, base64
@@ -25,7 +26,8 @@ FIX = os.environ.get('FIX') or 'tests/fixtures/user_save_day51b_1110.json'
 CASES = [c for c in (os.environ.get('CASES') or 'KX,SIS').split(',') if c]
 WHO = {'KX': 'kexin', 'SIS': 'heroine_05', 'SISD': 'heroine_05'}   # SISD＝學姊交往中（BB-C 09:12）
 DATING = {'KX', 'SISD'}
-TERMS = [t for t in (os.environ.get('TERMS') or 'Y1S2').split(',') if t]   # BB-C 09:12：學姊大二上、大二下各掃一次
+TERMS = [t for t in (os.environ.get('TERMS') or 'Y1S2').split(',') if t]
+VISITS = int(os.environ.get('VISITS') or 1)   # 11-12 SHIFT7：2＝同一學期第二次來（第二次只有進店坐下＋最後那句旁白），每一句都記   # BB-C 09:12：學姊大二上、大二下各掃一次
 R = L.Run('yue_meal', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ZONE = 'tz_yuehaochi'
@@ -98,13 +100,28 @@ async def run_case(pg, cdp, sv0, case, res):
         sc = await pg.evaluate(SCAN, {'zone': ZONE, 'who': who, 'max': 3, 'term': term})
         out['scans'][term] = sc
         R.setup('[%s] 【前置／捷徑】讀檔改成越好吃週二週四的班、%s 的關係（交往中=%s）；掃 %s 週二週四 JOBS.mealHere → %s' % (tag, who, dt, term, J({'scanned': sc['scanned'], 'hits': sc['hits'][:3]})))
-        if sc['hits'] and not hit: hit = sc['hits'][0]; hit['term'] = term
+        if sc['hits'] and not hit: hit = sc['hits'][0]; hit['term'] = term; hit['next'] = sc['hits'][1:]
     if not hit:
         R.note('[%s] %s 全部掃不到：遊戲沒有一天說「這一班 %s 會來吃飯」：%s' % (tag, '、'.join(TERMS), who, J({t: {'scanned': v['scanned'], 'first': v['first']} for t, v in out['scans'].items()})))
         R.check('[%s] %s 找得到 %s 會來越好吃吃飯的一班（JOBS.mealHere）' % (tag, '、'.join(TERMS), who), False, '全部掃不到')
         res[case] = out; return
-    r = await pg.evaluate(APPLY, prep(sv0, who, hit['day'], hit['wd'], 17.4, dating=dt))
-    R.setup('[%s] 【前置／捷徑】%s 17:24 讀檔到越好吃（條件事件關掉）' % (tag, hit['key']))
+    o1 = await one_shift(pg, cdp, prep(sv0, who, hit['day'], hit['wd'], 17.4, dating=dt), who, tag, dt, hit, '')
+    out['visits'] = [o1]
+    if VISITS >= 2:   # 11-12 SHIFT7（AA_828 第 10 節第 1 點）：同一學期第二次來＝接著第一班演完的存檔（保留 G.jobs.yue.mealHiT），換到同學期下一個她會來的那一天
+        nx = (hit.get('next') or [None])[0]
+        if not R.check('[%s] 同一學期（%s）掃得到第二次她會來的一班' % (tag, hit['term']), bool(nx), J(hit.get('next'))): res[case] = out; return
+        sv1 = await pg.evaluate("JSON.parse(JSON.stringify(GAME.G))")
+        sv1['day'] = nx['day']; sv1['weekday'] = nx['wd']; sv1['hour'] = 17.4; sv1['zone'] = ZONE; sv1['weather'] = 'clear'; sv1.pop('pos', None)
+        await pg.goto(URL); await L.wait_loaded(pg)
+        o2 = await one_shift(pg, cdp, sv1, who, tag + '_2nd', dt, nx, '（接第一班演完的存檔，mealHiT 留著）')
+        out['visits'].append(o2)
+    res[case] = out
+
+
+async def one_shift(pg, cdp, sv, who, tag, dt, hit, how):
+    out = {'key': hit['key']}
+    r = await pg.evaluate(APPLY, sv)
+    R.setup('[%s] 【前置／捷徑】%s 17:24 讀檔到越好吃（條件事件關掉）%s' % (tag, hit['key'], how))
     await pg.wait_for_timeout(6000)
     started = await pg.evaluate("!!(typeof JOBS!=='undefined'&&JOBS.running)")
     if not started:
@@ -121,18 +138,18 @@ async def run_case(pg, cdp, sv0, case, res):
         t = s.get('dtext') or ''
         if t and (not seen_lines or seen_lines[-1] != t): seen_lines.append(t)
         if t and (t == target.get('own') or t == target.get('ask') or t == target.get('narr')):
-            snap_at = await pg.evaluate(PEOPLE, {'who': who}); break
+            if snap_at is None: snap_at = await pg.evaluate(PEOPLE, {'who': who}); await pg.screenshot(path=os.path.join(OUT, 'yue_%s_game.png' % tag))
+            if VISITS < 2: break
         if not s.get('dlg') and not s.get('choices') and not await pg.evaluate("!!(typeof JOBS!=='undefined'&&JOBS.running)"): break
         if s.get('choices'):
             await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); if(b) b.click(); })()")
         elif s.get('dlg'):
             await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(600)
-    out['lines'] = seen_lines[-12:]; out['target'] = target
-    R.note('[%s] 這一班演到的句子（最後 12 句）：%s' % (tag, J(seen_lines[-12:])))
+    out['lines'] = seen_lines if VISITS >= 2 else seen_lines[-12:]; out['target'] = target
+    R.note('[%s] 這一班演到的句子（%s）：%s' % (tag, '整班' if VISITS >= 2 else '最後 12 句', J(out['lines'])))
     if snap_at:
         out['at_line'] = snap_at
-        await pg.screenshot(path=os.path.join(OUT, 'yue_%s_game.png' % tag))
         her = snap_at.get('her'); pl = snap_at.get('player') or {'x': 0, 'z': 0}
         c = [her['x'], her['z']] if her else [pl['x'], pl['z']]
         wsave(await pg.evaluate(SNAP, {'from': [c[0], 7.5, c[1] + 0.01], 'at': [c[0], 0, c[1]], 'fov': 70}), 'yue_%s_top.jpg' % tag)
@@ -152,7 +169,11 @@ async def run_case(pg, cdp, sv0, case, res):
     R.note('[%s] 上班中的通知（toast、手機訊息）：%s' % (tag, J(trk['msg'][:20])))
     await pg.screenshot(path=os.path.join(OUT, 'yue_%s_after.png' % tag))
     R.note('[%s] 這一班演完（%s %s）：她在店裡=%s %s；所有人 %s' % (tag, after['zone'], after['hour'], bool(after.get('her')), J(after.get('her')), J(after['people'])))
-    res[case] = out
+    out['mealHiT'] = await pg.evaluate("(()=>{ const y=(GAME.G.jobs||{}).yue||{}; return {mealHiT:y.mealHiT||null, mealHi:y.mealHi||null}; })()")
+    R.note('[%s] 演完 G.jobs.yue.mealHiT＝%s' % (tag, J(out['mealHiT'])))
+    return out
+
+
 
 
 async def main():

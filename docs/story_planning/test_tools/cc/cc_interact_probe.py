@@ -15,6 +15,7 @@ SHA = (os.environ.get('SHA') or '')[:10]; TAG = os.environ.get('TAG') or 'x'
 ZONE = os.environ.get('ZONE') or 'wz_offbeat'; LABEL = os.environ.get('LABEL') or '社團佈告欄'
 CASES = [c.split('@') for c in (os.environ.get('CASES') or '2025-10-14@15').replace(';', '+').split('+') if c]
 PICK = [x for x in (os.environ.get('PICK') or '').split(',') if x]
+CLOSE = (os.environ.get('CLOSE') or '0') == '1'   # 11-12：互動點特寫（BB-C 13:46 頁間雜誌、明信片）
 EACH = (os.environ.get('EACH') or '0') == '1'   # BB-C 10:23：第一個選單的每一個選項各按一次（每個社團那一頁）
 R = L.Run('interact_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -39,6 +40,11 @@ async def main():
             await L.go_to(pg, cdp, R, it['x'], it['z'], 0.7, it['label'], max_s=90, lv=it['lv'])
             st = await pg.evaluate(ST)
             R.note('%s 互動鍵「%s」（互動點 %s）' % (tag, st['interact'], J(it)))
+            if CLOSE:   # 11-12 BB-C 13:46：特寫——鏡頭在互動點前 1.2 m、高 1.4 m，朝互動點（方向＝互動點往祐廷走到的那一側＝走得到的那一面），看點位是不是在書架／展示架前
+                cm = await pg.evaluate("(a=>{ const o=GAME.E.player.obj.position; let dx=o.x-a.x, dz=o.z-a.z, d=Math.hypot(dx,dz); if(d<0.2){ const ry=GAME.E.player.obj.rotation.y; dx=-Math.sin(ry); dz=-Math.cos(ry); d=1; } dx/=d; dz/=d; return {eye:[a.x+dx*1.2,1.4,a.z+dz*1.2], look:[a.x-dx*0.6,1.0,a.z-dz*0.6], lens:24, dir:[+dx.toFixed(2),+dz.toFixed(2)], pt:[a.x,a.z]}; })", it)
+                await D.user_shot(pg, cdp, 'close_%s_%d' % (TAG, n), cm)
+                await pg.set_viewport_size({'width': 844, 'height': 390}); await pg.wait_for_timeout(600)
+                R.note('%s 特寫（互動點 %s、鏡頭從 %s 方向 1.2 m）' % (tag, J(cm['pt']), J(cm['dir'])))
             async def once(first_pick, sub):
                 await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
                 lines = []; menus = []
@@ -98,8 +104,8 @@ async def main():
                 m0 = await pg.evaluate("GAME.G.money|0")
                 lines, menus = await once(None, 'a')
                 m1 = await pg.evaluate("GAME.G.money|0"); R.note('%s 錢 %s → %s（%+d）' % (tag, m0, m1, m1 - m0))   # BB-C 12:31：洋洋炸物櫃錢有沒有扣
-                await pg.wait_for_timeout(2500); ps = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position; return {seat:!!P.seat, pose:P.pose||null, x:+o.x.toFixed(2), z:+o.z.toFixed(2), h:+(+GAME.G.hour).toFixed(3)}; })()")
-                R.note('%s 演完 2.5 秒祐廷：%s（11-12 YY_ORDER_r2：內用有沒有坐下吃）' % (tag, json.dumps(ps, ensure_ascii=False))); await pg.screenshot(path=os.path.join(OUT, 'after_%s_%d.png' % (TAG, n)))
+                await pg.wait_for_timeout(2500); ps = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position; const G=GAME.G; let bag=null; try{ bag=GIFTH.bag(G).map(b=>b.id||b.n||b.name); }catch(e){} return {seat:!!P.seat, pose:P.pose||null, x:+o.x.toFixed(2), z:+o.z.toFixed(2), h:+(+G.hour).toFixed(3), own:(G.flags&&G.flags.GG3_OWN)?JSON.parse(JSON.stringify(G.flags.GG3_OWN[G.zone]||{})):null, bag, carry:(typeof GIFT!=='undefined'&&GIFT.carry)?GIFT.carry(G).map(c=>c.n):null}; })()")
+                R.note('%s 演完 2.5 秒祐廷：%s（11-12：內用有沒有坐下吃；物品 GG3_OWN、禮物包、帶在身上）' % (tag, json.dumps(ps, ensure_ascii=False))); await pg.screenshot(path=os.path.join(OUT, 'after_%s_%d.png' % (TAG, n)))
             await pg.screenshot(path=os.path.join(OUT, 'end_%s_%d.png' % (TAG, n)))
             R.note('%s 整段（%d 句、%d 個選單）：%s' % (tag, len(lines), len(menus), J(lines)))
             R.note('%s 選單：%s' % (tag, J(menus)))
