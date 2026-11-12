@@ -53,7 +53,7 @@ const KNOWN_FAIL=[].concat(
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   KF(T_CLOSED,'closedClerk','cafe bikeshop aoki wz_brunch wz_print wz_teahouse wz_lin wz_teishoku us_asian_market l118_dian l118_self l118_tea l118_home l118_cafe2 l118_pasta l118_korea l118_omu l118_noodle2'),
   /* 客居雲南：菜單、點餐、營業時間、每個互動點的字都還沒有（AA_825）*/
-  KF(T_AA,'name','tz_keju'), KF(T_AA,'hours','tz_keju'), KF(T_AA,'closeOut','tz_keju'), KF(T_AA,'typhoon','tz_keju'), KF(T_AA,'buy','tz_keju'), KF(T_AA,'nomoney','tz_keju'), KF(T_AA,'text','tz_keju'),
+  KF(T_BACK,'text','tz_keju'),   /* AA_825 接了以後剩兩個點沒有字：tz_keju_tea（看茶餅櫃）、tz_keju_kitchen（看廚房）——已問 AA */
   /* 其他（補查出來的）*/
   KF(T_BACK,'name','tz_limao'),
   KF(T_BACK,'hours','noodle bookstore tz_limao us_market'),
@@ -62,7 +62,7 @@ const KNOWN_FAIL=[].concat(
   KF(T_BACK,'typhoon','xs_nanyang xs_shanlan xs_dabu xs_haopai xs_xsports flower_notes l118_dian l118_self l118_tea l118_home l118_cafe2 l118_korea l118_noodle2 tz_limao'),
   KF(T_BACK,'buy','us_asian_market us_market'), KF(T_BACK,'nomoney','us_asian_market us_market'),
   KF(T_BACK,'text','tz_limao us_asian_market us_market'),
-  KF(T_BACK,'gift','tz_yuehaochi tz_dongnan'),
+  KF(T_BACK,'gift','tz_yuehaochi tz_dongnan tz_keju'),
   KF(T_BACK,'tend','stall:tingzhou:st_eggcake stall:tingzhou:st_scallion stall:tingzhou:st_ball stall:tingzhou:st_pepper stall:tingzhou:st_corn stall:tingzhou:st_stinky stall:tingzhou:st_cane stall:tingzhou:st_jelly stall:tingzhou:st_socks stall:tingzhou:st_ring stall:gongguan:st_milk stall:gongguan:st_wheelcake stall:gongguan:st_phonecase stall:lane118:drink_a stall:lane118:drink_b stall:wenzhou:fruit'),
   []);
 

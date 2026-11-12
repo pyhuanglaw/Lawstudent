@@ -54589,7 +54589,7 @@
    "id": "SHOP-LIFE-AA826-1112",
    "title": "店面盤點後續（AA_825 客居雲南菜單點餐、AA_826 四間店員招呼＋吃飯遇到同學的第一句、名單加學姊 0.6／語彤 0.4、同一人同一天最多遇到一次）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -54602,7 +54602,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "AA-C 11-12 05:11：兩份稿送 BB 第二意見中，定稿 SHA 到了就派子代理接（客居雲南照越好吃的做法；花序、越好吃、客居的 staff.greet 接上；meal_hello 九人各兩句＋學姊交往中一組；禮貌生財不另加店員；AA_742 午休作廢重匯 gg3_shops_lines.js）",
+   "next": "【LAWWW-C 11-12】子代理交件已合併（稿 90fb5fa77）：客居雲南點餐六樣＋老闆娘（AA_825）；山嵐、大步、好拍、新生運動廣場、花序進門招呼一天一次三句輪流；店裡遇到同學先說 meal_hello 一句（九人，學姊交往中另一組）；名單加學姊 0.6、語彤 0.4，不在臺北不排，同一人同一天最多遇到一次；泰米午休句拿掉。Node：keju 66、shop_meet 35、shop_life_audit ALL PASS；全部 1325 支只有 2 支 FAIL 且都不是這次的檔（aa308_batch2、peishan_feed_misc_1111 第 4 項——要查）；瀏覽器沒跑→BB／CC。給 AA 六問已轉｜AA-C 11-12 05:11：兩份稿送 BB 第二意見中，定稿 SHA 到了就派子代理接（客居雲南照越好吃的做法；花序、越好吃、客居的 staff.greet 接上；meal_hello 九人各兩句＋學姊交往中一組；禮貌生財不另加店員；AA_742 午休作廢重匯 gg3_shops_lines.js）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
