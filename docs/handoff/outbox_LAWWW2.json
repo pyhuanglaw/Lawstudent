@@ -8861,6 +8861,22 @@
    ],
    "remaining": "沒在遊戲裡拍；頁間書屋咖啡吧黑板和 AA_853 有兩處出入，等 AA 定",
    "next": "LAWWW-C 套 patch；AA 定黑板"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REAL-INSIDE-1112",
+   "title": "SHOPREAL-NEAR-FIRST：第一次走到店前店內模型還沒建（SUNNY SIDE FAIL）——眼前那一間插隊、加快",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shopreal_near_first_1112/shopreal_near_first_v1.patch",
+    "docs/art-rebuild/second_ai/wip/shopreal_near_first_1112/README.md"
+   ],
+   "remaining": "一幀 4 件的最長一幀沒量",
+   "next": "LAWWW-C 套 patch；CC 在電腦量第一次走近的最長一幀、重跑 SUNNY SIDE"
   }
  ]
 }
