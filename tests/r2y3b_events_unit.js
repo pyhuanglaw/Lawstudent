@@ -117,9 +117,9 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-03-15',21.6,'dorm'); date('kexin'); rules(); answer('y3_kx_k18',0); rules(); at('2028-03-18',8.3); OUT.tick(GM); const call=OUT.get(G,'y3_kx_k18_call');
   check('R3. 沒到：KX_K18 missed、KX_RUB +1；08:15 的電話（CANON-NO-ECON-1112 第三批：這一項拿掉）', OUT.get(G,'y3_kx_k18').state==='missed'&&!call&&G.flags.KX_K18==='missed'&&G.flags.KX_RUB===1);
   at('2028-03-18',18.1); rules();
-  check('R3. 18:00 照片「你的位子，予樂坐了。」', txt('p:kexin').includes('kexin:你的位子，予樂坐了。'));
+  check('R3. 18:00 照片「我自己來了。月台很安靜。」（CANON-NO-ECON-1112 第四批：照 AA_896 換字）', txt('p:kexin').includes('kexin:我自己來了。月台很安靜。'));
   fresh('2028-03-15',21.6,'dorm'); date('kexin'); rules(); answer('y3_kx_k18',1); at('2028-03-18',18.1); rules();
-  check('R. 婉拒：「……好。那我跟予樂去。」、3/18 18:00 照片；不排出遊、不算 KX_RUB', txt('p:kexin').includes('kexin:……好。那我跟予樂去。')&&txt('p:kexin').includes('kexin:（照片：她和予樂在月台上）')&&!OUT.get(G,'y3_kx_k18')&&!G.flags.KX_RUB&&G.flags.KX_K18==='missed');
+  check('R. 婉拒：「……好。那我自己去。」、3/18 18:00 照片；不排出遊、不算 KX_RUB（CANON-NO-ECON-1112 第四批：照 AA_896 換字）', txt('p:kexin').includes('kexin:……好。那我自己去。')&&txt('p:kexin').includes('kexin:（照片：月台，一個人的影子）')&&!OUT.get(G,'y3_kx_k18')&&!G.flags.KX_RUB&&G.flags.KX_K18==='missed');
   fresh('2028-03-15',21.6,'dorm'); rules(); check('R. 沒交往：不發生', txt('p:kexin').length===0);
 
   /* 2-Y3-31 SK13（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
@@ -582,8 +582,8 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   await zqDinner(['先不說','好。']);
   check('Q15-Q5. D10 第二次、先不說：「我喜歡你。講完了。」換成「我上次講的，沒有收回。……換你。」；「好。」→ 交往', has('我上次講的，沒有收回。……換你。')&&!has('我喜歡你。講完了。')&&G.flags.dating_heroine_04===true&&!G.flags.ZQ_Q15, JSON.stringify(said.map(x=>x.t)));
 
-  { const M=SOCIAL.MEMORY_LABEL, W={XUN_PATH:'去聽了他在經濟系的報告',YU4_SAT:'在晨思鐘旁邊陪她吃完早餐，兩個人都沒講話',ZHIRUO_MET_YU:'跟她說，戲院倒數第三排那個女生是 Alison',XINCI_FIRST:'她申請上國際所的暑期實習，金融那一組'};   /* AA_547 2-4 改 */
-    check('D13 人物面板名稱照 AA_343 第 5 節（四項；XINCI_FIRST 照 AA_547）', Object.keys(W).every(k=>M[k]===W[k]), JSON.stringify(Object.keys(W).map(k=>M[k]))); }
+  { const M=SOCIAL.MEMORY_LABEL, W={YU4_SAT:'在晨思鐘旁邊陪她吃完早餐，兩個人都沒講話',ZHIRUO_MET_YU:'跟她說，戲院倒數第三排那個女生是 Alison',XINCI_FIRST:'她申請上國際所的暑期實習，金融那一組'};   /* AA_547 2-4 改 */
+    check('D13 人物面板名稱照 AA_343 第 5 節（三項；XINCI_FIRST 照 AA_547；XUN_PATH 照 AA_894 拿掉）（CANON-NO-ECON-1112 第四批）', !('XUN_PATH' in M)&&Object.keys(W).every(k=>M[k]===W[k]), JSON.stringify(Object.keys(W).map(k=>M[k]))); }
 
   // ---------- 接線 ----------
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');

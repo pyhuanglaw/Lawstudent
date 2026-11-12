@@ -206,7 +206,6 @@ const Y2B_EVENTS=(function(){
       {set:{YT_UMBRELLA_Y3:'seen'}} ] };
 
   /* ---- 1B-09 子晴 Q10「畢業專題要交哪一個」：2027-11-09（二）19:15～20:00 兩點半 Café；FRIEND 以上 ---- */
-  const TOLD=G=>has('heroine_04','TOLD_HER_CHANGE');
   const CAPSTONE={ id:'ev_ziqing_capstone', title:'畢業專題要交哪一個', participants:['heroine_04'], location:'cafe', trigger:'auto', once:true, background:'blur',
     prereq:{stage:{npc:'heroine_04',min:'FRIEND'},custom:G=>at(G,'2027-11-09',19.25,20)},
     dialogue:[ {unless:{custom:G=>Q6(G)||done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'},   /* AA_376 #4：Q8b（10/6～10/8 爸爸卡關，含三天都沒去的手機版）已經說過的不再當新消息（同閒聊階梯 Q5-L1 的判斷）*/
@@ -217,13 +216,10 @@ const Y2B_EVENTS=(function(){
       {speaker:'heroine_04',text:'……另一個還沒做完。交了會被打很爛的分數。'},
       {speaker:'heroine_04',text:'你覺得呢？不要幫我決定。你只要講你覺得。'},
       {choice:[{text:'「我覺得妳想交沒有名字的那個。」',set:{ZQ_Q10:'nameless'},goto:'q1'},{text:'「交貓。貓很好。」',set:{ZQ_Q10:'cat'},goto:'q2'},{text:'「我不講。這次妳自己決定。」',set:{ZQ_Q10:'both'},goto:'q3'},
-        {text:'「我念過一個多月經濟，後來重考進法律。換的時候很怕，換完就不怕了。」',unless:{custom:G=>TOLD(G)},set:{ZQ_Q10:'nameless'},mem:[{npc:'heroine_04',tag:'TOLD_HER_CHANGE',note:'畢業專題那晚，你說你換過一次方向'}],goto:'q4'},
-        {text:'「我上次說換跑道的事——換的時候也很怕。」',if:{custom:G=>TOLD(G)},set:{ZQ_Q10:'nameless'},goto:'q5'}]},
+        {text:'「做選擇的時候，我也很怕。」',set:{ZQ_Q10:'nameless'},goto:'q5'}]},   /* CANON-NO-ECON-1112 第四批：照 AA_896 第 2 節，選項四（換過方向那件事）和 q4 拿掉、選項五改成不看條件的這一句 */
       {label:'q1'},{speaker:'heroine_04',text:'……你很煩。'},{speaker:null,text:'（她把沒有名字的那個資料夾打開，又關掉。又打開。）'},{goto:'music'},
       {label:'q2'},{speaker:'heroine_04',text:'對吧。'},{speaker:null,text:'（她點頭。然後很小聲：）'},{speaker:'heroine_04',text:'……可是你剛剛停了一下。'},{goto:'music'},
       {label:'q3'},{speaker:null,text:'（她看著你，很久。）'},{speaker:'heroine_04',text:'好。'},{speaker:null,text:'（她把兩個資料夾都拖進「畢業專題」裡。）'},{speaker:'heroine_04',text:'我兩個都交。看誰先做完。'},{goto:'music'},
-      {label:'q4'},{speaker:'heroine_04',text:'……你換過？'},{speaker:'player',text:'嗯。'},{speaker:'heroine_04',text:'你家裡說什麼？'},{speaker:'player',text:'一開始不太懂。後來就懂了。'},
-        {speaker:null,text:'（她看著那個沒有名字的資料夾，很久。）'},{speaker:'heroine_04',text:'……好。'},{speaker:null,text:'（她把沒有名字的那個資料夾拖到桌面正中間。）'},{goto:'music'},   /* AA_321（2026-10-21 AA-C）：原「……好。我記住了。這不是問句。」是口氣表 0-3 的模板句 */
       {label:'q5'},{speaker:'heroine_04',text:'……你這樣講，我比較不怕了。'},
       {label:'music'},
       {speaker:'heroine_04',text:'還有一件事。我要請吉他社的學妹做配樂。'},

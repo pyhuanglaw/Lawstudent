@@ -178,10 +178,10 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('Q10-0. 11/8 21:00 兩則＋出發提醒（11/9 19:30 兩點半）', txt('p:heroine_04').join('|')==='heroine_04:我有兩個專題，只能交一個。|heroine_04:明天晚上七點半，兩點半。你來幫我看一下。'&&q10&&q10.goto&&q10.goto.zone==='cafe'&&q10.h===19.5);
   at('2027-11-09',19.4); G.zone='cafe'; check('Q10-1. 19:15～20:00 在 Café：可以演', EVENTS.check(cp));
   picks=[3]; await run('ev_ziqing_capstone');
-  check('Q10-1. 沒看過 Q6：開頭「……你應該不知道。我在做遊戲」；選④第一次：「我念過一個多月經濟」、記 TOLD_HER_CHANGE、nameless', said[0].t==='……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'&&opts[0].length===4&&/一個多月經濟/.test(opts[0][3])&&SOCIAL.has('heroine_04','TOLD_HER_CHANGE')&&G.flags.ZQ_Q10==='nameless'&&has('（她把沒有名字的那個資料夾拖到桌面正中間。）'));
+  check('Q10-1. 沒看過 Q6：開頭「……你應該不知道。我在做遊戲」；選④「做選擇的時候，我也很怕。」→ q5、不記 TOLD_HER_CHANGE、nameless（CANON-NO-ECON-1112 第四批：照 AA_896 第 2 節）', said[0].t==='……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'&&opts[0].length===4&&opts[0][3]==='「做選擇的時候，我也很怕。」'&&!SOCIAL.has('heroine_04','TOLD_HER_CHANGE')&&G.flags.ZQ_Q10==='nameless'&&has('……你這樣講，我比較不怕了。'));
   check('Q10-4. 配樂那段：「把說好的事寫下來」，沒有法律結論（沒有「條」「違法」「合法」）', has('那妳們先把說好的事寫下來。誰做什麼、做完歸誰、可不可以放在別的地方。')&&!said.some(s=>/第.+條|違法|合法|著作權法/.test(s.t))&&G.flags.ZQ_MUSIC_CREDIT===true);
   fresh('2027-11-09',19.4,'cafe'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','PLAYTESTED','Q6'); SOCIAL.remember('heroine_04','TOLD_HER_CHANGE',''); picks=[3]; await run('ev_ziqing_capstone');
-  check('Q10-2. 看過 Q6：沒有開頭那句；已經說過換方向＝選④換「我上次說換跑道的事」', said[0].t==='畢業專題。我要交那隻貓。'&&/換跑道/.test(opts[0][3])&&has('……你這樣講，我比較不怕了。'));
+  check('Q10-2. 看過 Q6：沒有開頭那句；選④照樣是「做選擇的時候，我也很怕。」（CANON-NO-ECON-1112 第四批：照 AA_896 第 2 節）', said[0].t==='畢業專題。我要交那隻貓。'&&opts[0][3]==='「做選擇的時候，我也很怕。」'&&has('……你這樣講，我比較不怕了。'));
   fresh('2027-11-08',21.1,'dorm'); R('heroine_04','FRI'); ct('heroine_04'); rules(); at('2027-11-09',20.05); rules(); at('2027-11-09',21.05); PHONE.tick(G);
   check('Q10-3. 沒去：21:00「我自己選了。……」；ZQ_Q10 self、配樂照樣有', txt('p:heroine_04').includes('heroine_04:我自己選了。……其實本來就差不多決定了。')&&G.flags.ZQ_Q10==='self'&&G.flags.ZQ_MUSIC_CREDIT===true);
 
