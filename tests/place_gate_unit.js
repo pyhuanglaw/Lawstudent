@@ -39,7 +39,7 @@ const T_WIN='SHOP-WINDOW-3D-1112', T_VIEW='SHOP-INTERIOR-VIEW-1112', T_AA='SHOP-
 const KF=(task,item,zones,manual)=>zones.split(/\s+/).filter(Boolean).map(zone=>Object.assign({zone,item,task},manual?{manual:true}:{}));
 const KNOWN_FAIL=[].concat(
   /* 從店外看進去是一張 2D 圖（使用者 11-12；清單＝任務 SHOP-WINDOW-3D-1112 的 LAWWW2 清單：新生南路七間、公館同一批、汀州路那一排）*/
-  KF(T_WIN,'street3d','xs_shanlan xs_tongxian xs_nanyang xs_dakou xs_haopai xs_xsports',true),
+  KF(T_WIN,'street3d','xs_shanlan xs_tongxian xs_nanyang xs_dakou xs_haopai xs_dabu xs_xsports',true),   /* xs_dabu：BB-C 11-12 06:4x 改判 FAIL——使用者：店外看進去牆是灰的、走進去是木頭的；立體了但和室內不一樣＝不算過 */
   KF(T_WIN,'street3d','aoki bookstore cvs bikeshop afar yangyang corner_records daybreak noodle',true),
   KF(T_WIN,'street3d','tz_yuehaochi tz_keju tz_dongnan tz_liantong tz_taimi',true),
   /* 118 巷的店沒開的時候畫面還是開著的（使用者 11-12 截圖：水上便當燈亮、沒有鐵門）*/

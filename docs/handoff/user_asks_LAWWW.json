@@ -5078,6 +5078,16 @@
    "status": "進行中",
    "wants": "X362",
    "note": "使用者對 CC-C 說的，CC-C 05:37 轉給 LAWWW-C（原話在 user_asks_CC）；D156、D157／HV-37"
+  },
+  {
+   "id": "UA-LAWWW-1112-28",
+   "at": "2026-11-12T06:4xZ",
+   "quote": "大步球鞋店外面看進去牆壁是灰色 可是人在店裡面居然墻壁是木頭的這個這麼明顯的錯誤你為什麼沒有發現呢你應該審查所有的店面會不會有一樣的問題",
+   "kind": "轉述",
+   "status": "進行中",
+   "wants": "X352",
+   "task": "SHOP-WINDOW-3D-1112",
+   "note": "使用者對 BB-C 說的，BB-C 06:46 轉給 LAWWW-C（原話在 user_asks_BB UA-BB-1112-03）"
   }
  ]
 }
