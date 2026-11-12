@@ -1,0 +1,107 @@
+{
+ "_meta": {
+  "doc": "AA_833 以安第二批（X324 續改）：事件裡開頭的「……」",
+  "by": "AA-C 2026-11-12",
+  "task": "DLG-FULL-REVIEW-1110",
+  "base": "開發分支 origin/claude/adoring-meitner-mqzst8 @ ac99b3caa 的行號",
+  "voice": "AA_565：「……」一段最多一次，只放在她真的停下來的地方。",
+  "what": "事件檔裡以安自己開口、以「……」開頭的 27 句：拿掉 13、留 14。留的是真的停下來的（學姊說出他名字那一場的第一句、分手後、機場、重逢、掛短冊那一句、「我媽也這樣說」），同一場有兩三句連著的只留一句。",
+  "keep": [
+   "events.js:3695 ……謝謝。",
+   "events.js:3868 ……謝謝學姊。我想先回去了。",
+   "events.js:4363 ……嗯。",
+   "events.js:4365 ……我媽也這樣說。",
+   "r2y3a_events.js:353 ……我在想，那是規定，還是那個法官。",
+   "r2y3a_events.js:373 ……他講完了。",
+   "r2y3b_events.js:366 ……謝謝。",
+   "r2y3b_events.js:369 ……我只是看不懂這個字。",
+   "r2y3b_events.js:455 ……你要不要來看？",
+   "r2y3b_events.js:466 ……我知道。我等你說，等了三個月。",
+   "r2y3b_events.js:481 ……你真的來了。",
+   "r2y4b_events.js:330 ……嗯。",
+   "r2y4b_events.js:346 ……嗯。",
+   "r2y4b_events.js:360 ……你不用預約。"
+  ],
+  "note": "送 BB 第二意見後定稿（D153）。"
+ },
+ "rows": [
+  {
+   "file": "src/data/events.js",
+   "line": 1345,
+   "old": "……對那個被限制的人呢？",
+   "new": "對那個被限制的人呢？"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3596,
+   "old": "……好，算一點。",
+   "new": "好，算一點。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3880,
+   "old": "……好。",
+   "new": "好。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 3888,
+   "old": "……我們走吧。我不想在這裡待太久。",
+   "new": "我們走吧。我不想在這裡待太久。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 4203,
+   "old": "……好啦，我自己也記不住十二條。",
+   "new": "好啦，我自己也記不住十二條。"
+  },
+  {
+   "file": "src/data/events.js",
+   "line": 4365,
+   "old": "……看到很多人不是壞人，只是沒有人幫他們把話講清楚。",
+   "new": "看到很多人不是壞人，只是沒有人幫他們把話講清楚。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 355,
+   "old": "……不是。飯要涼了。",
+   "new": "不是。飯要涼了。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 172,
+   "old": "……我在決定。",
+   "new": "我在決定。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 454,
+   "old": "……我只是想看一下你。好，可以了。",
+   "new": "我只是想看一下你。好，可以了。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 467,
+   "old": "……我知道。",
+   "new": "我知道。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 468,
+   "old": "……你不准賴。",
+   "new": "你不准賴。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 506,
+   "old": "……那我這三個禮拜都倒錯了。",
+   "new": "那我這三個禮拜都倒錯了。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 345,
+   "old": "……我贊成。",
+   "new": "我贊成。"
+  }
+ ]
+}
