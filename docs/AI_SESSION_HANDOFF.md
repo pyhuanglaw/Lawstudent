@@ -5,7 +5,9 @@
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：A 值班中（2026-11-10 08:1x UTC 起；LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`；上一任帳號 B；RULE_SOURCE＝`claude/confident-ritchie-8rwh7t`；duty.json seq 126）**
+**現在：C 值班中（2026-11-12 03:1x UTC 起；使用者「上一個帳號來不及交班使用量就到了上限，你現在接班，我也會通知其他AI」＝帳號 A 未交班、no-handoff；LAWWW-C `session_01Me1thu8Zn934H58kWKNfuF`，`claude/adoring-meitner-mqzst8`；上一任帳號 A；RULE_SOURCE＝`claude/adoring-meitner-mqzst8`；duty.json seq 129；AA-C、BB-C、LAWWW2-C 已登記，CC-C 還沒）**
+
+（以下是上一筆紀錄）**現在：A 值班中（2026-11-10 08:1x UTC 起；LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`；上一任帳號 B；RULE_SOURCE＝`claude/confident-ritchie-8rwh7t`；duty.json seq 126）**
 
 （以下是上一筆紀錄）**現在：B 值班中（2026-11-09 16:0x UTC 起；使用者「現在交班 你上次交班後沒有人接班 我會通知其他AI上線」＝選擇題確認「對，接班」；LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6` 先登記，其他職位上線後各自 duty register；RULE_SOURCE＝`claude/modest-rubin-2lyp7g`）**
 
@@ -17,6 +19,7 @@
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-11-12 03:1x | 帳號 A（未交班，用量到上限）→ **帳號 C** | LAWWW（AA、BB、LAWWW2 同時登記；CC 還沒） | `4e248bb55e`（`claude/confident-ritchie-8rwh7t`，快轉 1427 個 commit） | 使用者 11-12 明確指示接班（register --user-ok）；帳號 A 沒有交班快照，最後的狀態照使用者傳的對話截圖＋commit 紀錄（HANDOFF_GAP_MATRIX 第 1 節最上面） |
 | 2026-11-09 16:0x | 帳號 B 11-08 20:5x 交班（沒有人接）→ **帳號 B 重新接班**（LAWWW-B 先登記；其他職位上線後 register） | LAWWW | `d56e4f051`（`claude/modest-rubin-2lyp7g`） | 使用者「現在交班 你上次交班後沒有人接班 我會通知其他AI上線」→ 選擇題「對，接班」；duty verify 的 AA／BB 快照路徑格式修正後 OK；check、roles、asks OK |
 | 2026-11-08 20:5x | **帳號 B 交班**（CC-B 20:44、BB-B 20:47、AA-B 20:48、LAWWW2-B 20:50、LAWWW-B 最後）→ 下一個帳號 | 五職位 | `claude/modest-rubin-2lyp7g`（交班 commit 見 duty.json） | 使用者 20:4x「現在交班 等其他AI做好你才交班」；v9.10.23 已上線（main `3a34dbaa5`，BB 線上驗收 PASS）；incr 水位線全部前進；roles、check、asks OK；HANDOFF-B-1108 |
 | 2026-11-04 12:1x | 帳號 A（五職位 11-04 09:19 交班）→ **帳號 B 接班**（LAWWW-B 12:17、AA-B 12:11；LAWWW2-B、BB-B、CC-B 接班中） | LAWWW | `e52a77030`（`claude/confident-ritchie-8rwh7t`，快轉進 `claude/modest-rubin-2lyp7g`，登記 `9f4d237e2`） | 使用者「現在接班 請同步 GitHub 最新進度，接續工作 接班之後跟其他AI試著傳訊息」；check OK、roles OK、asks OK（522 筆）、duty verify 只有 AA-B 快轉的那一項（sync 後解決）；incr 918 項沒處理（帳號 A 交班就有，B6） |

@@ -6,6 +6,13 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
+### 帳號 A 沒有交班（用量到上限）→ 帳號 C 接班｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-12 03:1x UTC 接班紀錄（HANDOFF-C-1112；**帳號 A 沒留交班快照**，下面是 LAWWW-C 從 commit、tasks.json 和使用者傳的帳號 A 最後對話截圖整理的）
+
+- **帳號 A 停在哪**：線上 v9.10.25（11-11，main dc3d33941）；發布後整合一路做到 `4e248bb55e`（11-11 21:05，X324 最後一塊＝閒聊階梯選項 fx 694 個，AA_816）。沒有只在它機器上的成果（commit 都在、已快轉合併）。
+- **帳號 A 沒來得及做的**（截圖）：①`4e248bb55e` 的 GHA（run 532）沒看——紅一支 peishan_leftover2 6a（逐字比對把新 fx 當差異＝測試舊期望），LAWWW-C 改在 `be1e5d7256`；綠了交 BB 抽測閒聊選項（已通知 BB-C）。②VA10 香港群組回覆選項（`28d5057e8`）、「今天的課」chip（`59a4efb68`）＋宿舍長桌椅子：CC 排好等新版本——CC-C 還沒登記，佇列待確認。③邀約回覆要不要加玩家選項：帳號 A 問了 AA，沒看到回覆——LAWWW-C 11-12 再問 AA-C。④LADDER-DATING-TIER-1111（交往中那一層閒聊）記成先不做。
+- **接班對帳**：check 116 → 47 項（剩：第 4 項 25 筆已驗收沒寫 evidence、第 10 項 18 筆 xai 欄位、第 7 項 4 筆交付狀態不一致＝AUDIT_PENDING）；roles 剩 LAWWW2 10 項（待它改交接檔或補任務）；asks OK；loose OK（五條舊本機發布分支確認內容都在、已刪）；incr 195 項（166 項 LAWWW2 outbox 的 state／ack 寫法、5 個 WIP commit 沒分類、AA outbox 13 筆缺 sha／state——已通知 LAWWW2-C、AA-C；水位線沒前進）；releasegate 5 項都已驗收；userwork 68＋13 項還沒逐條排。
+- **各職位**：AA-C、BB-C、LAWWW2-C 11-12 03:1x 登記（都 no-handoff），duty sync 已收；LAWWW2-C 接著做完帳號 A 的 ECON-NAV-TRAPS-1111；CC-C 還沒登記。
+
 ### 帳號 B → 下一個帳號｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-10 04:1x UTC 交班（使用者 04:1x「現在交班」）
 
 **本班情況：使用者 11-10 01:5x「剩下的使用量只夠你 其他AI不會工作 電腦測試繼續跑」——帳號 B 只有 LAWWW-B 值班（SOLO-LAWWW-B-1110）；使用者選擇題：電腦測試 LAWWW 排、LAWWW 代判；新台詞等 AA；先修使用者回報的；不發布（「先不要」）。開發分支 `claude/modest-rubin-2lyp7g` 最後 `e73888074`，main 沒動。**
