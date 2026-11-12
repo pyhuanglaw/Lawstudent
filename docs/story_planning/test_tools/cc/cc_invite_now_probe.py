@@ -4,6 +4,7 @@
   照玩家：走到她旁邊按互動（說話）→ 選單照 PICKS 一層一層選（每層選含那個字的；> 分隔；最後一層應該是「現在一起過去」）→
   記她 3 秒內每 0.25 秒的姿勢（pose、seat、beh、位置）＝有沒有先起身 →
   照 ROUTE 走過去（exit:<區域>，+ 分隔；中間在每一區停一下：停 3 秒記她的姿勢、離祐廷多遠、有沒有 wave 動作）→ 到了：每 0.5 秒記 12 秒（她坐了沒、坐哪、祐廷坐了沒、誰先），截圖。
+11-12 r2：認識她改用 SOCIAL.meet（記 FIRST_MET；以安另設 met_an、學姊 met_sis）——r1 只設 met_ 旗標，按她會跑第一次見面「你好，我是沈以安」（BB-C 13:30）。
 CC_02 清單 2026-11-12：1✓（平日下午） 2✓（她、座位、出口從遊戲讀） 3✓（一次讀檔走到底） 4✓（選單照字） 5✓（走過去照玩家：go_to＋use_exit） 6✓（每一步等、取樣） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：要看她） 10✓（條件事件關掉） 11✓ 12✓（每一區同樣欄位） 13✓（讀檔、放她坐好是捷徑）
 QUICK=<區域>（W1R D4）：走完 ROUTE 以後改用手機「地點」快速前往那一區（直接到達），每 0.5 秒記 6 秒她的位置、離祐廷多遠、站不站得住。
 用法：LW_TESTS=<wt>/tests SHA=<sha> [TAG=x] [QUICK=noodle] [ZONE=library_hall] [WHO=heroine_01] [DAY=2025-10-14] [HOUR=15] PICKS=約>吃>麵>現在一起過去 ROUTE=exit:campus+exit:gongguan+exit:noodle python3 cc_invite_now_probe.py <url> <out>"""
@@ -26,6 +27,7 @@ QUICK = os.environ.get('QUICK') or ''   # W1R D4（BB-C 12:00）：走完 ROUTE 
 R = L.Run('invite_now_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 PLACE_HER = r"""(a=>{ const G=GAME.G, E=GAME.E; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
+  const AL={heroine_01:['met_an','AN_NAME_TOLD'],heroine_05:['met_sis']}; for(const k of (AL[a.who]||[])) G.flags[k]=true; try{ SOCIAL.meet(a.who,G.zone); if(SOCIAL.talkedTo) SOCIAL.talkedTo(a.who); }catch(e){} 
   if(a.rel&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ try{ SOCIAL.adjust(a.who,{fam:a.rel,trust:Math.round(a.rel*0.7),comf:Math.round(a.rel*0.7),seen:20,talked:20}); }catch(e){} }
   let n=GAME.npc&&GAME.npc[a.who]; if(n) return {had:true, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), seat:!!n.seat};
   const P=E.player.obj.position, S=(E.zone&&E.zone.seats||[]).filter(s=>(s.lv|0)===(E.player.lv|0)).sort((p,q)=>Math.hypot(p.x-P.x,p.z-P.z)-Math.hypot(q.x-P.x,q.z-P.z));

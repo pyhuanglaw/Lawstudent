@@ -11,6 +11,7 @@
     wait:<秒>
     burst:<名字>             站著不動每 0.25 秒截一張、共 2 秒（看閃）
     study:<字>,<次數>        W1R D5：走到標籤含那個字的座位（例：坐下讀書）按 → 坐下以後選單選「讀書…」那一個，重複 <次數> 次；每次記時間前後、#caption／#toast 的字、目標列，截圖（看時段用完跳下一時段、字幕）
+11-12 r2：射線要設 rc.camera（場景裡有 Sprite，r1 SUNNY_DOOR_walk 在 STATE 噴 null.matrixWorld、沒有結論行）。
 CC_02 清單 2026-11-12：1✓（日子時間照佇列：平日白天或晚上） 2✓（出口、互動點、座位照 exit.to／標籤從遊戲找） 3✓（每一支一次讀檔、照順序走） 4✓（選項照字） 5✓（go_to／use_exit 走過去，照玩家） 6✓（每一步 settle、換區等 2.5 秒） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：照原樣） 10✓（條件事件關掉） 11✓ 12✓（每一步同樣欄位） 13✓（讀檔捷徑標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONE=dorm [X= Z= LV=] [DAY=2025-10-14] [HOUR=14] ROUTE=exit:dorm_hall+go:樓梯+... python3 cc_route_probe.py <url> <out>"""
 import os, sys, json, asyncio
@@ -29,7 +30,7 @@ R = L.Run('route_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 STATE = r"""(()=>{ const E=GAME.E, G=GAME.G, P=E.player, o=P.obj, r2=v=>+(+v).toFixed(2); const cam=E.camera, cp=new THREE.Vector3(); cam.getWorldPosition(cp);
   const B=new THREE.Box3().setFromObject(o), head=new THREE.Vector3((B.min.x+B.max.x)/2, B.max.y-0.12, (B.min.z+B.max.z)/2), dir=head.clone().sub(cp), dist=dir.length(); dir.normalize();
-  const rc=new THREE.Raycaster(cp,dir,0.02,Math.max(0.05,dist-0.2)); const own=new Set(); o.traverse(x=>own.add(x));
+  const rc=new THREE.Raycaster(cp,dir,0.02,Math.max(0.05,dist-0.2)); rc.camera=cam; const own=new Set(); o.traverse(x=>own.add(x));
   const hit=rc.intersectObjects(E.scene.children,true).filter(h=>h.object.isMesh&&h.object.visible!==false&&!own.has(h.object)&&!(h.object.material&&h.object.material.transparent&&h.object.material.opacity<0.3)).slice(0,3).map(h=>({name:String(h.object.name||'')+'<'+String((h.object.parent&&h.object.parent.name)||'')+'>', d:r2(h.distance)}));
   let stand=null; try{ stand=E.canStand?E.canStand(o.position.x,o.position.z,0.25,P.lv|0):null; }catch(e){}
   return {zone:G.zone, lv:P.lv|0, x:r2(o.position.x), z:r2(o.position.z), y:r2(o.position.y), yaw:r2(o.rotation.y), seat:!!P.seat, pose:P.pose||null, stand, h:r2(G.hour),

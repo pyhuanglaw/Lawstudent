@@ -23,7 +23,7 @@ REL = int(os.environ.get('REL') or 0)
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 MEET = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
-  try{ if(SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(a.who,'FIRST_MET'))) SOCIAL.remember(a.who,'FIRST_MET',true); }catch(e){}
+  const AL={heroine_01:['met_an','AN_NAME_TOLD'],heroine_05:['met_sis']}; for(const k of (AL[a.who]||[])) G.flags[k]=true; try{ SOCIAL.meet(a.who,G.zone); if(SOCIAL.talkedTo) SOCIAL.talkedTo(a.who); }catch(e){} 
   if(a.rel&&SOCIAL.adjust){ try{ SOCIAL.adjust(a.who,{fam:a.rel,trust:Math.round(a.rel*0.7),comf:Math.round(a.rel*0.7),seen:20,talked:20}); }catch(e){} }
   let st=null; try{ st=SOCIAL.stage(a.who); }catch(e){} return {stage:st, money:G.money|0}; })"""
 IV = r"""(who=>{ const v=(GAME.G.invites||[]).filter(i=>i.who===who).slice(-1)[0]; return v?JSON.parse(JSON.stringify(v)):null; })"""

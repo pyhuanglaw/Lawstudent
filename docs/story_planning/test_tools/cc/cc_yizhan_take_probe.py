@@ -3,6 +3,7 @@
 做法：先在遊戲裡掃語彤的作息（SHIFTT.onShift：人在一盞、作息是打工那一格）找「當班」和「不當班」各一個時段（大一上平日 10～21 點）→
   每一種：【前置／捷徑】讀檔進 wz_teahouse 那個時段（條件事件關掉；認識語彤）→ 照玩家走到櫃台按 → 選「買一份帶走送人…」→ 選第一樣冷泡茶 → 一句一句記、錢前後、G.carry →
   當班那一種再走到語彤旁邊說話 → 選「送她…冷泡茶」→ 記她的句子、GIFT.lastPick。
+11-12 r2：r1 掃到 9/15 週一（一盞公休）→ 讀檔停在門口；改掃整學期、跳過週一週二、12:30～19:00；停在門口照玩家按「進去一盞」（BB-C 13:30）。
 CC_02 清單 2026-11-12：1✓（時段照遊戲自己的作息掃） 2✓（櫃台照互動點、語彤照 GAME.npc 從遊戲讀） 3✓（兩種各自讀檔） 4✓（選項照字） 5✓（go_to 走過去） 6✓（一句一句點） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：要看語彤） 10✓（條件事件關掉） 11✓ 12✓（兩種同樣欄位） 13✓（讀檔、認識語彤是捷徑）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [TERM=Y1S1] python3 cc_yizhan_take_probe.py <url> <out>"""
 import os, sys, json, asyncio
@@ -18,10 +19,10 @@ R = L.Run('yizhan_take', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ZONE = 'wz_teahouse'; YT = 'heroine_03'
 SCAN = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,zone:G.zone,weekday:G.weekday}; const R=CALENDAR.termDays(a.term); let on=null, off=null;
-  try{ for(let d=R.from+14; d<R.from+28&&(!on||!off); d++){ const wd=CALENDAR.dateOf(d).wd%7; if(wd===0||wd===6) continue;
-      for(let h=10; h<21; h+=0.5){ G.day=d; G.weekday=wd; G.zone=a.zone; G.hour=h; const s=SHIFTT.onShift(G,a.who); if(s&&!on) on={key:CALENDAR.dateOf(d).key,h}; if(!s&&!off&&h>=14&&h<=17) off={key:CALENDAR.dateOf(d).key,h}; if(on&&off) break; } } }
+  try{ for(let d=R.from+7; d<(R.to||R.from+120)&&(!on||!off); d++){ const wd=CALENDAR.dateOf(d).wd%7; if(wd===1||wd===2) continue;   /* 一盞週一、週二公休（places.js），只掃開門的日子 */
+      for(let h=12.5; h<19.5; h+=0.5){ G.day=d; G.weekday=wd; G.zone=a.zone; G.hour=h; const s=SHIFTT.onShift(G,a.who); if(s&&!on) on={key:CALENDAR.dateOf(d).key,h}; if(!s&&!off&&h>=14&&h<=17) off={key:CALENDAR.dateOf(d).key,h}; if(on&&off) break; } } }
   finally{ Object.assign(G,keep); } return {on, off}; })"""
-MEET = r"""(w=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+w]=true; if(!G.contacts) G.contacts={}; if(G.contacts[w]==null) G.contacts[w]=2; try{ if(SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(w,'FIRST_MET'))) SOCIAL.remember(w,'FIRST_MET',true); }catch(e){} return {shift:SHIFTT.onShift(G,w), npc:!!(GAME.npc&&GAME.npc[w])}; })"""
+MEET = r"""(w=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+w]=true; if(!G.contacts) G.contacts={}; if(G.contacts[w]==null) G.contacts[w]=2; try{ SOCIAL.meet(w,G.zone); if(SOCIAL.talkedTo) SOCIAL.talkedTo(w); }catch(e){} return {shift:SHIFTT.onShift(G,w), npc:!!(GAME.npc&&GAME.npc[w])}; })"""
 ST = r"""(()=>{ const d=document.getElementById('dlg'); return {dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
   choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()), busy:!!(GAME.E.player&&GAME.E.player.busy), interact:(document.getElementById('interact')||{}).textContent||'', money:GAME.G.money|0}; })()"""
 
@@ -51,6 +52,15 @@ async def one(pg, cdp, case, slot, res):
     s = await D.load_zone(pg, cdp, ZONE, slot['key'], slot['h'], wait=7000)
     m = await pg.evaluate(MEET, YT)
     R.setup('%s 【前置／捷徑】讀檔進一盞 %s %.1f（條件事件關掉）、認識語彤：當班=%s、語彤在場景=%s' % (tag, slot['key'], slot['h'], m['shift'], m['npc']))
+    if s['zone'] != ZONE and '一盞' in (s.get('interact') or ''):   # 讀檔停在溫州街門口：照玩家按「進去一盞」
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        for _ in range(20):
+            st = await pg.evaluate(ST)
+            if st['choices']: await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); const k=b.findIndex(x=>!/離開|算了|不用/.test(x.textContent)); (b[k<0?0:k]||b[0]).click(); })()"); await pg.wait_for_timeout(900); continue
+            if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+            if await pg.evaluate("GAME.G.zone") == ZONE: break
+            await pg.wait_for_timeout(500)
+        s = await D.st(pg); R.note('%s 讀檔停在門口（%s），照玩家按「進去一盞」→ %s' % (tag, s.get('interact'), s['zone']))
     if not R.check('%s 進得去一盞' % tag, s['zone'] == ZONE, J(s)): return
     its = await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden&&!i.exit&&!i.seat).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0,label:String(typeof i.label==='function'?i.label():i.label||''),kind:i.kind||null}))")
     ct = next((i for i in its if any(w in i['label'] for w in ('點', '櫃', '茶單', '買'))), None)
@@ -85,7 +95,7 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         sc = await pg.evaluate(SCAN, {'term': TERM, 'zone': ZONE, 'who': YT}); res['scan'] = sc
-        R.note('語彤作息掃描（%s 第 3～4 週平日 10～21 點）：當班 %s；不當班 %s' % (TERM, J(sc['on']), J(sc['off'])))
+        R.note('語彤作息掃描（%s 第 2 週起整學期、週三～週日 12:30～19:00）：當班 %s；不當班 %s' % (TERM, J(sc['on']), J(sc['off'])))
         for case, slot in (('OFF', sc['off']), ('ON', sc['on'])):
             if not R.check('[%s] 掃得到這種時段' % case, bool(slot), ''): continue
             try: await one(pg, cdp, case, slot, res)
