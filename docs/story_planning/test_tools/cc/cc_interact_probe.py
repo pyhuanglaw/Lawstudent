@@ -34,7 +34,7 @@ async def main():
             s = await D.load_zone(pg, cdp, ZONE, day, float(hh), wait=7000)
             R.setup('%s 【前置／捷徑】讀檔到 %s %s %s（條件事件關掉）' % (tag, ZONE, day, hh))
             if not R.check('%s 讀到 %s' % (tag, ZONE), s['zone'] == ZONE, J(s)): continue
-            it = await pg.evaluate("(l=>{ const i=GAME.E.interactables.find(q=>!q.hidden&&(q.label||'').indexOf(l)>=0); return i?{x:i.x,z:i.z,lv:i.lv|0,label:i.label}:null; })", LABEL)
+            it = await pg.evaluate("(l=>{ const L=GAME.E.interactables.filter(q=>(q.label||'').indexOf(l)>=0); const i=L.find(q=>!q.hidden)||L[0]; return i?{x:i.x,z:i.z,lv:i.lv|0,label:i.label,hidden:!!i.hidden}:null; })", LABEL)
             if not R.check('%s 找得到「%s」' % (tag, LABEL), bool(it), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label)"))): continue
             await L.go_to(pg, cdp, R, it['x'], it['z'], 0.7, it['label'], max_s=90, lv=it['lv'])
             st = await pg.evaluate(ST)
