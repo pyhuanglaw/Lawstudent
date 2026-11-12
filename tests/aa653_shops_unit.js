@@ -104,6 +104,7 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     check('6 熱食櫃買烤地瓜：扣 45 元、店員「要加熱嗎？……那幫你裝袋。」、EAT 記「公館的便利商店」',G.money===4955&&log[1]&&log[1][0]==='店員'&&log[1][1]==='要加熱嗎？……那幫你裝袋。'&&J(ate)===J([['公館的便利商店','烤地瓜']]),J([G.money,log,ate]));
     const prices=J(M['cvs.hotfood'].items)===J([['烤地瓜',45],['茶葉蛋',13],['肉包',25],['關東煮（三樣）',60]])&&J(M['cvs.coffee'].items)===J([['美式',45],['拿鐵',60],['冰美式',45]])&&J(M['bookstore.cafe_order'].items)===J([['美式',90],['拿鐵',110],['紅茶',80],['今日蛋糕',100]])
       &&J(M['aoki.order'].items.map(x=>x[1]))===J([220,260,240,200,120,80,80]);
+    /* 2026-11-12（GG-YEJIAN-SHOP-1112）：這支只載 src/ggshops_sys3d.js、沒載 src/yejian_buy3d.js——頁間咖啡吧在這裡是 AA_653 的備用菜單（美式 90、拿鐵 110、紅茶 80、今日蛋糕 100）。遊戲裡開起來的是 AA_853 的（美式 90、拿鐵 120、當日蛋糕 110），在 tests/yejian_buy_1112_unit.js 查；這裡的期望沒有動 */
     check('6 品項、價錢照稿（熱食櫃、日和咖啡、頁間咖啡吧、青木內用）',prices);
     G.money=10; await act('cvs',{ggs:'hotfood'},15,[byName('烤地瓜')]); check('6 便利店錢不夠：「錢不夠」、不扣錢、不登記',G.money===10&&toasts[0]==='錢不夠'&&!ate.length,J([G.money,toasts]));
     G.money=5000; await act('cvs',{ggs:'coffee'},15,[byName('拿鐵')]);

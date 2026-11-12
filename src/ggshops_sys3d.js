@@ -39,6 +39,7 @@ const GGS=(function(){
   S.MENU={
     'cvs.hotfood':{items:[['烤地瓜',45],['茶葉蛋',13],['肉包',25],['關東煮（三樣）',60]],after:[['店員','要加熱嗎？……那幫你裝袋。']],eat:'公館的便利商店',night:['茶葉蛋','肉包'],nightAt:[22,6]},
     'cvs.coffee':{items:[['美式',45],['拿鐵',60],['冰美式',45]],after:[['店員','大杯還是中杯？'],[null,'（咖啡機響了一陣，杯子上印著一片小小的葉子。）']],eat:'公館的便利商店'},
+    /* 頁間咖啡吧：這一列是 AA_653 的菜單。2026-11-12 起遊戲裡賣的是 AA_853 的（美式 90、拿鐵 120、當日蛋糕 110；src/yejian_buy3d.js 開遊戲時把 items 換掉、加 order 那一句）——這一列只剩新稿沒載入時的備用 */
     'bookstore.cafe_order':{items:[['美式',90],['拿鐵',110],['紅茶',80],['今日蛋糕',100]],first:['店員','書可以帶到位子上看喔。……沒買的看完放回去就好。'],after:[[null,'（咖啡吧的磨豆機響了一下。店員把杯子放在一個小木盤上。）']]},
     'aoki.order':{items:[['桂花烏龍（一壺）',220,'pot'],['東方美人（一壺）',260,'pot'],['春摘白茶（一壺）',240,'pot'],['包種（一壺）',200,'pot'],['柚香綠茶（冷泡）',120,'cold'],['綠豆糕',80,'snack'],['桂花糕',80,'snack']],hint:{pot:'熱茶一壺，可以回沖',cold:'冷泡',snack:'茶點'},
       pot:['店員','第一泡我幫你泡，之後可以自己加熱水。'],potAfter:['（店員把茶壺、公道杯、兩個小杯放在木盤上，端到你的位子。）','（第一泡的茶很香。店員說：「三十秒就好，不要泡太久。」）'],
@@ -76,6 +77,7 @@ const GGS=(function(){
     const [nm,p,tag]=IT[i];
     if((G.money|0)<p){ if(M.poor&&tag!=='cold') await sayL(GM,[M.poor]); else GM.toast('錢不夠'); return 'poor'; }
     GM.money(-p); if(GM.advance) GM.advance(0.15);
+    if(M.order) await sayL(GM,[M.order]);   /* 頁間咖啡吧：點了以後店員那一句（AA_853 的 order；src/yejian_buy3d.js 開遊戲時放進來，沒載入＝沒有這一句）*/
     if(M.first){ const F=G.flags||(G.flags={}); if(F.YJ_CAFE_DAY!==G.day){ F.YJ_CAFE_DAY=G.day; await sayL(GM,[M.first]); } }
     if(M.after) await sayL(GM,M.after);
     if(M.pot){ if(tag==='pot'){ await sayL(GM,[M.pot]); await GM.say(null,S.pickLine(key+'.pot',M.potAfter)); } else GM.toast('買了'+nm,2400); }   /* 冷泡、茶點：稿上沒有點完的句子 */
@@ -92,7 +94,9 @@ const GGS=(function(){
       if(S.MENU[key]){ if(z==='cvs'&&k==='hotfood') await GM.say(null,S.lookLine(G,z,k)); const got=await S.buy(GM,key); if(yj&&got&&got!=='poor'&&got!=='gift') then={act:S.YJ_DRINKS.includes(got)?'drink':'sit',item:got}; }   /* 熱食櫃：先看（白天兩句隨機、晚上那一句），再問要不要買 */
       else if(key==='cvs.parcel'){ const F=G.flags||(G.flags={}); if(F.CVS_PARCEL){ F.CVS_PARCEL=null; await sayL(GM,S.L.parcelYes); } else await sayL(GM,[S.L.parcelNo]); }
       else if(key==='cvs.microwave'){ const F=G.flags||(G.flags={}); if(F.CVS_HEAT===G.day){ F.CVS_HEAT=null; if(GM.advance) GM.advance(1/60); await GM.say(null,S.L.microYes); } else await GM.say(null,S.L.microNo); }
-      else { const l=S.lookLine(G,z,k); if(l) await GM.say(null,l); if(yj&&l&&!S.YJ_NO_TAKE.test(l)) then={act:'read'}; }
+      else { const X=yj&&S.YJX?S.YJX:null;   /* 頁間買東西（AA_853，src/yejian_buy3d.js；沒載入＝照舊只有看）：那天第一次店員先招呼；看完多一個選單（那一句是「一本也沒拿」＝不出選單），買了／錢不夠＝到這裡為止，沒買＝照舊拿一本去坐 */
+        if(X&&X.pre) await X.pre(GM,it,k); const l=S.lookLine(G,z,k); if(l) await GM.say(null,l); const bx=X&&X.buy&&l&&!S.YJ_NO_TAKE.test(l)?await X.buy(GM,it,k):null;
+        if(yj&&l&&!bx&&!S.YJ_NO_TAKE.test(l)&&S.YJ_READ_KINDS.includes(k)) then={act:'read'}; }
     } finally { GM.sceneEnd(); }
     if(then){ try{ await S.yjSit(GM,it,then); }catch(e){ console.warn('GGS.yjSit',e); } }   /* 拿書／端著咖啡去坐（場景結束以後：照一般坐下的流程，座位選單可以起身離開）*/
     return true; };
@@ -100,6 +104,7 @@ const GGS=(function(){
   /* ---------- 頁間書屋：人物的動作（BUG-YEJIAN-NO-VISUAL-1110；上面開頭的說明）---------- */
   S.YJ='bookstore';
   S.YJ_FACE={shelf_browse:'bookwall',new_books:'display_rack',cafe_order:'cafe_counter'};   /* 互動點 → 面向配置裡哪一件家具 */
+  S.YJ_READ_KINDS=['shelf_browse','new_books'];   /* 看完會拿一本去位子上翻的點（雜誌、明信片不拿去坐：AA_853 新加的兩個點，src/yejian_buy3d.js）*/
   S.YJ_NO_TAKE=/一本也沒拿/;   /* 「（你在「散文・人文」那一格停了很久。最後一本也沒拿。）」：不拿書 */
   S.YJ_DRINKS=['美式','拿鐵','紅茶'];
   S.YJ_READ_TABLES=[1,2,4];   /* 拿書去看：閱讀桌、沙發（窗邊高腳椅不拿書過去）*/
@@ -107,7 +112,7 @@ const GGS=(function(){
   /* 面向哪一點：書牆＝正對（同一個 x、書牆的 z）；斜面書架＝最近那一座的中心；咖啡吧＝同一個 z、吧檯的 x */
   S.yjFaceAt=function(k,it){ const L=YL(), kind=S.YJ_FACE[k]; if(!L||!kind||!it) return null; const its=(L.items||[]).filter(q=>q.kind===kind&&typeof q.x==='number'); if(!its.length) return null;
     const q=its.reduce((a,b)=>Math.hypot(b.x-it.x,b.z-it.z)<Math.hypot(a.x-it.x,a.z-it.z)?b:a);
-    if(kind==='bookwall') return [it.x,q.z]; if(kind==='cafe_counter') return [q.x,it.z]; return [q.x,q.z]; };
+    if(kind==='bookwall'||kind==='window_counter') return [it.x,q.z];   /* 窗邊長吧台（明信片在窗上）：正對窗 */ if(kind==='cafe_counter') return [q.x,it.z]; return [q.x,q.z]; };
   /* 站的點：互動點本身站得住就站那裡；站不住就往外（背對家具的方向）退，每 10 cm 試一次、最多 1 m；都不行＝null（不走，只轉身）*/
   S.yjStand=function(E,it,f){ const ok=(x,z)=>!E||!E.canStand||E.canStand(x,z,0.32,0); if(ok(it.x,it.z)) return [it.x,it.z];
     let dx=it.x-(f?f[0]:it.x), dz=it.z-(f?f[1]:it.z); const d=Math.hypot(dx,dz); if(d<1e-6) return null; dx/=d; dz/=d;
