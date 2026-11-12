@@ -1,6 +1,6 @@
 """CC（帳號 A）11-11：ACT（BB 的「一起活動」驗收，對稿 AA_708@d30416e6b）＋STUDY（BB 07:37 補：一起念書，對稿 AA_707@1b8e247ec）瀏覽器探針。
 判定歸 BB；Playwright 手機模擬（844×390 觸控）≠ iPhone。雲端沒有在瀏覽器跑過（只做 probe_lint＋node --check）。
-CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（SITFIRST 只要坐任一張「坐下等開演」長椅，取最近的；走不到印最近 4 個互動點） 4✓ 5✓ 6✓ 7✓ 8✓ 9n/a（約會截圖本來就要看到兩個人，不藏玩家） 10✓ 11✓ 12✓ 13✓（CC-C 11-12 改 SITFIRST：到了等互動鍵、再走近、按前看最上層、按完確認坐下）
+CC_02 清單 2026-11-12：1✓ 2✓ 3✓（第二版：長椅依距離一張一張試、有人坐的跳過——第一版寫 n/a 是錯的，be1e 雲端最近那張有路人坐） 4✓ 5✓ 6✓ 7✓ 8✓ 9n/a（約會截圖本來就要看到兩個人，不藏玩家） 10✓ 11✓ 12✓ 13✓（CC-C 11-12 改 SITFIRST：到了等互動鍵、再走近、按前看最上層、按完確認坐下）
 
 受測：開發分支 7266e7a29351d4d186cae82d82042271a95a67d4（含 fea448637：一起活動 98 場 710d49638、一起念書 42 場 7266e7a29）。遊戲資料＝稿（頁面上的那一場和稿逐字比，另外一項）。
 對照的程式（src/invites3d.js S.meet、src/studyn3d.js、src/movies3d.js、src/arcs3d.js、src/social3d.js applyFx）：
@@ -574,33 +574,48 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
         await pg.evaluate("(([h,z])=>{ GAME.G.hour=h; return GAME.enter(z); })", [iv['h'] - 1.0, 'xs_nanyang']); await pg.wait_for_timeout(4000); await close_phone(pg, cdp)
         R.setup('[%s]【前置／捷徑】時間撥到約好的前 60 分鐘（%.2f）、GAME.enter 直接進南洋戲院大廳（她 iv.h−0.25 才出現；PC 每秒約 0.45 遊戲分鐘，留 45 分鐘走到長椅）' % (tag, iv['h'] - 1.0))
         await pg.evaluate(HOOK_SAY_JS)
-        b = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>String(typeof i.label==='function'?i.label():i.label||'').startsWith('坐下等開演')); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?{x:i.x,z:i.z,n:L.length}:null; })()")
-        if not R.check('[%s] SITFIRST：大廳有「坐下等開演」長椅' % tag, bool(b), J(b)): return False
-        tw = time.time()   # CC 15:4x（SITFIRST r1 自己又犯第 13 類：走到長椅用整段 go_to，她在途中到了、約會被盲點演完）：6 秒一段、每段前看 busy／dlg／nb
-        while time.time() - tw < 90:
-            s0 = await st(pg)
-            if s0['busy'] or s0['dlg'] or s0['nb']: log('    [走路中斷] 走到長椅途中 busy=%s dlg=%s nb=%s（%.2f）' % (s0['busy'], s0['dlg'], s0['nb'], s0['hour'])); break
-            if s0['interact'].startswith('坐下等開演'): break   # CC 15:5x（SITFIRST r2：目標是座面、站不上去，停在 0.83 m 外一直「走不到」，其實互動鍵早就是坐下等開演）
-            if await L.go_to(pg, cdp, R, b['x'], b['z'], 1.1, '走到長椅', max_s=6): break
-        # CC-C 11-12（BB-C 03:30 第 4 項；PC rel_r3／old_r3：到 0.84 m 那一下互動鍵還是空的、沒按，30 秒後才出「坐下等開演」＝TEST_BUG）：
-        #   到了以後等互動鍵最多 10 秒；還沒有就再走近（0.6 m、分段 6 秒、途中有劇情就停）；按之前確認畫面最上面就是互動鍵；按了以後確認真的坐下、她還不在
-        s0 = await st(pg); tb = time.time(); near = 0
-        while not s0['interact'].startswith('坐下等開演') and time.time() - tb < 25:
-            if s0['busy'] or s0['dlg'] or s0['nb']: log('    [停] 等互動鍵途中 busy=%s dlg=%s nb=%s（%.2f）' % (s0['busy'], s0['dlg'], s0['nb'], s0['hour'])); break
-            if time.time() - tb > 10 and near < 2:
-                near += 1; await L.go_to(pg, cdp, R, b['x'], b['z'], 0.6, '再走近長椅（第 %d 次）' % near, max_s=6)
-            await pg.wait_for_timeout(700); s0 = await st(pg)
+        # CC-C 11-12 第二版（be1e 雲端：到長椅 0.82 m、互動鍵一直空的——那一張有路人坐著，遊戲 nearestInteractable 的 occupied 不出按鈕＝照設計；
+        #   PC rel_r3 30 秒後才出現也是路人起身了）：照 CC_02 乙 3，長椅依距離一張一張試、有人坐（E.npcs 的 seat 0.4 m 內）的跳過；每張分段走、到了等互動鍵 8 秒；
+        #   按之前確認畫面最上面是互動鍵；按完確認真的坐下、她還不在。全部都沒有就等到她出現前（iv.h−0.3）再從頭試一輪
+        BENCH_JS = "(()=>{ const E=GAME.E, P=E.player.obj.position; const L=(E.interactables||[]).filter(i=>String(typeof i.label==='function'?i.label():i.label||'').startsWith('坐下等開演')).map(i=>({x:i.x,z:i.z,sx:i.seat?i.seat.x:i.x,sz:i.seat?i.seat.z:i.z,d:Math.hypot(i.x-P.x,i.z-P.z),occ:(E.npcs||[]).some(n=>n.seat&&Math.hypot(n.seat.x-(i.seat?i.seat.x:i.x),n.seat.z-(i.seat?i.seat.z:i.z))<0.4)})); L.sort((a,b)=>a.d-b.d); return L; })()"
+        benches = await pg.evaluate(BENCH_JS)
+        if not R.check('[%s] SITFIRST：大廳有「坐下等開演」長椅' % tag, bool(benches), J(benches)): return False
+        log('    [長椅] %s' % J(benches))
+        s0 = await st(pg); tried = []; got = False; stop = False
+        for rnd in range(2):
+            for bi in range(len(benches)):
+                bl = await pg.evaluate(BENCH_JS); b = bl[bi] if bi < len(bl) else None
+                if not b: continue
+                if b['occ']: tried.append([round(b['sx'], 2), round(b['sz'], 2), '有人坐']); continue
+                tw = time.time()
+                while time.time() - tw < 40:   # 分段走（每段 6 秒、每段前看 busy／dlg／nb；CC_02 乙 13）
+                    s0 = await st(pg)
+                    if s0['busy'] or s0['dlg'] or s0['nb']: log('    [走路中斷] busy=%s dlg=%s nb=%s（%.2f）' % (s0['busy'], s0['dlg'], s0['nb'], s0['hour'])); stop = True; break
+                    if s0['interact'].startswith('坐下等開演'): break
+                    if await L.go_to(pg, cdp, R, b['x'], b['z'], 0.7, '走到長椅 (%.2f, %.2f)' % (b['sx'], b['sz']), max_s=6): break
+                if stop: break
+                t8 = time.time()
+                while time.time() - t8 < 8 and not s0['interact'].startswith('坐下等開演'):
+                    await pg.wait_for_timeout(700); s0 = await st(pg)
+                if s0['interact'].startswith('坐下等開演'): got = True; break
+                tried.append([round(b['sx'], 2), round(b['sz'], 2), '互動鍵「%s」' % s0['interact']])
+            if got or stop: break
+            h_now = await pg.evaluate("+(+GAME.G.hour).toFixed(2)")
+            if rnd == 0 and h_now < iv['h'] - 0.4:
+                log('    [長椅都不行] %s；等到 %.2f 前再試一輪' % (J(tried), iv['h'] - 0.4))
+                tw2 = time.time()
+                while time.time() - tw2 < 120 and await pg.evaluate("+GAME.G.hour") < iv['h'] - 0.4: await pg.wait_for_timeout(2000)
         h0 = await pg.evaluate("+(+GAME.G.hour).toFixed(2)"); her0 = await pg.evaluate(NPC_JS, who)
-        if not s0['interact'].startswith('坐下等開演'):
+        if not got:
             dg = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position, f=v=>+(+v).toFixed(2); return {me:[f(P.x),f(P.z)], near:(GAME.E.interactables||[]).map(i=>({l:String(typeof i.label==='function'?i.label():i.label||'').slice(0,12), d:f(Math.hypot(i.x-P.x,i.z-P.z)), r:i.radius||0})).sort((a,b)=>a.d-b.d).slice(0,4)}; })()")
-            log('    [診斷] 互動鍵一直不是「坐下等開演」：%s' % J(dg))
+            log('    [診斷] 每張長椅都按不到「坐下等開演」：試過 %s；現在 %s' % (J(tried), J(dg)))
         else:
             top = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); if(!b) return null; const r=b.getBoundingClientRect(); const e=document.elementFromPoint(r.left+r.width/2, r.top+r.height/2); return e?(b.contains(e)?'interact':(e.id||String(e.className).slice(0,40)||e.tagName)):null; })()")
             if top != 'interact': log('    [注意] 互動鍵中心最上面是 %s，不是互動鍵' % top)
-            log('    [按互動鍵] %s（%.2f，她%s）' % (s0['interact'], h0, '已經在' if her0 else '還沒出現')); PATH_SEEN.append(s0['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+            log('    [按互動鍵] %s（%.2f，她%s；之前跳過 %s）' % (s0['interact'], h0, '已經在' if her0 else '還沒出現', J(tried))); PATH_SEEN.append(s0['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         sat0 = await pg.evaluate("(()=>{ const P=GAME.E.player; return {seat:!!P.seat, pose:P.pose||null}; })()"); her1 = await pg.evaluate(NPC_JS, who)
         log('    [坐下後] %s；她 %s' % (J(sat0), J(her1)))
-        R.check('[%s] SITFIRST：她出現以前就坐下了（按的時候 %.2f＜%.2f、她還不在；按完人在座位上）' % (tag, h0, iv['h'] - 0.25), bool(PATH_SEEN) and h0 < iv['h'] - 0.25 and not her0 and sat0['seat'], J({'h': h0, 'her': her0, 'btn': s0['interact'], 'sat': sat0}))
+        R.check('[%s] SITFIRST：她出現以前就坐下了（按的時候 %.2f＜%.2f、她還不在；按完人在座位上）' % (tag, h0, iv['h'] - 0.25), bool(PATH_SEEN) and h0 < iv['h'] - 0.25 and not her0 and sat0['seat'], J({'h': h0, 'her': her0, 'btn': s0['interact'], 'sat': sat0, 'tried': tried}))
     else:
         await pg.evaluate("(h=>{ GAME.G.hour=h; })", iv['h'] - 0.17); await pg.wait_for_timeout(1200)
         R.setup('[%s]【捷徑】時間撥到約好的前 10 分鐘（%.2f）' % (tag, iv['h'] - 0.17))

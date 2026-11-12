@@ -1,4 +1,5 @@
 """CC（帳號 A）11-11：AA_814 三個優先項目劇情斷點（AA-PRIO-GAP-1111）12 項的瀏覽器探針。判定歸 BB；Playwright 手機模擬（844×390 觸控）≠ iPhone。
+CC_02 清單 2026-11-12：1✓（YTMET：認識語彤＝G.flags.YT_MET_JOB，ytjob3d.js S.met） 2✓ 3n/a（日期照規格 aa814_spec_1111：7/20 21:00 群組、8/1 20:00 催問，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓ 9n/a（只判資料和手機畫面文字，不判截圖） 10✓ 11✓ 12✓（記遊戲判的「認識語彤」） 13✓（CC-C 11-12 只改 H23b：加 YTMET 兩種情況的檢查）
 規格：docs/story_planning/test_tools/cc/specs/aa814_spec_1111.md（LAWWW 16:39）；稿：企劃線 91c6aaf9f docs/story_planning/AA_814_三個優先項目劇情斷點對帳.md；
 LAWWW 的 Node 逐句：tests/aa814_prio_gap_1111_unit.js（事件 id、檔案、條件照它）。
 新版：7d9d7942544e37ada7ec9cb7e658332b5fd570cb；修改前（D34 對照，新行為的檢查要 FAIL）：9d45ef8b36d5df00cdbca70661a4ca13e9fce813。
@@ -53,6 +54,7 @@ os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
 TAG = os.environ.get('TAG') or (SHA[:9] if SHA else 'x')
 MAXS = float(os.environ.get('MAXS') or 1)
+YTMET = os.environ.get('YTMET') == '1'   # CC-C 11-12（BB-C 03:53 ②）：H23b 兩種都要測——沒認識語彤（預設）＝ask 在欣慈那則、群組沒有語彤的話；認識語彤（YTMET=1，G.flags.YT_MET_JOB＝ytjob3d.js S.met）＝ask 照舊在語彤那則
 J = lambda o: json.dumps(o, ensure_ascii=False)
 R = L.Run('aa814_' + TAG, OUT)
 LOGF = open(os.path.join(OUT, 'aa814_lines_%s.txt' % TAG), 'a', encoding='utf-8')
@@ -728,9 +730,11 @@ async def part_h23(pg, cdp):
     # b. VA10：BB 18:10 定案——規格只要求「送出前」多一行「會撞到：…」；VA10 沒有「答應的當下」那句（只有活動卡 VAC_PICK 有），不檢查。
     #    改查：群組邀約（g:noodle_team，7/20 21:00）和阿哲催問（p:zhe，8/1 20:00，vac_activities.js VA10.nudge）兩則送出時都有那一行。
     #    群組先不回，等阿哲催；從 a 之前的狀態重新讀（a 答應的 T02 是 8/1～8/4，跳到 8/1 會碰上出發）。
-    await ps_load(pg, P, '2027-07-20', 20.83, vac=vac, flags={'VAC_C09': True, 'VAC_C09_INT': True, 'VAC_C12': True},
+    fl_b = {'VAC_C09': True, 'VAC_C09_INT': True, 'VAC_C12': True}
+    if YTMET: fl_b['YT_MET_JOB'] = True
+    await ps_load(pg, P, '2027-07-20', 20.83, vac=vac, flags=fl_b,
                   meet=['npc_fangyt', 'zhe', 'yu', 'classmate_bohan'], groups=[['noodle_team', '麵店團']],
-                  why='b 重新讀：C09、C12 yes、T02 沒報（a 答應的 T02 8/1～8/4 會和阿哲 8/1 催問撞，不帶）')
+                  why='b 重新讀：C09、C12 yes、T02 沒報（a 答應的 T02 8/1～8/4 會和阿哲 8/1 催問撞，不帶）；%s' % ('【前置】認識語彤（G.flags.YT_MET_JOB）' if YTMET else '沒認識語彤（沒有 YT_MET_JOB）'))
     DIAG_VA = "(()=>{ const G=GAME.G, Q=(G.phone&&G.phone.q)||[]; return {key:(CALENDAR.dateOf(G.day)||{}).key, h:+(+G.hour).toFixed(2), msgs:(G.msgs||[]).filter(m=>m&&m.tag==='va10_ask').map(m=>({from:m.from||null, t:String(m.text||'').slice(0,16), ask:!!m.ask})), q:Q.filter(x=>x&&x.tag==='va10_ask').map(x=>({day:x.day,h:x.h,n:(x.items||[]).length,asks:(x.items||[]).filter(i=>i&&i.ask).map(i=>i.ask.id)})), pending:(typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).map(m=>m.ask&&m.ask.id):[])}; })()"
     R.note('[H23b] BB 20:50 診斷：讀檔完（7/20 21:00 以前）G.msgs／G.phone.q 的 va10_ask、PHONE.pending：%s' % J(await pg.evaluate(DIAG_VA)))
     P.path.append('b1 自然觸發：7/20 21:00 麵店團群組揪香港（VA10）——先不回')
@@ -743,6 +747,14 @@ async def part_h23(pg, cdp):
         raw = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&m.tag==='va10_ask').map(m=>JSON.stringify(m).slice(0,400)))()")
         R.note('[H23b] va10_ask 全部 %d 則（探針記錄）：%s；G.msgs 原始：%s' % (len(va), J(va), J(raw)))
     R.check('[H23b] 7/20 21:00 麵店團群組揪香港（有回覆選項）', bool(va) and any(m.get('ask') for m in va), J(va[-2:]))
+    ytmet_now = await pg.evaluate("(()=>{ try{ return typeof YTJOB!=='undefined'&&YTJOB.met?!!YTJOB.met(GAME.G):!!(GAME.G.flags||{}).YT_MET_JOB; }catch(e){ return 'ERR '+e; } })()")
+    askf = [m.get('from') for m in va if m.get('ask')]; ytm = [m for m in va if m.get('from') == 'heroine_03']
+    R.note('[H23b] 認識語彤：設 %s、遊戲判 %s；帶回覆選項的那則是誰說的 %s；語彤在這串的話 %d 則' % (YTMET, ytmet_now, J(askf), len(ytm)))
+    if YTMET:
+        R.check('[H23b] 認識語彤：回覆選項照舊在語彤那則', 'heroine_03' in askf, J(va[-3:]))
+    else:
+        R.check('[H23b] 沒認識語彤：回覆選項在別人那則（不是語彤）', bool(askf) and 'heroine_03' not in askf, J(askf))
+        R.check('[H23b] 沒認識語彤：群組裡沒有語彤的話（她不該出現）', not ytm, J(ytm))
     cl1 = await sys_clash(pg); n1 = sum(1 for m in cl1 if m['text'] == exp_b)
     R.check('[H23b] 群組邀約送出時多一行系統字「%s」' % exp_b, n1 >= 1, J([m['text'] for m in cl1]))
     ok2, body = await open_thread(pg, cdp, 'sys'); P.phone_texts.append(['sys', body])

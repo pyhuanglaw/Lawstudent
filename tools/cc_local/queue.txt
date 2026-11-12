@@ -1696,3 +1696,4 @@ BE1E_CHS2_O_bedffc_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/s
 # ① BB-C 03:30 第 3 項：樓梯 10 fps 三種推法（每種上、下各一趟、中線 x −3.75）。tap 雲端 be1e 跑過兩次（cf948273c：上樓 tap 停在樓梯頂第 0 層）；diag 雲端過了再補
 BE1E_STAIR10_tap | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 20 | PUSH=tap;FPSCAP=10;RUN=0;X_LIST=-3.75;TRIPS=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 BE1E_STAIR10_straight | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 20 | PUSH=straight;FPSCAP=10;RUN=0;X_LIST=-3.75;TRIPS=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_STAIR10_diag | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 20 | PUSH=diag;FPSCAP=10;RUN=0;X_LIST=-3.75;TRIPS=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
