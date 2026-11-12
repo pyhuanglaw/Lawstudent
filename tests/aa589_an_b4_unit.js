@@ -54,8 +54,8 @@ check('3-1 第 10 列：攤牌「（站起來，把椅子推回去）我知道�
 check('3-2 第 27 列：町公所 c「我問過宿舍的管理員阿姨。她說大家照做，是因為隔壁也照做。」→「（停一下）她沒有提到町公所。」；「抄進手帳」不在',
   /\{label:'c'\},\{speaker:'heroine_01',text:'我問過宿舍的管理員阿姨。她說大家照做，是因為隔壁也照做。'\},\{speaker:'heroine_01',text:'（停一下）她沒有提到町公所。'\}/.test(B)&&!inCode('那我想研究的，就是這兩個中間的線。').length);
 { const s=stripC(B), i=s.indexOf("id:'ev_an_town_notice_repair'"), r=s.slice(i,s.indexOf('};',i));
-  check('3-3 第 28 列：挽回中那一場她不先開口——旁白「（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）」→ 祐廷「要幫忙嗎？」→「（她停了一下，把通知推過來，指著一個字。）」→ 祐廷翻譯 →「……謝謝。」',
-    /\{speaker:null,text:'（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）'\},\s*\{speaker:'player',text:'要幫忙嗎？'\},\s*\{speaker:null,text:'（她停了一下，把通知推過來，指著一個字。）'\},\s*\{speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'\},\s*\{speaker:'heroine_01',text:'……謝謝。'\},/.test(r)&&!r.includes('……你看得懂這個字嗎？'),r.slice(0,300));
+  check('3-3 第 28 列：挽回中那一場她不先開口——旁白「（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）」→ 祐廷「要幫忙嗎？」→「（她停了一下，把通知推過來，指著一個字。）」→ 祐廷翻譯 →「謝謝。」（AA_833，原本「……謝謝。」）',
+    /\{speaker:null,text:'（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）'\},\s*\{speaker:'player',text:'要幫忙嗎？'\},\s*\{speaker:null,text:'（她停了一下，把通知推過來，指著一個字。）'\},\s*\{speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'\},\s*\{speaker:'heroine_01',text:'謝謝。'\},/.test(r)&&!r.includes('……你看得懂這個字嗎？'),r.slice(0,300));
   check('3-4 第 29 列：「我不是在跟你和好。」刪掉；選項「（不再多說）」→（她把通知折好，收進包包。）「晚安。」＝AN_NOTICE_REPAIR_OK；「那我們可以談一下嗎？」→「……我只是看不懂這個字。」（她拿起字典走了。）；b 原句「我說了，我只是看不懂。」刪掉；REPAIR 條件照舊（after 讀 AN_NOTICE_REPAIR_OK）',
     !r.includes('我不是在跟你和好')&&!r.includes('我說了，我只是看不懂。')&&/\{choice:\[\{text:'（不再多說）',goto:'a'\},\{text:'「那我們可以談一下嗎？」',goto:'b'\}\]\}/.test(r)&&/\{label:'a'\},\{speaker:null,text:'（她把通知折好，收進包包。）'\},\{speaker:'heroine_01',text:'晚安。'\},\{set:\{AN_NOTICE_REPAIR_OK:true\}\}/.test(r)&&/\{label:'b'\},\{speaker:'heroine_01',text:'……我只是看不懂這個字。'\},\{speaker:null,text:'（她拿起字典走了。）'\}/.test(r)&&/after:G=>\{ const x=X\(\); if\(x&&G\.flags\.AN_NOTICE_REPAIR_OK\) x\.repairAdd\(G,'heroine_01'\); \}/.test(s)); }
 // ---------- 4 第 10 節「想去的店」 ----------
