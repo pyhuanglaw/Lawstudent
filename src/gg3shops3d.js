@@ -30,6 +30,12 @@
    - 店員站的位置（zone.shopClerk）：開店時放一個路人模型站著（STORY.populate 之後；洗樂沒有店員）。區域的座位補成 zone.seats（約會一起坐、帶位用）。
    - 舊存檔：已經排好的行程地點、標題「公館・日日定食」「公館的日日定食」→「汀州路・泰米村食」「汀州路的泰米村食」（S.migrate，game3d.js 的 migrate 叫；AA_742 第 ③ 節）。
    - 舊存檔：手機訊息、筆記裡的「日日定食」也換（明軒清單筆記整份換成現在的；BB 11-11 19:25，只做一次＝G.flags.GG3_REN）。
+   - 汀州路的小館（TINGZHOU-SHOPS5-1110；越好吃小館 tz_yuehaochi，AA_821 企劃線 65e38a5de）：字在 src/data/tz_meal_lines.js（TZ_MEAL_LINES，tools/shops/import_tz_meals.py 匯入，一間一份 JSON）。
+     有載到那個檔＝S.addMeals 把每一間加進 S.ZONES／S.LAYID／台詞表，進門、打烊、門口、看、店員、座位都走上面同一套（和泰米村食一樣）；這裡只多：
+     點餐（S.mealOrder）＝「要吃什麼？」→ 菜單（稿的名字、價錢；一樣最多點一份，可以點好幾樣）→ 點好了 → 錢不夠＝稿的那一句旁白、不扣錢 → 扣錢 → 點完一句（只點 afterOnly 那一樣＝那一句，其他隨機）
+     → 吃過的登記 EAT（店名「汀州路・○○」）→ 坐到最近的空位（自己帶位也說坐下那一句）→ 每一樣「吃」的第一句 → 吃 30 分鐘（和泰米一樣）→ 每一樣的第二句；
+     坐下＝稿只有一句（seat.sit）就每一桌都說那一句；互動點按鈕的字照稿（labels，S.attach 換掉配置的字）。稿上沒有的：約去吃、公休、颱風假門口句＝不做（回報 AA）。
+     下一間（客居雲南 tz_keju）：AA 交同樣格式的稿、匯入工具加一列、places.js 加名字和時間就好，這支不用改。
    存檔只多 G.flags 的 GG3_DOOR、GG3_SIT、GG3_GIFT、GG3_WRAP、GG3_TALK、GG3_SEEN、GG3_WASH、GG3_WASH_DAY、GG3_REN；舊存檔沒有＝都還沒發生，不用遷移。
    測試：node tests/gg_shops3_story_1111_unit.js */
 'use strict';
@@ -39,17 +45,23 @@ const GG3=(function(){
   S.ZONES=['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao'];
   S.LAYID={gg_antai:'antai',gg_xianguo:'xianguo',gg_rongendian:'rongendian',tz_taimi:'taimi',tz_xile:'xile',tz_yindehao:'yindehao'};
   const LAY=k=>typeof TZ_SHOPS_LAYOUT!=='undefined'&&TZ_SHOPS_LAYOUT?TZ_SHOPS_LAYOUT[S.LAYID[k]]||null:null;
-  S.HRS={buy:0.15,taimiEat:0.5};   /* 買東西（照 ggshops_sys3d.js、story3d.js 的 counter：0.15 小時）；泰米吃 30 分鐘（AA_742）*/
+  S.HRS={buy:0.15,taimiEat:0.5,mealEat:0.5};   /* 買東西（照 ggshops_sys3d.js、story3d.js 的 counter：0.15 小時）；泰米吃 30 分鐘（AA_742）*/
   S.EAT_KEY='泰米村食'; S.EAT_SHOP='汀州路・泰米村食';
   S.SEASON={'暖暖包（十片）':[11,12,1,2]};   /* AA_742：「只有十一月到二月才擺出來。」*/
   S.TAIMI_KEY={'打拋豬肉飯':'打拋','泰式椒麻雞飯':'椒麻雞','綠咖哩雞肉飯':'綠咖哩','泰式紅咖哩飯':'紅咖哩','泰式炒河粉':'炒河粉','泰式酸辣湯':'酸辣湯','泰式奶茶':'奶茶'};   /* 句子提到哪一道＝那一道有點才說 */
   S.TAIMI_CAT=n=>/湯$/.test(n)?'soup':(/茶$/.test(n)?'drink':'main');   /* 主餐＋湯＋飲料（AA_742）*/
   S.RONG_PEN=['原子筆（一枝）','三色筆','自動鉛筆','螢光筆（五色一組）'];   /* 「老闆把你買的筆一枝一枝在試寫紙上畫過」＝買了這幾樣才說 */
-  S.CLERK_I={gg_antai:60,gg_xianguo:61,tz_taimi:62,gg_rongendian:63,tz_yindehao:65};   /* 店員的路人模型（STORY.extraSpec：偶數＝女性、奇數＝男性；藥師、老闆娘是女的，鮮果、榮恩典老闆是男的）*/
+  S.CLERK_I={gg_antai:60,gg_xianguo:61,tz_taimi:62,gg_rongendian:63,tz_yindehao:65,tz_yuehaochi:66};   /* 店員的路人模型（STORY.extraSpec：偶數＝女性、奇數＝男性；藥師、老闆娘是女的，鮮果、榮恩典老闆是男的）*/
   S.RENAME=[['公館・日日定食','汀州路・泰米村食'],['公館的日日定食','汀州路的泰米村食'],['日日定食','泰米村食']];   /* AA_742 第 ③ 節：舊存檔的行程地點 */
   /* 系統字（稿上沒有；回報給 AA）*/
   S.SYS={no:'不用了',buy:'買',done:'點好了',noCut:'不用切',short:'錢不夠',bought:'買了',washed:'今天洗過了。'};
   S.rand=()=>Math.random();
+  /* 汀州路的小館（TZ_MEAL_LINES：一間一份稿）：加進同一套（區域、配置 id、台詞表）；沒有載到那個檔＝照舊六間 */
+  S.MEALS=[];
+  S.addMeals=function(){ const M=typeof TZ_MEAL_LINES!=='undefined'?TZ_MEAL_LINES:null, L=D(); if(!M||!L) return 0; let n=0;
+    for(const k of Object.keys(M)){ const T=M[k]; if(k.charAt(0)==='_'||!T||!T.meal||S.ZONES.includes(k)) continue; L[k]=T; S.ZONES.push(k); S.LAYID[k]=T.layout; S.MEALS.push(k); n++; }
+    return n; };
+  S.addMeals();
 
   /* ---------- 共用 ---------- */
   const hr=G=>((((+G.hour||0)%24)+24)%24);
@@ -81,7 +93,7 @@ const GG3=(function(){
     if(!best){ await fn(null); return false; } if(GM.fade) await GM.fade(true); GM.sitAt(P,best); if(GM.fade) await GM.fade(false);
     try{ await fn(best); } finally { if(GM.standUp) GM.standUp(P); } return true; };
   S.tableKind=function(k,seat){ const L=LAY(k); if(!L||!seat) return null; const m=/_t(\d+)$/.exec(String(seat.table||'')); if(!m) return null; const t=(L.tables||[]).find(q=>q.id===+m[1]); return t?t.kind:null; };
-  S.seatLine=(k,seat)=>{ const T=D()&&D()[k]; if(!T||!T.seat) return null; const kd=S.tableKind(k,seat); return kd&&T.seat[kd]?T.seat[kd]:null; };
+  S.seatLine=(k,seat)=>{ const T=D()&&D()[k]; if(!T||!T.seat) return null; const kd=S.tableKind(k,seat); return kd&&T.seat[kd]?T.seat[kd]:(seat&&T.seat.sit?T.seat.sit:null); };   /* 稿只有一句（seat.sit，汀州路的小館）＝每一桌都是那一句 */
   S.onSeat=async function(GM,seat){ const G=GM&&GM.G; if(!G||!S.ZONES.includes(G.zone)) return false; const t=S.seatLine(G.zone,seat); if(!t) return false; await GM.say(null,t); return true; };
 
   /* ---------- 看（每一個點的句子；同一句不連續出）---------- */
@@ -205,6 +217,27 @@ const GG3=(function(){
       const ok=X.eat.filter(t=>S.needs(t,names)&&Object.keys(S.TAIMI_KEY).some(n=>t.includes(S.TAIMI_KEY[n]))); if(ok.length) await GM.say(null,pick(ok)); });   /* 吃 30 分鐘；吃的旁白照點的菜挑 */
     if(GM.autosave) GM.autosave(); return names.join('、'); };
 
+  /* ---------- 汀州路的小館（TZ_MEAL_LINES；越好吃小館）：點餐 ---------- */
+  S.mealOrder=async function(GM){ const G=GM.G, k=G.zone, T=D()[k], M=T.meal, B=W(T.who); await GM.say(B,M.ask);
+    const bk=[], tot=()=>bk.reduce((a,q)=>a+q.p,0);
+    for(;;){ const its=M.menu.filter(it=>!bk.includes(it));   /* 一樣最多一份 */
+      const opts=its.map(it=>({t:it.n+'　'+it.p+' 元'})); if(bk.length) opts.push({t:S.SYS.done,hint:bk.map(q=>q.n).join('、')+'　共 '+tot()+' 元'}); opts.push({t:S.SYS.no});
+      const c=await GM.choose(opts);
+      if(c>=0&&c<its.length){ bk.push(its[c]); continue; }
+      if(!(bk.length&&c===its.length)) return null; break; }
+    const names=bk.map(q=>q.n), total=tot();
+    if((G.money|0)<total){ await GM.say(null,M.short); return 'short'; }   /* 錢不夠：稿的那一句旁白，不扣錢 */
+    GM.money(-total,T.name); S.last={items:names,total,spice:{},day:G.day,zone:k};
+    const only=!!M.afterOnly&&bk.length===1&&bk[0].id===M.afterOnly.id;
+    await GM.say(B,only?M.afterOnly.line:pick(M.after));
+    if(typeof EAT!=='undefined'&&EAT.ordered){ try{ if(EAT.addShop&&!(EAT.SHOPS_X&&EAT.SHOPS_X[T.name])) EAT.addShop(T.name,{shop:'汀州路・'+T.name,staff:{who:T.who,line5:null,same:null,alt:null},first:null,door:false}); await EAT.ordered(GM,T.name,names.join('、')); }catch(e){ console.warn('EAT.ordered',e); } }
+    const was=!!(GM.E&&GM.E.player&&GM.E.player.seat);
+    await S.seated(GM,async st=>{ if(st&&!was) await S.onSeat(GM,st);
+      for(const q of bk) if(q.eat[0]) await GM.say(null,q.eat[0]);   /* 端上來 */
+      if(GM.fade) await GM.fade(true); GM.advance(S.HRS.mealEat); if(GM.fade) await GM.fade(false);
+      for(const q of bk) for(const t of q.eat.slice(1)) await GM.say(null,t); });   /* 吃 30 分鐘（和泰米村食一樣）、吃完 */
+    if(GM.autosave) GM.autosave(); return names.join('、'); };
+
   /* ---------- 店門：關門 ---------- */
   S.doorLine=function(k,G){ const T=D()&&D()[k]; if(!T) return null; if(typhoon(k,G)) return T.typhoon?{t:T.typhoon,why:'typhoon'}:null;
     const ws=wins(k,G.day); if(ws===undefined) return null; if(!ws||!ws.length) return T.off?{t:T.off,why:'off'}:null;   /* 今天公休 */
@@ -248,6 +281,7 @@ const GG3=(function(){
   /* ---------- 互動 ---------- */
   S.ACT={gg_antai_counter:S.antaiTalk,gg_antai_shelf:S.antaiShelf,gg_antai_bp:S.antaiBp,gg_fruit_counter:S.fruitBuy,gg_rong_counter:S.rongBuy,gg_rong_cart:S.rongCart,
     tz_xile_wash:S.wash,tz_xile_change:S.change,tz_yin_counter:S.yinCounter,tz_taimi_order:S.taimiOrder};
+  for(const k of S.MEALS) S.ACT[D()[k].meal.point]=S.mealOrder;   /* 汀州路的小館：點餐的 kind 照稿（order.id）*/
   S.handles=(k,kind)=>!!kind&&!!D()&&!!D()[k]&&(!!S.ACT[kind]||!!(D()[k].look&&D()[k].look[kind]));
   S.interact=async function(GM,it){ const G=GM.G, k=G.zone, kind=it.kind; let r=null; GM.sceneBegin();
     try{ if(kind==='tz_xile_wash') r=await S.wash(GM,{deferOut:true}); else if(S.ACT[kind]) r=await S.ACT[kind](GM); else { r=S.look(k,kind); if(r) await GM.say(null,r); } } finally { GM.sceneEnd(); }
@@ -256,7 +290,9 @@ const GG3=(function(){
 
   /* ---------- 區域：座位補成 zone.seats、標記接好的互動點 ---------- */
   S.attach=function(E,z,k){ if(!z||!E) return z; const IT=E.interactables||[]; if(!Array.isArray(z.seats)) z.seats=IT.filter(i=>i&&i.tzSeat&&i.seat).map(i=>i.seat);
-    for(const it of IT) if(it&&it.tzPoint&&S.handles(k,it.kind)) it.gg3=k; return z; };
+    const LB=D()&&D()[k]&&D()[k].labels;
+    for(const it of IT) if(it&&it.tzPoint&&S.handles(k,it.kind)){ it.gg3=k; if(LB&&LB[it.kind]) it.label=LB[it.kind]; }   /* 按鈕的字照稿（汀州路的小館：稿有 button）*/
+    return z; };
   S.hookZones=function(){ if(typeof Z3==='undefined'||!Z3.ZONES) return 0; let n=0;
     for(const k of S.ZONES){ const zd=Z3.ZONES[k]; if(!zd||zd._gg3) continue; const b0=zd.build; zd.build=function(E){ const z=b0.apply(this,arguments); try{ S.attach(E,z,k); }catch(e){ console.warn('GG3.attach',e); } return z; }; zd._gg3=true; n++; }
     return n; };
