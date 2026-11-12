@@ -576,7 +576,10 @@ const R2Y4B_EVENTS=(function(){
       ...threeRows(),
       {end:true},
       {label:'first'},
-      {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）'},   /* AA_836（企劃線 48d153407，BAR-GROUP-3D-1112）：三個人都在時語彤坐可昕旁邊、祐廷在對面，不是「長桌另一頭」*/
+      /* AA_836 文末「補：熱可可那句分兩版」（企劃線 44ed07c50，BAR-GROUP-3D-1112）：三個人都在（這一場 session 的 who 是 three）＝三杯、兩杯推到你和可昕面前；只有語彤和你（可昕不在場的讀書夜）＝兩杯、一杯推到你面前。
+         現在的排法「第一次」這一段只在只有語彤的晚上演（R2Y4B.groupLine 的 yt_first：BAR_GROUP_KIND 不是 three），所以實際演到的是兩杯那一版；三杯那一版留著，哪天三個人的晚上走到這一段就演它 */
+      {if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !(x&&x.mode==='library')&&!!x&&x.who==='three'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）'},   /* AA_836（企劃線 48d153407）：三個人都在時語彤坐可昕旁邊、祐廷在對面，不是「長桌另一頭」*/
+      {if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !(x&&x.mode==='library')&&!(x&&x.who==='three'); }},speaker:null,text:'（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）'},
       {if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）'},   /* AA_350 N1 白天版 */
       ...CG20_LINES,   /* AA-B 11-01 CG-20 (a)：白天那句照留，後面加旁白再放 CG */
       {speaker:'heroine_03',text:'我們一起考。……我先考你。'},   /* AA_642 第 4 節 */

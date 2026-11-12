@@ -26,7 +26,13 @@ for(const D of [D1,D2]){ const raw=show(D.sha,SP+D.f); D.A=raw?JSON.parse(raw):n
    不在 AA_762 的「我媽說我傳太多了～」→「我媽說我傳太多了。她已讀的速度跟不上。」）——稿那一列的 new 照 AA_808 往前換（line_rows_expect.js fwdS）再數；BASE 先照 AA_807／808 換過（fixFile）再逐個比。
    沒有 AA_807／808 列的檔（events.js、camp_y1.js、rom1016_events.js、r2y4b_events.js）兩個都是原樣。舊期望：稿的 new 原樣數、BASE 原樣比（vac_activities.js 不一樣的 11 處） */
 const LR=require('./line_rows_expect.js');
-const fileCheck=(tag,f,rows0,total)=>{ const cur=read(f), L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
+/* 2026-11-12（BAR-GROUP-3D-1112，AA_836 文末「熱可可那句分兩版」＠44ed07c50）：r2y4b_events.js 的 ev_bar_group_night「first」那一段多一列（兩杯那一版）、原列的條件多一個 who===three。
+   舊期望：r2y4b_events.js 的字串數、骨架和 BASE 一模一樣。現在：先確認那兩列剛好是下面這兩行（各一處），換回改之前那一列再照原標準比（其他地方一樣不准動）*/
+const BAR_OLD="{unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）'},";
+const BAR_NEW=["{if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !(x&&x.mode==='library')&&!!x&&x.who==='three'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）'},","{if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !(x&&x.mode==='library')&&!(x&&x.who==='three'); }},speaker:null,text:'（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）'},"];
+const barBack=(f,s)=>{ if(f!=='src/data/r2y4b_events.js') return s; const ok=BAR_NEW.every(x=>s.split(x).length===2); check('2. '+f+'：熱可可分兩版那兩列各剛好一處（AA_836 文末）',ok); if(!ok) return s;
+  const a=s.indexOf(BAR_NEW[0]), b=s.indexOf(BAR_NEW[1]); const mid=s.slice(a+BAR_NEW[0].length,b); check('2. '+f+'：那兩列中間只有註解和空白',noCom(mid).trim()===''&&b>a,mid.slice(0,80)); return s.slice(0,a)+BAR_OLD+s.slice(b+BAR_NEW[1].length); };
+const fileCheck=(tag,f,rows0,total)=>{ const cur=barBack(f,read(f)), L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
   const bad=rows.filter(r=>n(r.new)!==r.count||n(r.old)!==0);
   check(tag+' '+f+'：'+rows.length+' 列的 new 各剛好 count 處（共 '+total+' 處）、old 不在了',rows.reduce((a,r)=>a+r.count,0)===total&&bad.length===0,J(bad.map(r=>[r.old,n(r.old),r.new,n(r.new)]).slice(0,4)));
   const ob=show(BASE,f); if(!ob){ console.log('（讀不到 '+BASE+' 的 '+f+'：不比重寫以前）'); return; }
