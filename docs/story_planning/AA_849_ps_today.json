@@ -1,0 +1,195 @@
+{
+ "_meta": {
+  "doc": "AA_849 沛珊第二批（DLG-FULL-REVIEW-1110）：「今天…」開頭 149 句是七人最多，約會稿佔 77。兩個地方是模板：交往中的到達句 26 格全是「今天我…」（沒帶書三次、話比較少三次、你負責我負責三次、包包很輕三次），第一次約會的結尾 16 格裡「今天走好多路腳好痠」「今天好滿」這類六句沒有她。到達 24 句、結尾 7 句重寫或拿掉「今天」；留 D04（帶了一本小的）、D07（話會比較少）和有內容的結尾。依 X327。",
+  "by": "AA-C 2026-11-12",
+  "status": "待 BB 第二意見（D153）；**源稿還沒套用**"
+ },
+ "rows": [
+  {
+   "file": "date_system/lines/D01.json",
+   "who": "classmate_peishan",
+   "old": "今天不排行程，走到哪算哪，你負責不要讓我迷路。",
+   "new": "行程我沒排。你負責不要讓我迷路，我負責迷路。"
+  },
+  {
+   "file": "date_system/lines/D02.json",
+   "who": "classmate_peishan",
+   "old": "今天不帶書，我檢查過了，包包很輕。",
+   "new": "園區那間書店我會逛很久。你可以先去池邊等我。"
+  },
+  {
+   "file": "date_system/lines/D03.json",
+   "who": "classmate_peishan",
+   "old": "今天你跟緊一點，我在這種地方很容易不見。",
+   "new": "你跟緊一點，我在這種地方很容易不見。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "classmate_peishan",
+   "old": "今天我保證片子演的時候不講話。演完就不保證了。",
+   "new": "我保證片子演的時候不講話。演完就不保證了。"
+  },
+  {
+   "file": "date_system/lines/D06.json",
+   "who": "classmate_peishan",
+   "old": "今天慢慢看，我後面什麼事都沒排。",
+   "new": "看不懂的我會亂猜。你不要糾正我，猜比較好玩。"
+  },
+  {
+   "file": "date_system/lines/D08.json",
+   "who": "classmate_peishan",
+   "old": "今天沒帶書。好啦，帶了一本動物圖鑑，那不算書。",
+   "new": "我要先看企鵝。走路搖搖晃晃的，跟我爬樓梯一樣。"
+  },
+  {
+   "file": "date_system/lines/D09.json",
+   "who": "classmate_peishan",
+   "old": "今天下山以前我都不看手機，你要陪我講話。",
+   "new": "下山以前我都不看手機。你要陪我講話。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "classmate_peishan",
+   "old": "今天走慢一點好不好，我想把每一攤都看一遍。",
+   "new": "每一攤我都要看一遍。你可以先決定要陪到第幾攤。"
+  },
+  {
+   "file": "date_system/lines/D11.json",
+   "who": "classmate_peishan",
+   "old": "今天包包好輕，我連水都忘了帶。",
+   "new": "我忘了帶水。溫泉區應該不缺水吧，只是不能喝。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "classmate_peishan",
+   "old": "今天我們走到最前面好不好？",
+   "new": "我們走到最前面好不好？走不到也沒關係，有吃到就好。"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "classmate_peishan",
+   "old": "今天我只帶手機跟錢包。好輕鬆。",
+   "new": "風好大，我頭髮等一下會很好笑。你先不要拍。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "classmate_peishan",
+   "old": "今天我話比較少，因為我一直在看。你不要不習慣。",
+   "new": "山路我會暈。等一下我安靜是在忍耐，不要擔心。"
+  },
+  {
+   "file": "date_system/lines/D16.json",
+   "who": "classmate_peishan",
+   "old": "今天副駕駛座是我的，零食也在我這邊，你要吃要講。",
+   "new": "副駕駛座是我的，零食也在我這邊，你要吃要講。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "classmate_peishan",
+   "old": "今天你帶路，我跟著就好。",
+   "new": "你帶路。石頭長什麼樣子，我先不看別人拍的。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "classmate_peishan",
+   "old": "今天我想坐窗邊。等一下你腿長，你去搶。",
+   "new": "我想坐窗邊。等一下你腿長，你去搶。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "classmate_peishan",
+   "old": "今天我盡量走在你前面，不要每次都讓你等。盡量。",
+   "new": "我盡量走在你前面，不要每次都讓你等。盡量。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "classmate_peishan",
+   "old": "今天我什麼都沒查，你帶我去哪我就去哪。",
+   "new": "我什麼都沒查，只查了哪一攤的香腸最多人排。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "classmate_peishan",
+   "old": "今天我負責拍照，你負責出現在照片裡。",
+   "new": "我負責拍照，你負責出現在照片裡。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "classmate_peishan",
+   "old": "今天我負責看風景，你負責開車，分工很公平。",
+   "new": "你開車辛苦了。我在旁邊負責說「哇」。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "classmate_peishan",
+   "old": "今天我穿了不怕髒的鞋，我有備而來。",
+   "new": "我穿了不怕髒的鞋。我有備而來。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "classmate_peishan",
+   "old": "今天我話比較少，因為嘴巴都在吃。",
+   "new": "我等一下話會比較少，嘴巴都在吃。"
+  },
+  {
+   "file": "date_system/lines/D25.json",
+   "who": "classmate_peishan",
+   "old": "今天我想走到那邊的石頭再回來，你陪我。",
+   "new": "我想走到那邊的石頭再回來，你陪我。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "classmate_peishan",
+   "old": "今天包包裡只有錢包跟水。",
+   "new": "在臺中你要聽我的。除了路，路我也不熟。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "classmate_peishan",
+   "old": "今天我請你吃雞肉飯。不准搶。",
+   "new": "雞肉飯我請。不准搶。"
+  },
+  {
+   "file": "date_system/lines/D02.json",
+   "who": "classmate_peishan",
+   "old": "今天好開心。",
+   "new": "好開心。我本來以為只是來散步的。"
+  },
+  {
+   "file": "date_system/lines/D08.json",
+   "who": "classmate_peishan",
+   "old": "今天走好多路，我腳好痠。",
+   "new": "腳好痠。可是企鵝有看我一眼，值得。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "classmate_peishan",
+   "old": "今天走好多路，腳好痠。",
+   "new": "迪化街比我想的長。走到後面我是靠意志力。"
+  },
+  {
+   "file": "date_system/lines/D16.json",
+   "who": "classmate_peishan",
+   "old": "今天曬好多太陽，我臉好燙。",
+   "new": "我臉好燙。明天脫皮的話，你笑小聲一點。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "classmate_peishan",
+   "old": "今天好滿。",
+   "new": "好滿。肚子跟手機相簿都是。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "classmate_peishan",
+   "old": "今天吃了好多。",
+   "new": "我吃太多了。我爸看到會很欣慰。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "classmate_peishan",
+   "old": "今天走了好多路。",
+   "new": "走了好多路，腳比去程重兩公斤。"
+  }
+ ]
+}
