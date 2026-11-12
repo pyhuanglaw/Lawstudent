@@ -9315,6 +9315,15 @@
      "approvedBy": "AA-C 2026-11-12 定稿＋回 LAWWW 合併後五問（lawww_1112：吃完旁白輪流、熟客句誰說、白天不放按鈕；D100b）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_852_club_later_terms.json",
+   "sha": "b039356f5",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過：系籃 Y1S2 一句改）」；D100b）",
+   "task": "CLUB-LATER-TERMS-1112",
+   "kind": "json",
+   "note": "辯論社、登山社、系籃大一下～大二下的社課旁白（每社每學期一組，共 51 句；分支 claude/magical-albattani-bk7b4n）：tools/story/import_club_later_terms.py → src/data/club_later_terms.js（CLUB_LATER_TERMS）。旁白一字照稿；activities.js 這三社的 term 照稿的 rule 手改成 Y1S1～Y2S2；演出 src/classes3d.js clubNarr。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
   }
  ]
 }
