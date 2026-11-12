@@ -12,6 +12,8 @@
 - 位置寫 `src/…:行` 的（手寫的遊戲檔）：tools/story/apply_aa630_src.py 一次改好（照原句找，不靠行號）。
 用法（給匯入工具）：import aa630; R = aa630.load(ROOT, ALLOW)（白名單沒有 AA_630＝None，什麼都不做）"""
 import json, os, re, subprocess, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import canon898 as _C898
 
 P630 = 'docs/story_planning/AA_630_語彤台詞改寫.md'
 
@@ -125,6 +127,7 @@ def apply_json(R, relpath, data, log=None):
         cur, has = _get(par, [key])
         nv = _newval(r)
         if has and _same(cur, r['orig']): par[key] = nv
+        elif has and isinstance(cur, str) and _C898.LADDER_CLAUSE[1] in cur and _same(__import__('import_guard').read_fix(_C898.ladder_back(cur)), r['orig']): par[key] = _C898.ladder_fwd(nv)   # CANON-NO-ECON-1112 第四批（AA 087c105f13）：源稿那一段已經換成 AA 的新說法（tools/story/canon898.py LADDER_CLAUSE）
         elif has and (cur == nv): pass
         elif not has and key == 'note': par[key] = nv
         else: sys.exit(f'AA_630 {r["no"]}：{relpath} {r["at"]} 現在是 {cur!r}，不是原句 {r["orig"]!r}（企劃線改過了，要重看）')

@@ -473,8 +473,8 @@ if A753:
 #        同一個 commit（b59a8f9de）AA_753_peishan_ladder_Y1S2_Y2S1.json 更正一句：P2-L3 主句第一句「一個禮拜兩天。」→「每個禮拜三。」（課輔班是每週三 18:00～21:00，AA_614）——和 c5094495d 只差這一句。
 #      - P8-L2（要排公開課，我舉手了）：稿的 event_open_class.ladder——4/14 那一場（ev_peishan_open_class）演過就跳過這一層（skipIf；原本的 skipAfterWeek 8 照留）。
 PS753_MORE = [('AA_753_peishan_ladder_Y1S2_Y2S1.json', 'b59a8f9de', {'Y1S2': ('full', ['我在客運上背了一路，才背到第三章。']), 'Y2S1': ('full', ['我背到第三章，還有四章。'])}),
-              ('AA_753_peishan_ladder_Y3.json', '188061108', {'Y3S1': ('base', ['你吃早餐了嗎？……我家開早餐店，習慣問。']), 'Y3S2': ('base', ['期中。我的考卷上，畫了一個笑臉。……我自己畫的。', '你吃早餐了嗎？'])}),
-              ('AA_753_peishan_ladder_Y4.json', '465382f83', {'Y4S1': ('base', []), 'Y4S2': ('base', [])})]
+              ('AA_753_peishan_ladder_Y3.json', '3f6c7d3bb9', {'Y3S1': ('base', ['你吃早餐了嗎？……我家開早餐店，習慣問。']), 'Y3S2': ('base', ['期中。我的考卷上，畫了一個笑臉。……我自己畫的。', '你吃早餐了嗎？'])}),
+              ('AA_753_peishan_ladder_Y4.json', '3f6c7d3bb9', {'Y4S1': ('base', []), 'Y4S2': ('base', [])})]
 PS753_LINESIF = {'P2-L3', 'P3-L3', 'P3-L4', 'P3-L6', 'P3-L8'}; PS753_EXTRAIF = {'P5-L6'}
 PS753_SKIPIF = {'P8-L2': {'events': ['ev_peishan_open_class']}}
 def _ps753_re(x, w):
@@ -536,7 +536,7 @@ for F753, SHA753, TERMS753 in PS753_MORE:
     out['source'] += f'＋{F753[:-5]}@{S}（沛珊 {"、".join(TERMS753)} 八層＋招呼重寫）'
 #      AA_753 補（2026-11-11，X327）：沛珊五套 linesIf——P2-L3（記得 SAW_HER_TEACH）、P3-L3／L4／L6／L8（演過 ev_peishan_decision）。稿每一層給 term、if、lines（兩句）、choices（{t, re, fx}）：
 #      現在的階梯那一層要剛好一套 linesIf、條件（if）和稿的一模一樣（不一樣就停）；那一套的 lines、choices 換成稿上的（上面留著的舊兩句、舊選項被取代），其他欄位不動。**只認 PS753_LINESIF_FILE 的那一版**。
-PS753_LINESIF_FILE = ('AA_753_peishan_ladder_linesIf.json', 'b59a8f9de')
+PS753_LINESIF_FILE = ('AA_753_peishan_ladder_linesIf.json', '3f6c7d3bb9')   # CANON-NO-ECON-1112 第四批（AA 8a7de39f0c，讀 3f6c7d3bb9）：沛珊三句跟 AA_899 同一個說法；大三那一份同（原本 b59a8f9de、188061108）
 PATH753L = 'docs/story_planning/' + PS753_LINESIF_FILE[0]
 A753L = G.approved_files(ALLOW, PATH753L)
 if A753L:

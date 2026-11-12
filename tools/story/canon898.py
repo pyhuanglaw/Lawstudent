@@ -21,3 +21,17 @@ def patch_text(path, text):
         if f == path and old in text:
             text = text.replace(old, new)
     return text
+
+
+# 閒聊階梯（AA 087c105f13：ladder_aa_y1s2.json、ladder_aa_y4s2.json 語彤兩句的回覆）：源稿把「來之…一下」那一段換成「要來跟我說一聲」。
+# ladder_aa_y4s2 那一句另外有 AA_630 L-260 的改寫（長桌→吧檯最旁邊的位子，接結局 4）——AA_630 的表對的是舊句：
+# 套 AA_630 的時候，源稿已經是 AA 新句的，照同一段換回舊句比對，套完再把同一段換成 AA 的新說法（兩份 AA 定稿疊在一起，不另外寫字）。
+LADDER_CLAUSE = ('來之' + _Q + '一下', '要來跟我說一聲')
+
+
+def ladder_back(t):
+    return t.replace(LADDER_CLAUSE[1], LADDER_CLAUSE[0]) if isinstance(t, str) else t
+
+
+def ladder_fwd(t):
+    return t.replace(LADDER_CLAUSE[0], LADDER_CLAUSE[1]) if isinstance(t, str) else t

@@ -69,6 +69,6 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
     check(`6. ${id} 交往中（${flag}）多兩句；沒交往不出現`,base===s2.lines.length&&L2.length===base+ex.length&&ex.every(x=>L2.map(y=>typeof y==='string'?y:y.t).includes(x)),JSON.stringify(L2).slice(0,200));
   }
   { const W=JSON.parse(require('fs').readFileSync(require('path').join(__dirname,'..','docs/handoff/story_import_allow.json'),'utf8')).files.find(f=>f.path==='docs/story_planning/ladder/ladder_bb_y1s2.json');
-    check('6. 白名單：BB 的大一下（ladder_bb_y1s2）現在是 152f8fe16f（可昕換 AA_862：CANON-NO-ECON-1112 第三批），03af79d17（AA 照 AA_584 改源稿）、49ed7e6a（AA-C 2026-10-20 定稿）留在 history',LADDER.source.includes('152f8fe16f')&&!!W&&W.sha==='152f8fe16f'&&(W.history||[]).some(h=>h.sha==='03af79d17')&&(W.history||[]).some(h=>h.sha==='49ed7e6a'),LADDER.source); }
+    check('6. 白名單：BB 的大一下（ladder_bb_y1s2）現在是 3f6c7d3bb9（CANON-NO-ECON-1112 第四批：沛珊 note 照 AA_899），152f8fe16f（可昕換 AA_862：第三批）、03af79d17（AA 照 AA_584 改源稿）、49ed7e6a（AA-C 2026-10-20 定稿）留在 history',LADDER.source.includes('3f6c7d3bb9')&&!!W&&W.sha==='3f6c7d3bb9'&&(W.history||[]).some(h=>h.sha==='152f8fe16f')&&(W.history||[]).some(h=>h.sha==='03af79d17')&&(W.history||[]).some(h=>h.sha==='49ed7e6a'),LADDER.source); }
   console.log(fails?`\nFAILED ${fails}`:'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
