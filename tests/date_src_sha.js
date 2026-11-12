@@ -6,7 +6,7 @@
 //   4. node tests/an_dates_1111_unit.js（和 zq／zr／yt／kx／sis／peishan_dates_1111、date_overnight、date_wish、date_lines_* 這幾支）
 // 工具（import_date_lines.py）裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 module.exports={
-  ALLOW_SHA:'6d503411c1',      // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 AA-C AA_834 以安第三批定稿：約會到達句 26 格＋D09 closing 一格，只動以安 27 格；連同 AA_832 的 32 格見 AN_1112、tests/an_dates_1112_unit.js；上一版 b84e779563＝AN_1112_SHA）
+  ALLOW_SHA:'b22e4d1277',      // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 AA-C AA_834 以安第三批定稿：約會到達句 26 格＋D09 closing 一格，只動以安 27 格；連同 AA_832 的 32 格見 AN_1112、tests/an_dates_1112_unit.js；上一版 b84e779563＝AN_1112_SHA）
   AN_1112_SHA:'b84e779563',    // 以安續改第一批的那一版（2026-11-12 AA-C AA_832 定稿：約會三連短句 31 格＋D21「退色→褪色」一格，只動以安 32 格；上一版 74e0421b8＝KX_1112_FIX_SHA）
   KX_1112_FIX_SHA:'74e0421b8', // 可昕續改後續的那一版（2026-11-12 06:57 AA-C「回 LAWWW」：D23 海堤可昕那一句的停頓改寫法，只動這一格，見 KX_1112 那一列的 was；上一版 07d50af2f7＝KX_1112_SHA）
   KX_1112_SHA:'07d50af2f7',    // 可昕續改的那一版（2026-11-12 AA-C 交 X324 可昕續改：AA_819 三連短句 26 句＋AA_822 remember 開頭的「上次」46 句，只動可昕 72 格，見 KX_1112；上一版 52c3ee258＝KX_1112_PREV）
@@ -204,7 +204,7 @@ module.exports={
     {loc:'D15',doc:'AA_832',path:'hotspots/D15.car/first/choice/1/reply/0/text',old:'好。你選。我聽聽看。',new:'好，你選，我聽聽看你平常都聽什麼。'},
     {loc:'D15',doc:'AA_832',path:'hotspots/D15.sky/first/choice/0/reply/0/text',old:'第五顆是飛機。我收回四顆。不，維持四顆。',new:'第五顆是飛機。那我收回……不對，還是四顆。'},
     {loc:'D15',doc:'AA_832',path:'hotspots/D15.sky/first/lines/1/text',old:'光害。可是有四顆。我數過了。',new:'有光害，可是還看得到四顆，我數過了。'},
-    {loc:'D16',doc:'AA_832',path:'hotspots/D16.drive/first/choice/0/reply/0/text',old:'好。你選。好，我選。',new:'好，你選。……好啦，我選。',game:'好，你選。好啦，我選。'},
+    {loc:'D16',doc:'AA_832',path:'hotspots/D16.drive/first/choice/0/reply/0/text',old:'好。你選。好，我選。',new:'好，你選……好啦，我選。'},   /* 2026-11-12 08:1x AA-C b22e4d1277：停頓移到句中（原本「好，你選。……好啦，我選。」被 AA_694 規則拿掉刪節號）＝遊戲和稿一字不差 */
     {loc:'D16',doc:'AA_832',path:'hotspots/D16.rest/normal/1/lines/0/text',old:'我帶了三明治。切得很整齊。不要笑。',new:'我帶了三明治，切得很整齊。你不要笑。'},
     {loc:'D18',doc:'AA_832',path:'hotspots/D18.snack/first/choice/0/reply/0/text',old:'配角。配角也很重要。我等一下吃。',new:'這個是配角。配角也很重要，我等一下再吃。'},
     {loc:'D18',doc:'AA_832',path:'hotspots/D18.snack/first/choice/1/reply/0/text',old:'謝謝。我換你一顆。公平。',new:'謝謝。那我換你一顆，這樣公平。'},

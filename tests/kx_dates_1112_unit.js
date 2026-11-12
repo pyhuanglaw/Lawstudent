@@ -28,7 +28,7 @@ const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.KX_1112;
 // 1
 const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
 { const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===C.KX_1112_PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；上一版 '+C.KX_1112_PREV+' 在 history',C.ALLOW_SHA==='6d503411c1'&&KS==='74e0421b8'&&C.KX_1112_SHA==='07d50af2f7'&&C.KX_1112_PREV==='52c3ee258'&&bad.length===0&&LOCS.every(k=>{ const h=allow.find(x=>x.path===SP+'date_system/lines/'+k+'.json').history||[]; return h.some(x=>x.sha===C.KX_1112_SHA)&&h.some(x=>x.sha===KS); }),J(bad));   /* 2026-11-12 再換 b84e779563（AA_832）：74e0421b8 也要在 history。舊期望：C.ALLOW_SHA==='74e0421b8'；同一天再換 6d503411c1（AA_834），舊期望 'b84e779563' */
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；上一版 '+C.KX_1112_PREV+' 在 history',C.ALLOW_SHA==='b22e4d1277'&&KS==='74e0421b8'&&C.KX_1112_SHA==='07d50af2f7'&&C.KX_1112_PREV==='52c3ee258'&&bad.length===0&&LOCS.every(k=>{ const h=allow.find(x=>x.path===SP+'date_system/lines/'+k+'.json').history||[]; return h.some(x=>x.sha===C.KX_1112_SHA)&&h.some(x=>x.sha===KS); }),J(bad));   /* 2026-11-12 再換 b84e779563（AA_832）：74e0421b8 也要在 history。舊期望：C.ALLOW_SHA==='74e0421b8'；同一天再換 6d503411c1（AA_834），舊期望 'b84e779563' */
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 2

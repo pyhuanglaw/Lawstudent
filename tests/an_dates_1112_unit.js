@@ -30,7 +30,7 @@ const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.AN_1112;
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===PREV)&&(e[0].history||[]).some(h=>h.sha===C.AN_1112_SHA)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+C.AN_1112_SHA+'、'+PREV+' 在 history',C.ALLOW_SHA==='6d503411c1'&&C.AN_1112_SHA==='b84e779563'&&PREV==='74e0421b8'&&bad.length===0,J(bad));
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+C.AN_1112_SHA+'、'+PREV+' 在 history',C.ALLOW_SHA==='b22e4d1277'&&C.AN_1112_SHA==='b84e779563'&&PREV==='74e0421b8'&&bad.length===0,J(bad));
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 2
@@ -52,7 +52,7 @@ const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.AN_1112;
 { const bad=R.filter(r=>get(NOW.loc[r.loc].lines[AN],r.path)!==(r.game||r.new)).map(r=>r.loc+' '+r.path+'：稿「'+r.new+'」遊戲「'+get(NOW.loc[r.loc].lines[AN],r.path)+'」');
   check('4. 遊戲那 59 格＝稿的新字（一格照 AA_694 拿掉「。」後面的「……」）',bad.length===0,J(bad.slice(0,4)));
   const g=R.filter(r=>r.game);
-  check('4. 和稿不一樣的只有一格（D16 車上的回話），差的只是那一個「……」',g.length===1&&g[0].loc==='D16'&&g.every(r=>r.new.replace('……','')===r.game&&r.new.split('……').length===2),J(g.map(r=>[r.new,r.game])));
+  check('4. 和稿不一樣的格子：0（D16 車上那句 AA 08:1x 把停頓移到句中，b22e4d1277，不再被 AA_694 規則拿掉）',g.length===0,J(g.map(r=>[r.new,r.game])));
   const ty=R.filter(r=>r.typo);
   check('4. D21 染布那一格只改錯字（退色→褪色）',ty.length===1&&ty[0].loc==='D21'&&ty[0].old.replace('退色','褪色')===ty[0].new,J(ty)); }
 
