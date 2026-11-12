@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yizhan_take_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YIZHAN_TAKE\out
+CC 一盞外帶：SHA 9aaa31edb9；TERM Y1S1
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.0s] 語彤作息掃描（Y1S1 第 3～4 週平日 10～21 點）：當班 null；不當班 {"key": "2025-09-15", "h": 14}
+PASS [OFF] 掃得到這種時段
+  [前置／捷徑] [OFF 2025-09-15 14.0] 【前置／捷徑】讀檔進一盞 2025-09-15 14.0（條件事件關掉）、認識語彤：當班=False、語彤在場景=False
+FAIL [OFF 2025-09-15 14.0] 進得去一盞  {"zone": "wenzhou", "x": -20.5, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去一盞", "stand": true, "fb": 0, "hour": 14.02}
+FAIL [ON] 掃得到這種時段
+PASS 沒有 JS 例外  []
+FAILED 2: [OFF 2025-09-15 14.0] 進得去一盞；[ON] 掃得到這種時段
