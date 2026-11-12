@@ -85,7 +85,7 @@
    "point": "D04.snack",
    "option": "「下次換我請。」",
    "old": "好啊，你說的喔。",
-   "new": "那下次我挑店。不要站著吃的。"
+   "new": "那你要挑坐著吃的。我站一整天了。"
   },
   {
    "file": "date_system/lines/D06.json",
@@ -157,7 +157,7 @@
    "point": "D10.bridge",
    "option": "「我們拍下來比。」",
    "old": "好。拍出來如果一樣，我請你喝飲料。",
-   "new": "拍出來如果一樣，我請你喝飲料。"
+   "new": "拍出來如果一樣，算你贏。"
   },
   {
    "file": "date_system/lines/D10.json",

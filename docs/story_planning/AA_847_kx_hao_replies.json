@@ -192,7 +192,7 @@
    "point": "D13.drink",
    "option": "「我請。」",
    "old": "好，謝謝。下一杯我請。",
-   "new": "謝謝。下一杯我請。"
+   "new": "謝謝。喝不完的你要幫我。"
   },
   {
    "file": "date_system/lines/D13.json",
@@ -424,7 +424,7 @@
    "point": "D24.street",
    "option": "「我請妳。」",
    "old": "好，這次讓你請，下一攤換我來。",
-   "new": "這次讓你請，下一攤換我來。"
+   "new": "這次讓你請。我吃兩個，你不要後悔。"
   },
   {
    "file": "date_system/lines/D24.json",

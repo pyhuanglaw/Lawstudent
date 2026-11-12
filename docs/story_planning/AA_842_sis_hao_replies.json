@@ -85,7 +85,7 @@
    "point": "D04.redhouse",
    "option": "「上去看看。」",
    "old": "好。二樓好像有市集。",
-   "new": "二樓好像有市集。你走前面。"
+   "new": "二樓好像有市集。上去再說。"
   },
   {
    "file": "date_system/lines/D05.json",
@@ -429,7 +429,7 @@
    "point": "D25.cafe",
    "option": "「我請。」",
    "old": "好。那晚餐我請。",
-   "new": "那晚餐我請。"
+   "new": "謝謝。我要熱可可。"
   },
   {
    "file": "date_system/lines/D25.json",
@@ -573,7 +573,7 @@
    "point": "D30.stall",
    "option": "「我請妳。」",
    "old": "好。回程的飲料我請。",
-   "new": "回程的飲料我請。"
+   "new": "謝謝。下不為例。"
   },
   {
    "file": "date_system/lines/D30.json",
@@ -646,6 +646,14 @@
    "option": "「各付各的。」",
    "old": "好。最清楚。",
    "new": "嗯。湯我端。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "heroine_05",
+   "point": "D20.trolley",
+   "option": "「現在不覺得了？」",
+   "old": "還是覺得。票我買，兩張。",
+   "new": "還是覺得。可是我想坐。"
   }
  ]
 }
