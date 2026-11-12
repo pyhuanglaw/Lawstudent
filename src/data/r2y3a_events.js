@@ -416,8 +416,7 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-19 可昕 K17「學弟妹的練習對象」（裁定 #9、#10）：12/9（四）21:45 視訊；大三下 4/26（三）18:30 政大山下（日本路線＝19:30 視訊被看）---------- */
   const TUTOR={ id:'ev_kexin_tutor_practice', title:'學弟妹的練習對象', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
-      {unless:{memory:[{npc:'kexin',tag:'KX5_HYPO_SENIOR'}]},speaker:'kexin',expression:'smile',text:'我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。'},
-      {if:{memory:[{npc:'kexin',tag:'KX5_HYPO_SENIOR'}]},speaker:'kexin',expression:'smile',text:'民總讀書會，我先講一次給你聽。'},   /* AA_376 #5：視訊的閒聊階梯 K5-L3 已經宣布過「我開始帶大一的民總讀書會了」（記憶 KX5_HYPO_SENIOR）；K17 演過以後 K5-L3 直接算過（src/y3fill3d.js）*/
+      {speaker:'kexin',expression:'smile',text:'我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。'},   /* 聽過舊 K5-L3（KX5_HYPO_SENIOR）的另一句：可昕閒聊整組換 AA_865，那個記憶不會再有（CANON-NO-ECON-1112 第三批）*/
       {choice:[{text:'（聽懂了）',set:{KX_K17:'heard'},goto:'p1'},{text:'（假裝聽懂）',set:{KX_K17:'fake'},goto:'p2'},{text:'（故意問一個怪問題）',set:{KX_K17:'odd'},goto:'p3'}]},
       {label:'p1'},{speaker:'kexin',expression:'teasing',text:'真的？那你講一次給我聽。'},{goto:'end'},
       {label:'p2'},{speaker:'kexin',expression:'teasing',text:'你假裝聽懂的時候，會點頭點兩次。'},{goto:'end'},

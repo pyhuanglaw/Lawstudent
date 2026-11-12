@@ -109,7 +109,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     const KX='kexin'; check('5. K5-L3 演過 K17 就算過的條件（CANON-NO-ECON-1112 第三批：這一項拿掉）',!(Y3FILL.LAD&&Y3FILL.LAD.skip&&Y3FILL.LAD.skip['K5-L3']));
     fresh('2027-12-09',21.75,'dorm'); date(KX); SOCIAL.remember(KX,'KX5_HYPO_SENIOR','K5-L3'); await play('ev_kexin_tutor_practice'); const a=all();
     fresh('2027-12-09',21.75,'dorm'); date(KX); await play('ev_kexin_tutor_practice'); const b=all();
-    check('5. 聽過 K5-L3（KX5_HYPO_SENIOR）：K17 第一句「民總讀書會，我先講一次給你聽。」，那通視訊只宣布一次（BB 第 4 點）',a[0]==='民總讀書會，我先講一次給你聽。'&&!a.some(t=>/我開始帶大一的民總讀書會了/.test(t))&&a.filter(t=>/民總讀書會/.test(t)).length===1,J(a.slice(0,2)));
+    check('5. 聽過舊 K5-L3（KX5_HYPO_SENIOR）的那一句（CANON-NO-ECON-1112 第三批：這一項拿掉）',a[0]==='我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。'&&!a.includes('民總讀書會，我先講一次給你聽。'));
     check('5. 對照：沒聽過 K5-L3 的照原句',b[0]==='我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。',J(b.slice(0,1)));
   });
   // ===== 6. K5-L2 要 KX_SHORT_MEET =====
