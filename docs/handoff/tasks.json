@@ -140,7 +140,11 @@
    "SE-06": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
    "SE-11": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
    "UA-BB-1105-BALANCE-CC": "BB 使用者要求檔 user_asks_BB.json 的 id（不是任務）；對應 USER_WANTS X235（D142 BB 和 CC 工作量平均，規則已寫進 CLAUDE.md、企劃線 BB_00）",
-   "NTU-REF-AUDIT": "CC_00 全部待辦裡 NTU-REF-AUDIT-1104 的簡寫（同一個任務，總表有 NTU-REF-AUDIT-1104）"
+   "NTU-REF-AUDIT": "CC_00 全部待辦裡 NTU-REF-AUDIT-1104 的簡寫（同一個任務，總表有 NTU-REF-AUDIT-1104）",
+   "DLG-FULL-REVIEW": "AA 交接檔裡 DLG-FULL-REVIEW-1110 的簡寫（AA-C 11-12 確認）",
+   "MOVIE-TALK": "AA 交接檔裡 MOVIE-TALK-1110 的簡寫（AA-C 11-12 確認）",
+   "UA-AA-1111-06": "AA 使用者要求檔的 id，不是任務（AA-C 11-12）",
+   "UA-AA-1111-07": "AA 使用者要求檔的 id，不是任務（AA-C 11-12）"
   },
   "offList": [
    {
