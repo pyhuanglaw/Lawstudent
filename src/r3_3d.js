@@ -287,7 +287,7 @@ const R3=(function(){
   const giraffe={t:'（回一隻長頸鹿）',post:'（長頸鹿貼圖）'};
   const KX=(id,term,h,txt,o)=>Object.assign({id,term,h:lt(h),ok:G=>kxOn(G),items:G=>[].concat(typeof txt==='function'?txt(G):txt).map((t,k)=>P1('kexin',t,k/60))},o||{});
   S.DP3=[
-    KX('y2_kx_k10c',Tm=>inT(Tm,'Y2S1','Y2S1'),21+10/60,'物權考壞的那一章，我講給予樂聽，講到她懂。',{ok:(G,day)=>kxOn(G)&&done(G,'ev_kexin_bad_exam')&&G.events.last&&G.events.last.ev_kexin_bad_exam!=null&&(day==null?G.day:day)-G.events.last.ev_kexin_bad_exam>=14}),   /* K10c 演過 14 天以後 */
+    KX('y2_kx_k10c',Tm=>inT(Tm,'Y2S1','Y2S1'),21+10/60,'物權考壞的那一章，我講給我室友聽，講到她懂。',{ok:(G,day)=>kxOn(G)&&done(G,'ev_kexin_bad_exam')&&G.events.last&&G.events.last.ev_kexin_bad_exam!=null&&(day==null?G.day:day)-G.events.last.ev_kexin_bad_exam>=14}),   /* K10c 演過 14 天以後 */
     KX('y2_kx_giraffe1',Tm=>inT(Tm,'Y2S1','Y4S2',9),23+10/60,null,{items:G=>[P1('kexin','（長頸鹿貼圖）'),P1('kexin','以後我傳這隻，就是累了、不想打字',1/60),Object.assign(P1('kexin','你回一隻一樣的就好',2/60),{ask:{id:'dp_y2_kx_giraffe1',until:until(G),opts:[giraffe]}})]}),
     KX('y2_kx_giraffe',Tm=>inT(Tm,'Y2S1','Y4S2',11),23+10/60,null,{max:()=>12,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y2_kx_giraffe1')&&termN(G,'y2_kx_giraffe')<2,items:(G,n)=>{ termInc(G,'y2_kx_giraffe'); return [Object.assign(P1('kexin','（長頸鹿貼圖）'),{ask:{id:'dp_y2_kx_giraffe_'+n,until:until(G),opts:[giraffe]}})]; }}),
     KX('y3_kx_lunch',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,['📷（木柵大學山下那家的碗）','午餐。']),
@@ -299,7 +299,7 @@ const R3=(function(){
     KX('y3s2_kx_juniors',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'讀書會的學弟妹全部考過。我比他們還緊張。'),
     KX('y3s2_kx_film',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,G=>metZhan(G)?'詹靖的短片在小影展放了。我坐第一排。':'我那個拍片的朋友詹靖，短片在小影展放了。我坐第一排。'),
     KX('y4_kx_index2',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,G=>metShao(G)?'邵鈞的考古題目錄，現在有第二冊。':'我們系那個考古題有目錄的人，現在出第二冊了。'),
-    KX('y4_kx_mutter',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'予樂說我讀書的時候會自言自語。她錄下來了。我不承認。'),
+    KX('y4_kx_mutter',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'我室友說我讀書的時候會自言自語。她錄下來了。我不承認。'),
     KX('y4_kx_mock',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'今天模擬考，第三題我寫了兩頁。寫完才發現題目只問一句。'),
     KX('y4_kx_twenty1',Tm=>inT(Tm,'Y4S1','Y4S2',4),22+10/60,null,{items:G=>[P1('kexin','二十分鐘。'),Object.assign(P1('kexin','這段讀完就打給你。',1/60),{ask:{id:'dp_y4_kx_twenty1',until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她真的打來了。）')]}]}})]}),
     KX('y4_kx_twenty',Tm=>inT(Tm,'Y4S1','Y4S2'),22+10/60,null,{max:()=>4,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y4_kx_twenty1')&&termN(G,'y4_kx_twenty')<2,items:(G,n)=>{ termInc(G,'y4_kx_twenty'); return [Object.assign(P1('kexin','二十分鐘'),{ask:{id:'dp_y4_kx_twenty_'+n,until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她打來了。）')]}]}})]; }}),

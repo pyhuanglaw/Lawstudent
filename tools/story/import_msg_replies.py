@@ -106,7 +106,8 @@ def main():
     ok, why = IG.allowed(PATH, sha, allow)
     if not ok:
         raise SystemExit(why)
-    data = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
+    import canon1112_rows as C1112   # CANON-NO-ECON-1112 第四批：AA_894 第 3 節的整句換字疊在稿上（讀稿換名以後、建資料以前）
+    data = build(json.loads(C1112.fix(PATH, IG.read_fix(git('show', f'{sha}:{PATH}')))), sha)
     js = ('/* 自動產生：tools/story/import_msg_replies.py（' + data['src'] + '）。不要手改，改企劃 AA_709 再重新匯入。\n'
           '   女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/\n'
           "'use strict';\nconst MSG_REPLIES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')

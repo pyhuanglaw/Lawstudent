@@ -93,7 +93,8 @@ def main():
     ok, why = IG.allowed(PATH, sha, allow)
     if not ok:
         raise SystemExit(why)
-    data = build(json.loads(ST.git('show', f'{sha}:{PATH}')), sha)
+    import canon1112_rows as C1112   # CANON-NO-ECON-1112 第四批：AA_894 第 5 節的整句換字疊在稿上（讀稿換名以後、建資料以前）
+    data = build(json.loads(C1112.fix(PATH, IG.read_fix(ST.git('show', f'{sha}:{PATH}')))), sha)
     import ps755   # 2026-11-11（X327 沛珊重寫）：AA_755_peishan_feed_misc.json 的 other 逐則 old→new 疊在 classmate_peishan 上（tools/story/ps755.py；白名單沒有那份稿＝不換）
     n755 = ps755.apply(data, 'activity_scenes.js', ROOT, allow)
     js = ('/* 自動產生：tools/story/import_activity_scenes.py（' + data['src'] + (f'；沛珊 {n755} 處照 {ps755.tag(ROOT, allow)}' if n755 else '') + '）。不要手改，改企劃 AA_708 再重新匯入。\n'

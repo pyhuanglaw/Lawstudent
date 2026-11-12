@@ -9594,6 +9594,51 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "宿營第一天自由時間打牌：「你數學幾級分？」之後那一段（兩個選項都記 ZHE_CALLS_GE、結尾兩句；分支 claude/magical-albattani-bk7b4n）：手寫進 src/data/camp_y1.js 的 ev_camp_d1_free，一字照稿；「一起拿掉的」三樣照稿拿掉（遊覽車那一段最後一句、夜談的定義、迎新自我介紹第三個選項那一支）。逐字對稿：tests/canon_opening_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_889_src對照表_y2r2.md",
+   "sha": "1af2aa94ff",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "src/y2r2_3d.js（可昕大二那一組）照列換字＋第 4 節 y34b3d.js 兩場；手寫進程式，一字照稿（第四批，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_890_src對照表_bbpack.md",
+   "sha": "17262e465c",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "src/data/bbpack_events.js 的 ev_b6_lecture 兩句照列換字（第四批，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md",
+   "sha": "bb1fc10e54",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1 節：tools/story/import_arcs.py 的 CANON892 那一層（舊→新逐列對，對不到就停）＋可昕 theme；第 2 節：src/r2y4b3d.js 排程地點、照片、K26 地點、分開那一場的地點；第 3 節 msg_pool 見下一個 commit（第四批，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_896_src對照表_y3_y4_排程.md",
+   "sha": "749ff75986",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "r2y3b3d.js K18 邀約與照片、y2b_events.js 子晴畢業專題選項、r2y4a3d.js K21／K22／聖誕排程、y34b3d.js K19／K23 排程（第 2 節「可昕第一次考壞」那一行跟著 AA_873 ②，這一批沒做）（第四批，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_894_src對照表_social_msg_invites_scenes.md",
+   "sha": "3443745dcb",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "social3d.js 去向、記憶標籤（ECON_NIGHT、HEARD_ECON_NIGHT、XUN_PATH 拿掉；KNOWS_ECON_YEAR、MIRROR_PEISHAN 還有地方在設，暫留）、KX_BDAY2_CAKE；msg_replies／activity_scenes 照 tools/story/canon1112_rows.py 疊在稿上重匯（訊息本身在 bbpack3d／y2b3d／r3_3d 一起換）；第 4 節 invites.js 沒做（那幾格在 AA_784 覆蓋層上，要 AA 出覆蓋層格式的列）；assets3d.js、WN_COMMON 沒動（第四批，LAWWW 的子代理）"
   }
  ]
 }

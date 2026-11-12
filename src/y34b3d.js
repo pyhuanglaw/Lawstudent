@@ -9,7 +9,7 @@
          收不到子晴那則的（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊 → 去＝出遊 5/20 13:45；不了＝16:30 阿凱的照片（AA_337 第 5 節）；
          回了「去。」卻沒到＝16:30 阿凱三則「你說要來的。」「……我幫你拍了。」＋照片（AA_337 第 7 節）；
          日本路線＝當晚電話＋阿凱一則。ZQ_Q12（一律 nine，AA_360 第 1 節；舊存檔演過貓的是 cat。畢業後篇讀這個；ZQ_SHOW 是大一下成發的，不覆蓋）、ATTENDED_SHOW、WATCHED_SHOW_ONLINE。
-   1B-16 可昕 K19：5/1 21:00 邀約 → 5/3 15:00 政大（開車約 40 分鐘）；沒去、日本路線＝照片。KX_PRESENT。
+   1B-16 可昕 K19：5/1 21:00 邀約 → 5/3 15:00 法律系館小教室；沒去、日本路線＝照片。KX_PRESENT。
    1B-17 學姊生日 6/2：白天家族群組（「收到。」後面不掛選項）；玩家在她的私訊用 MSG-2 的「生日快樂」話題（src/msg3d.js），2028 的回覆照三版（AA_337 第 6 節）；
          交往中 18:00 Café（17:45～18:30），沒去＝21:00；17:05 以後才傳＝22:30「……明天下午，Café？」→「好。」＝隔天 15:00 Café／「明天不行。」；
          日本路線＝台灣 18:00（當地 19:00）視訊（AA_337 第 7 節）。SIS_BDAY_Y3（msg／invited／late_ask／next_cafe／video_set → cafe／video／missed）。
@@ -21,7 +21,7 @@
    1B-20 二十三週年：12/11 讀書會群組、12/11～12/13 桌遊團群組的倒數、（12/12 語彤的班那一句：AA_675 2-5 拿掉）、12/14 19:00 麵店（18:45～19:15；19:30 還沒到＝電話帶到場，睡著也會醒來）；強制下雨（CG-8、散場語彤的傘、ANNIVERSARY_23 拿掉：AA_625 接線補第 3 點，搬到一盞茶屋十週年 src/aa625_3d.js）；
          最後一碗不給你＝給阿哲（三行）；和可昕交往、她沒見過桌遊團＝22:30 傳長桌的照片給她；
          美國路線＝群組照片、可昕私訊，12/23 回來以後第一次去麵店阿姨那一句。12/17 以後第一次進麵店＝牆上芷若的明信片（FAMILIAR 以上）。ANNIV23。
-   1B-21 可昕 K23：10/18 21:00 私訊（去／改天）→ 10/20 19:00 政大（改天、沒到＝10/21 15:00；再沒到＝21:00 電話）；美國路線＝視訊。KX_PATHS。
+   1B-21 可昕 K23：10/18 21:00 私訊（去／改天）→ 10/20 19:00 系館門口（改天、沒到＝10/21 15:00；再沒到＝21:00 電話）；美國路線＝視訊。KX_PATHS。
          「改天」＝「好。那週六下午三點，同一個地方。」；「這次我等你」只給答應了卻沒到的（AA_337 第 5 題）。
          美國路線（AA_370 H1）：三句換「週五晚上七點，你那邊是早上。我們視訊，各自說。」「好。那週六晚上九點，你那邊早上九點。」「週六晚上九點。這次我等你。」；改天那一場臺灣 21:00（當地 09:00）。
    1B-23 子晴 Q14：10/11 21:00 私訊四選一（美國路線、交往中的開頭照 AA_323、BB_165 4-3）。ZQ_CONTRACT。美國路線和學姊去大峽谷（10/7～10/14）＝期限延到回到印第安納的隔天中午（AA_370 M8，S.q14Until）。
@@ -210,7 +210,7 @@ const Y34B=(function(){
   S.kx19Phone=function(G){ const F=G.flags, a=D('kx19ask'), d=D('kx19'); if(a==null||G.day<a||G.day>d+1||!dating(G,'kexin')) return; const K=t=>DM('kexin',t);
     if(!JP(G)&&NOW(G)>=T(a,21)&&NOW(G)<T(d,15)){ const L=[K('我的期末報告被選去發表。禮拜三下午三點。'),K('你要來的話，坐最後一排。')];
       L[1].ask={id:'y3_kx19',until:T(d,14),opts:[{t:'去。',set:{KX19_GO:true}},{t:'那天不行。',set:{KX19_GO:false},say:[{from:'kexin',text:'好。'}]}]}; at(G,a,G.day===a?Math.max(21,G.hour):G.hour,L,'y3_kx19_ask'); }   /* 新寫（AA_322 1B-16 第 1 節）*/
-    if(F.KX19_GO===true&&F.KX_PRESENT==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_kx19')&&NOW(G)<T(d,15.5)) OUT.plan(G,{id:'y3_kx19',ev:'ev_kexin_presentation',day:d,h:15,late:0.5,place:'木柵大學',title:'可昕的期末報告',travel:'開車 約 40 分鐘',travelH:2/3,hours:1.5});
+    if(F.KX19_GO===true&&F.KX_PRESENT==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_kx19')&&NOW(G)<T(d,15.5)) OUT.plan(G,{id:'y3_kx19',ev:'ev_kexin_presentation',day:d,h:15,late:0.5,place:'法律系館・小教室',title:'可昕的期末報告',travel:'走路',travelH:0.1,hours:1.5});
     { const h17=tzH(G,d,17); if(F.KX_PRESENT==null&&NOW(G)>=T(d,h17)){ F.KX_PRESENT='photo'; at(G,d,h17,[K('（照片：台上，詹靖拍的）'),K(JP(G)?'報告講完了。……好累。':'期末報告講完了。最後一排空著。')],'y3_kx19_photo'); } } };   /* AA_377 第 13 項：日本路線沒收到「坐最後一排」的邀約，不說最後一排 */   /* 日本路線人在日本＝當地 18:00（臺灣 17:00；AA_341 J-S13）*/
   /* ================= 1B-17 學姊的生日 ================= */
   /* 群組：Kevin「學姊今天生日！」學姊「收到。」，後面不掛選項。私訊改成玩家自己在學姊的私訊用 MSG-2 的「生日快樂」話題（src/msg3d.js；AA_337 第 6 節）：
@@ -386,14 +386,14 @@ const Y34B=(function(){
   S.a23Rain=function(GM){ const G=GM.G, d=D('a23'); if(d!=null&&law(G)&&!US(G)&&G.day===d&&G.hour>=17&&G.weather!=='rain'&&G.weather!=='typhoon'){ G.weather='rain'; if(GM.E&&GM.E.setWeather) GM.E.setWeather('rain'); } };
   S.a23AuntDue=G=>{ const r=D('usRet'); return law(G)&&US(G)&&G.flags.ANNIV23==='remote'&&!G.flags.ANNIV23_AUNT&&r!=null&&G.day>=r&&G.zone==='noodle'; };
   /* ================= 1B-21 可昕 K23 ================= */
-  /* 美國路線（AA_370 H1）：人在美國，不約政大——「週五晚上七點，你那邊是早上。我們視訊，各自說。」；改天那一場＝週六臺灣 21:00（當地 09:00，AA_323 1B-21：臺灣晚上、美東早上；原本臺灣 15:00＝當地 03:00）*/
+  /* 美國路線（AA_370 H1）：人在美國，不當面約——「週五晚上七點，你那邊是早上。我們視訊，各自說。」；改天那一場＝週六臺灣 21:00（當地 09:00，AA_323 1B-21：臺灣晚上、美東早上；原本臺灣 15:00＝當地 03:00）*/
   S.KX23_US={ask:'週五晚上七點，你那邊是早上。我們視訊，各自說。',later:'好。那週六晚上九點，你那邊早上九點。',miss:'週六晚上九點。這次我等你。',h2:21};
   S.kx23Phone=function(G){ const F=G.flags, a=D('kx23ask'), d=D('kx23'), d2=D('kx23b'); if(a==null||G.day<a||G.day>d2+1||!dating(G,'kexin')||!law(G)) return; const K=t=>DM('kexin',t), us=US(G), h2=us?S.KX23_US.h2:15;   /* h2：改天那一場（臺灣時間）*/
-    if(NOW(G)>=T(a,tzH(G,a,21))){ const L=[K('你的那條路，現在走到哪了？不用現在說。'),K('我的也想跟你說。'),K(us?S.KX23_US.ask:'週五晚上七點，木柵大學。我們走一段路，各自說。')];   /* AA_378 #5（企劃線 5cd35678）：6 月就選好了路，她第一批就知道；美國版第三句照舊 */
+    if(NOW(G)>=T(a,tzH(G,a,21))){ const L=[K('你的那條路，現在走到哪了？不用現在說。'),K('我的也想跟你說。'),K(us?S.KX23_US.ask:'週五晚上七點，系館門口。我們走一段路，各自說。')];   /* AA_378 #5（企劃線 5cd35678）：6 月就選好了路，她第一批就知道；美國版第三句照舊 */
       L[2].ask={id:'y4_kx23',until:T(d,tzH(G,d,18)),opts:[{t:'去。',set:{KX23_GO:true}},{t:'改天。',set:{KX23_GO:'later'},say:[{from:'kexin',text:us?S.KX23_US.later:'好。那週六下午三點，同一個地方。'}]}]};   /* AA_337 第 5 題：「這次我等你」只給答應了卻沒到的（下面 y4_kx23_miss）*/
       at(G,a,G.day===a?Math.max(tzH(G,a,21),G.hour):G.hour,L,'y4_kx23_ask'); }   /* BB_99 第 10 節第 15 項；ask「去／改天」*/
     if(F.KX_PATHS!=null||typeof OUT==='undefined') return;
-    const plan=(id,day,h)=>{ if(!OUT.get(G,id)) OUT.plan(G,us?{id,ev:'ev_kexin_own_paths',day,h:tzH(G,day,h),late:0.5,place:'視訊',title:'和可昕視訊',verb:'接起來',travelH:0,hours:1}:{id,ev:'ev_kexin_own_paths',day,h,late:0.5,place:'木柵大學',title:'木柵大學：走一段路',travel:'開車 約 40 分鐘',travelH:2/3,hours:1.5}); };
+    const plan=(id,day,h)=>{ if(!OUT.get(G,id)) OUT.plan(G,us?{id,ev:'ev_kexin_own_paths',day,h:tzH(G,day,h),late:0.5,place:'視訊',title:'和可昕視訊',verb:'接起來',travelH:0,hours:1}:{id,ev:'ev_kexin_own_paths',day,h,late:0.5,place:'法律系館門口',title:'系館門口：走一段路',travel:'走路',travelH:0.1,hours:1.5}); };
     if(F.KX23_GO===true&&NOW(G)<T(d,tzH(G,d,19.5))) plan('y4_kx23',d,19);
     const q1=OUT.get(G,'y4_kx23'); if(F.KX23_GO===true&&q1&&q1.state==='missed'&&!sent(G,'y4_kx23_miss')){ at(G,G.day,G.hour,[K('我想好了。我們找一天，各自說。'),K(us?S.KX23_US.miss:'週六下午三點。這次我等你。')],'y4_kx23_miss'); F.KX23_GO='later'; }
     if(F.KX23_GO==='later'&&NOW(G)<T(d2,tzH(G,d2,h2+0.5))) plan('y4_kx23b',d2,h2);
@@ -658,9 +658,9 @@ const Y34B=(function(){
     {set:{ATTENDED_SHOW:true,ZQ_Q12_SEEN:'came'}},{rel:{heroine_04:{fam:2}}} ];
   const Q12_CALL=[ {scene:'電話'},{if:C(nine),speaker:'子晴（電話）',text:'他打了五次。第五次過了。……我在後面笑到不行。'},{unless:C(nine),speaker:'子晴（電話）',text:'下一個做完，你來測。'},{set:{WATCHED_SHOW_ONLINE:true,ZQ_Q12_SEEN:'online'}} ];   /* 《找插座的貓》那一版：和 1B-15 貓那一版現場同一句（AA_349 L6：「下一個做完，你來測。」——「測試員」是她給他的位置 TESTER，沒有 TESTER 的玩家也接得上）*/
   /* 1B-16 */
-  const K19=[ {scene:'木柵大學・小教室',bg:'classroom_small'},
+  const K19=[ {scene:'法律系館・小教室',bg:'classroom_small'},   /* CANON-NO-ECON-1112 第四批：照 AA_889 第 4 節換字 */
     {cg:'cg_last_row_kexin'},
-    {speaker:null,text:'（木柵大學的小教室。你坐在最後一排。她講到一半看了你一眼，停了半秒，接著講完。）'},
+    {speaker:null,text:'（系館的小教室。你坐在最後一排。她講到一半看了你一眼，停了半秒，接著講完。）'},
     {speaker:'kexin',expression:'smile',text:'你坐最後一排。我看得到。……講得還好嗎？'},
     {choice:[{text:'「很好。第三頁那張圖，我聽懂了。」',goto:'k_a'},{text:'「妳停了半秒。」',goto:'k_b'}]},
     {label:'k_a'},{speaker:'kexin',expression:'smile',text:'那張我改了四次。'},{goto:'k_end'},
@@ -808,10 +808,10 @@ const Y34B=(function(){
     {label:'p_think'},{speaker:'kexin',expression:'smile',text:'那我先記你『還在想』。想好了，第一批告訴我。'},{set:{KX_PATHS:'thinking'}},{goto:'p_end'},
     {label:'p_follow'},{speaker:'kexin',expression:'serious',text:'不要。'},{speaker:null,text:'（她看著你。）'},{speaker:'kexin',expression:'serious',text:'你配合我的話，以後你後悔，我會覺得是我害的。'},{set:{KX_PATHS:'follow'}},
     {label:'p_end'} ];
-  const PATHS=[ {unless:C(US),scene:'木柵大學・校園裡的路',bg:'nccu_campus'},{if:C(US),scene:'視訊',bg:'video'},
-    {speaker:null,text:'（木柵大學的校園。她先說她的：準備律師考試。）'},
-    {speaker:'kexin',expression:'serious',text:'我要考律師。從現在開始準備。'} ].concat(PATHS_Q);
-  PATHS[2].unless=C(US);   /* 美國路線是視訊：「政大的校園」那一句不出 */
+  const PATHS=[ {unless:C(US),scene:'法律系館・門口',bg:'ntu_linze'},{if:C(US),scene:'視訊',bg:'video'},
+    {speaker:null,text:'（系館門口。她先說她的：準備國考。）'},
+    {speaker:'kexin',expression:'serious',text:'我要考國考。從現在開始準備。'} ].concat(PATHS_Q);
+  PATHS[2].unless=C(US);   /* 美國路線是視訊：「系館門口」那一句不出 */
   const PATHS_CALL=[ {scene:'電話'},{speaker:'可昕（電話）',text:'那我們用電話各自說。'} ].concat(PATHS_Q.map(l=>l.speaker==='kexin'?Object.assign({},l,{speaker:'可昕（電話）'}):l));
   /* 1B-24 */
   const ANY=G=>STORY.whyLawKey?STORY.whyLawKey(G.flags):null;

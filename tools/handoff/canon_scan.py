@@ -10,6 +10,8 @@ T = lambda s: s.encode('ascii').decode('unicode_escape')
 TERMS = [T(x) for x in [r'\u54c1\u745c', r'\u9b4f\u6559\u6388', r'\u7d93\u6fdf\u7cfb', r'\u7d93\u6fdf\u5b78\u7cfb', r'\u91cd\u8003', r'\u4f11\u5b78', r'\u6728\u67f5', r'\u653f\u5927', r'\u524d\u50b3', r'\u653f\u6cbb\u5927\u5b78', r'\u7fe0\u5dba\u5341\u820d', r'\u6b63\u52f3', r'\u963f\u52f3', r'\u97cb\u7db8', r'\u5510\u777f', r'\u54c1\u59a4', r'\u5bb6\u8c6a', r'\u4e88\u6a02']]
 # 不算的：行政大樓；畢業後國考落榜可以再考（D118，使用者 11-12 選擇題：留著）
 OK = [T(x) for x in [r'\u884c\u653f\u5927', r'\u7814\u7a76\u6240[^\u3002\uff1b\n]{0,8}\u4f11\u5b78', r'\u91cd\u8003\u91ab\u79d1', r'\u570b\u8003[^\u3002\uff1b\n]{0,12}\u91cd\u8003', r'\u843d\u699c[^\u3002\uff1b\n]{0,8}\u91cd\u8003', r'\u91cd\u8003[^\u3002\uff1b\n]{0,6}(\u53f8\u6cd5\u5b98|\u5f8b\u5e2b|\u570b\u8003)', r'(\u53f8\u6cd5\u5b98|\u5f8b\u5e2b)[^\u3002\uff1b\n]{0,16}\u91cd\u8003']]
+# CANON-NO-ECON-1112 第四批（AA_897 第 1 節，AA-C 定稿）：沛珊自己大二離開學校、重考那條線（使用者「沛珊的留著」）裡沒有寫她名字的那幾句；「以前傳（訊息）」是誤判（字表裡的「前傳」）
+OK += [T(x) for x in [r'\u5927\u4e8c\u4e0b\u5728\u5bb6\u91cd\u8003', r'\u8b1d\u8b1d\u4f60\u5728\u6211\u91cd\u8003\u90a3\u5e74\u966a\u6211', r'\u4f11\u5b78\u91cd\u8003\uff08\u5927\u4e8c\u4e0a\u002012/17\u0020\u4ee5\u5f8c\u6d88\u5931\uff09', r'\u91cd\u8003\u7684\u90a3\u4e00\u4efd\u3001\u4e0b\u5b78\u671f\u6703\u4f11\u5b78', r'\u5979\u5728\u570b\u5916\u3001\u4f11\u5b78\u3001\u56de\u8001\u5bb6', r'\u4ee5\u524d\u50b3']]
 # 沛珊大二上那條線留著（使用者 11-12 選擇題 UA-LAWWW-1112-41）：同一行或同一個檔講的是她時，「那種入學方式」「離開學校」兩個詞不算
 PS_LINE = re.compile('(?i)' + T(r'\u6c9b\u73ca') + r'|peishan|psresults')
 PS_TERMS = [T(x) for x in [r'\u91cd\u8003', r'\u4f11\u5b78']]
