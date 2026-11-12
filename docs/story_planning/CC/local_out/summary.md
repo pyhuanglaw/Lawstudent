@@ -4796,3 +4796,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 4.3s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 167.4s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 167.4s] BROWSER DISCONNECTED
 - 2026-11-12T12:22:38  ONEOFF_NOODLE_RENAME  sha=be1e5d725634580ee25313a7bbd14f941687bfde  exit=0  151s    改了 23 個檔、67 處；剩 0 處；commit 0；錯誤 0 / ALL PASS
       err.log (last 5): warning: in the working copy of 'docs/story_planning/CC/local_out/N1_node/out/node_units.json', LF will be replaced by CRLF the next time Git touches it
+- 2026-11-12T12:36:33  P0_SHOPVIEW_taimi  sha=1cd2116ee178d78a8e30408943f38e38052648c3  exit=0  179s    PASS [泰米村食 tz_taimi 2030] 拍到 5 張  ["5_game", "1_entry", "2_window", "3_counter", "4_outside"] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 4.2s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 91.2s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 91.2s] BROWSER DISCONNECTED
