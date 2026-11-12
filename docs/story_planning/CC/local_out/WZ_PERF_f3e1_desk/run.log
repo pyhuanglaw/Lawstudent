@@ -1,0 +1,9 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_inside_perf_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ_PERF_f3e1_desk\out
+CC SHOP-REAL-INSIDE 效能：TAG wz_72fc_desk；SHA 9aaa31edb9e6cfed31271cce28ec7041d37b0306；PAIR ['wz_offbeat', 'wz_brunch']；DESKTOP=True；Windows＋GPU ≠ 使用者那台
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-22 14.00（條件事件關掉）
+PASS 讀到 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.02}
+  [  50.3s] 觸控偵測與畫質（LAWWW-C 10:20：lite＝low 或觸控）：{"maxTouchPoints": 0, "ontouchstart": true, "q": "medium", "lite": true, "desktop": true}
+PASS wenzhou 有 wz_offbeat、wz_brunch 兩個門  [{"label": "往新生南路", "to": "xinsheng", "x": -33.4, "z": -28.4}, {"label": "進去日常失速", "to": "wz_offbeat", "x": -36.5, "z": -9.6}, {"label": "進入 2:30 AM", "to": "cafe", "x": 54.2, "z": 0}, {"label": "上二樓（木曜日）", "to": "wz_mokuyobi", "x": 7.4, "z": -4.55}, {"label": "進去 SUNNY SIDE", "to": "wz_brunch", "x": 45, "z": -4.6}, {"label": "進去阿德影印輸出", "to": "wz_print", "x": -8, "z": 4.6}, {"label": "進去一盞", "to": "wz_teahouse", "x": -20.5, "z": 4.6}, {"label": "進去林家乾麵", "to": "wz_lin", "x": 35, "z": 4.6}, {"label": "進去小路", "to": "wz_teishoku", "x": -4.8, "z": -4.6}]
+FAIL 找得到中間點和遠點（≥45 m）  {"err": "中間點附近站不住", "mx": 4.25, "mz": -7.1}
