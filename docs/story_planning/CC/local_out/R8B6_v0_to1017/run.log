@@ -11,7 +11,7 @@ PASS 遊戲載入
   [   0.9 分] 2024-09-02 {"h": 7, "zone": "dorm", "stage": "econ"}
   [   1.1 分] 2024-09-12 {"h": 21, "zone": "dorm", "stage": "econ"}
   [ 107.7s] 「睡覺」途中：phone 開著（遊戲暫停），先關掉
-  [ 108.5s] 「睡覺」途中停下（離目標 1.23 m）：你終於把箱子拆完了。阿勳幫你把
+  [ 108.5s] 「睡覺」途中停下（離目標 1.23 m）：你終於把箱子拆完了。舊序章同學幫你把
   [   1.4 分] 2024-09-13 {"h": 19, "zone": "dorm", "stage": "econ"}
    ▶ 「這件妳穿太大了。」 ／ ['「這件妳穿太大了。」', '「那我穿妳的？」', '（拿起手機拍照）']
   [   1.8 分] 2024-09-16 {"h": 21, "zone": "dorm", "stage": "econ"}
@@ -56,7 +56,7 @@ PASS 遊戲載入
   [ 440.3s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [ 447.7s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [ 455.2s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
-  [ 462.7s] 超過 4 分鐘沒有進展：{"zone": "dorm", "x": -0.55, "z": 1.5, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（回宿舍的路上，你的衣服都是炭的味道。阿勳的頭髮是柚子的味道。）", "choices": 0, "interact": "", "hour": 22, "stand": true, "camYaw": -0.341, "fallbacks": 0, "y": 0, "lv": 0, "frame": 7740, "paused": true}
+  [ 462.7s] 超過 4 分鐘沒有進展：{"zone": "dorm", "x": -0.55, "z": 1.5, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（回宿舍的路上，你的衣服都是炭的味道。舊序章同學的頭髮是柚子的味道。）", "choices": 0, "interact": "", "hour": 22, "stand": true, "camYaw": -0.341, "fallbacks": 0, "y": 0, "lv": 0, "frame": 7740, "paused": true}
   [ 463.4s]   關掉的面板：["phone"]
   [ 463.5s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
    ▶ 睡覺到下一件事 ／ ['睡覺到下一件事', '先不睡']
@@ -92,7 +92,7 @@ PASS 遊戲載入
   [ 689.9s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [ 697.4s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [ 704.8s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
-  [ 707.3s] 超過 4 分鐘沒有進展：{"zone": "dorm", "x": -0.55, "z": 1.5, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（回宿舍的路上，你的衣服都是炭的味道。阿勳的頭髮是柚子的味道。）", "choices": 0, "interact": "", "hour": 22, "stand": true, "camYaw": 2.292, "fallbacks": 0, "y": 0, "lv": 0, "frame": 8293, "paused": true}
+  [ 707.3s] 超過 4 分鐘沒有進展：{"zone": "dorm", "x": -0.55, "z": 1.5, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（回宿舍的路上，你的衣服都是炭的味道。舊序章同學的頭髮是柚子的味道。）", "choices": 0, "interact": "", "hour": 22, "stand": true, "camYaw": 2.292, "fallbacks": 0, "y": 0, "lv": 0, "frame": 8293, "paused": true}
   [ 708.1s]   關掉的面板：["phone"]
   [  11.4 分] 2024-09-27 {"h": 21, "zone": "dorm", "stage": "econ"}
   [ 719.0s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
@@ -126,7 +126,7 @@ PASS 遊戲載入
   [ 928.5s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [ 936.0s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [ 943.5s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
-  [ 949.3s] 超過 4 分鐘沒有進展：{"zone": "dorm", "x": -0.55, "z": 1.5, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（回宿舍的路上，你的衣服都是炭的味道。阿勳的頭髮是柚子的味道。）", "choices": 0, "interact": "", "hour": 21, "stand": true, "camYaw": 2.292, "fallbacks": 0, "y": 0, "lv": 0, "frame": 8478, "paused": true}
+  [ 949.3s] 超過 4 分鐘沒有進展：{"zone": "dorm", "x": -0.55, "z": 1.5, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（回宿舍的路上，你的衣服都是炭的味道。舊序章同學的頭髮是柚子的味道。）", "choices": 0, "interact": "", "hour": 21, "stand": true, "camYaw": 2.292, "fallbacks": 0, "y": 0, "lv": 0, "frame": 8478, "paused": true}
   [ 950.0s]   關掉的面板：["phone"]
   [ 950.9s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
    ▶ 睡覺到下一件事 ／ ['睡覺到下一件事', '先不睡']
@@ -162,7 +162,7 @@ PASS 遊戲載入
   [1173.9s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [1181.4s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [1189.0s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
-  [1194.8s] 超過 4 分鐘沒有進展：{"zone": "dorm", "x": -0.55, "z": 1.5, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（回宿舍的路上，你的衣服都是炭的味道。阿勳的頭髮是柚子的味道。）", "choices": 0, "interact": "", "hour": 22, "stand": true, "camYaw": 2.292, "fallbacks": 0, "y": 0, "lv": 0, "frame": 8898, "paused": true}
+  [1194.8s] 超過 4 分鐘沒有進展：{"zone": "dorm", "x": -0.55, "z": 1.5, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（回宿舍的路上，你的衣服都是炭的味道。舊序章同學的頭髮是柚子的味道。）", "choices": 0, "interact": "", "hour": 22, "stand": true, "camYaw": 2.292, "fallbacks": 0, "y": 0, "lv": 0, "frame": 8898, "paused": true}
 PASS 畫面檢查（自動，23 次）：沒有黑畫面、被蓋住、文字超框、按鈕出界、人物不在畫面  []
 結束 {"key": "2024-09-29", "h": 22, "stage": "econ", "zone": "dorm", "camp": true, "bus": "nosleep", "dk": false, "since": null, "e26": null, "car": null, "e15": 0, "fb": 0}
 FAIL 一路玩到 10/17 晚上（沒有中途卡住停下）  {"key": "2024-09-29", "h": 22, "stage": "econ", "zone": "dorm", "camp": true, "bus": "nosleep", "dk": false, "since": null, "e26": null, "car": null, "e15": 0, "fb": 0}

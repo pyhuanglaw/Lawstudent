@@ -10,7 +10,7 @@ PASS [B1] 上車
 PASS [B1_in] 有「進入日和便利店」互動點  {"x": 45.8, "z": 3.8, "r": 1.2, "label": "進入日和便利店", "to": null}
   到達「進入日和便利店」附近（0.16 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
 PASS [B1_in] 走到旁邊：互動按鈕是「進入日和便利店…」  {"x": 45.69, "z": 3.68, "interact": "進入日和便利店"}
-PASS [B1_in] 按「進入日和便利店」：wenzhou → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [B1_in] 按「進入日和便利店」：wenzhou → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 PASS B1 騎著進 A5 日和：先下車、G.bike.zone＝wenzhou、在 A5 附近（cb1d84290）  {"zone": "wenzhou", "d": 0.16, "maxd": 30, "from": "wenzhou"}
 PASS [B1_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "cvs", "dlg": false, "depth": 0, "moved": 4.83, "fb": [0, 0], "errs": []}
   [捷徑] 存檔：GAME.autosave()（和換區域時的自動存檔同一個）→ 重新整理 → 標題「繼續」

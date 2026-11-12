@@ -2,7 +2,7 @@
 CASES=["heroine_05", "classmate_peishan"] STEPS=["media", "first", "greet", "up", "ladder", "menu", "invite", "invite_study", "reload", "date", "phone", "phone_date", "shop", "walk"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
   [前置／捷徑] ROSTER：讀檔 2025-10-08 09:00 校園，條件事件關閉；所有人設成認識、朋友（可攻略第 5 階）、有聯絡方式
-ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧正勳", ""], ["econ_pinyu", "曾品妤", ""], ["econ_weilun", "邱韋綸", ""], ["econ_jiahao", "宋家豪", ""], ["econ_tangrui", "唐睿", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
+ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧舊序章同學", ""], ["econ_pinyu", "曾舊序章同學", ""], ["econ_weilun", "邱舊序章同學", ""], ["econ_jiahao", "宋舊序章同學", ""], ["econ_tangrui", "舊序章同學", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
 ROSTER 不能約：[["jp_caizhen", "葛采蓁", "這學期不在學校"], ["jp_liheng", "鄒立衡", "這學期不在學校"], ["jp_yuheng", "汪宇恆", "這學期不在學校"], ["kexin", "杜可昕", ""], ["pool_1", "林采潔", ""], ["pool_2", "蔡宗霖", ""], ["pool_3", "邱家齊", ""], ["pool_4", "黃郁婷", ""], ["pool_5", "劉晏如", ""], ["pool_6", "鄭元碩", ""], ["pool_7", "曾靖雯", ""], ["pool_8", "楊書豪", ""], ["pool_9", "洪珮瑜", ""], ["pool_10", "何宇軒", ""], ["pool_11", "葉晨希", ""], ["pool_12", "施孟儒", ""], ["pool_13", "徐靜儀", ""], ["pool_14", "游振宇", ""], ["pool_15", "廖芸萱", ""], ["pool_16", "詹立群", ""], ["pool_17", "蕭乃文", ""], ["pool_18", "嚴守誠", ""], ["pool_19", "蘇維倫", ""], ["pool_20", "馬佳蓉", ""]]
 ROSTER 朋友頁有「訊息」的 45 人；這次 CASES 不在能約名單的：[]
 PASS [heroine_05] 遊戲載入
@@ -19,7 +19,7 @@ SKIP [heroine_05] first：五位女主角的第一次見面是專屬事件（不
   [前置／捷徑] [heroine_05] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] greet：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] greet：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] greet_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，17 秒
   [heroine_05] greet：互動鍵是「」，往他再走近
@@ -57,7 +57,7 @@ PASS [heroine_05] greet 連按兩次：按 #minimap 打得開、關得掉  {"ope
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] up：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] up：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] up_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，23 秒
   [heroine_05] up：互動鍵是「」，往他再走近
@@ -403,7 +403,7 @@ INFO [heroine_05] ladder Y1S1 S-L7 選項2：階梯沒有推進（這一次被�
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] menu：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] menu：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] menu_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.23 m）：點地面 21 次、轉鏡頭 0 次、搖桿 0 次，87 秒
 INFO [heroine_05] menu：這個時段找不到他／走不到他旁邊  null
@@ -435,7 +435,7 @@ INFO [heroine_05] menu：說話以後沒有選單（只有閒聊）  []
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": true}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] invite：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] invite：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] invite_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.22 m）：點地面 21 次、轉鏡頭 0 次、搖桿 0 次，89 秒
 INFO [heroine_05] invite：這個時段找不到他／走不到他旁邊  null
@@ -491,7 +491,7 @@ INFO [heroine_05] invite 念書：她沒有答應  ["溫書瑀｜隔週的禮拜
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] reload_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，10 秒
   [heroine_05] reload：互動鍵是「」，往他再走近
@@ -591,7 +591,7 @@ PASS [heroine_05] reload 閒聊：按 #minimap 打得開、關得掉  {"open": t
   [前置／捷徑] [heroine_05] 前置：第 5 階（POSSIBLE_ROMANTIC_INTEREST）、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "溫書瑀", "fm": true, "lad": null, "contact": true}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] date：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] date：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] date_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，15 秒
   [heroine_05] date：互動鍵是「」，往他再走近
@@ -1319,7 +1319,7 @@ PASS [heroine_05] phone_date 念書（去總圖一起念書） 約：約成（li
   [heroine_05] 到達「跟著溫書瑀（go）」附近（0.22 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，19 秒
   [heroine_05] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 2.2, "lv": 1, "seat": {"x": -7.02, "z": 2.2, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
   [heroine_05] 「跟著溫書瑀（wait）」途中停下（離目標 2.10 m）：（小聲）二樓靠窗那排比較安靜。
-  [heroine_05] phone_date 念書（去總圖一起念書） 選單 ["有。重考那年，家裡餐桌靠窗那一邊。", "念經濟系那一個多月有。現在還沒找到。", "現在有了。學姊旁邊。"] → 選「有。重考那年，家裡餐桌靠窗那一邊。」
+  [heroine_05] phone_date 念書（去總圖一起念書） 選單 ["有。舊序章考試那年，家裡餐桌靠窗那一邊。", "念舊序章系所那一個多月有。現在還沒找到。", "現在有了。學姊旁邊。"] → 選「有。舊序章考試那年，家裡餐桌靠窗那一邊。」
   [heroine_05] phone_date 念書（去總圖一起念書） 選單 ["「陽明山？」", "「為什麼想看晚上？」", "（聽她說完）"] → 選「「陽明山？」」
 PASS [heroine_05] phone_date 念書（去總圖一起念書）：出發、到場、見面那一場一路點得完
 PASS [heroine_05] phone_date 念書（去總圖一起念書）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 6.11, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
@@ -1371,10 +1371,10 @@ FAIL [heroine_05] phone_date 念書（去總圖一起念書） X207-二樓滿了
 PASS [heroine_05] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：出發、到場、見面那一場一路點得完
 FAIL [heroine_05] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 18.0083, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 17.5}]}
   [heroine_05] phone_date 念書（去總圖一起念書）：見面那一場的選單 3 個，換選項重跑 4 次
-  [前置／捷徑] [heroine_05] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-1「念經濟系那一個多」：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_05] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-1「念舊序章系所那一個多」：約好、時間快到的那一刻）
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_05] phone_date 念書（去總圖一起念書） 分支1-1「念經濟系那一個多」：出發、到場、見面那一場一路點得完
-FAIL [heroine_05] phone_date 念書（去總圖一起念書） 分支1-1「念經濟系那一個多」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 18.0096, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 17.5}]}
+PASS [heroine_05] phone_date 念書（去總圖一起念書） 分支1-1「念舊序章系所那一個多」：出發、到場、見面那一場一路點得完
+FAIL [heroine_05] phone_date 念書（去總圖一起念書） 分支1-1「念舊序章系所那一個多」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 18.0096, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 17.5}]}
   [前置／捷徑] [heroine_05] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-2「現在有了。學姊旁」：約好、時間快到的那一刻）
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
 PASS [heroine_05] phone_date 念書（去總圖一起念書） 分支1-2「現在有了。學姊旁」：出發、到場、見面那一場一路點得完

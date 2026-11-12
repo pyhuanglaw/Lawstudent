@@ -12,7 +12,7 @@ FAIL [A1] 地圖上有汀州路圖釘、在公館圖釘下面（SVG y 比較大�
 FAIL [A1] 點汀州路圖釘：列出九筆（汀州路＋八間店，名字一字不差）  []
 FAIL [A1] 汀州路那一區（地區清單）列出同樣九筆  []
   [前置／捷徑] 讀檔到 tingzhou 2025-11-01 14.0 時 （巷子口出生點）
-PASS [A1] 人在汀州路：小地圖旁的地名（#clockZ）是「汀州路」  {"zone": "tingzhou", "h": 14.0701, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "往公館（羅斯福路）", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "手機｜可昕：週末來木柵大學？我當導遊。", "q": "medium"}
+PASS [A1] 人在汀州路：小地圖旁的地名（#clockZ）是「汀州路」  {"zone": "tingzhou", "h": 14.0701, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "往公館（羅斯福路）", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "手機｜可昕：週末來外校大學？我當導遊。", "q": "medium"}
 PASS [黑畫面] A1_bigmap_tingzhou 不是黑畫面（平均亮度 40.9、變化 37.4）  [40.9, 37.4]
 PASS [A1] 點小地圖打開大地圖、標題是「汀州路」  {"open": true, "title": "汀州路"}
 FAIL [A1] 人在汀州路：手機「地點」預設展開汀州路那一區（PLACEMAP.hereArea）  {"areas": [{"id": "campus", "on": false, "txt": "首都帝大校園（15）▸"}, {"id": "gongguan", "on": false, "txt": "公館（10）▸"}, {"id": "wenzhou", "on": false, "txt": "溫州街（5）▸"}, {"id": "xinsheng", "on": false, "txt": "新生南路（8）▸"}, {"id": "lane118", "on": false, "txt": "118 巷（1）▸"}], "here": {"hereId": null, "area": null}}

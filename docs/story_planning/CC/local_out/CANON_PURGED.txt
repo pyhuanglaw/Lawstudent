@@ -1,0 +1,1 @@
+CANON-NO-ECON-1112：{"whole_dirs": 3, "name_hits": 46, "text_files": 420, "text_hits": 5261, "files_scanned": 9123, "left": 0}

@@ -195,7 +195,7 @@ INFO [heroine_01] ladder Y1S1 A-L4 選項1：階梯沒有推進（這一次被�
   [前置／捷徑] [heroine_01] 前置：ACQUAINTANCE、階梯進度設到第 5 層（A-L5「憲法課你坐哪？我都坐第三排。」）：{"stage": "ACQUAINTANCE", "name": "沈以安", "fm": true, "lad": 4, "contact": true}
   [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_01] ladder Y1S1 A-L5：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_01] ladder Y1S1 A-L5：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_01] ladder Y1S1 A-L5_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_01] 到達「沈以安 旁邊」附近（0.20 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，27 秒
   [heroine_01] ladder Y1S1 A-L5：互動鍵是「」，往他再走近

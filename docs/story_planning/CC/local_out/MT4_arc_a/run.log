@@ -29,7 +29,7 @@ PASS [ARC_KX 可昕 放學後的球場]「今天」有「前往」
 PASS [ARC_KX 可昕 放學後的球場] 放映中（進 1 廳到散場）沒有要選的東西  {"in": 6, "out": 16, "choose": []}
 PASS [ARC_KX 可昕 放學後的球場] 看到一半演了片子的那一幕（MOVIES.playMid）  {"mid": 11, "lines": ["｜四個打五個的最後兩分鐘，場邊那個五犯的人把水一瓶一瓶排好。", "｜（她看到一半，拿出手機看了一下時間，又收起來。）"]}
 PASS [ARC_KX 可昕 放學後的球場] 故事線那一拍（ARCS.run／rotRun／STUDYN.mid）在散場 talk 之後  {"talk": 19, "talk_end": 23, "arcs": [25]}
-FAIL [ARC_KX 可昕 放學後的球場] 放映中（進 1 廳到散場）她沒有講自己的事（沒有她說出口的句子）  ["杜可昕｜臺北的電影院好大。木柵那間只有三個廳。"]
+FAIL [ARC_KX 可昕 放學後的球場] 放映中（進 1 廳到散場）她沒有講自己的事（沒有她說出口的句子）  ["杜可昕｜臺北的電影院好大。外校那間只有三個廳。"]
   [ 134.6s] [ARC_KX 可昕 放學後的球場] 散場以後的順序（含區域）：[[17, "MOVIES.leaveHall 結束", "xs_nanyang"], [18, "MOVIES.after 開始", "xs_nanyang"], [19, "MOVIES.talk 開始", "xs_nanyang"], [23, "MOVIES.talk 結束", "xs_nanyang"], [24, "MOVIES.after 結束", "xs_nanyang"], [25, "ARCS.run 開始", "xs_nanyang"], [35, "ARCS.run 結束", "xs_nanyang"]]
 PASS [ARC_KX 可昕 放學後的球場] 散場以後：talk → with.after（有的話）→ 故事線最多一拍  {"talk": 19, "with": [], "arcs": [25]}
 PASS 沒有 JS 例外  []

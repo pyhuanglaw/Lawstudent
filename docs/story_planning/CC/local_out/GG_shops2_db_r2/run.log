@@ -13,63 +13,63 @@ PASS [daybreak_door] 走到店門口：按鈕是「進入 Daybreak」  {"x": 70.
   [daybreak_door] 進店 +1.5s：{"t": 53.9, "zone": "daybreak", "hour": 10.129, "doorDue": false, "sceneFree": false, "alone": true, "isOpen": true, "GG2_DOOR": {"daybreak": 7}, "enterN": 2, "busyDepth": 1, "dActive": true, "pbusy": true, "phone": false, "titleIdle": false, "dlg": true, "dlgText": "（牆上那個太陽畫得很大。旁邊的"}
   [daybreak_door_in] （旁白）：（牆上那個太陽畫得很大。旁邊的卡座已經坐了兩桌。）
 PASS [daybreak_door] 進店（zone daybreak）  {"zone": "daybreak", "x": 2.17, "z": 2}
-PASS [daybreak_door] 一天第一次進來：進門句（AA_652 三句之一，逐字）  ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（牆上那個太陽畫得很大。旁邊的卡座已經坐了兩桌。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+PASS [daybreak_door] 一天第一次進來：進門句（AA_652 三句之一，逐字）  ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（牆上那個太陽畫得很大。旁邊的卡座已經坐了兩桌。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 PASS [daybreak_door_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "daybreak", "dlg": false, "depth": 0, "moved": 5.32, "fb": [0, 0], "errs": []}
 PASS [daybreak_door_out] 有「離開」互動點  {"x": 2.17, "z": 3.4, "r": 0.9, "label": "離開 Daybreak", "to": "gongguan"}
   到達「離開 Daybreak」附近（0.13 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
 PASS [daybreak_door_out] 走到旁邊：互動按鈕是「離開…」  {"x": 2.2, "z": 3.27, "interact": "離開 Daybreak"}
-PASS [daybreak_door_out] 按「離開 Daybreak」：daybreak → gongguan  {"zone": "gongguan", "x": 70.93, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [daybreak_door_out] 按「離開 Daybreak」：daybreak → gongguan  {"zone": "gongguan", "x": 70.93, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 PASS [daybreak_door] 出來站在公館店門口（SHOP_IN.out {"x": 70.93, "z": 18, "yaw": 3.141592653589793} 1.5 m 內）  {"x": 70.93, "z": 18}
 PASS [daybreak_door_out] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.46, "fb": [0, 0], "errs": []}
   到達「進入 Daybreak」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
-PASS [daybreak_door] 同一天再進來：不說進門句  ["［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+PASS [daybreak_door] 同一天再進來：不說進門句  ["［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 PASS [daybreak_door_out2] 有「離開」互動點  {"x": 2.17, "z": 3.4, "r": 0.9, "label": "離開 Daybreak", "to": "gongguan"}
   到達「離開 Daybreak」附近（0.15 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
 PASS [daybreak_door_out2] 走到旁邊：互動按鈕是「離開…」  {"x": 2.2, "z": 3.25, "interact": "離開 Daybreak"}
-PASS [daybreak_door_out2] 按「離開 Daybreak」：daybreak → gongguan  {"zone": "gongguan", "x": 70.93, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [daybreak_door_out2] 按「離開 Daybreak」：daybreak → gongguan  {"zone": "gongguan", "x": 70.93, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 == daybreak_hours：營業時間邊界
   [daybreak_hours] PLACES.hours.daybreak＝{"text": "每天 08:00–15:00", "typhoonShop": true}
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-09-23（二）07:56（day 7；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）
   [daybreak_hours_0759] 等到的時候已經 08:00（超過 07:59 一分鐘），重來一次
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-09-23（二）07:57（day 7；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）
   [daybreak_hours_0759] （旁白）：（牆上那個太陽畫得很大。旁邊的卡座已經坐了兩桌。）
-  [daybreak_hours_0759] 按門那一刻 08:02（G.hour 8.0265）、按鈕「進入 Daybreak」→ zone daybreak；toast ["手機｜可昕：週末來木柵大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（牆上那個太陽畫得很大。旁邊的卡座已經坐了兩桌。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [daybreak_hours_0759] 按門那一刻 08:02（G.hour 8.0265）、按鈕「進入 Daybreak」→ zone daybreak；toast ["手機｜可昕：週末來外校大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（牆上那個太陽畫得很大。旁邊的卡座已經坐了兩桌。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 OBS [daybreak_hours_0759] 按門那一刻 08:02 不在 07:59 那一分鐘裡（SwiftShader 太慢？），照那一刻的時間判
 PASS [daybreak_hours_0759] 08:02 開著：進得去（zone daybreak）  {"zone": "daybreak", "x": 2.17, "z": 2}
 PASS [daybreak_hours_0759_in] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "daybreak", "dlg": false, "depth": 0, "moved": 5.32, "fb": [0, 0], "errs": []}
 PASS [daybreak_hours_0759_out] 有「離開」互動點  {"x": 2.17, "z": 3.4, "r": 0.9, "label": "離開 Daybreak", "to": "gongguan"}
   到達「離開 Daybreak」附近（0.16 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
 PASS [daybreak_hours_0759_out] 走到旁邊：互動按鈕是「離開…」  {"x": 2.2, "z": 3.24, "interact": "離開 Daybreak"}
-PASS [daybreak_hours_0759_out] 按「離開 Daybreak」：daybreak → gongguan  {"zone": "gongguan", "x": 70.93, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [daybreak_hours_0759_out] 按「離開 Daybreak」：daybreak → gongguan  {"zone": "gongguan", "x": 70.93, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-09-23（二）07:57（day 7；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）
   [daybreak_hours_0800] 等到的時候已經 08:01（超過 08:00 一分鐘），重來一次
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-09-23（二）07:58（day 7；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）
   [daybreak_hours_0800] （旁白）：（店員：「早安！幾位？」……「一位的話，窗邊可以嗎？」）
-  [daybreak_hours_0800] 按門那一刻 08:03（G.hour 8.0431）、按鈕「進入 Daybreak」→ zone daybreak；toast ["手機｜可昕：週末來木柵大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（店員：「早安！幾位？」……「一位的話，窗邊可以嗎？」）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [daybreak_hours_0800] 按門那一刻 08:03（G.hour 8.0431）、按鈕「進入 Daybreak」→ zone daybreak；toast ["手機｜可昕：週末來外校大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（店員：「早安！幾位？」……「一位的話，窗邊可以嗎？」）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 OBS [daybreak_hours_0800] 按門那一刻 08:03 不在 08:00 那一分鐘裡（SwiftShader 太慢？），照那一刻的時間判
 PASS [daybreak_hours_0800] 08:03 開著：進得去（zone daybreak）  {"zone": "daybreak", "x": 2.17, "z": 2}
 PASS [daybreak_hours_0800_in] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "daybreak", "dlg": false, "depth": 0, "moved": 5.31, "fb": [0, 0], "errs": []}
 PASS [daybreak_hours_0800_out] 有「離開」互動點  {"x": 2.17, "z": 3.4, "r": 0.9, "label": "離開 Daybreak", "to": "gongguan"}
   到達「離開 Daybreak」附近（0.15 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
 PASS [daybreak_hours_0800_out] 走到旁邊：互動按鈕是「離開…」  {"x": 2.2, "z": 3.25, "interact": "離開 Daybreak"}
-PASS [daybreak_hours_0800_out] 按「離開 Daybreak」：daybreak → gongguan  {"zone": "gongguan", "x": 70.93, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [daybreak_hours_0800_out] 按「離開 Daybreak」：daybreak → gongguan  {"zone": "gongguan", "x": 70.93, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-09-23（二）14:56（day 7；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）
   [daybreak_hours_1459] 等到的時候已經 15:00（超過 14:59 一分鐘），重來一次
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-09-23（二）14:57（day 7；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）
   [daybreak_hours_1459] （旁白）：（Daybreak 的門上掛著「今日營業結束」的木牌。）
-  [daybreak_hours_1459] 按門那一刻 15:02（G.hour 15.0264）、按鈕「進入 Daybreak」→ zone gongguan；toast ["手機｜可昕：週末來木柵大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（Daybreak 的門上掛著「今日營業結束」的木牌。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [daybreak_hours_1459] 按門那一刻 15:02（G.hour 15.0264）、按鈕「進入 Daybreak」→ zone gongguan；toast ["手機｜可昕：週末來外校大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（Daybreak 的門上掛著「今日營業結束」的木牌。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 OBS [daybreak_hours_1459] 按門那一刻 15:02 不在 14:59 那一分鐘裡（SwiftShader 太慢？），照那一刻的時間判
 PASS [daybreak_hours_1459] 15:02 關著：進不去（zone 還是公館）  {"zone": "gongguan", "x": 70.93, "z": 20}
-PASS [daybreak_hours_1459] Daybreak 打烊以後到門口：木牌那一句（AA_652，逐字）  {"lines": ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（Daybreak 的門上掛著「今日營業結束」的木牌。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"], "toasts": ["手機｜可昕：週末來木柵大學？我當導遊。"]}
+PASS [daybreak_hours_1459] Daybreak 打烊以後到門口：木牌那一句（AA_652，逐字）  {"lines": ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（Daybreak 的門上掛著「今日營業結束」的木牌。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"], "toasts": ["手機｜可昕：週末來外校大學？我當導遊。"]}
 PASS [daybreak_hours_1459] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.58, "fb": [0, 0], "errs": []}
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-09-23（二）14:57（day 7；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）
   [daybreak_hours_1500] 等到的時候已經 15:01（超過 15:00 一分鐘），重來一次
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-09-23（二）14:58（day 7；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）
   [daybreak_hours_1500] （旁白）：（Daybreak 的門上掛著「今日營業結束」的木牌。）
-  [daybreak_hours_1500] 按門那一刻 15:03（G.hour 15.0435）、按鈕「進入 Daybreak」→ zone gongguan；toast ["手機｜可昕：週末來木柵大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（Daybreak 的門上掛著「今日營業結束」的木牌。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [daybreak_hours_1500] 按門那一刻 15:03（G.hour 15.0435）、按鈕「進入 Daybreak」→ zone gongguan；toast ["手機｜可昕：週末來外校大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（Daybreak 的門上掛著「今日營業結束」的木牌。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 OBS [daybreak_hours_1500] 按門那一刻 15:03 不在 15:00 那一分鐘裡（SwiftShader 太慢？），照那一刻的時間判
 PASS [daybreak_hours_1500] 15:03 關著：進不去（zone 還是公館）  {"zone": "gongguan", "x": 70.93, "z": 20}
-PASS [daybreak_hours_1500] Daybreak 打烊以後到門口：木牌那一句（AA_652，逐字）  {"lines": ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（Daybreak 的門上掛著「今日營業結束」的木牌。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"], "toasts": ["手機｜可昕：週末來木柵大學？我當導遊。"]}
+PASS [daybreak_hours_1500] Daybreak 打烊以後到門口：木牌那一句（AA_652，逐字）  {"lines": ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（Daybreak 的門上掛著「今日營業結束」的木牌。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"], "toasts": ["手機｜可昕：週末來外校大學？我當導遊。"]}
 PASS [daybreak_hours_1500] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.52, "fb": [0, 0], "errs": []}
 PASS [daybreak_hours_typhoon] 前置：2025-10-13 是颱風假（calendar.js TYPHOON）、daybreak 在 typhoonShops  [{"day": 27, "wd": 1, "typhoon": true}, {"text": "每天 08:00–15:00", "typhoonShop": true}]
   [前置／捷徑] 讀檔：gongguan (70.93, 20.0)、2025-10-13（一）09:57（day 27；要的是 day 7）、money 3000、條件事件關閉、Daybreak 門口（騎樓、門前 1 m）、2025-10-13 颱風假

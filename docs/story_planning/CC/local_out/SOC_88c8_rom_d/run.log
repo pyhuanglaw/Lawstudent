@@ -2,7 +2,7 @@
 CASES=["kexin", "classmate_xinci"] STEPS=["media", "first", "greet", "up", "ladder", "menu", "invite", "invite_study", "reload", "date", "phone", "phone_date", "shop", "walk"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
   [前置／捷徑] ROSTER：讀檔 2025-10-08 09:00 校園，條件事件關閉；所有人設成認識、朋友（可攻略第 5 階）、有聯絡方式
-ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧正勳", ""], ["econ_pinyu", "曾品妤", ""], ["econ_weilun", "邱韋綸", ""], ["econ_jiahao", "宋家豪", ""], ["econ_tangrui", "唐睿", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
+ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧舊序章同學", ""], ["econ_pinyu", "曾舊序章同學", ""], ["econ_weilun", "邱舊序章同學", ""], ["econ_jiahao", "宋舊序章同學", ""], ["econ_tangrui", "舊序章同學", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
 ROSTER 不能約：[["jp_caizhen", "葛采蓁", "這學期不在學校"], ["jp_liheng", "鄒立衡", "這學期不在學校"], ["jp_yuheng", "汪宇恆", "這學期不在學校"], ["kexin", "杜可昕", ""], ["pool_1", "林采潔", ""], ["pool_2", "蔡宗霖", ""], ["pool_3", "邱家齊", ""], ["pool_4", "黃郁婷", ""], ["pool_5", "劉晏如", ""], ["pool_6", "鄭元碩", ""], ["pool_7", "曾靖雯", ""], ["pool_8", "楊書豪", ""], ["pool_9", "洪珮瑜", ""], ["pool_10", "何宇軒", ""], ["pool_11", "葉晨希", ""], ["pool_12", "施孟儒", ""], ["pool_13", "徐靜儀", ""], ["pool_14", "游振宇", ""], ["pool_15", "廖芸萱", ""], ["pool_16", "詹立群", ""], ["pool_17", "蕭乃文", ""], ["pool_18", "嚴守誠", ""], ["pool_19", "蘇維倫", ""], ["pool_20", "馬佳蓉", ""]]
 ROSTER 朋友頁有「訊息」的 45 人；這次 CASES 不在能約名單的：["kexin"]
 PASS [kexin] 遊戲載入
@@ -19,7 +19,7 @@ SKIP [kexin] greet：找不到她在 3D 的時段（或走不到她旁邊）
 SKIP [kexin] up：找不到她在 3D 的時段
 -- [kexin] ladder
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
-SKIP [kexin] ladder Y1S1 K-L1：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "木柵大學那個坡真的很陡。"}）
+SKIP [kexin] ladder Y1S1 K-L1：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "外校大學那個坡真的很陡。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
 SKIP [kexin] ladder Y1S1 K-L2：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": "meet", "context": "date", "line": "（她摸了一下耳朵上的小長頸鹿）我耳環都只戴一邊。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
@@ -31,7 +31,7 @@ SKIP [kexin] ladder Y1S1 K-L5：掃不到她在、這一層播得出來的時段
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
 SKIP [kexin] ladder Y1S1 K-L6：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": "video", "context": "date", "line": "（她把手機立在書堆旁邊，只看得到她的額頭）不要講話喔，各自念。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
-SKIP [kexin] ladder Y1S1 K-L7：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "予樂問我你是什麼樣的人。"}）
+SKIP [kexin] ladder Y1S1 K-L7：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "舊序章同學問我你是什麼樣的人。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
 SKIP [kexin] ladder Y1S1 K-L8：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "這學期快結束了欸。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）

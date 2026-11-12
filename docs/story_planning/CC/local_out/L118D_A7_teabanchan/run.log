@@ -10,7 +10,7 @@ PASS 日期 2025-09-24：學期中（Y1S1 第 4 週）、不是假日、不是�
   [  46.5s] 營業（L118.isOpen，2025-09-24 12.17）：[{"id": "dian", "open": true, "note": null}, {"id": "self", "open": true, "note": null}, {"id": "tea", "open": true, "note": null}, {"id": "home", "open": true, "note": null}, {"id": "cafe2", "open": true, "note": null}, {"id": "pasta", "open": true, "note": null}, {"id": "korea", "open": true, "note": null}, {"id": "omu", "open": true, "note": null}, {"id": "noodle2", "open": true, "note": null}, {"id": "drink_a", "open": true, "note": null}, {"id": "drink_b", "open": true, "note": null}]
 PASS tea 這個時間有開（沒有公休紙）  {"id": "tea", "open": true, "note": null}
   逐字｜start｜lane118｜clockZ｜118 巷
-  逐字｜start｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+  逐字｜start｜lane118｜toast｜手機｜可昕：週末來外校大學？我當導遊。
 
 ===== tea 辛亥韓食（PARTS=A）=====
 PASS tea 118 巷配置有這間店（LANE118_LAYOUT）

@@ -31,8 +31,8 @@
 [say xs_nanyang 11.60] 林芷若｜我們老師說，翻譯是背叛。
 [say xs_nanyang 11.60] 林芷若｜我不同意。我覺得翻譯是搬家。東西都要帶走，可是房間不一樣大。
 [say xs_nanyang 11.60] 林芷若｜你有沒有一句話，怎麼說都說不清楚？
-[choose xs_nanyang 11.60] ["有。我跟我媽說我要重考那天。","沒有。我都說得很清楚。","有。可是說出來會很丟臉。"]
-[say xs_nanyang 11.60] 祐廷｜有。我跟我媽說我要重考那天。
+[choose xs_nanyang 11.60] ["有。我跟我媽說我要舊序章考試那天。","沒有。我都說得很清楚。","有。可是說出來會很丟臉。"]
+[say xs_nanyang 11.60] 祐廷｜有。我跟我媽說我要舊序章考試那天。
 [say xs_nanyang 11.60] 林芷若｜那句話後來怎麼說的？
 [say xs_nanyang 11.60] ｜（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）
 [mark xs_nanyang 11.60] ARCS.run 結束
@@ -49,7 +49,7 @@
 [cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
 [mark xs_nanyang 9.60] MOVIES.enterHall 開始
 [mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
-[say xs_nanyang_hall 9.60] 杜可昕｜臺北的電影院好大。木柵那間只有三個廳。
+[say xs_nanyang_hall 9.60] 杜可昕｜臺北的電影院好大。外校那間只有三個廳。
 [say xs_nanyang_hall 9.60] ｜（她直接走到售票口，把位子選好，選得很快。）
 [say xs_nanyang_hall 9.60] ｜（燈暗下來，《黑貓特工》開始了。）
 [mark xs_nanyang_hall 10.60] MOVIES.playMid 開始

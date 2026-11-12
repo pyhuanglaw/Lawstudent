@@ -5,7 +5,7 @@ PASS 遊戲載入
 PASS [P1] 有「進入慢輪單車」互動點  {"x": -0.3, "z": 21, "r": 2.2, "label": "進入慢輪單車", "to": "bikeshop", "lv": null}
   到達「進入慢輪單車」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
 PASS [P1] 走到旁邊：互動按鈕是「進入慢輪單車…」  {"x": -0.3, "z": 20.76, "interact": "進入慢輪單車"}
-PASS [P1] 按「進入慢輪單車」：gongguan → bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [P1] 按「進入慢輪單車」：gongguan → bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 PASS [P1] 一進門的按鈕不是「離開慢輪單車」
 PASS [P1_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "bikeshop", "dlg": false, "depth": 0, "moved": 8.99, "fb": [0, 0], "errs": []}
 PASS [P2] 有「看這台車」互動點  {"x": -1, "z": 3.45, "r": 0.75, "label": "看這台車（淑女車）", "to": null, "lv": 0}
@@ -29,7 +29,7 @@ PASS [P_end] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFall
 PASS [M1] 有「進入慢輪單車」互動點  {"x": -0.3, "z": 21, "r": 2.2, "label": "進入慢輪單車", "to": "bikeshop", "lv": null}
   到達「進入慢輪單車」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
 PASS [M1] 走到旁邊：互動按鈕是「進入慢輪單車…」  {"x": -0.3, "z": 20.77, "interact": "進入慢輪單車"}
-PASS [M1] 按「進入慢輪單車」：gongguan → bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [M1] 按「進入慢輪單車」：gongguan → bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 PASS [M1] 一進門的按鈕不是「離開慢輪單車」
 PASS [M1_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "bikeshop", "dlg": false, "depth": 0, "moved": 8.99, "fb": [0, 0], "errs": []}
 PASS M1b 慢輪單車室內正式模型接上（zone.formal）  {"formal": true, "nodes": [{"n": "REPAIR_BIKE", "v": false}], "stand": [true, true]}

@@ -3,14 +3,14 @@ cc_dorm_moveout_probe  SHA=3c6207b60  URL=http://127.0.0.1:8812/index.html  CASE
 PASS 遊戲載入
 ---- econ_ctrl ----
   [前置／捷徑] load_state（quiet_events）：econ -332 19 gongguan；退宿旗標=None
-  [前置／捷徑] 關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
+  [前置／捷徑] 關掉舊序章系所離校在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
 INFO econ_ctrl 讀檔後狀態（打開手機前）：{"stage": "econ", "zone": "gongguan", "Y0": null, "MO": null, "title": false, "at": false, "adv": false, "dlg": false, "ev": false, "hour": 19.01}
 PASS econ_ctrl 照玩家打開手機「地點」分頁  tab=places rows=21 phoneOpen=True
 INFO econ_ctrl 狀態：stage=econ zone=gongguan baseMode=False movedOut=無 HOME.movedOut canGo=True atHome=False；列表=[["台大校園（霖澤館前）", "campus"], ["椰林大道・傅鐘", "campus"], ["校門口", "campus"], ["共同教學館", "campus"], ["普通教學館", "campus"], ["博雅教學館", "campus"], ["大一女舍（門口）", "campus"], ["霖澤館（大廳）", "linze"], ["霖澤館 201 教室", "classroom"], ["萬才館（大廳）", "wancai"], ["法律學院圖書館", "lawlib"], ["總圖書館（大廳）", "library_hall"], ["社科院圖書館", "soclib"], ["公館商圈", null], ["捷運公館站", null], ["阿鳳麵店", null], ["日日便利", "cvs"], ["舊路書房", null], ["溫州街", "wenzhou"], ["兩點半 Café", null], ["宿舍", "dorm"]]
 PASS econ_ctrl d 對照（沒退宿）：宿舍在列表裡  [{"i": 20, "name": "宿舍", "place": "dorm|宿舍", "gohome": false, "sub": "約 15 分鐘"}]
 ---- econ_moved ----
   [前置／捷徑] load_state（quiet_events）：econ -332 19 gongguan；退宿旗標=True
-  [前置／捷徑] 關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
+  [前置／捷徑] 關掉舊序章系所離校在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
 INFO econ_moved 讀檔後狀態（打開手機前）：{"stage": "econ", "zone": "gongguan", "Y0": true, "MO": null, "title": false, "at": false, "adv": false, "dlg": false, "ev": false, "hour": 19.01}
 PASS econ_moved 照玩家打開手機「地點」分頁  tab=places rows=21 phoneOpen=True
 INFO econ_moved 狀態：stage=econ zone=gongguan baseMode=True movedOut=無 HOME.movedOut canGo=True atHome=False；列表=[["台大校園（霖澤館前）", "campus"], ["椰林大道・傅鐘", "campus"], ["校門口", "campus"], ["共同教學館", "campus"], ["普通教學館", "campus"], ["博雅教學館", "campus"], ["大一女舍（門口）", "campus"], ["霖澤館（大廳）", "linze"], ["霖澤館 201 教室", "classroom"], ["萬才館（大廳）", "wancai"], ["法律學院圖書館", "lawlib"], ["總圖書館（大廳）", "library_hall"], ["社科院圖書館", "soclib"], ["公館商圈", null], ["捷運公館站", null], ["阿鳳麵店", null], ["日日便利", "cvs"], ["舊路書房", null], ["溫州街", "wenzhou"], ["兩點半 Café", null], ["宿舍", "dorm"]]
@@ -18,14 +18,14 @@ FAIL econ_moved a 退宿後列表裡沒有宿舍（dorm／dorm_hall）  找到�
 FAIL econ_moved b 最上面有「回臺北的家」（data-gohome，第一列）  gohome 列=[] 第一列={"i": 0, "name": "台大校園（霖澤館前）", "place": "campus|台大校園（霖澤館前）", "gohome": false, "sub": "約 15 分鐘"}
 ---- law_ctrl ----
   [前置／捷徑] load_state（quiet_events）：law 8 13.5 campus；退宿旗標=None
-  [前置／捷徑] 關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
+  [前置／捷徑] 關掉舊序章系所離校在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
 INFO law_ctrl 讀檔後狀態（打開手機前）：{"stage": "law", "zone": "campus", "Y0": null, "MO": null, "title": false, "at": false, "adv": false, "dlg": false, "ev": false, "hour": 13.51}
 PASS law_ctrl 照玩家打開手機「地點」分頁  tab=places rows=21 phoneOpen=True
 INFO law_ctrl 狀態：stage=law zone=campus baseMode=False movedOut=無 HOME.movedOut canGo=False atHome=False；列表=[["台大校園（霖澤館前）", null], ["椰林大道・傅鐘", "campus"], ["校門口", "campus"], ["共同教學館", "campus"], ["普通教學館", "campus"], ["博雅教學館", "campus"], ["大一女舍（門口）", "campus"], ["霖澤館（大廳）", "linze"], ["霖澤館 201 教室", "classroom"], ["萬才館（大廳）", "wancai"], ["法律學院圖書館", "lawlib"], ["總圖書館（大廳）", "library_hall"], ["社科院圖書館", "soclib"], ["公館商圈", "gongguan"], ["捷運公館站", "gongguan"], ["阿鳳麵店", null], ["日日便利", "cvs"], ["舊路書房", null], ["溫州街", "wenzhou"], ["兩點半 Café", null], ["宿舍", "dorm"]]
 PASS law_ctrl d 對照（沒退宿）：宿舍在列表裡  [{"i": 20, "name": "宿舍", "place": "dorm|宿舍", "gohome": false, "sub": "約 15 分鐘"}]
 ---- law_moved ----
   [前置／捷徑] load_state（quiet_events）：law 8 13.5 campus；退宿旗標=8
-  [前置／捷徑] 關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
+  [前置／捷徑] 關掉舊序章系所離校在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
 INFO law_moved 讀檔後狀態（打開手機前）：{"stage": "law", "zone": "campus", "Y0": null, "MO": 8, "title": false, "at": false, "adv": false, "dlg": false, "ev": false, "hour": 13.51}
 PASS law_moved 照玩家打開手機「地點」分頁  tab=places rows=21 phoneOpen=True
 INFO law_moved 狀態：stage=law zone=campus baseMode=False movedOut=無 HOME.movedOut canGo=False atHome=False；列表=[["台大校園（霖澤館前）", null], ["椰林大道・傅鐘", "campus"], ["校門口", "campus"], ["共同教學館", "campus"], ["普通教學館", "campus"], ["博雅教學館", "campus"], ["大一女舍（門口）", "campus"], ["霖澤館（大廳）", "linze"], ["霖澤館 201 教室", "classroom"], ["萬才館（大廳）", "wancai"], ["法律學院圖書館", "lawlib"], ["總圖書館（大廳）", "library_hall"], ["社科院圖書館", "soclib"], ["公館商圈", "gongguan"], ["捷運公館站", "gongguan"], ["阿鳳麵店", null], ["日日便利", "cvs"], ["舊路書房", null], ["溫州街", "wenzhou"], ["兩點半 Café", null], ["宿舍", "dorm"]]
@@ -35,7 +35,7 @@ PASS law_moved b 「回臺北的家」有無＝HOME.canGo&&!HOME.at（照程式�
 ---- econ_old ----
   [前置／捷徑] 寫舊格式存檔（v:1，只有 day,flags,hour,money,name,pos,stage,v,visited,weather,weekday,zone；退宿旗標 Y0_MOVED_OUT）到 localStorage 欄位 1 → 重新整理 → 標題「讀取／匯入存檔」→ 欄位 1「讀取」（照玩家點）
   [前置／捷徑] 讀檔前關掉條件事件、要回覆訊息自動打開手機（EVENTS.onEnter/tick、STORY.phoneAuto）
-  [前置／捷徑] 關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
+  [前置／捷徑] 關掉舊序章系所離校在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
 PASS econ_old 標題畫面欄位 1 有「讀取」
 INFO econ_old 讀檔後狀態（打開手機前）：{"stage": "econ", "zone": "gongguan", "Y0": true, "MO": null, "title": false, "at": false, "adv": false, "dlg": false, "ev": false, "hour": 19.01}
 PASS econ_old 舊存檔讀進來（migrate 後 v=2、stage、zone、旗標都在）  {"v": 2, "stage": "econ", "zone": "gongguan", "social": true, "Y0": true, "MO": null}
@@ -46,7 +46,7 @@ FAIL econ_old b 最上面有「回臺北的家」（data-gohome，第一列）  
 ---- law_old ----
   [前置／捷徑] 寫舊格式存檔（v:1，只有 day,flags,hour,name,pos,stage,v,visited,weather,weekday,zone；退宿旗標 MOVED_OUT=8）到 localStorage 欄位 1 → 重新整理 → 標題「讀取／匯入存檔」→ 欄位 1「讀取」（照玩家點）
   [前置／捷徑] 讀檔前關掉條件事件、要回覆訊息自動打開手機（EVENTS.onEnter/tick、STORY.phoneAuto）
-  [前置／捷徑] 關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
+  [前置／捷徑] 關掉舊序章系所離校在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝False）
 PASS law_old 標題畫面欄位 1 有「讀取」
 INFO law_old 讀檔後狀態（打開手機前）：{"stage": "law", "zone": "campus", "Y0": null, "MO": 8, "title": false, "at": false, "adv": false, "dlg": false, "ev": false, "hour": 13.51}
 PASS law_old 舊存檔讀進來（migrate 後 v=2、stage、zone、旗標都在）  {"v": 2, "stage": "law", "zone": "campus", "social": true, "Y0": null, "MO": 8}

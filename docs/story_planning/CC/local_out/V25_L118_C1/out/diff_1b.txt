@@ -160,7 +160,7 @@ msgs[24].from : dad → kexin
 msgs[24].h : 21 → 15.5
 msgs[24].name : 爸爸 → （沒有）
 msgs[24].tag : home_moon_dad_20 → kx_yule_ask
-msgs[24].text : 📷（上海的月亮，前面一棟很高的樓） → 明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。
+msgs[24].text : 📷（上海的月亮，前面一棟很高的樓） → 明天晚上有空嗎？我們系上有人揪宵夜，舊序章同學一直說要看你本人。
 msgs[24].th : g:home → p:kexin
 msgs[24].who : null → kexin
 msgs[25].ans : 0 → （沒有）
@@ -168,7 +168,7 @@ msgs[25].ask : {"opts": [{"t": "好，我開車過去。", "set": {"KX_YULE": "y
 msgs[25].from : kexin → player
 msgs[25].h : 15.5 → 16
 msgs[25].tag : kx_yule_ask → （沒有）
-msgs[25].text : 明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。 → 好，我開車過去。
+msgs[25].text : 明天晚上有空嗎？我們系上有人揪宵夜，舊序章同學一直說要看你本人。 → 好，我開車過去。
 msgs[25].who : kexin → null
 msgs[26].from : player → zhe
 msgs[26].h : 16 → 17.5
@@ -185,11 +185,11 @@ msgs[27].who : null → kexin
 msgs[28].day : 22 → 23
 msgs[28].h : 19.5 → 12.5
 msgs[28].tag : （沒有） → kx_yule_pass
-msgs[28].text : 再十分鐘！你先去山下那間，幫我點酸辣湯餃。 → 📷（予樂寫的紙條：「及格。」）
+msgs[28].text : 再十分鐘！你先去山下那間，幫我點酸辣湯餃。 → 📷（舊序章同學寫的紙條：「及格。」）
 msgs[29].from : kexin → zhe
 msgs[29].h : 12.5 → 17.5
 msgs[29].tag : kx_yule_pass → rt_zhe_ndl_23
-msgs[29].text : 📷（予樂寫的紙條：「及格。」） → 今天阿姨有滷蛋
+msgs[29].text : 📷（舊序章同學寫的紙條：「及格。」） → 今天阿姨有滷蛋
 msgs[29].th : p:kexin → g:noodle_team
 msgs[29].who : kexin → null
 msgs[30].ans : （沒有） → 0
@@ -213,17 +213,17 @@ msgs[33].day : 23 → 24
 msgs[33].from : mom → kexin
 msgs[33].name : 媽媽 → （沒有）
 msgs[33].tag : （沒有） → kx_ntu_ask
-msgs[33].text : 好 床單幫你換好 → 這次換我去首都帝大。我先去找品妤，你四點來社科院門口。
+msgs[33].text : 好 床單幫你換好 → 這次換我去首都帝大。我先去找舊序章同學，你四點來社科院門口。
 msgs[33].th : g:home → p:kexin
 msgs[33].who : null → kexin
 msgs[34].h : 20 → 21
 msgs[34].tag : kx_ntu_ask → kx_anniv_ask
-msgs[34].text : 這次換我去首都帝大。我先去找品妤，你四點來社科院門口。 → 下禮拜五是我們的週年。
+msgs[34].text : 這次換我去首都帝大。我先去找舊序章同學，你四點來社科院門口。 → 下禮拜五是我們的週年。
 msgs[35].ans : （沒有） → 2
-msgs[35].ask : （沒有） → {"until": 762.5, "opts": [{"t": "摩天輪。", "set": {"KX_ANNIV_PLACE": "wheel"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "……回到最高點。好。"}]}, {"t": "政大山下，我們的店。", "set": {"KX_ANNIV_PLACE": "shop"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "老闆會以為今天很普通。我們不要告訴他。"}]}, {"t": "河堤。", "set": {"KX_ANNIV_PLACE": "river"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "好。河堤晚上風大，穿外套。"}]}], "id…
+msgs[35].ask : （沒有） → {"until": 762.5, "opts": [{"t": "摩天輪。", "set": {"KX_ANNIV_PLACE": "wheel"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "……回到最高點。好。"}]}, {"t": "外校山下，我們的店。", "set": {"KX_ANNIV_PLACE": "shop"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "老闆會以為今天很普通。我們不要告訴他。"}]}, {"t": "河堤。", "set": {"KX_ANNIV_PLACE": "river"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "好。河堤晚上風大，穿外套。"}]}], "id…
 msgs[35].text : 下禮拜五是我們的週年。 → 地點你選。我準備一樣東西，你也準備一樣。
 msgs[36].ans : 2 → （沒有）
-msgs[36].ask : {"until": 762.5, "opts": [{"t": "摩天輪。", "set": {"KX_ANNIV_PLACE": "wheel"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "……回到最高點。好。"}]}, {"t": "政大山下，我們的店。", "set": {"KX_ANNIV_PLACE": "shop"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "老闆會以為今天很普通。我們不要告訴他。"}]}, {"t": "河堤。", "set": {"KX_ANNIV_PLACE": "river"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "好。河堤晚上風大，穿外套。"}]}], "id… → （沒有）
+msgs[36].ask : {"until": 762.5, "opts": [{"t": "摩天輪。", "set": {"KX_ANNIV_PLACE": "wheel"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "……回到最高點。好。"}]}, {"t": "外校山下，我們的店。", "set": {"KX_ANNIV_PLACE": "shop"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "老闆會以為今天很普通。我們不要告訴他。"}]}, {"t": "河堤。", "set": {"KX_ANNIV_PLACE": "river"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "好。河堤晚上風大，穿外套。"}]}], "id… → （沒有）
 msgs[36].from : kexin → player
 msgs[36].tag : kx_anniv_ask → （沒有）
 msgs[36].text : 地點你選。我準備一樣東西，你也準備一樣。 → 河堤。

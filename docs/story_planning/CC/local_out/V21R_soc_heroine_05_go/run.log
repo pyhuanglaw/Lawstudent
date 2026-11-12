@@ -10,7 +10,7 @@ PASS [heroine_05] 遊戲載入
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": true}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] invite：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] invite：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] invite_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.25 m）：點地面 22 次、轉鏡頭 0 次、搖桿 0 次，90 秒
 INFO [heroine_05] invite：這個時段找不到他／走不到他旁邊  null
@@ -64,7 +64,7 @@ INFO [heroine_05] invite 念書：她沒有答應  ["溫書瑀｜隔週的禮拜
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] reload_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，16 秒
   [heroine_05] reload：互動鍵是「」，往他再走近
@@ -163,7 +163,7 @@ PASS [heroine_05] reload 閒聊：按 #minimap 打得開、關得掉  {"open": t
   [前置／捷徑] [heroine_05] 前置：第 5 階（POSSIBLE_ROMANTIC_INTEREST）、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "溫書瑀", "fm": true, "lad": null, "contact": true}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] date：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] date：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] date_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，12 秒
   [heroine_05] date：互動鍵是「」，往他再走近

@@ -2,7 +2,7 @@
 CASES=["heroine_01"] STEPS=["phone_date"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
   [前置／捷徑] ROSTER：讀檔 2025-10-08 09:00 校園，條件事件關閉；所有人設成認識、朋友（可攻略第 5 階）、有聯絡方式
-ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧正勳", ""], ["econ_pinyu", "曾品妤", ""], ["econ_weilun", "邱韋綸", ""], ["econ_jiahao", "宋家豪", ""], ["econ_tangrui", "唐睿", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
+ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧舊序章同學", ""], ["econ_pinyu", "曾舊序章同學", ""], ["econ_weilun", "邱舊序章同學", ""], ["econ_jiahao", "宋舊序章同學", ""], ["econ_tangrui", "舊序章同學", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
 ROSTER 不能約：[["jp_caizhen", "葛采蓁", "這學期不在學校"], ["jp_liheng", "鄒立衡", "這學期不在學校"], ["jp_yuheng", "汪宇恆", "這學期不在學校"], ["kexin", "杜可昕", ""], ["pool_1", "林采潔", ""], ["pool_2", "蔡宗霖", ""], ["pool_3", "邱家齊", ""], ["pool_4", "黃郁婷", ""], ["pool_5", "劉晏如", ""], ["pool_6", "鄭元碩", ""], ["pool_7", "曾靖雯", ""], ["pool_8", "楊書豪", ""], ["pool_9", "洪珮瑜", ""], ["pool_10", "何宇軒", ""], ["pool_11", "葉晨希", ""], ["pool_12", "施孟儒", ""], ["pool_13", "徐靜儀", ""], ["pool_14", "游振宇", ""], ["pool_15", "廖芸萱", ""], ["pool_16", "詹立群", ""], ["pool_17", "蕭乃文", ""], ["pool_18", "嚴守誠", ""], ["pool_19", "蘇維倫", ""], ["pool_20", "馬佳蓉", ""]]
 ROSTER 朋友頁有「訊息」的 45 人；這次 CASES 不在能約名單的：[]
 PASS [heroine_01] 遊戲載入
@@ -59,7 +59,7 @@ PASS [heroine_01] phone_date 念書（去總圖一起念書） 約：約成（li
   [heroine_01] 到達「跟著沈以安（go）」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
   [heroine_01] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 2.2, "lv": 1, "seat": {"x": -7.02, "z": 2.2, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
   [heroine_01] 「跟著沈以安（wait）」途中停下（離目標 2.10 m）：我把你寫在我這組了。剩下的人裡，你最不會遲交。
-  [heroine_01] phone_date 念書（去總圖一起念書） 選單 ["重考那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「重考那年，我半夜騎車去河堤吹風。」
+  [heroine_01] phone_date 念書（去總圖一起念書） 選單 ["舊序章考試那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「舊序章考試那年，我半夜騎車去河堤吹風。」
   [heroine_01] phone_date 念書（去總圖一起念書） 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
 PASS [heroine_01] phone_date 念書（去總圖一起念書）：出發、到場、見面那一場一路點得完
 PASS [heroine_01] phone_date 念書（去總圖一起念書）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 6.11, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}

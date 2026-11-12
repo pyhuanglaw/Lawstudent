@@ -8,64 +8,64 @@ PASS [afar_door] 公館店門口有「進入 afar café」（x 7.93、z 21）  {
   到達「進入 afar café」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
 PASS [afar_door] 走到店門口：按鈕是「進入 afar café」  {"x": 7.93, "z": 20.16, "interact": "進入 afar café"}
 PASS [afar_door] 進店（zone afar）  {"zone": "afar", "x": 2.58, "z": 2}
-FAIL [afar_door] 一天第一次進來：進門句（AA_652 三句之一，逐字）  ["［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+FAIL [afar_door] 一天第一次進來：進門句（AA_652 三句之一，逐字）  ["［toast］手機｜可昕：週末來外校大學？我當導遊。"]
   [afar_door_inside] （旁白）：（吧台後面的店員抬頭說了一聲「歡迎光臨」，又低頭繼續磨豆子。）
 PASS [afar_door_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "afar", "dlg": false, "depth": 0, "moved": 5.45, "fb": [0, 0], "errs": []}
 PASS [afar_door_out] 有「離開」互動點  {"x": 2.58, "z": 3.4, "r": 0.9, "label": "離開 afar", "to": "gongguan"}
   到達「離開 afar」附近（0.15 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
 PASS [afar_door_out] 走到旁邊：互動按鈕是「離開…」  {"x": 2.6, "z": 3.25, "interact": "離開 afar"}
-PASS [afar_door_out] 按「離開 afar」：afar → gongguan  {"zone": "gongguan", "x": 7.92, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [afar_door_out] 按「離開 afar」：afar → gongguan  {"zone": "gongguan", "x": 7.92, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 PASS [afar_door] 出來站在公館店門口（SHOP_IN.out {"x": 7.92, "z": 18, "yaw": 3.141592653589793} 1.5 m 內）  {"x": 7.92, "z": 18}
 PASS [afar_door_out] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.18, "fb": [0, 0], "errs": []}
   到達「進入 afar café」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
-PASS [afar_door] 同一天再進來：不說進門句  ["［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+PASS [afar_door] 同一天再進來：不說進門句  ["［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 PASS [afar_door_out2] 有「離開」互動點  {"x": 2.58, "z": 3.4, "r": 0.9, "label": "離開 afar", "to": "gongguan"}
   到達「離開 afar」附近（0.52 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
 PASS [afar_door_out2] 走到旁邊：互動按鈕是「離開…」  {"x": 2.6, "z": 2.88, "interact": "離開 afar"}
-PASS [afar_door_out2] 按「離開 afar」：afar → gongguan  {"zone": "gongguan", "x": 7.92, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [afar_door_out2] 按「離開 afar」：afar → gongguan  {"zone": "gongguan", "x": 7.92, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 == afar_hours：營業時間邊界
   [afar_hours] PLACES.hours.afar＝{"text": "每天 11:00–21:00", "typhoonShop": true}
   [前置／捷徑] 讀檔：gongguan (7.93, 20.0)、2025-09-23（二）10:56、money 3000、條件事件關閉、afar café 門口（騎樓、門前 1 m）
   [afar_hours_1059] 等到的時候已經 11:00（超過 10:59 一分鐘），重來一次
   [前置／捷徑] 讀檔：gongguan (7.93, 20.0)、2025-09-23（二）10:57、money 3000、條件事件關閉、afar café 門口（騎樓、門前 1 m）
   [afar_hours_1059] （旁白）：（窗邊長桌坐了一排打筆電的人，每個人面前都有一盞小燈。）
-  [afar_hours_1059] 按門那一刻 11:02（G.hour 11.0267）、按鈕「進入 afar café」→ zone afar；toast ["手機｜可昕：週末來木柵大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（窗邊長桌坐了一排打筆電的人，每個人面前都有一盞小燈。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [afar_hours_1059] 按門那一刻 11:02（G.hour 11.0267）、按鈕「進入 afar café」→ zone afar；toast ["手機｜可昕：週末來外校大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（窗邊長桌坐了一排打筆電的人，每個人面前都有一盞小燈。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 OBS [afar_hours_1059] 按門那一刻 11:02 不在 10:59 那一分鐘裡（SwiftShader 太慢？），照那一刻的時間判
 PASS [afar_hours_1059] 11:02 開著：進得去（zone afar）  {"zone": "afar", "x": 2.58, "z": 2}
 PASS [afar_hours_1059_in] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "afar", "dlg": false, "depth": 0, "moved": 5.44, "fb": [0, 0], "errs": []}
 PASS [afar_hours_1059_out] 有「離開」互動點  {"x": 2.58, "z": 3.4, "r": 0.9, "label": "離開 afar", "to": "gongguan"}
   到達「離開 afar」附近（0.15 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
 PASS [afar_hours_1059_out] 走到旁邊：互動按鈕是「離開…」  {"x": 2.6, "z": 3.25, "interact": "離開 afar"}
-PASS [afar_hours_1059_out] 按「離開 afar」：afar → gongguan  {"zone": "gongguan", "x": 7.92, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [afar_hours_1059_out] 按「離開 afar」：afar → gongguan  {"zone": "gongguan", "x": 7.92, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [前置／捷徑] 讀檔：gongguan (7.93, 20.0)、2025-09-23（二）10:57、money 3000、條件事件關閉、afar café 門口（騎樓、門前 1 m）
   [afar_hours_1100] 等到的時候已經 11:01（超過 11:00 一分鐘），重來一次
   [前置／捷徑] 讀檔：gongguan (7.93, 20.0)、2025-09-23（二）10:58、money 3000、條件事件關閉、afar café 門口（騎樓、門前 1 m）
   [afar_hours_1100] （旁白）：（窗邊長桌坐了一排打筆電的人，每個人面前都有一盞小燈。）
-  [afar_hours_1100] 按門那一刻 11:03（G.hour 11.0426）、按鈕「進入 afar café」→ zone afar；toast ["手機｜可昕：週末來木柵大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（窗邊長桌坐了一排打筆電的人，每個人面前都有一盞小燈。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [afar_hours_1100] 按門那一刻 11:03（G.hour 11.0426）、按鈕「進入 afar café」→ zone afar；toast ["手機｜可昕：週末來外校大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（窗邊長桌坐了一排打筆電的人，每個人面前都有一盞小燈。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 OBS [afar_hours_1100] 按門那一刻 11:03 不在 11:00 那一分鐘裡（SwiftShader 太慢？），照那一刻的時間判
 PASS [afar_hours_1100] 11:03 開著：進得去（zone afar）  {"zone": "afar", "x": 2.58, "z": 2}
 PASS [afar_hours_1100_in] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "afar", "dlg": false, "depth": 0, "moved": 5.45, "fb": [0, 0], "errs": []}
 PASS [afar_hours_1100_out] 有「離開」互動點  {"x": 2.58, "z": 3.4, "r": 0.9, "label": "離開 afar", "to": "gongguan"}
   到達「離開 afar」附近（0.12 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
 PASS [afar_hours_1100_out] 走到旁邊：互動按鈕是「離開…」  {"x": 2.6, "z": 3.28, "interact": "離開 afar"}
-PASS [afar_hours_1100_out] 按「離開 afar」：afar → gongguan  {"zone": "gongguan", "x": 7.92, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [afar_hours_1100_out] 按「離開 afar」：afar → gongguan  {"zone": "gongguan", "x": 7.92, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [前置／捷徑] 讀檔：gongguan (7.93, 20.0)、2025-09-23（二）20:56、money 3000、條件事件關閉、afar café 門口（騎樓、門前 1 m）
   [afar_hours_2059] 等到的時候已經 21:00（超過 20:59 一分鐘），重來一次
   [前置／捷徑] 讀檔：gongguan (7.93, 20.0)、2025-09-23（二）20:58、money 3000、條件事件關閉、afar café 門口（騎樓、門前 1 m）
   [afar_hours_2059] （旁白）：（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）
-  [afar_hours_2059] 按門那一刻 21:02（G.hour 21.0265）、按鈕「進入 afar café」→ zone gongguan；toast ["手機｜可昕：週末來木柵大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [afar_hours_2059] 按門那一刻 21:02（G.hour 21.0265）、按鈕「進入 afar café」→ zone gongguan；toast ["手機｜可昕：週末來外校大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 OBS [afar_hours_2059] 按門那一刻 21:02 不在 20:59 那一分鐘裡（SwiftShader 太慢？），照那一刻的時間判
 PASS [afar_hours_2059] 21:02 關著：進不去（zone 還是公館）  {"zone": "gongguan", "x": 7.93, "z": 20}
-PASS [afar_hours_2059] afar café 打烊以後到門口：木牌那一句（AA_652，逐字）  {"lines": ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"], "toasts": ["手機｜可昕：週末來木柵大學？我當導遊。"]}
+PASS [afar_hours_2059] afar café 打烊以後到門口：木牌那一句（AA_652，逐字）  {"lines": ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"], "toasts": ["手機｜可昕：週末來外校大學？我當導遊。"]}
 PASS [afar_hours_2059] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.44, "fb": [0, 0], "errs": []}
   [前置／捷徑] 讀檔：gongguan (7.93, 20.0)、2025-09-23（二）20:57、money 3000、條件事件關閉、afar café 門口（騎樓、門前 1 m）
   [afar_hours_2100] 等到的時候已經 21:01（超過 21:00 一分鐘），重來一次
   [前置／捷徑] 讀檔：gongguan (7.93, 20.0)、2025-09-23（二）20:59、money 3000、條件事件關閉、afar café 門口（騎樓、門前 1 m）
   [afar_hours_2100] （旁白）：（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）
-  [afar_hours_2100] 按門那一刻 21:03（G.hour 21.0434）、按鈕「進入 afar café」→ zone gongguan；toast ["手機｜可昕：週末來木柵大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [afar_hours_2100] 按門那一刻 21:03（G.hour 21.0434）、按鈕「進入 afar café」→ zone gongguan；toast ["手機｜可昕：週末來外校大學？我當導遊。"]；對話 ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 OBS [afar_hours_2100] 按門那一刻 21:03 不在 21:00 那一分鐘裡（SwiftShader 太慢？），照那一刻的時間判
 PASS [afar_hours_2100] 21:03 關著：進不去（zone 還是公館）  {"zone": "gongguan", "x": 7.93, "z": 20}
-PASS [afar_hours_2100] afar café 打烊以後到門口：木牌那一句（AA_652，逐字）  {"lines": ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"], "toasts": ["手機｜可昕：週末來木柵大學？我當導遊。"]}
+PASS [afar_hours_2100] afar café 打烊以後到門口：木牌那一句（AA_652，逐字）  {"lines": ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"], "toasts": ["手機｜可昕：週末來外校大學？我當導遊。"]}
 PASS [afar_hours_2100] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.42, "fb": [0, 0], "errs": []}
 FAIL [afar_hours] 探針本身沒有例外  ValueError("stray % at position 72 or unexpected format character ',' at position 74")
 == afar_closein：打烊時人在店裡
@@ -74,9 +74,9 @@ PASS [afar_closein] 有 Z3.SHOP_IN.afar  {"x": 2.575, "z": 2, "out": {"x": 7.92,
   [load] （旁白）：（門上的小鈴響了一下。咖啡的味道比外面的騎樓還濃。）
   [afar_closein] 店員：我們九點打烊喔。……杯子放著就好。
   [afar_closein] （旁白）：（你走出 afar。騎樓的燈已經暗了一半。）
-  [afar_closein] 打烊的 transcript：["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "店員：我們九點打烊喔。……杯子放著就好。", "［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（你走出 afar。騎樓的燈已經暗了一半。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+  [afar_closein] 打烊的 transcript：["［toast］手機｜可昕：週末來外校大學？我當導遊。", "店員：我們九點打烊喔。……杯子放著就好。", "［toast］手機｜可昕：週末來外校大學？我當導遊。", "（你走出 afar。騎樓的燈已經暗了一半。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 PASS [afar_closein] 打烊（21:00）：回公館（zone gongguan）  {"zone": "gongguan", "x": 7.92, "z": 18, "hour": 21.0316}
-PASS [afar_closein] 店員一句＋旁白（AA_652 逐字、照順序）  {"want": ["我們九點打烊喔。……杯子放著就好。", "（你走出 afar。騎樓的燈已經暗了一半。）"], "got": ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "店員：我們九點打烊喔。……杯子放著就好。", "［toast］手機｜可昕：週末來木柵大學？我當導遊。", "（你走出 afar。騎樓的燈已經暗了一半。）", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]}
+PASS [afar_closein] 店員一句＋旁白（AA_652 逐字、照順序）  {"want": ["我們九點打烊喔。……杯子放著就好。", "（你走出 afar。騎樓的燈已經暗了一半。）"], "got": ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "店員：我們九點打烊喔。……杯子放著就好。", "［toast］手機｜可昕：週末來外校大學？我當導遊。", "（你走出 afar。騎樓的燈已經暗了一半。）", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]}
 PASS [afar_closein] 停在店門口（SHOP_IN.out {"x": 7.92, "z": 18, "yaw": 3.141592653589793} 1.5 m 內）  {"x": 7.92, "z": 18}
 PASS [afar_closein] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 9.95, "fb": [0, 0], "errs": []}
 == afar_order：點餐、看東西
@@ -89,11 +89,11 @@ PASS [afar_order_buy] 走到旁邊：互動按鈕是「點咖啡…」  {"x": -1
   [afar_order_buy] 店員：內用還是外帶？
   [afar_order_buy] 選單 ["濃縮咖啡　100 元", "美式　110 元", "拿鐵　140 元", "卡布奇諾　140 元", "摩卡　160 元", "手沖　170 元", "起司蛋糕　120 元", "布丁　90 元", "不用了"] → 拿鐵　140 元
   [afar_order_buy] 店員：好了叫你。……可以先找位子。
-PASS [afar_order_buy] 店員「內用還是外帶？」（逐字）  ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "店員：內用還是外帶？", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]
+PASS [afar_order_buy] 店員「內用還是外帶？」（逐字）  ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "店員：內用還是外帶？", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]
 PASS [afar_order_buy] 選單照稿（品項、價錢）  ["濃縮咖啡　100 元", "美式　110 元", "拿鐵　140 元", "卡布奇諾　140 元", "摩卡　160 元", "手沖　170 元", "起司蛋糕　120 元", "布丁　90 元", "不用了"]
 PASS [afar_order_buy] 點拿鐵：扣 140  [3000, 2860]
 PASS [afar_order_buy] 時間 +9 分鐘  0.172 h
-PASS [afar_order_buy] 點完的一句（AA_652 之一；只在點特定品項才說的不出）  ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "店員：內用還是外帶？", "［toast］手機｜可昕：週末來木柵大學？我當導遊。", "［toast］💸 140 元", "店員：好了叫你。……可以先找位子。", "［toast］📓 吃過的：公館・afar café　拿鐵"]
+PASS [afar_order_buy] 點完的一句（AA_652 之一；只在點特定品項才說的不出）  ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "店員：內用還是外帶？", "［toast］手機｜可昕：週末來外校大學？我當導遊。", "［toast］💸 140 元", "店員：好了叫你。……可以先找位子。", "［toast］📓 吃過的：公館・afar café　拿鐵"]
 PASS [afar_order_buy] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "afar", "dlg": false, "depth": 0, "moved": 4.81, "fb": [0, 0], "errs": []}
 PASS [afar_order_pastry] 有「看甜點櫃」  {"x": -1.7, "z": -0.8, "r": 0.9, "label": "看甜點櫃"}
 PASS [afar_order_pastry] 有「看甜點櫃」互動點  {"x": -1.7, "z": -0.8, "r": 0.9, "label": "看甜點櫃", "to": null}
@@ -124,7 +124,7 @@ PASS [afar_order_short] 走到旁邊：互動按鈕是「點咖啡…」  {"x": 
   [afar_order_short] 店員：內用還是外帶？
   [afar_order_short] 選單 ["濃縮咖啡　100 元", "美式　110 元", "拿鐵　140 元", "卡布奇諾　140 元", "摩卡　160 元", "手沖　170 元", "起司蛋糕　120 元", "布丁　90 元", "不用了"] → 拿鐵　140 元
   [afar_order_short] 店員：……要不要看一下比較便宜的？美式一百一。
-PASS [afar_order_short] 錢不夠點拿鐵：店員「……要不要看一下比較便宜的？美式一百一。」（逐字）、不扣錢  {"money": [50, 50], "lines": ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "店員：內用還是外帶？", "［toast］手機｜可昕：週末來木柵大學？我當導遊。", "店員：……要不要看一下比較便宜的？美式一百一。", "［toast］手機｜可昕：週末來木柵大學？我當導遊。"]}
+PASS [afar_order_short] 錢不夠點拿鐵：店員「……要不要看一下比較便宜的？美式一百一。」（逐字）、不扣錢  {"money": [50, 50], "lines": ["［toast］手機｜可昕：週末來外校大學？我當導遊。", "店員：內用還是外帶？", "［toast］手機｜可昕：週末來外校大學？我當導遊。", "店員：……要不要看一下比較便宜的？美式一百一。", "［toast］手機｜可昕：週末來外校大學？我當導遊。"]}
 PASS [afar_order_short] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "afar", "dlg": false, "depth": 0, "moved": 4.81, "fb": [0, 0], "errs": []}
 == afar_art：ART 截圖
   [前置／捷徑] 讀檔：gongguan (7.93, 15.0)、2025-09-23（二）15:00、money 3000、條件事件關閉、afar café 門前
@@ -133,7 +133,7 @@ PASS [afar_order_short] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m
 PASS [afar_art] 有「進入 afar café」互動點  {"x": 7.93, "z": 21, "r": 2.2, "label": "進入 afar café", "to": "afar"}
   到達「進入 afar café」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
 PASS [afar_art] 走到旁邊：互動按鈕是「進入 afar café…」  {"x": 7.93, "z": 20.76, "interact": "進入 afar café"}
-PASS [afar_art] 按「進入 afar café」：gongguan → afar  {"zone": "afar", "x": 2.58, "z": 2, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [afar_art] 按「進入 afar café」：gongguan → afar  {"zone": "afar", "x": 2.58, "z": 2, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [afar_art] （旁白）：（吧台後面的店員抬頭說了一聲「歡迎光臨」，又低頭繼續磨豆子。）
   [art] art_afar_inside.png（進門站的地方 (2.58,2)、面向 −z）
 PASS [afar_art] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "afar", "dlg": false, "depth": 0, "moved": 5.48, "fb": [0, 0], "errs": []}

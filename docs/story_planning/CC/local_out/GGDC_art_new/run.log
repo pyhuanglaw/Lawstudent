@@ -9,7 +9,7 @@ PASS 遊戲載入
 PASS [art_cvs] 有「進入便利商店」互動點  {"x": -29.4, "z": 21, "r": 2.2, "label": "進入便利商店", "to": "cvs"}
   到達「進入便利商店」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
 PASS [art_cvs] 走到旁邊：互動按鈕是「進入便利商店…」  {"x": -29.26, "z": 20.83, "interact": "進入便利商店"}
-PASS [art_cvs] 按「進入便利商店」：gongguan → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [art_cvs] 按「進入便利商店」：gongguan → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [art] art_cvs_inside.png（進門站的地方 (0.4,3.5)、面向 −z）
 PASS [art_cvs] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "cvs", "dlg": false, "depth": 0, "moved": 4.11, "fb": [0, 0], "errs": []}
   [前置／捷徑] 讀檔：gongguan (-54.05, 15.0)、2025-09-23（二）14:00（day 7；要的是 day 7）、money 3000、條件事件關閉、aoki 門前
@@ -18,7 +18,7 @@ PASS [art_cvs] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFa
 PASS [art_aoki] 有「進入青木茶室」互動點  {"x": -54.05, "z": 21, "r": 2.2, "label": "進入青木茶室", "to": "aoki"}
   到達「進入青木茶室」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
 PASS [art_aoki] 走到旁邊：互動按鈕是「進入青木茶室…」  {"x": -54.05, "z": 20.76, "interact": "進入青木茶室"}
-PASS [art_aoki] 按「進入青木茶室」：gongguan → aoki  {"zone": "aoki", "x": 1.85, "z": 2.05, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [art_aoki] 按「進入青木茶室」：gongguan → aoki  {"zone": "aoki", "x": 1.85, "z": 2.05, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [art] art_aoki_inside.png（進門站的地方 (1.85,2.05)、面向 −z）
 PASS [art_aoki] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "aoki", "dlg": false, "depth": 0, "moved": 3.23, "fb": [0, 0], "errs": []}
   [前置／捷徑] 讀檔：gongguan (-36.4, 15.0)、2025-09-23（二）14:00（day 7；要的是 day 7）、money 3000、條件事件關閉、yejian 門前
@@ -27,7 +27,7 @@ PASS [art_aoki] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkF
 PASS [art_yejian] 有「進入頁間書屋」互動點  {"x": -36.4, "z": 21, "r": 2.2, "label": "進入頁間書屋", "to": "bookstore"}
   到達「進入頁間書屋」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
 PASS [art_yejian] 走到旁邊：互動按鈕是「進入頁間書屋…」  {"x": -36.4, "z": 20.76, "interact": "進入頁間書屋"}
-PASS [art_yejian] 按「進入頁間書屋」：gongguan → bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [art_yejian] 按「進入頁間書屋」：gongguan → bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [art] art_yejian_inside.png（進門站的地方 (-4.6,3)、面向 −z）
 PASS [art_yejian] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "bookstore", "dlg": false, "depth": 0, "moved": 7.27, "fb": [0, 0], "errs": []}
 PASS 沒有 JS 例外  []

@@ -1,6 +1,6 @@
 [gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_R489f_v0_tolaw\tests\flow_v0_tolaw.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R489f_v0_tolaw\out
 PASS 遊戲載入
-  [前置／捷徑] 讀檔到 8/28（四）22:00 在家（經濟系、休學後、宿營演過）
+  [前置／捷徑] 讀檔到 8/28（四）22:00 在家（舊序章系所、離校後、宿營演過）
    （等） {"stage": "econ", "day": -19, "h": 22.01, "zone": "campus", "home": true, "busy": false}
    暑假剩▼ 點一下繼續
    這個暑假，你還是住在家裡。媽媽每天▼ 點一下繼續
@@ -10,11 +10,11 @@ PASS 遊戲載入
    行李箱的輪子在宿舍走廊上一直卡到地▼ 點一下繼續
    行李箱的輪子在宿舍走廊上一直卡到地磚的縫。▼ 點一下繼續
 PASS 8/29 早上換階段：3b② 前兩句（「暑假剩下的日子，過得很快。」）、搬宿舍「你去年也搬過一次宿舍，這次只有一個行李箱。」  ["暑假剩下的日子，過得很快。", "這個暑假，你還是住在家裡。媽媽每天問你，新宿舍還缺什麼。", "你去年也搬過一次宿舍，這次只有一個行李箱。", "行李箱的輪子在宿舍走廊上一直卡到地磚的縫。"]
-PASS 法律系 8/29、宿舍、不在家；可昕交往中、認識阿勳、E36_PACT 帶過來  {"stage": "law", "day": -18, "h": 16.09, "zone": "dorm", "dk": true, "xun": true, "played": true, "pact": "weekly", "money": 31234, "home": false}
+PASS 法律系 8/29、宿舍、不在家；可昕交往中、認識舊序章同學、E36_PACT 帶過來  {"stage": "law", "day": -18, "h": 16.09, "zone": "dorm", "dk": true, "xun": true, "played": true, "pact": "weekly", "money": 31234, "home": false}
 PASS 可昕的訊息串有東西（交往中；資訊）  []
-PASS 備份存檔 fatiao3d_backup_y0end：經濟系、8/29、標「經濟系那一年的最後一天」  {"stage": "econ", "day": -18, "label": "經濟系那一年的最後一天", "home": true}
+PASS 備份存檔 fatiao3d_backup_y0end：舊序章系所、8/29、標「舊序章系所那一年的最後一天」  {"stage": "econ", "day": -18, "label": "舊序章系所那一年的最後一天", "home": true}
   [前置／捷徑] 重新整理，讀備份存檔（GAME.applySave）
-PASS 備份讀得回 8/29 早上（還是經濟系）  {"stage": "econ", "day": -18}
+PASS 備份讀得回 8/29 早上（還是舊序章系所）  {"stage": "econ", "day": -18}
 PASS 黑幕沒有擋住對話（8/29 搬宿舍那兩句可以點）
 PASS 全程沒有 JS 例外  []
 ALL PASS

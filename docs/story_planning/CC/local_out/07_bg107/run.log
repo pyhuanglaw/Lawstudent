@@ -3,8 +3,8 @@
 ---- 停用／沒有地方讀（只讀）----
   [  21.0s] INFO gg_scooter_shop＝ev_moot_2：停用 retired「使用者 2026-10-17 刪除模擬法庭（「這不符合我在臺大法律的回憶」；AA_252：改成大四專題討論的法院旁聽）：停用，舊存檔的旗標留著、不再讀」；背景有接 gg_scooter_shop：True（["background:blur", "bg:gg_scooter_shop"]）→ 停用的事件不演、不拍
   [  21.0s] INFO noodle_table＝ev_moot_6：停用 retired「使用者 2026-10-17 刪除模擬法庭（「這不符合我在臺大法律的回憶」；AA_252：改成大四專題討論的法院旁聽）：停用，舊存檔的旗標留著、不再讀」；背景有接 noodle_table：True（["background:dark", "bg:noodle_table"]）→ 停用的事件不演、不拍
-  [  21.0s] INFO gongguan＝ev_y0_e19：停用 retired「AA_224 1-3（LIFE-LINE，2026-10-17）：「以為她喜歡唐睿」併進 10/17 車上（ev_y0_e26），寒假前的聚餐不再單獨演。定義留」；背景有接 gongguan：True（["background:dark", "bg:gongguan"]）→ 停用的事件不演、不拍
-  [  21.0s] INFO ntu_linze＝ev_y0_e24b2：停用 retired「AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔」；背景有接 ntu_linze：True（["background:dark", "bg:ntu_linze"]）→ 停用的事件不演、不拍
+  [  21.0s] INFO gongguan＝ev_y0_e19：停用 retired「AA_224 1-3（LIFE-LINE，2026-10-17）：「以為她喜歡舊序章同學」併進 10/17 車上（ev_y0_e26），寒假前的聚餐不再單獨演。定義留」；背景有接 gongguan：True（["background:dark", "bg:gongguan"]）→ 停用的事件不演、不拍
+  [  21.0s] INFO ntu_linze＝ev_y0_e24b2：停用 retired「AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 離校，這件刪除。定義留給已經演過的舊存檔」；背景有接 ntu_linze：True（["background:dark", "bg:ntu_linze"]）→ 停用的事件不演、不拍
   [  21.0s] INFO tainan_school：Y2B.PS_TAINAN 的場景 {"scene": "台南・她的學校", "bg": "tainan_school"}——這份資料目前沒有地方讀（hometown3d.js 用 PS_TAINAN_VISITS），不演、不拍
 ---- 107 police_station（ev_sq04_police → police_station）----
 PASS police_station：只讀確認 ev_sq04_police 有接 police_station（背景或 {scene,bg}）  {"found": true, "retired": "", "off": false, "hit": true, "bgs": ["background:dark", "bg:police_station"]}

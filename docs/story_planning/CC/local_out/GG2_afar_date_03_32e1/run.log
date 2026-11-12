@@ -48,7 +48,7 @@ PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約：約�
   [前置／捷徑] [heroine_03] 讀回存檔（afar 約會（去 afar café 坐坐 今天 12:10）：離約好的時間還有 2.5 小時，存檔的時間改到 21 11.72（手機的跳過時間只到固定時刻））
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 選單 ["直接過去：和陳語彤約在afar café（12:10）", "自己走過去"] → 選「直接過去：和陳語彤約在afar café（12:10）」
-  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 選單 ["被看的。重考那年，親戚每一個都在看我考得怎樣。", "看人的。念經濟系那一個多月，我常坐在系館樓下，看大家在忙什麼。", "我在看妳。"] → 選「被看的。重考那年，親戚每一個都在看我考得怎樣。」
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 選單 ["被看的。舊序章考試那年，親戚每一個都在看我考得怎樣。", "看人的。念舊序章系所那一個多月，我常坐在系館樓下，看大家在忙什麼。", "我在看妳。"] → 選「被看的。舊序章考試那年，親戚每一個都在看我考得怎樣。」
 PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：出發、到場、見面那一場一路點得完
   [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：沒有看到 AA_649 的坐下旁白，開演位置用見面第一句那一刻
 PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}

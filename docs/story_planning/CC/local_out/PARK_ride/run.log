@@ -14,13 +14,13 @@ PASS [R_gym] 騎到門口（還在騎）  {"zone": "campus", "riding": true, "pa
 PASS [R_gym] 按「下車」：車停在門口  {"zone": "campus", "riding": false, "parked": [73.87, 57.46], "bike": {"zone": "campus", "x": 73.86972813189905, "z": 57.46217545169624, "yaw": 2.0148718996437878, "riding": false, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}]}}
   到達「體育館」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
 PASS [R_gym] 門口的按鈕是「體育館…」  {"x": 73.96, "z": 59.16, "interact": "體育館"}
-PASS [R_gym] 進去（gym）  {"zone": "gym", "x": 0, "z": 17.6, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [R_gym] 進去（gym）  {"zone": "gym", "x": 0, "z": 17.6, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 PASS [R_gym] 在裡面：先下車、G.bike.zone 還是 campus  {"zone": "campus", "x": 73.86972813189905, "z": 57.46217545169624, "yaw": 2.0148718996437878, "riding": false, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}]}
 PASS [R_gym_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gym", "dlg": false, "depth": 0, "moved": 8.18, "fb": [0, 0], "errs": []}
 PASS [R_gym_out] 有「」互動點  {"x": 0, "z": 18.5, "r": 0.8, "label": "離開體育館", "to": "campus", "lv": 0}
   到達「離開體育館」附近（0.02 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
 PASS [R_gym_out] 走到旁邊：互動按鈕是「…」  {"x": 0, "z": 18.48, "interact": "離開體育館"}
-PASS [R_gym_out] 按「離開體育館」：gym → campus  {"zone": "campus", "x": 74, "z": 58, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [R_gym_out] 按「離開體育館」：gym → campus  {"zone": "campus", "x": 74, "z": 58, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 INFO [R_gym] 實際的停車路徑：門口按「下車」→ 停在下車的地方 [73.87, 57.46]；進門時車停在 [73.87, 57.46]；出來以後車在 [69.6, 59.5]
 PASS [R_gym] ① 車還在：G.bike 在 campus、場景裡停著的車就在 G.bike 的位置、3 秒後沒動  {"a": {"zone": "campus", "x": 69.6, "z": 59.5, "pk": [69.6, 59.5]}, "b": {"zone": "campus", "x": 69.6, "z": 59.5, "pk": [69.6, 59.5]}}
   [R_gym] 截圖 park_gym.png（車＋最近的停車處 {"k": "rack", "x": 66.5, "z": 59.5, "d": 3.1}）

@@ -46,7 +46,7 @@ PASS lunch_sk03：遊戲載入
   [前置／捷徑] lunch_sk03：最小存檔 大一下第 13 週週五（day 248）12:18 在 classroom，旗標照 tests/aa350_r_unit.js 的 base（{"P4D_ANSWER": "retake", "ECON_HALLWAY_DAY": 171, "MET_XUN": true, "MET_PINYU": true, "SK03_FIRST": true, "SK03_N": 0}），沒去經原下
   lunch_sk03：叫之前 {"econ": {"key": "248:econ_principles_2:am", "done": false}, "sk03": "ev_sk03_lunch"}
   [前置／捷徑] lunch_sk03：CLS.lunchBreak(GAME)（下課選單「先去吃飯」那一條的同一個函式；不指定吃哪家）
-  lunch_sk03：結果 {"r": true, "last": "學活", "huoda": 248, "done": true, "money": 29910}；台詞前三句 ["：（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）", "阿勳：……你今天沒來上課。坐。", "：週五的學活。品妤點的永遠是同一個便當，阿勳永遠在講統計。"]；選單 []
+  lunch_sk03：結果 {"r": true, "last": "學活", "huoda": 248, "done": true, "money": 29910}；台詞前三句 ["：（學活二樓，靠窗那一桌。舊序章同學已經坐在那裡了。）", "舊序章同學：……你今天沒來上課。坐。", "：週五的學活。舊序章同學點的永遠是同一個便當，舊序章同學永遠在講統計。"]；選單 []
 PASS lunch_sk03：SK03 還沒演＝直接去學活（LUNCH_LAST 學活）
 PASS lunch_sk03：在學活演了 ev_sk03_lunch（SK03_HUODA 248、done True）
 PASS lunch_sk03：沒有問吃哪家  []

@@ -37,7 +37,7 @@
 [say xs_nanyang 11.60] ｜（她想了一下，好像在想那是什麼樣子。）
 [mark xs_nanyang 11.60] ARCS.run 結束
 [say xs_nanyang 11.60] 沈以安｜劇情有三個地方不合理。可是我很喜歡。
-[toast xs_nanyang 11.60] 手機｜予樂：📷（一張完賽證書，名字下面的時間被大拇指蓋住）
+[toast xs_nanyang 11.60] 手機｜舊序章同學：📷（一張完賽證書，名字下面的時間被大拇指蓋住）
 [cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
 -- SOCIAL.adjust：[{"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.6, "z": "xs_nanyang_hall", "n": 17}, {"id": "heroine_01", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.6, "z": "xs_nanyang_hall", "n": 17}, {"id": "heroine_01", "d": {"npcRom": 1}, "h": 11.6, "z": "xs_nanyang", "n": 24}, {"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 11.6, "z": "xs_nanyang", "n": 33}]
 ==== [LATER2 以安 m2603b→隔天電影]隔天 期望 {"talk": {"by": "me", "q": "（出來以後你才發現自己一直咬著牙。）", "qOther": false, "other": true, "opts": [{"k": 0, "t": "最後那句無線電，比斷橋還厲害。", "lines": ["我想的跟你差不多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 1, "t": "流籠卡住那段我不敢看。", "lines": ["我想的跟你差不多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 2, "t": "兄弟到底為什麼不講話？", "lines": ["我也卡在那裡。片尾的字幕我有看完，沒有寫。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}]}, "scene": "流籠懸在溪谷中間不動了，兩邊同時喊「不要拉」。", "with": null, "again": "（第二次看，你注意到上次沒注意到的地方。）", "genre": "災難動作"}

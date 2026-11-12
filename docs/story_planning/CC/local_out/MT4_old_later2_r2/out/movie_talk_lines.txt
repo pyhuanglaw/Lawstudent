@@ -33,7 +33,7 @@
 [mark xs_nanyang 11.60] MOVIES.talk 結束
 [mark xs_nanyang 11.60] MOVIES.after 結束
 [say xs_nanyang 11.60] 沈以安｜劇情有三個地方不合理。可是我很喜歡。
-[toast xs_nanyang 11.60] 手機｜予樂：📷（一張完賽證書，名字下面的時間被大拇指蓋住）
+[toast xs_nanyang 11.60] 手機｜舊序章同學：📷（一張完賽證書，名字下面的時間被大拇指蓋住）
 [cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
 -- SOCIAL.adjust：[{"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 10.596, "z": "xs_nanyang_hall", "n": 19}, {"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.596, "z": "xs_nanyang_hall", "n": 23}, {"id": "heroine_01", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.596, "z": "xs_nanyang_hall", "n": 23}, {"id": "heroine_01", "d": {"npcRom": 1}, "h": 11.596, "z": "xs_nanyang", "n": 30}]
 ==== [LATER2 以安 m2603b→隔天電影]隔天 期望 {"talk": null, "scene": "流籠懸在溪谷中間不動了，兩邊同時喊「不要拉」。", "with": null, "again": "（第二次看，你注意到上次沒注意到的地方。）", "genre": "災難動作"}

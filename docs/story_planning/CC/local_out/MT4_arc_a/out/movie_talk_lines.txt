@@ -48,7 +48,7 @@
 [cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
 [mark xs_nanyang 9.60] MOVIES.enterHall 開始
 [mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
-[say xs_nanyang_hall 9.60] 杜可昕｜臺北的電影院好大。木柵那間只有三個廳。
+[say xs_nanyang_hall 9.60] 杜可昕｜臺北的電影院好大。外校那間只有三個廳。
 [say xs_nanyang_hall 9.60] ｜（她直接走到售票口，把位子選好，選得很快。）
 [say xs_nanyang_hall 9.60] ｜（燈暗下來，《放學後的球場》開始了。）
 [mark xs_nanyang_hall 10.60] MOVIES.playMid 開始

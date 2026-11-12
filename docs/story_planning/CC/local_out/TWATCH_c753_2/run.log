@@ -2,7 +2,7 @@
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
   CCW proc 電機系的學生@dorm {"first":7,"pos":[66.8,-16.4],"spec":null,"last":7,"logged":1}
   CCW proc 醫學系的學生@dorm {"first":7,"pos":[50.8,-80.9],"spec":null,"last":7,"logged":1}
-  CCW proc 經濟系的學生@dorm {"first":7,"pos":[36.7,-61.7],"spec":null,"last":7,"logged":1}
+  CCW proc 舊序章系所的學生@dorm {"first":7,"pos":[36.7,-61.7],"spec":null,"last":7,"logged":1}
   CCW proc 中文系的學生@dorm {"first":7,"pos":[83.9,-86.6],"spec":null,"last":7,"logged":1}
   CCW proc 社工系的學生@dorm {"first":7,"pos":[37.2,-17.5],"spec":null,"last":7,"logged":1}
   CCW proc 化學系的學生@dorm {"first":7,"pos":[-71,7.8],"spec":null,"last":7,"logged":1}
@@ -18,7 +18,7 @@
   CCW proc pool_14@dorm {"first":7,"pos":[47.5,-14.4],"spec":null,"last":7,"logged":1}
   CCW proc 電機系的學生@dorm {"first":7,"pos":[30.6,-70.5],"spec":null,"last":7,"logged":1}
   CCW proc 醫學系的學生@dorm {"first":7,"pos":[10.1,-71],"spec":null,"last":7,"logged":1}
-  CCW proc 經濟系的學生@dorm {"first":7,"pos":[60.3,-62],"spec":null,"last":7,"logged":1}
+  CCW proc 舊序章系所的學生@dorm {"first":7,"pos":[60.3,-62],"spec":null,"last":7,"logged":1}
   CCW proc 中文系的學生@dorm {"first":7,"pos":[83.9,-86.6],"spec":null,"last":7,"logged":1}
   CCW proc 社工系的學生@dorm {"first":7,"pos":[-59.7,-7.7],"spec":null,"last":7,"logged":1}
   CCW proc 化學系的學生@dorm {"first":7,"pos":[-109.7,7.8],"spec":null,"last":7,"logged":1}
@@ -35,7 +35,7 @@
 PASS 標題畫面：觸控點「繼續」
   CCW proc 電機系的學生@wenzhou {"first":16,"pos":[31.2,-58.9],"spec":null,"last":16,"logged":1}
   CCW proc 醫學系的學生@wenzhou {"first":16,"pos":[20.6,-71.2],"spec":null,"last":16,"logged":1}
-  CCW proc 經濟系的學生@wenzhou {"first":16,"pos":[70,-61.8],"spec":null,"last":16,"logged":1}
+  CCW proc 舊序章系所的學生@wenzhou {"first":16,"pos":[70,-61.8],"spec":null,"last":16,"logged":1}
   CCW proc 中文系的學生@wenzhou {"first":16,"pos":[77.2,-79.4],"spec":null,"last":16,"logged":1}
   CCW proc 社工系的學生@wenzhou {"first":16,"pos":[-48.8,-7.4],"spec":null,"last":16,"logged":1}
   CCW proc 化學系的學生@wenzhou {"first":16,"pos":[-98.4,7.8],"spec":null,"last":16,"logged":1}
@@ -77,7 +77,7 @@ PASS 出來後可以繼續走
 PASS 觸控存到欄位 1  ('wenzhou', {'x': 40.95, 'z': 0, 'yaw': -1.571, 'lv': 0, 'y': 0})
   CCW proc 電機系的學生@dorm {"first":6,"pos":[30.4,-39.7],"spec":null,"last":6,"logged":1}
   CCW proc 醫學系的學生@dorm {"first":6,"pos":[34.9,-91.9],"spec":null,"last":6,"logged":1}
-  CCW proc 經濟系的學生@dorm {"first":6,"pos":[36.7,-61.7],"spec":null,"last":6,"logged":1}
+  CCW proc 舊序章系所的學生@dorm {"first":6,"pos":[36.7,-61.7],"spec":null,"last":6,"logged":1}
   CCW proc 中文系的學生@dorm {"first":6,"pos":[92.7,-81.9],"spec":null,"last":6,"logged":1}
   CCW proc 社工系的學生@dorm {"first":6,"pos":[29,-40.5],"spec":null,"last":6,"logged":1}
   CCW proc 化學系的學生@dorm {"first":6,"pos":[37.8,15.7],"spec":null,"last":6,"logged":1}
@@ -93,7 +93,7 @@ PASS 觸控存到欄位 1  ('wenzhou', {'x': 40.95, 'z': 0, 'yaw': -1.571, 'lv':
   CCW proc pool_14@dorm {"first":6,"pos":[47.5,-14.4],"spec":null,"last":6,"logged":1}
   CCW proc 醫學系的學生@wenzhou {"first":17,"pos":[42.5,-84],"spec":null,"last":17,"logged":1}
   CCW proc 電機系的學生@wenzhou {"first":17,"pos":[-40.1,19.4],"spec":null,"last":17,"logged":1}
-  CCW proc 經濟系的學生@wenzhou {"first":17,"pos":[48,-61.8],"spec":null,"last":17,"logged":1}
+  CCW proc 舊序章系所的學生@wenzhou {"first":17,"pos":[48,-61.8],"spec":null,"last":17,"logged":1}
   CCW proc 中文系的學生@wenzhou {"first":17,"pos":[83.7,-85.9],"spec":null,"last":17,"logged":1}
   CCW proc 社工系的學生@wenzhou {"first":17,"pos":[29.1,-31.3],"spec":null,"last":17,"logged":1}
   CCW proc 化學系的學生@wenzhou {"first":17,"pos":[29.5,12.8],"spec":null,"last":17,"logged":1}
@@ -109,5 +109,5 @@ PASS 重新整理後讀回欄位 1（溫州街、位置相同）  (40.95, 0, {'x
 PASS 讀檔後可以走  3.82
 PASS 沒有 JS 例外
 CC 監看 手機自己打開： []
-CC 監看 proc 路人： {"電機系的學生@dorm":{"first":6,"pos":[30.4,-39.7],"spec":null,"last":17,"logged":1},"醫學系的學生@dorm":{"first":6,"pos":[34.9,-91.9],"spec":null,"last":17,"logged":1},"經濟系的學生@dorm":{"first":6,"pos":[36.7,-61.7],"spec":null,"last":17,"logged":1},"中文系的學生@dorm":{"first":6,"pos":[92.7,-81.9],"spec":null,"last":17,"logged":1},"社工系的學生@dorm":{"first":6,"pos":[29,-40.5],"spec":null,"last":17,"logged":1},"化學系的學生@dorm":{"first":6,"pos":[37.8,15.7],"spec":null,"last":17,"logged":1},"數學系的學生@dorm":{"first":6,"pos":[50,-80.9],"spec":null,"last":17,"logged":1},"政治系的學生@dorm":{"first":6,"pos":[-25,14.9],"spec":null,"last":17,"logged":1},"大氣系的學生@dorm":{"first":6,"pos":[60.8,-61.9],"spec":null,"last":17,"logged":1},"獸醫系的學生@dorm":{"first":6,"pos":[92.4,-82],"spec":null,"last":17,"logged":1},"心理系的學生@dorm":{"first":6,"pos":[30.5,-70.9],"spec":null,"last":17,"logged":1},"農藝系的學生@dorm":{"first":6,"pos":[-20.8,6.2],"spec":null,"last":17,"logged":1},"歷史系的學生@dorm":{"first":6,"pos":[29.5,-68.1],"spec":null,"last":17,"logged":1},"?@dorm":{"first":6,"pos":[71.7,-22.1],"spec":null,"last":17,"logged":1},"classmate_mingxuan@dorm":{"first":6,"pos":[-112,-7],"spec":null,"last":15,"logged":1},"pool_14@dorm":{"first":6,"pos":[47.5,-14.4],"spec":null,"last":15,"logged":1},"醫學系的學生@wenzhou":{"first":17,"pos":[42.5,-84],"spec":null,"last":17,"logged":1},"電機系的學生@wenzhou":{"first":17,"pos":[-40.1,19.4],"spec":null,"last":17,"logged":1},"經濟系的學生@wenzhou":{"first":17,"pos":[48,-61.8],"spec":null,"last":17,"logged":1},"中文系的學生@wenzhou":{"first":17,"pos":[83.7,-85.9],"spec":null,"last":17,"logged":1},"社工系的學生@wenzhou":{"first":17,"pos":[29.1,-31.3],"spec":null,"last":17,"logged":1},"化學系的學生@wenzhou":{"first":17,"pos":[29.5,12.8],"spec":null,"last":17,"logged":1},"數學系的學生@wenzhou":{"first":17,"pos":[40.5,-86.4],"spec":null,"last":17,"logged":1},"政治系的學生@wenzhou":{"first":17,"pos":[-34.3,11.5],"spec":null,"last":17,"logged":1},"大氣系的學生@wenzhou":{"first":17,"pos":[72.5,-61.8],"spec":null,"last":17,"logged":1},"獸醫系的學生@wenzhou":{"first":17,"pos":[83.9,-85.9],"spec":null,"last":17,"logged":1},"心理系的學生@wenzhou":{"first":17,"pos":[30.2,-60.8],"spec":null,"last":17,"logged":1},"農藝系的學生@wenzhou":{"first":17,"pos":[-11.8,6.6],"spec":null,"last":17,"logged":1},"歷史系的學生@wenzhou":{"first":17,"pos":[37.6,-73.8],"spec":null,"last":17,"logged":1},"?@wenzhou":{"first":17,"pos":[71.7,-22.1],"spec":null,"last":24,"logged":1}}
+CC 監看 proc 路人： {"電機系的學生@dorm":{"first":6,"pos":[30.4,-39.7],"spec":null,"last":17,"logged":1},"醫學系的學生@dorm":{"first":6,"pos":[34.9,-91.9],"spec":null,"last":17,"logged":1},"舊序章系所的學生@dorm":{"first":6,"pos":[36.7,-61.7],"spec":null,"last":17,"logged":1},"中文系的學生@dorm":{"first":6,"pos":[92.7,-81.9],"spec":null,"last":17,"logged":1},"社工系的學生@dorm":{"first":6,"pos":[29,-40.5],"spec":null,"last":17,"logged":1},"化學系的學生@dorm":{"first":6,"pos":[37.8,15.7],"spec":null,"last":17,"logged":1},"數學系的學生@dorm":{"first":6,"pos":[50,-80.9],"spec":null,"last":17,"logged":1},"政治系的學生@dorm":{"first":6,"pos":[-25,14.9],"spec":null,"last":17,"logged":1},"大氣系的學生@dorm":{"first":6,"pos":[60.8,-61.9],"spec":null,"last":17,"logged":1},"獸醫系的學生@dorm":{"first":6,"pos":[92.4,-82],"spec":null,"last":17,"logged":1},"心理系的學生@dorm":{"first":6,"pos":[30.5,-70.9],"spec":null,"last":17,"logged":1},"農藝系的學生@dorm":{"first":6,"pos":[-20.8,6.2],"spec":null,"last":17,"logged":1},"歷史系的學生@dorm":{"first":6,"pos":[29.5,-68.1],"spec":null,"last":17,"logged":1},"?@dorm":{"first":6,"pos":[71.7,-22.1],"spec":null,"last":17,"logged":1},"classmate_mingxuan@dorm":{"first":6,"pos":[-112,-7],"spec":null,"last":15,"logged":1},"pool_14@dorm":{"first":6,"pos":[47.5,-14.4],"spec":null,"last":15,"logged":1},"醫學系的學生@wenzhou":{"first":17,"pos":[42.5,-84],"spec":null,"last":17,"logged":1},"電機系的學生@wenzhou":{"first":17,"pos":[-40.1,19.4],"spec":null,"last":17,"logged":1},"舊序章系所的學生@wenzhou":{"first":17,"pos":[48,-61.8],"spec":null,"last":17,"logged":1},"中文系的學生@wenzhou":{"first":17,"pos":[83.7,-85.9],"spec":null,"last":17,"logged":1},"社工系的學生@wenzhou":{"first":17,"pos":[29.1,-31.3],"spec":null,"last":17,"logged":1},"化學系的學生@wenzhou":{"first":17,"pos":[29.5,12.8],"spec":null,"last":17,"logged":1},"數學系的學生@wenzhou":{"first":17,"pos":[40.5,-86.4],"spec":null,"last":17,"logged":1},"政治系的學生@wenzhou":{"first":17,"pos":[-34.3,11.5],"spec":null,"last":17,"logged":1},"大氣系的學生@wenzhou":{"first":17,"pos":[72.5,-61.8],"spec":null,"last":17,"logged":1},"獸醫系的學生@wenzhou":{"first":17,"pos":[83.9,-85.9],"spec":null,"last":17,"logged":1},"心理系的學生@wenzhou":{"first":17,"pos":[30.2,-60.8],"spec":null,"last":17,"logged":1},"農藝系的學生@wenzhou":{"first":17,"pos":[-11.8,6.6],"spec":null,"last":17,"logged":1},"歷史系的學生@wenzhou":{"first":17,"pos":[37.6,-73.8],"spec":null,"last":17,"logged":1},"?@wenzhou":{"first":17,"pos":[71.7,-22.1],"spec":null,"last":24,"logged":1}}
 ALL PASS

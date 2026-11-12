@@ -35,7 +35,7 @@ PASS old_2026-10-15_v97_day7_port：遊戲載入
 PASS old_2026-10-15_v97_day7_port 2 讀檔後日誌資料原封不動（G.memo 18 筆＝存檔 18 筆、day 一樣）  {"raw": 18, "G": 18, "shown": 18, "free": {"busy": false, "dlg": false, "depth": 0, "adv": false, "phone": false, "zone": "noodle", "day": 7, "h": 17.213}}
 FAIL old_2026-10-15_v97_day7_port 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、0 格）  {"hasBtn": false, "btnText": "", "menuOpen": true, "tabOn": false, "menuTitle": "筆記本", "title": null}
 FAIL old_2026-10-15_v97_day7_port 2 舊存檔第 1 筆「熬夜讀完了網拍相機的案例」（day 1＝原本 9/17 週三）排在 9/17 那一格  沒有日誌月曆
-FAIL old_2026-10-15_v97_day7_port 2 舊存檔第 2 筆「第一次去木柵大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格  沒有日誌月曆
+FAIL old_2026-10-15_v97_day7_port 2 舊存檔第 2 筆「第一次去外校大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格  沒有日誌月曆
 FAIL old_2026-10-15_v97_day7_port 2 舊存檔第 3 筆「咖啡買錯」（day 7＝原本 9/23 週二）排在 9/23 那一格  沒有日誌月曆
 FAIL old_2026-10-15_v97_day7_port 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）  {"heads": ["第一頁", "吃過的", "指定案例：網拍相機 1,000 元", "民法 §154：要約與要約之引誘", "民法 §88：意思表示錯誤", "民法 §91：撤銷後的賠償", "法律服務社", "民法 §153：契約成立", "日誌"], "leaked": ["· 9/20：導遊", "· 9/21：通識「城市與散步」備取，打算加簽", "· 9/21：選課結果"]}
 PASS old_2026-10-15_v97_day7_port：沒有 JS 例外  []
@@ -53,7 +53,7 @@ PASS old_2026-10-15_v97_day7_land：遊戲載入
 PASS old_2026-10-15_v97_day7_land 2 讀檔後日誌資料原封不動（G.memo 18 筆＝存檔 18 筆、day 一樣）  {"raw": 18, "G": 18, "shown": 18, "free": {"busy": false, "dlg": false, "depth": 0, "adv": false, "phone": false, "zone": "noodle", "day": 7, "h": 17.211}}
 FAIL old_2026-10-15_v97_day7_land 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、0 格）  {"hasBtn": false, "btnText": "", "menuOpen": true, "tabOn": false, "menuTitle": "筆記本", "title": null}
 FAIL old_2026-10-15_v97_day7_land 2 舊存檔第 1 筆「熬夜讀完了網拍相機的案例」（day 1＝原本 9/17 週三）排在 9/17 那一格  沒有日誌月曆
-FAIL old_2026-10-15_v97_day7_land 2 舊存檔第 2 筆「第一次去木柵大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格  沒有日誌月曆
+FAIL old_2026-10-15_v97_day7_land 2 舊存檔第 2 筆「第一次去外校大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格  沒有日誌月曆
 FAIL old_2026-10-15_v97_day7_land 2 舊存檔第 3 筆「咖啡買錯」（day 7＝原本 9/23 週二）排在 9/23 那一格  沒有日誌月曆
 FAIL old_2026-10-15_v97_day7_land 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）  {"heads": ["第一頁", "吃過的", "指定案例：網拍相機 1,000 元", "民法 §154：要約與要約之引誘", "民法 §88：意思表示錯誤", "民法 §91：撤銷後的賠償", "法律服務社", "民法 §153：契約成立", "日誌"], "leaked": ["· 9/20：導遊", "· 9/21：通識「城市與散步」備取，打算加簽", "· 9/21：選課結果"]}
 PASS old_2026-10-15_v97_day7_land：沒有 JS 例外  []
@@ -87,7 +87,7 @@ SHA ec4a1db0b CASES camp,old ORIENTS port,land
   FAILED camp_land 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）
   FAILED old_2026-10-15_v97_day7_port 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、0 格）
   FAILED old_2026-10-15_v97_day7_port 2 舊存檔第 1 筆「熬夜讀完了網拍相機的案例」（day 1＝原本 9/17 週三）排在 9/17 那一格
-  FAILED old_2026-10-15_v97_day7_port 2 舊存檔第 2 筆「第一次去木柵大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格
+  FAILED old_2026-10-15_v97_day7_port 2 舊存檔第 2 筆「第一次去外校大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格
   FAILED old_2026-10-15_v97_day7_port 2 舊存檔第 3 筆「咖啡買錯」（day 7＝原本 9/23 週二）排在 9/23 那一格
   FAILED old_2026-10-15_v97_day7_port 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）
   FAILED old_fatiao3d_save_day25_1027_port 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、0 格）
@@ -97,7 +97,7 @@ SHA ec4a1db0b CASES camp,old ORIENTS port,land
   FAILED old_fatiao3d_save_day25_1027_port 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）
   FAILED old_2026-10-15_v97_day7_land 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、0 格）
   FAILED old_2026-10-15_v97_day7_land 2 舊存檔第 1 筆「熬夜讀完了網拍相機的案例」（day 1＝原本 9/17 週三）排在 9/17 那一格
-  FAILED old_2026-10-15_v97_day7_land 2 舊存檔第 2 筆「第一次去木柵大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格
+  FAILED old_2026-10-15_v97_day7_land 2 舊存檔第 2 筆「第一次去外校大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格
   FAILED old_2026-10-15_v97_day7_land 2 舊存檔第 3 筆「咖啡買錯」（day 7＝原本 9/23 週二）排在 9/23 那一格
   FAILED old_2026-10-15_v97_day7_land 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）
   FAILED old_fatiao3d_save_day25_1027_land 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、0 格）

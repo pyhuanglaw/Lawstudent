@@ -14,8 +14,8 @@
 [say xs_nanyang_hall 10.60] 林芷若｜我們老師說，翻譯是背叛。
 [say xs_nanyang_hall 10.60] 林芷若｜我不同意。我覺得翻譯是搬家。東西都要帶走，可是房間不一樣大。
 [say xs_nanyang_hall 10.60] 林芷若｜你有沒有一句話，怎麼說都說不清楚？
-[choose xs_nanyang_hall 10.60] ["有。我跟我媽說我要重考那天。","沒有。我都說得很清楚。","有。可是說出來會很丟臉。"]
-[say xs_nanyang_hall 10.60] 祐廷｜有。我跟我媽說我要重考那天。
+[choose xs_nanyang_hall 10.60] ["有。我跟我媽說我要舊序章考試那天。","沒有。我都說得很清楚。","有。可是說出來會很丟臉。"]
+[say xs_nanyang_hall 10.60] 祐廷｜有。我跟我媽說我要舊序章考試那天。
 [say xs_nanyang_hall 10.60] 林芷若｜那句話後來怎麼說的？
 [say xs_nanyang_hall 10.60] ｜（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）
 [cap xs_nanyang_hall 11.60] 南洋戲院・林芷若・（2 小時）
@@ -46,8 +46,8 @@
 [say xs_nanyang_hall 10.59] 林芷若｜我們老師說，翻譯是背叛。
 [say xs_nanyang_hall 10.59] 林芷若｜我不同意。我覺得翻譯是搬家。東西都要帶走，可是房間不一樣大。
 [say xs_nanyang_hall 10.59] 林芷若｜你有沒有一句話，怎麼說都說不清楚？
-[choose xs_nanyang_hall 10.59] ["有。我跟我媽說我要重考那天。","沒有。我都說得很清楚。","有。可是說出來會很丟臉。"]
-[say xs_nanyang_hall 10.59] 祐廷｜有。我跟我媽說我要重考那天。
+[choose xs_nanyang_hall 10.59] ["有。我跟我媽說我要舊序章考試那天。","沒有。我都說得很清楚。","有。可是說出來會很丟臉。"]
+[say xs_nanyang_hall 10.59] 祐廷｜有。我跟我媽說我要舊序章考試那天。
 [say xs_nanyang_hall 10.59] 林芷若｜那句話後來怎麼說的？
 [say xs_nanyang_hall 10.59] ｜（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）
 [cap xs_nanyang_hall 11.59] 南洋戲院・林芷若・（2 小時）
@@ -78,8 +78,8 @@
 [say xs_nanyang_hall 10.59] 林芷若｜我們老師說，翻譯是背叛。
 [say xs_nanyang_hall 10.59] 林芷若｜我不同意。我覺得翻譯是搬家。東西都要帶走，可是房間不一樣大。
 [say xs_nanyang_hall 10.59] 林芷若｜你有沒有一句話，怎麼說都說不清楚？
-[choose xs_nanyang_hall 10.59] ["有。我跟我媽說我要重考那天。","沒有。我都說得很清楚。","有。可是說出來會很丟臉。"]
-[say xs_nanyang_hall 10.59] 祐廷｜有。我跟我媽說我要重考那天。
+[choose xs_nanyang_hall 10.59] ["有。我跟我媽說我要舊序章考試那天。","沒有。我都說得很清楚。","有。可是說出來會很丟臉。"]
+[say xs_nanyang_hall 10.59] 祐廷｜有。我跟我媽說我要舊序章考試那天。
 [say xs_nanyang_hall 10.59] 林芷若｜那句話後來怎麼說的？
 [say xs_nanyang_hall 10.59] ｜（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）
 [cap xs_nanyang_hall 11.59] 南洋戲院・林芷若・（2 小時）

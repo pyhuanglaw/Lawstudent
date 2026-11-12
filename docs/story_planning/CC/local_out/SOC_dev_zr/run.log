@@ -547,7 +547,7 @@ INFO [heroine_02] reload：這個時段找不到他／走不到他旁邊  {"x": 
   [前置／捷徑] [heroine_02] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "林芷若", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_02] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_02] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_02] reload_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_02] 到達「林芷若 旁邊」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，23 秒
   [heroine_02] reload：互動鍵是「」，往他再走近

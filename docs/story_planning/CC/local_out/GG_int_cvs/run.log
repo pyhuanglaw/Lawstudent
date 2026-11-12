@@ -5,19 +5,19 @@ PASS 遊戲載入
 PASS [C1] 有「進入便利商店」互動點  {"x": -29.4, "z": 21, "r": 2.2, "label": "進入便利商店", "to": "cvs"}
   到達「進入便利商店」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
 PASS [C1] 走到旁邊：互動按鈕是「進入便利商店…」  {"x": -29.44, "z": 20.76, "interact": "進入便利商店"}
-PASS [C1] 按「進入便利商店」：gongguan → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [C1] 按「進入便利商店」：gongguan → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
 PASS C1 從公館進：窗景不是 cvs_wz  [{"pview": "cvs", "visible": false, "self": false, "map": {"img": true, "w": 1024}, "parent": null}]
   [C1] 截圖 cvs_night.png（23:30）
 PASS [C1_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "cvs", "dlg": false, "depth": 0, "moved": 7.9, "fb": [0, 0], "errs": []}
 PASS [C1_out] 有「離開」互動點  {"x": 0.4, "z": 4.9, "r": 0.9, "label": "離開日和便利店", "to": "gongguan"}
   到達「離開日和便利店」附近（0.16 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
 PASS [C1_out] 走到旁邊：互動按鈕是「離開…」  {"x": 0.5, "z": 4.78, "interact": "離開日和便利店"}
-PASS [C1_out] 按「離開日和便利店」：cvs → gongguan  {"zone": "gongguan", "x": -29.4, "z": 18, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [C1_out] 按「離開日和便利店」：cvs → gongguan  {"zone": "gongguan", "x": -29.4, "z": 18, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [前置／捷徑] 讀檔：wenzhou (45.8, 0.4)、2025-09-23（二）15:00、money 3000、條件事件關閉、溫州街 A5 日和便利店門前
 PASS [C2] 有「進入日和便利店」互動點  {"x": 45.8, "z": 3.8, "r": 1.2, "label": "進入日和便利店", "to": null}
   到達「進入日和便利店」附近（0.21 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，10 秒
 PASS [C2] 走到旁邊：互動按鈕是「進入日和便利店…」  {"x": 45.8, "z": 3.59, "interact": "進入日和便利店"}
-PASS [C2] 按「進入日和便利店」：wenzhou → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [C2] 按「進入日和便利店」：wenzhou → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來外校大學？我當導遊。"}
   [C2] 剛進門（鏡頭在店門外那一側，前牆淡出時窗的零件一起藏）：[{"pview": "cvs_wz", "visible": false, "self": false, "map": {"img": true, "w": 1024}, "parent": null}]
   走不到「店中間（看窗）」：最後位置 (1.12,0.2)，目標 (0.4,0.2)；點地面 40 次、轉鏡頭 0 次、搖桿 0 次
     這段時間：畫面 30330 格／420 秒、遊戲時間 15.12→17.92、paused=False、開著的面板 []

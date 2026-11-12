@@ -2,7 +2,7 @@
 CASES=["heroine_01", "heroine_02"] STEPS=["media", "first", "greet", "up", "ladder", "menu", "invite", "invite_study", "reload", "date", "phone", "phone_date", "shop", "walk"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
   [前置／捷徑] ROSTER：讀檔 2025-10-08 09:00 校園，條件事件關閉；所有人設成認識、朋友（可攻略第 5 階）、有聯絡方式
-ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧正勳", ""], ["econ_pinyu", "曾品妤", ""], ["econ_weilun", "邱韋綸", ""], ["econ_jiahao", "宋家豪", ""], ["econ_tangrui", "唐睿", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
+ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧舊序章同學", ""], ["econ_pinyu", "曾舊序章同學", ""], ["econ_weilun", "邱舊序章同學", ""], ["econ_jiahao", "宋舊序章同學", ""], ["econ_tangrui", "舊序章同學", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
 ROSTER 不能約：[["jp_caizhen", "葛采蓁", "這學期不在學校"], ["jp_liheng", "鄒立衡", "這學期不在學校"], ["jp_yuheng", "汪宇恆", "這學期不在學校"], ["kexin", "杜可昕", ""], ["pool_1", "林采潔", ""], ["pool_2", "蔡宗霖", ""], ["pool_3", "邱家齊", ""], ["pool_4", "黃郁婷", ""], ["pool_5", "劉晏如", ""], ["pool_6", "鄭元碩", ""], ["pool_7", "曾靖雯", ""], ["pool_8", "楊書豪", ""], ["pool_9", "洪珮瑜", ""], ["pool_10", "何宇軒", ""], ["pool_11", "葉晨希", ""], ["pool_12", "施孟儒", ""], ["pool_13", "徐靜儀", ""], ["pool_14", "游振宇", ""], ["pool_15", "廖芸萱", ""], ["pool_16", "詹立群", ""], ["pool_17", "蕭乃文", ""], ["pool_18", "嚴守誠", ""], ["pool_19", "蘇維倫", ""], ["pool_20", "馬佳蓉", ""]]
 ROSTER 朋友頁有「訊息」的 45 人；這次 CASES 不在能約名單的：[]
 PASS [heroine_01] 遊戲載入
@@ -200,7 +200,7 @@ INFO [heroine_01] ladder Y1S1 A-L4 選項1：階梯沒有推進（這一次被�
   [前置／捷徑] [heroine_01] 前置：ACQUAINTANCE、階梯進度設到第 5 層（A-L5「憲法課你坐哪？我都坐第三排。」）：{"stage": "ACQUAINTANCE", "name": "沈以安", "fm": true, "lad": 4, "contact": true}
   [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_01] ladder Y1S1 A-L5：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_01] ladder Y1S1 A-L5：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_01] ladder Y1S1 A-L5_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_01] 「沈以安 旁邊」途中：bigmap 開著（遊戲暫停），先關掉
   [heroine_01] 「沈以安 旁邊」途中：bigmap 開著（遊戲暫停），先關掉
@@ -1081,7 +1081,7 @@ PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 約 回
 PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 約 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 約：約成（daybreak 21 10.00）
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 選單 ["直接過去：和沈以安約在Daybreak（10:00）", "自己走過去"] → 選「直接過去：和沈以安約在Daybreak（10:00）」
-  [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 選單 ["重考那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「重考那年，我半夜騎車去河堤吹風。」
+  [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 選單 ["舊序章考試那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「舊序章考試那年，我半夜騎車去河堤吹風。」
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
 PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐）：出發、到場、見面那一場一路點得完
 PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "daybreak", "lv": 0, "pseat": true, "nseat": true, "seatD": 1, "sameGroup": true, "doorD": 6.9, "spawnD": 5.5, "npc": true, "nD": 1, "nbeh": "idle", "nleaving": false, "nx": 2.05, "nz": -2.5, "p": [2.05, -3.5], "ptable": 8, "ntable": 8, "others": [], "othersInfo": []}
@@ -1133,7 +1133,7 @@ FAIL [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支1
   [前置／捷徑] [heroine_01] 讀回存檔（phone_date 今天最近（去 Daybreak 吃早午餐） 分支1-2「現在。我本來應該」：約好、時間快到的那一刻）
   [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支1-2「現在。我本來應該」 選單 ["直接過去：和沈以安約在Daybreak（10:00）", "自己走過去"] → 選「直接過去：和沈以安約在Daybreak（10:00）」
-  [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支1-2「現在。我本來應該」 選單 ["重考那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「現在。我本來應該在讀書。」
+  [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支1-2「現在。我本來應該」 選單 ["舊序章考試那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「現在。我本來應該在讀書。」
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支1-2「現在。我本來應該」 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
 PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支1-2「現在。我本來應該」：出發、到場、見面那一場一路點得完
 PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支1-2「現在。我本來應該」：開演時她在場（離玩家 ≤ 4 m）  {"zone": "daybreak", "lv": 0, "pseat": true, "nseat": true, "seatD": 1, "sameGroup": true, "doorD": 6.9, "spawnD": 5.5, "npc": true, "nD": 1, "nbeh": "idle", "nleaving": false, "nx": 2.05, "nz": -2.5, "p": [2.05, -3.5], "ptable": 8, "ntable": 8, "others": [], "othersInfo": []}
@@ -1152,7 +1152,7 @@ PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支1
   [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-1「「因為以前被拿走」 選單 ["點頭", "假裝看手機"] → 選「點頭」
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-1「「因為以前被拿走」 選單 ["直接過去：和沈以安約在Daybreak（10:00）", "自己走過去"] → 選「直接過去：和沈以安約在Daybreak（10:00）」
-  [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-1「「因為以前被拿走」 選單 ["重考那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「我很少做規則以外的事。」
+  [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-1「「因為以前被拿走」 選單 ["舊序章考試那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「我很少做規則以外的事。」
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-1「「因為以前被拿走」 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
 PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-1「「因為以前被拿走」：出發、到場、見面那一場一路點得完
 FAIL [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-1「「因為以前被拿走」：開演時她在場（離玩家 ≤ 4 m）  {"zone": "campus", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 23.47, "spawnD": 135.42, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [27.18, 37.25], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
@@ -1171,7 +1171,7 @@ PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2
   [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-2「「我沒有想過。」」 選單 ["點頭", "假裝看手機"] → 選「點頭」
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-2「「我沒有想過。」」 選單 ["直接過去：和沈以安約在Daybreak（10:00）", "自己走過去"] → 選「直接過去：和沈以安約在Daybreak（10:00）」
-  [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-2「「我沒有想過。」」 選單 ["重考那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「現在。我本來應該在讀書。」
+  [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-2「「我沒有想過。」」 選單 ["舊序章考試那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「現在。我本來應該在讀書。」
   [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-2「「我沒有想過。」」 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
 PASS [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-2「「我沒有想過。」」：出發、到場、見面那一場一路點得完
 FAIL [heroine_01] phone_date 今天最近（去 Daybreak 吃早午餐） 分支2-2「「我沒有想過。」」：開演時她在場（離玩家 ≤ 4 m）  {"zone": "campus", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 23.47, "spawnD": 135.42, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [27.18, 37.25], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
@@ -1224,7 +1224,7 @@ PASS [heroine_01] phone_date 念書（去總圖一起念書） 約：約成（li
   [heroine_01] 到達「跟著沈以安（go）」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
   [heroine_01] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 2.2, "lv": 1, "seat": {"x": -7.02, "z": 2.2, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
   [heroine_01] 「跟著沈以安（wait）」途中停下（離目標 1.96 m）：我把你寫在我這組了。剩下的人裡，你最不會遲交。
-  [heroine_01] phone_date 念書（去總圖一起念書） 選單 ["重考那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「重考那年，我半夜騎車去河堤吹風。」
+  [heroine_01] phone_date 念書（去總圖一起念書） 選單 ["舊序章考試那年，我半夜騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「舊序章考試那年，我半夜騎車去河堤吹風。」
   [heroine_01] phone_date 念書（去總圖一起念書） 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
 PASS [heroine_01] phone_date 念書（去總圖一起念書）：出發、到場、見面那一場一路點得完
 PASS [heroine_01] phone_date 念書（去總圖一起念書）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 6.11, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}

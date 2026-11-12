@@ -2,7 +2,7 @@
 CASES=["heroine_03"] STEPS=["phone_date"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
   [前置／捷徑] ROSTER：讀檔 2025-10-08 09:00 校園，條件事件關閉；所有人設成認識、朋友（可攻略第 5 階）、有聯絡方式
-ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧正勳", ""], ["econ_pinyu", "曾品妤", ""], ["econ_weilun", "邱韋綸", ""], ["econ_jiahao", "宋家豪", ""], ["econ_tangrui", "唐睿", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
+ROSTER 手機能約（21 人）：[["heroine_01", "沈以安", "可出去玩"], ["heroine_02", "林芷若", "可出去玩"], ["heroine_03", "陳語彤", "可出去玩"], ["heroine_04", "高子晴", "可出去玩"], ["heroine_05", "溫書瑀", "可出去玩"], ["zhe", "阿哲", ""], ["yu", "Alison", ""], ["classmate_bohan", "柏翰", ""], ["classmate_xinci", "芯慈", "可出去玩"], ["classmate_mingxuan", "明軒", ""], ["classmate_youchen", "賴宥辰", ""], ["classmate_peishan", "沛珊", "可出去玩"], ["kai", "阿凱", ""], ["econ_zhengxun", "盧舊序章同學", ""], ["econ_pinyu", "曾舊序章同學", ""], ["econ_weilun", "邱舊序章同學", ""], ["econ_jiahao", "宋舊序章同學", ""], ["econ_tangrui", "舊序章同學", ""], ["npc_fangyt", "方奕廷", ""], ["npc_huangxh", "黃筱涵", ""], ["npc_ta_chen", "陳助教", ""]]
 ROSTER 不能約：[["jp_caizhen", "葛采蓁", "這學期不在學校"], ["jp_liheng", "鄒立衡", "這學期不在學校"], ["jp_yuheng", "汪宇恆", "這學期不在學校"], ["kexin", "杜可昕", ""], ["pool_1", "林采潔", ""], ["pool_2", "蔡宗霖", ""], ["pool_3", "邱家齊", ""], ["pool_4", "黃郁婷", ""], ["pool_5", "劉晏如", ""], ["pool_6", "鄭元碩", ""], ["pool_7", "曾靖雯", ""], ["pool_8", "楊書豪", ""], ["pool_9", "洪珮瑜", ""], ["pool_10", "何宇軒", ""], ["pool_11", "葉晨希", ""], ["pool_12", "施孟儒", ""], ["pool_13", "徐靜儀", ""], ["pool_14", "游振宇", ""], ["pool_15", "廖芸萱", ""], ["pool_16", "詹立群", ""], ["pool_17", "蕭乃文", ""], ["pool_18", "嚴守誠", ""], ["pool_19", "蘇維倫", ""], ["pool_20", "馬佳蓉", ""]]
 ROSTER 朋友頁有「訊息」的 45 人；這次 CASES 不在能約名單的：[]
 PASS [heroine_03] 遊戲載入
@@ -59,7 +59,7 @@ PASS [heroine_03] phone_date 念書（去總圖一起念書） 約：約成（li
   [heroine_03] 到達「跟著陳語彤（go）」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，16 秒
   [heroine_03] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 2.2, "lv": 1, "seat": {"x": -7.02, "z": 2.2, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
   [heroine_03] 「跟著陳語彤（wait）」途中停下（離目標 0.66 m）：（小聲）二樓靠窗那排比較安靜。
-  [heroine_03] phone_date 念書（去總圖一起念書） 選單 ["被看的。重考那年，親戚每一個都在看我考得怎樣。", "看人的。念經濟系那一個多月，我常坐在系館樓下，看大家在忙什麼。", "我在看妳。"] → 選「被看的。重考那年，親戚每一個都在看我考得怎樣。」
+  [heroine_03] phone_date 念書（去總圖一起念書） 選單 ["被看的。舊序章考試那年，親戚每一個都在看我考得怎樣。", "看人的。念舊序章系所那一個多月，我常坐在系館樓下，看大家在忙什麼。", "我在看妳。"] → 選「被看的。舊序章考試那年，親戚每一個都在看我考得怎樣。」
   [heroine_03] phone_date 念書（去總圖一起念書） 選單 ["「下次去看到最後。」", "「住校好玩嗎？」", "（聽她說完）"] → 選「「下次去看到最後。」」
 PASS [heroine_03] phone_date 念書（去總圖一起念書）：出發、到場、見面那一場一路點得完
 PASS [heroine_03] phone_date 念書（去總圖一起念書）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 6.11, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
@@ -115,11 +115,11 @@ FAIL [heroine_03] phone_date 念書（去總圖一起念書） X207-二樓滿了
 PASS [heroine_03] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：出發、到場、見面那一場一路點得完
 FAIL [heroine_03] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 12.67, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
   [heroine_03] phone_date 念書（去總圖一起念書）：見面那一場的選單 3 個，換選項重跑 4 次
-  [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-1「看人的。念經濟系」：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-1「看人的。念舊序章系所」：約好、時間快到的那一刻）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「看人的。念經濟系」 選單 ["點頭", "假裝看手機"] → 選「點頭」
-PASS [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「看人的。念經濟系」：出發、到場、見面那一場一路點得完
-FAIL [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「看人的。念經濟系」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 12.6735, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+  [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「看人的。念舊序章系所」 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「看人的。念舊序章系所」：出發、到場、見面那一場一路點得完
+FAIL [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「看人的。念舊序章系所」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 12.6735, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
   [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-2「我在看妳。」：約好、時間快到的那一刻）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [heroine_03] phone_date 念書（去總圖一起念書） 分支1-2「我在看妳。」 選單 ["點頭", "假裝看手機"] → 選「點頭」
@@ -135,7 +135,7 @@ FAIL [heroine_03] phone_date 念書（去總圖一起念書） 分支2-1「「�
   [heroine_03] phone_date 念書（去總圖一起念書） 分支2-2「（聽她說完）」 選單 ["點頭", "假裝看手機"] → 選「點頭」
 PASS [heroine_03] phone_date 念書（去總圖一起念書） 分支2-2「（聽她說完）」：出發、到場、見面那一場一路點得完
 FAIL [heroine_03] phone_date 念書（去總圖一起念書） 分支2-2「（聽她說完）」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 12.676, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
-== 人物 heroine_03 結果 FAIL（6）：phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支1-1「看人的。念經濟系」：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支1-2「我在看妳。」：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支2-1「「住校好玩嗎？」」：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支2-2「（聽她說完）」：到了約定的地方、見面那一場有開始
+== 人物 heroine_03 結果 FAIL（6）：phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支1-1「看人的。念舊序章系所」：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支1-2「我在看妳。」：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支2-1「「住校好玩嗎？」」：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支2-2「（聽她說完）」：到了約定的地方、見面那一場有開始
    用了 19.7 分鐘
-==== 總結：1 人，FAIL 1 人：[["heroine_03", ["phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始", "phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始", "phone_date 念書（去總圖一起念書） 分支1-1「看人的。念經濟系」：到了約定的地方、見面那一場有開始"]]]
+==== 總結：1 人，FAIL 1 人：[["heroine_03", ["phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始", "phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始", "phone_date 念書（去總圖一起念書） 分支1-1「看人的。念舊序章系所」：到了約定的地方、見面那一場有開始"]]]
 FAILED 6

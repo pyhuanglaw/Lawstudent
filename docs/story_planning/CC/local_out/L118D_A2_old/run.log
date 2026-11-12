@@ -13,7 +13,7 @@ PASS korea 這個時間有開（沒有公休紙）  {"id": "korea", "open": true
 PASS omu 這個時間有開（沒有公休紙）  {"id": "omu", "open": true, "note": null}
 PASS noodle2 這個時間有開（沒有公休紙）  {"id": "noodle2", "open": true, "note": null}
   逐字｜start｜lane118｜clockZ｜118 巷
-  逐字｜start｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+  逐字｜start｜lane118｜toast｜手機｜可昕：週末來外校大學？我當導遊。
 
 ===== pasta 義大麵屋（PARTS=A）=====
 PASS pasta 118 巷配置有這間店（LANE118_LAYOUT）
@@ -47,7 +47,7 @@ FAIL pasta 進得去（營業中，互動鍵是「進…」）
 PASS korea 118 巷配置有這間店（LANE118_LAYOUT）
   [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, 19.50)，12.17 點、錢 5000、QUIET=True（清州刀削麵 店門口附近的人行道）
 PASS korea 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": 19.5, "ry": 3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.184, "fallbacks": 0, "y": 0, "lv": 0, "frame": 29050, "paused": false}
-  逐字｜korea_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+  逐字｜korea_load｜lane118｜toast｜手機｜可昕：週末來外校大學？我當導遊。
   逐字｜korea_load｜lane118｜clockZ｜118 巷
 PASS korea 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": 15.5, "r": 1.4, "label": "進韓食小廚（韓式）", "hidden": false, "enter": true}, {"x": 4.3, "z": 15.5, "r": 1.4, "label": "韓食小廚（韓式）", "hidden": true, "enter": false}]
   [ 591.9s] 「清州刀削麵 店門口」搖桿推不到（推 7 次、最近 2.34 m），改點地面（L.go_to，也是觸控）
@@ -116,7 +116,7 @@ PASS korea 出來回到 118 巷、站得住、互動鍵不是「進清州刀削�
 PASS omu 118 巷配置有這間店（LANE118_LAYOUT）
   [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, 5.50)，12.17 點、錢 5000、QUIET=True（奈良咖哩 店門口附近的人行道）
 PASS omu 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": 5.5, "ry": 3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "小菜可以續喔。", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.184, "fallbacks": 0, "y": 0, "lv": 0, "frame": 32510, "paused": false}
-  逐字｜omu_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+  逐字｜omu_load｜lane118｜toast｜手機｜可昕：週末來外校大學？我當導遊。
 PASS omu 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": 1.5, "r": 1.4, "label": "進蛋包飯研究所（蛋包飯）", "hidden": false, "enter": true}, {"x": 4.3, "z": 1.5, "r": 1.4, "label": "蛋包飯研究所（蛋包飯）", "hidden": true, "enter": false}]
   [ 682.4s] 搖桿走到「奈良咖哩 店門口」（0.18 m，推 2 次，3 秒）
   逐字｜omu_door｜lane118｜interactLabel｜和沛珊說話
@@ -186,7 +186,7 @@ PASS omu 出來回到 118 巷、站得住、互動鍵不是「進奈良咖哩」
 PASS noodle2 118 巷配置有這間店（LANE118_LAYOUT）
   [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, -6.50)，12.17 點、錢 5000、QUIET=True（迪倫窯烤披薩 店門口附近的人行道）
 PASS noodle2 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": -6.5, "ry": 3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "蛋要全熟還是半熟？", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.184, "fallbacks": 0, "y": 0, "lv": 0, "frame": 35722, "paused": false}
-  逐字｜noodle2_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+  逐字｜noodle2_load｜lane118｜toast｜手機｜可昕：週末來外校大學？我當導遊。
 PASS noodle2 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": -10.5, "r": 1.4, "label": "進六張犁麵舖（麵店）", "hidden": false, "enter": true}, {"x": 4.3, "z": -10.5, "r": 1.4, "label": "六張犁麵舖（麵店）", "hidden": true, "enter": false}]
   [ 778.5s] 「迪倫窯烤披薩 店門口」搖桿推不到（推 8 次、最近 1.02 m），改點地面（L.go_to，也是觸控）
   [ 781.3s] 到達「迪倫窯烤披薩 店門口」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒

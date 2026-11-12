@@ -14,7 +14,7 @@ SKIP [kexin] greet：找不到她在 3D 的時段（或走不到她旁邊）
 SKIP [kexin] up：找不到她在 3D 的時段
 -- [kexin] ladder
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
-SKIP [kexin] ladder Y1S1 K-L1：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "木柵大學那個坡真的很陡。"}）
+SKIP [kexin] ladder Y1S1 K-L1：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "外校大學那個坡真的很陡。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
 SKIP [kexin] ladder Y1S1 K-L2：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": "meet", "context": "date", "line": "（她摸了一下耳朵上的小長頸鹿）我耳環都只戴一邊。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
@@ -26,7 +26,7 @@ SKIP [kexin] ladder Y1S1 K-L5：掃不到她在、這一層播得出來的時段
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
 SKIP [kexin] ladder Y1S1 K-L6：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": "video", "context": "date", "line": "（她把手機立在書堆旁邊，只看得到她的額頭）不要講話喔，各自念。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
-SKIP [kexin] ladder Y1S1 K-L7：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "予樂問我你是什麼樣的人。"}）
+SKIP [kexin] ladder Y1S1 K-L7：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "舊序章同學問我你是什麼樣的人。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
 SKIP [kexin] ladder Y1S1 K-L8：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": "date", "line": "這學期快結束了欸。"}）
   [前置／捷徑] [kexin] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）

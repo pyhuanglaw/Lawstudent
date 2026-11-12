@@ -11,7 +11,7 @@ FAIL [TZQ_A 1] 新存檔：八間店都不能直接前往（不在清單上，�
 PASS [TZQ_A 2] 公館有「往汀州路（巷子）」
   [  70.4s] 到達「[TZQ_A 2 進] 走到「往汀州路（巷子）」」附近（0.24 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，15 秒
   [  71.0s] [TZQ_A 2 進] 走到 True；按鈕「往汀州路（巷子）」
-PASS [TZQ_A 2] 從公館走進汀州路（6.7 秒）  {"zone": "tingzhou", "h": 14.1863, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "往公館（羅斯福路）", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "手機｜可昕：週末來木柵大學？我當導遊。", "q": "medium"}
+PASS [TZQ_A 2] 從公館走進汀州路（6.7 秒）  {"zone": "tingzhou", "h": 14.1863, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "往公館（羅斯福路）", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "手機｜可昕：週末來外校大學？我當導遊。", "q": "medium"}
 PASS [TZQ_A 2] 走進去以後 G.visited 有 tingzhou  {"dorm": true, "gongguan": true, "tingzhou": true}
 PASS [TZQ_A 2] 汀州路有「往公館」
   [  89.1s] 到達「[TZQ_A 2 回] 走到「往公館（羅斯福路）」」附近（0.43 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，11 秒

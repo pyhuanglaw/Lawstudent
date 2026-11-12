@@ -5,23 +5,23 @@ PASS 事件 ev_kexin_film_night 在 STORY_EVENTS 裡
   [前置／捷徑] void EVENTS.run(STORY_EVENTS.find(e=>e.id==="ev_kexin_film_night"))
   選項 ["「一把傘。今天沒下雨。」", "「去年的考古題。」", "「可昕上次借我的筆。」"] → 「「去年的考古題。」」
   （旁白）   （教室的燈                          [["left", null, "-", "", "noimg"], ["right", null, "-", "", "img"]]
-  予樂     這是很好笑的司機。                      [["left", null, "-", "", "noimg"], ["right", "yule", "show", "", "img"]]
+  舊序章同學     這是很好笑的司機。                      [["left", null, "-", "", "noimg"], ["right", "yule", "show", "", "img"]]
   杜可昕    這是邵鈞，考古題有目錄的那個。這是詹靖，什麼都        [["left", "kexin", "show", "", "img"], ["right", "yule", "show", "dim", "img"]]
-  予樂     破冰。每個人講一樣，你包包裡最沒用的東西。          [["left", "kexin", "show", "dim", "img"], ["right", "yule", "show", "", "img"]]
+  舊序章同學     破冰。每個人講一樣，你包包裡最沒用的東西。          [["left", "kexin", "show", "dim", "img"], ["right", "yule", "show", "", "img"]]
   邵鈞     ……這個我有興趣。                      [["left", "kexin", "show", "dim", "img"], ["right", "yule", "show", "dim", "img"]]
   （旁白）   （電影放到一半，詹靖在後排拍了一張大家的後腦勺        [["left", "kexin", "show", "", "img"], ["right", "yule", "show", "", "img"]]
-  （旁白）   （散場的時候，予樂站在門口數人頭。）             [["left", "kexin", "show", "", "img"], ["right", "yule", "show", "", "img"]]
-  予樂     外系的，一個都沒少。                     [["left", "kexin", "show", "dim", "img"], ["right", "yule", "show", "", "img"]]
+  （旁白）   （散場的時候，舊序章同學站在門口數人頭。）             [["left", "kexin", "show", "", "img"], ["right", "yule", "show", "", "img"]]
+  舊序章同學     外系的，一個都沒少。                     [["left", "kexin", "show", "dim", "img"], ["right", "yule", "show", "", "img"]]
   杜可昕    ……回去開車小心。到了跟我說。                [["left", "kexin", "show", "", "img"], ["right", "yule", "show", "dim", "img"]]
-PASS ① 演到邵鈞那一句、予樂那幾句  {"shao": 1, "yule": 3}
+PASS ① 演到邵鈞那一句、舊序章同學那幾句  {"shao": 1, "yule": 3}
 PASS ② 邵鈞說話（句子）：不佔框、台上有圖的框都變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": true, "off": false, "img": true, "compact": false}]
 PASS ② 邵鈞說話（截圖 land）：不佔框、台上有圖的框都變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": true, "off": false, "img": true, "compact": false}]
 PASS ② 邵鈞說話（截圖 port）：不佔框、台上有圖的框都變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": true, "off": false, "img": true, "compact": false}]
-PASS ③ 予樂說話（「這是很好笑的司機。」）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": null, "show": false, "dim": false, "off": true, "img": false, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
-PASS ③ 予樂說話（「破冰。每個人講一樣，」）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
-PASS ③ 予樂說話（「外系的，一個都沒少。」）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
-PASS ③ 予樂說話（截圖 land）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
-PASS ③ 予樂說話（截圖 port）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
+PASS ③ 舊序章同學說話（「這是很好笑的司機。」）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": null, "show": false, "dim": false, "off": true, "img": false, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
+PASS ③ 舊序章同學說話（「破冰。每個人講一樣，」）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
+PASS ③ 舊序章同學說話（「外系的，一個都沒少。」）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
+PASS ③ 舊序章同學說話（截圖 land）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
+PASS ③ 舊序章同學說話（截圖 port）：她那一框亮、其他有圖的框變暗  [{"s": "left", "id": "kexin", "show": true, "dim": true, "off": true, "img": true, "compact": false}, {"s": "right", "id": "yule", "show": true, "dim": false, "off": false, "img": true, "compact": false}]
 PASS ④ 整場沒有空框（show 的框都有圖）  []
 PASS ⑤ 立繪不跳來跳去：同一個人一直在同一框、上台以後沒有被擠下去  {"jumps": [], "gone": []}
 PASS 沒有 JS 例外  []

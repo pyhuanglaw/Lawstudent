@@ -210,7 +210,7 @@ SKIP [heroine_05] first：五位女主角的第一次見面是專屬事件（不
   [前置／捷徑] [heroine_05] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] greet：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] greet：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] greet_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
   [heroine_05] greet：互動鍵是「」，往他再走近
@@ -230,7 +230,7 @@ INFO [heroine_05] greet：這個時段找不到他／走不到他旁邊  {"x": -
   [前置／捷徑] [heroine_05] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] greet：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] greet：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] greet_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.21 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，41 秒
   [heroine_05] greet：互動鍵是「」，往他再走近
@@ -257,7 +257,7 @@ PASS [heroine_05] greet 連按兩次：沒有新的 JS 例外
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] menu：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] menu：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] menu_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.19 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，35 秒
   [heroine_05] menu：互動鍵是「」，往他再走近
@@ -268,7 +268,7 @@ INFO [heroine_05] menu：這個時段找不到他／走不到他旁邊  null
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] menu：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] menu：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] menu_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.23 m）：點地面 18 次、轉鏡頭 0 次、搖桿 0 次，81 秒
 INFO [heroine_05] menu：這個時段找不到他／走不到他旁邊  null
@@ -293,7 +293,7 @@ INFO [heroine_05] menu：說話以後沒有選單（只有閒聊）  []
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] reload_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.07 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
   [heroine_05] reload：互動鍵是「」，往他再走近
@@ -307,7 +307,7 @@ INFO [heroine_05] reload：這個時段找不到他／走不到他旁邊  null
   [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，舊序章同學。你舊序章系所那年的室友。
   [heroine_05] reload_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
   [heroine_05] 到達「溫書瑀 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
   [heroine_05] reload：互動鍵是「」，往他再走近
