@@ -496,7 +496,7 @@ async def lines_until_idle(pg, cdp, secs=30, pick=None):
         if q['choices']:
             o = await pe_opts(pg); k = pick([x['t'] for x in o]) if pick else None
             if k is None: return out, o
-            out.append({'who': '【選】', 't': o[k]['t'][:40]}); await choose_k(pg, cdp, k); continue
+            out.append({'who': '【選】', 't': o[k]['t'][:40]}); await pg.wait_for_timeout(600); await choose_k(pg, cdp, k); continue   # ?tapguard：選單出現 350 ms 內不收（game3d.js TAP_GUARD）
         if q['dlg']:
             d = await dlg(pg)
             if not out or out[-1] != {'who': d['who'], 't': d['t']}: out.append({'who': d['who'], 't': d['t']})
