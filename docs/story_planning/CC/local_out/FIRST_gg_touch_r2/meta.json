@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "FIRST_gg_touch_r2",
+  "sha": "21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_xs_inside_perf_probe.py",
+  "env": "SOLO=1;TAG=first_gg_touch_r2;ZONE=gongguan;PAIR=noodle,corner_records;FAR=30;TRIPS=1;SHA=21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49",
+  "machine": "MSI",
+  "start": "2026-11-13T01:20:59",
+  "end": "2026-11-13T01:22:20",
+  "seconds": 80,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 9,
+    "mem": 43,
+    "used_gb": 13.8,
+    "chrome_testing": 4
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
