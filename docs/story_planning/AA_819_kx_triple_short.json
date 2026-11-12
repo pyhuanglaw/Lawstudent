@@ -1,0 +1,229 @@
+{
+ "_meta": {
+  "doc": "AA_819 可昕第二批（X324 續改）：三連短句",
+  "by": "AA-C 2026-11-12",
+  "task": "DLG-FULL-REVIEW-1110",
+  "base": "開發分支 4e248bb55",
+  "what": "約會 26 句已直接改 date_system/lines 源稿（who=kexin 那一格）；閒聊階梯 7 句：Y1S1～Y4S1 五句已寫進 AA_781_kx_ladder_<學期>.json 的 rows，Y0S1／Y0S2 兩句沒有覆蓋檔，請 LAWWW 定怎麼收。",
+  "keep": [
+   "D10 你踩歪了。往右。右邊！（喊的）",
+   "D27 對。很好。我說完了。",
+   "K7-L7 要。牠考很久了。……跟我一樣。（帳號 A 留的）"
+  ],
+  "todo": "events.js 等其他檔 22 則、date_lines 找不到源稿的 2 則（好，我沒電了。手機。我也是。／來了就走？好吧。你欠我一次。）下一批"
+ },
+ "rows": [
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "kexin",
+   "old": "這首好難。再一次。我不走。",
+   "new": "這首好難。再來一次，沒過我不走。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "kexin",
+   "old": "不行。最多三次。第三次轉到了。",
+   "new": "不行，說好最多三次。你看，第三次就轉到了。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "kexin",
+   "old": "好。最後一筆。記完就不記。",
+   "new": "好，這是最後一筆，記完今天就不記了。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "kexin",
+   "old": "好。是你叫我買的。不好看你負責。",
+   "new": "好，是你叫我買的喔，不好看你要負責。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "kexin",
+   "old": "什麼意思。好，我懂了。很肉麻。",
+   "new": "什麼意思？……好，我懂了，你很肉麻欸。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "kexin",
+   "old": "好。可是要再排隊。算了，一圈。",
+   "new": "好。可是要再排一次隊欸。算了，一圈就一圈。"
+  },
+  {
+   "src": "date_system/lines/D11.json",
+   "who": "kexin",
+   "old": "好。好，可以了。好舒服。",
+   "new": "好。好，這樣可以了，比我想的舒服很多。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "kexin",
+   "old": "我數到四顆。你呢？不准亂報。",
+   "new": "我數到四顆，你呢？不准為了贏我亂報。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "kexin",
+   "old": "好。第三首。專心聽。",
+   "new": "好，第三首，這首你給我專心聽。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "kexin",
+   "old": "幫我拍一張。不行，重拍。我頭髮在飛。",
+   "new": "幫我拍一張。不行，重拍，我頭髮整個在飛。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "kexin",
+   "old": "合照。女王頭要入鏡。你蹲低一點。",
+   "new": "來合照。女王頭要入鏡，所以你蹲低一點。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "kexin",
+   "old": "茶好香。我喝不出差別。可是好香。",
+   "new": "茶好香。老實說我喝不出哪裡不一樣，可是真的好香。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "kexin",
+   "old": "我帶了暈車藥。山路很彎。幫你帶的。",
+   "new": "山路很彎，所以我帶了暈車藥，幫你帶的。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "kexin",
+   "old": "牛角麵包。我買兩個。一個給予樂。一個給你。",
+   "new": "牛角麵包我買兩個，一個帶回去給予樂，一個給你。"
+  },
+  {
+   "src": "date_system/lines/D22.json",
+   "who": "kexin",
+   "old": "外套幫我拿。不是，幫我穿。我手在拿手機。",
+   "new": "外套幫我拿一下。不是啦，是幫我穿上，我手在拿手機。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "kexin",
+   "old": "好。我計時。不計了。",
+   "new": "好，我來計時。……算了，今天不計了。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "kexin",
+   "old": "天上有飛機。好多人要出國。我們不用。",
+   "new": "天上有飛機，好多人要出國。我們今天不用去那麼遠。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "kexin",
+   "old": "好。二十分鐘。我設了計時。",
+   "new": "好，就泡二十分鐘，我設好計時了。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "kexin",
+   "old": "毛巾給我。你沒帶？好，用我的。",
+   "new": "毛巾給我。你沒帶？好啦，先用我這條。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "kexin",
+   "old": "好。被請一次。下一攤我來。",
+   "new": "好，這次讓你請，下一攤換我來。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "kexin",
+   "old": "好。小的。合理。",
+   "new": "好，買小的就好，這樣合理。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "kexin",
+   "old": "好。不上課。坐車廂。",
+   "new": "好，今天不上課，我們去坐車廂。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "kexin",
+   "old": "臺南。兩天一夜。行程表三頁。",
+   "new": "臺南，兩天一夜，我的行程表排了三頁。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "kexin",
+   "old": "（她在展間的長椅上拍拍旁邊）坐。看完這區再走。這是指令。",
+   "new": "（她在展間的長椅上拍拍旁邊）坐。看完這一區再走，這是指令。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "kexin",
+   "old": "好。不分析。坐樹下。",
+   "new": "好，今天不分析，去樹下坐著就好。"
+  },
+  {
+   "src": "date_system/lines/D32.json",
+   "who": "kexin",
+   "old": "熱湯很好喝。我在算熱量。好，不算。",
+   "new": "熱湯很好喝。我剛剛在算熱量……好啦，今天不算。"
+  },
+  {
+   "src": "ladder",
+   "term": "Y1S1",
+   "at": "K-L4",
+   "who": "kexin",
+   "old": "全班吵了一節。我站「出生」。你們呢？",
+   "new": "全班吵了一整節，我站「出生」那一邊。你們老師怎麼講？"
+  },
+  {
+   "src": "ladder",
+   "term": "Y1S2",
+   "at": "K2-L1",
+   "who": "kexin",
+   "old": "騙人。你記幾次？算了，不准說。",
+   "new": "騙人。你到底記了幾次？算了，不准說出來。"
+  },
+  {
+   "src": "ladder",
+   "term": "Y3S1",
+   "at": "K5-L1",
+   "who": "kexin",
+   "old": "一百二十七階。我每天都數。……我沒有變強壯。",
+   "new": "一百二十七階，我每天都數，數到現在也沒有變強壯。"
+  },
+  {
+   "src": "ladder",
+   "term": "Y4S1",
+   "at": "K7-L4",
+   "who": "kexin",
+   "old": "對。牠每天看著我。很有壓力。",
+   "new": "對，牠每天都看著我，壓力很大。"
+  },
+  {
+   "src": "ladder",
+   "term": "Y4S1",
+   "at": "K7-L5",
+   "who": "kexin",
+   "old": "一個禮拜一次？兩次？我還沒想好。",
+   "new": "一個禮拜一次還是兩次，我還沒想好。"
+  },
+  {
+   "src": "ladder",
+   "term": "Y0S1",
+   "at": "K0-L5",
+   "who": "kexin",
+   "old": "第四題。……你也錯了？好巧喔。",
+   "new": "第四題。你該不會也錯這一題吧？好巧喔。"
+  },
+  {
+   "src": "ladder",
+   "term": "Y0S2",
+   "at": "K0b-L1",
+   "who": "kexin",
+   "old": "不行。右邊靠窗。……好啦，下週換。",
+   "new": "不行，右邊靠窗是我的。……好啦，下週換你。"
+  }
+ ]
+}
