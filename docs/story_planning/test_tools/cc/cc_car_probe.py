@@ -1,5 +1,5 @@
 """CC（帳號 A）11-02：BB_222 驗收計畫第 2 節 B-3 CAR-01、CAR-04（國考 → 第一份工作 → 尾聲）的瀏覽器探針。階段 0＝修改前基準（a3b1bd647）。
-【CC_02 清單：未過】CC-C 11-12 只把「麵店團」改字成「桌遊團」（使用者 P0 NOODLE-NAME-PURGE-1112；PHONE.join 群組名、說明文字），邏輯沒改。這支還沒照 CC_02 丁逐條過 13 點：排電腦前要先過清單、寫清單行、雲端重跑。
+【CC_02 清單：未過】CC-C 11-12 只把群組舊名改字成「桌遊團」（使用者 P0 NOODLE-NAME-PURGE-1112；PHONE.join 群組名、說明文字），邏輯沒改。這支還沒照 CC_02 丁逐條過 13 點：排電腦前要先過清單、寫清單行、雲端重跑。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader，1～4 fps），URL 用 '<URL>/index.html?turbo'。
 
 程式（只讀）：src/postgrad3d.js（PG）。畢業後篇（PG.on：GRADUATED＋PG.done.grad、還沒 EPILOGUE_DONE）＝站著不動 2 秒就「跳到下一件事」（PG.tick → PG.advance → PG.jumpTo），
