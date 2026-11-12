@@ -1383,7 +1383,6 @@ const STORY = (function(){
     S.routeWatch(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉（主迴圈每一格、跳時間、讀檔、ROM 改狀態之前也都叫，不靠這裡）*/
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
-    if(typeof ECONFF!=='undefined'){ try{ ECONFF.tick(GM); }catch(e){ console.warn('ECONFF.tick',e); } }   /* 經濟系在學期間事件接事件（D102，src/econff3d.js）*/
     if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }
     S.phoneAuto(GM);   /* 要回覆的訊息自動打開手機（D103）*/   /* 手機：排定時間的訊息（交接包 v1）*/
     if(typeof PG!=='undefined'){ try{ PG.tick(GM); }catch(e){ console.warn('PG.tick',e); } }   /* 畢業以後（AA_319，src/postgrad3d.js）：國考、第一份工作、尾聲；畢業後篇跳到下一件事 */
@@ -1969,7 +1968,7 @@ const STORY = (function(){
         else if(F.E05_MEET&&F.E05_MEET_AT!=null&&now>=F.E05_MEET_AT+S.E05_NOSHOW-1e-3&&G.zone!==S.E05_GOTO.zone&&!PHONE.sent(G,'y0_e05_noshow')){ const t=Math.min(now,F.E05_MEET_AT+S.E05_NOSHOW);   /* 晚跑到（在劇情裡）＝時間照 30 分鐘那一刻 */   /* AA_727 noShow（85ce68113）：回了，約好的時間過了 30 分鐘還沒到 putong（哪一種流程都一樣）*/
           PHONE.at(G,Math.floor(t/24),t-Math.floor(t/24)*24,[K('你不用來了。'),K('我牽去車行了。……制服下次上課拿給你。')],'y0_e05_noshow'); S.e05Self(G,Math.floor(t/24),t-Math.floor(t/24)*24);
           if(typeof OUT!=='undefined'&&OUT.get){ const q=OUT.get(G,'y0_e05'); if(q&&q.state==='planned') q.state='missed'; } } }
-      if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)&&typeof OUT!=='undefined'&&OUT.get){ const q=OUT.get(G,'y0_e05'); if(q&&q.state==='planned') q.state='done'; } }   /* 事件接事件（ECONFF）由第 9 步帶過去：舊流程排的出發選單收掉（不然兩邊同時帶人過去）*/
+      }   /* 事件接事件（ECONFF）由第 9 步帶過去：舊流程排的出發選單收掉（不然兩邊同時帶人過去）*/
     /* ★E06／D2（BB_104 第 8-3 節、BB_105 D2；AA_154 第 103 行、A4）：E05 那一晚。E05 結束到 23:00 之間經過大一女舍門口 30 m 內＝D2（她在三樓看到你）；
        沒有就 22:30 E06（她先傳；第一句照 E05 的開口）。只會有一個版本。
        E05 沒演（E05_OPEN 'self'，AA_727 self.rule，企劃線 85ce68113）：E06 不發；D2 照發（沒提修車）——時間窗從她那一則（19:00「沒事了。」或沒到的「你不用來了。」）到 23:00 */
@@ -2033,8 +2032,7 @@ const STORY = (function(){
        回「好。」＝10/16 18:00 提醒，晚上走進總圖三樓就開始（events.js ev_y0_e10）；不答應、沒回、20:30 還沒到＝在小福遇到她（ev_y0_e10b）*/
     if(S.isEcon(G)){ const tue7=termDay('Y0S1',7,2);
       if(tue7!=null&&G.day>=tue7&&G.day<=tue7+1&&!(G.day===tue7&&G.hour<(F.E10_EVE==='went'?23.75:22.5))&&!PHONE.sent(G,'y0_e10_ask')){   /* AA_293 第 4 節：去了聚會的 23:45（她回到宿舍才傳）*/ F.E10_ASKED=true;
-        if(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)){ F.E10_GO='yes'; F.E10_TOAST=1; PHONE.at(G,tue7,F.E10_EVE==='went'?23.75:22.5,F.E10_EVE==='went'?[{th:'p:kexin',from:'kexin',text:'玩了一整晚。明天去總圖念書吧。期中考快到了。'}]:[{th:'p:kexin',from:'kexin',text:'你今天沒來。我們玩了一整晚。'},{th:'p:kexin',from:'kexin',text:'明天去總圖念書吧。期中考快到了。'}],'y0_e10_ask'); }   /* AA_300 第 7 節：補充，不出選項、記 E10_GO yes、不提示（總圖那場不演，日期卡一句帶過）*/
-        else { const askO={until:(tue7+1)*24+19,opts:[{t:'好。',set:{E10_GO:'yes'}},{t:'明天不行。',set:{E10_GO:'no'}}]}, KX=t=>({th:'p:kexin',from:'kexin',text:t});
+        { const askO={until:(tue7+1)*24+19,opts:[{t:'好。',set:{E10_GO:'yes'}},{t:'明天不行。',set:{E10_GO:'no'}}]}, KX=t=>({th:'p:kexin',from:'kexin',text:t});
         PHONE.at(G,tue7,F.E10_EVE==='went'?23.75:22.5,F.E10_EVE==='went'?[Object.assign(KX('玩了一整晚。明天去總圖念書吧。期中考快到了。'),{ask:askO})]:[KX('你今天沒來。我們玩了一整晚。'),Object.assign(KX('明天去總圖念書吧。期中考快到了。'),{ask:askO})],'y0_e10_ask'); } }   /* 沒去聚會的玩家換兩則（BB-B 573f8d2c，AA_154 2-1b 第 3 點）*/
       if(tue7!=null&&F.E10_GO==='yes'&&!F.E10_STUDY&&G.day===tue7+1&&G.hour>=18&&G.hour<20.5&&!F.E10_TOAST){ F.E10_TOAST=1; if(GM.toast) GM.toast('19:00 總圖三樓：和可昕念書',4200); } }
     /* ★E12 長頸鹿的尾巴（AA_154 A32）：①11/6（三）17:30 可昕私訊兩則（BB-B 定稿 a38a22c5）＋出發選單「醉月湖 20:00」（OUT goto：帶到湖的南岸步道，19:55 到）；
@@ -2045,7 +2043,7 @@ const STORY = (function(){
       if(wed10!=null&&G.day===wed10&&G.hour>=17+20/60&&!PHONE.sent(G,'y0_e12_ask')){ F.E12_ASKED=true;
         PHONE.at(G,wed10,17+20/60,[K('今天下課以後，去湖邊坐一下？')],'y0_e12_ask');   /* AA_303 第 2 節 12（取代 BB_104 8-4 的兩則）*/
         /* BUG-E12-ARRIVE-LATE（BB-C 11:1x）：休學在家（ECONFF 第二階段）不排出遊——出遊從家出發要 30 分鐘、到湖邊 18:15 已經過了她在的時間；改由 econff3d.js STEPS2 h3 17:45 直接帶到湖邊 */
-        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e12')&&G.hour<18&&!(typeof ECONFF!=='undefined'&&ECONFF.on2&&ECONFF.on2(G))) OUT.plan(G,{id:'y0_e12',goto:{zone:'campus',x:-34.5,z:-97.2,yaw:Math.PI},early:1/12,day:wed10,h:17.75,late:0.25,place:'映月湖',title:'映月湖 17:45',travel:'走過去',travelH:1/6}); }
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e12')&&G.hour<18) OUT.plan(G,{id:'y0_e12',goto:{zone:'campus',x:-34.5,z:-97.2,yaw:Math.PI},early:1/12,day:wed10,h:17.75,late:0.25,place:'映月湖',title:'映月湖 17:45',travel:'走過去',travelH:1/6}); }
       if(wed10!=null&&G.day===wed10&&F.E12_ASKED&&!F.E12_ANSWER&&G.zone==='campus'&&G.hour>=17.5&&G.hour<18&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E12 kexin',e); } }
       if(wed10!=null&&F.E12_ASKED&&!F.E12_ANSWER&&(G.day>wed10||G.hour>=18.5)&&!PHONE.sent(G,'y0_e12_phone')){ F.E12_PHONE=1;   /* AA_307 第 10 列：18:30 送、四則＋三選一（原本長頸鹿尾巴、椅子那三則）*/
         const opts=[{t:'「對不起，我睡著了。」',post:'對不起，我睡著了。',set:{E12_ANSWER:'sleep'},say:[K('……休學的人好羨慕。')]},
@@ -2231,7 +2229,7 @@ const STORY = (function(){
       if(F.E20_MAILBOX!=null&&!F.GIRAFFE_KEYCHAIN&&G.day>=F.E20_MAILBOX) F.GIRAFFE_KEYCHAIN=true;
       /* AA_529 第 5 節：30 分鐘版 E20、E20b、信箱那則（y0_e20_mail，CUT_MSG）都剪了，旗標照樣在 12/29 記——玩家沒看到，畢業以後卻提兩次（postgrad_lines.js）。
          記成 due＝之後第一張日期卡下面加兩句（econff3d.js S.cardLine）；沒有日期卡就掛在那天的起床（home3d.js S.sleep → ECONFF.keyWake）。E20、E20b、信箱有演的照原本、不加 */
-      if(F.Y0_KEY_CARD==null&&F.GIRAFFE_KEYCHAIN&&F.E20_MAILBOX!=null&&!D('ev_y0_e20')&&!D('ev_y0_e20b')&&typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)&&(PHONE.rec(G).cut||[]).includes('y0_e20_mail')) F.Y0_KEY_CARD='due'; }   /* 30 分鐘版信箱那則一定是剪的（長版會送到）；舊存檔過了 12/29 的照樣補（旁白是過去式「十二月底」）*/
+      }   /* 30 分鐘版信箱那則一定是剪的（長版會送到）；舊存檔過了 12/29 的照樣補（旁白是過去式「十二月底」）*/
     /* C2 自己的社團（AA_154 A37）：社課邀約、出發選單、唐睿的劇社私訊（Y0_EXTRA）刪除（AA_218 第 11 節、AA_154 0b-2；不提前到 10/17 以前，AA_355 第 3 節）。E07 選了社團（Y0_CLUB）照舊加進那個社團的群組 */
     if(S.isEcon(G)&&F.Y0_CLUB){ const C2={guitar:{g:'y0_guitar',n:'吉他社'},hiking:{g:'y0_hiking',n:'登山社'},badminton:{g:'y0_badminton',n:'羽球社'}}[F.Y0_CLUB]; if(C2&&!PHONE.inGroup(G,C2.g)) PHONE.join(G,C2.g,C2.n);
       const X=C2&&S.Y0_CLUB_MSG[C2.g]; if(X&&PHONE.inGroup(G,C2.g)) X.m.forEach(([k,L],i)=>{ const d=S.dayOfKey(k), tag=C2.g+'_'+(i+1); if(d!=null&&G.day<=d) PHONE.at(G,d,21,L.map(t=>({th:'g:'+C2.g,from:X.from,name:X.who,text:t,quiet:true})),tag);
@@ -3259,7 +3257,7 @@ const STORY = (function(){
   /* AA_348 B8（BB218-P3-1021 ③）：經濟系 30 分鐘版跳日期時，任何新訊息都會停下來、打開手機（econff3d.js jumpTo）——所以手機小事不只要和上一則小事隔 3 天，
      也要和別的訊息（颱風假、錯過的邀約、群組）隔 3 天；當天或兩天內已經排好別的訊息也先不排。原本只看小事自己：9/29 颱風假群組、9/30 小事，10/11 約、10/12 小事，玩家連兩天被打斷。
      決定那天（G.day）、送出那一刻（原本決定的那天）都看；rt_ 例行訊息、dp_ 小事自己不算「別的」。法律系、經濟系完整版不受影響 */
-  S.dpTooSoon=function(G,day){ if(!(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G))) return false; const F=G.flags||{}, other=t=>!(t&&/^(rt_|dp_)/.test(t)); let last=-1e9;
+  S.dpTooSoon=function(G,day){ return false; const F=G.flags||{}, other=t=>!(t&&/^(rt_|dp_)/.test(t)); let last=-1e9;
     for(const x of Object.values(F.dpDayOf||{})) if(typeof x==='number'&&x<=day) last=Math.max(last,x);
     for(const m of (G.msgs||[])) if(m&&m.from!=='player'&&typeof m.day==='number'&&m.day<=day&&other(m.tag)) last=Math.max(last,m.day);
     if(day-last<3) return true;
@@ -3280,7 +3278,7 @@ const STORY = (function(){
     if(S.dpTooSoon(G,G.day)) return;   /* AA_348 B8：經濟系 30 分鐘版的手機小事至少隔 3 天一則（9/23～10/3 原本每天停一次，使用者 10-18 嫌「每天一直按快轉」）；法律系不受影響 */
     const i0=DAILY.findIndex(d=>d.id===F.dpLast)+1;
     const last=F.dpDayOf||{};
-    const short=typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G), cand=[];
+    const short=false, cand=[];
     for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if(!(d.term?d.term(t):t.id==='Y1S1')||(N()[d.id]|0)>=(d.max?d.max(G):1)||(last[d.id]!=null&&G.day-last[d.id]<(d.gap||7))||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; cand.push(d); if(!short) break; }
     if(!cand.length) return; let pick=cand[0];
     /* 經濟系 30 分鐘版小事至少隔 3 天，位置很少：快過期的先排（之後還能排的天數最少的）——原本照順序輪，阿勳「星期三的微積分」（第 8 週、10/23 起）兩輪都被第 4 週起都能排的那則拿走、玩家看不到（BB 10-21，AA_368 M6）。法律系照舊輪 */
@@ -3606,7 +3604,7 @@ const STORY = (function(){
   S.DARK_MAX=0.82;   /* 沒有熄燈光照貼圖時曝光最多壓掉多少（0.7 在 SwiftShader 截圖還像傍晚，2026-10-30）*/
   S.sleepSceneOf=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||G.zone!=='dorm'||!E||!E.zone||!E.player||typeof DORM_ROOM==='undefined'||!DORM_ROOM||!DORM_ROOM.units) return null;
     const u=DORM_ROOM.units.find(q=>q.id===(DORM_ROOM.player_unit||'L2')), sc=u&&u.sleep_scene; if(!sc||!sc.approach||!Array.isArray(sc.steps)||!sc.steps.length||!sc.lie||!sc.lie.feet||!sc.cam||!sc.cam.eye||!sc.cam.look) return null; return sc; };
-  S.sleepJumpMode=G=>!!((typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)&&ECONFF.next&&ECONFF.next(G))||(typeof PG!=='undefined'&&PG.bedOptions&&PG.bedOptions(G)));   /* 「睡覺＝到下一件事」（S.bedOptions 同一個判斷）*/
+  S.sleepJumpMode=G=>!!((typeof PG!=='undefined'&&PG.bedOptions&&PG.bedOptions(G)));   /* 「睡覺＝到下一件事」（S.bedOptions 同一個判斷）*/
   /* 熄燈的程度 k（0＝照原本、1＝熄燈）：z.lightsOff 優先；沒有就壓曝光。k 回到 0＝曝光還原成原本的值 */
   let darkSave=null;
   S.DARK_LIGHTS=0.85;   /* 熄燈時半球光、方向光降掉的比例（剩一成五）*/
@@ -3745,7 +3743,7 @@ const STORY = (function(){
       if(da&&da.h<to){ to=da.h; hint=da.why+'，出發前 30 分鐘叫醒你（'+hm(to)+'）'; }
       { const oa=S.outStopsToday(G,hh)[0]; if(oa&&oa.h<to){ to=oa.h; hint=oa.why+'，出發前 10 分鐘叫醒你（'+hm(to)+'）'; } }
       if(to>hh+0.05&&to<24&&!out.some(o=>Math.abs(o.to-to)<0.02)) out.push({kind:'nap',to,t:lab,hint}); } return out; };
-  S.bedOptions=function(G){ if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)&&ECONFF.next&&ECONFF.next(G)) return [{t:'睡覺',hint:'到下一件事',kind:'sleep'},{t:'先不睡',kind:'stay'}];   /* 經濟系事件模式：睡覺＝到下一件事（ECONFF.sleepJump），不寫「睡到幾點」「會錯過」（BB-C 10-18 建議；UX-ECON-BED-1018）*/
+  S.bedOptions=function(G){
     if(typeof PG!=='undefined'&&PG.bedOptions){ const pg=PG.bedOptions(G); if(pg) return pg; }   /* 畢業後篇：睡覺＝到下一件事（src/postgrad3d.js）*/
     const out=[]; const hh=h(G), late=G.hour>=24, night=late||hh>=17.5||hh<5;
     if(S.opening(G)){ out.push({kind:'sleep',t:'睡覺',hint:'明天早上醒來'}); out.push({kind:'stay',t:'再撐一下'}); return out; }
@@ -3932,7 +3930,7 @@ const STORY = (function(){
   S.e05Plan=function(G){ const F=G.flags||{}; if(!F.E05_MEET||F.E05_MEET_AT!=null||F.E05_OPEN||S.e05Done(G)) return false; const o=S.E05_OPTS.find(x=>x.k===F.E05_MEET)||S.E05_OPTS[0];
     const here=G.zone===S.E05_GOTO.zone, home=!here&&typeof HOME!=='undefined'&&HOME.at&&HOME.at(G), min=here?0:S.e05Min(G,o), at=G.day*24+G.hour+min/60;   /* here：回的時候人就在普通教學館＝現在就演（不排、不出字卡）*/
     F.E05_MEET_AT=+at.toFixed(4); F.E05_MEET_TR=here?'':home?'捷運＋公車 約 30 分鐘':o.travel+'約 '+min+' 分鐘';
-    if(!here&&!(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G))&&typeof OUT!=='undefined'&&OUT.plan){ const day=Math.floor(at/24), hh=at-day*24;   /* 舊流程（?nofastecon）：出發選單 */
+    if(!here&&typeof OUT!=='undefined'&&OUT.plan){ const day=Math.floor(at/24), hh=at-day*24;   /* 舊流程（?nofastecon）：出發選單 */
       OUT.plan(G,{id:'y0_e05',goto:Object.assign({},S.E05_GOTO),day,h:hh,late:S.E05_NOSHOW,must:true,silent:true,place:'普通教學館',title:'普通教學館前',travel:F.E05_MEET_TR,travelH:home?0.5:min/60}); }
     return true; };
   /* 跳過時間的停點（CLS.STOP_FNS）：回了她、約好的見面還沒演＝停在見面前 10 分鐘（BB-B 11-07 17:20 P3：回了以後自己按「等到晚上（20:00）」，這一跳不停，睡覺時才演 E05、晚了三小時）；
@@ -3969,7 +3967,6 @@ const STORY = (function(){
   S.E36_AT={x:-23.6,z:-12};   /* E36 可昕在椰林大道的長椅（-25,-13）旁邊（BB_104 8-11「她坐在路邊的椅子上」）*/   /* E35 可昕站的地方：大一女舍門口長椅（-93,54.2）的東邊（AA_154 A41 ①：D1、D2、E13 用的同一個地方）*/
   /* 睡覺的整段：S._sleeping＝S.tick 不開新的事件（醒來的字卡、換房間之間沒有劇情鎖）；結束（包括中途 return）才放開 */
   async function sleepNow(GM,wake,alarm){
-    if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return;   /* 經濟系事件接事件：睡覺＝到下一個事件（不能睡過去）*/
     if(typeof PG!=='undefined'&&PG.sleepJump&&await PG.sleepJump(GM)) return;   /* 畢業後篇：睡覺＝到下一件事；6/1 晚上不會睡過 6/2 的典禮（src/postgrad3d.js）*/
     S._sleeping=true; try{ return await sleepBody(GM,wake,alarm); } finally { S._sleeping=false; } }   /* 兩種「睡覺＝到下一件事」自己管劇情鎖，照舊；一般的睡覺才鎖 */
   async function sleepBody(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E; const bedSc=S.sleepSceneOf(GM);   /* 在宿舍房間睡著（有 sleep_scene）＝在床上醒來、爬下來（DORM-SLEEP-1030）*/

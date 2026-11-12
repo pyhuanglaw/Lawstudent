@@ -649,7 +649,7 @@ const GAME = (function(){
   /* 卡住的紀錄（BUG-MOVEOUT-STUCK-1018、BUG-BOWL-STUCK-1018：瀏覽器照劇情重演都沒卡住，要使用者那一局的線索）：存在瀏覽器（最近 5 筆，讀檔也不會不見），
      「匯出存檔」的檔案多一欄 _stuck——使用者照常上傳存檔，就看得到是哪一段沒結束（D.busyWho）、在哪一天哪裡。不影響遊戲 */
   function stuckLog(add){ let L=[]; try{ L=JSON.parse(localStorage.getItem('fatiao3d_stuck')||'[]'); if(!Array.isArray(L)) L=[]; }catch(e){ L=[]; }
-    if(add){ L.push({at:new Date().toISOString().slice(0,16),v:(($('verLabel')||{}).textContent||'').replace(/^版本\s*/,''),day:G&&G.day,hour:G&&+(+G.hour).toFixed(2),zone:G&&G.zone,depth:D.busyDepth,by:D.busyWho.slice(0,4),cover:D.coverWho||null,ff:typeof ECONFF!=='undefined'?!!ECONFF.busy:null,evr:typeof EVENTS!=='undefined'?EVENTS.running||null:null}); L=L.slice(-5); try{ localStorage.setItem('fatiao3d_stuck',JSON.stringify(L)); }catch(e){} }
+    if(add){ L.push({at:new Date().toISOString().slice(0,16),v:(($('verLabel')||{}).textContent||'').replace(/^版本\s*/,''),day:G&&G.day,hour:G&&+(+G.hour).toFixed(2),zone:G&&G.zone,depth:D.busyDepth,by:D.busyWho.slice(0,4),cover:D.coverWho||null,ff:null,evr:typeof EVENTS!=='undefined'?EVENTS.running||null:null}); L=L.slice(-5); try{ localStorage.setItem('fatiao3d_stuck',JSON.stringify(L)); }catch(e){} }
     return L; }
   GM.stuckLog=stuckLog;
   /* 幀率上限（BUG-RUN-STUTTER-1112）：使用者的外接螢幕是 300 Hz（chrome://gpu：Refresh Rate 300），requestAnimationFrame 每 3.3 ms 叫一次——遊戲一幀要十幾二十毫秒，

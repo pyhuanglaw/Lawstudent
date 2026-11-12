@@ -2730,7 +2730,7 @@ const STORY_EVENTS=[
       {speaker:'player',text:'我想借車。'},{speaker:'媽媽',text:'鑰匙在老地方。開慢一點。'},
       {set:{Y0_KX_CALL:true,Y0_MOM_TOLD:true}} ],
     after:(G,GM)=>{ if(G.hour<15.5) GM.advance(15.5-G.hour);
-      if(typeof ECONFF!=='undefined'&&ECONFF.on(G)&&!ECONFF.busy&&ECONFF.next(G)&&GM.fade){ ECONFF.busy=true; GM.fade(true); setTimeout(()=>{ ECONFF.advance(GM).catch(e=>console.warn('E30 chain',e)).finally(()=>{ ECONFF.busy=false; }); },520); } } },   /* 電話在 15:30。電話講完（「捷運上。要回家跟我媽說。」）不放回原本站的地方（使用者 10-18 14:3x：打完電話跳回遊戲、人在咖啡店）：黑幕直接接下一步；走 ECONFF 的那條路在 econff3d.js 的 chain。跟媽媽說那段在上面（AA_308 第 4 節 E30-MOM；AA_355 第 3 節）*/
+      } },   /* 電話在 15:30。電話講完（「捷運上。要回家跟我媽說。」）不放回原本站的地方（使用者 10-18 14:3x：打完電話跳回遊戲、人在咖啡店）：黑幕直接接下一步；走 ECONFF 的那條路在 econff3d.js 的 chain。跟媽媽說那段在上面（AA_308 第 4 節 E30-MOM；AA_355 第 3 節）*/
   /* 休學以後第一次在社科院門口遇到經濟系的朋友（AA_224 第 3 組共同前提＝BB_188 A2-1b 阿勳那一句照用）：10 月下旬（10/20～10/31）走到社科院門口就演；之後不再提（大家不必每次驚訝） */
   { id:'ev_y0_soc_door', stage:'econ', title:'休學的來了', participants:['econ_zhengxun'], location:'campus', near:{x:14.1,z:-71.5,r:8}, trigger:'auto', term:['Y0S1'], time:[9,20], once:true, background:'blur',
     spawn:{npc:'econ_zhengxun',dist:1.6,pose:'idle'},

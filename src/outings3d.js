@@ -79,7 +79,7 @@ const OUT=(function(){
     return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;
   /* 排一個出遊；同一個 id 只排一次（讀檔、重進區域不會重複）*/
-  S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; if(typeof ECONFF!=='undefined'&&ECONFF.cutId&&ECONFF.cutId(G,o.ev)) return false;   /* AA_300：經濟系那一年不在 29 場裡的出遊不排 */ L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); S.planToast(G,o); return true; };
+  S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; /* AA_300：經濟系那一年不在 29 場裡的出遊不排 */ L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); S.planToast(G,o); return true; };
   /* 排進行程的提示（UX-GROUP-NOTICE-1018，使用者：「河濱烤肉有看到通知但不知道怎麼去」）：答應了群組、私訊的活動以後，說一次「時間到會跳出『出發』」；之後只說排進了什麼。
      經濟系 30 分鐘版不說（事件接事件，時間到直接帶過去）；說過幾次記在 G.flags._planHint */
   /* 2026-11-12（SHOP-JOBS-1112 第五輪，BB：越好吃打工中跳了可昕「我們的日子」的通知）：打工的那一班正在演（JOBS.running）的時候排進來的（上班時間往前走，手機規則照樣排下一格）＝
@@ -87,7 +87,7 @@ const OUT=(function(){
   const planHeld=new Map();
   S.working=()=>typeof JOBS!=='undefined'&&!!JOBS.running;
   S.planFlush=function(G){ if(!planHeld.size||S.working()||!G) return 0; const L=[...planHeld.values()]; planHeld.clear(); let k=0; for(const o of L){ if(S.rec(G).some(q=>q.id===o.id&&q.state==='planned')){ S.planToast(G,o); k++; } } return k; };
-  S.planToast=function(G,o){ if(!G||typeof GAME==='undefined'||!GAME.toast||GAME.titleIdle||o.silent) return; if(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)) return;
+  S.planToast=function(G,o){ if(!G||typeof GAME==='undefined'||!GAME.toast||GAME.titleIdle||o.silent) return;
     if(S.working()){ planHeld.set(o.id,o); return; }
     const now=G.day*24+(G.hour||0); if(o.day==null||o.h==null||(o.day*24+o.h)<=now) return; const F=G.flags||(G.flags={}); if(S._planToastAt===now&&F._planHint) return; S._planToastAt=now;   /* 同一個時間點一次排好幾個（寒暑假活動的幾個重點日）：只說第一個，不一直蓋掉 */
     const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(o.day):null, when=(o.day===G.day?'今天':(d?d.m+'/'+d.d+'（'+'日一二三四五六'[d.wd%7]+'）':''))+' '+hm(o.h), what=S.tt(o.title)||o.place||'出遊';

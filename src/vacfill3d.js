@@ -242,8 +242,6 @@ const VACFILL=(function(){
       CLS.morning=Object.assign(async function(GM){ const r=await m0.apply(this,arguments); try{ await S.wakePool(GM); }catch(e){ console.warn('VACFILL wakePool',e); } return r; },{_vacfill:true}); }
     if(typeof HOME!=='undefined'&&HOME.ffMenu&&!HOME.ffMenu._vacfill){ const f0=HOME.ffMenu;
       HOME.ffMenu=Object.assign(async function(){ ffDepth++; try{ return await f0.apply(this,arguments); } finally { ffDepth--; } },{_vacfill:true}); }
-    if(typeof ECONFF!=='undefined'&&ECONFF.tick2&&!ECONFF.tick2._vacfill){ const t0=ECONFF.tick2;
-      ECONFF.tick2=Object.assign(function(GM){ if(GM&&S.walkOn(GM.G)) return; return t0.apply(this,arguments); },{_vacfill:true}); }
     return true; };
   S.install(); S.schedule();
   S.tick=function(GM){ S.install(); return S.walkTick(GM); };

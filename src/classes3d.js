@@ -872,7 +872,7 @@ const CLS=(function(){
   let lastT=null, lastRoomT=null;
   S.tick=function(GM){ const G=GM.G; if(!G||!G.flags) return; const R=S.rec(G), h=hr(G);
     if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.rainLock) ACTIVITIES.rainLock(G);   /* 下雨的備案（系籃練球）：17:30 一到照那時的天氣定整場（BBALL-RAIN-1030）*/
-    if(!(typeof ECONFF!=='undefined'&&ECONFF.on(G))&&!(typeof PG!=='undefined'&&PG.on&&PG.on(G))) for(const it of S.dayItems(G)){ if(S.storyClass(G,it)) continue; const k='rem_'+it.key; if(R.note[k]) continue; if(h>=it.t0-WIN0&&h<it.t0&&!R.done[it.key]){ R.note[k]=1; if((!GM.S||GM.S.classRemind!==false)&&!R.note['plan_skip_'+it.key]) GM.toast('30 分鐘後上課：'+S.itemText(it),4200); } }
+    if(!(typeof PG!=='undefined'&&PG.on&&PG.on(G))) for(const it of S.dayItems(G)){ if(S.storyClass(G,it)) continue; const k='rem_'+it.key; if(R.note[k]) continue; if(h>=it.t0-WIN0&&h<it.t0&&!R.done[it.key]){ R.note[k]=1; if((!GM.S||GM.S.classRemind!==false)&&!R.note['plan_skip_'+it.key]) GM.toast('30 分鐘後上課：'+S.itemText(it),4200); } }
     const sig=G.day+':'+Math.floor(h*4); if(sig!==lastT){ lastT=sig; S.skipNotes(GM); S.refreshGoal(GM); }
     { const sg=G.day+':'+Math.floor(h*30); if(sg!==lastRoomT){ lastRoomT=sg; if(G.zone==='classroom'||roomy(GM.E.zone)) S.syncRoom(GM); } }   /* 教室的人每 2 遊戲分鐘排一次（陸續進來）；其他照舊每 15 分鐘 */
     S.figTick(GM); S.updateHUD(GM); S.oneTick(GM); };
@@ -1168,7 +1168,7 @@ const CLS=(function(){
   S.arriveEv=(e,z)=>!!e&&(e.trigger==='enter'||(e.trigger==='auto'&&!e.near))&&e.random_weight===undefined&&!e.npcPresent&&!e.npcNear&&!e.npcRoom&&!e.room&&!!e.location&&e.location!=='any'&&[].concat(e.location).includes(z);
   /* 路上第一個要停的地方：照路線順序，每一區「到那裡的時間」照 goPlan 的算法倒推（剩下的路程＝從那一區到教室；到那裡＝現在＋總路程−剩下的），
      把時間、地點放到那一刻問 EVENTS.check；有到達時就會演的【固】【必】就停。回傳 {zone, spawn, leg（分鐘）, ev} 或 null */
-  S.routeStop=function(GM,it,pl,o){ o=o||{}; const G=GM.G; if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!EVENTS.check||!pl||!pl.d) return null; if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)) return null;   /* 經濟系事件接事件（D102）：S.oneTick 不跑，停下來以後「繼續去上課」出不來＝不在路上停（BB-B 11-01 讀碼）*/ const d=pl.d;
+  S.routeStop=function(GM,it,pl,o){ o=o||{}; const G=GM.G; if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!EVENTS.check||!pl||!pl.d) return null; /* 經濟系事件接事件（D102）：S.oneTick 不跑，停下來以後「繼續去上課」出不來＝不在路上停（BB-B 11-01 讀碼）*/ const d=pl.d;
     const via=o.fromHome?['campus'].concat(S.routeVia('campus',d.zone)).filter(z=>z!==d.zone):S.routeVia(G.zone,d.zone); if(!via.length) return null;   /* 從家（DL-05）：捷運＋公車到校園 */
     const rest=(z,spot)=>{ if(z===d.zone) return 0; let m=z==='linze'&&d.zone==='classroom'?3:S.travelMinutes(G,z,d.via,spot,d.pos)+(d.inner&&z!==d.via?3:0); if(pl.bike&&m>0) m=Math.max(5,Math.round(m/3.5/5)*5); return m; };
     for(let i=0;i<via.length;i++){ const z=via[i], spot=z==='campus'?(CAMPUS_AT[via[i+1]||d.zone]||CAMPUS_AT.linze):null, leg=Math.max(0,pl.mins-rest(z,spot));
@@ -1178,7 +1178,7 @@ const CLS=(function(){
   /* 快速前往（手機「地點」quickGo）的 R2（AA_160 3-2 R2；DL-04B 剩的那一項）：從現在的區域到 toZone 中間經過的區域，有到達時就會演的【固】【必】＝停在那裡演；
      演完不另外出「繼續」選單（玩家自己再按一次快速前往）。mins＝quickGo 算的總分鐘；bike＝騎車（照 goPlan 的換算）。經濟系事件接事件、約好的地方（force）不停。
      回傳 {zone, spawn, leg（分鐘）, ev} 或 null */
-  S.routeStopTo=function(GM,toZone,mins,o){ o=o||{}; const G=GM.G; if(o.force||typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!EVENTS.check||!toZone) return null; if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)) return null;
+  S.routeStopTo=function(GM,toZone,mins,o){ o=o||{}; const G=GM.G; if(o.force||typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!EVENTS.check||!toZone) return null;
     const via=S.routeVia(G.zone,toZone); if(!via.length) return null;
     const rest=(z,spot)=>{ let m=S.travelMinutes(G,z,toZone,spot,null); if(o.bike&&m>0) m=Math.max(5,Math.round(m/3.5/5)*5); return m; };
     for(let i=0;i<via.length;i++){ const z=via[i], spot=z==='campus'?(CAMPUS_AT[via[i+1]||toZone]||null):null, leg=Math.max(0,(mins|0)-rest(z,spot));
@@ -1320,7 +1320,7 @@ const CLS=(function(){
     GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',to==='classroom'?'快上課了。走路到法律系館A 201。':'走路到法律系館A。',2400); await GM.sleep(500); } finally { GM.sceneEnd(); } await GM.enter(to,to==='campus'?{x:26,z:-90,yaw:Math.PI}:undefined);   /* 霖澤館前（和舊局第二天 13:05 同一個位置；阿哲 12:30～13:24 在 (30,-93)，story3d.js populate）*/
     return true; };
   /* 每 0.5 秒（S.tick）：待出的選單；期末考到時間（開始前 10 分鐘）自動帶進考場（AA_126 1-1）*/
-  S.oneTick=function(GM){ const G=GM.G; if(!G||goBusy) return; if(typeof ECONFF!=='undefined'&&ECONFF.on(G)) return;   /* 經濟系事件接事件（D102）：不跳「去上課」「起床」選單，由 ECONFF 帶 */ if(typeof PG!=='undefined'&&PG.on&&PG.on(G)) return;   /* 畢業後篇（src/postgrad3d.js）：不再跳去上課、考試 */ if(!freeNow(GM)){ freeSince=0; freeTicks=0; return; } if(!G.goal||G.goal==='—'){ const nx=S.next(G); if(nx&&nx.exam) S.setGoal(GM); }   /* UX-EXAMDAY-GOAL：考試日起床劇情演完、目標欄空著（—）＝補上考試的目標 */ const now=Date.now(); if(!freeSince) freeSince=now; freeTicks++; if(now-freeSince<FREE_MS||freeTicks<3) return;   /* 連續空下來 1.5 秒、而且至少 3 次 tick：這一區的 auto／enter 事件先檢查過（低幀率時一幀可能就超過 1.5 秒）*/
+  S.oneTick=function(GM){ const G=GM.G; if(!G||goBusy) return; /* 經濟系事件接事件（D102）：不跳「去上課」「起床」選單，由 ECONFF 帶 */ if(typeof PG!=='undefined'&&PG.on&&PG.on(G)) return;   /* 畢業後篇（src/postgrad3d.js）：不再跳去上課、考試 */ if(!freeNow(GM)){ freeSince=0; freeTicks=0; return; } if(!G.goal||G.goal==='—'){ const nx=S.next(G); if(nx&&nx.exam) S.setGoal(GM); }   /* UX-EXAMDAY-GOAL：考試日起床劇情演完、目標欄空著（—）＝補上考試的目標 */ const now=Date.now(); if(!freeSince) freeSince=now; freeTicks++; if(now-freeSince<FREE_MS||freeTicks<3) return;   /* 連續空下來 1.5 秒、而且至少 3 次 tick：這一區的 auto／enter 事件先檢查過（低幀率時一幀可能就超過 1.5 秒）*/
     const run=f=>{ goBusy=true; (async()=>{ try{ await f(); }catch(e){ console.warn('oneclick',e); } finally{ goBusy=false; freeSince=0; freeTicks=0; } })(); };
     if(!opening(G)&&!late(G)){ const ex=S.dayItems(G).find(q=>q.exam&&!S.rec(G).done[q.key]&&S.status(G,q)==='open'&&hr(G)>=q.t0-1/6); if(ex&&!S.canGo(GM)){ run(()=>S.goClass(GM,ex,{forced:true})); return; } }   /* 期中、期末都帶進考場（AA_294 ①；原本只有期末）*/
     if(S.day2Due(G)&&S.day2PullReady(G,now-freeSince)){ run(()=>S.goDay2(GM)); return; }   /* 開學第二天的民總（AA_294 ①）；阿哲那一段演完以後等到上課前 5 分鐘、而且空下來 8 秒（UX-DAY2-AUTOPULL）*/
