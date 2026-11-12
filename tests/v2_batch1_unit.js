@@ -55,8 +55,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     check('慈 2（none）：「自學過一點。」→「自學的人，第三章懂嗎？」「懂一半。」「一半也好。」→ half',L.includes('芯慈：自學的人，第三章懂嗎？')&&L.includes('祐廷：懂一半。')&&G.flags.ECON_PAST_SHARED==='half',JSON.stringify(L));
     L=await go({},[3,2]);
     check('慈 2：「第三章我也還在念。」→「……好，不說也行。」→ 不變（還是沒有）、也對經濟題',L.includes('芯慈：……好，不說也行。')&&G.flags.ECON_PAST_SHARED===undefined&&SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L));
-    L=await go({P4B_SEEN:true},[3,2]);
-    check('慈 2：有 P4B_SEEN 的玩家：「上次問你，你只笑。這次是第三章，你總要說了吧。」（不問「你怎麼這麼熟」）',L.includes('芯慈：上次問你，你只笑。這次是第三章，你總要說了吧。')&&!L.some(t=>/你怎麼這麼熟/.test(t)),JSON.stringify(L));
+    /* 慈 2：有 P4B_SEEN 的玩家（設它的事件拿掉）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
     L=await go({},[2]);
     check('慈 2：原本的三個選項照舊（「妳為什麼要雙主修？」→ AA_547 兩句「我喜歡財金。……」「……我爸媽都是律師。……」→ 謝謝）、沒有 ECON_TOGETHER',L.includes('芯慈：我喜歡財金。看財報比看小說好看。')&&L.includes('芯慈：……我爸媽都是律師。他們說，念我喜歡的就好。')&&!L.some(t=>/會計師|會餓死/.test(t))&&L[L.length-1]==='芯慈：謝謝。我要繼續讀了。'&&!SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L)); }
   /* ---------- 語彤 6 房東來過了（C12；AA_11 事件 6）---------- */
