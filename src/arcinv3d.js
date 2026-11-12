@@ -51,7 +51,7 @@ const ARCINV=(function(){
     const d=Math.floor(t0/24); PHONE.at(G,d,t0-d*24,M,'arcinv_'+e.key); r.st='offer'; return true; };
   /* 沒回、過了期限的那一句（skip）什麼時候傳：一般＝過期那時；下面三則是過去式（「我一個人去了喔！」「週六我在校門口等了一下。」「我自己去買了。」），
      改成約好的那一天（sc.this）的這個時間才傳，文字不動（UX-WEEKEND-ASK-EXPIRE-1108，AA-B 11-08 09:39：約好的時間＋1～2 小時）。已經過了那個時間＝現在傳 */
-  S.SKIP_AT={'classmate_peishan:6':7.5,'kexin:4':18,'kexin:6':17.5};
+  S.SKIP_AT={'classmate_peishan:6':7.5,'kexin:6':17.5};   /* kexin:4：CANON-NO-ECON-1112 第三批拿掉 */
   S.skipAt=(G,e,r)=>{ const h=S.SKIP_AT[e.key], th=r&&r.sc&&r.sc.this; if(h==null||!th) return {d:G.day,h:G.hour}; const t=Math.max(T(th.d,h),now(G)), d=Math.floor(t/24); return {d,h:t-d*24}; };
   /* 每次 STORY.phoneRules：拍演完的排訊息；回覆期限過了沒回＝skip */
   S.tick=function(G){ if(!G||!G.flags) return false; const R=S.rec(G); let did=false;

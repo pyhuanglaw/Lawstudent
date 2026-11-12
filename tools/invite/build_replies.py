@@ -243,6 +243,7 @@ def find_existing(who, pid_tags, lines, via, raw):
 
 rows_out = {}
 counts = {}
+DROP_IDS = {'kx36', 'kx38'}
 for who, sec, cells in sections(MD):
     if len(cells) != 4:
         die(f'{who}：表格欄數不是 4：{cells}')
@@ -311,6 +312,8 @@ for who, sec, cells in sections(MD):
             if k != 'resched':
                 die(f'{who}：AT 只給改天的句子：{first}')
             row['at'] = AT.pop(first)
+        if row['id'] in DROP_IDS:   # CANON-NO-ECON-1112 第三批（AA_891 第 2 節：可昕 kx36、kx38 拿掉，和 kx17、kx19 重複）
+            continue
         rows_out.setdefault(who, []).append(row)
 if WHEN or AT:
     die('WHEN／AT 有對不到的句子：' + json.dumps(list(WHEN) + list(AT), ensure_ascii=False))

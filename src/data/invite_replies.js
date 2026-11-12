@@ -265,8 +265,6 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"kx33","n":33,"k":"acc","stage":"3（分開以後）","st":[3,3],"tags":["noodle"],"cond":null,"lines":["好。公館燒臘。我自己付。"],"say":"「好。公館燒臘。我自己付。」","src":"BB_123","sec":"law","apart":true},
   {"id":"kx34","n":34,"k":"acc","stage":"4（分開以後）","st":[4,4],"tags":[],"cond":null,"lines":["好。予樂說我不應該答應。我答應了。"],"say":"「好。予樂說我不應該答應。我答應了。」","src":"BB_123","sec":"law","apart":true},
   {"id":"kx35","n":35,"k":"acc","stage":"4（分開以後）","st":[4,4],"tags":["晚上"],"cond":null,"lines":["好。九點我要回山上。九點半。"],"say":"「好。九點我要回山上。……九點半。」","src":"BB_123","sec":"law","apart":true,"ov":["docs/story_planning/AA_783_invite_replies.json@5054f6cdc"]},
-  {"id":"kx36","n":36,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":null,"lines":["我在木柵大學上課。四點二十下課。"],"say":"「我在木柵大學上課。四點二十下課。」","src":"BB_123","sec":"law","at":{"day":"same","from":16.333333333333332,"before":16.333333333333332}},
-  {"id":"kx37","n":37,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":null,"lines":["讀書會。九點以後。"],"say":"「讀書會。九點以後。」","src":"BB_123","sec":"law","at":{"day":"same","from":21}},
-  {"id":"kx38","n":38,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":null,"lines":["今天陪予樂。明天？"],"say":"「今天陪予樂。明天？」","src":"BB_123","sec":"law","at":{"today":true,"day":"tomorrow"}}
+  {"id":"kx37","n":37,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":null,"lines":["讀書會。九點以後。"],"say":"「讀書會。九點以後。」","src":"BB_123","sec":"law","at":{"day":"same","from":21}}
  ]
 }};

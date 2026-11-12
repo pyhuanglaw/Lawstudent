@@ -36,7 +36,8 @@ const ARCS=(function(){
   S.kindOf=function(iv,P,study){ if(study) return 'study'; if(!P) return 'any'; const c=(typeof INV!=='undefined'&&INV.catsOf?INV.catsOf(P):P.cats)||[]; if(P.id==='xs_nanyang') return 'movie'; if(c.includes('fun')) return 'book'; if(c.includes('sport')) return 'gym'; if(P.kind==='meal'||c.includes('meal')) return 'eat'; if(c.includes('study')&&!c.includes('sit')) return 'study'; return 'cafe'; };
   /* 這一次演哪一拍：null＝不演（今天演過、沒有稿、條件不夠、全部演完）*/
   S.pick=function(G,id,ctx){ ctx=ctx||{}; const T=D()[id]; if(!T||!G) return null; const r=S.rec(G,id); if(r.last===G.day) return null;
-    for(let guard=0;guard<10&&r.k<=T.beats.length;guard++){ const b=T.beats[r.k-1]; if(!b) return null;
+    const LAST=T.beats.reduce((m,x)=>Math.max(m,(x&&x.n)|0),0);   /* 照 n 找（CANON-NO-ECON-1112 第三批：可昕第 4、5 拍整拍拿掉，n 不重排）*/
+    for(let guard=0;guard<10&&r.k<=LAST;guard++){ const b=T.beats.find(x=>x&&x.n===r.k); if(!b){ r.k+=1; continue; }
       if(r.missed.includes(b.n)){ r.k+=1; continue; }   /* 被你的選項錯過的那一拍（DECIDE closes）：不演，接著看下一拍 */
       const until=b.until?S.dayOf(b.until):null; if(until!=null&&G.day>until){ if(b.late==='skip'||!b.late){ if(!r.missed.includes(b.n)) r.missed.push(b.n); r.k+=1; continue; } }   /* 過了 until：跳過，接著看下一拍 */
       if(stage(id)<(b.need|0)) return null;
