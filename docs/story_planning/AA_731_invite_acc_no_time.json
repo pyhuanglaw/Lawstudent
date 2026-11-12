@@ -1,5 +1,6 @@
 {
  "_meta": {
+  "canon_1112": "CANON-NO-ECON-1112（D158）：舊序章、外校的字已改成代號。遊戲裡的字以 src 對照表 AA_886～AA_897 為準，不要再從本檔重匯。",
   "doc": "AA_731 答應句寫死時間改稿（BUG-INV-ACC-TIME-1110）",
   "by": "AA-B 2026-11-10",
   "level": "第①級，AA 定稿（D109）",
@@ -51,8 +52,8 @@
   {
    "who": "kexin",
    "place": "SUNNY SIDE",
-   "old": "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。",
-   "new": "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。",
+   "old": "SUNNY SIDE？我從外校大學過來要四十分鐘。好，我十點到。",
+   "new": "SUNNY SIDE？我從外校大學過來要四十分鐘。好，我早一點出門。",
    "where": "src/data/invites.js kexin acc.brunch.A；src/data/invite_replies.js kx25（AA_415 第 359 行）",
    "sourceEdited": [
     "AA_415_邀約回覆照階段變_七位定稿.md"

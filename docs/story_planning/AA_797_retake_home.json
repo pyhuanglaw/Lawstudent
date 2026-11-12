@@ -1,6 +1,7 @@
 {
  "_meta": {
-  "doc": "AA_797 X324 G 區：休學到放榜在祐廷家念書（retake_home.js）可昕的台詞覆蓋列",
+  "canon_1112": "CANON-NO-ECON-1112（D158）：舊序章、外校的字已改成代號。遊戲裡的字以 src 對照表 AA_886～AA_897 為準，不要再從本檔重匯。",
+  "doc": "AA_797 X324 G 區：離開到放榜在祐廷家念書（retake_home.js）可昕的台詞覆蓋列",
   "by": "AA（帳號 A）2026-11-11",
   "task": "DLG-FULL-REVIEW-1110（X324 G 區）",
   "format": "同 AA_787：{who, files:[{file, rows:[{at, expr, old, new, note}]}]}；at＝RETAKE_HOME 底下路徑。",

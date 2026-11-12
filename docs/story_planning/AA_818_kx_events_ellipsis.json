@@ -1,5 +1,6 @@
 {
  "_meta": {
+  "canon_1112": "CANON-NO-ECON-1112（D158）：舊序章、外校的字已改成代號。遊戲裡的字以 src 對照表 AA_886～AA_897 為準，不要再從本檔重匯。",
   "task": "DLG-FULL-REVIEW-1110",
   "who": "kexin",
   "base": "origin/claude/confident-ritchie-8rwh7t@4e248bb55",
@@ -209,8 +210,8 @@
   {
    "file": "src/data/events.js",
    "line": 2467,
-   "old": "……你休學在家，每天到底在幹嘛？",
-   "new": "你休學在家，每天到底在幹嘛？"
+   "old": "……你離開在家，每天到底在幹嘛？",
+   "new": "你離開在家，每天到底在幹嘛？"
   },
   {
    "file": "src/data/events.js",
@@ -401,8 +402,8 @@
   {
    "file": "src/data/events.js",
    "line": 3270,
-   "old": "……誠實。所以要謝謝你休學。",
-   "new": "誠實。所以要謝謝你休學。"
+   "old": "……誠實。所以要謝謝你離開。",
+   "new": "誠實。所以要謝謝你離開。"
   },
   {
    "file": "src/data/events.js",
@@ -425,8 +426,8 @@
   {
    "file": "src/data/events.js",
    "line": 3411,
-   "old": "……不是唐睿。",
-   "new": "不是唐睿。"
+   "old": "……不是舊序章的人。",
+   "new": "不是舊序章的人。"
   },
   {
    "file": "src/data/events.js",
