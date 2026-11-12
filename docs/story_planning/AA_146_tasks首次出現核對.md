@@ -26,7 +26,7 @@
 | id | 任務 | 原本 | 改成 | 首次出現（依據） |
 |---|---|---|---|---|
 | ART-01 | campus_socsci 新社科院外觀接線 | Y1S1 第 None 週 | Y0S1 第 1 週 | **改**：舊序章開學典禮在社科院（E02，2024-09-02）比法律系開局早 |
-| ART-05 | 角色 VRM bl_zhe、xinci、bohan、kexin、peishan（ | Y1S1 第 None 週 | Y0S1 第 1 週 | **改**：kexin 在經濟系 E02 就出場；bl_zhe、xinci、bohan、peishan 是法律系大一上 |
+| ART-05 | 角色 VRM bl_zhe、xinci、bohan、kexin、peishan（ | Y1S1 第 None 週 | Y0S1 第 1 週 | **改**：kexin 在舊序章 E02 就出場；bl_zhe、xinci、bohan、peishan 是法律系大一上 |
 | ART-09 | 6 張新立繪 jiahao、pinyu、tangrui、weilun、xun、y | Y0S1 第 None 週 | Y0S1 第 1 週 | E02（舊序章四人、舊序章）；yule 是 K1b（大一上第 6～8 週） |
 | ART-10 | 舊序章 nccu_dorm（宿舍樓下長椅） | Y1S1 第 7 週 | Y1S1 第 6 週 | **改**：K1b 第 6～8 週，最早第 6 週（`BB_95` 9-2） |
 | ART-11 | 外校大學・校園裡的路 nccu_campus | Y1S1 第 7 週 | Y1S1 第 6 週 | 同 ART-10 |
