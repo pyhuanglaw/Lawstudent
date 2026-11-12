@@ -50,21 +50,22 @@ const TZ3=(function(){
   S.build=function(E){ const L=LAY(); const g=new THREE.Group(); g.name='tingzhou_zone';
     const N=L.nav, nav=new E3.NavGrid(N.w,N.d,N.cell,N.x0,N.z0); nav.b.fill(1);
     const open=(x0,z0,x1,z1)=>{ for(let cz=0;cz<nav.rows;cz++) for(let cx=0;cx<nav.cols;cx++){ const [wx,wz]=nav.toWorld(cx,cz); if(wx>=x0&&wx<=x1&&wz>=z0&&wz<=z1) nav.b[nav.idx(cx,cz)]=0; } };
-    const R=L.road, F=L.facade, WK=L.walk, A=L.alleys[0], AD=F.arcade;
+    const R=L.road, F=L.facade, WK=L.walk, A=L.alleys[0], AD=F.arcade, AL=L.alleys.filter(a=>a.walk!==false), nearAlley=(z,m)=>AL.some(a=>z>a.z0-m&&z<a.z1+m);   /* SHUIYUAN-MARKET-LANE-1112：走得進去的巷子不只一條（巷 A＋水源市場旁的巷子），下面都照 AL 做 */
     open(F.west-AD+S.GLASS_IN,WK.z0+0.5,F.east+AD-S.GLASS_IN,WK.z1-0.5);            // 路面＋兩側騎樓
-    open(F.east,A.z0+0.5,F.east+A.len-0.6,A.z1-0.5);                              // 巷 A
+    for(const a of AL) open(F.east,a.z0+0.5,F.east+a.len-0.6,a.z1-0.5);            // 巷 A、水源市場旁的巷子
     // 東側騎樓在巷 A 口斷開：巷口兩邊的樓房是牆角（騎樓照舊接到巷口）——巷子比騎樓深的那一段，兩側是樓房
-    nav.blockRect((F.east+AD+F.east+A.len)/2,A.z0-10,A.len-AD,20-0.5,0); nav.blockRect((F.east+AD+F.east+A.len)/2,A.z1+10,A.len-AD,20-0.5,0);
+    for(const a of AL){ nav.blockRect((F.east+AD+F.east+a.len)/2,a.z0-10,a.len-AD,20-0.5,0); nav.blockRect((F.east+AD+F.east+a.len)/2,a.z1+10,a.len-AD,20-0.5,0); }
+    for(const a of AL) open(F.east+AD,a.z0+0.5,F.east+a.len-0.6,a.z1-0.5);         // 兩條巷子靠得近（一條的側邊會蓋到另一條）：擋完再打開一次
     for(const p of S.pillars(L)) nav.blockRect(p.x,p.z,0.7,0.7,0);
     nav._cm=null;
     // 地面（套件，暫代）：柏油路、路邊機車格白線、雙黃線、騎樓地坪、巷子；兩頭接下去到 ±R.z1
     const n0=g.children.length;
     { const r=TK.road(R.z1-R.z0,R.x1-R.x0); r.position.set(0,0,(R.z0+R.z1)/2); r.rotation.y=Math.PI/2; g.add(r); }
     const flat=(x0,x1,z0,z1,c,y)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,z1-z0),M(c)); m.rotation.x=-Math.PI/2; m.position.set((x0+x1)/2,y||0.012,(z0+z1)/2); m.receiveShadow=true; g.add(m); return m; };
-    flat(F.west-AD-0.4,F.west,R.z0,R.z1,'#bdb6aa'); flat(F.east,F.east+AD+0.4,R.z0,A.z0,'#bdb6aa'); flat(F.east,F.east+AD+0.4,A.z1,R.z1,'#bdb6aa');   // 騎樓地坪
-    flat(F.east,F.east+A.len+2,A.z0,A.z1,'#9d9c98',0.008);                         // 巷 A（柏油，淺灰 D30）
+    flat(F.west-AD-0.4,F.west,R.z0,R.z1,'#bdb6aa'); { let z=R.z0; for(const a of AL.slice().sort((p,q)=>p.z0-q.z0)){ flat(F.east,F.east+AD+0.4,z,a.z0,'#bdb6aa'); z=a.z1; } flat(F.east,F.east+AD+0.4,z,R.z1,'#bdb6aa'); }   // 騎樓地坪（巷口斷開）
+    for(const a of AL) flat(F.east,F.east+a.len+2,a.z0,a.z1,'#9d9c98',0.008);      // 巷子（柏油，淺灰 D30）
     for(const sx of [-1,1]){ const xe=sx*R.x1, xi=xe-sx*(R.parkW||1.6); flat(Math.min(xi,xi+sx*0.1),Math.max(xi,xi+sx*0.1),WK.z0,WK.z1,'#efefe8',0.02);
-      for(let z=WK.z0;z<=WK.z1;z+=2){ if(sx>0&&z>A.z0-1&&z<A.z1+1) continue; flat(Math.min(xi,xe),Math.max(xi,xe),z-0.05,z+0.05,'#efefe8',0.02); } }
+      for(let z=WK.z0;z<=WK.z1;z+=2){ if(sx>0&&nearAlley(z,1)) continue; flat(Math.min(xi,xe),Math.max(xi,xe),z-0.05,z+0.05,'#efefe8',0.02); } }
     for(const dx of [-0.09,0.09]) flat(dx-0.05,dx+0.05,R.z0,R.z1,'#e8c040',0.02);
     for(const c of L.crossings||[]) for(let x=R.x0+0.8;x<R.x1-0.5;x+=1.2) flat(x-0.28,x+0.28,c.z-c.w/2+0.3,c.z+c.w/2-0.3,'#efefe8',0.022);
     { const m=new THREE.Mesh(new THREE.PlaneGeometry(220,260),M('#6d6a64')); m.rotation.x=-Math.PI/2; m.position.y=-0.02; m.receiveShadow=true; g.add(m); }
@@ -77,11 +78,11 @@ const TZ3=(function(){
       const up=new THREE.Mesh(new THREE.BoxGeometry(ud,h-L.groundH,w),M(sx>0?'#d6cdbd':'#cfc5b2')); up.position.set(ux,L.groundH+(h-L.groundH)/2,cz); up.userData.tzfb=true; up.userData.dyn=true; g.add(up); fb.push(up);
       const lo=new THREE.Mesh(new THREE.BoxGeometry(F.depth-AD,L.groundH,w),M('#bfb6a8')); lo.position.set(fx+sx*(AD+(F.depth-AD)/2),L.groundH/2,cz); lo.userData.tzfb=true; lo.userData.dyn=true; g.add(lo); fb.push(lo);
       addCollider(fx+sx*(AD+(F.depth-AD)/2),cz,F.depth-AD,w,h); if(q.arcade!==false) addCollider(fx+sx*F.depth/2,cz,F.depth,w,h-L.groundH); }
-    addCollider(F.east+A.len+2+7,0,14,A.z1-A.z0+8,22);
+    for(const a of AL) addCollider(F.east+a.len+2+7,(a.z0+a.z1)/2,14,a.z1-a.z0+8,22);
     /* 巷 A 比臨街樓房深的那一段（x F.east+F.depth～巷底）兩側也是樓房（正式模型的 TA_*、禮貌生財那一棟）：補鏡頭碰撞盒——
        TZ-ALLEY-CAMCOL-1111（BB／CC 11-11：「一個地球」(18.5, −1.65) 前面，鏡頭 (19.08, 2.87, −5.55) 從臨街樓房碰撞盒的東緣（x 19）外面繞進北邊那一棟裡，整個畫面是一面牆）。
        原本只有臨街那一排（x 5～19）和巷底一塊；導航有擋、鏡頭沒擋。往臨街那一排裡面疊 0.5 m，不留縫 */
-    { const x0=F.east+F.depth-0.5, x1=F.east+A.len+2, cx=(x0+x1)/2, w=x1-x0; addCollider(cx,A.z0-5,w,10,16); addCollider(cx,A.z1+5,w,10,16); }
+    for(const a of AL){ const x0=F.east+F.depth-0.5, x1=F.east+a.len+2, cx=(x0+x1)/2, w=x1-x0, dn=Math.min(10,...AL.filter(b=>b!==a&&b.z1<=a.z0).map(b=>a.z0-b.z1)), ds=Math.min(10,...AL.filter(b=>b!==a&&b.z0>=a.z1).map(b=>b.z0-a.z1)); addCollider(cx,a.z0-dn/2,w,dn,16); addCollider(cx,a.z1+ds/2,w,ds,16); }   /* 兩條巷子中間那一塊不超過另一條巷子 */
     // 互動點：回公館、各店門口
     const TG=L.toGongguan; E.interactables.push({x:TG.x,z:TG.z,radius:TG.r+0.6,label:TG.label,exit:{to:'gongguan',spawn:Object.assign({},TG.spawn)}});
     for(const q of L.shops){ const sx=q.side==='W'?-1:1, zn='tz_'+q.id, hasRoom=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[zn];
@@ -89,7 +90,7 @@ const TZ3=(function(){
       if(hasRoom) it.exit={to:zn}; else it.look=q.name+(q.sub?'。'+q.sub:(q.type?'。'+q.type:''))+'。';   /* 暫定的字（AA 可以改）；店名照配置：五間、三間是使用者指定的正式名稱，其他是種類 */
       E.interactables.push(it); }
     // 夜間：路燈（套件，兩側交錯）＋地上的光圈
-    const pools=[]; let li=0; for(let z=WK.z0+6;z<WK.z1;z+=14,li++){ const sx=li%2?-1:1, x=sx*(R.x1-0.3); if(sx>0&&z>A.z0-2&&z<A.z1+2) continue;
+    const pools=[]; let li=0; for(let z=WK.z0+6;z<WK.z1;z+=14,li++){ const sx=li%2?-1:1, x=sx*(R.x1-0.3); if(sx>0&&nearAlley(z,2)) continue;
       if(W3.lampPost){ const lp=W3.lampPost(); lp.position.set(x,0,z); lp.rotation.y=sx>0?-Math.PI/2:Math.PI/2; g.add(lp); } nav.blockCircle(x,z,0.3);
       const pl=TK.lightPool(4.2,'rgba(255,206,140,1)'); pl.position.set(x-sx*1.0,0.03,z); pl.userData.dyn=true; g.add(pl); pools.push(pl); }
     // 夜市攤（第 2 版）：位置照配置 stalls；導航照攤車＋後面站人的範圍擋（營業、收攤一樣大：導航不隨時間變）。模型 tingzhou_stalls.glb 的 STALL_<kind>_open／_closed，照時間切換
@@ -115,7 +116,7 @@ const TZ3=(function(){
     //   店門口、巷 A 口、斑馬線、攤位前不停。機車用公館、溫州街同一套模型（十二款，各自的配色，照位置挑）；腳踏車用校園那一套（W3.bikeAny）。
     { const scG=new THREE.Group(), scList=[], scC=['#c9463d','#2b2b2d','#e8e6e0','#3d6fb0','#8a8f98','#2f6a4a','#d9b23a']; const hash=(a,b)=>{ const t=Math.sin(a*12.9898+b*78.233)*43758.5453; return t-Math.floor(t); };
       const doors=L.shops.filter(q=>q.enter||q.arcade===false||q.concept).map(q=>({s:q.side==='W'?-1:1,z:(q.z0+q.z1)/2}));
-      const busy=(x,zz,sx)=>stalls.some(q=>Math.abs(q.x-x)<1.6&&Math.abs(q.z-zz)<q.half+0.9)||(L.crossings||[]).some(c=>Math.abs(zz-c.z)<c.w/2+0.6)||doors.some(d=>d.s===sx&&Math.abs(d.z-zz)<1.1);
+      const busy=(x,zz,sx)=>stalls.some(q=>Math.abs(q.x-x)<1.6&&Math.abs(q.z-zz)<q.half+0.9)||(L.crossings||[]).some(c=>Math.abs(zz-c.z)<c.w/2+0.6)||doors.some(d=>d.s===sx&&Math.abs(d.z-zz)<1.1)||(sx>0&&nearAlley(zz,0.4));   /* SHUIYUAN-MARKET-LANE-1112：巷口（比斑馬線寬）整段不停車 */
       const PW=R.parkW||1.6; let pv=null, bikes=0, groups=0; const gaps={'-1':0,'1':0}, scSt={n:0,dark:0,tailA:0,run3:0,adjSame:0,codes:{}};
       for(const sx of [-1,1]){ const x=sx*(R.x1-PW/2); let zz=WK.z0+1.2+hash(sx,1)*2, gi=0;
         while(zz<WK.z1-1.5){ gi++; const hg=hash(gi*3.1+sx*17,2), n=3+Math.floor(hash(gi,sx+5)*4), isBike=hash(gi*1.7,sx+9)<0.2, slant=(hash(gi,sx+11)-0.5)*0.5, pitch=isBike?0.62:0.8+hash(gi,sx+13)*0.14;

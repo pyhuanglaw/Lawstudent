@@ -22,8 +22,8 @@ ASSETS.loadOne=()=>new Promise(()=>{});
 const W=TINGZHOU_WALK, L=TINGZHOU_LAYOUT, F=L.facade, html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), story=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
 // 1
 check('1. index.html 載入 tingzhou_walk.js，在 tingzhou_layout.js 後面、story3d.js 前面',html.indexOf('src/data/tingzhou_walk.js')>html.indexOf('src/data/tingzhou_layout.js')&&html.indexOf('src/data/tingzhou_walk.js')<html.indexOf('src/story3d.js')&&html.indexOf('src/data/tingzhou_walk.js')>0);
-{ const R=W.routes, inArc=(rt,sx)=>rt.every(p=>p[0]*sx>F.east&&p[0]*sx<F.east+F.arcade), A=L.alleys[0];
-  check('1. 三條路線：西側騎樓、東側騎樓（都在立面和店面玻璃中間、南北各走到 30 m 以外）、巷 A（進到巷子裡 10 m 以上）',R.length===3&&W.jit.length===3&&inArc(R[0],-1)&&inArc(R[1],1)&&[R[0],R[1]].every(rt=>Math.min(...rt.map(p=>p[1]))<-30&&Math.max(...rt.map(p=>p[1]))>30)&&R[2].some(p=>p[0]>F.east+10&&p[1]>A.z0&&p[1]<A.z1),R.map(r=>r.length).join('/')); }
+{ const R=W.routes, inArc=(rt,sx)=>rt.every(p=>p[0]*sx>F.east&&p[0]*sx<F.east+F.arcade), A=(L.alleys.find(a=>a.market)||L.alleys[0])   /* SHUIYUAN-MARKET-LANE-1112：攤位和第三條路線搬到水源市場旁的巷子 */;
+  check('1. 三條路線：西側騎樓、東側騎樓（都在立面和店面玻璃中間、南北各走到 30 m 以外）、水源市場旁的巷子（進到巷子裡 10 m 以上）',R.length===3&&W.jit.length===3&&inArc(R[0],-1)&&inArc(R[1],1)&&[R[0],R[1]].every(rt=>Math.min(...rt.map(p=>p[1]))<-30&&Math.max(...rt.map(p=>p[1]))>30)&&R[2].some(p=>p[0]>F.east+10&&p[1]>A.z0&&p[1]<A.z1),R.map(r=>r.length).join('/')); }
 // 2
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
 const z=Z3.ZONES.tingzhou.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
@@ -51,7 +51,7 @@ check('4. 畫質低的人不比畫質高的多（low ≤ medium ≤ high）',T.e
   check('4. 時間超過 24（凌晨 G.hour 25＝01:00）照 01:00 算',W.count(25,'high')===W.count(1,'high'));
   check('4. 颱風假：街上只剩一個人',LV.every(l=>W.count(19,l,true)===1)); }
 { const cnt=[0,0,0]; for(let i=0;i<W.count(19,'high');i++) cnt[W.routeOf(i,19)]++; const cd=[0,0,0]; for(let i=0;i<W.count(12,'low');i++) cd[W.routeOf(i,12)]++;
-  check('4. 夜市時段三條路線都有人、巷 A 最多；白天畫質最低也兩側都有人',cnt.every(n=>n>0)&&cnt[2]>=cnt[0]&&cnt[2]>=cnt[1]&&cd[0]>0&&cd[1]>0,J([cnt,cd])); }
+  check('4. 夜市時段三條路線都有人、市場旁的巷子最多；白天畫質最低也兩側都有人',cnt.every(n=>n>0)&&cnt[2]>=cnt[0]&&cnt[2]>=cnt[1]&&cd[0]>0&&cd[1]>0,J([cnt,cd])); }
 // 5
 check('5. story3d.js：進汀州路照 TINGZHOU_WALK 生路人（人數照時間、畫質、颱風；照 plan 的路點、出發點、速度）',/if\(zoneId==='tingzhou'&&typeof TINGZHOU_WALK!=='undefined'\)\{[\s\S]{0,900}?TW\.plan\(hr,E\.q\.level,ty,S\.CROWD_X,rnd\)[^\n]*GM\.spawnExtra\(extraSpec\(xi\+\+\),p\.pts,[^\n]*n\.ri=p\.start; n\.walkSpeed=p\.speed; E\.placeAt\(n,/.test(story));
 check('5. story3d.js：walkRoutes.tingzhou 接上；颱風假攤位收起來（區域的 tzStallsClosed）',/walkRoutes\.tingzhou=TINGZHOU_WALK\.routes/.test(story)&&/E\.zone\.tzStallsClosed=ty/.test(story));

@@ -30,7 +30,7 @@ function reach(a,b){ const [sx,sz]=cellOf(...a), [tx,tz]=cellOf(...b); const see
   while(q.length){ const [x,y]=q.shift(); if(Math.abs(x-tx)<=1&&Math.abs(y-tz)<=1) return true; for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const nx=x+dx, ny=y+dy; if(nx<0||ny<0||nx>=nav.cols||ny>=nav.rows) continue; const i=nav.idx(nx,ny); if(seen[i]||nav.b[i]) continue; seen[i]=1; q.push([nx,ny]); } } return false; }
 const sp=[z.spawn.x,z.spawn.z];
 const gg=E.interactables.find(q=>q.exit&&q.exit.to==='gongguan');
-check('1. 從公館進來的出生點站得住（巷 A 東端）',freeAt(...sp)&&sp[0]>F.east+10,sp.join(','));
+check('1. 從公館進來的出生點站得住（水源市場旁的巷子東端）',freeAt(...sp)&&sp[0]>F.east+10,sp.join(','));
 check('1. 「往公館」在出生點旁邊（≤ 3 m）、走得到；回到公館店面街前面（z 18）',!!gg&&Math.hypot(gg.x-sp[0],gg.z-sp[1])<=3&&reach(sp,[gg.x,gg.z])&&gg.exit.spawn.z===18&&Math.hypot(gg.x-sp[0],gg.z-sp[1])>gg.radius-1.0,gg?JSON.stringify(gg.exit.spawn):'沒有');
 const names=L.shops.map(q=>q.name);
 const USER=['泰米村食','洗樂洗衣坊','印得好','越好吃小館','客居雲南','東南大聯商行','汀州聯通','溫特寶邸'];
@@ -46,12 +46,12 @@ check('2. 使用者指定的八間店名一字不差',USER.every(n=>names.includ
 check('4. 汀州路走得到頭（南北兩端）、過得了馬路（不是封閉的）',reach(sp,[0,L.walk.z0+1.5])&&reach(sp,[0,L.walk.z1-1.5])&&reach(sp,[F.west-1.5,10])&&reach(sp,[F.east+1.5,-20]));
 check('4. 店面玻璃後面、樓房裡面站不住',!freeAt(F.west-F.arcade-0.5,10)&&!freeAt(F.east+F.arcade+0.5,-20)&&!freeAt(F.east+8,20)&&!freeAt(F.west-8,-10));
 { const P=TZ3.pillars(L), open=P.filter(p=>freeAt(p.x,p.z)).map(p=>p.id);
-  check('5. 騎樓的柱子都擋住；巷 A 兩側的樓房站不住、巷子中間站得住',!open.length&&!freeAt(F.east+12,L.alleys[0].z0-2)&&!freeAt(F.east+12,L.alleys[0].z1+2)&&freeAt(F.east+12,0),open.join(' ')); }
+  check('5. 騎樓的柱子都擋住；巷 A 兩側的樓房站不住、巷子中間站得住',!open.length&&!freeAt(F.east+12,L.alleys[0].z0-2)&&!freeAt(F.east+12,L.alleys[0].z1+2)&&freeAt(F.east+12,0)&&L.alleys.every(q=>!freeAt(F.east+16,q.z0-1.5)&&!freeAt(F.east+16,q.z1+1.5)&&freeAt(F.east+16,(q.z0+q.z1)/2)),open.join(' ')); }
 { const E2=mk(); let it=null; try{ Z3.ZONES.gongguan.build(E2); it=E2.interactables.find(q=>q.exit&&q.exit.to==='tingzhou'); }catch(e){ console.log('   公館建不起來：'+String(e.message).slice(0,120)); }
   check('6. 公館店面街有「往汀州路」的互動點，進來站在巷 A 東端',!!it&&it.exit.spawn.x===L.fromGongguan.x&&it.exit.spawn.z===L.fromGongguan.z&&Math.abs(it.x-L.toGongguan.spawn.x)<0.01,it?JSON.stringify([it.x,it.z,it.label]):'沒有'); }
 { const p=path.join(ROOT,'assets/models/env/second_ai/tingzhou_street.json'); let J=null; try{ J=JSON.parse(fs.readFileSync(p,'utf8')); }catch(e){}
   const glb=path.join(ROOT,'assets/models/env/second_ai/tingzhou_street.glb'); let imgs=[]; try{ const d=fs.readFileSync(glb), jl=d.readUInt32LE(12); imgs=(JSON.parse(d.slice(20,20+jl).toString('utf8')).images||[]).map(i=>i.name); }catch(e){}
-  check('7. 正式模型：樓房數＝店數＋巷 A 四棟（北、南、盡頭＋禮貌生財那一段 TA_LIMAO，X332）；有五間的店面貼圖集（tz_fronts_atlas）',!!J&&J.buildings.length===L.shops.length+(L.limao?4:3)&&(!L.limao||J.buildings.includes('TA_LIMAO'))&&L.shops.every(q=>J.buildings.includes('T'+q.id))&&imgs.includes('tz_fronts_atlas'),J?J.buildings.length+' 棟':'沒有 json'); }
+  check('7. 正式模型：樓房數＝店數＋巷 A 四棟（北、南、盡頭＋禮貌生財那一段 TA_LIMAO，X332）＋水源市場旁的巷子兩棟（北側 TM_N、盡頭 TM_END；南側就是市場那一棟）；有五間的店面貼圖集（tz_fronts_atlas）',!!J&&J.buildings.length===L.shops.length+(L.limao?4:3)+2*(L.alleys.length-1)&&['TM_N','TM_END'].every(b=>J.buildings.includes(b))&&(!L.limao||J.buildings.includes('TA_LIMAO'))&&L.shops.every(q=>J.buildings.includes('T'+q.id))&&imgs.includes('tz_fronts_atlas'),J?J.buildings.length+' 棟':'沒有 json'); }
 /* 第 2 版（使用者 11-10「混合」）：五間照概念圖沒有騎樓、直接臨人行道；其他老公寓保留騎樓 */
 { const FIVE=['yuehaochi','keju','dongnan','liantong','wente'], P=TZ3.pillars(L), na=L.shops.filter(q=>q.arcade===false).map(q=>q.id).sort();
   check('8. 沒有騎樓的正好是使用者指定的五間；其他店都有騎樓柱',na.join()===FIVE.slice().sort().join()&&!P.some(p=>FIVE.includes(p.id))&&L.shops.filter(q=>q.arcade!==false).every(q=>P.some(p=>p.id===q.id)),na.join(' '));
@@ -77,11 +77,13 @@ check('4. 店面玻璃後面、樓房裡面站不住',!freeAt(F.west-F.arcade-0.
   const doors=E.interactables.filter(q=>q.tzShop), near=[]; for(const d of doors) for(const q of ST.list) if(Math.hypot(d.x-q.x,d.z-q.z)<1.6) near.push(q.id+'→'+d.tzShop);
   const cut=doors.filter(d=>!freeAt(d.x,d.z)||!reach(sp,[d.x,d.z])).map(d=>d.tzShop);
   check('9. 攤位不擋店門：每一間店門口照舊站得住、走得到；攤車離店門互動點 ≥ 1.6 m',!near.length&&!cut.length,near.concat(cut).join(' '));
-  const A=L.alleys[0]; let narrow=[]; for(let x=F.east+1;x<F.east+A.len-2;x+=0.5){ let n=0; for(let zz=A.z0+0.25;zz<A.z1;zz+=0.5) if(freeAt(x,zz)) n++; if(n*0.5<2.0) narrow.push(x.toFixed(1)+':'+n*0.5); }
-  check('9. 巷 A 擺了攤還留至少 2 m 寬可以走（不是整條堵住）；汀州路的車道沒有攤',!narrow.length&&ST.list.every(q=>q.where==='alleyA'||Math.abs(q.x)>=3.4),narrow.slice(0,5).join(' '));
-  { const aa=ST.list.filter(q=>q.where==='alleyA'), face=[]; for(const p of aa) for(const q of aa) if(p!==q&&Math.sign(p.z)!==Math.sign(q.z)&&Math.abs(p.x-q.x)<(TZ3.stallBlock(p,L).w+TZ3.stallBlock(q,L).w)/2) face.push(p.id+'×'+q.id);
-    const ov=[], side=q=>q.where==='alleyA'?'A'+Math.sign(q.z):'R'+Math.sign(q.x), along=q=>q.where==='alleyA'?q.x:q.z; for(const p of ST.list) for(const q of ST.list) if(p.id<q.id&&side(p)===side(q)&&Math.abs(along(p)-along(q))<(TZ3.stallBlock(p,L).w+TZ3.stallBlock(q,L).w)/2) ov.push(p.id+'×'+q.id);
-    check('9. 巷 A 兩側的攤交錯、不面對面；同一側的攤不重疊',!face.length&&!ov.length,face.concat(ov).join(' ')); } }
+  /* SHUIYUAN-MARKET-LANE-1112（使用者 11-12）：攤位全部搬到水源市場旁的巷子（alleys[1]，寬 9 m）；巷 A 留著可以走、不擺攤 */
+  const A=L.alleys[0], MK=L.alleys.find(a=>a.market), AD=F.arcade; let narrow=[]; for(let x=F.east+AD+0.5;x<F.east+MK.len-1;x+=0.5){ let n=0; for(let zz=MK.z0+0.25;zz<MK.z1;zz+=0.5) if(freeAt(x,zz)) n++; if(n*0.5<3.5) narrow.push(x.toFixed(1)+':'+n*0.5); }
+  check('9. 水源市場旁的巷子擺了十攤還留至少 3.5 m 寬可以走；汀州路的車道、巷 A 沒有攤',!narrow.length&&ST.list.every(q=>q.where==='laneM'&&q.z>MK.z0&&q.z<MK.z1&&q.x>F.east+AD&&q.x<F.east+MK.len),narrow.slice(0,5).join(' ')||ST.list.filter(q=>q.where!=='laneM').map(q=>q.id).join(' '));
+  { let ok=0; for(let x=F.east+AD+0.5;x<F.east+A.len-1;x+=0.5) if(freeAt(x,0)) ok++; check('9. 巷 A 照舊走得進去（禮貌生財在裡面）、盡頭不通公館：通公館的互動點在新巷子東端',ok>30&&Math.abs(gg.z-(MK.z0+MK.z1)/2)<0.6&&gg.x>F.east+MK.len-5,ok+' 格／'+[gg.x,gg.z].join(',')); }
+  { const ov=[], side=q=>Math.abs(q.yaw)<0.1?'N':'S'; for(const p of ST.list) for(const q of ST.list) if(p.id<q.id&&side(p)===side(q)&&Math.abs(p.x-q.x)<(TZ3.stallBlock(p,L).w+TZ3.stallBlock(q,L).w)/2) ov.push(p.id+'×'+q.id);
+    const smoke=['st_pepper','st_corn','st_stinky'].map(id=>ST.list.find(q=>q.id===id)), other=ST.list.filter(q=>Math.abs(q.yaw)<0.1&&!smoke.includes(q));
+    check('9. 兩側各五攤、同一側的攤不重疊；有煙的三攤（胡椒餅、玉米、炸豆腐）在最靠汀州路那一頭',!ov.length&&ST.list.filter(q=>side(q)==='N').length===5&&ST.list.filter(q=>side(q)==='S').length===5&&Math.max(...smoke.map(q=>q.x))<Math.min(...other.map(q=>q.x)),ov.join(' ')); } }
 /* 公館那一側的三攤（使用者 11-10「公館那一側也擺幾攤」）：建真正的公館區域 */
 { const E2=mk(), g=Z3.ZONES.gongguan.build(E2), GG=(L.stalls.gongguan||[]), gs=g.ggStalls||[]; E2.zone=g; E2.levels=g.levels||null; E2.nav=g.nav; E2.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
   const st=(x,zz)=>E2.canStand(x,zz,0.33,0), sp2=L.toGongguan.spawn, bad=[];

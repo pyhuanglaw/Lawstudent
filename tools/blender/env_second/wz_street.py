@@ -457,6 +457,8 @@ if SET == 'tingzhou':
         if q['id'] == 'yindehao': base['side_wins'] = '-x'   # 巷 A 口兩邊的側牆開窗（BB：整面沒紋理的灰牆）
         if q['id'] == 'e_market': shop['vlen'] = 2.6
         if q['id'] == 'e_market': base.update(balcony=False, roofAdd=False, tank=False, wall='plaster', color='#cfc8b8')
+        if q['id'] == 'e_market' and q.get('deep'): base['d'] = q['deep']; base['side_wins'] = '-x'   # SHUIYUAN-MARKET-LANE-1112（使用者 11-12「水源市場是一棟建築!!!」）：整棟深 26 m（x 5～31），北面臨市場旁的巷子、開側窗
+        if q['id'] == 'e_hainan' and len(TZ['alleys']) > 1: base['side_wins'] = '+x'   # 新巷子北側的那一面
         SPECS.append(base)
     # 巷 A 的兩側（樓房深 14 m 以外的那一段）、盡頭（公館店面街的背面）：住家門、鐵捲門、小雜貨
     _A = TZ['alleys'][0]; _ax0 = _FE + _DEP; _ax1 = _FE + _A['len'] + 2.0
@@ -465,6 +467,11 @@ if SET == 'tingzhou':
                                                            ('TA_END', (_ax1, 0.0), -math.pi / 2, _A['z1'] - _A['z0'] + 8, 14, 7, 'door')]):
         SPECS.append(dict(id=_id, pos=_pos, ry=_ry, w=_w, d=_d, floors=_fl, wall=_WALLT[_i % len(_WALLT)], color=_WALLC[(_i * 4 + 2) % len(_WALLC)], balcony=_i == 1, tank=True, roofAdd=_i != 1,
                           ground=_g, door=['#5c3a21', '#2f4a3a', '#8a3a2a'][_i], **_P))
+    # 水源市場旁的巷子（SHUIYUAN-MARKET-LANE-1112）：南側就是市場那一棟（上面 deep）；北側臨街樓房以外的那一段、盡頭各一棟
+    for _M in TZ['alleys'][1:]:
+        _mx0 = _FE + _DEP; _mx1 = _FE + _M['len'] + 2.0
+        SPECS.append(dict(id='TM_N', pos=((_mx0 + _mx1) / 2, _M['z0']), ry=0.0, w=_mx1 - _mx0, d=6, floors=4, wall=_WALLT[1], color=_WALLC[3], balcony=True, tank=True, roofAdd=False, ground='shutter', door='#5c3a21', **_P))
+        SPECS.append(dict(id='TM_END', pos=(_mx1, (_M['z0'] + _M['z1']) / 2), ry=-math.pi / 2, w=_M['z1'] - _M['z0'] + 8, d=14, floors=6, wall=_WALLT[2], color=_WALLC[5 % len(_WALLC)], balcony=False, tank=True, roofAdd=True, ground='door', door='#2f4a3a', **_P))
     if _LM:
         _lw = _LM['x1'] - _LM['x0']; _sh, _sf = _tpl; _sh = dict(_sh, name=_LM['name'], sub='', vertical='', type='cvs'); _sf = dict(_sf, notes=[], clutter=[], light='warm', bright=0.5)
         SPECS.append(dict(id='TA_LIMAO', pos=((_LM['x0'] + _LM['x1']) / 2, _A['z1']), ry=math.pi, w=_lw, d=10, floors=4, wall='mosaic', color='#d8d0bc', balcony=False, tank=True, roofAdd=False,
@@ -1219,6 +1226,39 @@ def housedoor(spec, xf, W, rng, rec):
 SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
 if SET in ('wenzhou', 'gongguan', 'lane118', 'xinsheng', 'xinsheng_far', 'tingzhou'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
 for sp in SPECS: apartment(sp)
+
+# 水源市場臨巷子的那一面（SHUIYUAN-MARKET-LANE-1112，使用者 11-12：「水源市場是一棟建築!!! 公館有很多攤販的地方就是水源市場那一棟的旁邊」）：
+#   市場整棟（Te_market，深 26 m）的北面原本只是側牆＋樓上的窗。照市場的側面補：三個敞開的側門（裡面暗、看得到一排排的菜攤箱子）、門上的捲門箱、
+#   整排墨綠的遮雨棚和支架、棚下的日光燈、門和門中間的磁磚腰牆和公告欄、棚上面「水源市場」的大字牌（字由遊戲畫，和其他招牌一樣）。外觀原創，不照任何真實建築（D136）。
+if SET == 'tingzhou' and len(TZ['alleys']) > 1:
+    _M = TZ['alleys'][1]; _mk = [q for q in TZ['shops'] if q['id'] == 'e_market'][0]; _mx0 = _FE + TZ['facade']['arcade'] + 0.6; _mx1 = _FE + _mk.get('deep', _DEP) - 0.6
+    _mxf = Xf((_mx0 + _mx1) / 2, _M['z1'], math.pi); _hw = (_mx1 - _mx0) / 2; _GRN = '#2f5d50'
+    _wm = acc(flat('tz_mkt_tile', '#d9d5c8', rough=0.5)); _dk = acc(flat('tz_mkt_dark', '#24211e', rough=0.9)); _gr = acc(awning_mat(_GRN)); _al = acc(M['alu']); _fr = acc(frame_mat('#4a4e54'))
+    _mxf.box(_wm, -_hw, _hw, 0.0, 1.1, 0.0, 0.03)                                                    # 磁磚腰牆
+    _mxf.box(acc(flat('tz_mkt_band', _GRN, rough=0.6)), -_hw, _hw, 1.1, 1.18, 0.0, 0.035)
+    _GATES = [-_hw + 4.2, 0.6, _hw - 4.6]
+    for _k, _gx in enumerate(_GATES):
+        _mxf.box(_dk, _gx - 1.7, _gx + 1.7, 0.02, 3.05, 0.0, 0.045)                                   # 門洞（暗）
+        for _sx in (-1, 1): _mxf.box(_fr, _gx + _sx * 1.7 - 0.07, _gx + _sx * 1.7 + 0.07, 0.0, 3.1, 0.0, 0.12)
+        _mxf.box(_al, _gx - 1.85, _gx + 1.85, 3.05, 3.4, 0.0, 0.3)                                    # 捲門箱
+        for _j in range(5):                                                                          # 門裡看得到的菜攤：一疊疊籃子和箱子
+            _bx = _gx - 1.3 + _j * 0.62; _c = ['#c8301c', '#2a5aa8', '#c9a878', '#3f8a4a', '#e0a030'][(_j + _k) % 5]
+            _ch = 0.38 + (_j % 3) * 0.2; _mxf.box(acc(flat('tz_mkt_crate_' + _c[1:], _c, rough=0.7)), _bx, _bx + 0.5, 0.02, _ch, 0.05, 0.4)
+            for _q in range(int(_ch / 0.2)):                                                         # 塑膠籃一格一格疊：每一格的把手孔和接縫（不是光滑的方塊）
+                _mxf.box(_dk, _bx + 0.14, _bx + 0.36, 0.02 + _q * 0.2 + 0.11, 0.02 + _q * 0.2 + 0.15, 0.4, 0.404); _mxf.box(_dk, _bx, _bx + 0.5, 0.02 + _q * 0.2 + 0.19, 0.02 + _q * 0.2 + 0.2, 0.4, 0.403)
+        _mxf.box(acc(M['tube']), _gx - 1.2, _gx + 1.2, 2.85, 2.9, 0.06, 0.12)
+    for _a, _b in zip([-_hw] + [g + 1.9 for g in _GATES], [g - 1.9 for g in _GATES] + [_hw]):         # 門和門中間：公告欄、水龍頭的小台子
+        if _b - _a < 1.6: continue
+        _cx = (_a + _b) / 2; _mxf.box(_fr, _cx - 0.75, _cx + 0.75, 1.35, 2.45, 0.0, 0.05); _mxf.box(acc(flat('tz_mkt_cork', '#b98d5e', rough=0.9)), _cx - 0.68, _cx + 0.68, 1.42, 2.38, 0.05, 0.06)
+        for _j in range(5): _mxf.box(acc(flat('tz_mkt_paper', '#f1ede0', rough=0.9)), _cx - 0.6 + (_j % 3) * 0.42, _cx - 0.6 + (_j % 3) * 0.42 + 0.3, 1.5 + (_j // 3) * 0.46, 1.5 + (_j // 3) * 0.46 + 0.38, 0.06, 0.064)
+    _mxf.box(_gr, -_hw, _hw, 3.42, 3.5, 0.0, 1.5)                                                     # 遮雨棚：一整排，往外挑 1.5 m、前緣垂下一條
+    _mxf.box(_gr, -_hw, _hw, 3.2, 3.42, 1.44, 1.5)
+    for _k in range(int((_hw * 2) / 2.6) + 1):
+        _bx = -_hw + 0.1 + _k * (2 * _hw - 0.2) / int((_hw * 2) / 2.6); _mxf.box(_al, _bx - 0.025, _bx + 0.025, 3.36, 3.42, 0.0, 1.46); _mxf.box(_al, _bx - 0.025, _bx + 0.025, 2.9, 3.38, 0.0, 0.05)
+    for _k in range(6): _tx = -_hw + 2.0 + _k * (2 * _hw - 4.0) / 5; _mxf.box(acc(M['tube']), _tx - 0.6, _tx + 0.6, 3.36, 3.4, 0.9, 0.98)
+    _sw = 7.0; _mxf.box(acc(flat('tz_mkt_signback', '#1f4034', rough=0.6)), -_sw / 2 - 0.12, _sw / 2 + 0.12, 3.72, 5.02, 0.0, 0.1)
+    face('SIGN_FACE_TMKT_N', M['board'], _mxf, [(-_sw / 2, 3.8, 0.105), (_sw / 2, 3.8, 0.105), (_sw / 2, 4.94, 0.105), (-_sw / 2, 4.94, 0.105)],
+         {'sign': '水源市場', 'sub': '', 'bg': _GRN, 'color': '#f4ead8', 'serif': 0, 'band': '#c9a24a'})
 if SET == 'xinsheng_far':   # XS-FARVIEW-1105：路口的號誌（台灣常見的橫式燈頭掛在懸臂上；行人號誌在桿子上）。燈頭的綠燈自己發光（白天也亮）
     def _signals():
         pole = acc(flat('wz_sig_pole', '#7b8086', rough=0.45, metal=0.35)); head = acc(flat('wz_sig_head', '#2b2e31', rough=0.6))
