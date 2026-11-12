@@ -50,8 +50,13 @@ EV_ON = r"""(()=>{ const E=GAME.E; window.__xe={f:[], ev:[]}; window.__xeOn=true
     try{ const sc=E.scene, s0=sc.add; sc.add=function(o){ ev('scene.add',(o&&o.name)||''); return s0.apply(this,arguments); }; }catch(e){}
     try{ if(typeof ASSETS!=='undefined'&&ASSETS.loadOne){ const l0=ASSETS.loadOne; ASSETS.loadOne=function(k){ const r=l0.apply(this,arguments); try{ if(r&&r.then) r.then(()=>ev('asset',k)); }catch(e){} return r; }; } }catch(e){}
     let rd={}; setInterval(()=>{ try{ const R=E.zone&&E.zone.shopReal; if(!R||!R.shops) return; for(const q of R.shops){ const k=q.id+':'+(q.ready?1:0)+(q.built?1:0)+(q.on?1:0); if(!rd[k]){ rd[k]=1; ev('shopReal',k); } } }catch(e){} },50); }
-  let last=null; const f=t=>{ if(!window.__xeOn) return; if(last!=null) window.__xe.f.push([+t.toFixed(1), +(t-last).toFixed(1)]); last=t; requestAnimationFrame(f); }; requestAnimationFrame(f); return true; })()"""
-EV_OFF = """(()=>{ window.__xeOn=false; const X=window.__xe; const out=[]; for(const [t,dt] of X.f){ if(dt>50) out.push({t, ms:dt, events:X.ev.filter(e=>e[0]>=t-dt-30&&e[0]<=t+5).slice(0,12)}); } return {long:out.slice(0,12), n_events:X.ev.length, kinds:X.ev.reduce((a,e)=>{ a[e[1]]=(a[e[1]]||0)+1; return a; },{})}; })()"""
+  /* 11-13 BB-C（FIRST r6）：每一幀看貼圖數、著色器程式數有沒有變（上傳貼圖、編譯）、shopReal.prof 各格次數有沒有變（哪一步、誰）*/
+  const I=E.renderer.info; let tex0=I.memory.textures, prg0=I.programs?I.programs.length:0, pc={};
+  const profScan=()=>{ try{ const P=E.zone&&E.zone.shopReal&&E.zone.shopReal.prof; if(!P) return; for(const g of ['step','frame']) for(const k in (P[g]||{})){ const v=P[g][k]; const kk=g+'.'+k; if(v&&typeof v==='object'&&v.n!==pc[kk]){ if(pc[kk]!==undefined) ev(kk,(v.who||'')+' max'+v.max); pc[kk]=v.n; } } }catch(e){} };
+  profScan();
+  let last=null; const f=t=>{ if(!window.__xeOn) return; const tx=I.memory.textures, pg=I.programs?I.programs.length:0; if(tx!==tex0){ ev('tex',tex0+'→'+tx); tex0=tx; } if(pg!==prg0){ ev('programs',prg0+'→'+pg); prg0=pg; } profScan();
+    if(last!=null) window.__xe.f.push([+t.toFixed(1), +(t-last).toFixed(1)]); last=t; requestAnimationFrame(f); }; requestAnimationFrame(f); return true; })()"""
+EV_OFF = """(()=>{ window.__xeOn=false; const X=window.__xe; const out=[]; for(const [t,dt] of X.f){ if(dt>50) out.push({t, ms:dt, events:X.ev.filter(e=>e[0]>=t-dt-30&&e[0]<=t+5).slice(0,16)}); } return {long:out.slice(0,20), n_events:X.ev.length, kinds:X.ev.reduce((a,e)=>{ a[e[1]]=(a[e[1]]||0)+1; return a; },{})}; })()"""
 
 
 def fstats(t):
@@ -85,11 +90,12 @@ async def main():
             await gc(); m = await pg.evaluate(MET); st = fstats(t); R.note('%s 站 %d 秒：%s；%s' % (label, secs, J(st), J(m))); return {'frames': st, 'm': m}
 
         async def walk(label, x, z):
-            await pg.evaluate(REC_ON); t0 = time.time()
+            await pg.evaluate(REC_ON); await pg.evaluate(EV_ON); t0 = time.time()
             ok = await L.go_to(pg, cdp, R, x, z, 0.8, label, max_s=120)
             t = await pg.evaluate(REC_OFF); st = fstats(t)
+            evs = await pg.evaluate(EV_OFF); R.note('%s 長幀（>50 ms）當下事件（前 30 ms 內：shopReal 狀態、prof 各步、CHAR.build、scene.add、貼圖數、程式數）：%s' % (label, J(evs)))
             me = await D.st(pg); R.note('%s（%.1f 秒，到了=%s，位置 %s,%s）每幀：%s' % (label, time.time() - t0, ok, me['x'], me['z'], J(st)))
-            return {'ok': bool(ok), 'frames': st, 'raw_max_idx': t.index(max(t)) if t else None}
+            return {'ok': bool(ok), 'frames': st, 'raw_max_idx': t.index(max(t)) if t else None, 'long_events': evs}
 
         exs = await pg.evaluate(EXITS); d1 = next((e for e in exs if e['to'] == PAIR[0]), None); d2 = next((e for e in exs if e['to'] == PAIR[1]), None)
         if not R.check('%s 有 %s、%s 兩個門' % (ZONE, PAIR[0], PAIR[1]), bool(d1 and d2), J(exs)): await b.close(); sys.exit(1)
