@@ -114,50 +114,50 @@ if SET == 'gongguan':
     # 公館四間新店（使用者 11-04 01:0x，AA_647；LAWWW2 11-04）：店面照參考圖 ref_images/shops/gongguan_<店>_ext.webp（wz_shopkit.gg_front；貼圖 gg_fronts_atlas）。
     # 本地 x＝從騎樓看過去的左→右（＝室內 x）；騎樓 3 m，店面在 z −3；一樓騎樓頂 3.85。店門口互動點（zones3d.js：店的中心往右 0.6 m）不動，只有頁間書屋的門照 AA 的室內配置開在左邊（x −4.6，要請 LAWWW 移互動點）
     GG_XS = {
-        'G01': dict(dep=3.0, wallc='#e9dfcc', street='ggtea_sign',   # 青木茶室：大窗（店內）＋木門＋外帶窗口；綠瓦屋簷、上面一整塊招牌
+        'G01': dict(dep=3.0, real=True, back=7.1, wallc='#e9dfcc', street='ggtea_sign',   # 青木茶室：大窗（店內）＋木門＋外帶窗口；綠瓦屋簷、上面一整塊招牌
                     cards=[('ggtea_int', -1.93, 1.27, 0.79, 2.5, 0.8, [0.24]), ('ggtea_take', 2.94, 4.24, 1.2, 2.45, 0.4)],
                     door=dict(x0=1.3, x1=2.4, y1=2.65, style='wood', key='ggtea_door', d=0.6, hinge='right'),
                     eave=('ggtea_eave', -4.3, 4.3, 2.86, 2.56, 0.55), signs=[('ggtea_sign', -2.27, 4.17, 2.93, 3.78, 'front')], sign_back='wood',
                     decals=[('ggtea_plaque', 2.56, 2.78, 1.35, 2.05, 0.03)], ledges=[(2.9, 4.28, 1.2, 0.3)],
                     props=[('pot', -3.3, 0.4, 'broad'), ('pot', -2.55, 0.32, 'fern'), ('board', 'ggtea_board', -0.9, 0.5)]),
-        'G02': dict(dep=3.0, wallc='#e9dfcc', street='ggbook_sign', base='ggbook_stone',   # 頁間書屋：門在左（AA 的室內 yejian_layout.js：門 x −4.6 寬 1.1、窗 −3.6～5.6）
+        'G02': dict(dep=3.0, real=True, back=10.1, wallc='#e9dfcc', street='ggbook_sign', base='ggbook_stone',   # 頁間書屋：門在左（AA 的室內 yejian_layout.js：門 x −4.6 寬 1.1、窗 −3.6～5.6）
                     cards=[('ggbook_int2', -3.6, 1.0, 0.55, 2.85, 0.8, [-1.3]), ('ggbook_int', 1.0, 5.6, 0.55, 2.85, 0.8, [3.3])],
                     door=dict(x0=-5.15, x1=-4.05, y1=2.85, leaf=2.4, style='wood', key='ggbook_door', d=0.6, hinge='left', mat=True),
                     signs=[('ggbook_sign', -2.4, 3.2, 2.93, 3.8, 'front')], sign_back='wood',
                     decals=[('ggbook_pic', -5.98, -5.48, 1.55, 2.05, 0.03)], lamps=[(-4.6, 3.35), (5.95, 3.35)],
                     props=[('box', 'ggbook_cart', -6.2, -5.45, 1.15, 0.42, 0.35, 'wood'), ('board', 'ggbook_board', -3.0, 0.5), ('pot', -2.2, 0.3, 'fern'), ('pot', 5.95, 0.35, 'broad')]),   # 11-04 蕨類盆栽 −3.85→−2.2（GG_ext_nav2：原本壓到門的左緣，門口 (−36.4,21) 站不住；搬到立牌另一邊）
-        'G03': dict(dep=3.0, wallc='#f0eee8', frame='alu', street='ggcvs_sign', street_x=0.6, street_lit=True, sign_lit=True,   # 日和便利店：自動門＋整面玻璃；白色招牌框、綠色線
+        'G03': dict(dep=3.0, real=True, back=11.1, wallc='#f0eee8', frame='alu', street='ggcvs_sign', street_x=0.6, street_lit=True, sign_lit=True,   # 日和便利店：自動門＋整面玻璃；白色招牌框、綠色線
                     cards=[('ggcvs_side', -5.3, -1.45, 0.08, 2.73, 0.8, [-4.0, -2.7]), ('ggcvs_int', -1.33, 2.93, 0.08, 2.73, 0.8, [-0.56, 1.36])],
                     door=dict(x0=-0.56, x1=1.36, y1=2.73, leaf=2.13, style='auto', frame='alu', mat=True),
                     canopy=dict(x0=-5.3, x1=5.3, y0=2.8, y1=3.84, d=0.45, stripes=[(-5.2, -0.55, 3.28), (3.85, 5.2, 3.28)], stripe='#8a9a4a'),
                     signs=[('ggcvs_sign', -0.33, 3.65, 2.9, 3.77, 'canopy')],
                     props=[('box', 'ggcvs_locker', 2.97, 3.5, 1.7, 0.45, 0.4, 'cream'), ('box', 'ggcvs_bins', 3.53, 4.36, 0.78, 0.45, 0.4, 'steel'),
                            ('box', 'ggcvs_vend', 4.39, 5.28, 1.75, 0.55, 0.7, 'cream'), ('pot', -1.0, 0.35, 'broad')]),
-        'G06': dict(dep=3.0, wallc='#e9dfcc', street='ggbike_sign', street_x=0.6,   # 慢輪單車：中間整面拉開的門（騎樓的三台車、櫥窗的兩台在 zones3d.js）；深綠招牌、鐵皮雨遮
+        'G06': dict(dep=3.0, real=True, back=12.1, wallc='#e9dfcc', street='ggbike_sign', street_x=0.6,   # 慢輪單車：中間整面拉開的門（騎樓的三台車、櫥窗的兩台在 zones3d.js）；深綠招牌、鐵皮雨遮
                     cards=[('ggbike_int', -4.4, -0.6, 0.85, 2.55, 0.8, [-2.5]), ('ggbike_int2', 1.75, 4.1, 0.75, 2.55, 0.8)],
                     door=dict(x0=-0.5, x1=1.6, y1=2.6, style='open', key='ggbike_shop', d=0.8),   # 景深卡要在一樓牆體（玻璃後 0.85）前面
                     awning=dict(x0=-4.6, x1=4.6, y0=2.76, y1=2.44, d=0.7), signs=[('ggbike_sign', -2.6, 1.2, 2.84, 3.8, 'front')], sign_back='black',
                     decals=[('ggbike_plaque', 4.25, 4.6, 1.5, 2.1, 0.03)], lamps=[(-2.95, 3.62), (1.55, 3.62), (4.42, 2.55)],
                     props=[('pump', 4.55, 0.25), ('board', 'ggbike_board', 2.05, 0.55)]),
         # 公館第二批（使用者 11-04 02:0x，AA_650；門窗數字 docs/art-rebuild/second_ai/wip/gongguan5/DOORS.md）
-        'G05': dict(dep=3.0, wallc='#d9b46a', frame='alu', street='ggyy_sign', street_lit=True, sign_lit=True,   # 洋洋鹹酥雞：左邊開放式炸物櫃台、右邊玻璃門＋落地窗；黃色舊牆、燈箱招牌
+        'G05': dict(dep=3.0, real=True, back=11.1, wallc='#d9b46a', frame='alu', street='ggyy_sign', street_lit=True, sign_lit=True,   # 洋洋鹹酥雞：左邊開放式炸物櫃台、右邊玻璃門＋落地窗；黃色舊牆、燈箱招牌
                     cards=[('ggyy_kitchen', -4.3, -0.25, 0.82, 2.85, 0.7), ('ggyy_win', 1.95, 3.5, 0.3, 2.47, 0.8)], open=('ggyy_kitchen',),
                     door=dict(x0=0.45, x1=1.95, y1=2.47, style='wood', key='ggyy_door', d=0.6, frame='alu', hinge='right'),
                     ledges=[(-4.3, -0.25, 0.82, 0.25, 'steel')], signs=[('ggyy_sign', -2.2, 2.8, 2.88, 3.8, 'front')], sign_back='#c9a24e',
                     props=[('board', 'ggyy_board', -0.1, 0.5), ('box', 'ggyy_bins', 3.55, 4.25, 0.95, 0.4, 0.4, 'steel')]),
-        'G07': dict(dep=3.0, wallc='#e8dfcc', street='ggafar_sign', street_x=0.6,   # Afar café：深綠飾帶上的招牌字、木框大窗、木門；黑板菜單、壁燈、窗前矮書架
+        'G07': dict(dep=3.0, real=True, back=8.1, wallc='#e8dfcc', street='ggafar_sign', street_x=0.6,   # Afar café：深綠飾帶上的招牌字、木框大窗、木門；黑板菜單、壁燈、窗前矮書架
                     cards=[('ggafar_win', -3.9, -0.3, 0.73, 2.68, 0.8, [-2.1]), ('ggafar_int', -0.3, 1.75, 0.73, 2.68, 0.8, [0.7])],
                     door=dict(x0=1.8, x1=3.35, y1=2.82, style='wood', key='ggafar_door', d=0.6, hinge='left'),
                     signs=[('ggafar_sign', -4.8, 4.8, 2.9, 3.84, 'front')], sign_back='black',
                     decals=[('ggafar_menu', 3.7, 4.3, 1.15, 2.05, 0.03)], lamps=[(3.95, 2.6)],
                     props=[('box', 'ggafar_shelf', 0.25, 1.65, 1.1, 0.3, 0.35, 'wood'), ('pot', 4.45, 0.35, 'broad')]),
-        'G12': dict(dep=3.0, wallc='#e9e1d0', street='ggcorner_sign',   # 轉角唱片：深藍飾帶、櫥窗（海報、唱機、黑膠）、木門；營業時間牌、門外唱片箱
+        'G12': dict(dep=3.0, real=True, back=11.6, wallc='#e9e1d0', street='ggcorner_sign',   # 轉角唱片：深藍飾帶、櫥窗（海報、唱機、黑膠）、木門；營業時間牌、門外唱片箱
                     cards=[('ggcorner_win', -3.39, -2.0, 0.64, 2.81, 0.8), ('ggcorner_int', -2.0, 0.69, 0.64, 2.81, 0.8)],
                     door=dict(x0=0.84, x1=2.42, y1=2.81, leaf=2.47, style='wood', key='ggcorner_door', d=0.6, hinge='left'),
                     signs=[('ggcorner_sign', -3.7, 3.7, 2.9, 3.84, 'front')], sign_back='black',
                     decals=[('ggcorner_notice', 2.75, 3.35, 1.3, 2.12, 0.03)], lamps=[(3.05, 2.75)],
                     props=[('box', 'ggcorner_crate', 2.6, 3.4, 1.0, 0.35, 0.4, 'wood'), ('pot', 3.9, 0.35, 'fern')]),   # 11-04 盆栽 0.75→0.35（v9.10.20 gongguan_layout_nav：原本凸到騎樓 z 20.9，x 51.25～52.75 那一段站不住）
-        'G14': dict(dep=3.0, wallc='#efe8da', frame='#7d9a86', street='ggdb_sign', base='ggdb_tile',   # Daybreak：灰綠框大窗＋黃色小方磚腰牆、灰綠框玻璃門＋側窗；米色帆布雨棚、米白飾帶上的招牌
+        'G14': dict(dep=3.0, real=True, back=8.1, wallc='#efe8da', frame='#7d9a86', street='ggdb_sign', base='ggdb_tile',   # Daybreak：灰綠框大窗＋黃色小方磚腰牆、灰綠框玻璃門＋側窗；米色帆布雨棚、米白飾帶上的招牌
                     cards=[('ggdb_int', -3.31, 1.48, 0.76, 2.53, 0.8, [-1.7, -0.1]), ('ggdb_door', 2.73, 3.07, 0.05, 2.43, 0.6)],
                     door=dict(x0=1.6, x1=2.73, y1=2.43, style='wood', key='ggdb_door', d=0.6, hinge='right'),
                     awning=dict(x0=-3.5, x1=3.1, y0=2.94, y1=2.5, d=0.75, style='canvas', color='#e8dcc0'),

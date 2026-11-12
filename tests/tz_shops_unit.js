@@ -64,7 +64,7 @@ for(const id of ids){ const L=ALL[id], N=L.name;
   const fpl=(Array.isArray(fp)?fp:(fp.props||fp.list||[])).filter(q=>/ggfruit/.test(q.tag||''));
   { const z3=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');   /* SHOP-REAL-INSIDE 公館第一批（LAWWW2-C 11-12；使用者：店外看到的要和走進去的室內一樣、不要 2D 圖貼在外面）：第 3 版的照片卡＋前排水果箱換成「開口後面放走進去的那一顆室內模型」 */
   check('汀州鮮果外觀 第 4 版（11-12）：不放照片卡和街景模型自己的水果箱（real），一樓牆體退到室內深度後面（back 10.1），遊戲在開口後面放 gg_xianguo 的室內模型（GG_SHOP_REAL）；騎樓不寫腳印',
-    /real=True, back=10\.1/.test(g8)&&nf===0&&/mk\('G08','gg_xianguo','bldg\.gg_xianguo_interior',19\.6,8,10,3\.3\)/.test(z3)&&/shopInsideReal\(E,g,zone,GG_SHOP_REAL\)/.test(z3)&&fpl.length===0,'箱 '+nf+' 腳印 '+fpl.length); } }
+    /real=True, back=10\.1/.test(g8)&&nf===0&&/mk\('G08','gg_xianguo','bldg\.gg_xianguo_interior',19\.6,8,10,3\.3[,)]/.test(z3)&&/shopInsideReal\(E,g,zone,GG_SHOP_REAL\)/.test(z3)&&fpl.length===0,'箱 '+nf+' 腳印 '+fpl.length); } }
 /* 禮貌生財的書房（X332）：平常鎖著、解鎖以後走得進去 */
 if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,L.spawn.z,0], in0=[-0.6,SD.z1-0.8,0];
   const dIt=E.interactables.find(i=>i.kind===SD.door.kind), n0=E.interactables.length;

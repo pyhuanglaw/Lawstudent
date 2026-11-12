@@ -1278,19 +1278,23 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
     if dr:
         x0, x1, y1, st = dr['x0'], dr['x1'], dr['y1'], dr.get('style', 'wood'); _df = dr.get('frame', c.get('frame')); dfr = acc(SK['alu2'] if _df == 'alu' else frame_mat(_df if str(_df or '').startswith('#') else GG_WOOD))
         if st == 'open':   # 整面拉開（慢輪單車）：門裡面的店（景深卡在 1.4 m）＋地板＋兩側內牆、兩扇門片往裡打開貼在兩側
-            zc = gz - dr.get('d', 1.4); _xq(xf, dr['key'], x0, x1, 0.0, y1, zc, tiles=1)
-            xf.box(acc(SK['f_concrete'] if 'f_concrete' in SK else SK['f_terrazzo']), x0, x1, -0.02, 0.02, zc, gz)
-            for xx in (x0, x1): xf.box(cream, xx - 0.03, xx + 0.03, 0.0, y1, zc, gz)
-            xf.box(cream, x0, x1, y1, y1 + 0.05, zc, gz)
+            zc = gz - dr.get('d', 1.4)
+            if not c.get('real'):   # real（SHOP-REAL-INSIDE 公館第二批 11-12）：門裡面不放景深卡和內牆，後面是遊戲放的室內模型
+                _xq(xf, dr['key'], x0, x1, 0.0, y1, zc, tiles=1)
+                xf.box(acc(SK['f_concrete'] if 'f_concrete' in SK else SK['f_terrazzo']), x0, x1, -0.02, 0.02, zc, gz)
+                for xx in (x0, x1): xf.box(cream, xx - 0.03, xx + 0.03, 0.0, y1, zc, gz)
+                xf.box(cream, x0, x1, y1, y1 + 0.05, zc, gz)
             lw = (x1 - x0) / 2
             for xx, sg in ((x0 + 0.06, 1), (x1 - 0.06, -1)):
                 xf.box(dfr, xx - 0.03, xx + 0.03, 0.0, y1 - 0.05, gz - lw, gz); xf.quad(acc(M['glass']), [(xx + 0.031 * sg, 0.9, gz - lw + 0.08), (xx + 0.031 * sg, 0.9, gz - 0.08), (xx + 0.031 * sg, y1 - 0.2, gz - 0.08), (xx + 0.031 * sg, y1 - 0.2, gz - lw + 0.08)])
             CL.glow(root, 'gg_xs_in', *xf.p((x0 + x1) / 2, 1.6, zc + 0.4), color='rgba(255,236,200,1)', size=2.4, day=0.0, night=0.6)
         else:
             if dr.get('key'):
-                zc = gz - dr.get('d', 0.6); _xq(xf, dr['key'], x0, x1, 0.0, y1, zc, tiles=1); xf.box(acc(SK['f_terrazzo']), x0, x1, -0.02, 0.0, zc, gz)
-                for xx in (x0, x1): xf.box(cream, xx - 0.02, xx + 0.02, 0.0, y1, zc, gz - 0.01)
-                xf.box(cream, x0, x1, y1, y1 + 0.04, zc, gz - 0.01)
+                zc = gz - dr.get('d', 0.6)
+                if not c.get('real'):
+                    _xq(xf, dr['key'], x0, x1, 0.0, y1, zc, tiles=1); xf.box(acc(SK['f_terrazzo']), x0, x1, -0.02, 0.0, zc, gz)
+                    for xx in (x0, x1): xf.box(cream, xx - 0.02, xx + 0.02, 0.0, y1, zc, gz - 0.01)
+                    xf.box(cream, x0, x1, y1, y1 + 0.04, zc, gz - 0.01)
                 xf.quad(acc(M['glass']), [(x0, 0.0, gz + 0.005), (x1, 0.0, gz + 0.005), (x1, y1, gz + 0.005), (x0, y1, gz + 0.005)])
             fw = 0.07 if st == 'wood' else 0.045
             for (a_, b_) in ((x0 - fw, x0 + 0.01), (x1 - 0.01, x1 + fw)): xf.box(dfr, a_, b_, 0.0, y1 + fw, gz - 0.05, gz + 0.06)
