@@ -2,7 +2,7 @@
  "_meta": {
   "doc": "AA_837 學姊第一批（DLG-FULL-REVIEW-1110）：約會「今天不 X／今天只 X」同一個梗的回話和到達句，逐格對玩家選項和地點重寫。依 AA_566。",
   "by": "AA-C 2026-11-12",
-  "status": "待 BB 第二意見（D153）",
+  "status": "定稿（BB_385 聽過：D26、D24 照改；D01 交往到達加第二句輪流）",
   "kept": [
    "D01.lawn「好。今天不做事。」（照玩家選項回）",
    "D02.pond「算了，我今天下班。」",
@@ -12,7 +12,14 @@
    "交往到達留 D07、D22（和收尾「我今天沒有想山下的事」成對）、D23、D27",
    "沒帶筆電留 D08、D27、D30"
   ],
-  "apply": "已直接改 date_system/lines/Dxx.json（生成檔的來源）；LAWWW 重新匯入即可"
+  "apply": "已直接改 date_system/lines/Dxx.json（生成檔的來源）；LAWWW 重新匯入即可",
+  "added": [
+   {
+    "file": "date_system/lines/D01.json",
+    "at": "heroine_05.arrive.dating",
+    "new": "林{name}，市集你自己逛。我在展覽那邊等你。"
+   }
+  ]
  },
  "rows": [
   {
@@ -103,7 +110,7 @@
    "file": "date_system/lines/D24.json",
    "who": "heroine_05",
    "old": "好，我收起來了。今天不查。",
-   "new": "好，我收起來了。"
+   "new": "（她把手機收進口袋）不查了。"
   },
   {
    "file": "date_system/lines/D26.json",
@@ -115,7 +122,7 @@
    "file": "date_system/lines/D26.json",
    "who": "heroine_05",
    "old": "家裡到圖書館。對，今天換一條。",
-   "new": "家裡到圖書館。十二分鐘。"
+   "new": "圖書館那一條。地磚我都認得。"
   },
   {
    "file": "date_system/lines/D29.json",
@@ -187,7 +194,7 @@
    "file": "date_system/lines/D14.json",
    "who": "heroine_05",
    "old": "林{name}，今天只看海。",
-   "new": "林{name}，外套借我。風比我查的大。"
+   "new": "林{name}，你走靠海那邊。幫我擋風。"
   },
   {
    "file": "date_system/lines/D18.json",
