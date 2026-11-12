@@ -55,7 +55,9 @@ PEOPLE_JS = r"""(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const ex=new Set();
     stand:E.canStand?!!E.canStand(n.obj.position.x,n.obj.position.z,0.2,n.lv|0):null, face_m:face(n)}));
   const clerk=a?P.filter(p=>Math.hypot(p.x-a.x,p.z-a.z)<2||p.clerkFlag):P.filter(p=>p.clerkFlag); const cust=P.filter(p=>!clerk.includes(p));
   /* BB-C 05:26 ③：店員有沒有站進櫃檯／貨架裡（站的那一點站不住＝在家具裡；坐著的不算）；新加的客人是不是臉對空牆（頭的高度往正前方 0.45 m 內就撞到東西）*/
-  const inFurn=P.filter(p=>!p.seat&&p.stand===false), wall=cust.filter(p=>p.face_m!=null&&p.face_m<0.45);
+  /* BB-C 11:53（20998a0887）：店員站在櫃台後面（櫃台 2.5 m 內、那一格在導航上擋著）、坐著的客人面向窗邊吧檯——這兩種看圖都是 PASS，不再算 */
+  const behindCounter=p=>!!a&&clerk.includes(p)&&Math.hypot(p.x-a.x,p.z-a.z)<2.5;
+  const inFurn=P.filter(p=>!p.seat&&p.stand===false&&!behindCounter(p)), wall=cust.filter(p=>!p.seat&&p.face_m!=null&&p.face_m<0.45);
   return {total:P.length, clerk:clerk.length, customers:cust.length, clerk_in_furniture:inFurn.map(p=>[p.id,p.x,p.z]), face_wall:wall.map(p=>[p.id,p.x,p.z,p.face_m]), people:P.slice(0,12)}; })"""
 # 拍照：另一台相機（先跑 fadeWalls，同 cc_tingzhou_probe）；同時回傳窗玻璃網格投影到畫面上的框（0～1）
 SNAPX = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||60, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true); cam.updateProjectionMatrix();
