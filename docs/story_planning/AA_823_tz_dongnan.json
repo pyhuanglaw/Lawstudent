@@ -1,0 +1,120 @@
+{
+ "_meta": {
+  "doc": "AA_823 汀州路・東南大聯商行（tz_dongnan）店內文字（TINGZHOU-AREA-1110，X322；LAWWW-C 11-12 04:28 派）",
+  "by": "AA-C 2026-11-12",
+  "task": "TINGZHOU-AREA-1110",
+  "rules": [
+   "店名使用者定的，不改（D147）；商品沒有品牌（D77），只寫種類。",
+   "雜貨店沒有座位；打烊照 AA_700。",
+   "價錢 AA 定，LAWWW 可以調。",
+   "送 BB 第二意見後定稿（D153）。"
+  ]
+ },
+ "shop": {
+  "id": "tz_dongnan",
+  "name": "東南大聯商行",
+  "hours": "10:00～21:30",
+  "note": "汀州路的東南亞雜貨店：泡麵、零食、醬料、香料、飲料、米和乾貨。"
+ },
+ "staff": {
+  "who": "老闆",
+  "greet": [
+   "隨便看。找不到的問我，我都知道放哪裡。",
+   "今天有新到的泡麵，在最前面那一排。",
+   "袋子要自己拿喔，掛在櫃檯旁邊。"
+  ],
+  "closed_line": "我們今天要打烊了。",
+  "not_open": "（鐵門還沒拉起來。門口疊著三箱還沒拆的貨，膠帶上印著你看不懂的字。）",
+  "closed_outside": "（鐵門拉下來了。門口的紙箱都收進去了，只剩一張手寫的營業時間。）",
+  "no_money": "（你把東西放回架上。老闆說沒關係，下次再來。）"
+ },
+ "items": {
+  "tz_dn_noodle": {
+   "name": "東南亞泡麵（一包）",
+   "price": 35,
+   "where": "tz_dongnan_noodle",
+   "line": "包裝上的辣椒畫了三根。你不確定三根是多辣。"
+  },
+  "tz_dn_noodle5": {
+   "name": "泡麵（五包裝）",
+   "price": 150,
+   "where": "tz_dongnan_noodle",
+   "line": "五包一袋。夠宿舍吃一個禮拜的宵夜。"
+  },
+  "tz_dn_snack": {
+   "name": "蝦餅",
+   "price": 60,
+   "where": "tz_dongnan_noodle",
+   "line": "一大包，打開就停不下來的那種。"
+  },
+  "tz_dn_sauce": {
+   "name": "是拉差辣醬",
+   "price": 95,
+   "where": "tz_dongnan_sauce",
+   "line": "擠在什麼上面都可以。學校的便當也可以。"
+  },
+  "tz_dn_fishsauce": {
+   "name": "魚露（小瓶）",
+   "price": 70,
+   "where": "tz_dongnan_sauce",
+   "line": "小小一瓶。老闆說一次幾滴就好。"
+  },
+  "tz_dn_coconut": {
+   "name": "椰奶罐頭",
+   "price": 45,
+   "where": "tz_dongnan_sauce",
+   "line": "煮咖哩用的。你還不會煮咖哩。"
+  },
+  "tz_dn_drink": {
+   "name": "罐裝椰子水",
+   "price": 40,
+   "where": "tz_dongnan_drink",
+   "line": "冰的。喝起來沒有你想的甜。"
+  },
+  "tz_dn_tea": {
+   "name": "瓶裝泰式奶茶",
+   "price": 45,
+   "where": "tz_dongnan_drink",
+   "line": "橘色的。很甜，甜到要配水。"
+  },
+  "tz_dn_rice": {
+   "name": "香米（一公斤）",
+   "price": 110,
+   "where": "tz_dongnan_rice",
+   "line": "一公斤裝。打開袋子就聞得到香味。"
+  },
+  "tz_dn_vermicelli": {
+   "name": "乾河粉",
+   "price": 55,
+   "where": "tz_dongnan_rice",
+   "line": "乾的，一綑一綑。泡熱水就軟了。"
+  }
+ },
+ "looks": {
+  "tz_dongnan_noodle": {
+   "button": "看泡麵和零食",
+   "t": "（一整面牆的泡麵，包裝的顏色比便利商店的鮮豔。有幾種連圖都看不出是什麼口味。）"
+  },
+  "tz_dongnan_sauce": {
+   "button": "看醬料和罐頭",
+   "t": "（辣醬、魚露、蝦醬、咖哩醬，瓶子高高低低排了三層。罐頭的標籤上畫著椰子和榴槤。）"
+  },
+  "tz_dongnan_drink": {
+   "button": "看飲料冰箱",
+   "t": "（冰箱的玻璃門有一點霧。椰子水、奶茶、幾種你沒看過的汽水，罐子都比台灣的細長。）"
+  },
+  "tz_dongnan_rice": {
+   "button": "看米和乾貨",
+   "t": "（地上一袋一袋的米，最大的二十公斤。架上是乾河粉、米紙、一包一包的香料。）"
+  },
+  "tz_dongnan_counter": {
+   "button": "結帳",
+   "ask": "就這些嗎？",
+   "after": [
+    "好。辣的那個第一次吃，先加一半就好。",
+    "好，謝謝。"
+   ],
+   "empty": "（你手上沒有東西。老闆看了你一眼，繼續理貨。）"
+  }
+ }
+}
