@@ -56,19 +56,17 @@ GM.money=function(n){ G.money+=n; };
     G.money=5000; PHONE.answer(G,'kx_nye_y2',0); G.day=d31; G.hour=21; STORY.phoneRules(GM); const q=OUT.get(G,'kx_nye_y2');
     check('5-2. 選「高雄。」→ 她「好。我去車站接你。幾點的車先跟我說。」；12/31 23:30 去高雄（不排頂樓）',txt('p:kexin').includes('kexin:好。我去車站接你。幾點的車先跟我說。')&&G.flags.KX_NYE[2]==='river'&&!!q&&q.ev==='ev_kx_nye_river_y2'&&!OUT.get(G,'nye_y2'),JSON.stringify([G.flags.KX_NYE,q&&q.ev]));
     q.state='missed'; G.hour=23.9; STORY.phoneRules(GM); PHONE.tick(G); G.hour=24.1; STORY.phoneRules(GM); PHONE.tick(G); const qc=OUT.get(G,'kx_nye_call_y2');
-    check('5-2. 答應高雄沒去：KX_NYE[2]＝missed；00:05 她打來（演出來的電話，AA_313 2-3 B）；當晚不傳那兩句',G.flags.KX_NYE[2]==='missed'&&!!qc&&qc.day===d31+1&&Math.abs(qc.h-5/60)<1e-6&&qc.ev==='ev_kexin_nye_missed_call'&&qc.verb==='接起來'&&!txt('p:kexin').includes('kexin:愛河的煙火，我一個人看了。'),JSON.stringify(qc));
-    { const sv=said; said=[]; G.day=d31+1; G.hour=0.05; await OUT.go(GM,qc); const Lc=lines(); said=sv;
-      check('5-2. 00:05 的電話照稿：「你在哪。」「……臺北。」「我在愛河等到零點。」「新年快樂。我要回家了。」（她掛掉了。）',JSON.stringify(Lc)===JSON.stringify(['（電話。很吵，她那邊還有人在放煙火。）','杜可昕：你在哪。','祐廷：……臺北。','杜可昕：我在愛河等到零點。','杜可昕：新年快樂。我要回家了。','（她掛掉了。）']),JSON.stringify(Lc)); }
+    check('5-2. 答應高雄沒去：KX_NYE[2]＝missed；00:05 她打來的電話（CANON-NO-ECON-1112 第三批：這一項拿掉）；當晚不傳那兩句',G.flags.KX_NYE[2]==='missed'&&!qc&&!txt('p:kexin').includes('kexin:愛河的煙火，我一個人看了。'),JSON.stringify(qc));
     G.day=d31+1; G.hour=9.05; PHONE.tick(G); const mm=TH('p:kexin').filter(m=>m.tag==='kx_nye_miss_y2');
     check('5-2. 答應高雄沒去：「愛河的煙火，我一個人看了。」「……新年快樂。」改到隔天早上 09:00',mm.map(m=>m.text).join('｜')==='愛河的煙火，我一個人看了。｜……新年快樂。'&&mm.every(m=>m.day===d31+1&&Math.abs(m.h-9)<0.06),JSON.stringify(mm.map(m=>[m.day,m.h,m.text])));
     fresh(d31-7,20,'dorm',{dating_kexin:true}); run(20,21.2); G.day=d31; G.hour=21.1; STORY.phoneRules(GM); G.hour=23.8; STORY.phoneRules(GM); const v=OUT.get(G,'kx_nye_video_y2');
-    check('5-2. 12/31 21:00 以前沒回＝視訊：23:59「可昕打視訊來」（接起來）',G.flags.KX_NYE[2]==='video'&&!!v&&v.verb==='接起來'&&Math.abs(v.h-(23+59/60))<1e-6,JSON.stringify(v));
+    check('5-2. 12/31 21:00 以前沒回＝視訊；23:59 她打視訊來（CANON-NO-ECON-1112 第三批：這一項拿掉）',G.flags.KX_NYE[2]==='video'&&!v,JSON.stringify(v));
     const RV=ev('ev_kx_nye_river_y2'); fresh(d31,23.5,'dorm',{dating_kexin:true,KX_NYE:{1:'river',2:'river'}}); said=[]; let paid=0; const mo=GM.money; GM.money=d=>{ paid+=d; }; await RV.beforeOuting(G,GM); GM.money=mo; await EVENTS.run(RV); const LR=lines();
     check('5-2. 高雄那一場：高鐵 -2980；大一也去過＝「第二年了。你認得路了吧。」；最後「（凌晨一點，加開的那班高鐵。）」',paid===-2980&&LR.some(t=>/第二年了。你認得路了吧。/.test(t))&&LR.includes('（凌晨一點，加開的那班高鐵。）'),JSON.stringify(LR));
     const RF=ev('ev_y2_newyear'); fresh(d31,23.5,'dorm',{dating_kexin:true,KX_NYE:{2:'video'}}); said=[]; await EVENTS.run(RF); const LF=lines();
     check('5-2. 選頂樓：頂樓那一場裡 23:59 可昕視訊「讓我看一下頂樓。」',LF.some(t=>/讓我看一下頂樓。/.test(t))&&LF.indexOf('（十一點五十九分，手機響了。可昕打視訊來。）')<LF.indexOf('（零點。很遠的地方亮了一下。今年也只看得到上半截。）'),JSON.stringify(LF));
     check('5-2. 頂樓版她那段的旁白「（她那邊的煙火聲，比畫面慢了一秒。）」（AA_313 第 2 節第 37 列：不要連著兩次「零點」）',LF.includes('（她那邊的煙火聲，比畫面慢了一秒。）')&&!LF.includes('（零點。她那邊的煙火聲，比畫面慢了一秒。）')&&LF.filter(t=>t.startsWith('（零點。')).length===1,JSON.stringify(LF));
-    { const V3=ev('ev_kx_nye_video_y3'); fresh(d31+365,23.9,'dorm',{dating_kexin:true}); said=[]; await EVENTS.run(V3); const LV=lines(); check('5-2. 大三單獨視訊：「我數到零就掛。」（AA_313 第 2 節第 43 列：他一個人，沒有「你們繼續。」）',LV.includes('杜可昕：我數到零就掛。')&&!LV.some(t=>/你們繼續/.test(t)),JSON.stringify(LV)); } }
+    check('5-2. 大三單獨視訊那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!ev('ev_kx_nye_video_y3')); }
   { const d3=STORY.dayOfKey('2027-12-31'), d4=STORY.dayOfKey('2028-12-31');
     fresh(d3-7,20,'dorm',{dating_kexin:true,KX_NYE:{2:'video'}}); run(20,21.2); const a3=TH('p:kexin').filter(x=>x.tag==='kx_nye_y3').map(x=>x.text);
     check('5-2. 大三 12/24：「跨年。我列了選項。」「一、你來高雄。二、零點視訊。沒有三。」，大二選視訊多「去年是二。今年我比較想要一。」',JSON.stringify(a3)===JSON.stringify(['跨年。我列了選項。','一、你來高雄。二、零點視訊。沒有三。','去年是二。今年我比較想要一。']),JSON.stringify(a3));
