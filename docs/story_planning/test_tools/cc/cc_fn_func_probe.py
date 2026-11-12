@@ -325,8 +325,9 @@ async def part_hours(pg, cdp):
         h_at = await pg.evaluate("+GAME.G.hour")
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         lines, opts = await F.lines_until_idle(pg, cdp, 20)
-        await pg.wait_for_timeout(2500); s = await D.st(pg); ts = await F.toasts(pg)
         hh = ((h_at % 24) + 24) % 24; is_open = w[0] - 1e-6 <= hh < w[1] - 1e-6
+        if is_open: await D.wait_zone(pg, cdp, 'flower_notes', 60)   # 營業中：等換區域（雲端慢）
+        await pg.wait_for_timeout(2500); s = await D.st(pg); ts = await F.toasts(pg)
         edge = min(abs(hh - w[0]), abs(hh - w[1])) < 2 / 60
         R.note('%s 按的那一刻 %s（%.3f）：營業中 %s；之後 zone %s、句子 %s、選單 %s、toast %s' % (tg, _hm(hh), hh, is_open, s['zone'], J(lines), J([o['t'] for o in opts] if opts else None), J(ts)))
         if edge: R.note('%s ★按的那一刻離開門／打烊不到 2 分鐘，這一次不判（乙 6）' % tg); continue
