@@ -1,6 +1,6 @@
 """CC-C 11-12：家教回「不了」以後，下一個學期開學明軒那一串多一個可回的選項「我現在可以接家教了。」（SHOP-JOBS 第六輪 AA_828 §9 第 2 點；src/jobs3d.js S.tutorBack；LAWWW-C 11:34、BB-C 11:35，結果給 BB 判）。Playwright（PC GPU）≠ iPhone。
 做法：
-  ①【前置／捷徑】讀檔到宿舍、大一下開學第一天 11:55（條件事件關掉）；旗標：接了家教（JOB_TUTOR、tutorFromDay＝大一上，開始學期＝大一上）、明軒是聯絡人 → 12:05 讓遊戲自己的手機檢查跑一次（JOBS.phone，和每次時間走的時候同一支）→
+  ①【前置／捷徑】讀檔到宿舍、大一下開學第一天 11:55（條件事件關掉）；旗標：接了家教（JOB_TUTOR、tutorFromDay＝大一上，開始學期＝大一上）、明軒是聯絡人 → 12:05 讓遊戲自己的手機檢查跑一次（JOBS.phone 排進手機佇列＋PHONE.tick 送出，和每次時間走的時候同一套；BB-C 12:27：r1 只呼叫 JOBS.phone、沒 tick＝那一則還在佇列裡，明軒那一串是空的＝探針問題）→
      照玩家：打開手機 →「訊息」→ 明軒那一串 → 截圖 → 按第二個選項（稿的 termOpts[1]＝不了）→ 截圖；記 TUTOR_TERM_Y1S2。
   ②【捷徑】日子直接跳到下一個學期（大二上）開學第一天 12:30（不讀檔、同一個存檔往後）→ 手機檢查跑一次 → 記 JOBS.tutorBackDue、選項掛在哪一則（第幾則、哪一句、ask id）→
      照玩家：打開手機 →「訊息」→ 明軒那一串 → 截圖（剛打開看得到選項嗎：按鈕在不在對話框的可視範圍、要不要往回捲、有沒有被蓋到）→ 看不到就捲到它再截一張 →
@@ -25,7 +25,7 @@ MX = 'p:classmate_mingxuan'
 CASES = [c for c in (os.environ.get('CASES') or 'NO,EXPIRE,SKIP3').split(',') if c]
 TERMS = r"""(()=>{ const a=CALENDAR.termDays('Y1S1'), b=CALENDAR.termDays('Y1S2'), c=CALENDAR.termDays('Y2S1'); const k=d=>CALENDAR.dateOf(d).key; return {y1s1:a, y1s2:b, y2s1:c, k1:k(b.from), k2:k(c.from)}; })()"""
 PREP = r"""(a=>{ const G=GAME.G, F=G.flags; F.JOB_TUTOR=true; F.tutorFromDay=a.from; if(!G.contacts) G.contacts={}; if(G.contacts.classmate_mingxuan==null) G.contacts.classmate_mingxuan=2;
-  G.hour=12.05; try{ JOBS.phone(G); }catch(e){ return 'ERR '+String(e).slice(0,120); } return {start:JOBS.tutorStartTerm?JOBS.tutorStartTerm(G):null}; })"""
+  G.hour=12.05; let n=null; try{ JOBS.phone(G); n=PHONE.tick?PHONE.tick(G,true):null; }catch(e){ return 'ERR '+String(e).slice(0,120); } return {start:JOBS.tutorStartTerm?JOBS.tutorStartTerm(G):null, delivered:n, queued:(PHONE.rec(G).q||[]).length}; })"""
 MSGS = r"""(th=>{ const G=GAME.G; const L=(G.msgs||[]).filter(m=>m&&PHONE.th(m)===th); return L.map((m,i)=>({i, from:m.from||null, text:String(m.text||''), day:m.day, h:m.h, tag:m.tag||null, ask:m.ask?{id:m.ask.id, opts:(m.ask.opts||[]).map(o=>o.t), until:m.ask.until, open:PHONE.askOpen(G,m)}:null, ans:m.ans==null?null:m.ans})); })"""
 VIEW = r"""(()=>{ const pb=document.getElementById('phoneBody'); if(!pb) return {open:false}; const sc=[pb,...pb.querySelectorAll('*')].find(e=>e.scrollHeight>e.clientHeight+4&&/(auto|scroll)/.test(getComputedStyle(e).overflowY))||pb; const R=sc.getBoundingClientRect();
   const btn=[...pb.querySelectorAll('[data-ask]')].map(b=>{ const r=b.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, top=document.elementFromPoint(cx,cy);
@@ -74,7 +74,7 @@ async def one(pg, cdp, T, case, res):
         await pg.evaluate("(a=>{ GAME.G.flags.TUTOR_STOP=a; })", T['y1s2']['from'] + 30)
         R.setup('%s ①b【捷徑】記成連續三週沒去先停：G.flags.TUTOR_STOP＝大一下開學後第 30 天（沒有 TUTOR_RE_NO）' % tag)
     t1 = await pg.evaluate(TUT); R.note('%s ① 之後旗標：%s' % (tag, J(t1['flags'])))
-    await pg.evaluate("(a=>{ const G=GAME.G; G.day=a.d; G.weekday=CALENDAR.dateOf(a.d).wd%7; G.hour=12.5; try{ JOBS.phone(G); }catch(e){} })", {'d': T['y2s1']['from']})
+    await pg.evaluate("(a=>{ const G=GAME.G; G.day=a.d; G.weekday=CALENDAR.dateOf(a.d).wd%7; G.hour=12.5; try{ JOBS.phone(G); PHONE.tick(G,true); JOBS.phone(G); PHONE.tick(G,true); }catch(e){} })", {'d': T['y2s1']['from']})
     await pg.wait_for_timeout(1500)
     R.setup('%s ②【捷徑】日子直接跳到 %s（大二上開學第一天）12:30、跑一次 JOBS.phone' % (tag, T['k2']))
     t2 = await pg.evaluate(TUT); m2 = await pg.evaluate(MSGS, MX)
@@ -107,7 +107,7 @@ async def one(pg, cdp, T, case, res):
         m3 = await pg.evaluate(MSGS, MX); t3 = await pg.evaluate(TUT)
         R.note('%s ② 回了以後明軒那一串最後三則：%s；旗標 %s' % (tag, J(m3[-3:]), J(t3['flags'])))
         await close_phone(pg, cdp)
-        await pg.evaluate("(()=>{ try{ JOBS.phone(GAME.G); }catch(e){} })()"); await pg.wait_for_timeout(800)
+        await pg.evaluate("(()=>{ try{ JOBS.phone(GAME.G); PHONE.tick(GAME.G,true); }catch(e){} })()"); await pg.wait_for_timeout(800)
         t4 = await pg.evaluate(TUT)
         R.note('%s ② 再跑一次手機檢查：旗標 %s；家教出遊 %s' % (tag, J(t4['flags']), J(t4['outings'])))
         R.check('%s ② 回了以後接回來（TUTOR_STOP 清掉或這學期記 go）' % tag, t4['flags'].get('TUTOR_STOP') is None or t4['flags'].get('TUTOR_TERM_Y2S1') == 'go', J(t4['flags']))
