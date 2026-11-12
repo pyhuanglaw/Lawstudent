@@ -1,0 +1,43 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ_SIGN_1400\out
+CC 店門口：worktree ?；wenzhou 14.0；TAG wz_sign_1400；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-18 14.0（條件事件、手機關）
+  [前置／捷徑] wz_brunch 【捷徑】祐廷放到店面前 3 m [44, 2.1] 等 3 秒
+PASS [黑畫面] across_wz_brunch_wz_sign_1400 不是黑畫面（平均亮度 82.8、變化 66.6）  [82.8, 66.6]
+  [  66.0s] [截圖] across_wz_brunch_wz_sign_1400：鏡頭 {"eye": [44, 1.7, 15.1], "look": [44, 2, -0.9], "lens": 24, "vfov": 45.75}、亮度 [82.8, 66.6]
+  [  66.0s] wz_brunch 對面正拍：店面 [44, -0.9] 朝 [0, 1]、鏡頭退 16 m；營業中=True、鐵捲門顯示=False、室內 on=False built=False
+  [前置／捷徑] wz_teishoku 【捷徑】祐廷放到店面前 3 m [-2.8, 1.1] 等 3 秒
+PASS [黑畫面] across_wz_teishoku_wz_sign_1400 不是黑畫面（平均亮度 73.9、變化 33.6）  [73.9, 33.6]
+  [  71.1s] [截圖] across_wz_teishoku_wz_sign_1400：鏡頭 {"eye": [-2.8, 1.7, 14.1], "look": [-2.8, 2, -1.9], "lens": 24, "vfov": 45.75}、亮度 [73.9, 33.6]
+  [  71.1s] wz_teishoku 對面正拍：店面 [-2.8, -1.9] 朝 [0, 1]、鏡頭退 16 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] wz_offbeat 【捷徑】祐廷放到店面前 3 m [-29.5, -13.5] 等 3 秒
+PASS [黑畫面] across_wz_offbeat_wz_sign_1400 不是黑畫面（平均亮度 82.3、變化 12.4）  [82.3, 12.4]
+  [  76.5s] [截圖] across_wz_offbeat_wz_sign_1400：鏡頭 {"eye": [-16.5, 1.7, -13.5], "look": [-32.5, 2, -13.5], "lens": 24, "vfov": 45.75}、亮度 [82.3, 12.4]
+  [  76.5s] wz_offbeat 對面正拍：店面 [-32.5, -13.5] 朝 [1, 0]、鏡頭退 16 m；營業中=True、鐵捲門顯示=False、室內 on=True built=True
+  [  76.5s] wz_mokuyobi zone.shopReal 沒有這間（{"none": true, "have": ["wz_offbeat", "wz_brunch", "wz_teishoku", "wz_lin"]}）→ 改用舊拍法（出口外 4.5 m）
+  [  76.5s] wz_mokuyobi 出口：{"label": "上二樓（木曜日）", "x": 7.4, "z": -4.55, "a": 0, "eye": [7.4, 1.6, -0.05], "look": [7.4, 1.3, -4.55]}
+PASS wz_mokuyobi 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_wz_mokuyobi_wz_sign_1400 不是黑畫面（平均亮度 126、變化 56.2）  [126, 56.2]
+  [  78.7s] [截圖] front_wz_mokuyobi_wz_sign_1400：鏡頭 {"eye": [7.4, 1.6, -0.05], "look": [7.4, 1.3, -4.55], "lens": 18, "vfov": 58.72}、亮度 [126, 56.2]
+  [  78.7s] wz_print zone.shopReal 沒有這間（{"none": true, "have": ["wz_offbeat", "wz_brunch", "wz_teishoku", "wz_lin"]}）→ 改用舊拍法（出口外 4.5 m）
+  [  78.7s] wz_print 出口：{"label": "進去阿德影印輸出", "x": -8, "z": 4.6, "a": 4, "eye": [-8, 1.6, 0.1], "look": [-8, 1.3, 4.6]}
+PASS wz_print 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_wz_print_wz_sign_1400 不是黑畫面（平均亮度 104.2、變化 49.4）  [104.2, 49.4]
+  [  80.9s] [截圖] front_wz_print_wz_sign_1400：鏡頭 {"eye": [-8, 1.6, 0.1], "look": [-8, 1.3, 4.6], "lens": 18, "vfov": 58.72}、亮度 [104.2, 49.4]
+  [  80.9s] wz_books zone.shopReal 沒有這間（{"none": true, "have": ["wz_offbeat", "wz_brunch", "wz_teishoku", "wz_lin"]}）→ 改用舊拍法（出口外 4.5 m）
+  [  80.9s] wz_books 出口：null
+FAIL wz_books 街上找得到進店的出口、外面站得住
+  [  80.9s] wz_tea zone.shopReal 沒有這間（{"none": true, "have": ["wz_offbeat", "wz_brunch", "wz_teishoku", "wz_lin"]}）→ 改用舊拍法（出口外 4.5 m）
+  [  80.9s] wz_tea 出口：null
+FAIL wz_tea 街上找得到進店的出口、外面站得住
+  [  81.0s] wz_teahouse zone.shopReal 沒有這間（{"none": true, "have": ["wz_offbeat", "wz_brunch", "wz_teishoku", "wz_lin"]}）→ 改用舊拍法（出口外 4.5 m）
+  [  81.0s] wz_teahouse 出口：{"label": "進去一盞", "x": -20.5, "z": 4.6, "a": 3, "eye": [-17.32, 1.6, 1.42], "look": [-20.5, 1.3, 4.6]}
+PASS wz_teahouse 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_wz_teahouse_wz_sign_1400 不是黑畫面（平均亮度 80.7、變化 46.7）  [80.7, 46.7]
+  [  83.3s] [截圖] front_wz_teahouse_wz_sign_1400：鏡頭 {"eye": [-17.32, 1.6, 1.42], "look": [-20.5, 1.3, 4.6], "lens": 18, "vfov": 58.72}、亮度 [80.7, 46.7]
+  [  83.3s] wz_ice zone.shopReal 沒有這間（{"none": true, "have": ["wz_offbeat", "wz_brunch", "wz_teishoku", "wz_lin"]}）→ 改用舊拍法（出口外 4.5 m）
+  [  83.4s] wz_ice 出口：null
+FAIL wz_ice 街上找得到進店的出口、外面站得住
+PASS 沒有 JS 例外  []
+FAILED 3: wz_books 街上找得到進店的出口、外面站得住；wz_tea 街上找得到進店的出口、外面站得住；wz_ice 街上找得到進店的出口、外面站得住
