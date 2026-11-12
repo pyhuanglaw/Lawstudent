@@ -124,6 +124,13 @@ async def use_exit(pg, cdp, tag, label0, to, pred=None):
     R.note('%s 「%s」在 (%s, %s) 半徑 %s；走到範圍裡站得住的 %s' % (tag, label0, ex['x'], ex['z'], ex['r'], J(tgt)))
     if not R.check('%s 「%s」範圍裡有站得住的地方' % (tag, label0), bool(tgt), J(ex)): return None
     s = await st(pg)
+    if not s['interact'].startswith(label0) and (s.get('lv') or 0) != ex['lv']:   # 11-13 BB-C：出口在別層（被樓板蓋住點不到）＝照遊戲 E.pathTo 先走到換層那一段
+        path = await pg.evaluate("(a=>{ const P=GAME.E.player, p=P.obj.position; const r=GAME.E.pathTo&&GAME.E.pathTo(p.x,p.z,P.lv|0,a.x,a.z,a.lv); return r?r.map(q=>Array.isArray(q)?[+(+q[0]).toFixed(2),+(+q[1]).toFixed(2),q[2]|0]:[+q.x.toFixed(2),+q.z.toFixed(2),q.lv|0]):null; })", {'x': tgt['x'], 'z': tgt['z'], 'lv': ex['lv']})
+        wps = [w for i in range(1, len(path or [])) if path[i][2] != path[i - 1][2] for w in (path[max(0, i - 2)], path[min(len(path) - 1, i + 3)])]
+        R.note('%s 「%s」在第 %s 層、人在第 %s 層：E.pathTo 換層處 %s' % (tag, label0, ex['lv'], s.get('lv'), J(wps)))
+        for j, w in enumerate(wps):
+            await L.go_to(pg, cdp, R, w[0], w[1], 0.5, '%s 換層第 %d 點' % (tag, j + 1), max_s=60, lv=w[2]); await pg.wait_for_timeout(400)
+        s = await st(pg)
     if not s['interact'].startswith(label0):   # 已經看得到這個按鈕就不用再走（PC 11-05 WINVIEW_rel：0.12 m 走不到、在門口來回 241 秒，遊戲時間 20:30→22:15，店關了）
         await L.go_to(pg, cdp, R, tgt['x'], tgt['z'], 0.3, '%s %s' % (tag, label0), max_s=90, lv=ex['lv'])
         s = await settle(pg)

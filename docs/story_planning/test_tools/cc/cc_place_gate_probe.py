@@ -234,11 +234,23 @@ async def do_func(pg, cdp, tag, rm, zid):
     tgt = await D.standable_near(pg, ex['x'], ex['z'], exr['r'] * 0.6, exr['lv']) if exr else None
     R.note('%s ⑦ 出口「%s」範圍 %s；走到範圍裡站得住的 %s' % (tag, ex['label'], J(exr), J(tgt)))
     if not tgt: R.check('FAIL_SETUP 檢查：%s ⑦ 出口範圍裡有站得住的點' % tag, False, J(exr))
+    # 11-13 BB-C：出口和玩家不同層（社科院 2F「回閱覽室」出口在一樓、被二樓樓板蓋住，點不到）＝先照遊戲的 E.pathTo 走到換層那一段（樓梯），到那一層再走出口
+    q0 = await D.st(pg)
+    if exr and (q0.get('lv') or 0) != exr['lv']:
+        g0 = tgt or {'x': ex['x'], 'z': ex['z']}
+        path = await pg.evaluate("(a=>{ const P=GAME.E.player, p=P.obj.position; const r=GAME.E.pathTo&&GAME.E.pathTo(p.x,p.z,P.lv|0,a.x,a.z,a.lv); return r?r.map(q=>Array.isArray(q)?[+(+q[0]).toFixed(2),+(+q[1]).toFixed(2),q[2]|0]:[+q.x.toFixed(2),+q.z.toFixed(2),q.lv|0]):null; })", {'x': g0['x'], 'z': g0['z'], 'lv': exr['lv']})
+        wps = []
+        for i in range(1, len(path or [])):
+            if path[i][2] != path[i - 1][2]: wps += [path[max(0, i - 2)], path[min(len(path) - 1, i + 3)]]
+        R.note('%s ⑦ 出口在第 %s 層、人在第 %s 層：E.pathTo %d 點，換層處 %s' % (tag, exr['lv'], q0.get('lv'), len(path or []), J(wps)))
+        if not R.check('FAIL_SETUP 檢查：%s ⑦ 遊戲找得到往出口那一層的路' % tag, bool(wps), J((path or [])[:6])): wps = []
+        for j, w in enumerate(wps):
+            await L.go_to(pg, cdp, R, w[0], w[1], 0.5, '%s ⑦ 換層第 %d 點' % (tag, j + 1), max_s=60, lv=w[2]); await pg.wait_for_timeout(400)
     for k in range(3):
         q = await D.st(pg)
         if q['zone'] != zid or q['interact'].startswith('離開') or q['interact'].startswith(ex['label'][:3]): break
         gx, gz = (tgt['x'], tgt['z']) if (tgt and k < 2) else (ex['x'], ex['z'])
-        await L.go_to(pg, cdp, R, gx, gz, 0.3 if tgt and k < 2 else 0.6, '%s ⑦ 走到「%s」（第 %d 段）' % (tag, ex['label'], k + 1), max_s=40); await pg.wait_for_timeout(600)
+        await L.go_to(pg, cdp, R, gx, gz, 0.3 if tgt and k < 2 else 0.6, '%s ⑦ 走到「%s」（第 %d 段）' % (tag, ex['label'], k + 1), max_s=40, lv=exr['lv'] if exr else None); await pg.wait_for_timeout(600)
     q = await D.st(pg)
     if q['zone'] != zid: ok_out = True   # PC GATE_CAL_1cd2 泰米：走到門口就自己出去了（門是走進去就觸發）＝出得去
     elif q['interact'].startswith(ex['label'][:3]):

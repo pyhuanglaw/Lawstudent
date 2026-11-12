@@ -124,6 +124,11 @@ async def main():
             tr['walk_in'] = await walk('②／④ 第 %d 趟走到中間點' % (k + 1), mid['x'], mid['z'])
             tr['prof'] = await pg.evaluate("(()=>{ try{ const P=GAME.E.zone.shopReal.prof; return P?JSON.parse(JSON.stringify(P)):null; }catch(e){ return 'ERR '+String(e).slice(0,80); } })()")
             R.note('第 %d 趟走近：shopReal.prof（走之前 reset=%s）%s' % (k + 1, pr0, J(tr['prof'])))
+            try:   # 11-13 LAWWW-C／BB-C：step／frame 每一格的 max、who 整理一行（compile、mesh、load、tex、tick、clone、prep…）
+                pf = tr['prof'] if isinstance(tr['prof'], dict) else {}
+                summ = {'%s.%s' % (g, kk): {'max': (v or {}).get('max'), 'who': (v or {}).get('who'), 'n': (v or {}).get('n')} for g in ('step', 'frame') for kk, v in sorted((pf.get(g) or {}).items()) if isinstance(v, dict)}
+                tr['prof_max'] = summ; R.note('第 %d 趟走近 prof 各格 max／who：%s' % (k + 1, J(summ)))
+            except Exception as e: R.note('prof 整理失敗 %r' % e)
             tr['mid'] = await stand('① 第 %d 趟中間點（兩間室內都載入）' % (k + 1)); tr['shopReal_mid'] = await pg.evaluate(SHOPREAL_JS)
             if k == 0: R.note('③ 第 1 趟中間點 zone.shopReal %s' % J(tr['shopReal_mid']))
             tr['walk_out'] = await walk('③／④ 第 %d 趟走回遠點' % (k + 1), far['x'], far['z'])

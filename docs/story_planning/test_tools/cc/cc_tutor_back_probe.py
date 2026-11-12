@@ -7,7 +7,7 @@
      按「我現在可以接家教了。」→ 截圖 → 記明軒回的那句、TUTOR_RE_ANS／TUTOR_STOP／TUTOR_TERM_Y2S1 → 再跑一次手機檢查 → 記有沒有排下一堂家教（G.outings 裡 tutor 的那幾筆）。
 11-12 r4：打開那一串每一步截圖（主畫面、手機、訊息、那一串），點不到把列表倒出來（BB-C 14:31）。
 11-12 r3：PHONE.tick 第二個參數要是函式（r2 傳 true → notify is not a function，BB-C 13:30）；打開那一串前先關手機。
-CC_02 清單 2026-11-12：1✓（日子從遊戲讀：CALENDAR.termDays 大一下、大二上開學日） 2✓（明軒那一串、選項從畫面的 data-th／data-ask 找） 3✓（同一個存檔往後，不重讀） 4✓（選項照字找「我現在可以接家教了。」） 5n/a（手機操作，不走路） 6✓（每一步等 1～1.6 秒） 7✓ 8n/a（不判，給 BB） 9n/a（手機截圖不藏東西） 10✓（條件事件關掉） 11✓ 12✓（兩次打開手機同樣欄位） 13✓（讀檔、旗標、跳日子標【捷徑】）
+CC_02 清單 2026-11-13：1✓（日子從遊戲讀：CALENDAR.termDays 大一下、大二上開學日） 2✓（明軒那一串、選項從畫面的 data-th／data-ask 找） 3✓（同一個存檔往後，不重讀） 4✓（選項照字找「我現在可以接家教了。」） 5n/a（手機操作，不走路） 6✓（每一步等 1～1.6 秒） 7✓ 8n/a（不判，給 BB） 9n/a（手機截圖不藏東西） 10✓（條件事件關掉） 11✓ 12✓（兩次打開手機同樣欄位） 13✓（讀檔、旗標、跳日子標【捷徑】）
 三種起點（CASES，BB-C 11:51 照 AA_828 §10，同一支）：NO＝①按「不了」（上面這條）；EXPIRE＝開學那一則完全不回、讓它過期（第 4 題：一樣要出選項）；
   SKIP3＝開學那一則回「來」，然後【捷徑】記成連續三週沒去先停（G.flags.TUTOR_STOP＝大一下開學後第 30 天；第 6 題：不算回「不了」，下學期明軒要先問一次＝tutor_re_Y2S1，不是直接掛選項）。
   三種都記：選項／再問那一則是不是明軒那一串「最新一則」（第 5 題）。每一種重新讀檔。
@@ -43,6 +43,19 @@ async def open_thread(pg, cdp, tag='th'):
     global _TH_N
     _TH_N += 1; pre = 'tutor_open_%02d_%s' % (_TH_N, tag)
     await close_phone(pg, cdp)   # 11-12 r3：上一次留著同一串的畫面，列表不在 → 點不到；先關掉再照玩家打開
+    # 11-13 BB-C（r5 ② FAIL＝探針）：9/7 12:30 宿舍正在演對話（「312。阿哲的籃球…」），手機點不開＝先照玩家把對話點完、選單選第一個不是離開類的，等 busy=false 再開手機
+    said = []
+    for _ in range(80):
+        q = await pg.evaluate("(()=>{ const d=document.getElementById('dlg'); const ch=[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()); return {dlg:!!(d&&d.offsetParent), t:d?(d.innerText||'').trim().slice(0,60):'', ch, busy:!!(GAME.E.player&&GAME.E.player.busy)}; })()")
+        if q['ch']:
+            i = next((n for n, t in enumerate(q['ch']) if not any(w in t for w in ('算了', '離開', '不用', '先不要'))), 0); said.append('▶' + q['ch'][i])
+            await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(700); continue
+        if q['dlg']: said.append(q['t']); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        if not q['busy']: break
+        await pg.wait_for_timeout(400)
+    if said: R.note('%s 開手機前先把正在演的對話點完：%s' % (tag, J(said[:12])))
+    busy = await pg.evaluate("!!(GAME.E.player&&GAME.E.player.busy)")
+    R.check('FAIL_SETUP 檢查：%s 開手機前沒有對話、busy=false' % tag, not busy, J(said[-3:]))
     await pg.screenshot(path=os.path.join(OUT, pre + '_1_main.png'))
     if not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
