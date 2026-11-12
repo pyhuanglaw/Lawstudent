@@ -8485,6 +8485,67 @@
    "noDirectIntegrate": true,
    "remaining": "WIP 保存（檢查點 commit；之後的交件另有登記）：WIP LIB-B1-COURT-ART-1110：v1b（牆頂葉子縮小）重匯＋README、對照圖；接線 patch 回歸跑中",
    "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "64f4ba69f",
+   "receiver": "LAWWW",
+   "ack": "ACK（LAWWW-C 11-12 10:20Z，開發分支 3cceeb5684）",
+   "task": "SHOP-REAL-INSIDE-1112 公館第一批（安泰、鮮果、榮恩典）＋G00 招牌公館燒臘＋預載修正 v2＋打烊鐵捲門",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_real3_sign_v2.patch",
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md"
+   ],
+   "state": "已整合",
+   "noDirectIntegrate": false,
+   "remaining": "最長一幀、記憶體等 CC 在使用者電腦量",
+   "next": "CC 量、BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2635709d4",
+   "receiver": "LAWWW",
+   "ack": "ACK（LAWWW-C 11-12 10:20Z，開發分支 3cceeb5684）",
+   "task": "DONGNAN-GOODS-1112 第 2 包（飲料籃、紙箱、大鐵罐）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/dongnan_goods_1112/dongnan_goods_v2.patch",
+    "docs/art-rebuild/second_ai/wip/dongnan_goods_1112/README.md"
+   ],
+   "state": "已整合",
+   "noDirectIntegrate": false,
+   "remaining": "遊戲內近拍沒做（CC）",
+   "next": "CC 拍、BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2a54a63f5",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED（11-12 10:32Z），未 ACK",
+   "task": "SHOP-REAL-INSIDE-1112 公館第二批八間（青木、頁間、日和、洋洋、慢輪、Afar、轉角、Daybreak）＋鐵捲門只蓋門窗",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_batch2_v1.patch",
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "remaining": "十一間預載的記憶體沒量；洋洋開放式櫃台可能有重疊面",
+   "next": "LAWWW-C 套 patch、CC 量、BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9a7413056",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED（11-12 10:13Z）",
+   "task": "SHOP-OUT-IN-AUDIT-1112 公館十三間店外／店內自查表",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112/README.md",
+    "docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112/gg_pairs_a.jpg",
+    "docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112/gg_pairs_b.jpg"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "remaining": "溫州街還沒查",
+   "next": "溫州街逐間自查"
   }
  ]
 }
