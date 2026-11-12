@@ -3,11 +3,11 @@
  "note": "各職位已核對水位線（2026-11-02 起五個職位，加 CC）（使用者 2026-10-17 P0 交接制度效能改善）：sha 以前的 commit 已核對過、不重掃；以後的每個非合併 commit 都要有結構化分類（deliveries／ignored kind／outbox／tasks.sha）。只有 check_handoff.py incr --advance 在全部分類、沒有異常、已 commit＋push 時才前進；history 留每一次的舊值。LAWWW 的 classify=false：值班 LAWWW 自己的整合分支不逐筆分類（成果直接寫在 tasks.json），但祖先關係、未結項目照查。基準＝帳號 B 交班時逐筆核對 255 筆的結果（WIP_INVENTORY_2026-10-17.md）。",
  "roles": {
   "LAWWW": {
-   "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "4d2a5b6b18025e8193a644cc4f5fda2fdc14b130",
-   "at": "2026-11-10T01:39Z",
-   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 60,
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "746913636b7c4a19455a07029cbbbe1692864824",
+   "at": "2026-11-12T11:57Z",
+   "by": "LAWWW-C",
+   "scanned": 1041,
    "evidence": "帳號 B LAWWW 最後一個 commit（交班＋交接補強＋使用者授權補記）；LAWWW-C 接班時查核、合併成 bfd5f40d",
    "open": [
     "WIP-AB65-3-Y1S2-L",
@@ -269,16 +269,23 @@
      "at": "2026-11-09T21:20Z",
      "by": "session_01DvRVNNnivf7da7qqWuGmw6",
      "scanned": 45
+    },
+    {
+     "branch": "claude/modest-rubin-2lyp7g",
+     "sha": "4d2a5b6b18025e8193a644cc4f5fda2fdc14b130",
+     "at": "2026-11-10T01:39Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 60
     }
    ],
    "classify": false
   },
   "LAWWW2": {
-   "branch": "claude/funny-albattani-iawshm",
-   "sha": "49f2fe92406ca2dcafe414477220aa92832d1ba5",
-   "at": "2026-11-10T01:40Z",
-   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 26,
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2b1df4ec6ba1f2a11031e878f1626b394daecb77",
+   "at": "2026-11-12T11:57Z",
+   "by": "LAWWW-C",
+   "scanned": 381,
    "evidence": "帳號 B 交接補強逐筆核對 16 筆（bbb4301b）＋deliveries scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-L2-DATE-CUTOUTS",
@@ -540,15 +547,22 @@
      "at": "2026-11-09T21:20Z",
      "by": "session_01DvRVNNnivf7da7qqWuGmw6",
      "scanned": 54
+    },
+    {
+     "branch": "claude/funny-albattani-iawshm",
+     "sha": "49f2fe92406ca2dcafe414477220aa92832d1ba5",
+     "at": "2026-11-10T01:40Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 26
     }
    ]
   },
   "AA": {
-   "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "8affc9fc486152608ab2e77a17153524314c6534",
-   "at": "2026-11-09T21:20Z",
-   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 1,
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ef0b59247558ad1e249e7fdeb07e6771433df173",
+   "at": "2026-11-12T11:57Z",
+   "by": "LAWWW-C",
+   "scanned": 987,
    "evidence": "帳號 B 交接補強逐筆核對 126 筆（c02a440e、1af66e42）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-AA-103-SP",
@@ -798,15 +812,22 @@
      "at": "2026-11-08T20:52Z",
      "by": "session_01DvRVNNnivf7da7qqWuGmw6",
      "scanned": 149
+    },
+    {
+     "branch": "claude/cool-heisenberg-o8kuqx",
+     "sha": "8affc9fc486152608ab2e77a17153524314c6534",
+     "at": "2026-11-09T21:20Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 1
     }
    ]
   },
   "BB": {
-   "branch": "claude/elegant-brown-fcos7n",
-   "sha": "fb9e47c404dfb0d0b15bb5aa55650548d21f188a",
-   "at": "2026-11-10T01:40Z",
-   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 36,
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "54f0c5b081fc1c5015a00843fad85ddf63296fed",
+   "at": "2026-11-12T11:57Z",
+   "by": "LAWWW-C",
+   "scanned": 960,
    "evidence": "帳號 B 交接補強逐筆核對 113 筆（558f381b）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-BB-181",
@@ -1069,15 +1090,22 @@
      "at": "2026-11-09T21:20Z",
      "by": "session_01DvRVNNnivf7da7qqWuGmw6",
      "scanned": 32
+    },
+    {
+     "branch": "claude/elegant-brown-fcos7n",
+     "sha": "fb9e47c404dfb0d0b15bb5aa55650548d21f188a",
+     "at": "2026-11-10T01:40Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 36
     }
    ]
   },
   "CC": {
    "branch": "claude/cc-testing",
-   "sha": "31d4ce230ef359af1cbf669774091d1926d55d49",
-   "at": "2026-11-10T01:40Z",
-   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 41,
+   "sha": "25bb5111dc6274bef2e3786fb3b355df99f69a64",
+   "at": "2026-11-12T11:57Z",
+   "by": "LAWWW-C",
+   "scanned": 815,
    "evidence": "新職位 CC（D119／HV-22，使用者 2026-11-02 03:5x 對 BB）的基準：claude/cc-testing 從企劃線 claude/story-planning 734026659 開出，分岔點以前是 AA、BB 的 commit（由它們的水位線核對）；只核對 CC 自己的 commit（第一筆 336d26c35 值班登記）",
    "open": [],
    "history": [
@@ -1171,6 +1199,13 @@
      "at": "2026-11-09T21:20Z",
      "by": "session_01DvRVNNnivf7da7qqWuGmw6",
      "scanned": 51
+    },
+    {
+     "branch": "claude/cc-testing",
+     "sha": "31d4ce230ef359af1cbf669774091d1926d55d49",
+     "at": "2026-11-10T01:40Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 41
     }
    ]
   }
