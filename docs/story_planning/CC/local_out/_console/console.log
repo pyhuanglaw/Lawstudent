@@ -886,3 +886,12 @@
 [19:37:49] 正在跑：SSB_gg3b（已跑 2 分／上限 25 分）、SSB_gg3c（已跑 1 分／上限 25 分）、SHIFT_SHOTS_72fc（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:42:49] 正在跑：SSB_gg3b（已跑 7 分／上限 25 分）、SSB_gg3c（已跑 6 分／上限 25 分）、SHIFT_SHOTS_72fc（已跑 5 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:43:16] [res] cpu=3% mem=46% (15.6/31.4 GB) chrome_testing=10  END SHIFT_SHOTS_72fc
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       52389b08d..c4986cdae  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:43:26] ==== END   SHIFT_SHOTS_72fc  exit=0  349s   ====
+[19:43:38] memory 47% before starting SHIFT_SHOTS_18a3 (2 running)
+[19:43:38] ==== START SHIFT_SHOTS_18a3  (probe @ 18a36664526d8ad28835fb924acb5438bd2ba2da) ====
+[19:43:41] [res] cpu=1% mem=47% (15.0/31.4 GB) chrome_testing=10  START SHIFT_SHOTS_18a3
+[19:43:41] worktree add 18a36664526d8ad28835fb924acb5438bd2ba2da: invalid reference - fetching main and the commit itself
+[19:45:51] [res] cpu=13% mem=49% (15.4/31.4 GB) chrome_testing=10  END SSB_gg3b
