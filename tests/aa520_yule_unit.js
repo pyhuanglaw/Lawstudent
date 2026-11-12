@@ -63,7 +63,7 @@ const fresh=(key,h,o)=>{ o=o||{}; const k=typeof key==='number'?keyOf(key):key;
   const G=H.fresh(k,h,o.zone||'dorm',Object.assign({EXCHANGE_ROUTE:o.route||'TW',EXCH_RULE:1,introDone:true,afternoonDone:true,classDone:true},o.met===false?{}:{yulePassDay:1},o.flags||{}));
   G.outings=[]; G.acts={att:{}}; G.msgs=G.msgs||[]; G.contacts=G.contacts||{}; G.invites=[]; PHONE.rec(G);
   const kx=o.kx||'dating'; H.FRIEND(KX);
-  if(kx!=='friend'){ H.date(KX); if(kx==='ex') ROM.end(G,KX,'apart_talk'); else if(kx==='drift'){ KXDRIFT.end(G,'test'); } else if(kx==='caught') R2Y4B.toFriend(G,KX); }
+  if(kx!=='friend'){ H.date(KX); if(kx==='ex') ROM.end(G,KX,'apart_talk'); else if(kx==='caught') R2Y4B.toFriend(G,KX); }
   E.player.busy=false; E.paused=false; E.player.lv=0; E.player.seat=null; E.player.obj.position.x=0; E.player.obj.position.z=0; E.npcs.length=0; GM.npc={}; ADV.active=false; STORY._bindGM(GM);
   H.at(k,h); return G; };
 /* 慢慢分手、已經照朋友（那一天 fd）*/
@@ -130,7 +130,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   check('0. 新檔載得到（YULE、YULE_LINES、YULE_EVENTS）；全部的檔載入沒有錯誤；事件在 STORY_EVENTS',!loadErr.length&&!!Y()&&!!YLX()&&typeof YULE_EVENTS!=='undefined'&&!!ev('ev_yule_lecture'),J(loadErr));
   check('0. index.html：heard3d.js → data/yule_lines.js → yule3d.js（相鄰）；在 story3d.js、outings3d.js、kxdrift3d.js、multirel3d.js 以後，GAME.boot() 前面',
     /src\/heard3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/yule_lines\.js\?v=[^"]+"><\/script>\n<script src="src\/yule3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/yule3d.js')<a('<script>GAME.boot();</script>')&&
-    ['src/story3d.js','src/outings3d.js','src/kxdrift3d.js','src/multirel3d.js','src/r2y4b3d.js'].every(f=>a(f)>0&&a(f)<a('src/data/yule_lines.js')));
+    ['src/story3d.js','src/outings3d.js','src/multirel3d.js','src/r2y4b3d.js'].every(f=>a(f)>0&&a(f)<a('src/data/yule_lines.js')));   /* kxdrift3d.js（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   /* 日子對星期（稿寫的星期）*/
   const wbad=[]; for(const k in S3B){ const b=S3B[k]; if(!wdOk(b.date,b.wd)) wbad.push(k+' '+b.date+b.wd); }
   if(!wdOk(LEC_DAY,LEC_WD)) wbad.push('4-1'); if(!wdOk(KX_DAY,KX_WD)) wbad.push('6'); if(!wdOk(RPT_DAY,RPT_WD)) wbad.push('3-14');
@@ -175,12 +175,7 @@ await sec(1,async()=>{ const b=S3B['3-4'], d=D(b.date), h=hOf(b.hm), n=b.base.le
   check('1. 被抓包（坦白以後退回朋友、被發現分開 mrel、舊存檔 EX_kexin_REASON caught）一律不傳；之後重新交往也不傳',caught===0&&again===0&&oldSave===0&&mrel===0,J({caught,again,oldSave,mrel}));
   /* 慢慢分手：照朋友的下一學期起 */
   const b7=S3B['3-7'], d7=D(b7.date), b6=S3B['3-6'], d6=D(b6.date);
-  fresh(D('2026-11-20'),20,{kx:'drift'}); const drift=H.G.flags.KX_ENDED==='drift'&&!!H.G.flags.EX_kexin; friendOn(D('2026-12-20')); phAt(d6,hOf(b6.hm)+0.05); const same=txt('yl_chiayi').length;   /* 照朋友 12/20（大二上），1/30（寒假＝大二上）不傳 */
-  phAt(d7,hOf(b7.hm)+0.05); const next=txt('yl_bday').length;   /* 3/27（大二下）照傳 */
-  fresh(D('2026-11-20'),20,{kx:'drift'}); phAt(d6,hOf(b6.hm)+0.05); const notYet=txt('yl_chiayi').length; phAt(d7,hOf(b7.hm)+0.05); const notFr=txt('yl_bday').length;   /* 還沒照朋友：不傳 */
-  fresh(D('2026-11-20'),20,{kx:'drift'}); friendOn(D('2027-01-25')); phAt(d7,hOf(b7.hm)+0.05); const vac=txt('yl_bday').length;   /* 照朋友那天在寒假（1/25）＝前一學期（大二上）的下一個＝大二下照傳 */
-  fresh(D('2027-03-01'),20,{kx:'drift'}); friendOn(D('2027-03-05')); phAt(d7,hOf(b7.hm)+0.05); const sameTerm=txt('yl_bday').length;   /* 照朋友 3/5（大二下）＝3/27 同一學期不傳 */
-  check('1. 慢慢分手（KX_ENDED drift）以後：還沒照朋友不傳；照朋友的同一學期（含後面的寒暑假）不傳、下一學期起照傳；照朋友那天在寒假算前一學期',drift&&same===0&&next===b7.base.length&&notYet===0&&notFr===0&&vac===b7.base.length&&sameTerm===0,J({drift,same,next,notYet,notFr,vac,sameTerm}));
+  check('1. 慢慢分手（kxdrift3d.js）以後照朋友的那幾則（CANON-NO-ECON-1112 第三批：這一項拿掉）',typeof KXDRIFT==='undefined'&&!!b7&&!!b6&&d7!=null&&d6!=null);
   /* 原有八則照原本的條件 */
   fresh(D('2026-07-22'),21,{kx:'ex'}); phAt(D('2026-07-22'),22.05); const h504=byTag('heard_h504_yule').length;
   check('1. 原有八則照原本的條件（分開了照樣收到 h504_yule 兩則）',h504===2,J(h504));
