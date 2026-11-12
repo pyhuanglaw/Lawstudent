@@ -81,9 +81,11 @@ const SHOPLIFE=(function(){
     return k; };
   S.tendSync=function(GM){ const E=GM&&GM.E; if(!E||!E.npcs) return; for(const n of E.npcs) if(n&&n.stallKeeper!=null&&n._stall&&n.obj) n.obj.visible=n._stall.isOpen!==false; };
   /* 沒開的時候店裡不站店員（店面標準 §12 第 1 點「打烊看得出來關了」，L118-CLOSED-LOOKS-OPEN-1112）：進區域的時候、之後每 0.5 秒對一次；
-     只拿掉沒有名字的店員（有名字的人照自己的作息）；店再開的時候下一次進店會照原本的做法放回來。*/
-  S.closeClerks=function(zoneId,GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G||!E.npcs||!E.removeNPC||!zoneId||S.isOpen(zoneId,G)) return 0; let k=0;
-    for(const n of E.npcs.slice()) if(n&&n.clerk&&!n.charId&&!n.name){ E.removeNPC(n); k++; } return k; };
+     只拿掉店員（n.clerk、不是登場人物；登場人物照自己的作息）；店再開的時候下一次進店會照原本的做法放回來。*/
+  S.closeClerks=function(zoneId,GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G||!E.npcs||!E.removeNPC||!zoneId) return 0; const m=/^l118_(.+)$/.exec(zoneId); let open=S.isOpen(zoneId,G);
+    if(open&&m&&typeof L118!=='undefined'&&L118.isOpen){ try{ open=!!L118.isOpen(m[1],G); }catch(e){} }   /* 118 巷的店：營業時間在 LANE118_SHOPS（公休日、老闆開刀也算）*/
+    if(open) return 0; let k=0;
+    for(const n of E.npcs.slice()) if(n&&n.clerk&&!n.charId){ E.removeNPC(n); k++; } return k; };
   /* 別的模組後來在同一格又放了一位＝拿掉這裡放的 */
   S.dedupClerk=function(GM){ const E=GM&&GM.E; if(!E||!E.npcs) return 0; const mine=E.npcs.filter(n=>n&&n.shopLifeClerk); let k=0;
     for(const m of mine){ const p=m.obj.position; if(E.npcs.some(n=>n&&n!==m&&n.clerk&&!n.shopLifeClerk&&(n.lv|0)===(m.lv|0)&&Math.hypot(n.obj.position.x-p.x,n.obj.position.z-p.z)<0.6)){ if(E.removeNPC) E.removeNPC(m); k++; } }
