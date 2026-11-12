@@ -1,0 +1,2599 @@
+{
+"_meta": {
+"doc": "AA_835 學姊（DLG-FULL-REVIEW-1110／X324 續改第三位；使用者 11-12「學姐才是這個游戲真正的女主角」「學姊台詞一定要有他的個性」）：voice_stats 標到的句子清單（開發分支 adoring-meitner 11-12 07:5x 頂端；改稿前的盤點）",
+"by": "AA-C 2026-11-12",
+"counts": {
+"ell": 138,
+"today": 130,
+"tri": 33,
+"last": 80
+},
+"voice": "AA_566（使用者共創定的）：短、資訊先；乾的幽默只在真的好笑時；重要時刻不說話用動作；安慰人講生活的話；交往後很生活；不承認也不否認；溫柔、不寫成指令句；不要設計過的乾梗；「……」一段最多一次。所以她「短」不是問題，要抓的是重複的梗和把心情講白。",
+"finding": [
+"約會選項回話裡「今天不 X」同一個梗約 15 處（D01 今天不做事、D02 今天不審查、D04 今天就查到這裡／今天慢一點、D05 今天不趕、D08 今天不管、D22 今天的時間是多的、D23 今天不忙、D24 今天不算熱量／今天不查、D29 今天不算…）——工作狂難得放鬆，一兩處可以，十五處是模板，而且是 AA_566 第 10 節使用者否決過的「設計過的乾梗」。第一批：逐格對玩家選項重寫，留兩三處。",
+"約會 remember 68 句「上次…」開頭（和可昕一樣的格子）：照 AA_822／BB_377 的做法，眼前的東西直接講，「上次…這次…」對比的留。第二批。",
+"到達句 arrive/normal「今天…」8 句（今天沒帶電腦、今天什麼都沒排、今天會走很多路…）有三四句是同一個梗，和第一批一起看。",
+"事件刪節號 40＋r2y4b 14＋gift_holiday 19＋heroine_arcs 9：先確認是不是她的話，再照「一段最多一次」、先看分支。第三批。"
+],
+"note": "這是盤點，還沒改任何一句。"
+},
+"hits": [
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……你是這禮拜第三個問的。考上再告訴你。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "今天事情比較多。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……還好啦。謝謝。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……想啊。（她低頭翻書）"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……你很會抓字欸。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "今天總圖的冷氣好強。我帶了外套。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"tri"
+],
+"s": "不知道。三月底放榜。現在先不想。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"last"
+],
+"s": "上次家族聚餐，我點了辣的咖哩。我不後悔。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……好。那我不要遲到。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……鑰匙很小。我握了很久。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……漏了一年，我才發現。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……還很久。可是我已經在看學校了。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……食譜說「適量」。我討厭適量。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"tri"
+],
+"s": "不然要聽什麼。……好啦，有聽。他講得比我好。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"last"
+],
+"s": "上次在我家，大一的學弟妹一進門就全部站起來。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……你這樣說，是因為你習慣了。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "今天訪談一位律師，他講到一半去接電話，回來說：剛剛那個，就是妳論文要寫的那種人。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "今天研究室只有我一個。好安靜。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "今天去辦簽證，排了兩個小時。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"tri"
+],
+"s": "「去多久？」我說一學期。就好了。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……三十本選一本。我選了大一的那本民總。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……那是我大一常坐的位子。走之前想再去坐一次。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "今天吃了兩個飯糰。算有吃飯。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"tri"
+],
+"s": "期末。我在打包。一箱。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "今天回去清。灰會掉一整片，你會嚇到。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……那要換大鍋子。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"tri"
+],
+"s": "有。頭髮還在滴水。她說我瘦了。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……兩個人吃，九天。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "我剛從圖書館回來。今天坐到靠窗的位子。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"ell"
+],
+"s": "……她明天還要來問第二題。"
+},
+{
+"f": "ladder.js",
+"tags": [
+"today"
+],
+"s": "今天寫了三頁，刪了兩頁。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天差不多了，我們走吧。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "就回去了？好。今天也算出來過。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "我很少一整個下午都不排事情。上一次是去年。那次我睡掉了。今天不會。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "好。今天不做事。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次我在這裡差點睡著。這次不保證。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那張，我設成鎖定畫面了。（她把手機蓋起來）"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天什麼都不查。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次你喝了一口，臉皺成那樣。這次我只放一包。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次說到勞基法，是一九八四年。我回去確認了，怕自己講錯。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "好。今天不審查。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天玩了三個遊戲。破了零個。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "好。你掉下去了。我也懂了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那個遊戲我回去下載了。卡在第三關，卡了一個禮拜。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那隻貓，你還留著嗎？"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "好。二十分鐘。我不看錶。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "週末我通常還是會找事做。今天沒有。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次說不看錶，後來還是看了。超過很多。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那部，我後來又想了兩天。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那個街頭藝人今天也在，換了一首。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "習慣了。今天就查到這裡。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那個攤位的老闆，還記得我買過書籤。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "我一直都這樣。今天慢一點好了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那家，我跟同學說了，他們也要去。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "喝得完。今天不趕。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那杯我喝完了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次在這裡坐到天黑。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次寄給自己的明信片，到了。字寫得很亂。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次記下來的那部，我們看了。行事曆上打了勾。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那幅站得很直的人，換位置了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次說坐十分鐘，結果坐了四十分鐘。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "那次是法服的活動。今天不是。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天夠了。我想安靜地走出去。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次我站在辯護人的位子前面。這次我坐旁聽席。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次說要重新教。我把以前寫給學弟妹的那份講義改了，寄回社辦。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "嗯。讀到了。晚了很多。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那個說「沒有做錯事」的人，我回去查了。查得到的很少。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "在這裡？不行。有點想。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri",
+"today"
+],
+"s": "看到了。我不管。今天不管。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次坐著不做事，我做到了。這次應該也可以。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "嗯。我很少慢下來。今天是被纜車逼的。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "我今天靠著窗坐。上次坐得太直了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次在這裡喝的茶，我回去買了一個小茶壺。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last",
+"today"
+],
+"s": "上次我們找首都帝大找了很久。今天一眼就找到了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天試試看。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last",
+"today"
+],
+"s": "上次踩得好累。今天我會了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那個放風箏的人，今天沒來。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天試一次。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "北投好安靜。上次來是一群人，吵到什麼都聽不見。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "好。坐一下。你也坐。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "我這次換個姿勢坐。上次腳麻了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次回去，頭髮的硫磺味兩天才散。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次泡完，那天晚上我很早就睡了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天想喝茶。咖啡明天再說。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那間店的老闆，今天跟我點頭了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那罐我每天喝一杯，同學都來偷喝。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次說站十分鐘，結果站了半小時。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次拍的那張，我傳給奶奶了。她說她以前也在這裡看過。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天沒帶電腦。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天我什麼都沒排，就是來這裡。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天我們走到哪就算哪。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last",
+"today"
+],
+"s": "上次坐這裡，背挺得好直。今天靠著椅背。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那張夕陽，我設成桌布了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那個慢跑的人，今天也在跑。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次我沒有暈。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那張拍歪了，再拍一次。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次你說B館在那一片。我回去對過地圖，不是。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那首歌，我回去加進歌單了。讀書的時候不聽。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last",
+"today"
+],
+"s": "上次那顆是飛機。今天雲比較多，連飛機都沒有。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "這裡我在地圖上看過很多次。今天才走到。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "我這次穿了好走的鞋。上次腿痠了兩天。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "休息。上次休息完，你精神好很多。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "這裡的風會把帽子吹走。上次差一點。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "你帽子呢？我就知道。我多帶了一頂。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天走了好多。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "我知道。今天就很慢。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次在這裡站了很久。回去以後，我跟學弟妹講了這裡的石頭。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "拉鍊我拉好了。上次外套被風吹開。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri",
+"today"
+],
+"s": "吃。只是不常。今天可以。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次的陶杯我放在書桌上，每天都用。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次看的那張薪資單，我回去查了那時候的工時。好長。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次說的休假，我查了。很少。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次這段霧更大。這次看得到下面。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那條線，我後來跟助教講了。他說他沒去過。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天會走很多路。我穿了舊的鞋。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次說街變短了。我回去翻了照片，一樣長。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次的手套破了一個洞。我手指藍了一個禮拜，沒有人問。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次坐這裡我差點睡著。這次不會。大概。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "好。今天的時間是多的。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天這家，還是我請。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天什麼都沒排。來看海。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次問他們一次出去多久。我後來知道了，有的一趟好幾個月。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri",
+"today"
+],
+"s": "嗯。一直在忙。今天不忙。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次看完夕陽，我回去沒有開電腦。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "你昨天幾點睡？眼睛好紅。車上先睡一下。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "好。今天不算熱量。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次在這裡待到天黑。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "好，我收起來了。今天不查。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "好。只試一種。喝不完你喝。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "不想。我看就好。你想學你去。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "我這次有帶帽子。上次曬傷了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天會走很遠。我穿了球鞋。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "被你看出來了。今天只看樹。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last",
+"today"
+],
+"s": "上次說都市計畫。我回去真的查了。今天不講。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次買的那張卡片，還夾在書裡。還沒想到要寫什麼。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "小孩在追泡泡。好吵。好好。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次你放的風箏飛很高，我拍了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last",
+"today"
+],
+"s": "上次坐這裡，回去才發現褲子沾到木屑。今天鋪手帕。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次你挑的筆筒在我桌上。來的人都會問。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次這裡被一群小學生圍住。這次人比較少。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天的水我多帶了一瓶。你的。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那份手稿旁邊的說明，我抄下來了。寫得很好。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次在這裡坐太久，差點趕不上公車。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天想在這裡迷路一次。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次看完夕陽，我回旅館早早就睡了。睡得很好。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那面看不懂的牆，換成別的作品了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "習慣。今天不算。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次坐在影子裡不想走。這次也不想。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次走軌道我沒有掉下來。這次也不會。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那顆很圓的石頭，今天找不到了。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天騎到一半，也要停下來喝水。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last",
+"today"
+],
+"s": "上次我看到一半睡著了。今天不會。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "我要熱的。兩杯。一杯是你的。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "這攤還在。今天兩杯都我付。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "又走到這裡了。今天也慢慢走。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "好。我坐中間。比較不晃。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天坐船。我坐中間，比較不晃。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "好。看湖。不看下面。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天不怕了。還是不往下看。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"tri"
+],
+"s": "我排。你去找位子。分工。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"today"
+],
+"s": "今天我排。你去找位子？"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次我在這裡停下來喘。這次也停。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次那部，我後來又想了一下。還是我猜的那個結局比較好。"
+},
+{
+"f": "date_lines.js",
+"tags": [
+"last"
+],
+"s": "上次在這裡，我們也站了很久。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "考完了吧？今天晚上我空著。法圖旁邊那家。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "今天我沒帶計畫本出門。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "考完了吧？今天晚上我空著。法圖旁邊那家。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "考完了吧。今天晚上不排別的。法圖旁邊那家。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "考完了吧。今天晚上我空著。……這個暑假，能空的晚上不多。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "時差還沒調回來。……今天晚上，法圖旁邊那家？"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "我回來了。今天晚上，法圖旁邊那家。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"ell"
+],
+"s": "……第三次他說可以。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"ell"
+],
+"s": "……第三次他說可以。這一頓我請。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"ell",
+"today"
+],
+"s": "……今天不回研究室了。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"ell"
+],
+"s": "……收到信那天，我打給你。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"ell"
+],
+"s": "……可是這頓我不想錯過。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"ell",
+"today"
+],
+"s": "……今天這一頓，是我自己約的。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"ell"
+],
+"s": "……說好你請。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "你實習結束了吧？今天晚上我空著。法圖旁邊那家。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"ell"
+],
+"s": "……收到信那天，我打給你。"
+},
+{
+"f": "termend_lines.js",
+"tags": [
+"today"
+],
+"s": "好。今天恭喜。"
+},
+{
+"f": "termend_opts.js",
+"tags": [
+"ell"
+],
+"s": "……好。也算慶祝。你點一個你平常不會點的。"
+},
+{
+"f": "termend_opts.js",
+"tags": [
+"ell"
+],
+"s": "……收到信那天，我打給你。"
+},
+{
+"f": "termend_opts.js",
+"tags": [
+"tri"
+],
+"s": "好。禮拜六下午。你搬，我分類。"
+},
+{
+"f": "termend_opts.js",
+"tags": [
+"today"
+],
+"s": "今天我沒帶計畫本出門。"
+},
+{
+"f": "termend_opts.js",
+"tags": [
+"ell"
+],
+"s": "……借我。一行就好。"
+},
+{
+"f": "termend_opts.js",
+"tags": [
+"today"
+],
+"s": "今天不回研究室了。"
+},
+{
+"f": "termend_opts.js",
+"tags": [
+"today"
+],
+"s": "今天這一格，我用紅筆寫的。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……我以前的學姊也是這樣對我。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……社長沒有人改。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……你學得很快。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……好燙。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……不用。我自己來。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……那還來得及。我六月才畢業。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……等一下。我高二校慶好像被問過。一群大學生，說他們是首都帝大法律的，要錄影、要約好幾次。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……要錄影喔。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……金色的。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……不過真的很巧。"
+},
+{
+"f": "events.js",
+"tags": [
+"today"
+],
+"s": "來了？坐。今天讀刑訴——一年級聽不懂沒關係，先聽爭點怎麼吵。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……好問題。下週回答。"
+},
+{
+"f": "events.js",
+"tags": [
+"today"
+],
+"s": "今天先到這裡。……我二月要交大專生研究計畫。你們大三就會知道那是什麼東西。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……這個問題最近有人問我第三次了。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……我出題目的時候，也覺得太長。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……她自己知道寫得好不好。"
+},
+{
+"f": "events.js",
+"tags": [
+"tri"
+],
+"s": "上週的問題。我想了一週。三件事。"
+},
+{
+"f": "events.js",
+"tags": [
+"today"
+],
+"s": "三我還在想。今天讀刑訴。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……阿嬤，下一次值班，週六早上來。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……還可以。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……坐。我坐下來你們再坐。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……還有——"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……你翹課？"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……沒有。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……又空了。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……我知道。家聚你都沒來，今天來了就好。"
+},
+{
+"f": "events.js",
+"tags": [
+"today"
+],
+"s": "（看菜單三十秒）我要辣的。今天我請。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……我們也先回去。明天再說。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……三，我想不起來了。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……你自己相信這個題目嗎？"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……你聽到了。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……我沒事。只是沒睡。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……坐吧。我剛好想要一個不是法服的人。"
+},
+{
+"f": "events.js",
+"tags": [
+"today"
+],
+"s": "我改了七次。今天被問了一句話，我答不出來。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……我不知道。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……我要回家了。你也早點回去。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……是熱水。"
+},
+{
+"f": "events.js",
+"tags": [
+"today"
+],
+"s": "好。今天就喝這個。"
+},
+{
+"f": "events.js",
+"tags": [
+"today"
+],
+"s": "今天，先列到二。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……可是好像真的這麼簡單。"
+},
+{
+"f": "events.js",
+"tags": [
+"tri"
+],
+"s": "書瑀，這位是？……大學部的。你為什麼來？"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……還沒有。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……法律系四年，你學會了這三個字。"
+},
+{
+"f": "events.js",
+"tags": [
+"last"
+],
+"s": "上次下課你問的那題，我回去又想了一下。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……對。他跳過了。我第一次讀的時候沒看出來，是許老師指出來的。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……我自己的研究計畫還沒改完。走了。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……約得出來的話，十年前就約了。"
+},
+{
+"f": "events.js",
+"tags": [
+"tri"
+],
+"s": "好。你列。電話我給你。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……看得懂，比較累吧。"
+},
+{
+"f": "events.js",
+"tags": [
+"last"
+],
+"s": "上次說好的。這一段，你講給我聽。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……順序對了。"
+},
+{
+"f": "events.js",
+"tags": [
+"ell"
+],
+"s": "……可是聽的人會問：那他為什麼要跳？"
+},
+{
+"f": "msg_pool.js",
+"tags": [
+"today"
+],
+"s": "研究室。今天寫了三頁，刪了一頁。"
+},
+{
+"f": "msg2_pool.js",
+"tags": [
+"today"
+],
+"s": "謝謝。今天難得沒有排事情。"
+},
+{
+"f": "msg2_pool.js",
+"tags": [
+"ell"
+],
+"s": "……晚上可以見一面嗎。"
+},
+{
+"f": "msg2_pool.js",
+"tags": [
+"today"
+],
+"s": "今天不行。"
+},
+{
+"f": "msg2_pool.js",
+"tags": [
+"today"
+],
+"s": "好。今天晚上。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"ell"
+],
+"s": "……還不能講。講了怕它不來。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"today"
+],
+"s": "第三章我還沒開始想。今天先不想。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"ell"
+],
+"s": "……那些人後來去了哪裡。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"ell"
+],
+"s": "……京都。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"ell"
+],
+"s": "……你管我。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"today"
+],
+"s": "今天開始十二點。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"tri"
+],
+"s": "我在吃三明治。牠在等。……我沒有分。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"tri"
+],
+"s": "室友刻的。她說刻的是我。……不像。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"ell"
+],
+"s": "……你不准說。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"today"
+],
+"s": "今天是情人節。"
+},
+{
+"f": "msg_replies.js",
+"tags": [
+"today"
+],
+"s": "我在寫論文。今天論文就是我的情人。"
+},
+{
+"f": "invites.js",
+"tags": [
+"ell"
+],
+"s": "……我大一的時候，這些都沒人告訴我。"
+},
+{
+"f": "invites.js",
+"tags": [
+"today"
+],
+"s": "今天不看筆記。"
+},
+{
+"f": "invites.js",
+"tags": [
+"today"
+],
+"s": "好。今天我不趕。"
+},
+{
+"f": "invites.js",
+"tags": [
+"today"
+],
+"s": "好。今天我請你喝販賣機的。"
+},
+{
+"f": "invite_replies.js",
+"tags": [
+"today"
+],
+"s": "今天不看筆記。"
+},
+{
+"f": "invite_replies.js",
+"tags": [
+"ell"
+],
+"s": "……出去？不是讀書，也不是家族。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……旁邊這個，可以先借你。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……閉館以後呢？閉館以後可以。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……我妹也會這樣。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……我收下了。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……好像有。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……謝謝你，{name}。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……聽起來很好吃。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……好。你吃不完，我幫你。"
+},
+{
+"f": "heroine_arcs.js",
+"tags": [
+"ell"
+],
+"s": "……我不介意她猜到。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天我比較有空。可以吃久一點。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天我不想講考試。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "我每天都在算還剩幾天。今天不算。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"ell"
+],
+"s": "……不過今天我想聽這種話。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天我不想講報告。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "研究所的報告寫不完。今天先不寫。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天我請。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"ell"
+],
+"s": "……好，我喝一口。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天不計時。偶爾。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "好。今天待著。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天我想吃蛋糕。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"ell"
+],
+"s": "……好。我聽到了。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天寫完了。我請你。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天我只喝咖啡。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天考完了。我想看一部很長的電影。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天報告交了。我想看一部很長的電影。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天只看一部。不續攤。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天這部沒有圖書館。我檢查過了。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"ell"
+],
+"s": "……好，你拿。"
+},
+{
+"f": "activity_scenes.js",
+"tags": [
+"today"
+],
+"s": "今天陪我找一本送人的書。"
+},
+{
+"f": "date_wish.js",
+"tags": [
+"ell"
+],
+"s": "……你記得。"
+},
+{
+"f": "date_wish.js",
+"tags": [
+"tri"
+],
+"s": "好。我一直想去。你怎麼知道？"
+},
+{
+"f": "date_wish.js",
+"tags": [
+"today"
+],
+"s": "今天這一格，我沒有寫。"
+},
+{
+"f": "date_wish.js",
+"tags": [
+"today"
+],
+"s": "不用。今天不用。"
+},
+{
+"f": "date_wish.js",
+"tags": [
+"today"
+],
+"s": "下週要開始寫研究計畫。今天先不想。"
+},
+{
+"f": "date_wish.js",
+"tags": [
+"today"
+],
+"s": "今天夠了。"
+},
+{
+"f": "date_wish.js",
+"tags": [
+"today"
+],
+"s": "今天沒有想補。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……我知道。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……我知道。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……我不要。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……好。我想一下。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……你沒有。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……我怎麼都不知道？"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……我怎麼都不知道？"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……還有沒有別人。我現在問你，你就一次講完。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……你講完了？"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……你確定？"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……你知道我現在很難回答嗎？"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"tri",
+"today"
+],
+"s": "好。我還有點氣。……今天去吃飯。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……你去見她那天，出門前傳一句給我就好。"
+},
+{
+"f": "multirel_lines.js",
+"tags": [
+"ell"
+],
+"s": "……我們就到這裡。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"today"
+],
+"s": "今天在法圖待到閉館。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"today"
+],
+"s": "今天讀完一章。你那邊還好嗎。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"today"
+],
+"s": "今天經過你常坐的位子，有人坐了。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"ell"
+],
+"s": "……回來說一聲。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"today"
+],
+"s": "今天沒有消息。明天再說。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"ell",
+"today"
+],
+"s": "……今天有點想你。說完了。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"today"
+],
+"s": "今天不開。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"ell"
+],
+"s": "……我要先看研究所的時間。"
+},
+{
+"f": "vac_activities.js",
+"tags": [
+"ell"
+],
+"s": "……先在國內。出國的話，我要先排好時間。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……聖誕節還特地來找我。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……學弟，這樣別人會誤會。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"today"
+],
+"s": "今天二月十四號。……你知道吧。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……你連七夕都記得。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……系辦的名單？"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"today"
+],
+"s": "期末考前的生日，我很少過。……今天就算過了。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell",
+"today"
+],
+"s": "……今天我不讀書了。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……寫起來不會刮紙。我很久沒用鋼筆了。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……以後簽名就用這支。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"tri"
+],
+"s": "藍的、黑的。這個是……墨綠。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……剛好。舊的快用完了。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……這個很重。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……謝謝。我的筆袋是舊了。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……你有看到。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……我會用。不是今天。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……這隻熊在對我笑。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……好啦，我放研究室。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……不過謝謝。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……謝謝。這個我用得到。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……你又亂花錢。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……可是我會留著。你送的。"
+},
+{
+"f": "gift_holiday.js",
+"tags": [
+"ell"
+],
+"s": "……不要拿給別人看。"
+},
+{
+"f": "r2y3a_events.js",
+"tags": [
+"today"
+],
+"s": "（抱著一疊訪談稿，從攤位前面經過）今天人好多。"
+},
+{
+"f": "r2y3a_events.js",
+"tags": [
+"today"
+],
+"s": "（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……照片拍不進去。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……結果一個字都沒寫。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"today"
+],
+"s": "嗯。今天不寫。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"today"
+],
+"s": "今天沒什麼事。……只是想打給你。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"today"
+],
+"s": "今天有人問我臺灣在哪裡。我畫了一張地圖給他。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"today"
+],
+"s": "今天我比他早了十分鐘。……他看到我，愣了一下。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"tri"
+],
+"s": "沒有。點頭。這樣剛好。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……我寄了一片回去。應該快到了。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……這樣可以嗎。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……白天打。我會醒著。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……一個人開太遠。你要不要來？"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"today"
+],
+"s": "你之前問我會不會想家。……會。今天第四十天。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……我切一半給你看。另一半留到星期二。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……天黑得早，我就比較常想到你。說完了，換你講。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"tri"
+],
+"s": "是電鍋煮的。……我差點哭。沒有，沒哭。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……好。停一次，不算輸。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……你記得。嗯，一樣。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……還沒。我又要下去一次。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……那不一樣。這邊是一整片。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……好。在車上開。你開車，我拍你。"
+},
+{
+"f": "r2y4b_events.js",
+"tags": [
+"ell"
+],
+"s": "……照片拍不進去。"
+}
+]
+}
