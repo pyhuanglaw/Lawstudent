@@ -327,11 +327,14 @@ const JOBS=(function(){
     const W=P.jobWork={k,carry:null,from:null};
     if(typeof CHAR!=='undefined'&&CHAR.carryOff){ try{ W.carry=CHAR.carryOff(P.obj); }catch(e){ console.warn('JOBS.workOn',e); } }
     let sp=null; try{ sp=S.workSpot(GM,k); }catch(e){ sp=null; }
-    if(sp&&E.placeAt){ W.from={x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y,lv:P.lv|0}; E.placeAt(P,sp.x,sp.z,sp.lv|0); P.obj.rotation.y=sp.yaw; }
+    if(sp&&E.placeAt){ W.from={x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y,lv:P.lv|0}; E.placeAt(P,sp.x,sp.z,sp.lv|0); P.obj.rotation.y=sp.yaw;
+      /* 鏡頭轉到櫃台外面（客人那一邊）看祐廷：站到櫃台後面以後背後就是牆，跟在背後的鏡頭會卡進牆或布幕裡（BB 11-12 南洋上班整個畫面暗紅）。下班轉回原本的方向。*/
+      if(E.cam&&typeof E.cam.yaw==='number'){ W.camYaw=E.cam.yaw; E.cam.yaw=sp.yaw; E.cam.manualT=0; } }
     return true; };
   S.workOff=function(GM,stay){ const E=GM&&GM.E, P=E&&E.player, W=P&&P.jobWork; if(!W) return false; P.jobWork=null;
     if(W.carry){ try{ W.carry(P.obj); }catch(e){ console.warn('JOBS.workOff',e); } }
     if(!stay&&W.from&&E.placeAt&&P.obj){ E.placeAt(P,W.from.x,W.from.z,W.from.lv|0); P.obj.rotation.y=W.from.yaw; }
+    if(typeof W.camYaw==='number'&&E.cam) E.cam.yaw=W.camYaw;
     return true; };
   S.workHeal=function(GM){ const P=GM&&GM.E&&GM.E.player; if(S.running||!P||!P.jobWork) return false; return S.workOff(GM,true); };
   S.runShiftX=async function(GM,k){ const G=GM.G, j=fix(S.job(G,k)); if(!j||S.running) return false; const s=shop(k), X=D().x[k], d=G.day, n=(j.shifts|0)+1, ctx={day:d,n}, H0=S.hrs(k,d), wth=S.withOn(G,k,d);

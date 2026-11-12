@@ -112,6 +112,8 @@ await sec('A2',async()=>{
   /* 班中途讀檔：舊的那一班凍住走不到 finally */
   { world(); clerkNPC(); JOBS.running=true; JOBS.workOn(GM,'yue'); const mid=P.obj.userData.carryOff===true&&!!P.jobWork; globalThis.LOADLOCKS['jobs3d:running'](); P.obj.position.x=5; P.obj.position.z=5;   /* 讀檔把人放到存檔的位置 */
     JOBS.tick(GM); check('A2. 班中途讀檔：下一次 JOBS.tick 把包還原、不搬人（位置照讀檔的）、不卡住',mid&&P.obj.userData.carryOff===false&&P.jobWork==null&&P.obj.position.x===5&&P.obj.position.z===5&&JOBS.running===false,J([mid,P.obj.userData,P.jobWork])); }
+  /* 鏡頭（2026-11-12 BB：南洋上班整個畫面暗紅＝鏡頭跟在背後、卡進牆裡）：上班時轉到櫃台外面看祐廷，下班轉回來 */
+  { world(); clerkNPC(); H.E.cam={yaw:1.234,manualT:3}; const s4=JOBS.workSpot(GM,'yue'); JOBS.workOn(GM,'yue'); const on=H.E.cam.yaw; JOBS.workOff(GM); check('A2. 上班鏡頭轉到客人那一邊（cam.yaw＝祐廷面對的方向；修改前：不動，留在背後的牆裡），下班轉回原本的方向',!!s4&&on===s4.yaw&&H.E.cam.yaw===1.234,J([s4,on,H.E.cam])); delete H.E.cam; }
   /* 舊的打工（早午餐）照舊不動 */
   { const b=TD('Y1S2',4,6); fresh(b,7,'wz_brunch',{}); hire('brunch',[6]); world(); JOBS.workOn(GM,'brunch'); check('A2. 舊的打工（早午餐）不在這一批：不動',P.jobWork==null&&!P.obj.userData.carryOff); }
   check('A2. 沒有圍裙模型：祐廷（char.yuting）身上沒有 apron 這個配件——只做站位＋藏包',(()=>{ const s=fs.readFileSync(path.join(H.ROOT,'src/character3d.js'),'utf8'), m=/'char\.yuting':\[([^\]]*)\]/.exec(s); return !!m&&!/apron/.test(m[1]); })());
