@@ -5,8 +5,8 @@
   ③ 走回遠點，站 5 秒：貼圖數、draw call 有沒有降回去
   ④ 再來回兩趟（共三趟）：每趟到中間點、回遠點各記一次 heap（GC 後）、貼圖數、物件數
 輸出：xsperf_<TAG>.json＋run.log 總表。PC GPU 無視窗（config）；SOLO 跑。Windows＋GPU ≠ 使用者那台。
-CC_02 清單 2026-11-12：1✓（新生南路 14:00、店開著；SHA 由佇列給） 2✓（門、站點全從遊戲讀：出口互動點、E.canStand） 3✓（中間點、遠點都依序找第一個站得住的） 4n/a（不按任何按鈕，只走路） 5✓（go_to 分段走、到不了記位置） 6✓（讀檔後等 8 秒、每站停 5 秒再量） 7✓ 8n/a（不判快慢；數字交 LAWWW） 9n/a（不截圖判畫面） 10n/a（條件事件關掉、沒有選單） 11✓ 12✓（記真的走到的位置和距離） 13✓（每段記走了幾秒、到了沒）
-用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [PAIR=xs_dabu,xs_haopai FAR=45 TRIPS=3] python3 cc_xs_inside_perf_probe.py <url> <out>"""
+CC_02 清單 2026-11-12：1✓（ZONE／DAY／HOUR 由佇列給：新生南路 14:00、汀州路 14:00 和星期六 19:30 夜市；SHA 由佇列給） 2✓（門、站點全從遊戲讀：出口互動點、E.canStand） 3✓（中間點、遠點都依序找第一個站得住的） 4n/a（不按任何按鈕，只走路） 5✓（go_to 分段走、到不了記位置） 6✓（讀檔後等 8 秒、每站停 5 秒再量） 7✓ 8n/a（不判快慢；數字交 LAWWW） 9n/a（不截圖判畫面） 10n/a（條件事件關掉、沒有選單） 11✓ 12✓（記真的走到的位置和距離） 13✓（每段記走了幾秒、到了沒）
+用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONE=xinsheng DAY=2025-10-22 HOUR=14 PAIR=xs_dabu,xs_haopai FAR=45 TRIPS=3] python3 cc_xs_inside_perf_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -20,7 +20,9 @@ PAIR = (os.environ.get('PAIR') or 'xs_dabu,xs_haopai').split(',')
 FAR = float(os.environ.get('FAR') or '45'); TRIPS = int(os.environ.get('TRIPS') or '3')
 R = L.Run('xsperf_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-DAY = '2025-10-22'
+DAY = os.environ.get('DAY') or '2025-10-22'
+ZONE = os.environ.get('ZONE') or 'xinsheng'   # LAWWW-C 07:55：汀州路（tingzhou）同一套量法
+HOUR = float(os.environ.get('HOUR') or '14')
 
 EXITS = r"""(()=>GAME.E.interactables.filter(i=>i.exit&&!i.hidden).map(i=>({label:i.label, to:i.exit.to, x:+i.x.toFixed(2), z:+i.z.toFixed(2)})))()"""
 FIND = r"""((a)=>{ const E=GAME.E, lv=0; const ok=(x,z)=>E.canStand(x,z,0.35,lv);
@@ -49,9 +51,9 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
-        s = await D.load_zone(pg, cdp, 'xinsheng', DAY, 14.0, wait=8000)
-        R.setup('【前置／捷徑】讀檔到新生南路 %s 14:00（條件事件關掉）' % DAY)
-        if not R.check('讀到新生南路', s['zone'] == 'xinsheng', J(s)): await b.close(); sys.exit(1)
+        s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=8000)
+        R.setup('【前置／捷徑】讀檔到 %s %s %.2f（條件事件關掉）' % (ZONE, DAY, HOUR))
+        if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
 
         async def gc():
             try: await cdp.send('HeapProfiler.enable'); await cdp.send('HeapProfiler.collectGarbage'); await pg.wait_for_timeout(400)
@@ -69,13 +71,13 @@ async def main():
             return {'ok': bool(ok), 'frames': st, 'raw_max_idx': t.index(max(t)) if t else None}
 
         exs = await pg.evaluate(EXITS); d1 = next((e for e in exs if e['to'] == PAIR[0]), None); d2 = next((e for e in exs if e['to'] == PAIR[1]), None)
-        if not R.check('新生南路有 %s、%s 兩個門' % (PAIR[0], PAIR[1]), bool(d1 and d2), J(exs)): await b.close(); sys.exit(1)
+        if not R.check('%s 有 %s、%s 兩個門' % (ZONE, PAIR[0], PAIR[1]), bool(d1 and d2), J(exs)): await b.close(); sys.exit(1)
         pts = await pg.evaluate(FIND, {'d1': d1, 'd2': d2}); res['points'] = pts; res['doors'] = [d1, d2]
         if not R.check('找得到中間點和遠點（≥%d m）' % FAR, bool(pts.get('mid') and pts.get('far') and pts['far']['d'] >= FAR * 0.6), J(pts)): await b.close(); sys.exit(1)
         R.note('門 %s；中間點 %s；遠點 %s（離中間點 %s m）' % (J([d1, d2]), J(pts['mid']), J(pts['far']), pts['far']['d']))
         mid, far = pts['mid'], pts['far']
         R.setup('【前置／捷徑】先讀檔站到遠點（不量讀檔那一下）')
-        s = await D.load_zone(pg, cdp, 'xinsheng', DAY, 14.0, x=far['x'], z=far['z'], wait=8000)
+        s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=far['x'], z=far['z'], wait=8000)
         await pg.wait_for_timeout(2000)
         res['far0'] = await stand('① 遠點（基準）')
         res['trips'] = []
