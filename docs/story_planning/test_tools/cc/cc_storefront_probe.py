@@ -53,6 +53,10 @@ async def main():
             if DOOR:
                 f = await pg.evaluate(FIND_DOOR, {'z': z, 'd': 4.5})
                 if not R.check('%s 街上找得到進店的門' % z, bool(f), ''): res.append({'zone': z, 'skip': f}); continue
+                # CC-C 12:1x：室內模型「走近才顯示」——先【捷徑】把祐廷放到門前 3 m 等 3 秒（舊版沒放：南洋 23:30 看進去是空的暗室）
+                await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); })", {'x': f['x'] + f['n'][0] * 3, 'z': f['z'] + f['n'][1] * 3}); await pg.wait_for_timeout(3000)
+                sr = await pg.evaluate("(z=>{ const S=GAME.E.zone&&GAME.E.zone.shopReal, s=S&&(S.shops||[]).find(q=>q.place===z); return s?{on:!!s.on, built:!!s.built, shutter:s.shutter?s.shutter.visible:null}:null; })", z)
+                R.setup('%s 【捷徑】祐廷放到門前 3 m 等 3 秒；室內 %s' % (z, json.dumps(sr, ensure_ascii=False)))
                 c = await D.user_shot(pg, cdp, 'door_%s_%s' % (z, TAG), {'eye': f['eye'], 'look': f['look'], 'lens': 18}, hide_player=True)
                 R.note('%s 正對門：門 (%s, %s)「%s」朝外 %s（%s）、鏡頭 %s（站得住=%s）' % (z, f['x'], f['z'], f['label'], f['n'], f['how'], f['eye'], f['standEye']))
                 res.append({'zone': z, 'door': f, 'cam': c}); continue
