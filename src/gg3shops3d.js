@@ -271,9 +271,9 @@ const GG3=(function(){
 
   /* ---------- 汀州路的雜貨店（TZ_GROCERY_LINES；東南大聯商行）：到貨架拿、到櫃檯結帳 ---------- */
   /* 手上的東西：只記這一趟進店（區域＋GM.enterN）；不進存檔。走出去、讀檔（LOADLOCKS）＝沒有了 */
-  let hand={k:null,n:-1,ids:[]};
-  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['gg3shops3d:hand']=()=>{ hand={k:null,n:-1,ids:[]}; };
-  S.hand=function(GM){ const k=GM.G.zone, n=GM.enterN|0; if(hand.k!==k||hand.n!==n) hand={k,n,ids:[]}; return hand.ids; };
+  let hand=null;   /* null＝手上沒東西（LOADLOCKS 只能登記「名字=null」這種放開，tests/loadgen_locks_unit.js）*/
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['gg3shops3d:hand']=()=>{ hand=null; };
+  S.hand=function(GM){ const k=GM.G.zone, n=GM.enterN|0; if(!hand||hand.k!==k||hand.n!==n) hand={k,n,ids:[]}; return hand.ids; };
   S.handGoods=function(GM){ const X=D()[GM.G.zone].grocery, ids=S.hand(GM); return ids.map(id=>X.goods.find(g=>g.id===id)).filter(Boolean); };
   const handHint=gs=>gs.map(g=>g.n).join('、')+'　共 '+gs.reduce((a,g)=>a+g.p,0)+' 元';
   /* 買回來的東西（「物品」；X277、X291）：G.flags.GG3_OWN＝{區域:{id:幾份}}。S.own 只讀（舊存檔、壞掉的資料＝空的，不寫存檔）；S.ownAdd 買了才寫 */
