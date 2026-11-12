@@ -213,6 +213,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
       <label class="opt"><input type="checkbox" id="setGuide" checked> 導航：目標方向箭頭、小地圖路線、目的地入口標成金色</label>
       <label class="opt"><input type="checkbox" id="setClassRemind" checked> 上課前 30 分鐘提醒</label>
       <label class="opt"><input type="checkbox" id="setWakeMenu" checked> 起床時問我要不要去上課</label>
+      <label class="opt"><input type="checkbox" id="setHints" checked> <span id="setHintsLabel">提示：第一次遇到新的情況時，顯示一行說明</span></label>
       <label class="opt">音量 <input type="range" id="setVol" min="0" max="1" step="0.05" value="0.6"></label>
       <label class="opt">文字速度 <select id="setSpeed"><option value="1">慢</option><option value="2" selected>中</option><option value="3">快</option><option value="9">立即</option></select></label>
       <label class="opt"><input type="checkbox" id="setFps"> 顯示 FPS</label>
@@ -221,7 +222,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
       <div class="muted" style="margin-top:10px">操作：點地面走過去（遠處會用跑的）／拖曳旋轉鏡頭／雙指縮放／鍵盤 WASD＋Shift。</div>
       <div class="row2" style="margin-top:14px"><button class="btn warn" id="btnTitle">回到標題</button></div>
     </div>
-    <div class="tab" id="tab-help"><div class="item">《法條之外：台灣法律人生》3D 原型。你是首都帝大法律系一年級的學生。走進法學院、椰影大道、公館與溫州街，上課、讀案例、和朋友一起度過一個下午。</div><div class="item"><b>互動</b>：靠近人或物件時，右下角會出現按鈕。<br><b>時間</b>：在外面走動時時間會慢慢流動；上課、讀書、聊天會直接推進時間。</div><div class="item muted">本作品所有人物與故事皆為虛構。多數 NPC 模型為程序化生成的暫代模型（placeholder），並非最終美術。<br><b>Credits</b>：玩家模型「Seed-san」by VirtualCast, Inc.（VRM Public License 1.0，本作修改服裝）；小安 3D 模型 VRM1_Constraint_Twist_Sample © pixiv Inc.；three.js（MIT）、@pixiv/three-vrm（MIT）；環境模型 CC0（Kenney、market.pmnd.rs）；Mixamo 動畫（Adobe）。詳見 LICENSES.md。</div></div>
+    <div class="tab" id="tab-help"><div id="helpBox"><div class="item muted">本作品所有人物與故事皆為虛構。<br>Seed-san by VirtualCast, Inc.（VRM Public License 1.0）<br>完整的素材出處見 LICENSES.md。</div></div></div>   <!-- 說明頁的內容由 src/hints3d.js 照 src/data/help_text.js 畫進 #helpBox（HELP-GUIDE-1110）；這裡的三行是資料沒載到時的保底，署名那一行不能拿掉 -->
   </div></div>
   <div id="titleScreen" class="panel"><div class="card">
     <h1>法條之外</h1><div class="sub">台灣法律人生 · 3D 原型</div>
@@ -420,6 +421,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/door3d.js?v=9.10.25"></script>
 <script src="src/libquiet3d.js?v=9.10.25"></script>
 <script src="src/journal3d.js?v=9.10.25"></script>
+<script src="src/data/help_text.js?v=9.10.25"></script>
+<script src="src/hints3d.js?v=9.10.25"></script>
 <script src="src/game3d.js?v=9.10.25"></script>
 <script src="src/perfpanel3d.js?v=9.10.25"></script>
 <script src="src/guide3d.js?v=9.10.25"></script>
