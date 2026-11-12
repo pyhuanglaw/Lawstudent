@@ -171,6 +171,16 @@
    "status": "規則（永久）",
    "task": "ROLE-CC-1102",
    "note": "寫成 docs/story_planning/CC/CC_02_探針錯誤與防範規則.md（cc-testing 6174a08a2f）：甲 排除流程六步、乙 12 類錯誤（CC_01 實例＋規則）、丙 寫探針檢查清單；CC_00 開頭加必讀；LAWWW 在 ROLE_CC.md 加接班必讀（D151，開發分支 d90c8a4fe）。之後每判一個 TEST_BUG 就補一行"
+  },
+  {
+   "id": "UA-CC-1112-02",
+   "at": "2026-11-12T05:3xZ",
+   "quote": "你該測試的都已經測試完了嗎？因為我的電腦又沒有在跑……你有沒有把這個你要檢查電腦有沒有在跑寫進規則？……雲端跑的速度比電腦慢很多……github action 也可以跑node測試……每次換帳號，我就要重新說一次到底有沒有寫進去每個帳號每個角色都會看到規則",
+   "kind": "原話",
+   "wants": "X344",
+   "status": "規則（永久）",
+   "task": "ROLE-CC-1102",
+   "note": "cc-testing 06aec5e383：停雲端、20 項直接排電腦；CC_02 丁5 改『直接排電腦』、加戊『電腦不能閒著』；cc-testing 根目錄 CLAUDE.md、docs/rules 照抄 RULE_SOURCE 4e248bb55（原本是 10 月舊版，CC 開機自動載入的就是它）；已請 LAWWW-C 把 A（共同）B（ROLE_CC）寫進規則、給 D 編號，並檢查其他職位分支的 CLAUDE.md 是否也是舊版"
   }
  ]
 }
