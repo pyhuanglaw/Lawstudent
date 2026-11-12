@@ -56,7 +56,7 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   const OE=require('./overlay_expect.js');
   const inSpecSR=t=>OE.inDoc('invites',null,t,t=>inSpec(t)||(!!spec4&&spec4.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''))));
   { const SR=INVITE_DATA.slowreadLines||{}, all=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; const L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L) all.push(typeof x==='string'?x:[].concat(x.l||[]).join('')); }
-    const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpecSR(t)) bad.push(id+'.'+k+':'+t); } }
+    const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpecSR(t)&&!require('./canon1112_ok.js').ok(t)) bad.push(id+'.'+k+':'+t);   /* （CANON 第五批：AA_916 換字）*/ } }
     check('0. 七位的慢讀台詞（first／acc／plan／here／firstAt／walk）每一句都在稿上（一字照稿；語彤的 walk 照 AA_535b 4-1 更正）',Object.keys(SR).length===7&&bad.length===0&&all.length>50,J(bad));
     /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：沛珊一起念書的旁白 F 換了字（原本「她把一個問題寫在便利貼上，貼到你的書上。」）——這一句對 AA_763（tests/peishan_misc3_1111_unit.js），不在 AA_535 */
     const PS763_F='她在便利貼上畫了一隻打瞌睡的貓，貼到你的書上。';

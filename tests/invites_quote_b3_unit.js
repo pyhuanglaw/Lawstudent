@@ -40,6 +40,13 @@ const noComments=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');
 const LIT=/'((?:[^'\\\n]|\\.)*)'/g;
 /* 這一批以後劇情另外改的字（不是拿掉「」）：AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 8 列（學姊婉拒第四句）、第 64 列（心意版期末飯大四上那一句）——BASE 先照它換再比（第 11、12、14 項）*/
 const LATER=[ /* （CANON-NO-ECON-1112 第四批：照 AA_897 第 2 節換字；舊字用 \u 寫，D158）*/
+  ['src/data/termend_lines.js',"'……你不准趁我不在，去別家喝咖啡。'","'你不准趁我不在，去別家喝咖啡。'"],   /* （CANON 第五批：AA_906／AA_910 直接換字） */
+  ['src/data/termend_lines.js',"'……六月的週五，你先全部給我。'","'六月的週五，你先全部給我。'"],   /* （CANON 第五批：AA_906／AA_910 直接換字） */
+  ['src/data/termend_lines.js',"'……第一杯，我還是做給你。坐。'","'第一杯，我還是做給你。坐。'"],   /* （CANON 第五批：AA_906／AA_910 直接換字） */
+  ['src/data/termend_lines.js',"'……今天的咖啡不是我做的，學妹做的。你喝喝看。比我好喝的話，我會生氣。'","'今天的咖啡不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。'"],   /* （CANON 第五批：AA_906／AA_910 直接換字） */
+  ['src/data/termend_lines.js',"'……好啦。那你想。想太久我會跑掉喔。'","'好啦。那你想。想太久我會跑掉喔。'"],   /* （CANON 第五批：AA_906／AA_910 直接換字） */
+  ['src/data/termend_lines.js',"'……真的假的。我加進去。'","'真的假的。我加進去。'"],   /* （CANON 第五批：AA_906／AA_910 直接換字） */
+  ['src/data/termend_lines.js',"'……他會得意。我已經看到他得意的臉了。'","'他會得意。我已經看到他得意的臉了。'"],   /* （CANON 第五批：AA_906／AA_910 直接換字） */
   ['src/data/termend_lines.js','nccu:{name:\'\u6728\u67f5\u5927\u5b78\u6b63\u9580\',h:18,bg:\'nccu_food\',open:\'\uff08\u5c71\u4e0b\u90a3\u5bb6\u5e97\uff0c\u5979\u9ede\u4e86\u5169\u4eba\u4efd\uff0c\u6c92\u6709\u554f\u4f60\u3002\uff09\',close:\'\uff08\u5979\u9001\u4f60\u5230\u505c\u8eca\u5834\uff0c\u7ad9\u8457\u7b49\u4f60\u5012\u8eca\u51fa\u53bb\u3002\uff09\',miss:[\'\u6211\u5728\u6b63\u9580\u7b49\u4e86\u4e00\u4e0b\',\'\u4f60\u9084\u597d\u55ce\']} };','nccu:{name:\'\u5b78\u6821\u5f8c\u9580\u30fb\u6e6f\u9903\u5e97\',h:18,bg:\'dark\',open:\'\uff08\u5f8c\u9580\u90a3\u5bb6\u5e97\uff0c\u5979\u9ede\u4e86\u5169\u4eba\u4efd\uff0c\u6c92\u6709\u554f\u4f60\u3002\uff09\',close:\'\uff08\u5979\u966a\u4f60\u8d70\u56de\u5bbf\u820d\u5340\uff0c\u5728\u8def\u53e3\u505c\u4e0b\u4f86\u3002\uff09\',miss:[\'\u6211\u5728\u6b63\u9580\u7b49\u4e86\u4e00\u4e0b\',\'\u4f60\u9084\u597d\u55ce\']} };   /* CANON-NO-ECON-1112 \u7b2c\u56db\u6279\uff1a\u7167 AA_897 \u7b2c 2 \u7bc0\u63db\u5b57\uff08key \u7167\u820a nccu\uff0c\u820a\u5b58\u6a94\u8b80\u5b83\uff09\uff1bmiss \u90a3\u5169\u53e5\u7a3f\u6c92\u5217\u3001\u7167\u7559 */'],
   ['src/data/termend_lines.js','\'\u9019\u6b21\u63db\u5c71\u4e0a {\u54ea\u5929} \u6728\u67f5\u5927\u5b78\u6b63\u9580\u516d\u9ede\'','\'{\u54ea\u5929} \u5f8c\u9580\u90a3\u5bb6 \u516d\u9ede\''],
   ['src/data/termend_lines.js','\'{\u54ea\u5929} \u6728\u67f5\u5927\u5b78 \u516d\u9ede\'','\'{\u54ea\u5929} \u5f8c\u9580\u90a3\u5bb6 \u516d\u9ede\''],
