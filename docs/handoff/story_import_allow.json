@@ -9557,16 +9557,20 @@
   },
   {
    "path": "docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md",
-   "sha": "943f66532",
+   "sha": "f6aa917593",
    "status": "approved",
-   "approvedBy": "AA-C 定（D109，稿上寫明）；使用者 11-05 06:5x 原話（X237）；LAWWW-C 11-12 接",
+   "approvedBy": "AA-C 定（D109，稿上寫明）；使用者 11-05 06:5x 原話（X237）；LAWWW-C 11-12 接；f6aa917593（AA-C 11-12 10:2x 第 3 節第 6 點（a21a9ddc6 起）：法服海報完整新句）",
    "task": "CLUB-BOARD-INFO-1105",
    "kind": "md",
-   "note": "社團布告欄：五個社團的活動時間、地點、怎麼加入——tools/story/import_club_board.py → src/data/club_board.js；src/clubboard3d.js 播放；第 2 節法服兩句手改 club_fair.js、activities.js",
+   "note": "社團布告欄：五個社團的活動時間、地點、怎麼加入——tools/story/import_club_board.py → src/data/club_board.js；src/clubboard3d.js 播放；第 2 節法服兩句手改 club_fair.js、activities.js；2026-11-12 改到 f6aa917593（多第 3 節第 6 點（activities.js 法服海報 text／textLater 完整新句；遊戲 7e404a6220 已經照改）；布告欄五張的字沒動）",
    "history": [
     {
      "sha": "4f5f78fd23",
      "note": "被 943f66532 取代（第 3 節：沒有活動的學期多一句、開頭用 AA_648 隨機句、兩句舊說法）"
+    },
+    {
+     "sha": "943f66532",
+     "note": "被 f6aa917593 取代（多第 3 節第 6 點（activities.js 法服海報 text／textLater 完整新句；遊戲 7e404a6220 已經照改）；布告欄五張的字沒動）"
     }
    ]
   },
@@ -9610,12 +9614,18 @@
   },
   {
    "path": "docs/story_planning/AA_852_club_later_terms.json",
-   "sha": "b039356f5",
+   "sha": "f6aa917593",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過：系籃 Y1S2 一句改）」；D100b）",
+   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過：系籃 Y1S2 一句改）」；D100b）；f6aa917593（AA-C 11-12 回 LAWWW：_meta.lawww_1112 三點＋系籃 Y1S2 下雨句改字）",
    "task": "CLUB-LATER-TERMS-1112",
    "kind": "json",
-   "note": "辯論社、登山社、系籃大一下～大二下的社課旁白（每社每學期一組，共 51 句；分支 claude/magical-albattani-bk7b4n）：tools/story/import_club_later_terms.py → src/data/club_later_terms.js（CLUB_LATER_TERMS）。旁白一字照稿；activities.js 這三社的 term 照稿的 rule 手改成 Y1S1～Y2S2；演出 src/classes3d.js clubNarr。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+   "note": "辯論社、登山社、系籃大一下～大二下的社課旁白（每社每學期一組，共 51 句；分支 claude/magical-albattani-bk7b4n）：tools/story/import_club_later_terms.py → src/data/club_later_terms.js（CLUB_LATER_TERMS）。旁白一字照稿；activities.js 這三社的 term 照稿的 rule 手改成 Y1S1～Y2S2；演出 src/classes3d.js clubNarr。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核；2026-11-12 改到 f6aa917593（_meta.lawww_1112：大一下起布告欄另一版字、每學期最後那一句綁最後一個有社課的週、系籃下雨句；系籃 Y1S2 下雨句「練傳球」改「練體能」）",
+   "history": [
+    {
+     "sha": "b039356f5",
+     "note": "被 f6aa917593 取代（_meta.lawww_1112：大一下起布告欄另一版字、每學期最後那一句綁最後一個有社課的週、系籃下雨句；系籃 Y1S2 下雨句「練傳球」改「練體能」）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_850_us_markets_buy.json",

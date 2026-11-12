@@ -1,6 +1,8 @@
 // 社團布告欄「看看」（CLUB-BOARD-INFO-1105、X237；AA_701@4f5f78fd23；src/clubboard3d.js、src/data/club_board.js）。不需要瀏覽器。
 // 用法：node tests/club_board_1112_unit.js。這是 Node 模擬（真正的 CALENDAR、ACTIVITIES、CLUB_BOARD、CLUBBOARD；GM 是假的），不是玩家在瀏覽器裡的流程。
 //   0 資料和白名單上的稿一致（匯入工具 --check）；1 照學期列哪幾張；2 社博以前多一行；3 看的流程（開頭 → 選一張兩句 → 最後一行）；4 日常失速東牆接的是這一份；5 法服兩句不再寫隔週
+//   6 2026-11-12（AA_852＠f6aa917593 _meta.lawww_1112 第 3 點）：辯論社、登山社、系籃大一下起的另一版字——「怎麼加入」＝稿的新句、「活動時間」不寫「開學第五週起」、括號裡是那一學期實際有社課的週次；
+//     大一上、吉他社、法服照舊。第 0～5 項沒有載入 club_later_terms.js＝舊稿的樣子（照舊）；第 6 項載入以後再看。白名單 AA_701 換 f6aa917593（943f66532 進 history）。
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..'), J=JSON.stringify;
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
@@ -40,5 +42,26 @@ global.STORY={dayOfKey:dayOf};
   check('4. 日常失速東牆「看社團佈告欄」（offLook clubs）接 CLUBBOARD.look；index.html 在 offbeat_sys3d.js 以前載入 club_board.js、clubboard3d.js',/it\.offLook==='clubs'[^\n]*CLUBBOARD\.look\(GM,\{intro:g=>S\.look\(g,'clubs'\)\}\)/.test(off)&&idx.indexOf('src/data/club_board.js')>0&&idx.indexOf('src/clubboard3d.js')>idx.indexOf('src/data/club_board.js')&&idx.indexOf('src/clubboard3d.js')<idx.indexOf('src/offbeat_sys3d.js'));
   const cf=fs.readFileSync(path.join(ROOT,'src/data/club_fair.js'),'utf8'), ac=fs.readFileSync(path.join(ROOT,'src/data/activities.js'),'utf8');
   check('5. AA_701 第 2 節：法服攤 after、lawclub_study.whenText 換成新句（不再寫隔週週六）',cf.includes("'有民眾預約才開，前一天晚上群組會講。第一次站旁邊聽就好。'")&&!cf.includes('隔週週六九點')&&ac.includes("whenText:'有預約的週六上午，法律系館B一樓（前一天晚上群組通知）'"));
+  /* ===== 6 大一下起的另一版字 ===== */
+  { const e701=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(x=>/AA_701_/.test(x.path));
+    check('6. 白名單 AA_701＠f6aa917593（approved；943f66532 在 history）；資料檔的來源寫同一版（舊期望：943f66532）',e701.length===1&&e701[0].status==='approved'&&e701[0].sha==='f6aa917593'&&(e701[0].history||[]).some(h=>h.sha==='943f66532')&&/@f6aa917593$/.test(CLUB_BOARD.src),J(e701.map(x=>x.sha)));
+    const dT=(T,w)=>{ for(let d=expo-30;d<expo+1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===T&&t.week===w) return d; } return null; }, row=id=>CLUB_BOARD.rows.find(r=>r.act===id), THREE=['club_debate','club_hiking','dept_basketball'];
+    const before=THREE.map(id=>J(CLUBBOARD.cardLines(row(id),mk(dT('Y1S2',3)))));
+    check('6. 沒有載入 club_later_terms.js（舊稿、資料沒有 board）：大一下照舊是原本那兩句',THREE.every((id,i)=>before[i]===J([row(id).club+'｜'+row(id).when,'怎麼加入：'+row(id).join+'　「'+row(id).say+'」']))&&typeof CLUB_LATER_TERMS==='undefined');
+    load('src/data/club_later_terms.js'); const B=CLUB_LATER_TERMS.board, WK='第 5～7、10～15 週';
+    check('6. 資料 CLUB_LATER_TERMS.board＝{from Y1S2, join「直接來社課，跟幹部說一聲就可以加入」, noWhen「開學第五週起」}（匯入工具從稿的 lawww_1112 第 3 點讀）；五張原本的「活動時間」都有（開學第五週起）或沒有括號',J(B)===J({from:'Y1S2',join:'直接來社課，跟幹部說一聲就可以加入',noWhen:'開學第五週起'})&&THREE.every(id=>row(id).when.endsWith('（'+B.noWhen+'）')));
+    check('6. 週次照 activities.js 排：三社每學期第 5、6、7、10～15 週＝「'+WK+'」；吉他社大二上（termWeeks 第 3 週起）＝「第 3～7、10～15 週」',THREE.every(id=>['Y1S2','Y2S1','Y2S2'].every(T=>CLUBBOARD.weeksText(id,T)===WK))&&CLUBBOARD.weeksText('club_guitar','Y2S1')==='第 3～7、10～15 週'&&CLUBBOARD.weeksText('沒有這個','Y1S2')==='');
+    const bad=[];
+    for(const T of ['Y1S2','Y2S1','Y2S2']) for(const id of THREE){ const r=row(id), L=CLUBBOARD.cardLines(r,mk(dT(T,3))), base=r.when.slice(0,-('（'+B.noWhen+'）').length);
+      if(J(L)!==J([r.club+'｜'+base+'（'+WK+'）','怎麼加入：'+B.join+'　「'+r.say+'」'])||/開學第五週起|社團博覽會/.test(L.join(''))) bad.push(T+' '+id+' '+J(L)); }
+    check('6. 辯論社、登山社、系籃大一下、大二上、大二下：「活動時間」＝原本的時間地點＋（'+WK+'）、不寫「開學第五週起」；「怎麼加入：直接來社課，跟幹部說一聲就可以加入」＋原本那一句話（修改前：還寫社團博覽會填表、開學第五週起）',!bad.length,bad.join('｜'));
+    const y1=THREE.map(id=>J(CLUBBOARD.cardLines(row(id),mk(dY1S1))));
+    check('6. 大一上照舊（三社都是原本那兩句：社團博覽會填表、開學第五週起）；寒假裡看＝照接下來的大一下＝新的那一版',THREE.every((id,i)=>y1[i]===before[i])&&dBreak!=null&&CLUBBOARD.cardLines(row('club_debate'),mk(dBreak))[1]==='怎麼加入：'+B.join+'　「'+row('club_debate').say+'」');
+    const g=row('club_guitar'), lw=row('lawclub_study');
+    check('6. 吉他社、法服：稿沒有改，大一下照舊是原本那兩句',J(CLUBBOARD.cardLines(g,mk(dT('Y1S2',3))))===J([g.club+'｜'+g.when,'怎麼加入：'+g.join+'　「'+g.say+'」'])&&J(CLUBBOARD.cardLines(lw,mk(dT('Y1S2',3))))===J([lw.club+'｜'+lw.when,'怎麼加入：'+lw.join+'　「'+lw.say+'」']));
+    const a=await run(dT('Y1S2',3),[want('Y1S2').indexOf('辯論社'),9]);
+    check('6. 大一下真的看一次辯論社那一張：開頭 → 那兩句新字 → 最後一行',J(a.said)===J([CLUB_BOARD.intro,'辯論社｜社課：週二 19:00～21:00，博思 201（'+WK+'）','怎麼加入：直接來社課，跟幹部說一聲就可以加入　「題目我們出，立場用抽的。」',CLUB_BOARD.last]),J(a.said));
+    const cb=fs.readFileSync(path.join(ROOT,'src/clubboard3d.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');
+    check('6. src/clubboard3d.js（註解以外）沒有手打稿的字（「直接來社課」「開學第五週起」都從資料讀）',!/直接來社課|跟幹部說一聲|開學第五週起/.test(cb)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();
