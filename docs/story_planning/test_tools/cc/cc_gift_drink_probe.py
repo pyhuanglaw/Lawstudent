@@ -10,9 +10,11 @@
   注意：遊戲 105d 的 src/data/gift_lines.js 是 AA_710@31c1c4e2c 匯入的，沒有 86619c119 新增的八格 opinion（yes／no／ctx 兩版一字相同，已比對）。
     所以挑到「AA_710 定稿有專屬句」的品項（可昕 百香果綠茶、沛珊 葡萄柚多多、學姊「紅茶」…）時，期望＝專屬句，遊戲會演一般句＝FAIL，判「遊戲還沒匯入定稿八格」（不是探針錯）。
 CASES（每一 case：一間店 → 一位女主角；DRINK_<CASE> 可換品項）：
-  L118  118 巷果茶社 → 可昕（預設 百香果綠茶）。可昕法律系那幾年沒有作息（src/data/characters.js 可昕那一段：「平常不在台大：沒有作息、不出現在 3D 校園」；daily_schedule＝[]），
-        STORY.whereIs 永遠是「在木柵大學」；約好的見面她才在 3D，可是按說話＝INV.meet 那一場（story3d.js talkCharacter 先問 INV.meetable），不走 offerInvite＝沒有「送她…」。
-        探針照實掃（每 2 天、8～23 點）＋讀原始碼那一句當證據，找不到＝記「未驗（可昕在 3D 當面送不到）」，不假裝送了。買的那一段照樣真的走、真的買。SUB_L118＝別的女主角 id（例 heroine_01）才另外送她。
+  L118  118 巷果茶社 → 可昕（預設 百香果綠茶＝AA_710 定稿她有專屬句的那一樣）。可昕平常沒有作息（src/data/characters.js 可昕那一段：「平常不在台大：沒有作息、不出現在 3D 校園」），
+        但店內遇得到的人（src/data/shop_npc.js bookstore_kx，AA_705 第二批：大一下起雙數週週六 14:00～15:30 在頁間書屋法律書那一櫃前面，交往中也出、那一天跟你有約才不出）
+        會排進 STORY.SCHED_X＝STORY.whereIs 有「bookstore」、按說話走 story3d.js talkCharacter → offerInvite（有「送她…」）。
+        探針先掃 STORY.whereIs('kexin')（每 2 天、8～23 點）＋讀原始碼那一句：有在 3D 的格子＝從第一個那一天起照其他兩位的做法買、送；一格都沒有＝只買、記「未驗」，不假裝送了。
+        SUB_L118＝別的女主角 id（例 heroine_01）＝這杯改送她。
   TEA   溫州街帝大紅茶 → 學姊 heroine_05（預設 紅茶（中））。
   NM    汀州路夜市沈三盃黑糖鮮奶 → 沛珊 classmate_peishan（預設 黑糖鮮奶）。
   每一 case：day46 存檔（大一上，法律系）→ 掃 21 天裡「店開著、她在 3D（不在上課、半小時後還在）、不是期末週」的日子，依序試前 3 個 →
@@ -104,7 +106,7 @@ HER_JS = r"""(id=>{ const G=GAME.G, f=G.flags||{}, R=f.romance||{}, g=f.GIFT||{}
 # 可昕：掃她在 3D 的時段（每 step 天、8～23 點）；原始碼那一句當證據
 KX_JS = r"""(async a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday,zone:G.zone}; let n=0, hit=[], away={}, err=null; const c=CHARACTERS.kexin||{};
   try{ for(let d=a.d0; d<a.d1; d+=a.step){ for(let h=8; h<=23; h++){ G.day=d; G.hour=h+0.1; G.weekday=CALENDAR.dateOf(d).wd%7; let w=null; try{ w=STORY.whereIs(GAME,'kexin'); }catch(e){ err=String(e).slice(0,120); } n++;
-        if(w&&w.zone){ if(hit.length<5) hit.push([CALENDAR.dateOf(d).key,h,w.zone,w.act||'']); } else { const k=(w&&w.away)||'null'; away[k]=(away[k]|0)+1; } } } }
+        if(w&&w.zone){ if(hit.length<8) hit.push([CALENDAR.dateOf(d).key,h,w.zone,w.act||'',d]); } else { const k=(w&&w.away)||'null'; away[k]=(away[k]|0)+1; } } } }
   finally{ Object.assign(G,keep); }
   let src=null; try{ const t=await (await fetch('src/data/characters.js')).text(); const i=t.indexOf('平常不在台大'); src=i>=0?t.slice(Math.max(0,i-40),i+60):null; }catch(e){ src='讀不到：'+e; }
   return {n, hit, away, err, sched:Array.isArray(c.daily_schedule)?c.daily_schedule.length:null, src, npcNow:!!(GAME.npc&&GAME.npc.kexin)}; })"""
@@ -404,14 +406,18 @@ async def run_case(pg, cdp, cname, errs):
     if cd['who'] == 'kexin':
         kx = await pg.evaluate(KX_JS, {'d0': b0['day'], 'd1': b0['day'] + 1400, 'step': 2}); row['kexin_scan'] = kx
         R.note('%s 可昕在 3D 的時段：掃 %d 格（每 2 天、8～23 點）、在 3D 的 %d 格 %s；不在的說法 %s；作息筆數 %s；原始碼：%s；現在畫面上有她：%s' % (tag, kx['n'], len(kx['hit']), J(kx['hit']), J(kx['away']), kx['sched'], J(kx['src']), kx['npcNow']))
-    sc = await pg.evaluate(SCAN_JS, {'shop': cd['shop'], 'who': cd['who'], 'd0': b0['day'], 'days': 21, 'max': 3, 'hours': [10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21], 'findHer': cd['who'] != 'kexin'})
+    d0 = b0['day']; find_her = True
+    if cd['who'] == 'kexin':   # 可昕：有她在 3D 的時段（src/data/shop_npc.js bookstore_kx：頁間書屋、大一下起雙數週週六 14:00～15:30）＝從第一個那一天起掃；一格都沒有＝只買、記未驗
+        if kx.get('hit'): d0 = kx['hit'][0][4]; R.note('%s 可昕有 3D 的時段：從 %s（第 %d 天）起掃' % (tag, kx['hit'][0][0], d0))
+        else: find_her = False
+    sc = await pg.evaluate(SCAN_JS, {'shop': cd['shop'], 'who': cd['who'], 'd0': d0, 'days': 21, 'max': 3, 'hours': [10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21], 'findHer': find_her})
     R.note('%s 掃到的日子：%s；被排掉的 %s' % (tag, J(sc['slots']), J(sc['why'])))
     if not R.check('%s 前置：21 天內找得到「店開著%s、不是期末週」的日子' % (tag, '' if cd['who'] == 'kexin' else '、她在 3D、半小時後還在'), bool(sc['slots']), J(sc['why'])): return
     for j, slot in enumerate(sc['slots']):
         t2 = '%s 候選 %d（%s）' % (tag, j + 1, slot['dkey']); row.setdefault('tries', []).append(slot)
         part, cup = await go_shop(pg, cdp, t2, cd, slot, errs); row.update(part)
         if not cup: return
-        if cd['who'] == 'kexin':
+        if slot.get('hh') is None:
             R.note('對照／觀察 %s 可昕：遊戲沒有她在 3D 可以說話、走 offerInvite 的時段（上面的掃描＋原始碼那一句）＝當面送「未驗」（照設計做不到，不假裝送了）；買的那一段照實判' % t2)
             row['give'] = '未驗：可昕在 3D 當面送不到'; return
         r = await go_her(pg, cdp, t2, cd, slot, cup, errs, row)
