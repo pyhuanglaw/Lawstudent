@@ -1,0 +1,39 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_choose_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BE1E_CHS2_N_bedffc_L\out
+  [   0.0s] CHOOSE 探針：SHA=be1e5d725 PARTS=['BEDFFC'] ORIENTS=['P', 'L'] MASHO=['L']；網址加 ?tapguard
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+  [  30.1s] BEDFFC_L：這一版有快轉確認（SEMFF.confirmText）
+  [  30.1s] [日子] 2025-11-12＝第 57 天（Y1S1 第 11 週，週3）的課：[{"key": "57:crim_gen1:am", "id": "crim_gen1", "name": "刑法總則（一）", "kind": "required", "t0": 9.167, "t1": 12.167, "zone": "classroom", "door": null, "room": "法律系館A 201", "exam": null, "week": 11, "term": "Y1S1"}, {"key": "57:service_1:pm1", "id": "service_1", "name": "服務學習（一）", "kind": "service", "t0": 13.333, "t1": 15.167, "zone": "lawlib", "door": "lawlib_desk", "room": "法律學院圖書館 櫃台", "exam": null, "week": 11, "term": "Y1S1"}]
+  [前置／捷徑] BEDFFC_week：讀同一份存檔（2025-11-12（第 57 天）9.50 時宿舍房間（第一堂 刑法總則（一） 9.17–12.17））（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [前置／捷徑] BEDFFC_week：站到互動點「睡覺」旁邊 {"x": -0.55, "z": 2.04, "R": 0.54}
+  [  57.7s] BEDFFC_week：床的選單 ["小睡 30 分鐘", "小睡 1 小時", "小睡 2 小時", "睡到傍晚（不設鬧鐘）", "快轉", "再撐一下"] → 照字選「快轉」
+  [  58.9s] BEDFFC_week：快轉選單 ["到下一個有事的時候", "過一週", "不用了"] → 照字選「過一週」
+  [  61.1s] BEDFFC_week：說明（全文）"快轉：過一週，最多到 11/19（三）07:30，中間有事會先停。現在正在上的刑法總則（一）會記成沒去。"；確認選單 [["算了", [430, 159, 400, 46]], ["快轉", [430, 213, 400, 46]]]
+  [  61.8s] BEDFFC_week：照字選確認的「快轉」
+  [  72.0s] BEDFFC_week：快轉完 第 57→58 天 8.875 時 dorm；途中選單 []；note 多出的 [{"key": "skip_57:crim_gen1:am", "day": 57, "id": "crim_gen1", "name": "刑法總則（一）"}]；說明寫的「會記成沒去」["刑法總則（一）"]
+PASS BEDFFC_week：說明裡寫的課都被記成沒去  [["刑法總則（一）"], ["刑法總則（一）"]]
+PASS BEDFFC_week：說明沒寫的課沒有被記成沒去  [["刑法總則（一）"], ["刑法總則（一）"]]
+  [前置／捷徑] BEDFFC_next：讀同一份存檔（2025-11-12（第 57 天）9.50 時宿舍房間（第一堂 刑法總則（一） 9.17–12.17））（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [前置／捷徑] BEDFFC_next：站到互動點「睡覺」旁邊 {"x": -0.55, "z": 2.04, "R": 0.54}
+  [  99.0s] BEDFFC_next：床的選單 ["小睡 30 分鐘", "小睡 1 小時", "小睡 2 小時", "睡到傍晚（不設鬧鐘）", "快轉", "再撐一下"] → 照字選「快轉」
+  [ 100.2s] BEDFFC_next：快轉選單 ["到下一個有事的時候", "過一週", "不用了"] → 照字選「到下一個有事的時候」
+  [ 102.4s] BEDFFC_next：說明（全文）"快轉：到下一個有事的時候，最多到 12/3（三）08:00，中間有事會先停。現在正在上的刑法總則（一）會記成沒去。"；確認選單 [["算了", [430, 159, 400, 46]], ["快轉", [430, 213, 400, 46]]]
+  [ 103.1s] BEDFFC_next：照字選確認的「快轉」
+  [ 113.5s] BEDFFC_next：快轉完 第 57→58 天 8.877 時 dorm；途中選單 []；note 多出的 [{"key": "skip_57:crim_gen1:am", "day": 57, "id": "crim_gen1", "name": "刑法總則（一）"}]；說明寫的「會記成沒去」["刑法總則（一）"]
+PASS BEDFFC_next：說明裡寫的課都被記成沒去  [["刑法總則（一）"], ["刑法總則（一）"]]
+PASS BEDFFC_next：說明沒寫的課沒有被記成沒去  [["刑法總則（一）"], ["刑法總則（一）"]]
+  [前置／捷徑] BEDFFC_cancel：讀同一份存檔（2025-11-12（第 57 天）9.50 時宿舍房間（第一堂 刑法總則（一） 9.17–12.17））（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [前置／捷徑] BEDFFC_cancel：站到互動點「睡覺」旁邊 {"x": -0.55, "z": 2.04, "R": 0.54}
+  [ 138.7s] BEDFFC_cancel：床的選單 ["小睡 30 分鐘", "小睡 1 小時", "小睡 2 小時", "睡到傍晚（不設鬧鐘）", "快轉", "再撐一下"] → 照字選「快轉」
+  [ 139.9s] BEDFFC_cancel：快轉選單 ["到下一個有事的時候", "過一週", "不用了"] → 照字選「過一週」
+  [ 142.1s] BEDFFC_cancel：說明（全文）"快轉：過一週，最多到 11/19（三）07:30，中間有事會先停。現在正在上的刑法總則（一）會記成沒去。"；確認選單 [["算了", [430, 159, 400, 46]], ["快轉", [430, 213, 400, 46]]]
+  [ 142.8s] BEDFFC_cancel：照字選確認的「算了」
+  [ 144.8s] BEDFFC_cancel：選「算了」以後：區域 dorm、位置 (-0.55, 2.04) 第 0 層、G.hour 9.55、對話 False、選單 0、互動鍵 {"r": [712, 276, 120, 48], "t": "睡覺"}
+  [ 144.8s] BEDFFC_cancel：選「算了」以後的變化 [["hour", 9.533, 9.547]]
+  [ 145.8s] BEDFFC_cancel：再按一次互動鍵「睡覺」→ ["小睡 30 分鐘", "小睡 1 小時", "小睡 2 小時", "睡到傍晚（不設鬧鐘）", "快轉", "再撐一下"]
+  [ 146.0s] BEDFFC_L：JS 例外 沒有
+  [ 146.6s] BEDFFC 花了 146 秒
+  [ 146.6s] 總結：{}；到不了：沒有
+ALL PASS
