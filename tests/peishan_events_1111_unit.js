@@ -38,8 +38,9 @@ const barBack=(f,s)=>{ if(f!=='src/data/r2y4b_events.js') return s; const ok=BAR
   const a=s.indexOf(BAR_NEW[0]), b=s.indexOf(BAR_NEW[1]); const mid=s.slice(a+BAR_NEW[0].length,b); check('2. '+f+'：那兩列中間只有註解和空白',noCom(mid).trim()===''&&b>a,mid.slice(0,80)); return s.slice(0,a)+BAR_OLD+s.slice(b+BAR_NEW[1].length); };
 const canonCut=(f,s)=>{ if(f!=='src/data/r2y4b_events.js'||!s) return s; const a=s.indexOf('  /* ---------- 2-Y4-40 '), b=s.indexOf('  /* ---------- 2-Y4-43 '); return a>=0&&b>a?s.slice(0,a)+s.slice(b):s; };   /* 讀書會的最後一晚那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）：BASE 那一段不比 */
 /* CANON-NO-ECON-1112 第四批（AA_875 第 2 節換字）：可昕那一組旁白（R2Y4B_BAR_NARR.kexin）和律師讀書小組那一段（2-Y4-58 到 2-Y4-61 以前）換了字、只有可昕的那幾晚改當面——兩邊都切掉不比（逐字對稿在 tests/aa468_evdup2_unit.js、tests/r2y4b_events_unit.js、tests/bar_group_3d_1112_unit.js）*/
-const cut4=(f,s)=>{ if(f!=='src/data/r2y4b_events.js'||!s) return s; const cut=(x,A,B)=>{ const a=x.indexOf(A), b=a>=0?x.indexOf(B,a):-1; return a>=0&&b>a?x.slice(0,a)+x.slice(b):x; };
-  return cut(cut(s,'  kexin:{','  yutong:{'),'  /* ---------- 2-Y4-58 律師讀書小組','  /* ---------- 2-Y4-61 '); };
+/* CANON-NO-ECON-1112 第四批（AA_880 #46、#47；AA_897 第 2 節）：可昕大四春假開車旅行（從女生宿舍樓下出發）、大四生日（帶到女生宿舍樓下）兩場整場換過、rom1016 週年那本的 p4 那一頁拿掉——兩邊都切掉不比（逐字對稿在 tests/r2y4b_events_unit.js、tests/kx_line_873_unit.js）*/
+const cut4=(f,s)=>{ if(!s) return s; if(f==='src/data/rom1016_events.js') return s.split('\n').filter(l=>!/^    (p4:'2025\.2\.2|\/\* p4（2025\.2\.2)/.test(l)).join('\n'); if(f!=='src/data/r2y4b_events.js') return s; const cut=(x,A,B)=>{ const a=x.indexOf(A), b=a>=0?x.indexOf(B,a):-1; return a>=0&&b>a?x.slice(0,a)+x.slice(b):x; };
+  return cut(cut(cut(cut(s,'  kexin:{','  yutong:{'),'  /* ---------- 2-Y4-58 律師讀書小組','  /* ---------- 2-Y4-61 '),"  { id:'ev_kexin_trip_spring_y4'",'  /* ---------- 2-Y4-36 '),'  /* ---------- 2-Y4-38 ','  /* ---------- 2-Y4-39 '); };
 const fileCheck=(tag,f,rows0,total)=>{ const cur=cut4(f,barBack(f,read(f))), L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
   const bad=rows.filter(r=>n(r.new)!==r.count||n(r.old)!==0);
   check(tag+' '+f+'：'+rows.length+' 列的 new 各剛好 count 處（共 '+total+' 處）、old 不在了',rows.reduce((a,r)=>a+r.count,0)===total&&bad.length===0,J(bad.map(r=>[r.old,n(r.old),r.new,n(r.new)]).slice(0,4)));
