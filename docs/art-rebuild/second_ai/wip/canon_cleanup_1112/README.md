@@ -68,3 +68,22 @@
   - 代號對照：字表第 1～4、7 個＝舊序章；第 5、6、8 個＝外校；第 9 個＝外校宿舍；第 10～16 個＝舊序章人物甲（兩個寫法）、乙、丙、丁、戊、己；第 17 個＝外校室友。另外兩個字表沒有的寫法也換（工具裡的 EXTRA）。
   - 不動 `行政大樓`、國考那幾個例外（和掃描工具同一組 OK 規則）。
 - 這支只換中文；檔名和英文識別字（`--latin`）不動。
+
+## 八、檔名帶英文縮寫的美術檔（開發分支，41 個）：刪／改名對照（11-12 13:4x）
+
+查法：開發分支 `git ls-files` 裡路徑含那四個英文縮寫、而且在 `assets/`、`docs/art-rebuild/`、`tools/blender/`、`tools/shots/`、`wip_backup/` 的。
+
+| 檔 | 建議 | 說明 |
+|---|---|---|
+| `assets/bg/` 外校五張（校園、宿舍、宿舍白天、餐廳、校門） | 刪 | 等程式引用拿掉 |
+| `assets/bg/` 宿營兩張、`assets/cg/` 宿營 CG 一張 | **先不刪，請 AA／LAWWW 定** | D158 寫「遊戲從大一開學前的迎新宿營開始」——這三張畫的就是宿營（營地、房間、合照）。新的迎新宿營如果沿用，改名成 `camp_y1.webp`、`camp_y1_room.webp`、`assets/cg/camp/cg_camp_y1.webp`（程式 `camp_y1.js`、`outings3d.js` 的 id 一起改）；不沿用就刪 |
+| `assets/models/char/second_ai/` 舊序章人物甲～戊五個 VRM、`assets/portraits/` 對應五個資料夾 | 刪 | 等程式引用拿掉；LICENSES.md、assets3d.js manifest 對應列一起 |
+| `docs/art-rebuild/second_ai/test_shots/` 舊序章系外套那一包（8 個檔）、`patches/` 同名 patch、`tools/` 根目錄同名腳本 | 刪 | 舊序章那個系的系外套；法律系系外套如果要做是另一支。遊戲的 `C.setJacket` 本身是共用的，不動 |
+| `docs/art-rebuild/ingame_review/` 2026-10-17 那一包（8 個檔） | 刪 | 舊序章人物的遊戲內檢查截圖 |
+| `tools/shots/` 舊序章人物拍照腳本一支 | 刪 | |
+| `tools/blender/env_second/` 外校背景腳本一支 | 刪 | 產外校那五張 2D 背景的 |
+| `wip_backup/` 兩個 bundle（1028、1030） | 刪 | 舊序章的 WIP 備份；內容早已整合 |
+| `docs/handoff/user_shots/` 11-10 那一張 | 請 LAWWW 定 | 使用者傳的截圖，不是美術產的 |
+
+不帶那些縮寫、所以不用改名的共用素材：家裡的背景 16 張、補習班教室、社科院 2D 背景、高雄 18 張、y0 開頭五張（「y0」是舊序章那一年的代號，要不要也改名請 LAWWW 定）。
+另外：`v0_dorm_props.glb/.json`（舊序章那一年的宿舍道具，`v0` 也是代號）＝刪。
