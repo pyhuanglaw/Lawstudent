@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_route_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SOCLIB1F_TRAP_joy\out
+CC 照玩家走路線：TAG trap1f_joy；SHA a57b6ec8ab；soclib 2025-10-14 14.0；ROUTE ['joyto:-3.48,-3.01,0', 'burst:a', 'joyto:-3.79,-5.07,0', 'burst:b', 'exit:']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 soclib 2025-10-14 14.0（出生點）（條件事件關掉）
+PASS 讀到 soclib  {"zone": "soclib", "x": -9, "z": 9.3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.04}
+  [  52.4s] [00 start]  區域 soclib lv0 (-9, 9.3) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-9, 3.36, 13.57] 到頭 4.57 m、被 [] 擋；互動鍵「互動」
+  [  58.2s] [01 joyto:-3.48,-3.01,0] 【卡住偵測】取樣 10 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [  60.3s] [01 joyto] {"ok": true, "why": null, "t": 5.6, "pushes": 5} 區域 soclib lv0 (-3.03, -3.25) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-3.03, 3.36, 1.02] 到頭 4.6 m、被 [] 擋；互動鍵「坐下讀書」
+  [  66.9s] [02 burst]  區域 soclib lv0 (-3.03, -3.25) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-3.03, 3.36, 1.02] 到頭 4.6 m、被 [] 擋；互動鍵「坐下讀書」
+  [  92.7s] [03 joyto:-3.79,-5.07,0] 【卡住偵測】取樣 48 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [  94.3s] [03 joyto] {"ok": false, "why": "20 秒沒有前進 0.3 m（卡住）", "t": 25.4, "pushes": 31} 區域 soclib lv0 (-5.2, -6.01) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-5.2, 3.36, -1.73] 到頭 4.59 m、被 [] 擋；互動鍵「坐下讀書」
+  [ 100.3s] [04 burst]  區域 soclib lv0 (-5.2, -6.01) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-5.2, 3.36, -1.73] 到頭 4.59 m、被 [] 擋；互動鍵「坐下讀書」
+PASS [05 exit:] 找得到往  的出口  [["離開圖書館（回社科院前）", "campus"], ["往 2F 自習室、討論室", "soclib_2f"]]
+PASS [05 exit:] 有「離開圖書館（回社科院前）」  [{"label": "離開圖書館（回社科院前）", "x": -9, "z": 10.5, "r": 0.9, "lv": 0, "to": "campus"}, {"label": "往 2F 自習室、討論室", "x": 14.4, "z": 8.8, "r": 0.8, "lv": 0, "to": "soclib_2f"}]
+  [ 100.5s] [05 exit:] 「離開圖書館（回社科院前）」在 (-9, 10.5) 半徑 0.9；走到範圍裡站得住的 {"x": -8.87, "z": 10.02, "d": 16.438587391837466}
+PASS [05 exit:] 「離開圖書館（回社科院前）」範圍裡有站得住的地方  {"label": "離開圖書館（回社科院前）", "x": -9, "z": 10.5, "r": 0.9, "lv": 0, "to": "campus"}
+  [ 109.3s] 到達「[05 exit:] 離開圖書館（回社科院前）」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+PASS [05 exit:] 走到那裡，互動按鈕是「離開圖書館（回社科院前）」  {"x": -8.723, "z": 9.871, "lv": 0, "interact": "離開圖書館（回社科院前）"}
+PASS [05 exit:] 按下去到了 campus（站得住、沒有被放到目的地）  {"zone": "campus", "x": 11, "z": -67.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.43}
+  [ 124.1s] [05 exit:] 【卡住偵測】取樣 26 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [ 124.9s] [05 exit] 出口「離開圖書館（回社科院前）」→ campus 區域 campus lv0 (11, -67.4) y=0 站得住=True 坐著=False pose=idle；鏡頭 [11, 1.98, -65.34] 到頭 2.05 m、被 [] 擋；互動鍵「離開圖書館（回社科院前）」
+PASS 沒有 JS 例外  []
+ALL PASS
