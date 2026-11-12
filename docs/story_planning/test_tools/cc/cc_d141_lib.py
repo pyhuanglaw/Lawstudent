@@ -190,10 +190,15 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             await pg.wait_for_timeout(500); b = await st(pg)
         if not R.check('%s 走到旁邊，互動按鈕是「%s」' % (t, s['label']), b['interact'].startswith(s['label']), J({k_: b[k_] for k_ in ('x', 'z', 'lv', 'interact', 'stand')})):
             await shot(pg, '%s_nobtn_%d' % (shot_prefix, k + 1), judge_black=False); res.append([k + 1, 'nobtn', s['sx'], s['sz']]); continue
-        await L.tap(pg, cdp, '#interact'); ok = False
+        await L.tap(pg, cdp, '#interact'); ok = False; ordered = []
         for i_ in range(30):
             await pg.wait_for_timeout(500)
             if await pg.evaluate("!!GAME.E.player.seat"): ok = True; break
+            c1 = await st(pg)   # 11-12 BB-C 16:37：「坐下吃飯」先開點餐單（燒臘）→ 選第一樣菜，不按「先不吃」
+            if c1['choices']:
+                kk = next((i for i, x in enumerate(c1['choices']) if not any(w in x for w in ('先不吃', '不用了', '算了', '離開', '不點'))), 0)
+                ordered.append(c1['choices'][kk]); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (kk + 1)); await pg.wait_for_timeout(900); continue
+            if c1['dlg'] and i_ < 8: await L.tap(pg, cdp, '#dlg'); continue
             if i_ == 8:   # 4 秒還沒坐下：先收掉對話（剛開店的招呼、旁白），按鈕還是這一張就再按一次
                 for _ in range(8):
                     c0 = await st(pg)
@@ -203,6 +208,7 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
                 if not c0['seat'] and c0['interact'].startswith(s['label']): R.note('%s 按了 4 秒沒坐下（%s），再按一次' % (t, J(c0))); await L.tap(pg, cdp, '#interact')
         await pg.wait_for_timeout(1500)
         p = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position, s=P.seat; return {x:+o.x.toFixed(3),z:+o.z.toFixed(3),y:+o.y.toFixed(3),lv:P.lv|0, sx:s?+s.x.toFixed(3):null, sz:s?+s.z.toFixed(3):null, sy:s&&s.y!=null?+(+s.y).toFixed(3):null}; })()")
+        if ordered: R.note('%s 坐下前的選單選了：%s' % (t, J(ordered)))
         R.check('%s 坐下了（player.seat）' % t, ok, J(p))
         if ok:
             d = math.hypot(p['x'] - s['sx'], p['z'] - s['sz'])
