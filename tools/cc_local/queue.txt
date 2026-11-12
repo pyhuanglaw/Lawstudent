@@ -2246,3 +2246,6 @@ YIZHAN_TAKE_r2 | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_p
 # ===== CC-C 11-12：BB-C 13:36 更正 YY_ORDER：點餐點是「點炸物（店內）」（yangyang_layout.js kind:order），夾第一樣→內用／外帶各一次；記選單、錢、內用有沒有坐下吃
 YY_ORDER_r2_in | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 10 | TAG=yy_order_in;ZONE=yangyang;LABEL=點炸物;CASES=2025-10-22@18;PICK=內用;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492
 YY_ORDER_r2_out | a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492 | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 10 | TAG=yy_order_out;ZONE=yangyang;LABEL=點炸物;CASES=2025-10-22@18;PICK=外帶;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492
+
+# ===== CC-C 11-13 03:3x：LAWWW-C 03:29（P3，後段）榮恩典招牌近拍 =====
+RONG_SIGN | 873d9e7105d69a8696ec4c26ea705116cb5659de | probe | docs/story_planning/test_tools/cc/cc_storefront_probe.py | index.html | 10 | TAG=rong_sign;STREET=gongguan;HOUR=14;DOOR=1;CLOSE_DS=2,1;SHOPS=gg_rongendian;SHA=873d9e7105d69a8696ec4c26ea705116cb5659de

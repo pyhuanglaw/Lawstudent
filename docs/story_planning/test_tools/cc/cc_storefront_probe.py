@@ -22,6 +22,7 @@ FIND_DOOR = r"""(a=>{ const E=GAME.E; const it=E.interactables.find(i=>i.exit&&i
   const S=E.zone&&E.zone.shopReal, s=S&&(S.shops||[]).find(q=>q.place===a.z); if(s){ n=[Math.sin(s.ry||0),Math.cos(s.ry||0)]; how='shopReal.ry'; }
   if(!n){ let best=null; for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){ const out=[2,3,4.5].filter(r=>E.canStand(it.x+dx*r,it.z+dz*r,0.3,lv)).length, back=E.canStand(it.x-dx*1.2,it.z-dz*1.2,0.3,lv)?1:0; const sc=out*2-back; if(!best||sc>best.sc) best={sc,dx,dz}; } n=[best.dx,best.dz]; how='nav 四方向（外面站得住、背後是牆）'; }
   const d=a.d||4.5; return {label:it.label, x:r2(it.x), z:r2(it.z), n:n.map(r2), how, eye:[r2(it.x+n[0]*d),1.6,r2(it.z+n[1]*d)], look:[r2(it.x),1.6,r2(it.z)], standEye:E.canStand(it.x+n[0]*d,it.z+n[1]*d,0.3,lv)}; })"""
+CLOSE_DS = [float(v) for v in (os.environ.get('CLOSE_DS') or '').split(',') if v]   # DOOR=1 時另外近拍招牌的距離（m）
 ACROSS = (os.environ.get('ACROSS') or '0') == '1'; DIST = float(os.environ.get('DIST') or 16); DAY = os.environ.get('DAY') or '2025-10-18'
 FIND_ACROSS = r"""(a=>{ const E=GAME.E, S=E.zone&&E.zone.shopReal; const s=S&&(S.shops||[]).find(q=>q.place===a.z); if(!s) return {none:true, have:S?(S.shops||[]).map(q=>q.place):null};
   const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, nx=Math.sin(s.ry||0), nz=Math.cos(s.ry||0), hd=(s.d||8)/2, fx=cx+nx*hd, fz=cz+nz*hd; let d=null;
@@ -81,6 +82,11 @@ async def main():
                 c = await D.user_shot(pg, cdp, 'door_%s_%s' % (z, TAG), {'eye': f['eye'], 'look': f['look'], 'lens': 18}, hide_player=True)
                 R.note('%s 正對門：門 (%s, %s)「%s」朝外 %s（%s）、鏡頭 %s（站得住=%s）' % (z, f['x'], f['z'], f['label'], f['n'], f['how'], f['eye'], f['standEye']))
                 res.append({'zone': z, 'door': f, 'cam': c})
+                for cd in CLOSE_DS:   # 11-13 LAWWW-C RONG_SIGN：門口近拍招牌（退 2 m、1 m），看字清不清楚、有沒有馬賽克
+                    g2 = await pg.evaluate(FIND_DOOR, {'z': z, 'd': cd})
+                    if not g2: continue
+                    c3 = await D.user_shot(pg, cdp, 'signclose_%s_%sm_%s' % (z, cd, TAG), {'eye': [g2['eye'][0], 1.6, g2['eye'][2]], 'look': [g2['x'], SIGN_H, g2['z']], 'lens': 24}, hide_player=True)
+                    R.note('%s 招牌近拍 退 %s m：鏡頭 %s 看門上 %s m（站得住=%s）' % (z, cd, g2['eye'], SIGN_H, g2.get('standEye')))
                 if SIGN:   # 11-12 BB-C 14:31：招牌——退到對面（10／8／6.5／5 m 取第一個站得住的）、高 1.7 m、往上看門上方 SIGN_H m
                     g = None
                     for d in (10, 8, 6.5, 5):
