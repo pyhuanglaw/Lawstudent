@@ -47,8 +47,8 @@ const rx=(G,t)=>String(t).replace(/\{name\}/g,G.name||'祐廷');
 const flat=(G,L)=>(L||[]).map(t=>rx(G,Array.isArray(t)?t[1]:t));
 const goOut=async(G,id,picks)=>{ const q=OUT.get(G,id); H.said=[]; H.picks=(picks||[]).slice(); if(!q) return null; at(G,q.day,q.h-(q.travelH||0)-0.1); await OUT.go(GM,q); return q; };
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).slice(0,400)); } };
-/* 稿（照 read_fix）*/
-let SRC=null; try{ SRC=JSON.parse(cp.execFileSync('python3',['-c',"import json,subprocess,sys; sys.path.insert(0,'tools/story'); import import_guard as IG\n"+
+/* 稿（照 read_fix；CANON-NO-ECON-1112 第四批：再照 AA_897 第 2 節換整句，同 import_aa720.py 的 IG.use_canon897()）*/
+let SRC=null; try{ SRC=JSON.parse(cp.execFileSync('python3',['-c',"import json,subprocess,sys; sys.path.insert(0,'tools/story'); import import_guard as IG\nIG.use_canon897()\n"+
   "def fx(x):\n  return IG.read_fix(x) if isinstance(x,str) else ([fx(v) for v in x] if isinstance(x,list) else ({k:fx(v) for k,v in x.items()} if isinstance(x,dict) else x))\n"+
   "d=json.loads(subprocess.check_output(['git','show','"+SHA+":"+DOC+"']).decode('utf-8')); d.pop('_meta',None); d.pop('wiringAnswers',None); d.pop('wiringAnswers2',None); d.pop('wiringAnswers3',None); print(json.dumps(fx(d),ensure_ascii=False))"],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ SRC=null; }
 const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys(x).sort().reduce((o,k)=>(o[k]=canon(x[k]),o),{}):x);
