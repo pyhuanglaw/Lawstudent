@@ -1,5 +1,8 @@
 /* ===== 美國兩間超市買東西（US-MARKETS-BUY-1112；SHOP-STANDARD-BACKFILL-1112 草原超市 us_market、竹葉亞洲超市 us_asian_market 的「買得到／錢不夠／字」）=====
-   字：src/data/us_markets_buy.js（US_MARKETS_BUY；tools/story/import_us_markets.py 從 AA_850 匯入，企劃線 b039356f5，AA 定稿、BB_397 聽過）——品名、標價、店員的話、旁白一字照稿，這支不寫任何台詞。
+   字：src/data/us_markets_buy.js（US_MARKETS_BUY；tools/story/import_us_markets.py 從 AA_850 匯入，企劃線 f6aa917593，AA 定稿、BB_397 聽過；11-12 AA 回 LAWWW 的七點在稿的 lawww_1112）——品名、標價、店員的話、旁白一字照稿，這支不寫任何台詞。
+     2026-11-12（AA_850＠f6aa917593 lawww_1112）：b 畫面用短名——火雞胸、沙茶醬、月餅三樣資料多一欄 show，選單、推車提示、結帳完的字、「物品」、包包裡的禮物都顯示它（S.nm；括號裡的條件不顯示；其他品名照稿的全名）；
+       c 竹葉錢不夠——推車裡有水餃＝原句（no_money：只買水餃）；沒有水餃＝稿的新句（no_money_other）：從便宜的拿起、付得起的那幾樣買走、其他放回去（原本：沒有水餃也說「先拿水餃」、什麼都不買）。
+       a、d～g（系統字、空推車、袋子、阿姨的 greet、禮物用一般 ok 句）AA 都說照現在的，沒有改。
      每個貨架「看」的字沿用 src/data/us_life_events.js 現有的那一句（AA_287；USL.lookFor）。
    稿上沒有的系統字（S.SYS；回報給 AA）：選單「不用了」「結帳」「要」、提示「推車：…　共 $…」、說話的人的名字（S.WHO：收銀員、店員、阿姨——都是稿的旁白裡出現的稱呼）。
    做法（稿 _meta.flow：推車到結帳才付）：
@@ -11,7 +14,8 @@
        草原超市「自助結帳」＝旁白 self_checkout（一半的機會多 self_checkout_help）→ 同一個選單 → 扣錢。
        竹葉亞洲超市「結帳櫃台」＝那天第一次：阿姨 greet（去過三天以上 USL_ASIA_N>=3＝greet_regular）→ 同一個選單 → 扣錢 → 阿姨 checkout_done。
      錢不夠：草原超市＝旁白 no_money（「把最貴的那一樣……請她先拿掉」）、推車裡最貴的那一樣拿掉；剩下的付得起就付剩下的，還是不夠＝這次不付（東西留在推車，再按一次再拿掉一樣）。
-             竹葉＝阿姨 no_money（「先拿水餃，其他下次。」）：推車裡有水餃而且付得起＝只買水餃，其他放回去；沒有水餃或連水餃都不夠＝什麼都不買、推車清空。
+             竹葉＝推車裡有水餃：阿姨 no_money（「先拿水餃，其他下次。」）——付得起水餃＝只買水餃，其他放回去；連水餃都不夠＝什麼都不買、推車清空。
+                   推車裡沒有水餃：阿姨 no_money_other（稿 lawww_1112.c）——從便宜的拿起，付得起的買走、其他放回去；一樣都付不起＝什麼都不買、推車清空。
      錢：畫面標美金；實際扣遊戲裡的錢（資料檔的 p＝美金 × 32 四捨五入，一樣一樣算）。時間 +20 分鐘（和原本「買一樣東西」一樣）。
    - 買回去的東西：eat＝帶回公寓吃掉（遊戲沒有體力、飽足，和其他吃的一樣只有扣錢、時間）；own＝進選單「物品」（G.flags.GG3_OWN[區域][id]，GG3.ownAdd／GG3.OWN_X）；
        gift（鳳梨酥、烏龍茶、月餅）＝放進「包包裡的禮物」（GIFTH 的包包；稿：照 AA_732 的規則算一般禮物——節日、生日當面送，反應是一般的 ok 那一格）。
@@ -43,6 +47,8 @@ const USMKT=(function(){
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   S.usd=v=>'$'+(Math.round(v*100)/100).toFixed(2);
   S.twd=usd=>Math.round(usd*((X()&&X().rate)||32));
+  /* 畫面上的品名：稿指名用短名的那幾樣＝show，其他＝稿的全名（lawww_1112.b） */
+  S.nm=g=>g?(g.show||g.n):'';
   /* 短的品名（「月餅（一顆，九月中到中秋）」→「月餅」）：只用在「送她○○」那個選項 */
   S.short=n=>String(n).replace(/（[^）]*）$/,'');
 
@@ -52,7 +58,7 @@ const USMKT=(function(){
   S.cart=function(GM){ const k=GM.G.zone, n=GM.enterN|0; if(!cart||cart.k!==k||cart.n!==n) cart={k,n,ids:[],moon:false}; return cart; };
   S.cartGoods=function(GM){ const T=shop(GM.G.zone), C=S.cart(GM); return T?C.ids.map(id=>T.goods.find(g=>g.id===id)).filter(Boolean):[]; };
   const sumUsd=gs=>gs.reduce((a,g)=>a+Math.round(g.usd*100),0)/100, sumP=gs=>gs.reduce((a,g)=>a+g.p,0);
-  S.cartHint=gs=>gs.map(g=>g.n).join('、')+S.SYS.total+S.usd(sumUsd(gs));
+  S.cartHint=gs=>gs.map(S.nm).join('、')+S.SYS.total+S.usd(sumUsd(gs));
   S.payHint=gs=>S.cartHint(gs)+'（'+sumP(gs)+' 元）';
 
   /* ---------- 季節、只有一罐 ---------- */
@@ -74,7 +80,7 @@ const USMKT=(function(){
   S.giftReg=function(){ const H=typeof GIFT_HOLIDAY!=='undefined'?GIFT_HOLIDAY:null, d=X(); if(!H||!H.items||!H.shops||!d) return 0; let n=0;
     for(const z of S.ZONES){ const T=shop(z); if(!T) continue; const gs=T.goods.filter(g=>g.kind==='gift'); if(!gs.length) continue;
       if(!H.shops[z]) H.shops[z]={name:T.name,items:[]};
-      for(const g of gs) if(!H.items[g.id]){ H.items[g.id]={name:g.n,price:g.p,line:'',love:[],no:[],shop:z}; n++; } }
+      for(const g of gs) if(!H.items[g.id]){ H.items[g.id]={name:S.nm(g),price:g.p,line:'',love:[],no:[],shop:z}; n++; } }
     return n; };
   S.giftReg();
   const giftOn=()=>typeof GIFTH!=='undefined'&&!!GIFTH.rec&&!!GIFTH.item&&!!GIFTH.item(S.ID.mooncake);
@@ -93,8 +99,8 @@ const USMKT=(function(){
       if(z==='us_market'&&at==='deli'){ await GM.say(null,T.lines.deli_number); await GM.say(W(S.WHO.deli),T.lines.deli_staff); }
       if(z==='us_market'&&at==='aisle_household'&&F_(G).USM_TP!==S.tpKey(G)) await GM.say(null,T.lines.tp_roommate);   /* 這個月買過衛生紙就不說 */
       for(;;){ const its=left(); if(!its.length) break; const gs=S.cartGoods(GM), no={t:S.SYS.no}; if(gs.length) no.hint=S.SYS.cart+S.cartHint(gs);
-        const c=await GM.choose(its.map(g=>({t:g.n+'　'+S.usd(g.usd)})).concat([no])); if(!(c>=0&&c<its.length)) break;
-        if(await S.take(GM,its[c])) took.push(its[c].n); else break; } }
+        const c=await GM.choose(its.map(g=>({t:S.nm(g)+'　'+S.usd(g.usd)})).concat([no])); if(!(c>=0&&c<its.length)) break;
+        if(await S.take(GM,its[c])) took.push(S.nm(its[c])); else break; } }
     finally{ GM.sceneEnd(); }
     return took.length?took.join('、'):(t||null); };
 
@@ -106,7 +112,7 @@ const USMKT=(function(){
   S.pay=async function(GM,it,mode){ const G=GM.G, z=G.zone, T=shop(z), L=T.lines, C=S.cart(GM), F=F_(G);
     if(mode==='asia'&&!C.moon&&!C.ids.includes(S.ID.mooncake)&&S.goodsAt(G,z,it.usMarket).some(g=>g.id===S.ID.mooncake)){ C.moon=true;   /* 櫃台上的月餅（一趟問一次）*/
       const g=T.goods.find(q=>q.id===S.ID.mooncake); GM.sceneBegin();
-      try{ await GM.say(null,L.mooncake); const c=await GM.choose([{t:g.n+'　'+S.usd(g.usd)},{t:S.SYS.no}]); if(c===0) await S.take(GM,g); } finally { GM.sceneEnd(); } }
+      try{ await GM.say(null,L.mooncake); const c=await GM.choose([{t:S.nm(g)+'　'+S.usd(g.usd)},{t:S.SYS.no}]); if(c===0) await S.take(GM,g); } finally { GM.sceneEnd(); } }
     let gs=S.cartGoods(GM);
     if(!gs.length){ const t=S.look(G,it); if(L.cart_empty){ GM.sceneBegin(); try{ if(t) await GM.say(null,t); await GM.say(null,L.cart_empty); } finally { GM.sceneEnd(); } } else if(t&&GM.caption) GM.caption('',t,4600); return 'empty'; }
     const B=W(S.WHO[z]); let r=null; GM.sceneBegin();
@@ -117,12 +123,15 @@ const USMKT=(function(){
       const c=await GM.choose([{t:S.SYS.pay,hint:S.payHint(gs),dim:(G.money|0)<sumP(gs)},{t:S.SYS.no}]);
       if(c!==0) return null;   /* 不用了：東西還在推車裡 */
       if((G.money|0)<sumP(gs)){
-        if(mode==='asia'){ await GM.say(B,L.no_money); const d=gs.find(g=>g.id===S.ID.dumpling); C.ids.length=0; if(!d||(G.money|0)<d.p) return 'short'; gs=[d]; }   /* 先拿水餃，其他下次 */
+        if(mode==='asia'){ const d=gs.find(g=>g.id===S.ID.dumpling);
+          if(d||!L.no_money_other){ await GM.say(B,L.no_money); C.ids.length=0; if(!d||(G.money|0)<d.p) return 'short'; gs=[d]; }   /* 先拿水餃，其他下次 */
+          else { await GM.say(B,L.no_money_other); const keep=[]; let left=G.money|0; for(const g of gs.slice().sort((a,b)=>a.p-b.p)){ if(g.p<=left){ keep.push(g); left-=g.p; } }   /* 沒有水餃：先拿便宜的，其他下次 */
+            C.ids.length=0; if(!keep.length) return 'short'; gs=gs.filter(g=>keep.includes(g)); } }
         else { await GM.say(null,L.no_money); const top=gs.reduce((a,g)=>g.p>a.p?g:a,gs[0]); C.ids.splice(C.ids.indexOf(top.id),1); gs=S.cartGoods(GM); if(!gs.length||(G.money|0)<sumP(gs)) return 'short'; } }   /* 最貴的那一樣先拿掉 */
       const total=sumP(gs); GM.money(-total,T.name); if(GM.advance) GM.advance(S.HRS); for(const g of gs) S.give(G,z,g); C.ids.length=0; S.last={zone:z,day:G.day,items:gs.map(g=>g.id),total};
       if(mode==='clerk'){ await GM.say(B,L.checkout_bag); const p=S.twd(S.BAG_USD), k=await GM.choose([{t:S.SYS.bag,hint:S.usd(S.BAG_USD)},{t:S.SYS.no}]); if(k===0&&(G.money|0)>=p) GM.money(-p,T.name); await GM.say(B,L.checkout_done); }
       else if(mode==='asia') await GM.say(B,L.checkout_done);
-      r=gs.map(g=>g.n).join('、'); }
+      r=gs.map(S.nm).join('、'); }
     finally{ GM.sceneEnd(); }
     if(r&&GM.autosave) GM.autosave(); return r; };
 
@@ -141,7 +150,7 @@ const USMKT=(function(){
     STORY._usmktInteract=true; }
 
   /* ---------- 「物品」：own 的東西列在 GG3 的那一格 ---------- */
-  if(typeof GG3!=='undefined'&&Array.isArray(GG3.OWN_X)&&X()) for(const z of S.ZONES){ const T=shop(z); if(T&&!GG3.OWN_X.some(q=>q.zone===z)) GG3.OWN_X.push({zone:z,name:T.name,goods:T.goods.filter(g=>g.kind!=='eat').map(g=>({id:g.id,n:g.n}))}); }
+  if(typeof GG3!=='undefined'&&Array.isArray(GG3.OWN_X)&&X()) for(const z of S.ZONES){ const T=shop(z); if(T&&!GG3.OWN_X.some(q=>q.zone===z)) GG3.OWN_X.push({zone:z,name:T.name,goods:T.goods.filter(g=>g.kind!=='eat').map(g=>({id:g.id,n:S.nm(g)}))}); }
 
   /* ---------- 多帶一顆月餅給學姊（稿 notes：她在美國的那個學期、當面遇到她，只出一次）---------- */
   S.SIS='heroine_05';
@@ -150,7 +159,7 @@ const USMKT=(function(){
   S.moonGive=async function(GM,who){ const G=GM.G, R=GIFTH.rec(G), k=R.bag.findIndex(b=>b&&b.id===S.ID.mooncake), T=shop('us_asian_market'); if(k<0||!T) return false;
     R.bag.splice(k,1); F_(G).USM_MOON_GIVEN=G.day; (R.given[S.SIS]||(R.given[S.SIS]=[])).push(S.ID.mooncake);
     await GM.say(who||(GIFTH.who?GIFTH.who(S.SIS):null),T.lines.mooncake_give); if(GIFTH.adjust) GIFTH.adjust(G,S.SIS,'ok'); if(GM.autosave) GM.autosave(); return true; };
-  S.talkOpts=function(G,id){ if(!S.moonGiveOn(G,id)) return []; const g=shop('us_asian_market').goods.find(q=>q.id===S.ID.mooncake); return [{t:'送她'+S.short(g.n),run:async(GM,who)=>{ await S.moonGive(GM,who); }}]; };
+  S.talkOpts=function(G,id){ if(!S.moonGiveOn(G,id)) return []; const g=shop('us_asian_market').goods.find(q=>q.id===S.ID.mooncake); return [{t:'送她'+(g.show||S.short(g.n)),run:async(GM,who)=>{ await S.moonGive(GM,who); }}]; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.TALK_OPTS)&&!STORY._usmktTalk){ STORY.TALK_OPTS.push((G,id)=>S.talkOpts(G,id)); STORY._usmktTalk=true; }
   return S;
 })();

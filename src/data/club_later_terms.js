@@ -1,9 +1,10 @@
-/* 自動產生：tools/story/import_club_later_terms.py（docs/story_planning/AA_852_club_later_terms.json@b039356f5）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_club_later_terms.py（docs/story_planning/AA_852_club_later_terms.json@f6aa917593）。不要手改，改企劃稿再重新匯入。
    辯論社、登山社、系籃大一下～大二下的社課旁白（CLUB-LATER-TERMS-1112）：clubs[活動][學期]＝那一學期的旁白（一字照 AA_852）；
-   terms、rain（開頭「（下雨」的那一句＝下雨場才演）是從稿上的字讀出來的。怎麼演：src/classes3d.js 的 clubNarr */
+   terms、rain（開頭「（下雨」的那一句＝下雨場才演）、last（每學期最後那一句＝最後一個有社課的週去了才演）、rainBase（那一學期下雨用大一上的下雨句）、board（布告欄大一下起的另一版字）是從稿上的字讀出來的。
+   怎麼演：src/classes3d.js 的 clubNarr／clubRainNarr、src/clubboard3d.js */
 'use strict';
 const CLUB_LATER_TERMS={
- "src": "docs/story_planning/AA_852_club_later_terms.json@b039356f5",
+ "src": "docs/story_planning/AA_852_club_later_terms.json@f6aa917593",
  "terms": [
   "Y1S2",
   "Y2S1",
@@ -65,7 +66,7 @@ const CLUB_LATER_TERMS={
     "（投籃練習。學長還是在算每個人進幾球，只是不再念出來。）",
     "（今天打全場。跑到第三趟你喘了，換你去場邊記分。）",
     "（今天練擋拆。講了十分鐘，打起來每個人都忘了要擋誰。）",
-    "（下雨，在體育館走廊練傳球。球滾到樓梯口，沒有人想去撿。）",
+    "（下雨，在體育館走廊練體能。做到第三組，球滾到樓梯口，沒有人想去撿。）",
     "（練完坐在場邊。有人問刑總的報告，這次有三個人已經寫完了。）",
     "（學期最後一次練球。隊長說下學期系際盃，缺一個記分的，大家都看你。）"
    ],
@@ -92,6 +93,33 @@ const CLUB_LATER_TERMS={
    "Y2S2": 3
   }
  },
+ "last": {
+  "club_debate": {
+   "Y1S2": 5,
+   "Y2S1": 5,
+   "Y2S2": 4
+  },
+  "club_hiking": {
+   "Y1S2": 5,
+   "Y2S1": 5,
+   "Y2S2": 4
+  },
+  "dept_basketball": {
+   "Y1S2": 5,
+   "Y2S1": 5,
+   "Y2S2": 4
+  }
+ },
+ "rainBase": {
+  "dept_basketball": [
+   "Y2S1"
+  ]
+ },
+ "board": {
+  "from": "Y1S2",
+  "join": "直接來社課，跟幹部說一聲就可以加入",
+  "noWhen": "開學第五週起"
+ },
  "rule": "照吉他社的做法延到大二下（term 加 Y1S2、Y2S1、Y2S2；週次、星期、時間、地點照大一上不變）。大三起這三個社團不再排社課——大三的人退到後面，和吉他社一致。每學期一組新的旁白（narr），不重複大一上那幾句；格式一樣：一次社課出一句，輪流。",
  "arc": "大一下：還是新手，但已經不是第一次。大二上：有新生進來，你變成被問的那個。大二下：交棒，最後幾次社課。",
  "notes": [
@@ -100,6 +128,11 @@ const CLUB_LATER_TERMS={
   "登山社大一上 desc 寫「出隊是週末的另一個活動，之後再排」——出隊這裡還是不做（要場景），旁白只提到名單和行前準備；之後要做出隊再另開任務。",
   "社團布告欄（AA_701）照 term 顯示，這三個社團延到大二下以後，大一下到大二下就有公告；大三起一張都沒有的那句照舊。"
  ],
- "status": "定稿（BB_397 聽過：系籃 Y1S2 一句改）"
+ "status": "定稿（BB_397 聽過：系籃 Y1S2 一句改）",
+ "lawww_1112": {
+  "3_入社": "大一下以後第一次去社課就入社：可以。布告欄另一版字（Y1S2 起用）：join＝「直接來社課，跟幹部說一聲就可以加入」；when 照實際有社課的週次寫，不寫「開學第五週起」。",
+  "4_最後一次": "每學期最後那一句（「學期最後一次社課／行前會／練球」「最後一次…」）綁那學期最後一個有社課的週，那一週去了才演；沒去就不演，不往前挪。其餘照去的次數輪。",
+  "5_下雨": "系籃：Y1S2「（下雨，在體育館走廊練體能…）」和 Y2S2「（下雨，走廊…）」是下雨那天專用（已把「練傳球」改成「練體能」，和下雨提示一致）；Y2S1 下雨那天用大一上現有的下雨句。不下雨的日子不輪到這兩句。"
+ }
 };
 if(typeof module!=='undefined') module.exports=CLUB_LATER_TERMS;

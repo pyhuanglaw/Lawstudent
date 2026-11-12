@@ -10,6 +10,8 @@
   點名 → 區域的互動點 kind（POINTS；位置在 src/data/yejian_layout.js 的 interact，配置還沒有的兩個點在 src/zones3d.js buildYejian）。
   種類 eat／own／gift；own、gift 的東西要有 id（IDS；存檔 G.flags.GG3_OWN、GIFTH.bag 記的是 id，照品名對，不照順序編號）。
   notes「greet_regular：在這裡買過三次以上。」→ regular＝3（從這一句的字讀）。
+- lawww_1112（AA 回 LAWWW 的答案，2026-11-12；有字的才匯）：頁間第 6 點「紅茶 80 加回來，一共四樣」→ 咖啡吧多那一樣（稿的 buy 陣列還沒有的時候接在最後；樣數要對得上），
+  第 8 點「新書、雜誌、明信片錢不夠共用一句：「…」」→ no_money2＝{at: 那幾個點的 kind, text: 那一句}（書牆照舊用 no_money）。其他點（說話的人用現有的名字、順序、價錢怎麼扣）是給程式的，不匯。
 - 品名、價錢、句子一字照稿（只過 import_guard.read_fix 的換名；被換到會印出來）。說話的人＝staff.who 去掉括號裡的說明。
 - 稿多了一樣這裡沒有的、少了一樣、點名不認得、欄位不認得＝停下來（先改這支工具和 src/shaola_order3d.js、src/yejian_buy3d.js），不會默默丟掉。
 
@@ -109,8 +111,9 @@ def noodle(e):
             'menu_look': txt(e['menu_look'], z + '.menu_look'), 'window_look': txt(e['window_look'], z + '.window_look'), 'eat': eat}
 
 
-def bookstore(e):
+def bookstore(e, ans=None):
     z = 'bookstore'
+    ans = ans or {}
     keys(e, z, ('name', 'decide', 'staff', 'points', 'no_money', 'notes'))
     keys(e['staff'], z + '.staff', BOOK_STAFF)
     staff = {k: (who(e['staff'][k], f'{z}.staff.who') if k == 'who' else txt(e['staff'][k], f'{z}.staff.{k}')) for k in BOOK_STAFF}
@@ -148,6 +151,32 @@ def bookstore(e):
             o['order'] = txt(p['order'], w + '.order')
         o['goods'] = goods
         points.append(o)
+    # lawww_1112 頁間第 6 點：「紅茶 80 加回來，一共四樣。」——稿的 buy 陣列沒有的那一樣接在咖啡吧最後（eat）；樣數要和「一共○樣」一樣
+    back = [(m.group(1), int(m.group(2)), m.group(3)) for v in ans.values() for m in re.finditer(r'[；。，]?([^；。，\s（）]+) (\d+) 加回來，一共([一二兩三四五六七八九十])樣', v)]
+    if len(back) > 1:
+        die(f'lawww_1112.頁間：「○○ N 加回來，一共○樣」找到 {len(back)} 句，只認一句')
+    if back:
+        n, pr, cnt = back[0]
+        cafe = [q for q in points if q['kind'] == 'cafe_order'][0]
+        n = txt(n, 'lawww_1112.頁間（加回來的那一樣）')
+        old = [g for g in cafe['goods'] if g['n'] == n]
+        if old and old[0]['p'] != pr:
+            die(f'lawww_1112.頁間：「{n}」答案寫 {pr}、buy 陣列寫 {old[0]["p"]}，對不上')
+        if not old:
+            cafe['goods'].append({'n': n, 'p': price(pr, 'lawww_1112.頁間'), 'kind': 'eat'})
+        if len(cafe['goods']) != NUM[cnt]:
+            die(f'lawww_1112.頁間：答案寫咖啡吧一共 {NUM[cnt]} 樣，數到 {len(cafe["goods"])} 樣')
+    # lawww_1112 頁間第 8 點：「新書、雜誌、明信片錢不夠共用一句：「…」」
+    SHORT = {'書牆': 'shelf_browse', '新書': 'new_books', '新書推薦': 'new_books', '雜誌': 'magazines', '明信片': 'postcards'}
+    nm2 = [(m.group(1), m.group(2)) for v in ans.values() for m in re.finditer(r'^(.+?)錢不夠共用一句：「(.+)」$', v)]
+    if len(nm2) > 1:
+        die(f'lawww_1112.頁間：「…錢不夠共用一句」找到 {len(nm2)} 句，只認一句')
+    no_money2 = None
+    if nm2:
+        at = nm2[0][0].split('、')
+        if any(a not in SHORT for a in at) or 'shelf_browse' in [SHORT.get(a) for a in at]:
+            die(f'lawww_1112.頁間：錢不夠共用的點不認得（{at}；書牆有自己的 no_money）')
+        no_money2 = {'at': [SHORT[a] for a in at], 'text': txt(nm2[0][1], 'lawww_1112.頁間（錢不夠共用的那一句）')}
     have = {g['n'] for p in points for g in p['goods'] if g['kind'] != 'eat'}
     if set(IDS) - have:
         die(f'{z}：稿少了 {sorted(set(IDS) - have)}（買過的存檔還記著它的 id：先問 AA，再改 IDS）')
@@ -155,7 +184,10 @@ def bookstore(e):
     hit = [m for n in e['notes'] for m in re.findall(r'^greet_regular：在這裡買過([一二兩三四五六七八九十])次以上', n)]
     if len(hit) != 1:
         die(f'{z}.notes：找不到「greet_regular：在這裡買過○次以上」那一句（找到 {len(hit)} 句）')
-    return {'name': txt(e['name'], z + '.name'), 'staff': staff, 'regular': NUM[hit[0]], 'points': points, 'no_money': txt(e['no_money'], z + '.no_money')}
+    out = {'name': txt(e['name'], z + '.name'), 'staff': staff, 'regular': NUM[hit[0]], 'points': points, 'no_money': txt(e['no_money'], z + '.no_money')}
+    if no_money2:
+        out['no_money2'] = no_money2
+    return out
 
 
 def main():
@@ -168,11 +200,14 @@ def main():
     if not ok:
         die(why)
     A = json.loads(git('show', f'{sha}:{PATH}'))
-    keys(A, '稿', ('_meta', 'bookstore', 'noodle'))
-    data = {'src': f'{PATH}@{sha}', 'noodle': noodle(A['noodle']), 'bookstore': bookstore(A['bookstore'])}
+    keys(A, '稿', ('_meta', 'bookstore', 'noodle'), ('lawww_1112',))
+    ANS = A.get('lawww_1112') or {}
+    if not isinstance(ANS, dict) or set(ANS) - {'燒臘', '頁間'} or any(not isinstance(v, dict) or any(not isinstance(x, str) for x in v.values()) for v in ANS.values()):
+        die('lawww_1112：要是 {燒臘: {編號: 一句}, 頁間: {編號: 一句}}')
+    data = {'src': f'{PATH}@{sha}', 'noodle': noodle(A['noodle']), 'bookstore': bookstore(A['bookstore'], ANS.get('頁間'))}
     out = ('/* 自動產生：tools/story/import_yejian_shaola.py（' + data['src'] + '）。不要手改，改企劃 AA_853 再重新匯入。\n'
            '   公館燒臘點餐（GG-SHAOLA-FIX-1112；演出 src/shaola_order3d.js）：menu／addon＝品名、價錢；soup＝單點的湯（配飯的第一碗不用錢）；eat＝每一樣吃的旁白；staff＝阿姨的話（tab_pay 的 {n}＝這次加上次）。\n'
-           '   頁間書屋買東西（GG-YEJIAN-SHOP-1112；演出 src/yejian_buy3d.js）：points＝每個互動點（kind）的「看」和賣的東西（kind eat 當場吃喝／own 進「物品」／gift 可以送人）；regular＝買過幾次起換熟客的招呼。字一字照稿。*/\n'
+           '   頁間書屋買東西（GG-YEJIAN-SHOP-1112；演出 src/yejian_buy3d.js）：points＝每個互動點（kind）的「看」和賣的東西（kind eat 當場吃喝／own 進「物品」／gift 可以送人）；regular＝買過幾次起換熟客的招呼；no_money＝書牆錢不夠的那一句、no_money2＝其他點共用的那一句（at＝哪幾個點）。字一字照稿。*/\n'
            '\'use strict\';\nconst YEJIAN_SHAOLA_BUY=' + json.dumps(data, ensure_ascii=False, indent=1) + ';\nif(typeof module!==\'undefined\') module.exports=YEJIAN_SHAOLA_BUY;\n')
     p = os.path.join(ROOT, OUT)
     for c in CHANGED:

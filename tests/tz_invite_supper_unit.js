@@ -12,7 +12,7 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
-const SHA='b039356f5', DOC='docs/story_planning/AA_851_tz_invite_supper.json', DATA='src/data/tz_invite_supper.js';
+const SHA='f6aa917593'/* 舊期望 b039356f5（2026-11-12（AA_851＠f6aa917593 lawww_1112.h「203 泡麵宵夜演完推進 30 分鐘。」）：稿多 lawww_1112 三點，句子沒動）*/, PREV_SHA='b039356f5', DOC='docs/story_planning/AA_851_tz_invite_supper.json', DATA='src/data/tz_invite_supper.js';
 const load=(f,n)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); return true; };
 load('src/data/dorm_room_layout.js','DORM_ROOM'); load('src/data/dorm203_lines.js','DORM203_LINES'); load('src/dorm203_3d.js','DORM203');
 load(DATA,'TZ_INVITE_SUPPER'); load('src/tz_invite_supper3d.js','TZIS');
@@ -96,13 +96,15 @@ await sec(5,()=>{
   room('2025-10-14',23.1,Object.assign({},OWN(1),{DORM_FOUR:false})); check('5 不是 203 四人房的存檔：不演',!evCheck(E1)); });
 
 await sec(6,async()=>{
-  room('2025-10-14',23.1,OWN(2)); H.said=[]; await EVENTS.run(EV(E1));
+  room('2025-10-14',23.1,OWN(2)); H.said=[]; const h0=H.G.hour; await EVENTS.run(EV(E1));
+  /* 2026-11-12（AA_851＠f6aa917593 lawww_1112.h「203 泡麵宵夜演完推進 30 分鐘。」）。修改前：演完時間不動 */
+  check('6 演完時間往後 30 分鐘（23:06 → 23:36；資料 supper.minutes＝30，從稿的 lawww_1112.h 讀）',T.supper.minutes===30&&Math.abs(H.G.hour-(h0+0.5))<1e-9,J([h0,H.G.hour,T.supper.minutes]));
   const NAME={zhe:'阿哲',classmate_bohan:'柏翰',kai:'阿凱'};
   check('6 演出來六句，一字照稿',J(H.said.map(s=>s.t))===J(T.supper.scene.map(l=>l.text)),J(H.said.map(s=>s.t)));
   check('6 說話的人照稿（旁白、阿哲、柏翰、阿凱、旁白、阿哲）',J(H.said.map(s=>s.who))===J(T.supper.scene.map(l=>l.who?NAME[l.who]:null)),J(H.said.map(s=>s.who)));
   check('6 兩袋剩一袋',H.G.flags.GG3_OWN.tz_dongnan.tz_dn_noodle5===1,J(H.G.flags.GG3_OWN));
   check('6 同一學期不再演（還有一袋也一樣）',!evCheck(E1)&&!!H.G.events.done[E1]);
-  H.G.day=D('2026-03-10'); H.G.weekday=wdOf(H.G.day); check('6 大一下可以再一次',evCheck(E2));
+  H.G.day=D('2026-03-10'); H.G.weekday=wdOf(H.G.day); H.G.hour=23.1;   /* 另一個晚上（上面那一場演完時間往後了，這裡照原本的 23:06 再看）*/ check('6 大一下可以再一次',evCheck(E2));
   H.said=[]; await EVENTS.run(EV(E2)); check('6 最後一袋用掉＝物品那一格拿掉',!('tz_dn_noodle5' in H.G.flags.GG3_OWN.tz_dongnan)&&H.said.length===6,J(H.G.flags.GG3_OWN));
   check('6 沒有泡麵了、也演過了：不演',!evCheck(E2)); });
 

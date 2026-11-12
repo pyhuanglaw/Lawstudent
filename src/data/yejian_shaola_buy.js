@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_yejian_shaola.py（docs/story_planning/AA_853_yejian_shaola_buy.json@7f7394acc）。不要手改，改企劃 AA_853 再重新匯入。
+/* 自動產生：tools/story/import_yejian_shaola.py（docs/story_planning/AA_853_yejian_shaola_buy.json@f6aa917593）。不要手改，改企劃 AA_853 再重新匯入。
    公館燒臘點餐（GG-SHAOLA-FIX-1112；演出 src/shaola_order3d.js）：menu／addon＝品名、價錢；soup＝單點的湯（配飯的第一碗不用錢）；eat＝每一樣吃的旁白；staff＝阿姨的話（tab_pay 的 {n}＝這次加上次）。
-   頁間書屋買東西（GG-YEJIAN-SHOP-1112；演出 src/yejian_buy3d.js）：points＝每個互動點（kind）的「看」和賣的東西（kind eat 當場吃喝／own 進「物品」／gift 可以送人）；regular＝買過幾次起換熟客的招呼。字一字照稿。*/
+   頁間書屋買東西（GG-YEJIAN-SHOP-1112；演出 src/yejian_buy3d.js）：points＝每個互動點（kind）的「看」和賣的東西（kind eat 當場吃喝／own 進「物品」／gift 可以送人）；regular＝買過幾次起換熟客的招呼；no_money＝書牆錢不夠的那一句、no_money2＝其他點共用的那一句（at＝哪幾個點）。字一字照稿。*/
 'use strict';
 const YEJIAN_SHAOLA_BUY={
- "src": "docs/story_planning/AA_853_yejian_shaola_buy.json@7f7394acc",
+ "src": "docs/story_planning/AA_853_yejian_shaola_buy.json@f6aa917593",
  "noodle": {
   "name": "公館燒臘",
   "staff": {
@@ -73,7 +73,7 @@ const YEJIAN_SHAOLA_BUY={
    {
     "kind": "shelf_browse",
     "label": "書牆",
-    "look": "（整面牆都是二手書，照前一個主人的習慣排，不照分類。你要找的那一本通常在梯子才搆得到的地方。）",
+    "look": "（整面牆都是二手書，照類別分，可是每一格裡沒有順序。你要找的那一本通常在梯子才搆得到的地方。）",
     "goods": [
      {
       "n": "二手小說",
@@ -159,11 +159,24 @@ const YEJIAN_SHAOLA_BUY={
       "n": "當日蛋糕",
       "p": 110,
       "kind": "eat"
+     },
+     {
+      "n": "紅茶",
+      "p": 80,
+      "kind": "eat"
      }
     ]
    }
   ],
-  "no_money": "（你把書放回去。書牆上那個空位，剛好就是它原本的位置。）"
+  "no_money": "（你把書放回去。書牆上那個空位，剛好就是它原本的位置。）",
+  "no_money2": {
+   "at": [
+    "new_books",
+    "magazines",
+    "postcards"
+   ],
+   "text": "（你看了一下價錢，把它放回去。）"
+  }
  }
 };
 if(typeof module!=='undefined') module.exports=YEJIAN_SHAOLA_BUY;

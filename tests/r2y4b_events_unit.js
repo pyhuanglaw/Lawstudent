@@ -490,7 +490,8 @@ const date=id=>H.date(id);
     check('BG1 成立：大口漢堡二樓的長桌上可昕寫的表（AA_630 Z-049）；「每週一、三、五晚上，週六整天。……有意見現在說。」；語彤「週末我在茶屋。…」（AA_627 A-272）；「……好。那表上多一格。」', has('（開學第一個週五晚上，大口漢堡二樓。長桌上多了一張手寫的表，可昕寫的。）')&&has('每週一、三、五晚上，週六整天。……有意見現在說。')&&has('週末我在茶屋。你們平常在這裡讀，我順便考你們。')&&has('……好。那表上多一格。'));
     /* AA_642 第 6 節：平日晚上的讀書在大口漢堡二樓＝2D 出遊 ev_bar_group_out（一次排下一場）；燒臘店 3D 不再觸發 */
     at('2029-02-25',20); phone(); const qo=OUT.get(H.G,'y4_bar_out_'+D('2029-02-26')); at('2029-02-26',21.5); H.G.zone='noodle'; const due=!!qo&&qo.ev==='ev_bar_group_out'&&qo.h===21&&/大口漢堡/.test(qo.place)&&!EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_out');
-    check('2-Y4-58 作息：週一 21:00～23:00 大口漢堡二樓（2D 出遊）讀書，一晚一句（可昕「刑總那題，你先講結論，再講理由。講完我再問。」）；BAR_GROUP_N', due&&H.said.length===1&&has('刑總那題，你先講結論，再講理由。講完我再問。')&&H.G.flags.BAR_GROUP_N===1,JSON.stringify(qo));
+    /* 2026-11-12（AA_836 文末「補（12:2x）」，企劃線 f6aa917593：三杯熱可可那一版在三個人都在的讀書夜也演一次）：這一晚是三個人第一個平日的讀書夜＝可昕那一句前面多三杯那一句（旁白，整季一次）。舊期望：H.said.length===1 */
+    check('2-Y4-58 作息：週一 21:00～23:00 大口漢堡二樓（2D 出遊）讀書，一晚一句（可昕「刑總那題，你先講結論，再講理由。講完我再問。」）；三個人第一個平日晚上前面多「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」；BAR_GROUP_N', due&&H.said.length===2&&H.said[0].t==='（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）'&&H.said[1].t==='刑總那題，你先講結論，再講理由。講完我再問。'&&H.G.flags.BAR_GROUP_N===1&&H.G.flags.BAR_GROUP_COCOA3===H.G.day,JSON.stringify(qo));
     const tue=!S.session(H.G,D('2029-02-27')), hol=!S.session(H.G,D('2029-02-28')); at('2029-03-02',21.5); await run('ev_bar_group_out');
     const TX=['ev_bar_group_night','ev_bar_group_video','ev_bar_group_start'].flatMap(id=>ev(id).dialogue.filter(l=>l.text).map(l=>l.text));
     check('2-Y4-58 週二不排（週四是國考讀書會）、國定假日不排（2/28）；下一次（週五）輪到語彤「押租金那個，你講給我聽。不要講條號。」；BG3 沒有條號、沒有假設題、沒有比誰對', tue&&hol&&has('押租金那個，你講給我聽。不要講條號。')&&H.G.flags.BAR_GROUP_N===2&&!TX.some(t=>/第\s*[0-9一二三四五六七八九十百]+\s*條|假設|你覺得我會錯/.test(t)));

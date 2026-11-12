@@ -14,7 +14,7 @@
 //   地點關卡 tests/place_gate_unit.js 這兩間的 buy／nomoney／text 六項是 KNOWN_FAIL（這次從表上拿掉）。
 // 用法：node tests/us_markets_buy_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process'); const ROOT=path.resolve(__dirname,'..');
-const SHA='b039356f5', DOC='docs/story_planning/AA_850_us_markets_buy.json', DATA='src/data/us_markets_buy.js';
+const SHA='f6aa917593'/* 舊期望 b039356f5（2026-11-12（AA_850＠f6aa917593 lawww_1112）：稿多 lawww_1112 七點；品名、價錢、句子沒動）*/, PREV_SHA='b039356f5', DOC='docs/story_planning/AA_850_us_markets_buy.json', DATA='src/data/us_markets_buy.js';
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
 const J=x=>JSON.stringify(x);
 process.on('unhandledRejection',e=>{ console.log('FAIL unhandledRejection '+(e&&e.stack||e)); fails++; });
@@ -50,8 +50,12 @@ const said=t=>says.some(s=>s[1]===t);
       for(const at of Object.keys(Rz.shelves)) for(const r of Rz.shelves[at]) rows.push([r[0],r[1],r[2],at]);
       if(J(rows)!==J(T.goods.map(g=>[g.n,g.usd,g.kind,g.at]))) bad.push(z+' goods');
       for(const k of Object.keys(Rz.lines)) if(T.lines[k]!==Rz.lines[k]) bad.push(z+' lines.'+k);
-      for(const k of Object.keys(T.lines)) if(!(k in Rz.lines)&&k!=='mooncake_give') bad.push(z+' 多了 lines.'+k); }
+      for(const k of Object.keys(T.lines)) if(!(k in Rz.lines)&&k!=='mooncake_give'&&!(z==='us_asian_market'&&k==='no_money_other')) bad.push(z+' 多了 lines.'+k); }   /* 2026-11-12（AA_850＠f6aa917593 lawww_1112）c：竹葉多 no_money_other（下一條對稿）。舊期望：多的只有 mooncake_give */
     check('1 品名、美金、種類、貨架、每一句逐字對稿（28 樣、18 句）',!bad.length&&M.goods.length===14&&A.goods.length===14,bad.join('、'));
+    { const Q=R.lawww_1112||{}, shown=[...M.goods,...A.goods].filter(g=>g.show).map(g=>[g.id,g.n,g.show]);
+      check('1 答案 b「畫面用短名：火雞胸、沙茶醬、月餅」：只有這三樣多 show（n 照舊是稿的全名）；答案 c：竹葉 no_money_other＝no_money 把「先拿水餃，其他下次。」換成「先拿便宜的，其他下次。」',
+        (Q.b||'').startsWith('畫面用短名：火雞胸、沙茶醬、月餅；')&&J(shown)===J([['usm_turkey','火雞胸（一小塊，十一月才有）','火雞胸'],['usa_satay','沙茶醬（最後一罐）','沙茶醬'],['usa_mooncake','月餅（一顆，九月中到中秋）','月餅']])
+        &&(Q.c||'')==='竹葉錢不夠：推車裡有水餃＝「先拿水餃，其他下次。」；沒有水餃＝「先拿便宜的，其他下次。」'&&A.lines.no_money.endsWith('先拿水餃，其他下次。')&&A.lines.no_money_other===A.lines.no_money.replace('先拿水餃，其他下次。','先拿便宜的，其他下次。'),J([shown,A.lines.no_money_other])); }
     check('1 月餅給學姊那一句在稿的 notes 裡',R.us_asian_market.notes.some(n=>n.includes('給的時候她說：「'+A.lines.mooncake_give+'」')),A.lines.mooncake_give);
     const ck=cp.spawnSync('python3',['tools/story/import_us_markets.py','--check'],{cwd:ROOT,encoding:'utf8'});
     if(ck.error) console.log('SKIP 1 沒有 python3（匯入工具 --check）'); else check('1 匯入工具 --check：資料檔＝稿匯出來的（走 import_guard 白名單）',ck.status===0,(ck.stdout+ck.stderr).trim().slice(0,200)); }
@@ -59,7 +63,7 @@ const said=t=>says.some(s=>s[1]===t);
   check('1 實扣＝美金 × 32 四捨五入（4.99→160、2.65→85、1.29→41、5→160、18.99→608）',D.rate===32&&all.every(g=>g.p===Math.round(g.usd*32))&&J(['usm_apple','usm_postcard','usa_milktea','usa_mooncake','usm_tp'].map(id=>all.find(g=>g.id===id).p))==='[160,85,41,160,608]',J(all.map(g=>[g.id,g.p])));
   check('1 id 不重複、每一樣的貨架都有「看」的字',new Set(all.map(g=>g.id)).size===28&&M.goods.every(g=>LOOK.us_market[g.at])&&A.goods.every(g=>LOOK.us_asian_market[g.at]));
   const AL=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===DOC);
-  check('1 白名單：一筆 approved、sha '+SHA,AL.length===1&&AL[0].status==='approved'&&AL[0].sha===SHA&&!!AL[0].approvedBy&&D.src===DOC+'@'+SHA,J(AL)); }
+  check('1 白名單：一筆 approved、sha '+SHA+'（上一版 '+PREV_SHA+' 在 history）',AL.length===1&&AL[0].status==='approved'&&AL[0].sha===SHA&&!!AL[0].approvedBy&&(AL[0].history||[]).some(h=>h.sha===PREV_SHA)&&D.src===DOC+'@'+SHA,J(AL)); }
 
 /* ===== 2 貨架 ===== */
 { start('us_market'); const r=await press('produce',[0,0]);
@@ -91,8 +95,15 @@ const said=t=>says.some(s=>s[1]===t);
   check('4 竹葉：阿姨「先拿水餃，其他下次。」、只買水餃（320 元）、其他放回去、沒有進物品',says.some(s=>s[0]==='阿姨'&&s[1]===A.lines.no_money)&&G.money===80&&!G.flags.GG3_OWN&&!S.cart(GM).ids.length&&GIFTH.bag(G).length===0,J([says,G.money,G.flags]));
   start('us_asian_market','2028-10-10',100); await press('asia_rice',[0]); await press('asia_frozen',[0]); reset(); await press('asia_checkout',['結帳']);
   check('4 竹葉：連水餃都不夠＝什麼都不買、不扣錢',G.money===100&&adv===0&&!S.cart(GM).ids.length&&!said(A.lines.checkout_done));
+  /* 2026-11-12（AA_850＠f6aa917593 lawww_1112）c：推車裡沒有水餃＝阿姨說稿的新句「先拿便宜的，其他下次。」、從便宜的拿起。舊期望：沒有水餃＝（也說「先拿水餃」）什麼都不買、不扣錢 */
   start('us_asian_market','2028-10-10',100); await press('asia_rice',[0]); reset(); await press('asia_checkout',['結帳']);
-  check('4 竹葉：沒有水餃＝什麼都不買、不扣錢',G.money===100&&!G.flags.GG3_OWN&&!S.cart(GM).ids.length); }
+  check('4 竹葉：沒有水餃、一樣都付不起（身上 100、米 '+A.goods.find(g=>g.id==='usa_rice').p+'）＝阿姨「先拿便宜的，其他下次。」、什麼都不買、不扣錢、推車清空',says.some(s=>s[0]==='阿姨'&&s[1]===A.lines.no_money_other)&&!said(A.lines.no_money)&&G.money===100&&adv===0&&!G.flags.GG3_OWN&&!S.cart(GM).ids.length&&!said(A.lines.checkout_done),J([says,G.money]));
+  { const rice=A.goods.find(g=>g.id==='usa_rice'), soy=A.goods.find(g=>g.id==='usa_soy'), tea=A.goods.find(g=>g.id==='usa_wintermelon'), m0=soy.p+tea.p+5;
+    start('us_asian_market','2028-10-10',m0); await press('asia_rice',[0]); await press('asia_sauce',['醬油']); await press('asia_drinks',['冬瓜茶']); reset(); await press('asia_checkout',['結帳']);
+    check('4 竹葉：沒有水餃、付得起便宜的兩樣（醬油、冬瓜茶）付不起米＝阿姨「先拿便宜的，其他下次。」、買走那兩樣、米放回去、照常說 checkout_done',J(S.cart(GM).ids)==='[]'&&says.some(s=>s[0]==='阿姨'&&s[1]===A.lines.no_money_other)&&!said(A.lines.no_money)&&G.money===5&&said(A.lines.checkout_done)
+      &&J(G.flags.GG3_OWN)===J({us_asian_market:{usa_soy:1}})&&rice.p>m0&&Math.abs(adv-1/3)<1e-9,J([says,G.money,G.flags.GG3_OWN])); }
+  start('us_asian_market','2028-10-10',400); await press('asia_rice',[0]); await press('asia_frozen',[0]); reset(); await press('asia_checkout',['結帳']);
+  check('4 竹葉：有水餃的時候照舊說原句（不說新句）',said(A.lines.no_money)&&!said(A.lines.no_money_other)); }
 
 /* ===== 5 買的東西去哪 ===== */
 { start('us_asian_market'); await press('asia_noodles',[0]); await press('asia_rice',[0]); await press('asia_snacks',['鳳梨酥']); await press('asia_dry',['臺灣烏龍茶']); reset(); await press('asia_checkout',['結帳']);
@@ -120,7 +131,7 @@ const said=t=>says.some(s=>s[1]===t);
   const mid=S.moonDay(2028); check('6 2028 的中秋＝10/3（日曆）',mid===DK('2028-10-03'),String(mid));
   check('6 月餅 9/15～10/3 才賣（9/14、10/4 沒有）',!S.mooncakeOn({day:DK('2028-09-14')})&&S.mooncakeOn({day:DK('2028-09-15')})&&S.mooncakeOn({day:DK('2028-10-03')})&&!S.mooncakeOn({day:DK('2028-10-04')}));
   start('us_asian_market','2028-09-20'); await press('asia_checkout',[0]);
-  check('6 竹葉結帳櫃台：先演稿的月餅那一句、「月餅…　$5.00／不用了」；拿了就接著結帳',says[0][1]===A.lines.mooncake&&J(menus[0])===J(['月餅（一顆，九月中到中秋）　$5.00','不用了'])&&menus.length===2,J([says,menus]));
+  check('6 竹葉結帳櫃台：先演稿的月餅那一句、「月餅…　$5.00／不用了」；拿了就接著結帳',says[0][1]===A.lines.mooncake&&J(menus[0])===J(['月餅　$5.00','不用了'])&&menus.length===2&&menus[1][0]==='結帳〔月餅　共 $5.00（160 元）〕',J([says,menus]));   /* 2026-11-12（AA_850＠f6aa917593 lawww_1112）b：畫面用短名。舊期望：選單寫「月餅（一顆，九月中到中秋）　$5.00」 */
   start('us_asian_market','2028-09-20'); await press('asia_checkout',['不用了']); reset(); await press('asia_checkout');
   check('6 月餅一趟只問一次（第二次按＝空推車只有看）',!says.length&&!menus.length&&caps[0]===LOOK.us_asian_market.asia_checkout,J([says,caps]));
   start('us_asian_market','2028-10-10'); await press('asia_checkout'); check('6 過了中秋：櫃台沒有月餅',!says.length&&!menus.length&&caps.length===1); }

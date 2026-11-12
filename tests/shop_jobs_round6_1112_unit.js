@@ -34,7 +34,7 @@ const desk=z=>{ H.E.interactables=[]; return JOBS.addDesk(GM,z); };
 const ask=async(it,picks)=>{ H.said=[]; H.opts=[]; dims.length=0; toasts.length=0; H.picks=picks.slice(); await STORY.interact(it,GM); };
 
 const D8=typeof SHOP_JOBS_AA828!=='undefined'?SHOP_JOBS_AA828:null;
-const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA8='3e9cd7d9d4', PREV8='1e539b8eb9', NOW8='33e9522155';   /* 第七輪改期望（AA_828 第 10 節）：白名單、資料的來源換成 NOW8（舊期望：SHA8 3e9cd7d9d4）；SHA8 留著對第 9 節的稿（第 1～9 節一字不差） */
+const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA8='3e9cd7d9d4', PREV8='1e539b8eb9', NOW8='f6aa917593';   /* 2026-11-12 第七輪合併後（AA_828 第 11 節，企劃線 f6aa917593）改期望：白名單、資料的來源再換成 f6aa917593（舊期望 NOW8 33e9522155）｜第七輪改期望（AA_828 第 10 節）：白名單、資料的來源換成 NOW8（舊期望：SHA8 3e9cd7d9d4）；SHA8 留著對第 9 節的稿（第 1～9 節一字不差） */
 const friend=id=>{ const r=SOCIAL.rel(id); r.fam=40; r.trust=25; };
 /* 假的 3D：座位、門口、生人（照 game3d.js spawnCharacter 回傳的樣子：charId、obj、seat）；STORY.refreshSchedule 是真的 */
 const YUE=typeof TZ_SHOPS_LAYOUT!=='undefined'&&TZ_SHOPS_LAYOUT.yuehaochi?TZ_SHOPS_LAYOUT.yuehaochi:{seats:[{x:-2.6,z:2.25,yaw:0},{x:-2,z:2.25,yaw:0}],spawn:{x:0.75,z:2.9},clerk:{x:1,z:-3.4,yaw:0}};

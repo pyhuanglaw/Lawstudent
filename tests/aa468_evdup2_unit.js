@@ -116,13 +116,20 @@ const model=(R,first4,T,firstExtra)=>{ let c=0, w=0, s=0; const exp=[]; for(cons
     G=await bar('yutong',{BAR_GROUP_YI:6,BAR_GROUP_YT_FIRST:D('2029-02-26')}); R=await season(G,'2029-05-07','2029-05-12');
     check('2-d 舊存檔（語彤 YI=6）：平日從第 1 句看起、下一晚第 2 句；週六從第 1 句（總圖的長桌）',R.length===4&&R[0].L[0]===Y.wd[0]&&R[1].L[0]===Y.wd[1]&&R[2].L[0]===Y.wd[2]&&R[3].sat&&R[3].L[0]===Y.sat[0],J(R.map(r=>r.k+r.L[0])));
     G=await bar('three',{BAR_GROUP_KI:9,BAR_GROUP_YI:9,BAR_GROUP_N:18}); R=await season(G,'2029-05-07','2029-05-12');
-    check('2-d 舊存檔（三個人 KI=YI=9）：三個人的旁白從第 1 句看起',R.length===4&&J(R.map(r=>r.L[0]))===J([T3.list[0],T3.list[1],T3.list[2],T3.list[4]]),J(R.map(r=>r.k+(r.sat?'六':'')+r.L[0])));
+    /* 2026-11-12（AA_836 文末「補（12:2x）」，企劃線 f6aa917593：三杯熱可可那一版在三個人都在的讀書夜也演一次）：舊存檔沒有 BAR_GROUP_COCOA3＝第一個平日的晚上前面多那一句（COCOA3），那一晚自己的句子照舊。舊期望：每一晚只有一句（R.map(r=>r.L[0])） */
+    { const COCOA3=ev('ev_bar_group_night').dialogue.find(l=>l&&l.cocoa3).text, own=r=>r.L.filter(t=>t!==COCOA3);
+      check('2-d 舊存檔（三個人 KI=YI=9）：三個人的旁白從第 1 句看起；第一個平日晚上前面多三杯熱可可那一句（只有那一晚）',R.length===4&&J(R.map(r=>own(r)[0]))===J([T3.list[0],T3.list[1],T3.list[2],T3.list[4]])&&J(R[0].L)===J([COCOA3,T3.list[0]])&&R.slice(1).every(r=>r.L.length===1)&&COCOA3==='（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）',J(R.map(r=>r.k+(r.sat?'六':'')+J(r.L)))); }
   });
 
   /* ======================= 2-e 三個人（第 4 節 ②）======================= */
   await sec('2-e',async()=>{
-    const G=await bar('three'); const R=await season(G), flat=R.map(r=>r.L[0]);
-    check('2-e 三個人在麵店（kind three）：'+R.length+' 場都在麵店、每場一句',R.length>=80&&R.every(r=>r.mode==='noodle'&&r.who==='three'&&r.L.length===1),J(R.length));
+    /* 2026-11-12（AA_836 文末「補（12:2x）」，企劃線 f6aa917593：三杯熱可可那一版在三個人都在的讀書夜也演一次）：第一個平日的讀書夜（2/26 週一）那一晚的句子前面多那一句，整季只演這一次（G.flags.BAR_GROUP_COCOA3）；下面「每場一句」「第一輪」「六句」都拿掉那一句再比。
+       舊期望：flat＝R.map(r=>r.L[0])、每場 r.L.length===1 */
+    const G=await bar('three'); const R=await season(G), COCOA3=ev('ev_bar_group_night').dialogue.find(l=>l&&l.cocoa3).text, own=r=>r.L.filter(t=>t!==COCOA3), flat=R.map(r=>own(r)[0]);
+    check('2-e 三個人在麵店（kind three）：'+R.length+' 場都在麵店、每場一句（第一個平日晚上另外多三杯熱可可那一句）',R.length>=80&&R.every(r=>r.mode==='noodle'&&r.who==='three'&&own(r).length===1),J(R.length));
+    { const hit=R.filter(r=>r.L.includes(COCOA3));
+      check('2-e 三杯熱可可那一句（AA_836 文末補）：整季剛好一晚——第一個平日的讀書夜、在那一晚的句子前面、沒有人說話；不在週六、不和「（十點，大口漢堡二樓的人少了一半。…）」同一晚；記 BAR_GROUP_COCOA3',
+        hit.length===1&&hit[0]===R.find(r=>!r.sat)&&J(hit[0].L)===J([COCOA3,OLD_K[0]])&&hit[0].W[0]===null&&!hit[0].sat&&!hit[0].L.includes(T3.list[3])&&G.flags.BAR_GROUP_COCOA3!=null&&COCOA3==='（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）',J(hit.map(r=>r.k+J(r.L)))); }
     check('2-e 第一輪照舊：k、y 輪流八次（可昕 k1、語彤 y1、k2、y2…）',J(flat.slice(0,8))===J([OLD_K[0],OLD_Y[0],OLD_K[1],OLD_Y[1],OLD_K[2],OLD_Y[2],OLD_K[3],OLD_Y[3]]),J(flat.slice(0,8)));
     const used=[], exp=R.slice(8).map(r=>{ for(let i=0;i<6;i++){ if(used.includes(i)) continue; const w=T3.when[i]; if((w==='sat'&&!r.sat)||(w==='wd'&&r.sat)) continue; used.push(i); return T3.list[i]; } return r.sat?T3.end.sat:T3.end.wd; });
     check('2-e 之後第 4 節的六句照順序各一次（第 4 句只在平日、第 5 句只在週六，輪到不能用的先留著），用完留收尾',J(flat.slice(8))===J(exp),J(R.slice(8,18).map(r=>r.k+(r.sat?'六':'')+r.L[0])));

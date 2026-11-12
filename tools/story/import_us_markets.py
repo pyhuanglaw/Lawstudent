@@ -127,13 +127,34 @@ def main():
     if not ok:
         die(why)
     A = json.loads(git('show', f'{sha}:{PATH}'))
-    keys(A, '稿', ('_meta', 'us_market', 'us_asian_market'))
+    keys(A, '稿', ('_meta', 'us_market', 'us_asian_market'), ('lawww_1112',))
     if '32' not in A['_meta'].get('money', ''):
         die('稿 _meta.money 沒有寫一美金算 32 元（匯率改了：先改這支工具的 RATE）')
     data = {'src': f'{PATH}@{sha}', 'rate': RATE, 'shops': {z: shop(z, A[z]) for z in ('us_market', 'us_asian_market')}}
+    # lawww_1112（AA 2026-11-12 回 LAWWW；有才讀）：
+    #   b「畫面用短名：火雞胸、沙茶醬、月餅；括號裡的條件…只當說明，不顯示。其他品名照稿。」→ 那幾樣多一個 show＝短名（畫面顯示它；n 照舊是稿的全名）
+    #   c「竹葉錢不夠：推車裡有水餃＝「…」；沒有水餃＝「…」」→ 第一句要是 no_money 的結尾；竹葉多一句 no_money_other＝no_money 把那一段換成第二句
+    ANS = A.get('lawww_1112')
+    if ANS is not None:
+        if not isinstance(ANS, dict) or any(not isinstance(v, str) for v in ANS.values()) or 'b' not in ANS or 'c' not in ANS:
+            die('lawww_1112：要是 {編號: 一句}，而且有 b（短名）、c（竹葉錢不夠）')
+        m = re.search(r'畫面用短名：([^；]+)；括號裡的條件（[^）]*）只當說明，不顯示。其他品名照稿。', ANS['b'])
+        if not m:
+            die(f'lawww_1112.b：讀不到「畫面用短名：…；括號裡的條件（…）只當說明，不顯示。其他品名照稿。」（{ANS["b"]}）')
+        for short in m.group(1).split('、'):
+            hit = [g for z in data['shops'] for g in data['shops'][z]['goods'] if g['n'].startswith(short + '（') and g['n'].endswith('）')]
+            if len(hit) != 1:
+                die(f'lawww_1112.b：短名「{short}」要剛好對到一樣「{short}（…）」（對到 {len(hit)} 樣）')
+            hit[0]['show'] = txt(short, 'lawww_1112.b')
+        c = re.search(r'竹葉錢不夠：推車裡有水餃＝「([^「」]+)」；沒有水餃＝「([^「」]+)」', ANS['c'])
+        L = data['shops']['us_asian_market']['lines']
+        if not c or not L['no_money'].endswith(c.group(1)) or c.group(1) == c.group(2):
+            die(f'lawww_1112.c：讀不到「竹葉錢不夠：推車裡有水餃＝「…」；沒有水餃＝「…」」，或第一句不是現在 no_money 的結尾（{ANS["c"]}）')
+        L['no_money_other'] = L['no_money'][:-len(c.group(1))] + txt(c.group(2), 'lawww_1112.c')
     out = ('/* 自動產生：tools/story/import_us_markets.py（' + data['src'] + '）。不要手改，改企劃 AA_850 再重新匯入。\n'
            '   美國兩間超市買東西（US-MARKETS-BUY-1112；演出 src/us_markets3d.js）：goods＝貨架上的東西（n 品名、usd 標價、p 實際扣的錢＝usd × rate 四捨五入、\n'
-           '   kind eat 帶回去吃掉／own 進「物品」／gift 可以送人、at 哪一個互動點）；lines＝店員的話和旁白。字一字照稿。*/\n\'use strict\';\nconst US_MARKETS_BUY='
+           '   kind eat 帶回去吃掉／own 進「物品」／gift 可以送人、at 哪一個互動點、show＝畫面上用的短名（稿 lawww_1112.b 指名的那幾樣才有））；lines＝店員的話和旁白\n'
+           '   （竹葉 no_money_other＝推車裡沒有水餃的時候錢不夠的那一句，稿 lawww_1112.c）。字一字照稿。*/\n\'use strict\';\nconst US_MARKETS_BUY='
            + json.dumps(data, ensure_ascii=False, indent=1) + ';\nif(typeof module!==\'undefined\') module.exports=US_MARKETS_BUY;\n')
     p = os.path.join(ROOT, OUT)
     for c in CHANGED:

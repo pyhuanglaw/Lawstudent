@@ -12,6 +12,10 @@
   那一學期沒有「（下雨」的句子（系籃大二上）＝下雨那一場照順序演（不拿大一上那一句來用：稿的 rule「不重複大一上那幾句」）。
 - 核對 src/data/activities.js：這三個活動都在、kind 是 club、term 剛好是 ['Y1S1']＋terms（activities.js 是手寫檔，term 手改；對不上＝停）。
 稿上有工具不認得的欄位、社團、學期＝停下來，不默默丟掉。
+- _meta.lawww_1112（AA 2026-11-12 回 LAWWW 的三點；有才讀，沒有＝照上面的舊做法）：
+  「3_入社」→ board＝{from: 哪個學期起, join: 布告欄「怎麼加入」的另一版字, noWhen: 「活動時間」那一欄不寫的那幾個字}（src/clubboard3d.js：這三個社團 from 起的學期用這一版）；
+  「4_最後一次」→ last＝{活動 id: {學期: 第幾句}}：那一學期開頭寫「（學期最後一次」「（最後一次」的那一句＝綁那學期最後一個有社課的週，那一週去了才演、沒去不演；其餘照去的次數輪（src/classes3d.js clubNarr）；
+  「5_下雨」→ rainBase＝{活動 id: [學期…]}：那一學期沒有自己的下雨句、下雨那天用大一上現有的下雨句（取代上面「不拿大一上那一句來用」）。
 
 怎麼演：src/classes3d.js 的 clubNarr（那一學期有這裡的旁白就用這裡的，沒有＝照舊用 activities.js 的 narr）。測試 tests/club_later_terms_1112_unit.js。
 
@@ -57,8 +61,11 @@ def build(d):
     if set(d) != {'_meta'} | set(CLUBS):
         die(f'最上層的欄位改了（{sorted(d)}）；這支工具只認 {CLUBS}')
     M = d['_meta']
-    if set(M) != {'doc', 'by', 'rule', 'arc', 'notes', 'status'}:
+    if set(M) - {'lawww_1112'} != {'doc', 'by', 'rule', 'arc', 'notes', 'status'}:
         die(f'_meta 的欄位改了（{sorted(M)}）')
+    ANS = M.get('lawww_1112')
+    if ANS is not None and (not isinstance(ANS, dict) or set(ANS) != {'3_入社', '4_最後一次', '5_下雨'} or any(not isinstance(v, str) for v in ANS.values())):
+        die(f'_meta.lawww_1112：原本是「3_入社」「4_最後一次」「5_下雨」三點（各一段字），寫法換了，先改這支工具（{sorted(ANS) if isinstance(ANS, dict) else ANS}）')
     m = re.search(r'term 加 ([A-Z0-9、]+)；週次、星期、時間、地點照大一上不變', M['rule'])
     if not m:
         die(f'_meta.rule：讀不到「term 加 …；週次、星期、時間、地點照大一上不變」（{M["rule"]}）')
@@ -70,7 +77,19 @@ def build(d):
     if '一次社課出一句，輪流' not in M['rule']:
         die('_meta.rule：原本寫「一次社課出一句，輪流」，寫法換了，先改這支工具和 src/classes3d.js 的 clubNarr')
     act = open(os.path.join(ROOT, ACT_JS), encoding='utf-8').read()
-    clubs, rain = {}, {}
+    clubs, rain, last, rain_base = {}, {}, {}, {}
+    board = None
+    base_rain_terms = []
+    if ANS:
+        b = re.search(r'布告欄另一版字（(Y[1-4]S[12]) 起用）：join＝「([^「」]+)」；when 照實際有社課的週次寫，不寫「([^「」]+)」。', ANS['3_入社'])
+        if not b or b.group(1) not in terms:
+            die(f'_meta.lawww_1112.3_入社：讀不到「布告欄另一版字（○ 起用）：join＝「…」；when 照實際有社課的週次寫，不寫「…」。」（{ANS["3_入社"]}）')
+        board = {'from': b.group(1), 'join': IG.read_fix(b.group(2)), 'noWhen': IG.read_fix(b.group(3))}
+        if '綁那學期最後一個有社課的週，那一週去了才演；沒去就不演，不往前挪。其餘照去的次數輪。' not in ANS['4_最後一次'] or '「學期最後一次' not in ANS['4_最後一次'] or '「最後一次…」' not in ANS['4_最後一次']:
+            die(f'_meta.lawww_1112.4_最後一次：寫法換了，先改這支工具和 src/classes3d.js 的 clubNarr（{ANS["4_最後一次"]}）')
+        base_rain_terms = re.findall(r'(Y[1-4]S[12]) 下雨那天用大一上現有的下雨句', ANS['5_下雨'])
+        if len(base_rain_terms) != 1 or base_rain_terms[0] not in terms or '是下雨那天專用' not in ANS['5_下雨'] or '不下雨的日子不輪到這兩句' not in ANS['5_下雨']:
+            die(f'_meta.lawww_1112.5_下雨：寫法換了，先改這支工具和 src/classes3d.js 的 clubRainNarr（{ANS["5_下雨"]}）')
     for cid in CLUBS:
         row = act_row(act, cid)
         if "kind:'club'" not in row:
@@ -97,7 +116,23 @@ def build(d):
                 die(f'{cid}.{t}：「（下雨」的句子有 {len(r)} 句，下雨場只認一句')
             if r:
                 rain.setdefault(cid, {})[t] = r[0]
-    return {'terms': terms, 'clubs': clubs, 'rain': rain, 'rule': M['rule'], 'arc': M['arc'], 'notes': M['notes'], 'status': M['status']}
+            if ANS:
+                e = [i for i, x in enumerate(L) if re.match(r'（(學期)?最後一次', x)]
+                if len(e) > 1 or (e and e[0] != len(L) - 1):
+                    die(f'{cid}.{t}：「（學期最後一次／（最後一次」的句子要最多一句、而且排在那一學期的最後（找到第 {[i + 1 for i in e]} 句）')
+                if e:
+                    last.setdefault(cid, {})[t] = e[0]
+                if has_rain and not r and t in base_rain_terms:
+                    rain_base.setdefault(cid, []).append(t)
+    out = {'terms': terms, 'clubs': clubs, 'rain': rain}
+    if ANS:
+        if not rain_base:
+            die(f'_meta.lawww_1112.5_下雨：{base_rain_terms} 要用大一上的下雨句，可是那一學期有下雨場的社團都有自己的下雨句')
+        out.update({'last': last, 'rainBase': rain_base, 'board': board})
+    out.update({'rule': M['rule'], 'arc': M['arc'], 'notes': M['notes'], 'status': M['status']})
+    if ANS:
+        out['lawww_1112'] = ANS
+    return out
 
 
 def main():
@@ -113,7 +148,8 @@ def main():
     data.update(build(json.loads(IG.read_fix(subprocess.check_output(['git', 'show', f'{sha}:{PATH}'], cwd=ROOT).decode('utf-8')))))   # 讀稿先過 read_fix（Alison、校名、店名的換名；tests/alison_unit.js 第 4 項）
     js = ('/* 自動產生：tools/story/import_club_later_terms.py（' + data['src'] + '）。不要手改，改企劃稿再重新匯入。\n'
           '   辯論社、登山社、系籃大一下～大二下的社課旁白（CLUB-LATER-TERMS-1112）：clubs[活動][學期]＝那一學期的旁白（一字照 AA_852）；\n'
-          '   terms、rain（開頭「（下雨」的那一句＝下雨場才演）是從稿上的字讀出來的。怎麼演：src/classes3d.js 的 clubNarr */\n'
+          '   terms、rain（開頭「（下雨」的那一句＝下雨場才演）、last（每學期最後那一句＝最後一個有社課的週去了才演）、rainBase（那一學期下雨用大一上的下雨句）、board（布告欄大一下起的另一版字）是從稿上的字讀出來的。\n'
+          '   怎麼演：src/classes3d.js 的 clubNarr／clubRainNarr、src/clubboard3d.js */\n'
           "'use strict';\nconst CLUB_LATER_TERMS=" + json.dumps(data, ensure_ascii=False, indent=1) + ";\nif(typeof module!=='undefined') module.exports=CLUB_LATER_TERMS;\n")
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:

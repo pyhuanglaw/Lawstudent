@@ -43,9 +43,9 @@ const MAIN=R.filter(r=>!r.late), LT=R.filter(r=>r.late);
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+PREV+' 在 history',C.ALLOW_SHA==='3cb2939d0'&&C.HAO3_1112_PREV===SHA&&PREV==='41f77eab53'&&bad.length===0,J(bad));   /* 2026-11-12（X324 第四次重匯 3cb2939d0，date_src_sha.js HAO3_1112）：白名單再換 3cb2939d0（35 格，逐格在 tests/hao3_dates_1112_unit.js）；這一批的 d7d818f8a8＝C.HAO3_1112_PREV。舊期望：C.ALLOW_SHA===SHA（d7d818f8a8） */
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+PREV+' 在 history',C.ALLOW_SHA==='5afc5c0e3'&&C.KXNL_1112_PREV==='f6aa917593'&&C.D158_1112_PREV==='3cb2939d0'&&C.HAO3_1112_PREV===SHA&&PREV==='41f77eab53'&&bad.length===0,J(bad));   /* 2026-11-12（X324 第四次重匯 3cb2939d0，date_src_sha.js HAO3_1112）：白名單再換 3cb2939d0（35 格，逐格在 tests/hao3_dates_1112_unit.js）；這一批的 d7d818f8a8＝C.HAO3_1112_PREV。舊期望：C.ALLOW_SHA===SHA（d7d818f8a8） */   /* 2026-11-12（D158 約會台詞重匯 AA_860@f6aa917593，date_src_sha.js D158_1112）：白名單再換 f6aa917593（可昕 45 格、沛珊 4 格重寫，逐格在 tests/d158_dates_1112_unit.js）；3cb2939d0＝C.D158_1112_PREV。舊期望：C.ALLOW_SHA==='3cb2939d0' */   /* 2026-11-12（可昕不靠記帳 AA_869～871@5afc5c0e3，date_src_sha.js KXNL_1112）：白名單再換 5afc5c0e3（只動可昕 137 格，逐格在 tests/kxnl_dates_1112_unit.js）；f6aa917593＝C.KXNL_1112_PREV。舊期望：C.ALLOW_SHA==='f6aa917593' */
   const e=allow.filter(x=>x.path===SP+'AA_812_date_pays_promises.json');
-  check('1. 白名單 AA_812 那一筆現在是 '+C.ALLOW_SHA+'（path_rows 少子晴 D06.cafe 一列）、approved；這一批的 '+SHA+'（她請／平分名單同步新字）和 633b7f7d6、f1fab0ec6 在 history',e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&[SHA,'633b7f7d6','f1fab0ec6'].every(s=>(e[0].history||[]).some(h=>h.sha===s)),J(e.map(x=>x.sha)));   /* 2026-11-12（X324 第四次重匯 3cb2939d0，date_src_sha.js HAO3_1112）：AA_812 白名單再換 3cb2939d0。舊期望：e[0].sha===SHA（d7d818f8a8）、history 有 633b7f7d6、f1fab0ec6 */
+  check('1. 白名單 AA_812 那一筆現在是 '+C.D158_1112_PREV+'（path_rows 少子晴 D06.cafe 一列）、approved；這一批的 '+SHA+'（她請／平分名單同步新字）和 633b7f7d6、f1fab0ec6 在 history',e.length===1&&e[0].sha===C.D158_1112_PREV&&C.D158_1112_PREV==='3cb2939d0'&&e[0].status==='approved'&&[SHA,'633b7f7d6','f1fab0ec6'].every(s=>(e[0].history||[]).some(h=>h.sha===s)),J(e.map(x=>x.sha)));   /* 2026-11-12（X324 第四次重匯 3cb2939d0，date_src_sha.js HAO3_1112）：AA_812 白名單再換 3cb2939d0。舊期望：e[0].sha===SHA（d7d818f8a8）、history 有 633b7f7d6、f1fab0ec6 */   /* 2026-11-12（D158 約會台詞重匯 f6aa917593）：AA_812 這一版沒改（3cb2939d0 和 f6aa917593 的 AA_812、date_rewrite/ 逐檔一樣），白名單那一筆留在 3cb2939d0（tests/d158_dates_1112_unit.js 第 7 項驗）。舊期望：e[0].sha===C.ALLOW_SHA（那時候 ALLOW_SHA 就是 3cb2939d0） */
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 表本身（不用讀稿）
@@ -91,10 +91,13 @@ const MAIN=R.filter(r=>!r.late), LT=R.filter(r=>r.late);
 
 // 4
 { /* 2026-11-12（X324 第四次重匯 3cb2939d0，date_src_sha.js HAO3_1112）：238 格裡三格這一版 AA 又改了（子晴 D06.cafe「下次我請。」、可昕 D13.drink、D24.street）——那幾格現在認 HAO3_1112 的 new（上一版的字要＝這裡的 new）。舊期望：238 格都＝這一輪的 new */
-  const later=r=>{ const h=C.HAO3_1112.find(x=>x.who===r.who&&x.loc===r.loc&&x.path===r.path); return h&&h.old===r.new?h.new:r.new; }, LT3=R.filter(r=>later(r)!==r.new);
+  const later3=r=>{ const h=C.HAO3_1112.find(x=>x.who===r.who&&x.loc===r.loc&&x.path===r.path); return h&&h.old===r.new?h.new:r.new; }, LT3=R.filter(r=>later3(r)!==r.new);
+  /* 2026-11-12（可昕不靠記帳 AA_869～871@5afc5c0e3，date_src_sha.js KXNL_1112）：238 格裡可昕的 16 格這一版 AA 又改了（不靠記帳）——那幾格現在認 KXNL_1112 的 new（上一版的字要＝這裡的字）。舊期望：只看 HAO3_1112（later3） */
+  const later=r=>{ const v=later3(r), k=r.who==='kexin'?C.KXNL_1112.find(x=>x.loc===r.loc&&x.path===r.path):null; return k&&k.old===v?k.new:v; }, LTK=R.filter(r=>later(r)!==later3(r));
+  check('4. 238 格裡可昕不靠記帳那一次又改過的 '+LTK.length+' 格都是可昕第一次選項的回話（KXNL_1112）',LTK.length===16&&LTK.every(r=>r.who==='kexin'&&/\/first\/choice\/\d+\/reply\/0\/text$/.test(r.path)),J(LTK.map(r=>r.loc+' '+r.path)));
   check('4. 238 格裡之後又改過的只有三格（子晴 D06.cafe、可昕 D13.drink、D24.street；HAO3_1112）',J(LT3.map(r=>r.who+' '+pt(r)).sort())===J(['heroine_04 D06.cafe','kexin D13.drink','kexin D24.street']),J(LT3.map(r=>r.who+' '+r.path)));
   const bad=R.filter(r=>get(NOW,gp(r))!==later(r)).map(r=>r.loc+' '+r.who+' '+r.path+'：稿「'+later(r)+'」遊戲「'+get(NOW,gp(r))+'」');
-  check('4. 遊戲那 238 格＝稿的新字，一字不差（三格＝第四次重匯再改的字）',bad.length===0,J(bad.slice(0,4)));
+  check('4. 遊戲那 238 格＝稿的新字，一字不差（三格＝第四次重匯再改的字、可昕 16 格＝不靠記帳那一次再改的字）',bad.length===0,J(bad.slice(0,4)));
   const E=require('./ellipsis694.js'), g=R.filter(r=>r.game||E.strip(r.new)!==r.new);
   check('4. 和稿不一樣的格子：0（沒有被 AA_694 規則改到的句子）',g.length===0,J(g.map(r=>[r.new,r.game])));
   check('4. 那 238 格都是她自己說的（who＝那個人）',R.every(r=>{ const x=get(NOW,gp(r).replace(/\/text$/,'')); return x&&x.who===r.who; })); }
@@ -104,6 +107,8 @@ const MAIN=R.filter(r=>!r.late), LT=R.filter(r=>r.late);
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
     const want=R.map(gp).sort();
     { const H3=C.HAO3_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), all=diff.slice(); diff.length=0; for(const p of all) if(!H3.includes(p)) diff.push(p); check('5. 之後第四次重匯（3cb2939d0）沛珊「今天」開頭 31 格、以安 D24.station、子晴 D06.cafe、可昕 D13.drink／D24.street 一共 35 格也換了字（date_src_sha.js HAO3_1112；逐格在 tests/hao3_dates_1112_unit.js；其中子晴、可昕那三格 HAO2_1112 也有，上面拿過了或留在這一輪）——這裡先拿掉再比',C.HAO3_1112.length===35&&H3.length===32,J(H3.length)); }   /* 2026-11-12（X324 第四次重匯 3cb2939d0，date_src_sha.js HAO3_1112）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
+    { const D8=C.D158_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), all=diff.slice(); diff.length=0; for(const p of all) if(!D8.includes(p)) diff.push(p); check('5. 之後 D158 重匯（f6aa917593，AA_860）可昕 45 格、沛珊 4 格一共 49 格也換了字（date_src_sha.js D158_1112；逐格在 tests/d158_dates_1112_unit.js）——這裡先拿掉再比',C.D158_1112.length===49&&D8.length===49,J(D8.length)); }   /* 2026-11-12（D158 約會台詞重匯 f6aa917593，date_src_sha.js D158_1112）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
+    { const KN=C.KXNL_1112.map(r=>'/loc/'+r.loc+'/lines/kexin/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), all=diff.slice(); diff.length=0; for(const p of all) if(!KN.includes(p)) diff.push(p); check('5. 之後可昕不靠記帳那一次重匯（5afc5c0e3，AA_869～871）137 格也換了字（date_src_sha.js KXNL_1112；逐格在 tests/kxnl_dates_1112_unit.js；其中可昕這一輪也改過的那幾格留在這一輪）——這裡先拿掉再比',C.KXNL_1112.length===137&&KN.length===118,J(KN.length)); }   /* 2026-11-12（可昕不靠記帳 AA_869～871@5afc5c0e3，date_src_sha.js KXNL_1112）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 238 格不同（以安、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 238 格重匯以前＝稿的 old（子晴 D06.cafe＝was）',R.every(r=>a[gp(r)]===(r.was||r.old)),J(R.filter(r=>a[gp(r)]!==(r.was||r.old)).slice(0,3).map(r=>[gp(r),a[gp(r)],r.old])));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812（別支測試「和重匯以前比」用的還原是對的）',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
@@ -129,7 +134,7 @@ const MAIN=R.filter(r=>!r.late), LT=R.filter(r=>r.late);
   check('7. she_pays.js 的每一句（她請、平分）都還在遊戲裡那個互動點底下剛好一處',bad.length===0,J(bad));
   /* 舊期望（tests/hao_dates_1112_unit.js 第 7 項，41f77eab53 那一輪）：cells812 有 was 的三句（REWORD：語彤 D12.pier、學姊 D22.fish 兩句）。AA 在 d7d818f8a8 把 AA_812 同步成新字，REWORD 清空 */
   const rw=(SPD.cells812||[]).filter(c=>c.was), tool=read('tools/date/import_she_pays.py');
-  check('7. REWORD 清空了：tools/date/import_she_pays.py 的 REWORD = {}、she_pays.js 的 cells812 沒有 was；來源寫 AA_812@'+C.ALLOW_SHA,/^REWORD = \{\}$/m.test(tool)&&rw.length===0&&SPD.src.endsWith('AA_812_date_pays_promises.json@'+C.ALLOW_SHA),J(rw));   /* 2026-11-12（X324 第四次重匯 3cb2939d0，date_src_sha.js HAO3_1112）：she_pays.js 的來源跟著白名單換 3cb2939d0（名單沒動）。舊期望：來源寫 AA_812@d7d818f8a8（SHA） */
+  check('7. REWORD 清空了：tools/date/import_she_pays.py 的 REWORD = {}、she_pays.js 的 cells812 沒有 was；來源寫 AA_812@'+C.D158_1112_PREV,/^REWORD = \{\}$/m.test(tool)&&rw.length===0&&SPD.src.endsWith('AA_812_date_pays_promises.json@'+C.D158_1112_PREV),J(rw));   /* 2026-11-12（X324 第四次重匯 3cb2939d0，date_src_sha.js HAO3_1112）：she_pays.js 的來源跟著白名單換 3cb2939d0（名單沒動）。舊期望：來源寫 AA_812@d7d818f8a8（SHA） */   /* 2026-11-12（D158 約會台詞重匯 f6aa917593）：AA_812 沒改、she_pays.js 的來源照舊寫 AA_812@3cb2939d0（＝C.D158_1112_PREV）。舊期望：來源寫 AA_812@C.ALLOW_SHA（那時候就是 3cb2939d0） */
   const a812=show(SHA,SP+'AA_812_date_pays_promises.json');
   if(a812){ const A=JSON.parse(a812), flat=X=>Object.keys(X).flatMap(w=>Object.keys(X[w]).flatMap(p=>X[w][p].map(t=>J([w,p,t])))).sort();
     const c8=(SPD.cells812||[]), cp8=c8.filter(c=>c.kind==='pays').map(c=>J([c.who,c.pid,c.text])).sort(), cs8=c8.filter(c=>c.kind==='split').map(c=>J([c.who,c.pid,c.text])).sort();

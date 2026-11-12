@@ -699,12 +699,27 @@ const R2Y4B=(function(){
     const used=Array.isArray(F.BAR_GROUP_3U)?F.BAR_GROUP_3U:[], sat=S.isSat(G);
     for(let i=0;i<N.list.length;i++){ if(used.includes(i)) continue; const w=N.when[i]; if((w==='sat'&&!sat)||(w==='wd'&&sat)) continue; return 't'+(i+1); }
     return sat?'tse':'twe'; };
-  S.groupNightDone=function(G,mode){ const F=G.flags, ln=S.groupLine(G,mode==='video'?'kexin':undefined); F.BAR_GROUP_LAST=G.day; F.BAR_GROUP_N=(F.BAR_GROUP_N|0)+1;
+  /* AA_836 文末「補（12:2x）」（企劃線 fdb26cd92f；2026-11-12）：「三個人都在的那一版，在三個人都在的讀書夜也要演（一次）；不是只有『只有語彤』的晚上才有熱可可。」
+     原本三杯那一版只寫在「第一次」那一段，那一段只在只有語彤的晚上演＝三個人都在的人永遠看不到。現在：三個人都在大口漢堡二樓的平日讀書夜（session 的 who 是 three、mode noodle、不是週六——
+     那一句寫的是「十點」，週六是白天的場），還沒演過（G.flags.BAR_GROUP_COCOA3 沒有）的第一個晚上，那一晚的句子前面多演這一句（src/data/r2y4b_events.js 把「第一次」那一段三杯那一列的字接到前面，不另外抄一份）；
+     那一晚輪到的旁白本身也是「（十點，…」開頭的（三個人那一組的第 4 句）就讓給下一個晚上，不連著兩句十點。演完（groupNightDone）記 BAR_GROUP_COCOA3＝那一天。舊存檔沒有這個旗標＝下一個符合的晚上演。
+     S.cocoa3Wire：把那一列接進 ev_bar_group_night、ev_bar_group_out 兩份台詞（資料檔 src/data/r2y4b_events.js 不動、不多抄一份字）——字＝「第一次」那一段 label first 後面的第一列，插在可昕第一句以前。*/
+  S.cocoa3Due=function(G){ const F=(G&&G.flags)||{}; if(F.BAR_GROUP_COCOA3!=null) return false; const s=S.session(G,G.day); if(!s||s.who!=='three'||s.mode!=='noodle'||S.isSat(G)) return false;
+    const m=/^t(\d+)$/.exec(String(S.groupLine(G))), N=S.BAR_NARR&&S.BAR_NARR.three; return !(m&&N&&/^（十點/.test(String(N.list[+m[1]-1]||''))); };
+  S.groupNightDone=function(G,mode){ const F=G.flags; if(mode!=='video'&&S.cocoa3Due(G)) F.BAR_GROUP_COCOA3=G.day;   /* 先看（下面的計數一動，今晚輪到哪一句就變了）*/
+    const ln=S.groupLine(G,mode==='video'?'kexin':undefined); F.BAR_GROUP_LAST=G.day; F.BAR_GROUP_N=(F.BAR_GROUP_N|0)+1;
     const inc=k=>{ F[k]=(F[k]|0)+1; };
     if(ln==='yt_first') F.BAR_GROUP_YT_FIRST=G.day;
     else if(ln[0]==='t'){ if(/^t\d+$/.test(ln)){ if(!Array.isArray(F.BAR_GROUP_3U)) F.BAR_GROUP_3U=[]; F.BAR_GROUP_3U.push(+ln.slice(1)-1); } }   /* 三個人的旁白（AA_468 第 4 節）*/
     else if(ln[0]==='k'){ inc('BAR_GROUP_KI'); if(ln[1]==='w') inc('BAR_GROUP_KN'); else if(ln[1]==='s') inc('BAR_GROUP_KNS'); }
     else { inc('BAR_GROUP_YI'); if(ln[1]==='w') inc('BAR_GROUP_YN'); else if(ln[1]==='s') inc('BAR_GROUP_YNS'); } };   /* 旁白另開計數（AA_468 第 4 節）*/
+  S.COCOA3_EVS=['ev_bar_group_night','ev_bar_group_out'];
+  S.cocoa3Wire=function(){ if(typeof STORY_EVENTS==='undefined') return 0; let n=0;
+    for(const id of S.COCOA3_EVS){ const ev=STORY_EVENTS.find(e=>e&&e.id===id), D=ev&&ev.dialogue; if(!Array.isArray(D)||D.some(r=>r&&r.cocoa3)) continue;
+      const f=D.findIndex(r=>r&&r.label==='first'), row=f>=0?D[f+1]:null, k=D.findIndex(r=>r&&r.speaker==='kexin');
+      if(row&&row.text&&row.speaker===null&&k>0&&k<f){ D.splice(k,0,{if:{custom:G=>S.cocoa3Due(G)},speaker:null,text:row.text,cocoa3:true}); n++; } }
+    return n; };
+  S.cocoa3Wire();
   const groupVideoRules=G=>{ const F=G.flags; if(!F.BAR_GROUP_KIND||F.BAR_GROUP_KIND==='none'||!evDone(G,'ev_bar_group_start')) return;
     if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>/^y4_bar_(vid|out)_/.test(q.id)&&q.state==='planned')) return;   /* 一次只排下一場 */
     for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='video'&&s.mode!=='nccu'&&s.mode!=='noodle')) continue; if(now(G)>T(d,s.t0+0.5)) continue; if(outGet(G,'y4_bar_vid_'+d)||outGet(G,'y4_bar_out_'+d)) continue; if(F.BAR_GROUP_LAST===d) continue;

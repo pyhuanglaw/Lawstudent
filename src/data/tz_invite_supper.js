@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_tz_invite_supper.py（docs/story_planning/AA_851_tz_invite_supper.json@b039356f5）。不要手改，改企劃 AA_851 再重新匯入。
+/* 自動產生：tools/story/import_tz_invite_supper.py（docs/story_planning/AA_851_tz_invite_supper.json@f6aa917593）。不要手改，改企劃 AA_851 再重新匯入。
    汀州路兩間店可以約人＋泡麵帶回 203 當宵夜（TZ-INVITE-SUPPER-1112；演出 src/tz_invite_supper3d.js）：places＝邀約地點（accept 每人答應一句、
-   at_table 每人入座一句，heroine_05_close＝學姊很熟以上或交往中的那一版）；supper＝宿舍那一場（item 哪一樣東西、scene 每一句）。字一字照稿。*/
+   at_table 每人入座一句，heroine_05_close＝學姊很熟以上或交往中的那一版）；supper＝宿舍那一場（item 哪一樣東西、scene 每一句、minutes 演完時間往後幾分鐘——稿 lawww_1112.h）。字一字照稿。*/
 'use strict';
 const TZ_INVITE_SUPPER={
- "src": "docs/story_planning/AA_851_tz_invite_supper.json@b039356f5",
+ "src": "docs/story_planning/AA_851_tz_invite_supper.json@f6aa917593",
  "places": [
   {
    "id": "tz_yuehaochi",
@@ -87,7 +87,8 @@ const TZ_INVITE_SUPPER={
     "who": "zhe",
     "text": "明天再煮一包。"
    }
-  ]
+  ],
+  "minutes": 30
  }
 };
 if(typeof module!=='undefined') module.exports=TZ_INVITE_SUPPER;

@@ -387,13 +387,22 @@ const CLS=(function(){
   S.CLUB_IN=[];   /* 社課一開始（人物事件演完、入座那一句之後）接著演的：async fn(GM,a,ev)→{narr} 或 null（attendActivity）。吉他社第一次社課（AA_619 2-1）在 src/guitar3d.js */
   /* 社課的旁白（6-8 (d)）：同一學期照順序、每句最多一次；用完了回 ''（只顯示「社課結束了。」）。存在 G.acts.narr['<活動>@<學期>']＝用過幾句（舊存檔沒有＝從頭）*/
   /* CLUB-LATER-TERMS-1112（AA_852）：辯論社、登山社、系籃大一下～大二下每學期自己一組旁白（src/data/club_later_terms.js：CLUB_LATER_TERMS.clubs[活動][學期]）——那一學期有就用那一組，沒有＝照舊用活動的 narr。
-     那一組裡開頭「（下雨」的那一句（CLUB_LATER_TERMS.rain[活動][學期]＝第幾句）是下雨場才演的：晴天照順序輪的時候跳過它；下雨那一場固定演它（S.clubRainNarr，不佔照順序輪的那一格）*/
+     那一組裡開頭「（下雨」的那一句（CLUB_LATER_TERMS.rain[活動][學期]＝第幾句）是下雨場才演的：晴天照順序輪的時候跳過它；下雨那一場固定演它（S.clubRainNarr，不佔照順序輪的那一格）
+     2026-11-12（AA_852＠f6aa917593 _meta.lawww_1112 第 4、5 點）：
+       ・每學期最後那一句（CLUB_LATER_TERMS.last[活動][學期]）綁那學期最後一個有社課的週（S.clubLastWeek：這個學期後面的週都沒有這個社課了）——那一週去了才演；沒去不演、不往前挪；
+         平常照去的次數輪的時候跳過它（原本：照順序輪到它就演，去滿六次就會在學期中聽到「學期最後一次社課」）。那一週下雨（系籃）＝照舊演下雨那一句。
+       ・那一學期沒有自己的下雨句、稿說用大一上的（CLUB_LATER_TERMS.rainBase：系籃大二上）＝下雨那天演活動原本的走廊那一句（原本：照順序輪）。*/
+  S.clubLastWeek=function(G,a){ if(!a||typeof CALENDAR==='undefined'||typeof ACTIVITIES==='undefined'||!CALENDAR.termDays) return false; const t=CALENDAR.termOf(G.day), R=t&&CALENDAR.termDays(t.id); if(!R) return false;
+    for(let d=G.day+1;d<=R.to;d++){ const x=CALENDAR.termOf(d); if(x&&x.id===t.id&&x.week!==t.week&&ACTIVITIES.on(a,d,G)) return false; } return true; };
   S.termNarr=function(G,a){ const D=typeof CLUB_LATER_TERMS!=='undefined'?CLUB_LATER_TERMS:null, t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, C=D&&a&&D.clubs&&D.clubs[a.id], L=C&&t?C[t.id]:null;
-    if(!Array.isArray(L)||!L.length) return null; const R=D.rain&&D.rain[a.id], r=R&&typeof R[t.id]==='number'?R[t.id]:-1; return {L,rain:r}; };
+    if(!Array.isArray(L)||!L.length) return null; const R=D.rain&&D.rain[a.id], r=R&&typeof R[t.id]==='number'?R[t.id]:-1, E=D.last&&D.last[a.id], e=E&&typeof E[t.id]==='number'?E[t.id]:-1, B=D.rainBase&&D.rainBase[a.id];
+    return {L,rain:r,last:e,rainBase:Array.isArray(B)&&B.includes(t.id)}; };
   S.clubNarr=function(G,a){ const T=S.termNarr(G,a), L=T?T.L:(a.narr||[]); if(!L.length||typeof ACTIVITIES==='undefined') return ''; const A=ACTIVITIES.rec(G); if(!A.narr||typeof A.narr!=='object') A.narr={};
-    const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, k=a.id+'@'+(t?t.id:'-'); let n=A.narr[k]||0; if(T&&n===T.rain) n++;   /* 下雨場那一句不在晴天輪 */ if(n>=L.length) return ''; A.narr[k]=n+1; return L[n]; };
+    const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, k=a.id+'@'+(t?t.id:'-');
+    if(T&&T.last>=0&&S.clubLastWeek(G,a)) return L[T.last];   /* 最後一個有社課的週：那一句（不佔照次數輪的那一格）*/
+    let n=A.narr[k]||0; if(T) while(n===T.rain||n===T.last) n++;   /* 下雨場那一句、學期最後那一句不在平常輪 */ if(n>=L.length) return ''; A.narr[k]=n+1; return L[n]; };
   /* 下雨場的旁白（BBALL-RAIN-1030）：大一上＝活動的 narr[rain.narr]（走廊那一句）；大一下～大二下＝那一學期「（下雨」的那一句，那一學期沒有＝null（照順序輪）*/
-  S.clubRainNarr=function(G,a){ if(!a||!a.rain) return null; const T=S.termNarr(G,a); if(T) return T.rain>=0?T.L[T.rain]:null; return a.narr?a.narr[a.rain.narr]:null; };
+  S.clubRainNarr=function(G,a){ if(!a||!a.rain) return null; const T=S.termNarr(G,a); if(T&&T.rain>=0) return T.L[T.rain]; if(T&&!T.rainBase) return null; return a.narr?a.narr[a.rain.narr]:null; };   /* T.rainBase：那一學期用大一上的下雨句（AA_852 lawww_1112 第 5 點）*/
   /* 特殊活動的旁白（AA_737 specialEvents，BULLETIN-BOARD-1110）：一場一整串（narr 照順序），同一學期每句最多一次（G.acts.narr['<id>@<學期>']＝1）。
      narrAlt {第幾句:{flag,text}}：有那個旗標換那一句（校慶園遊會第 2 句：吉他社社員）。
      narrLater（學生會迎新派對）：大一上以外的學年每年一句、照順序（G.acts.narr['<id>@later']＝用到第幾句），用完 end＝endLater（「派對結束了。」，取代「活動結束了。」）。
@@ -1261,7 +1270,7 @@ const CLS=(function(){
     if(c==='go') await S.goClass(GM,nx); else if(c==='skip') await S.skipClass(GM,nx,{flip:true}); else if(c==='eat'){ if(await S.lunchBreak(GM)) await S.goClass(GM,nx); } else if(c==='study'){ if(opts[i].dim){ GM.toast(opts[i].hint,3000); return true; } if(await S.studyUntil(GM,nx,pl.depart)) await S.goClass(GM,nx); }
     return true; };
   /* 先去吃飯（1-4）：一頓飯 40 分鐘、照價錢扣錢（吃飯不扣時段次數）；只寫一般的場面（和誰一起吃、偶遇是第 5 節第二批）*/
-  const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'公館燒臘',price:100,line:'公館燒臘，一盤叉燒飯加一顆滷蛋。',bg:'noodle_table'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。',bg:'cvs_table_day',bgNight:'cvs_table_night'}];   /* bg：吃飯那一段的 2D 背景（BUG-EAT-AFTER-CLASS-SCENE-1103）；小松／學活還沒有圖＝深色底＋地點字幕，不再停在教室 */
+  const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'公館燒臘',price:105,line:'公館燒臘，一盤叉燒飯加一顆滷蛋。',bg:'noodle_table'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。',bg:'cvs_table_day',bgNight:'cvs_table_night'}];   /* bg：吃飯那一段的 2D 背景（BUG-EAT-AFTER-CLASS-SCENE-1103）；小松／學活還沒有圖＝深色底＋地點字幕，不再停在教室 */   /* 公館燒臘 105＝AA_853 的叉燒飯 90＋加滷蛋 15（AA 11-12 lawww_1112 第 4 點「2D 下課吃飯『一盤叉燒飯加一顆滷蛋』改扣 105」；原本 100）*/
   /* 小福（AA_186 4-4：小福樓 2025/12/31 停業、2026/1/10 拆除重建）：經濟系那一年、大一上照常；大一下起改成活大的自助餐 */
   const mealsOf=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, id=t?t.id:(typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):null); return id&&!/^Y0/.test(id)&&id!=='Y1S1'?MEALS.map(m=>m.t==='小松'?{t:'學活',price:m.price,line:'學活的自助餐，夾了三樣菜。'}:m):MEALS; };
   /* AA_350 R2（AA_294 第 3 節「翹了經原下也還有機會」）：大一下那個週五沒去經原下、12:00～13:00 選了「先去吃飯→活大」＝ ev_sk03_lunch 在活大演（阿勳已經坐在那裡，不出選項）。

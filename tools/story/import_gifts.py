@@ -53,11 +53,13 @@ SHOP_PENDING = {
 # 外帶的菜單寫在稿上的店（AA_710 _meta.lawww_1112b 的「<店名>外帶」）：品名、價錢、店員句、語彤當班的旁白和收禮句從稿匯進 GIFT_LINES.takeout（gift3d.js 照它賣、照它演；src 不手打）
 TAKEOUT_KEY = re.compile(r'^(.+)外帶$')
 TAKEOUT_FIELDS = {'decide', 'items', 'where', 'line_staff', 'line_yt_on_shift', 'note'}
+# 2026-11-12（AA_710＠f6aa917593）：note 多一句「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」→ 那間店外帶裡品名是「冷泡…」的＝temp cold（gift3d.js 的冷熱照它；一樣都對不到＝停下來）
+TAKEOUT_COLD = re.compile(r'(冷泡)茶算冰的（冬天送的反應照冰飲那一套）')
 TAKEOUT_GIVE = re.compile(r'語彤自己當班的時候買來送她，她收：「([^「」]+)」（只在她當班、而且是送她的時候換這一句，其他時候照她原本的收禮句。）')
 
 
 def takeout(meta):
-    """AA_710 _meta.lawww_1112b 裡「<店名>外帶」的每一格 → {店名: {items:[[品名, 價錢]…], staffLine, onShift:{who, buy, give:[句]}, where, decide, note}}"""
+    """AA_710 _meta.lawww_1112b 裡「<店名>外帶」的每一格 → {店名: {items:[[品名, 價錢]…], temp:{品名: 'cold'}（稿說算冰的那幾樣；沒有＝{}）, staffLine, onShift:{who, buy, give:[句]}, where, decide, note}}"""
     out = {}
     for k, v in (meta.get('lawww_1112b') or {}).items():
         m = TAKEOUT_KEY.match(k)
@@ -77,7 +79,13 @@ def takeout(meta):
             raise SystemExit(f'{w}.note：讀不到「語彤自己當班的時候買來送她，她收：「…」（只在她當班、而且是送她的時候換這一句，其他時候照她原本的收禮句。）」（稿改了要重看 takeout）')
         if f'「{shop}的茶（任何一樣）」' not in v['note']:
             raise SystemExit(f'{w}.note：沒有提到「{shop}的茶（任何一樣）」那一格（店名要和 opinion 的 shopAny 一樣）')
-        out[shop] = {'items': [[n, x[1]] for n, x in zip(names, its)],
+        temp = {}
+        c = TAKEOUT_COLD.search(v['note'])
+        if c:
+            temp = {n: 'cold' for n in names if n.startswith(c.group(1))}
+            if not temp:
+                raise SystemExit(f'{w}.note：寫了「{c.group(0)}」，可是外帶的品名沒有一樣是「{c.group(1)}…」（{names}）')
+        out[shop] = {'items': [[n, x[1]] for n, x in zip(names, its)], 'temp': temp,
                      'staffLine': lines([v['line_staff']], f'{w}.line_staff')[0],
                      'onShift': {'who': 'heroine_03', 'buy': lines([v['line_yt_on_shift']], f'{w}.line_yt_on_shift')[0], 'give': lines([g.group(1)], f'{w}.note（收禮句）')},
                      'where': v['where'], 'decide': v['decide'], 'note': v['note']}

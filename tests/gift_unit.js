@@ -41,7 +41,8 @@ const same=(a,b)=>J(a)===J(b);
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_gifts.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     const src=ok1?GIFT_LINES.src:'';
     /* 2026-11-12 STALE-SOURCES-1112：舊期望 @31c1c4e2c（X324 G 區）；AA-C 11-12 04:18 改了源稿（335301d353，X350 新增八格 opinion），白名單換版 */
-    check('0. src/data/gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check；335301d353＝X350 新增八格 opinion，AA-C 11-12 04:18；舊期望 31c1c4e2c）',ok1&&ok2&&ok&&/@335301d353$/.test(src),out.trim().slice(0,200)+' '+src); }
+    /* 2026-11-12（AA_710＠f6aa917593：一盞茶屋外帶的 note 多一句「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」）：白名單再換 f6aa917593（只多那一句說明；opinion、句子一個字沒動）。舊期望：/@335301d353$/ */
+    check('0. src/data/gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check；f6aa917593＝一盞外帶的冷泡茶算冰的；上一版 335301d353＝X350 新增八格 opinion，AA-C 11-12 04:18；更舊 31c1c4e2c）',ok1&&ok2&&ok&&/@f6aa917593$/.test(src),out.trim().slice(0,200)+' '+src); }
   if(!ok1||!ok2){ H.done(); return; }
   const LN=GIFT_LINES.people;
   const ITEMN=Object.keys(GIFT.TEMP);
@@ -304,6 +305,12 @@ const same=(a,b)=>J(a)===J(b);
       check('14. 外帶的資料（GIFT_LINES.takeout）逐字照稿：兩樣和價錢（冷泡烏龍（一瓶）90、冷泡紅玉（一瓶）90）、店員句、語彤當班的旁白、她當班收到的那一句',!!T&&same(T.items,TK.items)&&same(T.items,[['冷泡烏龍（一瓶）',90],['冷泡紅玉（一瓶）',90]])&&T.staffLine===TK.line_staff&&T.staffLine==='外帶的在這裡。喝之前搖一下。'
         &&T.onShift.who==='heroine_03'&&T.onShift.buy===TK.line_yt_on_shift&&T.onShift.buy==='（語彤從冰箱拿了一瓶給你，把瓶身的水擦乾才遞過來。）'&&same(T.onShift.give,['你在我店裡買茶送我。……好，我下班喝。'])&&TK.note.includes('她收：「'+T.onShift.give[0]+'」'),J(T));
       check('14. 一盞的外帶只賣這兩樣（都算飲料、90 元）；內用的一壺茶（凍頂烏龍、東方美人、焙茶）不在裡面；選項是原本那一個「買一份帶走送人…」',same(M.map(x=>[x.n,x.p,x.cat]),[['冷泡烏龍（一瓶）',90,'drink'],['冷泡紅玉（一瓶）',90,'drink']])&&(GIFT.shopOpt(G,'溫州街・一盞')||{}).t===GIFT.SHOP_OPT&&GIFT.shopDef('溫州街・一盞').name==='一盞茶屋');
+      /* 2026-11-12（AA_710＠f6aa917593：一盞茶屋外帶的 note 多一句「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」）。修改前：這兩樣品名沒有「冰」字＝不算冷也不算熱（temp null），冬天送不會出「買冰的」那一類反應 */
+      { let n2=null; try{ n2=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','f6aa917593:docs/story_planning/AA_710_gifts.json'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}))._meta.lawww_1112b['一盞茶屋外帶']; }catch(e){}
+        if(n2) check('14. 稿（f6aa917593）一盞茶屋外帶的 note 有「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」；品名、價錢、店員句、當班那兩句和 335301d353 一樣',n2.note.includes('冷泡茶算冰的（冬天送的反應照冰飲那一套）。')&&n2.note.startsWith(TK.note)&&same(n2.items,TK.items)&&n2.line_staff===TK.line_staff&&n2.line_yt_on_shift===TK.line_yt_on_shift&&T.note===n2.note,n2.note.slice(-60));
+        else console.log('SKIP 14. 讀不到企劃線 f6aa917593（沒有 fetch）：冷泡茶算冰的那一句不對稿');
+        check('14. 冷泡茶算冰的：資料 takeout 的 temp 兩樣都是 cold；買來送人的菜單那兩樣 temp＝cold；GIFT.tempOf（記的店名「一盞茶屋」）＝cold；同一個品名記在別的店＝照舊不算（不從品名猜）',
+          same(T.temp,{'冷泡烏龍（一瓶）':'cold','冷泡紅玉（一瓶）':'cold'})&&M.length===2&&M.every(x=>x.temp==='cold')&&GIFT.tempOf({n:'冷泡烏龍（一瓶）',shop:'一盞茶屋'})==='cold'&&GIFT.tempOf({n:'冷泡紅玉（一瓶）',shop:'一盞茶屋'})==='cold'&&GIFT.tempOf({n:'冷泡烏龍（一瓶）',shop:'便利商店'})===null,J([T.temp,M.map(x=>x.temp)])); }
       const g3=fs.readFileSync(path.join(H.ROOT,'src/gift3d.js'),'utf8'), wz=fs.readFileSync(path.join(H.ROOT,'src/wzshops3d.js'),'utf8');
       check('14. 字和價錢不手打在 src：gift3d.js、wzshops3d.js 沒有「冷泡」「喝之前搖一下」「我下班喝」「把瓶身的水擦乾」',![g3,wz].some(t=>/冷泡烏龍|冷泡紅玉|喝之前搖一下|我下班喝|把瓶身的水擦乾/.test(t)));
       /* 買：蘇姨一句（語彤沒當班）／旁白（語彤當班）→ 原本那一句「你買了…，帶在身上。」；記的店名「一盞茶屋」 */

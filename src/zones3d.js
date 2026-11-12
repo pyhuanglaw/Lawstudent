@@ -2474,7 +2474,7 @@ const Z3 = (function(){
     const law=L.interact.find(q=>q.kind==='shelf_law');
     E.interactables.push({x:law.x,z:law.z,radius:1.0,label:law.label,shop:'book'});   /* 買教科書（story3d.js bookshop，照舊）*/
     ggLooks(E,L,'bookstore');   /* 看看書牆、看新書、點咖啡（AA_653 第 2 節）*/
-    if(typeof YJBUY!=='undefined'&&YJBUY.extraPoints) for(const q of YJBUY.extraPoints(L)) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:q.label,ggs:q.kind});   /* 雜誌、明信片（GG-YEJIAN-SHOP-1112，AA_853）：配置 interact 還沒有這兩個點，位置在 src/yejian_buy3d.js POINTS_X（照配置的家具放；配置補了就用配置的）。買東西的選單、店員的招呼也在那一支 */
+    if(typeof YJBUY!=='undefined'&&YJBUY.extraPoints) for(const q of YJBUY.extraPoints(L)) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:q.label,ggs:q.kind});   /* 雜誌、明信片（GG-YEJIAN-SHOP-1112，AA_853）：位置照配置 interact 的 magazines、postcards（LAWWW2 11-12 補的；配置沒有＝不放），按鈕的字在 src/yejian_buy3d.js（「看」＋稿的點名）。買東西的選單、招呼也在那一支 */
     return z; }
   const aoki={ id:'aoki', name:'青木茶室', indoor:true, camDist:3.8, build(E){ const L=GG_L.aoki();
     const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',study:true,ap:s=>s.x<-4?[-3.6,1.3]:null});   /* v2c（AA 697ed69cf，LAWWW2 驗收）：吧台西端縮 0.5 m，最裡面四人桌北側兩張走得進去了（原本 noSit 只給路人坐，拿掉）；

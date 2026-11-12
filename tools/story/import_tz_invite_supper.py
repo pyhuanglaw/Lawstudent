@@ -10,7 +10,7 @@
 
 演出：src/tz_invite_supper3d.js。測試 tests/tz_invite_supper_unit.js。
 用法：python3 tools/story/import_tz_invite_supper.py [--check]"""
-import json, os, subprocess, sys
+import json, os, re, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -94,14 +94,21 @@ def main():
     if not ok:
         die(why)
     A = json.loads(git('show', f'{sha}:{PATH}'))
-    keys(A, '稿', ('_meta', 'invite_places', 'dorm_supper'))
+    keys(A, '稿', ('_meta', 'invite_places', 'dorm_supper'), ('lawww_1112',))
     P = [place(e, i) for i, e in enumerate(A['invite_places'])]
     if sorted(p['id'] for p in P) != sorted(ZONES):
         die(f'invite_places：要剛好是 {"、".join(ZONES)}')
     data = {'src': f'{PATH}@{sha}', 'places': P, 'supper': supper(A['dorm_supper'])}
+    # lawww_1112（AA 2026-11-12 回 LAWWW；有才讀）：h「203 泡麵宵夜演完推進 30 分鐘。」→ supper.minutes（演完時間往後幾分鐘；沒有這一點＝不推進，照舊）
+    ANS = A.get('lawww_1112')
+    if ANS is not None:
+        m = re.search(r'203 泡麵宵夜演完推進 (\d+) 分鐘。', ANS.get('h', '')) if isinstance(ANS, dict) else None
+        if not m or not 0 < int(m.group(1)) <= 180:
+            die(f'lawww_1112.h：讀不到「203 泡麵宵夜演完推進 N 分鐘。」（{ANS}）')
+        data['supper']['minutes'] = int(m.group(1))
     out = ('/* 自動產生：tools/story/import_tz_invite_supper.py（' + data['src'] + '）。不要手改，改企劃 AA_851 再重新匯入。\n'
            '   汀州路兩間店可以約人＋泡麵帶回 203 當宵夜（TZ-INVITE-SUPPER-1112；演出 src/tz_invite_supper3d.js）：places＝邀約地點（accept 每人答應一句、\n'
-           '   at_table 每人入座一句，heroine_05_close＝學姊很熟以上或交往中的那一版）；supper＝宿舍那一場（item 哪一樣東西、scene 每一句）。字一字照稿。*/\n\'use strict\';\nconst TZ_INVITE_SUPPER='
+           '   at_table 每人入座一句，heroine_05_close＝學姊很熟以上或交往中的那一版）；supper＝宿舍那一場（item 哪一樣東西、scene 每一句、minutes 演完時間往後幾分鐘——稿 lawww_1112.h）。字一字照稿。*/\n\'use strict\';\nconst TZ_INVITE_SUPPER='
            + json.dumps(data, ensure_ascii=False, indent=1) + ';\nif(typeof module!==\'undefined\') module.exports=TZ_INVITE_SUPPER;\n')
     p = os.path.join(ROOT, OUT)
     for c in CHANGED:

@@ -1,5 +1,5 @@
 /* ===== 汀州路兩間店可以約人＋泡麵帶回 203 當宵夜（TZ-INVITE-SUPPER-1112；SHOP-STANDARD-BACKFILL-1112：店面標準第 5 點「可以當約人的地點的排進邀約地點」）=====
-   字：src/data/tz_invite_supper.js（TZ_INVITE_SUPPER；tools/story/import_tz_invite_supper.py 從 AA_851 匯入，企劃線 b039356f5，AA 定稿、BB_397 聽過）——這支不寫任何台詞。
+   字：src/data/tz_invite_supper.js（TZ_INVITE_SUPPER；tools/story/import_tz_invite_supper.py 從 AA_851 匯入，企劃線 f6aa917593，AA 定稿、BB_397 聽過；11-12 AA 回 LAWWW 的答案在稿的 lawww_1112）——這支不寫任何台詞。
    ■ 約去越好吃小館（tz_yuehaochi）、客居雲南（tz_keju）：照洋洋鹹酥雞、泰米村食那一套（src/data/invites.js 的 places＋people[人].acc）。
      - 吃飯那一類（meal）、有點熟以上（FAMILIAR）；時間照店的營業時間（hoursFrom：src/data/places.js 那一區，每天 11:00～21:00）；不用先自己去過（和洋洋、泰米一樣，稿沒有寫）。
      - 答應的那一句：七位各一句（people[人].acc[店]）；沒列的人照一般的。不答應照一般回覆表。
@@ -7,7 +7,7 @@
        沒有自己句子的人＝照吃飯那一類一般的開場句（seatOpen.byPlace＝meal）。座位用店裡現有的（GG3.attach 補的 zone.seats）。
    ■ 泡麵宵夜（稿 dorm_supper）：「物品」裡有東南大聯的「泡麵（五包裝）」（G.flags.GG3_OWN.tz_dongnan.tz_dn_noodle5）、晚上 21:00 以後人在 203、
      大一 203 四人房的學期（DORM203.era：8/29～6/14，而且那一天在學期裡）、阿哲、柏翰、阿凱照作息都在房間（正在走進來的等他坐下，和 203 的六件小事同一個判斷）
-     ＝自動演稿的那一場（STORY_EVENTS：一學期一個事件、各演一次＝一學期最多一次）；演完那一袋用掉（份數 −1）。沒有別的效果（現有 3-3 宵夜也只有那一場的字和旗標）。
+     ＝自動演稿的那一場（STORY_EVENTS：一學期一個事件、各演一次＝一學期最多一次）；演完那一袋用掉（份數 −1）、時間往後 30 分鐘（資料 supper.minutes；2026-11-12（AA_851＠f6aa917593 lawww_1112） h「203 泡麵宵夜演完推進 30 分鐘」。原本：時間不動）。
    存檔：只多事件演過的紀錄（G.events.done 現有的做法）；物品照現有的 GG3_OWN。舊存檔沒有＝沒買過泡麵，不會演。
    測試：node tests/tz_invite_supper_unit.js */
 'use strict';
@@ -49,7 +49,7 @@ const TZIS=(function(){
   if(typeof STORY_EVENTS!=='undefined'&&X()) for(const term of S.TERMS){ const id=S.evId(term); if(STORY_EVENTS.some(e=>e.id===id)) continue;
     STORY_EVENTS.push({ id, title:'203 泡麵宵夜', participants:S.MATES.slice(), location:'dorm', trigger:'auto', once:true, background:'blur', portraitLater:true, time:S.T.slice(), stage:'law',
       prereq:{custom:(G,GM)=>S.due(G,GM,term)}, dialogue:X().supper.scene.map(l=>({speaker:l.who,text:l.text})),
-      after:G=>{ if(S.packs(G)>0) S.usePack(G); } }); }   /* 演完那一袋就用掉 */
+      after:(G,GM)=>{ if(S.packs(G)>0) S.usePack(G); const m=+X().supper.minutes||0; if(m>0&&GM&&GM.advance) GM.advance(m/60); } }); }   /* 演完那一袋就用掉、時間往後（稿 lawww_1112.h）*/
   return S;
 })();
 if(typeof module!=='undefined') module.exports=TZIS;

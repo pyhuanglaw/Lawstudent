@@ -1,5 +1,5 @@
 /* ===== 公館燒臘點餐（GG-SHAOLA-FIX-1112；店面標準 CLAUDE.md §12 第 3、4 點：點得到餐、價錢、錢不夠有對應）=====
-   字：src/data/yejian_shaola_buy.js（YEJIAN_SHAOLA_BUY.noodle；tools/story/import_yejian_shaola.py 從 AA_853 匯入，企劃線 7f7394acc，AA 定稿、BB_397 第五節聽過）——
+   字：src/data/yejian_shaola_buy.js（YEJIAN_SHAOLA_BUY.noodle；tools/story/import_yejian_shaola.py 從 AA_853 匯入，企劃線 f6aa917593，AA 定稿、BB_397 第五節聽過；11-12 AA 回 LAWWW 的答案在稿的 lawww_1112：說話人用現有的「阿姨」、順序照現在的、系統字可以）——
      菜單六樣和價錢、加滷蛋、阿姨的話、每一樣吃的旁白、看菜單、看櫥窗一字照稿，這支不寫任何台詞。
    稿上沒有的系統字（S.SYS；回報給 AA）：選單「品名　N 元」的排法、「先不吃」（原本燒臘店選單的字）、加滷蛋那一層的「不用了」、提示「錢不夠」「有人坐了。」（都是別的店已經在用的字）。
      說話的人的名字＝現有對話框的「阿姨」（src/data/eat_lines.js staff 的 who；稿的 who 寫「阿鳳阿姨」，同一場裡熟客句是「阿姨」說的，名字不能兩種）。
