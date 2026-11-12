@@ -1555,3 +1555,11 @@
 [23:12:50] 正在跑：SSB_gg1_r2（已跑 40 分／上限 90 分）、SSB_gg2_r2（已跑 40 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:17:50] 正在跑：SSB_gg1_r2（已跑 45 分／上限 90 分）、SSB_gg2_r2（已跑 45 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:21:57] [res] cpu=6% mem=41% (13.0/31.4 GB) chrome_testing=5  END SSB_gg2_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       977a11c97c..493097079a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:22:11] ==== END   SSB_gg2_r2  exit=1  2983s   ====
+[23:22:50] 正在跑：SSB_gg1_r2（已跑 50 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:27:50] 正在跑：SSB_gg1_r2（已跑 55 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:32:50] 正在跑：SSB_gg1_r2（已跑 60 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:34:03] [res] cpu=4% mem=32% (10.3/31.4 GB) chrome_testing=0  END SSB_gg1_r2
