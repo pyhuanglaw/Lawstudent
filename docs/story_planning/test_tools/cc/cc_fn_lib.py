@@ -6,8 +6,13 @@
   （src/data/gift_holiday.js 137～144、676～697：g_bouquet 一束花 450、g_sunflower 一朵向日葵 120）。G11＝公館店面街第 12 間（src/zones3d.js 937 shops[11] 泰米村食，
   type none＝沒有互動點、進不去；userData.ggShop＝'G11'，世界 x 41.3～51.6、立面 z≈19）。
 新版的店名、內部區域、商品清單、二樓都還不知道：這裡一律從遊戲的全域物件偵測（gg_flower 互動點、exit、ggShop、GIFTH／GIFT_HOLIDAY），不寫死新版的座標或區域名。
-用法：import cc_fn_lib as F；F.setup(R, OUT)。"""
-import os, sys, json, math, time, re
+用法：import cc_fn_lib as F；F.setup(R, OUT)。
+CC-C 11-12（FLOWER-NOTES-1110 接 AA_792，fb55a19173；BB-C 驗收「十樣花買得到、花藝師台詞、10:00 開／21:00 關、13 處「看」有字、三種舊存檔進原 G11 不壞」）加的（舊的函式沒改行為）：
+  doc792()＝AA_792 稿（企劃線 8475a3b85，git show；讀不到＝回 None，探針改比頁面上的資料並寫明）；fn_data()＝頁面上的 FLOWER_NOTES_TEXT／GIFT_HOLIDAY／FNS.hours／PLACES.hours／XSCLOSE／FN3.GG；
+  fn_expect()＝期望值（有稿用稿、同時比頁面＝稿）；dlg()＝對話框這一句（說話的人＋整句 GAME.D.full）；look_cells()＝站在哪裡互動鍵會是那一個「看」；
+  joy_to 多 btn（互動鍵出現那個字就算到）、stop_on_event（途中出現對話／選單就停下來回報，不盲點）；walk_seg（觸控走路，途中有劇情就停下、照字處理、記下來）；cur_btn（互動鍵最上層是不是它）。
+CC_02 清單 2026-11-12：1✓ 2✓ 3✓ 4✓ 5✓ 6n/a（共用函式不判時間；時間餘裕在各探針） 7✓ 8✓ 9n/a（共用函式不截判斷用的圖） 10✓ 11n/a（不排佇列） 12n/a（共用函式不下結論） 13✓——這次只改／加上面列的那幾個，舊的函式（OLDSPOT 的 rect、give、shop_names…）沒重審"""
+import os, sys, json, math, time, re, subprocess
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import playlib as L
@@ -122,12 +127,20 @@ async def expect(pg):
 
 
 # ---------------------------------------------------------------- 走路
-async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=False, push_ms=600):
+async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=False, push_ms=600, btn=None, stop_on_event=False):
     """搖桿走到 (tx,tz)：straight＝一直朝目標直線推（測「這裡走不走得過去」，不繞路）；否則朝 E.pathTo 前方 1.5 m 推（玩家看著路推搖桿）。
-    每一步記位置；兩次取樣之間位移 > max(2.5, 6.2×1.5×秒) m＝跳（傳送；跑速 6.2）。回傳 {ok, t, pushes, jumps, end, log}"""
+    每一步記位置；兩次取樣之間位移 > max(2.5, 6.2×1.5×秒) m＝跳（傳送；跑速 6.2）。回傳 {ok, t, pushes, jumps, end, log}
+    CC-C 11-12：btn＝互動鍵出現這個字（開頭）就算到了（CC_02 乙 5：走向互動物件看按鈕、不看座標）；
+    stop_on_event＝途中出現對話或選單就停下來回報（why＝途中出現對話／選單、event＝那一句），不自己點掉（CC_02 乙 13）"""
     t0 = time.time(); log = []; jumps = []; pushes = 0; last_prog = (time.time(), None); prev = None
     while time.time() - t0 < max_s:
         s = await D.st(pg); now = time.time()
+        if btn and s['interact'].startswith(btn) and (lv is None or s['lv'] == lv) and not s['dlg'] and not s['choices']:
+            log.append([round(now - t0, 1), s['x'], s['z'], s['lv']])
+            return {'ok': True, 't': round(now - t0, 1), 'pushes': pushes, 'jumps': jumps, 'end': s, 'log': log, 'by': '互動鍵＝' + s['interact']}
+        if stop_on_event and (s['dlg'] or s['choices']):
+            ev = await dlg(pg) if s['dlg'] else {'choices': s['choices']}
+            return {'ok': False, 't': round(now - t0, 1), 'pushes': pushes, 'jumps': jumps, 'end': s, 'log': log, 'why': '途中出現%s' % ('對話' if s['dlg'] else '選單'), 'event': ev}
         if prev is not None:
             dd = math.hypot(s['x'] - prev[1], s['z'] - prev[2]); dt = now - prev[0]
             if s['zone'] == prev[3] and dd > max(2.5, 6.2 * 1.5 * dt):  jumps.append({'t': round(now - t0, 1), 'from': prev[1:3], 'to': [s['x'], s['z']], 'd': round(dd, 2)})   # CC 12:1x：跑速 6.2（E.SPD.run），原本 6×秒 低於跑速，10 fps 取樣 0.5 秒誤判（逐幀比值最大 1.0）
@@ -166,7 +179,7 @@ async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=Fal
 
 async def enter_door(pg, cdp, tag, door, max_s=120):
     """搖桿走到店門（door＝EXITS_JS 的一筆）、按鈕是它就按、等換區域；回傳 D.st 或 None（觸控點地板 D.use_exit 在騎樓柱子旁邊雲端常要 1～3 分鐘，改搖桿）"""
-    r = await joy_to(pg, cdp, tag, door['x'], door['z'], near=min(0.9, door['r'] * 0.5), lv=door['lv'], max_s=max_s)
+    r = await joy_to(pg, cdp, tag, door['x'], door['z'], near=min(0.9, door['r'] * 0.5), lv=door['lv'], max_s=max_s, btn=door['label'])   # CC-C 11-12：互動鍵出現門的字就算到（乙 5）
     s = await wait_btn(pg, door['label'], 5)
     if not R.check('%s 搖桿走到「%s」，按鈕是它（%s 秒、沒有跳）' % (tag, door['label'], r['t']), s['interact'].startswith(door['label']) and not r['jumps'], J({'end': [s['x'], s['z']], 'btn': s['interact'], 'jumps': r['jumps'], 'why': r.get('why')})): return None
     await L.tap(pg, cdp, '#interact'); await D.wait_zone(pg, cdp, door['to']); await pg.wait_for_timeout(2500); await L.close_panels(pg, cdp); s = await D.st(pg)
@@ -398,3 +411,136 @@ async def shot(pg, cdp, name, cam=None):
         await pg.set_viewport_size({'width': 844, 'height': 390}); await pg.wait_for_timeout(800)
         return c
     return await D.shot(pg, name, judge_black=False)
+
+
+# ---------------------------------------------------------------- CC-C 11-12：花序接 AA_792（fb55a19173）——稿、頁面上的資料、對話、「看」
+REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
+DOC792_SHA = '8475a3b85'
+DOC792 = 'docs/story_planning/AA_792_flower_notes.json'
+
+
+def doc792():
+    """AA_792 稿（企劃線 8475a3b85；fb55a19173 的 src/data/flower_notes_text.js、gift_holiday.js 就是從它匯入的）。
+    依序試：FN_DOC792（json 檔路徑）→ 這支探針所在的 repo、目前目錄的 git show。讀不到回 (None, 原因)——探針改比頁面上的資料，log 寫明（CC_02 乙 7）"""
+    p = os.environ.get('FN_DOC792')
+    if p and os.path.exists(p):
+        try: return json.load(open(p, encoding='utf-8')), 'FN_DOC792=' + p
+        except Exception as e: return None, 'FN_DOC792 讀不懂：%r' % e
+    why = []
+    for root in (REPO, os.getcwd()):
+        try:
+            b = subprocess.check_output(['git', '-C', root, 'show', DOC792_SHA + ':' + DOC792], stderr=subprocess.STDOUT, timeout=30)
+            return json.loads(b.decode('utf-8')), 'git show %s:%s（%s）' % (DOC792_SHA, DOC792, root)
+        except Exception as e:
+            why.append('%s：%s' % (root, (getattr(e, 'output', b'') or b'').decode('utf-8', 'replace').strip()[-120:] or repr(e)[:120]))
+    return None, '；'.join(why)
+
+
+FN_DATA_JS = r"""(()=>{ const T=typeof FLOWER_NOTES_TEXT!=='undefined'?FLOWER_NOTES_TEXT:null, X=typeof GIFT_HOLIDAY!=='undefined'?GIFT_HOLIDAY:null, sh=X&&X.shops&&X.shops.gg_flower;
+  const its=(GAME.E.interactables||[]).filter(i=>i.fnLook).map(i=>({kind:i.fnLook,label:i.label||'',x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0,r:i.radius||1,look:i.look||'',hidden:!!i.hidden}));
+  return {text:T?{src:T.src||null,staff:T.staff,looks:T.looks}:null, shop:sh?{name:sh.name,items:sh.items.slice()}:null,
+    items:sh?Object.fromEntries(sh.items.map(g=>[g,{name:X.items[g].name,price:X.items[g].price,shop:X.items[g].shop}])):null,
+    hours:typeof FNS!=='undefined'&&FNS.hours?FNS.hours():null, place:typeof PLACES!=='undefined'&&PLACES.hours?(PLACES.hours.flower_notes||null):null,
+    xs:typeof XSCLOSE!=='undefined'&&XSCLOSE.ZONES&&XSCLOSE.ZONES.flower_notes?Object.assign({line:XSCLOSE.LINE},XSCLOSE.ZONES.flower_notes):null,
+    fns:typeof FNS!=='undefined', gg:typeof FN3!=='undefined'&&FN3.GG?Object.assign({},FN3.GG):null, zone:GAME.G.zone, lookIts:GAME.G.zone==='flower_notes'?its:null,
+    lookLabels:GAME.G.zone==='flower_notes'?(GAME.E.interactables||[]).filter(i=>/^看/.test(i.label||'')).map(i=>i.label):null}; })()"""
+
+
+async def fn_data(pg):
+    return await pg.evaluate(FN_DATA_JS)
+
+
+def _hours_of(s):
+    m = re.match(r'^(\d\d):(\d\d)～(\d\d):(\d\d)$', s or '')
+    return [int(m.group(1)) + int(m.group(2)) / 60.0, int(m.group(3)) + int(m.group(4)) / 60.0] if m else None
+
+
+async def fn_expect(pg, tag):
+    """期望值：有 AA_792 稿就用稿（十樣 id／名字／價錢、花藝師 who／greet／buy／closed／hours、13 區的 looks），並檢查頁面上的資料＝稿；
+    讀不到稿＝用頁面上的資料（FLOWER_NOTES_TEXT、GIFT_HOLIDAY），R.note 寫「讀不到稿，改比頁面」。回傳 dict（src＝'doc'／'page'）"""
+    pd = await fn_data(pg); d, how = doc792()
+    if d:
+        R.note('%s 期望值：AA_792 稿（%s）' % (tag, how))
+        st = d.get('staff') or {}; it = d.get('items') or {}; ids = (d.get('shop') or {}).get('items') or []
+        ex = {'src': 'doc', 'ids': ids, 'items': {g: {'name': (it.get(g) or {}).get('name'), 'price': (it.get(g) or {}).get('price'), 'shop': (it.get(g) or {}).get('shop')} for g in ids},
+              'who': st.get('who'), 'greet': st.get('greet') or [], 'buy': st.get('buy') or {}, 'closed': st.get('closed'), 'hours': _hours_of(st.get('hours')), 'hours_s': st.get('hours'),
+              'looks': d.get('looks') or {}, 'shop_name': (d.get('shop') or {}).get('name')}
+        pt = pd.get('text') or {}; ps = pt.get('staff') or {}
+        R.check('%s 頁面上的資料＝AA_792 稿：十樣 id 和順序、名字、價錢、shop' % tag, (pd.get('shop') or {}).get('items') == ids and all((pd.get('items') or {}).get(g) == ex['items'][g] for g in ids),
+                J({'page': pd.get('items'), 'doc': ex['items']})[:600])
+        R.check('%s 頁面上的資料＝AA_792 稿：花藝師 who、greet、buy、closed、hours' % tag, ps.get('who') == ex['who'] and ps.get('greet') == ex['greet'] and ps.get('buy') == ex['buy'] and ps.get('closed') == ex['closed'] and ps.get('hours') == ex['hours_s'], J(ps)[:600])
+        R.check('%s 頁面上的資料＝AA_792 稿：13 區的「看」' % tag, pt.get('looks') == ex['looks'] and len(ex['looks']) == 13, '稿 %d 句、頁面 %d 句' % (len(ex['looks']), len(pt.get('looks') or {})))
+    else:
+        R.note('%s ★讀不到 AA_792 稿（%s）——期望值改用頁面上的資料（FLOWER_NOTES_TEXT、GIFT_HOLIDAY）' % (tag, how))
+        pt = pd.get('text') or {}; st = pt.get('staff') or {}; ids = (pd.get('shop') or {}).get('items') or []
+        ex = {'src': 'page', 'ids': ids, 'items': pd.get('items') or {}, 'who': st.get('who'), 'greet': st.get('greet') or [], 'buy': st.get('buy') or {}, 'closed': st.get('closed'),
+              'hours': _hours_of(st.get('hours')), 'hours_s': st.get('hours'), 'looks': pt.get('looks') or {}, 'shop_name': (pd.get('shop') or {}).get('name')}
+    ex['page'] = pd
+    return ex
+
+
+DLG_JS = r"""(()=>{ const D=GAME.D, n=document.getElementById('dlgName'), t=document.getElementById('dlgText'); const on=!!(D&&D.active);
+  const who=(n&&n.style.display!=='none'&&getComputedStyle(n).display!=='none')?(n.textContent||'').trim():''; return {on, who, t:on?String(D.full!=null?D.full:((t&&t.textContent)||'')).trim():''}; })()"""
+
+
+async def dlg(pg):
+    """對話框現在這一句：說話的人（#dlgName，沒顯示＝旁白 ''）、整句（GAME.D.full，打字效果還沒打完也是整句）"""
+    return await pg.evaluate(DLG_JS)
+
+
+async def lines_until_idle(pg, cdp, secs=30, pick=None):
+    """點完對話，逐句記 {who, t}；出現選單：pick(選項文字清單) 回傳要選第幾個（None＝停下來回傳）。回傳 (lines, 停下來時的選項 or None)"""
+    out = []
+    for _ in range(int(secs * 2)):
+        q = await L.state(pg)
+        if q['choices']:
+            o = await pe_opts(pg); k = pick([x['t'] for x in o]) if pick else None
+            if k is None: return out, o
+            out.append({'who': '【選】', 't': o[k]['t'][:40]}); await choose_k(pg, cdp, k); continue
+        if q['dlg']:
+            d = await dlg(pg)
+            if not out or out[-1] != {'who': d['who'], 't': d['t']}: out.append({'who': d['who'], 't': d['t']})
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        if not q['busy']: return out, None
+        await pg.wait_for_timeout(500)
+    return out, None
+
+
+BTN_TOP_JS = r"""(()=>{ const e=document.getElementById('interact'); if(!e||e.classList.contains('hide')) return {ok:false,why:'沒有互動鍵'}; const r=e.getBoundingClientRect(); if(!r.width) return {ok:false,why:'互動鍵大小 0'};
+  const h=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return {ok:!!h&&(h===e||e.contains(h)), top:h?(h.id||h.tagName)+(h.className&&typeof h.className==='string'?'.'+h.className.split(' ')[0]:''):null, t:(e.textContent||'').trim()}; })()"""
+
+
+async def cur_btn(pg):
+    """互動鍵的中心，最上層是不是它自己（CC_02 乙 4：點之前確認沒被蓋住）"""
+    return await pg.evaluate(BTN_TOP_JS)
+
+
+LOOK_CELLS_JS = r"""((q)=>{ const E=GAME.E; const its=(E.interactables||[]).filter(i=>!i.hidden&&((i.lv|0)===q.lv)); const me=its.find(i=>i.fnLook===q.kind&&Math.abs(i.x-q.x)<1e-3&&Math.abs(i.z-q.z)<1e-3);
+  if(!me) return {cells:[],why:'找不到這個互動點'}; const out=[]; let nStand=0, nNear=0;
+  for(let x=me.x-me.radius;x<=me.x+me.radius+1e-6;x+=0.1) for(let z=me.z-me.radius;z<=me.z+me.radius+1e-6;z+=0.1){ const d=Math.hypot(x-me.x,z-me.z); if(d>me.radius-0.12) continue;
+    if(!E.canStand(x,z,0.3,q.lv)) continue; nStand++; const oth=its.filter(i=>i!==me&&Math.hypot(i.x-x,i.z-z)<=(i.radius||1)+0.05).map(i=>Math.hypot(i.x-x,i.z-z)); const m2=oth.length?Math.min(...oth):9;
+    if(m2<=d+0.25) continue; nNear++; out.push({x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2),gap:+(m2-d).toFixed(2)}); }
+  out.sort((a,b)=>(b.gap-a.gap)||(a.d-b.d)); return {cells:out.slice(0,q.n||6),nStand,nNear,why:out.length?'':(nStand?'站得住的 '+nStand+' 格都離別的互動點一樣近（差不到 0.25 m）':'範圍裡沒有站得住的格子')}; })"""
+
+
+async def look_cells(pg, p, n=6):
+    """站在哪裡互動鍵會是這一個「看」：範圍裡站得住（canStand r0.3）、而且離它比離其他互動點近 0.25 m 以上的格子（0.1 m 一格），差距大的排前面。
+    （幾何挑點，不靠遊戲的 nearestInteractable；按了以後照旁白的字判斷是不是它——CC_02 乙 4「判準不能依賴被測的程式自己的結果」）"""
+    return await pg.evaluate("(%s)(%s)" % (LOOK_CELLS_JS, J({'kind': p['kind'], 'x': p['x'], 'z': p['z'], 'lv': p['lv'], 'n': n})))
+
+
+async def walk_seg(pg, cdp, tag, x, z, near, lv=None, max_s=300):
+    """觸控點地板走（L.go_to），途中出現對話／選單就停下來（stop），逐句記下、照字處理（選「算了／先不用／離開」那一類，沒有就停下來回報），再接著走（CC_02 乙 13）。
+    回傳 {ok, events:[...], path:'觸控點地板'}"""
+    t0 = time.time(); evs = []
+    while time.time() - t0 < max_s:
+        ok = await L.go_to(pg, cdp, R, x, z, near, tag, max_s=max(30, max_s - (time.time() - t0)), lv=lv, stop=lambda s: bool(s['dlg'] or s['choices']))
+        s = await D.st(pg)
+        if not (s['dlg'] or s['choices']):
+            await D.settle(pg); s = await D.st(pg)
+            return {'ok': bool(ok) and math.hypot(s['x'] - x, s['z'] - z) <= near + 0.6, 'events': evs, 'path': '觸控點地板', 'end': s}
+        lines, stuck = await lines_until_idle(pg, cdp, 40, pick=lambda ts: next((i for i, t in enumerate(ts) if any(w in t for w in ('算了', '先不用', '離開', '下次', '不用了', '先這樣'))), None))
+        evs.append({'lines': lines, 'stuck': [o['t'] for o in stuck] if stuck else None})
+        R.note('%s 走路途中出現劇情／選單（停下來處理）：%s' % (tag, J(evs[-1])))
+        if stuck: return {'ok': False, 'events': evs, 'path': '觸控點地板', 'why': '途中有不認識的選單', 'end': s}
+    return {'ok': False, 'events': evs, 'path': '觸控點地板', 'why': '%d 秒沒走到' % max_s, 'end': await D.st(pg)}
