@@ -347,7 +347,11 @@ if(ARGV.includes('--coplanar')){ const o={}; for(const z of SHOPS){ try{ enter(z
     const l2=L.map(i=>ITEMS[i].t+(R[i].msg?'：'+esc(R[i].msg):'')); if(!r.stall&&LAYER2_NOTE[col]) l2.push(LAYER2_NOTE[col]); if(l2.length) parts.push('第二層（還沒拍：'+l2.join('；')+'）');
     if(!F.length&&its.some(i=>R[i].st==='PASS')) parts.unshift('PASS'+(X.length||l2.length?'（第一層）':''));
     return parts.join('<br>')||'—'; };
-  const verdict=r=>{ const R=RES[r.key]||{}; const F=Object.keys(R).filter(i=>R[i].st==='FAIL'||R[i].st==='KNOWN'); return (F.length?'**未過 '+F.length+' 項**':'第一層 PASS')+(r.stall?'':'；第二層還沒拍、BB 還沒判'); };
+  /* 第三層＝BB 看圖判的結果（docs/handoff/place_gate_bb.json，BB 每判一批更新、交 LAWWW 合；BB-C 2026-11-12：交班後別的帳號看表要看得到 BB 已經判 FAIL 的店）*/
+  let BBJ={}; try{ const j=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/place_gate_bb.json'),'utf8')); for(const q of j.shops||[]) BBJ[q.zone]=q; }catch(e){}
+  const bbCell=k=>{ const esc=s=>String(s).replace(/\|/g,'／').replace(/\n/g,' '); const q=BBJ[k]; if(!q) return '第二層還沒拍、BB 還沒判'; const f=(q.fail||[]).join('、'), pd=(q.pending||[]).join('、');
+    return '**BB '+esc(q.verdict)+'**（@'+esc(q.sha||'')+(f?'；未過：'+esc(f):'')+(pd?'；還沒判：'+esc(pd):'')+(q.note?'；'+esc(q.note):'')+'｜'+esc(q.ref||'')+'）'; };
+  const verdict=r=>{ const R=RES[r.key]||{}; const F=Object.keys(R).filter(i=>R[i].st==='FAIL'||R[i].st==='KNOWN'); return (F.length?'**未過 '+F.length+' 項**':'第一層 PASS')+(r.stall?'':'；'+bbCell(r.key)); };
   const areas=[]; for(const r of ROWS) if(!areas.includes(r.area)) areas.push(r.area);
   const byTask={}; for(const [r,item,c] of known) (byTask[c.task]=byTask[c.task]||[]).push(r.name+'（'+ITEMS[item].t+'）');
   const MARK='<!-- 以下由 tests/place_gate_unit.js --write 產生，不要手改 -->';
@@ -372,4 +376,4 @@ if(ARGV.includes('--coplanar')){ const o={}; for(const z of SHOPS){ try{ enter(z
   const bad=newFail.length+stale.length+tableErr.length+hardFails+(docStale?1:0);
   out(bad?'FAILED '+bad+'（新的問題 '+newFail.length+'、已經過了要從表上拿掉 '+stale.length+(docStale?'、狀態表過期':'')+'）':'ALL PASS（沒有新的問題；已知未過 '+known.length+' 項見上面）');
   process.exit(bad?1:0);
-})();
+})().catch(e=>{ console.log('FAILED（地點關卡自己壞了，沒有跑完——不算通過）：'+(e&&e.stack||e)); process.exit(1); });   /* 2026-11-12：原本中途丟例外會安靜地結束碼 0 */
