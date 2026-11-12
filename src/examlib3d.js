@@ -42,7 +42,7 @@ const EXLIB=(function(){
   const now=G=>(G.day|0)*24+(+G.hour||0);
   const hash=str=>{ let h=2166136261; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; };
   const rnd=str=>(hash(str)%100000)/100000;
-  const law=G=>!!G&&(G.stage||'law')==='law', econ=G=>!!G&&G.stage==='econ';
+  const law=G=>!!G&&(G.stage||'law')==='law', econ=G=>false;
   const termOf=(G,day)=>typeof CALENDAR!=='undefined'?CALENDAR.termOf(day==null?G.day:day):null;
   const wdOf=day=>{ const w=CALENDAR.dateOf(day).wd; return w===7?0:w; };
   const weekendDay=day=>CALENDAR.dateOf(day).wd>=6;

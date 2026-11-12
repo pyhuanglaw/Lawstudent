@@ -1049,8 +1049,8 @@ const CLS=(function(){
   S.canSkip=function(GM){ const G=GM.G; if(!G||opening(G)) return '第一、二天先跟著劇情走'; if(late(G)) return '已經過午夜了，回宿舍睡覺吧（睡醒就是明天）'; if(GM.D&&GM.D.active) return '對話中'; if(GM.E&&GM.E.player&&GM.E.player.busy) return '現在不能跳'; return ''; };
   S.STOP_FNS=[G=>{ const cw=typeof STORY!=='undefined'&&STORY.coreCallAt?STORY.coreCallAt(G):null; if(cw!=null) return [{h:cw,why:'約好的時間過了，對方會打電話來'}];
     const lw=typeof STORY!=='undefined'&&STORY.lawWakeAt?STORY.lawWakeAt(G):null; return lw!=null?[{h:lw,why:STORY.ceremonyDue&&STORY.ceremonyDue(G)&&lw===14?'開學典禮（綜合體育館）':'有約好的事'}]:[]; }];
-  S.STOP_FNS.push(G=>{ const h=typeof STORY!=='undefined'&&STORY.e05StopAt?STORY.e05StopAt(G):null; return h!=null?[{h,why:'約好的時間：普通教學館前'}]:[]; });
-  S.STOP_FNS.push(G=>{ const h=typeof STORY!=='undefined'&&STORY.e08StopAt?STORY.e08StopAt(G):null; return h!=null?[{h,why:'韋綸傳訊息來'}]:[]; });   /* 經濟系 9/21 16:00 韋綸問系烤要不要去（BUG-Y0-E08-MISSED-AFTER-GOING-1109 (a)）*/   /* 經濟系 9/20 回了可昕、要去普通教學館見面（AA_727；BB-B 11-07 17:20 P3）*/   /* 法律系那幾年睡著也會醒來的時間（lawWakeAt：8/31 開學典禮 14:00、10/24 電話…）小睡和跳過時間也停（BB-B 10-31 cer831：「睡到傍晚」睡到 18:00 才演典禮）*/   /* 小睡、跳過時間停在她打來的那一刻（STORY.coreCallAt：經濟系那幾場重要的出遊、法律系 8/30 E37；BB-B 10-31 E37 twice）*/   /* 事件包各自的停點：CLS.STOP_FNS.push(fn)，fn(G,h0,h1) 回傳 [{h,why}]（h＝今天幾點）。AA_296 那幾通電話（AA 10-22 08:41：跳過時間碰到她打來要停下來，睡覺照舊算沒接）——電話打來前 2 小時才排進 OUT，跳過時間一開始就要知道 */
+  S.STOP_FNS.push(G=>{ const h=null; return h!=null?[{h,why:'約好的時間：普通教學館前'}]:[]; });
+  S.STOP_FNS.push(G=>{ const h=null; return h!=null?[{h,why:'韋綸傳訊息來'}]:[]; });   /* 經濟系 9/21 16:00 韋綸問系烤要不要去（BUG-Y0-E08-MISSED-AFTER-GOING-1109 (a)）*/   /* 經濟系 9/20 回了可昕、要去普通教學館見面（AA_727；BB-B 11-07 17:20 P3）*/   /* 法律系那幾年睡著也會醒來的時間（lawWakeAt：8/31 開學典禮 14:00、10/24 電話…）小睡和跳過時間也停（BB-B 10-31 cer831：「睡到傍晚」睡到 18:00 才演典禮）*/   /* 小睡、跳過時間停在她打來的那一刻（STORY.coreCallAt：經濟系那幾場重要的出遊、法律系 8/30 E37；BB-B 10-31 E37 twice）*/   /* 事件包各自的停點：CLS.STOP_FNS.push(fn)，fn(G,h0,h1) 回傳 [{h,why}]（h＝今天幾點）。AA_296 那幾通電話（AA 10-22 08:41：跳過時間碰到她打來要停下來，睡覺照舊算沒接）——電話打來前 2 小時才排進 OUT，跳過時間一開始就要知道 */
   S.skipStops=function(GM,h1){ const G=GM.G, out=[]; const h0=hr(G);
     for(const f of S.STOP_FNS){ try{ for(const a of (f(G,h0,h1)||[])) if(a&&a.h>h0&&a.h<h1) out.push(a); }catch(e){ console.warn('CLS.STOP_FNS',e); } }
     for(const it of S.dayItems(G)){ const sp=(it.c.specials||[]).find(q=>q.w===it.week&&q.content); if(sp&&it.t0-1/6>h0&&it.t0-1/6<h1) out.push({h:it.t0-1/6,why:'特殊課堂：'+it.c.name}); }
@@ -1209,7 +1209,7 @@ const CLS=(function(){
   const freeNow=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length); };   /* E.paused＝手機或選單開著：下課選單、起床選單不要跳在手機下面（flow_v0_to1017 9/19 卡住：選單在手機後面點不到）*/
   S.canGo=function(GM){ const why=S.canSkip(GM); if(why) return why; if(typeof HOME!=='undefined'&&HOME.rec&&HOME.rec(GM.G).at) return '你在家'; return ''; };
   /* 起床選單（1-2）*/
-  S.wakeMenu=async function(GM){ const G=GM.G; if(S.wakeMenuOn(GM)&&typeof STORY!=='undefined'&&STORY.retakeOn&&STORY.retakeOn(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))) return !!(await STORY.retakeWake(GM));   /* 經濟系重考期的起床選單（AA_154 A39）*/ if(!S.wakeMenuOn(GM)||S.canGo(GM)) return false; const list=S.goList(G).filter(it=>!S.planSkip(G,it)); if(!list.length) return false; const it=list[0], exam=!!it.exam;   /* 期中、期末都一樣不給翹（AA_294 ①；原本只有期末）*/
+  S.wakeMenu=async function(GM){ const G=GM.G; /* 經濟系重考期的起床選單（AA_154 A39）*/ if(!S.wakeMenuOn(GM)||S.canGo(GM)) return false; const list=S.goList(G).filter(it=>!S.planSkip(G,it)); if(!list.length) return false; const it=list[0], exam=!!it.exam;   /* 期中、期末都一樣不給翹（AA_294 ①；原本只有期末）*/
     const pl=S.goPlan(GM,it); let k=-1; GM.sceneBegin(); try{
       await GM.say(null,'早安。今天的課：'+list.slice(0,3).map(q=>hhmm(q.t0)+'　'+q.c.name+'　'+(q.room.name||'')).join('　／　')); const more=S.todayMore(G); if(more.length) await GM.say(null,'今天還有：'+more.join('、'));
       /* 2026-11-11（BUG-GOCLASS-SKIPPED-1111，使用者 day57；BB）：前面已經翹掉的課要明講——小睡醒來的第二次起床選單，第一項已經是下一堂（原本什麼都沒說，使用者以為按的是早上那一堂）。系統提示，不是台詞 */
@@ -1310,7 +1310,7 @@ const CLS=(function(){
   /* 開學第二天的民總（劇情課：story3d.js 的 classScene，進 201 就開始）不能翹（AA_294 第 1 節第 1 列、第 3 節「時間到了直接帶去」，任務 AA294-SKIPCLASS-1018）：
      法律系主線第 2 天（週四）12:30～15:12 還沒上（classDone）、玩家空下來，就帶過去。還沒演過霖澤館前那一段（campusIntro：阿哲；新局 9/4 的初遇也在那裡，
      AA_294 ev_zhe_w1_meet 那一列靠它）先帶到校園，演完再帶進 201；人已經在 201（12:30 以前就進來了）＝重新進一次，照舊開始上課 */
-  S.day2Due=function(G){ if(!G||late(G)||typeof STORY==='undefined'||!STORY.mainDay||STORY.mainDay(G)!==2||(STORY.isEcon&&STORY.isEcon(G))) return false; const F=G.flags||{}, h=hr(G);
+  S.day2Due=function(G){ if(!G||late(G)||typeof STORY==='undefined'||!STORY.mainDay||STORY.mainDay(G)!==2) return false; const F=G.flags||{}, h=hr(G);
     return G.weekday===4&&!F.classDone&&!F.classNow&&h>=12.5&&h<15.2; };
   /* UX-DAY2-AUTOPULL（BB 15:34，CC 在使用者電腦量到：阿哲那一段演完 2.83 秒就被帶走）：還沒演阿哲那一段＝照舊（空下來 1.5 秒就帶到霖澤館前）；
      演過了（campusIntro）＝等到上課前 5 分鐘（13:15）而且空下來 S.DAY2_GRACE_MS 才帶進 201，帶之前字幕寫「快上課了。」；玩家自己走進 201 就照舊開始上課（story3d.js onEnter），不用帶。「民總不能翹」不變 */

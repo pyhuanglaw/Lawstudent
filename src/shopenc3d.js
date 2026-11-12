@@ -96,7 +96,6 @@ const SHOPENC=(function(){
   S.calm=function(G,zone){ const F=G.flags||{}; if(F.companion) return true; return (G.invites||[]).some(iv=>iv&&iv.day===G.day&&iv.accepted&&!iv.done&&(iv.zone===zone)); };
   /* 這一列現在成立嗎：{row,tier} 或 null（why 給測試看）*/
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
-    if(G.stage==='econ') return no('econ');
     if(!timeOk(G,row.days,row.from,row.to)) return no('時段'); if(calOk(G,row,no)!==true) return null;
     if(row.flags&&!row.flags.every(f=>G.flags&&G.flags[f])) return no('旗標'); if(row.needFlags&&!row.needFlags.every(f=>G.flags&&G.flags[f])) return no('needFlags');
     if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei') return no('不在（'+(pr.away||pr.kind)+'）'); }   /* 國外、休學、回老家 */
@@ -113,7 +112,7 @@ const SHOPENC=(function(){
     return {row,tier:tr,here:!!b}; };   /* here：作息本來就在這間店（以安週末下午在兩點半）＝照作息坐她的位子，偶遇只是走過去的那一段 */
   /* 新認識的人（宋知寧）：只看時間、學期、考試週、今天遇過沒（她不在任何人的作息裡）*/
   S.znEligible=function(G,spot,why){ const P=(D().newPeople||[]).map(p=>S.npAt(G,p)).find(p=>p.intro_spot===spot); if(!P) return null; const no=w=>{ if(why) why.push(P.id+'@'+spot+':'+w); return null; };
-    if(G.stage==='econ') return no('econ'); if(!timeOk(G,P.days,P.from,P.to)) return no('時段'); if(calOk(G,Object.assign({spot},P),no)!==true) return null; if(metToday(G,P.id)) return no('今天遇過了');
+    if(!timeOk(G,P.days,P.from,P.to)) return no('時段'); if(calOk(G,Object.assign({spot},P),no)!==true) return null; if(metToday(G,P.id)) return no('今天遇過了');
     return {row:{who:P.id,spot,np:P},tier:{t:'new'}}; };
   S.candidates=function(G,spot,why){ const C=S.rows(spot).map(r=>S.eligible(G,r,why)).filter(Boolean); const z=S.znEligible(G,spot,why); if(z) C.push(z); return C; };
   /* 演出中（劇情、對話、有人跟著你）不排 */

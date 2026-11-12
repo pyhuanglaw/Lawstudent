@@ -38,7 +38,7 @@ const SHOPNPC=(function(){
   const termOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null;
   const wdOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).wd%7:null;
   const hr=G=>(+G.hour||0)%24;
-  const econ=G=>!!G&&((G.stage||'law')==='econ'||(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G)));
+  const econ=G=>!!G&&((G.stage||'law')==='econ');
   const hash=s=>{ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; };
   const isOpen=(z,h,d)=>typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(z,h,d);
   S.rows=()=>D().rows||[];

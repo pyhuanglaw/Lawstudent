@@ -38,7 +38,7 @@ const CROWD=(function(){
     /* BB_105 D9 新一屆的大一女生（企劃線 BB_105@68a8479e，AA-C 2026-10-18 補台詞；V1-B105-D2）：法律系大二以後，法服在大一女舍外的路邊擺攤招生（社員輪班；語彤不在法服）。
        日子是 LAWWW 定的：大二、大三、大四上學期第 1～2 週的平日 12:00～17:00（給 AA 的問題）。攤位的桌子、傳單還沒有（場景，D108 歸 LAWWW2）：現在是兩位社員站在路邊，點了「看法服的攤位」。fixed＝人數不加倍 */
     { id:'fdorm_fafu', zone:'campus', label:'法服的攤位（大一女舍外的路）', c:[-89.4,50.5], spread:[0.8,0.3], door:[-93,47], road:[-93,47], mix:true,
-      slots(G){ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(G.stage==='econ'||!T||!/^Y[234]S1$/.test(T.id)||T.week>2||!termDay(G)) return []; return [{key:'fafu',t0:12,t1:17,n:[2,2],fixed:true,pose:'idle',talk:0.5,enter:'road',leave:'road'}]; },
+      slots(G){ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||!/^Y[234]S1$/.test(T.id)||T.week>2||!termDay(G)) return []; return [{key:'fafu',t0:12,t1:17,n:[2,2],fixed:true,pose:'idle',talk:0.5,enter:'road',leave:'road'}]; },
       talkLabel:'看法服的攤位', allTalk:true, lines(){ return [S.FAFU_LINES]; } } ];
   /* BB_105 D7 宿舍的人們（企劃線 BB_105@68a8479e 5-3，AA-C 2026-10-18 寫；V1-B105-D2）：大一女舍門口的路人，照時段輪流——開學第一週白天、傍晚、晚上（兩句）、考試週。
      一群人裡一句給一個人（點了聽那一句）；那個時段沒有句子＝不能點。D8 臨時取消是另一件（V3-B105） */

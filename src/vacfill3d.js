@@ -22,7 +22,7 @@ const VACFILL=(function(){
   if(!X) return S;
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const T=(d,h)=>d*24+h, NOW=G=>T(G.day,G.hour);
-  const law=G=>!!G&&(G.stage||'law')==='law', econ=G=>!!G&&G.stage==='econ';
+  const law=G=>!!G&&(G.stage||'law')==='law', econ=G=>false;
   const Fl=G=>G.flags||(G.flags={});
   const wdOf=d=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:((d%7)+7)%7;
   const inGrp=(G,g)=>typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,g);
@@ -58,16 +58,6 @@ const VACFILL=(function(){
   /* 每一則：tag、day（或 dayFn）、h、th、ms（[[誰,字]] 或 fn(G,d)）、if(G,d)、ask(G,d)→{until:[日,時], opts:[{t,set,say:[[誰,字]],post}]}、stage（econ＝經濟系那年暑假）、
      stop（法律系那幾年的快轉停在這裡）、after(G)（排進去以後）、at（時間到了才判斷 if：住家裡／留宿舍那種要看當下）*/
   S.MSGS=[
-    /* ---------- 第 1 節 經濟系那年暑假（2025）---------- */
-    {tag:'vf_y0_0716',stage:'econ',day:'2025-07-16',h:21,th:EG,ms:X.y0_0716.ms,if:G=>inGrp(G,'econ_friends'),   /* 有加入「走啦」才收到（AA_157）*/
-      ask:(d,G)=>({until:R7(d),opts:[south(G)?{t:X.y0_0716.away,set:{VF_Y0_0719:'away'},say:X.y0_0716.awaySay}:{t:X.y0_0716.yes,set:{VF_Y0_0719:'go'},say:X.y0_0716.yesSay},
-        {t:X.y0_0716.no,set:{VF_Y0_0719:'no'},say:X.y0_0716.noSay}]})},   /* 7/19 南下高雄的（E35_PLAN sea／shop）：第一個選項換成「這週末不在臺北。」，不排 */
-    {tag:'vf_y0_0722_sis',stage:'econ',day:'2025-07-22',h:21.5,th:'p:sister',ms:one('sister',X.y0_0722.sis),if:G=>!dat(G,KX),   /* 沒和可昕交往：姊姊（已經回台南）*/
-      ask:d=>({until:R7(d),opts:[{t:X.y0_0722.sisOpt,say:[['sister',X.y0_0722.sisSay]]}]})},
-    {tag:'vf_y0_0804',stage:'econ',day:'2025-08-04',h:21,th:EG,ms:X.y0_0804.ms,if:G=>inGrp(G,'econ_friends')},   /* 1-6 等放榜（不用回）*/
-    {tag:'vf_y0_0813',stage:'econ',day:'2025-08-13',h:20.5,th:HG,ms:X.y0_0813.ms,join:true,if:G=>!!Fl(G).E36_RESULT},   /* 1-9 放榜（ev_y0_e36r／e36rh）演完以後；不用回 */
-    {tag:'vf_y0_0817',stage:'econ',day:'2025-08-17',h:21,th:EG,ms:X.y0_0818.ms,if:G=>inGrp(G,'econ_friends'),   /* 1-10 餞行（7/19 一起吃過的照樣發）*/
-      ask:()=>({until:[DK('2025-08-18'),18],opts:[{t:X.y0_0818.yes,set:{VF_Y0_0818:'go'}},{t:X.y0_0818.no,set:{VF_Y0_0818:'no'},say:X.y0_0818.noSay}]})},
 
     /* ---------- 第 2 節 大二暑假（2027）---------- */
     {tag:'vf_y2_0618',day:'2027-06-18',h:21,th:NG,ms:X.y2_0618.ms,stop:true,if:G=>inGrp(G,'noodle_team'),
@@ -132,7 +122,7 @@ const VACFILL=(function(){
       ask:d=>({until:[d+1,8],opts:[{t:X2.y2w_0211.yes,set:{VF_Y2W_0212:'go'}}]})} ]:[]);
   S.dayOf=(m,G)=>{ if(!m.dayFn) return DK(m.day); const B=brk(G); return B&&B.key===m.brk?m.dayFn(G):null; };   /* 照行程算日子的（2-2）：只在那個假期裡算 */
   /* 這一則現在成立嗎（stage、國外、條件）。d＝那一則的日子（人物在不在臺北照那一天算）*/
-  S.gate=function(G,m,d){ if(m.stage==='econ'?!econ(G):!law(G)) return false; if(d==null) return false; if(!m.stage&&abroadOn(G,d)) return false;
+  S.gate=function(G,m,d){ if(!law(G)) return false; if(d==null) return false; if(!m.stage&&abroadOn(G,d)) return false;
     { const w=typeof m.th==='string'&&m.th.indexOf('p:')===0?m.th.slice(2):null; if(w&&typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,w)) return false; }   /* AA_600 B24～B26（vf_y2_0728、vf_y3_0212、vf_y3w_0115）：以安、學姊是前任＝她先傳的私訊不送 */
     try{ return !m.if||!!m.if(G,d); }catch(e){ return false; } };
   S.send=function(G,m){ const d=S.dayOf(m,G); if(d==null||G.day<d||G.day>d+1||sent(G,m.tag)) return false; if(m.at&&NOW(G)<T(d,m.h)) return false; if(!S.gate(G,m,d)) return false;
@@ -151,9 +141,6 @@ const VACFILL=(function(){
   const plan=(G,q)=>{ if(typeof OUT==='undefined'||!OUT.plan||OUT.get(G,q.id)) return false; return OUT.plan(G,q); };
   const NOODLE={zone:'noodle',x:0,z:3.4,yaw:Math.PI};   /* 「照麵店一般的吃飯」：一鍵到麵店（同 story3d.js 的 y3_cold_noodle）*/
   S.OUTS=[
-    {flag:'VF_Y0_0719',v:['go'],stage:'econ',q:{id:'vf_y0_0719',ev:'ev_vf_y0_0719',day:'2025-07-19',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
-    {flag:'VF_Y0_0727',v:['go'],stage:'econ',q:{id:'vf_y0_0727',goto:{zone:'campus',x:-112,z:0,yaw:-Math.PI/2},day:'2025-07-27',h:15,late:0.75,place:'首都帝大校門口',title:'去學校走一走',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
-    {flag:'VF_Y0_0818',v:['go'],stage:'econ',q:{id:'vf_y0_0818',ev:'ev_vf_y0_0818',day:'2025-08-18',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
     {flag:'VF_Y2_0623',v:['go'],q:{id:'vf_y2_0623',goto:NOODLE,day:'2027-06-23',h:18,late:0.75,place:'公館',title:'公館燒臘',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y2_0729',v:['go','find'],q:{id:'vf_y2_0729',ev:'ev_vf_y2_0729',day:'2027-07-29',h:14,late:0.5,place:'法圖',title:'法圖',travel:'走過去約 10 分鐘',travelH:1/6}},
     {flag:'VF_Y2_0731',v:['go'],q:{id:'vf_y2_0801',ev:'ev_vf_y2_0801',day:'2027-08-01',h:15,late:0.5,place:'2:30 AM',title:'2:30 AM',travel:'走過去約 15 分鐘',travelH:0.25}},
@@ -170,7 +157,7 @@ const VACFILL=(function(){
     {flag:'VF_Y2S_0711',v:['go'],q:{id:'vf_y2s_0711',ev:'ev_vf_y2s_0711',day:'2027-07-11',h:15,late:0.5,place:'溫州街',title:'溫州街的冰店',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y2S_0813',v:['go'],q:{id:'vf_y2s_0813',ev:'ev_vf_y2s_0813',day:'2027-08-13',h:16,late:0.5,place:'公館',title:'公館的修鞋店',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y2W_0212',v:['go'],q:{id:'vf_y2w_0212',ev:'ev_vf_y2w_0212',day:'2027-02-12',h:10,late:0.5,place:'永和',title:'永和的豆漿店',travel:'捷運 約 30 分鐘',travelH:0.5}} ];
-  S.plans=function(G){ const F=Fl(G); for(const o of S.OUTS){ if(!o.v.includes(F[o.flag])) continue; if(o.stage==='econ'?!econ(G):!law(G)) continue; const d=DK(o.q.day); if(d==null||NOW(G)>=T(d,o.q.h+(o.q.late!=null?o.q.late:0.75))) continue;
+  S.plans=function(G){ const F=Fl(G); for(const o of S.OUTS){ if(!o.v.includes(F[o.flag])) continue; if(!law(G)) continue; const d=DK(o.q.day); if(d==null||NOW(G)>=T(d,o.q.h+(o.q.late!=null?o.q.late:0.75))) continue;
       const q=Object.assign({},o.q,{day:d}); if(q.goto) q.goto=Object.assign({},q.goto); plan(G,q); } };
   /* 回覆以後的下一則：2-2「在想妳。」＝十點半那一張照片（對話串裡的旁白）*/
   S.follow=function(G){ const F=Fl(G);
@@ -222,14 +209,11 @@ const VACFILL=(function(){
     return line; };
 
   /* ===================== 1-5 7/27 去學校走一走：走路的期間不自動回家 ===================== */
-  S.walkOn=function(G){ if(!G||G.stage!=='econ') return false; const d=DK('2025-07-27'); if(d==null||G.day!==d) return false; const v=Fl(G).VF_Y0_0727;
-    if(v==='walk'||v==='front') return true; if(v==='go'){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'vf_y0_0727'):null; return !!q&&q.state==='done'&&G.zone==='campus'; } return false; };
+  S.walkOn=function(G){ return false; 
+    };
   S.PORTAL={x0:27,x1:41,z0:-121,z1:-103.5};   /* 霖澤館穿堂（CK.lawhall：中心 (34,-112)、深 18、穿堂寬 14；正面 z −103）*/
-  S.walkTick=function(GM){ const G=GM&&GM.G; if(!G||G.stage!=='econ'||!G.flags) return false; const v=G.flags.VF_Y0_0727; if(v!=='walk'&&v!=='front') return false;
-    if(G.day!==DK('2025-07-27')){ G.flags.VF_Y0_0727='done'; return false; }
-    if(v==='front'){ if(G.zone==='linze'){ G.flags.VF_Y0_0727='done'; return false; } const p=G.zone==='campus'&&GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position, P=S.PORTAL;
-      if(p&&p.x>=P.x0&&p.x<=P.x1&&p.z>=P.z0&&p.z<=P.z1) G.flags.VF_Y0_0727='done'; }   /* 走進穿堂就結束（之後照校園一般的） */
-    return false; };
+  S.walkTick=function(GM){ const G=GM&&GM.G; return false; 
+    };
 
   /* ===================== 4 大四寒假 1/20 以安「我去。」：之後一週每天在總圖三樓 ===================== */
   S.AN_LIB={days:[0,1,2,3,4,5,6],from:9,to:17,zone:'library',act:'read',dates:[['2029-01-21','2029-01-27']],if:{custom:G=>!!(G&&G.flags&&G.flags.VF_Y4_AN_LIB==='go')},note:'AA_440 第 4 節（大四寒假 1/20）：回了「我去。」的那一週她每天在總圖三樓（總圖寒假開到五點），照總圖的座位系統坐她對面'};

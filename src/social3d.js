@@ -86,7 +86,7 @@ const SOCIAL = (function(){
     for(const [k,t] of L){ const d=dkS(k); if(d!=null&&G.day>=d&&t!=null) v=t; } return v==null?null:v; };   /* null 的那一列不蓋掉前一列（AA_363 T4：沿用最後一列，不退回學年的規則）*/
   S.yearTag=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const crs=c.course?'・'+c.course:'', dep=c.department||'';
     { const pt=S.pgTag(id); if(pt) return pt; }
-    const idx=G&&G.stage==='econ'?0:S.playerYear(); let v=Array.isArray(c.tagByPY)?c.tagByPY[idx]:null;
+    const idx=S.playerYear(); let v=Array.isArray(c.tagByPY)?c.tagByPY[idx]:null;
     if(v&&typeof v==='object'){ const F=(G&&G.flags)||{}, d0=v.from?dkS(v.from):null; v=((v.ifFlag||[]).some(k=>F[k])||(d0!=null&&G&&G.day>=d0))?v.alt:v.t; }   /* from：那一天（含）以後寫 alt（AA_368 M3：可昕經濟系那一年 2025-02-14 起「休學中」）*/
     if(typeof v==='string') return v+crs;
     let y=c.year; if(typeof y==='number'&&idx>0){ y+=idx-1; if(y>4) return dep+crs; }

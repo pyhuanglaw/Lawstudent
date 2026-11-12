@@ -43,7 +43,7 @@ const LM=(function(){
   /* ---------- 狀態 ---------- */
   S.hour=G=>(((+G.hour||0)%24)+24)%24;
   /* 祐廷現在的學期（法律系）：{y,s,id}；經濟系那一年、不知道＝null。寒暑假算剛過完的那個學期（STORY.termAt） */
-  S.term=function(G){ if(!G||G.stage==='econ') return null; let id=null;
+  S.term=function(G){ if(!G) return null; let id=null;
     try{ if(typeof STORY!=='undefined'&&STORY.termAt) id=STORY.termAt(G.day); else { const t=CAL()&&CAL().termOf?CAL().termOf(G.day):null; id=t?t.id:null; } }catch(e){ id=null; }
     const m=/^Y([1-5])S([12])/.exec(id||''); return m?{y:+m[1],s:+m[2],id}:null; };
   S.year=G=>{ const t=S.term(G); return t?t.y:0; };

@@ -154,7 +154,7 @@ const WHOIS=(()=>{
   /* ---------------- 2 經濟系那年（玩過 PLAYED_Y0／從法律系開始：那一年發生在遊戲開始以前，人照樣記得你）、其他 ---------------- */
   /* 經濟系那一年本身（stage econ，從開局到轉法律系）：下面「那年的室友、住了兩個月」「回到法律系以後」都是回頭看的寫法，那一年還沒過完就先不顯示（AA_543 第 0 節「沒發生的不先寫」；
      BB-B 10-30 BUG-WHOIS-ECONYEAR-1030：經濟系那年原本走 noY0 那幾列）。經濟系當下的寫法＝AA_543 第 6 節（企劃線 30e7b0311，「_e」那幾列）；轉進法律系那天（stage law，PLAYED_Y0 也在那時記）起照第 2 節 */
-  const econNow=G=>!!G&&G.stage==='econ';
+  const econNow=G=>false;
   const econF=k=>G=>econNow(G)&&!!F(G)[k];
   const zoula=G=>econNow(G)&&typeof PHONE!=='undefined'&&!!PHONE.inGroup&&!!PHONE.inGroup(G,'econ_friends');   /* 「走啦」群組：10/15 聚會以後（Y0_ZOULA gather／load）*/
   const ROOM_E2={c:2,id:'room_e2',if:econF('Y0_MOVED_OUT'),t:'男宿 412 的室友，住了兩個月。',rep:['room_e']};   /* 10/19 退宿以後換掉上一行 */
