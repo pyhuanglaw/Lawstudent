@@ -23,7 +23,12 @@ const GAME = (function(){
   function toastShow(t,ms,hold){ const el=$('toast'); if(!el) return; el.textContent=t; el.classList.remove('hide'); el.style.opacity=1; tCur=t; tMin=Date.now()+Math.max(TOAST_MIN,Math.min(hold||0,ms||2200));   /* hold：這一則至少顯示這麼久，後面的才換（新手提示 6 秒；BB 11-12：「花錢」那則 1.7 秒就被下一則換掉、讀不完）*/ clearTimeout(tHide);
     tHide=setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ if(el.textContent===t&&tCur!==t) el.classList.add('hide'); },300); tCur=''; toastPump(); },ms||2200); }
   function toastPump(){ clearTimeout(tNext); tNext=null; if(!TQ.length) return; const w=tMin-Date.now(); if(tCur&&w>0){ tNext=setTimeout(toastPump,w); return; } const [t,ms,hold]=TQ.shift(); toastShow(t,ms,hold); }
-  function toast(t,ms,hold){ if(t===tCur){ toastShow(t,ms,hold); return; } if(TQ.some(x=>x[0]===t)) return; if(tCur&&Date.now()<tMin){ TQ.push([t,ms,hold]); if(TQ.length>3){ const i=TQ.findIndex(x=>!x[2]); TQ.splice(i>=0?i:0,1); }   /* 排太多：先丟不是提示的 */ toastPump(); return; } toastShow(t,ms,hold); }
+  /* 上班中（JOBS.running）手機來的訊息橫幅先留著，下班再出（BB 11-12：越好吃上班演「她走進來」那一段，上面跳出「手機｜可昕：我們這一天…」）。
+     只留橫幅：訊息本身照舊已經進手機；最多留三則、同一句不重複；只在記憶體，讀檔不帶 */
+  const tHeld=[]; let tHeldTimer=null; const working=()=>{ try{ return typeof JOBS!=='undefined'&&!!JOBS.running; }catch(e){ return false; } };
+  function toastHeldPump(){ tHeldTimer=null; if(!tHeld.length) return; if(working()){ tHeldTimer=setTimeout(toastHeldPump,1000); return; } const L=tHeld.splice(0); for(const [t,ms,hold] of L) toast(t,ms,hold); }
+  function toast(t,ms,hold){ if(/^手機｜/.test(String(t))&&working()){ if(!tHeld.some(x=>x[0]===t)){ tHeld.push([t,ms,hold]); if(tHeld.length>3) tHeld.shift(); } if(!tHeldTimer) tHeldTimer=setTimeout(toastHeldPump,1000); return; }
+    if(t===tCur){ toastShow(t,ms,hold); return; } if(TQ.some(x=>x[0]===t)) return; if(tCur&&Date.now()<tMin){ TQ.push([t,ms,hold]); if(TQ.length>3){ const i=TQ.findIndex(x=>!x[2]); TQ.splice(i>=0?i:0,1); }   /* 排太多：先丟不是提示的 */ toastPump(); return; } toastShow(t,ms,hold); }
   toast.queue=()=>TQ.map(x=>x[0]);   /* 測試用 */
   /* 讀檔、開新遊戲：上一局排著、還在畫面上的提示收掉（BUG-LOAD-INVITE-LEAK-1107：讀完 13:48 的檔，畫面還是上一局的「提醒：14:00 和杜可昕約在……」）*/
   function toastClear(){ TQ.length=0; clearTimeout(tNext); tNext=null; clearTimeout(tHide); tHide=null; tCur=''; tMin=0; const el=$('toast'); if(el){ el.classList.add('hide'); el.style.opacity=0; el.textContent=''; } }
