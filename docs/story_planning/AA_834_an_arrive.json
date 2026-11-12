@@ -1,0 +1,196 @@
+{
+ "_meta": {
+  "doc": "AA_834 以安第三批（X324 續改）：約會到達那一句，「今天不排／不查／你決定」同一個梗用了二十幾個地點",
+  "by": "AA-C 2026-11-12",
+  "task": "DLG-FULL-REVIEW-1110",
+  "voice": "AA_565：實際的事很主動、會多幫一步；講實際的事多說一點；交往後很生活。",
+  "what": "以安約會源稿「今天」開頭 51 則裡，23 則在交往中到達那一句（arrive/dating），幾乎每個地點都是「今天不排行程／不查了／你決定／你帶路／手機收起來」。這一批把 22 個地點的到達句改成講那個地方的事（她想先去哪、查到什麼、帶了什麼、交代一件實際的事），朋友階段 arrive/normal 同一個梗的 4 則一起改；共 26 則，已直接改 date_system/lines。",
+  "keep": "「放下計畫」只留：D01「今天不准看手機。我說我自己。」、D29（她把行程表收進行李箱）、D31（她把手錶摘下來）、D32（山上沒訊號）；朋友階段留 D01「今天我什麼都沒排。故意的。」、D09「今天的行程只有兩行：上山，喝茶。」。",
+  "check": "每句 40 字以內（約會台詞上限）；D23「不要太多薑」對 D23 煮湯那格她「平常不太吃薑」；D25 把「沒帶書」拿掉（D29、D32 也有帶不帶書，三個地點同一個梗）。",
+  "note": "送 BB 第二意見後定稿（D153）。"
+ },
+ "rows": [
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天不排順序。你走哪裡，我跟哪裡。",
+   "new": "我想先去池塘。聽說有鴨子，我還沒看過。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天的行程，我只寫了一行：走走。",
+   "new": "我只想走走。這裡走一圈大概四十分鐘，我看過地圖。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "（她把手機收進包包）今天不查了。",
+   "new": "你要看什麼就去看。我想知道你平常都逛哪一攤。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天的位子你選。不要選第一排。",
+   "new": "位子你選，不要第一排。我脖子會痠。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "（她把手機收進包包）今天的順序，你決定。",
+   "new": "三個展，我最想看二樓那個。你先陪我看，剩下的你挑。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天想安靜地走。你在旁邊就好。",
+   "new": "我想再走一次那條走廊。你在旁邊就好，不用講話。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天不排行程。企鵝館我還是想去。",
+   "new": "先去企鵝館。我知道在最裡面，走到底再慢慢走回來。"
+  },
+  {
+   "src": "date_system/lines/D09.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天的計畫只有一行。你猜是什麼。",
+   "new": "纜車我想坐靠窗的。你坐我對面，幫我擋太陽。"
+  },
+  {
+   "src": "date_system/lines/D10.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天不看時間。我把手錶放包包裡了。",
+   "new": "船你踩，我看方向。手錶我放包包裡了，不趕。"
+  },
+  {
+   "src": "date_system/lines/D11.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天你帶路。我把地圖收起來了。",
+   "new": "先泡腳還是先去圖書館？你選，我兩個都想去。"
+  },
+  {
+   "src": "date_system/lines/D11.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天我沒有寫行程。寫了也會改。",
+   "new": "這條路我看過照片。照片沒拍到它這麼陡。"
+  },
+  {
+   "src": "date_system/lines/D12.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天我什麼都沒查。你講給我聽。",
+   "new": "這條街你比我熟。哪一家好吃，你帶我去。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天只排了一件事：看海。",
+   "new": "我想看海。別的都可以不要。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "（她把包包留在車上）今天什麼都不帶。",
+   "new": "包包我放車上了，外套有帶。你冷的話，我分你一件。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天的路線你決定。我只負責副駕。",
+   "new": "水我放在你右手邊。想喝跟我說，我遞給你。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天不排路線。你看哪塊石頭，我就看哪塊。",
+   "new": "你看哪塊石頭，我就看哪塊。女王頭要排隊，最後再去。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天走到哪吃到哪。{name}，你不要讓我看地圖。",
+   "new": "先吃芋圓。{name}，地圖你拿著，我不想看地圖。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天不排順序。山路只有一條，跟著你。",
+   "new": "山路只有一條，不會走錯。你走前面，我想慢慢看房子。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天走哪裡都可以。{name}，瀑布要留到最後。",
+   "new": "{name}，瀑布留到最後。先去老街，我早餐只吃了一半。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天你帶路。我想看你會先走進哪一間。",
+   "new": "你帶路。我想看你會先走進哪一間。"
+  },
+  {
+   "src": "date_system/lines/D22.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天的行程是你排的。我只負責坐好。",
+   "new": "行程是你排的，那我只負責坐好。魚要吃，這個我有查。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天你點菜。我不看菜單。",
+   "new": "菜你點。我只有一個條件，不要太多薑。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天你決定。我只有一個要求，要踩到水。",
+   "new": "我只有一個要求，要踩到水。其他的你決定。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天沒帶書。帶了也不會看。",
+   "new": "海風很大。我頭髮綁好了，你的帽子要抓著。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天我帶路。不對，{name}，你帶。我想被帶。",
+   "new": "我帶路。不對，{name}，你帶。我想看你會把我帶去哪裡。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "heroine_01",
+   "where": "arrive",
+   "old": "今天去哪裡都可以。你決定，我不查。",
+   "new": "去哪裡都可以。我想走有樹的那一邊，比較涼。"
+  }
+ ]
+}
