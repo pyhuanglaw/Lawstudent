@@ -1,0 +1,59 @@
+{
+ "_meta": {
+  "doc": "AA_909 子晴第一批（DLG-FULL-REVIEW-1110 第五位）：約會到達句的「今天X。好啦，Y。」模板、「今天不打遊戲」三次、「跟你來的話」兩次",
+  "by": "AA-C 2026-11-12 20:3x",
+  "status": "待 BB 第二意見（D153）",
+  "what": "「今天X。好啦／好，Y。」先講再改口 7 處留 2 處（D02 今天的任務、D06 一層變兩層）；「今天不講／不打遊戲／不滑手機」留 D07 第一次到的那句；「跟你來的話」留 D02 花園。換的都往她的理工腦、查好了、標好了、結構不合理去寫。",
+  "apply": "BB 定稿後套進 date_system/lines 源稿、給 LAWWW SHA。"
+ },
+ "rows": [
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "heroine_04",
+   "old": "今天選片我來。好啦，選你想看的。",
+   "new": "片我查過評分了。你挑，我只負責否決。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "heroine_04",
+   "old": "今天我不滑手機。全部用看的。",
+   "new": "手機我收起來了。這裡不適合拍照。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "heroine_04",
+   "old": "好啦，長頸鹿也很可愛。跟你來的話。",
+   "new": "好啦，長頸鹿也很可愛。脖子那麼長，結構上很不合理。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "heroine_04",
+   "old": "今天的音樂我來放。好啦，一人一首。",
+   "new": "歌單我做好了，四十分鐘，剛好開到。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "heroine_04",
+   "old": "今天去哪都可以。好啦，我想看燈塔。",
+   "new": "我想看燈塔。其他你排。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "heroine_04",
+   "old": "今天跟著你走。好啦，女王頭要看。",
+   "new": "女王頭我在地圖上標好了。先去那裡，人比較少。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "heroine_04",
+   "old": "今天不打遊戲，手機放包包最裡面了。",
+   "new": "我把手機調成飛航了。山上訊號也不好，剛好。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "heroine_04",
+   "old": "今天我帶路。好啦，你帶，我跟。",
+   "new": "這裡你比較熟，你帶。我負責找吃的。"
+  }
+ ]
+}
