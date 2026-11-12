@@ -1022,3 +1022,20 @@
 [04:53:39] [res] cpu=1% mem=32% (10.2/31.4 GB) chrome_testing=0  START FIRST_xs_desk_r7noshop
 [04:56:52] 正在跑：FIRST_xs_desk_r7noshop（已跑 3 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [04:57:38] [res] cpu=2% mem=34% (10.7/31.4 GB) chrome_testing=0  END FIRST_xs_desk_r7noshop
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       72ce9c2c7c..c59eecadd6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:57:43] ==== END   FIRST_xs_desk_r7noshop  exit=0  241s   ====
+[04:57:49] memory 34% before starting WZ_TAP_28_r2 (0 running)
+[04:57:49] memory 34% before starting L118_CAM36_a_r3 (1 running)
+[04:57:49] ==== START WZ_TAP_28_r2  (probe @ 9e034436e08f1de1fcea943ff0b68bdd6c5de22e) ====
+[04:57:49] memory 34% before starting L118_CAM36_b_r3 (2 running)
+[04:57:49] ==== START L118_CAM36_a_r3  (probe @ f6772d22140949c6cd01204b89bc6ddf25882f38) ====
+[04:57:49] ==== START L118_CAM36_b_r3  (probe @ f6772d22140949c6cd01204b89bc6ddf25882f38) ====
+[04:57:52] [res] cpu=8% mem=34% (10.9/31.4 GB) chrome_testing=0  START L118_CAM36_a_r3
+[04:57:52] [res] cpu=3% mem=34% (10.9/31.4 GB) chrome_testing=0  START L118_CAM36_b_r3
+[04:57:52] [res] cpu=9% mem=34% (10.9/31.4 GB) chrome_testing=0  START WZ_TAP_28_r2
+[04:57:52] worktree add f6772d22140949c6cd01204b89bc6ddf25882f38: invalid reference - fetching main and the commit itself
+[04:59:01] worktree add 9e034436e08f1de1fcea943ff0b68bdd6c5de22e: invalid reference - fetching main and the commit itself
+[05:01:52] 正在跑：WZ_TAP_28_r2（已跑 4 分／上限 15 分）、L118_CAM36_a_r3（已跑 4 分／上限 60 分）、L118_CAM36_b_r3（已跑 4 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:02:48] [res] cpu=8% mem=43% (13.5/31.4 GB) chrome_testing=10  END WZ_TAP_28_r2
