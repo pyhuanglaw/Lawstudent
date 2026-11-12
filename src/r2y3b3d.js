@@ -107,9 +107,8 @@ const R2Y3B=(function(){
     if(F.KX_K18_GO===true&&!outGet(G,'y3_kx_k18')&&now(G)<T(d18,8.25)) plan(G,{id:'y3_kx_k18',ev:'ev_kexin_k18',day:d18,h:8,late:0.25,place:'木柵大學校門口',title:'和可昕：開車去沒去過的地方',travel:'開車到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});
     { const m=PHONE.byAsk(G,'y3_kx_k18'); if(m&&m.ans==null&&now(G)>T(d15+1,18)&&!F.KX_K18) F.KX_K18='missed'; }   /* 沒回：她跟予樂去（不算放鴿子）*/
     if(F.KX_K18==='missed'&&now(G)>=T(d18,18)&&!PHONE.sent(G,'y3_kx_k18_photo')) PHONE.at(G,d18,18,[K('（照片：她和予樂在月台上）'),K('你的位子，予樂坐了。')],'y3_kx_k18_photo'); };
-  /* 答應了、08:15 還沒到：演出來的電話＋18:00 那張照片；KX_RUB +1 */
+  /* 答應了、08:15 還沒到：18:00 那張照片；KX_RUB +1（演出來的電話：CANON-NO-ECON-1112 第三批拿掉）*/
   S.k18Missed=function(G,GM,q){ const F=G.flags; F.KX_K18='missed'; S.kxRub(G); const d=D('2028-03-18');
-    plan(G,{id:'y3_kx_k18_call',ev:'ev_kexin_k18_call',day:G.day,h:Math.max(8.25,G.hour),late:0.5,must:true,place:'電話',title:'可昕打電話來',verb:'接起來',travel:'',travelH:0,back:'電話掛了。'});
     if(d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,18,[{th:'p:kexin',from:'kexin',text:'（照片：她和予樂在月台上）'},{th:'p:kexin',from:'kexin',text:'你的位子，予樂坐了。'}],'y3_kx_k18_photo'); };
 
 
@@ -224,15 +223,14 @@ const R2Y3B=(function(){
     if(dating(G,'heroine_01')&&F.AN_FAR_VIDEO&&now(G)>=T(d6,20)&&!PHONE.sent(G,'y3_an_notice_guess')) PHONE.at(G,d6,20+5/60,[A('最後一行，你那天猜對一半。')],'y3_an_notice_guess'); };   /* 4/13 視訊猜過最後一行的（2-Y3-53）*/
   S.noticePhoto=G=>{ const d=D('2028-05-06'); if(G.flags.AN_TOWN_NOTICE==null) G.flags.AN_TOWN_NOTICE='photo'; if(d!=null) PHONE.at(G,d,jt(G,d,20),['（照片：町公所的通知）','町公所請大家『協力』，沒有罰則，大家都照做。','這比命令可怕，還是比較好？'].map(M('p:heroine_01','heroine_01')),'y3_an_notice_photo'); };
 
-  /* ===================== 2-Y3-44 可昕 K20：5/11 21:00 她約；5/12 19:00 公館河濱；沒去河濱、日本路線＝5/12 21:00 演出來的電話（她的方向只說一次：一定會打）===================== */
+  /* ===================== 2-Y3-44 可昕 K20：5/11 21:00 她約；5/12 19:00 公館河濱；沒去河濱、日本路線＝沒有（電話版拿掉）===================== */
   S.kxDirHeard=G=>{ const F=G.flags; F.KX_DIR=Object.assign({},F.KX_DIR&&typeof F.KX_DIR==='object'?F.KX_DIR:{},{Y3:'heard'}); };
   S.k20Phone=function(G){ const d11=D('2028-05-11'), d12=D('2028-05-12'); if(d11==null||G.day<d11||G.day>d12+1||!dating(G,'kexin')) return; const F=G.flags, K=M('p:kexin','kexin'), jp=inJP(G,d12);
     if(!jp&&now(G)>=T(d11,21)&&now(G)<T(d12,19)&&!PHONE.sent(G,'y3_kx_k20'))
       PHONE.at(G,d11,21,[Object.assign(K('明天傍晚七點，河濱。我想跟你說一件實習遇到的事。'),{ask:{id:'y3_kx_k20',until:T(d12,18),opts:[
         {t:'好。',say:[{from:'kexin',text:'嗯。'}],set:{KX_K20_GO:true}},{t:'明天不行。',say:[{from:'kexin',text:'……好。那我明天晚上打給你。'}],set:{KX_K20_GO:false}}]}})],'y3_kx_k20');
     if(F.KX_K20_GO===true&&!outGet(G,'y3_kx_k20')&&now(G)<T(d12,19.25)) plan(G,{id:'y3_kx_k20',ev:'ev_kexin_k20',day:d12,h:19,late:0.25,place:'公館的河濱',title:'和可昕：河濱',travel:'走過去約 15 分鐘',travelH:0.25});
-    if(G.day===d12&&now(G)>=T(d12,lt(G,d12,20.5))&&(jp||PHONE.sent(G,'y3_kx_k20'))&&!done(G,'ev_kexin_k20')&&!F.KX_K20&&!outGet(G,'y3_kx_k20_call')){ const q=outGet(G,'y3_kx_k20'); if(q&&q.state==='planned') return;
-      plan(G,{id:'y3_kx_k20_call',ev:'ev_kexin_k20_call',day:d12,h:Math.max(lt(G,d12,21),hh(G)),late:1,must:true,place:'電話',title:'可昕打電話來'+(jp?'（日本 22:00）':''),verb:'接起來',travel:'',travelH:0,back:'電話掛了。'}); } };
+    /* 沒去河濱、日本路線＝5/12 21:00 的電話：CANON-NO-ECON-1112 第三批拿掉（這種話要當面，D103）*/ };
 
   /* ===================== 2-Y3-45 方奕廷 F3「我買了」===================== */
   /* 5/29 21:00 判斷一次：和芷若交往中＝他傳「芷若跟我說了」三則；芷若的心意邀約條件那天已經全部成立（TERMEND.heartWhy，用 5/29 的數值算）＝延到 6/19 21:00 再判斷（FANG_F3_DELAY）；其他＝F3。

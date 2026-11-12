@@ -127,7 +127,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('13. 許教授「颱風那天來討論的同學，今天坐前面。」：期中考那天（11/2）不出；期中考後第一堂（11/9）出；11/16 不出',!tf('2026-11-02')&&tf('2026-11-09')&&!tf('2026-11-16')&&!tf('2026-10-26'),J([tf('2026-10-26'),tf('2026-11-02'),tf('2026-11-09'),tf('2026-11-16')])); }
   // ===== 第 14 項：可昕 K3-L4 =====
   { const st=((LADDER.byTerm.Y2S1||{}).kexin||{steps:[]}).steps.find(s=>s.id==='K3-L4')||{}; const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_374_/.test(e.path));
-    check('14. 可昕 K3-L4「下禮拜互考，我題目出得比較難。」週次 [6,6]（互考 10/23 只有一次）；第 6 週沒聊到就跳過（skipAfterWeek 6，不卡住後面的層）',J(st.week)===J([6,6])&&st.skipAfterWeek===6&&st.lines&&st.lines[0]==='下禮拜互考，我題目出得比較難。',J([st.week,st.skipAfterWeek]));
+    check('14. 可昕 K3-L4 換成 AA_863 新稿，互考那一句不在了（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!st.id&&!(st.lines||[]).includes('下禮拜互考，我題目出得比較難。'));
     check('14. 匯入白名單有 AA_374@6fc64130（approved、AA374-Y2S1-FIX-1021），ladder.js 的來源寫著它',allow.length===1&&allow[0].sha==='6fc64130'&&allow[0].status==='approved'&&allow[0].task==='AA374-Y2S1-FIX-1021'&&/AA_374@6fc64130/.test(LADDER.source),J(allow.map(e=>e.sha))+' '+String(LADDER.source).slice(-40)); }
   // ===== 第 15、16 項 =====
   check('15. 聖誕交換禮物抽到阿哲：「你抽到阿哲的：一個保溫杯。」（不認識 Alison 的也聽得懂）',evText('ev_y2_xmas').includes('你抽到阿哲的：一個保溫杯。')&&!evText('ev_y2_xmas').some(t=>/阿哲、Alison 的/.test(t)));

@@ -78,7 +78,7 @@ def main():
     for tag in TAGS:
         for e in src.get(tag, []):
             who, t = e['who'], e['t']
-            if who in GONE_WHO:
+            if who in GONE_WHO or who not in have:   # 舊序章人物（第三批 B）／在 ladder.js 已經沒有招呼的（第三批 A）＝不匯
                 continue
             rn = RENAMED.get((who, t)) or ()
             rn = [x for x in ((rn,) if isinstance(rn, str) else rn) if x in have.get(who, set())]   # 換了字的新句（在 ladder.js 的才算；一句舊句可以對好幾句）

@@ -30,6 +30,8 @@ ALT_IF = {
     'AN_MSG_MOM_OK（AA_709：她傳過「她說好的時候，都不太像好」）': 'flag:AN_MSG_MOM_OK',
     'KNOWS_SIS_ALISON（礁溪以後，知道她和 Alison 是姊妹）': 'flag:KNOWS_SIS_ALISON',
 }
+# CANON-NO-ECON-1112 第三批（AA_892 第 1 節最後兩列）：整拍拿掉、n 不重排（決定拍、邀約照 n 對；src/arcs3d.js 照 n 找下一拍）
+DROP_BEATS = {'kexin': (4, 5)}
 UNTIL = {
     '學姊法研所放榜前（2026 春，日期照 LAWWW 的考試日）': '2026-03-22',   # src/sis_grad3d.js：放榜 3/23（一）
 }
@@ -154,6 +156,8 @@ def build(src, sha):
                     if a.get(k):
                         A[k] = lines(a[k], f'{w}.alt.{k}')
                 e['alt'] = A
+            if e['n'] in DROP_BEATS.get(hid, ()):
+                continue
             out.append(e)
         people[hid] = {'theme': v.get('theme', ''), 'beats': out}
     return {'src': f'{PATH}@{sha}', 'people': people}

@@ -23,6 +23,10 @@ def git(*a):
     return subprocess.check_output(['git', '-C', ROOT] + list(a)).decode('utf-8')
 
 
+# CANON-NO-ECON-1112 第三批：可昕大二中秋外校烤肉那兩則（y2r2_3d.js y2r2_ma_photo）整則拿掉——它的回覆不匯
+DROP = {('kexin', '……玉米還是我們的好。'), ('kexin', '吃完了。下次換你挑。'), ('kexin', '他們說下次一定要看到本人。'), ('kexin', '讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。')}
+
+
 def in_src(t):
     r = subprocess.run(['git', '-C', ROOT, 'grep', '-l', '-F', t, '--', 'src/', ':!' + OUT], capture_output=True, text=True)
     return bool(r.stdout.strip())
@@ -45,6 +49,8 @@ def build(src, sha):
         for i, e in enumerate(v):
             w = f'{hid}[{i}]'
             t = e.get('text')
+            if (hid, t) in DROP:   # 那一則訊息已經拿掉（CANON-NO-ECON-1112 第三批）：回覆跟著不匯
+                continue
             new = bool(e.get('new'))
             if t in GONE and not new:
                 continue

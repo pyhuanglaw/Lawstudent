@@ -173,9 +173,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('5. 交往過、現在分開了：三年都沒有',r.every(x=>x),J(r)); }
   { const r=runYears(()=>{ dateSis(); H.G.flags.met_sis=false; });
     check('5. 還沒認識她（met_sis 沒有）：三年都沒有',r.every(x=>x),J(r)); }
-  { setup('2026-08-12',12,'dorm','CLOSE'); H.G.flags.dating_kexin=true; ROM.get(H.G,'kexin').status='dating'; R2Y3A.qixiPhone(H.G); at('2026-08-17',21.05); rules(); const kx=OUT.get(H.G,'kx_qixi_2026'), sis=none();
+  { setup('2026-08-12',12,'dorm','CLOSE'); H.G.flags.dating_kexin=true; ROM.get(H.G,'kexin').status='dating'; at('2026-08-17',21.05); rules(); const kx=OUT.get(H.G,'kx_qixi_2026'), sis=none();
     setup('2026-08-17',21.05,'dorm','CLOSE'); H.G.flags.dating_kexin=true; ROM.get(H.G,'kexin').status='dating'; dateSis(); rules(); const both=none();
-    check('5. 和可昕交往中：只有可昕的七夕（2026-08-19 21:00 她的視訊），沒有學姊的；同時也在和學姊交往一樣只有可昕的',!!kx&&kx.h===21&&sis&&both,J({kx,sis,both})); }
+    check('5. 和可昕交往中：沒有學姊的七夕；同時也在和學姊交往一樣（可昕 21:00 的視訊：CANON-NO-ECON-1112 第三批：這一項拿掉）',!kx&&sis&&both,J({kx,sis,both})); }
   { setup('2026-08-17',21.05,'dorm','CLOSE'); dateSis(); H.G.contacts[ID]=H.G.day; rules();
     check('5. 她的聯絡方式是當天才拿到的（前一天以前沒有）：不傳（同 SISB4；開場的聯絡方式 contacts0 本來就有她）',!dms().length); }
   });

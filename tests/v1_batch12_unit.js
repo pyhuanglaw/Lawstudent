@@ -49,49 +49,12 @@ const cgFile=id=>{ const c=CG_REGISTRY[id]; if(!c) return null; const f=path.joi
 const KX={dating_kexin:true};
 
 (async()=>{
-  /* ---------- K1：導遊（手機）---------- */
+  /* ---------- K1：導遊（手機）：CANON-NO-ECON-1112 第三批：這一項拿掉 ---------- */
   const FRI3=termDay(3,5), FRI4=termDay(4,5), FRI5=termDay(5,5);
   const ask=tag=>(G.msgs||[]).find(m=>m.tag===tag);
-  { fresh(FRI3,8,'campus',KX); run(8,20); const m=ask('kx_tour_ask');
-    check('K1：第 3 週週五 19:30「週末來木柵大學？我當導遊。」、兩個回覆',!!m&&m.day===FRI3&&Math.abs(m.h-19.5)<0.06&&m.text==='週末來木柵大學？我當導遊。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好，週六下午過去。","這週末不行。"]',m&&JSON.stringify({d:m.day,h:m.h,o:m.ask.opts.map(o=>o.t)}));
-    const r=PHONE.answer(G,m.ask.id,0); const out=r&&r.out.map(x=>[x.from,x.text]);
-    check('K1：「好，週六下午過去。」→ 她回「好。導遊在校門口等。」（BB 2026-10-14）',JSON.stringify(out)==='[["player","好，週六下午過去。"],["kexin","好。導遊在校門口等。"]]'&&G.flags.KX_TOUR_YES===true,JSON.stringify(out));
-    run(20,20.2); fresh(FRI4,8,'campus',Object.assign({},G.flags)); G.msgs=(G.msgs||[]); }
-  { fresh(FRI3,8,'campus',KX); run(8,20); const m=ask('kx_tour_ask'); const r=PHONE.answer(G,m.ask.id,1); const out=r&&r.out.map(x=>[x.from,x.text]);
-    check('K1：「這週末不行。」→ 她回「好。導遊的位子幫你留著。」',JSON.stringify(out)==='[["player","這週末不行。"],["kexin","好。導遊的位子幫你留著。"]]'&&G.flags.KX_TOUR_NO===true,JSON.stringify(out));
-    run(20,23); check('K1：這週不行＝當週沒有第二次邀約',!ask('kx_tour_ask2'));
-    keepOn(FRI4,8,'campus'); run(8,19.4); check('K1：第 4 週週五 19:30 以前還沒有第二次邀約',!ask('kx_tour_ask2'));
-    run(19.4,20); const m2=ask('kx_tour_ask2');
-    check('K1：第 4 週週五 19:30 再約一次「這週末呢？導遊還在。」（同樣兩個回覆）',!!m2&&m2.day===FRI4&&Math.abs(m2.h-19.5)<0.06&&m2.text==='這週末呢？導遊還在。'&&JSON.stringify(m2.ask.opts.map(o=>o.t))==='["好，週六下午過去。","這週末不行。"]',m2&&JSON.stringify({d:m2.day,h:m2.h,t:m2.text}));
-    const snap=JSON.stringify({f:G.flags,m:G.msgs,p:G.phone,o:G.outings||null,c:G.contacts||null});
-    const r2=PHONE.answer(G,m2.ask.id,0); run(20,20.2); const o=OUT.get(G,'kx_tour'); const SAT4=FRI4+1;
-    check('K1：第二次答應＝她回「好。導遊在校門口等。」、排第 4 週週六 14:00 去木柵大學',r2&&r2.out[1].text==='好。導遊在校門口等。'&&!!o&&o.day===SAT4&&o.h===14&&o.ev==='ev_kexin_tour_nccu',JSON.stringify(o));
-    const s=JSON.parse(snap); G.flags=s.f; G.msgs=s.m; G.phone=s.p; if(s.o) G.outings=s.o; else delete G.outings;
-    const m2b=ask('kx_tour_ask2'); PHONE.answer(G,m2b.ask.id,1); run(20,20.2);
-    check('K1：第二次也不行＝記 KX_TOUR_NO2、不排出遊',G.flags.KX_TOUR_NO2===true&&!OUT.get(G,'kx_tour'));
-    keepOn(FRI5,8,'campus'); run(8,22); check('K1：兩次都不行＝之後不再約（第 5 週週五沒有新的邀約）',G.msgs.filter(x=>/^kx_tour_ask/.test(x.tag||'')).length===2,JSON.stringify(G.msgs.filter(x=>/^kx_tour/.test(x.tag||'')).map(x=>x.tag))); }
-  { fresh(FRI3,8,'campus',KX); run(8,20); const m=ask('kx_tour_ask'); const F0=G.flags, ms=G.msgs, ph=G.phone;
-    fresh(FRI4,21,'campus',F0); G.msgs=ms; G.phone=ph; const late=PHONE.answer(G,m.ask.id,1); run(21,21.2);
-    check('K1：第 4 週週五晚上才看＝第一則已經過期（週日 24:00 收起來，UX-WEEKEND-ASK-EXPIRE-1108）、按不了；記 NO（expired）、第二次邀約不在那天',late===null&&G.flags.KX_TOUR_NO==='expired'&&!ask('kx_tour_ask2'));
-    keepOn(FRI5,8,'campus'); run(8,20); const m2=ask('kx_tour_ask2');
-    check('K1：過期才發現（過了第 4 週週五 19:30）＝從下一個週五（第 5 週週五）19:30 再約',!!m2&&m2.day===FRI5&&Math.abs(m2.h-19.5)<0.06,m2&&JSON.stringify({d:m2.day,h:m2.h,FRI5})); }
-  /* UX-WEEKEND-ASK-EXPIRE-1108（AA-B 11-08 09:19）：沒回＝那個週日 24:00 收起來（不出字）、記 KX_TOUR_NO（'expired'）→ 下週五照樣「這週末呢？導遊還在。」（原本「第一次沒回＝不會有第二次邀約」）；第二次也有期限 */
-  { fresh(FRI3,8,'campus',KX); run(8,20); const m=ask('kx_tour_ask'); const kx0=G.msgs.filter(x=>x.th==='p:kexin').length;
-    check('K1 期限：kx_tour_ask 的 until＝那個週日 24:00',!!m&&m.ask.until===(FRI3+3)*24,JSON.stringify(m&&m.ask.until));
-    keepOn(FRI3+2,8,'campus'); run(8,23.9); check('K1 期限：週日 23:54 還能回、沒有記 NO',PHONE.askOpen(G,m)&&!G.flags.KX_TOUR_NO);
-    keepOn(FRI3+3,8,'campus'); run(8,9); check('K1 期限：過了週日＝收起來（askOpen false、不在待回覆）、記 KX_TOUR_NO＝expired、她沒有多說話',!PHONE.askOpen(G,m)&&!PHONE.pending(G).includes(m)&&G.flags.KX_TOUR_NO==='expired'&&G.msgs.filter(x=>x.th==='p:kexin').length===kx0,JSON.stringify({f:G.flags.KX_TOUR_NO}));
-    keepOn(FRI4,8,'campus'); run(8,20); const m2=ask('kx_tour_ask2');
-    check('K1 期限：沒回的玩家下週五 19:30 照樣「這週末呢？導遊還在。」、期限是那個週日 24:00',!!m2&&m2.day===FRI4&&m2.text==='這週末呢？導遊還在。'&&m2.ask.until===(FRI4+3)*24,JSON.stringify(m2&&{d:m2.day,u:m2.ask.until})); }
-  /* 舊存檔（BB-B 11-08 09:53）：那一則沒有 until——讀進來以後補上，過了週日就收起來（askOpen false、不在待回覆），不會一直讓手機自己打開；記 NO／NO2 照新規則 */
-  { fresh(FRI3,8,'campus',KX); run(8,20); const m=ask('kx_tour_ask'); delete m.ask.until; const F0=G.flags, ms=G.msgs, ph=G.phone;
-    fresh(FRI4+10,10,'campus',F0); G.msgs=ms; G.phone=ph; const open0=PHONE.askOpen(G,m); run(10,10.2);
-    check('K1 舊存檔：沒有 until 的那一則讀進來補上（週日 24:00）、過期＝收起來、不在待回覆；過期超過一週＝NO、NO2 都 expired、沒有第二則',open0===true&&m.ask.until===(FRI3+3)*24&&!PHONE.askOpen(G,m)&&!PHONE.pending(G).includes(m)&&G.flags.KX_TOUR_NO==='expired'&&G.flags.KX_TOUR_NO2==='expired'&&!ask('kx_tour_ask2'),JSON.stringify({open0,u:m.ask.until,f:[G.flags.KX_TOUR_NO,G.flags.KX_TOUR_NO2]})); }
-  /* 讀檔當下就補（BB-B 11-08 11:06：原本讀檔後約 9 秒內還算待回覆）：game3d.js migrate 叫 STORY.askFixUntil；對讀進來的存檔物件直接補、不用等手機規則 */
-  { const src=require('fs').readFileSync(require('path').join(__dirname,'..','src','game3d.js'),'utf8');
-    const sv={flags:{dating_kexin:true},msgs:[{tag:'kx_tour_ask',day:FRI3,h:19.5,text:'週末來木柵大學？我當導遊。',ask:{opts:[{t:'好，週六下午過去。'},{t:'這週末不行。'}]}},{tag:'kx_tour_ask2',day:FRI4,h:19.5,text:'這週末呢？導遊還在。',ask:{opts:[{t:'好，週六下午過去。'},{t:'這週末不行。'}]}}]};
-    STORY.askFixUntil(sv,'kx_tour_ask',3); STORY.askFixUntil(sv,'kx_tour_ask2',3);
-    check('K1 讀檔當下：game3d.js migrate 叫 askFixUntil（兩則）；存檔物件直接補上 until（週日 24:00），有 until 的不動',/STORY\.askFixUntil\(s,'kx_tour_ask',3\)/.test(src)&&/STORY\.askFixUntil\(s,'kx_tour_ask2',3\)/.test(src)&&sv.msgs[0].ask.until===(FRI3+3)*24&&sv.msgs[1].ask.until===(FRI4+3)*24,JSON.stringify(sv.msgs.map(m=>m.ask.until)));
-    const sv2={msgs:[{tag:'kx_tour_ask',day:FRI3,ask:{until:1,opts:[]}}]}; STORY.askFixUntil(sv2,'kx_tour_ask',3); check('K1 讀檔當下：本來有 until 的不改',sv2.msgs[0].ask.until===1); }
+  { fresh(FRI3,8,'campus',KX); run(8,22); keepOn(FRI4,8,'campus'); run(8,22);
+    check('K1：第 3、4 週週五不再有導遊的邀約（CANON-NO-ECON-1112 第三批：這一項拿掉）',!ask('kx_tour_ask')&&!ask('kx_tour_ask2')&&!OUT.get(G,'kx_tour'));
+    check('K1：讀檔不再替導遊那兩則補期限（game3d.js，CANON-NO-ECON-1112 第三批：這一項拿掉）',!/askFixUntil\(s,'kx_tour_ask'/.test(require('fs').readFileSync(require('path').join(__dirname,'..','src/game3d.js'),'utf8'))); }
   /* ---------- K3、CG-14：中秋烤肉 ---------- */
   const BBQ=ev('ev_mid_autumn_bbq'), SATB=termDay(5,6);
   const bbq=async(flags,setup,pk)=>{ fresh(SATB,15,'campus',Object.assign({},KX,{ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（那段另外測）*/ if(setup) setup(); cgs=[]; picks=pk||[]; await EVENTS.run(BBQ); return {L:lines(),cg:cgs.slice()}; };

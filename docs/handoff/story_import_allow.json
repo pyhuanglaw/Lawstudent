@@ -182,11 +182,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "47b179e7f",
+   "sha": "152f8fe16f",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-05 07:0x AA_703（企劃線 47b179e7f）：沛珊 P-L6 第 1 句改「我隔週會回台中一趟。禮拜天搭客運回來，過了林口就開始塞。」＋week [4,18]（使用者 07:4x 截圖，PS-BUS-1105）；其他 step 不變",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_861，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
+    {
+     "sha": "47b179e7f",
+     "approvedBy": "AA-C 2026-11-05 07:0x AA_703（企劃線 47b179e7f）：沛珊 P-L6 第 1 句改「我隔週會回台中一趟。禮拜天搭客運回來，過了林口就開始塞。」＋week [4,18]（使用者 07:4x 截圖，PS-BUS-1105）；其他 step 不變"
+    },
     {
      "sha": "088556ed",
      "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：大一上 NO_DATE_ZZ 加 ZZ_DATING、4-2 以後不說（notEvents ev_zz_home_together）；D100、D109）；49ed7e6a→088556ed 只差這一處（build_ladder_bb.py 一行、JSON 六格），tools/ladder/import_ladder.py 匯入"
@@ -211,52 +215,16 @@
    "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
-   "path": "docs/story_planning/ladder/ladder_bb_y0s1.json",
-   "sha": "03af79d17",
-   "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
-   "task": "SYS-15",
-   "note": "BB-C 13:27：九個檔用 408398d7",
-   "history": [
-    {
-     "sha": "49ed7e6a",
-     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
-    },
-    {
-     "sha": "93f356cc",
-     "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）"
-    }
-   ]
-  },
-  {
-   "path": "docs/story_planning/ladder/ladder_bb_y0s2.json",
-   "sha": "03af79d17",
-   "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
-   "task": "SYS-15",
-   "note": "BB-C 13:27：九個檔用 408398d7；cbdbc69bf：AA_439 第 4 節禁用句第二次掃",
-   "history": [
-    {
-     "sha": "cbdbc69bf",
-     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
-    },
-    {
-     "sha": "93f356cc",
-     "approvedBy": "BB-C（2026-10-17 13:27 已審表）"
-    },
-    {
-     "sha": "49ed7e6a",
-     "note": "AA_439 第 4 節以前"
-    }
-   ]
-  },
-  {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "03af79d17",
+   "sha": "152f8fe16f",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_862，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
    "task": "ROM-1017",
    "history": [
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
+    },
     {
      "sha": "088556ed",
      "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：NO_ZZ_YET 加 ZZ_DATING、4-1 第 5 句放子晴 Q2-L3 extraIf；D100、D109）；2e255e9a→088556ed 只差這兩處（記憶 ZQ_ZR_FILM_DAY 的人物頁名稱 AA 沒寫，social3d.js 暫定），tools/ladder/import_ladder.py 匯入"
@@ -286,11 +254,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "03af79d17",
+   "sha": "63da3f441e",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_863（＋第 1 層對齊暑假打工 63da3f441e），直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
    "task": "AB65-3-Y2S1-L",
    "history": [
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
+    },
     {
      "sha": "06ff0acc6",
      "approvedBy": "AA-B 2026-11-01 定稿（AA_560 2-7 C2：沛珊 P3-L4「問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。」；同一版另含 D115 改名，遊戲已照 WORLD_NAMING 換過）；LAWWW-B 換版重新匯入"
@@ -316,12 +288,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s2.json",
-   "sha": "03af79d17",
+   "sha": "eb4006a2ae",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_864，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7",
    "history": [
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
@@ -334,12 +310,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s1.json",
-   "sha": "03af79d17",
+   "sha": "644d27d59e",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_865，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7",
    "history": [
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
+    },
     {
      "sha": "5ef4e291",
      "approvedBy": "AA（帳號 A）2026-10-22 12:38 定稿（AA_386 第 5 節：S5-L8 交往中 extraIf、S6-L1 skipIf SIS_VDAY_Y3:went；JSON 重建、--check 過；D100、D109）"
@@ -356,12 +336,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s2.json",
-   "sha": "03af79d17",
+   "sha": "644d27d59e",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_866，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入",
    "history": [
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
+    },
     {
      "sha": "ab9d70fe0",
      "approvedBy": "AA（帳號 A）2026-10-22 12:38 定稿（AA_386 第 5 節：S5-L8 交往中 extraIf、S6-L1 skipIf SIS_VDAY_Y3:went；JSON 重建、--check 過；D100、D109）"
@@ -386,12 +370,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s1.json",
-   "sha": "03af79d17",
+   "sha": "087c105f13",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_867（＋沛珊 P7-L2 晚兩年那一層 087c105f13），直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C：大四上口語審完，可以匯入",
    "history": [
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
+    },
     {
      "sha": "659d9d81",
      "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）"
@@ -408,12 +396,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
-   "sha": "03af79d17",
+   "sha": "b63373c83d",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_868，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
    "task": "BB210-Y4S2",
    "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）",
    "history": [
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
+    },
     {
      "sha": "659d9d81",
      "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）"
@@ -8847,22 +8839,6 @@
    "note": "X324 語彤大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
   },
   {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y1S1.json",
-   "sha": "07d50af2f7",
-   "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（AA_819，BB_375 第二意見採納；D100b 稿就是定稿）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）；2026-11-12 改到 07d50af2f7（X324 可昕續改，AA_819 三連短句：K-L4 一列（BB_375：問句改回「你站哪邊？」）；和 a5e537856 只差這幾列）",
-   "history": [
-    {
-     "sha": "a5e537856",
-     "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
-     "note": "被 07d50af2f7 取代（AA_819 三連短句：K-L4 一列（BB_375：問句改回「你站哪邊？」））"
-    }
-   ]
-  },
-  {
    "path": "docs/story_planning/AA_781_zr_ladder_Y1S1.json",
    "sha": "a5e537856",
    "status": "approved",
@@ -8914,22 +8890,6 @@
    ]
   },
   {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y1S2.json",
-   "sha": "07d50af2f7",
-   "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（AA_819，BB_375 第二意見採納；D100b 稿就是定稿）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）；2026-11-12 改到 07d50af2f7（X324 可昕續改，AA_819 三連短句：K2-L1 一列；和 a5e537856 只差這幾列）",
-   "history": [
-    {
-     "sha": "a5e537856",
-     "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
-     "note": "被 07d50af2f7 取代（AA_819 三連短句：K2-L1 一列）"
-    }
-   ]
-  },
-  {
    "path": "docs/story_planning/AA_781_sis_ladder_Y1S2.json",
    "sha": "a5e537856",
    "status": "approved",
@@ -8963,15 +8923,6 @@
    "note": "X324 子晴大二上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 4c710f37a 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
   },
   {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y2S1.json",
-   "sha": "a5e537856",
-   "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕大二上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 4c710f37a 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
-  },
-  {
    "path": "docs/story_planning/AA_781_zr_ladder_Y2S1.json",
    "sha": "a5e537856",
    "status": "approved",
@@ -8997,15 +8948,6 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "X324 學姊大二上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 4c710f37a 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
-  },
-  {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y2S2.json",
-   "sha": "a5e537856",
-   "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
   },
   {
    "path": "docs/story_planning/AA_781_zr_ladder_Y2S2.json",
@@ -9068,22 +9010,6 @@
    "note": "X324 子晴大三上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 1e48c1f20 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
   },
   {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y3S1.json",
-   "sha": "07d50af2f7",
-   "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（AA_819，BB_375 第二意見採納；D100b 稿就是定稿）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕大三上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 1e48c1f20 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）；2026-11-12 改到 07d50af2f7（X324 可昕續改，AA_819 三連短句：K5-L1 一列（照 BB_375 的句子）；和 a5e537856 只差這幾列）",
-   "history": [
-    {
-     "sha": "a5e537856",
-     "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
-     "note": "被 07d50af2f7 取代（AA_819 三連短句：K5-L1 一列（照 BB_375 的句子））"
-    }
-   ]
-  },
-  {
    "path": "docs/story_planning/AA_781_sis_ladder_Y3S1.json",
    "sha": "a5e537856",
    "status": "approved",
@@ -9100,15 +9026,6 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "X324 以安大三上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 1e48c1f20 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
-  },
-  {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y3S2.json",
-   "sha": "a5e537856",
-   "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
   },
   {
    "path": "docs/story_planning/AA_781_zq_ladder_Y3S2.json",
@@ -9153,22 +9070,6 @@
    "note": "X324 學姊大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
   },
   {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y4S1.json",
-   "sha": "07d50af2f7",
-   "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（AA_819，BB_375 第二意見採納；D100b 稿就是定稿）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕大四上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S1）。逐列對稿 tests/ladder_aa781_1111_unit.js；2026-11-12 改到 07d50af2f7（X324 可昕續改，AA_819 三連短句：K7-L4、K7-L5 兩列；和 a5e537856 只差這幾列）",
-   "history": [
-    {
-     "sha": "a5e537856",
-     "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
-     "note": "被 07d50af2f7 取代（AA_819 三連短句：K7-L4、K7-L5 兩列）"
-    }
-   ]
-  },
-  {
    "path": "docs/story_planning/AA_781_sis_ladder_Y4S1.json",
    "sha": "a5e537856",
    "status": "approved",
@@ -9196,15 +9097,6 @@
    "note": "X324 以安大四上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S1）。逐列對稿 tests/ladder_aa781_1111_unit.js"
   },
   {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y4S2.json",
-   "sha": "a5e537856",
-   "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕大四下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S2）。逐列對稿 tests/ladder_aa781_1111_unit.js"
-  },
-  {
    "path": "docs/story_planning/AA_781_sis_ladder_Y4S2.json",
    "sha": "a5e537856",
    "status": "approved",
@@ -9230,30 +9122,6 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "X324 以安大四下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S2）。逐列對稿 tests/ladder_aa781_1111_unit.js"
-  },
-  {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y0S1.json",
-   "sha": "74e0421b8",
-   "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（AA_781 可昕經濟系那一年；AA_819，BB_375／BB_378 第二意見採納；D100b 稿就是定稿）；子代理代登，待值班 LAWWW 核；74e0421b8（AA-C 2026-11-12 06:57「回 LAWWW」：K0-L8「……那就是你。不意外。」那一列拿掉——是品妤 PY0-L7 選項的回話、不是可昕的；其他 7 列不變；AA 同意，LAWWW 2026-11-12 指示匯入）",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕經濟系上學期閒聊階梯改稿（AA_781 通用層，rows 8 列：句首刪節號 7 列＋AA_819 三連短句 K0-L5 一列；帳號 A 的 AA_781 沒有做到經濟系那一年）：tools/ladder/import_ladder.py 的 AA781 那一段 → src/data/ladder.js（byTerm.Y0S1.kexin）。逐列對稿 tests/ladder_aa781_1111_unit.js；2026-11-12 改到 74e0421b8（rows 8 → 7：K0-L8 那一列拿掉；匯入結果和上一版一樣——那一列本來就沒換，工具的 AA781_ROW_SKIP 清空）",
-   "history": [
-    {
-     "sha": "07d50af2f7",
-     "note": "被 74e0421b8 取代（稿對錯人的 K0-L8 一列拿掉；rows 8 → 7）"
-    }
-   ]
-  },
-  {
-   "path": "docs/story_planning/AA_781_kx_ladder_Y0S2.json",
-   "sha": "07d50af2f7",
-   "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（AA_781 可昕經濟系那一年；AA_819，BB_375／BB_378 第二意見採納；D100b 稿就是定稿）；子代理代登，待值班 LAWWW 核",
-   "task": "DLG-FULL-REVIEW-1110",
-   "kind": "json",
-   "note": "X324 可昕經濟系下學期閒聊階梯改稿（AA_781 通用層，rows 2 列：AA_819 三連短句 K0b-L1 一列＋句首刪節號 K0b-L7 一列；帳號 A 的 AA_781 沒有做到經濟系那一年）：tools/ladder/import_ladder.py 的 AA781 那一段 → src/data/ladder.js（byTerm.Y0S2.kexin）。逐列對稿 tests/ladder_aa781_1111_unit.js"
   },
   {
    "path": "docs/story_planning/AA_812_date_pays_promises.json",

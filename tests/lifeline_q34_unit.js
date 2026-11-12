@@ -68,7 +68,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('Q4 第三年：卡片「（把卡片翻到第一頁）第三年。」→「每年都寫這麼多？」→「你每年都只看第一頁。」（原本「第三年。我們好像真的會一直轉下去。」「轉到頭暈怎麼辦？」「那就一起暈。」）；KX_ANNIV {3:river}',r.L.includes('杜可昕：……這本我要用完。')&&r.L.some(t=>t.endsWith('（把卡片翻到第一頁）第三年。'))&&J(r.o[0])===J(['「明年換我寫。」','「每年都寫這麼多？」','（不說話，看著她）'])&&r.L.includes('杜可昕：你每年都只看第一頁。')&&G.flags.KX_ANNIV[3]==='river',J(r.L)); }
   { fresh(A(3)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1); G.day=A(3); run(19,19.6);
     const qc=OUT.get(G,'kx_anniv_call3');
-    check('Q4 第三年沒選地點：KX_ANNIV {3:missed}、沒有出遊；當晚 21:00 她打來（AA_313 2-3 A），卡片的照片不在當晚傳',(G.flags.KX_ANNIV||{})[3]==='missed'&&!OUT.get(G,'kx_anniv3')&&!!qc&&qc.day===A(3)&&qc.h===21&&qc.ev==='ev_kexin_anniv_missed_call'&&!TH('p:kexin').some(m=>m.tag==='kx_anniv_photo3'),J(qc));
+    check('Q4 第三年沒選地點：KX_ANNIV {3:missed}、沒有出遊、卡片的照片不在當晚傳；當晚她打來的電話（CANON-NO-ECON-1112 第三批：這一項拿掉）',(G.flags.KX_ANNIV||{})[3]==='missed'&&!OUT.get(G,'kx_anniv3')&&!qc&&!TH('p:kexin').some(m=>m.tag==='kx_anniv_photo3'),J(qc));
     G.day=A(3)+1; run(11.9,12.1);
     check('Q4 第三年沒選地點：卡片的照片「週年快樂。下次你準備。」隔天中午（AA_313 2-3 A）',TH('p:kexin').some(m=>m.tag==='kx_anniv_photo3'&&m.text==='週年快樂。下次你準備。'&&m.day===A(3)+1&&Math.abs(m.h-12)<0.06)); }
   /* AA_313 第 2 節第 36 列：和前一年送一樣的（前一年有見到她）＝換句 */

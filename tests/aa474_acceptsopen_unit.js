@@ -21,7 +21,7 @@ global.ZRUK={W_FROM:'2028-09-01',playW:async()=>'orig'};
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 let ok=true, err=''; try{   /* 照 index.html 的順序：r2y3b3d、zr_last3d、r2y4b3d、kxod3d、sis_b4_3d 在 multirel3d.js 前面，rom1016_3d.js 在後面（multirel3d.js 包在最外層）*/
   for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/zrzq_events.js','src/zrzq3d.js','src/data/zr_last_events.js','src/zr_last3d.js',
-    'src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/kxod3d.js','src/data/sis_b4_events.js','src/sis_b4_3d.js','src/data/multirel_lines.js','src/multirel3d.js','src/data/rom1016_events.js','src/rom1016_3d.js']) load(f); }catch(e){ ok=false; err=String(e&&e.stack||e); }
+    'src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/data/sis_b4_events.js','src/sis_b4_3d.js','src/data/multirel_lines.js','src/multirel3d.js','src/data/rom1016_events.js','src/rom1016_3d.js']) load(f); }catch(e){ ok=false; err=String(e&&e.stack||e); }
 const X=()=>typeof MREL!=='undefined'?MREL:null, Lm=()=>MULTIREL_LINES;
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const A1='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
@@ -133,6 +133,7 @@ await sec(6,async()=>{
 /* ---------------- 7. 可昕收回 ---------------- */
 await sec(7,async()=>{
   /* 可昕和祐廷交往中、沛珊是 Y：發現 → 挽回 → 結果 B 接受（AA_423 第 3 節）＝OPEN_OK.kexin.classmate_peishan */
+  const KXOD={on:G=>!!(G.flags&&G.flags.dating_kexin)&&!X().kxOdPaused(G)};   /* src/kxod3d.js 拿掉（CANON-NO-ECON-1112 第三批：這一項拿掉）：「我們的日子」暫停照 MREL.kxOdPaused 看 */
   const kxAccept=async(key,fl)=>{ fresh('2026-09-10',12,'dorm',Object.assign({dating_kexin:true,KX_MET_NOODLE_TEAM:true,KX_OUR_DAY:{day:'sat',mode:'mid'}},fl||{})); H.CLOSE(PS); ROM.start(H.G,PS); setT(key,19); learn(KX,PS,'slip:zhe@x'); H.G.hour=21.6; H.picks=['是我的錯']; await play(due());
     Object.assign(st(KX),{done:{self:1,back:1,n4:H.G.day-3,hug:H.G.day-2},b1:H.G.day-1}); setRom(KX,90); clr(); await X().meetAction(H.G,KX,'out').run(GM); return okOpen(KX,PS); };
   const kwId=key=>'mrel_kexin_withdraw_'+D(key);

@@ -3,7 +3,7 @@
    31 ev_azalea_y4（3/8 12:25～12:55 椰林大道）　32 ev_mingxuan_saved（3/8 19:00 麵店）　33 ev_bar_study_first／_w14／_week（國考讀書會，活動 act_bar_study）
    34 ev_an_grad_pass（3/22 19:00 麵店）、ev_grad_result（21:00 宿舍二選一）　35 ev_spring_y4（4/3～4/4 宜蘭）、ev_kexin_trip_spring_y4（和可昕）
    36 ev_peishan_open_class（4/14 台南）　38 ev_kexin_bday_visit_y4（4/24 開車上山）　39 ev_last_game_y4、ev_concert_y4（5/12）
-   40 ev_kexin_last_study_night（5/16）　43 ev_last_meal_y4（6/22）　44 ev_kexin_after_grad（7/7）　46 ev_heart_july（7/14；R2Y4B.julyScene）
+   40（CANON-NO-ECON-1112 第三批拿掉）　43 ev_last_meal_y4（6/22）　44 ev_kexin_after_grad（7/7）　46 ev_heart_july（7/14；R2Y4B.julyScene）
    47 ev_zhiruo_back_cafe（9/1 22:00）、ev_zhiruo_back_ex（分開過：9/1～9/7 第一次進 Café）　48 ev_mingxuan_depart（9/2 機場）
    50 ev_an_columbia（2030-03-28 麵店）、ev_an_ny_sendoff（2030-08-11 機場）　56 ev_us_canyon（美國路線）　57 ev_sis_canyon（台灣、日本路線）
    58 ev_bar_group_start（2/23）、ev_bar_group_night（麵店）、ev_bar_group_video（視訊）、ev_bar_group_three（6/23）　61 ev_ps_termend_y4s2（6/8 台南；R2Y4B.psDinner）
@@ -247,22 +247,6 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'kai',text:'我還是沒入社。'},
       {set:{CONCERT_Y4:'went'}} ],
     outingMissed:G=>{ const r=R(); if(r) r.concertMissed(G); } },
-  /* ---------- 2-Y4-40 可昕 K25 讀書會的最後一晚（5/16（三）21:00；BB_99 9-16）：開車送宵夜（政大）／視訊。互考的比數拿掉（AA_263）---------- */
-  { id:'ev_kexin_last_study_night', title:'讀書會的最後一晚', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {if:{flagIs:{KX_K25:'video'}},goto:'v'},
-      {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
-      {speaker:'予樂',text:'司機升級成外送員。'},{goto:'shelf'},
-      {label:'v'},{scene:'視訊',bg:'video'},
-      {speaker:null,text:'（邵鈞對著鏡頭點頭致意。）'},
-      {label:'shelf'},
-      {speaker:null,text:'（散場前，她帶你看讀書會的書架。最右邊空了一格。）'},
-      {speaker:'kexin',expression:'thinking',text:'這一格空著。還不知道要放什麼。'},
-      {set:{KX_SHELF:true}},
-      {if:{flagIs:{KX_K25:'video'}},end:true},
-      {scene:'河濱',bg:'riverside'},   /* 回程（開車的版本）*/
-      {if:{custom:G=>R().kxInBarGroup(G)},speaker:'kexin',expression:'serious',text:'明天開始，讀書會的人各自讀。……我們兩個照表。'},
-      {unless:{custom:G=>R().kxInBarGroup(G)},speaker:'kexin',expression:'serious',text:'明天開始，各自讀。'} ],
-    outingMissed:G=>{ const r=R(); if(r) r.k25Missed(G); } },
   /* ---------- 2-Y4-43 期末最後一頓（2029-06-22（五）19:00 麵店；不佔學期末的飯）---------- */
   { id:'ev_last_meal_y4', title:'期末最後一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},

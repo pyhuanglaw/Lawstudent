@@ -92,6 +92,8 @@ out['labels'] = {m: lab[m] for c in out['byTerm'].values() for m in mems(c) if m
 for m, v in ((OLD.get('labels') or {}).items()):
     if m not in out['labels'] and any(m in set(mems(out['byTerm'][t])) for t in kept): out['labels'][m] = v
 if skipped: print('先不匯入新版（記憶沒有中文名稱，請企劃在階梯文件補「| `代號` | 名稱 |」表）：', skipped, '；保留上一次匯入的：', kept)
+# CANON-NO-ECON-1112 第三批（AA_861～868）：可昕八個學期整組換新稿（企劃線源稿直接換好）——以前疊在她舊稿上的修正層（AA_373、AA_374、AA_375、AA_525…）對的是舊字，一律不疊
+SKIP_WHO = {'kexin'}
 def _walk(o, old, new=None):   # 數（new 是 None）或換掉整句相同的字串，回傳幾句（AA_373 疊句用）
     n = 0
     items = o.items() if isinstance(o, dict) else (enumerate(o) if isinstance(o, list) else [])
@@ -120,6 +122,7 @@ if A373:
                                        ('第 25 項', 'kexin', '騙人。……你記幾次？不准說。我會比。', '騙人。……你記幾次？算了，不准說。', '「騙人。……你記幾次？算了，不准說。」'),
                                        ('第 6-2 節第 4 題', 'heroine_05', '期中那個空的保溫瓶，你看到了。', '上學期期中那個空的保溫瓶，你看到了。', '「上學期期中那個空的保溫瓶，你看到了。」')]:   # 第 6 節（bdab2f42）：看過空保溫瓶那一套（linesIf ev_sis_empty_flask）也是上學期的事
         if quote not in md373: sys.exit(f'AA_373@{S373} 裡找不到{item}的「改成」：{quote}')
+        if cid in SKIP_WHO: continue
         if cid == 'heroine_05' and not _s2l6: continue
         ch = y1s2.get(cid) or {}
         n = _walk(ch, old, new)
@@ -135,6 +138,7 @@ def _approved_md(prefix):   # 白名單上的修正稿（AA_376、AA_377）：(�
 def _swap(tag, md, chars, rows):   # 整句相同才換（同 AA_372、AA_373）：rows＝[(第幾項, 人物, 舊句, 新句, 稿裡的「改成」)]
     for item, cid, old, new, quote in _rf(rows):
         if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
+        if cid in SKIP_WHO: continue
         ch = chars.get(cid) or {}
         n = _walk(ch, old, new)
         if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'{tag} {item}：{cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
@@ -211,6 +215,7 @@ def _fix(prefix, label, patches):
     md = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True))
     for item, term, cid, sid, field, old, new, quote in _rf(patches):
         if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
+        if cid in SKIP_WHO: continue
         st = next((x for x in (((out['byTerm'].get(term) or {}).get(cid) or {}).get('steps') or []) if x.get('id') == sid), None)
         if st is None: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 沒有 {sid}')
         cur = st.get(field)
@@ -629,7 +634,6 @@ AA781_CHOICE_KEYED = {'A7-L5', 'Y6-L3', 'Y4-L6', 'A5-L1', 'A5-L8', 'K5-L2', 'Y5-
 AA781_CODE_OK = {   # {(舊字, 'src/…js'): '為什麼程式裡那一句不用跟著換'}（只是剛好同一句，不是程式用字認階梯）
     ('……嗯。你也是。', 'src/data/jp_blank_lines.js'): '日本篇空白日立衡的台詞（AA_435），和學姊大三下 S6-L4 剛好同一句；不是用字認階梯，不跟著換'}
 AA781_ROW_SKIP = {}   # {(檔名不含 .json, at, old): 為什麼這一列不換}——稿對錯人的列：不換、印出來、紀錄裡記 skip（其他列照換）；AA 改稿以後從這裡拿掉。
-                      # 2026-11-12：AA 把 AA_781_kx_ladder_Y0S1 的 K0-L8「……那就是你。不意外。」那一列從稿拿掉了（企劃線 74e0421b8；那一句是品妤 PY0-L7 的回話）→ 這張表清空
 A781 = {} if '--no-aa781' in sys.argv else {p: s for p, s in G.approved_files(ALLOW, AA781_PREFIX).items() if re.match(r'^docs/story_planning/AA_781_[A-Za-z0-9]+_ladder_[A-Za-z0-9_]+\.json$', p)}   # --no-aa781：不疊這一層（測試比「其他人、其他學期零差異」用，配 --out）
 AA781_LOG = []
 if A781:
@@ -779,6 +783,7 @@ if A781:
 #      學期 Y0S1～Y4S2（Y1S1＝characters）；層 id 找 steps 和 dating；選項字照「遊戲裡現在的字」（疊過 AA_781、_swap、_fix 以後）。已經有 fx 的照稿覆蓋；
 #      對不到（學期、人、層、選項字）＝停、列出哪一格；fx 只收 fr／love 整數。--no-aa816：不疊（測試比「拿掉 fx 一字不差」用）
 P816 = 'docs/story_planning/AA_816_ladder_fx.json'
+AA816_SKIP_WHO = SKIP_WHO   # CANON-NO-ECON-1112 第三批（AA_861～868）：可昕八個學期整組換新稿（源稿直接換、沒有 fx），AA_816 對的是舊選項字＝整個人不疊；她的 Y0S1、Y0S2 也跟著不疊
 S816 = None if '--no-aa816' in sys.argv else G.approved_files(ALLOW, P816).get(P816)
 if S816:
     _ok, _why = G.allowed(P816, S816, ALLOW)
@@ -787,10 +792,12 @@ if S816:
     n816, miss816 = 0, []
     for term, people in fx816.items():
         if term.startswith('_'): continue
+        if not [w for w in people if not w.startswith('_') and w not in AA816_SKIP_WHO]: continue   # 那個學期只有不疊的人（可昕的 Y0S1、Y0S2：舊序章那一年已經拿掉）
         chars = y1 if term == 'Y1S1' else out['byTerm'].get(term)
         if not isinstance(chars, dict): miss816.append(f'{term}（沒有這個學期）'); continue
         for who, layers in people.items():
             if who.startswith('_'): continue
+            if who in AA816_SKIP_WHO: continue
             ch = chars.get(who)
             if not ch: miss816.append(f'{term}/{who}（這學期沒有這個人）'); continue
             idx = {}

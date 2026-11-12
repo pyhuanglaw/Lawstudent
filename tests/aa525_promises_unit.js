@@ -286,7 +286,7 @@ await sec('3-4',async()=>{
   check('3-4. 美國路線第四年（視訊）不改',J(v.dialogue.filter(x=>x.text).map(x=>x.text))===J(['週年快樂。你那邊是早上吧。','卡片我寄了，下禮拜才會到。','……你回來我們再去一次摩天輪。']));
 });
 await sec('3-5',()=>{ const t=JSON.stringify(STORY_EVENTS.map(e=>e.dialogue||[]));
-  check('3-5. 「下次你來，我們吃山下那家。」（原「山上那家」）',t.includes('下次你來，我們吃山下那家。')&&!t.includes('下次你來，我們吃山上那家。')); });
+  check('3-5. K1 導遊那一場（「下次你來」那句一起）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!t.includes('下次你來，我們吃山上那家。')); });
 await sec('3-6',async()=>{
   const day=async(flags,dat,h)=>{ fresh('2027-07-05',h,flags); H.FRIEND(KX); if(dat) H.date(KX); STORY.phoneRules(GM); tick(); return {m:(H.G.msgs||[]).filter(x=>x.tag==='aa525_kx_intern_rem').map(x=>x.text),q:OUT.get(H.G,'aa525_kx_intern_call')}; };
   const A=await day({KX_SUMMER:'call'},true,18), B=await day({KX_SUMMER:'call'},true,17.5), C=await day({KX_SUMMER:'kind'},true,18), Dd=await day({KX_SUMMER:'call'},false,18);
@@ -301,7 +301,7 @@ await sec('3-7',async()=>{
   fresh('2027-05-01',15,{}); const G=H.G, s1=lad('Y2S2',KX,'K4-L5'), s2=lad('Y1S2',KX,'K2-L6');
   STORY.ladReply(s1,s1.choices[0],G,KX); STORY.ladReply(s2,s2.choices[0],G,KX); const none=[G.flags.KX_CAKE_YOU,G.flags.KX_TASSEL_PROMISE];
   STORY.ladReply(s1,s1.choices[1],G,KX); STORY.ladReply(s2,s2.choices[1],G,KX);
-  check('3-7. 閒聊階梯 K4-L5 選「下次換我挑。」記 KX_CAKE_YOU；K2-L6 選「明年我們一起看。」記 KX_TASSEL_PROMISE（另一個選項不記）',s1.choices[1].t==='「下次換我挑。」'&&s2.choices[1].t==='「明年我們一起看。」'&&none.every(x=>x==null)&&G.flags.KX_CAKE_YOU!=null&&G.flags.KX_TASSEL_PROMISE!=null,J(none));
+  check('3-7. 閒聊階梯 K4-L5、K2-L6 換成 AA_864、AA_862 新稿：選項不再記 KX_CAKE_YOU、KX_TASSEL_PROMISE（CANON-NO-ECON-1112 第三批：這一項拿掉）',G.flags.KX_CAKE_YOU==null&&G.flags.KX_TASSEL_PROMISE==null);
   const bd=c=>{ fresh('2028-04-23',21,Object.assign({dating_kexin:true,EXCHANGE_ROUTE:'TW',KX_BDAY:{1:'met',2:'class'}},c?{KX_CAKE_YOU:1}:{})); H.FRIEND(KX); STORY.phoneRules(GM); tick(); return (H.G.msgs||[]).filter(x=>x.tag==='y3_kx_bday_ask').map(x=>x.text); };
   const A=bd(true), B=bd(false);
   check('3-7. 2028-04-23 21:00「明天我生日。今年你不用想了，我想好了。」後面多「……蛋糕你挑。只有這個你挑。」（KX_CAKE_YOU）；沒有照舊',A[0]==='明天我生日。今年你不用想了，我想好了。'&&A[1]==='……蛋糕你挑。只有這個你挑。'&&A.length===4&&B.length===3&&!B.includes('……蛋糕你挑。只有這個你挑。'),J([A,B]));
@@ -314,7 +314,7 @@ await sec('3-8',async()=>{
   const t=JSON.stringify(ev('ev_kexin_trip_summer_y2')||STORY_EVENTS.find(e=>JSON.stringify(e.dialogue||[]).includes('下次找一個我們都沒去過的地方')));
   check('3-8 K-12. 「好。下次找一個我們都沒去過的地方。」（稿上「……好。下次找一個我們都沒去過的地方。」，X324 G 區 AA_801 拿掉句首「……」）',JSON.stringify(STORY_EVENTS.map(e=>e.dialogue||[])).includes(J(require('./line_rows_expect.js').fwd('……好。下次找一個我們都沒去過的地方。','src/data/r2y3a_events.js'))));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 第 54 列拿掉句首「……」——遊戲那一句（整格，含 JSON 的引號）＝稿 old→new。舊期望：「……好。下次找一個我們都沒去過的地方。」 */
   const k13=lad('Y1S2',KX,'K2-L8');
-  check('3-8 K-13. 閒聊階梯 K2-L8「我去找妳。」→「……真的喔？那我帶你去夜市。」',!!k13&&k13.choices[0].reply==='……真的喔？那我帶你去夜市。');
+  check('3-8 K-13. 閒聊階梯 K2-L8 換成 AA_862 新稿（AA_525 那一句不疊了）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!k13);
   const s=stripComments(SRC('src/story3d.js'));
   // CANON-NO-ECON-1112：經濟系那一年拿掉（3-8 K-14 經濟系 E12 的兩個回覆）
 });
@@ -335,10 +335,9 @@ await sec('3-10',async()=>{
 });
 await sec('3-11',async()=>{
   const k16=lad('Y2S1',KX,'K3-L5'), k17=lad('Y3S2',KX,'K6-L6');
-  check('3-11. 閒聊階梯 K3-L5「下次介紹給我。」→「圖書館前面那兩隻，一隻叫原告，一隻叫被告。」；K6-L6「要我幫妳看嗎？」→「不要。我自己寫。」',!!k16&&k16.choices[1].reply==='圖書館前面那兩隻，一隻叫原告，一隻叫被告。'&&!!k17&&k17.choices[1].reply==='不要。我自己寫。');
+  check('3-11. 閒聊階梯 K3-L5、K6-L6 換成 AA_863、AA_866 新稿（AA_525 那兩句不疊了）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!k16&&!!k17);
   const s=stripComments(SRC('src/story3d.js')), y=stripComments(SRC('src/y2r2_3d.js'));
-  check('3-11. story3d.js「好，那下週換你請。」→「好。」、「這題我要偷走。下次出給你。」→「這題我要偷走。」；y2r2_3d.js「嗯。……下次講給你聽。」→「嗯。……講不清楚。」',
-    s.includes("{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好。')]}")&&s.includes("say:[K('這題我要偷走。')]")&&y.includes("{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}"));
+  check('3-11. story3d.js「這題我要偷走。」；y2r2_3d.js「嗯。……講不清楚。」（K1b「好，那下週換你請。」那一則）（CANON-NO-ECON-1112 第三批：這一項拿掉）',s.includes("say:[K('這題我要偷走。')]")&&y.includes("{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}"));
   check('3-11. 出國的計畫「歐洲要排很久。……我先存錢。」',VAC_DATA&&JSON.stringify(VAC_DATA).includes('"later":"歐洲要排很久。……我先存錢。"'));
   check('3-11. AA_526 撤回：大三上期末飯第二句照原句「寒假你來高雄。……我們都沒去過的地方，我來排。」；「寒假要去哪裡？」→「不告訴你。來了就知道。」不改',J(TERMEND_LINES.KX.Y3S1.table)===J(['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……我們都沒去過的地方，我來排。'])&&J(TERMEND_LINES.KX_ASK.Y3S1[1].r)===J(['不告訴你。來了就知道。']));
   // CANON-NO-ECON-1112：經濟系那一年拿掉（3-11 AA_356 漏的一筆（ev_y0_e18b 可昕生日））

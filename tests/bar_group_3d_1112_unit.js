@@ -81,7 +81,7 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
     fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'}); H.date('kexin'); at('2029-02-23',8); phone(); const qk=OUT.get(H.G,'y4_bar_group_start');
     check('2. 只有可昕：成立那一晚是視訊，沒有 goto', H.G.flags.BAR_GROUP_KIND==='kexin'&&!!qk&&qk.place==='視訊'&&qk.verb==='接起來'&&!qk.goto, J(qk));
     H.G.events.done.ev_bar_group_start=1; qk.state='done'; at('2029-02-25',20); phone(); const qv=OUT.rec(H.G).find(x=>/^y4_bar_vid_/.test(x.id));
-    check('2. 只有可昕：之後的視訊（ev_bar_group_video）沒有 goto、back 照舊', !!qv&&qv.ev==='ev_bar_group_video'&&!qv.goto&&qv.back==='視訊結束。', J(qv)); }
+    check('2. 只有可昕：之後的視訊（ev_bar_group_video）不排（CANON-NO-ECON-1112 第三批：這一項拿掉）',!qv); }
 
   /* ===== 3 三個人 ===== */
   { three(); at('2029-02-23',21.2);
@@ -160,7 +160,7 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar',KX_VDAY:{4:'video'}}); H.date('kexin'); at('2029-02-23',8); phone(); at('2029-02-23',21.4); await goOut('y4_bar_group_start');
     check('7. 只有可昕的成立那一晚：視訊照舊（不換區域、深色底開始、兩句一樣）', H.entered.length===0&&H.G.zone==='dorm'&&H.bgs[0]==='dark'&&has('情人節那張表，我把八月以前都排完了。')&&has('你那一欄不喜歡的地方圈起來，我改。')&&!GM.npc.kexin, J([H.entered,H.bgs,texts()]));
     phone(); const v=OUT.rec(H.G).find(x=>/^y4_bar_vid_/.test(x.id)&&x.state==='planned'); at('2029-02-26',20.9); await goOut(v&&v.id);
-    check('7. 之後的視訊（ev_bar_group_video）：2D 出遊照舊（不換區域、深色底、可昕那一句、BAR_GROUP_N＝1）', !!v&&!v.goto&&H.entered.length===0&&H.bgs[0]==='dark'&&has('刑總那題，你先講結論，再講理由。講完我再問。')&&H.G.flags.BAR_GROUP_N===1&&!v.bar3d, J([H.entered,H.bgs,texts()]));
+    check('7. 之後的視訊（ev_bar_group_video）不排（CANON-NO-ECON-1112 第三批：這一項拿掉）',!v);
     const n=ev('ev_bar_group_night'), vd=ev('ev_bar_group_video');
     check('7. ev_bar_group_night 還是總圖的 auto 事件（location、background blur）；ev_bar_group_video 還是 outing、dark、kxAway', n.trigger==='auto'&&J(n.location)===J(['library','library_hall'])&&n.background==='blur'&&vd.trigger==='outing'&&vd.background==='dark'&&vd.kxAway===true&&!S.BAR_EVS.includes(n.id)&&!S.BAR_EVS.includes(vd.id));
     ytOnly(); H.G.events.done.ev_bar_group_start=1; at('2029-03-03',11); H.G.zone='library_hall'; const due=EVENTS.check(n); await run('ev_bar_group_night');

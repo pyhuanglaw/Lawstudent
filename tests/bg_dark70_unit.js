@@ -14,7 +14,7 @@ const ROWS=[
   // CANON-NO-ECON-1112：經濟系那一年拿掉（ev_y0_kh_bus、ev_y0_e21、ev_y0_e21o 三列）
   ['寒暑假 高雄・左營站（ev_kexin_trip_winter_y4）','src/data/r2y4a_events.js','ev_kexin_trip_winter_y4',"{scene:'高雄・左營站',bg:'kh_station'}",'kh_station'],
   ['寒暑假 七夕・港邊的山上晚上那段（ev_kexin_qixi_y2；11-02 第七批正式圖）','src/data/r2y3a_events.js',null,"{scene:'高雄・港邊的山上',bg:'kh_hill_harbor_night'}",'kh_hill_harbor_night'],
-  ...['ev_kx_nye_video_y2','ev_kx_nye_video_y3','ev_kx_nye_video_y4','ev_zr_nye_video_y3','ev_zr_nye_video_y4'].map(id=>['寒暑假 跨年的視訊（'+id+'）','src/data/events.js',id,"{scene:'視訊',bg:'video'}",'video']),
+  ...['ev_zr_nye_video_y3','ev_zr_nye_video_y4'].map(   /* 可昕跨年的視訊三場（CANON-NO-ECON-1112 第三批：這一項拿掉）*/id=>['寒暑假 跨年的視訊（'+id+'）','src/data/events.js',id,"{scene:'視訊',bg:'video'}",'video']),
   ...['ev_yt_nye_call_y1','ev_yt_nye_call_y2','ev_yt_nye_call_y4'].map(id=>['寒暑假 跨年的電話（'+id+'）','src/data/events.js',id,"{scene:'電話'}",'phone_street_night']),
   ['其他 桃園機場入境大廳（ev_jp_return_hall）','src/data/jp_events.js',null,"const HALL=[ {scene:'桃園機場・入境大廳',bg:'airport_arrival'}",'airport_arrival'],
   ['其他 黃金週的河邊（ev_jp_goldenweek）','src/data/jp_events.js',null,"const RIVER=[ {scene:'河邊',bg:'jp_riverbank'}",'jp_riverbank'],
@@ -23,7 +23,7 @@ const ROWS=[
   ['其他 行李箱的店（ev_jp_suitcase；11-02 第七批正式圖）','src/data/jp_events.js',null,"const SUITCASE=[ {scene:'公館',bg:'gg_luggage_shop'}",'gg_luggage_shop'],
   ['其他 推甄面試・萬才館二樓（ev_push_interview）','src/data/r2y4a_events.js',null,"{scene:'法律系館B二樓',bg:'wancai_seminar'}",'wancai_seminar'],
   ['其他 台南車站（ev_peishan_open_class）','src/data/r2y4b_events.js','ev_peishan_open_class',"{scene:'台南車站',bg:'tn_station'}",'tn_station'],
-  ['其他 博思教學館（ev_kexin_lecture_ntu，11-02 第八批正式圖）','src/data/r2y3a_events.js','ev_kexin_lecture_ntu',"{scene:'博思教學館',bg:'boya_lecture_hall'}",'boya_lecture_hall'],
+  /* 其他 博思教學館（可昕來聽講座那一場：CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   ['其他 地方法院（ev_crimpro_court_visit，旁聽席暫代）','src/data/r2y3a_events.js','ev_crimpro_court_visit',"{scene:'地方法院',bg:'court_gallery'}",'court_gallery'],
   ['其他 學姊放榜的晚餐・沒有家庭晚餐那一版（ev_sis_results_dinner，公館街景暫代）','src/data/events.js',null,"SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'公館',bg:'gongguan'}",'gongguan']];
 for(const [name,f,id,want,key] of ROWS){ const ok=id?(first(f,id)||'').startsWith(want):src(f).includes(want); check(name+'：'+key,ok&&img(key),id?first(f,id):''); }

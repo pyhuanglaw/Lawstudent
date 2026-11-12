@@ -105,7 +105,7 @@ await sec(1,async()=>{
 
   /* 可昕 */
   fresh('2027-04-07',12,'campus',{dating_kexin:true}); H.CLOSE(KX); H.CLOSE(A1); ROM.start(H.G,A1); await decide(KX);
-  OUT.plan(H.G,{id:'kx_od_x',ev:'ev_kexin_our_day_wk',day:H.G.day+2,h:14,place:'木柵大學',title:'我們的日子'});
+  OUT.plan(H.G,{id:'kx_od_x',ev:'ev_kexin_visits_ntu',   /* 原本「我們的日子」那一場（CANON-NO-ECON-1112 第三批拿掉），改用她來找你那一場 */day:H.G.day+2,h:14,place:'木柵大學',title:'我們的日子'});
   setD(H.G.day+2,13.6); a=due(); check('1. 可昕：下一次她來（我們的日子，出遊前 30 分鐘起）',a&&a.k==='conf'&&a.x===KX);
   clr(); await play(a);
   check('1. 可昕原文：「……你再講一次。」「我跟以安也在一起。」「操。」（她轉過去，背對你站了很久。）「你還知道要自己講。」「……我現在不想看到你。你不要跟過來。」；那一趟取消',
@@ -186,7 +186,7 @@ await sec(4,async()=>{
 /* ---------------- 5. 說溜嘴 ---------------- */
 await sec(5,async()=>{
   fresh('2027-03-25',19,'noodle',{dating_kexin:true,KX_MET_NOODLE_TEAM:true}); H.CLOSE(A1); ROM.start(H.G,A1); ROM.learn(H.G,'zhe',A1,'test'); H.CLOSE(YT); ROM.start(H.G,YT); ROM.learn(H.G,'zhe',YT,'test');
-  await X().afterEvent(GM,{id:'ev_kexin_two_circles',participants:[]});
+  await X().afterEvent(GM,{id:'ev_y2_midautumn',participants:[]});   /* 原本用 K12 兩邊的朋友（CANON-NO-ECON-1112 第三批拿掉），改用大二中秋 */
   check('5. K12 演了一次',!!X().rec(H.G).once.slip);
   check('5. 之後的群聚（二十三週年）不再演（一個存檔只一次）',!X().slipFor(H.G,{id:'ev_noodle_23rd',participants:['heroine_03']}));
   fresh('2028-12-14',19,'noodle',{dating_kexin:true,KX_MET_NOODLE_TEAM:true,ANNIV23:'remote'}); H.CLOSE(A1); ROM.start(H.G,A1); ROM.learn(H.G,'zhe',A1,'test');

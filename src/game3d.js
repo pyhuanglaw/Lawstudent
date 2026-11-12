@@ -429,7 +429,6 @@ const GAME = (function(){
     if(typeof SOCIAL!=='undefined'&&SOCIAL.alisonSave){ try{ SOCIAL.alisonSave(s); }catch(e){ console.warn('SOCIAL.alisonSave',e); } }   /* AA380 改名 Alison（使用者 10-21 23:2x）：舊存檔裡存下的舊名（手機訊息、群組名、出遊標題、約的標籤、記憶備註、目標）換成 Alison；id yu 不變 */
     if(typeof POOL!=='undefined'&&POOL.migrate){ try{ POOL.migrate(s); }catch(e){ console.warn('POOL.migrate',e); } }
     if(typeof STORY!=='undefined'&&STORY.smallQuoteMigrate&&s.social&&typeof s.social==='object'){ try{ STORY.smallQuoteMigrate(s); }catch(e){ console.warn('STORY.smallQuoteMigrate',e); } }   /* TEXT-QUOTE-UNIFY-1108 第四批：閒聊拿掉外面的「」以後，舊存檔記的「說過了」（有「」的句子）換成現在的句子；第五批：動作在前面的（…）「…」、經濟系同學在社科圖（flags.ECON_SL）也換 */
-    if(typeof STORY!=='undefined'&&STORY.askFixUntil&&s.flags&&s.flags.dating_kexin&&Array.isArray(s.msgs)){ try{ STORY.askFixUntil(s,'kx_tour_ask',3); STORY.askFixUntil(s,'kx_tour_ask2',3); }catch(e){ console.warn('STORY.askFixUntil',e); } }   /* UX-WEEKEND-ASK-EXPIRE-1108（BB-B 11-08 11:06）：舊存檔可昕導遊那兩則沒有 until——讀檔當下就補上，不用等第一次手機規則（原本讀檔後約 9 秒內還算待回覆）*/
     if(typeof EVENTS!=='undefined'&&EVENTS.habitTrim){ try{ EVENTS.habitTrim(s); }catch(e){ console.warn('EVENTS.habitTrim',e); } }   /* BUG-SAVE-QUOTA-1102：舊的大存檔讀進來先把習慣鍵減到上限（讀檔照常，下一次自動存檔就變小）*/
     if(typeof FD!=='undefined'&&FD.migrate){ try{ FD.migrate(s); }catch(e){ console.warn('FD.migrate',e); } }   /* BUG-Y4S2-NOFINAL-1102：大四下沒有期末考日被誤判延畢的舊存檔 */
     if(typeof ADV!=='undefined'&&ADV.backfillCG){ try{ ADV.backfillCG(s); }catch(e){ console.warn('ADV.backfillCG',e); } }

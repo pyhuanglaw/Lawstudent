@@ -79,14 +79,7 @@ const model=(R,first4,T,firstExtra)=>{ let c=0, w=0, s=0; const exp=[]; for(cons
   /* ======================= 2-a 只有可昕 ======================= */
   await sec('2-a',async()=>{
     const G=await bar('kexin'); const R=await season(G);
-    const exp=model(R,OLD_K,K);
-    check('2-a 只有可昕：2/26～8/3 一共 '+R.length+' 場（每週一、三、五視訊，週六政大），每場一句',R.length>=80&&R.every(r=>r.L.length===1)&&R.every(r=>r.mode===(r.sat?'nccu':'video')),J(R.length));
-    check('2-a 第一輪 k1～k4 各一次照舊（可昕說的）；之後平日 1～7、週六 8～9 每句一次照順序；用完只留收尾',J(R.map(r=>J(r.L)))===J(exp),J(R.slice(0,16).map(r=>r.k+(r.sat?'六':'')+r.L[0])));
-    const flat=R.map(r=>r.L[0]);
-    check('2-a 九句旁白各出現一次；k1～k4 各一次；其他都是收尾那兩句',[...K.wd,...K.sat].every(t=>flat.filter(x=>x===t).length===1)&&OLD_K.every(t=>flat.filter(x=>x===t).length===1)&&flat.filter(t=>![...K.wd,...K.sat,...OLD_K].includes(t)).every(t=>t===K.end.wd||t===K.end.sat));
-    check('2-a 週六那兩句只在週六；收尾平日「（讀到十一點。）」、週六「（讀到傍晚。）」',R.filter(r=>K.sat.includes(r.L[0])||r.L[0]===K.end.sat).every(r=>r.sat)&&R.filter(r=>K.wd.includes(r.L[0])||r.L[0]===K.end.wd).every(r=>!r.sat)&&flat.includes(K.end.wd)&&flat.includes(K.end.sat));
-    check('2-a 旁白沒有人說話（speaker null）；k1～k4 是可昕說的',R.filter(r=>!OLD_K.includes(r.L[0])).length>70&&R.filter(r=>!OLD_K.includes(r.L[0])).every(r=>r.W[0]===null)&&R.filter(r=>OLD_K.includes(r.L[0])).every(r=>r.W[0]!==null&&/可昕/.test(r.W[0])),J(R.slice(0,6).map(r=>r.W[0])));
-    check('2-a 計數：BAR_GROUP_KI＝場數；旁白另開計數 BAR_GROUP_KN＝第一輪以後的平日場數、BAR_GROUP_KNS＝第一輪以後的週六場數（沒有 KS 了）',G.flags.BAR_GROUP_KI===R.length&&G.flags.BAR_GROUP_KN===R.slice(4).filter(r=>!r.sat).length&&G.flags.BAR_GROUP_KNS===R.slice(4).filter(r=>r.sat).length&&G.flags.BAR_GROUP_KS===undefined,J([G.flags.BAR_GROUP_KI,G.flags.BAR_GROUP_KN,G.flags.BAR_GROUP_KNS,R.length]));
+    check('2-a 只有可昕：她那幾晚的視訊、外校（CANON-NO-ECON-1112 第三批：這一項拿掉）',R.length===0,J(R.length));
   });
 
   /* ======================= 2-b 只有語彤 ======================= */
@@ -102,17 +95,14 @@ const model=(R,first4,T,firstExtra)=>{ let c=0, w=0, s=0; const exp=[]; for(cons
   /* ======================= 2-c 分開讀 ======================= */
   await sec('2-c',async()=>{
     const G=await bar('split'); const R=await season(G), RK=R.filter(r=>r.who==='kexin'), RY=R.filter(r=>r.who==='yutong');
-    check('2-c 分開讀：週一、三可昕（視訊）、週五、六語彤（麵店、總圖）',RK.length>20&&RY.length>20&&RK.every(r=>r.mode==='video')&&RY.every(r=>r.mode==='noodle'||r.mode==='library'));
-    check('2-c 可昕那幾晚照 2-1 的順序（第一輪 k1～k4，之後平日 1～7、用完收尾）',J(RK.map(r=>J(r.L)))===J(model(RK,OLD_K,K)),J(RK.slice(0,12).map(r=>r.L[0])));
+    check('2-c 分開讀：可昕那幾晚（視訊）不排了、語彤照舊（CANON-NO-ECON-1112 第三批：這一項拿掉）',RK.length===0&&RY.length>20,J([RK.length,RY.length]));
     check('2-c 語彤那幾晚照 2-2 的順序（第一次那三句，y1～y4，之後平日、週六各自照順序）',J(RY.map(r=>J(r.L)))===J(model(RY,OLD_Y,Y,YT_FIRST)),J(RY.slice(0,12).map(r=>(r.sat?'六':'')+r.L[0])));
   });
 
   /* ======================= 2-d 舊存檔（第 4 節 ③）======================= */
   await sec('2-d',async()=>{
     let G=await bar('kexin',{BAR_GROUP_KI:10,BAR_GROUP_N:10}); let R=await season(G,'2029-05-07','2029-05-12');
-    check('2-d 舊存檔（可昕 KI=10，四句聽過好幾輪、沒有旁白的計數）：平日從第 1 句看起、下一晚第 2 句；週六也從第 1 句',R.length===4&&R[0].L[0]===K.wd[0]&&R[1].L[0]===K.wd[1]&&R[2].L[0]===K.wd[2]&&R[3].sat&&R[3].L[0]===K.sat[0],J(R.map(r=>r.k+r.L[0])));
-    G=await bar('kexin',{BAR_GROUP_KI:3}); R=await season(G,'2029-05-07','2029-05-09');
-    check('2-d 舊存檔（KI=3）：第一輪還沒完（KI 沒到 4），先 k4，再平日第 1 句',R.length===2&&R[0].L[0]===OLD_K[3]&&R[1].L[0]===K.wd[0],J(R.map(r=>r.L[0])));
+    check('2-d 舊存檔（只有可昕）：她那幾晚的視訊、外校（CANON-NO-ECON-1112 第三批：這一項拿掉）',R.length===0,J(R.length));
     G=await bar('yutong',{BAR_GROUP_YI:6,BAR_GROUP_YT_FIRST:D('2029-02-26')}); R=await season(G,'2029-05-07','2029-05-12');
     check('2-d 舊存檔（語彤 YI=6）：平日從第 1 句看起、下一晚第 2 句；週六從第 1 句（總圖的長桌）',R.length===4&&R[0].L[0]===Y.wd[0]&&R[1].L[0]===Y.wd[1]&&R[2].L[0]===Y.wd[2]&&R[3].sat&&R[3].L[0]===Y.sat[0],J(R.map(r=>r.k+r.L[0])));
     G=await bar('three',{BAR_GROUP_KI:9,BAR_GROUP_YI:9,BAR_GROUP_N:18}); R=await season(G,'2029-05-07','2029-05-12');

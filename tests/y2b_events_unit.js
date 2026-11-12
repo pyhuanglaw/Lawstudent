@@ -40,7 +40,7 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const run=async id=>{ said=[]; opts=[]; await EVENTS.run(ev(id)); };
 const answer=(id,k)=>PHONE.answer(G,id,k);
 (async()=>{
-  check('0. 事件都在、程式掛上去了', ['ev_kexin_bad_exam','ev_yt_lease_text','ev_yt_aunt_retell','ev_an_mother_map','ev_ziqing_dad_visit','ev_ziqing_dad_sorry','ev_zhiruo_last_shift','ev_kexin_two_circles','ev_yt_ta_news','ev_yt_ta_news_lib','ev_yt_umbrella_y3','ev_ziqing_capstone','ev_zhiruo_xmas_video'].every(id=>!!ev(id))&&typeof Y2B!=='undefined'&&STORY.TICKS.length>0&&STORY.PHONE_RULES.length>0&&CLS.IN_CLASS.length>0&&!!MSG._y2b&&!!STORY._y2bFafu);
+  check('0. 事件都在、程式掛上去了', ['ev_kexin_bad_exam','ev_yt_lease_text','ev_yt_aunt_retell','ev_an_mother_map','ev_ziqing_dad_visit','ev_ziqing_dad_sorry','ev_zhiruo_last_shift','ev_yt_ta_news','ev_yt_ta_news_lib','ev_yt_umbrella_y3','ev_ziqing_capstone','ev_zhiruo_xmas_video'].every(id=>!!ev(id))&&typeof Y2B!=='undefined'&&STORY.TICKS.length>0&&STORY.PHONE_RULES.length>0&&CLS.IN_CLASS.length>0&&!!MSG._y2b&&!!STORY._y2bFafu);   /* K12 兩邊的朋友（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   if(fails){ console.log('FAILED '+fails); process.exit(1); }
 
   // ---------- 1B-01 可昕 K10c ----------
@@ -148,23 +148,8 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('Z4c. 沒去、和別人（可昕）交往中：9/2 一疊票根那一版', txt('p:heroine_02').join('|')==='heroine_02:今天出發去英國了。|heroine_02:櫃台有一疊電影票根，常客一人一張，跟老闆拿。|heroine_02:看完寫一句話，寄到店裡。我會回。', JSON.stringify(txt('p:heroine_02')));
 
   // ---------- 1B-07 可昕 K12 ----------
-  fresh('2027-03-21',21.1,'dorm',{KX_INTRO:'gf',KX_MET_NOODLE_TEAM:true,YL_IMPRESSION:'funny'}); date('kexin'); SOCIAL.remember('yu','FIRST_MET',''); rules();
-  check('T1. 3/21 21:00 三則、兩個回覆', mine('p:kexin','kexin:兩邊的朋友該見面了。').slice(0,3).join('|')==='kexin:兩邊的朋友該見面了。|kexin:週四晚上六點，你們的燒臘店。|kexin:我負責予樂，你負責阿哲。'&&PHONE.byAsk(G,'y2_kx_circles').ask.opts.length===2, JSON.stringify(txt('p:kexin')));
-  answer('y2_kx_circles',0); rules(); const q7=OUT.get(G,'y2_kx_circles');
-  check('T1. 「好。」→ 予樂要穿得像面試；排出遊 3/25 18:00 麵店', txt('p:kexin').includes('kexin:好。我先跟予樂說，她會穿得很像要去面試。')&&q7&&q7.day===D('2027-03-25')&&q7.h===18&&q7.ev==='ev_kexin_two_circles');
-  at('2027-03-25',18); picks=[2]; await run('ev_kexin_two_circles');
-  check('T1. 見過桌遊團、K3 說了女朋友：「上次是烤肉，這次是燒臘。」、沒有介紹選項；予樂「司機你們都認識了。……今天換他當客人。」（AA_519 第 6 節，不再說「這是很好笑的司機。」）；綽號三選一；「麵店分店」群組', has('上次是烤肉，這次是燒臘。')&&opts.length===1&&opts[0].length===3&&has('司機你們都認識了。……今天換他當客人。')&&!has('這是很好笑的司機。')&&has('「公館燒臘分店」。不准改。')&&PHONE.inGroup(G,'noodle_branch')&&G.flags.KX_CIRCLES_MET===true, JSON.stringify(opts));
-  fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',0); rules(); at('2027-03-25',18); picks=[1,0]; await run('ev_kexin_two_circles');
-  check('T2. K3 沒去、介紹「木柵大學法律」：「你們就是桌遊團？」；阿哲、Alison 不知道她是女友；記 KX_MET_NOODLE_TEAM；沒有 YL_IMPRESSION＝可昕「這是我的司機。」', has('你們就是他一直講的那群人？我聽了一年半。')&&!ROM.knowsGF(G,'zhe')&&!ROM.knowsGF(G,'yu')&&G.flags.KX_MET_NOODLE_TEAM===true&&has('這是我的司機。'));
-  check('B3. 介紹「木柵大學法律」：旁白「（可昕看了你一眼，沒說什麼。）」（不是可昕說話）', said.some(s=>s.who===null&&s.t==='（可昕看了你一眼，沒說什麼。）'));
-  fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',0); rules(); at('2027-03-25',18); picks=[0,0]; await run('ev_kexin_two_circles');
-  check('T2b. 介紹「我女朋友」：阿哲「……喔。」、在場的人知道', has('……喔。')&&ROM.knowsGF(G,'zhe')&&!has('你都不講！'));
-  fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',1); rules();
-  check('T3. 婉拒：「……好。那下次。」、不排出遊、KX_MET_NOODLE_TEAM 不記', txt('p:kexin').includes('kexin:……好。那下次。')&&!OUT.get(G,'y2_kx_circles')&&!G.flags.KX_MET_NOODLE_TEAM);
-  fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); at('2027-03-23',21.1); rules();
-  check('T3b. 不回：3/23 21:00「週四。六點。你還沒回。」', txt('p:kexin').includes('kexin:週四。六點。你還沒回。'));
-  fresh('2027-03-25',18,'dorm'); date('kexin'); SOCIAL.remember('heroine_01','FIRST_MET',''); picks=[1,2]; await run('ev_kexin_two_circles');
-  check('T4. 認識以安：19:40「我們八點讀書會。……很高興認識妳。」（AA_375 第 15 項）→ 可昕「嗯。下次見。」；八點半結尾', has('我們八點讀書會。……很高興認識妳。')&&has('嗯。下次見。')&&has('（八點半。予樂說要開一個群組，名字她來取。）'));
+  fresh('2027-03-21',21.1,'dorm',{KX_INTRO:'gf',KX_MET_NOODLE_TEAM:true}); date('kexin'); rules(); at('2027-03-23',21.1); rules();
+  check('T1～T4. 兩邊的朋友（3/21 的邀約、3/23 的提醒、3/25 那一場）（CANON-NO-ECON-1112 第三批：這一項拿掉）', !PHONE.sent(G,'y2_kx_circles')&&!PHONE.sent(G,'y2_kx_circles2')&&!ev('ev_kexin_two_circles'));
 
   // ---------- 1B-08 語彤 13b、事件 12 ----------
   fresh('2027-09-07',18,'noodle'); R('heroine_03','FRI'); check('13b. 大三上第 1 週週二 18:00 麵店：可以演', EVENTS.check(ev('ev_yt_ta_news')));

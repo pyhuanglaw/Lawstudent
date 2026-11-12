@@ -174,7 +174,7 @@ sec('6',()=>{ const TUE=TD(11,2), WED=TUE+1, THU=TUE+2;
   let {m,L}=go(0);
   check('6. 第 11 週週二 23:10 三則（交往中）、三個選項；回覆到午夜',!!m&&Math.abs(m.h-(23+10/60))<0.02&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt').map(x=>x.text))===J(['我們組有一個人消失了。','報告後天交。他那一段還是空的。','……真的會瘋掉。'])&&J(m.ask.opts.map(o=>o.t))===J(['我陪妳熬夜。','他人呢？','妳先睡，明天再做。'])&&m.ask.until===T(WED,0),J(m&&m.ask));
   const q=OUT.get(H.G,'aa503_kx_video'), ev=STORY_EVENTS.find(e=>e.id==='ev_kexin_video_report'), said=ev?ev.dialogue.filter(d=>d.text).map(d=>d.text):[];
-  check('6. 「我陪妳熬夜。」→ 她回一句、KX_RPT stay；當晚 00:00 排視訊（接起來）；事件只有開頭「你念你的」、結尾「好了。睡覺。」、兩個小時',J(L.map(x=>x.text))===J(['我陪妳熬夜。','你在首都帝大陪我熬夜？……好啊。視訊開著，你不要講話。'])&&H.G.flags.KX_RPT==='stay'&&!!q&&q.day===WED&&q.h===0&&q.ev==='ev_kexin_video_report'&&q.verb==='接起來'&&!!ev&&ev.trigger==='outing'&&ev.hours===2&&J(said)===J(['你念你的','好了。睡覺。'])&&ev.dialogue[0].bg==='video',J({q,said}));
+  check('6. 「我陪妳熬夜。」以後不排視訊（CANON-NO-ECON-1112 第三批：這一項拿掉）',!q&&!ev);
   walk(THU,17.9); const a=th('kexin').some(x=>x.tag==='aa503_kx_rpt2'); walk(THU,18.1);
   check('6. 週四 18:00「報告交了。」「老師說我們那一段寫得很清楚。消失的那一段。」（D116 不跟別人比：AA-B 11-07 04:10 把「寫得最好」改成「寫得很清楚」）',!a&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt2').map(x=>x.text))===J(['報告交了。','老師說我們那一段寫得很清楚。消失的那一段。']));
   ({m,L}=go(1)); walk(THU,18.1);
@@ -235,13 +235,13 @@ sec('9',()=>{ const SAT=TD(5,6);
   check('9. 紙皇冠：「這週不行」＝不再私訊（kx_yule_crown）；動態第 3 則在宵夜那一晚之後隔天 12:30',!(H.G.msgs||[]).some(x=>x.tag==='kx_yule_crown')&&!!k3&&k3.day===ASK+2&&Math.abs(k3.h-12.5)<0.01&&k3.v==='no',J(k3));
   if(HAS()) FEED.respond(H.G,'kx3','cm'); check('9. 紙皇冠：沒去的留言「女王好。」→「她說謝謝。她說下次要見你本人。」',J(th('kexin').slice(-2).map(x=>x.text))===J(['女王好。','她說謝謝。她說下次要見你本人。']));
   fresh(ASK,16,{dating_kexin:true,NCCU_VISITED:true,kxYuleAskDay:ASK,KX_YULE:'yes',yulePassDay:ASK+1}); H.G.outings=[{id:'kx_yule',ev:'ev_kexin_yule_pass',day:ASK+1,h:19.5,state:'done'}]; walk(ASK+2,13,{rules:true,step:0.5}); k3=item('kx3');
-  if(HAS()) FEED.respond(H.G,'kx3','cm'); check('9. 紙皇冠：有去＝一樣出（隔天 12:30），留言回「她說謝謝。她說你及格了。」',!!k3&&k3.day===ASK+2&&k3.v==='yes'&&th('kexin').slice(-1)[0].text==='她說謝謝。她說你及格了。',J(k3));
+  if(HAS()) FEED.respond(H.G,'kx3','cm'); check('9. 紙皇冠：有去的版本（那一晚的宵夜拿掉，一律沒去的版本）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!k3&&k3.day===ASK+2&&k3.v==='no',J(k3));
   fresh(ASK,16,{dating_kexin:true,NCCU_VISITED:true,kxYuleAskDay:ASK,KX_YULE:'yes'}); H.G.outings=[{id:'kx_yule',ev:'ev_kexin_yule_pass',day:ASK+1,h:19.5,state:'planned'}]; walk(ASK+1,12,{step:0.5});
   check('9. 紙皇冠：答應了、還沒去＝先等（不先貼沒去的版本）',!item('kx3')&&!R().done.kx3);
   /* 酸辣湯餃（12/3）*/
   const BD=DK('2025-12-03'); fresh(BD,6,{dating_kexin:true}); walk(BD,23.95,{rules:true,step:0.5}); const none=(H.G.msgs||[]).filter(x=>x.tag==='kx_dec3_none').map(x=>x.text);
   let h6=HT();
-  check('9. 酸辣湯餃：什麼都沒做＝22:30 私訊只剩「一個人吃了。很好吃。下次你要來。」（照片改成動態）；23:30 動態第 6 則（交完報告那晚，沒去的版本：一碗、空的資料夾、「交了。」）',J(none)===J(['一個人吃了。很好吃。下次你要來。'])&&!!item('kx6')&&Math.abs(item('kx6').h-23.5)<0.01&&item('kx6').v==='no'&&h6.includes('（照片：一碗酸辣湯餃，旁邊一個空的資料夾）')&&h6.includes('<div>交了。</div>'),J([none,item('kx6')]));
+  check('9. 酸辣湯餃：12/3 那晚 22:30 的私訊不傳；動態第 6 則照出（沒去的版本）（CANON-NO-ECON-1112 第三批：這一項拿掉）',J(none)===J([])&&!!item('kx6')&&item('kx6').v!=='yes');
   check('9. 第 6 則沒去的版本：留言「辛苦了。」、私訊問「一個人吃？」',h6.includes('data-fd="kx6|cm">辛苦了。<')&&h6.includes('一個人吃？')&&!h6.includes('好吃嗎？'));
   if(HAS()) FEED.respond(H.G,'kx6','cm'); check('9. 第 6 則沒去：留言「辛苦了。」→「下一份下禮拜。」',J(th('kexin').slice(-2).map(x=>x.text))===J(['辛苦了。','下一份下禮拜。']),J(th('kexin').slice(-2).map(x=>x.text)));
   fresh(BD,6,{}); who('kexin','ACQ'); walk(BD,23.95,{rules:true,step:0.5});
@@ -254,7 +254,7 @@ sec('9',()=>{ const SAT=TD(5,6);
   fresh(BD,6,{dating_kexin:true,KX_DEC3:{1:'visit'}}); walk(BD,23.95,{step:0.5}); check('9. 第 6 則：只記了 KX_DEC3 {1:"visit"}（phoneRules 換過的）也算去了',!!item('kx6')&&item('kx6').v==='yes',J(item('kx6')));
   /* 書桌照 */
   const VD=TD(16,2); fresh(VD,19,{dating_kexin:true,KX_VIDEO:'no'}); walk(VD,23.5,{rules:true,step:0.5}); const ph=(H.G.msgs||[]).filter(x=>x.tag==='kx_video_photo').map(x=>x.text);
-  check('9. 書桌照：視訊「今天不行。」＝23:00 私訊照舊「📷（她的書桌）」「我自己讀了。你欠我一次。」（她說了讀完傳照片給你；d13ab3ab7 第 12 節第 2 點）',J(ph)===J(['📷（她的書桌）','我自己讀了。你欠我一次。']),J(ph));
+  check('9. 書桌照（期末視訊一起讀書那一場）（CANON-NO-ECON-1112 第三批：這一項拿掉）',J(ph)===J([]));
   { const W9W=TD(9,3); fresh(W9W,20,{}); who('kexin','FRIEND'); walk(W9W,23); const h4=HT(); if(HAS()) FEED.respond(H.G,'kx4','dm');
     check('9. 第 4 則（第 9 週週三 22:40）：私訊問「為什麼爬好幾趟？」→「一直忘東西。」',h4.includes('為什麼爬好幾趟？')&&!h4.includes('為什麼爬五次？')&&J(th('kexin').slice(-2).map(x=>x.text))===J(['為什麼爬好幾趟？','一直忘東西。']),J(th('kexin').slice(-2).map(x=>x.text))); }
   for(const v of ['no','yes']){ fresh(DK('2026-01-24'),12,{dating_kexin:true,KX_VIDEO:v}); walk(DK('2026-01-24'),20); check('9. 書桌照＝第 8 則 1/24 19:30（KX_VIDEO '+v+' 都出）',!!item('kx8')&&Math.abs(item('kx8').h-19.5)<0.01&&HT().includes('（照片：一張書桌，一本民法，旁邊一杯手搖飲）')); } });

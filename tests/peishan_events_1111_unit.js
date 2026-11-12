@@ -36,10 +36,11 @@ const BAR_OLD="{unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return
 const BAR_NEW=["{if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !(x&&x.mode==='library')&&!!x&&x.who==='three'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）'},","{if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !(x&&x.mode==='library')&&!(x&&x.who==='three'); }},speaker:null,text:'（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）'},"];
 const barBack=(f,s)=>{ if(f!=='src/data/r2y4b_events.js') return s; const ok=BAR_NEW.every(x=>s.split(x).length===2); check('2. '+f+'：熱可可分兩版那兩列各剛好一處（AA_836 文末）',ok); if(!ok) return s;
   const a=s.indexOf(BAR_NEW[0]), b=s.indexOf(BAR_NEW[1]); const mid=s.slice(a+BAR_NEW[0].length,b); check('2. '+f+'：那兩列中間只有註解和空白',noCom(mid).trim()===''&&b>a,mid.slice(0,80)); return s.slice(0,a)+BAR_OLD+s.slice(b+BAR_NEW[1].length); };
+const canonCut=(f,s)=>{ if(f!=='src/data/r2y4b_events.js'||!s) return s; const a=s.indexOf('  /* ---------- 2-Y4-40 '), b=s.indexOf('  /* ---------- 2-Y4-43 '); return a>=0&&b>a?s.slice(0,a)+s.slice(b):s; };   /* 讀書會的最後一晚那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）：BASE 那一段不比 */
 const fileCheck=(tag,f,rows0,total)=>{ const cur=barBack(f,read(f)), L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
   const bad=rows.filter(r=>n(r.new)!==r.count||n(r.old)!==0);
   check(tag+' '+f+'：'+rows.length+' 列的 new 各剛好 count 處（共 '+total+' 處）、old 不在了',rows.reduce((a,r)=>a+r.count,0)===total&&bad.length===0,J(bad.map(r=>[r.old,n(r.old),r.new,n(r.new)]).slice(0,4)));
-  const ob=show(BASE,f); if(!ob){ console.log('（讀不到 '+BASE+' 的 '+f+'：不比重寫以前）'); return; }
+  const ob=canonCut(f,show(BASE,f)); if(!ob){ console.log('（讀不到 '+BASE+' 的 '+f+'：不比重寫以前）'); return; }
   const O=lit(LR.fixFile(f,ob)), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(rows.map(r=>r.old+'→'+r.new));   /* fixFile：見上 */
   check(tag+' '+f+'：字串和 BASE 逐個比一樣多（'+O.length+' 個），不一樣的剛好 '+total+' 處、都是稿上的列（選項的字、別人的句子、條件、旗標沒動）',O.length===L.length&&d.length===total&&d.every(([x,y])=>set.has(x+'→'+y)),J([O.length,L.length,d.length,d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,3)]));
   const skel=s=>noCom(s).replace(/'((?:[^'\\]|\\.)*)'/g,"''").replace(/\s+/g,'');

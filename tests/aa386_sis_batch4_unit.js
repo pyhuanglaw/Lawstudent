@@ -278,7 +278,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   const st=(t,id)=>(((LADDER.byTerm||{})[t]||{})[ID]||{steps:[]}).steps.find(s=>s.id===id);
   const s58=st('Y3S1','S5-L8'), s61=st('Y3S2','S6-L1');
   { const W=JSON.parse(require('fs').readFileSync(require('path').join(__dirname,'..','docs/handoff/story_import_allow.json'),'utf8')).files.find(f=>f.path==='docs/story_planning/ladder/ladder_bb_y3s1.json');
-    check('5. ladder.js 從白名單匯入：ladder_bb_y3s1 是 5ef4e291，或 2026-11-02 AA 照 AA_584 改源稿的 03af79d17（5ef4e291 在 history；重匯後 ladder.js 不變）',/5ef4e291/.test(LADDER.source||'')||(/03af79d17/.test(LADDER.source||'')&&!!W&&W.sha==='03af79d17'&&(W.history||[]).some(h=>h.sha==='5ef4e291')),LADDER.source); }
+    check('5. ladder.js 從白名單匯入：ladder_bb_y3s1 是 5ef4e291，或 2026-11-02 AA 照 AA_584 改源稿的 03af79d17（5ef4e291 在 history；重匯後 ladder.js 不變）',/5ef4e291/.test(LADDER.source||'')||(/03af79d17/.test(LADDER.source||'')&&!!W&&W.sha==='03af79d17'&&(W.history||[]).some(h=>h.sha==='5ef4e291'))||(/644d27d59e/.test(LADDER.source||'')&&!!W&&W.sha==='644d27d59e'&&(W.history||[]).some(h=>h.sha==='03af79d17')&&(W.history||[]).some(h=>h.sha==='5ef4e291'))/* CANON-NO-ECON-1112 第三批：可昕 AA_865 */,LADDER.source); }
   { setup('2027-12-13',20,'cafe','FRIEND'); const a=STORY.ladLines(s58,H.G,ID); dateSis(); const b=STORY.ladLines(s58,H.G,ID);
     check('5. 大三上 S5-L8：交往中的多一句（extraIf）「哪一天，到時候傳訊息給你。」；其他人照舊（AA_584 第 58、59 列改字）',!!s58&&J(a)===J(['寒假我想把論文寫到第三章。然後放一天假。','那一天我已經空下來了。'])&&J(b)===J(a.concat(['哪一天，到時候傳訊息給你。'])),J({a,b})); }
   { const d=CALENDAR.termDays('Y3S2').from+1, key=CALENDAR.dateOf(d).key; setup(key,10,'library','FRIEND'); const a=STORY.ladNext(H.G,ID); setup(key,10,'library','FRIEND',{SIS_VDAY_Y3:'went'}); const b=STORY.ladNext(H.G,ID);

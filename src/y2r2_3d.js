@@ -4,9 +4,9 @@
    掛勾（story3d.js 10-20 的事件包掛勾）：STORY.PHONE_RULES（訊息、邀約、排出遊）、STORY.TICKS（AA_342 第 2-2 節大二下的兩個摘要日旁白，AA_375 第 4 節）、STORY.WAKE_AT（6/2 21:00 可昕打來）、
      STORY.TALK_OPTS（語彤、以安的一次性選項）、STORY.ROOM_EXTRA（她的聖誕卡片、高雄夜市的照片）、OUT.AFTER（期末成績打賭的宵夜那句：那一趟出遊的結尾，AA_338 第 3 題）、
      MSG.askOpts（包一層：大二 4/24 MSG-2 生日的「妳來公館」回「好 九點」，AA_338 第 2 節；不改 msg3d.js）。
-   出遊（OUT.plan）：可昕的見面、視訊、電話（call:true＝在家也不用出門）、高雄（高鐵 2980 元照扣）、系籃、三對三、經濟系之夜。
+   出遊（OUT.plan）：可昕的見面、視訊、電話（call:true＝在家也不用出門）、高雄（高鐵 2980 元照扣）、系籃、三對三。
    依賴第 1 輪（別的子代理在做）：2-Y2-16 讀 1B-07 的 KX_CIRCLES_MET 和「麵店分店」群組（noodle_branch）；2-Y2-22 讀 1B-03 語彤身上的記憶 RENT_CONSULTATION；
-     2-Y2-15 讀 1B-07 的 ev_kexin_two_circles（見過予樂）。那兩件還沒進遊戲以前，這兩件不會發生。
+     2-Y2-15 原本讀 1B-07 那一場（CANON-NO-ECON-1112 第三批拿掉；2-Y2-16 因此要等新的觸發）。
    測試：node tests/y2_round2_unit.js */
 'use strict';
 const Y2R2=(function(){
@@ -86,26 +86,8 @@ const Y2R2=(function(){
       {if:{custom:()=>!video},cg:'cg_quiz_kexin'},   /* BCG-30 兩校互考，正式開打（企劃線 cg_approved/ README：山下小吃互考的玩家、她舉起第一張題目卡；視訊的不放）*/
       {speaker:null,text:'（換她出題。三題都是物權：誰的房子、誰的地、誰先登記。）'},
       video?{speaker:'kexin',expression:'smile',text:'……好，吃飯。你那邊吃什麼？'}:{speaker:'kexin',expression:'smile',text:'……好，吃飯。湯餃我已經點了。'} ] });
-  EV.push(quizEv('ev_kexin_quiz_y2',false), quizEv('ev_kexin_quiz_y2_video',true));
-  /* ---------- 2-Y2-06 可昕 K10b「系上的電影夜」：12/11（五）19:00 政大的小教室 ---------- */
-  const YL=v=>({custom:G=>G.flags.YL_IMPRESSION===v});
-  const NCCU_MET=G=>mem('kexin','ENC_D13_KX')||mem('kexin','ENC_D09_KX');   /* 見過邵鈞（淡水 D13、貓空 D09 的偶遇）*/
-  EV.push({ id:'ev_kexin_film_night', title:'系上的電影夜', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
-    outingMissed:(G,GM,q)=>{ G.flags.KX_FILM_NIGHT='missed'; },
-    dialogue:[ {scene:'木柵大學・系上的小教室',bg:'classroom_small'},
-      {speaker:null,text:'（教室的燈關了一半，投影幕在跑片頭。二十幾個人，有一半是外系的。）'},
-      {if:YL('funny'),speaker:'予樂',text:'這是很好笑的司機。'},{if:YL('honest'),speaker:'予樂',text:'這是很老實的司機。'},{if:YL('polite'),speaker:'予樂',text:'這是很客氣的司機。'},
-      {unless:{custom:G=>['funny','honest','polite'].includes(G.flags.YL_IMPRESSION)},speaker:'kexin',expression:'smile',text:'這是我的外系。'},
-      {if:{custom:NCCU_MET},speaker:'kexin',expression:'neutral',text:'邵鈞你見過了。這是詹靖，什麼都拍。'},
-      {unless:{custom:NCCU_MET},speaker:'kexin',expression:'neutral',text:'這是邵鈞，考古題有目錄的那個。這是詹靖，什麼都拍。'},
-      {speaker:'予樂',text:'破冰。每個人講一樣，你包包裡最沒用的東西。'},
-      {choice:[{text:'「一把傘。今天沒下雨。」',goto:'u'},{text:'「去年的考古題。」',goto:'k'},{text:'「可昕上次借我的筆。」',goto:'p'}]},
-      {label:'u'},{speaker:'予樂',text:'誠實。司機加一分。'},{goto:'end'},
-      {label:'k'},{speaker:'邵鈞',text:'……這個我有興趣。'},{goto:'end'},
-      {label:'p'},{speaker:'kexin',expression:'teasing',text:'那不是沒用的。還我。'},{speaker:'予樂',text:'司機扣一分。'},
-      {label:'end'},{speaker:null,text:'（電影放到一半，詹靖在後排拍了一張大家的後腦勺。）'},{speaker:null,text:'（散場的時候，予樂站在門口數人頭。）'},
-      {speaker:'予樂',text:'外系的，一個都沒少。'},{speaker:'kexin',expression:'smile',text:'……回去開車小心。到了跟我說。'} ],
-    after:G=>{ G.flags.KX_FILM_NIGHT='went'; G.flags.KX_NCCU_FRIENDS=true; } });
+  EV.push(quizEv('ev_kexin_quiz_y2',false));   /* 視訊版：CANON-NO-ECON-1112 第三批拿掉 */
+  /* ---------- 2-Y2-06 可昕 K10b「系上的電影夜」（外校）：CANON-NO-ECON-1112 第三批拿掉 ---------- */
   /* ---------- 2-Y2-07 可昕「聖誕：她排的行程」：12/25（五）18:30 公館 → 公館河濱 ---------- */
   EV.push({ id:'ev_kexin_xmas_y2', title:'聖誕：她排的行程', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
     outingMissed:(G)=>{ merge(G,'KX_XMAS',{2:'missed'}); },
@@ -259,6 +241,7 @@ const Y2R2=(function(){
       {label:'b'},{speaker:'kexin',expression:'neutral',text:'……好。我掛了。'},
       {label:'end'} ],
     after:G=>{ G.flags.KX_SUMMER='message'; } });
+  /* ---------- 2-Y2-23 舊序章那個系的系之夜：CANON-NO-ECON-1112 第三批拿掉 ---------- */
   /* ---------- 2-Y2-20 系籃（大二下）：5/29（六）14:00 新體育館 ---------- */
   EV.push({ id:'ev_zhe_game_y2s2', title:'系籃比賽（大二下）', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'新體育館',bg:'gym_court'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
@@ -506,21 +489,15 @@ const Y2R2=(function(){
         if(!met&&win(G,m,21,2)&&sent(G,'y2r2_k9_ask')&&!sent(G,'y2r2_k9_msg')){ const L=[]; if(q&&q.state==='missed') L.push(K('我等了二十分鐘。'));
           L.push(K('我找到一門上課不想滑手機的課。'),K('老師講規則怎麼改變人的行為。罰款高一點，大家就真的慢下來嗎？'),KASK('📷（她的筆記，畫了一條路和一張罰單）',{id:'y2r2_k9_msg',opts:[{t:'會嗎？',say:[{from:'kexin',text:'有些人會。有些人換一條路。'}]},{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}]}));
           at(G,m,21,L,'y2r2_k9_msg'); if(!F.KX_K9||F.KX_K9==='yes') F.KX_K9=F.KX_K9==='yes'?'missed':'none'; merge(G,'KX_DIR',{Y2:'rules'}); } } }
-    /* --- 2-Y2-04 中秋：她的那一段 --- */
-    { const a=d('ma0'), m=d('ma'); if(kx(G)&&a!=null&&m!=null){ const met=!!F.KX_MET_NOODLE_TEAM, q=outGet(G,'y2_midautumn'), went=done(G,'ev_y2_midautumn');
-        if(met&&win(G,a,21.5,1)&&!sent(G,'y2r2_ma_pre')) at(G,a,21.5,[K('今年予樂是活動長，我先去幫她顧火。'),K('烤完我帶玉米過去。')],'y2r2_ma_pre');
-        const missedIt=!went&&(q?q.state==='missed':past(G,m,18.25));
-        if(win(G,m,21,2)&&(!met||missedIt)&&!(met&&went)&&!sent(G,'y2r2_ma_photo')){ const L=[]; if(met&&missedIt&&sent(G,'y2r2_ma_pre')) L.push(K('你不在，我就沒過去了。'));
-          L.push(K('📷（木柵大學的烤肉，炭火旁邊一排玉米）'),K('予樂今年是活動長。我被派去顧火。'),K('……玉米還是我們的好。')); at(G,m,21,L,'y2r2_ma_photo'); } } }
+    /* --- 2-Y2-04 中秋：她的那一段（外校的烤肉那兩則：CANON-NO-ECON-1112 第三批拿掉）--- */
     /* --- 2-Y2-05 K10 互相出題 --- */
     { const a=d('q0'), r=d('qr'), m=d('q'), f=d('qf'); if(kx(G)&&a!=null){
         if(win(G,a,21,3)&&!sent(G,'y2r2_q_ask')) at(G,a,21,[K('這學期起，期中、期末前都互相出題。'),K(K6(G)?'規則照舊，只能出老師上課講過的。':'只能出老師上課講過的。冷門學說算犯規。'),
-          KASK('第一次：期中前那個週五，晚上六點半，山下那一攤。不能來就視訊，題目照出。',{id:'y2r2_q_ask',until:abs(m,17.5),opts:[{t:'好。',set:{KX_QUIZ_MODE_Y2:'meet'},say:[{from:'kexin',text:'好。題目不要先給我看。'}]},{t:'視訊可以嗎？',set:{KX_QUIZ_MODE_Y2:'video'},say:[{from:'kexin',text:'可以。你自己準備晚餐。'}]}]})],'y2r2_q_ask');
+          KASK('第一次：期中前那個週五，晚上六點半，山下那一攤。不能來就視訊，題目照出。',{id:'y2r2_q_ask',until:abs(m,17.5),opts:[{t:'好。',set:{KX_QUIZ_MODE_Y2:'meet'},say:[{from:'kexin',text:'好。題目不要先給我看。'}]}]})],'y2r2_q_ask');   /* 選視訊那一條：CANON-NO-ECON-1112 第三批拿掉 */
         /* 不回的提醒：10/21（三）21:00（AA_343 E4；原本 10/23 21:00「週日中午。」）*/
         if(!F.KX_QUIZ_MODE_Y2&&win(G,r,21,1)&&sent(G,'y2r2_q_ask')&&!sent(G,'y2r2_q_remind')) at(G,r,21,[K('週五晚上。你還沒回。')],'y2r2_q_remind');
         if(F.KX_QUIZ_MODE_Y2==='meet'&&!outGet(G,'y2r2_q')&&now(G)<abs(m,18.75)) plan(G,{id:'y2r2_q',ev:'ev_kexin_quiz_y2',day:m,h:18.5,late:0.25,place:'木柵大學・山下的小吃街',title:'互相出題（木柵大學山下）',travel:'開車約 40 分鐘',travelH:2/3});
-        if(F.KX_QUIZ_MODE_Y2==='video'&&!outGet(G,'y2r2_q')&&now(G)<abs(m,18.75)) plan(G,{id:'y2r2_q',ev:'ev_kexin_quiz_y2_video',day:m,h:18.5,late:0.25,place:'視訊',title:'可昕的視訊：互相出題',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'});
-        const q=outGet(G,'y2r2_q'), quizDone=done(G,'ev_kexin_quiz_y2')||done(G,'ev_kexin_quiz_y2_video');
+        const q=outGet(G,'y2r2_q'), quizDone=done(G,'ev_kexin_quiz_y2');
         /* 沒去：10/23 19:30（AA_325 2-Y2-05 已照 AA_343 E4 改）*/
         if(!quizDone&&win(G,m,19.5,2)&&sent(G,'y2r2_q_ask')&&(!q||q.state==='missed')&&!sent(G,'y2r2_q_missed')){ F.KX_QUIZ_Y2S1='missed'; at(G,m,19.5,[K('📷（一張題目紙，三題）'),K('這三題留到期末。')],'y2r2_q_missed'); }
         if(f!=null&&win(G,f,21,2)&&!sent(G,'y2r2_q_final')) at(G,f,21,[K('期末的題目。'),K('📷（她手寫的三題）'),KASK('寫完拍照傳我。我的也傳給你了。',{id:'y2r2_q_final',opts:[{t:'好。我寫完傳妳。',say:[{from:'kexin',text:'嗯。不用急。'}]}]})],'y2r2_q_final'); } }
@@ -531,12 +508,7 @@ const Y2R2=(function(){
     { const m=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y2S1',7,6):null;
       if(m!=null&&inGroup(G,'public_law')&&knows('yu',G)&&!done(G,'ev_plg_rules_after')&&win(G,m,14.5,1)&&!sent(G,'y2r2_plg_photo')){ const Y=(f,t)=>({th:'g:public_law',from:f,text:t});
         at(G,m,14.5,[Object.assign(Y('yu','📷'),{cg:'cg_study_group_rules_photo'}),Y('yu','規則剩三條 另外一半是我撕的'),Y('heroine_01','Alison，刪掉。'),Y('yu','不要 這是歷史')],'y2r2_plg_photo'); } }
-    /* --- 2-Y2-06 K10b 電影夜 --- */
-    { const a=d('f0'), r=d('fr'), m=d('f'); if(kx(G)&&a!=null){
-        if(win(G,a,21,3)&&!sent(G,'y2r2_f_ask')) at(G,a,21,[K('下週五系上電影夜。予樂說每個人要帶一個外系的朋友。'),KASK('你是我的外系。',{id:'y2r2_f_ask',until:abs(m,18.25),opts:[{t:'好。幾點？',set:{KX_FILM:'yes'},say:[{from:'kexin',text:'七點。不要遲到，予樂會點名。'}]},{t:'那天不行。',set:{KX_FILM:'no'},say:[{from:'kexin',text:'……好。我跟予樂說你在忙。'}]}]})],'y2r2_f_ask');
-        if(!F.KX_FILM&&win(G,r,21,1)&&sent(G,'y2r2_f_ask')&&!sent(G,'y2r2_f_remind')) at(G,r,21,[K('週五。你還沒回。')],'y2r2_f_remind');
-        if(F.KX_FILM==='yes'&&!outGet(G,'y2r2_film')&&now(G)<abs(m,19.25)) plan(G,{id:'y2r2_film',ev:'ev_kexin_film_night',day:m,h:19,late:0.25,place:'木柵大學',title:'系上的電影夜（木柵大學）',travel:'開車約 40 分鐘',travelH:2/3});
-        if(!done(G,'ev_kexin_film_night')&&win(G,m,21.5,2)&&sent(G,'y2r2_f_ask')&&!sent(G,'y2r2_f_photo')){ if(F.KX_FILM_NIGHT!=='went') F.KX_FILM_NIGHT='missed'; at(G,m,21.5,[K('📷（電影夜的教室，一排椅子，她旁邊那張空著）'),K('下次。')],'y2r2_f_photo'); } } }
+    /* --- 2-Y2-06 K10b 電影夜：CANON-NO-ECON-1112 第三批拿掉 --- */
     /* --- 2-Y2-07 聖誕 --- */
     { const a=d('x0'), r=d('xr'), g=d('xg'), m=d('x'); if(kx(G)&&a!=null){
         if(win(G,a,21,3)&&!sent(G,'y2r2_x_ask')) at(G,a,21,[K('聖誕晚上，我排了行程。第一頁是吃的，第二頁才是地點。'),KASK('六點半，公館。我下山。',{id:'y2r2_x_ask',until:abs(m,18),opts:[{t:'好。',set:{KX_XMAS_Y2:'yes'},say:[{from:'kexin',text:'嗯。禮物先準備好，不要當天才買。'}]},{t:'那天不行。',set:{KX_XMAS_Y2:'no'},say:[{from:'kexin',text:'……好。行程表我先留著。'}]}]})],'y2r2_x_ask');
@@ -603,6 +575,7 @@ const Y2R2=(function(){
         if(F.KX_K14==='yes'&&!outGet(G,'y2r2_k14')&&now(G)<abs(m,17.75)) plan(G,{id:'y2r2_k14',ev:'ev_kexin_summer_plan',day:m,h:17.5,late:0.25,place:'木柵大學',title:'木柵大學（可昕：暑假的事）',travel:'開車約 40 分鐘',travelH:2/3});
         if(sent(G,'y2r2_k14_ask')&&!done(G,'ev_kexin_summer_plan')&&!outGet(G,'y2r2_k14_call')&&past(G,m,21)&&G.day<=m+1){ const q=outGet(G,'y2r2_k14'); if(!q||q.state==='missed'){ if(q&&q.state==='missed') F.Y2R2_K14_NOSHOW=true;
           plan(G,{id:'y2r2_k14_call',ev:'ev_kexin_summer_plan_call',day:m,h:21,late:3,place:'電話',title:'可昕打來',verb:'接起來',must:true,call:true,travel:'',travelH:0,back:'電話結束。'}); } } } }
+    /* --- 2-Y2-23 舊序章那個系的系之夜：CANON-NO-ECON-1112 第三批拿掉 --- */
     /* --- 2-Y2-24 以安新 13：6/4 21:00 群組 --- */
     { const m=d('en'); if(m!=null&&law(G)&&knows('heroine_01',G)&&win(G,m,21,2)&&!sent(G,'y2r2_an13')){ const g=inGroup(G,'public_law')?'public_law':(inGroup(G,'noodle_team')?'noodle_team':null);
         if(g){ const A=t=>({th:'g:'+g,from:'heroine_01',text:t}), L=[];
@@ -645,7 +618,7 @@ const Y2R2=(function(){
     const t=over?'謝謝。':(pk==='message'?(G.hour<22?'謝謝。……晚上等你電話。':'謝謝。'):(G.hour<19?'謝謝。……晚上見。':'謝謝。'));
     return Object.assign({},e,{msgs:[t],ask:null,addIf:null}); };
   S.bdayRules=function(G,GM){ const F=G.flags, a=d('b0'), m=d('b'); if(!kx(G)||a==null||m==null) return; const YLM=t=>({th:'p:yule',from:'yule',name:'予樂',text:t});
-    const metYL=!!F.YL_IMPRESSION||done(G,'ev_kexin_two_circles');
+    const metYL=!!F.YL_IMPRESSION;   /* 1B-07 那一場 CANON-NO-ECON-1112 第三批拿掉 */
     if(win(G,a,21,3)&&!sent(G,'y2r2_bd_ask')) at(G,a,21,[Object.assign(YLM(metYL?'司機，可昕生日。我有一個計畫，缺一個司機。':'你就是那個開車的？我是予樂。可昕生日，我們合作。'),{ask:{id:'y2r2_bd_ask',until:abs(m,18),opts:[
       {t:'我載蛋糕。',set:{KX_BD2_PICK:'class'},say:[{from:'yule',name:'予樂',text:'好。蛋糕歸你，教室歸我。'}]},
       {t:'我有一個想法：山下那家。',set:{KX_BD2_PICK:'shop'},say:[{from:'yule',name:'予樂',text:'……你比我想的懂她。好，改在山下。'}]},

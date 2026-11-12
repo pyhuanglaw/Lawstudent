@@ -28,13 +28,13 @@ const REV2='4bfb18805', REV2_FILES=new Set(['an_ladder_Y1S1','an_ladder_Y1S2','z
    Y0S1 稿的最後一列（K0-L8「……那就是你。不意外。」）對錯人——那一句是品妤 PY0-L7 的回話，不是可昕的：工具不換（tools/ladder/import_ladder.py AA781_ROW_SKIP）、紀錄記 skip，已回報 AA；ROW_SKIP 照工具那張表。
    2026-11-12 再改（AA-C 06:57「回 LAWWW」，企劃線 74e0421b8）：AA 把那一列從 Y0S1 的稿拿掉了（rows 8 → 7）→ 白名單 Y0S1 改讀 REV4、工具的 AA781_ROW_SKIP 清空、這裡的 ROW_SKIP 也清空；
    那一句不是可昕的、品妤那一句原樣還在＝GONE 那一項驗（第 3 節）。舊期望：Y0S1@07d50af2f7、ROW_SKIP 一列、紀錄有一筆 skip。 */
-const REV3='07d50af2f7', REV3_FILES=new Set(['kx_ladder_Y1S1','kx_ladder_Y1S2','kx_ladder_Y3S1','kx_ladder_Y4S1'].map(x=>`docs/story_planning/AA_781_${x}.json`)), NEW3=['kx_ladder_Y0S1','kx_ladder_Y0S2'].map(x=>`docs/story_planning/AA_781_${x}.json`);
+const REV3='07d50af2f7', REV3_FILES=new Set(['kx_ladder_Y1S1','kx_ladder_Y1S2','kx_ladder_Y3S1','kx_ladder_Y4S1'].map(x=>`docs/story_planning/AA_781_${x}.json`)), NEW3=[];   /* 可昕 Y0S1、Y0S2（舊序章那一年）：CANON-NO-ECON-1112 第三批：這一項拿掉 */
 const REV4='74e0421b8', REV4_FILES=new Set(['docs/story_planning/AA_781_kx_ladder_Y0S1.json']);
 const ROW_SKIP=[];   /* 舊：[{file:'AA_781_kx_ladder_Y0S1',term:'Y0S1',who:'kexin',at:'K0-L8',old:'……那就是你。不意外。',owner:'econ_pinyu',ownerAt:'PY0-L7'}] */
-const GONE=[{file:'AA_781_kx_ladder_Y0S1',term:'Y0S1',who:'kexin',at:'K0-L8',old:'……那就是你。不意外。',neu:'那就是你。不意外。',owner:'econ_pinyu',ownerAt:'PY0-L7'}];   /* AA 從稿拿掉的那一列 */
+const GONE=[];   /* 舊序章那一年的可昕階梯整個拿掉（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 const skipped=(F,term,r)=>ROW_SKIP.some(x=>F.tag.startsWith(x.file+'@')&&x.term===term&&x.at===r.at&&x.old===r.old);
-const BATCH=[['Y1S1','bc4f3f367',['an','yt','kx','zr','sis','zq']],['Y1S2','15241f32e',['zq','zr','kx','sis','an']],['Y2S1','4c710f37a',['zq','kx','zr','yt','sis']],['Y2S2','d898cded5',['kx','zr','zq','sis','yt','an']],['Y3S1','1e48c1f20',['zq','kx','sis','an']],['Y3S2','8e027fc7f',['kx','zq','yt','zr','sis']],
-  ['Y4S1','a5e537856',['kx','sis','yt','an']],['Y4S2','a5e537856',['kx','sis','yt','an']]];   /* 學期、最早交的 commit、人 */
+const BATCH=[['Y1S1','bc4f3f367',['an','yt','zr','sis','zq']],['Y1S2','15241f32e',['zq','zr','sis','an']],['Y2S1','4c710f37a',['zq','zr','yt','sis']],['Y2S2','d898cded5',['zr','zq','sis','yt','an']],['Y3S1','1e48c1f20',['zq','sis','an']],['Y3S2','8e027fc7f',['zq','yt','zr','sis']],
+  ['Y4S1','a5e537856',['sis','yt','an']],['Y4S2','a5e537856',['sis','yt','an']]];   /* 可昕八個學期（kx）：AA_781_kx 覆蓋拿掉、整組換 AA_861～868（CANON-NO-ECON-1112 第三批：這一項拿掉）*/   /* 學期、最早交的 commit、人 */
 /* 遊戲裡其他用字認招呼的程式（sis_b16_3d.js 的 LADDER_GREET_IF 等）也載進來：index.html 上 pg_harness 沒載的 src 都載（同 tests/aa523_sis_b16_unit.js）*/
 { const vm=require('vm'), PG=new Set([...fs.readFileSync(path.join(H.ROOT,'tests/pg_harness.js'),'utf8').matchAll(/'(src\/[^']+\.js)'/g)].map(m=>m[1])), SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js','src/adv3d.js']);
   for(const m of fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8').matchAll(/<script src="([^"?]+)/g)){ const f=m[1]; if(!f.startsWith('src/')||PG.has(f)||SKIP.has(f)) continue; try{ vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='),{filename:f}); }catch(e){} } }
@@ -66,7 +66,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
       check(`1. ${path.basename(p)}：${REV2} 和 ${FINAL} ${REV2_FILES.has(p)?'不一樣（AA 再改的五個檔之一）':'內容一樣'}`,!b1||!b2||(b1===b2)===!REV2_FILES.has(p));
       check(`1. 白名單一筆 ${path.basename(p)}@${want}、approved、有 approvedBy、task DLG-FULL-REVIEW-1110${want!==FINAL?'；'+FINAL+' 在 history':''}`,e.length===1&&e[0].sha===want&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].task==='DLG-FULL-REVIEW-1110'&&(want===FINAL||(e[0].history||[]).some(h=>h.sha===FINAL)),J(e.map(x=>[x.sha,x.status]))); }
     for(const p of NEW3){ const e=allow.filter(x=>x.path===p), want=REV4_FILES.has(p)?REV4:REV3; check(`1. 白名單一筆 ${path.basename(p)}@${want}（可昕經濟系那一年，11-12 新交${want===REV4?'；同一天 AA 拿掉 K0-L8 一列，'+REV3+' 在 history':''}）、approved、有 approvedBy、task DLG-FULL-REVIEW-1110`,e.length===1&&e[0].sha===want&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].task==='DLG-FULL-REVIEW-1110'&&(want===REV3||(e[0].history||[]).some(h=>h.sha===REV3)),J(e.map(x=>[x.sha,x.status]))); }
-    check('1. 白名單上的 AA_781 階梯檔一共 41 個（七個人八學期 39 個，AA_779 第 4 節；＋可昕經濟系 Y0S1、Y0S2 兩個）',F781.length===41,F781.length);   /* 2026-11-12（AA_781_kx_ladder_Y0S1／Y0S2@07d50af2f7）：舊期望 39 */
+    check('1. 白名單上的 AA_781 階梯檔一共 31 個（七個人八學期 39 個，可昕 8 個和舊序章那一年 2 個：CANON-NO-ECON-1112 第三批：這一項拿掉）',F781.length===31&&!F781.some(F=>/AA_781_kx_/.test(F.path)),F781.length);   /* 2026-11-12（AA_781_kx_ladder_Y0S1／Y0S2@07d50af2f7）：舊期望 39 */
     check('1. ladder.js 的來源有寫 AA_781 通用層（'+F781.length+' 檔）',String(L.source).includes('＋AA_781 通用層 '+F781.length+' 檔'),String(L.source).slice(-120));
     check('1. 重匯跑得完（結束碼 0），和 src/data/ladder.js 一字不差',rA.status===0&&fs.readFileSync(outA,'utf8')===fs.readFileSync(path.join(H.ROOT,'src/data/ladder.js'),'utf8'),(rA.stderr||rA.stdout||'').slice(-300));
     check('1. 不疊 AA_781（--no-aa781）也跑得完（零差異的比較基準）',rB.status===0&&!!B,(rB.stderr||'').slice(-300));
@@ -128,7 +128,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
     const keyed=new Set(KEYED);
     for(const f of ['story3d.js','privtalk3d.js','y3fill3d.js']){ const s=fs.readFileSync(path.join(H.ROOT,'src',f),'utf8');
       for(const m of s.matchAll(/'([A-Za-z0-9]+-L\w+)'\]?\s*[:=]\s*\{\s*'/g)) keyed.add(m[1]); for(const m of s.matchAll(/step:'([A-Za-z0-9]+-L\w+)',\s*choice:'/g)) keyed.add(m[1]); }
-    for(const k of ['Y4-L6','A-L11','K3-L7','A7-L5','Y6-L3']) check('5. 程式認選項字的層有掃到：'+k,keyed.has(k));
+    for(const k of ['Y4-L6','A-L11','A7-L5','Y6-L3'])   /* K3-L7：CANON-NO-ECON-1112 第三批：這一項拿掉 */ check('5. 程式認選項字的層有掃到：'+k,keyed.has(k));
     let n=0;
     for(const term of terms(L)) for(const who of Object.keys((term==='Y1S1'?L.characters:L.byTerm[term])||{})) for(const st of cell(L,term,who).steps||[]){ if(!keyed.has(st.id)) continue; const s0=layerOf(cell(B,term,who),st.id); n++;
       check(`5. ${term} ${who} ${st.id}：選項的 t 和沒疊以前一樣`,s0&&J((st.choices||[]).map(c=>c.t))===J((s0.choices||[]).map(c=>c.t))&&J((st.linesIf||[]).map(x=>(x.choices||[]).map(c=>c.t)))===J((s0.linesIf||[]).map(x=>(x.choices||[]).map(c=>c.t))),J((st.choices||[]).map(c=>c.t))); }
@@ -168,8 +168,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
     let said=await play('Y1S1','Y-L7','heroine_03',null,'「吃了。」',()=>H.FAMILIAR('heroine_03'));
     check('8. 語彤 Y-L7 補的兩個選項會出來',J(H.opts[0])===J(['「吃了。」','「還沒，一起去？」']),J(H.opts));
     check('8. 選「吃了。」：她說「那就好。」、「（她好像只是想問一個人。）」當旁白演',said.some(s=>s.who&&s.t==='那就好。')&&said.some(s=>s.who===null&&s.t==='（她好像只是想問一個人。）'),J(said.slice(-3)));
-    said=await play('Y1S1','K-L6','kexin',null,'（把筆放下）',G=>{ G.flags.dating_kexin=true; });
-    check('8. 可昕 K-L6 選「（把筆放下）」：「（她的額頭動了一下，好像在笑）」當旁白、「好，念書。」她說',said.some(s=>s.who===null&&s.t==='（她的額頭動了一下，好像在笑）')&&said.some(s=>s.who&&s.t==='好，念書。'),J(said.slice(-3)));
+    /* 可昕 K-L6 選「（把筆放下）」那一項：AA_861 新稿（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
     said=await play('Y2S2','Y4-L7','heroine_03',null,'「什麼事？」',()=>H.FRIEND('heroine_03'));
     check('8. 語彤大二下 Y4-L7：一句 lines、選「什麼事？」回兩句（助教那條線）',said.some(s=>s.t==='下學期系上可能會找我做一點事。還沒確定。')&&said.some(s=>s.t==='訪談課的助教。老師問我要不要。'),J(said)); });
 
