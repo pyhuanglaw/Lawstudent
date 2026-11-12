@@ -8350,16 +8350,20 @@
   },
   {
    "path": "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md",
-   "sha": "b84e779563",
+   "sha": "d8afcca6ed",
    "status": "approved",
-   "approvedBy": "AA（SHOP-JOBS-1112）；b84e779563（AA-C 2026-11-12 06:57 第 4 節「回 LAWWW-C 七問（AA 定）」＋07:22 第 7 點宋知寧那句照 BB_381 ② 改（有／沒有 SHOP_ZN_MET 兩種、只到大二下）；第 1～3 節和上一版一字不差；LAWWW 2026-11-12 指示匯入）",
+   "approvedBy": "AA（SHOP-JOBS-1112）；d8afcca6ed（AA-C 2026-11-12 07:40 第 5 節「回 LAWWW-C 第二輪（AA 定）」七點＋07:41 第 6 點照人各記一次、阿哲可昕各一句（BB_381 第五節）；第 1～4 節和上一版一字不差；LAWWW 2026-11-12 指示匯入）",
    "task": "SHOP-JOBS-1112",
    "kind": "md",
-   "note": "X356 新店打工第一批（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n；稿上寫「BB-C 11-12 06:04 第二意見四點全採納。定稿。」）：山嵐書店、南洋戲院的告示、應徵、班表、薪水 784、三段工作（新手／熟練／小選擇）、最後一句旁白、員工票、Alison 改說的那一句——tools/story/import_shop_jobs_aa828.py → src/data/shop_jobs_aa828.js（流程 src/jobs3d.js）；LAWWW 的匯入子代理 2026-11-12 代登，待值班 LAWWW 核；2026-11-12 改到 b84e779563（第 4 節七問：多匯兩處字——拿員工票多一句（售票員）、山嵐上班遇到宋知寧（兩種）；其他是規則，流程 src/jobs3d.js、src/bgnight3d.js、src/nanyang_sys3d.js）",
+   "note": "X356 新店打工第一批（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n；稿上寫「BB-C 11-12 06:04 第二意見四點全採納。定稿。」）：山嵐書店、南洋戲院的告示、應徵、班表、薪水 784、三段工作（新手／熟練／小選擇）、最後一句旁白、員工票、Alison 改說的那一句——tools/story/import_shop_jobs_aa828.py → src/data/shop_jobs_aa828.js（流程 src/jobs3d.js）；LAWWW 的匯入子代理 2026-11-12 代登，待值班 LAWWW 核；2026-11-12 改到 b84e779563（第 4 節七問：多匯兩處字——拿員工票多一句（售票員）、山嵐上班遇到宋知寧（兩種）；其他是規則，流程 src/jobs3d.js、src/bgnight3d.js、src/nanyang_sys3d.js）；2026-11-12 改到 d8afcca6ed（第 5 節第二輪七點：多匯——宋知寧的班（週日 14:00～18:00）、有 SHOP_ZN_MET 但還沒傳第 5 則的那一版、桌遊夜有班祐廷自動回的那一句、再應徵全部比照＋熟練度保留、越好吃上班時同學來吃飯的通用組和阿哲、可昕各一句；流程 src/jobs3d.js、src/bgnight3d.js）",
    "history": [
     {
      "sha": "be3b9c9e4",
      "note": "被 b84e779563 取代（第 4 節七問：多匯兩處字——拿員工票多一句（售票員）、山嵐上班遇到宋知寧（兩種）；其他是規則，流程 src/jobs3d.js、src/bgnight3d.js、src/nanyang_sys3d.js）"
+    },
+    {
+     "sha": "b84e779563",
+     "note": "被 d8afcca6ed 取代（第 5 節第二輪七點：多匯——宋知寧的班（週日 14:00～18:00）、有 SHOP_ZN_MET 但還沒傳第 5 則的那一版、桌遊夜有班祐廷自動回的那一句、再應徵全部比照＋熟練度保留、越好吃上班時同學來吃飯的通用組和阿哲、可昕各一句；流程 src/jobs3d.js、src/bgnight3d.js）"
     }
    ]
   },

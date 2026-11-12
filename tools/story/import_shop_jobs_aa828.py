@@ -7,6 +7,11 @@
   jobs.cinema 另外有 ticket（after＝滿幾班、opt＝選項的字、line＝看完多的一句、take＝拿員工票那一下多的一句 [說話的人, 字]——第 4 節第 6 點）、alison（同學上班遇到他改說的那一句）。
   jobs.shanlan 另外有 co（第 4 節第 7 點：上班遇到宋知寧——who、seg＝哪一段後面、flag＝看哪一個旗標、met／new＝有／沒有那個旗標的那幾句 [說話的人或 null＝旁白, 字]、until＝她到哪一個學期）。
 第 4 節「回 LAWWW 七問」其他幾點是規則（給實作看的），不進資料。
+第 5 節「回 LAWWW 第二輪」（d8afcca6ed）：
+  jobs.shanlan.co 多 wd／t0／t1（第 1 點：她在山嵐的那一班——週幾、幾點到幾點）、msgN／metEarly（第 2 點：有那個旗標、但她還沒傳第 msgN 則訊息的那一版；傳過了＝照 met）；
+  最上層 bgnBusy（第 4 點：桌遊夜那一晚有班——me＝祐廷自動回的那一句、who／re＝誰照舊回哪一句）、reapply（第 5 點：all＝全部打工比照隔一個學期可以再應徵、keepSkill＝熟練度保留）、
+  yueMeal（第 6 點：越好吃上班時同學來吃飯——narr 旁白、ask 對方的通用句、me 祐廷回的、done＝{m,f}「（你幫他／她點了餐。）」照對方性別、own＝{名字:自己的那一句}）。
+  第 3、7 點是規則／沒有程式的事，不進資料。
 規則的字（第 3 節「給 LAWWW」、每一節的說明）是給實作看的，不進遊戲（流程在 src/jobs3d.js）。台詞一字不改；有名字說的話拿掉外面那一對「」（對話框已經寫了是誰說的）；
 選項、旁白照稿。白名單照 import_guard；讀稿照 read_fix。
 用法：python3 tools/story/import_shop_jobs_aa828.py [--ref <commit>] [--check]"""
@@ -112,18 +117,42 @@ def build(md):
     if seg not in [g['name'] for g in jobs['shanlan']['segs']]:
         raise SystemExit(f'第 4 節第 7 點：山嵐的三段工作沒有「{seg}」那一段')
 
-    def said(t, w):
-        """「<誰>：「…」（…）「…」」→ [[誰, 字] 或 [None, （旁白）]…]；有對不上的字＝停"""
+    def said(t, w, bare=False):
+        """「<誰>：「…」（…）「…」」→ [[誰, 字] 或 [None, （旁白）]…]；有對不上的字＝停。bare＝前面沒有寫「<誰>：」（接在上一版後面寫的）"""
         t = t.strip()
-        if not t.startswith(who + '：'):
-            raise SystemExit(f'{w}：要是「{who}：「…」」開頭')
-        t = t[len(who) + 1:]
+        if not bare:
+            if not t.startswith(who + '：'):
+                raise SystemExit(f'{w}：要是「{who}：「…」」開頭')
+            t = t[len(who) + 1:]
         parts = re.findall(r'「[^「」]+」|（[^（）]+）', t)
         if not parts or ''.join(parts) != t:
             raise SystemExit(f'{w}：有「」和（）以外的字（{t}）')
         return [[who, fx(x[1:-1])] if x[0] == '「' else [None, fx(x)] for x in parts]
-    jobs['shanlan']['co'] = {'who': who, 'seg': seg, 'flag': z.group(3), 'met': said(z.group(4), '第 7 點（認識過）'), 'new': said(z.group(5), '第 7 點（不認識）'), 'until': z.group(6)}
-    return jobs
+    co = jobs['shanlan']['co'] = {'who': who, 'seg': seg, 'flag': z.group(3), 'met': said(z.group(4), '第 7 點（認識過）'), 'new': said(z.group(5), '第 7 點（不認識）'), 'until': z.group(6)}
+    # ---- 第 5 節「回 LAWWW 第二輪」----
+    q5 = section(md, '## 5. 回 LAWWW')
+    a = need(re.search(r'^1\. \*\*(\S+?)在山嵐的班\*\*：(週[一二三四五六日]) (\d\d:\d\d)～(\d\d:\d\d)（和祐廷的(\S+?)同一班），到(大[一二三四][上下])。', q5, re.M), '第 5 節第 1 點（宋知寧的班）')
+    if fx(a.group(1)) != who or a.group(6) != co['until']:
+        raise SystemExit('第 5 節第 1 點：人或學期和第 4 節第 7 點不一樣')
+    co['wd'], co['t0'], co['t1'] = WD[a.group(2)], hm(a.group(3)), hm(a.group(4))
+    if not any(q['wd'] == co['wd'] and q['t0'] == co['t0'] and q['t1'] == co['t1'] and q['name'] == fx(a.group(5)) for q in jobs['shanlan']['sched']):
+        raise SystemExit('第 5 節第 1 點：山嵐的班表沒有那一班')
+    b = need(re.search(r'^2\. 有 ([A-Z_]+) 那一版分兩種：她已經傳過「[^」]+」那則訊息（第 (\d+) 則）→ 照第 4 節那一版；還沒傳 →(.+?)（不說「[^」]+」）。\s*$', q5, re.M), '第 5 節第 2 點（還沒傳訊息的那一版）')
+    if b.group(1) != co['flag']:
+        raise SystemExit('第 5 節第 2 點：旗標和第 4 節第 7 點不一樣')
+    co['msgN'], co['metEarly'] = int(b.group(2)), said(b.group(3), '第 5 節第 2 點', bare=True)
+    c4 = need(re.search(r'^4\. 桌遊夜：系統自動當沒空時，群組裡祐廷自動回一句「(.+?)」，(\S+?)照舊回「(.+?)」——玩家不用操作。\s*$', q5, re.M), '第 5 節第 4 點（桌遊夜自動回）')
+    extra = {'bgnBusy': {'me': fx(c4.group(1)), 'who': fx(c4.group(2)), 're': fx(c4.group(3))}}
+    need(re.search(r'^5\. 辭職後再應徵：\*\*全部打工比照\*\*（[^）]*都隔一個學期可以再應徵）；熟練度\*\*保留\*\*', q5, re.M), '第 5 節第 5 點（再應徵）')
+    extra['reapply'] = {'all': True, 'keepSkill': True}
+    m6 = need(re.search(r'^6\. 越好吃上班時同學來吃飯，.*?改這一組通用的（每人一次）：(（[^（）]+）)對方：「(.+?)」→ 祐廷：「(.+?)」→(（[^（）]+）)「他」照對方性別換成他／她。\*\*照每個人各記一次\*\*'
+                         r'（同一個人第二次來只出旁白「(（[^（）]+）)」，不再問）。兩個人有自己的句子（[^）]*）：(\S+?)：「(.+?)」／(\S+?)：「(.+?)」；其他人共用「(.+?)」。', q5, re.M), '第 5 節第 6 點（越好吃上班版）')
+    done = fx(m6.group(4))
+    if m6.group(5) != m6.group(4) or m6.group(10) != m6.group(2) or done.count('他') != 1:
+        raise SystemExit('第 5 節第 6 點：前後寫的句子不一樣，或「他」不是剛好一個')
+    extra['yueMeal'] = {'narr': fx(m6.group(1)), 'ask': fx(m6.group(2)), 'me': fx(m6.group(3)), 'done': {'m': done, 'f': done.replace('他', '她')},
+                        'own': {fx(m6.group(6)): fx(m6.group(7)), fx(m6.group(8)): fx(m6.group(9))}}
+    return jobs, extra
 
 
 def main():
@@ -135,9 +164,10 @@ def main():
     ok, why = IG.allowed(PATH, sha, allow)
     if not ok:
         raise SystemExit(why)
-    data = {'src': f'{PATH}@{sha}', 'jobs': build(git('show', f'{sha}:{PATH}'))}
+    jobs, extra = build(git('show', f'{sha}:{PATH}'))
+    data = dict({'src': f'{PATH}@{sha}', 'jobs': jobs}, **extra)
     js = ('/* 自動產生：tools/story/import_shop_jobs_aa828.py（' + data['src'] + '）。不要手改，改企劃 AA_828 再重新匯入。\n'
-          '   新店打工第一批：山嵐書店（shanlan）、南洋戲院（cinema）的告示、應徵、班表、三段工作、最後一句、員工票、上班遇到宋知寧——src/jobs3d.js 讀；逐句對稿 tests/shop_jobs_aa828_1112_unit.js */\n'
+          '   新店打工第一批：山嵐書店（shanlan）、南洋戲院（cinema）的告示、應徵、班表、三段工作、最後一句、員工票、上班遇到宋知寧；桌遊夜有班自動回的那一句、再應徵的規則、越好吃上班時同學來吃飯——src/jobs3d.js、src/bgnight3d.js 讀；逐句對稿 tests/shop_jobs_aa828_1112_unit.js */\n'
           "'use strict';\nconst SHOP_JOBS_AA828=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
