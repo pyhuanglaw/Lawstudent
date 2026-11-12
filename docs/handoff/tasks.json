@@ -56143,6 +56143,130 @@
     "acceptance": "交往中、照四題條件走得到「慢慢分開」到變回朋友，做對了避得掉；BB 瀏覽器 PASS",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "NAV-NOTCH-CAMPUS-1112",
+   "title": "校園法學院那一帶斜的一排 13 塊小縫＋(91.25,−113) 兩塊：進得去、出不來（導航擋格子）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲開始",
+    "mainline": false,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 11-12 15:10 UTC（原 ECON-NAV-TRAPS-1111 巡到、法律系也會走到的場景；那一筆取消後另開）",
+   "authorized": "D108（場景程式歸 LAWWW2）、D141（擋玩優先）",
+   "sha": "PENDING",
+   "next": "【LAWWW-C 11-12 15:1x UTC】LAWWW2 0ddcff1c0d 的 nav_notch_traps_v1.patch 合進開發分支；Node：nav_notch_traps_1112、place_gate、us_nav_traps_1111、nav_soclib、soclib2f、soclib_hours 都 exit 0。瀏覽器還沒走 → CC 排使用者電腦、BB 判。先將就的：是擋導航格子，畫面上那條縫還在。",
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "BB",
+    "branch": "claude/focused-cray-c9uwvw",
+    "sha": "0ddcff1c0d",
+    "spec": "docs/art-rebuild/second_ai/wip/nav_notch_traps_1112/README.md",
+    "acceptance": "校園 (91.25,−113) 附近和法學院斜排走一圈，走不進縫、不會卡住（CC 瀏覽器實走、BB 判）",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "NAV-NOTCH-WENZHOU-1112",
+   "title": "溫州街 (20.75,5.75) 小縫進得去、出不來（導航擋格子）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲開始",
+    "mainline": false,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 11-12 15:10 UTC（原 ECON-NAV-TRAPS-1111 巡到、法律系也會走到的場景；那一筆取消後另開）",
+   "authorized": "D108（場景程式歸 LAWWW2）、D141（擋玩優先）",
+   "sha": "PENDING",
+   "next": "【LAWWW-C 11-12 15:1x UTC】LAWWW2 0ddcff1c0d 的 nav_notch_traps_v1.patch 合進開發分支；Node：nav_notch_traps_1112、place_gate、us_nav_traps_1111、nav_soclib、soclib2f、soclib_hours 都 exit 0。瀏覽器還沒走 → CC 排使用者電腦、BB 判。先將就的：是擋導航格子，畫面上那條縫還在。",
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "BB",
+    "branch": "claude/focused-cray-c9uwvw",
+    "sha": "0ddcff1c0d",
+    "spec": "docs/art-rebuild/second_ai/wip/nav_notch_traps_1112/README.md",
+    "acceptance": "溫州街 (20.75,5.75) 附近點地、搖桿都走不進去、不會卡住（CC 瀏覽器實走、BB 判）",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "NAV-NOTCH-SOCLIB-1112",
+   "title": "社科院圖書館一樓 (10.2,−7.0) 小縫進得去、出不來",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲開始",
+    "mainline": false,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 11-12 15:10 UTC（原 ECON-NAV-TRAPS-1111 巡到、法律系也會走到的場景；那一筆取消後另開）",
+   "authorized": "D108（場景程式歸 LAWWW2）、D141（擋玩優先）",
+   "sha": "PENDING",
+   "next": "【LAWWW-C 11-12 15:1x UTC】LAWWW2 0ddcff1c0d 的 nav_notch_traps_v1.patch 合進開發分支；Node：nav_notch_traps_1112、place_gate、us_nav_traps_1111、nav_soclib、soclib2f、soclib_hours 都 exit 0。瀏覽器還沒走 → CC 排使用者電腦、BB 判。先將就的：是擋導航格子，畫面上那條縫還在。",
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "BB",
+    "branch": "claude/focused-cray-c9uwvw",
+    "sha": "0ddcff1c0d",
+    "spec": "docs/art-rebuild/second_ai/wip/nav_notch_traps_1112/README.md",
+    "acceptance": "社科院圖書館一樓那一格走不進去、不會卡住（CC 瀏覽器實走、BB 判）",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "SOCLIB2F-SOFA-AP-1112",
+   "title": "社科院圖書館二樓東側兩張沙發：點了走到沙發背後、「坐在沙發上」不出來",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲開始",
+    "mainline": false,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 11-12 15:10 UTC（原 ECON-NAV-TRAPS-1111 巡到、法律系也會走到的場景；那一筆取消後另開）",
+   "authorized": "D108（場景程式歸 LAWWW2）、D141（擋玩優先）",
+   "sha": "PENDING",
+   "next": "【LAWWW-C 11-12 15:1x UTC】LAWWW2 0ddcff1c0d 的 nav_notch_traps_v1.patch 合進開發分支；Node：nav_notch_traps_1112、place_gate、us_nav_traps_1111、nav_soclib、soclib2f、soclib_hours 都 exit 0。瀏覽器還沒走 → CC 排使用者電腦、BB 判。先將就的：是擋導航格子，畫面上那條縫還在。",
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "BB",
+    "branch": "claude/focused-cray-c9uwvw",
+    "sha": "0ddcff1c0d",
+    "spec": "docs/art-rebuild/second_ai/wip/nav_notch_traps_1112/README.md",
+    "acceptance": "二樓東側兩張沙發點了走到正面、坐得下、站得起來（CC 瀏覽器實走、BB 判）",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }

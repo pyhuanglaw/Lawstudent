@@ -132,4 +132,5 @@ const SL3=(function(){
     return z; } };
   return {soclib,DOOR,CAMPUS,buildNav,seatsOf,groves};
 })();
+{ const b=SL3.soclib.build; SL3.soclib.build=function(E){ const z=b.call(this,E); return Z3.navNotch?Z3.navNotch(z,'soclib'):z; }; }   /* 導航的小縫（ECON-NAV-TRAPS-1111；資料在 zones3d.js 的 NAV_NOTCHES）*/
 Z3.ZONES.soclib=SL3.soclib;

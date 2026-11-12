@@ -2968,6 +2968,14 @@ const Z3 = (function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
     return zone; }
   const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
+  /* 導航的小縫（ECON-NAV-TRAPS-1111，LAWWW2；和 US-NAV-TRAPS-1111、MOKU-PLANT-CORNER-1111 同一類）：「站得住」只看人的前後左右四點，斜放的東西在 0.5 m 的格子上變成一階一階，
+     每一階的內角剩一小塊四點都站得住、周圍站不住的地方——走得進去（走路斜著推就進去），16 個方向推都出不來。
+     Node 掃（引擎真的 canStand＋stepEntity）：校園法學院那一帶兩處（斜的那一排 13 塊、(91.25,−113) 兩塊）、溫州街 (20.75,5.75)、社科院圖書館 (10.2,−7.0)。
+     只擋那幾格（格子裡沒有大區站得住的點，擋了不會切斷路），模型不動。測試：node tests/econ_nav_traps_1111_unit.js */
+  const NAV_NOTCHES={ campus:{lv:0,cell:0.5,pts:[[91.25,-113.25],[91.25,-112.75],[96.25,-108.75],[96.25,-108.25],[93.75,-79.25],[93.75,-78.75],[94.25,-78.75],[94.25,-78.25],[94.75,-78.25],[94.75,-77.75],[95.25,-77.75],[95.25,-77.25],[95.75,-77.25],[95.75,-76.75],[96.25,-76.75]]},
+    wenzhou:{lv:0,cell:0.5,pts:[[20.75,5.75]]}, soclib:{lv:0,cell:0.4,pts:[[10.2,-7.0]]} };
+  function navNotch(z,id){ const N=NAV_NOTCHES[id]; if(!N||!z) return z; const n=(z.levels&&z.levels[N.lv|0])||z.nav; if(!n||!n.blockRect) return z; for(const [x,zz] of N.pts) n.blockRect(x,zz,N.cell*0.9,N.cell*0.9,0,0); n._cm=null; return z; }
+  for(const [id,def] of [['campus',campus],['wenzhou',wenzhou]]){ const b=def.build; def.build=function(E){ return navNotch(b.call(this,E),id); }; }
   const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku}; if(wz_offbeat) ZONES.wz_offbeat=wz_offbeat; if(GG_L.aoki()) ZONES.aoki=aoki; if(GG_L.afar()) ZONES.afar=afar; if(GG_L.daybreak()) ZONES.daybreak=daybreak;   /* afar café、Daybreak（GG-SHOPS2-1104）：配置檔有載入才有 */ if(GG_L.yangyang()) ZONES.yangyang=yangyang;   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：配置檔有載入才有 */ if(GG_L.corner_records()) ZONES.corner_records=corner_records;   /* 轉角唱片（CORNER-IN-1107）：配置檔有載入才有 */   /* 青木茶室（GG-SHOPS-REDO-1104）：配置檔有載入才有 */   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
   /* 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）：GAME.enter 在畫面全黑、淡入之前呼叫。
      原本：區域建好、第一格畫完，已經載過的正式模型才接上（ASSETS.loadOne().then 是 microtask，在 await fade(false) 才跑）；
@@ -3075,5 +3083,5 @@ const Z3 = (function(){
       out.push({id:q.id,place:q.place,w:+(hw*2).toFixed(3),h,center:[q.cx,h/2,q.cz],normal:[+nx.toFixed(4),0,+nz.toFixed(4)],
         corners:[[q.cx-sx,0,q.cz-sz],[q.cx+sx,0,q.cz+sz],[q.cx+sx,h,q.cz+sz],[q.cx-sx,h,q.cz-sz]].map(c=>c.map(v=>+v.toFixed(3)))}); }
     return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks,navNotch,NAV_NOTCHES};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();
