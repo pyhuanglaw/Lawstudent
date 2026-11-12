@@ -67,10 +67,11 @@ await sec(2,()=>{ fresh('2025-10-15','heroine_01',45,30); let pk=INV.walkPick(H.
   SOCIAL.remember('npc_fangyt','FANG_HINT',''); const seen2=[]; for(let i=0;i<3;i++){ const q=INV.walkPick(H.G,'npc_fangyt','cafe'); seen2.push(txt(q.lines)); q.next(); }
   check('2. 看過 Z6 以後：「芷若高中就這樣，下課都是她在講。」',seen2.includes('芷若高中就這樣，下課都是她在講。'),J(seen2)); });
 
-await sec(3,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'zhe',30,10);
+await sec(3,()=>{ const MON=termDay('Y1S1',6,1), WED=termDay('Y1S1',6,3);   /* 公館燒臘週一公休（AA_831，SHOP-STANDARD-BACKFILL-1112）：約吃飯的幾題改在週三 */ fresh(key(WED),'zhe',30,10);
   check('3. 阿哲約吃飯：「好啊！那家的叉燒飯我可以吃兩盤。」（AA_194）',txt(ask('zhe','noodle',12+10/60).lines)==='好啊！那家的叉燒飯我可以吃兩盤。');
-  fresh(key(MON),'kai',30,10);
+  fresh(key(WED),'kai',30,10);
   check('3. 阿凱約吃飯：手機「走 我剛好還沒吃」、當面「走，我剛好還沒吃。」（K6）',txt(ask('kai','noodle',12+10/60).lines)==='走 我剛好還沒吃'&&txt(ask('kai','noodle',12+10/60,null,true).lines)==='走，我剛好還沒吃。');
+  fresh(key(MON),'kai',30,10);
   check('3. 阿凱約 Café（認識）：手機「那裡有插座嗎 我要帶電腦」、當面「那裡有插座嗎？我要帶電腦。」（K5）',txt(ask('kai','cafe',15.5).lines)==='那裡有插座嗎 我要帶電腦'&&txt(ask('kai','cafe',15.5,null,true).lines)==='那裡有插座嗎？我要帶電腦。');
   const SAT=termDay('Y1S1',6,6); fresh(key(SAT),'kai',45,30);
   check('3. 阿凱約半熟 12:10：手機「早午餐 好 那是我的早餐」、當面「早午餐？好，那是我的早餐。」（K3；11-10 AA_731 答應句不寫幾點）',txt(ask('kai','brunch',12+10/60).lines)==='早午餐 好 那是我的早餐'&&txt(ask('kai','brunch',12+10/60,null,true).lines)==='早午餐？好，那是我的早餐。');
@@ -79,8 +80,9 @@ await sec(3,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'zhe',30,10);
   fresh(key(SAT),'classmate_mingxuan',45,30);
   check('3. 明軒約半熟、一盞：手機照留、當面版（M5、M6）',txt(ask('classmate_mingxuan','brunch',12+10/60).lines)==='早午餐？哈哈 CP 值不高喔 你請的話就可以'&&txt(ask('classmate_mingxuan','brunch',12+10/60,null,true).lines)==='早午餐？CP 值不高喔。你請的話，我就去。'
     &&txt(ask('classmate_mingxuan','teahouse',14,null,true).lines)===OE.fwdText('invites','classmate_mingxuan','一盞？我很少喝茶，我爸才喝。……好啊。'));
+  fresh(key(WED),'classmate_mingxuan',45,30); const mxN=txt(ask('classmate_mingxuan','noodle',12+10/60).lines);
   fresh(key(MON),'classmate_mingxuan',45,30);
-  check('3. 明軒約吃飯「走啊，阿鳳便宜又大碗。」、散步「可以啊。走一走也好，我最近都坐著。」（M8、M9）',txt(ask('classmate_mingxuan','noodle',12+10/60).lines)==='走啊，阿鳳便宜又大碗。'&&txt(ask('classmate_mingxuan','wenzhou',15.5).lines)==='可以啊。走一走也好，我最近都坐著。');
+  check('3. 明軒約吃飯「走啊，阿鳳便宜又大碗。」、散步「可以啊。走一走也好，我最近都坐著。」（M8、M9）',mxN==='走啊，阿鳳便宜又大碗。'&&txt(ask('classmate_mingxuan','wenzhou',15.5).lines)==='可以啊。走一走也好，我最近都坐著。');
   check('3. 明軒認識約 Café 照留「好。但我只能待一小時。」（M7）',J(P.classmate_mingxuan.acc.cafe)===J(FI('classmate_mingxuan',{A:['好。但我只能待一小時。']})));
   check('3. 方奕廷 F6～F8（10-2 第 1 點）；F5、F9 照留',J(P.npc_fangyt.acc)===J(FI('npc_fangyt',{brunch:['好。早上我本來就起得早。'],teahouse:['好。聽說那邊院子有一棵很老的樟樹，我想去看看。'],cafe:['好。順便看一下 Café 窗台那盆植物。'],library:['好。我在總圖門口等你。'],wenzhou:['溫州街有一棵很老的榕樹。我帶你去。']}))); });
 
@@ -90,7 +92,7 @@ await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30
   check('4. 散步過以後（大一）：照一般答應「好。」，不再問（AA_194 改規則）',b.res==='accept'&&txt(b.lines)==='好。',b.res+' '+txt(b.lines));
   const d2=termDay('Y2S1',6,3); fresh(key(d2),'heroine_01',45,30); const c=ask('heroine_01','wenzhou',15.5);
   check('4. 大二起：「好。」（AA_576 第 13 列）',c.res==='accept'&&txt(c.lines)==='好。',c.res+' '+txt(c.lines));
-  const MON=termDay('Y1S1',6,1); fresh(key(MON),'classmate_xinci',25,8); const x1=ask('classmate_xinci','noodle',12+10/60), x2=ask('classmate_xinci','noodle',18.5,H.G.day+1);
+  const MON=termDay('Y1S1',6,1), WED=termDay('Y1S1',6,3); fresh(key(WED),'classmate_xinci',25,8);   /* 週三：公館燒臘週一公休（AA_831）*/ const x1=ask('classmate_xinci','noodle',12+10/60), x2=ask('classmate_xinci','noodle',18.5,H.G.day+1);
   check('4. 芯慈約吃飯：今天＝「今天的我都排好了，{zh}可以嗎？」改到明天；之後的日子＝「好，我記一下。」（判斷不變）',x1.res==='resched'&&txt(x1.lines)==='今天的我都排好了，{zh}可以嗎？'&&x1.alt&&x1.alt.day===H.G.day+1&&x2.res==='accept'&&txt(x2.lines)==='好，我記一下。',J([x1.res,txt(x1.lines),x1.alt,x2.res,txt(x2.lines)]));
   fresh(key(MON),'classmate_bohan',25,8); const b1=ask('classmate_bohan','cafe',15.5);
   check('4. 柏翰：「我要念書，{zh}可以。」（拿掉「……」）',b1.res==='resched'&&txt(b1.lines)==='我要念書，{zh}可以。',txt(b1.lines));
@@ -105,7 +107,8 @@ await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30
   check('4. 明軒家教時約總圖：「我七點要家教 {zh}可以嗎」／當面「我七點要家教，{zh}可以嗎？」，改到隔天（M11：不寫死「六點半前」）',m2.res==='resched'&&txt(m2.lines)==='我七點要家教 {zh}可以嗎'&&txt(m2f.lines)==='我七點要家教，{zh}可以嗎？'&&m2.alt&&m2.alt.day>H.G.day,J([txt(m2.lines),m2.alt]));
   SOCIAL.rel('classmate_mingxuan').fam=25;   /* 吃飯要有點熟 */
   const m3=ask('classmate_mingxuan','noodle',19), m3f=ask('classmate_mingxuan','noodle',19,null,true);
-  check('4. 明軒家教時約吃飯（同一天 21:30）：「家教完 {zh} 吃便宜的那家」／當面「家教完，{zh}，吃便宜的那家。」（M12）',m3.res==='resched'&&m3.alt&&m3.alt.day===H.G.day&&txt(m3.lines)==='家教完 {zh} 吃便宜的那家'&&txt(m3f.lines)==='家教完，{zh}，吃便宜的那家。',J([txt(m3.lines),m3.alt]));
+  /* AA_831（SHOP-STANDARD-BACKFILL-1112）：公館燒臘 21:30 打烊，「同一天 21:30」排不進去了——M12「家教完 {zh} 吃便宜的那家」現在出不來，只會出改天的那一句（已回報 AA：要不要改時間／改店）。句子還在資料裡（第 0 節照查）*/
+  check('4. 明軒家教時約吃飯：公館燒臘 21:30 打烊，同一天排不進去＝改天「那天我要家教 {zh}可以嗎」／當面「那天我要家教，{zh}可以嗎？」（M12 同一天那一句現在出不來）',m3.res==='resched'&&m3.alt&&m3.alt.day>H.G.day&&txt(m3.lines)==='那天我要家教 {zh}可以嗎'&&txt(m3f.lines)==='那天我要家教，{zh}可以嗎？',J([txt(m3.lines),m3.alt]));
   H.G.invSeq=0; INV.accept(H.G,'zhe','noodle',H.G.day,21.5,{by:'player'}); const m4=ask('classmate_mingxuan','noodle',19), m4f=ask('classmate_mingxuan','noodle',19,null,true);
   check('4. 那天 21:30 你已經有約：改到別天＝「那天我要家教 {zh}可以嗎」／當面「那天我要家教，{zh}可以嗎？」（M12 不同天）',m4.res==='resched'&&m4.alt&&m4.alt.day!==H.G.day&&txt(m4.lines)==='那天我要家教 {zh}可以嗎'&&txt(m4f.lines)==='那天我要家教，{zh}可以嗎？',J([txt(m4.lines),m4.alt])); });
 
@@ -116,7 +119,7 @@ await sec(5,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'heroine_01',25,
   const same=cp.execSync('git -C "'+H.ROOT+'" status --porcelain -- src/data/invite_replies.js',{encoding:'utf8'}).trim()==='';
   check('5. build_replies.py 照樣通過（AA_415 的「現有」都對得上），重新產生的檔案沒有變',rc===0&&/heroine_01 39 列/.test(out)&&same,out.slice(0,160)); });
 
-await sec(6,async()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'kai',30,10); H.said=[]; H.picks=['去公館燒臘吃飯','今天 12:10']; await INV.flow(GM,'kai',null,false);
+await sec(6,async()=>{ const MON=termDay('Y1S1',6,3);   /* 週三（公館燒臘週一公休，AA_831）*/ fresh(key(MON),'kai',30,10); H.said=[]; H.picks=['去公館燒臘吃飯','今天 12:10']; await INV.flow(GM,'kai',null,false);
   check('6. 手機約阿凱吃飯：念手機版「走 我剛好還沒吃」',H.said.some(s=>s.t==='走 我剛好還沒吃'&&/手機/.test(s.who||'')),J(H.said));
   fresh(key(MON),'kai',30,10); H.said=[]; H.picks=['去公館燒臘吃飯','今天 12:10']; const n={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; await INV.flow(GM,'kai',n,false);
   check('6. 當面約阿凱吃飯：念當面版「走，我剛好還沒吃。」',H.said.some(s=>s.t==='走，我剛好還沒吃。'),J(H.said)); });

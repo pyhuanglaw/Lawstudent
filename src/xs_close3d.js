@@ -1,6 +1,6 @@
 /* 打烊：所有有營業時間、走得進去的店，到打烊時間人還在店裡＝店員（只有老闆在顧的店＝老闆）一句「我們今天要打烊了。」、走出店門站到門口外面，不另外出旁白
    （AA_700，企劃線 4f60052c8；使用者 11-05 06:4x：「打烊時間到了就直接安排一個店員說我們今天要打烊了然後玩家就出店面」；取代 AA_695 第 4 節、AA_699 第 1 節和各家原本的打烊旁白；CLOSE-UNIFY-1105）。
-   - 這裡管的店（S.ZONES）：新生南路（山嵐、南洋兩廳、大步、好拍）、新生運動廣場、2:30 AM、溫州街五間（SUNNY SIDE、阿德影印、一盞、林家乾麵、小路）、慢輪單車、118 巷九間（l118_<id>）、竹葉亞洲超市（美國）。
+   - 這裡管的店（S.ZONES）：新生南路（山嵐、南洋兩廳、大步、好拍）、新生運動廣場、2:30 AM、溫州街五間（SUNNY SIDE、阿德影印、一盞、林家乾麵、小路）、慢輪單車、118 巷九間（l118_<id>）、竹葉亞洲超市（美國）、AA_831 的四間（公館燒臘、頁間書屋、草原超市、禮貌生財）。
    - 自己有打烊系統的店照舊走自己的（afar、Daybreak、洋洋鹹酥雞、轉角唱片＝gg2shops3d.js（洋洋是老闆說）；青木＝ggshops_sys3d.js；日常失速＝offbeat_sys3d.js；木曜日＝mokuyobi_sys3d.js；同弦＝guitar3d.js），
      那一句一律叫這裡的 S.say／S.gen（S.PLACE_OF：這裡只記「這一趟進來的時候店開著」）。
    - 24 小時的店（日和便利店 cvs、大口漢堡 xs_dakou）不在表上：沒有這一句。總圖、法圖、社科圖不是店，照舊（story3d.js 的館員那一句）。
@@ -29,6 +29,7 @@ const XSCLOSE=(function(){
   /* 一盞：AA_657 打烊後的那一桌（2029-04-26，門開到 21:00）不請你出去；吃完（YT_FAMILY_DINNER，「回去的路上」）那一晚只走出去、不說 */
   const fdDay=G=>typeof AA187!=='undefined'&&AA187.FD_DAY&&typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day===STORY.dayOfKey(AA187.FD_DAY);
   /* 說話的人：有店員的店＝店員；只有老闆在顧的店（好拍、同弦這種）＝老闆（AA_700）。118 巷照 L118.STAFF：老闆、老闆娘＝老闆；店員、店長、自助餐的阿姨＝店員 */
+  const sh=(z,who,to)=>({place:z,who,to,open:G=>S.placeOpen(z,G)||(typeof SH831!=='undefined'&&!!SH831.due&&SH831.due(G,z))});
   S.ZONES={
     xs_shanlan:XS('xs_shanlan',S.CLERK,()=>typeof SH3!=='undefined'&&SH3.streetOut&&SH3.streetOut()),
     xs_nanyang:XS('xs_nanyang',S.CLERK,()=>typeof NY3!=='undefined'&&NY3.streetOut&&NY3.streetOut()),
@@ -46,6 +47,8 @@ const XSCLOSE=(function(){
     wz_teishoku:{place:'wz_teishoku',who:S.BOSS,to:'wenzhou'},
     bikeshop:{place:'bikeshop',who:S.BOSS,to:'gongguan'},
     us_asian_market:{place:'us_asian_market',who:S.CLERK},
+    /* AA_831 的四間（SHOP-STANDARD-BACKFILL-1112；src/shop_hours831_3d.js）：那天在店裡有約、有班（SH831.due）＝不請出去。禮貌生財店裡沒有人（上師在騎樓的算命桌）＝mute：不說那一句，只走出去、寫開放時間 */
+    noodle:sh('noodle',S.CLERK,'gongguan'), bookstore:sh('bookstore',S.CLERK,'gongguan'), us_market:sh('us_market',S.CLERK), tz_limao:Object.assign(sh('tz_limao',null,'tingzhou'),{mute:true}),
     l118_dian:l118('dian',S.BOSSLADY), l118_self:l118('self',S.CLERK), l118_tea:l118('tea',S.CLERK), l118_home:l118('home',S.BOSSLADY), l118_cafe2:l118('cafe2',S.CLERK),
     l118_pasta:l118('pasta',S.BOSS), l118_korea:l118('korea',S.BOSS), l118_omu:l118('omu',S.CLERK), l118_noodle2:l118('noodle2',S.BOSS) };
   /* 自己有打烊系統的店（這裡只記「進來的時候開著」，給 S.gen 用）；說話的人在各自的檔案（S.WHO 只是對照，測試用）*/
@@ -79,7 +82,7 @@ const XSCLOSE=(function(){
   /* 要不要說那一句：hourGen＝各家系統自己算的「打烊那一刻」（有就算）*/
   /* 玩家那天在這間店打工（JOBS.ZONE_KEY：阿德影印、SUNNY SIDE、一盞、2:30 AM…）＝店裡的人：下班照打工的流程走出去，不說打烊那句（AA-C 11-05 08:10）*/
   S.staffToday=(G,z)=>{ const J=typeof JOBS!=='undefined'?JOBS:null, k=J&&J.ZONE_KEY&&J.ZONE_KEY[z]; return !!(k&&J.worked&&J.worked(G,k,G.day)); };
-  S.gen=function(GM,z,hourGen){ const G=GM.G, C=entry(z); if(!C) return !!hourGen; if(typhoonOf(C,G)||!S.finalClose(C,G)||(C.quiet&&C.quiet(G))||S.staffToday(G,z)) return false;
+  S.gen=function(GM,z,hourGen){ const G=GM.G, C=entry(z); if(!C) return !!hourGen; if(C.mute||typhoonOf(C,G)||!S.finalClose(C,G)||(C.quiet&&C.quiet(G))||S.staffToday(G,z)) return false;
     return !!hourGen||S.closingMoment(C,G)||S.seenOpen(GM,z); };
   S.closedText=function(z,G){ const C=S.ZONES[z]; if(!C||(C.quiet&&C.quiet(G))) return ''; if(C.closedText) return C.closedText(G); const P=PL(); return P&&P.closedText?P.closedText(C.place,G.hour,G.day):''; };
   /* 出去站哪：表上的 out()；沒有＝這個區域的出口按鈕 */

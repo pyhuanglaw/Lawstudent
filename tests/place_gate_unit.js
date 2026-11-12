@@ -52,8 +52,6 @@ const KNOWN_FAIL=[].concat(
   KF(T_VIEW,'view','afar daybreak yangyang corner_records aoki wz_brunch wz_teahouse wz_mokuyobi wz_offbeat us_asian_market us_market'),
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   /* 其他（補查出來的）*/
-  KF(T_BACK,'hours','noodle bookstore tz_limao us_market'),
-  KF(T_BACK,'closeOut','noodle bookstore tz_limao us_market'),
   KF(T_BACK,'quick','us_asian_market us_market'),
   KF(T_BACK,'buy','us_asian_market us_market'), KF(T_BACK,'nomoney','us_asian_market us_market'),
   KF(T_BACK,'text','tz_limao us_asian_market us_market'),

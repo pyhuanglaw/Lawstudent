@@ -15,7 +15,7 @@
      看過任何一個（LM_HINT）＝算命桌的選單最上面多一項（稿 reveal.talk 的第一句）→ talk（選了那一項＝那一句已經說了，從第二句演）→ 記 LM_KNOWN、LM_STUDY。
    5 書房：LM_STUDY＝TZS3.studyOpen 回傳 true（區域 tz_limao 建的時候就開著；旗標是在街上的算命桌立的，下一次走進店裡門就開了）。書房裡的互動點照稿 study_room 只有旁白：
      看書櫃／看書桌／看牆上的合照＝配置的三個點；「學生來信」配置沒有點＝這支在東牆矮櫃前補一個（S.LETTERS；配置之後有 id study_letters 的點就用配置的）。
-   6 哪幾天不開：規格、稿都沒寫固定公休＝每天開（配置 19:00～23:30）；颱風假不開（zone.tzLimaoOff，和夜市同一個 CALENDAR.typhoon）。上師不在（tzLimaoAway）現在沒有任何事件設。
+   6 哪幾天不開：AA_831（SHOP-STANDARD-BACKFILL-1112）＝14:00～21:00、週一公休（places.js 的 PLACES.hours.tz_limao；原本照配置 19:00～23:30、每天開）；颱風假不開（zone.tzLimaoOff，和夜市同一個 CALENDAR.typhoon）。上師不在（tzLimaoAway）現在沒有任何事件設。
    7 上師的 3D 人物（2026-11-11 接上）：街上坐在算命桌後面（S.placeMaster，配置 limao.table.seatMaster），店開著、他在的時候才看得到；說話的人帶他的 obj（S.who）。
      店裡（區域 tz_limao 的 zone.shopClerk）還沒放人。對話照舊用 ADV 的模糊背景＋名字 S.MASTER（沒有立繪＝compact）。
    存檔：只有 G.flags 的 LM_MET（第幾天認識的）、LM_PROF、LM_KNOWN、LM_STUDY（稿的四個）＋LM_HINT（看過哪個入口 'A'／'B'）、LM_SER（{組 id: 第幾天}）；舊存檔沒有＝都還沒發生，不用遷移。
@@ -97,7 +97,9 @@ const LM=(function(){
 
   /* ---------- 營業 ---------- */
   S.typhoon=G=>{ try{ return !!(CAL()&&CAL().typhoon&&CAL().typhoon(G.day)); }catch(e){ return false; } };
-  S.openAt=function(G){ const L=LAY(); if(!L||!G) return false; const h=S.hour(G); return h>=L.from&&h<L.to&&!S.typhoon(G); };
+  S.openAt=function(G){ const L=LAY(); if(!L||!G) return false; const h=S.hour(G);
+    if(typeof PLACES!=='undefined'&&PLACES.isOpen&&PLACES.hours&&PLACES.hours.tz_limao) return PLACES.isOpen('tz_limao',h,G.day);   /* AA_831：14:00～21:00、週一公休（places.js；颱風假也在裡面）；和街上的模型（tingzhou3d.js S.limaoOpen）同一份 */
+    return h>=L.from&&h<L.to&&!S.typhoon(G); };
   S.sync=function(zone,G){ if(zone&&G) zone.tzLimaoOff=S.typhoon(G); };
   /* 現在能不能在桌前找他：店開著、他在、祐廷是法律系學生（稿的句子都是法律系的；經濟系那一年沒有稿）*/
   S.canTalk=function(G,zone){ if(!D()||!G||!S.term(G)) return false; if(zone&&(zone.tzLimaoOff||zone.tzLimaoAway)) return false; return S.openAt(G); };
