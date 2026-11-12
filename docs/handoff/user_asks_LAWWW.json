@@ -5252,6 +5252,15 @@
    "wants": "X364",
    "task": "CANON-NO-ECON-1112",
    "note": "只拿掉祐廷的舊序章；沛珊那一段原樣留著，檢查工具列例外（canon_scan.py 的 PS_LINE／PS_FILE）"
+  },
+  {
+   "id": "UA-LAWWW-1112-42",
+   "at": "2026-11-12 22:1x UTC",
+   "quote": "現在交班 等其他AI交班你就交班",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "HANDOFF-C-1112",
+   "note": "P0 換班口令：通知 LAWWW2／AA／BB／CC 交班，等他們交完 LAWWW 最後收尾（ROLE_LAWWW §3）"
   }
  ]
 }
