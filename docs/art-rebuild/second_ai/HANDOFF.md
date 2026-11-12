@@ -18,6 +18,14 @@
   3. VAC 寒暑假場景擋玩巡檢，其他精修。
   - 模型（X342）：照使用者在這個工作階段切的用，不自己改。
   - incr：outbox 格式 11-12 改好（b5c7b3bd7）；剩 43 筆任務對不到總表、110 個 commit 分類由 LAWWW-C 做，我不動。
+- **11-12 04:1x 進度**：
+  - 汀州路五間室內：越好吃小館（已整合 dev 4786cb89c）、客居雲南（28c3682f8 已交）；剩東南大聯商行、汀州聯通、溫特寶邸。`wip/tz_shops5_1112/README.md`。工作樹 `$SP/wt_tz5`（dev 85c51a05e＋兩間＋季節攤販修正，都已交）。
+  - MOONCAKE-EXIT-1112（BB GAME_BUG）：c7205db55 已交，等 LAWWW 整合、CC 重跑。
+  - ECON-NAV-TRAPS：全部 Node 跑完（1301 過、9 支沒印結果行、peishan_leftover2 1 支 FAIL 和 patch 無關），結果已告訴 LAWWW；**還差雲端瀏覽器巡一輪才交**。工作樹 `$SP/wt_econ`。
+  - **MOKU-TAP-STAIR（BB 03:58，P1 不擋版）還沒修**：木曜日點地上樓梯，人走到 (−3.75, 3.45) 第 0 層停住、路線被清；之後點二樓平台被解讀成一樓地面。查到的：
+    - Node 用引擎的 pathTo＋stepEntity 照玩家半徑 0.32 走（30／10／60 fps）上得去、換得到第 1 層——沒重現。
+    - 半徑改 0.36 以上才會卡，而且卡在 z 2.88（不是 BB 的 3.45）＝不是同一件事。
+    - 玩家的路線停住只有兩種：走完（pathStep）或 1.5 秒沒前進（E.stallStop）。下一步：用 CC 的探針 `cc_stair_probe.py`（cc-testing cf948273c）在雲端瀏覽器重現，印 P.path、blockedAt、lv；另查二樓平台沒有可點面（walkMeshes 只有樓梯斜面）。
 - 其他照下面 A 的交接：等 BB／CC 判的那一批、LAWWW 給座位最後的值（#47）、CC 的南洋戲院截圖。
 - 這個工作階段的暫存區 11-12 接班時滿了（fetch 一週的 commit 寫不下）：清掉 11-05 那一班的暫存 worktree（xw、base56、devtip、gn、gnbase、p3chk、p4base）和窗外照片的 PNG 原圖，內容都已交件。
 
