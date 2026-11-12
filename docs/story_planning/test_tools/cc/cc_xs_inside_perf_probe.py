@@ -5,7 +5,7 @@
   ③ 走回遠點，站 5 秒：貼圖數、draw call 有沒有降回去
   ④ 再來回兩趟（共三趟）：每趟到中間點、回遠點各記一次 heap（GC 後）、貼圖數、物件數
 輸出：xsperf_<TAG>.json＋run.log 總表。PC GPU 無視窗（config）；SOLO 跑。Windows＋GPU ≠ 使用者那台。
-CC_02 清單 2026-11-12：1✓（ZONE／DAY／HOUR 由佇列給：新生南路 14:00、汀州路 14:00 和星期六 19:30 夜市；SHA 由佇列給） 2✓（門、站點全從遊戲讀：出口互動點、E.canStand） 3✓（中間點、遠點都依序找第一個站得住的） 4n/a（不按任何按鈕，只走路） 5✓（go_to 分段走、到不了記位置） 6✓（讀檔後等 8 秒、每站停 5 秒再量） 7✓ 8n/a（不判快慢；數字交 LAWWW） 9n/a（不截圖判畫面） 10n/a（條件事件關掉、沒有選單） 11✓ 12✓（記真的走到的位置和距離） 13✓（每段記走了幾秒、到了沒）
+CC_02 清單 2026-11-12：1✓（ZONE／DAY／HOUR 由佇列給：新生南路 14:00、汀州路 14:00 和星期六 19:30 夜市；SHA 由佇列給） 2✓（門、站點全從遊戲讀：出口互動點、E.canStand） 3✓（中間點、遠點都依序找第一個站得住的） 4n/a（不按任何按鈕，只走路） 5✓（go_to 分段走、到不了記位置） 6✓（讀檔後等 8 秒、每站停 5 秒再量） 7✓ 8n/a（不判快慢；數字交 LAWWW） 9n/a（不截圖判畫面） 10n/a（條件事件關掉、沒有選單） 11✓ 12✓（記真的走到的位置和距離） 13✓（每段記走了幾秒、到了沒；LAWWW-C 08:19 加：進區域站 10 秒的預載量、zone.shopReal 每間 built／ready／on）
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONE=xinsheng DAY=2025-10-22 HOUR=14 PAIR=xs_dabu,xs_haopai FAR=45 TRIPS=3] python3 cc_xs_inside_perf_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -34,6 +34,7 @@ FIND = r"""((a)=>{ const E=GAME.E, lv=0; const ok=(x,z)=>E.canStand(x,z,0.35,lv)
   return {mid, far}; })"""
 MET = r"""(()=>{ const E=GAME.E, i=E.renderer.info; let objs=0; E.scene.traverse(()=>objs++); const pm=performance.memory;
   return {calls:i.render.calls, tris:i.render.triangles, tex:i.memory.textures, geoms:i.memory.geometries, programs:i.programs?i.programs.length:null, objs, heapMB:pm?+(pm.usedJSHeapSize/1048576).toFixed(1):null}; })()"""
+SHOPREAL_JS = r"""(()=>{ const z=GAME.E.zone, R=z&&z.shopReal; if(!R) return null; const sh=R.shops||[]; return {lite:!!R.lite, warmQ:Array.isArray(R.warmQ)?R.warmQ.length:(R.warmQ??null), shops:sh.map(s=>({id:s.id||s.zone||s.key||null, built:!!s.built, ready:s.ready===undefined?null:!!s.ready, on:!!s.on, meshes:s.meshes??null}))}; })()"""
 REC_ON = r"""(()=>{ window.__xp={t:[]}; window.__xpOn=true; let last=null; const f=t=>{ if(!window.__xpOn) return; if(last!=null) window.__xp.t.push(+(t-last).toFixed(2)); last=t; requestAnimationFrame(f); }; requestAnimationFrame(f); return true; })()"""
 REC_OFF = "(()=>{ window.__xpOn=false; return window.__xp.t; })()"
 
@@ -76,20 +77,30 @@ async def main():
         if not R.check('找得到中間點和遠點（≥%d m）' % FAR, bool(pts.get('mid') and pts.get('far') and pts['far']['d'] >= FAR * 0.6), J(pts)): await b.close(); sys.exit(1)
         R.note('門 %s；中間點 %s；遠點 %s（離中間點 %s m）' % (J([d1, d2]), J(pts['mid']), J(pts['far']), pts['far']['d']))
         mid, far = pts['mid'], pts['far']
-        R.setup('【前置／捷徑】先讀檔站到遠點（不量讀檔那一下）')
-        s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=far['x'], z=far['z'], wait=8000)
-        await pg.wait_for_timeout(2000)
+        R.setup('【前置／捷徑】先讀檔站到遠點')
+        s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=far['x'], z=far['z'], wait=300)
+        # LAWWW-C 08:19 ②：進區域以後站著不動 10 秒（預載一間一間做、貼圖一幀上傳一張）——這 10 秒最長一幀、>50 ms 次數；前後 tex／geoms／heap；③ zone.shopReal.shops 每一間 built／ready／on
+        m_pre0 = await pg.evaluate(MET); sr0 = await pg.evaluate(SHOPREAL_JS)
+        await pg.evaluate(REC_ON); await pg.wait_for_timeout(10000); t_pre = await pg.evaluate(REC_OFF)
+        await gc(); m_pre1 = await pg.evaluate(MET); sr1 = await pg.evaluate(SHOPREAL_JS)
+        res['preload'] = {'frames': fstats(t_pre), 'm_start': m_pre0, 'm_10s': m_pre1, 'shopReal_start': sr0, 'shopReal_10s': sr1}
+        R.note('② 進區域後站 10 秒：每幀 %s；tex %s→%s、geoms %s→%s、heap %s→%s' % (J(fstats(t_pre)), m_pre0['tex'], m_pre1['tex'], m_pre0['geoms'], m_pre1['geoms'], m_pre0['heapMB'], m_pre1['heapMB']))
+        R.note('③ zone.shopReal：剛進來 %s；10 秒後 %s' % (J(sr0), J(sr1)))
+        await pg.wait_for_timeout(1000)
         res['far0'] = await stand('① 遠點（基準）')
         res['trips'] = []
         for k in range(TRIPS):
             tr = {'k': k + 1}
             tr['walk_in'] = await walk('②／④ 第 %d 趟走到中間點' % (k + 1), mid['x'], mid['z'])
-            tr['mid'] = await stand('① 第 %d 趟中間點（兩間室內都載入）' % (k + 1))
+            tr['mid'] = await stand('① 第 %d 趟中間點（兩間室內都載入）' % (k + 1)); tr['shopReal_mid'] = await pg.evaluate(SHOPREAL_JS)
+            if k == 0: R.note('③ 第 1 趟中間點 zone.shopReal %s' % J(tr['shopReal_mid']))
             tr['walk_out'] = await walk('③／④ 第 %d 趟走回遠點' % (k + 1), far['x'], far['z'])
             await pg.wait_for_timeout(1500)
             tr['far'] = await stand('③ 第 %d 趟回到遠點' % (k + 1))
             res['trips'].append(tr)
         t1 = res['trips'][0]
+        pf = res.get('preload', {}).get('frames', {})
+        R.note('【預載】進區域 10 秒最長一幀 %s ms、>50 ms %s 次；常駐 tex %s、geoms %s' % (pf.get('max'), pf.get('gt50'), res.get('preload', {}).get('m_10s', {}).get('tex'), res.get('preload', {}).get('m_10s', {}).get('geoms')))
         R.note('【總表】第一次走近最長一幀 %s ms（>50 ms %s 次）；中間點 fps %s、calls %s、tris %s、tex %s；遠點基準 tex %s → 第一趟回遠點 tex %s；三趟回遠點 heap %s、tex %s、objs %s' % (
             t1['walk_in']['frames'].get('max'), t1['walk_in']['frames'].get('gt50'), t1['mid']['frames'].get('fps'), t1['mid']['m']['calls'], t1['mid']['m']['tris'], t1['mid']['m']['tex'],
             res['far0']['m']['tex'], t1['far']['m']['tex'], [x['far']['m']['heapMB'] for x in res['trips']], [x['far']['m']['tex'] for x in res['trips']], [x['far']['m']['objs'] for x in res['trips']]))
