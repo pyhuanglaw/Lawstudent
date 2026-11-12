@@ -1358,7 +1358,7 @@
    "note": "陽台盆栽放到鐵花架上、葉子調亮，從街上看得到（溫州街 A3／C2／W0、公館 G04／G07／G10 遊戲內前後對照）；物件、材質數不變，三角形 +288（溫州街）、+480（公館）｜開發分支 e8b82e4a 已整合（LAWWW）；BB 17:20 PASS（balcony_probe 67 張，沒有浮空、穿牆、閃面）；ack 原文：ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）"
   },
   {
-   "task": "BB218-Y1-TAPE-BOX",
+   "task": "BB218-P3-1021",
    "branch": "claude/second-ai-env-art",
    "sha": "cb1d9ecb",
    "files": [
@@ -1374,10 +1374,11 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "note": "BB_218：膠帶 4.8 cm、中間「國界」（ev_kai_tape2 以前）／「法律系免簽」（以後，AA 16:10 定的字）、字距平均；壓平的紙箱從書桌底下搬到衣櫃門前（原本封好的紙箱那裡）｜開發分支 0e8f585b 已整合（LAWWW）；BB 17:10 FIXED（「國界」／「法律系免簽」兩種旗標都 PASS、壓平紙箱看得到）；BB 另報壓平紙箱的字像鏡像 → ART-Y1-BOX-MIRROR-1021；ack 原文：ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）"
+   "note": "BB_218：膠帶 4.8 cm、中間「國界」（ev_kai_tape2 以前）／「法律系免簽」（以後，AA 16:10 定的字）、字距平均；壓平的紙箱從書桌底下搬到衣櫃門前（原本封好的紙箱那裡）｜開發分支 0e8f585b 已整合（LAWWW）；BB 17:10 FIXED（「國界」／「法律系免簽」兩種旗標都 PASS、壓平紙箱看得到）；BB 另報壓平紙箱的字像鏡像 → ART-Y1-BOX-MIRROR-1021；ack 原文：ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
+   "title": "BB218-Y1-TAPE-BOX"
   },
   {
-   "task": "BB218-GYM-HAZE",
+   "task": "BB218-P3-1021",
    "branch": "claude/second-ai-env-art",
    "sha": "cb1d9ecb",
    "files": [
@@ -1391,7 +1392,8 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "note": "BB_218 體育館 1F 白色光柱：逐盞關燈量到是引擎補光 E.fill 在亮面球場地板（0.32）上的高光；地板粗糙度改 0.6，20:30 左右亮度差 25.5→1.7｜開發分支 1cd80a95 已整合（LAWWW 17:17 ACK＋ACTIONED）；BB 17:27 FIXED（20:30 +43.8→+9.0、13:00 +27.7→+3.9）；引擎補光另開 ENGINE-FILL-SPEC-1021（LAWWW）；ack 原文：ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）"
+   "note": "BB_218 體育館 1F 白色光柱：逐盞關燈量到是引擎補光 E.fill 在亮面球場地板（0.32）上的高光；地板粗糙度改 0.6，20:30 左右亮度差 25.5→1.7｜開發分支 1cd80a95 已整合（LAWWW 17:17 ACK＋ACTIONED）；BB 17:27 FIXED（20:30 +43.8→+9.0、13:00 +27.7→+3.9）；引擎補光另開 ENGINE-FILL-SPEC-1021（LAWWW）；ack 原文：ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
+   "title": "BB218-GYM-HAZE"
   },
   {
    "task": "LIC-GAPS-1017",
@@ -4289,7 +4291,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "LIB-LAWN-1030",
+   "task": "LIB-LAWN-PLAN-1030",
    "files": [
     "assets/models/env/second_ai/campus_lib_lawn.glb",
     "assets/models/env/second_ai/campus_lib_lawn.json",
@@ -4300,7 +4302,8 @@
    "state": "已整合",
    "remaining": "沒照校內地圖（使用者三個問題未回答）；聖誕樹只留位置；+40 draw call（手機實機沒量）",
    "next": "LAWWW-B 套 lib_lawn_1030.patch＋GLB；轉問使用者草皮形狀／台階／樟樹位置",
-   "note": "老樟樹＋南側樹＋六張長椅＋六盞路燈（遊戲端）；lib_lawn_unit 改前 FAIL 改後 PASS；全部 Node 764／1（home_unit 開發分支本來就 FAIL）；READY_FOR_ART_REVIEW｜11-02 LAWWW2（帳號 A）接班時照 outbox 格式整理（LAWWW 03:39 要求）；原欄位：ack「LAWWW-B 10-30 09:50 ACK＋已整合 f75d60a4c（外框上限 patch 也套了）」、task「LIB-LAWN-1030：X133 總圖前草皮第一版（LAWWW-B 核准：中軸兩邊各一塊、不做台階、老樟樹在北側）」"
+   "note": "老樟樹＋南側樹＋六張長椅＋六盞路燈（遊戲端）；lib_lawn_unit 改前 FAIL 改後 PASS；全部 Node 764／1（home_unit 開發分支本來就 FAIL）；READY_FOR_ART_REVIEW｜11-02 LAWWW2（帳號 A）接班時照 outbox 格式整理（LAWWW 03:39 要求）；原欄位：ack「LAWWW-B 10-30 09:50 ACK＋已整合 f75d60a4c（外框上限 patch 也套了）」、task「LIB-LAWN-1030：X133 總圖前草皮第一版（LAWWW-B 核准：中軸兩邊各一塊、不做台階、老樟樹在北側）」",
+   "title": "LIB-LAWN-1030"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
@@ -5500,7 +5503,7 @@
    "sha": "b0160dc98",
    "receiver": "BB",
    "ack": "ACK",
-   "task": "ADE-V2.1-1104",
+   "task": "ADE-V2-1104",
    "files": [
     "assets/models/env/second_ai/wenzhou_street.glb",
     "assets/models/env/second_ai/wenzhou_street.json",
@@ -5515,7 +5518,8 @@
    "remaining": "BB-C 16:1x（BB_255）Blender 階段 PASS（BB 量消失點 2.2%）；LAWWW-C 16:1x 接進開發分支 d63fed15e（7 支 Node 測試 ALL PASS）；CC 拍遊戲畫面後 BB 標 ART_APPROVED",
    "next": "BB 過了：LAWWW-C 換 wenzhou_street.glb／.json／.props.json＋套 patch；跑 singleside、lampshade_flip、street_props_nav、wz_copy_shop",
    "noDirectIntegrate": false,
-   "note": "BB_255 的 1～5：鏡頭 24 mm 消失點 1.3%／1.6% PASS（自己跑 same_angle_check）、外牆加暖、影印機做細部、門口盆栽混白瓷水泥、樓上四盆＋曬衣服、店內亮一點；另拿掉懸在玻璃前面的電錶箱"
+   "note": "BB_255 的 1～5：鏡頭 24 mm 消失點 1.3%／1.6% PASS（自己跑 same_angle_check）、外牆加暖、影印機做細部、門口盆栽混白瓷水泥、樓上四盆＋曬衣服、店內亮一點；另拿掉懸在玻璃前面的電錶箱",
+   "title": "ADE-V2.1-1104"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
@@ -6542,7 +6546,7 @@
    "sha": "3819d4855",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "WINVIEW-AUDIT-1105 第三包",
+   "task": "WINVIEW-AUDIT-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/winview_audit_1105/README_pane3.md",
     "docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_pane3_1105.patch"
@@ -6550,14 +6554,15 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "日和、燒臘、林家把房間的視差窗搬到正式模型玻璃外；shop_viewpanes_1105 FAILED 9→ALL PASS；LAWWW 93d4d94df",
-   "next": "CC 拍"
+   "next": "CC 拍",
+   "title": "WINVIEW-AUDIT-1105 第三包"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "cf6a29f7e",
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "task": "XS-GATE-NORTH-1105（X256＋X257）",
+   "task": "XS-GATE-NORTH-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_gate_north_1105/README.md",
     "docs/art-rebuild/second_ai/wip/xs_gate_north_1105/xs_gate_north_1105.patch",
@@ -6566,14 +6571,15 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "使用者 09:0x／09:1x／09:2x：側門開北牆往北、望月台西北角、新南停車場、體育館搬到望月台和法學院中間、北牆外西段叫新生南路；取代 XS-GATE-MOVE；xs_gate_north FAILED 14→ALL PASS、52 支回歸 ALL PASS",
-   "next": "LAWWW-C 套 patch；CC 拍；望月台、體育館 Blender 正式外觀"
+   "next": "LAWWW-C 套 patch；CC 拍；望月台、體育館 Blender 正式外觀",
+   "title": "XS-GATE-NORTH-1105（X256＋X257）"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "e29912473",
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "task": "WINVIEW-AUDIT-1105 第四包",
+   "task": "WINVIEW-AUDIT-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/winview_audit_1105/README_pane4.md",
     "docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_pane4_1105.patch"
@@ -6581,14 +6587,15 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "慢輪、阿德視差窗＋照片；afar／頁間／青木窗景重拍（捷運出口位置修正）；shop_viewpanes2 FAILED 8→ALL PASS、40 支回歸 ALL PASS",
-   "next": "LAWWW-C 換照片＋套 patch；CC 拍"
+   "next": "LAWWW-C 換照片＋套 patch；CC 拍",
+   "title": "WINVIEW-AUDIT-1105 第四包"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "c6837632e",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "XS-NORTH-EXT-1105＋XS-WINCARD-1105",
+   "task": "XS-NORTH-EXT-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_wincard_1105/README.md",
     "docs/art-rebuild/second_ai/wip/xs_wincard_1105/xs_north_wincard_1105.patch",
@@ -6599,14 +6606,15 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "望月台、體育館照臺大官網照片重做（第 2 版：紅磚角落店面＋露台；粉橘基座、銀白懸挑環、薄膜圓頂）；新生南路圍牆後面照北牆側門；大口、大步、好拍視差窗 8 張；xs_wincard FAILED 12→ALL PASS；48 支回歸 46 ALL PASS（另兩支 base 一樣）；e6335d264 --check 通過；LAWWW-C 10:47Z ACK：接進開發線（下一版），十支 ALL PASS（含 shop_npc：我這裡沒 fetch 企劃線）；拍照轉 BB 排 CC",
-   "next": "LAWWW-C checkout 模型、照片＋git apply patch；CC 拍；使用者看過才算美術通過"
+   "next": "LAWWW-C checkout 模型、照片＋git apply patch；CC 拍；使用者看過才算美術通過",
+   "title": "XS-NORTH-EXT-1105＋XS-WINCARD-1105"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "682859723",
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "task": "PERF-XS-NPC-1108：坐著、畫面外的 NPC 降頻",
+   "task": "PERF-XS-NPC-1108",
    "files": [
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/seat_off_throttle_1109.patch",
@@ -6615,14 +6623,15 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "engine3d.js +7／−1（seatOff、E.SEAT_OFF_EVERY=4、E.SEAT_OFF_NEAR=3）＋tests/seat_off_throttle_unit.js；開發 f8b0e30d1 FAILED 5→ALL PASS；引擎相關 310 支 *_unit.js 全過；效能前後未量（等 CC-B 跑 seat_off_probe.js）",
-   "next": "LAWWW-B 審、git apply、跑 flow_seated_spawn／flow_b4_lecture；整合後請 CC-B 量山嵐 1F／2F、大口 2F、好拍"
+   "next": "LAWWW-B 審、git apply、跑 flow_seated_spawn／flow_b4_lecture；整合後請 CC-B 量山嵐 1F／2F、大口 2F、好拍",
+   "title": "PERF-XS-NPC-1108：坐著、畫面外的 NPC 降頻"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "ee34acf82",
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "task": "PERF-XS-NPC-1108 (A)：sitFeet 只更新兩條腿的矩陣",
+   "task": "PERF-XS-NPC-1108",
    "files": [
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/sit_feet_fast_1109.patch",
@@ -6631,14 +6640,15 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "character3d.js +18／−9（CHAR.sitFeetFast）＋tests/sit_feet_fast_unit.js；腿骨位置差 0、updateWorldMatrix 678→325／人／幀；開發 FAILED 2→ALL PASS；102 支 character3d 相關 *_unit.js 全過；PERFAB 待 CC",
-   "next": "LAWWW-B git apply、跑 flow 測試；CC 跑 sit_feet_probe.js（山嵐 1F／2F、大口 1F／2F、好拍）"
+   "next": "LAWWW-B git apply、跑 flow 測試；CC 跑 sit_feet_probe.js（山嵐 1F／2F、大口 1F／2F、好拍）",
+   "title": "PERF-XS-NPC-1108 (A)：sitFeet 只更新兩條腿的矩陣"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "fd585f991",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "BACKFACE-HAOPAI-1109：好拍右牆洞洞板翻正＋自己的光照（BB-B 選 (b)）",
+   "task": "BACKFACE-HAOPAI-1109",
    "files": [
     "assets/models/env/second_ai/bb_support/haopai.glb",
     "assets/models/env/second_ai/bb_support/haopai_lm_day.webp",
@@ -6650,14 +6660,15 @@
    "state": "已驗收",
    "noDirectIntegrate": false,
    "note": "【狀態說明】ART_APPROVED（BB-B 18:45 D120，PC GPU 新舊對照；LAWWW-B 已整合 a7c26e0eb）。不用改遊戲程式；洞洞板 224 面朝店裡、hp_peg OPAQUE、板面 ×3.0；右牆前段 0.451／0.438（舊淺牆 0.483／0.463），看起來約舊淺牆 0.89；左牆鐵網格翻 118 面；xs9 check 開發資產 FAILED 2→ALL PASS；好拍／新生南路相關 13 支全過",
-   "next": "P3（不擋）：遠看掛勾只是一條細黑線、球拍那一組沒拍到——之後拍更近的再說（BB_255）"
+   "next": "P3（不擋）：遠看掛勾只是一條細黑線、球拍那一組沒拍到——之後拍更近的再說（BB_255）",
+   "title": "BACKFACE-HAOPAI-1109：好拍右牆洞洞板翻正＋自己的光照（BB-B 選 (b)）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "585c765ae",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "PERF-XS-NPC-1108 (D)：新的人物第一次畫的卡頓（C.presetSphere）",
+   "task": "PERF-XS-NPC-1108",
    "files": [
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/skinned_sphere_1109.patch",
@@ -6666,14 +6677,15 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "【狀態說明】已整合（LAWWW-B 7824d9598，新測試舊 4 FAIL、新 ALL PASS）。原因：three.js projectObject 排序時不管 frustumCulled，boundingSphere null 就逐頂點套骨頭算（每個新人物 40～60 ms）。不透明蓋皮網格建好就給靜止包圍球（每個幾何算一次）；透明的臉部網格不動（全給會讓 53% 鏡頭位置眼線／高光先後對調）。character3d.js +14／−3＋tests/skinned_sphere_unit.js；第一次畫 618→23.8 ms（−96%）；開發 FAILED 4→ALL PASS；104 支相關 *_unit.js 全過",
-   "next": "CC-B 在 7824d9598 大口 1F 跑 render_probe_dc.js＋CPU trace（18:0x 已請；改前＝RPROBE_DC_fefd）；數字給 LAWWW-B、BB-B"
+   "next": "CC-B 在 7824d9598 大口 1F 跑 render_probe_dc.js＋CPU trace（18:0x 已請；改前＝RPROBE_DC_fefd）；數字給 LAWWW-B、BB-B",
+   "title": "PERF-XS-NPC-1108 (D)：新的人物第一次畫的卡頓（C.presetSphere）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "aad8d3839",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "#196 溫州街五間白天光照照 --skytint 重烘（SUNNY SIDE、小路、木曜日、日常失速、阿德）",
+   "task": "WZ5-SKYTINT-REBAKE",
    "files": [
     "assets/models/env/second_ai/aa_support/{sunnyside,komichi,mokuyobi,daily_offbeat}.glb＋_lm_day.webp",
     "assets/models/env/second_ai/bb_support/ade.glb＋ade_lm_day.webp",
@@ -6683,14 +6695,15 @@
    "state": "已驗收",
    "noDirectIntegrate": false,
    "note": "【狀態說明】ART_APPROVED（BB-B 19:14 D120，PC GPU 14:00 新舊對照；已整合 07ce887a1）。15 個檔、不用改程式；店門口藍/紅 1.17→0.98、0.88→0.81、0.93→0.82、1.22→0.99、1.26→1.11；亮度 −1%；節點／材質／LM 網格不變、晚上那張逐位元組一樣；63 支 Node 全過（開發 e767a3e3e＋15 檔）",
-   "next": "無（小路白天沒開門，只看店門口）"
+   "next": "無（小路白天沒開門，只看店門口）",
+   "title": "#196 溫州街五間白天光照照 --skytint 重烘（SUNNY SIDE、小路、木曜日、日常失速、阿德）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "e6f83d010",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "#204 美國公寓 WALL_bath_n_door 兩片開著的門板拆成兩個節點（LAWWW-B 18:37 派）",
+   "task": "US-APT-BATHDOOR-SPLIT",
    "files": [
     "assets/models/env/second_ai/us_apartment.glb",
     "docs/art-rebuild/second_ai/wip/us_door_split_1109/README.md",
@@ -6699,14 +6712,15 @@
    "state": "已驗收",
    "noDirectIntegrate": false,
    "note": "【狀態說明】ART_APPROVED（BB-B 19:44：臥室牆淡出時門板一起淡出；已整合 c8af31018）。只改節點：衣物間那片跟臥室牆、衛浴那片跟外牆 E 淡出（規則 B）；三角形 312 逐一相同、其他 90 個節點不變、光照貼圖不動；露出暗面約 7 m²（30%／10%／5% 的組合）→ 剩鉸鍊那邊約 0.3 m² 接觸陰影；55 支 Node 全過（deploy_check 要瀏覽器不算）",
-   "next": "衛浴那片跟外牆 E：CC 補拍、BB-B 看"
+   "next": "衛浴那片跟外牆 E：CC 補拍、BB-B 看",
+   "title": "#204 美國公寓 WALL_bath_n_door 兩片開著的門板拆成兩個節點（LAWWW-B 18:37 派）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "9e79b8750",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "PERF-XS-NPC-1108 (C)：牆一次畫完（transparent＋雙面的牆每一幀畫兩次、換兩次 shader）",
+   "task": "PERF-XS-NPC-1108",
    "files": [
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/wall_onepass_1109.patch",
@@ -6715,14 +6729,15 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "【狀態說明】已整合（LAWWW-B 6bbfca043，DLV-1109-L2-WALLONEPASS；舊 FAILED 4→ALL PASS、313 支 PASS）；等 CC render_probe_dc（?wall2pass 對照）。three.js renderObject 對 transparent＋DoubleSide＋forceSinglePass=false 畫兩次並各 needsUpdate；各區域淡出把牆材質複製、設 transparent，GLB 牆大多雙面（66／84 顆）。assets3d.js 載建築 GLB 時記 userData.op0（原本不透明），engine3d.js hideFaded 對 op0、opacity 1、雙面、無 alphaTest 的牆設 forceSinglePass；玻璃（BLEND）、葉子（MASK）不碰。三間 12 個方向：畫牆 264→144、version +240→0。?wall2pass 回舊做法。另附 (D) CC 實測 238.4 ms／69 次 → 10.0 ms／20 次、(A) SITFEET_abfa 前後。 BB-B 23:06：同角度比對像素差 0；效能數字等 PC。；CC-B 23:17 PC（RX 6600M）效能：大口 56.9／56.8、山嵐 49.7／49.3 fps，卡頓在雜訊內，畫面 0 差異＝持平",
-   "next": "LAWWW-B 整合；CC 用 render_probe_dc.js 量大口 1F、山嵐（加 ?wall2pass 對照）；BB-B 可同角度開關各拍一張比對（應該一樣）"
+   "next": "LAWWW-B 整合；CC 用 render_probe_dc.js 量大口 1F、山嵐（加 ?wall2pass 對照）；BB-B 可同角度開關各拍一張比對（應該一樣）",
+   "title": "PERF-XS-NPC-1108 (C)：牆一次畫完（transparent＋雙面的牆每一幀畫兩次、換兩次 shader）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "7e11170d7",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "#204 外牆腳黑線：宿舍四人房、205、萬才一樓、大口一樓、茶屋補光照貼圖（lm_fill_covered；LAWWW-B 19:42 派 1～4）",
+   "task": "LM-FILL-COVERED",
    "files": [
     "assets/models/env/second_ai/{dorm_room4_lm_day,dorm_room4_lm_night,dorm_room4_lm_dark,dorm_205_lm_day,dorm_205_lm_night,wz_teahouse_interior_lm_day,wz_teahouse_interior_lm_night}.webp",
     "assets/models/env/second_ai/bb_support/dakou_1f_lm_{day,night}.webp",
@@ -6732,14 +6747,15 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "【狀態說明】已整合（LAWWW-B a5ec91a36，DLV-1109-L2-WALLBASE；lm_covered_fill_check 舊 FAILED 10→PASS、101 支 PASS）；等 CC 五個鏡頭、BB-B 判。被另一個 WALL_ 網格 2 cm 內蓋住、牆淡出時露出的格子補色；亮度比 0.10～0.38 → 0.95～1.37；其他格子 WebP 重編碼平均差 0.5～1.2／255。GLB、程式不動；測試 patch 加五個模型。 BB-B 23:06：黑線部分 ART_APPROVED（D120，雲端 SwiftShader；萬才底邊黑短線、四人房床下黑塊、淡出牆邊黑粗線都不見、沒有新接縫）；亮度、色調等 PC GPU。",
-   "next": "LAWWW-B 整合；CC 拍四間（牆外讓那面牆淡出：宿舍左牆外看床架、浴室牆外看白框；萬才一樓西牆外；大口 1F 右牆外；茶屋右牆外）、BB-B 判"
+   "next": "LAWWW-B 整合；CC 拍四間（牆外讓那面牆淡出：宿舍左牆外看床架、浴室牆外看白框；萬才一樓西牆外；大口 1F 右牆外；茶屋右牆外）、BB-B 判",
+   "title": "#204 外牆腳黑線：宿舍四人房、205、萬才一樓、大口一樓、茶屋補光照貼圖（lm_fill_covered；LAWWW-B 19:42 派 1～4）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "a81a8c837",
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "task": "#204 記憶體不夠的 12 間：分批版盤點（只讀，不改檔）",
+   "task": "LM-MEM-BATCH-AUDIT",
    "files": [
     "docs/art-rebuild/second_ai/wip/wall_base_survey_1109/README.md",
     "docs/art-rebuild/second_ai/wip/wall_base_survey_1109/oom12_dry.txt",
@@ -6748,14 +6764,15 @@
    "state": "已交付",
    "noDirectIntegrate": true,
    "note": "【狀態說明】報告，等 LAWWW-B 選。嚴重度：轉角唱片 0.94、大步 0.61、總圖 5F 書庫 0.51、阿德 0.49、萬才多功能 0.23、燒臘 0.21、腳踏車 0.20、同弦 0.17、南洋 1 廳 0.01、好拍 0.01；山嵐、南洋大廳 <1% 不跑。建議做轉角唱片，2～4 由 LAWWW-B 決定。 LAWWW-B 21:19 選：做轉角唱片、阿德；大步、書庫 P3；5 以後不做。",
-   "next": "LAWWW-B 選好再做（lm_fill_covered＋lm_covered_fill_check 前後比）"
+   "next": "LAWWW-B 選好再做（lm_fill_covered＋lm_covered_fill_check 前後比）",
+   "title": "#204 記憶體不夠的 12 間：分批版盤點（只讀，不改檔）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "70097274a",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "#204 外牆腳第二批：轉角唱片、阿德補光照（lm_fill_covered）",
+   "task": "LM-FILL-COVERED",
    "files": [
     "assets/models/env/second_ai/bb_support/{corner,ade}_lm_{day,night}.webp",
     "tools/blender/env_second/lightbake/lm_fill_covered.py",
@@ -6764,42 +6781,45 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "露出嚴重度 0.94→0.12、0.49→0.13；lm_covered_fill_check 開發 FAILED 4→ALL PASS（約 30 分鐘）；回歸 46／0；要一起拿分批版 lm_fill_covered.py（開發是舊版，會 OOM）。 LAWWW-B 22:24 ACK、整合中。（LAWWW-B 整合 1827999fb）；BB-B 23:22 雲端：轉角唱片左牆外、阿德後牆外地板暗帶還在——LAWWW2-B 查：是落地櫃（唱片櫃、木櫃）底下和前面的地板光照，工具沒抓到（櫃子沒底面），另案 #213",
-   "next": "LAWWW-B 整合；CC 拍轉角唱片左牆外地板／右牆外樑、阿德右牆外貨架後／後牆外格櫃後，BB-B 判"
+   "next": "LAWWW-B 整合；CC 拍轉角唱片左牆外地板／右牆外樑、阿德右牆外貨架後／後牆外格櫃後，BB-B 判",
+   "title": "#204 外牆腳第二批：轉角唱片、阿德補光照（lm_fill_covered）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "f072ddeef",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "CAM-TEAYARD-1109：一盞前院跟隨鏡頭轉進牆（BB-B 23:06 疑點 3；D108 場景鏡頭）",
+   "task": "CAM-TEAYARD-1109",
    "files": [
     "docs/art-rebuild/second_ai/wip/cam_teayard_1109/（README、cam_teayard_1109.patch、test_dev.txt、test_new.txt、tests.txt）"
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "正常玩也會：camCols 只有屋裡隔間牆，前院緣側牆強制不淡出、鄰居房子沒碰撞。teaYard 在前院時把 WALL_engawa_*、wzy_apt/apt2/plaster 加進 camCols。teahouse_yard_cam_unit 開發 FAILED 2→ALL PASS；回歸 87／0。印刷店 270° 是另一類（窗景卡 VIEWPANE 太寬），只回報、等選改法。（LAWWW-B 23:2x 整合 b6685c824，87 支 PASS）",
-   "next": "CC 照 180°、270° 重拍茶屋，BB-B 判"
+   "next": "CC 照 180°、270° 重拍茶屋，BB-B 判",
+   "title": "CAM-TEAYARD-1109：一盞前院跟隨鏡頭轉進牆（BB-B 23:06 疑點 3；D108 場景鏡頭）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "80abb49e1",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "CAM-VIEWPANE-SIDE-1109：放大的窗景卡，鏡頭在店面左右範圍外時藏起來（BB-B 23:12；LAWWW-B、BB-B 選 (1)）",
+   "task": "CAM-VIEWPANE-SIDE-1109",
    "files": [
     "docs/art-rebuild/second_ai/wip/cam_viewpane_side_1109/（README、cam_viewpane_side_1109.patch、test_dev.txt、test_new.txt、tests.txt、regression_new.txt）"
    ],
    "state": "已驗收",
    "noDirectIntegrate": false,
    "note": "zones3d.js：vpPart 記店面左右範圍（世界座標）、同一片窗景 winParts 只留一筆；room() fadeWalls 有 side 的超出範圍就藏。用到的三間：阿德影印、林家乾麵、慢輪單車。viewpane_side_unit 開發 2d58e8a52 FAILED 5→ALL PASS；回歸 76／0。（LAWWW-B 23:28 整合 b8cffd669，DLV-1109-L2-VIEWPANESIDE）；測試 ④ 俯角 0.22→引擎預設 0.38 另交 viewpane_test_pitch_1109.patch（60e5add72）；BB-B 23:43 D120 PASS（cc-testing b3019f9d22：阿德 270° 灰板不見、90° 沒擋、慢輪斜看前窗街景照舊；側牆外只剩天空色＝選 (1) 的代價）",
-   "next": "LAWWW-B 整合；CC 拍阿德 270°（＋90°）、慢輪側牆外＋店裡斜看前窗，新舊對照；BB-B 依 D120 判"
+   "next": "LAWWW-B 整合；CC 拍阿德 270°（＋90°）、慢輪側牆外＋店裡斜看前窗，新舊對照；BB-B 依 D120 判",
+   "title": "CAM-VIEWPANE-SIDE-1109：放大的窗景卡，鏡頭在店面左右範圍外時藏起來（BB-B 23:12；LAWWW-B、BB-B 選 (1)）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "60e5add72",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "CAM-TEAYARD-1109 第二輪：180° 緣側屋簷擋頭（BB-B 23:23 PARTIAL）＋窗景卡測試俯角修正（只改測試）",
+   "task": "CAM-TEAYARD-1109",
    "files": [
     "docs/art-rebuild/second_ai/wip/cam_teayard2_1109/（README、cam_teayard2_1109.patch、test_dev.txt、test_new.txt、tests.txt、regression_new.txt）",
     "docs/art-rebuild/second_ai/wip/cam_viewpane_side_1109/viewpane_test_pitch_1109.patch（＋test_pitch_dev／new.txt）"
@@ -6807,14 +6827,15 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "室內預設俯角是 0.38（不是 0.22）：0.38／距離 4／180° 鏡頭在屋簷體積裡，頭被 wzy_wood_yard_eave 擋、近物 67%。改法：鏡頭在屋簷外緣（z 6.93）房子那一側時藏 YARD_EAVE（±0.1 緩衝），碰撞不動。teahouse_yard_cam_unit ④ 開發 2d58e8a52 FAILED 1→ALL PASS；回歸 130／0（兩包都套）。兩份補丁對 8fd90fc6a 都能套。剩：樹葉 wzy_leaf 180°～210°、165° 木柱（開發本來就有，回報 BB-B）（LAWWW-B 23:44 整合 4f888cf3c，DLV-1109-L2-CAMTEAYARD2）",
-   "next": "LAWWW-B 整合；CC 出生點 (−3,9) 預設鏡頭拍 150°／180°／210°，BB-B 判"
+   "next": "LAWWW-B 整合；CC 出生點 (−3,9) 預設鏡頭拍 150°／180°／210°，BB-B 判",
+   "title": "CAM-TEAYARD-1109 第二輪：180° 緣側屋簷擋頭（BB-B 23:23 PARTIAL）＋窗景卡測試俯角修正（只改測試）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "134c01b93",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "#204 第三批：落地 WALL_ 櫃子底下的地板（BB-B 23:22／23:33）＋一盞遊戲真正用的 yizhan（第一批補錯檔）",
+   "task": "LM-FILL-COVERED",
    "files": [
     "assets/models/env/second_ai/bb_support/{ade,corner}_lm_{day,night}.webp",
     "assets/models/env/second_ai/aa_support/yizhan_lm_{day,night}.webp",
@@ -6824,28 +6845,30 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "規則 (c)：地板往上碰到落地 WALL_ 也算被蓋住（櫃子沒底面）；測試加分群檢查（整間平均會稀釋黑塊）、茶屋換成 yizhan。13 間＋一盞重掃，只補阿德、轉角唱片、一盞。lm_covered_fill_check 開發貼圖 FAILED 10→ALL PASS；回歸 109／0。站位已給 CC-B。大口 WALL_BANDS 遊戲裡改名 DK_BANDS 不淡出＝不用拍。（LAWWW-B 00:49 整合 faf1b75a4，sha256 全對）",
-   "next": "LAWWW-B 整合；CC 照 README 站位拍新舊；BB-B 判"
+   "next": "LAWWW-B 整合；CC 照 README 站位拍新舊；BB-B 判",
+   "title": "#204 第三批：落地 WALL_ 櫃子底下的地板（BB-B 23:22／23:33）＋一盞遊戲真正用的 yizhan（第一批補錯檔）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "1e02e2b39",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "CAMPUS-FLOOR-STRIP-1110（X283：校園步道上浮起來的路緣長條）",
+   "task": "CAMPUS-FLOOR-STRIP-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/campus_curb_gap_1110/（README、campus_curb_gap_1110.patch、campus_curb_gap_unit.js、regression_bb8a32765.txt、tests.txt）"
    ],
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "curb() 在路口不斷開，7 段約 56 m 路緣橫過別條步道；改成步道都鋪好以後才放、跳過別條步道（只改 src/zones3d.js），路緣合成一個網格（10→1 draw call），導航不變。新測試 campus_curb_gap_unit 開發分支 FAILED 2 → ALL PASS；在 bb8a32765 apply --check 通過、回歸 38 支 ALL PASS。LAWWW2-B 做、帳號 A 交件。",
-   "next": "LAWWW 整合；CC 用使用者存檔 user_save_day51b_1110 拍 (29.9,−54.4) 18:2x；BB 判"
+   "next": "LAWWW 整合；CC 用使用者存檔 user_save_day51b_1110 拍 (29.9,−54.4) 18:2x；BB 判",
+   "title": "CAMPUS-FLOOR-STRIP-1110（X283：校園步道上浮起來的路緣長條）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "4bd8615ed",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "AVENUE-FAR-SIGNS-1110（X285：椰影大道遠景都是補習班）",
+   "task": "AVENUE-FAR-SIGNS-1110",
    "files": [
     "assets/models/env/second_ai/campus_gongguan_bd.{glb,json}",
     "assets/models/env/second_ai/gongguan_far.{glb,json}",
@@ -6858,28 +6881,30 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "兩張補習班大看板換穗豐銀行、老灶熱炒，燈箱補習→咖啡；_bb() 照 0,3,6,1,4,7,2,5 輪流（照舊呼叫 randrange，樓的長相不變）；三角形、網格不變，只換招牌貼圖。avenue_far_signs_unit 開發版 FAILED 4 → ALL PASS。對照圖是 Blender 渲染。",
-   "next": "LAWWW 整合（只換檔）；CC 照使用者截圖位置（椰影大道往校門、晚上 18:4x）拍；BB 判"
+   "next": "LAWWW 整合（只換檔）；CC 照使用者截圖位置（椰影大道往校門、晚上 18:4x）拍；BB 判",
+   "title": "AVENUE-FAR-SIGNS-1110（X285：椰影大道遠景都是補習班）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "8171c2b06",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "LAWCLUB-BOOTH-MOVE-1110（X294：法服招生攤位搬到法學院前）",
+   "task": "LAWCLUB-BOOTH-MOVE-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/lawclub_booth_1110/（README、lawclub_booth_1110.patch、lawclub_booth_unit.js、regression_bb8a32765.txt）"
    ],
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "zones3d.js 兩行：(−18,14.5) 面向大道 → 法學院廣場 (34.5,−90.2) 朝南，互動點 (34.5,−89.2)，label／notice 不變。lawclub_booth_unit 開發 FAILED 2 → ALL PASS；回歸 40 支 ALL PASS；dcc9276f8 apply --check 通過。",
-   "next": "LAWWW 整合；CC 拍法學院廣場白天；BB 判"
+   "next": "LAWWW 整合；CC 拍法學院廣場白天；BB 判",
+   "title": "LAWCLUB-BOOTH-MOVE-1110（X294：法服招生攤位搬到法學院前）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "5b2af0caf",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "LIB-B1-COURT-ART-1110（X307：總圖 B1 露天下沉中庭 Blender 正式模型）",
+   "task": "LIB-B1-COURT-ART-1110",
    "files": [
     "assets/models/env/second_ai/lib_b1_court.{glb,json}",
     "tools/blender/env_second/lib_b1_court.py",
@@ -6888,14 +6913,15 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "v1 MODEL_READY：清水模擋土牆、花崗石地面、樓梯踏面＋扶手＋腳燈、B1 玻璃帷幕＋門＋雨遮＋招牌、亮著的自習室、種花槽、兩個樹槽、石凳；尺寸照 B1C，導航、門、樓梯不動，只加樹槽兩個、石凳一個的阻擋。patch：BLOCKOUT 收進 b1c_fallback、模型載好藏起來（碰撞盒照舊）、燈 TK.addNight。lib_b1_court_art_unit 開發 FAILED 5 → ALL PASS；回歸 50 支 ALL PASS；9202e2fab apply --check 通過。",
-   "next": "LAWWW 整合（patch＋兩個檔）；CC 拍白天、晚上（從地面看下去、從中庭看門）；BB 判 D120"
+   "next": "LAWWW 整合（patch＋兩個檔）；CC 拍白天、晚上（從地面看下去、從中庭看門）；BB 判 D120",
+   "title": "LIB-B1-COURT-ART-1110（X307：總圖 B1 露天下沉中庭 Blender 正式模型）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "24dc0d99b",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "SIS-STATIONERY-1110（X276：山嵐書店文具區）",
+   "task": "SIS-STATIONERY-1110",
    "files": [
     "assets/models/env/second_ai/aa_support/shanlan.glb",
     "tools/blender/env_second/shanlan_stationery/",
@@ -6904,28 +6930,30 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "note": "文具區 v2：筆／紙膠帶兩張桌、東牆紙膠帶／筆記本／便條紙三段、分區牌在人眼高度、牆上木牌；原創無品牌（D77）；只動文具區的小東西，光照貼圖不動（不用重烘）。在 9202e2fab 換新檔，shanlan_unit、shanlan_act_unit、xs_lm_unit、lm_instancing_unit、xs9_haopai_shanlan_check ALL PASS。三角形淨 +10k、6.43 MB、+1 draw call（字）。",
-   "next": "LAWWW 換 shanlan.glb；CC 拍「看文具」(4.5,6.5) 一帶白天；BB 判；AA 品項清單到了再照品項調"
+   "next": "LAWWW 換 shanlan.glb；CC 拍「看文具」(4.5,6.5) 一帶白天；BB 判；AA 品項清單到了再照品項調",
+   "title": "SIS-STATIONERY-1110（X276：山嵐書店文具區）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "57a9dd322",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "YZ-CUP-FLOAT-1110（X289：一盞外帶杯浮空，BB 判 GAME_BUG）",
+   "task": "YIZHAN-FLOAT-CUPS-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/yz_cup_float_1110/（README、yz_cup_float_8c050804c.patch、seatact_offset_group_unit.js、regression_8c050804c.txt）"
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "原因：一盞房間群組 g0 往 +z 搬 2.3 m（wzShop cz），seatact 桌上東西用世界座標卻掛在 g0 底下＝全部偏 2.3 m。修法：seatact3d.js rebuild 群組抵銷父群組 matrixWorld（沒位移＝單位矩陣、照舊）。新測試開發分支 B、C、D FAIL，patch 後 ALL PASS；座位相關 9 支回歸 ALL PASS；patch 在 8c050804c apply --check 通過。 ｜ LAWWW 11-10 08:53 接進開發分支 81a2e719d（seatact_offset_group 等 5 支 ALL PASS）。",
-   "next": "CC 用 day47、day51 存檔新舊對照；BB 判"
+   "next": "CC 用 day47、day51 存檔新舊對照；BB 判",
+   "title": "YZ-CUP-FLOAT-1110（X289：一盞外帶杯浮空，BB 判 GAME_BUG）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "bc4598101",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "LIB-B1-COURT-ART-1110 第二輪（X307：鏡頭在背後時畫面下半白霧，BB 判 GAME_BUG）",
+   "task": "LIB-B1-COURT-ART-1110",
    "files": [
     "assets/models/env/second_ai/lib_b1_court.glb",
     "assets/models/env/second_ai/lib_b1_court.json",
@@ -6935,14 +6963,15 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "原因：followCam 最近 0.7 m 把鏡頭放到 B1 玻璃帷幕後面，雙面玻璃從背後看＝白霧。修法：玻璃只畫朝中庭那一面，重匯 GLB（三角形不變）。新測試：舊 GLB 65 次看得到玻璃背面 FAIL，新 GLB ALL PASS；B1 中庭相關 5 支回歸 ALL PASS。 ｜ LAWWW 11-10 09:25 接進開發分支 fda54d616（b1court_glass_cam、lib_b1_court、lib_b1_court_art ALL PASS）。",
-   "next": "CC 重拍 03、07；BB 判"
+   "next": "CC 重拍 03、07；BB 判",
+   "title": "LIB-B1-COURT-ART-1110 第二輪（X307：鏡頭在背後時畫面下半白霧，BB 判 GAME_BUG）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "da1c77472",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "LIB-B1-COURT-ART-1110 第三輪（X307 白霧 NOT FIXED 退回：真正的原因是玻璃雨遮）",
+   "task": "LIB-B1-COURT-ART-1110",
    "files": [
     "assets/models/env/second_ai/lib_b1_court.glb",
     "assets/models/env/second_ai/lib_b1_court.json",
@@ -6952,14 +6981,15 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "BB 站位 (98,−37) yaw 0：鏡頭 (98,−1.14,−31.14) 在雨遮（−1.45）上方 0.3 m，畫面下半每一條視線第一個碰到的都是雙面半透明的雨遮。雨遮改成只畫朝下那一片。測試第 4 項（1540 個鏡頭、畫面下半 15 條視線）：開發 GLB 119 個有霧 FAIL → 新 GLB 0 個 ALL PASS；回歸 5 支 ALL PASS。 ｜ LAWWW 11-10 09:53 接進開發分支 28df8a85c（3 支 ALL PASS）。",
-   "next": "CC 換 SHA 重拍 03、07（<110）；BB 判"
+   "next": "CC 換 SHA 重拍 03、07（<110）；BB 判",
+   "title": "LIB-B1-COURT-ART-1110 第三輪（X307 白霧 NOT FIXED 退回：真正的原因是玻璃雨遮）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "9356eeb39",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "GG-FLOWER-STALL-1110（公館捷運站口花攤，AA_732 gg_flower）",
+   "task": "GG-FLOWER-STALL-1110",
    "files": [
     "assets/models/env/second_ai/gg_flower_stall.glb",
     "assets/models/env/second_ai/gg_flower_stall.json",
@@ -6969,70 +6999,75 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "晨露花舖（原創店名）：公館 (−47, 11.6) 捷運出口西邊，正面朝騎樓；導航 blockRect(-47,11.725,2.9,2.05)；互動點 (−47.2,13.45) kind gg_flower（買花要 LAWWW 接 GIFTH）；燈泡 ggf_lit_bulb 晚上亮。23,478 三角形、1.98 MB。新測試開發 FAIL 4 → ALL PASS；公館相關 9 支回歸 ALL PASS。 ｜ LAWWW 11-10 10:03 接進開發分支 de1f25768，買花已接（09:00～21:00）；gg_* 8 支 ALL PASS。",
-   "next": "CC 拍白天、晚上；BB 判"
+   "next": "CC 拍白天、晚上；BB 判",
+   "title": "GG-FLOWER-STALL-1110（公館捷運站口花攤，AA_732 gg_flower）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "c16014ada",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "WINVIEW-AUDIT-1105 日和便利店（拍攝位置修正；照片要 CC 在遊戲裡重拍）",
+   "task": "WINVIEW-AUDIT-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/winview_cvs_1110/（README、cvs_view_cam_6355ec91b.patch、cvs_view_cam_1110_unit.js、render.sh、blender_try_before_after.jpg）"
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "現在的 cvs 照片是 10-23 在舊店面門口 (−29.4,2.1,21.7) 拍的，和正式模型的視差窗中心 (−27.62,1.4,21.41) 差 1.78 m／高 0.7 m；11-04 工具改成 (−27.7,1.4,21.7) 但照片沒重拍。Blender 版試過不採用（沒有遊戲的天空、天際線、路人，反而比較假）。patch：shop_views_layers.py 的 cvs 鏡頭改成視差窗中心＋測試（開發 FAIL 差 0.30 m → ALL PASS）。 ｜ LAWWW 11-10 10:12 接進開發分支 4d7f556a6（ALL PASS）；已請 CC 重拍四張。",
-   "next": "CC 重拍 cvs_*；LAWWW 改 VIEW_LAYERS.cvs、拿掉舊註解；BB 判"
+   "next": "CC 重拍 cvs_*；LAWWW 改 VIEW_LAYERS.cvs、拿掉舊註解；BB 判",
+   "title": "WINVIEW-AUDIT-1105 日和便利店（拍攝位置修正；照片要 CC 在遊戲裡重拍）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "c91a79854",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "GG-DOOR-CAMS-1104（公館青木、頁間門口鏡頭被擋）",
+   "task": "GG-DOOR-CAMS-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_door_cams_1110/（README、gg_door_cams_4042c708a.patch、gg_door_cams_1104_unit.js、bb_1104_doors_before.jpg）"
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "青木：鏡頭在行道樹樹冠裡、葉子沒有透視 → 正式行道樹葉片離鏡頭 4 m 內網點透空＋接樹幹透視（townkit3d.js）；頁間：捷運出口亭鏡頭碰撞盒比模型小 0.8 m → 照模型外框（zones3d.js）。新測試開發 FAIL 3 → ALL PASS；回歸 13 支 ALL PASS。GLSL 要 CC 在瀏覽器確認編譯。 ｜ LAWWW 11-10 10:22 接進開發分支 d8b669175（gg_door_cams、street_trees、seethru、gg_* ALL PASS）；CC 排 PC。",
-   "next": "CC 瀏覽器確認 shader 編譯、重拍兩張門口；BB 判"
+   "next": "CC 瀏覽器確認 shader 編譯、重拍兩張門口；BB 判",
+   "title": "GG-DOOR-CAMS-1104（公館青木、頁間門口鏡頭被擋）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "7bb4bf34f",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "WZ-SEAT-CAMS-1104（溫州街 SUNNY SIDE、小路坐下後鏡頭被擋）",
+   "task": "WZ-SEAT-CAMS-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/wz_seat_cams_1110/（README、wz_seat_cams_fe4d893ac.patch、wz_seat_cams_1104_unit.js、regression_fe4d893ac.txt）"
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "AA 12ae10d3e 的透空與鏡頭牆被 SUNNY v1e／小路 v4 配置蓋掉了；照現在 GLB 材質名重加 seeThru＋camWalls（SUNNY 左、後牆；小路右、後、左牆），sync 到 wz_shops_layout。新測試：開發 SUNNY 擋 37／224、小路 126／288 → 0。相關 30 支：29 PASS，aa655_wz_rename FAILED 1 開發原樣也一樣（story3d.js GIFTH 對照表的「兩點半 Café」）。 ｜ LAWWW 11-10 10:30 接進開發分支 9d4c54c16（wz_seat_cams、sync --check OK）；aa655 的舊店名 LAWWW 已修 78762a2b1。 ｜ LAWWW 18c73515b 照新配置改了 wz_shops2 第 5 項、wz_interiors_aa659 A6 的期待（我回歸時清單截斷漏跑）。",
-   "next": "CC 拍吧台、卡座坐下轉一圈；BB 判"
+   "next": "CC 拍吧台、卡座坐下轉一圈；BB 判",
+   "title": "WZ-SEAT-CAMS-1104（溫州街 SUNNY SIDE、小路坐下後鏡頭被擋）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "4a61b27e9",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "FAIR-TENT-CAM-1102（社博帳篷擋跟隨鏡頭）",
+   "task": "FAIR-TENT-CAM-1102",
    "files": [
     "docs/art-rebuild/second_ai/wip/fair_tent_cam_1110/（README、fair_tent_cam_9d4c54c16.patch、fair_tent_cam_unit.js、regression_9d4c54c16.txt）"
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "社博正式模型每攤一個合併網格、帳篷頂分不開 → 整攤接樹幹透視（zones3d.js fairSeeThru）。新測試：大一穿過 421 次、大二 1861 次，開發全部擋住 FAIL → 0 ALL PASS；社博相關 11 支＋校園 seethru 2 支 ALL PASS。 ｜ LAWWW 11-10 10:34 在本機接進開發分支 88bd03f56（fair_tent_cam＋社博 4 支＋seethru 2 支 ALL PASS），GHA 全套跑完才推。 ｜ LAWWW 11-10 10:59：已推上開發分支（18c73515b 以前）。",
-   "next": "LAWWW 推；CC 社博兩天看；BB 判"
+   "next": "LAWWW 推；CC 社博兩天看；BB 判",
+   "title": "FAIR-TENT-CAM-1102（社博帳篷擋跟隨鏡頭）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "a43da6a27",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "PUTONG101-WINDOW-1102（普通 101 北窗白天整片深藍黑）",
+   "task": "PUTONG101-WINDOW-1102",
    "files": [
     "assets/models/env/second_ai/campus_boya.glb",
     "assets/models/env/second_ai/campus_boya.json",
@@ -7042,14 +7077,15 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "窗外是博思一樓退縮的玻璃大廳，照不到光、玻璃頂點色太暗 → 只有這一片換亮一點的灰藍漸層（campus_teach.py），重匯 campus_boya.glb。新測試開發 FAIL → ALL PASS；e05_putong、nav_teach、teach_east_drawcall、zone_prefetch ALL PASS。窗景照片要 CC 重拍（teach_views.py putong_north）。 ｜ LAWWW 11-10 10:38 在本機接進開發分支 3c6c91bdd（4 支 ALL PASS），GHA 跑完一起推。 ｜ LAWWW 11-10 10:59：已推上開發分支（18c73515b 以前）。",
-   "next": "LAWWW 推；CC 重拍 putong_north；BB 判"
+   "next": "LAWWW 推；CC 重拍 putong_north；BB 判",
+   "title": "PUTONG101-WINDOW-1102（普通 101 北窗白天整片深藍黑）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "86751d821",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "GYM-FIT-PROPS-1103 第一包（健身中心手上的道具：啞鈴、槓鈴、划船拉把）",
+   "task": "GYM-FIT-PROPS-1103",
    "files": [
     "assets/models/char/second_ai/gym_hand_props.glb",
     "assets/models/char/second_ai/gym_hand_props.json",
@@ -7059,28 +7095,30 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "character3d.js gymProps：gymIK 之後每格照掌心擺；彎舉／推舉兩個啞鈴、深蹲槓鈴、划船拉把；換動作藏、release 拿掉、isFar 不放。新測試開發 FAIL → ALL PASS（男女各一）；gym_pose、gym_crowd、gym、sit_task、stairs_feet、seat_ambient ALL PASS。第二包（飛輪曲柄、划船座椅會動）要拆器材重烘，另交。 ｜ LAWWW 11-10 10:46 本機接進開發分支（gym_hand_props＋7 支 ALL PASS），GHA 跑完一起推。 ｜ LAWWW 11-10 10:59：已推上開發分支（18c73515b 以前）。",
-   "next": "LAWWW 推；CC 拍 B1 四個動作；LAWWW 角色美術判"
+   "next": "LAWWW 推；CC 拍 B1 四個動作；LAWWW 角色美術判",
+   "title": "GYM-FIT-PROPS-1103 第一包（健身中心手上的道具：啞鈴、槓鈴、划船拉把）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "cdf7a32de",
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "task": "BIKE-PARK-B1-1110（總圖 B1 中庭出口附近的停車架）",
+   "task": "BIKE-PARK-B1-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/bike_park_b1_1110/（README、bike_park_b1_f3b47894b.patch、regression_f3b47894b.txt）"
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
    "note": "BIKE_RACKS.campus 加 [89.5,−35,π/2]（中庭西邊樓梯口南邊的空地，離 B1 出口 8.8 m）。bike_park_1104 開發 FAIL（28.5 m）→ ALL PASS；腳踏車相關 67 支＋3 支，65 PASS；aa653_shops、gg_interiors_1104 各 FAIL 1 開發原樣也一樣（story3d.js 清葉茶行外帶）。 ｜ LAWWW 11-10 11:10 接進開發分支（bike_park_1104 ALL PASS）；aa653、gg_interiors 兩支 LAWWW 已修。",
-   "next": "—"
+   "next": "—",
+   "title": "BIKE-PARK-B1-1110（總圖 B1 中庭出口附近的停車架）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "b8d833642",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "XS-WINCARD-1110 第二批（新生南路山蘭一二樓、X-Sports 一二樓、南洋的視差窗景）",
+   "task": "XS-WINCARD-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_wincard2_1110/（README、xs_wincard2_1110.patch、xs_wincard2_1110_unit.js、regression.log、views_xs2_sheet.jpg、render.sh）"
    ],
@@ -7088,14 +7126,15 @@
    "noDirectIntegrate": false,
    "note": "5 片 Z3.shopViewPane＋10 張照片（Blender 在新生南路場景裡站在玻璃位置拍，白天／晚上）。新測試開發 6e00d9103 FAILED 12 → ALL PASS；新生南路相關回歸 31 支全過（沒截斷）。統一館跳過（二樓、正面沒有玻璃）。遊戲截圖請 CC 拍（D131）。",
    "next": "PUTONG101-WINDOW v2（等 LAWWW 決定 draw call）→ GYM-FIT-PROPS 第二包",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "XS-WINCARD-1110 第二批（新生南路山蘭一二樓、X-Sports 一二樓、南洋的視差窗景）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "ff443d9da",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "GYM-FIT-PROPS-1103 第二包（飛輪曲柄踏板會轉、划船機座椅會滑）",
+   "task": "GYM-FIT-PROPS-1103",
    "files": [
     "docs/art-rebuild/second_ai/wip/gym_fit_props2_1110/（README、gym_fit_props2_1110.patch、gym_moving_parts_unit.js、regression.log）"
    ],
@@ -7103,14 +7142,15 @@
    "noDirectIntegrate": false,
    "note": "gym_moving_parts.py 從 gym_b1.glb 器材原型網格搬出 540 個三角形（退化、不重烘）→ gym_moving_parts.glb；gym3d.js gymMoving 照 g.ph 轉曲柄、照臀部 z 滑座椅、手上有拉把時藏掛著的拉把。新測試開發 0ec32e6f6 FAILED 3 → ALL PASS（腳踝離踏板該踩的點 1.0／2.3 cm）；健身房回歸 37 支全過。bake_gym.sh b1 最後自動跑。",
    "next": "PUTONG101-WINDOW v2-B（ck_glass shader、by_glass 的 skyBox）",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "GYM-FIT-PROPS-1103 第二包（飛輪曲柄踏板會轉、划船機座椅會滑）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "ba050767a",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "PUTONG101-WINDOW-1102 第 2 版 B（博思一樓玻璃白天反射天空，不多網格）",
+   "task": "PUTONG101-WINDOW-1102",
    "files": [
     "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2b/（README、putong101_window_v2b.patch、putong101_window_unit.js、regression.log）"
    ],
@@ -7118,14 +7158,15 @@
    "noDirectIntegrate": false,
    "note": "by_glass extras.skyBox＋zones3d.js glassSky（ck_glass shader：範圍內白天加 #4f5f73、晚上 0、霧裡淡掉；半透明才除以 alpha）。putong101_window 開發 0ec32e6f6 第 3、4 項 FAIL → ALL PASS；回歸 28 支全過（含 teach_east_drawcall）。GLSL 沒有在瀏覽器編譯過：請 CC 看主控台、重拍 putong_north。取代 v2（多一個網格）。",
    "next": "GG-LETTERS-BACK（BB P3：公館 GONGGUAN 立體字背面加素色背板）",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "PUTONG101-WINDOW-1102 第 2 版 B（博思一樓玻璃白天反射天空，不多網格）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "dd079901c",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "XS-TONGXIAN-VIEW-1110（同弦樂器臨街窗白天／晚上窗景；BB X254 GAME_BUG P2）",
+   "task": "XS-TONGXIAN-VIEW-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_tongxian_view_1110/（README、xs_tongxian_view_1110.patch、render.sh、xs_tongxian_view_unit.js、regression.log、views_tongxian_sheet.jpg）"
    ],
@@ -7133,14 +7174,15 @@
    "noDirectIntegrate": false,
    "note": "tongxian3d.js 加一片 Z3.shopViewPane（擋在 CC 模型那塊白天街景板前面）＋2 張照片。新測試開發 0ec32e6f6 FAILED 4 → ALL PASS；同弦／吉他回歸 49 支＋xs_wincard_1105 過（bulletin_board_1110 開發原樣也 FAIL：缺企劃線檔）。",
    "next": "BB 回覆青木（a／b／不動）、日常失速（維持？）；SUNNY SIDE 窗景（P3）",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "XS-TONGXIAN-VIEW-1110（同弦樂器臨街窗白天／晚上窗景；BB X254 GAME_BUG P2）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "a15058787",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "SNS-VIEW-COVER-1110（SUNNY SIDE、日常失速的照片窗景被 room() 卡通窗擋住；BB X254 P3）",
+   "task": "SNS-VIEW-COVER-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/sns_view_cover_1110/（README、sns_view_cover_1110.patch、view_card_cover_unit.js、regression.log）"
    ],
@@ -7148,14 +7190,15 @@
    "noDirectIntegrate": false,
    "note": "attachRoomGLB：正式模型有 WALL_*_VIEW 照片卡的那一面，拿掉擋在卡前面的程序化窗（視差窗照舊）。新測試開發 be84c8680 FAILED 2 → ALL PASS；回歸 99 支全過。待決定：小路的視差窗擋在 komichi 照片卡前（沒動）。",
    "next": "佇列：ART-GYM-POOL-SWIMMERS（卡）→ CROWD-DEPTS-LOOK-1028 → PERF-CAMPUS-GLB-1102",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "SNS-VIEW-COVER-1110（SUNNY SIDE、日常失速的照片窗景被 room() 卡通窗擋住；BB X254 P3）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "c8f5200ba",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "ART-SOP（ART_SOP.md、SCENE_RULES.md、sop_demo 合進開發分支）",
+   "task": "ART-SOP",
    "files": [
     "docs/art-rebuild/second_ai/wip/art_sop_1110/（README、art_sop_1110.patch）"
    ],
@@ -7163,14 +7206,15 @@
    "noDirectIntegrate": false,
    "note": "只新增三份文件（內容和 LAWWW2 分支上的一樣），整合後 ART-SOP 結案。",
    "next": "等 LAWWW 回 CROWD-DEPTS-LOOK 做不做；先量 PERF-CAMPUS-GLB census",
-   "remaining": "（原狀態欄）文件，可直接整合"
+   "remaining": "（原狀態欄）文件，可直接整合",
+   "title": "ART-SOP（ART_SOP.md、SCENE_RULES.md、sop_demo 合進開發分支）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "384686fd3",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "PERF-CAMPUS-GLB-1102 ②（行政大樓、文學院、校史館壓 draw call）",
+   "task": "PERF-CAMPUS-GLB-1102",
    "files": [
     "docs/art-rebuild/second_ai/wip/perf_campus_glb/（README_hall_1110.md、perf_campus_hall_1110.patch、census_1110.md、campus_hall_drawcall_unit.js、campus_hall_pillar_seethru_unit.js、regression_hall.log、admin_before_after.jpg）"
    ],
@@ -7178,14 +7222,15 @@
    "noDirectIntegrate": false,
    "note": "campus_hall.py 加貼圖集壓法：一棟 11 → 5 個網格；椰林大道鏡頭三棟 draw call 47 → 18，三角形 37k → 64k（代價照實寫）。新測試開發 FAIL → ALL PASS；改了 campus_hall_pillar_seethru_unit.js 的材質名字比對（內容不變、新舊 GLB 都過），請 LAWWW 確認。回歸 37 支過。",
    "next": "社科院 → 總圖 → 黑森林、醉月湖（同一套，等 LAWWW 看這包的代價可不可以）",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "PERF-CAMPUS-GLB-1102 ②（行政大樓、文學院、校史館壓 draw call）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "8ff6e7d4a",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "PUTONG101-WINDOW-1102 第 3 版 v2C（BB_255 v2b PARTIAL：太暗、東南角沒套到）",
+   "task": "PUTONG101-WINDOW-1102",
    "files": [
     "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2c/（README、putong101_window_v2c.patch、putong101_window_unit.js、regression.log）"
    ],
@@ -7193,14 +7238,15 @@
    "noDirectIntegrate": false,
    "note": "skyBox 延到東南角那一片；shader 從「加灰藍」改成「直接混到 [110,120,130]、85%、alpha 到 1」。開發 327f64bfe 3、4 FAIL → ALL PASS；回歸 28 支過。要 CC 重拍量顏色。",
    "next": "佇列：INTERIOR-AAA P3、LM-SEAM-GEO（萬才館倒角）、LAWWW2-REEXPORT-US；社科院等 PERF 等 CC 幀率",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "PUTONG101-WINDOW-1102 第 3 版 v2C（BB_255 v2b PARTIAL：太暗、東南角沒套到）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "7bedf7d51",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "XS-DOOR-LABELS-1110（SHORTCUTS-TODO：新生南路店門字括號套括號）",
+   "task": "XS-DOOR-LABELS-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_door_labels_1110/（README、xs_door_labels_1110.patch、xs_door_labels_unit.js、regression.log）"
    ],
@@ -7208,14 +7254,15 @@
    "noDirectIntegrate": false,
    "note": "xinsheng3d.js 一行：type 的括號拿掉。新測試開發 FAILED 2 → ALL PASS；新生南路 53 支過。TODO_SHORTCUTS 11-10 盤點 c64b9086a。",
    "next": "X246 花台（做中）",
-   "remaining": "（原狀態欄）可整合"
+   "remaining": "（原狀態欄）可整合",
+   "title": "XS-DOOR-LABELS-1110（SHORTCUTS-TODO：新生南路店門字括號套括號）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "a347731be",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "XS-PLANTERS-1110（X246 新生南路人行道花台）",
+   "task": "XS-GATE-PLANTER-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_planters_1110/（README、xs_planters_1110.patch、xs_planters_unit.js、regression.log、blender_preview_*.jpg）"
    ],
@@ -7223,14 +7270,15 @@
    "noDirectIntegrate": false,
    "note": "16 段花崗石矮花台＋杜鵑（SEASON_AZALEA，3 月開花），GLB extras.planters 擋導航。新測試開發 FAILED 3 → ALL PASS；新生南路 54 支過。差距表：紅磚、廣場、望月台已有；門柱圍牆正式模型、磚紋、停車場另排。",
    "next": "C：NTU-REF-AUDIT 逐棟「保留／改掉」表",
-   "remaining": "（原狀態欄）MODEL_READY，待整合（先套 XS-DOOR-LABELS）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合（先套 XS-DOOR-LABELS）",
+   "title": "XS-PLANTERS-1110（X246 新生南路人行道花台）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "e3941a266",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "NTU-REF-AUDIT-1104（X223）逐棟保留／改掉表",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "docs/art-rebuild/second_ai/ntu_ref_keep_change_1110.md"
    ],
@@ -7238,14 +7286,15 @@
    "noDirectIntegrate": true,
    "note": "23 處分三類：已照照片重做（普通、博思、體育館、總圖、望月台）、差很多建議排（晨思鐘 A、行政大樓 A、文學院／校史館 B…）、不用改。建議順序：晨思鐘鐘架 → campus_hall 三棟改外牆（行政紅磚、文學院校史館土黃十三溝）→ 男一舍、共同、映月湖。",
    "next": "等回覆",
-   "remaining": "（原狀態欄）表（沒動模型），等 LAWWW／使用者決定"
+   "remaining": "（原狀態欄）表（沒動模型），等 LAWWW／使用者決定",
+   "title": "NTU-REF-AUDIT-1104（X223）逐棟保留／改掉表"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "00a298885",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "NTU-REF-1110 ① 晨思鐘改成無頂金屬鐘架（X223）",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_bell_1110/（README、ntu_ref_bell_1110.patch、campus_bell_seethru_unit.js、regression.log、bell_before_after.jpg）"
    ],
@@ -7253,14 +7302,15 @@
    "noDirectIntegrate": false,
    "note": "campus_bell.py：瓦頂鐘亭 → 深古銅鋼管鐘架（一道圓環、四道拱肋，D136 不照抄紅色／兩道環）；柱腳在原位，導航不用改。測試 ③ 開發 FAIL → ALL PASS；回歸 36 支過。",
    "next": "② campus_hall 三棟外牆（做好了，跑測試中）",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）",
+   "title": "NTU-REF-1110 ① 晨思鐘改成無頂金屬鐘架（X223）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "36e234d0f",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "NTU-REF-1110 ② 行政大樓紅磚兩層、文學院／校史館土黃十三溝面磚（X223）",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_halls_1110/（README、ntu_ref_halls_1110.patch、ntu_ref_halls_unit.js、regression.log、halls_before_after.jpg）"
    ],
@@ -7268,14 +7318,15 @@
    "noDirectIntegrate": false,
    "note": "campus_hall.py wall_tex／wall_tile；三棟重匯（PERF ② 合併照舊、一棟 5 網格）；zones3d 套件同組數字。新測試開發 74da28ca9 FAILED 3 → ALL PASS；回歸 49 支過（含 campus_hall_drawcall）。",
    "next": "③ 男一舍清水模、共同舊館紅磚、映月湖亭、拿掉多的研三舍",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）",
+   "title": "NTU-REF-1110 ② 行政大樓紅磚兩層、文學院／校史館土黃十三溝面磚（X223）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "4f695028e",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "NTU-REF-1110 ③-1 男一舍清水模＋樓梯塔圓窗（X223）",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_male1_1110/（README、ntu_ref_male1_1110.patch、ntu_ref_male1_unit.js、regression.log、male1_before_after.jpg）"
    ],
@@ -7283,14 +7334,15 @@
    "noDirectIntegrate": false,
    "note": "馬賽克→清水模（socsci_formwork）、鏤空花磚樓梯間→清水模＋5 個圓窗（D136 數量位置不照抄）；5 層照舊。新測試開發 FAILED 2 → ALL PASS；回歸 38 支過。",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-10 13:07／13:11：已在本機接進開發分支，測試 ALL PASS）；③-2 共同（模型好了）、③-3 映月湖亭、③-4 拿掉多的研三舍",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）",
+   "title": "NTU-REF-1110 ③-1 男一舍清水模＋樓梯塔圓窗（X223）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "812dd23d8",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "NTU-REF-1110 ③-2 共同教學館紅磚舊館＋米色翼樓（X223）",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_gongtong_1110/（README、ntu_ref_gongtong_1110.patch、ntu_ref_gongtong_unit.js、regression.log、gongtong_before_after.jpg）"
    ],
@@ -7298,14 +7350,15 @@
    "noDirectIntegrate": false,
    "note": "依使用者 11-04 照片：東半部舊館紅磚、西翼米色粉刷（照面的位置換材質）。新測試開發 FAILED 2 → ALL PASS；回歸 82 支過。",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-10 13:07／13:11：已在本機接進開發分支，測試 ALL PASS）；③-3 映月湖（模型好了）、③-4 研三舍",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）",
+   "title": "NTU-REF-1110 ③-2 共同教學館紅磚舊館＋米色翼樓（X223）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "50ac4d5c6",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "NTU-REF-1110 ③-3 映月湖：綠色琉璃瓦、紅欄杆、三棵垂柳（X223）",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_lake_1110/（README、ntu_ref_lake_1110.patch、ntu_ref_lake_unit.js、regression.log、lake_before_after.jpg）"
    ],
@@ -7313,14 +7366,15 @@
    "noDirectIntegrate": false,
    "note": "官網照片：綠琉璃瓦、紅木欄杆、垂柳（樹幹在水裡，導航不動）；zones3d.js attachLakeGLB 多一行（葉片不投影、alphaTest、雙面、透空）。新測試開發 FAILED 3 → ALL PASS；回歸 36 支過。",
    "next": "③-4 研三舍（拿掉多的那棟）",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）",
+   "title": "NTU-REF-1110 ③-3 映月湖：綠色琉璃瓦、紅欄杆、三棵垂柳（X223）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "3b080b7f3",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "NTU-REF-1110 ③-4 拿掉多蓋的研三舍那一棟（X223；研三舍在國青大樓裡）",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_r3_1110/（README、ntu_ref_r3_1110.patch、ntu_ref_r3_unit.js、regression.log、nav_before_after.md）"
    ],
@@ -7328,14 +7382,15 @@
    "noDirectIntegrate": false,
    "note": "zones3d.js 拿掉 (63,−108) 那一棟與導航阻擋、places.js 拿掉地名；原址變草地、和霖澤館前連通、沒有孤島、沒有鏡頭碰撞（BB_248）。blackforest_unit 拿掉研三舍那一點（國青、萬才館背面照舊走不到）。新測試開發 FAILED 3 → ALL PASS；回歸 36 支過。可套在 74da28ca9、8d8b475dc。",
    "next": "套件五棟（圖資、電機二、農綜、土木、國青）一包",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "NTU-REF-1110 ③-4 拿掉多蓋的研三舍那一棟（X223；研三舍在國青大樓裡）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "5b47de929",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "NTU-REF-1110 套件五棟照官網事實改參數（電機二、土木、圖資、農綜、國青；X223）",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_kit5_1110/（README、ntu_ref_kit5_1110.patch、ntu_ref_kit5_unit.js、regression.log）"
    ],
@@ -7343,14 +7398,15 @@
    "noDirectIntegrate": false,
    "note": "zones3d.js 五棟參數＋campuskit3d.js 加 topArch／stairTower／bays／roofCol（預設行為不變）；socsci_place_unit 第 6 項的正規式改成接受 CK.hall（不能有別的 sign）。新測試底 FAILED 5 → ALL PASS；回歸 199 支過。",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-10 13:27：已在本機接進開發分支，socsci_place 改法同意）；等 CC 疊圖、BB 判；PUTONG v2C 等 CC GLASSDIAG",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）；要先套 ③-4"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）；要先套 ③-4",
+   "title": "NTU-REF-1110 套件五棟照官網事實改參數（電機二、土木、圖資、農綜、國青；X223）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "380ceac62",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "PUTONG101-WINDOW-1102 第 4 版 v2D（BB_255：v2C 比 v2b 暗、東南角三版都沒變）",
+   "task": "PUTONG101-WINDOW-1102",
    "files": [
     "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2d/（README、putong101_window_v2d.patch、putong101_window_unit.js、regression.log）",
     "tools/blender/env_second/campus_teach.py",
@@ -7360,14 +7416,15 @@
    "noDirectIntegrate": false,
    "note": "原因①：shader 在輸出色空間混色，THREE.Color(hex) 轉成線性（0x6e7882→(40,48,57)；v2b 0x4f5f73→(20,29,44)＝CC 量到的增加量）→ 改傳 Vector3 輸出色空間數值。②：東南角那一片是東立面一樓（x −21.16、z −75.25～−84.25），skyBox z 延到 −84.3。開發 v2C FAILED 2 → ALL PASS；回歸 28 支過。",
    "next": "（原 ack 欄）ACKNOWLEDGED；BB 11-10 14:20 PASS、ART_APPROVED（BB_255；CC e9af13061 量：北窗 [96,105,113]、博思 gap [94,101,108]、東南角 [100,109,117]），結案；等 CC 重拍 putong_north、博思東南角",
-   "remaining": "（原狀態欄）ART_APPROVED（BB_255），結案"
+   "remaining": "（原狀態欄）ART_APPROVED（BB_255），結案",
+   "title": "PUTONG101-WINDOW-1102 第 4 版 v2D（BB_255：v2C 比 v2b 暗、東南角三版都沒變）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "4ec912641",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "XS-BRICK-WALK-1110 新生南路紅磚人行道磚紋（X246）",
+   "task": "XS-BRICK-WALK-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_brick_walk_1110/（README、xs_brick_walk_1110.patch、xs_brick_walk_unit.js、regression.log、brick_red_tiled.jpg）",
     "assets/textures/campus/brick_red_{diff,nor}.webp",
@@ -7377,14 +7434,15 @@
    "noDirectIntegrate": false,
    "note": "Poly Haven CC0 brick_pavement_04 調成 #b77a62；紅磚地面共用一個材質、UV 照世界座標（1.8 m）、遠景照舊合成 1 個網格；區域網格 238 → 238。新測試開發 FAILED 4 → ALL PASS；回歸 46 支過。",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-10 13:39：已在本機接進開發分支）；佇列空了，等 LAWWW 派",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判",
+   "title": "XS-BRICK-WALK-1110 新生南路紅磚人行道磚紋（X246）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "1ce81da56",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "XS-GATE-FORMAL-1110 新生南路側門正式門柱、鐵門、圍牆（X246）第 1 版",
+   "task": "XS-GATE-FORMAL-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_gate_formal_1110/（README、xs_gate_formal_1110.patch、xs_gate_formal_unit.js、regression.log、blender_preview.jpg）",
     "tools/blender/env_second/xs_gate.py",
@@ -7394,14 +7452,15 @@
    "noDirectIntegrate": false,
    "note": "紅磚矮牆＋鑄鐵欄杆＋牆墩、門柱（石材柱帽、燈籠、「首都帝大」石牌）、開著的鐵門；近景＋遠景兩頭；套件標 xsGate 接上就藏，遠景牆拆成 xs_far_wall；導航不動；網格 238→237（多兩個光暈 sprite）。新測試開發 FAILED 3 → ALL PASS；回歸 46 支過。和磚紋那包疊起來套得上。",
    "next": "等 CC 拍、BB 判",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）",
+   "title": "XS-GATE-FORMAL-1110 新生南路側門正式門柱、鐵門、圍牆（X246）第 1 版"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "9e2dee28d",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "XS-GATE-FORMAL-1110 第 1 版補：側門兩邊腳踏車停車架不疊進花台（BB_255 P3，LAWWW 13:47 併進來）",
+   "task": "XS-GATE-FORMAL-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_gate_formal_1110/（patch 重做：多 zones3d.js BIKE_RACKS.xinsheng 兩個座標；測試多第 5 項）"
    ],
@@ -7409,14 +7468,15 @@
    "noDirectIntegrate": false,
    "note": "架子外框 x 16.18～17.82、花台 x 16.45～18.15，移 0.5 m 還疊 0.87 m → 移到 x 15.5（1.5 m）；左邊那台也疊到，一起移。測試第 5 項開發 FAIL → PASS；回歸 106 支（新生南路＋腳踏車）全過。",
    "next": "等 CC 拍、BB 判",
-   "remaining": "（原狀態欄）MODEL_READY，待整合（取代 1ce81da56 那一份 patch）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合（取代 1ce81da56 那一份 patch）",
+   "title": "XS-GATE-FORMAL-1110 第 1 版補：側門兩邊腳踏車停車架不疊進花台（BB_255 P3，LAWWW 13:47 併進來）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "f09ac1444",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "X186 橘貓有骨架的趴姿、跳上／跳下圓椅接進遊戲（WZ-CAT-FLOAT-RUB-1103 尾巴）",
+   "task": "WZ-CAT-LIE-JUMP-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/wz_cat_lie_jump_1110/（README、wz_cat_lie_jump_1110.patch、wz_cat_lie_jump_unit.js、regression.log）"
    ],
@@ -7424,14 +7484,15 @@
    "noDirectIntegrate": false,
    "note": "動畫 f22ef5dcd 11-03 就做好了，整合時只接 cat_rub。wzcat3d.js：有 cat_lie_idle 就用走路那一隻趴著播；有 cat_jump_down／up 就從圓椅跳下、跳上（片段位移 0.35／0.30 m、0.45 m＝座面高）；hold／release 搬回原位。舊 GLB 照舊。新測試開發 FAILED 4 → ALL PASS；回歸 42 支過。",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-10 14:21：已接進開發分支 99294fead）；等 LAWWW 派",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW（程式），待整合"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW（程式），待整合",
+   "title": "X186 橘貓有骨架的趴姿、跳上／跳下圓椅接進遊戲（WZ-CAT-FLOAT-RUB-1103 尾巴）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "900705400",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "GG-LANE-CLOSE-1110 公館往溫州街巷口的住戶鐵門（X199 配套）第 1 版",
+   "task": "GG-LANE-CLOSE-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_lane_close_1110/（README、gg_lane_close_1110.patch、gg_lane_close_unit.js、regression.log、blender_preview.jpg）",
     "tools/blender/env_second/gg_lane_gate.py",
@@ -7441,14 +7502,15 @@
    "noDirectIntegrate": false,
    "note": "盆栽後面、店面線往裡 0.3 m 一道深綠鐵門（混凝土門柱、下鐵板上直條、「私人巷道 請勿進入」告示牌）；716 三角形；導航一格不差；zone_assets 用工具重產（順便更新 xs_planters、xs_gate）。新測試開發 FAILED 4 → ALL PASS；回歸 108 支過。",
    "next": "等 LAWWW 派",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（第 1 版）",
+   "title": "GG-LANE-CLOSE-1110 公館往溫州街巷口的住戶鐵門（X199 配套）第 1 版"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "058d6bdd2",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "映月湖垂柳第 2 版（BB_255 P3 從上面看像枯樹）",
+   "task": "LAKE-WILLOW-V2-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_lake_1110/willow_v2/（README、lake_willow_v2.patch、lake_willow_crown_unit.js、regression.log、willow_before_after.jpg）",
     "tools/blender/env_second/campus_lake.py",
@@ -7458,14 +7520,15 @@
    "noDirectIntegrate": false,
    "note": "樹冠加一圈往外往下斜的葉片卡（每棵 30 片）、垂枝 46→84 條且交叉兩片、貼圖不透明 22%→63%、綠色比例 0.453→0.494；從上面看蓋住 0%→94～98%；GLB 9,462→10,098 三角形。新測試開發 FAILED 2 → ALL PASS；回歸 38 支過。",
    "next": "等 LAWWW 派",
-   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（垂柳第 2 版）"
+   "remaining": "（原狀態欄）MODEL_READY，待整合；BB 判（垂柳第 2 版）",
+   "title": "映月湖垂柳第 2 版（BB_255 P3 從上面看像枯樹）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "01d3577ef",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "LAWWW2-REEXPORT-US-1027 開發分支能重新做出美國公寓、C 棟 208 的 GLB",
+   "task": "LAWWW2-REEXPORT-US-1027",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_reexport_1110/（README、us_reexport_1110.patch、us_reexport_inputs_unit.js、regression.log）",
     "tools/blender/env_second/lightbake/rebuild_us_rooms.sh"
@@ -7474,7 +7537,8 @@
    "noDirectIntegrate": false,
    "note": "實際缺的是：us_apartment.py 舊版（concrete_floor_painted 不在開發分支）、glb_split_node.py 不在、步驟沒寫在一起。補上 rebuild_us_rooms.sh（bake_us → 切門板 → partition）；低取樣試跑公寓、208 的節點、網格、材質、三角形、extras 和部署中逐一相同。新測試開發 FAILED 3 → ALL PASS；回歸 47 支過。",
    "next": "（原 ack 欄）ACKNOWLEDGED；等 LAWWW 派（US-SCENE-GAP 的教室、會所要先問 AA）",
-   "remaining": "（原狀態欄）LAWWW 已整合（本機 1e3c6ad6a，11-10 14:46），結案"
+   "remaining": "（原狀態欄）LAWWW 已整合（本機 1e3c6ad6a，11-10 14:46），結案",
+   "title": "LAWWW2-REEXPORT-US-1027 開發分支能重新做出美國公寓、C 棟 208 的 GLB"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7482,7 +7546,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "US-CLASSROOM-3D-1110 美國法學院 Room 120 階梯教室（3D 區域＋正式模型＋四季窗景；AA_740）",
+   "task": "US-CLASSROOM-3D-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_classroom_3d_1110/（README、us_classroom_3d_1110.patch、us_classroom_unit.js、regression.log、blender_preview.jpg、window_views.jpg）"
    ],
@@ -7490,7 +7554,8 @@
    "noDirectIntegrate": false,
    "note": "us_classroom 區域（6 排×8 席、48 個都能坐、照 201）、us_classroom_layout.js（三門課的座位、報告站位、監考位置）、us_classroom.glb 3.6 MB、窗景 8 張。新測試開發 8b31bbaa0 FAILED 4 → ALL PASS；回歸 359 支過。劇情接線（進教室、一鍵上課、報告）LAWWW 做，README 寫了怎麼接。請 AA 確認「玩家在右」是哪一邊的右。",
    "next": "（原 ack 欄）ACKNOWLEDGED；US-CLUBHOUSE-3D-1110（AA_741）",
-   "remaining": "（原狀態欄）LAWWW 已整合（d78228f85）；BB ART_APPROVED（BB_255 e50fa31fc）"
+   "remaining": "（原狀態欄）LAWWW 已整合（d78228f85）；BB ART_APPROVED（BB_255 e50fa31fc）",
+   "title": "US-CLASSROOM-3D-1110 美國法學院 Room 120 階梯教室（3D 區域＋正式模型＋四季窗景；AA_740）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7498,7 +7563,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "US-NIGHTVIEW-1110 BB US_ART 第一批三項 P2（公寓臥室、超市結帳區窗外的日夜；圖書館服務台）",
+   "task": "US-NIGHTVIEW-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_nightview_1110/（README、us_nightview_1110.patch、us_night_view_unit.js、regression.log、cc_bedroom_window_14_20.png）"
    ],
@@ -7506,7 +7571,8 @@
    "noDirectIntegrate": false,
    "note": "①玻璃被室內燈照亮蓋過夜景 → glassTint；②超市門外的景材質叫 GLOW_ 被當成燈整天全亮 → 改 viewTint；③不是少牆：CC 的 SNAP 用遊戲鏡頭的淡出狀態（玩家在門口、鏡頭在南牆外），請 CC 拍之前用拍照鏡頭跑 fadeWalls。新測試開發 FAILED 4 → ALL PASS；回歸 40 支過。",
    "next": "（原 ack 欄）ACKNOWLEDGED；回 US-CLUBHOUSE-3D-1110",
-   "remaining": "（原狀態欄）FIXED（BB 16:0x CC 第二輪 8a98ff1e0）；美國公寓、208、圖書館、超市、校園、社區、Room 120 ART_APPROVED（BB_255 e50fa31fc）"
+   "remaining": "（原狀態欄）FIXED（BB 16:0x CC 第二輪 8a98ff1e0）；美國公寓、208、圖書館、超市、校園、社區、Room 120 ART_APPROVED（BB_255 e50fa31fc）",
+   "title": "US-NIGHTVIEW-1110 BB US_ART 第一批三項 P2（公寓臥室、超市結帳區窗外的日夜；圖書館服務台）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7514,7 +7580,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "US-CLUBHOUSE-3D-1110 美國社區會所的室內 3D（門廳、交誼廳、自習室；AA_741）",
+   "task": "US-CLUBHOUSE-3D-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_clubhouse_3d_1110/（README、us_clubhouse_3d_1110.patch、us_clubhouse_unit.js、regression.log、blender_preview.jpg、window_views.jpg）"
    ],
@@ -7522,7 +7588,8 @@
    "noDirectIntegrate": false,
    "note": "新區域 us_clubhouse_in（38 個座位、自習室 16 席帶 usClubStudy）、配置 us_clubhouse_layout.js（人、五場劇情站位）、us_clubhouse.glb 2.3 MB（九個切換節點：聖誕樹、燈、平常／併桌、晚餐、外套、公布欄單子、讀書計畫、櫃台百葉）、窗景 16 張（後面草地＋烤肉架、正面停車場）。新測試開發 01bab1823 FAILED 4 → ALL PASS；回歸 363 支過。劇情接線（進來、讀書、招呼、旁白、晚餐）LAWWW 做，README 寫了怎麼接。",
    "next": "（原 ack 欄）ACKNOWLEDGED；US-EXAM-PROPS-1110 → US-LONG-3D-1110 → GG-LANE 告示牌字（BB P3）",
-   "remaining": "（原狀態欄）MODEL_READY＋區域接好（第 1 版），待整合；畫面待 CC 拍、BB 判"
+   "remaining": "（原狀態欄）MODEL_READY＋區域接好（第 1 版），待整合；畫面待 CC 拍、BB 判",
+   "title": "US-CLUBHOUSE-3D-1110 美國社區會所的室內 3D（門廳、交誼廳、自習室；AA_741）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7530,7 +7597,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "US-EXAM-PROPS-1110 美國教室 12/6 期末考桌上的考卷和書（z.setExam）",
+   "task": "US-EXAM-PROPS-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_exam_props_1110/（README、us_exam_props_1110.patch、us_exam_props_unit.js、regression.log、blender_preview.jpg）"
    ],
@@ -7538,14 +7605,15 @@
    "noDirectIntegrate": false,
    "note": "us_classroom.glb 加 EXAM_PROPS 群組（Introduction 有人坐的 30 個位子：藍色答案本、筆、攤開的書，玩家那本貼滿便利貼；講桌一疊空白答案本），3.58→3.97 MB，其他 62 個網格不變；us_classroom3d.js 加 z.setExam(on)。新測試開發 FAILED 2 → ALL PASS；回歸 446 支過；可以套在 06e779533 上。",
    "next": "（原 ack 欄）ACKNOWLEDGED；ART-GYM-POOL-SWIMMERS-1103（D144：工具直接裝）→ GG-LANE 告示牌字 → US-LONG-3D-1110",
-   "remaining": "（原狀態欄）MODEL_READY，待整合"
+   "remaining": "（原狀態欄）MODEL_READY，待整合",
+   "title": "US-EXAM-PROPS-1110 美國教室 12/6 期末考桌上的考卷和書（z.setExam）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "575ef8ae3",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "task": "US-CLUB-LOUNGE-CLOSE-1110 會所交誼廳的門關著（z.setLoungeClosed）",
+   "task": "US-CLUBHOUSE-3D-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_club_lounge_close_1110/（README、us_club_lounge_close_1110.patch、us_club_lounge_unit.js、regression.log、blender_preview.jpg）"
    ],
@@ -7553,7 +7621,8 @@
    "noDirectIntegrate": false,
    "note": "us_clubhouse.glb 加 LOUNGE_DOOR 群組；us_clubhouse3d.js 加 z.setLoungeClosed(on)：門板、導航擋門口、鏡頭牆、門廳的「看」（今晚交誼廳有聚餐。）；玩家在交誼廳裡不關（D36）。新測試開發 FAILED 1 → ALL PASS；回歸 11 支過。",
    "next": "ART-GYM-POOL-SWIMMERS-1103 交件（回歸快跑完）",
-   "remaining": "（原狀態欄）待整合"
+   "remaining": "（原狀態欄）待整合",
+   "title": "US-CLUB-LOUNGE-CLOSE-1110 會所交誼廳的門關著（z.setLoungeClosed）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7561,7 +7630,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "SENT",
-   "task": "ART-GYM-POOL-SWIMMERS-1103 游泳池裡游泳的人（四個泳客 VRM＋自由式、蛙式＋C.swimLap）",
+   "task": "ART-GYM-POOL-SWIMMERS-1103",
    "files": [
     "docs/art-rebuild/second_ai/wip/gym_pool_swimmers_1110/（README、gym_pool_swimmers_1110.patch、swim_pose_unit.js、regression.log、blender_render.jpg、pose_strip.png）"
    ],
@@ -7569,7 +7638,8 @@
    "noDirectIntegrate": false,
    "note": "D144：setup_env.sh 裝好工具直接做。swimmer.py（正式人物生產線：npc.py stage0＋face＋泳衣／泳帽／泳鏡貼身殼、襪子重畫成皮膚）→ bl_swim_{sm1,sm2,sf1,sf2}.vrm 1.4～1.8 MB；character3d.js swim_free／swim_breast（gymIK 同一套，趴在水面 water −0.14）、C.swimLap；manifest char.swim_*（swim:true、不是 anon／ambient）。新測試四個人 ALL PASS，沒有新動作 FAILED 26；回歸 519 支過；可以套在 97979ca46。",
    "next": "MOVIE-POSTER-POS-1110 → GG-LANE 告示牌字 → US-LONG-3D-1110",
-   "remaining": "（原狀態欄）MODEL_READY＋動作做好，待 LAWWW 接 crowd3d；人物美術待 BB 驗收（D59）"
+   "remaining": "（原狀態欄）MODEL_READY＋動作做好，待 LAWWW 接 crowd3d；人物美術待 BB 驗收（D59）",
+   "title": "ART-GYM-POOL-SWIMMERS-1103 游泳池裡游泳的人（四個泳客 VRM＋自由式、蛙式＋C.swimLap）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7577,7 +7647,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "SENT",
-   "task": "GG-LANE-SIGN-1110 公館巷口告示牌的字被切掉（BB P3）",
+   "task": "GG-LANE-SIGN-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_lane_sign_1110/（README、gg_lane_sign_1110.patch、gg_lane_close_unit.js、regression.log）"
    ],
@@ -7585,7 +7655,8 @@
    "noDirectIntegrate": false,
    "note": "一行 9 個字要 4.5 倍板高、牌子只有 3.2 倍 → 兩行（text＋sub）；GLB 二進位不變、只有 extras；測試加 2b，開發 FAILED 1 → ALL PASS；回歸 159／160（aa498_pool_unit 開發分支上一樣失敗）。",
    "next": "MOVIE-POSTER-POS-1110（等截圖）→ US-LONG-3D-1110",
-   "remaining": "（原狀態欄）待整合"
+   "remaining": "（原狀態欄）待整合",
+   "title": "GG-LANE-SIGN-1110 公館巷口告示牌的字被切掉（BB P3）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7593,7 +7664,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "SENT",
-   "task": "US-LONG-3D-1110 何俊朗自己的 3D 模型（圓框眼鏡、背包奶茶杯鑰匙圈）",
+   "task": "US-LONG-3D-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_long_3d_1110/（README、us_long_3d_1110.patch、us_long_model_unit.js、regression.log、Blender 算圖 4 張）"
    ],
@@ -7601,7 +7672,8 @@
    "noDirectIntegrate": false,
    "note": "底 a8d8b9f7c、apply --check 乾淨；VRM 2.64 MB（Sakurada_Fumiriya 改作，耳上短髮、單眼皮、濃眉、深藍敞開外套＋白 T）；眼鏡 glasses_long.glb、鑰匙圈 keychain_milktea.glb；us_life3d.js specOf 接線（lazy 下載、失敗退回路人樣子）；新測試開發 FAILED 7 → ALL PASS；回歸 14／14 ALL PASS。沒有參考圖：照 AA_80 5-2、AA_145 3-5 文字做。",
    "next": "LIFE-DETAILS-SEASONAL-1110 提案 → MOVIE-POSTER-POS-1110（等截圖）",
-   "remaining": "（原狀態欄）待整合（角色美術待 BB 驗收 D59；遊戲畫面待 CC）"
+   "remaining": "（原狀態欄）待整合（角色美術待 BB 驗收 D59；遊戲畫面待 CC）",
+   "title": "US-LONG-3D-1110 何俊朗自己的 3D 模型（圓框眼鏡、背包奶茶杯鑰匙圈）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7609,7 +7681,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "SENT",
-   "task": "SIGN-RECTIFY-1110 第 1 包：公館五塊招牌拉正（青木茶室、頁間書屋、慢輪單車、afar、轉角唱片）",
+   "task": "SIGN-RECTIFY-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/sign_rectify_1110/（README、gg_signs_rectify.patch、gg_glb_before_after.jpg、before_after.jpg、工具）"
    ],
@@ -7617,7 +7689,8 @@
    "noDirectIntegrate": false,
    "note": "底 70047bb79；只換 gongguan_shops.glb 裡的 gg_fronts_atlas 一張圖，幾何、UV、其他貼圖 md5 相同；回歸 9 支 ALL PASS。",
    "next": "第 2 包新生南路四塊、第 3 包溫州街四塊＋第二批三塊（溫州書屋、夏日冰菓室、帝大紅茶）",
-   "remaining": "（原狀態欄）待整合（BB 判；遊戲截圖待 CC）"
+   "remaining": "（原狀態欄）待整合（BB 判；遊戲截圖待 CC）",
+   "title": "SIGN-RECTIFY-1110 第 1 包：公館五塊招牌拉正（青木茶室、頁間書屋、慢輪單車、afar、轉角唱片）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7625,7 +7698,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACTIONED",
-   "task": "TINGZHOU-AREA-1110 汀州路商圈第 1 版（X321／X322）：區域、街道模型、使用者指定的八間店、公館入口",
+   "task": "TINGZHOU-AREA-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/tingzhou_1110/（README、tingzhou_v1.patch、regression.log、Blender 預覽 2 張、招牌對照、貼圖集）"
    ],
@@ -7633,7 +7706,8 @@
    "noDirectIntegrate": false,
    "note": "底 25c3039ec、apply --check 乾淨；新區域 tingzhou（tingzhou3d.js、tingzhou_layout.js v3、tingzhou_street.glb 7.2 MB）；五間店面照使用者概念圖；公館加「往汀州路」互動點（不改 zones3d.js）；tests/tingzhou_unit.js 12 項、相關回歸 85 支 ALL PASS。先將就的 9 點寫在 README。",
    "next": "等使用者回騎樓的決定 → 第 2 版（樓上加密、三間外觀照規格、夜市攤模組、遠景、公館 G10 巷口模型）",
-   "remaining": "（原狀態欄）已整合 dev 7a625da3c；BB 第 1 版：功能 PASS、美術要第 2 版"
+   "remaining": "（原狀態欄）已整合 dev 7a625da3c；BB 第 1 版：功能 PASS、美術要第 2 版",
+   "title": "TINGZHOU-AREA-1110 汀州路商圈第 1 版（X321／X322）：區域、街道模型、使用者指定的八間店、公館入口"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7641,7 +7715,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACTIONED",
-   "task": "TINGZHOU-AREA-1110 汀州路商圈第 2 版（D141 2／3）：五間沒有騎樓（使用者「混合」）、洗樂／印得好／泰米照使用者 21:1x 參考圖、夜市攤位模組、路邊機車、BB 第 1 版五點",
+   "task": "TINGZHOU-AREA-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/tingzhou_1110/（README_v2.md、tingzhou_v2.patch、regression_v2.log、Blender 預覽、crops_three_from_ref.jpg）",
     "docs/art-rebuild/second_ai/ref/gg_shops6_1110/（使用者六張外觀參考圖）"
@@ -7650,7 +7724,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 6c55e63e3、apply --check 乾淨（一行行尾空白警告）；tingzhou_unit ALL PASS（新增第 8～10 項）；1235 項 Node 測試三項沒過都指到 dev 的 movie_plots.js／bookstore json，和這次無關。src/zones3d.js 只多匯出 attachWzScooters。攤位的看、買互動點沒有（zone.tzStalls 給 LAWWW 接）。攤位顏色、店內調暗沒有在遊戲裡看過。",
    "next": "FLOWER-NOTES-ART-1110（花序）→ GG-SHOPS3-ART-1110 公館三間（安泰、汀州鮮果、榮恩典，照參考圖）→ 汀州路第 3 版（泰米室內、遠景、G10 巷口）",
-   "remaining": "（原狀態欄）已整合 dev 9cc173c29；BB 第 2 版：街景＋五間 ART_APPROVED，三間招牌要第 3 版"
+   "remaining": "（原狀態欄）已整合 dev 9cc173c29；BB 第 2 版：街景＋五間 ART_APPROVED，三間招牌要第 3 版",
+   "title": "TINGZHOU-AREA-1110 汀州路商圈第 2 版（D141 2／3）：五間沒有騎樓（使用者「混合」）、洗樂／印得好／泰米照使用者 21:1x 參考圖、夜市攤位模組、路邊機車、BB 第 1 版五點"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7658,7 +7733,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACTIONED",
-   "task": "TINGZHOU-AREA-1110 第 3 版（D141 3／3）：洗樂／印得好／泰米招牌各留一塊、放大到店面寬",
+   "task": "TINGZHOU-AREA-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/tingzhou_1110/（README_v3.md、tingzhou_v3_signs.patch、preview_v3_three_signs.jpg）"
    ],
@@ -7666,7 +7741,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev a37b2ff61；只動 tingzhou_street.glb（＋json）、wz_street.py、wz_shopkit.py；tingzhou_unit ALL PASS。",
    "next": "花序 A 件 → 夜市規劃文件 → 花序 B 件 → 公館三間",
-   "remaining": "（原狀態欄）已整合（dev 2a7edffd5 以前）"
+   "remaining": "（原狀態欄）已整合（dev 2a7edffd5 以前）",
+   "title": "TINGZHOU-AREA-1110 第 3 版（D141 3／3）：洗樂／印得好／泰米招牌各留一塊、放大到店面寬"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7674,7 +7750,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACTIONED",
-   "task": "FLOWER-NOTES-ART-1110 花序 Flower Notes 第 1 版・A 件（室內；D141 1／3）：區域 flower_notes、兩層導航、室內模型、公館 G11 進出",
+   "task": "FLOWER-NOTES-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/flower_notes_1110/（README.md、flower_notes_v1a.patch、regression.log、preview_1f.jpg、preview_2f.jpg）"
    ],
@@ -7682,7 +7758,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 8372e7086、9d28235df 上 apply --check 乾淨；flower_notes_unit ALL PASS；套完重跑 gen_zone_assets。買花互動點 kind gg_flower 在收銀櫃檯前（LAWWW 接）、zone.fnLooks／fnClerk。先將就的寫在 README。",
    "next": "B 件和公館三間（安泰、汀州鮮果、榮恩典）一起重建 gongguan_shops.glb；G09 放什麼要先定",
-   "remaining": "（原狀態欄）已整合（dev 2a7edffd5 以前）"
+   "remaining": "（原狀態欄）已整合（dev 2a7edffd5 以前）",
+   "title": "FLOWER-NOTES-ART-1110 花序 Flower Notes 第 1 版・A 件（室內；D141 1／3）：區域 flower_notes、兩層導航、室內模型、公館 G11 進出"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7690,7 +7767,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "花序 Flower Notes 第 1 版・B 件（公館 G11 外觀、拿掉舊花攤）＋GG-SHOPS3-ART-1110（G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社外觀）",
+   "task": "FLOWER-NOTES-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/flower_notes_1110/（README_B.md、flower_notes_v1b_gg_shops3.patch、regression_b.log、preview_gg_fronts.jpg、crops_gg3_flower_from_ref.jpg）"
    ],
@@ -7698,7 +7775,8 @@
    "noDirectIntegrate": false,
    "note": "在 dev 2a7edffd5 上 apply --check 乾淨，套上後 flower_notes_unit、tingzhou_unit ALL PASS；相關 56 支 Node 測試 ALL PASS。src/zones3d.js 改兩處（柱子名單一行、花攤那一段拿掉）、src/assets3d.js 拿掉 bldg.gg_flower_stall。G09、G10 沒動。",
    "next": "（原 ack 欄）REJECTED；等 G09／G10 的決定；花序第 2 版（花的造型、二樓高度的窗景、門口橄欖樹和花台）；公館三間門口的東西和室內；夜市等使用者授權",
-   "remaining": "（原狀態欄）LAWWW 22:43 退（zq_arcade_seat_unit、street_props_nav_unit）；r2 重交見下面"
+   "remaining": "（原狀態欄）LAWWW 22:43 退（zq_arcade_seat_unit、street_props_nav_unit）；r2 重交見下面",
+   "title": "花序 Flower Notes 第 1 版・B 件（公館 G11 外觀、拿掉舊花攤）＋GG-SHOPS3-ART-1110（G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社外觀）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7706,7 +7784,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACTIONED",
-   "task": "汀州路路邊機車（使用者 11-10 21:5x「長得幾乎一樣莫名其妙」；BB 收回街景 ART_APPROVED）：一群一群停、有空位、角度不一、有腳踏車",
+   "task": "TZ-SCOOTERS-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/tingzhou_1110/tingzhou_v3b_parking.patch（README_v3.md 最後一節）"
    ],
@@ -7714,7 +7792,8 @@
    "noDirectIntegrate": false,
    "note": "只動 src/tingzhou3d.js、tests/tingzhou_unit.js；最新 dev 上 apply --check 乾淨、tingzhou_unit ALL PASS。zone.tzScooterGLB＝正式機車模型載入成功的台數（CC 截圖時看）。",
    "next": "夜市規劃文件補使用者四題的答案",
-   "remaining": "（原狀態欄）已整合 dev f6947aff3"
+   "remaining": "（原狀態欄）已整合 dev f6947aff3",
+   "title": "汀州路路邊機車（使用者 11-10 21:5x「長得幾乎一樣莫名其妙」；BB 收回街景 ART_APPROVED）：一群一群停、有空位、角度不一、有腳踏車"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7722,7 +7801,7 @@
    "receiver": "LAWWW",
    "cc": "BB、AA",
    "ack": "ACK",
-   "task": "GG-SHOPS3-ART-1110 泰米村食室內第 1 版（D141 1／3；使用者 11-10 室內參考圖）：區域 tz_taimi、配置、模型、測試；六間共用的 tz_shops 三個檔",
+   "task": "GG-SHOPS3-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md、taimi_int_v1.patch、regression_taimi.log、preview_taimi.jpg）"
    ],
@@ -7730,7 +7809,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 2a7edffd5；tz_shops_unit ALL PASS。和 AA_743 的差異表在 README（以圖為準）。互動點 kind tz_taimi_order／menu／kitchen／photo、zone.shopClerk 給 LAWWW 接。",
    "next": "（原 ack 欄）SUPERSEDED；洗樂洗衣坊 → 印得好 → 安泰藥局 → 汀州鮮果 → 榮恩典文具社",
-   "remaining": "（原狀態欄）被下一筆取代（泰米＋洗樂合成一個 patch）"
+   "remaining": "（原狀態欄）被下一筆取代（泰米＋洗樂合成一個 patch）",
+   "title": "GG-SHOPS3-ART-1110 泰米村食室內第 1 版（D141 1／3；使用者 11-10 室內參考圖）：區域 tz_taimi、配置、模型、測試；六間共用的 tz_shops 三個檔"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7738,7 +7818,7 @@
    "receiver": "LAWWW",
    "cc": "BB、AA",
    "ack": "ACTIONED",
-   "task": "GG-SHOPS3-ART-1110 泰米村食＋洗樂洗衣坊室內第 1 版（一個 patch）",
+   "task": "GG-SHOPS3-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md、tz_shops_int_v1_taimi_xile.patch、preview_taimi.jpg、preview_xile.jpg、regression_taimi.log）"
    ],
@@ -7746,7 +7826,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 2a7edffd5；tz_shops_unit 兩間 ALL PASS。kind tz_taimi_*、tz_xile_*、zone.shopClerk 給 LAWWW 接。",
    "next": "印得好 → 安泰藥局 → 汀州鮮果 → 榮恩典文具社",
-   "remaining": "（原狀態欄）已整合 dev f6947aff3"
+   "remaining": "（原狀態欄）已整合 dev f6947aff3",
+   "title": "GG-SHOPS3-ART-1110 泰米村食＋洗樂洗衣坊室內第 1 版（一個 patch）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7754,7 +7835,7 @@
    "receiver": "LAWWW",
    "cc": "BB、AA",
    "ack": "ACTIONED",
-   "task": "GG-SHOPS3-ART-1110 印得好室內第 1 版（套在泰米＋洗樂 patch 後面）",
+   "task": "GG-SHOPS3-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md 最後一節、tz_shops_int_v1b_yindehao.patch、preview_yindehao.jpg）"
    ],
@@ -7762,7 +7843,8 @@
    "noDirectIntegrate": false,
    "note": "先套 tz_shops_int_v1_taimi_xile.patch 再套這一個；tz_shops_unit 三間 ALL PASS。kind tz_yin_copy／counter／price／samples、zone.shopClerk。",
    "next": "公館三間室內：安泰藥局 → 汀州鮮果 → 榮恩典文具社（公館那邊的店門入口要先講好怎麼接）",
-   "remaining": "（原狀態欄）已整合 dev f6947aff3"
+   "remaining": "（原狀態欄）已整合 dev f6947aff3",
+   "title": "GG-SHOPS3-ART-1110 印得好室內第 1 版（套在泰米＋洗樂 patch 後面）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7770,7 +7852,7 @@
    "receiver": "LAWWW",
    "cc": "BB、AA",
    "ack": "ACK",
-   "task": "GG-SHOPS3-ART-1110 公館三間室內第 1 版：安泰藥局 gg_antai、汀州鮮果 gg_xianguo、榮恩典文具社 gg_rongendian（六間室內到齊）",
+   "task": "GG-SHOPS3-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md 最後一節、tz_shops_int_v1c_gg3.patch、preview_antai／xianguo／rongendian.jpg、regression_gg3.log）"
    ],
@@ -7778,7 +7860,8 @@
    "noDirectIntegrate": false,
    "note": "依序套 v1_taimi_xile → v1b_yindehao → v1c_gg3；tz_shops_unit 六間 ALL PASS。公館入口用 hookOut 包住 gongguan build（不改 zones3d.js）。LICENSES.md 和花序 B 件可能要手動併；zone_assets 重產。",
    "next": "（原 ack 欄）SUPERSEDED；X332 禮貌生財規劃補一節；FACTS 幾行給 LAWWW；等判定",
-   "remaining": "（原狀態欄）併進 r2"
+   "remaining": "（原狀態欄）併進 r2",
+   "title": "GG-SHOPS3-ART-1110 公館三間室內第 1 版：安泰藥局 gg_antai、汀州鮮果 gg_xianguo、榮恩典文具社 gg_rongendian（六間室內到齊）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7786,7 +7869,7 @@
    "receiver": "LAWWW",
    "cc": "BB、AA",
    "ack": "SENT",
-   "task": "重交 r2：花序 B 件（公館 G11 外觀、拿掉舊花攤）＋公館三間外觀（G04／G08／G13）＋公館三間室內（gg_antai／gg_xianguo／gg_rongendian），一個 patch",
+   "task": "FLOWER-NOTES-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/flower_notes_1110/（README_r2.md、gg_flowerB_gg3_ext_int_r2.patch、regression_r2_full.log；內容說明 README_B.md）",
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/README.md（公館三間室內）"
@@ -7795,7 +7878,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev fd4dd9aef，9a5164f24 上 apply --check 乾淨；全部 1241 支 Node 測試通過；套上後 zq_arcade_seat、street_props_nav、flower_notes、tz_shops（六間）、tingzhou、gift_holiday ALL PASS。",
    "next": "等判定；花序第 2 版換花；六間室內第 2 版",
-   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；BB 判"
+   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；BB 判",
+   "title": "重交 r2：花序 B 件（公館 G11 外觀、拿掉舊花攤）＋公館三間外觀（G04／G08／G13）＋公館三間室內（gg_antai／gg_xianguo／gg_rongendian），一個 patch"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7803,7 +7887,7 @@
    "receiver": "LAWWW",
    "cc": "BB、AA",
    "ack": "SENT",
-   "task": "NIGHT-MARKET-1110 夜市十攤＋背景三攤第 1 版（X326；使用者 11-10 23:3x「可以，照圖做」UA-LAWWW-1110-111）",
+   "task": "NIGHT-MARKET-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/night_market_1110/（README.md、night_market_v1.patch、regression_full.log、preview/）"
    ],
@@ -7811,7 +7895,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 9a5164f24，f3c0f9f19 上 apply --3way 乾淨；全部 1242 支 Node 測試沒有失敗。kind guabao→milk、fortune 拿掉；各攤自己的開收時間；公館三攤用 hookGongguan 加；tingzhou_walkers 第 4 項改成比例（請 LAWWW 過目）；價錢以圖為準、和 AA_744 不同的列在 README。",
    "next": "LAWWW 接看／買、星期幾（套圈圈）、攤主 NPC；CC 拍；BB 判",
-   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；BB 判"
+   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；BB 判",
+   "title": "NIGHT-MARKET-1110 夜市十攤＋背景三攤第 1 版（X326；使用者 11-10 23:3x「可以，照圖做」UA-LAWWW-1110-111）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7819,7 +7904,7 @@
    "receiver": "LAWWW",
    "cc": "BB、AA",
    "ack": "SENT",
-   "task": "LIMAO-SHOP-1110 禮貌生財第 1 版（街上店面＋算命桌＋室內 tz_limao＋鎖著的書房，X332）＋BB_255 三項修正（汀州路機車第 3 版、洗樂／印得好室內第 2 版），一個 patch",
+   "task": "LIMAO-SHOP-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/limao_1110/（README.md、limao_v1_plus_bb255.patch、regression_full.log、preview/）",
     "docs/art-rebuild/second_ai/wip/bb255_fix_1111/README.md"
@@ -7828,7 +7913,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 57181feb2，apply --3way 乾淨。全部 1242 支跑過：walkers 第 3 項（我的 tzShop）已修；aa401／termend×2 是容器沒抓企劃線 commit，fetch 後 ALL PASS、和 patch 無關。動到 LAWWW 的 zones3d.js attachWzScooters 兩行（code／pcol，其他區域不受影響）。",
    "next": "LAWWW 接：上師 NPC、桌前互動、書房解鎖旗標（TZS3.studyOpen）、tz_yin_pc 的句子；上師 3D 人物另外交",
-   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；場景 BB 判"
+   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；場景 BB 判",
+   "title": "LIMAO-SHOP-1110 禮貌生財第 1 版（街上店面＋算命桌＋室內 tz_limao＋鎖著的書房，X332）＋BB_255 三項修正（汀州路機車第 3 版、洗樂／印得好室內第 2 版），一個 patch"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7836,7 +7922,7 @@
    "receiver": "LAWWW",
    "cc": "",
    "ack": "SENT",
-   "task": "LIMAO-SHANGSHI-3D-1111 禮貌生財上師 3D 人物第 1 版（X332）",
+   "task": "LIMAO-SHOP-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/limao_shangshi_1111/（README.md、limao_shangshi_v1.patch、blender_v4_face_body.jpg）"
    ],
@@ -7844,7 +7930,8 @@
    "noDirectIntegrate": false,
    "note": "char.limao_shangshi＋prop.glasses_shangshi；帽子、鬍子、圍巾在 VRM 裡；NPC 沒放。相關六支測試 ALL PASS，沒有跑全部。",
    "next": "LAWWW 放 NPC、驗角色；第 2 版畫皺紋、捲髮、西裝領",
-   "remaining": "（原狀態欄）待整合；角色美術 LAWWW 驗（D100a）"
+   "remaining": "（原狀態欄）待整合；角色美術 LAWWW 驗（D100a）",
+   "title": "LIMAO-SHANGSHI-3D-1111 禮貌生財上師 3D 人物第 1 版（X332）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7852,7 +7939,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "SENT",
-   "task": "第二包：夜市各攤時間照 AA_752、GG-G09-G10-SHUTTER-1111（X335）公館 G09／G10 鐵捲門、BB 11-10 23:51 退的四項（公館招牌櫥窗貼圖放大、七間室內牆面、安泰貨架、汀州鮮果補滿）、禮貌生財小項（LM_STUDY、study_letters、收攤椅子靠牆）",
+   "task": "NIGHT-MARKET-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/pkg_1111b/（README.md、pkg2_on_dev_f8ff49f43.patch、regression_full.log、preview/）"
    ],
@@ -7860,7 +7947,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev f8ff49f43；13c9e729d 上 apply --3way 乾淨。全部 1245 支 Node 測試沒有失敗。改了 LAWWW 的 night_market_unit 第 7 項（9→0，LAWWW 已同意）。",
    "next": "CC 拍、BB 判；G10 要不要改成真的巷口等使用者",
-   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；BB 判"
+   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；BB 判",
+   "title": "第二包：夜市各攤時間照 AA_752、GG-G09-G10-SHUTTER-1111（X335）公館 G09／G10 鐵捲門、BB 11-10 23:51 退的四項（公館招牌櫥窗貼圖放大、七間室內牆面、安泰貨架、汀州鮮果補滿）、禮貌生財小項（LM_STUDY、study_letters、收攤椅子靠牆）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7868,7 +7956,7 @@
    "receiver": "LAWWW",
    "cc": "",
    "ack": "ACK",
-   "task": "LIMAO-SHANGSHI-3D-1111 上師 3D 人物第 2 版（LAWWW 11-11 00:47 驗第 1 版不過的六點）",
+   "task": "LIMAO-SHOP-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/limao_shangshi_1111/（README.md 最上面的第 2 版、limao_shangshi_v2.patch、blender_v2_vs_ref.jpg、face_texture_wrinkles_v2.jpg）"
    ],
@@ -7876,7 +7964,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev a724370bc；六點逐項對照表在 README；limao_shangshi_model 等五支 ALL PASS，沒有跑全部（只換資產和一支測試）。",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-11 01:43：已整合 731cca95b／f5e1ef4e8）；LAWWW 驗；過了才放到算命桌",
-   "remaining": "（原狀態欄）待整合；角色美術 LAWWW 驗（D100a）"
+   "remaining": "（原狀態欄）待整合；角色美術 LAWWW 驗（D100a）",
+   "title": "LIMAO-SHANGSHI-3D-1111 上師 3D 人物第 2 版（LAWWW 11-11 00:47 驗第 1 版不過的六點）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7884,7 +7973,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "GG-G10-LANE-MOUTH-1111 公館 G10 改成真的巷口第 1 版（使用者 11-11 選擇題答案，UA-LAWWW2-1111-06／X335）",
+   "task": "GG-G10-LANE-MOUTH-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_g10_lane_1111/（README.md、gg_g10_lane_v1.patch、regression_full.log、blender_g10_lane.jpg）"
    ],
@@ -7892,7 +7981,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 4a0a2d69b（動到的檔在 50887dae6 沒有再變）。全部 1249 支跑過：四支 termend 類 FAILED 是容器沒抓企劃線 commit bd1a6fda3，fetch 後 ALL PASS，和 patch 無關。zones3d.js 只改柱子清單一個數字；shops 的 shut:true 沒動。",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-11 01:43：已整合 731cca95b／f5e1ef4e8）；LAWWW 改套件備用；CC 拍通道另一頭看到什麼",
-   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；BB 判"
+   "remaining": "（原狀態欄）待整合；遊戲截圖待 CC；BB 判",
+   "title": "GG-G10-LANE-MOUTH-1111 公館 G10 改成真的巷口第 1 版（使用者 11-11 選擇題答案，UA-LAWWW2-1111-06／X335）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7900,7 +7990,7 @@
    "receiver": "LAWWW",
    "cc": "",
    "ack": "ACK",
-   "task": "LIMAO-SHANGSHI-3D-1111 上師 3D 人物第 3 版（LAWWW 01:07 四點；D141 最後一版）",
+   "task": "LIMAO-SHOP-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/limao_shangshi_1111/（README.md 最上面的第 3 版、limao_shangshi_v3.patch、blender_v3_vs_ref.jpg）"
    ],
@@ -7908,7 +7998,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 15ed22e70；四點對照表在 README；limao_shangshi_model 等五支 ALL PASS，沒有跑全部。",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-11 01:43：已整合 731cca95b／f5e1ef4e8）；LAWWW 驗",
-   "remaining": "（原狀態欄）待整合；角色美術 LAWWW 驗（D100a）"
+   "remaining": "（原狀態欄）待整合；角色美術 LAWWW 驗（D100a）",
+   "title": "LIMAO-SHANGSHI-3D-1111 上師 3D 人物第 3 版（LAWWW 01:07 四點；D141 最後一版）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7916,7 +8007,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "ART-PACK3-1111 美術第三包：禮貌生財場景第 2 版＋室內隔牆鏡頭（P1）、汀州鮮果／印得好 trapFix 的地方放箱子、汀州鮮果外觀第 3 版、夜市棚子可透視和燈泡",
+   "task": "ART-PACK3-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack3_1111/（README.md、pack3_v1.patch、regression_full.log、三張 Blender 預覽）"
    ],
@@ -7924,7 +8015,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 8cc9743d8（到 bb02b8cfe 這 26 個檔沒動過）；全部 Node 測試 1253 支沒有失敗；遊戲畫面沒看過的：隔牆鏡頭、棚子透視、上師坐的新位置——請 CC 拍",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-11 02:32：已整合）；LAWWW 整合、CC 拍、BB 判；我接著做花序第 2 版",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "ART-PACK3-1111 美術第三包：禮貌生財場景第 2 版＋室內隔牆鏡頭（P1）、汀州鮮果／印得好 trapFix 的地方放箱子、汀州鮮果外觀第 3 版、夜市棚子可透視和燈泡"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7932,7 +8024,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "FLOWER-NOTES-ART-1110 花序第 2 版（BB 11-11 01:50 六點）：重畫招牌、平塗米白石材立面、門口兩棵樹和花箱；室內米白牆、有花瓣和包裝紙的花、二樓西牆落地窗和窗外行道樹",
+   "task": "FLOWER-NOTES-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/flower_notes_v2_1111/（README.md、flower_notes_v2.patch、regression_full.log、blender_ext_v2.jpg、blender_int_v2.jpg、sign_v2.jpg）"
    ],
@@ -7940,7 +8032,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 099dad440（到 f932823b9 這 13 個檔沒動過）；全部 Node 測試 1253 支沒有失敗；遊戲畫面沒看過，請 CC 拍（README 最後一節列了機位）",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-11 02:56：已整合）；LAWWW 整合、CC 拍、BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗（D141 第 2 版，剩一版）"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗（D141 第 2 版，剩一版）",
+   "title": "FLOWER-NOTES-ART-1110 花序第 2 版（BB 11-11 01:50 六點）：重畫招牌、平塗米白石材立面、門口兩棵樹和花箱；室內米白牆、有花瓣和包裝紙的花、二樓西牆落地窗和窗外行道樹"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7948,7 +8041,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "ART-PACK4-1111 美術第四包：SCOOTER-ACC-1111 機車配件三款（擋風鏡、腳踏板的袋子、蓋座墊的雨衣）＋XS-TONGXIAN-SIGN-1111 同弦樂器招牌（BB P2）",
+   "task": "ART-PACK4-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack4_1111/（README.md、pack4_v1.patch、regression_full.log、blender_scooter_acc.jpg、blender_tongxian_before_after.jpg）"
    ],
@@ -7956,7 +8049,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 099dad440（在 7bb6f6311 上 --3way 乾淨）；全部 Node 測試 1254 支沒有失敗；新增 tests/xs_tongxian_sign_1111_unit.js；遊戲畫面沒看過，請 CC 拍（新生南路同弦二樓、汀州路機車；其他街的機車也會出現新三款）",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-11 03:11：已整合）；LAWWW 整合、CC 拍、BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "ART-PACK4-1111 美術第四包：SCOOTER-ACC-1111 機車配件三款（擋風鏡、腳踏板的袋子、蓋座墊的雨衣）＋XS-TONGXIAN-SIGN-1111 同弦樂器招牌（BB P2）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7964,7 +8058,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "ART-PACK5-1111 第五包：TZS-CEIL-1111 七間室內天花板（禮貌生財鏡頭整片米色的真正原因，P0）＋FN-STAIRTOP-POCKET-1111 花序二樓樓梯口＋NM-STALL-SEETHRU-1111 攤位全部可透視、手機殼攤背面",
+   "task": "ART-PACK5-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack5_1111/（README.md、pack5_v1.patch、regression_full.log、blender_phonecase_back_front.jpg）"
    ],
@@ -7972,7 +8066,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 4eaf0d5e7（在 be6014396 上 --3way 乾淨）；全部 Node 測試 1259 支：四支印 FAILED 都不是這一包造成的（三支缺企劃線 commit、fetch 後過；exam_land_seat_unit 是基底的 game3d.js／adv3d.js）；第三包的隔牆判斷是我錯的，README 第一節寫了；一個地球那張要 CC 給鏡頭座標",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-11 03:44／03:47：已整合 696cf6036／b394363fe）；LAWWW 整合、CC 重跑 LM_cam2 和夜市機位、BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "ART-PACK5-1111 第五包：TZS-CEIL-1111 七間室內天花板（禮貌生財鏡頭整片米色的真正原因，P0）＋FN-STAIRTOP-POCKET-1111 花序二樓樓梯口＋NM-STALL-SEETHRU-1111 攤位全部可透視、手機殼攤背面"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7980,7 +8075,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "LIFE-DETAILS-SEASONAL-1110 第一批：過年（春聯、橫批、福字、燈籠）、聖誕（花圈、燈串、雪花貼紙）——20 項裡的 C1、C3",
+   "task": "LIFE-DETAILS-SEASONAL-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/season_batch1_1111/（README.md、season_batch1_v1.patch、regression_full.log、blender_cny.jpg、blender_xmas.jpg、season_atlas_preview.jpg）"
    ],
@@ -7988,7 +8083,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 4eaf0d5e7（在 be6014396 上 --3way 乾淨）；街景模型沒有重匯；新檔 src/data/season_deco.js、src/season_deco3d.js、tests/season_deco_unit.js、tools/blender/env_second/season_deco.py、season_wenzhou／gongguan.glb；index.html 多兩行；全部 Node 測試 1260 支（三支印 FAILED 不是這一包造成的，README 開頭寫明）；還剩 18 項",
    "next": "（原 ack 欄）ACKNOWLEDGED（LAWWW 11-11 03:44／03:47：已整合 696cf6036／b394363fe）；LAWWW 整合、CC 把遊戲日期調到 12/10 和春節前後拍、BB 判；我接著做第二批",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "LIFE-DETAILS-SEASONAL-1110 第一批：過年（春聯、橫批、福字、燈籠）、聖誕（花圈、燈串、雪花貼紙）——20 項裡的 C1、C3"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -7996,7 +8092,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "ART-PACK6-1111 第六包：TZ-ALLEY-CAMCOL-1111 汀州路巷 A 深處兩側的鏡頭碰撞盒（一個地球那張整面牆）＋XS-SCOOTERS-1111 新生南路路邊機車（我漏接的）",
+   "task": "ART-PACK6-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack6_1111/（README.md、pack6_v1.patch、regression_full.log）"
    ],
@@ -8004,7 +8100,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev e4656573d；只有程式和測試；全部 Node 測試 1260 支：xs_farview_unit 釘住的導航格數因為接上機車要改（10513→10513-60），README 開頭寫明",
    "next": "（原 ack 欄）ACKNOWLEDGED＋已整合（LAWWW 11-11 04:16／04:17）；LAWWW 整合、CC 重拍一個地球和新生南路",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合",
+   "title": "ART-PACK6-1111 第六包：TZ-ALLEY-CAMCOL-1111 汀州路巷 A 深處兩側的鏡頭碰撞盒（一個地球那張整面牆）＋XS-SCOOTERS-1111 新生南路路邊機車（我漏接的）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8012,7 +8109,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "LIFE-DETAILS-SEASONAL-1110 第二批：端午、情人節、萬聖節、便利店季節海報、飲料店季節布條、洗衣店換季告示、期末考週影印店（20 項做到 9 項）",
+   "task": "LIFE-DETAILS-SEASONAL-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/season_batch2_1111/（README.md、season_batch2_v1.patch、regression_full.log、blender_batch2.jpg、season_atlas_preview.jpg）"
    ],
@@ -8020,7 +8117,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev e4656573d（在 451cb83ab 上 --3way 乾淨）；只改季節布置自己的 8 個檔；全部 Node 測試 1260 支沒有失敗；剩 11 項要落地或換掉現有的東西，會動導航，下一批",
    "next": "（原 ack 欄）ACKNOWLEDGED＋已整合（LAWWW 11-11 04:16／04:17）；LAWWW 整合、CC 照 README 列的日期拍、BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "LIFE-DETAILS-SEASONAL-1110 第二批：端午、情人節、萬聖節、便利店季節海報、飲料店季節布條、洗衣店換季告示、期末考週影印店（20 項做到 9 項）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8028,7 +8126,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "ART-PACK7-1111 第七包：算命桌桌燈籤筒挪開（BB 看完人物後唯一要動的）、節日的燈在遊戲裡變白光、公館 G01 燈籠埋進招牌、新生南路配件車三款各指定一台",
+   "task": "ART-PACK7-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack7_1111/（README.md、pack7_v1.patch、regression_full.log、blender_sightline.jpg）"
    ],
@@ -8036,7 +8134,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev d926d54bd（在 2d90b034c 上 --3way 乾淨）；9 個檔；全部 Node 測試 1266 支：adv_skip_typing_unit 失敗是基底的（只讀 game3d.js，這一包沒動）",
    "next": "（原 ack 欄）ACKNOWLEDGED＋已整合（LAWWW 11-11 05:01）；LAWWW 整合、CC 拍、BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "ART-PACK7-1111 第七包：算命桌桌燈籤筒挪開（BB 看完人物後唯一要動的）、節日的燈在遊戲裡變白光、公館 G01 燈籠埋進招牌、新生南路配件車三款各指定一台"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8044,7 +8143,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "L118-SHOPS-REDO-1111 第 1 版第一批：街景九間照使用者參考圖（兩間飲料店文字規格版）＋室內四間 dian／self／korea／tea＋路邊道具＋新測試",
+   "task": "L118-SHOPS-REDO-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README.md、l118_batch1_v1.patch、regression_full.log、blender_ext_batch1_a/b/c.jpg、blender_int_batch1.jpg、blender_drinks_textspec.jpg）"
    ],
@@ -8052,7 +8151,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev 4993c19a6（在 f247bc77f 上 --3way 乾淨）；53 個檔；全部 Node 測試 1270 支：六支失敗是基底的（LAWWW 改名進行中）；改了 LAWWW 的四支測試的期望（檔內註明）",
    "next": "（原 ack 欄）ACKNOWLEDGED＋已整合（LAWWW 11-11 05:56，dev d6c633adc）；LAWWW 整合、CC 拍、BB 判；第二批（飲料店照圖＋三個小補充＋其餘五間的鄰居店面卡）已做好、在跑全部測試",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "L118-SHOPS-REDO-1111 第 1 版第一批：街景九間照使用者參考圖（兩間飲料店文字規格版）＋室內四間 dian／self／korea／tea＋路邊道具＋新測試"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8060,7 +8160,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "L118-SHOPS-REDO-1111 第 1 版第二批：兩間飲料店照參考圖、三個小補充、其餘五間的鄰居店面卡",
+   "task": "L118-SHOPS-REDO-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README_batch2.md、l118_batch2_v1.patch、regression_batch2.log、blender_ext_batch2_drinks.jpg）"
    ],
@@ -8068,7 +8168,8 @@
    "noDirectIntegrate": false,
    "note": "疊在第一批上；在 dev a740616de 上 --3way 乾淨；24 個檔；全部 Node 測試 1270 支沒有新增失敗",
    "next": "（原 ack 欄）ACKNOWLEDGED＋已整合（LAWWW 11-11 06:09，dev 64add9fcf）；LAWWW 整合、子代理用新的鄰居卡重匯五間、CC 拍、BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "L118-SHOPS-REDO-1111 第 1 版第二批：兩間飲料店照參考圖、三個小補充、其餘五間的鄰居店面卡"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8076,7 +8177,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "禮貌上師 3D 人物第 4 版（最後一次）：頭髮鬍子改暖灰白、預設表情改成瞇眼笑",
+   "task": "LIMAO-SHOP-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/limao_shangshi_1111/（README.md 最上面一節、limao_shangshi_v4.patch、blender_v4_final_face_body.jpg）"
    ],
@@ -8084,7 +8185,8 @@
    "noDirectIntegrate": false,
    "note": "底 dev f247bc77f；2 個檔；limao_shangshi_model_unit ALL PASS；遊戲畫面沒看過",
    "next": "（原 ack 欄）ACKNOWLEDGED＋已整合、角色 ART_APPROVED（LAWWW 11-11 06:22）；LAWWW 整合、CC 同機位重拍、LAWWW 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；角色美術 LAWWW 判"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；角色美術 LAWWW 判",
+   "title": "禮貌上師 3D 人物第 4 版（最後一次）：頭髮鬍子改暖灰白、預設表情改成瞇眼笑"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8092,7 +8194,7 @@
    "receiver": "LAWWW",
    "cc": "BB",
    "ack": "ACK",
-   "task": "L118-SHOPS-REDO-1111 室內四間第 2 版（dian／self／korea／tea）：開放式廚房、桌上的餐點、牆上的東西、招牌物件",
+   "task": "L118-SHOPS-REDO-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README_int_v2.md、l118_int_v2.patch、regression_int_v2.log、blender_int_v2.jpg）"
    ],
@@ -8100,7 +8202,8 @@
    "noDirectIntegrate": false,
    "note": "疊在第二批上；在 dev db5bbdf4c 上 --3way 乾淨；9 個檔；配置檔沒變；全部 Node 測試 1271 支沒有失敗",
    "next": "（原 ack 欄）ACK（LAWWW 已整合：dev bc407bfc5）；LAWWW 整合、CC 拍、BB 判（第 3 版是最後一版）",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "title": "L118-SHOPS-REDO-1111 室內四間第 2 版（dian／self／korea／tea）：開放式廚房、桌上的餐點、牆上的東西、招牌物件"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8109,7 +8212,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T07:5x",
-   "task": "L118-SHOPS-REDO-1111 室內四間第 3 版＝最後一版（dian／self／korea／tea）：BB_341 第三節 2～6 條＋第四節（貼著天花板的東西 CEIL_*）；X341【下一版必須】",
+   "task": "L118-SHOPS-REDO-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README_int_v3.md、l118_int_v3.patch、regression_int_v3.log、blender_int_v3.jpg）"
    ],
@@ -8117,7 +8220,8 @@
    "noDirectIntegrate": false,
    "note": "基底 dev bc407bfc5，在 2d3e3abc8b 上 --3way 乾淨；19 個檔；只動四間室內，沒有碰街景模型和街景腳本；配置有變（dian 座位 21→17、自助台搬到西牆；self 座位 5→6；korea 多兩塊阻擋）；全部 Node 測試 1274 支：1272 過，aa655_wz_rename_unit 是基底就紅（omu 重做後少一句）、bookstore_exit_unit 是老警告",
    "next": "（原 ack 欄）ACK＋已整合（LAWWW 08:01：dev 6a76a9e58，已交 BB／CC 同機位重拍）；LAWWW 整合、CC 同機位重拍（含辛亥韓食 beams_far 兩張）、BB 判；交了以後只改擋玩的（D141）",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗；遊戲畫面沒看過"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合；場景美術 BB 驗；遊戲畫面沒看過",
+   "title": "L118-SHOPS-REDO-1111 室內四間第 3 版＝最後一版（dian／self／korea／tea）：BB_341 第三節 2～6 條＋第四節（貼著天花板的東西 CEIL_*）；X341【下一版必須】"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8126,7 +8230,7 @@
    "cc": "BB",
    "ack": "SENT",
    "at": "2026-11-11T08:4x",
-   "task": "POOL-SWIM-LOOK-1110 泳池水面（遊戲端換材質：藍綠、兩層波紋、反射體育館全景）＋泳客趴得低一點、頭高腳低",
+   "task": "POOL-SWIM-LOOK-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/pool_swim_look_1111/（README.md、pool_swim_look_v1.patch、regression_full.log、game_pool_before_after.jpg、pool_env_preview.jpg）"
    ],
@@ -8134,7 +8238,8 @@
    "noDirectIntegrate": false,
    "note": "基底 dev 2d3e3abc8b，在 0d7922555e 上 --3way 乾淨；8 個檔；腿灰白是水面蓋的（拿掉水面腿和手臂同色）；不重匯 gym_b1.glb；character3d.js 只動 C.GYM.swim（tilt 0＝原本）；全部 Node 測試 1281 支：1280 過＋bookstore_exit_unit 老警告",
    "next": "發版後 LAWWW 整合、CC 照 pool_swim_free／breast 原機位重拍、LAWWW 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；LAWWW 說發版後再整合；角色美術 LAWWW 判（D100a）"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；LAWWW 說發版後再整合；角色美術 LAWWW 判（D100a）",
+   "title": "POOL-SWIM-LOOK-1110 泳池水面（遊戲端換材質：藍綠、兩層波紋、反射體育館全景）＋泳客趴得低一點、頭高腳低"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8143,7 +8248,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T09:0x",
-   "task": "LIFE-DETAILS-SEASONAL-1110 第三批：四季水果（阿忠鮮果）、花序季節花（B2）、下雨天地墊傘架（照天氣）、元宵燈籠、中秋文旦禮籃、中秋晚上騎樓烤肉架（唯一有導航阻擋）",
+   "task": "LIFE-DETAILS-SEASONAL-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/season_batch3_1111/（README.md、season_batch3_v1.patch、regression_full.log、blender_season3.jpg）"
    ],
@@ -8151,7 +8256,8 @@
    "noDirectIntegrate": false,
    "note": "基底 dev 0d7922555e，在 33ccd6440c 上 --3way 乾淨；10 個檔；SD3 多 weather、hours、blocks（當天才擋、載不到放回）、looks（hidden 不放進互動點）；新測試 season_deco_nav_unit（修改前會失敗）；全部 Node 測試 1282 支：1280 過＋bookstore_exit_unit 老警告＋singleside_streets_unit 基底就紅（lane118_street 是 LAWWW 那邊 a663433547 重匯的）",
    "next": "（原 ack 欄）ACK（LAWWW 09:04：發版後整合）；發版後 LAWWW 整合、CC 照 README 列的日期拍、BB 判；下一包 A1～A6 季節攤販",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；LAWWW 說發版後再整合；場景美術 BB 驗；看的互動點都 hidden"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；LAWWW 說發版後再整合；場景美術 BB 驗；看的互動點都 hidden",
+   "title": "LIFE-DETAILS-SEASONAL-1110 第三批：四季水果（阿忠鮮果）、花序季節花（B2）、下雨天地墊傘架（照天氣）、元宵燈籠、中秋文旦禮籃、中秋晚上騎樓烤肉架（唯一有導航阻擋）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8160,7 +8266,7 @@
    "cc": "",
    "ack": "ACK",
    "at": "2026-11-11T09:5x",
-   "task": "L118-IT-REACH-1111：118牛排、辛亥韓食的座位按鈕位置從 L118_IT_FIX 搬回 lane118_shops.py（LAWWW 08:48）",
+   "task": "L118-IT-REACH-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_itfix_1111/（README.md、l118_itfix_v1.patch、regression_full.log）"
    ],
@@ -8168,7 +8274,8 @@
    "noDirectIntegrate": false,
    "note": "基底 dev 33ccd6440c，在 b1437614bd 上 --3way 乾淨；7 個檔；只重產配置、GLB 沒重匯；l118_shops3d.js 兩行（s.i、q.prio）＋表上 dian、tea 兩格拿掉；l118_interact_reach 全過且不靠覆寫表；全部 Node 測試 1286 支：1284 過",
    "next": "（原 ack 欄）ACK（LAWWW 09:24）：先不整合——BB 在使用者電腦還測到 118牛排 #11 #17、辛亥韓食 #1 #5 #9 搶鍵，LAWWW 先在遊戲端的表上再改一輪、先發版；發版後給最後的值，LAWWW2 用 it_fix() 重跑，這包到時一起收；LAWWW 整合",
-   "remaining": "（原狀態欄）暫停（等 LAWWW 最後的值）"
+   "remaining": "（原狀態欄）暫停（等 LAWWW 最後的值）",
+   "title": "L118-IT-REACH-1111：118牛排、辛亥韓食的座位按鈕位置從 L118_IT_FIX 搬回 lane118_shops.py（LAWWW 08:48）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8177,7 +8284,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T10:0x",
-   "task": "LIFE-DETAILS-SEASONAL-1110 第三批 v2＝第三批＋季節攤販 A1～A6（sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook）：模型、位置（clerk／at）、日期、導航；看、買接夜市那一套（LAWWW 接、AA 寫）",
+   "task": "LIFE-DETAILS-SEASONAL-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/season_batch3_1111/（README.md、season_batch3_v2.patch、season_stalls_on_v1.patch、regression_full_v2.log、blender_stalls.jpg）"
    ],
@@ -8185,7 +8292,8 @@
    "noDirectIntegrate": false,
    "note": "基底 dev 0d7922555e，在 0982b8062e 上 --3way 乾淨；10 個檔；SD3 多 termWeek、z.seasonStalls；六攤全擺時導航測試全過；全部 Node 測試 1285 支：1283 過＋bookstore 老警告＋singleside 基底",
    "next": "（原 ack 欄）ACK（LAWWW 09:41：v2 收到、v1 作廢，發版後整合）；發版後 LAWWW 整合 v2、接看買；CC 照 README 的日期拍；BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合（用 v2，v1 作廢）"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合（用 v2，v1 作廢）",
+   "title": "LIFE-DETAILS-SEASONAL-1110 第三批 v2＝第三批＋季節攤販 A1～A6（sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook）：模型、位置（clerk／at）、日期、導航；看、買接夜市那一套（LAWWW 接、AA 寫）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8194,7 +8302,7 @@
    "cc": "",
    "ack": "ACK",
    "at": "2026-11-11T10:1x",
-   "task": "STAIR-LEVEL-AUDIT-1111：全區多樓層樓梯掃描（新測試）＋花序、總圖大廳第 1 層樓梯下半段擋起來＋引擎 stepEntity 半步（大口漢堡低幀率跑步卡樓梯頂）",
+   "task": "STAIR-LEVEL-AUDIT-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/stair_audit_1111/（README.md、stair_audit_v1.patch、regression_full.log、info_a.txt）"
    ],
@@ -8202,7 +8310,8 @@
    "noDirectIntegrate": false,
    "note": "基底 dev d8e8a9ea56，在 0b2d9c4f08 上 --3way 乾淨；4 個檔；15 區域 14 座樓梯 336 趟全過；修改前會失敗（花序、總圖、大口、木曜日舊檔）；engine3d.js 的半步是引擎共用、可單獨退掉；全部 Node 測試 1287 支：1286 過＋bookstore 老警告",
    "next": "（原 ack 欄）ACK（LAWWW 10:07：整包含引擎半步放進這一版；已套上開發分支、跑測試中；請 CC 走花序、總圖大廳、大口漢堡）；LAWWW 整合；CC 在花序、總圖大廳照 BB 木曜日的走法重走",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合（P1）"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；待整合（P1）",
+   "title": "STAIR-LEVEL-AUDIT-1111：全區多樓層樓梯掃描（新測試）＋花序、總圖大廳第 1 層樓梯下半段擋起來＋引擎 stepEntity 半步（大口漢堡低幀率跑步卡樓梯頂）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8211,7 +8320,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T11:0x",
-   "task": "P2（LAWWW 09:41，發版後）：義大麵屋吧台凳往外＋前板內縮；奈良咖哩、義大麵屋窗上海報背面",
+   "task": "L118-P2-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_p2_1111/（README.md、l118_p2_v1.patch、bar_before_after.jpg、window_backs_before_after.jpg、regression_full.log）"
    ],
@@ -8219,7 +8328,8 @@
    "noDirectIntegrate": false,
    "note": "9 個檔，基底 dev 0b2d9c4f08，在 2b0929e277 上 --3way 乾淨；L118_IT_FIX.pasta 吧台五格 sit 拿掉（鍵對不到座位，測試第 0 項會抓）；全部 Node 測試 1286 支：1285 過＋bookstore 老警告",
    "next": "（原 ack 欄）ACK（LAWWW 10:56：0fe8cb80d 改「已實作待整合」，發版後整合；L118_IT_FIX 五格照 hunk）；LAWWW 發版後整合；CC 坐吧台 #2 #3、從店裡看窗",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合",
+   "title": "P2（LAWWW 09:41，發版後）：義大麵屋吧台凳往外＋前板內縮；奈良咖哩、義大麵屋窗上海報背面"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8228,7 +8338,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T12:1x",
-   "task": "TAP-RAY-SEAT-1111：點畫面判椅子重做（射線實際打到椅子、比地板近才導去那張）",
+   "task": "TAP-RAY-SEAT-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/tap_ray_seat_1111/（README.md、tap_ray_seat_v1.patch、browser_library_hall.jpg、regression_full.log）"
    ],
@@ -8236,7 +8346,8 @@
    "noDirectIntegrate": false,
    "note": "4 個檔（engine3d.js E.rayFirstHit＋傳 hit；game3d.js tapToSeat；tap_seat_ray_1111 改法寫在檔案裡；新 tap_seat_ray_real_1111）；基底 0fe8cb80d4，在 d75a274b2e 上乾淨；BB 四個走道點看得到地板的全部 null（舊做法 81 個帶去椅子）；五湖四海 #9 215 個都坐得到；118 巷 4726 次都導去打到的那一張（舊做法 1822 次挑錯）；全部 Node 測試 1288 支：1287 過＋bookstore 老警告",
    "next": "（原 ack 欄）ACK（LAWWW 11:36：改「已實作待整合」，發版後整合；人不擋先記缺點；CC 照 BB 那 13 張點）；LAWWW 發版後整合；CC 在總圖、宿舍、Café 點走道、點椅子，118 巷照 BB 那 13 張點",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合",
+   "title": "TAP-RAY-SEAT-1111：點畫面判椅子重做（射線實際打到椅子、比地板近才導去那張）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8245,7 +8356,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T12:3x",
-   "task": "CAFE-BAR-CAM-1111：兩點半 Café 吧檯坐下鏡頭被天花板大梁擋（梁下面當樓板 slabClip＋網點透空）",
+   "task": "CAFE-BAR-CAM-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/cafe_bar_cam_1111/（README.md、cafe_bar_cam_v1.patch、cafe_bar_cam_before_after.jpg、cafe_bar_cam_options.jpg、regression_full.log）"
    ],
@@ -8253,7 +8364,8 @@
    "noDirectIntegrate": false,
    "note": "2 個檔（zones3d.js：cafe z.slabs 天花板下 2.78～3.4 m＋attachCafe230 CAFE230_SEETHRU；新 tests/cafe_bar_cam_1111_unit.js）；基底 32d35ec2d6，在 4bad2a2223 上乾淨（和 TAP-RAY 一起也乾淨）；吧檯 256 鏡頭擋 90→0、其他座位 37→0、BB 那格鏡頭 (−1.3,3.46,0.6)→(−1.3,2.63,−1.24)；站著預設俯角不變；全部 Node 1288：1287 過＋bookstore 老警告",
    "next": "（原 ack 欄）ACK（LAWWW 12:02：改「已實作待整合」，發版後和 TAP-RAY、吧台凳一起整合；slabClip＋梁透空都要；吊燈網點交 BB 判）；LAWWW 發版後整合；CC 照 BB 走法坐中間那張吧檯拍、BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合",
+   "title": "CAFE-BAR-CAM-1111：兩點半 Café 吧檯坐下鏡頭被天花板大梁擋（梁下面當樓板 slabClip＋網點透空）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8262,7 +8374,7 @@
    "cc": "",
    "ack": "ACK",
    "at": "2026-11-11T12:2x",
-   "task": "對帳（D148）：GG-SHOPS3-ART-1110、FLOWER-NOTES-ART-1110 都已做、已整合（LAWWW 12:05 ACK 改已整合待測試）；AA_743 六間室內對照表",
+   "task": "GG-SHOPS3-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/AA_743_對照_1111.md"
    ],
@@ -8270,7 +8382,8 @@
    "noDirectIntegrate": true,
    "note": "問 LAWWW／AA：kind 要不要改名（建議不改）；只加資料的五項要不要我做；要改模型的五項排不排",
    "next": "（原 ack 欄）ACK（LAWWW 12:07 決定：kind 不改、資料五項做、模型五項 P3 GG-SHOPS3-ART-V2、騎樓照現在；AA 12:08 AA_813 同）；等 LAWWW、AA 決定",
-   "remaining": "（原狀態欄）交付（只對照，沒改模型、配置）"
+   "remaining": "（原狀態欄）交付（只對照，沒改模型、配置）",
+   "title": "對帳（D148）：GG-SHOPS3-ART-1110、FLOWER-NOTES-ART-1110 都已做、已整合（LAWWW 12:05 ACK 改已整合待測試）；AA_743 六間室內對照表"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8279,7 +8392,7 @@
    "cc": "AA",
    "ack": "ACK",
    "at": "2026-11-11T13:0x",
-   "task": "GG-SHOPS3 資料補五項：安泰看藥品櫃、鮮果看紙箱、洗樂看使用說明＋坐著等、印得好電腦圓凳用電腦、文具看畫架",
+   "task": "GG-SHOPS3-ART-1110",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README_points_1111.md、gg_shops3_points_v1.patch、regression_points_1111.log）"
    ],
@@ -8287,7 +8400,8 @@
    "noDirectIntegrate": false,
    "note": "3 個檔（tz_shops_layout.js 資料、tz_shops3d.js 座位字讀 label、新 gg_shops3_points_1111_unit）；基底 f2515c2077，在 56ecee2fb5 上乾淨；不改模型；全部 Node 1288：1287 過＋bookstore 老警告",
    "next": "（原 ack 欄）ACK（LAWWW 12:26：記上，發版後整合；句子 LAWWW 接 AA_742／813）；LAWWW 發版後整合、接 AA_742／AA_813 的句子",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；發版後整合",
+   "title": "GG-SHOPS3 資料補五項：安泰看藥品櫃、鮮果看紙箱、洗樂看使用說明＋坐著等、印得好電腦圓凳用電腦、文具看畫架"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8296,7 +8410,7 @@
    "cc": "",
    "ack": "ACK",
    "at": "2026-11-11T13:4x",
-   "task": "四包疊在開發分支一起試（l118_p2、tap_ray_seat、cafe_bar_cam、gg_shops3_points）",
+   "task": "TAP-RAY-SEAT-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/stack4_1111/（README.md、stack4_on_56ecee2fb.patch、regression_stack4.log）"
    ],
@@ -8304,7 +8418,8 @@
    "noDirectIntegrate": false,
    "note": "56ecee2fb5 上依序 --3way 都乾淨、都不用改；全部 Node 1290：1289 過＋bookstore 老警告；合併 patch 在 71adf757d7 上也乾淨",
    "next": "（原 ack 欄）ACK（LAWWW 12:44：記進 RELEASE 任務，發版後直接套 stack4 合併 patch）；整合進開發分支 c170218dd（LAWWW 15:42，v9.10.25 已上線 main dc3d33941）；LAWWW 發版後整合；LAWWW2 照 §5 停，等 BB 判或 LAWWW 派",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW",
+   "title": "四包疊在開發分支一起試（l118_p2、tap_ray_seat、cafe_bar_cam、gg_shops3_points）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8313,7 +8428,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T15:5x",
-   "task": "MOKU-PLANT-CORNER-1111（P0）：木曜日二樓衣帽架／植物縫小孤島＋植物外角斜推不動＋(−3.75,1.0) 小孤島",
+   "task": "MOKU-PLANT-CORNER-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/moku_plant_corner_1111/（README.md、moku_plant_corner_v1.patch、regression_full.log）"
    ],
@@ -8321,7 +8436,8 @@
    "noDirectIntegrate": false,
    "note": "3 個檔（mokuyobi3d.js 三塊導航阻擋＋z.cornerSlip；engine3d.js stepEntity cornerSlip 只開木曜日、只玩家；新 mokuyobi_plant_corner_1111_unit 七項）；基底 566ff8b5bf，在 d90c8a4fe6 上乾淨、和 stack4 一起也乾淨；全部 Node 1288：1287 過＋bookstore 老警告",
    "next": "（原 ack 欄）ACK（LAWWW 15:09：收到；v9.10.25 發完第一個整合，先 stack4 再這包）；整合進開發分支 c170218dd（LAWWW 15:42，v9.10.25 已上線 main dc3d33941）；LAWWW 整合；BB 跑木曜日 NOSIT／STAIR＋冒煙",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW；v9.10.25 發完整合"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW；v9.10.25 發完整合",
+   "title": "MOKU-PLANT-CORNER-1111（P0）：木曜日二樓衣帽架／植物縫小孤島＋植物外角斜推不動＋(−3.75,1.0) 小孤島"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8330,7 +8446,7 @@
    "cc": "BB",
    "ack": "SENT",
    "at": "2026-11-11T16:2x",
-   "task": "BAKE-PC-1102-S2：HIP 部分照使用者 11-03 決定（Blender 只用 CPU）不做；改成總圖 3F 的雲端 5.2.3 CPU 對 PC 5.2.3 CPU 對照（BK2，P3 選做）",
+   "task": "BAKE-PC-1102-S2",
    "files": [
     "tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py",
     "tools/blender/env_second/lightbake/pc_ref/library_3f_v2_bakein.glb（＋.json）",
@@ -8341,7 +8457,8 @@
    "noDirectIntegrate": true,
    "note": "不進遊戲（只是比對工具和參考圖）；雲端 512²/64 24 秒、重跑逐像素相同；1024²/512 21 分",
    "next": "（原 ack 欄）BB 17:13：BK2_cpu_s 跑完轉來（cc-local local_out/BK2_cpu_s），BK2_cpu_full 排在佇列最後；LAWWW2 17:2x 比對：初判 FAIL（UV 排法不同、胡桃木小面差 8/255；大平面一樣），等 full；BB 17:46：BK2_cpu_full 兩次（942／928 秒）＋s 第二次轉來；LAWWW2 17:5x 定案：FAIL（PC、雲端各自重跑都完全相同，但兩台 UV 排法不同；大平面中位數 ≤ 1.6/255、胡桃木白天 0／晚上 5.7、night 亮度比 0.959）→ 維持「同一個房間固定一台機器烘」；S2 做完；LAWWW／BB 把 README BK2 一節的兩行佇列（BK2_cpu_s、BK2_cpu_full）排給 CC；結果回來 LAWWW2 跑 compare_bakes.py",
-   "remaining": "（原狀態欄）DONE（比對結論；不進遊戲）"
+   "remaining": "（原狀態欄）DONE（比對結論；不進遊戲）",
+   "title": "BAKE-PC-1102-S2：HIP 部分照使用者 11-03 決定（Blender 只用 CPU）不做；改成總圖 3F 的雲端 5.2.3 CPU 對 PC 5.2.3 CPU 對照（BK2，P3 選做）"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8350,7 +8467,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T18:4x",
-   "task": "LEADOUT-WALL-1111（P2）：一起念書散場 S.leadOut 兩個目標點在牆裡（木曜日一樓窄樓梯）→ S.leadOutSpots 選點",
+   "task": "LEADOUT-WALL-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/leadout_wall_1111/（README.md、leadout_spots_v1.patch、regression_full.log）"
    ],
@@ -8358,7 +8475,8 @@
    "noDirectIntegrate": false,
    "note": "2 個檔（invites3d.js：S.leadOutSpots＋leadOut 用它；新 tests/leadout_spots_1111_unit.js 五項，修改前 0、1、2、4 FAIL）；照舊的點可以的 31 區完全不變、總圖兩區不變；改點的 6 區：木曜日、一盞、同弦、大步、好拍、法圖；基底 f16135b3a4，在 b77af3a4fe 上乾淨；全部 Node 1302：1299 過＋bookstore 老警告＋invites_quote_b6、loadgen_locks 兩支基底就 FAIL",
    "next": "（原 ack 欄）ACK＋已整合（LAWWW 18:25：--3way 乾淨，leadout_spots＋邀約／約念書相關 52 支過，tasks.json 已整合待測試）；invites_quote_b6、loadgen_locks 兩支 LAWWW 在 b77af3a4f 修了（GHA 全綠）；LAWWW 整合；invites_quote_b6、loadgen_locks 兩支基底的 FAIL 另外看",
-   "remaining": "（原狀態欄）INTEGRATED（待 BB 測試）"
+   "remaining": "（原狀態欄）INTEGRATED（待 BB 測試）",
+   "title": "LEADOUT-WALL-1111（P2）：一起念書散場 S.leadOut 兩個目標點在牆裡（木曜日一樓窄樓梯）→ S.leadOutSpots 選點"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8367,7 +8485,7 @@
    "cc": "BB、CC",
    "ack": "SENT",
    "at": "2026-11-11T20:1x",
-   "task": "TAP-RAY-SEAT 總圖／宿舍點椅面「不生效」（P1）：遊戲本身點得到；探針三種情形（柱子擋住椅子 2 中心、手機開著、探針呼叫沒帶 hit）；tapToSeat 沒 hit 自己算",
+   "task": "TAP-RAY-SEAT-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/tap_ray_seat_1111/libdorm/（README.md、tap_seat_libdorm_v1.patch、regression_full.log、before_3df6cfdf6a.log、lib_taps_crosshair.png、repro_browser.js）"
    ],
@@ -8375,7 +8493,8 @@
    "noDirectIntegrate": false,
    "note": "2 個檔（game3d.js tapToSeat 3 行；新 tests/tap_seat_libdorm_1111_unit.js 三項，修改前 1、2 FAIL）；基底 3df6cfdf6a，在 35c4b140c8 上乾淨；全部 Node 1303：1302 過＋bookstore 老警告；CC 探針已照建議改（帶 hit、rayFirstHit 幾何判斷擋住、不判過半記 FAIL：575fd2a9fa）",
    "next": "（原 ack 欄）未回；LAWWW 整合；CC 重跑 TSR_LIB／DORM r3 給 BB 判",
-   "remaining": "（原狀態欄）READY_FOR_REVIEW"
+   "remaining": "（原狀態欄）READY_FOR_REVIEW",
+   "title": "TAP-RAY-SEAT 總圖／宿舍點椅面「不生效」（P1）：遊戲本身點得到；探針三種情形（柱子擋住椅子 2 中心、手機開著、探針呼叫沒帶 hit）；tapToSeat 沒 hit 自己算"
   },
   {
    "branch": "claude/second-ai-env-art",
@@ -8384,7 +8503,7 @@
    "cc": "BB",
    "ack": "ACK",
    "at": "2026-11-11T21:0x",
-   "task": "US-NAV-TRAPS-1111：美國交換 14 區擋玩巡檢（LAWWW 19:37 派第 2 項）；超市街、會所兩條進得去出不來的小縫補導航阻擋",
+   "task": "US-NAV-TRAPS-1111",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_nav_traps_1111/（README.md、us_nav_traps_v1.patch、regression_full.log、us_tour_contact.jpg、aa814_points_dated.jpg、tour_browser.js）"
    ],
@@ -8392,14 +8511,15 @@
    "noDirectIntegrate": false,
    "note": "3 個檔（us3d.js outdoorZone navFix＋超市街燈桿和車中間一格；us_clubhouse3d.js buildNav 櫃台東頭牆裡一條；新 tests/us_nav_traps_1111_unit.js 五項，修改前 3、4 FAIL）；出生點（含 AA_814 3-1 廚房、3-2 社區門口）、349 個互動點都過；瀏覽器 14 區沒有黑畫面、JS 例外 0；全部 Node 1307：1301 過＋bookstore 老警告＋gym_wear 搶 CPU（單獨過）；四支約會測試＝我沒 fetch 企劃線（fetch 後 ALL PASS）",
    "next": "（原 ack 欄）ACK＋已整合（LAWWW 20:23：dev d7fe9c9ca，新測試＋美國相關 51 支過；引擎通改這一版不改）；LAWWW 整合；引擎「四點檢查跨過一格厚的牆」要不要通改由 LAWWW 決定",
-   "remaining": "（原狀態欄）INTEGRATED（待 BB 判）"
+   "remaining": "（原狀態欄）INTEGRATED（待 BB 判）",
+   "title": "US-NAV-TRAPS-1111：美國交換 14 區擋玩巡檢（LAWWW 19:37 派第 2 項）；超市街、會所兩條進得去出不來的小縫補導航阻擋"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "85dbaf699",
    "receiver": "LAWWW",
    "ack": "未派",
-   "task": "LANE118 五個原始檔",
+   "task": "LANE118-SHOPS-1020",
    "files": [
     "tests/l118_shops_notrap_1111_unit.js",
     "tools/blender/env_second/l118_food_tex.py",
@@ -8410,14 +8530,15 @@
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "118 巷五個原始檔的保存（檢查點 commit；之後的交件另有登記）：118 巷新增的五個原始檔在自己的分支留一份（第二批的最後版本；正式的在交付的 patch 裡）：新測試、餐點圖和招牌貼圖的腳本、招牌貼圖集",
-   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）"
+   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）",
+   "title": "LANE118 五個原始檔"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "e4bbc3e06",
    "receiver": "LAWWW",
    "ack": "未派",
-   "task": "NTU-REF-1110 ③-1",
+   "task": "NTU-REF-AUDIT-1104",
    "files": [
     "assets/models/env/second_ai/campus_male1.glb",
     "assets/models/env/second_ai/campus_male1.json",
@@ -8429,14 +8550,15 @@
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "男一舍清水模 WIP 保存（檢查點 commit；之後的交件另有登記）：NTU-REF-1110 ③-1 WIP：男一舍清水模＋樓梯塔圓窗（模型、測試好了，回歸跑中）",
-   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）"
+   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）",
+   "title": "NTU-REF-1110 ③-1"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "e9a89023e",
    "receiver": "LAWWW",
    "ack": "未派",
-   "task": "PERF-CAMPUS-GLB ②",
+   "task": "PERF-CAMPUS-GLB-1102",
    "files": [
     "assets/models/env/second_ai/campus_admin.glb",
     "assets/models/env/second_ai/campus_admin.json",
@@ -8448,14 +8570,15 @@
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "WIP 保存（檢查點 commit；之後的交件另有登記）：PERF-CAMPUS-GLB ② WIP：窗邊洗石子、木窗框另一張不投影的貼圖集（ck_win_tiles）；三棟 draw call 47 → 18（teach 類鏡頭），三角形 37k → 64k；回歸跑中",
-   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）"
+   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）",
+   "title": "PERF-CAMPUS-GLB ②"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "1a117ea0a",
    "receiver": "LAWWW",
    "ack": "未派",
-   "task": "PUTONG101-WINDOW v2",
+   "task": "PUTONG101-WINDOW-1102",
    "files": [
     "assets/models/env/second_ai/campus_boya.glb",
     "assets/models/env/second_ai/campus_boya.json",
@@ -8467,14 +8590,15 @@
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "WIP 保存（檢查點 commit；之後的交件另有登記）：PUTONG101-WINDOW v2 WIP：博思一樓玻璃外加「反射天空」（測試全過，但 teach_east_drawcall 博雅 5>4，等 LAWWW 決定 A／B；不要整合）",
-   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）"
+   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）",
+   "title": "PUTONG101-WINDOW v2"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "1c63ccd53",
    "receiver": "LAWWW",
    "ack": "未派",
-   "task": "LIB-B1-COURT-ART-1110 v1b",
+   "task": "LIB-B1-COURT-ART-1110",
    "files": [
     "assets/models/env/second_ai/lib_b1_court.glb",
     "assets/models/env/second_ai/lib_b1_court.json",
@@ -8484,14 +8608,15 @@
    "state": "WIP",
    "noDirectIntegrate": true,
    "remaining": "WIP 保存（檢查點 commit；之後的交件另有登記）：WIP LIB-B1-COURT-ART-1110：v1b（牆頂葉子縮小）重匯＋README、對照圖；接線 patch 回歸跑中",
-   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）"
+   "next": "不用整合；LAWWW2-C 11-12 補登記（LAWWW-C incr 對帳）",
+   "title": "LIB-B1-COURT-ART-1110 v1b"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "64f4ba69f",
    "receiver": "LAWWW",
-   "ack": "ACK（LAWWW-C 11-12 10:20Z，開發分支 3cceeb5684）",
-   "task": "SHOP-REAL-INSIDE-1112 公館第一批（安泰、鮮果、榮恩典）＋G00 招牌公館燒臘＋預載修正 v2＋打烊鐵捲門",
+   "ack": "ACK",
+   "task": "SHOP-REAL-INSIDE-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_real3_sign_v2.patch",
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md"
@@ -8499,14 +8624,16 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "remaining": "最長一幀、記憶體等 CC 在使用者電腦量",
-   "next": "CC 量、BB 判"
+   "next": "CC 量、BB 判",
+   "ackNote": "ACK（LAWWW-C 11-12 10:20Z，開發分支 3cceeb5684）",
+   "title": "SHOP-REAL-INSIDE-1112 公館第一批（安泰、鮮果、榮恩典）＋G00 招牌公館燒臘＋預載修正 v2＋打烊鐵捲門"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "2635709d4",
    "receiver": "LAWWW",
-   "ack": "ACK（LAWWW-C 11-12 10:20Z，開發分支 3cceeb5684）",
-   "task": "DONGNAN-GOODS-1112 第 2 包（飲料籃、紙箱、大鐵罐）",
+   "ack": "ACK",
+   "task": "DONGNAN-GOODS-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/dongnan_goods_1112/dongnan_goods_v2.patch",
     "docs/art-rebuild/second_ai/wip/dongnan_goods_1112/README.md"
@@ -8514,14 +8641,16 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "remaining": "遊戲內近拍沒做（CC）",
-   "next": "CC 拍、BB 判"
+   "next": "CC 拍、BB 判",
+   "ackNote": "ACK（LAWWW-C 11-12 10:20Z，開發分支 3cceeb5684）",
+   "title": "DONGNAN-GOODS-1112 第 2 包（飲料籃、紙箱、大鐵罐）"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "2a54a63f5",
    "receiver": "LAWWW",
-   "ack": "ACK（開發分支 14e53d6bf）",
-   "task": "SHOP-REAL-INSIDE-1112 公館第二批八間（青木、頁間、日和、洋洋、慢輪、Afar、轉角、Daybreak）＋鐵捲門只蓋門窗",
+   "ack": "ACK",
+   "task": "SHOP-REAL-INSIDE-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_batch2_v1.patch",
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md"
@@ -8529,14 +8658,16 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "remaining": "十一間預載的記憶體沒量；洋洋開放式櫃台可能有重疊面",
-   "next": "LAWWW-C 套 patch、CC 量、BB 判"
+   "next": "LAWWW-C 套 patch、CC 量、BB 判",
+   "ackNote": "ACK（開發分支 14e53d6bf）",
+   "title": "SHOP-REAL-INSIDE-1112 公館第二批八間（青木、頁間、日和、洋洋、慢輪、Afar、轉角、Daybreak）＋鐵捲門只蓋門窗"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "9a7413056",
    "receiver": "LAWWW",
-   "ack": "DELIVERED（11-12 10:13Z）",
-   "task": "SHOP-OUT-IN-AUDIT-1112 公館十三間店外／店內自查表",
+   "ack": "DELIVERED",
+   "task": "SHOP-OUT-IN-AUDIT-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112/README.md",
     "docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112/gg_pairs_a.jpg",
@@ -8545,14 +8676,16 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "remaining": "溫州街還沒查",
-   "next": "溫州街逐間自查"
+   "next": "溫州街逐間自查",
+   "ackNote": "DELIVERED（11-12 10:13Z）",
+   "title": "SHOP-OUT-IN-AUDIT-1112 公館十三間店外／店內自查表"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "bc13aee92",
    "receiver": "LAWWW",
-   "ack": "ACK（開發分支 4b838d190 已含）",
-   "task": "SHOP-REAL-INSIDE-1112 公館第三批：燒臘 G00 換真的室內＋省資源模式第一次走近分幀",
+   "ack": "ACK",
+   "task": "SHOP-REAL-INSIDE-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_batch3_v1.patch",
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md"
@@ -8560,28 +8693,32 @@
    "state": "已整合",
    "noDirectIntegrate": false,
    "remaining": "燒臘打烊後招牌還亮；花序 G11 沒換；手機那一下的毫秒數沒量",
-   "next": "LAWWW-C 套 patch、CC 量、BB 判"
+   "next": "LAWWW-C 套 patch、CC 量、BB 判",
+   "ackNote": "ACK（開發分支 4b838d190 已含）",
+   "title": "SHOP-REAL-INSIDE-1112 公館第三批：燒臘 G00 換真的室內＋省資源模式第一次走近分幀"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "b48477997",
    "receiver": "LAWWW",
-   "ack": "DELIVERED（11-12 10:4xZ），未 ACK",
-   "task": "LIANTONG-SCREEN-1112 聯通櫃台螢幕搬到右端",
+   "ack": "DELIVERED",
+   "task": "LIANTONG-SCREEN-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/dongnan_goods_1112/liantong_screen_v1.patch"
    ],
    "state": "已交付",
    "noDirectIntegrate": false,
    "remaining": "遊戲內沒拍",
-   "next": "LAWWW-C 套 patch、CC 拍"
+   "next": "LAWWW-C 套 patch、CC 拍",
+   "ackNote": "DELIVERED（11-12 10:4xZ），未 ACK",
+   "title": "LIANTONG-SCREEN-1112 聯通櫃台螢幕搬到右端"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "47c0afb2e",
    "receiver": "LAWWW",
-   "ack": "DELIVERED（11-12 11:2xZ），未 ACK",
-   "task": "SHOP-REAL-INSIDE-1112 溫州街三間（日常失速、SUNNY SIDE、小路）＋shopInsideReal 兩個修正",
+   "ack": "DELIVERED",
+   "task": "SHOP-REAL-INSIDE-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/wz_real_inside_1112/wz_real3_v1.patch",
     "docs/art-rebuild/second_ai/wip/wz_real_inside_1112/README.md"
@@ -8589,28 +8726,32 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "remaining": "SUNNY SIDE 街上的門和店內的門位置不一致（等 BB 決定）；店面比室內寬的玻璃後面是實牆；記憶體沒量",
-   "next": "LAWWW-C 套 patch、CC 量、BB 判"
+   "next": "LAWWW-C 套 patch、CC 量、BB 判",
+   "ackNote": "DELIVERED（11-12 11:2xZ），未 ACK",
+   "title": "SHOP-REAL-INSIDE-1112 溫州街三間（日常失速、SUNNY SIDE、小路）＋shopInsideReal 兩個修正"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "ae992ccfe",
    "receiver": "LAWWW",
-   "ack": "DELIVERED（11-12）",
-   "task": "SHOP-OUT-IN-AUDIT-1112 溫州街八間自查＋阿忠鮮果／夜市站位檢查",
+   "ack": "DELIVERED",
+   "task": "SHOP-OUT-IN-AUDIT-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112/README.md"
    ],
    "state": "已交付",
    "noDirectIntegrate": true,
    "remaining": "阿忠鮮果營業中沒有老闆（LAWWW closed3d.js）；林家乾麵仍是簡化版",
-   "next": "—"
+   "next": "—",
+   "ackNote": "DELIVERED（11-12）",
+   "title": "SHOP-OUT-IN-AUDIT-1112 溫州街八間自查＋阿忠鮮果／夜市站位檢查"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "7c374c3d0",
    "receiver": "LAWWW",
-   "ack": "DELIVERED（11-12 11:3xZ），未 ACK",
-   "task": "LUWEI-STALL-3D-1112 宵夜滷味攤驗收＋只有攤車的版本",
+   "ack": "DELIVERED",
+   "task": "LUWEI-STALL-3D-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/luwei_stall_1112/luwei_cart_v1.patch",
     "docs/art-rebuild/second_ai/wip/luwei_stall_1112/README.md"
@@ -8618,14 +8759,16 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "remaining": "src/luwei3d.js 三處要 LAWWW 改（換檔、阻擋一塊、白天藏老闆）；光暈沒加；換檔後遊戲內沒拍",
-   "next": "LAWWW-C 套 patch 改程式、CC 拍"
+   "next": "LAWWW-C 套 patch 改程式、CC 拍",
+   "ackNote": "DELIVERED（11-12 11:3xZ），未 ACK",
+   "title": "LUWEI-STALL-3D-1112 宵夜滷味攤驗收＋只有攤車的版本"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "c64d648f0",
    "receiver": "LAWWW",
-   "ack": "DELIVERED（11-12），未 ACK",
-   "task": "SHOP-REAL-INSIDE 公館第四批：花序 G11 換真的室內＋kx",
+   "ack": "ACK",
+   "task": "SHOP-REAL-INSIDE-1112",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_batch4_v1.patch",
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md",
@@ -8634,7 +8777,9 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "remaining": "kx 套到十二間沒有逐間重拍；花序二樓窗仍是照片；十三間預載記憶體沒量",
-   "next": "LAWWW-C 套 patch、CC 量記憶體和首次靠近的幀"
+   "next": "LAWWW-C 套 patch、CC 量記憶體和首次靠近的幀",
+   "ackNote": "LAWWW-C 11-12 11:42Z 整合 6827c36a3b",
+   "title": "SHOP-REAL-INSIDE 公館第四批：花序 G11 換真的室內＋kx"
   }
  ]
 }
