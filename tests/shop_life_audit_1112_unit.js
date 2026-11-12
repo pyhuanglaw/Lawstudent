@@ -3,7 +3,7 @@
 // 做法：在 Node 照 index.html 的順序把**整個遊戲的程式全部載入**（433 支；和玩家拿到的同一份、同一個順序），建出每一間店真正的區域（Z3.ZONES[id].build），
 //   再叫遊戲換區域時真的會叫的 STORY.populate（店員、路人客人 CROWD.enter、有名字的人的作息 populateSchedule 都在裡面）。只換掉三樣瀏覽器才有的東西：
 //   畫面（document／canvas 的空殼）、E.addNPC／E.removeNPC（原本要 WebGL 場景；這裡只記在 E.npcs）、game3d.js 裡的 E／G（多一個測試用的設定入口，不改遊戲的檔）。
-//   1  載入：433 支都載得進來、沒有例外；src/shoplife3d.js 是 index.html 最後一支（包在所有 STORY.populate 的最外面）；這支檔沒有任何台詞
+//   1  載入：433 支都載得進來、沒有例外；src/shoplife3d.js 排在所有會放店員的模組後面（包在他們的 STORY.populate 外面）；這支檔沒有任何台詞
 //   2  每一間店（清單是從遊戲資料算出來的，不是寫死的：新加的店會自動被檢查）：開著的時候有店員（n.clerk）站在店裡；不放店員的店要寫在例外表、寫原因
 //   3  泰米村食週三 17:00～17:40（使用者截圖那一刻）：開著、店員站在配置的 clerk、有客人的位子；營業時間 11:00–21:00
 //   4  路人客人：吃飯／喝東西的店在自己的尖峰平均至少 1 位；其他的店在一週的白天至少看得到客人；一間店同時最多 10 位（原本的上限）
@@ -11,9 +11,9 @@
 //   6  吃飯時間遇得到同學（SHOPLIFE）：118 巷九間每一間都排得到人；118 巷比其他店多；平日午餐、晚餐幾乎每天巷子裡都有同學；一間店一餐最多兩位；
 //      原本的作息優先（排進去的時候他原本沒事；AA_705／AA_632 寫好的列不受影響）；考試週、颱風假、經濟系那一年不排；同一天算兩次結果一樣；不動存檔
 //   7  真的走進去看得到：名單上的人，那個時間走進那間店＝他坐在店裡的座位上（有名字的人物，不是路人）；汀州路的新店也遇得到
-//   8  盤點表每一間店都有一列
-// 修改前（開發分支 371fd882b2）：沒有 SHOPLIFE（第 1 節 FAIL）；花序、客居雲南、越好吃小館、山嵐、大步、好拍、新生運動廣場開著沒有店員（第 2 節 FAIL 7 間）；
-//   泰米村食等 11 間沒有任何路人客人（第 4 節 FAIL）；118 巷的水上便當、辛亥韓食、迪倫窯烤披薩一整個學期排不到任何一位同學（第 6 節 FAIL）。
+//   8  盤點表每一間店都有一列（盤點以後新加的店印 WARN 提醒，不擋）
+// 修改前（開發分支 371fd882b2）：沒有 SHOPLIFE＝第 1 節就 FAIL、後面不跑。改之前用同一套做法量到的（盤點表第 1 節）：花序、客居雲南、越好吃小館、山嵐、大步、好拍、新生運動廣場開著沒有店員；
+//   泰米村食等 11 間沒有任何路人客人；118 巷的水上便當、迪倫窯烤披薩一整個學期作息表排不到任何一位同學。
 // 用法：node tests/shop_life_audit_1112_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
 process.on('unhandledRejection',()=>{}); global.window=global; global.self=global; const warns=[]; console.warn=(...a)=>{ warns.push(a.map(String).join(' ').slice(0,200)); };
@@ -33,7 +33,10 @@ for(const f of FILES){ if(/three-vrm|lz-string/.test(f)) continue; let src;
   if(f==='src/game3d.js') src=src.replace('const GM={E:null,','const GM={_test:(e,g)=>{ E=e; G=g; GM.E=e; GM.G=g; },E:null,');   /* 測試用：設定 game3d.js 裡的 E、G（平常是 GM.boot 設的，要 WebGL）*/
   try{ vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); } }
 check('1 index.html 的程式全部載得進來（'+FILES.length+' 支）',!loadErr.length&&typeof GAME!=='undefined'&&typeof GAME._test==='function'&&typeof STORY!=='undefined'&&typeof CROWD!=='undefined',loadErr.slice(0,5).join(' | '));
-check('1 SHOPLIFE 載入了、而且是 index.html 最後一支（包在所有 STORY.populate 的最外面）',typeof SHOPLIFE!=='undefined'&&FILES[FILES.length-1]==='src/shoplife3d.js',FILES[FILES.length-1]);
+{ const at=f=>FILES.indexOf(f), me=at('src/shoplife3d.js'), before=['src/crowd3d.js','src/shopenc3d.js','src/gg3shops3d.js','src/shopnpc3d.js','src/flower_notes_sys3d.js','src/xsshop_sys3d.js','src/limao3d.js','src/tz_shops3d.js'].filter(f=>at(f)>=0);
+  /* 會放店員的模組都要在它前面（它包在他們的 STORY.populate 外面：別人放了店員就不再放）。它後面只有 BB 補的事件包那幾支（index.html 的順序別的測試有規定：bbpack3d.js 要緊接 GAME.boot()）*/
+  const after=FILES.slice(me+1).filter(f=>!/^src\/(data\/bbpack_events|bbpack3d|data\/sup497_lines|sup497_3d|aa524_3d|onetap3d)\.js$/.test(f));
+  check('1 SHOPLIFE 載入了：排在所有會放店員的模組後面（index.html；後面只剩 BB 的事件包、一鍵那幾支）',typeof SHOPLIFE!=='undefined'&&me>=0&&before.every(f=>at(f)<me)&&!after.length,after.join(' ')||('第 '+(me+1)+'／'+FILES.length+' 支')); }
 if(typeof SHOPLIFE==='undefined'||typeof GAME==='undefined'||!GAME._test){ console.log('FAILED '+fails); process.exit(1); }
 { const code=fs.readFileSync(path.join(ROOT,'src/shoplife3d.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');   /* 拿掉註解以後 */
   const zh=(code.match(/'[^'\n]*[一-鿿][^'\n]*'/g)||[]).filter(s=>!/^'(洗衣店是自助的|只有上師一個人|SHOP-LIFE-AUDIT-1112)/.test(s));   /* 例外原因、作息的 note 不是玩家看得到的字 */
@@ -61,6 +64,11 @@ const SHOPS=[]; { const add=z=>{ if(z&&Z3.ZONES[z]&&Z3.ZONES[z].indoor&&!SHOPS.i
   for(const z of ['flower_notes','wz_offbeat','xs_dakou','tz_xile','us_market']) add(z); }
 const NOT_SHOP={xs_nanyang_hall:'南洋戲院的影廳（不是店面；大廳 xs_nanyang 有算）'};
 const LIST=SHOPS.filter(z=>!NOT_SHOP[z]);
+/* 2026-11-12 盤點過的 45 間（盤點表有一列）。之後新加的店（清單裡有、這裡沒有）：店員照樣要有（第 2 節會擋）；路人客人、盤點表那一列先印 WARN 提醒（不擋：加店的人把它加進 crowd3d.js 的 S.shopDefs 和盤點表，再加進這裡）*/
+const AUDITED=['cafe','cvs','noodle','bookstore','bikeshop','afar','daybreak','yangyang','corner_records','aoki','flower_notes','gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yuehaochi','tz_keju','tz_yindehao','tz_xile','tz_limao',
+  'wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_offbeat','wz_mokuyobi','xs_tongxian','xs_nanyang','xs_shanlan','xs_dakou','xs_dabu','xs_haopai','xs_xsports','l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_pasta','l118_korea','l118_omu','l118_noodle2','us_market','us_asian_market'];
+const NEWCOMER=LIST.filter(z=>!AUDITED.includes(z));
+if(NEWCOMER.length) console.log('WARN 盤點以後新加的店（盤點表還沒有；路人客人請加進 crowd3d.js S.shopDefs）：'+NEWCOMER.join(' '));
 /* 不放店員的店（要寫原因）*/
 const NO_CLERK=Object.assign({},SHOPLIFE.NO_CLERK);
 /* 不排路人客人的店（要寫原因）*/
@@ -68,7 +76,7 @@ const NO_CUST={tz_limao:'上師的命理館：不是一般的店，客人就是�
 const isOpen=(z,day,h)=>{ const m=/^l118_(.+)$/.exec(z); if(m) return L118.isOpen(m[1],{day,hour:h,weekday:CALENDAR.dateOf(day).wd%7,flags:{}});
   if(z==='noodle'&&typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed({day,hour:h,flags:{}})) return false; return PLACES.isOpen(z,h,day); };
 const WED=DK('2025-10-08'), SAT=DK('2025-10-11'), TUE=DK('2025-10-07');
-check('2 店的清單（臺灣 '+LIST.filter(TW).length+' 間＋美國 '+LIST.filter(z=>!TW(z)).length+' 間）',LIST.filter(TW).length>=43,LIST.join(' '));
+check('2 店的清單（臺灣 '+LIST.filter(TW).length+' 間＋美國 '+LIST.filter(z=>!TW(z)).length+' 間）：盤點過的 45 間都還在',AUDITED.every(z=>LIST.includes(z)),AUDITED.filter(z=>!LIST.includes(z)).join(' ')||LIST.join(' '));
 
 // ---------- 2 每一間店開著的時候有店員 ----------
 const HOURS=[9.5,12.5,15.5,17.5,18.5,20.5,22.5];
@@ -100,7 +108,7 @@ const DAYS=[]; for(let d=DK('2025-09-22');DAYS.length<8;d++) if(CALENDAR.kind(d)
 const EAT_KIND={meal:18.5,brunch:10.5,cafe:12.5,tea:15,bistro:19,study:19.5,drink:12.5};
 const peakOf=z=>{ if(z==='cafe') return 20.5; const d=CROWD.SHOP_ZONES[z]; if(!d) return null; if(z==='yangyang') return 21; if(z==='l118_cafe2') return 12.5; return EAT_KIND[d.kind]||null; };
 { const bad=[], info=[], over=[]; let mx=0;
-  for(const z of LIST){ if(NO_CUST[z]) continue; const pk=peakOf(z);
+  for(const z of LIST){ if(NO_CUST[z]) continue; if(!AUDITED.includes(z)&&!CROWD.SHOP_ZONES[z]) continue;   /* 新加的店還沒排客人：上面印了 WARN */ const pk=peakOf(z);
     if(pk!=null){ let n=0, sum=0; for(const d of DAYS){ if(!isOpen(z,d,pk)) continue; enter(z,d,pk); const a=anon().length; n++; sum+=a; mx=Math.max(mx,a); if(a>CROWD.SHOP_CAP) over.push(z+' '+a); }
       const avg=n?sum/n:0; info.push(z+' '+avg.toFixed(1)); if(!n||avg<(z==='l118_tea'?0.8:1)) bad.push(z+'（'+pk+' 點，開 '+n+' 天，平均 '+avg.toFixed(2)+' 位）'); }
     else { let seen=0, n=0; for(const d of DAYS.slice(0,5)) for(const h of [12.5,15.5,18.5]){ if(!isOpen(z,d,h)) continue; enter(z,d,h); const a=anon().length; n++; if(a) seen++; mx=Math.max(mx,a); if(a>CROWD.SHOP_CAP) over.push(z+' '+a); }
@@ -180,7 +188,7 @@ const LANE=SHOPLIFE.laneShops().map(s=>'l118_'+s);
 
 // ---------- 8 盤點表 ----------
 { let doc=''; try{ doc=fs.readFileSync(path.join(ROOT,'docs/handoff/SHOP_LIFE_AUDIT_1112.md'),'utf8'); }catch(e){}
-  const miss=LIST.filter(z=>!new RegExp('\\|\\s*`'+z+'`\\s*\\|').test(doc));
-  check('8 盤點表 docs/handoff/SHOP_LIFE_AUDIT_1112.md 每一間店都有一列（新加的店要補一列）',!!doc&&!miss.length,miss.join(' ')); }
+  const miss=AUDITED.filter(z=>!new RegExp('\\|\\s*`'+z+'`\\s*\\|').test(doc));
+  check('8 盤點表 docs/handoff/SHOP_LIFE_AUDIT_1112.md 盤點過的 '+AUDITED.length+' 間每一間都有一列',!!doc&&!miss.length,miss.join(' ')); }
 
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -1,7 +1,7 @@
 /* ===== 每一間店都要有人（SHOP-LIFE-AUDIT-1112，USER_WANTS X356；使用者 2026-11-12：「泰米沒有店員」「你要每一家店都看他有沒有店員、有沒有安排客人在裡面、
    有沒有讓我巧遇同學的機會、有沒有打工」「118 巷就是要很容易遇到同學，現在店裡甚至都沒有人」）=====
    盤點表：docs/handoff/SHOP_LIFE_AUDIT_1112.md。**這個檔沒有任何一句台詞**（玩家看得到的字一個都沒有加）；要新句子的列在盤點表「要 AA 寫的」。
-   三件事（都排在所有模組的最後面：index.html 最後一個載入，包住 STORY.populate、排在 STORY.SCHED_X 的最後）：
+   三件事（index.html 裡排在所有會放店員、會加作息的模組後面——bbpack_events.js 前面；包住 STORY.populate、永遠排在 STORY.SCHED_X 的最後一個）：
 
    1 店員（S.placeClerk）：換到一間店（STORY.populate 全部做完以後）、店開著（PLACES.isOpen；沒寫營業時間的店＝整天）、店裡還沒有任何店員（n.clerk；別的模組放的優先）、
      找得到店員站的位置（S.clerkSpot）＝放一個路人底模站在那裡（不說話、不放按鈕；結帳照原本的互動點）。位置都讀配置，不另外寫座標：
@@ -20,7 +20,7 @@
        每個人每一餐：平日午餐七成半、平日晚餐六成、週末四成的機會出現在某一間店（S.CFG；再乘上 AA_771 那個人的 weight：芯慈 0.7、宥辰 0.4；只在熟客表裡的人從他成為熟客的那一學期起，S.since；亂數＝日期＋餐＋人，同一天存讀檔、進出結果一樣），待 36～54 分鐘。
      哪一間：八成是 118 巷的九間餐廳（照他在 L118_LUNCH_DATA.who 的 prefs 加權；沒寫的人九間平均），兩成是其他吃飯的店（S.CFG.other：汀州路的泰米村食、越好吃小館、客居雲南、
        大口漢堡、林家乾麵、SUNNY SIDE／Daybreak（午餐）、洋洋鹹酥雞、小路（晚餐））；那個時段沒開的照順序換下一間。一間店同一餐最多兩位（S.CFG.perShop）。
-     **原本的作息優先**（和 SHOPNPC 同一把尺；店內偶遇 AA_632、新店面遇得到人 AA_705 的每一列也都比這裡優先：S.wrapOthers）：他這個時間原本有事（上課、社課、打工、約好的、在別的店……）＝這一餐不出現；只有作息表裡單純「在某一區走走」和沒有作息的空檔才算空。
+     **原本的作息優先**（和 SHOPNPC 同一把尺；店內偶遇 AA_632、新店面遇得到人 AA_705 的每一列也都比這裡優先：S.wrapOthers）：他這個時間原本有事（上課、社課、打工、約好的、在別的店……）＝這一餐不出現；**只填完全沒有作息的空檔**（S.CFG.overWander=false：連作息表裡「在公館走走」那種也不蓋掉——AA_684 這類稿寫明了他那時候在哪；改 true＝走走也算空檔）。
        那一天跟玩家有約（SHOPNPC.planDay）、那個時段是他 118 巷熟客的時段（照舊站在店門口，lane118.js）、阿哲約的午餐／當面約的 118 巷午餐成行的那一天中午（照那一場）＝不排。
        人不在臺北、休學、畢業照 presence（schedFor 先看）；語彤認識以前不在（STORY.schedEnt 的規則）。
      怎麼出現：作息那一筆（zone＝那間店、act eat、seatAt＝配置的座位）→ 照現有的 populateSchedule 坐在店裡吃飯；手機「找人」、地圖也看得到他在那間店。
@@ -68,7 +68,7 @@ const SHOPLIFE=(function(){
   S.CFG={ slots:[{id:'lunch',from:11.75,to:13.5,p:0.75,pEnd:0.4},{id:'dinner',from:17.75,to:19.5,p:0.6,pEnd:0.4}],   /* p＝平日、pEnd＝週末和國定假日 */
     lane118:0.8,   /* 去 118 巷的比例（使用者：118 巷就是要很容易遇到同學）*/
     other:{lunch:['tz_taimi','tz_yuehaochi','tz_keju','xs_dakou','wz_lin','daybreak','wz_brunch'],dinner:['tz_taimi','tz_yuehaochi','tz_keju','xs_dakou','wz_lin','yangyang','wz_teishoku']},
-    perShop:2, start:0.5, stay:[0.6,0.9], weekMin:2, weekMinTerms:['Y1S1'] };
+    overWander:false, perShop:2, start:0.5, stay:[0.6,0.9], weekMin:2, weekMinTerms:['Y1S1'] };
   S.TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   const LD=()=>typeof L118_LUNCH_DATA!=='undefined'&&L118_LUNCH_DATA&&L118_LUNCH_DATA.who?L118_LUNCH_DATA.who:{};
   const L8=()=>typeof LANE118_SHOPS!=='undefined'&&LANE118_SHOPS?LANE118_SHOPS:{shops:[],regulars:[]};
@@ -117,7 +117,7 @@ const SHOPLIFE=(function(){
     if(p.slot==='lunch'){ const L=F.L118_LUNCH; if(L&&L.day===G.day&&Array.isArray(L.with)&&L.with.includes(id)) return 'zhe_lunch';   /* 阿哲約的午餐 */
       const I=G.l118&&G.l118.inv; if(I&&I.done===G.day) return 'invite_lunch'; }   /* 當面約的 118 巷午餐成行的那一天 */
     if(typeof L118!=='undefined'&&L118.regActive){ const rs=(L8().regulars||[]).filter(r=>r.id===id&&r.from<p.t1&&r.to>p.t0); for(const r of rs) if(L118.regActive(r,Object.assign({},G,{hour:Math.max(r.from,p.t0)+0.001}))) return 'regular'; }   /* 他熟客的時段：照舊站在那間店門口 */
-    const b=S.base(c,G); if(b&&!soft(c,b)) return 'clash';
+    const b=S.base(c,G); if(b&&(!S.CFG.overWander||!soft(c,b))) return 'clash';
     return null; };
   const entMemo=new Map();
   S.seatAt=function(zone,id,day){ const def=typeof CROWD!=='undefined'&&CROWD.SHOP_ZONES?CROWD.SHOP_ZONES[zone]:null, seats=[]; if(def) for(const u of def.units) for(const s of u.seats||[]) seats.push(s);
