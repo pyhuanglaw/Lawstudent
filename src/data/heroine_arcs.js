@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@abb9609116；沛珊整段照 docs/story_planning/AA_755_peishan_arc.json@6b5507f8a）。不要手改，改企劃 AA_712 再重新匯入。
+/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@abb9609116；沛珊整段照 docs/story_planning/AA_755_peishan_arc.json@6b5507f8a；照 docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md 換字）。不要手改，改企劃 AA_712 再重新匯入。
    女主角自己的故事線（8 拍；規則 BB_305；播放 src/arcs3d.js）*/
 'use strict';
 const HEROINE_ARCS={
@@ -303,13 +303,13 @@ const HEROINE_ARCS={
      "n": 6,
      "need": 4,
      "lines": [
-      "Alison 說你以前念經濟系。",
-      "我沒有要問你為什麼換。我想問別的。"
+      "Alison 說你國中就決定要念法律。",
+      "我沒有要問你為什麼。我想問別的。"
      ],
      "ask": [
-      "換跑道的時候，你怕嗎？"
+      "那麼早就決定，你怕不怕選錯？"
      ],
-     "topic": "換跑道的時候怕不怕",
+     "topic": "那麼早決定怕不怕",
      "opts": [
       {
        "t": "怕。每天都在想是不是錯了。",
@@ -321,8 +321,7 @@ const HEROINE_ARCS={
         "那你現在覺得呢？",
         "（你說現在比較不怕了。她低頭看著桌面，很久沒有說話。）"
        ],
-       "ansId": "PL_SWITCH_FEAR",
-       "tell": "econ"
+       "ansId": "PL_SWITCH_FEAR"
       },
       {
        "t": "不怕。做決定的時候，已經想很久了。",
@@ -332,11 +331,10 @@ const HEROINE_ARCS={
        "reply": [
         "想很久。嗯，我也是那種人。"
        ],
-       "ansId": "PL_SWITCH_SURE",
-       "tell": "econ"
+       "ansId": "PL_SWITCH_SURE"
       },
       {
-       "t": "怕。可是我更怕一直待在不想待的地方。",
+       "t": "怕。可是我更怕從來沒自己選過。",
        "rel": {
         "trust": 2,
         "comf": 1,
@@ -346,8 +344,7 @@ const HEROINE_ARCS={
         "（她安靜了很久。）",
         "不想待的地方？我好像沒有想過，我有沒有那種地方。"
        ],
-       "ansId": "PL_SWITCH_STAY",
-       "tell": "econ"
+       "ansId": "PL_SWITCH_STAY"
       }
      ],
      "cite": {
@@ -492,7 +489,7 @@ const HEROINE_ARCS={
      "topic": "翻譯是搬家",
      "opts": [
       {
-       "t": "有。我跟我媽說我要重考那天。",
+       "t": "有。高三跟我媽說我只填法律的那天。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -501,8 +498,7 @@ const HEROINE_ARCS={
         "那句話後來怎麼說的？",
         "（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）"
        ],
-       "ansId": "PL_TELL_MOM",
-       "tell": "retake"
+       "ansId": "PL_TELL_MOM"
       },
       {
        "t": "沒有。我都說得很清楚。",
@@ -528,7 +524,7 @@ const HEROINE_ARCS={
      ],
      "cite": {
       "PL_TELL_MOM": [
-       "你上次說你直接跟你媽說要重考。……我也想試試看直接。"
+       "你上次說你直接跟你媽說只填法律。……我也想試試看直接。"
       ]
      }
     },
@@ -1108,7 +1104,7 @@ const HEROINE_ARCS={
      "topic": "她是不是在逃",
      "opts": [
       {
-       "t": "逃也沒關係。我休學那天，也覺得自己在逃。",
+       "t": "逃也沒關係。高三有一陣子我每天躲在圖書館，也覺得自己在逃。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -1117,8 +1113,7 @@ const HEROINE_ARCS={
         "你說逃？可是你是往前跑的。",
         "我也想往前跑。不是往外跑。"
        ],
-       "ansId": "YT_PL_ESCAPE",
-       "tell": "econ"
+       "ansId": "YT_PL_ESCAPE"
       },
       {
        "t": "我覺得妳是在找，不是在逃。",
@@ -1335,15 +1330,14 @@ const HEROINE_ARCS={
        "ansId": "YT_PL_RETAKE_CHOICE"
       },
       {
-       "t": "離開經濟系。我到現在還不知道對不對，可是不後悔。",
+       "t": "只填一個志願。我到現在還不知道對不對，可是不後悔。",
        "rel": {
         "trust": 3
        },
        "reply": [
         "我想要這個。"
        ],
-       "ansId": "YT_PL_NO_REGRET",
-       "tell": "econ"
+       "ansId": "YT_PL_NO_REGRET"
       },
       {
        "t": "現在。我選擇陪妳一起怕。",
@@ -1596,15 +1590,14 @@ const HEROINE_ARCS={
        "ansId": "ZQ_PL_BOX"
       },
       {
-       "t": "休學那天，我在捷運上打給一個人，講了很久。說出口以後，就比較不怕了。",
+       "t": "我也有一件事，一直到說出口才敢做。說出口以後，就比較不怕了。",
        "rel": {
         "trust": 2
        },
        "reply": [
         "那我先跟你說：我不放棄。我只是放慢一點。"
        ],
-       "ansId": "ZQ_PL_QUIT_OK",
-       "tell": "econ"
+       "ansId": "ZQ_PL_QUIT_OK"
       },
       {
        "t": "沒有人玩，我玩。",
@@ -2032,7 +2025,7 @@ const HEROINE_ARCS={
        "tell": "dad"
       },
       {
-       "t": "我從小就想念法律。第一次差四分沒考上，重考那年每天都在想，我到底想用它做什麼。",
+       "t": "我從小就想念法律。可是真的進來以後，我每天都在想，我到底想用它做什麼。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -2040,8 +2033,7 @@ const HEROINE_ARCS={
        "reply": [
         "那你想到了，要跟我說。我也還在想。"
        ],
-       "ansId": "SIS_PL_HELP",
-       "tell": "retake"
+       "ansId": "SIS_PL_HELP"
       },
       {
        "t": "我還沒開始想。",
@@ -2302,7 +2294,7 @@ const HEROINE_ARCS={
        "ansId": "PS_PL_RULE"
       },
       {
-       "t": "我也不知道。休學那段時間我想過一樣的問題，到現在還不知道。",
+       "t": "我也不知道。高三的時候我想過一樣的問題，到現在還不知道。",
        "rel": {
         "comf": 2,
         "trust": 1
@@ -2311,8 +2303,7 @@ const HEROINE_ARCS={
         "你也不知道喔。",
         "太好了，我還以為只有我想不出來。"
        ],
-       "ansId": "PS_PL_DUNNO",
-       "tell": "econ"
+       "ansId": "PS_PL_DUNNO"
       },
       {
        "t": "看是誰覺得不公平。",
@@ -2445,7 +2436,7 @@ const HEROINE_ARCS={
      "topic": "分數的除法",
      "opts": [
       {
-       "t": "還沒。我念經濟系一個多月就休學了。換跑道不是失敗。",
+       "t": "還沒。可是換跑道不是失敗。妳想換就換。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -2454,8 +2445,7 @@ const HEROINE_ARCS={
         "……你幹嘛突然講這個。",
         "（她看了你很久。這次她沒有揮手。）"
        ],
-       "ansId": "PS_PL_SWITCH",
-       "tell": "econ"
+       "ansId": "PS_PL_SWITCH"
       },
       {
        "t": "沒有。可是妳教小朋友的時候，看起來最開心。",
@@ -2607,7 +2597,7 @@ const HEROINE_ARCS={
      "topic": "一整班都在聽",
      "opts": [
       {
-       "t": "不會。我休學的時候，最怕別人覺得可惜。後來發現，一點都不可惜。",
+       "t": "不會。妳做得好的事，就不可惜。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -2616,8 +2606,7 @@ const HEROINE_ARCS={
         "不可惜。",
         "（她把這三個字小聲講了一遍，好像要收起來。）"
        ],
-       "ansId": "PS_PL_NOTSAD",
-       "tell": "econ"
+       "ansId": "PS_PL_NOTSAD"
       },
       {
        "t": "會一點。可是妳開心比較重要。",
@@ -2650,7 +2639,7 @@ const HEROINE_ARCS={
    ]
   },
   "kexin": {
-   "theme": "火爆、聰明、不甜；不爽會講，講完不一定馬上過。木柵大學法律系，想當律師（從來沒想過司法官）。重考那年住過祐廷家，認識他媽媽、睡過姊姊的房間。怕兩間學校會讓人變遠。不出假設題；不放固定口頭禪或道具（予樂只出現一拍）。",
+   "theme": "火爆、聰明、不甜；不爽會講，講完不一定馬上過。首都帝大法律系，和祐廷同班。想做的是讓人聽懂自己的處境，律師或司法官還沒定（`AA_873`）。不出假設題；不放固定口頭禪或道具。",
    "beats": [
     {
      "n": 1,
@@ -2768,17 +2757,16 @@ const HEROINE_ARCS={
      "topic": "想當講到對方沒話說的人",
      "opts": [
       {
-       "t": "會。重考那年妳在我家跟我吵申論題，吵贏的都是妳。",
+       "t": "會。老師追問那次，妳停下來說不確定，回去查完又講一遍——那次全班都在聽。",
        "rel": {
         "trust": 2,
         "comf": 1
        },
        "reply": [
-        "那時候是你寫錯。",
+        "……你記得那次喔。",
         "……我會是好律師。你說的。"
        ],
-       "ansId": "KX_PL_TEACHER",
-       "tell": "retake"
+       "ansId": "KX_PL_TEACHER"
       },
       {
        "t": "會。可是跟我吵架的時候不要這樣。",
@@ -2966,5 +2954,6 @@ const HEROINE_ARCS={
    ]
   }
  },
- "overlay": "docs/story_planning/AA_755_peishan_arc.json@6b5507f8a"
+ "overlay": "docs/story_planning/AA_755_peishan_arc.json@6b5507f8a",
+ "canon": "docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md"
 };

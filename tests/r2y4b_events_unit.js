@@ -123,7 +123,7 @@ const date=id=>H.date(id);
     const q=OUT.get(H.G,'y4_spring');
     check('2-Y4-35 三選一：阿哲他們／和可昕開車／留在宿舍（＋晚一點再決定）；選第一個＝4/3 08:00 校門出發（AA_542：選項字「跟阿哲他們出去」）', H.opts[0].length===4&&/阿哲他們/.test(H.opts[0][0])&&/可昕/.test(H.opts[0][1])&&/宿舍/.test(H.opts[0][2])&&H.G.flags.SPRING_Y4==='noodle'&&!!q&&q.day===D('2029-04-03')&&q.h===8);
     at('2029-04-03',21.6); PHONE.tick(H.G);
-    check('2-Y4-35 可昕那邊沒選：「好。那畢業旅行再說。」＋她和予樂在讀書會的照片「📷（讀書會的長桌。予樂比 YA，可昕低頭在寫講義，沒有看鏡頭。）」（AA_345 G5）', th('p:kexin').includes('好。那畢業旅行再說。')&&th('p:kexin').includes('📷（讀書會的長桌。予樂比 YA，可昕低頭在寫講義，沒有看鏡頭。）'), JSON.stringify(th('p:kexin'))); }
+    check('2-Y4-35 可昕那邊沒選：「好。那畢業旅行再說。」＋照片「📷（大口漢堡二樓的長桌。阿哲比 YA，可昕低頭在寫講義，沒有看鏡頭。）」（CANON-NO-ECON-1112 第四批：照 AA_892 換字）', th('p:kexin').includes('好。那畢業旅行再說。')&&th('p:kexin').includes('📷（大口漢堡二樓的長桌。阿哲比 YA，可昕低頭在寫講義，沒有看鏡頭。）'), JSON.stringify(th('p:kexin'))); }
   { fresh('2029-04-02',19,'dorm',{SPRING_Y4:'noodle'}); TEAM(); at('2029-04-02',20.5);
     check('2-Y4-35 4/2 晚上：記 Y4_SPRING_CAR、沒有取車旁白（AA_599 補，AA 11-03 定：那句刪掉）', S.springCarDue(H.G)&&(H.said=[],await S.springCar(GM),!H.said.length)&&!S.springCarDue(H.G));
     OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'首都帝大校門口',title:'t',travelH:1/6}); at('2029-04-03',7.9); await goOut('y4_spring',[0]);
@@ -519,7 +519,7 @@ const date=id=>H.date(id);
     check('2-Y4-58 日本、美國路線：2029 不考，沒有這一件', !OUT.get(H.G,'y4_bar_group_start')&&!H.G.flags.BAR_STUDY_GROUP); }
   /* ===== 2-Y4-59 可昕 K27 ===== */
   { fresh('2030-10-01',20,'dorm',Object.assign({KX_SHELF:true},GD)); date('kexin'); at('2030-10-01',21.5); pg();
-    check('SH1 K25 去了、到 2030 還在交往：2030-10-01 21:30「（照片：木柵大學讀書會的書架，最右邊那一格放了一本筆記）」「讀書會書架最右邊那一格，我放了第一次開庭的筆記。」（不用回）', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['（照片：木柵大學讀書會的書架，最右邊那一格放了一本筆記）','讀書會書架最右邊那一格，我放了第一次開庭的筆記。'])&&!(H.G.msgs||[]).some(m=>m.th==='p:kexin'&&m.ask));
+    check('SH1 K25 去了、到 2030 還在交往：2030-10-01 21:30「（照片：法律系館讀書室的書架，最右邊那一格放了一本筆記）」「系館讀書室書架最右邊那一格，我放了第一次開庭的筆記。」（不用回）（CANON-NO-ECON-1112 第四批：照 AA_892 換字）', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['（照片：法律系館讀書室的書架，最右邊那一格放了一本筆記）','系館讀書室書架最右邊那一格，我放了第一次開庭的筆記。'])&&!(H.G.msgs||[]).some(m=>m.th==='p:kexin'&&m.ask));
     fresh('2030-10-01',20,'dorm',GD); date('kexin'); at('2030-10-01',21.5); pg(); const noShelf=!th('p:kexin').length; fresh('2030-10-01',20,'dorm',Object.assign({KX_SHELF:true},GD)); at('2030-10-01',21.5); pg();
     check('2-Y4-59 沒有 KX_SHELF、或沒有在交往：沒有；尾聲她仍然只有一句（K27 不放尾聲）', noShelf&&!th('p:kexin').length&&!JSON.stringify(POSTGRAD_LINES.EPI.kx||{}).includes('第一次開庭的筆記')); }
   /* ===== 2-Y4-60 學姊：律師錄取那天的一句（AA_319 那一批的 postgrad 已接）===== */

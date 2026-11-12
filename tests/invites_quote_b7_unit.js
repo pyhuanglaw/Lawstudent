@@ -23,6 +23,8 @@
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm'), crypto=require('crypto');
 const ROOT=path.resolve(__dirname,'..'), BASE='0e2690b0b', TITLE='有名字說的台詞拿掉外面的「」第七批';
 const CHANGED=['src/data/events.js','src/y2r2_3d.js','src/friends2_3d.js','src/data/bbpack_events.js','src/legal3d.js'];
+/* CANON-NO-ECON-1112 第四批：照 AA_889～AA_897、AA_873～AA_885 換字的場次不比（逐字對稿在各自的測試）*/
+const CHG4=['ev_kexin_good_class','ev_kexin_quiz_y2','ev_kexin_xmas_y2','ev_kexin_birthday_y2','ev_kexin_birthday_y2_call','ev_kexin_summer_plan','ev_kexin_summer_plan_call','ev_kexin_presentation','ev_kexin_own_paths'];
 const GONE_EV=['ev_kexin_tour_nccu','ev_kexin_yule_pass','ev_kexin_video_study','ev_kexin_birthday_y1','ev_kexin_our_day','ev_kexin_our_day_wk','ev_kexin_nye_missed_call','ev_kexin_anniv_missed_call','ev_kexin_reschedule','ev_kx_nye_video_y2','ev_kx_nye_video_y3','ev_kx_nye_video_y4','ev_kexin_kh_missed_call','ev_kexin_qixi_video','ev_kexin_30min','ev_kexin_lecture_ntu','ev_kexin_lecture_table','ev_kexin_juniors_video','ev_kexin_kn_call_y3','ev_kexin_last_study_night','ev_kexin_two_circles','ev_kexin_call_helper2','ev_kexin_k18_call','ev_kexin_k20_call','ev_kexin_juniors_dinner','ev_kexin_film_night','ev_kexin_quiz_y2_video','ev_econ_night_y2','ev_kexin_video_report'].concat(Array.from({length:9},(_,i)=>'ev_kx_drift_r'+['1','1b','2','3','4','5','5_call','6','7'][i]));   /* CANON-NO-ECON-1112 第三批拿掉的事件：BASE、現在兩邊都不比（這一項拿掉）*/
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
@@ -185,7 +187,7 @@ const B8=(()=>{ const T=['CLASS_INTRO','CLASS_OK','CLASS_BAD','CLASS_UNSURE','MA
 
 /* ---------- 33. 分類 ---------- */
 check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html 全部載入、沒有例外）',!(O.errs||[]).length&&!(N.errs||[]).length,sample((O.errs||[]).concat(N.errs||[])));
-{ const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table']), haveEv=new Set((N.scan||[]).map(s=>s.ev));   /* CANON-NO-ECON-1112 第三批：整場拿掉的事件、拿掉幾列的三場不比 */
+{ const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table'].concat(CHG4)), haveEv=new Set((N.scan||[]).map(s=>s.ev));   /* CANON-NO-ECON-1112 第三批：整場拿掉的事件、拿掉幾列的三場不比 */
   const so=(O.scan||[]).filter(s=>haveEv.has(s.ev)&&!CHG.has(s.ev)), sn=(N.scan||[]).filter(s=>!CHG.has(s.ev));
   const named=L=>L.filter(s=>s.kind==='named'&&s.wrapped);
   const no=named(so), nn=named(sn);
@@ -218,7 +220,7 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
 
 /* ---------- 34. 資料和 BASE 逐句比 ---------- */
 { const reId=L=>{ const id={}; for(const [p,v] of L){ const m=/^STORY_EVENTS\.(\d+)\.id$/.exec(p); if(m) id[m[1]]=v; } return L.map(([p,v])=>[p.replace(/^STORY_EVENTS\.(\d+)/,(z,i)=>'STORY_EVENTS.'+id[i]),v]); };   /* CANON-NO-ECON-1112 第三批：路徑換成事件 id，整場拿掉的事件、拿掉幾列的三場不比 */
-  const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table']), B=reId(N.data||[]).filter(x=>!CHG.has(x[0].split('.')[1])), have=new Set(B.map(x=>x[0].split('.')[1])), A=reId(O.data||[]).filter(x=>have.has(x[0].split('.')[1])), bad=[], hit=[];
+  const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table'].concat(CHG4)), B=reId(N.data||[]).filter(x=>!CHG.has(x[0].split('.')[1])), have=new Set(B.map(x=>x[0].split('.')[1])), A=reId(O.data||[]).filter(x=>have.has(x[0].split('.')[1])), bad=[], hit=[];
   if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
   else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(require('./peishan_rewrite_1111.js').pair(a[1],b[1])) return; if(require('./kx_rewrite_1112.js').pair(a[1],b[1])) return;   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：bbpack_events.js「我來找品妤，順便找你。順序不要問。」照新稿算。舊期望：這一句和 BASE 一字不差 */   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS） */ if(wrapped(a[1])&&unq(a[1])===b[1]&&OLD23.includes(a[1])) hit.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
   check('34. STORY_EVENTS（全部載入以後，每一場的 dialogue，'+B.length+' 個值）和 '+BASE+' 比：只改了這 23 句（一句一次）、只差外面那一對「」，其他一字不差',A.length>30000&&bad.length===0&&J(hit.slice().sort())===J(OLD23.slice().sort()),sample(bad)+'｜'+hit.length); }
