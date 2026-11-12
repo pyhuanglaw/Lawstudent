@@ -466,6 +466,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "使用者 11-01 23:1x 選先不要幫忙用 iPhone ?debug；下一次發布前再問"
+     },
+     {
+      "at": "2026-11-12T03:3xZ",
+      "by": "LAWWW-C",
+      "result": "問了",
+      "why": "接班確認裡請使用者有空用 iPhone 開線上 v9.10.25 看一輪"
      }
     ]
    }
@@ -877,6 +883,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "同 BUG-02：iPhone 實機實測下一次發布前再問"
+     },
+     {
+      "at": "2026-11-12T03:3xZ",
+      "by": "LAWWW-C",
+      "result": "問了",
+      "why": "接班確認裡請使用者有空用 iPhone 開線上 v9.10.25 看一輪"
      }
     ]
    }
@@ -23512,6 +23524,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "跟使用者要圖是 BB 的工作（D100）；BB-B 還沒上線，上線後由 BB 問"
+     },
+     {
+      "at": "2026-11-12T03:3xZ",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "BB 的要圖項目；BB-C 11-12 03:14 已接班，由 BB 自己問"
      }
     ]
    }
@@ -27261,7 +27279,8 @@
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
    "replacedBy": "ART-PLAYER-SEASON-OUTFIT-1024, PERF-ZONE-ENTER-1018, INTERIOR-AAA-REVIEW-1028, LIB-3F-1102, TEACH-PTBOYA-REF-1104",
-   "authorizedBy": "LAWWW 11-11 19:4x（統籌清單結案、沒有取消任何工作；LAWWW2 19:40 對照：每一項都在別的任務）"
+   "authorizedBy": "LAWWW 11-11 19:4x（統籌清單結案、沒有取消任何工作；LAWWW2 19:40 對照：每一項都在別的任務）",
+   "reason": "LAWWW2 11-11 19:40 對照：A～H 每一項都在別的任務，沒有取消任何工作（見 next）"
   },
   {
    "id": "ART-PHOTO-CMP-1021",
@@ -45655,7 +45674,7 @@
    "title": "從開源找把使用者給的 2D 參考圖做成好看 3D 的方法、還有其他需要的美術素材（使用者 11-04 14:1x 對 LAWWW2-C：「你沒辦法從github開源找要怎麼把我給你的二d圖片轉換成3 d的時候好看嗎還有很多你需要用的美術內容」；UA-LAWWW2-1104-05）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "取消",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45676,7 +45695,10 @@
     "acceptance": "交件附開源工具／素材來源、授權（LICENSES.md）、照參考圖前後對照（D133）",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "reason": "使用者 11-05 對 LAWWW2-C「這不用做 我電腦也跑不了」（UA-LAWWW2-1105-04）",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者"
   },
   {
    "id": "TEST-METHODS-1104",
@@ -49118,6 +49140,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "跟使用者要圖是 BB 的工作；BB-B 上線後問"
+     },
+     {
+      "at": "2026-11-12T03:3xZ",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "BB 的要圖項目；BB-C 11-12 03:14 已接班，由 BB 自己問"
      }
     ]
    }
@@ -49893,6 +49921,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "跟使用者要圖是 BB 的工作；BB-B 上線後問"
+     },
+     {
+      "at": "2026-11-12T03:3xZ",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "BB 的要圖項目；BB-C 11-12 03:14 已接班，由 BB 自己問"
      }
     ]
    }
@@ -52444,7 +52478,10 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生",
+   "reason": "這間已經照使用者 11-04 的參考圖做好在遊戲裡（LAWWW 11-10 18:4x 查錯、已跟使用者更正；見 note）",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（11-10）"
   },
   {
    "id": "WZ-SHOP-BOOKS-1110",
@@ -52471,7 +52508,10 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生",
+   "reason": "這間已經照使用者 11-04 的參考圖做好在遊戲裡（LAWWW 11-10 18:4x 查錯、已跟使用者更正；見 note）",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（11-10）"
   },
   {
    "id": "WZ-SHOP-ICE-1110",
@@ -52498,7 +52538,10 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生",
+   "reason": "這間已經照使用者 11-04 的參考圖做好在遊戲裡（LAWWW 11-10 18:4x 查錯、已跟使用者更正；見 note）",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（11-10）"
   },
   {
    "id": "WZ-SHOP-MOKUYOBI-1110",
@@ -52525,7 +52568,10 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生",
+   "reason": "這間已經照使用者 11-04 的參考圖做好在遊戲裡（LAWWW 11-10 18:4x 查錯、已跟使用者更正；見 note）",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（11-10）"
   },
   {
    "id": "WZ-SHOP-OFFBEAT-1110",
@@ -52552,7 +52598,10 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生",
+   "reason": "這間已經照使用者 11-04 的參考圖做好在遊戲裡（LAWWW 11-10 18:4x 查錯、已跟使用者更正；見 note）",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（11-10）"
   },
   {
    "id": "GG-SHOPS3-STORY-1110",
@@ -52805,6 +52854,18 @@
     "acceptance": "BB 判",
     "receiver": "BB",
     "ack": "未派"
+   },
+   "waitUser": {
+    "ask": "汀州路五間外觀第 1 版進遊戲以後，要不要做室內",
+    "how": "選擇題（使用者玩過線上版以後）",
+    "log": [
+     {
+      "at": "2026-11-12T03:3xZ",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "外觀 v9.10.25 才上線，先等使用者玩過；下次回報時問"
+     }
+    ]
    }
   },
   {
@@ -53000,7 +53061,10 @@
    },
    "sha": null,
    "next": "無（不是遊戲問題）",
-   "cancelReason": "BB 11-10 21:14 判 TEST_BUG：線上 779ddd650、開發 9f20f1808 觸控和搖桿各一次都走得到出口（busy false、ADV 關、她不擋路）；上一輪是 CC 探針的走法繞到長椅那一帶（BB_255 d614215431）"
+   "cancelReason": "BB 11-10 21:14 判 TEST_BUG：線上 779ddd650、開發 9f20f1808 觸控和搖桿各一次都走得到出口（busy false、ADV 關、她不擋路）；上一輪是 CC 探針的走法繞到長椅那一帶（BB_255 d614215431）",
+   "reason": "BB 11-10 21:14 判 TEST_BUG：不是遊戲問題（觸控、搖桿都走得到出口）",
+   "replacedBy": "NONE",
+   "authorizedBy": "BB"
   },
   {
    "id": "MOVIE-ARC-AFTER-1110",
@@ -53393,7 +53457,7 @@
    "status": "已整合待測試",
    "priority": "P1",
    "first": {
-    "term": null,
+    "term": "META",
     "week": null,
     "earliest": "不在遊戲裡（發行準備）",
     "mainline": false,
@@ -53658,14 +53722,15 @@
    "status": "已整合待測試",
    "priority": "P1",
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 1,
     "earliest": "經濟系開學",
     "mainline": true,
-    "blocks": "D99 三個優先項目",
-    "prereq": "",
+    "blocks": true,
+    "prereq": false,
     "parallel": true,
-    "confirmed": true
+    "confirmed": true,
+    "blocksNote": "D99 三個優先項目"
    },
    "sha": "",
    "next": "【11-11 20:5x LAWWW 修 CC 20:48 H23b】VA10 麵店團群組揪香港沒有回覆選項：ask 掛在最後一則語彤，沒認識語彤時 ytjob3d.js gatePhone 把她那則拿掉、ask 跟著不見（玩家只能等 8/1 阿哲私訊）。修：群組裡她那則拿掉時 ask 移到同一個對話串留下來的最後一則別人的話（系統字、旁白不算）；她自己的私訊串照舊不送。tests/ytjob_gate_ask_1111_unit.js 修改前 3 項 FAIL；語彤、寒暑假、手機相關 49 支過｜【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 16:4x LAWWW】AA_814（企劃線 91c6aaf9f）12 項全部接好（b5a3e03c1、f0fbc4cf3；推 7d9d79425）：經濟系 1-1、1-2、1-3（KEEP 加 ev_y0_exam2）；寒暑假 2-1、2-2、2-3（撞期系統字，不擋）；美國 3-1～3-6。tests/aa814_prio_gap_1111_unit.js 逐句對稿；六支舊測試改期望。BB：經濟系 1/8、2/14→2/15、7/12；沛珊重考期回國訊息與約出國；報名撞期提示；美國挽回版 9/13、8/2 抵達、12/16、10/16、12/6、芝加哥巴士｜【11-11 16:0x LAWWW 派（AA 15:54 要工作）】只列擋路的（缺了玩家玩不下去、看不懂、劇情斷掉）；不新增企劃、不為了忙而寫（D99）。交一份清單（每項：哪一天哪個事件、檔案:行、缺什麼、建議怎麼補、要不要新台詞）；要新台詞的照 00_台詞寫作規則 一起寫好交。順序 ①→②→③。AA_812 的 closing／arrive 請客：LAWWW 決定這輪不做（不擋三個優先項目），記 backlog。",
@@ -53686,8 +53751,8 @@
     "week": 3,
     "earliest": "第一次約念書在木曜日",
     "mainline": false,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53710,8 +53775,8 @@
     "week": null,
     "earliest": "工作規則（不是玩家看得到的）",
     "mainline": false,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53734,8 +53799,8 @@
     "week": null,
     "earliest": "第一次走公館往汀州路",
     "mainline": false,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53759,8 +53824,8 @@
     "week": null,
     "earliest": "工作做法（不是玩家看得到的）",
     "mainline": false,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53784,8 +53849,8 @@
     "week": null,
     "earliest": "美國交換抵達",
     "mainline": true,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53805,12 +53870,12 @@
    "status": "暫停",
    "priority": "P3",
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": null,
     "earliest": "經濟系第一次進店",
     "mainline": false,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53833,12 +53898,12 @@
    "status": "進行中",
    "priority": "P1",
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": null,
     "earliest": "新遊戲",
     "mainline": true,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53862,8 +53927,8 @@
     "week": null,
     "earliest": "第一個寒假",
     "mainline": true,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53887,8 +53952,8 @@
     "week": null,
     "earliest": "第一次和女主角交往以後的閒聊",
     "mainline": false,
-    "blocks": "",
-    "prereq": "",
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
     "confirmed": true
    },
@@ -53907,7 +53972,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "接班十四步：讀 ROLE_LAWWW、FACTS、帳號 A 的交接紀錄；check 異常、roles 12 項、loose 舊本機分支、userwork 逐條；接班確認",
+   "next": "AUDIT_PENDING：check 第 4 項（25 筆已驗收沒寫 evidence，要逐筆找 BB 判定或 SHA）、第 10 項（18 筆 11-11 新任務 xai 欄位）、第 7 項（4 筆交付狀態和任務不一致）、第 6 項（origin/claude/funny-albattani-iawshm 31 個 commit 沒分類——先查這條分支是誰的）；incr；branch_audit；userwork 68＋13 項逐條排；USER_WANTS X119／X251／X263 狀態（AA-C 提）；等 LAWWW2-C、CC-C 登記後 duty sync",
    "first": {
     "term": "META",
     "week": 0,
