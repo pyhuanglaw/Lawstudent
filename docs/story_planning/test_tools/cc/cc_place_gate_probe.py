@@ -15,7 +15,7 @@
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
 11-12 BB-C 14:43：⑥ 機器判改看藏人那一輪連拍（有人那一輪翻的多半是客人在走，只記、也切條圖 strip_*_people_*）。
 11-12 BB-C 15:21：③ 櫃檯鏡頭改從門口方向看（退 min(2.5, 到門口距離×0.8) m）；⑦b 店外取色框往內往下收到玻璃以內。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；STRIPS=1 藏人那一輪每個翻動格子切 12 張條圖（BB-C 10:23）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-13：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；STRIPS=1 藏人那一輪每個翻動格子切 12 張條圖（BB-C 10:23）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -46,7 +46,8 @@ ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,
   if(N&&N.cols){ for(let j=0;j<N.rows;j++) for(let i=0;i<N.cols;i++){ const w=N.toWorld(i,j); if(E.canStand(w[0],w[1],0.3,0)){ n++; x0=Math.min(x0,w[0]); x1=Math.max(x1,w[0]); z0=Math.min(z0,w[1]); z1=Math.max(z1,w[1]); } } }
   const IT=(E.interactables||[]).filter(i=>!i.hidden); const lab=i=>String(typeof i.label==='function'?i.label():i.label||'');
   const ex=IT.filter(i=>i.exit).sort((a,b)=>(lab(b).startsWith('離開')?1:0)-(lab(a).startsWith('離開')?1:0))[0]||null;
-  const ct=IT.filter(i=>!i.exit&&!i.seat&&/點餐|結帳|櫃|收銀|吧台|吧檯|點飲料|買|店員|老闆/.test(lab(i)))[0]||null;
+  const CTW=[/點餐|點飲料|點菜/,/結帳|收銀/,/買|店員|老闆/,/吧台|吧檯|櫃/]; const ctr=i=>{ const k=CTW.findIndex(r=>r.test(lab(i))); return k<0?99:k; };   // 11-13 BB-C：辛亥韓食先挑到「小菜櫃」（只看旁白、不點餐）＝點餐、結帳類優先
+  const ct=IT.filter(i=>!i.exit&&!i.seat&&ctr(i)<99).sort((a,b)=>ctr(a)-ctr(b))[0]||null;
   const seat=IT.filter(i=>i.seat)[0]||null;
   return {n, box:n?[f(x0),f(x1),f(z0),f(z1)]:null, c:n?[f((x0+x1)/2),f((z0+z1)/2)]:null, exit:ex?{x:f(ex.x),z:f(ex.z),label:lab(ex),to:ex.exit.to||null,spawn:ex.exit.spawn||null}:null,
     counter:ct?{x:f(ct.x),z:f(ct.z),label:lab(ct)}:null, seat:seat?{x:f(seat.seat.x),z:f(seat.seat.z),label:lab(seat)}:null, name:(E.zone&&E.zone.name)||GAME.G.zone}; })()"""
@@ -210,10 +211,16 @@ async def do_func(pg, cdp, tag, rm, zid):
     else:
         res['sit'] = {'verdict': 'n/a', 'why': '沒有位子'}
     ex = rm['exit']; ok_out = False
+    # 11-13 BB-C：SOFA_SOCLIB2F_r2 點出口中心停在牆邊＝改成 route 那種「出口範圍六成以內站得住的點」（D.use_exit 同一套），走不到再往中心
+    exr = next((e for e in await pg.evaluate(D.EXITS) if e['label'] == ex['label']), None)
+    tgt = await D.standable_near(pg, ex['x'], ex['z'], exr['r'] * 0.6, exr['lv']) if exr else None
+    R.note('%s ⑦ 出口「%s」範圍 %s；走到範圍裡站得住的 %s' % (tag, ex['label'], J(exr), J(tgt)))
+    if not tgt: R.check('FAIL_SETUP 檢查：%s ⑦ 出口範圍裡有站得住的點' % tag, False, J(exr))
     for k in range(3):
         q = await D.st(pg)
-        if q['interact'].startswith('離開') or q['interact'].startswith(ex['label'][:3]): break
-        await L.go_to(pg, cdp, R, ex['x'], ex['z'], 0.6, '%s ⑦ 走到「%s」（第 %d 段）' % (tag, ex['label'], k + 1), max_s=40); await pg.wait_for_timeout(600)
+        if q['zone'] != zid or q['interact'].startswith('離開') or q['interact'].startswith(ex['label'][:3]): break
+        gx, gz = (tgt['x'], tgt['z']) if (tgt and k < 2) else (ex['x'], ex['z'])
+        await L.go_to(pg, cdp, R, gx, gz, 0.3 if tgt and k < 2 else 0.6, '%s ⑦ 走到「%s」（第 %d 段）' % (tag, ex['label'], k + 1), max_s=40); await pg.wait_for_timeout(600)
     q = await D.st(pg)
     if q['zone'] != zid: ok_out = True   # PC GATE_CAL_1cd2 泰米：走到門口就自己出去了（門是走進去就觸發）＝出得去
     elif q['interact'].startswith(ex['label'][:3]):

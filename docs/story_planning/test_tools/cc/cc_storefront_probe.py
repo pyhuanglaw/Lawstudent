@@ -3,7 +3,7 @@
 → 鏡頭放在出口外面 4.5 m、高 1.6 m（8 個方向裡，2／3／4.5 m 都站得住、離出口最遠的那一個＝街上），看出口 1.3 m 高 → 拍一張（藏 HUD 和玩家）。
 ACROSS=1（CC-C 11-12，BB-C 11:31：沿騎樓 4.5 m 拍的鐵捲門是斜的、有幾張只拍到柱子）：從馬路對面正對店面拍——店面位置和朝向從 zone.shopReal 讀（室內中心＋正面 ry，店面＝中心往正面 d/2），
   【捷徑】祐廷先放到店面前 3 m（讓走近才顯示的室內打開）等 3 秒 → 鏡頭放在店面正前方 DIST m（預設 16，站不住就退到 13／10／7 m）、高 1.7 m，看店面中間 2.0 m 高（24 mm）；記營業中、鐵捲門顯示、室內 on／built。
-CC_02 清單 2026-11-12：1✓（時間照佇列 14:00、23:30） 2✓（店面從 zone.shopReal、出口從互動點讀） 3n/a（一次讀檔拍一排） 4n/a（不按） 5n/a（拍照：放位置是捷徑） 6✓（讀檔等 12＋5 秒、每間 3 秒） 7✓ 8n/a（不判，給 BB） 9n/a（不藏路人：照街上原樣，藏玩家） 10✓（條件事件關掉） 11✓ 12✓（每間同樣欄位） 13✓（讀檔、放位置捷徑標）
+CC_02 清單 2026-11-13：1✓（時間照佇列 14:00、23:30） 2✓（店面從 zone.shopReal、出口從互動點讀） 3n/a（一次讀檔拍一排） 4n/a（不按） 5n/a（拍照：放位置是捷徑） 6✓（讀檔等 12＋5 秒、每間 3 秒） 7✓ 8n/a（不判，給 BB） 9n/a（不藏路人：照街上原樣，藏玩家） 10✓（條件事件關掉） 11✓ 12✓（每間同樣欄位） 13✓（讀檔、放位置捷徑標）
 DOOR=1（BB-C 11:44）：正對門——門（出口互動點）朝外的方向（有 zone.shopReal 用室內正面 ry；沒有＝導航四方向：外面站得住、背後是牆），鏡頭在門前 4.5 m、高 1.6 m、平視門（18 mm）。
 用法：LW_TESTS=<wt>/tests SHOPS=wz_brunch,wz_teishoku,... [TAG=x] [ACROSS=1 DIST=16 | DOOR=1] [DAY=2025-10-18] python3 cc_storefront_probe.py <url> <out>"""
 import os, sys, json, asyncio
@@ -43,7 +43,19 @@ async def main():
         await D.load_zone(pg, cdp, STREET, DAY, HOUR, wait=12000); await pg.wait_for_timeout(5000)
         for z in SHOPS:
             f = await pg.evaluate(FIND_ACROSS, {'z': z, 'dist': DIST}) if ACROSS else {}
-            if ACROSS and f.get('none'): R.note('%s zone.shopReal 沒有這間（%s）→ 改用舊拍法（出口外 4.5 m）' % (z, json.dumps(f, ensure_ascii=False)))
+            if ACROSS and f.get('none'):   # 11-13 BB-C：同弦不在 shopReal，舊拍法在門前朝騎樓、拍不到店面＝改成照門的朝向退到對街（DIST／13／10／8 m 第一個站得住的）、高 1.7 m、看門上 3 m（含二樓窗）
+                R.note('%s zone.shopReal 沒有這間（%s）→ 照門的朝向退到對街拍' % (z, json.dumps(f, ensure_ascii=False)))
+                g = None
+                for d in (DIST, 13, 10, 8):
+                    g = await pg.evaluate(FIND_DOOR, {'z': z, 'd': d})
+                    if g and g.get('standEye'): break
+                if not R.check("FAIL_SETUP 檢查：%s 找得到門、對街站得住" % z, bool(g and g.get("standEye")), json.dumps(g, ensure_ascii=False)): res.append({'zone': z, 'skip': g}); continue
+                await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); })", {'x': g['x'] + g['n'][0] * 3, 'z': g['z'] + g['n'][1] * 3}); await pg.wait_for_timeout(3000)
+                R.setup('%s 【捷徑】祐廷放到門前 3 m 等 3 秒' % z)
+                eye = [g['eye'][0], 1.7, g['eye'][2]]; look = [g['x'], 3.0, g['z']]
+                c = await D.user_shot(pg, cdp, 'across_%s_%s' % (z, TAG), {'eye': eye, 'look': look, 'lens': 24}, hide_player=True)
+                R.note('%s 對街正拍：門 (%s, %s)「%s」朝外 %s、鏡頭 %s 退 %s m 看 %s' % (z, g['x'], g['z'], g['label'], g['n'], eye, d, look))
+                res.append({'zone': z, 'across_door': g, 'cam': c}); continue
             if ACROSS and not f.get('none'):
                 await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); })", {'x': f['stand'][0], 'z': f['stand'][1]}); await pg.wait_for_timeout(3000)
                 f2 = await pg.evaluate(FIND_ACROSS, {'z': z, 'dist': DIST}); f.update({'on': f2.get('on'), 'built': f2.get('built'), 'shutter': f2.get('shutter')})
