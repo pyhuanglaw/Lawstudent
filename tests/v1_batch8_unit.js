@@ -104,7 +104,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     run(G.hour,24.4); const ph=G.msgs.filter(x=>x.tag==='nye_roof_photo').map(x=>x.text);
     check('跨年（河堤）：回宿舍的路上桌遊團群組：頂樓的照片＋阿哲「我們就說有看到」',JSON.stringify(ph)==='["📷（宿舍頂樓，遠遠的煙火）","我們就說有看到"]',JSON.stringify(ph));
     ask(0); toNye(20); { const o1=OUT.get(G,'nye'); o1.state='missed'; OUT.onMissed(GM,o1); const qc1=OUT.get(G,'kx_nye_call_y1');
-      check('跨年（高雄）答應了沒出發：KX_NYE[1]＝missed、00:05 她打來（演出來的電話，AA_313 第 2 節第 15 列、2-3 B；原本什麼都沒有）',G.flags.KX_NYE[1]==='missed'&&!!qc1&&qc1.day===NYE+1&&Math.abs(qc1.h-5/60)<1e-6&&qc1.ev==='ev_kexin_nye_missed_call'&&qc1.verb==='接起來',JSON.stringify(qc1)); }
+      check('跨年（高雄）答應了沒出發：KX_NYE[1]＝missed；00:05 她打來的電話（CANON-NO-ECON-1112 第三批：這一項拿掉）',G.flags.KX_NYE[1]==='missed'&&!qc1,JSON.stringify(qc1)); }
     ask(1); const r=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text);
     check('跨年：「我想在臺北跟阿哲他們跨年。」＝她回「好。那你幫我跟阿哲說新年快樂。」、KX_NYE {1:roof}（不扣分）',r.includes('好。那你幫我跟阿哲說新年快樂。')&&G.flags.KX_NYE[1]==='roof');
     toNye(20); o=OUT.get(G,'nye'); check('跨年（頂樓）：12/31 23:40 宿舍頂樓（AA_204 2-3）',!!o&&o.ev==='ev_nye_roof'&&Math.abs(o.h-(23+40/60))<1e-6,JSON.stringify(o));
