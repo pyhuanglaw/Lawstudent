@@ -3,8 +3,8 @@
  "account": "C",
  "session": "session_015BuNi47yLUt5PviELapMNj",
  "branch": "claude/focused-cray-c9uwvw",
- "since": "2026-11-12T03:17Z",
- "state": "on",
- "sinceSha": "ab925827",
- "userOk": true
+ "state": "handed-off",
+ "handedOffAt": "2026-11-12T22:12Z",
+ "sha": "f1145b33",
+ "snapshot": "2026-11-12T2212Z_C_LAWWW2.json"
 }
