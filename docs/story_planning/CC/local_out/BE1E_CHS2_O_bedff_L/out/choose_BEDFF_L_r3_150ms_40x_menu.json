@@ -1,0 +1,541 @@
+{
+ "tag": "BEDFF_L_r3_150ms_40x_menu",
+ "spec": {
+  "rate": 150,
+  "n": 40,
+  "start": "menu",
+  "point": "L1:快轉",
+  "xy": [
+   630.0,
+   326.5
+  ],
+  "firstAt": null
+ },
+ "pace": 233,
+ "preTaps": [
+  {
+   "ms": -889,
+   "menu": null,
+   "hit": "interact"
+  }
+ ],
+ "taps": [
+  {
+   "n": 1,
+   "ms": 45,
+   "burst": 1,
+   "menu": "小睡 30 分鐘",
+   "menuAll": [
+    "小睡 30 分鐘",
+    "小睡 1 小時",
+    "小睡 2 小時",
+    "睡到傍晚（不設鬧鐘）"
+   ],
+   "hit": "快轉",
+   "sinceMenu": 842.2
+  },
+  {
+   "n": 2,
+   "ms": 277,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 196
+  },
+  {
+   "n": 3,
+   "ms": 496,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 414.3
+  },
+  {
+   "n": 4,
+   "ms": 727,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 645.5
+  },
+  {
+   "n": 5,
+   "ms": 946,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 864.7
+  },
+  {
+   "n": 6,
+   "ms": 1178,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 1097.2
+  },
+  {
+   "n": 7,
+   "ms": 1403,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 1322
+  },
+  {
+   "n": 8,
+   "ms": 1643,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 1562.2
+  },
+  {
+   "n": 9,
+   "ms": 1878,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 1796.9
+  },
+  {
+   "n": 10,
+   "ms": 2112,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 2030.5
+  },
+  {
+   "n": 11,
+   "ms": 2346,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 2264.5
+  },
+  {
+   "n": 12,
+   "ms": 2578,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 2497.4
+  },
+  {
+   "n": 13,
+   "ms": 2812,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 2731.4
+  },
+  {
+   "n": 14,
+   "ms": 3045,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 2963.6
+  },
+  {
+   "n": 15,
+   "ms": 3277,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 3196.2
+  },
+  {
+   "n": 16,
+   "ms": 3512,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 3431
+  },
+  {
+   "n": 17,
+   "ms": 3744,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 3663.1
+  },
+  {
+   "n": 18,
+   "ms": 3980,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 3898.5
+  },
+  {
+   "n": 19,
+   "ms": 4210,
+   "burst": 1,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "不用了",
+   "sinceMenu": 4129.2
+  },
+  {
+   "n": 20,
+   "ms": 4445,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 21,
+   "ms": 4678,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 22,
+   "ms": 4932,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 23,
+   "ms": 5180,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 24,
+   "ms": 5427,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 25,
+   "ms": 5664,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 26,
+   "ms": 5895,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 27,
+   "ms": 6146,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 28,
+   "ms": 6379,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 29,
+   "ms": 6647,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 30,
+   "ms": 6879,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 31,
+   "ms": 7126,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 32,
+   "ms": 7360,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 33,
+   "ms": 7594,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 34,
+   "ms": 7827,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 35,
+   "ms": 8061,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 36,
+   "ms": 8313,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 37,
+   "ms": 8544,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 38,
+   "ms": 8777,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 39,
+   "ms": 9010,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 40,
+   "ms": 9250,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  }
+ ],
+ "picks": [
+  {
+   "picked": "快轉",
+   "menu": [
+    "小睡 30 分鐘",
+    "小睡 1 小時",
+    "小睡 2 小時",
+    "睡到傍晚（不設鬧鐘）",
+    "快轉",
+    "再撐一下"
+   ],
+   "downDt": 842,
+   "burst": 1,
+   "burstBeforeMenu": false,
+   "v350": false,
+   "vburst": false,
+   "expired": false,
+   "irr": false,
+   "ours": true
+  },
+  {
+   "picked": "不用了",
+   "menu": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "downDt": 4129,
+   "burst": 1,
+   "burstBeforeMenu": true,
+   "v350": false,
+   "vburst": false,
+   "expired": true,
+   "irr": false,
+   "ours": true
+  }
+ ],
+ "bursts": [
+  40
+ ],
+ "menus": [
+  [
+   "小睡 30 分鐘",
+   "小睡 1 小時",
+   "小睡 2 小時",
+   "睡到傍晚（不設鬧鐘）",
+   "快轉",
+   "再撐一下"
+  ],
+  [
+   "到下一個有事的時候",
+   "過一週",
+   "不用了"
+  ]
+ ],
+ "diff": [
+  [
+   "hour",
+   15.035,
+   15.087
+  ]
+ ],
+ "end": {
+  "dlg": false,
+  "ch": 0,
+  "busy": false,
+  "path": false,
+  "seat": false,
+  "fade": false,
+  "phone": false,
+  "paused": false,
+  "zone": "dorm",
+  "h": 15.087,
+  "day": 57,
+  "dtext": "",
+  "dlgC": null,
+  "nd": 4,
+  "typing": false
+ },
+ "shot": "05_BEDFF_L_r3_150ms_40x_menu_end.png"
+}
