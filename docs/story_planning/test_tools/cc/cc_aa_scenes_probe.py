@@ -7,7 +7,9 @@
   ARC＝女主角故事線（AA_712，src/arcs3d.js）：ARCS 每一個人【捷徑】她站到祐廷面前 → 取她的第 BEAT 拍（HEROINE_ARCS，ARCS.resolve）→ ARCS.run（遊戲聊天時演的同一支）→
       每一句、選單（選第 1 個）、她的回話記下來，截圖。預設 heroine_01、heroine_05、heroine_03 第 1 拍。
 CC_02 清單 2026-11-12：1✓（日子照事件的 term／time 給的區間） 2✓（事件、拍子從遊戲資料讀：STORY_EVENTS、HEROINE_ARCS） 3✓（每一場重新讀檔） 4✓（選單選第 1 個、全部記） 5n/a（抽演：直接演，不走路觸發） 6✓（一句一句點） 7✓ 8n/a（不判，字給 BB） 9n/a（不藏人：要看誰在場） 10✓（條件事件關掉） 11✓ 12✓（每一場同樣欄位） 13✓（讀檔、直接演、她站好都是捷徑，標）
-用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=EV,ARC] [EVS=ev_a,ev_b] [EVDAY=ev_a@2028-10-05@19+…] [ARCS=heroine_01,heroine_05] [BEAT=1] python3 cc_aa_scenes_probe.py <url> <out>"""
+  GIFT＝節日送禮（AA_732～734，src/gifthol3d.js GIFTH）：GIFTS 每一組（誰@節日那天）【前置／捷徑】讀檔到 campus 那天 15:00、她站到祐廷前面、包包【捷徑】放兩樣（她 love 的一樣＋ok 的一樣）→
+      照玩家走到她旁邊按互動 → 選「送她禮物…」→ 選 love 那一樣 → 一句一句記（open 句、item 句、herGive 回禮）→ 截圖。預設學姊、以安聖誕、語彤情人節。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=EV,ARC,GIFT] [GIFTS=heroine_05@2025-12-24+…] [EVS=ev_a,ev_b] [EVDAY=ev_a@2028-10-05@19+…] [ARCS=heroine_01,heroine_05] [BEAT=1] python3 cc_aa_scenes_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -17,7 +19,8 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]
-PARTS = set((os.environ.get('PARTS') or 'EV,ARC').split(','))
+PARTS = set((os.environ.get('PARTS') or 'EV,ARC,GIFT').split(','))
+GIFTS = [x.split('@') for x in (os.environ.get('GIFTS') or 'heroine_05@2025-12-24+heroine_01@2025-12-24+heroine_03@2026-02-14').split('+') if '@' in x]   # 誰@哪一天（節日）
 EVS = [x for x in (os.environ.get('EVS') or 'ev_sis_w1,ev_sis_family_dinner,ev_grad_debate,ev_sis_video,ev_sis_video_gf,ev_us_canyon').split(',') if x]
 EVDAY = {}
 for seg in (os.environ.get('EVDAY') or '').split('+'):
@@ -96,6 +99,50 @@ async def part_arc(pg, cdp, res):
         res.setdefault('arc', {})[who] = {'beat': b, 'lines': lines, 'r': r}
 
 
+GIFT_PREP = r"""(a=>{ const G=GAME.G, X=GIFT_HOLIDAY; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
+  const ids=Object.keys(X.items); const love=ids.find(g=>(X.items[g].love||[]).includes(a.who)&&!X.items[g].made&&!(X.items[g].only&&!X.items[g].only.includes(a.who)));
+  const ok=ids.find(g=>!(X.items[g].love||[]).includes(a.who)&&!(X.items[g].no||[]).includes(a.who)&&!X.items[g].made&&!X.items[g].only);
+  try{ GIFTH.bag(G); }catch(e){}   /* 先讀一次，讓遊戲把 G.flags.GIFTH 建好（gifthol3d.js 的 F(G)）*/
+  const raw=G.flags.GIFTH&&Array.isArray(G.flags.GIFTH.bag)?G.flags.GIFTH:null;
+  if(raw){ raw.bag.push({id:love,shop:X.items[love].shop||'x'}); if(ok) raw.bag.push({id:ok,shop:X.items[ok].shop||'x'}); }
+  const P=GAME.E.player.obj, yaw=P.rotation.y; if(GAME.npc&&GAME.npc[a.who]&&GAME.removeNPC) GAME.removeNPC(a.who); const n=GAME.spawnCharacter(a.who,P.position.x+Math.sin(yaw)*1.4,P.position.z+Math.cos(yaw)*1.4,{yaw:yaw+Math.PI,pose:'idle'}); if(n) n.frozen=true;
+  return {love, loveName:love&&X.items[love].name, ok, okName:ok&&X.items[ok].name, bagFound:!!raw, state:GIFTH.state(G,a.who), hol:GIFTH.holOf(a.who,G.day), npc:n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null}; })"""
+
+
+async def part_gift(pg, cdp, res):
+    for who, day in GIFTS:
+        tag = '[GIFT %s %s]' % (who, day)
+        await pg.goto(URL); await L.wait_loaded(pg)
+        await D.load_zone(pg, cdp, 'campus', day, 15.0, wait=6000)
+        await pg.evaluate("(()=>{ try{ GIFTH.bag(GAME.G); }catch(e){} })()")
+        g = await pg.evaluate(GIFT_PREP, {'who': who})
+        R.setup('%s 【前置／捷徑】讀檔到 campus %s 15:00、她站到前面、包包放她 love 的「%s」＋ok 的「%s」：%s' % (tag, day, g.get('loveName'), g.get('okName'), J(g)))
+        if not R.check('%s 今天是她的節日、包包有東西（GIFTH.state）' % tag, bool(g.get('state')) and bool((g.get('state') or {}).get('items')), J(g)): continue
+        await L.go_to(pg, cdp, R, g['npc'][0], g['npc'][1], 1.1, who, max_s=30)
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+        lines = []; picked = []
+        for j in range(120):
+            st = await pg.evaluate(STEP)
+            if st['choices']:
+                i = next((n for n, t in enumerate(st['choices']) if t.startswith('送她禮物')), None)
+                if i is None: i = next((n for n, t in enumerate(st['choices']) if g.get('loveName') and g['loveName'] in t), None)
+                if i is None: i = next((n for n, t in enumerate(st['choices']) if any(w in t for w in ('算了', '再見', '沒事'))), 0) if picked else 0
+                picked.append([st['choices'], st['choices'][i]]); await pg.screenshot(path=os.path.join(OUT, 'gift_%s_menu_%02d.png' % (who, len(picked))))
+                await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(900); continue
+            if st['dlg']:
+                if not lines or lines[-1]['t'] != st['t']:
+                    lines.append({'who': st['who'], 't': st['t']}); await pg.screenshot(path=os.path.join(OUT, 'gift_%s_%02d.png' % (who, len(lines))))
+                await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(550); continue
+            if j > 4 and not await pg.evaluate("!!(GAME.E.player&&GAME.E.player.busy)"): break
+            await pg.wait_for_timeout(500)
+        after = await pg.evaluate("(w=>({state:GIFTH.state(GAME.G,w)}))", who)
+        R.note('%s 選單一路 %s' % (tag, J(picked)))
+        R.note('%s 句子：%s' % (tag, J([x['who'] + '｜' + x['t'] for x in lines])))
+        R.note('%s 送完 GIFTH.state %s（null＝這個節日送過了）' % (tag, J(after)))
+        R.check('%s 送得出去（有她的反應）' % tag, len(lines) >= 2, '')
+        res.setdefault('gift', {})[who + '@' + day] = {'prep': g, 'picked': picked, 'lines': lines, 'after': after}
+
+
 async def main():
     print('CC AA 重匯抽演：SHA %s；PARTS %s；EVS %s；ARCS %s 第 %d 拍' % (SHA or '?', sorted(PARTS), EVS, ARCS, BEAT), flush=True)
     res = {'sha': SHA}
@@ -109,6 +156,9 @@ async def main():
         if 'ARC' in PARTS:
             try: await part_arc(pg, cdp, res)
             except Exception as e: R.check('[ARC] 沒有探針例外', False, str(e)[:200])
+        if 'GIFT' in PARTS:
+            try: await part_gift(pg, cdp, res)
+            except Exception as e: R.check('[GIFT] 沒有探針例外', False, str(e)[:200])
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     open(os.path.join(OUT, 'aa_scenes.json'), 'w', encoding='utf-8').write(J(res))

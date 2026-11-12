@@ -2045,5 +2045,6 @@ W1R_E1E2_zrshow | f701afca024758d5dcc8d6b48a1db906f108ae05 | probe | docs/story_
 #PAUSE CANON-NO-ECON-1112（BB-C 12:10：等可昕身分定）W1R_D7_friends | 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2 | probe | docs/story_planning/test_tools/cc/cc_d7_friends_probe.py | index.html | 50 | SOLO=1;CAMP_S=2400;SHA=1f304f00544cae61d8abf58bea60e3b9d7cb4ea2
 # 任務 #63 AA 重匯內容抽演（BB-C 同意照 CC 選的場次）：AA_839／840 學姊事件六場、AA_712 女主角故事線三人第 1 拍（直接演＝捷徑）；「……你聽到了。」那一場已作廢不演；節日禮物、學姊約會下一支
 AA_SCENES_EV_ARC | 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2 | probe | docs/story_planning/test_tools/cc/cc_aa_scenes_probe.py | index.html | 30 | PARTS=EV,ARC;SHA=1f304f00544cae61d8abf58bea60e3b9d7cb4ea2
+AA_SCENES_GIFT | f701afca024758d5dcc8d6b48a1db906f108ae05 | probe | docs/story_planning/test_tools/cc/cc_aa_scenes_probe.py | index.html | 20 | PARTS=GIFT;SHA=f701afca024758d5dcc8d6b48a1db906f108ae05
 # SAVE-LZ-1104（BB_384）瀏覽器量測：存檔 A（day54_1110）× plain／?lzsave × CPU 1／4 倍；①② 自動存檔那一下、③ 每欄字元＋7 欄全滿、④ 繼續到能走動、⑤ 存讀一致、⑦ 舊存檔（B 等 SAVE_LZ_growB 回來做成 fixture 再排）
 SAVE_LZ_A | ed70b6d3589dc2731171347afa6d623f2b0339ca | probe | docs/story_planning/test_tools/cc/cc_save_lz_probe.py | index.html | 70 | SOLO=1;FIXES=A=tests/fixtures/user_save_day54_1110.json;SHA=ed70b6d3589dc2731171347afa6d623f2b0339ca
