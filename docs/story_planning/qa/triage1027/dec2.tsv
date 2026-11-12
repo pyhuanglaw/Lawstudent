@@ -67,7 +67,7 @@ DONE-B07	B	①	手機和選單整合
 DONE-B08	B	①	總圖導覽
 DONE-B09	A		約好同行：L1027-1033（f9d60c63）一起走到 Café 自己開始、兩人坐下；L1040（6cfc73fd）路上改回宿舍她不跟進。都在合併之後（任務的 sha cae43fb2 本機 git 找不到，用時間判斷）
 DONE-B10	B	⑩Y1S1	閒聊階梯大一上
-DONE-B11	B	⑩Y1S1	政大背景＋7-1
+DONE-B11	B	⑩Y1S1	外校背景＋7-1
 DONE-B12	B	⑫	空橋走得過去
 DONE-B13	B	⑪	載妹墊（腳踏車後座）
 DONE-B14	B	①	阿凱宿舍事件
@@ -84,13 +84,13 @@ V1-G06	B	⑩Y1S1	語彤雨天總圖事件避開週二四 17:30～20:30
 V2-G07	B	⑩Y1S2	B4 演講出席旗標
 V3-G08	D		學姊 W7（ev_sis_prof_xu_door）已退場（retired）
 V0-G40	D		程式內部人物 id，稽核已確認
-V2-CHR	B	②	阿勳、品妤的立繪與作息
+V2-CHR	B	②	舊序章的人、舊序章的人的立繪與作息
 V1-KD2	B	①	阿凱 K-D2 新台詞
 V1-MEM	C		MEMORY_LABEL 九條：要各人記憶都觸發過的存檔看人物頁；L1672（bc1c8cd0b）學姊那幾條已 PASS
 V1-HOMEGATE	B	①	校門口「回臺北的家」入口（週五 17:00～週日 21:30）
-BUG-11	B	⑩Y1S1	政大宿舍樓下字幕統一（可昕事件）
+BUG-11	B	⑩Y1S1	外校宿舍樓下字幕統一（可昕事件）
 SYS-20	D		只改 CLAUDE.md 文件
-SCN-KX-01	B	⑩Y1S2	可昕線政大地點字幕
+SCN-KX-01	B	⑩Y1S2	可昕線外校地點字幕
 V3-L1	B	⑩Y2S1	大二閒聊階梯以安、語彤
 V3-L2	B	⑩Y2S1	大二閒聊階梯 BB 五位＋記憶名稱
 V3-SYL	B	⑧	大二課堂內容（大二上／下上課）

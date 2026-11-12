@@ -252,7 +252,7 @@
    "sha": "4b1c49ca",
    "files": [
     "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
-    "docs/story_planning/BB_188_附錄_重考主線盤點.md"
+    "docs/story_planning/BB_188_附錄_舊序章主線盤點.md"
    ],
    "state": "WIP",
    "remaining": "提案，等使用者確認 U1～U10、交往起點與可昕原學校兩案、學姊重排；確認後 BB 逐句定稿",
@@ -272,7 +272,7 @@
     "docs/story_planning/BB_183_美國交換改大四上_學姊與BB人物改法.md"
    ],
    "state": "已交付",
-   "remaining": "PROPOSAL：使用者看過才算；待確認 Q-a～Q-i（交往起點、爭執、主任、休學日、課名教授、南陽街制度、碩三赴美方式、年齡、家人反應）不寫成事實；美國篇口試、畢業等重排下一批",
+   "remaining": "PROPOSAL：使用者看過才算；待確認 Q-a～Q-i（交往起點、爭執、主任、舊序章日、課名教授、南陽街制度、碩三赴美方式、年齡、家人反應）不寫成事實；美國篇口試、畢業等重排下一批",
    "next": "AA-C 併入 AA_218 給使用者；使用者確認後 BB 逐句定稿，LAWWW 實作 A4 替換稿",
    "noDirectIntegrate": true,
    "receiver": "AA",
@@ -288,7 +288,7 @@
     "docs/story_planning/BB_183_美國交換改大四上_學姊與BB人物改法.md"
    ],
    "state": "已交付",
-   "remaining": "PROPOSAL；重考班門口遇見主任等使用者補；KN 除夕等 AA 排完除夕；E21a 跨年細節 AA 排",
+   "remaining": "PROPOSAL；舊序章班門口遇見主任等使用者補；KN 除夕等 AA 排完除夕；E21a 跨年細節 AA 排",
    "next": "AA-C 審後交使用者／LAWWW",
    "noDirectIntegrate": true,
    "receiver": "AA",
@@ -450,7 +450,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW2",
    "ack": "SENT",
-   "note": "原 task：D59 阿勳 3D 第六版驗收（要改，八點）"
+   "note": "原 task：D59 舊序章的人 3D 第六版驗收（要改，八點）"
   },
   {
    "task": "FAFU-1017",
@@ -499,7 +499,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW2",
    "ack": "SENT",
-   "note": "原 task：D59 品妤第五版驗收（要改）"
+   "note": "原 task：D59 舊序章的人第五版驗收（要改）"
   },
   {
    "task": "KNOWS-SPREAD-1017",
@@ -667,7 +667,7 @@
     "docs/story_planning/BB_196_閒聊階梯稽核_BB五人_給AA的台詞清單.md"
    ],
    "state": "已交付",
-   "remaining": "AA_234 補學姊 3 層、改句、綁地點短招呼的替代句；AA_235 經濟系那一年",
+   "remaining": "AA_234 補學姊 3 層、改句、綁地點短招呼的替代句；AA_235 舊序章那一年",
    "next": "AA 審完 → LAWWW 重建 ladder.js（要支援 skipAfterWeek）",
    "noDirectIntegrate": true,
    "receiver": "AA+LAWWW",
@@ -689,7 +689,7 @@
    "noDirectIntegrate": false,
    "receiver": "AA+LAWWW",
    "ack": "SENT",
-   "note": "原 task：閒聊階梯套用 AA_234（學姊補三層、約 61 句、4-1 鋪陳、ZZ_DATING、可昕美國版、11 句短招呼）與 AA_235（經濟系那一年）；README 新欄位；原 state：已交付（PROPOSAL；AA 已審）"
+   "note": "原 task：閒聊階梯套用 AA_234（學姊補三層、約 61 句、4-1 鋪陳、ZZ_DATING、可昕美國版、11 句短招呼）與 AA_235（舊序章那一年）；README 新欄位；原 state：已交付（PROPOSAL；AA 已審）"
   },
   {
    "task": "ART-Y1-BOX-1021",
@@ -772,7 +772,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "經濟系「天天睡覺」＝PASS（807b650a＝候選同程式）：新遊戲到 9/2 法律系、E37 演完、不卡、JS 例外 0、畫面檢查 132 次"
+   "note": "舊序章「天天睡覺」＝PASS（807b650a＝候選同程式）：新遊戲到 9/2 法律系、E37 演完、不卡、JS 例外 0、畫面檢查 132 次"
   },
   {
    "task": "AA363-S2-ECON-MONEY-1021",
@@ -788,7 +788,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "11 月～8 月每月 5,000 ✔、2/14 重考班與 6/8 衝刺班不扣錢 ✔、9/1 法律系 30,000 ✔"
+   "note": "11 月～8 月每月 5,000 ✔、2/14 舊序章班與 6/8 衝刺班不扣錢 ✔、9/1 法律系 30,000 ✔"
   },
   {
    "task": "BUG-ECON-OCT-ALLOWANCE-1021",
@@ -804,7 +804,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "FIXED：b72960bf 經濟系天天睡覺，10 月宿舍 +30,000、11～8 月每月 +5,000、法律系 9 月 +30,000"
+   "note": "FIXED：b72960bf 舊序章天天睡覺，10 月宿舍 +30,000、11～8 月每月 +5,000、法律系 9 月 +30,000"
   },
   {
    "task": "AA368-Y0-FIX-1021",
@@ -819,7 +819,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "BB_218「AA368-Y0-FIX-1021 經濟系那一年的修正」：L9b、H1、H5、M3（2/14 前後）、M4、H4、M7 出發與回程（7/25 26:10＝7/26 02:10）、M8 PASS（2b25a509／3893c523）；M6 修正後 PASS（87d815fb，d22748f5 新遊戲 10/25 收到阿勳那則）；H1、H2、H3、附 PASS（aa300 94eba942）"
+   "note": "BB_218「AA368-Y0-FIX-1021 舊序章那一年的修正」：L9b、H1、H5、M3（2/14 前後）、M4、H4、M7 出發與回程（7/25 26:10＝7/26 02:10）、M8 PASS（2b25a509／3893c523）；M6 修正後 PASS（87d815fb，d22748f5 新遊戲 10/25 收到舊序章的人那則）；H1、H2、H3、附 PASS（aa300 94eba942）"
   },
   {
    "task": "BB218-P3-1021",
@@ -864,7 +864,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "ACK",
-   "note": "PASS：經濟系 22 張、法律系 94 張宿營開頭全是 2D（72560881）；自動判定修好重跑經濟系 0 格、法律系 3 格是校門口深色底（缺圖），不是 3D；LAWWW 21:04 標已驗收"
+   "note": "PASS：舊序章 22 張、法律系 94 張宿營開頭全是 2D（72560881）；自動判定修好重跑舊序章 0 格、法律系 3 格是校門口深色底（缺圖），不是 3D；LAWWW 21:04 標已驗收"
   },
   {
    "task": "BUG-E37-DORM-SLEEP-1021",
@@ -1049,7 +1049,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "未派",
-   "note": "PASS（2da36bee 經濟系天天睡覺）：6/8 15:00 +10,000、提示「家裡匯來 5、6 月的生活費：10,000 元」4.1 秒最上層；7/10 +5,000「這個月的生活費：5,000 元」；qa_sleep4 ALL PASS"
+   "note": "PASS（2da36bee 舊序章天天睡覺）：6/8 15:00 +10,000、提示「家裡匯來 5、6 月的生活費：10,000 元」4.1 秒最上層；7/10 +5,000「這個月的生活費：5,000 元」；qa_sleep4 ALL PASS"
   },
   {
    "task": "AA378-Y4S1-FIX-1021",
@@ -1129,7 +1129,7 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "note": "基準 39f68236c；三種玩法＋經濟系、寒暑假、美國交換、savecompat；已知非 P0：BUG-DORM-BAG-TAPPREF-1101（候選）、cer831、E37 18:03"
+   "note": "基準 39f68236c；三種玩法＋舊序章、寒暑假、美國交換、savecompat；已知非 P0：BUG-DORM-BAG-TAPPREF-1101（候選）、cer831、E37 18:03"
   },
   {
    "task": "BUG-ADV-LINGER-1018",
@@ -1271,7 +1271,7 @@
     "LAWWW 五支 ALL PASS（LAWWW 回報）",
     "qa_play sleep PASS（807b650a）",
     "qa_play nophone PASS（b23483dd）",
-    "qa_play decline 經濟系段 PASS（到 9/1；9/1 之後是腳本選法繞圈，BB 停掉）"
+    "qa_play decline 舊序章段 PASS（到 9/1；9/1 之後是腳本選法繞圈，BB 停掉）"
    ],
    "not_seen": [
     "iPhone 實機",
@@ -1305,9 +1305,9 @@
    "at": "2026-10-21T19:3xZ",
    "status": "DELIVERED",
    "verdict": "FIXED",
-   "after": "b72960bf：經濟系天天睡覺從新遊戲到 2025-09-02；10 月（宿舍）+30,000、11～8 月每月 +5,000（5＋6 月在 6/8 一起看到 +10,000）、法律系 9 月 +30,000；2/14、6/8 沒扣",
+   "after": "b72960bf：舊序章天天睡覺從新遊戲到 2025-09-02；10 月（宿舍）+30,000、11～8 月每月 +5,000（5＋6 月在 6/8 一起看到 +10,000）、法律系 9 月 +30,000；2/14、6/8 沒扣",
    "also": "可昕表情 125 句 0.45 秒時全對（摘要的 42 句是 1.5 秒後看到下一句的圖）；12/13 生活費提示被 2D 對話蓋住（P3，只記錄）",
-   "not_seen": "iPhone；經濟系其他三種玩法這一版沒重跑",
+   "not_seen": "iPhone；舊序章其他三種玩法這一版沒重跑",
    "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md BUG-ECON-OCT-ALLOWANCE-1021 節",
    "tool": "docs/story_planning/test_tools/qa_play.py MODE=sleep"
   },
@@ -1317,8 +1317,8 @@
    "at": "2026-10-21T19:5xZ",
    "status": "SAVED",
    "verdict": "PARTIAL（H1／H2／H3／附 PASS；其他等 aa368）",
-   "after": "94eba942 aa300 ff：颱風假那句 10/2、三月那句 3/13、四月二日 4/23、2/8 講義兩句沒選項、品妤筆記 3/16",
-   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 經濟系「一直快轉」那節"
+   "after": "94eba942 aa300 ff：颱風假那句 10/2、三月那句 3/13、四月二日 4/23、2/8 講義兩句沒選項、舊序章的人筆記 3/16",
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 舊序章「一直快轉」那節"
   },
   {
    "id": "BB218-P3-1021",
@@ -1326,7 +1326,7 @@
    "at": "2026-10-21T19:5xZ",
    "status": "SAVED",
    "verdict": "PARTIAL（①③⑥ PASS；④ 測的版本還沒有 2cd8cf5a，aa368 重看；②⑤ 排隊）",
-   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 經濟系「一直快轉」那節"
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 舊序章「一直快轉」那節"
   },
   {
    "id": "BB-TEST-0830-ECONHOME-1021",
@@ -1335,7 +1335,7 @@
    "status": "SAVED",
    "verdict": "① PASS（8/29 05:00 是轉法律系的上限、8/29 晚上直接睡到 8/30 07:30）；② flow_v0_home 排隊",
    "note": "P3 觀察：8/30 早上床邊「睡到傍晚 18:00」沒有約好 14:00 的提醒，待實測會不會錯過 E37",
-   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 經濟系「一直快轉」那節"
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 舊序章「一直快轉」那節"
   }
  ]
 }

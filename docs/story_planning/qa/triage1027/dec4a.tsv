@@ -20,14 +20,14 @@ BUG-CHOICE-LAYOUT	A		選項多時的版面：L1077-1080（9cf16124）橫向地�
 BUG-MEET-NOSEAT	A		約去總圖兩人坐下才開始：L1008（4326d91c～c51e4b72）兩人並排坐下自己開始；L1015、L1104-1106（9cf16124）現在一起過去也坐下
 BUG-LIGHTBAND	C		半透明直條：要在總圖大廳、舊路書房各截幾個方向看直條還在不在（靜態截圖看得出來）
 BUG-SLOTJUMP	A		時段用完跳下一個時段：L1976-1978、L1991-1993（fff3f8998）下午讀完跳到 18:00、晚上排滿變灰「這個晚上已經排滿了（1／1）」PASS
-BUG-FRIENDS-KEXIN	B	①	法律系開局打開手機「朋友」看有可昕（經濟系那條 L157、L842 已看到她在列表）
+BUG-FRIENDS-KEXIN	B	①	法律系開局打開手機「朋友」看有可昕（舊序章那條 L157、L842 已看到她在列表）
 SYS-PHONE-CHAT	A		玩家主動傳訊息：L840（2b25a509）傳「在幹嘛」可昕照寒假所在地回；L1653-1667（9f9e13cc）五個時差情境 MX 全 PASS（可昕、阿凱）。其他人物的回覆池由 msg_chat_unit 逐字涵蓋
 BUG-LIB-PILLAR	A		總圖柱子碰撞：任務要跑的 flow_library_floors（L2519 d7f40ce91、L3788 3acaf8bea）、reachability_all（L2455、L3788）都 PASS
 BUG-OUTLET-SEAT	C		閱覽室插座事件改成坐下才演：是隨機權重事件，要多坐幾次才碰得到
 BUG-CAM-ELEV	B	⑫	閱覽室電梯車廂裡四方向截圖（levels_no_sky L2791 只量天空像素）
 ART-BIKES2-INT	D		腳踏車模型＝場景美術；功能測試同 ART-SCOOTER2
 BUG-FOLLOW-WAVE	B	⑦	一起走到目的地的人不揮手
-BUG-OUTING-STUCK	B	②	可昕「再去走走」演完回台大不卡、閒聊在 2D 播（經濟系那一年）
+BUG-OUTING-STUCK	B	②	可昕「再去走走」演完回台大不卡、閒聊在 2D 播（舊序章那一年）
 BUG-SEAT-OCCUPIED	A		有人坐的位子不出「坐下」：L1387、L1401（364dabe0）交誼廳有人坐的沙發不出選單、改坐另一張；L2664-2668（f472cee48）博雅有人坐的位子按不到、遊戲是對的；長椅位置 campus_layout_nav L2443-2444 PASS
 BUG-PARK-SEATS	B	⑪	溫州街小公園長椅、圓椅坐下截圖
 BUG-COPLANAR-DEV	C		開發組 GLB 疊面：要跑 campus_glb_integration、interior_glb_integration 並截圖；會不會閃要真機
@@ -36,10 +36,10 @@ BUG-SWING-SEAT	B	⑪	小公園鞦韆（20:00 以後）坐下截圖
 BUG-GYM-SEATS	B	⑫	體育館大廳、場邊長椅、看台坐下截圖
 ART-CAFE-FLOOR	D		Café 地板材質＝場景美術
 CAMP-L1	B	①	宿營開局：L611（f72a2a21）、L849-856（72560881）宿營到 8/29 PASS；9/1 阿哲宿營版、9/2 茶會、家族群組要在①補看
-ART-CG-ECONCAMP	B	②	經濟系宿營 E15 用 CG 帶過（CG 已核）：②看那一拍有 CG
+ART-CG-ECONCAMP	B	②	舊序章宿營 E15 用 CG 帶過（CG 已核）：②看那一拍有 CG
 REL-NEXT	D		發布管理項目，稽核寫改由 REL-9103 追蹤、可結案
 AB-65	D		AA 的改稿總項（企劃交付），實作在 LAWWW 子任務
-AB-66	D		BB 的經濟系改稿交付（企劃），實作在 V0-REWRITE-L
+AB-66	D		BB 的舊序章改稿交付（企劃），實作在 V0-REWRITE-L
 VAC-L1	B	③	假期活動卡報名、衝突、整段出遊（L596 只走快轉，沒報名活動）
 VAC-X2	B	⑤	日本路線 3/25 出發
 VAC-B3	D		寒暑假 2D 背景（場景美術），只剩 train_day 沒有事件用
