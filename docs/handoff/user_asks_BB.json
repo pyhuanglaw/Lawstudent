@@ -603,6 +603,17 @@
    "wants": "X347",
    "src": "使用者直接對 BB-C；選擇題回「照四步做」",
    "note": "遊戲畫面早已是桌遊團（X182，11-03）；剩程式註解、文件。BB 文件 35 個已改（BB-C 11-12）；src 註解交 LAWWW、企劃線交 AA；舊存檔轉換清單 S.NDL_OLD_NAMES 不改（改了舊存檔轉不過來）；內部代號 noodle_team 照 D115 不改。FACTS.md 加一行交 LAWWW。"
+  },
+  {
+   "id": "UA-BB-1112-02",
+   "at": "2026-11-12T04:1x",
+   "quote": "也改掉",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
+   "task": "NOODLE-NAME-PURGE-1112",
+   "wants": "X347",
+   "src": "使用者對 BB-C 選擇題：claude/cc-local 測試紀錄約 350 個檔的「麵店團」要不要改",
+   "note": "BB 建議留著（原始證據），使用者選「也改掉」。CC 寫一次性替換工作排電腦佇列（只改 local_out 文字檔，圖片不動），跑完 grep 驗 0 處。"
   }
  ]
 }
