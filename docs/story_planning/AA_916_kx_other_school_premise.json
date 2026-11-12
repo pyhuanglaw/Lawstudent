@@ -1,0 +1,112 @@
+{
+ "_meta": {
+  "doc": "AA_916 可昕：沒有禁字、但前提還是外校的句子（CHAR-OLD-PURGE-1110／CANON-NO-ECON-1112）",
+  "by": "AA-C 2026-11-12 21:3x",
+  "status": "待 BB 第二意見（D153）",
+  "what": "拿「你們學校／山上／下山／你們系」掃開發分支 c 可昕的字：11 句玩家看得到、canon_scan 抓不到（沒有禁字）、src 對照表也沒列（AA_886～897 只列有禁字的）。另一句「坐滿三個小時才划算」是記帳個性（UA-AA-1112-15）。",
+  "skip": "events.js 1445／1447（學期末飯 REVISIT，AA_901 補 6 整段拿掉）、2219（跨年視訊，AA_872 拿掉）、vac_activities 383（大二暑假可昕的視訊，已告訴 LAWWW）、encounters 109（AA_893 可昕偶遇）、msg2_pool／feed（AA_881、AA_885 整份重寫）、msg_replies「山上的貓認得我了。」（那則私訊在 AA_881 已換掉，回覆列跟著沒用）——這些不用另外改。",
+  "apply": "old＝開發分支現在的字；有源稿的我改源稿（見 plan_src），沒有的照 file／old／new 直接改 src。"
+ },
+ "rows": [
+  {
+   "file": "src/data/invites.js",
+   "where": "gym_badminton 可昕 R",
+   "old": "好，我從山上下來，拍子你負責借。",
+   "new": "好。拍子你負責借，我只出人。",
+   "src_count": 1,
+   "plan_src": [
+    "AA_827_kx_triple_short_2.json"
+   ]
+  },
+  {
+   "file": "src/data/invites.js",
+   "where": "run_avenue 可昕 during[2]",
+   "old": "早上的首都帝大好安靜。山上的鳥比較吵。",
+   "new": "早上的椰影大道好安靜。我平常這時候還在睡。",
+   "src_count": 1,
+   "plan_src": []
+  },
+  {
+   "file": "src/data/invites.js",
+   "where": "cafe 可昕",
+   "old": "你們學校旁邊的咖啡店開到半夜喔。我們那邊十點就關了。",
+   "new": "這家開到半夜喔。期末的時候我要住在這裡。",
+   "src_count": 1,
+   "plan_src": []
+  },
+  {
+   "file": "src/data/invites.js",
+   "where": "可昕 firstAt[2]（焙茶拿鐵）",
+   "old": "（小聲）好喝。可是我要坐滿三個小時才划算。",
+   "new": "（小聲）好喝。我可以坐到他們趕人。",
+   "src_count": 1,
+   "plan_src": [
+    "AA_784_invites.json"
+   ]
+  },
+  {
+   "file": "src/data/invites.js",
+   "where": "可昕 walk（巷子）",
+   "old": "你們學校旁邊的巷子都長得好像。我上次在這裡走錯兩次。",
+   "new": "學校旁邊的巷子都長得好像。我開學第一週在這裡走錯兩次。",
+   "src_count": 1,
+   "plan_src": []
+  },
+  {
+   "file": "src/data/invites.js",
+   "where": "映月湖 可昕 firstAt[1]",
+   "old": "比我們學校的大一點。……一點點。",
+   "new": "比我想的小。……可是很好看。",
+   "src_count": 1,
+   "plan_src": []
+  },
+  {
+   "file": "src/data/invites.js",
+   "where": "映月湖 可昕 walk",
+   "old": "你們學校晚上的路燈比較亮。我們山上比較黑。",
+   "new": "湖邊晚上的路燈好亮。我以前以為這裡會很暗。",
+   "src_count": 1,
+   "plan_src": []
+  },
+  {
+   "file": "src/data/msg_replies.js",
+   "where": "可昕 選項「要我幫妳查資料嗎？」say",
+   "old": "你們學校的資料庫比較多。好，幫我查一個判決。",
+   "new": "好啊。幫我查一個判決，我找了一個晚上找不到。",
+   "src_count": 1,
+   "plan_src": [
+    "AA_709_msg_replies.json"
+   ]
+  },
+  {
+   "file": "src/data/msg_replies.js",
+   "where": "可昕 選項「看起來好好吃。」say",
+   "old": "你上山的話，帶你去。",
+   "new": "那家在學校後面。走路五分鐘。",
+   "src_count": 1,
+   "plan_src": [
+    "AA_709_msg_replies.json"
+   ]
+  },
+  {
+   "file": "src/data/activity_scenes.js",
+   "where": "可昕 一起吃 scene 1 seat[0]",
+   "old": "你們學校附近的東西好貴。",
+   "new": "學校附近的東西好貴。",
+   "src_count": 1,
+   "plan_src": [
+    "AA_708_activity_scenes.json"
+   ]
+  },
+  {
+   "file": "src/data/activity_scenes.js",
+   "where": "可昕 一起吃 scene 3 seat[0]",
+   "old": "你們學校旁邊這間，我吃過了。很普通。",
+   "new": "這間我吃過了。很普通。……可是我還是會來。",
+   "src_count": 1,
+   "plan_src": [
+    "AA_708_activity_scenes.json"
+   ]
+  }
+ ]
+}
