@@ -320,7 +320,11 @@ const JOBS=(function(){
        沒有別人站著的那一邊；店員那一格本來就站得上去（E.canStand）的店，旁邊那一格也要站得上去——兩邊都不行＝不動（只藏包）。找不到店員＝不動。
      **沒有圍裙模型**：現成的圍裙（PROPS apron）只掛在芷若（char.heroine_02）身上，祐廷的模型（char.yuting）沒有＝這裡不做圍裙（不用方塊拼）。
      存檔：什麼都不記（狀態掛在 E.player.jobWork，不進存檔）。班中途讀檔＝舊的那一班凍住走不到 finally：S.tick 每一次先看（S.workHeal）——沒有班在跑、玩家身上還掛著＝把包還原（位置照讀檔的，不搬）。*/
-  S.workSpot=function(GM,k){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G) return null; let c=null; const cl=(E.npcs||[]).find(n=>n&&n.clerk&&n.obj&&n.obj.visible!==false);
+  /* 2026-11-12 BB FAIL（SHIFT_SHOTS_72fc／_18a3）：南洋戲院「店員旁邊 0.9 m」剛好在爆米花機、紙桶後面，跟隨鏡頭只看得到頭頂（或卡進護牆板）。
+     這一間改用指定站位（S.WORK_FIX；座標 LAWWW2-C 11-12 照 nanyang_interior.py、nanyang_layout.js 給）：on＝飲料櫃北邊的空檯面後面、沿著櫃台看向店員那一頭；
+     櫃台後面在導航上整條是擋住的（店員也站在裡面）＝直接放、不看 E.canStand。off＝下班站回中間走道、面向櫃台（原位背後是紅龍柱，鏡頭會被擋）；站不住就照原本的位置。*/
+  S.WORK_FIX={cinema:{on:{x:-4.0,z:0.8,yaw:Math.PI,lv:0},off:{x:0,z:-1.5,yaw:-Math.PI/2,lv:0}}};
+  S.workSpot=function(GM,k){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G) return null; const FX=S.WORK_FIX[k]; if(FX&&FX.on&&G.zone===shop(k).zone) return Object.assign({},FX.on); let c=null; const cl=(E.npcs||[]).find(n=>n&&n.clerk&&n.obj&&n.obj.visible!==false);
     if(cl) c={x:cl.obj.position.x,z:cl.obj.position.z,yaw:cl.obj.rotation.y||0,lv:cl.lv|0}; else if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.clerkSpot){ try{ c=SHOPLIFE.clerkSpot(G.zone,E); }catch(e){ c=null; } }
     if(!c) return null; const rx=Math.cos(c.yaw), rz=-Math.sin(c.yaw), can=(x,z)=>!E.canStand||E.canStand(x,z,0.32,c.lv|0), solid=can(c.x,c.z);
     for(const s of [0.9,-0.9]){ const x=+(c.x+rx*s).toFixed(2), z=+(c.z+rz*s).toFixed(2);
@@ -334,7 +338,7 @@ const JOBS=(function(){
     return true; };
   S.workOff=function(GM,stay){ const E=GM&&GM.E, P=E&&E.player, W=P&&P.jobWork; if(!W) return false; P.jobWork=null;
     if(W.carry){ try{ W.carry(P.obj); }catch(e){ console.warn('JOBS.workOff',e); } }
-    if(!stay&&W.from&&E.placeAt&&P.obj){ E.placeAt(P,W.from.x,W.from.z,W.from.lv|0); P.obj.rotation.y=W.from.yaw; }
+    if(!stay&&W.from&&E.placeAt&&P.obj){ const FX=S.WORK_FIX[W.k], o=FX&&FX.off&&(!E.canStand||E.canStand(FX.off.x,FX.off.z,0.32,FX.off.lv|0))?FX.off:W.from; E.placeAt(P,o.x,o.z,o.lv|0); P.obj.rotation.y=o.yaw; }
     return true; };
   S.workHeal=function(GM){ const P=GM&&GM.E&&GM.E.player; if(S.running||!P||!P.jobWork) return false; return S.workOff(GM,true); };
   S.runShiftX=async function(GM,k){ const G=GM.G, j=fix(S.job(G,k)); if(!j||S.running) return false; const s=shop(k), X=D().x[k], d=G.day, n=(j.shifts|0)+1, ctx={day:d,n}, H0=S.hrs(k,d), wth=S.withOn(G,k,d);
