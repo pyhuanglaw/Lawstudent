@@ -26,6 +26,7 @@ RR = random.Random(sum(ord(c) for c in SHOP))
 CROPS = {'antai': {'sign': ([(285, 98), (1440, 270), (1437, 418), (272, 298)], 768, 112, '../concept/shop_antai.webp'), 'poster': ([(1488, 160), (1596, 135), (1596, 420), (1488, 405)], 224, 448)},
          'xianguo': {'mural': ([(88, 62), (400, 165), (400, 255), (88, 215)], 640, 224)},
          'yindehao': {'price': ([(237, 5), (527, 95), (527, 325), (237, 300)], 512, 300), 'sample': ([(540, 100), (660, 135), (660, 325), (540, 325)], 256, 256), 'campus': ([(668, 165), (732, 180), (732, 320), (668, 325)], 224, 256)},
+         'dongnan': {'sign': ([(388, 243), (1426, 172), (1429, 327), (388, 369)], 960, 150, '../../tingzhou_1110/concept/shop_dongnan_dalian.webp')},
          'keju': {'menu': ([(1208, 483), (1304, 483), (1304, 702), (1208, 702)], 208, 474, '../../tingzhou_1110/concept/shop_kejuyunnan.webp'), 'sign': ([(461, 255), (1325, 202), (1330, 327), (461, 380)], 704, 128, '../../tingzhou_1110/concept/shop_kejuyunnan.webp')},
          'yuehaochi': {'menu': ([(1183, 430), (1301, 430), (1301, 692), (1183, 692)], 216, 480, '../../tingzhou_1110/concept/shop_yuehaochi.webp'), 'sign': ([(527, 255), (1295, 170), (1304, 337), (527, 395)], 704, 150, '../../tingzhou_1110/concept/shop_yuehaochi.webp')},
          'taimi': {'menu': ([(1308, 148), (1672, 25), (1672, 458), (1308, 422)], 768, 360), 'photo1': ([(165, 197), (322, 243), (322, 405), (165, 418)], 448, 256), 'photo2': ([(405, 222), (458, 232), (458, 385), (405, 390)], 320, 256)}}
@@ -977,6 +978,129 @@ if SHOP == 'keju':
     PRE = 'CEIL:'
     for i in range(6): z = -1.8 + i * 1.15; ccyl(vc(), (1.37, H - 0.06, z), (1.47 if i % 2 else 1.27, H - 0.24, z), 0.04, '#2b2b2b', seg=8); mesh('light').cyl((1.47 if i % 2 else 1.27, H - 0.245, z), (1.48 if i % 2 else 1.26, H - 0.255, z), 0.033, seg=8)
     PRE = ''
+
+
+# ---------- 東南大聯商行（汀州路；東南亞食品雜貨）----------
+if SHOP == 'dongnan':
+    WS, BS, RS, FG, RC, CT, BK = J['wallShelf'], J['backShelf'], J['rightShelf'], J['fridge'], J['rice'], J['counter'], J['baskets']
+    BODY, POST, GRN, RED, YEL = '#e9e7de', '#c9c8c0', '#1f5a3e', '#d8362a', '#f0b020'
+    NOOD = [['#d8362a', '#f0b020', '#e86a1c', '#f4e9c8'], ['#2f8a4a', '#f0b020', '#d8362a', '#f6f1e0'], ['#e86a1c', '#7a2a8a', '#f0d040', '#d8362a'], ['#f4c8d0', '#3a7ac0', '#f0b020', '#2f8a4a']]
+    DRY = [['#f1ead6', '#e8d9a8', '#f6f1e0', '#d8362a'], ['#e8d9a8', '#2f8a4a', '#f1ead6', '#f0b020']]
+    def bottles(x0, x1, y, z0, z1, along, k, hmin=0.16, hmax=0.24):
+        """一排瓶子（魚露、醬油、辣醬、椰奶）：一段一段同一種——瓶身、瓶肩、瓶蓋、一圈標籤"""
+        KIND = (('#5a2a14', '#d8362a', '#f0d040'), ('#2a1a10', '#f0b020', '#d8362a'), ('#c8301c', '#2f8a4a', '#f6f1e0'), ('#d89a2a', '#d8362a', '#f6f1e0'), ('#f4f1e6', '#3a7ac0', '#3a7ac0'), ('#3f7a3a', '#f0d040', '#f6f1e0'))
+        a0, a1 = (z0, z1) if along == 'z' else (x0, x1); a = a0 + 0.05; run = k
+        while a < a1 - 0.06:
+            col, cap, lab = KIND[run % len(KIND)]; r = RR.choice((0.032, 0.038)); h = RR.uniform(hmin, hmax); e = min(a1 - 0.03, a + RR.uniform(0.4, 0.7))
+            while a + r <= e:
+                px, pz = ((x0 + x1) / 2, a) if along == 'z' else (a, (z0 + z1) / 2)
+                ccyl(vc(), (px, y, pz), (px, y + h * 0.7, pz), r, col, seg=6, caps=False); ccyl(vc(), (px, y + h * 0.7, pz), (px, y + h, pz), r, col, seg=6, r2=r * 0.4, caps=False); ccyl(vc(), (px, y + h, pz), (px, y + h + 0.025, pz), r * 0.45, cap, seg=6)
+                ccyl(vc(), (px, y + h * 0.2, pz), (px, y + h * 0.5, pz), r + 0.002, lab, seg=6, caps=False)
+                a += 2 * r + 0.012
+            a = e + 0.03; run += 1
+    def cans(x0, x1, y, z0, z1, along, k):
+        """罐頭：兩層疊著，一段一段同一種"""
+        KIND = (('#d8362a', '#f6f1e0'), ('#2f8a4a', '#f0d040'), ('#f0b020', '#d8362a'), ('#3a7ac0', '#f6f1e0'), ('#f6f1e0', '#2f8a4a'))
+        a0, a1 = (z0, z1) if along == 'z' else (x0, x1); a = a0 + 0.05; run = k
+        while a < a1 - 0.06:
+            col, lab = KIND[run % len(KIND)]; r = 0.04; h = RR.choice((0.075, 0.1)); e = min(a1 - 0.03, a + RR.uniform(0.35, 0.6))
+            while a + r <= e:
+                px, pz = ((x0 + x1) / 2, a) if along == 'z' else (a, (z0 + z1) / 2)
+                for j in range(2): ccyl(vc(), (px, y + j * (h + 0.004), pz), (px, y + j * (h + 0.004) + h, pz), r, '#c4c8cb', seg=8); ccyl(vc(), (px, y + j * (h + 0.004) + h * 0.12, pz), (px, y + j * (h + 0.004) + h * 0.88, pz), r + 0.002, col if j == 0 else lab if run % 2 else col, seg=8, caps=False)
+                a += 2 * r + 0.01
+            a = e + 0.03; run += 1
+    def wshelf(o, along, face, fill, levels=(0.2, 0.58, 0.96, 1.34, 1.72)):
+        """靠牆的貨架：底座、背板、立柱、層板（前緣一條紅色價格條）"""
+        x0, x1, z0, z1, h = o['x0'], o['x1'], o['z0'], o['z1'], o['h']
+        vc().cbox(x0, x1, 0.0, 0.2, z0, z1, BODY); vc().cbox(x0, x1, h, h + 0.03, z0, z1, BODY)
+        if along == 'z':
+            (vc().cbox(x0, x0 + 0.03, 0.2, h, z0, z1, BODY) if face > 0 else vc().cbox(x1 - 0.03, x1, 0.2, h, z0, z1, BODY)); n = max(1, round((z1 - z0) / 1.2))
+            for k in range(n + 1): zz = z0 + (z1 - z0) * k / n; vc().cbox(x0, x1, 0.0, h + 0.03, zz - 0.015, zz + 0.015, POST)
+            xe = (x1, x1 + 0.004) if face > 0 else (x0 - 0.004, x0)
+            for i, y in enumerate(levels): vc().cbox(x0, x1, y - 0.022, y, z0, z1, BODY); vc().cbox(xe[0], xe[1], y - 0.03, y + 0.004, z0, z1, RED if i % 2 else YEL); fill(i, y)
+        else:
+            vc().cbox(x0, x1, 0.2, h, z0, z0 + 0.03, BODY); n = max(1, round((x1 - x0) / 1.2))
+            for k in range(n + 1): xx = x0 + (x1 - x0) * k / n; vc().cbox(xx - 0.015, xx + 0.015, 0.0, h + 0.03, z0, z1, POST)
+            for i, y in enumerate(levels): vc().cbox(x0, x1, y - 0.022, y, z0, z1, BODY); vc().cbox(x0, x1, y - 0.03, y + 0.004, z1, z1 + 0.004, RED if i % 2 else YEL); fill(i, y)
+    # 左牆：泡麵（上面三層：一包一包）、零食大包（下面兩層）
+    wshelf(WS, 'z', 1, lambda i, y: goods(WS['x0'] + 0.05, WS['x1'], y, WS['z0'] + 0.04, WS['z1'] - 0.04, NOOD[i % 4], hmin=(0.2, 0.2, 0.13, 0.13, 0.13)[i], hmax=(0.3, 0.3, 0.2, 0.2, 0.2)[i], step=(0.24, 0.22, 0.15, 0.15, 0.15)[i]))
+    # 後牆：最下面大鐵罐和紙箱、罐頭、兩層瓶子（魚露、醬油、辣醬）、最上面罐頭；上面黃底紅字店名（概念圖裁的）
+    def back_fill(i, y):
+        a, b, c, d = BS['x0'] + 0.04, BS['x1'] - 0.04, BS['z0'] + 0.08, BS['z1'] - 0.03
+        if i == 0: goods(a, b, y, c, d, [['#c9a878', '#b89868', '#d8362a', '#f0b020']][0], hmin=0.22, hmax=0.32, along='x', step=0.3)
+        elif i in (1, 4): cans(a, b, y, c, d, 'x', i)
+        else: bottles(a, b, y, c, d, 'x', i * 2)
+    wshelf(BS, 'x', 1, back_fill); zb = -D / 2 + 0.03
+    vc().cbox(-2.95, 1.45, 2.22, 2.96, -D / 2, zb, YEL); vc().cbox(-2.97, 1.47, 2.2, 2.22, -D / 2, zb + 0.01, RED); vc().cbox(-2.97, 1.47, 2.96, 2.98, -D / 2, zb + 0.01, RED)
+    pic('sign', [(-2.85, 2.26, zb + 0.004), (1.35, 2.26, zb + 0.004), (1.35, 2.93, zb + 0.004), (-2.85, 2.93, zb + 0.004)])
+    # 右牆：乾貨（河粉、米紙、香料包：扁扁一包一包立著）
+    wshelf(RS, 'z', -1, lambda i, y: goods(RS['x0'], RS['x1'] - 0.05, y, RS['z0'] + 0.04, RS['z1'] - 0.04, DRY[i % 2], hmin=0.2, hmax=0.3, step=0.09))
+    # 中間兩排雙面貨架（泡麵、零食、餅乾）；架頂疊幾箱貨、朝門口那一頭掛一塊特價牌
+    for g in J['gondolas']:
+        gondola(g, NOOD, body=BODY)
+        for k in range(3): zz = g['z0'] + 0.3 + k * 1.25; vc().cbox(g['x0'] + 0.1, g['x1'] - 0.1, g['h'], g['h'] + 0.26, zz, zz + 0.5, ('#c9a878', '#b89868', '#d2b48a')[k]); vc().cbox(g['x0'] + 0.098, g['x1'] - 0.098, g['h'] + 0.1, g['h'] + 0.16, zz + 0.15, zz + 0.35, RED)
+        xm = (g['x0'] + g['x1']) / 2; vc().cbox(xm - 0.32, xm + 0.32, 1.05, 1.45, g['z1'], g['z1'] + 0.012, YEL); vc().cbox(xm - 0.26, xm + 0.26, 1.2, 1.3, g['z1'] + 0.012, g['z1'] + 0.016, RED)
+        for k in range(3): vc().cbox(xm - 0.3 + k * 0.21, xm - 0.12 + k * 0.21, 0.0, 0.5 - (k % 2) * 0.12, g['z1'] + 0.02, g['z1'] + 0.3, ('#3a7ac0', '#d8362a', '#2f8a4a')[k])   # 貨架頭：一箱箱的飲料（在阻擋範圍裡——配置的 blocks 比貨架長 0.3）
+    # 飲料冰箱（三門玻璃）：黑框、裡面白色層架、一瓶瓶飲料；上面一條墨綠燈箱
+    fx0, fx1, fz0, fz1, fh = FG['x0'], FG['x1'], FG['z0'], FG['z1'], FG['h']
+    vc().cbox(fx0, fx1, 0.0, 0.2, fz0, fz1, '#2a2d31'); vc().cbox(fx1 - 0.06, fx1, 0.2, fh - 0.16, fz0, fz1, '#f4f5f4'); vc().cbox(fx0, fx1, fh - 0.16, fh, fz0, fz1, GRN)
+    for zz in (fz0, fz1 - 0.04): vc().cbox(fx0, fx1, 0.2, fh - 0.16, zz, zz + 0.04, '#2a2d31')
+    mesh('light').box(fx0 - 0.004, fx0, fh - 0.13, fh - 0.03, fz0 + 0.1, fz1 - 0.1)
+    for k in range(4): zz = fz0 + (fz1 - fz0) * k / 3; vc().cbox(fx0, fx0 + 0.05, 0.2, fh - 0.16, zz - 0.025, zz + 0.025, '#1f2023')
+    for k in range(3): zz = fz0 + (fz1 - fz0) * (k + 1) / 3 - 0.1; vc().cbox(fx0 - 0.03, fx0 - 0.015, 0.9, 1.3, zz, zz + 0.02, '#c4c8cb')   # 門把
+    DR = ['#d8362a', '#f0b020', '#2f8a4a', '#3a7ac0', '#f6f1e0', '#7a4a2a', '#e86a1c', '#8ac0e0']
+    for i, y in enumerate((0.26, 0.6, 0.94, 1.28, 1.58)):
+        vc().cbox(fx0 + 0.06, fx1 - 0.06, y - 0.02, y, fz0 + 0.04, fz1 - 0.04, '#eceeee'); a = fz0 + 0.1; run = i
+        while a < fz1 - 0.1:
+            col = DR[run % len(DR)]; e = min(fz1 - 0.08, a + RR.uniform(0.3, 0.5)); can = run % 3 == 0
+            while a + 0.035 <= e:
+                for xx in (fx0 + 0.16,):
+                    if can: ccyl(vc(), (xx, y, a), (xx, y + 0.12, a), 0.033, col, seg=6)
+                    else: ccyl(vc(), (xx, y, a), (xx, y + 0.17, a), 0.033, col, seg=6, caps=False); ccyl(vc(), (xx, y + 0.17, a), (xx, y + 0.24, a), 0.033, col, seg=6, r2=0.013); 
+                a += 0.08
+            a = e + 0.03; run += 1
+    mesh('glass').quad([(fx0 + 0.02, 0.22, fz0 + 0.03), (fx0 + 0.02, 0.22, fz1 - 0.03), (fx0 + 0.02, fh - 0.18, fz1 - 0.03), (fx0 + 0.02, fh - 0.18, fz0 + 0.03)])
+    # 右後角：一疊疊的米袋（白底、紅色或綠色的帶子）、旁邊兩個大鐵桶
+    for cx in (2.78, 3.42):
+        for cz in (-4.2, -3.72):
+            n = 3 + int(RR.random() * 3)
+            for j in range(n):
+                dx = RR.uniform(-0.03, 0.03); vc().crbox(cx - 0.29 + dx, cx + 0.29 + dx, j * 0.15, j * 0.15 + 0.145, cz - 0.21, cz + 0.21, '#f1ede0', r=0.05); vc().cbox(cx - 0.12 + dx, cx + 0.12 + dx, j * 0.15 + 0.02, j * 0.15 + 0.125, cz - 0.213, cz + 0.213, (RED, '#2f8a4a', YEL)[(j + int(cx * 3)) % 3])
+    for k in range(2): ccyl(vc(), (2.62 + k * 0.42, 0.0, -3.4), (2.62 + k * 0.42, 0.42, -3.4), 0.17, ('#3a7ac0', '#c4c8cb')[k], seg=12)
+    # 收銀台（淺色美耐板、墨綠踢腳）：收銀機、電子秤、糖果罐、一盒盒口香糖；上面一根桿子掛一串串零食
+    vc().cbox(CT['x0'], CT['x1'], 0.1, CT['h'] - 0.04, CT['z0'], CT['z1'], '#e2d8c2'); vc().cbox(CT['x0'], CT['x1'], 0.0, 0.1, CT['z0'] - 0.005, CT['z1'], GRN); vc().crbox(CT['x0'] - 0.03, CT['x1'] + 0.03, CT['h'] - 0.04, CT['h'], CT['z0'] - 0.04, CT['z1'] + 0.02, '#f1efe6', r=0.012)
+    vc().cbox(CT['x0'], CT['x0'] + 0.04, 0.0, CT['h'] - 0.04, CT['z1'], 4.5 - 1.1, '#e2d8c2')   # 櫃台側板往窗邊接一小段（客人繞不進去）
+    hC = CT['h']; vc().cbox(2.3, 2.72, hC, hC + 0.12, 2.3, 2.62, '#2a2d31'); vc().cbox(2.34, 2.68, hC + 0.12, hC + 0.36, 2.52, 2.56, '#1f2023'); vc().cbox(2.36, 2.66, hC + 0.14, hC + 0.34, 2.515, 2.52, '#8ac0e0')
+    vc().cbox(1.72, 2.05, hC, hC + 0.05, 2.28, 2.6, '#c4c8cb'); vc().cbox(1.74, 2.03, hC + 0.05, hC + 0.06, 2.3, 2.58, '#eceeee'); vc().cbox(1.8, 1.97, hC + 0.06, hC + 0.16, 2.56, 2.6, '#2a2d31')
+    for k, col in enumerate((RED, YEL, '#2f8a4a')): ccyl(vc(), (2.86 + (k % 2) * 0.14, hC, 2.25 + k * 0.13), (2.86 + (k % 2) * 0.14, hC + 0.16, 2.25 + k * 0.13), 0.05, col, seg=8); ccyl(vc(), (2.86 + (k % 2) * 0.14, hC + 0.16, 2.25 + k * 0.13), (2.86 + (k % 2) * 0.14, hC + 0.185, 2.25 + k * 0.13), 0.052, '#f6f1e0', seg=8)
+    for k in range(4): vc().cbox(2.08 + k * 0.05, 2.12 + k * 0.05, hC, hC + 0.07, 2.14, 2.24, (RED, '#3a7ac0', YEL, '#2f8a4a')[k])
+    ccyl(vm(), (CT['x0'], 2.32, CT['z0'] + 0.1), (CT['x1'] + 0.6, 2.32, CT['z0'] + 0.1), 0.012, '#c4c8cb', seg=6)
+    for sx in (CT['x0'] + 0.02, CT['x1'] + 0.55): ccyl(vm(), (sx, 2.32, CT['z0'] + 0.1), (sx, H, CT['z0'] + 0.1), 0.008, '#c4c8cb', seg=4)
+    for k in range(9):
+        xx = CT['x0'] + 0.12 + k * 0.22; col = (RED, YEL, '#2f8a4a', '#e86a1c', '#3a7ac0')[k % 5]
+        for j in range(5): vc().cbox(xx - 0.055, xx + 0.055, 2.3 - (j + 1) * 0.125, 2.3 - j * 0.125 - 0.015, CT['z0'] + 0.09, CT['z0'] + 0.115, col if j % 2 == 0 else '#f6f1e0')
+    # 店員後面的東牆：小架子（電話卡、香菸大小的小盒子）、月曆
+    for y in (1.2, 1.5, 1.8):
+        vc().cbox(W / 2 - 0.22, W / 2, y - 0.02, y, 2.95, 4.15, BODY); goods(W / 2 - 0.2, W / 2 - 0.02, y, 2.97, 4.13, [RED, '#f6f1e0', '#3a7ac0', YEL, '#2f8a4a'], hmin=0.1, hmax=0.14, step=0.075)
+    vc().cbox(W / 2 - 0.012, W / 2, 2.1, 2.7, 3.2, 3.7, '#f6f1e0'); vc().cbox(W / 2 - 0.016, W / 2 - 0.012, 2.5, 2.7, 3.2, 3.7, RED)
+    # 左前窗邊：一疊疊紅藍塑膠籃、兩箱飲料；上面掛藤編燈罩和斗笠（概念圖門口左邊）
+    def basket(x, y, z, col):
+        w, d, h = 0.26, 0.19, 0.2
+        vc().cbox(x - w, x + w, y, y + 0.015, z - d, z + d, col)
+        for (a, b, c, e) in ((x - w, x - w + 0.015, z - d, z + d), (x + w - 0.015, x + w, z - d, z + d), (x - w, x + w, z - d, z - d + 0.015), (x - w, x + w, z + d - 0.015, z + d)): vc().cbox(a, b, y, y + h, c, e, col)
+        vc().cbox(x - w - 0.012, x + w + 0.012, y + h - 0.03, y + h, z - d - 0.012, z - d, col); vc().cbox(x - w - 0.012, x + w + 0.012, y + h - 0.03, y + h, z + d, z + d + 0.012, col)
+    for k, (bx, n, col) in enumerate(((-3.08, 4, '#c8301c'), (-2.5, 3, '#2a5aa8'))):
+        for j in range(n): basket(bx, j * 0.11, 3.95, col)
+    for (hx, hz, kind) in ((-3.0, 3.3, 'lamp'), (-2.35, 3.45, 'hat'), (-1.7, 3.3, 'lamp')):
+        if kind == 'lamp': pendant(hx, hz, y=2.05)
+        else:
+            ccyl(vc(), (hx, 2.3, hz), (hx, H, hz), 0.005, '#2b2b2b', seg=4); ccyl(vc(), (hx, 2.12, hz), (hx, 2.3, hz), 0.3, '#d9b97a', seg=16, r2=0.01, caps=False); ccyl(vc(), (hx, 2.115, hz), (hx, 2.12, hz), 0.3, '#c4a060', seg=16)
+    # 三角旗一串（橫過走道）、牆上的時鐘、門邊的盆栽
+    PEN = [RED, YEL, '#2f8a4a', '#3a7ac0', '#e86a1c']
+    for k in range(22): xx = -3.3 + k * 0.3; yy = 2.78 - 0.1 * math.sin(k / 21 * PI); vc().poly([(xx, yy, 1.9), (xx + 0.22, yy, 1.9), (xx + 0.11, yy - 0.24, 1.9)], PEN[k % 5]); vc().poly([(xx + 0.22, yy, 1.899), (xx, yy, 1.899), (xx + 0.11, yy - 0.24, 1.899)], PEN[k % 5])
+    ccyl(vc(), (-W / 2 + 0.01, 2.55, 3.75), (-W / 2 + 0.04, 2.55, 3.75), 0.16, '#2a2d31', seg=16); ccyl(vc(), (-W / 2 + 0.04, 2.55, 3.75), (-W / 2 + 0.045, 2.55, 3.75), 0.14, '#f6f5f0', seg=16)
+    for (a, b) in FR['windows']: vc().cbox(a, b, 2.45, 2.7, zS + 0.06, zS + 0.07, GRN)   # 玻璃上緣一條墨綠（外面雨棚的顏色）
+    tubes((-3.3, -1.0, 1.3, 3.5), x0=-1.75, x1=1.75)
 
 
 # ---------- 完成 ----------
