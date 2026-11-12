@@ -1,4 +1,4 @@
-// 汀州路・東南大聯商行（tz_dongnan）的店內文字（TINGZHOU-SHOPS5-1110；AA_823 @ 6f1308ee5，分支 claude/magical-albattani-bk7b4n）——不需要瀏覽器（D131）。
+// 汀州路・東南大聯商行（tz_dongnan）的店內文字（TINGZHOU-SHOPS5-1110；AA_823 @ 3d0ab9944〔第一版 6f1308ee5；3d0ab9944＝AA 11-12 回 LAWWW-C 七問〕，分支 claude/magical-albattani-bk7b4n）——不需要瀏覽器（D131）。
 //   1  資料檔 src/data/tz_grocery_lines.js 逐字對稿（店名、老闆的句子、十樣東西的名字／價錢／貨架／一句說明、四個貨架的「看」和按鈕、結帳的字）；匯入工具 --check；白名單
 //   2  營業時間每天 10:00～21:30（places.js）、名字、颱風假關、算汀州路
 //   3  關門時按店門：打烊以後＝稿的 closed_outside＋開放時間；開門以前（06～10）＝稿的 not_open＋開放時間；開著不擋
@@ -10,9 +10,12 @@
 //   9  配置的五個點都接上；手上的東西不進存檔（走出去再進來＝沒有了）
 //   10 原本的店照舊；index.html 載入順序；node --check
 //   11 （子程序 A：建出遊戲真正的區域）五個點在配置的位置、按鈕的字照稿、老闆站在配置的位置（開店才有）
+//   12 （AA 11-12 回七問，3d0ab9944）拿起一樣＝稿的 pick 那一句；結帳「不用了」＝稿的 counter.cancel 那一句；椰子水、泰式奶茶的說明照新稿；
+//      買的東西進「物品」（G.flags.GG3_OWN；選單「物品」分頁 GG3.ownHTML：店名＋東西的名字，都是稿的字）；舊存檔沒有那個欄位＝照常、讀的時候不寫入；存檔（JSON）再讀回來留著
+//      修改前（b3a9e3c6e0）：資料檔沒有 pick、cancel、GG3 沒有 own／ownHTML、買了存檔不變——12 全部 FAIL、1 的白名單 SHA FAIL。
 // 修改前（b1d0379816）：沒有資料檔、GG3 不認得 tz_dongnan、沒有營業時間、互動點只有暫時的一句——FAIL。
 // 用法：node tests/tz_dongnan_aa823_1112_unit.js
-const Z='tz_dongnan', SHA='6f1308ee5', DOC='docs/story_planning/AA_823_tz_dongnan.json', DATA='src/data/tz_grocery_lines.js', MEAL='src/data/tz_meal_lines.js';
+const Z='tz_dongnan', SHA='3d0ab9944', DOC='docs/story_planning/AA_823_tz_dongnan.json', DATA='src/data/tz_grocery_lines.js', MEAL='src/data/tz_meal_lines.js';
 if(process.argv[2]==='A') partA(); else partB();
 
 function partA(){
@@ -95,8 +98,8 @@ await sec(1,()=>{ let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+D
     walk(T,''); const src=[]; const w2=x=>{ if(typeof x==='string') src.push(x); else if(Array.isArray(x)) x.forEach(w2); else if(x&&typeof x==='object') for(const kk of Object.keys(x)){ src.push(kk); w2(x[kk]); } }; w2(Object.assign({},A,{_meta:null}));
     const bad=all.filter(t=>!src.includes(t)); check('1 資料檔每一個字串都是稿裡完整的一句（'+all.length+' 個；沒有自己寫的字）',!bad.length&&all.length>=45,J(bad.slice(0,6)));
     /* 稿裡玩家看得到的每一句都在資料檔裡（沒有漏）*/
-    const need=[A.shop.name,A.staff.who,A.staff.closed_line,A.staff.not_open,A.staff.closed_outside,A.staff.no_money].concat(A.staff.greet,ids.map(id=>A.items[id].name),ids.map(id=>A.items[id].line),Object.keys(A.looks).map(k=>A.looks[k].button),ks.map(k=>A.looks[k].t),[C.ask,C.empty,C.after_spicy],C.after);
-    const miss=need.filter(t=>!all.includes(t)); check('1 稿裡玩家看得到的每一句都在資料檔（'+need.length+' 句；沒有漏）',!miss.length&&need.length===43,J([need.length,miss.slice(0,6)])); }
+    const need=[A.shop.name,A.staff.who,A.staff.closed_line,A.staff.not_open,A.staff.closed_outside,A.staff.no_money].concat(A.staff.greet,ids.map(id=>A.items[id].name),ids.map(id=>A.items[id].line),Object.keys(A.looks).map(k=>A.looks[k].button),ks.map(k=>A.looks[k].t),[C.ask,C.empty,C.after_spicy,C.cancel,A.pick],C.after);
+    const miss=need.filter(t=>!all.includes(t)); check('1 稿裡玩家看得到的每一句都在資料檔（'+need.length+' 句；沒有漏）',!miss.length&&need.length===45,J([need.length,miss.slice(0,6)])); }
   let ck=null; try{ ck=cp.spawnSync('python3',['tools/shops/import_tz_grocery.py','--check'],{cwd:ROOT,encoding:'utf8'}); }catch(e){}
   if(!ck||ck.error) console.log('SKIP 1 沒有 python3（匯入工具 --check）'); else if(!raw) console.log('SKIP 1 匯入工具 --check（讀不到稿）'); else check('1 匯入工具 --check：資料檔＝稿匯出來的（走 import_guard 白名單）',ck.status===0,(ck.stdout+ck.stderr).trim().slice(0,200));
   const allow=JSON.parse(rd('docs/handoff/story_import_allow.json')).files; check('1 劇情匯入白名單有 AA_823（'+SHA+'、approved、approvedBy）',allow.some(e=>e.path===DOC&&e.sha===SHA&&e.status==='approved'&&e.approvedBy==='AA（TINGZHOU-SHOPS5-1110）'));
@@ -144,8 +147,10 @@ await sec(6,async()=>{ const SH={tz_dongnan_noodle:['東南亞泡麵（一包）
     try{ for(const kind of Object.keys(SH)){ H.picks=['不用了']; await GG3.groceryShelf(GM,kind); } } finally { GM.choose=o0; }
     check('6 十樣東西的說明都看得到、各自對到自己那一樣',hints.length===10&&X.goods.every(g=>hints.some(h=>h[0]===g.n+'　'+g.p+' 元'&&h[1]===g.line)),J(hints.length)); }
   { const G=fresh('2025-10-07',12,Z); await take('tz_dongnan_noodle',['蝦餅']);
+    check('6 拿了蝦餅：稿的 pick 那一句旁白「（你拿了一份，先拿在手上。）」（看的那一句後面、一次）',J(said())===J([[null,T.look.tz_dongnan_noodle[0]],[null,'（你拿了一份，先拿在手上。）']])&&X.pick===said()[1][1],J(said()));
     check('6 拿了蝦餅：還沒扣錢（到櫃檯才結帳）；拿過的不再列；「不用了」的提示寫手上有什麼',G.money===5000&&!spent.length&&J(Array.from(H.opts[1]))===J(['東南亞泡麵（一包）　35 元','泡麵（五包裝）　150 元','不用了'])&&J(GG3.hand(GM))===J(['tz_dn_snack']),J([Array.from(H.opts[1]||[]),GG3.hand(GM)]));
     H.said=[]; H.opts=[]; await take('tz_dongnan_noodle',['東南亞泡麵（一包）','泡麵（五包裝）']);
+    check('6 一次拿兩樣：pick 那一句說兩次（每拿一樣一次）',J(said())===J([[null,T.look.tz_dongnan_noodle[0]],[null,X.pick],[null,X.pick]]),J(said()));
     check('6 同一個貨架三樣都拿了：不再問（只有那一句旁白）',H.opts.length===2&&J(GG3.hand(GM))===J(['tz_dn_snack','tz_dn_noodle','tz_dn_noodle5']),J([H.opts.map(o=>Array.from(o)),GG3.hand(GM)]));
     H.said=[]; H.opts=[]; H.picks=[]; await press('tz_dongnan_noodle'); check('6 都拿了以後再按那個貨架：只有「看」那一句、沒有選單',J(said())===J([[null,T.look.tz_dongnan_noodle[0]]])&&!H.opts.length,J([said(),H.opts.length])); } });
 
@@ -169,7 +174,7 @@ await sec(7,async()=>{ { const G=fresh('2025-10-07',12,Z); const h0=G.hour, r=aw
   { const G=fresh('2025-10-07',12,Z); for(const k of ['tz_dongnan_noodle','tz_dongnan_sauce','tz_dongnan_drink','tz_dongnan_rice']) await take(k,X.goods.filter(g=>g.at===k).map(g=>g.n)); H.said=[]; H.picks=['買']; await GG3.groceryPay(GM);
     check('7 十樣都買：扣 705（35＋150＋60＋95＋70＋45＋40＋45＋110＋55）',G.money===5000-705&&X.goods.reduce((a,g)=>a+g.p,0)===705&&H.has(SP),J([G.money,said()])); }
   { const G=fresh('2025-10-07',12,Z); const keys0=Object.keys(G).sort().join(), f0=Object.keys(G.flags).sort().join(); await take('tz_dongnan_rice',['香米（一公斤）']); H.picks=['買']; await GG3.groceryPay(GM);
-    check('7 買的東西只扣錢、說一句（稿沒有寫用途）：存檔沒有多欄位（G、G.flags 的欄位和買以前一樣）',G.money===4890&&Object.keys(G).sort().join()===keys0&&Object.keys(G.flags).sort().join()===f0,J([Object.keys(G).sort().join()===keys0,Object.keys(G.flags)])); } });
+    check('7 買的東西：存檔只多 G.flags.GG3_OWN（G 最上層的欄位和買以前一樣；flags 只多這一個）',G.money===4890&&Object.keys(G).sort().join()===keys0&&Object.keys(G.flags).filter(k=>k!=='GG3_OWN').sort().join()===f0&&J(G.flags.GG3_OWN)===J({tz_dongnan:{tz_dn_rice:1}}),J([Object.keys(G).sort().join()===keys0,Object.keys(G.flags),G.flags.GG3_OWN])); } });
 
 // ---- 8 錢不夠、不用了 ----
 await sec(8,async()=>{ { const G=fresh('2025-10-07',12,Z); G.money=100; await take('tz_dongnan_rice',['香米（一公斤）']); H.said=[]; H.opts=[]; H.picks=['買']; const h0=G.hour; const o0=GM.choose; let seen=null; GM.choose=async o=>{ seen=o; return o0(o); }; let r; try{ r=await GG3.groceryPay(GM); } finally { GM.choose=o0; } const s=said();
@@ -178,7 +183,7 @@ await sec(8,async()=>{ { const G=fresh('2025-10-07',12,Z); G.money=100; await ta
     H.said=[]; H.opts=[]; H.picks=['不用了']; await press('tz_dongnan_rice'); check('8 放回去的東西貨架上又拿得到',Array.from(H.opts[0]).includes('香米（一公斤）　110 元'),J(Array.from(H.opts[0]||[]))); }
   { const G=fresh('2025-10-07',12,Z); G.money=110; await take('tz_dongnan_rice',['香米（一公斤）']); H.picks=['買']; const r=await GG3.groceryPay(GM); check('8 剛好 110 元：買得起',r==='香米（一公斤）'&&G.money===0,J([r,G.money])); }
   { const G=fresh('2025-10-07',12,Z); await take('tz_dongnan_noodle',['東南亞泡麵（一包）']); H.said=[]; H.picks=['不用了']; const h0=G.hour, r=await GG3.groceryPay(GM);
-    check('8「就這些嗎？」選「不用了」：不扣錢、時間不動、老闆不說買完那一句',r===null&&G.money===5000&&!spent.length&&near(G.hour,h0)&&J(said())===J([[WHO,'就這些嗎？']]),J([r,said()]));
+    check('8「就這些嗎？」選「不用了」：稿的 cancel 那一句旁白「（你把東西一樣一樣放回架上。）」；不扣錢、時間不動、老闆不說買完那一句、沒有進「物品」',r===null&&G.money===5000&&!spent.length&&near(G.hour,h0)&&J(said())===J([[WHO,'就這些嗎？'],[null,'（你把東西一樣一樣放回架上。）']])&&X.cancel===said()[1][1]&&!('GG3_OWN' in G.flags)&&GG3.ownHTML(G)==='',J([r,said(),G.flags.GG3_OWN]));
     H.said=[]; await press('tz_dongnan_counter'); check('8「不用了」＝東西放回去：再按「結帳」＝手上沒有東西',J(said())===J([[null,X.empty]]),J(said())); } });
 
 // ---- 9 配置的點、手上的東西不進存檔 ----
@@ -202,6 +207,46 @@ await sec(10,async()=>{ const TM=GG3_LINES.tz_taimi;
   check('10 index.html 載入資料檔（在小館的資料檔後面、GG3 前面；版本號照旁邊的寫法）',at(DATA)>at(MEAL)&&at(MEAL)>0&&at(DATA)<at('src/gg3shops3d.js')&&(html.match(/src="src\/data\/tz_grocery_lines\.js\?v=([\d.]+)"/)||[])[1]===(html.match(/src="src\/gg3shops3d\.js\?v=([\d.]+)"/)||[])[1]);
   const bad=[]; for(const f of ['src/gg3shops3d.js',DATA,'src/data/places.js']){ const r=cp.spawnSync(process.execPath,['--check',path.join(ROOT,f)],{encoding:'utf8'}); if(r.status!==0) bad.push(f+' '+r.stderr.slice(0,160)); }
   check('10 node --check',!bad.length,J(bad)); });
+
+// ---- 12 AA 11-12 回七問：pick、cancel、兩句說明、買的東西進「物品」 ----
+await sec(12,async()=>{ let A=null; try{ A=JSON.parse(cp.execFileSync('git',['show',SHA+':'+DOC],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(e){}
+  if(!A) console.log('SKIP 12 讀不到稿 '+SHA+'（逐字對稿的三項）');
+  else { check('12 拿起一樣那一句（稿最上層 pick，旁白、沒有品名的空格）照稿',X.pick===A.pick&&/^（.*）$/.test(X.pick)&&!/[{}<>％%]|○○|XX/.test(A.pick),J(X.pick));
+    check('12 結帳「不用了」那一句（looks.tz_dongnan_counter.cancel，旁白）照稿',X.cancel===A.looks.tz_dongnan_counter.cancel&&/^（.*）$/.test(X.cancel)&&X.cancel!==X.short,J(X.cancel));
+    check('12 椰子水、泰式奶茶的說明照新稿（買之前看得出來的）',good('tz_dn_drink').line===A.items.tz_dn_drink.line&&good('tz_dn_tea').line===A.items.tz_dn_tea.line&&good('tz_dn_drink').line==='冰的，細細長長的一罐。'&&good('tz_dn_tea').line==='橘色的。光看顏色就知道很甜。',J([good('tz_dn_drink').line,good('tz_dn_tea').line])); }
+  check('12 GG3 有 own／ownAdd／ownHTML',typeof GG3.own==='function'&&typeof GG3.ownAdd==='function'&&typeof GG3.ownHTML==='function');
+  if(typeof GG3.own!=='function') return;
+  const buy=async(G,shelf)=>{ for(const k of Object.keys(shelf)) await take(k,shelf[k]); H.picks=['買']; return GG3.groceryPay(GM); };
+  { const G=fresh('2025-10-07',12,Z); check('12 還沒買：沒有 GG3_OWN、「物品」沒有多東西',!('GG3_OWN' in G.flags)&&J(GG3.own(G))==='[]'&&GG3.ownHTML(G)==='');
+    await take('tz_dongnan_drink',['罐裝椰子水']); check('12 只是拿在手上（還沒結帳）：不進「物品」',!('GG3_OWN' in G.flags)&&GG3.ownHTML(G)==='');
+    H.picks=['買']; await GG3.groceryPay(GM); await buy(G,{tz_dongnan_noodle:['蝦餅']});
+    check('12 買了椰子水、再買蝦餅：G.flags.GG3_OWN＝{tz_dongnan:{tz_dn_drink:1,tz_dn_snack:1}}',J(G.flags.GG3_OWN)===J({tz_dongnan:{tz_dn_drink:1,tz_dn_snack:1}}),J(G.flags.GG3_OWN));
+    check('12 GG3.own：店名、東西的名字照稿，順序照稿（蝦餅在椰子水前面）',J(GG3.own(G))===J([{zone:Z,shop:'東南大聯商行',items:[{id:'tz_dn_snack',n:'蝦餅',count:1},{id:'tz_dn_drink',n:'罐裝椰子水',count:1}]}]),J(GG3.own(G)));
+    check('12 選單「物品」那一格：店名＋一行一樣',GG3.ownHTML(G)==='<div class="item"><b>東南大聯商行</b><div>· 蝦餅</div><div>· 罐裝椰子水</div></div>',GG3.ownHTML(G));
+    GM.enterN++; await buy(G,{tz_dongnan_noodle:['蝦餅']}); check('12 另一趟再買一份蝦餅：兩份（×2）',G.flags.GG3_OWN[Z].tz_dn_snack===2&&/· 蝦餅 ×2</.test(GG3.ownHTML(G))&&/· 罐裝椰子水</.test(GG3.ownHTML(G)),GG3.ownHTML(G));
+    const txt=GG3.ownHTML(G).replace(/<[^>]+>/g,'|').split('|').map(s=>s.replace(/^· /,'').replace(/ ×\d+$/,'')).filter(Boolean), names=[T.name].concat(X.goods.map(g=>g.n));
+    check('12「物品」那一格的字都是稿的（店名、東西的名字；沒有自己寫的字）',txt.length===3&&txt.every(s=>names.includes(s)),J(txt));
+    const G2=JSON.parse(JSON.stringify(G)); check('12 存檔（JSON）再讀回來：東西還在',GG3.ownHTML(G2)===GG3.ownHTML(G)&&G2.flags.GG3_OWN[Z].tz_dn_snack===2); }
+  { const G=fresh('2025-10-07',12,Z); G.money=30; await take('tz_dongnan_noodle',['東南亞泡麵（一包）']); H.picks=['買']; await GG3.groceryPay(GM); check('12 錢不夠：沒有進「物品」',!('GG3_OWN' in G.flags)); }
+  { const G=fresh('2025-10-07',12,Z); await buy(G,{tz_dongnan_noodle:X.goods.filter(g=>g.at==='tz_dongnan_noodle').map(g=>g.n),tz_dongnan_sauce:X.goods.filter(g=>g.at==='tz_dongnan_sauce').map(g=>g.n),tz_dongnan_drink:X.goods.filter(g=>g.at==='tz_dongnan_drink').map(g=>g.n),tz_dongnan_rice:X.goods.filter(g=>g.at==='tz_dongnan_rice').map(g=>g.n)});
+    check('12 十樣都買：十樣都在「物品」、順序照稿',J(GG3.own(G)[0].items.map(i=>i.n))===J(X.goods.map(g=>g.n))&&GG3.own(G)[0].items.every(i=>i.count===1),J(GG3.own(G))); }
+  /* 舊存檔：沒有 GG3_OWN；連 flags 都沒有；資料壞掉 */
+  { const G=fresh('2025-10-07',12,Z); delete G.flags.GG3_OWN; const s0=J(G); const h=GG3.ownHTML(G), o=GG3.own(G);
+    check('12 舊存檔（沒有 GG3_OWN）：「物品」不多東西、不丟例外、讀的時候不寫存檔',h===''&&J(o)==='[]'&&J(G)===s0);
+    const r=await buy(G,{tz_dongnan_rice:['乾河粉']}); check('12 舊存檔照常買：買完才有 GG3_OWN',r==='乾河粉'&&G.money===4945&&J(G.flags.GG3_OWN)===J({tz_dongnan:{tz_dn_vermicelli:1}}),J([r,G.flags.GG3_OWN])); }
+  { let ok=true, why=''; for(const bad of [null,undefined,0,'x',[],[1],{tz_dongnan:null},{tz_dongnan:[]},{tz_dongnan:'x'},{tz_dongnan:{tz_dn_snack:'abc',tz_dn_tea:-2,nope:3}},{nope:{tz_dn_snack:1}}]){ try{ if(GG3.ownHTML({flags:{GG3_OWN:bad}})!==''){ ok=false; why=J(bad); } }catch(e){ ok=false; why=J(bad)+' '+e; } }
+    try{ if(GG3.ownHTML({})!==''||GG3.ownHTML(null)!=='') ok=false; }catch(e){ ok=false; why='沒有 flags '+e; }
+    check('12 GG3_OWN 壞掉（不是物件、份數不是正的數、稿裡沒有的 id、不認得的店）、沒有 flags：不列、不丟例外',ok,why); }
+  { const G=fresh('2025-10-07',12,Z); G.flags.GG3_OWN='x'; await buy(G,{tz_dongnan_rice:['乾河粉']}); check('12 GG3_OWN 壞掉以後再買：重新記',J(G.flags.GG3_OWN)===J({tz_dongnan:{tz_dn_vermicelli:1}}),J(G.flags.GG3_OWN)); }
+  { const G={flags:{GG3_OWN:{tz_dongnan:{tz_dn_snack:1}}}}; const n0=X.goods.find(g=>g.id==='tz_dn_snack').n; X.goods.find(g=>g.id==='tz_dn_snack').n='<b>&"x'; let h; try{ h=GG3.ownHTML(G); } finally { X.goods.find(g=>g.id==='tz_dn_snack').n=n0; }
+    check('12「物品」的字有跳脫（不會被當成 HTML）',/&lt;b&gt;&amp;&quot;x/.test(h)&&!/<b>&"x/.test(h),h); }
+  /* game3d.js 的選單：「物品」分頁先畫禮物（GIFTH）、後面接這一格 */
+  { const src=rd('src/game3d.js'), m=/if\(\$\('itemsList'\)\)\{[^\n]*?GIFTH\.renderBag\(\$\('itemsList'\),G\);[^\n]*?GG3\.ownHTML\(G\)[^\n]*?\}/.exec(src);
+    check('12 game3d.js 打開選單：「物品」分頁先畫禮物（GIFTH.renderBag）、後面接 GG3.ownHTML',!!m&&m[0].indexOf('GIFTH.renderBag')<m[0].indexOf('GG3.ownHTML')&&/insertAdjacentHTML\('beforeend'/.test(m[0]),m?m[0].slice(0,200):'找不到');
+    if(m){ const el={innerHTML:'舊的',insertAdjacentHTML(pos,h){ this.pos=pos; this.innerHTML+=h; }}; const G={flags:{GG3_OWN:{tz_dongnan:{tz_dn_tea:2}}}};
+      new Function('$','G','GIFTH','GG3',m[0])(()=>el,G,{renderBag(e,g){ e.innerHTML='[禮物]'; }},GG3); const a=el.innerHTML; el.innerHTML='舊的'; new Function('$','G','GG3',m[0])(()=>el,G,GG3);
+      check('12 那一段真的跑：禮物後面接「東南大聯商行／瓶裝泰式奶茶 ×2」；沒有 GIFTH 也不會留舊的字',a==='[禮物]<div class="item"><b>東南大聯商行</b><div>· 瓶裝泰式奶茶 ×2</div></div>'&&el.innerHTML==='<div class="item"><b>東南大聯商行</b><div>· 瓶裝泰式奶茶 ×2</div></div>',J([a,el.innerHTML])); } }
+  check('12 index.html 有「物品」分頁（itemsList）',/id="tab-items"><div class="list" id="itemsList">/.test(rd('index.html'))); });
 
 // ---- 11 子程序 A：遊戲真正的區域 ----
 await sec(11,()=>{ const r=cp.spawnSync(process.execPath,[__filename,'A'],{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26});
