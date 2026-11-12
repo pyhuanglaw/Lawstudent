@@ -24,6 +24,8 @@ const EXCEPT=[
   {zone:'tz_limao', item:'nomoney', reason:'同上：店裡不賣東西'},
   {zone:'wz_teishoku', item:'gift', reason:'居酒屋內用，杯子裝的、沒有外帶；酒不送（GIFT_DRINK_SHOPS_AUDIT_1112.md 第 2 節）'},
   {zone:'aoki',        item:'gift', reason:'店內是一壺的熱茶（內用）；同一間店在公館街上的外帶窗口可以買來送人（GIFT_DRINK_SHOPS_AUDIT_1112.md 第 1 節第 4 列、第 2 節）'},
+  {zone:'us_market',       item:'quick', reason:'在美國手機「地點」只列公寓和公寓社區（交換流程的設計，src/exchange3d.js EXCH.places、tests/exch_min_unit.js 第 4 項）；超市從公寓「出門（去超市）」搭車去'},
+  {zone:'us_asian_market', item:'quick', reason:'同上：在美國不用手機快速前往去店裡，從超市那條街走過去'},
   {zone:'cvs',         item:'typhoon', reason:'便利商店 24 小時、颱風天照開（使用者 11-04「所有便利商店都是24小時」）'},
   {zone:'xs_dakou',    item:'typhoon', reason:'24 小時的速食店（places.js：AA_613 沒寫颱風天關）'},
   {zone:'stall:tingzhou:st_ring',      item:'buy', reason:'夜市背景攤（套圈圈）：稿（AA_752）只有看，沒有買'},
@@ -52,7 +54,6 @@ const KNOWN_FAIL=[].concat(
   KF(T_VIEW,'view','afar daybreak yangyang corner_records aoki wz_brunch wz_teahouse wz_mokuyobi wz_offbeat us_asian_market us_market'),
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   /* 其他（補查出來的）*/
-  KF(T_BACK,'quick','us_asian_market us_market'),
   KF(T_BACK,'buy','us_asian_market us_market'), KF(T_BACK,'nomoney','us_asian_market us_market'),
   KF(T_BACK,'text','tz_limao us_asian_market us_market'),
   KF(T_BACK,'tend','stall:wenzhou:fruit'),   /* 夜市 13 攤、118 巷兩間外帶 2026-11-12 已放人（src/shoplife3d.js）；阿忠鮮果等 LAWWW2 量站位 */
