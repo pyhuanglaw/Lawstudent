@@ -150,8 +150,8 @@ await sec(4,async()=>{
     check('4. 大峽谷祐廷不說話：她不先說（下一句直接是回程的機場），SIS_CANYON silent、canyonAfter 以後不交往',i>=0&&L[i+1]==='十二月二十三號，晚上八點落地。你來接我。'&&H.G.flags.SIS_CANYON==='silent'&&!H.G.flags.dating_heroine_05&&!(H.G.flags.romance&&H.G.flags.romance[ID]&&H.G.flags.romance[ID].status==='dating'),J({L:L.slice(i,i+3),c:H.G.flags.SIS_CANYON})); }
   { const rs=SISB4.restartYes; SISB4.restartYes=()=>true; let a=null; try{ a=CONFESS_LINES[ID].yes({flags:{}}); } finally { SISB4.restartYes=rs; }
     check('4. 重新開始那一版（restartYes，AA 九件第 4 件放回）：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」',J(a)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']),J(a)); }
-  { const W=['我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前傳一句給我就好。'];
-    check('4. 多段感情 Byes（AA 九件第 5 件放回）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「……你去見她那天，出門前傳一句給我就好。」',J(MULTIREL_LINES.heroine_05&&MULTIREL_LINES.heroine_05.result.Byes||(MULTIREL_LINES.REL||{}))===J(W)||J(Object.values(MULTIREL_LINES).map(v=>v&&v.heroine_05&&v.heroine_05.result&&v.heroine_05.result.Byes).filter(Boolean))===J([W])); }
+  { const W=['我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前發一句給我就好。'];
+    check('4. 多段感情 Byes（AA 九件第 5 件放回）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「……你去見她那天，出門前發一句給我就好。」',J(MULTIREL_LINES.heroine_05&&MULTIREL_LINES.heroine_05.result.Byes||(MULTIREL_LINES.REL||{}))===J(W)||J(Object.values(MULTIREL_LINES).map(v=>v&&v.heroine_05&&v.heroine_05.result&&v.heroine_05.result.Byes).filter(Boolean))===J([W])); }
 });
 
 /* ---------- 5 林{name} ---------- */

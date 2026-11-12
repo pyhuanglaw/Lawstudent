@@ -458,7 +458,7 @@ const R2Y4B_EVENTS=(function(){
       {choice:[{text:'「妳有說謝謝嗎？」',goto:'g5a'},{text:'「白飯好吃嗎？」',goto:'g5b'}]},
       {label:'g5a'},{speaker:'heroine_05',text:'說了三次。第三次她抱了我一下。'},{end:true},
       {label:'g5b'},{speaker:'heroine_05',text:'是電鍋煮的。……我差點哭。沒有，沒哭。'},{end:true},
-      {label:'g6'},{speaker:'heroine_05',text:'二十三號晚上八點落地。',aa516:true},{speaker:'heroine_05',text:'班次，回去前傳給你。',aa516:true},   /* AA_516 1-1（企劃線 a9b87c588）：原本「二十三號早上到。」「機場的班次我傳給你了。」和接機（12/23 20:30 入境大廳、12/20 那一則）對不上 */
+      {label:'g6'},{speaker:'heroine_05',text:'二十三號晚上八點落地。',aa516:true},{speaker:'heroine_05',text:'班次，回去前發給你。',aa516:true},   /* AA_516 1-1（企劃線 a9b87c588）：原本「二十三號早上到。」「機場的班次我傳給你了。」和接機（12/23 20:30 入境大廳、12/20 那一則）對不上 */
       {choice:[{text:'「我去接妳。」',goto:'g6a'},{text:'「要我帶什麼？」',set:{SIS16_G6B:true},goto:'g6b'}]},   /* AA_523 5-1：選 g6b 記 SIS16_G6B＝12/23 接機帶外套給她（r2y4a_events.js ev_sis_pickup）*/
       {label:'g6a'},{speaker:'heroine_05',text:'好。……我會在出口那邊找你。'},{end:true},
       {label:'g6b'},{speaker:'heroine_05',text:'外套。我的那件在行李最下面。'},{end:true},

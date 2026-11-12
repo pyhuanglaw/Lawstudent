@@ -359,7 +359,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "L", "variant": "祐廷在國外", "msgs": ["我這邊要睡了。", "你那邊應該才剛開始。"], "tags": ["美國路線"], "ask": null, "src": "BB_178 5 在幹嘛 祐廷在國外", "tierMin": true, "variantNote": "只在她那邊 23:30 以後"},
    {"topic": "chat", "tier": "L", "variant": "祐廷在國外", "msgs": ["我這邊十二點了。", "你那邊一點了，快去睡。"], "tags": ["日本路線"], "ask": null, "src": "BB_178 5 在幹嘛 祐廷在國外", "tierMin": true, "variantNote": "只在她那邊 23:30 以後"}
   ]},
-  "kai":{"name":"阿凱","rules":{"replyFree": null, "noReplyText": "回覆時間：凌晨兩點到四點最活躍；白天睡到下午一點，一點以前傳的，一點才回。", "openText": "什麼時候開：開場就有（室友）\n什麼時候不開，或只回事務：一直開", "habitText": "手機習慣：沒有標點，偶爾「所以」開頭；遊戲連結。不是戀愛對象，沒有 L。", "wakeLine": ["剛醒"], "otherText": ["延到隔天／一點以前傳的：「剛醒」，再接一般版（玩家傳的是晚安就只回「剛醒」）。", "大一是室友；大二起分開住（`BB_97` K3）。", "子晴、可昕、阿凱、方奕廷：沒有這個話題。（0-7 問課）"], "sectionText": {"night": "晚安（`CLOSE_FRIEND` 以上）"}},"replies":[
+  "kai":{"name":"阿凱","rules":{"replyFree": null, "noReplyText": "回覆時間：凌晨兩點到四點最活躍；白天睡到下午一點，一點以前發的，一點才回。", "openText": "什麼時候開：開場就有（室友）\n什麼時候不開，或只回事務：一直開", "habitText": "手機習慣：沒有標點，偶爾「所以」開頭；遊戲連結。不是戀愛對象，沒有 L。", "wakeLine": ["剛醒"], "otherText": ["延到隔天／一點以前發的：「剛醒」，再接一般版（玩家傳的是晚安就只回「剛醒」）。", "大一是室友；大二起分開住（`BB_97` K3）。", "子晴、可昕、阿凱、方奕廷：沒有這個話題。（0-7 問課）"], "sectionText": {"night": "晚安（`CLOSE_FRIEND` 以上）"}},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["打遊戲"], "tags": [], "ask": null, "src": "BB_178 6 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["寫作業 好難"], "tags": ["學期中"], "ask": null, "src": "BB_178 6 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在網拍上看鍵盤"], "tags": [], "ask": null, "src": "BB_178 6 在幹嘛"},

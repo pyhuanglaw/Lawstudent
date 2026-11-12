@@ -126,7 +126,7 @@ const isNarr=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; f
 
 /* ---------- 15. 分類 ---------- */
 { const all=[]; for(const id of Object.keys(ST.now)) for(const e of ST.now[id]) all.push(typeof e==='string'?e:e.t);
-  check('15. events.js SMALLTALK：'+all.length+' 句（閒聊，GM.say(who,…)）沒有一句外面還有「」',all.length===149&&all.every(t=>!wrapped(t)),sample(all.filter(wrapped)));
+  check('15. events.js SMALLTALK：'+all.length+' 句（閒聊，GM.say(who,…)）沒有一句外面還有「」',all.length===147/* （CANON-NO-ECON-1112 第四批：照 AA_886）*/&&all.every(t=>!wrapped(t)),sample(all.filter(wrapped)));
   const B=[], narr=[], room=[];
   const poolOpts=C=>{ const o=[]; for(const k of PSK){ const LN=(C[k]||{}).LINES||{}; for(const id of Object.keys(LN)) (function w(v,p){ if(v==null||typeof v==='function') return; if(typeof v==='string'){ if(/(Opts\.\d+$|\.choice\.\d+\.text$)/.test(p)) o.push(v); return; } if(typeof v==='object') for(const kk of Object.keys(v)) w(v[kk],p+'.'+kk); })(LN[id],id); } return o; };
   const opts=poolOpts(PS.now), optsW=opts.filter(wrapped);
@@ -164,8 +164,10 @@ const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a
   if(typeof a==='function'||typeof b==='function'){ if(String(a)!==String(b)) bad.push(p+'：函式不同'); return 0; }
   if(a===null||b===null||typeof a!=='object'||typeof b!=='object'){ if(a!==b) bad.push(p+'：'+J(a)+' → '+J(b)); return 0; }
   const ka=Object.keys(a), kb=Object.keys(b); if(J(ka)!==J(kb)){ bad.push(p+'：欄位不同'); return 0; } let n=0; for(const k of ka) n+=deepSame(a[k],b[k],bad,p+'.'+k); return n; };
-{ const bad=[]; const n=deepSame(ST.old,ST.now,bad,'SMALLTALK');
-  check('16. SMALLTALK 和 '+BASE+' 逐句比：'+n+' 句只差外面的「」，條件（if、term、week、location、once、prio…）一字不差',n===149&&bad.length===0,sample(bad));
+{ const bad=[]; /* （CANON-NO-ECON-1112 第四批：照 AA_886 換字）芯慈雙主修三個版本只留第一句、拿掉條件——BASE 那兩句不比、第一句的 unless 拿掉；句數 149→147 */
+  { const X=ST.old.classmate_xinci; if(Array.isArray(X)){ ST.old.classmate_xinci=X.filter(e=>!(e&&typeof e==='object'&&/自學過一點經濟|念過經濟系，我只問/.test(e.t))).map(e=>{ if(e&&typeof e==='object'&&/^「?雙主修要多修好多學分/.test(e.t)&&e.unless){ const o=Object.assign({},e); delete o.unless; return o; } return e; }); } }
+  const n=deepSame(ST.old,ST.now,bad,'SMALLTALK');
+  check('16. SMALLTALK 和 '+BASE+' 逐句比：'+n+' 句只差外面的「」，條件（if、term、week、location、once、prio…）一字不差',n===147&&bad.length===0,sample(bad));
   for(const k of PSK){ const b2=[]; const m=deepSame(PS.old[k],PS.now[k],b2,k); const W={POOL_STORY:49,POOL_STORY_B2:52,POOL_STORY_B3:46,POOL_STORY_B4:33}[k], W5={POOL_STORY:0,POOL_STORY_B2:1,POOL_STORY_B3:3,POOL_STORY_B4:0}[k], h5=B5HIT.filter(p=>p.startsWith(k+'.'));
     check('16. '+k+' 和 '+BASE+' 逐句比：'+m+' 句只差外面的「」（talk、greet、zjwHand、bhCopier）'+(W5?'、'+h5.length+' 句是第五批的「說的話」（動作）→說的話（動作）（greet）':'')+'，其他（旁白、選項、場景、條件）一字不差',
       m===W&&b2.length===0&&h5.length===W5&&h5.every(p=>/\.greet\.\d+$/.test(p)),sample(b2.concat(h5))); }

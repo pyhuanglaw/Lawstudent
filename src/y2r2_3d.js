@@ -611,7 +611,7 @@ const Y2R2=(function(){
   S.bdAskFix=function(G,id,e,opts){ if(id!=='kexin'||!e||e.topic!=='bday'||!G||!G.flags||!kx(G)) return; const m=d('b'); if(m==null||G.day!==m||G.flags.KX_BD2_PICK||done(G,'ev_kexin_birthday_y2')) return;
     const o=(opts||[]).find(x=>x&&x.t==='妳來公館'); if(!o) return; o.say=[{from:'kexin',text:'好 九點'}]; o.set=Object.assign({},o.set||{},{KX_BD2_GG:true}); };
   /* 回過予樂的玩家（KX_BD2_PICK 四選一）4/24 又傳生日快樂（AA_343 A2）：那天已經有安排，不問「你晚上要上山來，還是我下山」，整個回覆換成一句——
-     教室、山下、兩個人版 19:00 以前傳「謝謝。……晚上見。」；電話版 22:00 以前傳「謝謝。……晚上等你電話。」；那一場已經演過（或已經錯過）之後才傳「謝謝。」。
+     教室、山下、兩個人版 19:00 以前發「謝謝。……晚上見。」；電話版 22:00 以前發「謝謝。……晚上等你電話。」；那一場已經演過（或已經錯過）之後才傳「謝謝。」。
      2-Y2-15 那一天蓋過 MSG-2 的回覆（msg2_pool 不動）；MSG.pick2 包一層呼叫（檔尾）*/
   S.bdReply=function(G,id,topic,e){ if(id!=='kexin'||topic!=='bday'||!e||!G||!G.flags||!kx(G)) return null; const F=G.flags, m=d('b'), pk=F.KX_BD2_PICK; if(m==null||G.day!==m||!pk) return null;
     const q=outGet(G,'y2r2_bd'), over=done(G,'ev_kexin_birthday_y2')||done(G,'ev_kexin_birthday_y2_call')||(!!q&&q.state!=='planned');
