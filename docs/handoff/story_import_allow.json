@@ -9774,6 +9774,78 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "閒聊階梯沛珊四句（重匯 ladder_bb_*、AA_753 覆寫 3f6c7d3bb9）、可昕取消約會那一句（tools/date/import_date_lines.py → date_lines.js lines.kexin.cancel[1]）；約會心願沛珊兩句：遊戲裡那一格照 AA_757 覆寫層，沒有用到 wish_bb.json 那兩句，這一批沒有重匯"
+  },
+  {
+   "path": "docs/story_planning/AA_789_events_an.json",
+   "sha": "21f4cd7636",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 E 區事件台詞覆蓋列）；AA-C 2026-11-12 20:10 指出開發分支漏匯、請照 at／old／new 補匯（舊序章人物的列跳過、AA_786 可昕那份不匯）",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
+  },
+  {
+   "path": "docs/story_planning/AA_789_events_cast.json",
+   "sha": "21f4cd7636",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 E 區事件台詞覆蓋列）；AA-C 2026-11-12 20:10 指出開發分支漏匯、請照 at／old／new 補匯（舊序章人物的列跳過、AA_786 可昕那份不匯）",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
+  },
+  {
+   "path": "docs/story_planning/AA_789_events_minor.json",
+   "sha": "21f4cd7636",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 E 區事件台詞覆蓋列）；AA-C 2026-11-12 20:10 指出開發分支漏匯、請照 at／old／new 補匯（舊序章人物的列跳過、AA_786 可昕那份不匯）",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
+  },
+  {
+   "path": "docs/story_planning/AA_789_events_ps.json",
+   "sha": "21f4cd7636",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 E 區事件台詞覆蓋列）；AA-C 2026-11-12 20:10 指出開發分支漏匯、請照 at／old／new 補匯（舊序章人物的列跳過、AA_786 可昕那份不匯）",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
+  },
+  {
+   "path": "docs/story_planning/AA_789_events_sis.json",
+   "sha": "21f4cd7636",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 E 區事件台詞覆蓋列）；AA-C 2026-11-12 20:10 指出開發分支漏匯、請照 at／old／new 補匯（舊序章人物的列跳過、AA_786 可昕那份不匯）",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
+  },
+  {
+   "path": "docs/story_planning/AA_789_events_yt.json",
+   "sha": "21f4cd7636",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 E 區事件台詞覆蓋列）；AA-C 2026-11-12 20:10 指出開發分支漏匯、請照 at／old／new 補匯（舊序章人物的列跳過、AA_786 可昕那份不匯）",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
+  },
+  {
+   "path": "docs/story_planning/AA_789_events_zq.json",
+   "sha": "21f4cd7636",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 E 區事件台詞覆蓋列）；AA-C 2026-11-12 20:10 指出開發分支漏匯、請照 at／old／new 補匯（舊序章人物的列跳過、AA_786 可昕那份不匯）",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
+  },
+  {
+   "path": "docs/story_planning/AA_789_events_zr.json",
+   "sha": "21f4cd7636",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 E 區事件台詞覆蓋列）；AA-C 2026-11-12 20:10 指出開發分支漏匯、請照 at／old／new 補匯（舊序章人物的列跳過、AA_786 可昕那份不匯）",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
   }
  ]
 }
