@@ -1098,7 +1098,7 @@ const Z3 = (function(){
        導航不動：巷口那一塊照舊是上面的 blockRect、門後面本來就在 blockOutside 外面。載入失敗＝只有盆栽（和原本一樣）。測試：node tests/gg_lane_close_unit.js */
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_lane_gate']){
       ASSETS.loadOne('bldg.gg_lane_gate').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggLaneGate','gg_lane_gate_glb'); r.userData.dyn=true; }).catch(e=>console.warn('公館巷口鐵門載入失敗（照舊只有盆栽）',e)); }
-    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
+    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); shopInsideLit(r,zone,GG_IN_PLACE); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
     if(ggScGLB){ P3.mergeStatic(ggScG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,ggScG,ggScList,c.scene,'gg_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車');
       g.traverse(o=>{ if(o.isLOD&&/^scooters_A\d+$/.test(o.name)) o.addLevel(new THREE.Object3D(),40); });   /* 騎樓前那一排（ART-GG-STREETLIFE-1023）：40 m 外不畫（一台 600 個三角形、40 多台；從廣場一端看過去多 3 萬多個三角形，那麼遠只看得到一個小點）*/ }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     return zone; } };
@@ -1547,7 +1547,8 @@ const Z3 = (function(){
     const m=new THREE.Mesh(new THREE.PlaneGeometry(L,Wd),new THREE.MeshStandardMaterial({map:st,transparent:true,roughness:0.9,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2})); m.rotation.x=-Math.PI/2; m.receiveShadow=true; m.name='zebra'; return m; }
   /* 公館窗卡 v5（LAWWW2 1d4675069）：亮窗網格 NOSHADOW_xs_fronts_lit 的第二組 UV（uv1.x）＝店編號（1～8，0＝永遠亮；對照在 node extras.xsShops），
      打烊的店乘 0.18（BB 11-04「打烊的店窗還亮」FAIL）；照 PLACES.isOpen 每 30 幀更新一次 uniform，不多 draw call。洋洋 17:00～01:00、轉角唱片 12:00～21:00（AA_650 §4，BB 11-04） */
-  const GG_LIT_ZONE={ggtea:'aoki',ggbook:'bookstore',ggcvs:'cvs',ggyy:'yangyang',ggbike:'bikeshop',ggafar:'afar',ggcorner:'corner_records',ggdb:'daybreak'};   /* 洋洋、轉角唱片：AA_650 §4 的營業時間（places.js；洋洋 YANGYANG-IN-1107、轉角唱片 CORNER-IN-1107 進得去了）*/
+  const GG_LIT_ZONE={ggtea:'aoki',ggbook:'bookstore',ggcvs:'cvs',ggyy:'yangyang',ggbike:'bikeshop',ggafar:'afar',ggcorner:'corner_records',ggdb:'daybreak',ggantai:'gg_antai',ggfruit:'gg_xianguo',ggfn:'flower_notes',ggrong:'gg_rongendian'};   /* GG-LIT-12-1112（LAWWW2-C）：公館街景模型的亮窗現在有 12 間（extras.xsShops），原本只處理前 8 間、對照表也只有 8 筆——花序、轉角唱片、榮恩典、Daybreak（第 9～12 間）打烊不會暗，安泰、汀州鮮果沒有對到營業時間。陣列放大到 16 間 */
+  const GG_LIT_N=16;   /* 洋洋、轉角唱片：AA_650 §4 的營業時間（places.js；洋洋 YANGYANG-IN-1107、轉角唱片 CORNER-IN-1107 進得去了）*/
   /* SHOP-WINDOW-3D-1112（LAWWW2-C；使用者 11-12：新生南路、汀州路、公館的店從外面看要像 118 巷一樣是立體的）：街景模型裡「玻璃後面的立體店內」是一間一個網格 sk_in_<店>
      （不受場景光的頂點色材質 wz_in_shop，整條街共用一個材質）。打烊的店要看得出來關了（L118-CLOSED-LOOKS-OPEN）：這裡把每一間的材質各複製一份，
      照 PLACES.isOpen 把顏色乘數設成 1（營業）或 0.07（打烊：店裡關燈，只看得到輪廓）；颱風停業也算打烊。map＝{模型裡的店 id: 地點 id}；沒列的店不動（一直亮著）。
@@ -1607,6 +1608,7 @@ const Z3 = (function(){
       for(const s of shops) if(s.on) light(s); };
     let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); warmStep(); if((f++)%20===0) tick(); }; tick();
     const R={shops,tick,detach,lite,warmQ}; zone.shopReal=R; return R; }
+  const GG_IN_PLACE={G00:'noodle'};   /* 公館街景模型裡立體的店內（sk_in_<棟>）→ 地點：G00＝燒臘店（區域 noodle，每天 11:00～23:00，AA_831）。Z3.shopInsideLit 打烊調暗（LAWWW 11-12：燒臘有營業時間了，打烊時從街上看窗不會變暗）*/
   const ggLitWired=new WeakMap();   /* 接過窗卡打烊調暗的材質 → {lit, U, mine, compiled, rewrap, entries}（第二次進公館沿用，見 ggShopLit 裡的註解）*/
   function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
     let ex=null; root.traverse(o=>{ if(!ex&&o.userData&&o.userData.xsShops) ex=o.userData.xsShops; }); const ids=String(ex||'ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb').split(',');
@@ -1617,16 +1619,16 @@ const Z3 = (function(){
        uniform 物件也沿用：材質沒有被丟掉的話 three.js 用快取的程式、不會再呼叫 onBeforeCompile，綁著的是第一次的 uniform——新的 upd 要寫同一個 lit 陣列才有用。
        patch 本身也先看原始碼有沒有 uShopLit：有就只接 uniform、不改原始碼（別的程式串接時被叫兩次也不會重複宣告）；包裝函式防遞迴（guard 接回去時兩個包裝互相串）*/
     let W=ggLitWired.get(m);
-    if(!W){ const lit=new Array(9).fill(1), U={value:lit};
+    if(!W){ const lit=new Array(GG_LIT_N+1).fill(1), U={value:lit};
       const patch=sh=>{ sh.uniforms.uShopLit=U;
         if(sh.vertexShader.indexOf('vShopIdx')<0) sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\n#ifndef USE_UV1\nattribute vec2 uv1;\n#endif\nvarying float vShopIdx;').replace('#include <begin_vertex>','#include <begin_vertex>\nvShopIdx=uv1.x;');
-        if(sh.fragmentShader.indexOf('uShopLit')<0) sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=k; }'); };
+        if(sh.fragmentShader.indexOf('uShopLit')<0) sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[17];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<17;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=k; }'); };
       let busy=false; const mine=function(sh,r){ if(busy) return; busy=true; try{ if(mine.prev&&mine.prev!==mine) mine.prev.call(this,sh,r); patch(sh); W.compiled++; } finally{ busy=false; } };
       const prev0=m.onBeforeCompile; mine.prev=prev0&&prev0!==THREE.Material.prototype.onBeforeCompile?prev0:null;
       W={lit,U,mine,compiled:0,rewrap:0,entries:0}; ggLitWired.set(m,W);
       m.onBeforeCompile=mine; m.customProgramCacheKey=()=>'ggShopLit'; m.needsUpdate=true; }
     W.entries++; const lit=W.lit, U=W.U, mine=W.mine;
-    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<8;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.03):1; } };
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<GG_LIT_N;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.03):1; } };
     let f=0;
     /* 別的程式（夜間、透視、調色）後來換掉 onBeforeCompile 的話：每次更新時接回去（串在它後面），重新編譯 */
     const guard=()=>{ if(m.onBeforeCompile!==mine){ mine.prev=m.onBeforeCompile; m.onBeforeCompile=mine; m.needsUpdate=true; W.rewrap++; } };
@@ -1641,14 +1643,14 @@ const Z3 = (function(){
   const GG_GLOW_SHOP=/^GLOW_(gg_xs_in|shopin|signbox|vsign|gg_xs_lamp)(_|$)/;
   function ggShopGlow(root,lit,U){ const g=root.parent; if(!g) return null; const gm=g.children.find(o=>o.isMesh&&o.userData&&o.userData.glowBatch&&o.name===root.name+'_glows'); if(!gm) return null;
     const P=lit.geometry.attributes.position, S=lit.geometry.attributes.uv1, v=new THREE.Vector3(), box={}; lit.updateMatrixWorld(true);
-    for(let i=0;i<P.count;i++){ const s=Math.round(S.getX(i)); if(s<1||s>8) continue; v.fromBufferAttribute(P,i); lit.localToWorld(v); g.worldToLocal(v); const b=box[s]||(box[s]={x0:1e9,x1:-1e9,z0:1e9,z1:-1e9}); b.x0=Math.min(b.x0,v.x); b.x1=Math.max(b.x1,v.x); b.z0=Math.min(b.z0,v.z); b.z1=Math.max(b.z1,v.z); }
+    for(let i=0;i<P.count;i++){ const s=Math.round(S.getX(i)); if(s<1||s>GG_LIT_N) continue; v.fromBufferAttribute(P,i); lit.localToWorld(v); g.worldToLocal(v); const b=box[s]||(box[s]={x0:1e9,x1:-1e9,z0:1e9,z1:-1e9}); b.x0=Math.min(b.x0,v.x); b.x1=Math.max(b.x1,v.x); b.z0=Math.min(b.z0,v.z); b.z1=Math.max(b.z1,v.z); }
     const items=gm.userData.glowBatch.items, A=new Float32Array(items.length*4), info={}; let k=0;
     items.forEach((it,i)=>{ if(!GG_GLOW_SHOP.test(it.n||'')) return; let best=0, bd=1e9; const mg=/^GLOW_(signbox|vsign)/.test(it.n)?0:0.8;
       for(const s in box){ const b=box[s]; if(it.x<b.x0-mg||it.x>b.x1+mg||it.z<b.z0-5||it.z>b.z1+5) continue; const d=Math.abs(it.x-(b.x0+b.x1)/2); if(d<bd){ bd=d; best=+s; } }
       if(best){ A.fill(best,i*4,i*4+4); info[best]=(info[best]||0)+1; k++; } });
     gm.geometry.setAttribute('aShop',new THREE.BufferAttribute(A,1)); const m=gm.material, prev=m.onBeforeCompile;
     m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uShopLit=U;
-      sh.vertexShader='attribute float aShop;\nuniform float uShopLit[9];\nfloat ggShopK(float s){ int si=int(s+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } return k>0.99?1.0:0.0; }\n'+sh.vertexShader.replace('vGlowOp = mix( aOp.x, aOp.y, uNightK )','vGlowOp = ggShopK( aShop ) * mix( aOp.x, aOp.y, uNightK )'); };
+      sh.vertexShader='attribute float aShop;\nuniform float uShopLit[17];\nfloat ggShopK(float s){ int si=int(s+0.5); float k=1.0; for(int i=1;i<17;i++){ if(i==si) k=uShopLit[i]; } return k>0.99?1.0:0.0; }\n'+sh.vertexShader.replace('vGlowOp = mix( aOp.x, aOp.y, uNightK )','vGlowOp = ggShopK( aShop ) * mix( aOp.x, aOp.y, uNightK )'); };
     m.customProgramCacheKey=()=>'wzGlowBatch1_ggShop'; m.needsUpdate=true;
     return {mesh:gm,info,n:k}; }
   /* PUTONG101-WINDOW-1102 第 2 版 B（LAWWW2 帳號 A 11-10；BB PARTIAL：博思一樓玻璃大廳白天 RGB 只從 [35,31,22] 到 [42,38,28]，從普通 101 北窗看還是黑洞）：
