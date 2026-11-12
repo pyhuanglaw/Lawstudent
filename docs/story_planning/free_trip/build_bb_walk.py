@@ -53,13 +53,13 @@ WALK = [
     # 可昕 D13（週日 16:30～19；只在交往中）
     w('kexin', 'D13', 'walk', [], ['假設我們一直走，走到出海口，要走多久？……你算，我聽。']),
     w('kexin', 'D13', 'D13.drink', [], ['一杯就好，兩根吸管。……你不要喝太大口。']),
-    w('kexin', 'D13', 'D13.rail', [], ['予樂說我們很吵。我們明明都沒講話。']),
+    w('kexin', 'D13', 'D13.rail', [], ['我室友說我們很吵。我們明明都沒講話。']),
     w('kexin', 'D13', 'D13.bench', [], ['這張長椅看夕陽的效用最大。……我查過了。']),
     w('kexin', 'D13', 'D13.photo', [], ['太陽下去的速度，每次都比我想的快。']),
-    # 可昕 D04（週六 18:30～21，和予樂；只在交往中）
-    w('kexin', 'D04', 'walk', [], ['予樂說她不想當電燈泡。她剛剛真的用了這個詞。']),
+    # 可昕 D04（週六 18:30～21，和她室友；只在交往中）
+    w('kexin', 'D04', 'walk', [], ['我室友說她不想當電燈泡。她剛剛真的用了這個詞。']),
     w('kexin', 'D04', 'D04.lobby', [], ['你選。我選的話，會選最便宜的那一場。']),
-    w('kexin', 'D04', 'D04.redhouse', [], ['這棟比木柵大學所有的樓都老。……我猜的，沒查。']),
+    w('kexin', 'D04', 'D04.redhouse', [], ['這棟比我們學校所有的樓都老。……我猜的，沒查。']),
     w('kexin', 'D04', 'D04.snack', [], ['你吃一口我的。……經濟學說這叫交換。']),
 ]
 
@@ -70,11 +70,11 @@ LEAVE = [
     {'who': 'heroine_05', 'spot': 'D06', 'friend': '我四點要回去讀書。……今天，謝謝。', 'dating': '下次你排行程。我照你的走。'},
     {'who': 'classmate_peishan', 'spot': 'D12', 'friend': '我要去搭車了。今天買的繪本，下次借你。', 'dating': '今天買的書，第一本我先讀給你聽。……下次。'},
     {'who': 'classmate_peishan', 'spot': 'D06', 'friend': '我去書店了。你慢慢看。', 'dating': '下午見。……如果你來的話。'},
-    {'who': 'kexin', 'spot': 'D13', 'friend': '', 'dating': '我搭車回木柵了。送我到捷運站就好。……到月台也可以。'},
-    {'who': 'kexin', 'spot': 'D04', 'friend': '', 'dating': '我回木柵了。今天的電影你最喜歡哪一幕？傳給我。'},
+    {'who': 'kexin', 'spot': 'D13', 'friend': '', 'dating': '我搭車回學校了。送我到捷運站就好。……到月台也可以。'},
+    {'who': 'kexin', 'spot': 'D04', 'friend': '', 'dating': '我回宿舍了。今天的電影你最喜歡哪一幕？傳給我。'},
 ]
 
-INTRO = [  # 一起走一段之前的一句（可昕 D04：予樂先走）
+INTRO = [  # 一起走一段之前的一句（可昕 D04：她室友先走）
     {'who': 'kexin', 'spot': 'D04', 'speaker': 'yule', 'line': '我去買東西。……很久。'},
 ]
 
@@ -85,8 +85,8 @@ REVISIT = [
     {'who': 'heroine_05', 'spot': 'D06', 'normal': '上次學姊站在這幅畫前面，手上拿著展覽的說明。', 'afterBreakup': '這一區的說明牌，你一塊也沒有讀。'},
     {'who': 'classmate_peishan', 'spot': 'D12', 'normal': '舊書店門口。上次沛珊在這裡翻繪本。', 'afterBreakup': '舊書店門口。'},
     {'who': 'classmate_peishan', 'spot': 'D06', 'normal': '兒童區傳來笑聲。上次沛珊在這裡看小孩畫畫。', 'afterBreakup': '兒童區傳來笑聲。'},
-    {'who': 'kexin', 'spot': 'D13', 'normal': '河邊。上次可昕和予樂、邵鈞坐在這裡等夕陽。', 'afterBreakup': '河邊的長椅。夕陽還是一樣。'},
-    {'who': 'kexin', 'spot': 'D04', 'normal': '電影院門口。上次可昕和予樂在這裡排隊。', 'afterBreakup': '電影院門口。'},
+    {'who': 'kexin', 'spot': 'D13', 'normal': '河邊。上次可昕和她室友坐在這裡等夕陽。', 'afterBreakup': '河邊的長椅。夕陽還是一樣。'},
+    {'who': 'kexin', 'spot': 'D04', 'normal': '電影院門口。上次可昕和她室友在這裡排隊。', 'afterBreakup': '電影院門口。'},
 ]
 
 SIDE = [
@@ -131,8 +131,8 @@ def w2(who, spot, act, friend, dating, cond=None):
 
 WALK += [
     w2('kexin', 'D09', 'D09.gondola', [], ['纜車往下比較晃。你坐那邊，我坐這邊。']),
-    w2('kexin', 'D09', 'D09.tea', [], ['茶館老闆認得木柵大學的人。他問我今天怎麼沒帶書。']),
-    w2('kexin', 'D09', 'D09.view', [], ['從這裡看得到木柵大學。那一棟，是我每天爬的樓梯。']),
+    w2('kexin', 'D09', 'D09.tea', [], ['茶館老闆認得我。他問我今天怎麼沒帶書。']),
+    w2('kexin', 'D09', 'D09.view', [], ['從這裡看得到臺北。那一片燈，我們學校大概在那裡。']),
     w2('heroine_04', 'D18', 'D18.snack', ['這個顏色我要記起來。……好，先吃。'], ['你那碗紫色的比較多。換。']),
     w2('heroine_04', 'D18', 'D18.teahouse', ['從窗戶看出去，燈籠一層一層。這叫視差。'], ['坐這裡。燈籠在你後面，我想畫下來。']),
     w2('heroine_04', 'D18', 'D18.shop', ['這個木頭陀螺……我小時候有一個。'], ['你買那個給我。我要放在螢幕旁邊。']),
@@ -155,7 +155,7 @@ INTRO += [
     {'batch': 2, 'who': 'kexin', 'spot': 'D09', 'speaker': 'yule', 'line': '邵鈞，我們去另一邊看夕陽。'},
 ]
 REVISIT += [
-    {'batch': 2, 'who': 'kexin', 'spot': 'D09', 'normal': '茶館的窗邊。上次可昕和予樂、邵鈞在這裡等茶涼。', 'afterBreakup': '茶館的窗邊，現在坐著別人。'},
+    {'batch': 2, 'who': 'kexin', 'spot': 'D09', 'normal': '茶館的窗邊。上次可昕和她室友在這裡等茶涼。', 'afterBreakup': '茶館的窗邊，現在坐著別人。'},
     {'batch': 2, 'who': 'heroine_04', 'spot': 'D18', 'normal': '石階上。上次子晴坐在這裡畫燈籠。', 'afterBreakup': '石階上，燈籠一盞一盞亮了。'},
     {'batch': 2, 'who': 'heroine_05', 'spot': 'D24', 'normal': '泡腳池。上次學姊和她爸媽坐在這裡。', 'afterBreakup': '泡腳池。水還是一樣燙。'},
     {'batch': 2, 'who': 'classmate_peishan', 'spot': 'D20', 'normal': '老街口。上次沛珊在這裡幫小孩戴帽子。', 'afterBreakup': '老街口。'},
@@ -180,7 +180,7 @@ WALK += [
     w3('classmate_peishan', 'D08', 'D08.train', ['列車上我坐最後面，才看得到全部的人。'], ['你坐前面那節，我坐後面。這樣就不會有人掉。']),
     w3('classmate_peishan', 'D08', 'walk', ['走到下一個休息區就好。他們的腳比較短。'], ['你走慢一點。最小的那個一直跟著你。']),
     w3('kexin', 'D10', 'D10.bridge', [], ['吊橋會晃。你不要故意晃。']),
-    w3('kexin', 'D10', 'D10.boat', [], ['天鵝船要兩個人踩。予樂踩到一半就不踩了。']),
+    w3('kexin', 'D10', 'D10.boat', [], ['天鵝船要兩個人踩。我室友踩到一半就不踩了。']),
     w3('kexin', 'D10', 'D10.snack', [], ['這攤的玉米比剛剛那攤好吃。我今天吃過兩攤了。']),
 ]
 LEAVE += [
@@ -188,7 +188,7 @@ LEAVE += [
     {'batch': 3, 'who': 'heroine_02', 'spot': 'D02', 'friend': '我要進去了。下一場要開始了。', 'dating': '你先走。我看完傳訊息給你，跟你說好不好看。'},
     {'batch': 3, 'who': 'heroine_05', 'spot': 'D11', 'friend': '我要回去了。計畫本上還有兩件事。', 'dating': '支線只有一站。坐我旁邊。'},
     {'batch': 3, 'who': 'classmate_peishan', 'spot': 'D08', 'friend': '我們要回去吃午餐了。謝謝你幫忙數。', 'dating': '回去的捷運上他們一定會睡著。你可以一起搭嗎？'},
-    {'batch': 3, 'who': 'kexin', 'spot': 'D10', 'friend': '', 'dating': '我回木柵大學了。到宿舍傳訊息給你。'},
+    {'batch': 3, 'who': 'kexin', 'spot': 'D10', 'friend': '', 'dating': '我回宿舍了。到了傳訊息給你。'},
 ]
 INTRO += [
     {'batch': 3, 'who': 'kexin', 'spot': 'D10', 'speaker': 'yule', 'line': '我先回去了。可昕，玉米你自己吃完。'},
@@ -198,14 +198,14 @@ REVISIT += [
     {'batch': 3, 'who': 'heroine_02', 'spot': 'D02', 'normal': '書店門口的長椅。上次芷若坐在這裡，手上一本電影書。', 'afterBreakup': '書店門口的長椅，現在沒有人。'},
     {'batch': 3, 'who': 'heroine_05', 'spot': 'D11', 'normal': '圖書館的木頭陽台。上次學姊坐在這裡讀書。', 'afterBreakup': '圖書館的陽台，那個位子坐著別人。'},
     {'batch': 3, 'who': 'classmate_peishan', 'spot': 'D08', 'normal': '企鵝館門口。上次沛珊在這裡數小孩。', 'afterBreakup': '企鵝館門口，一群小孩貼在玻璃上。'},
-    {'batch': 3, 'who': 'kexin', 'spot': 'D10', 'normal': '河邊的台階。上次可昕和予樂坐在這裡吃玉米。', 'afterBreakup': '河邊的台階，烤玉米的味道還在。'},
+    {'batch': 3, 'who': 'kexin', 'spot': 'D10', 'normal': '河邊的台階。上次可昕和她室友坐在這裡吃玉米。', 'afterBreakup': '河邊的台階，烤玉米的味道還在。'},
 ]
 FOLLOWUP += [
     {'batch': 3, 'mem': 'ENC_D01_ZQ', 'who': 'heroine_04', 'where': '一般聊天', 'line': '華山那隻貓，我後來畫進去了。在第二關的角落。'},
     {'batch': 3, 'mem': 'ENC_D02_ZR', 'who': 'heroine_02', 'where': 'Café 的閒聊', 'line': '松菸那天四點那場，我後來看了。你要我講給你聽嗎？'},
     {'batch': 3, 'mem': 'ENC_D11_SIS', 'who': 'heroine_05', 'where': '一般聊天', 'line': '北投那天你走得很早。下次可以待到中午。'},
     {'batch': 3, 'mem': 'ENC_D08_PS', 'who': 'classmate_peishan', 'where': '一般聊天', 'line': '動物園那天，小孩回去一直問我你是誰。'},
-    {'batch': 3, 'mem': 'ENC_D10_KX', 'who': 'kexin', 'where': '手機（只有交往中）', 'line': '碧潭那天予樂說，你吃玉米的樣子很認真。'},
+    {'batch': 3, 'mem': 'ENC_D10_KX', 'who': 'kexin', 'where': '手機（只有交往中）', 'line': '碧潭那天我室友說，你吃玉米的樣子很認真。'},
 ]
 
 RULES = {

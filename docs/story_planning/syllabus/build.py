@@ -9,10 +9,9 @@ TERM_NAMES = {'JP':'日文','Y1S1':'大一上','Y1S2':'大一下','Y2S1':'大二
 WHO = {'heroine_01':'以安','heroine_02':'芷若','zhe':'阿哲','yu':'小語','classmate_xinci':'芯慈','classmate_bohan':'柏翰',
        'classmate_mingxuan':'明軒','classmate_youchen':'宥辰','classmate_peishan':'沛珊','npc_huangxh':'筱涵','kai':'阿凱',
        'heroine_03':'語彤','heroine_04':'子晴','heroine_05':'溫學姊','class':'同學',
-       'kexin':'可昕','econ_weilun':'韋綸','econ_pinyu':'品妤','econ_zhengxun':'阿勳','econ_tangrui':'唐睿',
-       'jp_caizhen':'采蓁','jp_liheng':'立衡','jp_yuheng':'宇恆'}
+       'kexin':'可昕','jp_caizhen':'采蓁','jp_liheng':'立衡','jp_yuheng':'宇恆'}
 PROF = {'prof_zhou':'周教授','prof_zhang':'張教授','prof_wu':'吳教授','prof_huang':'黃教授','prof_xu':'許教授','prof_tsai':'蔡教授',
-        'prof_lin':'林教授','prof_chen':'陳教授','prof_zheng':'鄭教授','prof_ye':'葉教授','prof_he':'何教授','prof_jian':'簡教授','prof_wei':'魏教授'}
+        'prof_lin':'林教授','prof_chen':'陳教授','prof_zheng':'鄭教授','prof_ye':'葉教授','prof_he':'何教授','prof_jian':'簡教授','prof_wei':'魏宏仁老師'}
 BLOCK = {'am':'09:10–12:10','pm1':'13:20–15:10','pm2':'15:30–17:20'}
 WD = '一二三四五六日'
 EXAM_WEEKS = {8,9,16}   # 16 週制（使用者 2026-10-16；AA_198）：期中第 8～9 週、期末第 16 週
@@ -39,8 +38,6 @@ def main(key):
     def chk(text, lim, where):
         if len(text) > lim: problems.append(f'{where}：{len(text)} 字＞{lim}：{text}')
     out = {'term':term, 'exam_weeks':sorted(EXAM_WEEKS), 'courses':[], 'pools':[]}
-    LEAVE = getattr(m,'LEAVE_WEEK',None)   # 經濟系大一下：休學的那一週（交接包_v0 第 0 節第 5 點）
-    if LEAVE: out['leave_week']=LEAVE
     for c in m.COURSES:
         cj = {k:c[k] for k in ('id','name','kind','retake','prof','slots','room') if k in c}
         if c.get('prof_label'): cj['prof_label'] = c['prof_label']
@@ -58,9 +55,6 @@ def main(key):
             chk(wk['line'], 40, tag+' 教授')
             e = {'w':w, 'tpl':wk['tpl'], 'board':wk['board'], 'line':wk['line'],
                  'react':[{'who':a,'text':t} for a,t in wk['react']]}
-            if LEAVE and w>LEAVE:
-                e['after_leave']=True   # 休學以後：不排進課表，只當同學在群組、走廊說起的素材
-                if wk['tpl']!='A' or wk.get('obs'): problems.append(tag+'：休學以後不能有要玩家選的東西（只能是 A）')
             for a,t in wk['react']:
                 chk(t, 40, tag+' 反應'); 
                 if a not in WHO: problems.append(f'{tag}：未知的 who {a}')
@@ -148,7 +142,6 @@ def main(key):
                     if any('課表沒有專講' in x for x in q.get('flags', []) + q.get('mapNote', [])): problems.append(f'{tag}：課堂提問 {qid} 的主題課表沒有專講，不在課堂問')
                 if qid in asked: problems.append(f'{tag}：課堂提問 {qid} 已經在 {asked[qid]} 問過')
                 asked[qid] = tag
-                if LEAVE and w > LEAVE: problems.append(tag+'：休學以後不能有課堂提問')
                 e['ask'] = {'qid': qid}
             if wk['tpl'] in 'BC' and wk['tpl']=='B' and 'obs' not in wk: problems.append(tag+'：B 沒有 obs')
             if wk.get('review'): e['review'] = wk['review']
@@ -256,7 +249,7 @@ def render(m, out):
             r = '<br>'.join(f"{WHO.get(x['who'],x['who'])}：「{x['text']}」" for x in e['react'])
             sp = '（特殊事件週）' if e.get('special') else ''
             if e.get('off'): sp += '（停課：'+e['off']+'）'
-            tl = e['tpl'] + ('（休學後：群組、走廊）' if e.get('after_leave') else '')
+            tl = e['tpl']
             L.append(f"| {e['w']}{sp} | {tl} | {b} | 「{e['line']}」{extra} | {r} | {e.get('review','')} |")
         L.append("")
         if c['special']:
