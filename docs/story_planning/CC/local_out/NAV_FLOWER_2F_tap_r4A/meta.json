@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "NAV_FLOWER_2F_tap_r4A",
+  "sha": "07db13d3d5a0991aea8a321cc95a0d07bd076e22",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_route_probe.py",
+  "env": "TAG=nav_flower_2f_tap_r4a;ZONE=flower_notes;HOUR=14;STUCKSHOT=1;ROUTE=tapvia:-2.95,-3.75,1+sitat:-2.95,-3.75,1+burst:up+tapvia:0,6.6,0+press:離開;SHA=07db13d3d5a0991aea8a321cc95a0d07bd076e22",
+  "machine": "MSI",
+  "start": "2026-11-13T05:33:57",
+  "end": "2026-11-13T05:38:16",
+  "seconds": 259,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 24,
+    "mem": 40,
+    "used_gb": 12.7,
+    "chrome_testing": 5
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
