@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """CANON-1112（D158）：已經拿掉的舊序章、外校，在 GitHub 上任何檔都不留字。
 這支工具掃追蹤中的文字檔，列出還有那些字的檔。字表用 \\u 跳脫寫，這個檔本身不出現那些字。
-用法：python3 tools/handoff/canon_scan.py [--summary] [--latin] [--max N] [--paths docs src ...]
-結束碼：0＝乾淨；1＝還有。"""
+用法：python3 tools/handoff/canon_scan.py [--summary] [--latin] [--max N] [--no-premise] [--paths docs src ...]
+結束碼：0＝乾淨；1＝還有。
+另外印「前提警告」（不擋、不算進結束碼；AA-C／BB-C 11-12 21:1x 建議，AA_916）：src 裡可昕（kexin）的台詞出現「你們學校／山上／下山／我們那邊／你們系」——
+沒有禁字、但前提還是外校的句子，給人看。"""
 import subprocess, sys, re, os
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 T = lambda s: s.encode('ascii').decode('unicode_escape')
@@ -49,6 +51,24 @@ def scan(paths, latin=False):
         if n:
             res[f] = n
     return res
+PREMISE = re.compile('你們學校|山上|下山|我們那邊|你們系')
+KX = re.compile('kexin|' + T(r'\u53ef\u6615'))
+def premise(paths):
+    files = subprocess.run(['git', 'ls-files', '-z'] + (paths or ['src']), cwd=ROOT, capture_output=True).stdout.decode('utf-8', 'replace').split('\0')
+    out = []
+    for f in files:
+        if not f.startswith('src/') or not f.endswith('.js'):
+            continue
+        try:
+            L = open(os.path.join(ROOT, f), encoding='utf-8', errors='replace').read().split('\n')
+        except Exception:
+            continue
+        for k, l in enumerate(L):
+            for m in PREMISE.finditer(l):
+                w = l[max(0, m.start() - 90):m.start()]
+                if KX.search(w):
+                    out.append('%s:%d  …%s…' % (f, k + 1, l[max(0, m.start() - 30):m.end() + 20].replace('\n', ' ')))
+    return out
 def main():
     a = sys.argv[1:]
     paths = []
@@ -65,6 +85,12 @@ def main():
     if '--summary' not in a:
         for f, n in sorted(res.items(), key=lambda x: -x[1])[:mx]:
             print('%6d  %s' % (n, f))
+    if '--no-premise' not in a:
+        pw = premise(paths)
+        if pw:
+            print('前提警告（不擋；可昕的台詞前提可能還是外校，給 AA 看）：%d 處' % len(pw))
+            for x in pw[:mx]:
+                print('  ' + x)
     print('結果：%s（%d 檔、%d 處）' % ('乾淨' if not res else '還有', len(res), sum(res.values())))
     return 1 if res else 0
 if __name__ == '__main__':
