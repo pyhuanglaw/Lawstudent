@@ -12,6 +12,7 @@
     burst:<名字>             站著不動每 0.25 秒截一張、共 2 秒（看閃）
     study:<字>,<次數>        W1R D5：走到標籤含那個字的座位（例：坐下讀書）按 → 坐下以後選單選「讀書…」那一個，重複 <次數> 次；每次記時間前後、#caption／#toast 的字、目標列，截圖（看時段用完跳下一時段、字幕）
 11-12 r2：射線要設 rc.camera（場景裡有 Sprite，r1 SUNNY_DOOR_walk 在 STATE 噴 null.matrixWorld、沒有結論行）。
+11-12 BB-C 15:18：walk、exit 兩種步驟每 0.5 秒記位置，連續 ≥5 秒沒位移（<0.15 m）記成卡住：座標、從第幾秒、卡多久（最後停在終點那一段不算）。
 CC_02 清單 2026-11-12：1✓（日子時間照佇列：平日白天或晚上） 2✓（出口、互動點、座位照 exit.to／標籤從遊戲找） 3✓（每一支一次讀檔、照順序走） 4✓（選項照字） 5✓（go_to／use_exit 走過去，照玩家） 6✓（每一步 settle、換區等 2.5 秒） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：照原樣） 10✓（條件事件關掉） 11✓ 12✓（每一步同樣欄位） 13✓（讀檔捷徑標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONE=dorm [X= Z= LV=] [DAY=2025-10-14] [HOUR=14] ROUTE=exit:dorm_hall+go:樓梯+... python3 cc_route_probe.py <url> <out>"""
 import os, sys, json, asyncio
@@ -66,6 +67,33 @@ async def talk(pg, cdp, want):
     return lines
 
 
+async def watched(pg, coro, tag):
+    """11-12 BB-C 15:18：走路／走出口的同時每 0.5 秒記位置；連續 ≥5 秒位移 <0.15 m＝卡住（記座標、卡多久）。回傳 (coro 的結果, 卡住清單)"""
+    pts = []; stop = [False]
+    async def loop():
+        t0 = asyncio.get_event_loop().time()
+        while not stop[0]:
+            try:
+                p = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [+o.x.toFixed(2), +o.z.toFixed(2), GAME.E.player.lv|0, GAME.G.zone]; })()")
+                pts.append([round(asyncio.get_event_loop().time() - t0, 1)] + p)
+            except Exception:
+                pass
+            await asyncio.sleep(0.5)
+    task = asyncio.ensure_future(loop())
+    try: r = await coro
+    finally:
+        stop[0] = True; await task
+    stuck = []; i = 0
+    while i < len(pts):
+        j = i
+        while j + 1 < len(pts) and pts[j + 1][4] == pts[i][4] and ((pts[j + 1][1] - pts[i][1]) ** 2 + (pts[j + 1][2] - pts[i][2]) ** 2) ** 0.5 < 0.15: j += 1
+        if pts[j][0] - pts[i][0] >= 5 and j < len(pts) - 1: stuck.append({'at': pts[i][1:4], 'zone': pts[i][4], 'from_s': pts[i][0], 'secs': round(pts[j][0] - pts[i][0], 1)})
+        i = j + 1
+    R.note('%s 【卡住偵測】取樣 %d 筆（每 0.5 秒）；連續 ≥5 秒沒位移 %d 次 %s' % (tag, len(pts), len(stuck), J(stuck)))
+    return r, stuck
+
+
+
 async def main():
     print('CC 照玩家走路線：TAG %s；SHA %s；%s %s %.1f；ROUTE %s' % (TAG, SHA or '?', ZONE, DAY, HOUR, ROUTE), flush=True)
     res = {'tag': TAG, 'sha': SHA, 'steps': []}
@@ -85,7 +113,7 @@ async def main():
                     exs = await pg.evaluate("(to=>GAME.E.interactables.filter(i=>i.exit&&String(i.exit.to||'').indexOf(to)===0&&!i.hidden).map(i=>i.label))", arg)
                     if not R.check('%s 找得到往 %s 的出口' % (t, arg), bool(exs), J(await pg.evaluate("GAME.E.interactables.filter(i=>i.exit).map(i=>[i.label,i.exit.to])"))): res['steps'].append(out); break
                     to = await pg.evaluate("(a=>{ const i=GAME.E.interactables.find(i=>i.exit&&String(i.exit.to||'').indexOf(a)===0&&!i.hidden); return i.exit.to; })", arg)
-                    s2 = await D.use_exit(pg, cdp, t, exs[0], to)
+                    s2, out['stuck'] = await watched(pg, D.use_exit(pg, cdp, t, exs[0], to), t)
                     out['s'] = await record(pg, k, 'exit', '出口「%s」→ %s' % (exs[0], to))
                     if not s2 or s2.get('zone') != to: res['steps'].append(out); break
                 elif kind in ('go', 'sit', 'press'):
@@ -109,7 +137,7 @@ async def main():
                         out['s'] = await record(pg, k, 'after', '按了「%s」：%s' % (f['label'], J(out['lines'])))
                 elif kind == 'walk':
                     a = [float(v) for v in arg.split(',')]
-                    await L.go_to(pg, cdp, R, a[0], a[1], 0.5, step, max_s=120, lv=int(a[2]) if len(a) > 2 else None); await D.settle(pg)
+                    _, out['stuck'] = await watched(pg, L.go_to(pg, cdp, R, a[0], a[1], 0.5, step, max_s=120, lv=int(a[2]) if len(a) > 2 else None), t); await D.settle(pg)
                     out['s'] = await record(pg, k, 'walk')
                 elif kind == 'look':
                     await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; })", float(arg)); await pg.wait_for_timeout(700)
