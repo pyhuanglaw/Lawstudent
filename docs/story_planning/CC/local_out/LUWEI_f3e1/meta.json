@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "LUWEI_f3e1",
+  "sha": "9aaa31edb9e6cfed31271cce28ec7041d37b0306",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_luwei_probe.py",
+  "env": "TIMES=17,18.5,20,22.5,0.5,14;SHA=9aaa31edb9e6cfed31271cce28ec7041d37b0306",
+  "machine": "MSI",
+  "start": "2026-11-12T20:39:45",
+  "end": "2026-11-12T20:47:52",
+  "seconds": 487,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 82,
+    "mem": 69,
+    "used_gb": 22.0,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
