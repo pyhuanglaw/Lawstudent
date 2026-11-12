@@ -40,8 +40,39 @@ def count(text, s):
     return sum(text.count(x) for x in lits(s))
 
 
+# CANON-NO-ECON-1112 第四批四（AA_894 第 4 節、AA_901 第 8 項，AA-C 定稿）：invites.js 以 src 對照表 AA_886～AA_901 為準。
+# ①整個拿掉的那一格（子晴 ZQ_CHANGE_ASK、芯慈 w118_xc_10）：稿上 at 在那一格底下的列略過；同一個陣列後面的列序號往前移一格再對。
+# ②稿上那一格被 AA_894 換成新字的列（覆蓋層的 new 已經不是遊戲的字）：略過。兩種都印出來，不算沒套到。
+CANON1112_GONE = [('people.heroine_04.walk.any', 1, "once:'ZQ_CHANGE_ASK'"), ('people.classmate_xinci.walk.any', 7, "one:'w118_xc_10'"), ('walk118.classmate_xinci', 9, "one:'w118_xc_10'")]
+CANON1112_SUPERSEDED = {'people.kexin.first.lake[0]': 'AA_894 第 4 節 305 列（映月湖 first）'}
+
+
+def canon1112(rows):
+    out, skip = [], []
+    for x in rows:
+        at = x['at']
+        if at in CANON1112_SUPERSEDED:
+            skip.append(f'{x["src"]} {x["who"]} {at}：略過（{CANON1112_SUPERSEDED[at]} 換過，src 以 AA_886～901 為準）'); continue
+        for pre, k, what in CANON1112_GONE:
+            m = re.match(re.escape(pre) + r'\[(\d+)\](.*)$', at)
+            if not m:
+                continue
+            i = int(m.group(1))
+            if i == k:
+                skip.append(f'{x["src"]} {x["who"]} {at}：略過（{what} 那一格整個拿掉，AA_894 第 4 節）'); at = None
+            elif i > k:
+                at = f'{pre}[{i - 1}]{m.group(2)}'
+            break
+        if at is None:
+            continue
+        out.append(dict(x, at=at) if at != x['at'] else x)
+    return out, skip
+
+
 def main():
-    rows = OV.rows(ROOT, 'invites')
+    rows, skipped = canon1112(OV.rows(ROOT, 'invites'))
+    for s in skipped:
+        print(s)
     path = os.path.join(ROOT, FILE)
     text0 = open(path, encoding='utf-8').read()
     L0 = leaves(text0)

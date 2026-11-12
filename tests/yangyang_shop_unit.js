@@ -234,7 +234,7 @@ const run=async()=>{
       let sh=null; for(let dd=d+1;dd<d+8&&!sh;dd++) for(const h of [19,20,21]){ const e=STORY.schedEnt(zr,{day:dd,hour:h+0.2,weekday:wd(dd),flags:G.flags,noInvite:true}); if(e&&e.act==='barista'){ sh={day:dd,h}; break; } }
       if(!sh) check('9 找得到芷若有班的晚上（一週內）',false);
       else { const r=INV.decide(G,'heroine_02','yangyang',sh.day,sh.h); check(`9 芷若有班（第 ${sh.day-d} 天 ${sh.h}:00 在 2:30 AM 上班）：約洋洋＝改天（busy、barista）`,r.res==='resched'&&r.why==='busy'&&r.act==='barista',J(r)); }
-      const ACC={heroine_01:'……宵夜？好。我只吃一點。',heroine_02:'好。我下班剛好餓。',heroine_03:'鹹酥雞？……好。我沒有在店裡吃過。',heroine_04:'好！！我要雞皮。很多雞皮。',heroine_05:'好。讀完書，剛好。',classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回木柵。'};
+      const ACC={heroine_01:'……宵夜？好。我只吃一點。',heroine_02:'好。我下班剛好餓。',heroine_03:'鹹酥雞？……好。我沒有在店裡吃過。',heroine_04:'好！！我要雞皮。很多雞皮。',heroine_05:'好。讀完書，剛好。',classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回去念書。'};   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*/
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,20,{res:'accept'}); return !(o&&J(o.lines)===J([OE.fwd('invites',id,ACC[id])])); });
       check('9 約去洋洋答應：七位各自那一句（AA_724 第 8 節）',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,P,d+1,20,{res:'accept'})||{}).lines])));
       const o=INV.personal(G,'zhe',P,d+1,20,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「好啊。宵夜？我可以。」',o&&J(o.lines)===J(['好啊。宵夜？我可以。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
@@ -253,7 +253,7 @@ const run=async()=>{
       Y.door.forEach(T); T(Y.ask); T(Y.short); T(Y.basil[0]); Y.basil[1].forEach(T); T(Y.spicy[0]); Y.spicy[1].forEach(T); T(Y.spicyBig); Y.wait.forEach(w=>T(w[1])); Y.eat.forEach(e=>T(e[0]));
       Object.values(Y.look).forEach(a=>a.forEach(T)); Object.values(Y.seat).forEach(T); T(Y.sign); T(Y.typhoon); T(GG2.ACC0.yangyang);
       Object.values(INVITE_DATA.yangyangAcc||{}).forEach(T); [].concat(...INVITE_DATA.seatOpen.yangyang).forEach(T);
-      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>!OE.inDoc('invites',null,t,t=>doc.indexOf(t)>=0||doc.indexOf(strip(t))>=0));
+      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>!OE.inDoc('invites',null,t,t=>doc.indexOf(t)>=0||doc.indexOf(strip(t))>=0)&&!require('./canon1112_ok.js').ok(t));   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*/
       check('10 台詞逐字在 AA_724 裡（'+out.length+' 句：進門、點餐、調味、錢不夠、等、吃完、看、坐下、鐵門、颱風、答應、開場句；打烊是 AA_700 那一句）',!bad.length&&out.length>=43,J(bad));
       check('10 說話的人：稿上「老闆：」開頭的那幾句都是老闆說',['夾好給我。……內用還外帶？','九層塔、蒜要不要？','辣嗎？','大辣喔？……好，你說的。','這樣不夠喔。……拿掉一樣？','十分鐘。號碼牌拿好。'].every(t=>doc.indexOf('老闆：「'+t+'」')>=0||doc.indexOf('老闆多一句：「'+t+'」')>=0));
       check('10 打烊照稿（bf5c3e6c6）：「老闆：我們今天要打烊了。」、不另外出旁白（舊的「要收了喔」、走出去的旁白拿掉了）',doc.indexOf('老闆：我們今天要打烊了。')>=0&&doc.indexOf('要收了喔')<0&&!/要收了喔|你走出洋洋鹹酥雞/.test(rd('src/gg2shops3d.js'))); }
