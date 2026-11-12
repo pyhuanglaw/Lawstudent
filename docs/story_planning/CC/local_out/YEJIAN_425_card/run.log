@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_interact_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YEJIAN_425_card\out
+CC 互動點：TAG yj_card；SHA 425ce265d5；ZONE bookstore；LABEL 明信片；CASES [['2025-10-15', '15']]
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [2025-10-15 15] 【前置／捷徑】讀檔到 bookstore 2025-10-15 15（條件事件關掉）
+PASS [2025-10-15 15] 讀到 bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 15.03}
+PASS [2025-10-15 15] 找得到「明信片」  ["坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐窗邊", "坐窗邊", "坐窗邊", "坐窗邊", "坐窗邊", "坐窗邊", "坐沙發", "坐沙發", "離開頁間書屋", "看看法律書與文具", "看看書牆", "看新書", "點咖啡", "看雜誌", "看明信片", "應徵：週末缺人。會搬書、不怕灰塵。"]
+  [  59.9s] 到達「看明信片」附近（0.23 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，21 秒
+  [  59.9s] [2025-10-15 15] 互動鍵「看明信片」（互動點 {"x": 4.5, "z": 3.9, "lv": 0, "label": "看明信片", "hidden": false}）
+PASS [黑畫面] close_yj_card_0 不是黑畫面（平均亮度 96.8、變化 49.9）  [96.8, 49.9]
+  [  62.3s] [截圖] close_yj_card_0：鏡頭 {"eye": [3.3058328320149095, 1.4, 3.781827351275905], "look": [5.0970835839925455, 1, 3.959086324362047], "lens": 24, "vfov": 45.75}、亮度 [96.8, 49.9]
+  [  62.9s] [2025-10-15 15] 特寫（互動點 [4.5, 3.9]、鏡頭從 [-1, -0.1] 方向 1.2 m）
+  [  68.2s] [2025-10-15 15] 錢 22000 → 21970（-30）
+  [  70.7s] [2025-10-15 15] 演完 2.5 秒祐廷：{"seat": false, "pose": "idle", "x": 4.27, "z": 3.88, "h": 15.349, "own": null, "bag": ["yj_postcard"], "carry": []}（11-12：內用有沒有坐下吃；物品 GG3_OWN、禮物包、帶在身上）
+  [  71.2s] [2025-10-15 15] 整段（5 句、1 個選單）：["店員｜慢慢看。梯子可以自己推，不要爬到最上面那一格。", "｜（窗上一條麻繩，夾著一排明信片。", "｜（窗上一條麻繩，夾著一排明信片。有幾張背面已經寫了字，是客人留下來的。）", "▶ 明信片　30 元", "｜（你挑了一張公館的街景。畫得比實際安靜。）"]
+  [  71.2s] [2025-10-15 15] 選單：[["明信片　30 元", "不用了"]]
+PASS [2025-10-15 15] 按了有字出來
+PASS 沒有 JS 例外  []
+ALL PASS
