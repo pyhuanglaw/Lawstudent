@@ -18,7 +18,14 @@
   A 一支跑完（PC 佇列 kind game，XARGS={url2} {url} {out}）：python3 cc_fn_migrate_probe.py <改之前網址> <改之後網址> <out>
   B 兩段：MODE=make python3 cc_fn_migrate_probe.py <改之前網址> <out>（存檔寫到 <out>/fn_saves/）；
          MODE=load SAVES_FROM=<上一段的 out 或 fn_saves 資料夾> python3 cc_fn_migrate_probe.py <改之後網址> <out>
-環境變數：CASES、GIFT_DAY、GIFT_WHO、GIFT_ITEM（預設 g_bouquet）、START（'x,z'，預設 −40,8）、FN_G11。
+進原 G11（CC-C 11-12，BB-C 驗收「三種舊存檔進原 G11 不壞」；MODE=load、both 的 1、2、4 都做，G11=0 不做）：
+  讀進來以後（1、2 在公館：觸控點地板沿街走到 G11 門前〔F.walk_seg：途中有劇情就停下、照字處理、記下來〕；MIG_G11=jump 或存檔不在公館〔4 在總圖〕＝【捷徑】GAME.enter 公館 G11 門前）
+  → 搖桿走到「進入花序」（互動鍵出現那個字就算到）→ 按 → 到 flower_notes、站得住、搖桿推得動 ≥0.3 m、walkFallbacks 沒增加；2：包包裡舊花攤的兩樣還在
+  → 觸控走到「離開花序」→ 按 → 回公館、離「進入花序」≤3.5 m、站得住。按門的那一刻不在營業時間（FNS.open＝false）＝【前置】時間改營業中再按（寫明）。
+  雲端預設的存檔：MODE=load 沒給 SAVES_FROM＝fixtures/fn_old_saves_fd4dd9aef/（PC FN_mig_a 739cbcae03 的 save_1、FN_mig_b 38fb99f182 的 save_2、save_4：
+  fd4dd9aef6cb0d31b06d137636a25ab52eceedc4〔公館捷運口舊花攤還在的版本〕用 quickSave 存的＝BB_312 技術 2 的三種）。
+CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（存檔是固定的三份，沒有候選可挑） 4✓ 5✓ 6✓ 7✓ 8✓ 9n/a（截圖只當證據，判斷看狀態） 10✓ 11✓ 12✓ 13✓——這次改／審的是「進原 G11」那一段、MODE=load 的預設存檔、網址加 ?tapguard；MAKE、LOAD 原本的檢查是帳號 A 寫的，沒重審
+環境變數：CASES、GIFT_DAY、GIFT_WHO、GIFT_ITEM（預設 g_bouquet）、START（'x,z'，預設 −40,8）、FN_G11、G11（0＝不做進原 G11）、MIG_G11（walk／jump）、MIG_WALK_S（沿街走的上限秒數，預設 420）、TAPGUARD。
 用法：LW_TESTS=<wt>/tests SHA=<sha> MODE=make|load python3 cc_fn_migrate_probe.py ..."""
 import os, sys, json, asyncio, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -34,6 +41,11 @@ else:
     MODE = (os.environ.get('MODE') or 'make').lower(); OUT = sys.argv[2]
     URL_OLD = sys.argv[1] if MODE == 'make' else None; URL_NEW = sys.argv[1] if MODE == 'load' else None
 os.makedirs(OUT, exist_ok=True)
+_tg = lambda u: u if (not u or 'tapguard' in u or os.environ.get('TAPGUARD', '1') == '0') else u + ('&' if '?' in u else '?') + 'tapguard'   # CC_02 乙 4：和手機一樣擋選單剛出來那一下的誤點
+URL_OLD, URL_NEW = _tg(URL_OLD), _tg(URL_NEW)
+FIX_SAVES = os.path.join(HERE, 'fixtures', 'fn_old_saves_fd4dd9aef')
+DO_G11 = os.environ.get('G11', '1') != '0'
+MIG_G11 = (os.environ.get('MIG_G11') or 'walk').lower()
 CASES = [c.strip().lower() for c in (os.environ.get('CASES') or '1,2,3,4').split(',') if c.strip()]
 R = L.Run('fn_migrate_' + MODE, OUT); F.setup(R, OUT)
 J = F.J
@@ -144,6 +156,50 @@ async def cont(pg, cdp, url, save):
     return ok
 
 
+async def into_g11(pg, cdp, tag, k, bag0=None):
+    """三種舊存檔「進原 G11 不壞」：走到公館 G11「進入花序」→ 進店（站得住、推得動、fb 沒增加）→ 出來回到門口"""
+    tg = tag + ' 進原 G11'
+    gg = await pg.evaluate("(typeof FN3!=='undefined'&&FN3.GG)?Object.assign({},FN3.GG):null") or {'cx': 46.6, 'doorZ': 21}
+    s = await D.st(pg); sx, sz = gg['cx'], gg['doorZ'] - 4.0
+    if s['zone'] != 'gongguan' or MIG_G11 == 'jump':
+        await pg.evaluate("(p=>{ void GAME.enter('gongguan',{x:p[0],z:p[1],yaw:0}); })(%s)" % J([sx, sz]))
+        await D.wait_zone(pg, cdp, 'gongguan'); await pg.wait_for_timeout(3000); await L.close_panels(pg, cdp); await F.ready(pg, cdp, 15)
+        R.setup('%s【捷徑】GAME.enter(gongguan, G11 門前 (%.1f, %.1f))（存檔在 %s、MIG_G11=%s；不測走過去的路）' % (tg, sx, sz, s['zone'], MIG_G11))
+        path = '捷徑 GAME.enter'
+    else:
+        w = await F.walk_seg(pg, cdp, tg + ' 沿街走到 G11 門前', sx, sz, 1.2, lv=0, max_s=float(os.environ.get('MIG_WALK_S') or 420))
+        path = '觸控點地板沿街走（從存檔的位置）'
+        if not R.check('%s 從存檔的位置觸控走到 G11 門前 (%.1f, %.1f)（途中劇情 %d 段）' % (tg, sx, sz, len(w['events'])), w['ok'], J({k2: w.get(k2) for k2 in ('why', 'end', 'events')})[:500]):
+            await F.shot(pg, cdp, 'fn_mig_%s_g11_walk' % k); return
+    R.note('%s 走的路：%s' % (tg, path))
+    if not await pg.evaluate("typeof FNS!=='undefined'&&FNS.open(GAME.G)"):
+        h0 = await pg.evaluate("+GAME.G.hour"); await pg.evaluate("(()=>{ GAME.G.hour=14; GAME.E.hour=14; })()")
+        R.setup('%s【前置】按門的時候 %.2f 不在營業時間：時間改 14:00（營業時間另外由 cc_fn_func_probe HOURS 測）' % (tg, h0))
+    door, exs = await F.find_door(pg, await F.g11(pg))
+    if not R.check('%s 公館有「進入花序」' % tg, bool(door) and door['to'] == 'flower_notes', J(exs)): return
+    fb0 = (await D.st(pg))['fb']
+    r = await F.joy_to(pg, cdp, tg, door['x'], door['z'], near=0.9, lv=0, max_s=120, btn=door['label'], stop_on_event=True)
+    s = await D.st(pg)
+    if not R.check('%s 搖桿走到門口，互動鍵是「%s」（%s 秒）' % (tg, door['label'], r['t']), s['interact'].startswith(door['label']), J({'end': [s['x'], s['z']], 'btn': s['interact'], 'why': r.get('why'), 'event': r.get('event'), 'diag': r.get('pathDiag')})):
+        await F.shot(pg, cdp, 'fn_mig_%s_g11_nobtn' % k); return
+    top = await F.cur_btn(pg)
+    if not top['ok']: R.note('%s 互動鍵被蓋住（%s），先收起來' % (tg, top.get('top'))); await L.close_panels(pg, cdp)
+    await L.tap(pg, cdp, '#interact'); await D.wait_zone(pg, cdp, 'flower_notes'); await pg.wait_for_timeout(2500); await L.close_panels(pg, cdp)
+    s = await D.st(pg)
+    await F.shot(pg, cdp, 'fn_mig_%s_g11_in' % k)
+    R.check('%s 按「%s」進到花序（flower_notes）、站得住、沒有被放到目的地（walkFallbacks %s→%s）' % (tg, door['label'], fb0, s['fb']), s['zone'] == 'flower_notes' and s['stand'] and s['fb'] == fb0, J(s))
+    if s['zone'] != 'flower_notes': return
+    await F.ready(pg, cdp, 15); mv = await D.pushable(pg, cdp)
+    R.check('%s 店裡搖桿推得動 %.2f m（≥0.3）' % (tg, mv), mv >= 0.3, '')
+    if bag0 is not None:
+        bg = await pg.evaluate(F.BAG_JS)
+        R.check('%s 進店以後包包裡舊花攤時期的東西還在（%s）' % (tg, J(bag0)), sorted((b['id'], b['shop']) for b in bg['bag']) == sorted((b['id'], b['shop']) for b in bag0), J(bg['bag']))
+    s2 = await D.use_exit(pg, cdp, tg, '離開花序', 'gongguan')
+    if s2:
+        dd = math.hypot(s2['x'] - door['x'], s2['z'] - door['z'])
+        R.check('%s 出來回到公館、離「進入花序」%.2f m（≤3.5）、站得住' % (tg, dd), s2['zone'] == 'gongguan' and dd <= 3.5 and s2['stand'], J(s2))
+
+
 async def load_one(pg, cdp, url, k, ent, save):
     tag = '[LOAD %s]' % k; m0 = ent['meta']
     R.note('%s 存檔（改之前）：%s' % (tag, J(m0)))
@@ -161,6 +217,7 @@ async def load_one(pg, cdp, url, k, ent, save):
         fl = await pg.evaluate("(%s)(%s)" % (F.LIST_FLOWER_JS, J(F.FLOWER_KIND)))
         inr = abs(m1['x'] - F.OLD_STALL['cx']) <= F.OLD_STALL['w'] / 2 + 0.3 and abs(m1['z'] - F.OLD_STALL['cz']) <= F.OLD_STALL['d'] / 2 + 0.3
         R.note('%s 人在舊花攤範圍裡：%s；這一區的 gg_flower：%s' % (tag, inr, J([[x['label'], x['x'], x['z'], round(math.hypot(x['x'] - m1['x'], x['z'] - m1['z']), 1)] for x in fl])))
+        if DO_G11: await into_g11(pg, cdp, tag, k)
     if k == '2':
         bg = await pg.evaluate(F.BAG_JS)
         have = {b['id']: b['shop'] for b in bg['bag']}
@@ -169,6 +226,7 @@ async def load_one(pg, cdp, url, k, ent, save):
         R.note('%s 選單「物品」：%s' % (tag, J(ui[:300])))
         R.check('%s 選單「物品」看得到一束花、一朵向日葵' % tag, '一束花' in ui and '一朵向日葵' in ui, '')
         await F.shop_names(pg, cdp, tag + '（舊花攤時期買的花）', ui=ui)
+        if DO_G11: await into_g11(pg, cdp, tag, k, bag0=bg['bag']); bg = await pg.evaluate(F.BAG_JS)
         if await go_her(pg, cdp, tag, GIFT_WHO):
             g = await F.give(pg, cdp, tag, GIFT_WHO, GIFT_ITEM)
             rec = await pg.evaluate("(%s)(%s)" % (F.GIFTREC_JS, J(GIFT_WHO))); bg2 = await pg.evaluate(F.BAG_JS)
@@ -193,11 +251,13 @@ async def load_one(pg, cdp, url, k, ent, save):
         g = await F.give(pg, cdp, tag, GIFT_WHO, GIFT_ITEM, select=False)
         R.note('%s 再和她說話：%s' % (tag, J(g)))
         R.check('%s 再和她說話不出「送她禮物…」' % tag, g.get('label') is not None and not g['offered'], J(g))
+        if DO_G11: await into_g11(pg, cdp, tag, k)
 
 
 async def load(pg, cdp, url, idx):
     for k in ['1', '2', '3', '3b', '4']:
         if k not in idx or k.rstrip('b') not in CASES: continue
+        if not isinstance(idx[k], dict): continue
         p = os.path.join(SAVEDIR if MODE == 'both' else SRC_DIR, 'save_%s.json' % k)
         try: await load_one(pg, cdp, url, k, idx[k], json.load(open(p, encoding='utf-8')))
         except Exception as e:
@@ -223,7 +283,8 @@ async def main():
             R.check('[MAKE] 沒有 JS 例外', not errs, J(errs[:3]))
         if MODE in ('load', 'both'):
             if MODE == 'load':
-                sf = os.environ.get('SAVES_FROM') or ''
+                sf = os.environ.get('SAVES_FROM') or FIX_SAVES
+                if not os.environ.get('SAVES_FROM'): R.setup('沒給 SAVES_FROM：用 %s（fd4dd9aef 舊花攤時期的 quickSave 存檔）' % sf)
                 SRC_DIR = sf if os.path.exists(os.path.join(sf, 'index.json')) else os.path.join(sf, 'fn_saves')
                 if not R.check('SAVES_FROM 有 index.json（%s）' % SRC_DIR, os.path.exists(os.path.join(SRC_DIR, 'index.json')), ''): await b.close(); return
                 idx = json.load(open(os.path.join(SRC_DIR, 'index.json'), encoding='utf-8'))
