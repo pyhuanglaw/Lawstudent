@@ -390,7 +390,7 @@ if SET == 'tingzhou':
     # 第 2 版（使用者 11-10 20:5x「混合」）：這五間沒有騎樓、直接臨人行道——整棟退到店面線（立面 x −8.2），用沒有騎樓的店面（wz_shopkit.xs_street_front，同溫州街日常失速）：
     #   落地窗後面一張店內卡（概念圖裁的）、門框、雨棚、窗上一塊招牌板（概念圖的招牌貼在上面）、門燈。本地 x＝從街上看的左→右。照片菜單貼在窗旁的牆上（panel 的 text）
     TZ_XS = {
-        'wente': dict(arcade=False, dep=0.3, glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True, door=(1.42, 2.36, 2.45), in3d_id='wente', back=3.15,   # SHOP-WINDOW-3D-1112：玻璃後面改立體店內（wz_shopkit._xs_in_wente），右邊是木門   # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
+        'wente': dict(arcade=False, dep=0.3, glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
                       panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#3a2a20'),
         'liantong': dict(arcade=False, dep=0.3, real=True, back=7.1, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
                          panel=dict(x0=-2.15, x1=2.15, y0=2.95, y1=3.78, color='#1f3f9a', text=[('tzlian_sign', -2.1, 2.1, 3.0, 3.74)]), frame='#c9ccd0', vsigns=[('tzlian_vsign', 2.05, 4.3, 7.6, 0.85)]),
@@ -1476,7 +1476,7 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊�
         import json as _j; print(_j.dumps({'xseg_split': made}, ensure_ascii=False))
     def _seg(ob):   # 溫州街的店內（wz_in_shop）一間店一個網格合併（LAWWW 11-04 08:16 lane_east 三角形超標）：整條街一個網格的話，站在東段往東看時西段的書屋、帝大紅茶、常在洗衣、小路
         # 也整個要畫（裁不掉）；材質不變，看得到的店才畫。名字 wz_in_<棟號>_wz_in_shop 照舊 wz_in_ 開頭（遊戲不投影）
-        if SET in ('xinsheng', 'tingzhou') and len(ob.data.materials) == 1 and ob.data.materials[0] and ob.data.materials[0].name == 'wz_in_shop':   # SHOP-WINDOW-3D-1112：新生南路的立體店內也一間一個網格（名字 sk_in_<店>_wz_in_shop；遊戲照店打烊調暗 Z3.shopInsideLit）
+        if SET == 'xinsheng' and len(ob.data.materials) == 1 and ob.data.materials[0] and ob.data.materials[0].name == 'wz_in_shop':   # SHOP-WINDOW-3D-1112：新生南路的立體店內也一間一個網格（名字 sk_in_<店>_wz_in_shop；遊戲照店打烊調暗 Z3.shopInsideLit）
             mx = re.match(r'sk_in_([a-z]+)', ob.name); return ('sk_in_' + mx.group(1)) if mx else ''
         if SET != 'wenzhou' or len(ob.data.materials) != 1 or not ob.data.materials[0] or ob.data.materials[0].name != 'wz_in_shop': return ''
         m = re.match(r'sk_in_([A-Z]\d+i?)', ob.name)   # 店內的頂點色網格叫 sk_in_<棟號>：一間店一個網格（包圍球小，背後的店整間裁掉；分東西兩段的話包圍球太大、跨到鏡頭前面，裁不掉）

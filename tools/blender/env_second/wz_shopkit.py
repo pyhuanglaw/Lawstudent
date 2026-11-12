@@ -1002,7 +1002,7 @@ def xs_front(spec, xf, W, wall):
     c = spec['xs']; dep = c.get('dep', 3.5); D = 0.8; fr = acc(frame_mat(c.get('frame', '#3a3a38'))); cream = acc(frame_mat('#e8e2d6'))
     gx0, gx1 = c.get('glass', (-W / 2 + 0.3, W / 2 - 0.3)); gy1 = c.get('glass_h', 2.95); z = -dep
     # 店內（景深卡＋地板、兩側牆、天花板的燈）
-    in3d = bool(c.get('int')) and SET in ('xinsheng', 'tingzhou') and xs_inside3d(spec, c, xf, gx0, gx1, gy1, z, fr)   # SHOP-WINDOW-3D-1112：有立體店內的不放景深卡
+    in3d = bool(c.get('int')) and SET == 'xinsheng' and xs_inside3d(spec, c, xf, gx0, gx1, gy1, z, fr)   # SHOP-WINDOW-3D-1112：有立體店內的不放景深卡
     if (c.get('int') and in3d) or c.get('real'):   # real＝沒有景深卡也沒有簡化店內：只做玻璃和框，後面由遊戲放室內模型
         xf.quad(acc(M['glass']), [(gx0, 0.12, z + 0.01), (gx1, 0.12, z + 0.01), (gx1, gy1, z + 0.01), (gx0, gy1, z + 0.01)])
         for (a, b) in ((gx0 - 0.05, gx0 + 0.02), (gx1 - 0.02, gx1 + 0.05)): xf.box(fr, a, b, 0.0, gy1 + 0.05, z - 0.04, z + 0.05)
@@ -2937,10 +2937,9 @@ XS_IN3D = {'dabu': dict(fn=_xs_in_dabu, floor='f_oak', wall='#e6d8c4', ceil='#dc
 
 def xs_inside3d(spec, c, xf0, gx0, gx1, gy1, z, fr):
     """新生南路一間店玻璃後面的立體店內（XS_DI 深）。xf0＝這一棟的座標；店內座標＝玻璃的中心是 x 0。回傳 True＝做了（xs_front 不再放景深卡）"""
-    pid = spec.get('lane118') or c.get('in3d_id')   # 汀州路的店沒有 lane118 欄位：店面設定寫 in3d_id
-    cfg = XS_IN3D.get(pid)
+    cfg = XS_IN3D.get(spec.get('lane118'))
     if not cfg: return False
-    iw = gx1 - gx0; xf = OffXf(xf0, (gx0 + gx1) / 2); y0 = 0.12; yt = gy1; gz = z; zb = gz - XS_DI; gzf = gz - 0.012
+    pid = spec.get('lane118'); iw = gx1 - gx0; xf = OffXf(xf0, (gx0 + gx1) / 2); y0 = 0.12; yt = gy1; gz = z; zb = gz - XS_DI; gzf = gz - 0.012
     cm = L.CMesh(f'sk_in_{pid}', IN_VC); cp = lambda col: _CP(cm, col); vb = lambda *a, **k: xf_vbox(cm, xf, *a, **k); rr = random.Random(sum(ord(ch) for ch in pid) * 31)
     _floor_vc(cm, xf, iw, zb, gzf, y0, cfg.get('floor', 'f_white'), rr)
     vb(-iw / 2, iw / 2, y0, yt, zb - 0.05, zb, cfg['wall'], r=0)
@@ -3239,91 +3238,10 @@ def _xs_in_dakou(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
     for lx in (-4.6, -1.9, 1.1, 4.0): _xs_pendant(cp, xf, lx, gz - 1.05, yt, 0.55, ORG if lx != 1.1 else '#f1ece0', r=0.2)
 
 
-# ── SHOP-WINDOW-3D-1112 汀州路溫特寶邸（LAWWW-C 11-12 19:25 定：只看得到、不進去；之後開放進去的話，室內照這一版的牆、地板、擺設、燈色做——清單見
-#    docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/README.md「室內要對齊的基準」）
-def _xs_in_wente(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
-    """溫特寶邸（古著・二手服飾；概念圖 shop_wentebaodi 的櫥窗）：左邊木台上穿棕色皮夾克的假人、彩色玻璃檯燈、皮製公事包；中間一架木頭移動衣架（丹寧外套、格子襯衫）；
-    後牆一整排吊衣桿掛滿襯衫、上面層架（相框、木盒、帽子）；左牆層架放折好的衣服；右邊門後看得到另一排衣服、穿衣鏡、後面的木櫃台；天花板三盞黃銅吊燈"""
-    WOOD, WOOD_D, BRASS = '#8a6040', '#6a4a32', '#c09a52'
-    SHIRT = ['#3e5a7a', '#8c6a4a', '#5a6a4a', '#a8a090', '#2f3f5a', '#7a3a32', '#c8b89a', '#4a4a52', '#6a7a8a', '#9a7a5a', '#3a4a3a', '#b07a5a', '#d8cdb8', '#5a4a6a']
-    PLAID = ['#3a5a8c', '#8c2f2a', '#2f5a3e', '#c9a46a', '#5a3a2a', '#9a6a4a']
-    door0 = (c.get('door') or (iw, iw, 0))[0] - (c.get('glass', (-iw / 2, iw / 2))[0] + iw / 2)   # 門的左邊（店內座標）
-    # ── 後牆：深色木作的牆板＋一整排吊衣桿（襯衫側面對著街）＋上面層架
-    vb(-iw / 2 + 0.05, iw / 2 - 0.05, y0 + 0.05, yt - 0.05, zb, zb + 0.03, WOOD_D, r=0)
-    rz = zb + 0.32; ry = y0 + 1.92
-    vb(-iw / 2 + 0.25, iw / 2 - 0.4, ry - 0.015, ry + 0.015, rz - 0.015, rz + 0.015, BRASS, r=0)
-    for bx in (-iw / 2 + 0.25, iw / 2 - 0.4): vb(bx - 0.02, bx + 0.02, ry - 0.02, ry + 0.02, zb + 0.03, rz + 0.02, BRASS, r=0)
-    n = int((iw - 0.75) / 0.075); x = -iw / 2 + 0.33
-    for i in range(n):
-        col = SHIRT[(i * 5 + rr.randrange(3)) % len(SHIRT)]; ln = rr.uniform(0.72, 0.95)
-        vb(x - 0.022, x + 0.022, ry - ln, ry - 0.06, rz - 0.21, rz + 0.21, col, r=0); vb(x - 0.005, x + 0.005, ry - 0.06, ry + 0.02, rz - 0.01, rz + 0.01, '#3a3a3a', r=0)   # 衣服＋衣架鉤
-        x += 0.075 + (0.03 if i % 9 == 8 else 0)
-    for sy in (2.22, 2.52):   # 上面兩層木層板：相框、木盒、捲起來的皮帶、帽子
-        vb(-iw / 2 + 0.2, iw / 2 - 0.3, y0 + sy - 0.025, y0 + sy, zb + 0.03, zb + 0.3, WOOD, r=0)
-    for i, x_ in enumerate((-1.95, -1.3, -0.55, 0.2, 0.95, 1.6)):
-        if x_ > iw / 2 - 0.4: break
-        k = i % 3
-        if k == 0: vb(x_ - 0.16, x_ + 0.16, y0 + 2.22, y0 + 2.46, zb + 0.06, zb + 0.08, '#c9b08a', r=0); vb(x_ - 0.13, x_ + 0.13, y0 + 2.25, y0 + 2.43, zb + 0.08, zb + 0.085, ['#6a5a4a', '#3a4a5a', '#7a6a4a'][i % 3], r=0)   # 相框
-        elif k == 1: vb(x_ - 0.18, x_ + 0.18, y0 + 2.22, y0 + 2.36, zb + 0.08, zb + 0.27, WOOD_D, r=0.01)   # 木盒
-        else: _lathe(cp('#4a3a2e'), xf, [(0.0, 0.0), (0.17, 0.0), (0.17, 0.012), (0.1, 0.02), (0.1, 0.13), (0.0, 0.14)], x_, y0 + 2.22, zb + 0.17, seg=12)   # 帽子
-    for i, x_ in enumerate((-1.7, -0.9, -0.1, 0.7)):
-        vb(x_ - 0.12, x_ + 0.12, y0 + 2.52, y0 + 2.62, zb + 0.06, zb + 0.26, ['#8a6a4a', '#5a4a3a', '#b0a080', '#6a3a2a'][i], r=0.01)   # 一疊舊皮箱、盒子
-    # ── 左牆：層架上折好的衣服（一疊一疊）
-    xw = -iw / 2 + 0.047; vb(xw, xw + 0.02, y0 + 0.3, yt - 0.3, zb + 0.15, gz - 1.25, WOOD_D, r=0)
-    for sy in (0.55, 1.0, 1.45, 1.9):
-        vb(xw + 0.02, xw + 0.36, y0 + sy - 0.022, y0 + sy, zb + 0.15, gz - 1.25, WOOD, r=0)
-        zz = zb + 0.25
-        while zz < gz - 1.45:
-            h = rr.uniform(0.12, 0.26); vb(xw + 0.05, xw + 0.33, y0 + sy, y0 + sy + h, zz, zz + 0.28, SHIRT[rr.randrange(len(SHIRT))], r=0.008); zz += 0.33
-    # ── 右邊（門後）：靠右牆一排衣服＋穿衣鏡；後面木櫃台＋收銀機
-    xr = iw / 2 - 0.047; vb(xr - 0.02, xr, y0 + 0.3, yt - 0.3, zb + 0.2, gz - 0.45, WOOD_D, r=0)
-    vb(xr - 0.3, xr - 0.28, y0 + 1.82, y0 + 1.85, zb + 0.9, gz - 0.6, BRASS, r=0)
-    zz = zb + 0.95
-    while zz < gz - 0.7:
-        vb(xr - 0.5, xr - 0.08, y0 + 1.05, y0 + 1.8, zz - 0.022, zz + 0.022, SHIRT[rr.randrange(len(SHIRT))], r=0); zz += 0.08
-    vb(xr - 0.04, xr - 0.02, y0 + 0.2, y0 + 1.9, zb + 0.25, zb + 0.75, '#c9d0d4', r=0); vb(xr - 0.05, xr - 0.04, y0 + 0.18, y0 + 1.92, zb + 0.23, zb + 0.77, WOOD_D, r=0)   # 穿衣鏡
-    _xs_counter(vb, max(door0 - 0.2, 0.2), iw / 2 - 0.6, zb + 0.35, zb + 0.85, y0, body=WOOD_D, top=WOOD)
-    # ── 櫥窗（左，玻璃後面）：木台＋假人（棕色皮夾克、米白襯衫、牛仔褲）＋彩色玻璃檯燈＋皮公事包
-    px0, px1, pz0, pz1, ph = -iw / 2 + 0.12, min(door0 - 1.25, 0.25), gz - 0.95, gz - 0.12, 0.42
-    vb(px0, px1, y0, y0 + ph, pz0, pz1, WOOD, r=0.012); vb(px0 - 0.02, px1 + 0.02, y0 + ph, y0 + ph + 0.03, pz0 - 0.02, pz1 + 0.02, WOOD_D, r=0.006)
-    mx, mz, b = px0 + 0.95, (pz0 + pz1) / 2, y0 + ph + 0.03
-    _lathe(cp('#3a3a3a'), xf, [(0.0, 0.0), (0.16, 0.0), (0.16, 0.02), (0.0, 0.02)], mx, b, mz, seg=10)
-    for sx in (-1, 1): vb(mx + sx * 0.085 - 0.065, mx + sx * 0.085 + 0.065, b + 0.02, b + 0.86, mz - 0.07, mz + 0.07, '#4a6a8c', r=0.025)   # 牛仔褲兩隻腳
-    vb(mx - 0.17, mx + 0.17, b + 0.82, b + 0.88, mz - 0.09, mz + 0.09, '#3a2a1e', r=0.01); vb(mx - 0.03, mx + 0.03, b + 0.83, b + 0.87, mz + 0.09, mz + 0.095, BRASS, r=0)   # 皮帶、扣環
-    vb(mx - 0.16, mx + 0.16, b + 0.86, b + 1.38, mz - 0.1, mz + 0.1, '#e6dcc4', r=0.035)   # 襯衫
-    for sx in (-1, 1):   # 皮夾克：敞開的前片、兩隻袖子
-        vb(mx + sx * 0.1 - 0.075, mx + sx * 0.1 + 0.075, b + 0.78, b + 1.42, mz - 0.12, mz + 0.12, '#6a3e26', r=0.03)
-        vb(mx + sx * 0.235 - 0.05, mx + sx * 0.235 + 0.05, b + 0.8, b + 1.38, mz - 0.07, mz + 0.07, '#6a3e26', r=0.03)
-        vb(mx + sx * 0.06 - 0.05, mx + sx * 0.06 + 0.05, b + 1.3, b + 1.44, mz + 0.08, mz + 0.13, '#5a3420', r=0.01)   # 翻領
-    _xs_vcyl(cp, xf, mx, b + 1.38, b + 1.47, mz, 0.04, '#e6e2da', 6); _lathe(cp('#e6e2da'), xf, [(0.0, 0.0), (0.07, 0.03), (0.085, 0.11), (0.07, 0.19), (0.0, 0.22)], mx, b + 1.45, mz, seg=10)   # 頭（沒有五官的人台頭）
-    lx = px0 + 0.25; _lathe(cp(BRASS), xf, [(0.0, 0.0), (0.09, 0.0), (0.09, 0.02), (0.02, 0.04), (0.015, 0.36), (0.0, 0.36)], lx, b, pz1 - 0.3, seg=10)   # 檯燈：黃銅底座＋燈桿
-    _lathe(cp('#d8a040'), xf, [(0.03, 0.17), (0.12, 0.08), (0.17, 0.0), (0.155, 0.0), (0.0, 0.16)], lx, b + 0.3, pz1 - 0.3, seg=12)   # 彩色玻璃燈罩（琥珀色）
-    _lathe(cp('#fff0c8'), xf, [(0.0, 0.0), (0.05, 0.0), (0.05, 0.06), (0.0, 0.06)], lx, b + 0.3, pz1 - 0.3, seg=6)
-    bx = mx + 0.62
-    if bx + 0.24 < px1: vb(bx - 0.24, bx + 0.24, b, b + 0.28, pz1 - 0.42, pz1 - 0.24, '#7a4a2a', r=0.03); vb(bx - 0.24, bx + 0.24, b + 0.2, b + 0.24, pz1 - 0.243, pz1 - 0.24, '#5a3420', r=0); vb(bx - 0.1, bx + 0.1, b + 0.28, b + 0.36, pz1 - 0.345, pz1 - 0.315, '#5a3420', r=0.01)   # 公事包＋提把
-    # 櫥窗後面立一塊矮隔板（看進去不會直接看穿到後牆，像參考圖那樣一層一層）
-    vb(px0, px1, y0 + ph, y0 + ph + 1.55, pz0 - 0.06, pz0 - 0.03, WOOD_D, r=0)
-    # ── 中間：木頭移動衣架（丹寧外套、格子襯衫），在門和櫥窗中間
-    gx0_, gx1_ = px1 + 0.12, min(door0 - 0.1, px1 + 1.3); gzr = gz - 0.6
-    if gx1_ - gx0_ > 0.6:
-        for ux in (gx0_, gx1_): vb(ux - 0.025, ux + 0.025, y0, y0 + 1.6, gzr - 0.025, gzr + 0.025, WOOD, r=0); vb(ux - 0.03, ux + 0.03, y0, y0 + 0.04, gzr - 0.25, gzr + 0.25, WOOD, r=0)
-        vb(gx0_, gx1_, y0 + 1.55, y0 + 1.6, gzr - 0.02, gzr + 0.02, WOOD, r=0)
-        k = 0; x = gx0_ + 0.1
-        while x < gx1_ - 0.08:
-            col = '#4a6a8c' if k == 0 else PLAID[(k - 1) % len(PLAID)]; ln = 0.62 if k == 0 else rr.uniform(0.66, 0.78)
-            vb(x - 0.03, x + 0.03, y0 + 1.55 - ln, y0 + 1.5, gzr - 0.23, gzr + 0.23, col, r=0)
-            if k: vb(x - 0.032, x + 0.032, y0 + 1.5 - ln * 0.55, y0 + 1.5 - ln * 0.5, gzr - 0.235, gzr + 0.235, '#e6dcc4', r=0)   # 格子的一道淺色條
-            x += 0.085; k += 1
-    # ── 天花板三盞黃銅吊燈（照概念圖）、門口一塊地墊
-    for x_ in (-iw / 2 + 0.9, -0.1, iw / 2 - 1.0): _xs_pendant(cp, xf, x_, gz - 1.35, yt, 0.42, BRASS, r=0.17)
-    vb(door0 + 0.05, min(door0 + 0.85, iw / 2 - 0.1), y0, y0 + 0.012, gz - 0.9, gz - 0.15, '#8a3a2a', r=0)
-
-
 XS_IN3D.update({
     'haopai': dict(fn=_xs_in_haopai, floor='f_cream', wall='#c8bfaa', ceil='#c4b8a2', warm=True),
     'xsports': dict(fn=_xs_in_xsports, floor='f_granite', wall='#c9b69c', ceil='#c2ae92', warm=True),
     'shanlan': dict(fn=_xs_in_shanlan, floor='f_wood', wall='#ece6da', ceil='#d9c8a8', warm=True),
     'tongxian': dict(fn=_xs_in_tongxian, floor='f_wood', wall='#d9c4a0', ceil='#cdb890', warm=True),
     'dakou': dict(fn=_xs_in_dakou, floor='f_terrazzo', wall='#f2e0c6', ceil='#e6dfd0', warm=True),
-    'wente': dict(fn=_xs_in_wente, floor='f_oak', wall='#7a5a40', ceil='#6a5240', warm=True, bright=1.0),   # 汀州路溫特寶邸（古著）：深色木作牆、淺橡木地板（D112 不用深色木地板）
 })
