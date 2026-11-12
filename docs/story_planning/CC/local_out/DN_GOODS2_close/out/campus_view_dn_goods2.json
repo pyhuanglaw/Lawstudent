@@ -1,0 +1,98 @@
+{
+ "dn_leftwall": {
+  "yaw": 1.571,
+  "dist": 3,
+  "cam": [
+   0.54,
+   2.76,
+   -0.6
+  ],
+  "player": [
+   -2.25,
+   0,
+   -0.6
+  ],
+  "zone": "tz_dongnan",
+  "hour": 14.04
+ },
+ "dn_rightshelf": {
+  "yaw": -1.571,
+  "dist": 3,
+  "cam": [
+   -0.66,
+   2.76,
+   -2.2
+  ],
+  "player": [
+   2.13,
+   0,
+   -2.2
+  ],
+  "zone": "tz_dongnan",
+  "hour": 14.04
+ },
+ "dn_gondola1": {
+  "yaw": -1.571,
+  "dist": 3,
+  "cam": [
+   -2.59,
+   2.76,
+   -0.5
+  ],
+  "player": [
+   0.2,
+   0,
+   -0.5
+  ],
+  "zone": "tz_dongnan",
+  "hour": 14.04
+ },
+ "dn_gondola2": {
+  "yaw": -1.571,
+  "dist": 3,
+  "cam": [
+   -0.09,
+   2.76,
+   -0.5
+  ],
+  "player": [
+   2.7,
+   0,
+   -0.5
+  ],
+  "zone": "tz_dongnan",
+  "hour": 14.04
+ },
+ "dn_back_a": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   0,
+   2.76,
+   3.79
+  ],
+  "player": [
+   0,
+   0,
+   1
+  ],
+  "zone": "tz_dongnan",
+  "hour": 14.04
+ },
+ "dn_back_b": {
+  "yaw": 3.142,
+  "dist": 3,
+  "cam": [
+   -0.0,
+   2.76,
+   -3.79
+  ],
+  "player": [
+   0,
+   0,
+   -1
+  ],
+  "zone": "tz_dongnan",
+  "hour": 14.04
+ }
+}

@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "DN_GOODS2_close",
+  "sha": "7e404a6220426e12d59906d50497b7eee61280c4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py",
+  "env": "TAG=dn_goods2;VIEWS=dn_leftwall:tz_dongnan:-2.13:-0.5:14:1.5708:3:-3.4:1.2:-0.5:60+dn_rightshelf:tz_dongnan:2.13:-2.2:14:-1.5708:3:3.4:1.2:-2.2:60+dn_gondola1:tz_dongnan:0.2:-0.5:14:-1.5708:3:-1.0:1.0:-0.5:60+dn_gondola2:tz_dongnan:2.7:-0.5:14:-1.5708:3:1.5:1.0:-0.5:60+dn_back_a:tz_dongnan:0:1.0:14:0:3:0:1.2:-4.5:60+dn_back_b:tz_dongnan:0:-1.0:14:3.1416:3:0:1.2:4.5:60",
+  "machine": "MSI",
+  "start": "2026-11-12T19:17:08",
+  "end": "2026-11-12T19:19:52",
+  "seconds": 164,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 8,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
