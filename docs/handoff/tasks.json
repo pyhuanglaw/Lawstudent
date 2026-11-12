@@ -160,7 +160,11 @@
    "LIMAO-INT-CAM": "LAWWW2 交接檔裡 LIMAO-INT-CAM-1111 的簡寫（總表有；LAWWW-C 11-12 核對）",
    "OPEN-SRC-2D3D": "LAWWW2 交接檔裡 OPEN-SRC-2D3D-1104 的簡寫（總表有；LAWWW-C 11-12 核對）",
    "SIGN-RECTIFY": "LAWWW2 交接檔裡 SIGN-RECTIFY-1110 的簡寫（總表有；LAWWW-C 11-12 核對）",
-   "TINGZHOU-AREA": "LAWWW2 交接檔裡 TINGZHOU-AREA-1110 的簡寫（總表有；LAWWW-C 11-12 核對）"
+   "TINGZHOU-AREA": "LAWWW2 交接檔裡 TINGZHOU-AREA-1110 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "BADMINTON-CLIP": "LAWWW2 交接檔「BADMINTON-CLIP v4」＝BADMINTON-CLIP-V4-1102 的簡寫（總表有；LAWWW-C 11-12 22:2x 核對）",
+   "FAIR-TENT-CAM": "LAWWW2 交接檔裡 FAIR-TENT-CAM-1102 的簡寫（總表有）",
+   "INCR-LAWWW2-1104": "LAWWW2 自己的 incr 記帳工作（不是遊戲任務；LAWWW-C 11-12 核對）",
+   "WZ-FRUIT-CLOSED": "LAWWW2 交接檔表外那一行的暫名；總表 ID 是 WZ-FRUIT-CLOSED-1112（LAWWW-C 11-12 22:2x 開）"
   },
   "offList": [
    {
@@ -390,6 +394,18 @@
     "match": "BUG-LIB-DOOR-LABEL-1110",
     "task": "BUG-LIB-DOOR-LABEL-1110",
     "why": "BB 11-10 20:56 表外，LAWWW 補成任務"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "WZ-FRUIT-CLOSED",
+    "task": "WZ-FRUIT-CLOSED-1112",
+    "why": "LAWWW2-C 11-12 22:12 交班表外，LAWWW-C 開 ID"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "清州刀削麵打烊後門口湯鍋檯",
+    "task": "L118-KOREA-STAND-1112",
+    "why": "LAWWW2-C 11-12 22:12 交班表外，LAWWW-C 開 ID"
    }
   ],
   "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
@@ -56542,7 +56558,7 @@
    },
    "source": "BB-C 11-12 18:37 UTC（BB_379；CC L118_CAM36_a）",
    "authorized": "D108、§12 第 4 點",
-   "next": "【BB-C 11-12 20:29 UTC】r2（7d69704cdf）：118牛排 #1、cafe2 #13 修好；剩點椅子停錯張 P3：辛亥韓食 #1/#5/#6/#11/#12、118牛排 #15、cafe2 #3/#5/#6、pasta #2/#6。｜【BB-C 11-12 21:2x（BB_379）】新增 cafe2 #13 點椅子人走到店外 (−3.9,−10.8)＝P2；另有一批點椅子停錯張（P3）。LAWWW2 一起修。｜【LAWWW-C 11-12 18:3x UTC】轉 LAWWW2（DELIVERED）。",
+   "next": "【LAWWW-C 11-12 22:2x 交班】BB_379 L118_CAM36 r3：辛亥韓食 #6／#12 坐到隔壁（0.5 m）、大學食堂 #5 坐偏 0.6 m 未過（P2）；LAWWW2 已收沒做（r4）。｜【BB-C 11-12 20:29 UTC】r2（7d69704cdf）：118牛排 #1、cafe2 #13 修好；剩點椅子停錯張 P3：辛亥韓食 #1/#5/#6/#11/#12、118牛排 #15、cafe2 #3/#5/#6、pasta #2/#6。｜【BB-C 11-12 21:2x（BB_379）】新增 cafe2 #13 點椅子人走到店外 (−3.9,−10.8)＝P2；另有一批點椅子停錯張（P3）。LAWWW2 一起修。｜【LAWWW-C 11-12 18:3x UTC】轉 LAWWW2（DELIVERED）。",
    "xai": {
     "from": "BB",
     "to": "LAWWW2",
@@ -56632,6 +56648,58 @@
     "prereq": false,
     "parallel": true,
     "confirmed": true
+   }
+  },
+  {
+   "id": "WZ-FRUIT-CLOSED-1112",
+   "title": "溫州街阿忠鮮果公休／打烊收攤樣子（BB_379 50352b7e36：週一公休整攤照擺、看起來開著，§12 ①）",
+   "owner": "LAWWW2",
+   "priority": "P2",
+   "status": "待開工",
+   "src": "LAWWW2-C 交班 11-12 22:12（表外）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-12 22:2x】LAWWW2 加收攤節點（FRUIT_CLOSED_on／FRUIT_OPEN_off）→ LAWWW 用 PLACES.isOpen('wz_fruit') 切換 → BB 瀏覽器",
+   "xai": {
+    "receiver": "LAWWW2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB_379",
+    "acceptance": "BB 瀏覽器",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "L118-KOREA-STAND-1112",
+   "title": "清州刀削麵打烊後門口湯鍋檯還擺在外面（BB_379 L118_CLOSED_LOOK_r2 P3）",
+   "owner": "LAWWW2",
+   "priority": "P3",
+   "status": "待開工",
+   "src": "LAWWW2-C 交班 11-12 22:12（表外）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-12 22:2x】LAWWW2 把湯鍋檯納入打烊收起來的節點 → LAWWW 接 → BB 看",
+   "xai": {
+    "receiver": "LAWWW2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB_379",
+    "acceptance": "BB 瀏覽器",
+    "ack": "ACK"
    }
   }
  ]
