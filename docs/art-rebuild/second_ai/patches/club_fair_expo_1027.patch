@@ -89,13 +89,13 @@ index 5703be4e9..02f2fcced 100644
      // （activities.js 的 club_expo_y1s1，spot (-13.5,13.6)；classes3d.js 的 fairMenu）。LAWWW2 的攤位做好以後原地換掉，位置不變
      if(!fairDay){ const bb=W3.bulletin(); place(g,bb,-13.5,14.6,Math.PI); nav.blockRect(-13.5,14.6,2.6,0.4,0); }
 -    const fairGLB=fairDay?clubFair(E,g,nav):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載 */
-+    const fairGLB=fairDay?(isExpoDay()&&typeof CLUB_FAIR_EXPO!=='undefined'?clubFairExpo(E,g,nav):clubFair(E,g,nav)):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載。社博那天（大一、大二）＝椰林大道兩邊 36 頂＋舞台（clubFairExpo）；校慶、經濟系那一年＝九頂那一排 */
++    const fairGLB=fairDay?(isExpoDay()&&typeof CLUB_FAIR_EXPO!=='undefined'?clubFairExpo(E,g,nav):clubFair(E,g,nav)):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載。社博那天（大一、大二）＝椰林大道兩邊 36 頂＋舞台（clubFairExpo）；校慶、舊序章那一段＝九頂那一排 */
      // 路旁散置腳踏車
      for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=parkedBike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3],x*7+z,null,1.7); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
      // ---- v9.3 第十八批：校園加密 ----
 @@ -490,9 +490,32 @@ const Z3 = (function(){
       大二的社團博覽會 9/16～9/17（AA_170，祐廷站在攤位後面）、各年校慶：大二 2026-11-14、大三 2027-11-13、大四 2028-11-11（AA_177 第 7、10 節；「每年 11/15」只留給大一）；
-      經濟系那一年的社團博覽會 9/18～9/20（BB_104 E07、AA_154）、校慶園遊會 11/9（E17）*/
+      舊序章那一段的社團博覽會 9/18～9/20（BB_104 E07、AA_154）、校慶園遊會 11/9（E17）*/
    const FAIR_DAYS=['2025-11-15','2026-09-16','2026-09-17','2026-11-14','2027-11-13','2028-11-11'], FAIR_DAYS_ECON=['2024-09-18','2024-09-19','2024-09-20','2024-11-09'];
 -  function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||(!!econ&&FAIR_DAYS_ECON.includes(key))||(expo||[]).includes(key); }
 +  function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||EXPO_DAYS.includes(key)||(!!econ&&FAIR_DAYS_ECON.includes(key))||(expo||[]).includes(key); }
@@ -105,7 +105,7 @@ index 5703be4e9..02f2fcced 100644
 +     使用者 X109「社團博覽會攤會也太少 都沒人顧」「要參考實際的吧」：照臺大的社團聯展，椰林大道兩邊一路排帳篷、大道中段一個舞台。
 +     配置 src/data/club_fair_expo_layout.js（CLUB_FAIR_EXPO；Blender tools/blender/env_second/club_fair_expo.py 讀同一份）；正式模型 bldg.club_fair_expo
 +     （36 頂＋舞台烘成一個網格、一個材質＝一個 draw call，約 2.7 萬三角形；整組放在 (0,0,0)）。博覽會那天（activities.js club_expo_y1s1 的日子、大二 EXPO_DAYS）用這一組；
-+     校慶、經濟系那一年照舊用下面九頂那一排（clubFair）。每頂帳篷 3×3 m 擋起來；舞台台面、前面兩邊的台階、兩邊的喇叭擋起來；
++     校慶、舊序章那一段照舊用下面九頂那一排（clubFair）。每頂帳篷 3×3 m 擋起來；舞台台面、前面兩邊的台階、兩邊的喇叭擋起來；
 +     大道中間（z ±3.4 以內）、人行道（z ±7）照舊走得到。Z3.fairExpoFront(id)＝站在攤位前的位置（互動點、顧攤的人的對面）。
 +     正式模型載入前／失敗：簡單的帳篷、台子（D38 分類 ③）*/
 +  const EXPO_DAYS=['2026-09-12'];   /* 大二的社博（AA_485 3-2）；大一的日子在 activities.js 的 club_expo_y1s1.dates */
@@ -164,7 +164,7 @@ index 000000000..cab0bcba8
 +//   ② 社博那天建校園：每頂帳篷的中心擋住、站在攤位前（Z3.fairExpoFront）站得住、從大道中間走得到；舞台台面擋住、舞台前面站得住；
 +//   ③ 大道中間 z=0 從 x −90 走到 +12 一路走得過去；人行道 z=−7（舞台那一段以外）、z=+7 走得過去；
 +//   ④ 帳篷、舞台沒有壓到原本的東西（椰子樹、花叢、路燈、長椅、腳踏車）：不擺帳篷的時候，帳篷範圍裡的格子都站得住；
-+//   ⑤ 校慶（2025-11-15）照舊是九頂那一排、經濟系那一年也是；不是博覽會的日子沒有帳篷；
++//   ⑤ 校慶（2025-11-15）照舊是九頂那一排、舊序章那一段也是；不是博覽會的日子沒有帳篷；
 +//   ⑥ 正式模型 club_fair_expo.glb：一個網格、一個材質；大小在帳篷範圍裡（x −90～+12、z −8～+14.2）。
 +// 用法：node tests/club_fair_expo_unit.js
 +const L=CLUB_FAIR_EXPO;
@@ -199,9 +199,9 @@ index 000000000..cab0bcba8
 +{ const r1=both([-90,7],[12,7]); check('③ 南側人行道 z=+7 從 x −90 走到 +12 走得過去',r1.ok,fmt(r1));
 +  const r2=both([-90,-7],[-33,-7]), r3=both([-18,-7],[12,-7]); check('③ 北側人行道 z=−7 舞台以外的兩段走得過去',r2.ok&&r3.ok,fmt(r2)+' '+fmt(r3)); }
 +{ const S=L.stage, f=Z3.fairExpoFront('stage'); let n=0; for(let x=S.x-4;x<=S.x+4;x+=1) for(let z=f[1]-1;z<=f[1]+3;z+=1) if(stand(x,z)) n++; check('③ 舞台前面（大道中間）有一塊站得住的觀眾區（9×5 m 裡 ≥ 40 格）',n>=40,n+' 格'); }
-+// ⑤ 校慶、經濟系那一年
++// ⑤ 校慶、舊序章那一段
 +setDay('2025-11-15'); const zf=loadZone('campus'); check('⑤ 校慶 2025-11-15：照舊是九頂那一排（clubFair），沒有 36 頂',!!zf.group.getObjectByName('fair_fallback')&&!zf.group.getObjectByName('fair_expo_fallback')&&Z3.isExpoDay()===false);
-+setDay('2024-09-18',true); const ze=loadZone('campus'); check('⑤ 經濟系那一年的博覽會（2024-09-18）：照舊九頂',!!ze.group.getObjectByName('fair_fallback')&&!ze.group.getObjectByName('fair_expo_fallback'));
++setDay('2024-09-18',true); const ze=loadZone('campus'); check('⑤ 舊序章那一段的博覽會（2024-09-18）：照舊九頂',!!ze.group.getObjectByName('fair_fallback')&&!ze.group.getObjectByName('fair_expo_fallback'));
 +setDay('2026-09-12'); check('⑤ 大二的社博 2026-09-12 也是 36 頂（EXPO_DAYS）',Z3.isExpoDay()===true&&Z3.fairDayKey('2026-09-12',false,[]));
 +// ⑥ 正式模型
 +{ const p=path.join(ROOT,'assets/models/env/second_ai/club_fair_expo.glb'); const ok=fs.existsSync(p); let info='沒有檔案';

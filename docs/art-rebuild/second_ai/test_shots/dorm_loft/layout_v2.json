@@ -397,7 +397,7 @@
  ],
  "sets": {
   "203": "藏 Y412_*、NAMETAG_*；其他照常",
-  "412": "藏 Y203_*、ROOMMATE_KAI；阿勳的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）",
+  "412": "藏 Y203_*、ROOMMATE_KAI；舊序章人物甲的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）",
   "412_first_night": "412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）"
  },
  "v0_props": {
@@ -406,7 +406,7 @@
    "y": 0.76,
    "z": -0.323,
    "ry": 1.5707963267948966,
-   "note": "阿勳的書桌（R2）"
+   "note": "舊序章人物甲的書桌（R2）"
   },
   "XUN_BOWLING": {
    "x": 2.6,

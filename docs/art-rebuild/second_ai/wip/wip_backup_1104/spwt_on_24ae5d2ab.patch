@@ -5763,7 +5763,7 @@ index 000000000..fb95fc01b
 --- /dev/null
 +++ b/tools/blender/env_second/bg_kh.py
 @@ -0,0 +1,560 @@
-+"""ART-KH-BUS：經濟系 7/25 成績公布那天的三張 2D 背景（AA_272 第 4 節 4-2、4-3；LAWWW-C 派工 2026-10-17）。LAWWW2-C。
++"""ART-KH-BUS：舊序章 7/25 成績公布那天的三張 2D 背景（AA_272 第 4 節 4-2、4-3；LAWWW-C 派工 2026-10-17）。LAWWW2-C。
 +Blender 5.2（bpy，無介面）＋Cycles（CPU）→ PNG → bg_paint.py（繪畫感）→ assets/bg/*.webp（1672×941，和 bus_night、cram_class 同規格）。畫面上沒有人（人物用 ADV 立繪疊上去，中間留空）。
 +  /opt/blenv/bin/python tools/blender/env_second/bg_kh.py -- <bus|station|store> <輸出.png> [--res 1672x941] [--samples 64]
 +- bus：客運車廂（白天，國道上）。4-2「國道上。你已經坐了一個多小時。」「窗外是一片一片的田。」7 月上午十一點、往南開：
@@ -6329,10 +6329,10 @@ index 000000000..d98ad20b3
 --- /dev/null
 +++ b/tools/blender/env_second/bg_nccu.py
 @@ -0,0 +1,651 @@
-+"""2D 背景：政大（outings3d.js 的 OUT.BG.nccu_gate「政大・校門口」、nccu_food「政大・山下的小吃街」）。
-+LAWWW2-B 2026-10-15；使用者試玩 v9.7 回報第 11 項「去政大找可昕完全沒有畫面」（現在 image:null＝深色底）。LAWWW-B 23:34Z 分派 B。
++"""2D 背景：外校（outings3d.js 的 OUT.BG.nccu_gate「外校・校門口」、nccu_food「外校・山下的小吃街」）。
++LAWWW2-B 2026-10-15；使用者試玩 v9.7 回報第 11 項「去外校找可昕完全沒有畫面」（現在 image:null＝深色底）。LAWWW-B 23:34Z 分派 B。
 +Blender 5.2（bpy，無介面）＋Cycles（CPU），1920×1080，畫面上沒有人（人物用 ADV 立繪疊上去），做法照 bg_noodle_table.py。
-+**政大是真實的學校**：這兩張是「參考政大山下生活圈」的原創場景——不放校徽、校名、真實店名；小吃店名全部虛構（wz_street.py 的 NCCU_FOOD）。
++**外校是真實的學校**：這兩張是「參考外校山下生活圈」的原創場景——不放校徽、校名、真實店名；小吃店名全部虛構（wz_street.py 的 NCCU_FOOD）。
 +  校門口：指南路（雙向、斑馬線）對面的校門——低矮的石材牆、兩根門柱、中間寬的入口、門後的大樹與系館，後面是山（「法學院。山。也是山。」）。
 +  山下的小吃街：兩側老公寓、一樓小吃店（招牌亮著、店裡暖色的燈），停滿機車的窄巷，巷底看得到山。
 +時間：傍晚（天空還有一點亮、店和路燈已經亮了）——事件有下午出發（K1 導遊）也有晚上 19:30（K1b），一張圖兩種都說得通。
@@ -6340,7 +6340,7 @@ index 000000000..d98ad20b3
 +  /opt/blenv/bin/python tools/blender/env_second/wz_street.py -- --set nccu_food --out <暫存>/nccu_food_street.glb
 +  /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- food <暫存>/nccu_food_street.glb <輸出.png> [--res 1920x1080] [--samples 64]
 +  /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- gate - <輸出.png> [--res …] [--samples …]
-+  /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- campus - <輸出.png> [--res …] [--samples …]（政大・校園裡的路：醉夢溪畔的步道）
++  /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- campus - <輸出.png> [--res …] [--samples …]（外校・校園裡的路：醉夢溪畔的步道）
 +座標＝遊戲座標（x 東、y 上、z 南），g2b 轉成 Blender。"""
 +import math, os, random, sys
 +import bpy, bmesh
@@ -6678,7 +6678,7 @@ index 000000000..d98ad20b3
 +# ================================================================ 山下（指南路二段 57～67 號那一段）
 +if SCENE == 'food':
 +    # 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：店在路的西側（x=-4.6 的立面、朝東），窄人行道（約 1.2 m），
-+    # 指南路雙向約 12 m（x -3.4～8.6），對面是政大（矮牆、樹、側門「麥側」），再過去是指南山。
++    # 指南路雙向約 12 m（x -3.4～8.6），對面是外校（矮牆、樹、側門「麥側」），再過去是指南山。
 +    bpy.ops.import_scene.gltf(filepath=os.path.abspath(GLB))
 +    paint_faces()
 +    for m in bpy.data.materials:
@@ -6693,7 +6693,7 @@ index 000000000..d98ad20b3
 +    for x in (-3.15, 8.35): quad('edge', (x - 0.06, 0.004, 30), (x + 0.06, 0.004, 30), (x + 0.06, 0.004, -90), (x - 0.06, 0.004, -90), WHITE_PAINT)
 +    box('walk_w', -4.6, -3.4, 0, 0.15, -90, 30, CONC); box('curb_w', -3.5, -3.4, 0, 0.16, -90, 30, STONE)
 +    box('walk_e', 8.6, 10.2, 0, 0.15, -90, 30, CONC); box('curb_e', 8.6, 8.7, 0, 0.16, -90, 30, STONE)
-+    for z0, z1 in ((-90, -12.0), (-4.0, 30)):                            # 政大的矮牆；中間（麥當勞斜對面）是側門
++    for z0, z1 in ((-90, -12.0), (-4.0, 30)):                            # 外校的矮牆；中間（麥當勞斜對面）是側門
 +        box('cwall', 10.2, 10.6, 0.15, 1.3, z0, z1, BRICK); box('cwall_cap', 10.15, 10.65, 1.3, 1.42, z0, z1, STONE)
 +    quad('campus', (10.6, 0.12, 30), (90, 0.12, 30), (90, 0.12, -90), (10.6, 0.12, -90), GRASS)
 +    hills(-58, 300, [(0, 30, (0.07, 0.15, 0.06), 1.3), (60, 55, (0.12, 0.19, 0.15), 2.7), (160, 85, (0.26, 0.32, 0.36), 4.1)])
@@ -6713,7 +6713,7 @@ index 000000000..d98ad20b3
 +    sky(1.5, 205, 0.45)
 +    sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 0.25; sun.color = (1.0, 0.72, 0.52); so = bpy.data.objects.new('sun', sun)
 +    so.rotation_euler = (math.radians(86), 0, math.radians(205)); sc.collection.objects.link(so)
-+    camera((8.2, 1.6, 6.0), (-4.6, 3.4, -16.0), float(opt('--lens', '24')))   # 從政大這一側的人行道（側門附近）斜看對街那一排：敏忠、迷客夏、50嵐、四川飯館、麥當勞、摩斯
++    camera((8.2, 1.6, 6.0), (-4.6, 3.4, -16.0), float(opt('--lens', '24')))   # 從外校這一側的人行道（側門附近）斜看對街那一排：敏忠、迷客夏、50嵐、四川飯館、麥當勞、摩斯
 +
 +# ================================================================ 圖書館（達賢圖書館，傍晚從景觀湖看）
 +elif SCENE == 'lib':
@@ -6774,8 +6774,8 @@ index 000000000..d98ad20b3
 +
 +# ================================================================ 校門口
 +elif SCENE == 'campus':
-+    # 「政大・校園裡的路」（LAWWW-B 01:0x 佇列：AA_137 7-1，K1b 散步；使用者 2026-10-16：政大只做主要校園＋宿舍）。
-+    # 照查證（docs/art-rebuild/second_ai/research/nccu_campus_path.md）：醉夢溪（指南溪流進校園的那一段）沿岸的濱溪步道，政大人叫「情人道」；
++    # 「外校・校園裡的路」（LAWWW-B 01:0x 佇列：AA_137 7-1，K1b 散步；使用者 2026-10-16：外校只做主要校園＋宿舍）。
++    # 照查證（docs/art-rebuild/second_ai/research/nccu_campus_path.md）：醉夢溪（指南溪流進校園的那一段）沿岸的濱溪步道，外校人叫「情人道」；
 +    # 溪上有好幾座橋（濟賢橋、渡賢橋…）、溪岸種楓香、近自然工法的護岸（石塊）、校園在指南山麓（山很近、很高）。
 +    # **沒有看到照片：路寬、護岸與欄杆的樣子、橋的造型、建築量體都是推估**；不放校名校徽、不寫橋名。時間：傍晚（K1b 19:30 也說得通：路燈已經亮了）。
 +    # AA_147：K1b 是十月平日晚上 21:30 走在校園的路上（主圖＝夜晚）；傍晚是變體。--time night|dusk
@@ -6951,12 +6951,12 @@ index 000000000..d98ad20b3
 +    building(-11, 11, -82, -62, 14.0)            # 四維堂（方正）
 +    building(-38, -18, -62, -44, 30.0, fh=3.4); building(-34, -22, -60, -46, 37.0, fh=3.4)    # 照片：校門左後方很高的白色大樓（上面退縮一段）
 +    building(16, 36, -50, -30, 13.0)
-+    # 公車站牌（查證：真實站名「政大」「政大一」，遊戲寫「木柵大學」；路線 236、237、282、295、530、611、1503、小10…）——鏡頭這一側的人行道
++    # 公車站牌（查證：真實站名「外校」「外校一」，遊戲寫「外校」；路線 236、237、282、295、530、611、1503、小10…）——鏡頭這一側的人行道
 +    sign = Image.new('RGB', (360, 520), '#1f4e8c'); dd = ImageDraw.Draw(sign); fbig = ImageFont.truetype(FONT, 110); fsm = ImageFont.truetype(FONT, 46)
-+    # D115（2026-10-30）：政大改虛構的「木柵大學」（docs/WORLD_NAMING.md）。四個字放不下 110 px：縮到站牌寬度以內。
++    # D115（2026-10-30）：外校改虛構的「外校」（docs/WORLD_NAMING.md）。四個字放不下 110 px：縮到站牌寬度以內。
 +    # 註：nccu_gate.webp 的鏡頭看不到這塊站牌（在畫面左邊外面），現有的背景圖不用重算。
-+    while fbig.size > 40 and dd.textlength('木柵大學', font=fbig) > 330: fbig = ImageFont.truetype(FONT, fbig.size - 4)
-+    dd.rectangle([0, 0, 360, 150], fill='#ffffff'); dd.text((180, 78), '木柵大學', fill='#1f4e8c', font=fbig, anchor='mm')
++    while fbig.size > 40 and dd.textlength('外校', font=fbig) > 330: fbig = ImageFont.truetype(FONT, fbig.size - 4)
++    dd.rectangle([0, 0, 360, 150], fill='#ffffff'); dd.text((180, 78), '外校', fill='#1f4e8c', font=fbig, anchor='mm')
 +    for k, rt in enumerate(('236', '237', '282', '295', '530', '611', '1503', '小10')): dd.text((90 + (k % 2) * 180, 200 + (k // 2) * 78), rt, fill='#ffffff', font=fsm, anchor='mm')
 +    sp = os.path.join(TMP, 'bus_sign.png'); sign.save(sp)
 +    box('bus_pole', -6.05, -5.95, 0.15, 3.2, 6.55, 6.65, METAL)
@@ -8731,16 +8731,16 @@ index 000000000..cf7e2b7e8
 --- /dev/null
 +++ b/tools/blender/env_second/boya_203.py
 @@ -0,0 +1,260 @@
-+"""博雅 203 討論室：即興劇社的期末小演出（AA_399 第 10 節，企劃線 5d09bb725；SK07 唐睿的即興劇，src/data/events.js ev_sk07_improv；LAWWW-B 10-24 任務 #82 第四間）
++"""博雅 203 討論室：即興劇社的期末小演出（AA_399 第 10 節，企劃線 5d09bb725；SK07 舊序章人物丙的即興劇，src/data/events.js ev_sk07_improv；LAWWW-B 10-24 任務 #82 第四間）
 +→ 室內區域的 GLB＋配置：assets/models/env/second_ai/boya_203.glb＋boya_203.layout.json。LAWWW2-B 2026-10-24；Blender 5.2：
 +  /opt/blenv/bin/python tools/blender/env_second/boya_203.py [-- --out-dir assets/models/env/second_ai]
 +企劃：只有那一晚開（2026-05-27，大一下第 14 週週三 19:00）；其他時間門照舊（boya_layout.js 的 203「之後開放」）。
-+  事件原文：「即興劇社借了博雅的教室，辦期末的小演出。品妤坐在第一排，沒有表情。阿哲是被你拉來的。」「輪到『觀眾給一個詞』。」
++  事件原文：「即興劇社借了博雅的教室，辦期末的小演出。舊序章人物丁坐在第一排，沒有表情。阿哲是被你拉來的。」「輪到『觀眾給一個詞』。」
 +從博雅教學館 2F 的 203 門（teach3d.js 的關著的房間，lv 1）進來。區域自己的座標：x −5.4…5.4、z −3.2…3.2；門在 −z 那一面的中間（x −0.15，和走廊上的門同一個位置），+z 那一面一排窗。
 +房間（借來的討論室，臨時布置）：
 +  - 西邊是「舞台」：地上白色膠帶圍的一塊、兩張木椅＋一張小桌、椅子上一頂帽子、畫架上一塊「給我一個詞」的板子；西牆白板寫「即興劇社　期末小演出」。
 +  - 兩支三腳架夾燈對著舞台。
-+  - 觀眾席：三排、每排六張摺疊椅，面向西；門那一側留一條走道。品妤坐第一排。
++  - 觀眾席：三排、每排六張摺疊椅，面向西；門那一側留一條走道。舊序章人物丁坐第一排。
 +  - 討論室原本的桌子推到東牆、椅子倒放在桌上；教室後面一張小桌放節目單、一袋零食。
 +    （11-02 ATTEND-ROLLCALL-1102：原本是簽到表；使用者 11-02 決定「非上課的簽到只留補習班」（AA_574），換成節目單、拿掉「簽到表」的互動點 look 'signup'。）
 +內容虛構（社團、演出都是遊戲裡的；沒有真實社團名稱或商標）。
@@ -8952,11 +8952,11 @@ index 000000000..cf7e2b7e8
 +        for z in (-1.5, 1.5):
 +            c.vc.cbox(x - 0.62, x + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, H - 0.026, H - 0.02, z - 0.28, z + 0.28)
 +    for z in (-1.5, 1.5): c.vc.cbox(-4.0 - 0.62, -4.0 + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#e4e4e0')                       # 舞台上面那兩盞關著
-+    spots = {'tang': dict(x=-3.5, z=SZ, yaw=round(PI / 2, 4), act='stand', note='唐睿（舞台中間、道具前面，面向觀眾）'),
++    spots = {'tang': dict(x=-3.5, z=SZ, yaw=round(PI / 2, 4), act='stand', note='舊序章人物丙（舞台中間、道具前面，面向觀眾）'),
 +             'member': [dict(x=-3.4, z=SZ + 1.6, yaw=round(PI / 2 + 0.5, 4), act='stand', note='即興劇社的社員（舞台邊）'),
 +                        dict(x=3.45, z=round(tz + 0.65, 3), yaw=round(-PI / 2, 4), act='stand', note='節目單桌旁的社員（看著舞台）')],
-+             'pinyu': dict(x=ROWS[0], z=0.0, yaw=round(-PI / 2, 4), act='sit', note='品妤（第一排正中間，沒有表情）'),
-+             'me': dict(x=ROWS[0], z=0.6, yaw=round(-PI / 2, 4), act='sit', note='玩家（第一排，品妤旁邊）'),
++             'pinyu': dict(x=ROWS[0], z=0.0, yaw=round(-PI / 2, 4), act='sit', note='舊序章人物丁（第一排正中間，沒有表情）'),
++             'me': dict(x=ROWS[0], z=0.6, yaw=round(-PI / 2, 4), act='sit', note='玩家（第一排，舊序章人物丁旁邊）'),
 +             'zhe': dict(x=ROWS[0], z=1.2, yaw=round(-PI / 2, 4), act='sit', note='阿哲（被玩家拉來的）'),
 +             'audience': [dict(x=x, z=z, yaw=round(-PI / 2, 4), act='sit') for x in ROWS for z in COLS
 +                          if (x, z) not in ((ROWS[0], 0.0), (ROWS[0], 0.6), (ROWS[0], 1.2), (ROWS[0], 1.8), (ROWS[1], -0.6), (ROWS[2], -1.2), (ROWS[2], 1.8))]}
@@ -11625,7 +11625,7 @@ index e3767265a..985856432 100644
 +        d.point((x, y), fill=(178 + c, 140 + c, 98 + c))
 +    F = lambda s: ImageFont.truetype(CJK, s)
 +    posters = [   # (x, y, w, h, 底色, 字色, [(字, 大小)…])
-+        (24, 30, 220, 300, (246, 241, 228), (52, 74, 120), [('經濟系系學會', 26), ('迎新茶會', 50), ('', 10), ('9/30 晚上 6:30', 24), ('社科院中庭', 24), ('', 8), ('點心、飲料、學長姊經驗分享', 15)]),
++        (24, 30, 220, 300, (246, 241, 228), (52, 74, 120), [('舊序章系學會', 26), ('迎新茶會', 50), ('', 10), ('9/30 晚上 6:30', 24), ('社科院中庭', 24), ('', 8), ('點心、飲料、學長姊經驗分享', 15)]),
 +        (266, 46, 236, 250, (40, 64, 92), (240, 232, 210), [('週三講座', 24), ('數字裡的', 40), ('日常生活', 40), ('', 8), ('每週三 19:00', 22), ('一樓演講廳', 22)]),
 +        (524, 24, 200, 270, (226, 92, 70), (255, 248, 236), [('政治系', 26), ('模擬聯合國', 36), ('社員招募', 36), ('', 10), ('不用經驗', 20), ('會議英文一起練', 18)]),
 +        (746, 52, 252, 176, (250, 250, 246), (40, 40, 40), [('社會系讀書會', 28), ('每週四 晚上', 22), ('這學期讀：城市與移動', 18)]),
@@ -11999,7 +11999,7 @@ index 000000000..34fd037d3
 +        for fl in range(NF):
 +            v0, v1 = YF[fl], YF[fl + 1]; hs = []
 +            if fl: hs.append(kit.window(fr, 0.0, v0 + 0.95, 6.0, v1 - v0 - 1.4, 0.0, lit(30, fl, side), dep=0.15, proud=0.0, mull=[-2.0, 0.0, 2.0], has_sill=False))
-+            elif side > 0:   # 東側一樓：大廳的玻璃帶（2026-10-21 LAWWW2 ART-ECON-3D-GAP：原本整面沒開口的牆，經濟系每天走小椰林道過來，站在東側看整個畫面是一片灰牆；資料：入口在西南與東側）
++            elif side > 0:   # 東側一樓：大廳的玻璃帶（2026-10-21 LAWWW2 ART-ECON-3D-GAP：原本整面沒開口的牆，舊序章每天走小椰林道過來，站在東側看整個畫面是一片灰牆；資料：入口在西南與東側）
 +                hs.append(kit.window(fr, 0.0, 0.6, 13.0, YF[1] - 0.55 - 0.6, 0.0, True, dep=0.15, proud=0.0, mull=[-6.5 + 1.625 * k for k in range(1, 8)], has_sill=False, transom=2.0))
 +            kit.wall_strip(fr, -D / 2, D / 2, v0, v1, hs)
 +        for k in range(1, NF + 1): kit.fbox('trim', fr, -D / 2 - 0.05, D / 2 + 0.05, YF[k] - 0.25, YF[k] + 0.05, 0.0, 0.12, skip=('in',))
@@ -12347,7 +12347,7 @@ index 000000000..238de8775
 +  - 36 攤＋舞台的字放進一張 2048×2048 的貼圖集（club_fair_expo_atlas.png；字是 WenQuanYi Zen Hei，只畫進貼圖）；
 +  - 全部照配置的世界座標烘進**一個網格、一個材質**（club_fair_expo_all：一個 draw call，約 3 萬三角形）；遊戲把整組放在 (0,0,0)。
 +  - 舞台：台面（黑色裙布）、前面兩邊的台階、後面的鋁桁架＋大背板（印「社團博覽會」）、兩邊的喇叭架、麥克風架。
-+招牌只寫社團類型的名稱（D77：不用真實社團的標誌、名稱）。校慶、經濟系那一年的社博照舊用 club_fair.glb（九頂）。"""
++招牌只寫社團類型的名稱（D77：不用真實社團的標誌、名稱）。校慶、舊序章那一段的社博照舊用 club_fair.glb（九頂）。"""
 +import json, math, os, subprocess, sys
 +import numpy as np
 +from PIL import Image, ImageDraw
@@ -13566,7 +13566,7 @@ index 000000000..bc4677c6b
 +  film1／film3 電影票根／三張連號的票根 ：釘在軟木板上（同一個存檔只會有一種）
 +  trip_sea／trip_oldtown／trip_stars 旅行的照片：釘在軟木板上（照 KX_TRIP.Y1S2）
 +  anniv        她的週年卡片            ：釘在軟木板上
-+  （經濟系的系外套 jacket：dorm_room4 的 JACKET_ 已經有，照 ECON_JACKET 開關，這裡不做）
++  （舊序章的系外套 jacket：dorm_room4 的 JACKET_ 已經有，照 ECON_JACKET 開關，這裡不做）
 +位置（遊戲 dorm 區域，四人房 dorm_room4.glb loft4-v2 的新床桌組，祐廷＝L2＝左牆靠門那組；座標直接照 11-02 以後的新床桌組寫，不用 dorm_loft_remap）：
 +  左牆室內面 x −2.0；書桌 x −2.0～−1.38、z −0.785～0.49、桌面 0.76；層架 z −0.335～0.365、下層板 1.0、頂 1.42。
 +  dorm_room4／dorm_y1～y3_items／dorm_wz_items 每一件的範圍都量過（scratchpad desk/aabb.py），這裡全部避開。
@@ -13896,7 +13896,7 @@ index 40deac824..a70e1244b 100644
  it.cbox(2.0, 2.075, Y, Y + 0.008, -2.33, -2.18, '#16181b')                                         # 手機
  
 -# 室友的書桌上：兩台螢幕、鍵盤、滑鼠、耳機、零食、飲料
-+# 室友的書桌上：兩台螢幕、鍵盤、滑鼠、耳機、零食、飲料——v2（V0-ART-DORM2，LAWWW-B）：全部放進 ROOMMATE_KAI 一個節點（經濟系那一年的 412 藏起來，換阿勳的 XUN_DESK）
++# 室友的書桌上：兩台螢幕、鍵盤、滑鼠、耳機、零食、飲料——v2（V0-ART-DORM2，LAWWW-B）：全部放進 ROOMMATE_KAI 一個節點（舊序章那一段的 412 藏起來，換舊序章人物甲的 XUN_DESK）
 +KAI = B.group('ROOMMATE_KAI', root, {'kind': 'roommate_items', 'who': 'kai'})
 +kblk = Mesh('ROOMMATE_KAI_black', M['black']); kit = CMesh('ROOMMATE_KAI_items', M['items'])
  for (mx, mz, ry) in ((1.8, 1.27, 0.0), (1.22, 1.33, 0.3)):
@@ -14432,13 +14432,13 @@ index 000000000..98d6efecf
 +  - 洗手間：進門右邊（+x）x 0.65..2.9、z 1.83..3.4（11-02 以前 1.45），門開向入口走道（x=0.65 那一面）。
 +  - 床桌組：右牆兩組（R1 後、R2 前）、左牆兩組（L1 後、L2 前），每組沿牆 2.57 m、離牆 1.05 m；階梯在每組靠門那一端（寬 0.52、五階 32 cm）；床板 1.66～1.70、床欄頂 2.12、床墊 2.0×1.0 m。
 +    11-02 DORM-LOFT-SCALE-1102 使用者「宿舍的床跟人的比例太奇怪了，床太小，階梯太小」：以前每組 2.4 m、離牆 0.95、階梯寬 0.40 四階、床板 1.56～1.60、床墊 1.95 m；洗手間 z 1.45 → 1.83。
-+    誰用哪一組照 AA_208 第 4 節：203＝R1 柏翰（靠窗、先到）、R2 阿凱、L1 阿哲、L2 祐廷（門口那組）；412（經濟系那年，同一個模型換東西）＝R1 唐睿、R2 阿勳、L1 韋綸、L2 祐廷。
++    誰用哪一組照 AA_208 第 4 節：203＝R1 柏翰（靠窗、先到）、R2 阿凱、L1 阿哲、L2 祐廷（門口那組）；412（舊序章那一段，同一個模型換東西）＝R1 舊序章人物丙、R2 舊序章人物甲、L1 舊序章人物乙、L2 祐廷。
 +  - 窗移到後牆中間（x −1.1..1.1、y 0.95..2.4），冷氣在窗的右上方。
 +- 節點：WALL_<front|back|left|right|bath_n|bath_w>_*（會淡出的牆，dir＝往室內）；LOFT_<組>_TOP（床板、床欄、床墊、吊桿、扶手上段：材質 seethru_*）＋子節點 BEDDING_<組>（被子、枕頭）；
-+  每個人的東西一組一個節點（可以整組藏起來）：Y203_YUTING、ROOMMATE_KAI、Y203_ZHE、Y203_BOHAN、Y412_YUTING、Y412_TANGRUI、Y412_WEILUN；經濟系第一晚的名牌 NAMETAG_TANGRUI／NAMETAG_WEILUN。
++  每個人的東西一組一個節點（可以整組藏起來）：Y203_YUTING、ROOMMATE_KAI、Y203_ZHE、Y203_BOHAN、Y412_YUTING、Y412_TANGRUI、Y412_WEILUN；舊序章第一晚的名牌 NAMETAG_TANGRUI／NAMETAG_WEILUN。
 +  大二～大四（LAWWW2-C 2026-10-17，AA_208 第 7、8 節；SCN-V3-01／V4-01／V5-01）：Y312_YUTING／Y312_ZHE／Y312_BOHAN／Y312_FRESH、Y507_YUTING／Y507_BOHAN／Y507_SOPH／Y507_PEER、
 +  Y409_YUTING／Y409_BOHAN／Y409_SOPH／Y409_FRESH（遊戲端：zones3d.js 的 DORM_SETS 要多 312／507／409 三組，舊的 203、412 也要藏 Y312_／Y507_／Y409_——GLB 和 patch 要一起換）。
-+  阿勳的書桌、保齡球袋、E01 紙箱照舊用 v0_dorm_props（位置在 layout 的 v0_props）。其他照材質合併。
++  舊序章人物甲的書桌、保齡球袋、E01 紙箱照舊用 v0_dorm_props（位置在 layout 的 v0_props）。其他照材質合併。
 +"""
 +import json, math, os, sys, random
 +HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14702,7 +14702,7 @@ index 000000000..98d6efecf
 +    for k in range(n): shc.bm.faces.new((a[k], a[k + 1], b_[k + 1], b_[k]))
 +fin(shc, uv=False)
 +
-+# ======================================================================= 標示：洗手間門牌、經濟系第一晚的床位名牌（一張貼圖、PIL 寫字）
++# ======================================================================= 標示：洗手間門牌、舊序章第一晚的床位名牌（一張貼圖、PIL 寫字）
 +def make_labels(path):
 +    from PIL import Image as PI, ImageDraw as PD, ImageFont as PF
 +    font = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
@@ -14714,7 +14714,7 @@ index 000000000..98d6efecf
 +        else: d.polygon([(cx, 50), (cx - 24, 104), (cx + 24, 104)], fill=col)
 +    d.line([104, 22, 104, 104], fill=(140, 140, 140), width=3)
 +    d.text((182, 28), '洗手間', fill=(60, 62, 66), font=PF.truetype(font, 62))
-+    for x0, name in ((0, '唐睿'), (256, '韋綸')):                                                            # 名牌（下半，各 256×128）
++    for x0, name in ((0, '舊序章人物丙'), (256, '舊序章人物乙')):                                                            # 名牌（下半，各 256×128）
 +        d.rectangle([x0 + 6, 134, x0 + 249, 249], fill=(250, 250, 246), outline=(70, 110, 170), width=6)
 +        d.text((x0 + 22, 140), '412', fill=(70, 110, 170), font=PF.truetype(font, 28))
 +        d.text((x0 + 58, 170), name, fill=(40, 40, 44), font=PF.truetype(font, 66))
@@ -14776,7 +14776,7 @@ index 000000000..98d6efecf
 +                   'look_point': [round(xo - 0.45, 3), round((d0 + d1) / 2, 3)], 'label': '洗手間（門關著）'},
 +          'calendar_spot': {'x': 1.25, 'y': 1.75, 'z': round(bz0 - bt / 2 - 0.006, 3), 'ry': math.pi, 'note': '洗手間北面隔間朝房間那一面（空牆），面向 −z'},
 +          'units': [], 'blocks': [],
-+          'sets': {'203': '藏 Y412_*、NAMETAG_*；其他照常', '412': '藏 Y203_*、ROOMMATE_KAI；阿勳的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）',
++          'sets': {'203': '藏 Y412_*、NAMETAG_*；其他照常', '412': '藏 Y203_*、ROOMMATE_KAI；舊序章人物甲的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）',
 +                   '412_first_night': '412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）',
 +                   '312': '大二（AA_208 第 7 節）：只顯示 Y312_*；藏 Y203_*、ROOMMATE_KAI、Y412_*、Y507_*、Y409_*、NAMETAG_*',
 +                   '507': '大三（第 8 節）：只顯示 Y507_*；其他年份的都藏', '409': '大四（第 8 節）：只顯示 Y409_*；其他年份的都藏',
@@ -14825,7 +14825,7 @@ index 000000000..98d6efecf
 +    """椅背上的系外套 JACKET_CHAIR（X140；AA 定：回宿舍掛椅背、大二起一直掛）：衣領跨過椅背上緣往座位那一側摺下來一點，
 +    背面（印「CIU ECON」）朝走道垂到椅背下面，兩隻袖子從肩膀垂在背面兩側。遊戲預設藏起來（zones3d 照劇情顯示）；烘焙時不算（--hide ^JACKET_）。"""
 +    mat = img_mat('dorm_jacket_chair', make_jacket_tex(os.path.join(TEXGEN, 'dorm_jacket_chair.png')), rough=0.9); mat.use_backface_culling = False
-+    g = B.group('JACKET_CHAIR', parent, {'kind': 'jacket_chair', 'unit': 'L2', 'note': '祐廷的經濟系系外套（掛在椅背）'})
++    g = B.group('JACKET_CHAIR', parent, {'kind': 'jacket_chair', 'unit': 'L2', 'note': '祐廷的舊序章系外套（掛在椅背）'})
 +    sgn = 1 if side == 'L' else -1                                                   # v（離牆）往走道 → 世界 x 的方向
 +    # 椅背（plastic_chair 匯出後量的）：0.024 厚的板子，下緣 0.585 m、上緣 0.925 m；中心 v＝v+0.29（下）→ v+0.249（上）——往座位那邊斜
 +    yb0, yt = 0.585, 0.925
@@ -14893,7 +14893,7 @@ index 000000000..98d6efecf
 +def loft(uid, side, ua, ub, sets):
 +    ust = ub - STW
 +    TOPG = B.group(f'LOFT_{uid}_TOP', root, {'kind': 'loft_top', 'unit': uid})          # 1.5 m 以上：鏡頭擋到時遊戲可以整組淡出
-+    BED = B.group(f'BEDDING_{uid}', TOPG, {'kind': 'bedding', 'unit': uid})              # 被子、枕頭（經濟系第一晚空床時藏起來）
++    BED = B.group(f'BEDDING_{uid}', TOPG, {'kind': 'bedding', 'unit': uid})              # 被子、枕頭（舊序章第一晚空床時藏起來）
 +    tf = Mesh(f'LOFT_{uid}_frame', M['tframe']); tr = Mesh(f'LOFT_{uid}_rod', M['trod']); ts = Mesh(f'LOFT_{uid}_sheet', M['tsheet'])
 +    tdv = Mesh(f'BEDDING_{uid}_duvet', L.flat(f'seethru_dorm_duvet_{uid}', DUVET[uid], rough=0.95)); tpw = Mesh(f'BEDDING_{uid}_pillow', M['tpillow'])
 +    # ---- 床板、床欄、吊桿、上下床的扶手、床墊
@@ -14953,7 +14953,7 @@ index 000000000..98d6efecf
 +    for year, who in sets.items():
 +        fn = ITEMS.get((year, who))
 +        if fn: fn(**ctx)
-+    if sets.get('412') in ('tangrui', 'weilun'):                                                       # 經濟系第一晚：床欄上的名牌
++    if sets.get('412') in ('tangrui', 'weilun'):                                                       # 舊序章第一晚：床欄上的名牌
 +        nm = sets['412']; g = B.group(f'NAMETAG_{nm.upper()}', root, {'kind': 'nametag', 'unit': uid}); uc = (ua + ust) / 2; xg = wx(side, VD + 0.003)
 +        a, b = (uc - 0.11, uc + 0.11) if side == 'R' else (uc + 0.11, uc - 0.11)
 +        label_quad(f'NAMETAG_{nm.upper()}_card', g, [(xg, DECK1 + 0.08, a), (xg, DECK1 + 0.08, b), (xg, DECK1 + 0.19, b), (xg, DECK1 + 0.19, a)], (0.0, 0.0, 0.5, 0.5) if nm == 'tangrui' else (0.5, 0.0, 1.0, 0.5))
@@ -15249,14 +15249,14 @@ index 000000000..98d6efecf
 +
 +
 +ITEMS = {('203', 'yuting'): yuting203, ('412', 'yuting'): yuting412, ('203', 'kai'): kai203, ('203', 'zhe'): zhe203, ('203', 'bohan'): bohan203,
-+         ('412', 'tangrui'): tangrui412, ('412', 'weilun'): weilun412,   # 阿勳（412、R2）：遊戲的 v0_dorm_props（XUN_DESK、XUN_BOWLING）
++         ('412', 'tangrui'): tangrui412, ('412', 'weilun'): weilun412,   # 舊序章人物甲（412、R2）：遊戲的 v0_dorm_props（XUN_DESK、XUN_BOWLING）
 +         ('312', 'yuting'): yuting_y('312'), ('312', 'zhe'): zhe312, ('312', 'bohan'): bohan_y('312'), ('312', 'fresh'): fresh_y('312'),
 +         ('507', 'yuting'): yuting_y('507'), ('507', 'bohan'): bohan_y('507'), ('507', 'soph'): soph_y('507'), ('507', 'peer'): peer507,
 +         ('409', 'yuting'): yuting_y('409'), ('409', 'bohan'): bohan_y('409'), ('409', 'soph'): soph_y('409'), ('409', 'fresh'): fresh_y('409'),
 +         ('205', 'fang'): fang205, ('205', 'fresh'): fresh_y('205'), ('205', 'soph'): soph_y('205'), ('205', 'peer'): peer_y('205')}   # 205 只在 --only 205
 +for uid, side, ua, ub, sets in UNITS: loft(uid, side, ua, ub, {k: v for k, v in sets.items() if (k == ONLY if ONLY else k not in EXTRA_SETS)})
 +r2 = next(u for u in LAYOUT['units'] if u['id'] == 'R2'); l2 = next(u for u in LAYOUT['units'] if u['id'] == 'L2')
-+LAYOUT['v0_props'] = {'XUN_DESK': {'x': r2['desk_center'][0], 'y': 0.76, 'z': r2['desk_center'][1], 'ry': math.pi / 2, 'note': '阿勳的書桌（R2）'},
++LAYOUT['v0_props'] = {'XUN_DESK': {'x': r2['desk_center'][0], 'y': 0.76, 'z': r2['desk_center'][1], 'ry': math.pi / 2, 'note': '舊序章人物甲的書桌（R2）'},
 +                      'XUN_BOWLING': {'x': r2['floor_under_bed_spot'][0], 'y': 0.0, 'z': r2['floor_under_bed_spot'][1], 'ry': 0.0, 'note': '書桌下靠衣櫃那一端的地上'},
 +                      'BOXES_DESK': {'x': round(wx('L', 0.47), 3), 'y': 0.76, 'z': l2['desk_center'][1], 'note': 'E01 紙箱疊在祐廷的書桌上（AA_208 第 6 節）；箱子深 0.36 m、中心離牆 0.47 m：整疊在層架（深 0.27 m）前面——10-30 以前放在書桌正中間，穿過層架和床板（使用者「書桌上東西不要重疊」）'},
 +                      'BOXES_FLOOR': {'x': round(l2['seat_approach'][0] + 0.1, 3), 'y': 0.0, 'z': round(l2['desk_u'][0] + 0.35, 3), 'note': '隔天剩的箱子在書桌旁邊的地上'}}
@@ -15276,7 +15276,7 @@ index 000000000..98d6efecf
 +    met.cyl((x_, 0.0, RZ - 0.27), (x_, 1.1, RZ), 0.008, seg=5); met.cyl((x_, 0.0, RZ + 0.27), (x_, 1.1, RZ), 0.008, seg=5)
 +for (y_, dz) in ((1.1, 0.0), (0.85, -0.1), (0.85, 0.1)): met.cyl((RX0, y_, RZ + dz), (RX1, y_, RZ + dz), 0.006, seg=5)
 +it.cbox(-1.4, -1.1, 0.62, 1.1, RZ - 0.015, RZ + 0.015, '#e6e0d2'); it.cbox(-1.05, -0.9, 0.7, 1.1, RZ - 0.115, RZ - 0.085, '#4a6c8c')
-+# 大家共用的東西（DORM203-LM-1030；四個年級、經濟系那年都一樣）：洗手間門口的吸水腳踏墊（走道上、平的，不擋路）；門左邊角落靠牆的掃把和畚箕
++# 大家共用的東西（DORM203-LM-1030；四個年級、舊序章那一段都一樣）：洗手間門口的吸水腳踏墊（走道上、平的，不擋路）；門左邊角落靠牆的掃把和畚箕
 +bmat = Mesh('dorm_bathmat', L.flat('dorm_bathmat', '#7f8b92', rough=0.97)); soft_box(bmat, 0.1, 0.58, 0.0, 0.012, 2.35, 2.9, r=0.005, seg=1); fin(bmat, uv=False, props={'lm': 0.6})
 +met.cyl((-1.89, 0.06, 3.12), (-1.94, 1.22, 3.27), 0.011, seg=6)                                                                      # 掃把：鋁管＋塑膠頭＋刷毛
 +it.cbox(-1.96, -1.82, 0.02, 0.1, 3.05, 3.19, '#2f6f8f'); it.cbox(-1.95, -1.83, 0.0, 0.03, 3.06, 3.18, '#c9b98a')
@@ -31260,7 +31260,7 @@ index 000000000..0a47cd449
 +美術（ART_SOP；得獎遊戲標準：不要方塊感、不要廉價拼接）：
 +  大廳、走廊、核心：清水混凝土（大樓外觀同一張模板貼圖 socsci_formwork：板模分割、螺栓孔）、水磨石地坪（Poly Haven terrazzo_tiles）、
 +    露明的混凝土天花板＋線型燈；柱子倒角；西、北兩面玻璃帷幕（直框、橫框、地檻）。
-+  經濟學系辦公室（對應 2D soc_office）：木作櫃台（倒角檯面、下方木板）＋上方玻璃窗口；裡面四張辦公桌、螢幕、信箱格、影印機、盆栽。
++  舊序章辦公室（對應 2D soc_office）：木作櫃台（倒角檯面、下方木板）＋上方玻璃窗口；裡面四張辦公桌、螢幕、信箱格、影印機、盆栽。
 +  101 教室（對應 2D soc_classroom）：米白漆牆（Poly Haven painted_plaster_wall）、淺灰塑膠地磚、礦纖天花板＋日光燈、綠色黑板（鋁框、粉筆槽、板擦）、
 +    講桌、兩人一桌 15 張、30 張木面鐵腳椅（每張轉一點點、有幾張拉出來）、窗台盆栽、後面的軟木公告板、置物櫃、時鐘、冷氣。
 +  生活痕跡：公告欄的海報斜釘、販賣機下緣的磨損、教室椅背上的外套、桌上的講義與保特瓶、粉筆灰。
@@ -31707,7 +31707,7 @@ index 000000000..0a47cd449
 +                for i in range(6):
 +                    lb.cbox(vx - 0.32 + i * 0.12, vx - 0.26 + i * 0.12, 1.0 + r_ * 0.24, 1.16 + r_ * 0.24, z - 0.392, z - 0.386, rng.choice(['#c0392b', '#2e86c1', '#f4d03f', '#27ae60', '#f5f5f0', '#8e44ad']))
 +            lb.cbox(vx - 0.3, vx + 0.3, 0.2, 0.42, z - 0.39, z - 0.382, '#1d1e20'); lb.cbox(vx + 0.2, vx + 0.4, 0.7, 0.9, z - 0.39, z - 0.382, '#5b5e62')
-+    elif t == 'directory':   # 樓層指引：深灰框＋白面（PLATE_FACE_dir：遊戲畫「1F 大廳・經濟學系辦公室・101 教室／2F～8F 研究室（刷卡）」）
++    elif t == 'directory':   # 樓層指引：深灰框＋白面（PLATE_FACE_dir：遊戲畫「1F 大廳・舊序章辦公室・101 教室／2F～8F 研究室（刷卡）」）
 +        cx_ = J['rooms']['lobby']['x1'] - WT / 2
 +        lb.crbox(cx_ - 0.04, cx_, 1.0, 2.4, z - 0.72, z + 0.72, '#3a3d40', r=0.01, seg=1)
 +        Mesh('PLATE_FACE_dir', M['sign']).quad([(cx_ - 0.041, 1.08, z + 0.64), (cx_ - 0.041, 1.08, z - 0.64), (cx_ - 0.041, 2.32, z - 0.64), (cx_ - 0.041, 2.32, z + 0.64)]).finish(root)
@@ -31803,7 +31803,7 @@ index 000000000..bfb8b1032
 +  大廳（西半邊，玻璃兩面）：西面主入口、北面次入口；樓層指引、公告欄、長椅、販賣機、盆栽。
 +  電梯＋樓梯核心（大廳東側）：兩部電梯（2F 以上要刷卡：按鈕不亮）、樓梯間的門關著（刷卡）——看得懂的「關著」，不是隱形牆、也不是走不上去的假樓梯（D36）。
 +  北側走廊（沿北面玻璃）：往東通到教室。
-+  經濟學系辦公室：走廊南側，櫃台窗口朝走廊（裡面的辦公桌、信箱格、盆栽看得到；系辦是職員區，玩家在櫃台前互動）——對應 2D 背景 soc_office。
++  舊序章辦公室：走廊南側，櫃台窗口朝走廊（裡面的辦公桌、信箱格、盆栽看得到；系辦是職員區，玩家在櫃台前互動）——對應 2D 背景 soc_office。
 +  101 教室：東端，東、南兩面外牆有窗；黑板在西牆；可以移動的桌椅（兩人一桌）——對應 2D 背景 soc_classroom（迎新、做價目表那間）。
 +房間用途（哪個事件、哪一週）等 AA-C 確認（D79）；這份只決定空間。座位 yaw：人物面向 (sin yaw, cos yaw)（yaw=0 面向 +z），和 library_layout.js 一樣。"""
 +import json, math, os, sys
@@ -31847,12 +31847,12 @@ index 000000000..bfb8b1032
 +DOORS = [
 +    {'id': 'class_front', 'wall': 'class_north', 'x0': 6.0, 'x1': 7.1, 'open': True, 'label': '101 教室', 'plate': '101'},
 +    {'id': 'class_back', 'wall': 'class_north', 'x0': 13.2, 'x1': 14.3, 'open': True, 'label': '101 教室（後門）', 'plate': '101'},
-+    {'id': 'office_door', 'wall': 'office_north', 'x0': 3.7, 'x1': 4.7, 'open': False, 'label': '經濟學系辦公室（職員出入）', 'plate': '經濟學系辦公室'},
++    {'id': 'office_door', 'wall': 'office_north', 'x0': 3.7, 'x1': 4.7, 'open': False, 'label': '舊序章辦公室（職員出入）', 'plate': '舊序章辦公室'},
 +    {'id': 'elev_a', 'wall': 'core_west', 'z0': 2.2, 'z1': 3.3, 'open': False, 'kind': 'elevator', 'label': '電梯（2F 以上請刷卡）'},
 +    {'id': 'elev_b', 'wall': 'core_west', 'z0': 3.9, 'z1': 5.0, 'open': False, 'kind': 'elevator', 'label': '電梯（2F 以上請刷卡）'},
 +    {'id': 'stair', 'wall': 'core_west', 'z0': 6.0, 'z1': 7.2, 'open': False, 'kind': 'stair', 'label': '樓梯間（研究室樓層・刷卡進出）'},
 +]
-+COUNTER = {'wall': 'office_north', 'x0': -1.4, 'x1': 2.8, 'y0': 0.95, 'y1': 2.15, 'top': 1.05, 'label': '經濟學系辦公室 櫃台'}
++COUNTER = {'wall': 'office_north', 'x0': -1.4, 'x1': 2.8, 'y0': 0.95, 'y1': 2.15, 'top': 1.05, 'label': '舊序章辦公室 櫃台'}
 +
 +# ---------- 家具（導航阻擋）＋座位 ----------
 +F = []; SEATS = []
@@ -46232,7 +46232,7 @@ index 1a2ecc042..1f085b34a 100644
      return ARGS[ARGS.index(name) + 1] if name in ARGS else default
 -SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）
 -OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb'}.get(SET, 'wenzhou_street.glb')))
-+SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝政大山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
++SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝外校山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
 +OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb', 'xinsheng': 'xinsheng_street.glb'}.get(SET, 'wenzhou_street.glb')))
  
  # ---------------- 遊戲裡的配置（照 zones3d.js buildWenzhou；改那邊要一起改這裡） ----------------
@@ -46337,9 +46337,9 @@ index 1a2ecc042..1f085b34a 100644
  # 配置裡的 9 間店照 z0～z1 蓋（店門在中間）；店與店之間的空檔補上沒有互動的樓房：寬度不到 2.6 m 的是住家樓梯間（紅／綠鐵門），其他是住家、鐵捲門、一般小店；
  # 兩條小巷（alleys）不蓋（走不進去的背景巷由遊戲做）；靠小巷、靠和平東路／辛亥路的那一面開側窗。店名是虛構的（配置裡的名字）。
 -if SET == 'lane118':
-+# 政大山下（--set nccu_food；LAWWW2-B 2026-10-16；outings3d.js 的 nccu_food「政大・山下的小吃街」）：只給 bg_nccu.py 算 2D 背景（沒有導航）。
-+# 使用者 2026-10-16：「政大附近有麥當勞 和主要什麼學生會去的店你要實際查 不要虛構」→ 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：
-+# 指南路二段 57～67 號（政大側門「麥側」斜對面、學生人流最多的一段）由南往北：敏忠小吃 57、迷客夏 59、50嵐 63、一樓甜品店＋二樓四川飯館 65、麥當勞 67（三層）。
++# 外校山下（--set nccu_food；LAWWW2-B 2026-10-16；outings3d.js 的 nccu_food「外校・山下的小吃街」）：只給 bg_nccu.py 算 2D 背景（沒有導航）。
++# 使用者 2026-10-16：「外校附近有麥當勞 和主要什麼學生會去的店你要實際查 不要虛構」→ 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：
++# 指南路二段 57～67 號（外校側門「麥側」斜對面、學生人流最多的一段）由南往北：敏忠小吃 57、迷客夏 59、50嵐 63、一樓甜品店＋二樓四川飯館 65、麥當勞 67（三層）。
 +# 店面寬度、樓層數、配色是推估（沒有看到照片）；只有一側（W）有房子，對面是指南路和校園（bg_nccu.py 做）。
 +# 使用者 2026-10-16：店名一律改諧音（避免侵權）：敏忠小吃→明中小吃、迷客夏→米可夏、50嵐→五十藍、四川飯館→肆川飯館、麥當勞→麥丹勞、摩斯漢堡→魔司漢堡；不畫商標、不照抄品牌配色
 +NCCU_FOOD = {"sides": ["W"], "lane": {"x0": -3.0, "x1": 3.0, "z0": -40.0, "z1": 14.0}, "facade": {"west": -4.6, "east": 4.6}, "floorH": 3.1, "groundH": 3.5, "alleys": [],

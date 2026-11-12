@@ -5,7 +5,7 @@
 //   3. 出口：「離開教室」回到 us_campus 的 spawn_class_out（台階下）；出口互動點從座位走得到
 //   4. 座位照 AA_740 第 2 節：Introduction 玩家第 3 排右邊靠走道、韓國同學正後方、約 30 人坐前 5 排；Comparative 玩家第 1 排中間偏右、
 //      德國同學（第 4 次以前第 2 排最右、之後玩家左邊）、巴西第 1 排最左、日本第 2 排玩家左後方、只坐前 2 排；Legal Writing 玩家第 2 排中間、
-//      何俊朗（見過：玩家右邊；沒見過：玩家正前方）、約 12 人、只坐前 2 排；路人不坐有名字的人的位子；教室裡沒有學姊
+//      舊序章人物己（見過：玩家右邊；沒見過：玩家正前方）、約 12 人、只坐前 2 排；路人不坐有名字的人的位子；教室裡沒有學姊
 //      期中／期末報告：玩家和德國同學站在講桌兩邊、教授坐第 1 排最右邊（Comparative 的路人不坐那裡）
 //   5. 正式模型：manifest、zone_assets、GLB 檔；GLB 的座位（SEATPANS）和配置的 48 個座位一一對得上；房間大小和配置一樣；地毯不是深色木地板（D112）；
 //      窗景四季白天／晚上 8 張都在
@@ -63,8 +63,8 @@ const right=7, left=0;   // 面向講台的右邊＝+x（第 8 個）
   check('4. Comparative：約 16 人、只坐前 2 排、路人不坐有名字的人的位子（德國同學前後兩個位子都空著）',o.length+4>=13&&o.length+4<=17&&o.concat(named).every(s=>s.row<=1)&&!clash.length&&new Set(o).size===o.length,`${o.length+4} 人、撞位 ${clash.length}`);
   const ps=z.present.professorSeat; check('4. 期中／期末報告：教授坐第 1 排最右邊，Comparative 的路人和有名字的人都不坐那裡',eq(rc(ps),[0,right])&&!o.includes(ps)&&!named.includes(ps)); }
 { const p=z.seatOf('lw','player'), m=z.seatOf('lw','long_met'), u=z.seatOf('lw','long_unmet'), o=z.others('lw');
-  check('4. Legal Writing：玩家第 2 排中間；何俊朗見過＝玩家右邊（+x 隔壁）、沒見過＝玩家正前方（第 1 排）',p&&p.row===1&&(p.col===3||p.col===4)&&m&&m.row===p.row&&m.col===p.col+1&&u&&u.row===0&&u.col===p.col,JSON.stringify([rc(p),rc(m),rc(u)]));
-  check('4. Legal Writing：約 12 人、只坐前 2 排、路人不坐何俊朗兩個可能的位子',o.length+2>=10&&o.length+2<=13&&o.concat([p,m,u]).every(s=>s.row<=1)&&!o.includes(m)&&!o.includes(u)&&!o.includes(p),`${o.length+2} 人`); }
+  check('4. Legal Writing：玩家第 2 排中間；舊序章人物己見過＝玩家右邊（+x 隔壁）、沒見過＝玩家正前方（第 1 排）',p&&p.row===1&&(p.col===3||p.col===4)&&m&&m.row===p.row&&m.col===p.col+1&&u&&u.row===0&&u.col===p.col,JSON.stringify([rc(p),rc(m),rc(u)]));
+  check('4. Legal Writing：約 12 人、只坐前 2 排、路人不坐舊序章人物己兩個可能的位子',o.length+2>=10&&o.length+2<=13&&o.concat([p,m,u]).every(s=>s.row<=1)&&!o.includes(m)&&!o.includes(u)&&!o.includes(p),`${o.length+2} 人`); }
 { const keys=Object.values(C.seatPlan).flatMap(v=>Object.keys(v)); check('4. 教室裡沒有學姊（AA_740：研討課是她自己的課，不在這間演）',!keys.some(k=>/senior|xuejie|wen|heroine|sis/i.test(k)),keys.join(',')); }
 // ---------- 5. 正式模型 ----------
 { const m=ASSETS.manifest['bldg.us_classroom']; const glb=m&&path.join(ROOT,m.url);

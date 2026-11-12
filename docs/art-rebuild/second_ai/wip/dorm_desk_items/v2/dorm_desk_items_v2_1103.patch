@@ -5,7 +5,7 @@ index 0f306988e..60b3ea735 100644
 @@ -3244,7 +3244,13 @@ const STORY = (function(){
       沒有 3D 的標籤（事件包 ROOM_EXTRA 加的）不回傳；系外套 jacket 照舊由 dorm_room4 的 JACKET_ 開關。*/
    const ROOM_ITEM_KEY={'書架上的舊《民法》':'civil','經濟學原理':'econ','寫滿的筆記本':'notebook','摩天輪的票根（夾在桌墊下）':'ferris','手機相簿的一張照片':'phone','桌上的三色螢光筆':'highlighters',
-     '阿凱的泡麵評鑑表':'kai_sheet','三張連號的票根':'film3','電影票根':'film1','她的週年卡片':'anniv','經濟系的系外套':'jacket'};
+     '阿凱的泡麵評鑑表':'kai_sheet','三張連號的票根':'film3','電影票根':'film1','她的週年卡片':'anniv','舊序章的系外套':'jacket'};
 -  S.roomItemKeys=function(G){ const F=(G&&G.flags)||{}, K=[]; for(const r of S.roomItemList(G)){ let k=ROOM_ITEM_KEY[r[0]]; if(!k&&r[0]==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } if(k&&!K.includes(k)) K.push(k); } return K; };
 +  S.roomItemKeyOf=function(G,label){ const F=(G&&G.flags)||{}; let k=ROOM_ITEM_KEY[label]; if(!k&&label==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } return k||null; };
 +  S.roomItemKeys=function(G){ const K=[]; for(const r of S.roomItemList(G)){ const k=S.roomItemKeyOf(G,r[0]); if(k&&!K.includes(k)) K.push(k); } return K; };
@@ -50,7 +50,7 @@ index 65d61a160..e347e3a38 100644
 +    check('18. roomItemFocus：選「寫滿的筆記本」→ E.cinematic（GLB 根節點座標換成世界座標）',r1===true&&got&&got[0].x===11&&got[1].x===14&&got[1].z===6,JSON.stringify(got));
 +    got=null; node.visible=false; const r2=STORY.roomItemFocus(GMf,'寫滿的筆記本');
 +    check('19. 那件東西沒顯示（別的年份）就不轉鏡頭',r2===false&&got===null);
-+    got=null; const r3=STORY.roomItemFocus(GMf,'經濟系的系外套');
++    got=null; const r3=STORY.roomItemFocus(GMf,'舊序章的系外套');
 +    check('20. 沒有鏡頭資料的（系外套、沒有節點）不轉鏡頭',r3===false&&got===null); }
    console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
  })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

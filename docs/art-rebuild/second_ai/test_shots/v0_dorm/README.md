@@ -1,4 +1,4 @@
-# 經濟系那一年的宿舍（V0-ART-DORM／DORM2）遊戲內驗收
+# 舊序章那一段的宿舍（V0-ART-DORM／DORM2）遊戲內驗收
 
 ## XUN_DESK 筆電朝向（LAWWW-B d0e02c7f，2026-10-16 遊戲內，cab58d64，`stage:'econ'`、20:00）
 

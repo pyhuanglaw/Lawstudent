@@ -1,7 +1,7 @@
 # 普通教學館室內光照烘焙（ART-ECON-3D-GAP-1021 B；LAWWW2-B 2026-10-31）
 
 - **起因**：ART-ECON-3D-GAP-1021 現況清單（`docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md`）的 B。
-  - 經濟系那一年在普通教學館上課。普通有正式模型（`putong_interior.glb`），但沒有光照貼圖；博思已經烘了。
+  - 舊序章那一段在普通教學館上課。普通有正式模型（`putong_interior.glb`），但沒有光照貼圖；博思已經烘了。
 - **狀態**：`READY_FOR_ART_REVIEW`。建築、場景只有使用者能標 `ART_APPROVED`。
   - 截圖是 Playwright＋SwiftShader（電腦 1280×720），不是實機。
   - 讀檔放位置、藏玩家和 NPC 是 [捷徑]。

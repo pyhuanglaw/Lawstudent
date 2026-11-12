@@ -25,7 +25,7 @@ AA_183 第 5 節：大二～大四同一個宿舍模型，房號、窗外不同�
 ![](photos_night.webp)
 
 ## 接進遊戲（LAWWW-C 的檔案 `src/zones3d.js`；patch：`docs/art-rebuild/second_ai/patches/dorm_views_y234.diff`）
-- 加 `dormView(G)`：經濟系 412 → `dorm_room412`；`ROOM_Y4` → 105、`ROOM_Y3` → 218、`ROOM_Y2` → 112；其他 → `dorm_room`。`dorm.build` 的 `view:` 改成 `dormView(G0)`。
+- 加 `dormView(G)`：舊序章 412 → `dorm_room412`；`ROOM_Y4` → 105、`ROOM_Y3` → 218、`ROOM_Y2` → 112；其他 → `dorm_room`。`dorm.build` 的 `view:` 改成 `dormView(G0)`。
 - `ROOM_Y3`、`ROOM_Y4` 是我先取的名字：開發分支目前只有 `ROOM_Y2`（主線 3 第二個房間）。大三、大四搬房間的事件做的時候，換成真正的旗標就好。
 - 窗景在 `build()` 時決定：`roomY2InDorm` 是在房間裡發生的，搬完以後要重新進一次房間（或事件裡切一次區域）窗外才會換成 112。
 - 上面的遊戲截圖是在開發分支 74a655e8 加這個 patch 拍的（`tools/blender/env_second/shots/fast_shots.py`，旗標直接設好：[前置／捷徑]）；沒有從劇情真的搬過去。

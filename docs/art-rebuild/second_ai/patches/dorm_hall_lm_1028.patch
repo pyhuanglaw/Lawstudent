@@ -44,7 +44,7 @@ index 61ed16dba..703bcbcf3 100644
 +        if(f.seat) IT.push({x:f.x+fx*0.65,z:f.z+fz*0.65,radius:0.9,lv:f.lv,label:'坐在長椅上',seat:{x:f.x,z:f.z,yaw:ry,lv:f.lv}}); }
 +      else if(f.type==='prop'){ const n=f.nav||[f.x,f.z,f.w,f.d], h=f.h||1; b.add(MAT.wood(),TK.boxG(n[2],h,n[3]),n[0],y+h/2,n[1]); nav.blockRect(n[0],n[1],n[2],n[3],0,0.05); } }   /* 地上的小擺設（包裹架、傘架、滅火器、洗衣籃；DORM-HALL-LM-1028，LAWWW2-C，和 building3d.js、wancai3d.js 的 prop 一樣）：備用模型一個方塊、導航擋 nav（或 w×d）；正式模型照 kind 做 */
      b0.build(fb0); b1.build(fb1);
-     // 指標（中文字一直顯示：正式模型沒有字）。一樓樓梯口的「2F」寫自己住的那一樓（樓上那一層的門牌整排照房號排：312 → 3F、409 → 4F、507 → 5F、經濟系 412 → 4F）
+     // 指標（中文字一直顯示：正式模型沒有字）。一樓樓梯口的「2F」寫自己住的那一樓（樓上那一層的門牌整排照房號排：312 → 3F、409 → 4F、507 → 5F、舊序章 412 → 4F）
      const HF=homeOf(typeof GAME!=='undefined'&&GAME.G), upF=HF.lv?HF.floor:2;
 @@ -195,7 +196,10 @@ const DM3=(function(){
      IT.push({x:EN.x,z:EN.exitZ,radius:1.3,lv:0,label:'離開宿舍',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});

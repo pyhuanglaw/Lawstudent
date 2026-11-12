@@ -1,6 +1,6 @@
 # 美國公寓（祐廷的單人戶 us_apartment）室內光照烘焙＋外牆壁板挖洞（INTERIOR-AAA-REVIEW-1028 美國那一批；LAWWW2-B 2026-10-31）
 
-- **起因**：INTERIOR-AAA-REVIEW-1028 第 5 節 P1（光照）。LAWWW-B 19:1x 佇列第 6 件「美國室內光照」，照 D99 排在經濟系、寒暑假之後；順序：公寓 → 法學院圖書館 → 亞洲超市。
+- **起因**：INTERIOR-AAA-REVIEW-1028 第 5 節 P1（光照）。LAWWW-B 19:1x 佇列第 6 件「美國室內光照」，照 D99 排在舊序章、寒暑假之後；順序：公寓 → 法學院圖書館 → 亞洲超市。
 - **狀態**：`READY_FOR_ART_REVIEW`。建築、場景只有使用者能標 `ART_APPROVED`。
   - 截圖是 Playwright＋SwiftShader（電腦 1280×720），不是實機。
   - 讀檔放位置、藏玩家和 NPC 是 [捷徑]。

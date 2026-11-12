@@ -23,14 +23,14 @@
 | kexin | 杜可昕 | art_reference/kexin（基礎服裝正面） | 508 px |
 | classmate_peishan | 郭沛珊（大一～大二） | art_reference/classmate_peishan | 586 px |
 | zhe、yu、classmate_bohan、classmate_xinci、classmate_mingxuan、classmate_youchen、kai、npc_fangyt、npc_huangxh、prof_zhou、prof_lin、prof_huang | | art_reference | 427～811 px |
-| weilun、pinyu、xun、tangrui、jiahao、yule | 經濟系大一、宋家豪學長、程予樂 | art_reference | 430～650 px；**遊戲 id 還沒有**，先用檔名當資料夾名，LAWWW-B 接的時候改 |
+| weilun、pinyu、xun、tangrui、jiahao、yule | 舊序章大一、宋舊序章人物戊學長、程外校室友 | art_reference | 430～650 px；**遊戲 id 還沒有**，先用檔名當資料夾名，LAWWW-B 接的時候改 |
 
 ## 還不到參考品質的地方（誠實寫）
 
 1. **女主角偏糊**：大圖裡正面全身只有約 520 px 高、本身就柔焦，放大 1.8 倍後近看比其他人糊；要更清楚需要更高解析度的單人正面圖（要的話請使用者生成，不由我重畫）。
 2. 芷若的圍裙邊、子晴的左臂外側、以安的托特包邊還有很淡的白邊（灰藍底近看看得到；遊戲的對話框底色深淺不同時要再看）。
 3. 以安的正面圖身體略微側轉（標準圖本身就是這樣）。
-4. 學姊手上拿著書／資料夾、柏翰拿書、周教授拿六法、品妤拿計算機與保溫杯：照標準圖保留。
+4. 學姊手上拿著書／資料夾、柏翰拿書、周教授拿六法、舊序章人物丁拿計算機與保溫杯：照標準圖保留。
 5. 舊立繪 `assets/portraits/heroine_0X/campus/neutral.png`（9/27 舊圖）**沒有刪**；`portrait_manifest.js`、`build/` 由 LAWWW-B 重新產生（`python3 build.py`），並確認遊戲不再讀舊 png。
 6. 只有 Python 端檢查，**還沒接進遊戲、沒有遊戲內 ADV 截圖、沒有手機實機**（BB_131 第 4 節的對照截圖由 LAWWW-B 拍）。
 

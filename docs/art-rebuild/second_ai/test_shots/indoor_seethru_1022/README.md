@@ -2,7 +2,7 @@
 
 帳號 A 的 LAWWW2，2026-10-22 01:1x～01:4x UTC。狀態：**READY_FOR_ART_REVIEW**（交件；和宿舍 412 洗手間 `../dorm412_1021/` 一起交）。
 
-任務：ART-ECON-3D-GAP-1021（經濟系那年的宿舍、Café）、BUG-CAFE-FLOOR-MIRROR-1021；連帶修好 BUG-CAM-203-R2-1021 留下的「坐在書桌前、鏡頭在北看不到人」。
+任務：ART-ECON-3D-GAP-1021（舊序章那一段的宿舍、Café）、BUG-CAFE-FLOOR-MIRROR-1021；連帶修好 BUG-CAM-203-R2-1021 留下的「坐在書桌前、鏡頭在北看不到人」。
 
 ## 問題
 

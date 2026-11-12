@@ -20,7 +20,7 @@
 | ② 保溫瓶貼著黑褲子看不到：(a) 握上半段往前斜，或 (b) 手指勾提環垂在手下 | **選 (b)**：提環勾在手指上、瓶子垂在手下面，銀環和瓶蓋露出來。(a) 試過：寬袖口蓋住手腕，銀環和瓶蓋還是被蓋住；遊戲的手是放鬆張開的，勾提環比握瓶身自然 |
 | ③ 袖子應該蓋到手背（這版停在手腕） | 人物模型的事，下次送驗收時一起改（還沒改） |
 
-- 兩件都**掛在前臂**（不是手）：掛在手上時走路動畫手腕一轉，東西就轉成水平（家豪筆記本退件的原因）。位置在載入時照前臂到手的距離算。
+- 兩件都**掛在前臂**（不是手）：掛在手上時走路動畫手腕一轉，東西就轉成水平（舊序章人物戊筆記本退件的原因）。位置在載入時照前臂到手的距離算。
 - Blender 預覽：![](props_blender.webp)
 - 遊戲渲染器（只拿保溫瓶；上排待機、下排走路；正面、45°、側面）：![](props_look.webp)
 - 右手特寫（上排待機、下排走路；正前、斜前外側、側面）：![](props_hands.webp)
@@ -29,12 +29,12 @@
 
 ---
 
-# ART-CH-PINYU 曾品妤（econ_pinyu）3D 人物（LAWWW2-C 2026-10-17；第五版；狀態 READY_FOR_ART_REVIEW → 等 BB 驗收，D59）
+# ART-CH-PINYU 曾舊序章人物丁（econ_pinyu）3D 人物（LAWWW2-C 2026-10-17；第五版；狀態 READY_FOR_ART_REVIEW → 等 BB 驗收，D59）
 
-- **參考**：BB_131 通過的標準圖 `docs/story_planning/art_reference/pinyu.webp`（企劃線）：經濟系一年級、19 歲、158 cm；面無表情、偶爾翻白眼、難得大笑；黑色高丸子頭（有點亂）＋透得到額頭的空氣瀏海＋臉旁兩撮碎髮；灰色 oversize 連帽上衣（袖子蓋到手背）＋黑色寬直筒長褲＋灰白老爹鞋；手上常拿工程計算機、黑色保溫瓶（配件之後另外做）。
+- **參考**：BB_131 通過的標準圖 `docs/story_planning/art_reference/pinyu.webp`（企劃線）：舊序章一年級、19 歲、158 cm；面無表情、偶爾翻白眼、難得大笑；黑色高丸子頭（有點亂）＋透得到額頭的空氣瀏海＋臉旁兩撮碎髮；灰色 oversize 連帽上衣（袖子蓋到手背）＋黑色寬直筒長褲＋灰白老爹鞋；手上常拿工程計算機、黑色保溫瓶（配件之後另外做）。
 - **檔案**：`assets/models/char/second_ai/bl_econ_pinyu.vrm`（3.11 MB，VRM 0.x，`vrm_finish2.py` 處理過：縮貼圖、女生眼睛）。
 - **腳本**：`tools/blender/char_second/pinyu.py`＋`pinyu_face.py`、`pinyu_clothes.py`、`pinyu_hair.py`；一次建好：
-  `SP=<工作資料夾> LOOK_ROOT=<伺服器> VRM_MALE=0 EXTRA=--blchar bash tools/blender/char_second/char_build.sh pinyu v5 Darkness_Shibu 曾品妤 '#2a1e1a' char.classmate_xinci 1.58 '' face`
+  `SP=<工作資料夾> LOOK_ROOT=<伺服器> VRM_MALE=0 EXTRA=--blchar bash tools/blender/char_second/char_build.sh pinyu v5 Darkness_Shibu 曾舊序章人物丁 '#2a1e1a' char.classmate_xinci 1.58 '' face`
 - **生產線**：VRoid CC0 樣本 Darkness Shibu（和芯慈、沛珊同一個樣本，臉的參數、髮型、衣服都不同）；頭髮從芯慈的低髮髻改成高丸子頭。
 
 ## 遊戲渲染器（LAWWW 的 test_charlook.html；不是遊戲內截圖，Playwright＋SwiftShader，不是真機）

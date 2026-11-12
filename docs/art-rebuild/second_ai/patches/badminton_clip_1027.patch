@@ -15,7 +15,7 @@ index 4b4e03bdb..d429953ed 100644
 --- a/src/assets3d.js
 +++ b/src/assets3d.js
 @@ -77,6 +77,7 @@ const ASSETS = (function(){
-     'bldg.v0_dorm_props':{url:'assets/models/env/second_ai/aa_support/v0_dorm_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/aa_support/v0_dorm_props.py（經濟系那一年的宿舍：紙箱三種狀態、阿勳的書桌、保齡球袋、經濟學原理；AA-B 製作、LAWWW2-B 驗收 f2bebf72）', license:'本作'},
+     'bldg.v0_dorm_props':{url:'assets/models/env/second_ai/aa_support/v0_dorm_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/aa_support/v0_dorm_props.py（舊序章那一段的宿舍：紙箱三種狀態、舊序章人物甲的書桌、保齡球袋、經濟學原理；AA-B 製作、LAWWW2-B 驗收 f2bebf72）', license:'本作'},
      'bldg.gym_interior':{url:'assets/models/env/second_ai/gym_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_interior.py（新體育館第一階段：大廳＋1F 多功能球場；LAWWW2-B 4d19c88d v2；貼圖 Poly Haven CC0＋gym_tex.py）', license:'本作；貼圖 CC0'},
      'bldg.gym_b1':{url:'assets/models/env/second_ai/gym_b1.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_b1.py（新體育館 B1：大廳、健身中心、游泳池；健身器材是 BB-B 的 GYM-P1；LAWWW2-B f3180c69）', license:'本作；貼圖 CC0'},
 +    'bldg.badminton_props':{url:'assets/models/env/second_ai/badminton_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/badminton_props.py（BADMINTON-CLIP-1027，LAWWW2-C：羽球短片的球拍兩支、羽球、球網；貼圖是程式畫的）', license:'本作；貼圖是程式畫的（LICENSES.md）'},

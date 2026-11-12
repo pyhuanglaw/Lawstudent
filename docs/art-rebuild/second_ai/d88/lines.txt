@@ -31,7 +31,7 @@ TEXT OK   docs/PROJECT_DECISIONS.md [pavsoc] added=1 missing=0
 TEXT MISS docs/PROJECT_DECISIONS.md [props] added=4 missing=1 e.g. ['| D48 | **主角的經濟狀況：比較寬裕；劇情不以打工或金錢為門檻（使用者 2026-10-11 指定，已和劇情企劃 AA 討論過）**']
 TEXT MISS docs/PROJECT_DECISIONS.md [props6] added=6 missing=1 e.g. ['| D50 | **大一上 v1 劇情交接包批准進入實作（APPROVED_FOR_INTEGRATION，不是最終定稿）＋劇情修改的分級權']
 TEXT MISS docs/PROJECT_DECISIONS.md [soclib] added=6 missing=1 e.g. ['| D50 | **大一上 v1 劇情交接包批准進入實作（APPROVED_FOR_INTEGRATION，不是最終定稿）＋劇情修改的分級權']
-TEXT MISS docs/PROJECT_DECISIONS.md [trees] added=3 missing=3 e.g. ['| D56 | **校園世界觀定案：現代台大平行校園（使用者 2026-10-13）**：①遊戲不是任何一年台大的歷史重建：經濟系大一也用現', '| D57 | **公開文件的標示與隱私（使用者 2026-10-13，AA 轉述；AA_99 第 11 節、企劃分支 ded7f2c）**', '| D58 | **沈以安新版設定【已定案】（使用者 2026-10-13，AA 轉述；AA_113、企劃分支 ded7f2c）**：甲主線']
+TEXT MISS docs/PROJECT_DECISIONS.md [trees] added=3 missing=3 e.g. ['| D56 | **校園世界觀定案：現代台大平行校園（使用者 2026-10-13）**：①遊戲不是任何一年台大的歷史重建：舊序章大一也用現', '| D57 | **公開文件的標示與隱私（使用者 2026-10-13，AA 轉述；AA_99 第 11 節、企劃分支 ded7f2c）**', '| D58 | **沈以安新版設定【已定案】（使用者 2026-10-13，AA 轉述；AA_113、企劃分支 ded7f2c）**：甲主線']
 TEXT MISS docs/RELEASES.md [props] added=17 missing=1 e.g. ['- 標題畫面版本字樣「版本 v9.5（2026-10-11）」；script 版本號 9.5-2。']
 TEXT MISS docs/RELEASES.md [props6] added=22 missing=1 e.g. ['- 標題畫面版本字樣「版本 v9.5（2026-10-11）」；script 版本號 9.5-2。']
 TEXT MISS docs/RELEASES.md [soclib] added=22 missing=1 e.g. ['- 標題畫面版本字樣「版本 v9.5（2026-10-11）」；script 版本號 9.5-2。']
@@ -192,7 +192,7 @@ TEXT MISS src/data/places.js [pavsoc] added=21 missing=6 e.g. ["names:{ campus:'
 TEXT MISS src/data/places.js [props] added=21 missing=6 e.g. ["names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', ", "linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館'", "hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{op", 'isOpen(zone,h){ const o=PLACES.hours[zone]; if(!o||o.open==null) retur']
 TEXT MISS src/data/places.js [props6] added=21 missing=6 e.g. ["names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', ", "linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館'", "hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{op", 'isOpen(zone,h){ const o=PLACES.hours[zone]; if(!o||o.open==null) retur']
 TEXT MISS src/data/places.js [soclib] added=21 missing=6 e.g. ["names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', ", "linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館'", "hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{op", 'isOpen(zone,h){ const o=PLACES.hours[zone]; if(!o||o.open==null) retur']
-TEXT MISS src/data/syllabus.js [trees] added=2 missing=2 e.g. ['來源：claude/bb-story-planning 00b4ec3。只有法律系八學期＋日文；經濟系大一等使用者確認時間線（AA_106）', 'const SYLLABUS={"source":"claude/bb-story-planning 00b4ec3","courses":']
+TEXT MISS src/data/syllabus.js [trees] added=2 missing=2 e.g. ['來源：claude/bb-story-planning 00b4ec3。只有法律系八學期＋日文；舊序章大一等使用者確認時間線（AA_106）', 'const SYLLABUS={"source":"claude/bb-story-planning 00b4ec3","courses":']
 TEXT MISS src/engine3d.js [pavsoc] added=6 missing=1 e.g. ['function updateLevelVis(){ const z=E.zone; if(!z||!z.levelGroups) retu']
 TEXT OK   src/engine3d.js [props] added=25 missing=0
 TEXT OK   src/engine3d.js [props6] added=26 missing=0

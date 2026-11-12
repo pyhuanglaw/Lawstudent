@@ -1,4 +1,4 @@
-# 經濟系那一年場景「擋玩」巡檢（ECON-NAV-TRAPS-1111；LAWWW 11-11 20:24 派給 LAWWW2，P1，D99 ①）
+# 舊序章那一段場景「擋玩」巡檢（ECON-NAV-TRAPS-1111；LAWWW 11-11 20:24 派給 LAWWW2，P1，D99 ①）
 
 狀態：**WORK_IN_PROGRESS**（patch 和測試好了；全部 Node 測試、瀏覽器巡一輪在跑）。
 
@@ -6,7 +6,7 @@
 
 ## 範圍
 
-經濟系流程（企劃線 AA_269 第 6 節驗收短清單；遊戲裡 `src/econff3d.js` 的 STEPS／STEPS2）用到的 3D 區域，共 21 區：
+舊序章流程（企劃線 AA_269 第 6 節驗收短清單；遊戲裡 `src/econff3d.js` 的 STEPS／STEPS2）用到的 3D 區域，共 21 區：
 - 校園 `campus`，含 E07 (−3,12)、E12 (−34.6,−97) 的站位；
 - 普通、博思、共同教學館：`putong`、`boya`、`boya_203`、`gongtong`、`gongtong_3f`；
 - 宿舍：`dorm`、`dorm_hall`、`dorm_laundry`、`dorm_205`；
@@ -14,7 +14,7 @@
 - 社科院：`soclib`、`soclib_2f`；
 - `cafe`、`gongguan`、`wenzhou`。
 
-經濟系的事件大多是 ADV（`location:'any'`，模糊或黑底），沒有另外擺人物的座標。祐廷家是 2D 選單，不是 3D 區域。
+舊序章的事件大多是 ADV（`location:'any'`，模糊或黑底），沒有另外擺人物的座標。祐廷家是 2D 選單，不是 3D 區域。
 
 ## 巡到的
 
@@ -33,7 +33,7 @@
 ## 測試（`tests/econ_nav_traps_1111_unit.js`，Node，約 24 秒）
 
 0. 載入沒有錯。
-1. 出生點和經濟系快轉的站位都站得住。
+1. 出生點和舊序章快轉的站位都站得住。
 2. 1124 個互動點從出生點走得到。853 個座位用遊戲的 `GAME.seatApproach`（從 `src/game3d.js` 原樣拿出來）挑走近點、走過去、像點那張椅子一樣（tapPref），按鈕是那一張。
 3. 小孤島推進去都出得來。
 4. ①～③ 那幾格站不進去；④ 兩張沙發的走近點在東側、站得住。

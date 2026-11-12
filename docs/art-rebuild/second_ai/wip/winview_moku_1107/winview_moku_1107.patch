@@ -8,7 +8,7 @@ index a6623981b..e4606b1de 100644
  | 溫州街小路、日常失速窗景照片 `assets/models/env/second_ai/aa_support/komichi_view_{day,night}.webp`、`offbeat_view_front_{day,night}.webp` | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py`：溫州街正式模型 wenzhou_street／wz_props／wz_jphouse／wz_park＋機車 39 台；LAWWW2-C 11-05 WINVIEW-AUDIT-1105） | 本作 | 兩間店窗外的街景（白天、晚上） |
 +| 木曜日窗景照片 `assets/models/env/second_ai/aa_support/mokuyobi_view_{day,night}.webp` | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py`：溫州街正式模型 wenzhou_street／wz_props／wz_jphouse／wz_park＋機車；LAWWW2-B 11-07 WINVIEW-AUDIT 木曜日） | 本作 | 木曜日二樓臨街窗往南看的溫州街（白天 14:00、晚上） |
  | 溫州街飲料店、冰菓室的菜單（`textures/gen/shop_menu_tea.png`、`shop_menu_ice.png`；2026-10-22 起巷口茶飲用 `shop_menu_tea_wz.png`（AA_364 第 2 節的品項），冰菓室照 AA_364 改、冬天鐵捲門紙條「五月見」） | 本作 `tools/blender/env_second/shopkit_tex.py` 產生；字型文泉驛正黑（GPL＋字型例外，只拿來把字畫進圖片）；店名、價錢虛構（D77） | 本作 | B5 騎樓兩間店的店內菜單 |
- | 203 開學那晚的小物件 `assets/models/env/second_ai/aa_support/v0_dorm_props.glb`（紙箱三種狀態、阿勳的書桌、保齡球袋、經濟學課本） | 本作 Blender 腳本 `tools/blender/env_second/aa_support/v0_dorm_props.py`（AA-B 製作、LAWWW2-B 驗收）；貼圖集在腳本裡程式畫（字型文泉驛正黑，沒有附字型檔） | 本作 | 203（LAWWW-B 擺；還沒接） |
+ | 203 開學那晚的小物件 `assets/models/env/second_ai/aa_support/v0_dorm_props.glb`（紙箱三種狀態、舊序章人物甲的書桌、保齡球袋、經濟學課本） | 本作 Blender 腳本 `tools/blender/env_second/aa_support/v0_dorm_props.py`（AA-B 製作、LAWWW2-B 驗收）；貼圖集在腳本裡程式畫（字型文泉驛正黑，沒有附字型檔） | 本作 | 203（LAWWW-B 擺；還沒接） |
  | 黃金葛 `assets/models/env/second_ai/prop_pothos.glb`（盆、托盤＋四種大小 POTHOS_S1～S4；ART-04） | 本作 Blender 腳本 `tools/blender/env_second/prop_pothos.py`（LAWWW2-B 原作、LAWWW2-C 2026-10-17 改放四人房，639f0188）；葉子貼圖程式畫的（`tools/blender/env_second/textures/gen/pothos_leaf.png`） | 本作 |
 diff --git a/src/mokuyobi3d.js b/src/mokuyobi3d.js
 index a7da1aaf1..aacdd3530 100644

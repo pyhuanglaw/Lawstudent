@@ -19,7 +19,7 @@
 |---|---|---|---|---|
 | 1a | 機場（出境、入境） | **缺** | — | 劇情早就要（大三「機場出境大廳外」、大四「入境大廳」、交換的機場：`ASSET_AUDIT` 4-3）。出境、入境可以共用一張大廳（換字幕＋早晚兩種光）。建議 2D 一張：Blender 算大廳內部（挑高、航班看板不放真實航空公司、行李推車），或請使用者生成 |
 | 1b | 火車站、高鐵站 | **缺**（只有捷運） | 公館捷運出口：`src/townkit3d.js` 的 `TK.mrtExit`（公館區域，3D） | 沒有台鐵、高鐵站。D25（台鐵）、D26～D31（高鐵）約會都是直接到目的地的底圖，沒有車站。建議 2D 一張：月台或車廂內（「坐火車去」的事件也能用；`seaside_town` 的事件寫「坐火車去」）；不放台鐵、高鐵的真實標誌 |
-| 1c | 客運站 | **缺**（只有路邊公車站） | 政大校門口公車站：`tools/blender/env_second/bg_nccu.py`（`assets/bg/nccu_gate.webp`，2D） | 客運轉運站沒有。旅行的出發可以用「車上」代替：`assets/bg/car_morning.webp`／`car_night.webp`／`car_rain.webp`（BG-08，祐廷開車）。要搭客運才需要新做 |
+| 1c | 客運站 | **缺**（只有路邊公車站） | 外校校門口公車站：`tools/blender/env_second/bg_nccu.py`（`assets/bg/nccu_gate.webp`，2D） | 客運轉運站沒有。旅行的出發可以用「車上」代替：`assets/bg/car_morning.webp`／`car_night.webp`／`car_rain.webp`（BG-08，祐廷開車）。要搭客運才需要新做 |
 | 2a | 旅館房間 | **缺** | — | 兩天一夜的約會（D26～D32）、海外旅行都會用到。建議 2D 一張：一般商務旅館雙床房（Blender：床、床頭板、窗簾、窗外夜景），晚上、早上兩種光。可以沿用 BB-B 的 ART-US3 臥室家具（`bb_support/us_bedroom_props.glb`）改床單、加床頭櫃 |
 | 2b | 青年旅館 | **可沿用** | `assets/bg/econ_camp_room.webp`（宿營・八人寢室：上下鋪、窗外山景） | 上下鋪、行李、窗外是山。換字幕當「青年旅館多人房」可以；但這張窗外是山，城市裡的青年旅館要換窗景或另外做 |
 | 3 | 補習班、語言教室 | **可沿用** | 2D：`assets/bg/classroom_small.webp`（白板、小教室）、`assets/bg/soc_classroom.webp`（黑板、傍晚）。3D：霖澤館 201（`classroom_201.glb`）、博雅教室（`src/data/classroom_layout.js`）。補習班門口：`assets/bg/wenzhou_tutoring.webp`（BG-13 課輔班門口，晚上） | 補習班、語言教室用 `classroom_small`（白板、一排排的桌子）就像。要更像補習班，再加牆上的課表、講桌上的麥克風，算小改 |

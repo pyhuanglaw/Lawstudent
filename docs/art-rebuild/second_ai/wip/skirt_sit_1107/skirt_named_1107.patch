@@ -4,7 +4,7 @@
  // 每個穿裙子的路人：照遊戲坐下（pose sit 40 格＋坐姿循環片段），量裙子在體育館一樓長椅範圍（人物座標 |x|≤0.30、z −0.31～+0.19）裡低於椅面 0.47 m 的頂點；
  // 遠距離版本（npc_far，室內 7 m 外）也量；站著、站起來走路、跪坐（sitFloor）時 morph 關著（權重沒改：關著＝和原本的 VRM 完全一樣）。
  // 改前（開發分支原本的 VRM、沒有 character3d.js 的 skirt_sit）：每個人椅面裡 251～282 個頂點、最深 30～56 cm → FAIL。
-+// 第二批（11-07）：有名字、穿裙子的沛珊、芯慈、予樂、秀琴（兩套）也一樣（改前 248～645 個、最深 30～52 cm）；她們的裙子材質叫 Skirt。
++// 第二批（11-07）：有名字、穿裙子的沛珊、芯慈、外校室友、秀琴（兩套）也一樣（改前 248～645 個、最深 30～52 cm）；她們的裙子材質叫 Skirt。
  // 用法：node tests/skirt_sit_morph_unit.js
  const path=require('path'), fs=require('fs');
  const ROOT=path.resolve(__dirname,'..');

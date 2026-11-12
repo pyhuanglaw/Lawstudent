@@ -18,7 +18,7 @@ SCN-V3-01 的另一半：`assets/models/env/second_ai/dorm_y2_items.glb`（`tool
 | `Y2_BOXES_CLOSED`／`Y2_BOXES_OPEN` | 拆箱前四個封好的紙箱／拆完兩個壓平的疊在地上＋一個開著的空箱 | 書桌旁的走道邊：x −1.80～−1.12、z −0.88～−0.36（`nav_block`，顯示時導航要擋；離椅子 4 cm，座位走得到） |
 
 - 黃金葛（`prop_pothos.glb`，已經接在 L2 書桌 (−2.39, 0.145)）：最長的 S4 藤蔓沿書桌前緣經過筆記本前面，沒有穿過東西（下面最後一張）。
-- `S.roomY2Items` 的大一五件是 `y1_0`～`y1_4`：模型只有摩天輪票根（`ITEM_y1_ferris`）、河堤相簿（`ITEM_y1_album`）兩個節點。舊《民法》、經濟學原理在 `dorm_room4.glb` 的 `Y312_YUTING` 層架上；重考的筆記沒有另外做。
+- `S.roomY2Items` 的大一五件是 `y1_0`～`y1_4`：模型只有摩天輪票根（`ITEM_y1_ferris`）、河堤相簿（`ITEM_y1_album`）兩個節點。舊《民法》、經濟學原理在 `dorm_room4.glb` 的 `Y312_YUTING` 層架上；舊序章的筆記沒有另外做。
 - 社團傳單（`wall_spot_by_desk`）：有軟木板以後請釘在板上（x 往房間多 2 cm），不要和板子疊在同一個平面。
 
 ## 遊戲裡（開發分支 `0b116247`＋`dorm_y2_sets` patch；ROOM_Y2；這個 GLB 用測試腳本臨時載入 [前置／捷徑]——遊戲還沒接這個檔）

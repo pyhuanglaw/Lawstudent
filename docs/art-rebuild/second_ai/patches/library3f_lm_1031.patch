@@ -53,7 +53,7 @@ index 000000000..3ff41edfd
 +++ b/tools/blender/env_second/lightbake/bake_library_3f.sh
 @@ -0,0 +1,57 @@
 +#!/bin/bash
-+# 總圖書館 3F 閱覽區（遊戲 library 區域；ART-ECON-3D-GAP-1021 C，經濟系那一年 10/16 19:00 那一場在這裡；LAWWW2-B 2026-10-31；照 bake_lawlib.sh）：
++# 總圖書館 3F 閱覽區（遊戲 library 區域；ART-ECON-3D-GAP-1021 C，舊序章那一段 10/16 19:00 那一場在這裡；LAWWW2-B 2026-10-31；照 bake_lawlib.sh）：
 +#   建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 +#   bash tools/blender/env_second/lightbake/bake_library_3f.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 +# 輸出：library_3f.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ library_3f_lm_day.webp、_night.webp。

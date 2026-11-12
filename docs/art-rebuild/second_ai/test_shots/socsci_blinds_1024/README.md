@@ -2,7 +2,7 @@
 
 - **來源**：
   - 清查 B9（`docs/handoff/audit_1018/LAWWW2_停住的工作.md`）：「新社科院夜景發白、窗戶單調」。夜景發白（蓮花柱）已經修了（7e84496c）。
-  - 經濟系那一年每天經過社科院（D99 第一優先）。LAWWW-B 08:50：盤點完直接做。
+  - 舊序章那一段每天經過社科院（D99 第一優先）。LAWWW-B 08:50：盤點完直接做。
 - **做的人**：LAWWW2-B。
 - **狀態**：`READY_FOR_ART_REVIEW`。場景美術的 `ART_APPROVED` 只有使用者能標。
 - **沒有程式 patch**：只換 `assets/models/env/second_ai/campus_socsci.glb`（＋`campus_socsci.json` 的三角形數）。導航、鏡頭碰撞、門都沒變，`gen_socsci_layout.py --check` 照舊。

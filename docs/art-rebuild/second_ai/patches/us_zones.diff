@@ -16,8 +16,8 @@ index b3f5846d..9bf37429 100644
 --- a/src/assets3d.js
 +++ b/src/assets3d.js
 @@ -115,6 +115,15 @@ const ASSETS = (function(){
-     'prop.calc_engineering':{url:'assets/models/char/second_ai/calc_engineering.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C：品妤的工程計算機——深灰機身、液晶、按鍵；沒有牌子、型號）', license:'本作'},
-     'prop.thermos_black':{url:'assets/models/char/second_ai/thermos_black.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C 2ef1ca4b：品妤的黑色保溫瓶——霧黑瓶身、瓶蓋、提環；沒有牌子）', license:'本作'},
+     'prop.calc_engineering':{url:'assets/models/char/second_ai/calc_engineering.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C：舊序章人物丁的工程計算機——深灰機身、液晶、按鍵；沒有牌子、型號）', license:'本作'},
+     'prop.thermos_black':{url:'assets/models/char/second_ai/thermos_black.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C 2ef1ca4b：舊序章人物丁的黑色保溫瓶——霧黑瓶身、瓶蓋、提環；沒有牌子）', license:'本作'},
      'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/library_3f.py（LAWWW2 ⑪：總圖 3F 閱覽區——長桌、椅子、三面書架牆、窗框；座位、互動點、導航、東側電梯照遊戲原本的；書背與牌子 lib3f_atlas.py）', license:'本作；貼圖 CC0'},
 +    /* 美國交換篇＋桃園機場（LAWWW2-C 2026-10-17，src/us3d.js）*/
 +    'bldg.us_apartment':{url:'assets/models/env/second_ai/us_apartment.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_apartment.py（美國交換：公寓單人戶 1x1＋門外的戶外樓梯平台；配置 src/data/us_apartment_layout.js；家具 ART-US1～US4；LAWWW2-B／LAWWW2-C；區域 src/us3d.js）', license:'本作；貼圖 CC0'},

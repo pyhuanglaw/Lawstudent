@@ -1,7 +1,7 @@
 # 共同教學館室內正式模型（ART-ECON-3D-GAP-1021 A；LAWWW2-B 2026-10-31）
 
 - **起因**：ART-ECON-3D-GAP-1021 現況清單（`docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md`）的 A。
-  - 經濟系那一年在共同教學館上課，室內一直是 `teach3d.js` 的程序化備用畫面。
+  - 舊序章那一段在共同教學館上課，室內一直是 `teach3d.js` 的程序化備用畫面。
   - `assets3d.js` 沒有 `bldg.gongtong_interior`，`teach_interior.py` 只有普通、博雅。
   - D38：近景不能用程序化當正式美術。
 - **LAWWW-B 10-30 23:2x**：清單裡判斷不用問的直接開工。配置、座位、導航都不動。

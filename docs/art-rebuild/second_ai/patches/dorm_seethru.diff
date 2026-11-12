@@ -7,7 +7,7 @@ index 90411992..fff75d37 100644
    const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null, econ=!!G0&&G0.stage==='econ'; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
      const z=room(E,{w:RM.w,d:RM.d,h:RM.h,view:dormView(G0),viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
 +    z.seeThru=true;   /* 上舖床板、被子擋住鏡頭時網點透空：engine3d.js 的 updateSeeThrough 看的是區域實體（E.zone.seeThru），只寫在上面的定義裡，室內透空從來沒開過 */
-     z.camBox={x:[-1.6,1.6]};   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和阿勳的對話只看到「天花板」）*/
+     z.camBox={x:[-1.6,1.6]};   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和舊序章人物甲的對話只看到「天花板」）*/
      { const camAll=dormCamCols(R,RM.h,g0), L0=camAll.slice(); z.camCols=[L0];   /* 鏡頭碰撞（BUG-CAM-203-R2-1021）：站在哪一組上鋪底下，那一組就不算 */
        const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const P=E2&&E2.player; if(!P) return; const p=P.obj.position; L0.length=0; for(const m of camAll){ const u=m.userData.under; if(u&&p.x>u.x0&&p.x<u.x1&&p.z>u.z0&&p.z<u.z1) continue; L0.push(m); } }; }
 @@ -1548,13 +1549,13 @@ const Z3 = (function(){
@@ -15,7 +15,7 @@ index 90411992..fff75d37 100644
    /* 宿舍房間的正式模型（第二個 AI：tools/blender/env_second/dorm_interior.py）：日光燈管、檯燈燈泡、筆電與螢幕一直亮；
       牆、地板、木家具有燈光感（TK.bounce）；書、雜物的顏色在頂點色（自發光也照頂點色加一點） */
 -  const DORM_BOUNCE={dorm_wall:[0.4,0.5],dorm_floor:[0.32,0.42],dorm_wood:[0.3,0.4],dorm_wood_dark:[0.25,0.35],dorm_door:[0.25,0.35],dorm_sheet:[0.3,0.4],dorm_duvet:[0.25,0.35],dorm_pillow:[0.3,0.4],dorm_curtain:[0.3,0.4],dorm_ac:[0.3,0.4]};
-+  const DORM_BOUNCE={dorm_wall:[0.4,0.5],dorm_floor:[0.32,0.42],dorm_wood:[0.3,0.4],dorm_wood_dark:[0.25,0.35],dorm_door:[0.25,0.35],dorm_sheet:[0.3,0.4],dorm_duvet:[0.25,0.35],dorm_pillow:[0.3,0.4],dorm_curtain:[0.3,0.4],dorm_ac:[0.3,0.4],dorm_bath_tile:[0.4,0.5],dorm_bath_floor:[0.32,0.42]};   /* 洗手間的牆磚、地磚原本沒有補光：剖面視角看進洗手間是一整片暗灰色（經濟系 412 每天早上第一個畫面右邊四成；LAWWW2 2026-10-21），和房間的牆、地板同一級 */
++  const DORM_BOUNCE={dorm_wall:[0.4,0.5],dorm_floor:[0.32,0.42],dorm_wood:[0.3,0.4],dorm_wood_dark:[0.25,0.35],dorm_door:[0.25,0.35],dorm_sheet:[0.3,0.4],dorm_duvet:[0.25,0.35],dorm_pillow:[0.3,0.4],dorm_curtain:[0.3,0.4],dorm_ac:[0.3,0.4],dorm_bath_tile:[0.4,0.5],dorm_bath_floor:[0.32,0.42]};   /* 洗手間的牆磚、地磚原本沒有補光：剖面視角看進洗手間是一整片暗灰色（舊序章 412 每天早上第一個畫面右邊四成；LAWWW2 2026-10-21），和房間的牆、地板同一級 */
    function attachDormInterior(z,g0,root){
      root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(!mt||mt.userData.dormReg) return; mt.userData.dormReg=true;
        if(nm==='dorm_tube'){ mt.emissive=new THREE.Color(0xfff7ea); mt.emissiveIntensity=1.3; }
@@ -41,10 +41,10 @@ index 00000000..89eabfeb
 --- /dev/null
 +++ b/tests/dorm_seethru_unit.js
 @@ -0,0 +1,46 @@
-+// 宿舍四人房（大一 203、經濟系 412、大二～大四）的正式模型載入以後，seethru_ 材質真的會網點透空；洗手間的牆磚、地磚有補光——不需要瀏覽器。
++// 宿舍四人房（大一 203、舊序章 412、大二～大四）的正式模型載入以後，seethru_ 材質真的會網點透空；洗手間的牆磚、地磚有補光——不需要瀏覽器。
 +// 原本：attachDormInterior 只把 seethru_ 材質標成 userData.seeThrough，沒有 patch shader；正式模型是進區域以後才載入的，
 +//       引擎進區域時那一次整理（engine3d.js enter）已經過了——上舖從來沒有透空過（LAWWW2 2026-10-21 查宿舍 412 時查到）。
-+// 洗手間：牆磚 dorm_bath_tile、地磚 dorm_bath_floor 不在 DORM_BOUNCE 裡，沒有補光；鏡頭在房間正面、正面牆淡出時看進洗手間是一整片暗灰色（經濟系 412 每天早上的第一個畫面）。
++// 洗手間：牆磚 dorm_bath_tile、地磚 dorm_bath_floor 不在 DORM_BOUNCE 裡，沒有補光；鏡頭在房間正面、正面牆淡出時看進洗手間是一整片暗灰色（舊序章 412 每天早上的第一個畫面）。
 +// 做法（src/zones3d.js）：區域實體 z.seeThru＝true（引擎看的是實體，不是定義；第二版以前只寫在定義上，室內透空從來沒開過）；標記的同時呼叫 E3.patchSeeThrough；大三、大四的物件（dorm_y3_items）也一樣。洗手間的兩個材質加進 DORM_BOUNCE（和房間的牆、地板同一級）。
 +// 檢查（自己讀 dorm_room4.glb，Node 沒有 fetch）：每一個 seethru_ 材質都 patch 過（userData._st）；洗手間的牆磚、地磚有補光（TK.bounce：userData.bounce、emissiveMap＝貼圖），和房間的牆、地板一樣。
 +// 用法：node tests/dorm_seethru_unit.js

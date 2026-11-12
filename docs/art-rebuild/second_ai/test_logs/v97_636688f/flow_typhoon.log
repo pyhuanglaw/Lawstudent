@@ -8,7 +8,7 @@ PASS 走到床邊、出現「睡覺」  {"zone": "dorm", "x": -1.24, "z": -1.5, 
 FAIL 睡覺 → 第 27 天（10/13 週一）早上在宿舍醒來、下雨  {"day": 26, "zone": "dorm", "hour": 21.59533266666684, "weather": "cloudy"}
 FAIL 手機「今天」：「今天放假（颱風假），沒有課」
   [前置／捷徑] 讀檔：第 27 天（10/13 週一，颱風假）17:57 宿舍房間；麵店團第 20 天加入、見過方奕廷
-FAIL 18:00 泡麵之夜自己開始（阿凱「我囤了二十包。這是我人生最正確的決定。」）  {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": true, "dtext": "經濟系的那一年，你不是一", "choices": 0, "interact": "", "hour": 17.95, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 602, "paused": false}
+FAIL 18:00 泡麵之夜自己開始（阿凱「我囤了二十包。這是我人生最正確的決定。」）  {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": true, "dtext": "舊序章的那一年，你不是一", "choices": 0, "interact": "", "hour": 17.95, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 602, "paused": false}
 FAIL 方奕廷進來那一句起是 CG（正式檔 assets/cg/kai/event_typhoon_noodles.webp，1920×1080）  {"cg": {"bg": "", "w": 0}, "dtext": "早安。今天的假設題。"}
 FAIL 三個選項照 BB_110  ["讀到一半。案例比想像的長。", "寫自己老師的。", "讀到一半，在想妳。"]
 FAIL 選項出現時還是同一張 CG  {"bg": "", "w": 0}

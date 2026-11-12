@@ -18,7 +18,7 @@ index 000000000..c71a0bae0
 +++ b/tools/blender/env_second/lightbake/bake_gongtong.sh
 @@ -0,0 +1,60 @@
 +#!/bin/bash
-+# 共同教學館室內（ART-ECON-3D-GAP-1021 A；經濟系那一年在共同上課；LAWWW2-B 2026-10-30；照 bake_boya.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
++# 共同教學館室內（ART-ECON-3D-GAP-1021 A；舊序章那一段在共同上課；LAWWW2-B 2026-10-30；照 bake_boya.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 +#   bash tools/blender/env_second/lightbake/bake_gongtong.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 +# 輸出：gongtong_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ gongtong_interior_lm_day.webp、_night.webp。
 +#   遊戲：teach3d.js 照 ASSETS 'bldg.gongtong_interior' 接正式模型（B3.attachFormal），看到 extras.lightmap 就接（Z3.roomLightmap）；看到 SEATPANS 就藏起備用的方塊桌椅（博思那一包已整合）。
@@ -188,7 +188,7 @@ index 000000000..8f915209e
 +++ b/tools/blender/env_second/lightbake/bake_soclib.sh
 @@ -0,0 +1,36 @@
 +#!/bin/bash
-+# 社科院圖書館（辜先生紀念圖書館一樓開架閱覽室；SOCLIB-LM-1030，LAWWW-B 10-30 派工、D99 經濟系那一年念書的地方；LAWWW2-B 2026-10-30）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
++# 社科院圖書館（辜先生紀念圖書館一樓開架閱覽室；SOCLIB-LM-1030，LAWWW-B 10-30 派工、D99 舊序章那一段念書的地方；LAWWW2-B 2026-10-30）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 +#   bash tools/blender/env_second/lightbake/bake_soclib.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 +# 輸出：soclib_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ soclib_interior_lm_day.webp、_night.webp（＋soclib_interior.json 統計）。
 +#   遊戲：soclib3d.js 用 Z3.attachRoomGLB 接正式模型，看到 GLB 的 extras.lightmap 就接（和 Café 同一套），不用改程式；天窗（--dayemit）晚上由 Z3.roomLightmap 調暗（RT-NIGHT-1028）。

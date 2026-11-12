@@ -1,7 +1,7 @@
 # 總圖 3F 閱覽區光照烘焙（ART-ECON-3D-GAP-1021 C；LAWWW2-B 2026-10-31）
 
 - **起因**：ART-ECON-3D-GAP-1021 現況清單（`docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md`）的 C。
-  - 經濟系那一年 10/16 19:00 那一場在這裡。
+  - 舊序章那一段 10/16 19:00 那一場在這裡。
   - `library_3f.glb`（`zones3d.js` 的 `attachRoomGLB` 接）是正式模型，但沒有光照貼圖。
 - **狀態**：`READY_FOR_ART_REVIEW`。建築、場景只有使用者能標 `ART_APPROVED`。
   - 截圖是 Playwright＋SwiftShader（電腦 1280×720），不是實機。

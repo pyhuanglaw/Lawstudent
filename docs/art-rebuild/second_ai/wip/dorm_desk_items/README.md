@@ -16,10 +16,10 @@
 | film1／film3（電影票根／三張連號的票根） | 同一條牆、紙膠帶貼著 | 大一 203 |
 | trip_sea／oldtown／stars（旅行的照片） | 同一條牆的白邊相片（照 KX_TRIP.Y1S2） | 大一 203 |
 | anniv（她的週年卡片） | 立在層架頂上 | 大一 203、KX_ANNIV 去了 |
-| jacket（經濟系的系外套） | 照舊 dorm_room4 的 JACKET_（這次不動） | ECON_JACKET |
+| jacket（舊序章的系外套） | 照舊 dorm_room4 的 JACKET_（這次不動） | ECON_JACKET |
 
 - **位置**：每一件都避開 dorm_room4（Y203／Y312／Y507／Y409_YUTING）、dorm_y1～y3_items、dorm_wz_items、法服社傳單（書桌前那面牆整面 0.42×0.6，所以軟木板不放那裡）；溫州街讀書會白板照片（y 1.15～1.26）那一段也空出來。
-- **patch**：`dorm_desk_items_1103.patch`（接在開發分支 `0f16f98a3`，`git apply --check` 過）：assets3d.js 一行 manifest、story3d.js 的 `S.roomItemKeys`、zones3d.js 的 `loadDeskItems`（宿舍區域非經濟系才載）、新測試 `tests/dorm_desk_items_unit.js`。GLB、json 從本分支拿。
+- **patch**：`dorm_desk_items_1103.patch`（接在開發分支 `0f16f98a3`，`git apply --check` 過）：assets3d.js 一行 manifest、story3d.js 的 `S.roomItemKeys`、zones3d.js 的 `loadDeskItems`（宿舍區域非舊序章才載）、新測試 `tests/dorm_desk_items_unit.js`。GLB、json 從本分支拿。
 - **測試（雲端）**：`dorm_desk_items_unit` 14 項 ALL PASS（旗標開關：螢光筆、旅行照片三種、週年卡片去了／沒去、一張／三張票根、系外套、阿凱同房；全開的存檔每一個有 3D 的選單標籤都有 key、每一個 key 都有節點）；宿舍相關 Node 單元測試 ALL PASS。瀏覽器 flow 測試沒跑（只加看得到的東西，不擋導航、不改座位）。實機沒測。
 - **截圖**：`before_after_desk.jpg`（左改前、右改後：書桌全景、書架、桌面、書架近）、`after_strip_shelf_close.jpg`（評鑑表軟木板、層架頂的卡片）。
-- **還沒做／已知**：大二以後的房間，書背、筆記本的字照 yuting_y 的擺法沒有做（那幾年書的位置不同）；其他房間（412 經濟系）不動。
+- **還沒做／已知**：大二以後的房間，書背、筆記本的字照 yuting_y 的擺法沒有做（那幾年書的位置不同）；其他房間（412 舊序章）不動。

@@ -2,8 +2,8 @@
 // 在 Node 照 index.html 的順序載入程式，建出遊戲真正的區域 us_clubhouse_in，用引擎真正的移動模擬（E.simWalk，dt 1/30、0.1，再加跑步 4.1 m/s）檢查：
 //   1. 註冊、大小：門廳 4×4、交誼廳 10×8、自習室 8×6（AA_741 第 1 節）；交誼廳淺色木地板、自習室灰色地毯（D112：不用深色木地板）；後面草地不做（北牆外走不到）；辦公室走不進去
 //   2. 座位：自習室 4 張桌子×4 席＝16（坐下＝讀書）；交誼廳長桌 8、沙發 4；晚餐併桌 10（z.setDinner）；每個座位坐下前站的位置站得住、從門口走得到
-//   3. 人：何俊朗在自習室靠窗那張桌子、旁邊那張空著；學姊在最裡面角落那張桌子、背對牆；挽回中她旁邊那張放外套、不能坐（z.setSisCoat）
-//   4. 劇情站位（AA_741 第 4 節）：long3、fb_study、sis_plan、thanks_long、club_dinner（10 人：學姊主位、室友在她兩邊、何俊朗坐玩家對面）
+//   3. 人：舊序章人物己在自習室靠窗那張桌子、旁邊那張空著；學姊在最裡面角落那張桌子、背對牆；挽回中她旁邊那張放外套、不能坐（z.setSisCoat）
+//   4. 劇情站位（AA_741 第 4 節）：long3、fb_study、sis_plan、thanks_long、club_dinner（10 人：學姊主位、室友在她兩邊、舊序章人物己坐玩家對面）
 //   5. 出入口：「離開會所」回社區的 US3.SPAWN.us_clubhouse；聖誕樹 12/1 起
 //   6. 正式模型：manifest、zone_assets、GLB 的切換節點（聖誕樹、併桌、晚餐、外套、公布欄的單子、讀書計畫、櫃台百葉）、房間大小、地板顏色；窗景 8 張
 // 這是模擬（證明路走得通、資料對），不是真實玩家流程；畫面請 CC 拍（D131）。
@@ -58,8 +58,8 @@ const winC=[]; for(const w of L.walls) for(const o of (w.open||[])) if(o[2]==='w
 const sr=room('study'), stud=L.furniture.filter(q=>q.type==='studyTable'), sdoor=L.doors.find(d=>d.id==='study');
 const dWin=t=>Math.min(...winC.filter(c=>c[0]>=sr.x0-0.01&&c[0]<=sr.x1+0.01&&c[1]>=sr.z0-0.01&&c[1]<=sr.z1+0.01).map(c=>Math.hypot(c[0]-t.x,c[1]-t.z)));
 { const lg=z.npc.long, ln=z.npc.longNext, tl=tableOf(lg); const near=stud.slice().sort((a,b)=>dWin(a)-dWin(b))[0];
-  check('3. 何俊朗：自習室靠窗那張桌子（離窗最近）',tl===near,`${tl.id} vs ${near.id}`);
-  check('3. 何俊朗旁邊那張椅子（同一邊、隔壁）是另一個座位、平常空著',ln&&ln!==lg&&ln.z===lg.z&&Math.abs(Math.abs(ln.x-lg.x)-0.9)<0.01&&tableOf(ln)===tl);
+  check('3. 舊序章人物己：自習室靠窗那張桌子（離窗最近）',tl===near,`${tl.id} vs ${near.id}`);
+  check('3. 舊序章人物己旁邊那張椅子（同一邊、隔壁）是另一個座位、平常空著',ln&&ln!==lg&&ln.z===lg.z&&Math.abs(Math.abs(ln.x-lg.x)-0.9)<0.01&&tableOf(ln)===tl);
   const sg=z.npc.sis, tsis=tableOf(sg); const far=stud.slice().sort((a,b)=>Math.hypot(b.x-sdoor.x,b.z-sdoor.z)-Math.hypot(a.x-sdoor.x,a.z-sdoor.z))[0];
   check('3. 學姊：自習室最裡面角落那張桌子（離自習室的門最遠）',tsis===far&&tsis!==tl,`${tsis.id} vs ${far.id}`);
   check('3. 學姊背對牆（面向桌子、背後 1.1 m 內是牆）',Math.abs(sg.yaw)<1e-6&&sg.z-sr.z0<1.1);
@@ -70,13 +70,13 @@ const dWin=t=>Math.min(...winC.filter(c=>c[0]>=sr.x0-0.01&&c[0]<=sr.x1+0.01&&c[1
   const lg2=z.npc.lounge.filter(q=>!q.id); check('3. 交誼廳的住戶：沙發、長桌、販賣機前、微波爐前；站著的兩個站得住、走得到',z.npc.lounge.length===4&&lg2.length===2&&lg2.every(q=>stand(q.x,q.z)&&both(SP,[q.x,q.z]).ok)); }
 // ---------- 4. 劇情站位 ----------
 { const V=z.events; const nb=(a,b)=>a&&b&&a.z===b.z&&Math.abs(Math.abs(a.x-b.x)-0.9)<0.01;
-  check('4. ev_usl_long3：何俊朗在他的位子、玩家坐他旁邊',V.ev_usl_long3.long===z.npc.long&&nb(V.ev_usl_long3.player,z.npc.long)&&V.ev_usl_long3.notice===true);
+  check('4. ev_usl_long3：舊序章人物己在他的位子、玩家坐他旁邊',V.ev_usl_long3.long===z.npc.long&&nb(V.ev_usl_long3.player,z.npc.long)&&V.ev_usl_long3.notice===true);
   const fp=V.ev_usb_fb_study.player; check('4. ev_usb_fb_study：學姊在她的角落、玩家站在她桌子旁邊（站得住、走得到）',V.ev_usb_fb_study.sis===z.npc.sis&&stand(fp.x,fp.z)&&both(SP,[fp.x,fp.z]).ok&&Math.hypot(fp.x-tableOf(z.npc.sis).x,fp.z-tableOf(z.npc.sis).z)<1.6);
   check('4. ev_sis_plan_us：兩個人並排坐在學姊那張桌子',V.ev_sis_plan_us.sis===z.npc.sis&&nb(V.ev_sis_plan_us.player,z.npc.sis)&&V.ev_sis_plan_us.plan===true);
   const T=V.ev_usl_thanks_long, vend=L.furniture.find(q=>q.type==='vending'); check('4. ev_usl_thanks_long：販賣機前兩個人（站得住、走得到、離販賣機 1.2 m 內）→ 沙發並排',['player','long'].every(k=>{ const p=T.start[k]; return stand(p.x,p.z)&&both(SP,[p.x,p.z]).ok&&Math.hypot(p.x-vend.x,p.z-vend.z)<1.2; })&&/^sofa/.test(T.sofa.player.id)&&/^sofa/.test(T.sofa.long.id)&&T.sofa.player!==T.sofa.long&&T.empty===true);
   const Dn=V.ev_us_club_dinner, all=[Dn.head,...Dn.roommates,Dn.long,Dn.player,...Dn.others]; const f=L.furniture.find(q=>q.type==='longTables');
   check('4. ev_us_club_dinner：10 人、位子都不重複、都是併桌的座位',all.length===10&&new Set(all).size===10&&all.every(s=>s&&/^ld_/.test(s.id))&&Dn.dinner===true);
-  check('4. 晚餐：學姊坐桌頭（主位）、兩位室友在她兩邊、何俊朗坐玩家對面、玩家在另一頭那一半',Dn.head.id==='ld_w'&&Dn.roommates.every(s=>Math.abs(s.x-Dn.head.x)<1.1&&s.z!==f.z)&&Dn.roommates[0].z!==Dn.roommates[1].z&&Dn.long.x===Dn.player.x&&Dn.long.z!==Dn.player.z&&Dn.player.x>(f.merged[0]+f.merged[1])/2); }
+  check('4. 晚餐：學姊坐桌頭（主位）、兩位室友在她兩邊、舊序章人物己坐玩家對面、玩家在另一頭那一半',Dn.head.id==='ld_w'&&Dn.roommates.every(s=>Math.abs(s.x-Dn.head.x)<1.1&&s.z!==f.z)&&Dn.roommates[0].z!==Dn.roommates[1].z&&Dn.long.x===Dn.player.x&&Dn.long.z!==Dn.player.z&&Dn.player.x>(f.merged[0]+f.merged[1])/2); }
 // ---------- 5. 出入口、聖誕樹 ----------
 { const out=IT.filter(i=>i.exit); const o=out[0]; const S0=US3.SPAWN.us_clubhouse;
   check('5. 只有一個出口「離開會所」→ 社區（us_outside）的會所門口 US3.SPAWN.us_clubhouse',out.length===1&&o.label==='離開會所'&&o.exit.to==='us_outside'&&Math.abs(o.exit.spawn.x-S0.x)<1e-6&&Math.abs(o.exit.spawn.z-S0.z)<1e-6,o&&JSON.stringify(o.exit));

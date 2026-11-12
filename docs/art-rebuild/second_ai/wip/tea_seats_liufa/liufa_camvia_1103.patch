@@ -4439,7 +4439,7 @@ index 534de5d77..ec537f70b 100644
        try{ return smr.apply(SM,arguments); } finally{ for(const g of hid) g.visible=true; } }; }
 -  E.cinematic=function(pos,look){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone()}; };
 +  E.cinematic=function(pos,look,via){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone(),via:via?via.clone():null}; };
-   /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識阿勳的時候轉回來玩的視角也很暈，隔天起來也是」）：
+   /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識舊序章人物甲的時候轉回來玩的視角也很暈，隔天起來也是」）：
       原本看的點瞬間跳回玩家、位置 0.3 秒內拉回背後（還會繞半圈）。改成：跟隨鏡頭的方向接在劇情鏡頭現在的方位（不繞），1.1 秒內慢慢拉回距離、看的點慢慢移過去 */
    E.endCinematic=function(){ const C=E.cam; if(C.mode==='cinematic'&&E.player){ const p=E.player.obj.position, dx=camera.position.x-p.x, dz=camera.position.z-p.z;
 diff --git a/src/story3d.js b/src/story3d.js
@@ -4493,7 +4493,7 @@ index e347e3a38..d59f792b8 100644
      check('18. roomItemFocus：選「寫滿的筆記本」→ E.cinematic（GLB 根節點座標換成世界座標）',r1===true&&got&&got[0].x===11&&got[1].x===14&&got[1].z===6,JSON.stringify(got));
      got=null; node.visible=false; const r2=STORY.roomItemFocus(GMf,'寫滿的筆記本');
      check('19. 那件東西沒顯示（別的年份）就不轉鏡頭',r2===false&&got===null);
-     got=null; const r3=STORY.roomItemFocus(GMf,'經濟系的系外套');
+     got=null; const r3=STORY.roomItemFocus(GMf,'舊序章的系外套');
 -    check('20. 沒有鏡頭資料的（系外套、沒有節點）不轉鏡頭',r3===false&&got===null); }
 +    check('20. 沒有鏡頭資料的（系外套、沒有節點）不轉鏡頭',r3===false&&got===null);
 +    // 六法（BB 11-03 16:16 P3 (a)：書桌上的紅色方塊像盒子 → 厚書）：一年一個節點，整本把 dorm_room4 的方塊包住（x −1.92～−1.64、z 0.26～0.52、頂 0.82／大三起 0.85）

@@ -59,8 +59,8 @@ index 0000000000..61de54c19a
 --- /dev/null
 +++ b/tests/econ_nav_traps_1111_unit.js
 @@ -0,0 +1,68 @@
-+/* ECON-NAV-TRAPS-1111（LAWWW 11-11 20:24 派給 LAWWW2，P1，D99 ①）：經濟系那一年會用到的場景「擋玩」巡檢（方法照 tests/us_nav_traps_1111_unit.js）
-+   區域：經濟系流程（AA_269 第 6 節；src/econff3d.js 的 STEPS）會用到的——校園、普通／博思／共同教學館、宿舍、Café、總圖、社科院圖書館、公館、溫州街。
++/* ECON-NAV-TRAPS-1111（LAWWW 11-11 20:24 派給 LAWWW2，P1，D99 ①）：舊序章那一段會用到的場景「擋玩」巡檢（方法照 tests/us_nav_traps_1111_unit.js）
++   區域：舊序章流程（AA_269 第 6 節；src/econff3d.js 的 STEPS）會用到的——校園、普通／博思／共同教學館、宿舍、Café、總圖、社科院圖書館、公館、溫州街。
 +   巡到的（Node，引擎真的 canStand＋stepEntity）：
 +     ① 小縫（進得去、出不來）：校園法學院那一帶斜的一排（13 塊）＋(91.25,−113) 兩塊、溫州街 (20.75,5.75)、社科院圖書館 (10.2,−7.0)——src/zones3d.js NAV_NOTCHES 擋那幾格
 +     ② 社科院圖書館二樓（東側館）兩張沙發：前面是矮桌（中間 0.4 m 站不進去），GAME.seatApproach 退回沙發後面，點沙發走到背後、「坐在沙發上」不出來（第一張）——
@@ -119,7 +119,7 @@ index 0000000000..61de54c19a
 +        for(let k=0;k<Math.ceil(2/dt);k++) E.stepEntity(ent,dx/dd,dz/dd,sp,dt); const o=ent.obj.position; if(!inIsl(o.x,o.z)) continue; nEnt++;
 +        let out=false; for(let a=0;a<16&&!out;a++){ const e2={obj:{position:o.clone(),rotation:{y:0}},radius:R,lv}; E.player=e2; for(let k=0;k<90;k++) E.stepEntity(e2,Math.sin(a*Math.PI/8),Math.cos(a*Math.PI/8),E.SPD.walk,1/30); if(!inIsl(e2.obj.position.x,e2.obj.position.z)&&Math.hypot(e2.obj.position.x-o.x,e2.obj.position.z-o.z)>0.3) out=true; }
 +        if(!out) B3.push(id+' 第'+lv+'層 ('+f2(cx)+','+f2(cz)+') '+cn+' 格：從 ('+f2(sx0)+','+f2(sz0)+') '+tag+' 推進去出不來'); } } } }
-+check('1. 出生點（含經濟系快轉指定的站位）都站得住（'+ids.length+' 區）',!B1.length,B1.slice(0,4).join('｜'));
++check('1. 出生點（含舊序章快轉指定的站位）都站得住（'+ids.length+' 區）',!B1.length,B1.slice(0,4).join('｜'));
 +check('2. '+nIt+' 個互動點從出生點走得到；其中 '+nSeat+' 個座位照 GAME.seatApproach 走過去、點那張椅子，按鈕是那一張',!B2.length&&!!seatApproach,(seatApproach?'':'game3d.js 找不到 seatApproach；')+B2.slice(0,4).join('｜'));
 +check('3. 小孤島 '+nIsl+' 個：從旁邊推進去的 '+nEnt+' 次都出得來',!B3.length,B3.slice(0,4).join('｜'));
 +{ const out=[]; const P4=[['campus',94.0,-78.9],['campus',91.1,-113.1],['campus',96.1,-76.6],['wenzhou',20.9,5.9],['soclib',10.0,-7.1]];

@@ -38,7 +38,7 @@ index a04347029..aacae9691 100644
 +      const ol=(typeof CHAR!=='undefined'&&CHAR.shadowPassBegin)?CHAR.shadowPassBegin():null;   /* 人物的描邊不進影子那一輪（和本體同一份深度，白畫；PERF-WZ-DC-1107）*/
 +      try{ return smr.apply(SM,arguments); } finally{ for(const g of hid) g.visible=true; if(ol) CHAR.shadowPassEnd(ol); } }; }
    E.cinematic=function(pos,look,via){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone(),via:via?via.clone():null,back:via?via.clone():null}; };
-   /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識阿勳的時候轉回來玩的視角也很暈，隔天起來也是」）：
+   /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識舊序章人物甲的時候轉回來玩的視角也很暈，隔天起來也是」）：
       原本看的點瞬間跳回玩家、位置 0.3 秒內拉回背後（還會繞半圈）。改成：跟隨鏡頭的方向接在劇情鏡頭現在的方位（不繞），1.1 秒內慢慢拉回距離、看的點慢慢移過去 */
 diff --git a/tests/char_outline_shadow_unit.js b/tests/char_outline_shadow_unit.js
 new file mode 100644

@@ -6,7 +6,7 @@ index bd8856d34..3a77e784d 100644
  | 洋洋鹹酥雞 室內 v1c `assets/models/env/second_ai/bb_support/yangyang_interior.glb`（配置 `src/data/yangyang_layout.js` v3；區域 `yangyang`） | 本作 Blender（`tools/blender/env_second/bb_support/yangyang_interior.py`、`yangyang_tex.py`：PIL＋numpy 自己畫的貼圖，沒有下載素材；在 `claude/cool-heisenberg-o8kuqx`；BB〔帳號 A〕製作、LAWWW2 驗收 ART_APPROVED（v1c），`e5e9351e0`）；店名虛構（D77） | 本作 | 公館 G05 洋洋鹹酥雞（新區域 `yangyang`，YANGYANG-IN-1107） |
  | 總圖北側的露天下沉中庭 `assets/models/env/second_ai/lib_b1_court.glb` | 本作 Blender 腳本 `tools/blender/env_second/lib_b1_court.py`（LAWWW2 帳號 A 2026-11-10，LIB-B1-COURT-ART-1110；尺寸照 `src/zones3d.js` 的 B1C，照使用者給的 B1 平面圖的氣氛、不照抄，D136）；貼圖 Poly Haven CC0（`socsci_formwork`、`granite_tile`、`forest_ground_04`）、葉片卡本作 `gen_leaves.py`；招牌字用文泉驛正黑（GPL＋字型嵌入例外，只畫成點陣圖） | 本作；貼圖 CC0 | 校園：總圖北側的下沉中庭（B1 入口；接線 zones3d.js B1C） |
  | 公館捷運站口花攤「晨露花舖」 `assets/models/env/second_ai/gg_flower_stall.glb` | 本作 Blender 腳本 `tools/blender/env_second/gg_flower_stall.py`（LAWWW2 帳號 A 2026-11-10，GG-FLOWER-STALL-1110；木頭花台、鋅桶的花、花束、工作台、條紋雨棚、燈泡串；店名原創） | 本作；貼圖 Poly Haven CC0（walnut_veneer、dark_wood）＋本作程式產生（條紋、布簾店名、價目板；字型文泉驛正黑 GPL＋字型例外） |
-+| 何俊朗（Long，`npc_long`）`assets/models/char/second_ai/bl_us_long.vrm`＋圓框眼鏡 `glasses_long.glb`＋奶茶杯鑰匙圈 `keychain_milktea.glb`（LAWWW2 帳號 A 2026-11-10，US-LONG-3D-1110） | 本作 Blender 腳本 `tools/blender/char_second/long_ho.py`（`npc.py`＋`npc_layered.py` 的生產線）改作 VRoid Studio CC0 樣本 Sakurada_Fumiriya：臉的比例、單眼皮、濃眉、短髮、運動外套、T 恤是本作；眼鏡 `glasses_long.py`、鑰匙圈 `keychain_milktea.py`（本作） | CC0 改作 | 美國教室、會所（us_life3d.js）；角色美術待 BB 驗收（D59） |
++| 舊序章人物己（Long，`npc_long`）`assets/models/char/second_ai/bl_us_long.vrm`＋圓框眼鏡 `glasses_long.glb`＋奶茶杯鑰匙圈 `keychain_milktea.glb`（LAWWW2 帳號 A 2026-11-10，US-LONG-3D-1110） | 本作 Blender 腳本 `tools/blender/char_second/long_ho.py`（`npc.py`＋`npc_layered.py` 的生產線）改作 VRoid Studio CC0 樣本 Sakurada_Fumiriya：臉的比例、單眼皮、濃眉、短髮、運動外套、T 恤是本作；眼鏡 `glasses_long.py`、鑰匙圈 `keychain_milktea.py`（本作） | CC0 改作 | 美國教室、會所（us_life3d.js）；角色美術待 BB 驗收（D59） |
 diff --git a/assets/models/char/second_ai/bl_us_long.vrm b/assets/models/char/second_ai/bl_us_long.vrm
 new file mode 100644
 index 0000000000000000000000000000000000000000..d473a59b8a692fd14169df4a07f1c24058247e75
@@ -25850,16 +25850,16 @@ index 261ca805c..9a871f6cc 100644
      'prop.glasses_peishan':{url:'assets/models/char/second_ai/glasses_peishan.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_peishan.py（LAWWW2-B：郭沛珊的深色細圓框）', license:'本作'},
      'prop.glasses_xiuqin':{url:'assets/models/char/second_ai/glasses_xiuqin.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_zhiruo.py --style xiuqin（LAWWW2 2026-11-03：秀琴姨的老花眼鏡；C.MODEL_PROPS 用 {name:\'glasses\', glb:\'prop.glasses_xiuqin\'}）', license:'本作（CC0 改作）'},
      'prop.glasses_bohan':{url:'assets/models/char/second_ai/glasses_bohan.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_bohan.py（LAWWW2 D59：許柏翰的眼鏡——參考圖 classmate_bohan.webp 的深色細金屬圓角方框、鼻托、鉸鏈、鏡腳；C.MODEL_PROPS 用 {name:\'glasses\', glb:\'prop.glasses_bohan\'}）', license:'本作'},
-+    'prop.glasses_long':{url:'assets/models/char/second_ai/glasses_long.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_long.py（LAWWW2 US-LONG-3D-1110：何俊朗的圓框眼鏡——深咖啡色細膠框正圓、鼻托、鉸鏈、鏡腳；企劃 AA_80 5-2、AA_145 3-5；C.MODEL_PROPS 用 {name:\'glasses\', glb:\'prop.glasses_long\'}）', license:'本作'},
-+    'prop.keychain_milktea':{url:'assets/models/char/second_ai/keychain_milktea.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/keychain_milktea.py（LAWWW2 US-LONG-3D-1110：何俊朗背包上的珍珠奶茶杯鑰匙圈；企劃 AA_80 5-2、AA_145 3-5）', license:'本作'},
-     'prop.glasses_wei':{url:'assets/models/char/second_ai/glasses_wei.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_zhiruo.py --style wei（LAWWW2-C：魏教授的深槍灰細金屬圓角方框）', license:'本作'},
-     'prop.helmet_bike':{url:'assets/models/char/second_ai/helmet_bike.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/helmet_bike.py（LAWWW2-C：邱韋綸的公路車安全帽——黑色外殼、銀色側條、長條通風孔、深灰內襯、下巴帶）', license:'本作'},
-     'prop.notebook_foodmap':{url:'assets/models/char/second_ai/notebook_foodmap.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_foodmap_notebook.py（LAWWW2-C 0e191286：宋家豪的「公館美食地圖」筆記本——牛皮紙封面、手畫地圖、紙膠帶標籤、索引貼、鬆緊帶；圖是 PIL 畫的，沒有店名、商標）', license:'本作'},
++    'prop.glasses_long':{url:'assets/models/char/second_ai/glasses_long.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_long.py（LAWWW2 US-LONG-3D-1110：舊序章人物己的圓框眼鏡——深咖啡色細膠框正圓、鼻托、鉸鏈、鏡腳；企劃 AA_80 5-2、AA_145 3-5；C.MODEL_PROPS 用 {name:\'glasses\', glb:\'prop.glasses_long\'}）', license:'本作'},
++    'prop.keychain_milktea':{url:'assets/models/char/second_ai/keychain_milktea.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/keychain_milktea.py（LAWWW2 US-LONG-3D-1110：舊序章人物己背包上的珍珠奶茶杯鑰匙圈；企劃 AA_80 5-2、AA_145 3-5）', license:'本作'},
+     'prop.glasses_wei':{url:'assets/models/char/second_ai/glasses_wei.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_zhiruo.py --style wei（LAWWW2-C：舊序章的教授的深槍灰細金屬圓角方框）', license:'本作'},
+     'prop.helmet_bike':{url:'assets/models/char/second_ai/helmet_bike.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/helmet_bike.py（LAWWW2-C：邱舊序章人物乙的公路車安全帽——黑色外殼、銀色側條、長條通風孔、深灰內襯、下巴帶）', license:'本作'},
+     'prop.notebook_foodmap':{url:'assets/models/char/second_ai/notebook_foodmap.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_foodmap_notebook.py（LAWWW2-C 0e191286：宋舊序章人物戊的「公館美食地圖」筆記本——牛皮紙封面、手畫地圖、紙膠帶標籤、索引貼、鬆緊帶；圖是 PIL 畫的，沒有店名、商標）', license:'本作'},
 @@ -246,6 +248,7 @@ const ASSETS = (function(){
      'char.su': {url:'assets/models/char/second_ai/bl_su.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.61,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」（npc.py 變體 su，7dc6db1ec）：一盞茶屋的蘇姨——灰白低髮髻、燕麥白亞麻上衣、炭灰寬褲；不是路人池',license:'CC0'},
      'char.su_apron': {url:'assets/models/char/second_ai/bl_su_apron.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.61,lazy:true,sex:'f',source:'同 char.su，加靛藍腰間前掛（店裡用）',license:'CC0'},
      'char.xiuqin': {url:'assets/models/char/second_ai/bl_xiuqin.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Darkness_Shibu」（npc.py 變體 xiuqin，1b0baf8df）：秀琴姨——黑灰燙捲短髮、深靛藍針織衫、深灰長裙、棕樂福鞋；不是路人池（沒有 ambient／anon），語彤家用',license:'CC0'},
-+    'char.us_long': {url:'assets/models/char/second_ai/bl_us_long.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.76,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」（tools/blender/char_second/long_ho.py，npc.py＋npc_layered 的生產線；US-LONG-3D-1110）：何俊朗——黑色耳上短髮、單眼皮、濃眉、深藍運動外套（敞開）＋白 T＋深灰長褲＋白球鞋；圓框眼鏡、後背包、奶茶杯鑰匙圈是配件（C.MODEL_PROPS）；美國教室、會所用（us_life3d.js），不是路人池（沒有 ambient／anon）',license:'CC0'},
++    'char.us_long': {url:'assets/models/char/second_ai/bl_us_long.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.76,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」（tools/blender/char_second/long_ho.py，npc.py＋npc_layered 的生產線；US-LONG-3D-1110）：舊序章人物己——黑色耳上短髮、單眼皮、濃眉、深藍運動外套（敞開）＋白 T＋深灰長褲＋白球鞋；圓框眼鏡、後背包、奶茶杯鑰匙圈是配件（C.MODEL_PROPS）；美國教室、會所用（us_life3d.js），不是路人池（沒有 ambient／anon）',license:'CC0'},
      'char.xiuqin_apron': {url:'assets/models/char/second_ai/bl_xiuqin_apron.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Darkness_Shibu」（npc.py 變體 xiuqin＋npc_apron.py 圍裙，d2a809aa4 第四版）：秀琴姨在家穿圍裙那一版（第一次去她家）；不是路人池',license:'CC0'}});
    // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
    A.nobldg=typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'');   /* 進區域時才登錄的正式模型（例：zones3d.js 的 cafe230Reg）也要看這個，不然 ?nobldg 照樣載（CAFE230_glb 2026-11-04）*/
@@ -25872,7 +25872,7 @@ index 6fa47f090..e4f3efd93 100644
      { const sm=[]; model.traverse(o=>{ const ma=o.isMesh&&o.geometry&&o.geometry.morphAttributes&&o.geometry.morphAttributes.position; if(!ma||!ma.length) return; const d=o.morphTargetDictionary, i=d&&d.skirt_sit!=null?d.skirt_sit:(o.name==='npc_far'&&ma.length===1?0:-1); if(i>=0&&o.morphTargetInfluences) sm.push([o,i]); }); if(sm.length){ root.userData.sitMorph=sm; root.userData.sitMorphW=0; } }
      return root; }
 -  C.MODEL_PROPS={'char.xiuqin':[{name:'glasses',glb:'prop.glasses_xiuqin'}],'char.xiuqin_apron':[{name:'glasses',glb:'prop.glasses_xiuqin'}],   /* 秀琴姨（LAWWW2 d2a809aa4）：圍裙在 VRM 裡（xiuqin_apron 那一支），兩支都戴老花眼鏡 */'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],'char.yu':['bag_yu'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
-+  C.MODEL_PROPS={'char.xiuqin':[{name:'glasses',glb:'prop.glasses_xiuqin'}],'char.xiuqin_apron':[{name:'glasses',glb:'prop.glasses_xiuqin'}],   /* 秀琴姨（LAWWW2 d2a809aa4）：圍裙在 VRM 裡（xiuqin_apron 那一支），兩支都戴老花眼鏡 */'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.us_long':[{name:'glasses',glb:'prop.glasses_long'},'backpack','keychain_milktea'],   /* 何俊朗（LAWWW2 US-LONG-3D-1110）：圓框眼鏡、後背包、背包上的奶茶杯鑰匙圈（AA_80 5-2）*/'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],'char.yu':['bag_yu'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
++  C.MODEL_PROPS={'char.xiuqin':[{name:'glasses',glb:'prop.glasses_xiuqin'}],'char.xiuqin_apron':[{name:'glasses',glb:'prop.glasses_xiuqin'}],   /* 秀琴姨（LAWWW2 d2a809aa4）：圍裙在 VRM 裡（xiuqin_apron 那一支），兩支都戴老花眼鏡 */'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.us_long':[{name:'glasses',glb:'prop.glasses_long'},'backpack','keychain_milktea'],   /* 舊序章人物己（LAWWW2 US-LONG-3D-1110）：圓框眼鏡、後背包、背包上的奶茶杯鑰匙圈（AA_80 5-2）*/'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],'char.yu':['bag_yu'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
      'char.yuting':['backpack'],'char.heroine_01':['tote'],'char.heroine_02':['glasses','earrings','apron'],'char.heroine_03':[{name:'backpack',drop:-0.07,flat:[0.04,0.008],strap:[[0.075,0.05,0.086],[0.092,0.096,0.05],[0.1,0.117,0.0],[0.103,0.097,-0.03],[0.106,0.072,-0.062],[0.11,0.04,-0.086],[0.118,0.0,-0.112],[0.13,-0.045,-0.1],[0.145,-0.085,-0.055],[0.142,-0.115,0.0],[0.13,-0.2,0.06],[0.12,-0.27,0.09]]}],'char.heroine_04':[{name:'guitar',x:0.0,z:0.235,tilt:-0.05,flat:[0.042,0.008],straps:[[0.07,0.06,0.15],[0.1,0.128,0.075],[0.105,0.146,0.03],[0.105,0.136,0.0],[0.105,0.126,-0.03],[0.105,0.094,-0.062],[0.107,0.06,-0.088],[0.108,0.02,-0.12],[0.112,-0.04,-0.132],[0.13,-0.09,-0.127],[0.155,-0.13,-0.085],[0.172,-0.17,-0.02],[0.162,-0.25,0.07],[0.12,-0.33,0.15]]},'laptop_lap'],'char.heroine_05':['folder','hairtie']};
    // 切換配件（例：林芷若在 Café 工作時才穿圍裙）
    C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
@@ -25884,7 +25884,7 @@ index 4643802be..b8a31ac3e 100644
      name_pin:{bone:'spine',make:namePin,pos:[-0.0431,0.26,-0.1395],rot:[0.083,0.3,0]},
      mug:{bone:'rightLowerArm',make:mugGlb,sit:'hide'},
      lawbook:{bone:'leftLowerArm',make:lawbookGlb},
-+    /* 何俊朗（US-LONG-3D-1110，LAWWW2）背包上的奶茶杯鑰匙圈：GLB 原點＝鑰匙環最上面、往 −y 垂下；扣在 backpack() 前袋的拉鍊頭（前袋 pk：中心 (0,-0.15,0.235)、0.24×0.17×0.06 → 上緣 y −0.065、外面 z 0.265），
++    /* 舊序章人物己（US-LONG-3D-1110，LAWWW2）背包上的奶茶杯鑰匙圈：GLB 原點＝鑰匙環最上面、往 −y 垂下；扣在 backpack() 前袋的拉鍊頭（前袋 pk：中心 (0,-0.15,0.235)、0.24×0.17×0.06 → 上緣 y −0.065、外面 z 0.265），
 +       右邊一點（x 0.08）；往外斜 0.15 rad：杯子的下半截離開前袋表面（直直垂下會有幾公釐插進袋子）。背包 drop 改了（芷若那種）要一起移 */
 +    keychain_milktea:{bone:'upperChest',make:boneGlb('prop.keychain_milktea','keychain_milktea'),pos:[0.08,-0.066,0.274],rot:[-0.15,0,0]},
    };
@@ -25896,9 +25896,9 @@ index d10ce2c46..0da713ff3 100644
 +++ b/src/us_life3d.js
 @@ -136,13 +136,21 @@ const USL=(function(){
      return out; };
-   /* 外型：有名字的四位、何俊朗、三位教授固定；路人照順序輪（STORY.extraSpecUS：偶數女、奇數男）*/
+   /* 外型：有名字的四位、舊序章人物己、三位教授固定；路人照順序輪（STORY.extraSpecUS：偶數女、奇數男）*/
    const NAMED={korean:{i:7,skin:'#f3d9c4',hair:'#1f1613'},german:{i:4,skin:'#f3d9c4',hair:'#b88a4a'},brazil:{i:9,skin:'#c68e65',hair:'#2a1d16'},japan:{i:14,skin:'#f6dcc9',hair:'#1f1613'},long:{i:21,skin:'#efd0b3',hair:'#1f1613'}};
-+  /* 何俊朗自己的 3D 模型（US-LONG-3D-1110，LAWWW2）：manifest 是 lazy，第一次要用時才下載；下載完以前 CHAR.build 先建備用的人（藏起來），到了由 GM.upgradeModels 換上。
++  /* 舊序章人物己自己的 3D 模型（US-LONG-3D-1110，LAWWW2）：manifest 是 lazy，第一次要用時才下載；下載完以前 CHAR.build 先建備用的人（藏起來），到了由 GM.upgradeModels 換上。
 +     下載失敗：記下來，之後的人用路人的樣子（不要求那個模型），已經在場、藏起來等的人也露出來（不能一直隱形）*/
 +  const LONG_KEY='char.us_long'; S._longFail=false;
 +  S.longModel=function(){ if(S._longFail||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[LONG_KEY]) return null;
@@ -25910,7 +25910,7 @@ index d10ce2c46..0da713ff3 100644
        if(ck==='intro'){ s.hair=Object.assign({},s.hair,{color:'#8a8580'}); if(s.outfit) s.outfit=Object.assign({},s.outfit,{top:{type:'cardiganOpen',color:'#4a4238',inner:'#f2f0ea'}}); }   /* 年紀大的男教授（西裝背心：還沒有背心的衣服，暫用深色開襟）*/
        if(ck==='lw'&&s.outfit) s.outfit=Object.assign({},s.outfit,{top:{type:'shirt',color:'#c9d3dd',inner:'#c9d3dd'}}); }   /* 年輕的男教授，襯衫 */
 -    else if(NAMED[q.who]&&xs){ const N=NAMED[q.who]; s=xs(N.i); s.skin=N.skin; s.hair=Object.assign({},s.hair,{color:N.hair}); }
-+    else if(NAMED[q.who]&&xs){ const N=NAMED[q.who]; s=xs(N.i); s.skin=N.skin; s.hair=Object.assign({},s.hair,{color:N.hair}); if(q.who==='long'){ const k=S.longModel(); if(k) s.model=k; } }   /* 何俊朗：自己的模型（US-LONG-3D-1110）；路人的穿搭留著當備用 */
++    else if(NAMED[q.who]&&xs){ const N=NAMED[q.who]; s=xs(N.i); s.skin=N.skin; s.hair=Object.assign({},s.hair,{color:N.hair}); if(q.who==='long'){ const k=S.longModel(); if(k) s.model=k; } }   /* 舊序章人物己：自己的模型（US-LONG-3D-1110）；路人的穿搭留著當備用 */
      else if(xs) s=xs(30+i);
      s=Object.assign({},s||{}); s.id='usc_'+q.who+'_'+i; s.name=''; return s; };
 +  S.specOf=specOf;   /* 測試用（tests/us_long_model_unit.js）*/
@@ -25923,7 +25923,7 @@ index 000000000..a5f35b9e8
 --- /dev/null
 +++ b/tests/us_long_model_unit.js
 @@ -0,0 +1,100 @@
-+// 何俊朗自己的 3D 模型（US-LONG-3D-1110，LAWWW2 帳號 A 11-10；LAWWW 15:45 派；企劃 AA_80 5-2、AA_145 3-5）——不需要瀏覽器（D131）。
++// 舊序章人物己自己的 3D 模型（US-LONG-3D-1110，LAWWW2 帳號 A 11-10；LAWWW 15:45 派；企劃 AA_80 5-2、AA_145 3-5）——不需要瀏覽器（D131）。
 +// 兩個行程：
 +//   主行程：spring_sim harness（真正的 three.js、three-vrm、ASSETS、CHAR、PROPS），載入 char.us_long、眼鏡、鑰匙圈的 GLB，量：
 +//     1 manifest：char.us_long 是 VRM、檔案在、身高 1.76、lazy、不是路人池（沒有 ambient／anon）；眼鏡、鑰匙圈的 GLB 在
@@ -25931,8 +25931,8 @@ index 000000000..a5f35b9e8
 +//     3 眼鏡：GLB 換上（程式產生的版本藏起來）；在兩眼前面 2～9 cm、高度和眼睛差 ≤ 2 cm、左右置中 ≤ 1 cm
 +//     4 鑰匙圈：GLB 換上；在背後（比背包的前袋外側再後面）、不插進前袋（杯子的每一點都在前袋外面）、在前袋的高度範圍裡（不垂到背包下面）、在背包左右寬度以內
 +//   --wiring 子行程：pg_harness＋美國篇的檔案（us_life3d.js），量 USL.specOf：
-+//     5 何俊朗（教室、會所都走 specOf）要 char.us_long、開始下載（loadOne 一次）；其他有名字的人（韓國同學）不受影響
-+//     6 下載失敗：之後的何俊朗不再要那個模型（用路人的樣子）；已經在場、藏起來等模型的人露出來
++//     5 舊序章人物己（教室、會所都走 specOf）要 char.us_long、開始下載（loadOne 一次）；其他有名字的人（韓國同學）不受影響
++//     6 下載失敗：之後的舊序章人物己不再要那個模型（用路人的樣子）；已經在場、藏起來等模型的人露出來
 +// 修改前（開發分支 97979ca46）：1～6 FAIL（沒有這個模型、配件、接線）。用法：node tests/us_long_model_unit.js
 +const fs=require('fs'), path=require('path'), cp=require('child_process');
 +const ROOT=path.resolve(__dirname,'..');
@@ -26017,10 +26017,10 @@ index 000000000..a5f35b9e8
 +  if(W){
 +    check('5. 美國篇的檔案載得到、USL.specOf 存在',!W.err.length&&!W.noSpecOf,W.err.join('；')||(W.noSpecOf?'沒有 USL.specOf':''));
 +    const a=W.ok5||{};
-+    check('5. 何俊朗（教室、會所）要 char.us_long、開始下載一次；路人的穿搭留著當備用',a.long==='char.us_long'&&a.long2==='char.us_long'&&JSON.stringify(a.loads)==='["char.us_long"]'&&a.hasOutfit,JSON.stringify(a));
++    check('5. 舊序章人物己（教室、會所）要 char.us_long、開始下載一次；路人的穿搭留著當備用',a.long==='char.us_long'&&a.long2==='char.us_long'&&JSON.stringify(a.loads)==='["char.us_long"]'&&a.hasOutfit,JSON.stringify(a));
 +    check('5. 其他有名字的人（韓國同學）不受影響',!!W.ok5&&a.korean===null,String(a.korean));
 +    const b=W.ok6||{};
-+    check('6. 下載失敗：之後的何俊朗不再要那個模型、藏起來等的人露出來',b.after===null&&b.revealed===true&&JSON.stringify(b.loads)==='["char.us_long"]',JSON.stringify(b)); }
++    check('6. 下載失敗：之後的舊序章人物己不再要那個模型、藏起來等的人露出來',b.after===null&&b.revealed===true&&JSON.stringify(b.loads)==='["char.us_long"]',JSON.stringify(b)); }
 +  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 +})().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
 diff --git a/tools/blender/char/h01_clothes.py b/tools/blender/char/h01_clothes.py
@@ -26032,10 +26032,10 @@ index 65be2abd4..4bba27e73 100644
  SLEEVE_LEN = 1.0          # 袖長（手臂全長的比例；1＝長袖到手腕。林芷若的短袖 ≈ 0.55：過手肘一點）
  CUFF_EASE = 0.0085        # 袖口離手臂的距離（長袖羅紋收口 8.5 mm；短袖反摺袖口鬆一點）
 -TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）
-+TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）／'jersey'（棉 T，陳語彤）／'cotton'（平織棉、直紋很淡，阿勳）
++TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）／'jersey'（棉 T，陳語彤）／'cotton'（平織棉、直紋很淡，舊序章人物甲）
  PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管照腿的形狀）
  PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
-+PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
++PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，舊序章人物甲）
  EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
 +BOX_W = 0.152              # 身片「箱形」的半寬（胸口以下；肩膀接到 DROP_X）。預設不變；沛珊第十七版 0.128（BB-C：胸口往前撐、圓鼓鼓：箱形比她的胸寬 2 cm 以上）
 +SHOULDER_SAG = 0.0         # 肩膀上面那一段比 T 字姿勢的皮膚低多少（m；靠肩膀最多、到領口 0）。T 字姿勢的肩膀比手放下來高 2～3 cm，照 T 字做的布手放下來以後堆在肩膀上面（沛珊「肩膀到領口的布堆成一團」）；預設不變
@@ -26046,8 +26046,8 @@ index 65be2abd4..4bba27e73 100644
 +NECK_RIB_T = 0.003
 +NECK_FOLD = (-0.006, -0.004)
 +NECK_GAP = 0.013           # 領口離脖子的距離（後半圈＋側面）；預設不變。沛珊第九版 0.008（1.3 cm 時領口一圈離脖子遠，正面看像連帽衫的帽緣）
-+SHOULDER_SKIN = False      # 肩膀上面那一段（落肩線 → 領口）：False＝原本的凸弧（靠肩膀那頭先升高，像一個圓頂）；True＝靠肩膀那頭慢慢升、貼著斜方肌（LAWWW2-C 2026-10-17，沛珊、經濟系四人「像連帽衫」）
-+NECK_CALM = 0.0           # 0～1：肩膀上面、靠脖子那一段身片的上臂權重移給上胸（預設 0＝不變）。手從 T 字放下來時，那段布跟著上臂往上、往脖子擠，變成領口周圍一圈像連帽衫的鼓起（LAWWW2-C 2026-10-17，沛珊、阿勳、品妤）
++SHOULDER_SKIN = False      # 肩膀上面那一段（落肩線 → 領口）：False＝原本的凸弧（靠肩膀那頭先升高，像一個圓頂）；True＝靠肩膀那頭慢慢升、貼著斜方肌（LAWWW2-C 2026-10-17，沛珊、舊序章四人「像連帽衫」）
++NECK_CALM = 0.0           # 0～1：肩膀上面、靠脖子那一段身片的上臂權重移給上胸（預設 0＝不變）。手從 T 字放下來時，那段布跟著上臂往上、往脖子擠，變成領口周圍一圈像連帽衫的鼓起（LAWWW2-C 2026-10-17，沛珊、舊序章人物甲、舊序章人物丁）
  WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷：連帽上衣）。有的話，毛衣的身片、袖子根部照它的權重（VRoid 調過手放下的姿勢）
  TOP_FIT = 0.0             # 上衣合身度（0＝從胸口直落的寬鬆箱形：沈以安、祐廷；林芷若 0.65：腰部跟著身體收）
  HEM_LOOSE = False         # 下擺不收緊（亞麻上衣；針織衫的羅紋下擺會收）
@@ -26151,7 +26151,7 @@ index 65be2abd4..4bba27e73 100644
  
  
 +def cotton_texture(S=1024, seed=19):
-+    """平織棉 T（阿勳的白色長袖 T，LAWWW2-C 2026-10-17）：jersey 的直條淡很多（遊戲裡 jersey 的 360 條直紋在白色上看起來像羅紋毛衣）＋布料的大塊明暗；
++    """平織棉 T（舊序章人物甲的白色長袖 T，LAWWW2-C 2026-10-17）：jersey 的直條淡很多（遊戲裡 jersey 的 360 條直紋在白色上看起來像羅紋毛衣）＋布料的大塊明暗；
 +    v 0.75 以上（領口、袖口、下擺的邊）照 jersey 的細羅紋"""
 +    rng = np.random.default_rng(seed)
 +    v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
@@ -26198,7 +26198,7 @@ index 000000000..b3861450b
 --- /dev/null
 +++ b/tools/blender/char_second/glasses_long.py
 @@ -0,0 +1,69 @@
-+"""何俊朗（Long）的眼鏡（US-LONG-3D-1110；企劃 AA_80 5-2、AA_145 3-5：「圓框眼鏡」；還沒有通過的參考圖，照文字做）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
++"""舊序章人物己（Long）的眼鏡（US-LONG-3D-1110；企劃 AA_80 5-2、AA_145 3-5：「圓框眼鏡」；還沒有通過的參考圖，照文字做）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
 +  /opt/blenv/bin/python tools/blender/char_second/glasses_long.py [-- --out assets/models/char/second_ai/glasses_long.glb]
 +從許柏翰的眼鏡腳本複製：鏡框改成正圓（超橢圓 n＝2：直徑 4.6 cm）、深咖啡色、框線粗一點（半徑 1.2 mm，看起來像細的膠框圓眼鏡，
 +和柏翰的細金屬方框、芷若的淺色細圓框分得出來）；鼻托、鉸鏈、鏡腳、座標相同：原點＝兩個鏡片中心的中點、前方 −z、鏡腳往 +z；鏡片中心相距 8.4 cm。
@@ -26273,7 +26273,7 @@ index 000000000..a8bfb15ee
 --- /dev/null
 +++ b/tools/blender/char_second/keychain_milktea.py
 @@ -0,0 +1,80 @@
-+"""何俊朗（Long）背包上的奶茶杯鑰匙圈（US-LONG-3D-1110；企劃 AA_80 5-2、AA_145 3-5：「背包上掛一個小小的奶茶杯鑰匙圈」）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
++"""舊序章人物己（Long）背包上的奶茶杯鑰匙圈（US-LONG-3D-1110；企劃 AA_80 5-2、AA_145 3-5：「背包上掛一個小小的奶茶杯鑰匙圈」）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
 +  /opt/blenv/bin/python tools/blender/char_second/keychain_milktea.py [-- --out assets/models/char/second_ai/keychain_milktea.glb]
 +一個 4 cm 高的珍珠奶茶杯：下面一圈黑色珍珠、奶茶色杯身、上緣一圈透白、圓頂杯蓋、粗吸管（斜插）；杯蓋頂上的小環接兩節短鍊子、銀色鑰匙環。
 +座標（three.js 模型座標）：原點＝鑰匙環最上面（扣在背包拉鍊頭上的那一點）、整個往 −y 垂下；杯子正面（有吸管那側）朝 +z（背包外面）。
@@ -26359,7 +26359,7 @@ index 000000000..89fd4edaa
 --- /dev/null
 +++ b/tools/blender/char_second/long_ho.py
 @@ -0,0 +1,49 @@
-+"""何俊朗（Long；美國交換路線的香港朋友）Blender 人物製作（US-LONG-3D-1110；LAWWW 11-10 15:45 派；LAWWW2 帳號 A）。
++"""舊序章人物己（Long；美國交換路線的香港朋友）Blender 人物製作（US-LONG-3D-1110；LAWWW 11-10 15:45 派；LAWWW2 帳號 A）。
 +外觀照企劃線 AA_80 5-2、AA_145 3-5（2026-10-16 定）：香港的大學法律系三年級、21 歲、約 176 cm、偏瘦；短髮、單眼皮、眉毛濃、
 +圓框眼鏡、深藍色運動外套、背包上掛一個小小的奶茶杯鑰匙圈；笑的時候只笑一邊（表情，遊戲的 ADV／表情另外）。
 +還沒有立繪、沒有通過的參考圖：這一版照文字做（D59：角色美術 BB 驗收；之後有參考圖再照圖調）。
@@ -26367,10 +26367,10 @@ index 000000000..89fd4edaa
 +  只換成他自己的參數（N.VAR）；眼鏡、背包、鑰匙圈是配件（props3d：glasses_long.glb、backpack、keychain_milktea.glb）。
 +工具：bash tools/blender/setup_env.sh（D144）。
 +用法：/opt/blenv/bin/python tools/blender/char_second/long_ho.py -- <輸出.vrm 或 -> [--render 前綴] [--views ...] [--blend 工作檔]
-+之後：VRM_BASE=Sakurada_Fumiriya VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> assets/models/char/second_ai/bl_us_long.vrm 何俊朗 #241c18"""
++之後：VRM_BASE=Sakurada_Fumiriya VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> assets/models/char/second_ai/bl_us_long.vrm 舊序章人物己 #241c18"""
 +import os, sys
 +HERE = os.path.dirname(os.path.abspath(__file__))
-+os.environ['NPC'] = 'nm10'             # npc.py 在 import 時要一個已有的名字；下面整個換成何俊朗的參數
++os.environ['NPC'] = 'nm10'             # npc.py 在 import 時要一個已有的名字；下面整個換成舊序章人物己的參數
 +sys.path.insert(0, HERE)
 +import npc as N                        # noqa: E402
 +C = N.C

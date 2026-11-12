@@ -78,7 +78,7 @@ index 000000000..f023afbb0
 +++ b/tests/zone_warmup_unit.js
 @@ -0,0 +1,95 @@
 +// 走起來不卡（X79 PERF-CAMPUS-DAY-1027，使用者「校園白天走起來還是會卡」，LAWWW2-C 2026-10-27）——不需要瀏覽器。
-+// 原本：three.js 第一次畫到才編 shader；prewarm（電腦、剛進區域）只編那時候已經接上、看得到的。SwiftShader 手機模擬沿經濟系路線第一次走，
++// 原本：three.js 第一次畫到才編 shader；prewarm（電腦、剛進區域）只編那時候已經接上、看得到的。SwiftShader 手機模擬沿舊序章路線第一次走，
 +//   路上 13 次「這一格編新的 shader」（每次 0.5～2.2 秒）：畫面外的建築材質、晚接上的正式模型、路人遠距離版本（藏著）、陰影的深度 shader。
 +// 修正（src/zones3d.js 的 Z3.warmup＋src/game3d.js 的 enter）：淡入以後在背景一小批一小批編好。這支測試用假的 renderer：
 +//   ① Z3.warmup 存在；② 看得到但沒編過的都編（不管在不在畫面裡），晚接上的（warmup 開始以後才加進場景）也編；

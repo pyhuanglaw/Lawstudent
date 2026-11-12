@@ -1,4 +1,4 @@
-// 何俊朗自己的 3D 模型（US-LONG-3D-1110，LAWWW2 帳號 A 11-10；LAWWW 15:45 派；企劃 AA_80 5-2、AA_145 3-5）——不需要瀏覽器（D131）。
+// 舊序章人物己自己的 3D 模型（US-LONG-3D-1110，LAWWW2 帳號 A 11-10；LAWWW 15:45 派；企劃 AA_80 5-2、AA_145 3-5）——不需要瀏覽器（D131）。
 // 兩個行程：
 //   主行程：spring_sim harness（真正的 three.js、three-vrm、ASSETS、CHAR、PROPS），載入 char.us_long、眼鏡、鑰匙圈的 GLB，量：
 //     1 manifest：char.us_long 是 VRM、檔案在、身高 1.76、lazy、不是路人池（沒有 ambient／anon）；眼鏡、鑰匙圈的 GLB 在
@@ -6,8 +6,8 @@
 //     3 眼鏡：GLB 換上（程式產生的版本藏起來）；在兩眼前面 2～9 cm、高度和眼睛差 ≤ 2 cm、左右置中 ≤ 1 cm
 //     4 鑰匙圈：GLB 換上；在背後（比背包的前袋外側再後面）、不插進前袋（杯子的每一點都在前袋外面）、在前袋的高度範圍裡（不垂到背包下面）、在背包左右寬度以內
 //   --wiring 子行程：pg_harness＋美國篇的檔案（us_life3d.js），量 USL.specOf：
-//     5 何俊朗（教室、會所都走 specOf）要 char.us_long、開始下載（loadOne 一次）；其他有名字的人（韓國同學）不受影響
-//     6 下載失敗：之後的何俊朗不再要那個模型（用路人的樣子）；已經在場、藏起來等模型的人露出來
+//     5 舊序章人物己（教室、會所都走 specOf）要 char.us_long、開始下載（loadOne 一次）；其他有名字的人（韓國同學）不受影響
+//     6 下載失敗：之後的舊序章人物己不再要那個模型（用路人的樣子）；已經在場、藏起來等模型的人露出來
 // 修改前（開發分支 97979ca46）：1～6 FAIL（沒有這個模型、配件、接線）。用法：node tests/us_long_model_unit.js
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
@@ -92,9 +92,9 @@ const tick=()=>new Promise(r=>setTimeout(r,0));
   if(W){
     check('5. 美國篇的檔案載得到、USL.specOf 存在',!W.err.length&&!W.noSpecOf,W.err.join('；')||(W.noSpecOf?'沒有 USL.specOf':''));
     const a=W.ok5||{};
-    check('5. 何俊朗（教室、會所）要 char.us_long、開始下載一次；路人的穿搭留著當備用',a.long==='char.us_long'&&a.long2==='char.us_long'&&JSON.stringify(a.loads)==='["char.us_long"]'&&a.hasOutfit,JSON.stringify(a));
+    check('5. 舊序章人物己（教室、會所）要 char.us_long、開始下載一次；路人的穿搭留著當備用',a.long==='char.us_long'&&a.long2==='char.us_long'&&JSON.stringify(a.loads)==='["char.us_long"]'&&a.hasOutfit,JSON.stringify(a));
     check('5. 其他有名字的人（韓國同學）不受影響',!!W.ok5&&a.korean===null,String(a.korean));
     const b=W.ok6||{};
-    check('6. 下載失敗：之後的何俊朗不再要那個模型、藏起來等的人露出來',b.after===null&&b.revealed===true&&JSON.stringify(b.loads)==='["char.us_long"]',JSON.stringify(b)); }
+    check('6. 下載失敗：之後的舊序章人物己不再要那個模型、藏起來等的人露出來',b.after===null&&b.revealed===true&&JSON.stringify(b.loads)==='["char.us_long"]',JSON.stringify(b)); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

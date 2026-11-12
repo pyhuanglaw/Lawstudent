@@ -66,7 +66,7 @@
 |---|---|---|---|---|
 | ART-NANYANG-CINEMA-1103 | 已整合待測試 | a3b18addc（2026-11-05） | BB 已判 PASS／ART_APPROVED → 可改「已驗收」（請核對） | 【11-08 12:2x LAWWW-B】BB-B 12:15：南洋 1 廳看電影 PASS（95566d0b5；19:08 關燈、23:08 開燈）。P3（BB 記著、九間一起判）：開演後柱子、天花板還是偏亮。 |
 | SEATFIG-LOD1-HAIR-1104 | 已整合待測試 | 11c19219e（2026-11-04） | BB 已判 PASS／ART_APPROVED → 可改「已驗收」（請核對） | 【LAWWW-C 11-04 18:4x】LAWWW2 30c0ae20 換檔進 1eb7182b7；BB Blender 階段 PASS（BB_255 ae24b083a）；下一步 CC 用 ⑧ 同一個鏡頭重拍 |
-| SKIRT-BENCH-CLIP-1105 | 已整合待測試 | a64deefda（2026-11-07） | BB 已判 PASS／ART_APPROVED → 可改「已驗收」（請核對） | 【11-07 05:4x LAWWW-B】第二批（LAWWW2-B 33bc9fe48、測試 patch 655729e66）：沛珊、芯慈、予樂、秀琴、秀琴圍裙五個 VRM 坐下不穿模（248～645 → 0），skirt_sit_morp |
+| SKIRT-BENCH-CLIP-1105 | 已整合待測試 | a64deefda（2026-11-07） | BB 已判 PASS／ART_APPROVED → 可改「已驗收」（請核對） | 【11-07 05:4x LAWWW-B】第二批（LAWWW2-B 33bc9fe48、測試 patch 655729e66）：沛珊、芯慈、外校室友、秀琴、秀琴圍裙五個 VRM 坐下不穿模（248～645 → 0），skirt_sit_morp |
 | XS-NORTH-ROAD-1107 | 已整合待測試 | e70d19503（2026-11-07） | BB 已判 PASS／ART_APPROVED → 可改「已驗收」（請核對） | 【11-07 09:1x LAWWW-B】LAWWW2 b501e871e 接進 fa79dd7bc；BB 功能 PASS、兩點 P3 交 LAWWW2；CC 遊戲內白天晚上。 |
 | ADE-POLE16-1104 | 已整合待測試 | 9039f2b20（2026-11-04） | 已整合；等 CC 拍、BB 判 | 【LAWWW-C 11-04 21:5x】BB-C 21:53 同意：不擠進 v9.10.20（79da20245 是 d3828 之後的正式模型 GLB，會多帶沒在候選版測過的東西；D99 外觀不擋流程；重做候選樹至少晚 1 小時）——v |
 | ADE-SEAT-CLIP-1105 | 已整合待測試 | ee7afe9c2（2026-11-05） | 已整合；等 CC 拍、BB 判 | BB 瀏覽器；v9.10.21 候選 |
@@ -75,7 +75,7 @@
 | AFAR-VIEW-1105 | 已整合待測試 | f65f20f4a（2026-11-05） | 已整合；等 CC 拍、BB 判 | v9.10.21 候選；CC 拍 afar 窗外白天／晚上 |
 | ANIM-DOOR-OPEN-1027 | 已整合待測試 | 4978b283a（2026-10-27） | 已整合；等 CC 拍、BB 判 | 【LAWWW-C 2026-10-28 01:1x UTC】第二階段（LAWWW2 ccc329672：門板真的轉開、門上零件跟著轉、推門 0.45 秒 busy、連按只推一次；BB-C 開門三點：118 巷「進〇〇」算門、林家乾麵開放式、 |
 | ART-05 | 已整合待測試 | 635fee236（2026-10-16） | 已整合；等 CC 拍、BB 判 | BB-B 已核對（BB_131 第 9 節 b6270efc，比原預設接近標準圖）；不標 ART_APPROVED；遊戲內截圖給使用者看 |
-| ART-09 | 已整合待測試 | 792946fdc（2026-10-16） | 已整合；等 CC 拍、BB 判 | 予樂立繪 3 張已接（5ad7a862，BB-B 驗收 e8e49415）；其他 5 位（jiahao、pinyu、tangrui、weilun、xun 的表情）照 BB_131 |
+| ART-09 | 已整合待測試 | 792946fdc（2026-10-16） | 已整合；等 CC 拍、BB 判 | 外校室友立繪 3 張已接（5ad7a862，BB-B 驗收 e8e49415）；其他 5 位（jiahao、pinyu、tangrui、weilun、xun 的表情）照 BB_131 |
 | ART-ARENA-HOOPS-1105 | 已整合待測試 | 41bfc5cbe（2026-11-07） | 已整合；等 CC 拍、BB 判 | 【11-07 06:3x LAWWW-B】LAWWW2-B e92e8c517（模型 101ab2728）接進開發：3F 籃架放下來（籃框 3.05 m、籃板、主桿到屋頂）、典禮那天收起、ARENA_HOOPS 預設 true、gym_cr |
 | ART-GYM1 | 已整合待測試 | d1ae8332e（2026-10-16） | 已整合；等 CC 拍、BB 判 | 1F、B1 已接；B1 v5（5a5a52af）、v6 隔間牆 WALL_ partition（a16bc93b，LAWWW2-B 53c57931；淡出照「鏡頭和玩家在不同邊」）；天花板 BackSide 拿掉（e0747682，遊戲內射 |
 | ART-HAIR-MATCAP | 已整合待測試 | ad06d8756（2026-10-17） | 已整合；等 CC 拍、BB 判 | 58d0ea90 已整合在 32df2882；剩遊戲內人物近拍前後比對（阿哲、柏翰、可昕、路人）。 |

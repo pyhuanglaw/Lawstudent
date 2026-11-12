@@ -55622,7 +55622,7 @@ index 2d3c7a05b..8b241b117 100644
 @@ -24,7 +24,7 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
  def arg(name, default=None):
      return ARGS[ARGS.index(name) + 1] if name in ARGS else default
- SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝政大山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
+ SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝外校山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
 -OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb', 'xinsheng': 'xinsheng_street.glb', 'xinsheng_far': 'xinsheng_far.glb'}.get(SET, 'wenzhou_street.glb')))
 +OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb', 'xinsheng': 'xinsheng_street.glb', 'xinsheng_far': 'xinsheng_far.glb', 'tingzhou': 'tingzhou_street.glb'}.get(SET, 'wenzhou_street.glb')))
  
