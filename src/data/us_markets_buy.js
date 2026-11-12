@@ -1,9 +1,10 @@
-/* 自動產生：tools/story/import_us_markets.py（docs/story_planning/AA_850_us_markets_buy.json@b039356f5）。不要手改，改企劃 AA_850 再重新匯入。
+/* 自動產生：tools/story/import_us_markets.py（docs/story_planning/AA_850_us_markets_buy.json@f6aa917593）。不要手改，改企劃 AA_850 再重新匯入。
    美國兩間超市買東西（US-MARKETS-BUY-1112；演出 src/us_markets3d.js）：goods＝貨架上的東西（n 品名、usd 標價、p 實際扣的錢＝usd × rate 四捨五入、
-   kind eat 帶回去吃掉／own 進「物品」／gift 可以送人、at 哪一個互動點）；lines＝店員的話和旁白。字一字照稿。*/
+   kind eat 帶回去吃掉／own 進「物品」／gift 可以送人、at 哪一個互動點、show＝畫面上用的短名（稿 lawww_1112.b 指名的那幾樣才有））；lines＝店員的話和旁白
+   （竹葉 no_money_other＝推車裡沒有水餃的時候錢不夠的那一句，稿 lawww_1112.c）。字一字照稿。*/
 'use strict';
 const US_MARKETS_BUY={
- "src": "docs/story_planning/AA_850_us_markets_buy.json@b039356f5",
+ "src": "docs/story_planning/AA_850_us_markets_buy.json@f6aa917593",
  "rate": 32,
  "shops": {
   "us_market": {
@@ -55,7 +56,8 @@ const US_MARKETS_BUY={
      "usd": 6.49,
      "p": 208,
      "kind": "eat",
-     "at": "deli"
+     "at": "deli",
+     "show": "火雞胸"
     },
     {
      "id": "usm_pizza",
@@ -160,7 +162,8 @@ const US_MARKETS_BUY={
      "usd": 5.99,
      "p": 192,
      "kind": "own",
-     "at": "asia_sauce"
+     "at": "asia_sauce",
+     "show": "沙茶醬"
     },
     {
      "id": "usa_mantou",
@@ -248,7 +251,8 @@ const US_MARKETS_BUY={
      "usd": 5.0,
      "p": 160,
      "kind": "gift",
-     "at": "asia_checkout"
+     "at": "asia_checkout",
+     "show": "月餅"
     }
    ],
    "lines": {
@@ -260,7 +264,8 @@ const US_MARKETS_BUY={
     "mooncake": "（櫃台上放著一盤月餅，一顆一顆用小紙盒裝。阿姨：「一顆五塊。再不買就沒了。」）",
     "no_money": "（阿姨看了看你手上的錢。）先拿水餃，其他下次。",
     "closed_sunday": "（門上的手寫告示：週日公休。）",
-    "mooncake_give": "我也買了一顆。……現在有兩顆。"
+    "mooncake_give": "我也買了一顆。……現在有兩顆。",
+    "no_money_other": "（阿姨看了看你手上的錢。）先拿便宜的，其他下次。"
    }
   }
  }

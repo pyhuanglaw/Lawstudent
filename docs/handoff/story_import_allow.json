@@ -9761,21 +9761,33 @@
   },
   {
    "path": "docs/story_planning/AA_850_us_markets_buy.json",
-   "sha": "b039356f5",
+   "sha": "f6aa917593",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過，沒有要改的）」；D100b）",
+   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過，沒有要改的）」；D100b）；f6aa917593（AA-C 11-12 回 LAWWW：稿加 lawww_1112 七點）",
    "task": "SHOP-STANDARD-BACKFILL-1112",
    "kind": "json",
-   "note": "美國兩間超市買東西（草原超市 us_market、竹葉亞洲超市 us_asian_market：每個貨架賣什麼、美金標價、店員的話、錢不夠；分支 claude/magical-albattani-bk7b4n）：tools/story/import_us_markets.py → src/data/us_markets_buy.js（US_MARKETS_BUY）。品名、價錢、句子一字照稿；演出 src/us_markets3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+   "note": "美國兩間超市買東西（草原超市 us_market、竹葉亞洲超市 us_asian_market：每個貨架賣什麼、美金標價、店員的話、錢不夠；分支 claude/magical-albattani-bk7b4n）：tools/story/import_us_markets.py → src/data/us_markets_buy.js（US_MARKETS_BUY）。品名、價錢、句子一字照稿；演出 src/us_markets3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核；2026-11-12 改到 f6aa917593（lawww_1112：畫面用短名（火雞胸、沙茶醬、月餅）、竹葉錢不夠沒有水餃的那一句；品名、價錢、其他句子沒動）",
+   "history": [
+    {
+     "sha": "b039356f5",
+     "note": "被 f6aa917593 取代（lawww_1112：畫面用短名（火雞胸、沙茶醬、月餅）、竹葉錢不夠沒有水餃的那一句；品名、價錢、其他句子沒動）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_851_tz_invite_supper.json",
-   "sha": "b039356f5",
+   "sha": "f6aa917593",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過：學姊入座分兩版——有點熟用 heroine_05、很熟以上或交往中用 heroine_05_close）」；D100b）",
+   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過：學姊入座分兩版——有點熟用 heroine_05、很熟以上或交往中用 heroine_05_close）」；D100b）；f6aa917593（AA-C 11-12 回 LAWWW：稿加 lawww_1112 三點）",
    "task": "SHOP-STANDARD-BACKFILL-1112",
    "kind": "json",
-   "note": "汀州路兩間店可以約人（越好吃小館 tz_yuehaochi、客居雲南 tz_keju：每人答應一句、入座一句）＋東南大聯泡麵帶回 203 當宵夜（dorm_supper；分支 claude/magical-albattani-bk7b4n）：tools/story/import_tz_invite_supper.py → src/data/tz_invite_supper.js（TZ_INVITE_SUPPER）。句子一字照稿；演出 src/tz_invite_supper3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+   "note": "汀州路兩間店可以約人（越好吃小館 tz_yuehaochi、客居雲南 tz_keju：每人答應一句、入座一句）＋東南大聯泡麵帶回 203 當宵夜（dorm_supper；分支 claude/magical-albattani-bk7b4n）：tools/story/import_tz_invite_supper.py → src/data/tz_invite_supper.js（TZ_INVITE_SUPPER）。句子一字照稿；演出 src/tz_invite_supper3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核；2026-11-12 改到 f6aa917593（lawww_1112：203 泡麵宵夜演完推進 30 分鐘；句子沒動（JSON 重新排版））",
+   "history": [
+    {
+     "sha": "b039356f5",
+     "note": "被 f6aa917593 取代（lawww_1112：203 泡麵宵夜演完推進 30 分鐘；句子沒動（JSON 重新排版））"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_853_yejian_shaola_buy.json",
