@@ -127,8 +127,9 @@ const lines=r=>r.said.map(s=>s[1]), by=(r,t)=>(r.said.find(s=>s[1]===t)||[])[0];
 { start(500); const r=await press(['叉燒飯','不用了']);
   check('2 選單：六樣「品名　N 元」照稿的順序＋「先不吃」；第二層「加滷蛋　15 元」「不用了」',J(r.opts[0])===J(D.menu.map(m=>OPT(m.n,m.p)).concat(['先不吃']))&&J(r.opts[1])===J([OPT(EGG.n,EGG.p),'不用了'])&&r.opts.length===2,J(r.opts));
   check('2 叉燒飯：扣 90、時間 +30 分鐘、坐按的那一張、吃完起身',r.money===410&&J(r.paid)==='[-90]'&&r.dh===0.5&&r.sat.length===1&&r.sat[0].z===1.02&&stood===1,J([r.money,r.paid,r.dh,r.sat]));
-  check('2 句子的順序：阿姨 greet → order_done → call →（第一次來的旁白）→ 叉燒飯現有那一句 → 稿的吃的旁白；說話的人＝現有的「阿姨」',
-    J(lines(r))===J([T.greet,T.order_done,T.call,FIRST,'叉燒飯剛上桌。阿姨多切了兩片叉燒。',D.eat['叉燒飯']])&&[T.greet,T.order_done,T.call].every(t=>by(r,t)===AUNT)&&by(r,D.eat['叉燒飯'])===null&&AUNT==='阿姨',J(r.said));
+  /* 2026-11-12（AA_853@f6aa917593 lawww_1112 燒臘第 2 點）：舊的那一句拿掉。舊期望：FIRST 和稿的旁白中間還有「叉燒飯剛上桌。阿姨多切了兩片叉燒。」 */
+  check('2 句子的順序：阿姨 greet → order_done → call →（第一次來的旁白）→ 稿的吃的旁白（舊的「多切了兩片叉燒」那一句拿掉了）；說話的人＝現有的「阿姨」',
+    J(lines(r))===J([T.greet,T.order_done,T.call,FIRST,D.eat['叉燒飯']])&&!lines(r).some(t=>/多切了兩片叉燒/.test(t))&&[T.greet,T.order_done,T.call].every(t=>by(r,t)===AUNT)&&by(r,D.eat['叉燒飯'])===null&&AUNT==='阿姨',J(r.said));
   check('2 吃過的、熟客次數照記（店名鍵照舊「阿鳳麵店」、吃過的寫「公館燒臘」）；沒有欠帳',r.n===1&&H.G.eat.last[KEY]==='叉燒飯'&&H.G.eat.ate.some(a=>a.shop==='公館燒臘'&&a.item==='叉燒飯')&&r.tab===undefined,J(H.G.eat)); }
 /* ===== 3 加蛋、例湯、每一樣、先不吃 ===== */
 { start(500); let r=await press(['三寶飯','加滷蛋']);

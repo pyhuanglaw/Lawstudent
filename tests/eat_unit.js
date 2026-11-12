@@ -99,7 +99,7 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝第 5 次那一句不會換她說（staffYutong 走不到），一律是阿姨那句 */
   { const e=STORY.schedEnt(CHARACTERS.heroine_03,G); check('E7 前置：週二 18:00 語彤不在燒臘店（不是 noodle／help）', !(e&&e.zone==='noodle'), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
   picks=['老樣子']; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); const Y=EL.staffYutong||[], T7=EL.staff['阿鳳麵店']||{};
-  check('E7 第 5 次（原本語彤顧店的時段）：阿姨那一句、不是語彤那句；老樣子＝舊存檔的乾麵照新菜單認（叉燒飯）；阿姨在＝「叉燒飯剛上桌。阿姨多切了兩片叉燒。」', !said.some(s=>s.who===SOCIAL.displayName('heroine_03'))&&has(T7.line5)&&has(T7.same)&&has('叉燒飯剛上桌。阿姨多切了兩片叉燒。')&&G.eat.last['阿鳳麵店']==='叉燒飯', said.map(s=>(s.who||'')+':'+s.t).join('｜'));
+  check('E7 第 5 次（原本語彤顧店的時段）：阿姨那一句、不是語彤那句；老樣子＝舊存檔的乾麵照新菜單認（叉燒飯）；阿姨在＝不再說「叉燒飯剛上桌。阿姨多切了兩片叉燒。」（2026-11-12（AA_853@f6aa917593 lawww_1112 燒臘第 2 點）：那一句拿掉；舊期望：has 那一句）', !said.some(s=>s.who===SOCIAL.displayName('heroine_03'))&&has(T7.line5)&&has(T7.same)&&!has('叉燒飯剛上桌。阿姨多切了兩片叉燒。')&&G.eat.last['阿鳳麵店']==='叉燒飯', said.map(s=>(s.who||'')+':'+s.t).join('｜'));
   fresh(tueY,13,'noodle'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}}; picks=[1]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM);
   check('E7 語彤不在：阿姨那一句', has(T7.line5)&&said.some(s=>s.who===T7.who&&s.t===T7.line5));
   // ---------- E8 ----------
