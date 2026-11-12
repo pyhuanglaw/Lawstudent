@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SOFA_SOCLIB2F",
+  "sha": "dec3622d75d7fcc98143c5e7f960872ae41cfef0",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_place_gate_probe.py",
+  "env": "TAG=sofa_soclib2f;ZONES=soclib_2f;HOURS=14;PARTS=7;SHA=dec3622d75d7fcc98143c5e7f960872ae41cfef0",
+  "machine": "MSI",
+  "start": "2026-11-12T23:42:25",
+  "end": "2026-11-12T23:57:36",
+  "seconds": 912,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 57,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

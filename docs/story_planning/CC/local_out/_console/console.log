@@ -225,3 +225,13 @@
 [23:54:07] ==== START SOFA_SOCLIB2F_back  (probe @ dec3622d75d7fcc98143c5e7f960872ae41cfef0) ====
 [23:54:10] [res] cpu=7% mem=45% (14.2/31.4 GB) chrome_testing=10  START SOFA_SOCLIB2F_back
 [23:56:30] [res] cpu=3% mem=47% (14.8/31.4 GB) chrome_testing=10  END SOFA_SOCLIB2F_back
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       66ccbdc844..d5376e223a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:56:38] ==== END   SOFA_SOCLIB2F_back  exit=0  143s   ====
+[23:56:41] memory 44% before starting NAV_FLOWER_2F_tap (2 running)
+[23:56:41] ==== START NAV_FLOWER_2F_tap  (probe @ 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49) ====
+[23:56:44] [res] cpu=6% mem=44% (14.0/31.4 GB) chrome_testing=10  START NAV_FLOWER_2F_tap
+[23:56:44] worktree add 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49: invalid reference - fetching main and the commit itself
+[23:56:51] 正在跑：SOFA_SOCLIB2F（已跑 14 分／上限 40 分）、NAV_CAMPUS_notch_rev（已跑 5 分／上限 30 分）、NAV_FLOWER_2F_tap（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:57:36] [res] cpu=10% mem=44% (13.9/31.4 GB) chrome_testing=9  END SOFA_SOCLIB2F
