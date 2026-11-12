@@ -3,8 +3,8 @@
   "doc": "AA_822 可昕第三批（X324 續改）：約會「記得上次」那一格（remember）開頭的「上次」",
   "by": "AA-C 2026-11-12",
   "task": "DLG-FULL-REVIEW-1110",
-  "what": "可昕 remember 122 句全部用「上次」開頭。這一格本來就只在再去同一個地方時出現，不用每句都報「上次」：「上次那個／那隻／那張…」直接從東西講起（拿掉「上次」）；「上次…這次…」對比的、「上次說要…」的照留。另：D19「考期中考」→「考期末考」（沒有期中考）。已直接改 date_system/lines 源稿。",
-  "before_after": "上次開頭 122 → 62"
+  "what": "可昕 remember 122 句全部用「上次」開頭。這一格本來就只在再去同一個地方時出現，不用每句都報「上次」：「上次那個／那隻／那張…」直接從東西講起（拿掉「上次」）；「上次…這次…」對比的、「上次說要…」的照留。另：D19「考期中考」→「考期末考」（沒有期中考）。已直接改 date_system/lines 源稿。 （「上次拍的／買的／給予樂的…」拿掉以後句子開頭不通，照留。）",
+  "before_after": "上次開頭 122 → 74"
  },
  "rows": [
   {
@@ -67,13 +67,6 @@
    "src": "date_system/lines/D04.json",
    "who": "kexin",
    "where": "remember",
-   "old": "上次買的那個小東西，我掛在包包上了。你沒發現。",
-   "new": "買的那個小東西，我掛在包包上了。你沒發現。"
-  },
-  {
-   "src": "date_system/lines/D04.json",
-   "who": "kexin",
-   "where": "remember",
    "old": "上次那家冰換口味了，我們試新的。",
    "new": "那家冰換口味了，我們試新的。"
   },
@@ -97,13 +90,6 @@
    "where": "remember",
    "old": "上次那幅畫的價錢，我回去查了。不告訴你。",
    "new": "那幅畫的價錢，我回去查了。不告訴你。"
-  },
-  {
-   "src": "date_system/lines/D06.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次拍的那兩杯，我設成鎖定畫面了。不是因為你。",
-   "new": "拍的那兩杯，我設成鎖定畫面了。不是因為你。"
   },
   {
    "src": "date_system/lines/D07.json",
@@ -197,39 +183,11 @@
    "new": "那三分鐘，我們數到兩分半就喝了。"
   },
   {
-   "src": "date_system/lines/D12.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次拍你那張，你的眼睛是閉的。我還是留著。",
-   "new": "拍你那張，你的眼睛是閉的。我還是留著。"
-  },
-  {
-   "src": "date_system/lines/D13.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次的照片，我印出來貼在書桌前面。",
-   "new": "的照片，我印出來貼在書桌前面。"
-  },
-  {
-   "src": "date_system/lines/D14.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次拍的那張橋，我拿去當報告的封面。跟內容無關。",
-   "new": "拍的那張橋，我拿去當報告的封面。跟內容無關。"
-  },
-  {
    "src": "date_system/lines/D14.json",
    "who": "kexin",
    "where": "remember",
    "old": "上次那隻長頸鹿換成小船了，配合場地。",
    "new": "那隻長頸鹿換成小船了，配合場地。"
-  },
-  {
-   "src": "date_system/lines/D14.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次拍你的那張，你笑得好傻。我設成你的來電照片了。",
-   "new": "拍你的那張，你笑得好傻。我設成你的來電照片了。"
   },
   {
    "src": "date_system/lines/D15.json",
@@ -244,13 +202,6 @@
    "where": "remember",
    "old": "上次那個貝殼，予樂放在她桌上了。",
    "new": "那個貝殼，予樂放在她桌上了。"
-  },
-  {
-   "src": "date_system/lines/D17.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次拍的那張，你眼睛閉著。我還是留著。",
-   "new": "拍的那張，你眼睛閉著。我還是留著。"
   },
   {
    "src": "date_system/lines/D17.json",
@@ -288,32 +239,11 @@
    "new": "那隻貓換了一個地方睡。"
   },
   {
-   "src": "date_system/lines/D20.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次拍給予樂的那張，她說好老。我說對。",
-   "new": "拍給予樂的那張，她說好老。我說對。"
-  },
-  {
-   "src": "date_system/lines/D21.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次給予樂的牛角，她說好吃。我說是你挑的。",
-   "new": "給予樂的牛角，她說好吃。我說是你挑的。"
-  },
-  {
    "src": "date_system/lines/D21.json",
    "who": "kexin",
    "where": "remember",
    "old": "上次那兩條，你那條我拿走了。你又沒在用。",
    "new": "那兩條，你那條我拿走了。你又沒在用。"
-  },
-  {
-   "src": "date_system/lines/D21.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次在這裡拍的那張，背景很好看。我也很好看，我自己講。",
-   "new": "在這裡拍的那張，背景很好看。我也很好看，我自己講。"
   },
   {
    "src": "date_system/lines/D22.json",
@@ -363,13 +293,6 @@
    "where": "remember",
    "old": "上次那個賣風箏的阿伯也在。",
    "new": "那個賣風箏的阿伯也在。"
-  },
-  {
-   "src": "date_system/lines/D27.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次買的小木盒，我拿來放你給我的票根。",
-   "new": "買的小木盒，我拿來放你給我的票根。"
   },
   {
    "src": "date_system/lines/D27.json",
@@ -426,13 +349,6 @@
    "where": "remember",
    "old": "上次那家換菜單了，我們吃新的。",
    "new": "那家換菜單了，我們吃新的。"
-  },
-  {
-   "src": "date_system/lines/D33.json",
-   "who": "kexin",
-   "where": "remember",
-   "old": "上次拍的照片，燈太多，看不到我。重拍。",
-   "new": "拍的照片，燈太多，看不到我。重拍。"
   }
  ]
 }
