@@ -80,6 +80,7 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
     check('4. 同一個人沒有舊句', left.length === 0, J(left.slice(0, 4)));
     console.log('　同一句別人還在說（不在稿上，照留）：' + ([...new Set(kept)].join('、') || '沒有'));
     if (!ir0) return;
+    delete ir0.kx36; delete ir0.kx38;   /* 可昕 kx36、kx38（CANON-NO-ECON-1112 第三批：這一項拿掉）：BASE 那兩列不比 */
     const at = new Set(RR.map(x => x.at)), d = [];
     for (const id of new Set(Object.keys(ir0).concat(Object.keys(ir1)))) {
       const a = ir0[id], b = ir1[id]; if (!a || !b) { d.push(id + ' 只有一邊有'); continue; }

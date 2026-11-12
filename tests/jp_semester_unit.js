@@ -131,7 +131,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=inJapan('2028-07-15',10.5); PHONE.join(G,'noodle_team','桌遊團'); phone(); const a=th('g:noodle_team').includes('我又二樓'); at('2028-07-15',11.1); phone(); const b=th('g:noodle_team').includes('我又二樓');
     check('J-S13 7/15 阿哲的抽籤群組：當地 11:05（台灣 10:05）', !a&&b, [a,b].join()); }
   { const G=inJapan('2028-04-25',21.5); date('kexin'); phone(); const a=th('p:kexin').includes('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。'); at('2028-04-25',22); phone(); const b=th('p:kexin').includes('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。'); const q=OUT.get(G,'y3_k17_jrv');
-    check('J-S7 可昕 K17（日本路線）：台灣 21:00＝當地 22:00；視訊台灣 19:30＝當地 20:30', !a&&b&&!!q&&Math.abs(q.h-20.5)<1e-6, [a,b,q&&q.h].join()); }
+    check('J-S7 可昕 K17（日本路線）學弟妹的飯的訊息、視訊（CANON-NO-ECON-1112 第三批：這一項拿掉）',!a&&!b&&!q); }
   /* ===================== J-S8 在日本約台灣的朋友 ===================== */
   { const G=inJapan('2028-04-20',12); H.FRIEND('zhe'); INV.addContact(G,'zhe'); check('J-S8 人在日本：台灣朋友沒有「約」（canInvite false、沒有原因字）', !INV.canInvite(G,'zhe')&&INV.whyNot(G,'zhe')===''); }
   /* ===================== J-S9／J-S19 8/5 回程 ===================== */

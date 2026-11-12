@@ -23,6 +23,7 @@
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm'), crypto=require('crypto');
 const ROOT=path.resolve(__dirname,'..'), BASE='0e2690b0b', TITLE='有名字說的台詞拿掉外面的「」第七批';
 const CHANGED=['src/data/events.js','src/y2r2_3d.js','src/friends2_3d.js','src/data/bbpack_events.js','src/legal3d.js'];
+const GONE_EV=['ev_kexin_tour_nccu','ev_kexin_yule_pass','ev_kexin_video_study','ev_kexin_birthday_y1','ev_kexin_our_day','ev_kexin_our_day_wk','ev_kexin_nye_missed_call','ev_kexin_anniv_missed_call','ev_kexin_reschedule','ev_kx_nye_video_y2','ev_kx_nye_video_y3','ev_kx_nye_video_y4','ev_kexin_kh_missed_call','ev_kexin_qixi_video','ev_kexin_30min','ev_kexin_lecture_ntu','ev_kexin_lecture_table','ev_kexin_juniors_video','ev_kexin_kn_call_y3','ev_kexin_last_study_night','ev_kexin_two_circles','ev_kexin_call_helper2','ev_kexin_k18_call','ev_kexin_k20_call','ev_kexin_juniors_dinner','ev_kexin_film_night','ev_kexin_quiz_y2_video','ev_econ_night_y2','ev_kexin_video_report'].concat(Array.from({length:9},(_,i)=>'ev_kx_drift_r'+['1','1b','2','3','4','5','5_call','6','7'][i]));   /* CANON-NO-ECON-1112 第三批拿掉的事件：BASE、現在兩邊都不比（這一項拿掉）*/
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 /* 演出來的「現在」那一邊：legal3d.js、classes3d.js 讀第八批那一個 commit 的版本（用標題找）——之後 BUG-LEGAL-PROF-TONE-1108（AA-B 11-08 13:38：教授出題不用 MATE_*、鄭教授開場拆三段）
@@ -116,7 +117,7 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
   const run=async(k,id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); asked.length=0; const e=ev(id); if(!e){ out.play[k]={lines:[['（沒有事件）',id]],asked:[]}; return; } await EVENTS.run(e); out.play[k]={lines:rec(),asked:asked.slice()}; out.save[k]=saveOf(); };
   /* ---------- 33／34 掃描：STORY_EVENTS 每一步的 text（包含巢狀）、說的人（照 events3d.js runBody）---------- */
   await sec('scan',async()=>{ fresh('2026-10-07',10,'campus'); const L=[];
-    for(const e of STORY_EVENTS){ const seen=new Set(); (function w(a,p){ if(Array.isArray(a)) a.forEach((x,i)=>w(x,p+'['+i+']')); else if(a&&typeof a==='object'&&!seen.has(a)){ seen.add(a);
+    for(const e of STORY_EVENTS.filter(e=>!GONE_EV.includes(e.id))){ const seen=new Set(); (function w(a,p){ if(Array.isArray(a)) a.forEach((x,i)=>w(x,p+'['+i+']')); else if(a&&typeof a==='object'&&!seen.has(a)){ seen.add(a);
       if(typeof a.text==='string'&&(wrapped(a.text)||NEW23.includes(a.text))){ const choice=/\.choice\[\d+\]$/.test(p); let kind, name=null;
         if(choice) kind='choice'; else if(a.phone||a.phoneMe) kind='phone'; else if(a.speaker&&a.speaker!=='player'&&a.speaker!=='narrator'){ const sid=EVENTS.speakerId(a.speaker); name=a.name||(sid!==a.speaker?a.speaker:(SOCIAL.npcName?SOCIAL.npcName(a.speaker):SOCIAL.displayName(a.speaker))); kind=name?'named':'nameless'; }
         else if(a.speaker==='player'){ kind='named'; name=H.G.name; } else kind='nameless';
@@ -126,7 +127,7 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
   /* ---------- 34 資料：STORY_EVENTS 的字串（全部載入以後，同第六批）---------- */
   { const J0=x=>JSON.stringify(x); const dump=(o,p,acc,seen)=>{ seen=seen||new Set(); if(o==null){ acc.push([p,String(o)]); return acc; } if(typeof o==='string'||typeof o==='number'||typeof o==='boolean'){ acc.push([p,typeof o==='string'?o:J0(o)]); return acc; }
       if(typeof o==='function'){ acc.push([p,'fn:'+String(o)]); return acc; } if(seen.has(o)){ acc.push([p,'(seen)']); return acc; } seen.add(o); for(const k of Object.keys(o)) dump(o[k],p+'.'+k,acc,seen); return acc; };
-    out.data=dump(STORY_EVENTS.map(e=>({id:e.id,dialogue:e.dialogue})),'STORY_EVENTS',[]).filter(x=>!/^fn:/.test(x[1])); }
+    out.data=dump(STORY_EVENTS.filter(e=>!GONE_EV.includes(e.id)).map(e=>({id:e.id,dialogue:e.dialogue})),'STORY_EVENTS',[]).filter(x=>!/^fn:/.test(x[1])); }
   /* ---------- 36 讀書區：LIBQ.quiet 的加法（BASE、現在的字各加一次）---------- */
   { const QB=QBANK, st=q=>q.q.replace(/。$/,''), op=q=>['A','B','C','D'].map(k=>k+'、'+q.options[k]).join('；'), forms=[];
     for(const q of QB){ if(q.type==='tf') forms.push(st(q)+'——這句話對不對？祐廷，你說。'); else forms.push(q.q,op(q)+'。祐廷，你選哪個？',op(q)); }

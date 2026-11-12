@@ -142,12 +142,12 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   /* 6. invite_replies.js */
   { const NEW=ctx.INVITE_REPLIES, OLD=evalIn(gitShow('src/data/invite_replies.js'),['INVITE_REPLIES']).INVITE_REPLIES;
     const rows=o=>Object.keys(o.people).flatMap(id=>o.people[id].map(r=>[id,r]));
-    const RN=rows(NEW), RO=rows(OLD); const strs=[], wr=[], me=[];
+    const RN=rows(NEW), RO=rows(OLD).filter(([id,r])=>!['kx36','kx38'].includes(r.id)); const strs=[], wr=[], me=[];   /* 可昕 kx36、kx38（CANON-NO-ECON-1112 第三批：這一項拿掉）：BASE 那兩列不比 */
     for(const [id,r] of RN) for(const x of r.lines){ const t=typeof x==='string'?x:x&&x.me; if(typeof t!=='string') continue; strs.push(t); if(wrapped(t)) wr.push(id+' '+r.id+'：'+t); if(typeof x!=='string') me.push(t); }
     check('6. invite_replies.js：lines 裡有名字說的（她說的、{me} 祐廷說的）沒有一句外面還有「」（'+strs.length+' 句）',strs.length>=270&&wr.length===0,sample(wr));
     const noOv=r=>{ const y=Object.assign({},r); delete y.ov; return y; }, nOv=RN.filter(x=>x[1].ov).length;
     const r6=cmpTree(RO.map(x=>x[1]),RN.map(x=>noOv(x[1])),p=>/^\[\d+\]\.lines\[\d+\](\.me)?$/.test(p));
-    check('6. 和 '+BASE+' 比：一樣的列（'+RN.length+'）、只有 lines 差外面的「」（改了 '+r6.ch+' 句；X324 覆蓋層換過的 '+nOv+' 列照稿），其他欄位（含 say 表上原文）一字不差',RN.length===RO.length&&RN.length>=250&&r6.bad.length===0&&r6.ch+OE.rows('invite_replies').length>=250,sample(r6.bad));   /* 覆蓋層換過的那幾格不算在「只差「」」裡（舊期望 r6.ch>=250）*/
+    check('6. 和 '+BASE+' 比：一樣的列（'+RN.length+'）、只有 lines 差外面的「」（改了 '+r6.ch+' 句；X324 覆蓋層換過的 '+nOv+' 列照稿），其他欄位（含 say 表上原文）一字不差',RN.length===RO.length&&RN.length>=248/* 可昕少兩列（CANON-NO-ECON-1112 第三批）*/&&r6.bad.length===0&&r6.ch+OE.rows('invite_replies').length>=250,sample(r6.bad));   /* 覆蓋層換過的那幾格不算在「只差「」」裡（舊期望 r6.ch>=250）*/
     const who=[]; RO.forEach(([id,r],i)=>r.lines.forEach((x,j)=>{ const y=RN[i][1].lines[j]; if(typeof x==='string'&&isNarr(x)!==isNarr(y)) who.push(r.id+'：'+x+' → '+y); }));
     const narr=strs.filter(isNarr);
     check('6. 誰說的（S.narrLine：旁白／她說）每一句都和 '+BASE+' 一樣；旁白照舊（'+narr.length+' 句，沛珊 ps30 裡面的「…」「…」照留）',who.length===0&&narr.length===7&&narr.includes('（「平日我在家念……」「書店六點打烊……」「七點下課……」）'),sample(who));
