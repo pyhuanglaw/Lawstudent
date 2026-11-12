@@ -95,7 +95,9 @@ async def main():
                 lines, menus, each = await walk_each(n)
                 for e in each: R.note('%s 選項「%s」：第一句「%s」；整段 %s' % (tag, e['option'], e['first'], J(e['lines'])))
             else:
+                m0 = await pg.evaluate("GAME.G.money|0")
                 lines, menus = await once(None, 'a')
+                m1 = await pg.evaluate("GAME.G.money|0"); R.note('%s 錢 %s → %s（%+d）' % (tag, m0, m1, m1 - m0))   # BB-C 12:31：洋洋炸物櫃錢有沒有扣
             await pg.screenshot(path=os.path.join(OUT, 'end_%s_%d.png' % (TAG, n)))
             R.note('%s 整段（%d 句、%d 個選單）：%s' % (tag, len(lines), len(menus), J(lines)))
             R.note('%s 選單：%s' % (tag, J(menus)))
