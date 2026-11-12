@@ -170,7 +170,7 @@ await sec(5,async()=>{
   check('5. pre0：換到系辦櫃台前（spots.player），演完回到霖澤館',entered.map(e=>e.z).join('>')==='linze_office>linze'&&near({x:entered[0].x,z:entered[0].z_},sp.player)&&G.zone==='linze',J(entered));
   check('5. 系辦助理站在櫃台後面（午休也在：排好的時間演）',extras.some(e=>e.id==='rab3_office_clerk'&&near(e,sp.counter)));
   check('5. 畫面：blur（classroom_small 的圖換成 blur）',bg3.includes('blur')&&!bg3.some(isImg),J(bg3));
-  check('5. 台詞照原文；C10_CREDIT_FILED',J(L3d)===J(['系辦助理：要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。','系辦助理：……國外的課不一定都抵得掉。先問清楚比較好。'])&&G.flags.C10_CREDIT_FILED===true,J(L3d));
+  check('5. 台詞照原文；C10_CREDIT_FILED',J(L3d)===J(['系辦助理：要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。','系辦助理：國外的課不一定都抵得掉。先問清楚比較好。'])&&G.flags.C10_CREDIT_FILED===true,J(L3d));
   G=fresh('2027-04-27',12.2,'linze'); H.said=[]; await without('linze_office',()=>OUT.go(GM,q('pre0')));
   check('5. 房間不在：照原本 2D（不換區域、classroom_small 的圖），台詞一樣',!entered.length&&H.bgs.some(isImg)&&J(lines())===J(L3d),J(H.bgs));
   G=fresh('2027-09-13',12.2,'linze'); H.said=[]; await OUT.go(GM,q('post')); const P3d=lines();

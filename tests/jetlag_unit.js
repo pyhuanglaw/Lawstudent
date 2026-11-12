@@ -48,7 +48,7 @@ const run=(day,h0,h1,st)=>{ st=st||0.25; G.day=day; G.weekday=wdOf(day); for(let
     picks=pk||[]; const ok=STORY.r1Due(G); await STORY.r1Table(GM); return {ok,T:lines(),fam0}; };
   let R=await table('TW',ALL,{YT_T1:true,ATTENDED_SHOW:true},['先聽']);
   check('2. 9/7 19:00 人在麵店：到期、演（R1_SEEN table）', R.ok&&G.flags.R1_SEEN==='table');
-  check('2. 開場六句（阿哲、以安、Alison）', JSON.stringify(R.T.slice(0,7))===JSON.stringify(['阿哲：欸，你們回來了。','沈以安：阿哲，Alison 呢？她不是每次都坐你旁邊？','阿哲：她在看電影。一個人。','沈以安：……一個人？','阿哲：（很得意）她現在會一個人去看電影了。看完會打給我講劇情。講兩個小時。','Alison：（剛好進門）我聽到我的名字了。（坐到阿哲旁邊）那部超好看，你們都要去看。','陳語彤：妳曬黑了。']), JSON.stringify(R.T.slice(0,7)));
+  check('2. 開場六句（阿哲、以安、Alison）', JSON.stringify(R.T.slice(0,7))===JSON.stringify(['阿哲：欸，你們回來了。','沈以安：阿哲，Alison 呢？她不是每次都坐你旁邊？','阿哲：她在看電影。一個人。','沈以安：一個人？','阿哲：（很得意）她現在會一個人去看電影了。看完會打給我講劇情。講兩個小時。','Alison：（剛好進門）我聽到我的名字了。（坐到阿哲旁邊）那部超好看，你們都要去看。','陳語彤：妳曬黑了。']), JSON.stringify(R.T.slice(0,7)));
   check('2. R1 台灣路線：語彤「妳曬黑了。」對以安 → 以安「日本的夏天。」→「那就是吃太多。」', R.T.join('|').includes('陳語彤：妳曬黑了。|沈以安：日本的夏天。|陳語彤：那就是吃太多。')&&!R.T.includes('祐廷：日本的夏天。'));
   check('2. 以安問語彤五句（AA_677 第 4 節：「蘇姨是第二十三個」後面多一句她為什麼答應受訪）', R.T.join('|').includes('沈以安：語彤，妳上學期都在幹嘛？|陳語彤：（從背包拿出一本很厚的筆記）訪問了二十三個老闆。……蘇姨是第二十三個。|陳語彤：她一開始說她沒有故事。後來我問她，店為什麼叫一盞，她講了兩個小時。|沈以安：給我看。|陳語彤：吃飯先。'));   /* AA_627 A-077【換字】燒臘店：「吃麵先。」→「吃飯先。」；AA_661 第 53 列：訪問的是老闆＝「蘇姨是第二十三個」（原本秀琴姨）*/
   const half=opts.find(o=>o.includes('「（先聽大家講）」'))||[];
@@ -58,7 +58,7 @@ const run=(day,h0,h1,st)=>{ st=st||0.25; G.day=day; G.weekday=wdOf(day); for(let
   check('2. 到場的人熟悉度 +1（阿哲、以安、Alison、語彤、子晴）', ['zhe','heroine_01','yu','heroine_03','heroine_04'].every(id=>SOCIAL.rel(id).fam>R.fam0[id]), JSON.stringify(['zhe','heroine_01','yu','heroine_03','heroine_04'].map(id=>[R.fam0[id],SOCIAL.rel(id).fam])));
   check('2. 芯慈：XINCI_FIRST 沒有（慈 6 還沒做）＝沒有那兩句', !R.T.some(t=>/我跟妳說一部劇/.test(t)));
   R=await table('TW',ALL,{},['語彤']); check('2. 「這半年」沒有田野、沒有 Q12：只有芷若、先聽兩個', JSON.stringify((opts.find(o=>o.includes('「（先聽大家講）」'))||[]))===JSON.stringify(['「芷若回來半年，九月又去英國了。這次是念研究所。」','「（先聽大家講）」']));
-  R=await table('TW',ALL,{YT_T1:true},['市場']); check('2. 選語彤那個：語彤「……你只會站在旁邊吃東西。」', R.T.includes('陳語彤：……你只會站在旁邊吃東西。'));
+  R=await table('TW',ALL,{YT_T1:true},['市場']); check('2. 選語彤那個：語彤「你只會站在旁邊吃東西。」', R.T.includes('陳語彤：你只會站在旁邊吃東西。'));
   R=await table('TW',ALL,{ATTENDED_SHOW:true},['發表會']); check('2. 選子晴那個：以安「誰？」→ 祐廷「……她自己講比較好。」', R.T.join('|').includes('沈以安：誰？|祐廷：……她自己講比較好。'));
   R=await table('TW',ALL,{},['芷若']); check('2. 選芷若那個：Alison「又？」→ 阿哲「她是去念書，不是去旅行。」', R.T.join('|').includes('Alison：又？|阿哲：她是去念書，不是去旅行。'));
   R=await table('JP',ALL,{YT_T1:true});
