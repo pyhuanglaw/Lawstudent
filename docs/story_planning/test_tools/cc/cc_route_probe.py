@@ -7,6 +7,7 @@
     press:<字>[><選項字>]    同 go，但按下去以後先每 0.5 秒截一張、共 4 秒（看演出當下：躺上床、搭電梯），再點對話
     sit:<字>                 走到標籤含那個字的座位（D.sit_all only＝那一張：點椅子、看按鈕、坐下、位置高度、起身推得動）
     walk:<x>,<z>[,<lv>]      go_to 那一點
+    sitat:<x>,<z>[,<lv>]     坐指定的那一張（座標 0.35 m 內、同一層；找不到＝FAIL_SETUP，不換別張）
     tapto:<x>,<z>[,<lv>]     只用點地走到那一點（一直點那一點的地面，點不到就轉鏡頭，最多 45 次）
     joyto:<x>,<z>[,<lv>]     只用搖桿走到那一點（cc_fn_lib.joy_to）
     look:<yaw>               鏡頭轉到那個方向（E.cam.yaw）再截一張（看牆、天花板）
@@ -142,6 +143,13 @@ async def main():
                     a = [float(v) for v in arg.split(',')]
                     _, out['stuck'] = await watched(pg, L.go_to(pg, cdp, R, a[0], a[1], 0.5, step, max_s=120, lv=int(a[2]) if len(a) > 2 else None), t); await D.settle(pg)
                     out['s'] = await record(pg, k, 'walk')
+                elif kind == 'sitat':   # 11-12 BB-C 15:29：指定那一張（座標＋層）；0.35 m 內找不到＝FAIL_SETUP，不換別張
+                    a = [float(v) for v in arg.split(',')]; lv_ = int(a[2]) if len(a) > 2 else 0
+                    st_ = await pg.evaluate("(a=>{ const L=GAME.E.interactables.filter(i=>i.seat&&!i.hidden).map(i=>({x:i.seat.x,z:i.seat.z,lv:(i.seat.lv!==undefined?i.seat.lv:i.lv)|0,label:String(typeof i.label==='function'?i.label():i.label||'')})); const m=L.filter(q=>q.lv===a.lv).map(q=>Object.assign(q,{d:Math.hypot(q.x-a.x,q.z-a.z)})).sort((p,q)=>p.d-q.d); return {best:m[0]||null, n:L.length}; })", {'x': a[0], 'z': a[1], 'lv': lv_})
+                    b_ = st_.get('best')
+                    if not R.check('%s FAIL_SETUP 檢查：找得到 (%s, %s) lv%d 那一張座位（0.35 m 內）' % (t, a[0], a[1], lv_), bool(b_) and b_['d'] <= 0.35, J(st_)): res['steps'].append(out); break
+                    rs = await D.sit_all(pg, cdp, t, 'route_%s_%02d' % (TAG, k), only=[(b_['x'], b_['z'])]); out['sit'] = rs
+                    out['s'] = await record(pg, k, 'sit', '坐指定那一張「%s」(%.2f, %.2f) lv%d 結果 %s' % (b_['label'], b_['x'], b_['z'], lv_, J(rs)))
                 elif kind in ('tapto', 'joyto'):   # 11-12 BB-C 15:28：只用點地／只用搖桿走到那一點（tapto：一直點那一點的地面，點不到就轉鏡頭；joyto：fn_lib.joy_to 搖桿）
                     a = [float(v) for v in arg.split(',')]; lv_ = int(a[2]) if len(a) > 2 else None
                     if kind == 'joyto':
