@@ -15,6 +15,8 @@ REL = ('fam', 'trust', 'comf', 'npcRom', 'rom')
 TELL = ('econ', 'retake', 'dad', 'mom', 'sister', 'bday')
 # new（AA 新寫、遊戲裡還沒有的訊息）的條件 → src/msgreply3d.js S.COND
 NEWCOND = {'YT_MET_JOB': 'flag:YT_MET_JOB', '學姊階段 ≥2': 'stage:2', '學姊階段 ≥3': 'stage:3'}
+# 遊戲裡已經拿掉的訊息（CANON-NO-ECON-1112 第三批：外校室友那一份 src/data/yule_lines.js 整份拿掉，裡面可昕那一則跟著沒了）：匯入時略過；AA 從 AA_709 拿掉以後這裡可以清空
+GONE = {'她說完就哭了，然後點了雞排。'}
 
 
 def git(*a):
@@ -44,6 +46,8 @@ def build(src, sha):
             w = f'{hid}[{i}]'
             t = e.get('text')
             new = bool(e.get('new'))
+            if t in GONE and not new:
+                continue
             if not t or (not new and not in_src(t)):
                 raise SystemExit(f'{w}.text「{t}」：src/ 裡找不到這一則訊息（要逐字；AA 新寫的要標 new）')
             opts = []
