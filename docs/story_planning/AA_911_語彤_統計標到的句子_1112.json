@@ -1,0 +1,2358 @@
+{
+ "_meta": {
+  "doc": "AA_911 語彤（DLG-FULL-REVIEW-1110 第六位）：voice_stats 標到的句子清單（開發分支 adoring-meitner；改稿前的盤點）",
+  "by": "AA-C 2026-11-12 20:2x",
+  "counts": {
+   "ell": 116,
+   "wx": 36,
+   "su": 43,
+   "tashuo": 21,
+   "today": 50,
+   "tri": 16,
+   "last": 45,
+   "this": 7
+  },
+  "voice": "AA_610／624／625／627：淡水人、富二代、第一次自己選；在一盞茶屋打工，蘇姨是她在臺北最親的大人；話少、觀察細、會笑。",
+  "finding": [
+   "「蘇姨說／她說…」轉述開頭 64 句：茶屋是她的生活，蘇姨出現很合理；可是學期末飯的選項回話（termend_opts）六句裡五句都是「蘇姨說…」，她自己的話被蘇姨蓋過去。第一批：termend_opts、msg_replies 裡「蘇姨說」連著出現的，留一半，其他改成她自己講。",
+   "「上次…」開頭 45 句：約會 remember 已在 AA_848 處理；剩下的在閒聊、手機，第二批看。",
+   "刪節號開頭 116 句：照 AA_906／AA_910 同一套（鬧著講的拿掉、真的停住的留），第二批。",
+   "「我想…」開頭 36 句：她在練習「自己選」，「我想」是她的主題，大多照留；同一場連兩句「我想」的才改。"
+  ],
+  "plan": "第一批「蘇姨說」密集處 → 送 BB → 套源稿 → 給 LAWWW SHA。"
+ },
+ "hits": [
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……嗯。在茶屋以外的地方看到你，第一次。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想了一個晚上，最後寫了「看人」。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……還在習慣。有時候我會等人來跟我說下一步。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨把椅子倒放在桌上，店裡一下子變很大。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說手停下來會想東想西。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想訪問蘇姨，她說不要，說她又沒什麼故事。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想再問她一次看看，不行再換。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨換了一盞新燈，舊的那盞是開店那年買的。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……考上再跟你說。社會系的我也喜歡，訪問人、聽人講事情那種。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天客人多。你先找位子坐，我等一下過去。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我好像比他們還早知道。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想自己做一個田野，題目還沒想到。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "她記錯了三次。我幫她改。她說我很囉嗦。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨都先上他們那桌。我問她為什麼，她說他們喝比較快。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……嗯。可是那壺她喝完了。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell",
+    "tri"
+   ],
+   "s": "……嗯。你字很醜。……好。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨換了新的茶壺，一直說不順手。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天比較多人，你可能要等一下。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我就知道你會這樣說。明天帶。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……那我十點去機場。送兩個。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說不會。……她已經在列要帶幾包泡麵了。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨看到我會趕我走。她說週四不要來，去做妳的事。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說不擦睡不著。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……這張她眨眼了。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……嗯。我知道。所以我週四都在總圖。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不知道。可是這次我會等她說完。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……大一那次，你記得嗎。她說她沒有故事。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不能說。她說十週年那天再說。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說，要看我有沒有在讀書。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……她說不要。總圖是我的地方。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說，字寫得太醜了。可是不換。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說每年都要。我說那我先去練字。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說，明年要再找一個週末的人。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說她要學會禮拜天也休息。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不用。回來以後，陪我吃飯就好。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天我顧吧檯。你要喝什麼？"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "又下雨。你有帶傘嗎？沒有的話我有。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說兒子在台中加班，她看完就睡。打來只是要說新年快樂。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說兩個人都要在裡面。我拍了十二張，她只要第一張。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……她簽了。簽在最後一段旁邊。很小。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說新鞋會滑。老闆笑她，還是幫她弄了。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……她說你那天也要穿好一點。她要拍照。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……她說太甜了。可是她每天都吃一個。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨在問有沒有學弟妹想來幫忙。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨叫我問你，畢業以後還來不來上班。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說那天要換一張大的。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天人多，你先去收那兩桌。"
+  },
+  {
+   "f": "ladder.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天凍頂賣完了，烏龍可以嗎？"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨問我到底哪一天。我說我也不知道。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天沒有班。我換掉了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想寫一點東西。寫店，寫每天來的人。還沒跟別人說過。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨會說不用，然後隔天就掛上去。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次坐到腳麻，這次我換邊。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次在這裡曬太陽，回去臉是紅的。是曬的。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "有。可是要等。三個人在排。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "我玩到一半。不想破關。想一直走。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次我站很遠。這次站你旁邊。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天沒有排班，看到幾點都可以。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想買爆米花。我們吃一桶就好。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次那部我後來查了影評。大家哭的地方跟我不一樣。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天的片，我沒查。想直接看。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想再待一下。你趕時間嗎？"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次坐的那邊今天有人了。我們坐這邊。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想再走一下，再去搭車。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想早點回去，腦袋裡東西有點多。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "（她在出口停下來，打電話給媽媽）媽。沒事。只是想打給妳。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次我站最後一排。這次我想坐被告的位置看看。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次我在那扇門前面站很久。今天我先走過去了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次找不到學校。這次我先看了地圖，在那邊。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次我走在前面。今天走旁邊。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想在橋中間站一下。你等我？"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次我走得很慢。這次我自己走，你在旁邊就好。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。這次船票我請。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次的襪子，這次我檢查過了。成對。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次起霧，什麼都看不到。這次看得到對面了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想去問那個老闆開多久了。你陪我一下？"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想買一小包，回去自己泡。泡壞了也沒有人知道。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次說坐船回家。我查了，真的有航班，我還是不要。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說可以。我等一下還是打給她。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天雲很多。也可以。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次看到最後了。今天……也看到最後。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天也看到最後。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "this"
+   ],
+   "s": "這次我點自己的。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次那杯太甜。這次我知道我要什麼了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次坐到天黑。今天也要嗎？"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次沒看完的那個夕陽，我記著，還欠著。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次三顆。這次我還沒數，先坐下。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次你借我外套。今天我自己帶了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次你吃了兩碗。這次我先幫你點兩碗。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次等了很久才上去。這次我們走旁邊那條小的。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次你拉著我上來。今天我想走在你前面一點。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想帶她來。她很久沒有休假了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨有我。這個老闆娘只有她自己。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次站了很久。今天也想。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次我坐裡面。今天我坐外面試試看。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想記住這個聲音。下雨天在茶屋的時候，可以想。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天看起來是滿的。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次不敢往下看。今天看了一眼。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想多待一下。你餓的話，包包裡有餅乾。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想買一包帶回去。冰箱放得下。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次我們挑的那條很好吃。這次換你挑。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天不用收杯子。好奇怪，手好閒。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次夕陽下去以後，我們又坐了十分鐘。今天也是。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "（她慢慢把腳放進去）會癢。會癢。好，習慣了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次會癢。這次我可以面無表情了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次坐這張椅子。今天也坐這張。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "回去的路好長。你可以睡。我會叫你。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次走了一半。今天想走完。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "好。鞋子要脫嗎？我脫好了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想在這棵樹下坐很久。你去逛，我等你。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次我在樹下等你。這次你陪我坐。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次坐的那節車廂鎖起來了，我們坐隔壁那節。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "我列了想吃的。七樣。兩天吃得完嗎？"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次說客人一直來一直走。今天車比較少。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次看到它整個下去才走。這次也是，不要催我。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次站的那個位置，今天曬得到太陽。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次坐的那張椅子，今天有人坐了。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次走到一半掉下來。這次走完了，你有看到嗎？"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次騎到一半停下來看海。這次我想騎到底再看。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天的霧比較薄。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次霧很大。這次看得到對面的塔。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次坐的那個位子有人了。我們坐船尾，比較吵，可是看得到浪。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次下來以後腿是軟的，這次還好。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天也在下面。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次走到一半就回頭。這次走完了，上面有一張椅子。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想不到別的字，就是很美。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次的雲比較薄。這次整個蓋住了，下面的人不知道上面是晴天。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "last"
+   ],
+   "s": "上次那部，我後來又想了一下。還是覺得那樣比較好。"
+  },
+  {
+   "f": "date_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想走慢一點。你不急吧？"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "好。……我上去了。明天店裡見。"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我想坐你旁邊。"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……今天想吃蔥。"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……一杯是你的。我幫你喝了。"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……那兩個禮拜，蘇姨會一直問你我在哪。"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……二樓最裡面那個位子，我幫你占。"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……蘇姨說，那你可以多排幾個班。"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說寒假茶屋照開，過年前一週休息。"
+  },
+  {
+   "f": "termend_lines.js",
+   "tags": [
+    "this"
+   ],
+   "s": "這次先不要。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨換菜單，舊的要丟。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……好像也可以這樣。我不問，我泡茶。等他們自己講。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想修的。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天想吃蔥。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天想。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說人會變。我試試看。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……太多了。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說兩年以後再看我還需不需要她。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨會一直問你我在哪。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……而已。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說，那你可以多排幾個班。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨會叫你洗杯子。很多杯子。"
+  },
+  {
+   "f": "termend_opts.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你不是客人。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……嗯。我忘了帶傘。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不好意思，現在幾點？"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……這裡也不少。坐那邊，那排插座是好的。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你有注意到。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "this"
+   ],
+   "s": "這次……還沒跟隔壁講。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……新年快樂。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "你那邊好吵。……好，你去看。我掛了。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我只問了一句。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你是法律系的，我問你一件事。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……對，我不知道。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天的麵不用錢。阿姨問的話，我就說你洗了碗。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……法服是什麼？"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……阿姨跟你講了吧。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……謝謝。可是我還是要念。"
+  },
+  {
+   "f": "events.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說成績不會掉，掉了就不做"
+  },
+  {
+   "f": "msg2_pool.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你不用說什麼。"
+  },
+  {
+   "f": "msg2_pool.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天沒辦法。"
+  },
+  {
+   "f": "msg2_pool.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……那你比我先過完今天。"
+  },
+  {
+   "f": "msg2_pool.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不太好。你可以來我家樓下坐一下嗎。"
+  },
+  {
+   "f": "msg2_pool.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不太好。你可以打給我嗎。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說我太瘦。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說可以。她還問你是誰。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨買的。她說椰影大道太遠了。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說是因為她先生喜歡喝茶。後面我不寫出來了。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想知道他要帶它去哪裡。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天在捷運上，看到一個阿伯抱著一盆蘭花，坐了十站。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說，休息完泡的茶比較好喝。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天茶屋很安靜。我在洗杯子。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨呢？"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說我聽她講話很認真。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……傘我自己有帶"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天訪問這家。老闆說招牌是他爸寫的。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "你那邊幾點。……我這邊在下雨。茶屋人很多。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說要放到散場。散場我再喝。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說謝謝。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我知道。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……茶屋十週年。蘇姨說你要來。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說不准帶禮物。你帶了她會念你一整晚。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說下禮拜回來，叫我不要一直吃泡麵。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說不用。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說要。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說要站在吧檯後面拍。她要入鏡。"
+  },
+  {
+   "f": "msg_replies.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我想讓她看我站在吧檯後面的樣子。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我不太會。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……咖啡廳我坐不住。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "映月湖……晚上很安靜。好。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說，以前湖邊有一個賣豆花的。後來就不見了。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天客人比較少。蘇姨說是下雨。我覺得是隔壁開了新的店。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天茶屋那個阿伯講了半小時他的房東。我一直聽。……他走的時候，多付了一盤茶點的錢。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說她年輕的時候，有人在這裡跟她告白。她說『後來沒有後來』。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天那個老闆說，他開店三十年，最怕客人吃完什麼都不說。"
+  },
+  {
+   "f": "invites.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說不要辦十週年，太麻煩。我說熟客都在問。她想了一下，說那就簡單辦。"
+  },
+  {
+   "f": "invite_replies.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……只有我們？"
+  },
+  {
+   "f": "invite_replies.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "好。我不會看地圖。我看窗外。"
+  },
+  {
+   "f": "invite_replies.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……那天。"
+  },
+  {
+   "f": "invite_replies.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天我在茶屋。你來喝茶，我收完店再陪你。"
+  },
+  {
+   "f": "invite_replies.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天茶屋缺人。明天？"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想懂人跟人之間的事。這件事，我想很久了。"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨教我泡茶，第一句話是：「不要急。」"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說不要急"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你看成找，我就比較敢繼續。"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天我在茶屋多做了一個小時。蘇姨問我怎麼了，我說：我在找。"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天社會學在講家暴的統計。老師說，數字後面每一個人，都要去法院。"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想試試看讀一本。"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我好像都沒有替我媽想過。我只想自己。"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想要這個。"
+  },
+  {
+   "f": "heroine_arcs.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你這句很犯規。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你的臉紅了。我沒有在笑你。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天茶屋的班換了，我提早下班。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……每天都這樣嗎？我好想知道。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天茶屋很忙，我餓了。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我們兩個都很沒禮貌。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天蘇姨讓我早一點下班。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天隔壁桌沒有人。我不知道要看什麼。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天我想坐吧檯。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天的片是我選的。是紀錄片。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想像那個老闆那樣，記得每一個客人。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……冷氣真的很冷。我沒有別的意思。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我剛剛沒有睡著。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天也有紀錄片。你要看嗎？"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天坐最後一排，可以看到所有人。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想在第一頁寫日期。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想寫一本書。很久以後。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你要等的話，我會寫快一點。"
+  },
+  {
+   "f": "activity_scenes.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天我只看攝影集。"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "this"
+   ],
+   "s": "這次只有兩個人"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……週六，你有空嗎。"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想回淡水。"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "this"
+   ],
+   "s": "這次只有兩個人。"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不用趕回去。"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……原來是這樣。"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天我跟蘇姨換了班。"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "this"
+   ],
+   "s": "這次先不要。這次是我的。"
+  },
+  {
+   "f": "date_wish.js",
+   "tags": [
+    "this"
+   ],
+   "s": "這次，我要在照片裡。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……是她嗎？"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……可是你有女朋友吧。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……可是你有女朋友。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想試試看。可是你有什麼事要跟我講。我不會一直問。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你要是真的想分，那是你們的事。不要跟我說是為了我。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……她還不知道，對不對。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你們還在一起。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天很忙喔？"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨呢？"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨，我等一下自己收。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……那你為什麼還來陪我下班？"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我等了。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……幾個？"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我問過你。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨後來問我，你那天怎麼那麼晚才走。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想見妳。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你不用排時間。我想好了會找你。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我知道你喜歡我。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……那你去做。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……謝謝你講。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我先不要一直想，你在想什麼。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想講一件事。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我想要你來的時候，是來找我。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想過了。我想繼續。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想把時間留給自己。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你還是可以來喝茶。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……坐著也是坐著。"
+  },
+  {
+   "f": "multirel_lines.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……嗯。這次，不要讓我等。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你會講出來。我都只是想。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我有想過。我想的可能不對。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你是這樣喔。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……那下次不要勉強陪我看。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨的茶屋，牆上也有。在水屋後面，鉛筆寫的。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨六十一歲。我算過了。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我看過。還好。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……她是很厲害。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你睡著了。我看到了。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我想走一下。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你怎麼會看我的鞋。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……小孩都那樣唱。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……有可能。她左手無名指有一圈比較白。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想把這種事寫下來。"
+  },
+  {
+   "f": "movie_plots.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你想得比較遠。我只看到那個老人笑了。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你也來了。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……你又來了。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我只聽懂 adjourned。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……其實是因為沒人要當。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我就是團長。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……學長你也還在想喔？"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天也有開"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說幫你留一杯"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天在淡水"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天在家包水餃。我包的都站不起來。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天店裡很忙"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨問你什麼時候回來"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天店裡來了一個修鞋的阿伯"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天下雨 沒什麼客人"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……晚安"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……沒事就好"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天收店的時候 我把你的位子擦了兩次"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……回來了喔。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說要看我有沒有吃飯。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……他的火比秀琴姨的大。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說好。她叫我多拍照。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……秀琴姨傳訊息問我們吃了什麼。我拍給她看了。"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨問你去哪了"
+  },
+  {
+   "f": "vac_activities.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不要問我分數 7/3 才知道"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天打烊早。……我等你很久了。"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "tri"
+   ],
+   "s": "情人節快樂。……我也準備了。等一下給你。"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天七夕？……我剛剛才看到日曆。"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天七夕。秀琴姨下午一直往門口看，好像比我還在等。"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "today"
+   ],
+   "s": "今天秀琴姨煮了豬腳麵線。……多一碗。你的。"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我想一直拿著。"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨多做了。……給你。"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……不要念出來。"
+  },
+  {
+   "f": "gift_holiday.js",
+   "tags": [
+    "su"
+   ],
+   "s": "蘇姨說七夕要喝甜的。"
+  },
+  {
+   "f": "r2y3a_events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我只是想租給學生，比較好收。"
+  },
+  {
+   "f": "r2y3a_events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……五年。租金照這個數字。"
+  },
+  {
+   "f": "r2y3a_events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……嗯。秀琴姨的事解決了。"
+  },
+  {
+   "f": "r2y3a_events.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想做一件自己的事。"
+  },
+  {
+   "f": "r2y3a_events.js",
+   "tags": [
+    "wx"
+   ],
+   "s": "我想把這條街上的人說的話記下來。茶屋的客人、巷口的老闆、秀琴姨。"
+  },
+  {
+   "f": "r2y3a_events.js",
+   "tags": [
+    "tashuo"
+   ],
+   "s": "她說她沒什麼好講的。……她講了兩個小時。"
+  },
+  {
+   "f": "r2y3b_events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……這學期週四，我去做田野。"
+  },
+  {
+   "f": "r2y3b_events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……去問人問題。"
+  },
+  {
+   "f": "r2y4a_events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……嗯。我也這樣想。只是想聽別人說。"
+  },
+  {
+   "f": "r2y4a_events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……我說我請。"
+  },
+  {
+   "f": "r2y4b_events.js",
+   "tags": [
+    "ell"
+   ],
+   "s": "……這個詞我在社會系也學過，可是意思不一樣。你講你們的。"
+  }
+ ]
+}
