@@ -3,7 +3,27 @@
 
 
 
-## 進度（2026-11-12 07:00 UTC，LAWWW2-C）
+## 進度（2026-11-12 11:00 UTC，LAWWW2-C）——以這一節為準
+
+**在做什麼**：使用者 11-12「新生南路、公館、汀州路的店從外面看是 2D 圖貼在外面，改成像 118 巷一樣」＋對 BB「大步球鞋店外面看進去牆壁是灰色，店裡面是木頭」→ 做法定案：**玻璃後面直接放走進去的那一顆室內模型**（`Z3.shopInsideReal`，zones3d.js；街景腳本那一間加 `real=True, back=室內深+0.1`）。
+
+**全部待辦（從這裡接）**——工作樹在 scratchpad `wt_tz5`（追開發分支 origin/claude/adoring-meitner-mqzst8；容器重開就沒了，patch 都在 wip/）
+| 項目 | 狀態 | 在哪 |
+|---|---|---|
+| 新生南路六間、南洋戲院、汀州路七間 | LAWWW 已接 | wip/shop_window3d_1112/ |
+| 東南大聯商品第 1、2 包、聯通手機殼、公館亮窗 12 間 | 第 1 包／手機殼／亮窗已接；第 2 包（dongnan_goods_v2.patch）DELIVERED 待 ACK | wip/dongnan_goods_1112/、wip/gg_lit12_1112/ |
+| 公館第一批（安泰、鮮果、榮恩典）＋招牌「公館燒臘」＋預載修正（medium 也預載、零件分幀）＋打烊鐵捲門 | DELIVERED 待 ACK：gg_real3_sign_v2.patch；最長一幀等 CC 重量 | wip/gg_real_inside_1112/ |
+| 公館第二批八間（青木、頁間、日和、洋洋、慢輪、Afar、轉角、Daybreak） | 做好、在 wt_tz5，雲端拍照確認中，還沒出 patch | — |
+| 燒臘 G00 店內換真的（室內 6 m 寬、店面 11.2 m，要重開門窗）、花序 G11（兩層） | 還沒做 | — |
+| 溫州街逐間店外／店內自查（八間＋日常失速、木曜日） | 還沒做 | 表在 wip/shop_out_in_audit_1112/README.md |
+| 阿忠鮮果店員站位、夜市 13 攤顧攤位置（BB：偏移）、聯通櫃台螢幕轉向 | 還沒做（夜市站位數字看過：站在攤體後 0.35 m，要拍圖確認） | src/shoplife3d.js S.tenderSpot |
+| 禮貌生財、溫特寶邸接室內 | 還沒做（溫特寶邸沒有室內模型） | — |
+| 鐵捲門高度逐間給（南洋戲院玻璃 3.6）、捲門箱 | 還沒做 | — |
+| 記帳：outbox_LAWWW2.json、user_asks_LAWWW2.json 今天的交付沒登 | 欠 | docs/handoff/ |
+
+**坑**：雲端瀏覽器（SwiftShader）一幀要幾百毫秒，fast_shots 的 wait 有上限，要用 `js` 手動推 zone.update；一般模式（預載）下一次載十幾間很慢。公館店面玻璃在 z 22、室內 ry=π；各店中心 x 見 zones3d.js GG_SHOP_REAL。
+
+## 進度（2026-11-12 07:00 UTC，LAWWW2-C）——舊
 
 - **規則包同步 D157 做完**：9640f9fae（使用者 11-12 在這個視窗允許；`rules_sync.py --check` 和 RULE_SOURCE 一樣）。hook 要重開工作階段才生效。稱呼使用者用「你／他」（D150）。
 - **SHUIYUAN-MARKET-LANE v1**（1530a5411）LAWWW-C 已整合。
