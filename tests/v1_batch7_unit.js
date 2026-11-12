@@ -36,21 +36,21 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
   check('日曆：第 3 週週五＝第 '+FRI3+' 天（9/19）、週六＝第 '+SAT3+' 天',FRI3===3&&CALENDAR.dateOf(SAT3).wd===6);
   /* ---------- 出遊的時間窗 ---------- */
   { fresh(10,9,'campus'); check('舊存檔沒有 outings：OUT.rec 建立空的、tick 不出錯',OUT.due(G)===null&&Array.isArray(G.outings)&&G.outings.length===0);
-    const o={id:'t1',ev:'ev_kexin_visits_ntu',day:10,h:14,place:'木柵大學',title:'測試',travelH:0.5};   /* 原本用 K1 導遊那一場（CANON-NO-ECON-1112 第三批拿掉），改用她來找你那一場 */
+    const o={id:'t1',ev:'ev_zhe_long_table_out',day:10,h:14,place:'公館',title:'測試',travelH:0.5};   /* 原本用 K1 導遊那一場（CANON-NO-ECON-1112 第三批拿掉），改用她來找你那一場 */
     check('排一次；同一個 id 不會排第二次',OUT.plan(G,o)===true&&OUT.plan(G,o)===false&&G.outings.length===1);
     const at=h=>{ G.hour=h; return !!OUT.due(G); };
     check('該出發的時間（14:00 減車程 30 分鐘）前 15 分鐘起、約好的時間後 45 分鐘內才問（13:12 不問、13:15 問、14:44 問、14:46 不問）',!at(13.2)&&at(13.25)&&at(14.73)&&!at(14.77)); }
-  /* ---------- 晚一點、不去了、過了時間 ---------- */
-  { fresh(10,13.8,'campus'); OUT.plan(G,{id:'t2',ev:'ev_kexin_visits_ntu',day:10,h:14,place:'木柵大學',title:'去木柵大學找可昕',travel:'開車約 30 分鐘'}); picks=['晚一點'];
+  /* ---------- 晚一點、不去了、過了時間 ---------- */   /* （CANON-NO-ECON-1112 第三批：原本借用的那場拿掉，改借 ev_zhe_long_table_out；只測出遊系統本身）*/
+  { fresh(10,13.8,'campus'); OUT.plan(G,{id:'t2',ev:'ev_zhe_long_table_out',day:10,h:14,place:'公館',title:'去公館',travel:'開車約 30 分鐘'}); picks=['晚一點'];
     const r=await tickOut(); const q=OUT.get(G,'t2');
-    check('問的選項：「出發：去木柵大學找可昕」（寫地點、時間、車程）、「晚一點」、「不去了」',r==='later'&&opts[0][0]==='出發：去木柵大學找可昕'&&opts[0].length===3&&opts[0][1].startsWith('晚一點')&&opts[0][2]==='不去了',JSON.stringify(opts[0]));
+    check('問的選項：「出發：去公館」（寫地點、時間、車程）、「晚一點」、「不去了」',r==='later'&&opts[0][0]==='出發：去公館'&&opts[0].length===3&&opts[0][1].startsWith('晚一點')&&opts[0][2]==='不去了',JSON.stringify(opts[0]));
     G.hour=14.0; const a=!!OUT.due(G); G.hour=14.14; const b=!!OUT.due(G);
     check('「晚一點」：20 分鐘內不再問，20 分鐘後再問',!a&&b,JSON.stringify({a,b,ask:q.ask}));
-    picks=['不去了']; let missedCalled=0; const ev=STORY_EVENTS.find(e=>e.id==='ev_kexin_visits_ntu'); const keep=ev.outingMissed; ev.outingMissed=()=>{ missedCalled++; };
+    picks=['不去了']; let missedCalled=0; const ev=STORY_EVENTS.find(e=>e.id==='ev_zhe_long_table_out'); const keep=ev.outingMissed; ev.outingMissed=()=>{ missedCalled++; };
     const r2=await tickOut(); ev.outingMissed=keep;
-    check('「不去了」＝missed、不演、呼叫 outingMissed（例如之後傳照片）',r2==='no'&&q.state==='missed'&&!G.events.done.ev_kexin_visits_ntu&&missedCalled===1&&said.length===0);
-    fresh(10,13,'campus'); OUT.plan(G,{id:'t3',ev:'ev_kexin_visits_ntu',day:10,h:14,place:'木柵大學',title:'x'}); G.hour=15.2; const r3=await tickOut();
-    check('過了時間（睡過頭、在忙）：missed、沒有問、不演',r3===null&&OUT.get(G,'t3').state==='missed'&&opts.length===0&&!G.events.done.ev_kexin_visits_ntu); }
+    check('「不去了」＝missed、不演、呼叫 outingMissed（例如之後傳照片）',r2==='no'&&q.state==='missed'&&!G.events.done.ev_zhe_long_table_out&&missedCalled===1&&said.length===0);
+    fresh(10,13,'campus'); OUT.plan(G,{id:'t3',ev:'ev_zhe_long_table_out',day:10,h:14,place:'公館',title:'x'}); G.hour=15.2; const r3=await tickOut();
+    check('過了時間（睡過頭、在忙）：missed、沒有問、不演',r3===null&&OUT.get(G,'t3').state==='missed'&&opts.length===0&&!G.events.done.ev_zhe_long_table_out); }
   /* ---------- K1 導遊、K1b 外校室友的宵夜（CANON-NO-ECON-1112 第三批：這一項拿掉）---------- */
   { fresh(FRI3,8,'campus'); run(8,21); check('K1：第 3 週週五不再傳導遊的邀約（CANON-NO-ECON-1112 第三批：這一項拿掉）',!G.msgs||!G.msgs.some(x=>x.tag==='kx_tour_ask'||x.tag==='kx_tour_ask2'));
     check('K1、K1b 那兩場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY_EVENTS.some(e=>e.id==='ev_kexin_tour_nccu'||e.id==='ev_kexin_yule_pass'));
@@ -75,15 +75,6 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('烤肉（只認識阿哲）：河濱、「阿哲負責烤。」，以安、語彤、柏翰、方奕廷、可昕都不在',caps.includes('河濱')&&L.includes('阿哲負責烤。')&&!L.some(t=>/以安|語彤|柏翰|方奕廷|可昕來了|菜單/.test(t)),JSON.stringify(L));
     L=await playBBQ({met_yu:true},()=>{ for(const id of ['heroine_01','heroine_03','classmate_bohan','npc_fangyt']) SOCIAL.remember(id,'FIRST_MET',''); },[]);
     check('烤肉（大家都認識）：Alison 負責吃、以安的烤肉時間表、語彤阿姨醃的肉（YT-BBQ-WHY-1027 起一句換三行，AA_486 第 2 節）、柏翰的考古題被沒收、方奕廷講植物；阿哲「可以叫秀琴姨開一個烤肉的菜單嗎？」語彤「不行。她會真的開。」',['阿哲負責烤，Alison 負責吃。','以安帶了一張「烤肉時間表」。','語彤也來了，提著一盒秀琴姨醃的肉。前一個週末在茶屋，你跟她說過今天要烤肉。','秀琴姨叫我拿來的。她說人多的地方要有肉。','秀琴姨醃的肉，全場最好吃。','柏翰帶了考古題，被沒收了。','可以叫秀琴姨開一個烤肉的菜單嗎？','不行。她會真的開。'].every(t=>L.includes(t))&&L.some(t=>/方奕廷/.test(t)),JSON.stringify(L));
-    L=await playBBQ({KX_BBQ_COME:true},null,['我女朋友','阿哲贏']);
-    check('K3 介紹「這是可昕，我女朋友。」：阿哲「哪間學校的？」可昕「木柵大學的。考古題可以交換。」；之後比冷笑話、阿哲贏→「好，我回去練。」；不透露經濟系',L.includes('哪間學校的？')&&L.includes('木柵大學的。考古題可以交換。')&&L.includes('好，我回去練。')&&G.flags.ECON_PAST_SHARED===undefined&&G.flags.KX_MET_NOODLE_TEAM===true,JSON.stringify(L.slice(-6)));
-    L=await playBBQ({KX_BBQ_COME:true},null,['出題','可昕贏']);
-    check('K3 介紹「她會出題考你們。」：「刑總第一題。準備好了嗎？」「我拒絕回答。」（AA_295）；可昕贏沒有「我回去練」；不透露經濟系',L.includes('刑總第一題。準備好了嗎？')&&L.includes('我拒絕回答。')&&!L.includes('好，我回去練。')&&G.flags.ECON_PAST_SHARED===undefined);
-    L=await playBBQ({KX_BBQ_COME:true},()=>SOCIAL.remember('heroine_01','FIRST_MET',''),['怎麼認識','阿哲贏']);
-    check('K3「讓她說我們怎麼認識的。」（原本不是 full）：可昕的介紹＋阿哲「等一下。經濟系？重考？」＋你「……嗯。念了一個多月。」（AA_236 A5）→ full、以安（認識）記 KNOWS_ECON_YEAR',L.includes('杜可昕。木柵大學法律。我們以前是經濟系的同學。……後來一起重考。')&&L.includes('等一下。經濟系？重考？')&&L.includes('……嗯。念了一個多月。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
-    L=await playBBQ({KX_BBQ_COME:true,ECON_PAST_SHARED:'full'},null,['怎麼認識','阿哲贏']);
-    check('K3「讓她說」（原本就是 full）：阿哲「喔——就是那一年。」，不再問',L.includes('喔——就是那一年。')&&!L.includes('等一下。經濟系？重考？'));
-    L=await playBBQ({KX_BBQ_COME:true,ECON_PAST_SHARED:'half'},null,['怎麼認識','阿哲贏']);
-    check('K3「讓她說」（原本 half）：升成 full；以安不認識就不記',G.flags.ECON_PAST_SHARED==='full'&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR')); }
+    /* K3 介紹可昕那幾種（女朋友、外校、舊序章的過去）：CANON-NO-ECON-1112 第三批：這一項拿掉（可昕開局不認識、同系同學；烤肉那一句照 AA_884 第四批換字）*/ }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
