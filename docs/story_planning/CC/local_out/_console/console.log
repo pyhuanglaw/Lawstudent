@@ -644,3 +644,11 @@
 [18:19:02] [res] cpu=8% mem=48% (15.3/31.4 GB) chrome_testing=10  START HELP_GUIDE_new3
 [18:22:49] 正在跑：SSB_gg1（已跑 41 分／上限 80 分）、SSB_gg2（已跑 41 分／上限 80 分）、HELP_GUIDE_new3（已跑 3 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:23:14] [res] cpu=1% mem=47% (15.0/31.4 GB) chrome_testing=10  END HELP_GUIDE_new3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9656b7216..6ebd22366  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:23:20] ==== END   HELP_GUIDE_new3  exit=1  255s   ====
+[18:23:30] solo item XS_PERF_1ed0_desk waits: no new items start until the 2 running item(s) finish
+[18:27:49] 正在跑：SSB_gg1（已跑 46 分／上限 80 分）、SSB_gg2（已跑 46 分／上限 80 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:28:40] solo item XS_PERF_7e40_desk waits: no new items start until the 2 running item(s) finish
+[18:30:03] [res] cpu=24% mem=42% (13.5/31.4 GB) chrome_testing=5  END SSB_gg2
