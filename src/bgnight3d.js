@@ -64,10 +64,14 @@ const BGN=(function(){
     if(hr<S.H0||hr>=S.H1||!S.here(G,c.id)) return null;
     if(typeof STORY!=='undefined'&&STORY.presence){ const p=STORY.presence(c.id,G); if(p&&p.here===false) return null; }
     return {days:[5],from:S.H0,to:S.H1,zone:null,act:'out',away:L.away,note:'AA_623 桌遊夜'}; };
+  /* 那一晚玩家沒空（AA_828 第 3 節，SHOP-JOBS-1112）：週五 18:00～22:00 在南洋戲院上班的那一天（JOBS.bgnBusy）——明軒照樣約、群組的回覆照舊，
+     玩家只有「這次不行。」可以回（明軒照舊回「好，兩個禮拜後還有。」）、不排出遊；先答應了才排到班的（答應以後才應徵）＝那一晚的出遊取消，不要兩個都演 */
+  S.busy=(G,d)=>{ try{ return typeof JOBS!=='undefined'&&!!JOBS.bgnBusy&&!!JOBS.bgnBusy(G,d); }catch(e){ return false; } };
   /* 手機：當天 12:00 明軒約 */
-  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined'||!hasCal()) return; const F=G.flags, d=G.day;
+  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined'||!hasCal()) return; const F=G.flags, d=G.day, busy=S.isNight(d)&&S.busy(G,d);
+    if(busy&&F.BGN_GO===d){ F.BGN_GO=null; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'bgn_'+d):null; if(q&&q.state==='planned') q.state='cancelled'; }
     if(S.isNight(d)&&G.hour>=12&&G.hour<S.H0&&knows(MX,G)&&!PHONE.sent(G,'bgn_inv_'+d)){
-      const grp=inGrp(G), th=grp?NG:PM, n=F.BGN_INV_N|0, h=Math.max(12,G.hour), opts=[{t:'好。',set:{BGN_GO:d}},{t:'這次不行。',say:[{from:MX,text:L.no}]}];
+      const grp=inGrp(G), th=grp?NG:PM, n=F.BGN_INV_N|0, h=Math.max(12,G.hour), opts=(busy?[]:[{t:'好。',set:{BGN_GO:d}}]).concat([{t:'這次不行。',say:[{from:MX,text:L.no}]}]);
       const items=(!grp&&n===0?L.first.map(t=>({th,from:MX,text:t})):[{th,from:MX,text:L.group[n%L.group.length]}]);
       items[items.length-1].ask={until:d*24+S.H0,opts};
       if(grp){ const R=(id,t)=>({th,from:id,text:t,dt:2/60});
