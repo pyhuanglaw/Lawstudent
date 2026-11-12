@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -313,7 +313,15 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         _rr = [r for r in (s4.get('rects') or []) if (r[2] - r[0]) * (r[3] - r[1]) < 0.6]
         _wr = await pg.evaluate(WINRECT_JS, {'from': list(base), 'at': list(tgt), 'zid': zid}); row['m']['win_rect_data'] = _wr
         # 有 Z3.shopWindowRects（PLACE-GATE-WINDOW-RECT-1112，LAWWW-C 08:23）＝用這間店自己的櫥窗四角投影，不會混到隔壁；沒有才用射線找玻璃
-        _win = (_wr['rect'] + ['shopWindowRects']) if _wr.get('rect') else (_gr['rect'] + ['raycast_glass']) if _gr.get('rect') else (max(_rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1])) if _rr else [0.2, 0.33, 0.78, 0.8, 'fixed'])
+        # TZ_REAL_consist（2bfea29f）：沒有 shopWindowRects 的版本，射線找到的「玻璃」是店門口展示台的小玻璃（面積 1.5～3%）→ 框到店外的展示物。太小（面積 <6% 或寬 <15%）的不用、換下一個來源，最後固定框
+        _cands = ([(_wr['rect'], 'shopWindowRects')] if _wr.get('rect') else []) + ([(_gr['rect'], 'raycast_glass')] if _gr.get('rect') else []) + ([(max(_rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1]))[:4], 'window_proj')] if _rr else [])
+        _skip = []; _win = None
+        for _r, _src in _cands:
+            _a = (_r[2] - _r[0]) * (_r[3] - _r[1])
+            if _a >= 0.06 and (_r[2] - _r[0]) >= 0.15: _win = list(_r[:4]) + [_src]; break
+            _skip.append([_src, round(_a, 3)])
+        if _win is None: _win = [0.2, 0.33, 0.78, 0.8, 'fixed' + ('（%s 太小）' % '、'.join('%s %.1f%%' % (x[0], x[1] * 100) for x in _skip) if _skip else '')]
+        row['m']['win_rect_skipped'] = _skip
         row['m']['glass_rect'] = _gr
         rays = await pg.evaluate(DEPTH_JS, {'from': list(base), 'at': list(tgt), 'rect': [max(0, _win[0]), max(0, _win[1]), min(1, _win[2]), min(1, _win[3])]})
         # BB-C 06:26（X352 SHOP-WINDOW-3D）：店外也連拍——遊戲鏡頭在門外，邊轉 5 秒（同 BURST_JS），看櫥窗裡有沒有閃
@@ -356,7 +364,7 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
             row['m']['consistent'] = {'out': mo, 'in': mi, 'd_wall': dw, 'd_floor': df, 'rgb_wall': rgb_w, 'rgb_floor': rgb_f, 'metric': 'Lab Δab', 'win_rect': [round(v, 3) for v in big[:4]], 'rect_from': big[4] if len(big) > 4 else '', 'regs': {k: [round(v, 3) for v in r] for k, r in regs.items()}}
             row['v']['7b_consistent'] = 'FAIL' if max(dw, df) >= CON_HI else ('PASS' if max(dw, df) <= CON_LO else 'UNKNOWN')
             pair = await pg.evaluate(PAIR_JS, {'a': s4['u'], 'b': s1h['u'], 'ra': [regs['out_wall'], regs['out_floor']], 'rb': [regs['in_wall'], regs['in_floor']],
-                                               'title': '%s %s 店外（左）vs 進門（右，藏人）  牆 Δab %.0f  地板 Δab %.0f  %s' % (rm['name'], hh, dw, df, '★不一致' if row['v']['7b_consistent'] == 'FAIL' else row['v']['7b_consistent'])})
+                                               'title': '%s %s 店外（左）vs 進門（右，藏人）  牆 Δab %.0f  地板 Δab %.0f  %s  框：%s' % (rm['name'], hh, dw, df, '★不一致' if row['v']['7b_consistent'] == 'FAIL' else row['v']['7b_consistent'], big[4] if len(big) > 4 else '')})
             open(os.path.join(OUT, 'consist_%s_%s.jpg' % (zid, hh)), 'wb').write(base64.b64decode(pair.split(',', 1)[1]))
         else:
             row['v']['7b_consistent'] = 'UNKNOWN'; row['m']['consistent'] = {'why': '店外看不到窗玻璃的網格（投影不到）或沒有進門那張'}
