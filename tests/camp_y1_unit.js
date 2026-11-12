@@ -119,7 +119,7 @@ const day=k=>STORY.dayOfKey(k);
     check('G5. 沒去宿營的版本（BB_168 6-3）：Kevin 的置頂排第一（AA_218 L512）、「有進來的舉個手，考古題茶會那天給你們。」、回「（舉手）／我在。」',kv.length===3&&kv[0].pin&&/^學弟妹好～我是 Kevin，大二。/.test(kv[0].text)&&kv[2].text==='有進來的舉個手，考古題茶會那天給你們。'&&kv[2].ask.opts.map(o=>o.t).join('/')==='（舉手）/我在。',kv.map(m=>m.text).join(' | ')); }
   fresh(); G.flags.CAMP_Y1=true; G.day=day('2025-08-29'); G.hour=9; picks=['我是']; await STORY.startLawWeek1(GM,null,{day:G.day,hour:15,econ:true});
   { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0);
-    check('F7. 經濟系轉過來：「你去年也搬過一次宿舍」在行李箱那句前面；錢不重設',ix('你去年也搬過一次宿舍，這次只有一個行李箱。')>=0&&ix('你去年也搬過一次宿舍')<ix('行李箱的輪子')&&G.money===22000,String(G.money));
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（F7 經濟系轉過來的那一句）
     check('F8. 選「我是祐廷，法律系。」→「阿凱。資工系的。」（AA_606 第 2 節，原本「阿凱。資工。」）「法律系喔，那你書應該很多。衣櫃大的那格給你。」（AA_208：櫃子→衣櫃）',said.includes('阿凱：阿凱。資工系的。')&&said.includes('阿凱：法律系喔，那你書應該很多。衣櫃大的那格給你。')); }
   // ---------- B AA_608 第 10 節（10-1～10-5）：宿營只認識芯慈、阿哲、沛珊 ----------
   { const is=(s,t)=>s===t||(s||'').endsWith('：'+t), at=(t,from)=>{ for(let k=from|0;k<said.length;k++) if(is(said[k],t)) return k; return -1; };

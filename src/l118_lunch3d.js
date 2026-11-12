@@ -71,7 +71,7 @@ const LUNCH118=(function(){
   /* 資料夠不夠開：兩個選項的字、至少一個人有邀約的句子、至少一組午餐對話 */
   S.dataOk=function(){ const d=D(); return !!(d&&d.options&&d.options.accept&&d.options.decline&&d.who&&d.invite&&Array.isArray(d.lunch)&&d.lunch.some(g=>g&&Array.isArray(g.lines)&&g.lines.length)
     &&Object.keys(d.invite).some(id=>d.who[id]&&d.invite[id]&&Array.isArray(d.invite[id].lines)&&d.invite[id].lines.length)); };
-  S.on=G=>!!G&&(G.stage||'law')==='law'&&!(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G))&&typeof L118!=='undefined'&&typeof CLS!=='undefined'&&S.dataOk();
+  S.on=G=>!!G&&(G.stage||'law')==='law'&&typeof L118!=='undefined'&&typeof CLS!=='undefined'&&S.dataOk();
   S.rec=function(G){ const R=L118.rec(G); let I=R.inv; if(!I||typeof I!=='object'||Array.isArray(I)) I=R.inv={}; for(const k of ['decl','dn','lg','sp','wk']) if(!I[k]||typeof I[k]!=='object'||Array.isArray(I[k])) I[k]={}; if(typeof I.seen!=='number') I.seen=0; if(typeof I.n!=='number') I.n=0; return I; };
   S.doneToday=G=>{ const I=G&&G.l118&&G.l118.inv; return !!I&&typeof I==='object'&&I.done===G.day; };
   /* 決定性亂數：只看哪一天＋用途（鹽），0 ≤ r < 1。不用 Math.random：同一天存讀檔、重進不會重抽 */

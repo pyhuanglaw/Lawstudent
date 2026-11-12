@@ -12,7 +12,7 @@ const PSR=(function(){
   const S={}, ID='classmate_peishan', KEY='2027-08-06', OID='ps_results';
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const T=(d,h)=>d*24+h, now=G=>T(G.day,G.hour);
-  const law=G=>!!G&&G.stage!=='econ';
+  const law=G=>!!G;
   const dating=G=>!!(G&&G.flags&&G.flags['dating_'+ID]);
   const P=t=>({th:'p:'+ID,from:ID,text:t});
   S.LINES={ where:'你現在在哪？', bus:'我現在去搭客運。', steps:'到總圖外面的台階。我中午到。', wait:'我到了。台階這邊，樹蔭下面。', sit:'（八月的午後。她坐在台階上，看到你，才站起來。）' };

@@ -755,7 +755,8 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
       check('8. 學妹改名佳穎（第 8 節第 5 點）：遊戲裡（註解不算）「宜蓁」只剩姊姊（家裡、寒暑假、日本行前），學妹那幾處都換了',!bad.length&&where.length>0,J({bad,where}));
       check('8. 佳穎：交棒那一場、報到桌的旁白（AA_498）、她私訊的對話框、群組名字都是佳穎',L().kv.junior==='佳穎'&&noCmt('src/data/pool_story.js').includes('（排在隊伍中間的，是佳穎。她看到你，比你還緊張。）')&&NM('family_junior')==='佳穎'&&!(PORTRAIT_ONLY.family_junior.alias||[]).includes('宜蓁'));
       const home=noCmt('src/home3d.js'), vf=noCmt('src/data/vacfill_events.js');
-      check('8. 祐廷的姊姊照舊叫宜蓁（home3d.js 的 SIS、寒暑假的對話框；讀檔不換 from sister 的）',/SIS=\{name:'宜蓁'\}/.test(home)&&(vf.match(/speaker:'宜蓁',name:'宜蓁'/g)||[]).length>=7&&(()=>{ const s={msgs:[{th:'p:sister',from:'sister',name:'宜蓁',text:'x'}]}; S().migrate(s); return s.msgs[0].name==='宜蓁'; })()); } });
+      // CANON-NO-ECON-1112：經濟系那一年拿掉（寒暑假的對話框裡姊姊那幾場有六處在經濟系那年暑假，剩一處（原本 >=7））
+      check('8. 祐廷的姊姊照舊叫宜蓁（home3d.js 的 SIS、寒暑假的對話框；讀檔不換 from sister 的）',/SIS=\{name:'宜蓁'\}/.test(home)&&(vf.match(/speaker:'宜蓁',name:'宜蓁'/g)||[]).length>=1&&(()=>{ const s={msgs:[{th:'p:sister',from:'sister',name:'宜蓁',text:'x'}]}; S().migrate(s); return s.msgs[0].name==='宜蓁'; })()); } });
 
   H.done();
 })();

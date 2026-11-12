@@ -19,7 +19,8 @@ if(typeof SOCIAL.npcName==='function'){
   H.said=[]; (async()=>{ await EVENTS.runLines([{speaker:SIS,text:'測試'}]);
     check('2. 事件台詞的說話人：交往中＝溫書瑀',H.said[0]&&H.said[0].who==='溫書瑀',JSON.stringify(H.said));
     const g3=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
-    check('2. game3d.js spawnCharacter：「和'+'○○說話」、人物名字用 npcName',/talkLabel:bgOnly\?null:'和'\+SOCIAL\.npcName\(id\)\+'說話'/.test(g3)&&/n\.name=SOCIAL\.npcName\(id\); n\.charId/.test(g3));
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（bgOnly（經濟系那年只當背景的人）拿掉，比對的字跟著拿掉）
+    check('2. game3d.js spawnCharacter：「和'+'○○說話」、人物名字用 npcName',/talkLabel:'和'\+SOCIAL\.npcName\(id\)\+'說話'/.test(g3)&&/n\.name=SOCIAL\.npcName\(id\); n\.charId/.test(g3));
     check('2. story3d.js 說完話重設名字用 npcName（不再有 n.name=SOCIAL.displayName）',!/n\.name=SOCIAL\.displayName\(id\)/.test(st)&&(st.match(/n\.name=SOCIAL\.npcName\(id\)/g)||[]).length>=6);
     /* BB 10-23 15:46：同一次對話裡事件中才開始交往，接著的 Café 閒聊（SOCIAL.playSteps，說話人是生成時取名的 3D 人物）還是「溫學姊」*/
     const n={name:'溫學姊',charId:SIS,obj:{position:{x:0,y:0,z:0}}}; H.said=[]; await SOCIAL.playSteps(GM,n,SIS,['這段你幫我看一下，我寫得有點亂。']);

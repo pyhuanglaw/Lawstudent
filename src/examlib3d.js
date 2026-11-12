@@ -42,7 +42,7 @@ const EXLIB=(function(){
   const now=G=>(G.day|0)*24+(+G.hour||0);
   const hash=str=>{ let h=2166136261; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; };
   const rnd=str=>(hash(str)%100000)/100000;
-  const law=G=>!!G&&(G.stage||'law')==='law', econ=G=>!!G&&G.stage==='econ';
+  const law=G=>!!G&&(G.stage||'law')==='law';
   const termOf=(G,day)=>typeof CALENDAR!=='undefined'?CALENDAR.termOf(day==null?G.day:day):null;
   const wdOf=day=>{ const w=CALENDAR.dateOf(day).wd; return w===7?0:w; };
   const weekendDay=day=>CALENDAR.dateOf(day).wd>=6;
@@ -73,7 +73,7 @@ const EXLIB=(function(){
     try{ if(typeof CLS!=='undefined'&&CLS.examList) for(const e of CLS.examList(G,termId)){ if(!e||e.kind!=='final'||typeof e.day!=='number') continue; const t=e.day*24+(typeof e.t1==='number'?e.t1:17); if(end==null||t>end) end=t; } }catch(e){ console.warn('EXLIB.examEnd',e); }
     if(end==null&&typeof CALENDAR!=='undefined'&&CALENDAR.termDays){ const r=CALENDAR.termDays(termId); if(r) end=(r.to+1)*24; }
     if(M.size>40) M.clear(); M.set(key,end); return end; };
-  S.on=function(G,day,h){ if(!G||typeof CALENDAR==='undefined') return false; if(econ(G)) return false;   /* 經濟系那一年沒有（第 0 節：AA_669 第 5 節改「不用做」，AA-C 11-04 20:56）*/ if(day==null) day=G.day|0; if(h==null) h=hr(G); const t=termOf(G,day); if(!t||!t.week||t.week<S.WEEK) return false;
+  S.on=function(G,day,h){ if(!G||typeof CALENDAR==='undefined') return false; /* 經濟系那一年沒有（第 0 節：AA_669 第 5 節改「不用做」，AA-C 11-04 20:56）*/ if(day==null) day=G.day|0; if(h==null) h=hr(G); const t=termOf(G,day); if(!t||!t.week||t.week<S.WEEK) return false;
     if(typeof CLS!=='undefined'&&CLS.termAway&&CLS.termAway(G,t.id)) return false;   /* 國外那一學期沒有（日本、美國照 AA_340、AA_341）*/
     const end=S.examEnd(G,t.id); if(end!=null&&day*24+h>=end) return false; return true; };
 
@@ -99,7 +99,7 @@ const EXLIB=(function(){
     if(h>=f) return 1; if(h<o) return 0; if(h<o+1) return Math.min(0.7,0.7*(h-o)); return Math.min(1,0.7+0.3*(h-o-1)/Math.max(0.25,f-o-1)); };
 
   /* ---------- 誰（表上的人；經濟系那一年換人）---------- */
-  S.cast=G=>econ(G)?(L().econ||{}):(L().people||{});
+  S.cast=G=>(L().people||{});
   S.inCast=function(G,id){ const P=S.cast(G)[id]; if(!P) return null; if(P.terms){ const t=termOf(G); if(!t||!P.terms.includes(t.id)) return null; } return P; };
   S.isPool=id=>typeof POOL!=='undefined'&&!!POOL.owns&&POOL.owns(id);
   const dating=(G,id)=>!!(G.flags&&G.flags['dating_'+id]===true);
@@ -207,8 +207,6 @@ const EXLIB=(function(){
   /* 同一天最多三位在同一間：表上同一間的人超過三位＝照日期輪，多的照作息 */
   S.capOk=function(G,id,z){ const C=S.cast(G), ids=Object.keys(C).filter(k=>S.inCast(G,k)&&S.zoneOf(C[k].place)===z); if(ids.length<=3) return true;
     ids.sort((a,b)=>hash('excap|'+G.day+'|'+a)-hash('excap|'+G.day+'|'+b)); return ids.indexOf(id)<3; };
-  /* 經濟系那一年：三位朋友在這一段沒有作息＝平日給一段讀書的時間（LAWWW 暫定；作息歸 BB）*/
-  S.Y0_SLOTS={econ_pinyu:[8,14],econ_zhengxun:[8,17],econ_weilun:[8,12]};
   /* 這一段多給的讀書時段（BB_260 第 1 節，BB-C 11-04 17:3x；使用者 16:1x「會看到很多同學在唸書不一定有約」）：只填原本的空檔——作息這個時間沒有東西，或只是在校園裡晃（wander）、走路（walk）；
      上課、考試、打工、劇情、約好的事照舊優先（S.special、act 不是 wander／walk 的都不動）。wd：0＝週日…6＝週六。since：從哪一學期起（明軒：大二以後）。地方照 AA_669 表上的那一間（S.cast 的 place）
      子晴「有插座的那一排」：總圖大廳二樓的配置沒有標插座，位子照 spotSeat（人＋區域當種子）*/
@@ -217,7 +215,7 @@ const EXLIB=(function(){
     yu:[{wd:[1,2,4,5],from:11,to:17}],   /* Alison：三不去（「明天早上我起不來」）*/
     classmate_mingxuan:[{wd:[1,2,3,4],from:13,to:19,since:'Y2S1'}] };   /* 明軒：五不去（「明天我在宿舍讀」）*/
   S.FILL_ACTS=['wander','walk'];
-  S.extraSlot=function(G,id,day,h){ const L=S.EXTRA[id]; if(!L||econ(G)||typeof CALENDAR==='undefined') return null; const wd=CALENDAR.dateOf(day).wd%7, t=termOf(G,day);
+  S.extraSlot=function(G,id,day,h){ const L=S.EXTRA[id]; if(!L||typeof CALENDAR==='undefined') return null; const wd=CALENDAR.dateOf(day).wd%7, t=termOf(G,day);
     for(const X of L){ if(!X.wd.includes(wd)||h<X.from||h>=X.to) continue; if(X.since&&(!t||String(t.id)<X.since)) continue; return X; } return null; };
   S.fillable=b=>!b||(S.FILL_ACTS.includes(b.act)&&!S.special(b));
   const entMemo=new Map();
@@ -236,7 +234,7 @@ const EXLIB=(function(){
     const z=S.zoneOf(P.place); if(!z||!S.isOpen(z,day,h)) return null;
     const b=S.base(c,G);
     if(S.fillable(b)){ const X=S.extraSlot(G,id,day,h); if(X&&S.capOk(G,id,z)){ const o=Math.max(X.from,S.openH(z,day)||X.from); if(h>=o) return entry(G,id,z,o,Math.min(X.to,S.closeH(z,day,h)),loadedSeat(z,id),'bb260'); } }   /* BB_260：多給的讀書時段（只填空檔）*/
-    if(!b){ const Y=econ(G)&&S.Y0_SLOTS[id]; if(!Y||weekendDay(day)) return null; const o=Math.max(Y[0],S.openH(z,day)||Y[0]); if(h<o||h>=Y[1]) return null; return entry(G,id,z,o,Math.min(Y[1],S.closeH(z,day,h)),loadedSeat(z,id),'y0'); }
+    if(!b) return null;
     if(b.act!=='read'||b.zone==null||b.zone===z||!S.STUDY_FROM.includes(b.zone)||S.special(b)) return null;
     if(!S.capOk(G,id,z)) return null;
     return entry(G,id,z,b.from,Math.min(b.to,S.closeH(z,day,h)),loadedSeat(z,id),'3'); };
@@ -302,7 +300,7 @@ const EXLIB=(function(){
   S.otherLibs=function(G){ if(typeof PLACES==='undefined'||!PLACES.quickList) return []; const base=z=>PLACES.base?PLACES.base(z):z, here=base(G.zone)==='linze'||G.zone==='linze_4f'?'linze':base(G.zone);
     const known=z=>!!((PLACES.known0&&PLACES.known0[z])||(G.visited&&G.visited[z]));
     return PLACES.quickList().filter(p=>p&&['library_hall','soclib','lawlib','linze'].includes(p[0])&&base(p[0])!==here&&known(p[0])&&(typeof PLACES.isOpen!=='function'||PLACES.isOpen(p[0],hr(G),G.day))); };
-  const atHome=G=>typeof HOME!=='undefined'&&((HOME.baseMode&&HOME.baseMode(G))||(HOME.movedOut&&HOME.movedOut(G)));
+  const atHome=G=>typeof HOME!=='undefined'&&((HOME.movedOut&&HOME.movedOut(G)));
   /* 再繞一圈：平日 14:00 以前一半的機會（照日期＋區域，同一天同一間一樣）；週末、14:00 以後沒有 */
   S.againLucky=(G,h0)=>!weekendDay(G.day|0)&&h0<14&&rnd('exagain|'+(G.day|0)+'|'+G.zone)<0.5;
   S.fullPrompt=async function(GM){ const G=GM.G, E=GM.E, F=L().full||{}, R=S.rec(G); R.prompt[(G.day|0)+':'+G.zone]=1; let again=true;
@@ -338,10 +336,8 @@ const EXLIB=(function(){
     const Gm=Gat(G,day,9); if(!S.on(G,day,9)||!present(id,Gm)) return false; const o=S.openH(z,day); if(o==null||o>=12) return false;
     const h0=Math.max(o,at!=null?at:(P.hold&&P.hold.from)||o), h1=Math.min(12,(P.hold&&P.hold.until)||12);
     for(let x=h0;x<Math.max(h1,h0+0.25);x+=0.25) if(!soft(S.base(c,Gat(G,day,x+0.05)))) return false;
-    if(econ(G)&&S.Y0_SLOTS[id]&&!weekendDay(day)) return true;
     const c1=S.closeH(z,day,o); for(let h=o;h<c1;h+=0.25){ const b=S.base(c,Gat(G,day,h+0.05)); if(b&&b.act==='read'&&b.zone!=null) return true; } return false; };
   S.topicOk=function(G,id){ if(!G||typeof MSG==='undefined') return false; const P=S.inCast(G,id); if(!P||!P.hold||!P.hold.yes) return false; const h=hr(G); if(h<18||h>=23) return false;
-    if(econ(G)&&G.flags&&(G.flags.Y0_LEFT||G.flags.Y0_MOVED_OUT)) return false;   /* 休學、退宿以後不約去台大（使用者 2026-10-18）*/
     if(!S.on(G)||!S.on(G,(G.day|0)+1,9)) return false; const R=rec0(G)||{};
     if(R.ask41&&R.ask41.day===(G.day|0)) return false; if(R.hold&&R.hold.day===(G.day|0)+1) return false; if(R.d42&&R.d42.day===(G.day|0)+1&&R.d42.ok) return false;   /* 一天只能問一個人、一天只占一個位子 */
     if(id==='classmate_xinci'){ const t=termOf(G); if(t&&R.note&&R.note[t.id]) return false; }   /* 芯慈的便利貼和 4-2 同一學期只用一個 */
@@ -417,7 +413,7 @@ const EXLIB=(function(){
   /* 之後的學期（記下的不是這一學期；同一個階段——經濟系那一年的人不知道法律系的位子，反過來也一樣）：語彤、阿勳答應那一句換成「老位子」那一句；回傳記下的位子或 null */
   const stageOfTerm=id=>/^Y0/.test(String(id||''))?'econ':'law';
   S.useOld41=function(G,id){ const P=S.inCast(G,id); if(!P||!P.hold||!Array.isArray(P.hold.yesOld)||!P.hold.yesOld.length||S.zoneOf(P.place)!=='soclib_2f') return null; const o=S.old2f(G), t=termOf(G);
-    if(!o||!t||!o.term||o.term===t.id||stageOfTerm(o.term)!==(econ(G)?'econ':'law')) return null; return o; };
+    if(!o||!t||!o.term||o.term===t.id||stageOfTerm(o.term)!==('law')) return null; return o; };
   /* 背景讀書的人（src/soclib2f_people3d.js）不要坐的位子：4-1 占的位子和占位子的人自己的位子、4-2 留的位子和那個人的位子、這一段表上的人在這一間常坐的位子 */
   S.keepSeats=function(GM){ const E=GM&&GM.E, G=GM&&GM.G, out=new Set(); if(!E||!G||!E.zone||!Array.isArray(E.zone.seats)) return out; const z=G.zone, seats=E.zone.seats, day=G.day|0;
     const at=a=>Array.isArray(a)?seats.find(q=>q&&(q.lv|0)===(a[2]|0)&&Math.hypot(q.x-a[0],q.z-a[1])<0.1):null, add=q=>{ if(q) out.add(q); };

@@ -79,7 +79,7 @@ const OUT=(function(){
     return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;
   /* 排一個出遊；同一個 id 只排一次（讀檔、重進區域不會重複）*/
-  S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; if(typeof ECONFF!=='undefined'&&ECONFF.cutId&&ECONFF.cutId(G,o.ev)) return false;   /* AA_300：經濟系那一年不在 29 場裡的出遊不排 */ L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); S.planToast(G,o); return true; };
+  S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; /* AA_300：經濟系那一年不在 29 場裡的出遊不排 */ L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); S.planToast(G,o); return true; };
   /* 排進行程的提示（UX-GROUP-NOTICE-1018，使用者：「河濱烤肉有看到通知但不知道怎麼去」）：答應了群組、私訊的活動以後，說一次「時間到會跳出『出發』」；之後只說排進了什麼。
      經濟系 30 分鐘版不說（事件接事件，時間到直接帶過去）；說過幾次記在 G.flags._planHint */
   /* 2026-11-12（SHOP-JOBS-1112 第五輪，BB：越好吃打工中跳了可昕「我們的日子」的通知）：打工的那一班正在演（JOBS.running）的時候排進來的（上班時間往前走，手機規則照樣排下一格）＝
@@ -87,7 +87,7 @@ const OUT=(function(){
   const planHeld=new Map();
   S.working=()=>typeof JOBS!=='undefined'&&!!JOBS.running;
   S.planFlush=function(G){ if(!planHeld.size||S.working()||!G) return 0; const L=[...planHeld.values()]; planHeld.clear(); let k=0; for(const o of L){ if(S.rec(G).some(q=>q.id===o.id&&q.state==='planned')){ S.planToast(G,o); k++; } } return k; };
-  S.planToast=function(G,o){ if(!G||typeof GAME==='undefined'||!GAME.toast||GAME.titleIdle||o.silent) return; if(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)) return;
+  S.planToast=function(G,o){ if(!G||typeof GAME==='undefined'||!GAME.toast||GAME.titleIdle||o.silent) return;
     if(S.working()){ planHeld.set(o.id,o); return; }
     const now=G.day*24+(G.hour||0); if(o.day==null||o.h==null||(o.day*24+o.h)<=now) return; const F=G.flags||(G.flags={}); if(S._planToastAt===now&&F._planHint) return; S._planToastAt=now;   /* 同一個時間點一次排好幾個（寒暑假活動的幾個重點日）：只說第一個，不一直蓋掉 */
     const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(o.day):null, when=(o.day===G.day?'今天':(d?d.m+'/'+d.d+'（'+'日一二三四五六'[d.wd%7]+'）':''))+' '+hm(o.h), what=S.tt(o.title)||o.place||'出遊';
@@ -152,7 +152,7 @@ const OUT=(function(){
   S.homeSaid=null;   /* AA_529 6-1：這一趟演完、階梯前面已經說了「（晚上，回到家。）」的出遊 id */
   S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome); S.homeSaid=null;   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
     if(q.camp&&typeof STORY!=='undefined'&&STORY.campY1){ q.state='done'; await STORY.campY1(GM,{next:false});   /* 法律系迎新宿營（經濟系路線，AA_205 2-3）：三天全部在 S.campY1 演，演完回到 8/24 下午的家 */
-      if(!(o&&o.fromHome)&&typeof HOME!=='undefined'&&HOME.arriveQuiet&&HOME.baseMode&&HOME.baseMode(G)) HOME.arriveQuiet(GM).catch(e=>console.warn('HOME.arriveQuiet',e)); return true; }
+      return true; }
     const dt=!!q.dateTrip&&typeof DATE!=='undefined';   /* 校外單獨約會：抵達後演 DATE.scene（不是 STORY_EVENTS 的事件）*/
     if(dt||(!q.goto&&ev&&typeof EVENTS!=='undefined')){ if(GM.autosave) GM.autosave(); running.add(q.id); } else q.state='done';   /* 出發前先存一次（使用者 2026-10-16：去政大找可昕跳回標題、自動存檔在出發前很久，要一直重來）；演完才標 done */
     if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(S.tt(q.title),tr.travel,2400); const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.syncWeekday) GM.syncWeekday(); if(GM.updateHUD) GM.updateHUD();
@@ -181,12 +181,10 @@ const OUT=(function(){
     if(kxHere&&typeof STORY!=='undefined'&&STORY.neededMiss) await STORY.neededMiss(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin');   /* 主線 4：上週的訊息沒回，見面的時候帶過一句（BB_97 11-2）*/
     if(kxHere&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
       let go=!!st; if(go&&st.id==='K-L6'&&q.ev==='ev_kexin_video_study') go=false;   /* AA_313 第 2 節第 54 列：K4 一起讀書的視訊那晚不接 K-L6（同一個「讀書時的聲音」，留到下一次見面）*/
-      if(go&&G.stage==='econ'&&G.flags&&G.flags.Y0_MOVED_OUT&&md==='meet'){   /* AA_304 第 10 列：休學在家那一年，她的階梯講的是家裡的事（餐桌、鉛筆盒），不直接接在外面的場景後面：傍晚以後先回到家，白天不接 */
-        if(G.hour<17) go=false; else { if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(S.bg('home_living')); await GM.say(null,'（晚上，回到家。）'); S.homeSaid=q.id; } }   /* AA_529 6-1：說了「回到家」＝home3d.js 不再接「回家」卡 */
       if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await S.runAfter(GM,q,ev);   /* 結尾、分開以前（OUT.AFTER）：畫面還在那裡（可昕在場的還在右邊）*/
     if(kxTail&&ADV.active) ADV.end();
-    await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); if(typeof CLS!=='undefined'&&CLS.queueJump&&!(o&&o.fromHome)) CLS.queueJump(G); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); if(typeof CLS!=='undefined'&&CLS.queueJump&&!(o&&o.fromHome)) CLS.queueJump(G); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):false))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
     if(typeof ev.afterBack==='function') await ev.afterBack(G,GM,q);   /* 回程的地點字幕之後才接的（例：ev_y0_gather「（回家的路上，手機震了一下。）」排在「在公館的路口散了。」後面，AA_529 第⑤點）；劇情還沒結束（sceneEnd 在 finally）*/
     } finally { GM.sceneEnd(); S.fromHome=false; afterDone.delete(q.id); }
     if(GM.autosave) GM.autosave(); return true; };

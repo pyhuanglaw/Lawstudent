@@ -34,9 +34,7 @@ const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
   /* e 專題研究、實習＝通過；經濟系那一年＝及格；都不看讀書次數 */
   { const G=H.fresh('2029-03-01',8,'dorm',{}); const R=CLS.rec(G); R.prep.legal_research=0; const g=CLS.reportFor(G,'Y4S2'); R.prep.legal_research=99; const g2=CLS.reportFor(G,'Y4S2');
     check('e1. 法律專題研究、法律實習：固定「通過」，讀書次數 0 和 99 一樣',(g.legal_research==null||g.legal_research==='通過')&&JSON.stringify(g)===JSON.stringify(g2),JSON.stringify({g,g2}));
-    const ys=COURSES.list.filter(c=>/^Y0/.test(c.term)&&!CLS.isExamCourse(c)&&!CLS.attCourse(c)&&c.kind!=='service'); const tid=ys[0]&&ys[0].term;
-    const G2=H.fresh('2024-12-01',8,'dorm',{}); G2.stage='econ'; const g3=tid?CLS.reportFor(G2,tid):{};
-    check('e2. 經濟系那一年的必修：固定「及格」',ys.length>0&&ys.filter(c=>c.term===tid&&g3[c.id]!=null).every(c=>g3[c.id]==='及格'),JSON.stringify({tid,g3})); }
+    } // CANON-NO-ECON-1112：經濟系那一年拿掉（e2 經濟系那一年的必修固定「及格」）
   /* a1 重考：2029 報名、一試沒過（stage none）、2030 那天沒去 */
   { const G=H.fresh('2030-08-03',8,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:5,BAR_STAGE_2029:'none'}); graduated(G); PG.rec(G).done.exam_2029=1; PG.rec(G).done.r1_2029=1;
     const sits=PG.sits(G,2030); H.at('2030-08-04',12); PG.pending(G);

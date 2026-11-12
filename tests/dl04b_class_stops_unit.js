@@ -142,11 +142,7 @@ const dropTest=()=>{ for(let i=STORY_EVENTS.length-1;i>=0;i--) if(/^ev_test_dl04
     fresh(THU,plain.t0+5/60,'classroom'); const it=civ(); await CLS.attend(GM,it,{inScene:true}); const R=CLS.rec(G);
     fresh(THU,plain.t0-2/60,'classroom'); const it2=civ(); await CLS.attend(GM,it2,{inScene:true}); const R2=CLS.rec(G);
     check('6. 開始後 5 分鐘進教室：上完記遲到（R.late）、出席照算；準時進教室：不記遲到',!!R.late[it.key]&&(R.attend[it.c.id]|0)>=1&&!R2.late[it2.key]&&R2.done[it2.key]===1,JSON.stringify({late:R.late,late2:R2.late})); }
-  /* 7 經濟系事件接事件（ECONFF.on）：路上不停（S.oneTick 不跑，停了「繼續去上課」出不來；BB-B 11-01 讀碼）*/
-  { const had=typeof ECONFF!=='undefined'?ECONFF:undefined; let off=null, on='x';
-    try{ addTest({keep:'must'}); fresh(THU,7,'dorm'); const it=civ(); const pl=CLS.goPlan(GM,it); G.hour=pl.depart; global.ECONFF={on:()=>false}; off=CLS.routeStop(GM,it,pl); global.ECONFF={on:()=>true}; on=CLS.routeStop(GM,it,pl); }
-    finally { dropTest(); if(had===undefined) delete global.ECONFF; else global.ECONFF=had; }
-    check('7. 同一個校園【必】事件：平常會停；ECONFF.on（經濟系事件接事件）＝不停',!!off&&on===null,JSON.stringify({off:!!off,on})); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 7 項 ECONFF.on（經濟系事件接事件）路上不停）
 
   /* 8 門口上課（法圖櫃台的服務學習）：「直接去上課」到了就報到（BB-B 11-01 BUG-DL04B-SERVICE-RESUME：destOf 有 zone 就把 door 丟掉＝走選座位、沒有座位停住；在路上停過、沒停過都一樣）*/
   { const WED=STORY.dayOfKey('2025-10-08'); fresh(WED,13.53,'wancai'); const it=CLS.dayItems(G).find(q=>q.c.kind==='service'); const pl=it&&CLS.goPlan(GM,it);
@@ -157,12 +153,13 @@ const dropTest=()=>{ for(let i=STORY_EVENTS.length-1;i>=0;i--) if(/^ev_test_dl04
     check('8. 有 room 的教室（共同 102）：路線不帶 door（照舊選座位）',!!pl&&!pl.d.door,JSON.stringify(pl&&pl.d)); }
 
   /* 9 快速前往（手機「地點」）的 R2：CLS.routeStopTo——路上的【必】到達事件停在那一區；約好的地方（force）、經濟系事件接事件不停；沒有事件不停；game3d.js quickGo 接上 */
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 9 項裡「經濟系事件接事件＝不停」那一格）
   { let a=null,f=null,e=null,n=null; const had=typeof ECONFF!=='undefined'?ECONFF:undefined;
-    try{ addTest({keep:'must'}); fresh(THU,7,'dorm'); a=CLS.routeStopTo(GM,'linze',12); f=CLS.routeStopTo(GM,'linze',12,{force:true}); global.ECONFF={on:()=>true}; e=CLS.routeStopTo(GM,'linze',12); }
+    try{ addTest({keep:'must'}); fresh(THU,7,'dorm'); a=CLS.routeStopTo(GM,'linze',12); f=CLS.routeStopTo(GM,'linze',12,{force:true}); }
     finally { dropTest(); if(had===undefined) delete global.ECONFF; else global.ECONFF=had; }
     fresh(THU,7,'dorm'); n=CLS.routeStopTo(GM,'linze',12);
     const gs=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), wire=/CLS\.routeStopTo\(GM,z,st\.mins,\{bike:st\.bike,force:!!\(o&&o\.force\)\}\)/.test(gs);
-    check('9. 快速前往宿舍→霖澤館：路上校園有【必】的到達事件＝停在校園；force、經濟系事件接事件、沒有事件＝不停；quickGo 接上',!!a&&a.zone==='campus'&&f===null&&e===null&&n===null&&wire,JSON.stringify({a,f,e,n,wire})); }
+    check('9. 快速前往宿舍→霖澤館：路上校園有【必】的到達事件＝停在校園；force、經濟系事件接事件、沒有事件＝不停；quickGo 接上',!!a&&a.zone==='campus'&&f===null&&n===null&&wire,JSON.stringify({a,f,e,n,wire})); }
 
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

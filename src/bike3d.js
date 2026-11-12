@@ -127,7 +127,7 @@ const BIKE=(function(){
     const it={x:s.x,z:s.z,radius:1.3,lv:0,y:0,label:'騎腳踏車',bike:true,onInteract:()=>B.mount(GM)};
     E.interactables.push(it); parked={obj:o,it,zone:G.zone};
     /* 第一次看到自己的車（第三天以後，避開第一二天的劇情）告訴玩家在哪裡、怎麼騎：2026-10-14 使用者試玩 v9.6「我還是不能騎腳踏車」——v9.7 才有騎車，車停在宿舍門口，沒有人說 */
-    const F=G.flags||(G.flags={}); if(!F.BIKE_TIP&&!(typeof STORY!=='undefined'&&STORY.opening?STORY.opening(G):G.day<3)&&!(G.home&&G.home.at)&&!(F.Y0_MOVED_OUT&&(G.stage||'law')==='econ')&&GM.toast){   /* 人在家、經濟系退宿以後：不提示宿舍門口的車（BB-C 10-18 BUG-HOME-BIKE-HINT）*/ F.BIKE_TIP=true; const home=s.zone===HOME.zone&&Math.hypot(s.x-HOME.x,s.z-HOME.z)<3; setTimeout(()=>GM.toast((home?'宿舍門口東邊停著你的腳踏車':'這附近停著你的腳踏車')+'：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。',5200),1500); } }
+    const F=G.flags||(G.flags={}); if(!F.BIKE_TIP&&!(typeof STORY!=='undefined'&&STORY.opening?STORY.opening(G):G.day<3)&&!(G.home&&G.home.at)&&GM.toast){   /* 人在家、經濟系退宿以後：不提示宿舍門口的車（BB-C 10-18 BUG-HOME-BIKE-HINT）*/ F.BIKE_TIP=true; const home=s.zone===HOME.zone&&Math.hypot(s.x-HOME.x,s.z-HOME.z)<3; setTimeout(()=>GM.toast((home?'宿舍門口東邊停著你的腳踏車':'這附近停著你的腳踏車')+'：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。',5200),1500); } }
   /* 第一次自動停車（只一次；AA_646 第 3 節原句）：第一次看到車的提示（BIKE_TIP）說過以後才說 */
   B.PARK_TIP='（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）';
   function parkTip(GM){ const G=GM.G, F=G.flags||(G.flags={}); if(F.BIKE_PARK_TIP||!F.BIKE_TIP||!GM.toast) return; F.BIKE_PARK_TIP=true; setTimeout(()=>GM.toast(B.PARK_TIP,4200),1500); }

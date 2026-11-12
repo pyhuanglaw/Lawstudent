@@ -11,9 +11,7 @@ const img=k=>!!(OUT.BG[k]&&OUT.BG[k].image&&fs.existsSync(path.join(ROOT,OUT.BG[
 /* 事件 id 之後 1500 字以內，dialogue 的第一個元素 */
 const first=(f,id)=>{ const s=src(f), i=s.indexOf("id:'"+id+"'"); if(i<0) return null; const j=s.indexOf('dialogue:[',i); if(j<0||j-i>1500) return null; return s.slice(j+10,j+10+120).trim(); };
 const ROWS=[
-  ['經濟系 高雄・客運站附近的早餐店（ev_y0_kh_bus）','src/data/events.js',null,"{scene:'高雄・客運站附近的早餐店',bg:'soymilk_shop'}",'soymilk_shop'],
-  ['經濟系 除夕的電話・在家（ev_y0_e21）＝年夜飯的客廳','src/data/events.js',null,"const lines=[ {scene:'家',bg:'home_living_cny'}",'home_living_cny'],
-  ['經濟系 除夕的電話・在外面（ev_y0_e21o）＝「電話」場景（在外面＝phone_street_night）','src/data/events.js',null,"dialogue:[{scene:'電話'}].concat(lines.slice(1))",'phone_street_night'],
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（ev_y0_kh_bus、ev_y0_e21、ev_y0_e21o 三列）
   ['寒暑假 高雄・左營站（ev_kexin_trip_winter_y4）','src/data/r2y4a_events.js','ev_kexin_trip_winter_y4',"{scene:'高雄・左營站',bg:'kh_station'}",'kh_station'],
   ['寒暑假 七夕・港邊的山上晚上那段（ev_kexin_qixi_y2；11-02 第七批正式圖）','src/data/r2y3a_events.js',null,"{scene:'高雄・港邊的山上',bg:'kh_hill_harbor_night'}",'kh_hill_harbor_night'],
   ...['ev_kx_nye_video_y2','ev_kx_nye_video_y3','ev_kx_nye_video_y4','ev_zr_nye_video_y3','ev_zr_nye_video_y4'].map(id=>['寒暑假 跨年的視訊（'+id+'）','src/data/events.js',id,"{scene:'視訊',bg:'video'}",'video']),
@@ -29,7 +27,7 @@ const ROWS=[
   ['其他 地方法院（ev_crimpro_court_visit，旁聽席暫代）','src/data/r2y3a_events.js','ev_crimpro_court_visit',"{scene:'地方法院',bg:'court_gallery'}",'court_gallery'],
   ['其他 學姊放榜的晚餐・沒有家庭晚餐那一版（ev_sis_results_dinner，公館街景暫代）','src/data/events.js',null,"SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'公館',bg:'gongguan'}",'gongguan']];
 for(const [name,f,id,want,key] of ROWS){ const ok=id?(first(f,id)||'').startsWith(want):src(f).includes(want); check(name+'：'+key,ok&&img(key),id?first(f,id):''); }
-check('已經有的：10/15 桌遊（ev_y0_gather）boardgame_gg、8/13 在家看榜（ev_y0_e36rh）home_room 放最前面',src('src/data/events.js').includes("{scene:'公館・桌遊店',bg:'boardgame_gg'}")&&src('src/data/events.js').includes("dialogue:[{scene:'家',bg:'home_room'}].concat(rlines)"));
+// CANON-NO-ECON-1112：經濟系那一年拿掉（ev_y0_gather、ev_y0_e36rh 那一項）
 check('BB 說維持深色／等新圖的不動：颱風天線上讀書會（ev_typhoon_y3_family）沒有加背景',!/id:'ev_typhoon_y3_family'[^\n]*dialogue:\[ \{scene:'[^']*',bg:'(?!dark)/.test(src('src/data/events.js')));
 { const A=src('src/adv3d.js'), cg=(k,f)=>A.includes(k+":{file:'"+f+"'")&&fs.existsSync(path.join(ROOT,f));
   check('CG-APPROVED-MISSING-1021（BB_220★）：尾聲「不選」的共通圖 cg_reunion_window_table、BCG-48 霧裡的大橋 cg_sf_bridge_fog_heroine05 都登記了、圖在（原本沒登記：不選的尾聲沒有圖、SF2 用 hasCG 包著一定跳過）',cg('cg_reunion_window_table','assets/cg/epilogue/cg_reunion_base.webp')&&cg('cg_sf_bridge_fog_heroine05','assets/cg/heroine_05/cg_sf_bridge_fog.webp')); }

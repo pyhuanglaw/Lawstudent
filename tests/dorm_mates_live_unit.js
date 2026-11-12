@@ -83,8 +83,7 @@ const seated=(id,u)=>{ const n=GM.npc[id], s=STORY.dormSeat(u); return !!n&&n.po
 { room(19); live(); const aw=STORY.awayOnDate; STORY.awayOnDate=(id,G)=>id==='kai'?true:aw(id,G);
   try{ live(20); const k=GM.npc.kai, w=walks.find(q=>q.n===k); check('7. 阿凱臨時不在（約會、回家）：20:00 起身走出門',!!k&&!k.seat&&!!w&&w.z>2.5); arrive(k); check('7. 走到門口：拿掉；不會再進來',(live(20.2),!GM.npc.kai)); }
   finally{ STORY.awayOnDate=aw; } }
-{ const G=room(17.9,{E01_DONE:true}); G.stage='econ'; G.flags.DORM_FOUR=false; live(); check('7. 經濟系那一年 17:54：阿勳還沒回來',J(ids())===J([]));
-  live(18.01); const x=GM.npc.econ_zhengxun; check('7. 18:00：阿勳從門口走進來（R2）',!!x&&!x.seat&&walks.some(q=>q.n===x&&Math.abs(q.x-U('R2').seat_approach[0])<1e-6)&&x.dorm==='R2'); arrive(x); check('7. 坐好',seated('econ_zhengxun','R2')); }
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 7 項 經濟系那一年（412）阿勳 18:00 走進來）
 
 /* ---- 8 不是這一套生的 ---- */
 { room(21); GM.spawnCharacter('zhe',0,0,{seat:STORY.dormSeat('L1')}); live(); check('8. 劇情自己生的阿哲（沒有 n.dorm，21:00 不在時段裡）：不會被叫出門',!!GM.npc.zhe&&seated('zhe','L1')&&walks.length===0);

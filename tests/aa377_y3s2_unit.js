@@ -16,7 +16,7 @@ global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.
 global.CG_REGISTRY={};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
   'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
-  'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js',
+  'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y34b3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/jp_events.js','src/jp3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 /* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110）：芷若、沛珊心意邀約的台詞搬到 src/data/termend_opts.js 的 TERMEND_OPTS.HEART（沒載＝這兩位沒有邀約句、不發）——這支測試只載那一份的 HEART、LINES，
    其他人的期末飯選項（GF／TABLE／CONFESS／KX／FRIEND）照舊不載（這支測的是沒有選項的原本流程；選項在 tests/termend_opts_1110_unit.js、「她先說」在 tests/te_shefirst_1110_unit.js）*/

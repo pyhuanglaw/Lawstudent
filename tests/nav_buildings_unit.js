@@ -217,8 +217,9 @@ check('宿舍：房間裡的床、書桌、睡覺照舊',!!E.interactables.find(
   check('四人房：年份 sets（法律系 203、經濟系 412）照旗標',typeof zr.dormSet==='function'&&zr.dormSetKey==='203'); }
 // 每一年的房間（AA_208 第 7、8 節，取代 AA_183 的 112／218／105；房號只是門牌，都在走廊樓上那一層）：203 → 312（用 204 那扇門）→ 507（201 那扇）→ 409（202 那扇）；經濟系 412（門用大一的）
 // 2026-10-20 SCN-V4-01／SCN-V5-01：原本大三 218、大四 105（一樓），和字卡「五樓 507 號房」「四樓 409 號房」對不上——修改前這兩項 FAIL
-{ const HS=DM3.HOMES, hm=f=>DM3.homeOf({stage:'law',flags:f}); check('宿舍：房號照年份：大一 203、ROOM_Y2 312、ROOM_Y3 507、ROOM_Y4 409、經濟系 412；都在樓上那一層',hm({}).plate==='203'&&hm({ROOM_Y2:5}).plate==='312'&&hm({ROOM_Y2:5,ROOM_Y3:9}).plate==='507'&&hm({ROOM_Y2:5,ROOM_Y3:9,ROOM_Y4:12}).plate==='409'&&DM3.homeOf({stage:'econ',flags:{}}).plate==='412'&&[{},{ROOM_Y2:5},{ROOM_Y3:9},{ROOM_Y4:12}].every(f=>hm(f).lv===1));
-  check('宿舍：樓層照房號（指路的字幕、樓梯口的指標用）：203 二樓、312 三樓、507 五樓、409 四樓、經濟系 412 四樓',hm({}).floorZh==='二樓'&&hm({ROOM_Y2:5}).floorZh==='三樓'&&hm({ROOM_Y3:9}).floorZh==='五樓'&&hm({ROOM_Y3:9,ROOM_Y4:12}).floorZh==='四樓'&&DM3.homeOf({stage:'econ',flags:{}}).floorZh==='四樓',JSON.stringify([{},{ROOM_Y2:5},{ROOM_Y3:9},{ROOM_Y4:12}].map(f=>hm(f).floorZh)));
+// CANON-NO-ECON-1112：經濟系那一年拿掉（房號、樓層兩項裡「經濟系 412」那一格）
+{ const HS=DM3.HOMES, hm=f=>DM3.homeOf({stage:'law',flags:f}); check('宿舍：房號照年份：大一 203、ROOM_Y2 312、ROOM_Y3 507、ROOM_Y4 409、經濟系 412；都在樓上那一層',hm({}).plate==='203'&&hm({ROOM_Y2:5}).plate==='312'&&hm({ROOM_Y2:5,ROOM_Y3:9}).plate==='507'&&hm({ROOM_Y2:5,ROOM_Y3:9,ROOM_Y4:12}).plate==='409'&&[{},{ROOM_Y2:5},{ROOM_Y3:9},{ROOM_Y4:12}].every(f=>hm(f).lv===1));
+  check('宿舍：樓層照房號（指路的字幕、樓梯口的指標用）：203 二樓、312 三樓、507 五樓、409 四樓、經濟系 412 四樓',hm({}).floorZh==='二樓'&&hm({ROOM_Y2:5}).floorZh==='三樓'&&hm({ROOM_Y3:9}).floorZh==='五樓'&&hm({ROOM_Y3:9,ROOM_Y4:12}).floorZh==='四樓',JSON.stringify([{},{ROOM_Y2:5},{ROOM_Y3:9},{ROOM_Y4:12}].map(f=>hm(f).floorZh)));
   check('宿舍：大一的房門照舊（DORM_LAYOUT.home 的位置）',hm({}).x===L.home.x&&hm({}).lv===L.home.lv&&JSON.stringify(hm({}).spawn)===JSON.stringify(L.home.spawn));
   loadZone('dorm_hall'); let bad2=[]; for(const k of Object.keys(HS)){ const h=HS[k], sp={x:h.x,z:0.4,lv:h.lv}; if(!E.canStand(sp.x,sp.z,0.32,sp.lv)){ bad2.push(k+' 站不住'); continue; } let rr=both([EN.x,EN.z,0],[sp.x,sp.z,sp.lv]); if(!rr.ok||(rr.lv|0)!==sp.lv) bad2.push(k+' 去 '+fmt(rr)); rr=both([sp.x,sp.z,sp.lv],[EN.x,EN.z,0]); if(!rr.ok) bad2.push(k+' 回 '+fmt(rr)); }
   check('宿舍：四個房間的門口站得住、從大門走得到、走得回大門',!bad2.length,bad2.join(' | '));
@@ -226,8 +227,7 @@ check('宿舍：房間裡的床、書桌、睡覺照舊',!!E.interactables.find(
   check('宿舍：大二：「回房間（312）」在二樓 204 那扇門口；204 的門換成自己的；原本 203 那扇變成關著的寢室（門牌整層照 312 排：311）',!!hd2&&hd2.label==='回房間（312）'&&(hd2.lv|0)===1&&Math.abs(hd2.x-HS.y2.x)<1e-6&&!I2.some(i=>/^20\d 寢室/.test(i.label||''))&&I2.some(i=>i.label==='311 寢室'&&i.look),hd2&&JSON.stringify([hd2.label,hd2.lv,hd2.x]));
   { const lv1=I2.filter(i=>(i.lv|0)===1&&/^\d{3} 寢室$/.test(i.label||'')).map(i=>i.label.slice(0,3)).sort(), lv0=I2.filter(i=>(i.lv|0)===0&&/^\d{3} 寢室$/.test(i.label||'')).map(i=>i.label.slice(0,3)).sort();
     check('宿舍：大二：同一層的門牌都是 3 開頭（309～316，2026-10-18 使用者：同一層不是同一個號碼開頭）；一樓照舊 1 開頭',lv1.length>=6&&lv1.every(n=>n[0]==='3')&&lv0.length&&lv0.every(n=>n[0]==='1'),JSON.stringify({lv1,lv0})); }
-  global.GAME={G:{stage:'econ',flags:{}}}; loadZone('dorm_hall'); { const I4=E.interactables, h4=I4.find(i=>i.exit&&i.exit.to==='dorm'), lv1=I4.filter(i=>(i.lv|0)===1&&/^\d{3} 寢室$/.test(i.label||'')).map(i=>i.label.slice(0,3)).sort();
-    check('宿舍：經濟系：「回房間（412）」、同一層的門牌 410～417、沒有 2 開頭（使用者：「我經濟系宿舍 4 開頭，對面 2 開頭」）',!!h4&&h4.label==='回房間（412）'&&JSON.stringify(lv1)===JSON.stringify(['410','411','413','414','415','416','417']),JSON.stringify({h:h4&&h4.label,lv1})); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（宿舍：經濟系「回房間（412）」、同一層門牌 410～417）
   /* 大三 507、大四 409（SCN-V4-01／SCN-V5-01）：自己的門在樓上那一層、同一層整排 5 開頭／4 開頭、一樓樓梯口的指標寫 5F／4F（大一、大二照舊 2F／3F）*/
   const signTexts=z=>{ const out=[]; z.group.traverse(o=>{ if(/^sign_/.test(o.name||'')) out.push(o.name.slice(5)); }); return out; };
   for(const [f,plate,lead,want,sign,y] of [[{ROOM_Y2:5,ROOM_Y3:9},'507','5',['508','509','510','511','512','513','514'],'樓梯 5F ↑','y3'],[{ROOM_Y2:5,ROOM_Y3:9,ROOM_Y4:12},'409','4',['408','410','411','412','413','414','415'],'樓梯 4F ↑','y4']]){
@@ -264,5 +264,6 @@ for(const id of ['linze','wancai','library_hall','dorm_hall']){ const z=loadZone
 // ---------- 校園擺帳篷的日子（AA_177 第 10 節：大一 2025-11-15；大二起照各年的校慶，「每年 11/15」只留給大一）----------
 { const F=Z3.fairDayKey; check('帳篷：大一校慶 2025-11-15、大二博覽會 9/12（CLUBFAIR-REAL-1027，AA_485 3-2：原本 9/16～17）、校慶 2026-11-14、大三 2027-11-13、大四 2028-11-11 擺；9/16、9/17 不擺',['2025-11-15','2026-09-12','2026-11-14','2027-11-13','2028-11-11'].every(k=>F(k,false,[]))&&!F('2026-09-16',false,[])&&!F('2026-09-17',false,[]));
   check('帳篷：2026-11-15、2027-11-15、2028-11-15 不擺（11/15 只留給大一）',!F('2026-11-15',false,[])&&!F('2027-11-15',false,[])&&!F('2028-11-15',false,[]));
-  check('帳篷：經濟系那一年的博覽會、校慶只在經濟系擺；大一博覽會照 activities 的日子',F('2024-11-09',true,[])&&!F('2024-11-09',false,[])&&F('2025-09-30',false,['2025-09-30'])&&!F('2025-09-30',false,[])); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（帳篷：經濟系那一年的博覽會、校慶（FAIR_DAYS_ECON）那一格）
+  check('帳篷：經濟系那一年的博覽會、校慶只在經濟系擺；大一博覽會照 activities 的日子',F('2025-09-30',false,['2025-09-30'])&&!F('2025-09-30',false,[])); }
 console.log(fails?`FAILED: ${fails}`:'ALL PASS'); process.exit(fails?1:0);

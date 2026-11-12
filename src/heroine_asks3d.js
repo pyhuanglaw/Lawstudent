@@ -88,7 +88,7 @@ const HASK=(function(){
     const nl=!!v0.noLab&&!S.hasLab(day), n=1+(v0.alt||[]).length, last=S.lastAlt(G,id,e.place,vk), st0=last==null?0:(last+1)%n;
     for(let k=0;k<n;k++){ const i=(st0+k)%n, o={alt:i,nl:nl&&i===0}, v=S.variant(v0,o); if(ok(v)) return Object.assign({v},o); }
     return null; };
-  S.block=function(G,id,day){ if(!P(id)) return 'nodata'; if(G.stage==='econ') return 'econ';   /* AA_529 第 1 點（企劃線 881029f98）：經濟系那一年不約——台詞、地點是政大那一套，她在高雄、衝刺班時也會約，回程還出「回到台大」 */
+  S.block=function(G,id,day){ if(!P(id)) return 'nodata';
     if(S.cny(day)) return 'cny';   /* AA_532 第 1 節 */
     if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) return 'ex';   /* AA_600 S4（企劃線 031414cad）：以安、學姊分手以後一律不主動約，直到重新交往（不因冷卻期過了、或學姊 rebuild 演過就解除）*/
     if(typeof INV!=='undefined'){ if(INV.cool&&INV.cool(G,id)) return 'cool'; if(INV.hasContact&&!INV.hasContact(G,id)) return 'contact'; }

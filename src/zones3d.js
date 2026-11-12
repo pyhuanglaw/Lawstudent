@@ -723,7 +723,6 @@ const Z3 = (function(){
     /* 社科院圖書館（D56 社科院第①步）：門在現在的社科院正面中間（src/soclib3d.js 的 SL3.DOOR）；一樓才有（萬才館陽台那一層不算）*/
     if(typeof SL3!=='undefined'&&typeof SOCLIB_LAYOUT!=='undefined') exits.push({x:SL3.DOOR.x,z:SL3.DOOR.z,r:SL3.DOOR.r,to:'soclib',spawn:Object.assign({},SOCLIB_LAYOUT.entrance.spawn),label:'進入社科院圖書館',door:true,lv:0,y:0});
     // 總圖：門在一樓拱廊裡面，互動範圍從門廊前緣涵蓋到門口；霖澤館（第十九批）：入口比地面高、前面是大台階（不能走），互動點在台階下面；萬才館（第二十四批）：互動點在陽台下面的一樓入口（半徑 1.6；出來的出生點離互動點 2.2 m，不會一出來就跳出按鈕）
-    if(typeof GAME!=='undefined'&&GAME.G&&GAME.G.stage==='econ') E.interactables.push({x:SOCX?SOCX.mainDoor.x:97.9,z:SOCX?SOCX.mainDoor.z:-63.5,radius:1.4,lv:0,label:'社會科學院',look:'經濟系的系辦在這棟。今天沒有要來的事。'});   /* V0-A6（AA_173 第 1 節，第 1 級）：經濟系那一年，社科院門口平常的一句；法律系的那幾年照舊（SK 事件照 BB_106），不讓玩家以為可以進去逛 */
     const G0x=typeof GAME!=='undefined'?GAME.G:null, dormGone=!!G0x&&(G0x.stage||'law')==='law'&&!!G0x.flags&&G0x.flags.MOVED_OUT!=null&&G0x.flags.MOVED_OUT!==false;   /* 畢業後宿舍期滿退宿（1A-15 MOVED_OUT，同 home3d.js HOME.movedOut）*/
     for(const ex of exits){ if(dormGone&&(ex.to==='dorm_hall'||ex.to==='dorm')){ E.interactables.push({x:ex.x,z:ex.z,radius:ex.r,lv:ex.lv,y:ex.y,label:'看宿舍門口',look:'（宿舍門口。門禁卡已經還了。）'}); continue; }   /* AA_363 T7-3：退宿以後宿舍門口進不去，只能看 */
       E.interactables.push({x:ex.x,z:ex.z,radius:ex.r,label:ex.label,exit:ex,lv:ex.lv,y:ex.y}); }   /* 萬才館一樓入口在陽台正下方：只在地面那一層（站在陽台上不會跳出「進入萬才館」）*/
@@ -775,10 +774,10 @@ const Z3 = (function(){
   /* 校園擺帳篷的日子（同一排帳篷）：大一的社團博覽會（activities.js club_expo_y1s1 的日子）、大一校慶 2025-11-15（BB_95 3-7，法服的法律問答攤）；
      大二的社團博覽會 9/12（AA_170，祐廷站在攤位後面；AA_485 3-2 從 9/16～9/17 搬到開學第一週的週六）、各年校慶：大二 2026-11-14、大三 2027-11-13、大四 2028-11-11（AA_177 第 7、10 節；「每年 11/15」只留給大一）；
      經濟系那一年的社團博覽會 9/18～9/20（BB_104 E07、AA_154）、校慶園遊會 11/9（E17）*/
-  const FAIR_DAYS=['2025-11-15','2026-09-12','2026-11-14','2027-11-13','2028-11-11'], FAIR_DAYS_ECON=['2024-09-18','2024-09-19','2024-09-20','2024-11-09'];   /* 大二的社團博覽會 2026-09-12（六）一天（CLUBFAIR-REAL-1027，AA_485 3-2：原本 9/16、9/17）*/
-  function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||EXPO_DAYS.includes(key)||(!!econ&&FAIR_DAYS_ECON.includes(key))||(expo||[]).includes(key); }
+  const FAIR_DAYS=['2025-11-15','2026-09-12','2026-11-14','2027-11-13','2028-11-11'];   /* 大二的社團博覽會 2026-09-12（六）一天（CLUBFAIR-REAL-1027，AA_485 3-2：原本 9/16、9/17）*/
+  function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||EXPO_DAYS.includes(key)||(expo||[]).includes(key); }
   function isFairDay(){ try{ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'); const G=typeof GAME!=='undefined'&&GAME.G; if(!A||!G||typeof CALENDAR==='undefined') return false;
-    return fairDayKey(CALENDAR.dateOf(G.day).key,typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G),ACTIVITIES.on(A,G.day,G)?[CALENDAR.dateOf(G.day).key]:[]); }catch(e){ console.warn('isFairDay',e); return false; } }   /* 大一的社博照 ACTIVITIES.on（新局 9/6、舊局 9/30～10/1：CLUBFAIR-REAL-1027）*/
+    return fairDayKey(CALENDAR.dateOf(G.day).key,false,ACTIVITIES.on(A,G.day,G)?[CALENDAR.dateOf(G.day).key]:[]); }catch(e){ console.warn('isFairDay',e); return false; } }   /* 大一的社博照 ACTIVITIES.on（新局 9/6、舊局 9/30～10/1：CLUBFAIR-REAL-1027）*/
   /* ---- 社團博覽會（大一 2025-09-06、大二 2026-09-12）：椰林大道兩邊 36 頂帳篷＋舞台（CLUBFAIR-REAL-1027，AA_485 第 3 節；LAWWW2-C 2026-10-27）----
      使用者 X109「社團博覽會攤會也太少 都沒人顧」「要參考實際的吧」：照臺大的社團聯展，椰林大道兩邊一路排帳篷、大道中段一個舞台。
      配置 src/data/club_fair_expo_layout.js（CLUB_FAIR_EXPO；Blender tools/blender/env_second/club_fair_expo.py 讀同一份）；正式模型 bldg.club_fair_expo
@@ -787,7 +786,7 @@ const Z3 = (function(){
      大道中間（z ±3.4 以內）、人行道（z ±7）照舊走得到。Z3.fairExpoFront(id)＝站在攤位前的位置（互動點、顧攤的人的對面）。
      正式模型載入前／失敗：簡單的帳篷、台子（D38 分類 ③）*/
   const EXPO_DAYS=['2026-09-12'];   /* 大二的社博（AA_485 3-2）；大一的日子在 activities.js 的 club_expo_y1s1.dates */
-  function isExpoDay(){ try{ const G=typeof GAME!=='undefined'&&GAME.G; if(!G||typeof CALENDAR==='undefined') return false; if(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G)) return false;
+  function isExpoDay(){ try{ const G=typeof GAME!=='undefined'&&GAME.G; if(!G||typeof CALENDAR==='undefined') return false;
     const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'), key=CALENDAR.dateOf(G.day).key; return EXPO_DAYS.includes(key)||!!(A&&ACTIVITIES.on&&ACTIVITIES.on(A,G.day,G)); }catch(e){ console.warn('isExpoDay',e); return false; } }   /* 大一照 ACTIVITIES.on：新局 9/6、舊局 9/30～10/1 也是 36 頂（攤位的互動點照 36 頂的位置，src/data/club_fair.js）*/
   function fairExpoFront(id){ const L=typeof CLUB_FAIR_EXPO!=='undefined'?CLUB_FAIR_EXPO:null; if(!L) return null; if(id==='stage') return L.stage.front.slice();
     const t=L.tents.find(q=>q.id===id); if(!t) return null; const d=L.tent.front; return [+(t.x+Math.sin(t.ry)*d).toFixed(2),+(t.z+Math.cos(t.ry)*d).toFixed(2)]; }
@@ -2573,9 +2572,9 @@ const Z3 = (function(){
      年份切換 z.dormSet(key)：'203'、'203_movein'（8/29 阿哲還沒到）、'412'、'412_first_night'（韋綸、唐睿 9/2 才搬進來）。窗景：法律系 203＝dorm_room、經濟系 412＝dorm_room412（四樓、往東偏，ART-V0-DORM）。備用模型（GLB 載入失敗）是簡單的床桌方塊（D38 ③）。*/
   /* 大二～大四（LAWWW2-C 2026-10-17，AA_208 第 7、8 節；dorm_room4.glb 的 Y312_／Y507_／Y409_ 各組）：312＝祐廷、阿哲、柏翰、大一學弟；507＝祐廷、柏翰、大二學弟、別系的同屆；409＝祐廷、柏翰、大二學弟、大一學弟。
      舊的四組也要藏這三年的東西（GLB 和這段要一起換）*/
-  const DORM_SETS={ '203':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_)/}, '203_movein':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_|Y203_ZHE$|BEDDING_L1$)/}, '412':{hide:/^(Y203_|Y312_|Y507_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '412_first_night':{hide:/^(Y203_|Y312_|Y507_|Y409_|ROOMMATE_KAI$|Y412_TANGRUI$|Y412_WEILUN$|BEDDING_R1$|BEDDING_L1$)/},
+  const DORM_SETS={ '203':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_)/}, '203_movein':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_|Y203_ZHE$|BEDDING_L1$)/}, 
     '312':{hide:/^(Y203_|Y412_|Y507_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '507':{hide:/^(Y203_|Y412_|Y312_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '409':{hide:/^(Y203_|Y412_|Y312_|Y507_|ROOMMATE_KAI$|NAMETAG_)/} };
-  function dormSetKey(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return F.E412_MOVEIN?'412':'412_first_night'; if(F.ROOM_Y4||F.ROOM_Y4_MOVING) return '409'; if(F.ROOM_Y3||F.ROOM_Y3_MOVING) return '507'; if(F.ROOM_Y2||F.ROOM_Y2_MOVING) return '312';   /* ROOM_Y2_MOVING：搬進 312 那一刻（拆箱前，story3d.js roomY2InDorm、home3d.js roomY2FromHome）*/ return (F.LAW_MOVEIN_DAY!=null&&G.day===F.LAW_MOVEIN_DAY&&!F.KAI_MOVEIN)?'203_movein':'203'; }
+  function dormSetKey(G){ const F=(G&&G.flags)||{}; if(F.ROOM_Y4||F.ROOM_Y4_MOVING) return '409'; if(F.ROOM_Y3||F.ROOM_Y3_MOVING) return '507'; if(F.ROOM_Y2||F.ROOM_Y2_MOVING) return '312';   /* ROOM_Y2_MOVING：搬進 312 那一刻（拆箱前，story3d.js roomY2InDorm、home3d.js roomY2FromHome）*/ return (F.LAW_MOVEIN_DAY!=null&&G.day===F.LAW_MOVEIN_DAY&&!F.KAI_MOVEIN)?'203_movein':'203'; }
   /* 每年的窗景（AA_208 第 7、8 節；LAWWW2-C 4fa4a1e2，tools/shots/window_views.py）：經濟系 412、大一 203（朝舟山路）；大二 312（三樓）、大三 507（五樓）、大四 409（四樓）都朝宿舍背面的樟樹。
      312／507／409 的照片 2026-10-20 起是 Blender 渲染的（tools/blender/env_second/dorm_back_view.py：樟樹、巷子、對面的老公寓與一片屋頂；鏡頭往上抬 9°，窗裡看到的大約是平視的那一段——三樓在樹冠裡、四樓平樹梢、五樓看得到樹梢底下和遠一點的屋頂；SCN-V4-01／SCN-V5-01）。
      393eda85 的 112／218／105（照較舊的 AA_183）作廢、照片已刪。ROOM_Y2／ROOM_Y3／ROOM_Y4 是 dorm3d.js homeOf 用的旗標名，搬房間事件做的時候照這三個設 */
@@ -2589,8 +2588,8 @@ const Z3 = (function(){
     const hb=R.bath.block; box(hb.x[0],hb.x[1],hb.z[0],hb.z[1],0,H,false);
     for(const u of R.units){ const b=u.block, top=u.bed_top_y||1.76; box(b.x[0],b.x[1],b.z[0],b.z[1],top-0.2,top+0.26,true); }   /* 床板底～床欄頂（DORM-LOFT-SCALE-1102：床桌組加高以後照配置的床面高度算；以前寫死 1.56～2.02）*/
     return all; }
-  function dormView(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return 'dorm_room412'; return (F.ROOM_Y4||F.ROOM_Y4_MOVING)?'dorm_room409':(F.ROOM_Y3||F.ROOM_Y3_MOVING)?'dorm_room507':(F.ROOM_Y2||F.ROOM_Y2_MOVING)?'dorm_room312':'dorm_room'; }   /* AA_208：312 三樓、507 五樓、409 四樓，都朝宿舍的背面（203 朝舟山路）——LAWWW2-C 2026-10-17 */
-  const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null, econ=!!G0&&G0.stage==='econ'; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
+  function dormView(G){ const F=(G&&G.flags)||{}; return (F.ROOM_Y4||F.ROOM_Y4_MOVING)?'dorm_room409':(F.ROOM_Y3||F.ROOM_Y3_MOVING)?'dorm_room507':(F.ROOM_Y2||F.ROOM_Y2_MOVING)?'dorm_room312':'dorm_room'; }   /* AA_208：312 三樓、507 五樓、409 四樓，都朝宿舍的背面（203 朝舟山路）——LAWWW2-C 2026-10-17 */
+  const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
     const z=room(E,{w:RM.w,d:RM.d,h:RM.h,cell:0.2,view:dormView(G0),viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
     z.seeThru=true;   /* 上舖床板、被子擋住鏡頭時網點透空：engine3d.js 的 updateSeeThrough 看的是區域實體（E.zone.seeThru），只寫在上面的定義裡，室內透空從來沒開過 */
     { const ax=Math.min(...R.units.map(u=>Math.min(Math.abs(u.block.x[0]),Math.abs(u.block.x[1]))))-0.1; z.camBox={x:[-ax,ax]}; }   /* 運鏡只在中間走道（DORM-LOFT-SCALE-1102：房間 6→4.2 m 寬，照床桌組阻擋的內緣算；以前寫死 ±1.6）*/   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和阿勳的對話只看到「天花板」）*/
@@ -2599,7 +2598,7 @@ const Z3 = (function(){
     // 程序化的畫面全部放在 g（備用模型）：正式模型（ASSETS 'bldg.dorm_room4'）載入後整組藏起來；導航、睡覺、書桌座位、離開都不受影響。月曆、社團傳單、z.deskItems 掛在 g0
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     for(const b of R.blocks) nav.blockRect((b.x[0]+b.x[1])/2,(b.z[0]+b.z[1])/2,b.x[1]-b.x[0],b.z[1]-b.z[0],0,0);   /* 四組床桌、鞋櫃、垃圾桶、曬衣架、洗手間 */
-    const y2Room=!econ&&['312','507','409'].includes(dormSetKey(G0));   /* 1A-03：大三 507 照舊擺大二拆出來的東西（同一組家具）＋大三拆出來的（dorm_y3_items.glb）；1A-09、1A-11：大四 409 再加大四的 */ if(y2Room) nav.blockRect((Y2_BOX[0]+Y2_BOX[1])/2,(Y2_BOX[2]+Y2_BOX[3])/2,Y2_BOX[1]-Y2_BOX[0],Y2_BOX[3]-Y2_BOX[2],0,0);   /* 大二 312：書桌旁走道邊的紙箱（拆箱前封好、拆完壓平，dorm_y2_items.glb 的 nav_block）*/
+    const y2Room=['312','507','409'].includes(dormSetKey(G0));   /* 1A-03：大三 507 照舊擺大二拆出來的東西（同一組家具）＋大三拆出來的（dorm_y3_items.glb）；1A-09、1A-11：大四 409 再加大四的 */ if(y2Room) nav.blockRect((Y2_BOX[0]+Y2_BOX[1])/2,(Y2_BOX[2]+Y2_BOX[3])/2,Y2_BOX[1]-Y2_BOX[0],Y2_BOX[3]-Y2_BOX[2],0,0);   /* 大二 312：書桌旁走道邊的紙箱（拆箱前封好、拆完壓平，dorm_y2_items.glb 的 nav_block）*/
     { const bb=new TK.Bin(), wood=M('#c9a57a',{rough:0.7}), frame=M('#e8e6e0',{rough:0.6}), sheet=M('#efe9dd',{rough:0.9}), bath=M('#dcd8cf',{rough:0.8});
       for(const u of R.units){ const b=u.block, cx=(b.x[0]+b.x[1])/2, cz=(b.z[0]+b.z[1])/2, w=b.x[1]-b.x[0], d=b.z[1]-b.z[0], top=u.bed_top_y||1.76;
         bb.add(frame,new THREE.BoxGeometry(w,0.1,d),cx,top-0.25,cz); bb.add(sheet,new THREE.BoxGeometry(w-0.1,0.15,d-0.1),cx,top-0.12,cz);
@@ -2622,30 +2621,19 @@ const Z3 = (function(){
     /* 祐廷椅背上的經濟系系外套（X140；GLB 節點 JACKET_CHAIR，L2 書桌椅，每一年同一張）：預設藏，劇情呼叫 z.setJacketChair(true)；模型還沒載完也先記住 */
     z.jacketChair=false; z.setJacketChair=on=>{ z.jacketChair=!!on; const o=z.dormRoot&&z.dormRoot.getObjectByName('JACKET_CHAIR'); if(o) o.visible=z.jacketChair; };
     if(y2Room) roomItemState(z,G0);   /* 拆箱事件一進房間就呼叫 z.setY2Items：模型還沒載完也先記住 */
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(!econ&&z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); if(!econ) loadWzItems(z,g0,E); if(!econ) loadDeskItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
-    /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
-       開場三箱疊在祐廷的書桌上 → 22:00 兩箱在書桌旁邊的地上 → 先睡＝隔天還在地上（隔天晚上拆完）／拆完＝不見 */
-    z.setV0Box=()=>{};
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); loadWzItems(z,g0,E); loadDeskItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
     /* ART-04 黃金葛（方奕廷送的，POTHOS）：法律系 203 祐廷書桌上（GLB 根節點 place：L2 書桌 +z 端前緣）；四種大小照澆水次數（S.pothosSize）。只在拿到以後載入 */
     z.pothosState=null; z.setPothos=(on,n)=>{ const k=on?'S'+pothosSize(n):null; if(z.pothosState===k) return; z.pothosState=k; if(!on){ const o=g0.getObjectByName('dorm_pothos'); if(o) o.visible=false; return; }
       const show=pg=>{ pg.visible=true; pg.traverse(o=>{ if(/^POTHOS_S\d$/.test(o.name)) o.visible=o.name==='POTHOS_'+k; }); };
       let pg=g0.getObjectByName('dorm_pothos'); if(pg){ show(pg); return; }
-      if(econ||typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.pothos']) return;
+      if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.pothos']) return;
       pg=new THREE.Group(); pg.name='dorm_pothos'; pg.userData.dyn=true; g0.add(pg);
       ASSETS.loadOne('bldg.pothos').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); let P=null; root.traverse(o=>{ if(!P&&o.userData&&o.userData.place) P=o.userData.place; });
         P=P||{x:-2.39,y:0.76,z:0.145,ry:Math.PI/2}; root.position.set(P.x,P.y,P.z); root.rotation.set(0,P.ry||0,0);
         root.traverse(m=>{ if(m.isMesh){ m.castShadow=true; m.receiveShadow=true; if(m.material) TK.bounce(m.material,0.3,0.4); } }); pg.add(root); show(pg); }).catch(e=>console.warn('黃金葛載入失敗',e)); };
-    if(econ&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.v0_dorm_props']){ const vg=new THREE.Group(); vg.name='v0_dorm_props'; vg.userData.dyn=true; g0.add(vg); const VP=R.v0_props;
-      z.v0Box=v0BoxFromFlags(GAME.G.flags||{}); z.setV0Box=s=>{ z.v0Box=s; for(const [k,n] of [['onbed','BOXES_ONBED'],['bed','BOXES_BED'],['foot','BOXES_FOOT']]){ const o=vg.getObjectByName(n); if(o) o.visible=s===k; } };
-      ASSETS.loadOne('bldg.v0_dorm_props').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
-        const put=(n,p,dx,dz,ry)=>{ const o=root.getObjectByName(n); if(!o||!p) return; o.position.set(p.x+(dx||0),p.y||0,p.z+(dz||0)); o.rotation.set(0,ry!=null?ry:(p.ry||0),0); o.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=true; } }); vg.add(o); };
-        put('BOXES_ONBED',VP.BOXES_DESK,0,0,Math.PI/2); put('BOXES_BED',VP.BOXES_FLOOR,0,0,0.3); put('BOXES_FOOT',VP.BOXES_FLOOR,0,0,0.1);   /* 「書桌上」「書桌旁邊的地上」（AA_208 第 6 節）*/
-        put('BOOK_ECON',{x:me.desk_center[0],y:me.desk_top_y,z:me.desk_u[1]-0.25},0,0,Math.PI/2+0.2); put('XUN_DESK',VP.XUN_DESK); put('XUN_BOWLING',VP.XUN_BOWLING);
-        z.setV0Box(z.v0Box); }).catch(e=>console.warn('經濟系宿舍的小物件載入失敗',e)); }
     return z; } };
   /* 黃金葛的大小（ART-04；json 寫「LAWWW 定規則」）：每週最多澆一次（story3d.js pothosScene），沒澆不長大。0～5 次＝S1 剛送來、6～19＝S2、20～39＝S3（一年多）、40 以上＝S4 */
   function pothosSize(n){ n=n|0; return n>=40?4:n>=20?3:n>=6?2:1; }
-  function v0BoxFromFlags(F){ if(!F.E01_NIGHT) return 'onbed'; if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES) return 'foot'; return 'none'; }
   /* 宿舍房間的正式模型（第二個 AI：tools/blender/env_second/dorm_interior.py）：日光燈管、檯燈燈泡、筆電與螢幕一直亮；
      牆、地板、木家具有燈光感（TK.bounce）；書、雜物的顏色在頂點色（自發光也照頂點色加一點） */
   const DORM_BOUNCE={dorm_wall:[0.4,0.5],dorm_floor:[0.32,0.42],dorm_wood:[0.3,0.4],dorm_wood_dark:[0.25,0.35],dorm_door:[0.25,0.35],dorm_sheet:[0.3,0.4],dorm_duvet:[0.25,0.35],dorm_pillow:[0.3,0.4],dorm_curtain:[0.3,0.4],dorm_ac:[0.3,0.4],dorm_bath_tile:[0.4,0.5],dorm_bath_floor:[0.32,0.42]};   /* 洗手間的牆磚、地磚原本沒有補光：剖面視角看進洗手間是一整片暗灰色（經濟系 412 每天早上第一個畫面右邊四成；LAWWW2 2026-10-21），和房間的牆、地板同一級 */
@@ -2712,7 +2700,7 @@ const Z3 = (function(){
      ITEM_desk_<key>＝STORY.roomItemKeys(G)（和選單同一份）。節點的 room='203'（書背、筆記本的字、桌墊下的票根、大一的軟木板和釘在上面的東西）只在大一 203；
      on='board'（釘在軟木板上）要軟木板也顯示（軟木板＝大一才有；大二起換成 dorm_y2_items 那一塊）。手機、三色螢光筆每一年都在。搬家、收拾那幾天全部收起來。
      牆上的網格叫 WALL_left_desk_*：跟左牆一起淡出（同溫州街那幾件）。旗標在房間裡變了每一幀比一次（只比一個字串）*/
-  function deskItemKeys(G,room){ const F=(G&&G.flags)||{}; if(F.ROOM_Y2_MOVING||F.ROOM_Y3_MOVING||F.ROOM_Y4_MOVING||F.PACKED_Y4||(G&&G.stage==='econ')) return []; const K=typeof STORY!=='undefined'&&STORY.roomItemKeys?STORY.roomItemKeys(G):[]; if(room==='203') K.push('board'); if(['203','312','507','409'].includes(room)) K.push('liufa_'+room); return K; }   /* liufa_<房間>：書桌上的六法（厚書，蓋住 dorm_room4 的紅色方塊；BB 11-03 16:16 P3）*/
+  function deskItemKeys(G,room){ const F=(G&&G.flags)||{}; if(F.ROOM_Y2_MOVING||F.ROOM_Y3_MOVING||F.ROOM_Y4_MOVING||F.PACKED_Y4) return []; const K=typeof STORY!=='undefined'&&STORY.roomItemKeys?STORY.roomItemKeys(G):[]; if(room==='203') K.push('board'); if(['203','312','507','409'].includes(room)) K.push('liufa_'+room); return K; }   /* liufa_<房間>：書桌上的六法（厚書，蓋住 dorm_room4 的紅色方塊；BB 11-03 16:16 P3）*/
   function loadDeskItems(z,g0,E){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.dorm_desk_items']) return; let grp=null, key=null, loading=false;
     const apply=K=>{ if(!grp) return; const room=z.dormSetKey, board=K.includes('board')&&room==='203';
       grp.traverse(o=>{ if(!/^ITEM_desk_/.test(o.name)) return; const u=o.userData||{}; o.visible=K.includes(o.name.slice(10))&&(!u.room||u.room===room)&&(u.on!=='board'||board); }); };
@@ -3072,5 +3060,5 @@ const Z3 = (function(){
       out.push({id:q.id,place:q.place,w:+(hw*2).toFixed(3),h,center:[q.cx,h/2,q.cz],normal:[+nx.toFixed(4),0,+nz.toFixed(4)],
         corners:[[q.cx-sx,0,q.cz-sz],[q.cx+sx,0,q.cz+sz],[q.cx+sx,h,q.cz+sz],[q.cx-sx,h,q.cz-sz]].map(c=>c.map(v=>+v.toFixed(3)))}); }
     return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();

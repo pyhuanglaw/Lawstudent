@@ -64,7 +64,6 @@ GM.money=function(n){ G.money+=n; };
   check('7. 第三隻手：玩過經濟系、E12 選「第三隻手」、還在交往，第 6 週以後才有；少一個條件就沒有',m.length===1&&m[0].text==='我還在等你的第三隻手。'&&!h2.length&&!h3.length&&!h4.length&&!h5.length);
   m=H({}); G.hour=23; const ans=PHONE.answer(G,'dp_y2_kx_hand',0);
   check('7. 回「……長頸鹿的尾巴？」→「你記得喔。尾巴我還留著。」（AB65-3：AA_211 附錄 B P7；原本「你記得。很好。尾巴還在等。」）',!!ans&&txt('p:kexin').slice(-2).join('｜')==='player:……長頸鹿的尾巴？｜kexin:你記得喔。尾巴我還留著。',JSON.stringify(txt('p:kexin')));
-  const econ=STORY.DAILY_PHONE.filter(d=>/^y2_/.test(d.id)).every(d=>!d.ok({flags:{dating_kexin:true},stage:'econ',events:{done:{}}},1));
-  check('8. 經濟系那一年都沒有',econ);
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 8 項 經濟系那一年都沒有）
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

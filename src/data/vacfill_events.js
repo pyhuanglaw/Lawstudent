@@ -11,43 +11,6 @@
    測試：node tests/aa440_vacfill_unit.js、node tests/aa556_vacgap2_unit.js */
 'use strict';
 const VACFILL_LINES={
-  /* ---------- 第 1 節 經濟系那年暑假（2025-07-12～08-12）---------- */
-  /* 1-1 7/13（日）10:00 考完的第二天（家裡）*/
-  y0_0713:{narr:'（考完的第二天，你睡到十點。客廳的桌上攤著一疊發票，媽媽在打計算機。）',mom:['起來了。','……考完了，今天幫我對發票。'],
-    opts:['好。','我想再睡一下。'],yes:['這一疊是五金行那個客人的，對到月底就好。','（你對到中午。她一次都沒有問你考得怎樣。）'],no:['睡吧。','（中午你出來的時候，那疊發票已經對完了。）']},
-  /* 1-2 7/16（三）21:00 經濟系那一群的群組（econ_friends）；7/19 南下高雄的（E35_PLAN sea／shop）第一個選項換 */
-  y0_0716:{ms:[['econ_pinyu','欸考完的人出來一下'],['econ_tangrui','誰考完'],['econ_pinyu','他啊'],['econ_zhengxun','考完的話，週末吃飯。品妤請。'],['econ_pinyu','？？？']],
-    yes:'週末可以。',yesSay:[['econ_pinyu','好 那就週六 我訂公館那家']],no:'放榜以後再說。',noSay:[['econ_tangrui','也對'],['econ_zhengxun','那放榜以後']],
-    away:'這週末不在臺北。',awaySay:[['econ_pinyu','好啦 那放榜以後']]},
-  /* 1-3 7/19（六）12:00 姊姊回來（家裡）；sleep＝15:30、第一句換；sea／shop＝7/26（六）12:00 成績出來了的版本 */
-  y0_0719:{narr:'（中午，門開了。姊姊提著一個保冷袋，從台南坐高鐵回來。）',ask:'考得怎樣？',wait:'（你還沒回答。）',rice:'……不想講就不要講。我帶了肉燥，晚上吃。',
-    opts:['還不知道。','妳專程回來？'],reply:['那就是還好。真的很爛你會直接說。','我週一放假。……媽叫我回來的，她說你考完一直在睡。'],
-    dinner:'（晚上你出門的時候，姊姊在客廳說：「回來幫我帶一杯飲料。」）',
-    sleepNarr:'（下午三點半，你剛醒。門開了，姊姊提著一個保冷袋，從台南坐高鐵回來。）'},
-  y0_0726:{ask:'成績出來了？',opts:['還可以。','妳專程回來？'],reply:['那就是不錯。真的很爛你會直接說。','我週一放假。……媽叫我回來的，她說你從高雄回來以後一直在睡。']},   /* 旁白、「（你還沒回答。）」「……不想講就不要講。…」同 y0_0719 */
-  /* 1-4 7/22（二）21:30 出成績前：交往中＝可昕視訊（sea／shop 不發）；沒交往＝姊姊私訊 */
-  y0_0722:{kx:['禮拜五出成績。','……你不要一直刷新。刷了也不會比較快。','那天我不想一個人查。到時候再說。'],opts:['好。','妳自己也在等。'],
-    yes:['嗯。睡覺。','（視訊結束。）'],no:'我等我的，你等你的。……一起等比較不無聊。',
-    sis:['禮拜五出成績？','我那天上班 看到分數傳給我'],sisOpt:'好。',sisSay:'嗯'},
-  /* 1-5 7/27（日）10:00 在家醒來：去學校走一走（15:00 一鍵到校門口）*/
-  y0_0727:{wake:'（成績出來了。分數夠不夠，要等八月十三號。）',go:'（去學校走一走）',no:'（在家）',
-    gate:'（同一個校門。你念經濟系的時候，每天從這裡進來。）',linze:'（你走到法律系館A前面。以前只從外面經過這一棟。）'},
-  /* 1-5b 7/31（四）10:00 在家醒來：成績單寄到（AA_440 ca16c073d 補；BB_303 第 6 節 7/28～8/03 連 7 天沒有事）*/
-  y0_0731:{narr:['（你去拿信。最上面一封是分科測驗的成績單，和網路上看到的一樣。）','（你把它夾進桌上那本書裡。放榜還有兩個禮拜。）']},
-  /* 1-6 8/4（一）21:00 經濟系群組：等放榜（不用回）*/
-  y0_0804:{ms:[['econ_pinyu','十三號放榜對吧'],['econ_zhengxun','對。不要問他，他會緊張。'],['econ_pinyu','我沒有問他啊 我問你'],['econ_tangrui','（貼圖：一隻在等的貓）']]},
-  /* 1-7 8/8（五）20:00 父親節（視訊；家裡）*/
-  y0_0808:{narr:'（家人群組的視訊。爸爸那邊是辦公室的白牆，媽媽坐在你旁邊，姊姊在台南。）',lines:[['爸爸','你媽說你考完了。'],['爸爸','……十三號？'],['宜蓁','爸，今天是父親節。是你要被祝的。'],['爸爸','喔。對。']],
-    opts:['父親節快樂。','你什麼時候回來？'],reply:['好。……你媽說你這陣子都在睡。開學以後早點起床。','過年。……會早一點，我跟公司說了。'],end:'（媽媽把手機收起來，說：「他講話就是這樣。」）'},
-  /* 1-8 8/10（日）21:00 交往中：可昕視訊（沒交往＝摘要池）*/
-  y0_0810:{kx:['我在看木柵大學的宿舍照片。……還沒放榜，先看。','床好小。你們的呢？'],opts:['我還不知道住哪一間。','應該一樣小。'],reply:['抽到再傳給我。我要比較。','那我們都睡不好。……公平。']},
-  /* 1-9 8/13（三）20:30 家人群組（放榜演完以後；不用回）；8/16（六）10:00 在家醒來：錄取通知 */
-  y0_0813:{ms:[['mom','（照片：電腦螢幕上的榜單，你的名字用紅筆圈起來）'],['dad','看到了。'],['dad','……好。法律好。'],['sister','恭喜']]},
-  y0_0816:['（法律系的錄取通知寄到了。媽媽把信封放在你的桌上，沒有拆。）','（你拆開。和網路上看到的一樣，只是多了一張新生入學須知。）'],
-  /* 1-10 8/17（日）21:00 群組；8/18（一）19:00 熱炒店（餞行）*/
-  y0_0818:{ms:[['econ_zhengxun','明天晚上 公館 那家熱炒'],['econ_zhengxun','給要轉走的人餞行'],['econ_weilun','好']],yes:'好。',no:'我那天不行。',noSay:[['econ_pinyu','那下次 你來我們系上找我們']],
-    narr:'（熱炒店的圓桌，啤酒杯碰在一起。）',lines:[['品妤','你真的要走喔。'],['阿勳','法律系離我們系館很近。……走路五分鐘。'],['韋綸','那以後午餐還一起吃嗎。']],
-    opts:['一起吃。','看課表。'],reply:[['唐睿','說好了喔。'],['品妤','法律系的課表很可怕，我聽說的。']]},
 
   /* ---------- 第 2 節 大二暑假（2027）---------- */
   /* 2-1 6/18（五）21:00 桌遊團群組；6/23（三）15:00 語彤 */
@@ -156,88 +119,6 @@ const VACFILL_EVENTS=(function(){
   /* 沒有標題的小場景：EVENTS.run 會把事件 id 記進日誌（GM.memo(ev.title||ev.id)）——演完拿掉那一筆 */
   const noMemo=(id,f)=>(G,GM,n)=>{ const M=G&&G.memo; if(Array.isArray(M)&&M.length&&M[M.length-1]&&M[M.length-1].t===id) M.pop(); if(f) f(G,GM,n); };
   return [
-    /* ===================== 第 1 節 經濟系那年暑假（stage econ；休學住家裡，ECONFF 第二階段：在家的事件 trigger home 到了就演，快轉停在那裡）===================== */
-    { id:'ev_vf_y0_0713', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>on(G,'2025-07-13',10)},
-      dialogue:[ {scene:'家'}, {speaker:null,text:X.y0_0713.narr}, {speaker:'媽媽',name:'媽媽',text:X.y0_0713.mom[0]}, {speaker:'媽媽',name:'媽媽',text:X.y0_0713.mom[1]},
-        choice(X.y0_0713.opts,['y','n']),
-        {label:'y'},{speaker:'媽媽',name:'媽媽',text:X.y0_0713.yes[0]},{speaker:null,text:X.y0_0713.yes[1]},{goto:'e'},
-        {label:'n'},{speaker:'媽媽',name:'媽媽',text:X.y0_0713.no[0]},{speaker:null,text:X.y0_0713.no[1]},
-        {label:'e'} ] , after:noMemo('ev_vf_y0_0713') },
-    /* 1-3 姊姊回來：7/19 12:00；E35_PLAN sleep（在家睡到下午三點）＝15:30、第一句換；sea／shop（7/19～7/23 在高雄）＝不演，改 7/26（ev_vf_y0_0726_sis）*/
-    { id:'ev_vf_y0_0719_sis', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>!south(G)&&on(G,'2025-07-19',plan(G)==='sleep'?15.5:12)},
-      dialogue:[ {scene:'家'}, {if:{custom:G=>plan(G)!=='sleep'},speaker:null,text:X.y0_0719.narr}, {if:{custom:G=>plan(G)==='sleep'},speaker:null,text:X.y0_0719.sleepNarr},
-        {speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.ask}, {speaker:null,text:X.y0_0719.wait}, {speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.rice},
-        choice(X.y0_0719.opts,['a','b']),
-        {label:'a'},{speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.reply[0]},{goto:'e'},
-        {label:'b'},{speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.reply[1]},
-        {label:'e'},{if:{custom:G=>F(G).VF_Y0_0719==='go'},speaker:null,text:X.y0_0719.dinner} ] , after:noMemo('ev_vf_y0_0719_sis') },   /* 那一晚：7/16 回了「週末可以。」的（7/19 晚上經濟系聚餐）*/
-    { id:'ev_vf_y0_0726_sis', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>south(G)&&on(G,'2025-07-26',12)},   /* 7/26 人不在家＝不演（trigger home）*/
-      dialogue:[ {scene:'家'}, {speaker:null,text:X.y0_0719.narr}, {speaker:'宜蓁',name:'宜蓁',text:X.y0_0726.ask}, {speaker:null,text:X.y0_0719.wait}, {speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.rice},
-        choice(X.y0_0726.opts,['a','b']),
-        {label:'a'},{speaker:'宜蓁',name:'宜蓁',text:X.y0_0726.reply[0]},{goto:'e'},
-        {label:'b'},{speaker:'宜蓁',name:'宜蓁',text:X.y0_0726.reply[1]},
-        {label:'e'} ] , after:noMemo('ev_vf_y0_0726_sis') },
-    /* 7/19 晚上的出遊（1-2「週末可以。」；AA_440 沒有寫這一場的台詞：地點字幕＋時間往後）*/
-    { id:'ev_vf_y0_0719', stage:'econ', title:'經濟系聚餐', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'公館',bg:'gongguan'} ] },
-    { id:'ev_vf_y0_0722', stage:'econ', title:'視訊', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>on(G,'2025-07-22',21.5)&&dat(G,'kexin')&&!south(G)},   /* sea／shop：7/22 你們在一起（高雄），不發 */
-      dialogue:[ {scene:'視訊',bg:'video'}, ...X.y0_0722.kx.map(t=>({speaker:'kexin',text:t})),
-        choice(X.y0_0722.opts,['y','n']),
-        {label:'y'},{speaker:'kexin',text:X.y0_0722.yes[0]},{speaker:null,text:X.y0_0722.yes[1]},{goto:'e'},
-        {label:'n'},{speaker:'kexin',text:X.y0_0722.no},
-        {label:'e'} ] },
-    /* 1-5 7/27 10:00 在家醒來（人在家才出）：「（去學校走一走）」＝15:00 一鍵到校門口（src/vacfill3d.js 排出遊）*/
-    { id:'ev_vf_y0_0727', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>win(G,'2025-07-27',10,'2025-07-27',14)},
-      dialogue:[ {scene:'家'}, {speaker:null,text:X.y0_0727.wake},
-        {choice:[{text:X.y0_0727.go,set:{VF_Y0_0727:'go'}},{text:X.y0_0727.no,set:{VF_Y0_0727:'no'}}]} ],
-      after:noMemo('ev_vf_y0_0727',G=>{ if(typeof VACFILL!=='undefined'&&VACFILL.phone) VACFILL.phone(G); }) },
-    /* 1-5b 7/31 10:00 在家醒來（人在家才出；交往中、沒交往都一樣，不用選、不加數值）*/
-    { id:'ev_vf_y0_0731', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>win(G,'2025-07-31',10,'2025-07-31',14)},
-      dialogue:[ {scene:'家'}, ...X.y0_0731.narr.map(t=>({speaker:null,text:t})) ],
-      after:noMemo('ev_vf_y0_0731') },
-    { id:'ev_vf_y0_0727_gate', stage:'econ', title:'', participants:[], location:'campus', trigger:'auto', once:true, background:'blur',
-      prereq:{custom:G=>{ const d=D('2025-07-27'); if(d==null||G.day!==d||F(G).VF_Y0_0727!=='go') return false; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'vf_y0_0727'):null; return !!q&&q.state==='done'; }},
-      dialogue:[ {speaker:null,text:X.y0_0727.gate} ],
-      after:noMemo('ev_vf_y0_0727_gate',G=>{ G.flags.VF_Y0_0727='walk'; } )},
-    { id:'ev_vf_y0_0727_linze', stage:'econ', title:'', participants:[], location:'campus', near:{x:34,z:-98,r:7}, trigger:'auto', once:true, background:'blur',
-      prereq:{custom:G=>{ const d=D('2025-07-27'); return d!=null&&G.day===d&&F(G).VF_Y0_0727==='walk'; }},
-      dialogue:[ {speaker:null,text:X.y0_0727.linze} ],
-      after:noMemo('ev_vf_y0_0727_linze',G=>{ G.flags.VF_Y0_0727='front'; } )},
-    { id:'ev_vf_y0_0808', stage:'econ', title:'父親節', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>on(G,'2025-08-08',20)},
-      dialogue:[ {scene:'家'}, {speaker:null,text:X.y0_0808.narr}, ...X.y0_0808.lines.map(([s,t])=>({speaker:s,name:s,text:t})),
-        choice(X.y0_0808.opts,['a','b']),
-        {label:'a'},{speaker:'爸爸',name:'爸爸',text:X.y0_0808.reply[0]},{goto:'e'},
-        {label:'b'},{speaker:'爸爸',name:'爸爸',text:X.y0_0808.reply[1]},
-        {label:'e'},{speaker:null,text:X.y0_0808.end} ] },
-    { id:'ev_vf_y0_0810', stage:'econ', title:'視訊', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>on(G,'2025-08-10',21)&&dat(G,'kexin')},
-      dialogue:[ {scene:'視訊',bg:'video'}, ...X.y0_0810.kx.map(t=>({speaker:'kexin',text:t})),
-        choice(X.y0_0810.opts,['a','b']),
-        {label:'a'},{speaker:'kexin',text:X.y0_0810.reply[0]},{goto:'e'},
-        {label:'b'},{speaker:'kexin',text:X.y0_0810.reply[1]},
-        {label:'e'} ] },
-    /* 1-8 沒交往：8/10 早上起床放摘要池的一句（第 5 節住家裡・暑假，照順序）*/
-    { id:'ev_vf_y0_0810_sum', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>on(G,'2025-08-10',8.5)&&!dat(G,'kexin')},
-      dialogue:[ {scene:'家'}, {call:async(G,GM)=>{ if(typeof VACFILL!=='undefined'&&VACFILL.poolSay) await VACFILL.poolSay(GM,'Y0S','home','summer'); }} ] , after:noMemo('ev_vf_y0_0810_sum') },
-    /* 1-9 8/16（六）10:00 在家醒來：錄取通知（放榜 8/13 以後）*/
-    { id:'ev_vf_y0_0816', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>on(G,'2025-08-16',10)},
-      dialogue:[ {scene:'家'}, ...X.y0_0816.map(t=>({speaker:null,text:t})) ] , after:noMemo('ev_vf_y0_0816') },
-    /* 1-10 8/18（一）19:00 熱炒店（餞行；8/17 群組回「好。」）*/
-    { id:'ev_vf_y0_0818', stage:'econ', title:'和經濟系那一群吃飯', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'公館・熱炒店',bg:'gongguan'}, {speaker:null,text:X.y0_0818.narr}, ...X.y0_0818.lines.map(([s,t])=>({speaker:s,text:t})),
-        choice(X.y0_0818.opts,['a','b']),
-        {label:'a'},{speaker:X.y0_0818.reply[0][0],text:X.y0_0818.reply[0][1]},{goto:'e'},
-        {label:'b'},{speaker:X.y0_0818.reply[1][0],text:X.y0_0818.reply[1][1]},
-        {label:'e'} ] },
 
     /* ===================== 第 2 節 大二暑假 ===================== */
     { id:'ev_vf_y2_0729', title:'法圖', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,

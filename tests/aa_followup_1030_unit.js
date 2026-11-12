@@ -42,51 +42,12 @@ const BASE={introDone:true,afternoonDone:true,classDone:true,metAn:true,met_an:t
 const fresh=(k,h,zone,flags)=>{ const G=H.fresh(typeof k==='number'?keyOf(k):k,h,zone||'dorm',Object.assign({},BASE,flags||{})); G.outings=[]; G.acts={att:{}}; G.contacts=G.contacts||{}; G.invites=[]; PHONE.rec(G);
   E.player.busy=false; E.player.lv=0; E.player.seat=null; E.player.obj.position.x=0; E.player.obj.position.z=0; E.npcs.length=0; GM.npc={}; GM.spawnNPC=()=>null; ADV.active=false; caps.length=0;
   if(typeof SUP497!=='undefined'&&SUP497.bind) SUP497.bind(GM); if(STORY._bindGM) STORY._bindGM(GM); if(typeof HEARD!=='undefined'&&HEARD.bind) HEARD.bind(GM); if(typeof HCIRCLE!=='undefined'&&HCIRCLE.bind) HCIRCLE.bind(GM); if(typeof POOL!=='undefined'&&POOL.bind) POOL.bind(GM); return G; };
-/* 經濟系那一年（30 分鐘版：ECONFF.short；同 tests/aa529_econ_unit.js）*/
-const econ=(key,h,flags,o)=>{ o=o||{}; const G=H.fresh(key,h,o.zone||'dorm',Object.assign({E01_MORNING:true,LEAVE_WEEK:6,dating_kexin:true,KX_FIRST_MSG:false,PLAYED_Y0:true},flags||{}));
-  G.stage='econ'; G.outings=[]; G.acts={att:{}}; G.msgs=G.msgs||[]; G.contacts=G.contacts||{}; G.invites=[]; PHONE.rec(G); G.events.done.ev_y0_e02=1;
-  E.player.busy=false; E.paused=false; E.player.lv=0; E.player.seat=null; E.player.path=null; E.npcs.length=0; GM.npc={}; ADV.active=false; STORY._bindGM(GM); setAt(G.day,h); phoneOpened.length=0; caps.length=0; badge=0; return G; };
-const home=G=>{ G.flags.Y0_MOVED_OUT=true; const R=HOME.rec(G); R.at=true; R.base=true; R.day=G.day; G.zone='home'; return G; };
-const NARR='（回家的路上，手機震了一下。）', SAN='在公館的路口散了。';
+// CANON-NO-ECON-1112：經濟系那一年拿掉（經濟系那一年的假存檔（econ、home、NARR））
 
 (async()=>{
   check('0. src/ 都載得到',!loadErr.length,J(loadErr));
 
-  /* ---------- A：AA_529 第⑤點 ---------- */
-  await sec('A',async()=>{ const d15=D('2024-10-15'), ev=STORY_EVENTS.find(e=>e.id==='ev_y0_gather');
-    check('A. 事件裡不再有那句旁白（改到回程字幕之後：afterBack）',!!ev&&!ev.dialogue.some(l=>l&&l.text===NARR)&&typeof ev.afterBack==='function');
-    const G=econ('2024-10-15',17,{},{zone:'campus'}); setAt(d15,17.6); ph(); const q=OUT.get(G,'y0_gather');
-    H.said=[]; caps.length=0; H.picks=['假裝沒看到']; setAt(d15,18.75); await OUT.go(GM,q); const L=H.said.map(s=>s.t);
-    const ci=caps.findIndex(c=>c[0]===SAN), ni=L.indexOf(NARR);
-    check('A. 地點字幕「在公館的路口散了。」先、「（回家的路上，手機震了一下。）」後（字幕出來的時候旁白還沒說；旁白緊接在字幕後面、是最後一句）',ci>=0&&ni>=0&&caps[ci][1]===ni&&ni===L.length-1&&L.filter(t=>t===NARR).length===1&&L[ni-1]==='（她走進女舍以前，回頭揮了一下手。）',J({caps,tail:L.slice(-3)}));
-    PHONE.tick(G); const M=thr('g:econ_friends');
-    check('A. 「走啦」系統一則＋三則的時間照舊（10/15 22:20）',M.length===4&&M.every(m=>m.day===d15&&Math.abs(m.h-(22+1/3))<0.02)&&Math.abs(G.hour-(22+1/3))<0.02,J(M.map(m=>[m.day===d15,m.h])));
-    /* 已經在群組裡（長版 P2 去成）：不出旁白、字幕照出 */
-    const G3=econ('2024-10-15',17,{P2_PICK:'river'},{zone:'campus'}); ph(); setAt(d15,17.6); ph(); const q3=OUT.get(G3,'y0_gather'); H.said=[]; caps.length=0; H.picks=['假裝沒看到']; setAt(d15,18.75); await OUT.go(GM,q3);
-    check('A. 已經在「走啦」裡（長版）：不出「回家的路上」，字幕「在公館的路口散了。」照出',PHONE.inGroup(G3,'econ_friends')&&!H.said.some(s=>s.t===NARR)&&caps.some(c=>c[0]===SAN),J(caps)); });
-
-  /* ---------- B：AA_529 第⑦點 ---------- */
-  await sec('B',async()=>{ const d927=D('2024-09-27'), d1018=D('2024-10-18'), d1206=D('2024-12-06');
-    check('B. HOME.recvN／PHONE.loud：quiet 的不算會停的；別人傳的照算',HOME.recvN([{from:'x',quiet:true}])===0&&HOME.recvN([{from:'x'}])===1&&!!PHONE.loud&&PHONE.loud([{quiet:true},{}]).length===1);
-    /* 9/27（宿舍、30 分鐘版的跳）*/
-    const G=econ('2024-09-27',18,{Y0_CLUB:'guitar'}); ph(); badge=0;
-    const qd=PHONE.rec(G).q.filter(x=>/^y0_guitar_[123]$/.test(x.tag||''));
-    check('B. 三則排進手機都標 quiet（不用回）',qd.length===3&&qd.every(x=>x.items.every(it=>it.quiet===true&&!it.ask)),J(qd.map(x=>[x.tag,x.items.map(it=>it.quiet)])));
-    const r=ECONFF.jumpTo(GM,d927+1,9); const m=thr('g:y0_guitar');
-    check('B. ECONFF.jumpTo 跨過 9/27 21:00 那一則：不停（跳到 9/28 09:00），訊息收進手機（quiet、有紅點：PHONE.unread＞0、跳完 GM.phoneBadge）',r==='ok'&&G.day===d927+1&&Math.abs(G.hour-9)<0.01&&m.length===1&&m[0].quiet===true&&PHONE.unread(G)>0&&badge>0,J({r,day:keyOf(G.day),h:G.hour,m:m.map(x=>[x.text,x.quiet]),unread:PHONE.unread(G),badge}));
-    /* 對照：別的訊息照停（可昕的私訊） */
-    const G2=econ('2024-09-27',18,{Y0_CLUB:'guitar'}); ph(); PHONE.at(G2,d927,22,[{th:'p:kexin',from:'kexin',text:'測試：你睡了嗎'}],'t_kx_loud');
-    const r2=ECONFF.jumpTo(GM,d927+1,9);
-    check('B. 對照：同一段時間裡可昕的私訊照停（停在 22:00，打開的是可昕那一段）',r2==='msg'&&G2.day===d927&&Math.abs(G2.hour-22)<0.01&&ECONFF.newestTh(G2)==='p:kexin',J({r2,day:keyOf(G2.day),h:G2.hour,th:ECONFF.newestTh(G2)}));
-    /* 10/18、12/6（休學在家：HOME.y0Jump）*/
-    const yj=async(d,h0,h1)=>{ const G4=econ(keyOf(d),h0,{Y0_CLUB:'hiking',Y0_LEAVE:true}); home(G4); ph(); badge=0; const why=await HOME.y0Jump(GM,T(d,h1)); return {G4,why}; };
-    const a=await yj(d1018,20.5,21.75), ma=thr('g:y0_hiking');
-    check('B. 休學在家的快轉（HOME.y0Jump）跨過 10/18 21:00 登山社那則：不停（跑到 21:45），收進手機、有紅點',a.why!=='msg'&&Math.abs(a.G4.hour-21.75)<0.01&&ma.length===2&&ma.every(x=>x.quiet===true)&&badge>0,J({why:a.why,h:a.G4.hour,m:ma.map(x=>x.text),badge}));
-    const b=await yj(d1206,20.5,21.75), mb=thr('g:y0_hiking');
-    check('B. 12/6 21:00 那則也一樣不停',b.why!=='msg'&&Math.abs(b.G4.hour-21.75)<0.01&&mb.length===1&&mb[0].quiet===true,J({why:b.why,h:b.G4.hour,m:mb.map(x=>x.text)}));
-    /* 舊存檔：已經排進佇列、沒有 quiet 的，規則跑一次就補上 */
-    const G5=econ('2024-09-27',18,{Y0_CLUB:'badminton'}); PHONE.join(G5,'y0_badminton','羽球社'); PHONE.rec(G5).q.push({day:d927,h:21,items:[{th:'g:y0_badminton',from:'npc_y0_badminton_pres',name:'羽球社社長',text:'週二、週四晚上七點，新體育館'}],tag:'y0_badminton_1'}); ph();
-    check('B. 舊存檔：已經排進佇列、沒有 quiet 的那一則，規則跑一次補成 quiet',PHONE.rec(G5).q.find(x=>x.tag==='y0_badminton_1').items.every(it=>it.quiet===true)); });
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（A（AA_529 第⑤點 10/15 聚會的結尾）、B（第⑦點經濟系社團群組三則））
 
   /* ---------- C：AA_527 第 2 點 ---------- */
   await sec('C',async()=>{ const HAND='期中那兩個禮拜，阿姨的手包著。語彤一個人顧店。我去吃麵順便幫忙收碗，她說你坐著。';   /* AA_504 3-4 10-30 14:30 改（期中週＝繃帶期，長桌最早第 10 週）*/

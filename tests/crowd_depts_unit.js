@@ -218,12 +218,6 @@ await blk('8. 體育館',async()=>{
   enter('gym',mkG(BRK,14,'gym')); const lb=role('walker').concat(role('bench'));
   check('8. 寒假：體育館大廳的人沒有系（寒暑假只出寫了寒暑假的系，「體」沒有）、場邊沒有對話',lb.every(n=>!n.name&&!n.talk)&&!E.npcs.some(n=>n.deptTalk),String(lb.length)); }
 });
-// ---------- 9. 經濟系那一年 ----------
-await blk('9. 經濟系那一年',async()=>{
-{ const G=mkG(Y0W4,14,'campus',{stage:'econ'}); enter('campus',G,10); const all=E.npcs.filter(n=>n.isExtra&&!n.crowd), pool=C.deptPool(G,'campus').map(d=>d.id);
-  check('9. 經濟系那一年（大一上第 4 週）：校園的走路的人一樣有系（有經濟系的人可以出現）、有句子',all.length===10&&all.every(n=>pool.includes(deptOf(n)))&&pool.includes('經濟')&&all.filter(n=>n.talk).length>=6,all.map(deptOf).join('、'));
-  const g=await inRoom('Y0S1','chinese_y0',4,'pre'), e=await inRoom('Y0S1','econ_principles_y0',4,'pre');
-  check('9. 經濟系那一年：通識（大一國文，博雅 101）照第 3 節（前一排或旁邊的同學、各系、有對話）；經濟系必修（經濟學原理）照舊（沒有那幾段、同學沒有系）',!!g&&g.ids.length===1&&/^g/.test(g.ids[0])&&besideOrFront(g)&&g.ppl.every(n=>/系的學生$/.test(n.name))&&!!e&&!e.prep&&e.others.length>=2&&e.others.every(n=>!n.name&&!n.talk),J([g&&g.ids,e&&e.others.length])); }
-});
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 9 項 經濟系那一年的路人和課堂）
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

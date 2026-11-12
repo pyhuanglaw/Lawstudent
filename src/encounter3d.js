@@ -39,7 +39,6 @@ const ENC=(function(){
   S.atHome=(pr,spot)=>!!(pr&&(pr.kind==='home'||pr.kind==='trip')&&pr.home&&spot&&spot.area)&&cityOf(spot.area)===cityOf(pr.home);   /* trip 帶 home：週末回老家（以安大一上第 4、8、12 週，AA_372 第 6 節第 8 題）——那個城市的偶遇照排 */
   /* 這一列現在成立嗎：回傳 {row,tier} 或 null（why 給測試看）*/
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
-    if(G.stage==='econ') return no('econ');
     const T=term(G), h=G.hour;
     if(T&&T.exam==='final') return no('期末考週');   /* 16 週制：第 16 週 */
     const spot=typeof TRIP!=='undefined'&&TRIP.spot?TRIP.spot(row.spot):null; if(spot&&spot.weather==='outdoor'&&G.weather==='rain'&&!row.rainOk) return no('下雨');   /* rainOk：戶外景點但有遮（BB_213 可昕 D10 河邊的台階）*/

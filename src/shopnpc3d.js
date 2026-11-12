@@ -38,7 +38,6 @@ const SHOPNPC=(function(){
   const termOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null;
   const wdOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).wd%7:null;
   const hr=G=>(+G.hour||0)%24;
-  const econ=G=>!!G&&((G.stage||'law')==='econ'||(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G)));
   const hash=s=>{ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; };
   const isOpen=(z,h,d)=>typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(z,h,d);
   S.rows=()=>D().rows||[];
@@ -53,7 +52,7 @@ const SHOPNPC=(function(){
   /* 這一列的日曆條件（不看原本的作息）：星期、時段、學期、週次、考試週、店開著 */
   /* 過午夜（AA_621 第 2 節：阿哲 00:00～02:00、芯慈週日 22:00～01:00）：G.hour 24 以上＝還沒睡（G.day 是前一天）＝日曆上是隔天的 (G.hour−24) 點；
      to>24 的列（芯慈週日 22:00～01:00）00:00～(to−24) 算前一天晚上那一列（星期、學期、考試週都看前一天）。其他列照舊（from／to 都在 24 以內）*/
-  S.calOk=function(G,row,day,h){ if(econ(G)) return false; const raw=+G.hour||0; if(day==null) day=(G.day|0)+(raw>=24?Math.floor(raw/24):0); if(h==null) h=hr(G);
+  S.calOk=function(G,row,day,h){ const raw=+G.hour||0; if(day==null) day=(G.day|0)+(raw>=24?Math.floor(raw/24):0); if(h==null) h=hr(G);
     const open=isOpen(row.zone,h,day);   /* 店開著：看日曆上的那一天、那一點 */
     if(row.to>24&&h<row.to-24){ day-=1; h+=24; }   /* 跨午夜的列：00:00～(to−24) 算前一天晚上 */
     const wd=wdOf(day); if(!row.days.includes(wd)||h<row.from||h>=row.to) return false;
@@ -116,7 +115,7 @@ const SHOPNPC=(function(){
     else { key=[row.id,G.day|0].join('|'); mk=()=>({days:[wd],from:row.from,to:row.to,zone:row.zone,act:'linger',at:row.at.slice(),noPair:true,shopNpc:row.id,note:'AA_705 '+row.shop}); }
     let e=entMemo.get(key); if(!e){ if(entMemo.size>200) entMemo.clear(); e=mk(); entMemo.set(key,e); } return e; };
   /* Alison：原本的作息是「在南洋戲院打工」＝人在大廳櫃檯後面 */
-  S.alisonEnt=function(c,G){ const row=S.rows().find(r=>r.hearBy==='alison'); if(!row||econ(G)) return null; const b=S.base(c,G); if(!b||b.away!==S.ALISON_AWAY||b.zone!=null) return null;
+  S.alisonEnt=function(c,G){ const row=S.rows().find(r=>r.hearBy==='alison'); if(!row) return null; const b=S.base(c,G); if(!b||b.away!==S.ALISON_AWAY||b.zone!=null) return null;
     if(!isOpen(row.zone,hr(G),G.day|0)) return null;
     const key='alison|'+(G.day|0)+'|'+b.from+'|'+b.to; let e=entMemo.get(key); if(!e){ e=Object.assign({},b,{zone:row.zone,act:'linger',at:row.at.slice(),away:undefined,noPair:true,shopNpc:row.id,note:'AA_705 南洋戲院（她原本的打工作息，AA_661 第 30 列）'}); delete e.away; entMemo.set(key,e); } return e; };
   S.sched=function(c,G){ if(guard||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;
@@ -155,7 +154,7 @@ const SHOPNPC=(function(){
   const sceneFree=GM=>{ const E=GM.E, pl=E&&E.player; if(!pl||!pl.obj||pl.busy) return false; if(GM.D&&(GM.D.active||(GM.D.busyDepth|0)>0)) return false; if(typeof ADV!=='undefined'&&ADV.active) return false; if(typeof EVENTS!=='undefined'&&EVENTS.running) return false; return true; };
   const near=(GM,n,r)=>{ const pl=GM.E.player, p=pl.obj.position, q=n&&!n.hidden&&n.obj&&n.obj.visible!==false&&n.obj.position; return !!q&&(n.lv|0)===(pl.lv|0)&&Math.hypot(q.x-p.x,q.z-p.z)<=r; };
   /* 現在可以聽的那一列：{row,n} */
-  S.hearDue=function(GM){ const G=GM&&GM.G; if(!G||!GM.E||!GM.E.player||econ(G)) return null;
+  S.hearDue=function(GM){ const G=GM&&GM.G; if(!G||!GM.E||!GM.E.player) return null;
     for(const row of S.rows()){ if(row.zone!==G.zone||!row.hear) continue; if(S.heard(G,row.who)||!knows(row.who,G)) continue; const hf=S.hearFor(G,row); if(!hf) continue; const r=S.rowNow(G,row.who); if(r!==row) continue;
       const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(row.who):null; if(!n||n.leaving||!near(GM,n,S.HEAR_R)) continue; return {row,n,hear:hf.hear,once:hf.once}; }
     return null; };
@@ -169,7 +168,7 @@ const SHOPNPC=(function(){
   S.YU='yu';
   S.ny=G=>{ const F=F_(G); let r=F.NY_ALISON; if(!r||typeof r!=='object') r=F.NY_ALISON={first:null,terms:{},sis:{}}; if(!r.terms) r.terms={}; if(!r.sis) r.sis={}; return r; };
   S.popcorn=G=>!!G&&!!G.flags&&G.flags.NY_POPCORN===(G.day|0);
-  S.alisonDue=function(GM){ const G=GM&&GM.G; if(!G||G.zone!=='xs_nanyang'||econ(G)||!knows(S.YU,G)) return false; const T=termOf(G.day); if(!T) return false;
+  S.alisonDue=function(GM){ const G=GM&&GM.G; if(!G||G.zone!=='xs_nanyang'||!knows(S.YU,G)) return false; const T=termOf(G.day); if(!T) return false;
     const r=(G.flags||{}).NY_ALISON; if(r&&r.terms&&r.terms[T.id]!=null&&!S.alisonCo(G)) return false;   /* 自己也在這裡打工以後那一句（AA_828）：這學期遇過了也說（一次）*/
     const e=typeof CHARACTERS!=='undefined'&&CHARACTERS.yu&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(CHARACTERS.yu,G):null; if(!e||e.zone!=='xs_nanyang') return false;
     const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(S.YU):null; return !!n&&!n.leaving&&near(GM,n,S.ALISON_R); };

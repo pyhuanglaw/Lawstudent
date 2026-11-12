@@ -116,6 +116,5 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店（作息拿掉）＝她不會約你去燒臘店（here 那一則不送）；四週內照樣會約別的地方 */
   { const e=HASK_DATA.people.heroine_03.daily.find(q=>q.place==='noodle'); let okd=false; for(let d=d0+1;d<d0+28&&!okd;d++){ at(d-1,12); for(const h of e.pre.h) if(HASK.dailyOk(G,'heroine_03',e,e.pre,d,h)) okd=true; }
     check('9. 語彤的麵店（here）：四週內一次都不約在燒臘店（她不在店裡＝dailyOk 都不成立）；會約別的地方',!x&&!okd&&sent().some(q=>q.id==='heroine_03'),J({okd,sent:sent().map(q=>[q.id,q.place])})); } }
-{ const st0=H.G.stage; H.G.stage='econ'; const b=HASK.block(H.G,'kexin',H.G.day); H.G.stage=st0; const b2=HASK.block(H.G,'kexin',H.G.day);
-  check('10. 經濟系那一年（stage econ）可昕不主動約：block＝econ；法律系照舊不是 econ（AA_529 第 1 點）',b==='econ'&&b2!=='econ',J({b,b2})); }
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 10 項 經濟系那一年可昕不主動約）
 H.done();

@@ -14,7 +14,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const NM=/^(EXCH|Y34B|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|NEEDED_MSGS|HOMETOWN_LINES|SISG|R2Y3B|R2Y3B_EVENTS)$/;
 const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NM.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.CG_REGISTRY=global.CG_REGISTRY||{};
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js','src/y34b3d.js','src/sis_grad3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js']) load(f);
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js','src/y34b3d.js','src/sis_grad3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js']) load(f);
 const {check,GM,E}=H;
 const DK=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };

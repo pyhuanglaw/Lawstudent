@@ -195,7 +195,8 @@ const O=runProbe('old'), N=runProbe('new');
   const KEEP={
     'src/crowd3d.js':['nameless',['（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……沒有電梯啦，我爬上來的。五樓。」','（提著兩袋宵夜的人）「鹹酥雞到了，誰下來拿？」','（在門口講電話）「沒有啦，我只是想打給你。」','（抱著一疊書的人）「總圖還有位子嗎？……那我去社科圖。」']],
     'src/data/crowd_depts.js':['split',['（他邊走邊講電話）「板子放在你桌上了。……那顆電容是新的，這次不要再燒掉。」','（他盯著手機）「又錯一筆測資。……到底是哪一筆。」','（她講電話）「阿嬤那邊我禮拜四再去一次。她上次說要教我摺紙鶴。」','（她在柱子上貼傳單：「徵求受試者，心理系實驗」。）「……膠帶又用完了。」','（他對著一棵樹念台詞）「……你為什麼不早說？——不對，這一句要更小聲。」']],
-    'src/data/events.js':['choice',['「謝謝學姊。」（拿了書狀就走）','（替她答）「她想知道法律外面還有什麼。」','（繼續演品妤）「你想說什麼？」']],
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（照留清單裡經濟系那一年的兩句拿掉（events.js 選項一句、retake_home.js 一句），econff3d.js 的那一格跟著拿掉）
+    'src/data/events.js':['choice',['「謝謝學姊。」（拿了書狀就走）','（替她答）「她想知道法律外面還有什麼。」']],
     'src/data/r2y4a_events.js':['choice',['（再問一次）「妳還好嗎？」','（指著法律系館B）「先記得這棟就好。」','（收下）「謝謝阿嬤。」']],
     'src/y2r2_3d.js':['choice',['（裝不知道）「恭喜！」']] };
   const KEEP2={
@@ -207,7 +208,7 @@ const O=runProbe('old'), N=runProbe('new');
     'src/data/invite_replies.js':['record',['「好。」（她把吧檯又擦了一遍，才回你。）','「嗯。」（她只回一個字，可是三秒就回了。）','「好。我會去。」（她回得很快，然後很久沒有下一則。）']],
     'src/data/library_3f_layout.js':['record',['「看桌上的紙條」（守誠那張桌子；pool_more3d.js 的 POP）','「看期刊架」（語彤的系刊；r2y4a3d.js 的 shelfPlace）']],
     'src/data/shop_enc.js':['nameless',['（她翻了十分鐘，把書遞給你。）「第三章的筆記最好看。」','（她把手機遞過來。）「加一下吧。看到好書跟你說。」','（他把印好的講義對齊，用長尾夾夾好。）「拿去。考好一點。」']],
-    'src/data/retake_home.js':['nameless',['（媽媽把你推出廚房。）「你去讀你的書。」']],
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（retake_home.js 那一句沒名字的）
     /* 2026-11-10 改期望：AA_745 電影散場的選項字（祐廷的選項，動作＋說的話；選項照留那一類）三個 */
     'src/data/movie_plots.js':['choice',['（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」','（小聲）「也幫我印一張。」','（小聲）「妳真的去了喔。」']],
     /* 2026-11-11（AA_811@fb1256280，DLG-FULL-REVIEW-1110）：子晴語音第九則的回覆選項（祐廷的選項，動作＋說的話；選項照留那一類）；舊期望：沒有這一格 */
@@ -230,10 +231,10 @@ const O=runProbe('old'), N=runProbe('new');
   const LD=cur('src/data/ladder.js'), DL=cur('src/data/date_lines.js'), IR=cur('src/data/invite_replies.js'), L3=cur('src/data/library_3f_layout.js');
   check('27. 雙引號的選項、紀錄：ladder.js、date_lines.js 是 choices 的 "t"；invite_replies.js 是 "say"（表上原文，播的是 lines）；library_3f_layout.js 是 "what"（說明）',
     LD.includes('{"t": "（喝掉，說）「我也太兇了。」"')&&DL.includes('{"t": "「一起拍？」（第 6 階以上）"')&&KEEP2['src/data/invite_replies.js'][1].every(t=>IR.includes('"say":"'+t+'"'))&&KEEP2['src/data/library_3f_layout.js'][1].every(t=>L3.includes('"what": "'+t+'"')));
-  const SE=noComments(cur('src/shopenc3d.js')), WZ=noComments(cur('src/wzshops3d.js')), EF=noComments(cur('src/econff3d.js')), CR=noComments(cur('src/crowd3d.js'));
+  const SE=noComments(cur('src/shopenc3d.js')), WZ=noComments(cur('src/wzshops3d.js')), CR=noComments(cur('src/crowd3d.js'));
   check('27. 沒名字的：shop_enc.js 三句（shopenc3d.js 知寧選項的回覆、加聯絡人那句、wzshops3d.js 阿德）、retake_home.js 一句（econff3d.js）播的時候看開頭的（ ＝沒有名字；大一女舍門口（crowd3d.js S.overhear）字串＝沒有名字',
     /for\(const t of L\) await GM\.say\(\/\^（\/\.test\(t\)\?null:she,t\);/.test(SE)&&/await GM\.say\(\/\^（\/\.test\(P\.contact\.line\)\?null:zn,P\.contact\.line\);/.test(SE)&&/for\(const t of q\.lines\) await GM\.say\(\/\^（\/\.test\(t\)\?null:\{name:q\.name\},t\);/.test(WZ)
-    &&/\/\^（\/\.test\(t\)\?\{speaker:null,text:t\}/.test(EF)&&/S\.overhear=async function\(GM,n,script\)\{[^\n]*map\(x=>typeof x==='string'\?\{t:x\}:x\)/.test(CR)&&/GM\.say\(x\.who\?\{name:x\.who,obj:n&&n\.obj\}:null,x\.t\)/.test(CR));
+    &&/S\.overhear=async function\(GM,n,script\)\{[^\n]*map\(x=>typeof x==='string'\?\{t:x\}:x\)/.test(CR)&&/GM\.say\(x\.who\?\{name:x\.who,obj:n&&n\.obj\}:null,x\.t\)/.test(CR));
   const fd=N.fdorm||[];
   check('27. 演出來：大一女舍門口（CROWD.giveLines → 點了聽一句；（動作）「…」四句＋整句「…」一句）都是沒名字的對話框、字照留、和 BASE 一樣',fd.length===5&&fd.filter(r=>actQ(r[1])).length===4&&fd.every(r=>r[2]===null&&r[3]===r[1])&&J(fd)===J(O.fdorm),J(fd));
   const dp=N.dept||[];

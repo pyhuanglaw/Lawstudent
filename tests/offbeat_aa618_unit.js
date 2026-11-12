@@ -15,7 +15,7 @@ global.CHAR={setExpr(){},build:()=>mkObj()};
 global.Z3={ZONES:{wz_offbeat:{id:'wz_offbeat',build(E){ return {seats:[]}; }}}};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,600):'')); if(!ok) fails++; };
 const FILES=['src/data/daily_offbeat_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/exam_bank.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/sis_grad3d.js',
   'src/data/dorm_room_layout.js','src/libquiet3d.js','src/story3d.js','src/classes3d.js','src/data/eat_lines.js','src/eat3d.js','src/slowread3d.js','src/bgnight3d.js','src/offbeat_sys3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);

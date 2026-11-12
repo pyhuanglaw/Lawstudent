@@ -17,7 +17,7 @@ const LAYOUTS=/^(LINZE_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|GYM_LAY
 for(const f of ['src/data/linze_layout.js','src/data/library_layout.js','src/data/lawlib_layout.js','src/data/soclib_layout.js','src/data/gym_layout.js','src/data/wancai_layout.js','src/data/dorm_layout.js','src/data/room_glb_layouts.js'])
   if(fs.existsSync(path.join(ROOT,f))) load(f,LAYOUTS);
 const MSGN=/^(MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|HOMETOWN_LINES)$/;
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f,MSGN);
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f,MSGN);
 /* 區域（瀏覽器裡 Z3.ZONES 的 id 和名字；2026-10-30 從遊戲裡印出來）*/
 const ZN={campus:'台大校園',gongguan:'公館',wenzhou:'溫州街',lane118:'118 巷',classroom:'霖澤館 201 階梯教室',library:'總圖書館 閱覽室',cafe:'兩點半 Café',cvs:'日日便利',noodle:'阿鳳麵店',bookstore:'舊路書房',dorm:'宿舍 房間',
   wz_brunch:'半熟',wz_print:'阿德影印輸出',wz_teahouse:'一盞',wz_lin:'林家乾麵',wz_teishoku:'巷子裡定食',linze:'霖澤館',wancai:'萬才館 大廳',library_hall:'總圖書館 大廳',library_b1:'總圖書館 B1',library_carrels:'總圖 2F 研究小間',library_stacks:'總圖 5F 書庫',
@@ -79,8 +79,7 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     check('A14. 路程：霖澤館大廳→3F 約 5 分鐘；宿舍→霖澤館 3F 和宿舍→霖澤館一樣',!!st&&st.mins===5&&CLS.travelMinutes(H.G,'dorm','linze_3f')===CLS.travelMinutes(H.G,'dorm','linze'),J({st,a:CLS.travelMinutes(H.G,'dorm','linze_3f'),b:CLS.travelMinutes(H.G,'dorm','linze')})); }
   { fresh('2025-10-08',10,'dorm'); const P=mk(); const st=P?P.placeState(['cafe','兩點半 Café',{x:0,z:5}]):null, st2=P?P.placeState(['dorm_hall','男生宿舍',null]):null;
     check('A15. 手機「地點」的清單照舊（Café 10:00 沒開、宿舍開；沒有多出來的關門原因）',!!st&&st.open===false&&!st.shut&&!!st2&&st2.open===true,J({st,st2})); }
-  { fresh('2025-10-08',14,'dorm'); H.FRIEND('heroine_02'); W={heroine_02:{zone:'linze_3f'}}; const P=mk({HOME:Object.assign(Object.create(HOME),{baseMode:()=>true,movedOut:()=>false})}); const h=P?P.friendsHTML():'', r=rowOf(h,'heroine_02');
-    check('A16. 休學退宿以後（HOME.baseMode）：台大裡的地方沒有直接過去、也沒有帶我去（照 PLACE_LIST 同一套）',!/data-fgo=/.test(r)&&!/data-find=/.test(r),r.replace(/<[^>]+>/g,' ')); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（A16 休學退宿以後台大裡的地方沒有「直接過去」（「休學退宿了，不回學校」那條規則拿掉了））
   { fresh('2025-10-08',14,'dorm'); H.FRIEND('heroine_02'); W={heroine_02:{zone:'cafe'}}; const P=mk({EXCH:{inUS:()=>true,places:()=>[['us_apartment','公寓',null]]}}); const h=P?P.friendsHTML():'', r=rowOf(h,'heroine_02');
     check('A17. 人在美國、她在臺灣：沒有直接過去、也沒有帶我去',!/data-fgo=/.test(r)&&!/data-find=/.test(r),r.replace(/<[^>]+>/g,' ')); }
 
@@ -133,8 +132,7 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     const before=J(PHONE.threads(H.G,{sys:true}).map(t=>[t.th,t.unread,t.n])); const P=mk(); const h=P?P.msgHTML():''; const after=J(PHONE.threads(H.G,{sys:true}).map(t=>[t.th,t.unread,t.n]));
     check('B12. 舊存檔的對話串照舊列在下面、未讀數沒有被聯絡人清單動到',before===after&&h.includes('class="chatRow" data-th="p:heroine_01"')&&/chatBadge">2</.test(h),before+' → '+after);
     check('B12. 對話串的訊息沒有被改（兩則照舊）',PHONE.thread(H.G,'p:heroine_01').map(m=>m.text).join('/')==='筆記我放你桌上了。/明天見。'); }
-  { fresh('2025-11-12',15,'dorm'); H.G.stage='econ'; H.FRIEND('zhe'); const R=MSG.contactRows?MSG.contactRows(H.G,['zhe','kai']):null;
-    check('B13. 經濟系那一年：只列傳得到的（阿哲、阿凱不列）',Array.isArray(R)&&!R.some(x=>x.id==='zhe'||x.id==='kai'),J(R)); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（B13 經濟系那一年只列傳得到的）
   { fresh('2025-11-12',15,'dorm'); const X='classmate_youchen'; H.FRIEND(X); H.G.contacts[X]=H.G.day-1; const P=mk(); const R=MSG.contactRows?MSG.contactRows(H.G,P?P.knownIds():[]):null; const t=P?P.threadHTML('p:'+X):'';
     check('B14. 沒有回覆池的人（同學二十位、老闆…）：不列在「傳訊息給」（傳了也沒有話題）',Array.isArray(R)&&!R.some(x=>x.id===X)&&!!CHARACTERS[X],J(R&&R.map(x=>x.id)));
     check('B14. 打開那個人的對話串：沒有按了只剩「取消」的「傳訊息」，寫「現在沒有可以傳的話題」',!/data-msgto=/.test(t)&&/現在沒有可以傳的話題/.test(t),t.replace(/<[^>]+>/g,' ').slice(0,160)); }

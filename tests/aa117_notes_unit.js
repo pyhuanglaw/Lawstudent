@@ -100,14 +100,7 @@ const C3_NARR='（你打開手機的筆記，先寫了兩行：誰——阿哲�
   const notesIn=()=>LOG.filter(x=>x.who==='手機筆記').map(x=>x.t);
   const firstNote=()=>LOG.findIndex(x=>x.who==='手機筆記');
   await sec('5',async()=>{
-  /* ---- C0 韋綸：當面（ev_y0_p2b 腳踏車那一段，經濟系大一上 11/7）---- */
-  { const G=H.fresh('2024-11-07',12,'campus',{introDone:true}); G.stage='econ'; const bd=STORY.bikeDay&&STORY.bikeDay(); LOG=[]; H.said=[]; H.opts=[]; H.picks=['跟去']; await EVENTS.run(ev('ev_y0_p2b'));
-    const i=firstNote(), nt=notesIn(); GOT.C0=nt;
-    check('5. C0 當面：腳踏車那一段走到總圖，「手機筆記」四行連著、接著選從哪裡翻（「買賣」「所有權」「從目錄翻」照舊）',bd===G.day&&J(nt)===J(NOTE.C0)&&i>0&&LOG.slice(i,i+4).every(x=>x.who==='手機筆記')&&!!LOG[i+4]&&J(LOG[i+4].choice)===J(['「買賣」','「所有權」','「從目錄翻」'])&&/^…….+，你不是在看法律的書嗎？$/.test(LOG[i-1].t),J(LOG.slice(Math.max(0,i-1),i+5)));
-    check('5. C0 當面：查完以後祐廷說的三件事照舊（LEGAL_REVIEW_REQUIRED 的字不動）、記 BIKE_LOOKED_UP',H.has('被偷的東西，就算你是花錢買的，原主在被偷以後兩年內都可以要回去。')&&H.has('可是你可以去找賣你的人。他賣的不是自己的東西，要負責。對話和交易紀錄都留著。')&&G.flags.BIKE_LOOKED_UP===true); }
-  /* ---- C0 韋綸：沒去版（群組 11/7 17:30）---- */
-  { const G=H.fresh('2024-11-07',17.4,'dorm',{introDone:true}); G.stage='econ'; for(const h of [17.5,17.6]){ G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); } const m=PHONE.byAsk(G,'y0_bike');
-    check('5. C0 群組版：「我的車被認走了。有沒有人懂法律？」的回覆帶同樣四行；選項照舊（查完再回）（不回）',!!m&&J(m.ask.note)===J(NOTE.C0)&&J(m.ask.opts.map(o=>o.t))===J(['（查完再回）','（不回）']),J(m&&m.ask)); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（C0 韋綸的腳踏車，當面版和群組版都在經濟系那一年）
   /* ---- C4 阿哲的機車（手機 2027-11-19 21:00）---- */
   for(const U of [false,true]){ const G=H.fresh('2027-11-19',21.05,'dorm',Object.assign({introDone:true},U?{U_TORT:true}:{})); H.FAMILIAR('zhe'); (G.contacts||(G.contacts={})).zhe=0; R2Y3A.c4Phone(G); PHONE.tick(G); const m=PHONE.byAsk(G,'y3_c4'); if(!U) GOT.C4=m&&m.ask&&m.ask.note;
     check('5. C4'+(U?'（有 U_TORT）':'')+'：「要簽嗎」的回覆帶四行；向誰的選項照舊（'+(U?'兩個':'一個')+'）',!!m&&J(m.ask.note)===J(NOTE.C4)&&m.ask.opts.length===(U?2:1)&&m.ask.opts[0].t==='找對方談。後面怎麼賠，我們去法服問。',J(m&&{note:m.ask.note,opts:m.ask.opts.map(o=>o.t)})); }
@@ -134,12 +127,13 @@ const C3_NARR='（你打開手機的筆記，先寫了兩行：誰——阿哲�
   { const G=H.fresh('2028-10-11',21.05,'dorm',{introDone:true}); H.FRIEND('heroine_04'); (G.contacts||(G.contacts={})).heroine_04=0; Y34B.q14Phone(G); PHONE.tick(G); const m=PHONE.byAsk(G,'y4_q14'); GOT.C8=m&&m.ask&&m.ask.note;
     check('5. C8：「你看得懂嗎」的回覆帶四行；請求什麼的選項照舊',!!m&&J(m.ask.note)===J(NOTE.C8)&&J(m.ask.opts.map(o=>o.t))===J(['我陪妳去找律師。我先幫妳把看不懂的地方標起來。','我還是學生，不能給妳正式的法律意見。']),J(m&&m.ask&&{note:m.ask.note,opts:m.ask.opts.map(o=>o.t)})); }
   /* ---- 程式註解：法律方向標 LEGAL_REVIEW_REQUIRED（專案慣例）---- */
-  { const F=['src/data/events.js','src/story3d.js','src/r2y3a3d.js','src/data/y2b_events.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/r3_3d.js','src/y34b3d.js'], bad=F.filter(f=>!/手機筆記（AA_117 C\d[^\n]*(\n[^\n]*)?LEGAL_REVIEW_REQUIRED/.test(fs.readFileSync(path.join(H.ROOT,f),'utf8')));
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（C0 的筆記在 events.js、story3d.js 的經濟系那一年，兩個檔從清單拿掉）
+  { const F=['src/r2y3a3d.js','src/data/y2b_events.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/r3_3d.js','src/y34b3d.js'], bad=F.filter(f=>!/手機筆記（AA_117 C\d[^\n]*(\n[^\n]*)?LEGAL_REVIEW_REQUIRED/.test(fs.readFileSync(path.join(H.ROOT,f),'utf8')));
     check('5. 六件補的格子旁邊都寫了 LEGAL_REVIEW_REQUIRED（只寫方向、不寫結論）',!bad.length,J(bad)); }
   });
 
   /* ======================= 6 八件總表 ======================= */
-  { const K=['C0','C1','C2','C3','C4','C5','C6','C7','C8'], H4=['誰：','向誰：','依據什麼：','請求什麼：'], bad=[];
+  { const K=['C1','C2','C3','C4','C5','C6','C7','C8'], H4=['誰：','向誰：','依據什麼：','請求什麼：'], bad=[];
     for(const k of K){ const L=GOT[k], blank=(L||[]).filter((t,i)=>t===H4[i]).length;
       if(!Array.isArray(L)||L.length!==4||!L.every((t,i)=>String(t).startsWith(H4[i]))||J(L)!==J(NOTE[k])||blank<1||blank>2) bad.push(k+'：'+J(L)); }
     check('6. 九件（C0～C8：C1 原本就有，另外八件這次接）在遊戲裡都看得到四格：順序 誰／向誰／依據什麼／請求什麼、玩家選的一到兩行寫到「：」為止、其他格子都填好',!bad.length,bad.join(' / ')); }

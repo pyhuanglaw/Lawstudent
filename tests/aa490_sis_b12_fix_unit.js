@@ -22,7 +22,7 @@ const {check,GM,E}=H, ID='heroine_05', J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const loadErr=[];
 const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有這個檔'); return false; } try{ let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+e.message); return false; } };
-for(const f of ['src/exchange3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/group3d.js','src/y34b3d.js','src/sis_grad3d.js',
+for(const f of ['src/exchange3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/group3d.js','src/y34b3d.js','src/sis_grad3d.js',
   'src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/data/sis_b4_events.js','src/sis_b4_3d.js','src/data/sis_jp_events.js','src/sis_jp3d.js','src/data/sis_b8_events.js','src/sis_b8_3d.js',
   'src/data/sis_b9_events.js','src/sis_b9_3d.js','src/data/sis_b10_events.js','src/sis_b10_3d.js','src/family_xmas3d.js','src/data/sis_b11_events.js','src/sis_b11_3d.js',
   'src/data/sis_b12_events.js','src/sis_b12_3d.js']) L3(f);   /* index.html 的順序（同 tests/aa470_sis_b12_unit.js）*/

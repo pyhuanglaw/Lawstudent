@@ -56,7 +56,7 @@ const whoAt=(G,spot)=>ENC.candidates(G,spot).map(c=>c.row.who+(c.tier.t==='acq'?
   G=mk(SAT,19.5); G.flags.dating_kexin=false; check('3. 沒有交往、也沒分開的可昕不出現',!/kexin/.test(whoAt(G,'D04')));
   G=mk(SAT,19.5); OUT.rec(G).push({id:'kx_tour',day:SAT,h:14,state:'planned'}); check('3. 今天和可昕有約（去政大）：偶遇表沒有她',!/kexin/.test(whoAt(G,'D04')));
   G=mk(SAT,19.5); ENC.rec(G).encMet.who.push('zhe'); check('3. 今天已經遇過阿哲：不再遇到',!/zhe/.test(whoAt(G,'D04')));
-  G=mk(SAT,19.5,{stage:'econ'}); check('3. 經濟系那一年（v0）先不排',whoAt(G,'D04')==='');
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 3 項 經濟系那一年先不排）
   { const c=CHARACTERS.zhe, keep=c.daily_schedule; c.daily_schedule=keep.filter(e=>!e.enc); G=mk(SAT,19.5); const why=[]; ENC.candidates(G,'D04',why); check('3. 作息上沒有那一筆（例：劇情把他排在別的地方）：不出現',!/zhe/.test(whoAt(G,'D04'))&&why.includes('zhe@D04:作息不在這裡'),why.join(' ')); c.daily_schedule=keep; }
   G=mk(SAT,19.5); G.flags.afternoonDone=true; const w=STORY.whereIs({G},'zhe'); check('3. 朋友頁的位置照 away：阿哲「在西門町」',JSON.stringify(w).indexOf('在西門町')>=0,JSON.stringify(w)); }
 // 4. 擲一次就固定

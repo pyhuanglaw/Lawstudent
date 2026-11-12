@@ -109,7 +109,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
       check('3-9. 玩家空下來：先帶到校園（霖澤館前那一段：阿哲）、演完以後等到 13:15 而且空下來 8 秒才帶進 201（UX-DAY2-AUTOPULL；字幕「走路到法律系館A。」「快上課了。走路到法律系館A 201。」）',first[0]==='campus'&&tooSoon&&H.entered[H.entered.length-1]==='classroom'&&caps.includes('走路到法律系館A。')&&caps.includes('快上課了。走路到法律系館A 201。'),JSON.stringify({first,tooSoon,entered:H.entered,caps}));
     } finally { Date.now=real; CLS.clearPending(); }
     const G2=fresh('2025-09-25',12.6,'dorm'); check('3-10. 第 9 天（下一個週四）不帶',!D2(G2));
-    const G3=fresh('2025-09-18',12.6,'dorm'); G3.stage='econ'; check('3-11. 經濟系那一年不帶（AA_292 不適用本表）',!D2(G3)); }
+     // CANON-NO-ECON-1112：經濟系那一年拿掉（3-11 經濟系那一年不帶）
+     }
   /* ② 延到下一次出席：柏翰你考幾分（第 10～11 週 → 到第 15 週）*/
   { const run=async(w,flags)=>{ const G=fresh('2025-11-13',13.3,'classroom',flags); const it=itemOf('Y1S1',w,'civ_general'); setDay(it.day,it.t1); H.said=[]; H.picks=[1]; await CLS.afterClassEvent(GM,it); return G; };
     let G=await run(13); check('3-12. 第 10～11 週沒去民總：第 13 週去了照樣演柏翰「第三題」（AA_546 1-2；carryTo 15）',has('民總那份案例作業，第三題你怎麼寫？')&&!!G.events.done.ev_bohan_score,JSON.stringify(lines()));

@@ -201,7 +201,7 @@ await sec('4',async()=>{
   setT('2025-12-06',10.5); zone('library_hall',1,-9.6,3.0); H.G.exlib.atm.seen['Y1S1:library_hall']=1; H.opts=[]; await tick(); const we1=H.opts.length; setT('2025-12-06',11.2); EXLIB.syncSeats(GM,true); H.picks=['去別間','不去了']; await tick(); const we2=H.opts.length;
   check('4. 平日 10:00 以前不跳；週末 11:00 以前不跳、11:00 以後跳',early===0&&we1===0&&we2>0,J([early,we1,we2]));
   /* 住家裡 */
-  setT('2025-12-05',10.5); zone('library_hall',1,-9.6,3.0); H.G.exlib.atm.seen['Y1S1:library_hall']=1; const bm=HOME.baseMode; HOME.baseMode=()=>true; H.opts=[]; H.picks=['回家讀']; homeCalls.length=0; await tick(); HOME.baseMode=bm;
+  setT('2025-12-05',10.5); zone('library_hall',1,-9.6,3.0); H.G.exlib.atm.seen['Y1S1:library_hall']=1; const bm=HOME.movedOut; HOME.movedOut=()=>true;   /* CANON-NO-ECON-1112：住家裡原本用 HOME.baseMode（經濟系休學在家）模擬，拿掉了；改用還在的那一條 HOME.movedOut（畢業後退宿住家裡）*/ H.opts=[]; H.picks=['回家讀']; homeCalls.length=0; await tick(); HOME.movedOut=bm;
   check('4. 住家裡：選項是「回家讀」、選了＝回家',H.opts[0]&&H.opts[0][2]==='回家讀'&&homeCalls.length===1,J(H.opts[0]));
   /* 早上搶到位子、10:00 以後起來走動 */
   setT('2025-12-09',9.2); const se=zone('library_hall',1,-9.6,3.0); H.G.exlib.atm.seen['Y1S1:library_hall']=1; EXLIB.syncSeats(GM,true); const free=se.find(q=>q.lv===1&&!q.exHeld&&!q.taken&&se.indexOf(q)>1);
@@ -366,14 +366,7 @@ await sec('7',async()=>{
 
 /* ======================= 8 第 5 節：經濟系那一年（不用做：AA_669 第 5 節 11-04 17:2x 改；AA-C 11-04 20:56 確認 S.on 對 econ 回 false、資料留著）======================= */
 await sec('8',async()=>{
-  fresh('2025-12-02',10,'soclib'); check('8. 對照：法律系大二上第 14 週 10:00 有（S.on）',!!EXLIB.on(H.G));
-  fresh('2024-12-02',10,'soclib'); H.G.stage='econ'; const G=H.G;
-  check('8. 經濟系那一年沒有：第 14 週以後 S.on 都是 false（大一上 12/2、大一下 5/26）',!EXLIB.on(G)&&!EXLIB.on(G,DK('2025-05-26'),10));
-  setT('2024-12-02',10); const py=STORY.schedEnt(CHARACTERS.econ_pinyu,G), xu=STORY.schedEnt(CHARACTERS.econ_zhengxun,G), wl=STORY.schedEnt(CHARACTERS.econ_weilun,G);
-  check('8. 品妤、阿勳、韋綸的作息不換（沒有期末那一段的讀書位子）',![py,xu,wl].some(e=>e&&e.exlib),J([py,xu,wl].map(e=>e&&[e.zone,!!e.exlib])));
-  check('8. 社科圖不會「滿」',EXLIB.fill(G,'soclib')===0);
-  setT('2024-12-02',19); INV.addContact(G,'econ_pinyu'); const tp=MSG.topics(G,'econ_pinyu').map(q=>q.k);
-  check('8. 占位子的話題不出',!tp.includes('exlib_seat')&&!EXLIB.topicOk(G,'econ_pinyu'),J(tp));
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 8 項 經濟系那一年沒有（S.on false、作息不換、社科圖不滿、占位子話題不出））
   check('8. 第 5 節的資料留著（品妤、阿勳、韋綸的句子照稿）',['econ_pinyu','econ_zhengxun','econ_weilun'].every(id=>L.econ[id]&&L.econ[id].lines.length)&&J(L.econ.econ_pinyu.hold.yes)===J(['可以。早餐幫我帶，三十五塊以內。'])&&L.econ.econ_weilun.hold.at[0].startsWith('（小聲）八點二十。'));
 });
 
@@ -431,7 +424,7 @@ await sec('11',async()=>{
   want('明軒 大一 週一 13:30 不加（大二以後）','classmate_mingxuan','2025-12-01',13.5,'null');
   const end=(()=>{ for(let d=DK('2025-12-15');d<DK('2026-01-20');d++){ setT(d,13.5); if(!EXLIB.on(G,d,13.5)&&CALENDAR.dateOf(d).wd===1) return d; } return null; })();
   check('11. 期末考考完以後的週一 13:30：子晴沒有',end!=null&&at('heroine_04',end,13.5)!=='library_hall/bb260',String(end));
-  check('11. 經濟系那一年不用這張表（S.EXTRA 只給法律系）',(()=>{ const st=G.stage; G.stage='econ'; const r=EXLIB.extraSlot(G,'zhe',DK('2025-12-01'),14); G.stage=st; return r===null; })());
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 11 項 經濟系那一年不用這張表）
 });
 
 /* ======================= 12 第 6 節：社科圖二樓（SOCLIB-2F-1104，LAWWW2-C d393b6f3c 接進來）＋二樓自習室讀書的人 ======================= */

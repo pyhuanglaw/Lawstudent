@@ -126,7 +126,7 @@ const SHOPLIFE=(function(){
     if(typeof PLACES!=='undefined'&&PLACES.typhoonClosed&&PLACES.typhoonClosed(zone,day)) return false;
     return placeOpen(zone,t0,day)&&placeOpen(zone,t1-0.01,day); };
   /* 這一天能不能排（只看日曆和存檔的階段，不看個人）*/
-  S.dayOk=function(G,day){ if(typeof CALENDAR==='undefined'||!G) return false; if((G.stage||'law')!=='law'||(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G))) return false;
+  S.dayOk=function(G,day){ if(typeof CALENDAR==='undefined'||!G) return false; if((G.stage||'law')!=='law') return false;
     const T=CALENDAR.termOf(day); if(!T||!S.TERMS.includes(T.id)||T.exam) return false; if(S.CFG.weekMinTerms.includes(T.id)&&T.week<S.CFG.weekMin) return false;
     if(CALENDAR.typhoon&&CALENDAR.typhoon(day)) return false; return true; };
   /* 這一天這一餐的名單：[{id, zone, t0, t1}]（只看日期；一天算一次）*/

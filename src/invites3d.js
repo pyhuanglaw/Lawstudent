@@ -202,7 +202,7 @@ const INV=(function(){
   S.replyTier=row=>{ const T=row.tags||[]; if(T.includes('節日')) return 1; if(T.includes('第一次')) return 2; if(T.some(t=>RPL.includes(t)||t==='來過'||t==='外出'||t==='開車')) return 3; return T.length||row.cond?4:5; };
   S.replyPick=function(G,id,c,tb){ const R=RP(), all=R&&R[id]; if(!all||!all.length) return null; const r=c.r||{};
     const kind=r.res==='accept'?'acc':(r.res==='resched'&&(r.why==='busy'||r.why==='booked')?'resched':(r.res==='decline'&&r.why==='rel'?'decline':null)); if(!kind) return null;
-    const n=S.replyStage(G,id), sec=(G.stage||'law')==='econ'?'y0':'law', ON=S.REPLY_ON||{};
+    const n=S.replyStage(G,id), sec='law', ON=S.REPLY_ON||{};
     const been=(G.invites||[]).some(iv=>iv.who===id&&iv.place===c.pid&&iv.state==='done');   /* 來過＝和她一起去過（見到了）*/
     const tagOk=t=>RPL.includes(t)?t===c.pid:t==='第一次'?!!c.first:t==='來過'?been:t==='晚上'?c.h>=19:t==='考試週'?!!(c.term&&c.term.exam):t==='大一'?c.year<=1:t==='大二起'?c.year>=2:
       t==='節日'?!!ON['節日']&&S.replyFestival(G,id,c.day):(t==='外出'||t==='開車')?!!ON[t]&&!!(c.outing&&(t==='外出'||c.drive)):false;

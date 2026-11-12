@@ -59,7 +59,7 @@ check('② fairExpoFront：北側在帳篷南邊 2 m、南側在北邊 2 m',JSON
 { const S=L.stage, f=Z3.fairExpoFront('stage'); let n=0; for(let x=S.x-4;x<=S.x+4;x+=1) for(let z=f[1]-1;z<=f[1]+3;z+=1) if(stand(x,z)) n++; check('③ 舞台前面（大道中間）有一塊站得住的觀眾區（9×5 m 裡 ≥ 40 格）',n>=40,n+' 格'); }
 // ⑤ 校慶、經濟系那一年
 setDay('2025-11-15'); const zf=loadZone('campus'); check('⑤ 校慶 2025-11-15：照舊是九頂那一排（clubFair），沒有 36 頂',!!zf.group.getObjectByName('fair_fallback')&&!zf.group.getObjectByName('fair_expo_fallback')&&Z3.isExpoDay()===false);
-setDay('2024-09-18',true); const ze=loadZone('campus'); check('⑤ 經濟系那一年的博覽會（2024-09-18）：照舊九頂',!!ze.group.getObjectByName('fair_fallback')&&!ze.group.getObjectByName('fair_expo_fallback'));
+// CANON-NO-ECON-1112：經濟系那一年拿掉（⑤ 經濟系那一年的博覽會（2024-09-18））
 setDay('2026-09-12'); check('⑤ 大二的社博 2026-09-12 也是 36 頂（EXPO_DAYS）',Z3.isExpoDay()===true&&Z3.fairDayKey('2026-09-12',false,[]));
 // ⑥ 正式模型
 { const p=path.join(ROOT,'assets/models/env/second_ai/club_fair_expo.glb'); const ok=fs.existsSync(p); let info='沒有檔案';

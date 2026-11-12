@@ -33,7 +33,7 @@ const F=()=>G.flags;
   at(2); G.hour=11; STORY.tick(GM,0.016); check('2. 主線第 2 天：照舊等她追上來（不提前開放）', !F().afternoonDone&&!F().anMissed);
   at(9,{anSkipped:true,afternoonDone:true}); STORY.tick(GM,0.016); check('3. 拒絕過她的邀約：不動（沒有 anMissed）', !F().anMissed);
   at(9,{metAn:true}); STORY.tick(GM,0.016); check('3. 已經認識（metAn，下午那段還沒演完）：不動', !F().afternoonDone&&!F().anMissed);
-  at(-200,{},'econ'); G.flags={}; STORY.tick(GM,0.016); check('3. 經濟系那一年：不動', !F().afternoonDone&&!F().anMissed);
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 3 項 經濟系那一年：不動）
   // 4、5：開放以後跟以安說話
   at(9); STORY.tick(GM,0.016); const n={id:'an',charId:'heroine_01',name:'小安',obj:{position:{x:1,z:0}},beh:'idle'}; GM.npc.an=n;
   const offer=STORY.offerInvite; STORY.offerInvite=async()=>{};   // 說完會問要不要約（不在這裡測）
@@ -56,6 +56,6 @@ const F=()=>G.flags;
   at(9,{metAn:true}); G.hour=18.5; STORY.tick(GM,0.016); const w7b=STORY.whereIs(GM,'heroine_01');
   check('7. 認識了以安、下午那段沒走完（metAn、沒有 afternoonDone）：S.tick 不補旗標，以安照樣照作息出現', !F().afternoonDone&&!!w7b&&!!w7b.zone, JSON.stringify({a:F().afternoonDone,w:w7b}));
   at(2); G.hour=18.5; check('7. 主線第 2 天：照舊等她追上來（不照作息出現）', STORY.whereIs(GM,'heroine_01')===null&&!STORY.pastDay2(G));
-  at(9,{},'econ'); check('7. 經濟系那一年：不動（pastDay2 false）', STORY.pastDay2(G)===false);
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 7 項 經濟系那一年：不動）
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

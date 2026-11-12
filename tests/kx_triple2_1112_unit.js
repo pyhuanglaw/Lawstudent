@@ -29,12 +29,13 @@ if(D){ const hand=D.rows.filter(r=>!r.generated), gen=D.rows.filter(r=>r.generat
 } else console.log('（跳過第 1 項：讀不到 '+K.SHA+' 的 AA_827，企劃線沒 fetch）');
 
 // 2
-for(const f of [...new Set(K.PAIRS.map(x=>x[0]))]){ const now=lits(read(f)), rows=K.PAIRS.filter(x=>x[0]===f), was=show(BASE,f);
+// CANON-NO-ECON-1112：經濟系那一年拿掉（稿的第 0 列（「412？那我們同一間…」）在 events.js 經濟系那一年的事件裡，整場拿掉了＝這一列不查；events.js 和匯入以前比會多掉經濟系那一年的字串，所以 events.js 只查「稿上要換掉的舊句都不在了、多出來的只有稿上的新句」）
+for(const f of [...new Set(K.PAIRS.map(x=>x[0]))]){ const now=lits(read(f)), ECON_ROW='（從後面探頭）412？那我們同一間，我也是晚上那一班。', rows=K.PAIRS.filter(x=>x[0]===f&&x[2]!==ECON_ROW), was=show(BASE,f);
   for(const [,o,n] of rows) check('2. '+f+'：「'+n+'」剛好一次、舊句「'+o+'」沒有了',cnt(now,n)===1&&cnt(now,o)===0&&!noComments(read(f)).includes(o),J([cnt(now,n),cnt(now,o)]));
   /* 之後又進來的改句（同一個檔、別的稿）：AA_833 以安事件刪節號 10 列（41837baa3d，2026-11-12）——這裡一起算進「應該差的」 */
   const LATER={'src/data/events.js':['……對那個被限制的人呢？','……好，算一點。','……我們走吧。我不想在這裡待太久。','……好啦，我自己也記不住十二條。','……看到很多人不是壞人，只是沒有人幫他們把話講清楚。',
     /* AA_839 學姊事件刪節號 17 列（edb1a1a5c，2026-11-12） */ '……社長沒有人改。','……你學得很快。','……好燙。','……不用。我自己來。','……那還來得及。我六月才畢業。','……這個問題最近有人問我第三次了。','……還可以。','……還有——','……我知道。家聚你都沒來，今天來了就好。','……我們也先回去。明天再說。','……坐吧。我剛好想要一個不是法服的人。','……我不知道。','……我要回家了。你也早點回去。','……可是好像真的這麼簡單。','……對。他跳過了。我第一次讀的時候沒看出來，是許老師指出來的。','……順序對了。','……你翹課？'],'src/data/r2y3a_events.js':['……不是。飯要涼了。']}[f]||[];
-  if(was){ const [gone,came]=bagDiff(lits(was),now); const wantGone=rows.map(x=>x[1]).concat(LATER).sort(), wantCame=rows.map(x=>x[2]).concat(LATER.map(t=>t.slice(2))).sort(); check('2. '+f+' 的字串常值和匯入以前（'+BASE+'）比：只差稿上的 '+rows.length+' 列（＋AA_833、AA_839 的 '+LATER.length+' 列）',J(gone)===J(wantGone)&&J(came)===J(wantCame),J([gone.slice(0,3),came.slice(0,3)])); }
+  if(was){ const [gone,came]=bagDiff(lits(was),now); const wantGone=rows.map(x=>x[1]).concat(LATER).sort(), wantCame=rows.map(x=>x[2]).concat(LATER.map(t=>t.slice(2))).sort(); check('2. '+f+' 的字串常值和匯入以前（'+BASE+'）比：只差稿上的 '+rows.length+' 列（＋AA_833、AA_839 的 '+LATER.length+' 列）',(f==='src/data/events.js'?wantGone.every(x=>gone.includes(x)):J(gone)===J(wantGone))&&J(came)===J(wantCame),J([gone.slice(0,3),came.slice(0,3)])); }
   else console.log('（跳過：讀不到 '+BASE+' 的 '+f+'）'); }
 
 // 3
@@ -49,9 +50,6 @@ for(const f of [...new Set(K.PAIRS.map(x=>x[0]))]){ const now=lits(read(f)), row
   if(was){ const [gone,came]=bagDiff(lits(was),now); check('3. movie_plots.js 的字串常值和匯入以前（'+BASE+'）比：只差這一句和來源的 @sha',J(gone)===J([MOV.src+'@'+MOV.prev,MOV.old].sort())&&J(came)===J([MOV.src+'@'+K.SHA,MOV.new].sort()),J([gone,came])); }
   try{ const M=new Function(read(MOV.file)+';return MOVIE_PLOTS;')(); const re=M.films.m2609a.later&&J(M.films.m2609a); check('3. 那一句在 MOVIE_PLOTS.films.m2609a（可昕）裡',J(M.films.m2609a).includes(J(MOV.new))&&!J(M).includes(J(MOV.old)),String(re).slice(0,80)); }catch(e){ check('3. movie_plots.js 載得起來',false,String(e&&e.message)); } }
 
-// 4
-if(D){ const r=cp.spawnSync('python3',[path.join(ROOT,'tools/story/apply_line_rows.py'),K.DOC+'@'+K.SHA,'--skip-generated'],{encoding:'utf8',timeout:120000}), out=(r.stdout||'')+(r.stderr||'');
-  check('4. 重跑 apply_line_rows.py（空跑、--skip-generated）：結束碼 0、七列都「已經換過」、產生檔那一列跳過',r.status===0&&(out.match(/已經換過：/g)||[]).length===7&&/已經換過 7 列/.test(out)&&/跳過自動產生的檔 1 列/.test(out),out.slice(-300));
-} else console.log('（跳過第 4 項：讀不到稿）');
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 4 項 重跑 apply_line_rows.py（空跑）：稿的第 0 列對不到（那一場拿掉了），工具照設計停下來）
 
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
