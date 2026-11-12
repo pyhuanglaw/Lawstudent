@@ -3,7 +3,7 @@
 const fs=require('fs'); let fail=0; const check=(n,ok,x)=>{ console.log((ok?'PASS ':'FAIL ')+n+(ok?'':'　'+JSON.stringify(x))); if(!ok) fail++; };
 const src=fs.readFileSync(__dirname+'/../src/zones3d.js','utf8');
 const m=/function shopWindowRects\(zone\)\{[\s\S]*?return out; \}/.exec(src);
-check('0 zones3d.js 有 shopWindowRects，而且有匯出',!!m&&/shopInsideReal,shopWindowRects,/.test(src));
+check('0 zones3d.js 有 shopWindowRects，而且有匯出',!!m&&/return \{[^\n]*[,{]shopWindowRects,/.test(src));
 if(m){ const f=eval('('+m[0].replace(/\/\*[\s\S]*?\*\//g,'')+')');
   const GX=-16.5, mk=(id,place,cz,w,d,h)=>({id,place,w,d,h,x:GX-0.02-d/2,z:cz,ry:Math.PI/2,cx:GX,cz,ex:0,ez:w/2});
   const R=f({shopReal:{shops:[mk('dabu','xs_dabu',-16.7,7.4,12,3.4),mk('haopai','xs_haopai',-23.2,4.4,14,3.4),{id:'east',place:'tz_x',w:6,d:8,h:3,x:20+0.02+4,z:5,cx:20,cz:5,ex:0,ez:3}]}});
