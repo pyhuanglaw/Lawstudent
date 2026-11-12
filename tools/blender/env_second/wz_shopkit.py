@@ -1512,7 +1512,7 @@ def _unlit_vc(name):
 WARM_T = tuple(c ** 2.2 for c in (1.0, 0.95, 0.86)); COOL_T = tuple(c ** 2.2 for c in (0.98, 0.99, 1.0))   # 燈光的顏色：暖黃（麵店、咖啡、書店…）、白光（便利商店、藥局、洗衣…）
 IN_VC = _unlit_vc('wz_in_shop')   # 名稱 wz_in_ 開頭：遊戲不畫影子（zones3d.js WZ_NO_SHADOW；店在室內，太陽照不到）
 FLOOR_VC = {'f_white': ('#d6d4cd', 0.6, 'tile'), 'f_wood': ('#cdb594', 0.18, 'plank'), 'f_mosaic': ('#a3aba7', 0.3, 'tile'), 'f_granite': ('#a29f9a', 0.6, 'tile'),
-            'f_terrazzo': ('#b3a99b', 0.6, 'tile'), 'f_concrete': ('#9c9891', 1.2, 'tile'), 'f_quarry': ('#a8634b', 0.3, 'tile'), 'f_floral': ('#b8ac96', 0.3, 'tile')}
+            'f_terrazzo': ('#b3a99b', 0.6, 'tile'), 'f_oak': ('#b08a62', 0.18, 'plank'), 'f_cream': ('#ddd5c2', 0.6, 'tile'), 'f_concrete': ('#9c9891', 1.2, 'tile'), 'f_quarry': ('#a8634b', 0.3, 'tile'), 'f_floral': ('#b8ac96', 0.3, 'tile')}
 
 
 class _CP:
@@ -2855,7 +2855,7 @@ def _xs_in_dabu(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
     兩側牆的鞋牆、中間的木展示桌和試穿長凳、後牆的鞋牆和櫃台、天花板的軌道燈"""
     SHOE = ['#f2f0ea', '#e9e6de', '#2a2a2e', '#c0483c', '#5a56a8', '#8ad0c0', '#f0a890', '#d8d4c8', '#3a5a8c', '#f2f0ea', '#9a2a3a', '#dfe6ea', '#e8c860', '#f2f0ea', '#6a6e74']
     ACC = ['#2a2a2c', '#c0483c', '#f2f0ea', '#e8873a', '#3a5a8c', '#2a2a2c', '#8ad0c0']
-    WOOD, STEELC, CONC = '#c9a878', '#8c9096', '#cfccc4'
+    WOOD, STEELC, CONC = '#d3ae7e', '#8c9096', '#cfccc4'
     mx = c.get('mullions', [1.2])[0] - (c.get('glass', (-iw / 2, iw / 2))[0] + iw / 2)   # 門和櫥窗中間那支直料（店內座標）
     # ── 櫥窗（玻璃後面 0.12～1.15 m）
     wx0, wx1 = -iw / 2 + 0.12, mx - 0.12; zf_, zr_ = gz - 0.12, gz - 1.15
@@ -2883,23 +2883,23 @@ def _xs_in_dabu(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
     # ── 店裡：兩側牆的鞋牆（層板＋鞋，鞋頭朝店裡）
     for sx in (-1, 1):
         xw = sx * (iw / 2 - 0.047); z0_, z1_ = zb + 0.15, (zr_ - 0.15 if sx < 0 else gz - 0.5)
-        a_, b_ = sorted((xw, xw - sx * 0.03)); vb(a_, b_, y0 + 0.5, yt - 0.35, z0_, z1_, '#ded9cf', r=0)
+        a_, b_ = sorted((xw, xw - sx * 0.03)); vb(a_, b_, y0 + 0.5, yt - 0.35, z0_, z1_, '#e0d2bc', r=0)
         for j in range(4):
-            sy = y0 + 0.7 + j * 0.5; a_, b_ = sorted((xw - sx * 0.03, xw - sx * 0.34)); vb(a_, b_, sy - 0.022, sy, z0_, z1_, '#f2efe8', r=0)
+            sy = y0 + 0.7 + j * 0.5; a_, b_ = sorted((xw - sx * 0.03, xw - sx * 0.34)); vb(a_, b_, sy - 0.022, sy, z0_, z1_, '#d3ae7e', r=0)
             for i in range(int((z1_ - z0_) / 0.42)):
                 _xs_shoe(vb, xw - sx * 0.19, sy, z0_ + 0.22 + i * 0.42, SHOE[(k_ + j) % len(SHOE)], acc_=ACC[(k_ + i) % len(ACC)], sx=-sx, along='x', L_=0.3, lod=1); k_ += 1
     # 後牆：鞋牆（左 2/3）＋海報框＋櫃台（右）
     bx0, bx1 = -iw / 2 + 0.5, iw / 2 - 2.3
-    vb(bx0, bx1, y0 + 0.5, yt - 0.35, zb, zb + 0.03, '#d6d0c4', r=0)
+    vb(bx0, bx1, y0 + 0.5, yt - 0.35, zb, zb + 0.03, '#e0d2bc', r=0)
     for j in range(4):
-        sy = y0 + 0.7 + j * 0.5; vb(bx0, bx1, sy - 0.022, sy, zb + 0.03, zb + 0.3, '#f2efe8', r=0)
+        sy = y0 + 0.7 + j * 0.5; vb(bx0, bx1, sy - 0.022, sy, zb + 0.03, zb + 0.3, '#d3ae7e', r=0)
         for i in range(int((bx1 - bx0) / 0.46)):
             _xs_shoe(vb, bx0 + 0.26 + i * 0.46, sy, zb + 0.17,  SHOE[(k_ * 3 + i) % len(SHOE)], acc_=ACC[(k_ + i + j) % len(ACC)], sx=1 if (i + j) % 4 else -1, L_=0.32, lod=1); k_ += 1
     px0, px1 = iw / 2 - 2.05, iw / 2 - 1.25
     vb(px0 - 0.04, px1 + 0.04, y0 + 1.45, y0 + 2.55, zb, zb + 0.025, '#2a2a2c', r=0); vb(px0, px1, y0 + 1.49, y0 + 2.51, zb + 0.025, zb + 0.03, '#d8b890', r=0)   # 海報（跑步的人的剪影）
     vb(px0 + 0.3, px1 - 0.28, y0 + 1.75, y0 + 2.2, zb + 0.03, zb + 0.033, '#5a4636', r=0); vb(px0 + 0.33, px1 - 0.31, y0 + 2.2, y0 + 2.32, zb + 0.03, zb + 0.033, '#5a4636', r=0)
     cx0_, cx1_ = iw / 2 - 2.1, iw / 2 - 0.45                                                                    # 櫃台
-    vb(cx0_, cx1_, y0, y0 + 0.95, zb + 0.55, zb + 1.0, '#e9e5dc', r=0.012); vb(cx0_ - 0.03, cx1_ + 0.03, y0 + 0.95, y0 + 0.99, zb + 0.52, zb + 1.03, WOOD, r=0.006)
+    vb(cx0_, cx1_, y0, y0 + 0.95, zb + 0.55, zb + 1.0, '#ecdcc2', r=0.012); vb(cx0_ - 0.03, cx1_ + 0.03, y0 + 0.95, y0 + 0.99, zb + 0.52, zb + 1.03, WOOD, r=0.006)
     vb(cx0_ + 0.3, cx0_ + 0.62, y0 + 0.99, y0 + 1.02, zb + 0.66, zb + 0.9, '#2a2a2c', r=0); vb(cx0_ + 0.32, cx0_ + 0.6, y0 + 1.02, y0 + 1.26, zb + 0.72, zb + 0.75, '#2a2a2c', r=0)   # 收銀螢幕
     for i in range(3): vb(cx1_ - 0.5 + i * 0.03, cx1_ - 0.14 + i * 0.03, y0 + 0.99 + i * 0.11, y0 + 1.1 + i * 0.11, zb + 0.62, zb + 0.84, ['#c0483c', '#f2f0ea', '#3a5a8c'][i], r=0)   # 疊著的鞋盒
     # 中間：木展示桌（兩層）＋試穿長凳
@@ -2920,7 +2920,7 @@ def _xs_in_dabu(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
             lx = -iw / 2 + 0.7 + i * 0.9; xf_cyl(cp('#1c1c1e'), xf, (lx, yt - 0.06, tz_), (lx, yt - 0.2, tz_ + 0.05), 0.035, seg=6); vb(lx - 0.025, lx + 0.025, yt - 0.215, yt - 0.2, tz_ + 0.03, tz_ + 0.08, '#fff6e0', r=0)
 
 
-XS_IN3D = {'dabu': dict(fn=_xs_in_dabu, floor='f_wood', wall='#efece4', ceil='#e2ded4', warm=True)}
+XS_IN3D = {'dabu': dict(fn=_xs_in_dabu, floor='f_oak', wall='#e6d8c4', ceil='#dccfba', warm=True)}   # 顏色照走進去的室內（bb_support/dabu_interior.py：暖米白牆、橡木地板和層板；BB_379「櫥窗裡的店要照各店真的室內做」）
 
 
 def xs_inside3d(spec, c, xf0, gx0, gx1, gy1, z, fr):
@@ -3017,7 +3017,7 @@ def _xs_in_haopai(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
     """好拍運動（羽球、網球拍專賣；參考圖 haopai_ext／haopai_int）：兩側牆掛滿球拍、後牆一格格的球筒和拍袋、中間矮台放球鞋和球筒、右後方櫃台和穿線機"""
     RC = ['#c0392b', '#1f4e8c', '#2a2a2c', '#e8873a', '#2f7d5b', '#f2c230', '#7a2a6a', '#dfe6ea']
     for sx in (-1, 1):                                                                                          # 兩側牆：洞洞板＋兩排球拍
-        xw = sx * (iw / 2 - 0.047); a_, b_ = sorted((xw, xw - sx * 0.025)); vb(a_, b_, y0 + 0.75, yt - 0.3, zb + 0.2, gz - 0.35, '#e4dfd4', r=0)
+        xw = sx * (iw / 2 - 0.047); a_, b_ = sorted((xw, xw - sx * 0.025)); vb(a_, b_, y0 + 0.75, yt - 0.3, zb + 0.2, gz - 0.35, '#d6cdb8', r=0)
         for row in range(2):
             for i in range(int((XS_DI - 0.7) / 0.34)):
                 z_ = zb + 0.42 + i * 0.34; yb = y0 + 0.85 + row * 0.95; col = RC[(i + row * 3 + (0 if sx < 0 else 4)) % len(RC)]
@@ -3026,9 +3026,9 @@ def _xs_in_haopai(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
                 cm.poly([xf.p(xw - sx * 0.045, yb + 0.42 + math.sin(k * 2 * math.pi / 10) * 0.13, z_ + math.cos(k * 2 * math.pi / 10) * 0.095) for k in range(10)], '#f1efe6', 0.96)
                 a2, b2 = sorted((xw - sx * 0.03, xw - sx * 0.05)); vb(a2, b2, yb + 0.12, yb + 0.28, z_ - 0.012, z_ + 0.012, col, r=0); vb(a2, b2, yb, yb + 0.13, z_ - 0.017, z_ + 0.017, '#2a2a2c', r=0)
     # 後牆：上面一排球拍（正面對著街）、下面層板放球筒、拍袋
-    vb(-iw / 2 + 0.3, iw / 2 - 1.5, y0 + 0.4, yt - 0.25, zb, zb + 0.025, '#e4dfd4', r=0)
+    vb(-iw / 2 + 0.3, iw / 2 - 1.5, y0 + 0.4, yt - 0.25, zb, zb + 0.025, '#d6cdb8', r=0)
     for i in range(int((iw - 2.0) / 0.36)): _xs_racket(cm, vb, xf, -iw / 2 + 0.55 + i * 0.36, y0 + 1.75, zb + 0.05, RC[(i * 3 + 1) % len(RC)], s=1.25)
-    for sy in (0.62, 1.12, 1.6): vb(-iw / 2 + 0.3, iw / 2 - 1.5, y0 + sy - 0.022, y0 + sy, zb + 0.025, zb + 0.3, '#f2efe8', r=0)
+    for sy in (0.62, 1.12, 1.6): vb(-iw / 2 + 0.3, iw / 2 - 1.5, y0 + sy - 0.022, y0 + sy, zb + 0.025, zb + 0.3, '#94714b', r=0)
     for j, sy in enumerate((0.62, 1.12)):
         for i in range(int((iw - 2.0) / 0.2)):
             x_ = -iw / 2 + 0.42 + i * 0.2
@@ -3036,12 +3036,12 @@ def _xs_in_haopai(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
             _xs_vcyl(cp, xf, x_, y0 + sy, y0 + sy + 0.34, zb + 0.17, 0.036, ['#f2c230', '#e9e6de', '#c0392b', '#1f4e8c'][(i + j * 2) % 4], 7)   # 羽球筒
     # 中間矮台：球鞋、網球罐、一疊護腕
     tx0, tx1, tz0, tz1 = -iw / 2 + 0.7, iw / 2 - 1.7, gz - 1.45, gz - 0.55
-    vb(tx0, tx1, y0, y0 + 0.5, tz0, tz1, '#e6e3db', r=0.012); vb(tx0 + 0.3, tx1 - 0.3, y0 + 0.5, y0 + 0.74, tz0 + 0.3, tz1 - 0.3, '#d8d4ca', r=0.01)
+    vb(tx0, tx1, y0, y0 + 0.5, tz0, tz1, '#94714b', r=0.012); vb(tx0 + 0.3, tx1 - 0.3, y0 + 0.5, y0 + 0.74, tz0 + 0.3, tz1 - 0.3, '#a8855e', r=0.01)
     for i in range(3): _xs_shoe(vb, tx0 + 0.3 + i * 0.5, y0 + 0.5, tz1 - 0.16, ['#f2f0ea', '#1f4e8c', '#c0392b'][i], acc_=['#c0392b', '#f2f0ea', '#2a2a2c'][i], sx=1 if i != 1 else -1, L_=0.32)
     for i in range(4): _xs_vcyl(cp, xf, tx0 + 0.5 + i * 0.22, y0 + 0.74, y0 + 0.74 + 0.22, (tz0 + tz1) / 2, 0.04, ['#d9e23a', '#e9e6de', '#d9e23a', '#c0392b'][i], 7)
     _xs_racket(cm, vb, xf, tx1 - 0.25, y0 + 0.5, tz0 + 0.12, '#e8873a', s=1.2)
     # 右後方：櫃台＋穿線機（立柱＋橫臂＋轉盤）
-    _xs_counter(vb, iw / 2 - 1.35, iw / 2 - 0.35, zb + 0.55, zb + 1.0, y0)
+    _xs_counter(vb, iw / 2 - 1.35, iw / 2 - 0.35, zb + 0.55, zb + 1.0, y0, body='#94714b', top='#d6cdb8')
     mx_, mz_ = iw / 2 - 0.75, zb + 1.75
     vb(mx_ - 0.22, mx_ + 0.22, y0, y0 + 0.04, mz_ - 0.22, mz_ + 0.22, '#3a3d42', r=0); _xs_vcyl(cp, xf, mx_, y0 + 0.04, y0 + 1.0, mz_, 0.035, '#3a3d42', 6)
     vb(mx_ - 0.42, mx_ + 0.42, y0 + 1.0, y0 + 1.06, mz_ - 0.07, mz_ + 0.07, '#c0392b', r=0.01); _xs_ngon(cm, xf, mx_, y0 + 1.07, mz_, 0.01, 0.01, '#2a2a2c', n=4)
@@ -3064,7 +3064,7 @@ def _xs_in_xsports(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
             _xs_ball(cp, xf, bx0 + 0.07 + r_ + i * (r_ * 2 + 0.03), y0 + sy, (bz0 + bz1) / 2 + (0.05 if i % 2 else -0.05), r_, cc, seg=7 if r_ > 0.08 else 5)
     # 洞洞板上的背包、護具
     px0, px1 = -iw / 2 + 2.6, m0 - 1.9
-    vb(px0, px1, y0 + 0.5, y0 + 2.4, gz - 1.25, gz - 1.21, '#e9e6de', r=0)
+    vb(px0, px1, y0 + 0.5, y0 + 2.4, gz - 1.25, gz - 1.21, '#d8c8ae', r=0)
     for j in range(3):
         for i in range(max(1, int((px1 - px0) / 0.42))):
             x_ = px0 + 0.22 + i * 0.42; yy = y0 + 0.65 + j * 0.6; vb(x_ - 0.15, x_ + 0.15, yy, yy + 0.42, gz - 1.21, gz - 1.06, ['#2a2a2c', '#1f4e8c', '#3a3d42', '#c0392b'][(i + j) % 4], r=0.04)
@@ -3074,22 +3074,22 @@ def _xs_in_xsports(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
     # 門後：兩排衣架、後面櫃台、後牆的鞋牆
     _xs_rack(cp, vb, xf, m0 + 0.5, m0 + 2.1, zb + 1.5, y0, ['#2a2a2c', '#f2f0ea', '#1f4e8c', '#c0392b', '#3a3d42', '#e8873a'])
     _xs_rack(cp, vb, xf, m1 - 2.0, m1 - 0.5, zb + 0.95, y0, ['#f2f0ea', '#2f7d5b', '#2a2a2c', '#f2c230', '#1f4e8c'])
-    _xs_counter(vb, m0 + 0.2, m0 + 1.6, zb + 0.35, zb + 0.8, y0)
-    _xs_shelfwall(vb, -iw / 2 + 0.3, m0 - 0.2, zb, y0, (0.7, 1.2, 1.7, 2.2))
+    _xs_counter(vb, m0 + 0.2, m0 + 1.6, zb + 0.35, zb + 0.8, y0, body='#b48654', top='#e6dccb')
+    _xs_shelfwall(vb, -iw / 2 + 0.3, m0 - 0.2, zb, y0, (0.7, 1.2, 1.7, 2.2), back='#d8c8ae', board='#b48654')
     k_ = 0
     for sy in (0.7, 1.2, 1.7, 2.2):
         for i in range(int((m0 - 0.5 + iw / 2) / 0.62)):
             _xs_shoe(vb, -iw / 2 + 0.62 + i * 0.62, y0 + sy, zb + 0.17, ['#f2f0ea', '#2a2a2e', '#c0483c', '#3a5a8c', '#e9e6de', '#8ad0c0'][k_ % 6], sx=1 if k_ % 3 else -1, L_=0.32, lod=1); k_ += 1
     # 右：水壺架（五層，一瓶一瓶）＋牆上的球拍
     wx0, wx1, wz0, wz1 = m1 + 0.45, iw / 2 - 0.3, gz - 0.95, gz - 0.5
-    for ux in (wx0, wx1): vb(ux - 0.02, ux + 0.02, y0, y0 + 2.3, wz0, wz1, '#d8d4ca', r=0)
+    for ux in (wx0, wx1): vb(ux - 0.02, ux + 0.02, y0, y0 + 2.3, wz0, wz1, '#b48654', r=0)
     BOT = ['#e9e6de', '#f0a8b8', '#8ad0e0', '#2a2a2c', '#c0392b', '#f2c230', '#2f7d5b', '#dfe6ea', '#7a6aa8']
     for j, sy in enumerate((0.3, 0.75, 1.2, 1.65, 2.1)):
-        vb(wx0, wx1, y0 + sy - 0.02, y0 + sy, wz0, wz1, '#f2efe8', r=0)
+        vb(wx0, wx1, y0 + sy - 0.02, y0 + sy, wz0, wz1, '#b48654', r=0)
         for i in range(int((wx1 - wx0 - 0.1) / 0.16)):
             x_ = wx0 + 0.11 + i * 0.16; h_ = 0.2 + ((i + j) % 3) * 0.03
             _lathe(cp(BOT[(i * 2 + j) % len(BOT)]), xf, [(0.0, 0.0), (0.04, 0.0), (0.04, h_), (0.022, h_ + 0.012), (0.022, h_ + 0.04), (0.0, h_ + 0.04)], x_, y0 + sy, (wz0 + wz1) / 2, seg=6)
-    vb(m1 + 0.2, iw / 2 - 0.3, y0 + 0.9, yt - 0.3, zb, zb + 0.025, '#e4dfd4', r=0)
+    vb(m1 + 0.2, iw / 2 - 0.3, y0 + 0.9, yt - 0.3, zb, zb + 0.025, '#d8c8ae', r=0)
     for i in range(int((iw / 2 - m1 - 0.7) / 0.4)): _xs_racket(cm, vb, xf, m1 + 0.5 + i * 0.4, y0 + 1.3, zb + 0.05, ['#c0392b', '#1f4e8c', '#2a2a2c', '#e8873a', '#2f7d5b'][i % 5], s=1.3)
     for tz_ in (zb + 1.1, gz - 0.9): _xs_track(cp, vb, xf, iw, tz_, yt, step=1.3)
 
@@ -3220,16 +3220,16 @@ def _xs_in_dakou(cm, cp, vb, xf, iw, gz, zb, y0, yt, rr, c):
                 _pk_chair(vb, tx + sx * 0.27, tz_ + sz * 0.62, y0, ORG if (sx * sz + k) % 2 else NAVY, '#3a3d42', '+z' if sz > 0 else '-z')
         vb(tx - 0.2, tx + 0.12, y0 + 0.76, y0 + 0.775, tz_ - 0.15, tz_ + 0.1, '#c9a070', r=0); _xs_vcyl(cp, xf, tx + 0.3, y0 + 0.76, y0 + 0.9, tz_ + 0.05, 0.035, '#f1ece0', 7)
     hx0, hx1 = -iw / 2 + 0.3, -iw / 2 + 3.0
-    vb(hx0, hx1, y0 + 1.0, y0 + 1.05, gz - 0.55, gz - 0.2, '#c9a878', r=0.008)
+    vb(hx0, hx1, y0 + 1.0, y0 + 1.05, gz - 0.55, gz - 0.2, '#d7b78a', r=0.008)
     for ux in (hx0 + 0.1, (hx0 + hx1) / 2, hx1 - 0.1): vb(ux - 0.02, ux + 0.02, y0, y0 + 1.0, gz - 0.4, gz - 0.36, '#3a3d42', r=0)
     for i in range(4): _pk_stool(cp, xf, hx0 + 0.4 + i * 0.65, gz - 0.85, y0 + 0.28, NAVY if i % 2 else ORG, '#3a3d42'); _xs_vcyl(cp, xf, hx0 + 0.4 + i * 0.65, y0, y0 + 0.3, gz - 0.85, 0.02, '#3a3d42', 5)
     for lx in (-4.6, -1.9, 1.1, 4.0): _xs_pendant(cp, xf, lx, gz - 1.05, yt, 0.55, ORG if lx != 1.1 else '#f1ece0', r=0.2)
 
 
 XS_IN3D.update({
-    'haopai': dict(fn=_xs_in_haopai, floor='f_white', wall='#efece4', ceil='#e2ded4', warm=False),
-    'xsports': dict(fn=_xs_in_xsports, floor='f_white', wall='#eceae4', ceil='#e2ded4', warm=False),
-    'shanlan': dict(fn=_xs_in_shanlan, floor='f_wood', wall='#e9dcc4', ceil='#d9c8a8', warm=True),
+    'haopai': dict(fn=_xs_in_haopai, floor='f_cream', wall='#c8bfaa', ceil='#c4b8a2', warm=True),
+    'xsports': dict(fn=_xs_in_xsports, floor='f_granite', wall='#c9b69c', ceil='#c2ae92', warm=True),
+    'shanlan': dict(fn=_xs_in_shanlan, floor='f_wood', wall='#ece6da', ceil='#d9c8a8', warm=True),
     'tongxian': dict(fn=_xs_in_tongxian, floor='f_wood', wall='#d9c4a0', ceil='#cdb890', warm=True),
-    'dakou': dict(fn=_xs_in_dakou, floor='f_terrazzo', wall='#f1ece0', ceil='#e6dfd0', warm=True),
+    'dakou': dict(fn=_xs_in_dakou, floor='f_terrazzo', wall='#f2e0c6', ceil='#e6dfd0', warm=True),
 })
