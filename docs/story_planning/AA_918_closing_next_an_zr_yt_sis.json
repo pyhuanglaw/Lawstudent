@@ -2,7 +2,7 @@
  "_meta": {
   "doc": "AA_918 約會收尾「下次…」第二批：以安、芷若、語彤、學姊",
   "by": "AA-C 2026-11-12 21:3x",
-  "status": "待 BB 第二意見（D153）",
+  "status": "定稿（BB_444 採用；寫死「你」約／挑／帶路的照 BB 改，學姊兩句開車改成不分誰開）",
   "what": "同 AA_917；留以安 D01 第一次「下次還要來。」（第一次約會一句輕的，跟沛珊 D01 一樣）。學姊 D16「回去我請你喝咖啡」是當天就兌現的，不算懸著。"
  },
  "rows": [
@@ -25,7 +25,7 @@
    "who": "heroine_05",
    "where": "closing/dating/0/lines/0/text",
    "old": "下次換你約我。地點不要先告訴我。",
-   "new": "你一路都沒有問要去哪。我很喜歡這一點。"
+   "new": "今天一路都很順。我很喜歡這種日子。"
   },
   {
    "src": "date_system/lines/D03.json",
@@ -116,14 +116,14 @@
    "who": "heroine_03",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次來，換你拿相機。我想知道你會拍什麼。",
-   "new": "你今天拿相機拍了什麼？給我看一張就好。"
+   "new": "我今天拍了好多。給你看一張就好。"
   },
   {
    "src": "date_system/lines/D13.json",
    "who": "heroine_05",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次你排，我不看行程。",
-   "new": "今天的行程我沒看。走到哪算哪，比較輕鬆。"
+   "new": "今天我什麼都沒想，只是跟著走。很輕鬆。"
   },
   {
    "src": "date_system/lines/D13.json",
@@ -137,7 +137,7 @@
    "who": "heroine_02",
    "where": "closing/dating/0/lines/0/text",
    "old": "下次再來，換你約我。",
-   "new": "今天這一句我要寫在杯子上：好開心。"
+   "new": "今天的事，我要寫在杯子上。"
   },
   {
    "src": "date_system/lines/D14.json",
@@ -165,7 +165,7 @@
    "who": "heroine_05",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次換我開。要先借到車。",
-   "new": "今天你開了一整天。回去我請你喝咖啡。"
+   "new": "今天坐了一整天的車。回去我請你喝咖啡。"
   },
   {
    "src": "date_system/lines/D17.json",
@@ -326,7 +326,7 @@
    "who": "heroine_05",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次你不用開這麼久。我們搭車來。",
-   "new": "你開了好久。我在副駕駛座都沒睡，你有看到。"
+   "new": "坐了好久的車。我都沒睡，你有看到。"
   },
   {
    "src": "date_system/lines/D33.json",
