@@ -132,7 +132,7 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
     if(docs) check('5. 選「會。」：逐字等於 AA_856 第 2 節（開頭三句＋選項一那五句）',J(L.slice(k0,k0+8))===J(B[0].concat(B[1])),J(L.slice(k0,k0+8)));
     check('5. 見面以後：KX_MET、KX_MET_DAY、FIRST_MET、有聯絡方式（G.contacts 記今天）',G.flags.KX_MET===true&&G.flags.KX_MET_DAY===G.day&&G.flags.KX_MET_HOW==='class'&&SOCIAL.has(KX,'FIRST_MET')&&INV.hasContact(G,KX)&&G.contacts[KX]===G.day,J([(G.contacts||{})[KX]]));
     check('5. 見面以後才進朋友清單、手機聯絡人',knownIds(G).includes(KX)&&MSG.contactRows(G,knownIds(G)).some(r=>r.id===KX));
-    check('5. 還沒交往：沒有可以傳的話題（她的話題是交往中寫的，等 AA 換字）、動態牆她的貼文照樣不出',MSG.topics(G,KX).length===0&&(typeof FEED==='undefined'||FEED.blocked(G,{who:KX},{day:G.day})==='contact'));
+    check('5. 還沒交往：互加手機以後就有可以傳的話題（A／R 層）、動態牆她的貼文照樣不出（CANON-NO-ECON-1112 第四批：照 AA_892 第 3 節）',MSG.topics(G,KX).length>0&&(typeof FEED==='undefined'||FEED.blocked(G,{who:KX},{day:G.day})==='contact'));
     check('5. 見面以後還是沒有交往',G.flags.dating_kexin===false&&!ROM.partners(G).includes(KX));
     at('2025-09-03',9.5); check('5. 見面以後：下一堂必修（9/3 刑總）的時間她在教室',(STORY.schedEnt(CHARACTERS[KX],G)||{}).act==='class');
     { const it2=reqOn(G,G.day,'crim_gen1'); check('5. 認識了：之後的必修不再演',!STORY.kxMeetDue(G,it2)); }

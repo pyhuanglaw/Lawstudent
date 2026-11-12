@@ -111,8 +111,10 @@ if(REAL){ global.MSG_POOL=realPool; const P=realPool.people||{}; let src=''; try
      有 ps755 的那幾則改比 AA_755（不在 BB_178 裡）；其他照舊逐字比 AA_202／BB_178 */
   let src755=''; try{ src755=cp.execSync('git -c core.quotepath=false show c5094495d:docs/story_planning/AA_755_peishan_feed_misc.json',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   /* 2026-11-11（X324 D 區，AA_785_msg_pools.json）：覆蓋層換過的那幾格（那一則多一格 ov）改比稿：這一格的字＝AA_785 那一列的 new、而且 old 在原文裡（tests/overlay_expect.js）；其他照舊逐字比 */
+  /* CANON-NO-ECON-1112 第四批：照 AA_892 第 3 節換字、改層的那幾則（多一格 c892＝稿的來源 AA_892@sha）改比 AA_892 原文；其他照舊逐字比 */
+  const c892src={}; const c892=(e,t)=>{ const k=e.c892; if(c892src[k]==null){ c892src[k]=''; try{ const m=/^AA_892@(\w+)$/.exec(k); if(m) c892src[k]=cp.execSync('git -c core.quotepath=false show '+m[1]+':"docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(err){} } return c892src[k].indexOf(t)>=0||src.indexOf(t)>=0; };
   const OE=require('./overlay_expect.js'), OVM=OE.rows('msg_pool'), ovOk=(id,t)=>OVM.some(r=>r.who===id&&r.new===t&&(src.indexOf(r.old)>=0||(!!src755&&src755.indexOf(JSON.stringify(r.old))>=0)));
-  if(!src) console.log('（略過 F：沒有企劃原文的歷史）'); else { const miss=[]; for(const id in P) for(const e of P[id].replies||[]) for(const t of e.msgs.concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[]))) if((e.ov&&ovOk(id,t))?false:(e.ps755?(src755||JSON.stringify(t)).indexOf(JSON.stringify(t)):src.indexOf(t))<0) miss.push(id+':'+t);
+  if(!src) console.log('（略過 F：沒有企劃原文的歷史）'); else { const miss=[]; for(const id in P) for(const e of P[id].replies||[]) for(const t of e.msgs.concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[]))) if((e.ov&&ovOk(id,t))||(e.c892&&c892(e,t))?false:(e.ps755?(src755||JSON.stringify(t)).indexOf(JSON.stringify(t)):src.indexOf(t))<0) miss.push(id+':'+t);
     check('F1. 回覆池每一句都在 AA_202／BB_178 原文裡（逐字）',!miss.length,miss.slice(0,8).join(' ｜ ')+(miss.length>8?' …共 '+miss.length:'')); }
   const n=Object.values(P).reduce((a,p)=>a+(p.replies||[]).length,0); check('F2. 十五位都有回覆池',Object.keys(P).length>=15&&n>200,Object.keys(P).length+' 人、'+n+' 則'); }
 else console.log('（略過 F：src/data/msg_pool.js 還沒有）');
