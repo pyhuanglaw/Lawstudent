@@ -401,3 +401,17 @@
 [16:21:22] solo item XS_REAL_perf_r2 waits: no new items start until the 1 running item(s) finish
 [16:22:48] 正在跑：TZ_REAL_consist（已跑 25 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:25:34] [res] cpu=8% mem=34% (10.9/31.4 GB) chrome_testing=0  END TZ_REAL_consist
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1dc74b8ff..7c7eff029  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:25:48] ==== END   TZ_REAL_consist  exit=1  1669s   ====
+[16:25:57] memory 32% before starting DN_GOODS_gate (0 running)
+[16:25:57] memory 32% before starting DN_GOODS_close (1 running)
+[16:25:57] ==== START DN_GOODS_gate  (probe @ 68d40a513ee22e140bbabc69c294c3ce9a254fb3) ====
+[16:25:57] solo item DN_GOODS_fps waits: no new items start until the 2 running item(s) finish
+[16:25:57] ==== START DN_GOODS_close  (probe @ 68d40a513ee22e140bbabc69c294c3ce9a254fb3) ====
+[16:26:00] [res] cpu=0% mem=32% (10.1/31.4 GB) chrome_testing=0  START DN_GOODS_close
+[16:26:00] [res] cpu=0% mem=32% (10.1/31.4 GB) chrome_testing=0  START DN_GOODS_gate
+[16:26:00] worktree add 68d40a513ee22e140bbabc69c294c3ce9a254fb3: invalid reference - fetching main and the commit itself
+[16:27:48] 正在跑：DN_GOODS_gate（已跑 1 分／上限 20 分）、DN_GOODS_close（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:28:24] [res] cpu=5% mem=40% (12.8/31.4 GB) chrome_testing=4  END DN_GOODS_close

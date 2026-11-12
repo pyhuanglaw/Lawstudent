@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_campus_view_shot_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DN_GOODS_close\out
+CC 校園定點截圖：worktree ?；TAG dn_goods_close；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_dongnan 14.00 時、站 (-2.13, -0.5)；鏡頭直接擺 yaw 1.5708 rad、距離 3.0
+  [  44.4s] dn_leftwall：{"yaw": 1.571, "dist": 3, "cam": [0.54, 2.76, -0.6], "player": [-2.25, 0, -0.6], "zone": "tz_dongnan", "hour": 14.04}
+PASS dn_leftwall 在 tz_dongnan、玩家在 (-2.13, -0.5) 0.6 m 內  {"yaw": 1.571, "dist": 3, "cam": [0.54, 2.76, -0.6], "player": [-2.25, 0, -0.6], "zone": "tz_dongnan", "hour": 14.04}
+  [  45.1s] dn_leftwall 另一台相機：玩家頭 → (-3.4, 1.2, -0.5) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_dongnan 14.00 時、站 (2.13, -2.2)；鏡頭直接擺 yaw -1.5708 rad、距離 3.0
+  [  61.2s] dn_rightshelf：{"yaw": -1.571, "dist": 3, "cam": [-0.66, 2.76, -2.2], "player": [2.13, 0, -2.2], "zone": "tz_dongnan", "hour": 14.04}
+PASS dn_rightshelf 在 tz_dongnan、玩家在 (2.13, -2.2) 0.6 m 內  {"yaw": -1.571, "dist": 3, "cam": [-0.66, 2.76, -2.2], "player": [2.13, 0, -2.2], "zone": "tz_dongnan", "hour": 14.04}
+  [  61.8s] dn_rightshelf 另一台相機：玩家頭 → (3.4, 1.2, -2.2) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_dongnan 14.00 時、站 (0.2, -0.5)；鏡頭直接擺 yaw -1.5708 rad、距離 3.0
+  [  77.3s] dn_gondola1：{"yaw": -1.571, "dist": 3, "cam": [-2.59, 2.76, -0.5], "player": [0.2, 0, -0.5], "zone": "tz_dongnan", "hour": 14.04}
+PASS dn_gondola1 在 tz_dongnan、玩家在 (0.2, -0.5) 0.6 m 內  {"yaw": -1.571, "dist": 3, "cam": [-2.59, 2.76, -0.5], "player": [0.2, 0, -0.5], "zone": "tz_dongnan", "hour": 14.04}
+  [  78.0s] dn_gondola1 另一台相機：玩家頭 → (-1.0, 1.0, -0.5) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_dongnan 14.00 時、站 (2.7, -0.5)；鏡頭直接擺 yaw -1.5708 rad、距離 3.0
+  [  93.6s] dn_gondola2：{"yaw": -1.571, "dist": 3, "cam": [-0.09, 2.76, -0.5], "player": [2.7, 0, -0.5], "zone": "tz_dongnan", "hour": 14.04}
+PASS dn_gondola2 在 tz_dongnan、玩家在 (2.7, -0.5) 0.6 m 內  {"yaw": -1.571, "dist": 3, "cam": [-0.09, 2.76, -0.5], "player": [2.7, 0, -0.5], "zone": "tz_dongnan", "hour": 14.04}
+  [  94.2s] dn_gondola2 另一台相機：玩家頭 → (1.5, 1.0, -0.5) fov 60.0
+PASS 沒有 JS 例外  []
+ALL PASS
