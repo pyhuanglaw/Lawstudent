@@ -52798,7 +52798,7 @@
    "id": "TINGZHOU-NIGHTMARKET-1110",
    "title": "汀州路夜市攤：每攤「看」「買」（扣錢、+10 分、一句；不加數值、不算正餐），和她一起時買一樣她說一句；17:00～24:00 才擺、白天帆布、颱風大雨不擺（AA_744 dcd945b7f）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52818,7 +52818,10 @@
     "acceptance": "BB 判",
     "receiver": "BB",
     "ack": "未派"
-   }
+   },
+   "reason": "和 NIGHT-MARKET-1110 是同一件（夜市十攤能看能買、各攤營業時間）：那一項已做完，BB 11-11 01:5x 判美術 ART_APPROVED、能看能買／開收攤／換季／舊存檔 PASS（LAWWW-C 11-12 對帳，night_market_unit ALL PASS）",
+   "replacedBy": "NIGHT-MARKET-1110",
+   "authorizedBy": "LAWWW-C（重複登記，沒有取消任何工作）"
   },
   {
    "id": "POOL-SWIM-LOOK-1110",
