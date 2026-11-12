@@ -6,15 +6,15 @@
      找不到窗的網格＝UNKNOWN（標出來給 BB 看圖）。
   ③ 天花板：房間中間 1.6 m 往上打一條射線，6 m 內打到網格＝有；沒打到而且往上拍那張「天空色」≥30%＝沒天花板（FAIL）；沒打到、天空色不到＝UNKNOWN。
   ④ 純色／洋紅：每張洋紅像素（r>170、b>140、g<90）≥0.5%＝FAIL；最大的同一色區塊 ≥60%＝標出來（UNKNOWN，給 BB 看是不是牆）。
-  ⑤ 店外往裡看的視差：門外 spawn 往門看，鏡頭左右各移 1.5 m 再拍（三張都對準門那一點）；畫面中間 30% 兩兩比，平均差 < PAR_LO＝幾乎一樣＝貼了一張圖（FAIL）；
-     > PAR_HI＝有立體（PASS）；中間＝UNKNOWN。門檻先用有問題的版本校正（新生南路櫥窗、汀州路對照）。
+  ⑤ 店外往裡看立不立體：門外 spawn 往門看拍三張（中、左右各 1.5 m，給 BB 看）；機器判用射線：從店外往門面打 24×16 條（略過玻璃、半透明、人），門面後面 0.8 m 以上還打得到東西的比例 deep < PAR_LO＝平面（FAIL）；
+     > PAR_HI＝有立體（PASS）；中間＝UNKNOWN。門檻用有問題的版本校正（dc3d 新生南路 xs 櫥窗、1cd2 泰米）；像素差只當參考。
   ⑥ 閃：①、② 兩個鏡頭各轉 0.05° 前後兩張逐點比（同 cc_shop_flicker_probe），亮度差 >40 的像素比例 ≥ZF_HI＝閃（FAIL）、≤ZF_LO＝PASS、中間 UNKNOWN；
      另外走動＋轉鏡頭 5 秒連拍（每 0.2 秒，遊戲鏡頭），8×8 區塊亮度來回跳 ≥3 次的區塊數照記（給 BB 看）。
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；店內照不藏玩家；⑤視差三張藏玩家與路人，只比店面） 10✓ 11✓ 12✓（每項記證據數字） 13✓
-用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=4 PAR_HI=10 ZF_LO=0.3 ZF_HI=1.5] python3 cc_place_gate_probe.py <url> <out>"""
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗加「細節比例」、店外改射線深度（PC GATE_CAL 1cd2／bd86 校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字） 13✓
+用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 EDGE_LO=3 EDGE_HI=8 ZF_LO=0.3 ZF_HI=1.5] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
@@ -28,7 +28,8 @@ TAG = os.environ.get('TAG') or 'x'
 ZONES = [z for z in (os.environ.get('ZONES') or 'tz_taimi').split(',') if z]
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,20.5').split(',') if h]
 PARTS = set((os.environ.get('PARTS') or '1,2,3,4,5,6,7').split(','))
-PAR_LO, PAR_HI = float(os.environ.get('PAR_LO') or '4'), float(os.environ.get('PAR_HI') or '10')
+PAR_LO, PAR_HI = float(os.environ.get('PAR_LO') or '0.05'), float(os.environ.get('PAR_HI') or '0.15')   # 射線：門面後面還有東西的比例
+EDGE_LO, EDGE_HI = float(os.environ.get('EDGE_LO') or '3'), float(os.environ.get('EDGE_HI') or '8')
 ZF_LO, ZF_HI = float(os.environ.get('ZF_LO') or '0.3'), float(os.environ.get('ZF_HI') or '1.5')
 R = L.Run('gate_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -56,7 +57,9 @@ SNAPX = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new TH
 ANA_JS = r"""(async a=>{ const im=await new Promise(res=>{ const q=new Image(); q.onload=()=>res(q); q.src=a.u; }); const W=200, H=Math.round(200*im.height/im.width);
   const k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d'); g.drawImage(im,0,0,W,H); const d=g.getImageData(0,0,W,H).data;
   const bin=(x0,y0,x1,y1)=>{ const m=new Map(); let n=0; for(let y=Math.floor(y0*H);y<Math.ceil(y1*H);y++) for(let x=Math.floor(x0*W);x<Math.ceil(x1*W);x++){ const o=(y*W+x)*4, key=(d[o]>>3)+'_'+(d[o+1]>>3)+'_'+(d[o+2]>>3); m.set(key,(m.get(key)||0)+1); n++; }
-    let best=0, bk=null; for(const [kk,v] of m) if(v>best){ best=v; bk=kk; } return {top_pct:n?+(best*100/n).toFixed(1):0, top_rgb:bk?bk.split('_').map(v=>v*8+4):null, n}; };
+    let best=0, bk=null; for(const [kk,v] of m) if(v>best){ best=v; bk=kk; } let ed=0, ne=0; const L=o=>0.299*d[o]+0.587*d[o+1]+0.114*d[o+2];
+    for(let y=Math.floor(y0*H);y<Math.ceil(y1*H);y++) for(let x=Math.floor(x0*W);x<Math.ceil(x1*W)-1&&x<W-1;x++){ const o=(y*W+x)*4; ne++; if(Math.abs(L(o)-L(o+4))>12) ed++; }
+    return {top_pct:n?+(best*100/n).toFixed(1):0, top_rgb:bk?bk.split('_').map(v=>v*8+4):null, n, edge_pct:ne?+(ed*100/ne).toFixed(1):0}; };
   let mag=0, sky=0, n3=0; for(let i=0;i<d.length;i+=4){ if(d[i]>170&&d[i+2]>140&&d[i+1]<90) mag++; } for(let y=0;y<Math.floor(H/3);y++) for(let x=0;x<W;x++){ const o=(y*W+x)*4; n3++; if(d[o+2]>d[o]+20&&d[o+2]>=d[o+1]&&d[o+2]>=60) sky++; }
   let skyAll=0; for(let i=0;i<d.length;i+=4){ if(d[i+2]>d[i]+20&&d[i+2]>=d[i+1]&&d[i+2]>=60) skyAll++; }
   return {magenta_pct:+(mag*100/(W*H)).toFixed(2), sky_top_pct:+(sky*100/n3).toFixed(1), sky_all_pct:+(skyAll*400/d.length).toFixed(1), whole:bin(0,0,1,1), rects:(a.rects||[]).map(r=>Object.assign({rect:r},bin(r[0],r[1],r[2],r[3])))}; })"""
@@ -83,6 +86,15 @@ SHEET_JS = r"""(async a=>{ const ims=await Promise.all(a.urls.map(u=>new Promise
   ims.forEach((im,i)=>{ const x=(i%cols)*w, y=56+Math.floor(i/cols)*h; if(im) g.drawImage(im,x,y,w,h); g.fillStyle='rgba(0,0,0,0.6)'; g.fillRect(x,y,w,20); g.fillStyle=a.flags[i]?'#ff6b6b':'#fff'; g.fillText(a.labels[i]+(a.flags[i]?'  ★'+a.flags[i]:''),x+4,y+15);
     if(im&&a.rects&&a.rects[i]) for(const r of a.rects[i]){ g.strokeStyle='#00e5ff'; g.lineWidth=2; g.strokeRect(x+r[0]*w,y+r[1]*h,(r[2]-r[0])*w,(r[3]-r[1])*h); } });
   return k.toDataURL('image/jpeg',0.85); })"""
+DEPTH_JS = r"""(a=>{ const E=GAME.E, c=E.renderer.domElement; const cam=new THREE.PerspectiveCamera(60, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true); cam.updateProjectionMatrix();
+  const ex=new Set(); const P=E.player&&E.player.obj; if(P) P.traverse(o=>ex.add(o)); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o)); for(const x of (E.extras||[])) if(x.obj) x.obj.traverse(o=>ex.add(o));
+  const skip=o=>{ if(ex.has(o)||o.visible===false) return true; const m=Array.isArray(o.material)?o.material[0]:o.material, nm=((o.name||'')+' '+(m&&m.name||'')); if(/glass|window|窗|vitrine/i.test(nm)) return true; if(m&&m.transparent&&m.opacity<0.9) return true; return false; };
+  const rc=new THREE.Raycaster(); const ds=[]; for(let i=0;i<24;i++) for(let j=0;j<16;j++){ const nx=-0.6+1.2*i/23, ny=-0.5+1.0*j/15; rc.setFromCamera(new THREE.Vector2(nx,ny),cam); rc.far=60;
+    const h=rc.intersectObjects(E.scene.children,true).find(x=>!skip(x.object)); if(h) ds.push(h.distance); }
+  if(!ds.length) return {n:0}; const bk=new Map(); for(const d of ds){ const k=Math.round(d*4); bk.set(k,(bk.get(k)||0)+1); } let mk=0, mv=0; for(const [k,v] of bk) if(v>mv){ mv=v; mk=k; } const face=mk/4;
+  const deep=ds.filter(d=>d>face+0.8).length/ds.length; const s=ds.slice().sort((x,y)=>x-y);
+  return {n:ds.length, face:+face.toFixed(2), deep:+deep.toFixed(3), p10:+s[Math.floor(s.length*0.1)].toFixed(2), p50:+s[Math.floor(s.length*0.5)].toFixed(2), p90:+s[Math.floor(s.length*0.9)].toFixed(2)}; })"""
+UI_JS = r"""(()=>{ const out=[]; for(const el of document.querySelectorAll('body *')){ if(!el.id&&!(el.className&&String(el.className).match(/panel|sheet|menu|shop|toast|modal|pop/i))) continue; const cs=getComputedStyle(el); if(cs.display==='none'||cs.visibility==='hidden'||el.offsetParent===null&&cs.position!=='fixed') continue; const t=(el.innerText||'').trim(); if(!t) continue; const r=el.getBoundingClientRect(); if(r.width<40||r.height<20) continue; out.push([el.id||String(el.className).slice(0,30), t.replace(/\s+/g,' ').slice(0,120)]); if(out.length>=8) break; } return out; })()"""
 HIDE_PEOPLE = "(h=>{ const E=GAME.E; const L=[E.player].concat(E.npcs||[]); for(const n of L){ if(n&&n.obj){ if(h){ n.obj.userData._ccv=n.obj.visible; n.obj.visible=false; } else if(n.obj.userData._ccv!==undefined){ n.obj.visible=n.obj.userData._ccv; delete n.obj.userData._ccv; } } } return L.length; })"
 GAMECAM = "(()=>{ const E=GAME.E, r=E.renderer; r.render(E.scene,E.camera); return r.domElement.toDataURL('image/png'); })()"
 
@@ -125,7 +137,10 @@ async def do_func(pg, cdp, tag, rm, zid):
                 if not q['busy']: break
                 await pg.wait_for_timeout(400)
         m1 = await pg.evaluate("GAME.G.money|0")
-        res['order'] = {'reach': ok_reach, 'picked': picked, 'said': said, 'money': [m0, m1], 'verdict': 'PASS' if ok_reach and (m1 < m0 or said > 0) else ('FAIL' if ok_reach else 'UNKNOWN')}
+        ui = await pg.evaluate(UI_JS) if ok_reach and not picked and not said else None
+        # PC GATE_CAL_bd86：便利商店按「結帳」沒有出選單也沒有對話＝探針看不懂那個畫面，記下畫面上的字、判 UNKNOWN（交 BB 看圖），不當 FAIL
+        res['order'] = {'reach': ok_reach, 'picked': picked, 'said': said, 'money': [m0, m1], 'ui': ui,
+                        'verdict': 'PASS' if ok_reach and (m1 < m0 or said > 0) else ('UNKNOWN' if (not ok_reach or (not picked and not said)) else 'FAIL')}
     else:
         res['order'] = {'verdict': 'UNKNOWN', 'why': '沒有點餐／結帳類的互動點（這間可能不賣東西：交 BB 看）'}
     if rm['seat']:
@@ -139,7 +154,8 @@ async def do_func(pg, cdp, tag, rm, zid):
         if q['interact'].startswith('離開') or q['interact'].startswith(ex['label'][:3]): break
         await L.go_to(pg, cdp, R, ex['x'], ex['z'], 0.6, '%s ⑦ 走到「%s」（第 %d 段）' % (tag, ex['label'], k + 1), max_s=40); await pg.wait_for_timeout(600)
     q = await D.st(pg)
-    if q['interact'].startswith(ex['label'][:3]):
+    if q['zone'] != zid: ok_out = True   # PC GATE_CAL_1cd2 泰米：走到門口就自己出去了（門是走進去就觸發）＝出得去
+    elif q['interact'].startswith(ex['label'][:3]):
         await L.tap(pg, cdp, '#interact'); s = await D.wait_zone(pg, cdp, ex['to'] or '', 20); ok_out = s['zone'] != zid
     res['out'] = {'verdict': 'PASS' if ok_out else 'FAIL', 'zone_after': (await D.st(pg))['zone']}
     return res
@@ -164,7 +180,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     row['v']['1_clerk'] = 'PASS' if ppl['clerk'] > 0 else ('FAIL' if rm['counter'] else 'UNKNOWN')
     await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(400)
     s1 = await snap(pg, (ex + ux * 1.0, 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8), 66)
+    await pg.evaluate(HIDE_PEOPLE + '(true)')   # PC GATE_CAL_1cd2：人站在窗前，泰米夜窗深藍只算到 42.9%＝誤判 PASS
     s2 = await snap(pg, (cx, 1.6, cz), (ex - ux * 2.0, 1.8, ez - uz * 2.0), 60, win=True)
+    await pg.evaluate(HIDE_PEOPLE + '(false)')
     vx, vz = cx - ck['x'], cz - ck['z']; vm = math.hypot(vx, vz) or 1
     s3 = await snap(pg, (ck['x'] + vx / vm * 2.5, 1.6, ck['z'] + vz / vm * 2.5), (ck['x'], 1.1, ck['z']), 60)
     sup = await snap(pg, (cx, 1.6, cz), (cx + 0.01, 8.0, cz + 0.3), 70)
@@ -173,9 +191,13 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     aup = await pg.evaluate(ANA_JS, {'u': sup['u']}); a5 = await pg.evaluate(ANA_JS, {'u': u5})
     # ② 窗景
     if a2['rects']:
-        worst = max(a2['rects'], key=lambda r: r['top_pct']); row['m']['window'] = {'rects': a2['rects'][:6]}
-        row['v']['2_window'] = 'FAIL' if worst['top_pct'] > 80 else 'PASS'
-        row['m']['window']['worst'] = [worst['top_pct'], worst['top_rgb'], worst['rect'][4]]
+        big = [r for r in a2['rects'] if r['n'] >= 300] or a2['rects']
+        worst = max(big, key=lambda r: r['top_pct']); flat = min(big, key=lambda r: r.get('edge_pct', 100)); row['m']['window'] = {'rects': a2['rects'][:6]}
+        # 單色（一種顏色 >80%）或沒有細節（相鄰像素亮度差 >12 的比例 < EDGE_LO）＝FAIL；EDGE_LO～EDGE_HI＝UNKNOWN（校正：1cd2 泰米 20:30 夜窗、2771 修好）
+        if worst['top_pct'] > 80 or flat.get('edge_pct', 100) < EDGE_LO: row['v']['2_window'] = 'FAIL'
+        elif flat.get('edge_pct', 100) < EDGE_HI: row['v']['2_window'] = 'UNKNOWN'
+        else: row['v']['2_window'] = 'PASS'
+        row['m']['window']['worst'] = [worst['top_pct'], worst['top_rgb'], worst['rect'][4]]; row['m']['window']['least_edges'] = [flat.get('edge_pct'), flat['rect'][4]]
     else:
         row['v']['2_window'] = 'UNKNOWN'; row['m']['window'] = {'why': '找不到窗玻璃的網格（名字／材質沒有 glass、window、窗，也沒有半透明材質）'}
     # ③ 天花板
@@ -217,8 +239,11 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         s4 = await snap(pg, base, tgt); s4l = await snap(pg, (base[0] - px * 1.5, 1.6, base[2] - pz * 1.5), tgt); s4r = await snap(pg, (base[0] + px * 1.5, 1.6, base[2] + pz * 1.5), tgt)
         await pg.evaluate(HIDE_PEOPLE + '(false)'); await pg.evaluate(D.HUD + '(true)')
         pd = await pg.evaluate(CROPDIFF_JS, {'us': [s4l['u'], s4['u'], s4r['u']]}); a4 = await pg.evaluate(ANA_JS, {'u': s4['u']})
-        pmin = min(pd['lc'], pd['cr']); row['m']['parallax'] = pd; row['m']['outside_magenta'] = a4['magenta_pct']
-        row['v']['5_parallax'] = v3(PAR_LO, PAR_HI, pmin, low_bad=True)
+        # 判法改射線（PC GATE_CAL：左右移 1.5 m 連平面圖的畫面也整個變，像素差不能分立體）：從店外鏡頭往門面打 24×16 條，略過玻璃、半透明、人；
+        # 門面距離＝最常見的距離（0.25 m 一格），門面後面 0.8 m 以上還打得到東西的比例＝deep；平面圖／貼在玻璃後面的卡片 deep≈0
+        rays = await pg.evaluate(DEPTH_JS, {'from': list(base), 'at': list(tgt)})
+        row['m']['parallax'] = {'pixel_diff_info_only': pd, 'rays': rays}; row['m']['outside_magenta'] = a4['magenta_pct']
+        row['v']['5_parallax'] = v3(PAR_LO, PAR_HI, rays.get('deep', 0), low_bad=True) if rays.get('n', 0) >= 50 else 'UNKNOWN'
     elif '5' in PARTS:
         row['v']['5_parallax'] = 'UNKNOWN'; row['m']['parallax'] = {'why': '出口沒有 spawn／to'}
     errs = cons[c0:]; row['m']['console'] = errs[:5]
