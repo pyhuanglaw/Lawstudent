@@ -106,6 +106,10 @@ BOT_FLOOR_JS = r"""(a=>{ const E=GAME.E; const H=(x,z)=>E.heightAt(x,z,0); const
     if(!E.canStand(x,z,0.3,0)||!flat(x,z)) continue; let ok=true; for(let k=0;k<16&&ok;k++){ const t=k*Math.PI/8; if(!notStair(x+0.3*Math.cos(t),z+0.3*Math.sin(t))) ok=false; } if(!ok) continue;
     best={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2),h:+H(x,z).toFixed(3)}; }
   return {best, base:a.base, hBot:+H(a.bot[0],a.bot[1]).toFixed(3)}; })"""
+BOT_EXIT_JS = r"""(()=>{ const E=GAME.E; const ex=E.interactables.find(i=>i.exit&&(i.lv|0)===0&&/離開/.test(i.label||'')); if(!ex) return {best:null, why:'第 0 層沒有「離開」出口'};
+  let best=null; for(let dx=-1.0;dx<=1.0001;dx+=0.05) for(let dz=-1.0;dz<=1.0001;dz+=0.05){ const x=ex.x+dx, z=ex.z+dz, d=Math.hypot(dx,dz); if(d>1.0||!E.canStand(x,z,0.3,0)) continue; const h=E.heightAt(x,z,0);
+    if(!best||h<best.h-0.01||(Math.abs(h-best.h)<=0.01&&d<best.d)) best={x:+x.toFixed(2),z:+z.toFixed(2),d:+Math.hypot(x-ex.x,z-ex.z).toFixed(2),h:+h.toFixed(3)}; }
+  return {best, exit:[ex.x,ex.z], base:best?best.h:null, hBot:+E.heightAt(-3.35,5.6,0).toFixed(3)}; })()"""
 # 點地時遊戲 E.screenToFloor 打到什麼（E.update 呼叫的那幾次＝真的點擊）：命中點、在不在樓梯（userData.stairEnds）
 TAPREC_JS = r"""(()=>{ const E=GAME.E; window.__ccTapHits=[]; if(!E.__ccTapHook){ E.__ccTapHook=1; const s0=E.screenToFloor; E.screenToFloor=function(x,y){ const h=s0.apply(this,arguments); try{ const st=String(new Error().stack||''); if(st.indexOf('update')>=0) window.__ccTapHits.push({sx:Math.round(x),sy:Math.round(y),hit:h?[+h.x.toFixed(2),+(+h.y).toFixed(2),+h.z.toFixed(2),h.lv|0]:null,stair:!!(h&&h.obj&&h.obj.userData&&h.obj.userData.stairEnds),pl:[+E.player.obj.position.x.toFixed(2),+E.player.obj.position.z.toFixed(2),E.player.lv|0]}); }catch(_){ } return h; }; } return true; })()"""
 SHOT_DONE = set()
@@ -387,10 +391,12 @@ async def item7(pg, cdp):
             await pg.evaluate(TAPREC_JS)
             # N1_MOKU_PLANT_7（01679）：一樓地板不是 0（門口 (-3.71, 6.51) 一帶高 0.2），用 0 當地板高找不到點、退回 BB 的 (-3.35, 5.60)＝在樓梯上（高 0.98）。地板高改用門口那一點量
             base = await pg.evaluate("GAME.E.heightAt(-3.72,6.6,0)")
-            bf = await pg.evaluate(BOT_FLOOR_JS, {'bot': list(STAIR_BOT), 'base': base})
-            if not bf.get('best'): R.check('7. %s 找得到第一階前面的地板（地板高 %s）' % (nm, base), False, J(bf)); continue
+            # CC-C 11-12（be1e 雲端量）：木曜日第 0 層只有進門那一段樓梯間（x −4.5～−3、z 2.6～7），沒有「第一階前面的平地板」；
+            # 7b／7c 一直「找不到」＝探針的找法錯（CC_02 乙 2／乙 8）。玩家說的「樓梯底」＝一樓出口「離開木曜日」旁邊、第 0 層站得住、最低的那一點
+            bf = await pg.evaluate(BOT_EXIT_JS)
+            if not bf.get('best'): R.check('7. %s 找得到樓梯底（一樓出口旁邊第 0 層站得住的最低點）' % nm, False, J(bf)); continue
             tgt = (bf['best']['x'], bf['best']['z']) if bf.get('best') else STAIR_BOT
-            R.note('%s 目標：第一階前面的地板 %s（離 BB 的樓梯底 %s m；地板高 %s、樓梯底那一點高 %s）' % (tag, J(tgt), (bf.get('best') or {}).get('d'), bf.get('base'), bf.get('hBot')))
+            R.note('%s 目標：樓梯底＝一樓出口 %s 旁邊第 0 層最低、站得住的點 %s（離出口 %s m、高 %s；BB 原本的 (-3.35,5.60) 在樓梯中段、高 %s）' % (tag, J(bf.get('exit')), J(tgt), (bf.get('best') or {}).get('d'), bf.get('base'), bf.get('hBot')))
             ok, why = await walk_segments(pg, cdp, tag, tgt[0], tgt[1], 0, 300 if lv == 1 else 420)
             th = await pg.evaluate("(window.__ccTapHits||[]).slice(-12)")
             R.note('%s 這一趟遊戲收到的點擊（命中點、在不在樓梯上）：%s' % (tag, J(th)))
