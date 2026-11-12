@@ -537,7 +537,7 @@ const GAME = (function(){
   // ---------- 選單 ----------
   let menuOpen=false;
   function openMenu(tab){ if(tab==='people'||tab==='map'){ openPhone(tab==='people'?'friends':'places'); return; }   /* 2026-10-16 使用者：右上角手機和選單內容重複——人物併進手機「朋友」、地圖併進手機「地點」；選單只留筆記本、存檔、設定、說明 */
-    menuOpen=true; E.paused=true; $('menu').classList.remove('hide'); renderNotes(); if(typeof JOURNAL!=='undefined'){ JOURNAL.reset(); JOURNAL.render($('journalBox'),G); } if(typeof GIFTH!=='undefined'&&GIFTH.renderBag&&$('itemsList')) GIFTH.renderBag($('itemsList'),G);   /* 物品（X291，src/gifthol3d.js）：包包裡的禮物、她送的 */ renderPeople(); renderLegal(); renderMap(); renderSlots(); if(tab) switchTab(tab); }
+    menuOpen=true; E.paused=true; $('menu').classList.remove('hide'); renderNotes(); if(typeof JOURNAL!=='undefined'){ JOURNAL.reset(); JOURNAL.render($('journalBox'),G); } if($('itemsList')){ if(typeof GIFTH!=='undefined'&&GIFTH.renderBag) GIFTH.renderBag($('itemsList'),G); else $('itemsList').innerHTML=''; if(typeof GG3!=='undefined'&&GG3.ownHTML) $('itemsList').insertAdjacentHTML('beforeend',GG3.ownHTML(G)); }   /* 物品（X291，src/gifthol3d.js）：包包裡的禮物、她送的；後面接雜貨店買的東西（GG3.ownHTML，src/gg3shops3d.js；G.flags.GG3_OWN）*/ renderPeople(); renderLegal(); renderMap(); renderSlots(); if(tab) switchTab(tab); }
   function closeMenu(){ menuOpen=false; E.paused=false; $('menu').classList.add('hide'); }
   GM.openMenu=openMenu; GM.closeMenu=closeMenu;
   GM.saveMenu=()=>new Promise(res=>{ const g=GM.loadGen; openMenu('save'); const iv=setInterval(()=>{ if(!menuOpen){ clearInterval(iv); if(GM.loadGen===g) res(); } },200); });   /* 在家的選單「存檔」：打開存檔分頁，關掉以後回到家裡的選單（home3d.js）；從這裡讀檔（世代換了）＝舊的家裡選單不醒（LOADGEN-LOCKS-1028）*/

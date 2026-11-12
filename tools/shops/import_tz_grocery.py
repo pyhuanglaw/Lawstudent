@@ -11,12 +11,13 @@
 稿的格式（AA_823）：
   shop {id, name, hours, note}　staff {who, greet[], closed_line, closed_outside, no_money, not_open?}
   items {<id>: {name, price, where（哪一個互動點的貨架）, line（那一樣的一句說明）}}
-  looks {<貨架的 kind>: {button, t}、<結帳的 kind>: {button, ask, after[], empty, after_<x>?, after_<x>_when?}}
+  looks {<貨架的 kind>: {button, t}、<結帳的 kind>: {button, ask, after[], empty, cancel（「就這些嗎？」選「不用了」的旁白）, after_<x>?, after_<x>_when?}}
+  pick（最上層；從貨架拿起一樣東西的旁白，每拿一樣說一次；沒有品名的空格）
 資料檔的格式（照 TZ_MEAL_LINES 的寫法，src/gg3shops3d.js 直接讀）：
   name、who、layout、hours（稿的字串；真的檢查的時間在 places.js）、door＝[[說話的人, 字]…]（稿的 greet：一天第一次進門說一句）、
   close（closed_line）、sign（closed_outside）、notOpen（not_open；稿有才有）、look {貨架的 kind: [字]}、labels {kind: 按鈕的字}、
   grocery {point（結帳的 kind）、ask、after[]、afterIf {ids[], line}（稿的 after_<x>：這一次買的東西裡有 ids 其中一樣才說，取代 after；ids 寫在 SCRIPTS 的 after_if，
-           而且每一個 id 都要出現在稿的 after_<x>_when 那一句說明裡，不然停下來）、empty（手上沒有東西去結帳）、short（no_money）、
+           而且每一個 id 都要出現在稿的 after_<x>_when 那一句說明裡，不然停下來）、empty（手上沒有東西去結帳）、cancel（不用了）、pick（拿起一樣）、short（no_money）、
            goods [{id, n, p, at（貨架的 kind）, line}]（順序照稿）}
 
 測試：node tests/tz_dongnan_aa823_1112_unit.js（逐字對稿）。
@@ -30,7 +31,7 @@ import import_guard as IG
 
 OUT = 'src/data/tz_grocery_lines.js'
 SCRIPTS = [
-    {'zone': 'tz_dongnan', 'layout': 'dongnan', 'path': 'docs/story_planning/AA_823_tz_dongnan.json', 'sha': '6f1308ee5',
+    {'zone': 'tz_dongnan', 'layout': 'dongnan', 'path': 'docs/story_planning/AA_823_tz_dongnan.json', 'sha': '3d0ab9944',
      'counter': 'tz_dongnan_counter',   # looks 裡哪一個是結帳（其他的都是貨架）
      'after_if': {'spicy': ['tz_dn_noodle', 'tz_dn_noodle5', 'tz_dn_sauce']}},   # 稿的 after_spicy_when：「買的東西裡有泡麵（tz_dn_noodle、tz_dn_noodle5）或辣醬（tz_dn_sauce）才出，取代 after」
 ]
@@ -87,7 +88,7 @@ def one(spec):
         doc = json.loads(git('show', f"{spec['sha']}:{spec['path']}"))
     except subprocess.CalledProcessError:
         die(f"讀不到 {spec['sha']}:{spec['path']}（淺層複本：git fetch origin claude/magical-albattani-bk7b4n 或企劃線）")
-    keys(doc, ['shop', 'staff', 'items', 'looks'], W, opt=['_meta'])
+    keys(doc, ['shop', 'staff', 'items', 'looks', 'pick'], W, opt=['_meta'])
     shop = keys(doc['shop'], ['id', 'name', 'hours'], W + ' shop', opt=['note'])
     if shop['id'] != W:
         die(f"{W}：稿的 shop.id 是 {shop['id']}")
@@ -110,7 +111,7 @@ def one(spec):
     if len(ifs) > 1:
         die(W + ' after_if：只認得一個')
     opt = [f'after_{x}' for x in ifs] + [f'after_{x}_when' for x in ifs]
-    keys(C, ['button', 'ask', 'after', 'empty'] + opt, f"{W} looks.{spec['counter']}")
+    keys(C, ['button', 'ask', 'after', 'empty', 'cancel'] + opt, f"{W} looks.{spec['counter']}")
     labels[spec['counter']] = fix(C['button'], W + ' 結帳 button')
     items = doc['items']
     if not isinstance(items, dict) or not items:
@@ -138,7 +139,7 @@ def one(spec):
            'close': fix(staff['closed_line'], W + ' staff.closed_line'), 'sign': narr(staff['closed_outside'], W + ' staff.closed_outside'),
            'look': look, 'labels': labels,
            'grocery': {'point': spec['counter'], 'ask': fix(C['ask'], W + ' 結帳 ask'), 'after': strs(C['after'], W + ' 結帳 after'), 'afterIf': after_if,
-                       'empty': narr(C['empty'], W + ' 結帳 empty'), 'short': narr(staff['no_money'], W + ' staff.no_money'), 'goods': goods}}
+                       'empty': narr(C['empty'], W + ' 結帳 empty'), 'cancel': narr(C['cancel'], W + ' 結帳 cancel'), 'pick': narr(doc['pick'], W + ' pick'), 'short': narr(staff['no_money'], W + ' staff.no_money'), 'goods': goods}}
     if 'not_open' in staff:
         out['notOpen'] = narr(staff['not_open'], W + ' staff.not_open')
     return out
@@ -158,7 +159,7 @@ def render(data):
     head = ('/* ===== 汀州路雜貨店的店內文字（TINGZHOU-SHOPS5-1110）——自動產生，不要手改 =====\n'
             f'   來源：AA 的稿 {src}（AA 定稿 D109；白名單 docs/handoff/story_import_allow.json）。\n'
             '   產生：python3 tools/shops/import_tz_grocery.py（字一字照稿；door＝[說話的人, 字]；格式說明在那支工具開頭）。\n'
-            '   流程在 src/gg3shops3d.js（S.addGroceries、S.groceryShelf、S.groceryPay）；測試 node tests/tz_dongnan_aa823_1112_unit.js（逐字對稿）。 */\n')
+            '   流程在 src/gg3shops3d.js（S.addGroceries、S.groceryShelf、S.groceryPay；買的東西記在 G.flags.GG3_OWN、選單「物品」看得到）；測試 node tests/tz_dongnan_aa823_1112_unit.js（逐字對稿）。 */\n')
     body = 'const TZ_GROCERY_LINES={\n' + ',\n'.join(f'  {json.dumps(k)}:{json.dumps(v, ensure_ascii=False, separators=(",", ":"))}' for k, v in data.items()) + '\n};\n'
     body += 'TZ_GROCERY_LINES._src=' + json.dumps({s['zone']: {'sha': s['sha'], 'doc': s['path']} for s in SCRIPTS}, ensure_ascii=False, separators=(',', ':')) + ';\n'
     return head + "'use strict';\n" + body
