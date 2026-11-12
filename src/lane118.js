@@ -215,10 +215,12 @@ const L118=(function(){
         if(st.usual!=null){ const [un,up]=s.menu[st.usual]; if(await GM.choose([{t:S.USUAL_OPTS[0],hint:un,dim:(G.money|0)<up},{t:S.USUAL_OPTS[1]}])===0){ k=st.usual; if(typeof EAT!=='undefined'&&EAT.atNow) EAT.atNow(G,s.name); } } }   /* 「好」＝直接點上次那一樣（不出選單；點餐那一刻照樣記給「一起吃」用）*/
       else await GM.say(clerk,s.greet.text);
       const names=s.menu.map(m=>m[0]), prices=s.menu.map(m=>m[1]), opts=s.menu.map(([n,p])=>({t:n+'　'+p+' 元',dim:(G.money|0)<p})).concat([{t:'不用了'}]);
+      const gO=s.drink&&typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,s.name):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-L118-DRINK-1112，src/gift3d.js）：放在「不用了」後面，原本的選項位置不動 */
       /* 選單的「老樣子」（src/eat3d.js，AA_329 第 3 節）：118 巷九間照 AA_480 第 2 節合併——不說 AA_329 第 5 次那一句（第 3 次起已經認得你）；
          第 5 次起照樣有「老樣子」、選了店員回 AA_329 最右欄那句（說話的人照 S.STAFF）；店員這一次已經主動問過（第 8 次起的「老樣子」那句）＝選單不另外出 */
       const asked=!!(st&&st.usual!=null);
       if(k<0) k=typeof EAT!=='undefined'?await EAT.choose(GM,s.name,opts,names,prices,{who:clerk.name,line5:false,usual:!asked}):await GM.choose(opts);
+      if(gO&&k===s.menu.length+1){ await GIFT.buy(GM,s.name); return true; }
       if(k>=s.menu.length) return true; const [item,price]=s.menu[k];
       if((G.money|0)<price){ GM.toast('錢不夠'); return true; }
       GM.money(-price,'餐費'); await GM.say(null,Dd.orderLine.replace('{品名}',item)); S.visit(G,shopId,item);   /* 熟客的次數、上次點的（AA_311 第 2 節）*/

@@ -36,12 +36,15 @@ const GIFT=(function(){
     {n:'美式咖啡',cat:'drink',p:45,cafe:100,temp:'hot',opt:[['熱的',''],['冰的','（冰的）',0,'cold']]},{n:'拿鐵',cat:'drink',p:55,cafe:120,temp:'hot'},{n:'熱可可',cat:'drink',p:50,cafe:110,temp:'hot',opt:[['就這樣',''],['加一份濃縮','（加一份濃縮）',20]]}];
   /* 完整品項名（名字＋再選一次加的字）→ 冷熱、種類 */
   S.TEMP={}; S.CAT={}; for(const it of S.ITEMS) for(const o of it.opt||[['','']]){ S.TEMP[it.n+o[1]]=o[3]||it.temp||null; S.CAT[it.n+o[1]]=it.cat; }
-  S.sells=(shop,it)=>shop==='便利商店'||(shop==='兩點半 Café'&&it.cafe!=null);   /* 便利商店全部；2:30 AM 只有咖啡、熱可可（店名 key 照 story3d.js counter）。蛋餅、蘿蔔糕：沒有早餐店（AA-B 11-08：不加）*/
+  /* 118 巷的外帶飲料店（GIFT-L118-DRINK-1112，使用者 2026-11-12：「買飲料送給可攻略的對象到底是要怎麼觸發 我去飲料店還是只能自己喝啊」）：
+     那一間菜單上和這裡同名的品項（例：喝不喝咖啡的鮮奶茶、美式咖啡、拿鐵）可以買一份帶走送人，價錢照那一間的菜單；菜單上其他的（冬瓜茶、果茶…）AA 還沒寫收到的反應＝先不能送 */
+  S.l118Price=(shop,it)=>{ const D=typeof LANE118_SHOPS!=='undefined'?LANE118_SHOPS:null, q=D&&D.shops.find(x=>x.drink&&x.name===shop), m=q&&q.menu.find(r=>r[0]===it.n); return m?m[1]:null; };
+  S.sells=(shop,it)=>shop==='便利商店'||(shop==='兩點半 Café'&&it.cafe!=null)||S.l118Price(shop,it)!=null;   /* 便利商店全部；2:30 AM 只有咖啡、熱可可（店名 key 照 story3d.js counter）。蛋餅、蘿蔔糕：沒有早餐店（AA-B 11-08：不加）*/
   S.MAX=3;
   S.SHOP_OPT='買一份帶走送人…';
   const F=G=>{ const f=G.flags||(G.flags={}); const g=f.GIFT&&typeof f.GIFT==='object'?f.GIFT:(f.GIFT={}); for(const k of ['day','fav','n','last','pool','rel']) if(!g[k]||typeof g[k]!=='object') g[k]={}; return g; };
   S.carry=G=>{ if(!Array.isArray(G.carry)) G.carry=[]; G.carry=G.carry.filter(x=>x&&x.n&&x.day===G.day); return G.carry; };   /* 隔天就沒了 */
-  S.price=(it,shop)=>shop==='兩點半 Café'&&it.cafe!=null?it.cafe:it.p;
+  S.price=(it,shop)=>{ const lp=S.l118Price(shop,it); return lp!=null?lp:(shop==='兩點半 Café'&&it.cafe!=null?it.cafe:it.p); };
   S.shopOpt=function(G,shop){ if(!S.ITEMS.some(it=>S.sells(shop,it))||!Object.keys(L()).length) return null; const full=S.carry(G).length>=S.MAX; return {t:S.SHOP_OPT,hint:full?'手上已經拿了 '+S.MAX+' 樣':'飲料、早餐，帶在身上，見面的時候送人',dim:full}; };
   /* 買：品項 → 再選一次（有的話）→ 扣錢、帶著（記在哪一家買的：芷若對便利商店的拿鐵有意見）*/
   S.buy=async function(GM,shop){ const G=GM.G; if(!S.ITEMS.some(it=>S.sells(shop,it))) return null; if(S.carry(G).length>=S.MAX){ GM.toast&&GM.toast('手上已經拿了 '+S.MAX+' 樣了'); return null; }

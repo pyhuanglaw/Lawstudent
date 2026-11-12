@@ -4896,6 +4896,51 @@
    "wants": "X347",
    "task": "NOODLE-NAME-PURGE-1112",
    "note": "使用者對 BB-C 說的（UA-BB-1112-01），BB-C 03:55 轉 LAWWW-C：開發分支 src／docs／tests／tools 由 LAWWW 改"
+  },
+  {
+   "id": "UA-LAWWW-1112-09",
+   "at": "2026-11-12T04:2xZ",
+   "quote": "118巷在手機快速到達一家店都沒有",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X348",
+   "task": "L118-QUICKGO-1112"
+  },
+  {
+   "id": "UA-LAWWW-1112-10",
+   "at": "2026-11-12T04:2xZ",
+   "quote": "而且我下午3點去幾乎每一家店都沒有開",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X349",
+   "task": "L118-HOURS-1112"
+  },
+  {
+   "id": "UA-LAWWW-1112-11",
+   "at": "2026-11-12T04:2xZ",
+   "quote": "他們的營業時間至少是從中午開始到晚上吧",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X349",
+   "task": "L118-HOURS-1112"
+  },
+  {
+   "id": "UA-LAWWW-1112-12",
+   "at": "2026-11-12T04:2xZ",
+   "quote": "然後買飲料送給可攻略的對象到底是要怎麼觸發我去飲料店還是隻能自己喝啊",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X350",
+   "task": "GIFT-L118-DRINK-1112"
+  },
+  {
+   "id": "UA-LAWWW-1112-13",
+   "at": "2026-11-12T04:2xZ",
+   "quote": "飲料店牆壁一直在閃",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X351",
+   "task": "L118-DRINK-WALL-FLICKER-1112"
   }
  ]
 }

@@ -54136,6 +54136,146 @@
     "acceptance": "中秋、冬天從日和便利店／公館燒臘出來不卡",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "L118-QUICKGO-1112",
+   "title": "手機快速前往 118 巷：列出 11 間店、落在各店門口（X348）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "2a667c70e",
+   "next": "【11-12 LAWWW-C】places.js PLACES.l118List／l118Door（2a667c70e）；quick_travel_unit、quick_travel_areas_unit 過；BB 排瀏覽器",
+   "xai": {
+    "receiver": "BB",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "使用者截圖（LAWWW-C 對話）",
+    "acceptance": "瀏覽器實玩",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 04:1x～04:3x 實玩回報（對 LAWWW-C）",
+   "authorized": "使用者直接回報"
+  },
+  {
+   "id": "L118-HOURS-1112",
+   "title": "118 巷的店不午休：開門到打烊連著開（X349；原本 14:00～17:00 九間都關）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "2a667c70e",
+   "next": "【11-12 LAWWW-C】import_lane118.py 把稿上兩段併成一段、顯示的營業時間跟著改（2a667c70e）；公休日照舊；請 AA 把 AA_280 的表改成一樣；林家乾麵、泰米村食也有午休（使用者這次講的是 118 巷，沒動）",
+   "xai": {
+    "receiver": "BB",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "使用者截圖（LAWWW-C 對話）",
+    "acceptance": "瀏覽器實玩",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 04:1x～04:3x 實玩回報（對 LAWWW-C）",
+   "authorized": "使用者直接回報"
+  },
+  {
+   "id": "GIFT-L118-DRINK-1112",
+   "title": "118 巷飲料店可以「買一份帶走送人」（X350：喝不喝咖啡的鮮奶茶、美式咖啡、拿鐵）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "【11-12 LAWWW-C】gift3d.js S.l118Price＋lane118.js 點餐選單多一項（放在「不用了」後面）；tests/gift_l118_drink_1112_unit.js。**還缺**：喝不喝咖啡其他品項（紅茶、綠茶、冬瓜茶、珍珠奶茶）、果茶社六樣、其他飲料店（一盞、青木茶室…）收到的反應 AA 沒寫＝不能送——請 AA 決定要不要寫",
+   "xai": {
+    "receiver": "BB",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "使用者截圖（LAWWW-C 對話）",
+    "acceptance": "瀏覽器實玩",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 04:1x～04:3x 實玩回報（對 LAWWW-C）",
+   "authorized": "使用者直接回報"
+  },
+  {
+   "id": "L118-DRINK-WALL-FLICKER-1112",
+   "title": "118 巷喝不喝咖啡店面：牆壁一直在閃（疊面閃爍；使用者截圖：櫃檯後面的石紋牆、杯架那一面）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "使用者 11-12 實玩「飲料店牆壁一直在閃」；LAWWW2 查 lane118 街景／l118 店面 GLB 那一面是不是兩片面疊在一起，其他幾間一起掃",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 04:1x～04:3x 實玩回報（對 LAWWW-C）",
+   "authorized": "使用者直接回報"
+  },
+  {
+   "id": "L118-CLOSED-LOOKS-OPEN-1112",
+   "title": "118 巷的店沒開的時候畫面還是開著的（使用者截圖：水上便當燈亮、沒有鐵門，按了才說「鐵門拉下來一半」）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "沒開（公休日、打烊後）時店面要看得出來：鐵門拉下來一半、燈暗（照打烊那一句的畫面）；營業時間已改成不午休（L118-HOURS-1112），所以只剩公休日和晚上會遇到",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 04:1x～04:3x 實玩回報（對 LAWWW-C）",
+   "authorized": "使用者直接回報"
   }
  ]
 }
