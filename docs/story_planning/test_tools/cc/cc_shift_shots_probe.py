@@ -60,6 +60,13 @@ OVERLAY = r"""(()=>[...document.querySelectorAll('body *')].filter(e=>{ if(!e.of
   .slice(0,6).map(e=>({id:e.id||'', cls:String(e.className||'').slice(0,40), op:getComputedStyle(e).opacity, bg:getComputedStyle(e).backgroundColor})))()"""
 
 
+TOASTS = r"""(()=>{ const vis=e=>{ const cs=getComputedStyle(e), r=e.getBoundingClientRect(); return cs.display!=='none'&&cs.visibility!=='hidden'&&+cs.opacity>0.05&&r.width>0&&r.height>0; };
+  const L=[...document.querySelectorAll('body *')].filter(e=>e.children.length<=3&&vis(e)&&/^\s*(手機|📱)/.test(e.textContent||'')&&(e.textContent||'').length<200);
+  const top=L.filter(e=>!L.some(o=>o!==e&&e.contains(o)));
+  return {running:typeof JOBS!=='undefined'?!!JOBS.running:null, dlg:(document.getElementById('dlgText')||{}).textContent||'', h:+(+GAME.G.hour).toFixed(3),
+    items:top.slice(0,4).map(e=>({text:(e.textContent||'').trim(), id:e.id||'', cls:String(e.className||''), parentId:(e.parentElement&&e.parentElement.id)||'', parentCls:String((e.parentElement&&e.parentElement.className)||''), op:getComputedStyle(e).opacity}))}; })()"""
+
+
 async def grab(pg, k, nm, sn):
     """拍在當下（舊版在迴圈結束後才拍，兩張其實是同一刻；CC-C 11:3x 修）：遊戲鏡頭＋以祐廷為中心的俯視＋鏡頭位置（南洋：BB-C 11:27 看鏡頭卡在哪）"""
     await pg.screenshot(path=os.path.join(OUT, 'shift_%s_%s_game.png' % (k, nm)))
@@ -68,6 +75,9 @@ async def grab(pg, k, nm, sn):
     if u: open(os.path.join(OUT, 'shift_%s_%s_top.jpg' % (k, nm)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
     cam = await pg.evaluate("(()=>{ const c=GAME.E.camera, p=new THREE.Vector3(); c.getWorldPosition(p); const d=new THREE.Vector3(); c.getWorldDirection(d); return {x:+p.x.toFixed(2),y:+p.y.toFixed(2),z:+p.z.toFixed(2),dir:[+d.x.toFixed(2),+d.y.toFixed(2),+d.z.toFixed(2)]}; })()")
     R.note('[%s] %s 鏡頭位置 %s（俯視以祐廷為中心）' % (k, nm, json.dumps(cam, ensure_ascii=False)))
+    # LAWWW-C 11:48：上班中跳出來的手機橫幅——完整文字、DOM id／class、當下 JOBS.running、那一句
+    tb = await pg.evaluate(TOASTS)
+    R.note('[%s] %s 畫面上的橫幅／toast：%s' % (k, nm, json.dumps(tb, ensure_ascii=False)))
     if nm == 'first':
         u = await pg.evaluate(TOP, {'x': cam['x'], 'y': 0, 'z': cam['z']})
         if u: open(os.path.join(OUT, 'shift_%s_%s_top_cam.jpg' % (k, nm)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))

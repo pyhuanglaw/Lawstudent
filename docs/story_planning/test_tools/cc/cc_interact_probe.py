@@ -57,13 +57,45 @@ async def main():
                     if not st['busy']: break
                     await pg.wait_for_timeout(600)
                 return lines, menus
-            lines, menus = await once(None, 'a')
+            async def walk_each(n):
+                EXIT = ('離開', '不看', '算了', '返回', '關掉', '先這樣', '走了', '沒事')
+                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+                lines, menus, each = [], [], []; root = None; done = set(); cur = None
+                for k in range(200):
+                    st = await pg.evaluate(ST)
+                    if st['choices']:
+                        menus.append(st['choices'])
+                        if root is None: root = st['choices']
+                        if len(set(st['choices']) & set(root)) >= max(2, 0.7 * len(root)):   # 清單（看過的可能加了記號：重疊 7 成以上算同一份）
+                            root = st['choices']
+                            todo = [i for i, t in enumerate(root) if i not in done and not any(w in t for w in EXIT)]
+                            if todo: i = todo[0]; done.add(i); cur = {'option': root[i], 'first': '', 'lines': []}; each.append(cur)
+                            else: i = next((j for j, t in enumerate(root) if any(w in t for w in EXIT)), len(root) - 1); cur = None
+                            await pg.screenshot(path=os.path.join(OUT, 'menu_%s_%d_each_%02d.png' % (TAG, n, len(each))))
+                        else:
+                            i = next((j for j, t in enumerate(st['choices']) if any(w in t for w in EXIT)), 0)
+                        lines.append('▶ ' + st['choices'][i]); (cur['lines'].append('▶ ' + st['choices'][i]) if cur else None)
+                        await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(800); continue
+                    if st['dlg']:
+                        ln = st['who'] + '｜' + st['t']
+                        if not lines or lines[-1] != ln:
+                            lines.append(ln)
+                            if cur is not None:
+                                if not cur['first']: cur['first'] = ln; await pg.screenshot(path=os.path.join(OUT, 'line_%s_%d_each_%02d.png' % (TAG, n, len(each))))
+                                cur['lines'].append(ln)
+                        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+                    if not st['busy']:
+                        if root is not None and any(i not in done and not any(w in t for w in EXIT) for i, t in enumerate(root)):
+                            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue   # 這一層看完就整個結束了：再按一次互動點回到清單
+                        break
+                    await pg.wait_for_timeout(600)
+                return lines, menus, each
             each = []
-            if EACH and menus:
-                for idx in range(len(menus[0])):
-                    l2, m2 = await once(idx, 'o%02d' % idx)
-                    each.append({'option': menus[0][idx], 'lines': l2, 'menus': m2})
-                    R.note('%s 選項 %d「%s」：%s' % (tag, idx, menus[0][idx], J(l2)))
+            if EACH:   # BB-C 11:45：按完一個社團會回到同一份清單＝舊版第二次出現時選第 1 個（吉他社）一直循環。改成：同一份清單每出現一次按下一個，全部按過再按離開那一類
+                lines, menus, each = await walk_each(n)
+                for e in each: R.note('%s 選項「%s」：第一句「%s」；整段 %s' % (tag, e['option'], e['first'], J(e['lines'])))
+            else:
+                lines, menus = await once(None, 'a')
             await pg.screenshot(path=os.path.join(OUT, 'end_%s_%d.png' % (TAG, n)))
             R.note('%s 整段（%d 句、%d 個選單）：%s' % (tag, len(lines), len(menus), J(lines)))
             R.note('%s 選單：%s' % (tag, J(menus)))
