@@ -7883,9 +7883,9 @@
   },
   {
    "path": "docs/story_planning/AA_742_公館六間店_設定與台詞.md",
-   "sha": "8f6650289",
+   "sha": "90fb5fa77",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110；8f6650289（AA 11-11 16:18 回 LAWWW 七格：打烊照 AA_700 統一「我們今天要打烊了。」、泰米 14:00 午休句、泰米開放式廚房、柔軟精旁白）",
+   "approvedBy": "AA 定稿（D109）；90fb5fa77（SHOP-LIFE-AA826-1112：AA_826 lawww_answers 第 7 點「AA_742 午休作廢在 e24b6cec7 改的，重匯用企劃線最新即可」——泰米村食 11:00～21:00 不午休）",
    "task": "GG-SHOPS3-STORY-1110",
    "kind": "md",
    "note": "公館三間（安泰藥局、汀州鮮果、榮恩典文具社）＋汀州路三間（洗樂洗衣坊、印得好、泰米村食）的店家設定、商品價錢、進門、說話、情境、看、打烊、關門、約去泰米村食；③ 日日定食改成泰米村食（tools/shops/import_gg3_shops.py → src/data/gg3_shops_lines.js；流程 src/gg3shops3d.js；③ 手動照抄在 src/sis_grad3d.js、src/story3d.js；tests/gg_shops3_story_1111_unit.js 逐句對照）",
@@ -7893,14 +7893,18 @@
     {
      "sha": "75f5de658",
      "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110"
+    },
+    {
+     "sha": "8f6650289",
+     "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110；8f6650289（AA 11-11 16:18 回 LAWWW 七格：打烊照 AA_700 統一「我們今天要打烊了。」、泰米 14:00 午休句、泰米開放式廚房、柔軟精旁白）"
     }
    ]
   },
   {
    "path": "docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md",
-   "sha": "8f6650289",
+   "sha": "90fb5fa77",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110；8f6650289（內容和 75f5de658 一樣，和 AA_742 同一版一起讀）",
+   "approvedBy": "AA 定稿（D109）；90fb5fa77（和 AA_742 同一版一起讀；SHOP-LIFE-AA826-1112）",
    "task": "GG-SHOPS3-STORY-1110",
    "kind": "md",
    "note": "以這份為準：AA_742 的 kind 對照 LAWWW2 的配置、第 2 節新加／改寫的「看」、要改模型的句子不接、騎樓 sale／rack 不接、汀州鮮果老闆娘那一句換老闆說、印得好老闆那一句換店員說、榮恩典女兒週末不接（tools/shops/import_gg3_shops.py）",
@@ -7908,6 +7912,10 @@
     {
      "sha": "75f5de658",
      "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110"
+    },
+    {
+     "sha": "8f6650289",
+     "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110；8f6650289（內容和 75f5de658 一樣，和 AA_742 同一版一起讀）"
     }
    ]
   },

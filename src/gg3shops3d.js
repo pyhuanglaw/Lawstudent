@@ -6,10 +6,10 @@
    做法照公館第二批（src/gg2shops3d.js），不改它：
    - 營業時間：src/data/places.js 的 hours（區域 id；AA_742 開頭的表）；颱風假六間都關（typhoonShops）。關門時按店門（公館騎樓的「進入○○」、汀州路的「進○○」）：
      颱風假＝洗樂那一句（其他間稿上沒有＝只寫開放時間）；那天公休（印得好、榮恩典週日；泰米週一）＝公休那一句；打烊以後（到清晨 6 點）＝關門那一句；
-     泰米 14:00～17:00＝休息的木牌；開門以前＝只寫開放時間。說完都另外 toast 開放時間（PLACES.closedText）。
+     開門以前＝只寫開放時間。說完都另外 toast 開放時間（PLACES.closedText）。（泰米村食的午休 11-12 取消：AA_742 @ 90fb5fa77，X349——午休那一句、休息的木牌都拿掉了。）
    - 進門：一天第一次進來（一個人；今天約在這裡的不說），隨機一句（G.flags.GG3_DOOR＝{區域: 那天}）。洗樂 24 小時照樣有進門句。
    - 打烊（人還在店裡）：這一趟進來時開著、或那一刻（關門後半小時內）＝那間店自己的那一句（AA_742 每間的「打烊」，取代 AA_700 的通用句；說話的人照稿：藥師、老闆、店員、老闆娘），
-     走到店門外（區域的出口按鈕：配置的 out）；泰米 14:00 也說（AA_742「打烊（14:00、21:00）」）。颱風假、讀檔回到打烊以後＝不說、走出去、寫開放時間。洗樂只有颱風假會請你出去。
+     走到店門外（區域的出口按鈕：配置的 out）。颱風假、讀檔回到打烊以後＝不說、走出去、寫開放時間。洗樂只有颱風假會請你出去。
    - 安泰藥局：藥師櫃台＝照情況挑一句（21:00 以後／期中期末考週／十一月到二月 有就從這幾句挑；沒有＝平常兩句＋「第二次以後來」（以前哪一天來過）），一天挑一次（同一天再按＝同一句，G.flags.GG3_TALK）；
      看貨架＝八樣（暖暖包只有 11～2 月）→ 那一樣的「看的時候的一句」→ 買（扣錢、時間 +S.HRS.buy、toast）／不用了；量血壓＝說明那一句、坐上血壓計前的椅子（有空的話）、量完那一句；看藥品櫃。
    - 汀州鮮果：秤重結帳＝那天第一次先說情境（20:00 以後香蕉 30／期末考週／17:00～20:00「切好的在冰箱。」改老闆說，AA_813）→ 老闆「要什麼？」→ 選單（香蕉 20:00 以後 30）→ 那一樣的「看」
@@ -331,7 +331,6 @@ const GG3=(function(){
   S.doorLine=function(k,G){ const T=D()&&D()[k]; if(!T) return null; if(typhoon(k,G)) return T.typhoon?{t:T.typhoon,why:'typhoon'}:null;
     const ws=wins(k,G.day); if(ws===undefined) return null; if(!ws||!ws.length) return T.off?{t:T.off,why:'off'}:null;   /* 今天公休 */
     const h=hr(G), last=ws[ws.length-1][1]; if((h>=last-1e-6||h<6)&&T.sign) return {t:T.sign,why:'sign'};   /* 打烊以後（到清晨） */
-    if(T.rest&&ws.length>1&&h>=ws[0][1]-1e-6&&h<ws[ws.length-1][0]) return {t:T.rest,why:'rest'};   /* 泰米中午休息 */
     if(T.notOpen&&(h<ws[0][0]||(!T.sign&&h>=last-1e-6))) return {t:T.notOpen,why:'notopen'};   /* 開門以前（清晨 6 點以後；稿有 not_open 的店才說）；稿只有 not_open、沒有打烊以後那一句的店（汀州聯通）＝關著都說這一句 */
     return null; };
   S.door=async function(GM,k){ const G=GM.G, L=S.doorLine(k,G), txt=typeof PLACES!=='undefined'&&PLACES.closedText?PLACES.closedText(k,G.hour,G.day):'';
@@ -350,12 +349,12 @@ const GG3=(function(){
   /* ---------- 打烊：人還在店裡＝出來 ---------- */
   S.closingNow=function(k,G){ if(typhoon(k,G)) return false; const h=hr(G);
     for(const [d,off] of [[G.day,0],[G.day-1,-24]]){ const ws=wins(k,d); if(!ws||!ws.length) continue; if(ws.some(w=>h>=w[1]+off-1e-6&&h<w[1]+off+0.5)) return true; }
-    return false; };   /* 每一段營業結束後半小時內（泰米 14:00 也算；印得好期末延到 24:00＝隔天 0 點）*/
+    return false; };   /* 每一段營業結束後半小時內（印得好期末延到 24:00＝隔天 0 點）*/
   S.gen=function(GM,k){ const G=GM.G; if(typhoon(k,G)) return false; return S.closingNow(k,G)||seen[k]===(GM.enterN|0); };
   S.outOf=function(GM,k){ const L=LAY(k), to=L&&L.outZone, IT=(GM&&GM.E&&GM.E.interactables)||[]; const it=IT.find(q=>q&&q.exit&&q.exit.to&&q.exit.to===to)||IT.find(q=>q&&q.exit&&q.exit.to&&q.exit.to!==k);
     if(it) return {to:it.exit.to,spawn:it.exit.spawn?Object.assign({},it.exit.spawn):undefined}; return {to:to||(k.indexOf('gg_')===0?'gongguan':'tingzhou'),spawn:L&&L.out?Object.assign({},L.out):undefined}; };
   S.closeOut=async function(GM){ const G=GM.G, k=G.zone, T=D()[k], P=GM.E&&GM.E.player, gen=S.gen(GM,k)&&!!T.close, h=G.hour, d=G.day;
-    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await GM.say(W(T.who),(T.closeNoon&&(h%24)>=13.9&&(h%24)<15)?T.closeNoon:T.close); } finally { GM.sceneEnd(); }   /* 泰米 14:00 是午休（AA_742 8f6650289：「我們要午休了，五點再開喔。」），21:00 才是打烊（AA_700 統一句）*/
+    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await GM.say(W(T.who),T.close); } finally { GM.sceneEnd(); }   /* 打烊那一句（AA_700 統一句）；泰米村食的午休句 11-12 取消（AA_742 @ 90fb5fa77）*/
     const o=S.outOf(GM,k); await GM.enter(o.to,o.spawn);
     if(!gen&&typeof PLACES!=='undefined'&&PLACES.closedText&&GM.toast) GM.toast(PLACES.closedText(k,h,d),5000);
     return gen?'close':'out'; };

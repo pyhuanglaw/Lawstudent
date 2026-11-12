@@ -24,7 +24,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as IG
 
-SHA = '8f6650289'   # 2026-11-11 16:18 AA 回七格（打烊統一 AA_700、泰米午休、廚房、柔軟精）；舊 75f5de658
+SHA = '90fb5fa77'   # 2026-11-12 SHOP-LIFE-AA826-1112：泰米午休作廢（AA e24b6cec7；AA_826 lawww_answers 第 7 點）；舊 8f6650289（11-11 AA 回七格）、75f5de658
 P742 = 'docs/story_planning/AA_742_公館六間店_設定與台詞.md'
 P813 = 'docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md'
 OUT = 'src/data/gg3_shops_lines.js'
@@ -235,12 +235,22 @@ def antai(S):
     return {'name': '安泰藥局', 'who': '藥師', 'goods': goods, 'door': door, 'talk': talk, 'bp': bp, 'look': look, 'close': close['close'], 'sign': sign['sign']}
 
 
-def closing(S, W, keys, title='打烊'):
-    """打烊、關門那一節：{打烊: 說話的字}、{關門的情況: 旁白}。"""
+def closing(S, W, keys, title='打烊', struck=(), unused=()):
+    """打烊、關門那一節：{打烊: 說話的字}、{關門的情況: 旁白}。
+    struck＝稿上劃掉（~~…~~）而且寫了「取消」的那幾項：不接；沒有劃掉＝停下來。unused＝稿上還留著、但遊戲已經用不到的那幾項（寫原因在呼叫的地方）：不接。"""
     c, s = {}, {}
+    seen_struck = set()
     for b, _ in bullets(sec(S, title, W)):
         i = b.find('：')
         k = b[:i]
+        m = re.match(r'^~~(.+)~~$', k)
+        if m and m.group(1) in struck:
+            if '取消' not in b[i + 1:]:
+                die(f'{W} {title}：「{k}」劃掉了卻沒有寫取消')
+            seen_struck.add(m.group(1))
+            continue
+        if k in unused:
+            continue
         if k not in keys:
             die(f'{W} {title}：不認得「{k}」')
         v = b[i + 1:].strip()
@@ -253,6 +263,8 @@ def closing(S, W, keys, title='打烊'):
             s[keys[k]] = fix(p, W + ' ' + k)
     if set(c) | set(s) != set(keys.values()):
         die(f'{W} {title}：少了 {set(keys.values()) - set(c) - set(s)}')
+    if seen_struck != set(struck):
+        die(f'{W} {title}：{set(struck) - seen_struck} 應該是劃掉的（稿又改了：先改這支工具和 src/gg3shops3d.js）')
     return c, s
 
 
@@ -552,7 +564,8 @@ def taimi(S):
         if k not in SK:
             die(f'{W} 坐下：不認得「{k}」')
         seat[SK[k]] = narr(after_colon(b, W), W + ' 坐下')[1]
-    close, sign = closing(S, W, {'午休（14:00）': 'closeNoon', '打烊（21:00）': 'close', '14:00～17:00 到門口': 'rest', '21:00 以後到門口': 'sign', '週一到門口': 'off'}, title='打烊、休息、關門')   # 8f6650289：14:00 午休另一句（原本「打烊（14:00、21:00）」同一句）
+    # 90fb5fa77（AA e24b6cec7，X349）：午休取消——「午休（14:00）」那一句稿上劃掉了；「14:00～17:00 到門口」的木牌稿上還留著，但店下午不關了（places.js 11:00～21:00 一段），永遠輪不到＝不接（回報 AA）
+    close, sign = closing(S, W, {'打烊（21:00）': 'close', '21:00 以後到門口': 'sign', '週一到門口': 'off'}, title='打烊、休息、關門', struck=('午休（14:00）',), unused=('14:00～17:00 到門口',))
     acc, acc0 = {}, None
     for r in want(8, table(sec(S, '約去吃', W)), W + ' 約去吃'):
         if r[0] not in PEOPLE:
@@ -572,7 +585,7 @@ def taimi(S):
     windows = [[g[0] + g[1] / 60, g[2] + g[3] / 60], [g[4] + g[5] / 60, g[6] + g[7] / 60]]
     seatOpen = [narr(b[0], W + ' 開場句')[1] for b in want(2, bullets(sec(S, '和她坐下以後的開場句', W)), W + ' 開場句')]
     return {'name': '泰米村食', 'who': '老闆娘', 'menu': menu, 'spicy': spicy, 'short': short, 'door': door, 'ask': ask, 'after': after, 'eat': eat, 'look': look,
-            'seat': seat, 'close': close['close'], 'closeNoon': close['closeNoon'], 'rest': sign['rest'], 'sign': sign['sign'], 'off': sign['off'],
+            'seat': seat, 'close': close['close'], 'sign': sign['sign'], 'off': sign['off'],
             'invite': {'acc0': acc0, 'acc': acc, 'windows': windows, 'seatOpen': seatOpen}}
 
 
