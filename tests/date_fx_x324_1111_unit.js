@@ -26,7 +26,7 @@ const sum=(id,k)=>ADJ.filter(([w,d])=>w===id&&d[k]!=null).reduce((a,[,d])=>a+d[k
   // 1
   const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===C.FX_PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved；加 fx 以前的 '+C.FX_PREV+' 在 history',C.ALLOW_SHA==='07d50af2f7'&&C.KX_1112_PREV==='52c3ee258'&&C.FX_PREV==='248c8e390'&&bad.length===0,J(bad));   /* 2026-11-12（X324 可昕續改，AA_819＋AA_822）：白名單 D01～D33 換 07d50af2f7（只改可昕 72 格的字、fx 沒動）；加 fx 的那一版 52c3ee258＝C.KX_1112_PREV。舊期望：C.ALLOW_SHA==='52c3ee258' */
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved；加 fx 以前的 '+C.FX_PREV+' 在 history',C.ALLOW_SHA==='74e0421b8'&&C.KX_1112_SHA==='07d50af2f7'&&C.KX_1112_PREV==='52c3ee258'&&C.FX_PREV==='248c8e390'&&bad.length===0,J(bad));   /* 2026-11-12 再換 74e0421b8（AA 06:57：只改 D23 海堤可昕一句的字、fx 沒動；07d50af2f7＝C.KX_1112_SHA）。舊期望：C.ALLOW_SHA==='07d50af2f7' */   /* 2026-11-12（X324 可昕續改，AA_819＋AA_822）：白名單 D01～D33 換 07d50af2f7（只改可昕 72 格的字、fx 沒動）；加 fx 的那一版 52c3ee258＝C.KX_1112_PREV。舊期望：C.ALLOW_SHA==='52c3ee258' */
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA)),NOW.source.slice(0,200));
   // 2、3
   const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.ALLOW_SHA,SP+'date_system/lines/'+k+'.json'), u=show(C.FX_PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }

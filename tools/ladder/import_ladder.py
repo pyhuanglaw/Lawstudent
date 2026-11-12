@@ -628,8 +628,8 @@ AA781_PREFIX = 'docs/story_planning/AA_781_'
 AA781_CHOICE_KEYED = {'A7-L5', 'Y6-L3', 'Y4-L6', 'A5-L1', 'A5-L8', 'K5-L2', 'Y5-L1', 'Y5-L6', 'Y5-L7', 'Y5-L8'}   # LAWWW 2026-11-11 列的（另外掃 src 補）
 AA781_CODE_OK = {   # {(舊字, 'src/…js'): '為什麼程式裡那一句不用跟著換'}（只是剛好同一句，不是程式用字認階梯）
     ('……嗯。你也是。', 'src/data/jp_blank_lines.js'): '日本篇空白日立衡的台詞（AA_435），和學姊大三下 S6-L4 剛好同一句；不是用字認階梯，不跟著換'}
-AA781_ROW_SKIP = {   # {(檔名不含 .json, at, old): 為什麼這一列不換}——稿對錯人的列：不換、印出來、紀錄裡記 skip（其他列照換）；AA 改稿以後從這裡拿掉
-    ('AA_781_kx_ladder_Y0S1', 'K0-L8', '……那就是你。不意外。'): '這一句是品妤 PY0-L7 選項的回話（byTerm.Y0S1.econ_pinyu），不是可昕 K0-L8 的；可昕的檔不動別人的字（2026-11-12 匯入時發現，回報 AA）'}
+AA781_ROW_SKIP = {}   # {(檔名不含 .json, at, old): 為什麼這一列不換}——稿對錯人的列：不換、印出來、紀錄裡記 skip（其他列照換）；AA 改稿以後從這裡拿掉。
+                      # 2026-11-12：AA 把 AA_781_kx_ladder_Y0S1 的 K0-L8「……那就是你。不意外。」那一列從稿拿掉了（企劃線 74e0421b8；那一句是品妤 PY0-L7 的回話）→ 這張表清空
 A781 = {} if '--no-aa781' in sys.argv else {p: s for p, s in G.approved_files(ALLOW, AA781_PREFIX).items() if re.match(r'^docs/story_planning/AA_781_[A-Za-z0-9]+_ladder_[A-Za-z0-9_]+\.json$', p)}   # --no-aa781：不疊這一層（測試比「其他人、其他學期零差異」用，配 --out）
 AA781_LOG = []
 if A781:

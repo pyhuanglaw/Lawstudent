@@ -25,9 +25,13 @@ const FINAL='a5e537856';
 const REV2='4bfb18805', REV2_FILES=new Set(['an_ladder_Y1S1','an_ladder_Y1S2','zr_ladder_Y1S2','zr_ladder_Y2S2','zr_ladder_Y3S2'].map(x=>`docs/story_planning/AA_781_${x}.json`));
 /* 2026-11-12（X324 可昕續改，AA-C 定稿，企劃線 07d50af2f7）：AA_819 三連短句——可昕四個檔各加／改幾列（Y1S1 K-L4、Y1S2 K2-L1、Y3S1 K5-L1、Y4S1 K7-L4／K7-L5），白名單這四筆讀 REV3（a5e537856 進 history）；
    另外新交兩個檔：AA_781_kx_ladder_Y0S1／Y0S2（經濟系那一年；帳號 A 的 AA_781 沒做到），白名單各加一筆 @REV3 → 一共 41 個檔。舊期望：可昕八筆都 @a5e537856、一共 39 個檔。
-   Y0S1 稿的最後一列（K0-L8「……那就是你。不意外。」）對錯人——那一句是品妤 PY0-L7 的回話，不是可昕的：工具不換（tools/ladder/import_ladder.py AA781_ROW_SKIP）、紀錄記 skip，已回報 AA；ROW_SKIP 照工具那張表。 */
+   Y0S1 稿的最後一列（K0-L8「……那就是你。不意外。」）對錯人——那一句是品妤 PY0-L7 的回話，不是可昕的：工具不換（tools/ladder/import_ladder.py AA781_ROW_SKIP）、紀錄記 skip，已回報 AA；ROW_SKIP 照工具那張表。
+   2026-11-12 再改（AA-C 06:57「回 LAWWW」，企劃線 74e0421b8）：AA 把那一列從 Y0S1 的稿拿掉了（rows 8 → 7）→ 白名單 Y0S1 改讀 REV4、工具的 AA781_ROW_SKIP 清空、這裡的 ROW_SKIP 也清空；
+   那一句不是可昕的、品妤那一句原樣還在＝GONE 那一項驗（第 3 節）。舊期望：Y0S1@07d50af2f7、ROW_SKIP 一列、紀錄有一筆 skip。 */
 const REV3='07d50af2f7', REV3_FILES=new Set(['kx_ladder_Y1S1','kx_ladder_Y1S2','kx_ladder_Y3S1','kx_ladder_Y4S1'].map(x=>`docs/story_planning/AA_781_${x}.json`)), NEW3=['kx_ladder_Y0S1','kx_ladder_Y0S2'].map(x=>`docs/story_planning/AA_781_${x}.json`);
-const ROW_SKIP=[{file:'AA_781_kx_ladder_Y0S1',term:'Y0S1',who:'kexin',at:'K0-L8',old:'……那就是你。不意外。',owner:'econ_pinyu',ownerAt:'PY0-L7'}];
+const REV4='74e0421b8', REV4_FILES=new Set(['docs/story_planning/AA_781_kx_ladder_Y0S1.json']);
+const ROW_SKIP=[];   /* 舊：[{file:'AA_781_kx_ladder_Y0S1',term:'Y0S1',who:'kexin',at:'K0-L8',old:'……那就是你。不意外。',owner:'econ_pinyu',ownerAt:'PY0-L7'}] */
+const GONE=[{file:'AA_781_kx_ladder_Y0S1',term:'Y0S1',who:'kexin',at:'K0-L8',old:'……那就是你。不意外。',neu:'那就是你。不意外。',owner:'econ_pinyu',ownerAt:'PY0-L7'}];   /* AA 從稿拿掉的那一列 */
 const skipped=(F,term,r)=>ROW_SKIP.some(x=>F.tag.startsWith(x.file+'@')&&x.term===term&&x.at===r.at&&x.old===r.old);
 const BATCH=[['Y1S1','bc4f3f367',['an','yt','kx','zr','sis','zq']],['Y1S2','15241f32e',['zq','zr','kx','sis','an']],['Y2S1','4c710f37a',['zq','kx','zr','yt','sis']],['Y2S2','d898cded5',['kx','zr','zq','sis','yt','an']],['Y3S1','1e48c1f20',['zq','kx','sis','an']],['Y3S2','8e027fc7f',['kx','zq','yt','zr','sis']],
   ['Y4S1','a5e537856',['kx','sis','yt','an']],['Y4S2','a5e537856',['kx','sis','yt','an']]];   /* 學期、最早交的 commit、人 */
@@ -61,7 +65,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
       check(`1. ${path.basename(p)}：最早交的 ${sha} 和 ${FINAL} 內容一樣`,!b0||!b1||b0===b1);
       check(`1. ${path.basename(p)}：${REV2} 和 ${FINAL} ${REV2_FILES.has(p)?'不一樣（AA 再改的五個檔之一）':'內容一樣'}`,!b1||!b2||(b1===b2)===!REV2_FILES.has(p));
       check(`1. 白名單一筆 ${path.basename(p)}@${want}、approved、有 approvedBy、task DLG-FULL-REVIEW-1110${want!==FINAL?'；'+FINAL+' 在 history':''}`,e.length===1&&e[0].sha===want&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].task==='DLG-FULL-REVIEW-1110'&&(want===FINAL||(e[0].history||[]).some(h=>h.sha===FINAL)),J(e.map(x=>[x.sha,x.status]))); }
-    for(const p of NEW3){ const e=allow.filter(x=>x.path===p); check(`1. 白名單一筆 ${path.basename(p)}@${REV3}（可昕經濟系那一年，11-12 新交）、approved、有 approvedBy、task DLG-FULL-REVIEW-1110`,e.length===1&&e[0].sha===REV3&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].task==='DLG-FULL-REVIEW-1110',J(e.map(x=>[x.sha,x.status]))); }
+    for(const p of NEW3){ const e=allow.filter(x=>x.path===p), want=REV4_FILES.has(p)?REV4:REV3; check(`1. 白名單一筆 ${path.basename(p)}@${want}（可昕經濟系那一年，11-12 新交${want===REV4?'；同一天 AA 拿掉 K0-L8 一列，'+REV3+' 在 history':''}）、approved、有 approvedBy、task DLG-FULL-REVIEW-1110`,e.length===1&&e[0].sha===want&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].task==='DLG-FULL-REVIEW-1110'&&(want===REV3||(e[0].history||[]).some(h=>h.sha===REV3)),J(e.map(x=>[x.sha,x.status]))); }
     check('1. 白名單上的 AA_781 階梯檔一共 41 個（七個人八學期 39 個，AA_779 第 4 節；＋可昕經濟系 Y0S1、Y0S2 兩個）',F781.length===41,F781.length);   /* 2026-11-12（AA_781_kx_ladder_Y0S1／Y0S2@07d50af2f7）：舊期望 39 */
     check('1. ladder.js 的來源有寫 AA_781 通用層（'+F781.length+' 檔）',String(L.source).includes('＋AA_781 通用層 '+F781.length+' 檔'),String(L.source).slice(-120));
     check('1. 重匯跑得完（結束碼 0），和 src/data/ladder.js 一字不差',rA.status===0&&fs.readFileSync(outA,'utf8')===fs.readFileSync(path.join(H.ROOT,'src/data/ladder.js'),'utf8'),(rA.stderr||rA.stdout||'').slice(-300));
@@ -95,6 +99,11 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
     for(const x of ROW_SKIP){ const F=F781.find(F=>F.tag.startsWith(x.file+'@')), r=F&&F.A&&(F.A.rows||[]).find(r=>r.at===x.at&&r.old===x.old), lg=LOG.filter(y=>y.file===(F&&F.tag)&&y.term===x.term&&y.at===x.at&&y.skip);
       const mine=texts(layerOf(cell(L,x.term,x.who),x.at)||{}), own=texts(layerOf(cell(L,x.term,x.owner),x.ownerAt)||{}), own0=B?texts(layerOf(cell(B,x.term,x.owner),x.ownerAt)||{}):own;
       check(`3. ${x.file} ${x.term} ${x.at}「${x.old}」稿對錯人：工具不換、紀錄記一筆 skip；${x.who} 那一層本來就沒有這一句（新字也沒有）；${x.owner} ${x.ownerAt} 那一句原樣還在`,(!haveDrafts||!!r)&&lg.length===1&&!mine.includes(x.old)&&(!r||!mine.includes(r.new))&&own.includes(x.old)&&J(own)===J(own0),J([lg.length,mine.includes(x.old),own.includes(x.old)])); }
+    for(const x of GONE){ const F=F781.find(F=>F.tag.startsWith(x.file+'@')), r=F&&F.A&&(F.A.rows||[]).find(r=>r.at===x.at&&r.old===x.old), lg=LOG.filter(y=>y.skip);
+      const all=texts({lines:[...((cell(L,x.term,x.who)||{}).steps||[]),...((cell(L,x.term,x.who)||{}).dating||[])]}), own=texts(layerOf(cell(L,x.term,x.owner),x.ownerAt)||{}), own0=B?texts(layerOf(cell(B,x.term,x.owner),x.ownerAt)||{}):own;
+      const src=fs.readFileSync(path.join(H.ROOT,'tools/ladder/import_ladder.py'),'utf8');
+      check(`3. ${x.file} ${x.at}「${x.old}」：AA 從稿拿掉了（${REV4} 沒有這一列）；工具的 AA781_ROW_SKIP 清空、紀錄沒有 skip`,(!haveDrafts||!r)&&lg.length===0&&/^AA781_ROW_SKIP = \{\}/m.test(src),J([!!r,lg.length]));
+      check(`3. ${x.term} ${x.who} 整個學期沒有這一句（有沒有刪節號都沒有）；${x.owner} ${x.ownerAt} 那一句原樣還在（不是 ${x.who} 的）`,!all.includes(x.old)&&!all.includes(x.neu)&&own.includes(x.old)&&J(own)===J(own0),J([all.includes(x.old),all.includes(x.neu),own.includes(x.old)])); }
     const S=LOG.filter(x=>'steps' in x);
     console.log('　統計（人×學期：steps 層、rows 列、刪節號前→後）：'+S.map(x=>`${x.term} ${x.who} ${x.steps}／${x.rows}／${x.ellipsis[0]}→${x.ellipsis[1]}`).join('；'));
     for(const x of S){ const c=cell(L,x.term,x.who); check(`3. ${x.file} ${x.term} ${x.who} 刪節號 ${x.ellipsis[0]} → ${x.ellipsis[1]}（現在的 ladder.js 數出來一樣、沒有變多）`,c&&ell(c)===x.ellipsis[1]&&x.ellipsis[1]<=x.ellipsis[0],c&&ell(c)); } });

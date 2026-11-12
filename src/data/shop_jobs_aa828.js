@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_shop_jobs_aa828.py（docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md@be3b9c9e4）。不要手改，改企劃 AA_828 再重新匯入。
-   新店打工第一批：山嵐書店（shanlan）、南洋戲院（cinema）的告示、應徵、班表、三段工作、最後一句、員工票——src/jobs3d.js 讀；逐句對稿 tests/shop_jobs_aa828_1112_unit.js */
+/* 自動產生：tools/story/import_shop_jobs_aa828.py（docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md@b84e779563）。不要手改，改企劃 AA_828 再重新匯入。
+   新店打工第一批：山嵐書店（shanlan）、南洋戲院（cinema）的告示、應徵、班表、三段工作、最後一句、員工票、上班遇到宋知寧——src/jobs3d.js 讀；逐句對稿 tests/shop_jobs_aa828_1112_unit.js */
 'use strict';
 const SHOP_JOBS_AA828={
- "src": "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md@be3b9c9e4",
+ "src": "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md@b84e779563",
  "jobs": {
   "shanlan": {
    "notice": "徵門市工讀　晚班、假日班　喜歡書的優先，不喜歡也可以",
@@ -88,6 +88,32 @@ const SHOP_JOBS_AA828={
      "（六點，換班的人來了。你的手上都是書的灰。）",
      "（六點。你下班以後又在一樓多站了十分鐘，把剛剛上架的那本翻完。）"
     ]
+   },
+   "co": {
+    "who": "宋知寧",
+    "seg": "上架",
+    "flag": "SHOP_ZN_MET",
+    "met": [
+     [
+      "宋知寧",
+      "……又是你。"
+     ],
+     [
+      null,
+      "（她抱著一疊書，看了你的名牌一眼。）"
+     ],
+     [
+      "宋知寧",
+      "我上次說的另一家，就是這裡。二樓的書我比較熟，找不到就問我。"
+     ]
+    ],
+    "new": [
+     [
+      "宋知寧",
+      "新來的？二樓我比較熟，找不到可以問我。"
+     ]
+    ],
+    "until": "大二下"
    }
   },
   "cinema": {
@@ -171,7 +197,11 @@ const SHOP_JOBS_AA828={
    "ticket": {
     "after": 3,
     "opt": "拿員工票（站著看）",
-    "line": "（你站在最後面看完整部。腳有一點痠。）"
+    "line": "（你站在最後面看完整部。腳有一點痠。）",
+    "take": [
+     "售票員",
+     "員工票。站最後面，不要擋到走道。"
+    ]
    },
    "alison": "欸，你也來這裡打工喔？那爆米花我就不請你了，你自己會鏟。"
   }
