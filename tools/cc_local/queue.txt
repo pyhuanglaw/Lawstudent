@@ -112,6 +112,8 @@ DN_PROGRAMS | 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64 | probe | docs/story_plan
 # BB-C 11:27：SHIFT_SHOTS 重拍（031d 以後，上班中不跳手機橫幅；修了截圖時機、下班後 0.5 秒連拍 4 秒、鏡頭位置＋俯視）、YUE_MEAL 改新版；LAWWW-C 11:37 南洋鏡頭修正 52870df0ad → 改排 18a3666452（含）；LAWWW-C 11:40：18a3 含已還原的鏡頭修改＝對照組：SHIFT_SHOTS_72fc＝沒改鏡頭、SHIFT_SHOTS_18a3＝上班時鏡頭轉到客人那一邊
 SHIFT_SHOTS_72fc | 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3 | probe | docs/story_planning/test_tools/cc/cc_shift_shots_probe.py | index.html | 25 | SHA=72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3
 SHIFT_SHOTS_18a3 | 18a36664526d8ad28835fb924acb5438bd2ba2da | probe | docs/story_planning/test_tools/cc/cc_shift_shots_probe.py | index.html | 25 | SHA=18a36664526d8ad28835fb924acb5438bd2ba2da
+# LAWWW-C 11:52（1f304f0054：上班開始時手機橫幅收起來、下班補出；鏡頭沒改版）：南洋 18:00 照 SHIFT_SHOTS_72fc 同樣存檔步驟，記上班第一、二句 #toast 字和透明度、下班後 4 秒內 #toast 有沒有補出
+SHIFT_BANNER_1f30 | 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2 | probe | docs/story_planning/test_tools/cc/cc_shift_shots_probe.py | index.html | 10 | KEYS=cinema;SHA=1f304f00544cae61d8abf58bea60e3b9d7cb4ea2
 # LAWWW-C 11:34／BB-C 11:35（ebfb849c03 打工第六輪 AA_828 §9）：學姊來越好吃（認識就來、開學第一個有班的晚餐）——她是不是從門口走進來坐下、那句出來時 3D 有沒有她；SIS＝朋友、SISD＝交往中
 YUE_SIS_18a3 | 18a36664526d8ad28835fb924acb5438bd2ba2da | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 30 | CASES=SIS,SISD;TERMS=Y1S2,Y2S1;SHA=18a36664526d8ad28835fb924acb5438bd2ba2da
 # LAWWW-C 11:34／BB-C 11:35（AA_828 §9 第 2 點）：家教開學那一則回「不了」→ 下一個學期開學明軒那一串多「我現在可以接家教了。」——掛在哪一則、要不要往回捲、按得到、回了有沒有排下一堂

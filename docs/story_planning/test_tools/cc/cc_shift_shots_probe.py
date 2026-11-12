@@ -60,6 +60,7 @@ OVERLAY = r"""(()=>[...document.querySelectorAll('body *')].filter(e=>{ if(!e.of
   .slice(0,6).map(e=>({id:e.id||'', cls:String(e.className||'').slice(0,40), op:getComputedStyle(e).opacity, bg:getComputedStyle(e).backgroundColor})))()"""
 
 
+TOAST1 = r"""(()=>{ const t=document.getElementById('toast'); if(!t) return null; const cs=getComputedStyle(t); return {text:(t.textContent||'').trim(), op:cs.opacity, vis:cs.visibility, disp:cs.display, cls:String(t.className||'')}; })()"""   # LAWWW-C 11:52：#toast 的字和透明度
 TOASTS = r"""(()=>{ const vis=e=>{ const cs=getComputedStyle(e), r=e.getBoundingClientRect(); return cs.display!=='none'&&cs.visibility!=='hidden'&&+cs.opacity>0.05&&r.width>0&&r.height>0; };
   const L=[...document.querySelectorAll('body *')].filter(e=>e.children.length<=3&&vis(e)&&/^\s*(手機|📱)/.test(e.textContent||'')&&(e.textContent||'').length<200);
   const top=L.filter(e=>!L.some(o=>o!==e&&e.contains(o)));
@@ -76,7 +77,7 @@ async def grab(pg, k, nm, sn):
     cam = await pg.evaluate("(()=>{ const c=GAME.E.camera, p=new THREE.Vector3(); c.getWorldPosition(p); const d=new THREE.Vector3(); c.getWorldDirection(d); return {x:+p.x.toFixed(2),y:+p.y.toFixed(2),z:+p.z.toFixed(2),dir:[+d.x.toFixed(2),+d.y.toFixed(2),+d.z.toFixed(2)]}; })()")
     R.note('[%s] %s 鏡頭位置 %s（俯視以祐廷為中心）' % (k, nm, json.dumps(cam, ensure_ascii=False)))
     # LAWWW-C 11:48：上班中跳出來的手機橫幅——完整文字、DOM id／class、當下 JOBS.running、那一句
-    tb = await pg.evaluate(TOASTS)
+    tb = await pg.evaluate(TOASTS); tb['toast'] = await pg.evaluate(TOAST1)
     R.note('[%s] %s 畫面上的橫幅／toast：%s' % (k, nm, json.dumps(tb, ensure_ascii=False)))
     if nm == 'first':
         u = await pg.evaluate(TOP, {'x': cam['x'], 'y': 0, 'z': cam['z']})
@@ -126,8 +127,8 @@ async def main():
                 for j in range(9):
                     png = await pg.screenshot(path=os.path.join(OUT, 'shift_%s_after_burst_%02d.png' % (k, j)))
                     lm = await D.lum_browser(pg, png)
-                    ov = await pg.evaluate(OVERLAY)
-                    R.note('%s 下班後 %.1f 秒：亮度 %s；畫面上蓋著的元素 %s' % (tag, j * 0.5, J(lm), J(ov)))
+                    ov = await pg.evaluate(OVERLAY); tt = await pg.evaluate(TOAST1)
+                    R.note('%s 下班後 %.1f 秒：亮度 %s；畫面上蓋著的元素 %s；#toast %s' % (tag, j * 0.5, J(lm), J(ov), J(tt)))
                     await pg.wait_for_timeout(500)
                 after = await pg.evaluate(SNAPJS, {})
                 if after:
