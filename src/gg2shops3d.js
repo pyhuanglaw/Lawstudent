@@ -151,7 +151,8 @@ const GG2=(function(){
   /* ---------- 點餐 ---------- */
   S.order=async function(GM,k){ if(k==='yangyang') return S.yyOrder(GM); const G=GM.G, D=S.L[k]; if(!D) return null; await GM.say(CLERK,D.ask);
     const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,k):null;   /* afar 的「選物…」（節日送禮 GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
-    const opts=D.menu.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat(hO?[hO]:[],[{t:'不用了'}]); const i=await GM.choose(opts);
+    const opts=D.menu.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat(hO?[hO]:[],[{t:'不用了'}]); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,S.EAT_KEY[k]):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(opts);
+    if(gO&&i===opts.length-1){ await GIFT.buy(GM,S.EAT_KEY[k]); return 'gift'; }
     if(hO&&i===D.menu.length){ await GIFTH.pick(GM,hO); return 'gift'; }
     if(i==null||!(i>=0&&i<D.menu.length)) return null; const [nm,p]=D.menu[i];
     if((G.money|0)<p){ await GM.say(CLERK,D.short); return 'short'; }   /* 錢不夠：店員的那一句（AA_652），不扣錢 */
@@ -170,7 +171,9 @@ const GG2=(function(){
     for(;;){   /* 選單：先選一類（菜單板的五類），再選一樣；可以夾好幾樣，選「夾好了」結帳 */
       const opts=D.menu.map(([c,items])=>({t:c+'…',hint:items.map(m=>m[0]).join('、'),sub:items.map(nm)}));   /* sub：這一類的每一樣（畫面不用；測試照名稱找到那一類）*/
       if(bk.length) opts.push({t:'夾好了',hint:bk.map(m=>m[0]).join('、')+'　共 '+tot()+' 元'}); opts.push({t:'不用了'});
+      const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,S.EAT_KEY.yangyang):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
       const c=await GM.choose(opts);
+      if(gO&&c===opts.length-1){ await GIFT.buy(GM,S.EAT_KEY.yangyang); continue; }   /* 買完回到選單（已經夾的還在）*/
       if(c>=0&&c<D.menu.length){ const items=D.menu[c][1], j=await GM.choose(items.map(m=>({t:nm(m)})).concat([{t:'返回'}]));   /* 錢不夠的也能夾，結帳時老闆才說「這樣不夠喔。……拿掉一樣？」（BB-B 11-07 P3 ②：原本直接灰掉，那一句永遠出不來）*/ if(j>=0&&j<items.length) bk.push(items[j]); continue; }
       if(!(bk.length&&c===D.menu.length)) return null;   /* 不用了 */
       if((G.money|0)>=tot()) break;

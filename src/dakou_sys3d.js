@@ -54,7 +54,8 @@ const DKS=(function(){
   /* 點餐：kiosk＝自助點餐機；其他＝櫃檯 */
   S.order=async function(GM,kiosk){ const G=GM.G; if(!isOpen(G)) return null;
     if(kiosk) await GM.say(null,S.L.kiosk); else await GM.say(CLERK,S.L.counterAsk);
-    const M=S.menu(G), opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:S.NONE}]); const i=await GM.choose(opts);
+    const M=S.menu(G), opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:S.NONE}]); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,S.EAT_KEY):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(opts);
+    if(gO&&i===M.length+1){ await GIFT.buy(GM,S.EAT_KEY); return null; }
     if(i==null||!(i>=0&&i<M.length)) return null; const [nm,p]=M[i];
     if((G.money|0)<p){ GM.toast('錢不夠'); return 'short'; }
     GM.money(-p); if(GM.advance) GM.advance(S.HRS);

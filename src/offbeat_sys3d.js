@@ -70,7 +70,8 @@ const OFFB=(function(){
   let orderedVisit=null;
   S.eatReg=function(){ if(typeof EAT==='undefined'||!EAT.addShop) return null; if(!(EAT.SHOPS_X&&EAT.SHOPS_X['日常失速'])) EAT.addShop('日常失速',{shop:'溫州街・日常失速',staff:{who:'店員',line5:null,same:null,alt:null},first:null,door:false}); return EAT; };
   S.order=async function(GM){ const G=GM.G; orderedVisit=GM.enterN|0; const M=S.L.menu;
-    const opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:'不用了'}]); const i=await GM.choose(opts);
+    const opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:'不用了'}]); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,'日常失速'):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(opts);
+    if(gO&&i===M.length+1){ await GIFT.buy(GM,'日常失速'); return null; }
     if(i==null||i<0||i>=M.length) return null;
     const [nm,p,line]=M[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return null; }
     GM.money(-p); if(line) await GM.say(null,line); const E_=S.eatReg(); if(E_&&E_.ordered){ try{ await E_.ordered(GM,'日常失速',nm); }catch(e){ console.warn('EAT.ordered',e); } }

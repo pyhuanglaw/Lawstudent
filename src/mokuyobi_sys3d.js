@@ -104,7 +104,8 @@ const MOKS=(function(){
   let orderedVisit=null;
   S.eatReg=function(){ if(typeof EAT==='undefined'||!EAT.addShop) return null; if(!(EAT.SHOPS_X&&EAT.SHOPS_X['木曜日'])) EAT.addShop('木曜日',{shop:'溫州街・木曜日',staff:{who:'老闆',line5:null,same:null,alt:null},first:null,door:false}); return EAT; };
   S.order=async function(GM){ const G=GM.G; orderedVisit=GM.enterN|0; const M=S.L.menu;
-    const opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:S.L.none}]); const i=await GM.choose(opts);
+    const opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:S.L.none}]); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,'木曜日'):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(opts);
+    if(gO&&i===M.length+1){ await GIFT.buy(GM,'木曜日'); return null; }
     if(i==null||i<0) return null;
     if(i>=M.length){ await GM.say({name:G.name},S.L.water); await GM.say(BOSS,S.L.waterOk); await S.chat(GM); return 'water'; }
     const [nm,p,line]=M[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return null; }

@@ -60,7 +60,8 @@ const NM3=(function(){
     try{
       if(S._seen[id]!==G.day){ S._seen[id]=G.day; for(const t of looks()) await GM.say(null,t); }
       if(greets.length){ const P=greets, pool=P.map((t,i)=>i).filter(i=>P.length<2||i!==S._prev[id]), i=pool[Math.min(pool.length-1,Math.floor(S.rand()*pool.length))]; S._prev[id]=i; await GM.say(who,P[i]); }
-      const i=await GM.choose(S.menu(G,st)); if(i==null||i<0||i>=st.items.length) return 'no';
+      const mo=S.menu(G,st), gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,st.name):null; if(gO) mo.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
+      const i=await GM.choose(mo); if(gO&&i===st.items.length+1){ await GIFT.buy(GM,st.name); return 'gift'; } if(i==null||i<0||i>=st.items.length) return 'no';
       const it=st.items[i]; if((G.money|0)<it.price){ if(GM.toast) GM.toast('錢不夠'); return 'poor'; }
       GM.money(-it.price); if(GM.advance) GM.advance(S.HRS);
       for(const t of it.buy) await GM.say(S.isNarr(t)?null:who,t);

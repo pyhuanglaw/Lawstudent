@@ -188,8 +188,8 @@ const GG3=(function(){
   S.taimiOrder=async function(GM){ const G=GM.G, X=D().tz_taimi, B=W(X.who); await GM.say(B,X.ask);
     const bk=[], spice={}, tot=()=>bk.reduce((a,q)=>a+q.p,0);
     for(;;){ const taken=bk.map(q=>S.TAIMI_CAT(q.n)), its=X.menu.filter(it=>!taken.includes(S.TAIMI_CAT(it.n)));
-      const opts=its.map(it=>({t:it.n+'　'+S.taimiPrice(it,G)+' 元',hint:it.desc})); if(bk.length) opts.push({t:S.SYS.done,hint:bk.map(q=>q.n).join('、')+'　共 '+tot()+' 元'}); opts.push({t:S.SYS.no});
-      const c=await GM.choose(opts);
+      const opts=its.map(it=>({t:it.n+'　'+S.taimiPrice(it,G)+' 元',hint:it.desc})); if(bk.length) opts.push({t:S.SYS.done,hint:bk.map(q=>q.n).join('、')+'　共 '+tot()+' 元'}); opts.push({t:S.SYS.no}); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,S.EAT_KEY):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
+      const c=await GM.choose(opts); if(gO&&c===opts.length-1){ await GIFT.buy(GM,S.EAT_KEY); continue; }
       if(c>=0&&c<its.length){ const it=its[c]; bk.push({n:it.n,p:S.taimiPrice(it,G)});
         if(S.TAIMI_CAT(it.n)==='main'&&!X.spicy.skip.includes(it.n)){ await GM.say(B,X.spicy.ask); const k=await GM.choose(X.spicy.opts.map(t=>({t}))); const o=X.spicy.opts[k>=0&&k<X.spicy.opts.length?k:0]; spice[it.n]=o;
           if(o===X.spicy.more.opt) await GM.say(B,X.spicy.more.line); }   /* 辣度：點主餐時問一次（只是口味）*/
