@@ -54597,6 +54597,36 @@
    "authorized": "使用者直接要求"
   },
   {
+   "id": "SHOP-REALISM-1112",
+   "title": "全部店面（店內＋店面）道具不再是塑膠方塊：CC0 掃描模型、倒角、完整貼圖組、布料、Cycles 烘光影（X365，D159）",
+   "owner": "LAWWW2",
+   "priority": "P0",
+   "status": "進行中",
+   "source": "使用者 11-12 20:2x 對 LAWWW2-C（UA-LAWWW2-1112-06）、19:5x 溫特寶邸 v1（UA-LAWWW2-1112-05）",
+   "authorized": "使用者原話；D159；D141 版本上限不擋（使用者自己說的）",
+   "wants": "X365",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走新生南路、公館店面街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "from": "使用者",
+    "to": "LAWWW2",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "docs/art-rebuild/second_ai/research/SHOP_REALISM_1112.md",
+    "acceptance": "每間店：同鏡頭遊戲內畫面＋參考圖／2D 概念圖並排，LAWWW 看過才整合；BB 照 §12 判；溫特寶邸樣板先給使用者看",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 11-12 20:2x UTC】任務開、規則 D159 寫進 CLAUDE.md §9 第 2a 點（HV-39）。順序：溫特寶邸樣板（掃描模型＋布料材質組＋烘焙）→ 並排給使用者看 → 通過後逐間：汀州路 7 → 新生南路 6 → 公館 → 118 巷 9 → 溫州街。SHOP-FIRST-APPROACH（第一次走近卡頓）和 L118 座位、鐵門排在溫特寶邸樣板之後。"
+  },
+  {
    "id": "WZ-OFFBEAT-WINDOW-FLICKER-1112",
    "title": "溫州街「日常失速」：從店外面往裡看會一直閃（使用者截圖：整面落地窗裡的室內；立體感使用者說還好）（X353）",
    "owner": "LAWWW2",
