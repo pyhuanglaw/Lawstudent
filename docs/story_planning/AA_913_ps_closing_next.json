@@ -1,0 +1,278 @@
+{
+ "_meta": {
+  "doc": "AA_913 沛珊第一批（DLG-FULL-REVIEW-1110 第七位）：約會收尾（closing）「下次…」",
+  "by": "AA-C 2026-11-12 20:5x",
+  "task": "DLG-FULL-REVIEW-1110",
+  "status": "待 BB 第二意見（D153）",
+  "what": "沛珊約會的收尾句 38 句用「下次…」開頭（每個地點 closing.normal 第二句幾乎都是），同時是模板、也是說了沒發生的承諾（台詞寫作規則：不留沒有下文的「下次」）。改成講今天、講眼前、講她自己；留 D01 第一次「下次還要來。」（第一次約會一句輕的）；D15 第一次那句改成「今天好開心。你有開心嗎？」。她的個性照 PEISHAN-VOICE-1110：有趣、會接梗、溫柔、說真心話不扭捏。",
+  "count": 38
+ },
+ "rows": [
+  {
+   "src": "date_system/lines/D01.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換我帶路，我會先查好。",
+   "new": "今天走了好多路。我腳痠，可是嘴巴還想講話。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次去哪我來想，給我一個禮拜。",
+   "new": "今天好安靜。我以為我會無聊，結果沒有。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次還要來，那一關我還沒過。",
+   "new": "那一關我還沒過。我回去會一直想。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換我選片。我選的你不一定喜歡，先講好。",
+   "new": "今天這部，我會記得很久。散場的時候你還在笑。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想看會哭的那種，我想知道我會不會哭。",
+   "new": "散場的時候我差一點哭。差一點而已，你不要看我。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "classmate_peishan",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次換你選地方，我想看你會選哪裡。",
+   "new": "你選的地方我都喜歡。這句是真的，不是客氣。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想帶我爸媽來。我爸一定會把每一塊說明牌都看完。",
+   "new": "我爸要是來，一定會把每一塊說明牌都看完。我只看了一半。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想看夜行動物館。你陪我好不好，我一個人不敢進去。",
+   "new": "夜行動物館我沒有進去。在門口看了一下就怕了。好丟臉。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "classmate_peishan",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次你約我，去哪我都好。",
+   "new": "今天去哪我都好。只要你在旁邊。"
+  },
+  {
+   "src": "date_system/lines/D09.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次挑晚上來。聽說下山的時候，整個臺北是亮的。",
+   "new": "下山的時候天黑了。整個臺北是亮的，跟傳說中一樣。"
+  },
+  {
+   "src": "date_system/lines/D09.json",
+   "who": "classmate_peishan",
+   "where": "hotspots/D09.tea/normal/2/lines/0/text",
+   "old": "下次來我想坐久一點，坐到他們趕人。",
+   "new": "我想坐久一點，坐到他們趕人。"
+  },
+  {
+   "src": "date_system/lines/D10.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我們晚一點來，看橋上的燈。",
+   "new": "橋上的燈亮了。我們剛好待到這個時候。"
+  },
+  {
+   "src": "date_system/lines/D10.json",
+   "who": "classmate_peishan",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次換你想去哪，我都跟。",
+   "new": "你想去哪，我都跟。今天也是。"
+  },
+  {
+   "src": "date_system/lines/D11.json",
+   "who": "classmate_peishan",
+   "where": "closing/first/lines/1/text",
+   "old": "下次我要帶毛巾，今天是用衛生紙擦的。",
+   "new": "我忘了帶毛巾，是用衛生紙擦的。你不要說出去。"
+  },
+  {
+   "src": "date_system/lines/D11.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想去溫泉博物館聽導覽，今天都是亂看。",
+   "new": "溫泉博物館我都亂看。可是亂看也很好玩。"
+  },
+  {
+   "src": "date_system/lines/D12.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想來看煙火。夏天這裡有，人會多到走不動。",
+   "new": "夏天這裡有煙火。我光想像就覺得好擠。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想早一點來，看海一路變顏色。",
+   "new": "海一路在變顏色。我一直回頭看。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想挑一天沒有雲的來，今天有一半被遮住了。",
+   "new": "今天有一半被雲遮住了。另一半很好看，夠了。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我們早一點出門，人比較少。",
+   "new": "人好多。可是我們還是看到了，很值得。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次挑不下雨的時候來。可是下雨好像也不錯，人比較少。",
+   "new": "下雨了。可是人比較少，我覺得是好事。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想泡溫泉，今天只有用看的。",
+   "new": "溫泉我只有用看的。看也很舒服。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次來要早一點，今天有幾間還沒開就走過去了。",
+   "new": "有幾間還沒開就走過去了。沒關係，開著的那幾間都很好吃。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想挑螃蟹，今天不敢碰。",
+   "new": "螃蟹我不敢碰。你挑的那隻很好吃，謝謝。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想帶我媽來泡腳。她在店裡一站就是一整天。",
+   "new": "我想到我媽。她在店裡一站就是一整天，她應該很需要這個。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "classmate_peishan",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次換我排行程好不好？我會查很久，然後還是忘記。",
+   "new": "今天的行程是你排的。我只負責吃，很稱職。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次夏天來。可以下水。",
+   "new": "海水好冰。我腳伸進去一下就縮回來了。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/0/lines/0/text",
+   "old": "下次來臺中換我帶路，去我真的熟的地方。",
+   "new": "在臺中，我才是那個帶路的人。今天換你走，我有點不習慣。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次帶你去我們家的店。先講好，店裡的阿姨會一直看你。",
+   "new": "我們家的店就在不遠。店裡的阿姨要是看到你，一定會一直看。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想坐小火車上山，今天只看到車廂。",
+   "new": "小火車只看到車廂。車廂就很可愛了。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "classmate_peishan",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次去哪裡，你想好再跟我說。我都可以。",
+   "new": "今天你說去哪就去哪。我很好帶吧。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次騎腳踏車好了，今天用走的太熱。",
+   "new": "用走的好熱。可是走路才看得到這些巷子。"
+  },
+  {
+   "src": "date_system/lines/D29.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想晚上來，聽說港邊晚上燈都會亮。",
+   "new": "港邊的燈要亮了。我們剛好看到第一盞。"
+  },
+  {
+   "src": "date_system/lines/D30.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想住久一點，兩天根本不夠。",
+   "new": "兩天根本不夠。我今天就開始捨不得了。"
+  },
+  {
+   "src": "date_system/lines/D31.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想繞湖一圈，今天只走了一小段。",
+   "new": "我們只走了湖的一小段。這一小段就很漂亮。"
+  },
+  {
+   "src": "date_system/lines/D31.json",
+   "who": "classmate_peishan",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次我們冬天來好不好？我想看湖起霧的樣子。",
+   "new": "湖好安靜。冬天起霧的時候，大概更安靜。"
+  },
+  {
+   "src": "date_system/lines/D32.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想住山上，聽說早上的雲最厚。我會努力起床。",
+   "new": "早上的雲最厚。我有努力起床，你有看到。"
+  },
+  {
+   "src": "date_system/lines/D33.json",
+   "who": "classmate_peishan",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換我約你，片我來挑。",
+   "new": "片是你挑的。我很喜歡，謝謝你。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "classmate_peishan",
+   "where": "closing/first/lines/1/text",
+   "old": "下次我們再來好不好？",
+   "new": "今天好開心。你有開心嗎？"
+  }
+ ]
+}
