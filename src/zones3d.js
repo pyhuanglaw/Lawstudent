@@ -1628,9 +1628,18 @@ const Z3 = (function(){
       for(const s of shops){ if(s.on) light(s); if(s.shutter) s.shutter.visible=!isOpen(s); } };
     let f=0; const up0=zone.update; /* 眼前那一間還沒好（人在 near 裡、正在建或正在暖機）＝一幀做 4 件（原本 1 件；等一幀、收尾、clone 那幾步照舊各佔一幀），而且每 5 幀看一次距離；沒有人在等的預載照舊一幀 1 件、20 幀看一次 */
     const urgent=()=>shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready&&(s.building||s.built||s.loading));
-    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ const j=warmQ[0], stop=!!(j.hold||j.done||j.stage==='clone'); warmStep(); if(stop) break; } };
-    zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); warmRun(); f++; if(f%20===1||(f%5===1&&shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready))) tick(); }; tick();
-    const R={shops,tick,detach,lite,warmQ}; zone.shopReal=R; return R; }
+    /* 量哪一步慢（BB 11-12：第一次走近店面的長幀 150～167 ms，都在建店內那一刻——要知道是哪一步）。CC 在瀏覽器看 GAME.E.zone.shopReal.prof：
+       step＝這支函式自己每一種工作花的時間（clone／prep／tex 上傳貼圖／mesh 打開零件／show 顯示／tick）；frame＝做那一種工作的那一幀「整幀」多長（含畫面：編譯材質、上傳頂點都在畫的時候發生）；
+       load＝模型載入完成的那一幀整幀多長（解析 GLB 在主執行緒）。每一格 {n 次數, max 最長 ms, sum 合計 ms, who 最長那一次是哪一間}。只記數字，不影響行為。 */
+    const now=()=>(typeof performance!=='undefined'&&performance.now?performance.now():0), prof={step:{},frame:{},reset(){ this.step={}; this.frame={}; }}, rec=(t,k,ms,id)=>{ const o=t[k]||(t[k]={n:0,max:0,sum:0,who:''}); o.n++; o.sum=Math.round((o.sum+ms)*10)/10; if(ms>o.max){ o.max=Math.round(ms*10)/10; o.who=id||''; } };
+    let lastT=0, lastK=null, lastId='';
+    const kindOf=j=>j.stage?j.stage:(j.t?'tex':(j.m?'mesh':(j.hold?'hold':'done')));
+    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ const j=warmQ[0], stop=!!(j.hold||j.done||j.stage==='clone'), k=kindOf(j), id=j.s&&j.s.id, t0=now(); warmStep(); rec(prof.step,k,now()-t0,id); lastK=k; lastId=id; if(stop) break; } };
+    zone.update=function(dt,E2){ const t=now(); if(lastT&&lastK){ rec(prof.frame,lastK,t-lastT,lastId); lastK=null; } lastT=t; if(up0) up0.call(this,dt,E2);
+      const ld=shops.find(s=>s.loading), on0=shops.filter(s=>s.on).length; warmRun(); f++;
+      if(f%20===1||(f%5===1&&shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready))){ const t1=now(); tick(); rec(prof.step,'tick',now()-t1,''); }
+      if(!lastK){ const sh=shops.find(s=>s.on&&!s._seen); if(sh||shops.filter(s=>s.on).length!==on0){ lastK='show'; lastId=sh?sh.id:''; } else if(ld&&!ld.loading){ lastK='load'; lastId=ld.id; } } for(const s of shops) s._seen=s.on; }; tick();
+    const R={shops,tick,detach,lite,warmQ,prof}; zone.shopReal=R; return R; }
   /* SHOP-REAL-INSIDE 溫州街（LAWWW2-C 11-12 自查 shop_out_in_audit_1112：日常失速店外是一份烘光的店內、顏色偏粉，和走進去的黃牆、綠白方格地板不一樣）：
      日常失速（W2，正面朝東的橫巷 +x、玻璃面 x −37.5；室內 11×10×3.4，室內 x → 溫州街 z＝−13.5−x）放走進去的那一顆（bldg.wz_offbeat_interior，載入時已登錄）。室內原點＝街景腳本的 (−42.2,−13.5)（wz_street.py W2：本地 z＝室內 z−5、立面在 x −37.2；玻璃退 0.3 m 在室內前緣裡面）。北側的窗沒有鐵捲門（只做正面） */
   const wzShopReal=()=>{ const out=[{id:'W2',place:'wz_offbeat',key:'bldg.wz_offbeat_interior',w:11,d:10,h:3.4,x:-42.2,z:-13.5,ry:Math.PI/2,cx:-37.5,cz:-13.5,ex:0,ez:5.5,sx:[-4.55,5.25],sh:3.15}];

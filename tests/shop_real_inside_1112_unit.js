@@ -100,4 +100,5 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
   ok(!!busy0&&busy0!==S3,'㊳ 人還沒到的時候，先預載的是別間（'+(busy0&&busy0.id)+'）');
   ok(S3.on&&n<=40,'㊴ 走到第四間前面 3 m：'+n+' 幀以內它就建好、顯示（改之前要先等別間建完、一幀一件，60 幀以上）');
   st(400); ok(R2.shops.every(q=>q.built&&q.ready)&&R2.shops.filter(q=>q.on).length===1,'㊵ 被放掉的那一間之後照樣排回來建好；只有眼前那一間顯示'); }
+{ const P=Rr.prof; ok(P&&P.step&&P.frame&&typeof P.reset==='function'&&P.step.clone&&P.step.clone.n>=1&&P.step.prep&&P.step.mesh&&P.step.tick&&Object.values(P.step).every(o=>o.max>=0&&o.sum>=0),'㊶ shopReal.prof：每一種工作（clone／prep／tex／mesh／tick…）記次數、最長、合計——CC 在電腦上看哪一步是那 150 ms（'+Object.keys(P.step).join('、')+'）'); }
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
