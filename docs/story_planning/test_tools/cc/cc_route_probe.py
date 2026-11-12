@@ -16,7 +16,7 @@
     study:<字>,<次數>        W1R D5：走到標籤含那個字的座位（例：坐下讀書）按 → 坐下以後選單選「讀書…」那一個，重複 <次數> 次；每次記時間前後、#caption／#toast 的字、目標列，截圖（看時段用完跳下一時段、字幕）
 11-12 r2：射線要設 rc.camera（場景裡有 Sprite，r1 SUNNY_DOOR_walk 在 STATE 噴 null.matrixWorld、沒有結論行）。
 11-12 BB-C 15:18：walk、exit 兩種步驟每 0.5 秒記位置，連續 ≥5 秒沒位移（<0.15 m）記成卡住：座標、從第幾秒、卡多久（最後停在終點那一段不算）。
-CC_02 清單 2026-11-12：1✓（日子時間照佇列：平日白天或晚上） 2✓（出口、互動點、座位照 exit.to／標籤從遊戲找） 3✓（每一支一次讀檔、照順序走） 4✓（選項照字） 5✓（go_to／use_exit 走過去，照玩家） 6✓（每一步 settle、換區等 2.5 秒） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：照原樣） 10✓（條件事件關掉） 11✓ 12✓（每一步同樣欄位） 13✓（讀檔捷徑標）
+CC_02 清單 2026-11-13：1✓（日子時間照佇列：平日白天或晚上） 2✓（出口、互動點、座位照 exit.to／標籤從遊戲找） 3✓（每一支一次讀檔、照順序走） 4✓（選項照字） 5✓（go_to／use_exit 走過去，照玩家） 6✓（每一步 settle、換區等 2.5 秒） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：照原樣） 10✓（條件事件關掉） 11✓ 12✓（每一步同樣欄位） 13✓（讀檔捷徑標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONE=dorm [X= Z= LV=] [DAY=2025-10-14] [HOUR=14] ROUTE=exit:dorm_hall+go:樓梯+... python3 cc_route_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -71,15 +71,39 @@ async def talk(pg, cdp, want):
     return lines
 
 
+STUCKSHOT = (os.environ.get('STUCKSHOT') or '0') == '1'   # 11-13 BB-C：卡住 4 秒當下截圖（遊戲鏡頭＋正上方往下看）＋列 1.2 m 內的網格，看是什麼擋住
+NEAR_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, mine=new Set(); E.player.obj.traverse(o=>mine.add(o)); const out=[]; const b=new THREE.Box3(), v=new THREE.Vector3();
+  E.scene.traverse(o=>{ if(!o.isMesh||mine.has(o)||o.visible===false) return; try{ b.setFromObject(o); }catch(e){ return; } if(b.isEmpty()) return;
+    const dx=Math.max(b.min.x-P.x,0,P.x-b.max.x), dz=Math.max(b.min.z-P.z,0,P.z-b.max.z); if(Math.hypot(dx,dz)>1.2||b.max.y<P.y+0.05||b.min.y>P.y+1.6) return;
+    const sz=b.getSize(v); if(sz.x>40||sz.z>40) return; out.push({name:o.name||(o.parent&&o.parent.name)||'?', d:+Math.hypot(dx,dz).toFixed(2), box:[+b.min.x.toFixed(2),+b.max.x.toFixed(2),+b.min.z.toFixed(2),+b.max.z.toFixed(2),+b.min.y.toFixed(2),+b.max.y.toFixed(2)]}); });
+  out.sort((a,b)=>a.d-b.d); return {at:[+P.x.toFixed(2),+P.z.toFixed(2)], canStandAhead:null, near:out.slice(0,15)}; })()"""
+
+
+async def stuck_shot(pg, tag, n):
+    nm = 'stuck_%s_%d' % (TAG, n)
+    await pg.screenshot(path=os.path.join(OUT, nm + '_game.png'))
+    near = await pg.evaluate(NEAR_JS)
+    p = near['at']
+    try:
+        await pg.evaluate(D.CAM, {'eye': [p[0], 10, p[1] + 0.01], 'look': [p[0], 0, p[1]], 'lens': 24}); await pg.wait_for_timeout(300); await pg.evaluate("GAME.E.render()")
+        await pg.screenshot(path=os.path.join(OUT, nm + '_top.png'))
+    finally:
+        await pg.evaluate(D.UNCAM)
+    R.note('%s 【卡住截圖】%s_game.png／_top.png；1.2 m 內的網格 %s' % (tag, nm, J(near)))
+
+
 async def watched(pg, coro, tag):
     """11-12 BB-C 15:18：走路／走出口的同時每 0.5 秒記位置；連續 ≥5 秒位移 <0.15 m＝卡住（記座標、卡多久）。回傳 (coro 的結果, 卡住清單)"""
-    pts = []; stop = [False]
+    pts = []; stop = [False]; shots = [0]
     async def loop():
-        t0 = asyncio.get_event_loop().time()
+        t0 = asyncio.get_event_loop().time(); still = None
         while not stop[0]:
             try:
                 p = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [+o.x.toFixed(2), +o.z.toFixed(2), GAME.E.player.lv|0, GAME.G.zone]; })()")
-                pts.append([round(asyncio.get_event_loop().time() - t0, 1)] + p)
+                now = round(asyncio.get_event_loop().time() - t0, 1); pts.append([now] + p)
+                if STUCKSHOT:
+                    if still is None or ((p[0] - still[1]) ** 2 + (p[1] - still[2]) ** 2) ** 0.5 >= 0.15: still = [now, p[0], p[1], False]
+                    elif now - still[0] >= 4 and not still[3] and shots[0] < 3: still[3] = True; shots[0] += 1; await stuck_shot(pg, tag, shots[0])
             except Exception:
                 pass
             await asyncio.sleep(0.5)
