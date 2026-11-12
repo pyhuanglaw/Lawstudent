@@ -5,19 +5,19 @@ LAWWW 的 Node 逐句：tests/aa814_prio_gap_1111_unit.js（事件 id、檔案�
 新版：7d9d7942544e37ada7ec9cb7e658332b5fd570cb；修改前（D34 對照，新行為的檢查要 FAIL）：9d45ef8b36d5df00cdbca70661a4ca13e9fce813。
 
 每一段（PARTS，逗號分隔；預設全部）都各自讀檔：【前置／捷徑】用遊戲自己的讀檔（GAME.applySave）放到那一天、那個時間「前幾分鐘」，
-旗標、關係直接設（log 都印 [前置／捷徑]）；之後讓遊戲自己演：時間照遊戲走、經濟系休學在家照 ECONFF 自己跳、手機訊息照時間收；
+旗標、關係直接設（log 都印 [前置／捷徑]）；之後讓遊戲自己演：時間照遊戲走、舊序章系所舊序章離校在家照 ECONFF 自己跳、手機訊息照時間收；
 對話點過去、選項照「字」選（不照位置）、手機打開那一段對話按回覆的字。從不呼叫 EVENTS.run。
 探針自己記：GAME.say（說話人＋全文）、GAME.choose（選項＋小字 hint）、GAME.toast、GAME.titleCard、GAME.openPhone／phoneThread（誰打開手機），只記不改。
-  E11  1-1 1/8 公館吃燒臘（ev_y0_jan8／_h）：經濟系、休學在家、30 分鐘版（ECONFF.short）。【前置】2025-01-08 17:00 在家 → ECONFF 自己跳到 18:30 演。
-       選「「妳打算怎麼辦？」」→ 下一句可昕＝「……還不知道。整科就那一份，我只是記錯日子。」、再下一句＝「我十二月去問的那個重考班…」（修改前：「……還不知道。」）
+  E11  1-1 1/8 公館吃燒臘（ev_y0_jan8／_h）：舊序章系所、舊序章離校在家、30 分鐘版（ECONFF.short）。【前置】2025-01-08 17:00 在家 → ECONFF 自己跳到 18:30 演。
+       選「「妳打算怎麼辦？」」→ 下一句可昕＝「……還不知道。整科就那一份，我只是記錯日子。」、再下一句＝「我十二月去問的那個舊序章考試班…」（修改前：「……還不知道。」）
   E12  1-2 2/14 一起去問補習班（ev_y0_e27b，出遊）：【前置】2025-02-14 13:00 在家、E27 演過（E27B_PLAN）。「晚餐你請。」後面緊接五格（說話人：可昕／祐廷交錯），
        之後 2/15 RH-M0「（二月十五日。她拖著一個行李箱…）」才出現（修改前：停在「晚餐你請。」，隔天直接站在門口）。
   E13  1-3 7/11 考場 → 7/12 19:00 對答案（ev_y0_exam2）：【前置】2025-07-11 06:00 在家、30 分鐘版。考場演完 after1 把人帶到 7/12 19:00，
        要演 exam2（「數學我錯一題。」…，EXAM2_DONE、MATH_100）（修改前：ECONFF.short 擋掉，7/12 晚上什麼都沒演）。
-  H21  2-1 沛珊交往中、重考期回國的私訊：【前置】交往中、C11@Y2（東京，1/30 回國）記成 done、2027-01-30 20:50 宿舍 → 21:00 她的私訊（手機照時間收；
+  H21  2-1 沛珊交往中、舊序章考試期回國的私訊：【前置】交往中、C11@Y2（東京，1/30 回國）記成 done、2027-01-30 20:50 宿舍 → 21:00 她的私訊（手機照時間收；
        探針自己打開手機看那一段）＝「歡迎回來！我在台中，桌上的考古題疊得比你的行李還高。」「下次放風的那個下午，你要從第一天開始講。」；
-       對照 C12@Y2（8/27 回國，8/6 以後）＝「…開學前才回台南。…」照舊（修改前：重考期是「開學前才上去」）。H21_CASES 改段。
-  H22  2-2 重考期約她出國（手機「活動」→「安排出國旅遊」T13）：她說「我現在連台中市區都很少去耶。……等我考完，第一個要去的地方給你選。」
+       對照 C12@Y2（8/27 回國，8/6 以後）＝「…開學前才回台南。…」照舊（修改前：舊序章考試期是「開學前才上去」）。H21_CASES 改段。
+  H22  2-2 舊序章考試期約她出國（手機「活動」→「安排出國旅遊」T13）：她說「我現在連台中市區都很少去耶。……等我考完，第一個要去的地方給你選。」
        （修改前：「先在國內走走吧，我們還沒一起去過很多地方。」）；被拒、沒有排出一趟（V.t13 沒有多）。日子照 VAC.nextBreak、她那幾天 presence 挑（試 4 個）。
   H23  2-3 撞期（大二暑假 2027）：【前置】C09@Y2 柬埔寨（7/27～8/5）、C12@Y2 京都（8/9～8/27）報名 yes、在桌遊團群組、和方奕廷 FAMILIAR。
        a. 7/10 21:00 方奕廷私訊揪 T02（8/1～8/4）→ 多一則系統字「會撞到：海外志工（暖陽服務隊） 8/1」；回「去。」→ 答應的當下「…（同一段時間只能去一趟）」；T02 照報（不擋）
@@ -33,10 +33,10 @@ LAWWW 的 Node 逐句：tests/aa814_prio_gap_1111_unit.js（事件 id、檔案�
        演完多「（她走遠了。你拖著行李，照手機上的地圖，走到 Linden Grove。）」、toast「公寓在社區的另一頭。」、之後推得動。
   U34  3-4 交往中、US2 there／missed：10/16 21:00「改過的報告拿了 A。…」要回、手機自己打開。U34_CASES＝there:0,missed:0,there:1,missed:1（第幾個回覆）。
        回「恭喜。」there＝「……嗯。那天的麵，謝謝。」、missed＝「……嗯。我自己改了三次。」；「我就說吧。」＝「你哪有說。你只是一直在煮麵。」
-  U35  3-5 芝加哥巴士（沒見過何俊朗）：U35_CASES＝together,alone。【前置】11/3 20:50 → 21:00 邀約回「去。」→【捷徑】同一份存檔改到 11/11 06:30 →
+  U35  3-5 芝加哥巴士（沒見過舊序章同學）：U35_CASES＝together,alone。【前置】11/3 20:50 → 21:00 邀約回「去。」→【捷徑】同一份存檔改到 11/11 06:30 →
        出遊「出發：芝加哥的週末」→ 巴士上「（巴士上，坐在前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）」「臺灣來的？你手機上的字是繁體。」（修改前：「你們」那兩句）
   U36  3-6 交往中 12/6 21:00「……你想去哪裡，你先想。」要回、手機自己打開：U36_CASES＝0,1（「舊金山？」→「……好。我也想那裡。」；「有海的地方。」→「那就舊金山。……剩下的，你排。」）
-共通：畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER；沒有 JS 例外（pageerror）；演完以後：3D 推得動、在家（休學）＝遊戲還在往下走（沒卡住）。
+共通：畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER；沒有 JS 例外（pageerror）；演完以後：3D 推得動、在家（舊序章離校）＝遊戲還在往下走（沒卡住）。
 等待中每 30 秒沒有新動作就記一次狀態（區域、時間、劇情鎖、對話、手機、待回覆、最後一句、console）＋截圖（每段最多 6 張）。
 每段最後印「走的路」（自然觸發／讀檔接續／捷徑）。修改前那一版顯示了什麼，FAIL 的那一行會印出來（D34）。
 環境變數：PARTS、SHA、TAG、H21_CASES（C11@Y2,C12@Y2）、U31_ZONES（us_lawlib）、U32_CASES（bloom,sf）、U34_CASES、U35_CASES、U36_CASES、MAXS（每段等待上限倍數，預設 1）
@@ -71,7 +71,7 @@ X = {
     'jan8_pre': [('narr', '（一月八日。期末考考完快三個禮拜了。她還沒回高雄，約你在公館吃燒臘。）'), ('kexin', '……葉老師那封信，我又看了一次。'), ('kexin', '還是不能補交。'), ('narr', '（她用筷子把飯撥到一邊，又放下。）')],
     'j8a_opt': '「妳打算怎麼辦？」',
     'j8a': '……還不知道。整科就那一份，我只是記錯日子。',
-    'j8c': '我十二月去問的那個重考班，簡章還在我桌上。',
+    'j8c': '我十二月去問的那個舊序章考試班，簡章還在我桌上。',
     'dinner': '晚餐你請。',
     'e27b_new': [('kexin', '……宿舍月底要退。我本來想，回高雄讀。'), ('player', '我媽說，姊姊的房間空著。'), ('kexin', '……你問過了？'), ('player', '上禮拜就問了。'), ('kexin', '那我明天搬。……輸的人，幫忙扛書。')],
     'rhm0': '（二月十五日。她拖著一個行李箱、背著一大袋書，站在你家門口。）',
@@ -92,7 +92,7 @@ X = {
     'grade_msg': '改過的報告拿了 A。教授說：『這次我讀到妳了。』',
     'grade_opts': ['恭喜。', '我就說吧。'],
     'grade_rep': {('there', 0): '……嗯。那天的麵，謝謝。', ('missed', 0): '……嗯。我自己改了三次。', ('there', 1): '你哪有說。你只是一直在煮麵。', ('missed', 1): '你哪有說。你只是一直在煮麵。'},
-    'chi': [('narr', '（巴士上，坐在前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）'), ('long', '臺灣來的？你手機上的字是繁體。'), ('long', '香港。何俊朗。叫我 Long 就好。')],
+    'chi': [('narr', '（巴士上，坐在前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）'), ('long', '臺灣來的？你手機上的字是繁體。'), ('long', '香港。舊序章同學。叫我 Long 就好。')],
     'chi_old': ['坐在你們前面的', '我聽你們講話聽出來的'],
     's1206': ['期末週以後，還有五天。', '……你想去哪裡，你先想。'],
     's1206_opts': ['舊金山？', '有海的地方。'],
@@ -178,7 +178,7 @@ SETUP_JS = r"""(q=>{ const G=GAME.G, F=G.flags||(G.flags={}), out={notes:[]}; G.
   for(const g of q.groups||[]){ try{ PHONE.join(G,g[0],g[1]); }catch(e){ out.notes.push('join：'+e); } }
   Object.assign(F, q.flags||{}); for(const k of q.unflags||[]) delete F[k];
   out.stage={}; for(const id of (q.meet||[])){ try{ out.stage[id]=SOCIAL.stage?SOCIAL.stage(id):null; }catch(e){} }
-  out.dating=Object.keys(F).filter(k=>k.indexOf('dating_')===0&&F[k]);   /* dating_kexin：遊戲預設（game3d.js defaults／migrate 沒有就補 true，經濟系開局的存檔都有），照留、照印 */
+  out.dating=Object.keys(F).filter(k=>k.indexOf('dating_')===0&&F[k]);   /* dating_kexin：遊戲預設（game3d.js defaults／migrate 沒有就補 true，舊序章系所開局的存檔都有），照留、照印 */
   return out; })"""
 
 LOAD_JS = r"""(async st=>{ const s=GAME.defaults(st.name||'祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); const rot=document.getElementById('rotate'); if(rot) rot.classList.remove('want'); await GAME.applySave(s); return true; })"""
@@ -239,7 +239,7 @@ def role_of(e):
 
 
 def spk_ok(e, want):
-    if want == 'long': return '何俊朗' in str(e.get('who') or '') or e.get('cid') in ('npc_long', '何俊朗')
+    if want == 'long': return '舊序章同學' in str(e.get('who') or '') or e.get('cid') in ('npc_long', '舊序章同學')
     return role_of(e) == want
 
 
@@ -455,7 +455,7 @@ async def finish(pg, cdp, P, home_ok=False):
             s2 = await st(pg)
             if (s2['key'], s2['hour']) != k0 or s2['dlg'] or s2['nb'] or s2['phone']: moved = J({k: s2.get(k) for k in ('key', 'hour', 'dlg', 'nb', 'phone', 'zone')}); break
             await pg.wait_for_timeout(500)
-        R.check('[%s] 演完以後沒有卡住（休學在家：60 秒內時間有往下走、或有下一段對話／選單／手機）' % P.tag, moved is not None, J(await pg.evaluate(IDLE_JS)))
+        R.check('[%s] 演完以後沒有卡住（舊序章離校在家：60 秒內時間有往下走、或有下一段對話／選單／手機）' % P.tag, moved is not None, J(await pg.evaluate(IDLE_JS)))
     elif s['dlg'] or s['nb'] or s['busy'] or s['depth']:
         R.note('[%s] 演完以後下一段劇情接著開始（%s）：不推搖桿，記狀態' % (P.tag, J({k: s.get(k) for k in ('dlg', 'nb', 'busy', 'depth', 'ev', 'zone', 'key', 'hour')})))
     else:
@@ -502,14 +502,14 @@ async def us_load(pg, P, key, hour, zone, together, extra=None, done=(), why='')
     return info
 
 
-# ---------------------------------------------------------------- 經濟系
+# ---------------------------------------------------------------- 舊序章系所
 async def part_e11(pg, cdp):
     P = Ctx('E11'); await begin(pg, P)
     st0 = await econ_st(pg, '2025-01-08', 17.0, done=['ev_y0_e12', 'ev_y0_cram_h', 'ev_y0_cram'])
     await load(pg, st0)
     info = await pg.evaluate(INFO_ECON_JS)
-    R.setup('[E11]【前置／捷徑】讀檔到 2025-01-08（三）17:00 在家（經濟系休學在家、和可昕交往中、E01_MORNING＝30 分鐘版）；狀態 %s' % J(info))
-    R.check('[E11] 前置：30 分鐘版（ECONFF.short）、休學在家（ECONFF.on2、HOME.at）', info['short'] and info['on2'] and info['home'], J(info))
+    R.setup('[E11]【前置／捷徑】讀檔到 2025-01-08（三）17:00 在家（舊序章系所舊序章離校在家、和可昕交往中、E01_MORNING＝30 分鐘版）；狀態 %s' % J(info))
+    R.check('[E11] 前置：30 分鐘版（ECONFF.short）、舊序章離校在家（ECONFF.on2、HOME.at）', info['short'] and info['on2'] and info['home'], J(info))
     P.path.append('自然觸發：讀檔在家，ECONFF 在家那一輪自己跳到 18:30 演（沒有呼叫 EVENTS.run）')
     P.pick = lambda o, h: next((i for i, x in enumerate(o) if '妳打算怎麼辦' in x), None)
     wq = {'ev': ['ev_y0_jan8', 'ev_y0_jan8_h'], 'fl': ['Y0_JAN8']}
@@ -545,7 +545,7 @@ async def part_e12(pg, cdp):
     await load(pg, st0)
     info = await pg.evaluate(INFO_ECON_JS)
     R.setup('[E12]【前置／捷徑】讀檔到 2025-02-14（五）13:00 在家；2/13 E27（行政大樓）演過、E27B_PLAN、RETAKE_TOGETHER、高雄三天兩夜記去過；30 分鐘版；狀態 %s' % J(info))
-    R.check('[E12] 前置：30 分鐘版、休學在家', info['short'] and info['on2'] and info['home'], J(info))
+    R.check('[E12] 前置：30 分鐘版、舊序章離校在家', info['short'] and info['on2'] and info['home'], J(info))
     P.path.append('自然觸發：story3d.js 排出遊 y0_e27b（2/14 15:00），在家那一輪自己出發；2/15 RH-M0 照 ECONFF.STEPS2（rhLong）')
     P.pick = lambda o, h: next((i for i, x in enumerate(o) if '那我也在家讀' in x), None)
     wq = {'ev': ['ev_y0_e27b'], 'fl': ['CRAM_ASKED_TOGETHER'], 'said': [X['rhm0']]}
@@ -576,7 +576,7 @@ async def part_e13(pg, cdp):
     await load(pg, st0)
     info = await pg.evaluate(INFO_ECON_JS)
     R.setup('[E13]【前置／捷徑】讀檔到 2025-07-11（五）06:00 在家（交往中、30 分鐘版、衝刺班過了、EXAM1_DONE 還沒記）；狀態 %s' % J(info))
-    R.check('[E13] 前置：30 分鐘版（ECONFF.short）、休學在家', info['short'] and info['on2'] and info['home'], J(info))
+    R.check('[E13] 前置：30 分鐘版（ECONFF.short）、舊序章離校在家', info['short'] and info['on2'] and info['home'], J(info))
     R.note('[E13] 對照（只記）：ECONFF.KEEP 有沒有 ev_y0_exam2＝%s' % info.get('keep2'))
     P.path.append('自然觸發：在家那一輪 07:30 演 ev_y0_exam1h，after1 照 STORY.travelOvernight 帶到 7/12 19:00，之後在家那一輪演（或不演）ev_y0_exam2')
     d12 = (await day_of(pg, '2025-07-12'))['d']
@@ -628,7 +628,7 @@ async def part_h21(pg, cdp):
             R.check('[%s] %s 21:00 收到她的私訊（tag %s）' % (P.tag, rd['key'], tag), bool(mine) and all(abs((m.get('h') or 0) - 21) < 0.01 for m in mine), J(mine))
             R.check('[%s] 私訊逐字＝%s' % (P.tag, J(exp)), [m['text'] for m in mine] == exp, '畫面資料是：' + J([m['text'] for m in mine]))
             if rd['key'] < '2027-08-06':
-                R.check('[%s] 重考期不是「開學前才上去」那段' % P.tag, all(m['text'] != X['ps_old'] for m in mine), J([m['text'] for m in mine]))
+                R.check('[%s] 舊序章考試期不是「開學前才上去」那段' % P.tag, all(m['text'] != X['ps_old'] for m in mine), J([m['text'] for m in mine]))
             ok2, body = await open_thread(pg, cdp, 'p:' + PS)
             P.phone_texts.append(['p:' + PS, body])
             idx = [body.find(t) for t in exp]
@@ -679,7 +679,7 @@ async def part_h22(pg, cdp):
     k = next((i for i, x in enumerate(ss) if x['t'] == X['ask_out']), None)
     R.check('[H22] 祐廷問「要不要一起出國？」', k is not None and spk_ok(ss[k], 'player'), J([x['t'][:24] for x in ss]))
     her = [x for x in ss[(k + 1 if k is not None else 0):] if x.get('cid') == PS]
-    R.check('[H22] 她的回答＝「%s」（重考期 noOff）' % X['ps_noOff'], bool(her) and her[0]['t'] == X['ps_noOff'] and len(her) == 1, '畫面上她說：' + J([x['t'] for x in her]))
+    R.check('[H22] 她的回答＝「%s」（舊序章考試期 noOff）' % X['ps_noOff'], bool(her) and her[0]['t'] == X['ps_noOff'] and len(her) == 1, '畫面上她說：' + J([x['t'] for x in her]))
     R.check('[H22] 不是一般句「%s」' % X['ps_no'], all(x['t'] != X['ps_no'] for x in her), J([x['t'] for x in her]))
     t13 = (await pg.evaluate(VACI_JS, []))['t13']
     R.check('[H22] 被拒＝沒有排出一趟（V.t13 筆數沒變 %d→%d）' % (len(t13_0), len(t13)), len(t13) == len(t13_0), J(t13))
@@ -859,9 +859,9 @@ async def part_u32(pg, cdp):
         P = Ctx('U32_' + case); await begin(pg, P)
         try:
             together = case == 'sf'
-            info = await us_load(pg, P, '2028-12-15', 22.5, 'us_apartment', together, why='12/15 22:30 公寓（%s；沒見過何俊朗）' % ('舊金山版' if together else '布魯明頓版'))
+            info = await us_load(pg, P, '2028-12-15', 22.5, 'us_apartment', together, why='12/15 22:30 公寓（%s；沒見過舊序章同學）' % ('舊金山版' if together else '布魯明頓版'))
             al = await pg.evaluate(ALARMS_JS, '2028-12-16'); R.note('[%s] 對照（只記）：STORY.wakeAlarms(12/16)＝%s' % (P.tag, J(al)))
-            R.check('[%s] 前置：美國路線、%s、沒見過何俊朗' % (P.tag, '交往中' if together else '沒交往'), info['route'] == 'US' and info['dating5'] == together and not info['MET_LONG'] and not info['metLong'], J(info))
+            R.check('[%s] 前置：美國路線、%s、沒見過舊序章同學' % (P.tag, '交往中' if together else '沒交往'), info['route'] == 'US' and info['dating5'] == together and not info['MET_LONG'] and not info['metLong'], J(info))
             bed = await pg.evaluate(SLEEP_IT_JS)
             R.note('[%s] 床（互動「%s」）%s' % (P.tag, bed and bed['label'], J(bed)))
             if not R.check('[%s] 公寓裡有床（互動 sleep）' % P.tag, bool(bed), ''): continue
@@ -996,8 +996,8 @@ async def part_u35(pg, cdp):
         P = Ctx('U35_' + case); await begin(pg, P)
         try:
             together = case == 'together'
-            info = await us_load(pg, P, '2028-11-03', 20.83, 'us_apartment', together, why='11/3 20:50 公寓；沒見過何俊朗（MET_LONG 沒有）')
-            R.check('[%s] 前置：沒見過何俊朗' % P.tag, not info['MET_LONG'] and not info['metLong'], J(info))
+            info = await us_load(pg, P, '2028-11-03', 20.83, 'us_apartment', together, why='11/3 20:50 公寓；沒見過舊序章同學（MET_LONG 沒有）')
+            R.check('[%s] 前置：沒見過舊序章同學' % P.tag, not info['MET_LONG'] and not info['metLong'], J(info))
             th = 'p:' + S5 if together else 'g:us_exchange'
             P.path.append('自然觸發：11/3 21:00 芝加哥邀約（%s）手機照時間收、回「去。」' % th)
             P.phone_want = [th]; P.phone_ask = lambda t, o: (next((i for i, x in enumerate(o) if x == '去。'), None) if t == th else None)
@@ -1010,7 +1010,7 @@ async def part_u35(pg, cdp):
             E = await evs(pg); ss = says_of(E)
             R.check('[%s] ev_us_chicago 演了（出遊出發）' % P.tag, bool(w and w['done']['ev_us_chicago']), J(w))
             miss, bad, at = find_seq(ss, X['chi'])
-            R.check('[%s] 巴士上三句照順序（旁白、何俊朗、何俊朗）' % P.tag, not miss and not bad, '缺：%s；說話人錯：%s；畫面上：%s' % (J(miss), J(bad), J([[role_of(x), x['t'][:30]] for x in ss[:6]])))
+            R.check('[%s] 巴士上三句照順序（旁白、舊序章同學、舊序章同學）' % P.tag, not miss and not bad, '缺：%s；說話人錯：%s；畫面上：%s' % (J(miss), J(bad), J([[role_of(x), x['t'][:30]] for x in ss[:6]])))
             old = [x['t'] for x in ss if any(o in x['t'] for o in X['chi_old'])]
             R.check('[%s] 沒有舊句（「坐在你們前面的」「我聽你們講話聽出來的」）' % P.tag, not old, J(old))
             R.check('[%s] 演完記 MET_LONG、LONG_CHI' % P.tag, bool(w and w['flags'].get('MET_LONG') and w['flags'].get('LONG_CHI')), J(w and w['flags']))

@@ -48,7 +48,7 @@ git -C /home/user/Lawstudent log --oneline a3b1bd647..0c3d9e7a5 -- src/data/lega
 | 大四下 | maritime 5/30（三）am；JP 路線 civpro_2_re 5/28（一）am、insurance_re 5/31（四）am |
 | Y4S1 兩門同一節 | labor_social／tax_law 都是週四 pm1、crim_judgment_sem／public_judgment_sem 都是週五 am——這是二選一的選修，實際選課（termCourses）沒有撞考 |
 
-Y0 經濟系（考試週每一堂都是考試、成績固定及格）：14 門不是 service／noExam 的課，期末週都有不放假的一堂。
+Y0 舊序章系所（考試週每一堂都是考試、成績固定及格）：14 門不是 service／noExam 的課，期末週都有不放假的一堂。
 
 ### 重修學期（CLS.planRetakes 從每個學期排到下一學期）
 

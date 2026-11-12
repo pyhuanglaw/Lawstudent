@@ -6,7 +6,7 @@
 //     每份存檔先用遊戲自己的函式算「大四以前」的結果（STORY.careerLean、R2Y4A.pushLevel/letter/pushPass/gradExamPass、R2Y4B.gradPass2029），
 //     把推甄／研究所筆試的結果寫成旗標（=【前置】），再從 2029-06-02 08:00 用遊戲的「跳到下一件事」（PG.due/PG.runStep/PG.advance/OUT.tick）
 //     一路推進到尾聲（照 baseline_1102/routes3.js 的 sim），國考照指定題數作答。記錄 path、第一份工作照片、尾聲最後一句。
-//   Part 2 窮舉：BAR_SCORE_2029 0～20 × 2030 重考 0/20 × 傾向 A/B/C × 研究所（未報／錄取／落榜）× 子晴線 × 延畢 → 直接呼叫 PG.stage/PG.tier/PG.path，檢查不變量。
+//   Part 2 窮舉：BAR_SCORE_2029 0～20 × 2030 舊序章考試 0/20 × 傾向 A/B/C × 研究所（未報／錄取／落榜）× 子晴線 × 延畢 → 直接呼叫 PG.stage/PG.tier/PG.path，檢查不變量。
 const path=require('path');
 const LW=path.resolve(process.argv[2]||process.env.LW||'/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/wt_mk');
 require(LW+'/tests/alison.js'); const H=require(LW+'/tests/pg_harness.js');
@@ -101,13 +101,13 @@ const SAVES=[
       if(lic&&!['A_bar','C_zq','B_grad','L_firm','J_judge','J_pros'].includes(p)) tag('有律師資格卻不是律師家族結局（D118 路線(a)）');
       if(!lic&&p==='A_bar') tag('沒有律師資格卻是 A_bar');
       if(dly&&k>=0&&k<12&&lic) tag('2030 不到 12 題也錄取律師（tier 2030 一律 lawyer）');
-      if(!dly&&k>=0&&k<12&&k2===0&&lic) tag('重考 0 題也錄取律師');
+      if(!dly&&k>=0&&k<12&&k2===0&&lic) tag('舊序章考試 0 題也錄取律師');
       if((F.BAR_STAGE_2029==='both'||F.BAR_STAGE_2030==='both')){
         if(typeof PG.judgeVerdict!=='function'){ tag('both（司法官二試資格）→ 司法官一律未錄取，沒有 J 結局'); }   /* 舊版（沒有 judgeVerdict）：照舊記錄，當對照 */
-        else {   /* LAWWW 改版（D118-B8 以後，BB 11:09）：both 而且重考二試答對 10 題＝走得到 J 結局才算通過；另加反向：重考只答對 4 題不能是 J */
+        else {   /* LAWWW 改版（D118-B8 以後，BB 11:09）：both 而且舊序章考試二試答對 10 題＝走得到 J 結局才算通過；另加反向：舊序章考試只答對 4 題不能是 J */
           const keep=JSON.stringify(F), y=F.BAR_STAGE_2029==='both'?2029:2030;
           /* 5ce715c51（AA_582 補充二）起：畢業那一年一定沒上（gradYear），之後看題數；JUDGE_YEAR＝錄取那一年（考試的隔年）。
-             舊規則（judgeSatBefore：第一次一定沒上）的版本照舊走「重考」那條 */
+             舊規則（judgeSatBefore：第一次一定沒上）的版本照舊走「舊序章考試」那條 */
           const gy=typeof PG.gradYear==='function'?PG.gradYear(G):null, first=PG.judgeVerdict(G,y,10);
           F['JUDGE_SCORE2_'+y]=10; F['JUDGE_PASS_'+y]=first; let ok;
           if(gy!=null&&y>gy){ ok=first; if(ok) F.JUDGE_YEAR=y+1; }
@@ -117,7 +117,7 @@ const SAVES=[
           for(const k0 of Object.keys(F)) delete F[k0]; Object.assign(F,JSON.parse(keep));
           F['JUDGE_SCORE2_'+y]=4; F['JUDGE_PASS_'+y]=PG.judgeVerdict(G,y,4); F.JUDGE_RETAKE=true; F.JUDGE_RETAKE_Y=y+1;
           const lo=PG.judgeVerdict(G,y+1,4); if(lo){ F.JUDGE_YEAR=y+1; } const pl=PG.path(G);
-          if(lo||/^J_/.test(pl)) tag('both＋低分 → 不該錄取（重考二試 4 題卻是 J 結局或判錄取）');
+          if(lo||/^J_/.test(pl)) tag('both＋低分 → 不該錄取（舊序章考試二試 4 題卻是 J 結局或判錄取）');
           for(const k0 of Object.keys(F)) delete F[k0]; Object.assign(F,JSON.parse(keep)); }
       }
       if(p==null||p==='undefined'||!POSTGRAD_LINES.EPI.last[p]||!POSTGRAD_LINES.FIRST.me[p]) tag('path 沒有對應台詞');

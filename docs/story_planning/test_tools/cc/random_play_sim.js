@@ -8,7 +8,7 @@
  *   其他參數：
  *     --root <遊戲 checkout>   預設：這支腳本往上四層＝repo 根目錄（測舊 commit：git worktree add --detach <dir> <sha>，再 --root <dir>）
  *     --max-steps N            格數上限（一格＝主迴圈一格），預設 6,000,000
- *     --track law|econ         法律系大一（標題「從法律系開始」，預設 2025-08-29 → 2026-06-30）／經濟系那一年（「從經濟系開始」，2024-08-23 → 2025-08-28）
+ *     --track law|econ         法律系大一（標題「從法律系開始」，預設 2025-08-29 → 2026-06-30）／舊序章系所那一年（「從舊序章系所開始」，2024-08-23 → 2025-08-28）
  *     --procedural             人物模型沒有 VRM 骨架（＝設定「使用正式人物模型」關掉、或 VRM 載不到的程序化人物）
  *     --jobs N（預設 2：雲端只有 4 核、還要跑瀏覽器測試；一個種子一整年約 9～10 分鐘）、--json <結果檔>、--out <心跳檔資料夾>、--hang-ms N（子程序多久沒有輸出算卡死，預設 120000）、-v（印每個動作和遊戲的 console）
  *     --old-forcing YYYY-MM-DD  情境（BB-C T1_FIX ①）：那天 21:00 以後玩家空下來，把自動存檔的旗標放進 _forcing=true（＝舊版存進去的那一份）→ 重新整理頁面、按繼續；
@@ -72,7 +72,7 @@ const KNOWN=[
   {id:'SAY-COVER-1027',kinds:['STUCK'],re:/./,need:F=>!F.sayStack,cls:'GAME_BUG',
    why:'這一版 game3d.js 的 say 只留一個等點擊的 resolve（沒有 sayStack）：兩段劇情同時說話，先開始的那一段永遠等不到＝停在那一句（同一類在 STUCK-HARDEN-1027 33d24f9db 修好：say 的 sayStack 保底）'},
   {id:'CAMP-Y1-DAY-BEFORE-HOUR',kinds:['TIME_BACK'],re:/./,need:(F,f)=>!!(f.G&&(f.G.busyWho||[]).some(w=>/campY1/.test(w))),cls:'GAME_BUG',
-   why:'（輕微）story3d.js S.campY1：換到宿營下一天時先設 G.day、等 1.6 秒日期卡（titleCard）、才設 G.hour——那 1.6 秒是「隔天＋前一段的時刻」（例 8/23 19:30），接著設成 17:30＝時間倒退 2 小時。經濟系路線 8/22 從家裡出發去宿營才看得到（法律系開局的宿營在檢查開始以前）；影響：日期卡那 1.6 秒 HUD 的時間是錯的'},
+   why:'（輕微）story3d.js S.campY1：換到宿營下一天時先設 G.day、等 1.6 秒日期卡（titleCard）、才設 G.hour——那 1.6 秒是「隔天＋前一段的時刻」（例 8/23 19:30），接著設成 17:30＝時間倒退 2 小時。舊序章系所路線 8/22 從家裡出發去宿營才看得到（法律系開局的宿營在檢查開始以前）；影響：日期卡那 1.6 秒 HUD 的時間是錯的'},
   {id:'FORCING-SAVED',kinds:['NO_FORCEHOME','TIME_BACK'],re:/_forcing=true|./,need:(F,f)=>F.forcingPersist&&(/_forcing=true/.test(f.msg)||(f.kind==='TIME_BACK'&&/之前 G\.day=-?\d+ G\.hour=(2[7-9]|[3-9]\d|\d{3,})\./.test(f.msg))),cls:'GAME_BUG',
    why:'story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing'},
   {id:'BADCLIP-NOVRM',kinds:['EXCEPTION'],re:/racketHead|badminton_clip3d/,need:F=>F.procedural,cls:'GAME_BUG',
@@ -389,7 +389,7 @@ async function child(o){
     LS.setItem((T&&T.KEY_AUTO)||'fatiao3d_auto',JSON.stringify(sv)); act('讀存檔 '+path.basename(o.startSave)+'（'+dayKey(sv.day)+' '+fmtH(sv.hour)+' '+sv.zone+'）→ 標題「繼續」');
     const bc=getById('btnContinue'); if(!bc||typeof bc.onclick!=='function'){ fail('BOOT','TEST_BUG','標題畫面的「繼續」沒有掛 onclick',''); return finish(); }
     Promise.resolve().then(()=>bc.onclick(mkEv('click',bc))).then(()=>{ ngDone=true; },e=>{ ngDone=true; onExc(e,'標題「繼續」（--start-save）'); }); }
-  else { act('按標題畫面「'+(o.track==='econ'?'從經濟系開始':'從法律系開始')+'」');
+  else { act('按標題畫面「'+(o.track==='econ'?'從舊序章系所開始':'從法律系開始')+'」');
   const btn=getById(o.track==='econ'?'btnNew':'btnNewLaw'); if(!btn||typeof btn.onclick!=='function'){ fail('BOOT','TEST_BUG','標題畫面的按鈕沒有掛 onclick（bindUI 沒跑？）',o.track); return finish(); }
   Promise.resolve().then(()=>btn.onclick(mkEv('click',btn))).then(()=>{ ngDone=true; },e=>{ ngDone=true; onExc(e,'開新遊戲（STORY.newGame）'); }); }
   let track=null;   // 時間只往前：{abs}（開局演完才開始；讀檔重設）

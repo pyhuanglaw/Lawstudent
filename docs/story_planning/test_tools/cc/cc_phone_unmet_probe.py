@@ -20,7 +20,7 @@
      並記當下 SOCIAL.stage(id)、SOCIAL.metD(id)、fam、有沒有聯絡方式。
   2. 包住 SOCIAL.adjust／activity／meet／remember：五位女主角的 stage 一變就記（前後 stage、metD、fam、EVENTS.running、呼叫來源 stack 前 6 行）＝找出把 stage 推離 STRANGER 的事件。
   3. 附帶：包住 PHONE.post／postAt／at／join、INV.msg／msgAt（G.msgs 的寫入，phone3d.js:44-58、invites3d.js:28-31），相遇前寫進她的訊息只列出來、不算 FAIL。
-流程：照玩家從標題點「從法律系開始」（START=econ 改點「從經濟系開始」），名字用預設；對話點過去、選項選第一個（睡覺選單例外：選「睡到明天早上」類，才過得了夜）；
+流程：照玩家從標題點「從法律系開始」（START=econ 改點「從舊序章系所開始」），名字用預設；對話點過去、選項選第一個（睡覺選單例外：選「睡到明天早上」類，才過得了夜）；
   空下來 21:00 前：手機「今天」有「直接去上課」就按，沒有就按時間最早的「跳過時間」（不一次跳整天：早→中午→下午→傍晚→晚上都經過）；
   21:00 以後：手機「地點」快速前往宿舍（照樣花遊戲時間）、走到床邊按「睡覺」。不改旗標、不撥時間、不用 GAME.advance。
   網址建議加 ?turbo（測試加速：走位瞬間、dt 上限；條件事件 EVENTS.tick、PHONE.tick、劇情照常跑，不會漏時段）和 ?lowres。

@@ -25,7 +25,7 @@ DAYS = [d.strip() for d in (os.environ.get('DAYS') or '2025-11-15,2026-09-12').s
 BLOCK_S = 0.3; PULL_M = 0.5
 R = L.Run('fair_tent_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-# zones3d.js（f3b47894b）的 FAIR／FAIR_Z：校慶、經濟系那一年的九頂一排（沒有匯出，照原始碼抄；遊戲裡再用導航格驗證每一頂真的在）
+# zones3d.js（f3b47894b）的 FAIR／FAIR_Z：校慶、舊序章系所那一年的九頂一排（沒有匯出，照原始碼抄；遊戲裡再用導航格驗證每一頂真的在）
 FAIR_XS = [-21.3, -17.8, -13.5, -9.7, -5.9, 3.4, 7.2, 11.0, 14.8]; FAIR_Z = 15.1
 
 LAYOUT = r"""(()=>{ const expo=typeof Z3!=='undefined'&&Z3.isExpoDay?!!Z3.isExpoDay():null; const L=typeof CLUB_FAIR_EXPO!=='undefined'?CLUB_FAIR_EXPO:null;

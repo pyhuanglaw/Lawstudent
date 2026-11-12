@@ -1,17 +1,17 @@
-// CC（帳號 A）11-02 BB_245 第二批 #1：AA306-KX-LADDER-1018 經濟系閒聊階梯（Node，不開瀏覽器、不改 src/）。
+// CC（帳號 A）11-02 BB_245 第二批 #1：AA306-KX-LADDER-1018 舊序章系所閒聊階梯（Node，不開瀏覽器、不改 src/）。
 // LAWWW 驗法（docs/handoff/BB245_LAWWW_REPLY_1102.md 第一節）：探針比對 LADDER.byTerm.Y0S1／Y0S2 每人層數和 AA_306 定稿。
-// 定稿：docs/story_planning/AA_306_閒聊階梯逐層確認_經濟系.md 最後一版（750e72fb7，10-20「韋綸大一下 L5～L8 拿掉」＝經濟系階梯全部問完；
+// 定稿：docs/story_planning/AA_306_閒聊階梯逐層確認_舊序章系所.md 最後一版（750e72fb7，10-20「舊序章同學大一下 L5～L8 拿掉」＝舊序章系所階梯全部問完；
 //   4618aed21 只是 D115 換名，層的 id 沒變）。每一列「改成」欄是「拿掉」（含 **拿掉這層**）的那一層不該在遊戲裡，其他列（照現在／改寫）要在。
 // 另外套一筆 AA_306 之後的使用者決定：LAD-K0LX2-CUT-1018（使用者 10-18 14:3x 選「整段拿掉」可昕 K0-Lx2；總表 11-02 改「取消／被取代」，理由＝ladder.js 已沒有 K0-Lx2）。
-// 所以期望：Y0S1 可昕 12（K0-L1～L8、Lx3、Lx5、Lx7、Lx8）、品妤 6、唐睿 4、阿勳 6、韋綸 7；Y0S2 可昕 4、品妤 4、唐睿 2、阿勳 1、韋綸 1。
-// 注意：總表 tasks.json 的 next 寫「階梯最終版 93f356cc（大一下…韋綸 5）」，AA_306 定稿（750e72fb7）是韋綸大一下 1 層（WL0b-L3）——這支以 AA_306 定稿為準，總表那一句只印 INFO。
+// 所以期望：Y0S1 可昕 12（K0-L1～L8、Lx3、Lx5、Lx7、Lx8）、舊序章同學 6、舊序章同學 4、舊序章同學 6、舊序章同學 7；Y0S2 可昕 4、舊序章同學 4、舊序章同學 2、舊序章同學 1、舊序章同學 1。
+// 注意：總表 tasks.json 的 next 寫「階梯最終版 93f356cc（大一下…舊序章同學 5）」，AA_306 定稿（750e72fb7）是舊序章同學大一下 1 層（WL0b-L3）——這支以 AA_306 定稿為準，總表那一句只印 INFO。
 // 用法：cd <受測工作樹> && node <本檔>　（cwd＝受測版本；定稿從 git 讀 AA306_SHA，預設 750e72fb7，可用環境變數換）
-// 修正 commit：1c98fbbf9（閒聊階梯改用 AA-C 定稿，含 AA_306 韋綸 Y0S2 L5～L8 拿掉、K0-Lx2 拿掉）；對照＝1c98fbbf9^（預期 FAIL：韋綸大一下 5 層、可昕大一上 13 層）。
+// 修正 commit：1c98fbbf9（閒聊階梯改用 AA-C 定稿，含 AA_306 舊序章同學 Y0S2 L5～L8 拿掉、K0-Lx2 拿掉）；對照＝1c98fbbf9^（預期 FAIL：舊序章同學大一下 5 層、可昕大一上 13 層）。
 'use strict';
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=process.cwd();
 const AA306_SHA=process.env.AA306_SHA||'750e72fb7';
-const DOC='docs/story_planning/AA_306_閒聊階梯逐層確認_經濟系.md';
+const DOC='docs/story_planning/AA_306_閒聊階梯逐層確認_舊序章系所.md';
 let fails=0; const FL=[];
 const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok){ fails++; FL.push(n); } };
 const info=s=>console.log('INFO '+s);
@@ -25,7 +25,7 @@ const B=LADDER.byTerm||{};
 /* ---- 讀定稿 ---- */
 let md=''; try{ md=cp.execSync('git show '+AA306_SHA+':"'+DOC+'"',{cwd:ROOT,maxBuffer:1<<24}).toString(); }catch(e){ check('讀得到 AA_306 定稿',false,String(e.message).slice(0,200)); console.log('FAILED 1'); process.exit(1); }
 const WHO={K0:'kexin',PY0:'econ_pinyu',TR0:'econ_tangrui',XN0:'econ_zhengxun',WL0:'econ_weilun'};
-const NAME={kexin:'可昕',econ_pinyu:'品妤',econ_tangrui:'唐睿',econ_zhengxun:'阿勳',econ_weilun:'韋綸'};
+const NAME={kexin:'可昕',econ_pinyu:'舊序章同學',econ_tangrui:'舊序章同學',econ_zhengxun:'舊序章同學',econ_weilun:'舊序章同學'};
 const exp={Y0S1:{},Y0S2:{}};
 for(const line of md.split('\n')){
   const m=/^\|\s*((K0|PY0|TR0|XN0|WL0)(b?)-(L\d|Lx\d))\b[^|]*\|[^|]*\|([^|]*)\|/.exec(line); if(!m) continue;
@@ -51,7 +51,7 @@ for(const t of ['Y0S1','Y0S2']) for(const w of Object.values(WHO)){
 /* 總表那一句（只記）*/
 try{ const T=JSON.parse(cp.execSync('git show origin/claude/confident-ritchie-8rwh7t:docs/handoff/tasks.json',{cwd:ROOT,maxBuffer:1<<26}).toString());
   const L=Array.isArray(T)?T:(T.tasks||[]); const t=L.find(x=>x.id==='AA306-KX-LADDER-1018');
-  if(t){ const m=/韋綸\s*(\d+)\s*層?/.exec(t.next||''); info('總表 AA306-KX-LADDER-1018 next 寫韋綸大一下 '+(m?m[1]:'?')+' 層；AA_306 定稿 '+(exp.Y0S2.econ_weilun||{keep:[]}).keep.length+' 層；遊戲 '+((B.Y0S2&&B.Y0S2.econ_weilun&&B.Y0S2.econ_weilun.steps)||[]).length+' 層'); }
+  if(t){ const m=/舊序章同學\s*(\d+)\s*層?/.exec(t.next||''); info('總表 AA306-KX-LADDER-1018 next 寫舊序章同學大一下 '+(m?m[1]:'?')+' 層；AA_306 定稿 '+(exp.Y0S2.econ_weilun||{keep:[]}).keep.length+' 層；遊戲 '+((B.Y0S2&&B.Y0S2.econ_weilun&&B.Y0S2.econ_weilun.steps)||[]).length+' 層'); }
 }catch(e){ info('讀不到總表（只記）：'+String(e.message).slice(0,120)); }
 console.log(fails?('FAILED '+fails+'：'+FL.join('、')):'ALL PASS');
 process.exit(fails?1:0);

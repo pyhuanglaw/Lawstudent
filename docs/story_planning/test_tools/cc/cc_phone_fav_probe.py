@@ -15,7 +15,7 @@ ORIENTS = [o for o in os.environ.get('ORIENTS', 'port,land').split(',') if o]
 BASE = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'L118_FIRST_SENT': True, 'LAW_RECAP_SEEN': True}
 # 訊息時間：以安 d-1 20:00（最舊）、芷若 d-1 21:00、阿哲 d 09:00、可昕 d 12:00、語彤 d 15:00（最新）
 POST = """(()=>{ const G=GAME.G, d=G.day; PHONE.postAt(G,{th:'p:heroine_01',from:'heroine_01',text:'筆記我放你桌上了。'},d-1,20);
-  PHONE.postAt(G,{th:'p:heroine_02',from:'heroine_02',text:'下週的書展你去嗎？'},d-1,21); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'週末來木柵大學？我當導遊。'},d,12);
+  PHONE.postAt(G,{th:'p:heroine_02',from:'heroine_02',text:'下週的書展你去嗎？'},d-1,21); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'週末來外校大學？我當導遊。'},d,12);
   PHONE.postAt(G,{th:'p:heroine_03',from:'heroine_03',text:'社會學的報告要分組了'},d,15);
   PHONE.postAt(G,{th:'p:zhe',from:'zhe',text:'明天系籃練球？'},d,9); })()"""
 ROWS_ALL = "[...document.querySelectorAll('#phoneBody .chatRow')].map(e=>({th:e.dataset.th,star:!!e.querySelector('.favStar')}))"

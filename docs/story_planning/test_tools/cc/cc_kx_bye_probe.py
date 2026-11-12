@@ -3,7 +3,7 @@
 CASES（分號／加號分隔）：「地點,開始時,第幾場,名字」，預設：
   xs_nanyang,14,1,movie1_day     電影第 1 場下午：散場＝day.bye（「出來天還這麼亮。」「我搭下一班就好，不用趕。」）
   xs_nanyang,19.5,1,movie1_night 電影第 1 場晚上：散場＝bye（「末班車還有。好險。」）
-  xs_nanyang,14,3,movie3_day     電影第 3 場下午：day.bye（「出來天還亮著。」「……我還不想回木柵。」）
+  xs_nanyang,14,3,movie3_day     電影第 3 場下午：day.bye（「出來天還亮著。」「……我還不想回外校。」）
   cafe,14,3,cafe3_day            咖啡第 3 場下午：坐下＝day.seat（「我今天不趕車。」）
   bookstore,14,3,book3_day       書店第 3 場下午：day.bye（「時間還早。我們再看一本。」）
 每一筆：【前置／捷徑】讀檔進那個地點（2025-10-18 週六、開始前 12 分鐘，條件事件關閉）→【捷徑】G.flags.ACTN[種類].kexin 撥到「下一場＝第 N 場」（N=1 就是沒約過）→

@@ -69,7 +69,7 @@ const L=G=>STORY.careerLean(G);
 
   /* careerTick 起點 */
   { const G=H.fresh('2025-09-10',10,'dorm'); G.stage='econ'; G.stats.study=33; delete G.flags.STUDY_AT_LAW; STORY.careerTick(G); const e=G.flags.STUDY_AT_LAW;
-    G.stage='law'; STORY.careerTick(G); check('S6 careerTick：經濟系不記；第一次法律系記 STUDY_AT_LAW＝當下 33',e===undefined&&G.flags.STUDY_AT_LAW===33,J({e,s:G.flags.STUDY_AT_LAW}));
+    G.stage='law'; STORY.careerTick(G); check('S6 careerTick：舊序章系所不記；第一次法律系記 STUDY_AT_LAW＝當下 33',e===undefined&&G.flags.STUDY_AT_LAW===33,J({e,s:G.flags.STUDY_AT_LAW}));
     const w1=CALENDAR.termDays('Y4S1').from; const g2=H.fresh(key(w1),10,'dorm',{STUDY_AT_LAW:0,LAWCLUB_SAT_VISITS:9}); STORY.careerTick(g2); const b=g2.flags.CAREER_Y4_BASE;
     g2.flags.LAWCLUB_SAT_VISITS=12; STORY.careerTick(g2);
     check('S7 CAREER_Y4_BASE：大四上第 1 週記一次（之後不覆寫）',J(b)===J({A:9,B:0,C:0})&&J(g2.flags.CAREER_Y4_BASE)===J(b),J({b,now:g2.flags.CAREER_Y4_BASE,term:CALENDAR.termOf(w1)})); }

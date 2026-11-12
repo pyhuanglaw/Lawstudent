@@ -307,7 +307,7 @@ CASES8 = [
          q=dict(id='yl_lecture', ev='ev_yule_lecture', h=18 + 50 / 60, late=0.5, place='法律系館A 201', title='家事調查官的演講（法律系館A 201）', travel='走過去約 10 分鐘', travelH=1 / 6, alarm=True),
          flags={'YL_LEC': 'listen'},
          info='linze_201 另外是 3D 教室 classroom 的 view（src/zones3d.js:1398 room 的 view:linze_201）——那是 3D 區域的參數，不是 ADV 底圖，這裡不拍',
-         src='src/yule3d.js:83 S.OUTS.listen（10/14 22:00 予樂私訊回①「去聽」→ 10/20 18:50）；yule_lines.js:62 {scene:法律系館A 201,bg:linze_201}（第二段換 noodle_table，第一句就拍）。'
+         src='src/yule3d.js:83 S.OUTS.listen（10/14 22:00 舊序章同學私訊回①「去聽」→ 10/20 18:50）；yule_lines.js:62 {scene:法律系館A 201,bg:linze_201}（第二段換 noodle_table，第一句就拍）。'
              '最小存檔沒有 yl_lec_ask 那則：S.lecture 在 10/20 讀到＝記 x:late 就 return，不動存檔裡的出遊'),
     dict(k='boya_lecture_hall', kind='outing', ev='ev_kexin_lecture_ntu', when='2027-09-29', load_h=18.65, zone='dorm', match='講座',
          q=dict(id='y3_k11', ev='ev_kexin_lecture_ntu', h=19, late=0.25, place='博思教學館', title='講座（博思）19:00', travel='走過去約 8 分鐘', travelH=8 / 60, alarm=True),

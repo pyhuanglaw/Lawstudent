@@ -90,7 +90,7 @@
 - `classes3d.js` `drawExam` kind `'makeup'`：`examPool` 對非 `'mid'` 一律用第 15 週範圍；先抽期末沒考過的題；key 不同所以種子不同；重修課（`rtTerm`／`redoOf`）照原本學期的題庫，key 仍是 `Y4S2:<id>:makeup`，和 `makeupPassed` 讀的 key 一致。
 - `failedIn`／`reportFor` 認補考及格；補考沒過時 `R.exam[...:makeup].correct=0`，`failedIn` 照期末判、仍算被當（一致）。
 - `FD.migrate`：`FD_MAKEUP` 排了以後 `FAIL_DELAY_COURSES=[]` → migrate 第一個條件就 return；補考沒過／缺考走 `applyDelay` 記 `FAIL_DELAY_V=2` → 不會被 NOFINAL 救援誤救。
-- 交換路線（`exch`）、`termAway`（大四下在國外）、經濟系那一年（`breakOf`/`termOf` 6/26 都是 null，也不在 `law` 以外的 stage）、SEMFF（只在學期中）、ECONFF（經濟系那一年）：都碰不到 6/26 補考。
+- 交換路線（`exch`）、`termAway`（大四下在國外）、舊序章系所那一年（`breakOf`/`termOf` 6/26 都是 null，也不在 `law` 以外的 stage）、SEMFF（只在學期中）、ECONFF（舊序章系所那一年）：都碰不到 6/26 補考。
 - 約會（`DATE.check`）：畢業典禮以後不能預約，不會和補考撞；`pgdates` 的 `busyDays` 看 `s.cond`，補考待考時 6/26 算有事。
 - 在家睡覺：`PG.sleepJump` → `advance` → `PG.due`，6/26 早上睡覺會停在 09:30 演補考；10:30 在家睡覺也會直接演補考（due 已到）。
 - 6/25 20:00 提醒只在成績單早於那個時間才排（`mkPlan`）；成績單補考當天才發＝直接延畢（測試 h）。

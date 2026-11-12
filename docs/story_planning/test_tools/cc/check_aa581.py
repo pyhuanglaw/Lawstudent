@@ -303,7 +303,7 @@ def resid_judge(rel, ln, lit, old):
     ps = jpaths(rel, old) if rel in JSONF else []
     if ps:
         y0 = all(re.search(r'_y0', q) for q in ps)
-        return 'JSON 路徑：' + '、'.join(ps) + ('（_y0＝經濟系那一年的非法律課，照常有期中考，保留合理；d118_fix.json 的 note 也寫了「syllabus 期中週黑板和經濟系那一年同字」）' if y0 else '')
+        return 'JSON 路徑：' + '、'.join(ps) + ('（_y0＝舊序章系所那一年的非法律課，照常有期中考，保留合理；d118_fix.json 的 note 也寫了「syllabus 期中週黑板和舊序章系所那一年同字」）' if y0 else '')
     if lit and re.search(r'[\'"]' + re.escape(lit) + r'[\'"]\s*:', t):
         ctx = 'NOTE_RENAMED_N9（舊存檔記憶備註→新顯示值的對照表）' if 'NOTE_RENAMED_N9' in t.split('\n')[ln - 1] else '物件'
         return f'{ctx}的鍵：舊存檔的原備註字，必須保留，合理'

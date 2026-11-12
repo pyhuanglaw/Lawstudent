@@ -44,11 +44,11 @@ const show=(name,R,extra)=>{ const F=R.G.flags; const pick=k=>Object.keys(F).fil
   const which=process.argv[3]||'all'; const run=n=>which==='all'||which.split(',').includes(n);
   if(run('A')){ const R=await sim('2029-08-04',7,{},{exam:{2029:5,2030:5,2031:16,2032:16},judge:{2031:2,2032:8},retake:true}); show('A 律師 2031 才到 both（第一次司法官）→重考 2032 答 8',R); }
   if(run('B')){ const R=await sim('2029-08-04',7,{},{exam:{2029:5,2030:5,2031:5,2032:5,2033:16},judge:{2033:9}}); show('B 2033 第一次到 both（沒有下一年）',R); }
-  if(run('C')){ const R=await sim('2029-08-04',7,{},{exam:{2029:18,2031:16},judge:{2029:4,2031:9},retake:true,skip:['exam_2030'],reg:{2031:false}}); show('C 重考年 2030 錯過一試、2031 不報',R,R=>'JUDGE_TRIES='+R.G.flags.JUDGE_TRIES); }
+  if(run('C')){ const R=await sim('2029-08-04',7,{},{exam:{2029:18,2031:16},judge:{2029:4,2031:9},retake:true,skip:['exam_2030'],reg:{2031:false}}); show('C 舊序章考試年 2030 錯過一試、2031 不報',R,R=>'JUDGE_TRIES='+R.G.flags.JUDGE_TRIES); }
   if(run('D')){ const R=await sim('2029-08-04',7,{},{exam:{2029:18},judge:{2029:4},retake:true,skip:['r2_2029']}); show('D 2029 二試放榜錯過（both 18）',R); }
   if(run('E')){ const R=await sim('2029-08-04',7,{},{exam:{2029:14}}); show('E 律師級 14（不會有司法官二試）',R); }
   if(run('F')){ const R=await sim('2030-08-03',7,{FAIL_DELAY:true,BAR_REG_2030:true,BAR_REG:false},{exam:{2030:17,2031:16},judge:{2030:3,2031:7},retake:true}); show('F 被當延畢 FD：2030 第一次→2031 答 7',R); }
-  if(run('G')){ const R=await sim('2029-08-04',7,{},{exam:{2029:18,2030:16,2031:16},judge:{2029:4,2030:6,2031:6},retake:true},G=>{ const C=CLS.rec(G); C.exam=C.exam||{}; for(const t of ['Y1S1','Y2S1','Y3S1','Y4S1']) C.exam[t+':civ_general:final']={status:'done',correct:4}; }); show('G basis=4、重考 2030 答 6（門檻減一＋輔助）',R,R=>'basis='+PG.basis(R.G)); }
-  if(run('H')){ const R=await sim('2029-08-04',7,{},{exam:{2029:18,2030:16},judge:{2029:4,2030:6},retake:true,reg:{2031:false}}); show('H 無 basis、重考 2030 答 6（門檻減一）',R); }
+  if(run('G')){ const R=await sim('2029-08-04',7,{},{exam:{2029:18,2030:16,2031:16},judge:{2029:4,2030:6,2031:6},retake:true},G=>{ const C=CLS.rec(G); C.exam=C.exam||{}; for(const t of ['Y1S1','Y2S1','Y3S1','Y4S1']) C.exam[t+':civ_general:final']={status:'done',correct:4}; }); show('G basis=4、舊序章考試 2030 答 6（門檻減一＋輔助）',R,R=>'basis='+PG.basis(R.G)); }
+  if(run('H')){ const R=await sim('2029-08-04',7,{},{exam:{2029:18,2030:16},judge:{2029:4,2030:6},retake:true,reg:{2031:false}}); show('H 無 basis、舊序章考試 2030 答 6（門檻減一）',R); }
   await new Promise(r=>setTimeout(r,30)); process.exit(0);
 })();

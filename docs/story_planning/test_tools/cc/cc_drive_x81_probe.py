@@ -10,14 +10,14 @@
    狀態：OUT 出遊（G.outings，id date_T…）的 travelH＝50/60、h＝出發＋50 分；到了的那一刻 G.hour＝出發＋50 分；結算 S.complete → dateLog 次數。
    反例：選「捷運轉公車」（不開車）＝travelH 60 分、摘要寫捷運轉公車、沒有「開車」。
 ② X81 載可昕上山（法律系開局）：src/story3d.js:1923～1932（S.phoneRules 那一段）；條件 story3d.js:3533 S.e37LawOn＝沒有 PLAYED_Y0、dating_kexin、stage law、
-   week1Start（LAW_START_DAY＜MAIN_D1）。8/29 21:30 旁白「休學到重考的那幾個月，你不是一個人過的。」→ 可昕兩則（第二則 62d＝「明天下午兩點，載我上山。行李兩箱。」，
+   week1Start（LAW_START_DAY＜MAIN_D1）。8/29 21:30 旁白「舊序章離校到舊序章考試的那幾個月，你不是一個人過的。」→ 可昕兩則（第二則 62d＝「明天下午兩點，載我上山。行李兩箱。」，
    ef63＝「…你回家開車，載我上山…」）→ OUT y0_e37（8/30 14:00「家（載可昕上山）14:00」）、E37_LAW；
    8/30 出發 → ev_y0_e37（src/data/events.js:2988）：最後一句「（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）」，
    62d 沒有「（你把車開回家，再搭捷運回宿舍。）」、afterOuting 不再 advance(1)（14:00 到、演完約 18:00；ef63 約 19:00）。
    反例：dating_kexin＝false（沒交往）→ 8/29 21:30 以後沒有那兩則、沒有 y0_e37 出遊、沒有 E37_LAW。
 ③ 春假（大二下）兩條路線：src/group3d.js:43 S.springPending（3/30～4/1、收到邀約）、:46 S.springPrompt（選單：跟阿哲他們出去＝在桌遊團群組才有；和可昕開車旅行＝dating_kexin 才有）、
    :55 S.springChoose：noodle＝OUT ndl_trip_y2s2（4/4 08:00，place「家」、travel「開車載阿哲他們出發」）→ ev_spring_y2_noodle；
-   kexin＝OUT kx_trip_y2s2（4/3 07:40，place「木柵大學校門口」、travel「開車到木柵大學接她」；ef63 是「（先回家取車）」「回家取車約 30 分鐘，再開到木柵大學接她」）→ ev_kexin_trip_spring_y2。
+   kexin＝OUT kx_trip_y2s2（4/3 07:40，place「外校大學校門口」、travel「開車到外校大學接她」；ef63 是「（先回家取車）」「回家取車約 30 分鐘，再開到外校大學接她」）→ ev_kexin_trip_spring_y2。
    旗標 SPRING_Y2＝noodle／kexin。邀約訊息：group3d.js:89（群組 21:00）、:90（可昕 21:30）。
    反例：桌遊團那一場沒交往＝選單沒有「和可昕開車旅行」；可昕那一場不在群組＝選單沒有「跟阿哲他們出去」。
 
@@ -226,10 +226,10 @@ async def case_x81(pg, cdp, run, dating):
     q = next((o for o in a['outs'] if o['id'] == 'y0_e37'), None)
     TRANS['x81_' + ('on' if dating else 'off')] = {'said': said, 'state': a}
     if not dating:
-        run.check('②反例 沒交往：8/29 21:30 以後沒有「休學到重考…」旁白、沒有可昕那兩則、沒有 y0_e37 出遊、沒有 E37_LAW',
-                  not any(x['t'].startswith('休學到重考') for x in said) and not any('載我上山' in t for t in kx) and q is None and not a['flags']['E37_LAW'], J({'said': [x['t'] for x in said][:5], 'kx': kx, 'q': q, 'h': a['h']}))
+        run.check('②反例 沒交往：8/29 21:30 以後沒有「舊序章離校到舊序章考試…」旁白、沒有可昕那兩則、沒有 y0_e37 出遊、沒有 E37_LAW',
+                  not any(x['t'].startswith('舊序章離校到舊序章考試') for x in said) and not any('載我上山' in t for t in kx) and q is None and not a['flags']['E37_LAW'], J({'said': [x['t'] for x in said][:5], 'kx': kx, 'q': q, 'h': a['h']}))
         return
-    run.check('② 8/29 21:30 旁白「休學到重考的那幾個月，你不是一個人過的。」', any(x['t'] == '休學到重考的那幾個月，你不是一個人過的。' for x in said), J([x['t'] for x in said][:5]))
+    run.check('② 8/29 21:30 旁白「舊序章離校到舊序章考試的那幾個月，你不是一個人過的。」', any(x['t'] == '舊序章離校到舊序章考試的那幾個月，你不是一個人過的。' for x in said), J([x['t'] for x in said][:5]))
     run.check('② 可昕私訊：「明天下午兩點，載我上山。行李兩箱。」（沒有「你回家開車」）', any(t.startswith('明天下午兩點，載我上山。') for t in kx) and not no_bad(kx), J(kx))
     run.check('② 狀態：排了 8/30 14:00 出遊 y0_e37、E37_LAW', bool(q) and q['h'] == 14 and q['state'] == 'planned' and bool(a['flags']['E37_LAW']), J({'q': q, 'flags': a['flags']}))
     # 手機回覆（玩家）

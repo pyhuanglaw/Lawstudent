@@ -31,7 +31,7 @@
 |---|---|---|---|---|---|---|---|
 | B1 | 讀書會出席 `G.acts.att['public_law_group@日']`（end 'full'；舊紀錄只有 `{h}` 也算 full） | :3945，每場 ×1 | data/activities.js:146–150 `ACTIVITIES.track`（坐著從開始前到結束＝full）、:138 `markAttended`（classes3d.js:423 `attendActivity` 選「聽演講」） | 公法讀書會：週四 20:00～21:30 萬才館研討室 A；Y1S1 第 10～15 週、Y1S2～Y4S1 照 termWeeks（data/activities.js:55）。**不必加入讀書會**（`canJoin` 不看社員） | key＝活動@日，**一天一場**；中途離開（left）、正在聽（in）不算 | **78 場**（腳本 1b：Y1S1 6、Y1S2 11、Y2S1 12、Y2S2 12、Y3S1 13、Y3S2 13、Y4S1 11）。JP 少 Y3S2 13 → 65；US 少 Y4S1 11 → 67 | — |
 | B1' | 舊存檔 `lawclub_study@日` | :3945，每場 ×1 | 同 B1 | 法服讀書會已停用（data/activities.js:37 `skip:()=>true`，`ACTIVITIES.on` 永遠 false） | 新局 0 | 只有舊存檔：拿掉 skip 時排得到的場次 47（腳本 1c） | 新局寫不進來，只是相容 |
-| B2 | 自習時數 `floor((stats.study − STUDY_AT_LAW)/10)` | :3946、:3953，每滿 10 小時 ×1 | ① game3d.js:299 `studySession`（3D 座位／宿舍書桌 story3d.js:3353／美國 us_life3d.js:226、us_blank3d.js:146）：+round(hrs)，最少 1 ② classes3d.js:1123 `studyUntil`（上課前「讀到○○前」）：+floor(until−h0)，最少 1 ③ study3d.js:146 `S.review`「考前總複習」：+3 ④ data/events.js:1995 可昕視訊一起讀書 afterOuting：+2 ⑤ 起點 `STUDY_AT_LAW` 只在 story3d.js:3964 `careerTick` 寫 | 自習：每個時段 1 件（classes3d.js:1147；考試週 +1、只能自習），一次 1～3 小時。總複習：期末前一週到期末考完、開始時間 21:00 以前 | ①②④受時段次數限制（一天最多 3 段、考試週 6 段）；**③總複習「可以重複做，沒有次數限制」**（study3d.js:93），不扣時段 | **沒有實質上限**：時段制約一天 9 小時、四年約 1400 天 → 約 12,000 小時＝約 1,200 分；期末窗口內總複習可以一天做 4～5 次（每次 3 小時）。正常玩家估 200～400 小時＝20～40 分 | 起點：經濟系不記；舊存檔在法律系第一次 tick 才記＝之前法律系讀的也不算（設計如此，story3d.js:3942 註解）。研究所文章三次（B4）也走 studySession，那三段的時數同時算 B2 |
+| B2 | 自習時數 `floor((stats.study − STUDY_AT_LAW)/10)` | :3946、:3953，每滿 10 小時 ×1 | ① game3d.js:299 `studySession`（3D 座位／宿舍書桌 story3d.js:3353／美國 us_life3d.js:226、us_blank3d.js:146）：+round(hrs)，最少 1 ② classes3d.js:1123 `studyUntil`（上課前「讀到○○前」）：+floor(until−h0)，最少 1 ③ study3d.js:146 `S.review`「考前總複習」：+3 ④ data/events.js:1995 可昕視訊一起讀書 afterOuting：+2 ⑤ 起點 `STUDY_AT_LAW` 只在 story3d.js:3964 `careerTick` 寫 | 自習：每個時段 1 件（classes3d.js:1147；考試週 +1、只能自習），一次 1～3 小時。總複習：期末前一週到期末考完、開始時間 21:00 以前 | ①②④受時段次數限制（一天最多 3 段、考試週 6 段）；**③總複習「可以重複做，沒有次數限制」**（study3d.js:93），不扣時段 | **沒有實質上限**：時段制約一天 9 小時、四年約 1400 天 → 約 12,000 小時＝約 1,200 分；期末窗口內總複習可以一天做 4～5 次（每次 3 小時）。正常玩家估 200～400 小時＝20～40 分 | 起點：舊序章系所不記；舊存檔在法律系第一次 tick 才記＝之前法律系讀的也不算（設計如此，story3d.js:3942 註解）。研究所文章三次（B4）也走 studySession，那三段的時數同時算 B2 |
 | B3 | `GRAD_SCHOOL_DISCUSSION`（每人一件）×2 | :3948、:3953，每個人物 +2 | 記憶標籤 `SOCIAL.remember`：**heroine_05**——ladder.js `S-Lx3` 選項①（套用在 story3d.js:808）、data/events.js:504（退休的 ev_studygroup_wed，只舊存檔）、:4621（ev_sis_office_together，前置就要有這個標籤）、:4743（ev_grad_info_session「留下來聽完」）、:4750–4752（ev_grad_debate 三個選項都給）；**prof_xu**——data/events.js:529（大一辦公時間「老師，法研所是在做什麼的？」） | 學姊：總圖閒聊 S-Lx3（ACQUAINTANCE、第 3～15 週）／說明會（大一、週五、要 met_sis）／讀完文章後吵一次。許教授：大一週一 14:00～16:00 萬才館辦公時間 | 以 `CHARACTERS` 每個 id 算一次（`SOCIAL.has`），同一人多條只算 1；腳本確認沒有 alias 重複（CHARACTERS 沒有 sis／prof） | **2 人＝4**（目前只有學姊、許教授寫得到；npc_ta_chen 只記 FIRST_MET） | 「每人一件」成立 |
 | B4 | `F.grad_read_done` 學姊給的文章 | :3953，+2 | game3d.js:293 `gradReadingSession` 第三次 | ev_grad_reading（data/events.js:4745：grad CONSIDERING 以上、大一下第 5 週起）給 `grad_reading` → 自習時選「讀學姊給的那篇文章」三次 | 一輩子一次 | **2** | 讀完才開 ev_grad_debate → 學姊的 GSD（B3）：同一條劇情線連帶 +2＋2；第 3 段之前的自習時數也算 B2。不是同一行為重複加分，但三項都來自同一條線 |
 | B5 | 寒暑假 C10 海外暑期課（加州） | :3953，每次 ×4 | vac3d.js:454、:438 | 大二、大三下第 10～13 週報名、選上；06-21～07-31 | `C10@Y2／Y3`，每年一次 | **2 次＝8**（JP、US 都擋 C10@Y3 → 4） | 和 C16、C02、C08、C09 全部撞期（腳本 2b）；拿 C10 等於放棄那年暑假大部分 A 和 C08 |
@@ -47,7 +47,7 @@
 | C3 | 寒暑假 C11 東京 ×3 | :3954 | 同上 | 大二～大四上第 5～6 週報名、寫申請書；01-17～01-30 | `C11@Y2／Y3／Y4` | **3 次＝9** | 路線都不擋（JP 出發 2028-02-20 之後；US 2028-12-23 回來） |
 | C4 | 寒暑假 C12 京都 ×3 | :3954 | 同上 | 大二、大三下第 3～12 週報名；08-09～08-27 | `C12@Y2／Y3` | **2 次＝6**（US 擋 C12@Y3 → 3） | 和 C10 不撞 |
 | C5 | 交換回臺灣 +6 | :3950、:3954 | 不寫；照 `EXCHANGE_ROUTE`（story3d.js:3928 `routeDecide` 在志願截止 2027-11-18 12:00 定）＋日期 | JP 2028-08-05、US 2028-12-23 當天起（腳本 S3：前一天 13、當天 19） | 一次 | **6** | 路線不讓玩家選，照截止那一刻的交往狀態（和學姊＝US、以安＝JP） |
-| C6 | 法律系年級的通識 `kind:'general'` 每門 ×1 | :3951、:3954 | classes3d.js:692 `showGrades` → :672 `reportFor` 寫 `R.grades[學期][課]`（成績字串）；classes3d.js:35、:50 改名／刪課遷移 | 每學期成績單發出（Y0 經濟系那年排除） | 註解說「及格的」——**程式是成績字串 truthy 就算**，見疑點 Q1；重修會以同一個 id 寫進下一學期再算一次（Q2） | 全部及格：**11 門**（Y1S1 國文／英文／體育／電影與敘事 4、Y1S2 國文／英文／體育／天文 4、Y2S1 體育／通識 2、Y2S2 通識 1）。若被當：每多重修一學期多 1，理論上界 77 | 11 門裡只有 4 門是 ge_* 通識（Q3） |
+| C6 | 法律系年級的通識 `kind:'general'` 每門 ×1 | :3951、:3954 | classes3d.js:692 `showGrades` → :672 `reportFor` 寫 `R.grades[學期][課]`（成績字串）；classes3d.js:35、:50 改名／刪課遷移 | 每學期成績單發出（Y0 舊序章系所那年排除） | 註解說「及格的」——**程式是成績字串 truthy 就算**，見疑點 Q1；重修會以同一個 id 寫進下一學期再算一次（Q2） | 全部及格：**11 門**（Y1S1 國文／英文／體育／電影與敘事 4、Y1S2 國文／英文／體育／天文 4、Y2S1 體育／通識 2、Y2S2 通識 1）。若被當：每多重修一學期多 1，理論上界 77 | 11 門裡只有 4 門是 ge_* 通識（Q3） |
 
 **C 理論最大**（全部及格）：TW＝4＋24＋0＋11＝39；JP＝4＋21＋6＋11＝**42**；US＝4＋21＋6＋11＝**42**。
 
@@ -119,7 +119,7 @@ story3d.js:3934–3935 註解：「只有四處讀：主線 7 選項②、尾聲
 | S3 | 子晴兩件；C08@Y1、C11@Y2、C12@Y3；JP 路線 | 08-05 當天 C＝19，前一天 13 |
 | S4 | Y0 兩門＋Y1S1 四門（含不及格國文）＋Y1S2 重修國文＋缺考通識 | C＝6（Q1、Q2 重現；照註解應是 4） |
 | S5 | A5＝C5、B2；有／無 Y4 基準 | A／C／A |
-| S6 | careerTick：經濟系 → 法律系 | 經濟系不記；STUDY_AT_LAW＝33 |
+| S6 | careerTick：舊序章系所 → 法律系 | 舊序章系所不記；STUDY_AT_LAW＝33 |
 | S7 | Y4S1 第 1 週 careerTick 兩次 | 記一次、不覆寫 |
 
 ---

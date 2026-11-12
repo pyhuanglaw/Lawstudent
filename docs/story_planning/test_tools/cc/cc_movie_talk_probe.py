@@ -16,7 +16,7 @@ CASES（逗號分隔；每個 case 重新讀檔）：
   OLD（要兩個網址：python3 cc_movie_talk_probe.py <舊版 v9.10.24 網址> <新版網址> <out>）：舊版用 day46 約以安看完一場 → 取 localStorage 自動存檔
            → 新版讀進來（標題「繼續」）→ 沒有 JS 例外、NY_WATCHED／MOVIE_TOGETHER 還在、MOVIES.seenRec 可以用、海報牆照常。
 全程 JS 例外 0、walkFallbacks 0；所有 GAME.say／caption／choose 原文存 movie_talk_lines.txt。
-  KX1～KX4（BB 20:36）：經濟系那一年（2024-11、2025-03、2025-05、2025-07）約可昕看 m2411b／m2503b／m2505a／m2507b（稿上沒有可昕的回答）→ 散場選完不卡住、沒有 undefined／空白對話框。
+  KX1～KX4（BB 20:36）：舊序章系所那一年（2024-11、2025-03、2025-05、2025-07）約可昕看 m2411b／m2503b／m2505a／m2507b（稿上沒有可昕的回答）→ 散場選完不卡住、沒有 undefined／空白對話框。
 用法：LW_TESTS=<wt>/tests CASES=... python3 cc_movie_talk_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, copy
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -326,9 +326,9 @@ KX = {'KX1': ('2024-11-15', 'm2411b'), 'KX2': ('2025-03-15', 'm2503b'), 'KX3': (
 
 
 async def case_kexin(pg, cdp, c):
-    """BB 20:36：經濟系那一年約可昕看這四部（稿上沒有可昕的回答）→ 散場選完不卡住、沒有 undefined／空白對話框；記實際顯示了什麼"""
+    """BB 20:36：舊序章系所那一年約可昕看這四部（稿上沒有可昕的回答）→ 散場選完不卡住、沒有 undefined／空白對話框；記實際顯示了什麼"""
     key, film = KX[c]; tag = '[%s 可昕 %s]' % (c, film)
-    await load(pg, cdp, base_state(['kexin']), day_key=key, why='日期改 %s（經濟系那一年，負的天數）08:00、可昕朋友＋聯絡方式（day46 存檔的其他欄位不變）' % key)
+    await load(pg, cdp, base_state(['kexin']), day_key=key, why='日期改 %s（舊序章系所那一年，負的天數）08:00、可昕朋友＋聯絡方式（day46 存檔的其他欄位不變）' % key)
     iv = await book(pg, cdp, tag, 'kexin', 0)
     if not iv: return
     if iv['film'] != film:

@@ -1,4 +1,4 @@
-"""CC-C 11-12：W1R E1／E2——可昕 K1 導遊 ev_kexin_tour_nccu（法律系大一上第一次開車去木柵大學，出遊；BB-C 12:00 定情境，結果給 BB 判）。Playwright（PC GPU）≠ iPhone。
+"""CC-C 11-12：W1R E1／E2——可昕 K1 導遊 ev_kexin_tour_nccu（法律系大一上第一次開車去外校大學，出遊；BB-C 12:00 定情境，結果給 BB 判）。Playwright（PC GPU）≠ iPhone。
 E1：【前置／捷徑】讀檔到宿舍、大一上 DAY（週四）20:00；和可昕交往、認識、聯絡人；G.flags.KX_TOUR_YES＝true（＝手機那一則回「好，週六下午過去。」）→ 等遊戲自己排出遊（story3d.js：OUT.plan kx_tour 週六 14:00）；
     沒排到＝【捷徑】照程式同樣的參數 OUT.plan →【捷徑】日子直接跳到那個週六 13:20（同一個存檔往後）→ 等遊戲跳「出發」→ 照玩家按「出發」→
     一句一句點：記每句（說話的人、字）、地點字幕、底（advBg 圖、透明度）、title card；演完記：回到哪、時間、NCCU_VISITED／K1_ORDER、events.done、出遊狀態；
@@ -17,9 +17,9 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]; DAY = os.environ.get('DAY') or '2025-09-25'
 CASES = [c for c in (os.environ.get('CASES') or 'E1,E2').split(',') if c]
-# CC-C 12:1x（BB-C 12:11：木柵那趟因 CANON-NO-ECON-1112 拿掉，換一場不牽涉可昕的 2D 出遊）：出遊參數都可以用環境變數換
-OID = os.environ.get('OUT_ID') or 'kx_tour'; OEV = os.environ.get('OUT_EV') or 'ev_kexin_tour_nccu'; OPLACE = os.environ.get('OUT_PLACE') or '木柵大學'
-OTITLE = os.environ.get('OUT_TITLE') or '去木柵大學找可昕'; OTRAVEL = os.environ.get('OUT_TRAVEL') or '開車約 30 分鐘'; OTH = float(os.environ.get('OUT_TRAVELH') or 0.5)
+# CC-C 12:1x（BB-C 12:11：外校那趟因 CANON-NO-ECON-1112 拿掉，換一場不牽涉可昕的 2D 出遊）：出遊參數都可以用環境變數換
+OID = os.environ.get('OUT_ID') or 'kx_tour'; OEV = os.environ.get('OUT_EV') or 'ev_kexin_tour_nccu'; OPLACE = os.environ.get('OUT_PLACE') or '外校大學'
+OTITLE = os.environ.get('OUT_TITLE') or '去外校大學找可昕'; OTRAVEL = os.environ.get('OUT_TRAVEL') or '開車約 30 分鐘'; OTH = float(os.environ.get('OUT_TRAVELH') or 0.5)
 OH = float(os.environ.get('OUT_H') or 14); OWD = int(os.environ.get('OUT_WD') or 6); OFLAGS = os.environ.get('OUT_FLAGS') or 'dating_kexin:1,met_kexin:1,KX_TOUR_YES:1'
 OWHO = os.environ.get('OUT_WHO') or 'kexin'; STOP_RE = os.environ.get('STOP_RE') or 'nccu_food|小吃街'; DONEFLAG = os.environ.get('DONE_FLAG') or 'NCCU_VISITED'
 R = L.Run('kx_tour', OUT); D.setup(R, OUT)
@@ -117,7 +117,7 @@ async def one(pg, cdp, case, res):
 
 
 async def main():
-    print('CC 可昕導遊（木柵大學）：SHA %s；CASES %s；%s' % (SHA or '?', CASES, DAY), flush=True)
+    print('CC 可昕導遊（外校大學）：SHA %s；CASES %s；%s' % (SHA or '?', CASES, DAY), flush=True)
     res = {'sha': SHA}
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
