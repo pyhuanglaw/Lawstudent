@@ -21,6 +21,31 @@ GATE_CAL_2771 | 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37 | probe | docs/story_pl
 # ③ 98ec5b0f66 SHOP-LIFE-AUDIT：同三間白天一次（店員在不在櫃檯裡、客人、做得到）
 GATE_98EC_tz3 | 98ec5b0f66120b7dcb37acfc5c362be73051f6bf | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=98ec;ZONES=tz_taimi,tz_dongnan,tz_liantong;HOURS=14;SHA=98ec5b0f66120b7dcb37acfc5c362be73051f6bf
 GATE_98EC_xs3 | 98ec5b0f66120b7dcb37acfc5c362be73051f6bf | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=98ec_xs;ZONES=xs_dakou,xs_dabu,xs_haopai;HOURS=14;SHA=98ec5b0f66120b7dcb37acfc5c362be73051f6bf
+# ===== P0 BB-C 05:45：LAWWW 新 SHA 2df53f7b56（98ec 店員客人、place_gate 第一層、七間加高 3.3 m、林家乾麵街景＋溫州街重建）；D156 直接排 =====
+G2DF5_TZ3_cust | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=g2df5_tz3_cust;ZONES=tz_taimi,tz_dongnan,tz_liantong;HOURS=12.5,18.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+G2DF5_LINVIEW | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=2df5;VIEWS=lin_front:wenzhou:36:-1:14:3.1416:6:36:1.4:3.5:60+lin_side:wenzhou:36:-1:14:2.45:6:36:1.4:3.5:60+lin_night:wenzhou:36:-1:20.5:3.1416:6:36:1.4:3.5:60;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+# 天花板（LAWWW 要的：七間加高＋3.2 m 那批＋安泰、禮貌生財、阿德、一盞、林家、小路）只跑①～④，每間往上一張
+G2DF5_CEIL_a | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=g2df5_ceil_a;ZONES=gg_antai,gg_rongendian,tz_limao,tz_xile,tz_yindehao,tz_yuehaochi,tz_keju;HOURS=14;PARTS=1,2,3,4;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+G2DF5_CEIL_b | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 45 | TAG=g2df5_ceil_b;ZONES=l118_dian,l118_self,l118_tea,l118_home,l118_cafe2,l118_pasta,l118_korea,l118_omu,l118_noodle2;HOURS=14;PARTS=1,2,3,4;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+G2DF5_CEIL_c | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=g2df5_ceil_c;ZONES=wz_print,wz_teahouse,wz_lin,wz_teishoku;HOURS=14;PARTS=1,2,3,4;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+# 溫州街重建有沒有動到別處
+G2DF5_WZ_touch | 2df53f7b5660676aed976eb99e7147f46ccfee29 | game | tests/touch_flow_wenzhou.py | index.html | 25 | SOLO=1;XARGS={url}
+G2DF5_reach | 2df53f7b5660676aed976eb99e7147f46ccfee29 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url}
+# 公館燒臘實際點一次餐（Node 只按得出「坐。」）
+G2DF5_NOODLE | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=g2df5_noodle;ZONES=noodle;HOURS=12.5;PARTS=1,7;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+# D155 全店補查第二層（公館→溫州街→118 巷→新生南路→汀州路，白天 14:00＋晚上 20:30；含疑似疊面的走動連拍）
+GBF_gg1 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_gg1;ZONES=cvs,noodle,bookstore,bikeshop;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_gg2 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_gg2;ZONES=afar,daybreak,yangyang,corner_records;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_gg3 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 80 | TAG=gbf_gg3;ZONES=aoki,gg_antai,gg_xianguo,gg_rongendian,flower_notes;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_wz1 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_wz1;ZONES=cafe,wz_brunch,wz_print,wz_teahouse;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_wz2 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_wz2;ZONES=wz_lin,wz_teishoku,wz_mokuyobi,wz_offbeat;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_l1181 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 80 | TAG=gbf_l1181;ZONES=l118_dian,l118_self,l118_tea,l118_home,l118_cafe2;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_l1182 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_l1182;ZONES=l118_pasta,l118_korea,l118_omu,l118_noodle2;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_xs1 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_xs1;ZONES=xs_tongxian,xs_nanyang,xs_shanlan,xs_dabu;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_xs2 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=gbf_xs2;ZONES=xs_haopai,xs_xsports,xs_dakou;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_tz1 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_tz1;ZONES=tz_taimi,tz_yuehaochi,tz_dongnan,tz_liantong;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+GBF_tz2 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_tz2;ZONES=tz_yindehao,tz_xile,tz_keju,tz_limao;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+
 # 原本在雲端驗的十項（探針都 probe_lint PASS；第一次在電腦跑，TEST_BUG 由 CC 修了重排）
 C1112_FLK_new | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_shop_flicker_probe.py | index.html | 25 | TAG=new;SPOTS=L118_A,L118_B,WZ_W,WZ_N;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
 C1112_FLK_old | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_shop_flicker_probe.py | index.html | 25 | TAG=old;SPOTS=L118_A,L118_B,WZ_W,WZ_N;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
