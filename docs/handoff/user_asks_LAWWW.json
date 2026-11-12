@@ -4892,7 +4892,7 @@
    "at": "2026-11-12T03:5xZ",
    "quote": "麵店團不是已經改成桌遊團了嗎 ??github上所有麵店團都刪掉 改成桌遊團",
    "kind": "轉述",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X347",
    "task": "NOODLE-NAME-PURGE-1112",
    "note": "使用者對 BB-C 說的（UA-BB-1112-01），BB-C 03:55 轉 LAWWW-C：開發分支 src／docs／tests／tools 由 LAWWW 改"
