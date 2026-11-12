@@ -71,7 +71,7 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
   check('2u. 語彤情人節不再用麵店的圖（AA_630 H-017）',!/noodle_door|noodle_table/.test(ytV.slice(ytV.indexOf("id:'ev_yt_vday_y2'"),ytV.indexOf("id:'ev_yt_vday_y3'"))));
   const ok=[['src/data/jp_events.js',"{scene:'海邊',bg:'jp_beach'}"],['src/data/sis_b4_events.js',"{scene:'2:30 AM 門口',bg:'cafe_door_night'}"],
     ['src/data/events.js',"{scene:'新體育館',bg:'gym_court'}"],['src/y2r2_3d.js',"{scene:'新體育館',bg:'gym_court'}"],['src/data/group_events.js',"{scene:'新體育館・球場',bg:'gym_court'}"],['src/data/r2y4b_events.js',"{scene:'新體育館・球場',bg:'gym_court'}"],
-    ['src/data/r2y4b_events.js',"{scene:'法律系館B大廳',bg:'wancai_lobby'}"],['src/data/sis_b16_events.js',"{scene:'新體育館門口',bg:'gym_gate'}"],['src/data/events.js',"background:'gym_court', hours:3"],['src/data/r2y3a_events.js',"background:'kh_hotel_front'"],
+    ['src/data/r2y4b_events.js',"{scene:'法律系館B大廳',bg:'wancai_lobby'}"],['src/data/sis_b16_events.js',"{scene:'新體育館門口',bg:'gym_gate'}"],/* events.js 球賽那一場（舊序章人物）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/['src/data/r2y3a_events.js',"background:'kh_hotel_front'"],
     ['src/data/sis_b14_events.js',"us_c_door"],['src/sideq3d.js',"bg:'hwaxin_street'"],['src/sideq3d.js',"bg:'vet_clinic'"],
     ['src/data/jpprep_events.js',"ev('ev_jpp_0221',[ {scene:'家',bg:'home_room_day'}"],['src/data/jpprep_events.js',"ev('ev_jpp_0319',[ {scene:'家',bg:'home_living_day'}"]];
   const miss=ok.filter(([f,t])=>!rd(f).includes(t));
