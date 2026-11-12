@@ -5,7 +5,7 @@
   ③ 走回遠點，站 5 秒：貼圖數、draw call 有沒有降回去
   ④ 再來回兩趟（共三趟）：每趟到中間點、回遠點各記一次 heap（GC 後）、貼圖數、物件數
 輸出：xsperf_<TAG>.json＋run.log 總表。PC GPU 無視窗（config）；SOLO 跑。Windows＋GPU ≠ 使用者那台。
-CC_02 清單 2026-11-12：1✓（ZONE／DAY／HOUR 由佇列給：新生南路 14:00、汀州路 14:00 和星期六 19:30 夜市；SHA 由佇列給） 2✓（門、站點全從遊戲讀：出口互動點、E.canStand） 3✓（中間點、遠點都依序找第一個站得住的） 4n/a（不按任何按鈕，只走路） 5✓（go_to 分段走、到不了記位置） 6✓（讀檔後等 8 秒、每站停 5 秒再量） 7✓ 8n/a（不判快慢；數字交 LAWWW） 9n/a（不截圖判畫面） 10n/a（條件事件關掉、沒有選單） 11✓ 12✓（記真的走到的位置和距離） 13✓（每段記走了幾秒、到了沒；LAWWW-C 08:19 加：進區域站 10 秒的預載量、zone.shopReal 每間 built／ready／on）
+CC_02 清單 2026-11-13：1✓（FARPT 固定遠點；FAIL_SETUP 檢查兩點站得住）（ZONE／DAY／HOUR 由佇列給：新生南路 14:00、汀州路 14:00 和星期六 19:30 夜市；SHA 由佇列給） 2✓（門、站點全從遊戲讀：出口互動點、E.canStand） 3✓（中間點、遠點都依序找第一個站得住的） 4n/a（不按任何按鈕，只走路） 5✓（go_to 分段走、到不了記位置） 6✓（讀檔後等 8 秒、每站停 5 秒再量） 7✓ 8n/a（不判快慢；數字交 LAWWW） 9n/a（不截圖判畫面） 10n/a（條件事件關掉、沒有選單） 11✓ 12✓（記真的走到的位置和距離） 13✓（每段記走了幾秒、到了沒；LAWWW-C 08:19 加：進區域站 10 秒的預載量、zone.shopReal 每間 built／ready／on）
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONE=xinsheng DAY=2025-10-22 HOUR=14 PAIR=xs_dabu,xs_haopai FAR=45 TRIPS=3] python3 cc_xs_inside_perf_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -19,6 +19,7 @@ TAG = os.environ.get('TAG') or 'x'; SHA = os.environ.get('SHA') or ''
 PAIR = (os.environ.get('PAIR') or 'xs_dabu,xs_haopai').split(',')
 ALLBUILT = (os.environ.get('ALLBUILT') or '1') == '1'   # 等全部 built 再量一次記憶體
 MID = [float(v) for v in os.environ.get('MID').split(',')] if os.environ.get('MID') else None   # 11-12 BB-C 17:15：指定中間點（例 SUNNY 門前 3 m＝45,-1.6），不用兩個門的中點
+FARPT = [float(v) for v in os.environ.get('FARPT').split(',')] if os.environ.get('FARPT') else None   # 11-13 BB-C：公館最遠只有 16 m，改固定遠點（例 6.79,9.69）
 FAR = float(os.environ.get('FAR') or '45'); TRIPS = int(os.environ.get('TRIPS') or '3')
 R = L.Run('xsperf_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -34,6 +35,7 @@ FIND = r"""((a)=>{ const E=GAME.E, lv=0; const ok=(x,z)=>E.canStand(x,z,0.35,lv)
   for(let s=0; s<=6 && !mid; s+=0.25){ for(const sg of [1,-1]){ const x=mx+dx/dl*s*sg, z=mz+dz/dl*s*sg; if(ok(x,z)){ mid={x:+x.toFixed(2), z:+z.toFixed(2)}; break; } } }
   if(!mid) return {err:'中間點附近站不住', mx, mz};
   let far=null; for(let k=0;k<16;k++){ const an=k*Math.PI/8, ux=Math.sin(an), uz=Math.cos(an); let last=null; for(let s=1;s<=80;s+=1){ const x=mid.x+ux*s, z=mid.z+uz*s; if(!ok(x,z)) break; last={x:+x.toFixed(2), z:+z.toFixed(2), d:s}; } if(last&&(!far||last.d>far.d)) far=last; }
+  if(a.farpt){ const fx=a.farpt[0], fz=a.farpt[1]; far = ok(fx,fz) ? {x:fx, z:fz, d:+Math.hypot(fx-mid.x,fz-mid.z).toFixed(1), fixed:true} : null; if(!far) return {mid, far:null, err:'固定遠點站不住', farpt:a.farpt}; }
   return {mid, far}; })"""
 MET = r"""(()=>{ const E=GAME.E, i=E.renderer.info; let objs=0; E.scene.traverse(()=>objs++); const pm=performance.memory;
   return {calls:i.render.calls, tris:i.render.triangles, tex:i.memory.textures, geoms:i.memory.geometries, programs:i.programs?i.programs.length:null, objs, heapMB:pm?+(pm.usedJSHeapSize/1048576).toFixed(1):null}; })()"""
@@ -91,8 +93,8 @@ async def main():
 
         exs = await pg.evaluate(EXITS); d1 = next((e for e in exs if e['to'] == PAIR[0]), None); d2 = next((e for e in exs if e['to'] == PAIR[1]), None)
         if not R.check('%s 有 %s、%s 兩個門' % (ZONE, PAIR[0], PAIR[1]), bool(d1 and d2), J(exs)): await b.close(); sys.exit(1)
-        pts = await pg.evaluate(FIND, {'d1': d1, 'd2': d2, 'mid': MID}); res['points'] = pts; res['doors'] = [d1, d2]
-        if not R.check('找得到中間點和遠點（≥%d m）' % FAR, bool(pts.get('mid') and pts.get('far') and pts['far']['d'] >= FAR * 0.6), J(pts)): await b.close(); sys.exit(1)
+        pts = await pg.evaluate(FIND, {'d1': d1, 'd2': d2, 'mid': MID, 'farpt': FARPT}); res['points'] = pts; res['doors'] = [d1, d2]
+        if not R.check('FAIL_SETUP 檢查：中間點、遠點站得住' + ('（固定遠點）' if FARPT else '（≥%d m）' % FAR), bool(pts.get('mid') and pts.get('far') and (FARPT or pts['far']['d'] >= FAR * 0.6)), J(pts)): await b.close(); sys.exit(1)
         R.note('門 %s；中間點 %s；遠點 %s（離中間點 %s m）' % (J([d1, d2]), J(pts['mid']), J(pts['far']), pts['far']['d']))
         mid, far = pts['mid'], pts['far']
         R.setup('【前置／捷徑】先讀檔站到遠點')
