@@ -2,7 +2,7 @@
 做法：每一組 CASES（日期@時間，+ 分隔）：【前置／捷徑】讀檔 FIX 到 ZONE 那天那個時間（條件事件關掉）→ 找標籤含 LABEL 的互動點 → 真的走過去（go_to）→ 看互動鍵的字 → 按 →
   一路點對話、選項照 PICK（逗號分隔的字，找第一個含那個字的選項；沒有就選第 1 個）→ 每一句旁白、每一次選單都記下來、選單出現時截圖、最後截圖。
 CC_02 清單 2026-11-12：1✓（日期、時間照佇列：大一、大三上各一次） 2✓（互動點照標籤從遊戲找，不寫座標） 3✓（每一組重新讀檔） 4✓（選項照字選、記下全部選項） 5✓（go_to 走過去） 6✓（讀檔等 6 秒、一句一句點） 7✓ 8n/a（不判，字給 BB） 9n/a（截圖不藏東西） 10✓（條件事件關掉） 11✓ 12✓（每句、每個選單、互動鍵字） 13✓（讀檔捷徑標）
-用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONE=wz_offbeat LABEL=社團佈告欄 CASES=2025-10-14@15+2027-09-14@15 [PICK=法律服務社,…] [FIX=…] python3 cc_interact_probe.py <url> <out>"""
+用法（EACH=1＝第一個選單每個選項各按一次）：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONE=wz_offbeat LABEL=社團佈告欄 CASES=2025-10-14@15+2027-09-14@15 [PICK=法律服務社,…] [FIX=…] python3 cc_interact_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -15,6 +15,7 @@ SHA = (os.environ.get('SHA') or '')[:10]; TAG = os.environ.get('TAG') or 'x'
 ZONE = os.environ.get('ZONE') or 'wz_offbeat'; LABEL = os.environ.get('LABEL') or '社團佈告欄'
 CASES = [c.split('@') for c in (os.environ.get('CASES') or '2025-10-14@15').replace(';', '+').split('+') if c]
 PICK = [x for x in (os.environ.get('PICK') or '').split(',') if x]
+EACH = (os.environ.get('EACH') or '0') == '1'   # BB-C 10:23：第一個選單的每一個選項各按一次（每個社團那一頁）
 R = L.Run('interact_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ST = r"""(()=>{ const d=document.getElementById('dlg'); return {dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
@@ -38,26 +39,36 @@ async def main():
             await L.go_to(pg, cdp, R, it['x'], it['z'], 0.7, it['label'], max_s=90, lv=it['lv'])
             st = await pg.evaluate(ST)
             R.note('%s 互動鍵「%s」（互動點 %s）' % (tag, st['interact'], J(it)))
-            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
-            lines = []; menus = []
-            for k in range(80):
-                st = await pg.evaluate(ST)
-                if st['choices']:
-                    menus.append(st['choices']); await pg.screenshot(path=os.path.join(OUT, 'menu_%s_%d_%02d.png' % (TAG, n, len(menus))))
-                    i = next((j for w in PICK for j, t in enumerate(st['choices']) if w in t), 0)
-                    lines.append('▶ ' + st['choices'][i])
-                    await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(800); continue
-                if st['dlg']:
-                    if not lines or lines[-1] != (st['who'] + '｜' + st['t']): lines.append(st['who'] + '｜' + st['t'])
-                    if len(lines) == 1: await pg.screenshot(path=os.path.join(OUT, 'first_%s_%d.png' % (TAG, n)))
-                    await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
-                if not st['busy']: break
-                await pg.wait_for_timeout(600)
+            async def once(first_pick, sub):
+                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+                lines = []; menus = []
+                for k in range(80):
+                    st = await pg.evaluate(ST)
+                    if st['choices']:
+                        menus.append(st['choices']); await pg.screenshot(path=os.path.join(OUT, 'menu_%s_%d_%s_%02d.png' % (TAG, n, sub, len(menus))))
+                        if len(menus) == 1 and first_pick is not None: i = min(first_pick, len(st['choices']) - 1)
+                        else: i = next((j for w in PICK for j, t in enumerate(st['choices']) if w in t), 0)
+                        lines.append('▶ ' + st['choices'][i])
+                        await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(800); continue
+                    if st['dlg']:
+                        if not lines or lines[-1] != (st['who'] + '｜' + st['t']): lines.append(st['who'] + '｜' + st['t'])
+                        if len(lines) <= 1 or (lines[-2:-1] and lines[-2].startswith('▶')): await pg.screenshot(path=os.path.join(OUT, 'line_%s_%d_%s_%02d.png' % (TAG, n, sub, len(lines))))
+                        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+                    if not st['busy']: break
+                    await pg.wait_for_timeout(600)
+                return lines, menus
+            lines, menus = await once(None, 'a')
+            each = []
+            if EACH and menus:
+                for idx in range(len(menus[0])):
+                    l2, m2 = await once(idx, 'o%02d' % idx)
+                    each.append({'option': menus[0][idx], 'lines': l2, 'menus': m2})
+                    R.note('%s 選項 %d「%s」：%s' % (tag, idx, menus[0][idx], J(l2)))
             await pg.screenshot(path=os.path.join(OUT, 'end_%s_%d.png' % (TAG, n)))
             R.note('%s 整段（%d 句、%d 個選單）：%s' % (tag, len(lines), len(menus), J(lines)))
             R.note('%s 選單：%s' % (tag, J(menus)))
             R.check('%s 按了有字出來' % tag, bool(lines), '')
-            res['cases'].append({'day': day, 'h': hh, 'it': it, 'lines': lines, 'menus': menus})
+            res['cases'].append({'day': day, 'h': hh, 'it': it, 'lines': lines, 'menus': menus, 'each': each})
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     open(os.path.join(OUT, 'interact_%s.json' % TAG), 'w', encoding='utf-8').write(J(res))

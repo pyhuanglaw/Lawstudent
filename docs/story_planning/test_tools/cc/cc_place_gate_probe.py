@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；STRIPS=1 藏人那一輪每個翻動格子切 12 張條圖（BB-C 10:23）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -28,6 +28,7 @@ TAG = os.environ.get('TAG') or 'x'
 ZONES = [z for z in (os.environ.get('ZONES') or 'tz_taimi').split(',') if z]
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,20.5').split(',') if h]
 PARTS = set((os.environ.get('PARTS') or '1,2,3,4,5,6,7').split(','))
+STRIPS = (os.environ.get('STRIPS') or '0') == '1'   # BB-C 10:23：每個翻動的格子切成條圖（同一格 12 張並排、每張時間戳），分陰影跳／窗外車人／疊面閃
 PAR_LO, PAR_HI = float(os.environ.get('PAR_LO') or '0.05'), float(os.environ.get('PAR_HI') or '0.15')   # 射線：門面後面還有東西的比例
 SPR_LO, SPR_HI = float(os.environ.get('SPR_LO') or '0.3'), float(os.environ.get('SPR_HI') or '0.8')   # ⑤ 門面後面打到的深度分散 p90−p10（m，暫定，等大步新舊 r3 校正）
 CON_LO, CON_HI = float(os.environ.get('CON_LO') or '8'), float(os.environ.get('CON_HI') or '18')   # ⑦b 店外 vs 進門 牆／地板平均色的 Lab Δab（色調＋飽和度，不看亮度；暫定，等 dc3d 大步灰牆 vs 木牆校正）
@@ -89,13 +90,20 @@ CEIL_JS = r"""(a=>{ const E=GAME.E, rc=new THREE.Raycaster(new THREE.Vector3(a[0
   const h=rc.intersectObjects(E.scene.children,true).filter(x=>x.object.visible!==false&&!ex.has(x.object))[0]; return h?{hit:true, d:+h.distance.toFixed(2), name:String(h.object.name||'').slice(0,30)}:{hit:false}; })"""
 BURST_JS = r"""(async a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, W=64, H=Math.round(64*c.height/c.width), k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d',{willReadFrequently:true});
   const B=8, bw=Math.floor(W/B), bh=Math.floor(H/B), seq=[]; const y0=E.cam.yaw;
+  const fr=[], t00=performance.now(); const FW=640, FH=Math.round(640*c.height/c.width);
   for(let f=0;f<25;f++){ E.cam.yaw=y0+f*0.01; await new Promise(res=>setTimeout(res,200)); r.render(E.scene,E.camera); g.drawImage(c,0,0,W,H); const d=g.getImageData(0,0,W,H).data; const v=[];
+    if(a.strips){ const q=document.createElement('canvas'); q.width=FW; q.height=FH; q.getContext('2d').drawImage(c,0,0,FW,FH); const G=GAME.G; fr.push({q, ms:Math.round(performance.now()-t00), gh:G?(+G.hour).toFixed(3):''}); }
     for(let by=0;by<B;by++) for(let bx=0;bx<B;bx++){ let s=0,n=0; for(let y=by*bh;y<(by+1)*bh;y++) for(let x=bx*bw;x<(bx+1)*bw;x++){ const o=(y*W+x)*4; s+=0.299*d[o]+0.587*d[o+1]+0.114*d[o+2]; n++; } v.push(s/n); } seq.push(v); }
   E.cam.yaw=y0; let flick=0; const per=[]; for(let i=0;i<B*B;i++){ let flips=0, prev=0; for(let f=1;f<seq.length;f++){ const dd=seq[f][i]-seq[f-1][i]; if(Math.abs(dd)>12){ const sg=Math.sign(dd); if(prev&&sg!==prev) flips++; prev=sg; } } per.push(flips); if(flips>=3) flick++; }
   let img=null; if(a.overlay){ r.render(E.scene,E.camera); const ow=640, oh=Math.round(640*c.height/c.width), q=document.createElement('canvas'); q.width=ow; q.height=oh; const qg=q.getContext('2d'); qg.drawImage(c,0,0,ow,oh);
     const sx=ow/B, sy=oh/B; qg.lineWidth=3; qg.font='bold 14px sans-serif'; for(let i=0;i<B*B;i++){ if(per[i]<3) continue; const bx=i%B, by=Math.floor(i/B); qg.strokeStyle='#ff2d55'; qg.strokeRect(bx*sx+2,by*sy+2,sx-4,sy-4); qg.fillStyle='#ff2d55'; qg.fillText(String(per[i]),bx*sx+6,by*sy+18); }
     img=q.toDataURL('image/jpeg',0.85); }
-  return {blocks_flipping:flick, max_flips:Math.max(...per), per, img}; })"""
+  let strips=null; if(a.strips&&fr.length){ strips=[]; const sx=FW/B, sy=FH/B, pick=[]; for(let f=0;f<fr.length&&pick.length<12;f+=2) pick.push(f);
+    const order=per.map((n,i)=>[n,i]).filter(x=>x[0]>=3).sort((a2,b2)=>b2[0]-a2[0]).slice(0,10);
+    for(const [n,i] of order){ const bx=i%B, by=Math.floor(i/B), cw=Math.round(sx), ch=Math.round(sy), sc=2, tw=cw*sc, th=ch*sc; const k2=document.createElement('canvas'); k2.width=tw*pick.length; k2.height=th+34; const g2=k2.getContext('2d'); g2.fillStyle='#000'; g2.fillRect(0,0,k2.width,k2.height);
+      g2.font='bold 12px sans-serif'; pick.forEach((f,j)=>{ g2.drawImage(fr[f].q, bx*sx, by*sy, sx, sy, j*tw, 34, tw, th); g2.fillStyle='#fff'; g2.fillText(fr[f].ms+'ms', j*tw+3, 13); g2.fillStyle='#ffd24d'; g2.fillText('g'+fr[f].gh, j*tw+3, 28); });
+      strips.push({i, bx, by, flips:n, url:k2.toDataURL('image/jpeg',0.88)}); } }
+  return {blocks_flipping:flick, max_flips:Math.max(...per), per, img, strips}; })"""
 SHEET_JS = r"""(async a=>{ const ims=await Promise.all(a.urls.map(u=>new Promise(res=>{ if(!u) return res(null); const q=new Image(); q.onload=()=>res(q); q.onerror=()=>res(null); q.src=u; })));
   const w=420, h=236, cols=4, rows=Math.ceil(ims.length/cols), k=document.createElement('canvas'); k.width=w*cols; k.height=h*rows+56; const g=k.getContext('2d'); g.fillStyle='#000'; g.fillRect(0,0,k.width,k.height);
   g.fillStyle='#fff'; g.font='bold 18px sans-serif'; g.fillText(a.title,8,22); g.font='13px sans-serif'; g.fillStyle='#ffd24d'; g.fillText(a.verdict,8,46);
@@ -273,7 +281,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         z1 = await pg.evaluate(ZF_JS, {'from': [ex + ux * 1.0, 1.6, ez + uz * 1.0], 'at': [cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8]})
         z2 = await pg.evaluate(ZF_JS, {'from': [cx, 1.6, cz], 'at': [ex - ux * 2.0, 1.8, ez - uz * 2.0]})
         bu = await pg.evaluate(BURST_JS, {'overlay': True})
-        await pg.evaluate(HIDE_PEOPLE + '(true)'); bu2 = await pg.evaluate(BURST_JS, {'overlay': True}); await pg.evaluate(HIDE_PEOPLE + '(false)')
+        await pg.evaluate(HIDE_PEOPLE + '(true)'); bu2 = await pg.evaluate(BURST_JS, {'overlay': True, 'strips': STRIPS}); await pg.evaluate(HIDE_PEOPLE + '(false)')
+        for st_ in (bu2.pop('strips', None) or []):   # 藏人那一輪的翻動格子：同一格 12 張並排（上面 ms＝連拍開始後幾毫秒、g＝遊戲時間）
+            open(os.path.join(OUT, 'strip_%s_%s_b%02d_r%dc%d_f%d.jpg' % (zid, hh, st_['i'], st_['by'], st_['bx'], st_['flips'])), 'wb').write(base64.b64decode(st_['url'].split(',', 1)[1]))
         # BB-C 07:19 ②：翻動的格子圈在截圖上（數字＝翻幾次）；另外把人都藏起來再連拍一次＝分得出是人在走還是真的閃
         for nm_, x_ in (('', bu), ('_nopeople', bu2)):
             if x_.get('img'): open(os.path.join(OUT, 'burst_%s_%s%s.jpg' % (zid, hh, nm_)), 'wb').write(base64.b64decode(x_['img'].split(',', 1)[1]))

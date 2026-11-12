@@ -11,7 +11,7 @@
   另外記遊戲自己的 dt（GAME.E.lastDt／E.dt 有就記）、JS 長任務（PerformanceObserver longtask，有就記）。
 輸出：stutter_<TAG>.json（每段每幀原始資料）＋run.log 總表。判定只有「探針有跑完、量到東西」；數字給 LAWWW 判。
 （第二輪 LAWWW-C 04:42：VIEW／DSF／HOUR；跑步前後記 E.q、renderer 像素比、畫布、render.calls／triangles、programs；每幀記畫質有沒有變；跑不遠就記停的位置和附近 collider）
-CC_02 清單 2026-11-12：1✓ 2✓（DN_GOODS_fps：「真的在跑」改看 run 姿勢幀數〔runHold 不亮也會跑〕；第五輪加 WINPOS、renderer.render 間隔、螢幕資訊；r2 加 NO_VIEWPORT、headless 判斷、閒置 rAF 間隔、GAME.frameInfo()；第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
+CC_02 清單 2026-11-12：1✓ 2✓（LAWWW-C 10:22：長幀當下記事件〔addNPC、CHAR.build、scene.add、素材載好、shopReal 變 ready〕；DN_GOODS_fps：「真的在跑」改看 run 姿勢幀數〔runHold 不亮也會跑〕；第五輪加 WINPOS、renderer.render 間隔、螢幕資訊；r2 加 NO_VIEWPORT、headless 判斷、閒置 rAF 間隔、GAME.frameInfo()；第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONES=wenzhou,campus,gongguan] [RUN_S=10] [VIEW=2308x1064 DSF=1|1.25|1.5|2 HOUR=17.58] python3 cc_run_stutter_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, statistics
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -34,7 +34,14 @@ DAY = '2025-10-22'
 PLACE = {'wenzhou': {'x': None, 'z': None, 'dir': None, 'name': '溫州街'},
          'campus': {'x': 2.0, 'z': -100.0, 'dir': (0.0, -1.0), 'name': '校園椰林大道（往北）'},
          'gongguan': {'x': None, 'z': None, 'dir': None, 'name': '公館'}}
-REC_ON = r"""(()=>{ const E=GAME.E, P=E.player; window.__st={f:[], lt:[], r:[]}; window.__stOn=true;
+REC_ON = r"""(()=>{ const E=GAME.E, P=E.player; window.__st={f:[], lt:[], r:[], ev:[]}; window.__stOn=true;
+  /* LAWWW-C 10:22（東南 217 ms 那一幀發生在哪一下）：記事件時間——生人（E.addNPC、CHAR.build）、加進場景（scene.add）、素材載好（ASSETS.loadOne 完成）、shopReal 那一間變 ready */
+  if(!window.__stEW){ window.__stEW=true; const ev=(k,l)=>{ if(window.__stOn) window.__st.ev.push([+performance.now().toFixed(1), k, String(l||'').slice(0,40)]); };
+    try{ const a0=E.addNPC; if(a0) E.addNPC=function(o){ ev('addNPC',(o&&(o.name||o.charId||o.id))||''); return a0.apply(this,arguments); }; }catch(e){}
+    try{ if(typeof CHAR!=='undefined'&&CHAR.build){ const b0=CHAR.build; CHAR.build=function(sp){ ev('CHAR.build',(sp&&(sp.id||sp.name))||''); return b0.apply(this,arguments); }; } }catch(e){}
+    try{ const sc=E.scene, s0=sc.add; sc.add=function(o){ ev('scene.add',(o&&o.name)||''); return s0.apply(this,arguments); }; }catch(e){}
+    try{ if(typeof ASSETS!=='undefined'&&ASSETS.loadOne){ const l0=ASSETS.loadOne; ASSETS.loadOne=function(k){ const r=l0.apply(this,arguments); try{ if(r&&r.then) r.then(()=>ev('asset',k)); }catch(e){} return r; }; } }catch(e){}
+    let rd={}; setInterval(()=>{ try{ const R=E.zone&&E.zone.shopReal; if(!R||!R.shops) return; for(const q of R.shops){ const k=q.id+':'+(q.ready?1:0)+(q.built?1:0)+(q.on?1:0); if(!rd[k]){ rd[k]=1; ev('shopReal',k); } } }catch(e){} },50); }
   if(!window.__stRW&&E.renderer){ const r0=E.renderer.render; E.renderer.render=function(){ if(window.__stOn){ window.__st.r.push(performance.now()); window.__stRC=(window.__stRC|0)+1; } return r0.apply(this,arguments); }; window.__stRW=true; }   /* 第五輪（LAWWW-C 06:51）：真的有畫的幀（renderer.render 被叫的時間）；有幀率上限時 rAF 會空轉 */
   try{ if(!window.__stLT&&typeof PerformanceObserver!=='undefined'){ window.__stLT=new PerformanceObserver(l=>{ if(window.__stOn) for(const e of l.getEntries()) window.__st.lt.push([+e.startTime.toFixed(1), +e.duration.toFixed(1)]); }); window.__stLT.observe({entryTypes:['longtask']}); } }catch(e){}
   let last=null; const f=t=>{ if(!window.__stOn) return; const o=P.obj.position; const cv=E.renderer&&E.renderer.domElement, qq=E.q||{}; window.__st.f.push([+t.toFixed(2), last==null?null:+(t-last).toFixed(2), +o.x.toFixed(4), +o.z.toFixed(4), P.speed==null?null:+(+P.speed).toFixed(2), P.pose||null, E.lastDt!=null?+(+E.lastDt).toFixed(4):(E.dt!=null?+(+E.dt).toFixed(4):null), !!P.runHold, qq.level||null, qq.pr==null?null:+qq.pr, E.renderer?+E.renderer.getPixelRatio().toFixed(3):null, cv?cv.width+'x'+cv.height:null, !!qq.shadows, window.__stRC|0]); last=t; requestAnimationFrame(f); };
@@ -76,6 +83,14 @@ def stats(frames):
 async def seg(pg, cdp, tag, name, fn):
     await pg.evaluate(REC_ON); await fn(); d = await pg.evaluate(REC_OFF)
     st = stats(d['f']); st['longtasks'] = len(d['lt']); st['longtask_max'] = max([x[1] for x in d['lt']] or [0])
+    evs = d.get('ev') or []; lng = []
+    for f in d['f']:
+        if f[1] is not None and f[1] > 50:
+            t1, t0 = f[0], f[0] - f[1]
+            near = [e for e in evs if t0 - 30 <= e[0] <= t1 + 5]
+            lng.append({'t': f[0], 'ms': f[1], 'events': near[:12], 'n_events': len(near)})
+    st['long_frames'] = lng[:10]; st['events_total'] = len(evs)
+    if lng: R.note('%s %s 長幀當下的事件（前 30 ms 到幀結束）：%s' % (tag, name, json.dumps(lng[:6], ensure_ascii=False)))
     runs = sum(1 for f in d['f'] if f[7]); poses = {}
     for f in d['f']: poses[f[5]] = poses.get(f[5], 0) + 1
     st['runHold_frames'] = runs; st['poses'] = poses
