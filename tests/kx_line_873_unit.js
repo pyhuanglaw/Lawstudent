@@ -74,5 +74,25 @@ const J=JSON.stringify;
     check('AA_879. 提前的那一年開場多「提早過。那天我在高雄，這個我不想用視訊。」；地點湯餃店（深色底＋字幕）', all()[0]==='提早過。那天我在高雄，這個我不想用視訊。'&&e.dialogue.some(l=>l.scene==='學校後門・湯餃店'&&l.bg==='dark'), J(all().slice(0,2)));
     fresh('2026-12-31',18,'dorm',{dating_kexin:true}); STORY.kxAnnivMissed(G,1,D('2026-12-31')); G.day=D('2027-01-01'); G.hour=12.1; PHONE.tick(G);
     check('AA_879. 沒去：隔天中午卡片的照片＋「卡片我寫了。你沒來，先給你看第一頁。」；記那一天（AA_876 讀）', J((G.msgs||[]).filter(x=>x.tag==='kx_anniv_photo').map(x=>x.text))===J(['📷（一張卡片）','卡片我寫了。你沒來，先給你看第一頁。','週年快樂。下次你準備。'])&&G.flags.KX_ANNIV_MISSED_DAY===D('2026-12-31')); }
+  /* ===== AA_881 她的回覆池（MSG-2）===== */
+  { const P=MSG2_POOL.people.kexin, row=(tp,tr,c)=>{ const e=P.replies.find(x=>x.topic===tp&&x.tier===tr&&(x.cond||null)===(c||null)); return e?e.msgs.join('/'):null; };
+    const W=[['bday','A',null,'謝謝。'],['bday','R',null,'謝謝/你怎麼知道的？……算了，收下'],['bday','L',null,'謝謝/（長頸鹿貼圖）/晚上我室友幫我過，過完我下樓找你'],
+      ['bday','R','y2028_japan','謝謝。日本現在幾點？'],['bday','L','y2028_japan','謝謝。你那邊比較早一個小時，你比我先過我的生日。'],['bday','R','y2028_us','謝謝。美國現在是昨天吧？'],['bday','L','y2028_us','謝謝。你那邊還是昨天，我先過了。你明天再跟我說一次。'],
+      ['bday','R','y2029','謝謝。今天在圖書館過'],['bday','L','y2029','謝謝！！/（長頸鹿貼圖）/今天在圖書館過 國考的書比蛋糕還厚'],
+      ['ok','A','k10c_bad_exam','還好。'],['ok','R','k10c_bad_exam','還好啦/我說了不要安慰/下次考好給你看'],['ok','L','k10c_bad_exam','還好啦/我說了不要安慰/……你陪我吃東西就好，不要講考試'],
+      ['newyear','A',null,'新年快樂。'],['newyear','R',null,'新年快樂/我在高雄，我媽在煮，整間都是油味'],['newyear','L',null,'新年快樂/（長頸鹿貼圖）/今年也要一起'],
+      ['thanks','A',null,'不會。'],['thanks','R',null,'不會啦。下次換你幫我。'],['thanks','L',null,'不會。']];
+    const bad=W.filter(([tp,tr,c,t])=>row(tp,tr,c)!==t);
+    check('AA_881. 可昕的回覆池 A／R／L 照稿逐字；沒有回問（上山、下山）、沒有走向 C 那一列；style 換字', !bad.length&&!P.replies.some(e=>e.ask||e.cond==='route_c')&&P.style==='短；不太用語助詞；熟了會直接叫你去吃飯；累了傳長頸鹿貼圖', J(bad)); }
+  /* ===== AA_882 長頸鹿鑰匙圈 ===== */
+  { const e=ev('ev_kx_souvenir'); fresh('2026-02-24',10,'linze',{KX_MET:true,KX_Y1S1_END:'taipei'}); R('kexin','FAM');
+    check('AA_882. 大一下開學第一週、大一上選「臺北。」：她給那一盒（兩列照稿）、設 KX_SOUVENIR、GIRAFFE_KEYCHAIN', EVENTS.checkAt(e)&&(await run('ev_kx_souvenir'),J(all())===J(['（盒子上面用膠帶黏著一個小小的長頸鹿鑰匙圈。）','那個是附的。我在高雄的動物園買了一袋，班上每個人都有。你的是脖子最短的那隻。']))&&G.flags.GIRAFFE_KEYCHAIN===true&&G.flags.KX_SOUVENIR===true, J(all()));
+    fresh('2026-02-24',10,'linze',{KX_MET:true,KX_Y1S1_END:'unsure'}); R('kexin','FAM'); check('AA_882. 選「還沒想。」的：沒有', !EVENTS.checkAt(e)); }
+  /* ===== AA_885 她的手機動態（逐欄）===== */
+  { const K885=require('./kx885_expect.js'), posts={};
+    for(const f of ['feed_y1s1','feed_y1s2','feed_y2s1','feed_y2s2','feed_y3s1','feed_y3s2','feed_y4s1','feed_y4s2','feed_pg']){ const ctx={}; vm.runInNewContext(fs.readFileSync(path.join(ROOT,'src/data/'+f+'.js'),'utf8')+';this.__F=[typeof FEED_Y1S1!=="undefined"?FEED_Y1S1:null,typeof FEED_Y1S2!=="undefined"?FEED_Y1S2:null,typeof FEED_Y2S1!=="undefined"?FEED_Y2S1:null,typeof FEED_Y2S2!=="undefined"?FEED_Y2S2:null,typeof FEED_Y3S1!=="undefined"?FEED_Y3S1:null,typeof FEED_Y3S2!=="undefined"?FEED_Y3S2:null,typeof FEED_Y4S1!=="undefined"?FEED_Y4S1:null,typeof FEED_Y4S2!=="undefined"?FEED_Y4S2:null,typeof FEED_PG!=="undefined"?FEED_PG:null].filter(Boolean);',ctx); for(const S of ctx.__F) for(const q of (S.posts||[])) posts[q.id]=q; }
+    const bad=[]; for(const id in K885.CH){ const q=posts[id], c=K885.CH[id]; if(!q||q.who!=='kexin'){ bad.push(id+' 沒有'); continue; }
+      for(const f in c){ const v=c[f]; if(f==='-went'){ if(q.went) bad.push(id+' 還有 went'); continue; } const m=/^(cm|dm)([01])$/.exec(f); const got=m?(q[m[1]]||[])[+m[2]]:q[f]; if(J(got)!==J(v)) bad.push(id+'.'+f+'：'+J(got)); } }
+    check('AA_885. 可昕的動態照稿逐欄（'+Object.keys(K885.CH).length+' 則）；去了／沒去兩版拿掉的兩則沒有 went', !bad.length, J(bad.slice(0,6))); }
   if(fails){ console.log('FAILED '+fails); process.exit(1); } console.log('ALL PASS');
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

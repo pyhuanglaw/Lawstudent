@@ -9720,6 +9720,33 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "週年整場照稿重寫（events.js ev_kexin_anniversary_y1／_yn、ev_k7_gift_prep／_n、視訊那一場改照 q.year）；日子照在一起那一天算、放假她在高雄＝提前到學期最後一天＋她那一句、那天在國外＝視訊（story3d.js S.kxAnnivAt／kxAnnivVideo）；邀約那一句的星期幾、第六年的「X號」照算出來的那一天填（第四年週末時「……平日也要過。」不出）；沒去那一則加一句；房間物件「她的週年卡片」說明換新的第一頁；multirel3d.js K7 禮物名照新意思（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_881_可昕手機回覆池_重寫.md",
+   "sha": "5fb65e2f7a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "可昕回覆池整組照稿：tools/msg/build_msg2.py 的 kexin（A／R／L、style、bdayInfo、條件）重產 src/data/msg2_pool.js（重產一字不差）；AA_785 覆蓋層「走向 C」那一列跟著拿掉（tools/msg/msg_overlay.py SUPERSEDED）；msg3d.js y2028_us 要祐廷人在美國；分開以後前 60 天那三句在 AA_876 那一批（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_882_可昕_長頸鹿鑰匙圈與第三個願望.md",
+   "sha": "5fb65e2f7a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1 節：events.js ev_kx_souvenir（大一下開學第一週、大一上選「臺北。」，兩列照稿、設 KX_SOUVENIR／GIRAFFE_KEYCHAIN；那一盒餅本身 AA_856 沒有字，只演這兩列）；第 2 節：r2y4b3d.js KX_WISH3 那一句（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_885_可昕動態牆_照列換字.md",
+   "sha": "2df00329ab",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "26 則動態逐欄照稿（src/data/feed_*.js，去了／沒去兩版拿掉兩則、kx4f 照片的室友照開頭的換法）；附錄：kx_moot3_lines.js 地點、旁白、吃東西那一句，kx_moot3_3d.js 出遊地點與湯餃店場景；系館地下室照稿寫（遊戲裡系館沒有地下室的 3D，2D 字幕照稿）。對稿 tests/kx885_expect.js、kx_line_873_unit.js（第四批第三份，LAWWW 的子代理）"
   }
  ]
 }

@@ -22,14 +22,16 @@ const toks = at => { const out = []; at.replace(/\.?([A-Za-z_$][\w$]*)|\[(\d+)\]
 const FILES = { msg_pool: 'src/data/msg_pool.js', msg2_pool: 'src/data/msg2_pool.js' };
 
 (async () => {
-  const R = { msg_pool: OE.rows('msg_pool'), msg2_pool: OE.rows('msg2_pool') }, NOW = {}, WAS = {};
+  /* （CANON-NO-ECON-1112 第四批：照 AA_881 換字）AA_881 拿掉可昕「走向 C」的生日那一列＝覆蓋層那一列略過（tools/msg/msg_overlay.py SUPERSEDED）；可昕整組重寫，第 3 項不比她 */
+  const SUP = x => x.who === 'kexin' && x.at === 'people.kexin.replies[3].msgs[0]';
+  const R = { msg_pool: OE.rows('msg_pool'), msg2_pool: OE.rows('msg2_pool').filter(x => !SUP(x)) }, NOW = {}, WAS = {};
   for (const k in FILES) { NOW[k] = parse(read(FILES[k])); const b = show(BASE, FILES[k]); WAS[k] = b ? parse(b) : null; }
 
   await sec(1, async () => {
     const A = JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(e => e.path === 'docs/story_planning/AA_785_msg_pools.json');
     check('1. 白名單 AA_785_msg_pools.json 一筆、overlay、approved、有 approvedBy、task DLG-FULL-REVIEW-1110；稿讀得到', A.length === 1 && A[0].overlay === true && A[0].status === 'approved' && !!A[0].approvedBy && A[0].task === 'DLG-FULL-REVIEW-1110' && OE.have, J(A.map(e => [e.sha, e.status])));
     /* 2026-11-11（X324 G 區，AA_785_msg_pools.json@60c08798a）：多四列——沛珊出國版 msg_pool replies[22]（「你回來，換我帶你去吃早餐。我家的。」）、芷若「店長」→「老闆」三列（msg_pool replies[9]、[17]，msg2_pool replies[8]；AA_794 搬過來的）。舊期望：31 列、msg_pool 6 列 */
-    check('1. 列數：msg_pool ' + R.msg_pool.length + ' 列、msg2_pool ' + R.msg2_pool.length + ' 列（AA_785：29 列＋語彤還好嗎回問兩列＋60c08798a 沛珊出國版一列、芷若老闆三列＝35）', R.msg_pool.length + R.msg2_pool.length === 35 && R.msg_pool.length === 9 && R.msg2_pool.length === 26, J([R.msg_pool.length, R.msg2_pool.length]));
+    check('1. 列數：msg_pool ' + R.msg_pool.length + ' 列、msg2_pool ' + R.msg2_pool.length + ' 列（AA_785：29 列＋語彤還好嗎回問兩列＋60c08798a 沛珊出國版一列、芷若老闆三列＝35）', R.msg_pool.length + R.msg2_pool.length === 34 && R.msg_pool.length === 9 && R.msg2_pool.length === 25, J([R.msg_pool.length, R.msg2_pool.length]));
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'msgov-')), env = Object.assign({}, process.env, { MSG_POOL_OUT: tmp, MSG_JS_OUT: tmp });
     const run = f => cp.spawnSync('python3', f === 'to_js.py' || f === 'to_js2.py' ? [path.join(H.ROOT, 'tools/msg', f)] : ['-I', path.join(H.ROOT, 'tools/msg', f)], { encoding: 'utf8', env, cwd: H.ROOT, timeout: 300000 });
     const rs = ['build_pool.py', 'to_js.py', 'build_msg2.py', 'to_js2.py'].map(run);
@@ -52,7 +54,7 @@ const FILES = { msg_pool: 'src/data/msg_pool.js', msg2_pool: 'src/data/msg2_pool
     const d = [];
     for (const k in R) { const at = new Set(R[k].map(x => x.at)), A = WAS[k], B = NOW[k];
       if (J(Object.keys(A)) !== J(Object.keys(B))) d.push(k + ' 人不一樣');
-      for (const id in A) { if ((A[id] || []).length !== (B[id] || []).length) { d.push(k + ' ' + id + ' 則數不一樣'); continue; }
+      for (const id in A) { if (k === 'msg2_pool' && id === 'kexin') continue; if ((A[id] || []).length !== (B[id] || []).length) { d.push(k + ' ' + id + ' 則數不一樣'); continue; }
         A[id].forEach((a, i) => { const b = Object.assign({}, B[id][i]); delete b.ov; if (b.c892) return;   /* （CANON-NO-ECON-1112 第四批：照 AA_892 第 3 節換字、改層的那幾則不比；tests/msg_chat_unit.js F 項比 AA_892）*/ const walk = (x, y, p) => { if (J(x) === J(y)) return; if (x && y && typeof x === 'object' && typeof y === 'object' && Array.isArray(x) === Array.isArray(y) && !(Array.isArray(x) && x.length !== y.length)) { for (const kk of new Set(Object.keys(x).concat(Object.keys(y)))) walk(x[kk], y[kk], p + (Array.isArray(x) ? '[' + kk + ']' : '.' + kk)); } else if (!at.has(p)) d.push(k + ' ' + p + '：' + J(x) + ' → ' + J(y)); };
           walk(a, b, 'people.' + id + '.replies[' + i + ']'); if (a.ov) d.push(k + ' ' + id + '[' + i + '] BASE 就有 ov'); }); } }
     check('3. 和 BASE ' + BASE + ' 逐則比：人、則數一樣；變的只有稿上那 ' + (R.msg_pool.length + R.msg2_pool.length) + ' 格（其他格子、別的則、別的人零差異；短句只換 at 那一格）', d.length === 0, J(d.slice(0, 4)));

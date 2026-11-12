@@ -112,16 +112,16 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
     if(!S||!md){ check('0. '+term+' 對稿（'+D.sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const LR=require('./line_rows_expect.js'), FF='src/data/feed_'+term.toLowerCase()+'.js';   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊大一下 ps3b～ps8b、大二上 ps1c～ps4c 句尾「～」改掉、多一拍（AA_808 feed_y1s2 第 53～58 列、feed_y2s1 第 49～52 列）——①遊戲字先換回稿上的舊句（toOldS）再在稿裡找；②稿那一列往前換成新句（fwdDeep）再和遊戲比；舊稿不改。舊期望：遊戲字本身在稿裡、稿那一列原樣和遊戲比 */
-    const UE=require('./user_line_edits.js'), L=strs(S), bad=L.filter(t=>!md.includes(LR.toOldS(t,FF))&&!(UE[t]&&md.includes(UE[t])));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
+    const UE=require('./user_line_edits.js'), L=strs(S), bad=L.filter(t=>!require('./kx885_expect.js').has(t)/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!md.includes(LR.toOldS(t,FF))&&!(UE[t]&&md.includes(UE[t])));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+D.sha+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y1S2'?300:230)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列 */
-    const rows=rowsOf(md).filter(r=>!CUT661.includes(expectRow(term,r).id)&&!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[];   /* CUT661：稿上有、遊戲拿掉的（AA_661 第 51 列 ps2b）*/
+    const rows=rowsOf(md).filter(r=>!CUT661.includes(expectRow(term,r).id)&&!PSRW.feedSkip(term,expectRow(term,r).id)&&!require('./kx885_expect.js').skip(expectRow(term,r).id)), wrong=[], wd=[];   /* CUT661：稿上有、遊戲拿掉的（AA_661 第 51 列 ps2b）*/
     for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); for(const k of ['pic','say','cm','dm']) e[k]=LR.fwdDeep(e[k],FF);   /* AA_808 往前換（見上）*/
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when);
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;
       const same=!!p&&p.who===e.who&&p.st===e.st&&J(p.pic)===J(e.pic)&&p.say===e.say&&J(p.cm)===J(e.cm)&&J(p.dm)===J(e.dm)&&p.went===e.went&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;
       if(!same) wrong.push(e.id); }
-    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差）',rows.length===S.posts.length&&!wrong.length,J(wrong.slice(0,10)));
+    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差）',rows.length===S.posts.filter(p=>!require('./kx885_expect.js').skip(p.id)).length&&!wrong.length,J(wrong.slice(0,10)));
     /* 稿上星期寫錯的列（照日期做）：AA_505 以安第 6 則原本寫「2/8（日）」，795fbecfd 第 9 節第 1 點改成「（一）」——現在都對得上 */
     const WD_KNOWN={Y1S2:[],Y2S1:[]};
     check('0. '+term+' 稿上的日期和星期對得上（'+rows.length+' 列；寫錯的照日期：'+(WD_KNOWN[term].join('、')||'沒有')+'）',J(wd)===J(WD_KNOWN[term]),J(wd));
@@ -239,7 +239,7 @@ sec('4b',()=>{ if(!HAS()||!SET.Y1S2) return;
   check('4. AA_504：沛珊第 3 則（4/9 23:40）沒和她交往＝有；交往中＝沒有（x:if）',!!a&&!item('ps3b')&&R().done.ps3b==='x:if',J(R().done.ps3b));
   /* 可昕第 1、2 則：一定出（只認識、沒有交往也有）；手機小事那兩則不出 */
   fresh(TDt('Y1S2',1,1),8); who('kexin','ACQ'); walk(TDt('Y1S2',3,6),11,{step:0.5});
-  check('4. AA_504：可昕第 1 則（第 1 週週三 08:40）、第 2 則（第 3 週週六 10:30）只認識也有；原句照用',R().done.kx1b==='p'&&!!item('kx2b')&&post('kx1b').say==='開學了。予樂說這學期要每天早到。今天她遲到。'&&post('kx2b').say==='木柵大學也有杜鵑花。可是開在山上，要爬上去才看得到。');
+  check('4. AA_504：可昕第 1 則（第 1 週週三 08:40）、第 2 則（第 3 週週六 10:30）只認識也有；原句照用',R().done.kx1b==='p'&&!!item('kx2b')&&post('kx1b').say==='開學了。室友說這學期要每天早到。今天她遲到。'&&post('kx2b').say==='杜鵑開了。高雄沒有這麼多。');/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
   check('4. AA_504：手機小事沒有 kx2_late、kx2_azalea',!STORY.DAILY_PHONE.some(d=>d.id==='kx2_late'||d.id==='kx2_azalea'));
   fresh(TDt('Y1S2',1,1),8,{dating_kexin:true}); rel('kexin','ACQ'); contact('kexin'); walk(TDt('Y1S2',3,7),23,{rules:true,step:1});
   check('4. 交往中走第 1～3 週（整套手機規則）：私訊裡沒有那兩句（只有動態）',!(H.G.msgs||[]).some(m=>m.text==='開學了。予樂說這學期要每天早到。今天她遲到。'||m.text==='木柵大學也有杜鵑花。可是開在山上，要爬上去才看得到。')&&R().done.kx1b==='p'&&R().done.kx2b==='p');   /* 動態只留十五天：第 1 週那一則看 done */

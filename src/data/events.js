@@ -2659,7 +2659,7 @@ const STORY_EVENTS=[
      · ev_kx_first_out：稿「之後第一次在教室外面遇到」那一句（課堂版認識的才有「會講話的」）——認識以後的另一天早上第一次走進法律系館A 一樓。
      · 四拍：ev_kx_dress（第 3 週早上必修課前，KX_DRESS）、ev_kx_hand_in＋ev_kx_hand（第 6 週必修：課堂中＋下課，KX_HAND）、ev_kx_angry（第 10 週法律系館A 一樓，KX_ANGRY_SEEN／KX_STAYED）、
        ev_kx_y1s1_end（期末最後一科考完那天，男生宿舍門口那一帶，KX_Y1S1_END）。都要 KX_MET。
-     稿沒有字所以沒做的：③ 隔天那個同學來道歉那一句的場面、④ 大一下開學第一週兌現的那一盒餅（KX_SOUVENIR）。 */
+     稿沒有字所以沒做的：③ 隔天那個同學來道歉那一句的場面、④ 大一下開學第一週兌現的那一盒餅（KX_SOUVENIR）本身——AA_882 給的那兩列（長頸鹿鑰匙圈）先接在 ev_kx_souvenir。 */
   { id:'ev_kx_meet_class', title:'', participants:['kexin'], location:'any', trigger:'class', once:true, background:'blur',
     dialogue:[
       {unless:{flags:['KX_MEET_LATER']},speaker:null,text:'（老師說：先跟前後左右的同學認識一下，兩分鐘。教室一下子吵起來。）'},
@@ -2757,6 +2757,15 @@ const STORY_EVENTS=[
   { id:'ev_kx_s1_heard', title:'', participants:['kexin'], location:['linze','campus'], trigger:'enter', term:['Y2S1'], once:true, background:'blur',
     prereq:{custom:G=>KX_LINE_OK(G,'FAMILIAR')&&!G.flags.KX_S1&&!(G.events&&G.events.done&&G.events.done.ev_kx_s1_deposit)},
     dialogue:[ {speaker:null,text:'（她說上學期幫室友看了一份租約，押金後來拿回一半。）'},{set:{KX_S1:'heard'}} ] },
+  /* 長頸鹿鑰匙圈（CANON-NO-ECON-1112 第四批；企劃線 AA_882 第 1 節，BB_422）：AA_856 ④ 的兌現——大一下開學第一週，她把高雄帶上來的那盒餅給祐廷（KX_SOUVENIR）。
+     那一場本身 AA_856 沒有字（見上面 AA_856 那一段的註）；AA_882 給的是「同一個場面多兩列」，先只演這兩列。只有大一上期末選「臺北。」（她說要帶東西上來，KX_Y1S1_END 'taipei'）的有。
+     設 GIRAFFE_KEYCHAIN（畢業後 postgrad_lines.js 的 key／kexinKey 讀它）。不分交往 */
+  { id:'ev_kx_souvenir', title:'', participants:['kexin'], location:['linze','campus'], trigger:'enter', term:['Y1S2'], weeks:[1], carryTo:2, once:true, background:'blur',
+    prereq:{custom:G=>G.flags.KX_Y1S1_END==='taipei'&&!G.flags.KX_SOUVENIR&&KX_LINE_OK(G,'ACQUAINTANCE')},
+    dialogue:[
+      {speaker:null,text:'（盒子上面用膠帶黏著一個小小的長頸鹿鑰匙圈。）'},
+      {speaker:'kexin',text:'那個是附的。我在高雄的動物園買了一袋，班上每個人都有。你的是脖子最短的那隻。'},
+      {set:{KX_SOUVENIR:true,GIRAFFE_KEYCHAIN:true}} ] },
   { id:'ev_kexin_bad_exam', title:'', participants:['kexin'], location:'linze', trigger:'enter', term:['Y2S1'], weeks:[11], carryTo:15, time:[12,18], once:true, background:'blur',
     prereq:{custom:G=>KX_LINE_OK(G,'FAMILIAR')},
     dialogue:[

@@ -1,4 +1,4 @@
-/* ===== 可昕最後一場模擬法庭（大三上 2027-12-04 週六 14:00～16:30，政大；AA_514 第 1 節，企劃線 claude/magical-albattani-bk7b4n @ 964d01175；
+/* ===== 可昕最後一場模擬法庭（大三上 2027-12-04 週六 14:00～16:30，法律系館的模擬法庭教室（CANON-NO-ECON-1112 第四批：照 AA_885 附錄換地點）；AA_514 第 1 節，企劃線 claude/magical-albattani-bk7b4n @ 964d01175；
    任務 KX-MOOT3-1028，HEROINE-LIFE-1028，USER_WANTS X122★）：接線 =====
    兌現「下次我去看。」。台詞在 src/data/kx_moot3_lines.js（KX_MOOT3_LINES，照稿不改字）。這個檔：
    - 誰有（S.cond）：AA_505 7-2（大二上輸的那晚，src/data/feed_y2s1.js 的 kx_moot）或 AA_506 7-2（大二下贏的那晚，feed_y2s2.js 的 kx_win）選過「下次我去看。」＝KX_WATCH
@@ -7,8 +7,8 @@
      11/28 21:00 那一刻判斷一次（G.flags.KX_MOOT3_ASK＝'sent'／'x:原因'；同 FEED 私訊「時間到了才判斷、判斷過不再判斷」）；12/4 12:00 以後才第一次讀到的舊存檔＝不約（'x:late'）。
    - 手機（STORY.PHONE_RULES，S.rule）：1-1 11/28（日）21:00 三則，回覆鍵「去。」「那天不行。」開到 12/4 12:00（ask.until）；
      「去。」＝KX_MOOT3_GO true、排出遊；「那天不行。」＝KX_MOOT3_GO false；沒回＝當作「那天不行。」（不另外傳）。
-   - 出遊（OUT，1-2）：12/4（六）14:00 政大，開車約 40 分鐘（同大三其他去政大的出遊）、2.5 小時；過了 14:30 不能出發（S.LATE，同 K19 她的期末報告「坐最後一排」）；
-     alarm：跳過時間、睡覺停在出發前。事件 ev_kexin_moot3：2D，底圖先用 classroom_small、地點字幕「政大・模擬法庭教室」（正式圖等 LAWWW2）；三選一；
+   - 出遊（OUT，1-2）：12/4（六）14:00 法律系館，走路、2.5 小時；過了 14:30 不能出發（S.LATE，同 K19 她的期末報告「坐最後一排」）；
+     alarm：跳過時間、睡覺停在出發前。事件 ev_kexin_moot3：2D，底圖先用 classroom_small、地點字幕「法律系館・模擬法庭教室」（正式圖等 LAWWW2）；三選一；
      演完記 KX_MOOT3='came'、人物頁記憶 KX_MOOT3_CAME「她最後一場模擬法庭，你坐最後一排」。
    - 沒來（1-3）：回「那天不行。」、沒回、回了「去。」卻沒到（「不去了」、過了 14:30、出遊沒排到）＝12/4 21:30 她傳兩則（不用回），
      回了「去。」卻沒到的前面多「你說要來的。」；記 KX_MOOT3='missed'（21:30 那一刻記）。
@@ -26,7 +26,7 @@ const KXMOOT3=(function(){
   S.DAYS={ask:'2027-11-28',day:'2027-12-04'};
   S.ASK_H=21; S.UNTIL_H=12; S.H=14; S.LATE=0.5; S.HOURS=2.5; S.MISS_H=21.5;
   S.ASK='kx_moot3_ask'; S.OUT_ID='kx_moot3'; S.EV='ev_kexin_moot3'; S.TAG_MISS='kx_moot3_missed'; S.MEM='KX_MOOT3_CAME';
-  S.TITLE='最後一場模擬法庭'; S.OUT_TITLE='可昕的模擬法庭（木柵大學）';   /* 系統字（稿沒寫）：事件開頭的字幕、筆記本；出遊「出發：」那一行 */
+  S.TITLE='最後一場模擬法庭'; S.OUT_TITLE='可昕的模擬法庭（法律系館）';   /* 系統字（稿沒寫）：事件開頭的字幕、筆記本；出遊「出發：」那一行 */
 
   /* ---------- 誰有 ---------- */
   /* 說過「下次我去看。」：KX_WATCH（那兩題的選項 set）；這一版以前就選過的舊存檔看那兩題的選項記號（FEED.dmItems 記 ask.flag＝選項的 k）*/
@@ -57,7 +57,7 @@ const KXMOOT3=(function(){
     if(F.KX_MOOT3_ASK!=='sent') return;
     /* 1-2：回了「去。」＝排 12/4 14:00 的出遊 */
     if(F.KX_MOOT3_GO===true&&F.KX_MOOT3==null&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,S.OUT_ID)&&t<T(dM,S.H+S.LATE))
-      OUT.plan(G,{id:S.OUT_ID,ev:S.EV,day:dM,h:S.H,late:S.LATE,place:'木柵大學',title:S.OUT_TITLE,travel:'開車約 40 分鐘',travelH:2/3,hours:S.HOURS,alarm:true});
+      OUT.plan(G,{id:S.OUT_ID,ev:S.EV,day:dM,h:S.H,late:S.LATE,place:'法律系館・模擬法庭教室',title:S.OUT_TITLE,travel:'走路',travelH:0.1,hours:S.HOURS,alarm:true});
     /* 1-3：沒來＝12/4 21:30 */
     if(F.KX_MOOT3==null&&t>=T(dM,S.MISS_H)){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,S.OUT_ID):null;
       if(q&&(q.state==='done'||(q.state==='planned'&&q.arrived===true))) return;   /* 有去（came 由事件記）、還在演 */
@@ -65,11 +65,11 @@ const KXMOOT3=(function(){
 
   /* ---------- 事件（1-2；trigger 'outing'，由上面排）---------- */
   const say=t=>/^（/.test(t)?{speaker:null,text:t}:{speaker:KX,expression:'neutral',text:t};
-  S.FOOD_RE=/^（山下小吃街的麵店/;   /* AA_527 2-5：旁白對齊字幕（原本「政大後門的麵店」）*/ S.FOOD_SCENE='木柵大學・山下的小吃街';   /* 選「要不要去吃東西？」以後的麵店那段：底圖 nccu_food（地點字幕同 kxdrift3d.js OD_SCENE.nccu）*/
+  S.FOOD_RE=/^（後門那家湯餃/;   /* AA_885 附錄：吃東西那一段換成後門那家湯餃 */ S.FOOD_SCENE='學校後門・湯餃店';   /* 選「要不要去吃東西？」以後那段：深色底＋地點字幕（AA_879 湯餃店的做法）*/
   S.EVENT=!L?null:{ id:S.EV, title:S.TITLE, participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:S.HOURS,
     dialogue:[{scene:L.scene,bg:'classroom_small'}].concat(L.nar.map(say),L.saw.map(say),
       [{choice:L.opts.map((o,i)=>({text:o.t,goto:'km3_'+i}))}],
-      ...L.opts.map((o,i)=>[{label:'km3_'+i}].concat(...o.r.map(t=>S.FOOD_RE.test(t)?[{scene:S.FOOD_SCENE,bg:'nccu_food'},say(t)]:[say(t)]),[{goto:'km3_end'}])),   /* 麵店那段換 nccu_food（AA_514 第 4 節第 2 點）*/
+      ...L.opts.map((o,i)=>[{label:'km3_'+i}].concat(...o.r.map(t=>S.FOOD_RE.test(t)?[{scene:S.FOOD_SCENE,bg:'dark'},say(t)]:[say(t)]),[{goto:'km3_end'}])),   /* 吃東西那段換場景（AA_514 第 4 節第 2 點；AA_885 換成湯餃店）*/
       [{label:'km3_end'}],L.close.map(say),
       [{set:{KX_MOOT3:'came'},mem:[{npc:KX,tag:S.MEM,note:''}]}]) };
 
