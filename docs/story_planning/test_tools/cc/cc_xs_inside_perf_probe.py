@@ -17,6 +17,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'; SHA = os.environ.get('SHA') or ''
 PAIR = (os.environ.get('PAIR') or 'xs_dabu,xs_haopai').split(',')
+ALLBUILT = (os.environ.get('ALLBUILT') or '1') == '1'   # 等全部 built 再量一次記憶體
 FAR = float(os.environ.get('FAR') or '45'); TRIPS = int(os.environ.get('TRIPS') or '3')
 R = L.Run('xsperf_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -104,6 +105,13 @@ async def main():
         res['preload'] = {'frames': fstats(t_pre), 'm_start': m_pre0, 'm_10s': m_pre1, 'shopReal_start': sr0, 'shopReal_10s': sr1}
         R.note('② 進區域後站 10 秒：每幀 %s；tex %s→%s、geoms %s→%s、heap %s→%s' % (J(fstats(t_pre)), m_pre0['tex'], m_pre1['tex'], m_pre0['geoms'], m_pre1['geoms'], m_pre0['heapMB'], m_pre1['heapMB']))
         R.note('③ zone.shopReal：剛進來 %s；10 秒後 %s' % (J(sr0), J(sr1)))
+        if ALLBUILT and sr1 and sr1.get('shops'):   # LAWWW-C 11:42（6827c36a3b 公館十三間）：「十三間都 built」那一刻的 heap、geometries、textures（最多等 90 秒；沒全 built＝記到第 90 秒）
+            t0w = time.time(); srx = sr1
+            while time.time() - t0w < 90 and not all(q.get('built') for q in (srx.get('shops') or [])):
+                await pg.wait_for_timeout(1000); srx = await pg.evaluate(SHOPREAL_JS)
+            await gc(); m_all = await pg.evaluate(MET); nb = sum(1 for q in (srx.get('shops') or []) if q.get('built'))
+            res['allbuilt'] = {'sec': round(10 + time.time() - t0w, 1), 'built': nb, 'of': len(srx.get('shops') or []), 'm': m_all, 'shopReal': srx}
+            R.note('③b 全部 built：進區域後 %.1f 秒、%d/%d 間 built；heap %s MB、geometries %s、textures %s、programs %s（剛進來 heap %s、geoms %s、tex %s）' % (10 + time.time() - t0w, nb, len(srx.get('shops') or []), m_all['heapMB'], m_all['geoms'], m_all['tex'], m_all['programs'], m_pre0['heapMB'], m_pre0['geoms'], m_pre0['tex']))
         await pg.wait_for_timeout(1000)
         res['far0'] = await stand('① 遠點（基準）')
         res['trips'] = []
