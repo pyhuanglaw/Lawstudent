@@ -144,7 +144,23 @@
    "DLG-FULL-REVIEW": "AA 交接檔裡 DLG-FULL-REVIEW-1110 的簡寫（AA-C 11-12 確認）",
    "MOVIE-TALK": "AA 交接檔裡 MOVIE-TALK-1110 的簡寫（AA-C 11-12 確認）",
    "UA-AA-1111-06": "AA 使用者要求檔的 id，不是任務（AA-C 11-12）",
-   "UA-AA-1111-07": "AA 使用者要求檔的 id，不是任務（AA-C 11-12）"
+   "UA-AA-1111-07": "AA 使用者要求檔的 id，不是任務（AA-C 11-12）",
+   "UA-*": "使用者要求檔的 id（UA-<職位>-日期-序號），不是任務；對總表靠 asks（LAWWW-C 11-12）",
+   "HV-*": "規則版本編號，不是任務",
+   "P-L1": "BB_00 全部待辦裡的子項編號（BB-C 11-12 確認），不是任務",
+   "P-L2": "BB_00 全部待辦裡的子項編號（BB-C 11-12 確認），不是任務",
+   "P-L4": "BB_00 全部待辦裡的子項編號（BB-C 11-12 確認），不是任務",
+   "P-L7": "BB_00 全部待辦裡的子項編號（BB-C 11-12 確認），不是任務",
+   "P8-L2": "BB_00 全部待辦裡的子項編號（BB-C 11-12 確認），不是任務",
+   "ART-ECON-3D-GAP": "LAWWW2 交接檔裡 ART-ECON-3D-GAP-1021 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "FLOWER-NOTES-ART": "LAWWW2 交接檔裡 FLOWER-NOTES-ART-1110 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "GG-SHOP-G04": "LAWWW2 交接檔裡 GG-SHOP-G04-PHARM-1110 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "GG-SHOP-G11": "LAWWW2 交接檔裡 GG-SHOP-G11-TEISHOKU-1110 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "GG-SHOPS3-ART": "LAWWW2 交接檔裡 GG-SHOPS3-ART-1110／GG-SHOPS3-ART-V2 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "LIMAO-INT-CAM": "LAWWW2 交接檔裡 LIMAO-INT-CAM-1111 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "OPEN-SRC-2D3D": "LAWWW2 交接檔裡 OPEN-SRC-2D3D-1104 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "SIGN-RECTIFY": "LAWWW2 交接檔裡 SIGN-RECTIFY-1110 的簡寫（總表有；LAWWW-C 11-12 核對）",
+   "TINGZHOU-AREA": "LAWWW2 交接檔裡 TINGZHOU-AREA-1110 的簡寫（總表有；LAWWW-C 11-12 核對）"
   },
   "offList": [
    {
@@ -53958,7 +53974,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【11-11 21:1x】AA 21:02：不擋「選項加愛情」（X324 那一塊已經由 AA_816 補齊），先記 backlog；引擎已經讀 dating 陣列（格式同 steps、可以有 fx；AA_781 kx Y1S1 那種）",
+   "next": "【11-11 21:1x】AA 21:02：不擋「選項加愛情」（X324 那一塊已經由 AA_816 補齊），先記 backlog；引擎已經讀 dating 陣列（格式同 steps、可以有 fx；AA_781 kx Y1S1 那種）｜【11-12 AA-C】同意照舊先不做、留 backlog；邀約回覆（AA_783）不加玩家選項（AA 定，D109：邀約本身就是玩家的選擇、答應以後的選項已在當場那一段 AA_707／708）＝帳號 A 11-11 那一題結案",
    "xai": {
     "from": "AA",
     "to": "LAWWW",
@@ -53987,6 +54003,66 @@
    "authorized": "使用者直接要求",
    "evidence": "",
    "sha": ""
+  },
+  {
+   "id": "BUG-BEDFF-DOUBLETAP-1111",
+   "title": "床的快轉多一步確認（選「到下一個有事的時候／過一週」先說最多跳到哪）",
+   "area": "BUG",
+   "owner": "BB",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "CC 新舊對照（0792dac30 前後）→ BB 判",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在床上選快轉",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "帳號 A 的 BB 交接檔（BB_00 全部待辦）；BB-C 11-12 03:23 請 LAWWW 補登",
+   "authorized": "BB／CC 回報的 bug，LAWWW 職責內",
+   "evidence": "",
+   "sha": "0792dac30",
+   "xai": {
+    "receiver": "BB",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "dev 0792dac30",
+    "acceptance": "CC 新舊對照、BB 瀏覽器判 PASS",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "MOVIE-POSTER-POS-1110",
+   "title": "南洋戲院海報位置（v9.10.24 已上線；等 CC 的截圖確認位置）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "next": "CC 拍南洋戲院大廳海報位置 → BB 判；有偏再回 LAWWW2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次進南洋戲院",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2 交接檔全部待辦（帳號 A）；LAWWW-C 11-12 roles 對帳補登",
+   "authorized": "LAWWW2 職責內",
+   "evidence": "",
+   "sha": "",
+   "xai": {
+    "receiver": "BB",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "LAWWW2 HANDOFF.md 第 142 行",
+    "acceptance": "CC 遊戲內截圖、BB 判",
+    "ack": "ACK"
+   }
   }
  ]
 }
