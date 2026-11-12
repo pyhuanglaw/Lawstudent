@@ -338,6 +338,10 @@ const GAME = (function(){
       if(cand.length){ const h=E.rayFirstHit(R,tF-0.03); if(h){ const p=h.point; let bc=1.0001; for(const st of cand){ const b=boxOf(st); if(p.y<b[1]-0.02||p.y>b[4]+0.02) continue; const yw=st.yaw||0, fx=Math.sin(yw), fz=Math.cos(yw), dx=p.x-st.x, dz=p.z-st.z, f=dx*fx+dz*fz, l=Math.abs(dx*fz-dz*fx);   /* f＞0＝椅子前面（人面向的那一邊） */
         const d=Math.max(l/C.r,f>=0?f/C.r:-f/C.back); if(d<=bc){ bc=d; best=st; } } } } }
     if(!best&&!E.canStand(x,z,0.3,lv|0)) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
+    /* L118-SEAT-FIX r3（LAWWW2-C 11-12；CC L118_CAM36_a/b_r2：辛亥韓食 #1／#5／#6／#11／#12、118牛排 #15、cafe2、pasta——點椅子，射線先打到前面那張桌子或展示櫃
+       （椅子被擋住了，桌子不在椅子的範圍裡），地板那一點正好是椅子底下；那一點又站得住（椅子沒擋導航），所以不改去椅子：人直接走向椅子底下，被桌子卡住停在半路，按鈕變成旁邊那一張）：
+       地板那一點離某張椅子的中心 0.25 m 以內（就是點在那張椅子上；點走道離椅子都 0.5 m 以上，不受影響）→ 也當成點到那張椅子 */
+    if(!best) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<0.25&&d<bd){ bd=d; best=st; } }
     if(!best) return null; const ap=seatApproach(best); return ap?[ap[0],ap[1],best.lv!=null?best.lv|0:lv,{x:best.x,z:best.z}]:null; }
   /* 椅子的範圍（TAP-RAY-SEAT-1111）：r＝左右、前面的半寬（一般椅面 0.38～0.46 m 寬：0.24；比這大，桌子靠椅子那一條邊也會算進去）；back＝往後（椅背、沙發靠背在座位中心後面 0.2～0.45 m（宿舍交誼廳的沙發：0.45））；
      h＝地板到椅背頂（一般 0.85～0.95；高腳椅另外加 seat.lift）。椅子的朝向：seat.yaw 0＝面向 +z（和 GAME.sitAt 一樣）*/
