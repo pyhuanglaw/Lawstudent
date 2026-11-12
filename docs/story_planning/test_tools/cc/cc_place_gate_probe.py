@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -98,12 +98,14 @@ SHEET_JS = r"""(async a=>{ const ims=await Promise.all(a.urls.map(u=>new Promise
   return k.toDataURL('image/jpeg',0.85); })"""
 DEPTH_JS = r"""(a=>{ const E=GAME.E, c=E.renderer.domElement; const cam=new THREE.PerspectiveCamera(60, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true); cam.updateProjectionMatrix();
   const ex=new Set(); const P=E.player&&E.player.obj; if(P) P.traverse(o=>ex.add(o)); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o)); for(const x of (E.extras||[])) if(x.obj) x.obj.traverse(o=>ex.add(o));
-  const skip=o=>{ if(ex.has(o)||o.visible===false) return true; const m=Array.isArray(o.material)?o.material[0]:o.material, nm=((o.name||'')+' '+(m&&m.name||'')); if(/glass|window|窗|vitrine/i.test(nm)) return true; if(m&&m.transparent&&m.opacity<0.9) return true; return false; };
+  const skip=o=>{ if(ex.has(o)||o.visible===false) return true; const m=Array.isArray(o.material)?o.material[0]:o.material, nm=((o.name||'')+' '+(m&&m.name||'')); if(/glass|玻璃/i.test(nm)) return true; if(m&&m.transparent&&m.opacity<0.9) return true; return false; };   /* X352 r1：原本連名字有 window 的都略過＝新的立體櫥窗（SHOP-WINDOW-3D）整個被跳過，新舊數字一樣；只略過玻璃、半透明 */
+  const hitName=[];
   const rc=new THREE.Raycaster(); const ds=[]; for(let i=0;i<24;i++) for(let j=0;j<16;j++){ const nx=-0.6+1.2*i/23, ny=-0.5+1.0*j/15; rc.setFromCamera(new THREE.Vector2(nx,ny),cam); rc.far=60;
-    const h=rc.intersectObjects(E.scene.children,true).find(x=>!skip(x.object)); if(h) ds.push(h.distance); }
+    const h=rc.intersectObjects(E.scene.children,true).find(x=>!skip(x.object)); if(h){ ds.push(h.distance); if(h.distance>0) hitName.push(String(h.object.name||(h.object.parent&&h.object.parent.name)||'').slice(0,30)); } }
   if(!ds.length) return {n:0}; const bk=new Map(); for(const d of ds){ const k=Math.round(d*4); bk.set(k,(bk.get(k)||0)+1); } let mk=0, mv=0; for(const [k,v] of bk) if(v>mv){ mv=v; mk=k; } const face=mk/4;
   const deep=ds.filter(d=>d>face+0.8).length/ds.length; const s=ds.slice().sort((x,y)=>x-y);
-  return {n:ds.length, face:+face.toFixed(2), deep:+deep.toFixed(3), p10:+s[Math.floor(s.length*0.1)].toFixed(2), p50:+s[Math.floor(s.length*0.5)].toFixed(2), p90:+s[Math.floor(s.length*0.9)].toFixed(2)}; })"""
+  const nc={}; for(const x of hitName) nc[x]=(nc[x]||0)+1; const top=Object.entries(nc).sort((p,q)=>q[1]-p[1]).slice(0,8);
+  return {n:ds.length, face:+face.toFixed(2), deep:+deep.toFixed(3), hit_names:top, p10:+s[Math.floor(s.length*0.1)].toFixed(2), p50:+s[Math.floor(s.length*0.5)].toFixed(2), p90:+s[Math.floor(s.length*0.9)].toFixed(2)}; })"""
 UI_JS = r"""(()=>{ const out=[]; for(const el of document.querySelectorAll('body *')){ if(!el.id&&!(el.className&&String(el.className).match(/panel|sheet|menu|shop|toast|modal|pop/i))) continue; const cs=getComputedStyle(el); if(cs.display==='none'||cs.visibility==='hidden'||el.offsetParent===null&&cs.position!=='fixed') continue; const t=(el.innerText||'').trim(); if(!t) continue; const r=el.getBoundingClientRect(); if(r.width<40||r.height<20) continue; out.push([el.id||String(el.className).slice(0,30), t.replace(/\s+/g,' ').slice(0,120)]); if(out.length>=8) break; } return out; })()"""
 HIDE_PEOPLE = "(h=>{ const E=GAME.E; const L=[E.player].concat(E.npcs||[]); for(const n of L){ if(n&&n.obj){ if(h){ n.obj.userData._ccv=n.obj.visible; n.obj.visible=false; } else if(n.obj.userData._ccv!==undefined){ n.obj.visible=n.obj.userData._ccv; delete n.obj.userData._ccv; } } } return L.length; })"
 GAMECAM = "(()=>{ const E=GAME.E, r=E.renderer; r.render(E.scene,E.camera); return r.domElement.toDataURL('image/png'); })()"

@@ -6,6 +6,9 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# X352 r2：r1 射線把名字有 window 的網格都略過＝新立體櫥窗被跳過、新舊 deep 一樣（TEST_BUG，已修）；只重跑①⑤（店外三張＋射線＋連拍）
+X352_DABU_new_r2 | 207a8216d90c98f979b857f258e496209c2499a8 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=x352_new_r2;ZONES=xs_dabu;HOURS=14,22;PARTS=1,5;SHA=207a8216d90c98f979b857f258e496209c2499a8
+X352_DABU_old_r2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=x352_old_r2;ZONES=xs_dabu;HOURS=14,22;PARTS=1,5;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # ===== P0 BB-C 06:26（使用者點名 X352 SHOP-WINDOW-3D-1112 第 1 包：大步球鞋櫥窗立體店內，LAWWW2 e61b6de33＝開發分支 207a8216d9）最前面；dc3d 舊貼圖版同機位對照 =====
 X352_DABU_new | 207a8216d90c98f979b857f258e496209c2499a8 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=x352_new;ZONES=xs_dabu;HOURS=14,20.5,22;SHA=207a8216d90c98f979b857f258e496209c2499a8
 X352_DABU_old | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=x352_old;ZONES=xs_dabu;HOURS=14,20.5,22;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
