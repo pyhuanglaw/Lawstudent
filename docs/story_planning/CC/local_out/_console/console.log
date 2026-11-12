@@ -53,3 +53,12 @@
 [12:33:36] [res] cpu=8% mem=32% (10.2/31.4 GB) chrome_testing=0  START P0_SHOPVIEW_taimi
 [12:34:22] worktree add 1cd2116ee178d78a8e30408943f38e38052648c3: invalid reference - fetching main and the commit itself
 [12:36:33] [res] cpu=69% mem=46% (14.7/31.4 GB) chrome_testing=10  END P0_SHOPVIEW_taimi
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7352cd1e3..327bcf1d1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:36:40] ==== END   P0_SHOPVIEW_taimi  exit=0  179s   ====
+[12:36:51] memory 47% before starting BD86_SHOPVIEW_dn_lt (2 running)
+[12:36:51] ==== START BD86_SHOPVIEW_dn_lt  (probe @ bd8643003a363ecd3e9bb87fa59d839f6d22475a) ====
+[12:36:54] [res] cpu=68% mem=48% (15.1/31.4 GB) chrome_testing=10  START BD86_SHOPVIEW_dn_lt
+[12:36:54] worktree add bd8643003a363ecd3e9bb87fa59d839f6d22475a: invalid reference - fetching main and the commit itself
+[12:37:41] [res] cpu=53% mem=36% (12.4/31.4 GB) chrome_testing=4  END P0_STUTTER_v91025
