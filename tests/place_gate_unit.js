@@ -41,8 +41,8 @@ const T_WIN='SHOP-WINDOW-3D-1112', T_VIEW='SHOP-INTERIOR-VIEW-1112', T_AA='SHOP-
 const KF=(task,item,zones,manual)=>zones.split(/\s+/).filter(Boolean).map(zone=>Object.assign({zone,item,task},manual?{manual:true}:{}));
 const KNOWN_FAIL=[].concat(
   /* 從店外看進去是一張 2D 圖（使用者 11-12；清單＝任務 SHOP-WINDOW-3D-1112 的 LAWWW2 清單：新生南路七間、公館同一批、汀州路那一排）*/
-  KF(T_WIN,'street3d','xs_shanlan xs_tongxian xs_nanyang xs_dakou xs_haopai xs_dabu xs_xsports',true),   /* xs_dabu：BB-C 11-12 06:4x 改判 FAIL——使用者：店外看進去牆是灰的、走進去是木頭的；立體了但和室內不一樣＝不算過 */
-  KF(T_WIN,'street3d','aoki bookstore cvs bikeshop afar yangyang corner_records daybreak noodle',true),
+  KF(T_WIN,'street3d','xs_shanlan xs_tongxian xs_dakou xs_haopai xs_dabu xs_xsports',true),   /* xs_nanyang：BB-C 11-12 判 PASS 拿掉；xs_dabu：BB-C 11-12 06:4x 改判 FAIL——使用者：店外看進去牆是灰的、走進去是木頭的；立體了但和室內不一樣＝不算過 */
+  /* 公館九間（aoki bookstore cvs bikeshop afar yangyang corner_records daybreak noodle）：BB-C 11-12 判店外立體 PASS（BB_379 53180642a9、ade9c3659d；第二層左中右錯開），拿掉 */
   KF(T_WIN,'street3d','tz_yuehaochi tz_keju tz_dongnan tz_liantong tz_taimi',true),
   /* 118 巷的店沒開的時候畫面還是開著的（使用者 11-12 截圖：水上便當燈亮、沒有鐵門）*/
   KF(T_CLOSED,'closedLook','l118_dian l118_self l118_tea l118_home l118_cafe2 l118_pasta l118_korea l118_omu l118_noodle2',true),
