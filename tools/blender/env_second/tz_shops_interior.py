@@ -1153,6 +1153,9 @@ if SHOP == 'dongnan':
 
 
 # ---------- 汀州聯通（汀州路；手機通訊行）----------
+def _tint(hexcol, t):
+    """顏色往白色混 t（反光的那一條）"""
+    c = [int(hexcol[i:i + 2], 16) for i in (1, 3, 5)]; return '#%02x%02x%02x' % tuple(int(v + (255 - v) * t) for v in c)
 if SHOP == 'liantong':
     SC, PW, CB, CT = J['showcase'], J['pegWall'], J['cabinet'], J['counter']
     BLUE, BLUE2, WHT, ALU, DK = '#1f3f9a', '#3f7ad0', '#f6f7f7', '#c4c8cb', '#1f2023'
@@ -1174,7 +1177,13 @@ if SHOP == 'liantong':
             while a + 0.085 <= z1_:
                 c2 = col if n % 3 else CASE[(k + r + n) % len(CASE)]
                 if r == 5 and k % 2: vc().cbox(px - 0.1, px - 0.02, y, y + 0.17, a, a + 0.1, WHT); vc().cbox(px - 0.02, px - 0.018, y + 0.03, y + 0.14, a + 0.01, a + 0.09, c2)   # 最上面一排：保護貼、充電器的盒子
-                else: vc().cbox(px - 0.075, px - 0.06, y, y + 0.165, a, a + 0.08, c2); vc().cbox(px - 0.06, px - 0.058, y + 0.115, y + 0.15, a + 0.012, a + 0.04, '#15171a')   # 手機殼＋鏡頭孔
+                else:   # 手機殼（LIANTONG-CASES-1112；BB 11-12 ④ FAIL：近看每一格是純色長方塊，沒鏡頭孔、沒包裝）：白色吊卡（上緣一條同色的色條）＋殼＋鏡頭島（兩顆鏡頭、一顆閃光燈）＋側邊一條反光
+                    hi = _tint(c2, 0.4)
+                    vc().cbox(px - 0.084, px - 0.078, y - 0.012, y + 0.2, a - 0.008, a + 0.088, '#f4f5f4'); vc().cbox(px - 0.078, px - 0.0772, y + 0.174, y + 0.196, a - 0.004, a + 0.084, c2)
+                    vc().cbox(px - 0.078, px - 0.062, y, y + 0.165, a, a + 0.08, c2); vc().cbox(px - 0.062, px - 0.0612, y + 0.006, y + 0.159, a + 0.066, a + 0.075, hi)
+                    vc().cbox(px - 0.062, px - 0.0594, y + 0.104, y + 0.158, a + 0.007, a + 0.045, '#15171a' if c2 != '#1f2023' else '#34383e')
+                    for (ly, lz) in ((0.136, 0.012), (0.112, 0.012)): vc().cbox(px - 0.0594, px - 0.0586, y + ly, y + ly + 0.017, a + lz, a + lz + 0.017, '#4a5a6a')
+                    vc().cbox(px - 0.0594, px - 0.0588, y + 0.128, y + 0.136, a + 0.033, a + 0.041, '#f2e9c0')
                 a += 0.105; n += 1
             ccyl(vm(), (px - 0.1, y + 0.185, z0_), (px - 0.1, y + 0.185, z1_), 0.006, ALU, seg=4)
     # 窗邊玻璃展示櫃：白色底座、鋁框、兩層玻璃層板上的手機和盒子
