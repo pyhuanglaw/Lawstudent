@@ -9,8 +9,8 @@ PC 重現三次：L118D_H_B REG_YT、H_C REG_XC、H_B_r2 REG_YT 都停在 (−3.
     → 脫困：往下退 1 m 再走一次（記上不上得去）；還是不行就【捷徑】放回樓梯底，下一趟。
   RUN＝1：觸控按「跑」（#btnRun 切成跑步）；FPSCAP＝10：包 requestAnimationFrame 限 10 fps（【前置／捷徑】只改幀率）。
 判定：每一段 PASS／FAIL；結尾印每條線「上 n/TRIPS、下 n/TRIPS、卡住的座標」總表。舊版（線上 779ddd650）也照跑，分辨本來就有還是這一版才有。
-PUSH（CC-C 11-12，BB-C 03:30）：straight 直線推／diag 稍微斜推（目標往樓梯中線偏 0.5 m；樓梯 x −4.5～−3、中線 −3.75＝be1e 雲端量 11-12）／tap 點樓梯面（每次點前面 2 m、快到才點目標）。
-CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（BB 指定固定三條線、每條線一趟，不挑候選） 4✓ 5✓ 6n/a（不測時刻，只測走路；讀檔 15:00 木曜日有開） 7✓ 8✓ 9n/a（卡住截圖本來就要看到人，不藏玩家） 10✓ 11✓ 12✓ 13✓（11-12 第二次：tap 每一下記遊戲的解讀＝第 5 點走不到要附診斷）
+PUSH（CC-C 11-12，BB-C 03:30）：straight 直線推／diag 稍微斜推（搖桿固定往樓梯方向偏 DIAG_DEG＝12° 推，不重新對準；12° 是 CC 對「稍微斜推」的解讀）／tap 點樓梯面（每次點前面 2 m、快到才點目標）。
+CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（BB 指定固定三條線、每條線一趟，不挑候選） 4✓ 5✓ 6n/a（不測時刻，只測走路；讀檔 15:00 木曜日有開） 7✓ 8✓ 9n/a（卡住截圖本來就要看到人，不藏玩家） 10✓ 11✓ 12✓ 13✓（11-12 第二次：tap 每一下記遊戲的解讀＝第 5 點走不到要附診斷）（11-12 第三次：diag 改成搖桿固定斜 12°——第 8 點：第一版「偏 0.5 m 的目標點」沒出處、等於貼扶手；12° 是 CC 對 BB「稍微斜推」的解讀，已報 BB、可用 DIAG_DEG 改）
 用法：LW_TESTS=<wt>/tests SHA=<sha> RUN=0|1 FPSCAP=0|10 [PUSH=straight|diag|tap] python3 cc_stair_probe.py <url> <out>"""
 import os, sys, json, time, math, asyncio, datetime
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -174,12 +174,35 @@ async def tap_seg(pg, cdp, tag, tx, tz, lv):
     return r
 
 
+DIAG_DEG = float(os.environ.get('DIAG_DEG') or '12')
+
+
+async def diag_seg(pg, cdp, tag, x, tz, lv):
+    """稍微斜推（CC-C 11-12 第二版）：像玩家一樣搖桿固定往一個方向推＝樓梯方向偏 DIAG_DEG 度（預設 12°；往 +x，x 在中線右邊就往 −x），
+    每次推 0.6 秒、照當下鏡頭換算搖桿方向，不重新對準目標（人碰到扶手就沿著扶手滑或卡住，照遊戲）。到了＝目標那一層、z 離 tz 0.5 m 內（x 不管）。
+    第一版是「直推到偏 0.5 m 的目標點」：x −3.25 離樓梯邊 −3.0 只有 0.25 m（人半徑 0.33），等於叫人貼著扶手走，be1e 雲端下樓卡在平台 (−3.25, 2.00)＝探針設計錯（CC_02 乙 8：門檻沒出處）"""
+    t0 = time.time(); e0 = await D.st(pg); sgn_z = 1.0 if tz > e0['z'] else -1.0; sgn_x = 1.0 if x <= -3.75 else -1.0
+    a = math.radians(DIAG_DEG); wx, wz = sgn_x * math.sin(a), sgn_z * math.cos(a)
+    pushes = 0; last = (e0['x'], e0['z']); still0 = time.time(); why = None; e = e0
+    while time.time() - t0 < 45:
+        e = await D.st(pg)
+        if abs(e['z'] - tz) <= 0.5 and e['lv'] == lv: break
+        if e.get('dlg') or e.get('choices'): why = '途中有對話／選單（停下來，不判）'; break
+        if math.hypot(e['x'] - last[0], e['z'] - last[1]) >= 0.3: last = (e['x'], e['z']); still0 = time.time()
+        if time.time() - still0 > 20: why = '20 秒沒有前進 0.3 m（卡住）'; break
+        yaw = await pg.evaluate("GAME.E.cam.yaw"); fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
+        sx, sy = wx * rx + wz * rz, -(wx * fx + wz * fz); m = math.hypot(sx, sy) or 1
+        await L.joystick(pg, cdp, sx / m * 45, sy / m * 45, 600); pushes += 1
+    e = await D.st(pg); ok = abs(e['z'] - tz) <= 0.5 and e['lv'] == lv
+    r = {'ok': ok, 't': round(time.time() - t0, 1), 'pushes': pushes, 'jumps': [], 'end': {'x': e['x'], 'z': e['z'], 'y': e.get('y'), 'lv': e['lv']}, 'why': None if ok else (why or '45 秒沒到')}
+    R.note('%s（斜推 %.0f°、搖桿方向固定）→ z %.2f lv%d：%s、%s 秒、推 %d 次、停在 (%.2f, %.2f) y=%s lv%d' % (tag, DIAG_DEG, tz, lv, '到了' if ok else '沒到：' + r['why'], r['t'], pushes, e['x'], e['z'], e.get('y'), e['lv']))
+    return r
+
+
 async def push_seg(pg, cdp, tag, x, tz, lv):
     """上樓／下樓那一段照 PUSH 的推法"""
     if PUSH == 'tap': return await tap_seg(pg, cdp, tag + '（點地）', x, tz, lv)
-    if PUSH == 'diag':
-        mid = -3.75; dx = 0.5 if x <= mid else -0.5   # 往樓梯中線那邊偏（樓梯 x −4.5～−3）
-        return await seg(pg, cdp, tag + '（斜推，目標偏 %+.1f m）' % dx, x + dx, tz, lv, True)
+    if PUSH == 'diag': return await diag_seg(pg, cdp, tag, x, tz, lv)
     return await seg(pg, cdp, tag, x, tz, lv, True)
 
 
