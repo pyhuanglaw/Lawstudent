@@ -55,7 +55,6 @@ const GIFT=(function(){
   S.isLegacy=shop=>shop==='便利商店'||isCafe(shop);   /* 便利商店、2:30 AM：照舊（下面的表不列）*/
   S.SHOPS={
     'cvs.coffee':{alias:'便利商店'},   /* 日和便利店的咖啡機（ggshops_sys3d.js）：同一間便利商店，出原本那一份 */
-    '清葉茶行':{rows:()=>{ const s=g_('STORY'); return (s&&s.AOKI_TAKE)||[]; }},   /* 青木茶室的外帶窗口（story3d.js counter）*/
     'bookstore.cafe_order':{name:'頁間書屋',rows:()=>{ const s=g_('GGS'); return s?s.MENU['bookstore.cafe_order'].items:[]; }},
     '大口漢堡':{rows:G=>{ const s=g_('DKS'); return s?s.menu(G):[]; }},
     '溫州街・半熟':{name:'SUNNY SIDE',rows:()=>{ const s=g_('WZS'); return s?s.BRUNCH:[]; }},
@@ -71,14 +70,17 @@ const GIFT=(function(){
     '體育館販賣機':{rows:()=>{ const s=g_('GY3'); return (s&&s.VEND)||[]; },opt:false} };
   /* 118 巷：資料寫 drink 的店（喝不喝咖啡、果茶社…；以後新增的也算），整份菜單都是飲料 */
   const l118=shop=>{ const D=g_('LANE118_SHOPS'); return (D&&D.shops.find(x=>x.drink&&x.name===shop))||null; };
-  S.shopDef=function(shop){ let d=Object.prototype.hasOwnProperty.call(S.SHOPS,shop)?S.SHOPS[shop]:null, name=shop; if(d&&d.alias){ name=d.alias; d=null; } if(!d&&S.isLegacy(name)) d={legacy:true};
-    if(!d){ const q=l118(shop); if(q) d={rows:()=>q.menu,drink:()=>true}; } return d?Object.assign({},d,{name:d.name||name}):null; };
+  /* rows＝那一支點餐的程式自己把菜單傳過來（story3d.js 的 counter：青木茶室的外帶窗口，店名 key 照 counter；表上沒有的店才用）*/
+  S.shopDef=function(shop,rows){ let d=Object.prototype.hasOwnProperty.call(S.SHOPS,shop)?S.SHOPS[shop]:null, name=shop; if(d&&d.alias){ name=d.alias; d=null; } if(!d&&S.isLegacy(name)) d={legacy:true};
+    if(!d){ const q=l118(shop); if(q) d={rows:()=>q.menu,drink:()=>true}; }
+    if(!d&&Array.isArray(rows)&&rows.length) d={rows:()=>rows.filter(r=>!(Array.isArray(r)&&typeof r[3]==='function'))};   /* counter 的菜單：貓罐頭、開學用品（第四格是函式）不算 */
+    return d?Object.assign({},d,{name:d.name||name}):null; };
   const rowN=r=>Array.isArray(r)?r[0]:(r&&(r.n||r.name||r.t)), rowP=r=>Array.isArray(r)?r[1]:(r&&(r.p!=null?r.p:r.price));
   /* 這間店現在可以買來送人的：[{n, cat, p, temp, opt}]（legacy＝S.ITEMS 照舊；其他＝菜單上是飲料的，照菜單的順序）*/
-  S.menu=function(G,shop){ const d=S.shopDef(shop); if(!d) return [];
+  S.menu=function(G,shop,rows){ const d=S.shopDef(shop,rows); if(!d) return [];
     if(d.legacy) return S.ITEMS.filter(it=>!isCafe(d.name)||it.cafe!=null).map(it=>Object.assign({},it,{p:isCafe(d.name)&&it.cafe!=null?it.cafe:it.p}));   /* 便利商店全部；2:30 AM 只有咖啡、熱可可。蛋餅、蘿蔔糕：沒有早餐店（AA-B 11-08：不加）*/
-    let rows=[]; try{ rows=d.rows(G||{})||[]; }catch(e){ rows=[]; } const out=[];
-    for(const r of rows){ const n=rowN(r), p=rowP(r); if(!n||!(p>0)||out.some(x=>x.n===n)) continue; let ok=false; try{ ok=d.drink?!!d.drink(r):S.isDrinkName(n); }catch(e){ ok=false; } if(!ok) continue;
+    let R=[]; try{ R=d.rows(G||{})||[]; }catch(e){ R=[]; } const out=[];
+    for(const r of R){ const n=rowN(r), p=rowP(r); if(!n||!(p>0)||out.some(x=>x.n===n)) continue; let ok=false; try{ ok=d.drink?!!d.drink(r):S.isDrinkName(n); }catch(e){ ok=false; } if(!ok) continue;
       const it=S.ITEMS.find(x=>x.n===n&&x.cat==='drink'); let t=null; try{ t=d.temp?d.temp(r):null; }catch(e){}
       out.push(it?{n,cat:it.cat,p,temp:it.temp||null,opt:d.opt===false?null:it.opt}:{n,cat:'drink',p,temp:t||S.nameTemp(n)}); }
     return out; };
@@ -95,9 +97,9 @@ const GIFT=(function(){
   const F=G=>{ const f=G.flags||(G.flags={}); const g=f.GIFT&&typeof f.GIFT==='object'?f.GIFT:(f.GIFT={}); for(const k of ['day','fav','n','last','pool','rel']) if(!g[k]||typeof g[k]!=='object') g[k]={}; return g; };
   S.carry=G=>{ if(!Array.isArray(G.carry)) G.carry=[]; G.carry=G.carry.filter(x=>x&&x.n&&x.day===G.day); return G.carry; };   /* 隔天就沒了 */
   S.price=(it,shop)=>{ const m=S.menu(null,shop).find(x=>x.n===it.n); return m?m.p:(isCafe(shop)&&it.cafe!=null?it.cafe:it.p); };
-  S.shopOpt=function(G,shop){ if(!S.menu(G,shop).length||!Object.keys(L()).length) return null; const full=S.carry(G).length>=S.MAX; return {t:S.SHOP_OPT,hint:full?'手上已經拿了 '+S.MAX+' 樣':'飲料、早餐，帶在身上，見面的時候送人',dim:full}; };
+  S.shopOpt=function(G,shop,rows){ if(!S.menu(G,shop,rows).length||!Object.keys(L()).length) return null; const full=S.carry(G).length>=S.MAX; return {t:S.SHOP_OPT,hint:full?'手上已經拿了 '+S.MAX+' 樣':'飲料、早餐，帶在身上，見面的時候送人',dim:full}; };
   /* 買：品項 → 再選一次（有的話）→ 扣錢、帶著（記在哪一家買的：芷若對便利商店的拿鐵有意見）*/
-  S.buy=async function(GM,shop){ const G=GM.G, d=S.shopDef(shop), L2=S.menu(G,shop); if(!L2.length) return null; if(S.carry(G).length>=S.MAX){ GM.toast&&GM.toast('手上已經拿了 '+S.MAX+' 樣了'); return null; }
+  S.buy=async function(GM,shop,rows){ const G=GM.G, d=S.shopDef(shop,rows), L2=S.menu(G,shop,rows); if(!L2.length) return null; if(S.carry(G).length>=S.MAX){ GM.toast&&GM.toast('手上已經拿了 '+S.MAX+' 樣了'); return null; }
     const opts=L2.map(it=>({t:it.n+'　'+it.p+' 元',dim:G.money<it.p})); opts.push({t:'算了'});
     const i=await GM.choose(opts); const it=L2[i]; if(!it) return null; let name=it.n, p=it.p;
     if(it.opt){ const k=await GM.choose(it.opt.map(o=>({t:o[0]+(o[2]?'（+'+o[2]+' 元）':'')}))); const o=it.opt[k]||it.opt[0]; name+=o[1]; p+=o[2]|0; }

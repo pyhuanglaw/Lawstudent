@@ -152,8 +152,7 @@ const GG2=(function(){
   S.order=async function(GM,k){ if(k==='yangyang') return S.yyOrder(GM); const G=GM.G, D=S.L[k]; if(!D) return null; await GM.say(CLERK,D.ask);
     const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,k):null;   /* afar 的「選物…」（節日送禮 GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
     const opts=D.menu.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat(hO?[hO]:[],[{t:'不用了'}]); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,S.EAT_KEY[k]):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(opts);
-    if(gO&&i===opts.length-1){ await GIFT.buy(GM,S.EAT_KEY[k]); return 'gift'; }
-    if(hO&&i===D.menu.length){ await GIFTH.pick(GM,hO); return 'gift'; }
+    if(gO&&i===opts.length-1){ await GIFT.buy(GM,S.EAT_KEY[k]); return 'gift'; } if(hO&&i===D.menu.length){ await GIFTH.pick(GM,hO); return 'gift'; }
     if(i==null||!(i>=0&&i<D.menu.length)) return null; const [nm,p]=D.menu[i];
     if((G.money|0)<p){ await GM.say(CLERK,D.short); return 'short'; }   /* 錢不夠：店員的那一句（AA_652），不扣錢 */
     GM.money(-p); const pool=D.after.filter(a=>!a[2]||a[2]===nm), a=pool[Math.min(pool.length-1,Math.floor(S.rand()*pool.length))]; await GM.say(a[0]?CLERK:null,a[1]);
