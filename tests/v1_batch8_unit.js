@@ -139,11 +139,15 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const m=ask(null); check('期末成績：12/19 21:00 她傳「成績出來先不要給對方看。一月五號那天一起打開。」、兩個回覆（原文）',!!m&&m.text==='成績出來先不要給對方看。一月五號那天一起打開。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好。","我會忍不住。"]');
     ask(1); check('期末成績：「我會忍不住。」→「那你偷看的時候，表情不要寫在訊息裡。」（約定照樣成立）',G.msgs.some(x=>x.text==='那你偷看的時候，表情不要寫在訊息裡。')&&G.flags.KX_GRADES_PACT_SET===true);
     const morning=async(flags,pk)=>{ fresh(BRK,7.5,'dorm',Object.assign({dating_kexin:true},flags||{})); picks=pk||[]; await CLS.morning(GM); return lines(); };
+    { fresh(BRK,7.5,'dorm',{KX_MET:true}); const r=SOCIAL.rel('kexin'); r.fam=65; r.trust=50; r.comf=45; SOCIAL.remember('kexin','FIRST_MET',''); picks=[]; await CLS.morning(GM); PHONE.tick(G); const L0=lines(), q=OUT.get(G,'kx_grades');
+      check('期末成績（CANON-NO-ECON-1112 第四批，AA_875 第 1 節）：沒交往、好朋友那一階：成績照常發、她傳「成績出來了。九點，一起開。」、排 21:00 視訊',SOCIAL.stage('kexin')==='CLOSE_FRIEND'&&L0[0]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1&&G.msgs.some(x=>x.text==='成績出來了。九點，一起開。'&&x.from==='kexin')&&!!q&&q.h===21&&q.ev==='ev_kexin_grades_open',JSON.stringify([SOCIAL.stage('kexin'),!!q,(G.msgs||[]).map(x=>x.text).slice(-2)])); }
+    { fresh(BRK,7.5,'dorm',{KX_MET:true}); const r=SOCIAL.rel('kexin'); r.fam=45; r.trust=30; r.comf=10; SOCIAL.remember('kexin','FIRST_MET',''); picks=[]; await CLS.morning(GM);
+      check('期末成績：只有 FRIEND：沒有（要比 FRIEND 高一階，BB_418）',SOCIAL.stage('kexin')==='FRIEND'&&!OUT.get(G,'kx_grades')&&!G.msgs.some(x=>x.text==='成績出來了。九點，一起開。'),SOCIAL.stage('kexin')); }
     let L=await morning({},[]); check('期末成績：沒有約定的玩家：寒假第一天早上直接發成績單',L[0]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1&&!opts.some(o=>o.includes('先看。')),JSON.stringify(L));
     L=await morning({KX_GRADES_PACT_SET:true},['等五號']);
     check('期末成績（等）：早上先問「先看。／等五號一起看。」，選等＝早上不發、KX_GRADES_PACT=kept、排 21:00「接起來：可昕的視訊」',JSON.stringify(opts[0])==='["先看。","等五號一起看。"]'&&!CLS.rec(G).grades.Y1S1&&G.flags.KX_GRADES_PACT==='kept'&&OUT.get(G,'kx_grades')&&OUT.get(G,'kx_grades').verb==='接起來',JSON.stringify({L,o:opts}));
     said=[]; opts=[]; G.hour=20.8; picks=['接起來']; await OUT.tick(GM); L=lines();
-    check('期末成績（等）：21:00 視訊「三、二、一——」「……都過了。好，這次才是真的放假。」，接著發成績單',opts[0][0]==='接起來：可昕的視訊：一起打開成績'&&L[0]==='三、二、一——'&&L[1]==='……都過了。好，這次才是真的放假。'&&L[2]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1,JSON.stringify({o:opts[0],L}));
+    check('期末成績（等）：21:00 視訊「三、二、一——」「……都過了。好，這次才是真的放假。」，接著發成績單',opts[0][0]==='接起來：可昕的視訊：一起打開成績'&&L[0]==='（寒假。她在高雄，視訊那頭聽得到她家的電視。）'&&L[1]==='三、二、一——'&&L[2]==='……都過了。好，這次才是真的放假。'&&L[3]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1,JSON.stringify({o:opts[0],L}));   /* （CANON-NO-ECON-1112 第四批：照 AA_875 換字）開頭多一句旁白 */
     L=await morning({KX_GRADES_PACT_SET:true},['先看']);
     check('期末成績（先看）：早上照常發成績單、KX_GRADES_PACT=peeked、晚上照樣一起打開（不吵）',L.includes('大一上的成績出來了。')&&!!CLS.rec(G).grades.Y1S1&&G.flags.KX_GRADES_PACT==='peeked'&&!!OUT.get(G,'kx_grades'));
     run(7.6,21.1); const pk=G.msgs.filter(x=>x.tag==='kx_grades_peek').map(x=>x.text);

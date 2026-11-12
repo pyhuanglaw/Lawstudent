@@ -23,7 +23,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     const i0=sayIdx('（晨思鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）'), i1=sayIdx('（以安的媽媽站在晨思鐘旁邊。）'), i2=sayIdx('（她還穿著碩士服，手上拿著一個新的保溫瓶。）'), i3=sayIdx('欸不是，今天禮拜六欸，我本來要睡到中午。');
     check('2. D1 順序：大合照 → 以安和媽媽 → 保溫瓶 → 子晴「本來要睡到中午」',i0===0&&i0<i1&&i1<i2&&i2<i3,JSON.stringify([i0,i1,i2,i3]));
     check('2. D1：CG-9 在「謝謝你們這四年陪她吵架。」',H.cgs[0]==='cg_graduation_mother_heroine01'&&H.has('（對大家，很平常）謝謝你們這四年陪她吵架。'));
-    check('2. D1：沒有伴侶那一段（可昕、「媽，這是祐廷。」）',!H.has('媽，這是祐廷。')&&!H.has('你的那天，我到了。'));
+    check('2. D1：沒有伴侶那一段（可昕、「媽，這是祐廷。」）',!H.has('媽，這是祐廷。')&&!H.has('我媽在那邊，一直在整理我的領子。你等一下過來，她會問你吃飽沒。'));   /* （CANON-NO-ECON-1112 第四批：照 AA_875 第 3 節換字）*/
     check('2. W15：「每天帶出門。」；拿掉「一件事。只有一件。」（b6757852）',H.has('每天帶出門。')&&!H.has('一件事。只有一件。'));
     check('2. 時間：12:00 開始（字卡 6/2（六）12:00）、13:30 結束',H.cards[0][0]==='6/2（六）12:00'&&Math.abs(G.hour-13.5)<1e-6,JSON.stringify(H.cards)+' '+G.hour);
     check('2. 旗標：GRADUATED、SIS_THERMOS、GRAD_PHOTO（同班 FAMILIAR 以上）、以安的記憶 IMPORTANT_CONVERSATION',G.flags.GRADUATED===PG.gradDay()&&G.flags.SIS_THERMOS===true&&G.flags.GRAD_PHOTO.includes('zhe')&&!G.flags.GRAD_PHOTO.includes('classmate_mingxuan')&&SOCIAL.has('heroine_01','IMPORTANT_CONVERSATION'),JSON.stringify(G.flags.GRAD_PHOTO));
@@ -51,7 +51,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   { const G=H.fresh('2029-06-02',12,'campus',{GIRAFFE_KEYCHAIN:true}); H.FRIEND('kexin'); H.date('kexin'); H.FRIEND('heroine_01'); await H.run('grad');
     const k=sayIdx('（她看到你鑰匙上的長頸鹿。）'), m=sayIdx('（以安的媽媽站在晨思鐘旁邊。）'), g=sayIdx('那是妳的帽子。');
     check('5. D2：大合照之後第一個是可昕（長頸鹿：「它還在。脖子還是很短。」）',g>0&&k===g+1&&H.has('它還在。脖子還是很短。')&&k<m,JSON.stringify(H.lines().slice(0,7))); }
-  { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad'); check('5. 沒有長頸鹿：「你的那天，我到了。」',H.has('你的那天，我到了。')); }
+  { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad'); check('5. 沒有長頸鹿：「我媽在那邊，一直在整理我的領子。你等一下過來，她會問你吃飽沒。」（CANON-NO-ECON-1112 第四批：照 AA_875 第 3 節換字）',H.has('我媽在那邊，一直在整理我的領子。你等一下過來，她會問你吃飽沒。')); }
   // ---- D3：和芷若交往 ----
   { const G=H.fresh('2029-06-01',22.4,'dorm'); H.FRIEND('heroine_02'); H.date('heroine_02'); PG.rules(GM); H.at('2029-06-01',23.1); H.tick();
     check('6. D3：前一晚 23:00「我設了鬧鐘。」',H.msgs('p:heroine_02').includes('我設了鬧鐘。'),JSON.stringify(H.msgs('p:heroine_02')));

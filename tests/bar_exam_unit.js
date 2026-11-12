@@ -34,7 +34,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     H.at('2029-09-07',15+5/60); const r=PG.due(G); check('3. 15:05 系統字',r&&r.id==='r1_2029'); await PG.runStep(GM,r);
     check('3. Y1：答對 14＝「律師一試：通過。司法官一試：未通過。」；BAR_STAGE_2029 lawyer',H.has('律師一試：通過。司法官一試：未通過。')&&G.flags.BAR_STAGE_2029==='lawyer');
     H.at('2029-09-07',15.2); H.tick(); check('3. 朋友：Alison「一試沒過。明年再來。」阿哲「我也沒過……宵夜照吃」柏翰「過了。」；沒有「明年一起」',H.msgs('g:noodle_team').join('|').includes('一試沒過。明年再來。|我也沒過……宵夜照吃|過了。')&&!H.msgs('g:noodle_team').includes('明年一起'));
-    check('3. 可昕：「一試過了。二試十月。」「表我再排到十月。」',H.msgs('p:kexin').includes('一試過了。二試十月。')&&H.msgs('p:kexin').includes('表我再排到十月。'));
+    check('3. 可昕：「一試過了。二試十月。」「到十月，我照舊每天念。你也是。」（CANON-NO-ECON-1112 第四批：照 AA_875 第 3 節換字）',H.msgs('p:kexin').includes('一試過了。二試十月。')&&H.msgs('p:kexin').includes('到十月，我照舊每天念。你也是。'));
     // 10/20～21
     H.at('2029-10-20',8.5); const e=PG.due(G); check('4. Y1：10/20 進考場',e&&e.id==='e2a_2029'); await PG.runStep(GM,e); check('4. 字卡「考場」',H.cards.some(c=>c[0]==='考場'));
     H.at('2029-10-21',17.5); const e2=PG.due(G); await PG.runStep(GM,e2); check('4. 10/21 傍晚「（交卷的鐘響了。你把筆收進筆袋。）」',e2&&e2.id==='e2b_2029'&&H.has('（交卷的鐘響了。你把筆收進筆袋。）'));

@@ -194,7 +194,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   { // AA_356 1-1：大一上第 16 週視訊沒到（書桌照片 kx_video_photo）＝寒假第一天一起打開成績，第一句「你欠我的那一次，用這個還。」；沒有那張照片的沒有
     fresh('2026-01-05',20.9,'dorm',{}); PHONE.at(G,G.day-20,23,[{th:'p:kexin',from:'kexin',text:'我自己讀了。你欠我一次。'}],'kx_video_photo'); PHONE.tick(G); await play('ev_kexin_grades_open');
     const a=all(); fresh('2026-01-05',20.9,'dorm',{}); await play('ev_kexin_grades_open'); const b=all();
-    check('AA_356 1-1：視訊沒到過＝「你欠我的那一次，用這個還。」在「三、二、一——」前面；有接的玩家沒有',a.indexOf('你欠我的那一次，用這個還。')===a.indexOf('三、二、一——')-1&&a.includes('三、二、一——')&&!b.includes('你欠我的那一次，用這個還。'),JSON.stringify([a,b])); }
+    check('AA_356 1-1「你欠我的那一次」（CANON-NO-ECON-1112 第四批：照 AA_875 第 1 節拿掉——接的是已經拿掉的視訊一起讀書）；開頭是寒假那一句旁白',!a.includes('你欠我的那一次，用這個還。')&&!b.includes('你欠我的那一次，用這個還。')&&a[0]==='（寒假。她在高雄，視訊那頭聽得到她家的電視。）'&&a[1]==='三、二、一——',JSON.stringify([a,b])); }
   { // AA_356 第 2 節：「我明天拿來。」＝隔天以後第一次進總圖還書、−40、清掉；欠著的時候不再跳逾期；當天不還
     fresh('2026-03-10',14,'library',{}); const fb=ev('ev_forgot_book'), br=ev('ev_book_return'); const c0=EVENTS.check(fb); await play('ev_forgot_book',[1]); const set=G.flags.book_overdue===true&&G.flags.book_overdue_day===G.day;
     const same=!EVENTS.check(br)&&!EVENTS.check(fb); to('2026-03-11',10); G.zone='library_hall'; const next=EVENTS.check(br); const m0=G.money; await play('ev_book_return');

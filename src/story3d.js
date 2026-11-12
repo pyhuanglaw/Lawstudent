@@ -2415,7 +2415,14 @@ const STORY = (function(){
     G.hour=hour; if(E) E.hour=hour; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear'); F.companion=null; F.nightKai=false; if(GM.updateHUD) GM.updateHUD(); };
   S.firstColdDay=()=>termDay('Y1S1',15,1);   /* 第一波寒流（AA_71 十二月；阿哲的薑母鴨、AA_12 紙箱旁白也用這一天：「冬天的衣服」紙箱的兩版在 src/y1fill3d.js，AA_347 5-1）*/
   /* 成績單先等一下（classes3d.js 的 morning 呼叫；回傳 true＝先不發，晚上視訊一起打開）：只有大一上、和可昕約好的玩家問一次 */
+  S.kxGradeFriend=G=>S.kxKnown(G)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&!!SOCIAL.stage&&SOCIAL.STAGES.indexOf(SOCIAL.stage('kexin'))>=SOCIAL.STAGES.indexOf('CLOSE_FRIEND');   /* 好朋友那一階（比 FRIEND 高一階，AA_875、BB_418）*/
   S.holdGrades=async function(GM,termId){ const G=GM.G, F=G.flags;
+    /* AA_875 第 1 節（CANON-NO-ECON-1112 第四批）：沒在交往、好朋友那一階（CLOSE_FRIEND）以上＝成績出來那天她傳「成績出來了。九點，一起開。」、21:00 視訊一起開（她在高雄）。
+       沒有約定，成績單照常先發（同大一上「先看」的玩家）；交往中的照下面原本的約定 */
+    if((termId==='Y1S1'||termId==='Y1S2')&&!F.dating_kexin&&S.kxGradeFriend(G)&&typeof OUT!=='undefined'){ const id=termId==='Y1S1'?'kx_grades':'kx_grades2';
+      if(!OUT.get(G,id)&&!PHONE.sent(G,id+'_fr')){ PHONE.at(G,G.day,h(G),[{th:'p:kexin',from:'kexin',text:'成績出來了。九點，一起開。'}],id+'_fr');
+        OUT.plan(G,{id,ev:termId==='Y1S1'?'ev_kexin_grades_open':'ev_kexin_grades_open_y1s2',day:G.day,h:21,place:'視訊',title:'可昕的視訊：一起打開成績',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊掛掉了。'}); }
+      return false; }
     if(termId==='Y1S2'){ if(!F.dating_kexin||F.KX_GRADES_Y1S2!=='together'||F.KX_GRADES2_DAY!=null||typeof OUT==='undefined') return false;   /* 大一下 together（AA_157 第 2 節）：暑假第一天早上先問、21:00 視訊；best_one 照常發（晚上的一問一答在 phoneRules）*/
       F.KX_GRADES2_DAY=G.day; GM.sceneBegin(); let k=0; try{ await GM.say(null,'大一下的成績出來了。'); k=await GM.choose([{t:'先看。'},{t:'等到晚上。'}]); } finally { GM.sceneEnd(); }
       if(k===0) F.KX_GRADES2_PEEK=true;

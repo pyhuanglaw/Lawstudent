@@ -1726,21 +1726,22 @@ const STORY_EVENTS=[
   /* 期末成績：寒假第一天晚上和可昕視訊一起打開（BB_95 9-8）。等的玩家：她數完以後成績單接著出來；先看的玩家：照樣一起打開。沒接（錯過、今天先不要）：成績隔天早上照常出來 */
   { id:'ev_kexin_grades_open', title:'一起打開', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'},
-      {if:{custom:G=>typeof PHONE!=='undefined'&&!!PHONE.sent&&PHONE.sent(G,'kx_video_photo')},speaker:'kexin',expression:'teasing',text:'你欠我的那一次，用這個還。'},   /* AA_356 1-1：第 16 週視訊一起讀書沒到（書桌照片「你欠我一次」）的下文 */
+      {speaker:null,text:'（寒假。她在高雄，視訊那頭聽得到她家的電視。）'},   /* CANON-NO-ECON-1112 第四批（AA_875 第 1 節）：開頭加旁白；「你欠我的那一次」那一列拿掉（接的是已經拿掉的視訊一起讀書）*/
       {speaker:'kexin',expression:'smile',text:'三、二、一——'},
       {if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G); return v==='fail_law'||v==='fail_att'; }},speaker:'kexin',expression:'serious',text:'……有一科沒過。'},{if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G); return v==='fail_law'||v==='fail_att'; }},speaker:'kexin',expression:'smile',text:'好。下學期那一科，我陪你念。'},   /* AA_553 第 4 節：被當＝取代「都過了」（現有的錯）*/
       {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='high'},speaker:'kexin',expression:'teasing',text:'……你偷念。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='high'},speaker:'kexin',expression:'smile',text:'好，這次才是真的放假。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='high'},speaker:'kexin',expression:'teasing',text:'你請。'},
-      {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'……都過了。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'下學期我們一起念。我排時間。'},
+      {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'……都過了。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'下學期一起念。你躲的話，我去你宿舍樓下叫。'},
       {if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G); return v!=='fail_law'&&v!=='fail_att'&&v!=='high'&&v!=='low'; }},speaker:'kexin',expression:'smile',text:'……都過了。好，這次才是真的放假。'} ],   /* AA-C 11:23（16 週制：1/5 已經放假兩週）*/
     afterOuting:async(G,GM)=>{ if(typeof CLS!=='undefined'&&CLS.rec&&!CLS.rec(G).grades.Y1S1) await CLS.showGrades(GM,'Y1S1'); },
     outingMissed:(G)=>{ if(typeof CLS!=='undefined'&&CLS.rec){ const R=CLS.rec(G); if(!R.grades.Y1S1) R.note.gradesDue='Y1S1'; } } },
   /* 9-9 大一下 together（AA_157 第 2 節；BB_139 2-1：照大一上兩句，只換「暑假」）：暑假第一天 21:00 視訊一起打開；沒接＝隔天早上照常發成績單 */
   { id:'ev_kexin_grades_open_y1s2', title:'一起打開', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'},
+      {speaker:null,text:'（暑假第一天。她在高雄，視訊那頭有人在喊她吃水果。）'},   /* CANON-NO-ECON-1112 第四批（AA_875 第 1 節）*/
       {speaker:'kexin',expression:'smile',text:'三、二、一——'},
       {if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G); return v==='fail_law'||v==='fail_att'; }},speaker:'kexin',expression:'serious',text:'……有一科沒過。'},{if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G); return v==='fail_law'||v==='fail_att'; }},speaker:'kexin',expression:'smile',text:'好。下學期那一科，我陪你念。'},   /* AA_553 第 4 節：被當＝取代「都過了」（現有的錯）*/
       {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='high'},speaker:'kexin',expression:'teasing',text:'……你偷念。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='high'},speaker:'kexin',expression:'smile',text:'好，這下暑假真的開始了。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='high'},speaker:'kexin',expression:'teasing',text:'你請。'},
-      {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'……都過了。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'下學期我們一起念。我排時間。'},
+      {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'……都過了。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'下學期一起念。你躲的話，我去你宿舍樓下叫。'},
       {if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G); return v!=='fail_law'&&v!=='fail_att'&&v!=='high'&&v!=='low'; }},speaker:'kexin',expression:'smile',text:'……都過了。好，這下暑假真的開始了。'}   /* AA_209 附錄 B 第 4 節第 2 點（成績 6/29 才公布）*/ ],
     afterOuting:async(G,GM)=>{ if(typeof CLS!=='undefined'&&CLS.rec&&!CLS.rec(G).grades.Y1S2) await CLS.showGrades(GM,'Y1S2'); },
     outingMissed:(G)=>{ if(typeof CLS!=='undefined'&&CLS.rec){ const R=CLS.rec(G); if(!R.grades.Y1S2) R.note.gradesDue='Y1S2'; } } },

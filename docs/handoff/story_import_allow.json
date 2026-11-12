@@ -9675,6 +9675,15 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "兩版手寫進程式一字照稿：B 版 ev_kexin_birthday_y1s2（id 留著，映月湖 20:00，白天她私訊約；story3d.js phoneRules）、A 版 ev_kexin_birthday_y1s2_drink（4/24 下午系館，飲料 60 元，錢不夠記 self）、兩版沒遇到的隔天那一句；B 版沒赴約那一天的短招呼只用「嗨。」沒做。逐字對稿 tests/v2_g01_unit.js（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_875_可昕_成績與讀書小組_照列換字.md",
+   "sha": "1f0843d7e4",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "三節手寫進程式一字照稿：一起看成績兩場（events.js 開頭旁白、換句、拿掉「你欠我的那一次」；沒交往的好朋友那一階＝成績出來那天她傳一句、21:00 視訊，story3d.js holdGrades；交往中的照原本的約定）；律師讀書小組（r2y4b_events.js 成立那一晚、只有可昕那一版當面＋AA_900 第 7 節、k2、可昕旁白整組、三個人的長桌；r2y4b3d.js 朋友以上或交往中就來、分開以後照樣來、平日大口漢堡二樓、週六法律系館・自習室）；畢業後兩行（postgrad_lines.js）（第四批第三份，LAWWW 的子代理）"
   }
  ]
 }
