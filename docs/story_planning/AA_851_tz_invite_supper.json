@@ -6,7 +6,14 @@
   "status": "定稿（BB_397 聽過：學姊入座分兩版——有點熟用 heroine_05、很熟以上或交往中用 heroine_05_close）"
  },
  "invite_places": [
-  {"id": "tz_yuehaochi", "zone": "tz_yuehaochi", "name": "越好吃小館", "verb": "去越好吃小館吃河粉", "kind": "meal", "minStage": "FAMILIAR", "hours": "照店的營業時間 11:00～21:00",
+  {
+   "id": "tz_yuehaochi",
+   "zone": "tz_yuehaochi",
+   "name": "越好吃小館",
+   "verb": "去越好吃小館吃河粉",
+   "kind": "meal",
+   "minStage": "FAMILIAR",
+   "hours": "照店的營業時間 11:00～21:00",
    "accept": {
     "heroine_01": "河粉可以。我要雞肉的，湯清一點那種。",
     "heroine_02": "我想喝那裡的咖啡。聽說是用滴的，要等很久。",
@@ -25,8 +32,16 @@
     "heroine_05_close": "（她把碗裡的香菜一根一根夾到你碗裡，沒有說話。）",
     "classmate_peishan": "（她先喝湯，停了三秒。）牛骨。還有烤過的洋蔥。我回去要跟我爸講。",
     "kexin": "（她把法國麵包撕成兩半，大的那一半給你。）"
-   }},
-  {"id": "tz_keju", "zone": "tz_keju", "name": "客居雲南", "verb": "去客居雲南吃米線", "kind": "meal", "minStage": "FAMILIAR", "hours": "照店的營業時間 11:00～21:00",
+   }
+  },
+  {
+   "id": "tz_keju",
+   "zone": "tz_keju",
+   "name": "客居雲南",
+   "verb": "去客居雲南吃米線",
+   "kind": "meal",
+   "minStage": "FAMILIAR",
+   "hours": "照店的營業時間 11:00～21:00",
    "accept": {
     "heroine_01": "過橋米線？我看過影片，料要照順序下。我先查一下順序。",
     "heroine_02": "可以。我不太能吃辣，你幫我問有沒有不辣的。",
@@ -44,18 +59,42 @@
     "heroine_05": "（她等湯不冒煙了才喝第一口。你已經燙到一次了。）",
     "classmate_peishan": "（米干從她筷子上滑下去三次。她換了湯匙，沒有承認失敗。）",
     "kexin": "（她把小碟子排成一排，照自己想吃的順序。）"
-   }}
+   }
+  }
  ],
  "dorm_supper": {
   "when": "物品裡有東南大聯的「泡麵（五包裝）」（tz_dn_noodle5）、晚上 21:00 以後回到 203、大一（203 室友都在的學期）。演一次以後那一袋就用掉。一學期最多一次。",
   "scene": [
-   {"who": null, "text": "（你把那一袋泡麵放在桌上。包裝上的字沒有人看得懂，只看得懂三根辣椒。）"},
-   {"who": "zhe", "text": "三根是多辣？"},
-   {"who": "classmate_bohan", "text": "煮了就知道。熱水我去裝。"},
-   {"who": "kai", "text": "我先講，我只吃半包。"},
-   {"who": null, "text": "（十分鐘以後，四個人都在找水喝。阿凱吃了一整包。）"},
-   {"who": "zhe", "text": "明天再煮一包。"}
+   {
+    "who": null,
+    "text": "（你把那一袋泡麵放在桌上。包裝上的字沒有人看得懂，只看得懂三根辣椒。）"
+   },
+   {
+    "who": "zhe",
+    "text": "三根是多辣？"
+   },
+   {
+    "who": "classmate_bohan",
+    "text": "煮了就知道。熱水我去裝。"
+   },
+   {
+    "who": "kai",
+    "text": "我先講，我只吃半包。"
+   },
+   {
+    "who": null,
+    "text": "（十分鐘以後，四個人都在找水喝。阿凱吃了一整包。）"
+   },
+   {
+    "who": "zhe",
+    "text": "明天再煮一包。"
+   }
   ],
   "note": "算 203 的一次宵夜（照現有宵夜的效果）。室友的口氣照 AA_502。"
+ },
+ "lawww_1112": {
+  "h": "203 泡麵宵夜演完推進 30 分鐘。",
+  "i": "學姊入座：朋友這一階用 heroine_05（挑到小碟子上）；很熟以上、交往中用 heroine_05_close。對。",
+  "revisit": "可昕 D13.drink、D24.street 不再說之後要請，再訪句不用跟著改；子晴 D06.cafe 還是「下次我請。」，再訪她請照舊。"
  }
 }
