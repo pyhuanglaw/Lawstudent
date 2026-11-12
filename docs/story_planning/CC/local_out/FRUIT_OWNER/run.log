@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fruit_owner_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FRUIT_OWNER\out
+CC 阿忠鮮果老闆：SHA 0316f4f3b5；2025-09-17 14.0；FROM ['gongguan', 'campus']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [A] 【前置／捷徑】讀檔到 gongguan 2025-09-17 13.85（條件事件關掉）；往溫州街的出口 []
+  [前置／捷徑] [A] 【前置／捷徑】讀檔到 campus 2025-09-17 13.85（條件事件關掉）；往溫州街的出口 []
+FAIL [A] 走得進溫州街
+  [前置／捷徑] [B] 【前置／捷徑】applySave 直接讀到 wenzhou 2025-09-17 14.0（條件事件關掉）
+  [ 116.7s] [B_applySave] wenzhou 14.05：fruitOwner [{"name": "", "id": "", "x": 34.9, "z": -6.15, "vis": true, "hidden": false, "pose": "idle", "fruitOwner": true, "d": 0}]；攤子 4 m 內的人 [{"name": "", "id": "", "x": 34.9, "z": -6.15, "vis": true, "hidden": false, "pose": "idle", "fruitOwner": true, "d": 0}]；CLOSED.fruitOwner 存在=True；WZS.fruitOpen=True；CLOSED.fruitOwnerWant=True；npc 共 8
+PASS [B_applySave] 營業中攤子後面有老闆（E.npcs 有 fruitOwner、看得到）  [{"name": "", "id": "", "x": 34.9, "z": -6.15, "vis": true, "hidden": false, "pose": "idle", "fruitOwner": true, "d": 0}]
+PASS 沒有 JS 例外  []
+FAILED 1: [A] 走得進溫州街
