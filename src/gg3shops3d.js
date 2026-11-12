@@ -283,8 +283,10 @@ const GG3=(function(){
   const handHint=gs=>gs.map(g=>g.n).join('、')+'　共 '+gs.reduce((a,g)=>a+g.p,0)+' 元';
   /* 買回來的東西（「物品」；X277、X291）：G.flags.GG3_OWN＝{區域:{id:幾份}}。S.own 只讀（舊存檔、壞掉的資料＝空的，不寫存檔）；S.ownAdd 買了才寫 */
   const isObj=o=>!!o&&typeof o==='object'&&!Array.isArray(o);
+  S.OWN_X=[];   /* 別的店（不走汀州路雜貨店那一套配置的）買的東西也記在同一個 GG3_OWN、列在同一個「物品」分頁：{zone, name 店名, goods:[{id, n}]}（美國兩間超市：src/us_markets3d.js）*/
   S.own=function(G){ const R=G&&G.flags&&G.flags.GG3_OWN, L=D(), out=[]; if(!isObj(R)||!L) return out;
     for(const k of S.GROCERS){ const T=L[k], r=R[k]; if(!T||!T.grocery||!isObj(r)) continue; const items=T.grocery.goods.filter(g=>(r[g.id]|0)>0).map(g=>({id:g.id,n:g.n,count:r[g.id]|0})); if(items.length) out.push({zone:k,shop:T.name,items}); }
+    for(const X of S.OWN_X){ const r=X&&R[X.zone]; if(!X||!Array.isArray(X.goods)||!isObj(r)) continue; const items=X.goods.filter(g=>(r[g.id]|0)>0).map(g=>({id:g.id,n:g.n,count:r[g.id]|0})); if(items.length) out.push({zone:X.zone,shop:X.name,items}); }
     return out; };
   S.ownAdd=function(G,k,id,max){ const f=G.flags||(G.flags={}); if(!isObj(f.GG3_OWN)) f.GG3_OWN={}; if(!isObj(f.GG3_OWN[k])) f.GG3_OWN[k]={}; const r=f.GG3_OWN[k]; r[id]=Math.max(0,r[id]|0)+1; if(max>0&&r[id]>max) r[id]=max; return r[id]; };   /* max：最多幾份（貼在手機上的保護貼再貼一次還是一份）*/
   const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
