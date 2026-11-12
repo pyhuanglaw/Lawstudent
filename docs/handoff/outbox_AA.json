@@ -6762,11 +6762,11 @@
    ],
    "at": "2026-11-11T21:1x",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "X324 最後一塊：閒聊階梯 694 個選項 fx；手機回覆本來就有 rel／npcRom 不另加；交往中一階記 backlog",
+   "next": "X324 最後一塊：閒聊階梯 694 個選項 fx；手機回覆本來就有 rel／npcRom 不另加；交往中一階記 backlog｜11-12 補：帳號 A 最後對話＝已匯進開發分支、694 個全對上，等 BB 抽測",
    "sha": "7732e123e",
-   "state": "已交付"
+   "state": "已整合"
   }
  ],
  "items": [
