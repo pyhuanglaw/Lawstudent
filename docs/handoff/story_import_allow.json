@@ -9299,6 +9299,15 @@
    "task": "EAT-EFFECT-1020",
    "kind": "json",
    "note": "X67 公館宵夜滷味攤的點餐（四種夾法、22:00 後半價、辣度三選、熟客句照辣度換、每天 18:00～24:00、颱風天不出攤；分支 claude/magical-albattani-bk7b4n）：tools/story/import_luwei_stall.py → src/data/luwei_stall.js（LUWEI_STALL）。夾法、價錢、台詞一字照稿；演出 src/luwei3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_850_us_markets_buy.json",
+   "sha": "b039356f5",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過，沒有要改的）」；D100b）",
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "kind": "json",
+   "note": "美國兩間超市買東西（草原超市 us_market、竹葉亞洲超市 us_asian_market：每個貨架賣什麼、美金標價、店員的話、錢不夠；分支 claude/magical-albattani-bk7b4n）：tools/story/import_us_markets.py → src/data/us_markets_buy.js（US_MARKETS_BUY）。品名、價錢、句子一字照稿；演出 src/us_markets3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
   }
  ]
 }
