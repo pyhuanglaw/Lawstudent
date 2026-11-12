@@ -34518,7 +34518,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "sha": "01d3577ef"
+   "sha": "01d3577ef",
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）ebuild_us_rooms.sh 一個指令重建；乾淨分支重跑和部署中 GLB 逐一相同；只動工具、遊戲不讀；us_reexport_inputs_unit ALL PASS。結案。；SHA 01d3577ef"
   },
   {
    "id": "USER-WANTS-AUDIT-C-1027",
@@ -42308,7 +42309,8 @@
     "receiver": "BB",
     "ack": "未派",
     "owner": "LAWWW2"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 17:4x LAWWW2 完成（58bb06622）】結論：雲端和 PC 烘的不混用，維持「同一個房間固定一台機器烘」（同版 Blender，各自重跑完全相同，但 UV 排法不同：大平面幾乎一樣、晚上胡桃木差 5.7/255）；3F 正式大小 PC 893 秒、雲端 1"
   },
   {
    "first": {
@@ -51442,7 +51444,8 @@
     "acceptance": "她在班時玩家進店有專屬反應（至少招待／開心兩種）、不每次都演",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）BB 11-10 21:38 判 FIXED／PASS（BB_255 5d599c76c6）；SHA aec7f851c"
   },
   {
    "owner": "LAWWW",
@@ -51461,7 +51464,8 @@
    "id": "ROM-STAGE-TEXT-1110",
    "title": "戀愛條提示分三段、出去玩說清楚差什麼（使用者 11-10 X304 選擇題）",
    "status": "已驗收",
-   "next": "【LAWWW 11-10 17:5x】BB PASS（ecc3e12a7）：冷淡期擋、戀愛 14 灰（朋友／還不是朋友兩句）、15 約成並出發（法庭→看守所走廊→名字的牆→園區小路，walkFallbacks 0）、人物頁；D34 對照成立。 ｜ 【LAWWW 11-10 17:4x】使用者：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期 某個程度可以約對方出去校外玩 也一定要在下個版本」→【下一版必須】（D146）：BB 在 PC 驗 PASS（已驗收）才發布。 ｜ 【LAWWW 11-10 16:3x】使用者選擇題「戀愛條過一半就可以」：DATE.canAskCore 她的戀愛 ≥15（S.ASK_ROM_HALF）就能約出去玩（冷淡期 capStage 不算）；還不能約＝「還沒熟到可以兩個人出去」，等 AA 定句子；rom_stage_text_unit 5b、5c。 ｜ 【11-10 03:5x LAWWW-B】date3d.js PROG_HINT npcRomHalf／romHalf／ambi、progress 的 bar 和第 6 階 mood、canAskCore 的說明；game3d.js progHTML 印 mood。tests/rom_stage_text_unit.js 修改前 FAIL 4 項；rel_progress_unit 第 10 項看前 4000 字。字是 LAWWW 定的系統字，AA 回來可以改。"
+   "next": "【LAWWW 11-10 17:5x】BB PASS（ecc3e12a7）：冷淡期擋、戀愛 14 灰（朋友／還不是朋友兩句）、15 約成並出發（法庭→看守所走廊→名字的牆→園區小路，walkFallbacks 0）、人物頁；D34 對照成立。 ｜ 【LAWWW 11-10 17:4x】使用者：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期 某個程度可以約對方出去校外玩 也一定要在下個版本」→【下一版必須】（D146）：BB 在 PC 驗 PASS（已驗收）才發布。 ｜ 【LAWWW 11-10 16:3x】使用者選擇題「戀愛條過一半就可以」：DATE.canAskCore 她的戀愛 ≥15（S.ASK_ROM_HALF）就能約出去玩（冷淡期 capStage 不算）；還不能約＝「還沒熟到可以兩個人出去」，等 AA 定句子；rom_stage_text_unit 5b、5c。 ｜ 【11-10 03:5x LAWWW-B】date3d.js PROG_HINT npcRomHalf／romHalf／ambi、progress 的 bar 和第 6 階 mood、canAskCore 的說明；game3d.js progHTML 印 mood。tests/rom_stage_text_unit.js 修改前 FAIL 4 項；rel_progress_unit 第 10 項看前 4000 字。字是 LAWWW 定的系統字，AA 回來可以改。",
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【LAWWW 11-10 17:5x】BB PASS（ecc3e12a7）：冷淡期擋、戀愛 14 灰（朋友／還不是朋友兩句）、15 約成並出發（法庭→看守所走廊→名字的牆→園區小路，walkFallbacks 0）、人物頁；D34 對照成立。；SHA 60ce48f0f"
   },
   {
    "owner": "LAWWW",
@@ -52045,7 +52049,8 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "sha": "b1d9457ed"
+   "sha": "b1d9457ed",
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）BB 11-10 21:38 判 FIXED／PASS（BB_255 5d599c76c6）；SHA b1d9457ed"
   },
   {
    "id": "US-CLUBHOUSE-3D-1110",
@@ -52097,7 +52102,8 @@
     "acceptance": "美國教室、會所裡何俊朗用自己的 VRM，有圓框眼鏡、背包奶茶杯鑰匙圈；LAWWW 看遊戲截圖驗收",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）LAWWW 角色驗收（D100a）11-10 19:4x：ART_APPROVED（遊戲截圖 cc-testing f6685cfc83 uslong_class_near／body：圓框眼鏡、耳上短髮、深藍外套＋白 T 都對 AA_80，看書姿勢自然、不穿模）；單眼皮、眉頭、瀏海碎改成選做（D141，不擋）；功能等 B；SHA dbeda3ee9"
   },
   {
    "id": "US-EXAM-PROPS-1110",
@@ -52142,7 +52148,8 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "第二階段 d0435a63f 完成；啟動提示詞使用者選短範本；各職位分支清理 AA、BB 已做，LAWWW2、CC 今天內"
+   "next": "第二階段 d0435a63f 完成；啟動提示詞使用者選短範本；各職位分支清理 AA、BB 已做，LAWWW2、CC 今天內",
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）第二階段 d0435a63f 完成；啟動提示詞使用者選短範本；各職位分支清理 AA、BB 已做，LAWWW2、CC 今天內"
   },
   {
    "id": "RELEASE-V91024-1110",
@@ -52161,7 +52168,8 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 07:4x LAWWW 對帳】v9.10.24 已於 11-10 發布（main 779ddd650，線上版標題畫面 v9.10.24）；任務狀態一直沒改。下一版＝RELEASE-V91025-1111。｜【LAWWW 11-10 17:2x】使用者：「什麼時候可以發下一個版本了」。候選＝GHA 綠的開發分支最新；BB 照 TESTING 第五節發布前清單（CC 在 PC）給 GO；LAWWW 發布（D85）。"
+   "next": "【11-11 07:4x LAWWW 對帳】v9.10.24 已於 11-10 發布（main 779ddd650，線上版標題畫面 v9.10.24）；任務狀態一直沒改。下一版＝RELEASE-V91025-1111。｜【LAWWW 11-10 17:2x】使用者：「什麼時候可以發下一個版本了」。候選＝GHA 綠的開發分支最新；BB 照 TESTING 第五節發布前清單（CC 在 PC）給 GO；LAWWW 發布（D85）。",
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）11-10 17:2x】使用者：「什麼時候可以發下一個版本了」。候選＝GHA 綠的開發分支最新；BB 照 TESTING 第五節發布前清單（CC 在 PC）給 GO；LAWWW 發布（D85）。"
   },
   {
    "id": "MOVIE-POSTERS-Y2-1110",
@@ -52213,7 +52221,8 @@
     "acceptance": "片單每一段兩部都有海報，大廳和 1 廳看得到；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）BB 11-10 20:08 GO（發布樹 951824630）：72 張載得到、描邊 PASS"
   },
   {
    "id": "ROM-NO-PLAYER-ROM-1110",
@@ -52448,7 +52457,8 @@
     "acceptance": "清單→每間有任務 ID；沒參考圖的提示詞給使用者",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）結案：溫州街除日和 A5 都已照使用者參考圖做好；日和使用者 19:0x 選「維持現在」"
   },
   {
    "id": "WZ-QUICKTRAVEL-1110",
@@ -52643,7 +52653,8 @@
     "acceptance": "六間各有店家設定、商品清單價格、台詞；日日定食的劇情改好；AA 定稿（D109）",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 20:1x BB 判 PASS、GG-SHOPS3 結案（BB → LAWWW 20:13，紀錄 BB_343）】CC 雲端 b77af3a4f 六間店、打烊、泰米約、SO PASS；N1_GG3_rename（ab282014a）PASS：舊存檔讀回後 G、手機訊息（含 phone.q、回覆選；SHA 7fd1a70f2"
   },
   {
    "id": "GG-SHOPS3-ART-1110",
@@ -52695,7 +52706,8 @@
     "acceptance": "BB 在瀏覽器判 PASS",
     "receiver": "BB",
     "ack": "未派"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 20:1x BB 判 PASS、GG-SHOPS3 結案（BB → LAWWW 20:13，紀錄 BB_343）】b77af3a4f 六間店、打烊、泰米約、SO PASS；ab282014a RENAME PASS"
   },
   {
    "id": "GG-SHOPS3-TEST-1110",
@@ -52721,13 +52733,14 @@
     "acceptance": "PASS／FAIL 判定",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 20:1x BB 結案】六間店、打烊、泰米約、SO（b77af3a4f）、RENAME（ab282014a）全部 PASS（BB → LAWWW 20:13，紀錄 BB_343）"
   },
   {
    "id": "MOVIE-REMIND-LATE-1110",
    "title": "約會提醒：人已經到約好的地方（例：南洋戲院大廳→1 廳）或對話在演，不再跳「提醒：…約在…」（BB 11-10 18:15 P3）",
    "owner": "LAWWW",
-   "status": "已驗收",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -52740,7 +52753,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "BB 下一輪看電影流程順便看"
+   "next": "【LAWWW-C 11-12 稽核：待查】原本標「已驗收」但找不到驗收證據（紀錄只寫「BB 下一輪看電影流程順便看」）——改回已整合待測試，請 BB／CC 補驗｜BB 下一輪看電影流程順便看"
   },
   {
    "id": "TINGZHOU-AREA-1110",
@@ -53096,7 +53109,7 @@
    "id": "US-FINAL-PROF-PASS-1110",
    "title": "美國期末報告選 b：「教授經過你旁邊，說了一句：Good choice.」先等她走到旁邊再出（BB 11-10 21:38 P3）",
    "owner": "LAWWW",
-   "status": "已驗收",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y4S1",
@@ -53109,7 +53122,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "CC 只重跑 FINAL"
+   "next": "【LAWWW-C 11-12 稽核：待查】原本標「已驗收」但找不到驗收證據（紀錄只寫「CC 只重跑 FINAL」）——改回已整合待測試，請 BB／CC 補驗｜CC 只重跑 FINAL"
   },
   {
    "id": "NIGHT-MARKET-1110",
@@ -53322,7 +53335,8 @@
     "acceptance": "BB：CC 在瀏覽器走到右後角、走回門口離開，新版 PASS",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）BB 11-11 02:1x 判 FIXED（8e33a0df8；使用者電腦，點地板、純搖桿各一輪全過，舊版兩個 SHA 照舊出不來；BB_255，企劃線 b2631ec10）。汀州鮮果室內第 2 版 ART_APPROVED、可以進候選、不用關門；印得好和其他五間「最遠點 → 出店"
   },
   {
    "id": "LIMAO-INT-CAM-1111",
@@ -53348,7 +53362,8 @@
     "acceptance": "BB：進門第一眼看得到命理館",
     "receiver": "LAWWW2",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 05:4x BB 判 FIXED】PC LM_cam3：新 696cf6036 掛畫前、書房門前、繞一圈四點都看得到人和房間；舊 0eb2a0049 九項一片米色。禮貌生財室內 BB 標 ART_APPROVED（缺點記著：房間偏空、牆面單色）。"
   },
   {
    "id": "GG-XIANGUO-EXT3-1111",
@@ -53374,7 +53389,8 @@
     "acceptance": "BB 場景美術判定",
     "receiver": "LAWWW2",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）BB 11-11 03:1x：汀州鮮果外觀第 3 版 ART_APPROVED（門口真的水果箱、不擋進出）"
   },
   {
    "id": "BUG-GOCLASS-SKIPPED-1111",
@@ -53400,7 +53416,8 @@
     "acceptance": "BB 在瀏覽器：起床選單連點不會誤選翹課；選去上課→進教室坐下→課播完→手機記出席",
     "receiver": "BB",
     "ack": "SENT"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 05:1x BB 判 FIXED、結案】PC REPRO 12 次：舊版 779ddd650 翹 6、新版 1d4db297a 翹 0；USERVIEW、phone ALL PASS（企劃線 BB_255 11-11 05:1x 段）；iPhone 實機未驗。原因：橫向時「翹這"
   },
   {
    "id": "L118-SHOPS-REDO-1111",
@@ -53429,7 +53446,8 @@
    },
    "pausedReason": "等使用者給新名字、外觀、內部",
    "resumeWhen": "使用者給規格或圖",
-   "recheckOn": "2026-11-13"
+   "recheckOn": "2026-11-13",
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 15:21 BB GO（BB_343）】發布樹 f312c68cc：L118 doors／lunch／C1～C5、L118D C／E 全部 PASS 或判探針；118 巷座位 SEATS、TSR、STAIR 過＝已驗收（BB 在瀏覽器判）。v9.10.25 發布。；SHA 27bbb3b89"
   },
   {
    "id": "L118-LUNCH-INVITE-1111",
@@ -53495,7 +53513,8 @@
    },
    "sha": null,
    "next": "【11-11 15:59 BB 判線上已驗】main dc3d33941（PR #36，Pages run 43048364768 success 15:29:04 UTC）：deploy_r2 ALL PASS、版本字樣與 ?v= 全 9.10.25、0 非 200、沒有 JS 例外、重新整理→繼續 r3／r4 PASS；不熱修。觀察項兩條寫在 RELEASES.md｜【11-11 15:21 BB GO（BB_343，發布樹 f312c68cc961c70c7d548fe40c2ae42483d517ba）】ZR3 重判 TEST_BUG 不擋；這版沒做完 6 項寫進發布說明。LAWWW 發布中。｜【11-11 15:3x LAWWW 判讀 ZR3（BB 15:07 判擋）】不是遊戲卡住：cc-local 8544e9565 ACT_ZR3_SIT_old1（7266＋SITPATH）按「坐下等開演」後第一筆等待紀錄＝iv1 done、hour 18.02、最後一句「……字幕跑完了，我們還沒走。」＝整場約會在探針 L.go_to 走路 37 秒裡 autoStart 開演、被點地面盲點過去；走完才按長椅 → 遊戲開長椅選單（#choices「坐一下，看看四周｜起身」）。seatMenu 用 game3d.js 內部 choose、不經過 GAME.choose，探針 hook 抓不到（ch null、nb 2）→ 乾等到逾時。r2（f8b6）、rel（f312c）同模式；舊版一樣＝不是回歸。不改程式、不出新 SHA；證據已給 BB 請重判（沒重現＝照原判），CC 改探針（go_to 途中看到對話／選單就停、ch 抓不到用 btn 文字）。｜【11-11 14:3x BB】木曜日 2F 衣帽架和植物中間的小孤島 (−2.54, 3.33)（舊的，779 也有）：LAWWW 決定照發、發完第一個修（MOKU-PLANT-CORNER-1111 改 P0、合併）。STAIR 上樓 26/26、下樓 24/25（就是這條）；L118D E1／E2 在 f312c 重跑；之後剩冒煙。｜【11-11 14:2x BB】木曜日判不擋（雲端 3＋PC 4 趟乾淨），MOKU-PLANT-CORNER-1111 列「這版沒做完」；另列「這版沒做完」不擋：手機按「前往」後 goPrompt 被手機蓋住（PHONE-GO-PROMPT-1111）。剩 REL_L118_C5_r2、STAIR_run10、L118D C4～C5／E、冒煙，全過就 GO。｜【11-11 14:2x BB】木曜日卡住：CC 記到起身狀態都乾淨（busy=false、cam follow、busyDepth 0）；卡的兩次都是起身後走約 5 m 停在盆栽角、探針朝路線前方斜推。之後 f312c 連 6 趟沒卡。LAWWW Node 重現：只有往樓梯方向（202°～225°）推會頂住、其他方向都動＝轉角斜推、不是困住。BB：雲端再一趟乾淨就判偶發、不擋，列「這版沒做完」；發版後 MOKU-PLANT-CORNER-1111。｜【11-11 14:2x BB P0 擋】木曜日「去木曜日念書」約會演完起身後，2F (−1.82, 4.00) lv1 推搖桿 22 秒不動（f312c／0d1e 共 3 次卡 2 次；r2 沒卡）。LAWWW Node 查：那一點站得住、從那裡和每張座位起身點走到一樓都走得到、沒有座位的起身點落在附近、引擎沒有人擋人——推不動最可能是 P.busy 或 E.cam.mode 沒復原；請 CC 卡住時記 busy／cam.mode／busyDepth／ADV.active／path／seat／frozen／lv／搖桿向量。BB：再跑 5 次都沒卡才放行，再卡就擋。其他 V25 L118_C1～C3、doors×2、lunch、X337、X290×2、X304、X314、linze、live_pos 過。｜【11-11 13:5x 使用者「大一上的審完就先發布」（UA-LAWWW-1111-23）】大一上課堂內容在發布樹 f312c68cc（d501078a3）；BB 先做回歸、新科目法律審排發布後。｜【11-11 12:5x BB】REL_live 判 PASS（對照組 REL_live_ctl 逐條相同＝不是這版）；V25_social 2 FAIL＝TEST_BUG（探針被校園偶遇推錯選單，CC 改探針 r2 確認中），實際 636 PASS／0 遊戲 FAIL；V25_v7 exit 0；發布樹 REL 三行都過。還等：V25 剩的、r2 走路確認、L118D C/E、冒煙。仍不是 GO。BB_343 1a4ba8791。｜【11-11 12:4x LAWWW2】發版後整合用：四包（吧台凳 988dfcbe2、點椅面 cef36c9c7、Café 吧檯鏡頭 42671da70、新店互動點 24a2bc245）疊在 56ecee2fb 上乾淨、沒重疊檔；四包一起全部 Node 1290 支 1289 過＋bookstore 老警告；合併 patch claude/second-ai-env-art c8ca5c0b4 docs/art-rebuild/second_ai/wip/stack4_1111/stack4_on_56ecee2fb.patch（在 71adf757d 上 --3way 也乾淨）。｜【11-11 12:3x BB】發布樹 f312c68cc：REL_deploy PASS（?v= 全部 9.10.25）、REL_main12 PASS；REL_live 17 FAIL＝和 v9.10.24 發布時 F24_live 逐條一樣（v9.5 專用檢查），自動存檔繼續、欄位 3、重新整理讀回、沒有 JS 例外都 PASS，初判不是這版——對照組 REL_live_ctl（線上讀線上自己的存檔）一樣就判 PASS。V25 已回 7 行全 PASS（classreal、deploy、joy、main12、mini、reach、zone），其餘跑中。還不是 GO。BB_343（企劃線 8e4989b04）。｜【11-11 12:2x】發布樹 f312c68cc（mk_release_tree 0d1eaadc7 9.10.25 2026-11-11；遊戲檔＝候選、index.html ?v=9.10.25×423、標題版本 v9.10.25；README 發布內容已搬 f89caddd4）。交 BB：CC 對發布樹跑 deploy_check＋新遊戲冒煙＋live 舊存檔三行＝GO 的最後一步。BB 12:1x：跑步 10 fps 跳 3.1 m＝TEST_BUG 不擋；V25 5/32 PASS。GO 以後：releasegate（L118-SHOPS-REDO-1111 要 BB 標已驗收）→ PR 到 main → 驗 Pages → RELEASES.md。沒發的話退 f89caddd4（README）。｜【11-11 11:2x BB】發布前回歸 V25 32 行開跑（0d1eaadc7，CC 拿掉 HOLD），和剩的門檻（樓梯剩的、L118D C／E、冒煙）交錯；CC 估全部回來 14:30～15:00 UTC（台灣 22:30～23:00）。GO 以後：releasegate → mk_release_tree → PR 到 main → 驗線上 → RELEASES.md、README。｜【11-11 11:2x BB】樓梯三座 FIXED（花序、總圖大廳、大口漢堡 左中右×走跑×30／10 fps 上下 5/5；下樓過半留上層 0）；木曜日走路 30/30。Café 吧檯鏡頭整片牆＝線上本來就有、不擋（CAFE-BAR-CAM-1111 發版後）。還在等：木曜日跑步 10 fps、四棟上下、stairdown、L118D C／E、冒煙。｜【11-11 10:4x BB】0d1eaadc7：點地回歸 FIXED（總圖／宿舍／Café 走道點停在 0.19～0.26 m）；五湖四海 #9 #11、辛亥韓食 #9 搖桿坐到對的；118 巷座位判不再擋。P1 寫進發布說明「沒做完」：坐到隔壁／要換邊、點椅面點不到（射線判關掉，TAP-RAY-SEAT-1111）、118牛排後排 walkFallbacks、奈良咖哩照片。剩擋：樓梯（木曜日上下、四棟下樓、花序／總圖大廳／大口）；Café 吧檯整片牆線上本來就有＝不擋；L118D C2～C5、E、冒煙在跑 → 沒有新的擋就 CC 開發布前回歸 30 行（SHA 0d1eaadc7）。｜【11-11 10:3x】候選＝0d1eaadc7（BB 定）；之後的 commit 只動 tools／docs／wip_backup，遊戲檔相同。發版後第一件：合 wip_backup/x324_premerge_1111.bundle（held 內容分支已預先合併開發分支 7cc9541d7，156 支相關測試本機全過；README 有還原法）。｜【11-11 10:3x】BB TSR 判擋（0d7922555 射線判椅子：總圖走道、宿舍、Café 點地被帶去椅子）→ 已改 0d1eaadc7：遊戲裡先關掉射線判（engine3d 不傳 useRay），回到舊版「地板站不住才找 0.45 m 內椅子」；射線判發版後改做（TAP-RAY-SEAT-1111）。待 CC 重跑 TSR 四點＋五湖四海 #9。｜【11-11 08:5x】開發分支 a2dd74af1 起，擋發布的修正都已合併：①街景四項＋玻璃後新室內（5f450b726）②室內四間第 3 版（6a76a9e58）③木曜日樓梯上樓（5f259dd02）＋下樓（2c962ad66）④點椅面判椅子（0d7922555）⑤九間店互動鍵覆寫表（a2dd74af1，Node 九間 140 張椅子每張至少一個站位是它）。剩：BB／CC 在使用者電腦重跑（STAIR 上下、SEAT 改到的椅子＋沿牆、TAPSEAT、街景＋室內同機位重拍）→ releasegate → BB 發布前回歸 GO → 發布樹。閒聊階梯 39 檔、可昕訊息回話、泳池、季節第三批發版後合併。｜【11-11 08:0x】擋發布的：木曜日樓梯卡住已修 5f259dd02（待 CC 重跑）；街景四項已合併 a60902c2a（待重拍）；室內四間第 3 版等 LAWWW2；點餐點搶「坐下」等 SEATS 九間結果。BB 粗估兩批到齊後 4～6 小時。｜【11-11 07:5x】發布時記得：README「已完成、尚未發布」→ 把這版上線的項目搬到「已完成並發布」（README 已在 main，PR #35）。｜【11-11 07:4x】門檻：L118-SHOPS-REDO-1111 已驗收（BB 在瀏覽器判）。還差：①街景四項（BB_341：VIEW_LAYERS 重拍、玻璃後紅方塊、迪倫路燈、飲料店機車）LAWWW 子代理在修 → 合併 → CC 同機位重拍 ②室內四間第 3 版（LAWWW2，BB_341 第三節 2～6＋辛亥韓食橫樑）→ 整合 ③BB 椅子／四角／沿牆驗完標 ART_APPROVED ④大學食堂、五湖四海點餐點搶「坐下」（等 CC SEATS 九間結果一次改）。到了以後：releasegate → GHA node-unit-auto 綠 → BB 發布前回歸 GO → mk_release_tree → 合併 main → 驗線上 → RELEASES.md。這版一起出的（都在開發分支）：課堂內容補寫＋略過鍵、選單防連點、118 午餐邀約、七位校外約會台詞重寫、一起活動／一起念書選項、公館／汀州路／新生南路店面等；沒驗完的在發布說明列明。D141：室內第 3 版以後不再因外觀意見擋發布（立面白磁磚等記缺點）。",
-   "xai": []
+   "xai": [],
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）上已驗】main dc3d33941（PR #36，Pages run 43048364768 success 15:29:04 UTC）：deploy_r2 ALL PASS、版本字樣與 ?v= 全 9.10.25、0 非 200、沒有 JS 例外、重新整理→繼續 r3／r4 PASS；不熱修。觀察項兩條寫在 RELEASES.md"
   },
   {
    "id": "BUG-MOKUYOBI-STAIR-STUCK-1111",
@@ -53637,7 +53656,8 @@
      "what": "10:5x 16 份清單",
      "state": "ACK"
     }
-   ]
+   ],
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 11:1x LAWWW 驗收】AA 補完第二批 5 份（795de86b3：AA_250、262、153、242、255，照遊戲現在的字）。LAWWW 比兩批（6458d1dc2、f8fcc7e80）動到的 24 份白名單源稿：刪之前的表格列數 vs 795de86b；SHA 795de86b3"
   },
   {
    "id": "CAFE-BAR-CAM-1111",
@@ -53775,7 +53795,8 @@
     "from": "LAWWW",
     "to": "LAWWW2",
     "ack": ""
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）【11-11 20:1x BB 判 PASS 結案（BB → LAWWW 20:13）】新版 LIB／MOKU 照路線長度走到；舊版 15e7b31f8 MOKU 三趟站不住＝D34 成立（沒靠 4 秒保險）"
   },
   {
    "id": "LAWWW2-ADDRESS-AND-ASK-1111",
@@ -53799,7 +53820,8 @@
     "from": "使用者",
     "to": "LAWWW2",
     "ack": "LAWWW2"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）不到）】規則已寫進 CLAUDE.md §10 1a（D150）、選擇題照 §3 第 7 點；夜市、禮貌生財那幾件照各自的任務。這張只記這一則要求，規則落實＝已驗收"
   },
   {
    "id": "GG-G10-LANE-MOUTH-1111",
@@ -53849,7 +53871,8 @@
     "to": "LAWWW2",
     "receiver": "BB",
     "ack": "BB"
-   }
+   },
+   "evidence": "（LAWWW-C 11-12 稽核，從這張任務的紀錄整理）39 三組都不用修（只改算命桌燈、籤筒擋臉＝第七包 40be52941）；上師第 4 版 3ae708d32，LAWWW 06:22 看 CC 遊戲截圖標角色 ART_APPROVED（D100a）。結案；SHA 3ae708d32"
   },
   {
    "id": "US-NAV-TRAPS-1111",
