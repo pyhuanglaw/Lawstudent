@@ -1,0 +1,16 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_interact_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YEJIAN_425_wall\out
+CC 互動點：TAG yj_wall；SHA 425ce265d5；ZONE bookstore；LABEL 書牆；CASES [['2025-10-15', '15']]
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [2025-10-15 15] 【前置／捷徑】讀檔到 bookstore 2025-10-15 15（條件事件關掉）
+PASS [2025-10-15 15] 讀到 bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 15.03}
+PASS [2025-10-15 15] 找得到「書牆」  ["坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐窗邊", "坐窗邊", "坐窗邊", "坐窗邊", "坐窗邊", "坐窗邊", "坐沙發", "坐沙發", "離開頁間書屋", "看看法律書與文具", "看看書牆", "看新書", "點咖啡", "看雜誌", "看明信片", "應徵：週末缺人。會搬書、不怕灰塵。"]
+  [  44.5s] 到達「看看書牆」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [  44.5s] [2025-10-15 15] 互動鍵「看看書牆」（互動點 {"x": 0.5, "z": -3.75, "lv": 0, "label": "看看書牆", "hidden": false}）
+  [  49.8s] [2025-10-15 15] 錢 22000 → 21880（-120）
+  [  52.3s] [2025-10-15 15] 演完 2.5 秒祐廷：{"seat": false, "pose": "idle", "x": 0.37, "z": -3.54, "h": 15.243, "own": {"yj_novel": 1}, "bag": [], "carry": []}（11-12：內用有沒有坐下吃；物品 GG3_OWN、禮物包、帶在身上）
+  [  52.8s] [2025-10-15 15] 整段（5 句、1 個選單）：["店員｜慢慢看。梯子可以自己推，不要爬到最上面那一格。", "｜（「法律」那一格有一本書夾著一張", "｜（「法律」那一格有一本書夾著一張便條：「第三章很重要」。不知道是誰留的。）", "▶ 二手小說　120 元", "｜（書口有一點黃。扉頁上有人用鉛筆寫了日期，是十年前。"]
+  [  52.8s] [2025-10-15 15] 選單：[["二手小說　120 元", "二手法律書（舊版）　150 元", "二手詩集　100 元", "不用了"]]
+PASS [2025-10-15 15] 按了有字出來
+PASS 沒有 JS 例外  []
+ALL PASS
