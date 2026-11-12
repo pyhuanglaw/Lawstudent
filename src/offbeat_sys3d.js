@@ -155,6 +155,7 @@ const OFFB=(function(){
       if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;
         if(it&&it.offOrder&&G){ GM.sceneBegin(); try{ await S.order(GM); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.offCat&&G){ GM.sceneBegin(); try{ await S.cat(GM); } finally { GM.sceneEnd(); } return true; }
+        if(it&&it.offLook==='clubs'&&G&&typeof CLUBBOARD!=='undefined'&&typeof CLUB_BOARD!=='undefined') return CLUBBOARD.look(GM);   /* 東牆社團佈告欄＝AA_701 活動時間、怎麼加入（CLUB-BOARD-INFO-1105；原本 AA_648 隨機一句）*/
         if(it&&it.offLook&&G){ GM.sceneBegin(); try{ await GM.say(null,S.look(G,it.offLook)); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.offPlay&&G){ GM.sceneBegin(); try{ await S.play(GM); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.offChat&&G){ GM.sceneBegin(); try{ if(!S.chatOpen(G)) GM.toast('今天聊過了。'); else await S.chat(GM); } finally { GM.sceneEnd(); } return true; }

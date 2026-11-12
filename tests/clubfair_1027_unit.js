@@ -35,7 +35,7 @@ if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
   const SAY={guitar:['會不會彈都沒關係，我們從 C 和弦教起。','社課週一、週三晚上，B館。第五週開始。'],debate:['題目我們出，立場用抽的。抽到哪邊就幫哪邊講。','社課週二晚上，博思。第五週開始。'],
     hiking:['第一次出隊走郊山，鞋子好走就好。','行前會週四晚上，普通教室。第五週開始。'],basketball:['法律系的？系籃缺人。會不會打不重要，有來比較重要。','練球在映月湖旁邊的球場。','系籃是系學會的，法律系大一到大四都可以，不用甄試。名字寫這裡就好。','第五週開始，每週五。練球前一天群組會講。']};   /* 系籃後兩句：AA_613 2-2（企劃線 52e3d83a8；tests/aa613_opening_acts_unit.js 對稿）*/
   check('0. 能加入的四攤：顧攤的人兩句逐字（系籃四句，AA_613 2-2）',Object.keys(SAY).every(k=>J(by(k).say)===J(SAY[k])));
-  check('0. 法服演過以後：學長「隔週週六九點，B館一樓。第一次站旁邊聽就好。」',J(by('lawclub').after)===J(['隔週週六九點，B館一樓。第一次站旁邊聽就好。'])&&by('lawclub').event==='ev_sis_club_expo');
+  check('0. 法服演過以後：學長「有民眾預約才開，前一天晚上群組會講。第一次站旁邊聽就好。」',J(by('lawclub').after)===J(['有民眾預約才開，前一天晚上群組會講。第一次站旁邊聽就好。'])&&by('lawclub').event==='ev_sis_club_expo');
   const LOOK={dance:['十一點半我們上台，大道中間那個舞台。'],choir:['不用唱，哼一句就好。','（你哼了一句。她說：「音很準。」）'],photo:['我們每個月辦一次外拍。手機也可以，不一定要相機。'],boardgame:['規則五分鐘就會。來，坐。','（你玩了一輪，輸了。）'],
     badminton:['社課在新體育館。拍子我們可以借。'],service:['寒暑假出隊，國內國外都有。說明會之後會貼公告。'],alumni:['你哪裡人？……臺北？那你不是我們的。','（他還是塞了一張傳單給你。）'],coffee:['今天手沖免費試喝，一人一杯。','（很苦。旁邊的學長說，苦就對了。）'],
     film:['每週放一部老片，放完一起聊。'],magic:['抽一張，不要給我看。','……梅花七。','（你手上的是紅心三。他把牌收回去，說再一次。）']};
@@ -79,7 +79,7 @@ if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
 /* 4. 法服 */
 { at('2025-09-06',11,{SIS_W1:true,met_sis:true}); const n=await CLUBFAIR.booth(GM,'lawclub');
   check('4. 第一次：學姊那一段（照現在：記 SIS_CLUB_EXPO、lawclub、CLUB_lawclub_study）',n===1&&H.G.flags.SIS_CLUB_EXPO===true&&H.G.flags.lawclub===true&&H.has('（椰影大道上一整排帳篷。你走到法服的攤位前。）'),J(said()));
-  H.said=[]; await CLUBFAIR.booth(GM,'lawclub'); check('4. 演過以後：顧攤的學長「隔週週六九點，B館一樓。第一次站旁邊聽就好。」',J(said())===J(['顧攤的學長：隔週週六九點，B館一樓。第一次站旁邊聽就好。']),J(said())); }
+  H.said=[]; await CLUBFAIR.booth(GM,'lawclub'); check('4. 演過以後：顧攤的學長「有民眾預約才開，前一天晚上群組會講。第一次站旁邊聽就好。」',J(said())===J(['顧攤的學長：有民眾預約才開，前一天晚上群組會講。第一次站旁邊聽就好。']),J(said())); }
 
 /* 5. 看看的攤位 */
 { at('2025-09-06',11); await CLUBFAIR.booth(GM,'magic'); check('5. 魔術社第一次：三句（兩句學長、一句旁白）',J(said())===J(['顧攤的學長：抽一張，不要給我看。','顧攤的學長：……梅花七。','（你手上的是紅心三。他把牌收回去，說再一次。）']),J(said()));

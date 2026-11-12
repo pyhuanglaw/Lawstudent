@@ -8816,6 +8816,15 @@
      "note": "被 8e41821f4a 取代（第二版：公館燒臘 11:00～23:00 不公休、頁間書屋 10:00 開、禮貌生財照原本 19:00～23:30 每天、誰說打烊那一句、上師一句）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md",
+   "sha": "4f5f78fd23",
+   "status": "approved",
+   "approvedBy": "AA-C 定（D109，稿上寫明）；使用者 11-05 06:5x 原話（X237）；LAWWW-C 11-12 接",
+   "task": "CLUB-BOARD-INFO-1105",
+   "kind": "md",
+   "note": "社團布告欄：五個社團的活動時間、地點、怎麼加入——tools/story/import_club_board.py → src/data/club_board.js；src/clubboard3d.js 播放；第 2 節法服兩句手改 club_fair.js、activities.js"
   }
  ]
 }
