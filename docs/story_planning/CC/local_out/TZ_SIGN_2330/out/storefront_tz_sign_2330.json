@@ -1,0 +1,331 @@
+[
+ {
+  "zone": "tz_taimi",
+  "across": {
+   "front": [
+    -3,
+    -1
+   ],
+   "n": [
+    1,
+    0
+   ],
+   "d": 16,
+   "stand": [
+    0,
+    -1
+   ],
+   "eye": [
+    13,
+    1.7,
+    -1
+   ],
+   "look": [
+    -3,
+    2,
+    -1
+   ],
+   "w": 8,
+   "open": false,
+   "shutter": true,
+   "on": true,
+   "built": true
+  },
+  "cam": {
+   "eye": [
+    13,
+    1.7,
+    -1
+   ],
+   "look": [
+    -3,
+    2,
+    -1
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "zone": "tz_liantong",
+  "across": {
+   "front": [
+    -5,
+    10.75
+   ],
+   "n": [
+    1,
+    0
+   ],
+   "d": 10,
+   "stand": [
+    -2,
+    10.75
+   ],
+   "eye": [
+    5,
+    1.7,
+    10.75
+   ],
+   "look": [
+    -5,
+    2,
+    10.75
+   ],
+   "w": 4.5,
+   "open": false,
+   "shutter": true,
+   "on": true,
+   "built": true
+  },
+  "cam": {
+   "eye": [
+    5,
+    1.7,
+    10.75
+   ],
+   "look": [
+    -5,
+    2,
+    10.75
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "zone": "tz_dongnan",
+  "across": {
+   "front": [
+    -4,
+    16.75
+   ],
+   "n": [
+    1,
+    0
+   ],
+   "d": 10,
+   "stand": [
+    -1,
+    16.75
+   ],
+   "eye": [
+    6,
+    1.7,
+    16.75
+   ],
+   "look": [
+    -4,
+    2,
+    16.75
+   ],
+   "w": 7.5,
+   "open": false,
+   "shutter": true,
+   "on": true,
+   "built": true
+  },
+  "cam": {
+   "eye": [
+    6,
+    1.7,
+    16.75
+   ],
+   "look": [
+    -4,
+    2,
+    16.75
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "zone": "tz_keju",
+  "across": {
+   "front": [
+    -4,
+    23.25
+   ],
+   "n": [
+    1,
+    0
+   ],
+   "d": 16,
+   "stand": [
+    -1,
+    23.25
+   ],
+   "eye": [
+    12,
+    1.7,
+    23.25
+   ],
+   "look": [
+    -4,
+    2,
+    23.25
+   ],
+   "w": 5.5,
+   "open": false,
+   "shutter": true,
+   "on": true,
+   "built": true
+  },
+  "cam": {
+   "eye": [
+    12,
+    1.7,
+    23.25
+   ],
+   "look": [
+    -4,
+    2,
+    23.25
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "zone": "tz_yuehaochi",
+  "across": {
+   "front": [
+    -4,
+    29
+   ],
+   "n": [
+    1,
+    0
+   ],
+   "d": 10,
+   "stand": [
+    -1,
+    29
+   ],
+   "eye": [
+    6,
+    1.7,
+    29
+   ],
+   "look": [
+    -4,
+    2,
+    29
+   ],
+   "w": 6,
+   "open": false,
+   "shutter": true,
+   "on": true,
+   "built": true
+  },
+  "cam": {
+   "eye": [
+    6,
+    1.7,
+    29
+   ],
+   "look": [
+    -4,
+    2,
+    29
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "zone": "tz_xile",
+  "across": {
+   "front": [
+    3.5,
+    -5.5
+   ],
+   "n": [
+    -1,
+    0
+   ],
+   "d": 10,
+   "stand": [
+    0.5,
+    -5.5
+   ],
+   "eye": [
+    -6.5,
+    1.7,
+    -5.5
+   ],
+   "look": [
+    3.5,
+    2,
+    -5.5
+   ],
+   "w": 6,
+   "open": true,
+   "shutter": false,
+   "on": true,
+   "built": true
+  },
+  "cam": {
+   "eye": [
+    -6.5,
+    1.7,
+    -5.5
+   ],
+   "look": [
+    3.5,
+    2,
+    -5.5
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "zone": "tz_yindehao",
+  "across": {
+   "front": [
+    3,
+    5.75
+   ],
+   "n": [
+    -1,
+    0
+   ],
+   "d": 10,
+   "stand": [
+    0,
+    5.75
+   ],
+   "eye": [
+    -7,
+    1.7,
+    5.75
+   ],
+   "look": [
+    3,
+    2,
+    5.75
+   ],
+   "w": 6.5,
+   "open": false,
+   "shutter": true,
+   "on": true,
+   "built": true
+  },
+  "cam": {
+   "eye": [
+    -7,
+    1.7,
+    5.75
+   ],
+   "look": [
+    3,
+    2,
+    5.75
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ }
+]
