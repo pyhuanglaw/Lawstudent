@@ -1700,3 +1700,5 @@ BE1E_STAIR10_diag | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/stor
 # ⑤ BB-C 03:30 第 4 項 ZR3 SITFIRST 第二版（長椅依距離試、有人坐的跳過；be1e 雲端 ALL PASS）：新 be1e、舊 7266e7a29
 BE1E_ZR3_SITFIRST_new | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 12 | PARTS=ZR3_SMOKE;SITFIRST=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 BE1E_ZR3_SITFIRST_old | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 12 | PARTS=ZR3_SMOKE;SITFIRST=1;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+# NOODLE-NAME-PURGE-1112（使用者選「也改掉」、BB-C 04:16）：一次性維護工作（不是測試）——cc-local 的 local_out 文字檔舊群組名換「桌遊團」，自己 commit 改到的檔，runner 照常推；排在 be1e 五件後面
+ONEOFF_NOODLE_RENAME | be1e5d725634580ee25313a7bbd14f941687bfde | py | tools/cc_local/oneoff_noodle_rename.py | index.html | 10 | NOTE=oneoff
