@@ -905,7 +905,7 @@ const STORY = (function(){
      閒聊記的「說過了」是句子本身（G.social.small[id] 的 used、last、once 的 key、greet.used；pool3d.js、whois3d.js、aa614_3d.js 也照這個 key 查）——
      舊存檔記的是有「」的句子：讀檔時（game3d.js migrate）換成現在的句子。只換「拿掉外面的「」以後是現在閒聊表上的句子」的；其他（'__greet'、'fact:…'、對不到的、「A」「B」好幾段）照留。
      第五批（AA-B 2026-11-08 11:05）：①動作在前面的「（她點了一下頭。）「早。」」（sis_b13_3d.js 挽回中的短招呼、us_life_events.js libTalk）也拿掉說的話那一對＝「（她點了一下頭。）早。」——
-     舊存檔記的照 S.smallActUnq 換；②經濟系同學在社科圖的閒聊（src/data/econfr_soclib.js；src/econsl3d.js 記在 G.flags.ECON_SL[id].once，key＝句子）拿掉外面的「」——舊存檔的 key 也在這裡換 */
+     舊存檔記的照 S.smallActUnq 換；②（CANON-NO-ECON-1112 第三批：社科圖那一組人拿掉，G.flags.ECON_SL 不再換）*/
   S.smallUnq=k=>{ if(typeof k!=='string'||k.length<2||k[0]!=='「'||k[k.length-1]!=='」') return k; let d=0; for(let i=0;i<k.length;i++){ const ch=k[i]; if(ch==='「') d++; else if(ch==='」'){ d--; if(d===0&&i!==k.length-1) return k; } } return d===0?k.slice(1,-1):k; };   /* 同 invites3d.js 的 S.unq */
   S.smallActUnq=k=>{ if(typeof k!=='string'||k[0]!=='（') return k; let d=0; for(let i=0;i<k.length;i++){ const ch=k[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0){ const r=k.slice(i+1), c=S.smallUnq(r); return c!==r?k.slice(0,i+1)+c:k; } } } return k; };   /* 開頭一對（動作）＋整句一對「說的話」＝（動作）說的話；其他照留 */
   S.smallKnown=function(){ const K=new Set(), add=t=>{ if(typeof t==='string') K.add(t); };
@@ -922,9 +922,6 @@ const STORY = (function(){
         if(Array.isArray(r.used)) r.used=r.used.map(fix); if(typeof r.last==='string') r.last=fix(r.last);
         if(r.once&&typeof r.once==='object'&&!Array.isArray(r.once)) r.once=reOnce(r.once,fix);
         if(r.greet&&typeof r.greet==='object'&&Array.isArray(r.greet.used)) r.greet.used=r.greet.used.map(fix); } }
-    const E=s.flags&&s.flags.ECON_SL, EP=typeof ECONFR_SOCLIB!=='undefined'&&ECONFR_SOCLIB&&ECONFR_SOCLIB.people;   /* 經濟系同學在社科圖（第五批）：只換這個人 talk 表上的句子 */
-    if(E&&typeof E==='object'&&!Array.isArray(E)&&EP) for(const id of Object.keys(E)){ const r=E[id], P=EP[id]; if(!P||!r||typeof r!=='object'||!r.once||typeof r.once!=='object'||Array.isArray(r.once)) continue;
-      r.once=reOnce(r.once,fixBy(new Set((P.talk||[]).map(e=>e&&e.t).filter(t=>typeof t==='string')))); }
     return n; };
   /* 柏翰的倒數：今天到這學期第一個考試時段（kind＝'final' 期末／'mid' 期中；照玩家的課表與日曆；放假的日子沒有課，自然跳過）的天數；這學期沒有那種考試＝null
      D118（使用者 11-02「沒有期中考」）：法律系第 8～9 週不考，期中恆為 null；柏翰的倒數改到第一科期末考（AA_578 第 2 節 #1）*/
@@ -979,11 +976,9 @@ const STORY = (function(){
       G.flags.met_an=true; G.flags.AN_NAME_TOLD=true; SOCIAL.meet('heroine_01',G.zone); SOCIAL.talkedTo('heroine_01'); n.name=SOCIAL.npcName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); return; }
     if(unmetH){ const busy=n.seat||n.pose==='read'||n.pose==='sit'||n.idlePose==='read'; await GM.say(null,S.sisPreW1(G,id)?S.SIS_PRE_W1:busy?'（她低頭在忙自己的事，沒有注意到你。）':'（她看了你一眼，對你點了一下頭，又轉回去忙自己的事。）'); n.name=SOCIAL.npcName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); return; }
     if(first&&poolMeet&&await POOL.meet(GM,who,id,n)){}   /* 法律系同學第一批：認識的那一場（AA_498 2-3；場景裡自己記 SOCIAL.meet、熟悉＋3 信任＋3）*/
-    else if(first&&typeof ECONSL!=='undefined'&&ECONSL.talk&&await ECONSL.talk(GM,who,id,n,true)){}   /* 經濟系的同學在社科圖第一次說話（AA_536，src/econsl3d.js）：不走下面「你好，我是○○。經濟系的。」那一套——旁白、現有的自我介紹、met 那一句；記 FIRST_MET、熟悉＋3 */
     else if(first){ SOCIAL.meet(id,G.zone); if(c.social_layer==='B'){ const py=SOCIAL.playerYear?SOCIAL.playerYear():1, cy=SOCIAL.yearOf?SOCIAL.yearOf(id):(c.year||1); await GM.say(who,cy>py?'你是大'+['','一','二','三','四'][py]+'的吧？':(py===1?(F0=>{ const L=['……嗯？喔，你是我們班的吧。','你好。……我們是不是修同一堂民總？']; if(F0.afternoonDone) L.push('欸，你是周老師點過的那個。'); return L[(Math.random()*L.length)|0]; })(G.flags||{}):'……嗯？喔，你是我們班的吧。'));   /* 年級跟著遊戲走（AA_120 7-3）*/   /* 學長姊不會說「同一堂民總」（AA_120 3-4）*/ await GM.say(who,'我是'+c.name+'。'); if(c.facts&&c.facts[0]) await GM.say(who,c.facts[0]+'。'); }   /* AA_498 2-3：沒有回答選項的「……你呢？」不再出現（其他十五位的認識那一場還沒寫，先照舊自我介紹）*/ else { await GM.say(who,'你好，我是'+c.name+'。'+(c.department||'')+'的。',{expr:'smile'}); if(c.personality) await GM.say(null,c.personality.split('；')[0]+'。'); } SOCIAL.adjust(id,{fam:3}); }
     else { await S.contestHeard(GM,who,id);   /* 子晴 Q4 錯過的玩家：開頭多她一句（AA_360 第 4 節）*/ await S.neededMiss(GM,who,id);   /* 主線 4：上週的訊息沒回，這次見面帶過一句（AA_179 第 4 節）*/ for(const f of S.PRE_TALK){ if(grDone&&typeof GRADES!=='undefined'&&f===GRADES.preTalk) continue; try{ await f(GM,who,id); }catch(e){ console.warn('STORY.PRE_TALK',e); } } await S.bhSplitHeard(GM,who,id); if(typeof VAC!=='undefined'&&VAC.backGreet) await VAC.backGreet(GM,who,id); if(typeof TERMEND!=='undefined'&&TERMEND.meetLine) await TERMEND.meetLine(GM,who,id);   /* 沒去芯慈的事務所參觀：下次見面一句（AA_251 第 1 節）*/   /* 出國回來第一次遇到：閒聊前多一句（AA_242 8-7）*/ const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }
       else if(typeof POOL!=='undefined'&&POOL.talk&&await POOL.talk(GM,who,id,n)){}   /* 法律系同學第一批（AA_498 第 4～8 節）：秘密、順手的事、他的線、閒聊與之後的招呼都在 src/pool3d.js */   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
-      else if(typeof ECONSL!=='undefined'&&ECONSL.talk&&await ECONSL.talk(GM,who,id,n,false)){}   /* 經濟系的同學在社科圖（AA_536，src/econsl3d.js）：每學期的閒聊、打招呼輪流；阿勳大三下 3/22 以後那一句在別處也說 */
       else if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&S.secretReady(G,id)&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); const SM=G.social.small||(G.social.small={}); (SM[id]||(SM[id]={day:0,used:[],last:null})).day=G.day; }
       else if(typeof ENC!=='undefined'&&ENC.schoolTalk&&await ENC.schoolTalk(GM,who,id)){}   /* 自由出行遇到以後，下一次聊天說一句（DL-07；AA_162、BB_144 第 4 節）*/ else if(typeof DORM203!=='undefined'&&DORM203.roomTalk&&await DORM203.roomTalk(GM,who,id)){}   /* 在 203 房間跟阿哲、柏翰講話（AA_502 第 2 節；房間外照原本的閒聊）*/ else if(typeof DORMY24!=='undefined'&&DORMY24.roomTalk&&await DORMY24.roomTalk(GM,who,id)){}   /* 在 312、507、409 房間跟阿哲、柏翰講話（AA_517 第 2 節，src/dorm_y24_3d.js；房間外照原本的閒聊）*/
       else if(await S.ladderTalk(GM,who,id)){}   /* 閒聊階梯（大一上的七位＋之後的）：有資料的人走階梯，沒有的照舊閒聊 */
