@@ -1305,3 +1305,18 @@
 [21:18:32] [res] cpu=6% mem=32% (10.2/31.4 GB) chrome_testing=0  START WZ_PERF_f3e1_desk_b3
 [21:22:49] 正在跑：WZ_PERF_f3e1_desk_b3（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:23:48] [res] cpu=5% mem=33% (10.5/31.4 GB) chrome_testing=0  END WZ_PERF_f3e1_desk_b3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       664820d229..fe4ee5fad3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:23:53] ==== END   WZ_PERF_f3e1_desk_b3  exit=0  319s   ====
+[21:23:56] memory 34% before starting SSB_wz1 (0 running)
+[21:23:56] memory 34% before starting SSB_wz2a (1 running)
+[21:23:56] ==== START SSB_wz1  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[21:23:56] memory 34% before starting SSB_wz2b (2 running)
+[21:23:56] ==== START SSB_wz2a  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[21:23:56] ==== START SSB_wz2b  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[21:23:59] [res] cpu=17% mem=34% (10.7/31.4 GB) chrome_testing=0  START SSB_wz1
+[21:23:59] [res] cpu=17% mem=34% (10.7/31.4 GB) chrome_testing=0  START SSB_wz2b
+[21:23:59] [res] cpu=17% mem=34% (10.7/31.4 GB) chrome_testing=0  START SSB_wz2a
+[21:27:49] 正在跑：SSB_wz1（已跑 3 分／上限 80 分）、SSB_wz2a（已跑 3 分／上限 25 分）、SSB_wz2b（已跑 3 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:32:17] [res] cpu=0% mem=47% (14.8/31.4 GB) chrome_testing=10  END SSB_wz2b
