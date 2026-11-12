@@ -50,7 +50,7 @@ const nearAt=(x,zz,tp)=>{ E.player.obj.position.set(x,0,zz); E.player.tapPref=tp
   check('1 站在那一點（推搖桿走過去，沒有 tapPref）最近的互動就是這一張「坐下吃」——修改前：(0.92,2.3)「看炸物櫃」、(0.92,1.2)「看菜單」、(0.92,0)「看廚房」',!wrong.length,J(wrong));
   check('1 點椅子走過去的（tapPref）也是這一張',!wrongTap.length,J(wrongTap));
   const W=seats.find(q=>q.seat.x===0.92&&q.seat.z===2.3);
-  check('1 BB 點名的那一張 (0.92, 2.3)：11-12 BB 裁定（BB_255 245f1e5174）從座位拿掉——不在座位清單裡（修改前：在、點了走不過去）',!seatAt(0.92,2.3)); }
+  check('1 BB 點名的那一張 (0.92, 2.3)：11-12 BB 裁定（BB_255 245f1e5174）從座位拿掉——不在座位清單裡（修改前：在、點了走不過去）',!W); }
 /* 1b 點椅子旁邊的地板走過去（tapPref＝點的那一點，不是椅子）：雲端瀏覽器照 CC 的 sit_all 跑到的兩個落點 */
 { const seatAt=(x,zz)=>seats.find(q=>q.seat.x===x&&q.seat.z===zz), K=others.find(q=>q.kind==='kitchen'), C=others.find(q=>q.kind==='case');
   const a=nearAt(0.534,-0.217,{x:0.534,z:-0.217}), b=nearAt(0.423,2.181,{x:0.423,z:2.181});
