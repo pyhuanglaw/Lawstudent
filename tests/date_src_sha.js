@@ -6,7 +6,8 @@
 //   4. node tests/an_dates_1111_unit.js（和 zq／zr／yt／kx／sis／peishan_dates_1111、date_overnight、date_wish、date_lines_* 這幾支）
 // 工具（import_date_lines.py）裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 module.exports={
-  ALLOW_SHA:'f6aa917593',      // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 13:57 AA-C AA_860 定稿、BB_405 聽過、已套源稿：D158——約會稿提到舊序章、外校、外校室友的句子重寫，可昕 42 句＋選項的字 3 格、沛珊 4 句，一共 49 格；同一版 AA 把 Dxx.py 舊產生器刪掉了（工具只讀 .json）。見 D158_1112、tests/d158_dates_1112_unit.js；上一版 3cb2939d0＝D158_1112_PREV）
+  ALLOW_SHA:'5afc5c0e3',       // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 15:05 AA-C AA_869／AA_870／AA_871 定稿、BB_413～415 聽過、已套源稿：可昕約會稿不靠記帳、愛算——她的句子 110 格＋玩家選項的字 27 格，一共 137 格（23 個地點），只動可昕。見 KXNL_1112、tests/kxnl_dates_1112_unit.js；上一版 f6aa917593＝KXNL_1112_PREV）
+  KXNL_1112_PREV:'f6aa917593', // 可昕「不靠記帳」那一次重匯以前的那一版（以下是這一列原本寫在 ALLOW_SHA 的說明：date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 13:57 AA-C AA_860 定稿、BB_405 聽過、已套源稿：D158——約會稿提到舊序章、外校、外校室友的句子重寫，可昕 42 句＋選項的字 3 格、沛珊 4 句，一共 49 格；同一版 AA 把 Dxx.py 舊產生器刪掉了（工具只讀 .json）。見 D158_1112、tests/d158_dates_1112_unit.js；上一版 3cb2939d0＝D158_1112_PREV））
   D158_1112_PREV:'3cb2939d0',  // D158 那一次重匯以前的那一版（以下是這一列原本寫在 ALLOW_SHA 的說明：date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 11:28 AA-C 交付：AA_849 沛珊「今天」開頭 31 格（交往到達句 24、第一次約會結尾 7）＋以安 D24.station 第一次選項回話 1 格定稿、已套源稿；子晴 D06.cafe 改「下次我請。」（AA_846；AA_812 path_rows 那一列刪掉）、可昕 D13.drink／D24.street 改字（AA_847）：一共 35 格，見 HAO3_1112、tests/hao3_dates_1112_unit.js；上一版 d7d818f8a8＝HAO3_1112_PREV））
   D158_1112_BASE:'9f331db438', // D158 那一次重匯以前的開發分支（claude/adoring-meitner-mqzst8）：那 49 格的舊字只從這一版的 src/data/date_lines.js 讀（git show；D158 舊字不寫在測試裡），見 d158Old
   HAO3_1112_PREV:'d7d818f8a8', // 第四次重匯以前的那一版（以下是這一列原本寫在 ALLOW_SHA 的說明：date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 10:39 AA-C AA_846 子晴 81＋AA_847 可昕 83 定稿（選項回話「好」開頭）、AA_848 語彤 66 定稿（再訪「上次」開頭），BB_395 聽過；另外學姊 5、芷若 2、沛珊 1 格付錢／承諾對不上的再改（late_fix）：一共 238 格，見 HAO2_1112、tests/hao2_dates_1112_unit.js；上一版 41f77eab53＝HAO2_1112_PREV））
@@ -964,6 +965,149 @@ module.exports={
     {who:'kexin',loc:'D32',doc:'AA_860',row:43,path:'hotspots/D32.meadow/remember/lines/0/text',oh:'6e7731d51aa76b0b',code:'叫舊序章的那隻羊，還是很吵。',new:'像我室友的那隻羊，還是很吵。'},
     {who:'kexin',loc:'D33',doc:'AA_860',row:44,path:'arrive/normal/2/lines/0/text',oh:'408e0aba88c4b5df',code:'舊序章問我去哪。我說信義區，她叫我拍照。',new:'信義區我很少來。今天要拍很多照片。'},
   ],
+  /* 2026-11-12 5afc5c0e3（X324／UA-AA-1112-15 可昕約會稿不靠記帳、愛算，AA_869／870／871 三批定稿，BB_413～415 聽過）：源稿和上一版 f6aa917593 逐格比剛好 137 格不同——
+     都是可昕（kexin）：她的句子 110 格＋第一次選項的字（choice[n].t）27 格；三份稿 51＋37＋49＝137 列一列對一格（doc＝哪一份、row＝那一份的第幾列，從 0 算；四列選項的 old 稿上多寫了「（…選項一）」的說明）。
+     path、old、new 同 HAO3_1112（old＝上一版 f6aa917593 源稿的字＝重匯以前遊戲的字、new＝5afc5c0e3 源稿的字＝遊戲的字，137 格遊戲和稿一字不差；沒有 was、game）。
+     逐格驗在 tests/kxnl_dates_1112_unit.js；un812／src248 先還原這一層（unKxnl），再還原 D158_1112（三個選項的字兩輪都改過）、HAO2_1112、KX_1112（那幾格這一輪又改）*/
+  KXNL_1112:[
+    {loc:'D01',doc:'AA_870',row:33,path:'arrive/dating/0/lines/0/text',old:'路線我排好了。你負責跟好，還有稱讚我。',new:'今天我帶路。你負責跟好，還有稱讚我。'},
+    {loc:'D01',doc:'AA_869',row:0,path:'hotspots/D01.market/first/choice/1/reply/0/text',old:'這個經濟學很好，買。',new:'好，這樣兩隻我都戴得到。買。'},
+    {loc:'D01',doc:'AA_869',row:1,path:'hotspots/D01.market/dating/0/lines/0/text',old:'我們買一樣的，統一採購比較便宜。',new:'我們買一樣的。你戴起來不好看的話，兩個都歸我。'},
+    {loc:'D02',doc:'AA_869',row:2,path:'hotspots/D02.pond/first/lines/1/text',old:'他在做市場干預。',new:'魚也太沒原則了吧。'},
+    {loc:'D02',doc:'AA_869',row:49,path:'hotspots/D02.pond/first/choice/0/t',old:'「妳又認真起來了。」',new:'「妳在罵魚？」'},
+    {loc:'D02',doc:'AA_869',row:3,path:'hotspots/D02.pond/first/choice/0/reply/0/text',old:'一年而已，可是它不會走。',new:'我在罵丟飼料的人。魚只是餓。'},
+    {loc:'D02',doc:'AA_869',row:4,path:'hotspots/D02.pond/first/choice/1/t',old:'「那我們是什麼？」',new:'「我們也去買一包？」'},
+    {loc:'D02',doc:'AA_869',row:5,path:'hotspots/D02.pond/first/choice/1/reply/0/text',old:'我們是觀察者。不准干預。',new:'不要。我不想當那個讓牠們擠成一團的人。'},
+    {loc:'D03',doc:'AA_869',row:6,path:'hotspots/D03.demo/first/lines/1/text',old:'（她玩了一分鐘）這個關卡，很像在算邊際效用。',new:'（她玩了一分鐘）這個關卡在整我。它知道我會往右跳。'},
+    {loc:'D03',doc:'AA_869',row:7,path:'hotspots/D03.demo/first/choice/0/t',old:'「這樣也能想到經濟？」',new:'「妳在跟遊戲吵架？」'},
+    {loc:'D03',doc:'AA_869',row:8,path:'hotspots/D03.demo/first/choice/0/reply/0/text',old:'念了一年，退不掉。學費很貴的。',new:'它先的。再一次，這次我往左。'},
+    {loc:'D03',doc:'AA_869',row:9,path:'hotspots/D03.demo/first/choice/1/t',old:'「哪裡像？」',new:'「換我試試。」'},
+    {loc:'D03',doc:'AA_869',row:10,path:'hotspots/D03.demo/first/choice/1/reply/0/text',old:'每多跳一次，得到的就少一點。所以要停。',new:'不要，我還沒贏。等我贏了才換你。'},
+    {loc:'D03',doc:'AA_869',row:11,path:'hotspots/D03.demo/normal/2/lines/0/text',old:'你玩遊戲的時候會忘記我。我記著，等一下算。',new:'你玩遊戲的時候會忘記我。我有看到，等一下再跟你講。'},
+    {loc:'D03',doc:'AA_869',row:12,path:'hotspots/D03.demo/dating/0/lines/0/text',old:'兩人模式。你負責跳，我負責算時機。',new:'兩人模式。你負責跳，我負責喊。我喊了你就跳。'},
+    {loc:'D03',doc:'AA_869',row:13,path:'hotspots/D03.window/first/lines/0/text',old:'（她坐在窗邊，拿出手機記帳）今天花了三百二。',new:'（她坐在窗邊，把腳跟從鞋子裡退出來一點）腳好痛。'},
+    {loc:'D03',doc:'AA_869',row:14,path:'hotspots/D03.window/first/lines/1/text',old:'在預算內，可以休息了。',new:'這雙是新的。好看，可是它還不認識我。'},
+    {loc:'D03',doc:'AA_869',row:15,path:'hotspots/D03.window/first/choice/0/t',old:'「妳每天記帳？」',new:'「要不要換一雙？」'},
+    {loc:'D03',doc:'AA_869',row:16,path:'hotspots/D03.window/first/choice/0/reply/0/text',old:'每天。這筆花得很值得。',new:'不要。今天的衣服只能配這雙。痛我認了。'},
+    {loc:'D03',doc:'AA_869',row:17,path:'hotspots/D03.window/first/choice/1/t',old:'「休息就不要記了。」',new:'「那坐久一點。」'},
+    {loc:'D03',doc:'AA_869',row:18,path:'hotspots/D03.window/first/choice/1/reply/0/text',old:'好，這是最後一筆，記完今天就不記了。',new:'好。坐到我的腳願意走為止。'},
+    {loc:'D03',doc:'AA_869',row:19,path:'hotspots/D03.window/remember/lines/0/text',old:'那筆三百二，我記在「很值得」那一欄。',new:'那雙鞋現在認識我了。今天穿來了，不痛。'},
+    {loc:'D03',doc:'AA_869',row:20,path:'hotspots/D03.window/dating/0/lines/0/text',old:'（她靠在你肩上，把手機收起來）不記帳了。',new:'（她靠在你肩上，把手機收起來）不看了。'},
+    {loc:'D05',doc:'AA_869',row:21,path:'hotspots/D05.cafe/first/lines/0/text',old:'看完電影喝咖啡，這是標準流程。',new:'看完電影一定要喝咖啡。'},
+    {loc:'D05',doc:'AA_869',row:22,path:'hotspots/D05.cafe/first/lines/1/text',old:'我做過統計，這樣約會的人最多。',new:'不然剛剛那個結局，我沒有地方講。'},
+    {loc:'D05',doc:'AA_869',row:23,path:'hotspots/D05.cafe/first/choice/0/t',old:'「真的有統計？」',new:'「妳不喜歡結局？」'},
+    {loc:'D05',doc:'AA_869',row:24,path:'hotspots/D05.cafe/first/choice/0/reply/0/text',old:'沒有。可是聽起來很像有，對吧。',new:'結局我有意見。你先喝，我慢慢講。'},
+    {loc:'D05',doc:'AA_869',row:25,path:'hotspots/D05.cafe/first/choice/1/t',old:'「標準流程很好。」',new:'「我覺得還好啊。」'},
+    {loc:'D05',doc:'AA_869',row:26,path:'hotspots/D05.cafe/first/choice/1/reply/0/text',old:'那下一步是散步。我排好了。',new:'你當然覺得還好，你中間有睡著。我有看到。'},
+    {loc:'D05',doc:'AA_869',row:27,path:'hotspots/D05.cafe/normal/0/lines/0/text',old:'我點了跟上次不一樣的，做實驗。',new:'我點了跟上次不一樣的。上次那杯太乖了。'},
+    {loc:'D05',doc:'AA_869',row:28,path:'hotspots/D05.cafe/remember/lines/0/text',old:'上次的實驗結果：還是第一杯好喝。',new:'我又點回第一次那杯。太乖就太乖，好喝。'},
+    {loc:'D05',doc:'AA_869',row:29,path:'hotspots/D05.cafe/dating/0/lines/0/text',old:'（她用叉子把蛋糕切成兩半）分好了，很公平。',new:'（她用叉子把蛋糕切成兩半）大的那邊給你。我只要上面那顆草莓。'},
+    {loc:'D05',doc:'AA_869',row:30,path:'hotspots/D05.shop/first/lines/1/text',old:'可是這本講經濟的電影。好，我被吸引了。',new:'可是這本的封面是一個女生瞪著鏡頭。好，我被吸引了。'},
+    {loc:'D05',doc:'AA_869',row:31,path:'hotspots/D05.shop/first/choice/1/reply/0/text',old:'可是要還，我會記。你知道我會記。',new:'可以。可是要還，不要讓我去你宿舍討。'},
+    {loc:'D05',doc:'AA_869',row:32,path:'hotspots/D05.shop/remember/lines/0/text',old:'那本講經濟的電影書讀完了，結論很普通。',new:'那本封面在瞪人的書讀完了。她瞪得很有道理。'},
+    {loc:'D06',doc:'AA_869',row:38,path:'arrive/first/lines/0/text',old:'門票三十塊。全臺北最便宜的約會，我算過。',new:'門票才三十塊。'},
+    {loc:'D06',doc:'AA_869',row:39,path:'arrive/first/lines/1/text',old:'所以省下來的錢，等一下喝咖啡。',new:'這麼便宜我會怕。進去看了才知道有沒有被騙。'},
+    {loc:'D06',doc:'AA_869',row:40,path:'closing/first/lines/0/text',old:'我們看了三十一幅，手機算的。',new:'我腳好痠。美術館的地板是不是比外面硬。'},
+    {loc:'D06',doc:'AA_869',row:41,path:'closing/first/lines/1/text',old:'好啦，是我在數。',new:'早知道穿平底的。好看的那種。'},
+    {loc:'D06',doc:'AA_869',row:33,path:'hotspots/D06.gallery/first/lines/1/text',old:'這幅賣多少錢啊？我知道不能這樣問。',new:'這幅我看不懂。可是我站在這裡不想走。'},
+    {loc:'D06',doc:'AA_869',row:50,path:'hotspots/D06.gallery/first/choice/0/t',old:'「妳的習慣。」',new:'「哪裡吸引妳？」'},
+    {loc:'D06',doc:'AA_869',row:34,path:'hotspots/D06.gallery/first/choice/0/reply/0/text',old:'對。而且我覺得畫家自己也想知道。',new:'顏色。這個紅很兇，旁邊那塊藍沒有在怕。'},
+    {loc:'D06',doc:'AA_869',row:35,path:'hotspots/D06.gallery/first/choice/1/t',old:'「應該很貴吧。」',new:'「我也看不懂。」'},
+    {loc:'D06',doc:'AA_869',row:36,path:'hotspots/D06.gallery/first/choice/1/reply/0/text',old:'我回去查。',new:'那我們兩個就站著。看不懂又沒有犯法。'},
+    {loc:'D06',doc:'AA_869',row:37,path:'hotspots/D06.gallery/remember/lines/0/text',old:'那幅畫的價錢，我回去查了。不告訴你。',new:'那幅紅的還在。我今天還是看不懂，還是不想走。'},
+    {loc:'D08',doc:'AA_869',row:42,path:'arrive/normal/0/lines/0/text',old:'我來過十一次。門票六十，比看電影划算。',new:'我來過很多次。每次都只看牠，其他的我到現在還不知道在哪。'},
+    {loc:'D08',doc:'AA_869',row:43,path:'arrive/normal/1/lines/0/text',old:'我從學校過來只要十分鐘，這裡是我的主場。',new:'你帶路。我只負責找牠。'},
+    {loc:'D09',doc:'AA_870',row:34,path:'arrive/dating/0/lines/0/text',old:'我排好了：先喝茶，再看夜景。',new:'先喝茶，再看夜景。順序不能反，我試過。'},
+    {loc:'D09',doc:'AA_869',row:44,path:'hotspots/D09.tea/normal/1/lines/0/text',old:'茶的價格，用經濟學看完全不合理。可是風景要算進去。',new:'這壺茶好貴。可是窗戶外面那片山也在裡面，我認了。'},
+    {loc:'D10',doc:'AA_869',row:45,path:'hotspots/D10.boat/first/lines/0/text',old:'天鵝船。我算過，踩到對岸要二十分鐘。',new:'天鵝船。我要踩到對岸。'},
+    {loc:'D10',doc:'AA_869',row:46,path:'hotspots/D10.boat/first/lines/1/text',old:'前提是你踩得快。',new:'你不准偷懶，我感覺得出來。'},
+    {loc:'D10',doc:'AA_869',row:47,path:'hotspots/D10.boat/first/choice/0/reply/0/text',old:'我負責計時。',new:'我負責看方向。你歪了我會講。'},
+    {loc:'D10',doc:'AA_869',row:48,path:'hotspots/D10.boat/first/choice/1/reply/0/text',old:'不計時。反正也踩不快。',new:'不要。慢慢踩會被鴨子超過，我受不了。'},
+    {loc:'D15',doc:'AA_870',row:2,path:'closing/first/lines/0/text',old:'下山的時候，我在算油錢。',new:'下山的時候我都沒講話，你有發現嗎。'},
+    {loc:'D15',doc:'AA_870',row:3,path:'closing/first/lines/1/text',old:'算完了，一人一半，回去轉給你。',new:'我在看燈。很少有東西讓我安靜這麼久。'},
+    {loc:'D15',doc:'AA_870',row:0,path:'hotspots/D15.store/first/choice/1/reply/0/text',old:'我記在「被請」那一欄。',new:'好。那我要挑最貴的那一支。'},
+    {loc:'D15',doc:'AA_870',row:1,path:'hotspots/D15.store/remember/lines/0/text',old:'上次被請那一筆，這次還你。',new:'又是這家。冰櫃還在同一個位置，我的冰也還在。'},
+    {loc:'D17',doc:'AA_870',row:4,path:'hotspots/D17.queen/first/lines/1/text',old:'用經濟學算，這四十分鐘的機會成本很高。',new:'四十分鐘。我的妝在太陽底下撐不了那麼久。'},
+    {loc:'D19',doc:'AA_870',row:8,path:'closing/first/lines/0/text',old:'我今天摸了金磚、爬了山、看了海。很划算。',new:'我今天摸了金磚、爬了山、看了海。腳快斷了，可是我沒有後悔。'},
+    {loc:'D19',doc:'AA_870',row:32,path:'closing/normal/1/lines/0/text',old:'手套。我記在手機裡了，下次帶。',new:'手套。我下次會記得帶。你也是。'},
+    {loc:'D19',doc:'AA_870',row:9,path:'closing/dating/0/lines/0/text',old:'（她翻到行程表最後一格，寫了一個日期）下次。',new:'（她把手塞進你的口袋）這樣就不用手套了。'},
+    {loc:'D19',doc:'AA_870',row:5,path:'hotspots/D19.museum/first/lines/1/text',old:'這塊現在值多少錢，我好想算。不算了。摸就好。',new:'我本來覺得很蠢。可是大家摸完都在笑。好，我也要。'},
+    {loc:'D19',doc:'AA_870',row:6,path:'hotspots/D19.museum/first/choice/1/t',old:'「妳想算吧。」',new:'「妳不是覺得很蠢？」'},
+    {loc:'D19',doc:'AA_870',row:7,path:'hotspots/D19.museum/first/choice/1/reply/0/text',old:'想。可是算出來我會心痛。',new:'蠢的事跟很多人一起做，就沒那麼蠢。你也摸。'},
+    {loc:'D20',doc:'AA_870',row:15,path:'closing/first/lines/0/text',old:'花費我算了，比我想的少。',new:'我頭髮被吹成這樣，你都沒講。'},
+    {loc:'D20',doc:'AA_870',row:16,path:'closing/first/lines/1/text',old:'下次可以多花一點。',new:'算了。今天好玩，原諒你。'},
+    {loc:'D20',doc:'AA_870',row:17,path:'closing/normal/0/lines/0/text',old:'回程換我帶路。你剛剛帶錯一次，我有記。',new:'回程換我帶路。你剛剛帶錯一次，我有看到。'},
+    {loc:'D20',doc:'AA_870',row:10,path:'hotspots/D20.trolley/first/lines/1/text',old:'一趟才幾分鐘。票價除下來，每分鐘好貴。',new:'一趟才幾分鐘。我還沒坐穩就要下車了吧。'},
+    {loc:'D20',doc:'AA_870',row:11,path:'hotspots/D20.trolley/first/choice/0/t',old:'「妳又在算。」',new:'「那坐兩趟。」'},
+    {loc:'D20',doc:'AA_870',row:12,path:'hotspots/D20.trolley/first/choice/0/reply/0/text',old:'每分鐘多少我不說。好啦，上車。',new:'好。你去買票，我在這裡顧位子。'},
+    {loc:'D20',doc:'AA_870',row:13,path:'hotspots/D20.trolley/first/choice/1/t',old:'「風景不用錢。」',new:'「那眼睛睜大一點。」'},
+    {loc:'D20',doc:'AA_870',row:14,path:'hotspots/D20.trolley/first/choice/1/reply/0/text',old:'好啦，風景免費，不算了。',new:'我眼睛本來就很大。上車。'},
+    {loc:'D21',doc:'AA_870',row:18,path:'hotspots/D21.temple/first/lines/1/text',old:'如果用時薪算——不算了。',new:'這要刻多久啊。我連寫字都沒有這種耐心。'},
+    {loc:'D21',doc:'AA_870',row:19,path:'hotspots/D21.temple/first/choice/0/t',old:'「妳差一點算了。」',new:'「那妳對什麼有耐心？」'},
+    {loc:'D21',doc:'AA_870',row:20,path:'hotspots/D21.temple/first/choice/0/reply/0/text',old:'差一點，你阻止我了。',new:'化妝。還有排隊等好吃的。'},
+    {loc:'D21',doc:'AA_870',row:21,path:'hotspots/D21.temple/first/choice/1/t',old:'「算一下也沒關係。」',new:'「刻的人一定很固執。」'},
+    {loc:'D21',doc:'AA_870',row:22,path:'hotspots/D21.temple/first/choice/1/reply/0/text',old:'不要。這種東西不能算。',new:'固執的人才做得出好東西。我喜歡這個人。'},
+    {loc:'D22',doc:'AA_871',row:0,path:'closing/first/lines/1/text',old:'我已經算好了，沒有要討論。',new:'不要跟我搶，沒有要討論。'},
+    {loc:'D22',doc:'AA_870',row:23,path:'hotspots/D22.dam/first/lines/1/text',old:'公共財。經濟學原理教過的。我還記得。',new:'我在高雄沒看過這麼大的壩。站在上面腳會軟。'},
+    {loc:'D22',doc:'AA_870',row:24,path:'hotspots/D22.dam/first/choice/0/t',old:'「學以致用。」',new:'「妳會怕高？」'},
+    {loc:'D22',doc:'AA_870',row:25,path:'hotspots/D22.dam/first/choice/0/reply/0/text',old:'對，課在這裡上。',new:'不會。腳軟跟怕是兩回事。你不要笑。'},
+    {loc:'D22',doc:'AA_870',row:26,path:'hotspots/D22.dam/first/choice/1/t',old:'「今天不上課。」',new:'「那靠裡面走。」'},
+    {loc:'D22',doc:'AA_870',row:27,path:'hotspots/D22.dam/first/choice/1/reply/0/text',old:'好，不上課，看水。',new:'不要。我要看下面，腳軟也要看。'},
+    {loc:'D22',doc:'AA_870',row:28,path:'hotspots/D22.dam/remember/lines/0/text',old:'上次說公共財。我回去翻了經濟學原理的筆記。還在。',new:'上次我腳軟。今天好一點，你不要問是哪裡好。'},
+    {loc:'D22',doc:'AA_870',row:29,path:'hotspots/D22.fish/first/lines/1/text',old:'一條魚吃三次，很划算。',new:'三種我都要。不要叫我選。'},
+    {loc:'D22',doc:'AA_870',row:31,path:'hotspots/D22.fish/first/choice/0/t',old:'「妳又在算。」',new:'「吃得完嗎？」'},
+    {loc:'D22',doc:'AA_870',row:30,path:'hotspots/D22.fish/first/choice/0/reply/0/text',old:'我在幫你省錢欸。好啦，吃。',new:'吃不完你吃。這是你今天的工作。'},
+    {loc:'D23',doc:'AA_871',row:1,path:'hotspots/D23.seawall/first/choice/1/reply/0/text',old:'好，我來計時……算了，今天不計了。',new:'好。它下去以前，手機收起來。'},
+    {loc:'D24',doc:'AA_871',row:4,path:'closing/first/lines/0/text',old:'行程表，三格都打勾了。',new:'溫泉、吃的、海，都有了。'},
+    {loc:'D24',doc:'AA_871',row:5,path:'closing/first/lines/1/text',old:'只有三格，當然打得完。',new:'我本來還想去一個地方，可是我的腳不想動了。'},
+    {loc:'D24',doc:'AA_871',row:6,path:'closing/normal/1/lines/0/text',old:'下次可以接著去外澳。我已經算好時間了。',new:'外澳我還沒去過。今天來不及，我有點不甘心。'},
+    {loc:'D24',doc:'AA_871',row:2,path:'hotspots/D24.footbath/first/choice/1/reply/0/text',old:'就泡二十分鐘，我設好計時了。',new:'泡到皮皺掉為止。皺了也是我的腳。'},
+    {loc:'D24',doc:'AA_871',row:3,path:'hotspots/D24.footbath/remember/lines/0/text',old:'上次計時器響了我還不想起來，這次不設了。',new:'上次泡到皮都皺了。這次還是要泡到皺。'},
+    {loc:'D26',doc:'AA_870',row:35,path:'arrive/dating/0/lines/0/text',old:'兩天的行程我排好了。有留一段空的，給你睡。',new:'兩天要去哪我大概想好了。中間有一段什麼都不做，給你睡。'},
+    {loc:'D26',doc:'AA_871',row:7,path:'hotspots/D26.museum/first/choice/1/reply/0/text',old:'誰說的。免費的就是免費的，我念過經濟。',new:'誰說的。免費的就是免費的，你不要想太多。'},
+    {loc:'D26',doc:'AA_871',row:48,path:'hotspots/D26.museum/normal/2/lines/0/text',old:'以後我們的客廳，要掛一幅看不懂的畫。',new:'我以後的客廳，要掛一幅看不懂的畫。'},
+    {loc:'D26',doc:'AA_871',row:8,path:'hotspots/D26.village/first/choice/0/t',old:'「不要算。」',new:'「應該不便宜。」'},
+    {loc:'D26',doc:'AA_871',row:9,path:'hotspots/D26.village/first/choice/0/reply/0/text',old:'算一下又不用錢。好啦，逛。',new:'問一下又不會怎樣。好啦，逛。'},
+    {loc:'D27',doc:'AA_871',row:10,path:'hotspots/D27.rail/first/lines/1/text',old:'運木頭的成本，比走路低很多。這是規模經濟。',new:'以前的人就靠這麼窄的東西，把整座山的木頭運下來。很敢。'},
+    {loc:'D27',doc:'AA_871',row:11,path:'hotspots/D27.rail/first/choice/0/t',old:'「妳又在上課。」',new:'「妳很佩服？」'},
+    {loc:'D27',doc:'AA_871',row:12,path:'hotspots/D27.rail/first/choice/0/reply/0/text',old:'下課。去坐車廂。',new:'佩服。敢做的人我都佩服。去坐車廂。'},
+    {loc:'D27',doc:'AA_871',row:13,path:'hotspots/D27.rail/first/choice/1/t',old:'「很有道理。」',new:'「換成妳也敢吧。」'},
+    {loc:'D27',doc:'AA_871',row:14,path:'hotspots/D27.rail/first/choice/1/reply/0/text',old:'對。好，不講了。',new:'敢。可是我要坐第一節。'},
+    {loc:'D28',doc:'AA_871',row:19,path:'closing/first/lines/0/text',old:'兩天吃了十一樣。我有算。',new:'這兩天我一直在吃。褲子有感覺。'},
+    {loc:'D28',doc:'AA_871',row:20,path:'closing/first/lines/1/text',old:'很合理，臺南就是要吃。',new:'沒關係，臺南就是要吃。'},
+    {loc:'D28',doc:'AA_871',row:21,path:'closing/dating/0/lines/0/text',old:'（她把行程表撕下來，塞進你的口袋）你收好。下次照這個走。',new:'（她把吃剩的一包蜜餞塞進你的口袋）你收好。回臺北想到再吃。'},
+    {loc:'D28',doc:'AA_871',row:15,path:'hotspots/D28.circle/first/lines/0/text',old:'（館前的圓環）車子繞圈的效率很高。',new:'（館前的圓環）車子一直繞，沒有人按喇叭。'},
+    {loc:'D28',doc:'AA_871',row:16,path:'hotspots/D28.circle/first/lines/1/text',old:'不用紅綠燈。',new:'在臺北早就吵起來了。'},
+    {loc:'D28',doc:'AA_871',row:17,path:'hotspots/D28.circle/first/choice/0/t',old:'「妳又在分析。」',new:'「妳會想按嗎？」'},
+    {loc:'D28',doc:'AA_871',row:18,path:'hotspots/D28.circle/first/choice/0/reply/0/text',old:'職業病。好啦，去樹下。',new:'會。所以我不適合住這裡。好啦，去樹下。'},
+    {loc:'D29',doc:'AA_871',row:22,path:'hotspots/D29.warehouse/first/lines/0/text',old:'倉庫改的展間。這個再利用的效益很高。',new:'倉庫改的展間。牆壁沒有重漆，鏽都留著。'},
+    {loc:'D29',doc:'AA_871',row:23,path:'hotspots/D29.warehouse/first/lines/1/text',old:'好，我不講經濟了，看展。',new:'我喜歡這樣。沒有假裝自己是新的。'},
+    {loc:'D29',doc:'AA_871',row:47,path:'hotspots/D29.warehouse/first/choice/0/t',old:'「妳又來了。」',new:'「妳也不假裝。」'},
+    {loc:'D29',doc:'AA_871',row:24,path:'hotspots/D29.warehouse/first/choice/0/reply/0/text',old:'它跟著我回高雄了。',new:'假裝很累。我臉上藏不住。'},
+    {loc:'D29',doc:'AA_871',row:25,path:'hotspots/D29.warehouse/first/choice/1/t',old:'「講也可以。」',new:'「鏽會沾到衣服嗎？」'},
+    {loc:'D29',doc:'AA_871',row:26,path:'hotspots/D29.warehouse/first/choice/1/reply/0/text',old:'真的？那我講三分鐘。',new:'會。所以你站過去一點，我今天穿白的。'},
+    {loc:'D29',doc:'AA_871',row:27,path:'hotspots/D29.warehouse/remember/lines/0/text',old:'這次我不講經濟，講一點點就好。',new:'鏽好像又多了一點。很好，繼續留著。'},
+    {loc:'D29',doc:'AA_871',row:28,path:'hotspots/D29.harbor/first/lines/0/text',old:'港口。我在算一艘船載多少貨。',new:'港口。我小時候不高興就會跑來這裡吹風。'},
+    {loc:'D29',doc:'AA_871',row:29,path:'hotspots/D29.harbor/first/lines/1/text',old:'好，算不完。我們看船。',new:'吹一吹也沒有比較不氣。可是我還是會來。'},
+    {loc:'D29',doc:'AA_871',row:30,path:'hotspots/D29.harbor/first/choice/0/t',old:'「算到一半就好。」',new:'「今天有在氣什麼嗎？」'},
+    {loc:'D29',doc:'AA_871',row:31,path:'hotspots/D29.harbor/first/choice/0/reply/0/text',old:'一半。剩下的留給下次回來。',new:'沒有。今天是帶你來看的。'},
+    {loc:'D29',doc:'AA_871',row:32,path:'hotspots/D29.harbor/normal/2/lines/0/text',old:'以後我們每年來看一次港口。我已經排了。',new:'這個港我每次回來都要看一眼。沒看到會覺得沒有回來。'},
+    {loc:'D30',doc:'AA_870',row:36,path:'arrive/first/lines/0/text',old:'花蓮。兩天我排好了。',new:'花蓮。兩天，我只想看海跟吃。'},
+    {loc:'D30',doc:'AA_871',row:33,path:'hotspots/D30.bike/normal/1/lines/0/text',old:'騎到這裡，左邊是山，右邊是海。效益很高。',new:'騎到這裡，左邊是山，右邊是海。我兩邊都想看，脖子好忙。'},
+    {loc:'D31',doc:'AA_871',row:34,path:'hotspots/D31.pier/first/lines/0/text',old:'遊湖的船。我在算船票的效益。',new:'遊湖的船。我要坐靠窗。'},
+    {loc:'D31',doc:'AA_871',row:35,path:'hotspots/D31.pier/first/lines/1/text',old:'很高。好，坐。',new:'會被噴到我知道。坐。'},
+    {loc:'D31',doc:'AA_871',row:36,path:'hotspots/D31.pier/first/choice/0/t',old:'「妳都算好了。」',new:'「頭髮會亂喔。」'},
+    {loc:'D31',doc:'AA_871',row:37,path:'hotspots/D31.pier/first/choice/0/reply/0/text',old:'算好了才能放心玩。',new:'亂就亂。我今天綁起來了，我有準備。'},
+    {loc:'D31',doc:'AA_871',row:38,path:'hotspots/D31.pier/first/choice/1/t',old:'「不要算了。」',new:'「我坐外面幫妳擋。」'},
+    {loc:'D31',doc:'AA_871',row:39,path:'hotspots/D31.pier/first/choice/1/reply/0/text',old:'再五秒。算完了，不告訴你。',new:'擋不到啦。可是你可以坐。'},
+    {loc:'D31',doc:'AA_871',row:40,path:'hotspots/D31.pier/remember/lines/0/text',old:'上次算的效益我再算了一次，還是很高。',new:'又坐船。上次那個位子我還記得，靠窗第二排。'},
+    {loc:'D32',doc:'AA_871',row:41,path:'hotspots/D32.meadow/first/lines/0/text',old:'大草原，羊的密度很高。',new:'大草原，羊好多。'},
+    {loc:'D32',doc:'AA_871',row:42,path:'hotspots/D32.meadow/first/choice/1/reply/0/text',old:'遠景的效益比較高。',new:'遠遠看比較可愛。近看都在嚼。'},
+    {loc:'D32',doc:'AA_871',row:43,path:'hotspots/D32.trail/first/lines/1/text',old:'上坡的部分我沒算。',new:'牌子寫的。上坡牌子沒有寫。'},
+    {loc:'D32',doc:'AA_871',row:44,path:'hotspots/D32.trail/first/choice/0/reply/0/text',old:'慢慢走。上坡不列入紀錄。',new:'慢慢走。我喘的時候你不准看我。'},
+    {loc:'D32',doc:'AA_871',row:45,path:'hotspots/D32.trail/remember/lines/0/text',old:'上次走了五十分鐘，比我算的多十分鐘。',new:'上次走了五十分鐘。牌子騙人，我還記得。'},
+    {loc:'D32',doc:'AA_871',row:46,path:'hotspots/D32.stall/normal/1/lines/0/text',old:'熱湯很好喝。我剛剛在算熱量……好啦，今天不算。',new:'熱湯很好喝。我喝到鼻子都紅了。拍了就刪掉。'},
+  ],
 };
 /* 「和重匯以前比」用：回傳一份複本，把 AA_780 換的那三格（FLAKED_780）還原成各人自己那一輪的字。x＝整份 DATE_LINES（或 strip 過、少了幾個人的）；只有那一格現在剛好是 AA_780 的 new 才還原（不是＝不動，照舊會紅）；
    重匯以前的那一份（那一格還是 old）丟進來不會變 */
@@ -990,6 +1134,8 @@ module.exports.HAO2_WHO=['heroine_04','kexin','heroine_03','heroine_05','heroine
 /* 2026-11-12 起（AA 3cb2939d0，X324 第四次重匯 HAO3_1112）：un812、src248 先把這 35 格還原成 d7d818f8a8 的字（只有那一格現在剛好是新字才還原）——unHao3；要在 unHao2 以前做（子晴 D06.cafe、可昕 D13.drink、D24.street 兩輪都改過）*/
 module.exports.unHao3=(L,who,loc)=>{ if(!L) return; for(const r of module.exports.HAO3_1112){ if(r.who!==who||r.loc!==loc) continue; let o=L; const k=r.path.split('/'); for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; } };   /* L＝某個地點的 lines.<who> */
 module.exports.HAO3_WHO=['classmate_peishan','heroine_01','heroine_04','kexin'];
+/* 2026-11-12 起（AA 5afc5c0e3，可昕不靠記帳 KXNL_1112）：un812、src248 先把這 137 格還原成 f6aa917593 的字（只有那一格現在剛好是新字才還原）——unKxnl；要在 unD158 以前做 */
+module.exports.unKxnl=(L,who,loc)=>{ if(!L||who!=='kexin') return; for(const r of module.exports.KXNL_1112){ if(r.loc!==loc) continue; let o=L; const k=r.path.split('/'); for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } };   /* L＝某個地點的 lines.kexin */
 /* 2026-11-12 起（AA f6aa917593，D158 約會台詞重匯 D158_1112）：un812、src248 先把這 49 格還原成 3cb2939d0 的字（那一格現在剛好是新字才還原；舊字從 D158_1112_BASE 讀）——unD158；要在 unHao3 以前做（可昕四格 KX_1112 也改過）*/
 module.exports.sha16=s=>require('crypto').createHash('sha1').update(String(s),'utf8').digest('hex').slice(0,16);
 let D158_OLD;   /* D158_1112_BASE 的 DATE_LINES（第一次用到才讀；讀不到＝null）*/
@@ -999,6 +1145,6 @@ module.exports.d158Old=r=>{ if(D158_OLD===undefined){ D158_OLD=null; try{ const 
 module.exports.unD158=(L,who,loc)=>{ if(!L) return; for(const r of module.exports.D158_1112){ if(r.who!==who||r.loc!==loc) continue; let o=L; const k=r.path.split('/'); for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&typeof o[last]==='string'&&(o[last]===r.new||module.exports.sha16(o[last])===r.oh)) o[last]=module.exports.d158Old(r); } };   /* L＝某個地點的 lines.<who> */
 module.exports.D158_WHO=['kexin','classmate_peishan'];
 module.exports.noFx=x=>JSON.parse(JSON.stringify(x,(k,v)=>k==='fx'?undefined:v));
-module.exports.un812=x=>{ const y=module.exports.noFx(x); if(y&&y.loc) for(const k of Object.keys(y.loc)) for(const w of module.exports.D158_WHO) module.exports.unD158(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines[w],w,k);   /* 2026-11-12 f6aa917593：D158 重匯 49 格先還原（D158_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) for(const w of module.exports.HAO3_WHO) module.exports.unHao3(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines[w],w,k);   /* 2026-11-12 3cb2939d0：第四次重匯 35 格先還原（HAO3_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) for(const w of module.exports.HAO2_WHO) module.exports.unHao2(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines[w],w,k);   /* 2026-11-12 d7d818f8a8：第三次重匯 238 格先還原（HAO2_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) for(const w of module.exports.HAO_WHO) module.exports.unHao(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines[w],w,k);   /* 2026-11-12 41f77eab53：「好」開頭回話 259 格先還原（HAO_1112）*/ for(const r of module.exports.KX_1112){ let o=y; const k=['loc',r.loc,'lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; } for(const r of module.exports.AN_1112){ let o=y; const k=['loc',r.loc,'lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格、AA_834 那 27 格也還原（AN_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) module.exports.unSis(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines.heroine_05,k);   /* 2026-11-12 a573a50dca：學姊 AA_837＋AA_838 那 78 格、D01 多的一套也還原（SIS_1112）*/ for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
+module.exports.un812=x=>{ const y=module.exports.noFx(x); if(y&&y.loc) for(const k of Object.keys(y.loc)) module.exports.unKxnl(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines.kexin,'kexin',k);   /* 2026-11-12 5afc5c0e3：可昕不靠記帳 137 格先還原（KXNL_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) for(const w of module.exports.D158_WHO) module.exports.unD158(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines[w],w,k);   /* 2026-11-12 f6aa917593：D158 重匯 49 格先還原（D158_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) for(const w of module.exports.HAO3_WHO) module.exports.unHao3(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines[w],w,k);   /* 2026-11-12 3cb2939d0：第四次重匯 35 格先還原（HAO3_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) for(const w of module.exports.HAO2_WHO) module.exports.unHao2(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines[w],w,k);   /* 2026-11-12 d7d818f8a8：第三次重匯 238 格先還原（HAO2_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) for(const w of module.exports.HAO_WHO) module.exports.unHao(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines[w],w,k);   /* 2026-11-12 41f77eab53：「好」開頭回話 259 格先還原（HAO_1112）*/ for(const r of module.exports.KX_1112){ let o=y; const k=['loc',r.loc,'lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; } for(const r of module.exports.AN_1112){ let o=y; const k=['loc',r.loc,'lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格、AA_834 那 27 格也還原（AN_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) module.exports.unSis(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines.heroine_05,k);   /* 2026-11-12 a573a50dca：學姊 AA_837＋AA_838 那 78 格、D01 多的一套也還原（SIS_1112）*/ for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
 module.exports.cell812=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1)) o=o==null?o:o[t]; return o; };
-module.exports.src248=(loc,x)=>{ const y=module.exports.noFx(x); for(const w of module.exports.D158_WHO) module.exports.unD158(y&&y.lines&&y.lines[w],w,loc);   /* 2026-11-12 f6aa917593：D158 重匯 49 格先還原（D158_1112）*/ for(const w of module.exports.HAO3_WHO) module.exports.unHao3(y&&y.lines&&y.lines[w],w,loc);   /* 2026-11-12 3cb2939d0：第四次重匯 35 格先還原（HAO3_1112）*/ for(const w of module.exports.HAO2_WHO) module.exports.unHao2(y&&y.lines&&y.lines[w],w,loc);   /* 2026-11-12 d7d818f8a8：第三次重匯 238 格先還原（HAO2_1112）*/ for(const w of module.exports.HAO_WHO) module.exports.unHao(y&&y.lines&&y.lines[w],w,loc);   /* 2026-11-12 41f77eab53：「好」開頭回話 259 格先還原（HAO_1112）*/ for(const r of module.exports.KX_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } for(const r of module.exports.AN_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格也還原（AN_1112）*/ module.exports.unSis(y&&y.lines&&y.lines.heroine_05,loc);   /* 2026-11-12 a573a50dca：學姊 78 格、D01 多的一套也還原（SIS_1112）*/ return y; };
+module.exports.src248=(loc,x)=>{ const y=module.exports.noFx(x); module.exports.unKxnl(y&&y.lines&&y.lines.kexin,'kexin',loc);   /* 2026-11-12 5afc5c0e3：可昕不靠記帳 137 格先還原（KXNL_1112）*/ for(const w of module.exports.D158_WHO) module.exports.unD158(y&&y.lines&&y.lines[w],w,loc);   /* 2026-11-12 f6aa917593：D158 重匯 49 格先還原（D158_1112）*/ for(const w of module.exports.HAO3_WHO) module.exports.unHao3(y&&y.lines&&y.lines[w],w,loc);   /* 2026-11-12 3cb2939d0：第四次重匯 35 格先還原（HAO3_1112）*/ for(const w of module.exports.HAO2_WHO) module.exports.unHao2(y&&y.lines&&y.lines[w],w,loc);   /* 2026-11-12 d7d818f8a8：第三次重匯 238 格先還原（HAO2_1112）*/ for(const w of module.exports.HAO_WHO) module.exports.unHao(y&&y.lines&&y.lines[w],w,loc);   /* 2026-11-12 41f77eab53：「好」開頭回話 259 格先還原（HAO_1112）*/ for(const r of module.exports.KX_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } for(const r of module.exports.AN_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格也還原（AN_1112）*/ module.exports.unSis(y&&y.lines&&y.lines.heroine_05,loc);   /* 2026-11-12 a573a50dca：學姊 78 格、D01 多的一套也還原（SIS_1112）*/ return y; };
