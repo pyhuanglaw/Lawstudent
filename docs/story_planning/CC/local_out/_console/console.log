@@ -81,3 +81,12 @@
 [13:50:53] ==== START P0_LONGPLAY_dc3d  (probe @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
 [13:50:56] [res] cpu=6% mem=49% (15.5/31.4 GB) chrome_testing=10  START P0_LONGPLAY_dc3d
 [13:52:08] [res] cpu=9% mem=53% (16.7/31.4 GB) chrome_testing=9  END GATE_CAL_2771
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6b78022f6..bede5ed23  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:52:19] ==== END   GATE_CAL_2771  exit=1  621s   ====
+[13:52:29] memory 44% before starting P0_LONGPLAY_98ec (2 running)
+[13:52:29] ==== START P0_LONGPLAY_98ec  (probe @ 98ec5b0f66120b7dcb37acfc5c362be73051f6bf) ====
+[13:52:32] [res] cpu=8% mem=43% (13.9/31.4 GB) chrome_testing=5  START P0_LONGPLAY_98ec
+[13:52:39] [res] cpu=3% mem=45% (13.7/31.4 GB) chrome_testing=5  END GATE_98EC_tz3
+[13:52:48] 正在跑：GATE_98EC_tz3（已跑 9 分／上限 30 分）、P0_LONGPLAY_dc3d（已跑 1 分／上限 50 分）、P0_LONGPLAY_98ec（已跑 0 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
