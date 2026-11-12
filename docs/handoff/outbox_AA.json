@@ -7190,6 +7190,106 @@
    "noDirectIntegrate": false,
    "next": "等 BB 第二意見，定稿再交 LAWWW",
    "remaining": "BB 還沒回"
+  },
+  {
+   "task": "YEJIAN-SHAOLA-BUY-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "07d3f708f",
+   "files": [
+    "docs/story_planning/AA_853_yejian_shaola_buy.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 接進遊戲"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "07d3f708f",
+   "files": [
+    "docs/story_planning/AA_856_可昕在法律系_認識與大一上.md",
+    "docs/story_planning/AA_858_法律系開局回顧字卡.md",
+    "docs/story_planning/AA_859_宿營打牌_學測那段.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 子代理實作中，合併後回 SHA"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "07d3f708f",
+   "files": [
+    "docs/story_planning/AA_860_date_lines_no_outside.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 重匯約會稿"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "07d3f708f",
+   "files": [
+    "docs/story_planning/AA_857_kx_no_ledger_inventory.json"
+   ],
+   "state": "WIP",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "AA 逐格重寫可昕約會稿 41 個互動點",
+   "remaining": "只有盤點，還沒改字"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "644d27d59",
+   "files": [
+    "docs/story_planning/AA_861_kx_ladder_Y1S1_new.json",
+    "docs/story_planning/AA_862_kx_ladder_Y1S2_new.json",
+    "docs/story_planning/AA_863_kx_ladder_Y2S1_new.json",
+    "docs/story_planning/AA_864_kx_ladder_Y2S2_new.json",
+    "docs/story_planning/AA_865_kx_ladder_Y3S1_new.json",
+    "docs/story_planning/AA_866_kx_ladder_Y3S2_new.json",
+    "docs/story_planning/ladder/ladder_bb.json",
+    "docs/story_planning/ladder/ladder_bb_y1s2.json",
+    "docs/story_planning/ladder/ladder_bb_y2s1.json",
+    "docs/story_planning/ladder/ladder_bb_y2s2.json",
+    "docs/story_planning/ladder/ladder_bb_y3s1.json",
+    "docs/story_planning/ladder/ladder_bb_y3s2.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 六個學期一起重匯；工具加 greetIf；拿掉舊記憶 tag"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "89477d8c5",
+   "files": [
+    "docs/story_planning/AA_867_kx_ladder_Y4S1_new.json",
+    "docs/story_planning/AA_868_kx_ladder_Y4S2_new.json"
+   ],
+   "state": "WIP",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "BB 第二意見 → 定稿 → 換進 ladder_bb_y4s1／y4s2 源稿、刪 AA_781 覆蓋 → 通知 LAWWW",
+   "remaining": "BB 還沒回；源稿還沒換"
   }
  ],
  "items": [
