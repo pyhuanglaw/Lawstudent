@@ -7,6 +7,11 @@
 - 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜**沒有交班**（用量到上限）｜最後 push `ab925827d`（11-11 20:36，ECON-NAV-TRAPS-1111 WIP 保存）。以遠端最後 push 為準；沒 push 的當作沒有（A 的 `$SP/wt_ch`、`$SP/wt_bb` 工作目錄、沒跑完的全部 Node 測試結果）。
 - 照 D75：不傳訊息給帳號 A 的工作階段。
 - **手上的工作（A 沒做完的）**：ECON-NAV-TRAPS-1111（LAWWW 11-11 20:24 派，P1）——patch 和新測試已在 `wip/econ_nav_traps_1111/`；剩：全部 Node 測試（先 `git fetch origin claude/story-planning`）、雲端瀏覽器巡一輪、README 補結果、交 LAWWW。
+- **使用者 11-12 03:2x 貼了帳號 A 最後的對話截圖（A 沒 push 的進度；我這裡沒有檔案可以核對，交件前自己重跑）**：
+  - 全部 Node 測試跑完：1309 支，只有 bookstore_exit 老警告（先 fetch 了企劃線）。
+  - 雲端瀏覽器巡檢做到一半：前 6 站（校園 E07、E12、普通、博思、共同、宿舍房間）站得住、沒有 JS 錯誤；宿舍走廊、Café、總圖、社科院（含二樓沙發）、公館、溫州街沒跑完。
+  - 下一項：ECON 交件後做寒暑假（VAC）場景的擋玩巡檢；Node 初掃標出花序二樓、好拍、單車行、幾間店的座位。ECON、VAC 各一個 patch，都寫在各區自己的 build 裡，不動引擎。
+  - SPAWN-EXIT 28 筆（出生點落在出口範圍）先不改，記 P3，下一版發布後再處理。
 - 其他照下面 A 的交接：等 BB／CC 判的那一批、LAWWW 給座位最後的值（#47）、CC 的南洋戲院截圖。
 - 這個工作階段的暫存區 11-12 接班時滿了（fetch 一週的 commit 寫不下）：清掉 11-05 那一班的暫存 worktree（xw、base56、devtip、gn、gnbase、p3chk、p4base）和窗外照片的 PNG 原圖，內容都已交件。
 
