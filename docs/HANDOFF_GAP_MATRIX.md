@@ -8,6 +8,20 @@
 
 ### LAWWW-C 值班中的進度快照｜2026-11-12 08:1x UTC（還沒交班；這一節平時更新，交班只補差異）
 
+**上一班（帳號 A／B）交代的 11 項，11-12 10:5x 逐條查（userwork）**
+| 交代的事 | 查到的現況 | 下一步 |
+|---|---|---|
+| 晚上約會完直接睡（DATE-CHOICES-1110、X280） | 沒改（classes3d.js S.eveSleep） | 等使用者在的時候用選擇題問 |
+| AA 已交待匯入：DLG-NO-ECON-REPEAT（256bcdc42 重跑 import_arcs） | 已匯到更新的 abb9609116（224c231f3c，STALE-SOURCES-1112） | 完成 |
+| AA_342 svc 兩句拿掉（4470f4908，twfill3d.js S.SVC） | 已拿掉（S.SVC=[]） | 完成 |
+| GIFT-HOLIDAY-1110 三批（AA_732／733／734）＋物品欄 X291、她送你的禮物、山嵐文具區學姊四場 | 三份已重匯到 1ce262f616／88cfb1c74f（224c231f3c）；任務已整合待測試 | BB 判（吧檯那段探針） |
+| MOVIE-REAL-1110（片單 AA_730＋AA_708 一句；進 1 廳坐下關燈再演） | 已驗收（BB 11-10 PC 實玩 PASS） | 完成 |
+| BB-B 海報第一批 10 張（elegant-brown-fcos7n e4eea1c780） | 還沒查有沒有進開發分支 | 排進 LAWWW 佇列（X314） |
+| BUG-INV-GOASK-PERSIST-1110（讀檔後約好的見面 missed） | 已修（invites3d.js markAsked），已整合待測試 | BB 判 |
+| LAWWW2 手上：CAMPUS-FLOOR-STRIP-1110、AVENUE-FAR-SIGNS-1110、YIZHAN-FLOAT-CUPS-1110、LAWCLUB-BOOTH-MOVE-1110、SIS-STATIONERY-1110 | LAWWW2-C 今天先做使用者 11-12 點名的店外＝店內（公館十二間、新生南路、汀州路） | 公館收尾後問 LAWWW2 這五項各做到哪 |
+| 其餘照總表（v0～v5、D99） | — | 照 queue |
+
+
 - **線上**還是 v9.10.25（main dc3d33941）。今天的東西都在開發分支 `claude/adoring-meitner-mqzst8`（08:1x 頂端 `1ec4613b04`），**沒有發布**。
 - **A 本班成果（都在開發分支、Node 相關測試過、瀏覽器大多還沒驗）**：規則 D152～D157（等的時候要做事的 hook、地點關卡、店面標準 §12、電腦不能空轉、規則包同步）；地點關卡 `tests/place_gate_unit.js`（已知未過 128→61）＋現況表＋BB 第三層判定檔 `docs/handoff/place_gate_bb.json`；60 fps 上限；店員／客人／118 巷同學；夜市 13 攤＋118 巷兩間外帶顧攤的人；打烊後店員不站店裡；14 間颱風假不開；6 間進快速前往；三間飲料可送人；四間店營業時間（AA_831 第二版）；打工五間（AA_828／829，三輪）；可昕、以安改句（AA_819～834）；LAWWW2 的店外＝室內模型（新生南路 5＋南洋＋汀州路 7）、水源市場巷子、林家乾麵街景。
 - **B 全部未完成（任務 ID）**：BUG-RUN-STUTTER-1112（P0，原因假設＝300 Hz 螢幕＋沒上限；使用者：筆電 60 Hz 不頓、300 Hz 一直接著；CC ST5 r2 還沒驗到）；SHOP-REAL-INSIDE-1112（第一次走近 233 ms＝BB FAIL，LAWWW2 改預載；汀州路七間等 CC／BB；東南大聯商品換模型；溫州街、公館、禮貌生財、溫特寶邸還沒接）；SHOP-STANDARD-BACKFILL-1112（剩 8：美國兩間買不到東西＋字、禮貌生財三點字＝AA；阿忠鮮果顧攤＝LAWWW2 站位；燒臘打烊窗變暗＝LAWWW2）；L118-CLOSED-LOOKS-OPEN-1112（外觀＝LAWWW2）；SHOP-INTERIOR-VIEW-1112、SHOP-WINDOW-3D-1112（LAWWW2）；SHOP-JOBS-1112（第四輪子代理在做：宋知寧山嵐線＋AA_828 第 6、7 節）；DLG-FULL-REVIEW-1110（以安後續批次＝AA 寫）；BAR-GROUP-3D-1112；DATE-CHOICES-1110；MOVIE-REMIND-LATE-1110、US-FINAL-PROF-PASS-1110（稽核改回待測試）；BRANCH-AUDIT（這台磁碟不夠，見 FACTS）。
