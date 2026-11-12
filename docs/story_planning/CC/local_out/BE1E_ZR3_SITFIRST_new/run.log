@@ -1,0 +1,97 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_act_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BE1E_ZR3_SITFIRST_new\out
+# ACT 2026-11-12 12:16:47 SHA=be1e5d725634580ee25313a7bbd14f941687bfde TAG=new PARTS=ZR3_SMOKE PICK3=0 PS_PICK=0
+  稿：AA_708 d30416e6b:docs/story_planning/AA_708_activity_scenes.json（讀到）、AA_707 1b8e247ec:docs/story_planning/AA_707_study_scenes.json（讀到）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  版本字樣：版本 v9.10.25
+== ZR3_SMOKE
+  [前置／捷徑] [heroine_02]【前置／捷徑】G.visited.xs_nanyang＝true（去過南洋戲院，約看電影的清單才列；2025-10-18）
+  選日子／地點／時間（只讀的查詢）：試過 [["2025-10-18", "地點（略過的）", []]]
+PASS [ZR3_SMOKE] 找得到能約的日子、地點、她會答應的時間
+  [前置／捷徑] [ZR3_SMOKE] 讀檔（applySave、關條件事件／手機自動打開）：宿舍、2025-10-18（第 32 天，週六）10.00、晴天、錢 3000；heroine_02 的聯絡方式；關係 {"fam": 66, "trust": 50, "comf": 45, "npcRom": 14} → 第 4 階（SOCIAL RELATIONSHIP）；交往中（dating_heroine_02）；canConfess {"ok": false, "why": "stage", "stage": 4}；升階門檻台詞記成說過 1 則；BEATS.last＝今天
+  [前置／捷徑] [ZR3_SMOKE] 次數：ACTN.movie[heroine_02]＝n 2、k 3；旗標 {"ZR_MOVIE_TWICE": true}；記憶 +[] −[]；拿掉 dating_kexin
+  [  38.8s] [ZR3_SMOKE] 地點 xs_nanyang（去南洋戲院看電影）、時間 今天 14:00、片 {"film": "m2509a", "ok": true, "key": "3", "title": "第十三號月台", "withMid": false, "withKind": null}；alt 條件 {"datingOrReady": true, "anShopPage": false}；AN_SHOP_PAGE False
+PASS [ZR3_SMOKE] 前置：DATE.stageNum＝4  {"fam": 66, "trust": 50, "aff": 0, "resp": 0, "comf": 45, "rom": 0, "npcRom": 14, "seen": 0, "talked": 0}
+PASS [ZR3_SMOKE] 前置：datingOrReady true（交往中）  {"datingOrReady": true, "anShopPage": false}
+  [  38.8s] [ZR3_SMOKE] 版本偵測：{"actDefer": true, "doneDefer": true}（actDefer＝f8b6d1e82 起：電影（…）選項在廳裡、被取代的第 N 場下次再演）
+  [  38.8s] [ZR3_SMOKE] 頁面上的遊戲資料 src：docs/story_planning/AA_708_activity_scenes.json@d30416e6b；稿 d30416e6b:docs/story_planning/AA_708_activity_scenes.json
+PASS [ZR3_SMOKE] 遊戲資料（頁面上的這一場）＝稿逐字（seat／mid／選項／回話／fx／pack／bye／alt）  []
+  【觀察】ZR3_SMOKE 稿規則：["第 3 場 love 2：（把手翻過來）", "base 版的選項回話有肢體字（BB 07:56：玩家先動，可以）：（把手翻過來） → ['（她的手停了一下，放了上來。很輕。）']"]
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜去南洋戲院看電影｜散步…｜運動…｜出去玩…｜算了 → 去南洋戲院看電影（類別／地點）
+    [選項] 今天 14:00｜今天 19:30｜明天 09:50｜明天 14:00｜明天 19:30｜其他日子…｜算了 → 今天 14:00（時間）
+PASS [ZR3_SMOKE] 約成了（手機「朋友」→「約」）：xs_nanyang 今天 14:00  {"id": "iv1", "h": 14, "film": "m2509a", "cat": null}
+  [  50.0s] [ZR3_SMOKE] 約好的片：{"film": "m2509a", "fit": true, "k": 3, "withMid": false, "scene": ["緊急照明的紅燈下，整節車廂的人一起低頭看自己的票。"]}
+PASS [ZR3_SMOKE] 約好的片合第 3 場（MOVIES.fitScene 不是一般句）、沒有 with.mid  {"film": "m2509a", "fit": true, "k": 3, "withMid": false, "scene": ["緊急照明的紅燈下，整節車廂的人一起低頭看自己的票。"]}
+  [前置／捷徑] [ZR3_SMOKE]【前置／捷徑】時間撥到約好的前 60 分鐘（13.00）、GAME.enter 直接進南洋戲院大廳（她 iv.h−0.25 才出現；PC 每秒約 0.45 遊戲分鐘，留 45 分鐘走到長椅）
+PASS [ZR3_SMOKE] SITFIRST：大廳有「坐下等開演」長椅  [{"x": 3.75, "z": -1.4, "sx": 3.75, "sz": -1.4, "d": 7.590948557327996, "occ": true}, {"x": 3.75, "z": -2.4, "sx": 3.75, "sz": -2.4, "d": 8.474815632212891, "occ": false}, {"x": 3.75, "z": -3.8, "sx": 3.75, "sz": -3.8, "d": 9.75, "occ": true}, {"x": 3.75, "z": -4.8, "sx": 3.75, "sz": -4.8, "d": 10.680004681646913, "occ": false}]
+    [長椅] [{"x": 3.75, "z": -1.4, "sx": 3.75, "sz": -1.4, "d": 7.590948557327996, "occ": true}, {"x": 3.75, "z": -2.4, "sx": 3.75, "sz": -2.4, "d": 8.474815632212891, "occ": false}, {"x": 3.75, "z": -3.8, "sx": 3.75, "sz": -3.8, "d": 9.75, "occ": true}, {"x": 3.75, "z": -4.8, "sx": 3.75, "sz": -4.8, "d": 10.680004681646913, "occ": false}]
+  [ 102.9s] 走不到「走到長椅 (3.75, -2.40)」：最後位置 (2.81,-2.21)，目標 (3.75,-2.4)；點地面 2 次、轉鏡頭 0 次、搖桿 0 次
+  [ 102.9s]   這段時間：畫面 497 格／8 秒、遊戲時間 13.19→13.25、paused=False、開著的面板 []
+    [按互動鍵] 坐下等開演（13.25，她還沒出現；之前跳過 [[3.75, -1.4, "有人坐"]]）
+    [坐下後] {"seat": true, "pose": "sit"}；她 null
+PASS [ZR3_SMOKE] SITFIRST：她出現以前就坐下了（按的時候 13.25＜13.75、她還不在；按完人在座位上）  {"h": 13.25, "her": null, "btn": "坐下等開演", "sat": {"seat": true, "pose": "sit"}, "tried": [[3.75, -1.4, "有人坐"]]}
+    [區域] xs_nanyang（13.25）
+    [選項（遊戲內部選單）] 坐一下，看看四周時間 +20 分鐘｜起身 → 坐一下，看看四周時間 +20 分鐘
+    [等待 1] 狀態 {"zone": "xs_nanyang", "hour": 13.769, "busy": false, "dlg": false, "nb": 0, "phone": false, "interact": "坐下等開演"}；邀約 {"id": "iv1", "st": "accepted", "ph": null, "place": "xs_nanyang", "zone": "xs_nanyang", "h": 14, "film": "m2509a", "cat": null, "mid": false, "waitSeat": null, "gz": "xs_nanyang"}；{"me": {"x": 3, "z": -2.4, "busy": false, "pose": "idle", "seat": false, "frozen": false}, "cam": "follow", "depth": 0, "by": [], "dlg": false, "ev": null, "adv": false, "paused": false, "fade": false, "her": null, "dark": false, "zone": "xs_nanyang", "hour": 13.77, "seatAt": null, "layers": [{"id": "fade", "cls": "", "op": "0", "z": "9", "disp": "block", "vis": "visible", "txt": ""}, {"id": "dlg", "cls": "hide", "op": "1", "z": "auto", "disp": "none", "vis": "visible", "txt": "約好 今天 14:00，南洋戲院。▼ 點一下繼續"}, {"id": "choices", "cls": "hide", "op": "1", "z": "auto", "disp": "none", "vis": "visible", "txt": ""}], "top": "c", "say": null, "ivs": [{"id": "iv1", "st": "accepted", "ph": null, "zone": "xs_nanyang", "waitSeat": null, "film": "m2509a"}], "cons": []}
+    [區域] xs_nanyang_hall（13.77）
+    [選項] （手不動）｜（把手翻過來） → （手不動）
+    [區域] xs_nanyang（15.77）
+    [選項] 我一開始就懷疑對講機那個聲音。｜老工人出來的時候，我以為結束了。｜我沒有在猜。我只想趕快出隧道。 → 我一開始就懷疑對講機那個聲音。（不是活動那一組：選第一個能選的）
+    [選項] 「國中就開始了？」｜「為什麼都一個人？」｜（聽她說完） → 「國中就開始了？」（不是活動那一組：選第一個能選的）
+    [等待 2] 狀態 {"zone": "xs_nanyang", "hour": 18, "busy": true, "dlg": false, "nb": 0, "phone": false, "interact": ""}；邀約 {"id": "iv1", "st": "done", "ph": null, "place": "xs_nanyang", "zone": "xs_nanyang", "h": 14, "film": "m2509a", "cat": null, "mid": false, "waitSeat": null, "gz": "xs_nanyang"}；{"me": {"x": 2.2, "z": -5.2, "busy": true, "pose": "idle", "seat": false, "frozen": false}, "cam": "follow", "depth": 1, "by": ["S.skipTo (http://127.0.0.1:8800/src/classes3d.js?v=9.10.25:1070:8)"], "dlg": false, "ev": null, "adv": false, "paused": false, "fade": true, "her": {"x": 2.95, "z": -5.2, "seat": false, "pose": "wave", "vis": true}, "dark": false, "zone": "xs_nanyang", "hour": 18, "seatAt": null, "layers": [{"id": "fade", "cls": "on", "op": "1", "z": "9", "disp": "block", "vis": "visible", "txt": ""}, {"id": "dlg", "cls": "hide", "op": "1", "z": "auto", "disp": "none", "vis": "visible", "txt": "林芷若……字幕跑完了，我們還沒走。▼ 點一下繼續"}, {"id": "choices", "cls": "hide", "op": "1", "z": "auto", "disp": "none", "vis": "visible", "txt": ""}, {"id": "adv", "cls": "", "op": "0", "z": "5", "disp": "block", "vis": "visible", "txt": ""}], "top": "fade", "say": {"t": "……字幕跑完了，我們還沒走。", "who": null, "at": 15.77}, "ivs": [{"id": "iv1", "st": "done", "ph": null, "zone": "xs_nanyang", "waitSeat": null, "film": "m2509a"}], "cons": []}
+  [ 169.7s] [ZR3_SMOKE] 走的路：坐下路徑（玩家先按「坐下等開演」）（按過的互動鍵 ["坐下等開演"]）
+PASS [ZR3_SMOKE] 赴約演完（邀約 done）  {"zone": "xs_nanyang", "hour": 18.02}
+== ZR3_SMOKE 逐字（說話人｜全文）
+  [字幕] （約好的是 14:00。還早。你在門口的長椅坐了一下。）
+  [說] 林芷若｜今天這部，我等很久了。
+  [說] （旁白）｜（她站在海報前面看了很久，看的是導演的名字。）
+  [說] （旁白）｜（燈暗下來，《第十三號月台》開始了。）
+  [說] （旁白）｜緊急照明的紅燈下，整節車廂的人一起低頭看自己的票。
+  [說] （旁白）｜（演到一半，她的手放在扶手上。你的手也在那裡。她沒有移開。）
+  [選項] （手不動）｜（把手翻過來） → （手不動）
+  [adjust] heroine_02 {}（{}）
+  [adjust] heroine_02 {"npcRom": 1}（{"npcRom": [14, 15]}）
+  [fx] heroine_02 fx={"love": 1} cap="movie:m2509a" → 加了 {"npcRom": 1}（{"npcRom": [14, 15]}）
+  [說] （旁白）｜（她的手也沒有動。兩隻手就這樣放到片尾。）
+  [字幕] 南洋戲院・林芷若・（2 小時）
+  [adjust] heroine_02 {"fam": 3, "trust": 1, "comf": 2}（{"comf": [45, 47], "fam": [66, 69], "trust": [50, 51]}）
+  [adjust] heroine_02 {"npcRom": 1, "rom": 1, "trust": 1}（{"npcRom": [15, 16], "rom": [0, 1], "trust": [51, 52]}）
+  [說] 林芷若｜你什麼時候猜到的？
+  [選項] 我一開始就懷疑對講機那個聲音。｜老工人出來的時候，我以為結束了。｜我沒有在猜。我只想趕快出隧道。 → 我一開始就懷疑對講機那個聲音。
+  [說] 林芷若｜對！那裡！我差點叫出來。
+  [adjust] heroine_02 {"npcRom": 1}（{"npcRom": [16, 17]}）
+  [fx] heroine_02 fx={"love": 1} cap="movie:m2509a" → 加了 {"npcRom": 1}（{"npcRom": [16, 17]}）
+  [說] 林芷若｜下個月光典有影展。都是很老的片，修復過的。
+  [說] 林芷若｜我每年都去。一個人。
+  [說] 林芷若｜我有一本票根本，一場貼一張。
+  [說] 林芷若｜國中到現在，每一頁都只有一張。
+  [選項] 「國中就開始了？」｜「為什麼都一個人？」｜（聽她說完） → 「國中就開始了？」
+  [說] 林芷若｜對。我很早就是這種人。不用可憐我，我很快樂。
+  [說] 林芷若｜……字幕跑完了，我們還沒走。
+  [字幕] （下午的時間用完了）你在南洋戲院待到 18:00。
+PASS [ZR3_SMOKE] 畫面上沒有沒換掉的 {name}、undefined  []
+PASS [ZR3_SMOKE] 次數 +1、下一場 k=4（{"n": 2, "k": 3, "last": null, "rot": -1} → {"n": 3, "k": 4, "last": 32, "rot": -1}）
+PASS [ZR3_SMOKE] 第 3 場（alt）逐字照稿、照順序（4 句；她／旁白分對）  {"缺": [], "說話人": []}
+PASS [ZR3_SMOKE] 兩個選項真的跳出來、逐字＝稿：（手不動）｜（把手翻過來）  [["（手不動）", "（把手翻過來）"], ["我一開始就懷疑對講機那個聲音。", "老工人出來的時候，我以為結束了。", "我沒有在猜。我只想趕快出隧道。"], ["「國中就開始了？」", "「為什麼都一個人？」", "（聽她說完）"]]
+PASS [ZR3_SMOKE] 選了第 1 個「（手不動）」  0
+PASS [ZR3_SMOKE] 選了以後的回話逐字（["（她的手也沒有動。兩隻手就這樣放到片尾。）"]）  []
+PASS [ZR3_SMOKE] 這個選項不扣分（fx {"love": 1}、rel null 沒有負的）
+PASS [ZR3_SMOKE] fx 有加：SOCIAL.applyFx({"love": 1}) 回傳 {"npcRom": 1}、前後 {"npcRom": [14, 15]}（稿 {"npcRom": 1}）  {"cap": "movie:m2509a"}
+PASS [ZR3_SMOKE] alt 句「沒有移開」出現
+PASS [ZR3_SMOKE] alt：base 句「中間隔著一點點」沒有出現
+== ZR3_SMOKE 冒煙：選項、回話、聊電影出現的位置
+PASS [ZR3_SMOKE] 第 N 場的選項有出現：（手不動）｜（把手翻過來）  [["（手不動）", "（把手翻過來）"], ["我一開始就懷疑對講機那個聲音。", "老工人出來的時候，我以為結束了。", "我沒有在猜。我只想趕快出隧道。"], ["「國中就開始了？」", "「為什麼都一個人？」", "（聽她說完）"]]
+  選項出現當下：zone xs_nanyang_hall、放映中 True；前一句「（演到一半，她的手放在扶手上。你的手也在那裡。她沒有移開。）」（xs_nanyang_hall）；場燈紀錄 [[false, "xs_nanyang_hall"], [true, "xs_nanyang_hall"], [true, "xs_nanyang_hall"]]
+PASS [ZR3_SMOKE] 選項在廳裡（zone xs_nanyang_hall）、放映中（場燈關著）  {"zone": "xs_nanyang_hall", "dark": true, "修改前": "7266e7a29 選項在走出 1 廳以後（zone xs_nanyang、場燈開）＝FAIL"}
+PASS [ZR3_SMOKE] 選項接在小動作後面（前一句是這一場 mid 的最後一句旁白）  {"前一句": "（演到一半，她的手放在扶手上。你的手也在那裡。她沒有移開。）", "小動作": ["（演到一半，她的手放在扶手上。你的手也在那裡。她沒有移開。）"]}
+  回話出現當下：[["（她的手也沒有動。兩隻手就這樣放到片尾。）", "xs_nanyang_hall", true]]
+PASS [ZR3_SMOKE] 回話在廳裡、放映中  [["（她的手也沒有動。兩隻手就這樣放到片尾。）", "xs_nanyang_hall", true]]
+  聊電影的選項（MOVIES.talkFor）["老工人出來的時候，我以為結束了。", "我一開始就懷疑對講機那個聲音。", "我沒有在猜。我只想趕快出隧道。"]；出現當下 [[["我一開始就懷疑對講機那個聲音。", "老工人出來的時候，我以為結束了。", "我沒有在猜。我只想趕快出隧道。"], "xs_nanyang", false]]
+PASS [ZR3_SMOKE] 聊電影那段在散場以後（不在廳裡、場燈開）  [[["我一開始就懷疑對講機那個聲音。", "老工人出來的時候，我以為結束了。", "我沒有在猜。我只想趕快出隧道。"], "xs_nanyang", false]]
+  [關係] heroine_02 見面前 {"fam": 66, "trust": 50, "aff": 0, "resp": 0, "comf": 45, "rom": 0, "npcRom": 14, "seen": 0, "talked": 0}
+  [關係] heroine_02 見面後 {"fam": 69, "trust": 52, "aff": 0, "resp": 0, "comf": 47, "rom": 1, "npcRom": 17, "seen": 3, "talked": 0}
+  [關係] diff {"comf": [45, 47], "fam": [66, 69], "npcRom": [14, 17], "rom": [0, 1], "seen": [0, 3], "trust": [50, 52]}
+PASS [ZR3_SMOKE] 見面前後 fam／trust／comf／npcRom／rom 都沒有變少  {}
+PASS [ZR3_SMOKE] 沒有 JS 例外（pageerror）  []
+  [ZR3_SMOKE] 用了 143 秒
+ALL PASS
