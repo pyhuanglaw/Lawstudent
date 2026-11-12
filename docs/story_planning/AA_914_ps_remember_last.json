@@ -2,9 +2,10 @@
  "_meta": {
   "doc": "AA_914 沛珊第二批（DLG-FULL-REVIEW-1110）：約會「再去一次」那一格的「上次…」開頭",
   "by": "AA-C 2026-11-12 21:0x",
-  "status": "待 BB 第二意見（D153）",
+  "status": "待 BB 第二意見（第二版）",
   "what": "83 句都用「上次」開頭（跟可昕 AA_822 同一個問題）。照 AA_822／BB_377 的做法：「上次那／的／買的／拍的…」東西就在眼前或講的是那樣東西，拿掉「上次」直接從東西講起；「上次問／上次說／上次我…今天…」對比和接續的照留（約 60 句）。拿掉以後「那」開頭太多的，改用「那包／那碗／那個」分開。",
-  "count": 22
+  "count": 53,
+  "bb": "BB_438 末節三點都改：①「回家講了、我爸也去做」留糖醋魚、蔥餅（加稀飯那句是另一種，留），魚湯、竹筒飯、砧板、芋頭換成她自己的反應 ②書籤、那本書、拿去問旁聽老師、照片留著（閉眼／鬼臉）、桌布、傳給爸媽的夕陽這幾組重複拆開 ③「上次」開頭 80 → 27（留的都是上次／今天對比或接續：耳機跟不上、纜車沒停、腳軟、腿痠、霧、補眠、教室的椅子、找學校、宵夜兌現、開窗聞海、飯糰、比較瘦、水衝下來、湖底、腳印、書放回去、飛起來、巷子、玉米、看你沒看湖、四顆變六顆、走到上面、雲下面）。另 #12 原本「還沒去看，我在等你有空」是懸著的承諾，一起換。"
  },
  "rows": [
   {
@@ -57,11 +58,67 @@
    "new": "那部我後來又想了一次，想法沒變，可是沒那麼氣了。"
   },
   {
+   "src": "date_system/lines/D04.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次這家我跟我媽講了，她說她年輕的時候也來排過。",
+   "new": "這家我跟我媽講了，她說她年輕的時候也來排過。"
+  },
+  {
    "src": "date_system/lines/D05.json",
    "who": "classmate_peishan",
    "where": "remember",
    "old": "上次買的那本我看了一半，剩下那一半比較難。",
-   "new": "那本我看了一半，剩下那一半比較難。"
+   "new": "那本書很重，我是在捷運上看完一半的，手好痠。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次拍的那部我還沒去看，我在等你有空。",
+   "new": "這面牆的海報換了。我還是比較喜歡之前那張。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次我們的倒影剛好在框裡，你記得嗎？",
+   "new": "倒影剛好在框裡的那張，你記得嗎？"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次我問的那個，後來我拿去問旁聽那堂的老師，他也想了很久。",
+   "new": "我問的那個問題，我自己想到一半就卡住了。你那天的答案比較好。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問你他每天在想什麼，我後來想了好多天，沒有想出來。",
+   "new": "他每天在想什麼，我後來想了好多天，沒有想出來。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次那個想吃稀飯的人，我回家講給我爸媽聽，我爸很久沒講話。",
+   "new": "那個想吃稀飯的人，我回家講給我爸媽聽，我爸很久沒講話。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次說企鵝會不會想念沒看過的地方，我後來想了好幾天，還是覺得會。",
+   "new": "企鵝會不會想念沒看過的地方，我後來想了好幾天，還是覺得會。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問你牠們看我們長什麼樣子，你的答案我記得。",
+   "new": "牠們看我們長什麼樣子，你的答案我記得。"
   },
   {
    "src": "date_system/lines/D09.json",
@@ -71,6 +128,27 @@
    "new": "那包茶葉我帶回去了，我爸果然放在櫃子最上面。我偷開的。"
   },
   {
+   "src": "date_system/lines/D11.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問他們泡完都在幹嘛。我後來決定他們是回家睡覺，這樣最合理。",
+   "new": "泡完溫泉的人都在幹嘛，我後來決定他們是回家睡覺，這樣最合理。"
+  },
+  {
+   "src": "date_system/lines/D12.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次拍給我爸媽的夕陽，我媽設成手機桌布了，還問我怎麼設。",
+   "new": "拍給我爸媽的夕陽，我媽設成手機桌布了，還問我怎麼設。"
+  },
+  {
+   "src": "date_system/lines/D13.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次那一邊，好像真的有人揮手。",
+   "new": "那一邊，好像真的有人揮手。"
+  },
+  {
    "src": "date_system/lines/D13.json",
    "who": "classmate_peishan",
    "where": "remember",
@@ -78,11 +156,95 @@
    "new": "影子那張，我存起來了。"
   },
   {
+   "src": "date_system/lines/D14.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問先有名字還是先有情人，我還沒想出來。",
+   "new": "先有名字還是先有情人，我還沒想出來。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次說不會游泳。我去報名游泳課了。還沒去上。",
+   "new": "我去報名游泳課了。還沒去上，可是錢繳了，跑不掉。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次拍的夕陽我傳給我爸媽，我爸回我一張店裡的晚餐。",
+   "new": "夕陽又要下去了。這次我不拍，用看的。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次說台中在那邊。我今天又指了一次，還是不確定，可是我很堅持。",
+   "new": "台中在那邊。我又指了一次，還是不確定，可是我很堅持。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問脖子斷了還算不算，我拿去問旁聽那堂的老師，他說這個問題已經被問兩千多年了。",
+   "new": "脖子斷了還算不算，我拿去問旁聽那堂的老師，他說這個問題已經被問兩千多年了。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次這家我回去跟我爸講了。他說他要研究，然後真的買了一袋芋頭。",
+   "new": "芋頭冰今天也有。我一口氣吃到頭痛。"
+  },
+  {
    "src": "date_system/lines/D18.json",
    "who": "classmate_peishan",
    "where": "remember",
    "old": "上次的書籤我夾在書裡，夾到哪一本我忘了。",
-   "new": "書籤我夾在書裡，夾到哪一本我忘了。"
+   "new": "這家的書籤好多。我只看不買。……好啦，再一張。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次摸完金磚，我那個禮拜運氣真的不錯。不知道是不是它。",
+   "new": "摸完金磚那個禮拜，我運氣真的不錯。不知道是不是它。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次說每天看到就不稀奇。我後來想到我們家的店，我也是離開台中才會想它。",
+   "new": "每天看到就不稀奇。我是離開台中以後，才開始想我們家的店。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問它們會不會混在一起。今天看，還是分開的。",
+   "new": "它們會不會混在一起？今天看，還是分開的。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次的竹筒飯我回去講給我爸聽，他真的去查怎麼做。我們家又不賣這個。",
+   "new": "竹筒飯的竹子好香。我把竹筒帶走了，不知道要拿來幹嘛。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問溪為什麼是綠的。今天看，它還是不打算解釋。",
+   "new": "溪為什麼是綠的，今天看，它還是不打算解釋。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問水掉下來會不會痛。我後來想，會痛的應該是石頭。",
+   "new": "水掉下來會不會痛？我後來想，會痛的應該是石頭。"
   },
   {
    "src": "date_system/lines/D21.json",
@@ -96,7 +258,7 @@
    "who": "classmate_peishan",
    "where": "remember",
    "old": "上次在這裡拍的那張我留著，雖然我眼睛是閉的。",
-   "new": "在這裡拍的那張我留著，雖然我眼睛是閉的。"
+   "new": "這座橋拍起來比實際長。我不知道為什麼。"
   },
   {
    "src": "date_system/lines/D22.json",
@@ -110,7 +272,21 @@
    "who": "classmate_peishan",
    "where": "remember",
    "old": "上次的魚湯我回去講了，我爸說他也會。他會的不是這種。",
-   "new": "那碗魚湯我回去講了，我爸說他也會。他會的不是這種。"
+   "new": "那碗魚湯我喝到最後一口。碗底還有一塊魚，我留給你了。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問船上的人睡哪裡。今天有一艘的門開著，我偷看到了，真的有床。",
+   "new": "船上的人睡哪裡？今天有一艘的門開著，我偷看到了，真的有床。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次那張，夕陽很好看。我還可以。",
+   "new": "那張夕陽很好看。我還可以。"
   },
   {
    "src": "date_system/lines/D24.json",
@@ -118,6 +294,27 @@
    "where": "remember",
    "old": "上次的蔥餅我回家講了，我爸真的去試做，做了一個禮拜。",
    "new": "那個蔥餅我回家講了，我爸真的去試做，做了一個禮拜。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問這裡面有沒有魚，我今天有認真找，真的沒有。",
+   "new": "這裡面真的沒有魚。我今天有認真找。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問到的那首歌，我現在會唱了。只會副歌。",
+   "new": "那首歌我現在會唱了。只會副歌。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次說想學衝浪，我回去跟室友講，她笑了五分鐘。",
+   "new": "想學衝浪這件事，我跟室友講了，她笑了五分鐘。"
   },
   {
    "src": "date_system/lines/D26.json",
@@ -130,15 +327,43 @@
    "src": "date_system/lines/D27.json",
    "who": "classmate_peishan",
    "where": "remember",
+   "old": "上次我一直在想住這裡的人做什麼工作。今天看到牌子了，原來上次就有，是我沒看。",
+   "new": "住這裡的人做什麼工作，牌子上有寫。原來一直都在，是我沒看。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "classmate_peishan",
+   "where": "remember",
    "old": "上次那塊砧板我媽每天都用，她說切什麼都變香了。我覺得是心理作用。",
-   "new": "那塊砧板我媽每天都用，她說切什麼都變香了。我覺得是心理作用。"
+   "new": "那塊砧板太好看了，我捨不得切東西。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問它幾歲。今天看它，還是比我想的老。",
+   "new": "它到底幾歲？今天看它，還是比我想的老。"
   },
   {
    "src": "date_system/lines/D28.json",
    "who": "classmate_peishan",
    "where": "remember",
    "old": "上次拍的那張我設成桌布了，室友問我是哪裡，我說你猜。",
-   "new": "拍的那張我設成桌布了，室友問我是哪裡，我說你猜。"
+   "new": "這個夕陽我拍了五張，每一張都一樣。我還是會再拍。"
+  },
+  {
+   "src": "date_system/lines/D29.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問以前放什麼的那間，今天換展了。",
+   "new": "以前放什麼的那間，今天換展了。"
+  },
+  {
+   "src": "date_system/lines/D31.json",
+   "who": "classmate_peishan",
+   "where": "remember",
+   "old": "上次問為什麼叫日月潭，船上的人有講。我現在忘了。",
+   "new": "為什麼叫日月潭，船上的人有講。我現在忘了。"
   },
   {
    "src": "date_system/lines/D32.json",
@@ -153,13 +378,6 @@
    "where": "remember",
    "old": "上次那部我後來推薦給三個人，沒有一個去看。",
    "new": "那部我後來推薦給三個人，沒有一個去看。"
-  },
-  {
-   "src": "date_system/lines/D20.json",
-   "who": "classmate_peishan",
-   "where": "remember",
-   "old": "上次的竹筒飯我回去講給我爸聽，他真的去查怎麼做。我們家又不賣這個。",
-   "new": "竹筒飯我回去講給我爸聽，他真的去查怎麼做。我們家又不賣這個。"
   }
  ]
 }
