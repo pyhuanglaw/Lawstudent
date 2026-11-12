@@ -47,6 +47,8 @@ ROUTE = os.environ.get('ROUTE', 'tw').strip() or 'tw'; START = os.environ.get('S
 STUCK_S = int(os.environ['STUCK_S']) if os.environ.get('STUCK_S') else None
 CANON = os.environ.get('CANON') == '1'; KX_PICK = os.environ.get('KX_PICK') or ''; SKIPREQ = os.environ.get('SKIPREQ') == '1'
 HALL_FROM = os.environ.get('HALL_FROM') or ''; EXPECT_HOW = os.environ.get('EXPECT_HOW') or ''
+PICK_HAS = [p for p in (os.environ.get('PICK_HAS') or '').split(',') if p]   # 選項含這些字就選（依序）
+CANON_SCAN = os.environ.get('CANON_SCAN') == '1'   # 11-13 LAWWW-C ⑧：結束時把整段台詞、選項、toast、字卡、手機訊息用 D158 的字表掃一次（印出來的是代號版）
 CUR_TRIP = [None]; KXLOG = {'shots': 0, 'ev_shots': 0, 'seen': set(), 'before_met': [], 'at_meet': None, 'skipped': [], 'hall': None}
 KX_STATE = r"""(()=>{ const G=GAME.G, F=G.flags||{}; let cls=null; try{ cls=CLS.dayItems(G).map(x=>[x.key,x.c&&x.c.name,x.c&&x.c.kind,CLS.status(G,x)]); }catch(e){}
   return {met:!!F.KX_MET, how:F.KX_MET_HOW||null, day:F.KX_MET_DAY??null, later:!!F.KX_MEET_LATER, contact:!!((G.contacts||{}).kexin||(Array.isArray(G.contacts)&&G.contacts.includes('kexin'))),
@@ -185,7 +187,10 @@ class Driver:
         if s['ch']:
             T = [o['t'] for o in s['ch']]; live = [i for i, o in enumerate(s['ch']) if not o['dim']] or list(range(len(T)))
             k = None; why = 'first'
-            for p in prefer:
+            for p in PICK_HAS:   # 11-13 LAWWW-C：迎新自我介紹三個選項（開頭都是「我叫」）用「含這幾個字」挑
+                k = next((i for i in live if p in T[i]), None)
+                if k is not None: why = 'pick_has'; break
+            for p in (prefer if k is None else ()):
                 k = next((i for i in live if T[i].startswith(p)), None)
                 if k is not None: why = 'prefer'; break
             if k is None:
@@ -520,6 +525,23 @@ async def main():
         summary['fails'] = run.fails
         with open(os.path.join(OUT, 'summary.json'), 'w', encoding='utf-8') as f: json.dump(summary, f, ensure_ascii=False, indent=1)
         tr.close()
+        if CANON_SCAN:
+            try:
+                sys.path.insert(0, os.path.join(REPO, 'tools', 'cc_local')); import canon_codes as CC
+                texts = []
+                for ln in open(os.path.join(OUT, 'transcript.jsonl'), encoding='utf-8'):
+                    try: d = json.loads(ln)
+                    except Exception: continue
+                    for r_ in d.get('rows') or []: texts.append((d.get('date'), r_.get('k'), str(r_.get('t') or '')))
+                    for pk in d.get('picks') or []: texts.append((d.get('date'), 'pick', ' ｜ '.join(pk.get('opts') or [])))
+                try:
+                    for m_ in await pg.evaluate("(GAME.G&&GAME.G.msgs||[]).map(m=>[m.day,m.th||m.who||'',String(m.text||'')])"): texts.append((m_[0], 'msg:' + m_[1], m_[2]))
+                except Exception as e: run.note('手機訊息讀不到 %r' % e)
+                hits = [(dd, k, CC.to_codes(t)[0][:120]) for dd, k, t in texts if CC.hits(t)]
+                summary['canon_scan'] = {'texts': len(texts), 'hits': hits[:80]}
+                run.note('D158 字表掃描：%d 段文字，含舊序章／外校字的 %d 段（印出來已換成代號）：%s' % (len(texts), len(hits), J(hits[:30])))
+                run.check('整段沒有舊序章、外校的字（台詞、選項、toast、字卡、手機訊息）', not hits, J(hits[:10]))
+            except Exception as e: run.check('D158 字表掃描跑得完', False, repr(e)[:300])
         try: await asyncio.wait_for(b.close(), 30)
         except Exception: pass
     print('SHA', os.environ.get('SHA', '?'), 'ROUTE', ROUTE, 'DAYS', DAYS, '前置／捷徑：', J(SHORTCUTS), flush=True)
