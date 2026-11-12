@@ -157,6 +157,14 @@ async def load_zone(pg, cdp, zone, day_key, h=14.0, x=None, z=None, yaw=None, lv
     return await st(pg)
 
 
+TAP_HIT = r"""((a)=>{ const E=GAME.E, cam=E.camera, r2=v=>+(+v).toFixed(2); const rc=new THREE.Raycaster(); rc.camera=cam; const W=E.w||innerWidth, H=E.h||innerHeight;
+  rc.setFromCamera(new THREE.Vector2(a.x/W*2-1, -(a.y/H)*2+1), cam); const mine=new Set(); E.player.obj.traverse(o=>mine.add(o));
+  const hs=rc.intersectObjects(E.scene.children,true).filter(h=>!mine.has(h.object)&&h.object.visible!==false&&h.object.isMesh).slice(0,4)
+    .map(h=>({name:h.object.name||(h.object.parent&&h.object.parent.name)||'?', p:[r2(h.point.x),r2(h.point.y),r2(h.point.z)], d:r2(h.distance)}));
+  let f=null; try{ const q=E.screenToFloor(a.x,a.y); f=q?(q.isVector3?[r2(q.x),r2(q.y),r2(q.z)]:JSON.parse(JSON.stringify(q,(k,v)=>(v&&v.isVector3)?[r2(v.x),r2(v.y),r2(v.z)]:(v&&v.isObject3D)?(v.name||'obj'):v))):q; }catch(e){ f='ERR '+String(e).slice(0,60); }
+  return {screen:[Math.round(a.x),Math.round(a.y)], hits:hs, screenToFloor:f}; })"""
+
+
 async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, only=None, on_seated=None):
     """每一張玩家能坐的位子：走到 GAME.seatApproach（那一層）→ 按 → player.seat、位置 0.15 m 內、高度＝座位 y（沒有＝那一層地板）→ 起身、推得動。回傳 [每張的結果]"""
     seats = await pg.evaluate(SEATS)
@@ -176,6 +184,11 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             tapped = await L.tap_ground(pg, cdp, s['sx'], s['sz'], lv=s['slv'])
             if tapped: break
             await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); await pg.wait_for_timeout(400)
+        if tapped:   # 11-13 LAWWW2：點擊打到的點和物件名字（cafe2 #13 走到店外、辛亥韓食 #6 停錯張）——點下去當下用同一個螢幕座標打射線＋遊戲的 screenToFloor
+            try:
+                hit = await pg.evaluate(TAP_HIT, {'x': tapped['sx'], 'y': tapped['sy']})
+                R.note('%s 點擊打到 %s' % (t, J(hit))); res_hit = hit
+            except Exception as e: res_hit = {'err': repr(e)[:120]}
         b = await settle(pg, ms=800, max_s=15)
         ni = await pg.evaluate(NEAR_IT)
         mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
