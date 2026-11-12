@@ -63,7 +63,7 @@ const idx=OLD.map(o=>Q.findIndex(p=>p[0]===o[0]&&p[1]===o[1]));
 check('4. 原本溫州街一帶的地點：名字、落點、順序都沒變',idx.every(i=>i>=0)&&idx.every((v,i)=>!i||v>idx[i-1])&&OLD.every((o,i)=>J(Q[idx[i]].slice(0,3))===J(o)),J(idx));
 check('4. 溫州街的第一筆照舊是「溫州街」（INV.goTarget、手機「朋友」直接過去照 zone 找第一筆）',Q.find(p=>p[0]==='wenzhou')[1]==='溫州街');
 check('4. 其他地區（公館、新生南路、宿舍）照舊',['公館商圈','捷運公館站','公館燒臘','日和便利店','頁間書屋','新生南路','宿舍'].every(n=>Q.some(p=>p[1]===n))&&Q[Q.length-1][1]==='宿舍');
-check('4. 只有騎樓窗口、櫥窗那三筆有第 4 格',Q.filter(p=>p.length>3).map(p=>p[3]).sort().join(',')==='wz_books,wz_ice,wz_tea');
+check('4. 只有騎樓窗口、櫥窗那三筆有第 4 格',Q.filter(p=>p[3]!=null).map(p=>p[3])   /* 第 4 格＝營業時間的 key；第 5 格（走進去過才出現）是另一回事，有第 5 格的列第 4 格是 undefined（2026-11-12：六間店補進快速前往以後這裡用 length 判會誤判）*/ .sort().join(',')==='wz_books,wz_ice,wz_tea');
 // 5
 const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('5. game3d.js placeState：開不開照第 4 格那一家；溫州街好幾個落點（和校園、公館一樣照距離算「你在這裡」）',/function placeState\(pl\)\{ const \[z,,sp,hz0\]=pl, hz=hz0\|\|z;[^\n]*PLACES\.isOpen\(hz,G\.hour,G\.day\)[^\n]*z!=='campus'&&z!=='gongguan'&&z!=='wenzhou'/.test(g));
