@@ -154,7 +154,7 @@ await sec(3,async()=>{
 
 /* ---------------- 4. 說溜嘴的群聚 ---------------- */
 await sec(4,async()=>{
-  const S=X().SLIP_EVENTS; check('4. K12、二十三週年、大二／大四中秋都在名單',!!S.ev_kexin_two_circles&&!!S.ev_noodle_23rd&&!!S.ev_y2_midautumn&&!!S.ev_y4_midautumn);
+  const S=X().SLIP_EVENTS; check('4. 二十三週年、大二／大四中秋都在名單；K12 不在（CANON-NO-ECON-1112 第三批：這一項拿掉）',!S.ev_kexin_two_circles&&!!S.ev_noodle_23rd&&!!S.ev_y2_midautumn&&!!S.ev_y4_midautumn);
   fresh('2028-12-14',19,'noodle',{dating_kexin:true,KX_MET_NOODLE_TEAM:true}); H.CLOSE(A1); ROM.start(H.G,A1); ROM.learn(H.G,'zhe',A1,'test');
   const ev={id:'ev_noodle_23rd',participants:['heroine_03']};
   check('4. 二十三週年、可昕認識桌遊團、阿哲知道以安＝阿哲說溜嘴',J(X().slipFor(H.G,ev))===J({y:A1,who:'zhe'}));
