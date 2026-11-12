@@ -5,12 +5,14 @@
   記她 3 秒內每 0.25 秒的姿勢（pose、seat、beh、位置）＝有沒有先起身 →
   照 ROUTE 走過去（exit:<區域>，+ 分隔；中間在每一區停一下：停 3 秒記她的姿勢、離祐廷多遠、有沒有 wave 動作）→ 到了：每 0.5 秒記 12 秒（她坐了沒、坐哪、祐廷坐了沒、誰先），截圖。
 CC_02 清單 2026-11-12：1✓（平日下午） 2✓（她、座位、出口從遊戲讀） 3✓（一次讀檔走到底） 4✓（選單照字） 5✓（走過去照玩家：go_to＋use_exit） 6✓（每一步等、取樣） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：要看她） 10✓（條件事件關掉） 11✓ 12✓（每一區同樣欄位） 13✓（讀檔、放她坐好是捷徑）
-用法：LW_TESTS=<wt>/tests SHA=<sha> [TAG=x] [ZONE=library_hall] [WHO=heroine_01] [DAY=2025-10-14] [HOUR=15] PICKS=約>吃>麵>現在一起過去 ROUTE=exit:campus+exit:gongguan+exit:noodle python3 cc_invite_now_probe.py <url> <out>"""
+QUICK=<區域>（W1R D4）：走完 ROUTE 以後改用手機「地點」快速前往那一區（直接到達），每 0.5 秒記 6 秒她的位置、離祐廷多遠、站不站得住。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [TAG=x] [QUICK=noodle] [ZONE=library_hall] [WHO=heroine_01] [DAY=2025-10-14] [HOUR=15] PICKS=約>吃>麵>現在一起過去 ROUTE=exit:campus+exit:gongguan+exit:noodle python3 cc_invite_now_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
 import playlib as L
 import cc_d141_lib as D
+import cc_phone
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
@@ -19,6 +21,7 @@ ZONE = os.environ.get('ZONE') or 'library_hall'; WHO = os.environ.get('WHO') or 
 DAY = os.environ.get('DAY') or '2025-10-14'; HOUR = float(os.environ.get('HOUR') or 15)
 PICKS = [x for x in (os.environ.get('PICKS') or '約>現在一起過去').split('>') if x]
 ROUTE = [x for x in (os.environ.get('ROUTE') or '').split('+') if x]
+QUICK = os.environ.get('QUICK') or ''   # W1R D4（BB-C 12:00）：走完 ROUTE 以後改用手機「地點」快速前往這一區（直接到達），看她有沒有一起到、站哪、在不在牆裡
 R = L.Run('invite_now_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 PLACE_HER = r"""(a=>{ const G=GAME.G, E=GAME.E; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
@@ -29,8 +32,8 @@ PLACE_HER = r"""(a=>{ const G=GAME.G, E=GAME.E; G.flags=G.flags||{}; G.flags['me
   return n?{had:false, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), seat:!!n.seat, seatAt:s?[s.x,s.z]:null}:null; })"""
 HER = r"""(who=>{ const n=(GAME.npc&&GAME.npc[who])||(typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(who):null); const P=GAME.E.player, r2=v=>+(+v).toFixed(2);
   if(!n||!n.obj) return {none:true, zone:GAME.G.zone};
-  const o=n.obj.position; let anim=null; try{ const m=n.obj.userData&&n.obj.userData.mixer; anim=n.anim||n.clip||(m&&m._actions?m._actions.filter(x=>x.isRunning()).map(x=>x.getClip().name).join(','):null); }catch(e){}
-  return {zone:GAME.G.zone, x:r2(o.x), z:r2(o.z), y:r2(o.y), seat:!!n.seat, pose:n.pose||null, beh:n.beh||null, frozen:!!n.frozen, anim, d:r2(Math.hypot(o.x-P.obj.position.x,o.z-P.obj.position.z)), pSeat:!!P.seat, pPose:P.pose||null,
+  const o=n.obj.position; let stand=null; try{ stand=GAME.E.canStand?!!GAME.E.canStand(o.x,o.z,0.2,n.lv|0):null; }catch(e){} let anim=null; try{ const m=n.obj.userData&&n.obj.userData.mixer; anim=n.anim||n.clip||(m&&m._actions?m._actions.filter(x=>x.isRunning()).map(x=>x.getClip().name).join(','):null); }catch(e){}
+  return {zone:GAME.G.zone, stand, x:r2(o.x), z:r2(o.z), y:r2(o.y), seat:!!n.seat, pose:n.pose||null, beh:n.beh||null, frozen:!!n.frozen, anim, d:r2(Math.hypot(o.x-P.obj.position.x,o.z-P.obj.position.z)), pSeat:!!P.seat, pPose:P.pose||null,
     iv:(GAME.G.invites||[]).filter(i=>i.who===who).slice(-1).map(i=>({state:i.state, place:i.place, zone:i.zone, now:i.now}))[0]||null}; })"""
 DLG = r"""(()=>{ const d=document.getElementById('dlg'); return {dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
   choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()), busy:!!(GAME.E.player&&GAME.E.player.busy), interact:(document.getElementById('interact')||{}).textContent||''}; })()"""
@@ -107,6 +110,25 @@ async def main():
             legs.append({'to': arg, 'stop': stop})
             R.check('[%d] 停下來她站著（沒坐姿、離 3 m 內）' % n, all(not x.get('seat') and x.get('pose') != 'sit' for x in stop[2:] if not x.get('none')) and any((x.get('d') or 99) < 3 for x in stop), J(stop[-1:]))
         res['legs'] = legs
+        if QUICK:
+            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
+            await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(900)
+            ok = await cc_phone.reveal(pg, cdp, QUICK); await pg.screenshot(path=os.path.join(OUT, 'inv_%s_quick_list.png' % TAG))
+            c = await pg.evaluate("(z=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(z+'|')); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,(e.textContent||'').trim()]; })", QUICK)
+            R.note('D4 手機「地點」找 %s（展開地區 %s）：%s' % (QUICK, ok, J(c)))
+            if R.check('D4 手機地點有 %s' % QUICK, bool(c), ''):
+                await L.touch_tap(cdp, c[0], c[1])
+                for _ in range(60):
+                    await pg.wait_for_timeout(1000)
+                    st = await pg.evaluate(DLG)
+                    if st['choices']:
+                        i = next((n for n, t in enumerate(st['choices']) if '直接' in t or '過去' in t), 0); R.note('D4 選單 %s → %s' % (J(st['choices']), st['choices'][i]))
+                        await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); continue
+                    if st['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+                    if await pg.evaluate("GAME.G.zone") == QUICK: break
+                qk = await sample(pg, 'D4 直接到達 %s 以後 6 秒（每 0.5 秒）她：' % QUICK, 12, 500, 'inv_%s_quick' % TAG)
+                res['quick'] = qk
+                R.check('D4 她一起到、站在旁邊 3 m 內、站得住（不在牆裡／家具裡）', any((x.get('d') or 99) < 3 and x.get('stand') is not False for x in qk if not x.get('none')), J(qk[-1:]))
         arr = await sample(pg, '到了 12 秒（每 0.5 秒）她和祐廷：', 24, 500, 'inv_%s_arrive' % TAG)
         res['arrive'] = arr
         t_her = next((j for j, x in enumerate(arr) if x.get('seat')), None); t_me = next((j for j, x in enumerate(arr) if x.get('pSeat')), None)
