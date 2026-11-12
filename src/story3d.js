@@ -57,7 +57,7 @@ const STORY = (function(){
   S.LAW_START_RECAP_HEAD=['你從小就想念首都帝大法律。','放榜那天，你把榜單看了三次，才敢傳給家裡。','八月，宿舍的通知寄來了：203 室，四個人一間。','媽媽在你的行李箱裡多塞了兩條毛巾，還有一包你說不用帶的泡麵。','班上的人，你一個都不認識。'];
   S.LAW_START_RECAP=S.LAW_START_RECAP_HEAD.concat(['九月，開學。']);   /* 不演宿營、直接開學的那一版（?start0）*/
   S.LAW_START_RECAP_W1=S.LAW_START_RECAP_HEAD.concat(['八月二十二日，新生宿營的遊覽車停在校門口。']);   /* 從宿營開始的新局 */
-  S.LAW_WEEK12=[];   /* CANON-1112：原本四句都在講舊序章（AA_858 沒有新字）＝先不演，列給 AA */
+  S.LAW_WEEK12=['開學第一週，你走進法律系館A。','選課、新生活動、第一次點名。每個隊伍都很長。','班上的人，你還叫不出幾個名字。'];   /* CANON-NO-ECON-1112 第四批（AA_895 第 1 節①，企劃線 a425c0dcb）：開學第一週的旁白換成這三句（原本四句在講舊序章）*/
   S.recap=async function(GM,lines,o){ o=o||{}; if(!lines||!lines.length) return; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); for(const t of lines) await GM.say(null,t); } finally { if(!o.keep&&typeof ADV!=='undefined'&&ADV.end) ADV.end(); GM.sceneEnd(); } };   /* keep：播完先不收黑底（接著轉場，不讓 3D 畫面閃一下）*/
   /* 坐下就開始的事件（trigger:'seat'、seatRoom＝座位所在的區（layout 的 groups id，例：博雅的 'study'）；game3d.js 的座位選單在坐下以後、選單出來以前呼叫）*/
   S.onSeat=async function(GM,seat){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!seat) return false; const G=GM.G;
@@ -1403,7 +1403,7 @@ const STORY = (function(){
   /* ---------- 交接包 v1：第一天的旁白、可昕的第一則訊息、家族群組、房間物件、手機的規則 ---------- */
   const DAY1_NARR_W1=['明天下午是民法總則的第一堂。','周老師開學前就把案例放上課程網站了：網拍上標價 1,000 元的相機。課綱第一週那一格寫著：「請先讀案例，上課會點人。」','你下午把它印出來，到現在還放在桌上，一個字都沒畫。'];   /* 選 1 的局（AA_195 4-1，AA-B 2026-10-16）*/
   const DAY1_NARR_W1_LATE=['你回到宿舍的時候已經很晚了。','明天下午是民法總則的第一堂。印好的案例還在桌上，課綱寫上課會點人。'];   /* AA_195 4-1 短版（AA-B 7b2d057f）*/
-  const DAY1_NARR=['以前遇到事情，你會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教你怎麼讀。'];   /* CANON-1112：原本的第三句在講舊序章（稿沒有新字）＝拿掉，列給 AA */   /* AA_12 0-3 第 1 點、0-2 */
+  const DAY1_NARR=['以前遇到事情，你會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教你怎麼讀。','上舖的阿哲已經睡著了。你把鬧鐘調早了十分鐘。'];   /* CANON-NO-ECON-1112 第四批（AA_895 第 1 節②）：第三句換成這一句（原本在講舊序章）*/   /* AA_12 0-3 第 1 點、0-2 */
   /* 手機上的一段對話，在劇情裡演（開場是過場，不打開手機面板）：對話框的名字寫「可昕（手機）」，回覆用一般的選項；演完的內容同時寫進手機的對話串（之後打開手機看得到）*/
   async function phoneScene(GM,th,lines,ask){ const G=GM.G; let last=null;
     for(const l of lines){ last=PHONE.post(G,Object.assign({th},l)); await GM.say({name:PHONE.who(l)+'（手機）'},l.text); }

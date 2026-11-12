@@ -179,12 +179,13 @@ const CAMP_Y1_EVENTS=[
   /* 夜談（8/23 22:30）原本 retired、定義留給舊存檔——CANON-1112（AA_859「一起拿掉的」）：整段定義拿掉（舊存檔不留）。story3d.js 的 S.CAMP_SEQ_V1 只用它的 id 換算時間，不讀定義 */
 
   /* 8/24 07:30 早餐（AA_608 第 6 節：只留餐廳那一段（AA_205 6-3），拿掉金頭腦；第 10 節第 8 點拿掉明軒那句；10-5「哥？」改由沛珊問）。
-     CANON-1112：阿哲回答沛珊的那兩句都在講舊序章（AA_859 沒有新字）＝先拿掉、列給 AA；沛珊問完直接接芯慈那一句旁白 */
+     CANON-1112：阿哲回答沛珊的那兩句原本在講舊序章；CANON-NO-ECON-1112 第四批換成 AA_895 第 1 節③的一句（數學滿級分），接芯慈那一句旁白 */
   { id:'ev_camp_d3_quiz', stage:'any', title:'迎新宿營：早餐', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地・餐廳',bg:'camp_dining'},
       {unless:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（第三天早上，大家都很睏，餐廳裡沒什麼人講話。）'},   /* AA_205 6-14④ */
       {if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'（隔著桌子）哥，你的蛋。'},
       {if:{flags:['ZHE_CALLS_GE']},speaker:'classmate_peishan',text:'哥？'},   /* AA_608 10-5：芯慈打牌時已經知道了，改成第二天才到的沛珊問 */
+      {if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'昨天打牌說好的。數學滿級分，叫哥。'},   /* AA_895 第 1 節③（企劃線 a425c0dcb）*/
       {if:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（芯慈「喔」了一聲，繼續吃。）'} ] },
 
   /* 8/24 10:30 結業式、上車（AA_205 6-13⑤）、12:30 回到校門（AA_205 6-4）*/
