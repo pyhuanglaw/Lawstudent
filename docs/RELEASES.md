@@ -46,6 +46,7 @@
 | v9.10.20 | `40c0abedb`（PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝BB GO 的候選 `d3828452a`＋版本字樣，發布樹 `9e6d85711`、RELEASES.md `37cd3253d`） | 2026-11-05 02:28:25 UTC（run 41955182303） | `b0c3032af`（v9.10.19.1） |
 | v9.10.24 | `779ddd650`（PR [pyhuanglaw/Lawstudent#34](https://github.com/pyhuanglaw/Lawstudent/pull/34)；遊戲檔案＝發布樹 `951824630`＝BB GO 的候選 `6ef185726`＋版本字樣） | 2026-11-10 20:11:47 UTC（Pages run 42892403766 success） | `3a34dbaa5`（v9.10.23） |
 | v9.10.25 | `dc3d33941`（PR [pyhuanglaw/Lawstudent#36](https://github.com/pyhuanglaw/Lawstudent/pull/36)；遊戲檔案＝發布樹 `f312c68cc`＝BB GO 的候選 `0d1eaadc7`＋版本字樣） | 2026-11-11 15:29:04 UTC（Pages run 43048364768 success） | `779ddd650`（v9.10.24） |
+| （不是版本）README 更新 | `b3e86d9141`（PR [pyhuanglaw/Lawstudent#37](https://github.com/pyhuanglaw/Lawstudent/pull/37)；使用者 11-12 選擇題「現在就換」；只改 README.md，**遊戲檔案和 `dc3d33941` 相同**，線上版仍是 v9.10.25） | — | — |
 | （不是版本）README 與文件更新 | `12555291d`（PR [pyhuanglaw/Lawstudent#35](https://github.com/pyhuanglaw/Lawstudent/pull/35)；使用者 11-11「Readme修改優先」；**遊戲檔案和 `779ddd650` 逐檔相同**（src／assets／lib／index.html／劇情匯入白名單，git diff 為空），線上仍是 v9.10.24；README.md、docs、tools 照開發分支 `c09d768f4`，tests 多兩支） | 2026-11-11 07:46:56 UTC（Pages run 42981692243 success） | `779ddd650`（v9.10.24） |
 
 ---

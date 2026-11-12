@@ -5188,6 +5188,16 @@
    "wants": "X364",
    "task": "CANON-NO-ECON-1112",
    "note": "D158（CLAUDE.md §7 第 10 點）：紀錄、規則、任務表一律寫「舊序章」「外校」；今天已經寫進去的幾筆一起改"
+  },
+  {
+   "id": "UA-LAWWW-1112-39",
+   "at": "2026-11-12 13:3x UTC",
+   "quote": "（選擇題）GitHub 首頁顯示的 README 還是舊的（在 main 分支）。要不要現在就單獨換掉？→ 現在就換",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X364",
+   "task": "CANON-NO-ECON-1112",
+   "note": "已做：PR #37 只改 README.md，合進 main b3e86d9141；這一題也是允許另開 claude/readme-1112 分支的授權（只限這一次）"
   }
  ]
 }
