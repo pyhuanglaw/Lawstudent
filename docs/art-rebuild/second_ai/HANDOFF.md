@@ -58,6 +58,14 @@
 - 水源市場巷子（SHUIYUAN-MARKET-LANE-1112）LAWWW 裁定的做法：市場一棟三層樓 x 5～29、z 28～40，北面臨巷；新巷子 x 5～29、z 21～28（寬 7 m），十二攤兩側交錯；e_cvs、e_shoes 兩格通用店面拿掉；原巷 A 留著可走、不擺攤、不通公館；斑馬線搬到 z 24.5；公館那側巷口標籤先不改。交件：layout＋兩個 GLB＋tingzhou_walk 路線＋新舊座標對照表＋四張遊戲內截圖。
 - 記帳還沒補：outbox（今天八件）、user_asks（11-12）、`TODO_SHORTCUTS.md`。
 
+## 進度（2026-11-12 15:3x UTC；LAWWW2-C）
+
+- **已取消、不再做（使用者 11-12，D158／CANON-NO-ECON-1112）**：ART-11、ART-V0-DORM、V0-ART-DORM、ART-JIAHAO-JOY、ECON-NAV-TRAPS-1111。下面舊清單裡這五筆都作廢。
+- ECON-NAV-TRAPS 巡到的共用場景問題另交：`wip/nav_notch_traps_1112/`（校園、溫州街、社科院圖書館小縫＋二樓沙發走近點），等 LAWWW-C 開新任務 ID。
+- 今天已交、已整合：花序、林家乾麵＋SUNNY SIDE 門、118 巷互動點、汀州路鐵捲門位置、木曜日樓梯黑底、燒臘菜單＋頁間互動點、店內預載近的先（v1）。
+- 已交、等 ACK：頁間黑板＋明信片 `a7a5d485ea`、預載計時 prof `ea55a1fa70`（等 CC 的 PC 數字）。
+- 接下來：SHOP-STANDARD-BACKFILL-1112 打烊招牌燈還亮（ggShopGlow 照 GG_SHOP_REAL 分配）→ 鐵捲門太平 → 榮恩典玻璃 → D158 刪檔 patch（等 LAWWW 通知）。
+
 ## 進度（2026-11-12 04:5x UTC；LAWWW2-C）
 
 - 已交（都 DELIVERED LAWWW-C，等 ACK／整合）：

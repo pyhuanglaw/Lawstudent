@@ -28,10 +28,10 @@ index df300d88c7..858c94ccfb 100644
 +{ const b=SL3.soclib.build; SL3.soclib.build=function(E){ const z=b.call(this,E); return Z3.navNotch?Z3.navNotch(z,'soclib'):z; }; }   /* 導航的小縫（ECON-NAV-TRAPS-1111；資料在 zones3d.js 的 NAV_NOTCHES）*/
  Z3.ZONES.soclib=SL3.soclib;
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 23c1042e4d..a02cd6098c 100644
+index d4fdde6324..39efe52492 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -2866,6 +2866,14 @@ const Z3 = (function(){
+@@ -2968,6 +2968,14 @@ const Z3 = (function(){
      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
      return zone; }
    const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
@@ -46,32 +46,26 @@ index 23c1042e4d..a02cd6098c 100644
    const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku}; if(wz_offbeat) ZONES.wz_offbeat=wz_offbeat; if(GG_L.aoki()) ZONES.aoki=aoki; if(GG_L.afar()) ZONES.afar=afar; if(GG_L.daybreak()) ZONES.daybreak=daybreak;   /* afar café、Daybreak（GG-SHOPS2-1104）：配置檔有載入才有 */ if(GG_L.yangyang()) ZONES.yangyang=yangyang;   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：配置檔有載入才有 */ if(GG_L.corner_records()) ZONES.corner_records=corner_records;   /* 轉角唱片（CORNER-IN-1107）：配置檔有載入才有 */   /* 青木茶室（GG-SHOPS-REDO-1104）：配置檔有載入才有 */   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
    /* 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）：GAME.enter 在畫面全黑、淡入之前呼叫。
       原本：區域建好、第一格畫完，已經載過的正式模型才接上（ASSETS.loadOne().then 是 microtask，在 await fade(false) 才跑）；
-@@ -2964,5 +2972,5 @@ const Z3 = (function(){
-         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
-       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
-     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
--  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
-+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks,navNotch,NAV_NOTCHES};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+@@ -3075,5 +3083,5 @@ const Z3 = (function(){
+       out.push({id:q.id,place:q.place,w:+(hw*2).toFixed(3),h,center:[q.cx,h/2,q.cz],normal:[+nx.toFixed(4),0,+nz.toFixed(4)],
+         corners:[[q.cx-sx,0,q.cz-sz],[q.cx+sx,0,q.cz+sz],[q.cx+sx,h,q.cz+sz],[q.cx-sx,h,q.cz-sz]].map(c=>c.map(v=>+v.toFixed(3)))}); }
+     return out; }
+-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
++  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks,navNotch,NAV_NOTCHES};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
  })();
-diff --git a/tests/econ_nav_traps_1111_unit.js b/tests/econ_nav_traps_1111_unit.js
+diff --git a/tests/nav_notch_traps_1112_unit.js b/tests/nav_notch_traps_1112_unit.js
 new file mode 100644
-index 0000000000..61de54c19a
+index 0000000000..0d37446174
 --- /dev/null
-+++ b/tests/econ_nav_traps_1111_unit.js
-@@ -0,0 +1,68 @@
-+/* ECON-NAV-TRAPS-1111（LAWWW 11-11 20:24 派給 LAWWW2，P1，D99 ①）：舊序章那一段會用到的場景「擋玩」巡檢（方法照 tests/us_nav_traps_1111_unit.js）
-+   區域：舊序章流程（AA_269 第 6 節；src/econff3d.js 的 STEPS）會用到的——校園、普通／博思／共同教學館、宿舍、Café、總圖、社科院圖書館、公館、溫州街。
++++ b/tests/nav_notch_traps_1112_unit.js
+@@ -0,0 +1,62 @@
++/* NAV-NOTCH-TRAPS-1112（LAWWW2；原本跟著舊序章巡檢一起做的，那一筆取消以後這幾個共用場景的「擋玩」另外留下來）
++   區域：校園、普通／博思／共同教學館、宿舍、Café、總圖、社科院圖書館、公館、溫州街（方法照 tests/us_nav_traps_1111_unit.js）。
 +   巡到的（Node，引擎真的 canStand＋stepEntity）：
 +     ① 小縫（進得去、出不來）：校園法學院那一帶斜的一排（13 塊）＋(91.25,−113) 兩塊、溫州街 (20.75,5.75)、社科院圖書館 (10.2,−7.0)——src/zones3d.js NAV_NOTCHES 擋那幾格
-+     ② 社科院圖書館二樓（東側館）兩張沙發：前面是矮桌（中間 0.4 m 站不進去），GAME.seatApproach 退回沙發後面，點沙發走到背後、「坐在沙發上」不出來（第一張）——
-+        src/soclib2f3d.js 給沙發一個走近點（seat.ap：按鈕旁邊最寬、站得住的地方，東側）
-+   這支：
-+     0 載入沒有錯
-+     1 出生點（zone.spawn、econff3d.js STEPS 指定的站位）站得住
-+     2 每一個互動點從出生點走得到；座位用遊戲的 GAME.seatApproach（src/game3d.js 原樣拿出來）挑走近點、走過去、像點那張椅子一樣（tapPref）——按鈕是那一張
-+     3 小孤島推進去都出得來
-+     4 ① 那幾格站不進去；② 兩張沙發的走近點在沙發東側（x > −2.2）、站得住
-+   修改前（開發分支 0e453aeac5）：2（社科院二樓第一張沙發）、3、4 FAIL。這是模擬（D131）。用法：node tests/econ_nav_traps_1111_unit.js [區域 id,…] */
++     ② 社科院圖書館二樓（東側館）兩張沙發：前面是矮桌，GAME.seatApproach 退回沙發後面，點沙發走到背後、「坐在沙發上」不出來——src/soclib2f3d.js 給沙發一個走近點（seat.ap，東側）
++   這支：0 載入沒有錯／1 出生點站得住／2 每一個互動點從出生點走得到、座位照 GAME.seatApproach 走過去按鈕是那一張／3 小孤島推進去都出得來／4 ① 那幾格站不進去、② 兩張沙發的走近點在沙發東側、站得住
++   這是模擬（D131）。用法：node tests/nav_notch_traps_1112_unit.js [區域 id,…] */
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
 +global.window=global; global.self=global;
@@ -92,13 +86,13 @@ index 0000000000..61de54c19a
 +const seatApproach=mS?(new Function('E',mS[0]+'\nreturn seatApproach;'))(E):null;
 +const ZS=['campus','putong','boya','boya_203','gongtong','gongtong_3f','dorm','dorm_hall','dorm_laundry','dorm_205','cafe','library','library_hall','library_b1','library_carrels','library_stacks','library_media','soclib','soclib_2f','gongguan','wenzhou'];
 +const ONLY=process.argv[2]?process.argv[2].split(','):null; const ids=ZS.filter(id=>Z3.ZONES[id]&&(!ONLY||ONLY.includes(id)));
-+const EXTRA_SP={campus:[[-3,12],[-34.6,-97.0]],dorm:[[0,2.4]]};   /* econff3d.js STEPS 的 at */
++const EXTRA_SP={campus:[[-3,12],[-34.6,-97.0]],dorm:[[0,2.4]]};
 +const f2=v=>+(+v).toFixed(2); const B1=[], B2=[], B3=[]; let nIt=0, nSeat=0, nIsl=0, nEnt=0;
 +for(const id of ids){ let z; try{ z=build(id); }catch(e){ B1.push(id+' 建不出來 '+e.message.slice(0,40)); continue; }
 +  const base=z.spawn; if(!base){ B1.push(id+' 沒有出生點'); continue; }
 +  for(const [x,zz] of [[base.x,base.z]].concat(EXTRA_SP[id]||[])) if(!E.canStand(x,zz,0.3,base.lv|0)) B1.push(id+' ('+f2(x)+','+f2(zz)+')');
 +  const P={obj:{position:new THREE.Vector3(base.x,0,base.z),rotation:{y:0}},lv:base.lv|0,radius:R};
-+  for(const it of E.interactables){ if(it.hidden) continue; nIt++; const lv=it.lv|0;
++  for(const it of E.interactables){ if(it.hidden) continue; if(it.plain&&it.seasonLook&&id!=='gongguan') continue;   /* 花序門口那一筆只在公館：這支 build() 完才設 zone.id，別的區會被多放一次 */ nIt++; const lv=it.lv|0;
 +    if(it.seat){ nSeat++; E.player={obj:{position:new THREE.Vector3(base.x,0,base.z),rotation:{y:0}},lv:base.lv|0,radius:R}; const ap=seatApproach(it.seat), slv=it.seat.lv!==undefined?it.seat.lv|0:lv;
 +      const r=E.simWalk(base.x,base.z,ap[0],ap[1],{lv0:base.lv|0,lv1:slv}); if(!r.ok){ B2.push(id+' 走不到座位「'+it.label+'」('+f2(it.seat.x)+','+f2(it.seat.z)+')：'+r.reason); continue; }
 +      E.player.obj.position.set(r.x,r.y!=null?r.y:E.heightAt(r.x,r.z,slv),r.z); E.player.lv=slv; E.player.tapPref={x:it.seat.x,z:it.seat.z,lv:slv,zone:E.zone.id};
@@ -119,7 +113,7 @@ index 0000000000..61de54c19a
 +        for(let k=0;k<Math.ceil(2/dt);k++) E.stepEntity(ent,dx/dd,dz/dd,sp,dt); const o=ent.obj.position; if(!inIsl(o.x,o.z)) continue; nEnt++;
 +        let out=false; for(let a=0;a<16&&!out;a++){ const e2={obj:{position:o.clone(),rotation:{y:0}},radius:R,lv}; E.player=e2; for(let k=0;k<90;k++) E.stepEntity(e2,Math.sin(a*Math.PI/8),Math.cos(a*Math.PI/8),E.SPD.walk,1/30); if(!inIsl(e2.obj.position.x,e2.obj.position.z)&&Math.hypot(e2.obj.position.x-o.x,e2.obj.position.z-o.z)>0.3) out=true; }
 +        if(!out) B3.push(id+' 第'+lv+'層 ('+f2(cx)+','+f2(cz)+') '+cn+' 格：從 ('+f2(sx0)+','+f2(sz0)+') '+tag+' 推進去出不來'); } } } }
-+check('1. 出生點（含舊序章快轉指定的站位）都站得住（'+ids.length+' 區）',!B1.length,B1.slice(0,4).join('｜'));
++check('1. 出生點都站得住（'+ids.length+' 區）',!B1.length,B1.slice(0,4).join('｜'));
 +check('2. '+nIt+' 個互動點從出生點走得到；其中 '+nSeat+' 個座位照 GAME.seatApproach 走過去、點那張椅子，按鈕是那一張',!B2.length&&!!seatApproach,(seatApproach?'':'game3d.js 找不到 seatApproach；')+B2.slice(0,4).join('｜'));
 +check('3. 小孤島 '+nIsl+' 個：從旁邊推進去的 '+nEnt+' 次都出得來',!B3.length,B3.slice(0,4).join('｜'));
 +{ const out=[]; const P4=[['campus',94.0,-78.9],['campus',91.1,-113.1],['campus',96.1,-76.6],['wenzhou',20.9,5.9],['soclib',10.0,-7.1]];
