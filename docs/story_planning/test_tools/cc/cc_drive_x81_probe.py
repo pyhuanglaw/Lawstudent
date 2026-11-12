@@ -1,4 +1,5 @@
 """CC（帳號 A）11-02 BB 22:03：AA_599「開車出門不寫取車」（2d2ceaeb5 起；驗收版 7224af47a；企劃線 AA_599 @8842d6105）瀏覽器探針。
+【CC_02 清單：未過】CC-C 11-12 只把「麵店團」改字成「桌遊團」（使用者 P0 NOODLE-NAME-PURGE-1112；PHONE.join 群組名、說明文字），邏輯沒改。這支還沒照 CC_02 丁逐條過 13 點：排電腦前要先過清單、寫清單行、雲端重跑。
 不是 iPhone：Playwright 手機橫向模擬（844×390、is_mobile、CDP 觸控；SwiftShader 1～4 fps）。
 
 讀碼看到的規則（7224af47a；行號照 7224）：
@@ -14,13 +15,13 @@
    8/30 出發 → ev_y0_e37（src/data/events.js:2988）：最後一句「（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）」，
    62d 沒有「（你把車開回家，再搭捷運回宿舍。）」、afterOuting 不再 advance(1)（14:00 到、演完約 18:00；ef63 約 19:00）。
    反例：dating_kexin＝false（沒交往）→ 8/29 21:30 以後沒有那兩則、沒有 y0_e37 出遊、沒有 E37_LAW。
-③ 春假（大二下）兩條路線：src/group3d.js:43 S.springPending（3/30～4/1、收到邀約）、:46 S.springPrompt（選單：跟阿哲他們出去＝在麵店團群組才有；和可昕開車旅行＝dating_kexin 才有）、
+③ 春假（大二下）兩條路線：src/group3d.js:43 S.springPending（3/30～4/1、收到邀約）、:46 S.springPrompt（選單：跟阿哲他們出去＝在桌遊團群組才有；和可昕開車旅行＝dating_kexin 才有）、
    :55 S.springChoose：noodle＝OUT ndl_trip_y2s2（4/4 08:00，place「家」、travel「開車載阿哲他們出發」）→ ev_spring_y2_noodle；
    kexin＝OUT kx_trip_y2s2（4/3 07:40，place「木柵大學校門口」、travel「開車到木柵大學接她」；ef63 是「（先回家取車）」「回家取車約 30 分鐘，再開到木柵大學接她」）→ ev_kexin_trip_spring_y2。
    旗標 SPRING_Y2＝noodle／kexin。邀約訊息：group3d.js:89（群組 21:00）、:90（可昕 21:30）。
-   反例：麵店團那一場沒交往＝選單沒有「和可昕開車旅行」；可昕那一場不在群組＝選單沒有「跟阿哲他們出去」。
+   反例：桌遊團那一場沒交往＝選單沒有「和可昕開車旅行」；可昕那一場不在群組＝選單沒有「跟阿哲他們出去」。
 
-CASES（逗號隔開，預設全部）：date_car、date_mrt（①反例）、x81、x81_no（②反例）、spring_noodle（含可昕那一條的反例）、spring_kexin（含麵店團那一條的反例）。
+CASES（逗號隔開，預設全部）：date_car、date_mrt（①反例）、x81、x81_no（②反例）、spring_noodle（含可昕那一條的反例）、spring_kexin（含桌遊團那一條的反例）。
 【前置／捷徑】讀檔（GAME.applySave，安靜模式：條件事件不自動演；STORY 的手機規則、出遊、春假選單照常）到那一天那個時間；用遊戲 API 補關係、交往、群組，快照再讀；
   等很久的日期（約會那天、8/30、春假出發那天）用同一份進度跳過去（不是遊戲裡的睡覺）。其餘照玩家：手機按鈕、頁籤、「約」、點選項、點對話、手機回覆鍵、出遊「出發」。
 整段台詞、選單、字卡、字幕都查 BAD（取車、還車、回家開車、回家把車、把車開出來、把車開回家、車開回家、再搭捷運回宿舍）——
@@ -262,16 +263,16 @@ async def case_x81(pg, cdp, run, dating):
 
 # ---------------- ③ 春假 ----------------
 SPRING_PREP = r"""(([grp,kx])=>{ const G=GAME.G; for(const id of ['zhe','heroine_03','heroine_01','yu','classmate_bohan','classmate_xinci','kexin']){ try{ if(CHARACTERS[id]&&!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,'campus'); const r=SOCIAL.rel(id); r.fam=Math.max(r.fam|0,30); }catch(e){} }
-  if(grp) PHONE.join(G,'noodle_team','麵店團'); G.flags.dating_kexin=!!kx;
+  if(grp) PHONE.join(G,'noodle_team','桌遊團'); G.flags.dating_kexin=!!kx;
   return {inGroup:!!(PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')), dating_kexin:!!G.flags.dating_kexin, days:GROUP.springDays()}; })"""
 
 
 async def case_spring(pg, cdp, run, route):
     noodle = route == 'noodle'
-    tag = '③' + ('麵店團' if noodle else '可昕')
+    tag = '③' + ('桌遊團' if noodle else '可昕')
     h0 = 20.9 if noodle else 21.4
     await base_load(pg, cdp, run, '2027-03-30', h0, 'dorm', {'dating_kexin': not noodle}, '大二下 3/30（二）晚上，宿舍')
-    pre = await P.prep(pg, cdp, run, SPRING_PREP, [noodle, not noodle], label='麵店團那幾個人認識；%s' % ('加入麵店團群組、沒有和可昕交往' if noodle else '和可昕交往中、不在麵店團群組'))
+    pre = await P.prep(pg, cdp, run, SPRING_PREP, [noodle, not noodle], label='桌遊團那幾個人認識；%s' % ('加入桌遊團群組、沒有和可昕交往' if noodle else '和可昕交往中、不在桌遊團群組'))
     n0 = await hooks(pg)
 
     async def menu():
@@ -286,7 +287,7 @@ async def case_spring(pg, cdp, run, route):
         run.check('③反例（可昕那一條）沒有和可昕交往：選單沒有「春假：和可昕開車旅行」', not any(t.startswith('春假：和可昕') for t in opts) and any(t.startswith('春假：跟阿哲他們出去') for t in opts), J(opts))
         want, oid, ev, dkey, hh = '春假：跟阿哲他們出去', 'ndl_trip_y2s2', 'ev_spring_y2_noodle', '2027-04-04', 7.45
     else:
-        run.check('③反例（麵店團那一條）不在麵店團群組：選單沒有「春假：跟阿哲他們出去」', not any(t.startswith('春假：跟阿哲') for t in opts) and any(t.startswith('春假：和可昕開車旅行') for t in opts), J(opts))
+        run.check('③反例（桌遊團那一條）不在桌遊團群組：選單沒有「春假：跟阿哲他們出去」', not any(t.startswith('春假：跟阿哲') for t in opts) and any(t.startswith('春假：和可昕開車旅行') for t in opts), J(opts))
         want, oid, ev, dkey, hh = '春假：和可昕開車旅行', 'kx_trip_y2s2', 'ev_kexin_trip_spring_y2', '2027-04-03', 6.9
     k = next((i for i, t in enumerate(opts) if t.startswith(want)), None)
     if k is None: return

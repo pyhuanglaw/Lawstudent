@@ -3,7 +3,7 @@
    和 LAWWW-C 的 tests/aa688_yt_pg_unit.js（每一項自己設好時間、挑那幾天測）不同：這支從畢業以後（2029-06-03 10:00）開始，照遊戲畢業後篇自己的「跳到下一件事」（PG.advance）一路走到 2030-12-31，
    途中：PG 的場景到了就演（選項都選第一個）、出遊時間到了就出發（OUT.tick）、手機照收。把整段時間裡語彤的出遊、群組訊息記下來，再逐字對 AA_688。
    1 第 2 節：只和語彤交往（沒有讀書小組）——表上 18 個月每月一格：週六、17:30、一盞茶屋（出遊標題、地點字幕）、她說的那一句＝表上「改成」（2029-08 照留）；2029-09 沒有；同一個月沒有第二格。
-   2 第 3 節：在麵店團群組裡——「一試過了。」2029-09-07 15:10、「上了。」「蘇姨已經在寫紅紙了。」2029-12-14 15:10（排在阿哲「放榜了」那幾則後面）；2030-09-06、2030-12-13 沒有她那兩則。
+   2 第 3 節：在桌遊團群組裡——「一試過了。」2029-09-07 15:10、「上了。」「蘇姨已經在寫紅紙了。」2029-12-14 15:10（排在阿哲「放榜了」那幾則後面）；2030-09-06、2030-12-13 沒有她那兩則。
    3 第 4 節：多段感情《今天不用幫忙》（REPAIR.heroine_03）六處逐字、真的演（MREL.run）；稿「現在」欄的舊字不在 MULTIREL_LINES。
    4 （順便）語彤畢業以後的格子裡沒有麵店、阿姨、乾麵、店休、延畢。
    期望值一律從企劃線的稿讀（CC_50 第 41 條：不照遊戲輸出改期望）。
@@ -58,7 +58,7 @@ const Y1=sl(rowOf(S3,'Y2030.yt1')[1]), Y2=sl(rowOf(S3,'Y2030.yt2')[1]);
 let OUTS=[], GRP=[], WALK={};
 await sec('1＋2 照日期走（2029-06-03 10:00 → 2030-12-31，PG.advance 跳到下一件事）',async()=>{
   const G=freshPG('2029-06-03',10,{});
-  H.FRIEND(YT); H.date(YT); PHONE.join(G,'noodle_team','麵店團'); H.FAMILIAR('zhe'); H.FAMILIAR('yu');   /* 只和語彤交往、在麵店團群組裡（沒有讀書小組）*/
+  H.FRIEND(YT); H.date(YT); PHONE.join(G,'noodle_team','桌遊團'); H.FAMILIAR('zhe'); H.FAMILIAR('yu');   /* 只和語彤交往、在桌遊團群組裡（沒有讀書小組）*/
   const END=DK('2030-12-31')*24+23.9, now=()=>G.day*24+(+G.hour||0);
   let guard=0, stalls=0, nAdv=0, nSteps=0, nOut=0; const steps=[], errs=[], seen=new Set();
   const grab=()=>{ for(const m of (G.msgs||[])){ if(m.th!=='g:noodle_team') continue; const k=[m.tag,m.from||m.who,m.text,m.day,m.h].join('|'); if(seen.has(k)) continue; seen.add(k); GRP.push({from:m.from||m.who,text:m.text,key:K(m.day),h:m.h,tag:m.tag}); } };   /* G.msgs 有上限、舊的會被擠掉：每一圈都收 */
@@ -102,7 +102,7 @@ await sec('1 第 2 節：語彤每月一格（週六 17:30、一盞茶屋、她�
   check('4. 語彤這 18 格她說的話裡沒有麵店、阿姨、乾麵、店休、延畢、「最後一個學期」「國考我要考」',!Y.some(r=>r.said.some(x=>OLD.test(x[1]))),J(Y.filter(r=>r.said.some(x=>OLD.test(x[1]))).map(r=>r.key)));
   const others=OUTS.filter(r=>r.who!==YT); if(others.length) info('其他出遊（'+others.length+'）：'+J(others.map(r=>[r.id,r.key+' '+hm(r.h),r.title])).slice(0,600));
 });
-await sec('2 第 3 節：麵店團群組語彤那幾則',()=>{
+await sec('2 第 3 節：桌遊團群組語彤那幾則',()=>{
   const Y=GRP.filter(m=>m.from===YT);
   info('走完以後群組裡語彤的訊息：'+J(Y.map(m=>[m.key,hm(m.h),m.text])));
   const a=Y.filter(m=>m.text===Y1[0]), b=Y.filter(m=>Y2.includes(m.text));

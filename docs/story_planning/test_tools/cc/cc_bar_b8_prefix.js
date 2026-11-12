@@ -28,7 +28,7 @@ const ROUTES={
 (async()=>{
   const name=process.argv[2], out=process.argv[3], RT=ROUTES[name]; if(!RT||!out){ console.log('用法：node cc_bar_b8_prefix.js <'+Object.keys(ROUTES).join('|')+'> <輸出 json>'); process.exit(2); }
   const G=H.fresh(RT.key,RT.h,'dorm',Object.assign({BAR_REG:true,Y4_PATH:'bar'},RT.flags)); graduated(G); if(!RT.noFriends) FRIENDS.forEach(H.FRIEND); if(RT.setup) RT.setup(G);
-  PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人');
+  PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人');
   const plan=RT.plan, order=[]; let it=0, stopped=false, err=null;
   const orun=PG.runStep; PG.runStep=async function(GM,s){ let set=false, m; if(s.id===RT.stop){ stopped=true; return false; }   /* 停在這一場開演之前（PG.advance 會自己叫 runStep）*/
     if(!PG.done(G,s.id)){

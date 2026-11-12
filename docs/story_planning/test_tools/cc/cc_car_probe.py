@@ -1,11 +1,12 @@
 """CC（帳號 A）11-02：BB_222 驗收計畫第 2 節 B-3 CAR-01、CAR-04（國考 → 第一份工作 → 尾聲）的瀏覽器探針。階段 0＝修改前基準（a3b1bd647）。
+【CC_02 清單：未過】CC-C 11-12 只把「麵店團」改字成「桌遊團」（使用者 P0 NOODLE-NAME-PURGE-1112；PHONE.join 群組名、說明文字），邏輯沒改。這支還沒照 CC_02 丁逐條過 13 點：排電腦前要先過清單、寫清單行、雲端重跑。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader，1～4 fps），URL 用 '<URL>/index.html?turbo'。
 
 程式（只讀）：src/postgrad3d.js（PG）。畢業後篇（PG.on：GRADUATED＋PG.done.grad、還沒 EPILOGUE_DONE）＝站著不動 2 秒就「跳到下一件事」（PG.tick → PG.advance → PG.jumpTo），
   場景時間到了、玩家空下來就演（PG.STEPS：exam_2029 8/4 08:00 → r1_2029 9/7 15:05 → e2a 10/20、e2b 10/21 → r2_2029 12/14 15:05 → first 2030-10-01 21:00 → epi 2034-06-03 19:00），
   跳的途中收到訊息＝停下、手機打開（「跳過」）。考卷：examDay 每一題 GAME.say('i／20　題目') → GAME.choose(PG.opts(q))，答對題數記 BAR_SCORE_2029、9/7 才說。
   職涯：PG.path(G)＝STORY.careerLean 的 top（A 幫人／B 研究／C 跨領域）＋BAR_YEAR、研究所旗標 → A_bar／A_none／B_grad／B_quit／C／C_zq；
-  第一份工作＝麵店團群組的照片 POSTGRAD_LINES.FIRST.me[path]，尾聲最後一句 EPI.last[path]。
+  第一份工作＝桌遊團群組的照片 POSTGRAD_LINES.FIRST.me[path]，尾聲最後一句 EPI.last[path]。
 
 CASES（逗號隔開；每個 case 開一個新的瀏覽器、從最小存檔開始）：
   car01_A、car01_B、car01_C：CAR-01。一試答對 14 題（律師一試過、司法官一試沒過＝BAR_STAGE lawyer）→ 9/7 → 10/20、21 二試 → 12/14 → 2030-10-01 → 2034 尾聲。
@@ -17,7 +18,7 @@ CASES（逗號隔開；每個 case 開一個新的瀏覽器、從最小存檔開
   已畢業：GRADUATED＝PG.gradDay()、PG.done.grad＝1、GRAD_DONE、GRAD_EVENING none；大四下的收尾演過（PACKED_Y4、MOVED_OUT＝6/28、events ev_pack_y4／ev_grad_family／
   ev_grad_lunch／ev_grad_envelope／ev_move_out_y4）；HOME_AFTER＝gongguan（公館的套房：不在「家」的選單裡，畢業後篇站著不動就會跳；三個傾向都一樣，只為了讓跳時間的方式一致）；
   BAR_REG＝true；沒有延畢：FAIL_DELAY_COURSES＝[]＋大四下成績單已發（CLS.rec grades.Y4S2＝{}，同 baseline_1102/routes3.js 的 noFail）；沒有交換。
-  加入麵店團群組（PHONE.join noodle_team，大部分玩家都在；routes.js 同）。
+  加入桌遊團群組（PHONE.join noodle_team，大部分玩家都在；routes.js 同）。
   傾向（【捷徑】讀檔後用遊戲 API 補，再 GAME.snapshot() 讀一次；讀完用 STORY.careerLean 檢查 top 對不對＝前置成立）：
     A：LAWCLUB_SAT_VISITS＝10（法服週六去 10 次；routes.js 的 A）
     B：Y4_PATH＝grad（報考研究所）、沒有 GRAD_ADMIT（沒錄取）、自習 100 小時（stats.study 100、STUDY_AT_LAW 0）→ B 10（routes.js R7 的 B）
@@ -106,7 +107,7 @@ LEAN_JS = {
 PREP_JS = """(()=>{ const G=GAME.G, F=G.flags;
   F.dating_kexin=false; if(F.romance) delete F.romance.kexin; F.ROMANCE_HISTORY=(F.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin'); delete F.DATED_1_kexin; delete F.KX_TOUR_YES;
   const R=CLS.rec(G); R.grades=R.grades||{}; R.grades.Y4S2=R.grades.Y4S2||{};
-  PHONE.join(G,'noodle_team','麵店團');
+  PHONE.join(G,'noodle_team','桌遊團');
   __LEAN__
   return {lean:STORY.careerLean(G),pgOn:PG.on(G),delayed:PG.delayed(G),sits2029:PG.sits(G,2029),zone:G.zone,day:CALENDAR.dateOf(G.day).key,h:G.hour}; })()"""
 
@@ -119,7 +120,7 @@ async def load(pg, cdp, run, st, label, lean):
     r = await pg.evaluate(js)
     s2 = await pg.evaluate("()=>GAME.snapshot()")
     await L.load_state(pg, s2, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP); await pg.wait_for_timeout(2500)
-    run.setup('[前置] %s；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發（grades.Y4S2）、加入麵店團、傾向 %s（%s）→ %s' % (label, lean, LEAN_JS[lean], J(r)))
+    run.setup('[前置] %s；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發（grades.Y4S2）、加入桌遊團、傾向 %s（%s）→ %s' % (label, lean, LEAN_JS[lean], J(r)))
     return r
 
 
@@ -317,7 +318,7 @@ async def one_case(pg, cdp, run, case):
     run.check('%s：12/14 放榜演了（「%s」有出現）' % (tag, T['r2'][0]), bool(r2l), J(done_keys(g)))
     run.check('%s：BAR_YEAR＝2029' % tag, F.get('BAR_YEAR') == 2029, J(F.get('BAR_YEAR')))
     fd = [m for m in msgs if m.get('tag') == 'pg_first_day']
-    run.note('%s：第一份工作（麵店團 pg_first_day，%s）原文：%s' % (tag, fd[0]['day'] if fd else '-', J([[m['from'], m['text']] for m in fd])))
+    run.note('%s：第一份工作（桌遊團 pg_first_day，%s）原文：%s' % (tag, fd[0]['day'] if fd else '-', J([[m['from'], m['text']] for m in fd])))
     run.check('%s：第一份工作那一段演了（FIRST_DAY_SEEN）' % tag, bool(F.get('FIRST_DAY_SEEN')), J(F))
     lastl = [x for x in said if x['t'] in T['last'].values()]
     run.note('%s：尾聲最後一句（EPI.last）%s；PG.path＝%s；careerLean＝%s' % (tag, J([[x['d'], x['n'], x['t']] for x in lastl]), g['path'], J(g['lean'])))

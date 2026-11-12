@@ -19,9 +19,9 @@ LAWWW 的 Node 逐句：tests/aa814_prio_gap_1111_unit.js（事件 id、檔案�
        對照 C12@Y2（8/27 回國，8/6 以後）＝「…開學前才回台南。…」照舊（修改前：重考期是「開學前才上去」）。H21_CASES 改段。
   H22  2-2 重考期約她出國（手機「活動」→「安排出國旅遊」T13）：她說「我現在連台中市區都很少去耶。……等我考完，第一個要去的地方給你選。」
        （修改前：「先在國內走走吧，我們還沒一起去過很多地方。」）；被拒、沒有排出一趟（V.t13 沒有多）。日子照 VAC.nextBreak、她那幾天 presence 挑（試 4 個）。
-  H23  2-3 撞期（大二暑假 2027）：【前置】C09@Y2 柬埔寨（7/27～8/5）、C12@Y2 京都（8/9～8/27）報名 yes、在麵店團群組、和方奕廷 FAMILIAR。
+  H23  2-3 撞期（大二暑假 2027）：【前置】C09@Y2 柬埔寨（7/27～8/5）、C12@Y2 京都（8/9～8/27）報名 yes、在桌遊團群組、和方奕廷 FAMILIAR。
        a. 7/10 21:00 方奕廷私訊揪 T02（8/1～8/4）→ 多一則系統字「會撞到：海外志工（暖陽服務隊） 8/1」；回「去。」→ 答應的當下「…（同一段時間只能去一趟）」；T02 照報（不擋）
-       b.【捷徑】同一份存檔改到 7/20 20:50 → 21:00 麵店團揪香港（VA10）多「會撞到：海外語言文化課程（京都） 8/25」；回「我也去。」VA10＝yes（不擋）
+       b.【捷徑】同一份存檔改到 7/20 20:50 → 21:00 桌遊團揪香港（VA10）多「會撞到：海外語言文化課程（京都） 8/25」；回「我也去。」VA10＝yes（不擋）
        c. 手機「活動」→ 安排出國旅遊：選出發日的選項下面（hint）寫會撞到哪幾天（探針照已報名的日子自己算）；挑一個有撞的、自己去 → 照排（不擋）
        系統字從資料（G.msgs th sys）和畫面（手機「訊息」→「通知」那一段）兩邊看。標題、日期從遊戲資料（VAC.inst、VAC_DATA.VA10）讀。
   U31  3-1 美國、挽回中（沒交往、US1 alone）9/13：【前置】18:42 人在法學院圖書館（us_lawlib）→ 18:45 起演 ev_us2_repair、先帶到 C 棟 208（us_shared）
@@ -700,8 +700,8 @@ async def part_h23(pg, cdp):
     P = Ctx('H23'); await begin(pg, P)
     vac = {'C09@Y2': 'yes', 'C12@Y2': 'yes'}
     info = await ps_load(pg, P, '2027-07-10', 20.83, vac=vac, flags={'VAC_C09': True, 'VAC_C09_INT': True, 'VAC_C12': True},
-                         meet=['npc_fangyt', 'zhe', 'yu', 'classmate_bohan'], groups=[['noodle_team', '麵店團']],
-                         why='C09@Y2 柬埔寨、C12@Y2 京都報名 yes（VAC_C09_INT：面試到了＝不會「沒上」）；在麵店團群組；方奕廷、阿哲、Alison、柏翰 FAMILIAR 以上')
+                         meet=['npc_fangyt', 'zhe', 'yu', 'classmate_bohan'], groups=[['noodle_team', '桌遊團']],
+                         why='C09@Y2 柬埔寨、C12@Y2 京都報名 yes（VAC_C09_INT：面試到了＝不會「沒上」）；在桌遊團群組；方奕廷、阿哲、Alison、柏翰 FAMILIAR 以上')
     VI = await pg.evaluate(VACI_JS, ['C09@Y2', 'C12@Y2', 'T02@Y2'])
     R.note('[H23] 遊戲資料：%s' % J(VI))
     if not R.check('[H23] 前置：C09、C12 是 yes、T02 在資料裡', (VI.get('C09@Y2') or {}).get('reg') == 'yes' and (VI.get('C12@Y2') or {}).get('reg') == 'yes' and bool(VI.get('T02@Y2')), J(VI)): return
@@ -733,11 +733,11 @@ async def part_h23(pg, cdp):
     fl_b = {'VAC_C09': True, 'VAC_C09_INT': True, 'VAC_C12': True}
     if YTMET: fl_b['YT_MET_JOB'] = True
     await ps_load(pg, P, '2027-07-20', 20.83, vac=vac, flags=fl_b,
-                  meet=['npc_fangyt', 'zhe', 'yu', 'classmate_bohan'], groups=[['noodle_team', '麵店團']],
+                  meet=['npc_fangyt', 'zhe', 'yu', 'classmate_bohan'], groups=[['noodle_team', '桌遊團']],
                   why='b 重新讀：C09、C12 yes、T02 沒報（a 答應的 T02 8/1～8/4 會和阿哲 8/1 催問撞，不帶）；%s' % ('【前置】認識語彤（G.flags.YT_MET_JOB）' if YTMET else '沒認識語彤（沒有 YT_MET_JOB）'))
     DIAG_VA = "(()=>{ const G=GAME.G, Q=(G.phone&&G.phone.q)||[]; return {key:(CALENDAR.dateOf(G.day)||{}).key, h:+(+G.hour).toFixed(2), msgs:(G.msgs||[]).filter(m=>m&&m.tag==='va10_ask').map(m=>({from:m.from||null, t:String(m.text||'').slice(0,16), ask:!!m.ask})), q:Q.filter(x=>x&&x.tag==='va10_ask').map(x=>({day:x.day,h:x.h,n:(x.items||[]).length,asks:(x.items||[]).filter(i=>i&&i.ask).map(i=>i.ask.id)})), pending:(typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).map(m=>m.ask&&m.ask.id):[])}; })()"
     R.note('[H23b] BB 20:50 診斷：讀檔完（7/20 21:00 以前）G.msgs／G.phone.q 的 va10_ask、PHONE.pending：%s' % J(await pg.evaluate(DIAG_VA)))
-    P.path.append('b1 自然觸發：7/20 21:00 麵店團群組揪香港（VA10）——先不回')
+    P.path.append('b1 自然觸發：7/20 21:00 桌遊團群組揪香港（VA10）——先不回')
     P.phone_want = ['g:noodle_team']; P.cur_th = None; P.opened = {}; P.answered = []
     P.phone_ask = lambda th, o: None
     w, s, ok = await drive(pg, cdp, P, lambda w, s: any(m['tag'] == 'va10_ask' for m in (w or {}).get('msgs', [])) and not s['phone'], 420, {'tags': ['va10_ask', 'va10_nudge'], 'fl': ['VA10']}, 'b1. 7/20 21:00 VA10 群組（不回）')
@@ -746,7 +746,7 @@ async def part_h23(pg, cdp):
     if not any(m.get('ask') for m in va):   # N1_AA814（b77a）這一格 FAIL：vac3d.js 把 ask 掛在群組最後一則（M[M.length-1]），探針記到的卻是 null——印出整串和 G.msgs 原始那一則對照
         raw = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&m.tag==='va10_ask').map(m=>JSON.stringify(m).slice(0,400)))()")
         R.note('[H23b] va10_ask 全部 %d 則（探針記錄）：%s；G.msgs 原始：%s' % (len(va), J(va), J(raw)))
-    R.check('[H23b] 7/20 21:00 麵店團群組揪香港（有回覆選項）', bool(va) and any(m.get('ask') for m in va), J(va[-2:]))
+    R.check('[H23b] 7/20 21:00 桌遊團群組揪香港（有回覆選項）', bool(va) and any(m.get('ask') for m in va), J(va[-2:]))
     ytmet_now = await pg.evaluate("(()=>{ try{ return typeof YTJOB!=='undefined'&&YTJOB.met?!!YTJOB.met(GAME.G):!!(GAME.G.flags||{}).YT_MET_JOB; }catch(e){ return 'ERR '+e; } })()")
     askf = [m.get('from') for m in va if m.get('ask')]; ytm = [m for m in va if m.get('from') == 'heroine_03']
     R.note('[H23b] 認識語彤：設 %s、遊戲判 %s；帶回覆選項的那則是誰說的 %s；語彤在這串的話 %d 則' % (YTMET, ytmet_now, J(askf), len(ytm)))

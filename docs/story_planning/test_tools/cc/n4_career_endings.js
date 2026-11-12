@@ -39,7 +39,7 @@ async function sim(name,flags,sch,sc){ sc=sc||{}; const G=H.fresh('2029-06-02',8
   if(sch.zq){ H.FRIEND('heroine_04'); G.flags.ZQ_CONTRACT='lawyer'; }
   school(G,sch); const R=CLS.rec(G); R.grades=R.grades||{}; R.grades.Y4S2=R.grades.Y4S2||{};
   const pre=preGrad(G);
-  PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人'); warns.length=0;
+  PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人'); warns.length=0;
   const order=[]; let it=0, err=null, stuck=null; const allSaid=[]; const orun=PG.runStep;
   PG.runStep=async function(GM,s){ const r=await orun.call(PG,GM,s); if(r) order.push(s.id); return r; };
   const osay=GM.say; GM.say=async(w,t)=>{ allSaid.push(String(t)); return osay(w,t); };
