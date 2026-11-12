@@ -1,0 +1,46 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tutor_back_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHIFT7_425_tutor\out
+CC 家教回不了以後再接：SHA 425ce265d5；CASES ['NO', 'EXPIRE', 'SKIP3']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [NO] ①【前置／捷徑】讀檔到宿舍 2026-02-23（大一下開學第一天）11:54；旗標 JOB_TUTOR、tutorFromDay＝大一上第 40 天；12:05 跑一次 JOBS.phone → {"start": "Y1S1", "delivered": 1, "queued": 0}
+  [  50.0s] [NO] ① 明軒那一串：[{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_term_Y1S2", "opts": ["來", "不了"], "until": 6528, "open": true}, "ans": null}]
+PASS [NO] ① 開學那一則（tutor_term_Y1S2）有來  [{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_term_Y1S2", "opts": ["來", "不了"], "until": 6528, "open": true}, "ans": null}]
+  [  53.9s] [NO] ① 打開明軒那一串（點到 True）：選項 [{"v": "tutor_term_Y1S2|0", "t": "來", "dis": false, "rect": [44, 561, 49, 44], "inView": true, "onTop": true, "coveredBy": null}, {"v": "tutor_term_Y1S2|1", "t": "不了", "dis": false, "rect": [99, 561, 64, 44], "inView": true, "onTop": true, "coveredBy": null}]
+PASS [NO] ① 看得到兩個選項  [{"v": "tutor_term_Y1S2|0", "t": "來", "dis": false, "rect": [44, 561, 49, 44], "inView": true, "onTop": true, "coveredBy": null}, {"v": "tutor_term_Y1S2|1", "t": "不了", "dis": false, "rect": [99, 561, 64, 44], "inView": true, "onTop": true, "coveredBy": null}]
+  [  53.9s] [NO] ① 按「不了」
+  [  56.5s] [NO] ① 之後旗標：{"JOB_TUTOR": true, "tutorFromDay": 25, "TUTOR_TERM_Y1S2": "stop", "TUTOR_STOP": 160}
+  [前置／捷徑] [NO] ②【捷徑】日子直接跳到 2026-09-07（大二上開學第一天）12:30、跑一次 JOBS.phone
+  [  58.1s] [NO] ② tutorBackDue=True；旗標 {"JOB_TUTOR": true, "tutorFromDay": 25, "TUTOR_TERM_Y1S2": "stop", "TUTOR_STOP": 160}；明軒那一串（3 則）：[{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_term_Y1S2", "opts": ["來", "不了"], "until": 6528, "open": false}, "ans": 1}, {"i": 1, "from": "player", "text": "不了", "day": 160, "h": 12.05, "tag": null, "ask": null, "ans": null}, {"i": 2, "from": "classmate_mingxuan", "text": "好，我跟家長說。有空回來看看。", "day": 160, "h": 12.05, "tag": null, "ask": {"id": "tutor_back_356", "opts": ["我現在可以接家教了。"], "until": 14544, "open": true}, "ans": null}]
+  [  58.1s] [NO] ② 「接家教」選項掛在：[{"第幾則": 3, "共幾則": 3, "text": "好，我跟家長說。有空回來看看。", "ask": {"id": "tutor_back_356", "opts": ["我現在可以接家教了。"], "until": 14544, "open": true}}]；再問那一則：[]
+PASS [NO] ② 明軒那一串多一個「我現在可以接家教了。」的選項  [{"i": 2, "from": "classmate_mingxuan", "text": "好，我跟家長說。有空回來看看。", "day": 160, "h": 12.05, "tag": null, "ask": {"id": "tutor_back_356", "opts": ["我現在可以接家教了。"], "until": 14544, "open": true}, "ans": null}]
+PASS [NO] ② 選項掛在最新一則底下（第 5 題）  [[3, 3]]
+  [  62.0s] [NO] ② 剛打開明軒那一串（點到 False）：捲動 0/0（看得到 0、在最下面 True）；選項 []
+FAIL [NO] ② 剛打開就看得到選項（在可視範圍、沒被蓋到、按得到）  null
+  [前置／捷徑] [EXPIRE] ①【前置／捷徑】讀檔到宿舍 2026-02-23（大一下開學第一天）11:54；旗標 JOB_TUTOR、tutorFromDay＝大一上第 40 天；12:05 跑一次 JOBS.phone → {"start": "Y1S1", "delivered": 1, "queued": 0}
+  [  83.4s] [EXPIRE] ① 明軒那一串：[{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_term_Y1S2", "opts": ["來", "不了"], "until": 6528, "open": true}, "ans": null}]
+PASS [EXPIRE] ① 開學那一則（tutor_term_Y1S2）有來  [{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_term_Y1S2", "opts": ["來", "不了"], "until": 6528, "open": true}, "ans": null}]
+  [  83.4s] [EXPIRE] ① 開學那一則不回（讓它過期）
+  [  83.4s] [EXPIRE] ① 之後旗標：{"JOB_TUTOR": true, "tutorFromDay": 25}
+  [前置／捷徑] [EXPIRE] ②【捷徑】日子直接跳到 2026-09-07（大二上開學第一天）12:30、跑一次 JOBS.phone
+  [  84.9s] [EXPIRE] ② tutorBackDue=True；旗標 {"JOB_TUTOR": true, "tutorFromDay": 25}；明軒那一串（1 則）：[{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_back_356", "opts": ["我現在可以接家教了。"], "until": 14544, "open": true}, "ans": null}]
+  [  84.9s] [EXPIRE] ② 「接家教」選項掛在：[{"第幾則": 1, "共幾則": 1, "text": "家長問你這學期還來嗎", "ask": {"id": "tutor_back_356", "opts": ["我現在可以接家教了。"], "until": 14544, "open": true}}]；再問那一則：[]
+PASS [EXPIRE] ② 明軒那一串多一個「我現在可以接家教了。」的選項  [{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_back_356", "opts": ["我現在可以接家教了。"], "until": 14544, "open": true}, "ans": null}]
+PASS [EXPIRE] ② 選項掛在最新一則底下（第 5 題）  [[1, 1]]
+  [  88.7s] [EXPIRE] ② 剛打開明軒那一串（點到 False）：捲動 0/0（看得到 0、在最下面 True）；選項 []
+FAIL [EXPIRE] ② 剛打開就看得到選項（在可視範圍、沒被蓋到、按得到）  null
+  [前置／捷徑] [SKIP3] ①【前置／捷徑】讀檔到宿舍 2026-02-23（大一下開學第一天）11:54；旗標 JOB_TUTOR、tutorFromDay＝大一上第 40 天；12:05 跑一次 JOBS.phone → {"start": "Y1S1", "delivered": 1, "queued": 0}
+  [ 110.9s] [SKIP3] ① 明軒那一串：[{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_term_Y1S2", "opts": ["來", "不了"], "until": 6528, "open": true}, "ans": null}]
+PASS [SKIP3] ① 開學那一則（tutor_term_Y1S2）有來  [{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_term_Y1S2", "opts": ["來", "不了"], "until": 6528, "open": true}, "ans": null}]
+  [ 114.6s] [SKIP3] ① 打開明軒那一串（點到 True）：選項 [{"v": "tutor_term_Y1S2|0", "t": "來", "dis": false, "rect": [44, 561, 49, 44], "inView": true, "onTop": true, "coveredBy": null}, {"v": "tutor_term_Y1S2|1", "t": "不了", "dis": false, "rect": [99, 561, 64, 44], "inView": true, "onTop": true, "coveredBy": null}]
+PASS [SKIP3] ① 看得到兩個選項  [{"v": "tutor_term_Y1S2|0", "t": "來", "dis": false, "rect": [44, 561, 49, 44], "inView": true, "onTop": true, "coveredBy": null}, {"v": "tutor_term_Y1S2|1", "t": "不了", "dis": false, "rect": [99, 561, 64, 44], "inView": true, "onTop": true, "coveredBy": null}]
+  [ 114.6s] [SKIP3] ① 按「來」
+  [前置／捷徑] [SKIP3] ①b【捷徑】記成連續三週沒去先停：G.flags.TUTOR_STOP＝大一下開學後第 30 天（沒有 TUTOR_RE_NO）
+  [ 117.2s] [SKIP3] ① 之後旗標：{"JOB_TUTOR": true, "tutorFromDay": 25, "TUTOR_TERM_Y1S2": "go", "TUTOR_STOP": 190}
+  [前置／捷徑] [SKIP3] ②【捷徑】日子直接跳到 2026-09-07（大二上開學第一天）12:30、跑一次 JOBS.phone
+  [ 118.8s] [SKIP3] ② tutorBackDue=False；旗標 {"JOB_TUTOR": true, "tutorFromDay": 25, "TUTOR_TERM_Y1S2": "go", "TUTOR_STOP": 190}；明軒那一串（3 則）：[{"i": 0, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 160, "h": 12.05, "tag": "tutor_term_Y1S2", "ask": {"id": "tutor_term_Y1S2", "opts": ["來", "不了"], "until": 6528, "open": false}, "ans": 0}, {"i": 1, "from": "player", "text": "來", "day": 160, "h": 12.05, "tag": null, "ask": null, "ans": null}, {"i": 2, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 356, "h": 12, "tag": "tutor_re_Y2S1", "ask": {"id": "tutor_re_Y2S1", "opts": ["來", "不了"], "until": 11232, "open": true}, "ans": null}]
+  [ 118.8s] [SKIP3] ② 「接家教」選項掛在：[]；再問那一則：[{"第幾則": 3, "text": "家長問你這學期還來嗎", "ask": {"id": "tutor_re_Y2S1", "opts": ["來", "不了"], "until": 11232, "open": true}}]
+PASS [SKIP3] ② 不直接掛「我現在可以接家教了。」（不算回不了）  []
+PASS [SKIP3] ② 明軒先問一次（tutor_re_Y2S1）、而且是最新一則  [{"i": 2, "from": "classmate_mingxuan", "text": "家長問你這學期還來嗎", "day": 356, "h": 12, "tag": "tutor_re_Y2S1", "ask": {"id": "tutor_re_Y2S1", "opts": ["來", "不了"], "until": 11232, "open": true}, "ans": null}]
+  [ 122.4s] [SKIP3] ② 打開明軒那一串：{"open": false, "scrollTop": 0, "scrollHeight": 0, "clientHeight": 0, "atBottom": true, "box": [0, 0], "asks": [], "text": "‹ 訊息明軒（系籃）☆不能傳訊息：還沒見過面今天 12:03家長問你這學期還來嗎今天 12:03來"}
+PASS 沒有 JS 例外  []
+FAILED 2: [NO] ② 剛打開就看得到選項（在可視範圍、沒被蓋到、按得到）；[EXPIRE] ② 剛打開就看得到選項（在可視範圍、沒被蓋到、按得到）
