@@ -54486,7 +54486,7 @@
    "id": "L118-CLOSED-LOOKS-OPEN-1112",
    "title": "118 巷的店沒開的時候畫面還是開著的（使用者截圖：水上便當燈亮、沒有鐵門，按了才說「鐵門拉下來一半」）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -54499,7 +54499,7 @@
     "confirmed": true
    },
    "sha": "bf2b8a224a",
-   "next": "【LAWWW-C 11-12 07:1x】程式部分做了：沒開的時候店裡不站店員（18 間，bf2b8a224a，src/shoplife3d.js S.closeClerks）。剩「鐵門、燈暗」的外觀＝LAWWW2｜沒開（公休日、打烊後）時店面要看得出來：鐵門拉下來一半、燈暗（照打烊那一句的畫面）；營業時間已改成不午休（L118-HOURS-1112），所以只剩公休日和晚上會遇到",
+   "next": "【BB-C 11-12 20:12 UTC】PASS、已驗收。P3 轉 LAWWW2：鐵門只拉到一半高、下半截露出暗玻璃和櫃台，建議拉到地（另開 L118-SHUTTER-FULL-1112）。水上便當整間 PASS。｜【LAWWW-C 11-12 07:1x】程式部分做了：沒開的時候店裡不站店員（18 間，bf2b8a224a，src/shoplife3d.js S.closeClerks）。剩「鐵門、燈暗」的外觀＝LAWWW2｜沒開（公休日、打烊後）時店面要看得出來：鐵門拉下來一半、燈暗（照打烊那一句的畫面）；營業時間已改成不午休（L118-HOURS-1112），所以只剩公休日和晚上會遇到",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -54508,7 +54508,37 @@
     "ack": "SENT"
    },
    "source": "使用者 11-12 04:1x～04:3x 實玩回報（對 LAWWW-C）",
-   "authorized": "使用者直接回報"
+   "authorized": "使用者直接回報",
+   "evidence": "BB_379（企劃線 c5b3d1e553，BB-C 11-12 20:12 UTC）：L118_CLOSED_LOOK @ b0a4808c5a 11 間打烊 21:50、公休 14:00 店裡全暗＋鐵捲門拉下 PASS"
+  },
+  {
+   "id": "L118-SHUTTER-FULL-1112",
+   "title": "118 巷打烊的鐵捲門只拉到一半高，下半截露出暗玻璃和櫃台：拉到地",
+   "owner": "LAWWW2",
+   "priority": "P3",
+   "status": "待開工",
+   "source": "BB-C 11-12 20:12 UTC（BB_379 c5b3d1e553）",
+   "authorized": "D108、§12 第 1 點",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "from": "BB",
+    "to": "LAWWW2",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB_379",
+    "acceptance": "118 巷 11 間打烊／公休鐵捲門拉到地，看不到下半截玻璃和櫃台",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 11-12 20:1x】已轉 LAWWW2（P3，排在溫特寶邸 v2、SHOP-FIRST-APPROACH 之後）。"
   },
   {
    "id": "GIFT-ALL-DRINK-SHOPS-1112",
