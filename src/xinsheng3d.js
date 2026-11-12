@@ -206,7 +206,7 @@ const XS3=(function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       const xsR=c.scene.clone(true); Z3.attachWenzhouModel(E,g,xsR,'xsfb','xinsheng_street_glb');
       if(Z3.shopInsideLit) Z3.shopInsideLit(xsR,zone,S.SHOP_IN_PLACE);
-      if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.SHOP_REAL);   /* SHOP-REAL-INSIDE-1112：附近的店換成真的室內模型（簡化的 sk_in_<店> 只當載入前的備用）*/   /* SHOP-WINDOW-3D-1112：立體店內（sk_in_<店>）打烊就關燈 */
+      if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.SHOP_REAL); if(Z3.shopRealGlow) Z3.shopRealGlow(g,'xinsheng_street_glb',zone,S.SHOP_REAL);   /* SHOP-REAL-INSIDE-1112：附近的店換成真的室內模型（簡化的 sk_in_<店> 只當載入前的備用）*/   /* SHOP-WINDOW-3D-1112：立體店內（sk_in_<店>）打烊就關燈 */
       }).catch(e=>console.warn('新生南路正式模型載入失敗，用方塊立面',e));
     /* XS-FARVIEW-1105：街兩頭的樓房（正式模型，遠景：不投影）；接上以後這一區不畫引擎的城市剪影圓筒（engine3d.js 讀 zone.noSkylineCity；圓筒在校園那一側正好落在校園裡）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_far']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_far').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;

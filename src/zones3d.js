@@ -1299,7 +1299,7 @@ const Z3 = (function(){
     { const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(zone,dt,E2); copyTick(); mktTick(); if(typeof WZCAT!=='undefined') WZCAT.update(dt,E2); }; } copyTick(); mktTick();   /* WZCAT：公園的貓走動（src/wzcat3d.js，J13）*/
     // 兩點半 Café 的 Blender 正式模型（第二個 AI：tools/blender/env_second/cafe_exterior.py）：載入後接到套件建築上；失敗或 ?nobldg 時維持套件外觀
     // 主巷兩側公寓的 Blender 正式模型（第二個 AI：tools/blender/env_second/wz_street.py）：載入後藏起套件外觀；失敗或 ?nobldg 時維持套件
-    if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); shopInsideLit(root,zone,{B7:'wz_brunch',B3:'wz_teishoku'}); shopInsideReal(E,g,zone,wzShopReal()); propBlocks(nav,WZ_PROP_BLOCKS); propReStand(E,nav); wzParkSeason(root); root.traverse(o=>{ if(/^COPY_(CORNER_SHUT|CORNER_OPEN|A1_SHUT|A1_RENEW)$/.test(o.name)) copyNodes.push(o); }); copyKey=null; copyTick(); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
+    if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); shopInsideLit(root,zone,{B7:'wz_brunch',B3:'wz_teishoku'}); { const wr=wzShopReal(); shopInsideReal(E,g,zone,wr); shopRealGlow(g,'wenzhou_street_glb',zone,wr); } propBlocks(nav,WZ_PROP_BLOCKS); propReStand(E,nav); wzParkSeason(root); root.traverse(o=>{ if(/^COPY_(CORNER_SHUT|CORNER_OPEN|A1_SHUT|A1_RENEW)$/.test(o.name)) copyNodes.push(o); }); copyKey=null; copyTick(); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
     if(scGLB){ P3.mergeStatic(scG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,scG,scList,c.scene); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     if(pkGLB) ASSETS.loadOne('bldg.wz_park').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzPark','wz_park_glb'); wzParkSeason(root); for(const o of g.children) if(o.userData.wzParkFb) o.visible=false; }).catch(e=>console.warn('小公園正式模型載入失敗，用套件的外觀',e));
     if(prGLB) ASSETS.loadOne('bldg.wz_props').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'wzProp','wz_props_glb'); }).catch(e=>console.warn('溫州街街道細節正式模型載入失敗，用套件的外觀',e));
@@ -1706,6 +1706,24 @@ const Z3 = (function(){
       sh.vertexShader='attribute float aShop;\nuniform float uShopLit[17];\nfloat ggShopK(float s){ int si=int(s+0.5); float k=1.0; for(int i=1;i<17;i++){ if(i==si) k=uShopLit[i]; } return k>0.99?1.0:0.0; }\n'+sh.vertexShader.replace('vGlowOp = mix( aOp.x, aOp.y, uNightK )','vGlowOp = ggShopK( aShop ) * mix( aOp.x, aOp.y, uNightK )'); };
     m.customProgramCacheKey=()=>'wzGlowBatch1_ggShop'; m.needsUpdate=true;
     return {mesh:gm,info,n:k}; }
+  /* SHOP-CLOSED-SIGN-1112（LAWWW2-C；店面標準 §12 第 1 點「打烊看得出來關了」）：公館以外的街（溫州街、汀州路、新生南路）沒有「照店熄光暈」，打烊了招牌、店內、門口的燈還亮。
+     Z3.shopRealGlow(g,模型名,zone,真的店內清單)：街景模型合成的光暈網格（<模型名>_glows）每個光暈照位置分給那一間（那一間室內的範圍＋店門前後 4 m；最近的那一間），
+     那一間沒開（PLACES.isOpen、颱風）就不畫。只收店自己的燈（店內、招牌、招牌燈、門口的燈、菜單燈箱）；騎樓燈、住家門燈、壁燈、路燈不動。最多 32 間。回傳 {mesh,lit,ids,upd,info} */
+  const SHOP_GLOW_OWN=/^GLOW_(gg_xs_in|shopin|shoplamp|signbox|vsign|gg_xs_lamp|signspot|menubox|offbeat_in|offbeat_lamp|xs_sign|mok_signlamp)(_|$)/;
+  function shopRealGlow(g,name,zone,list){ if(!g||!zone||!Array.isArray(list)||!list.length) return null; const gm=g.children.find(o=>o.isMesh&&o.userData&&o.userData.glowBatch&&o.name===name+'_glows'); if(!gm||gm.geometry.attributes.aShop) return null;
+    const N=32, ids=[], box=[]; for(const q of list){ if(!q||!q.place||ids.length>=N) continue; let k=ids.indexOf(q.place); const c=Math.abs(Math.cos(q.ry||0)), sn=Math.abs(Math.sin(q.ry||0)), hx=c*q.w/2+sn*q.d/2, hz=sn*q.w/2+c*q.d/2, along=c>=sn;   /* along＝店面沿 x */
+      const b={x0:Math.min(q.x-hx,q.cx-(q.ex||0)),x1:Math.max(q.x+hx,q.cx+(q.ex||0)),z0:Math.min(q.z-hz,q.cz-(q.ez||0)),z1:Math.max(q.z+hz,q.cz+(q.ez||0))}; if(along){ b.z0-=4; b.z1+=4; } else { b.x0-=4; b.x1+=4; } b.mx=(b.x0+b.x1)/2; b.mz=(b.z0+b.z1)/2;
+      if(k<0){ ids.push(q.place); box.push([b]); } else box[k].push(b); }
+    const items=gm.userData.glowBatch.items, A=new Float32Array(items.length*4), info={}; let n=0;
+    items.forEach((it,i)=>{ if(!SHOP_GLOW_OWN.test(it.n||'')) return; let best=0, bd=1e9; for(let k=0;k<box.length;k++) for(const b of box[k]){ if(it.x<b.x0||it.x>b.x1||it.z<b.z0||it.z>b.z1) continue; const d=Math.hypot(it.x-b.mx,it.z-b.mz); if(d<bd){ bd=d; best=k+1; } }
+      if(best){ A.fill(best,i*4,i*4+4); info[ids[best-1]]=(info[ids[best-1]]||0)+1; n++; } });
+    gm.geometry.setAttribute('aShop',new THREE.BufferAttribute(A,1)); const lit=new Array(N+1).fill(1), U={value:lit}, m=gm.material, prev=m.onBeforeCompile;
+    m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uShopLit=U;
+      sh.vertexShader='attribute float aShop;\nuniform float uShopLit[33];\nfloat ggShopK(float s){ int si=int(s+0.5); float k=1.0; for(int i=1;i<33;i++){ if(i==si) k=uShopLit[i]; } return k>0.99?1.0:0.0; }\n'+sh.vertexShader.replace('vGlowOp = mix( aOp.x, aOp.y, uNightK )','vGlowOp = ggShopK( aShop ) * mix( aOp.x, aOp.y, uNightK )'); };
+    m.customProgramCacheKey=()=>'wzGlowBatch1_shopReal'; m.needsUpdate=true;
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length;i++) lit[i+1]=PLACES.isOpen(ids[i],(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(ids[i],G.day))?1:0.03; };
+    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0) upd(); }; upd();
+    const R={mesh:gm,lit,ids,upd,info,n}; zone.shopGlow=R; return R; }
   /* PUTONG101-WINDOW-1102 第 2 版 B（LAWWW2 帳號 A 11-10；BB PARTIAL：博思一樓玻璃大廳白天 RGB 只從 [35,31,22] 到 [42,38,28]，從普通 101 北窗看還是黑洞）：
      那片帷幕退在樓板下面、照不到光，ck_glass 白天又不發光——頂點色調亮看不出來。真的玻璃白天會反射對面的天空和普通的白牆。
      做法：campus_teach.py 把那片帷幕的範圍（玻璃網格自己的座標）寫進 by_glass 的 extras.skyBox；這裡給那個材質加一段 shader：範圍內的像素白天加一層灰藍（輸出色空間直接加，
@@ -3087,5 +3105,5 @@ const Z3 = (function(){
       out.push({id:q.id,place:q.place,w:+(hw*2).toFixed(3),h,center:[q.cx,h/2,q.cz],normal:[+nx.toFixed(4),0,+nz.toFixed(4)],
         corners:[[q.cx-sx,0,q.cz-sz],[q.cx+sx,0,q.cz+sz],[q.cx+sx,h,q.cz+sz],[q.cx-sx,h,q.cz-sz]].map(c=>c.map(v=>+v.toFixed(3)))}); }
     return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks,navNotch,NAV_NOTCHES};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopRealGlow,wzShopReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks,navNotch,NAV_NOTCHES};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();

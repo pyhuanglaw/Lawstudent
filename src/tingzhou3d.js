@@ -113,7 +113,7 @@ const TZ3=(function(){
     const FG=L.fromGongguan, zone={group:g,nav,spawn:{x:FG.x,z:FG.z,yaw:FG.yaw},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       Z3.attachWenzhouModel(E,g,c.scene.clone(true),'tzfb','tingzhou_street_glb'); zone.tzFormal=true;
-      if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.shopReal());   /* SHOP-REAL-INSIDE-1112：走得進去的店，玻璃後面放那一間的室內模型（BB_379：汀州路泰米村食、東南大聯、汀州聯通店外是照片貼圖、和店內不一樣）*/
+      if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.shopReal()); if(Z3.shopRealGlow) Z3.shopRealGlow(g,'tingzhou_street_glb',zone,S.shopReal());   /* SHOP-REAL-INSIDE-1112：走得進去的店，玻璃後面放那一間的室內模型（BB_379：汀州路泰米村食、東南大聯、汀州聯通店外是照片貼圖、和店內不一樣）*/
       }).catch(e=>console.warn('汀州路正式模型載入失敗，用方塊立面',e));
     // 路邊的機車、腳踏車（第 3 版；使用者 11-10 21:5x：「路邊新加的機車……長得幾乎一樣莫名其妙」；BB：兩側從頭排到尾、同樣間距、同樣角度，像複製貼上的一道牆）：
     //   一小群一小群停（三到六台），群和群之間空一到三格，有的路段整段沒車；同一群斜的方向差不多、每台再歪一點；有的車頭朝外；五群裡一群是腳踏車（淑女車、公共單車、登山車…混著）。
