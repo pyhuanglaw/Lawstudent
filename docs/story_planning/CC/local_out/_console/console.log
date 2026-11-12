@@ -1006,3 +1006,12 @@
 [20:15:03] ==== END   SHUT_TZ_door_14_r2  exit=0  135s   ====
 [20:15:12] solo item DN_PROGRAMS waits: no new items start until the 1 running item(s) finish
 [20:17:20] [res] cpu=2% mem=33% (10.6/31.4 GB) chrome_testing=0  END SSB_gg3c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4183dfd9e..e52cdd201  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:17:29] ==== END   SSB_gg3c  exit=1  1111s   ====
+[20:17:32] memory 34% before starting DN_PROGRAMS (0 running)
+[20:17:32] ==== START DN_PROGRAMS  (probe @ 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64) ====
+[20:17:35] [res] cpu=1% mem=34% (10.7/31.4 GB) chrome_testing=0  START DN_PROGRAMS
+[20:17:49] 正在跑：DN_PROGRAMS（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:19:50] [res] cpu=0% mem=35% (11.2/31.4 GB) chrome_testing=0  END DN_PROGRAMS
