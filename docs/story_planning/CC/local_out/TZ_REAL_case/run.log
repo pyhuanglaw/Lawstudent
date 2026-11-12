@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_campus_view_shot_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZ_REAL_case\out
+CC 校園定點截圖：worktree ?；TAG tz_real_case；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_liantong 14.00 時、站 (-0.87, 0.5)；鏡頭直接擺 yaw 1.5708 rad、距離 3.0
+  [  42.3s] case_front：{"yaw": 1.571, "dist": 3, "cam": [1.92, 2.76, 0.5], "player": [-0.87, 0, 0.5], "zone": "tz_liantong", "hour": 14.04}
+PASS case_front 在 tz_liantong、玩家在 (-0.87, 0.5) 0.6 m 內  {"yaw": 1.571, "dist": 3, "cam": [1.92, 2.76, 0.5], "player": [-0.87, 0, 0.5], "zone": "tz_liantong", "hour": 14.04}
+  [  42.9s] case_front 另一台相機：玩家頭 → (-2.15, 1.5, 0.5) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_liantong 14.00 時、站 (-0.87, -0.4)；鏡頭直接擺 yaw 1.5708 rad、距離 3.0
+  [  59.3s] case_left：{"yaw": 1.571, "dist": 3, "cam": [1.92, 2.76, -0.4], "player": [-0.87, 0, -0.4], "zone": "tz_liantong", "hour": 14.04}
+PASS case_left 在 tz_liantong、玩家在 (-0.87, -0.4) 0.6 m 內  {"yaw": 1.571, "dist": 3, "cam": [1.92, 2.76, -0.4], "player": [-0.87, 0, -0.4], "zone": "tz_liantong", "hour": 14.04}
+  [  59.9s] case_left 另一台相機：玩家頭 → (-2.15, 1.5, -0.4) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_liantong 14.00 時、站 (-0.87, 1.4)；鏡頭直接擺 yaw 1.5708 rad、距離 3.0
+  [  75.7s] case_right：{"yaw": 1.571, "dist": 3, "cam": [1.92, 2.76, 1.4], "player": [-0.87, 0, 1.4], "zone": "tz_liantong", "hour": 14.04}
+PASS case_right 在 tz_liantong、玩家在 (-0.87, 1.4) 0.6 m 內  {"yaw": 1.571, "dist": 3, "cam": [1.92, 2.76, 1.4], "player": [-0.87, 0, 1.4], "zone": "tz_liantong", "hour": 14.04}
+  [  76.4s] case_right 另一台相機：玩家頭 → (-2.15, 1.5, 1.4) fov 60.0
+PASS 沒有 JS 例外  []
+ALL PASS

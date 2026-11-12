@@ -375,3 +375,11 @@
 [15:57:48] worktree add 2bfea29f1bd41b948c05b249c746cd556405212e: invalid reference - fetching main and the commit itself
 [15:57:48] 正在跑：XS_REAL_consist_r3（已跑 5 分／上限 50 分）、XS_REAL_cal_old_r3（已跑 5 分／上限 15 分）、TZ_REAL_consist（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:00:19] [res] cpu=15% mem=44% (13.9/31.4 GB) chrome_testing=8  END XS_REAL_cal_old_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       df9717ed9..042ebaed7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:00:31] ==== END   XS_REAL_cal_old_r3  exit=1  464s   ====
+[16:00:41] memory 45% before starting TZ_REAL_case (2 running)
+[16:00:41] ==== START TZ_REAL_case  (probe @ 2bfea29f1bd41b948c05b249c746cd556405212e) ====
+[16:00:44] [res] cpu=6% mem=45% (14.3/31.4 GB) chrome_testing=8  START TZ_REAL_case
+[16:02:33] [res] cpu=24% mem=46% (14.6/31.4 GB) chrome_testing=8  END TZ_REAL_case

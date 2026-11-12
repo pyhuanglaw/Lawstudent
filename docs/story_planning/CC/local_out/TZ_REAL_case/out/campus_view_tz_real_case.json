@@ -1,0 +1,50 @@
+{
+ "case_front": {
+  "yaw": 1.571,
+  "dist": 3,
+  "cam": [
+   1.92,
+   2.76,
+   0.5
+  ],
+  "player": [
+   -0.87,
+   0,
+   0.5
+  ],
+  "zone": "tz_liantong",
+  "hour": 14.04
+ },
+ "case_left": {
+  "yaw": 1.571,
+  "dist": 3,
+  "cam": [
+   1.92,
+   2.76,
+   -0.4
+  ],
+  "player": [
+   -0.87,
+   0,
+   -0.4
+  ],
+  "zone": "tz_liantong",
+  "hour": 14.04
+ },
+ "case_right": {
+  "yaw": 1.571,
+  "dist": 3,
+  "cam": [
+   1.92,
+   2.76,
+   1.4
+  ],
+  "player": [
+   -0.87,
+   0,
+   1.4
+  ],
+  "zone": "tz_liantong",
+  "hour": 14.04
+ }
+}
