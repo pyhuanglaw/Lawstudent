@@ -3,8 +3,8 @@
  "account": "C",
  "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
  "branch": "claude/wonderful-mayer-7fm9g6",
- "since": "2026-11-12T03:14Z",
- "state": "on",
- "sinceSha": "a9ce231b",
- "userOk": true
+ "state": "handed-off",
+ "handedOffAt": "2026-11-12T22:08Z",
+ "sha": "27e1c293",
+ "snapshot": "2026-11-12T2208Z_C_BB.json"
 }
