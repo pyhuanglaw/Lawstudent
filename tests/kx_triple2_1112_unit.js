@@ -53,7 +53,7 @@ for(const f of [...new Set(K.PAIRS.map(x=>x[0]))]){ const now=lits(read(f)), ECO
   } else console.log('（跳過：讀不到源稿 AA_745_movie_plots_2.json，企劃線沒 fetch）');
   const now=lits(read(MOV.file)), was=show(BASE,MOV.file);
   check('3. movie_plots.js：新句剛好一次、舊句沒有了；來源寫著 AA_745_movie_plots_2.json@'+K.SHA,cnt(now,MOV.new)===1&&cnt(now,MOV.old)===0&&now.includes(MOV.src+'@'+MOVSHA),J([cnt(now,MOV.new),cnt(now,MOV.old)]));
-  if(was){ const [gone,came]=bagDiff(lits(was),now); const A897=s=>s.filter(t=>!/@a9465983f0$|@4e41f0d09$|重考|第二次考試的考生|考第四年|陪可昕找判決|登機前|經濟系那一年看的|舊序章那一年看的/.test(t));   /* （CANON-NO-ECON-1112 第四批：照 AA_878／AA_897 換字）AA_897 第 1 節那四句、AA_898 那一句、說明欄和來源的 @sha 另外查（tests/kx_line_873_unit.js）*/
+  if(was){ const [gone,came]=bagDiff(lits(was),now); const A897=s=>s.filter(t=>!/@a9465983f0$|@4e41f0d09$|\u91cd\u8003|第二次考試的考生|考第四年|陪可昕找判決|登機前|\u7d93\u6fdf\u7cfb那一年看的|舊序章那一年看的/.test(t));   /* （CANON-NO-ECON-1112 第四批：照 AA_878／AA_897 換字）AA_897 第 1 節那四句、AA_898 那一句、說明欄和來源的 @sha 另外查（tests/kx_line_873_unit.js）*/
     check('3. movie_plots.js 的字串常值和匯入以前（'+BASE+'）比：只差這一句和來源的 @sha（AA_897 重匯的那幾句除外）',J(A897(gone))===J([MOV.src+'@'+MOV.prev,MOV.old].filter(t=>A897([t]).length).sort())&&J(A897(came))===J([MOV.new].sort()),J([gone,came])); }
   try{ const M=new Function(read(MOV.file)+';return MOVIE_PLOTS;')(); const re=M.films.m2609a.later&&J(M.films.m2609a); check('3. 那一句在 MOVIE_PLOTS.films.m2609a（可昕）裡',J(M.films.m2609a).includes(J(MOV.new))&&!J(M).includes(J(MOV.old)),String(re).slice(0,80)); }catch(e){ check('3. movie_plots.js 載得起來',false,String(e&&e.message)); } }
 

@@ -88,7 +88,7 @@ const NEEDED_MSGS=(function(){
     {id:'fy_sign',who:'npc_fangyt',term:'Y2S2',w:[9,11],tie:true,msg:['📷（一塊牌子「私人土地，禁止進入」）','這條山路，是真的不能走嗎？'],reply:'我不能幫你判斷。繞路最保險。',resp:['好 那我走另一條','多一個小時而已'],miss:['那條山路，我後來繞路了。']},
     // 可昕（BB_97 11-1；只有交往中、只放「請他幫忙」的）
     {id:'kx_example',who:'kexin',term:'Y2S1',w:[4,6],tie:true,anyone:true,cond:G=>!!F(G).dating_kexin,msg:['物權報告要一個『好笑但是對的』例子。借我一個。'],reply:'鄰居的樹長過來，掉下來的果子算誰的？',resp:['這個好','答案我自己查'],miss:['物權報告的例子，我自己想了一個。']},
-    {id:'kx_yule',who:'kexin',term:'Y2S2',w:[2,4],anyone:true,cond:G=>!!F(G).dating_kexin,msg:['予樂的生日要辦驚喜。我負責騙她出門，你負責想一個理由。'],reply:'說要陪妳去配眼鏡。',resp:['好 就這個'],miss:['予樂那個驚喜，理由我自己編了。']},
+    {id:'kx_yule',who:'kexin',term:'Y2S2',w:[2,4],anyone:true,cond:G=>!!F(G).dating_kexin,msg:['我室友生日要辦驚喜。我負責騙她出門，你負責想一個理由。'],reply:'說要陪妳去配眼鏡。',resp:['好 就這個'],miss:['我室友那個驚喜，理由我自己編了。']},   /* CANON-NO-ECON-1112 第四批：照 AA_897 第 2 節換字（id 照舊 kx_yule：存檔記的是 id）*/
     {id:'kx_cv',who:'kexin',term:'Y2S2',w:[6,8],tie:true,anyone:true,cond:G=>!!F(G).dating_kexin,msg:['期中報告的摘要，幫我挑錯字。其他的不要有意見。'],reply:'第一行，『學系』打成『學習』。',resp:['……我已經交出去了。'],miss:['摘要我自己挑了。交出去才看到一個錯字。']} ];   /* id 照舊（原本「暑假實習的履歷」，BB_97 11-1 改成期中報告的摘要）*/
   /* 沒回的那一句：每一則各一句（AA_179 第 4 節、BB_97 11-2），寫在每一則的 miss；null＝那一則沒回也不提（芷若的豆子、語彤洗碗、柏翰考古題）。
      下面這張是舊的「一個人一句」，只給沒寫 miss 的訊息（目前沒有）當備用 */

@@ -95,6 +95,7 @@ def build(src, sha):
             st = l.get('state', '')
             for o, n in RENAME.items():
                 st = st.replace(o, n)   # 店名照 AA_655（state 是給程式看的摘要，照樣換）
+            st = IG.canon897(st)   # CANON-NO-ECON-1112 第四批（AA_897 第 2 節 arc_rot 1323、1363 的 state）
             out.append({'s': l['s'], 'from': l['from'], 'state': st})
         life[hid] = sorted(out, key=lambda x: x['s'])
     return {'src': f'{PATH}@{sha}', 'rot': rot, 'life': life}

@@ -31,7 +31,7 @@ const NOODLE_TABLE={
     {id:'nt_y2_boss',who:['zhe'],dialogue:[{speaker:null,text:'（老闆來收杯子，順手把冷氣調小了一點。）'},{speaker:'zhe',text:'老闆，再一局就走。'},{speaker:'老闆',text:'你上次也這樣說。'}]},
     {id:'nt_y2_deposit',who:['classmate_bohan','zhe'],dialogue:[{speaker:'classmate_bohan',text:'法服這禮拜三個個案，兩個是房東不還押金。'},{speaker:'zhe',text:'那你可以開一門課了。'}]},
     /* 第 3 則：演過 ev_xinci_double（雙主修）＝3；沒有＝3b（取代第 3 則）*/
-    {id:'nt_y2_bus',who:['classmate_xinci'],dialogue:[{if:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'經濟系的同學問我，法律系是不是每天都在背。……我說也有不背的時候。'},{unless:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'公車今天塞了二十分鐘。我以為趕不上了。'}]} ],   /* AA_679 第 7 列：第 6 則「語彤在櫃台後面寫作業」拿掉；AA_684 第 11 項：第 4 則「考試前的燒臘店」（換不了）、第 5 則「報告分組」（Alison 要在場）刪 */
+    {id:'nt_y2_bus',who:['classmate_xinci'],dialogue:[{if:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'財金系的同學問我，法律系是不是每天都在背。……我說也有不背的時候。'},{unless:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'公車今天塞了二十分鐘。我以為趕不上了。'}]} ],   /* AA_679 第 7 列：第 6 則「語彤在櫃台後面寫作業」拿掉；AA_684 第 11 項：第 4 則「考試前的燒臘店」（換不了）、第 5 則「報告分組」（Alison 要在場）刪 */
   Y3:[
     /* AA_684 第 11 項：大三上的桌遊夜版（補空缺：原本大三上沒有一則演得到）；明軒的 CP 值＝大三上那一次的口頭禪 */
     {id:'nt_y3_cp',who:['classmate_mingxuan','zhe'],if:{term:['Y3S1']},dialogue:[{speaker:null,text:'（明軒把新的盒子翻過來，看背面的人數。）'},{speaker:'classmate_mingxuan',text:'這款四個人剛好。CP 值最高。'},{speaker:'zhe',text:'你每一款都這樣說。'}]},

@@ -96,6 +96,6 @@ const J=JSON.stringify;
     check('AA_885. 可昕的動態照稿逐欄（'+Object.keys(K885.CH).length+' 則）；去了／沒去兩版拿掉的兩則沒有 went', !bad.length, J(bad.slice(0,6))); }
   /* ===== AA_897 第 1 節：電影那四句（產生檔：改源稿 AA_745／AA_730 a9465983f0 重匯，不放例外）===== */
   { const mp=fs.readFileSync(path.join(ROOT,'src/data/movie_plots.js'),'utf8'), nm=fs.readFileSync(path.join(ROOT,'src/data/nanyang_movies.js'),'utf8');
-    check('AA_897 第 1 節. movie_plots.js「第二次考試的考生阿丞」「考第四年的」「「考第四年那個，我笑不出來。」」、nanyang_movies.js「第二次考試的考生每天…」；AA_898「登機前發來一張」', mp.includes('第二次考試的考生阿丞')&&mp.includes('三個考生：考第四年的、應屆的')&&mp.includes('"「考第四年那個，我笑不出來。」"')&&nm.includes('第二次考試的考生每天在圖書館讀到閉館。')&&mp.includes('登機前發來一張照片')&&!/重考|登機前傳/.test(mp+nm)); }
+    check('AA_897 第 1 節. movie_plots.js「第二次考試的考生阿丞」「考第四年的」「「考第四年那個，我笑不出來。」」、nanyang_movies.js「第二次考試的考生每天…」；AA_898「登機前發來一張」', mp.includes('第二次考試的考生阿丞')&&mp.includes('三個考生：考第四年的、應屆的')&&mp.includes('"「考第四年那個，我笑不出來。」"')&&nm.includes('第二次考試的考生每天在圖書館讀到閉館。')&&mp.includes('登機前發來一張照片')&&!/\u91cd\u8003|\u767b\u6a5f\u524d\u50b3/.test(mp+nm)); }
   if(fails){ console.log('FAILED '+fails); process.exit(1); } console.log('ALL PASS');
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

@@ -56,7 +56,7 @@ const GROUP=(function(){
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);
     if(k==='noodle') plan(G,{id:'ndl_trip_y2s2',ev:'ev_spring_y2_noodle',day:D.trip,h:8,place:'家',title:'春假：開車載阿哲他們',travel:'開車載阿哲他們出發',travelH:0.5,back:'回到台北。'});
     if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'女生宿舍樓下',title:'春假：開車旅行',travel:'先回家開車，再到宿舍樓下接她',travelH:40/60,back:'送她回宿舍，再把車開回家。'});   /* CANON-NO-ECON-1112 第四批（AA_878 #25；移動的字同 AA_896 K18）*/
-    if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和予樂在讀書會的長桌，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
+    if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和室友在宿舍交誼廳，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
     S.springPick(G,k,o);
     if(k!=='noodle'&&g) S.springPhoto(G); };
   /* 群組 @ 了你兩次「誰開車」（3/23、3/30），選完祐廷在群組回一句、有人回（AA_461 第 1 節；句子跟大一下的 spring_pick_msg 不一樣）；

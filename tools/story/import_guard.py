@@ -54,8 +54,29 @@ _CJK = _re.compile('[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]')
 
 
 def read_fix(s):
-    """匯入工具讀稿一律走這裡：先 alison()，再照 docs/WORLD_NAMING.md 換名（world()），再照 AA_542 換麵店團的字（ndl542()）。"""
-    return ndl542(aa655(world(alison(s))))
+    """匯入工具讀稿一律走這裡：先 alison()，再照 docs/WORLD_NAMING.md 換名（world()），再照 AA_542 換麵店團的字（ndl542()），最後照 AA_897 第 2 節換整句（canon897()）。"""
+    return canon897(ndl542(aa655(world(alison(s)))))
+
+
+_C897 = None
+
+
+def canon897(s):
+    """CANON-NO-ECON-1112 第四批（AA_897 第 2 節，AA-C 定稿）：產生檔裡舊序章、外校的整句照 tools/story/canon897_fix.json 換（企劃原稿已改成代號，不能重匯新版）。"""
+    global _C897
+    if not isinstance(s, str):
+        return s
+    if _C897 is None:
+        import json as _json, os as _os
+        try:
+            with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'canon897_fix.json'), encoding='utf-8') as f:
+                _C897 = _json.load(f).get('pairs', [])
+        except (OSError, ValueError):
+            _C897 = []
+    for a, b in _C897:
+        if a in s:
+            s = s.replace(a, b)
+    return s
 
 
 _A655 = None

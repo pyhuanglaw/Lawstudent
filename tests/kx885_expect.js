@@ -1,6 +1,6 @@
 /* CANON-NO-ECON-1112 第四批：可昕的手機動態照 AA_885（企劃線 AA_885_可昕動態牆_照列換字.md 定稿，BB_423）換的欄位——對稿用。
    AA_503～AA_510 的動態測試（tests/aa50*_feed_unit.js、aa510_511_feed_unit.js）對舊稿時，這幾則改比這裡（skip／has）；逐欄在 tests/kx_line_873_unit.js。
-   欄位：pic／say／t／cm／dm（整列）、cm0／cm1／dm0／dm1（只換那一句）、-went（去了／沒去兩版拿掉）。kx4f 的 pic「予樂」→「室友」照 AA_885 開頭的換法（外校那位有名字的室友 → 「室友」）*/
+   欄位：pic／say／t／cm／dm（整列）、cm0／cm1／dm0／dm1（只換那一句）、-went（去了／沒去兩版拿掉）。kx4f 的 pic 照 AA_885 開頭的換法（外校那位有名字的室友 → 「室友」）*/
 const CH={
  "kx1": {
   "pic": "宿舍窗外，對面那棟每一間都亮著",

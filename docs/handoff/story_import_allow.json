@@ -9763,6 +9763,15 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "26 則動態逐欄照稿（src/data/feed_*.js，去了／沒去兩版拿掉兩則、kx4f 照片的室友照開頭的換法）；附錄：kx_moot3_lines.js 地點、旁白、吃東西那一句，kx_moot3_3d.js 出遊地點與湯餃店場景；系館地下室照稿寫（遊戲裡系館沒有地下室的 3D，2D 字幕照稿）。對稿 tests/kx885_expect.js、kx_line_873_unit.js（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_897_src對照表_收尾.md",
+   "sha": "90780d4661",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1 節：電影四句照源稿 a9465983f0 重匯（不放例外）；第 2 節：手寫檔照列換字（fit3d、multirel_lines、rel_lines、termend_lines、rom1016_events p4、wz_jobs、needed_msgs、noodle_table、r3_3d 306、group3d 照片、multirel3d 623），產生檔照 tools/story/canon897_fix.json（import_guard.read_fix 最後一步）重匯（study_scenes、arc_rot、flower_class、gift_holiday、sport_invite_lines、gym_equip_lines、invite_place_lines、aa720）；第 3 節只做 game3d 讀不了的舊存檔提示、新生運動廣場球衣說明。沒做：flirt_lines 653／712 拿掉、study_slots 可昕週末那一格（整格要重寫）、第 3 節其他拿掉的（第四批第三份，LAWWW 的子代理）"
   }
  ]
 }
