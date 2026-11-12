@@ -2384,7 +2384,7 @@
     },
     "where": "「我們的日子」或視訊的時候",
     "context": "date",
-    "note": "K8 之後（選麵店團或留宿舍、K8 延到暑假的玩家，就是暑假那一趟之後；KX_TRIP_DEFERRED_DONE 是暗示名，LAWWW-B 照實際旗標）",
+    "note": "K8 之後（選桌遊團或留宿舍、K8 延到暑假的玩家，就是暑假那一趟之後；KX_TRIP_DEFERRED_DONE 是暗示名，LAWWW-B 照實際旗標）",
     "lines": [
      {
       "who": "kexin",

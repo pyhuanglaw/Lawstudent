@@ -15,7 +15,7 @@ CASES：
   c SOCIAL.applyFx 收到的 fx＝稿（AA_816）那一格（新版）；回傳的差值＝{fam,trust,comf:fr; npcRom:love（romOk 才有）}
   d 選單出現以後 SOCIAL.adjust 有稿上 fx 那一筆，而且關係值實際的變化＝那段時間每一筆 adjust 的加總（同一層還有別的加減，不能只看 fam 淨變化）
   舊版：c、d 預期 FAIL（D34）。另外每一 case：沒有 JS 例外、最後沒有對話框／選單開著、沒有 60 秒沒進展。
-CC_02 清單 2026-11-12：1✓ 2✓ 3✓ 4✓ 5✓ 6✓（第二版：量之前把她的回話點完） 7✓ 8✓（第二版：d 改成 adjust 加總＝實際變化；第一版只看 fam 淨變化是量錯） 9n/a（只存 JSON 和最後一張畫面，不判截圖） 10✓ 11✓ 12✓ 13✓
+CC_02 清單 2026-11-12：1✓ 2✓ 3✓ 4✓ 5✓ 6✓（第二版：量之前把她的回話點完） 7✓ 8✓（第二版：d 改成 adjust 加總＝實際變化；第一版只看 fam 淨變化是量錯；第三版：照 S.adjust 每筆夾 0～100，以安 fam 100 時 +5 被夾掉） 9n/a（只存 JSON 和最後一張畫面，不判截圖） 10✓ 11✓ 12✓ 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=new|old [CASES=FIVE,KX] [WHO=heroine_01,…] [LAYERS=1|2] [PICK=first|love] python3 cc_x324_ladder_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, copy, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -205,10 +205,15 @@ async def judge(pg, cdp, tag, who, row, dr, want, fx_doc, errs, e0):
                 if isinstance(v, (int, float)): tot[k2] = tot.get(k2, 0) + v
         fr = int(fx_doc.get('fr') or 0); has_fx = (not fr) or any((a['d'] or {}).get('fam') == fr and (a['d'] or {}).get('trust') == fr and (a['d'] or {}).get('comf') == fr for a in adj)
         diff = {k2: round((ra.get(k2) or 0) - (rb.get(k2) or 0), 3) for k2 in ('fam', 'trust', 'comf', 'npcRom') if ra.get(k2) is not None and rb.get(k2) is not None}
-        exp_tot = {k2: tot.get(k2, 0) for k2 in diff}
-        R.note('%s d 選單出現以後 SOCIAL.adjust：%s；加總 %s；實際變化 %s（數值有上下限，碰到邊會差）' % (tag, J(adj), J(tot), J(diff)))
+        # 照 src/social3d.js S.adjust：每一筆加完就夾在 0～100（be1e 雲端第一次：以安 fam 已經 100，+5 全被夾掉＝照遊戲，探針沒算上限＝CC_02 乙 8）
+        sim = {k2: rb.get(k2) or 0 for k2 in diff}
+        for a in adj:
+            for k2, v in (a['d'] or {}).items():
+                if k2 in sim and isinstance(v, (int, float)): sim[k2] = max(0, min(100, sim[k2] + v))
+        exp_tot = {k2: round(sim[k2] - (rb.get(k2) or 0), 3) for k2 in diff}
+        R.note('%s d 選單出現以後 SOCIAL.adjust：%s；直接加總 %s；照 0～100 夾過的變化 %s；實際變化 %s' % (tag, J(adj), J(tot), J(exp_tot), J(diff)))
         R.check('%s d 稿上的 fx 那一筆有進 SOCIAL.adjust%s' % (tag, '（fam、trust、comf 各 %+d）' % fr if fr else ''), has_fx, J(adj))
-        R.check('%s d 關係值實際的變化＝選單以後每一筆 adjust 的加總（fx 有落到最後的數字上）' % tag, all(abs(diff[k2] - exp_tot[k2]) < 0.01 for k2 in diff), J({'diff': diff, 'sum': exp_tot}))
+        R.check('%s d 關係值實際的變化＝選單以後每一筆 adjust 照順序加、每筆夾在 0～100（同 S.adjust；fx 有落到最後的數字上）' % tag, all(abs(diff[k2] - exp_tot[k2]) < 0.01 for k2 in diff), J({'diff': diff, 'sum': exp_tot}))
     R.check('%s 流程走完（沒有 %d 秒沒進展）' % (tag, STUCK_S), bool(dr) and dr['done'] and not dr['stuck'], J(dr and {k: dr[k] for k in ('stuck', 'done', 'secs')}))
     R.check('%s 最後沒有對話框、選單開著' % tag, not q['dlg'] and not q['choices'], J(row['end']))
     R.check('%s 沒有 JS 例外' % tag, not row['errs'], J(row['errs'][:3]))

@@ -49,7 +49,7 @@ SETUP = """(([rels,dating,repair,flags,groups,mems])=>{ const G=GAME.G, F=G.flag
   return {stages:Object.fromEntries(ids.map(id=>[id,SOCIAL.stage(id)])), groups:(groups||[]).map(g=>[g[0],!!(PHONE.inGroup&&PHONE.inGroup(G,g[0]))]), route:STORY.route?STORY.route(G):null}; })"""
 NPC = """(id=>{ const n=(GAME.E.npcs||[]).find(x=>x&&(x.charId===id||x.id===id)&&x.obj&&x.obj.visible!==false&&!x.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.lv|0,n.id]:null; })"""
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
-NT = ('noodle_team', '麵店團')
+NT = ('noodle_team', '桌遊團')
 OLD_CRIM = ['上週我們談了刑事訴訟的目的', '這兩題會出現在期中。不是威脅，是預告。', '收卷。下週講強制處分。']
 
 
@@ -382,7 +382,7 @@ async def s_jp_zhe4(p, run, base, sid, out):
     之後選「睡覺」→ 冠軍賽直播的旁白演得到（4/29 20:00）"""
     res = out.setdefault(sid, {}); a = sid == 'JP_ZHE4_A'
     b, pg, cdp, errs, r = await launch377(p, run, base, '2028-04-28', 22.0, 'jp_hub', preflags=JPF, rels={'heroine_01': 'FAMILIAR', 'zhe': 'FRIEND', 'classmate_mingxuan': 'FAMILIAR'}, dating=('heroine_01',), groups=(NT,),
-                                         label=sid + '（日本路線、和以安交往中、阿哲 FRIEND、在麵店團；4/28 22:00 日本的據點）')
+                                         label=sid + '（日本路線、和以安交往中、阿哲 FRIEND、在桌遊團；4/28 22:00 日本的據點）')
     try:
         ops, _ = await jp_until_menu(pg, cdp, run, max_s=120, label=sid)
         ff = await jp_ff(pg, cdp); res['ff'] = ff

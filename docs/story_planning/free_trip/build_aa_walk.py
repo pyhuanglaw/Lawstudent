@@ -136,7 +136,7 @@ SIDE = [  # AA_162 第 5 節
 FOLLOWUP = [  # AA_162 第 4 節、8-2
     {'mem': 'ENC_D06_AN', 'who': 'heroine_01', 'where': '一般聊天', 'line': '上次在美術館。……你後來有看完那一區嗎？'},
     {'mem': 'ENC_D12_YT', 'who': 'heroine_03', 'where': '手機（照片）', 'line': '📷（迪化街的騎樓下，一雙正在包貨的手）上次那張。'},
-    {'mem': 'ENC_D04_ZHE', 'who': 'zhe', 'where': '一般聊天', 'line': '哥，上次西門那家，下次麵店團一起去。', 'note': '只是一句話，不產生麵店團的約定或事件'},
+    {'mem': 'ENC_D04_ZHE', 'who': 'zhe', 'where': '一般聊天', 'line': '哥，上次西門那家，下次桌遊團一起去。', 'note': '只是一句話，不產生桌遊團的約定或事件'},
     {'mem': 'ENC_D04_YU', 'who': 'yu', 'where': '一般聊天', 'line': '欸，上次那件外套，學姊最後買了另一件。……對，第三件。'},
     {'mem': 'ENC_D06_BH', 'who': 'classmate_bohan', 'where': '一般聊天', 'line': '上次在美術館的事，不要跟阿哲說。'},
     {'mem': 'ENC_D04_XC', 'who': 'classmate_xinci', 'where': '一般聊天', 'line': '上次那張小卡我有排到。', 'note': 'AA_209 附錄 A（芯慈 encounters D04）口語改稿'},

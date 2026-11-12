@@ -122,9 +122,9 @@ async def main():
                 run.check('B. 有常客（%s，%s）：招呼「幾位？裡面有位子。」、吃完換常客的一句、扣錢' % (tgt['id'], tgt['with']), any('幾位？裡面有位子' in t for t in said) and cost > 0, json.dumps(said, ensure_ascii=False) + ' 扣 %d' % cost)
         if 'C' in PARTS:
             for k, want in ((0, 'yes'), (1, 'no')):
-                run.setup('C%d. 讀檔 2025-09-08（一）11:58 霖澤館後面的小廣場；[捷徑] 用 PHONE.join 放進麵店團群組、還沒收過第一次揪人' % (k + 1))
+                run.setup('C%d. 讀檔 2025-09-08（一）11:58 霖澤館後面的小廣場；[捷徑] 用 PHONE.join 放進桌遊團群組、還沒收過第一次揪人' % (k + 1))
                 await load(pg, '2025-09-08', 11.97, 'campus', {'x': 34, 'z': -124.6, 'yaw': 3.14})
-                await pg.evaluate("PHONE.join(GAME.G,'noodle_team','麵店團')")
+                await pg.evaluate("PHONE.join(GAME.G,'noodle_team','桌遊團')")
                 for _ in range(90):
                     if await pg.evaluate("PHONE.sent(GAME.G,'l118_lunch_'+GAME.G.day)"): break
                     await pg.wait_for_timeout(1000)
@@ -136,7 +136,7 @@ async def main():
                 if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900)
                 await run.shot(pg, 'C%d_group' % (k + 1))
                 bb = await pg.evaluate("(k=>{ const bs=[...document.querySelectorAll('#phoneBody [data-ask]')]; if(!bs.length) return null; const e=bs[Math.min(k,bs.length-1)]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim(),bs.map(x=>x.textContent.trim())]; })(%d)" % k)
-                run.check('C%d. 12:00 麵店團群組有阿哲揪人、有兩個回覆按鈕' % (k + 1), bool(bb) and len(bb[3]) >= 2, json.dumps(bb and bb[3], ensure_ascii=False))
+                run.check('C%d. 12:00 桌遊團群組有阿哲揪人、有兩個回覆按鈕' % (k + 1), bool(bb) and len(bb[3]) >= 2, json.dumps(bb and bb[3], ensure_ascii=False))
                 if bb: await L.touch_tap(cdp, bb[0], bb[1]); await pg.wait_for_timeout(2000)
                 await run.shot(pg, 'C%d_replied' % (k + 1))
                 txt = await pg.evaluate("document.getElementById('phoneBody').textContent")

@@ -19,7 +19,7 @@
   6/2 那四個情境：最小存檔（照 pgdate_probe.py 的做法：stage law、2029-06-02 07:18 宿舍、PACKED_Y4、Y4_PATH other、BAR_REG false、ROOM_Y2～Y4、大一的引導旗標、
   路線旗標 EXCHANGE_ROUTE＋EXCH_RULE；美國再加 US_DEPARTED／US_ARRIVED／US_RETURNED、日本加 X1_JP／JP_DEPARTED／JP_RETURNED——沒有這幾個，美國路線讀檔就會開始「出發去美國」），
   讀檔後馬上（07:30 家人那一段開始以前）在頁面裡設學姊／語彤／以安朋友（熟 48、信任 32、自在 20）、沛珊／芷若熟悉（沛珊加 PS_RECONNECT）、學姊心意邀約的條件（她的戀愛 40、校外約會紀錄 4 次＋心願）、
-  交往（ROM.start）、加入家族群組、麵店團；quiet_events（條件事件、手機自動打開關掉）。
+  交往（ROM.start）、加入家族群組、桌遊團；quiet_events（條件事件、手機自動打開關掉）。
   YT_THU：使用者存檔改日期（照 aa379b_probe.py 的 launch），語彤設朋友、YT_EV13；quiet_events。
 之後照玩家：點對話、選項（照情境）、時間到了按「出發」（學期末的飯、學姊的生日），Café「不去了」；畢業後篇站著不動會自己跳到下一件事（不按跳過時間）。
 Playwright 手機橫向模擬、?turbo，不是 iPhone。
@@ -46,7 +46,7 @@ SETUP = """(sc=>{ const G=GAME.G, F=G.flags; const rel=(id,v)=>{ const R=SOCIAL.
   if(sc.ps){ rel('classmate_peishan',FA); F.PS_RECONNECT=true; } if(sc.zr) rel('heroine_02',FA);
   if(sc.sisHeart){ SOCIAL.rel('heroine_05').npcRom=40; const Lg=DATE.log(G,'heroine_05'); Lg.count=4; Lg.wish=true; }
   for(const id of (sc.dating||[])){ try{ ROM.start(G,id); }catch(e){} F['dating_'+id]=true; const R=rel(id,[70,60,60]); R.rom=70; R.npcRom=70; }
-  PHONE.join(G,'family_law','法律系直屬家族'); PHONE.join(G,'noodle_team','麵店團');
+  PHONE.join(G,'family_law','法律系直屬家族'); PHONE.join(G,'noodle_team','桌遊團');
   let heart=null; try{ heart=sc.sisHeart?TERMEND.heartWhy(G,'heroine_05',TERMEND.windowOf('Y4S2')):null; }catch(e){ heart='ERR '+e.message; }
   return {delayed:PG.delayed(G), route:STORY.route?STORY.route(G):null, partners:PG.partners(G), sisOk:PG.sisOk(G), heart, fam:!!(PHONE.inGroup&&PHONE.inGroup(G,'family_law')), gradReady:PG.gradReady(G), abroad:STORY.abroad(G),
     stages:{sis:SOCIAL.stage('heroine_05'), yt:SOCIAL.stage('heroine_03'), an:SOCIAL.stage('heroine_01'), ps:SOCIAL.stage('classmate_peishan'), zr:SOCIAL.stage('heroine_02')}}; })"""
@@ -184,7 +184,7 @@ async def launch_min(p, run, sid, sc):
     await pg.evaluate(HOOK); r = await pg.evaluate(SETUP + "(%s)" % json.dumps(sc))
     now = await pg.evaluate(STATE)
     run.setup('[前置] %s：最小存檔 2029-06-02 07:18 宿舍（stage law、PACKED_Y4、Y4_PATH other、BAR_REG false、ROOM_Y2～Y4、EXCHANGE_ROUTE=%s%s）＋讀檔後馬上設 學姊%s、語彤%s、以安%s、沛珊%s、芷若%s、'
-              '學姊心意邀約%s、交往 %s、家族群組、麵店團；quiet_events → 設完是 %s %.2f；%s' % (
+              '學姊心意邀約%s、交往 %s、家族群組、桌遊團；quiet_events → 設完是 %s %.2f；%s' % (
         sid, sc['route'], {'US': '＋US_DEPARTED／ARRIVED／RETURNED', 'JP': '＋X1_JP／JP_DEPARTED／JP_RETURNED'}.get(sc['route'], ''), '朋友' if sc['sis'] else '—', '朋友' if sc['yt'] else '—',
         '朋友' if sc['an'] else '—', '熟悉＋PS_RECONNECT' if sc['ps'] else '—', '熟悉' if sc['zr'] else '—', '有' if sc['sisHeart'] else '無', sc['dating'], now['key'], now['h'], json.dumps(r, ensure_ascii=False)))
     say('   %s 設定：%s' % (sid, json.dumps(r, ensure_ascii=False)))

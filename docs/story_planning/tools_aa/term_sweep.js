@@ -1,7 +1,7 @@
 // BB-B 2026-10-24：寒暑假每一天有什麼（AA-B 04:27 建議：照 BB_301／BB_302 的方法，用最新開發分支逐天掃寒暑假）。Node，不需要瀏覽器。
 //   期間：HOME.breakOf 算出來的每一個法律系寒暑假（大一寒假～大四暑假；有延畢的大五上寒假也會算進來），加上經濟系那年的暑假（G.stage='econ'，只看手機與出遊）。
 //   存檔三種 × 住哪兩種：
-//     single＝沒交往、在麵店團（dating_kexin 明寫 false：GAME.defaults 預設交往中的可昕）；an＝和以安交往中；zq＝和子晴交往中（BB 女主角）。
+//     single＝沒交往、在桌遊團（dating_kexin 明寫 false：GAME.defaults 預設交往中的可昕）；an＝和以安交往中；zq＝和子晴交往中（BB 女主角）。
 //     home＝這個假期回家住（G.home.stay[假期]='home'、放假模式 lbreak）；dorm＝留臺北、住宿舍。
 //   一天一天列：會停下來的時間（HOME.breakNext：表上的日子、成績公布日、出遊出發、當面約、交換出發、事件包登記的 HOME.STOPS）、
 //     「一定要演」的事件（HOME.mustEvs，10:00／15:00／20:00 各看一次）、手機（STORY.phoneRules＋PHONE.tick，07:00～23:45 每 15 分鐘）、當天的出遊（OUT.rec）、
@@ -66,7 +66,7 @@ function sweep(pk, live, B) {
   const G = H.fresh(key0, 9, live === 'home' ? 'home' : 'dorm', flags); if (B.econ) G.stage = 'econ';
   G.contacts = G.contacts || {}; G.msgs = G.msgs || []; G.visited = G.visited || {}; G.outings = G.outings || [];
   if (typeof ROM !== 'undefined' && ROM.rec) ROM.rec(G);
-  for (const [g, n] of [['noodle_team', '麵店團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會'], ['home', '家人']]) { try { PHONE.join(G, g, n); } catch (e) {} }
+  for (const [g, n] of [['noodle_team', '桌遊團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會'], ['home', '家人']]) { try { PHONE.join(G, g, n); } catch (e) {} }
   if (B.econ) { try { PHONE.join(G, 'econ_friends', '走啦'); } catch (e) {} }   /* 經濟系暑假：經濟系朋友的群組（AA_272 第 13 節的「走啦」；LAWWW-B 10-24 07:09：不加的話 8/3、8/4 算不到）*/
   for (const id of WHO) { if (P.unmet && id === 'heroine_05') continue; try { const r = SOCIAL.rel(id); r.fam = 45; r.trust = 30; r.comf = 15; SOCIAL.remember(id, 'FIRST_MET', ''); G.contacts[id] = B.from - 60; } catch (e) {} }
   if (P.dating) { try { const r = SOCIAL.rel(P.dating); Object.assign(r, { fam: 70, trust: 60, comf: 50, npcRom: 60, rom: 40 }); ROM.start(G, P.dating); } catch (e) { G.flags['dating_' + P.dating] = true; } }

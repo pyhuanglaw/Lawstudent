@@ -14,7 +14,7 @@ const y4=async GM=>{ const G=GM.G; if(typeof HOME!=='undefined'&&HOME.at&&HOME.a
   if(STORY.packDue(G)){ await STORY.packY4(GM); return 'pack'; } if(STORY.gradMorningDue(G)){ await STORY.gradFamily(GM); return 'family'; } if(STORY.gradLunchDue(G)){ await STORY.gradLunch(GM); return 'lunch'; }
   if(G.zone==='dorm'&&STORY.gradEnvelopeDue(G)){ await STORY.gradEnvelope(GM); return 'envelope'; } if(STORY.moveOutDue(G)){ await STORY.moveOutY4(GM); return 'moveout'; } return null; };
 const sim=async(name,flags,setup,sc)=>{ sc=sc||{}; const G=H.fresh('2029-06-02',8,'dorm',Object.assign({PACKED_Y4:PG.gradDay()-1},flags)); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);
-  PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人'); warns.length=0;
+  PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人'); warns.length=0;
   const order=[]; let it=0, err=null, stuck=null; const allSaid=[]; const orun=PG.runStep;
   PG.runStep=async function(GM,s){ const r=await orun.call(PG,GM,s); if(r) order.push(s.id); return r; };
   const osay=GM.say; GM.say=async(w,t)=>{ allSaid.push(String(t)); return osay(w,t); };

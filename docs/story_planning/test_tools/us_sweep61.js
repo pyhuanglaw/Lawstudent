@@ -51,8 +51,8 @@ function sweep(pk) {
   ROM.rec(G); SOCIAL.rel(S5).fam = 70; SOCIAL.rel(S5).trust = 60; SOCIAL.remember(S5, 'FIRST_MET', '');
   if (P.dating) { G.flags.dating_heroine_05 = true; G.flags.CALLED_SHUYU = true; const r = ROM.get(G, S5); r.status = 'dating'; }
   if (P.long) G.flags.MET_LONG = true;
-  // 大四的存檔一般都在這幾個群組（大一起加的）；阿哲那幾位認識、朋友（9/20 美國版的「遠方」要麵店團＋朋友）
-  for (const [g, n] of [['noodle_team', '麵店團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會']]) { try { PHONE.join(G, g, n); } catch (e) {} }
+  // 大四的存檔一般都在這幾個群組（大一起加的）；阿哲那幾位認識、朋友（9/20 美國版的「遠方」要桌遊團＋朋友）
+  for (const [g, n] of [['noodle_team', '桌遊團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會']]) { try { PHONE.join(G, g, n); } catch (e) {} }
   for (const id of ['zhe', 'kai', 'heroine_01', 'heroine_03', 'heroine_02', 'heroine_04', 'classmate_peishan']) { try { const r = SOCIAL.rel(id); r.fam = 45; r.trust = 30; r.comf = 10; SOCIAL.remember(id, 'FIRST_MET', ''); } catch (e) {} }
   const days = [], errs = [];
   for (let d = d0; d < d1; d++) {

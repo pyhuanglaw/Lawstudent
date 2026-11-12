@@ -1,6 +1,6 @@
 """BB（帳號 A）2026-10-22：AA245-PSBH（LAWWW 07:42 派，P2；開發分支 aaa84bbc 起）——AA_245「沛珊和柏翰沒在一起的版本」（企劃線 2af03a63），
 條件同 AA_374 第 11 項＝玩家和沛珊交往中。【前置】和沛珊交往中＝「大一上期末就和沛珊交往」的狀態（讀檔後 ROM.start；dating_classmate_peishan）。
-  SUP_DATE   大一下第 8 週 2026-04-15（三）刑總二期中考那天 15:00 宿舍（在麵店團群組）：阿哲群組揪 19:00 長桌 → 出發「考完的晚餐」（阿鳳麵店長桌）→
+  SUP_DATE   大一下第 8 週 2026-04-15（三）刑總二期中考那天 15:00 宿舍（在桌遊團群組）：阿哲群組揪 19:00 長桌 → 出發「考完的晚餐」（阿鳳麵店長桌）→
              要有「（柏翰把每個人的麵錢算好，寫在餐巾紙上。）」「一個人一百一十五。阿哲你多一顆蛋，一百二十五。」「……你連這個都算。」，
              沒有「對，我們在一起了。你們吃你們的。」「柏翰幫沛珊把滷蛋切成兩半。」
   SUP_FREE   對照：沒和沛珊交往（認識沛珊、柏翰）＝照舊公開（切滷蛋、「對，我們在一起了。」），沒有算麵錢那三句
@@ -277,7 +277,7 @@ def J(x, n=400):
 
 
 # ---------------------------------------------------------------- 考完的晚餐（大一下第 8 週）、第 4 週讀書會散場
-PS = 'classmate_peishan'; BH = 'classmate_bohan'; NT = ('noodle_team', '麵店團')
+PS = 'classmate_peishan'; BH = 'classmate_bohan'; NT = ('noodle_team', '桌遊團')
 NOBH = ['（柏翰把每個人的麵錢算好，寫在餐巾紙上。）', '一個人一百一十五。阿哲你多一顆蛋，一百二十五。', '……你連這個都算。']
 BHL = ['柏翰幫沛珊把滷蛋切成兩半。', '對，我們在一起了。你們吃你們的。', '上禮拜的事。', '（他把另一半滷蛋推回她碗裡。）']
 W4 = '（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）'
@@ -288,7 +288,7 @@ DONE = "(id=>!!((GAME.G.events||{}).done||{})[id])"
 async def s_sup(p, run, base, sid, out):
     res = out.setdefault(sid, {}); dating = sid == 'SUP_DATE'
     b, pg, cdp, errs, r = await launch(p, run, base, '2026-04-15', 15.0, 'dorm', rels={PS: 'FRIEND', BH: 'FAMILIAR', 'zhe': 'FRIEND'}, dating=((PS,) if dating else ()), groups=(NT,),
-                                       label=sid + '（大一下第 8 週 2026-04-15（三）刑總二期中考那天 15:00 宿舍；在麵店團群組；%s）' % ('和沛珊交往中（大一上期末就交往的狀態）' if dating else '沒和沛珊交往、認識沛珊和柏翰'))
+                                       label=sid + '（大一下第 8 週 2026-04-15（三）刑總二期中考那天 15:00 宿舍；在桌遊團群組；%s）' % ('和沛珊交往中（大一上期末就交往的狀態）' if dating else '沒和沛珊交往、認識沛珊和柏翰'))
     try:
         run.check('%s：前置——%s、認識柏翰' % (sid, '和沛珊交往中' if dating else '沒和沛珊交往'), (PS in r['partners']) == dating and r['knows'].get(BH), json.dumps(r, ensure_ascii=False))
         ok0, _ = await wait_for(pg, cdp, run, "OUT.rec(GAME.G).some(q=>q.id==='supper_mid2')", max_s=120, label=sid)

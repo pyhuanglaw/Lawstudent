@@ -185,7 +185,7 @@ async def verify(pg, run, sc):
     if probs: bad.extend('%s：%s' % (sc['id'], p) for p in probs)
 TW = {'EXCHANGE_ROUTE': 'TW'}
 AN_FAM = "LV('heroine_01',25,10,10);"
-GRP = "PHONE.join(G,'noodle_team','麵店團');"
+GRP = "PHONE.join(G,'noodle_team','桌遊團');"
 ATT3 = "G.acts=G.acts||{}; G.acts.att=G.acts.att||{}; for(const k of ['2028-09-21','2028-09-28','2028-10-05']) G.acts.att['public_law_group@'+D(k)]=1;"
 async def talk(pg, cdp, run, who):
     """走到那個人旁邊、按「和○○說話」（真的操作），演完"""
@@ -460,7 +460,7 @@ SCENS = [
   # 學姊事務版（熟悉、沒交往），人在布魯明頓問「在幹嘛」→「在圖書館。有事嗎？」（不是貼圖）
   dict(id='US370_bizChat', key='2028-09-20', h=15.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + "G.flags.US1='alone'; LV('heroine_05',25,10,10); G.contacts=G.contacts||{}; G.contacts.heroine_05=D('2026-02-01');" + PLAT,
        steps=[('sendchat', 'heroine_05', 'chat'), ('until', 17.0)], replyHas={'heroine_05': '在圖書館。有事嗎？'}, cflags=[]),
-  # 可昕交往中、沒見過麵店團、不在群組：10/3 臺灣 22:00（當地 10:00）私訊「阿哲今年贏了。……」
+  # 可昕交往中、沒見過桌遊團、不在群組：10/3 臺灣 22:00（當地 10:00）私訊「阿哲今年贏了。……」
   dict(id='US370_kxMoon', key='2028-10-03', h=9.3, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, dating_kexin=True, KX_MET_NOODLE_TEAM=False), js=USJS + ALONE + PLAT + "if(G.phone&&G.phone.groups) delete G.phone.groups.noodle_team;",
        steps=[('until', 10.6)], wantMsg=['阿哲今年贏了。……你不在，我沒力氣講冷笑話。'], msgAt={'阿哲今年贏了。……你不在，我沒力氣講冷笑話。': ('2028-10-03', 10.0, 0.25)}, cflags=[]),
   # 亞洲超市：週日公休（10/15）；平日 21:00 以後關（10/17 21:30）——營業時間 AA_370 第 6 節第 2 題改成 10:00～21:00，開發分支還是 09:00（照現在的比，記下來）

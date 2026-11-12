@@ -63,7 +63,7 @@
 - 第 2～3 週邀「週末來木柵大學？我當導遊」，接著是 `ev_kexin_tour_nccu`：
   - 「我在這裡念了三個禮拜」，帶祐廷去山下的酸辣湯餃（`events.js:767-782`；`story3d.js:2066-2075`）。
 - `ev_kexin_yule_pass`：予樂說「及格」（`events.js:802-814`）。
-- `ev_mid_autumn_bbq`：中秋河濱烤肉，見麵店團（`events.js:851-861`）。
+- `ev_mid_autumn_bbq`：中秋河濱烤肉，見桌遊團（`events.js:851-861`）。
 - 10/17 第一年週年 `ev_kexin_anniversary_y1`：摩天輪的卡片，「那今天，是第幾圈？」（`events.js:2089-2097`）。
 - `ev_kexin_visits_ntu`：她來首都帝大，先找品妤，「A館。以前每天從社科院看過來」（`events.js:1928-1944`）。
 - 12/3 `ev_kexin_birthday_y1`：第一份期末報告交出去的晚上，id 還是舊名。她一個人去吃酸辣湯餃，「一個人吃好像有點悲壯」（`story3d.js:2195-2202`）。
