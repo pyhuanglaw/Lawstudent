@@ -16,7 +16,7 @@ const store=nodes.find(n=>!/leaf/.test(n.name)), leaf=nodes.find(n=>/leaf/.test(
 /* SHOP-REAL-INSIDE 溫州街（LAWWW2-C 11-12）：這一份烘光的店內顏色偏粉、和走進去的不一樣（自查 shop_out_in_audit_1112）→ 街景模型不再嵌它，
    改由遊戲在玻璃後面放走進去的那一顆室內模型（zones3d.js wzShopReal 的 W2）。沒有嵌的時候只檢查這件事，下面 ①②③ 不適用。 */
 if(!store&&!leaf){ const z3=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
-  check('（取代）溫州街模型不再嵌日常失速烘光的店內；遊戲改放室內模型（wzShopReal：W2 → bldg.wz_offbeat_interior，位置 (−42.2,−13.5)、ry π/2）',/\{id:'W2',place:'wz_offbeat',key:'bldg\.wz_offbeat_interior',w:11,d:10,h:3\.4,x:-42\.2,z:-13\.5,ry:Math\.PI\/2/.test(z3)&&/shopInsideReal\(E,g,zone,wzShopReal\(\)\)/.test(z3));
+  check('（取代）溫州街模型不再嵌日常失速烘光的店內；遊戲改放室內模型（wzShopReal：W2 → bldg.wz_offbeat_interior，位置 (−42.2,−13.5)、ry π/2）',/\{id:'W2',place:'wz_offbeat',key:'bldg\.wz_offbeat_interior',w:11,d:10,h:3\.4,x:-42\.2,z:-13\.5,ry:Math\.PI\/2/.test(z3)&&(/shopInsideReal\(E,g,zone,wzShopReal\(\)\)/.test(z3)||/const wr=wzShopReal\(\); shopInsideReal\(E,g,zone,wr\)/.test(z3))   /* 11-12 招牌燈那包改成先存 wr 再叫（shopRealGlow 也要用同一張）*/);
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); }
 check('（前提）溫州街模型裡有日常失速的店內、葉子兩個網格',!!store&&!!leaf,nodes.map(n=>n.name).join('、'));
 if(!store||!leaf){ console.log('FAILED '+fails); process.exit(1); }
