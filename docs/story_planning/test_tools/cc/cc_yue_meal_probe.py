@@ -9,7 +9,7 @@
   對話照第一個選項一路按，到她那一句（yueMeal.own 的句子或通用的「你在這裡打工喔？」）出來的那一刻停：
   記店裡所有人（E.npcs：誰、位置、坐不坐、姿勢）、她在不在、她和祐廷的距離和方向、她 1 m 內最近的家具；拍遊戲鏡頭一張＋俯視一張（另一台相機，藏玩家以外不動）。
   演完這一班以後再記一次（時間走了以後她會不會出現）。
-CC_02 清單 2026-11-12：1✓（班表從資料讀：週二、週四 17:30；她來不來用遊戲的 JOBS.mealHere 掃，不硬放） 2✓（人物位置從 E.npcs 讀） 3✓（對話照第一個選項；記每一句） 4✓（對話用 #dlg、#choices） 5n/a（不走路，讀檔進店） 6✓（讀檔後等 6 秒） 7✓ 8n/a（不判，有沒有人照實記，BB 判） 9✓（俯視相機藏玩家頭以外不藏人；遊戲鏡頭原樣） 10✓（條件事件關掉；打工的開班不是條件事件，照跑） 11✓ 12✓（記日期、句子、每個人的位置、距離、家具） 13✓（改存檔、捷徑都標）
+CC_02 清單 2026-11-12：1✓（班表從資料讀：週二、週四 17:30；她來不來用遊戲的 JOBS.mealHere 掃，不硬放） 2✓（人物位置從 E.npcs 讀） 3✓（對話照第一個選項；記每一句） 4✓（對話用 #dlg、#choices） 5n/a（不走路，讀檔進店） 6✓（讀檔後等 6 秒） 7✓ 8n/a（不判，有沒有人照實記，BB 判） 9✓（俯視相機藏玩家頭以外不藏人；遊戲鏡頭原樣） 10✓（條件事件關掉；打工的開班不是條件事件，照跑） 11✓ 12✓（記日期、句子、每個人的位置、距離、家具） 13✓（改存檔、捷徑都標；BB-C 10:55 加她每 0.5 秒的位置軌跡〔從門口走進來沒、坐哪〕、上班中跳出的通知）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=KX,SIS,SISD] [TERMS=Y1S2] [FIX=…]（SISD＝學姊交往中；TERMS 依序掃，第一個找到的那一班就演） python3 cc_yue_meal_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, base64
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -55,6 +55,11 @@ PEOPLE = r"""((a)=>{ const E=GAME.E, G=GAME.G, P=E.player&&E.player.obj; const p
       const d=Math.hypot(Math.max(bx.min.x-o.position.x,0,o.position.x-bx.max.x), Math.max(bx.min.z-o.position.z,0,o.position.z-bx.max.z)); if(d===0&&sx>3&&sz>3) return; if(d<=1.0) furn.push({name:q.name||(q.parent&&q.parent.name)||'?', d:+d.toFixed(2)}); });
     furn.sort((x,y)=>x.d-y.d); furn=furn.slice(0,8); }
   return {zone:G.zone, hour:+(+G.hour).toFixed(2), player:pp, people:L, her:me||null, rel, furn1m:furn, dlg:(document.getElementById('dlgText')||{}).textContent||''}; })"""
+# BB-C 10:55：她真的從門口走進來、坐哪桌（每 0.5 秒記她的位置）；上班中有沒有跳她的訊息橫幅（包 GAME.toast、PHONE.post）
+TRACK = r"""((who)=>{ window.__yk={pos:[], msg:[]}; const E=GAME.E; const now=()=>{ const G=GAME.G; return G?(+G.hour).toFixed(2):''; };
+  if(!window.__ykW){ window.__ykW=true; try{ const t0=GAME.toast; GAME.toast=function(t){ try{ window.__yk.msg.push({h:now(), kind:'toast', t:String(t).slice(0,60)}); }catch(e){} return t0.apply(this,arguments); }; }catch(e){}
+    try{ if(typeof PHONE!=='undefined'&&PHONE.post){ const p0=PHONE.post; PHONE.post=function(G,m){ try{ window.__yk.msg.push({h:now(), kind:'post', th:m&&m.th, from:m&&m.from, t:String(m&&m.text||'').slice(0,60)}); }catch(e){} return p0.apply(this,arguments); }; } }catch(e){} }
+  clearInterval(window.__ykI); window.__ykI=setInterval(()=>{ const n=(E.npcs||[]).find(q=>q&&(q.charId||q.id)===who&&q.obj); window.__yk.pos.push(n?[now(), +n.obj.position.x.toFixed(2), +n.obj.position.z.toFixed(2), !!n.seat, n.pose||'', n.obj.visible!==false&&!n.hidden]:[now(), null]); if(window.__yk.pos.length>2000) window.__yk.pos.shift(); },500); return true; })"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov, c.width/c.height, 0.05, 300); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const hid=[]; E.scene.traverse(o=>{ if(o.isMesh&&o.visible&&o.position&&o.matrixWorld&&o.name&&/ceil|roof|天花/i.test(o.name)){ hid.push(o); o.visible=false; } });
   let url; try{ r.render(E.scene,cam); url=c.toDataURL('image/jpeg',0.9); } finally { for(const o of hid) o.visible=true; } return url; })"""
@@ -107,6 +112,7 @@ async def run_case(pg, cdp, sv0, case, res):
             R.note('[%s] 進店沒有自動開班（JOBS.running=false、沒有對話）→【捷徑】JOBS.runShift(GAME,\'yue\')' % tag)
             await pg.evaluate("(()=>{ window.__ccShift=JOBS.runShift(GAME,'yue'); })()")
             await pg.wait_for_timeout(1500)
+    await pg.evaluate(TRACK, who)
     seen_lines = []; snap_at = None
     target = await pg.evaluate("((id)=>{ const Y=SHOP_JOBS_AA828.yueMeal; const c=CHARACTERS[id]; return {own:JOBS.yueOwn?JOBS.yueOwn(c):null, ask:Y.ask, narr:Y.narr}; })", who)
     for i in range(120):
@@ -138,6 +144,11 @@ async def run_case(pg, cdp, sv0, case, res):
         await L.advance_dialogs(pg, cdp, R, lambda q: not q['dlg'] and not q['choices'], max_steps=10)
     await pg.wait_for_timeout(3000)
     after = await pg.evaluate(PEOPLE, {'who': who}); out['after_shift'] = after
+    trk = await pg.evaluate("(()=>{ clearInterval(window.__ykI); return window.__yk; })()")
+    seen = [p for p in trk['pos'] if p[1] is not None]
+    out['track'] = {'n': len(trk['pos']), 'present': len(seen), 'first': seen[:3], 'last': seen[-3:], 'msgs': trk['msg']}
+    R.note('[%s] 這一班她在店裡的軌跡：%d 次有／%d 次取樣；第一次出現 %s；最後 %s' % (tag, len(seen), len(trk['pos']), J(seen[:3]), J(seen[-3:])))
+    R.note('[%s] 上班中的通知（toast、手機訊息）：%s' % (tag, J(trk['msg'][:20])))
     await pg.screenshot(path=os.path.join(OUT, 'yue_%s_after.png' % tag))
     R.note('[%s] 這一班演完（%s %s）：她在店裡=%s %s；所有人 %s' % (tag, after['zone'], after['hour'], bool(after.get('her')), J(after.get('her')), J(after['people'])))
     res[case] = out
