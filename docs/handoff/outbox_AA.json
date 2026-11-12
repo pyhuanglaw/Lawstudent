@@ -682,7 +682,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "3834f83f",
    "files": [
-    "docs/story_planning/AA_247_麵店團過年照片_大二到大四.md"
+    "docs/story_planning/AA_247_桌遊團過年照片_大二到大四.md"
    ],
    "state": "已交付",
    "remaining": "",
@@ -690,7 +690,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "原 task：AA_247 麵店團過年照片；原 ack：已傳 send_message"
+   "note": "原 task：AA_247 桌遊團過年照片；原 ack：已傳 send_message"
   },
   {
    "task": "MSG-KX-Y0-1018",
@@ -2108,7 +2108,7 @@
    ],
    "state": "已交付",
    "remaining": "無",
-   "next": "LAWWW-B 實作：茶席 BB 四位那一句（src/wzlines3d.js）、WZ-P3 事件＋WZ_P3_HELPED、象棋第四種開局「讓你一隻馬」、麵店團早午餐群組（玩家約＋阿哲一學期揪一次）",
+   "next": "LAWWW-B 實作：茶席 BB 四位那一句（src/wzlines3d.js）、WZ-P3 事件＋WZ_P3_HELPED、象棋第四種開局「讓你一隻馬」、桌遊團早午餐群組（玩家約＋阿哲一學期揪一次）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
@@ -3277,7 +3277,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "cd824bf41",
    "files": [
-    "docs/story_planning/AA_486_回LAWWW_麵店團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
+    "docs/story_planning/AA_486_回LAWWW_桌遊團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
    ],
    "state": "已交付",
    "remaining": "大二以後的長桌閒聊 AA 接著寫",
@@ -3285,14 +3285,14 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "AA_486 第 1 節：不拿掉麵店團，不用問使用者"
+   "note": "AA_486 第 1 節：不拿掉桌遊團，不用問使用者"
   },
   {
    "task": "YT-BBQ-WHY-1027",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "cd824bf41",
    "files": [
-    "docs/story_planning/AA_486_回LAWWW_麵店團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
+    "docs/story_planning/AA_486_回LAWWW_桌遊團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
    ],
    "state": "已交付",
    "remaining": "",
@@ -3307,7 +3307,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "b830dd5eb",
    "files": [
-    "docs/story_planning/AA_487_麵店團長桌閒聊_大二到大四.md"
+    "docs/story_planning/AA_487_桌遊團長桌閒聊_大二到大四.md"
    ],
    "state": "已交付",
    "remaining": "",
@@ -3604,7 +3604,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "回 LAWWW-C 02:14：①AA_494 你判斷的九點全部照你的做法；②AA_496 第 9 節：舊存檔回填 BH4_DONE（events.done 有 ev_bohan_third_floor）、XC5_RECONCILE（ev_xinci_an_answers 或 _far）、XC1_STICKY（ROOM_Y2_ITEMS 有芯慈的便利貼），ZHE4_FINAL 推不出來不回填；系統字「阿哲把你加進了群組「麵店團」。」照用；入口條件、回收句取最下面一列、（對{name}）的寫法都照你的；宥辰「常常趴著」不做，不影響劇情"
+   "note": "回 LAWWW-C 02:14：①AA_494 你判斷的九點全部照你的做法；②AA_496 第 9 節：舊存檔回填 BH4_DONE（events.done 有 ev_bohan_third_floor）、XC5_RECONCILE（ev_xinci_an_answers 或 _far）、XC1_STICKY（ROOM_Y2_ITEMS 有芯慈的便利貼），ZHE4_FINAL 推不出來不回填；系統字「阿哲把你加進了群組「桌遊團」。」照用；入口條件、回收句取最下面一列、（對{name}）的寫法都照你的；宥辰「常常趴著」不做，不影響劇情"
   },
   {
    "task": "HEROINE-LIFE-1028",
@@ -4411,7 +4411,7 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "5eff96441",
    "files": [
-    "docs/story_planning/AA_542_麵店團縮小成背景_改稿規格.md"
+    "docs/story_planning/AA_542_桌遊團縮小成背景_改稿規格.md"
    ],
    "state": "已交付",
    "remaining": "LAWWW-B 實作後 AA 再掃一次、讀一遍",
@@ -4888,10 +4888,10 @@
    "task": "AA623-BOARDGAME-TEAM-1103",
    "sha": "ba43e31a",
    "files": [
-    "docs/story_planning/AA_623_麵店團改成桌遊團.md"
+    "docs/story_planning/AA_623_桌遊團改成桌遊團.md"
    ],
    "receiver": "LAWWW",
-   "next": "AA_623 麵店團改成桌遊團（帳號 A 已交）",
+   "next": "AA_623 桌遊團改成桌遊團（帳號 A 已交）",
    "note": "AA-C 補登記"
   },
   {
@@ -6810,8 +6810,8 @@
     "LAWWW-C"
    ],
    "status": "READY_FOR_IMPLEMENTATION",
-   "doc": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
-   "summary": "芯慈大二暑假事務所、麵店團香港 8/25～8/28"
+   "doc": "docs/story_planning/AA_256_假期_芯慈事務所_桌遊團出國.md",
+   "summary": "芯慈大二暑假事務所、桌遊團香港 8/25～8/28"
   },
   {
    "id": "AA259-Y3S1-colloquial",

@@ -9,5 +9,5 @@
 | fatiao3d_save_day46.json | 46 | 六 | 07:33 | dorm |
 | fatiao3d_save_day46_1.json | 46 | 六 | 18:10 | wz_mokuyobi |
 
-- AA-B 先查到：四個存檔從第 38 天起 `flags.met_heroine_03` 就是 true，`rel.heroine_03` 是 null——遊戲當成「已經認識語彤」，使用者說還沒認識，總圖事件因此先觸發。要查是哪個事件設的 `met_heroine_03`（可能是語彤換背景 AA_624 以前的舊事件，例：麵店團那一類）。
+- AA-B 先查到：四個存檔從第 38 天起 `flags.met_heroine_03` 就是 true，`rel.heroine_03` 是 null——遊戲當成「已經認識語彤」，使用者說還沒認識，總圖事件因此先觸發。要查是哪個事件設的 `met_heroine_03`（可能是語彤換背景 AA_624 以前的舊事件，例：桌遊團那一類）。
 - 讀檔：遊戲選單 → 讀取 → 匯入檔案。
