@@ -92,7 +92,11 @@ CEIL_JS = r"""(a=>{ const E=GAME.E, rc=new THREE.Raycaster(new THREE.Vector3(a[0
 BURST_JS = r"""(async a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, W=64, H=Math.round(64*c.height/c.width), k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d',{willReadFrequently:true});
   const B=8, bw=Math.floor(W/B), bh=Math.floor(H/B), seq=[]; const y0=E.cam.yaw;
   const fr=[], t00=performance.now(); const FW=640, FH=Math.round(640*c.height/c.width);
-  const C0=E.camera.clone(); C0.updateMatrixWorld(true); const PO=E.player&&E.player.obj, PV=PO?PO.visible:null; if(PO&&!a.pan) PO.visible=false;   /* BB-C 11:38：連拍鏡頭完全固定（拷一台不動的相機；原本每格轉 0.01 rad＝25 格約 14°，條圖整個畫面在平移、會誤判成閃）；PAN=1 才照舊轉 */
+  /* BB-C 11:43：先等鏡頭停穩（連續 10 幀相機位置差 <1 mm，最多 3 秒）再拍；記拍之前、整段連拍期間遊戲鏡頭和拍照鏡頭各漂了幾 mm */
+  const P=new THREE.Vector3(), Q=new THREE.Vector3(); let still=0, waited=0; E.camera.getWorldPosition(P); const tw=performance.now();
+  while(still<10&&performance.now()-tw<3000){ await new Promise(res=>requestAnimationFrame(res)); E.camera.getWorldPosition(Q); if(Q.distanceTo(P)<0.001) still++; else still=0; P.copy(Q); waited++; }
+  const settle={frames:waited, still, ms:Math.round(performance.now()-tw)}; const G0=new THREE.Vector3(); E.camera.getWorldPosition(G0);
+  const C0=E.camera.clone(); C0.updateMatrixWorld(true); const R0=new THREE.Vector3(); C0.getWorldPosition(R0); const PO=E.player&&E.player.obj, PV=PO?PO.visible:null; if(PO&&!a.pan) PO.visible=false;   /* BB-C 11:38：連拍鏡頭完全固定（拷一台不動的相機；原本每格轉 0.01 rad＝25 格約 14°，條圖整個畫面在平移、會誤判成閃）；PAN=1 才照舊轉 */
   for(let f=0;f<25;f++){ if(a.pan) E.cam.yaw=y0+f*0.01; await new Promise(res=>setTimeout(res,200)); r.render(E.scene,a.pan?E.camera:C0); g.drawImage(c,0,0,W,H); const d=g.getImageData(0,0,W,H).data; const v=[];
     if(a.strips){ const q=document.createElement('canvas'); q.width=FW; q.height=FH; q.getContext('2d').drawImage(c,0,0,FW,FH); const G=GAME.G; fr.push({q, ms:Math.round(performance.now()-t00), gh:G?(+G.hour).toFixed(3):''}); }
     for(let by=0;by<B;by++) for(let bx=0;bx<B;bx++){ let s=0,n=0; for(let y=by*bh;y<(by+1)*bh;y++) for(let x=bx*bw;x<(bx+1)*bw;x++){ const o=(y*W+x)*4; s+=0.299*d[o]+0.587*d[o+1]+0.114*d[o+2]; n++; } v.push(s/n); } seq.push(v); }
@@ -105,7 +109,8 @@ BURST_JS = r"""(async a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, W=64, H
     for(const [n,i] of order){ const bx=i%B, by=Math.floor(i/B), cw=Math.round(sx), ch=Math.round(sy), sc=2, tw=cw*sc, th=ch*sc; const k2=document.createElement('canvas'); k2.width=tw*pick.length; k2.height=th+34; const g2=k2.getContext('2d'); g2.fillStyle='#000'; g2.fillRect(0,0,k2.width,k2.height);
       g2.font='bold 12px sans-serif'; pick.forEach((f,j)=>{ g2.drawImage(fr[f].q, bx*sx, by*sy, sx, sy, j*tw, 34, tw, th); g2.fillStyle='#fff'; g2.fillText(fr[f].ms+'ms', j*tw+3, 13); g2.fillStyle='#ffd24d'; g2.fillText('g'+fr[f].gh, j*tw+3, 28); });
       strips.push({i, bx, by, flips:n, url:k2.toDataURL('image/jpeg',0.88)}); } }
-  return {blocks_flipping:flick, max_flips:Math.max(...per), per, img, strips}; })"""
+  const G1=new THREE.Vector3(); E.camera.getWorldPosition(G1); const RC=a.pan?E.camera:C0, R1=new THREE.Vector3(); RC.getWorldPosition(R1);
+  return {blocks_flipping:flick, max_flips:Math.max(...per), per, img, strips, settle, game_cam_drift_mm:+(G1.distanceTo(G0)*1000).toFixed(1), cam_drift_mm:+(R1.distanceTo(R0)*1000).toFixed(1)}; })"""
 SHEET_JS = r"""(async a=>{ const ims=await Promise.all(a.urls.map(u=>new Promise(res=>{ if(!u) return res(null); const q=new Image(); q.onload=()=>res(q); q.onerror=()=>res(null); q.src=u; })));
   const w=420, h=236, cols=4, rows=Math.ceil(ims.length/cols), k=document.createElement('canvas'); k.width=w*cols; k.height=h*rows+56; const g=k.getContext('2d'); g.fillStyle='#000'; g.fillRect(0,0,k.width,k.height);
   g.fillStyle='#fff'; g.font='bold 18px sans-serif'; g.fillText(a.title,8,22); g.font='13px sans-serif'; g.fillStyle='#ffd24d'; g.fillText(a.verdict,8,46);
@@ -295,7 +300,10 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         # 校正 r2：0.05° 成對差在正常和已知會閃的店都在 0.2～1.1%（鋸齒），分不出來＝只當參考；改看連拍：同一格畫面亮度來回翻 ≥3 次的格子數
         #   0 格＝PASS；1～2 格＝UNKNOWN（交 BB 看連拍）；≥ BURST_FAIL 格＝FAIL（暫定，等有已知會閃的室內再校正）
         nb = (bu or {}).get('blocks_flipping', 0) or 0
+        row['m']['cam_drift_mm'] = {'burst': (bu or {}).get('cam_drift_mm'), 'burst_nopeople': (bu2 or {}).get('cam_drift_mm'), 'game_cam': [(bu or {}).get('game_cam_drift_mm'), (bu2 or {}).get('game_cam_drift_mm')], 'settle': [(bu or {}).get('settle'), (bu2 or {}).get('settle')]}
         row['v']['6_flicker'] = 'PASS' if nb == 0 else ('FAIL' if nb >= BURST_FAIL else 'UNKNOWN')
+        if max(row['m']['cam_drift_mm']['burst'] or 0, row['m']['cam_drift_mm']['burst_nopeople'] or 0) > 5: row['v']['6_flicker'] = 'INVALID'   # BB-C 11:43：拍照鏡頭漂 >5 mm＝這次連拍不能判（不標 FAIL）
+        R.note('%s ⑥ 連拍鏡頭：拍照鏡頭漂 %s／%s mm、遊戲鏡頭漂 %s mm；開拍前等穩 %s' % (tag, row['m']['cam_drift_mm']['burst'], row['m']['cam_drift_mm']['burst_nopeople'], row['m']['cam_drift_mm']['game_cam'], J(row['m']['cam_drift_mm']['settle'])))
     await pg.evaluate(D.HUD + '(true)')
     # ⑦ 做得到
     fn = None
@@ -402,6 +410,7 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     for k, v in sorted(row['v'].items()):
         if v == 'FAIL': R.check('%s %s 機器判 FAIL' % (tag, k), False, J(row['m'].get({'1_clerk': 'people', '1b_people_pos': 'people', '7b_consistent': 'consistent', '2_window': 'window', '3_ceiling': 'ceiling', '4_solid': 'solid', '5_parallax': 'parallax', '6_flicker': 'flicker', '7_func': 'func', '7_console': 'console'}.get(k, k)))[:400])
         elif v == 'UNKNOWN': R.check('%s %s 機器判不出來＝UNKNOWN（交 BB 看圖；不能當 PASS）' % (tag, k), False, J(row['m'].get({'1_clerk': 'people', '1b_people_pos': 'people', '7b_consistent': 'consistent', '2_window': 'window', '3_ceiling': 'ceiling', '4_solid': 'solid', '5_parallax': 'parallax', '6_flicker': 'flicker', '7_func': 'func'}.get(k, k)))[:400])
+        elif v == 'INVALID': R.check('%s %s＝INVALID（連拍鏡頭漂 >5 mm，這次不能判；不算 FAIL，要重拍）' % (tag, k), False, J(row['m'].get('cam_drift_mm')))
     rows.append(row)
 
 
