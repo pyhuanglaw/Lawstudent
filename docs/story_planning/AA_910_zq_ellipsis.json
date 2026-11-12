@@ -1,0 +1,70 @@
+{
+ "_meta": {
+  "doc": "AA_910 子晴第二批（DLG-FULL-REVIEW-1110）：鬧著講的「……」開頭",
+  "by": "AA-C 2026-11-12 20:4x",
+  "status": "待 BB 第二意見（D153）",
+  "what": "子晴的「……」多半是她不好意思、卡住（「……叫一次我聽聽看。」「……很便宜。不要看我。」「……你是我男朋友，你當然這樣講。」），照留；只拿掉吐槽、接話時的 10 句。多段感情那 20 句照留（真的說不出話）。"
+ },
+ "rows": [
+  {
+   "file": "src/data/ladder.js",
+   "old": "……好。你說的。我截圖了。",
+   "new": "好。你說的。我截圖了。",
+   "note": "源稿已改：ladder/ladder_bb_y3s1.json、ladder/build_ladder_bb_y3s1.py"
+  },
+  {
+   "file": "src/data/termend_lines.js",
+   "old": "……好啦。那你想。想太久我會跑掉喔。",
+   "new": "好啦。那你想。想太久我會跑掉喔。",
+   "note": "src 直接換"
+  },
+  {
+   "file": "src/data/termend_opts.js",
+   "old": "……你還是買一下好了。銷量很難看。",
+   "new": "你還是買一下好了。銷量很難看。",
+   "note": "源稿已改：AA_749_termend_gf_v2.json"
+  },
+  {
+   "file": "src/data/events.js",
+   "old": "……第四罐。你請。",
+   "new": "第四罐。你請。",
+   "note": "已在 AA_789_events_zq 覆蓋層（ce28625d4e 補匯）"
+  },
+  {
+   "file": "src/data/events.js",
+   "old": "……真的假的。我加進去。",
+   "new": "真的假的。我加進去。",
+   "note": "src 直接換"
+  },
+  {
+   "file": "src/data/events.js",
+   "old": "……好，這題我不會。你是法律系的，你幫我判。",
+   "new": "好，這題我不會。你是法律系的，你幫我判。",
+   "note": "已在 AA_789_events_zq 覆蓋層（ce28625d4e 補匯）"
+  },
+  {
+   "file": "src/aa554_3d.js",
+   "old": "……那早上再說一次。早安。預約的。",
+   "new": "那早上再說一次。早安。預約的。",
+   "note": "源稿已改：AA_709_msg_replies.json"
+  },
+  {
+   "file": "src/data/movie_plots.js",
+   "old": "……好啦，你這樣講我有一點被說服。",
+   "new": "好啦，你這樣講我有一點被說服。",
+   "note": "源稿已改：AA_745_fallback.json"
+  },
+  {
+   "file": "src/data/vac_activities.js",
+   "old": "……走，吃東西。",
+   "new": "走，吃東西。",
+   "note": "已在 AA_788_vac_activities 覆蓋層，照那份匯"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "old": "……他會得意。我已經看到他得意的臉了。",
+   "new": "他會得意。我已經看到他得意的臉了。",
+   "note": "src 直接換"
+  }
+ ]
+}
