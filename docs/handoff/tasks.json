@@ -50808,7 +50808,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:4x LAWWW-B】使用者 X280、X281。AA 替單獨約會（activity_scenes 的 seat／mid／bye）每位、每種地點加選項對話：每個選項標 rel（fam、trust、comf、rom、npcRom），有的加友情、有的加戀愛；LAWWW 接選項；晚上約會完 S.eveSleep 直接睡的路，改成約會結尾演完、回到能自由走動，用存檔 day 51 重現。",
+   "next": "【LAWWW-C 11-12 08:4x 查現況】①約會中的選項對話：**已在線上版 v9.10.25**（AA_708 activity_scenes，98 場各有 opts、每個選項有 fx 友情／戀愛；dc3d33941 的 src/data/activity_scenes.js 就有；STUDYN.act 播）。校外約會 1,765 個選項的 fx 在開發分支（4e5a9a47c0）。②「晚上約會完馬上跳睡覺」：**沒改**——晚上那個時段用完＝CLS.eveSleep 直接回去睡（ACTION-BUDGET-1107 的設計，一個時段一件主要的事）。LAWWW-B 當時解讀成「改成演完回到自由走動」是 AI 解讀、沒問過使用者；現在約會本身有選項可以多講了，晚上演完要不要留在原地讓玩家自己決定什麼時候睡＝要問使用者（選擇題，下次使用者在的時候問）｜【11-10 01:4x LAWWW-B】使用者 X280、X281。AA 替單獨約會（activity_scenes 的 seat／mid／bye）每位、每種地點加選項對話：每個選項標 rel（fam、trust、comf、rom、npcRom），有的加友情、有的加戀愛；LAWWW 接選項；晚上約會完 S.eveSleep 直接睡的路，改成約會結尾演完、回到能自由走動，用存檔 day 51 重現。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
