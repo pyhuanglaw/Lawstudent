@@ -1129,3 +1129,15 @@
 [12:00:41] ==== START BE1E_CHS2_N_bedff_P  (probe @ be1e5d725634580ee25313a7bbd14f941687bfde) ====
 [12:00:44] [res] cpu=65% mem=50% (15.8/31.4 GB) chrome_testing=9  START BE1E_CHS2_N_bedff_P
 [12:02:49] [res] cpu=57% mem=52% (16.4/31.4 GB) chrome_testing=10  END BE1E_TSR_NEXTCLASS_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       74e02d1b2..56243ba31  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:02:55] ==== END   BE1E_TSR_NEXTCLASS_new  exit=0  312s   ====
+[12:03:08] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[12:03:08] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[12:03:08] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[12:03:08] memory 52% before starting BE1E_CHS2_N_bedff_L (2 running)
+[12:03:08] ==== START BE1E_CHS2_N_bedff_L  (probe @ be1e5d725634580ee25313a7bbd14f941687bfde) ====
+[12:03:12] [res] cpu=46% mem=52% (16.3/31.4 GB) chrome_testing=10  START BE1E_CHS2_N_bedff_L
+[12:04:26] 正在跑：BE1E_TSR_NEXTCLASS_old（已跑 4 分／上限 15 分）、BE1E_CHS2_N_bedff_P（已跑 3 分／上限 15 分）、BE1E_CHS2_N_bedff_L（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[12:05:02] [res] cpu=20% mem=50% (15.7/31.4 GB) chrome_testing=9  END BE1E_TSR_NEXTCLASS_old
