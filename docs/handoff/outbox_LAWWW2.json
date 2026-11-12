@@ -8896,9 +8896,9 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "0ddcff1c0d",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "state": "已交付",
    "noDirectIntegrate": false,
    "task": "ECON-NAV-TRAPS-1111",
@@ -8909,6 +8909,22 @@
    ],
    "remaining": "瀏覽器沒走",
    "next": "LAWWW-C 開任務、套 patch；CC 走溫州街那一格、社科院二樓沙發"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "title": "公館：打烊的店招牌、店內、門口光暈一起熄（十三間真的店內）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/gg_closed_sign_v1.patch",
+    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/README.md"
+   ],
+   "remaining": "瀏覽器沒拍；溫州街、新生南路、汀州路還沒有",
+   "next": "LAWWW-C 套 patch；CC 拍公館 23:30"
   }
  ]
 }
