@@ -36,6 +36,7 @@ const SHOPS=()=>[
   {key:'bookstore.cafe_order',name:'頁間書屋',rows:GGS.MENU['bookstore.cafe_order'].items,drinks:['美式','拿鐵','紅茶']},
   {key:'大口漢堡',rows:DKS.L.menu,drinks:['可樂','熱咖啡']},
   {key:'溫州街・半熟',name:'SUNNY SIDE',rows:WZS.BRUNCH,drinks:['美式','拿鐵','伯爵茶']},
+  {key:'溫州街・一盞',name:'一盞茶屋',rows:(GIFT_LINES.takeout&&GIFT_LINES.takeout['一盞茶屋']||{items:[]}).items,drinks:['冷泡烏龍（一瓶）','冷泡紅玉（一瓶）']},   /* YIZHAN-TAKEOUT-1112（AA_710 lawww_1112b）：外帶只賣冷泡茶兩樣，菜單在 GIFT_LINES.takeout（稿匯的）；內用的 WZS.TEA 不送 */
   {key:'帝大紅茶',rows:WZS.AA364.tea.menu,drinks:['紅茶（中）','紅茶（大）','奶茶（中）','奶茶（大）','檸檬紅茶（中）','檸檬紅茶（大）']},
   {key:'阿忠鮮果',rows:WZS.AA413.fruit.menu,drinks:['現打木瓜牛奶']},
   {key:'日常失速',rows:OFFB.L.menu,drinks:['冰拿鐵','檸檬氣泡美式']},
@@ -71,7 +72,7 @@ const SHOPS=()=>[
     /* 早餐那一時段的大口漢堡多一樣（豬肉滿福堡）＝照樣只賣飲料；泰米中午特價不影響飲料 */
     const Gm=fresh('2026-10-07',8); check('A. 菜單會變的店照現在的菜單：大口漢堡早上（多豬肉滿福堡）還是只賣可樂、熱咖啡',same(GIFT.menu(Gm,'大口漢堡').map(x=>x.n),['可樂','熱咖啡'])&&DKS.menu(Gm).length===DKS.L.menu.length+1); }
   /* ---------- B ---------- */
-  { const G=fresh(); const NO=['清州刀削麵','五湖四海','小路','巷子裡定食','林家乾麵','夏日冰菓室','溫州街・一盞','aoki.order','cvs.hotfood','公館阿婆甜湯','皇家高端胡椒餅','阿德影印輸出','公館燒臘','汀州鮮果','安泰藥局'].concat(Object.values(SEASON_STALLS.stalls).map(s=>s.name));
+  { const G=fresh(); const NO=['清州刀削麵','五湖四海','小路','巷子裡定食','林家乾麵','夏日冰菓室',/* 2026-11-12（YIZHAN-TAKEOUT-1112，AA_710 lawww_1112b）：'溫州街・一盞' 拿掉——一盞開外帶冷泡茶兩樣（內用的一壺茶還是不送，下一項另外驗）。舊期望：一盞沒有那個選項 */'aoki.order','cvs.hotfood','公館阿婆甜湯','皇家高端胡椒餅','阿德影印輸出','公館燒臘','汀州鮮果','安泰藥局'].concat(Object.values(SEASON_STALLS.stalls).map(s=>s.name));
     const bad=NO.filter(k=>GIFT.shopOpt(G,k)!==null||GIFT.menu(G,k).length);
     check('B. 不賣的（吃飯的店、湯、冰店、居酒屋、內用的一壺茶、熱食櫃、甜湯、季節攤販六攤…）沒有那個選項',!bad.length,J(bad));
     check('B. 小路的烏龍茶、可爾必思、生啤酒、清酒；一盞、青木內用的一壺茶；阿婆的粉圓冰、燒仙草；愛玉、仙草：照品名表也不算（酒、一壺、冰品、甜湯）',
@@ -115,14 +116,14 @@ const SHOPS=()=>[
         n++; if(err){ bad.push(id+' '+key+' '+nm+' 丟例外 '+String(err).slice(0,80)); continue; }
         kinds[k]=(kinds[k]|0)+1; const L=said().slice(1);   /* 第一句＝「你把○○遞給她。」*/
         if(!c||c.cat!=='drink'||!same(Object.keys(c),['n','cat','day','shop'])) bad.push(id+' '+nm+' carry '+J(c));
-        const op=(LN[id].drink.opinion||[]).find(o=>!o.shop&&!o.shopAny&&(o.n===nm&&!o.ns||(o.item==='紅茶'&&Array.isArray(o.ns)&&o.ns.includes(nm))));   /* 2026-11-12：學姊的紅茶那一格有 ns（任何一家的紅茶都算，AA_710 lawww_1112b）；可昕「青茶（有加糖）」那種原本的 ns 照舊不算在這裡 */
+        const op=(LN[id].drink.opinion||[]).find(o=>(!o.shop&&!o.shopAny&&(o.n===nm&&!o.ns||(o.item==='紅茶'&&Array.isArray(o.ns)&&o.ns.includes(nm))))||(!!o.shopAny&&!!c&&c.shop===o.shopAny));   /* 2026-11-12（YIZHAN-TAKEOUT-1112）：照店的那一格（語彤「一盞茶屋的茶（任何一樣）」）——一盞開外帶以後買得到了 */   /* 2026-11-12：學姊的紅茶那一格有 ns（任何一家的紅茶都算，AA_710 lawww_1112b）；可昕「青茶（有加糖）」那種原本的 ns 照舊不算在這裡 */
         if(op){ nOp++; if(k!=='opinion'||!same(L,[].concat(...op.pool[0].lines.map(parts)))) bad.push(id+' '+nm+' 她對這一樣有意見（opinion），要演那幾句 '+k+' '+J(L)); }
         else{ if(!(k==='yes'||GIFT.CTX.includes(k))) bad.push(id+' '+nm+' kind '+k);
           if(!L.length||L.some(t=>!allow.has(t))||L.some(t=>bnd.has(t))) bad.push(id+' '+nm+' 句子不在她飲料那一格的一般句子裡 '+J(L)); }
         if(said()[0]!=='你把'+c.n+'遞給'+id+'。') bad.push(id+' '+nm+' 第一句 '+said()[0]);
         if(G.carry.length) bad.push(id+' '+nm+' 送了還在身上');
         if(j===0){ H.picks=[nm]; const c2=await GIFT.buy(GM,key,P); H.said=[]; const k2=await GIFT.give(GM,{name:id,charId:id},id,c2); if(k2!=='no'||G.carry.length!==1||said().some(t=>!noSet.has(t))) bad.push(id+' 同一天第二杯 '+k2+' '+J(said())); } } }
-    check('E. 各店的品名 '+pool.length+' 樣 × 七位（'+n+' 次）：都收、不丟例外；她對那一樣有意見的 '+nOp+' 次（AA_710 335301d353 的七格；紅茶三間店）＝那幾句，其他都是她飲料那一格的一般句子（不是 fav／別的 opinion／只配某一樣的組）；同一天第二杯＝no、東西留著',pool.length>=40&&!bad.length&&nOp===11&&kinds.opinion===11/* 2026-11-12 改期望（AA_710 lawww_1112b）：學姊的紅茶多認帝大紅茶的「紅茶（中）」「紅茶（大）」兩樣；舊期望 9 */,bad.slice(0,6).join('；')+' '+J(kinds));
+    check('E. 各店的品名 '+pool.length+' 樣 × 七位（'+n+' 次）：都收、不丟例外；她對那一樣有意見的 '+nOp+' 次（AA_710 335301d353 的七格；紅茶三間店；語彤收到一盞的兩樣）＝那幾句，其他都是她飲料那一格的一般句子（不是 fav／別的 opinion／只配某一樣的組）；同一天第二杯＝no、東西留著',pool.length>=40&&!bad.length&&nOp===13&&kinds.opinion===13/* 2026-11-12 改期望（AA_710 lawww_1112b）：學姊的紅茶多認帝大紅茶的「紅茶（中）」「紅茶（大）」兩樣；舊期望 9 → 11。同一天（YIZHAN-TAKEOUT-1112）：一盞開外帶冷泡茶兩樣，語彤收到＝她「一盞茶屋的茶（任何一樣）」那一格，多 2 次；舊期望 11 */,bad.slice(0,6).join('；')+' '+J(kinds));
     /* 朋友（芯慈；她的線打開才能送）*/
     const XC0=globalThis.XCROM; globalThis.XCROM={ON:true};
     { const G=fresh(); H.picks=['冬瓜茶']; const c=await GIFT.buy(GM,'喝不喝咖啡'); H.said=[]; const t0=GIFT.talkOpts(G,'classmate_xinci').map(o=>o.t); let k=null, err=null; try{ k=await GIFT.give(GM,{name:'芯慈',charId:'classmate_xinci'},'classmate_xinci',c); }catch(e){ err=e; }

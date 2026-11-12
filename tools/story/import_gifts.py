@@ -23,6 +23,7 @@ STALE-SOURCES-1112（AA_710 86619c1195，X350「所有飲料店賣的飲料都�
   品名兩邊都對不到的：整份看完，一次列出來再停（交給 AA；不硬匯、不改品名）。
 - 「<店名>的茶（任何一樣）」＝在那間店買的任何一樣飲料 → {item, shopAny:店名}（gift3d.js 照 G.carry 記的店名比）。店名要是可以買來送人的店（G.carry 記的名字）；
   下面 SHOP_PENDING 列的是「遊戲裡有這間店、但現在還不能買來送人」的：照匯、印出來提醒（那一格現在送不到），不在表上的店名＝停下來。
+- YIZHAN-TAKEOUT-1112（AA_710 _meta.lawww_1112b「一盞茶屋外帶」）：外帶的品名、價錢、店員句、語彤當班的旁白、她當班時收到的那一句 → GIFT_LINES.takeout（下面 takeout()）。
 - AA_728 people 裡寫 unused 的人（_meta.status：使用者 11-08「送飲料只需要給可攻略的對象」，台詞留在稿當紀錄、不匯入）跳過；有人寫 unused 而 _meta.status 沒有那一句＝停下來。
 用法：python3 tools/story/import_gifts.py [--ref <AA_710 commit>] [--ref2 <AA_728 commit>] [--check]"""
 import json, os, re, subprocess, sys
@@ -47,8 +48,40 @@ PAREN = re.compile(r'^(.*)（([^（）]+)）$')
 # AA_710 _meta.lawww_1112b「學姊的紅茶」：任何一家的紅茶都算（帝大紅茶的「紅茶（中）」「紅茶（大）」也算）——品名有「紅茶」、不是奶茶／鮮奶茶／水果紅茶
 BROAD = {('heroine_05', '紅茶'): {'has': '紅茶', 'not': ('奶', '檸檬', '百香', '葡萄柚', '柳橙', '蘋果', '水蜜桃', '芒果', '莓', '果')}}
 SHOP_PENDING = {
-    '一盞茶屋': '點餐 key「溫州街・一盞」（src/wzshops3d.js S.TEA）：內用的一壺茶（260 元起），沒有外帶的菜單；盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md 第 2 節列為不放，AA_710 _meta（X350）寫「一盞…也開」——等 LAWWW、AA 定外帶賣什麼',
+    # 2026-11-12（YIZHAN-TAKEOUT-1112）：一盞茶屋拿掉了——AA_710 _meta.lawww_1112b「一盞茶屋外帶」定了外帶只賣冷泡茶兩樣，下面 takeout() 匯進資料檔，gift3d.js S.SHOPS 有這間
 }
+# 外帶的菜單寫在稿上的店（AA_710 _meta.lawww_1112b 的「<店名>外帶」）：品名、價錢、店員句、語彤當班的旁白和收禮句從稿匯進 GIFT_LINES.takeout（gift3d.js 照它賣、照它演；src 不手打）
+TAKEOUT_KEY = re.compile(r'^(.+)外帶$')
+TAKEOUT_FIELDS = {'decide', 'items', 'where', 'line_staff', 'line_yt_on_shift', 'note'}
+TAKEOUT_GIVE = re.compile(r'語彤自己當班的時候買來送她，她收：「([^「」]+)」（只在她當班、而且是送她的時候換這一句，其他時候照她原本的收禮句。）')
+
+
+def takeout(meta):
+    """AA_710 _meta.lawww_1112b 裡「<店名>外帶」的每一格 → {店名: {items:[[品名, 價錢]…], staffLine, onShift:{who, buy, give:[句]}, where, decide, note}}"""
+    out = {}
+    for k, v in (meta.get('lawww_1112b') or {}).items():
+        m = TAKEOUT_KEY.match(k)
+        if not m:
+            continue
+        shop, w = m.group(1), f'{PATH} _meta.lawww_1112b.{k}'
+        if not isinstance(v, dict) or set(v) != TAKEOUT_FIELDS:
+            raise SystemExit(f'{w}：欄位改了（{sorted(v) if isinstance(v, dict) else v}），先改 import_gifts.py 的 takeout 和 src/gift3d.js')
+        its = v['items']
+        if not isinstance(its, list) or not its or not all(isinstance(x, list) and len(x) == 2 and isinstance(x[0], str) and x[0] and isinstance(x[1], int) and not isinstance(x[1], bool) and x[1] > 0 for x in its):
+            raise SystemExit(f'{w}.items：要是 [[品名, 正整數價錢]…]')
+        names = [IG.read_fix(x[0]) for x in its]
+        if len(set(names)) != len(names):
+            raise SystemExit(f'{w}.items：品名重複')
+        g = TAKEOUT_GIVE.search(v['note'])
+        if not g:
+            raise SystemExit(f'{w}.note：讀不到「語彤自己當班的時候買來送她，她收：「…」（只在她當班、而且是送她的時候換這一句，其他時候照她原本的收禮句。）」（稿改了要重看 takeout）')
+        if f'「{shop}的茶（任何一樣）」' not in v['note']:
+            raise SystemExit(f'{w}.note：沒有提到「{shop}的茶（任何一樣）」那一格（店名要和 opinion 的 shopAny 一樣）')
+        out[shop] = {'items': [[n, x[1]] for n, x in zip(names, its)],
+                     'staffLine': lines([v['line_staff']], f'{w}.line_staff')[0],
+                     'onShift': {'who': 'heroine_03', 'buy': lines([v['line_yt_on_shift']], f'{w}.line_yt_on_shift')[0], 'give': lines([g.group(1)], f'{w}.note（收禮句）')},
+                     'where': v['where'], 'decide': v['decide'], 'note': v['note']}
+    return out
 LATE = 99                                 # hour 的上限（G.hour 過了午夜是 24 以上）
 
 # AA_728 _meta.itemOnly.list 的 item（人寫的字）→ 遊戲的品項：n＝就是這幾樣、base＝這幾個名字的每一種（冰的、熱的…）；
@@ -104,13 +137,15 @@ def game_items():
     return out
 
 
-def shop_menus():
+def shop_menus(first_ok=()):
     """可以買來送人的店 → {G.carry 記的店名: [菜單上的飲料…]}（node tools/story/gift_shop_menus.js）。讀不到的店、載不進來的檔＝停下來。"""
     try:
         raw = subprocess.check_output(['node', os.path.join(ROOT, MENUS_JS)], cwd=ROOT, stderr=subprocess.PIPE).decode('utf-8')
         d = json.loads(raw.strip().splitlines()[-1])
     except Exception as e:   # noqa
         raise SystemExit(f'{MENUS_JS}：跑不起來（{str(e)[:200]}）——各店的菜單讀不到，不能核對品名')
+    # first_ok：外帶菜單寫在稿上的店（takeout）——資料檔還沒匯過那一次，遊戲問到的是空的；只放過這幾間，菜單照稿（main 補）
+    d['unreadable'] = [u for u in (d.get('unreadable') or []) if u.split('（')[0] not in first_ok]
     if d.get('loadErr') or d.get('unreadable'):
         raise SystemExit(f'{MENUS_JS}：有店的菜單讀不到，不能核對品名（不放行）：載不進來的檔 {d.get("loadErr")}；菜單是空的店 {d.get("unreadable")}')
     if len(d.get('shops') or {}) < 15:
@@ -480,8 +515,17 @@ def main():
     sha2, why2 = src_sha(allow, PATH2, ref2)
     items = game_items()
     s2 = json.loads(git('show', f'{sha2}:{PATH2}'))
-    menus, pend, skipped = shop_menus(), [], []
-    data, only_done = build(json.loads(git('show', f'{sha}:{PATH}')), sha, items, s2.get('_meta') or {}, menus, pend)
+    s1 = json.loads(git('show', f'{sha}:{PATH}'))
+    tk = takeout(s1.get('_meta') or {})
+    menus, pend, skipped = shop_menus(tuple(tk)), [], []
+    for shop, t in tk.items():   # 外帶的菜單是這支工具自己匯進資料檔的（第一次匯以前遊戲還問不到）：照稿算進「可以買來送人的店」；遊戲已經問得到的要和稿一樣
+        names = [x[0] for x in t['items']]
+        if shop in menus and sorted(menus[shop]) != sorted(names):
+            raise SystemExit(f'{shop}：遊戲現在賣的外帶（{menus[shop]}）和稿（{names}）不一樣——先重新匯入再看；還是不一樣＝src/gift3d.js S.SHOPS 那一列沒有照 GIFT_LINES.takeout')
+        menus[shop] = names
+    data, only_done = build(s1, sha, items, s2.get('_meta') or {}, menus, pend)
+    if tk:
+        data['takeout'] = tk
     data['friends'] = build_friends(s2, sha2, items, skipped)
     # AA_766（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；白名單上的 commit）：沛珊最愛的米漿第二句（原本講她家早餐店）照稿換——AA_710 的源稿沒改，組好資料以後疊（tools/story/ps766.py；白名單沒有＝不疊）
     import ps766
@@ -510,6 +554,7 @@ def main():
     ops = [(h, o) for h, P in data['people'].items() for o in P.get('drink', {}).get('opinion', [])]
     print(' 照各店菜單對到的品名：', [(h, o['item'], [s for s, ns in menus.items() if o['n'] in ns]) for h, o in ops if not o.get('shopAny') and o.get('n') not in items])
     print(' 照店（任何一樣）：', [(h, o['item'], o['shopAny']) for h, o in ops if o.get('shopAny')])
+    print(' 外帶（稿定的菜單）：', {s: t['items'] for s, t in data.get('takeout', {}).items()})
     for t in pend:
         print(' [提醒] ' + t)
 

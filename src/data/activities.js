@@ -19,11 +19,13 @@ const ACTIVITIES={
      desc:'館員帶看閱覽室、借還書、自習座位。去一次就好。',story:false},
     {id:'lawlib_intro_y1s1',title:'法律資料怎麼查',kind:'lecture',zone:'lawlib',room:'discA',roomName:'法律學院圖書館 討論室 A',smallRoom:true,dates:['2025-09-24','2025-10-01'],t0:15.5,t1:16.5,once:true,
      desc:'法規要查最新版、判決怎麼找、指定參考書放哪裡（只講方法）。',story:false},
-    {id:'club_debate',title:'辯論社社課',clubName:'辯論社',kind:'club',zone:'boya',room:'201',roomName:'博思 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15],weekday:2,t0:19,t1:21,crowd:{n:8},
+    /* CLUB-LATER-TERMS-1112（AA_852，企劃線 b039356f5）：辯論社、登山社、系籃延到大二下（照吉他社；週次、星期、時間、地點照大一上不變；大三起不排）。
+       大一下～大二下每學期自己一組旁白：src/data/club_later_terms.js（tools/story/import_club_later_terms.py 匯的；下面的 narr 只有大一上用），演出 src/classes3d.js clubNarr */
+    {id:'club_debate',title:'辯論社社課',clubName:'辯論社',kind:'club',zone:'boya',room:'201',roomName:'博思 201',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15],weekday:2,t0:19,t1:21,crowd:{n:8},
      desc:'正反方練習、計時；題目用生活題（例：「大學該不該點名」）。',story:false,
      narr:['（正反方練習、計時。今天的題目：大學該不該點名。）','（今天的題目：外送該不該進校園。三分鐘申論，一分鐘質詢。）','（今天的題目：考試該不該開書。學長示範怎麼在一分鐘內反駁。）',
            '（今天練即席：抽紙條上台。你抽到「早八應該取消」。）','（今天的題目：社課該不該點名。台下笑了半分鐘才開始計時。）','（今天的題目：圖書館該不該二十四小時開放。正方贏了，大家都說反方比較好笑。）']},
-    {id:'club_hiking',title:'登山社行前會',clubName:'登山社',kind:'club',zone:'putong',room:'201',roomName:'普通 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15],weekday:4,t0:19.5,t1:21,crowd:{n:8},
+    {id:'club_hiking',title:'登山社行前會',clubName:'登山社',kind:'club',zone:'putong',room:'201',roomName:'普通 201',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15],weekday:4,t0:19.5,t1:21,crowd:{n:8},
      desc:'裝備、天氣、路線。出隊是週末的另一個活動，之後再排。',story:false,
      narr:['（今天講裝備：三層穿法、頭燈、雨衣。學長把一個背包裡的東西全倒在桌上。）','（今天看天氣圖：鋒面、午後雷陣雨、什麼時候該撤退。）','（今天講路線：等高線怎麼看，哪裡是陡上。）',
            '（今天練打結。看起來很簡單，你綁錯了兩次。）','（下一次出隊的名單貼出來了。社長說：報名前，先問問自己的腳。）']},
@@ -83,7 +85,7 @@ const ACTIVITIES={
        照遊戲那天 17:30 的天氣一次定整場（ACTIVITIES.rainy；雨停不算）。下雨場：球場沒有人、路人也不打球（crowd3d.js S.bballSpot），球場的集合點只剩 hint（系統字，AA 原句）；
        阿哲、明軒 17:30～19:00 在體育館大廳靠球場那一面的走道（characters.js 下雨那一筆）；參加點在那裡（classes3d.js addActSpots），旁白固定用 narr 第 4 句（narr:3＝走廊練運球那句）。
        roomName：手機「活動」那一場寫哪裡（game3d.js eventsHTML）。spot 在大廳西段（西邊開口和中間閘門之間、公告欄前面）*/
-    {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（映月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15],weekday:5,t0:17.5,t1:19,
+    {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（映月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15],weekday:5,t0:17.5,t1:19,
      rain:{zone:'gym',roomName:'新體育館一樓走廊',spot:{x:-5.1,z:13.8,lv:0,label:'系籃練球'},hint:'下雨，系籃今天在新體育館走廊練體能。',narr:3},
      desc:'投籃、分隊打半場；也可以在場邊記分、送水。',story:false,
      narr:['（投籃練習，每人二十球。進幾球沒有人在算——除了學長。）','（分隊打半場。你在場邊記分，記錯一次，被兩隊同時糾正。）','（今天練防守腳步。十分鐘後，大家的腿都在發抖。）',

@@ -9292,21 +9292,46 @@
   },
   {
    "path": "docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md",
-   "sha": "48d153407",
+   "sha": "44ed07c50",
    "status": "approved",
-   "approvedBy": "AA（BAR-GROUP-3D-1112）；48d153407＝AA-C 2026-11-12 答 LAWWW-C（座位、演完留在二樓、要改的一句；D109）",
+   "approvedBy": "AA（BAR-GROUP-3D-1112）；44ed07c50＝AA-C 2026-11-12 回 LAWWW-C 合併後的問題（文末「補：熱可可那句分兩版」；D109）；48d153407＝座位、演完留在二樓、要改的一句",
    "task": "BAR-GROUP-3D-1112",
    "kind": "md",
-   "note": "律師讀書小組在大口漢堡二樓的三場（ev_bar_group_start／_out／_three）改在 3D 演的座位與舞台指示（AA-C 11-12 定，分支 claude/magical-albattani-bk7b4n）。台詞只改「要改的一句」那一列：src/data/r2y4b_events.js（手寫檔，沒有產生器）ev_bar_group_night「first」那一段的第一句旁白（ev_bar_group_out 共用同一份台詞）「（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）」→「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」——手改一處、照表一字不差（稿是 md 的表，不是 apply_line_rows.py 的 JSON）；其他台詞不動。座位、流程在 src/r2y4b3d.js（S.barSeats／barCast／barStage／barPlay）。逐字對稿、其他台詞沒動的雜湊：tests/bar_group_3d_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+   "note": "律師讀書小組在大口漢堡二樓的三場（ev_bar_group_start／_out／_three）改在 3D 演的座位與舞台指示（AA-C 11-12 定，分支 claude/magical-albattani-bk7b4n）。台詞只改「要改的一句」那一列：src/data/r2y4b_events.js（手寫檔，沒有產生器）ev_bar_group_night「first」那一段的第一句旁白（ev_bar_group_out 共用同一份台詞）「（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）」→「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」——手改一處、照表一字不差（稿是 md 的表，不是 apply_line_rows.py 的 JSON）；其他台詞不動。座位、流程在 src/r2y4b3d.js（S.barSeats／barCast／barStage／barPlay）。逐字對稿、其他台詞沒動的雜湊：tests/bar_group_3d_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核｜2026-11-12 換 44ed07c50：文末分兩版——三個人都在＝「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」（原列加條件 session.who===three）；只有語彤和你＝「（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）」（新加一列）；手改、照稿一字不差。",
+   "history": [
+    {
+     "sha": "48d153407",
+     "approvedBy": "AA（BAR-GROUP-3D-1112）；48d153407＝AA-C 2026-11-12 答 LAWWW-C（座位、演完留在二樓、要改的一句；D109）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_841_luwei_stall.json",
-   "sha": "1f5d6efed",
+   "sha": "33e952215",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_388 聽過：選項改成夾多少、十點後半價）」；D100b）",
+   "approvedBy": "AA-C 2026-11-12 定稿＋回 LAWWW 合併後五問（lawww_1112）；33e952215＝AA 更正 d：「好。一樣。」是老闆說的（D100b）",
    "task": "EAT-EFFECT-1020",
    "kind": "json",
-   "note": "X67 公館宵夜滷味攤的點餐（四種夾法、22:00 後半價、辣度三選、熟客句照辣度換、每天 18:00～24:00、颱風天不出攤；分支 claude/magical-albattani-bk7b4n）：tools/story/import_luwei_stall.py → src/data/luwei_stall.js（LUWEI_STALL）。夾法、價錢、台詞一字照稿；演出 src/luwei3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+   "note": "X67 公館宵夜滷味攤的點餐（四種夾法、22:00 後半價、辣度三選、熟客句照辣度換、每天 18:00～24:00、颱風天不出攤；分支 claude/magical-albattani-bk7b4n）：tools/story/import_luwei_stall.py → src/data/luwei_stall.js（LUWEI_STALL）。夾法、價錢、台詞一字照稿；演出 src/luwei3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核｜2026-11-12 換 44ed07c50：多 lawww_1112（b_after 輪流兩句、d 回話是祐廷、e not_open 只留 17:00～18:00）。｜2026-11-12 換 33e952215：lawww_1112.d 更正——熟客句和「好。一樣。」都是老闆說的（44ed07c50 寫「祐廷回的」，AA 更正）。",
+   "history": [
+    {
+     "sha": "1f5d6efed",
+     "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_388 聽過：選項改成夾多少、十點後半價）」；D100b）"
+    },
+    {
+     "sha": "44ed07c50",
+     "approvedBy": "AA-C 2026-11-12 定稿＋回 LAWWW 合併後五問（lawww_1112：吃完旁白輪流、熟客句誰說、白天不放按鈕；D100b）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_852_club_later_terms.json",
+   "sha": "b039356f5",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_397 聽過：系籃 Y1S2 一句改）」；D100b）",
+   "task": "CLUB-LATER-TERMS-1112",
+   "kind": "json",
+   "note": "辯論社、登山社、系籃大一下～大二下的社課旁白（每社每學期一組，共 51 句；分支 claude/magical-albattani-bk7b4n）：tools/story/import_club_later_terms.py → src/data/club_later_terms.js（CLUB_LATER_TERMS）。旁白一字照稿；activities.js 這三社的 term 照稿的 rule 手改成 Y1S1～Y2S2；演出 src/classes3d.js clubNarr。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
   }
  ]
 }

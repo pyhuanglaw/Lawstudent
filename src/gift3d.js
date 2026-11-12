@@ -54,11 +54,18 @@ const GIFT=(function(){
      opt:false＝同名品項不出「再選一次」（販賣機沒有去冰）；alias＝就是另一間（日和便利店的咖啡機＝便利商店）；legacy＝照舊只賣 S.ITEMS */
   const isCafe=shop=>shop==='兩點半 Café';   /* 2:30 AM 的店名 key（照 story3d.js counter）*/
   S.isLegacy=shop=>shop==='便利商店'||isCafe(shop);   /* 便利商店、2:30 AM：照舊（下面的表不列）*/
+  /* 外帶的菜單寫在稿上的店（GIFT_LINES.takeout[記在 G.carry 的店名]：items、staffLine、onShift{who, buy, give}）*/
+  S.takeout=name=>{ const T=typeof GIFT_LINES!=='undefined'&&GIFT_LINES.takeout; return (T&&Object.prototype.hasOwnProperty.call(T,name)&&T[name])||null; };
+  /* 她現在在那間店當班嗎（語彤在一盞：src/shifttreat3d.js SHIFTT.onShift＝人在那間店、作息是打工那一格）*/
+  S.onShiftAt=function(G,id){ const X=g_('SHIFTT'); try{ return !!(X&&X.onShift&&X.onShift(G,id)); }catch(e){ return false; } };
+  /* 這一樣是不是在她當班的那間店買的、而且她現在當班：回傳那間店的 takeout（沒有＝null）*/
+  S.shiftGift=function(G,id,c){ const t=c&&c.shop?S.takeout(c.shop):null; return t&&t.onShift&&t.onShift.who===id&&Array.isArray(t.onShift.give)&&t.onShift.give.length&&S.onShiftAt(G,id)?t:null; };
   S.SHOPS={
     'cvs.coffee':{alias:'便利商店'},   /* 日和便利店的咖啡機（ggshops_sys3d.js）：同一間便利商店，出原本那一份 */
     'bookstore.cafe_order':{name:'頁間書屋',rows:()=>{ const s=g_('GGS'); return s?s.MENU['bookstore.cafe_order'].items:[]; }},
     '大口漢堡':{rows:G=>{ const s=g_('DKS'); return s?s.menu(G):[]; }},
     '溫州街・半熟':{name:'SUNNY SIDE',rows:()=>{ const s=g_('WZS'); return s?s.BRUNCH:[]; }},
+    '溫州街・一盞':{name:'一盞茶屋',rows:()=>{ const t=S.takeout('一盞茶屋'); return t?t.items:[]; },drink:()=>true,takeout:true},   /* YIZHAN-TAKEOUT-1112：外帶只賣冷泡茶兩樣（AA_710 _meta.lawww_1112b；品名、價錢在 GIFT_LINES.takeout，tools/story/import_gifts.py 匯的）。key＝wzshops3d.js 點餐的 key；記在 G.carry 的店名「一盞茶屋」＝語彤那一格 shopAny。室內模型沒有冰箱（wz_shops_layout.js、yizhan.glb 都沒有）＝照稿掛在櫃台點餐選單最下面 */
     '帝大紅茶':{rows:G=>{ const s=g_('WZS'); return s?s.menu364('tea',G):[]; }},
     '阿忠鮮果':{rows:G=>{ const s=g_('WZS'); return s?s.fruitMenu(G):[]; }},
     '日常失速':{rows:()=>{ const s=g_('OFFB'); return s?s.L.menu:[]; }},
@@ -107,7 +114,10 @@ const GIFT=(function(){
     const i=await GM.choose(opts); const it=L2[i]; if(!it) return null; let name=it.n, p=it.p;
     if(it.opt){ const k=await GM.choose(it.opt.map(o=>({t:o[0]+(o[2]?'（+'+o[2]+' 元）':'')}))); const o=it.opt[k]||it.opt[0]; name+=o[1]; p+=o[2]|0; }
     if(G.money<p){ GM.toast&&GM.toast('錢不夠'); return null; }
-    GM.money(-p); const c={n:name,cat:it.cat,day:G.day,shop:d.name}; S.carry(G).push(c); await GM.say(null,'你買了'+name+'，帶在身上。'); return c; };
+    GM.money(-p); const c={n:name,cat:it.cat,day:G.day,shop:d.name}; S.carry(G).push(c);
+    const tk=d.takeout?S.takeout(d.name):null;   /* 外帶（一盞茶屋）：店員一句；語彤當班＝換成旁白（AA_710 _meta.lawww_1112b）*/
+    if(tk){ const os=tk.onShift; if(os&&os.buy&&S.onShiftAt(G,os.who)) await GM.say(null,os.buy); else if(tk.staffLine){ const E_=g_('EAT'), EL=g_('EAT_LINES'), T=EL&&EL.staff&&EL.staff[shop]; await GM.say({name:E_&&E_.staffName?E_.staffName(G,shop,T):String((T&&T.who)||'店員')},tk.staffLine); } }
+    await GM.say(null,'你買了'+name+'，帶在身上。'); return c; };
   const stage=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):1;
   const dating=(G,id)=>{ const f=(G&&G.flags)||{}, R=f.romance||{}; return f['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
   const month=G=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).m:0;
@@ -152,11 +162,12 @@ const GIFT=(function(){
     if(R.day[key]===G.day){ const r=rot(R,id+'|no',T.no,x)||{k:id+'|no',i:0,g:T.no[0]}; return {kind:'no',lines:r.g.lines,k:r.k,i:r.i,cat,friend:true}; }   /* 一天第二次同一種：不收，東西留著 */
     const r=rot(R,id+'|'+sec+'|yes',T[sec].pool,x)||{k:id+'|'+sec+'|yes',i:0,g:T[sec].pool[0]};   /* 沒有早餐那一格的照飲料那一格（AA_728 notes），輪流也照那一格 */
     return {kind:'yes',lines:r.g.lines,rel:R.rel[id]===G.day?null:(LF().rel||null),k:r.k,i:r.i,cat,sec,friend:true}; };
-  /* 挑反應（存檔只補沒有的預設欄位，不記輪流）：{kind:'no'|'fav'|'opinion'|ctx 名|'yes', lines, rel, k（輪流的 key）, i（第幾組）, cat（這一樣算哪一種）} */
+  /* 挑反應（存檔只補沒有的預設欄位，不記輪流）：{kind:'no'|'shift'|'fav'|'opinion'|ctx 名|'yes', lines, rel, k（輪流的 key）, i（第幾組）, cat（這一樣算哪一種）} */
   S.pick=function(G,id,c){ const T=L()[id]; if(!T) return pickFriend(G,id,c); const cat=S.kind(id,c), E=T[cat]; if(!E) return null; const R=F(G), key=id+'|'+cat, x={n:c.n,cnt:R.n[id]|0,h:+G.hour||0};
     if(R.day[key]===G.day){ const r=rot(R,key+'|no',E.no,x)||{k:key+'|no',i:0,g:E.no[0]}; return {kind:'no',lines:ln(r.g,x),k:r.k,i:r.i,cat}; }   /* 一天第二次：不收，東西留著 */
     const C=cells(G,id,E); let base=null, yr=null; for(const y of C){ const r=rot(R,key+'|yes'+E.yes.indexOf(y),y.pool,x); if(r){ base=y; yr=r; break; } }
     if(!yr){ const y=C[C.length-1]; base=y; yr={k:key+'|yes'+E.yes.indexOf(y),i:0,g:y.pool[0]}; }   /* 每一組都對不上（現在的稿不會：need 1 那幾格都沒有 only／hour）*/
+    { const tk=S.shiftGift(G,id,c); if(tk) return {kind:'shift',lines:tk.onShift.give,rel:base.rel,cat}; }   /* 她當班、送的是在她店裡買的（語彤在一盞，YIZHAN-TAKEOUT-1112）：收禮換那一句；其他時候照下面原本的 */
     if(E.fav&&match(E.fav,c)&&R.fav[id]==null) return {kind:'fav',lines:E.fav.lines,rel:E.fav.rel,fav:true,cat};
     for(const [j,o] of (E.opinion||[]).entries()) if(match(o,c)){ const r=rot(R,key+'|op'+j,o.pool,x); if(r) return {kind:'opinion',lines:ln(r.g,x),rel:o.rel&&Object.keys(o.rel).length?o.rel:base.rel,k:r.k,i:r.i,cat}; }
     for(const k of S.CTX) if(E.ctx&&E.ctx[k]&&ctxOn(G,R,key,c,cat,k)){ const r=rot(R,key+'|ctx.'+k,E.ctx[k],x); if(r) return {kind:k,lines:ln(r.g,x),rel:base.rel,k:r.k,i:r.i,cat}; }

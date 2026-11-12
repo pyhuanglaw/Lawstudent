@@ -1,43 +1,53 @@
 /* ===== 公館宵夜滷味攤的點餐（EAT-EFFECT-1020 最後一項，使用者 X67；LAWWW 2026-11-12）=====
    字：src/data/luwei_stall.js（LUWEI_STALL，AA_841 匯入：tools/story/import_luwei_stall.py）——夾法、價錢、老闆的話、旁白一字照稿，這裡不寫任何台詞。
      按鈕「看＋招牌上的字」是夜市的寫法（NM3.label：看＋稿的 name；D147 不取店名，招牌只寫稿的 sign）；選單「夾法　價錢 元」＋「算了」、「老樣子」也是夜市／EAT 現有的寫法。
-   攤子：公館店面街騎樓外的人行道（和公館那三攤同一排，面向騎樓），模型用現有的 assets/models/env/second_ai/luwei_stall.glb（LAWWW2-B 2026-10-16 做來拍 2D 背景「公館・滷味攤」的那一台，同一個樣子）。
+   攤子：公館店面街騎樓外的人行道（和公館那三攤同一排，面向騎樓），模型 assets/models/env/second_ai/luwei_stall_cart.glb（只有攤車；原本的 luwei_stall.glb 是LAWWW2-B 2026-10-16 做來拍 2D 背景「公館・滷味攤」的那一台，同一個樣子）。
      位置 S.AT 是 LAWWW 的子代理照導航格量的（那一段人行道是空的），還沒在畫面上看過——LAWWW2 驗位置、要不要收掉旁邊的折疊桌（稿的 rules：沒有座位）。
    這支做的：
-   1 什麼時候在（S.state）：照稿的 open（每天 18:00～24:00）；颱風假（CALENDAR.typhoon，稿 typhoonOff）整天不出攤。
-       open＝營業中：攤車、燈、老闆都在。 closing＝剛過 24:00 的那一小時（S.CLOSING_H）：攤車還在、老闆在收（稿 closed 那一句說的畫面）。
-       away＝其他時間：攤車不在（稿 not_open）。 typhoon＝颱風假：位置是空的（稿 typhoon）。
+   1 什麼時候在（S.state）：照稿的 open（每天 18:00～24:00）、prep（17:00～18:00）；颱風假（CALENDAR.typhoon，稿 typhoonOff）整天不出攤。
+       prep＝攤子在擺、還沒開賣（稿 lawww_1112.e，AA-C 11-12）：攤車和老闆出現，按了是旁白 not_open。 open＝營業中：攤車、燈、老闆都在。
+       closing＝剛過 24:00 的那一小時（S.CLOSING_H）：攤車還在、老闆在收（稿 closed 那一句說的畫面）。
+       away＝其他時間（白天）：攤車、老闆都不在，**也沒有按鈕**（稿 e「白天人行道上不放按鈕、也不擺攤」；互動點 hidden）。
+       typhoon＝颱風假：位置是空的；平常有攤子的那一段時間（17:00～隔天 1:00，S.inWindow）按鈕還在、按了是旁白 typhoon，其他時間一樣沒有按鈕。
      攤車不在的時候不擋路（導航的阻擋跟著模型一起放、一起收：SD3.block／unblock；模型沒載到＝不擋，不留看不見的牆）。玩家剛好站在那裡＝等他走開才擺出來。
    2 有人顧攤（店面標準 §12 第 3 點）：老闆站在攤車後面、面向客人，照夜市攤販的做法（shoplife3d.js 的 stallKeeper：SHOPLIFE.tendSync 每 0.5 秒照 q.isOpen 顯示／隱藏；這裡自己也對一次）。
    3 買得到（§12 第 4 點）——S.order：
-       老闆 greet →（22:00～24:00）half.line → 第 5 次起、上次選過辣度：熟客句（照上次的辣度，只說一次；EAT 的 l5）→
-       選單：四種夾法「夾法　價錢 元」（半價時段是半價；錢不夠變灰）＋第 5 次起「老樣子」（上次的夾法＋辣度，老闆回 spice.reply）＋「算了」→
+       老闆 greet →（22:00～24:00）half.line → 第 5 次起、上次選過辣度：老闆說熟客句（照上次的辣度，只說一次；EAT 的 l5）→
+       選單：四種夾法「夾法　價錢 元」（半價時段是半價；錢不夠變灰）＋第 5 次起「老樣子」（上次的夾法＋辣度；老闆回 spice.reply——稿 lawww_1112.d，企劃線 33e952215 更正：熟客句和回話都是老闆說的）＋「算了」→
        錢不夠＝旁白 no_money、不買 → 旁白 take → 老闆問 spice.ask、三選（選老樣子＝不問）→ 扣錢 → 老闆 wait → 時間過 5 分鐘（NM3.HRS，和夜市同一套）→ 老闆 done →
-       EAT.ordered（次數、「吃過的」記「滷味」、第一次＝eat_lines.js 現有那句旁白）→ EAT.together（附近剛好有認識的人在吃＝問一次，和其他店同一套）。
+       EAT.ordered（次數、「吃過的」記「滷味」、第一次＝eat_lines.js 現有那句旁白）→ 不是第一次＝稿 afterNext 那兩句輪流（lawww_1112.b_after；G.eat.lwAfter 記輪到第幾句）→ EAT.together（附近剛好有認識的人在吃＝問一次，和其他店同一套）。
      吃的效果：遊戲沒有體力、飽足（DL-02），和其他宵夜、夜市一樣＝扣錢、時間、吃過的、熟客。
    4 和人一起來（考完的宵夜等 2D 出遊，outings3d.js → EAT.outingFirst）：照現有的走，只多了選夾法和辣度（S.order 的 outing：不說 greet／take／wait／done、時間照出遊自己的）；
      選「算了」、錢不夠＝這一趟沒吃（不記吃過的）。src/eat3d.js 的 outingFirst 有這支才走這裡，沒有＝照舊。
-   存檔：G.eat.lwSpice＝上次的辣度（字）；G.eat.last['宵夜（滷味攤）']＝上次的夾法。舊存檔沒有＝第一次照樣問、沒有老樣子。
+   存檔：G.eat.lwAfter＝吃完輪流的旁白說過幾次（沒有＝0）；G.eat.lwSpice＝上次的辣度（字）；G.eat.last['宵夜（滷味攤）']＝上次的夾法。舊存檔沒有＝第一次照樣問、沒有老樣子。
    測試：node tests/luwei_stall_unit.js */
 const LW3=(function(){
   const S={};
   const D=()=>typeof LUWEI_STALL!=='undefined'?LUWEI_STALL:null;
   const GMof=()=>typeof GAME!=='undefined'?GAME:null;
   S.ZONE='gongguan'; S.KEY='宵夜（滷味攤）'; S.ITEM='滷味'; S.OUT_PLACE='公館滷味攤'; S.ID='st_luwei';
-  S.GLB='assets/models/env/second_ai/luwei_stall.glb'; S.ASSET='bldg.luwei_stall';
+  S.GLB='assets/models/env/second_ai/luwei_stall_cart.glb';   /* 只有攤車、沒有折疊桌和凳子的那一版（LAWWW2 7c374c3d0 驗收後換；同一支 tools/blender/env_second/luwei_stall.py 產的；稿的 rules：沒有座位）*/ S.ASSET='bldg.luwei_stall';
   /* 位置（公館區域的座標；人行道 z 8～17 可以走，騎樓在 +z）：x、z＝攤車前緣中間（模型的原點），yaw＝客人那一面朝哪裡（0＝+z，和 tingzhou_layout.js 的 stalls 同一個寫法）。
      模型本身朝 −z（luwei_stall.json 的 origin），所以轉半圈。rects＝導航擋的範圍 [x0,x1,z0,z1]：攤車＋後面老闆站的地方、旁邊的折疊桌和凳子（模型的大小照 GLB 的節點量）*/
   S.AT={x:-4.0,z:11.2,yaw:0};
-  S.rects=function(){ const a=S.AT; return [[a.x-0.85,a.x+1.25,a.z-1.25,a.z+0.45],[a.x-3.2,a.x-1.45,a.z-0.5,a.z+1.15]]; };
+  S.rects=function(){ const a=S.AT; return [[a.x-1.5,a.x+1.3,a.z-1.25,a.z+0.45]]; };   /* 攤車＋後面老闆站的地方，一個矩形（LAWWW2 7c374c3d0 驗收後：換成只有攤車的模型，折疊桌那一塊不擋了）*/
   S.custSpot=function(){ const a=S.AT; return {x:a.x,z:+(a.z+1.05).toFixed(2)}; };            // 客人站的地方（攤車前面）
   S.keeperSpot=function(){ const a=S.AT; return {x:a.x,z:+(a.z-0.8).toFixed(2),yaw:a.yaw}; };   // 老闆站的地方（攤車後面、面向客人）
   S.CLOSING_H=1;          // 過了收攤時間以後攤車還在多久（老闆在收；稿 closed 那一句）
   S.hour=G=>(((+G.hour||0)%24)+24)%24;
   S.typhoon=function(G){ const d=D(); if(!d||!d.typhoonOff||typeof CALENDAR==='undefined'||!CALENDAR.typhoon) return false; try{ return !!CALENDAR.typhoon(G.day); }catch(e){ return false; } };
   S.state=function(G){ const d=D(); if(!d||!G) return 'away'; if(S.typhoon(G)) return 'typhoon'; const h=S.hour(G), o=d.open;
-    if(h>=o.from&&h<o.to) return 'open'; const over=(((h-o.to)%24)+24)%24; return over<S.CLOSING_H?'closing':'away'; };   /* over＝收攤以後過了多久（24:00 收＝隔天 0 點多）*/
+    if(h>=o.from&&h<o.to) return 'open'; if(d.prep&&h>=d.prep.from&&h<d.prep.to) return 'prep'; const over=(((h-o.to)%24)+24)%24; return over<S.CLOSING_H?'closing':'away'; };   /* over＝收攤以後過了多久（24:00 收＝隔天 0 點多）*/
   S.isOpen=G=>S.state(G)==='open';
-  S.present=G=>{ const s=S.state(G); return s==='open'||s==='closing'; };   // 攤車（和老闆）在不在
+  S.present=G=>{ const s=S.state(G); return s==='open'||s==='closing'||s==='prep'; };   // 攤車（和老闆）在不在（prep＝17:00 起在擺、還沒開賣）
+  /* 平常有攤子的那一段時間（擺攤開始～收完）：不看颱風 */
+  S.inWindow=function(G){ const d=D(); if(!d||!G) return false; const h=S.hour(G), o=d.open, a=d.prep?d.prep.from:o.from; if(h>=a&&h<o.to) return true; return ((((h-o.to)%24)+24)%24)<S.CLOSING_H; };
+  /* 有沒有按鈕（稿 lawww_1112.e：白天不放按鈕）：攤子在（擺攤中、營業、在收）＝有；颱風假只有平常有攤子的那一段時間有（按了＝位置是空的那一句）；其他時間沒有。
+     稿沒寫 dayButton:false 的舊資料＝照舊一直有 */
+  S.button=function(G){ const d=D(); if(!d||!G) return false; if(d.dayButton!==false) return true; const s=S.state(G); return s==='typhoon'?S.inWindow(G):s!=='away'; };
+  S.me=G=>({name:(G&&G.name)||''});   // 祐廷（玩家自己說話：和 eat3d.js 的 {name:G.name} 同一個寫法）
+  /* 吃完的旁白（不是第一次）：稿 afterNext 輪流 */
+  S.afterNext=async function(GM){ const d=D(), G=GM.G, A=d&&Array.isArray(d.afterNext)?d.afterNext:[]; if(!A.length) return null; const R=S.rec(G), i=(R.lwAfter|0)%A.length; R.lwAfter=(R.lwAfter|0)+1; await GM.say(null,A[i]); return A[i]; };
   S.isHalf=function(G){ const d=D(), h=S.hour(G); return !!d&&h>=d.half.from&&h<d.half.to; };
   S.prices=function(G){ const d=D(), half=S.isHalf(G); return d.menu.map(m=>half?m.half:m.price); };
   S.label=function(){ const d=D(); return d?'看'+d.sign:null; };
@@ -59,7 +69,7 @@ const LW3=(function(){
       opts.push({t:'算了'});
       if(typeof EAT!=='undefined'&&EAT.atNow) EAT.atNow(G,key);
       let k=await GM.choose(opts), usual=false;
-      if(same>=0&&k===names.length){ usual=true; k=same; await GM.say(who,d.spice.reply); }
+      if(same>=0&&k===names.length){ usual=true; k=same; await GM.say(d.spice.replyBy==='player'?S.me(G):who,d.spice.reply); }   /* 誰說的照資料的 replyBy（稿 lawww_1112.d，33e952215：老闆）*/
       if(k==null||k<0||k>=names.length) return 'no';
       const price=prices[k]; if(money()<price){ await GM.say(null,d.lines.no_money); return 'poor'; }
       if(!out) await GM.say(null,d.lines.take);
@@ -68,7 +78,7 @@ const LW3=(function(){
       GM.money(-price); R.lwSpice=spice;
       if(!out){ await GM.say(who,d.lines.wait); if(GM.advance) GM.advance(HRS()); await GM.say(who,d.lines.done); }
       let tog=false;
-      if(typeof EAT!=='undefined'&&EAT.ordered){ await EAT.ordered(GM,key,S.ITEM); R.last[key]=names[k]; if(!out&&EAT.together) tog=await EAT.together(GM,key); }   /* 「吃過的」記「滷味」（和原本考完宵夜記的一樣）；上次的夾法另外記 */
+      if(typeof EAT!=='undefined'&&EAT.ordered){ const first=await EAT.ordered(GM,key,S.ITEM); R.last[key]=names[k]; if(!first) await S.afterNext(GM);   /* 第一次＝現有那句（EAT.ordered 說了）；之後輪流兩句 */ if(!out&&EAT.together) tog=await EAT.together(GM,key); }   /* 「吃過的」記「滷味」（和原本考完宵夜記的一樣）；上次的夾法另外記 */
       else { R.n[key]=(R.n[key]|0)+1; R.last[key]=names[k]; }
       S.lastOrder={item:names[k],price,spice,usual,half:S.isHalf(G),together:!!tog};
       if(!out&&GM.autosave) GM.autosave(); return names[k];
@@ -76,6 +86,8 @@ const LW3=(function(){
   /* 走到攤子前面按「看滷味」*/
   S.interact=async function(GM,zone){ const d=D(), G=GM&&GM.G; if(!d||!G) return null; S.sync(GM,zone); const st=S.state(G);
     if(st==='open') return S.order(GM);
+    if(!S.button(G)) return st;   /* 白天：沒有按鈕、沒有攤子，不說話（稿 lawww_1112.e；not_open 只留給在擺的那一小時）*/
+    if(d.dayButton===false&&st==='away') return st;
     await GM.say(null,st==='typhoon'?d.lines.typhoon:(st==='closing'?d.lines.closed:d.lines.not_open)); return st; };
 
   /* ---------- 3D：攤車、阻擋、老闆 ---------- */
@@ -90,12 +102,13 @@ const LW3=(function(){
       if(want&&q.model&&!q.cells){ q.cells=S.block(zone.nav); } else if(!want&&q.cells){ S.unblock(zone.nav,q.cells); q.cells=null; } }
     else if(q.shown&&q.model&&!q.cells) q.cells=S.block(zone.nav);   /* 模型後來才載到 */
     if(q.model) q.model.visible=!!q.shown;
-    for(const n of (E&&E.npcs)||[]) if(n&&n.stallKeeper===S.ID&&n.obj) n.obj.visible=!!q.shown;
+    if(q.it) q.it.hidden=!S.button(G);   /* 白天不放按鈕（稿 lawww_1112.e）*/
+    for(const n of (E&&E.npcs)||[]) if(n&&n.stallKeeper===S.ID&&n.obj){ n.hidden=!q.shown; n.obj.visible=!!q.shown; }   /* n.hidden：engine3d.js 每一格照它重設 obj.visible——只改 obj.visible 下一格就被改回來（LAWWW2 驗收：14:00 攤車沒了老闆還站著）*/
     return q; };
   S.attach=function(E,zone){ if(!E||!zone||zone.lwStall||!D()) return null; const a=S.AT, c=S.custSpot();
     const q={id:S.ID,kind:'luwei',x:a.x,z:a.z,yaw:a.yaw,model:null,cells:null,shown:false}; Object.defineProperty(q,'isOpen',{enumerable:true,get(){ return !!q.shown; }});   /* shoplife3d.js 的 tendSync 看這個 */
     zone.lwStall=q;
-    if(Array.isArray(E.interactables)) E.interactables.push({x:c.x,z:c.z,radius:1.2,label:S.label(),lwStall:q.id,onInteract:()=>{ const GM=GMof(); return GM?S.interact(GM,zone):null; }});
+    if(Array.isArray(E.interactables)){ const it={x:c.x,z:c.z,radius:1.2,label:S.label(),lwStall:q.id,hidden:true,onInteract:()=>{ const GM=GMof(); return GM?S.interact(GM,zone):null; }}; q.it=it; E.interactables.push(it); const GM0=GMof(); if(GM0&&GM0.G) it.hidden=!S.button(GM0.G); }   /* hidden：engine3d.js 的 nearestInteractable 不列；S.sync 照時間開關 */
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.loadOne){
       if(!ASSETS.manifest[S.ASSET]) ASSETS.manifest[S.ASSET]={url:S.GLB,type:'building',lazy:true,source:'LAWWW2〔帳號 B〕2026-10-16 原創（tools/blender/env_second/luwei_stall.py；LICENSES.md）'};
       try{ Promise.resolve(ASSETS.loadOne(S.ASSET)).then(g=>{ if(!g||!g.scene||E.zone!==zone) return; const m=g.scene.clone(true); m.name='luwei_stall'; m.position.set(a.x,0,a.z); m.rotation.set(0,a.yaw+Math.PI,0); m.userData.dyn=true;
@@ -106,7 +119,7 @@ const LW3=(function(){
   S.placeKeeper=function(GM){ const E=GM&&GM.E, zone=E&&E.zone, q=zone&&zone.lwStall; if(!q||!E.addNPC||typeof CHAR==='undefined'||!CHAR.build||typeof STORY==='undefined'||!STORY.extraSpec) return null;
     const had=(E.npcs||[]).find(n=>n&&n.stallKeeper===q.id); if(had) return had; const c=S.keeperSpot();
     const sp=Object.assign({},STORY.extraSpec(S.KEEPER_I)); sp.bag=null; const o=CHAR.build(sp); if(!o) return null; o.position.set(c.x,0,c.z); o.rotation.y=c.yaw||0; o.visible=!!q.shown;
-    return E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,vendor:true,stallKeeper:q.id,_stall:q}); };
+    return E.addNPC({obj:o,hidden:!q.shown,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,vendor:true,stallKeeper:q.id,_stall:q}); };
   S.KEEPER_I=57;   // STORY.extraSpec 的第幾個路人外觀（和夜市攤販同一組 40～89）
   S.hook=function(){ if(typeof Z3==='undefined'||!Z3.ZONES||!D()) return false; const zd=Z3.ZONES[S.ZONE]; if(!zd||zd._lw3) return false; const b0=zd.build;
     zd.build=function(E){ const z=b0.call(this,E); try{ S.attach(E,z); }catch(e){ console.warn('LW3.attach',e); } return z; }; zd._lw3=true;

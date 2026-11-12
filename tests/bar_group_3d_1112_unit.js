@@ -47,6 +47,11 @@ const three=()=>{ fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'}); H.date('kexin')
 const ytOnly=()=>{ fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'}); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); };
 const who=id=>shot&&shot.npcs.find(n=>n.id===id);
 const eq=(a,x,z,yaw)=>!!a&&Math.abs(a.x-x)<1e-6&&Math.abs(a.z-z)<1e-6&&Math.abs(a.yaw-yaw)<1e-6&&a.lv===1;
+/* 2026-11-12（AA_836 文末「補：熱可可那句分兩版」，企劃線 44ed07c50）：三個人都在＝NEW（三杯、兩杯推到你和可昕面前）；只有語彤和你＝NEW2（兩杯、一杯推到你面前）。
+   舊期望：只有語彤的第一次也演 NEW、五場台詞除了 NEW 那一句和改之前一字不差（NEW 兩處）、白名單 48d153407、黑畫面盤點第 5 節 41 句。
+   現在：只有語彤演 NEW2；NEW 留給 session.who==='three'（現在的排法「第一次」那一段只在只有語彤時演，三杯那一版直接跑事件、把 session 換成 three 來驗）；
+   五場台詞＝拿掉 NEW2 那一列（兩處）以後和改之前一字不差；白名單 44ed07c50（48d153407 進 history）；盤點 42 句（多 NEW2 那一列）*/
+const NEW2='（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）';
 const NEW='（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）', OLD='（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）';
 const wait=()=>new Promise(r=>setTimeout(r,20));
 
@@ -105,7 +110,7 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
     check('4. 只有語彤的成立那一晚：語彤坐祐廷旁邊靠樓梯 (0,−0.25) 朝北，不坐對面；沒有可昕；兩句一樣', H.G.flags.BAR_GROUP_KIND==='yutong'&&!!shot&&eq(shot.me,-1,-0.25,Math.PI)&&eq(who('heroine_03'),0,-0.25,Math.PI)&&!who('kexin')
       &&J(texts())===J(['我今年也考。……你考的那幾科，我也要考。','所以你讀的時候，我也在旁邊讀我的。'])&&H.bgs[0]==='freeze'&&!H.bgs.includes('dark')&&H.G.zone===Z, J([shot,texts(),H.bgs]));
     at('2029-02-25',20); phone(); at('2029-02-26',20.9); const qo=OUT.get(H.G,'y4_bar_out_'+D('2029-02-26')); await goOut(qo&&qo.id);
-    check('4. 只有語彤的讀書夜（第一次）：語彤坐旁邊；「第一次」三句，第一句是 AA_836 改的那一句', !!qo&&!!qo.goto&&!!shot&&eq(who('heroine_03'),0,-0.25,Math.PI)&&!who('kexin')&&J(texts())===J([NEW,'我們一起考。……我先考你。','買賣不破租賃那一條。你講給我聽，講到我聽得懂。'])&&H.G.flags.BAR_GROUP_YT_FIRST===H.G.day, J([shot,texts()])); }
+    check('4. 只有語彤的讀書夜（第一次）：語彤坐旁邊；「第一次」三句，第一句是 AA_836 文末兩杯那一版', !!qo&&!!qo.goto&&!!shot&&eq(who('heroine_03'),0,-0.25,Math.PI)&&!who('kexin')&&J(texts())===J([NEW2,'我們一起考。……我先考你。','買賣不破租賃那一條。你講給我聽，講到我聽得懂。'])&&H.G.flags.BAR_GROUP_YT_FIRST===H.G.day, J([shot,texts()])); }
 
   /* ===== 5 只有可昕在場（現在的排法不會排到，位子照 AA_836 第 4 點）===== */
   { three(); const s0=S.session; S.session=()=>({mode:'noodle',t0:21,t1:23,who:'kexin'}); try{
@@ -118,18 +123,30 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
   /* ===== 6 台詞 ===== */
   { const IDS=['ev_bar_group_start','ev_bar_group_out','ev_bar_group_three','ev_bar_group_night','ev_bar_group_video'];
     const snap=()=>J(IDS.map(id=>[id,ev(id).title,ev(id).dialogue.map(l=>[l.speaker===undefined?'-':l.speaker,l.text||'',l.expression||'',l.scene===undefined?'-':l.scene,l.bg===undefined?'-':l.bg,l.label||'',l.goto||'',!!l.end,(l.choice||[]).map(c=>c.text)])]));
-    const sha=s=>crypto.createHash('sha256').update(s).digest('hex'), now=snap();
+    const sha=s=>crypto.createHash('sha256').update(s).digest('hex'), now0=snap();
+    const snap2=()=>J(IDS.map(id=>[id,ev(id).title,ev(id).dialogue.filter(l=>l.text!==NEW2).map(l=>[l.speaker===undefined?'-':l.speaker,l.text||'',l.expression||'',l.scene===undefined?'-':l.scene,l.bg===undefined?'-':l.bg,l.label||'',l.goto||'',!!l.end,(l.choice||[]).map(c=>c.text)])])), now=snap2();
+    const n2=IDS.map(id=>ev(id).dialogue.filter(l=>l.text===NEW2)), idx2=IDS.map(id=>{ const d=ev(id).dialogue, i=d.findIndex(l=>l.text===NEW2); return i>0&&d[i-1].text===NEW&&d[i].speaker===null&&!d[i].expression&&!d[i].scene&&!d[i].label&&!d[i].goto&&!d[i].end&&!d[i].choice; });
+    check('6. 兩杯那一版（NEW2）只在 ev_bar_group_out、ev_bar_group_night 各一列、緊接在三杯那一版後面、是旁白；其他三場沒有', J(n2.map(a=>a.length))===J([0,1,0,1,0])&&idx2[1]&&idx2[3]&&now0.split(NEW2).length===3, J(n2.map(a=>a.length)));
     const BASE='1354551ef3df2fd876886bbe9c5336b0bc1b7fd59f88069405016561168ee292';   /* 改之前（開發分支 bc559a032）同一個算法的雜湊 */
-    check('6. 五場的台詞、說話的人、表情、地點字幕、底、標題：除了 AA_836 那一句以外和改之前一字不差', now.split(NEW).length===3&&!now.includes(OLD)&&sha(now.split(NEW).join(OLD))===BASE, sha(now.split(NEW).join(OLD)));
+    check('6. 五場的台詞、說話的人、表情、地點字幕、底、標題：除了 AA_836 那一句（和文末多的兩杯那一列）以外和改之前一字不差', now.split(NEW).length===3&&!now.includes(OLD)&&sha(now.split(NEW).join(OLD))===BASE, sha(now.split(NEW).join(OLD)));
     check('6. 2D 的事件資料沒動：三場的 background 還是 dark、「大口漢堡・二樓」那一步還是深色底（舊存檔、區域沒載入時照舊演）', ['ev_bar_group_start','ev_bar_group_out','ev_bar_group_three'].every(id=>ev(id).background==='dark'&&ev(id).trigger==='outing'&&ev(id).dialogue.some(l=>l.scene==='大口漢堡・二樓'&&l.bg==='dark')));
     const e3=S.bar3dEvent(ev('ev_bar_group_start')), e0=ev('ev_bar_group_start');
     check('6. 3D 版：同一個 id、同一份台詞（每一行是同一個物件），只有「大口漢堡・二樓」那兩步 bg:false、底 freeze；視訊那一步不動', e3.id===e0.id&&e3.background==='freeze'&&e3.dialogue.length===e0.dialogue.length
       &&e3.dialogue.every((l,i)=>l===e0.dialogue[i]||(e0.dialogue[i].scene==='大口漢堡・二樓'&&l.scene==='大口漢堡・二樓'&&l.bg===false))&&e3.dialogue.filter(l=>l.bg===false).length===2&&e3.dialogue.some(l=>l.scene==='視訊'&&l.bg==='video'));
-    let doc=null; try{ doc=cp.execFileSync('git',['-C',H.ROOT,'show','48d153407:docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
-    if(doc){ const row=doc.split('\n').find(l=>/^\| r2y4b_events\.js/.test(l))||'', c=row.split('|').map(x=>x.trim()); check('6. 那一句和 AA_836（企劃線 48d153407）的表一字不差（舊→新）', c[2]===OLD&&c[3]===NEW, row); }
-    else console.log('SKIP 6. 讀不到企劃線 48d153407（沒有 fetch）：AA_836 的表不比，新句照測試裡抄的那一句');
+    let doc=null; try{ doc=cp.execFileSync('git',['-C',H.ROOT,'show','44ed07c50:docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
+    if(doc){ const row=doc.split('\n').find(l=>/^\| r2y4b_events\.js/.test(l))||'', c=row.split('|').map(x=>x.trim()); check('6. 那一句和 AA_836（企劃線 44ed07c50）的表一字不差（舊→新）', c[2]===OLD&&c[3]===NEW, row);
+      const tail=doc.slice(doc.indexOf('熱可可那句分兩版'));
+      check('6. 分兩版的兩句和 AA_836 文末（企劃線 44ed07c50）一字不差：「三個人都在：」NEW、「只有語彤和你（可昕不在場的讀書夜）：」NEW2', doc.includes('熱可可那句分兩版')&&tail.includes('- 三個人都在：'+NEW)&&tail.includes('- 只有語彤和你（可昕不在場的讀書夜）：'+NEW2), tail.slice(0,200)); }
+    else console.log('SKIP 6. 讀不到企劃線 44ed07c50（沒有 fetch）：AA_836 的表不比，新句照測試裡抄的那一句');
     const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.find(f=>/AA_836_/.test(f.path));
-    check('6. 白名單登記 AA_836＠48d153407（approved）', !!allow&&allow.status==='approved'&&/^48d153407/.test(allow.sha)&&allow.task==='BAR-GROUP-3D-1112', J(allow&&[allow.sha,allow.status])); }
+    check('6. 白名單登記 AA_836＠44ed07c50（approved；48d153407 在 history）', !!allow&&allow.status==='approved'&&/^44ed07c50/.test(allow.sha)&&allow.task==='BAR-GROUP-3D-1112'&&(allow.history||[]).some(h=>/^48d153407/.test(h.sha)), J(allow&&[allow.sha,allow.status,allow.history]));
+    /* 三個人都在的晚上走到「第一次」那一段＝三杯那一版；只有語彤＝兩杯那一版；週六總圖＝白天版（兩版都不演）*/
+    { const s0=S.session, g0=S.groupLine; try{ three(); H.G.events.done.ev_bar_group_start=1; at('2029-02-26',21.5); S.groupLine=()=>'yt_first';
+        S.session=()=>({mode:'noodle',t0:21,t1:23,who:'three'}); await run('ev_bar_group_out'); const a=texts().slice();
+        S.session=()=>({mode:'noodle',t0:21,t1:23,who:'yutong'}); await run('ev_bar_group_out'); const b=texts().slice();
+        S.session=()=>({mode:'library',t0:10,t1:18,who:'yutong'}); await run('ev_bar_group_out'); const c=texts().slice();
+        check('6. 「第一次」那一段：who three＝三杯那一版（沒有兩杯）；who yutong＝兩杯那一版（沒有三杯）；總圖白天＝兩版都沒有', a[0]===NEW&&!a.includes(NEW2)&&b[0]===NEW2&&!b.includes(NEW)&&!c.includes(NEW)&&!c.includes(NEW2)&&c[0]==='（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）', J([a,b,c]));
+      } finally { S.session=s0; S.groupLine=g0; } } }
 
   /* ===== 7 視訊、總圖照舊 ===== */
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar',KX_VDAY:{4:'video'}}); H.date('kexin'); at('2029-02-23',8); phone(); at('2029-02-23',21.4); await goOut('y4_bar_group_start');
@@ -170,12 +187,12 @@ const wait=()=>new Promise(r=>setTimeout(r,20));
     three(); at('2029-02-23',21.4); const q3=OUT.get(H.G,'y4_bar_group_start'); q3.state='done'; at('2029-02-24',10); reset(); await GM.enter(Z,{x:P.me.x,z:P.me.z,yaw:Math.PI,lv:1}); const r2=S.tick(GM); await wait();
     check('9. 隔天才進去：不演、不排人（和錯過一樣）', !S.barPending(H.G)&&r2===false&&H.said.length===0&&!GM.npc.kexin&&!E.player.seat, J([r2,H.said.length])); }
 
-  /* ===== 10 黑畫面盤點（tools/story/black_bg_audit.js）：三場 41 句不再列在深色底，改列第 5 節「改在 3D 演」 =====
+  /* ===== 10 黑畫面盤點（tools/story/black_bg_audit.js）：三場 42 句（11-12 多兩杯那一列；舊期望 41）不再列在深色底，改列第 5 節「改在 3D 演」 =====
      修改前：第 2 節有 ev_bar_group_start（4＋2 句）、ev_bar_group_three（3 句）、ev_bar_group_out（32 句）。outings3d.js 的 OUT.IN3D 和程式的區域、地點字幕要一樣 */
   { let out=''; try{ out=cp.execSync('node tools/story/black_bg_audit.js',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ out=String(e.stdout||''); }
     const sec2=(out.split('## 2.')[1]||'').split('## 3.')[0], sec1=(out.split('## 1.')[1]||'').split('## 2.')[0], sec5=out.split('## 5.')[1]||'';
     const n5=sec5.split('\n').filter(l=>/^\| ev_bar_group_(start|out|three) /.test(l)).reduce((a,l)=>a+(+l.split('|')[5]||0),0);
-    check('10. black_bg_audit：第 1、2 節沒有 ev_bar_group_*；第 5 節列三場共 41 句（xs_dakou）', !!out&&!/ev_bar_group_/.test(sec1)&&!/ev_bar_group_/.test(sec2)&&n5===41&&/`xs_dakou`/.test(sec5), J([n5,/ev_bar_group_/.test(sec2)]));
+    check('10. black_bg_audit：第 1、2 節沒有 ev_bar_group_*；第 5 節列三場共 42 句（xs_dakou；舊期望 41，多 AA_836 文末兩杯那一列）', !!out&&!/ev_bar_group_/.test(sec1)&&!/ev_bar_group_/.test(sec2)&&n5===42&&/`xs_dakou`/.test(sec5), J([n5,/ev_bar_group_/.test(sec2)]));
     check('10. OUT.IN3D 登記的剛好是這三場＝{zone xs_dakou, scene 大口漢堡・二樓}（和 S.BAR_Z、S.BAR_EVS、3D 版拿掉深色底的那個地點字幕一樣）；視訊、總圖那兩場沒有', !!OUT.IN3D&&J(Object.keys(OUT.IN3D).sort())===J(S.BAR_EVS.slice().sort())
       &&S.BAR_EVS.every(id=>{ const r=OUT.IN3D[id], e3=S.bar3dEvent(ev(id)); return r.zone===S.BAR_Z&&r.scene==='大口漢堡・二樓'&&e3.dialogue.some(l=>l&&l.scene===r.scene&&l.bg===false)&&!e3.dialogue.some(l=>l&&l.scene===r.scene&&l.bg==='dark'); })); }
 

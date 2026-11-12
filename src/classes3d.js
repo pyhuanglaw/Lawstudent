@@ -409,8 +409,14 @@ const CLS=(function(){
     return null; };
   S.CLUB_IN=[];   /* 社課一開始（人物事件演完、入座那一句之後）接著演的：async fn(GM,a,ev)→{narr} 或 null（attendActivity）。吉他社第一次社課（AA_619 2-1）在 src/guitar3d.js */
   /* 社課的旁白（6-8 (d)）：同一學期照順序、每句最多一次；用完了回 ''（只顯示「社課結束了。」）。存在 G.acts.narr['<活動>@<學期>']＝用過幾句（舊存檔沒有＝從頭）*/
-  S.clubNarr=function(G,a){ const L=a.narr||[]; if(!L.length||typeof ACTIVITIES==='undefined') return ''; const A=ACTIVITIES.rec(G); if(!A.narr||typeof A.narr!=='object') A.narr={};
-    const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, k=a.id+'@'+(t?t.id:'-'), n=A.narr[k]||0; if(n>=L.length) return ''; A.narr[k]=n+1; return L[n]; };
+  /* CLUB-LATER-TERMS-1112（AA_852）：辯論社、登山社、系籃大一下～大二下每學期自己一組旁白（src/data/club_later_terms.js：CLUB_LATER_TERMS.clubs[活動][學期]）——那一學期有就用那一組，沒有＝照舊用活動的 narr。
+     那一組裡開頭「（下雨」的那一句（CLUB_LATER_TERMS.rain[活動][學期]＝第幾句）是下雨場才演的：晴天照順序輪的時候跳過它；下雨那一場固定演它（S.clubRainNarr，不佔照順序輪的那一格）*/
+  S.termNarr=function(G,a){ const D=typeof CLUB_LATER_TERMS!=='undefined'?CLUB_LATER_TERMS:null, t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, C=D&&a&&D.clubs&&D.clubs[a.id], L=C&&t?C[t.id]:null;
+    if(!Array.isArray(L)||!L.length) return null; const R=D.rain&&D.rain[a.id], r=R&&typeof R[t.id]==='number'?R[t.id]:-1; return {L,rain:r}; };
+  S.clubNarr=function(G,a){ const T=S.termNarr(G,a), L=T?T.L:(a.narr||[]); if(!L.length||typeof ACTIVITIES==='undefined') return ''; const A=ACTIVITIES.rec(G); if(!A.narr||typeof A.narr!=='object') A.narr={};
+    const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, k=a.id+'@'+(t?t.id:'-'); let n=A.narr[k]||0; if(T&&n===T.rain) n++;   /* 下雨場那一句不在晴天輪 */ if(n>=L.length) return ''; A.narr[k]=n+1; return L[n]; };
+  /* 下雨場的旁白（BBALL-RAIN-1030）：大一上＝活動的 narr[rain.narr]（走廊那一句）；大一下～大二下＝那一學期「（下雨」的那一句，那一學期沒有＝null（照順序輪）*/
+  S.clubRainNarr=function(G,a){ if(!a||!a.rain) return null; const T=S.termNarr(G,a); if(T) return T.rain>=0?T.L[T.rain]:null; return a.narr?a.narr[a.rain.narr]:null; };
   /* 特殊活動的旁白（AA_737 specialEvents，BULLETIN-BOARD-1110）：一場一整串（narr 照順序），同一學期每句最多一次（G.acts.narr['<id>@<學期>']＝1）。
      narrAlt {第幾句:{flag,text}}：有那個旗標換那一句（校慶園遊會第 2 句：吉他社社員）。
      narrLater（學生會迎新派對）：大一上以外的學年每年一句、照順序（G.acts.narr['<id>@later']＝用到第幾句），用完 end＝endLater（「派對結束了。」，取代「活動結束了。」）。
@@ -493,7 +499,7 @@ const CLS=(function(){
     const lec=a.kind==='lecture', tour=a.kind==='tour', club=a.kind==='club';
     const lj=club&&!!ACTIVITIES.lateJoinDue&&ACTIVITIES.lateJoinDue(G,a), noAuto=club&&!!ACTIVITIES.noAutoJoin&&ACTIVITIES.noAutoJoin(G,a);   /* AA_737 lateJoin（BULLETIN-BOARD-1110）：大一上第 5、6 週還不是社員＝社課結束時問（不在開頭自動入社）；問過選「先不要」的＝旁聽。要在 markAttended 以前判斷 */
     const small=lec&&!!a.smallRoom, who=a.speakerWord||'學長';   /* 小房間（討論室、沒有台）的講座：AA-B 11-08 01:20 兩句（AA_613 最後一節）；講的人照那一場（館員就寫 speakerWord:'館員'）*/
-    const rainNarr=a.rain&&ACTIVITIES.rainy&&ACTIVITIES.rainy(a,G,true)&&a.narr?a.narr[a.rain.narr]:null;   /* 下雨場（BBALL-RAIN-1030）：17:30 以前就參加＝參加的那一刻照當下的天氣定；旁白固定用走廊那一句（不佔晴天照順序輪的那一格）*/
+    const rainNarr=a.rain&&ACTIVITIES.rainy&&ACTIVITIES.rainy(a,G,true)&&a.narr?S.clubRainNarr(G,a):null;   /* 下雨場（BBALL-RAIN-1030）：17:30 以前就參加＝參加的那一刻照當下的天氣定；旁白固定用走廊那一句（不佔晴天照順序輪的那一格）*/
     ACTIVITIES.markAttended(G,a); if(a.id==='public_law_group'&&typeof STORY!=='undefined'&&STORY.mootTogetherCheck) STORY.mootTogetherCheck(G,'plg');   /* 模擬法庭準備分第 4 項（AA_143 3-3）*/ if(a.id==='B4'&&G.flags) G.flags.B4_ATTENDED=true;   /* AA_140 G07：聽過 B4 演講（重訪日 1 的「那場演講。」、C15 回想讀它）*/ if(club&&G.flags&&!noAuto){ G.flags['CLUB_'+a.id]=true; if(a.id==='lawclub_study') G.flags.lawclub=true; }   /* 第一次去社課就算加入（AA_110 6-3：CLUB_<id>）；法服另外記 lawclub（看過招募公告的那個旗標）*/
     const ev=club?S.clubEvent(G,a):(a.event?S.actEvent(G,a):null);   /* 活動的事件（event：迎新，交接包 v1 A11）*/
     if(ev) await EVENTS.run(ev);   /* 人物事件（6-8 (a)）：自己的 ADV 畫面；播完再快轉到社課結束 */

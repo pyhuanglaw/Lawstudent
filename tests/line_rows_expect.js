@@ -12,7 +12,8 @@ const DOCS=[['docs/story_planning/AA_794_zr_boss.json','60c08798a'],['docs/story
 const gen=f=>{ try{ return fs.readFileSync(path.join(ROOT,f),'utf8').slice(0,400).includes('自動產生'); }catch(e){ return true; } };
 let rows=[]; for(const [doc,sha] of DOCS){ try{ const d=JSON.parse(cp.execSync('git -C "'+ROOT+'" show '+sha+':'+doc,{encoding:'utf8',stdio:['ignore','pipe','ignore']})); rows=rows.concat((d.rows||d).filter(r=>!gen(r.file)).map(r=>Object.assign({doc,sha},r))); }catch(e){} }
 /* 2026-11-12（BAR-GROUP-3D-1112）：AA_836（企劃線 48d153407）「要改的一句」是 md 的表、不是 {rows} 的 JSON——手改 src/data/r2y4b_events.js 一處，這裡照表登一列（稿讀得到才認，和上面一樣）。
-   舊期望：r2y4b_events.js 和歷史 commit 比只差 AA_762 的 3 列（tests/peishan_events_1111_unit.js）；現在多這一列 */
+   舊期望：r2y4b_events.js 和歷史 commit 比只差 AA_762 的 3 列（tests/peishan_events_1111_unit.js）；現在多這一列。
+   同一天 AA_836 文末（44ed07c50）又把這一句分兩版：三個人都在＝這一列的 new；只有語彤和你＝新加的一列「（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）」——稿新加的、沒有舊句，不登在這裡（peishan_events_1111_unit.js 的 barBack 另外驗）*/
 { const doc='docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md', sha='48d153407', o='（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）', n='（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）';
   try{ const t=cp.execSync('git -C "'+ROOT+'" show '+sha+':"'+doc+'"',{encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(t.includes('| '+o+' | '+n+' |')) rows.push({doc,sha,file:'src/data/r2y4b_events.js',old:o,new:n}); }catch(e){} }
 const unq=t=>typeof t==='string'&&/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;

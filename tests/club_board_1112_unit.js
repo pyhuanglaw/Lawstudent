@@ -18,7 +18,13 @@ global.STORY={dayOfKey:dayOf};
   const dY1S1=expo+20, tY1S1=CALENDAR.termOf(dY1S1);
   check('1. 大一上學期中：列的就是 activities.js 這學期有的那幾張（五張都在）',tY1S1&&tY1S1.id==='Y1S1'&&J(clubsAt(dY1S1))===J(want('Y1S1'))&&clubsAt(dY1S1).length===5,J(clubsAt(dY1S1)));
   let dY3=null; for(let d=expo;d<expo+1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y3S1'&&t.week===3){ dY3=d; break; } }
-  check('1. 大三上：只列這學期還有活動的（辯論社、登山社只有大一上＝不列）',dY3!=null&&J(clubsAt(dY3))===J(want('Y3S1'))&&!clubsAt(dY3).includes('辯論社')&&!clubsAt(dY3).includes('登山社'),J(clubsAt(dY3)));
+  /* 2026-11-12 改期望（CLUB-LATER-TERMS-1112，AA_852@b039356f5：辯論社、登山社、系籃延到大二下，大三起不排）。
+     舊期望：「辯論社、登山社只有大一上＝不列」只驗大三上；大一下～大二下布告欄上沒有這三社（那時 activities.js 的 term 只有 Y1S1）。
+     新：大一下、大二上、大二下各驗一次——辯論社、登山社、系籃（法律系系學會）都列出來（和吉他社一起）；大三上這三社照舊不列 */
+  check('1. 大三上：只列這學期還有活動的（辯論社、登山社、系籃到大二下為止＝不列）',dY3!=null&&J(clubsAt(dY3))===J(want('Y3S1'))&&!clubsAt(dY3).includes('辯論社')&&!clubsAt(dY3).includes('登山社')&&!clubsAt(dY3).includes('系籃（法律系系學會）'),J(clubsAt(dY3)));
+  for(const T of ['Y1S2','Y2S1','Y2S2']){ let dT=null; for(let d=expo;d<expo+1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===T&&t.week===3){ dT=d; break; } }
+    const L=dT!=null?clubsAt(dT):[];
+    check('1. '+T+' 第 3 週：布告欄列出吉他社、辯論社、登山社、系籃（AA_852：這三社延到大二下；舊期望沒有這三張）',dT!=null&&J(L)===J(want(T))&&['吉他社','辯論社','登山社','系籃（法律系系學會）'].every(c=>L.includes(c))&&['club_debate','club_hiking','dept_basketball'].every(id=>ACTIVITIES.list.find(a=>a.id===id).term.includes(T)),J(L)); }
   let dBreak=null; for(let d=dY1S1;d<dY1S1+300;d++){ if(!CALENDAR.termOf(d)){ dBreak=d; break; } }
   check('1. 寒假裡看：照接下來那個學期（大一下）',dBreak!=null&&CLUBBOARD.termId(mk(dBreak))==='Y1S2'&&J(clubsAt(dBreak))===J(want('Y1S2')),J([dBreak,clubsAt(dBreak)]));
   check('2. 社博（2025-09-06）以前多一行社博的時間地點；當天起沒有',CLUBBOARD.expoLine(mk(expo-1))===CLUB_BOARD.expo&&CLUBBOARD.expoLine(mk(expo))===null&&CLUBBOARD.expoLine(mk(expo+30))===null&&/9\/6/.test(CLUB_BOARD.expo));
