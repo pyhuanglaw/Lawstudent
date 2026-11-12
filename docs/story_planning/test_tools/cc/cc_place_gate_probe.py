@@ -14,6 +14,7 @@
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
 11-12 BB-C 14:43：⑥ 機器判改看藏人那一輪連拍（有人那一輪翻的多半是客人在走，只記、也切條圖 strip_*_people_*）。
+11-12 BB-C 15:21：③ 櫃檯鏡頭改從門口方向看（退 min(2.5, 到門口距離×0.8) m）；⑦b 店外取色框往內往下收到玻璃以內。
 CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；STRIPS=1 藏人那一輪每個翻動格子切 12 張條圖（BB-C 10:23）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
@@ -257,8 +258,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     await pg.evaluate(HIDE_PEOPLE + '(true)')   # PC GATE_CAL_1cd2：人站在窗前，泰米夜窗深藍只算到 42.9%＝誤判 PASS
     s2 = await snap(pg, (cx, 1.6, cz), (ex - ux * 2.0, 1.8, ez - uz * 2.0), 60, win=True)
     await pg.evaluate(HIDE_PEOPLE + '(false)')
-    vx, vz = cx - ck['x'], cz - ck['z']; vm = math.hypot(vx, vz) or 1
-    s3 = await snap(pg, (ck['x'] + vx / vm * 2.5, 1.6, ck['z'] + vz / vm * 2.5), (ck['x'], 1.1, ck['z']), 60)
+    vx, vz = ex - ck['x'], ez - ck['z']; vm = math.hypot(vx, vz) or 1   # 11-12 BB-C 15:21：改從門口方向看櫃檯（原本往房間中心退 2.5 m，櫃檯離中心 <1 m 時退進後面的牆，19:00 全黑）
+    back = min(2.5, max(1.0, vm * 0.8))
+    s3 = await snap(pg, (ck['x'] + vx / vm * back, 1.6, ck['z'] + vz / vm * back), (ck['x'], 1.1, ck['z']), 60)
     sup = await snap(pg, (cx, 1.6, cz), (cx + 0.01, 8.0, cz + 0.3), 70)
     u5 = await pg.evaluate(GAMECAM)
     a1 = await pg.evaluate(ANA_JS, {'u': s1['u']}); a2 = await pg.evaluate(ANA_JS, {'u': s2['u'], 'rects': s2['rects']}); a3 = await pg.evaluate(ANA_JS, {'u': s3['u']})
@@ -371,7 +373,7 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
             # 窗的範圍用上面射線找到的（_win：raycast_glass ＞ 門口附近的窗投影 ＞ 固定框）；地板框不會低於窗的下框（BB-C 07:51：南洋 r1 地板框落在騎樓地面）
             big = _win
             x0, y0, x1, y1 = big[:4]; w_, h_ = x1 - x0, y1 - y0
-            regs = {'out_wall': [x0 + w_ * 0.1, y0 + h_ * 0.08, x1 - w_ * 0.1, y0 + h_ * 0.5], 'out_floor': [x0 + w_ * 0.1, y0 + h_ * 0.62, x1 - w_ * 0.1, y1 - h_ * 0.04],
+            regs = {'out_wall': [x0 + w_ * 0.15, y0 + h_ * 0.25, x1 - w_ * 0.15, y0 + h_ * 0.55], 'out_floor': [x0 + w_ * 0.15, y0 + h_ * 0.66, x1 - w_ * 0.15, y1 - h_ * 0.08],   # 11-12 BB-C 15:21：r 框到雨遮和招牌 → 往內、往下收到玻璃以內
                     'in_wall': [0.15, 0.3, 0.85, 0.6], 'in_floor': [0.25, 0.8, 0.75, 0.97]}   # 牆往下移（r1 框到天花板的燈）
             mo = await pg.evaluate(MEANS_JS, {'u': s4['u'], 'regs': {k: v for k, v in regs.items() if k.startswith('out')}})
             mi = await pg.evaluate(MEANS_JS, {'u': s1h['u'], 'regs': {k: v for k, v in regs.items() if k.startswith('in')}})
