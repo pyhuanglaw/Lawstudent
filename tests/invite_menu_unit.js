@@ -118,7 +118,7 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     const iv=(G.invites||[]).slice(-1)[0]||{};
     check('D2. 約可昕週六去 Café：照原本的流程（accepted、by player）、答應句是 AA_415 kx21',iv.who==='kexin'&&iv.place==='cafe'&&iv.state==='accepted'&&iv.by==='player'&&wdOf(iv.day)===6&&b.L.some(t=>t.includes('首都帝大的 Café？好。我要坐你平常坐的那張。')),J([iv,b.L]));
     fresh(mon,10,{}); know('kexin',S6);
-    check('D3. 沒交往的可昕照舊：手機約不到（她在木柵大學，不用這個清單約）',INV.canInvite(G,'kexin')===false);
+    check('D3. 沒交往、認識了的可昕：手機約得到（和其他女主角同一層）',INV.canInvite(G,'kexin')===true);   /* （CANON-NO-ECON-1112 第四批：照 AA_895 換字）原本「沒交往的可昕照舊：手機約不到」——她改成法律系同學、social_layer 'D' */
   }
   // ===== E. 沛珊在台南：校內地點不列 =====
   { const d=nextWd(D('2027-10-04'),1); fresh(d,10,{PS_RECONNECT:true}); know('classmate_peishan',S5);
