@@ -8877,6 +8877,22 @@
    ],
    "remaining": "一幀 4 件的最長一幀沒量",
    "next": "LAWWW-C 套 patch；CC 在電腦量第一次走近的最長一幀、重跑 SUNNY SIDE"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "GG-SHAOLA-FIX-1112",
+   "title": "頁間書屋：咖啡吧黑板照 AA 四樣、窗上的麻繩明信片往下移到看得到的高度",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/aa853_menu_points_1112/yejian_board_postcards_v1.patch",
+    "docs/art-rebuild/second_ai/wip/aa853_menu_points_1112/README.md"
+   ],
+   "remaining": "沒在遊戲裡拍",
+   "next": "LAWWW-C 套 patch；CC 拍明信片那個點"
   }
  ]
 }
