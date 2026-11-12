@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "TZ_ARCADE_WALK_9f33",
+  "sha": "9f331db43858fe6c58021a3419820c81efeb7bb4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_tz_arcade_probe.py",
+  "env": "SHA=9f331db43858fe6c58021a3419820c81efeb7bb4",
+  "machine": "MSI",
+  "start": "2026-11-13T01:15:02",
+  "end": "2026-11-13T01:17:48",
+  "seconds": 167,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 94,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
