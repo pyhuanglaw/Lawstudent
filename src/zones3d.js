@@ -1097,7 +1097,7 @@ const Z3 = (function(){
        導航不動：巷口那一塊照舊是上面的 blockRect、門後面本來就在 blockOutside 外面。載入失敗＝只有盆栽（和原本一樣）。測試：node tests/gg_lane_close_unit.js */
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_lane_gate']){
       ASSETS.loadOne('bldg.gg_lane_gate').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggLaneGate','gg_lane_gate_glb'); r.userData.dyn=true; }).catch(e=>console.warn('公館巷口鐵門載入失敗（照舊只有盆栽）',e)); }
-    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); shopInsideLit(r,zone,GG_IN_PLACE); shopInsideReal(E,g,zone,GG_SHOP_REAL); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
+    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); shopInsideLit(r,zone,GG_IN_PLACE); shopInsideReal(E,g,zone,GG_SHOP_REAL); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone,GG_SHOP_REAL); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
     if(ggScGLB){ P3.mergeStatic(ggScG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,ggScG,ggScList,c.scene,'gg_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車');
       g.traverse(o=>{ if(o.isLOD&&/^scooters_A\d+$/.test(o.name)) o.addLevel(new THREE.Object3D(),40); });   /* 騎樓前那一排（ART-GG-STREETLIFE-1023）：40 m 外不畫（一台 600 個三角形、40 多台；從廣場一端看過去多 3 萬多個三角形，那麼遠只看得到一個小點）*/ }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     return zone; } };
@@ -1659,8 +1659,11 @@ const Z3 = (function(){
       mk('G11','flower_notes','bldg.flower_notes_interior',46.6,10,14,7.6,[-4.3,4.3])]; })();   /* 花序（第四批）：兩層樓的室內整顆放（前半是挑高），街上只開一樓的窗；二樓的窗照舊是照片 */   /* 公館燒臘（第三批）：店面照室內配置重開門窗（wz_street.py GG_XS G00）；模型鍵在載入時登錄（ggReg） */   /* SHOP-REAL-INSIDE 公館第一批（LAWWW2-C 11-12 自查 docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112）：安泰藥局、汀州鮮果、榮恩典文具社——店外原本是照片卡（榮恩典暖色塞滿、店內白而疏；鮮果深色背景、店內白牆），改成玻璃後面放走進去的那一顆室內模型。店面玻璃在 z 22（立面 19＋騎樓 3），室內正面 +z 轉到朝 −z（ry π）；中心 x＝wz_street.py 那一棟的中心 */
   const GG_IN_PLACE={G00:'noodle'};   /* 公館街景模型裡立體的店內（sk_in_<棟>）→ 地點：G00＝燒臘店（區域 noodle，每天 11:00～23:00，AA_831）。Z3.shopInsideLit 打烊調暗（LAWWW 11-12：燒臘有營業時間了，打烊時從街上看窗不會變暗）*/
   const ggLitWired=new WeakMap();   /* 接過窗卡打烊調暗的材質 → {lit, U, mine, compiled, rewrap, entries}（第二次進公館沿用，見 ggShopLit 裡的註解）*/
-  function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
+  function ggShopLit(root,zone,real){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
     let ex=null; root.traverse(o=>{ if(!ex&&o.userData&&o.userData.xsShops) ex=o.userData.xsShops; }); const ids=String(ex||'ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb').split(',');
+    /* GG-CLOSED-SIGN-1112（LAWWW2-C；店面標準 §12 第 1 點「打烊看得出來關了」）：十三間店的櫥窗改成真的店內以後沒有窗卡，招牌、店內、門口的光暈找不到是哪一間 → 打烊了招牌還亮。
+       真的店內那幾間（GG_SHOP_REAL）也各佔一格（窗卡已經有那個地點的就共用同一格），光暈照那一棟的寬分 */
+    const realBox={}; for(const q of (real||[])){ let k=ids.findIndex(id=>(GG_LIT_ZONE[id]||(id.indexOf('real:')===0?id.slice(5):null))===q.place); if(k<0){ if(ids.length>=GG_LIT_N) continue; ids.push('real:'+q.place); k=ids.length-1; } realBox[k+1]={x0:q.cx-q.w/2,x1:q.cx+q.w/2,z0:q.cz-3,z1:q.cz}; }
     const m=mesh.material;   /* 不複製材質：夜間亮度（TK.addNight 登記在原本的材質上）要照舊跟著走（CC 11-04 GG_night：複製以後 22:00／14:00 亮度比 ≈1）*/
     /* 第二次進公館（GG-NIGHT-CARDS-1104：CC-C r8c 11-04 12:52、BB-C 讀碼）：快取的 GLB 每次進區域是 c.scene.clone(true)，材質是同一個——原本每次都再包一層 onBeforeCompile（新的 mine.prev＝上一次的 mine），
        shader 被 patch 兩次（uv1、vShopIdx、uShopLit 重複宣告）→ 程式連結失敗、整張窗卡不畫（營業中的店也一樣，只看到後面的磚牆；r8b 設黑、打烊乘數改多少都沒差就是這個）。
@@ -1677,12 +1680,12 @@ const Z3 = (function(){
       W={lit,U,mine,compiled:0,rewrap:0,entries:0}; ggLitWired.set(m,W);
       m.onBeforeCompile=mine; m.customProgramCacheKey=()=>'ggShopLit'; m.needsUpdate=true; }
     W.entries++; const lit=W.lit, U=W.U, mine=W.mine;
-    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<GG_LIT_N;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.03):1; } };
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<GG_LIT_N;i++){ const zk=ids[i].indexOf('real:')===0?ids[i].slice(5):GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.03):1; } };
     let f=0;
     /* 別的程式（夜間、透視、調色）後來換掉 onBeforeCompile 的話：每次更新時接回去（串在它後面），重新編譯 */
     const guard=()=>{ if(m.onBeforeCompile!==mine){ mine.prev=m.onBeforeCompile; m.onBeforeCompile=mine; m.needsUpdate=true; W.rewrap++; } };
     const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0){ guard(); upd(); } }; upd();
-    const glow=ggShopGlow(root,mesh,U);   /* 打烊的店：店內、招牌、店門口自己的燈的光暈一起熄（LAWWW 11-04 06:58；CC GG_night：窗卡調暗了，但亮的主要是前面的光暈）*/
+    const glow=ggShopGlow(root,mesh,U,realBox);   /* 打烊的店：店內、招牌、店門口自己的燈的光暈一起熄（LAWWW 11-04 06:58；CC GG_night：窗卡調暗了，但亮的主要是前面的光暈）*/
     const R={mesh,lit,ids,upd,glow}; zone.ggLit={glow:glow&&glow.info,name:mesh.name,mat:m.name,uv1:!!mesh.geometry.attributes.uv1,inScene:()=>{ let o=mesh; while(o.parent) o=o.parent; return o.isScene===true; },compiled:()=>W.compiled,rewrap:()=>W.rewrap,entries:()=>W.entries,lit};   /* 除錯：CC 在瀏覽器看 GAME.E.zone.ggLit（GG_night 沒暗的原因）；entries＝這個材質接過幾次（第幾次進公館）、compiled＝patch 跑了幾次（每個新程式一次）*/
     return R; }
   /* 公館打烊調暗的光暈那一半（LAWWW2 11-04，LAWWW 06:58 P1）：wzGlowBatch 合成的光暈網格加一個每頂點的店編號 aShop（和窗卡 uv1.x 同一套 1～8、xsShops 同順序，0＝不屬於哪一間），
@@ -1690,9 +1693,10 @@ const Z3 = (function(){
      只收店自己的燈——GLOW_gg_xs_in（新店店內）、GLOW_shopin（店內）、GLOW_signbox／GLOW_vsign（招牌）、GLOW_gg_xs_lamp（新店門口的燈）；騎樓燈 GLOW_arcadelamp 是整排騎樓的、不熄。
      回傳 info（除錯：GAME.E.zone.ggLit.glow）：每一間分到幾個光暈 */
   const GG_GLOW_SHOP=/^GLOW_(gg_xs_in|shopin|signbox|vsign|gg_xs_lamp)(_|$)/;
-  function ggShopGlow(root,lit,U){ const g=root.parent; if(!g) return null; const gm=g.children.find(o=>o.isMesh&&o.userData&&o.userData.glowBatch&&o.name===root.name+'_glows'); if(!gm) return null;
+  function ggShopGlow(root,lit,U,realBox){ const g=root.parent; if(!g) return null; const gm=g.children.find(o=>o.isMesh&&o.userData&&o.userData.glowBatch&&o.name===root.name+'_glows'); if(!gm) return null;
     const P=lit.geometry.attributes.position, S=lit.geometry.attributes.uv1, v=new THREE.Vector3(), box={}; lit.updateMatrixWorld(true);
     for(let i=0;i<P.count;i++){ const s=Math.round(S.getX(i)); if(s<1||s>GG_LIT_N) continue; v.fromBufferAttribute(P,i); lit.localToWorld(v); g.worldToLocal(v); const b=box[s]||(box[s]={x0:1e9,x1:-1e9,z0:1e9,z1:-1e9}); b.x0=Math.min(b.x0,v.x); b.x1=Math.max(b.x1,v.x); b.z0=Math.min(b.z0,v.z); b.z1=Math.max(b.z1,v.z); }
+    if(realBox) for(const s in realBox){ const r=realBox[s], b=box[s]; box[s]=b?{x0:Math.min(b.x0,r.x0),x1:Math.max(b.x1,r.x1),z0:Math.min(b.z0,r.z0),z1:Math.max(b.z1,r.z1)}:r; }   /* 真的店內那幾間：那一棟的寬 */
     const items=gm.userData.glowBatch.items, A=new Float32Array(items.length*4), info={}; let k=0;
     items.forEach((it,i)=>{ if(!GG_GLOW_SHOP.test(it.n||'')) return; let best=0, bd=1e9; const mg=/^GLOW_(signbox|vsign)/.test(it.n)?0:0.8;
       for(const s in box){ const b=box[s]; if(it.x<b.x0-mg||it.x>b.x1+mg||it.z<b.z0-5||it.z>b.z1+5) continue; const d=Math.abs(it.x-(b.x0+b.x1)/2); if(d<bd){ bd=d; best=+s; } }
