@@ -1,6 +1,6 @@
 /* ===== 第 2 輪之二（大三）後半：AA_326 2-Y3-26～2-Y3-54（AA-C 定稿 e284d601，第②級；台詞照原文、不改字）=====
    這裡是用事件系統演的段落（出遊、在場景裡碰到的、電話、視訊）；手機、時間窗、出發選單、寒暑假的停留日、學期末專屬版在 src/r2y3b3d.js（R2Y3B）。
-   2-Y3-26 ev_y3s2_first_meal　27 ev_y3s2_228　28 ev_an_azalea_y3　29 ev_yu_club_money　30 ev_kexin_k18（＋ev_kexin_k18_call）
+   2-Y3-26 ev_y3s2_first_meal　27 ev_y3s2_228　28 ev_an_azalea_y3　29 ev_yu_club_money　30 ev_kexin_k18
    2-Y3-31 ev_xun_path　33 ev_yu_alone_breakfast（＋_call）　34 ev_an_konbini　35 ev_liheng_japan　36 ev_y3s2_roof_toast　37 ev_an_sakura_riverbank
    2-Y3-38 ev_far_call_jp（美國版 ev_far_call_us：AA_412 第 2 節）　39 ev_yu_alone_movie（傅鐘／麵店／視訊）　40 ev_zhiruo_third_row　41 ev_kexin_birthday_y3　42 ev_xinci_first_place（＋_video）
    2-Y3-43 ev_an_town_notice（＋ev_an_town_notice_repair）　44 ev_kexin_k20（＋_call）　45 ev_fangyt_tickets（電話）、ev_zhiruo_f3_cafe
@@ -110,14 +110,7 @@ const R2Y3B_EVENTS=(function(){
       {set:{KX_K18:'trip'}} ],
     consequences:{memo:'和可昕去山裡的舊車站（一天）'},
     outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.k18Missed(G,GM,q); } };
-  /* 答應了、08:15 還沒到：演出來的電話（新寫）*/
-  const K18_CALL={ id:'ev_kexin_k18_call', title:'可昕', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.05, kxAway:true,
-    dialogue:[ {scene:'電話'},
-      {speaker:null,text:'（電話。她那邊有車子經過的聲音。）'},
-      {speaker:'kexin',expression:'serious',text:'你在哪。'},
-      {speaker:'player',text:'……還在家。'},
-      {speaker:'kexin',expression:'annoyed',text:'……我叫予樂了。'},
-      {speaker:null,text:'（她掛掉了。）'} ] };
+  /* 答應了、08:15 還沒到的電話：CANON-NO-ECON-1112 第三批拿掉 */
 
   /* ---------- 2-Y3-31 SK13 阿勳的那條路：3/22（三）15:00～16:30 社科院的小教室（3/14 21:00 他私訊、回「我去。」才排；沒去＝16:40 照片）---------- */
   const XUN={ id:'ev_xun_path', title:'阿勳的那條路', participants:['econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
@@ -382,16 +375,6 @@ const R2Y3B_EVENTS=(function(){
       {label:'c'},{speaker:null,text:'（她靠著欄杆。）'},{speaker:'kexin',expression:'smile',text:'你不問，很好。那個人的事是他的。'},
       {label:'end'},{set:{KX_K20:'river'}} ]),
     after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
-  const K20_CALL={ id:'ev_kexin_k20_call', title:'可昕', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,
-    dialogue:[ {scene:'電話'},
-      {speaker:null,text:'（電話。她那邊很安靜。）'},
-      {if:JP,speaker:'kexin',expression:'serious',text:'這學期我在實習。今天有一個來問問題的人，聽懂了自己的處境。'},
-      {unless:JP,speaker:'kexin',expression:'serious',text:'本來想在河濱講的。實習那邊，有個來問問題的人聽懂了自己的處境。'},   /* 沒去河濱（BB_98 10-1 原文）*/
-      {speaker:'kexin',expression:'serious',text:'我想做這個。'},
-      {choice:[{text:'「那妳會很適合。」',goto:'a'},{text:'「做這個要很累。」',goto:'b'},{text:'（聽她說完）',goto:'l'}]} ].concat(K20_AB,[
-      {label:'l'},{speaker:'kexin',expression:'smile',text:'嗯。我講完了。早點睡。'},
-      {label:'end'},{set:{KX_K20:'call'}} ]),
-    after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
 
   /* ---------- 2-Y3-45 方奕廷 F3「我買了」：5/29（一）21:00 演出來的電話（芷若的心意邀約條件那天已到＝延到 6/19）；之後第一次在 Café 點餐，芷若的兩句（日本路線＝8/5 回國以後、9/1 以前第一次進 Café，過去式那兩句）---------- */
   const F3={ id:'ev_fangyt_tickets', title:'方奕廷', participants:['npc_fangyt'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
@@ -592,7 +575,7 @@ const R2Y3B_EVENTS=(function(){
     after:G=>{ const x=X(); if(x) x.q15NoReply(G); },
     outingMissed:G=>{ const x=X(); if(x) x.q15NoReplyDm(G); } };
 
-  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,FAR_US,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS,SLIPS_BAR,SLIPS_OWNER,EXE_CALL,NOREPLY_CALL];
+  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,FAR_US,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS,SLIPS_BAR,SLIPS_OWNER,EXE_CALL,NOREPLY_CALL];
   ALL.AB=AB;   /* 以安在日本的訊息池、視訊、七夕的五段（r2y3b3d.js 用）*/
   ALL.Z13=Z13; ALL.Z13_TXT=Z13_TXT; ALL.Q15=Q15;   /* 學期末專屬版（r2y3b3d.js 包住 TERMEND）*/
   return ALL;

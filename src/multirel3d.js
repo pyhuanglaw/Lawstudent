@@ -381,7 +381,7 @@ const MREL=(function(){
     return ys[0]||null; };
   S.confLater=function(G,x,y){ S.rec(G).cpend[x]={y,day:G.day,h:+G.hour||0}; return true; };
   S.zqGrad=G=>{ const d=DK('2028-06-03'); return d!=null&&G.day>=d; };
-  S.KX_MEET_EVS=['ev_kexin_visits_ntu','ev_kexin_our_day','ev_kexin_our_day_wk'];
+  S.KX_MEET_EVS=['ev_kexin_visits_ntu'];   /* 「我們的日子」那兩場：CANON-NO-ECON-1112 第三批拿掉 */
   S.playConf=async function(GM,x,o){ o=o||{}; const G=GM.G, R=S.rec(G), p=R.cpend[x]; if(!p) return false; delete R.cpend[x]; const y=p.y;
     if(!dating(G,x)||!dating(G,y)||knows(G,x,y)) return false;
     if(x===YT&&!o.remote&&(+G.hour||0)<17&&GM.advance) GM.advance(17-(+G.hour||0));   /* 「等妳下班」→ 打烊（AA_627 P-19：一盞茶屋 17:00 打烊；原本麵店 21:00）*/
@@ -538,10 +538,10 @@ const MREL=(function(){
     if(g.n>=2&&!knows(G,SIS,t.who)&&!S.openOk(G,SIS,t.who)){ ROM.learn(G,SIS,t.who,'seen_by:li_guanhong',{day:t.day+1,h:12}); g.day=t.day+1; } };
 
   /* ---------- 桌遊團說溜嘴（AA_227 8-4、BB_194 16-1）：可昕在場的群聚演完以後；阿哲優先，Alison 要有地點 ---------- */
-  /* 可昕在場的桌遊團群聚（AA_227 8-4：每年中秋、跨年頂樓、K12、二十三週年）：大一中秋烤肉（K3 她來）、K12 兩邊的朋友（ev_kexin_two_circles，y2b_events.js）、
+  /* 可昕在場的桌遊團群聚（AA_227 8-4：每年中秋、跨年頂樓、K12、二十三週年）：大一中秋烤肉（K3 她來）、（K12 兩邊的朋友：CANON-NO-ECON-1112 第三批拿掉）、
      大二／大四中秋（她認識桌遊團才來，KX_MET_NOODLE_TEAM）、二十三週年（1B-20 ev_noodle_23rd，y34b3d.js：同一個條件才有她那一句；美國路線不演）。跨年頂樓沒有接（AA_429 第 5 節：頂樓那一場只有大一，她不在）。一個存檔只演一次 */
   const KX_TEAM=G=>!!(G.flags&&G.flags.KX_MET_NOODLE_TEAM);
-  S.SLIP_EVENTS={ ev_mid_autumn_bbq:G=>!!(G.flags&&G.flags.KX_BBQ_COME), ev_kexin_two_circles:()=>true, ev_y2_midautumn:KX_TEAM, ev_y4_midautumn:KX_TEAM, ev_noodle_23rd:G=>KX_TEAM(G)&&G.flags.ANNIV23!=='remote' };   /* 二十三週年：美國路線（ANNIV23 remote）不演（AA_429 第 5 節）*/
+  S.SLIP_EVENTS={ ev_mid_autumn_bbq:G=>!!(G.flags&&G.flags.KX_BBQ_COME), ev_y2_midautumn:KX_TEAM, ev_y4_midautumn:KX_TEAM, ev_noodle_23rd:G=>KX_TEAM(G)&&G.flags.ANNIV23!=='remote' };   /* 二十三週年：美國路線（ANNIV23 remote）不演（AA_429 第 5 節）*/
   S.slipFor=function(G,ev){ if(!law(G)||!ev||!S.SLIP_EVENTS[ev.id]||!dating(G,KX)) return null; let here=false; try{ here=S.SLIP_EVENTS[ev.id](G); }catch(e){} if(!here) return null;
     const O=S.rec(G).once; if(O.slip||Object.keys(O).some(k=>/^slip_/.test(k))) return null;   /* 一個存檔只演一次（AA_429 第 5 節）*/ const parts=ev.participants||[];
     const ys=(typeof ROM!=='undefined'?ROM.partners(G):[]).filter(y=>y!==KX&&!parts.includes(y)&&!knows(G,KX,y)&&!S.openOk(G,KX,y));
@@ -798,9 +798,9 @@ const MREL=(function(){
     if(!left.length) return {abort:kind!=='out',run:async GM=>S.result(GM,KX,st,'A')};   /* 照 5-6 的 A */
     if(!w.told&&G.day>(w.day|0)) return {abort:false,run:async GM=>{ w.told=G.day; await S.run(GM,KX,L().KX_WITHDRAW.told,S.ctx(G,KX,st.y)); }};
     return null; };
-  /* 我們的日子暫停（「我們的日子先停。」）：kxod3d.js、pgdates3d.js、story3d.js（大一下）排固定格以前看 kxOdPaused；回 A、分手以後照常 */
+  /* 我們的日子暫停（「我們的日子先停。」）：pgdates3d.js 排固定格以前看 kxOdPaused；回 A、分手以後照常（大一下～大四下的固定格：CANON-NO-ECON-1112 第三批拿掉）*/
   S.kxOdPaused=G=>{ const M=G&&G.flags&&G.flags.MREL, st=M&&M.st?M.st[KX]:null; return !!st&&st.phase==='thinking'&&!!G.flags.dating_kexin&&S.kwDone(G); };   /* 這一段交往收回過、還在 B */
-  S.kxOdPause=function(G){ if(typeof OUT==='undefined'||!OUT.rec) return; for(const q of OUT.rec(G)) if(q&&q.state==='planned'&&(/^kx_od_/.test(q.id||'')||q.ev==='ev_kexin_our_day'||q.ev==='ev_kexin_our_day_wk')) q.state='skipped'; };   /* 已經排好的固定格 */
+  S.kxOdPause=function(G){ if(typeof OUT==='undefined'||!OUT.rec) return; for(const q of OUT.rec(G)) if(q&&q.state==='planned'&&/^kx_od_/.test(q.id||'')) q.state='skipped'; };   /* 已經排好的固定格 */
 
   /* =================== 五、子晴、芷若兩個人一起（AA_227 6-4、6-5、6-6；AA_422 4-4、AA_423 4-1；BB_194 §22）=================== */
   S.zzDue=function(G){ if(!law(G)||!dating(G,ZQ)||!dating(G,ZR)) return false; const Z=S.rec(G).zz; if(Z.friday||Z.bell) return false;   /* 門鈴先發生＝不再有《星期五下午》（兩種發現方式只會有一種）*/

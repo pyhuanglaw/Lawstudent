@@ -19,7 +19,7 @@
    ■ 私訊（dms）：時間到了用 PHONE.at 傳（照原本的時間補；回覆照 PHONE.answer），選項的記號寫進 G.flags（資料檔開頭）。
      那一則的時間到了才判斷（階段、聯絡方式、need、after）；判斷過就不再判斷（G.flags.FEED.dm）。私訊的 tag、選項的 ask id 一律「aa503_」＋id（大一上起用的前綴，之後的學期照用）。
      動態的 if：那一則要的條件（FEED.COND；沛珊大一下第 3 則＝沒有和沛珊交往）。語彤雙主修放榜（AA_504）之後第一次在一盞點東西，蘇姨請（S.ytTreat，src/wzshops3d.js 的 buy；AA_679 第 3 列）。
-     可昕「我陪妳熬夜。」＝排出遊（視訊，ev_kexin_video_report，照現有視訊讀書：讀哪一科、兩個小時）；「妳先睡，明天再做。」＝隔天中午以前你傳訊息給她，她中午才回（包住 MSG.replyAt）。
+     可昕「我陪妳熬夜。」原本排一場視訊（CANON-NO-ECON-1112 第三批拿掉，不再排）；「妳先睡，明天再做。」＝隔天中午以前你傳訊息給她，她中午才回（包住 MSG.replyAt）。
    ■ 分開以後一學期（INV.cool 那段：分開那天到下一個學期第 1 週）：可昕把你設成不看動態——她的動態不出、私訊不傳；之後照朋友的階段再出現。
      V6EX.COOL_IDS 沒有可昕（照 AA_351，INV.cool 對她永遠是 false），所以這裡自己用同一段期間算（ROM 的分開那天＋V6EX.coolUntil）。
      其他六位在 INV.cool 期間：動態照常（稿只寫可昕），私訊照 V6EX 每兩則送一則（'dp' 那一類）。
@@ -90,18 +90,14 @@ const FEED=(function(){
   S.whenLoc=(G,t,term)=>S.loc(G,S.when(G,t,term));
   /* 照劇情算的那一天 */
   S.ANCHOR={
-    /* 可昕 9-3 第 3 則：予樂宵夜那一晚之後隔天 12:30。有去（ev_kexin_yule_pass，yulePassDay）＝那一晚的隔天；K1b「這週不行」或沒回＝她自己去（問的隔天晚上）；
-       答應了沒去（出遊 missed）＝排的那一晚的隔天；還沒到那一晚＝等。K1b 沒問過（沒去過政大 NCCU_VISITED）＝她自己去，照第一個能問的日子（第 6 週週二問、週三晚上）＝第 6 週週四 */
-    kxYule:G=>{ const F=G.flags||{}; if(F.yulePassDay!=null) return F.yulePassDay+1;
-      if(F.kxYuleAskDay!=null){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'kx_yule'):null; if(q&&q.state==='planned') return null; if(q) return q.day+1; if(F.KX_YULE==='yes'||F.KX_YULE==='late') return null; return F.kxYuleAskDay+2; }
-      if(!F.NCCU_VISITED) return termDay('Y1S1',6,4);
-      return null; }
+    /* 可昕 9-3 第 3 則：第 6 週週四（原本照外校室友那一晚的宵夜算：那一場 CANON-NO-ECON-1112 第三批拿掉）*/
+    kxYule:G=>termDay('Y1S1',6,4)
   };
   /* 去沒去（照片、回覆的兩個版本）*/
   S.WENT={
     kxBbq:G=>!!(G.flags&&G.flags.KX_BBQ_COME&&G.events&&G.events.done&&G.events.done.ev_mid_autumn_bbq!=null),   /* K3「來我們這邊。」而且中秋烤肉有去（她在你旁邊）*/
     kxYule:G=>!!(G.flags&&G.flags.yulePassDay!=null),   /* 予樂的宵夜你有去 */
-    kxDec3:G=>{ const F=G.flags||{}; return !!(F.KX_DEC3_VISIT||(F.KX_DEC3&&F.KX_DEC3[1]==='visit')); },   /* 12/3 交完報告那晚開車去政大（ev_kexin_birthday_y1；AA_503 d13ab3ab7 第 12 節第 3 點）*/
+    kxDec3:G=>{ const F=G.flags||{}; return !!(F.KX_DEC3_VISIT||(F.KX_DEC3&&F.KX_DEC3[1]==='visit')); },   /* 12/3 交完報告那晚（那一場 CANON-NO-ECON-1112 第三批拿掉，這裡一律是沒去的版本；AA_503 d13ab3ab7 第 12 節第 3 點）*/
     anWent:G=>(G.invites||[]).some(iv=>iv&&iv.who==='heroine_01'&&iv.state==='done')||!!(G.dateLog&&G.dateLog.heroine_01&&(G.dateLog.heroine_01.count|0)>0),   /* 和以安一起去過：INV 任一地點見到了，或校外約會（AA_505 1-3 第 3 則）*/
     /* 報了 C12 京都語言課（還在京都＝'yes'、回來了＝'done'；沒去＝'missed' 不算）而且和以安 FAMILIAR 以上（同班那一版，vac_activities.js 的 AN_C12：她只有大二暑假在京都）（AA_506 1-3 第 7 則）*/
     anC12:G=>{ const st=typeof VAC!=='undefined'&&VAC.state?VAC.state(G,'C12@Y2'):null; return (st==='yes'||st==='done')&&S.atLeast('heroine_01','FAMILIAR'); },
@@ -316,9 +312,8 @@ const FEED=(function(){
       if(!quiet) for(const r of L.slice(1)){ const tx=S.txt(r,it.v); if(tx) out.push(PHONE.post(G,{th,from:p.who,text:tx})); }
       if(PHONE.markSeen) PHONE.markSeen(G,th); }   /* 她的回覆動態頁上就看得到：不再算未讀 */
     S.fam(G,p.who); return {item:it,out}; };
-  /* ---------- 私訊的回覆：可昕的視訊、隔天中午才回 ---------- */
+  /* ---------- 私訊的回覆：隔天中午才回（可昕熬夜做報告的視訊：CANON-NO-ECON-1112 第三批拿掉）---------- */
   S.onAnswer=function(G,m,o){ const id=m&&m.ask&&m.ask.id; if(!id||id.indexOf('aa503_')!==0||!o) return; const d=S.dmOf(id.slice(6)); if(!d) return; const R=S.rec(G);
-    if(o.video&&typeof OUT!=='undefined'&&OUT.plan){ const w=S.whenLoc(G,o.video,d.term); if(w) OUT.plan(G,{id:'aa503_kx_video',ev:'ev_kexin_video_report',day:w.day,h:w.h,place:'視訊',title:'可昕的視訊：熬夜做報告',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'}); }
     if(o.out&&typeof OUT!=='undefined'&&OUT.plan){ const w=S.whenLoc(G,o.out.at,d.term); if(w){ const x=Object.assign({},o.out,{day:w.day,h:w.h}); delete x.at; OUT.plan(G,x); } }   /* 排一趟出遊（語彤「好。」→ 8/22 21:00 麵店的 2D 短場）*/
     if(o.hold){ const w=S.whenLoc(G,o.hold,d.term); if(w) (R.hold||(R.hold={}))[d.q.who]=abs(w.day,w.h); } };
   /* 語彤雙主修放榜（AA_504 3-2）：7/3 那則私訊傳了以後，第一次在一盞點東西——蘇姨一句、那一杯不用錢（src/wzshops3d.js 的 buy 問 S.ytTreatDue、說完叫 S.ytTreatDone；AA_679 第 3 列，原本燒臘店）*/
@@ -333,14 +328,7 @@ const FEED=(function(){
       if(PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')) PHONE.at(G,d,B.h,[{th:'g:noodle_team',from:'yu',text:B.group,ask:{id:B.tag,until:abs(d+1,0),opts:[Object.assign({},opt,{say:[Object.assign({th:'g:noodle_team'},reply)]})]}}],B.tag);
       else if(S.atLeast('heroine_03','FAMILIAR')) PHONE.at(G,d,B.h,[{th:'p:heroine_03',text:B.sys,ask:{id:B.tag,until:abs(d+1,0),opts:[opt]}}],B.tag); } };
   S.holdAt=(G,id)=>{ const R=G&&G.flags&&G.flags.FEED, hd=R&&R.hold&&R.hold[id]; return hd!=null&&nowOf(G)<hd?hd:null; };
-  /* 可昕的視訊（9-2 第 3 點）：照現有視訊讀書（ev_kexin_video_study）那一套——讀哪一科、兩個小時算兩次自學；台詞只有開頭、結尾那兩句 */
-  S.VIDEO_EV=(function(){ const V=(typeof FEED_Y1S1!=='undefined'&&FEED_Y1S1.video)||{}; const base=()=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_kexin_video_study')||null:null;
-    return { id:'ev_kexin_video_report', title:'熬夜做報告', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      beforeOuting:async(G,GM)=>{ const b=base(); if(b&&b.beforeOuting) await b.beforeOuting(G,GM); },
-      afterOuting:async(G,GM)=>{ const b=base(); if(b&&b.afterOuting) await b.afterOuting(G,GM); },
-      dialogue:[ {scene:'視訊',bg:'video'}, {speaker:'kexin',expression:'neutral',text:V.start}, {speaker:'kexin',expression:'neutral',text:V.end} ] }; })();
   /* ---------- 接線 ---------- */
-  if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e.id===S.VIDEO_EV.id)) STORY_EVENTS.push(S.VIDEO_EV);
   if(typeof STORY_EVENTS!=='undefined') for(const s of SETS()) for(const e of s.events||[]) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);   /* 那一份的事件（AA_508 語彤 8/22 問阿姨的 2D 短場）*/
   /* 閒聊階梯選了哪一句（那一份的 ladSet：{層 id:{選項的字:{旗標:值}}}）：ladder.js 這一層不分選項記，包住 STORY.ladPlay——選項照原本的 GM.choose，選到那一句就寫進 G.flags。
      story3d.js 自己的 S.ladderTalk、OUT.go 都是叫 STORY.ladPlay（同一個物件），一起經過這裡 */

@@ -622,7 +622,7 @@ const STORY = (function(){
   S.fafuDuty=function(G){ if(typeof CALENDAR==='undefined'||!G||(G.stage||'law')!=='law') return false; const d=CALENDAR.dateOf(G.day), t=CALENDAR.termOf(G.day); return d.wd===6&&!!t&&t.week>=3&&t.week%2===1&&!t.exam&&!CALENDAR.holiday(G.day); };   /* 國定假日、颱風假不值班（AA_184 的測試：大二上第 5 週六是 10/10 國慶日，第一次一般值班是 10/24）*/
   /* 語彤在法服值班（AA_11 事件 7、AA_177 4-6）：大二上第 3 週週六 9/26 第一次，之後每個值班的週六（characters.js heroine_03 的作息）*/
   /* 政大山下那一家吃過幾次（BB_161 ⑯）：舊存檔沒有 NCCU_FOOD_N 的，照已經完成、一定會到那一家的事件補算（K1 導遊只算點過餐的 K1_ORDER、予樂那次、12/3 的生日；「我們的日子」政大、K6 互考見面、K7 選山下的次數舊存檔分不出來，不算）*/
-  S.nccuFoodLegacy=G=>{ const D=(G.events&&G.events.done)||{}, F=G.flags||{}; return (D.ev_kexin_tour_nccu&&F.K1_ORDER?1:0)+(D.ev_kexin_yule_pass?1:0)+(D.ev_kexin_birthday_y1?1:0); };
+  S.nccuFoodLegacy=G=>0;   /* 原本補算的三場（K1 導遊、外校室友的宵夜、12/3 那晚）：CANON-NO-ECON-1112 第三批拿掉，沒有要補算的了 */
   S.YT_FAFU='no';   /* 語彤進不進法服（AA_255 第 4 節第 2 點：固定 'no'；舊存檔 flags.YT_FAFU 也照這個）*/
   S.ytFafu=G=>S.YT_FAFU==='yes';
   S.ytDutyDay=G=>{ const d0=S.dayOfKey('2026-09-26'); return d0!=null&&G.day>=d0&&S.ytFafu(G)&&S.fafuDuty(G); };
@@ -1880,28 +1880,7 @@ const STORY = (function(){
       if(F.ndlTrack0==null) F.ndlTrack0=G.day;
       if(G.zone==='noodle'&&S.noodleDay(G.day)&&G.hour>=17&&G.hour<21){ const L=F.ndlDays||(F.ndlDays=[]); if(L[L.length-1]!==G.day){ L.push(G.day); if(L.length>12) L.shift(); } }
       /* 傍晚 17:30 的定時揪人（rt_zhe_ndl_*）、連三次沒來的追問（AA_469「你最近都沒來 還好嗎」）：AA_542 2-3 拿掉（桌遊團縮小成背景，使用者 10-30 X144）。ndlDays 照記（別的事件看「去過麵店」）*/ }
-    /* 可昕 K1 導遊（BB_95 9-1）：第 3 週週五 19:30 她傳「週末來政大？我當導遊。」——答應就排週六下午 14:00 去政大（出遊，src/outings3d.js）；
-       答應得晚（過了那個週六下午）就排下一個週六。回覆的兩句與她的回應照 BB 2026-10-14（494e510）。這週不行的玩家：下一週週五 19:30 她再約一次
-      （「這週末呢？導遊還在。」，兩個回覆同上；回覆比那天晚才回的，從回覆的下一個週五起）；兩次都不行＝之後第一次「開車去政大」才有導遊（那個功能還沒做：K1 先不發生，K2 照「K1 還沒發生」的結尾）*/
-    const KX_TOUR_OPTS=(no)=>[{t:'好，週六下午過去。',set:{KX_TOUR_YES:true},say:[{from:'kexin',text:'好。導遊在校門口等。'}]},{t:'這週末不行。',set:{[no]:true},say:[{from:'kexin',text:'好。導遊的位子幫你留著。'}]}];
-    if(F.dating_kexin&&!PHONE.sent(G,'kx_tour_ask')){ const fri=termDay('Y1S1',S.week1Start(G)?2:3,5);   /* BB_170 第 27 列：開學改 9/1 的局提早到第 2 週週五 9/12 19:30 */ if(fri) PHONE.at(G,fri,19.5,[{th:'p:kexin',from:'kexin',text:'週末來木柵大學？我當導遊。',ask:{until:(fri+3)*24,opts:KX_TOUR_OPTS('KX_TOUR_NO')}}],'kx_tour_ask'); }   /* until：那個週日 24:00 收起來（UX-WEEKEND-ASK-EXPIRE-1108，AA-B 11-08 09:19：收＝跟沒回一樣、不出字）*/
-    if(F.dating_kexin){ S.askFixUntil(G,'kx_tour_ask',3); S.askFixUntil(G,'kx_tour_ask2',3); }   /* 兩則都是週五傳：週日 24:00＝傳的那天＋3 天 00:00 */
-    if(F.dating_kexin&&!F.KX_TOUR_NO&&!F.KX_TOUR_YES&&S.askExpired(G,'kx_tour_ask',3)){ F.KX_TOUR_NO='expired'; if(G.day*24+G.hour>S.askUntil(G,'kx_tour_ask',3)+7*24) F.KX_TOUR_NO2='expired'; }   /* 沒回、過了週日＝也算 NO（AA-B 09:19：「這週末呢？導遊還在。」對沒回的玩家也通，她只是再問一次）；
-       過期已經超過一週才發現（舊存檔、跳了很久）＝第二次也不問了（不然幾年以後的週五還會收到「這週末呢？」）。舊存檔那一則沒有 until：照週五傳的那天＋3 天 00:00 */
-    if(F.dating_kexin&&F.KX_TOUR_NO&&!F.KX_TOUR_YES&&!F.KX_TOUR_NO2&&!PHONE.sent(G,'kx_tour_ask2')&&typeof CALENDAR!=='undefined'){   /* KX_TOUR_NO2 'expired'：第一則過期超過一週才發現＝不問第二次 */ let d=termDay('Y1S1',S.week1Start(G)?3:4,5); if(d&&(G.day>d||(G.day===d&&h(G)>19.5))){ d=G.day+1; while(CALENDAR.dateOf(d).wd!==5) d++; }
-      if(d) PHONE.at(G,d,19.5,[{th:'p:kexin',from:'kexin',text:'這週末呢？導遊還在。',ask:{until:(d+3)*24,opts:KX_TOUR_OPTS('KX_TOUR_NO2')}}],'kx_tour_ask2'); }   /* 那個週日 24:00 收起來（同 kx_tour_ask）*/
-    if(F.KX_TOUR_YES&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_tour')&&!(G.events&&G.events.done&&G.events.done.ev_kexin_tour_nccu)&&typeof CALENDAR!=='undefined'){ let d=G.day; while(CALENDAR.dateOf(d).wd!==6||(d===G.day&&G.hour>13.5)) d++;
-      OUT.plan(G,{id:'kx_tour',ev:'ev_kexin_tour_nccu',day:d,h:14,place:'木柵大學',title:'去木柵大學找可昕',travel:'開車約 30 分鐘',travelH:0.5});
-      const tw=CALENDAR.termOf(d); F.kxTourWeeks=tw&&tw.week===2?'兩':S.zhNum(tw?tw.week:3); }   /* 「念了兩個禮拜」不是「二個」（BB_170 第 27 列）*/   /* 她在政大念了幾個禮拜（照那天的週次；政大和台大同一天開學） */
-    /* 可昕 K1b（BB_95 9-2）：K1 之後（NCCU_VISITED），第 6～8 週第一個平日下午 15:30 她傳；三個回覆照原文 */
-    if(F.NCCU_VISITED&&!PHONE.sent(G,'kx_yule_ask')&&typeof CALENDAR!=='undefined'){ const tm=CALENDAR.termOf(G.day), wd=CALENDAR.dateOf(G.day).wd;
-      if(tm&&tm.id==='Y1S1'&&tm.week>=6&&tm.week<=8&&wd>=1&&wd<=5&&!CALENDAR.holiday(G.day)&&G.hour<15.5){ const K=t=>({from:'kexin',text:t});
-        PHONE.at(G,G.day,15.5,[{th:'p:kexin',from:'kexin',text:'明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。',ask:{opts:[
-          {t:'好，我開車過去。',set:{KX_YULE:'yes'}},{t:'我明天七點有事，晚一點可以嗎？',set:{KX_YULE:'late'},say:[K('那九點？你來吃第二輪。')]},{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好。')]}]}}],'kx_yule_ask'); F.kxYuleAskDay=G.day; } }
-    if((F.KX_YULE==='yes'||F.KX_YULE==='late')&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_yule')&&F.kxYuleAskDay!=null)
-      OUT.plan(G,{id:'kx_yule',ev:'ev_kexin_yule_pass',day:Math.max(F.kxYuleAskDay+1,G.day),h:F.KX_YULE==='late'?21:19.5,place:'木柵大學',title:'去木柵大學見予樂',travel:'開車約 30 分鐘',travelH:0.5});
-    if(F.yulePassDay!=null) PHONE.at(G,F.yulePassDay+1,12.5,[{th:'p:kexin',from:'kexin',text:'📷（予樂寫的紙條：「及格。」）'}],'kx_yule_pass');
-    /* 予樂戴紙巾皇冠的照片：原本「這週不行」才私訊（kx_yule_crown）；AA_503 9-2、9-3 改成可昕的動態第 3 則，不管去沒去都出（src/data/feed_y1s1.js kx3）*/
+    /* 可昕 K1 導遊、K1b 外校室友的宵夜（舊的外校前提）：CANON-NO-ECON-1112 第三批拿掉 */
     /* 中秋烤肉（A13）：第 5 週週三 21:00 阿哲揪（有桌遊團群組在群組，沒有的私訊）；去＝週六 15:00 河濱（出遊，走過去約 15 分鐘）。揪的那一句和兩個回覆是 LAWWW 寫的（AA_355 第 2 節：AA 看過、照用）*/
     { const wed=termDay('Y1S1',5,3), sat=termDay('Y1S1',5,6);
       if(sat&&!F._bbqUntilFix){ F._bbqUntilFix=1; const fix=it=>{ if(it&&it.ask&&it.ask.until==null) it.ask.until=sat*24+19; };   /* 舊存檔：5c471a79（10-21）以前排進去的 bbq_ask、kx_bbq_ask 沒有 until，到隔年還是「待回覆」、每個假期一開始手機自己打開（BB-C 10-21 P3；10-22 子代理用 9/25 底檔查到）→ 補上和新局同一個期限（一次）*/
@@ -1933,45 +1912,7 @@ const STORY = (function(){
       if(fri&&F.dating_kexin&&G.day<=fri&&G.day>=fri-7&&!PHONE.sent(G,'kx_ntu_ask')) PHONE.at(G,fri,20,[{th:'p:kexin',from:'kexin',text:'這次換我去首都帝大。我先去找品妤，你四點來社科院門口。'}],'kx_ntu_ask');   /* AA_313 第 2 節第 8 列：實際是祐廷走去社科院門口找她們（原本「……再去霖澤館抓你。」）*/
       if(fri&&F.dating_kexin&&G.day>=fri&&G.day<=fri+1&&PHONE.sent(G,'kx_ntu_ask')&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_ntu'))
         OUT.plan(G,{id:'kx_ntu',ev:'ev_kexin_visits_ntu',day:fri+1,h:16,place:'社科院門口',title:'可昕來首都帝大：去社科院門口',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到首都帝大。'}); }
-    /* 可昕 K4 第一次視訊一起讀書（BB_95 9-5）：第 16 週週二 20:00 她問（期末前；回覆到 21:45 為止）。「好，九點開。」＝當天 21:00 視訊（ev_kexin_video_study，出遊）；
-       「今天不行。」或沒回＝23:00 她傳書桌的照片（沒接也是，ev_kexin_video_study 的 outingMissed）*/
-    /* K5「我們的日子」（BB_96 9-3）：大一下第 2 週週一 21:00 她傳；玩家選哪一天（回她的那一句裡接著選方式）。兩樣都選了＝KX_OUR_DAY {day, mode}，排同一週那一天的「第一次」（出遊）；
-       那一週那天已經過了＝下週同一天。時間、地點是 AA-B 確認前的提案值（週五 19:00、週六 14:00、週日 14:00；政大小吃街／社科院門口／公館／視訊）。大二以後的固定格：src/kxod3d.js（AA_354）*/
-    { const m2=termDay('Y1S2',2,1); if(m2&&F.dating_kexin&&G.day>=m2-1&&G.day<=m2+13){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
-        const MODE=[{t:'我開車去木柵大學。',set:{_kxOM:'nccu'},say:[K('好。我負責選宵夜。')]},{t:'妳來首都帝大。',set:{_kxOM:'ntu'},say:[K('好。我順便看品妤。')]},{t:'約在外面。',set:{_kxOM:'mid'},say:[K('公館、溫州街、河濱，輪流。我坐公車下山。')]},{t:'視訊也算。',set:{_kxOM:'video'},say:[K('算。可是一個月至少見一次面。')]}];
-        const DAYS=[['週五晚上。','fri','好，週五。我那天下午沒課。']/* AA_209 附錄B §2 */,['週六。','sat','整天？……好，我不會整天都要。'],['週日下午。','sun','週日下午很好。隔天要上課，我們不會玩太晚。']].map(([t,k,r])=>({t,set:{_kxOD:k},say:[Object.assign(K(r),{ask:{opts:MODE}})]}));
-        const L=[K('我們選一天。叫它「我們的日子」。')];   /* AA_389 第 4 點（企劃線 345234b3）：這一句保留（AA_362 §1）、「名字很重要。」刪、「約在中間。」照 AA_313 第 20 列改「約在外面。」＋「我坐公車下山。」*/ if(F.KX_VDAY_SEE) L.push(K('你情人節說想見我。這個週末我已經空下來了。'));/* AA_209 附錄B §2；AA_373 #10（3/2 傳：第一個週末已經過了） */ Object.assign(L[L.length-1],{ask:{opts:DAYS}});   /* BB_161 ⑰：「我想見妳」多的那一句接在後面（選項掛在最後一則）*/
-        if(!PHONE.sent(G,'kx_our_day')) PHONE.at(G,m2,21,L,'kx_our_day');
-        if(F._kxOD&&F._kxOM&&!F.KX_OUR_DAY){ F.KX_OUR_DAY={day:F._kxOD,mode:F._kxOM}; delete F._kxOD; delete F._kxOM; }
-        const OD=F.KX_OUR_DAY; if(OD&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_our_day1')){ const wd={fri:5,sat:6,sun:7}[OD.day], hh={fri:19,sat:14,sun:14}[OD.day]; let d=termDay('Y1S2',2,wd); if(d!=null&&(G.day>d||(G.day===d&&G.hour>hh))) d=termDay('Y1S2',3,wd);
-          const P={nccu:['木柵大學・山下的小吃街','我們的日子：開車去木柵大學','開車約 30 分鐘',0.5],ntu:['社科院門口','我們的日子：她來首都帝大','走過去約 10 分鐘',1/6],mid:['公館','我們的日子：約在公館','騎車約 10 分鐘',1/6],video:['視訊','我們的日子：視訊','',0]}[OD.mode];
-          if(d!=null&&P) OUT.plan(G,Object.assign({id:'kx_our_day1',ev:'ev_kexin_our_day',day:d,h:hh,place:P[0],title:P[1],travel:P[2],travelH:P[3]},OD.mode==='video'?{verb:'接起來',no:'今天先不要',back:'視訊結束。'}:{})); } } }
-    /* K5 之後每週的「我們的日子」（AA-B 2026-10-16 裁定）：第一次之後，每週那一天排一個可以接受或略過的出遊；見面時一句地點字幕，接著推進她的閒聊階梯（OUT.go），沒有新台詞。
-       約在中間＝第一次在公館，之後照她說的「公館、溫州街、河濱」輪流；視訊＝每個月第一個「我們的日子」改成見面（地點照約在中間那一輪）；（K7 週年改到 10/17，AA_224 第 2 組）；
-       撞到別的出遊、選了別的＝她說「好，這週換一天。」（ev_kexin_our_day_wk 的 outingMissed）；單純略過沒有台詞、不扣分。只排大一下（大二到大四：src/kxod3d.js，AA_354）*/
-    { const OD=F.KX_OUR_DAY, q1=typeof OUT!=='undefined'&&OUT.get(G,'kx_our_day1');
-      if(OD&&q1&&q1.state!=='planned'&&F.dating_kexin&&!(typeof MREL!=='undefined'&&MREL.kxOdPaused&&MREL.kxOdPaused(G))){ const wd={fri:5,sat:6,sun:7}[OD.day], hh={fri:19,sat:14,sun:14}[OD.day], T1=CALENDAR.termOf(q1.day);   /* 可昕收回以後回 B＝我們的日子暫停（AA_474 第 3 節）*/
-        /* BB_161 ⑭：那一週有她自己的事件就不排固定格、也不傳「換一天」——K8 春假旅行（第 6 週，選了和她開車旅行）、K6 互考（第 8 週）、生日（第 9 週 4/24）。
-           已經排好的那一格（例：第 6 週的固定格排好以後才選了春假旅行）改成 skipped，不會過期、不會傳訊息 */
-        const herWeek=w=>w===8||w===9||(w===6&&!!OUT.get(G,'kx_trip_y1s2'));   /* K7 週年改到 10/17（大一上），第 4 週不再是她的那一週 */
-        const y2=S.termDayIn('Y2S1',1,1); for(const q of OUT.rec(G)) if(/^kx_od_/.test(q.id)&&q.state==='planned'&&(y2==null||q.day<y2)){ const t=CALENDAR.termOf(q.day); if(!t||t.id!=='Y1S2'||herWeek(t.week)) q.state='skipped'; }   /* AA_373 #1：舊存檔已經排在學期以後（6/15 起她在高雄）的那一格也拿掉；只管大二上開學以前的格子（大二以後 src/kxod3d.js、畢業以後 pgdates3d.js 的 kx_od_ 不動：原本全部改成 skipped）*/
-        /* AA_373 #1（企劃線 a48fe1b7）：只排到學期的最後一週（第 16 週）；超過學期的日子不排（原本 w<=18，6/15～6/28 還有兩格，可昕那時候在高雄）*/
-        for(let w=(T1?T1.week:2)+1,LW=S.termWeeks('Y1S2');w<=LW;w++){ if(herWeek(w)) continue; const d=S.termDayIn('Y1S2',w,wd); if(d==null||d*24+hh<G.day*24+G.hour) continue; const id='kx_od_'+d; if(OUT.get(G,id)) break;
-          const mon=CALENDAR.dateOf(d).m, firstOfMonth=!OUT.rec(G).some(q=>/^kx_od_/.test(q.id)&&CALENDAR.dateOf(q.day).m===mon);
-          let mode=OD.mode; if(mode==='video'&&firstOfMonth) mode='mid';
-          let P; if(mode==='mid'){ const n=F.KX_OD_MID_N==null?(OD.mode==='mid'?1:0):F.KX_OD_MID_N; P=[['gongguan','公館','我們的日子：約在公館','騎車約 10 分鐘',1/6],['wenzhou','溫州街','我們的日子：溫州街','走過去約 10 分鐘',1/6],['river','河濱','我們的日子：河濱','騎車約 15 分鐘',0.25]][n%3]; F.KX_OD_MID_N=n+1; }
-          else P={nccu:['nccu','木柵大學・山下的小吃街','我們的日子：開車去木柵大學','開車約 30 分鐘',0.5],ntu:['ntu','社科院門口','我們的日子：她來首都帝大','走過去約 10 分鐘',1/6],video:['video','視訊','我們的日子：視訊','',0]}[mode];
-          if(P) OUT.plan(G,Object.assign({id,ev:'ev_kexin_our_day_wk',day:d,h:hh,place:P[1],title:P[2],travel:P[3],travelH:P[4],odPlace:P[0]},P[0]==='video'?{verb:'接起來',no:'今天先不要',back:'視訊結束。'}:{}));
-          break; } } }
-    /* K6 她第一次因為自己的事改期（BB_96 9-6）：第 7 週週三 21:00 她提兩校互考（回「好」或「視訊可以嗎」，KX_QUIZ_MODE）；第 8 週週四 21:00 改期（三種回應記 K6_RESPONSE）；
-       週日 14:00 互考（出遊；時間是 AA-B 確認前的提案值）。沒去：考古題的照片「下次你逃不掉。」（ev_kexin_reschedule 的 outingMissed）。之後改「我們的日子」的回聲等每週固定格（AA-B）*/
-    { const w7=termDay('Y1S2',7,3), w8=termDay('Y1S2',8,4), sun=termDay('Y1S2',8,7); if(w7&&w8&&sun&&F.dating_kexin&&G.day>=w7-1&&G.day<=sun+1){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
-        if(!PHONE.sent(G,'kx_quiz_ask')) PHONE.at(G,w7,21,[K('期中前，兩校互考。'),K('只能出老師上課講過的。冷門學說算犯規。'),Object.assign(K('考完去吃山下那攤，我請。下週六下午可以嗎？'),/* AA_209 附錄B §2；AA_373 #25、#26（使用者 10-18：她沒有在跟祐廷比，不寫輸贏；4/8 傳＝下週六 4/18）*/{ask:{opts:[{t:'好。',set:{KX_QUIZ_MODE:'meet'}},{t:'視訊可以嗎？',set:{KX_QUIZ_MODE:'video'}}]}})],'kx_quiz_ask');
-        if(!PHONE.sent(G,'kx_k6')) PHONE.at(G,w8,21,[K('對不起，週六可以改週日嗎？'),Object.assign(K('我們讀書會的報告被退回來，週六要重做。'),{ask:{opts:[
-          {t:'好，週日。報告加油。',set:{K6_RESPONSE:'understand'},say:[K('好。週日我請一攤，當改期費。')]},{t:'為什麼被退？',set:{K6_RESPONSE:'ask'},say:[K('老師說我們的理由跳太快。……我也覺得。週日跟你說。')]},
-          {t:'我週六都空下來了。',set:{K6_RESPONSE:'sulk'},say:[K('……我知道。對不起。週日你多出一題。')]}]}})],'kx_k6');
-        if(PHONE.sent(G,'kx_k6')&&G.day*24+G.hour>=w8*24+21&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_quiz1')){ const v=F.KX_QUIZ_MODE==='video';   /* 改期那則傳出以後才排（那時候已經知道見面還是視訊）*/
-          OUT.plan(G,Object.assign({id:'kx_quiz1',ev:'ev_kexin_reschedule',day:sun,h:14,place:v?'視訊':'木柵大學・山下的小吃街',title:v?'可昕的視訊：兩校互考':'兩校互考：開車去木柵大學',travel:v?'':'開車約 30 分鐘',travelH:v?0:0.5},v?{verb:'接起來',no:'今天先不要',back:'視訊結束。'}:{})); } } }
+    /* 可昕 K4 視訊一起讀書、K5「我們的日子」（大一下第一次＋每週固定格）、K6 兩校互考：CANON-NO-ECON-1112 第三批拿掉 */
     /* K6b 第一次寫申論題（BB_96 9-7）：第 9 週週三 21:00 她考完民總期中（時間是提案值）；只一次；記 KX_DIR {Y1:'reasons'}（第 10 週以後手機小事「答案被拿去當範例」）*/
     { const w9=termDay('Y1S2',9,3); if(w9&&F.dating_kexin&&G.day>=w9&&G.day<=w9+6&&!PHONE.sent(G,'kx_essay')&&G.day*24+G.hour>=w9*24+21){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
         PHONE.at(G,w9,21,[K('剛考完。四頁。手好痛。'),Object.assign(K('申論題，就是把理由說給一個不認識你的人聽。'),{ask:{opts:[
@@ -2002,24 +1943,7 @@ const STORY = (function(){
       if(!AP&&G.day*24+G.hour>=an*24+19.5){ F.KX_ANNIV=Object.assign({},F.KX_ANNIV||{},{[n]:'missed'}); S.kxAnnivMissed(G,n,an); } }   /* AA_313 第 2 節第 36 列：同第一年 */
     /* 情人節（BB_96 9-1，寒假，各自在家）：2/14 20:00 她打視訊來（出遊系統「接起來」；在家也會問，home3d.js）；沒接＝窗戶的照片（outingMissed）*/
     { const vd=S.dayOfKey('2026-02-14'); if(vd&&F.dating_kexin&&G.day>=vd-7&&G.day<=vd&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_vday1')) OUT.plan(G,{id:'kx_vday1',ev:'ev_kexin_valentine_y1',day:vd,h:20,place:'視訊',title:'可昕的視訊：情人節',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'}); }
-    { const d=termDay('Y1S1',16,2);   /* 可昕的視訊一起讀書：期末考週（第 16 週週二 12/16），期末相關照留（AA_243 #69）*/
-      if(d&&F.dating_kexin&&G.day<=d&&G.day>=d-7&&!PHONE.sent(G,'kx_video_ask')) PHONE.at(G,d,20,[{th:'p:kexin',from:'kexin',text:'要不要視訊一起讀書？各讀各的。我每半小時會吵你一次，你可以不理我。',
-        ask:{until:d*24+21.75,opts:[{t:'好，九點開。',set:{KX_VIDEO:'yes'},say:[{from:'kexin',text:'好。我先把書排好。'}]},{t:'今天不行。',set:{KX_VIDEO:'no'},say:[{from:'kexin',text:'好。我自己讀，讀完傳照片給你。'}]}]}}],'kx_video_ask');
-      if(d&&F.KX_VIDEO==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_video')) OUT.plan(G,{id:'kx_video',ev:'ev_kexin_video_study',day:d,h:21,place:'視訊',title:'可昕的視訊：一起讀書',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'});
-      if(d&&PHONE.sent(G,'kx_video_ask')&&!F.KX_VIDEO&&G.day*24+h(G)>=d*24+21.75) F.KX_VIDEO='none';
-      if(d&&(F.KX_VIDEO==='no'||F.KX_VIDEO==='none')) PHONE.at(G,d,23,KX_DESK_PHOTO,'kx_video_photo'); }
-    /* 第一份報告交出去的晚上（BB_95 9-6 改版，2026-10-15 BB-B；AA_140 G01：生日改 4/24）：12/3（第 14 週週三）。不再跳「今天是可昕的生日」。
-       前一晚 21:00 她傳「明天交第一份期末報告。交完我要去山下那一家。一個人吃好像有點悲壯。」；當天她的對話串多一則「祐廷的草稿」（「交出去了嗎？」23:59 前可以傳，
-       她回「交了。……今天可以早點睡了。」）；18:00 出遊提示「開車去政大」（ev_kexin_birthday_y1，id 不改）。都沒做：那晚 22:30 她傳
-       「一個人吃了。很好吃。下次你要來。」，不扣分、不記仇（酸辣湯餃的照片在 23:30 她貼的動態裡，FEED kx6）。過了那一天記 KX_DEC3:{1:'visit'|'message'|'none'}（不再寫 KX_BDAY；舊存檔讀檔時搬，game3d.js migrate）*/
-    { const bd=termDay('Y1S1',14,3);
-      if(bd&&F.dating_kexin&&G.day>=bd-1&&G.day<=bd&&!(G.day===bd-1&&h(G)<21)&&!PHONE.sent(G,'kx_dec3_eve')) PHONE.at(G,bd-1,21,[{th:'p:kexin',from:'kexin',text:'明天交第一份期末報告。交完我要去山下那一家。一個人吃好像有點悲壯。'}],'kx_dec3_eve');
-      if(bd&&F.dating_kexin&&G.day===bd){
-        if(!PHONE.sent(G,'kx_dec3_draft')) PHONE.at(G,bd,Math.max(6,h(G)),[{th:'p:kexin',from:'player',who:null,text:'（草稿）',
-          ask:{until:bd*24+24,opts:[{t:'交出去了嗎？',set:{KX_DEC3_MSG:true},say:[{from:'kexin',text:'交了。……今天可以早點睡了。'}]}]}}],'kx_dec3_draft');
-        if(typeof OUT!=='undefined'&&!OUT.get(G,'kx_bday')) OUT.plan(G,{id:'kx_bday',ev:'ev_kexin_birthday_y1',day:bd,h:18.75,place:'木柵大學',title:'開車去木柵大學',travel:'開車約 30 分鐘',travelH:0.5});
-        if(h(G)>=22.5&&!F.KX_DEC3_VISIT&&!F.KX_DEC3_MSG&&!PHONE.sent(G,'kx_dec3_none')) PHONE.at(G,bd,22.5,[{th:'p:kexin',from:'kexin',text:'一個人吃了。很好吃。下次你要來。'}],'kx_dec3_none'); }   /* 酸辣湯餃的照片（原本這一則的第一張）：AA_503 9-3 改成可昕的動態第 6 則，一定出（12/3 23:30 交完報告那晚，分沒去／去了兩個版本，src/data/feed_y1s1.js kx6；d13ab3ab7 第 12 節第 2、3 點）；私訊這一句照舊 */
-      if(bd&&F.dating_kexin&&G.day>bd&&G.day<=bd+7&&!(F.KX_DEC3&&F.KX_DEC3[1])){ const v=F.KX_DEC3_VISIT?'visit':(F.KX_DEC3_MSG?'message':'none'); F.KX_DEC3=Object.assign({},F.KX_DEC3||{},{1:v}); } }
+    /* 可昕的視訊一起讀書（期末考週）、第一份報告交出去的晚上（12/3，開車去外校）：CANON-NO-ECON-1112 第三批拿掉 */
     /* 可昕的生日（BB_96 9-7b；4/24 大一下第 9 週週五；AA_140 G01）：早上行事曆「可昕生日」（祐廷自己記的）；草稿「生日快樂。」（23:59 前，她回「謝謝。今天換你說一件好笑的事給我聽。」；AA_459 第 5 節原本是「收到。」）；
        18:00 出遊提示（ev_kexin_birthday_y1s2）。過了那一天：去過＝visit、只傳訊息＝message、都沒做＝none＋隔天早上她只傳「我等了一天。」（一次，之後照常）。KX_BDAY:{1:…}（BB_107：每年一筆；大一的記在這一天）。
        之後幾年的 4/24：大二下第 9 週、大三下第 11 週、大四下第 10 週（AA_140 G01），跟著 v3～v5 做 */
