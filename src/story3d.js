@@ -53,10 +53,11 @@ const STORY = (function(){
   S.mainD1=G=>{ const v=G&&G.flags&&G.flags.MAIN_D1; return typeof v==='number'?v:1; };
   S.mainDay=(G,day)=>(day==null?G.day:day)-S.mainD1(G)+1;
   S.week1Start=G=>S.lawStart(G)<S.mainD1(G);   /* 選 1 的局：主線第一天以前已經住進宿舍、上了幾天課（AA_195）*/
-  /* 法律系開局的開頭（AA_106 3b④＋③；AA 2026-10-14）：新遊戲在現有第一天之前放 */
-  S.LAW_START_RECAP=['你從小就想念首都帝大法律。','第一次考試，社會考壞了，總分差了四分。','你去念了首都帝大經濟。那時候你是高興的。','你認識了一群朋友，也認識了她。她叫杜可昕，高雄人。第一次班聚，你們一起去打保齡球。','十月，你辦了休學。那天她叫你回學校。','在車上，你說你喜歡過她。她說你很笨，她喜歡的是你。','那天晚上，在摩天輪上，你們說好要在一起。','二月，她也休學了。是你先說的：一起重考吧。','你考上首都帝大法律，她考上木柵大學法律。','九月，你回到同一個校園，換了一個系。'];   /* AA_224 第 2 組（e6c064a3；AA_218 15-2 使用者批准方向）；第 4 句 2026-10-18 改（AA_295：可昕不出假設題、「很會問奇怪的問題」拿掉；保齡球 AA_293 4-1）*/
-  S.LAW_START_RECAP_W1=S.LAW_START_RECAP.slice(0,-1).concat(['八月底，你回到同一個校園，換了一個系。']);   /* 選 1（AA-B 21:09）*/
-  S.LAW_WEEK12=['開學第一週，你走進法律系館A。沒有人知道你來過這個校園。','選課、新生活動、第一次點名。你又排了一次新生的隊。','這次你知道，這種隊要排多久。','經濟學原理排在週五早上，普通教學館。你閉著眼睛也找得到。'];
+  /* 法律系開局的回顧字卡（CANON-1112；企劃線 AA_858 定稿，逐字照稿：tests/canon_opening_1112_unit.js）：五句＋最後一句兩版。203 室四個人＝祐廷、阿哲、柏翰、阿凱 */
+  S.LAW_START_RECAP_HEAD=['你從小就想念首都帝大法律。','放榜那天，你把榜單看了三次，才敢傳給家裡。','八月，宿舍的通知寄來了：203 室，四個人一間。','媽媽在你的行李箱裡多塞了兩條毛巾，還有一包你說不用帶的泡麵。','班上的人，你一個都不認識。'];
+  S.LAW_START_RECAP=S.LAW_START_RECAP_HEAD.concat(['九月，開學。']);   /* 不演宿營、直接開學的那一版（?start0）*/
+  S.LAW_START_RECAP_W1=S.LAW_START_RECAP_HEAD.concat(['八月二十二日，新生宿營的遊覽車停在校門口。']);   /* 從宿營開始的新局 */
+  S.LAW_WEEK12=[];   /* CANON-1112：原本四句都在講舊序章（AA_858 沒有新字）＝先不演，列給 AA */
   S.recap=async function(GM,lines,o){ o=o||{}; if(!lines||!lines.length) return; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); for(const t of lines) await GM.say(null,t); } finally { if(!o.keep&&typeof ADV!=='undefined'&&ADV.end) ADV.end(); GM.sceneEnd(); } };   /* keep：播完先不收黑底（接著轉場，不讓 3D 畫面閃一下）*/
   /* 坐下就開始的事件（trigger:'seat'、seatRoom＝座位所在的區（layout 的 groups id，例：博雅的 'study'）；game3d.js 的座位選單在坐下以後、選單出來以前呼叫）*/
   S.onSeat=async function(GM,seat){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!seat) return false; const G=GM.G;
