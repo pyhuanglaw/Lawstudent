@@ -54630,7 +54630,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "11-12 查到 AA、BB、LAWWW2、CC 四條分支的 CLAUDE.md 都是舊版、完全沒有 hook。工具已寫（tools/handoff/rules_sync.py --check／--apply／--hook）；已通知四個職位當回合 --apply＋commit＋push；LAWWW 收到四個 ACK 後用 git 比對四條分支的 CLAUDE.md 和 RULE_SOURCE 一樣才算完成；之後每次改規則當回合通知",
+   "next": "【LAWWW-C 11-12 06:0x】CC（05c0f2374d）、BB（b7c066af5）、AA（e12df9acb→3b0e9242d）已同步，git 比對過 CC；LAWWW2 的工作階段跑 --apply 被權限檢查擋下（理由「自我修改」：換 CLAUDE.md 和 hook），什麼都沒改——不繞過，已告訴使用者請他決定（在 LAWWW2 的視窗允許那個指令）；在那之前 LAWWW2 用 git show 讀 RULE_SOURCE。hook 要各工作階段重開或開 /hooks 才生效（要使用者動手）｜11-12 查到 AA、BB、LAWWW2、CC 四條分支的 CLAUDE.md 都是舊版、完全沒有 hook。工具已寫（tools/handoff/rules_sync.py --check／--apply／--hook）；已通知四個職位當回合 --apply＋commit＋push；LAWWW 收到四個 ACK 後用 git 比對四條分支的 CLAUDE.md 和 RULE_SOURCE 一樣才算完成；之後每次改規則當回合通知",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
