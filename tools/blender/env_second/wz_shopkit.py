@@ -2559,7 +2559,7 @@ def arcade_front_v2(spec, xf, W, wall):
     if XSM and XSM.get('lane'): pass   # 巷口：樑上沒有招牌
     elif XSM and XSM.get('shut'):   # 空店面：招牌拆掉了，樑上只剩一塊沒有字的舊招牌底板（不寫字、晚上不亮）
         xf.box(acc(SK['alu2']), -sw / 2 - 0.04, sw / 2 + 0.04, sy0 - 0.05, sy1 + 0.03, 0.0, 0.16); xf.box(acc(frame_mat('#d9d6cc')), -sw / 2, sw / 2, sy0, sy1, 0.16, 0.168)
-    elif XSM:   # 公館四間新店：騎樓外的招牌也是參考圖裁的字（同一塊招牌，貼在騎樓樑上給馬路看）
+    elif XSM and XSM.get('street'):   # 公館四間新店：騎樓外的招牌也是參考圖裁的字（沒有 street 的——燒臘 G00——照下面一般的招牌：設計稿或空白板面由遊戲畫字）（同一塊招牌，貼在騎樓樑上給馬路看）
         key = XSM['street']; h_ = sy1 - sy0; w_ = min(sw, h_ * XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]); cx_ = XSM.get('street_x', 0.0)
         if XSM.get('street_fit'): w_ = min(W - 0.4, XSM['street_fit']); h_ = w_ / XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]; sy1 = sy0 + h_   # 招牌板照指定的寬度、高度照貼圖比例往上長（汀州路三間：BB 第 2 版——字比參考圖小、街上讀不出來）
         xf.box(acc(SK['alu2']), cx_ - w_ / 2 - 0.04, cx_ + w_ / 2 + 0.04, sy0 - 0.05, sy1 + 0.03, 0.0, 0.2); _xq(xf, key, cx_ - w_ / 2, cx_ + w_ / 2, sy0, sy1, 0.204, tiles=1)

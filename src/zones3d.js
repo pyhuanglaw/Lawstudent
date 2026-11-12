@@ -1597,32 +1597,40 @@ const Z3 = (function(){
       if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07; if(k===s.k) return; s.k=k; for(const b of s.mats) b.color.copy(b.userData.base).multiplyScalar(k); };
     /* 先上傳貼圖、先編譯材質，而且分幀：一幀只上傳一張貼圖（一次全部上傳本身就是一頓），全部上傳完再編譯，然後才算「可以顯示」（s.ready）。 */
     const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set(); for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const o of s.list) warmQ.push({s,m:o}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
-    const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(!j.s.built) return;
+    const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(j.stage){ stage(j); return; } if(!j.s.built) return;
       try{ if(j.m){ if(!j.s.grp.visible){ j.s.grp.visible=true; j.s.k=-1; light(j.s); if(j.s.want) fallback(j.s,false); } j.m.visible=true; j.m.frustumCulled=false; } else if(j.t&&Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
       if(j.done){ for(const o of j.s.list) o.frustumCulled=true; j.s.ready=true; show(j.s,!!j.s.want); } };
     const show=(s,v)=>{ if(!s.grp) return; s.grp.visible=v; s.on=v; fallback(s,!v); if(v){ s.k=-1; light(s); } };
-    const build=(s,vis)=>{ if(s.built||s.loading||typeof ASSETS==='undefined'||!ASSETS.manifest[s.key]) return; s.loading=true;
-      ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.built) return; const r=c.scene.clone(true); r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true);
-        const cache=new Map(); let n=0; s.list=[];
-        r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(!o.isMesh||!o.geometry) return; let nm=''; for(let q=o;q&&q!==r;q=q.parent) nm=(q.name||'')+'/'+nm;
-          if(HIDE.test(nm)){ o.visible=false; return; } { let dv=null; for(let q=o;q&&q!==r&&!dv;q=q.parent) dv=q.userData&&q.userData.dir; if(Array.isArray(dv)&&dv[2]<-0.9&&Math.abs(dv[0])<0.1){ o.visible=false; return; } }   /* 正面牆：模型自訂屬性 dir＝[0,0,−1]（牆淡出用的「這面牆朝室內的方向」；汀州路的店叫 WALL_S、WALL_Sfix_*，名字對不上 WALL_front）*/
-          if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
-          if(Math.abs(C.x)>s.w/2+0.4||Math.abs(C.z)>s.d/2+0.4||C.y>s.h+0.6||C.y<-0.5){ o.visible=false; return; }
-          o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,cache)):basic(o.material,s,cache); o.visible=false; s.list.push(o); n++; });
-        r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; r.visible=false; g.add(r); s.grp=r; s.built=true; s.meshes=n; s.want=!!vis; warm(s); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
-    const detach=s=>{ if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); fallback(s,true); };
+    /* 第 3 版（LAWWW 11-12：省資源模式第一次走近那一下——載入完的那一幀 clone＋逐零件換材質＋掛上場景一次做完）：拆成分幀，和貼圖上傳、零件打開排同一條佇列（warmQ，一幀一件）：
+       載入完 → 一幀 clone → 每幀處理 PREP 個零件（藏正面牆／範圍外的、算範圍、換材質）→ 掛上場景 → 貼圖一幀一張 → 零件一幀一個 → 可以顯示。 */
+    const PREP=3;
+    const build=(s,vis)=>{ if(s.built||s.loading||s.building||typeof ASSETS==='undefined'||!ASSETS.manifest[s.key]) return; s.loading=true;
+      ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.built||s.building) return; s.building=true; s.want=!!vis; s.src=c.scene; warmQ.push({s,stage:'clone'}); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
+    const stage=j=>{ const s=j.s; if(!s.building) return;
+      if(j.stage==='clone'){ const r=s.src.clone(true); s.src=null; r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true); s.tmp=r; s.cache=new Map(); s.list=[]; s.pend=[];
+        r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(o.isMesh&&o.geometry) s.pend.push(o); }); warmQ.push({s,stage:'prep'}); return; }
+      const r=s.tmp;
+      for(let k=0;k<PREP&&s.pend.length;k++){ const o=s.pend.shift(); let nm=''; for(let q=o;q&&q!==r;q=q.parent) nm=(q.name||'')+'/'+nm;
+        if(HIDE.test(nm)){ o.visible=false; continue; } { let dv=null; for(let q=o;q&&q!==r&&!dv;q=q.parent) dv=q.userData&&q.userData.dir; if(Array.isArray(dv)&&dv[2]<-0.9&&Math.abs(dv[0])<0.1){ o.visible=false; continue; } }   /* 正面牆：模型自訂屬性 dir＝[0,0,−1]（牆淡出用的「這面牆朝室內的方向」；汀州路的店叫 WALL_S、WALL_Sfix_*，名字對不上 WALL_front）*/
+        if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
+        if(Math.abs(C.x)>s.w/2+0.4||Math.abs(C.z)>s.d/2+0.4||C.y>s.h+0.6||C.y<-0.5){ o.visible=false; continue; }
+        o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,s.cache)):basic(o.material,s,s.cache); o.visible=false; s.list.push(o); }
+      if(s.pend.length){ warmQ.push({s,stage:'prep'}); return; }
+      r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; r.visible=false; g.add(r); s.grp=r; s.tmp=null; s.cache=null; s.pend=null; s.building=false; s.built=true; s.meshes=s.list.length; warm(s); };
+    const detach=s=>{ if(s.building){ s.building=false; s.tmp=null; s.pend=null; s.cache=null; s.src=null; for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); return; } if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); fallback(s,true); };
     const dist=(s,p)=>Math.hypot(Math.max(0,Math.abs(p.x-(s.cx===undefined?s.x:s.cx))-(s.ex||0)),Math.max(0,Math.abs(p.z-(s.cz===undefined?s.z:s.cz))-(s.ez||0)));
     const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return; for(const s of shops) s.dd=dist(s,p); const by=shops.slice().sort((a,b)=>a.dd-b.dd);
-      if(lite){ const n0=by[0]; for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if(s.built&&(s!==n0||s.dd>s.far)) detach(s); } }
+      if(lite){ const n0=by[0]; for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if((s.built||s.building)&&(s!==n0||s.dd>s.far)) detach(s); } }
       else{ for(const s of shops){ if(s.built){ if(s.dd<s.near){ s.want=true; if(s.ready&&!s.on) show(s,true); } else if(s.dd>s.far){ s.want=false; if(s.on) show(s,false); } } }
-        if(!shops.some(s=>s.loading)){ const nx=typeof ASSETS!=='undefined'?by.find(s=>!s.built&&ASSETS.manifest[s.key]):null; if(nx) build(nx,nx.dd<nx.near); } }
+        if(!shops.some(s=>s.loading||s.building)){ const nx=typeof ASSETS!=='undefined'?by.find(s=>!s.built&&ASSETS.manifest[s.key]):null; if(nx) build(nx,nx.dd<nx.near); } }
       for(const s of shops){ if(s.on) light(s); if(s.shutter) s.shutter.visible=!isOpen(s); } };
     let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); warmStep(); if((f++)%20===0) tick(); }; tick();
     const R={shops,tick,detach,lite,warmQ}; zone.shopReal=R; return R; }
   const GG_SHOP_REAL=(()=>{ const mk=(id,place,key,cx,w,d,h,sx)=>({id,place,key,w,d,h,x:cx,z:22.02+d/2,ry:Math.PI,cx,cz:22,ex:w/2,ez:0,sx,sh:2.95});   /* sx＝門窗的範圍（鐵捲門只蓋這一段；照 wz_street.py GG_XS 的 cards＋door）*/ return [mk('G04','gg_antai','bldg.gg_antai_interior',-18.6,9,10,3.3,[-4.15,4.15]),mk('G08','gg_xianguo','bldg.gg_xianguo_interior',19.6,8,10,3.3,[-3.65,3.65]),mk('G13','gg_rongendian','bldg.gg_rongendian_interior',64.1,9,10,3.3,[-4.15,4.15]),
       /* 第二批（11-12）：青木茶室、頁間書屋、日和便利店、洋洋鹹酥雞、慢輪單車、Afar、轉角唱片、Daybreak——室內配置的門窗本來就照這一排外觀做的（各店 layout 的 front），寬深高照各自的配置檔 */
       mk('G01','aoki','bldg.aoki_interior',-52.2,9.2,7,3.6,[-1.93,4.24]),mk('G02','bookstore','bldg.yejian_interior',-41.0,12,10,3.8,[-5.15,5.6]),mk('G03','cvs','bldg.cvs_interior_v2',-28.8,11.2,11,3.3,[-5.3,2.93]),mk('G05','yangyang','bldg.yangyang_interior',-9.4,9.2,11,3.3,[-4.3,3.5]),
-      mk('G06','bikeshop','bldg.bikeshop_interior',0.3,10.2,12,3.6,[-4.4,4.1]),mk('G07','afar','bldg.afar_interior',10.5,10.2,8,3.7,[-3.9,3.35]),mk('G12','corner_records','bldg.corner_interior',55.6,8,11.5,3.3,[-3.39,2.42]),mk('G14','daybreak','bldg.daybreak_interior',73.1,9,8,3.7,[-3.31,3.07])]; })();   /* SHOP-REAL-INSIDE 公館第一批（LAWWW2-C 11-12 自查 docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112）：安泰藥局、汀州鮮果、榮恩典文具社——店外原本是照片卡（榮恩典暖色塞滿、店內白而疏；鮮果深色背景、店內白牆），改成玻璃後面放走進去的那一顆室內模型。店面玻璃在 z 22（立面 19＋騎樓 3），室內正面 +z 轉到朝 −z（ry π）；中心 x＝wz_street.py 那一棟的中心 */
+      mk('G06','bikeshop','bldg.bikeshop_interior',0.3,10.2,12,3.6,[-4.4,4.1]),mk('G07','afar','bldg.afar_interior',10.5,10.2,8,3.7,[-3.9,3.35]),mk('G12','corner_records','bldg.corner_interior',55.6,8,11.5,3.3,[-3.39,2.42]),mk('G14','daybreak','bldg.daybreak_interior',73.1,9,8,3.7,[-3.31,3.07]),
+      mk('G00','noodle','bldg.shaola_interior',-62.4,6,13,3.2,[-3,3])]; })();   /* 公館燒臘（第三批）：店面照室內配置重開門窗（wz_street.py GG_XS G00）；模型鍵在載入時登錄（ggReg） */   /* SHOP-REAL-INSIDE 公館第一批（LAWWW2-C 11-12 自查 docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112）：安泰藥局、汀州鮮果、榮恩典文具社——店外原本是照片卡（榮恩典暖色塞滿、店內白而疏；鮮果深色背景、店內白牆），改成玻璃後面放走進去的那一顆室內模型。店面玻璃在 z 22（立面 19＋騎樓 3），室內正面 +z 轉到朝 −z（ry π）；中心 x＝wz_street.py 那一棟的中心 */
   const GG_IN_PLACE={G00:'noodle'};   /* 公館街景模型裡立體的店內（sk_in_<棟>）→ 地點：G00＝燒臘店（區域 noodle，每天 11:00～23:00，AA_831）。Z3.shopInsideLit 打烊調暗（LAWWW 11-12：燒臘有營業時間了，打烊時從街上看窗不會變暗）*/
   const ggLitWired=new WeakMap();   /* 接過窗卡打烊調暗的材質 → {lit, U, mine, compiled, rewrap, entries}（第二次進公館沿用，見 ggShopLit 裡的註解）*/
   function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
@@ -2358,6 +2366,7 @@ const Z3 = (function(){
     reg('bldg.yejian_interior',GG_L.bookstore(),'本作 Blender 腳本 tools/blender/env_second/aa_support/yejian_interior.py（公館「頁間書屋」室內 v2，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning d593be119（v3b），配置 src/data/yejian_layout.js v3）');
     reg('bldg.aoki_interior',GG_L.aoki(),'本作 Blender 腳本 tools/blender/env_second/aa_support/aoki_interior.py（公館「青木茶室」室內 v2b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 697ed69cf（v2c），配置 src/data/aoki_layout.js v3）');
     reg('bldg.afar_interior',GG_L.afar(),'本作 Blender（tools/blender/env_second/aa_support/README_afar.md；公館「afar café」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8a0bd80f2，配置 src/data/afar_layout.js）');
+    reg('bldg.shaola_interior',typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop?SHAOLA_LAYOUT.shop:null,'本作 Blender 腳本 tools/blender/env_second/bb_support/shaola_interior.py（公館燒臘室內 v7，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 65c2a43c5，配置 src/data/shaola_layout.js v1）','本作；貼圖本作程式產生（shaola_tex.py）');   /* 從街上看也要用（Z3.shopInsideReal）：載入時就登錄，不等進店 */
     reg('bldg.yangyang_interior',GG_L.yangyang(),'本作 Blender 腳本 tools/blender/env_second/bb_support/yangyang_interior.py、yangyang_tex.py（公館「洋洋鹹酥雞」室內 v1c，BB〔帳號 A〕製作、LAWWW2 驗收 ART_APPROVED；claude/cool-heisenberg-o8kuqx e5e9351e0，配置 src/data/yangyang_layout.js v3）','本作；貼圖本作程式產生（yangyang_tex.py）');
     reg('bldg.corner_interior',GG_L.corner_records(),'本作 Blender 腳本 tools/blender/env_second/bb_support/corner_interior.py、corner_tex.py（公館「轉角唱片」室內 v1c，CC〔帳號 A〕製作 cc-testing 4fc38d513、LAWWW2-B 改原型分組 38f4021e1、驗收 MODEL_READY；配置 src/data/corner_layout.js v1）','本作；貼圖 Poly Haven CC0＋本作程式產生（corner_tex.py）');
     reg('bldg.daybreak_interior',GG_L.daybreak(),'本作 Blender（tools/blender/env_second/aa_support/README_daybreak.md；公館「Daybreak」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8094770c7，配置 src/data/daybreak_layout.js）'); }

@@ -20,7 +20,7 @@ ok(/i<ids\.length&&i<GG_LIT_N/.test(blk)&&/s<1\|\|s>GG_LIT_N/.test(blk),'⑦ 更
 /* 燒臘 */
 const g=/const GG_IN_PLACE=(\{[^}]*\});/.exec(src); const GI=g?vm.runInNewContext('('+g[1]+')'):{};
 ok(GI.G00==='noodle'&&P.hours&&P.hours.noodle,'⑧ 燒臘：G00 → noodle，有營業時間');
-ok(J.nodes.some(n=>n.name==='sk_in_G00'),'⑨ 街景模型有 sk_in_G00（燒臘的立體店內）');
+ok(/mk\('G00','noodle','bldg\.shaola_interior'/.test(src),'⑨ 燒臘（G00）從街上看的是走進去的那一顆室內模型（GG_SHOP_REAL；第三批 11-12：原本街景模型裡簡化的 sk_in_G00 和店內不一樣），打烊由 Z3.shopInsideReal 調暗、拉鐵捲門');
 ok(/attachWenzhouModel\(E,g,r,'ggShop','gongguan_shops_glb'\); shopInsideLit\(r,zone,GG_IN_PLACE\);/.test(src),'⑩ 公館接上街景模型以後呼叫 shopInsideLit');
 ok(P.isOpen('noodle',12,3)===true&&P.isOpen('noodle',23.5,3)===false,'⑪ 燒臘 12:00 開、23:30 關');
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);

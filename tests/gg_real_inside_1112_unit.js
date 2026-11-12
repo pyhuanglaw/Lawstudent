@@ -5,11 +5,11 @@ const ok=(c,m)=>{ console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++; };
 const src=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8'), st=fs.readFileSync(path.join(R,'tools/blender/env_second/wz_street.py'),'utf8');
 const Z=new Function(fs.readFileSync(path.join(R,'src/data/tz_shops_layout.js'),'utf8')+';return TZ_SHOPS_LAYOUT;')();
 const m=/const GG_SHOP_REAL=\(\(\)=>\{([\s\S]*?)\}\)\(\);/.exec(src); ok(!!m,'① zones3d.js 有 GG_SHOP_REAL'); const L=m?vm.runInNewContext('(()=>{'+m[1]+'})()'):[];
-ok(L.length===11,'② 十一間（第一批三間＋第二批八間）：'+L.map(q=>q.id+'→'+q.place).join('、'));
+ok(L.length===12,'② 十二間（第一批三間＋第二批八間＋燒臘）：'+L.map(q=>q.id+'→'+q.place).join('、'));
 const ld=(f,n)=>{ try{ return new Function(fs.readFileSync(path.join(R,'src/data',f),'utf8')+';return typeof '+n+'!=="undefined"?'+n+':null;')(); }catch(e){ return null; } };
 const sh=o=>o&&(o.shop||o.corner||o.bike||o);
 const LAY={G04:Z.antai,G08:Z.xianguo,G13:Z.rongendian,G01:ld('aoki_layout.js','AOKI_LAYOUT'),G02:ld('yejian_layout.js','YEJIAN_LAYOUT'),G03:sh(ld('cvs_layout.js','CVS_LAYOUT')),G05:sh(ld('yangyang_layout.js','YANGYANG_LAYOUT')),
-  G06:sh(ld('bike_layout.js','BIKE_LAYOUT')),G07:ld('afar_layout.js','AFAR_LAYOUT'),G12:sh(ld('corner_layout.js','CORNER_LAYOUT')),G14:ld('daybreak_layout.js','DAYBREAK_LAYOUT')};
+  G06:sh(ld('bike_layout.js','BIKE_LAYOUT')),G07:ld('afar_layout.js','AFAR_LAYOUT'),G12:sh(ld('corner_layout.js','CORNER_LAYOUT')),G14:ld('daybreak_layout.js','DAYBREAK_LAYOUT'),G00:sh(ld('shaola_layout.js','SHAOLA_LAYOUT'))};
 /* 各棟中心：照 wz_street.py 的寬度算（−68 起，前八間各加 1.2） */
 const CX=(()=>{ const i=st.indexOf("_SHOPS = [dict(n='公館燒臘'"), j=st.indexOf('_WALLC',i), ws=(st.slice(i,j).match(/w=(\d+)/g)||[]).map(t=>+t.slice(2)); let x=-68; const o={}; ws.forEach((w,k)=>{ const x1=x+w+((k<8&&k<ws.length-1)?1.2:0); o['G'+String(k).padStart(2,'0')]=(x+x1)/2; x=x1; }); return o; })();
 const z3all=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8')+['bikeshop3d.js','flower_notes3d.js'].map(f=>{ try{ return fs.readFileSync(path.join(R,'src',f),'utf8'); }catch(e){ return ''; } }).join('');

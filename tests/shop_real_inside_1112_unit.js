@@ -42,7 +42,9 @@ E.player.obj.position.z=-16; step(41); ok(s.on&&loads===2,'⑯ 再走回來：�
   ctx.ASSETS.manifest['bldg.xs_haopai']={}; ctx.GAME.G.hour=14;
   const R2=ctx.fn(E2,g2,z2,[{id:'dabu',place:'xs_dabu',key:'bldg.xs_dabu',w:7.4,d:12,h:3.4,x:-22.52,z:-16.7,ry:Math.PI/2,cx:-16.5,cz:-16.7,ex:0,ez:3.7},{id:'haopai',place:'xs_haopai',key:'bldg.xs_haopai',w:4.4,d:14,h:3.4,x:-23.52,z:-23.2,ry:Math.PI/2,cx:-16.5,cz:-23.2,ex:0,ez:2.2}],{lite:false});
   const st=n=>{ for(let i=0;i<n;i++) z2.update(0.016,E2); }; const [a1,a2]=R2.shops;
-  ok(R2.lite===false&&loads===1&&a1.built&&!a1.on&&g2.children[0].visible===false,'㉗ 一般模式：玩家在遠處，第一間（最近的）先做好、掛著不顯示');
+  ok(R2.lite===false&&loads===1&&!a1.built&&a1.building&&g2.children.length===0,'㉗a 第 3 版：載入完的那一幀不 clone、不換材質、不掛上場景（那一下就是省資源模式第一次走近的那一頓）');
+  { let k=0; while(!a1.built&&k<12){ st(1); k++; } ok(a1.built&&k>=2&&k<=8&&!a1.building,'㉗b 分幀做完（clone 一幀、零件每幀 3 個）：'+k+' 幀'); }
+  ok(loads===1&&a1.built&&!a1.on&&g2.children[0].visible===false,'㉗ 一般模式：玩家在遠處，第一間（最近的）先做好、掛著不顯示');
   ok(!a2.built,'㉙ 一次只做一間（分幀）');
   ok(inits===0&&!a1.ready,'㉘a 貼圖不在做好的那一幀一次上傳（那樣本身就是一頓）'); st(1); ok(inits===1&&compiles===0,'㉘b 一幀上傳一張貼圖'); st(3);
   { const vis0=a1.list.filter(o=>o.visible).length; st(1); const vis1=a1.list.filter(o=>o.visible).length; ok(!a1.ready&&vis1-vis0<=1&&a1.list.every(o=>!o.visible||o.frustumCulled===false),'㉘c 第 2 版：零件一幀打開一個、先不做視錐裁切（一定畫得到：頂點資料、材質跟著分幀上傳）');

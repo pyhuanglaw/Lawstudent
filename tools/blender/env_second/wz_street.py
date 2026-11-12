@@ -168,6 +168,11 @@ if SET == 'gongguan':
     # 使用者 2026-11-10 的外觀參考圖（GG-SHOPS3-ART-1110：G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社，docs/art-rebuild/second_ai/ref/gg_shops6_1110/；FLOWER-NOTES-ART-1110：G11 花序，docs/handoff/user_specs/flower_notes_ref/exterior.png）。
     # 貼圖 gg_shops6_tex.py → xs_front_tex.py 的 QG。招牌只有騎樓外面那一塊（參考圖的位置），放大到店面寬（street_fit）。公館的騎樓線照舊（一樓玻璃退 3 m）
     GG_XS.update({
+        # 公館燒臘（G00；SHOP-REAL-INSIDE 11-12）：店面照室內配置 src/data/shaola_layout.js 的 front 開——中間門 x ±0.8、兩邊窗 −3～−0.8、0.8～3（窗台 0.6、窗頂 2.6）；室內只有 6 m 寬，兩邊是實牆。
+        # 玻璃後面是遊戲放的室內模型（real；shaola_interior.glb 6×13×3.2）。沒有 street：招牌照一般的做法（空白板面，遊戲畫「公館燒臘」）
+        'G00': dict(dep=3.0, real=True, back=13.1, wallc='#e6dccb', frame='alu',
+                    cards=[('ggshaola_winl', -3.0, -0.8, 0.6, 2.6, 0.8, [-1.9]), ('ggshaola_winr', 0.8, 3.0, 0.6, 2.6, 0.8, [1.9])],
+                    door=dict(x0=-0.8, x1=0.8, y1=2.6, style='wood', frame='alu', hinge='left')),
         'G04': dict(dep=3.0, real=True, back=10.1, wallc='#f1f1ec', frame='alu', street='ggantai_sign', street_fit=8.6, street_lit=True,   # 安泰藥局：白色舊燈箱、深綠字、藥罐圖示；鋁框玻璃自動門、玻璃上一條綠線、店內白光貨架和藥師櫃台
                     cards=[('ggantai_int', -4.15, 4.15, 0.1, 2.8, 0.8, [-2.1, -0.75, 0.75, 2.1])]),
         'G08': dict(dep=3.0, real=True, back=10.1, wallc='#eef0ec', frame='alu', street='ggfruit_sign', street_fit=7.4, street_lit=True, keep=('stool_r', 'outlet'),   # 汀州鮮果：橘黃燈箱、深咖啡色手寫字；整面開著的水果行（綠色塑膠籃、木箱、吊著的香蕉、吊秤、黃燈泡）
