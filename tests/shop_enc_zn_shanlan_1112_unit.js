@@ -108,8 +108,8 @@ const d0=STORY.termDay('Y1S1',3,6), dEnd=STORY.dayOfKey('2027-08-31');
 
 // ---------- 7. 上班遇到她的資料 ----------
 { const C=SHOP_JOBS_AA828.jobs.shanlan.co;
-  check('7. 只有兩版：met（三句，有「我上次說的另一家，就是這裡。」）、new（「新來的？…」）；沒有 metEarly；第 5 則（msgN 5）；沒認識過的從大一下起；祐廷遇到她的班＝週日 14～18',
-    C.metEarly===undefined&&C.met.length===3&&/^我上次說的另一家，就是這裡。/.test(C.met[2][1])&&J(C.new)===J([['宋知寧','新來的？二樓我比較熟，找不到可以問我。']])&&C.msgN===5&&C.newFrom==='大一下'&&C.wd===7&&C.t0===14&&C.t1===18&&C.until==='大二下',J(C));
+  check('7. 只剩一版：met（三句，有「我上次說的另一家，就是這裡。」）；沒有 new、newFrom（AA_828 第 8 節第 1、2 點，企劃線 1e539b8eb9——舊期望 1d6055568c：new「新來的？…」一句、newFrom 大一下）；沒有 metEarly；第 5 則（msgN 5）；祐廷遇到她的班＝週日 14～18',
+    C.metEarly===undefined&&C.met.length===3&&/^我上次說的另一家，就是這裡。/.test(C.met[2][1])&&C.new===undefined&&C.msgN===5&&C.newFrom===undefined&&C.wd===7&&C.t0===14&&C.t1===18&&C.until==='大二下',J(C));
   check('7. 資料的第幾則和 AA_641 一樣（znMove.after）、週六那一筆和 AA_641 一樣',C.msgN===X.znMove.after&&C.at[0].wd===X.znMove.days[0]&&C.at[0].t0===X.znMove.from&&C.at[0].t1===X.znMove.to); }
 
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

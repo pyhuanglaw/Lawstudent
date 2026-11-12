@@ -79,7 +79,13 @@ const OUT=(function(){
   S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; if(typeof ECONFF!=='undefined'&&ECONFF.cutId&&ECONFF.cutId(G,o.ev)) return false;   /* AA_300：經濟系那一年不在 29 場裡的出遊不排 */ L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); S.planToast(G,o); return true; };
   /* 排進行程的提示（UX-GROUP-NOTICE-1018，使用者：「河濱烤肉有看到通知但不知道怎麼去」）：答應了群組、私訊的活動以後，說一次「時間到會跳出『出發』」；之後只說排進了什麼。
      經濟系 30 分鐘版不說（事件接事件，時間到直接帶過去）；說過幾次記在 G.flags._planHint */
+  /* 2026-11-12（SHOP-JOBS-1112 第五輪，BB：越好吃打工中跳了可昕「我們的日子」的通知）：打工的那一班正在演（JOBS.running）的時候排進來的（上班時間往前走，手機規則照樣排下一格）＝
+     提示先留著（planHeld，只在記憶體；行程本身照舊已經排進 G.outings、手機「今天」看得到），下班以後 S.tick 再補說（S.planFlush；那時候已經過了時間的不說）。讀檔＝清掉（只是提示）。*/
+  const planHeld=new Map();
+  S.working=()=>typeof JOBS!=='undefined'&&!!JOBS.running;
+  S.planFlush=function(G){ if(!planHeld.size||S.working()||!G) return 0; const L=[...planHeld.values()]; planHeld.clear(); let k=0; for(const o of L){ if(S.rec(G).some(q=>q.id===o.id&&q.state==='planned')){ S.planToast(G,o); k++; } } return k; };
   S.planToast=function(G,o){ if(!G||typeof GAME==='undefined'||!GAME.toast||GAME.titleIdle||o.silent) return; if(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)) return;
+    if(S.working()){ planHeld.set(o.id,o); return; }
     const now=G.day*24+(G.hour||0); if(o.day==null||o.h==null||(o.day*24+o.h)<=now) return; const F=G.flags||(G.flags={}); if(S._planToastAt===now&&F._planHint) return; S._planToastAt=now;   /* 同一個時間點一次排好幾個（寒暑假活動的幾個重點日）：只說第一個，不一直蓋掉 */
     const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(o.day):null, when=(o.day===G.day?'今天':(d?d.m+'/'+d.d+'（'+'日一二三四五六'[d.wd%7]+'）':''))+' '+hm(o.h), what=S.tt(o.title)||o.place||'出遊';
     GAME.toast(F._planHint?'排進行程：'+when+'　'+what:'排進行程：'+when+'　'+what+'。時間到會跳出「出發」，手機的「今天」也看得到。',F._planHint?3200:5200); F._planHint=(F._planHint|0)+1; };
@@ -115,8 +121,9 @@ const OUT=(function(){
   S.onMissed=function(GM,q){ const ev=evOf(q.ev); if(ev&&typeof ev.outingMissed==='function'){ try{ ev.outingMissed(GM.G,GM,q); }catch(e){ console.warn('outingMissed',q.id,e); } } };
   /* 每 0.5 秒（story3d.js 的 S.tick；劇情、對話進行中 S.tick 不會呼叫）*/
   let busy=false;
-  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['outings3d:busy']=()=>{ busy=false; running.clear(); afterDone.clear(); S.fromHome=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
-  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ /* BUG-TOUR-PHOTO-MISSED-1103（BB 11-03 18:22，CC tour_tap2）：導覽 15:30～16:2x、系學會合照 16:00（late 15 分）＝導覽中被記成錯過、導覽結束也不跳。
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['outings3d:busy']=()=>{ busy=false; running.clear(); afterDone.clear(); S.fromHome=false; };
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['outings3d:planHeld']=()=>{ planHeld.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
+  S.tick=function(GM){ const G=GM&&GM.G; if(G){ try{ S.planFlush(G); }catch(e){ console.warn('OUT.planFlush',e); } } if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ /* BUG-TOUR-PHOTO-MISSED-1103（BB 11-03 18:22，CC tour_tap2）：導覽 15:30～16:2x、系學會合照 16:00（late 15 分）＝導覽中被記成錯過、導覽結束也不跳。
      導覽進行中：已經到出發時間的那幾場先記 tourHeld，不算錯過；導覽結束後的第一個 tick：從現在起再給 late（至少 15 分鐘）*/
     { const touring=typeof CLS!=='undefined'&&CLS.touring, now=t(G.day,G.hour);
       for(const q of S.rec(G)){ if(q.state!=='planned') continue;

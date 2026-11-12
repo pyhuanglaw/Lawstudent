@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_shop_jobs_aa828.py（docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md@1d6055568c）。不要手改，改企劃 AA_828 再重新匯入。
+/* 自動產生：tools/story/import_shop_jobs_aa828.py（docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md@1e539b8eb9）。不要手改，改企劃 AA_828 再重新匯入。
    新店打工第一批：山嵐書店（shanlan）、南洋戲院（cinema）的告示、應徵、班表、三段工作、最後一句、員工票、上班遇到宋知寧；桌遊夜有班自動回的那一句、再應徵的規則、越好吃上班時同學來吃飯——src/jobs3d.js、src/bgnight3d.js 讀；逐句對稿 tests/shop_jobs_aa828_1112_unit.js */
 'use strict';
 const SHOP_JOBS_AA828={
- "src": "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md@1d6055568c",
+ "src": "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md@1e539b8eb9",
  "jobs": {
   "shanlan": {
    "notice": "徵門市工讀　晚班、假日班　喜歡書的優先，不喜歡也可以",
@@ -107,12 +107,6 @@ const SHOP_JOBS_AA828={
       "我上次說的另一家，就是這裡。二樓的書我比較熟，找不到就問我。"
      ]
     ],
-    "new": [
-     [
-      "宋知寧",
-      "新來的？二樓我比較熟，找不到可以問我。"
-     ]
-    ],
     "until": "大二下",
     "msgN": 5,
     "at": [
@@ -127,7 +121,6 @@ const SHOP_JOBS_AA828={
       "t1": 18.0
      }
     ],
-    "newFrom": "大一下",
     "wd": 7,
     "t0": 14.0,
     "t1": 18.0
@@ -233,7 +226,9 @@ const SHOP_JOBS_AA828={
  "reapply": {
   "all": true,
   "keepSkill": true,
-  "tutor": true
+  "tutor": true,
+  "tutorAskOnce": true,
+  "tutorNo": "不了"
  },
  "yueMeal": {
   "narr": "（門口的鈴響了。進來的人看到你穿著圍裙，停了一下。）",

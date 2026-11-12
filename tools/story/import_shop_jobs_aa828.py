@@ -17,6 +17,9 @@
   「還沒傳第 5 則」那一版（metEarly）作廢，不再匯。第 4 點（舊存檔補發第 5 則）是規則（src/shopenc3d.js）。
 第 7 節「五個小問題」：bgnBusy.dm（第 1 點：私訊約也自動回同一句）、yueMeal.dating（第 2 點：who 交往中才排進越好吃的哪一餐 slot、一學期最多 termMax 次）、
   yueMeal.own 多學姊那一句（第 3 點；其他女主角用通用句）、reapply.tutor（第 4 點：家教也比照）、jobs.cinema.ticket.keep（第 5 點：再應徵不用重新滿班數）。
+第 8 節「第四輪合併後五問」（1e539b8eb9；和第 6 節第 3 點衝突的以第 8 節為準）：
+  第 1、2 點：沒認識過宋知寧的玩家她不出現在山嵐、「新來的？…」那一版不演——jobs.shanlan.co 不再有 new、newFrom（稿上第 4 節第 7 點、第 6 節第 3 點的字還在，照舊對一次，只是不匯）；
+  第 5 點：家教回「不了」以後不再問——reapply.tutorAskOnce＝true、reapply.tutorNo＝那個回答的字（流程 src/jobs3d.js S.tutorReAsk）。第 3、4 點是「照現在的做法」，不進資料。
 規則的字（第 3 節「給 LAWWW」、每一節的說明）是給實作看的，不進遊戲（流程在 src/jobs3d.js）。台詞一字不改；有名字說的話拿掉外面那一對「」（對話框已經寫了是誰說的）；
 選項、旁白照稿。白名單照 import_guard；讀稿照 read_fix。
 用法：python3 tools/story/import_shop_jobs_aa828.py [--ref <commit>] [--check]"""
@@ -154,7 +157,16 @@ def build(md):
     sun = at[1]
     if not any(q['wd'] == sun['wd'] and q['t0'] == sun['t0'] and q['t1'] == sun['t1'] for q in jobs['shanlan']['sched']):
         raise SystemExit('第 6 節第 2 點：山嵐的班表沒有那一班')
-    co['msgN'], co['at'], co['newFrom'] = int(a1.group(1)), at, a3.group(5)
+    co['msgN'], co['at'] = int(a1.group(1)), at
+    # ---- 第 8 節「第四輪合併後五問」第 1、2 點：沒認識過她的＝不出現在山嵐，「新來的？」那一版不演（取代第 6 節第 3 點的後半）----
+    q8 = section(md, '## 8. 回 LAWWW')
+    h1 = need(re.search(r'^1\. \*\*沒認識過(\S+?)的玩家，她不出現在山嵐。\*\*.*第 6 節第 3 點「完全沒認識過她＝她從(大[一二三四][上下])起就在山嵐，出『(.+?)…』」\*\*作廢\*\*', q8, re.M), '第 8 節第 1 點（沒認識過她不出現在山嵐）')
+    h2 = need(re.search(r'^2\. 所以「(.+?)」那一版不演，([A-Z_]+) 不用動。祐廷上班遇到她只剩一版：傳過第 (\d+) 則的「(.+?)」那一組。\s*$', q8, re.M), '第 8 節第 2 點（只剩一版）')
+    new1 = co['new'][0][1]
+    if fx(h1.group(1)) != who or h1.group(2) != a3.group(5) or not new1.startswith(fx(h1.group(3))) or fx(h1.group(3)) != fx(h2.group(1)) \
+            or h2.group(2) != co['flag'] or int(h2.group(3)) != co['msgN'] or fx(h2.group(4)) != said_met[0]:
+        raise SystemExit('第 8 節第 1、2 點：人、學期、旗標、第幾則或句子和第 4、6 節不一樣')
+    del co['new']
     co['wd'], co['t0'], co['t1'] = sun['wd'], sun['t0'], sun['t1']
     c4 = need(re.search(r'^4\. 桌遊夜：系統自動當沒空時，群組裡祐廷自動回一句「(.+?)」，(\S+?)照舊回「(.+?)」——玩家不用操作。\s*$', q5, re.M), '第 5 節第 4 點（桌遊夜自動回）')
     extra = {'bgnBusy': {'me': fx(c4.group(1)), 'who': fx(c4.group(2)), 're': fx(c4.group(3))}}
@@ -188,6 +200,9 @@ def build(md):
     if int(b5.group(1)) != jobs['cinema']['ticket']['after']:
         raise SystemExit('第 7 節第 5 點：班數和第 2 節不一樣')
     jobs['cinema']['ticket']['keep'] = True
+    # ---- 第 8 節第 5 點：家教回「不了」以後不再問 ----
+    h5 = need(re.search(r'^5\. 家教：回「(.+?)」以後\*\*不再問\*\*（只問一次）。', q8, re.M), '第 8 節第 5 點（家教只問一次）')
+    extra['reapply']['tutorAskOnce'], extra['reapply']['tutorNo'] = True, fx(h5.group(1))
     return jobs, extra
 
 

@@ -44,7 +44,7 @@ const msgs=th=>(H.G.msgs||[]).filter(m=>!th||m.th===th);
 const answer=(tag,i)=>{ const m=(H.G.msgs||[]).find(x=>x.tag===tag&&x.ask); if(!m) return false; return PHONE.answer(H.G,m.ask.id,i)!=null; };
 const tick=()=>{ for(let i=0;i<3;i++){ STORY.phoneRules(GM); PHONE.tick(H.G); } };
 const noGift=O=>O.filter(t=>!/買禮物/.test(t));   /* 售票口的買禮物（GIFT-HOLIDAY-1110）那一項看日子有沒有：不在這裡比 */
-const DOC='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA='1d6055568c';   /* 舊：d8afcca6ed（第 1～5 節一樣；多第 6、7 節）、b84e779563（第 1～4 節一樣；多第 5 節）、be3b9c9e4（第 1～3 節一樣；多第 4 節）*/
+const DOC='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA='1e539b8eb9', NEW8='新來的？二樓我比較熟，找不到可以問我。';   /* NEW8＝稿上還在（第 4、6 節）、第 8 節說不演的那一句：只用來對稿，遊戲的資料沒有。舊：1d6055568c（第 1～7 節一樣；多第 8 節）、d8afcca6ed（第 1～5 節一樣；多第 6、7 節）、b84e779563（第 1～4 節一樣；多第 5 節）、be3b9c9e4（第 1～3 節一樣；多第 4 節）*/
 const D8=typeof SHOP_JOBS_AA828!=='undefined'?SHOP_JOBS_AA828:null, has=typeof JOBS!=='undefined'&&!!D8&&JOBS.KEYS.includes('shanlan')&&JOBS.KEYS.includes('cinema');
 
 (async()=>{
@@ -69,14 +69,14 @@ await sec(0,async()=>{
   inDoc(D8.jobs.cinema.ticket.opt,true); inDoc(D8.jobs.cinema.ticket.line); inDoc(D8.jobs.cinema.alison,true);
   { const T=D8.jobs.cinema.ticket.take, C=D8.jobs.shanlan.co;   /* 第 4 節第 6、7 點 */
     inDoc('拿員工票多一句：'+T[0]+'：「'+T[1]+'」');
-    inDoc('有 '+C.flag+'（在別的地方認識過她）→ '+C.who+'：'+C.met.map(x=>x[0]?'「'+x[1]+'」':x[1]).join('')+'／沒有 '+C.flag+' → '+C.who+'：'+C.new.map(x=>x[0]?'「'+x[1]+'」':x[1]).join('')+'她的學期只到'+C.until+'，之後不出。');
+    inDoc('有 '+C.flag+'（在別的地方認識過她）→ '+C.who+'：'+C.met.map(x=>x[0]?'「'+x[1]+'」':x[1]).join('')+'／沒有 '+C.flag+' → '+C.who+'：「'+NEW8+'」她的學期只到'+C.until+'，之後不出。');
     inDoc(C.seg+'那一段後面多一句（一次）');
     check('0. 第 4 節第 6 點：售票員「員工票。站最後面，不要擋到走道。」',J(T)===J(['售票員','員工票。站最後面，不要擋到走道。']),J(T));
-    check('0. 第 4 節第 7 點：宋知寧兩種——認識過三句（中間一句旁白）、不認識一句；上架那一段後面；看 SHOP_ZN_MET；到大二下',C.who==='宋知寧'&&C.seg==='上架'&&C.flag==='SHOP_ZN_MET'&&C.until==='大二下'&&J(C.met)===J([['宋知寧','……又是你。'],[null,'（她抱著一疊書，看了你的名牌一眼。）'],['宋知寧','我上次說的另一家，就是這裡。二樓的書我比較熟，找不到就問我。']])&&J(C.new)===J([['宋知寧','新來的？二樓我比較熟，找不到可以問我。']]),J(C)); }
+    check('0. 第 4 節第 7 點：宋知寧——認識過三句（中間一句旁白）；不認識的那一句不匯（第 8 節第 2 點「那一版不演」——舊期望 1d6055568c：new 一句「新來的？…」）；上架那一段後面；看 SHOP_ZN_MET；到大二下',C.who==='宋知寧'&&C.seg==='上架'&&C.flag==='SHOP_ZN_MET'&&C.until==='大二下'&&J(C.met)===J([['宋知寧','……又是你。'],[null,'（她抱著一疊書，看了你的名牌一眼。）'],['宋知寧','我上次說的另一家，就是這裡。二樓的書我比較熟，找不到就問我。']])&&C.new===undefined,J(C)); }
   { const C=D8.jobs.shanlan.co, B=D8.bgnBusy||{}, Y=D8.yueMeal||{done:{},own:{}}, tx=L=>(L||[]).map(x=>x[0]?'「'+x[1]+'」':x[1]).join('');   /* 第 5 節第 1、2、4、5、6 點 */
     /* 第 5 節第 1、2 點被第 6 節取代（1d6055568c）：她的班、兩版讀第 6 節；「還沒傳第 5 則」那一版作廢、資料不再有 metEarly */
     inDoc('**第 '+C.msgN+' 則訊息發了以後，她週六 14:00～17:00 搬到山嵐**'); inDoc('**第 '+C.msgN+' 則以後她週日 14:00～18:00 也在山嵐**');
-    inDoc('完全沒認識過她（沒有 '+C.flag+'）＝她從'+C.newFrom+'起就在山嵐（週六、週日），出「'+C.new[0][1]+'」'); inDoc('補發第 '+C.msgN+' 則');
+    inDoc('完全沒認識過她（沒有 '+C.flag+'）＝她從大一下起就在山嵐（週六、週日），出「'+NEW8+'」');   /* 稿上第 6 節第 3 點的字還在；第 8 節第 1 點作廢＝資料不再有 new／newFrom */ inDoc('補發第 '+C.msgN+' 則');
     /* 第 7 節五個小問題 */
     inDoc('私訊約的桌遊夜撞到班：一樣自動回「'+B.me+'」'); inDoc('**交往中**才把'+((Y.dating||{}).who)+'排進越好吃晚餐的名單'); inDoc('一學期最多兩次');
     inDoc('學姊例外，她說：「'+Y.own['學姊']+'」'); inDoc('舊打工全部比照再應徵（六間店＋補習班、事務所、家教）'); inDoc('再應徵以後不用重新滿 '+D8.jobs.cinema.ticket.after+' 班（做過的保留）');
@@ -84,9 +84,9 @@ await sec(0,async()=>{
     inDoc('**全部打工比照**'); inDoc('熟練度**保留**');
     inDoc('改這一組通用的（每人一次）：'+Y.narr+'對方：「'+Y.ask+'」→ 祐廷：「'+Y.me+'」→'+Y.done.m+'「他」照對方性別換成他／她。');
     inDoc('只出旁白「'+Y.done.m+'」，不再問'); inDoc('阿哲：「'+Y.own['阿哲']+'」／可昕：「'+Y.own['可昕']+'」；其他人共用「'+Y.ask+'」');
-    check('0. 第 6 節：第 5 則以後她在山嵐＝週六 14～17、週日 14～18；祐廷遇到她的那一班＝週日；沒認識過她的＝大一下起；「還沒傳第 5 則」那一版作廢（資料沒有 metEarly——舊期望 d8afcca6ed：有三句）',C.wd===7&&C.t0===14&&C.t1===18&&C.msgN===5&&J(C.at)===J([{wd:6,t0:14,t1:17},{wd:7,t0:14,t1:18}])&&C.newFrom==='大一下'&&C.metEarly===undefined&&!fs.readFileSync(path.join(H.ROOT,'src/data/shop_jobs_aa828.js'),'utf8').includes('metEarly'),J(C));
+    check('0. 第 6 節：第 5 則以後她在山嵐＝週六 14～17、週日 14～18；祐廷遇到她的那一班＝週日；沒認識過她的＝不出現在山嵐（資料沒有 new／newFrom——舊期望 1d6055568c：newFrom 大一下、new 一句；AA_828 第 8 節第 1、2 點作廢）；「還沒傳第 5 則」那一版作廢（資料沒有 metEarly——舊期望 d8afcca6ed：有三句）',C.wd===7&&C.t0===14&&C.t1===18&&C.msgN===5&&J(C.at)===J([{wd:6,t0:14,t1:17},{wd:7,t0:14,t1:18}])&&C.newFrom===undefined&&C.new===undefined&&C.metEarly===undefined&&!fs.readFileSync(path.join(H.ROOT,'src/data/shop_jobs_aa828.js'),'utf8').includes('metEarly'),J(C));
     check('0. 第 7 節：私訊約也自動回（bgnBusy.dm）、可昕交往中才排進越好吃晚餐一學期最多兩次（yueMeal.dating）、學姊「你在這裡。幾點下班？」、家教也比照再應徵（reapply.tutor）、員工票班數保留（ticket.keep）',D8.bgnBusy.dm===true&&J(D8.yueMeal.dating)===J({who:'可昕',slot:'dinner',termMax:2})&&D8.yueMeal.own['學姊']==='你在這裡。幾點下班？'&&D8.reapply.tutor===true&&D8.jobs.cinema.ticket.keep===true,J([D8.bgnBusy,D8.yueMeal,D8.reapply,D8.jobs.cinema.ticket]));
-    check('0. 第 5 節第 4、5 點：桌遊夜「這次不行，我有班。」／明軒「好，兩個禮拜後還有。」（和 BGN 原本那一句一樣）；再應徵全部比照、熟練度保留',J(D8.bgnBusy)===J({me:'這次不行，我有班。',who:'明軒',re:'好，兩個禮拜後還有。',dm:true})&&D8.bgnBusy.re===BGN.LINES.no&&J(D8.reapply)===J({all:true,keepSkill:true,tutor:true}),J([D8.bgnBusy,D8.reapply]));
+    check('0. 第 5 節第 4、5 點：桌遊夜「這次不行，我有班。」／明軒「好，兩個禮拜後還有。」（和 BGN 原本那一句一樣）；再應徵全部比照、熟練度保留；家教回「不了」以後不再問（第 8 節第 5 點：tutorAskOnce、tutorNo——舊期望 1d6055568c：reapply 只有 all、keepSkill、tutor）',J(D8.bgnBusy)===J({me:'這次不行，我有班。',who:'明軒',re:'好，兩個禮拜後還有。',dm:true})&&D8.bgnBusy.re===BGN.LINES.no&&J(D8.reapply)===J({all:true,keepSkill:true,tutor:true,tutorAskOnce:true,tutorNo:'不了'}),J([D8.bgnBusy,D8.reapply]));
     check('0. 第 5 節第 6 點：越好吃上班版——旁白、「你在這裡打工喔？」、祐廷「對。要吃什麼？」、「（你幫他／她點了餐。）」；阿哲、可昕各一句',J(D8.yueMeal)===J({narr:'（門口的鈴響了。進來的人看到你穿著圍裙，停了一下。）',ask:'你在這裡打工喔？',me:'對。要吃什麼？',done:{m:'（你幫他點了餐。）',f:'（你幫她點了餐。）'},own:{'阿哲':'欸！你在這裡打工？那我可以多加肉嗎？','可昕':'你在這裡打工？……排幾點到幾點？','學姊':'你在這裡。幾點下班？'},dating:{who:'可昕',slot:'dinner',termMax:2}}),J(D8.yueMeal)); }
   check('0. 逐句對稿：'+n+' 句都在 AA_828@'+SHA+' 上（一字不差）',n===58&&miss.length===0,n+' '+J(miss));   /* 舊：50（第 5 節第 1、2 點兩處換成第 6 節四處、多第 7 節六處）、42（多第 5 節八處）、39（多第 4 節三處）*/
   /* 反過來：稿上兩節的旁白（…）和「…」選項，遊戲資料都有（沒有漏句）*/
@@ -128,7 +128,7 @@ await sec(2,async()=>{ const d0=TD('Y1S1',5,2); fresh(d0,15,'xs_shanlan'); H.E.i
 await sec(3,async()=>{ const wed=TD('Y1S1',6,3), sun=TD('Y1S1',6,7); fresh(wed,17,'dorm'); hire('shanlan',[3,7]);
   check('3. 班表的時間：週三 18～22、週日 14～18',J(JOBS.hrs('shanlan',wed))===J([18,22])&&J(JOBS.hrs('shanlan',sun))===J([14,18]));
   let pay=await shift('shanlan',wed,['「先上新書平台。」','「問要不要袋子。」','「把坐地板的人身邊的書收回去。」']);
-  check('3. 第一班（新手，週三晚班）：三段各一句旁白＋選了的那一句，照順序；宋知寧不在週三晚班＝沒有她那一句（AA_828 第 5 節第 1 點——舊期望 b84e779563：這一班上架後面有她一句）；大一上她還不在山嵐（第 6 節第 3 點：沒認識過她的＝大一下起）',J(L())===J([S8.segs[0].nov,S8.segs[0].ch[0][1],S8.segs[1].nov,S8.segs[1].ch[0][1],S8.segs[2].nov,S8.segs[2].ch[0][1],S8.end['3'][0]])&&JOBS.rec(H.G)._meta.znCo==null&&!JOBS.znCoOn(H.G,wed)&&!JOBS.znCoOn(H.G,sun)&&JOBS.znCoOn(H.G,TD('Y1S2',3,7))&&!JOBS.znCoOn(H.G,TD('Y1S2',3,3)),J(L()));
+  check('3. 第一班（新手，週三晚班）：三段各一句旁白＋選了的那一句，照順序；宋知寧不在週三晚班＝沒有她那一句（AA_828 第 5 節第 1 點——舊期望 b84e779563：這一班上架後面有她一句）；沒認識過她的＝她不出現在山嵐（第 8 節第 1 點——舊期望 1d6055568c：大一下的週日起在）',J(L())===J([S8.segs[0].nov,S8.segs[0].ch[0][1],S8.segs[1].nov,S8.segs[1].ch[0][1],S8.segs[2].nov,S8.segs[2].ch[0][1],S8.end['3'][0]])&&JOBS.rec(H.G)._meta.znCo==null&&!JOBS.znCoOn(H.G,wed)&&!JOBS.znCoOn(H.G,sun)&&!JOBS.znCoOn(H.G,TD('Y1S2',3,7))&&!JOBS.znCoOn(H.G,TD('Y1S2',3,3)),J(L()));
   check('3. 小選擇的字照稿（每段兩個）',J(H.opts)===J(S8.segs.map(g=>g.ch.map(c=>c[0])))&&J(H.opts[0])===J(['「先上新書平台。」','「先上二樓法律區。」']),J(H.opts));
   check('3. 晚班最後一句「（十點。店長把燈關掉一半，你把推車推回倉庫。）」；784 元、toast「山嵐書店 薪水 784 元」；22:00 下班',said('（十點。店長把燈關掉一半，你把推車推回倉庫。）')&&pay===784&&toasts.includes('山嵐書店 薪水 784 元')&&Math.abs(H.G.hour-22)<1e-6,pay+' '+H.G.hour+J(toasts));
   check('3. 晚班做到打烊：下班直接在店門口外面（新生南路）；沒有 AA_700「我們今天要打烊了。」',J(H.entered)===J(['xinsheng'])&&H.G.zone==='xinsheng'&&!said('我們今天要打烊了。')&&(typeof XSCLOSE==='undefined'||XSCLOSE.staffToday(H.G,'xs_shanlan')),J(H.entered));
@@ -293,9 +293,9 @@ await sec(10,async()=>{
     check('10. …那一個週日班：「……又是你。」、旁白、「我上次說的另一家，就是這裡。…」（'+nm+'）',J(T3.slice(2,5))===J([['知寧','……又是你。'],[null,'（她抱著一疊書，看了你的名牌一眼。）'],['知寧','我上次說的另一家，就是這裡。二樓的書我比較熟，找不到就問我。']])&&JOBS.rec(H.G)._meta.znCo===wed+7,J(T3.slice(0,6))); }
   fresh(wed-4,17,'dorm',{SHOP_ZN_MET:true,SHOP_ZN_BK:{c0:wed-60,sent:[0,1,2,3,4],terms:{},last:wed-20,moved:wed-20}}); hire('shanlan',[3]); await shift('shanlan',wed-4); check('10. 只排週三晚班：她不在＝沒有那一句、也不記（等第一次週日班）',H.said.length===7&&JOBS.rec(H.G)._meta.znCo==null&&!JOBS.znCoDue(H.G,wed-4)&&JOBS.znCoDue(H.G,wed),J(L()));
   { fresh(wed,13,'dorm'); hire('shanlan',[7]); await shift('shanlan',wed,['「先上二樓法律區。」','「問要不要袋子。」','「把亂放的書歸位。」']);
-    check('10. 完全沒認識過她、大一下的週日班：上架那一段後面她一句「新來的？二樓我比較熟，找不到可以問我。」（名字「宋知寧」）；記 znCo；大一上還不在',JOBS.rec(H.G)._meta.znCo===wed&&J(L().slice(0,4))===J([S8.segs[0].nov,S8.segs[0].ch[1][1],'宋知寧：新來的？二樓我比較熟，找不到可以問我。',S8.segs[1].nov])&&H.said.length===8&&!JOBS.znCoOn(H.G,TD('Y1S1',8,7))&&JOBS.znCoOn(H.G,TD('Y1S2',1,7)),J(L()));
-    await shift('shanlan',wed+7); check('10. 只說一次：下一個週日班沒有',H.said.length===7&&!H.said.some(s=>s.who==='宋知寧')); }
-  const last=TD('Y2S2',10,7); fresh(last,13,'dorm'); hire('shanlan',[7]); check('10. 她到大二下：大二下的週日班還會遇到（週三不會）',JOBS.znCoDue(H.G,last)&&!JOBS.znCoDue(H.G,last-4)&&!JOBS.znCoOn(H.G,CALENDAR.termDays('Y2S2').to+7));
+    check('10. 完全沒認識過她、大一下的週日班：她不出現在山嵐＝沒有那一句、不記、SHOP_ZN_MET 不動（AA_828 第 8 節第 1、2 點——舊期望 1d6055568c：上架那一段後面她一句「新來的？…」、記 znCo）',JOBS.rec(H.G)._meta.znCo==null&&J(L().slice(0,3))===J([S8.segs[0].nov,S8.segs[0].ch[1][1],S8.segs[1].nov])&&H.said.length===7&&!H.said.some(s=>s.who==='宋知寧'||/新來的/.test(s.t))&&H.G.flags.SHOP_ZN_MET==null&&!JOBS.znCoOn(H.G,TD('Y1S1',8,7))&&!JOBS.znCoOn(H.G,TD('Y1S2',1,7)),J(L()));
+    await shift('shanlan',wed+7); check('10. …下一個週日班也沒有',H.said.length===7&&!H.said.some(s=>s.who==='宋知寧')); }
+  const last=TD('Y2S2',10,7); fresh(last,13,'dorm',{SHOP_ZN_MET:true,SHOP_ZN_BK:{c0:last-60,sent:[0,1,2,3,4],terms:{},last:last-20,moved:last-20}}); hire('shanlan',[7]); check('10. 她到大二下：（認識過、傳過第 5 則的）大二下的週日班還會遇到（週三不會）——設定多了認識過她：沒認識過的現在不演（第 8 節）',JOBS.znCoDue(H.G,last)&&!JOBS.znCoDue(H.G,last-4)&&!JOBS.znCoOn(H.G,CALENDAR.termDays('Y2S2').to+7));
   const y3=TD('Y3S1',2,7); fresh(y3,13,'dorm'); hire('shanlan',[7]); await shift('shanlan',y3);
   check('10. 大三上以後第一次在山嵐上班：她不出（沒有那一句、也不記）',!JOBS.znCoOn(H.G,y3)&&H.said.length===7&&!H.said.some(s=>s.who==='宋知寧'||s.who==='知寧')&&JOBS.rec(H.G)._meta.znCo==null,J(L()));
   const g2=JSON.parse(J(H.G)); check('10. 存檔 JSON 來回不壞',J(g2.jobs)===J(H.G.jobs)); });
@@ -316,9 +316,11 @@ await sec(12,async()=>{ const U=WZ_JOBS_DATA.tutor, stop=TD('Y1S2',8,3), s1=CALE
   at(s2,13); run(); check('12. 再接以後的下一個學期：照原本開學那一則問（tutor_term_Y2S2），不是再應徵那一則',asks(/^tutor_term_Y2S2$/).length===1&&asks(/^tutor_re_Y2S2$/).length===0);
   fresh(s1,13,'dorm',base()); run(); PHONE.answer(H.G,'tutor_re_Y2S1',1); run();
   check('12. 回「不了」：明軒原本那一句、照舊停著（TUTOR_STOP 不動）',(H.G.msgs||[]).some(x=>x.th===TH&&x.text===U.stopReply)&&H.G.flags.TUTOR_STOP===stop&&H.G.flags.TUTOR_RE==null&&JOBS.at(H.G,'tutor')===null);
-  at(s2,13); run(); check('12. …再下一個學期開學還可以（再問一次）',asks(/^tutor_re_Y2S2$/).length===1);
-  fresh(s2,13,'dorm',Object.assign(base(),{TUTOR_TERM_Y2S1:'stop',TUTOR_STOP:s1})); run(); PHONE.answer(H.G,'tutor_re_Y2S2',0); run(); run();
-  check('12. 開學回「不了」停的（TUTOR_TERM_Y2S1 stop）：隔一個學期再接——舊的那一筆改記 stopped，不會又被當成停',H.G.flags.TUTOR_TERM_Y2S1==='stopped'&&H.G.flags.TUTOR_TERM_Y2S2==='go'&&H.G.flags.TUTOR_STOP==null&&!!JOBS.at(H.G,'tutor'),J([H.G.flags.TUTOR_TERM_Y2S1,H.G.flags.TUTOR_TERM_Y2S2,H.G.flags.TUTOR_STOP]));
+  at(s2,13); run(); check('12. …回過「不了」以後不再問（AA_828 第 8 節第 5 點；舊期望 1d6055568c：再下一個學期開學再問一次）',asks(/^tutor_re_Y2S2$/).length===0&&H.G.flags.TUTOR_RE_NO===s1);
+  fresh(s2,13,'dorm',Object.assign(base(),{TUTOR_TERM_Y2S1:'stop',TUTOR_STOP:s1})); run(); run();
+  check('12. 開學回「不了」停的（TUTOR_TERM_Y2S1 stop）：之後不再問（AA_828 第 8 節第 5 點；舊期望 1d6055568c：隔一個學期再問一次）',asks(/^tutor_re_/).length===0&&H.G.flags.TUTOR_TERM_Y2S1==='stop'&&H.G.flags.TUTOR_STOP===s1&&JOBS.at(H.G,'tutor')===null);
+  H.G.flags.TUTOR_RE_ANS='go'; run(); run();   /* 舊存檔：新規則以前已經收到再問的那一則、現在才回「來」*/
+  check('12. 舊存檔（新規則以前已經收到再問的那一則）回「來」：照舊再接——舊的那一筆改記 stopped，不會又被當成停',H.G.flags.TUTOR_TERM_Y2S1==='stopped'&&H.G.flags.TUTOR_TERM_Y2S2==='go'&&H.G.flags.TUTOR_STOP==null&&!!JOBS.at(H.G,'tutor'),J([H.G.flags.TUTOR_TERM_Y2S1,H.G.flags.TUTOR_TERM_Y2S2,H.G.flags.TUTOR_STOP]));
   fresh(s1,13,'dorm',Object.assign(base(),{TUTOR_STOP:s1+3})); at(s1+10,13); run(); check('12. 這個學期才停的：這個學期不問',asks(/^tutor_re_/).length===0);
   fresh(s1+20,15,'dorm',base()); run(); check('12. 舊存檔（上學期停的、現在學期中）：讀檔那一天補問',asks(/^tutor_re_Y2S1$/).length===1);
   fresh(s1,13,'dorm',Object.assign(base(),{TUTOR_DONE:stop})); run(); const a1=asks(/^tutor_re_/).length;

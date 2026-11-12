@@ -214,6 +214,23 @@ const SHOPLIFE=(function(){
     if(!e){ const sa=S.seatAt(p.zone,p.id,G.day|0); if(!sa) return null; const wd=G.weekday!=null?G.weekday:wdOf(G.day);
       e={days:[wd],from:p.t0,to:p.t1,zone:p.zone,act:'eat',seatAt:sa,noPair:true,shopMeal:p.slot,note:'SHOP-LIFE-AUDIT-1112 吃飯時間在店裡（第一句在 src/shopmeet3d.js）'}; if(entMemo.size>300) entMemo.clear(); entMemo.set(key,e); }
     return e; };
+  /* 祐廷在店裡上班、同學來吃飯的那一段（src/jobs3d.js S.mealBring，2026-11-12 第五輪；BB：只有旁白、店裡 3D 沒有人）：
+     上班那一段的時間停在那一段開始的時候，來吃飯的人照名單可能晚幾十分鐘才到——那一段要演＝他這時候就進店。
+     S.bringIn(GM,id,ent)：把他那一筆作息（ent：這一班裡他在這間店吃飯的那一筆）從現在起就算數（holds，只在記憶體、不進存檔；到 ent.to 為止、只有那一天、那一間店），
+       再照平常「待在店裡補人」跑一次（STORY.refreshSchedule）：他從門口走進來、走到位子坐下（populateSchedule 原本的做法）；之後照同一筆作息留在位子上吃，時段結束照平常起身走出去。
+     S.schedHold（STORY.SCHED_X 的第一個：這一段已經演出來了，他人就在這裡）。讀檔＝holds 清掉（LOADLOCKS）：照名單原本的時間。*/
+  const holds=new Map();
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['shoplife3d:holds']=()=>{ holds.clear(); };
+  S.schedHold=function(c,G){ if(!holds.size||!c||!c.id||!G) return null; const H=holds.get(c.id); if(!H) return null; const t=dayHour(G);
+    if(t.day!==H.day||t.h>=H.ent.to||t.h<H.ent.from){ if(t.day!==H.day||t.h>=H.ent.to) holds.delete(c.id); return null; } return H.ent; };
+  S.bringIn=function(GM,id,ent){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!ent||!ent.zone||ent.zone!==G.zone||typeof ent.to!=='number') return null; const t=dayHour(G); if(t.h>=ent.to) return null;
+    const cur=holds.get(id); if(!cur||cur.day!==t.day||cur.src!==ent) holds.set(id,{day:t.day,src:ent,ent:Object.assign({},ent,{from:Math.min(typeof ent.from==='number'?ent.from:t.h,t.h),days:[G.weekday!=null?G.weekday:wdOf(t.day)]})});
+    S.installHold(); const find=()=>(E.npcs||[]).find(n=>n&&n.charId===id)||(GM.npc&&GM.npc[id])||null; let n=find();
+    if(!n&&typeof STORY!=='undefined'&&STORY.refreshSchedule){ try{ STORY.refreshSchedule(GM); }catch(e){ console.warn('SHOPLIFE.bringIn',e); } n=find(); }
+    if(!n) holds.delete(id);   /* 帶不進來（沒有空位…）＝不留著那一筆 */
+    return n; };
+  S.installHold=function(){ if(typeof STORY==='undefined'||!Array.isArray(STORY.SCHED_X)) return false; const X=STORY.SCHED_X; if(AP.indexOf.call(X,S.schedHold)===0) return true;
+    const j=AP.indexOf.call(X,S.schedHold); if(j>0) X.splice(j,1); AP.unshift.call(X,S.schedHold); return true; };
   /* 這一天這一餐真的會出現的人（看得到原本的作息；給測試、盤點表）*/
   S.who=function(G,slotId){ const t=dayHour(G); if(!S.dayOk(G,t.day)) return []; const out=[]; for(const p of S.plan(t.day,slotId)){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[p.id]; if(!c) continue; const g=Object.assign({},G,{hour:(p.t0+p.t1)/2}); if(!S.why(g,c,p)) out.push(p); } return out; };
 
@@ -223,7 +240,7 @@ const SHOPLIFE=(function(){
   let depth=0;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['shoplife3d:depth']=()=>{ depth=0; };
   const AP=Array.prototype;
-  const wrapFn=f=>{ if(typeof f!=='function'||f===S.sched||f._shopLifeWrap) return f; const w=function(c,G){ depth++; try{ return f(c,G); } finally { depth--; } }; w._shopLifeWrap=f; return w; };
+  const wrapFn=f=>{ if(typeof f!=='function'||f===S.sched||f===S.schedHold||f._shopLifeWrap) return f; const w=function(c,G){ depth++; try{ return f(c,G); } finally { depth--; } }; w._shopLifeWrap=f; return w; };
   S.wrapOthers=function(){ if(typeof STORY==='undefined'||!Array.isArray(STORY.SCHED_X)) return 0; let k=0; const X=STORY.SCHED_X;
     for(let i=0;i<X.length;i++){ const w=wrapFn(X[i]); if(w!==X[i]){ X[i]=w; k++; } }
     const j=AP.indexOf.call(X,S.sched); if(j>=0&&j!==X.length-1){ X.splice(j,1); AP.push.call(X,S.sched); }   /* 永遠排最後 */
@@ -247,7 +264,7 @@ const SHOPLIFE=(function(){
         try{ S.placeTenders(zoneId,GM); S.placeL118Tenders(zoneId,GM); S.tendSync(GM); S.closeClerks(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeTenders',e); }
         return r; }; }
     return true; };
-  S._reset=()=>{ guard=false; depth=0; planMemo.clear(); entMemo.clear(); };
+  S._reset=()=>{ guard=false; depth=0; planMemo.clear(); entMemo.clear(); holds.clear(); };
   S.install();
   return S;
 })();
