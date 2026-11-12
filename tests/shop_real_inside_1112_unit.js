@@ -86,4 +86,18 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
   ok(/shop_shutter_'\+s\.id/.test(z3)&&/s\.shutter\.visible=!isOpen\(s\)/.test(z3)&&/m\.visible=!isOpen\(s\)/.test(z3),'㉟ 打烊拉下鐵捲門：每一間在玻璃外放一片（shop_shutter_<店>），營業中藏、打烊顯示，每一拍照營業時間更新（BB 11-12：鮮果打烊沒有鐵門）'); }
 { const z3=fs.readFileSync(path.join(__dirname,'..','src/zones3d.js'),'utf8');
   ok(/if\(s\.kx&&s\.kx!==1\) r\.scale\.x=s\.kx;/.test(z3),'㊱ kx：室內可以在寬度方向縮一點（公館：牆厚會伸進隔壁店）'); }
+/* 走到店前的那一間優先（BB 11-12：第一次走到 SUNNY SIDE 前 3 m，B7 built:false——四間排隊預載，它排最後）。四間、一般模式，人一進區域就站在最後一間前面 3 m：
+   改之前要等前三間（遠的）各自建完才輪到；改之後正在建的遠店先放掉、眼前這一間馬上建，而且一幀做 4 件 */
+{ let ld=0; const g2={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; }};
+  const z2={update:null}, E2={zone:z2,player:{obj:{position:new V3(-200,0,0)}}};
+  const c2={THREE:{Box3,Vector3:V3,Color,MeshBasicMaterial:Basic},ASSETS:{manifest:{k0:{},k1:{},k2:{},k3:{}},loadOne(){ ld++; return {then(f){ f({scene:mkScene()}); return {catch(){}}; }}; }},GAME:{G:{hour:14,day:3}},PLACES:{isOpen:()=>true,typhoonClosed:()=>false},console};
+  vm.createContext(c2); vm.runInContext(src.slice(a,b)+'; this.fn=shopInsideReal;',c2);
+  const mk=(id,x)=>({id,place:'p'+id,key:'k'+id,w:7.4,d:12,h:3.4,x,z:-10,ry:0,cx:x,cz:-4,ex:3,ez:0});
+  const R2=c2.fn(E2,g2,z2,[mk(0,-100),mk(1,-60),mk(2,-20),mk(3,60)],{lite:false,shutter:false}); const S3=R2.shops[3], st=n=>{ for(let i=0;i<n;i++) z2.update(0.016,E2); };
+  st(3);   /* 人還在很遠：第一間（最近的那一間）已經開始預載 */
+  const busy0=R2.shops.find(q=>q.building||q.built); E2.player.obj.position.x=60; E2.player.obj.position.z=-1;   /* 走到（或被放到）第四間前面 3 m */
+  let n=0; while(!(S3.built&&S3.ready&&S3.on)&&n<400){ st(1); n++; }
+  ok(!!busy0&&busy0!==S3,'㊳ 人還沒到的時候，先預載的是別間（'+(busy0&&busy0.id)+'）');
+  ok(S3.on&&n<=40,'㊴ 走到第四間前面 3 m：'+n+' 幀以內它就建好、顯示（改之前要先等別間建完、一幀一件，60 幀以上）');
+  st(400); ok(R2.shops.every(q=>q.built&&q.ready)&&R2.shops.filter(q=>q.on).length===1,'㊵ 被放掉的那一間之後照樣排回來建好；只有眼前那一間顯示'); }
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);

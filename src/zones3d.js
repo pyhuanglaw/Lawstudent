@@ -1621,9 +1621,15 @@ const Z3 = (function(){
     const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return; for(const s of shops) s.dd=dist(s,p); const by=shops.slice().sort((a,b)=>a.dd-b.dd);
       if(lite){ const n0=by[0]; for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if((s.built||s.building)&&(s!==n0||s.dd>s.far)) detach(s); } }
       else{ for(const s of shops){ if(s.built){ if(s.dd<s.near){ s.want=true; if(s.ready&&!s.on) show(s,true); } else if(s.dd>s.far){ s.want=false; if(s.on) show(s,false); } } }
+        /* 走到店前的那一間優先（BB 11-12 FAIL：第一次從街上走到 SUNNY SIDE 前 3 m，B7 built:false，看到空的玻璃盒——溫州街四間排隊預載，B7 離進場點最遠、排最後，一間要五十幾幀）：
+           人已經在某一間的 near 裡、它還沒開始建，而正在建的是另一間遠的 → 先放掉那一間（之後再排），馬上建眼前這一間 */
+        { const need=typeof ASSETS!=='undefined'?by.find(s=>!s.built&&!s.building&&!s.loading&&s.dd<s.near&&ASSETS.manifest[s.key]):null, busy=shops.find(s=>s.building); if(need&&busy&&busy!==need&&busy.dd>busy.near) detach(busy); }
         if(!shops.some(s=>s.loading||s.building)){ const nx=typeof ASSETS!=='undefined'?by.find(s=>!s.built&&ASSETS.manifest[s.key]):null; if(nx) build(nx,nx.dd<nx.near); } }
       for(const s of shops){ if(s.on) light(s); if(s.shutter) s.shutter.visible=!isOpen(s); } };
-    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); warmStep(); if((f++)%20===0) tick(); }; tick();
+    let f=0; const up0=zone.update; /* 眼前那一間還沒好（人在 near 裡、正在建或正在暖機）＝一幀做 4 件（原本 1 件；等一幀、收尾、clone 那幾步照舊各佔一幀），而且每 5 幀看一次距離；沒有人在等的預載照舊一幀 1 件、20 幀看一次 */
+    const urgent=()=>shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready&&(s.building||s.built||s.loading));
+    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ const j=warmQ[0], stop=!!(j.hold||j.done||j.stage==='clone'); warmStep(); if(stop) break; } };
+    zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); warmRun(); f++; if(f%20===1||(f%5===1&&shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready))) tick(); }; tick();
     const R={shops,tick,detach,lite,warmQ}; zone.shopReal=R; return R; }
   /* SHOP-REAL-INSIDE 溫州街（LAWWW2-C 11-12 自查 shop_out_in_audit_1112：日常失速店外是一份烘光的店內、顏色偏粉，和走進去的黃牆、綠白方格地板不一樣）：
      日常失速（W2，正面朝東的橫巷 +x、玻璃面 x −37.5；室內 11×10×3.4，室內 x → 溫州街 z＝−13.5−x）放走進去的那一顆（bldg.wz_offbeat_interior，載入時已登錄）。室內原點＝街景腳本的 (−42.2,−13.5)（wz_street.py W2：本地 z＝室內 z−5、立面在 x −37.2；玻璃退 0.3 m 在室內前緣裡面）。北側的窗沒有鐵捲門（只做正面） */
