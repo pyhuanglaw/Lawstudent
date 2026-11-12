@@ -37,6 +37,9 @@ GG_LIT_old | 5f03f455e21a8d4fc38d2cbf07aa3eea05b79501 | probe | docs/story_plann
 HELP_GUIDE_a | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 30 | PARTS=HELP,NEW,OLD,DLG;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
 HELP_GUIDE_b | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 35 | PARTS=FLOW,SET;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
 # LAWWW-C 08:39 SHOP-JOBS-1112 第四輪（d4daa6326c）：宋知寧在山嵐二樓（週六 14～17、週日 14～18）：在不在、腳踩地板、面向、擋走道、站在按鈕上，各一張圖給 BB
+# HELP-GUIDE r2（r1：cls 沒出＝探針從 9:05 開始已經在上課；NEW 6 分鐘還在宿營）：FLOW 從 7:30、NEW 15 分鐘
+HELP_GUIDE_b2 | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 25 | PARTS=FLOW;FLOW_H=7.5;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
+HELP_GUIDE_new2 | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 25 | PARTS=NEW;NEW_MIN=18;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
 ZN_SHANLAN | d4daa6326c81c2ba7a57c266235dec49cd7b5ab6 | probe | docs/story_planning/test_tools/cc/cc_zn_shanlan_probe.py | index.html | 25 | SHA=d4daa6326c81c2ba7a57c266235dec49cd7b5ab6
 # BB-C 08:42／08:52 SHOP-JOBS 第四輪 ②③：越好吃上班時可昕（交往中）／學姊來吃飯——那一句演的時候 3D 有沒有她、坐哪、和祐廷相對位置、1 m 內家具；遊戲鏡頭＋俯視（沒有人＝照實記）
 YUE_MEAL | d4daa6326c81c2ba7a57c266235dec49cd7b5ab6 | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 30 | SHA=d4daa6326c81c2ba7a57c266235dec49cd7b5ab6
@@ -1904,5 +1907,9 @@ SAVE_LZ_growB | ed70b6d3589dc2731171347afa6d623f2b0339ca | node | docs/story_pla
 STUDY_fix_a | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 STUDY_fix_b | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 STUDY_fix_c | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_abandon;ABANDON=leave,timeout,close;ABANDON_FAST=1;ROSTER=0;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+# BB-C 08:58 QA-REPRO-1020 最後三項（美國交換＝D99 三大優先之一，P1；BB_393 e4eb857f4a）：route1a02 改成不倒撥時間、E6＝票根重複＋睡過 11/18 12:00、E4 接到 11/18、E8 讀檔後清 US；每支 ≤20 分鐘
+ROUTE_E4 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E4;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+ROUTE_E6 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E6;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+ROUTE_E8 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E8;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 # SAVE-LZ-1104（BB_384）瀏覽器量測：存檔 A（day54_1110）× plain／?lzsave × CPU 1／4 倍；①② 自動存檔那一下、③ 每欄字元＋7 欄全滿、④ 繼續到能走動、⑤ 存讀一致、⑦ 舊存檔（B 等 SAVE_LZ_growB 回來做成 fixture 再排）
 SAVE_LZ_A | ed70b6d3589dc2731171347afa6d623f2b0339ca | probe | docs/story_planning/test_tools/cc/cc_save_lz_probe.py | index.html | 70 | SOLO=1;FIXES=A=tests/fixtures/user_save_day54_1110.json;SHA=ed70b6d3589dc2731171347afa6d623f2b0339ca

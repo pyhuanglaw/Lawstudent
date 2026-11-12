@@ -11,8 +11,8 @@ PARTS（逗號分隔，預設全部）：
   SET   同 FLOW 的讀檔 → 4 秒內到選單「設定」把「提示」關掉（真的點）→ 開手機、存檔、等 60 秒：一則都不能出、HINT_SEEN 不能記 → 打開 → 60 秒內還沒看過的要出。結束時設定改回打開。
   OLD   讀 OLD_FIX（預設 day51_1110，沒有 HINT_SEEN 的舊存檔，已經玩了一陣子）→ 開手機、存檔、等 100 秒：基本幾種都不能出；最多考試、沒錢各一次。
   DLG   同 FLOW 的讀檔 → 馬上開一段對話【捷徑 GAME.say，遊戲自己的對話框】停 15 秒：對話中不能出 → 按掉 → 15 秒內 free 要出。
-CC_02 清單 2026-11-12：1✓（讀檔時間＝存檔原本的；快上課用遊戲的跳過時間） 2✓（提示字從 HELP_TEXT.hints 讀，對照用字不寫死） 3✓（一次做一件、等 45 秒間隔） 4✓（按鈕照 id：#btnPhone、#btnMenu、data-tab、#setHints；存檔欄位按鈕照字找） 5n/a（不走路） 6✓（讀檔後等 FIRST_MS 4 秒、tick 每 30 格） 7✓ 8✓（門檻是 LAWWW 給的：每種一次、不重複、關掉不出、舊存檔不連跳、劇情中不出；顯示秒數只記不判） 9n/a（截圖要看提示條，不藏東西） 10✓（條件事件關掉，免得劇情把提示擋住） 11✓ 12✓（每一則記種類、遊戲時間、真實時間、顯示秒數、截圖檔名） 13✓（捷徑都標【捷徑】寫是哪個遊戲函式）
-用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=HELP,NEW,FLOW,SET,OLD,DLG] [FIX=tests/fixtures/user_save_day36_1105.json] [OLD_FIX=…day51_1110.json] [NEW_MIN=6] [FLOW_MIN=14] python3 cc_help_guide_probe.py <url> <out>"""
+CC_02 清單 2026-11-12：1✓（讀檔時間＝存檔原本的；快上課用遊戲的跳過時間） 2✓（提示字從 HELP_TEXT.hints 讀，對照用字不寫死） 3✓（一次做一件、等 45 秒間隔） 4✓（按鈕照 id：#btnPhone、#btnMenu、data-tab、#setHints；存檔欄位按鈕照字找） 5n/a（不走路） 6✓（讀檔後等 FIRST_MS 4 秒、tick 每 30 格） 7✓ 8✓（門檻是 LAWWW 給的：每種一次、不重複、關掉不出、舊存檔不連跳、劇情中不出；顯示秒數只記不判） 9n/a（截圖要看提示條，不藏東西） 10✓（條件事件關掉，免得劇情把提示擋住） 11✓ 12✓（每一則記種類、遊戲時間、真實時間、顯示秒數、截圖檔名） 13✓（捷徑都標【捷徑】寫是哪個遊戲函式；r2：FLOW 從 7:30 開始〔r1 9:05 已在上課沒有快上課可跳〕、NEW 15 分鐘〔r1 6 分鐘還在宿營〕）
+用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=HELP,NEW,FLOW,SET,OLD,DLG] [FIX=tests/fixtures/user_save_day36_1105.json] [OLD_FIX=…day51_1110.json] [NEW_MIN=15] [FLOW_MIN=14] [FLOW_H=7.5] python3 cc_help_guide_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -26,7 +26,8 @@ PARTS = [x for x in (os.environ.get('PARTS') or 'HELP,NEW,FLOW,SET,OLD,DLG').spl
 TESTS = os.environ.get('LW_TESTS') or 'tests'
 FIX = os.environ.get('FIX') or 'tests/fixtures/user_save_day36_1105.json'
 OLD_FIX = os.environ.get('OLD_FIX') or 'tests/fixtures/user_save_day51_1110.json'
-NEW_MIN = float(os.environ.get('NEW_MIN') or '6'); FLOW_MIN = float(os.environ.get('FLOW_MIN') or '14')
+NEW_MIN = float(os.environ.get('NEW_MIN') or '15'); FLOW_MIN = float(os.environ.get('FLOW_MIN') or '14')   # HELP_GUIDE_a r1：開局 6 分鐘還在宿營那一晚（按了 173 次）→ 15
+FLOW_H = float(os.environ.get('FLOW_H') or '7.5')
 R = L.Run('help_guide', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 TARGET = ['free', 'slot', 'cls', 'phone', 'invite', 'travel', 'buy', 'save']
@@ -52,8 +53,9 @@ STATE = r"""(()=>{ const G=GAME.G; return {log:window.__hk?window.__hk.log.filte
 NEXTCLS = r"""(()=>{ const G=GAME.G; if(typeof CLS==='undefined'||!CLS.next) return null; const it=CLS.next(G); return it?{day:it.day, t0:it.t0, name:(it.c&&(it.c.name||it.c.id))||null, gday:G.day, h:+(+G.hour).toFixed(2)}:null; })()"""
 
 
-async def load_fix(pg, cdp, path, seen_empty):
+async def load_fix(pg, cdp, path, seen_empty, hour=None):
     sv = json.load(open(fix_path(path), encoding='utf-8'))
+    if hour is not None: sv['hour'] = hour; sv.pop('pos', None)   # HELP_GUIDE_b r1：day36 存檔 9:05 已經在上課＝沒有「快上課」可以跳 → FLOW 從 FLOW_H（預設 7.5）開始
     if seen_empty:
         sv.setdefault('flags', {})['HINT_SEEN'] = {}
     else:
@@ -173,8 +175,8 @@ async def part_new(pg, cdp, res):
 
 async def part_flow(pg, cdp, res):
     await pg.goto(URL); await L.wait_loaded(pg)
-    r = await load_fix(pg, cdp, FIX, True)
-    R.setup('[FLOW] 【前置／捷徑】讀檔 %s（day %s %s %s）＋HINT_SEEN 設成 {}＝一則都還沒看過' % (FIX, r['day'], r['hour'], r['zone']))
+    r = await load_fix(pg, cdp, FIX, True, FLOW_H)
+    R.setup('[FLOW] 【前置／捷徑】讀檔 %s 改到 %.1f（day %s %s %s）＋HINT_SEEN 設成 {}＝一則都還沒看過' % (FIX, FLOW_H, r['day'], r['hour'], r['zone']))
     log = []; done = {}; t0 = time.time(); last_shown = time.time()
     order = ['phone', 'slot', 'cls', 'buy', 'save']
     while time.time() - t0 < FLOW_MIN * 60:
