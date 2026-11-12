@@ -1,11 +1,11 @@
-/* 自動產生：tools/date/import_she_pays.py（docs/story_planning/AA_782_she_pays.json@f7a23d408＋docs/story_planning/AA_812_date_pays_promises.json@d7d818f8a8）。不要手改，改企劃 AA_782／AA_812 再重新匯入。
+/* 自動產生：tools/date/import_she_pays.py（docs/story_planning/AA_782_she_pays.json@f7a23d408＋docs/story_planning/AA_812_date_pays_promises.json@3cb2939d0）。不要手改，改企劃 AA_782／AA_812 再重新匯入。
    她請客的格：pays＝{她:{互動點 id:[那一句]}}，src/date3d.js 載入時合進 S.SHE_PAYS（她在那個互動點說了那一句的那一次，祐廷那一份不扣）；
    split＝她付一部分（AA_812 SPLIT），合進 S.SPLIT（那一次祐廷那一份扣一半）；同一個互動點兩種都說了＝最後說的那一句算。
    cells＝AA_782 每一列（格號 n＝date_rewrite.py list 的編號、key＝哪一套、at＝date_lines.js 裡的位置）；superseded＝AA_782 被 AA_812 換了字的列；cells812＝AA_812 每一句（dup＝已經有了、不重複）。
    以安三格在 date3d.js 手寫（AA_780）。測試 tests/date_she_pays_1111_unit.js、tests/date_she_pays_812_1111_unit.js */
 'use strict';
 const SHE_PAYS_DATA={
- "src": "docs/story_planning/AA_782_she_pays.json@f7a23d408＋docs/story_planning/AA_812_date_pays_promises.json@d7d818f8a8",
+ "src": "docs/story_planning/AA_782_she_pays.json@f7a23d408＋docs/story_planning/AA_812_date_pays_promises.json@3cb2939d0",
  "pays": {
   "heroine_05": {
    "D10.snack": [

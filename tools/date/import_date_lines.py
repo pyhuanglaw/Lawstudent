@@ -888,7 +888,9 @@ if A780:
 # 2026-11-12 X324 第三次重匯（SHA 見 tests/date_src_sha.js 的 ALLOW_SHA 那一列）：path_rows 第一列（子晴 D06.cafe 第一次選項的回話「好。下次我請你吃滷味。」→「好。下次我請。」）被 AA 後來的決定取代——
 # AA_846 那一格改成「下次我請你吃滷味。」（AA_846 _meta.late_fix「11-12 10:4x：D06.cafe 改回「下次我請你吃滷味。」（AA_812 再訪有兌現）」，源稿已經是這一句），AA_812 的 path_rows 還沒跟著改。
 # 只認這一列、而且遊戲那一格剛好是下面寫的字才跳過（別的字照舊停下來）；AA 把 AA_812 path_rows 改掉以後這一筆就用不到、可以拿掉。
-SUPER812 = {"loc.D06.lines.heroine_04.hotspots['D06.cafe'].first.choice[1].reply[0]": ('好。下次我請你吃滷味。', '下次我請你吃滷味。', 'AA_846_zq_hao_replies.json 的 _meta.late_fix')}
+# 2026-11-12 X324 第四次重匯（SHA 見 tests/date_src_sha.js 的 ALLOW_SHA 那一列）：AA 把 AA_812 path_rows 的那一列刪掉了（_meta.aa_c_1112；源稿那一格直接是「下次我請。」），上面那一筆例外拿掉——
+# 現在是空的（格式：path → (path_rows 的 old, 遊戲那一格現在的字, 哪一份稿)），機制留著給下一次用。
+SUPER812 = {}
 SKIP812 = []
 A812 = G.approved_files(ALLOW, SP + 'AA_812_')
 R812, REC812 = [], []
@@ -899,8 +901,8 @@ if A812:
         sys.exit('拒絕匯入：' + why)
     d812 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S812}:{P812}'], text=True)))
     R812 = d812.get('path_rows') or []
-    if len(R812) != 2 or any(r.get('file') != 'src/data/date_lines.js' or not all(isinstance(r.get(k), str) and r.get(k) for k in ('path', 'old', 'new')) for r in R812):
-        sys.exit(f'AA_812@{S812} 的 path_rows 應該是兩列（file 都是 src/data/date_lines.js、path／old／new 都有字），讀到 {len(R812)} 列')
+    if len(R812) != 1 or any(r.get('file') != 'src/data/date_lines.js' or not all(isinstance(r.get(k), str) and r.get(k) for k in ('path', 'old', 'new')) for r in R812):
+        sys.exit(f'AA_812@{S812} 的 path_rows 應該是一列（語彤 D10.boat remember；子晴 D06.cafe 那一列 AA 第四次重匯那一版刪掉了；file 都是 src/data/date_lines.js、path／old／new 都有字），讀到 {len(R812)} 列')
     FILES['fix812'] = P812
     # 改稿紀錄的「舊的那一版」：AA_812 比的是約會台詞源稿 248c8e390 那一版（D01～D33 那時候的白名單）。2026-11-11 19:1x 源稿換 52c3ee258（AA 只加選項 fx、拿掉 fx 和 248c8e390 逐檔相同），
     # 那一版的企劃線已經包含 AA_812 改過的紀錄＝拿它當舊版會比出 0 格（工具停下來）——舊版固定用 248c8e390，不跟著源稿換
