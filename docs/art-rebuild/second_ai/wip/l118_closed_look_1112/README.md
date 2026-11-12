@@ -11,7 +11,8 @@
 
 ## 測試 `tests/l118_closed_look_1112_unit.js`（新）
 0 有函式；1 十一片鐵捲門的位置、朝向、高度、寬度；2 開／沒開切換；3 沒有光暈網格不出錯；3b 真的模型光暈分給十一間；3c 沒開＝0.03、照 L118.isOpen；4 店內那一層照位置調暗、重進不重複接。
-改前（6279e713c0）：沒有 `Z3.l118ClosedLook`＝FAIL → 改後 ALL PASS。回歸：見下。
+改前（6279e713c0）：沒有 `Z3.l118ClosedLook`＝FAIL → 改後 ALL PASS。
+回歸：引用 lane118／l118／shopRealGlow／shopSignLit／glowBatch／shopInsideLit／ggShopLit／zones3d 的 **628 支：626 過**；紅的兩支（`l118_int_home_cafe2_1111_unit` 2.、`l118_shops_redo_1111_unit` 3-6.）是我上一包 L118-SEAT-FIX 漏給走近點，已另交補件 `l118_seat_fix_v1b.patch`（2fcd570221），補上以後全過。
 
 ## 沒測／先將就
 - **瀏覽器沒跑**：請 CC 拍 118 巷 公休日白天＋晚上 21:30（大部分 21:00 打烊）同角度——看鐵捲門位置對不對捲門箱、店內暗下來、招牌不亮。
