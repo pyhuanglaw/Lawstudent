@@ -147,7 +147,7 @@ const R2Y4B_EVENTS=(function(){
     prereq:{custom:G=>{ const r=R(); return !!r&&r.gradResultDue(G); }},
     dialogue:[ {speaker:null,text:'（書桌上，二月那份考古題還攤著。）'},
       {choice:[{text:'「明年再考。」',set:{GRAD_RETRY:true}},{text:'「不考了。」',set:{GRAD_QUIT:true}}]} ] },
-  /* ---------- 2-Y4-35 春假（最後一次）：麵店團兩天一夜（4/3～4/4 宜蘭；2D）。三選一在 R2Y4B（照 1C-01）---------- */
+  /* ---------- 2-Y4-35 春假（最後一次）：桌遊團兩天一夜（4/3～4/4 宜蘭；2D）。三選一在 R2Y4B（照 1C-01）---------- */
   { id:'ev_spring_y4', title:'春假・宜蘭', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'車上',bg:'car_morning'},
       {if:kn('heroine_01'),speaker:null,text:'（以安坐副駕，腿上是行程表第四版。最上面寫了四個字：「最後一次」。）'},   /* 行程表上的字是她寫的，她沒有說出口 */

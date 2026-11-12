@@ -36,7 +36,7 @@ const sent=tag=>PHONE.sent(H.G,tag);
 const answer=(askId,k)=>PHONE.answer(H.G,askId,k);
 const run=async(id,picks)=>{ H.said=[]; H.opts=[]; H.cgs=[]; H.cards=[]; caps.length=0; H.picks=picks||[]; await EVENTS.run(ev(id)); };
 const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.cgs=[]; H.cards=[]; caps.length=0; H.picks=picks||[]; if(!q) return false; await OUT.go(GM,q); return true; };
-const grp=()=>PHONE.join(H.G,'noodle_team','麵店團');
+const grp=()=>PHONE.join(H.G,'noodle_team','桌遊團');
 const contact=(...ids)=>{ for(const id of ids) INV.addContact(H.G,id); };
 const ACQ=id=>H.rel(id,8,0,0);
 const dueHas=id=>{ const now=H.G.day*24+H.G.hour; return PG.pending(H.G).some(p=>p.s.id===id&&p.t<=now+1e-6&&(!p.s.ready||p.s.ready(H.G))); };   /* PG.due 只回最早的那一件（AA_319 的放榜那幾件可能也在等）*/
@@ -127,7 +127,7 @@ const date=id=>H.date(id);
   { fresh('2029-04-02',19,'dorm',{SPRING_Y4:'noodle'}); TEAM(); at('2029-04-02',20.5);
     check('2-Y4-35 4/2 晚上：記 Y4_SPRING_CAR、沒有取車旁白（AA_599 補，AA 11-03 定：那句刪掉）', S.springCarDue(H.G)&&(H.said=[],await S.springCar(GM),!H.said.length)&&!S.springCarDue(H.G));
     OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'首都帝大校門口',title:'t',travelH:1/6}); at('2029-04-03',7.9); await goOut('y4_spring',[0]);
-    check('S1 麵店團：行程表「最後一次」（旁白，不唸）；阿哲、Alison；「妳講了四個。」；「大一中秋，火一直熄。」→「那是你顧的。」；回程「謝謝你開車。」', has('（以安坐副駕，腿上是行程表第四版。最上面寫了四個字：「最後一次」。）')&&has('（後座）司機，我要聽歌。')&&has('不要放他的歌。')&&has('妳講了四個。')&&has('那是你顧的。')&&has('（小聲）謝謝你開車。')&&!has('明天早上空了一格。……你排。')&&caps.includes('宜蘭・民宿'));
+    check('S1 桌遊團：行程表「最後一次」（旁白，不唸）；阿哲、Alison；「妳講了四個。」；「大一中秋，火一直熄。」→「那是你顧的。」；回程「謝謝你開車。」', has('（以安坐副駕，腿上是行程表第四版。最上面寫了四個字：「最後一次」。）')&&has('（後座）司機，我要聽歌。')&&has('不要放他的歌。')&&has('妳講了四個。')&&has('那是你顧的。')&&has('（小聲）謝謝你開車。')&&!has('明天早上空了一格。……你排。')&&caps.includes('宜蘭・民宿'));
     fresh('2029-04-03',7.9,'dorm',{SPRING_Y4:'noodle'}); TEAM(); date('heroine_01'); OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'首都帝大校門口',title:'t',travelH:1/6}); await goOut('y4_spring',[1]);
     check('2-Y4-35 和以安交往中：睡前「明天早上空了一格。……你排。」；「第一次去燒臘店。」→「你點了招牌叉燒飯。大家都是。」', has('明天早上空了一格。……你排。')&&has('你點了招牌叉燒飯。大家都是。')); }
   { fresh('2029-03-25',20,'dorm'); TEAM(); H.FRIEND('heroine_03'); date('heroine_03'); at('2029-03-25',20.5); phone(); H.picks=['留在宿舍']; await S.springPrompt(GM); at('2029-04-03',21.6); phone(); PHONE.tick(H.G);
@@ -312,7 +312,7 @@ const date=id=>H.date(id);
     at('2029-09-03',12); const p1=STORY.presence('classmate_mingxuan',H.G); at('2030-07-31',12); const p2=STORY.presence('classmate_mingxuan',H.G); at('2030-08-01',12); const p3=STORY.presence('classmate_mingxuan',H.G);
     check('2-Y4-48 presence：2029-09-02～2030-07-31 在德國', p1.here===false&&p1.kind==='abroad'&&p2.here===false&&p3.here!==false); }
   /* ===== 2-Y4-49 以安：二試放榜、三試放榜（已在 AA_319 1A-18）===== */
-  check('2-Y4-49 已在 AA_319（AA_589 第 7-5 節 S6 起改成祐廷自己查到）：以安二試、錄取兩步還在 postgrad_lines.js（「謝謝。一月口試。」「謝謝。」「但我不去。」）、麵店團那一則還在', POSTGRAD_LINES.AN.call1[0]==='謝謝。一月口試。'&&POSTGRAD_LINES.AN.call2[0]==='謝謝。'&&POSTGRAD_LINES.AN.call2[1]==='但我不去。'&&PG.MSGS.some(m=>m.tag==='pg_an_group'));
+  check('2-Y4-49 已在 AA_319（AA_589 第 7-5 節 S6 起改成祐廷自己查到）：以安二試、錄取兩步還在 postgrad_lines.js（「謝謝。一月口試。」「謝謝。」「但我不去。」）、桌遊團那一則還在', POSTGRAD_LINES.AN.call1[0]==='謝謝。一月口試。'&&POSTGRAD_LINES.AN.call2[0]==='謝謝。'&&POSTGRAD_LINES.AN.call2[1]==='但我不去。'&&PG.MSGS.some(m=>m.tag==='pg_an_group'));
   /* ===== 2-Y4-50 以安：哥大＋紐約送機 ===== */
   const ANF=()=>{ H.FRIEND('heroine_01'); contact('heroine_01'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); grp(); };
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg();

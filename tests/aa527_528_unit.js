@@ -117,7 +117,7 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('2-1. 陳助教稿寫「公館」的五句都加 notZone（h506～h510_ta_sis）；沒寫公館的（h503、h504、h505）照舊',J(NZ)===J(['h506_ta_sis','h507_ta_sis','h508_ta_sis','h509_ta_sis','h510_ta_sis']),J(NZ));
     /* 麵店長桌（noodle）：阿哲說語彤 */
     const ndl=HEARD_LINES.noodle.Y1; check('2-1. 麵店長桌那兩則（阿哲說語彤）加 about（她本人在旁邊就不說）',ndl.every(x=>x.about==='heroine_03'));
-    const w9=NDt('Y1S2',10,0); fresh(w9,18,'noodle');   /* 大一下第 9 週是期中週（麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起 */ fam('zhe'); fam('heroine_03'); const k=STORY.ndlTalkPick(H.G); npcAt('heroine_03',1,1); const k2=STORY.ndlTalkPick(H.G);
+    const w9=NDt('Y1S2',10,0); fresh(w9,18,'noodle');   /* 大一下第 9 週是期中週（桌遊團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起 */ fam('zhe'); fam('heroine_03'); const k=STORY.ndlTalkPick(H.G); npcAt('heroine_03',1,1); const k2=STORY.ndlTalkPick(H.G);
     check('2-1. 麵店：阿哲那一則（h504_zhe_hand，阿姨扭到手）AA_624 retired＝第 10 週也不挑、語彤在不在旁邊都不說',ndl.some(x=>x.once==='h504_zhe_hand'&&x.retired===true)&&!(k&&k.e.once==='h504_zhe_hand')&&!(k2&&k2.e.once==='h504_zhe_hand'),J([k&&k.e.once,k2&&k2.e.once])); });
 
   await sec('2-2',()=>{ const sp=G=>J((HCIRCLE.specOf('hc_ayi',G).props||[]).map(p=>typeof p==='object'?p.name:p)), w=(t,k)=>{ fresh(TD(t,k,2),18,'noodle'); return H.G; };
@@ -133,9 +133,9 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('2-3. 第 3 列在稿（AA_497 3-6）',inDoc('AA_497','指導老師陪我們對了一次帳')); });
 
   await sec('2-4',()=>{ check('2-4. 阿哲的群組訊息「這週燒臘店沒開」不加句號（口氣表 2-1）',AA519_LINES.cafe&&J(AA519_LINES).indexOf("這週燒臘店沒開。")<0&&J(AA519_LINES).indexOf('["zhe","這週燒臘店沒開"]')>=0);
-    const g=D('2026-11-09'); fresh(g,12,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','麵店團'); ruleAt(g,21.1);
+    const g=D('2026-11-09'); fresh(g,12,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','桌遊團'); ruleAt(g,21.1);
     const z=thread('g:noodle_team').filter(m=>m.from==='zhe').map(m=>m.text), y=thread('g:law_class').map(m=>m.text);
-    check('2-4. 麵店團阿哲再貼一次＝「（轉貼宥辰）週六晚上八點。公館。地下室。不用買票，有捐款箱。」（原文的句號照留）；班級群組宥辰照原文',z.includes('（轉貼宥辰）週六晚上八點。公館。地下室。不用買票，有捐款箱。')&&y.includes('週六晚上八點。公館。地下室。不用買票，有捐款箱。'),J([z,y])); });
+    check('2-4. 桌遊團阿哲再貼一次＝「（轉貼宥辰）週六晚上八點。公館。地下室。不用買票，有捐款箱。」（原文的句號照留）；班級群組宥辰照原文',z.includes('（轉貼宥辰）週六晚上八點。公館。地下室。不用買票，有捐款箱。')&&y.includes('週六晚上八點。公館。地下室。不用買票，有捐款箱。'),J([z,y])); });
 
   await sec('2-5',()=>{ const row=id=>HCIRCLE.row(id);
     check('2-5. 沛珊「總圖二樓」三列（c504_6_1、c505_6_1、c505_6_2）＝總圖大廳二樓自習區（library_hall）',['c504_6_1','c505_6_1','c505_6_2'].every(id=>row(id)&&row(id).zone==='library_hall'));

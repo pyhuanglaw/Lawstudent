@@ -27,7 +27,7 @@ const D=k=>STORY.dayOfKey(k);
 const fresh=(key,hour,flags)=>{ const day=D(key); G={v:3,day,hour,zone:'gongguan',stage:'law',weekday:CALENDAR.dateOf(day).wd%7,weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; return G; };
 const FRIEND=()=>{ const r=SOCIAL.rel('heroine_03'); r.fam=45; r.trust=30; r.comf=0; SOCIAL.remember('heroine_03','FIRST_MET',''); };
-const group=()=>PHONE.join(G,'noodle_team','麵店團');
+const group=()=>PHONE.join(G,'noodle_team','桌遊團');
 // 0
 { const T={2026:['2026-02-10','2026-02-19','2026-02-20'],2027:['2027-01-30','2027-02-08','2027-02-09'],2028:['2028-01-19','2028-01-28','2028-01-29'],2029:['2029-02-06','2029-02-15','2029-02-16']}; let ok=true, info=[];
   for(const y in T){ const [a,b,o]=T[y].map(D), W=NOODLE_CLOSED.window(a); if(!W||W.from!==a||W.to!==b||W.open!==o||NOODLE_CLOSED.window(a-1)||NOODLE_CLOSED.window(b+1)){ ok=false; info.push(y); } }
@@ -53,7 +53,7 @@ fresh('2026-02-12',14); group(); FRIEND(); const fam0=SOCIAL.rel('heroine_03').f
   // 不是朋友、17:00 以後、不在群組
   fresh('2026-02-12',14); group(); said=[]; await NOODLE_CLOSED.door(GM); check('不是朋友：只有旁白',said.length===1);
   fresh('2026-02-12',18); group(); FRIEND(); said=[]; await NOODLE_CLOSED.door(GM); check('17:00 以後：只有旁白',said.length===1);
-  fresh('2026-02-12',14); FRIEND(); said=[]; await NOODLE_CLOSED.door(GM); check('不在麵店團：只有旁白',said.length===1);
+  fresh('2026-02-12',14); FRIEND(); said=[]; await NOODLE_CLOSED.door(GM); check('不在桌遊團：只有旁白',said.length===1);
   // 那天在麵店有約
   fresh('2026-02-12',14); group(); FRIEND(); OUT.plan(G,{id:'t_noodle',day:G.day,h:18,place:'阿鳳麵店',title:'阿鳳麵店・長桌'}); said=[]; const h2=await NOODLE_CLOSED.door(GM);
   check('那天在麵店有約（出遊）：照常進去（門不擋）',h2===false&&said.length===0);
@@ -66,7 +66,7 @@ fresh('2026-02-12',14); group(); FRIEND(); const fam0=SOCIAL.rel('heroine_03').f
   check('N3. 2/10 21:00 群組：阿哲「這週店休，到初三」「阿姨說要大掃除 想吃燒臘的，初四以後」（AA_612 A-311；AA_685 A2：阿哲傳、句號照 AA_477 拿掉）',JSON.stringify(M())===JSON.stringify(['這週店休，到初三','阿姨說要大掃除 想吃燒臘的，初四以後'])&&JSON.stringify(M())===JSON.stringify(NOODLE_CLOSED.L.a[2026])&&/* AA_456 1-2：L.a 改成照年份，2026 是原句 */(G.msgs||[]).filter(m=>m.th==='g:noodle_team').every(m=>m.from==='zhe'),JSON.stringify(M()));
   G.day=D('2026-02-20'); G.hour=12.1; STORY.phoneRules(GM); PHONE.tick(G);
   check('N4. 2/20 12:00 阿哲「開了」「阿姨說 今天每盤送一顆滷蛋」（AA_685 A2：「第一碗加蛋」是麵店的說法）',M().slice(-2).join('|')==='開了|阿姨說 今天每盤送一顆滷蛋'&&(G.msgs||[]).filter(m=>m.tag==='noodle_closed_d_2026').every(m=>m.from==='zhe'),JSON.stringify(M()));
-  fresh('2026-02-10',21.1); STORY.phoneRules(GM); PHONE.tick(G); check('不在麵店團：沒有群組訊息',!(G.msgs||[]).some(m=>m.th==='g:noodle_team'));
+  fresh('2026-02-10',21.1); STORY.phoneRules(GM); PHONE.tick(G); check('不在桌遊團：沒有群組訊息',!(G.msgs||[]).some(m=>m.th==='g:noodle_team'));
   check('N4. 2028 初四：「開了」「阿姨從老家帶了一箱橘子，吃飯送一顆」（AA_612 A-312；AA_685 A2 照字拿掉句號）',JSON.stringify(NOODLE_CLOSED.L.d[2028])===JSON.stringify(['開了','阿姨從老家帶了一箱橘子，吃飯送一顆']));
   // 接線
   { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), iv=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'), ix=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');

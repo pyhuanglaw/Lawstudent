@@ -8733,7 +8733,7 @@
    "task": "BB203-CONFESS-1017",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "麵店團群體聚會不佔名額（大一下 6/12 等 BB 確認）",
+   "note": "桌遊團群體聚會不佔名額（大一下 6/12 等 BB 確認）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -8894,7 +8894,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "71b184ba",
-   "what": "AA_256 VA-09 芯慈大二暑假事務所 4 則訊息＋可選午餐；VA-10 麵店團香港 2027-08-25～28",
+   "what": "AA_256 VA-09 芯慈大二暑假事務所 4 則訊息＋可選午餐；VA-10 桌遊團香港 2027-08-25～28",
    "task": "VAC-C08-12",
    "msg": "ACK",
    "integration": "已驗收",
@@ -8903,7 +8903,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "VA-09 芯慈事務所、VA-10 麵店團香港 2027-08-25～28：src/data/vac_activities.js:327 等、src/vac3d.js",
+     "evidence": "VA-09 芯慈事務所、VA-10 桌遊團香港 2027-08-25～28：src/data/vac_activities.js:327 等、src/vac3d.js",
      "note": "任務 VAC-C08-12"
     }
    ]
@@ -11184,7 +11184,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "c4978283",
-   "what": "AA_313 第 5 節：麵店團法律系四年逐場（102 個事件＋課堂；16 點裁定、逐場表、測試寫死表）",
+   "what": "AA_313 第 5 節：桌遊團法律系四年逐場（102 個事件＋課堂；16 點裁定、逐場表、測試寫死表）",
    "task": "AA313-S5-1020",
    "msg": "ACK",
    "integration": "部分整合",
@@ -11206,7 +11206,7 @@
    "account": "C",
    "branch": "claude/adoring-meitner-mqzst8",
    "sha": "2e53f6d4",
-   "what": "麵店團台詞 40 句（D100e，AA 直接推開發分支）",
+   "what": "桌遊團台詞 40 句（D100e，AA 直接推開發分支）",
    "task": "AA313-S5-1020",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -14973,7 +14973,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "cd824bf41",
-   "what": "AA_486 麵店團在故事裡做什麼（給使用者的說明 1-1）、群組建好後阿哲兩句、長桌閒聊大一八則、語彤中秋烤肉三行",
+   "what": "AA_486 桌遊團在故事裡做什麼（給使用者的說明 1-1）、群組建好後阿哲兩句、長桌閒聊大一八則、語彤中秋烤肉三行",
    "task": "NOODLE-TEAM-WHY-1027",
    "msg": "ACK",
    "integration": "已驗收",
@@ -14986,7 +14986,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "b830dd5eb",
-   "what": "AA_487 麵店團長桌閒聊大二～大四各六則",
+   "what": "AA_487 桌遊團長桌閒聊大二～大四各六則",
    "task": "NOODLE-TEAM-WHY-1027",
    "msg": "ACK",
    "integration": "已驗收",
@@ -15286,7 +15286,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "dea54d89e",
    "msg": "ACK",
-   "what": "AA_496 法律系 NPC 盤點（文件寫了 vs 玩得到、分類、斷線清單）；第 9 節先修：BH4_DONE、XC1_STICKY、XC5_RECONCILE、ZHE4_FINAL 斷線、尾聲阿哲與 Alison 各自回收句、麵店團群組補救（阿哲「欸，你還沒進群組？我拉你。」）、宥辰出席表、「社長」標籤全名；改名表等 AA_498",
+   "what": "AA_496 法律系 NPC 盤點（文件寫了 vs 玩得到、分類、斷線清單）；第 9 節先修：BH4_DONE、XC1_STICKY、XC5_RECONCILE、ZHE4_FINAL 斷線、尾聲阿哲與 Alison 各自回收句、桌遊團群組補救（阿哲「欸，你還沒進群組？我拉你。」）、宥辰出席表、「社長」標籤全名；改名表等 AA_498",
    "task": "NPC-STORY-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；第 9 節第 1～4、6 點派子代理（worktree，D113 檢查點）；第 5 點等 AA_498｜【LAWWW-C 02:2x】第 9 節第 1～4、6 點合進 bfe8dfad6（子代理 838d78c29；tests/aa496_fixes_unit.js 修改前 22 項 FAIL）；第 5 點改名表照 AA_498 另外接"
@@ -16053,7 +16053,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "d75cd0228",
    "msg": "ACTIONED",
-   "what": "AA_519 第 8 節（回 LAWWW-C 12:41 麵店四件）：語彤顧店時段阿姨一定在（過年店休、2029-04-19～25 出國例外）；一個人吃麵旁白換句（阿姨在／不在兩版）；25 個麵店 2D 事件那天阿姨 3D 一定在；出國那一週語彤在總圖、不排新的麵店出遊邀約、麵店團那週不排、4/23 21:00 群組四則",
+   "what": "AA_519 第 8 節（回 LAWWW-C 12:41 麵店四件）：語彤顧店時段阿姨一定在（過年店休、2029-04-19～25 出國例外）；一個人吃麵旁白換句（阿姨在／不在兩版）；25 個麵店 2D 事件那天阿姨 3D 一定在；出國那一週語彤在總圖、不排新的麵店出遊邀約、桌遊團那週不排、4/23 21:00 群組四則",
    "task": "PRIV-AUNT-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 12:4x】轉給 AA_519 子代理一起做（白名單 AA_519 用 d75cd0228）；【LAWWW-C 14:4x】合進開發分支 7d63a0aa4（子代理 cf503ee42，aa519_support2 95 項 ALL PASS），下一版 v9.10.14 給 BB"

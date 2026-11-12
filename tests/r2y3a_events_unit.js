@@ -158,7 +158,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   // ===== 4. 2-Y3-04 開學第一頓（大三上） =====
   fresh('2027-09-09',16,'dorm'); run('2027-09-09',16.75,17.25); check('4. 不在群組、和阿哲不熟：沒有那則',!PHONE.sent(G,'y3_first_meal_ask'));
   fresh('2027-09-09',16,'dorm'); join('noodle_team'); run('2027-09-09',16.75,17.25);
-  check('4. 9/9 17:00 阿哲在麵店團「大三第一頓 七點 長桌」→ 排 19:00 公館燒臘（19:15 還沒出發＝沒去）',txt('g:noodle_team').slice(-1)[0]==='zhe:大三第一頓 七點 長桌'&&(q=>!!q&&q.h===19&&q.late===0.25)(OUT.get(G,'y3_first_meal')));
+  check('4. 9/9 17:00 阿哲在桌遊團「大三第一頓 七點 長桌」→ 排 19:00 公館燒臘（19:15 還沒出發＝沒去）',txt('g:noodle_team').slice(-1)[0]==='zhe:大三第一頓 七點 長桌'&&(q=>!!q&&q.h===19&&q.late===0.25)(OUT.get(G,'y3_first_meal')));
   fresh('2027-09-09',16,'dorm'); R('zhe','FAM'); run('2027-09-09',16.75,17.25); check('4. 不在群組、和阿哲 FAMILIAR：阿哲私訊同一句',txt('p:zhe').slice(-1)[0]==='zhe:大三第一頓 七點 長桌');
   fresh('2027-09-09',16,'dorm'); join('noodle_team'); ['zhe','yu','classmate_bohan','heroine_01','heroine_03'].forEach(meet); run('2027-09-09',16.75,17.25); picks=[]; await go('y3_first_meal');
   { const W=['（燒臘店的長桌。阿姨換了新的菜單，每一樣多五塊。）','五塊。……大三就是這種感覺。','欸，這學期刑訴，聽說林教授點名都點後面。','後面三排。我問過學長了。','（看了一下錶）讀書會八點。……我們先走。','（倒茶過來）今天凍頂剩四壺。','對。先吃。'];   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「（倒茶過來）……今天凍頂剩四壺。」 */
@@ -173,7 +173,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('4. D3 沒去：21:30 菜單照片',txt('g:noodle_team').slice(-1)[0]==='zhe:（照片：新的菜單，每一個價錢都貼了一張小紙條）');
 
   // ===== 5. 2-Y3-05 哲 3「隊長」 =====
-  fresh('2027-09-10',11,'dorm'); join('noodle_team'); run('2027-09-10',11.75,12.25); check('5. 9/10 12:00 麵店團「今天傍晚球場 新球季第一次練」',txt('g:noodle_team').slice(-1)[0]==='zhe:今天傍晚球場 新球季第一次練');
+  fresh('2027-09-10',11,'dorm'); join('noodle_team'); run('2027-09-10',11.75,12.25); check('5. 9/10 12:00 桌遊團「今天傍晚球場 新球季第一次練」',txt('g:noodle_team').slice(-1)[0]==='zhe:今天傍晚球場 新球季第一次練');
   fresh('2027-09-10',11,'dorm'); R('zhe','FAM'); run('2027-09-10',11.75,12.25); check('5. 不在群組、FAMILIAR：私訊同一句',txt('p:zhe').slice(-1)[0]==='zhe:今天傍晚球場 新球季第一次練');
   fresh('2027-09-10',17.6,'campus'); R('zhe','FAM');
   { const e=STORY.schedEnt(CHARACTERS.zhe,G), m=STORY.schedEnt(CHARACTERS.classmate_mingxuan,G); check('5. 作息：9/10 17:30～19:00 阿哲、明軒在新體育館旁的籃球場（校園）',!!e&&e.zone==='campus'&&e.act==='linger'&&!!m&&m.zone==='campus'&&m.act==='linger'&&Math.hypot(e.at[0]+4,e.at[1]+113)<4); }
@@ -323,12 +323,12 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('11. courses.js 刑訴第 7 週的 specials 改成「旁聽作業」',COURSES.list.find(c=>c.id==='crimpro').specials.find(s=>s.w===7).title==='旁聽作業');
   fresh('2027-10-19',9,'classroom'); { const {ct}=await inClass('2027-10-19');
     check('11. H1 第 7 週上課：黑板「旁聽作業／一份兩頁的案例說明／第 7～11 週自己去地院旁聽；第 12 週交答辯狀」、第一句「這次作業，三件事。一份案例說明，我發給你們。」；不是「這週我們不在教室」',JSON.stringify(ct.board)===JSON.stringify(['旁聽作業','一份兩頁的案例說明','第 7～11 週自己去地院旁聽；第 12 週交答辯狀'])&&ct.line==='這次作業，三件事。一份案例說明，我發給你們。'&&!/不在教室/.test(ct.line+ct.board.join('')));
-    check('11. 接著林教授兩句（第二、第三）；記 CRIMPRO_W7、CRIMPRO_TOLD；不在麵店團＝自己找一天',JSON.stringify(all())===JSON.stringify(['林老師：第二，自己去地方法院旁聽一場刑事庭，日期自己挑。','林老師：第三，你是那個案例的辯護律師，寫一份答辯狀。第十二週交。'])&&G.flags.CRIMPRO_W7===D('2027-10-19')&&G.flags.CRIMPRO_TOLD===true&&G.flags.CRIMPRO_WITH==='self',JSON.stringify(all())); }
+    check('11. 接著林教授兩句（第二、第三）；記 CRIMPRO_W7、CRIMPRO_TOLD；不在桌遊團＝自己找一天',JSON.stringify(all())===JSON.stringify(['林老師：第二，自己去地方法院旁聽一場刑事庭，日期自己挑。','林老師：第三，你是那個案例的辯護律師，寫一份答辯狀。第十二週交。'])&&G.flags.CRIMPRO_W7===D('2027-10-19')&&G.flags.CRIMPRO_TOLD===true&&G.flags.CRIMPRO_WITH==='self',JSON.stringify(all())); }
   { said=[]; const it=CLS.dayItems(G,D('2027-10-22')).find(x=>x.c.id==='crimpro'); to('2027-10-22',9.5); const r=await R2Y3A.crClass(GM,it,null,CLS.content(it)); check('11. 同一週的週五（第二格）不再講一次',!r&&said.length===0); }
   fresh('2027-10-19',9,'classroom'); G.flags.CRIMPRO_W7=null; { said=[]; const it=CLS.dayItems(G,D('2027-10-22')).find(x=>x.c.id==='crimpro'); to('2027-10-22',9.5); const ct=CLS.content(it); const r=await R2Y3A.crClass(GM,it,null,ct); check('11. 翹了週二、週五來上：第二格的短片段不補講作業',!!ct.second&&!r&&G.flags.CRIMPRO_W7==null); }
   fresh('2027-10-19',9,'classroom'); join('noodle_team'); ['heroine_01','classmate_bohan','zhe','yu'].forEach(meet); await inClass('2027-10-19'); run('2027-10-19',20.75,21.25);
   { const L=TH('g:noodle_team').map(m=>m.from+':'+m.text), m=PHONE.byAsk(G,'y3_cr_grp');
-    check('11. 10/19 21:00 麵店團四則（以安「旁聽我禮拜五下午去。開庭表我查好了。」；柏翰句號；阿哲不加句號）',JSON.stringify(L.slice(-4))===JSON.stringify(['heroine_01:旁聽我禮拜五下午去。開庭表我查好了。','classmate_bohan:我週三下午沒課。週三。','zhe:我最後一週再說','yu:阿哲你每次都這樣'])&&!L.some(t=>/今天刑訴發了旁聽作業/.test(t)),JSON.stringify(L));
+    check('11. 10/19 21:00 桌遊團四則（以安「旁聽我禮拜五下午去。開庭表我查好了。」；柏翰句號；阿哲不加句號）',JSON.stringify(L.slice(-4))===JSON.stringify(['heroine_01:旁聽我禮拜五下午去。開庭表我查好了。','classmate_bohan:我週三下午沒課。週三。','zhe:我最後一週再說','yu:阿哲你每次都這樣'])&&!L.some(t=>/今天刑訴發了旁聽作業/.test(t)),JSON.stringify(L));
     check('11. 四個選項（認識的人才有）',!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['我跟以安去。','我週三跟柏翰。','我也最後一週，跟阿哲。','我自己找一天。'])); }
   ans('y3_cr_grp',0); { const q=OUT.get(G,'y3_cr_an'); check('11. H2「我跟以安去。」→ 10/22（五）13:30 地方法院大門口；當天 12:30 鬧鐘',!!q&&q.day===D('2027-10-22')&&q.h===13.5&&q.alarm===true&&(()=>{ const a=STORY.alarmsFor?null:null; return true; })()); }
   check('11. 約了以安、那天還沒過：出遊選單沒有「自己去」',(()=>{ to('2027-10-20',13.2); return !R2Y3A.crSelfOpen(G); })());
@@ -370,7 +370,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('13. 不認識阿哲：沒有阿哲那兩段；「一個人對兩台筆電？」→「嗯。可是法官一直讓他講完。」（她把開庭表摺起來。）「……我在想，那是規定，還是那個法官。」',!any(/刑訴的作業不是要去地院嗎|明星/)&&has('嗯。可是法官一直讓他講完。')&&has('（她把開庭表摺起來。）')&&has('……我在想，那是規定，還是那個法官。'));
   fresh('2027-10-21',17.75,'noodle'); R('heroine_01','FAM'); await play('ev_an_admin_court',[2]); check('13. 「下次我也想去。」→「好。開庭表我傳給你。……要早到，旁聽席很小。」',has('好。開庭表我傳給你。……要早到，旁聽席很小。'));
   fresh('2027-10-21',21,'dorm'); join('noodle_team'); meet('heroine_01'); run('2027-10-21',21.75,22.25);
-  check('13. A3 沒去麵店：22:00 麵店團兩則（有句號；AA_462 第 1 節換字「我先去了一趟……自己想看的。」）；AN14 group；記 AN_ADMIN_COURT',JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['heroine_01:今天下午我先去了一趟行政法院。自己想看的。','heroine_01:是一個人告區公所。'])&&G.flags.AN14==='group'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT'));
+  check('13. A3 沒去麵店：22:00 桌遊團兩則（有句號；AA_462 第 1 節換字「我先去了一趟……自己想看的。」）；AN14 group；記 AN_ADMIN_COURT',JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['heroine_01:今天下午我先去了一趟行政法院。自己想看的。','heroine_01:是一個人告區公所。'])&&G.flags.AN14==='group'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT'));
   fresh('2027-10-21',21,'dorm'); R('heroine_01','FRI'); run('2027-10-21',21.75,22.25); check('13. 不在群組、FRIEND 以上：私訊同兩句',JSON.stringify(txt('p:heroine_01').slice(-2))===JSON.stringify(['heroine_01:今天下午我先去了一趟行政法院。自己想看的。','heroine_01:是一個人告區公所。']));
   fresh('2027-10-21',21,'dorm',{AN14:'there'}); join('noodle_team'); meet('heroine_01'); run('2027-10-21',21.75,22.25); check('13. 演過了：沒有群組那兩則',!PHONE.sent(G,'y3_an14_msg'));
 

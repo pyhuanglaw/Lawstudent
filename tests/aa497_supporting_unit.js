@@ -97,7 +97,7 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
       '（照片）':'2-6 第一列「拍給你。（照片）」（訊息分兩則）',
       '筆記第 7 頁的圖畫反了。我改好了，拍給你。':'2-6 第一列（同上）',
       '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：法律系館A的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字',
-      '（轉貼宥辰）':'AA_527 2-4（企劃線 bfede0a62）：阿哲在麵店團再貼一次宥辰的邀請＝顯示成轉貼（後面接宥辰原文）' };
+      '（轉貼宥辰）':'AA_527 2-4（企劃線 bfede0a62）：阿哲在桌遊團再貼一次宥辰的邀請＝顯示成轉貼（後面接宥辰原文）' };
     const QUOTED=t=>inDoc('「'+t+'」')||(/^「[^「」]+」$/.test(t)&&inDoc(t.slice(1,-1)));   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號；閒聊（SMALLTALK 的寫法是「…」）稿寫成「> 芯慈：…」 */
     const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]||require('./libq_out_lines.js').added(t)));   /* libq_out_lines：AA_595 1-B55 B1 版前兩句改便條（AA 11-02 22:30 定稿）*/
     check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 60fc3b9a3（學妹照第 8 節第 5 點叫佳穎）／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
@@ -232,9 +232,9 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
 
   await sec('1-6',async()=>{ const g=D('2026-11-14'), d=D('2026-11-09'); const G0=L().yc.gig;
     check('1-6. 日子：2026-11-14 是期中考後的週六；邀請 11/9（一）',CALENDAR.dateOf(g).wd===6&&CALENDAR.dateOf(d).wd===1&&!CALENDAR.termOf(g).exam&&CALENDAR.termOf(g-7).exam);
-    fresh(d,12,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','麵店團'); ruleAt(d,21.1);
+    fresh(d,12,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','桌遊團'); ruleAt(d,21.1);
     const q=OUT.get(H.G,'yc_gig');
-    check('1-6. 11/9 21:00 班級群組宥辰貼「週六晚上八點。……」、麵店團阿哲再貼一次；排進行程 11/14 20:00（時間到才問出發）',texts('g:law_class').includes(G0.invite)&&thread('g:noodle_team').some(m=>m.from===ZHE&&m.text==='（轉貼宥辰）'+G0.invite)&&G0.zheRepost==='（轉貼宥辰）'&&!!q&&q.day===g&&q.h===20&&q.ev==='ev_yc_gig',J(q));
+    check('1-6. 11/9 21:00 班級群組宥辰貼「週六晚上八點。……」、桌遊團阿哲再貼一次；排進行程 11/14 20:00（時間到才問出發）',texts('g:law_class').includes(G0.invite)&&thread('g:noodle_team').some(m=>m.from===ZHE&&m.text==='（轉貼宥辰）'+G0.invite)&&G0.zheRepost==='（轉貼宥辰）'&&!!q&&q.day===g&&q.h===20&&q.ev==='ev_yc_gig',J(q));
     { fresh(d,12,'dorm'); ruleAt(d,21.1); check('1-6. 兩個群組都不在：沒有邀請、不排',!OUT.get(H.G,'yc_gig')&&!byTag('yc_gig_ask').length); }
     const gig=async(pk,flags,mem)=>{ fresh(g,20,'gongguan',flags); if(mem) for(const m of mem) SOCIAL.remember(m,'FIRST_MET',''); await play('ev_yc_gig',pk); return H.said.map(s=>(s.who?s.who+'：':'')+s.t); };
     let r=await gig([0,0]);
@@ -246,9 +246,9 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
       r.includes(NM(ZHE)+'：'+G0.back[1])&&r.includes(NM(YC)+'：'+G0.elev[1])&&r[0]===G0.lq[1]&&r.includes(NM(YC)+'：'+G0.rep[1][1])&&!r.includes(NM(YC)+'：'+G0.front[1]),J(r));
     r=await gig([2,2]); check('1-6. 顧捐款箱：散場他數錢「一千二。夠付場地費。你顧得很好。」在問題前面；第 ③ 個回答',r.indexOf(NM(YC)+'：'+G0.count[1])>=0&&r.indexOf(NM(YC)+'：'+G0.count[1])<r.indexOf(NM(YC)+'：'+G0.ask[1])&&r.includes(NM(YC)+'：'+G0.rep[2][1]),J(r));
     /* 沒去 */
-    fresh(g,20,'dorm'); PHONE.join(H.G,'noodle_team','麵店團'); ev('ev_yc_gig').outingMissed(H.G,GM,{day:g}); ruleAt(g,22.6);
-    check('1-6. 沒去：當天 22:30 麵店團一段 30 秒的錄影＋阿哲「你錯過了法律系最好聽的電梯」（手機不加句號）；不記 YC_GIG',J(texts('g:noodle_team'))===J([G0.video,G0.missed])&&!H.G.flags.YC_GIG,J(texts('g:noodle_team')));
-    fresh(g,20,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); ev('ev_yc_gig').outingMissed(H.G,GM,{day:g}); ruleAt(g,22.6); check('1-6. 不在麵店團：貼在班級群組',J(texts('g:law_class'))===J([G0.video,G0.missed]));
+    fresh(g,20,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); ev('ev_yc_gig').outingMissed(H.G,GM,{day:g}); ruleAt(g,22.6);
+    check('1-6. 沒去：當天 22:30 桌遊團一段 30 秒的錄影＋阿哲「你錯過了法律系最好聽的電梯」（手機不加句號）；不記 YC_GIG',J(texts('g:noodle_team'))===J([G0.video,G0.missed])&&!H.G.flags.YC_GIG,J(texts('g:noodle_team')));
+    fresh(g,20,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); ev('ev_yc_gig').outingMissed(H.G,GM,{day:g}); ruleAt(g,22.6); check('1-6. 不在桌遊團：貼在班級群組',J(texts('g:law_class'))===J([G0.video,G0.missed]));
     /* 五年後 */
     const epi=f=>{ const G=fresh('2034-06-03',19,'cafe',f); fam(YC); return PG.epiLine(G,YC); };
     check('1-6. 五年後（尾聲，有點熟以上在桌上）：「法條我還是背得很熟。……」；YC_GIG 多一句「那首用A館電梯做的歌，……」',J(epi({}))===J([[YC,G0.epi]])&&J(epi({YC_GIG:true}))===J([[YC,G0.epi],[YC,G0.epiGig]])&&PG.EPI_ORDER.includes(YC),J([epi({}),epi({YC_GIG:true})]));
@@ -556,9 +556,9 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
       check('4-1. 明軒的作息：那幾週週二、四 22:00～23:30 在 B1 自習室最角落（北邊那一排最東邊；B1 4.1 的座位 (5.6, −11.08)）',!!x&&x.zone==='library_b1'&&J(x.seatAt)===J([5.6,-11.08])&&!(y&&y.zone==='library_b1')); }
     fresh(TD('Y1S1',8,2),22.5,'library_b1'); acq(MX); await play('ev_mingxuan_notes_b1',[0]);
     check('4-1. 演完：SAW_HIM_STUDY、交換聯絡方式',SOCIAL.has(MX,'SAW_HIM_STUDY')&&INV.hasContact(H.G,MX)&&H.said.some(x=>x.t===M.b1Out));
-    { const d=TD('Y1S1',9,2); const run=o=>{ o=o||{}; fresh(d,20,'dorm'); if(o.grp!==false) PHONE.join(H.G,'noodle_team','麵店團'); if(o.saw) SOCIAL.remember(MX,'SAW_HIM_STUDY',''); ruleAt(d,22); ruleAt(d,23.5); return thread('g:noodle_team').filter(m=>m.tag==='mx_b1_hint'); };
-      const m=run(); check('4-1. 提示：大一上第 9 週週二 23:30 麵店團，阿哲「明軒說他今天很早睡」「結果我剛剛在總圖門口看到他的腳踏車」',J(m.map(x=>[x.from,x.text]))===J(M.hint.map(t=>[ZHE,t]))&&Math.abs(m[0].h-23.5)<0.02);
-      check('4-1. 已經看過他念書（SAW_HIM_STUDY）、不在麵店團：沒有提示',!run({saw:true}).length&&!run({grp:false}).length); } });
+    { const d=TD('Y1S1',9,2); const run=o=>{ o=o||{}; fresh(d,20,'dorm'); if(o.grp!==false) PHONE.join(H.G,'noodle_team','桌遊團'); if(o.saw) SOCIAL.remember(MX,'SAW_HIM_STUDY',''); ruleAt(d,22); ruleAt(d,23.5); return thread('g:noodle_team').filter(m=>m.tag==='mx_b1_hint'); };
+      const m=run(); check('4-1. 提示：大一上第 9 週週二 23:30 桌遊團，阿哲「明軒說他今天很早睡」「結果我剛剛在總圖門口看到他的腳踏車」',J(m.map(x=>[x.from,x.text]))===J(M.hint.map(t=>[ZHE,t]))&&Math.abs(m[0].h-23.5)<0.02);
+      check('4-1. 已經看過他念書（SAW_HIM_STUDY）、不在桌遊團：沒有提示',!run({saw:true}).length&&!run({grp:false}).length); } });
 
   await sec('4-2',async()=>{ const M=L().mx;
     /* (a) 傘：大一下第 6～10 週、下雨的平日、霖澤館 201 的必修下課 15 分鐘內、在穿堂 */

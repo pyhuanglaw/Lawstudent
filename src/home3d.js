@@ -474,7 +474,7 @@ const HOME=(function(){
     if(o.k==='dorm'){ H.lbreak=null; H.bskip=null; await S.back(GM); return false; }
     { const wake=T(G.day+1,8.5); if(nx!=null&&nx<wake){ await S.jumpSkip(GM,nx,{},false); await S.breakArrive(GM); } else await S.sleep(GM); S.rec(G).wakeAsk=null; }   /* 睡覺會經過要停的時間（例：除夕 12:00 以前不會，出遊的晚上會）：停在那裡；途中收到訊息先停、打開手機，「跳過」接著睡到那裡（X58）*/
     return H.at; }
-  /* 放假的手機（AA_183 3-2）：7/9 語彤的生日（12:00 麵店團群組 Alison；不在群組、和語彤有點熟以上＝她的私訊）、7/15 10:00 大二宿舍抽籤（一定抽中）＋10:05 阿哲。
+  /* 放假的手機（AA_183 3-2）：7/9 語彤的生日（12:00 桌遊團群組 Alison；不在群組、和語彤有點熟以上＝她的私訊）、7/15 10:00 大二宿舍抽籤（一定抽中）＋10:05 阿哲。
      story3d.js 的 S.phoneRules 每次呼叫（在家、在外面都一樣；跳過時間的時候每小時一次）*/
   S.breakPhone=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||(G.stage||'law')!=='law') return; const now=T(G.day,G.hour);
     /* 暑住（AA_197 1-3）：大一～大三下學期最後一天 12:00 宿舍系統問；選的結果記 G.home.stay[暑假]＝'stay'／'home'（沒回＝續住）*/
@@ -490,7 +490,7 @@ const HOME=(function(){
     { const d=DK('2026-07-15'), d9=DK('2026-09-07'); if(d!=null&&now>=T(d,10)&&(d9==null||now<T(d9,0))&&!PHONE.sent(G,'dorm_lottery_y2')){   /* 只在那個暑假（9/6 搬進去以前）：之後才讀到的舊存檔不補 */ PHONE.join(G,'dorm','宿舍系統'); PHONE.at(G,d,10,[{th:'g:dorm',text:'大二宿舍抽籤結果：已分配。請於 9/6 前完成入住。'}],'dorm_lottery_y2');
         } }
     /* 每年 7/15 10:05 抽籤的群組訊息（AA_208 第 9 節 7f2cd8d8，回 AA_275 第 11 點）：大二 312 阿哲、柏翰同房；大三 507、大四 409 只有柏翰同房，阿哲同一棟二樓。
-       不在麵店團群組、和阿哲 FAMILIAR 以上：阿哲私訊同樣的句子（柏翰那句只在群組）。只在那個暑假（9/7 以前）；舊的「我們還是不同棟」不用了（大一同房） */
+       不在桌遊團群組、和阿哲 FAMILIAR 以上：阿哲私訊同樣的句子（柏翰那句只在群組）。只在那個暑假（9/7 以前）；舊的「我們還是不同棟」不用了（大一同房） */
     for(const [y,tag] of [[2026,'dorm_lottery_y2_zhe'],[2027,'dorm_lottery_y3_zhe'],[2028,'dorm_lottery_y4_zhe']]){ const d=DK(y+'-07-15'), d9=DK(y+'-09-07'), h0=10+5/60+(d!=null&&typeof STORY!=='undefined'&&STORY.tzOffset?STORY.tzOffset(G,d):0); if(d==null||now<T(d,h0)||(d9!=null&&now>=T(d9,0))||PHONE.sent(G,tag)) continue;   /* h0：人在日本＝當地 11:05（台灣 10:05；AA_341 J-S13）*/
       const ge=!!G.flags.ZHE_CALLS_GE, Z=y===2026?['抽到了！',ge?'哥我們又同一間！！':'欸我們又同一間！！']:y===2027?['抽到了','我二樓','你們兩個五樓 同一棟啦 一樣找得到我']:['抽到了','我又二樓','你們兩個又同一間喔 好啦'], B=y===2026?'我也是。312。':y===2027?'507。':'409。';
       const famZhe=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has('zhe','FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage('zhe'))>=SOCIAL.STAGES.indexOf('FAMILIAR');
@@ -648,7 +648,7 @@ const HOME=(function(){
   /* ===== AA_458 第 4 節：中秋當天、颱風假前一晚（家人群組、不用回）=====
      法律系、學期裡（大一上～大四上的中秋、每一個颱風假）、人在臺灣（STORY.abroad；在日本、美國的時候 jp3d.js／us_life3d.js 也整個擋掉 HOME.phoneRules）、在家人群組。睡著、跳過時間的照原本的時間補（PHONE.at），過了那一段不補（舊存檔不爆量補發）。
      中秋（CALENDAR.fest）：18:00 媽媽兩則——那時候人不在家裡（S.at）、不是住家裡（S.livesHome）才傳；21:00 爸爸一則——住家裡的也傳。tag home_moon_<日>、home_moon_dad_<日>
-     颱風假（calendar.js 的 TYPHOON，CALENDAR.typhoon）前一晚：20:45 媽媽——住家裡（人在家）的不傳，媽媽就在旁邊；21:00 爸爸——住家裡的也傳。tag home_ty_<前一晚>、home_ty_dad_<前一晚>（麵店團群組的「四十二頁」照舊，story3d.js）
+     颱風假（calendar.js 的 TYPHOON，CALENDAR.typhoon）前一晚：20:45 媽媽——住家裡（人在家）的不傳，媽媽就在旁邊；21:00 爸爸——住家裡的也傳。tag home_ty_<前一晚>、home_ty_dad_<前一晚>（桌遊團群組的「四十二頁」照舊，story3d.js）
      「那時候人在家」記 G.home.famNo（那個 tag 之後不再補；舊存檔沒有＝沒記過）*/
   S.FAM_DAYS={moon:[['mom','📷（桌上一盒月餅，切開了一個）'],['mom','蛋黃的 留給你']],moonDad:[['dad','📷（上海的月亮，前面一棟很高的樓）']],ty:[['mom','颱風 窗戶關好 不要出門']],tyDad:[['dad','📷（颱風路徑圖）']],
     gradDad:[['dad','📷（桃園機場的入境大廳）']]};   /* gradDad：AA_465 第 1 節，典禮前一天（2029-06-01）21:00，接上海的月亮、颱風路徑圖；住家裡的也傳（同 moonDad、tyDad）。tag home_grad_dad_<日> */

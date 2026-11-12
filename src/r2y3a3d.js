@@ -10,7 +10,7 @@
    2-Y3-08 Q8b：10/6 21:30 子晴（FAMILIAR）；10/6～10/8 22:00～23:30 公館；三天都沒去＝10/8 23:00 三則（一樣記 DAD_PLAYS、事件算演過）
    2-Y3-09 颱風假：T3a 19:30 阿凱兩則、20:00 宿舍；T3b 21:00 家族群組（回「我會上線」＝10/14 19:00 線上）
    2-Y3-10 可昕的電話：10/18 22:00（主線 4 回得不少：G.needed.answered ≥ NEED_MIN＝8，AA_343 B5）；轉移話題＝10/22 22:00；沒接＝一則
-   2-Y3-11 刑訴旁聽：第 7 週課堂三句（syllabus 第 7 週在這裡覆寫）、10/19 21:00 麵店團群組約人、約了的那天 13:30 出發（12:30 鬧鐘）、自己找一天＝第 7～11 週平日 13:00～14:00 的出發選單；
+   2-Y3-11 刑訴旁聽：第 7 週課堂三句（syllabus 第 7 週在這裡覆寫）、10/19 21:00 桌遊團群組約人、約了的那天 13:30 出發（12:30 鬧鐘）、自己找一天＝第 7～11 週平日 13:00～14:00 的出發選單；
            第 12 週交、第 13 週發回（CLS.IN_CLASS）；第 11 週以前都沒去＝CRIMPRO_HW 'none'
    2-Y3-12 慈 4：AA_547 整場拿掉（Alison 三則、10/20 的作息一起）　2-Y3-13 以安新 14：10/21 17:30～19:40 以安在麵店；沒遇到＝22:00 群組（不在群組＝私訊）
    2-Y3-14 翰 4：第 10 週平日 12:10～13:00 柏翰在霖澤館 4F 樓梯間（往五樓的刷卡門前，AA_343 B7）；接讀書會的＝11/18 21:40 一則　2-Y3-15 校慶：11/12 21:00 法服群組
@@ -229,14 +229,14 @@ const R2Y3A=(function(){
     const say=x=>GM.say(prof||null,(prof?'':((ct&&ct.prof)||(typeof CLS!=='undefined'&&CLS.profName?CLS.profName(it.c):'林教授'))+'：')+x);
     if(t.week===7&&F.CRIMPRO_W7==null&&!(ct&&ct.second)){ F.CRIMPRO_W7=G.day; F.CRIMPRO_TOLD=true;   /* 第 7 週的作業在那一週的第一堂（週二）；週五是第二格的短片段（ct.second），不在那裡補講 */
       await say('第二，自己去地方法院旁聽一場刑事庭，日期自己挑。'); await say('第三，你是那個案例的辯護律師，寫一份答辯狀。第十二週交。');
-      if(!grp(G)&&F.CRIMPRO_WITH==null) F.CRIMPRO_WITH='self'; return true; }   /* 不在麵店團群組：課堂上聽完就是「自己找一天」*/
+      if(!grp(G)&&F.CRIMPRO_WITH==null) F.CRIMPRO_WITH='self'; return true; }   /* 不在桌遊團群組：課堂上聽完就是「自己找一天」*/
     if(t.week===12&&F.CRIMPRO_W12==null){ F.CRIMPRO_W12=G.day; if(F.CRIMPRO_HW==='done') await GM.say(null,'（答辯狀在你的資料夾裡，已經交了。）'); else { F.CRIMPRO_HW='none'; await say('旁聽作業，還有幾位沒交。'); } return true; }
     if(t.week===13&&F.CRIMPRO_W13==null&&F.CRIMPRO_HW==='done'){ F.CRIMPRO_W13=G.day; const k=typeof CLS!=='undefined'&&CLS.rot?CLS.rot(it,3):0; await say(S.CR_RETURN[k]||S.CR_RETURN[0]); return true; }
     return false; };
 
   /* 2-Y3-12 慈 4 的 Alison 三則（「芯慈跟以安吵架了」）：AA_547 第 2 節拿掉（D116） */
 
-  /* ===================== 2-Y3-13 以安新 14：沒遇到＝22:00 麵店團群組（不在群組、和她 FRIEND 以上＝私訊）===================== */
+  /* ===================== 2-Y3-13 以安新 14：沒遇到＝22:00 桌遊團群組（不在群組、和她 FRIEND 以上＝私訊）===================== */
   S.an14Phone=function(G){ const F=G.flags, d=DK('2027-10-21'); if(d==null||G.day<d||G.day>d+1||F.AN14||done(G,'ev_an_admin_court')||now(G)<T(d,22)) return;
     const th=!knows('heroine_01',G)?null:grp(G)?NG:(met(G,'heroine_01','FRIEND')?'p:heroine_01':null); if(!th) return;
     /* AA_462 第 1 節：「我自己去」緊接在「我跟以安去。」後面像放你鴿子——換字；約了她週五一起去地院的（CRIMPRO_WITH 'an'）多一句 */

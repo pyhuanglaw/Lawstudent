@@ -221,10 +221,10 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
   /* ======================= 2 大二暑假 ======================= */
   await sec(2,async()=>{
     let G=lawG('2027-06-18',21.05); rules(); const q21=Q(S21);
-    check('2-1. 6/18（五）21:00 麵店團：阿哲、Alison、柏翰、阿哲（稿 2-1 引文）＋「在家。」「在宿舍。」「在總圖。」',J(pairs('vf_y2_0618').map(p=>{ const i=p.indexOf(':'); return p.slice(0,i+1)+b532(p.slice(i+1)); }))===J(qPairs(q21))&&J(optsOf('vf_y2_0618'))===J(['在家。','在宿舍。','在總圖。']),J(pairs('vf_y2_0618')));
+    check('2-1. 6/18（五）21:00 桌遊團：阿哲、Alison、柏翰、阿哲（稿 2-1 引文）＋「在家。」「在宿舍。」「在總圖。」',J(pairs('vf_y2_0618').map(p=>{ const i=p.indexOf(':'); return p.slice(0,i+1)+b532(p.slice(i+1)); }))===J(qPairs(q21))&&J(optsOf('vf_y2_0618'))===J(['在家。','在宿舍。','在總圖。']),J(pairs('vf_y2_0618')));
     let rep=answer('vf_y2_0618',2); check('2-1. 「在總圖。」→ 柏翰「三樓。我在窗邊。」',J(rep)===J(['classmate_bohan:三樓。我在窗邊。']),J(rep));
     G=lawG('2027-06-18',21.05); rules(); rep=answer('vf_y2_0618',0); check('2-1. 「在家。」→ 阿哲「好喔」',J(rep)===J(['zhe:好喔']));
-    G=lawG('2027-06-18',21.05,{groups:[]}); rules(); check('2-1. 不在麵店團：沒有',!tagged('vf_y2_0618').length);
+    G=lawG('2027-06-18',21.05,{groups:[]}); rules(); check('2-1. 不在桌遊團：沒有',!tagged('vf_y2_0618').length);
     G=lawG('2027-06-23',15.05,{fam:[YT]}); rules(); const t23=qs(part('- **6/23','## 2-2')||part('- **6/23','### 2-2.'));
     check('2-1. 6/23（三）15:00 語彤（在臺北、FAMILIAR 以上）：「燒臘店暑假開始送冰的酸梅湯了。」「蘇姨說你上次喝很快。」＋「我去吃。」「下次。」',J(tagged('vf_y2_0623').map(m=>m.text))===J(t23.slice(0,2))&&J(optsOf('vf_y2_0623'))===J(['我去喝。',t23[3]])   /* AA_630 Z-158：選項「我去吃。」→「我去喝。」*/,J(t23));
     answer('vf_y2_0623',0); rules(); const q=out('vf_y2_0623'); check('2-1. 「我去吃。」＝當天 18:00 一鍵到麵店（照麵店一般的吃飯）',isAt(q,'2027-06-23',18)&&q.goto&&q.goto.zone==='noodle',J(q));
@@ -262,7 +262,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     check('2-4. 試玩過（PLAYTESTED）：第一則換成「新的那個 第二關做好了」',tagged('vf_y2_0731')[0].text===qs(part('- 已經有 `PLAYTESTED`','- 和子晴交往中'))[0]&&tagged('vf_y2_0731').length===3);
     /* 2-5 */
     G=lawG('2027-08-04',21.05,{flags:{VA10:'yes'}}); rules(); const q25=Q(S25);
-    check('2-5. 8/4（三）21:00 麵店團：香港的機票（稿 2-5 引文）；參加那一團的回「買了。」「還沒。」',J(pairs('vf_y2_0804'))===J(qPairs(q25))&&J(optsOf('vf_y2_0804'))===J(['買了。','還沒。']),J(pairs('vf_y2_0804')));
+    check('2-5. 8/4（三）21:00 桌遊團：香港的機票（稿 2-5 引文）；參加那一團的回「買了。」「還沒。」',J(pairs('vf_y2_0804'))===J(qPairs(q25))&&J(optsOf('vf_y2_0804'))===J(['買了。','還沒。']),J(pairs('vf_y2_0804')));
     rep=answer('vf_y2_0804',1); check('2-5. 「還沒。」→ 阿哲「今天買 明天會漲」',J(rep)===J(['zhe:今天買 明天會漲']));
     G=lawG('2027-08-04',21.05,{flags:{VA10:'yes'}}); rules(); rep=answer('vf_y2_0804',0); check('2-5. 「買了。」→ 阿哲「好喔」',J(rep)===J(['zhe:好喔']));
     G=lawG('2027-08-04',21.05); rules(); check('2-5. 沒參加：只看得到，不用回',tagged('vf_y2_0804').length===4&&!optsOf('vf_y2_0804').length);
@@ -283,7 +283,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     /* 3-2 */
     const q32=Q(S32);
     G=lawG('2028-02-08',21.05); rules(); const zheAway=!STORY.presence('zhe',Object.assign({},G,{day:D('2028-02-09')})).here===false?false:STORY.presence('zhe',Object.assign({},G,{day:D('2028-02-09')})).here===false;
-    check('3-2. 2/8（二）21:00 麵店團：2/9 阿哲在高雄（BB_303 第 3 節）＝他那一句拿掉：Alison「明天元宵！！去看燈！！」「所以才要去！！」＋「去。」「不去。」',zheAway&&J(pairs('vf_y3_0208'))===J(qPairs(q32.slice(0,3)).filter(p=>!/^zhe:/.test(p)))&&J(optsOf('vf_y3_0208'))===J(['去。','不去。']),J(pairs('vf_y3_0208')));
+    check('3-2. 2/8（二）21:00 桌遊團：2/9 阿哲在高雄（BB_303 第 3 節）＝他那一句拿掉：Alison「明天元宵！！去看燈！！」「所以才要去！！」＋「去。」「不去。」',zheAway&&J(pairs('vf_y3_0208'))===J(qPairs(q32.slice(0,3)).filter(p=>!/^zhe:/.test(p)))&&J(optsOf('vf_y3_0208'))===J(['去。','不去。']),J(pairs('vf_y3_0208')));
     const pres0=STORY.presence; STORY.presence=(id,g)=>id==='zhe'?{here:true}:pres0(id,g);
     G=lawG('2028-02-08',21.05); rules(); const withZhe=J(pairs('vf_y3_0208'))===J(qPairs(q32.slice(0,3)));
     answer('vf_y3_0208',0); rules(); const q2=out('vf_y3_0209'); setT('2028-02-09',19); Ls=await run('ev_vf_y3_0209'); STORY.presence=pres0;
@@ -337,7 +337,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     check('4. 8/28（五）姊姊回家住兩天（在家演）：（姊姊把你的房間當倉庫，堆了三箱書。）、宜蓁「台南的房子太小。先放你這裡。……你開學就不用了吧？」',!c28&&J(Ls)===J([nar(r0828).find(t=>t.indexOf('倉庫')>=0),qs(r0828)[0]])&&H.said[1].who==='宜蓁',J(Ls));
     G=lawG('2026-08-20',9,{home:true}); const s28=stopList(G).map(hmT).includes('2026-08-28 18'); G.home={at:false}; check('4. 住家裡的停在 8/28 18:00；留宿舍的不停（回家的時候才演，到 8/29）',s28&&!stopList(G).map(hmT).includes('2026-08-28 18'));
     const r0114=row4('1/14（四）');
-    G=lawG('2027-01-14',21.05); rules(); check('4. 大二寒假 1/14（四）21:00 麵店團：阿哲「寒假還有誰在臺北」、語彤「我在。週末有班。」（AA_630 Z-159）、Alison「我！！」＋「我也在。」',J(pairs('vf_y2w_0114'))===J(['zhe:'+qs(r0114)[0],YT+':我在。週末有班。','yu:'+qs(r0114)[2]])&&J(optsOf('vf_y2w_0114'))===J([qs(r0114)[3]]),J(pairs('vf_y2w_0114')));
+    G=lawG('2027-01-14',21.05); rules(); check('4. 大二寒假 1/14（四）21:00 桌遊團：阿哲「寒假還有誰在臺北」、語彤「我在。週末有班。」（AA_630 Z-159）、Alison「我！！」＋「我也在。」',J(pairs('vf_y2w_0114'))===J(['zhe:'+qs(r0114)[0],YT+':我在。週末有班。','yu:'+qs(r0114)[2]])&&J(optsOf('vf_y2w_0114'))===J([qs(r0114)[3]]),J(pairs('vf_y2w_0114')));
     answer('vf_y2w_0114',0); rules(); Ls=await run('ev_vf_y2w_0116');
     check('4. 「我也在。」＝1/16（六）18:00 麵店長桌一鍵：（長桌只坐了一半。）（阿姨沒說話，在你盤子裡多放了一塊叉燒。）（AA_519 1-3：稿上的「（長桌只坐了一半。阿姨多送了一盤小菜：「人少，吃多一點。」）」拆兩句、後半換第 6 句）',
       isAt(out('vf_y2w_0116'),'2027-01-16',18)&&J(Ls)===J([NEW0114[0]].concat(AA533.y2w_0116,[NEW0114[1]]))&&J([L().y2w_0114.narr,L().y2w_0114.narr2])===J(NEW0114)&&r0114.indexOf(OLD0114)>=0&&ok519(NEW0114[0])&&ok519(NEW0114[1]),J(Ls));
@@ -354,7 +354,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2028-01-15',21.05,{fam:[SIS]}); rules(); rep=answer('vf_y3w_0115',0);
     check('4. 1/15（六）學姊（FAMILIAR 以上）「美國那邊的面試，排在下禮拜。」「線上的。八月去的那一梯。」→「加油。」→「嗯。……上了再跟你說。」（AA_507 0-2 第 2 點）',J(tagged('vf_y3w_0115').slice(0,2).map(m=>m.text))===J(qs(r0115).slice(0,2))&&J(rep)===J([SIS+':'+qs(r0115)[3]]),J(rep));
     const r0111=row4('1/11（四）');
-    G=lawG('2029-01-11',21.05); rules(); check('4. 大四寒假 1/11（四）麵店團：Alison、柏翰、阿哲、Alison',J(pairs('vf_y4w_0111'))===J(['yu:'+qs(r0111)[0],'classmate_bohan:'+qs(r0111)[1],'zhe:'+qs(r0111)[2],'yu:'+qs(r0111)[3]]),J(pairs('vf_y4w_0111')));
+    G=lawG('2029-01-11',21.05); rules(); check('4. 大四寒假 1/11（四）桌遊團：Alison、柏翰、阿哲、Alison',J(pairs('vf_y4w_0111'))===J(['yu:'+qs(r0111)[0],'classmate_bohan:'+qs(r0111)[1],'zhe:'+qs(r0111)[2],'yu:'+qs(r0111)[3]]),J(pairs('vf_y4w_0111')));
     const r0120=row4('1/20（六）');
     G=lawG('2029-01-20',21.05,{date:[AN]}); rules(); check('4. 1/20（六）以安（交往中、在臺北）「二月要考了。」「這週我每天在總圖三樓。……你要來的話，坐我對面。」＋「我去。」',J(tagged('vf_y4w_0120').map(m=>m.text))===J(qs(r0120).slice(0,2))&&J(optsOf('vf_y4w_0120'))===J([qs(r0120)[2]]));
     const c=CHARACTERS[AN]; setT('2029-01-23',14); const before=STORY.schedEnt(c,G); setT('2029-01-20',21.1); answer('vf_y4w_0120',0); setT('2029-01-23',14); const after=STORY.schedEnt(c,G); setT('2029-01-28',14); const later=STORY.schedEnt(c,G);
@@ -372,7 +372,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     check('5. 大二寒假 1/12 在家醒來、沒有任何一件：住家裡・寒假第一句',J(Ls)===J([POOL.home.winter[0]]),J(Ls));
     setT('2027-01-13',8.5); Ls=await wake(G); check('5. 隔天 1/13：第二句（照順序、不重複）',J(Ls)===J([POOL.home.winter[1]]),J(Ls));
     Ls=await wake(G); check('5. 同一天醒來兩次：只放一次',Ls.length===0);
-    setT('2027-01-14',8.5); Ls=await wake(G); check('5. 1/14 有事（21:00 麵店團群組）：不放',Ls.length===0,J(Ls));
+    setT('2027-01-14',8.5); Ls=await wake(G); check('5. 1/14 有事（21:00 桌遊團群組）：不放',Ls.length===0,J(Ls));
     setT('2027-01-11',8.5); Ls=await wake(G); check('5. 成績公布日（快轉的停點）：不放',Ls.length===0);
     setT('2026-12-28',8.5); Ls=await wake(G); check('5. 放假第一天：不放',Ls.length===0);
     G.home={at:false}; G.zone='dorm'; setT('2027-01-15',7.5); Ls=await wake(G); check('5. 留宿舍（宿舍的床）：留宿舍・寒假第一句（和住家裡分開算）',J(Ls)===J([POOL.dorm.winter[0]]),J(Ls));

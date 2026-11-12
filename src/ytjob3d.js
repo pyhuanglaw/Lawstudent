@@ -157,7 +157,7 @@ const YTJOB=(function(){
   S.gatePhone=function(){ if(typeof PHONE==='undefined'||PHONE._ytjob) return; PHONE._ytjob=true; const at0=PHONE.at, post0=PHONE.post;
     PHONE.at=function(G,day,h,items,tag){ if(!S.met(G)&&Array.isArray(items)&&items.some(ytItem)){ const rest=items.filter(it=>!ytItem(it));
         if(!rest.length){ if(tag&&!PHONE.sent(G,tag)){ const P=PHONE.rec(G); (P.cut=P.cut||[]).push(tag); } return false; }
-        /* 群組裡回覆選項（ask）掛在她那一則（例：VA10 麵店團揪香港，最後一則是語彤）：她那則拿掉、ask 跟著不見＝群組沒得回（CC 11-11 20:48 AA_814 H23b）。
+        /* 群組裡回覆選項（ask）掛在她那一則（例：VA10 桌遊團揪香港，最後一則是語彤）：她那則拿掉、ask 跟著不見＝群組沒得回（CC 11-11 20:48 AA_814 H23b）。
            同一個對話串裡還有別人的話：ask 移到留下來的最後一則（系統字、旁白不算）；她自己的私訊串（沒有別人）照舊整則不送 */
         const lost=items.find(it=>ytItem(it)&&it.ask);
         if(lost&&!rest.some(it=>it&&it.ask)){ for(let i=rest.length-1;i>=0;i--){ const it=rest[i]; if(it&&it.th===lost.th&&it.th!=='sys'&&!it.narr&&it.from&&it.from!=='player'){ rest[i]=Object.assign({},it,{ask:lost.ask}); break; } } }

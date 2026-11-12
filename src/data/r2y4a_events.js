@@ -333,7 +333,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'c'},nar('（你們各吃一碗。十點，燈真的熄了。柏翰把手機的手電筒對著天花板。）'),
       {label:'e'},{set:{TYPHOON_Y4:'noodle'}} ] });
 
-  /* ---- 2-Y4-03 中秋烤肉（大四版）：10/3（二）18:00～21:00 公館河濱（出遊；10/2 21:00 阿哲在麵店團群組）---- */
+  /* ---- 2-Y4-03 中秋烤肉（大四版）：10/3（二）18:00～21:00 公館河濱（出遊；10/2 21:00 阿哲在桌遊團群組）---- */
   const KX_TEAM=G=>dating(G,'kexin')&&!!G.flags.KX_MET_NOODLE_TEAM;
   EV.push({ id:'ev_y4_midautumn', title:'中秋烤肉（大四）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'河濱',bg:'riverside'},
@@ -382,7 +382,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'b'},nar('（學弟妹跟著鼓掌。以安轉過去看白板，沒有回頭。）'),
       {label:'e'},{set:{PLG_HANDOVER:'there'}} ] });
 
-  /* ---- 2-Y4-10 聖誕交換禮物（大四版）：12/22（五）19:00 阿鳳麵店（出遊；12/21 21:00 阿哲在麵店團群組）---- */
+  /* ---- 2-Y4-10 聖誕交換禮物（大四版）：12/22（五）19:00 阿鳳麵店（出遊；12/21 21:00 阿哲在桌遊團群組）---- */
   const XW=['heroine_01','zhe',BH,'yu','heroine_03','classmate_xinci'], XHERE=G=>XW.filter(id=>knows(id,G));
   const ITEM={notebook:'一本小筆記本',coffee:'一包咖啡豆',card:'一張手寫卡片'}, Y1G=G=>!!ITEM[G.flags.XMAS_GIFT];   /* 大一帶過的（ev_xmas_exchange 的 XMAS_GIFT）*/
   const TO=(id,t)=>({if:{flagIs:{XMAS_Y4_TO:id}},speaker:id,text:t});

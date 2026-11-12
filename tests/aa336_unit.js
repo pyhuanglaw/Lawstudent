@@ -28,7 +28,7 @@ const fresh=(key,hour,zone,flags)=>{ const day=D(key); G={v:3,day,hour,zone,stag
 const at=(key,h)=>{ G.day=D(key); G.hour=h; G.weekday=wdOf(G.day); };
 const LV={FAM:[25,10,10],FRI:[45,30,10]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
-const team=()=>{ PHONE.join(G,'noodle_team','麵店團'); for(const id of ['zhe','yu','heroine_01','heroine_03','classmate_bohan','classmate_xinci']) R(id,'FAM'); };
+const team=()=>{ PHONE.join(G,'noodle_team','桌遊團'); for(const id of ['zhe','yu','heroine_01','heroine_03','classmate_bohan','classmate_xinci']) R(id,'FAM'); };
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 (async()=>{

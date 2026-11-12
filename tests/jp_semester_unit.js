@@ -119,7 +119,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('J-S6 大四下補修（AA_144 X4）：日本路線多民事訴訟法甲下（週一上午）、保險法（週四上午，不撞海商法），重播大三下的 syllabus；台灣路線沒有',
       !!cv&&!!ins&&cv.slots[0].wd===1&&ins.slots[0].wd===4&&!CLS.termCourses(g2,'Y4S2').some(c=>/_re$/.test(c.id))&&(!SYLLABUS.courses.civpro_2||cv.syllabus===SYLLABUS.courses.civpro_2), [!!cv,!!ins].join()); }
   /* ===================== J-S7／J-S13 時差 ===================== */
-  { const G=inJapan('2028-04-28',20); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('zhe'); at('2028-04-28',21); phone(); const a=th('g:noodle_team').includes('明天晚上七點，冠軍賽 來喊'); at('2028-04-28',22); phone(); const b=th('g:noodle_team').includes('明天晚上七點，冠軍賽 來喊');
+  { const G=inJapan('2028-04-28',20); PHONE.join(G,'noodle_team','桌遊團'); H.FRIEND('zhe'); at('2028-04-28',21); phone(); const a=th('g:noodle_team').includes('明天晚上七點，冠軍賽 來喊'); at('2028-04-28',22); phone(); const b=th('g:noodle_team').includes('明天晚上七點，冠軍賽 來喊');
     at('2028-04-28',23); phone(); const c=!!OUT.get(G,'y3_zhe4'); at('2028-04-29',0); phone(); const q=OUT.get(G,'y3_zhe4');
     check('J-S13 group3d.js 日本路線：4/28 群組「冠軍賽」當地 22:00（台灣 21:00）；哲 4 的視訊當地 0:00（台灣 23:00），不是當地 23:00', !a&&b&&!c&&!!q&&q.day===D('2028-04-28')&&q.h>=24&&q.place==='視訊', [a,b,c,q&&q.h].join());
     at('2028-04-29',19.5); phone(); const s1=GROUP.streamDue(G); at('2028-04-29',20); phone(); const s2=GROUP.streamDue(G);
@@ -128,7 +128,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('J-S13 子晴的電話（5/20）：台灣 21:00＝當地 22:00', !a&&b, [a,b].join()); }
   { const G=inJapan('2028-06-02',12); H.FRIEND('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); phone(); const a=th('g:family_law').includes('學姊今天生日！'); at('2028-06-02',13); phone(); const b=th('g:family_law').includes('學姊今天生日！');
     check('J-S13 6/2 家族群組「學姊今天生日！」：當地 13:00（台灣 12:00）', !a&&b, [a,b].join()); }
-  { const G=inJapan('2028-07-15',10.5); PHONE.join(G,'noodle_team','麵店團'); phone(); const a=th('g:noodle_team').includes('我又二樓'); at('2028-07-15',11.1); phone(); const b=th('g:noodle_team').includes('我又二樓');
+  { const G=inJapan('2028-07-15',10.5); PHONE.join(G,'noodle_team','桌遊團'); phone(); const a=th('g:noodle_team').includes('我又二樓'); at('2028-07-15',11.1); phone(); const b=th('g:noodle_team').includes('我又二樓');
     check('J-S13 7/15 阿哲的抽籤群組：當地 11:05（台灣 10:05）', !a&&b, [a,b].join()); }
   { const G=inJapan('2028-04-25',21.5); date('kexin'); phone(); const a=th('p:kexin').includes('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。'); at('2028-04-25',22); phone(); const b=th('p:kexin').includes('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。'); const q=OUT.get(G,'y3_k17_jrv');
     check('J-S7 可昕 K17（日本路線）：台灣 21:00＝當地 22:00；視訊台灣 19:30＝當地 20:30', !a&&b&&!!q&&Math.abs(q.h-20.5)<1e-6, [a,b,q&&q.h].join()); }
@@ -157,7 +157,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=fresh('2028-02-22',10,'campus','JP'); phone(); check('J-S11 舊存檔：2/20 退宿那一場沒演到、2/21 以後才讀檔＝直接記退宿（不演），之後住家裡', G.flags.X1_JP===D('2028-02-22')&&G.flags.X1_JP_LATE===true&&S.homeOn(G)); }
   /* ===================== J-S14 該關的 ===================== */
   { const G=inJapan('2028-04-20',18); G.flags.noodleTableDay=D('2027-09-07'); G.flags.ndlTrack0=D('2027-09-07'); G.flags.ndlDays=[]; phone();
-    check('J-S14 人在日本：F.abroad（麵店團阿哲的「麵店。我揪了。」不發）', G.flags.abroad===true&&!(G.msgs||[]).some(m=>m.th==='g:noodle_team'&&/^rt_zhe_ndl_/.test(m.tag||''))&&!th('g:noodle_team').some(t=>/^麵店[。 ]/.test(t))); }
+    check('J-S14 人在日本：F.abroad（桌遊團阿哲的「麵店。我揪了。」不發）', G.flags.abroad===true&&!(G.msgs||[]).some(m=>m.th==='g:noodle_team'&&/^rt_zhe_ndl_/.test(m.tag||''))&&!th('g:noodle_team').some(t=>/^麵店[。 ]/.test(t))); }
   { const G=inJapan('2028-06-11',12.5); phone(); const tw=fresh('2028-06-11',12.5,'dorm','TW'); phone();
     check('J-S14 6/11 暑住的問題：日本路線不問、台灣路線照問', !(G.msgs||[]).some(m=>/暑假住宿/.test(m.text))&&(tw.msgs||[]).some(m=>/暑假住宿/.test(m.text))); }
   { const G=inJapan('2028-07-05',21.5); PHONE.join(G,'law_class','法律系'); phone(); const tw=fresh('2028-07-05',21.5,'dorm','TW'); PHONE.join(tw,'law_class','法律系'); phone();
@@ -263,7 +263,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=inJapan('2028-03-26',21.75); phone(); const q=OUT.get(G,'y3_an_j1'); H.opts=[]; H.said=[]; caps.length=0; const r0=S.round, w0=console.warn; S.round=async()=>{ throw new Error('stop'); }; console.warn=()=>{};
     try{ await S.loop(GM); } finally{ S.round=r0; console.warn=w0; }
     check('R1 J1 便利商店（AA_326 2-Y3-34）：日本 22:00（遊戲時鐘＝日本時間）；據點只有「出發」一個選項（must）；演完回到宿舍', !!q&&q.h===22&&q.must===true&&H.opts[0]&&H.opts[0].length===1&&/^出發：/.test(H.opts[0][0])&&q.state==='done'&&caps.includes('回到宿舍。')&&G.zone==='jp_hub', JSON.stringify([q&&q.h,H.opts[0],q&&q.state,caps])); }
-  { const G=inJapan('2028-04-12',22.5); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('zhe'); phone(); PHONE.answer(G,'y3_far_call',0); at('2028-04-13',20); phone(); const q=OUT.get(G,'y3_far_call'); const nx=S.nextStop(G,T(D('2028-04-13'),8),'jp');
+  { const G=inJapan('2028-04-12',22.5); PHONE.join(G,'noodle_team','桌遊團'); H.FRIEND('zhe'); phone(); PHONE.answer(G,'y3_far_call',0); at('2028-04-13',20); phone(); const q=OUT.get(G,'y3_far_call'); const nx=S.nextStop(G,T(D('2028-04-13'),8),'jp');
     check('R1 主線 8「遠方」：4/12 臺灣 21:00＝日本 22:00 阿哲私訊、4/13 臺灣 19:30＝日本 20:30 視訊；快轉停在接起來的時間', th('p:zhe').includes('明天七點半 視訊 燒臘店')&&!!q&&q.h===20.5&&q.verb==='接起來'&&Math.abs(nx-(T(D('2028-04-13'),20.5)-0.25))<1e-6, JSON.stringify([q&&q.h,nx])); }
   /* ===================== R2 裁定 10：日本路線 8/5 晚上只演 1A-08，沒有大三暑假的三選一 ===================== */
   { const G=fresh('2028-08-05',21.5,'jp_hub','JP',{X1_JP:D('2028-02-20'),JP_DEPARTED:D('2028-03-25'),JP_RETURNED:D('2028-08-05')}); phone(); const st=(R2Y3B.stops(G)||[]).map(x=>x-T(D('2028-08-05'),0));
@@ -280,7 +280,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const d=(STORY.DAILY_PHONE||[]).find(x=>x.id==='kai_sheet'); const G=inJapan('2028-04-21',12); const a=d&&d.h(G); const tw=fresh('2028-04-21',12,'dorm','TW'); const b=d&&d.h(tw);
     check('R6 阿凱的泡麵評鑑表：臺灣 21:48＝日本 22:48', !!d&&Math.abs(a-(b+1))<1e-6&&Math.abs(b-21.8)<1e-6, [a,b].join()); }
   /* ===================== R7 holff3d.js 朋友回老家的訊息（大三暑假，人在日本）===================== */
-  { const G=inJapan('2028-06-30',22.5); PHONE.join(G,'noodle_team','麵店團'); phone(); const a=th('g:noodle_team').includes('明天回高雄'); at('2028-06-30',23); phone(); const b=th('g:noodle_team').includes('明天回高雄');
+  { const G=inJapan('2028-06-30',22.5); PHONE.join(G,'noodle_team','桌遊團'); phone(); const a=th('g:noodle_team').includes('明天回高雄'); at('2028-06-30',23); phone(); const b=th('g:noodle_team').includes('明天回高雄');
     check('R7 6/30 阿哲「明天回高雄」：臺灣 22:00＝日本 23:00', !a&&b, [a,b].join()); }
   /* ===================== R8 子晴遊戲展的照片（vac3d.js alt：日本路線收不到邀約）===================== */
   { const G=inJapan('2028-07-05',21.5); H.FAMILIAR('heroine_04'); phone(); const a=th('p:heroine_04').includes('你不在 好可惜'); at('2028-07-05',22); phone(); const b=th('p:heroine_04').includes('你不在 好可惜');

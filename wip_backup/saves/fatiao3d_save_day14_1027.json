@@ -2773,7 +2773,7 @@
    "day": 9,
    "h": 17.68,
    "who": null,
-   "text": "阿哲建立了群組「麵店團」，把你加了進來。",
+   "text": "阿哲建立了群組「桌遊團」，把你加了進來。",
    "iv": null,
    "th": "g:noodle_team",
    "tag": "noodle_team_new"
@@ -2962,7 +2962,7 @@
     "day": 6
    },
    "noodle_team": {
-    "name": "麵店團",
+    "name": "桌遊團",
     "day": 9
    }
   },

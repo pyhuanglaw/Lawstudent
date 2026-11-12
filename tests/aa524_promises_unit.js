@@ -261,7 +261,7 @@ await sec('A12',()=>{
   const s=J(VAC_DATA); check('A12. 日語課「回來要考我嗎？」→「會。第三課的單字，你先背。」',s.indexOf('{"t":"「回來要考我嗎？」","say":[{"who":"heroine_01","text":"'+NEW.A12[0]+'"}]}')>=0);
 });
 await sec('A13',()=>{
-  const ny=STORY.lunarNewYear(); fresh(ny,8); PHONE.join(H.G,'noodle_team','麵店團');
+  const ny=STORY.lunarNewYear(); fresh(ny,8); PHONE.join(H.G,'noodle_team','桌遊團');
   for(let h=8;h<=12.01;h+=0.1){ H.G.hour=+h.toFixed(3); ph(); }
   const m=PHONE.byAsk(H.G,'cny_noodle_reply'); if(m) answer('cny_noodle_reply',0);
   const A=TH('g:noodle_team').slice(-3).map(x=>(x.from||'')+':'+x.text);
@@ -457,7 +457,7 @@ await sec('Y3',async()=>{
   fresh('2026-02-14',17); H.FRIEND(YT); await runEv('ev_yt_vday_y1',['下次店休也出來']);
   check('Y3. 2026 情人節：選項只剩「冷嗎？」→「……有一點。」；「下次店休也出來。」「下次店休是明年。」「……那明年也出來。」都沒有、不記 YT_CLOSED_OUT（AA_685 A3）',
     J(H.opts.map(o=>[...o]))===J([['「冷嗎？」']])&&has('……有一點。')&&!has('下次店休是明年。')&&!has('……那明年也出來。')&&!('YT_CLOSED_OUT' in H.G.flags)&&!J(ev('ev_yt_vday_y1').dialogue).includes('YT_CLOSED_OUT'),J({o:H.opts,L:said()}));
-  const door=async(day,flags,pick)=>{ fresh(day,11,flags); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','麵店團'); H.said=[]; H.picks=[pick]; const r=await NOODLE_CLOSED.door(GM); return {r,L:said()}; };
+  const door=async(day,flags,pick)=>{ fresh(day,11,flags); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','桌遊團'); H.said=[]; H.picks=[pick]; const r=await NOODLE_CLOSED.door(GM); return {r,L:said()}; };
   /* AA_683 第 1 節（企劃線 ef5c6c742，AA 定稿 D109）：燒臘店過年店休裡語彤自己的那幾段拿掉（新設定她不在燒臘店幫忙）——Y3 的 2027 店休那一場
      （第一句換「店休。……說好要出去的。」、河濱那一句、AA_526 的「我在外面等妳。」）跟著沒有了：有沒有旗標、哪一年，店休去按門都只有鐵門的旁白。情人節那一段（上面）照留 */
   const gone=NEW.Y3.concat(NEW526.Y3.slice(1)).concat(['「我來幫忙。」','「那我初四再來。」','嗯。初四見。']);
@@ -506,7 +506,7 @@ await sec('Y7',()=>{
   check('Y7. 美國路線二十三週年群組「美國那兩個 阿姨說照片也算」（不留下次）',s.indexOf("GZ('"+NEW.Y7[0]+"')")>=0);
 });
 await sec('Y8',async()=>{
-  const d=D('2026-07-09'); fresh(d,12.2); H.FAMILIAR(YT); PHONE.join(H.G,'noodle_team','麵店團'); ph(); answer('yt_bday_y1',0); PHONE.tick(H.G);
+  const d=D('2026-07-09'); fresh(d,12.2); H.FAMILIAR(YT); PHONE.join(H.G,'noodle_team','桌遊團'); ph(); answer('yt_bday_y1',0); PHONE.tick(H.G);
   check('Y8. 語彤生日「傳一句生日快樂」→「……謝謝。蘇姨說要請你吃茶點。下次來。」（AA_630 第 10 節第 3 條）、記 YT_BDAY_Y1（照舊）',H.G.flags.YT_BDAY_Y1===true&&txt('g:noodle_team').includes('……謝謝。蘇姨說要請你吃茶點。下次來。'),J(txt('g:noodle_team')));
   /* AA_630 Z-002：y8 搬到一盞茶屋（語彤在茶屋上班）——點茶付完錢那個位置（wzshops3d.js）；麵店點餐不再演 */
   at('2026-07-12',14); H.G.zone='noodle'; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);

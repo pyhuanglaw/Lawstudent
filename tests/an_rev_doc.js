@@ -18,7 +18,7 @@ for(const [sha,p] of DOCS){ const D=show(sha,p); TXT[p]=D;
     const v=c[3]; if(!v||v.startsWith('（刪')) continue;
     if(!v.includes('／')&&c[2]!==v&&!v.startsWith('（刪')) ROWS.push({doc:p,n:m[1],where:c[0],old:c[2].replace(/^`|`$/g,''),nw:v.replace(/^`|`$/g,'')});
     if(!v.includes('／')&&c[2].replace(/^`|`$/g,'').length>4&&!MAP.has(c[2])) MAP.set(c[2].replace(/^`|`$/g,''),v.replace(/^`|`$/g,''));
-    add(v); for(let s of v.split('／')){ s=s.trim().replace(/^(祐廷|以安|阿哲)：/,'').replace(/^（(以安|阿哲在麵店團)）/,''); add(s); }
+    add(v); for(let s of v.split('／')){ s=s.trim().replace(/^(祐廷|以安|阿哲)：/,'').replace(/^（(以安|阿哲在桌遊團)）/,''); add(s); }
   } }
 { const D=TXT[DOCS[1][1]]; for(const l of ((D.split('## 13.')[1]||'').split('```')[1]||'').split('\n')){ const m=l.trim().match(/^(?:［[^］]*］)?(?:以安|祐廷)：(.+)$/); if(m) NEW.add(m[1]); }
   for(const sec of [D.slice(D.indexOf('### 7-5'),D.indexOf('### 7-6')),D.slice(D.indexOf('## 10.'),D.indexOf('## 11.'))]){

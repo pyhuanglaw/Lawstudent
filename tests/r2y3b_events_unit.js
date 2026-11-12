@@ -34,7 +34,7 @@ const LV={FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv]; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
 const date=id=>{ G.flags['dating_'+id]=true; const r=ROM.get(G,id); r.status='dating'; SOCIAL.remember(id,'FIRST_MET',''); };
 const ct=id=>{ G.contacts[id]=1; };
-const grpJoin=()=>PHONE.join(G,'noodle_team','麵店團');
+const grpJoin=()=>PHONE.join(G,'noodle_team','桌遊團');
 const has=t=>said.some(s=>s.t===t), lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
 const at=(key,h)=>{ G.day=D(key); G.hour=h; G.weekday=wdOf(G.day); };
@@ -201,10 +201,10 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('F0. 「好。」→「記得吃飯」；4/13 臺灣 19:30＝日本 20:30 視訊（接起來）', txt('p:zhe').includes('zhe:記得吃飯')&&fq&&fq.h===20.5&&fq.verb==='接起來');
   ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'};   /* 芯慈那句要參加過讀書會（AA_377 第 3 項）*/
   await run('ev_far_call_jp');
-  check('F1. 在麵店團：「你那邊幾點？……你吃什麼？給我看。」、Alison、柏翰（日本版，AA_377 第 14 項）、芯慈（參加過讀書會）、語彤探頭、阿姨「隔著螢幕也要問！」；FAR_CALL jp', has('你那邊幾點？……你吃什麼？給我看。')&&has('你瘦了！……不對，是鏡頭。')&&has('你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。')&&has('讀書會你的位子，我們沒有人坐。')&&has('（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）')&&has('滷蛋要不要！隔著螢幕也要問！')&&said.some(s=>s.who==='燒臘店阿姨（畫面外）')&&G.flags.FAR_CALL==='jp'   /* AA_642 第 5 節：燒臘店的阿姨（A-256、A-257 作廢）；語彤坐在長桌最旁邊 */);
+  check('F1. 在桌遊團：「你那邊幾點？……你吃什麼？給我看。」、Alison、柏翰（日本版，AA_377 第 14 項）、芯慈（參加過讀書會）、語彤探頭、阿姨「隔著螢幕也要問！」；FAR_CALL jp', has('你那邊幾點？……你吃什麼？給我看。')&&has('你瘦了！……不對，是鏡頭。')&&has('你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。')&&has('讀書會你的位子，我們沒有人坐。')&&has('（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）')&&has('滷蛋要不要！隔著螢幕也要問！')&&said.some(s=>s.who==='燒臘店阿姨（畫面外）')&&G.flags.FAR_CALL==='jp'   /* AA_642 第 5 節：燒臘店的阿姨（A-256、A-257 作廢）；語彤坐在長桌最旁邊 */);
   check('F2. 和以安 FRIEND 以上：以安那則沒有「理由：」', has('（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）')&&!said.some(s=>/理由：便利商店/.test(s.t)));
   fresh('2028-04-13',19.5,'dorm',{EXCHANGE_ROUTE:'JP'}); R('zhe','FAM'); date('heroine_01'); await run('ev_far_call_jp');
-  check('F. 不在麵店團、和阿哲 FAMILIAR 以上：只留阿哲的台詞', has('就這樣？')&&!has('你瘦了！……不對，是鏡頭。')&&!has('滷蛋要不要！隔著螢幕也要問！')&&!said.some(s=>/他吃飯糰/.test(s.t)));
+  check('F. 不在桌遊團、和阿哲 FAMILIAR 以上：只留阿哲的台詞', has('就這樣？')&&!has('你瘦了！……不對，是鏡頭。')&&!has('滷蛋要不要！隔著螢幕也要問！')&&!said.some(s=>/他吃飯糰/.test(s.t)));
   fresh('2028-04-12',22.1,'dorm',{EXCHANGE_ROUTE:'JP'}); grpJoin(); R('zhe','FRI'); date('heroine_01'); rules(); at('2028-04-13',20); rules(); at('2028-04-13',20.8); OUT.tick(GM); PHONE.tick(G);
   check('F. 沒接：臺灣 19:45＝日本 20:45 長桌空位的照片', txt('g:noodle_team').includes('zhe:（照片：長桌上空著一個位子，前面放了一盤飯）'));
   fresh('2028-04-12',21.1,'dorm'); grpJoin(); R('zhe','FRI'); rules(); check('F. 台灣路線：沒有', !PHONE.sent(G,'y3_far_call'));
@@ -502,7 +502,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('L4. 台灣路線 7/15 10:00：宿舍系統那一則先到，旁白「（最後一次抽籤。四樓。）」', has('（最後一次抽籤。四樓。）')&&txt('g:dorm').some(t=>t.endsWith('大四宿舍抽籤結果：已分配。請於 9/3 前完成入住。')));
   fresh('2028-07-15',10,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); said=[]; await HOME.breakArrive(GM); check('L4. 日本路線：沒有那一句旁白（姊姊幫你填表）', !has('（最後一次抽籤。四樓。）'));
   fresh('2028-07-09',12.1,'dorm'); grpJoin(); R('heroine_03','FAM'); R('yu','FAM'); rules(); answer('yt_bday_y3',0);
-  check('YT. 7/9 12:00 麵店團 Alison「今天語彤生日！」→「傳一句生日快樂」→ 語彤「……謝謝。今年的田野，訪問到第二十二個了。」（AA_509 0-2 第 2 點）', txt('g:noodle_team').includes('yu:今天語彤生日！')&&txt('g:noodle_team').includes('player:生日快樂。')&&txt('g:noodle_team').includes('heroine_03:……謝謝。今年的田野，訪問到第二十二個了。')&&G.flags.YT_BDAY_Y3===true, JSON.stringify(txt('g:noodle_team')));
+  check('YT. 7/9 12:00 桌遊團 Alison「今天語彤生日！」→「傳一句生日快樂」→ 語彤「……謝謝。今年的田野，訪問到第二十二個了。」（AA_509 0-2 第 2 點）', txt('g:noodle_team').includes('yu:今天語彤生日！')&&txt('g:noodle_team').includes('player:生日快樂。')&&txt('g:noodle_team').includes('heroine_03:……謝謝。今年的田野，訪問到第二十二個了。')&&G.flags.YT_BDAY_Y3===true, JSON.stringify(txt('g:noodle_team')));
   fresh('2028-07-09',12.1,'dorm'); R('heroine_03','FAM'); rules(); check('YT. 不在群組、和語彤 FAMILIAR 以上：她的私訊放同一個按鈕', !!PHONE.byAsk(G,'yt_bday_y3')&&txt('p:heroine_03').includes(':今天是語彤的生日。'));
   fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); const zsq=OUT.get(G,'y3_zr_slips');
   check('ZS0. 和芷若交往中（台灣路線）：8/4 21:00 兩則（不用回）；排 8/5 14:00「2:30 AM（店休）」（2026-11-04 改期望：原本「兩點半（店休）」；AA_655 第 7 節第 5 點 10020abda，地點字幕寫店名 2:30 AM）', txt('p:heroine_02').join('|')==='heroine_02:明天店休。下午兩點，來店裡。|heroine_02:門會鎖著。敲三下。……我跟老闆借了一個下午。'&&!!zsq&&zsq.day===D('2028-08-05')&&zsq.h===14&&zsq.place==='2:30 AM（店休）'&&zsq.title==='和芷若：2:30 AM（店休）'&&!PHONE.pending(G).some(m=>m.th==='p:heroine_02'), JSON.stringify(txt('p:heroine_02')));

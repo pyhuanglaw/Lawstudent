@@ -97,7 +97,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     PHONE.answer(G,'pg_zq_dm',0); PG.rules(GM);
     check('12. 回「好。」＝18:00 的飯、Café 取消',OUT.get(G,'te_Y4S2')&&OUT.get(G,'te_Y4S2').h===18&&OUT.get(G,'pg_grad_cafe').state==='cancelled');
     H.at('2029-06-02',17.4); PG.rules(GM); H.at('2029-06-02',17.6); PHONE.tick(G);
-    check('12. 17:30 阿哲在麵店團傳 Café 的照片（沒有麵店團＝沒有）；接了一對一的記「聽說」只有在群組裡',!PHONE.inGroup(G,'noodle_team')||G.flags.GRAD_CAFE_HEARD===true); }
+    check('12. 17:30 阿哲在桌遊團傳 Café 的照片（沒有桌遊團＝沒有）；接了一對一的記「聽說」只有在群組裡',!PHONE.inGroup(G,'noodle_team')||G.flags.GRAD_CAFE_HEARD===true); }
   // ---- 19:30 Kevin、學姊生日（友情版）、前任 ----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); await H.run('grad');
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G);

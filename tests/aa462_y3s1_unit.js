@@ -72,12 +72,12 @@ await sec(0,()=>{
 });
 
 /* ---- 1 以安的行政法院 ---- */
-const crAsk=(pick)=>{ fresh('2027-10-19',20,{}); PHONE.join(H.G,'noodle_team','麵店團'); for(const id of [AN,'classmate_bohan','zhe','yu']) H.FAMILIAR(id); run('2027-10-19',20.75,21.25);
+const crAsk=(pick)=>{ fresh('2027-10-19',20,{}); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of [AN,'classmate_bohan','zhe','yu']) H.FAMILIAR(id); run('2027-10-19',20.75,21.25);
   const m=PHONE.byAsk(H.G,'y3_cr_grp'), k=m?m.ask.opts.findIndex(o=>o.t===pick):-1; if(k>=0) PHONE.answer(H.G,'y3_cr_grp',k); return {m,k}; };
 const an14=()=>byTag('y3_an14_msg').map(m=>m.text);
 await sec(1,()=>{
   { const {m,k}=crAsk('我跟以安去。'); run('2027-10-20',9,9.5); run('2027-10-21',21.75,22.25); const L=byTag('y3_an14_msg');
-    check('1. 10/19 群組回「我跟以安去。」（CRIMPRO_WITH an）→ 10/21 22:00 麵店團：「'+AN_NEW.join('」「')+'」＋「'+AN_FRI+'」（第 1 節）',!!m&&k>=0&&H.G.flags.CRIMPRO_WITH==='an'&&J(an14())===J(AN_NEW.concat([AN_FRI]))&&L.every(x=>x.th===NG&&x.from===AN)&&Math.abs(L[0].h-22)<0.26,J(an14()));
+    check('1. 10/19 群組回「我跟以安去。」（CRIMPRO_WITH an）→ 10/21 22:00 桌遊團：「'+AN_NEW.join('」「')+'」＋「'+AN_FRI+'」（第 1 節）',!!m&&k>=0&&H.G.flags.CRIMPRO_WITH==='an'&&J(an14())===J(AN_NEW.concat([AN_FRI]))&&L.every(x=>x.th===NG&&x.from===AN)&&Math.abs(L[0].h-22)<0.26,J(an14()));
     check('1. 沒有「我自己去行政法院旁聽了」；AN14 group、記 AN_ADMIN_COURT（照舊）',!TH(NG).some(x=>x.text===AN_OLD[0])&&H.G.flags.AN14==='group'&&SOCIAL.has(AN,'AN_ADMIN_COURT')); }
   { crAsk('我自己找一天。'); run('2027-10-21',21.75,22.25);
     check('1. 回「我自己找一天。」：兩句（沒有「禮拜五的地院照舊。」）',H.G.flags.CRIMPRO_WITH==='self'&&J(an14())===J(AN_NEW),J(an14())); }

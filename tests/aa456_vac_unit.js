@@ -25,7 +25,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ H.G.hour=+h
 const byTag=tag=>(H.G.msgs||[]).filter(m=>m.tag===tag);
 const tx=tag=>byTag(tag).map(m=>m.text);
 const meet=(...ids)=>ids.forEach(id=>SOCIAL.remember(id,'FIRST_MET',''));
-const grp=()=>PHONE.join(H.G,'noodle_team','麵店團');
+const grp=()=>PHONE.join(H.G,'noodle_team','桌遊團');
 const oldMsg=(tag,th,from,text,d,h)=>{ PHONE.rec(H.G); H.G.msgs.push({th,from,text,tag,day:d,h}); };   /* 舊存檔：這一則已經用舊的字收過了 */
 
 /* ---- 讀稿（企劃線 71f260ecc）---- */
@@ -81,7 +81,7 @@ await sec('1-2',()=>{
     at(W.open,11.9); run(11.9,12.2); const d=byTag('noodle_closed_d_'+y);
     got[y]={a:a.map(m=>m.text),d:d.map(m=>m.text),ok:a.concat(d).every(m=>m.from==='zhe'&&m.th==='g:noodle_team'),at:[keyOf(W.from),keyOf(W.open)]}; }
   /* AA_685 A2（企劃線 c96613e51，AA-C 定 D109）：A、D 改阿哲傳＝稿的字照 AA_477 第 3 節轉（ZP，同 1-1）；D 2026、2029 的「第一碗加蛋」換字（tools/story/aa685_fix.json，讀稿時已換）*/
-  for(const y of ['2026','2027','2028','2029']) check('1-2. '+y+'：店休第一天（'+got[y].at[0].slice(5)+'）21:00「'+(X12[y]||{a:[]}).a.map(ZP).join('／')+'」、初四（'+got[y].at[1].slice(5)+'）12:00「'+(X12[y]||{d:[]}).d.map(ZP).join('／')+'」（阿哲、麵店團群組；句號照 AA_477）',
+  for(const y of ['2026','2027','2028','2029']) check('1-2. '+y+'：店休第一天（'+got[y].at[0].slice(5)+'）21:00「'+(X12[y]||{a:[]}).a.map(ZP).join('／')+'」、初四（'+got[y].at[1].slice(5)+'）12:00「'+(X12[y]||{d:[]}).d.map(ZP).join('／')+'」（阿哲、桌遊團群組；句號照 AA_477）',
     !!X12[y]&&J(got[y].a)===J(X12[y].a.map(ZP))&&J(got[y].d)===J(X12[y].d.map(ZP))&&got[y].ok,J(got[y]));
   const O26=X12['2026']?[ZP(X12['2026'].a[1]),ZP(X12['2026'].d[1])]:['?','?'];   /* 2026 是原句（AA_456 1-2）：照 AA_477、AA_685 換過的字 */
   const keep=Object.keys(got).filter(y=>got[y].a.includes(O26[0])||got[y].d.includes(O26[1]));
@@ -111,7 +111,7 @@ await sec('1-4',()=>{
   check('1-4. 大一照舊：1/1 20:00「我明天回高雄，寒假一樣揪喔」（nye_zhe_y1）',J(tx('nye_zhe_y1'))===J(['我明天回高雄，寒假一樣揪喔']),J(tx('nye_zhe_y1')));
   const T4={Y2:'nye_y2_zhe',Y3:'hol_y3w_zhe_home',Y4:'hol_y4w_zhe_home'}, got={};
   for(const yk of ['Y2','Y3','Y4']){ const d=VAC.c01Day(yk); fresh(d,20.9); grp(); meet('zhe'); run(20.9,21.2); const M=byTag(T4[yk]); got[yk]={t:M.map(m=>m.text),ok:M.every(m=>m.from==='zhe'&&m.th==='g:noodle_team'&&m.day===d),day:keyOf(d)}; }
-  for(const yk of ['Y2','Y3','Y4']) check('1-4. '+yk+' 海邊那天（'+got[yk].day.slice(5)+'）21:00 阿哲「'+X14[yk]+'」（麵店團；tag '+T4[yk]+' 不變）',!!X14[yk]&&J(got[yk].t)===J([X14[yk]])&&got[yk].ok,J(got[yk]));
+  for(const yk of ['Y2','Y3','Y4']) check('1-4. '+yk+' 海邊那天（'+got[yk].day.slice(5)+'）21:00 阿哲「'+X14[yk]+'」（桌遊團；tag '+T4[yk]+' 不變）',!!X14[yk]&&J(got[yk].t)===J([X14[yk]])&&got[yk].ok,J(got[yk]));
   check('1-4. 大二～大四不再是「我明天回高雄」',!['Y2','Y3','Y4'].some(yk=>got[yk].t.includes('我明天回高雄')),J(got));
   const d2=VAC.c01Day('Y2'); fresh(d2,21.2); grp(); oldMsg('nye_y2_zhe','g:noodle_team','zhe','我明天回高雄',d2,21); run(21.2,21.5);
   const d3=VAC.c01Day('Y3'), n2=byTag('nye_y2_zhe').length; fresh(d3,21.2); grp(); oldMsg('hol_y3w_zhe_home','g:noodle_team','zhe','我明天回高雄',d3,21); run(21.2,21.5);

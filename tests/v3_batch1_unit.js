@@ -69,19 +69,19 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(dk('2026-09-16'),12,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 9/16（原本的日子）不觸發',!tick());
   check('5. 校園的帳篷在大二的博覽會那天也擺（zones3d FAIR_DAYS：2026-09-12，CLUBFAIR-REAL-1027 AA_485 3-2 從 9/16、9/17 搬過來；各年校慶的行為檢查在 nav_buildings_unit）',/FAIR_DAYS=\[[^\]]*'2026-09-12'/.test(fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8')));
   // 6. 開學第一頓
-  const d17=dk('2026-09-17'); fresh(d17,16,'campus',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); meet('heroine_01'); meet('heroine_03'); G.flags.met_yu=true;
+  const d17=dk('2026-09-17'); fresh(d17,16,'campus',{}); G.stage='law'; PHONE.join(G,'noodle_team','桌遊團'); meet('heroine_01'); meet('heroine_03'); G.flags.met_yu=true;
   run(16,16.95); check('6. 17:00 以前沒有邀約',!txt('g:noodle_team').some(t=>/開學第一頓/.test(t)));
-  run(17,17.1); check('6. 17:00 阿哲在麵店團群組「開學第一頓 七點，長桌」＋出發選單 19:00',txt('g:noodle_team').some(t=>t==='zhe:開學第一頓 七點，長桌')&&!!OUT.get(G,'y2_first_meal')&&OUT.get(G,'y2_first_meal').h===19,JSON.stringify(txt('g:noodle_team')));
+  run(17,17.1); check('6. 17:00 阿哲在桌遊團群組「開學第一頓 七點，長桌」＋出發選單 19:00',txt('g:noodle_team').some(t=>t==='zhe:開學第一頓 七點，長桌')&&!!OUT.get(G,'y2_first_meal')&&OUT.get(G,'y2_first_meal').h===19,JSON.stringify(txt('g:noodle_team')));
   picks=['行政法妳選']; said=[]; await EVENTS.run(ev('ev_y2_first_meal')); L=lines();   /* AB65-3（AA_211） 第 3 節 3-1 */
   check('6. 台詞（逐字；AB65-3（AA_211） 第 3 節 3-1）：開頭旁白「（暑假以後第一次，長桌又併起來了。）」（AA_428 §2 第 1 點）、阿哲兩句（「老闆娘」改「阿姨」，AA_313 5-3）、以安「我把大家的課表排在一起了，週四晚上大家都沒課。」、語彤「（倒茶過來）蘇姨說開學，每杯多一塊茶點。」（Alison 那句刪掉）；選「行政法妳選哪一班？」→ 以安「許老師那班，聽說他很愛點人。」',L[0]==='（暑假以後第一次，長桌又併起來了。）'&&/大二了，要有學長的樣子。$/.test(L[1])&&/（三秒後）阿姨，大碗。$/.test(L[2])&&/我把大家的課表排在一起了，週四晚上大家都沒課。$/.test(L[3])&&/（倒茶過來）蘇姨說開學，每杯多一塊茶點。$/.test(L[4])&&/許老師那班，聽說他很愛點人。$/.test(L[5])&&L.length===6&&G.flags.Y2_FIRST_MEAL,JSON.stringify(L));
   fresh(d17,16,'campus',{}); G.stage='law'; picks=['先吃']; said=[]; await EVENTS.run(ev('ev_y2_first_meal')); L=lines();
   check('6. 只認識阿哲：阿哲兩句、選項只有「先吃。」→ 旁白「（阿哲已經開始吃了。）」（AB65-3（AA_211） 3-1；原本「這才是學長的樣子。」；開頭旁白 AA_428 §2 第 1 點）',L.length===4&&L[0]==='（暑假以後第一次，長桌又併起來了。）'&&L[3]==='（阿哲已經開始吃了。）'&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「先吃。」']),JSON.stringify([L,opts]));
   // 沒去 → 21:30 照片；不在群組＝阿哲私訊
-  fresh(d17,16,'campus',{}); G.stage='law'; run(16,17.1); check('7. 不在麵店團群組：阿哲私訊邀約',txt('p:zhe').some(t=>t==='zhe:開學第一頓 七點，長桌'));
+  fresh(d17,16,'campus',{}); G.stage='law'; run(16,17.1); check('7. 不在桌遊團群組：阿哲私訊邀約',txt('p:zhe').some(t=>t==='zhe:開學第一頓 七點，長桌'));
   G.hour=19.3; OUT.expire(G); run(19.3,21.4); check('7. 沒出發＝沒去；21:30 以前沒有照片',OUT.get(G,'y2_first_meal').state==='missed'&&!txt('p:zhe').some(t=>/六碗麵/.test(t)));
   run(21.5,21.6); check('7. 21:30 照片「（長桌上六碗麵，一碗是大碗。）」',txt('p:zhe').some(t=>t==='zhe:📷（長桌上六盤飯，一盤是雙拼。）'));
   // 8. 中秋烤肉
-  const d25=dk('2026-09-25'); fresh(d25-1,20,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); meet('classmate_bohan'); meet('heroine_01'); meet('classmate_xinci'); meet('heroine_03'); G.flags.met_yu=true;
+  const d25=dk('2026-09-25'); fresh(d25-1,20,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','桌遊團'); meet('classmate_bohan'); meet('heroine_01'); meet('classmate_xinci'); meet('heroine_03'); G.flags.met_yu=true;
   run(20,20.9); check('8. 9/24 21:00 以前沒有',!txt('g:noodle_team').some(t=>/中秋/.test(t)));
   run(21,21.1); check('8. 9/24 21:00「明天中秋，河濱，晚上六點 烤肉架今年你負責」＋出發選單 9/25 18:00',txt('g:noodle_team').some(t=>t==='zhe:明天中秋，河濱，晚上六點 烤肉架今年你負責')&&OUT.get(G,'y2_midautumn').day===d25&&OUT.get(G,'y2_midautumn').h===18);
   G.day=d25; picks=['便利商店']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();

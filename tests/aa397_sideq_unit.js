@@ -142,7 +142,7 @@ await sec('2 SQ04',async()=>{ fresh('2027-03-03',11,Z772('SQ04')); know('慢讀�
     check('2. SQ04 從木曜日點餐出現（熟客次數記在「木曜日」底下）',!!R('SQ04')&&R('SQ04').state==='open',J(said()));
     fresh('2027-03-03',12,'l118_cafe2'); EAT.rec(H.G).n[L118.shop('cafe2').name]=4; H.said=[]; H.opts=[]; H.picks=[0,0,0]; await L118.order(GM,'cafe2');
     check('2. 大學食堂（cafe2）點餐不會出現 SQ04（那件事不在 118 巷了）',!R('SQ04'),J(said())); } });
-await sec('2 SQ05',async()=>{ fresh('2027-10-04',12,'l118_'+Z772('SQ05')); know('六張犁麵舖',4); PHONE.join(H.G,'noodle_team','麵店團'); SOCIAL.remember('zhe','FIRST_MET','');
+await sec('2 SQ05',async()=>{ fresh('2027-10-04',12,'l118_'+Z772('SQ05')); know('六張犁麵舖',4); PHONE.join(H.G,'noodle_team','桌遊團'); SOCIAL.remember('zhe','FIRST_MET','');
   await shop('六張犁麵舖',[0,1]); const r=R('SQ05');
   check('2. SQ05 老闆「膝蓋要開刀。要休兩個禮拜。」「……公休的紙，你幫我寫，寫得好看一點。」；三種寫法（日期填進去）',seq(['膝蓋要開刀。要休兩個禮拜。','……公休的紙，你幫我寫，寫得好看一點。'])&&J(H.opts[1])===J(['「老闆去修膝蓋，兩週後見。」','「本店公休至10月18日。」','「休息一下，大碗等你。」'])&&r.note==='本店公休至10月18日。'&&r.zhe,J(H.opts));
   set('2027-10-06',12); const closed=!L118.isOpen(Z772('SQ05'),H.G); H.said=[]; H.opts=[]; await L118.order(GM,Z772('SQ05'));

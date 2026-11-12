@@ -487,7 +487,7 @@ const Y2R2=(function(){
     after:G=>{ G.flags.YT_EV11_SEEN=G.day; } });
 
   /* ==================== AA_342 第 2-2 節：大二下的空白（第①級；AA-C 定稿，句子照抄；AA_375 第 4 節提醒還沒進遊戲）====================
-     「典型玩家」（AA_342 檔首）：在麵店團群組；不設 FRIEND 門檻。週四的麵店＝麵店團的時段（17:30～21:00），只演一次 */
+     「典型玩家」（AA_342 檔首）：在桌遊團群組；不設 FRIEND 門檻。週四的麵店＝桌遊團的時段（17:30～21:00），只演一次 */
   const ndl=G=>law(G)&&inGroup(G,'noodle_team');
   EV.push({ id:'ev_y2s2_thu_noodle_first', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[1,2,3], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 第 1 週 2/25：這學期第一次週四進麵店（第 3 週以前）*/
     prereq:{custom:ndl},
@@ -501,7 +501,7 @@ const Y2R2=(function(){
     { const m=d('f312'); if(m!=null&&knows('classmate_bohan',G)&&atLeast('classmate_bohan','FAMILIAR')&&win(G,m,21,1)&&!sent(G,'y2s2_bh_table')){ const B=t=>({th:'p:classmate_bohan',from:'classmate_bohan',text:t});
         if(typeof INV!=='undefined'&&INV.rec){ INV.rec(G); if(G.contacts&&G.contacts.classmate_bohan==null) G.contacts.classmate_bohan=G.day; }   /* 他傳訊息給你＝有你的聯絡方式（同「這週的訊息」）*/
         at(G,m,21,[B('債各第一章的筆記，我做了表格。'),Object.assign(B('要的話傳給你。'),{ask:{id:'y2s2_bh_table',until:abs(m+2,21),opts:[{t:'要。',say:[{from:'classmate_bohan',text:'（照片：一張表格，欄位比內容多）'}]},{t:'我自己整理。',say:[{from:'classmate_bohan',text:'好。'}]}]}})],'y2s2_bh_table'); } }
-    /* 4/21（三）22:00 麵店團群組 */
+    /* 4/21（三）22:00 桌遊團群組 */
     { const m=d('f421'); if(m!=null&&inGroup(G,'noodle_team')&&knows('yu',G)&&win(G,m,22,1)&&!sent(G,'y2s2_grp_mid')){ const N=(f,t)=>({th:'g:noodle_team',from:f,text:t});
         at(G,m,22,[N('yu','這週的報告交完了'),N('yu','我要吃三個便當'),N('zhe','我請一個')],'y2s2_grp_mid'); } }
     /* 5/21（五）22:00 阿凱私訊（不影響 6/11 暑住的選擇）*/

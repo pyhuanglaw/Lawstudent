@@ -24,7 +24,7 @@ const y4=async GM=>{ const G=GM.G; if(typeof HOME!=='undefined'&&HOME.at&&HOME.a
   if(G.zone==='dorm'&&STORY.gradEnvelopeDue(G)){ await STORY.gradEnvelope(GM); return 'envelope'; } if(STORY.moveOutDue(G)){ await STORY.moveOutY4(GM); return 'moveout'; } return null; };
 /* 6/2 早上起床開始一路跳（同 tests/postgrad_days_unit.js 的 sim）；到 until 那天為止。回傳日期卡（[日期, 那一句]，只留 AA_353 的句子）*/
 const sim=async(flags,setup,o)=>{ o=o||{}; const G=H.fresh('2029-06-02',8,'dorm',Object.assign({PACKED_Y4:PG.gradDay()-1},flags)); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);
-  PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人'); warns.length=0; rej.length=0;
+  PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人'); warns.length=0; rej.length=0;
   const until=PG.DK(o.until||'2029-12-15'); let it=0, err=null;
   try{
     for(it=0; it<150&&!G.flags.EPILOGUE_DONE&&G.day<until; it++){

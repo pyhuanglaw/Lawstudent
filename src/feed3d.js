@@ -28,7 +28,7 @@
      - 去沒去 WENT：anC12（報了 C12 京都語言課、和以安 FAMILIAR 以上＝同班那一版，同 vac_activities.js 的 AN_C12）、
        zqNamed（回過 needed_msgs zq_name「『存檔點』。」：包住 STORY.neededAnswered 記 ZQ_NAME_REPLIED；舊存檔看訊息）、anJP（日本路線，STORY.route）。
      - 一個月最多幾則（那一份的 capMonth，S.monthCap）：沛珊大三上（台南）一個月最多一則；照那一則的日期算同一個月已經出的（R.done 'p'，各學期的都算）。超過＝'x:month'。
-     - 語彤 2027-07-09 生日（那一份的 ytBday，S.ytBdayTick）：12:00 麵店團群組 Alison／不在群組、FAMILIAR 以上＝她的私訊放系統字，選項「傳一句生日快樂」（home3d.js 2026、r2y3b3d.js 2028 的做法）。
+     - 語彤 2027-07-09 生日（那一份的 ytBday，S.ytBdayTick）：12:00 桌遊團群組 Alison／不在群組、FAMILIAR 以上＝她的私訊放系統字，選項「傳一句生日快樂」（home3d.js 2026、r2y3b3d.js 2028 的做法）。
    ■ 大三下、大四上（AA_508、AA_509，企劃線 28f981438）加的：
      - 時差（S.loc）：稿上的時間都是臺灣時間；玩家人在國外（日本路線 3/25～8/5、美國路線 8/2～12/23、寒暑假出國途中）遊戲時鐘是當地時間，照 STORY.tzOffset 換
        （同 r2y4a3d.js 的 loc）——送到的那一刻和在臺灣一樣，手機上顯示當地時間；私訊、回覆期限、選項排的出遊也照換。人在臺灣＝0，不變（前幾輪的都一樣）。
@@ -44,7 +44,7 @@
        跳的途中（PG.jumpTo 那一段，S.pgJumping）貼的、跳之前最後一次還看得到的（S.free 那一刻還在七天內的）記 tr＝'pg'（S.PG_TR）；
        停下來＝跳完、接著的那一件演完（PG.busy：PG.advance 的開手機、演場景）、落地的出遊也演完或不去了（S.tripNow、OUT.due）、PG 的場景沒有該演的（PG.due）以後第一次 tick，
        記 back（那一刻），從那一刻起再留七天（S.live）。一則只延一次：已經有 tr 的不再記（不然每跳一次都重算，永遠不過期）。跳的途中最多留 S.PG_MAX 天（PG 的跳不會卡住，只是上限）。
-     - 停點（PG.stops，S.pgStop）：其他的停點只剩尾聲（2034；最後一個停點是 2030-10-01 第一份工作、12/13 麵店團…）的時候，先停在還沒出、會出的最後一則動態
+     - 停點（PG.stops，S.pgStop）：其他的停點只剩尾聲（2034；最後一個停點是 2030-10-01 第一份工作、12/13 桌遊團…）的時候，先停在還沒出、會出的最後一則動態
        （那一刻還有聯絡方式、階段夠）的一分鐘以後——不然那幾則（以安紐約、語彤紅紙、芷若存摺、學姊計畫本……）永遠看不到（AA_511 第 8 節第 4 點「每一則都看得到」）。
        後面還有別的停點的時候不停（跳到那裡看得到）。
      - 可昕分開以後一學期（AA_503 9-3，AA_510 7-3、AA_511 第 7 節照用）：大四下以後沒有下一個學期（V6EX.coolUntil＝null），照分開那天起 18 週（S.COOL_LAST）。
@@ -118,7 +118,7 @@ const FEED=(function(){
   S.zqNamed=G=>!!(G&&G.flags&&G.flags.ZQ_NAME_REPLIED)||(G&&G.msgs||[]).some(m=>m&&m.ask&&/_zq_name$/.test(m.ask.id||'')&&m.ans!=null);
   S.COND={
     ytOld:G=>!(G&&G.flags&&G.flags.YT_JOB_V),   /* AA_624（企劃線 ace533a43）：阿姨扭到手那條線新遊戲沒有＝只給這一版以前的舊存檔（yt2b）*/
-    anRulesGroup:G=>!!(G.flags&&G.flags.AN_DORM_RULES==='group'),   /* 10/14 Alison 在麵店團群組爆料（story3d.js an_rules_grp）*/
+    anRulesGroup:G=>!!(G.flags&&G.flags.AN_DORM_RULES==='group'),   /* 10/14 Alison 在桌遊團群組爆料（story3d.js an_rules_grp）*/
     zrAskedDrink:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','ASKED_HER_DRINK'),   /* 問過她自己喝什麼（events.js Z3：熱可可加一份濃縮）*/
     /* 沛珊和柏翰那一段在（characters.js 沛珊的 partner：2026-04-06 起、玩家和沛珊交往＝沒有；STORY.partnerOn）。AA_504 6-3 第 3 則「只有玩家沒有和沛珊交往的才出」*/
     psBohan:G=>{ const c=typeof CHARACTERS!=='undefined'?CHARACTERS.classmate_peishan:null; if(c&&c.partner&&typeof STORY!=='undefined'&&STORY.partnerOn) return !!STORY.partnerOn(G,c.partner); return !dating(G,'classmate_peishan'); },
@@ -192,7 +192,7 @@ const FEED=(function(){
   S.live=function(G,it,now){ if(now==null) now=nowOf(G); const t=abs(it.day,it.h); if(t>now) return false; if(now-t<S.KEEP*24) return true; if(it.tr==null) return false;
     if(it.back==null) return now-t<S.holdMax(it)*24&&S.tripOn(G,it.tr); return now-it.back<S.KEEP*24; };
   /* 畢業以後篇的停點（檔尾掛在 PG.stops）：還沒出、到時候會出的最後一則動態（現在有聯絡方式、階段夠、條件成立）。
-     只有其他的停點只剩尾聲（2034，PG.advance 直接演、演完回標題）或沒有的時候才停在這裡——最後一個停點（2030-10-01 第一份工作、12/13 麵店團…）以後貼的，
+     只有其他的停點只剩尾聲（2034，PG.advance 直接演、演完回標題）或沒有的時候才停在這裡——最後一個停點（2030-10-01 第一份工作、12/13 桌遊團…）以後貼的，
      不然永遠看不到（AA_511 第 8 節第 4 點「每一則都看得到」）。後面還有別的停點的不用停：跳到那裡的時候看得到（保留規則）。
      停在那一則貼出來的一分鐘以後（items 的時間存到小數三位，22:07＝22.117 小時，剛好停在 22:07 會晚一秒才算貼出來）*/
   S.pgStop=function(G){ if(S.pgStopIn||!G||!G.flags||typeof PG==='undefined'||!PG.on||!PG.on(G)||!PG.nextStop||typeof CALENDAR==='undefined') return null; const R=S.rec(G), now=nowOf(G); let best=null;
@@ -325,7 +325,7 @@ const FEED=(function(){
   S.ytTreatDue=function(G){ const T=S.ytTreatOf(), R=G&&G.flags&&G.flags.FEED; return !!(T&&R&&R.dm&&R.dm[T.after]==='sent'&&!R.ytTreat); };
   S.ytTreatDone=function(G){ const R=S.rec(G); R.ytTreat=G.day; };
   /* 語彤 2027-07-09 生日（AA_506 3-2 第 4 點；那一份的 ytBday）：照 home3d.js 2026、r2y3b3d.js 2028 那兩則——12:00、當天 24:00 以前（睡過整天就沒有）；
-     麵店團群組 Alison「今天語彤生日！」；不在群組、和語彤 FAMILIAR 以上＝她的私訊放系統字；按鈕「傳一句生日快樂」→ 她回、記 flag */
+     桌遊團群組 Alison「今天語彤生日！」；不在群組、和語彤 FAMILIAR 以上＝她的私訊放系統字；按鈕「傳一句生日快樂」→ 她回、記 flag */
   S.ytBdayTick=function(G){ if(typeof PHONE==='undefined'||!PHONE.at||!PHONE.sent) return; const now=nowOf(G);
     for(const s of SETS()){ const B=s.ytBday; if(!B) continue; const d=dayOfKey(B.day); if(d==null||now<abs(d,B.h)||now>=abs(d+1,0)||PHONE.sent(G,B.tag)) continue;
       const reply={from:'heroine_03',text:B.reply}, opt={t:B.opt,post:B.post,say:[reply],set:{[B.flag]:true}};

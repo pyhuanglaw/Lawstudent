@@ -1,5 +1,5 @@
 // 交接包 v2 C3：寒假拜年（AA_71 2-8「大一的台詞」；芷若、方奕廷兩則 BB 7451e42 改字）——不需要瀏覽器。修改前沒有 STORY.lunarNewYear、手機沒有這些訊息（第 1 項失敗）。
-// 檢查：初一是 2026-02-17；麵店團群組初一 11:00 阿哲、以安的照片＋拜年，回牛肉麵／貼圖的回應（2026-10-14 祐廷改成臺北人，原本是火雞肉飯）；不在群組沒有；芷若有點熟（店休三天）／朋友（……我家的。）／不熟、沒聯絡方式沒有；
+// 檢查：初一是 2026-02-17；桌遊團群組初一 11:00 阿哲、以安的照片＋拜年，回牛肉麵／貼圖的回應（2026-10-14 祐廷改成臺北人，原本是火雞肉飯）；不在群組沒有；芷若有點熟（店休三天）／朋友（……我家的。）／不熟、沒聯絡方式沒有；
 //   方奕廷初三 15:00 才到：有點熟（學名＋說明）／朋友（這棵你猜＋隔天答案）；睡過頭（初三才起床）照原本的時間補進去；大一下開學以後不會再送
 // 用法：node tests/v2_c3_cny_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -34,11 +34,11 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   if(typeof STORY.lunarNewYear!=='function'){ console.log('FAILED '+fails); process.exit(1); }
   const ny=STORY.lunarNewYear();
   check('大一的春節初一＝2026-02-17（前一天除夕）',ny!=null&&CALENDAR.dateOf(ny).key==='2026-02-17'&&CALENDAR.holiday(ny-1)==='除夕',ny+' '+(ny&&CALENDAR.dateOf(ny).key));
-  const setup=(day,hour,o)=>{ o=o||{}; fresh(day,hour,'dorm'); if(o.group!==false) PHONE.join(G,'noodle_team','麵店團'); G.contacts=G.contacts||{}; for(const id in (o.contacts||{})) G.contacts[id]=o.contacts[id];
+  const setup=(day,hour,o)=>{ o=o||{}; fresh(day,hour,'dorm'); if(o.group!==false) PHONE.join(G,'noodle_team','桌遊團'); G.contacts=G.contacts||{}; for(const id in (o.contacts||{})) G.contacts[id]=o.contacts[id];
     for(const id in (o.rel||{})) R(id,...o.rel[id]); };
-  /* 麵店團 */
+  /* 桌遊團 */
   { setup(ny,8); run(8,12); const L=txt('g:noodle_team').filter(t=>!/建立了/.test(t));
-    check('麵店團（初一 11:00）：阿哲「📷（高雄的夜市，人擠人）」「新年快樂！高雄沒有冬天」「你們那邊冷嗎」、以安「📷（台中的老街，一整排紅燈籠）」「新年快樂。人太多，只走到第三個路口就回家了。」',
+    check('桌遊團（初一 11:00）：阿哲「📷（高雄的夜市，人擠人）」「新年快樂！高雄沒有冬天」「你們那邊冷嗎」、以安「📷（台中的老街，一整排紅燈籠）」「新年快樂。人太多，只走到第三個路口就回家了。」',
       JSON.stringify(L.slice(-5))===JSON.stringify(['zhe:📷（高雄的夜市，人擠人）','zhe:新年快樂！高雄沒有冬天','zhe:你們那邊冷嗎','heroine_01:📷（台中的老街，一整排紅燈籠）','heroine_01:新年快樂。人太多，只走到第三個路口就回家了。'])&&TH('g:noodle_team').filter(m=>m.text.includes('高雄')).every(m=>m.day===ny&&Math.abs(m.h-11)<0.01),JSON.stringify(L));
     const m=PHONE.byAsk(G,'cny_noodle_reply');
     check('可以回兩種（牛肉麵的照片／貼圖）；不回就只是沒回',!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["（傳姊姊帶你去吃的牛肉麵）","（傳一張「新年快樂」的貼圖）"]',m&&JSON.stringify(m.ask.opts.map(o=>o.t)));
@@ -46,7 +46,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('回牛肉麵：你「📷（姊姊帶你去吃的牛肉麵）」→ 阿哲「牛肉麵！！看起來好好吃」、以安「哪一家？……看起來很辣。」（AA_313 4-3：不用「記下來了」收尾；AA_524 A13 改原句，不約開學）',JSON.stringify(A)===JSON.stringify(['player:📷（姊姊帶你去吃的牛肉麵）','zhe:牛肉麵！！看起來好好吃','heroine_01:哪一家？……看起來很辣。']),JSON.stringify(A));
     setup(ny,8); run(8,12); PHONE.answer(G,'cny_noodle_reply',1); const B=txt('g:noodle_team').slice(-2);
     check('回貼圖：你「（貼圖：新年快樂）」→ 阿哲回一張一樣的貼圖',JSON.stringify(B)===JSON.stringify(['player:（貼圖：新年快樂）','zhe:（貼圖：新年快樂）']),JSON.stringify(B));
-    setup(ny,8,{group:false}); run(8,12); check('不在麵店團群組：沒有',!TH('g:noodle_team').length);
+    setup(ny,8,{group:false}); run(8,12); check('不在桌遊團群組：沒有',!TH('g:noodle_team').length);
     setup(ny-1,20); run(20,23.9); G.day=ny; run(0,12); check('除夕晚上開著遊戲過夜：初一 11:00 照樣到、只一次',TH('g:noodle_team').filter(m=>m.text.includes('高雄沒有冬天')).length===1); }
   /* 芷若 */
   { const z=(rel,contact)=>{ setup(ny,8,{rel:{heroine_02:rel},contacts:contact?{heroine_02:ny-30}:{}}); run(8,16); return txt('p:heroine_02'); };
@@ -64,7 +64,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 睡過頭：初三下午才起床（中間的天沒有跑 phoneRules）*/
   { setup(ny+2,16,{rel:{heroine_02:[25],npc_fangyt:[25]},contacts:{heroine_02:ny-30,npc_fangyt:ny-30}}); run(16,16.5);
     const zr=TH('p:heroine_02'), gp=TH('g:noodle_team').filter(m=>m.text.includes('高雄沒有冬天'));
-    check('初三才第一次跑：芷若、麵店團照原本的時間（初一）補進去，不會跑到未來',zr.length===3&&zr.every(m=>m.day===ny&&Math.abs(m.h-15.5)<0.05)&&gp.length===1&&gp[0].day===ny,JSON.stringify(zr.map(m=>[m.day,m.h]))); }
+    check('初三才第一次跑：芷若、桌遊團照原本的時間（初一）補進去，不會跑到未來',zr.length===3&&zr.every(m=>m.day===ny&&Math.abs(m.h-15.5)<0.05)&&gp.length===1&&gp[0].day===ny,JSON.stringify(zr.map(m=>[m.day,m.h]))); }
   /* 範圍外 */
   { setup(STORY.termDay('Y1S2',3,3),8,{rel:{heroine_02:[25]},contacts:{heroine_02:1}}); run(8,16); check('大一下開學以後：沒有拜年訊息',!txt('g:noodle_team').some(t=>/新年快樂/.test(t))&&!TH('p:heroine_02').length); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

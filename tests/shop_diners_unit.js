@@ -4,7 +4,7 @@
 //   2. 人數照時段：吃飯的店下午、晚上（尖峰以外）比尖峰少、不到兩成五；打烊（公休日、兩段中間、颱風假、麵店過年店休）一個人都沒有。
 //   3. 同一天同一時段出去再進來：同一批人、同一些位子（D55）；換一天換人。
 //   4. 玩家的位子：沒坐下時至少兩個空位，有兩人座的店至少留一組面對面的兩人座整天空著；玩家先坐了的位子沒有客人坐上去；
-//      劇情的位子：阿鳳麵店中間那張桌（玩家、阿哲、麵店團）不排；麵店團常客的日子 17:30～19:00 麵店不排。
+//      劇情的位子：阿鳳麵店中間那張桌（玩家、阿哲、桌遊團）不排；桌遊團常客的日子 17:30～19:00 麵店不排。
 //   5. 一間店同時最多 10 位（書店、便利商店 6、影印店 2、一一八茶飲 3）；兩個客人不坐同一個位子。
 //   6. 坐著的：坐在區域真正的座位上、方向照座位、旁邊站得起來；站著的：站得住、面向架子或櫃台（前面 0.75 m 是架子）、不站在出口、點餐這些按鈕上。
 //   7. 有名字的人後來走進來、空位不夠時：一桌客人吃完先走（S.shopTrim），空位回到兩個以上。
@@ -114,8 +114,8 @@ const KCAP={bookstore:6,cvs:6,wz_print:2};   /* 2026-11-11：l118_tea 不再是�
   check('4. 玩家先坐了的位子沒有客人坐上去',!bad.length,bad.slice(0,4).join('、')); }
 { let mid=0, any=0; for(const d of SCAN_DAYS) for(const h of [11.5,12,12.5,13,13.5,17.2,18,18.5,19.5,20.5]){ enter('noodle',mkG(d,h)); any+=ppl().length; mid+=ppl().filter(n=>n.seat&&Math.abs(n.seat.x)<0.5).length; }
   NDL=()=>true; let reg=0, ok=0; for(const d of DAYS) for(const h of [17.6,18,18.5,18.9]){ enter('noodle',mkG(d,h)); reg+=ppl().length; } for(const d of DAYS){ enter('noodle',mkG(d,12.5)); ok+=ppl().length; } NDL=()=>false;
-  check('4. 阿鳳麵店中間那張桌（玩家、阿哲、麵店團）不排客人',any>0&&mid===0,'客人 '+any+' 人次、中間那張 '+mid);
-  check('4. 麵店團常客的日子 17:30～19:00 麵店不排（他們自己的固定客人）；中午照排',reg===0&&ok>0,'17:30～19:00 '+reg+' 人次、中午 '+ok); }
+  check('4. 阿鳳麵店中間那張桌（玩家、阿哲、桌遊團）不排客人',any>0&&mid===0,'客人 '+any+' 人次、中間那張 '+mid);
+  check('4. 桌遊團常客的日子 17:30～19:00 麵店不排（他們自己的固定客人）；中午照排',reg===0&&ok>0,'17:30～19:00 '+reg+' 人次、中午 '+ok); }
 // ---------- 7. 有名字的人走進來、空位不夠：一桌客人先走 ----------
 { const G=mkG('2025-10-16',18.5), zz=enter('wz_teishoku',G), before=ppl().length; let added=0;
   for(const st of zz.seats){ if(seatBusy(E,st)) continue; if(shopFree(E)<=1) break; const o=new THREE.Group(); o.position.set(st.x,0,st.z); E.addNPC({obj:o,name:'同學',charId:'x'+added,seat:st,pose:'sit'}); added++; }   /* 照作息來的同學坐掉空位，剩一個 */

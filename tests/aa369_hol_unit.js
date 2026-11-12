@@ -58,10 +58,10 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
   { const C=VAC_DATA.VA10, M=C.ask.ms.map(([w,t])=>w+':'+t), S=[].concat(...C.steps.map(s=>s.lines.filter(x=>x.who).map(x=>x.who+':'+x.text)));
     check('H1. 7/20 群組：以安「我那幾天在京都。你們去，拍照給我。」；排行程的兩句是柏翰（「行程我來排？」「……好。我只排第一天。」，沒有「可以。」）；以安沒有排行程的句子',M.includes('heroine_01:我那幾天在京都。你們去，拍照給我。')&&M.includes('classmate_bohan:行程我來排？')&&M.includes('classmate_bohan:……好。我只排第一天。')&&!M.some(t=>/^heroine_01:.*排/.test(t))&&!M.includes('heroine_01:可以。行程我來排？'),J(M));
     check('H1. 8/25、8/27 那兩句改柏翰說；三場沒有以安的句子、沒有交往版',S.includes('classmate_bohan:……下一站等她。我第一天的行程有寫「走散的話在下一站等」。')&&S.includes('classmate_bohan:（看著對岸）……第二天以後都沒排，結果也走完了。')&&!S.some(t=>t.startsWith('heroine_01:'))&&!C.steps.some(s=>s.dating&&s.dating.heroine_01),J(S));
-    fresh(D('2027-08-25'),8,'dorm',{dating_heroine_01:true,VA10:'yes'}); R('heroine_01','CLO'); PHONE.join(G,'noodle_team','麵店團'); said=[];
+    fresh(D('2027-08-25'),8,'dorm',{dating_heroine_01:true,VA10:'yes'}); R('heroine_01','CLO'); PHONE.join(G,'noodle_team','桌遊團'); said=[];
     await VAC.va10Trip(GM); PHONE.tick(G); const A=TH('p:heroine_01').filter(m=>m.tag==='va10_dm_heroine_01');
     check('H1. 和以安交往中：8/27 21:00 她私訊「📷（京都車站的月台）」「明天回去。……香港好玩嗎？」；三場沒有以安',J(A.map(m=>[K(m.day),m.h,m.text]))===J([['2027-08-27',21,'📷（京都車站的月台）'],['2027-08-27',21,'明天回去。……香港好玩嗎？']])&&!said.some(s=>s.who==='沈以安'),J(TH('p:heroine_01').map(m=>[K(m.day),m.h,m.text])));
-    fresh(D('2027-08-25'),8,'dorm',{VA10:'yes'}); R('heroine_01','CLO'); PHONE.join(G,'noodle_team','麵店團'); await VAC.va10Trip(GM); PHONE.tick(G);
+    fresh(D('2027-08-25'),8,'dorm',{VA10:'yes'}); R('heroine_01','CLO'); PHONE.join(G,'noodle_team','桌遊團'); await VAC.va10Trip(GM); PHONE.tick(G);
     check('H1. 沒有交往：沒有那則私訊',!TH('p:heroine_01').some(m=>m.tag==='va10_dm_heroine_01')); }
   // ===== H2 白色情人節、H3 阿哲 =====
   { const src=fs.readFileSync(path.join(ROOT,'src/data/r2y3b_events.js'),'utf8');

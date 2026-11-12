@@ -433,7 +433,7 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
       &&J(AL.dm.opts.map(o=>o.t))===J(['聽說了。恭喜。','妳怎麼沒跟我說？','日本很適合妳。'])&&J(AL.dm.opts.map(o=>o.say))===J([['還沒申請上。','……謝謝。'],['我想申請上了再說。','……結果 Alison 先說了。'],['你又知道了。','……我也覺得。']])
       &&J(AL.dm.opts.map(o=>o.rel))===J([{comf:1},{trust:1},{fam:1}])&&Q.anLaterNoGroup==='我要申請日本交換。……先跟你說一聲。'&&AL.noGroup.includes('「'+Q.anLaterNoGroup+'」')
       &&/^2027-03-19（五）21:00/.test(AL.group.at)&&/^2027-03-19 21:20/.test(AL.dm.at)&&/^dec:heroine_01\.jp_tell=later（含預設/.test(AL.if)&&wd(d)===5,J(AL));
-    const mk=(o)=>{ o=o||{}; const G=fresh('2027-03-19',20,'dorm'); if(o.grp!==false) PHONE.join(G,'noodle_team','麵店團'); if(o.v) dec(G,AN,'jp_tell',o.v,dk('2027-01-10'),o.late?{late:true}:null); if(o.fam===false) H.rel(AN,10,0,0); return G; };
+    const mk=(o)=>{ o=o||{}; const G=fresh('2027-03-19',20,'dorm'); if(o.grp!==false) PHONE.join(G,'noodle_team','桌遊團'); if(o.v) dec(G,AN,'jp_tell',o.v,dk('2027-01-10'),o.late?{late:true}:null); if(o.fam===false) H.rel(AN,10,0,0); return G; };
     const grp=G=>G.msgs.filter(m=>m.tag==='aa720_an_later_grp'), dmL=G=>G.msgs.filter(m=>m.th==='p:'+AN);
     /* 11b 在群組（later 記了） */
     { const G=mk({v:'later'}); run(G,d,20.95); const a=grp(G).length+dmL(G).length; run(G,d,21.01); const g1=grp(G), dm1=dmL(G).length; run(G,d,21.3); const dm2=dmL(G).length; run(G,d,21.34); const m=dmL(G);

@@ -55,11 +55,11 @@ await sec('A2',()=>{
     J(L.a)===J(WANT.a)&&J(L.d)===J(WANT.d)&&inDoc('2026「阿姨說 今天每盤送一顆滷蛋」')&&inDoc('2029「每盤送滷蛋 今年也是」')&&inDoc('換成**阿哲**傳'),J({a:L.a,d:L.d}));
   check('A2. 沒有一則有句號、沒有「第一碗」（麵店的說法）',![].concat(...Object.values(L.a),...Object.values(L.d)).some(t=>/。|第一碗/.test(t)));
   const got={};
-  for(const y of ['2026','2027','2028','2029']){ const W=NOODLE_CLOSED.window(DK(NOODLE_CLOSED.CNY[y])); fresh(W.from,20.9,'dorm'); PHONE.join(H.G,'noodle_team','麵店團'); run(20.9,21.2);
+  for(const y of ['2026','2027','2028','2029']){ const W=NOODLE_CLOSED.window(DK(NOODLE_CLOSED.CNY[y])); fresh(W.from,20.9,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); run(20.9,21.2);
     at(W.open,11.9); run(11.9,12.2); const M=byTag('noodle_closed_a_'+y).concat(byTag('noodle_closed_d_'+y)); got[y]=M.map(m=>m.from+':'+m.text); }
   const ok=Object.keys(got).every(y=>J(got[y])===J(WANT.a[y].concat(WANT.d[y]).map(t=>'zhe:'+t)));
   check('A2. 實際演：四年的店休第一天 21:00、初四 12:00，群組裡是阿哲傳的那兩則（不是語彤）',ok,J(got));
-  { const W=NOODLE_CLOSED.window(DK(NOODLE_CLOSED.CNY['2027'])); fresh(W.from,21.2,'dorm'); PHONE.join(H.G,'noodle_team','麵店團');
+  { const W=NOODLE_CLOSED.window(DK(NOODLE_CLOSED.CNY['2027'])); fresh(W.from,21.2,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團');
     (H.G.msgs=H.G.msgs||[]).push({th:'g:noodle_team',from:'heroine_03',text:'店休，到初三。',day:W.from,h:21,tag:'noodle_closed_a_2027'}); PHONE.sent(H.G,'noodle_closed_a_2027'); (PHONE.rec(H.G).sent||(PHONE.rec(H.G).sent={}))['noodle_closed_a_2027']=true; run(21.2,21.5);
     check('A2. 舊存檔：2027 店休那一則已經收過（語彤傳的舊字）＝不重發',byTag('noodle_closed_a_2027').length===1&&byTag('noodle_closed_a_2027')[0].from==='heroine_03',J(byTag('noodle_closed_a_2027'))); }
 });
@@ -75,7 +75,7 @@ await sec('A3',async()=>{
       J(H.opts.map(o=>[...o]))===J([['「冷嗎？」']])&&L.includes('……有一點。')&&L.includes('（她把手縮進袖子。你們又走了一段。）')&&!L.includes('下次店休是明年。')&&(fl.YT_CLOSED_OUT?H.G.flags.YT_CLOSED_OUT===true:!('YT_CLOSED_OUT' in H.G.flags)),J({o:H.opts,L})); }
   const users=ORDER.concat(['src/data/an_yt_hol_events.js']).filter(f=>fs.existsSync(path.join(H.ROOT,f))&&strip(src(f)).includes('YT_CLOSED_OUT'));
   check('A3. 程式裡沒有人讀或寫 YT_CLOSED_OUT（只剩註解）＝舊存檔裡的旗標讀得進來、不影響任何事',!users.length,J(users));
-  fresh('2027-02-01',11,'dorm',{YT_CLOSED_OUT:true}); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','麵店團'); H.said=[]; H.opts=[]; const r=await NOODLE_CLOSED.door(GM);
+  fresh('2027-02-01',11,'dorm',{YT_CLOSED_OUT:true}); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','桌遊團'); H.said=[]; H.opts=[]; const r=await NOODLE_CLOSED.door(GM);
   check('A3. 舊存檔有 YT_CLOSED_OUT、2027 店休去按門：只有鐵門的旁白',r===true&&J(H.said.map(s=>s.t))===J([NOODLE_CLOSED.L.door])&&!H.opts.length);
 });
 

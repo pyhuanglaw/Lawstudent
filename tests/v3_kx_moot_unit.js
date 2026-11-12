@@ -41,7 +41,7 @@ GM.money=function(n){ G.money+=n; };
   const acts=['moot_2','moot_3','moot_4'].map(id=>ACTIVITIES.list.find(a=>a.id===id));
   check('2. 小組討論三場不開（skip）',acts.every(a=>a&&!ACTIVITIES.on(a,termDay('Y2S2',a.weeks[0],a.weekday))));
   check('3. STORY.MOOT_OFF',STORY.MOOT_OFF===true);
-  fresh(STORY.dayOfKey('2027-02-23'),8,'dorm',{dating_kexin:true}); PHONE.join(G,'noodle_team','麵店團');
+  fresh(STORY.dayOfKey('2027-02-23'),8,'dorm',{dating_kexin:true}); PHONE.join(G,'noodle_team','桌遊團');
   for(let d=STORY.dayOfKey('2027-02-23');d<=STORY.dayOfKey('2027-05-02');d++){ G.day=d; G.weekday=wdOf(d); run(8,23.5,0.5); }
   PHONE.tick(G); const bad=(G.msgs||[]).filter(m=>/^moot_|^kx_moot/.test(String(m.tag||''))||/模擬法庭/.test(m.text||''));
   check('4. 大二下整學期：沒有模擬法庭的公告、群組、邀約、可昕的訊息',!bad.length&&!PHONE.inGroup(G,'moot_seller'),JSON.stringify(bad.slice(0,3).map(m=>m.text)));

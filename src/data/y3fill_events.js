@@ -30,7 +30,7 @@ const Y3FILL_EVENTS=(function(){
   const wdOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).wd%7:null;
   const T0=id=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf:null; return d=>{ const x=t?t(d):null; return !!x&&x.id===id; }; };
   const inY3S1=T0('Y3S1');
-  /* 這學期之前的週二有沒有進過麵店（麵店團的紀錄 ndlDays：麵店日 17:00～21:00 在麵店；或習慣記憶 place:noodle:* 的日子）*/
+  /* 這學期之前的週二有沒有進過麵店（桌遊團的紀錄 ndlDays：麵店日 17:00～21:00 在麵店；或習慣記憶 place:noodle:* 的日子）*/
   const tueBefore=G=>{ const F=G.flags||{}, old=d=>d<G.day&&inY3S1(d)&&(typeof STORY==='undefined'||!STORY.noodleDay||STORY.noodleDay(d));   /* AA_542：原本看週二，麵店日改成每週不固定兩天以後看麵店日 */ if((F.ndlDays||[]).some(old)) return true;
     const H=G.habits||{}; for(const k in H){ if(!/^place:noodle:/.test(k)||!H[k]) continue; if((H[k].days||[]).some(old)) return true; } return false; };
   const member=G=>{ const F=(G&&G.flags)||{}; return !!(F.PUBLIC_LAW_GROUP||F.CLUB_public_law_group); };   /* 參加公法讀書會的（第一次去就算加入，classes3d.js 的 CLUB_<id>）*/
@@ -38,7 +38,7 @@ const Y3FILL_EVENTS=(function(){
   const exAn=G=>typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_01');   /* AA_600 的「分手後」*/
   const L=Y3FILL_LINES;
   return [
-    /* ---------- 3-1 第 3 週：這學期第一次週二進麵店（9/21 起、麵店團的時間）---------- */
+    /* ---------- 3-1 第 3 週：這學期第一次週二進麵店（9/21 起、桌遊團的時間）---------- */
     { id:'ev_y3_tue_noodle', title:'公館燒臘', participants:[], location:'noodle', trigger:'enter', once:true, term:['Y3S1'], weekday:[1,2,3,4,5],ndlDay:true, time:[17,21], background:'blur',
       prereq:{custom:G=>{ const d=D('2027-09-21'); return d!=null&&G.day>=d&&!tueBefore(G); }},
       dialogue:[ {speaker:null,text:L.tueNoodle} ] },

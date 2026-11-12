@@ -37,7 +37,7 @@ const workQ=key=>(typeof OUT!=='undefined'?OUT.rec(G):[]).filter(q=>q.vac&&q.vac
 const onDay=(key,k)=>workQ(key).find(q=>q.day===D(k));
 let cards=[];
 GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.money=function(n){ G.money+=n; };
-const LAWC=()=>{ PHONE.join(G,'law_class','法律系（全班）'); PHONE.join(G,'noodle_team','麵店團'); };
+const LAWC=()=>{ PHONE.join(G,'law_class','法律系（全班）'); PHONE.join(G,'noodle_team','桌遊團'); };
 const sec=async f=>{ try{ await f(); }catch(e){ check('（這一段中途出錯：'+String(e&&e.message||e).slice(0,120)+'）',false); } };   // 一段出錯不中斷（改之前的程式沒有這些函式）
 const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'), I=inst(id,yk), need=I&&I.A.select&&I.A.select.needI; if(need) safe(()=>VAC.markI(G,I,need)); return ok; };   // 直接報名（情境從暑假開始）：這一次的申請表、面試當作已經做了，錄取照常
 (async()=>{
@@ -167,7 +167,7 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
     G.day=termDay('Y1S2',13,1); G.weekday=1; run(11.9,12.2); const R2=tagged('vac_sel_C18@Y1');
     check('8. 錄取：「【通知】恭喜錄取法律與社會海外見習團（新加坡）。行前說明會：6/3（三）12:20。」＋媽媽「機票多少？我轉給你」「護照記得看效期」',R2.length===3&&R2[0].text==='【通知】恭喜錄取法律與社會海外見習團（新加坡）。行前說明會：6/3（三）12:20。'&&R2[1].text==='機票多少？我轉給你'&&R2[2].text==='護照記得看效期',JSON.stringify(R2.map(x=>x.text)));
     G.day=D('2026-07-20'); G.weekday=1; G.hour=7.9; run(7.9,8.1);
-    check('8. 出發那天麵店團（0-2）：阿哲「新加坡很熱喔」、Alison「聽說口香糖不能帶」',txt('g:noodle_team').includes('zhe:新加坡很熱喔')&&txt('g:noodle_team').includes('yu:聽說口香糖不能帶'));
+    check('8. 出發那天桌遊團（0-2）：阿哲「新加坡很熱喔」、Alison「聽說口香糖不能帶」',txt('g:noodle_team').includes('zhe:新加坡很熱喔')&&txt('g:noodle_team').includes('yu:聽說口香糖不能帶'));
     said=[]; opts=[]; cards=[]; picks=[0,1,0]; await VAC.outing(GM,OUT.get(G,'vac_C18@Y1')); L=lines();
     check('8. 參訪法院（第二天）：「（法庭比你想的小。…）」「（團長姚思穎在你旁邊小聲翻了兩句，後來也跟不上了。）」思穎「……我只聽懂 adjourned。」→「休庭。」「對，休庭。我就聽懂這個。」',L[0]==='（法庭比你想的小。法官、律師都講英文，講得很快。）'&&L[1]==='（團長姚思穎在你旁邊小聲翻了兩句，後來也跟不上了。）'&&L[2]==='思穎：……我只聽懂 adjourned。'&&L[3]==='思穎：對，休庭。我就聽懂這個。'&&cards.some(c=>c[0].startsWith('7/21')&&c[1]==='新加坡'),JSON.stringify(L));
     check('8. 座談（第四天）：「（當地法律系的學生問你們：上課要不要點名？）」→「看老師。」當地學生「我們也是。」',L.includes('（當地法律系的學生問你們：上課要不要點名？）')&&L.includes('當地學生：我們也是。')&&cards.some(c=>c[0].startsWith('7/23')));

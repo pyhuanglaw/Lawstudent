@@ -136,7 +136,7 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
     { const G=fresh('2030-09-08',7.8,{},'heroine_01'); H.tick(); const q=OUT.due(G); H.picks=[0]; H.opts=[]; H.said=[]; caps.length=0; if(q) await OUT.tick(GM);
       check('5. 以安在紐約：臺灣週日 07:45 問「接起來」、地點字幕「視訊（紐約）」、那一句（這邊晚上八點，你那邊早上八點……）、視訊結束',!!q&&(H.opts[0]||[])[0]==='接起來：和'+SOCIAL.displayName('heroine_01')+'：視訊（紐約）'&&caps.includes('視訊（紐約）')&&H.said.length===1&&H.said[0].t===docLine('heroine_01','2030-09')&&caps.includes('視訊結束。'),JSON.stringify([H.opts[0],caps,H.said])); }
     /* 一路跳：以安、芷若、沛珊同時交往，沒報國考 */
-    { const W=['heroine_01','heroine_02','classmate_peishan'], G=fresh('2029-06-03',10,{MULTI_Y5:'none'},W); PHONE.join(G,'noodle_team','麵店團');   /* [前置] 2030-05-25 多段感情的那一題當作選了「（不選）」：三位都還在交往（選了一位的另見第 6 項）*/
+    { const W=['heroine_01','heroine_02','classmate_peishan'], G=fresh('2029-06-03',10,{MULTI_Y5:'none'},W); PHONE.join(G,'noodle_team','桌遊團');   /* [前置] 2030-05-25 多段感情的那一題當作選了「（不選）」：三位都還在交往（選了一位的另見第 6 項）*/
       const seen={}, bad=[], warns=[], ow=console.warn; let it=0, err=null; const end=T(D('2030-12-13'),24); console.warn=(...a)=>{ warns.push(a.map(x=>x&&x.stack?x.stack.split('\n')[0]:String(x)).join(' ')); };
       try{ for(it=0;it<600&&G.day*24+G.hour<end;it++){ const before=G.day*24+G.hour;
           const y=await y4(GM); if(y) continue;

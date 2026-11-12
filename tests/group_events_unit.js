@@ -1,6 +1,6 @@
 // 1C 群戲（AA_324，AA-C 定稿 c41f4305）——不需要瀏覽器。照 AA_324 每一件的「給 BB 的驗收情境」寫：
 //   0. 接線：GROUP 掛在 STORY.PHONE_RULES／TICKS；index.html 在 postgrad3d.js 後面載入兩個檔；事件都在 STORY_EVENTS；日子的星期
-//   1. 1C-01 春假（S1～S3）：3/30 21:00 麵店團群組七則、21:30 可昕兩則（照大一）→ 兩則都到了才問三選一；麵店團＝4/4 市場＋海邊、沒有沛珊、海邊二選一；
+//   1. 1C-01 春假（S1～S3）：3/30 21:00 桌遊團群組七則、21:30 可昕兩則（照大一）→ 兩則都到了才問三選一；桌遊團＝4/4 市場＋海邊、沒有沛珊、海邊二選一；
 //      和沛珊熟＝「……以前這種行程都是沛珊排的。」；可昕＝沒去過的目的地裡選、沒有假設題、三個都去過＝迷路到的地方；留宿舍＝旁白；4/1 以前沒回＝'none'＋群組照片
 //   2. 1C-02 中秋（M1、M2）：9/14 21:00 群組、9/15 18:00；柚子插蠟燭、三選一、記 AN_BDAY_POMELO；不知道生日＝那一句在語彤拿出柚子之後；沒去＝以安的照片兩則
 //   3. 1C-03 寄到英國的那一箱（X1、X2）：12/25 21:00 兩則；和芷若熟＝三選一放東西、交往中多一個；不熟＝「你不認識她，還是放了一包乖乖。」；語彤封箱；沒去＝照片；接了阿哲的期末飯＝這一場就算
@@ -9,7 +9,7 @@
 //      冠軍賽「那出國呢？」＝「交換那個，我放棄了。畢業以後自己存錢去。」SAW_HIM_TRY；賽後麵店；請客＝隔週補滷蛋；日本路線＝視訊、直播、明軒的訊息；沒去＝照片
 //   5. 1C-05 子晴、芷若同一天畢業（G1～G3）：6/2 21:00 子晴三則（交往中四句）；去＝6/3 09:00 椰林大道「妳閉眼了啦。再一張。」「妳拍歪了。」「你拍我們兩個。」；
 //      交往中先「我們兩個。」；下午 Café Z12「九月，我去英國念電影研究。一年。」IMPORTANT_CONVERSATION；沒去上午＝12:30 三則；日本路線＝兩張照片；GRAD_ZQ_ZR
-//   6. 1C-06 最後一學期（L1、L2）：2/22 17:00 群組改名「最後一學期」＋阿哲、19:00 麵店「改回來啦。很難過耶。」二選一；2/25 21:00 改回「麵店團」；沒去＝照片
+//   6. 1C-06 最後一學期（L1、L2）：2/22 17:00 群組改名「最後一學期」＋阿哲、19:00 麵店「改回來啦。很難過耶。」二選一；2/25 21:00 改回「桌遊團」；沒去＝照片
 // 修改前：沒有 GROUP、這些事件（第 0 項 FAIL）。用法：node tests/group_events_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -38,7 +38,7 @@ const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wd
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
 const date=id=>{ G.flags['dating_'+id]=true; const r=ROM.get(G,id); r.status='dating'; SOCIAL.remember(id,'FIRST_MET',''); };
-const team=()=>{ PHONE.join(G,'noodle_team','麵店團'); for(const id of ['zhe','yu','heroine_01','heroine_03','classmate_bohan','classmate_xinci']) R(id,'FAM'); };
+const team=()=>{ PHONE.join(G,'noodle_team','桌遊團'); for(const id of ['zhe','yu','heroine_01','heroine_03','classmate_bohan','classmate_xinci']) R(id,'FAM'); };
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const has=t=>said.some(s=>s.t===t);
 const TH=th=>(G.msgs||[]).filter(m=>m.th===th);
@@ -63,14 +63,14 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(d330,20,'dorm'); team(); date('kexin'); run(d330,20,20.9);
   check('1. 3/30 21:00 以前沒有邀約', !PHONE.sent(G,'y2s2_spring_grp')&&!GROUP.springPending(G));
   run(d330,21,21.25);
-  check('1. 3/30 21:00 麵店團群組七則（Alison、語彤、阿哲、柏翰；阿哲 @祐廷）', JSON.stringify(txt('g:noodle_team').slice(-7))===JSON.stringify(['yu:春假那個','yu:語彤說行程她排','heroine_03:第一站是市場。','zhe:市場？','heroine_03:……田野課的。我想自己去看一次。','classmate_bohan:誰開車？','zhe:@祐廷']), JSON.stringify(txt('g:noodle_team')));
+  check('1. 3/30 21:00 桌遊團群組七則（Alison、語彤、阿哲、柏翰；阿哲 @祐廷）', JSON.stringify(txt('g:noodle_team').slice(-7))===JSON.stringify(['yu:春假那個','yu:語彤說行程她排','heroine_03:第一站是市場。','zhe:市場？','heroine_03:……田野課的。我想自己去看一次。','classmate_bohan:誰開車？','zhe:@祐廷']), JSON.stringify(txt('g:noodle_team')));
   check('1. 可昕的還沒到：先不問（兩則都到了才問）', !GROUP.springPending(G));
   run(d330,21.5,21.75);
   check('1. 21:30 可昕兩則（大二版，AA_336 C8）、之後才問', txt('p:kexin').slice(-2).join('|')==='kexin:春假。今年也開車？|kexin:行程表做好了。……這次吃的只有一頁。'&&GROUP.springPending(G), JSON.stringify(txt('p:kexin').slice(-2)));
-  picks=['麵店團']; const started=GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
-  check('1. 三選一（S.tick 掛勾）：麵店團／可昕／留宿舍／晚一點', started===true&&JSON.stringify(opts[0])===JSON.stringify(['春假：跟阿哲他們出去','春假：和可昕開車旅行','春假：留在宿舍','晚一點再決定']), JSON.stringify(opts[0]));
+  picks=['桌遊團']; const started=GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
+  check('1. 三選一（S.tick 掛勾）：桌遊團／可昕／留宿舍／晚一點', started===true&&JSON.stringify(opts[0])===JSON.stringify(['春假：跟阿哲他們出去','春假：和可昕開車旅行','春假：留在宿舍','晚一點再決定']), JSON.stringify(opts[0]));
   { const q=OUT.get(G,'ndl_trip_y2s2');
-    check('1. 選麵店團：SPRING_Y2 noodle、4/4 08:00 出遊（回家取車）', G.flags.SPRING_Y2==='noodle'&&!!q&&q.day===SD.trip&&q.h===8&&q.ev==='ev_spring_y2_noodle'&&q.travelH===0.5, JSON.stringify(q)); }
+    check('1. 選桌遊團：SPRING_Y2 noodle、4/4 08:00 出遊（回家取車）', G.flags.SPRING_Y2==='noodle'&&!!q&&q.day===SD.trip&&q.h===8&&q.ev==='ev_spring_y2_noodle'&&q.travelH===0.5, JSON.stringify(q)); }
   run(d330,22,22.25); run(SD.d0,21.5,21.75);
   check('1. 可昕：「好。那暑假再去。」、春假一張讀書會的照片（BB_97 9-12）、KX_TRIP_DEFERRED summer', txt('p:kexin').includes('kexin:好。那暑假再去。')&&txt('p:kexin').some(t=>/讀書會/.test(t))&&G.flags.KX_TRIP_DEFERRED==='summer');
   check('1. C13 照片：「📷（她和予樂在讀書會的長桌，桌上兩疊講義）」接「春假。我們在讀書。」', JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify(['kexin:📷（她和予樂在讀書會的長桌，桌上兩疊講義）','kexin:春假。我們在讀書。']), JSON.stringify(txt('p:kexin').slice(-2)));
@@ -82,11 +82,11 @@ const NAME=id=>SOCIAL.displayName(id);
   check('1. 背景：車上（早上）→ 小鎮的市場（town_market，11-02 使用者生成；原本深色底）→ 海邊 y0_sea_blue', JSON.stringify(scenes[0])===JSON.stringify(OUT.bg('car_morning'))&&JSON.stringify(scenes[1])===JSON.stringify(OUT.bg('town_market'))&&!!(OUT.bg('town_market')||{}).image&&JSON.stringify(scenes[2])===JSON.stringify(OUT.bg('y0_sea_blue')));
   fresh(SD.trip,8,'dorm'); team(); R('yu','FRI'); R('heroine_03','FRI'); R('classmate_peishan','FAM'); L1=await play('ev_spring_y2_noodle',[1]);   /* AA_375 第 5 項：車上最多三個人（照熟悉度），市場那兩句要 Alison、語彤在車上 */
   check('1. S2 和沛珊熟：Alison「……以前這種行程都是沛珊排的。」＋沒有人接話；坐堤防＝坐到語彤旁邊', L1.includes(NAME('yu')+'：（看著賣菜的阿姨）……以前這種行程都是沛珊排的。')&&has('（沒有人接話。語彤把一袋芭樂遞給 Alison。）')&&has('（你坐到語彤旁邊。她看著海，筆記本放在膝蓋上，一個字都沒寫。）'));
-  fresh(SD.trip,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('zhe','FAM'); L1=await play('ev_spring_y2_noodle',[0]);
+  fresh(SD.trip,8,'dorm'); PHONE.join(G,'noodle_team','桌遊團'); R('zhe','FAM'); L1=await play('ev_spring_y2_noodle',[0]);
   check('1. 只有認識的人說話：只認識阿哲＝沒有語彤、以安、Alison、柏翰、芯慈的句子', !L1.some(t=>t.startsWith(NAME('heroine_03')+'：')||t.startsWith(NAME('heroine_01')+'：')||t.startsWith(NAME('yu')+'：')||t.startsWith(NAME('classmate_bohan')+'：')||t.startsWith(NAME('classmate_xinci')+'：'))&&!has('我哪有。'), JSON.stringify(L1));
   // S3 可昕
   fresh(d330,21.9,'dorm'); team(); date('kexin'); run(d330,21,21.75); picks=['可昕']; GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
-  { const q=OUT.get(G,'kx_trip_y2s2'); check('1. 選可昕：4/3 07:40 出遊（照大一那一趟）、沒去麵店團＝4/4 21:30 群組照片（Alison）', G.flags.SPRING_Y2==='kexin'&&!!q&&q.day===SD.d0&&q.ev==='ev_kexin_trip_spring_y2'&&PHONE.sent(G,'y2s2_spring_photo')); }
+  { const q=OUT.get(G,'kx_trip_y2s2'); check('1. 選可昕：4/3 07:40 出遊（照大一那一趟）、沒去桌遊團＝4/4 21:30 群組照片（Alison）', G.flags.SPRING_Y2==='kexin'&&!!q&&q.day===SD.d0&&q.ev==='ev_kexin_trip_spring_y2'&&PHONE.sent(G,'y2s2_spring_photo')); }
   run(SD.trip,21.5,21.75); check('1. 4/4 21:30 群組照片', txt('g:noodle_team').slice(-1)[0]==='yu:📷（海邊。一排人站在堤防上，阿哲在最後面，還是最高。）');
   fresh(SD.d0,8,'dorm'); date('kexin'); G.flags.KX_TRIP={Y1S2:'sea'}; let K1=await play('ev_kexin_trip_spring_y2',['山上']);
   check('1. S3 可昕：去過海邊＝只有老街、山上看星星；山上沒去過＝「好安靜。手機收不到訊號，剛好。」；記 KX_TRIP.Y2S2', JSON.stringify(opts[0])===JSON.stringify(['別的城市的老街','山上看星星'])&&K1.includes(NAME('kexin')+'：好安靜。手機收不到訊號，剛好。')&&G.flags.KX_TRIP.Y2S2==='stars'&&G.flags.KX_TRIP.Y1S2==='sea', JSON.stringify(opts[0]));
@@ -105,8 +105,8 @@ const NAME=id=>SOCIAL.displayName(id);
   check('1. 晚一點再決定：今天不再問、明天同一時間再問', G.flags.SPRING_Y2==null&&!GROUP.springPending(G)&&(G.day=d330+1,G.hour=21.8,GROUP.springPending(G)));
   fresh(d330,21,'dorm'); team(); date('kexin'); run(d330,21,21.75); run(SD.dl,9,23.75); run(SD.dl+1,8,9);
   check('1. 4/1 以前沒回：SPRING_Y2 none、沒有旅行、可昕不回、群組照片排在 4/4 21:30', G.flags.SPRING_Y2==='none'&&!OUT.get(G,'ndl_trip_y2s2')&&!PHONE.sent(G,'kx_spring2_reply')&&PHONE.sent(G,'y2s2_spring_photo'));
-  fresh(d330,21,'dorm'); run(d330,21,21.75); check('1. 不在麵店團、沒有交往：沒有邀約、不問', !PHONE.sent(G,'y2s2_spring_grp')&&!GROUP.springPending(G));
-  fresh(SD.trip,9,'dorm'); team(); ev('ev_spring_y2_noodle').outingMissed(G,GM,{}); check('1. 選了麵店團又沒去（不去了）：一樣有群組照片', PHONE.sent(G,'y2s2_spring_photo'));
+  fresh(d330,21,'dorm'); run(d330,21,21.75); check('1. 不在桌遊團、沒有交往：沒有邀約、不問', !PHONE.sent(G,'y2s2_spring_grp')&&!GROUP.springPending(G));
+  fresh(SD.trip,9,'dorm'); team(); ev('ev_spring_y2_noodle').outingMissed(G,GM,{}); check('1. 選了桌遊團又沒去（不去了）：一樣有群組照片', PHONE.sent(G,'y2s2_spring_photo'));
 
   // ===== 2. 1C-02 中秋 =====
   const m14=D('2027-09-14'), m15=D('2027-09-15');
@@ -224,7 +224,7 @@ const NAME=id=>SOCIAL.displayName(id);
 
   // ===== 6. 1C-06 最後一學期 =====
   const l22=D('2029-02-22'), l25=D('2029-02-25');
-  fresh(l22,16,'dorm'); team(); run(l22,16,16.75); check('6. 17:00 以前群組名字照舊', PHONE.title(G,'g:noodle_team')==='麵店團');
+  fresh(l22,16,'dorm'); team(); run(l22,16,16.75); check('6. 17:00 以前群組名字照舊', PHONE.title(G,'g:noodle_team')==='桌遊團');
   run(l22,17,17.25);
   { const q=OUT.get(G,'y4_last_term'); check('6. L1 17:00 群組改名「最後一學期」＋系統字＋阿哲「開學第一頓 七點，長桌」、19:00 麵店', PHONE.title(G,'g:noodle_team')==='最後一學期'&&JSON.stringify(TH('g:noodle_team').slice(-2).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改成「最後一學期」。）','zhe:開學第一頓 七點，長桌'])&&!!q&&q.day===l22&&q.h===19&&q.late===0.25); }
   fresh(l22,19,'noodle'); team(); let T1=await play('ev_last_term_first_dinner',[1]);
@@ -234,7 +234,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('6. L2 2/25 21:00 改回「桌遊團」（AA_623 第 2 節）＋系統字＋「改回來了」「Alison 說很難過」', PHONE.title(G,'g:noodle_team')==='桌遊團'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「桌遊團」。）','zhe:改回來了','zhe:Alison 說很難過']));
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); G.hour=19.5; ev('ev_last_term_first_dinner').outingMissed(G,GM,{}); run(l22,21.5,21.75);
   check('6. 沒去：LAST_TERM_DINNER missed、21:30 群組照片', G.flags.LAST_TERM_DINNER==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（長桌上的碗，跟大一的時候一樣多。）');
-  fresh(l22,17,'dorm'); run(l22,17,17.5); check('6. 不在麵店團：不改名、不揪', !PHONE.sent(G,'y4_last_term_ask'));
+  fresh(l22,17,'dorm'); run(l22,17,17.5); check('6. 不在桌遊團：不改名、不揪', !PHONE.sent(G,'y4_last_term_ask'));
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

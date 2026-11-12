@@ -2,10 +2,10 @@
    一天擲一次的機率（偶遇）：照「日子＋名字」算（同一天重進場景結果一樣，存讀檔也一樣）。
    手機（STORY.PHONE_RULES）：
      B6  大二上第 5 週週六 20:00 芯慈私訊（有她的聯絡方式）；講座 18:30 以前都會補上
-     SK09 沒去：B6 那天 21:00 麵店團群組芯慈兩則（有 ECON_LAW_BRIDGE、沒看到 SK09）
-     B7  大二下第 6 週週一 21:00 語彤在麵店團群組轉海報（認識她）
-     B6b 大二上第 10 週週一 21:00 以安在麵店團群組、柏翰回（AA_430 第 1 節）；沒去＝週三 21:30 柏翰一句
-     B12 大三上第 10 週週一 21:00 以安在麵店團群組、Alison、阿哲回（AA_430 2-1）；沒去或中途離開＝週四 21:30 Alison 一句
+     SK09 沒去：B6 那天 21:00 桌遊團群組芯慈兩則（有 ECON_LAW_BRIDGE、沒看到 SK09）
+     B7  大二下第 6 週週一 21:00 語彤在桌遊團群組轉海報（認識她）
+     B6b 大二上第 10 週週一 21:00 以安在桌遊團群組、柏翰回（AA_430 第 1 節）；沒去＝週三 21:30 柏翰一句
+     B12 大三上第 10 週週一 21:00 以安在桌遊團群組、Alison、阿哲回（AA_430 2-1）；沒去或中途離開＝週四 21:30 Alison 一句
      SK08 大二上第 1 週週三 12:00 阿勳私訊；沒去＝21:00 大合照
      SK10 每學期第 6、15 週週一 21:00 芯慈在「一題換一題」小群組（ECON_LAW_BRIDGE 以後建立）；那一場沒去＝SK10_MISSED（下一次唐睿一句）
      G4c 日文上、日文下第 15 週週日 20:00 日文班群組；沒去＝第 16 週週一 12:00 采蓁一句
@@ -101,13 +101,13 @@ const BBPACK=(function(){
       /* SK09 沒去（BB_106 SK09「沒去時」）*/
       if(win(G,tue,21,tue+3,0)&&F.ECON_LAW_BRIDGE&&!done(G,'ev_sk09')&&ph.inGroup(G,'noodle_team'))
         ph.at(G,tue,21,[{th:'g:noodle_team',from:XC,text:'我和統計課那個人在博思吵了一小時，違約只要賠錢就好嗎。'},{th:'g:noodle_team',from:XC,text:'結論：學活的吸管太細。'}],'bb_sk09_miss'); }
-    /* B7：語彤轉海報（稿：「語彤在麵店團群組轉了一張海報」；照片的說明是這裡寫的）*/
+    /* B7：語彤轉海報（稿：「語彤在桌遊團群組轉了一張海報」；照片的說明是這裡寫的）*/
     { const mon=TD('Y2S2',6,1); if(win(G,mon,21,mon+2,19)&&knows(YT)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th:'g:noodle_team',from:YT,text:'📷（海報：「老房子、租屋與城市」）'}],'bb_b7_poster'); }
-    /* B6b：講座前兩天 21:00 麵店團群組（AA_430 第 1 節）；沒去（missed）＝那天 21:30 柏翰（稿沒寫時間：照 B4 沒去的轉述 21:30）*/
+    /* B6b：講座前兩天 21:00 桌遊團群組（AA_430 第 1 節）；沒去（missed）＝那天 21:30 柏翰（稿沒寫時間：照 B4 沒去的轉述 21:30）*/
     { const mon=TD('Y2S1',10,1), wed=TD('Y2S1',10,3), th='g:noodle_team';
       if(win(G,mon,21,wed,19)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th,from:AN,text:'週三晚上七點，博思 102。「一條法律是怎麼被寫出來的」。'},{th,from:AN,text:'這場我一定去。'},{th,from:'classmate_bohan',text:'我去。國考會考立法程序。'}],'bb_b6b_invite');
       if(win(G,wed,21.5,wed+2,0)&&ph.inGroup(G,'noodle_team')&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.missed(G,'B6b')) ph.at(G,wed,21.5,[{th,from:'classmate_bohan',text:'講義我多拿了一份。要的話明天給你。'}],'bb_b6b_missed'); }
-    /* B12：講座前三天 21:00 麵店團群組（AA_430 2-1）；這一場沒去或中途離開＝那天 21:30 Alison（稿沒寫時間：照 B4）*/
+    /* B12：講座前三天 21:00 桌遊團群組（AA_430 2-1）；這一場沒去或中途離開＝那天 21:30 Alison（稿沒寫時間：照 B4）*/
     { const mon=TD('Y3S1',10,1), thu=TD('Y3S1',10,4), th='g:noodle_team';
       if(win(G,mon,21,thu,19)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th,from:AN,text:'大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。'},{th,from:AN,text:'週四晚上七點，博思 101。'},{th,from:'yu',text:'我要去！！這次我要聽懂'},{th,from:'zhe',text:'我也去 散場有宵夜嗎'}],'bb_b12_invite');
       if(win(G,thu,21.5,thu+2,0)&&ph.inGroup(G,'noodle_team')&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.lastEnded(G,'B12')===thu&&!ACTIVITIES.attended(G,'B12',thu)) ph.at(G,thu,21.5,[{th,from:'yu',text:'以安今天有舉手！！問得超好'}],'bb_b12_missed'); }

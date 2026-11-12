@@ -80,7 +80,7 @@ const inMD=t=>MD.indexOf(t)>=0;
     const on=w=>{ const d=wkThu(w); G.day=d; G.weekday=4; return ACTIVITIES.on(PL,d,G); };
     check('3. 大三下第 1～7、10～15 週開，第 8、9（期中）、16 週不開（原本只開到第 5 週）',[1,5,6,7,10,15].every(on)&&![8,9,16].some(on),J([1,5,6,7,8,9,10,15,16].map(w=>[w,on(w)])));
     const xc=ev('ev_far_call_jp').dialogue.find(n=>n.text==='讀書會你的位子，我們沒有人坐。');
-    fresh('2028-04-13',20.5,'jp_hub',{EXCHANGE_ROUTE:'JP',JP_DEPARTED:D('2028-03-25')}); PHONE.join(G,'noodle_team','麵店團'); R('classmate_xinci','FRI'); const a=EVENTS.cond(xc.if);
+    fresh('2028-04-13',20.5,'jp_hub',{EXCHANGE_ROUTE:'JP',JP_DEPARTED:D('2028-03-25')}); PHONE.join(G,'noodle_team','桌遊團'); R('classmate_xinci','FRI'); const a=EVENTS.cond(xc.if);
     ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'}; const b=EVENTS.cond(xc.if);
     check('3. 芯慈「讀書會你的位子，我們沒有人坐。」只給參加過讀書會的',!!xc&&a===false&&b===true,J({a,b}));
     fresh('2028-04-16',20,'dorm'); const c=R2Y3B.AB_WHEN.t2[2](G,G.day); ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'}; const d=R2Y3B.AB_WHEN.t2[2](G,G.day);
@@ -179,7 +179,7 @@ const inMD=t=>MD.indexOf(t)>=0;
     check('13. 日本路線 5/3（沒收到「坐最後一排」的邀約）：「報告講完了。……好累。」，不說最後一排',m.includes('報告講完了。……好累。')&&!m.some(t=>/最後一排/.test(t)),J(m));
     fresh('2028-05-03',17.2,'dorm',{EXCHANGE_ROUTE:'TW'}); date('kexin'); G.contacts.kexin=1; Y34B.kx19Phone(G); PHONE.tick(G); const n=txt('p:kexin');
     check('13. 對照：臺灣路線照舊「期末報告講完了。最後一排空著。」',n.includes('期末報告講完了。最後一排空著。'),J(n));
-    fresh('2028-04-13',20.5,'jp_hub',{EXCHANGE_ROUTE:'JP',JP_DEPARTED:D('2028-03-25')}); PHONE.join(G,'noodle_team','麵店團'); ['zhe','classmate_bohan'].forEach(id=>R(id,'FRI')); const L=await play('ev_far_call_jp');
+    fresh('2028-04-13',20.5,'jp_hub',{EXCHANGE_ROUTE:'JP',JP_DEPARTED:D('2028-03-25')}); PHONE.join(G,'noodle_team','桌遊團'); ['zhe','classmate_bohan'].forEach(id=>R(id,'FRI')); const L=await play('ev_far_call_jp');
     check('14. 日本路線 4/13 視訊：柏翰「你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。」',L.includes('你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。')&&!L.includes('這週的筆記我留了。回來再給你。'),J(L)); });
   /* ---- 15、16 語彤的階梯 ---- */
   await sec('15',async()=>{

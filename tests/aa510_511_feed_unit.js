@@ -249,14 +249,14 @@ const pgWalk=(flags,setup)=>{ pgGrad(DK('2029-06-04'),10,flags); for(const id of
 const WANT=()=>SET.PG.posts.map(p=>p.id).concat(SET.Y4S2.posts.filter(p=>T(twOf(p.id).day,twOf(p.id).h)>=T(DK('2029-06-04'),10)).map(p=>p.id));
 await sec('5',async()=>{ if(!HAS2()){ check('5. 畢業以後篇跳時間',false,'沒有資料'); return; }
   const want=WANT();
-  const tw=pgWalk({EXCHANGE_ROUTE:'TW'}), jp=pgWalk({EXCHANGE_ROUTE:'JP'}), gp=pgWalk({EXCHANGE_ROUTE:'TW'},()=>{ PHONE.join(H.G,'noodle_team','麵店團'); PHONE.join(H.G,'econ_friends','走啦'); PHONE.join(H.G,'family_law','法律系家族'); });
+  const tw=pgWalk({EXCHANGE_ROUTE:'TW'}), jp=pgWalk({EXCHANGE_ROUTE:'JP'}), gp=pgWalk({EXCHANGE_ROUTE:'TW'},()=>{ PHONE.join(H.G,'noodle_team','桌遊團'); PHONE.join(H.G,'econ_friends','走啦'); PHONE.join(H.G,'family_law','法律系家族'); });
   const missOf=w=>want.filter(id=>!w.seen.has(id));
   check('5. 臺灣路線、沒報國考、不在群組（停點最少的那種：6/28、12/14、1/25、10/1…，一跳最長八個月）：6/4 以後 '+want.length+' 則（大四下暑假 '+(want.length-26)+'、畢業以後 26）停下來的時候每一則都看得到',
     want.length===42&&!missOf(tw).length&&tw.stops.length>=5,J({miss:missOf(tw),stops:tw.stops}));
   const y5=SET.PG.posts.filter(p=>{ const w=twOf(p.id); return w.day>=DK('2029-09-03')&&w.day<=DK('2029-12-23'); }).map(p=>p.id);
   check('5. 交換延畢（日本路線，2029-09-03～12-23 是大五上 CALENDAR.termOfDelayed；也是畢業以後篇的跳時間）：每一則都看得到，大五上那 '+y5.length+' 則也是（AA_689 4-2 語彤 yt4i 搬到 2029-12-15，9 則變 10 則）',
     !missOf(jp).length&&y5.length===10&&y5.every(id=>jp.seen.has(id))&&!!CALENDAR.termOfDelayed&&(CALENDAR.termOfDelayed(DK('2029-09-17'))||{}).id==='Y5S1',J({miss:missOf(jp),stops:jp.stops}));
-  check('5. 在麵店團、「走啦」、家族群組（停點多）：每一則都看得到',!missOf(gp).length,J({miss:missOf(gp),n:gp.stops.length}));
+  check('5. 在桌遊團、「走啦」、家族群組（停點多）：每一則都看得到',!missOf(gp).length,J({miss:missOf(gp),n:gp.stops.length}));
   check('5. 最後一站是最後一則動態（2030-12-22 22:07 芷若的存摺）以後一分鐘，接著就是尾聲（2034-06-03 19:00）',[tw,jp,gp].every(w=>w.stops[w.stops.length-1].at==='2030-12-22 22:08'&&w.next===EPI()),J([tw,jp,gp].map(w=>[w.stops[w.stops.length-1],w.next])));
   /* AA_511 第 9 節第 6 點（b70bed855）：尾聲前多停的那一次，落地時日期卡下面那一句旁白，只出一次（src/feed3d.js 包 PG.cardLine）*/
   { const d=H.G.day, l1=PG.cardLine(H.G,d-9,d), l2=PG.cardLine(H.G,d-9,d), D511=show(SHA511,'docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md');
@@ -390,9 +390,9 @@ await sec('8',async()=>{ if(typeof HEARD==='undefined'){ check('8. HEARD',false,
   /* 手機 */
   const run=(d,h)=>{ at(d,h); HEARD.phone(H.G); PHONE.tick(H.G); };
   const msgs=tag=>(H.G.msgs||[]).filter(m=>m.tag==='heard_'+tag);
-  const D323=DK('2029-03-23'); fresh(D323,21,{}); PHONE.join(H.G,'noodle_team','麵店團'); run(D323,21.3); const a0=msgs('h510_yu_an').length; run(D323,21.4);
-  check('8. AA_510 1-4：Alison 3/23（研究所放榜隔天）21:20 麵店團群組「以安放榜那天，在燒臘店點了一份三寶飯。吃不完，給阿哲。她說今天可以。」',a0===0&&J(msgs('h510_yu_an').map(m=>[m.th,m.from,m.name,m.text]))===J([['g:noodle_team','yu','Alison','以安放榜那天，在燒臘店點了一份三寶飯。吃不完，給阿哲。她說今天可以。']]),J(msgs('h510_yu_an')));
-  fresh(D323,21,{}); run(D323,21.4); check('8. 不在麵店團群組：沒有（x:noodleGroup）',!msgs('h510_yu_an').length&&HEARD.rec(H.G).ph.h510_yu_an==='x:noodleGroup');
+  const D323=DK('2029-03-23'); fresh(D323,21,{}); PHONE.join(H.G,'noodle_team','桌遊團'); run(D323,21.3); const a0=msgs('h510_yu_an').length; run(D323,21.4);
+  check('8. AA_510 1-4：Alison 3/23（研究所放榜隔天）21:20 桌遊團群組「以安放榜那天，在燒臘店點了一份三寶飯。吃不完，給阿哲。她說今天可以。」',a0===0&&J(msgs('h510_yu_an').map(m=>[m.th,m.from,m.name,m.text]))===J([['g:noodle_team','yu','Alison','以安放榜那天，在燒臘店點了一份三寶飯。吃不完，給阿哲。她說今天可以。']]),J(msgs('h510_yu_an')));
+  fresh(D323,21,{}); run(D323,21.4); check('8. 不在桌遊團群組：沒有（x:noodleGroup）',!msgs('h510_yu_an').length&&HEARD.rec(H.G).ph.h510_yu_an==='x:noodleGroup');
   const D610=DK('2029-06-10'); fresh(D610,23,{}); run(D610,23.6); const yu0=msgs('h510_yule').length; fresh(D610,23,{yulePassDay:1}); run(D610,23.6); const yu1=msgs('h510_yule').map(m=>[m.th,m.text]);
   check('8. AA_510 7-4：予樂（見過她才有）6/10 23:30 兩則「可昕說她典禮沒哭 ……」「我有拍到 ……」',yu0===0&&J(yu1)===J([['p:yule','可昕說她典禮沒哭 拍大合照的時候她偷偷擦眼睛'],['p:yule','我有拍到 她叫我刪掉 我沒有']]),J(yu1));
   const D87=DK('2029-08-07'); fresh(D87,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(D87,21.4); const p1=msgs('h510_pinyu').map(m=>[m.th,m.name,m.text]); fresh(D87,21,{}); run(D87,21.4); const p2=msgs('h510_pinyu').length;

@@ -246,11 +246,11 @@ const R2Y3B_EVENTS=(function(){
       {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_01','FRIEND')},speaker:null,text:'（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）'},   /* 原稿「理由：」拿掉（檔尾裁定 #19）*/
       {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},
       {speaker:null,text:'（畫面關掉。房間比剛才安靜。）'},
-      {set:{FAR_CALL:'jp'}} ],   /* 不在麵店團、和阿哲 FAMILIAR 以上：阿哲一個人在宿舍頂樓打來，只留阿哲的台詞（上面群組那幾行都不出）*/
+      {set:{FAR_CALL:'jp'}} ],   /* 不在桌遊團、和阿哲 FAMILIAR 以上：阿哲一個人在宿舍頂樓打來，只留阿哲的台詞（上面群組那幾行都不出）*/
     outingMissed:G=>{ const x=X(); if(x) x.farPhoto(G); } };
   /* ---------- 主線 8「遠方」美國版（AA_412 第 2 節，AA-B 2026-10-23；台詞照 AA_185 1-2，標【美】的照 AA_412）：9/21（四）美國 07:30（臺灣 19:30）麵店長桌打給在美國的祐廷（9/20 美國 09:00＝臺灣 21:00 阿哲私訊）----------
-     照日本版 FAR 的條件：Alison、柏翰、芯慈（參加過讀書會）、語彤、阿姨都要在麵店團；何俊朗經過只在見過他（MET_LONG：旗標或記憶，AA_370 M3 兩邊互相認）；以安那一則美國版沒有。
-     不在麵店團、和阿哲 FAMILIAR 以上：只留阿哲的三句、看麥片的旁白和最後一句旁白（同日本版：群組那幾行、何俊朗都不出）*/
+     照日本版 FAR 的條件：Alison、柏翰、芯慈（參加過讀書會）、語彤、阿姨都要在桌遊團；何俊朗經過只在見過他（MET_LONG：旗標或記憶，AA_370 M3 兩邊互相認）；以安那一則美國版沒有。
+     不在桌遊團、和阿哲 FAMILIAR 以上：只留阿哲的三句、看麥片的旁白和最後一句旁白（同日本版：群組那幾行、何俊朗都不出）*/
   const longMet=G=>!!(G&&G.flags&&G.flags.MET_LONG)||(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('npc_long','MET_LONG'));
   const FAR_US={ id:'ev_far_call_us', title:'遠方', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},

@@ -9,7 +9,7 @@
 //      沛珊大三上一個月最多一則（四則在四個月；同一個月多一則＝x:month，拿掉 capMonth 就會出）
 //   3  英國時差：芷若 9/3～2/11 在英國的七則，換成倫敦當地時間都是 22:07（Intl Europe/London；臺灣時間 10/31 以前 05:07、以後 06:07，倫敦是前一天）；2/15 回台中 22:07
 //   4  私訊：可昕 4/10 22:30 三個選項各一次（KX_WIN_DM）、交往中也有、只認識的沒有（只看到動態）；學姊 2/7 10:00 交往中兩則不用回、沒交往的沒有；
-//      語彤 2027-07-09 生日：麵店團群組 Alison／不在群組 FAMILIAR 以上系統字／只認識沒有、12:00 以前沒有、睡過整天沒有，「傳一句生日快樂」→ 她回、YT_BDAY_Y2，21:00 動態第 5 則
+//      語彤 2027-07-09 生日：桌遊團群組 Alison／不在群組 FAMILIAR 以上系統字／只認識沒有、12:00 以前沒有、睡過整天沒有，「傳一句生日快樂」→ 她回、YT_BDAY_Y2，21:00 動態第 5 則
 //   5  稿的測試建議（AA_506 第 8 節、AA_507 第 8 節裡手機的部分）：以安大二下第 7 則（報了 C12 同班＝「京都：玩家的名字」、沒報、報了沒去＝「京都：一個人」）；
 //      子晴大二下第 6 則（回過 zq_name「『存檔點』。」＝「名字定了？」、沒回＝「這是什麼？」，舊存檔看訊息）；以安大三上第 7 則日本路線；
 //      子晴大三上第 3 則「老高」、第 7 則「名字呢？」→「還沒」；可昕沒有交往（朋友）看得到大三上四則
@@ -228,16 +228,16 @@ sec('4',()=>{ if(!HAS()||!SET.Y2S2||!SET.Y3S1){ check('4. 私訊',false,'沒有�
   fresh(D27,9); who('heroine_05','CLOSE'); walk(D27,11); check('4. 學姊很熟、沒有交往：沒有那兩則（x:stage）',!tagged('sis_rest').length&&R().dm.sis_rest==='x:stage',J(R().dm.sis_rest));
   /* 語彤 2027-07-09 生日 */
   const D79=DK('2027-07-09'), bmsg=()=>(H.G.msgs||[]).filter(m=>m.tag==='yt_bday_y2');
-  fresh(D79,11); who('heroine_03','FRIEND'); PHONE.join(H.G,'noodle_team','麵店團'); walk(D79,11.9); const g0=bmsg().length; walk(D79,12.1); const g=bmsg();
+  fresh(D79,11); who('heroine_03','FRIEND'); PHONE.join(H.G,'noodle_team','桌遊團'); walk(D79,11.9); const g0=bmsg().length; walk(D79,12.1); const g=bmsg();
   const n=(H.G.msgs||[]).length; PHONE.answer(H.G,'yt_bday_y2',0); const gr=(H.G.msgs||[]).slice(n).map(m=>[m.th,m.from,m.text]);
-  check('4. 語彤 7/9 12:00（在麵店團群組）：Alison「今天語彤生日！」→「傳一句生日快樂」→ 你「生日快樂。」、她在群組回「……謝謝。今天第一次去田野。……」、YT_BDAY_Y2',
+  check('4. 語彤 7/9 12:00（在桌遊團群組）：Alison「今天語彤生日！」→「傳一句生日快樂」→ 你「生日快樂。」、她在群組回「……謝謝。今天第一次去田野。……」、YT_BDAY_Y2',
     g0===0&&g.length===1&&g[0].th==='g:noodle_team'&&g[0].from==='yu'&&g[0].text==='今天語彤生日！'&&J(g[0].ask.opts.map(o=>o.t))===J(['傳一句生日快樂'])
     &&J(gr)===J([['g:noodle_team','player','生日快樂。'],['g:noodle_team','heroine_03','……謝謝。今天第一次去田野。常來的那個阿伯說，生日還出來工作，很乖。']])&&H.G.flags.YT_BDAY_Y2===true,J({g:g.map(m=>[m.th,m.from,m.text]),gr}));
   walk(D79,21.1); check('4. 同一天 21:00 動態第 5 則（錄音筆、乾麵；留言「生日快樂！」→「謝謝。」）',!!item('yt5d')&&HT().includes('生日快樂！'));
   fresh(D79,11); who('heroine_03','FAM'); walk(D79,12.1); const s=bmsg();
   check('4. 不在群組、和語彤有點熟：她的私訊放系統字「今天是語彤的生日。」，同一個按鈕',s.length===1&&s[0].th==='p:heroine_03'&&!s[0].from&&s[0].text==='今天是語彤的生日。'&&J(s[0].ask.opts.map(o=>o.t))===J(['傳一句生日快樂']),J(s.map(m=>[m.th,m.from,m.text])));
   fresh(D79,11); who('heroine_03','ACQ'); walk(D79,13); check('4. 不在群組、只認識語彤：沒有',!bmsg().length);
-  fresh(D79-1,23); who('heroine_03','FRIEND'); PHONE.join(H.G,'noodle_team','麵店團'); tickF(); jump(D79+1,8); check('4. 睡過整天（7/8 23:00 → 7/10 08:00）：不補（同 2026、2028 那兩則）',!bmsg().length);
+  fresh(D79-1,23); who('heroine_03','FRIEND'); PHONE.join(H.G,'noodle_team','桌遊團'); tickF(); jump(D79+1,8); check('4. 睡過整天（7/8 23:00 → 7/10 08:00）：不補（同 2026、2028 那兩則）',!bmsg().length);
   check('4. 2026、2028 的生日照舊在 home3d.js（yt_bday_y1）、r2y3b3d.js（yt_bday_y3）：這一則用自己的 tag（yt_bday_y2）',SET.Y2S2.ytBday.tag==='yt_bday_y2'&&SET.Y2S2.ytBday.flag==='YT_BDAY_Y2'); });
 
 /* ---------- 5 稿的測試建議 ---------- */

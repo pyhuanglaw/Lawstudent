@@ -166,7 +166,7 @@ const legacyDraw=(seed,y,used)=>{ const r=rng(hashStr(seed+'|bar|'+y)), a=PG.poo
     const gs=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), ss=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
     check('e15. 讀書座位、Café（seatMenu）、宿舍書桌（deskScene）選了「考前總複習」照那一項的 kind 跑 STUDY.review（國考＝bar）',/opts\[i\]\.review\)\{[^}]*STUDY\.review\(GM,opts\[i\]\.kind\|\|'final'\)/.test(gs)&&/async function deskScene[\s\S]{0,3000}STUDY\.reviewOpt\(G\)[\s\S]{0,1500}STUDY\.review\(GM,opts\[i\]\.kind\|\|'final'\)/.test(ss)); });
   /* ---------- f BB 驗收：7/10 總複習 → 8/4 作答 → 9/7 放榜 ---------- */
-  await sec('f',async()=>{ const G=fresh29('2029-07-10',9,{examSeed:5150}); transcripts(G,{k:4}); PHONE.join(G,'noodle_team','麵店團');
+  await sec('f',async()=>{ const G=fresh29('2029-07-10',9,{examSeed:5150}); transcripts(G,{k:4}); PHONE.join(G,'noodle_team','桌遊團');
     picks=['先讀到這裡']; const rv=await STUDY.review(GM,'bar'); check('f1. 2029-07-10 做國考總複習',!!rv&&rv.kind==='bar');
     H.at('2029-08-04',8); const s=PG.due(G); check('f2. 8/4 08:00 一試',!!s&&s.id==='exam_2029');
     const qs=PG.draw(G,2029); const cue=qs.map(q=>STUDY.cueFor(G,q)); const k=13; picks=answerK(qs,k); H.said=[];

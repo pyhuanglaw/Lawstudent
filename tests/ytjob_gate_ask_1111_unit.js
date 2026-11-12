@@ -1,5 +1,5 @@
 // 還沒認識語彤時她的訊息不送（ytjob3d.js gatePhone，AA_610），但群組的回覆選項不能跟著不見（CC 11-11 20:48 AA_814 H23b）——不需要瀏覽器（D131）。
-// CC：讀檔到 2027-07-20 20:50（C09、C12 答應），21:00 麵店團群組 VA10 揪香港十則送出，**沒有任何一則有 ask**——
+// CC：讀檔到 2027-07-20 20:50（C09、C12 答應），21:00 桌遊團群組 VA10 揪香港十則送出，**沒有任何一則有 ask**——
 // vac3d.js 把 ask 掛在最後一則（語彤「禮拜六我要上班。……」），沒認識語彤＝那一則被拿掉，ask 跟著不見；玩家只能等 8/1 阿哲私訊催才回得了。
 // 修法：群組裡她那則拿掉時，ask 移到同一個對話串留下來的最後一則別人的話（系統字「會撞到：…」、旁白不算）；她自己的私訊串照舊整則不送。
 // 檢查：
@@ -14,7 +14,7 @@ console.warn=()=>{};
 if(typeof YTJOB==='undefined'){ let s=fs.readFileSync(path.join(H.ROOT,'src/ytjob3d.js'),'utf8'); s=s.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:'src/ytjob3d.js'}); }
 check('0. 語彤的手機閘門裝上了（PHONE._ytjob）',typeof YTJOB!=='undefined'&&!!PHONE._ytjob);
 const YT='heroine_03', XC='classmate_xinci';
-const setup=met=>{ const G=H.fresh('2027-07-20',20.8,'campus',{YT_MET_JOB:met}); G.stage='law'; PHONE.rec(G).groups.noodle_team={name:'麵店團'}; return G; };
+const setup=met=>{ const G=H.fresh('2027-07-20',20.8,'campus',{YT_MET_JOB:met}); G.stage='law'; PHONE.rec(G).groups.noodle_team={name:'桌遊團'}; return G; };
 const va10=G=>{ VAC.phone({G}); G.hour=21.0; VAC.phone({G}); G.hour=21.05; PHONE.tick(G); return G.msgs.filter(m=>m.tag==='va10_ask'); };
 // 1
 { const G=setup(false), ms=va10(G), asks=ms.filter(m=>m.ask), last=ms.filter(m=>m.th==='g:noodle_team').pop();

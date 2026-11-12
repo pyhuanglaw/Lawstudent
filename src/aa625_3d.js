@@ -184,7 +184,7 @@ const AA625=(function(){
   S.tea10Day=()=>DK(S.TEA10_DAY);
   const tzH=(G,d,h)=>h+(typeof STORY!=='undefined'&&STORY.tzOffset?STORY.tzOffset(G,d):0);   /* 臺灣時間 → 手機的當地時間 */
   S.awayOn=(G,d)=>typeof STORY!=='undefined'&&!!STORY.abroad&&!!STORY.abroad(Object.assign({},G,{day:d}));
-  /* 和可昕交往、她沒見過大家：可昕不在場；散場後祐廷自動傳照片（KX_MET_NOODLE_TEAM＝見過麵店團那群人，AA_11 的 KX_MET_GANG）*/
+  /* 和可昕交往、她沒見過大家：可昕不在場；散場後祐廷自動傳照片（KX_MET_NOODLE_TEAM＝見過桌遊團那群人，AA_11 的 KX_MET_GANG）*/
   S.kxAway=G=>dating(G,'kexin')&&!(G.flags&&G.flags.KX_MET_NOODLE_TEAM);
   S.KX_H=21;
   S.kxPhone=function(G,d){ if(G.flags.YT_TEA10!=='there'||!S.kxAway(G)||NOW(G)<T(d,S.KX_H)||G.day>d+1||typeof PHONE==='undefined') return;

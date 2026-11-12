@@ -44,12 +44,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 20:45：以安、Alison 在博思的圓桌；阿哲不在',at('heroine_01',thu,20.75)==='boya/round'&&at('yu',thu,20.75)==='boya/round'&&!at('zhe',thu,20.75).startsWith('boya'),JSON.stringify(['heroine_01','yu','zhe'].map(id=>at(id,thu,20.75))));
   check('2. 第 10 週、第 12 週的週四晚上不在博思（只有這一週）',[termDay('Y1S2',10,4),termDay('Y1S2',12,4)].every(d=>d==null||['heroine_01','yu','zhe'].every(id=>!at(id,d,19.5).startsWith('boya'))));
   /* 週二揪人 */
-  fresh(tue,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,13);
+  fresh(tue,8,'campus'); PHONE.join(G,'noodle_team','桌遊團'); run(8,13);
   const inv=G.msgs.filter(m=>m.tag==='b4_invite');
-  check('3. 週二 12:30 麵店團：以安兩句、Alison、阿哲（原文）',JSON.stringify(inv.map(m=>m.from+':'+m.text))===JSON.stringify(['heroine_01:週四晚上七點，博思 101 有演講。','heroine_01:「政府可以為了大家，限制一個人嗎？」誰要去？','yu:我！我是憲法迷。','zhe:……我跟 散場有宵夜嗎？'])&&inv.every(m=>m.h===12.5&&m.th==='g:noodle_team'),JSON.stringify(inv.map(m=>[m.h,m.from,m.text])));
+  check('3. 週二 12:30 桌遊團：以安兩句、Alison、阿哲（原文）',JSON.stringify(inv.map(m=>m.from+':'+m.text))===JSON.stringify(['heroine_01:週四晚上七點，博思 101 有演講。','heroine_01:「政府可以為了大家，限制一個人嗎？」誰要去？','yu:我！我是憲法迷。','zhe:……我跟 散場有宵夜嗎？'])&&inv.every(m=>m.h===12.5&&m.th==='g:noodle_team'),JSON.stringify(inv.map(m=>[m.h,m.from,m.text])));
   const q=inv.find(m=>m.ask); check('3. 可以回「我去。」／「我看看。」（不回也可以，到週四 19:00）',!!q&&JSON.stringify(q.ask.opts.map(o=>o.t))==='["我去。","我看看。"]'&&q.ask.until===thu*24+19,JSON.stringify(q&&q.ask));
   PHONE.answer(G,q.ask.id,0); check('3. 回「我去。」只記 B4_REPLY（不影響週四能不能去）',G.flags.B4_REPLY==='go'&&TH('g:noodle_team').some(m=>m.from==='player'&&m.text==='我去。'));
-  fresh(tue,8,'campus'); run(8,13); check('3. 不在麵店團：沒有這幾則',!G.msgs.some(m=>m.tag==='b4_invite'));
+  fresh(tue,8,'campus'); run(8,13); check('3. 不在桌遊團：沒有這幾則',!G.msgs.some(m=>m.tag==='b4_invite'));
   /* 演講 */
   const ev1=ev('ev_b4_lecture'), ev2=ev('ev_b4_after'), ev3=ev('ev_b5_table'), ev4=ev('ev_b4_partial_an');
   check('4. 演講、散場、小桌子、中途離開四個事件都在',!!ev1&&!!ev2&&!!ev3&&!!ev4);
@@ -90,8 +90,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('7. 中途離開：之後（兩週內）找以安說話＝「你後半場不在。最精彩的你錯過了。」；聽完、沒去、超過兩週都沒有',partial('left',2)&&!partial('full',2)&&!partial(null,2)&&!partial('left',15),JSON.stringify([partial('left',2),partial('full',2),partial(null,2),partial('left',15)]));
   { partial('left',2); await EVENTS.run(ev4); check('7. 台詞',JSON.stringify(lines())==='["沈以安：你後半場不在。最精彩的你錯過了。"]',JSON.stringify(lines())); }
   /* 沒去 */
-  const missedRun=(st)=>{ fresh(thu,18,'campus'); PHONE.join(G,'noodle_team','麵店團'); mark(st); run(18,22); return G.msgs.filter(m=>m.tag==='b4_missed'); };
-  let M=missedRun(null); check('8. 沒去：21:30 Alison 在麵店團連發三則（AA_209 附錄A §2）',M.length===3&&M.every(m=>m.from==='yu'&&m.h===21.5)&&JSON.stringify(M.map(m=>m.text))===JSON.stringify(['講者最後問了一題超難的','被限制的人可以去哪裡','我們回來的路上一直在吵這個']),JSON.stringify(M.map(m=>[m.h,m.from,m.text])));
+  const missedRun=(st)=>{ fresh(thu,18,'campus'); PHONE.join(G,'noodle_team','桌遊團'); mark(st); run(18,22); return G.msgs.filter(m=>m.tag==='b4_missed'); };
+  let M=missedRun(null); check('8. 沒去：21:30 Alison 在桌遊團連發三則（AA_209 附錄A §2）',M.length===3&&M.every(m=>m.from==='yu'&&m.h===21.5)&&JSON.stringify(M.map(m=>m.text))===JSON.stringify(['講者最後問了一題超難的','被限制的人可以去哪裡','我們回來的路上一直在吵這個']),JSON.stringify(M.map(m=>[m.h,m.from,m.text])));
   check('8. 聽完、中途離開：沒有這一則',missedRun('full').length===0&&missedRun('left').length===0);
   /* 散場先走：第 12 週週一憲法（下）下課，以安好奇地問 */
   { const e5=ev('ev_b4_left_an'); const mon=termDay('Y1S2',12,1);

@@ -40,7 +40,7 @@ const VACFILL=(function(){
   const brk=G=>law(G)&&typeof HOME!=='undefined'&&HOME.lawBreak?HOME.lawBreak(G):null;
   const livesHome=G=>typeof HOME!=='undefined'&&((HOME.at&&HOME.at(G))||(HOME.breakMode&&HOME.breakMode(G)));
   /* AA_556 第 5、6 節「祐廷那天在臺灣」（約的那一天）：活動卡的出國、交換（abroadOn）＋自己排的出國（C13：排了、還沒錯過的，或去過的那幾天）。
-     麵店團香港（VA10 2027-08-25～08-28）和這三天（7/11、8/13、2/12）不重疊，不另外看 */
+     桌遊團香港（VA10 2027-08-25～08-28）和這三天（7/11、8/13、2/12）不重疊，不另外看 */
   const meAway=(G,d)=>{ if(abroadOn(G,d)) return true; if(typeof VAC==='undefined'||!VAC.rec) return false;
     for(const r of (VAC.rec(G).t13||[])){ if(!r||d<r.from||d>r.to) continue; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'vac_t13_'+r.n):null; if(r.done||(q&&q.state!=='missed'&&q.state!=='cancelled')) return true; }
     return false; };

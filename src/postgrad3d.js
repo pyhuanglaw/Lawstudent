@@ -321,9 +321,9 @@ const PG=(function(){
     /* 1A-16～18 */
     {tag:'pg_b1_zhe',at:['2029-07-12',17],cond:G=>S.sits(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().B1.zhe)]},
     {tag:'pg_b1_zhe_2030',at:['2030-07-11',17],cond:G=>S.sits(G,2030)&&!!L().B1_2030,items:G=>[P_('zhe',L().B1_2030.zhe)]},   /* AA_331：2030 阿哲私訊（不發群組）*/
-    {tag:'pg_an_group',at:['2030-01-25',21],win:6,cond:G=>(!S.at(G,'heroine_01','FRIEND')||(S.isEx(G,'heroine_01')&&S.rec(G).done.an2!==1))&&inNoodle(G),items:G=>[GR('zhe',L().AN.group[0]),GR('heroine_01',L().AN.group[1])]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節；舊版本已經演過電話 an2 的存檔不再發）*/
+    {tag:'pg_an_group',at:['2030-01-25',21],win:6,cond:G=>(!S.at(G,'heroine_01','FRIEND')||(S.isEx(G,'heroine_01')&&S.rec(G).done.an2!==1))&&inNoodle(G),items:G=>[GR('zhe',L().AN.group[0]),GR('heroine_01',L().AN.group[1])]},   /* 和以安不到 FRIEND：桌遊團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節；舊版本已經演過電話 an2 的存檔不再發）*/
     /* win:6（AA-B 10-30 13:33 回 B）：以安二試、司法官放榜那兩則群組和電話版 an1／an2 同一段——到隔天 03:00 以前條件成立才補（訊息照樣標 21:00），過了就不補（BB-B R43 PGF10_AN_EX_LATE：沒寫 win＝48 小時內都補）。測試：node tests/pg_an_ex_win_unit.js */
-    {tag:'pg_an_ex1',at:['2029-12-14',21],win:6,cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G)&&S.rec(G).done.an1!==1,items:G=>[GR('zhe',L().AN.exGroup1[0]),GR('heroine_01',L().AN.exGroup1[1])]},   /* 舊版本已經演過電話 an1 的存檔不再發（不重演）*/   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成麵店團一則，不演電話、不講美國那份申請 */
+    {tag:'pg_an_ex1',at:['2029-12-14',21],win:6,cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G)&&S.rec(G).done.an1!==1,items:G=>[GR('zhe',L().AN.exGroup1[0]),GR('heroine_01',L().AN.exGroup1[1])]},   /* 舊版本已經演過電話 an1 的存檔不再發（不重演）*/   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成桌遊團一則，不演電話、不講美國那份申請 */
     {tag:'pg_yt_2030_r1',at:['2029-09-07',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt1.map(t=>GR('heroine_03',t))},   /* AA_688 第 3 節（企劃線 8dce2f94c，AA-C 定 D109）：語彤 2029 年考上（AA_629）＝「一試過了。」搬到 2029-09-07 一試放榜那天（原本 2030-09-06；字不動）。tag 照舊（舊存檔已經收過 2030 那一則的不再收）；2029-09-07 之後 48 小時以上才讀的舊存檔不補 */
     {tag:'pg_zhe_2030_r2',at:['2030-12-13',15+6/60],cond:G=>inNoodle(G),items:G=>S.zhe2030(G)},
     {tag:'pg_yu_2030_r2',at:['2030-12-13',15+8/60],cond:G=>inNoodle(G),items:G=>[GR('yu',L().Y2030.yu)]},
@@ -581,7 +581,7 @@ const PG=(function(){
   S.noodle2030Lines=function(G){ const R=L().R2_2030, sg=S.studyGroup(G); return (sg==='three'||sg==='yutong'?R.yt:R.base).concat(S.dating(G,'kexin')?R.kx:[]); };   /* AA_331 2a：有語彤＝三張紅紙；和可昕交往中＝她最後到 */
   S.noodleScene2030=async function(GM){ const A=adv(); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,S.noodle2030Lines(GM.G)); };
   S.noodleMissed2030=async function(GM){ if(!GM||!GM.say) return; GM.sceneBegin(); try{ await GM.say(null,L().R2_2030.missed); } finally { GM.sceneEnd(); } };
-  S.noodleScene=async function(GM){ const A=adv(), R=L().R2, sg=S.studyGroup(GM.G); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,sg==='three'?R.study.three:(sg==='kexin'?R.study.kexin:R.noodle)); };   /* 12/14 18:00（AA_319 1A-18）：讀書小組三個人／只有可昕／麵店團 */
+  S.noodleScene=async function(GM){ const A=adv(), R=L().R2, sg=S.studyGroup(GM.G); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,sg==='three'?R.study.three:(sg==='kexin'?R.study.kexin:R.noodle)); };   /* 12/14 18:00（AA_319 1A-18）：讀書小組三個人／只有可昕／桌遊團 */
   /* S6（AA_589 第 7-5 節 A 案）：不是她打來——祐廷自己查到榜單、傳訊息，她回。函式名 anCall、步驟 id an1／an2 照舊（舊存檔 rec.done.an1／an2 演過的不重演）*/
   async function anCall(GM,n){ const G=GM.G, A_=L().AN, an={name:nmD(G,'heroine_01'),charId:'heroine_01'}, me={name:G.name||'祐廷'}, dating=S.dating(G,'heroine_01');
     GM.sceneBegin(); try{ if(n===1){ await GM.say(null,A_.see1); await GM.say(me,A_.me1); for(const t of A_.call1) await GM.say(an,t); if(dating) await GM.say(an,A_.call1Dating); }
@@ -748,7 +748,7 @@ const PG=(function(){
     {id:'b1',at:G=>T('2029-07-12',20),until:G=>T('2029-07-12',27),cond:G=>S.sits(G,2029),run:b1Scene},
     {id:'b1_2030',at:G=>T('2030-07-11',20),until:G=>T('2030-07-11',27),cond:G=>S.sits(G,2030)&&!!L().B1_2030,run:b1Scene2030},   /* AA_331 2a */   /* b6757852：20:00（和國考讀書會同一個時間）*/
     {id:'late_2029',at:G=>T('2029-08-04',17.5+5/60),until:G=>T('2029-08-05',12),cond:G=>S.delayed(G),run:lateNarr},
-    {id:'an1',at:G=>T('2029-12-14',21),until:G=>T('2029-12-14',27),cond:G=>S.at(G,'heroine_01','FRIEND')&&!S.isEx(G,'heroine_01'),run:GM=>anCall(GM,1)},   /* 以安的二試放榜（AA_319 c9b4f60e）；前任不打給前男友（AA_473 第 2 節：改麵店團 pg_an_ex1、pg_an_group）*/
+    {id:'an1',at:G=>T('2029-12-14',21),until:G=>T('2029-12-14',27),cond:G=>S.at(G,'heroine_01','FRIEND')&&!S.isEx(G,'heroine_01'),run:GM=>anCall(GM,1)},   /* 以安的二試放榜（AA_319 c9b4f60e）；前任不打給前男友（AA_473 第 2 節：改桌遊團 pg_an_ex1、pg_an_group）*/
     {id:'an2',at:G=>T('2030-01-25',21),until:G=>T('2030-01-25',27),cond:G=>S.at(G,'heroine_01','FRIEND')&&!S.isEx(G,'heroine_01'),run:GM=>anCall(GM,2)},
     {id:'kx_bar_2029',at:G=>T(Y[2029].r2,S.KX_BAR.at),until:G=>T(Y[2029].r2,S.KX_BAR.until),cond:G=>S.kxBarOk(G),run:GM=>kxBarCall(GM),onMiss:G=>S.kxBarMissed(G)},   /* AA_296 2-3-1 ③ 可昕考上律師：她打來 */
     {id:'first',at:G=>T('2030-10-01',21),until:G=>Infinity,cond:G=>true,run:firstDay},

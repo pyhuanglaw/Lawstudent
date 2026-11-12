@@ -111,9 +111,9 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
     check('4-2④：沒有 WL_GAME＝「下一季的球賽。你欠我一場。」',txt('g:econ_friends').slice(-1)[0]==='econ_weilun:下一季的球賽。你欠我一場。'); }
   // ---- V1-B106-D1D2 日常 D1 ----
   { const tue=TD('Y1S1',5,2), wed=tue+1, tue2=TD('Y1S2',5,2);
-    const gather=(day,flags,grp)=>{ fresh(day,18.7,'campus',flags); if(grp!==false) PHONE.join(G,'noodle_team','麵店團'); return STORY.fdormGather?STORY.fdormGather(G):false; };
-    check('D1：麵店團的女舍門口集合＝大一上的週二麵店日（在麵店團群組、以安報過名字）；週三、沒進群組都不是',gather(tue)&&!gather(wed)&&!gather(tue,{},false),'');
-    const D1=ev('ev_b106_d1_bench'); const play=async(day,flags)=>{ fresh(day,18.7,'campus',flags); PHONE.join(G,'noodle_team','麵店團'); const ok=!!D1&&EVENTS.check(D1); if(ok) await RUN(D1); return {ok,L:lines()}; };
+    const gather=(day,flags,grp)=>{ fresh(day,18.7,'campus',flags); if(grp!==false) PHONE.join(G,'noodle_team','桌遊團'); return STORY.fdormGather?STORY.fdormGather(G):false; };
+    check('D1：桌遊團的女舍門口集合＝大一上的週二麵店日（在桌遊團群組、以安報過名字）；週三、沒進群組都不是',gather(tue)&&!gather(wed)&&!gather(tue,{},false),'');
+    const D1=ev('ev_b106_d1_bench'); const play=async(day,flags)=>{ fresh(day,18.7,'campus',flags); PHONE.join(G,'noodle_team','桌遊團'); const ok=!!D1&&EVENTS.check(D1); if(ok) await RUN(D1); return {ok,L:lines()}; };
     let r=await play(tue,{MET_PINYU:true});
     check('D1：週二 18:30～19:00 女舍門口的長椅旁：品妤經過「你又在等人？這次等誰？」（所有玩家都有「又」字）',r.ok&&has(r.L,'你又在等人？這次等誰？')&&!has(r.L,'曾品妤。經濟系，可昕以前的室友。')&&!!D1.near&&D1.near.x===-93,J(r.L));
     r=await play(tue,{});
@@ -151,7 +151,7 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
     let y=await yt({},0);
     check('D2：語彤（沒說過經濟系）：「你怎麼在我們這一區？」→「我以前在這棟上過課。」「……你以前是經濟系的？」「念了一個多月。」，記 YT_KNOWS_ECON',J(y.L)===J(['語彤：你怎麼在我們這一區？','祐廷：我以前在這棟上過課。','語彤：……你以前是經濟系的？','祐廷：念了一個多月。'])&&y.F.YT_KNOWS_ECON===true,J(y.L));
     y=await yt({ECON_PAST_SHARED:'full'},0);
-    check('D2：語彤（麵店團已經知道 full）：「又回來看舊系館？」',J(y.L)===J(['語彤：你怎麼在我們這一區？','語彤：又回來看舊系館？']),J(y.L));
+    check('D2：語彤（桌遊團已經知道 full）：「又回來看舊系館？」',J(y.L)===J(['語彤：你怎麼在我們這一區？','語彤：又回來看舊系館？']),J(y.L));
     y=await yt({ECON_PAST_SHARED:'half'},'其實');
     check('D2：語彤（說過自學 half）：選「我以前常來這棟借書。」或「……其實我念過一個多月。」（升成 full）',J(y.O[0])===J(['「我以前常來這棟借書。」','「……其實我念過一個多月。」'])&&y.F.ECON_PAST_SHARED==='full',J(y.O));
     check('D2：語彤週一、五 17:20～17:50 在社科院門口（週三她在 118 巷）；說過一次就不再排',(()=>{ const e=CHARACTERS.heroine_03.daily_schedule.find(x=>x.b106d2); fresh(dd,17.4,'campus'); G.events.done.ev_b106d2_yutong=1; return !!e&&J(e.days)==='[1,5]'&&!B2.due(G,'heroine_03'); })()); }
@@ -170,8 +170,8 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
   // ---- D4b 以安準時下樓 ----
   { const D4B=ev('ev_b105_d4b_on_time'), tue=TD('Y1S1',5,2);
     const ck=(day,h,grp)=>{ G.day=day; G.weekday=wdOf(day); G.hour=h; return !!D4B&&EVENTS.check(D4B); };
-    fresh(tue,19.05,'campus'); PHONE.join(G,'noodle_team','麵店團');
-    check('D4b：麵店團在女舍門口集合（大一上週二麵店日）19:00～19:15＝以安下來；週三不是',ck(tue,19.05)&&!ck(tue+1,19.05)&&!ck(tue,18.9));
+    fresh(tue,19.05,'campus'); PHONE.join(G,'noodle_team','桌遊團');
+    check('D4b：桌遊團在女舍門口集合（大一上週二麵店日）19:00～19:15＝以安下來；週三不是',ck(tue,19.05)&&!ck(tue+1,19.05)&&!ck(tue,18.9));
     G.day=tue; G.weekday=2; G.hour=19.05; said=[]; await RUN(D4B);
     check('D4b：以安「七點。你們遲到兩分鐘。」',J(lines().map(t=>t.replace(/^[^：]*：/,'')))===J(['七點。你們遲到兩分鐘。']),J(lines()));
     check('D4b：可以重複，隔兩週（下週二不會、兩週後的週二會）',!ck(tue+7,19.05)&&ck(tue+14,19.05)); }

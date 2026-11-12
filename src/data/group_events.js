@@ -1,6 +1,6 @@
 /* ===== 1C 群戲的事件（AA_324，AA-C 2026-10-20 定稿 c41f4305；AA_314 第 1 輪的最後一組）：台詞照 AA_324 不改字 =====
    邀約、出發（OUT）、沒去的群組照片、春假三選一的選單、旗標在 src/group3d.js。群戲共通：只有認識的人在場、不熟的人的句子跳過（AA_324 開頭）。
-   1C-01 ev_spring_y2_noodle（4/4 麵店團：車上 → 小鎮的市場 → 海邊 → 回程）、ev_kexin_trip_spring_y2（和可昕：BB_97 9-12，沒有假設題）、ev_spring_dorm_empty_y2（留宿舍）；
+   1C-01 ev_spring_y2_noodle（4/4 桌遊團：車上 → 小鎮的市場 → 海邊 → 回程）、ev_kexin_trip_spring_y2（和可昕：BB_97 9-12，沒有假設題）、ev_spring_dorm_empty_y2（留宿舍）；
    1C-02 ev_midautumn_y3（9/15 河濱，以安的生日）；1C-03 ev_xmas_y3_box（12/26 麵店，寄到英國的那一箱）；
    1C-04 ev_zhe_said_it（4/28 23:00 哲 4：宿舍樓下的便利商店外（在宿舍＝十分鐘後；在臺北的外面＝二十分鐘回宿舍，AA_336 C10）／視訊）、ev_final_game_y3（4/29 冠軍賽＋賽後麵店）、ev_mx_egg_y3（隔週在麵店遇到明軒，補一顆滷蛋）；
    1C-05 ev_zq_zr_graduation（6/3 上午椰林大道）、ev_zhiruo_graduation_cafe（6/3 14:00 以後第一次進 Café，Z12）；1C-06 ev_last_term_first_dinner（2029-02-22 19:00 麵店）。
@@ -18,9 +18,9 @@ const GROUP_EVENTS=(function(){
   const kxNot=d=>({custom:G=>!kxSeen(G).includes(d)}), kxAll={custom:G=>['sea','oldtown','stars'].every(d=>kxSeen(G).includes(d))};
   const kxStarsBefore={custom:G=>((G.flags.KX_TRIP&&G.flags.KX_TRIP.Y1S2)||G.flags.KX_TRIP_Y1S2)==='stars'};
   const G1=()=>typeof GROUP!=='undefined'?GROUP:null;
-  const inCar=(G,id)=>{ const g=G1(); return !!g&&!!g.springInCar&&g.springInCar(G,id); }, car=id=>({custom:G=>inCar(G,id)});   /* 春假麵店團那一趟車上的三個人（group3d.js S.springInCar；AA_375 第 5 項）*/
+  const inCar=(G,id)=>{ const g=G1(); return !!g&&!!g.springInCar&&g.springInCar(G,id); }, car=id=>({custom:G=>inCar(G,id)});   /* 春假桌遊團那一趟車上的三個人（group3d.js S.springInCar；AA_375 第 5 項）*/
   return [
-  /* ---------- 1C-01 春假（大二版）：麵店團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多 Alison 那一段 ---------- */
+  /* ---------- 1C-01 春假（大二版）：桌遊團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多 Alison 那一段 ---------- */
   { id:'ev_spring_y2_noodle', title:'春假・市場和海邊', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
     beforeOuting:G=>{ const g=G1(); if(g&&g.springSeat) g.springSeat(G); },   /* 車上的三個人（AA_375 第 5 項，照熟悉度）*/
     dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（後座擠了三個人。）'}   /* AA_599 補（BB 11-03、AA 定字）：不寫取車過程 */,

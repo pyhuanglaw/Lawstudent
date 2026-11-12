@@ -1,7 +1,7 @@
 // AA_532 寒暑假（一）（企劃線 ade80d22f；任務 AA532-VAC-FIX-1030；D99 第二優先）——不需要瀏覽器。用法：node tests/aa532_vac_unit.js
 //   0  新句都在 AA_532 稿裡（一字不差）；以安的假期計畫在 AA_244 第 1 節（2d3a0735d）；白名單有 AA_532
 //   1  除夕前一天～初三七位都不主動約（約的那一天、送出的那一天）；裂縫談話的「顧店」看麵店店休
-//   2-1 2027、2029 除夕 18:30 在家的年夜飯（快轉／睡覺停在 18:30）；2-2 四年初一 08:00 家人群組；2-3 麵店團初一 2028、2029；2-4 以安交往中除夕 22:00；2-5 2027 元宵
+//   2-1 2027、2029 除夕 18:30 在家的年夜飯（快轉／睡覺停在 18:30）；2-2 四年初一 08:00 家人群組；2-3 桌遊團初一 2028、2029；2-4 以安交往中除夕 22:00；2-5 2027 元宵
 //   3  她們主動約你的放假版七句、學姊放假改下午；芷若校外答應「好！那到時候見。」（日常照舊）
 //   4  留宿舍的寒暑假週四家人群組（回家住的不發）；父親節三年（2028 人在美國照時差）；端午 2026（人不在家才傳）
 //   5  子晴 C15：AA-B 10-30 05:12 選 A＝照 AA_525（AA_532 第 5 節作廢；三場的台詞看 tests/aa525_promises_unit.js 1-2）
@@ -96,10 +96,10 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
   const tagMsgs=tag=>(H.G.msgs||[]).filter(m=>m.tag===tag);
   { const out={}; for(const y of [2026,2027,2028,2029]){ fresh(HOLFF&&HOLFF.CNY1?HOLFF.CNY1[y]:y+'-02-01',7.5); run(H.G.day&&CALENDAR.dateOf(H.G.day).key,8); out[y]=tagMsgs('aa532_cny_fam_'+y).map(m=>m.th+'|'+m.from+':'+m.text); }
     check('2-2. 四年初一 08:00 家人群組（爸爸長輩圖；不用回）',has&&J(out[2026])===J(['g:home|dad:（長輩圖：一匹金色的馬，寫著「馬到成功」）','g:home|sister:爸 我們都在客廳'])&&out[2028].length===3&&out[2027][1]==='g:home|mom:你昨天傳過了'&&out[2029][2]==='g:home|sister:他在廁所傳的'&&[2026,2027,2028,2029].every(y=>tagMsgs('aa532_cny_fam_'+y).every(m=>!m.ask)),J(out)); }
-  { const out={}; for(const [y,k] of [[2028,'2028-01-26'],[2029,'2029-02-13']]){ fresh(k,10); PHONE.join(H.G,'noodle_team','麵店團'); run(k,11); const M=tagMsgs('aa532_cny_noodle_'+y); out[y]={n:M.length,opts:(M[M.length-1]||{ask:{opts:[]}}).ask.opts.map(o=>o.t)}; }
+  { const out={}; for(const [y,k] of [[2028,'2028-01-26'],[2029,'2029-02-13']]){ fresh(k,10); PHONE.join(H.G,'noodle_team','桌遊團'); run(k,11); const M=tagMsgs('aa532_cny_noodle_'+y); out[y]={n:M.length,opts:(M[M.length-1]||{ask:{opts:[]}}).ask.opts.map(o=>o.t)}; }
     fresh('2028-01-26',10); run('2028-01-26',11); const notIn=tagMsgs('aa532_cny_noodle_2028').length;
-    check('2-3. 麵店團初一 11:00：2028 七則、2029 六則，祐廷三選一；不在群組沒有',has&&out[2028].n===7&&J(out[2028].opts)===J(['（傳年夜飯的照片）','洗碗加油。','（貼圖）'])&&out[2029].n===6&&J(out[2029].opts)===J(['最後一個寒假。','（傳書桌的照片）','（貼圖）'])&&notIn===0,J(out));
-    fresh('2029-02-13',10); PHONE.join(H.G,'noodle_team','麵店團'); run('2029-02-13',11); PHONE.answer(H.G,'aa532_cny_noodle_2029_reply',1);
+    check('2-3. 桌遊團初一 11:00：2028 七則、2029 六則，祐廷三選一；不在群組沒有',has&&out[2028].n===7&&J(out[2028].opts)===J(['（傳年夜飯的照片）','洗碗加油。','（貼圖）'])&&out[2029].n===6&&J(out[2029].opts)===J(['最後一個寒假。','（傳書桌的照片）','（貼圖）'])&&notIn===0,J(out));
+    fresh('2029-02-13',10); PHONE.join(H.G,'noodle_team','桌遊團'); run('2029-02-13',11); PHONE.answer(H.G,'aa532_cny_noodle_2029_reply',1);
     check('2-3. 2029 回「（傳書桌的照片）」→ 以安「你的書桌比我的亂。」',(H.G.msgs||[]).some(m=>m.from==='heroine_01'&&m.text==='你的書桌比我的亂。'&&m.th==='g:noodle_team'),''); }
   { const out={}; for(const y of [2026,2027,2028,2029]){ const eve=D(HOLFF&&HOLFF.CNY1?HOLFF.CNY1[y]:'2026-02-17')-1; fresh(CALENDAR.dateOf(eve).key,21,{dating_heroine_01:true}); run(CALENDAR.dateOf(eve).key,22); out[y]=tagMsgs('aa532_an_eve_'+y).map(m=>m.text); }
     fresh('2027-02-05',21); run('2027-02-05',22); const single=tagMsgs('aa532_an_eve_2027').length;
@@ -144,8 +144,8 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     fresh(key,20); SOCIAL.rel('heroine_01').fam=30; SOCIAL.remember('heroine_01','FIRST_MET',''); run(key,21); const dm=tagMsgs('aa532_an_plan_Y1S1');
     check('7. 以安假期計畫：大一上第 15 週週五（'+key+'）21:00，熟＝私訊短版「寒假我先在總圖。1/20 回台中。」；選項「我也會去總圖。」「好，加油。」（這個假期沒有③）',fri!=null&&wd(fri)===5&&CALENDAR.termOf(fri).week===15&&dm.length===1&&dm[0].th==='p:heroine_01'&&dm[0].text==='寒假我先在總圖。1/20 回台中。'&&J(dm[0].ask.opts.map(o=>o.t))===J(['我也會去總圖。','好，加油。']),J(dm));
     PHONE.answer(H.G,'aa532_an_plan_Y1S1',0); check('7. 選①＝她回「三樓。我通常坐靠窗那排。」、記 AN_PLAN_Y1W＝join',H.G.flags.AN_PLAN_Y1W==='join'&&(H.G.msgs||[]).some(m=>m.from==='heroine_01'&&m.text==='三樓。我通常坐靠窗那排。'),'');
-    const k2=CALENDAR.dateOf(HOLFF.anPlanDay('Y2S2')).key; fresh(k2,20); SOCIAL.rel('heroine_01').fam=10; SOCIAL.remember('heroine_01','FIRST_MET',''); PHONE.join(H.G,'noodle_team','麵店團'); run(k2,21); const g=tagMsgs('aa532_an_plan_Y2S2');
-    check('7. 不熟（ACQUAINTANCE）、在麵店團：群組短版「七月考日檢。八月去京都上語言課。」，只有①②',SOCIAL.stage('heroine_01')!=='FAMILIAR'&&g.length===1&&g[0].th==='g:noodle_team'&&g[0].text==='七月考日檢。八月去京都上語言課。'&&g[0].ask.opts.length===2,J(g.map(m=>[m.th,m.text,m.ask.opts.map(o=>o.t)])));
+    const k2=CALENDAR.dateOf(HOLFF.anPlanDay('Y2S2')).key; fresh(k2,20); SOCIAL.rel('heroine_01').fam=10; SOCIAL.remember('heroine_01','FIRST_MET',''); PHONE.join(H.G,'noodle_team','桌遊團'); run(k2,21); const g=tagMsgs('aa532_an_plan_Y2S2');
+    check('7. 不熟（ACQUAINTANCE）、在桌遊團：群組短版「七月考日檢。八月去京都上語言課。」，只有①②',SOCIAL.stage('heroine_01')!=='FAMILIAR'&&g.length===1&&g[0].th==='g:noodle_team'&&g[0].text==='七月考日檢。八月去京都上語言課。'&&g[0].ask.opts.length===2,J(g.map(m=>[m.th,m.text,m.ask.opts.map(o=>o.t)])));
     fresh(k2,20); SOCIAL.rel('heroine_01').fam=30; SOCIAL.remember('heroine_01','FIRST_MET',''); H.G.flags.dating_heroine_01=true; VAC.signup(H.G,'C12@Y2','yes'); run(k2,21); const q=tagMsgs('aa532_an_plan_Y2S2');
     check('7. 交往中：私訊短版（①②③）＋「你這個假期要做什麼？」（照行事曆＝報了的活動名字／「還沒想」）',q.length===2&&q[0].ask.opts.length===3&&q[1].text==='你這個假期要做什麼？'&&J(q[1].ask.opts.map(o=>o.t))===J(['海外語言文化課程（京都）','還沒想']),J(q.map(m=>[m.text,m.ask.opts.map(o=>o.t)])));
     PHONE.answer(H.G,'aa532_an_plan_Y2S2_q',1); check('7. 回「還沒想」→ 她「那我們再排。」',(H.G.msgs||[]).slice(-1)[0].text==='那我們再排。','');

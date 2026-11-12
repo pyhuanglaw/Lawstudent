@@ -346,8 +346,8 @@ const CROWD=(function(){
      - 每一桌（兩個位子一組：面對面的兩張、或吧台相鄰的兩張；剩下的一個位子一組）一天的客人照（店＋桌＋日期）當種子排好：幾點來、坐多久、幾個人、做什麼——
        同一天同一時間出去再進來是同一批人坐同一些位子（D55）；時間跳了照新的時間直接排（和其他地點一樣）；一桌一桌各自進出，不會整間店同時起身。
      - 玩家的位子：每天留一組兩人座整天不排客人（約好一起來、和她坐一桌：invites3d.js 的 pairSeats），玩家沒坐下時店裡至少留兩個空位、坐下以後至少一個；
-       有名字的人（常客、麵店團、照作息來的同學）後來才走進來、空位不夠時，離門口最近的那一桌客人吃完先走（S.shopTrim）；客人不坐有人坐的位子（玩家、劇情的人）。
-       劇情的位子不排：阿鳳麵店中間那張桌（玩家和阿哲、麵店團）、麵店團常客的日子 17:30～19:00 麵店整段不排（他們自己的固定客人，story3d.js noodleRegulars）。
+       有名字的人（常客、桌遊團、照作息來的同學）後來才走進來、空位不夠時，離門口最近的那一桌客人吃完先走（S.shopTrim）；客人不坐有人坐的位子（玩家、劇情的人）。
+       劇情的位子不排：阿鳳麵店中間那張桌（玩家和阿哲、桌遊團）、桌遊團常客的日子 17:30～19:00 麵店整段不排（他們自己的固定客人，story3d.js noodleRegulars）。
        有人跟著你（companion）、今天約好在這間店：客人少一半。
      - 一間店同時最多 S.SHOP_CAP（10）位完整人物（手機效能；室內 7 m 外自動換遠距離版本 PERF-CROWD-LOD）。路人底模（STORY.extraSpec，6000 起一段，不和體育館、小公園撞）、坐姿照現有的 sit／read。
      - 點了不會說話（沒有台詞：台詞歸 AA）。碗盤、茶杯還沒有放在桌上（每張桌子的高度不一樣，要美術給桌面高度：LAWWW2）。
@@ -415,8 +415,8 @@ const CROWD=(function(){
     const seatsOf=(arr,lv)=>(arr||[]).map(s=>Object.assign({x:+s.x,z:+s.z,yaw:+s.yaw||0,table:Array.isArray(s.table)?s.table.join(','):s.table,bar:!!s.lift},(s.lv!=null||lv!=null)?{lv:(s.lv!=null?s.lv:lv)|0}:{}));   /* 118 巷的 table 是桌子中心 [x, z]；lv：兩層的店（木曜日在二樓、山嵐、大口漢堡）*/
     const lvUnits=(units,o)=>units.map(u=>Object.assign(u,u.seats&&u.seats[0].lv?{lv:u.seats[0].lv}:{},o||{}));   /* 一組位子在哪一層（S.shopSpots 的 spot.lv）*/
     const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
-    /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、麵店團：只排東西兩張）、日日便利、舊路書房 */
-    { const SL=typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop?SHAOLA_LAYOUT.shop:null;   /* 燒臘店 v7（SHAOLA-WIRE-1105）：五張桌子裡第 3 張留給玩家、阿哲、麵店團（和舊麵店中間那張一樣），客人坐另外四張 */
+    /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、桌遊團：只排東西兩張）、日日便利、舊路書房 */
+    { const SL=typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop?SHAOLA_LAYOUT.shop:null;   /* 燒臘店 v7（SHAOLA-WIRE-1105）：五張桌子裡第 3 張留給玩家、阿哲、桌遊團（和舊麵店中間那張一樣），客人坐另外四張 */
       if(SL) add('noodle','meal',[0,3.4],S.pairUnits(seatsOf(SL.seats.filter(q=>q.table!==3))),{noKeep:true});
       else add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true}); }
     /* 公館三間新室內（GG-SHOPS-REDO-1104）：配置有載入＝照新的貨架、書牆（CVS_LAYOUT／YEJIAN_LAYOUT；站的點離家具 0.75 m、面向架子），青木茶室坐配置的座位；沒有＝舊的室內 */
@@ -492,7 +492,7 @@ const CROWD=(function(){
   S.shopPlan=function(def,G){ const calm=S.shopCalm(G,def.zone), key=def.zone+'|'+G.day+'|'+(calm?1:0)+'|'+(G.stage||''); const c=planCache.get(def.zone); if(c&&c.key===key) return c.plan;
     const K0=S.SHOP_KIND[def.kind], wins=S.shopWindows(def,G), U=def.units, r0=prng(hash('shopkeep|'+def.zone+'|'+G.day));
     const pairs=U.map((u,i)=>i).filter(i=>U[i].kind==='face'); const keep=def.noKeep||!pairs.length?-1:pairs[Math.floor(r0()*pairs.length)];   /* 留給玩家（和她）的兩人座 */
-    const ndl=def.zone==='noodle'&&typeof STORY!=='undefined'&&STORY.noodleDay&&STORY.noodleDay(G.day);   /* 麵店團常客的日子：17:30～19:00 那一段是他們（noodleRegulars）*/
+    const ndl=def.zone==='noodle'&&typeof STORY!=='undefined'&&STORY.noodleDay&&STORY.noodleDay(G.day);   /* 桌遊團常客的日子：17:30～19:00 那一段是他們（noodleRegulars）*/
     const cand=[];
     U.forEach((u,ui)=>{ if(ui===keep) return; const r=prng(hash('shopu|'+def.zone+'|'+ui+'|'+G.day)); let vix=0; const stand=!!u.stand;
       const K=u.sk&&S.SHOP_KIND[u.sk]?S.SHOP_KIND[u.sk]:K0;   /* sk：這一組照另一種店的時段、坐多久（大口漢堡二樓自習區、山嵐的座位）*/
@@ -575,7 +575,7 @@ const CROWD=(function(){
   S.shopFree=E=>((E&&E.zone&&E.zone.seats)||[]).filter(st=>!S.seatBusy(E,st)).length;
   S.shopNeed=E=>E&&E.player&&E.player.seat?1:Math.min(2,Math.max(1,((E&&E.zone&&E.zone.seats)||[]).length-1));   /* 玩家還沒坐：至少兩個空位（自己＋一起來的人；一一八茶飲只有兩張高腳椅＝一個）；坐下了：一個 */
   S.shopCount=(E,zone)=>((E&&E.npcs)||[]).filter(n=>n&&typeof n.crowd==='string'&&n.crowd.indexOf('shop_'+zone+'_')===0&&!n.leaving).length;
-  /* 有名字的人後來才走進來（常客、麵店團、照作息的同學）、空位不夠的時候：離門口最近的那一桌客人吃完先走（同一桌一起走；那一段時間不再排他們）*/
+  /* 有名字的人後來才走進來（常客、桌遊團、照作息的同學）、空位不夠的時候：離門口最近的那一桌客人吃完先走（同一桌一起走；那一段時間不再排他們）*/
   S.shopTrim=function(GM){ const E=GM.E, G=GM.G, def=G&&S.SHOP_ZONES[G.zone]; if(!def||!E.zone||!(E.zone.seats||[]).length) return 0; if(S.shopFree(E)>=S.shopNeed(E)) return 0;
     const ids=Object.keys(live).filter(id=>id.indexOf('shop_'+G.zone+'_')===0&&live[id].npcs.some(n=>n.seat&&!n.leaving&&E.npcs.includes(n)));
     if(!ids.length) return 0; const dd=id=>{ const sp=S.SPOTS.find(q=>q.id===id); return sp?Math.hypot(sp.c[0]-def.door[0],sp.c[1]-def.door[1]):0; }; ids.sort((a,b)=>dd(a)-dd(b));

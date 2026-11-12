@@ -13,7 +13,7 @@ const GUARD=path.join(__dirname,'..','tools','story','import_guard.py');
 const ef0=cp.__worldEf||cp.execFileSync;
 function world(s){ if(typeof s!=='string'||!OLD.test(s)) return s;
   return ef0.call(cp,'python3',[GUARD,'world'],{input:s,encoding:'utf8',maxBuffer:256*1024*1024}); }
-// NOODLE-TEAM-SHRINK-1030（AA_542 企劃線 6b33b4012，使用者 10-30 X144 麵店團縮小成背景）：遊戲照 AA_542 換了玩家看得到的字，舊稿讀進來照同一張表換（tools/story/ndl542_fix.json，長的先換）
+// NOODLE-TEAM-SHRINK-1030（AA_542 企劃線 6b33b4012，使用者 10-30 X144 桌遊團縮小成背景）：遊戲照 AA_542 換了玩家看得到的字，舊稿讀進來照同一張表換（tools/story/ndl542_fix.json，長的先換）
 let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ NDL=[]; for(const fn of ['ndl542_fix.json','nocmp_fix.json','d118_fix.json','aa595_fix.json','aa602_fix.json','aa600_fix.json','aa612_fix.json','aa630_fix.json','aa647_fix.json','aa655_fix.json','aa657_fix.json','aa658_fix.json','aa663_fix.json','aa661_fix.json','aa664_fix.json','aa665_fix.json','aa666_fix.json','aa668_fix.json','aa670_fix.json','aa671_fix.json','aa672_fix.json','aa673_fix.json','aa674_fix.json','aa676_fix.json','aa677_fix.json','aa678_fix.json','aa681_fix.json','aa682_fix.json','aa683_fix.json','aa685_fix.json']){ try{ NDL=NDL.concat(JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story',fn),'utf8')).pairs); }catch(e){} } }   /* nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 企劃線 b13db535f）*/
   for(const [a,b] of NDL) if(s.indexOf(a)>=0) s=s.split(a).join(b); return s; }
 // WZ-SHOPS1-1104（AA_655 第 1 節）：換成英文店名（2:30 AM、SUNNY SIDE）的字，和中文字（不含「・」）之間空半形空格——tools/story/aa655_fix.json 的 spaced，同 import_guard.py 的 aa655

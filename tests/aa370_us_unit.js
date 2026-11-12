@@ -135,16 +135,16 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   await run('ev_us_home'); { const s=said.find(x=>x.t==='（九點。廚房裡有粥的味道。你回來了。）');
     check('M5. 09:00 回到家：旁白「（九點。廚房裡有粥的味道。你回來了。）」（媽媽不再說「你回來了。」）', !!s&&s.who===null&&!said.some(x=>x.who==='媽媽'), JSON.stringify(lines())); }
 
-  // ======================= M7 中秋（10/3）美國路線：沒見過麵店團的可昕不在群組說話 =======================
+  // ======================= M7 中秋（10/3）美國路線：沒見過桌遊團的可昕不在群組說話 =======================
   const KXL='阿哲今年贏了。……你不在，我沒力氣講冷笑話。';
-  fresh('2028-10-03',7,'us_apartment',US()); PHONE.join(G,'noodle_team','麵店團'); date('kexin'); runRules('2028-10-03',7,10.5);
+  fresh('2028-10-03',7,'us_apartment',US()); PHONE.join(G,'noodle_team','桌遊團'); date('kexin'); runRules('2028-10-03',7,10.5);
   { const m=msgOf('y4_ma_us_kx'), d=D('2028-10-03'), want=d*24+22+STORY.tzOffset(G,d);
     check('第 6 節第 5 題. 私訊照臺灣版：臺灣 22:00（當地 '+((want%24+24)%24)+':00），不是跟著照片的臺灣 19:30', !!m&&Math.abs(m.day*24+m.h-want)<0.02&&!(G.msgs||[]).some(x=>x.tag==='y4_ma_us'&&x.from==='kexin'), m?JSON.stringify({day:m.day-d,h:m.h}):'沒有'); }
-  check('M7. 和可昕交往、她沒見過麵店團：她那句改私訊（句子不改）；群組只有阿哲的照片', txt('p:kexin').includes('kexin:'+KXL)&&!txt('g:noodle_team').some(t=>t.indexOf(KXL)>=0)&&txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）'), JSON.stringify({p:txt('p:kexin'),g:txt('g:noodle_team')}));
-  fresh('2028-10-03',7,'us_apartment',US({KX_MET_NOODLE_TEAM:true})); PHONE.join(G,'noodle_team','麵店團'); date('kexin'); runRules('2028-10-03',7,8);
-  check('M7. 見過麵店團（KX_MET_NOODLE_TEAM）：照舊在群組說', txt('g:noodle_team').includes('kexin:'+KXL)&&!txt('p:kexin').some(t=>t.indexOf(KXL)>=0));
+  check('M7. 和可昕交往、她沒見過桌遊團：她那句改私訊（句子不改）；群組只有阿哲的照片', txt('p:kexin').includes('kexin:'+KXL)&&!txt('g:noodle_team').some(t=>t.indexOf(KXL)>=0)&&txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）'), JSON.stringify({p:txt('p:kexin'),g:txt('g:noodle_team')}));
+  fresh('2028-10-03',7,'us_apartment',US({KX_MET_NOODLE_TEAM:true})); PHONE.join(G,'noodle_team','桌遊團'); date('kexin'); runRules('2028-10-03',7,8);
+  check('M7. 見過桌遊團（KX_MET_NOODLE_TEAM）：照舊在群組說', txt('g:noodle_team').includes('kexin:'+KXL)&&!txt('p:kexin').some(t=>t.indexOf(KXL)>=0));
   fresh('2028-10-03',7,'us_apartment',US()); date('kexin'); runRules('2028-10-03',7,10.5);
-  check('第 6 節第 5 題. 祐廷不在麵店團群組：沒見過麵店團的可昕照樣私訊（不看群組）', txt('p:kexin').includes('kexin:'+KXL)&&!msgOf('y4_ma_us'), JSON.stringify(txt('p:kexin')));
+  check('第 6 節第 5 題. 祐廷不在桌遊團群組：沒見過桌遊團的可昕照樣私訊（不看群組）', txt('p:kexin').includes('kexin:'+KXL)&&!msgOf('y4_ma_us'), JSON.stringify(txt('p:kexin')));
 
   // ======================= M8 子晴 Q14（10/11）× 和學姊的大峽谷（10/7～10/14）=======================
   const canyonDone=()=>{ G.flags.US_CANYON=true; G.outings.push({id:'y4_us_canyon',ev:'ev_us_canyon',day:D('2028-10-07'),h:6,late:1,must:true,place:'社區門口',title:'秋假：大峽谷',travel:'',travelH:0,state:'done',ask:null}); };
@@ -183,15 +183,15 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   fresh('2028-11-11',7,'us_outside',US({MET_LONG:true})); date('heroine_05'); await run('ev_us_chicago'); check('L1. 見過他：芝加哥照原句', has('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'));
 
   // ======================= L2 阿哲 8/21「我回來了」（holff3d.js）：美國路線也照時差 =======================
-  fresh('2028-08-21',6.5,'us_apartment',US()); PHONE.join(G,'noodle_team','麵店團'); runRules('2028-08-21',6.5,8);
+  fresh('2028-08-21',6.5,'us_apartment',US()); PHONE.join(G,'noodle_team','桌遊團'); runRules('2028-08-21',6.5,8);
   { const m=msgOf('hol_y3s_zhe_back'); check('L2. 美國路線：阿哲 8/21「我回來了」臺灣 19:00＝當地 07:00（原本當地 19:00 才收到＝臺灣隔天 07:00）', !!m&&m.day===D('2028-08-21')&&Math.abs(m.h-7)<0.05, m?String(m.h):'還沒收到'); }
-  fresh('2028-08-21',18.5,'dorm',TWF()); PHONE.join(G,'noodle_team','麵店團'); runRules('2028-08-21',18.5,19.5);
+  fresh('2028-08-21',18.5,'dorm',TWF()); PHONE.join(G,'noodle_team','桌遊團'); runRules('2028-08-21',18.5,19.5);
   { const m=msgOf('hol_y3s_zhe_back'); check('L2. 臺灣路線照舊 19:00', !!m&&Math.abs(m.h-19)<0.05); }
 
   // ======================= L3 可昕 12/22（回臺灣的路上）照臺灣時間 =======================
   fresh('2028-12-23',6,'airport_arr',US({US_TRIP_MODE:'sf',US_TRIP_DONE:true,US_RETURNED:D('2028-12-23')})); date('kexin'); rules();
   { const m=msgOf('y4_kx_grades0'); check('L3. 美國路線（舊金山那一週回來）：可昕「成績出來那天，各說一科這學期最滿意的。」照臺灣 12/22 21:00 顯示', !!m&&m.day===D('2028-12-22')&&Math.abs(m.h-21)<0.02, m?JSON.stringify({d:m.day-D('2028-12-22'),h:m.h}):'沒有'); }
-  fresh('2028-12-23',6,'airport_arr',US({US_TRIP_MODE:'sf',US_TRIP_DONE:true,US_RETURNED:D('2028-12-23')})); PHONE.join(G,'noodle_team','麵店團'); rules();
+  fresh('2028-12-23',6,'airport_arr',US({US_TRIP_MODE:'sf',US_TRIP_DONE:true,US_RETURNED:D('2028-12-23')})); PHONE.join(G,'noodle_team','桌遊團'); rules();
   { const m=msgOf('y4_xmas_photo'); check('第 6 節第 8 題. 阿哲 12/22 聖誕交換禮物的照片也照臺灣 12/22 21:30 顯示（原本換算成 12/22 早上）', !!m&&m.day===D('2028-12-22')&&Math.abs(m.h-21.5)<0.02, m?JSON.stringify({d:m.day-D('2028-12-22'),h:m.h}):'沒有'); }
 
   // ======================= L4 秋假（10/9～10/13）何俊朗在芝加哥：自習室沒有招呼 =======================

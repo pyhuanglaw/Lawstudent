@@ -93,7 +93,7 @@ const K=t=>'kexin:'+t;
 
   // 3. 2-Y2-04 中秋
   fresh('2026-09-24',20,'dorm',{KX_MET_NOODLE_TEAM:true,KX_JOKE:'kexin'}); date('kexin'); run('2026-09-24',21,21.75);
-  check('3. 見過麵店團：9/24 21:30 兩則（不是問句）',JSON.stringify(txt('p:kexin'))===JSON.stringify([K('今年予樂是活動長，我先去幫她顧火。'),K('烤完我帶玉米過去。')]));
+  check('3. 見過桌遊團：9/24 21:30 兩則（不是問句）',JSON.stringify(txt('p:kexin'))===JSON.stringify([K('今年予樂是活動長，我先去幫她顧火。'),K('烤完我帶玉米過去。')]));
   await play('ev_y2_midautumn',['用筷子']);
   { const W=['（她到的時候，炭已經是第二輪了。她提著一袋玉米。）','冷笑話，第二回合。','好。今年我帶了新的。','月亮為什麼中秋特別圓？……因為它也吃了月餅。','……妳有練。','（看了一眼烤肉架）……你們在用筷子烤？','借烤肉架的人，只借到一支夾子。','（她看了你一眼，把玉米放上架子，用筷子翻。）'];
     const i=idx(W[0]); check('3. M1 第二輪才到；冷笑話「今年我帶了新的」；筷子三句（逐字、順序）',i>=0&&JSON.stringify(said.slice(i).map(s=>s.t))===JSON.stringify(W)&&G.flags.MA_Y2_TONGS==='chop',JSON.stringify(said.map(s=>s.t))); }
@@ -102,7 +102,7 @@ const K=t=>'kexin:'+t;
   check('3. 大一阿哲贏：「去年輸你。今年我帶了新的。」；買夾子＝沒有筷子三句',has('去年輸你。今年我帶了新的。')&&!has('好。今年我帶了新的。')&&!has('（看了一眼烤肉架）……你們在用筷子烤？')&&!has('借烤肉架的人，只借到一支夾子。'),JSON.stringify(said.map(s=>s.t)));
   fresh('2026-09-25',17,'dorm',{}); await play('ev_y2_midautumn',['用筷子']); check('3. 不是交往中：群戲照舊、沒有她',!any(/玉米/)&&has('對嘛。')||!any(/玉米/));
   fresh('2026-09-24',20,'dorm',{}); date('kexin'); run('2026-09-24',21,21.75); run('2026-09-25',18,21.25);
-  check('3. M2 她沒見過麵店團：9/24 沒有；9/25 21:00 三則照片',!PHONE.sent(G,'y2r2_ma_pre')&&JSON.stringify(txt('p:kexin'))===JSON.stringify([K('📷（木柵大學的烤肉，炭火旁邊一排玉米）'),K('予樂今年是活動長。我被派去顧火。'),K('……玉米還是我們的好。')]),JSON.stringify(txt('p:kexin')));
+  check('3. M2 她沒見過桌遊團：9/24 沒有；9/25 21:00 三則照片',!PHONE.sent(G,'y2r2_ma_pre')&&JSON.stringify(txt('p:kexin'))===JSON.stringify([K('📷（木柵大學的烤肉，炭火旁邊一排玉米）'),K('予樂今年是活動長。我被派去顧火。'),K('……玉米還是我們的好。')]),JSON.stringify(txt('p:kexin')));
   fresh('2026-09-24',20,'dorm',{KX_MET_NOODLE_TEAM:true}); date('kexin'); run('2026-09-24',21,21.75); run('2026-09-25',18,21.25);
   check('3. 說要來、祐廷沒去：照片前面「你不在，我就沒過去了。」',txt('p:kexin')[2]===K('你不在，我就沒過去了。')&&txt('p:kexin').length===6,JSON.stringify(txt('p:kexin')));
 
@@ -382,8 +382,8 @@ const K=t=>'kexin:'+t;
   check('17. 沒去：21:30 謝幕照片（Q5 去過：「今年沒有人拍太大聲」）',JSON.stringify(txt('p:heroine_04').slice(-3))===JSON.stringify(['heroine_04:📷（謝幕，台上六個人鞠躬）','heroine_04:今年沒有人拍太大聲','heroine_04:……拍給你看'])&&G.flags.ZQ_SHOW2==='absent');
 
   // 18. 2-Y2-20 系籃
-  fresh('2027-05-28',20,'dorm',{met_yu:true,Y2_BALL_SEEN:true}); PHONE.join(G,'noodle_team','麵店團'); run('2027-05-28',20.75,21.25);
-  check('18. 5/28 21:00 麵店團群組：阿哲邀約 → 5/29 14:00 新體育館',txt('g:noodle_team').slice(-1)[0]==='zhe:明天下午兩點，系籃，新體育館 這學期最後一場'&&(q=>!!q&&q.day===D('2027-05-29')&&q.h===14)(OUT.get(G,'y2r2_ball')));
+  fresh('2027-05-28',20,'dorm',{met_yu:true,Y2_BALL_SEEN:true}); PHONE.join(G,'noodle_team','桌遊團'); run('2027-05-28',20.75,21.25);
+  check('18. 5/28 21:00 桌遊團群組：阿哲邀約 → 5/29 14:00 新體育館',txt('g:noodle_team').slice(-1)[0]==='zhe:明天下午兩點，系籃，新體育館 這學期最後一場'&&(q=>!!q&&q.day===D('2027-05-29')&&q.h===14)(OUT.get(G,'y2r2_ball')));
   await go('y2r2_ball',13.5); picks=[];
   check('18. B1 看過大二上、認識 Alison：「17 號，可以犯規一次。」；結尾阿哲和 Alison 兩句；WATCHED_GAME_Y2B、Y2B_BALL_SEEN',has('（Alison 的加油板換了一面：「17 號，可以犯規一次。」）')&&has('妳的板子寫錯字了。')&&has('那是故意的。')&&SOCIAL.has('zhe','WATCHED_GAME_Y2B')&&G.flags.Y2B_BALL_SEEN===true);
   fresh('2027-05-28',20,'dorm'); run('2027-05-28',20.75,21.25); miss('y2r2_ball'); run('2027-05-29',21.25,21.75);
@@ -434,8 +434,8 @@ const K=t=>'kexin:'+t;
   // 22. 2-Y2-24 以安新 13
   fresh('2027-06-04',20,'dorm',{met_yu:true,AN_TUTOR_FAMILY:1}); meet('heroine_01'); PHONE.join(G,'public_law','公法讀書會'); run('2027-06-04',20.75,21.25);
   check('22. A1 讀書會群組、有新 10：三則＋Alison 兩則；沒有「她說那張圖」',JSON.stringify(txt('g:public_law'))===JSON.stringify(['heroine_01:那個家的訴願，原本的決定被撤銷了，要重新審。','heroine_01:不是全贏。可是有人要重新看他們的資料了。','heroine_01:📷（一張手寫的卡片，字看不清楚，只看得到最後一行：老師，謝謝妳畫的那張圖。）','yu:！！','yu:恭喜那個家！！'])&&G.flags.AN_TUTOR_FAMILY===2&&!txt('g:public_law').some(t=>/她說那張圖/.test(t)),JSON.stringify(txt('g:public_law')));
-  fresh('2027-06-04',20,'dorm'); meet('heroine_01'); PHONE.join(G,'noodle_team','麵店團'); run('2027-06-04',20.75,21.25);
-  check('22. A2 只在麵店團、沒有新 10：先「之前在幫家教學生的家裡看一份駁回的公文。」；阿哲「讚」',txt('g:noodle_team')[0]==='heroine_01:之前在幫家教學生的家裡看一份駁回的公文。'&&txt('g:noodle_team').slice(-1)[0]==='zhe:讚');
+  fresh('2027-06-04',20,'dorm'); meet('heroine_01'); PHONE.join(G,'noodle_team','桌遊團'); run('2027-06-04',20.75,21.25);
+  check('22. A2 只在桌遊團、沒有新 10：先「之前在幫家教學生的家裡看一份駁回的公文。」；阿哲「讚」',txt('g:noodle_team')[0]==='heroine_01:之前在幫家教學生的家裡看一份駁回的公文。'&&txt('g:noodle_team').slice(-1)[0]==='zhe:讚');
   fresh('2027-06-04',20,'dorm'); date('heroine_01'); PHONE.join(G,'public_law','公法讀書會'); run('2027-06-04',20.75,21.25); check('22. 交往中：私訊「卡片上的字，是那個學生自己寫的。」',txt('p:heroine_01').slice(-1)[0]==='heroine_01:卡片上的字，是那個學生自己寫的。');
 
   // 23. 共用檔
@@ -450,8 +450,8 @@ const K=t=>'kexin:'+t;
   { fresh('2026-09-17',20,'dorm'); G.stage='econ'; date('kexin'); run('2026-09-17',20.5,21.5); check('23. 經濟系那一年（stage econ）不跑',(G.msgs||[]).length===0); }
   // 24. AA_343 E2：CG-2b 的群組（以安新 8 的後半：大二上第 7 週週六 14:00 萬才館研討室的補讀；那天沒去、在公法讀書會群組的玩家）
   { const sat=STORY.termDay('Y2S1',7,6), PL=()=>TH('g:public_law').map(m=>m.from+':'+m.text), EXP=['yu:📷','yu:規則剩三條 另外一半是我撕的','heroine_01:Alison，刪掉。','yu:不要 這是歷史'];
-    const PLAN=()=>OUT.plan(G,{id:'plg_sat',ev:'ev_plg_rules_after',day:sat,h:14,late:0.25,place:'B館研討室',title:'公法讀書會的補讀',travel:'走過去約 10 分鐘',travelH:1/6});   /* 同 story3d.js 週四 22:00 以安在麵店團約的那一個 */
-    const setup=o=>{ o=o||{}; fresh('2026-10-24',13.5,'dorm',{}); meet('heroine_01'); if(!o.noYu) meet('yu'); if(!o.noGroup) PHONE.join(G,'public_law','公法讀書會'); PHONE.join(G,'noodle_team','麵店團'); G.events.done.ev_plg_rules=1; };
+    const PLAN=()=>OUT.plan(G,{id:'plg_sat',ev:'ev_plg_rules_after',day:sat,h:14,late:0.25,place:'B館研討室',title:'公法讀書會的補讀',travel:'走過去約 10 分鐘',travelH:1/6});   /* 同 story3d.js 週四 22:00 以安在桌遊團約的那一個 */
+    const setup=o=>{ o=o||{}; fresh('2026-10-24',13.5,'dorm',{}); meet('heroine_01'); if(!o.noYu) meet('yu'); if(!o.noGroup) PHONE.join(G,'public_law','公法讀書會'); PHONE.join(G,'noodle_team','桌遊團'); G.events.done.ev_plg_rules=1; };
     check('24. 補讀那天＝2026-10-24（六）（story3d.js 的 plg_sat 同一天）',sat===D('2026-10-24')&&wdOf(sat)===6);
     setup(); run('2026-10-24',13.5,14.25);
     check('24. 14:15 以前還沒有（去的人還可以出發）',!PHONE.sent(G,'y2r2_plg_photo')&&TH('g:public_law').length===0);
@@ -462,7 +462,7 @@ const K=t=>'kexin:'+t;
     check('24. 約了沒去（出發選單過期）：一樣四則',OUT.get(G,'plg_sat').state==='missed'&&JSON.stringify(PL())===JSON.stringify(EXP),JSON.stringify(PL()));
     setup(); PLAN(); await go('plg_sat',14.1); run('2026-10-24',14.5,16.5);
     check('24. 去了（CG-2 在場版）：群組照片不傳、不收進相簿',!!G.events.done.ev_plg_rules_after&&!PHONE.sent(G,'y2r2_plg_photo')&&TH('g:public_law').length===0&&!((G.cg||{}).unlocked||[]).includes('cg_study_group_rules_photo'));
-    setup({noGroup:true}); run('2026-10-24',14.5,15); check('24. 不在公法讀書會群組：沒有（麵店團也沒有）',!PHONE.sent(G,'y2r2_plg_photo')&&(G.msgs||[]).every(m=>m.tag!=='y2r2_plg_photo'));
+    setup({noGroup:true}); run('2026-10-24',14.5,15); check('24. 不在公法讀書會群組：沒有（桌遊團也沒有）',!PHONE.sent(G,'y2r2_plg_photo')&&(G.msgs||[]).every(m=>m.tag!=='y2r2_plg_photo'));
     setup({noYu:true}); run('2026-10-24',14.5,15); check('24. 還不認識 Alison：沒有（同 2-Y2-24 群組裡 Alison 那兩句的做法）',!PHONE.sent(G,'y2r2_plg_photo'));
     { const src=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); check('24. 手機對話裡在那一則下面顯示照片（game3d.js threadHTML 的 msgPhoto：CG_REGISTRY[m.cg].file）',/const msgPhoto=m=>[^\n]*CG_REGISTRY\[m\.cg\]\.file/.test(src)&&/escH\((?:sysT\(m\)|m\.text)\)\)\+msgPhoto\(m\)/.test(src)); } }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

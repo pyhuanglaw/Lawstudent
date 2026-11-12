@@ -26,7 +26,7 @@ const fresh=(key,hour,zone,flags)=>{ const day=D(key); G={v:3,stage:'law',day,ho
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const FAM=id=>{ meet(id); R(id,30,10,10); };
-const noodle=()=>{ PHONE.join(G,'noodle_team','麵店團'); for(const id of ['zhe','yu','classmate_bohan','classmate_xinci']) meet(id); };
+const noodle=()=>{ PHONE.join(G,'noodle_team','桌遊團'); for(const id of ['zhe','yu','classmate_bohan','classmate_xinci']) meet(id); };
 const atHome=()=>{ const H=HOME.rec(G); H.at=true; H.day=G.day; const B=HOME.lawBreak(G); H.lbreak=B.key; H.brk=B.key; H.bskip={key:B.key,n:0,last:-1}; };
 /* 照時間跑手機規則（每 step 小時一次，跨日）*/
 const runTo=(key,h,step)=>{ step=step||0.25; const t1=Tm(D(key),h); let t=now(); while(t<t1-1e-9){ t=Math.min(t1,t+step); G.day=Math.floor(t/24); G.weekday=wdOf(G.day); G.hour=t-G.day*24; STORY.phoneRules(GM); PHONE.tick(G); } };

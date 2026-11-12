@@ -918,11 +918,11 @@
    "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單；2026-10-23 20:1x 改到 dd9b704aa（AB65-3-Y2S1-L、AA312-INTEGRATE-1020 子代理照這一版）"
   },
   {
-   "path": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
+   "path": "docs/story_planning/AA_256_假期_芯慈事務所_桌遊團出國.md",
    "sha": "247198e8",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；247198e8 補 VA-10 沒去的玩家看到的第一天照片（阿哲傳三則，取代暫用句）",
-   "note": "AA-C 12:45：VA-09 芯慈事務所、VA-10 麵店團香港；只在 AA 分支 claude/magical-albattani-bk7b4n"
+   "note": "AA-C 12:45：VA-09 芯慈事務所、VA-10 桌遊團香港；只在 AA 分支 claude/magical-albattani-bk7b4n"
   },
   {
    "path": "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md",
@@ -4253,7 +4253,7 @@
    "approvedBy": "AA-B 2026-10-23 20:4x 定稿（D109）",
    "task": "DL-11",
    "kind": "text",
-   "note": "茶席 BB 四位＋可昕備用、WZ-P3、麵店團早午餐群組（src/wzlines3d.js 等）"
+   "note": "茶席 BB 四位＋可昕備用、WZ-P3、桌遊團早午餐群組（src/wzlines3d.js 等）"
   },
   {
    "path": "docs/story_planning/BB_154_AB27_大一下缺口_學姊傳書_阿凱鍵盤.md",
@@ -4479,7 +4479,7 @@
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 LAWWW-B 06:01）",
    "task": "COURSE-PRACTICE-Y4-1024",
    "kind": "text",
-   "note": "大四下法律實習 13 個週二各一句、第一次出席＝第 1 週、租屋大姊 A／B、4/24 麵店團兩句；OFF 改名法扶・臺北的辦公室（src/practice3d.js；tests/aa441_practice_unit.js）"
+   "note": "大四下法律實習 13 個週二各一句、第一次出席＝第 1 週、租屋大姊 A／B、4/24 桌遊團兩句；OFF 改名法扶・臺北的辦公室（src/practice3d.js；tests/aa441_practice_unit.js）"
   },
   {
    "path": "docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md",
@@ -4911,7 +4911,7 @@
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）；7ad5fee84＝AA_528（AA-B 10-30 讀 AA_499～502 的實作）同一個 commit 改的原稿（含 AA_527 的改字）（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "NPC-STORY-1028",
-   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第四批四位（洪珮瑜、施孟儒、廖芸萱、嚴守誠）＋第 5 節第 5 點十五位的 personality——台詞 src/data/pool_story_b4.js；流程 src/pool_more3d.js（認識的那一場〔芸萱沛珊介紹／自己兩版〕、閒聊、秘密、順手的事 PQ_HPY／PQ_SMR、哲學咖啡館、半夜的刑法讀書會兩場、手機各則、系籃三場與大四下那一場、哲 3 阿哲一句、麵店團阿哲轉貼、畢業與房間物品、總圖三樓的紙條）；tests/aa499_501_pool_unit.js 用 git show 17d57eff3 逐字雙向對稿",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第四批四位（洪珮瑜、施孟儒、廖芸萱、嚴守誠）＋第 5 節第 5 點十五位的 personality——台詞 src/data/pool_story_b4.js；流程 src/pool_more3d.js（認識的那一場〔芸萱沛珊介紹／自己兩版〕、閒聊、秘密、順手的事 PQ_HPY／PQ_SMR、哲學咖啡館、半夜的刑法讀書會兩場、手機各則、系籃三場與大四下那一場、哲 3 阿哲一句、桌遊團阿哲轉貼、畢業與房間物品、總圖三樓的紙條）；tests/aa499_501_pool_unit.js 用 git show 17d57eff3 逐字雙向對稿",
    "history": [
     {
      "sha": "17d57eff3",
@@ -4949,7 +4949,7 @@
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "HEROINE-LIFE-1028",
-   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊（閒聊階梯以安 A8-L1 走 import_ladder.py 的 _fix）；手機動態、同框另外接。第五輪子代理（手機）：第 1～7 節每位的動態表 33 則（src/data/feed_y4s2.js：芷若在英國照當地 22:07＝3/25 以前臺灣 06:07、以後 05:07，8/27 台中 22:07；沛珊一個月一則；可昕不管交不交往都看得到）、x-2「她自己的事」每一件都是那一則動態（沒有私訊）、「別人說起她」（src/data/heard_lines.js：閒聊前一句 6 句——筱涵、以安說語彤、阿凱（7/26 起週五公館）、陳助教、柏翰、曾靖雯；手機 4 則——Alison 麵店團 3/23、予樂 6/10、品妤 8/7、子晴私訊 8/29；葉晨希 pool_11 等 AA_500）；第 0-1 節三處第四輪已照 28f981438；第 8 節第 4 點 6/4 以後畢業以後篇動態照時間出、跳時間不過期（src/feed3d.js，同 AA_511 第 0 節第 1 點）；可昕分開以後一學期在大四下以後＝分開那天起 18 週。tests/aa510_511_feed_unit.js 照 28f981438 逐字對。3D 圈子、第 8 節第 3 點的 3D 作息不在這一筆的實作裡；3D 圈子（第 1、3、4、5 節的 x-1 表，五列：以安和語彤週四總圖三樓、語彤暑假週四麵店、子晴 6/28 起週五公館和阿凱、學姊 5/29 以後週五公館和陳助教；第 8 節第 3 點這四件的作息 characters.js 已經有，照現有、不重複加；6/4 起畢業以後篇照現有做法，第 8 節第 4 點）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028 第二輪 CIRCLE3D-Y4-1028），tests/heroine_circle3d_unit.js 照白名單上這一筆的 sha 逐字雙向對稿"
+   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊（閒聊階梯以安 A8-L1 走 import_ladder.py 的 _fix）；手機動態、同框另外接。第五輪子代理（手機）：第 1～7 節每位的動態表 33 則（src/data/feed_y4s2.js：芷若在英國照當地 22:07＝3/25 以前臺灣 06:07、以後 05:07，8/27 台中 22:07；沛珊一個月一則；可昕不管交不交往都看得到）、x-2「她自己的事」每一件都是那一則動態（沒有私訊）、「別人說起她」（src/data/heard_lines.js：閒聊前一句 6 句——筱涵、以安說語彤、阿凱（7/26 起週五公館）、陳助教、柏翰、曾靖雯；手機 4 則——Alison 桌遊團 3/23、予樂 6/10、品妤 8/7、子晴私訊 8/29；葉晨希 pool_11 等 AA_500）；第 0-1 節三處第四輪已照 28f981438；第 8 節第 4 點 6/4 以後畢業以後篇動態照時間出、跳時間不過期（src/feed3d.js，同 AA_511 第 0 節第 1 點）；可昕分開以後一學期在大四下以後＝分開那天起 18 週。tests/aa510_511_feed_unit.js 照 28f981438 逐字對。3D 圈子、第 8 節第 3 點的 3D 作息不在這一筆的實作裡；3D 圈子（第 1、3、4、5 節的 x-1 表，五列：以安和語彤週四總圖三樓、語彤暑假週四麵店、子晴 6/28 起週五公館和阿凱、學姊 5/29 以後週五公館和陳助教；第 8 節第 3 點這四件的作息 characters.js 已經有，照現有、不重複加；6/4 起畢業以後篇照現有做法，第 8 節第 4 點）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028 第二輪 CIRCLE3D-Y4-1028），tests/heroine_circle3d_unit.js 照白名單上這一筆的 sha 逐字雙向對稿"
   },
   {
    "path": "docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md",
@@ -5107,7 +5107,7 @@
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA532-VAC-FIX-1030",
-   "note": "子代理登記（AA532-VAC-FIX-1030，10-30）：寒暑假（一）。程式：src/heroine_asks3d.js（除夕前一天～初三不約、放假版句子、芷若校外 yesOut）、src/data/heroine_asks.js、src/cracktalk3d.js（ytShop 看店休）、src/home3d.js（留宿舍放假週四群組）、src/holff3d.js（2027／2029 除夕年夜飯、四年初一家人群組、麵店團初一 2028／2029、以安除夕私訊、元宵、父親節、端午、以安假期計畫 AA_244 第 1 節）、src/data/termend_lines.js（C15 zq_demo、zq_play2）、src/data/vac_activities.js（C12、T03 交往中）、src/data/vacfill_events.js（總圖兩句）；src/data/home_lines.js 由 tools/home/import_home_lines.py 讀這一版換「我才大一。」→「我還在念書。」。測試 node tests/aa532_vac_unit.js"
+   "note": "子代理登記（AA532-VAC-FIX-1030，10-30）：寒暑假（一）。程式：src/heroine_asks3d.js（除夕前一天～初三不約、放假版句子、芷若校外 yesOut）、src/data/heroine_asks.js、src/cracktalk3d.js（ytShop 看店休）、src/home3d.js（留宿舍放假週四群組）、src/holff3d.js（2027／2029 除夕年夜飯、四年初一家人群組、桌遊團初一 2028／2029、以安除夕私訊、元宵、父親節、端午、以安假期計畫 AA_244 第 1 節）、src/data/termend_lines.js（C15 zq_demo、zq_play2）、src/data/vac_activities.js（C12、T03 交往中）、src/data/vacfill_events.js（總圖兩句）；src/data/home_lines.js 由 tools/home/import_home_lines.py 讀這一版換「我才大一。」→「我還在念書。」。測試 node tests/aa532_vac_unit.js"
   },
   {
    "path": "docs/story_planning/AA_533_D99寒暑假二_出國旅遊和她_活動卡的人_回她的縣市_快轉旁白分年.md",

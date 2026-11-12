@@ -520,8 +520,8 @@ await sec('14 施孟儒',async()=>{ const d=TD('Y1S1',4,5); fresh(d,17.5,'campus
   set(TD('Y2S2',16,5),17.5,'campus'); GM.npc={}; spawn(MR); await talk(MR,['我拿']); const items=STORY.roomItemList(H.G).map(x=>x[0]), gl=has('經理的東西，總要交給一個人。')&&has('（把記分板放在你手上）少一個「7」。你自己想辦法。');
   const y4=STORY_EVENTS.find(e=>e.id==='ev_last_game_y4'); const si=y4.dialogue.findIndex(l=>l&&l.label==='s'); H.said=[]; H.picks=[]; await EVENTS.runLines(y4.dialogue.slice(si),y4);
   check('14. 施孟儒 2-5 畢業（2027-06 那一週的週五，球場）：「經理的東西，總要交給一個人。」選「我拿。」→ SMR_BOARD、房間物品「系籃的記分板」；大四下那一場「記分」的旁白換成「（你翻出那塊記分板。7 還是貼著紙。）」',gl&&H.G.flags.SMR_BOARD===true&&items.includes('系籃的記分板')&&has(L(MR).boardGame)&&y4.dialogue.some(l=>l&&l.text===L(MR).gameY4),J([items,said()]));
-  set(D('2027-12-10'),22); PHONE.join(H.G,'noodle_team','麵店團'); meet('zhe'); phAt(D('2027-12-11'),21.1); const g=tagged('pool_smr_grp');
-  check('14. 施孟儒 2027-12 麵店團群組：阿哲轉貼孟儒學長的照片（三則）',g.length===3&&g.every(m=>m.from==='zhe'&&m.th==='g:noodle_team')&&g[1].text===L(MR).grp[1],J(g.map(m=>m.text)));
+  set(D('2027-12-10'),22); PHONE.join(H.G,'noodle_team','桌遊團'); meet('zhe'); phAt(D('2027-12-11'),21.1); const g=tagged('pool_smr_grp');
+  check('14. 施孟儒 2027-12 桌遊團群組：阿哲轉貼孟儒學長的照片（三則）',g.length===3&&g.every(m=>m.from==='zhe'&&m.th==='g:noodle_team')&&g[1].text===L(MR).grp[1],J(g.map(m=>m.text)));
   const cap=STORY_EVENTS.find(e=>e.id==='ev_zhe_captain'); fresh(D('2027-09-10'),18,'campus'); H.G.flags.SMR_TO='zhe'; H.said=[]; H.picks=[0]; await EVENTS.runLines(cap.dialogue,cap);
   check('14. 施孟儒 畢業選「交給阿哲吧。」＝哲 3（2027-09-10 當上隊長）阿哲多一句',has(L(MR).zheCaptain),J(said().slice(0,6))); });
 

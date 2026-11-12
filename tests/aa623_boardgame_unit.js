@@ -104,7 +104,7 @@ await sec(4,()=>{
   STORY.ndlGroupFix(H.G); const g=PHONE.rec(H.G).groups.noodle_team, T=msgs('g:noodle_team').map(m=>m.text);
   check('4. 舊存檔「法二吃飯」→「桌遊團」',g.name==='桌遊團');
   check('4. 規矩兩句換成「隔週五 桌遊」「沒空不用講」；建立那則的名字換「桌遊團」；改名訊息照留',T.includes('隔週五 桌遊')&&T.includes('沒空不用講')&&T.includes('阿哲建立了群組「桌遊團」，把你加了進來。')&&T.includes('（阿哲把群組名稱改成「法二吃飯」。）'),J(T));
-  H.fresh('2026-09-14',13,'dorm',{noodleTableDay:5}); PHONE.join(H.G,'noodle_team','麵店團'); STORY.ndlGroupFix(H.G);
+  H.fresh('2026-09-14',13,'dorm',{noodleTableDay:5}); PHONE.join(H.G,'noodle_team','桌遊團'); STORY.ndlGroupFix(H.G);
   check('4. 舊存檔「麵店團」→「桌遊團」',PHONE.rec(H.G).groups.noodle_team.name==='桌遊團');
   H.fresh('2026-09-14',13,'dorm',{noodleTableDay:5}); PHONE.join(H.G,'noodle_team','最後一學期'); STORY.ndlGroupFix(H.G);
   check('4. 「最後一學期」照舊',PHONE.rec(H.G).groups.noodle_team.name==='最後一學期');

@@ -34,8 +34,8 @@ GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.pu
 GM.money=function(n){ G.money+=n; };
 (async()=>{
   const nye=D('2025-12-31'), d26=D('2025-12-26'), d29=D('2025-12-29');
-  // 1. 12/26 阿哲揪跨年＋海邊（麵店團群組）
-  fresh(d26,20.9,'dorm',{}); G.stage='law'; meet('zhe'); meet('yu'); meet('classmate_bohan'); meet('classmate_xinci'); meet('heroine_01'); R('heroine_01',25,0,0); PHONE.join(G,'noodle_team','麵店團');
+  // 1. 12/26 阿哲揪跨年＋海邊（桌遊團群組）
+  fresh(d26,20.9,'dorm',{}); G.stage='law'; meet('zhe'); meet('yu'); meet('classmate_bohan'); meet('classmate_xinci'); meet('heroine_01'); R('heroine_01',25,0,0); PHONE.join(G,'noodle_team','桌遊團');
   run(20.9,21.8);
   const T=txt('g:noodle_team');
   check('1. 12/26 21:00 阿哲「跨年有人要一起嗎」「先吃飯，再去看煙火」＋選項 我去／我直接到頂樓／再看看',T.includes('zhe:跨年有人要一起嗎')&&T.includes('zhe:宿委會說頂樓會開 訪客一樓登記，十二點半前要走')/* 大一的字 AA_456 1-1 換 */&&T.includes('zhe:先吃飯，再去看煙火')&&JSON.stringify(((G.msgs||[]).find(m=>m.ask&&m.ask.id==='nye_y1_ask')||{ask:{opts:[]}}).ask.opts.map(o=>o.t))===JSON.stringify(['我去','我直接到頂樓','再看看']),JSON.stringify(T));
@@ -67,7 +67,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(nye,23.7,'campus',{dating_heroine_03:true}); G.stage='law'; meet('heroine_03'); said=[]; picks=[1,0]; await EVENTS.run(ev('ev_nye_roof')); L=lines();
   check('5. 在頂樓：零點過一分語彤的電話「你們在頂樓喔？好吵。」→「妳們在看什麼？」→「跨年晚會。我媽在跟著唱。」',L.some(t=>t.includes('你們在頂樓喔？好吵。'))&&L.some(t=>t.includes('跨年晚會。我媽在跟著唱。')));
   // 6. 返鄉、回臺北
-  fresh(D('2026-01-09'),16.9,'dorm',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',25,0,0); PHONE.join(G,'noodle_team','麵店團'); run(16.9,17.2);
+  fresh(D('2026-01-09'),16.9,'dorm',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',25,0,0); PHONE.join(G,'noodle_team','桌遊團'); run(16.9,17.2);
   check('6. 1/9 17:00 柏翰「我今天回新竹。2/19 回來。」',txt('g:noodle_team').includes('classmate_bohan:我今天回新竹。2/19 回來。'));
   G.day=D('2026-01-20'); run(14.9,15.2); check('6. 1/20 15:00 以安（FAMILIAR 以上）私訊「回台中了。」＋照片',txt('p:heroine_01').includes('heroine_01:回台中了。')&&txt('p:heroine_01').includes('heroine_01:📷（車窗外的田）'));
   G.day=D('2026-02-20'); run(18.9,19.2); check('6. 2/20 19:00 阿哲「我回來了！高雄帶了吃的，開學那天拿去給你們」',txt('g:noodle_team').includes('zhe:我回來了！高雄帶了吃的，開學那天拿去給你們'));

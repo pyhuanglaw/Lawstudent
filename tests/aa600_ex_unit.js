@@ -117,7 +117,7 @@ await sec('A',async()=>{ const G=fresh('2026-10-08',20); H.CLOSE(AN); breakup(AN
     ROM.get(G2,AN).status='friend_after_catch'; check('A5. friend_after_catch 也擋',STORY.an15On(G2)===false); }
   check('A6. 麵店長桌最後「你不用為了這個說什麼。」刪（AN15_EX.close 只剩旁白）',J(STORY.AN15_EX.close)===J([[null,'（她把志願表收回去，看了你一眼。）']]),J(STORY.AN15_EX&&STORY.AN15_EX.close));
   check('A7. 登機證私訊 y3_an_sendoff_miss：前任不送',/if\(!exAny\(G,'heroine_01'\)\) at\(G,d25,11\+40\/60,L,'y3_an_sendoff_miss'\)/.test(RAW('src/y34b3d.js')));
-  check('A8. ev_an_her_choice 走廊那場前任不演（an18Due 擋 exAny）；22:00 阿哲在麵店團：「以安說她要考首都帝大法研所 商法組」（不打句號）',/fam\('heroine_01'\)\|\|exAny\(G,'heroine_01'\)\) return false/.test(RAW('src/y34b3d.js'))&&RAW('src/y34b3d.js').includes("from:'zhe',text:'以安說她要考首都帝大法研所 商法組'"));
+  check('A8. ev_an_her_choice 走廊那場前任不演（an18Due 擋 exAny）；22:00 阿哲在桌遊團：「以安說她要考首都帝大法研所 商法組」（不打句號）',/fam\('heroine_01'\)\|\|exAny\(G,'heroine_01'\)\) return false/.test(RAW('src/y34b3d.js'))&&RAW('src/y34b3d.js').includes("from:'zhe',text:'以安說她要考首都帝大法研所 商法組'"));
   check('A9. 杜鵑花「第三張。」私訊那一支擋前任（群組照留）',guards('src/r2y3b3d.js','S.azaleaPhone=function',600));
   { const G3=fresh('2028-08-10',19); H.FRIEND(AN); breakup(AN); const x=(typeof R2Y3B!=='undefined'&&R2Y3B.SUMMER_SCENES)?null:null; check('A10. 大三暑假 study 第 3 場：前任只有旁白「（隔天開始，她也來了，坐在最角落。你們沒有說話。）」',RAW('src/r2y3b3d.js').includes("ROM.exOf(G,'heroine_01')?{lines:[{narr:'（隔天開始，她也來了，坐在最角落。你們沒有說話。）'}]}")); }
   check('A13. 尾聲 Café 前任：前面加旁白「（她經過你們那桌。你先打了招呼。）」，她的句子照留',(()=>{ const L=PG.exLines?PG.exLines(H.G,AN,false):null; return !!L&&L[0]==='（她經過你們那桌。你先打了招呼。）'&&J(L).includes('好久不見。'); })());

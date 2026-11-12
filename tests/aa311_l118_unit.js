@@ -215,11 +215,11 @@ await sec(4,async()=>{ const H4=L().H4, ROT=LANE118_SHOPS.lunch.rotation.slice()
   const got=[ls('Y1S1',8),ls('Y1S1',9),ls('Y1S1',10),ls('Y1S1',11),ls('Y1S1',12),ls('Y1S2',2),ls('Y1S2',3)], base=[2,3,4,5,6].map(w=>L().lunchShop(T(w),none)), R2=['dian'].concat(ROT.filter(x=>x!=='dian'));
   check('4. 輪流：沒選過＝照資料的順序（第 2 週起）；選了牛排那間＝從下一週（第 8 週）起它排第一，下學期第 2 週也是它（沒選過的第 8 週是輪到的那一間）',
     J(base)===J([ROT[0],ROT[1],ROT[2],ROT[3],ROT[0]])&&J(got)===J([R2[0],R2[1],R2[2],R2[3],R2[0],R2[0],R2[1]])&&L().lunchShop(T(8),none)===ROT[(8-2)%4],J([base,got]));
-  const ph=async(w,rank)=>{ fresh(td('Y1S1',w,1),11.9,'campus'); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.L118_FIRST_SENT=true; if(rank){ H.G.flags.ZHE_118_RANK=rank; rec().rankAt={term:'Y1S1',week:w}; } met('zhe');
+  const ph=async(w,rank)=>{ fresh(td('Y1S1',w,1),11.9,'campus'); PHONE.join(H.G,'noodle_team','桌遊團'); H.G.flags.L118_FIRST_SENT=true; if(rank){ H.G.flags.ZHE_118_RANK=rank; rec().rankAt={term:'Y1S1',week:w}; } met('zhe');
     for(let h=11.95;h<=12.1;h+=0.05){ H.G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(H.G); } const m=(H.G.msgs||[]).filter(x=>x.th==='g:noodle_team').map(x=>x.text); return [m,(H.G.flags.L118_PICK||'')]; };
   const [p5]=await ph(5), [p8]=await ph(8,'dian'), gone14=(R772.d.fix.find(r=>r.file==='src/lane118.js'&&r.new==='（拿掉）')||{}).old;
   check('4. 手機：第 5 週（輪到第四間）阿哲傳資料裡那一間的那一句、沒有 AA_480 換店的那一句；選過牛排那間的第 8 週傳牛排那一句',p5.includes(WK[ROT[3]])&&!!gone14&&!p5.includes(gone14)&&p8.includes(WK.dian),J([p5,p8]));
-  { fresh(td('Y1S1',5,1),11.9,'campus'); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.L118_FIRST_SENT=true; met('zhe'); for(let h=11.95;h<=12.1;h+=0.05){ H.G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(H.G); }
+  { fresh(td('Y1S1',5,1),11.9,'campus'); PHONE.join(H.G,'noodle_team','桌遊團'); H.G.flags.L118_FIRST_SENT=true; met('zhe'); for(let h=11.95;h<=12.1;h+=0.05){ H.G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(H.G); }
     PHONE.answer(H.G,'l118_lunch_'+H.G.day,0); STORY.phoneRules(GM); const q=OUT.get(H.G,'l118_lunch_'+H.G.day);
     check('4. 回「走。」：12:15 出遊到那一間門口（goto 118 巷）、約好的午餐在那一間（標題是現在的店名）',!!q&&q.goto&&q.goto.zone==='lane118'&&H.G.flags.L118_LUNCH&&H.G.flags.L118_LUNCH.shop===ROT[3]&&(q.title||'').includes(L().shop(ROT[3]).name),J([q&&q.title,H.G.flags.L118_LUNCH])); }
   /* 舊存檔：改版以前和阿哲在舊的四間（麵舖 noodle2、滇香 dian、韓食 korea、好家 self）吃過——讀檔的遷移照故事搬以後，四間都算吃過、在麵店演 H4 */

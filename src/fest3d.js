@@ -23,7 +23,7 @@
    - 大一聖誕的群戲以後（AA_204 1-4，企劃線 4618aed21；LAWWW-B 11-01 定的接法）：以安、語彤 2025-12-24 的晚上場＝麵店的交換禮物（story3d.js 的 xmas_y1）＋散場以後兩個人的那一段。
      她那一格寫了 grp（fest_events.js）、那一天排了那一趟群戲、她會在群戲裡（XMAS_HERE）：玩家約晚上場＝可以和群戲重疊（只有這兩位、這一天；別的約照舊擋）、不另外選地點（S.grpQ）；
      群戲演完（OUT.AFTER）接著演 grp 那幾句（取代 S.play 開頭的節日台詞），其餘照舊：好感、記憶、送禮；演完時間到 grp.end（21:30）。語彤單身選「今天不行。」＝done 記 declined
-     （不給節日好感、不記節日記憶、不送禮、不再重排）。約了卻沒去群戲＝不演（記 miss，不扣分）。沒去群戲、不在麵店團的：照上面原本的晚上場（S.grpAfter）。
+     （不給節日好感、不記節日記憶、不送禮、不再重排）。約了卻沒去群戲＝不演（記 miss，不扣分）。沒去群戲、不在桌遊團的：照上面原本的晚上場（S.grpAfter）。
    存檔：G.fest＝{bk:[{d,who,k,y,slot,mode,ref,grp?}], done:{'人物:節日:年':'meet'|'video'|'declined'}, gifts:{人物:[禮物 id]}, miss:{}}（新欄位，舊存檔沒有＝空的；grp＝接在哪一趟群戲後面，沒有＝照舊）。
    測試：node tests/aa416_fest_unit.js、node tests/aa204_xmas_after_unit.js */
 'use strict';

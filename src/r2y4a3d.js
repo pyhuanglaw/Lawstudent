@@ -212,13 +212,13 @@ const R2Y4A=(function(){
             zq.ask={id:'y4_ty_reply',opts:[{t:'颱風不是當事人。不能聲明異議。',say:knows('classmate_xinci',G)?[{from:'classmate_xinci',text:'……這句可以寫進報告。'}]:[]},{t:'先吃泡麵。',say:[{from:'zhe',text:'大四了，還是泡麵'}]}]}; L.push(zq);
             PHONE.at(G,d18,G.day===d18?Math.max(8,G.hour):8,L,'y4_ty_group'); }
           if(!F.TYPHOON_Y4) F.TYPHOON_Y4='phone'; } } }
-    /* ---- 2-Y4-03 中秋：10/2 21:00 阿哲（麵店團；不在群組＝和阿哲 FAMILIAR 以上的私訊）→ 10/3 18:00；沒到 21:30 照片；美國路線 19:30 照片（可昕另外一句）；可昕沒見過麵店團＝22:00 私訊 ---- */
+    /* ---- 2-Y4-03 中秋：10/2 21:00 阿哲（桌遊團；不在群組＝和阿哲 FAMILIAR 以上的私訊）→ 10/3 18:00；沒到 21:30 照片；美國路線 19:30 照片（可昕另外一句）；可昕沒見過桌遊團＝22:00 私訊 ---- */
     { const d=D('2028-10-03'), di=d!=null?d-1:null; if(d!=null&&G.day>=di&&G.day<=d+1){ const inG=PHONE.inGroup(G,'noodle_team'), th=inG?'g:noodle_team':'p:zhe', Z=t=>({th,from:'zhe',text:t}), ok=inG||(knows('zhe',G)&&stageAt('zhe','FAMILIAR'));
         if(!us&&ok&&past(G,di,21)&&now(G)<T(d,18.25)&&!PHONE.sent(G,'y4_ma_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,G.hour):21,[Z('明天中秋 河濱 六點'),Z('烤肉架我借好了')],'y4_ma_ask');
           plan(G,{id:'y4_midautumn',ev:'ev_y4_midautumn',day:d,h:18,late:0.25,place:'公館的河濱',title:'中秋烤肉（大四）',travel:'走過去約 15 分鐘',travelH:0.25}); }
         if(!us&&gone(G,'y4_midautumn',d,18)&&!done(G,'ev_y4_midautumn')&&past(G,d,21.5)&&!PHONE.sent(G,'y4_ma_photo')){ PHONE.at(G,d,21.5,[Z('📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')],'y4_ma_photo'); F.MIDAUTUMN_Y4='missed'; }
-        if(us&&inG&&pastTW(G,d,19.5)&&!PHONE.sent(G,'y4_ma_us')){ const L=[Z('📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')]; if(dating(G,'kexin')&&F.KX_MET_NOODLE_TEAM) L.push({th:'g:noodle_team',from:'kexin',text:'阿哲今年贏了。……你不在，我沒力氣講冷笑話。'}); atTW(G,d,19.5,L,'y4_ma_us'); F.MIDAUTUMN_Y4='missed'; }   /* 可昕見過麵店團：跟著照片在群組說 */
-        if(us&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&pastTW(G,d,22)&&!PHONE.sent(G,'y4_ma_us_kx')&&!(G.msgs||[]).some(m=>m.tag==='y4_ma_us'&&m.from==='kexin')) atTW(G,d,22,[{th:'p:kexin',from:'kexin',text:'阿哲今年贏了。……你不在，我沒力氣講冷笑話。'}],'y4_ma_us_kx');   /* 可昕沒見過麵店團＝那句改私訊（句子不改），照臺灣版：臺灣 22:00、不看群組（AA_370 M7、第 6 節第 5 題）；舊存檔 19:30 已經跟著照片發過的不再發 */
+        if(us&&inG&&pastTW(G,d,19.5)&&!PHONE.sent(G,'y4_ma_us')){ const L=[Z('📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')]; if(dating(G,'kexin')&&F.KX_MET_NOODLE_TEAM) L.push({th:'g:noodle_team',from:'kexin',text:'阿哲今年贏了。……你不在，我沒力氣講冷笑話。'}); atTW(G,d,19.5,L,'y4_ma_us'); F.MIDAUTUMN_Y4='missed'; }   /* 可昕見過桌遊團：跟著照片在群組說 */
+        if(us&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&pastTW(G,d,22)&&!PHONE.sent(G,'y4_ma_us_kx')&&!(G.msgs||[]).some(m=>m.tag==='y4_ma_us'&&m.from==='kexin')) atTW(G,d,22,[{th:'p:kexin',from:'kexin',text:'阿哲今年贏了。……你不在，我沒力氣講冷笑話。'}],'y4_ma_us_kx');   /* 可昕沒見過桌遊團＝那句改私訊（句子不改），照臺灣版：臺灣 22:00、不看群組（AA_370 M7、第 6 節第 5 題）；舊存檔 19:30 已經跟著照片發過的不再發 */
         if(!us&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&past(G,d,22)&&!PHONE.sent(G,'y4_ma_kx')) PHONE.at(G,d,22,[{th:'p:kexin',from:'kexin',text:'中秋快樂。……我們這邊也在烤。'}],'y4_ma_kx'); } }
     /* ---- 2-Y4-07 校慶：11/10 21:00 法服群組（法服成員）---- */
     { const d=D('2028-11-10'); if(d!=null&&!us&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&typeof STORY!=='undefined'&&STORY.fafuMember&&STORY.fafuMember(G)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'y4_fair_ask')){ const J=t=>({th:'g:lawclub_study',from:'fafu_jr',name:'學妹',text:t});   /* 這一屆的社長（學妹），不給名字 */
@@ -231,10 +231,10 @@ const R2Y4A=(function(){
           L[2].ask={id:'y4_us_ps_lesson_ask',opts:[{t:'恭喜！',say:[P1(PS,'謝謝。……你那邊是早上吧。你先去上課。')]},{t:'他問了什麼？',say:[P1(PS,'他問太陽會不會用完。我說會，可是要很久很久。他說：那就好。')]}]}; atTW(G,d,23+10/60,L,'y4_us_ps_lesson'); } }
       { const d=D('2028-11-10'), ZQ='heroine_04'; if(d!=null&&G.day>=d&&G.day<=d+3&&pastTW(G,d,23+40/60)&&ok(ZQ)&&!PHONE.sent(G,'y4_us_zq_level')){ const L=['新關卡做好了','📷（一隻像素的貓，站在一個發亮的存檔點旁邊）','你不在 沒人玩第三遍','回來再玩'].map(t=>P1(ZQ,t));
           L[3].ask={id:'y4_us_zq_level_ask',opts:[{t:'我回去玩。',say:[P1(ZQ,'十二月二十三號'),P1(ZQ,'你說的')]},{t:'存檔點旁邊那是什麼？',say:[P1(ZQ,'不要問'),P1(ZQ,'回來就知道')]}]}; atTW(G,d,23+40/60,L,'y4_us_zq_level'); } } }
-    /* ---- 2-Y4-08 交棒：不在場（沒有條件、那晚沒去、美國路線）＝22:00 Alison 在麵店團群組 ---- */
+    /* ---- 2-Y4-08 交棒：不在場（沒有條件、那晚沒去、美國路線）＝22:00 Alison 在桌遊團群組 ---- */
     { const d=D('2028-11-30'); if(d!=null&&G.day>=d&&G.day<=d+2&&PHONE.inGroup(G,'noodle_team')&&knows('yu',G)&&knows('heroine_01',G)&&!done(G,'ev_plg_handover')&&pastTW(G,d,22)&&!PHONE.sent(G,'y4_plg_photo')){ const Y=t=>({th:'g:noodle_team',from:'yu',text:t});
         atTW(G,d,22,[Y('📷（白板，只剩一行字）'),Y('以安交棒了。白板只剩一條。')],'y4_plg_photo'); F.PLG_HANDOVER='heard'; } }
-    /* ---- 2-Y4-10 聖誕交換禮物：12/21 21:00 阿哲（麵店團）→ 12/22 19:00；沒到、美國路線＝21:30 照片 ---- */
+    /* ---- 2-Y4-10 聖誕交換禮物：12/21 21:00 阿哲（桌遊團）→ 12/22 19:00；沒到、美國路線＝21:30 照片 ---- */
     { const d=D('2028-12-22'), di=d!=null?d-1:null; if(d!=null&&G.day>=di&&G.day<=d+1&&PHONE.inGroup(G,'noodle_team')){ const Z=t=>({th:'g:noodle_team',from:'zhe',text:t});
         if(!us&&past(G,di,21)&&now(G)<T(d,19.25)&&!PHONE.sent(G,'y4_xmas_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,G.hour):21,[Z('明天考完 聖誕交換禮物'),Z('七點 燒臘店 一百五以內')],'y4_xmas_ask');
           plan(G,{id:'y4_xmas',ev:'ev_y4_xmas',day:d,h:19,late:0.25,place:'公館燒臘',title:'聖誕交換禮物（大四）',travel:'走過去約 15 分鐘',travelH:0.25}); }
@@ -392,7 +392,7 @@ const R2Y4A=(function(){
           L[1].ask={id:'y4_kh',until:T(d,6.75),opts:[{t:'好。',need:{money:fare,why:'高鐵票錢不夠'},set:{KX_KH_Y4:'yes'}},{t:'這次不行。',set:{KX_KH_Y4:'no'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,L,'y4_kh_ask'); }
         if(F.KX_KH_Y4==='yes') plan(G,{id:'y4_kh',ev:'ev_kexin_trip_winter_y4',day:d,h:8+35/60,late:0.25,place:'高雄・左營站',title:'高鐵 07:00（去高雄）',travel:'高鐵 臺北 07:00 → 左營 08:35',travelH:8+35/60-7,back:'回到臺北。'});
         if(PHONE.sent(G,'y4_kh_ask')&&F.KX_KH_Y4!=='yes'&&now(G)>=T(d,7)) S.khMissed(G); } }   /* 「這次不行。」、沒回＝照沒去 */
-    /* ---- 2-Y4-27 以安考前一晚：2/2 21:00 麵店團群組（FRIEND 以上）；交往中 23:10 私訊 ---- */
+    /* ---- 2-Y4-27 以安考前一晚：2/2 21:00 桌遊團群組（FRIEND 以上）；交往中 23:10 私訊 ---- */
     { const d=D('2029-02-02'), AN='heroine_01'; if(d!=null&&law(G)&&G.day>=d&&G.day<=d+1){
         if(PHONE.inGroup(G,'noodle_team')&&knows(AN,G)&&stageAt(AN,'FRIEND')&&pastTW(G,d,21)&&!PHONE.sent(G,'y4_an_eve')){ const A=t=>({th:'g:noodle_team',from:AN,text:t}), L=[A('明天考試，今天早點睡。'),A('考完再跟你們說。')];
           L[1].ask={id:'y4_an_eve',until:T(d+1,9),opts:[{t:'加油。',set:{AN_EXAM_EVE:'reply'},say:[{from:AN,text:'好。'}]},{t:'早點睡。',set:{AN_EXAM_EVE:'reply'},say:[{from:AN,text:'好。你們也是。'}]}]}; atTW(G,d,21,L,'y4_an_eve'); }

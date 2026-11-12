@@ -57,7 +57,7 @@ const HEARD=(function(){
     /* 芯慈和以安和好以後（AA_507 1-4「第 13 週以後，和好以後」）：慈 5「對答案」演過（近、遠兩版都記 XC5_RECONCILE，r2y3a_events.js），
        或第 13 週已經過了（她們那一週在總圖三樓和好，玩家不在場也一樣）*/
     xcMade:G=>{ if(G.flags&&G.flags.XC5_RECONCILE) return true; const w=S.when('Y3S1:W14一'); return !!w&&G.day>=w.day; },
-    /* 麵店團群組（AA_508、AA_509 的 Alison「麵店團群組或麵店」：照品妤「群組或偶遇」的做法放群組）*/
+    /* 桌遊團群組（AA_508、AA_509 的 Alison「桌遊團群組或麵店」：照品妤「群組或偶遇」的做法放群組）*/
     noodleGroup:G=>inGrp(G,'noodle_team'),
     /* 子晴的私訊說芷若（AA_508、AA_509 2-4「私訊或公館」：放私訊）：有子晴的聯絡方式、認識芷若 */
     zqZr:G=>hasContact(G,'heroine_04')&&knows('heroine_02'),

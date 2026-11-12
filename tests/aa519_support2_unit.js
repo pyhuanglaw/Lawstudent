@@ -12,7 +12,7 @@
 //   6  順手修的：立衡版腳踏車 4/7、方奕廷照學年、予樂第二場那一句
 //   7  第 7 節給 BB 的六項（照遊戲的流程跑）
 //   8  第 8 節：8-1 語彤顧店的時段阿姨一定在廚房（寒暑假週二四晚上、大二下起週六早上；過年店休、2029-04-19～25 出國才不在）、8-2 一個人吃麵的旁白、
-//      8-3 麵店的 2D 事件那一天阿姨那幾列一定成立、8-4 出國那一週（語彤在總圖、不排新的麵店出遊和邀約、舊存檔排好的照演、麵店團沒有麵店日、4/23 21:00 群組四則）
+//      8-3 麵店的 2D 事件那一天阿姨那幾列一定成立、8-4 出國那一週（語彤在總圖、不排新的麵店出遊和邀約、舊存檔排好的照演、桌遊團沒有麵店日、4/23 21:00 群組四則）
 //   第 9 節（169130daf，2026-10-28 LAWWW-C 14:31 問、AA-C 定）：9-1 颱風夜同一場其他的泡麵一起換（大二一袋滷味：標題、訊息、遞毛巾、方奕廷的照片、記憶簿；大三兩杯熱豆漿：舉起豆漿兩句、選項；
 //      「……泡麵，他說他不想再吃了。」照留；漏的照同樣的意思改）、9-2 日本路線挽回中的腳踏車 4/8（六）、4/1 摘要改走路、3/31～4/7 別處沒有騎腳踏車、不撞花見、
 //      9-3 2027-06-04 起 Café 櫃台照班表（芷若原本的班＝小婷 3D＋3-3 的字；其他時間＝老闆 3D＋6/4 以前老闆版的字；待在店裡跨過班表當場換人、點餐那一刻先站好）、9-4 privtalk3d.js 說明字
@@ -424,7 +424,7 @@ await sec('7',async()=>{
   fresh(TD('Y1S1',3,4),12,'noodle'); const ck=populate('noodle'), sp=built.find(s=>s&&s.id==='clerk_noodle'); H.said=[]; if(ck&&ck.talk) await ck.talk(ck); const t1=said();
   check('7① 大一上去麵店：櫃台是阿姨（中年女性底模）、能說話',!!ck&&!!sp&&sp.sex==='f'&&sp.model===HCIRCLE.PEOPLE.hc_ayi.model&&ck.name==='阿姨'&&t1.length===1&&/^阿姨：/.test(t1[0]),J(t1));
   /* ② 大四上二十三週年在場 → 大四下最後一頓「二十三週年那一張。」 */
-  fresh('2028-12-14',19,'noodle'); for(const id of ['heroine_01','zhe','yu','classmate_bohan','heroine_03']) H.FAMILIAR(id); PHONE.join(H.G,'noodle_team','麵店團'); H.picks=[0,0,0,0]; await Y34B.a23Run(GM); const a23=H.G.flags.ANNIV23;
+  fresh('2028-12-14',19,'noodle'); for(const id of ['heroine_01','zhe','yu','classmate_bohan','heroine_03']) H.FAMILIAR(id); PHONE.join(H.G,'noodle_team','桌遊團'); H.picks=[0,0,0,0]; await Y34B.a23Run(GM); const a23=H.G.flags.ANNIV23;
   at('2028-12-19',18,'noodle'); const ay=await aunt();
   H.G.flags.GRADUATED=D('2029-06-02'); at('2029-06-22',16); at('2029-06-22',17); PG.rules(GM); PHONE.tick(H.G); at('2029-06-22',18.8); await goOut('y4_last_meal',[1]); const o2=H.opts[0]||[];
   check('7② 二十三週年（2028-12-14）在場＝ANNIV23 there、之後阿姨那一句「照片我挑了好久。…」；大四下最後一頓「二十三週年那一張。」這個選項出現',
@@ -493,12 +493,12 @@ await sec('8-4',async()=>{
   /* 語彤：那一週顧店的時段在總圖 */
   const Y=[]; for(const [k,h] of [['2029-04-19',18],['2029-04-21',10],['2029-04-24',18.5],['2029-04-28',10],['2029-05-01',18.5],['2029-04-17',18.5]]){ fresh(k,h,'dorm'); const e=ytEnt(); Y.push([k,e&&e.zone]); }
   check('8-4 語彤那一週（4/19～4/25）沒有「顧店的時段換總圖」那兩筆（AA_679 第 9 列拿掉：她的班只在週末的一盞茶屋）；那一週、回來以後、出國前都不在燒臘店（AA_610／AA_624）',!CHARACTERS.heroine_03.daily_schedule.some(e=>e&&e.aa519)&&Array.isArray(SUP519.SCHED_YT)&&!SUP519.SCHED_YT.length&&Y.every(x=>x[1]!=='noodle'),J(Y));
-  /* 麵店團：那一週沒有麵店日（阿哲不揪）；4/23 21:00 四則（那一週本來有麵店日才發；不在群組沒有）*/
+  /* 桌遊團：那一週沒有麵店日（阿哲不揪）；4/23 21:00 四則（那一週本來有麵店日才發；不在群組沒有）*/
   const nd=['2029-04-19','2029-04-24','2029-04-26'].map(k=>[k,STORY.noodleDay(D(k)),X()._nd0.call(STORY,D(k))]);
-  fresh('2029-04-23',20.5,'dorm',{noodleTableDay:D('2028-09-06')}); for(const id of ['zhe','yu','heroine_03']) H.FAMILIAR(id); PHONE.join(H.G,'noodle_team','麵店團'); ph(); const g0=txt('g:noodle_team').length; phAt('2029-04-23',21.1);
+  fresh('2029-04-23',20.5,'dorm',{noodleTableDay:D('2028-09-06')}); for(const id of ['zhe','yu','heroine_03']) H.FAMILIAR(id); PHONE.join(H.G,'noodle_team','桌遊團'); ph(); const g0=txt('g:noodle_team').length; phAt('2029-04-23',21.1);
   const g1=TH('g:noodle_team').filter(m=>m.tag==='aa519_ndl_trip'); phAt('2029-04-24',17.6); const ping=PHONE.sent(H.G,'rt_zhe_ndl_'+D('2029-04-24'));
   fresh('2029-04-23',20.5,'dorm'); phAt('2029-04-23',21.1); const g2=(H.G.msgs||[]).filter(m=>m.tag==='aa519_ndl_trip').length;
-  check('8-4 STORY.noodleDay：4/24（週二）原本是麵店日、那一週不是；4/26 照常（照原本的算法；AA_542 起麵店日每週不固定兩天）；4/23（一）21:00 麵店團四則（20:30 還沒有；阿哲的揪那一週沒有）；不在群組沒有',
+  check('8-4 STORY.noodleDay：4/24（週二）原本是麵店日、那一週不是；4/26 照常（照原本的算法；AA_542 起麵店日每週不固定兩天）；4/23（一）21:00 桌遊團四則（20:30 還沒有；阿哲的揪那一週沒有）；不在群組沒有',
     J(nd.slice(0,2))===J([['2029-04-19',false,false],['2029-04-24',false,true]])&&nd[2][1]===nd[2][2]&&g0===0&&J(g1.map(m=>[m.from,m.text]))===J(LN().aunt.tripGroup)&&!ping&&g2===0,J({nd,g0,g1:g1.map(m=>m.text),ping,g2}));
   /* 不排新的麵店出遊、邀約；舊存檔已經排好的照演 */
   fresh('2029-04-20',10,'dorm'); const p1=OUT.plan(H.G,{id:'t_ndl1',day:D('2029-04-24'),h:19,place:'阿鳳麵店',title:'麵店',travel:'',travelH:0}), p2=OUT.plan(H.G,{id:'t_ndl2',day:D('2029-04-27'),h:19,place:'阿鳳麵店',title:'麵店',travel:'',travelH:0}), p3=OUT.plan(H.G,{id:'t_lib',day:D('2029-04-24'),h:19,place:'總圖',title:'總圖',travel:'',travelH:0});

@@ -1,7 +1,7 @@
 /* ===== 多線交往：知情、發現、挽回、結果（EVPKG-AA227-228-KNOW，USER_WANTS D35★；台詞 src/data/multirel_lines.js）=====
    定稿：AA_422（第一批）@5156f143、AA_423（第二批）@26357a44；AA_421 第 2 節（要做什麼）；機制 BB_194（第 2～10、13、16、19、22 節）。AA-B 2026-10-23（D109）。
    接在既有的系統上（不改它們的檔案，包一層）：romance3d.js（ROM：knowsRel、ROM.learn、ROM.knows、ytAnswer、PARAMS.acceptsOpen）、termend3d.js（心意邀約的回家路上 walkHome、heartWhy）、
-   date3d.js（第一次正式校外約會的開頭 arriveLine、quickPick、scene、complete、menu）、story3d.js（TICKS、PHONE_RULES、PRE_TALK、TALK_OPTS、talkCharacter、在家的 y4HomeDue）、events3d.js（EVENTS.run：麵店團說溜嘴）。
+   date3d.js（第一次正式校外約會的開頭 arriveLine、quickPick、scene、complete、menu）、story3d.js（TICKS、PHONE_RULES、PRE_TALK、TALK_OPTS、talkCharacter、在家的 y4HomeDue）、events3d.js（EVENTS.run：桌遊團說溜嘴）。
    一、第一次 L3 的問句（AA_422 0-1）：她知道祐廷正在和別人交往（TERMEND.knownOthers，沒有 OPEN_OK）、她還沒在和祐廷交往，那之後第一次正式校外約會的到達那一句之後、第一個互動點之前，一位一次。
        記 <X>_ASKED_GF（AN／SIS／ZQ／ZR／YT（語彤）／PS）＝那一天；選項的 yt 照 ROM.ytAnswer 記 YT_HONEST／YT_DODGED。這一趟不出「快速約會」（才演得到開頭）。芷若第二問（5-2）也在這裡。
    二、知情版心意邀約（0-2）：回家路上她知道祐廷還在和別人交往＝換成 KNOW[她]；答應照 ROM.PARAMS.acceptsOpen（使用者 10-27 回答 C：七位都打開，AA_474；她的條件＝發邀約以前的 S.KNOWS_OK）；承諾記 YT_PROMISED[她]＝'exclusive'／'handle:<Y>'；
@@ -13,7 +13,7 @@
        演的時機：以安＝和她說話、和她的正式約會、或公法讀書會散會（21:30 人在萬才館）；書瑀＝說話、正式約會；沛珊＝散會後回女舍的路上（只有 2026-10-01～12-16 學到的）；語彤＝她顧店的時候來麵店；
        子晴＝那天晚上 22:00 以後（男宿樓下；在家＝家那站出口）；芷若＝她上班的晚上留到打烊（人在 Café、她的班要結束）；可昕＝當晚 21:30 她打來、過來。她在國外或祐廷在國外＝演出來的視訊（沛珊在台南／台中＝電話）。
        版本：說會怎樣卻沒做到（broke）＞還有誰（她已經知道別的一段：more）＞李冠宏看到的（書瑀）＞一般（base，含各種變體）。以安 × 書瑀的法圖相遇（lawlib_meet）走 1A-02 的攤牌，子晴 × 芷若兩人都在交往走《星期五下午》，不在這裡。
-       知道的來源另外加：讀書會散會以安→沛珊、週五子晴⇄芷若照 ROM.SPREAD 的時刻傳開可昕以外的人（ROM 只傳可昕）；麵店團說溜嘴（可昕在場的群聚：中秋烤肉、兩個圈子那一場）；李冠宏看到（和書瑀交往以後第二次在雙北和 Y 正式約會，隔天）。
+       知道的來源另外加：讀書會散會以安→沛珊、週五子晴⇄芷若照 ROM.SPREAD 的時刻傳開可昕以外的人（ROM 只傳可昕）；桌遊團說溜嘴（可昕在場的群聚：中秋烤肉、兩個圈子那一場）；李冠宏看到（和書瑀交往以後第二次在雙北和 Y 正式約會，隔天）。
        祐廷先坦白（以安、沛珊有台詞）：和她說話時的選項「我有件事要跟妳講。」／「那我也跟妳講一件事。」→ ROM.tellBy、YT_CONFESSED[她][Y]、演坦白版。沛珊還有還沒交往那一版（「我也喜歡另一個女生。」，S.likes）。
        沛珊：宥辰的三次互動、《換我講一件事》（PS_CONFESSED）、台南那幾年在「去台南找她的那一次」演（src/hometown3d.js 叫 MREL.hvMeet），那學期沒去＝電話（見「沛珊」那一節）。
    四、挽回、結果（AA_423）：發現以後 MREL.st[她]＝{y, n（第幾次冷靜）, day, …}；各人的流程見下面 FLOW。系統不自己分手：只有結果事件的 D、B 不接受。
@@ -481,10 +481,10 @@ const MREL=(function(){
     await S.run(GM,YT,B.answer,{}); r.step='thu'; r.from=G.day; r.thu=[]; return true; };
 
   /* =================== 沛珊：宥辰的三次互動、《換我講一件事》、台南那幾年（AA_228 3-3、3-4；AA_422 7-3；AA_423 6-1；AA_425 第 1 節）===================
-     三次互動（放進既有的麵店團和她的閒聊，不另開事件）：G.flags.PS_YC＝{n1, n2, n3}（那一天）。三次都只是日常，誰都會遇到；只有認識的人說話（宥辰、沛珊都要認識）。
+     三次互動（放進既有的桌遊團和她的閒聊，不另開事件）：G.flags.PS_YC＝{n1, n2, n3}（那一天）。三次都只是日常，誰都會遇到；只有認識的人說話（宥辰、沛珊都要認識）。
        n1：大一下麵店長桌＝考完的晚餐（events.js ev_midterm_supper_y1s2 的最後一行叫 MREL.ycSupper）。
-       n2：大二上她說要重考以後（ev_peishan_decision 演過，AA_432）、還沒消失＝期中考那一週（第 8 週）週三 23:10 麵店團群組她那一句（P3 比較晚＝那之後的第一個週三，最晚第 15 週）；宥辰私下傳她的那一句祐廷看不到，切過去演（23:15 起第一個空檔，到隔天 22:00）。
-           沒切到（一直在劇情裡）也算發生過（群組那句已經在了）。不在麵店團群組＝沒有這一次。
+       n2：大二上她說要重考以後（ev_peishan_decision 演過，AA_432）、還沒消失＝期中考那一週（第 8 週）週三 23:10 桌遊團群組她那一句（P3 比較晚＝那之後的第一個週三，最晚第 15 週）；宥辰私下傳她的那一句祐廷看不到，切過去演（23:15 起第一個空檔，到隔天 22:00）。
+           沒切到（一直在劇情裡）也算發生過（群組那句已經在了）。不在桌遊團群組＝沒有這一次。
        n3：大三她在別的學校＝去台南找她（hometown3d.js 的那一天，地方那一段演完）或交往中的視訊，她提一次。
      《換我講一件事》：和她交往中＋三次都有＋n3 之後 7 天以上，一次（PS_CONFESSED＝那一天，「她坦白過」）。大三起她在台南＝去找她的那一次（台南、寒暑假的台中都算），
        那學期沒有去＝她打電話（21:30～23:00；學期第 12 週以後、接下來 7 天沒有約好去找她）。第四個選項「那我也跟妳講一件事。」只在祐廷也在交往／也喜歡別人時出現 → 3-3。
@@ -537,9 +537,9 @@ const MREL=(function(){
     const Lc=DATE.loc((t.locs||[])[0]); if(!Lc||!S.GH_AREAS.includes(Lc.area)) return; const R=S.rec(G), g=R.gh[t.who]||(R.gh[t.who]={n:0}); g.n++; g.place=Lc.name;
     if(g.n>=2&&!knows(G,SIS,t.who)&&!S.openOk(G,SIS,t.who)){ ROM.learn(G,SIS,t.who,'seen_by:li_guanhong',{day:t.day+1,h:12}); g.day=t.day+1; } };
 
-  /* ---------- 麵店團說溜嘴（AA_227 8-4、BB_194 16-1）：可昕在場的群聚演完以後；阿哲優先，Alison 要有地點 ---------- */
-  /* 可昕在場的麵店團群聚（AA_227 8-4：每年中秋、跨年頂樓、K12、二十三週年）：大一中秋烤肉（K3 她來）、K12 兩邊的朋友（ev_kexin_two_circles，y2b_events.js）、
-     大二／大四中秋（她認識麵店團才來，KX_MET_NOODLE_TEAM）、二十三週年（1B-20 ev_noodle_23rd，y34b3d.js：同一個條件才有她那一句；美國路線不演）。跨年頂樓沒有接（AA_429 第 5 節：頂樓那一場只有大一，她不在）。一個存檔只演一次 */
+  /* ---------- 桌遊團說溜嘴（AA_227 8-4、BB_194 16-1）：可昕在場的群聚演完以後；阿哲優先，Alison 要有地點 ---------- */
+  /* 可昕在場的桌遊團群聚（AA_227 8-4：每年中秋、跨年頂樓、K12、二十三週年）：大一中秋烤肉（K3 她來）、K12 兩邊的朋友（ev_kexin_two_circles，y2b_events.js）、
+     大二／大四中秋（她認識桌遊團才來，KX_MET_NOODLE_TEAM）、二十三週年（1B-20 ev_noodle_23rd，y34b3d.js：同一個條件才有她那一句；美國路線不演）。跨年頂樓沒有接（AA_429 第 5 節：頂樓那一場只有大一，她不在）。一個存檔只演一次 */
   const KX_TEAM=G=>!!(G.flags&&G.flags.KX_MET_NOODLE_TEAM);
   S.SLIP_EVENTS={ ev_mid_autumn_bbq:G=>!!(G.flags&&G.flags.KX_BBQ_COME), ev_kexin_two_circles:()=>true, ev_y2_midautumn:KX_TEAM, ev_y4_midautumn:KX_TEAM, ev_noodle_23rd:G=>KX_TEAM(G)&&G.flags.ANNIV23!=='remote' };   /* 二十三週年：美國路線（ANNIV23 remote）不演（AA_429 第 5 節）*/
   S.slipFor=function(G,ev){ if(!law(G)||!ev||!S.SLIP_EVENTS[ev.id]||!dating(G,KX)) return null; let here=false; try{ here=S.SLIP_EVENTS[ev.id](G); }catch(e){} if(!here) return null;

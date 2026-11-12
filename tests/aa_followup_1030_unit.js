@@ -90,9 +90,9 @@ const NARR='（回家的路上，手機震了一下。）', SAN='在公館的路
 
   /* ---------- C：AA_527 第 2 點 ---------- */
   await sec('C',async()=>{ const HAND='期中那兩個禮拜，阿姨的手包著。語彤一個人顧店。我去吃麵順便幫忙收碗，她說你坐著。';   /* AA_504 3-4 10-30 14:30 改（期中週＝繃帶期，長桌最早第 10 週）*/
-    const setup=(d)=>{ fresh(d,18,'noodle'); fam('zhe'); fam('heroine_03'); fam('yu'); fam('classmate_bohan'); fam('classmate_xinci'); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.ndlTalkN={Y1:3}; return H.G; };
+    const setup=(d)=>{ fresh(d,18,'noodle'); fam('zhe'); fam('heroine_03'); fam('yu'); fam('classmate_bohan'); fam('classmate_xinci'); PHONE.join(H.G,'noodle_team','桌遊團'); H.G.flags.ndlTalkN={Y1:3}; return H.G; };
     const pick=()=>{ const p=STORY.ndlTalkPick(H.G); return p&&p.e.once||(p?'#'+p.i:null); };
-    const w9t=NDt('Y1S2',10,0), w9r=NDt('Y1S2',10,1);   /* 大一下第 9 週是期中週（麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際從第 10 週起 */
+    const w9t=NDt('Y1S2',10,0), w9r=NDt('Y1S2',10,1);   /* 大一下第 9 週是期中週（桌遊團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際從第 10 週起 */
     setup(w9t); npcAt('heroine_03',1,1); const p1=pick();
     check('C. 第 9 週起第一個麵店日（第 10 週），語彤在 4 m 內：不演那一則（換別則）',p1!=='h504_zhe_hand',J(p1));
     H.said=[]; await STORY.ndlTalk(GM); const O1=H.G.flags.ndlTalkOnce||{};

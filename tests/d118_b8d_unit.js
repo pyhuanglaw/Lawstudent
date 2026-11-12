@@ -17,7 +17,7 @@ const FAMILY=['A_bar','C_zq','B_grad','L_firm'];
 const AUTO=[];   /* 說到 epiAuto 的每一次：律師家族＋真的考過一次司法官二試 */
 /* 從 key 一路跳到尾聲。plan：{exam:{年:一試答對}, judge:{年:二試答對}, retake:true/false（二選一）, reg:{年:false＝不報}, role:'pros'} */
 async function sim(key,hour,flags,plan,setup){ const G=H.fresh(key,hour,'dorm',Object.assign({BAR_REG:true,Y4_PATH:'bar'},flags||{})); graduated(G); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);
-  PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人'); warns.length=0; rej.length=0; H.said=[];
+  PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人'); warns.length=0; rej.length=0; H.said=[];
   const order=[], stops=[]; let it=0, err=null, mono=true;
   const orun=PG.runStep; PG.runStep=async function(GM,s){ let set=false, m;
     if((m=/^(exam|r2)_(\d{4})$/.exec(s.id))&&plan.miss&&plan.miss[s.id]){ const K=PG.Y[+m[2]], d=PG.DK(m[1]==='exam'?K.exam:K.r2); PG.setT(G,GM.E,d+2,7); return false; }   /* 錯過：一直沒空，時間直接到窗口過了（下一次 PG.pending 標 missed、跑 onMiss）*/

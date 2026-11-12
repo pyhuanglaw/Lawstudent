@@ -1,5 +1,5 @@
 // 交接包 v2 C8：以安新 5「舍友的記點申訴」（草稿第 3 節、AA_113 新 5；法律台詞 BB 查核無誤）——不需要瀏覽器。修改前沒有這兩個事件（第 1 項失敗）。
-// 檢查：她那週晚上在總圖（作息）；觸發條件；開場與四個選項（原文、AN_APPEAL）；第 7 週當面的結果（選「先問」多一句）；週五還沒見到＝手機；沒遇到的玩家在麵店團群組看到一句（聽說）。
+// 檢查：她那週晚上在總圖（作息）；觸發條件；開場與四個選項（原文、AN_APPEAL）；第 7 週當面的結果（選「先問」多一句）；週五還沒見到＝手機；沒遇到的玩家在桌遊團群組看到一句（聽說）。
 // 用法：node tests/v2_an_appeal_unit.js
 //   F 每天的手機小事照常：沒寫學期的條目只在大一上
 // 用法：node tests/bb120_fixed_unit.js
@@ -61,9 +61,9 @@ const lines=()=>require('./libq_out_lines.js').norm(said.map(s=>(s.who?s.who+'�
     check('結果（手機）：第 7 週週五 21:00 私訊同樣的兩句（選的不是「先問」：沒有第三句）',JSON.stringify(M)===JSON.stringify(['p:heroine_01｜點數減了一點。宿舍說，以後記點以前會先問。','p:heroine_01｜最後用的是第二份，寫規定沒考慮到急診這種情況。'])&&G.flags.AN_APPEAL_RESULT==='phone',JSON.stringify(M));
     G.zone='library'; G.day=W7FRI+3; check('手機傳過了：之後不會再當面說一次',!EVENTS.check(r)); }
   /* 沒遇到的玩家 */
-  { fresh(W7WED,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); SOCIAL.meet('heroine_01','campus'); run(8,22); const M=G.msgs.filter(m=>m.tag==='an_appeal_heard');
-    check('沒遇到的玩家：第 7 週週三 21:30 麵店團群組「我室友晚歸被記點那個申訴，結果出來了，點數減一點。」（AA_209）、記「聽說」',M.length===1&&M[0].th==='g:noodle_team'&&M[0].text==='我室友晚歸被記點那個申訴，結果出來了，點數減一點。'&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(M));
-    fresh(W7WED,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); SOCIAL.meet('heroine_01','campus'); G.events.done.ev_an_dorm_appeal=true; run(8,22);
+  { fresh(W7WED,8,'dorm'); PHONE.join(G,'noodle_team','桌遊團'); SOCIAL.meet('heroine_01','campus'); run(8,22); const M=G.msgs.filter(m=>m.tag==='an_appeal_heard');
+    check('沒遇到的玩家：第 7 週週三 21:30 桌遊團群組「我室友晚歸被記點那個申訴，結果出來了，點數減一點。」（AA_209）、記「聽說」',M.length===1&&M[0].th==='g:noodle_team'&&M[0].text==='我室友晚歸被記點那個申訴，結果出來了，點數減一點。'&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(M));
+    fresh(W7WED,8,'dorm'); PHONE.join(G,'noodle_team','桌遊團'); SOCIAL.meet('heroine_01','campus'); G.events.done.ev_an_dorm_appeal=true; run(8,22);
     check('遇到過的玩家：群組不會有這句',!G.msgs.some(m=>m.tag==='an_appeal_heard')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

@@ -9,7 +9,7 @@ const {check}=H, J=JSON.stringify;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 const L1='語彤也來了，提著一盒秀琴姨醃的肉。前一個週末在茶屋，你跟她說過今天要烤肉。', L2='秀琴姨叫我拿來的。她說人多的地方要有肉。', L3='秀琴姨醃的肉，全場最好吃。';
-const play=async(known)=>{ H.fresh('2025-10-04',15,'campus',{ZHE_CALLS_GE:true}); PHONE.join(H.G,'noodle_team','麵店團'); for(const id of known) meet(id); const e=ev('ev_mid_autumn_bbq'); await EVENTS.runLines(e.dialogue,e); return H.said.slice(); };
+const play=async(known)=>{ H.fresh('2025-10-04',15,'campus',{ZHE_CALLS_GE:true}); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of known) meet(id); const e=ev('ev_mid_autumn_bbq'); await EVENTS.runLines(e.dialogue,e); return H.said.slice(); };
 
 (async()=>{
   let S=await play(['yu','heroine_01','heroine_03','classmate_bohan']); const T=S.map(s=>s.t);

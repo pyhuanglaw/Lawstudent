@@ -3,7 +3,7 @@
 //   T7b 她出國的日子約不到，婉拒照稿逐字：以安在日本「那幾天我在日本。」、學姊在美國「那時候我在美國。」、芷若在英國「我那時候在英國。」、其他人／其他地方「那幾天我不在臺灣。」（src/date3d.js S.abroadNo）；
 //   T8 D29 偶遇阿哲的暑假：回高雄的隔天～回臺北的前一天＝2027-07-02～08-20、2028-07-02～08-20（2028-07-01 週六遇不到、7/8 遇得到；encounters.js、characters.js 兩邊一樣）；
 //   T9b「欠你的，下週。」便當照片改 13:00（12:40 還沒有）；T9c 沒見過阿勳走 R2（學活那一條）＝自我介紹＋「坐。」、不說「你今天沒來上課」；
-//   9-1 R2 開頭的旁白「（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）」；9-1 柏翰 2027-08-24 20:00 麵店團「回來了。明天香港。」（src/holff3d.js）。
+//   9-1 R2 開頭的旁白「（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）」；9-1 柏翰 2027-08-24 20:00 桌遊團「回來了。明天香港。」（src/holff3d.js）。
 // 修改前（開發分支 87cc42021）實際跑過：FAILED 13——T1 1 項、T7b 5 項、T8 2 項、T9b 1 項、9-1 旁白 1 項、T9c 2 項（見過阿勳那一項也查旁白在前）、柏翰 1 項；PASS 2 項是防回歸（D26 臺中照 T7a、19:48 還沒有）。
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -44,10 +44,10 @@ const D=k=>STORY.dayOfKey(k);
   { const L=await r2({P4D_ANSWER:'retake',MET_XUN:true});
     check('T9c. 防回歸：見過阿勳＝旁白以後「……你今天沒來上課。坐。」、沒有自我介紹',L[1]==='阿勳：……你今天沒來上課。坐。'&&!L.some(t=>t.includes('盧正勳')),JSON.stringify(L.slice(0,3))); }
   /* ===== 9-1 柏翰 2027-08-24 ===== */
-  { H.fresh('2027-08-24',20.2,'dorm'); PHONE.join(H.G,'noodle_team','麵店團'); if(typeof HOLFF!=='undefined') HOLFF.homeMsgs(H.G); PHONE.tick(H.G);
+  { H.fresh('2027-08-24',20.2,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); if(typeof HOLFF!=='undefined') HOLFF.homeMsgs(H.G); PHONE.tick(H.G);
     const m=(H.G.msgs||[]).filter(x=>x.th==='g:noodle_team'&&x.from==='classmate_bohan').map(x=>x.text);
-    check('9-1. 柏翰 2027-08-24 20:00 麵店團「回來了。明天香港。」',m.includes('回來了。明天香港。'),JSON.stringify(m)); }
-  { H.fresh('2027-08-24',19.8,'dorm'); PHONE.join(H.G,'noodle_team','麵店團'); if(typeof HOLFF!=='undefined') HOLFF.homeMsgs(H.G); PHONE.tick(H.G);
+    check('9-1. 柏翰 2027-08-24 20:00 桌遊團「回來了。明天香港。」',m.includes('回來了。明天香港。'),JSON.stringify(m)); }
+  { H.fresh('2027-08-24',19.8,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); if(typeof HOLFF!=='undefined') HOLFF.homeMsgs(H.G); PHONE.tick(H.G);
     check('9-1. 19:48 還沒有',!(H.G.msgs||[]).some(x=>x.text==='回來了。明天香港。')); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

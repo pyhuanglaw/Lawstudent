@@ -255,7 +255,7 @@ const POOL_STORY=(function(){
       day:[ {scene:'晨思鐘'}, N('（早上七點，晨思鐘。你坐在長椅的一頭，他蹲在遠遠的地方。）'),
         {if:{custom:G=>typeof POOL!=='undefined'&&POOL.met(G,Z)},speaker:null,text:'（長椅另一頭有人說了一聲「早安」——是靖雯。）'},
         {scene:'法律系館A・穿堂'}, N('（中午，法律系館A的穿堂。光從另一頭照進來。你什麼都不用做，走過去就好。）'),
-        {scene:'公館燒臘'}, {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'（傍晚，燒臘店。阿哲在你對面吃第二盤。）'},   /* 麵店團的（PHONE 的 noodle_team 群組）*/
+        {scene:'公館燒臘'}, {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'（傍晚，燒臘店。阿哲在你對面吃第二盤。）'},   /* 桌遊團的（PHONE 的 noodle_team 群組）*/
         ys('不要看鏡頭，繼續吃。'),
         {scene:'總圖門口'}, N('（晚上，總圖門口。他把相機放下來。）'), ys('最後一張了。謝啦。'), {set:{YS_MODEL:true}} ],
       /* 7-4 展覽（霖澤館一樓穿堂：只有旁白，不用新美術）*/

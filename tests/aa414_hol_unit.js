@@ -1,4 +1,4 @@
-// AA_414（企劃線 b1fc4bf30；AA-B 2026-10-23）：以安、語彤交往中的節日・第一批——四年情人節（八場）、語彤的中秋（三年）、2027-02-14 麵店團群組。不需要瀏覽器。
+// AA_414（企劃線 b1fc4bf30；AA-B 2026-10-23）：以安、語彤交往中的節日・第一批——四年情人節（八場）、語彤的中秋（三年）、2027-02-14 桌遊團群組。不需要瀏覽器。
 // 台詞一字照稿（D109）。做法照學姊的 S.HOL（src/sis_b4_3d.js）：前一天 21:00 她私訊約 → 回覆 → 出遊（OUT）→ 那一場 → 答應了沒到＝她再傳。
 // 檢查：0 讀稿（每一句台詞、選項、地點字幕、私訊都在稿裡）、index.html 接線、人物頁記憶 10 個、noodle_table_window 背景
 //   1 以安 1-1 2026 開車去台中（寒假從家出發不用取車、學期中從宿舍要先回家取車（DATE-C7）、油錢有扣；背景 car_morning → tc_park → car_night；回「在臺北。」20:00 照片；答應了沒到 15:00、17:00；沒回）
@@ -175,7 +175,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
   { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',0); rules(); at('2027-02-14',17.9); expire(); rules(); const n=dms(YT).length; at('2027-02-14',18.05); rules();
     check('2-2. 答應了沒到（交往中）：18:00「（照片：桌上兩副碗筷，一鍋湯）」、18:01「湯我留著。」',H.G.flags.YT_VDAY_Y2==='missed'&&J(dms(YT).slice(n))===J(['（照片：桌上兩副碗筷，一鍋湯）','湯我留著。']),J(dms(YT))); }
   { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',2); const r=dms(YT).slice(-1)[0]; rules(); check('2-2. 「明天不行。」→「嗯。」、YT_VDAY_Y2 no',r==='嗯。'&&H.G.flags.YT_VDAY_Y2==='no'); }
-  { const G=setup('2027-02-14',20,null); PHONE.join(G,'noodle_team','麵店團'); rules(); const pre=H.msgs('g:noodle_team').length; at('2027-02-14',21.05); rules(); const M=(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
+  { const G=setup('2027-02-14',20,null); PHONE.join(G,'noodle_team','桌遊團'); rules(); const pre=H.msgs('g:noodle_team').length; at('2027-02-14',21.05); rules(); const M=(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
     check('第 3 節. 2027-02-14（日）21:00 群組：阿哲「今天情人節 我在高雄」…（沒交往也看得到，一次）',pre===0&&M.length===4&&M[0]==='zhe:今天情人節 我在高雄',J(M)); }
   });
   await sec('7',async()=>{

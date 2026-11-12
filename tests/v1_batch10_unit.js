@@ -1,6 +1,6 @@
 // 交接包 v1（大一上）第 10 批——不需要瀏覽器。
 // 檢查（修改前都會失敗）：
-//   A20 聖誕交換禮物（AA_71 2-6「大一的實作」，AA 2026-10-14）：麵店團群組在第 17 週週一 12/22 21:00 收到阿哲「聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。」
+//   A20 聖誕交換禮物（AA_71 2-6「大一的實作」，AA 2026-10-14）：桌遊團群組在第 17 週週一 12/22 21:00 收到阿哲「聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。」
 //     （沒有群組＝沒有；週二才加入＝加入時收到；週三 12:20 以後不再傳）；12/24 週三 12:20～13:10 在霖澤館一樓、有群組才會開始（二樓、13:10 以後、別週、沒有群組都不會）；
 //     祐廷選三種禮物之一；抽到他禮物的人、他抽到誰的從在場（認識）的人裡挑，七個人三種禮物的反應照 AA 原文（21 句）；語彤抽到筆記本記 GIFT_NOTEBOOK_YT；
 //     明軒和 Alison 都在、抽到祐廷禮物的不是明軒＝明軒抽到 Alison 的玩偶（旁白），祐廷不會抽到 Alison 的；柏翰的考古題：以安在才有「沒收。」，旁白的「又」只給中秋烤肉看過沒收的玩家（AA）；
@@ -36,22 +36,22 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 const WHO=['heroine_01','heroine_03','zhe','classmate_bohan','classmate_xinci','yu','classmate_mingxuan'];
 let rnd=[]; const R0=Math.random; Math.random=()=>rnd.length?rnd.shift():R0();
 /* 一次跑一場：known＝認識的人；gift＝選哪一種；toIdx＝在場名單（照 XMAS_WHO 的順序）裡第幾個或人物代號；fromIdx＝抽禮物那一次的亂數值 */
-const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3); fresh(WED,12.5,'linze',flags||{}); PHONE.join(G,'noodle_team','麵店團'); for(const id of known) meet(id); if(setup) setup(); E.player.lv=0;
+const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3); fresh(WED,12.5,'linze',flags||{}); PHONE.join(G,'noodle_team','桌遊團'); for(const id of known) meet(id); if(setup) setup(); E.player.lv=0;
   const here=XMAS_HERE(G); rnd=[]; if(typeof toIdx==='string') toIdx=here.indexOf(toIdx); if(toIdx!=null) rnd.push((toIdx+0.5)/here.length); if(fromIdx!=null) rnd.push(fromIdx); picks=[gift]; await EVENTS.run(ev('ev_xmas_exchange')); rnd=[]; return {here,F:G.flags,L:lines()}; };
 (async()=>{
   const MON=termDay(17,1), TUE=MON+1, WED=MON+2;
   /* ---------- 群組的揪 ---------- */
   { const grp=()=>G.msgs.filter(m=>m.tag==='xmas_ask').map(m=>({day:m.day,h:m.h,th:m.th,from:m.from,text:m.text}));
-    fresh(MON,20.5,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); run(20.5,20.95); const before=grp().length; run(20.95,21.2);
-    const g=grp(); check('A20：麵店團群組 12/22（週一，16 週制的寒假第一天）21:00 阿哲「聖誕交換禮物，週三晚上六點半，燒臘店 一百五以內」（AA_204 1-2）',CALENDAR.dateOf(MON).key.endsWith('12-22')&&before===0&&g.length===1&&g[0].day===MON&&Math.abs(g[0].h-21)<0.06&&g[0].th==='g:noodle_team'&&g[0].from==='zhe'&&g[0].text==='聖誕交換禮物，週三晚上六點半，燒臘店 一百五以內',JSON.stringify(g));
+    fresh(MON,20.5,'campus',{}); PHONE.join(G,'noodle_team','桌遊團'); run(20.5,20.95); const before=grp().length; run(20.95,21.2);
+    const g=grp(); check('A20：桌遊團群組 12/22（週一，16 週制的寒假第一天）21:00 阿哲「聖誕交換禮物，週三晚上六點半，燒臘店 一百五以內」（AA_204 1-2）',CALENDAR.dateOf(MON).key.endsWith('12-22')&&before===0&&g.length===1&&g[0].day===MON&&Math.abs(g[0].h-21)<0.06&&g[0].th==='g:noodle_team'&&g[0].from==='zhe'&&g[0].text==='聖誕交換禮物，週三晚上六點半，燒臘店 一百五以內',JSON.stringify(g));
     check('A20：收到揪團＝排出遊 12/24 18:30 阿鳳麵店（15 分鐘沒到＝沒去）',(()=>{ const q=OUT.get(G,'xmas_y1'); return !!q&&q.day===WED&&q.h===18.5&&q.ev==='ev_xmas_exchange'; })());
     keepOn(TUE,10); run(10,23); check('A20：只傳一次（隔天不會再傳）',grp().length===1);
-    fresh(MON,20.5,'campus',{}); run(20.5,23.5); check('A20：沒有麵店團群組＝沒有（不扣分，也不會私訊）',grp().length===0&&!G.msgs.some(m=>/交換禮物/.test(m.text||'')));
-    fresh(TUE,15,'campus',{}); run(15,15.2); PHONE.join(G,'noodle_team','麵店團'); run(15.2,15.4); const t=grp();
+    fresh(MON,20.5,'campus',{}); run(20.5,23.5); check('A20：沒有桌遊團群組＝沒有（不扣分，也不會私訊）',grp().length===0&&!G.msgs.some(m=>/交換禮物/.test(m.text||'')));
+    fresh(TUE,15,'campus',{}); run(15,15.2); PHONE.join(G,'noodle_team','桌遊團'); run(15.2,15.4); const t=grp();
     check('A20：週二才加入群組＝加入的時候收到（不會補在加入以前）',t.length===1&&t[0].day===TUE&&t[0].h>=15.2,JSON.stringify(t));
-    fresh(WED,12.4,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); run(12.4,12.6); check('A20：週三中午才加入＝不傳揪團（原本的規則照舊：週三以後不補）',grp().length===0); }
+    fresh(WED,12.4,'campus',{}); PHONE.join(G,'noodle_team','桌遊團'); run(12.4,12.6); check('A20：週三中午才加入＝不傳揪團（原本的規則照舊：週三以後不補）',grp().length===0); }
   /* ---------- 什麼時候開始（16 週制：照出遊，AA_204 1-1） ---------- */
-  { const e=ev('ev_xmas_exchange'); const ok=(grp)=>{ fresh(WED,18.5,'noodle',{}); if(grp) PHONE.join(G,'noodle_team','麵店團'); return EVENTS.check(e); };
+  { const e=ev('ev_xmas_exchange'); const ok=(grp)=>{ fresh(WED,18.5,'noodle',{}); if(grp) PHONE.join(G,'noodle_team','桌遊團'); return EVENTS.check(e); };
     check('A20：事件是出遊（trigger outing），12/24 那天有群組＝可以開始；沒有群組不會',e.trigger==='outing'&&ok(true)&&!ok(false)&&CALENDAR.dateOf(WED).key.endsWith('12-24')); }
   /* ---------- 七個人、三種禮物的反應（AA 原文） ---------- */
   { const WANT={heroine_01:['剛好。我的快用完了。','我在 Café 都點茶。……開學以後會用到。謝謝。','字比我想的整齊。……謝謝。'],heroine_03:['嗯。……我還不知道要寫什麼。先收著。','放茶屋好了。蘇姨會想喝喝看。','嗯。回去再看。'],   /* AA_204 1-3 改的句子 */
@@ -87,7 +87,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     r4=await notBohan({MIDAUTUMN_Y1:true,BBQ_BOHAN_SEIZED:true}); check('A20：中秋烤肉看過柏翰的考古題被沒收（MIDAUTUMN_Y1＋那一句有出現）＝「柏翰送的考古題，又被以安沒收了。」（AA 交付清單 A20）',r4.L.includes('柏翰送的考古題，又被以安沒收了。')&&!r4.L.includes('柏翰送的考古題，被以安沒收了。'),JSON.stringify(r4.L.slice(-3)));
     r4=await notBohan({MIDAUTUMN_Y1:true}); check('A20：去了中秋烤肉、但那時還不認識柏翰（沒看到沒收）＝沒有「又」',r4.L.includes('柏翰送的考古題，被以安沒收了。')&&!r4.L.includes('柏翰送的考古題，又被以安沒收了。'));
     /* A13 中秋烤肉：認識柏翰才有「柏翰帶了考古題，被沒收了。」，同時記 BBQ_BOHAN_SEIZED（A20 的「又」）*/
-    const bbq=async(knowBohan)=>{ fresh(termDay(5,6),15,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); if(knowBohan) meet('classmate_bohan'); picks=[]; await EVENTS.runLines(ev('ev_mid_autumn_bbq').dialogue,ev('ev_mid_autumn_bbq')); return {L:lines(),F:G.flags}; };
+    const bbq=async(knowBohan)=>{ fresh(termDay(5,6),15,'campus',{}); PHONE.join(G,'noodle_team','桌遊團'); if(knowBohan) meet('classmate_bohan'); picks=[]; await EVENTS.runLines(ev('ev_mid_autumn_bbq').dialogue,ev('ev_mid_autumn_bbq')); return {L:lines(),F:G.flags}; };
     let b1=await bbq(true), b0=await bbq(false); check('A13：認識柏翰＝「柏翰帶了考古題，被沒收了。」＋記 BBQ_BOHAN_SEIZED；不認識＝兩個都沒有',b1.L.includes('柏翰帶了考古題，被沒收了。')&&b1.F.BBQ_BOHAN_SEIZED===true&&!b0.L.includes('柏翰帶了考古題，被沒收了。')&&!b0.F.BBQ_BOHAN_SEIZED,JSON.stringify({b1:b1.F.BBQ_BOHAN_SEIZED,b0:b0.F.BBQ_BOHAN_SEIZED}));
     /* 明軒的聖誕禮物（BB_95 3-6b，BB 2026-10-14）：一組三色螢光筆；祐廷抽到時三種台詞；別人抽到＝阿哲一句、明軒一句；明軒不在＝抽不到 */
     const MXL='多買的。……我用不到啦。', MX_SAW='……收好啦。'   /* AA_207 §5（BB_167 SC4 第 29 列；原本「……你什麼都沒看到。」）*/, MX_GREEN='上次那支綠的還在嗎？……這樣你有四種了。';

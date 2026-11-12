@@ -17,7 +17,7 @@ const RETAKER={BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:5,BAR_STAGE_2029:'n
 const FRIENDS=['zhe','yu','classmate_bohan','heroine_01','heroine_03'];
 /* 從某一天一路「跳到下一件事」到尾聲；plan：{2030:答對題數, 2031:…, reg:{2031:false}＝那年選不報名}。一試、報名在 PG.runStep 開始前照 plan 放好選項 */
 async function sim(key,hour,flags,plan,setup){ const G=H.fresh(key,hour,'dorm',Object.assign({},flags)); graduated(G); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);
-  PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人'); warns.length=0; rej.length=0;
+  PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人'); warns.length=0; rej.length=0;
   const order=[], stops=[]; let it=0, err=null, mono=true; const said=[];
   const orun=PG.runStep; PG.runStep=async function(GM,s){ const m=/^(exam|reg)_(\d{4})$/.exec(s.id); let set=false;
     if(m&&!PG.done(G,s.id)){ const y=+m[2]; if(m[1]==='exam'){ H.picks=answerK(PG.draw(G,y),plan[y]|0); set=true; } else { H.picks=[(plan.reg&&plan.reg[y]===false)?'不報名':'報名']; set=true; } }
@@ -89,7 +89,7 @@ const before=(o,a,b)=>o.indexOf(a)>=0&&o.indexOf(b)>=0&&o.indexOf(a)<o.indexOf(b
     check('e. 舊存檔：還在 2030 一試以前＝照新門檻（PG.tier 沒有 2030 例外）',PG.due(G)&&PG.due(G).id==='exam_2030'&&PG.tier(2030,9)==='none'); }
   // ---- (f) 2030-09-01～2034-06-04 每一天：2031～2033 的停點、手機規則、床的選項不丟例外 ----
   { const G=H.fresh('2030-09-01',0.5,'dorm',Object.assign({},RETAKER,{BAR_SIT_2030:true,BAR_SCORE_2030:4,BAR_REG_2031:true,BAR_SIT_2031:true,BAR_SCORE_2031:2,FIRST_DAY_SEEN:true})); graduated(G);
-    FRIENDS.forEach(H.FRIEND); H.FRIEND('kexin'); H.date('kexin'); PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人'); warns.length=0;
+    FRIENDS.forEach(H.FRIEND); H.FRIEND('kexin'); H.date('kexin'); PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人'); warns.length=0;
     const d0=PG.DK('2030-09-01'), d1=PG.DK('2034-06-04'), HOURS=[0.5,8,15.1,21]; let errs=[], stopsIn=new Set(), off=[];
     for(let d=d0; d<=d1; d++) for(const h of HOURS){ PG.setT(G,H.E,d,h); H.E.player.busy=false;
       try{ STORY.tick(GM,0.5); PHONE.tick(G); PG.rules(GM); const t=PG.nextStop(G); if(t!=null) stopsIn.add(PG.dateLabel(Math.floor(t/24),t%24)); PG.due(G); PG.pending(G); STORY.bedOptions(G); PG.bedOptions(G); PG.cardLine(G,d-3,d); }

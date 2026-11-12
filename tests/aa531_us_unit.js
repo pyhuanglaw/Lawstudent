@@ -1,6 +1,6 @@
 // AA_531 D99 美國交換（企劃線 475f55fe6 定稿，41ec9a6ac 加第 8 節實作問答，a28201f61 加 8-5；AA-B 定稿 D109；任務 AA531-US-FIX-1030；D99 第三優先）——不需要瀏覽器。用法：node tests/aa531_us_unit.js
 //   0  稿讀得到；遊戲裡這一批的新句都在 AA_531 稿裡（一字不差）、稿第 2、4、5、6、7-3、7-4 節的句子都在遊戲裡；白名單有 AA_531；ladder.js、msg_pool.js 是工具產生的
-//   1  人在國外（美國、日本）阿哲週一不揪 118 午餐（臺灣路線照揪）；美國那一學期整段掃過：阿哲、麵店團沒有要你「走。」的、沒有排 118 午餐的出遊
+//   1  人在國外（美國、日本）阿哲週一不揪 118 午餐（臺灣路線照揪）；美國那一學期整段掃過：阿哲、桌遊團沒有要你「走。」的、沒有排 118 午餐的出遊
 //   2  和臺灣的人交往中、人在美國：以安、語彤、子晴、沛珊各五樣（七夕、中秋、視訊、12/23；以安兩次視訊：10/19 有接挪到 10/29、11/19 只給第一次有接的）；時間照時差；沒交往、臺灣路線沒有
 //   3  3-1 沛珊 ps3 國外的月份不算（10/31 不發、不加裂縫）；3-2 子晴 zq2 美國照臺灣時間、第二個選項換國外版（日本不傳）；3-3 語彤「阿姨問你怎麼沒來」國外不用、美國版
 //   4  9/3 21:00 勞動節烤肉：交往中學姊私訊、挽回中社區的信；回好＝排 9/4 17:00 會所，演 ev_usl_bbq
@@ -122,7 +122,7 @@ await sec(0,()=>{
 /* ======================= 1 118 午餐 ======================= */
 await sec(1,()=>{
   const mondays=(a,b)=>{ const out=[]; for(let d=D(a);d<=D(b);d++){ const t=CALENDAR.termOf(d); if(wdOf(d)===1&&t&&t.week>=2&&t.week<=15) out.push(d); } return out; };
-  const lunchAt=(flags,a,b,zone)=>{ fresh(a,9,zone,flags); PHONE.join(H.G,'noodle_team','麵店團'); friend('zhe'); friend('yu'); const got=[];
+  const lunchAt=(flags,a,b,zone)=>{ fresh(a,9,zone,flags); PHONE.join(H.G,'noodle_team','桌遊團'); friend('zhe'); friend('yu'); const got=[];
     for(const d of mondays(a,b)){ for(const h of [12,12.1,12.2]){ phAt(d,h); } if(tagMsgs('l118_lunch_'+d).length) got.push(keyOf(d)); } return {n:mondays(a,b).length,got}; };
   const us=lunchAt(US(),'2028-09-04','2028-12-15','us_apartment'), tw=lunchAt(TW(),'2028-09-04','2028-12-15','dorm'), jp=lunchAt(JP(),'2028-03-26','2028-06-30','jp_dorm');
   check('1. 美國路線 9/11～12/11 的週一（'+us.n+' 個）：阿哲不揪 118 午餐（原本 14 次，回「走。」還排出遊）',us.n>=12&&!us.got.length,J(us));
@@ -130,12 +130,12 @@ await sec(1,()=>{
   check('1. 臺灣路線同一學期：照揪（每個週一一則）',tw.n>=12&&tw.got.length===tw.n,J({n:tw.n,got:tw.got.length}));
   fresh('2028-09-11',12,'us_apartment',US()); check('1. L118.meAbroad：美國路線 9/11 是、臺灣路線不是',L118.meAbroad(H.G)===true&&(fresh('2028-09-11',12,'dorm',TW()),L118.meAbroad(H.G)===false));
   /* 其他阿哲揪人的：整段掃（每天 7:30、12:00、17:30、19:00、21:00、21:30）——不能有要你「走。」「去。」的、不能排 118 午餐／宵夜／烤肉的出遊 */
-  fresh('2028-08-02',6,'us_apartment',US()); PHONE.join(H.G,'noodle_team','麵店團'); PHONE.join(H.G,'family_law','家族'); for(const id of ['zhe','yu',AN,'classmate_bohan','kai',YT]) friend(id);
+  fresh('2028-08-02',6,'us_apartment',US()); PHONE.join(H.G,'noodle_team','桌遊團'); PHONE.join(H.G,'family_law','家族'); for(const id of ['zhe','yu',AN,'classmate_bohan','kai',YT]) friend(id);
   const outs=new Set();
   for(let d=D('2028-08-02');d<D('2028-12-23');d++) for(const h of [7.5,12,12.1,17.5,19,21,21.5]){ phAt(d,h); for(const q of H.G.outings) outs.add(q.id); }
   const asks=(H.G.msgs||[]).filter(m=>(m.from==='zhe'||/noodle_team|p:zhe/.test(m.th||''))&&m.ask).map(m=>m.tag+'：'+m.ask.opts.map(o=>o.t).join('／'));
   const bad=asks.filter(a=>/走。|去。|我去/.test(a)), badOut=[...outs].filter(id=>/^(l118_lunch_|bbq$|supper_mid|y4_ma|y4_xmas)/.test(id));
-  check('1. 美國那一學期整段掃：阿哲、麵店團沒有要你「走。」「去。」的（剩下的都是照美國寫的：'+asks.map(a=>a.split('：')[0]).join('、')+'）、沒有排 118 午餐、宵夜、烤肉',!bad.length&&!badOut.length&&!(H.G.msgs||[]).some(m=>/^(l118_lunch_|rt_zhe_ndl_)/.test(m.tag||'')),J({bad,badOut})); });
+  check('1. 美國那一學期整段掃：阿哲、桌遊團沒有要你「走。」「去。」的（剩下的都是照美國寫的：'+asks.map(a=>a.split('：')[0]).join('、')+'）、沒有排 118 午餐、宵夜、烤肉',!bad.length&&!badOut.length&&!(H.G.msgs||[]).some(m=>/^(l118_lunch_|rt_zhe_ndl_)/.test(m.tag||'')),J({bad,badOut})); });
 
 /* ======================= 2 和臺灣的人交往中 ======================= */
 const pTW=(id,k)=>((X.aa531||{})[id]||[]).find(x=>x.k===k)||{};

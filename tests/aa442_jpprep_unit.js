@@ -108,7 +108,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     G=jpG('2028-03-04',22.05); rules(); rep=answer('jpp_0304',1); check('2-1 「不要動我的桌子。」→ 宜蓁「我只動書」',J(rep)===J(['sister:我只動書']));
     /* 3/5 */
     G=jpG('2028-03-05',20.05,{know:['yu','classmate_xinci']}); rules(); const g05=brs(cell(S21,'3/5')).filter(x=>SP[x.sp]).map(x=>SP[x.sp]+':'+x.text);
-    check('2-1 3/5（日）20:00 麵店團：Alison、芯慈、阿哲、以安（都認識）',J(pairs('jpp_0305'))===J(g05)&&g05.length===4,J(pairs('jpp_0305')));
+    check('2-1 3/5（日）20:00 桌遊團：Alison、芯慈、阿哲、以安（都認識）',J(pairs('jpp_0305'))===J(g05)&&g05.length===4,J(pairs('jpp_0305')));
     G=jpG('2028-03-05',20.05,{know:['yu']}); rules(); check('2-1 3/5 不認識芯慈：她那一句不出現（照 STORY.knows）',J(pairs('jpp_0305'))===J(g05.filter(p=>!/^classmate_xinci:/.test(p))));
     /* 3/8、3/10、3/12、3/14 */
     G=jpG('2028-03-08',14); st=await stop(); check('2-1 3/8（三）14:00 旁白一段：（簽證要的照片。…你就沒有笑。）',st&&st.k==='jpp_0308'&&J(said())===J(want('3/8')),J(said()));

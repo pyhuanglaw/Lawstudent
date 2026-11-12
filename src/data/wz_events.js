@@ -206,7 +206,7 @@ const WZ_EVENTS=(function(){
   L.push(ev('ev_wz_p_back','所長回來了',{ dialogue:[ N('所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。'),{stamp:['WZ_CAT_BACK']} ] }));   /* AA_493 第 3 節：句子不改，演這一場時貓固定趴在圓椅上（wzlines3d.js 呼叫 WZCAT.hold('lie')，不管幾點）*/
 
   /* ========== 第 5 節的單一事件 ========== */
-  /* WZ-B3 麵店團來看他穿圍裙（AA_420 7-1）*/
+  /* WZ-B3 桌遊團來看他穿圍裙（AA_420 7-1）*/
   L.push(ev('ev_wz_b3','大家來了',{ participants:[ZHE], dialogue:[ N('門口的鈴響了五次。阿哲、Alison、以安、柏翰、芯慈，一個接一個走進來。'),
     {if:{flags:['ZHE_CALLS_GE']},speaker:ZHE,text:'哥！你真的穿圍裙！'},{unless:{flags:['ZHE_CALLS_GE']},speaker:ZHE,text:'{name}！你真的穿圍裙！'},
     {speaker:ZHE,text:'我以為你騙我們。……拍照拍照。'},

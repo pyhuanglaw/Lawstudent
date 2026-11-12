@@ -160,7 +160,7 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     r=await plan('2027-07-07','韓國','3 天','自己去',F);
     check('2-6. 2027-07-10～12（7/12 起 Alison 在營隊；芯慈 7/12 平日實習）：清單沒有 Alison、芯慈',!whoM(r).includes(nm('yu'))&&!whoM(r).includes(nm('classmate_xinci'))&&whoM(r).includes(nm('kai')),J(whoM(r)));
     r=await plan('2027-08-20','日本','3 天','自己去',F);
-    check('2-6. 2027-08-23～25（阿哲 8/21 回臺北，8/25 起麵店團去香港＝有活動卡）：清單沒有阿哲、Alison、柏翰（VA10 同行）',!whoM(r).includes(nm('zhe'))&&!whoM(r).includes(nm('yu'))&&!whoM(r).includes(nm('classmate_bohan')),J(whoM(r)));
+    check('2-6. 2027-08-23～25（阿哲 8/21 回臺北，8/25 起桌遊團去香港＝有活動卡）：清單沒有阿哲、Alison、柏翰（VA10 同行）',!whoM(r).includes(nm('zhe'))&&!whoM(r).includes(nm('yu'))&&!whoM(r).includes(nm('classmate_bohan')),J(whoM(r)));
     r=await plan('2026-08-20','日本','5 天','自己去',F);
     check('2-6. 2026-08-23～27（阿凱 8/24 起 C05 日本）：清單沒有阿凱',!whoM(r).includes(nm('kai')),J(whoM(r)));
     { fresh('2026-07-01',10); H.FAMILIAR('zhe'); const no=VAC.friendNo(H.G,'zhe',H.G.day+3,H.G.day+7);

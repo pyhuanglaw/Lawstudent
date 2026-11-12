@@ -4,10 +4,10 @@
 //     期末上學期那句（fin1）照第 8 節（企劃線 cb5caad65）刪掉：大二上 12/24 第 16 週沒被佔走時照平常排；各自的回覆；春天不再說「天氣變涼了」；一字不差的只剩「這週回來吃飯嗎」「回來的話先講 我多煮」各兩次；
 //     舊存檔（G.home.grp 沒有學期）不在學期中間重來
 //   2 家族群組：2-1 咖哩「下週五」；2-2 沒去咖哩、說過要請的期末那三句換字（tag 照舊）；2-3 學姊上榜聚餐那則，收過咖哩邀約的 Kevin 多一句（沒收過的沒有）
-//   3 見習團落選：系統通知帶名字（sel.name）；阿哲私訊兩句（不在麵店團群組）、寒假的活動第二句照舊換；系辦／事務所的信（noGroup）照舊沒有阿哲
+//   3 見習團落選：系統通知帶名字（sel.name）；阿哲私訊兩句（不在桌遊團群組）、寒假的活動第二句照舊換；系辦／事務所的信（noGroup）照舊沒有阿哲
 //   4 唐睿的即興劇（SK07）和法律生活營籌備會撞期：那晚 19:00 已經有籌備會＝唐睿多一句、要回（「我去。」＝排出遊；「那天晚上有籌備會。」＝「好。品妤會錄。」、不排、那天晚上品妤傳影片）；
 //     沒撞期照舊直接排、不問；舊存檔（已經收過 sk07_call）不重發
-//   5 四處換字：麵店團春假照片「明天下午」、可昕生日回「謝謝。」、沛珊美術館邀約（date_wish.js，wish_bb.json 的換字由 tools/date/import_wish.py 做）、學姊畢業那天早上補句號
+//   5 四處換字：桌遊團春假照片「明天下午」、可昕生日回「謝謝。」、沛珊美術館邀約（date_wish.js，wish_bb.json 的換字由 tools/date/import_wish.py 做）、學姊畢業那天早上補句號
 // 修改前（開發分支 a2a423fae）：0～5 每一節至少一項 FAIL（實測 24 項 FAIL、第 4 節中途丟例外）。第 8 節（fin1 刪掉）：c7d701caf 上 FAIL。用法：node tests/aa459_y1s2_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -116,18 +116,18 @@ await sec(2,()=>{
 });
 
 /* ---- 3 見習團落選 ---- */
-const LAWC=()=>{ PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','麵店團'); };
+const LAWC=()=>{ PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','桌遊團'); };
 await sec(3,()=>{
   const rej=(key,sDay,rDay,setup)=>{ fresh(sDay,9.5,{}); LAWC(); if(setup) setup(); VAC.signup(H.G,key,'yes'); at(rDay,11.9); run(11.9,12.2); return byTag('vac_sel_'+key); };
   const I8=VAC.inst('C08','Y1'), R8=rej('C08@Y1',termDay('Y1S2',6,1),termDay('Y1S2',12,1)), want=Q3sys.replace('{名稱}',I8.A.select.name);
   check('3. 首爾交流沒上（沒寫申請資料）：「'+want+'」（通知帶名字，同錄取那則的 sel.name）',R8.filter(m=>m.th==='sys').map(m=>m.text).join('|')===want,J(R8.map(m=>m.text)));
-  check('3. 阿哲私訊「'+Q3zhe.map(q=>q.t).join('」「')+'」；麵店團群組沒有他那一句',J(R8.filter(m=>m.th==='p:zhe').map(m=>nm({from:'阿哲',text:m.text})))===J(Q3zhe.map(q=>q.who+'：'+q.t))&&R8.filter(m=>m.th==='p:zhe').every(m=>m.from==='zhe')&&!thread('g:noodle_team').some(m=>m.from==='zhe'&&/沒差啦/.test(m.text)),J(R8.map(m=>[m.th,m.text])));
+  check('3. 阿哲私訊「'+Q3zhe.map(q=>q.t).join('」「')+'」；桌遊團群組沒有他那一句',J(R8.filter(m=>m.th==='p:zhe').map(m=>nm({from:'阿哲',text:m.text})))===J(Q3zhe.map(q=>q.who+'：'+q.t))&&R8.filter(m=>m.th==='p:zhe').every(m=>m.from==='zhe')&&!thread('g:noodle_team').some(m=>m.from==='zhe'&&/沒差啦/.test(m.text)),J(R8.map(m=>[m.th,m.text])));
   const I11=VAC.inst('C11','Y2'), R11=rej('C11@Y2',termDay('Y2S1',5,1),termDay('Y2S1',8,1));
   check('3. 寒假的活動（東京）：「'+Q3sys.replace('{名稱}',I11.A.select.name)+'」；阿哲私訊第一句照稿、第二句「沒差啦 過年比較重要」（照舊換）',R11.some(m=>m.th==='sys'&&m.text===Q3sys.replace('{名稱}',I11.A.select.name))&&J(R11.filter(m=>m.th==='p:zhe').map(m=>m.text))===J([Q3zhe[0].t,'沒差啦 過年比較重要']),J(R11.map(m=>[m.th,m.text])));
   const R16=rej('C16@Y2',termDay('Y2S2',10,1),termDay('Y2S2',14,1));
   check('3. 法扶實習（noGroup）：照舊只有系辦的信，沒有阿哲',R16.length===1&&R16[0].name==='系辦（信）'&&!thread('p:zhe').length,J(R16.map(m=>[m.th,m.text])));
   const R8b=rej('C08@Y1',termDay('Y1S2',6,1),termDay('Y1S2',12,1),()=>{ delete PHONE.rec(H.G).groups.noodle_team; });
-  check('3. 不在麵店團（不熟阿哲）：只有系統通知',R8b.length===1&&R8b[0].th==='sys',J(R8b.map(m=>[m.th,m.text])));
+  check('3. 不在桌遊團（不熟阿哲）：只有系統通知',R8b.length===1&&R8b[0].th==='sys',J(R8b.map(m=>[m.th,m.text])));
 });
 
 /* ---- 4 唐睿的即興劇和籌備會撞期 ---- */
@@ -155,8 +155,8 @@ await sec(4,async()=>{
 await sec(5,()=>{
   const T=k=>T5.find(r=>r[0].includes(k))||[];
   const ndl=T('2572'), kx=T('1967'), wish=T('date_wish'), grad=T('sis_grad3d');
-  const Dd=STORY.springDays(); fresh(Dd.inv1,18,{}); PHONE.join(H.G,'noodle_team','麵店團'); STORY.springChoose(GM,'dorm',{silent:true}); at(Dd.d0,20.6); PHONE.tick(H.G); const ph=byTag('ndl_spring_photos').map(m=>m.text);
-  check('5. 春假沒去的麵店團照片（4/3 20:30）以安「'+ndl[2]+'」（原本「'+ndl[1]+'」）；旅行事件裡的同一句不動',ph.includes(ndl[2])&&!ph.includes(ndl[1])&&J(STORY_EVENTS.find(e=>e.id==='ev_noodle_trip_spring_y1').dialogue).includes(ndl[1]),J(ph));
+  const Dd=STORY.springDays(); fresh(Dd.inv1,18,{}); PHONE.join(H.G,'noodle_team','桌遊團'); STORY.springChoose(GM,'dorm',{silent:true}); at(Dd.d0,20.6); PHONE.tick(H.G); const ph=byTag('ndl_spring_photos').map(m=>m.text);
+  check('5. 春假沒去的桌遊團照片（4/3 20:30）以安「'+ndl[2]+'」（原本「'+ndl[1]+'」）；旅行事件裡的同一句不動',ph.includes(ndl[2])&&!ph.includes(ndl[1])&&J(STORY_EVENTS.find(e=>e.id==='ev_noodle_trip_spring_y1').dialogue).includes(ndl[1]),J(ph));
   const bd=termDay('Y1S2',9,5); fresh(bd,9,{dating_kexin:true}); run(9,9.2); const dm=byTag('kx_bday_draft')[0]; const r=dm&&PHONE.answer(H.G,dm.ask.id,0);
   check('5. 可昕生日回「生日快樂。」：她「'+kx[2]+'」（原本「'+kx[1]+'」）',!!r&&r.out.filter(x=>x.from==='kexin').map(x=>x.text).join('|')===kx[2],J(r&&r.out.map(x=>x.text)));
   const ps=(DATE_WISH.events.classmate_peishan||{}).herInvite||{}, all=J(DATE_WISH.events.classmate_peishan);

@@ -2,7 +2,7 @@
 //   第 2 項（沛珊「讀書會週三，萬才館。」）在 AA_369 第 4 節做了，這裡不測。這裡測第 1、3～19、23～26 項＋第 5 節 BB 的五項：
 //   1 可昕「我們的日子」每週固定格只排到第 16 週（6/15 起她在高雄）、家教同樣；STORY.termDayIn 超過學期不回傳日子；舊存檔排在學期以後的拿掉
 //   3 沛珊的伴侶期間 2026-04-06（第 7 週週一）起：第 1～6 週約吃飯、約會選單不出現「兩個人單獨去吃飯不太好…」「她現在有交往的對象」
-//   4 芯慈那段「我們當過室友。」　5 Alison 烏來改 4/18（4/4 她在麵店團的春假旅行：作息、手機朋友頁、偶遇）
+//   4 芯慈那段「我們當過室友。」　5 Alison 烏來改 4/18（4/4 她在桌遊團的春假旅行：作息、手機朋友頁、偶遇）
 //   6 沛珊第 5～15 週週二、四 16～18 在溫州街課輔班（週一、五照舊總圖）、「一週兩天。」（事件、閒聊階梯）　7 語彤大一下期末邀約「禮拜五」（一般、心意）
 //   8 學姊 S2-L6「上學期期中的時候…」「那杯黑咖啡，謝謝。」　9 通識第 6 週天文館的圓頂（旁白、宥辰、圓頂裡很暗）
 //   10 3/2「這個週末我已經空下來了」、2/14「開學第二個週末」、第一次「我們的日子」在第 2 週的週末　11 春假車上「第三頁寫的，今天不算」、看星星「你們這禮拜上了什麼課？」
@@ -94,7 +94,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   // ===== 第 5 項：Alison 烏來 4/18 =====
   { const at=(k,h)=>{ fresh(D(k),h,'gongguan',{}); R('yu','FAM'); return {e:STORY.schedEnt(CHARACTERS.yu,G),w:STORY.whereIs(GM,'yu')}; };
     const a=at('2026-04-04',12), b=at('2026-04-18',12), c=at(K(termDay('Y1S1',6,6)),12), d=at(K(termDay('Y2S1',6,6)),12);
-    check('5／BB-3. 4/4（六）12:00 Alison 在麵店團的春假旅行：作息不是「和社團在烏來」，手機朋友頁不寫烏來',!(a.e&&a.e.enc==='D20')&&!(a.w&&/烏來/.test(a.w.away||'')),J([a.e&&(a.e.away||a.e.zone),a.w]));
+    check('5／BB-3. 4/4（六）12:00 Alison 在桌遊團的春假旅行：作息不是「和社團在烏來」，手機朋友頁不寫烏來',!(a.e&&a.e.enc==='D20')&&!(a.w&&/烏來/.test(a.w.away||'')),J([a.e&&(a.e.away||a.e.zone),a.w]));
     check('5. 4/18（六，期中考完那個週六）12:00：「和社團在烏來」',!!b.e&&b.e.enc==='D20'&&!!b.w&&b.w.away==='和社團在烏來',J([b.e&&b.e.away,b.w]));
     check('5. 對照：大一上、大二上第 6 週週六照舊在烏來',!!c.e&&c.e.enc==='D20'&&!!d.e&&d.e.enc==='D20');
     const row=ENCOUNTERS.rows.find(r=>r.who==='yu'&&r.spot==='D20'); const enc=k=>{ fresh(D(k),12,'gongguan',{}); R('yu','FAM'); const why=[]; return {ok:!!ENC.eligible(G,row,why),why}; };
@@ -166,9 +166,9 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const a=await sup(false), b=await sup(true);
     check('15. 考完的晚餐，還沒認識語彤：「（今天端麵的是一個沒見過的女生。）」拿掉（AA_679 第 1 列：她不在燒臘店端麵），也沒有語彤、護腕',!a.some(t=>/端麵|語彤|護腕/.test(t)),J(a.slice(0,2)));
     check('15. 對照：認識語彤的「（阿姨的手好了，今天端麵的還是語彤。）」也拿掉（AA_679 第 1 列）——兩種玩家開頭一樣',!b.some(t=>/端麵|沒見過的女生|護腕/.test(t))&&J(a.slice(0,2))===J(b.slice(0,2)),J(b.slice(0,2)));
-    fresh(D('2026-04-15'),21,'dorm',{}); R('classmate_peishan','FAM'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G);   /* AA_588 第 1 節：滷蛋照片跟著公開搬到 4/15 傍晚麵店（原本考完的晚餐的 outingMissed）*/
+    fresh(D('2026-04-15'),21,'dorm',{}); R('classmate_peishan','FAM'); PHONE.join(G,'noodle_team','桌遊團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G);   /* AA_588 第 1 節：滷蛋照片跟著公開搬到 4/15 傍晚麵店（原本考完的晚餐的 outingMissed）*/
     const M=TH('g:noodle_team').filter(m=>m.tag==='zhe_supper_mid2_egg').map(m=>m.from+':'+m.text);
-    check('16. 4/15 傍晚沒到麵店（認識沛珊；AA_588 第 1 節）：麵店團群組阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（不再只有「……喔。」）',J(M)===J(['zhe:📷（一顆切成兩半的滷蛋）','zhe:柏翰幫沛珊切的','zhe:……他們在一起了']),J(M)); }
+    check('16. 4/15 傍晚沒到麵店（認識沛珊；AA_588 第 1 節）：桌遊團群組阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（不再只有「……喔。」）',J(M)===J(['zhe:📷（一顆切成兩半的滷蛋）','zhe:柏翰幫沛珊切的','zhe:……他們在一起了']),J(M)); }
   // ===== 第 17 項：「那場演講。」=====
   { const thu=termDay('Y1S2',11,4);
     const b4=ans=>{ fresh(thu,21.9,'dorm',{dating_kexin:true}); G.acts={att:{['B4@'+thu]:{end:'full'}}}; run(22,22.1); const m=(G.msgs||[]).find(x=>x.tag==='kx_b4_ask'&&x.ask); if(m&&ans!=null) PHONE.answer(G,m.ask.id,ans);
@@ -184,7 +184,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('18. 大一上也一樣（AA_373 第 6 節第 9 題「統一」，企劃線 bdab2f42）：「這禮拜五我十點下班。要不要吃宵夜？」22:00',!!b&&b[1]===22&&TERMEND_LINES.FRIEND.heroine_02.y1s1==='這禮拜五我十點下班。要不要吃宵夜？',J(b)); }
   // ===== 第 19 項：總圖十點關 =====
   { const dp=(STORY.DAILY_PHONE||[]).find(x=>x.id==='y1s2_bohan_closed'), T=dp?dp.items(G).map(x=>x.from+':'+x.text):[];
-    check('19. 麵店團手機小事：22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」',!!dp&&Math.abs(dp.h()-(22+10/60))<1e-9&&J(T)===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧']),J([dp&&dp.h(),T])); }
+    check('19. 桌遊團手機小事：22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」',!!dp&&Math.abs(dp.h()-(22+10/60))<1e-9&&J(T)===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧']),J([dp&&dp.h(),T])); }
   // ===== 第 23 項：活大 =====
   { fresh(termDay('Y1S2',5,5),12.75,'campus',{}); const z=STORY.schedEnt(CHARACTERS.econ_zhengxun,G), p=STORY.schedEnt(CHARACTERS.econ_pinyu,G);
     check('23. 阿勳、品妤大一下週五中午：人物線索「在學活吃午餐」（小松已拆）',!!z&&z.away==='在學活吃午餐'&&!!p&&p.away==='在學活吃午餐',J([z&&z.away,p&&p.away])); }

@@ -10,7 +10,7 @@
 // 檢查：0 讀稿（1-4 的四段 code block 逐行對；選項、剝蒜頭的旁白、「嗯，沒關係。」）
 //   1 以安單身  2 以安交往中  3 語彤單身「好。」  4 語彤單身「今天不行。」  5 語彤交往中
 //   6 重疊：2025-12-24 這兩位允許、芷若照舊擋、和別的約重疊照舊擋、別天（2026）照舊擋、中午場照舊
-//   7 沒去群戲：不在麵店團＝原本的晚上場（選地點、原本的台詞）；約了散場以後卻沒去群戲＝不演、不給好感（記 miss）；去了群戲沒約她＝不演
+//   7 沒去群戲：不在桌遊團＝原本的晚上場（選地點、原本的台詞）；約了散場以後卻沒去群戲＝不演、不給好感（記 miss）；去了群戲沒約她＝不演
 //   8 舊存檔、中午場約別人、晚上場只能一位
 // 修改前（開發分支 69585927c）：FEST_DATA 沒有 xmas.grp、晚上場和群戲重疊被擋（「那段時間已經有別的約了」）——0～5、7 的「約了散場以後卻沒去群戲」、8 的「晚上場只能一位」FAIL（FAILED 23；6 的「照舊擋」、7 的「原本的晚上場」修改前就是 PASS）。用法：node tests/aa204_xmas_after_unit.js
 //   （稿用 git show 讀；在沒有 .git 的目錄跑時，設環境變數 AA204_GIT_DIR＝這個 repo 的目錄）
@@ -35,10 +35,10 @@ const D=k=>H.D(k);
 const lv=(id,n)=>{ const r=SOCIAL.rel(id); Object.assign(r,{fam:n>=4?65:(n>=3?45:25),trust:n>=4?50:(n>=3?30:0),comf:n>=4?45:0,npcRom:n>=6?60:(n>=5?35:0),rom:n>=6?35:0}); SOCIAL.remember(id,'FIRST_MET',''); };
 const date=id=>{ H.G.flags['dating_'+id]=true; ROM.get(H.G,id).status='dating'; };
 const at=(key,h)=>{ const G=H.G; G.day=D(key); G.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; };
-/* group：在麵店團（12/22 21:00 阿哲揪 → 排 xmas_y1，照 story3d.js 真正的規則）*/
+/* group：在桌遊團（12/22 21:00 阿哲揪 → 排 xmas_y1，照 story3d.js 真正的規則）*/
 const setup=(o)=>{ o=o||{}; const G=H.fresh('2025-12-22',21.05,'dorm',{introDone:true,classDone:true,afternoonDone:true}); G.outings=[]; G.contacts=G.contacts||{};
   for(const [id,n] of Object.entries(o.lv||{})){ lv(id,n==='dt'?6:n); if(n==='dt') date(id); G.contacts[id]=G.day-60; }
-  if(STORY._bindGM) STORY._bindGM(GM); if(o.group!==false){ PHONE.join(G,'noodle_team','麵店團'); STORY.phoneRules(GM); PHONE.tick(G); STORY.phoneRules(GM); }
+  if(STORY._bindGM) STORY._bindGM(GM); if(o.group!==false){ PHONE.join(G,'noodle_team','桌遊團'); STORY.phoneRules(GM); PHONE.tick(G); STORY.phoneRules(GM); }
   at(o.key||'2025-12-23',o.h!=null?o.h:10); return G; };
 const said=()=>H.said.map(s=>s.t);
 const relOf=id=>Object.assign({},SOCIAL.rel(id));
@@ -143,7 +143,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
   /* ======================= 7 沒去群戲 ======================= */
   await sec('7',async()=>{ const x=X(), d=D('2025-12-24');
     setup({lv:{[AN]:5},group:false}); const a=await ask(AN,[1,'兩點半 Café']); const iv=a.r;
-    check('7. 不在麵店團（沒有 xmas_y1）：晚上場照舊選地點、排 18:30 的邀約（iv.fest）',!OUT.get(H.G,'xmas_y1')&&a.O.length===2&&a.O[1].includes('2:30 AM')&&!!iv&&iv.h===18.5&&iv.fest&&iv.fest.slot==='eve'&&!x.rec(H.G).bk.find(b=>b.who===AN).grp,J({O:a.O,iv}));
+    check('7. 不在桌遊團（沒有 xmas_y1）：晚上場照舊選地點、排 18:30 的邀約（iv.fest）',!OUT.get(H.G,'xmas_y1')&&a.O.length===2&&a.O[1].includes('2:30 AM')&&!!iv&&iv.h===18.5&&iv.fest&&iv.fest.slot==='eve'&&!x.rec(H.G).bk.find(b=>b.who===AN).grp,J({O:a.O,iv}));
     at('2025-12-24',18.5); H.said=[]; H.opts=[]; H.picks=[4]; await x.meet(GM,iv,{name:'以安'});
     check('7. 見面照 AA_416 原本的台詞（「聖誕節。……這一天我本來沒排事情。」「現在有了。」）',J(said().slice(0,2))===J([ORIG_AN_S6,'現在有了。']),J(said()));
     setup({lv:{[AN]:5}}); await ask(AN,[1]); at('2025-12-24',18.2); H.picks=[2]; const q=OUT.get(H.G,'xmas_y1'); const r0=relOf(AN); await OUT.prompt(GM,q); x.phone(H.G);

@@ -12,7 +12,7 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
 (async()=>{
   // ---- A. 每一天 ----
   { const G=H.fresh('2029-06-01',0.5,'dorm',{BAR_REG:true,LAWCLUB_SAT_VISITS:10}); FRIENDS.forEach(H.FRIEND); H.FRIEND('kexin'); H.date('kexin');
-    PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人');
+    PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人');
     const d0=PG.DK('2029-06-01'), d1=PG.DK('2034-06-04'), HOURS=[0.5,7,9.5,12,15,18,20.5,23.5], ZONES=['dorm','campus','cafe','gongguan','noodle','library_hall'];
     let errs=[], calls=0, pgOff=[], termAfter=0; warns.length=0;
     for(let d=d0; d<=d1; d++){
@@ -35,7 +35,7 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
     if(STORY.packDue(G)){ await STORY.packY4(GM); return 'pack'; } if(STORY.gradMorningDue(G)){ await STORY.gradFamily(GM); return 'family'; } if(STORY.gradLunchDue(G)){ await STORY.gradLunch(GM); return 'lunch'; }
     if(G.zone==='dorm'&&STORY.gradEnvelopeDue(G)){ await STORY.gradEnvelope(GM); return 'envelope'; } if(STORY.moveOutDue(G)){ await STORY.moveOutY4(GM); return 'moveout'; } return null; };
   const sim=async(name,flags,setup,o)=>{ o=o||{}; const G=H.fresh('2029-06-02',8,'dorm',Object.assign({PACKED_Y4:PG.gradDay()-1},flags)); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);   /* [前置] 6/1 收拾過、鬧鐘 08:00 起床 */
-    PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人');
+    PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人');
     warns.length=0; rej.length=0; const order=[], stops=[]; let mono=true, it=0, err=null, sleeps=0;
     const ran=new Set(); const orun=PG.runStep; PG.runStep=async function(GM,s){ if(/^jretake_/.test(s.id)&&!PG.done(GM.G,s.id)) H.picks=[o.retake?0:1];   /* D118-B8：司法官第一次落榜的二選一（AA_582 (f)）；沒寫＝「就當律師。」（路線 d，照原本只考 2029 的流程）*/ const r=await orun.call(PG,GM,s); if(r){ order.push(s.id); ran.add(s.id); } return r; };
     try{

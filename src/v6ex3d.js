@@ -1,4 +1,4 @@
-/* ===== 多段感情 v6：收拾的時刻（V6-S4）、EX_<id>（V6-S3）、前任版（V6-A3、A6、B6）、麵店團的反應（V6-A7）=====
+/* ===== 多段感情 v6：收拾的時刻（V6-S4）、EX_<id>（V6-S3）、前任版（V6-A3、A6、B6）、桌遊團的反應（V6-A7）=====
    規格（企劃線 claude/cool-heisenberg-o8kuqx @ d805bceee，白名單同一個 commit）：AA_123 2-3、4-3、4-3b、5-3、第 6 節；AA_182 第 2、3 節；BB_119 第 0 節最後一列、第 4 節、第 7 節、9-4。
    台詞在 src/data/v6ex_lines.js（照原文）。不改 romance3d.js、story3d.js、y34b3d.js：包住 ROM.end／ROM.start、STORY.populate／cleanupTick、Y34B.an20Mode，事件用 STORY_EVENTS 的掛勾。
    ■ V6-S3 EX_<id>：ROM.end 原本就記 EX_<id>、status ex。這裡補 BB_119 第 7 節的 EX_<id>_REASON（talk／caught／drift）：
@@ -13,12 +13,12 @@
    ■ 前任版：
      A3 以安：讀書會分開後第一次「規則沒有改。……你也不用換位子。」（社課事件 clubEvent）；祐廷之後和別人交往、她知道＝說一次「理由我懂。不用解釋。」（說話前）；
         新 8 週六補讀：「……你也來了。坐原來的位子。」（ev_plg_rules_after 加一句）；新 9 行政法第 12 週下課後「剛剛那個，是課堂上的。」（syllabus.js 的 exAfter，afterClass 事件）；
-        新 16 送機：她走進去以前「……到了我傳給麵店團。」（ev_an_sendoff 加一句；AA_437 第 4 節改字）；新 20：前任＝麵店長桌那一版（Y34B.an20Mode）；新 21 畢業典禮：友情版（postgrad3d.js）。
+        新 16 送機：她走進去以前「……到了我傳給桌遊團。」（ev_an_sendoff 加一句；AA_437 第 4 節改字）；新 20：前任＝麵店長桌那一版（Y34B.an20Mode）；新 21 畢業典禮：友情版（postgrad3d.js）。
      A6 語彤：之後和以安交往、她知道＝說一次「嗯。……她會讓你把話講完的。」；事件 17 畢業典禮：友情版（postgrad3d.js）；總圖的週四：分開以後不再傳留位子那一則（cracktalk3d.js 只在交往中傳）。
      B6（BB_119 第 4 節）：分開後第一次說話——子晴「好久不見。你看起來有睡飽。」；芷若在 Café（她在臺灣的時候）「好久不見。……老樣子？」；學姊在法學院「學弟。……吃飯了嗎。」
         （研究助理還在做＝「工作照舊。你不用勉強。」，JOB_RA 遊戲裡還沒有）；可昕（AA_351 慢慢分開以後、D6 午餐以前第一次當面）「嗨。」（她停了一下，把耳機拿下來。）「……你也來這裡喔。」（AA_434 第 2 節）。沛珊不做（見 V6EX.NOT_DONE）。
         之後一個學期（AA_434 4-3）：她先傳的私訊每兩則送一則、她不主動約，下一個學期第 1 週恢復（V6EX.cool）。
-   ■ A7 麵店團（AA_182 第 3 節，「確實知道」＝ROM.knowsOf）：開始交往＝他們知道以後的下一次麵店長桌（週二、週四 17:30～21:00 你在麵店），只有知道、也認識的人說；
+   ■ A7 桌遊團（AA_182 第 3 節，「確實知道」＝ROM.knowsOf）：開始交往＝他們知道以後的下一次麵店長桌（週二、週四 17:30～21:00 你在麵店），只有知道、也認識的人說；
      和同一個朋友圈的另一個人開始（前任也是他們知道的人）＝阿哲那一句。分開＝柏翰知道的話，下一個上課日 12:10 私訊筆記；Alison 那天晚上 22:00 一張貼圖；
      分開以後第一次去公法讀書會，芯慈把放在你位子上的筆袋拿走（AA_434 第 4 節）。
    存檔：G.flags.V6EX＝{entry, starts:[], notes:[], home}；CLEANUP_WHO、CLEANUP_BOX、CLEANUP_NOTE、CLEANUP_ZHE、CLEANUP_HER、V6EX_*（一次的句子）。舊存檔沒有＝空的。
@@ -193,11 +193,11 @@ const V6EX=(function(){
   S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!G||!G.flags) return; const p=S.preLine(G,id); if(!p) return; G.flags[p[0]]=G.day; for(const l of [].concat(p[1])) await (typeof l==='string'?GM.say(who,l):GM.say(null,l.n)); };   /* 旁白＝{n} */
   if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push((GM,who,id)=>S.preTalk(GM,who,id));
 
-  /* ======================= A7 麵店團 ======================= */
+  /* ======================= A7 桌遊團 ======================= */
   S.TEAM=['zhe','yu','classmate_bohan','classmate_xinci'];
   S.knowers=(G,p)=>S.TEAM.filter(x=>met(x)&&ROM.knowsOf(G,x,p));
   S.teamDue=function(G){ if(!law(G)||G.zone!=='noodle') return null; const h=hh(G); if(!(STORY.noodleDay&&STORY.noodleDay(G.day))||h<17||h>=21) return null;   /* 麵店日（上課週的週二、週四）17:00～21:00 在麵店＝story3d.js 記「有來」的同一個窗 */
-    if(typeof PHONE!=='undefined'&&PHONE.inGroup&&!PHONE.inGroup(G,'noodle_team')) return null;   /* 不在麵店團的玩家，沒有這一段 */
+    if(typeof PHONE!=='undefined'&&PHONE.inGroup&&!PHONE.inGroup(G,'noodle_team')) return null;   /* 不在桌遊團的玩家，沒有這一段 */
     for(const s of S.rec(G).starts){ if(s.done||!dating(G,s.id)) continue; const K=S.knowers(G,s.id); if(!K.length) continue;
       const same=ROM.exes(G).some(x=>x!==s.id&&S.knowers(G,x).length>0); return {s,K,same}; }
     return null; };
@@ -243,7 +243,7 @@ const V6EX=(function(){
   /* 規格寫了、這一輪沒有做的（回報 LAWWW／AA）*/
   S.NOT_DONE=[
     'S4 紙箱：主線 10 拆箱（story3d.js STORY.unboxY4）照 AA_437 第 6 節接了；「不打開」記 BOX_KEPT_Y4＝exbox，主線 11 收拾（STORY.packY4）拿起它的那一句 AA_318 第 4 節沒有寫（「你從紙箱裡拿出…」對紙箱本身不通），先跳過；第三步又留了一件東西＝BOX_KEPT_Y4 記那一件（EXBOX_Y4 記 kept）',
-    'A3 以安：麵店團前兩週坐長桌另一頭（畫面）；新 13b 照 AA_123 4-3b 前任不演（新 15 前任版＝麵店長桌，AA_437 第 4 節，story3d.js STORY.an15Noodle）',
+    'A3 以安：桌遊團前兩週坐長桌另一頭（畫面）；新 13b 照 AA_123 4-3b 前任不演（新 15 前任版＝麵店長桌，AA_437 第 4 節，story3d.js STORY.an15Noodle）',
     'A6 語彤：事件 9、10、12、13、14、15 的前任版（y2b3d.js、r2y3a_events.js、y34b3d.js 各自的場景）、16b 群組版',
     'B6：沛珊（P6 公開課、書店那一句——她在台南，書店是台南的二手書店，要走 hometown3d.js，這一輪別人的檔）、芷若的明信片改寄到 Café（r2y4a3d.js 第二輪明信片）、學姊研究助理「辭掉」的選項（JOB_RA 遊戲裡還沒有）',
     'B6 之後一個學期（AA_434 4-3）：接了主線 4 的週日訊息（STORY.neededPick）、手機小事（dp_）、以安週二約讀書會完吃飯（INV.anAsk）、寒暑假活動她私訊約（vac3d.js 的 signup dm）；固定日子的 needed（story3d.js S.neededAt）、節日（fest3d.js、an_yt_hol3d.js）、其他事件包自己排的私訊和邀約要各自讀 V6EX.cool(G,id)',

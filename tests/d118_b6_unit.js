@@ -71,9 +71,9 @@ const FAMILY=['A_bar','C_zq','B_grad','L_firm'];
     const G2=H.fresh('2029-03-22',16,'campus',{Y4_PATH:'grad',GRAD_EXAM_2029:true}); G2.habits={'place:library:day':{n:30,days:Array.from({length:30},(_,i)=>PG.DK('2028-10-01')+i)}};
     check('d2. 考試日過了、沒有作答也沒有 GRAD_EXAM_2029_PASS 的舊存檔：照舊規則（總圖天數）算一次',R2Y4B.gradPass2029(G2)===true); }
   // ---- (e) 第一份工作照片和尾聲同一個落點 ----
-  { const G=H.fresh('2030-10-01',20,'dorm',{BAR_YEAR:2029,EXCHANGE_ROUTE:'JP'}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); await H.run('first');
+  { const G=H.fresh('2030-10-01',20,'dorm',{BAR_YEAR:2029,EXCHANGE_ROUTE:'JP'}); graduated(G); PHONE.join(G,'noodle_team','桌遊團'); await H.run('first');
     const ph=(G.msgs||[]).find(m=>m.tag==='pg_first_day'&&m.from==='player'); check('e1. 出國回來、有證照：照片＝S.path 的那一張（律師家族）',!!ph&&ph.text==='📷'+POSTGRAD_LINES.FIRST.me[PG.path(G)]&&FAMILY.includes(PG.path(G)),ph&&ph.text+' '+PG.path(G));
-    const G2=H.fresh('2030-10-01',20,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:4,BAR_STAGE_2029:'none'}); graduated(G2); PG.rec(G2).done.exam_2030='missed'; PHONE.join(G2,'noodle_team','麵店團'); H.said=[]; await H.run('first');
+    const G2=H.fresh('2030-10-01',20,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:4,BAR_STAGE_2029:'none'}); graduated(G2); PG.rec(G2).done.exam_2030='missed'; PHONE.join(G2,'noodle_team','桌遊團'); H.said=[]; await H.run('first');
     const ph2=(G2.msgs||[]).find(m=>m.tag==='pg_first_day'&&m.from==='player');
     check('e2. 2030 一試錯過：照片不是「補習班」（firstLate 不算錯過的）、沒有「你的第一天，還在後面。」',!!ph2&&ph2.text==='📷'+POSTGRAD_LINES.FIRST.me[PG.path(G2)]&&!H.has(POSTGRAD_LINES.FIRST.lateNarr),ph2&&ph2.text); }
   H.done();

@@ -34,7 +34,7 @@
 // 2026-10-28 AA_523 第 6-3 點改的（企劃線 0d7b5388b，SIS-B16-1028）：陳助教 h509_ta_sis 改字（「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的叉燒都太甜。」、2029-01-13 起），
 //   src 照 h508_cx_zq（AA_514）的做法寫 'AA_523 6-3'——第 0 段 SPEC 加 AA_523（句數照舊 123）。改了以後、這裡還沒改的時候實際跑：FAILED 1（第 0 段那一句找不到稿）；改了以後 ALL PASS。
 'use strict';
-require('./alison.js');   // 讀企劃稿照匯入工具同一套換（Alison、虛構校名、麵店團 ndl542、不跟別人比 nocmp：D116／AA_546）
+require('./alison.js');   // 讀企劃稿照匯入工具同一套換（Alison、虛構校名、桌遊團 ndl542、不跟別人比 nocmp：D116／AA_546）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;

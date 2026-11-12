@@ -1,9 +1,9 @@
-// 多段感情 v6：收拾的時刻（V6-S4）、EX_<id>_REASON（V6-S3）、前任版（V6-A3 以安、A6 語彤、B6 子晴／芷若／學姊）、麵店團（V6-A7）——不需要瀏覽器。
+// 多段感情 v6：收拾的時刻（V6-S4）、EX_<id>_REASON（V6-S3）、前任版（V6-A3 以安、A6 語彤、B6 子晴／芷若／學姊）、桌遊團（V6-A7）——不需要瀏覽器。
 //   src/v6ex3d.js（V6EX）、src/data/v6ex_lines.js。台詞逐字對企劃（企劃線 claude/story-planning @ d805bceee）：
 //   AA_123 4-3、4-3b、5-3、第 6 節；AA_182 第 2、3 節；BB_119 第 4 節、9-4。每一句直接寫在這裡比對（不從程式讀）。
 //   0 接線　R 分開的原因（EX_<id>_REASON）　S 收拾的時刻（第一個空檔的系統字、書桌的「收拾」、四個選項、在家一天問一次、第七天 22:00 自動補）
 //   A 以安（讀書會分開後第一次、之後和別人交往說一次、送機多一句、新 20 改麵店長桌）　Y 語彤（之後和以安交往說一次）
-//   B 子晴、芷若（Café）、學姊（法學院／研究助理）第一次見面　T 麵店團（開始交往、同一個朋友圈、柏翰的筆記）
+//   B 子晴、芷若（Café）、學姊（法學院／研究助理）第一次見面　T 桌遊團（開始交往、同一個朋友圈、柏翰的筆記）
 // 修改前（開發分支 HEAD）：沒有 src/v6ex3d.js——全部 FAIL。用法：node tests/v6_ex_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -163,10 +163,10 @@ await sec('B',async()=>{
   fresh('2026-10-14',20); H.G.stage='econ'; H.G.flags.EX_heroine_04=true; check('B6. 經濟系那一年：不說',!(await pre(ZQ)).length);
 });
 
-/* ======================= T 麵店團 ======================= */
+/* ======================= T 桌遊團 ======================= */
 await sec('T',async()=>{
   const tue=(()=>{ for(let d=D('2026-10-19');d<D('2026-10-24');d++) if(STORY.noodleDay(d)) return d; return D('2026-10-20'); })(), nnd=(()=>{ for(let d=D('2026-10-19');d<D('2026-10-24');d++) if(!STORY.noodleDay(d)) return d; return tue+1; })();   /* 大二上第 7 週的麵店日、不是麵店日的平日（AA_542 第 5 節：每週不固定兩天）*/
-  const team=()=>{ PHONE.join(H.G,'noodle_team','麵店團'); for(const id of ['zhe','yu']) SOCIAL.remember(id,'FIRST_MET',''); };
+  const team=()=>{ PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','yu']) SOCIAL.remember(id,'FIRST_MET',''); };
   fresh('2026-10-14',20); team(); date(AN); ROM.learn(H.G,'zhe',AN,'test'); ROM.learn(H.G,'yu',AN,'test'); ROM.learn(H.G,'classmate_bohan',AN,'test');
   at(tue,18); H.G.zone='noodle'; clear(); await tick();
   check('T1. 開始交往、他們知道：下一次麵店長桌，只有玩家認識的人說（柏翰沒見過＝不說）',J(H.said.map(s=>s.who+'：'+s.t))===J([SOCIAL.displayName('zhe')+'：請客。',SOCIAL.displayName('yu')+'：我早就知道了。']),J(H.said));
@@ -174,7 +174,7 @@ await sec('T',async()=>{
   fresh('2026-10-14',20); team(); date(AN); at(tue,18); H.G.zone='noodle'; clear(); await tick();
   check('T2. 他們還不知道：不演',!H.said.length);
   fresh('2026-10-14',20); date(AN); ROM.learn(H.G,'zhe',AN,'test'); SOCIAL.remember('zhe','FIRST_MET',''); at(tue,18); H.G.zone='noodle'; clear(); await tick();
-  check('T3. 不在麵店團（沒有群組）：不演',!H.said.length);
+  check('T3. 不在桌遊團（沒有群組）：不演',!H.said.length);
   fresh('2026-10-14',20); team(); date(AN); ROM.learn(H.G,'zhe',AN,'test'); at(nnd,18); H.G.zone='noodle'; clear(); await tick();
   check('T4. 不是麵店日：不演',!H.said.length);
   fresh('2026-09-20',20); team(); date(YT); ROM.learn(H.G,'zhe',YT,'test'); ROM.end(H.G,YT,'apart_talk'); ROM.cleanup(H.G); date(AN); ROM.learn(H.G,'zhe',AN,'test');

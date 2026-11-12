@@ -147,10 +147,10 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     check('2. SK09 講座一結束就接著演：走廊、你說、三個翻法、學活（BB_106 SK09）',L.includes('你說。')&&J(H.opts[0]).indexOf('翻給阿勳聽：「她說的是，約定本身就有價值，不只是那筆錢。」')>=0&&L.includes('學活的吸管太細了。')&&L.includes('……這倒是。')&&G.flags.TRANSLATOR===true&&G.flags.SK09_CHOICE==='xinci'&&!!G.events.done.ev_sk09,J(L));
     const G2=fresh('Y2S1',6,2,18.45,{zone:'boya',room:'101',know:[XC]}); H.said=[]; await CLS.attendActivity(GM,a); const L2=said();
     check('2. 認識芯慈、不認識阿勳：芯慈介紹阿勳和品妤；沒有 ECON_LAW_BRIDGE＝沒有 SK09',L2.includes('這是阿勳，統計課的。這是品妤。')&&!L2.includes('我是陪他來的。我只聽前半場。')&&!L2.includes('你說。')&&G2.flags.MET_XUN===true,J(L2));
-    const G3=fresh('Y2S1',6,2,21.1,{flags:{ECON_LAW_BRIDGE:true}}); PHONE.join(G3,'noodle_team','麵店團'); rules();
-    check('2. SK09 沒去（B6 沒聽）：當晚 21:00 麵店團群組芯慈兩則',J(msgs('g:noodle_team'))===J(['我和統計課那個人在博思吵了一小時，違約只要賠錢就好嗎。','結論：學活的吸管太細。'])); }
-  { const G=fresh('Y2S2',6,1,21.1,{know:[YT]}); PHONE.join(G,'noodle_team','麵店團'); rules();
-    check('2. B7 週一 21:00 語彤在麵店團轉海報',msgs('g:noodle_team').some(t=>/老房子、租屋與城市/.test(t)));
+    const G3=fresh('Y2S1',6,2,21.1,{flags:{ECON_LAW_BRIDGE:true}}); PHONE.join(G3,'noodle_team','桌遊團'); rules();
+    check('2. SK09 沒去（B6 沒聽）：當晚 21:00 桌遊團群組芯慈兩則',J(msgs('g:noodle_team'))===J(['我和統計課那個人在博思吵了一小時，違約只要賠錢就好嗎。','結論：學活的吸管太細。'])); }
+  { const G=fresh('Y2S2',6,1,21.1,{know:[YT]}); PHONE.join(G,'noodle_team','桌遊團'); rules();
+    check('2. B7 週一 21:00 語彤在桌遊團轉海報',msgs('g:noodle_team').some(t=>/老房子、租屋與城市/.test(t)));
     setDay(TD('Y2S2',6,3),18.9); G.zone='boya'; const a=ACTIVITIES.list.find(q=>q.id==='B7'); H.said=[]; await CLS.attendActivity(GM,a); const L=said();
     check('2. B7 聽演講：提問時間語彤舉手那三句（BB_105 4-4）',L.includes('（提問時間。語彤舉手，停了很久。）')&&L.includes('嗯……老房子拆掉以後，原本在樓下吃麵的人，要去哪裡？')&&L.includes('（講者想了一下：「這是一個很好的問題。我沒有答案。」）')&&G.flags.B7_HEARD===true,J(L));
     fresh('Y2S2',6,3,18.9,{zone:'boya'}); check('2. B7 不認識語彤＝一般的聽演講（沒有她那一段）',CLS.actEvent(H.G,a)===null); }
@@ -170,8 +170,8 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     H.said=[]; H.picks=['「判決會寫理由。」']; await CLS.attendActivity(GM,a); const L=said();
     check('2. B10b：一百年前的小說、散場明軒、Alison（AA 寫）、芷若（FAMILIAR）兩句＋選項；到場紀錄 attended B10b',L.includes('講者從一本一百年前的小說講起：一個人被審判，到最後都不知道自己犯了什麼罪。')&&L.includes('法律系的聽這個，會坐立難安。')&&L.includes('欸！我中間一直想舉手問，那個人到底犯了什麼？')&&L.includes('我讀的是英文版。德文的我看不懂。')&&L.includes('真好。小說不用寫。')&&ACTIVITIES.attended(G,'B10b'),J(L));
     const G2=fresh('Y2S2',11,2,18.4,{zone:'boya',know:[MX]}); H.said=[]; await CLS.attendActivity(GM,a); check('2. B10b 和芷若不熟＝她不在',!said().includes('我讀的是英文版。德文的我看不懂。')); }
-  { const G=fresh('Y3S1',10,1,21.1,{know:[AN]}); PHONE.join(G,'noodle_team','麵店團'); rules();
-    check('2. B12 週一 21:00 麵店團群組（BB_105 B12 的那句；引號照 AA_430 2-1 用「」）',msgs('g:noodle_team').includes('大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。'));
+  { const G=fresh('Y3S1',10,1,21.1,{know:[AN]}); PHONE.join(G,'noodle_team','桌遊團'); rules();
+    check('2. B12 週一 21:00 桌遊團群組（BB_105 B12 的那句；引號照 AA_430 2-1 用「」）',msgs('g:noodle_team').includes('大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。'));
     setDay(TD('Y3S1',10,4),18.9); G.zone='boya'; SOCIAL.rel(AN).fam=30; G.flags.B5_THOUGHT='trade'; const a=ACTIVITIES.list.find(q=>q.id==='B12'); H.said=[]; await CLS.attendActivity(GM,a); const L=said();
     check('2. B12 散場（沒去過 B4）：以安拿大一的筆記那句（AA_430 2-3 B：B5_THOUGHT 那句只在聽完 B4 的 A 版——B5 要聽完 B4 才有）',L.includes('大一那場你沒來。我把我的筆記給你看——你現在答得出來嗎？')&&!L.some(t=>/你大一寫的是/.test(t)),J(L));
     const G2=fresh('Y3S1',10,4,18.9,{zone:'boya',know:[AN,'yu']}); SOCIAL.rel(AN).fam=5; const k=TD('Y1S2',11,4); ACTIVITIES.rec(G2).att['B4@'+k]={h:19,end:'left'}; H.said=[]; await CLS.attendActivity(GM,a); const L2=who();

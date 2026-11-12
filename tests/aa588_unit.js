@@ -1,7 +1,7 @@
 // AA_588（企劃線 1edea905f；AA 2026-11-02 定稿 D109；任務 AA588-AA581-TAIL-1102）AA_581 收尾＋交換延畢又被當（K1）——不需要瀏覽器。
 //   0  讀稿：AA_588 的句子（4/15 群組兩則、記憶標籤、K1 七句＋新卡）一字不差在稿裡
 //   1  沛珊和柏翰公開搬回 4/15 傍晚麵店（ev_psbh_public_0415；AA_581 第 11 節第 2 點）：只演 PS_BH 那幾行、只在 4/15 17:00～20:30 的麵店、交往中不演；
-//      17:00 麵店團群組柏翰「今天晚上燒臘店，有空的來。」沛珊「我會到。」；沒到＝20:30 阿哲滷蛋照片（聽說）；到過＝沒有照片；隔天才回到遊戲的補；期末那頓（考完的晚餐）沒有公開、沒去也沒有照片
+//      17:00 桌遊團群組柏翰「今天晚上燒臘店，有空的來。」沛珊「我會到。」；沒到＝20:30 阿哲滷蛋照片（聽說）；到過＝沒有照片；隔天才回到遊戲的補；期末那頓（考完的晚餐）沒有公開、沒去也沒有照片
 //   2  記憶標籤 AN_L8_MIDTERM＝「和她聊過期中週讀書的進度」（id 不動）
 //   3  課堂內容照 AA 改過的源稿重匯（claude/story-planning@1edea905f）：第 7 週黑板三門、柏翰缺課訊息兩門；經濟系會計學那句不動；AA_389 第 9 點勞動法那句一起進來；白名單
 //   4  home_lines：import_home_lines.py 讀的是 AA_138；晚餐第 8 題換成 AA_588 的三句（週次 8～10 不動）
@@ -53,22 +53,22 @@ await sec(1,async()=>{ const e=ev('ev_psbh_public_0415'), sup=ev('ev_midterm_sup
   check('1. 期末那頓（考完的晚餐）拿掉公開那一段、沒有 outingMissed（照片搬走）',!JSON.stringify(sup.dialogue.map(l=>l.text||'')).match(/滷蛋切成兩半|對，我們在一起了|上禮拜的事/)&&typeof sup.outingMissed!=='function');
   /* 群組 17:00 */
   const day=CALENDAR.dateOf(D415), key=day.y+'-'+String(day.m).padStart(2,'0')+'-'+String(day.d).padStart(2,'0');
-  const ph=(o)=>{ H.fresh(key,15,'dorm',{}); psKnow(!!o.dating); if(o.group!==false) PHONE.join(H.G,'noodle_team','麵店團'); tickAt(16); tickAt(16.9); const before=grp().length; tickAt(17); const at17=grp().map(m=>[m.from,m.text,m.h]); return {before,at17}; };
+  const ph=(o)=>{ H.fresh(key,15,'dorm',{}); psKnow(!!o.dating); if(o.group!==false) PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(16); tickAt(16.9); const before=grp().length; tickAt(17); const at17=grp().map(m=>[m.from,m.text,m.h]); return {before,at17}; };
   const a=ph({}), b=ph({group:false}), c=ph({dating:true});
-  check('1. 17:00 麵店團群組：柏翰「今天晚上燒臘店，有空的來。」、沛珊「我會到。」（17:00 以前沒有）',a.before===0&&J(a.at17.map(x=>[x[0],x[1]]))===J([['classmate_bohan',ASK[0]],['classmate_peishan',ASK[1]]])&&a.at17.every(x=>x[2]===17),J(a));
+  check('1. 17:00 桌遊團群組：柏翰「今天晚上燒臘店，有空的來。」、沛珊「我會到。」（17:00 以前沒有）',a.before===0&&J(a.at17.map(x=>[x[0],x[1]]))===J([['classmate_bohan',ASK[0]],['classmate_peishan',ASK[1]]])&&a.at17.every(x=>x[2]===17),J(a));
   check('1. 不在群組、和沛珊交往中＝沒有那兩則',b.at17.length===0&&c.at17.length===0,J([b,c]));
   /* 20:30 照片 */
   const eggOf=()=>grp().filter(m=>m.tag==='zhe_supper_mid2_egg').map(m=>m.text);
-  H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','麵店團'); tickAt(17); tickAt(20.4); const e0=eggOf().length; tickAt(20.5); tickAt(20.6);
+  H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(17); tickAt(20.4); const e0=eggOf().length; tickAt(20.5); tickAt(20.6);
   check('1. 沒到麵店：20:30 阿哲的滷蛋照片三則（照舊）、記聽說；20:30 以前沒有',e0===0&&J(eggOf())===J(EGG)&&SOCIAL.has('classmate_peishan','HEARD_ABOUT'),J(eggOf()));
-  H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','麵店團'); tickAt(17); H.G.events.done.ev_psbh_public_0415=true; H.G.events.last.ev_psbh_public_0415=D415; tickAt(20.5); tickAt(21);
+  H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(17); H.G.events.done.ev_psbh_public_0415=true; H.G.events.last.ev_psbh_public_0415=D415; tickAt(20.5); tickAt(21);
   check('1. 到過麵店（演過）：沒有照片、沒有聽說',eggOf().length===0&&!SOCIAL.has('classmate_peishan','HEARD_ABOUT'));
-  H.fresh(key,15,'dorm',{dating_classmate_peishan:true}); psKnow(true); PHONE.join(H.G,'noodle_team','麵店團'); tickAt(21);
+  H.fresh(key,15,'dorm',{dating_classmate_peishan:true}); psKnow(true); PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(21);
   check('1. 和沛珊交往中：沒有照片',eggOf().length===0);
-  { const n=CALENDAR.dateOf(D415+1), k2=n.y+'-'+String(n.m).padStart(2,'0')+'-'+String(n.d).padStart(2,'0'); H.fresh(k2,9,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','麵店團'); tickAt(9); tickAt(9.1);
+  { const n=CALENDAR.dateOf(D415+1), k2=n.y+'-'+String(n.m).padStart(2,'0')+'-'+String(n.d).padStart(2,'0'); H.fresh(k2,9,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(9); tickAt(9.1);
     check('1. 4/15 晚上沒在玩、隔天才回到遊戲：照片補上（沒有約的那兩則）',J(eggOf())===J(EGG)&&!grp().some(m=>m.tag==='psbh_0415_ask'),J(grp().map(m=>m.text))); }
   /* 期末那頓沒去：沒有照片 */
-  { H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','麵店團'); const fin=termDay('Y1S2',16,3); H.G.events.done.ev_psbh_public_0415=true; H.G.day=fin; H.G.hour=18; H.G.weekday=3;
+  { H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','桌遊團'); const fin=termDay('Y1S2',16,3); H.G.events.done.ev_psbh_public_0415=true; H.G.day=fin; H.G.hour=18; H.G.weekday=3;
     OUT.plan(H.G,{id:'supper_mid2',ev:'ev_midterm_supper_y1s2',day:fin,h:19,place:'阿鳳麵店',title:'考完的晚餐',travelH:1/6}); H.G.hour=20; OUT.tick(GM); tickAt(21);
     check('1. 期末那頓（考完的晚餐）沒去：沒有滷蛋照片',eggOf().length===0,J(grp().map(m=>m.text))); }
   /* 誰是誰：4/15 演過＝那一句（沛珊×柏翰） */

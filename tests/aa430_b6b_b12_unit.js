@@ -51,9 +51,9 @@ const lecture=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice
   /* ===== 2 B6b ===== */
   await sec('2',async()=>{
     const mon=TD('Y2S1',10,1), wed=TD('Y2S1',10,3);
-    let G=fresh(mon,20.9,'dorm',[AN,BH]); PHONE.join(G,'noodle_team','麵店團'); rules(); check('2. B6b 週一 21:00 以前沒有邀約',!msgs('g:noodle_team').some(t=>/博思 102/.test(t)));
+    let G=fresh(mon,20.9,'dorm',[AN,BH]); PHONE.join(G,'noodle_team','桌遊團'); rules(); check('2. B6b 週一 21:00 以前沒有邀約',!msgs('g:noodle_team').some(t=>/博思 102/.test(t)));
     setDay(mon,21.05); rules();
-    check('2. B6b 邀約（麵店團群組，前兩天 21:00）：以安「週三晚上七點，博思 102。「一條法律是怎麼被寫出來的」。」「這場我一定去。」、柏翰「我去。國考會考立法程序。」；沒有回覆選項',
+    check('2. B6b 邀約（桌遊團群組，前兩天 21:00）：以安「週三晚上七點，博思 102。「一條法律是怎麼被寫出來的」。」「這場我一定去。」、柏翰「我去。國考會考立法程序。」；沒有回覆選項',
       J((G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text))===J([AN+':週三晚上七點，博思 102。「一條法律是怎麼被寫出來的」。',AN+':這場我一定去。',BH+':我去。國考會考立法程序。'])&&!(G.msgs||[]).some(m=>m.th==='g:noodle_team'&&m.ask),J(msgs('g:noodle_team')));
     G=fresh(wed,18.9,'boya',[AN,BH]); let L=await lecture('B6b',['「會議紀錄很長喔。」']);
     const LECT=['講者以前在立法機關當過很多年的助理。投影片很少，大部分時間他在講故事。','一條條文，從草案到通過，常常改了十幾次。','有時候只改一個字。「得」改成「應」。','一個字改了，就有一群人的生活跟著不一樣。','你們以後讀到的每一條，都有人在會議室裡吵過。去找那些紀錄來看。','掌聲。以安在筆記本上寫了一行字，畫了兩條線。'];
@@ -67,15 +67,15 @@ const lecture=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice
     G=fresh(wed,18.9,'boya',[AN]); L=await lecture('B6b',['（聽她說）']);
     check('2. B6b（聽她說）→旁白「（她講了十分鐘。中間停下來兩次，問你有沒有在聽。）」→「好，我講完了。…」',L[L.length-2]==='（她講了十分鐘。中間停下來兩次，問你有沒有在聽。）'&&L[L.length-1]==='好，我講完了。我回宿舍讀書。',J(L.slice(-3)));
     G=fresh(wed,18.9,'boya',[]); L=await lecture('B6b',[]); check('2. B6b 不認識以安：講座最後一句只有「掌聲。」、沒有散場',L.includes('掌聲。')&&!L.some(t=>/以安/.test(t))&&!L.includes('好，我講完了。我回宿舍讀書。'),J(L));
-    G=fresh(wed,21.4,'dorm',[AN,BH]); PHONE.join(G,'noodle_team','麵店團'); rules(); check('2. B6b 沒去：21:30 以前沒有',!msgs('g:noodle_team').includes('講義我多拿了一份。要的話明天給你。'));
+    G=fresh(wed,21.4,'dorm',[AN,BH]); PHONE.join(G,'noodle_team','桌遊團'); rules(); check('2. B6b 沒去：21:30 以前沒有',!msgs('g:noodle_team').includes('講義我多拿了一份。要的話明天給你。'));
     setDay(wed,21.6); rules(); check('2. B6b 沒去（missed）：21:30 柏翰在群組「講義我多拿了一份。要的話明天給你。」',msgs('g:noodle_team').includes('講義我多拿了一份。要的話明天給你。'),J(msgs('g:noodle_team')));
-    G=fresh(wed,18.9,'boya',[AN,BH]); PHONE.join(G,'noodle_team','麵店團'); await lecture('B6b',[0]); setDay(wed,21.6); rules(); check('2. B6b 聽完的玩家沒有那一句',!msgs('g:noodle_team').includes('講義我多拿了一份。要的話明天給你。'));
+    G=fresh(wed,18.9,'boya',[AN,BH]); PHONE.join(G,'noodle_team','桌遊團'); await lecture('B6b',[0]); setDay(wed,21.6); rules(); check('2. B6b 聽完的玩家沒有那一句',!msgs('g:noodle_team').includes('講義我多拿了一份。要的話明天給你。'));
   });
 
   /* ===== 3 B12 邀約、講座 ===== */
   await sec('3',async()=>{
     const mon=TD('Y3S1',10,1), thu=TD('Y3S1',10,4);
-    let G=fresh(mon,21.05,'dorm',[AN,'yu']); PHONE.join(G,'noodle_team','麵店團'); rules();
+    let G=fresh(mon,21.05,'dorm',[AN,'yu']); PHONE.join(G,'noodle_team','桌遊團'); rules();
     check('3. B12 邀約（前三天 21:00）：以安「大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。」「週四晚上七點，博思 101。」、Alison「我要去！！這次我要聽懂」、阿哲「我也去 散場有宵夜嗎」',
       J((G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text))===J([AN+':大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。',AN+':週四晚上七點，博思 101。','yu:我要去！！這次我要聽懂','zhe:我也去 散場有宵夜嗎']),J(msgs('g:noodle_team')));
     const HEAD=['還是那位頭髮花白的老師。他說話還是很慢。','幾年前我在這裡問過一個問題。有些人可能聽過。','今天我想先聽你們問。','（以安第一個舉手。）','如果被限制的人，連要去哪裡問都不知道呢？','……這個問題，比我上次那一題好。','（教室裡有人笑。以安沒有笑，在等他講下去。）','所以制度要讓人找得到門。找不到門，有理由也沒用。'];
@@ -88,7 +88,7 @@ const lecture=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice
     check('3. B12 B4 中途離開：「上次」換成「多久算暫時」→「要看限制的是什麼。……你們以後會寫很多書狀在吵這個。」；B12_ASK time',J(H.opts[0])===J([Q1,Q2,Q4,NO])&&L.includes('要看限制的是什麼。……你們以後會寫很多書狀在吵這個。')&&H.G.flags.B12_ASK==='time',J(H.opts));
     G=fresh(thu,18.9,'boya',[]); L=await lecture('B12',[Q1]);
     check('3. B12 沒去 B4、也沒看過群組轉述：只有兩個問題＋不舉手；問「誰說明」→「做出限制的人，要說得出理由。說不出來，就不該限制。」',J(H.opts[0])===J([Q1,Q2,NO])&&L.includes('做出限制的人，要說得出理由。說不出來，就不該限制。')&&H.G.flags.B12_ASK==='who',J(H.opts));
-    G=fresh(thu,18.9,'boya',[]); PHONE.join(G,'noodle_team','麵店團'); PHONE.at(G,B4D,21.5,[{th:'g:noodle_team',from:'yu',text:'講者最後問了一題超難的'}],'b4_missed'); L=await lecture('B12',[Q2]);
+    G=fresh(thu,18.9,'boya',[]); PHONE.join(G,'noodle_team','桌遊團'); PHONE.at(G,B4D,21.5,[{th:'g:noodle_team',from:'yu',text:'講者最後問了一題超難的'}],'b4_missed'); L=await lecture('B12',[Q2]);
     check('3. B12 沒去 B4、在群組看過轉述（b4_missed）：有「上次最後那一題」；問「先被問一次意見」→「可以，也應該。……這一題留給你。」',J(H.opts[0])===J([Q1,Q2,Q3,NO])&&L.includes('可以，也應該。……可是問了以後他說不要，怎麼辦？這一題留給你。')&&H.G.flags.B12_ASK==='ask',J(H.opts));
     G=fresh(thu,18.9,'boya',[]); L=await lecture('B12',[NO]); check('3. B12 不舉手：不記 B12_ASK，直接最後三句',H.G.flags.B12_ASK==null&&J(L.slice(8,11))===J(TAIL),J(L));
   });
@@ -124,10 +124,10 @@ const lecture=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice
   /* ===== 5 B12 沒去、中途離開 ===== */
   await sec('5',async()=>{
     const thu=TD('Y3S1',10,4), M='以安今天有舉手！！問得超好';
-    let G=fresh(thu,21.4,'dorm',[AN,'yu']); PHONE.join(G,'noodle_team','麵店團'); rules(); check('5. B12 沒去：21:30 以前沒有',!msgs('g:noodle_team').includes(M));
+    let G=fresh(thu,21.4,'dorm',[AN,'yu']); PHONE.join(G,'noodle_team','桌遊團'); rules(); check('5. B12 沒去：21:30 以前沒有',!msgs('g:noodle_team').includes(M));
     setDay(thu,21.6); rules(); check('5. B12 沒去：21:30 Alison「以安今天有舉手！！問得超好」',msgs('g:noodle_team').includes(M),J(msgs('g:noodle_team')));
-    G=fresh(thu,21.6,'dorm',[AN,'yu']); PHONE.join(G,'noodle_team','麵店團'); ACTIVITIES.rec(G).att['B12@'+thu]={h:19,end:'left',lh:19.6}; rules(); check('5. B12 中途離開：同一則',msgs('g:noodle_team').includes(M));
-    G=fresh(thu,21.6,'dorm',[AN,'yu']); PHONE.join(G,'noodle_team','麵店團'); ACTIVITIES.rec(G).att['B12@'+thu]={h:19,end:'full'}; rules(); check('5. B12 聽完：沒有',!msgs('g:noodle_team').includes(M));
+    G=fresh(thu,21.6,'dorm',[AN,'yu']); PHONE.join(G,'noodle_team','桌遊團'); ACTIVITIES.rec(G).att['B12@'+thu]={h:19,end:'left',lh:19.6}; rules(); check('5. B12 中途離開：同一則',msgs('g:noodle_team').includes(M));
+    G=fresh(thu,21.6,'dorm',[AN,'yu']); PHONE.join(G,'noodle_team','桌遊團'); ACTIVITIES.rec(G).att['B12@'+thu]={h:19,end:'full'}; rules(); check('5. B12 聽完：沒有',!msgs('g:noodle_team').includes(M));
   });
   H.done();
 })();

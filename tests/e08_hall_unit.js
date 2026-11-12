@@ -53,9 +53,9 @@ const J=x=>JSON.stringify(x);
   { H.fresh('2026-07-01',10,'dorm'); H.FAMILIAR('kai'); spawned.length=0; H.picks=['日本','5 天',0,'和'+SOCIAL.displayName('kai')]; await VAC.plan13(GM); const q=OUT.get(H.G,'vac_t13_1');   /* AA_549 2-6：七月阿哲在高雄＝約不到，改阿凱 */
     H.G.day=q.day; H.G.hour=q.h-1; hall(); H.said=[]; await OUT.go(GM,q); const hallSaid=H.lines(); hall(); H.cards=[]; H.bgs=[]; await board();
     check('F2. C13 和阿凱去日本：大廳裡阿凱跟著、不加話；登機以後字卡一樣是「飛往日本｜東京　約 3 小時」',!!GM.npc.kai&&GM.npc.kai.beh==='follow'&&hallSaid.length===0&&J(H.cards[0])===J(['飛往日本','東京'+W+'約 3 小時'])&&H.bgs[0]==='dark',J([hallSaid,H.cards.slice(0,2)])); }
-  { H.fresh('2027-08-25',6,'dorm'); for(const p of ['zhe','yu','classmate_bohan']) H.FAMILIAR(p); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.VA10='yes'; VAC.va10Phone(H.G); const q=OUT.get(H.G,'vac_va10');
+  { H.fresh('2027-08-25',6,'dorm'); for(const p of ['zhe','yu','classmate_bohan']) H.FAMILIAR(p); PHONE.join(H.G,'noodle_team','桌遊團'); H.G.flags.VA10='yes'; VAC.va10Phone(H.G); const q=OUT.get(H.G,'vac_va10');
     if(q){ H.G.day=q.day; H.G.hour=q.h-1; hall(); H.said=[]; await OUT.go(GM,q); const hallSaid=H.lines(); hall(); H.cards=[]; H.bgs=[]; await board(); }
-    check('F3. VA10 麵店團香港：大廳不加話；登機以後「飛往香港｜約 1 小時半」、深色底',!!q&&J(H.cards[0])===J(['飛往香港','約 1 小時半'])&&H.bgs[0]==='dark'&&H.G.flags.BACK_FROM_VA10!=null,J([q&&q.state,H.cards.slice(0,2)])); }
+    check('F3. VA10 桌遊團香港：大廳不加話；登機以後「飛往香港｜約 1 小時半」、深色底',!!q&&J(H.cards[0])===J(['飛往香港','約 1 小時半'])&&H.bgs[0]==='dark'&&H.G.flags.BACK_FROM_VA10!=null,J([q&&q.state,H.cards.slice(0,2)])); }
 
   /* ===================== H1～H6 大廳裡演的 ===================== */
   { const r=R['C05@Y1'];

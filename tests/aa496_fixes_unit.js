@@ -2,8 +2,8 @@
 //   1 斷線：a BH4_DONE（翰 4 演完設；推甄面試「我是真的想知道」、尾聲 bh4）；b XC1_STICKY（大二拆箱拿出芯慈的便利貼）；
 //          c XC5_RECONCILE（慈 5 演完，近、遠兩版都算）；d ZHE4_FINAL（哲 4 選了哪一個就記哪一個；尾聲照現在讀的值）
 //   2 尾聲：阿哲、Alison 都在桌上＝情侶那組照演，之後各自的回收句各一句（阿哲的筆記／陪念／哲 4、Alison 的 YU4_ALONE），沒有回收句的不加、不疊預設句
-//   3 麵店團群組的補救：大一上錯過哲 1（ev_zhe_long_table）的人，大一下第 2 週起第一次在麵店遇到阿哲，或和阿哲說話（有點熟以上）：
-//     阿哲當面「欸，你還沒進群組？我拉你。」（逐字對稿）→ 照長桌那一場的做法加進麵店團（記 noodleTableDay；系統訊息寫「把你加進了」，不是「建立了」）；只一次
+//   3 桌遊團群組的補救：大一上錯過哲 1（ev_zhe_long_table）的人，大一下第 2 週起第一次在麵店遇到阿哲，或和阿哲說話（有點熟以上）：
+//     阿哲當面「欸，你還沒進群組？我拉你。」（逐字對稿）→ 照長桌那一場的做法加進桌遊團（記 noodleTableDay；系統訊息寫「把你加進了」，不是「建立了」）；只一次
 //   4 宥辰的出席：12:00 以前的必修只在第 1 週、期中考前一週與考試週（第 7～9 週）、期末考前兩週與考試週（最後三週）；12:00 以後照常；
 //     他的 6 句課堂發言照舊，他不在的那一週那一句的說話人改「同學」
 //   6 「社長」標籤寫全名：「法服的社長」「吉他社社長」「即興劇社社長」（逐字對稿）
@@ -130,7 +130,7 @@ const BOSS_FAFU=BOSS.find(s=>/法服/.test(s)), BOSS_GT=BOSS.find(s=>/吉他/.te
     if(!L||!T) return;
     const W2=TD('Y1S2',2,2), W1=TD('Y1S2',1,2), Y1S1=TD('Y1S1',10,2), Y3=TD('Y3S1',5,2);
     const noodle=(d,flags)=>{ fresh(d,18,'noodle',flags); return EVENTS.check(L); };
-    const r={w2:noodle(W2),w1:noodle(W1),y1s1:noodle(Y1S1),y3:noodle(Y3),longTable:noodle(W2,{noodleTableDay:TD('Y1S1',4,4)}),inGroup:(fresh(W2,18,'noodle'),PHONE.join(H.G,'noodle_team','麵店團'),EVENTS.check(L)),campus:(fresh(W2,18,'campus'),EVENTS.check(L))};
+    const r={w2:noodle(W2),w1:noodle(W1),y1s1:noodle(Y1S1),y3:noodle(Y3),longTable:noodle(W2,{noodleTableDay:TD('Y1S1',4,4)}),inGroup:(fresh(W2,18,'noodle'),PHONE.join(H.G,'noodle_team','桌遊團'),EVENTS.check(L)),campus:(fresh(W2,18,'campus'),EVENTS.check(L))};
     check('3. 麵店那個入口：大一下第 2 週起（之後的學期也算）在麵店＝有；大一下第 1 週、大一上、做過哲 1（noodleTableDay）、已經在群組、不在麵店＝沒有',r.w2&&r.y3&&!r.w1&&!r.y1s1&&!r.longTable&&!r.inGroup&&!r.campus,J(r));
     fresh(W2,18,'noodle'); npc(MX,8,0); EVENTS.tick(0.1); await wait(); const far=H.said.length;
     GM.npc[MX].obj.position.x=1.5; H.said=[]; EVENTS.tick(0.1); await wait(); await wait();

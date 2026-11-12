@@ -66,7 +66,7 @@ sec('7',()=>{ H.fresh('2026-03-26',20); Object.assign(SOCIAL.rel('heroine_03'),S
 // ===== 8. 118 巷週一午餐（阿哲 12:00 揪、12:15 出遊）：12:15 那段時間約了校外約會＝那週不揪 =====
 (async()=>{
   const run=(h0,h1)=>{ for(let h=h0;h<=h1+1e-9;h+=0.05){ G().hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G()); } };
-  const law=(k,h)=>{ H.fresh(k,h,{}); G().stage='law'; PHONE.join(G(),'noodle_team','麵店團'); SOCIAL.remember('zhe','FIRST_MET',''); SOCIAL.remember('yu','FIRST_MET',''); };
+  const law=(k,h)=>{ H.fresh(k,h,{}); G().stage='law'; PHONE.join(G(),'noodle_team','桌遊團'); SOCIAL.remember('zhe','FIRST_MET',''); SOCIAL.remember('yu','FIRST_MET',''); };
   try{ law('2025-09-08',11.9); raw({day:G().day,depart:12,back:16,locs:['D01']}); run(11.95,12.2);
     const sent=PHONE.sent(G(),'l118_lunch_'+G().day);
     law('2025-09-08',11.9); run(11.95,12.2); const sent0=PHONE.sent(G(),'l118_lunch_'+G().day);
