@@ -56359,6 +56359,64 @@
     "ack": "ACTIONED"
    },
    "sha": "0f12a79eab"
+  },
+  {
+   "id": "SOCLIB2F-EXIT-TAP-1112",
+   "title": "社科院圖書館二樓從東北邊點地去「回閱覽室」停在 (−7.2～−7.5,−6.3)（從另一側點得到出口）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲開始",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-12（BB_255）",
+   "authorized": "D108、D154",
+   "next": "【LAWWW-C 11-12 18:0x UTC】轉 LAWWW2（DELIVERED）。",
+   "xai": {
+    "from": "BB",
+    "to": "LAWWW2",
+    "receiver": "LAWWW2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB_255",
+    "acceptance": "點地從東北邊走到出口、CC route 探針 PASS",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "WZ-SUNNY-TAPNAV-1112",
+   "title": "溫州街點地從 (−35,−1.6) 往 SUNNY 走卡在 (27.6,−1.6) 122 秒",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲開始",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-12（BB_255）",
+   "authorized": "D108、D154",
+   "next": "【LAWWW-C 11-12 18:0x UTC】LAWWW2 Node 查：導航、模型、季節攤位都沒擋，pathTo 正常→懷疑跑起來才有的東西（路人、騎士、店員或點地目標）；CC 補卡住時 player.path、位置、3 m 內 npcs／extras、screenToFloor 回傳＋截圖。",
+   "xai": {
+    "from": "BB",
+    "to": "LAWWW2",
+    "receiver": "LAWWW2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB_255",
+    "acceptance": "點地走到 SUNNY 門口不卡；CC route 探針 PASS",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }
