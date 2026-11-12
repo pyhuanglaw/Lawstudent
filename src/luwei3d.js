@@ -5,10 +5,12 @@
      位置 S.AT 是 LAWWW 的子代理照導航格量的（那一段人行道是空的），還沒在畫面上看過——LAWWW2 驗位置、要不要收掉旁邊的折疊桌（稿的 rules：沒有座位）。
    這支做的：
    1 什麼時候在（S.state）：照稿的 open（每天 18:00～24:00）、prep（17:00～18:00）；颱風假（CALENDAR.typhoon，稿 typhoonOff）整天不出攤。
-       prep＝攤子在擺、還沒開賣（稿 lawww_1112.e，AA-C 11-12）：攤車和老闆出現，按了是旁白 not_open。 open＝營業中：攤車、燈、老闆都在。
+       prep＝17:00～18:00（稿的時段照舊讀進來）：**和白天一樣——攤車、老闆都不在，也沒有按鈕**；18:00 才出現。 open＝營業中：攤車、燈、老闆都在。
+         （2026-11-12 BB 在使用者電腦判 FAIL：原本 prep 就擺好攤車、老闆站著，按了卻是旁白 not_open「攤子還沒推出來。六點以後才有。」——字和畫面矛盾。字是 AA 定的不改，改畫面；
+           稿 lawww_1112.e：「做不到這一段就整句不用」＝not_open 這一句現在不會說到。舊：prep 攤車和老闆出現、有按鈕。）
        closing＝剛過 24:00 的那一小時（S.CLOSING_H）：攤車還在、老闆在收（稿 closed 那一句說的畫面）。
        away＝其他時間（白天）：攤車、老闆都不在，**也沒有按鈕**（稿 e「白天人行道上不放按鈕、也不擺攤」；互動點 hidden）。
-       typhoon＝颱風假：位置是空的；平常有攤子的那一段時間（17:00～隔天 1:00，S.inWindow）按鈕還在、按了是旁白 typhoon，其他時間一樣沒有按鈕。
+       typhoon＝颱風假：位置是空的；平常有攤子的那一段時間（18:00～隔天 1:00，S.inWindow）按鈕還在、按了是旁白 typhoon，其他時間一樣沒有按鈕。
      攤車不在的時候不擋路（導航的阻擋跟著模型一起放、一起收：SD3.block／unblock；模型沒載到＝不擋，不留看不見的牆）。玩家剛好站在那裡＝等他走開才擺出來。
    2 有人顧攤（店面標準 §12 第 3 點）：老闆站在攤車後面、面向客人，照夜市攤販的做法（shoplife3d.js 的 stallKeeper：SHOPLIFE.tendSync 每 0.5 秒照 q.isOpen 顯示／隱藏；這裡自己也對一次）。
    3 買得到（§12 第 4 點）——S.order：
@@ -39,12 +41,12 @@ const LW3=(function(){
   S.state=function(G){ const d=D(); if(!d||!G) return 'away'; if(S.typhoon(G)) return 'typhoon'; const h=S.hour(G), o=d.open;
     if(h>=o.from&&h<o.to) return 'open'; if(d.prep&&h>=d.prep.from&&h<d.prep.to) return 'prep'; const over=(((h-o.to)%24)+24)%24; return over<S.CLOSING_H?'closing':'away'; };   /* over＝收攤以後過了多久（24:00 收＝隔天 0 點多）*/
   S.isOpen=G=>S.state(G)==='open';
-  S.present=G=>{ const s=S.state(G); return s==='open'||s==='closing'||s==='prep'; };   // 攤車（和老闆）在不在（prep＝17:00 起在擺、還沒開賣）
+  S.present=G=>{ const s=S.state(G); return s==='open'||s==='closing'; };   // 攤車（和老闆）在不在：18:00 開賣才出現、收完就不在（prep 那一小時不在——BB 11-12：畫面擺好了、字卻說「還沒推出來」；舊：prep 也在）
   /* 平常有攤子的那一段時間（擺攤開始～收完）：不看颱風 */
-  S.inWindow=function(G){ const d=D(); if(!d||!G) return false; const h=S.hour(G), o=d.open, a=d.prep?d.prep.from:o.from; if(h>=a&&h<o.to) return true; return ((((h-o.to)%24)+24)%24)<S.CLOSING_H; };
-  /* 有沒有按鈕（稿 lawww_1112.e：白天不放按鈕）：攤子在（擺攤中、營業、在收）＝有；颱風假只有平常有攤子的那一段時間有（按了＝位置是空的那一句）；其他時間沒有。
+  S.inWindow=function(G){ const d=D(); if(!d||!G) return false; const h=S.hour(G), o=d.open, a=o.from; if(h>=a&&h<o.to) return true;   /* 從開賣算起（舊：從 prep 17:00 算起）*/ return ((((h-o.to)%24)+24)%24)<S.CLOSING_H; };
+  /* 有沒有按鈕（稿 lawww_1112.e：白天不放按鈕）：攤子在（營業、在收）＝有；prep 那一小時攤子還沒出現＝沒有；颱風假只有平常有攤子的那一段時間有（按了＝位置是空的那一句）；其他時間沒有。
      稿沒寫 dayButton:false 的舊資料＝照舊一直有 */
-  S.button=function(G){ const d=D(); if(!d||!G) return false; if(d.dayButton!==false) return true; const s=S.state(G); return s==='typhoon'?S.inWindow(G):s!=='away'; };
+  S.button=function(G){ const d=D(); if(!d||!G) return false; if(d.dayButton!==false) return true; const s=S.state(G); return s==='typhoon'?S.inWindow(G):(s!=='away'&&s!=='prep'); };
   S.me=G=>({name:(G&&G.name)||''});   // 祐廷（玩家自己說話：和 eat3d.js 的 {name:G.name} 同一個寫法）
   /* 吃完的旁白（不是第一次）：稿 afterNext 輪流 */
   S.afterNext=async function(GM){ const d=D(), G=GM.G, A=d&&Array.isArray(d.afterNext)?d.afterNext:[]; if(!A.length) return null; const R=S.rec(G), i=(R.lwAfter|0)%A.length; R.lwAfter=(R.lwAfter|0)+1; await GM.say(null,A[i]); return A[i]; };
@@ -86,7 +88,7 @@ const LW3=(function(){
   /* 走到攤子前面按「看滷味」*/
   S.interact=async function(GM,zone){ const d=D(), G=GM&&GM.G; if(!d||!G) return null; S.sync(GM,zone); const st=S.state(G);
     if(st==='open') return S.order(GM);
-    if(!S.button(G)) return st;   /* 白天：沒有按鈕、沒有攤子，不說話（稿 lawww_1112.e；not_open 只留給在擺的那一小時）*/
+    if(!S.button(G)) return st;   /* 白天、17:00～18:00：沒有按鈕、沒有攤子，不說話（稿 lawww_1112.e「做不到這一段就整句不用」：not_open 只剩沒寫 dayButton:false 的舊資料會說）*/
     if(d.dayButton===false&&st==='away') return st;
     await GM.say(null,st==='typhoon'?d.lines.typhoon:(st==='closing'?d.lines.closed:d.lines.not_open)); return st; };
 
