@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_help_guide_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HELP_GUIDE_new2\out
+CC HELP-GUIDE：SHA 1ca8b70aac；PARTS ['NEW']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [NEW] 標題畫面按「從法律系開始」（真的開新遊戲），對話照第一個選項一路按，最多 18 分鐘
+  [1120.4s] [NEW] 按了 647 次；出過的提示 ['phone']；遊戲時間 day -18 22.67；HINT_SEEN {"phone":1}
+FAIL [NEW] 開新遊戲到可以自由活動，「free」那一則出來（18 分鐘內）  [{"t": 139798.60000014305, "k": "phone", "txt": "手機打開的時候，時間會停住。上面那一排可以換頁：課表、地點、訊息、朋友……", "day": -18, "h": 22.67, "ms": 6500}]
+FAIL [NEW] free 之前沒有別的提示先出  ["phone"]
+PASS 沒有 JS 例外  []
+FAILED 2: [NEW] 開新遊戲到可以自由活動，「free」那一則出來（18 分鐘內）；[NEW] free 之前沒有別的提示先出
