@@ -7238,17 +7238,19 @@
   {
    "task": "CANON-NO-ECON-1112",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "07d3f708f",
+   "sha": "5afc5c0e3",
    "files": [
-    "docs/story_planning/AA_857_kx_no_ledger_inventory.json"
+    "docs/story_planning/AA_857_kx_no_ledger_inventory.json",
+    "docs/story_planning/AA_869_kx_dates_no_ledger_b1.json",
+    "docs/story_planning/AA_870_kx_dates_no_ledger_b2.json",
+    "docs/story_planning/AA_871_kx_dates_no_ledger_b3.json"
    ],
-   "state": "WIP",
+   "state": "已交付",
    "at": "2026-11-12",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "AA 逐格重寫可昕約會稿 41 個互動點",
-   "remaining": "只有盤點，還沒改字"
+   "next": "LAWWW 重匯約會稿（date_system/lines 23 個地點）"
   },
   {
    "task": "CANON-NO-ECON-1112",
@@ -7278,18 +7280,52 @@
   {
    "task": "CANON-NO-ECON-1112",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "89477d8c5",
+   "sha": "b63373c83",
    "files": [
     "docs/story_planning/AA_867_kx_ladder_Y4S1_new.json",
     "docs/story_planning/AA_868_kx_ladder_Y4S2_new.json"
    ],
-   "state": "WIP",
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 八個學期一起重匯"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "(本次 commit)",
+   "files": [
+    "docs/story_planning/AA_872_可昕事件處置表.md",
+    "docs/story_planning/AA_873_可昕自己的線_大一下到大四.md",
+    "docs/story_planning/AA_874_可昕大一下生日_兩版.md",
+    "docs/story_planning/AA_875_可昕_成績與讀書小組_照列換字.md",
+    "docs/story_planning/AA_877_可昕交往中事件_照列換字_第一批.md",
+    "docs/story_planning/AA_878_可昕交往中事件_照列換字_第二批.md",
+    "docs/story_planning/AA_879_可昕週年_重寫.md",
+    "docs/story_planning/AA_880_可昕交往中事件_照列換字_第三批.md"
+   ],
+   "state": "已交付",
    "at": "2026-11-12",
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false,
-   "next": "BB 第二意見 → 定稿 → 換進 ladder_bb_y4s1／y4s2 源稿、刪 AA_781 覆蓋 → 通知 LAWWW",
-   "remaining": "BB 還沒回；源稿還沒換"
+   "next": "LAWWW 第三批先拿掉 25 場；第四批起接重寫的 26 場（BB_416～421 都看過）"
+  },
+  {
+   "task": "KX-DRIFT-SAMEDEPT-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "(本次 commit)",
+   "files": [
+    "docs/story_planning/AA_876_事件包_可昕慢慢分開_同系版.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 接一般女主角學期末流程；BB 三條路線驗收"
   }
  ],
  "items": [
