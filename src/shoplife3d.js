@@ -181,7 +181,7 @@ const SHOPLIFE=(function(){
   S.metSlot=function(G,id){ const M=G&&G.flags&&G.flags.SHOP_MEAL_MET, v=M&&typeof M==='object'?M[id]:null; return Array.isArray(v)&&v[0]===dayHour(G).day?v[1]:null; };
   /* 每 0.5 秒：玩家在店裡、這裡排進這間店吃飯的人也真的在（E.npcs 有他）＝記「今天這一餐遇到了」*/
   S.markMet=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!S.CFG.oncePerDay||!Array.isArray(E.npcs)) return 0; const t=dayHour(G); let k=0;
-    if(S.yueDateCfg()){ for(const n of E.npcs){ const id=n&&n.charId; if(!id||!S.yueDateIs(id)) continue; let p=null; try{ p=S.yueDate(G,id); }catch(e){ p=null; } if(p&&p.zone===G.zone) S.yueDateMark(G,id); } }   /* 可昕來越好吃（一學期最多兩次）：玩家在店裡看到她＝算一次 */
+    if(S.yueRules().length){ for(const n of E.npcs){ const id=n&&n.charId; if(!id||!S.yueDateIs(id)) continue; let p=null; try{ p=S.yueDate(G,id); }catch(e){ p=null; } if(p&&p.zone===G.zone) S.yueDateMark(G,id); } }   /* 可昕、學姊來越好吃（照 S.yueRules 算次數）：玩家在店裡看到她＝算一次 */
     for(const slot of S.CFG.slots){ if(t.h<slot.from||t.h>=slot.to) continue; if(!S.dayOk(G,t.day)) return 0;
       for(const p of S.plan(t.day,slot.id)){ if(p.zone!==G.zone||t.h<p.t0||t.h>=p.t1||S.metSlot(G,p.id)) continue; if(!E.npcs.some(n=>n&&n.charId===p.id)) continue;
         const F=G.flags||(G.flags={}); if(!F.SHOP_MEAL_MET||typeof F.SHOP_MEAL_MET!=='object'||Array.isArray(F.SHOP_MEAL_MET)) F.SHOP_MEAL_MET={}; F.SHOP_MEAL_MET[p.id]=[t.day,slot.id]; k++; } }
@@ -195,21 +195,43 @@ const SHOPLIFE=(function(){
        照晚餐原本的機會（S.CFG 的 p／pEnd，亂數＝日期＋人：同一天存讀檔、進出結果一樣）、到店和離開的時間照名單同一個算法；
        這個學期已經來過兩次（G.flags.SHOP_YUE_DATE＝{人|學期:[哪幾天]}；S.yueDateMark：祐廷上班幫她點了餐、或玩家在店裡看到她＝算一次）＝不再來。
      其他照名單的人：原本有作息、那天有約、不在臺北都不排（S.why）。舊存檔沒有 SHOP_YUE_DATE＝還沒來過。*/
+  /* 學姊來越好吃（AA_828 第 9 節第 1 點，企劃線 3e9cd7d9d4；規則在資料 SHOP_JOBS_AA828.yueMeal.sis＝{who, met, inTaiwan, slot:'dinner', termMax:1, datingMax:2, gapWeeks:3}）：
+     「不走晚餐名單的亂數，另定：認識她（met_sis）、她人在臺灣的學期、祐廷在越好吃有蓋到晚餐的班——每學期第一次符合的那一天演一次；交往中一學期兩次（第二次隔至少三週）。」
+     和可昕同一套（S.yueRules：一人一條規則；S.yueDatePlan／yueDate／yueDateMark、G.flags.SHOP_YUE_DATE），差在：
+       不擲機會（沒有 chance）——符合的那一天她就來；還沒算到次數（那一段沒演到、玩家也沒在店裡看到她）＝下一個有班的日子再來，所以「每學期第一次符合的那一天」一定輪得到；
+       認識她＝G.flags[met] 或 SOCIAL.metD（和 lane118.js 她的老樣子同一個判斷），不用到朋友；她人在臺灣＝STORY.presence(她).here（characters.js：2028-08-02～12-23 在美國）；
+       交往中（dating_<她>）一學期 datingMax 次，第二次離上一次至少 gapWeeks 週；那一天輪到這條規則的晚餐，她不再照名單亂數去別間（S.sched）。
+     舊存檔沒有 SHOP_YUE_DATE＝這個學期還沒來過。*/
+  let ruleSrc=null, ruleList=[]; const ruleMemo=new Map();
+  S.yueRules=function(){ const Y=(typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.yueMeal)||null; if(Y===ruleSrc) return ruleList; ruleSrc=Y; ruleMemo.clear(); const out=ruleList=[]; if(!Y) return out; const ok=d=>d&&d.who&&d.slot&&d.termMax>0;
+    if(ok(Y.dating)) out.push(Object.assign({dating:true,chance:true},Y.dating)); if(ok(Y.sis)) out.push(Y.sis); return out; };
   S.yueDateCfg=function(){ const Y=typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.yueMeal, d=Y&&Y.dating; return d&&d.who&&d.slot&&d.termMax>0?d:null; };
-  S.yueDateIs=function(id){ const d=S.yueDateCfg(), c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return !!d&&!!c&&[c.name,c.nickname,c.phoneName].includes(d.who); };
+  S.yueRule=function(id){ const R=S.yueRules(); if(!R.length||!id) return null; if(ruleMemo.has(id)) return ruleMemo.get(id); const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return null;
+    const al=typeof JOBS!=='undefined'&&JOBS.YUE_ALIAS?JOBS.YUE_ALIAS[id]:null, N=[c.name,c.nickname,c.phoneName,al], r=R.find(d=>N.includes(d.who))||null; ruleMemo.set(id,r); return r; };
+  S.yueDateIs=function(id){ return !!S.yueRule(id); };
   S.yueDateDays=function(G,id,tid){ const R=G&&G.flags&&G.flags.SHOP_YUE_DATE, v=R&&typeof R==='object'?R[id+'|'+tid]:null; return Array.isArray(v)?v:[]; };
   S.yueDateZone=function(){ if(typeof JOBS==='undefined'||!JOBS.ZONE_KEY) return null; for(const z of Object.keys(JOBS.ZONE_KEY)) if(JOBS.ZONE_KEY[z]==='yue') return z; return null; };
-  S.yueDate=function(G,id){ const d=S.yueDateCfg(); if(!d||!G||!G.flags||!S.yueDateIs(id)||!G.flags['dating_'+id]) return null;
+  /* 那一天祐廷在越好吃有班（沒有被考試、颱風請掉），而且班蓋到這一餐 */
+  S.yueShift=function(G,day,slot){ if(typeof JOBS==='undefined'||!JOBS.active||!JOBS.due||!JOBS.hrs) return false; try{ if(!JOBS.active(G,'yue')||!JOBS.due(G,'yue',day)) return false; const h=JOBS.hrs('yue',day); return !!h&&h[0]<slot.to&&h[1]>slot.from; }catch(e){ return false; } };
+  /* 這一餐她照規則會不會來（現在在那一餐的時段裡才算；不看她幾點到）；S.yueDate＝現在她人在店裡的那一段 */
+  S.yueDatePlan=function(G,id){ const d=S.yueRule(id); if(!d||!G||!G.flags) return null; const F=G.flags, dating=!!F['dating_'+id]; if(d.dating&&!dating) return null;
     const t=dayHour(G), slot=S.CFG.slots.find(q=>q.id===d.slot); if(!slot||t.h<slot.from||t.h>=slot.to||!S.dayOk(G,t.day)) return null;
-    const zone=S.yueDateZone(); if(!zone||typeof JOBS==='undefined'||!JOBS.active||!JOBS.due||!JOBS.hrs) return null;
-    let on=false; try{ if(JOBS.active(G,'yue')&&JOBS.due(G,'yue',t.day)){ const h=JOBS.hrs('yue',t.day); on=!!h&&h[0]<slot.to&&h[1]>slot.from; } }catch(e){ on=false; } if(!on) return null;
-    const T=CALENDAR.termOf(t.day), seen=S.yueDateDays(G,id,T.id); if(!seen.includes(t.day)&&seen.length>=d.termMax) return null;
-    const r=prng(hash('shopmeal-yuedate|'+t.day+'|'+id)), wk=CALENDAR.weekend(t.day)||CALENDAR.holiday(t.day); if(r()>=(wk?slot.pEnd:slot.p)) return null;
+    if(d.met&&!(F[d.met]||(typeof SOCIAL!=='undefined'&&SOCIAL.metD&&SOCIAL.metD(id)))) return null;
+    if(d.inTaiwan&&typeof STORY!=='undefined'&&STORY.presence){ let pr=null; try{ pr=STORY.presence(id,G); }catch(e){ pr=null; } if(pr&&pr.here===false) return null; }
+    const zone=S.yueDateZone(); if(!zone||!S.yueShift(G,t.day,slot)) return null;
+    const T=CALENDAR.termOf(t.day), seen=S.yueDateDays(G,id,T.id), max=dating&&d.datingMax>0?d.datingMax:d.termMax;
+    if(!seen.includes(t.day)){ if(seen.length>=max) return null; if(d.gapWeeks>0&&seen.length&&t.day-Math.max.apply(null,seen)<d.gapWeeks*7) return null; }
+    const r=prng(hash('shopmeal-yuedate|'+t.day+'|'+id)); if(d.chance){ const wk=CALENDAR.weekend(t.day)||CALENDAR.holiday(t.day); if(r()>=(wk?slot.pEnd:slot.p)) return null; }
     const t0=+(slot.from+r()*S.CFG.start).toFixed(3), t1=+Math.min(slot.to,t0+S.CFG.stay[0]+r()*(S.CFG.stay[1]-S.CFG.stay[0])).toFixed(3);
-    if(t.h<t0||t.h>=t1||!S.shopOpen(zone,t.day,t0,t1)) return null; return {id,zone,t0,t1,slot:slot.id,yueDate:true}; };
+    if(!S.shopOpen(zone,t.day,t0,t1)) return null; return {id,zone,t0,t1,slot:slot.id,yueDate:true}; };
+  S.yueDate=function(G,id){ const p=S.yueDatePlan(G,id); if(!p) return null; const t=dayHour(G); return t.h<p.t0||t.h>=p.t1?null:p; };
   S.yueDateMark=function(G,id){ if(!G||!S.yueDateIs(id)||typeof CALENDAR==='undefined') return false; const t=dayHour(G), T=CALENDAR.termOf(t.day); if(!T) return false; const F=G.flags||(G.flags={});
     if(!F.SHOP_YUE_DATE||typeof F.SHOP_YUE_DATE!=='object'||Array.isArray(F.SHOP_YUE_DATE)) F.SHOP_YUE_DATE={}; const k=id+'|'+T.id, L=Array.isArray(F.SHOP_YUE_DATE[k])?F.SHOP_YUE_DATE[k]:(F.SHOP_YUE_DATE[k]=[]); if(L.includes(t.day)) return false; L.push(t.day); return true; };
-  S.sched=function(c,G){ if(guard||depth>0||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;   /* depth>0＝別的模組正在算「他原本的作息」（見 S.wrapOthers）：這裡加的不算原本的 */ const p=S.planNow(G,c.id)||S.yueDate(G,c.id); if(!p) return null; if(S.why(G,c,p)) return null;
+  S.sched=function(c,G){ if(guard||depth>0||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;   /* depth>0＝別的模組正在算「他原本的作息」（見 S.wrapOthers）：這裡加的不算原本的 */ const yr=S.yueRule(c.id), yp=yr?S.yueDatePlan(G,c.id):null, yn=yp&&dayHour(G).h>=yp.t0&&dayHour(G).h<yp.t1?yp:null; let p=yp&&!yr.chance?yn:(S.planNow(G,c.id)||yn);
+    /* 不擲機會的規則（學姊，AA_828 第 9 節第 1 點「不走晚餐名單的亂數，另定」）：輪到規則的那一餐只照規則（不照名單亂數去別間）；
+       沒輪到（這學期的次數用完、還沒隔滿三週…）而祐廷那一天在越好吃有蓋到這一餐的班＝她也不照名單亂數來越好吃（次數才會是規則寫的那幾次）；祐廷沒有班的日子照名單原本的。*/
+    if(p&&p!==yn&&yr&&!yr.chance&&p.zone===S.yueDateZone()){ const sl=S.CFG.slots.find(q=>q.id===p.slot); if(sl&&sl.id===yr.slot&&S.yueShift(G,dayHour(G).day,sl)) p=null; }
+    if(!p) return null; if(S.why(G,c,p)) return null;
     const key=p.id+'|'+(G.day|0)+'|'+p.slot; let e=entMemo.get(key);
     if(!e){ const sa=S.seatAt(p.zone,p.id,G.day|0); if(!sa) return null; const wd=G.weekday!=null?G.weekday:wdOf(G.day);
       e={days:[wd],from:p.t0,to:p.t1,zone:p.zone,act:'eat',seatAt:sa,noPair:true,shopMeal:p.slot,note:'SHOP-LIFE-AUDIT-1112 吃飯時間在店裡（第一句在 src/shopmeet3d.js）'}; if(entMemo.size>300) entMemo.clear(); entMemo.set(key,e); }
@@ -264,7 +286,7 @@ const SHOPLIFE=(function(){
         try{ S.placeTenders(zoneId,GM); S.placeL118Tenders(zoneId,GM); S.tendSync(GM); S.closeClerks(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeTenders',e); }
         return r; }; }
     return true; };
-  S._reset=()=>{ guard=false; depth=0; planMemo.clear(); entMemo.clear(); holds.clear(); };
+  S._reset=()=>{ guard=false; depth=0; planMemo.clear(); entMemo.clear(); holds.clear(); ruleSrc=null; ruleList=[]; ruleMemo.clear(); };
   S.install();
   return S;
 })();

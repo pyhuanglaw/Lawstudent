@@ -49,6 +49,9 @@ const JOBS=(function(){
      第 8 節（企劃線 1e539b8eb9；2026-11-12 第五輪）：①②沒認識過宋知寧的玩家她不出現在山嵐、「新來的？」那一版不演（S.znCoOn／znCoLines；資料不再有 co.new／newFrom）③④照原本的做法 ⑤家教回「不了」以後不再問（S.tutorSaidNo、G.flags.TUTOR_RE_NO）。
      同一輪 BB 判的 P1（使用者電腦實測 d4daa6326c）：來吃飯的人真的進店裡才演（S.mealBring → SHOPLIFE.bringIn）、新店上班站櫃台後＋藏書包（S.workOn／workOff／workHeal；沒有圍裙模型）、
        上班時「排進行程」的提示留到下班（src/outings3d.js S.planFlush）。測試 tests/shop_jobs_round5_1112_unit.js
+     第 9 節（企劃線 3e9cd7d9d4；2026-11-12 第六輪）：①學姊來越好吃不走晚餐名單的亂數——每學期第一次符合的那一天、交往中兩次隔三週（規則在資料 yueMeal.sis；src/shoplife3d.js S.yueDatePlan；這裡 S.yueMetOnly：認識她就算，不用到朋友）
+       ②家教回「不了」以後，下一個學期開學起明軒那一串多一個回覆選項（資料 reapply.tutorBack；S.tutorBack）③再問的那一則沒回過期也算問過（S.tutorReAsked；開學那一則過期 S.tutorLimbo）④帶不進店裡不演不記：照舊。
+       存檔：沒有新旗標（選項掛在那一則訊息的 ask；放假時回的先留在 TUTOR_RE_ANS）。測試 tests/shop_jobs_round6_1112_unit.js
        存檔：沒有新欄位（照舊 G.jobs.<k>.re、skill、G.jobs.yue.mealHi）；舊規則下已經再應徵過的＝熟練度已經從 0 算，沒有東西可以補，照現在的數字走。 */
   /* ---------- 新店打工第二批（AA_829，企劃線 ea5e8f5ae；SHOP-JOBS-1112）：花序 Flower Notes（flower，區域 flower_notes）、越好吃小館（yue，區域 tz_yuehaochi）、大口漢堡（dakou，區域 xs_dakou）----------
      字在 src/data/shop_jobs_aa829.js（tools/story/import_shop_jobs_aa829.py 產生）；整套照第一批（S.apply3、S.runShiftX）。多的：
@@ -400,7 +403,9 @@ const JOBS=(function(){
   S.yueMealIds=function(){ const Y=S.yueMeal(), out=S.mealIds().slice(); if(Y&&Y.own&&typeof CHARACTERS!=='undefined') for(const id in CHARACTERS){ if(S.yueOwn(CHARACTERS[id])&&!out.includes(id)) out.push(id); } return out; };
   /* 2026-11-12：上班那一整段的時間停在開始那一刻（越好吃 17:30），吃飯的名單晚餐 17:45 才開始——只問「現在」的話真的名單下永遠沒有人來。
      所以這一刻沒有的時候，往後看這一班（S.hrs，每 15 分鐘）：這一班裡排進這間店吃飯的＝算來吃飯。只有玩家在這間店、今天這裡有班的時候才往後看。*/
-  S.mealAt=function(G,id){ if(typeof SHOPMEET==='undefined'||!SHOPMEET.mealSlot||!SHOPMEET.friendUp) return null; try{ if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.exBlock&&SHOPLIFE.exBlock(G,id)) return null; if(!SHOPMEET.friendUp(id)) return null;
+  /* 學姊（AA_828 第 9 節第 1 點；資料 yueMeal.sis.met）：照她自己的規則來的，只要認識她（規則在 SHOPLIFE.yueDatePlan 看），不用到朋友 */
+  S.yueMetOnly=id=>{ try{ const r=typeof SHOPLIFE!=='undefined'&&SHOPLIFE.yueRule?SHOPLIFE.yueRule(id):null; return !!(r&&r.met); }catch(e){ return false; } };
+  S.mealAt=function(G,id){ if(typeof SHOPMEET==='undefined'||!SHOPMEET.mealSlot||!SHOPMEET.friendUp) return null; try{ if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.exBlock&&SHOPLIFE.exBlock(G,id)) return null; if(!SHOPMEET.friendUp(id)&&!S.yueMetOnly(id)) return null;
       let slot=SHOPMEET.mealSlot(G,id); if(slot) return {slot,hour:G.hour}; const k=S.ZONE_KEY[G.zone]; if(!k||!S.active(G,k)||!hasCal()||!S.due(G,k,G.day)) return null; const h=S.hrs(k,G.day);
       for(let t=Math.max(h[0],G.hour)+0.25;t<h[1]-1e-6;t+=0.25){ slot=SHOPMEET.mealSlot(Object.assign({},G,{hour:t}),id); if(slot) return {slot,hour:t}; } return null; }catch(e){ return null; } };
   S.mealHere=function(G,id){ const m=S.mealAt(G,id); return m?m.slot:null; };
@@ -418,7 +423,7 @@ const JOBS=(function(){
       if(!M.includes(id)){ await say(GM,null,Y.narr); await say(GM,id,S.yueOwn(c)||Y.ask); await say(GM,'player',Y.me); await say(GM,null,done); M.push(id); }
       else await say(GM,null,done);
       { const F=G.flags||(G.flags={}), r=F.SHOP_MEAL_HI&&typeof F.SHOP_MEAL_HI==='object'?F.SHOP_MEAL_HI:(F.SHOP_MEAL_HI={}), v=r[id]; r[id]=[G.day,slot,Array.isArray(v)?(v[2]|0):0]; }
-      if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.yueDateMark){ try{ SHOPLIFE.yueDateMark(G,id); }catch(e){} }   /* 可昕（交往中才來，一學期最多兩次；AA_828 第 7 節第 2 點）：這一次算來過 */
+      if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.yueDateMark){ try{ SHOPLIFE.yueDateMark(G,id); }catch(e){} }   /* 可昕（交往中才來，一學期最多兩次；AA_828 第 7 節第 2 點）、學姊（每學期一次、交往中兩次；第 9 節第 1 點）：這一次算來過 */
       any=true; }
     return any; };
   S.segAfter=async function(GM,k,j,i,d){ const G=GM.G, A=S.ap3(k), sg=A&&A.segs&&A.segs[i]; if(!sg) return false; let any=false;
@@ -691,17 +696,53 @@ const JOBS=(function(){
   /* AA_828 第 8 節第 5 點（企劃線 1e539b8eb9；資料 reapply.tutorAskOnce）：「家教：回『不了』以後不再問（只問一次）。之後想做，照再應徵那一套自己去問。」
      ＝回過「不了」（S.tutorSaidNo：開學那一則回「不了」停的——TUTOR_TERM_<學期>==='stop'；或再問的那一則回「不了」——S.tutorReTake 記 G.flags.TUTOR_RE_NO＝那一天）以後，明軒不再傳「這學期還來嗎」。
      不是回「不了」停的（連續沒去、明軒問了以後停）照上面：下一個學期開學問一次；那一次回「不了」＝之後也不問。
-     「自己去問」：家教現在沒有玩家自己開口的地方（沒有告示、沒有句子）——要 AA 給地方和字才做得出來，這裡沒有做。
+     「自己去問」：AA_828 第 9 節第 2 點給了地方和字（S.tutorBack，見下面）。
      存檔多 G.flags.TUTOR_RE_NO（舊存檔沒有＝再問的那一則還沒回過「不了」）。*/
   S.tutorSaidNo=function(G){ const F=(G&&G.flags)||{}; if(F.TUTOR_RE_NO!=null) return true; for(const tid of S.ASK_TERMS) if(F['TUTOR_TERM_'+tid]==='stop') return true; return false; };
+  /* AA_828 第 9 節第 2、3 點（企劃線 3e9cd7d9d4；資料 reapply.tutorBack＝{opt, re, expired}）：
+     第 2 點「家教回『不了』以後怎麼再接：下一個學期開學起，手機『訊息』那一則家教的對話底下多一個回覆選項『我現在可以接家教了。』；對方回：『好，剛好還有一個學生。時間我傳給你。』之後照原本答應的流程。」
+     第 3 點「家教那一則沒回、過期：也算問過，不再問；一樣用第 2 點的回覆選項自己回去找。」
+     做法（照手機現有「可以回的訊息」ask；掛在已經收到的訊息上＝src/msgreply3d.js S.attach 那一種）：
+       S.tutorReAsked(G,tid)：這一次停了以後，前面的學期已經再問過一次（tutor_re_<學期> 傳過、那個學期過了還停著＝沒回）＝算問過，S.tutorReAsk 不再問（原本：下一個學期又問）。
+       S.tutorLimbo(G,tid)：開學那一則「這學期還來嗎」沒回、過期（TUTOR_TERM_<學期> 一直是空的；原本＝之後不排課、也不再問，沒有路回去）——同第 3 點，一樣給回覆選項。
+       S.tutorBackDue(G)：現在是可以上家教的學期（大一下～大二下、會考以前、答應的那個學期以後），而且 回過「不了」（那一則在這個學期開學以前）／再問的那一則過期／開學那一則過期。
+       S.tutorBack(G)：符合的時候，把選項掛在明軒那一串「那一則家教的對話」底下——回「不了」的：他回的那一句（stopReply）；沒回過期的：問的那一則（過期的選項換成這一個）；
+         那幾則已經被刪掉（訊息超過 200 則刪最舊的）＝掛在他那一串最新的一則底下。掛著的那一則之後被刪＝下一次再掛（S.tutorPhone 每次都看）。開到會考前一天；一次只掛一個。
+       回了＝祐廷那一句貼上去、明軒回那一句、TUTOR_RE_ANS 'go'——就是再問回「來」的那條路（S.tutorReTake：TUTOR_STOP 清掉、這個學期記 'go'、TUTOR_RE 加一；堂數照舊留著），S.tutorPlan 排下一堂。
+       放假的時候回＝先留著（TUTOR_RE_ANS 不清），開學那天才算（原本：放假回「來」＝白回）。
+     存檔不多旗標（掛的選項在那一則訊息的 ask 上，id tutor_back_<哪一天>）；舊存檔讀進來，符合的下一次 S.tutorPhone 就掛上。*/
+  S.tutorBackCfg=()=>{ const RA=S.RA(), B=RA&&RA.tutor&&RA.tutorBack; return B&&B.opt&&B.re?B:null; };
+  const termIdx=tid=>S.TUTOR_TERMS.indexOf(tid);
+  S.tutorReAsked=function(G,tid){ const F=G.flags, B=S.tutorBackCfg(); if(!B||!B.expired||F.TUTOR_STOP==null||typeof PHONE==='undefined'||!hasCal()) return false;
+    for(const x of S.ASK_TERMS){ if(termIdx(x)>=termIdx(tid)) continue; const R=CALENDAR.termDays(x); if(R&&R.from>F.TUTOR_STOP&&PHONE.sent(G,'tutor_re_'+x)) return true; } return false; };
+  S.tutorLimbo=function(G,tid){ const F=G.flags, B=S.tutorBackCfg(); if(!B||!B.expired||F.TUTOR_STOP!=null||F['TUTOR_TERM_'+tid]!=null||typeof PHONE==='undefined'||PHONE.sent(G,'tutor_term_'+tid)) return false; const st=S.tutorStartTerm(G); if(!st) return false;
+    for(const x of S.ASK_TERMS){ if(termIdx(x)>=termIdx(tid)||termIdx(x)<=termIdx(st)) continue; if(F['TUTOR_TERM_'+x]==null&&PHONE.sent(G,'tutor_term_'+x)) return true; } return false; };
+  S.tutorAskOpen=G=>typeof PHONE!=='undefined'&&!!PHONE.askOpen&&Array.isArray(G.msgs)&&G.msgs.some(m=>m&&m.ask&&/^tutor_(re|term|ask3)_/.test(String(m.ask.id))&&PHONE.askOpen(G,m));   /* 明軒問的那一則還開著（還回得了）＝先回那一則 */
+  S.tutorBackDue=function(G){ const F=(G&&G.flags)||{}; if(!S.tutorBackCfg()||!F.JOB_TUTOR||F.TUTOR_DONE!=null||F.TUTOR_RE_ANS!=null||F.TUTOR_ASK3!=null||!hasCal()||S.tutorAskOpen(G)) return false; const kk=S.tutorKK(); if(kk!=null&&G.day>=kk) return false;
+    const T=CALENDAR.termOf(G.day); if(!T||!S.ASK_TERMS.includes(T.id)) return false; const st=S.tutorStartTerm(G); if(!st||termIdx(T.id)<=termIdx(st)) return false; const R=CALENDAR.termDays(T.id); if(!R) return false;
+    if(F.TUTOR_STOP==null) return S.tutorLimbo(G,T.id); if(R.from<=F.TUTOR_STOP) return false;
+    if(F.TUTOR_RE_NO!=null&&F.TUTOR_RE_NO<R.from) return true; for(const x of S.ASK_TERMS) if(F['TUTOR_TERM_'+x]==='stop'&&termIdx(x)<termIdx(T.id)) return true;
+    return S.tutorReAsked(G,T.id); };
+  S.tutorBackOpen=G=>typeof PHONE!=='undefined'&&Array.isArray(G.msgs)&&G.msgs.some(m=>m&&m.ask&&/^tutor_back_/.test(String(m.ask.id))&&PHONE.askOpen(G,m));
+  S.tutorBack=function(G){ const B=S.tutorBackCfg(), U=TU(); if(!B||!U||typeof PHONE==='undefined'||!PHONE.askOpen||!Array.isArray(G.msgs)||!S.tutorBackDue(G)||S.tutorBackOpen(G)) return false;
+    const th='p:'+MX, L=G.msgs.filter(m=>m&&PHONE.th(m)===th), free=m=>!m.ask||(m.ans==null&&!PHONE.askOpen(G,m)); let a=null;
+    for(let i=L.length-1;i>=0&&!a;i--){ const m=L[i]; if(!free(m)) continue; if((m.from===MX&&m.text===U.stopReply)||(m.ask&&/^tutor_(re|term)_/.test(String(m.ask.id)))) a=m; }
+    for(let i=L.length-1;i>=0&&!a;i--) if(free(L[i])&&!L[i].pin&&L[i].from===MX) a=L[i];
+    if(!a) return false; const kk=S.tutorKK(), ask={id:'tutor_back_'+G.day,opts:[{t:B.opt,say:[mxMsg(B.re)],set:{TUTOR_RE_ANS:'go'}}]}; if(kk!=null) ask.until=kk*24; a.ask=ask; return true; };
   S.tutorReAsk=function(G){ const F=G.flags, U=TU(), RA=S.RA(); if(!U||!RA||!RA.tutor||!F.JOB_TUTOR||F.TUTOR_STOP==null||F.TUTOR_DONE!=null||typeof PHONE==='undefined'||!hasCal()) return false;
     if(RA.tutorAskOnce&&S.tutorSaidNo(G)) return false;
     const T=CALENDAR.termOf(G.day); if(!T||!S.ASK_TERMS.includes(T.id)) return false; const st=S.tutorStartTerm(G); if(!st||S.TUTOR_TERMS.indexOf(T.id)<=S.TUTOR_TERMS.indexOf(st)) return false;
+    if(S.tutorReAsked(G,T.id)) return false;   /* 第 9 節第 3 點：再問的那一則沒回、過期＝也算問過 */
     const kk=S.tutorKK(); if(kk!=null&&G.day>=kk) return false; const R=CALENDAR.termDays(T.id), tag='tutor_re_'+T.id; if(!R||R.from<=F.TUTOR_STOP||PHONE.sent(G,tag)) return false; const late=G.day>R.from;
     return !!PHONE.at(G,late?G.day:R.from,late?Math.max(G.hour,12):12,[Object.assign(mxMsg(U.termAsk),{ask:{id:tag,until:(R.to+1)*24,opts:[{t:U.termOpts[0],set:{TUTOR_RE_ANS:'go'}},{t:U.termOpts[1],say:[mxMsg(U.stopReply)],set:{TUTOR_RE_ANS:'stop'}}]}})],tag); };
-  S.tutorReTake=function(G){ const F=G.flags, a=F.TUTOR_RE_ANS; if(a==null) return false; F.TUTOR_RE_ANS=null; if(a==='stop'&&F.TUTOR_RE_NO==null) F.TUTOR_RE_NO=G.day; if(a!=='go'||F.TUTOR_STOP==null||F.TUTOR_DONE!=null||!hasCal()) return false; const T=CALENDAR.termOf(G.day); if(!T||!S.TUTOR_TERMS.includes(T.id)) return false;
+  S.tutorReTake=function(G){ const F=G.flags, a=F.TUTOR_RE_ANS; if(a==null) return false;
+    if(a!=='go'){ F.TUTOR_RE_ANS=null; if(a==='stop'&&F.TUTOR_RE_NO==null) F.TUTOR_RE_NO=G.day; return false; }
+    const kk=S.tutorKK(); if(F.TUTOR_DONE!=null||!hasCal()||(kk!=null&&G.day>=kk)){ F.TUTOR_RE_ANS=null; return false; }
+    const T=CALENDAR.termOf(G.day); if(!T) return false;   /* 放假的時候回的：留著，開學那天才算 */
+    F.TUTOR_RE_ANS=null; if(!S.TUTOR_TERMS.includes(T.id)) return false;
+    if(F.TUTOR_STOP==null){ const st=S.tutorStartTerm(G); if(F['TUTOR_TERM_'+T.id]!=null||!S.ASK_TERMS.includes(T.id)||!st||termIdx(T.id)<=termIdx(st)) return false; }   /* 沒停、開學那一則過期的（S.tutorLimbo）：這個學期記 'go' 就接回來 */
     for(const tid of S.ASK_TERMS) if(F['TUTOR_TERM_'+tid]==='stop') F['TUTOR_TERM_'+tid]='stopped'; F['TUTOR_TERM_'+T.id]='go'; F.TUTOR_STOP=null; F.TUTOR_MISS_RUN=0; F.TUTOR_ASK3_SENT=false; F.TUTOR_MISS_PEND=null; F.TUTOR_RE=(F.TUTOR_RE|0)+1; return true; };
-  S.tutorPhone=function(G){ if(!G||!G.flags||!G.flags.JOB_TUTOR) return; S.tutorReTake(G); S.tutorTrack(G); S.tutorTermAsk(G); S.tutorEnd(G); S.tutorReAsk(G); S.tutorPlan(G); };
+  S.tutorPhone=function(G){ if(!G||!G.flags||!G.flags.JOB_TUTOR) return; S.tutorReTake(G); S.tutorTrack(G); S.tutorTermAsk(G); S.tutorEnd(G); S.tutorReAsk(G); S.tutorBack(G); S.tutorPlan(G); };
   S.tutorDrawDue=G=>{ const F=(G&&G.flags)||{}, T=TU(); return !!T&&!!F.JOB_TUTOR&&F.TUTOR_DRAW==null&&(F.TUTOR_N|0)>=T.drawAfter; };
   const sayAs=(GM,w,t)=>GM.say(w?{name:w}:null,t);
   /* 一堂的開頭（場景字幕之後）：上週沒去的那一句 */

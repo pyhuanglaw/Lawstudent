@@ -35,7 +35,7 @@ const desk=z=>{ H.E.interactables=[]; return JOBS.addDesk(GM,z); };
 const ask=async(it,picks)=>{ H.said=[]; H.opts=[]; dims.length=0; toasts.length=0; H.picks=picks.slice(); await STORY.interact(it,GM); };
 
 const D8=typeof SHOP_JOBS_AA828!=='undefined'?SHOP_JOBS_AA828:null;
-const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA8='1e539b8eb9';   /* 舊：1d6055568c（第 1～7 節一樣；多第 8 節）*/
+const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA8='3e9cd7d9d4', PREV8='1e539b8eb9';   /* 第六輪改期望：舊 SHA8 1e539b8eb9（第 1～8 節一樣；多第 9 節）、上一版在 history 的舊期望 1d6055568c——白名單換版本 */
 const friend=id=>{ const r=SOCIAL.rel(id); r.fam=40; r.trust=25; };
 /* 假的 3D：座位、門口、生人（照 game3d.js spawnCharacter 回傳的樣子：charId、obj、seat）；STORY.refreshSchedule 是真的 */
 const YUE=typeof TZ_SHOPS_LAYOUT!=='undefined'&&TZ_SHOPS_LAYOUT.yuehaochi?TZ_SHOPS_LAYOUT.yuehaochi:{seats:[{x:-2.6,z:2.25,yaw:0},{x:-2,z:2.25,yaw:0}],spawn:{x:0.75,z:2.9},clerk:{x:1,z:-3.4,yaw:0}};
@@ -133,7 +133,7 @@ await sec('A3',async()=>{
 /* ================= B AA_828 第 8 節 ================= */
 await sec('B',async()=>{
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), e=allow.files.filter(x=>x.path===DOC8);
-  check('B. 白名單：AA_828@'+SHA8+' approved（一筆）；上一版 1d6055568c 在 history',e.length===1&&e[0].status==='approved'&&e[0].sha===SHA8&&(e[0].history||[]).some(h=>h.sha==='1d6055568c'),J(e.map(x=>x.sha)));
+  check('B. 白名單：AA_828@'+SHA8+' approved（一筆）；上一版 '+PREV8+' 在 history',e.length===1&&e[0].status==='approved'&&e[0].sha===SHA8&&(e[0].history||[]).some(h=>h.sha===PREV8),J(e.map(x=>x.sha)));
   check('B. 資料寫明來源那一版',!!D8&&D8.src===DOC8+'@'+SHA8,D8&&D8.src);
   let ck=''; try{ ck=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_shop_jobs_aa828.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(err){ ck='ERR '+String(err.stderr||err.message||err).slice(0,300); }
   if(/讀不到|fatal|invalid object|CalledProcessError/i.test(ck)) console.log('（跳過：匯入工具讀不到 '+SHA8+'，企劃線沒 fetch）'); else check('B. tools/story/import_shop_jobs_aa828.py --check：資料和稿一致',/^OK/.test(ck),ck);
