@@ -1,0 +1,10 @@
+CC SHOP-INTERIOR-VIEW：SHA 1cd2116ee1；SHOPS taimi；HOURS [14.0]；Playwright ≠ iPhone
+PASS 遊戲載入
+PASS [taimi] 有 TZ_SHOPS_LAYOUT.taimi
+  [前置／捷徑] [泰米村食 tz_taimi 1400] 【前置／捷徑】讀檔進店 tz_taimi 2025-10-22 14.00 時 spawn (0.15, 3.20)
+  [前置／捷徑] [泰米村食 tz_taimi 1400] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, -1.00)
+  [  46.8s] [泰米村食 tz_taimi 1400] 店員 []、客人 0、門 [{"label": "離開泰米村食", "x": 0.15, "z": 4.55}]；每張（洋紅%／中央標準差／上半中間平均色）：{"5_game": [0, 46.4, [101, 84, 62]], "1_entry": [0, 64.4, [199, 182, 156]], "2_window": [0, 54.8, [193, 183, 163]], "3_counter": [0, 41.7, [126, 116, 100]], "4_outside": [0, 43.7, [73, 51, 23]]}
+PASS [泰米村食 tz_taimi 1400] 拍到 5 張  ["5_game", "1_entry", "2_window", "3_counter", "4_outside"]
+PASS 沒有 JS 例外  []
+ALL PASS
+EXIT 0
