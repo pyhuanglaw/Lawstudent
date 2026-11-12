@@ -8,10 +8,15 @@
   jobs.shanlan 另外有 co（第 4 節第 7 點：上班遇到宋知寧——who、seg＝哪一段後面、flag＝看哪一個旗標、met／new＝有／沒有那個旗標的那幾句 [說話的人或 null＝旁白, 字]、until＝她到哪一個學期）。
 第 4 節「回 LAWWW 七問」其他幾點是規則（給實作看的），不進資料。
 第 5 節「回 LAWWW 第二輪」（d8afcca6ed）：
-  jobs.shanlan.co 多 wd／t0／t1（第 1 點：她在山嵐的那一班——週幾、幾點到幾點）、msgN／metEarly（第 2 點：有那個旗標、但她還沒傳第 msgN 則訊息的那一版；傳過了＝照 met）；
+  jobs.shanlan.co （第 1、2 點被第 6 節取代，見下）；
   最上層 bgnBusy（第 4 點：桌遊夜那一晚有班——me＝祐廷自動回的那一句、who／re＝誰照舊回哪一句）、reapply（第 5 點：all＝全部打工比照隔一個學期可以再應徵、keepSkill＝熟練度保留）、
   yueMeal（第 6 點：越好吃上班時同學來吃飯——narr 旁白、ask 對方的通用句、me 祐廷回的、done＝{m,f}「（你幫他／她點了餐。）」照對方性別、own＝{名字:自己的那一句}）。
   第 3、7 點是規則／沒有程式的事，不進資料。
+第 6 節「宋知寧換到山嵐這條線」（1d6055568c；取代第 5 節第 1、2 點）：
+  jobs.shanlan.co 的 msgN（第幾則訊息以後她才在山嵐）、at（她在山嵐的時間：[{wd,t0,t1}…] 週六、週日）、wd／t0／t1（祐廷上班遇到她的那一班＝週日）、newFrom（完全沒認識過她的＝她從哪一個學期起就在山嵐）；
+  「還沒傳第 5 則」那一版（metEarly）作廢，不再匯。第 4 點（舊存檔補發第 5 則）是規則（src/shopenc3d.js）。
+第 7 節「五個小問題」：bgnBusy.dm（第 1 點：私訊約也自動回同一句）、yueMeal.dating（第 2 點：who 交往中才排進越好吃的哪一餐 slot、一學期最多 termMax 次）、
+  yueMeal.own 多學姊那一句（第 3 點；其他女主角用通用句）、reapply.tutor（第 4 點：家教也比照）、jobs.cinema.ticket.keep（第 5 點：再應徵不用重新滿班數）。
 規則的字（第 3 節「給 LAWWW」、每一節的說明）是給實作看的，不進遊戲（流程在 src/jobs3d.js）。台詞一字不改；有名字說的話拿掉外面那一對「」（對話框已經寫了是誰說的）；
 選項、旁白照稿。白名單照 import_guard；讀稿照 read_fix。
 用法：python3 tools/story/import_shop_jobs_aa828.py [--ref <commit>] [--check]"""
@@ -131,16 +136,26 @@ def build(md):
     co = jobs['shanlan']['co'] = {'who': who, 'seg': seg, 'flag': z.group(3), 'met': said(z.group(4), '第 7 點（認識過）'), 'new': said(z.group(5), '第 7 點（不認識）'), 'until': z.group(6)}
     # ---- 第 5 節「回 LAWWW 第二輪」----
     q5 = section(md, '## 5. 回 LAWWW')
-    a = need(re.search(r'^1\. \*\*(\S+?)在山嵐的班\*\*：(週[一二三四五六日]) (\d\d:\d\d)～(\d\d:\d\d)（和祐廷的(\S+?)同一班），到(大[一二三四][上下])。', q5, re.M), '第 5 節第 1 點（宋知寧的班）')
-    if fx(a.group(1)) != who or a.group(6) != co['until']:
-        raise SystemExit('第 5 節第 1 點：人或學期和第 4 節第 7 點不一樣')
-    co['wd'], co['t0'], co['t1'] = WD[a.group(2)], hm(a.group(3)), hm(a.group(4))
-    if not any(q['wd'] == co['wd'] and q['t0'] == co['t0'] and q['t1'] == co['t1'] and q['name'] == fx(a.group(5)) for q in jobs['shanlan']['sched']):
-        raise SystemExit('第 5 節第 1 點：山嵐的班表沒有那一班')
-    b = need(re.search(r'^2\. 有 ([A-Z_]+) 那一版分兩種：她已經傳過「[^」]+」那則訊息（第 (\d+) 則）→ 照第 4 節那一版；還沒傳 →(.+?)（不說「[^」]+」）。\s*$', q5, re.M), '第 5 節第 2 點（還沒傳訊息的那一版）')
-    if b.group(1) != co['flag']:
-        raise SystemExit('第 5 節第 2 點：旗標和第 4 節第 7 點不一樣')
-    co['msgN'], co['metEarly'] = int(b.group(2)), said(b.group(3), '第 5 節第 2 點', bare=True)
+    # 第 5 節第 1、2 點被第 6 節取代（「以這一節為準」）：她的班、祐廷上班遇到她的兩版都讀第 6 節；「還沒傳第 5 則」那一版作廢，不匯。
+    q6 = section(md, '## 6. 宋知寧換到山嵐這條線')
+    a1 = need(re.search(r'^1\. \*\*第 (\d+) 則訊息發了以後，她(週[一二三四五六日]) (\d\d:\d\d)～(\d\d:\d\d) 搬到山嵐\*\*', q6, re.M), '第 6 節第 1 點（週六搬到山嵐）')
+    a2 = need(re.search(r'^2\. \*\*第 (\d+) 則以後她(週[一二三四五六日]) (\d\d:\d\d)～(\d\d:\d\d) 也在山嵐\*\*.*祐廷上班遇到她的那一句只在他的(週[一二三四五六日])班（一次）。\s*$', q6, re.M), '第 6 節第 2 點（週日多一班）')
+    a3 = need(re.search(r'^3\. \*\*第 (\d+) 則以前她不在山嵐\*\*，.*作廢。祐廷上班遇到她只有兩版：傳過第 \1 則＝「(.+?)」＋「(.+?)……」；完全沒認識過她（沒有 ([A-Z_]+)）＝她從(大[一二三四][上下])起就在山嵐（(週[一二三四五六日])、(週[一二三四五六日])），出「(.+?)」\s*$', q6, re.M), '第 6 節第 3 點（兩版）')
+    need(re.search(r'^4\. \*\*舊存檔\*\*：已經跳過第 ' + a1.group(1) + r' 則、收到第 \d+ 則的，修好以後補發第 ' + a1.group(1) + r' 則（[^）]*），補發以後才搬。\s*$', q6, re.M), '第 6 節第 4 點（舊存檔補發）')
+    u6 = need(re.search(r'^- 她只到(大[一二三四][上下])，照舊。\s*$', q6, re.M), '第 6 節（她只到哪一個學期）')
+    if not (a1.group(1) == a2.group(1) == a3.group(1)) or a3.group(4) != co['flag'] or u6.group(1) != co['until']:
+        raise SystemExit('第 6 節：第幾則、旗標或學期前後不一樣')
+    said_met = [x[1] for x in co['met'] if x[0]]
+    if fx(a3.group(2)) != said_met[0] or not said_met[-1].startswith(fx(a3.group(3))) or [fx(a3.group(8))] != [x[1] for x in co['new']]:
+        raise SystemExit('第 6 節第 3 點：兩版的句子和第 4 節第 7 點不一樣')
+    at = [{'wd': WD[m.group(2)], 't0': hm(m.group(3)), 't1': hm(m.group(4))} for m in (a1, a2)]
+    if sorted(q['wd'] for q in at) != sorted([WD[a3.group(6)], WD[a3.group(7)]]) or a2.group(5) != a2.group(2):
+        raise SystemExit('第 6 節：第 1、2 點的星期和第 3 點、祐廷的班不一樣')
+    sun = at[1]
+    if not any(q['wd'] == sun['wd'] and q['t0'] == sun['t0'] and q['t1'] == sun['t1'] for q in jobs['shanlan']['sched']):
+        raise SystemExit('第 6 節第 2 點：山嵐的班表沒有那一班')
+    co['msgN'], co['at'], co['newFrom'] = int(a1.group(1)), at, a3.group(5)
+    co['wd'], co['t0'], co['t1'] = sun['wd'], sun['t0'], sun['t1']
     c4 = need(re.search(r'^4\. 桌遊夜：系統自動當沒空時，群組裡祐廷自動回一句「(.+?)」，(\S+?)照舊回「(.+?)」——玩家不用操作。\s*$', q5, re.M), '第 5 節第 4 點（桌遊夜自動回）')
     extra = {'bgnBusy': {'me': fx(c4.group(1)), 'who': fx(c4.group(2)), 're': fx(c4.group(3))}}
     need(re.search(r'^5\. 辭職後再應徵：\*\*全部打工比照\*\*（[^）]*都隔一個學期可以再應徵）；熟練度\*\*保留\*\*', q5, re.M), '第 5 節第 5 點（再應徵）')
@@ -152,6 +167,27 @@ def build(md):
         raise SystemExit('第 5 節第 6 點：前後寫的句子不一樣，或「他」不是剛好一個')
     extra['yueMeal'] = {'narr': fx(m6.group(1)), 'ask': fx(m6.group(2)), 'me': fx(m6.group(3)), 'done': {'m': done, 'f': done.replace('他', '她')},
                         'own': {fx(m6.group(6)): fx(m6.group(7)), fx(m6.group(8)): fx(m6.group(9))}}
+    # ---- 第 7 節「回 LAWWW 上一輪五個小問題」----
+    q7 = section(md, '## 7. 回 LAWWW')
+    NUM = {'一': 1, '兩': 2, '二': 2, '三': 3}
+    b1 = need(re.search(r'^1\. 私訊約的桌遊夜撞到班：一樣自動回「(.+?)」\s*$', q7, re.M), '第 7 節第 1 點（私訊約）')
+    if fx(b1.group(1)) != extra['bgnBusy']['me']:
+        raise SystemExit('第 7 節第 1 點：自動回的那一句和第 5 節第 4 點不一樣')
+    extra['bgnBusy']['dm'] = True
+    b2 = need(re.search(r'^2\. (\S+?)那句（越好吃上班版）演得到：\*\*交往中\*\*才把\1排進越好吃(晚餐|午餐)的名單（[^）]*），一學期最多(\S)次；沒交往不排。\s*$', q7, re.M), '第 7 節第 2 點（可昕交往中才排）')
+    if fx(b2.group(1)) not in extra['yueMeal']['own'] or b2.group(3) not in NUM:
+        raise SystemExit('第 7 節第 2 點：那個人沒有自己的句子，或次數看不懂')
+    extra['yueMeal']['dating'] = {'who': fx(b2.group(1)), 'slot': {'晚餐': 'dinner', '午餐': 'lunch'}[b2.group(2)], 'termMax': NUM[b2.group(3)]}
+    b3 = need(re.search(r'^3\. 女主角來吃飯也說通用句「(.+?)」；(\S+?)例外，她說：「(.+?)」', q7, re.M), '第 7 節第 3 點（女主角、學姊）')
+    if fx(b3.group(1)) != extra['yueMeal']['ask']:
+        raise SystemExit('第 7 節第 3 點：通用句和第 5 節第 6 點不一樣')
+    extra['yueMeal']['own'][fx(b3.group(2))] = fx(b3.group(3))
+    need(re.search(r'^4\. 舊打工全部比照再應徵（六間店＋補習班、事務所、家教），隔一個學期。\s*$', q7, re.M), '第 7 節第 4 點（舊打工再應徵）')
+    extra['reapply']['tutor'] = True
+    b5 = need(re.search(r'^5\. 南洋員工票：再應徵以後不用重新滿 (\d+) 班（做過的保留）。\s*$', q7, re.M), '第 7 節第 5 點（員工票）')
+    if int(b5.group(1)) != jobs['cinema']['ticket']['after']:
+        raise SystemExit('第 7 節第 5 點：班數和第 2 節不一樣')
+    jobs['cinema']['ticket']['keep'] = True
     return jobs, extra
 
 

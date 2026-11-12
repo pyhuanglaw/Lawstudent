@@ -68,7 +68,7 @@ const BGN=(function(){
      明軒照樣約、群組的回覆照舊；**不用玩家回**（沒有可以回的選項），系統自動當沒空、不排出遊；先答應了才排到班的（答應以後才應徵）＝那一晚的出遊取消，不要兩個都演。
      2026-11-12 以前：玩家只有「這次不行。」可以回（明軒回「好，兩個禮拜後還有。」）——AA 第 4 節第 1 點改成不用回。
      AA_828 第 5 節第 4 點（d8afcca6ed）：系統自動當沒空時，祐廷自動回一句「這次不行，我有班。」、明軒照舊回「好，兩個禮拜後還有。」（字在 SHOP_JOBS_AA828.bgnBusy，匯入）——玩家不用操作。
-     排在那一串的最後（大家的回覆之後）；還沒進群組的那一次（明軒私訊約）一樣回在私訊裡（稿寫「群組裡」，私訊比照——不然明軒那兩句沒有人回） */
+     排在那一串的最後（大家的回覆之後）；還沒進群組的那一次（明軒私訊約）一樣回在私訊裡（AA_828 第 7 節第 1 點，企劃線 1d6055568c：「私訊約的桌遊夜撞到班：一樣自動回」——資料 bgnBusy.dm；原本是 LAWWW 比照的） */
   S.busyReply=()=>{ const B=typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.bgnBusy; return B&&B.me&&B.re?B:null; };
   S.busy=(G,d)=>{ try{ return typeof JOBS!=='undefined'&&!!JOBS.bgnBusy&&!!JOBS.bgnBusy(G,d); }catch(e){ return false; } };
   /* 手機：當天 12:00 明軒約 */

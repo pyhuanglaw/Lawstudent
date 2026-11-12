@@ -43,6 +43,9 @@ const JOBS=(function(){
        ②有 SHOP_ZN_MET 分兩種：她傳過第 5 則訊息（G.flags.SHOP_ZN_BK.sent 有第 5 則，src/shopenc3d.js）＝照第 4 節那一版；還沒傳＝co.metEarly（不說「我上次說的另一家」）③顯示名照舊
        ④桌遊夜有班：祐廷自動回一句、明軒照舊回（資料 bgnBusy；src/bgnight3d.js）⑤辭職後再應徵全部打工比照（資料 reapply.all：舊的那幾間、補習班、事務所也是隔一個學期）、熟練度保留（reapply.keepSkill：S.apply 把 skill 和做過的事帶到新的一份；
        第一班那一段 D().first 再應徵不重演）⑥越好吃上班時同學來吃飯不用 meal_hello，改資料 yueMeal 那一組（S.yueMeal；照人各記一次，第二次只有旁白；阿哲、可昕各自一句）。
+ 第 6、7 節（企劃線 1d6055568c；2026-11-12）：第 6 節＝宋知寧第 5 則訊息以後才在山嵐（認識過的）／大一下起（完全沒認識過的），只有兩版、「還沒傳第 5 則」那一版作廢（S.znCoOn、S.znCoLines；她搬過去、補發第 5 則在 src/shopenc3d.js）。
+       第 7 節：①私訊約的桌遊夜也自動回（src/bgnight3d.js，原本就比照）②可昕交往中才排進越好吃晚餐、一學期最多兩次（src/shoplife3d.js S.yueDate；S.mealHere 改成看這一班裡）③女主角用通用句、學姊自己一句（S.YUE_ALIAS）
+       ④家教也比照再應徵（S.tutorReAsk：下一個學期開學明軒再問一次）⑤員工票再應徵不用重新滿 3 班（j.shiftsPrev）。存檔多：G.jobs.<k>.shiftsPrev、G.flags.TUTOR_RE／TUTOR_RE_ANS、G.flags.SHOP_YUE_DATE；沒有＝0／沒有再接過／還沒來過。
        存檔：沒有新欄位（照舊 G.jobs.<k>.re、skill、G.jobs.yue.mealHi）；舊規則下已經再應徵過的＝熟練度已經從 0 算，沒有東西可以補，照現在的數字走。 */
   /* ---------- 新店打工第二批（AA_829，企劃線 ea5e8f5ae；SHOP-JOBS-1112）：花序 Flower Notes（flower，區域 flower_notes）、越好吃小館（yue，區域 tz_yuehaochi）、大口漢堡（dakou，區域 xs_dakou）----------
      字在 src/data/shop_jobs_aa829.js（tools/story/import_shop_jobs_aa829.py 產生）；整套照第一批（S.apply3、S.runShiftX）。多的：
@@ -194,7 +197,7 @@ const JOBS=(function(){
   /* 應徵（或出國回來重選班表）：選班表 → 撞時段那一句 → 記下來 */
   S.apply=async function(GM,k,o){ o=o||{}; const G=GM.G, J=S.rec(G); const days=await S.pickDays(GM,k); if(!days) return false;
     let j=J[k]; if(!j||j.gone){ const old=j; j=J[k]={since:G.day,from:now(G),day:[],shifts:0,skill:0,missedRun:0,quit:null,gone:null,missPend:false,missN:0,worked:[],chk:G.day-1,wk:{},brk:{},ot:{}};
-      if(old){ j.re=(old.re|0)+1; for(const f of ['aliCo','endN','mealHi'].concat(S.keepSkill()?S.KEEP:[])) if(old[f]!=null) j[f]=old[f]; } }   /* 辭職以後再應徵（AA_828 第 4 節第 5 點）：重新算班數；只說一次的那幾樣（Alison 那一句、同學來吃飯那一句）、最後一句輪到哪裡照舊記著。
+      if(old){ j.re=(old.re|0)+1; j.shiftsPrev=(old.shiftsPrev|0)+(old.shifts|0);   /* 以前做過幾班（員工票：AA_828 第 7 節第 5 點）*/ for(const f of ['aliCo','endN','mealHi'].concat(S.keepSkill()?S.KEEP:[])) if(old[f]!=null) j[f]=old[f]; } }   /* 辭職以後再應徵（AA_828 第 4 節第 5 點）：重新算班數；只說一次的那幾樣（Alison 那一句、同學來吃飯那一句）、最後一句輪到哪裡照舊記著。
         第 5 節第 5 點：熟練度保留（「做過的事不會忘」）——skill 和班上演過的小事件、輪到哪一句一起帶過來（S.KEEP）；舊規則下已經再應徵過的存檔＝skill 已經重算，沒有可以補的 */
     fix(j); j.day=days; j.since=o.since!=null?o.since:G.day; j.from=o.since!=null?T(o.since,0):now(G);   /* o.since：「下週開始」（補習班、事務所的面試）*/ j.back=false; j.away=false; j.chk=Math.max(j.chk|0,G.day-1); j.missedRun=0; j.missPend=false;
     const c=S.clashLine(G,k,days); if(c) await say(GM,c[0],c[1]);
@@ -339,32 +342,44 @@ const JOBS=(function(){
   /* 一班裡某一段工作後面多的（字都在資料）：
      山嵐書店（AA_828 第 4 節第 7 點）：祐廷第一次在山嵐上班、宋知寧也在的那一班，「上架」那一段後面（一次；G.jobs._meta.znCo＝那一天，辭職再應徵也不再說）——有 SHOP_ZN_MET＝三句（中間一句旁白）、沒有＝一句。
        她在不在（S.znCoOn）：AA_828 第 5 節第 1 點——她在山嵐的班＝週日 14:00～18:00（資料 co.wd／t0／t1，和祐廷的假日班同一班）、到大二下學期結束；週三晚班她不在（原本暫定「祐廷的班她都在」）。
-       有 SHOP_ZN_MET 的那一版分兩種（第 5 節第 2 點）：她已經傳過第 5 則訊息（「換到另一家」；SHOPENC 記在 G.flags.SHOP_ZN_BK.sent＝[第幾則，0 起]）＝第 4 節那一版（co.met）；還沒傳＝co.metEarly。
+       只有兩版（AA_828 第 6 節第 3 點）：有 SHOP_ZN_MET、她已經傳過第 5 則訊息（「換到另一家」；SHOPENC 記在 G.flags.SHOP_ZN_BK.sent＝[第幾則，0 起]）＝第 4 節那一版（co.met）；
+         完全沒認識過她＝co.new（她從大一下起就在山嵐）。認識過但第 5 則還沒發＝她還不在山嵐，不演（第 5 節第 2 點的那一版作廢，資料也不再匯）。
        名字：認識過＝照遊戲原本顯示的（SHOPENC 的「知寧」）；不認識＝照稿「宋知寧」。
      越好吃小館（AA_829 第 2 節＋第 5 節第 7 點）：「點餐」那一段後面，這時候排進店裡吃飯的同學（SHOPMEET.helloDue：朋友以上、今天這一餐還沒說過）照平常的 meal_hello 一句＋旁白 mealExtra；每人一次（j.mealHi）*/
   const TERM_ZH={'大一上':'Y1S1','大一下':'Y1S2','大二上':'Y2S1','大二下':'Y2S2','大三上':'Y3S1','大三下':'Y3S2','大四上':'Y4S1','大四下':'Y4S2'};
   S.znCo=()=>{ const A=S.ap3('shanlan'); return (A&&A.co)||null; };
+  /* AA_828 第 6 節（企劃線 1d6055568c；取代第 5 節第 1、2 點）：她在不在山嵐看玩家認不認識她——
+       認識過（有 SHOP_ZN_MET）＝第 5 則訊息發了以後才在（S.znMsgSent：發的隔天起，和 SHOPENC.znMoved 同一把尺）；第 5 則以前她不在山嵐＝那一句不演（原本「還沒傳第 5 則」的那一版作廢）；
+       完全沒認識過＝她從大一下（資料 co.newFrom）起就在。兩種都只到大二下、只在祐廷的週日班（co.wd／t0／t1）。*/
   S.znCoOn=function(G,d){ const C=S.znCo(); if(!C||!hasCal()||!CALENDAR.termDays) return false; const r=CALENDAR.termDays(TERM_ZH[C.until]); if(!r||d>r.to||!S.termAt(G,d)) return false;
-    if(C.wd==null) return true; if(wdOf(d)!==C.wd) return false; const h=S.hrs('shanlan',d); return S.overlap(h[0],h[1],C.t0,C.t1); };   /* 她的那一班（週日 14:00～18:00）*/
-  S.znMsgSent=function(G){ const C=S.znCo(), R=G&&G.flags&&G.flags.SHOP_ZN_BK; if(!C||C.msgN==null||!R||typeof R!=='object') return false; return (Array.isArray(R.sent)&&R.sent.includes(C.msgN-1))||R.moved!=null; };   /* 她傳過第 5 則了沒（舊存檔沒有 SHOP_ZN_BK＝還沒）*/
+    if(C.wd!=null){ if(wdOf(d)!==C.wd) return false; const h=S.hrs('shanlan',d); if(!S.overlap(h[0],h[1],C.t0,C.t1)) return false; }   /* 她的那一班（週日 14:00～18:00）*/
+    if(G.flags&&G.flags[C.flag]) return C.msgN==null||S.znMsgSent(G,d);
+    if(C.newFrom){ const r0=CALENDAR.termDays(TERM_ZH[C.newFrom]); if(!r0||d<r0.from) return false; } return true; };
+  S.znMsgSent=function(G,d){ const C=S.znCo(), R=G&&G.flags&&G.flags.SHOP_ZN_BK; if(!C||C.msgN==null||!R||typeof R!=='object') return false; if(!((Array.isArray(R.sent)&&R.sent.includes(C.msgN-1))||R.moved!=null)) return false; return d==null||R.moved==null||d>R.moved; };   /* 她傳過第 5 則了沒（舊存檔沒有 SHOP_ZN_BK＝還沒）；d＝那一天她搬過去了沒（發的隔天起）*/
   S.znCoDue=function(G,d){ return !!S.znCo()&&S.rec(G)._meta.znCo==null&&S.znCoOn(G,d); };
   S.znCoLines=function(G){ const C=S.znCo(); if(!C) return []; const met=!!(G.flags&&G.flags[C.flag]); let nm=C.who;
     if(met&&typeof SHOPENC!=='undefined'&&SHOPENC.npOf&&SHOPENC.ZN){ try{ const P=SHOPENC.npOf(G,SHOPENC.ZN); if(P&&P.name) nm=P.name; }catch(e){} }
-    return (met?(C.metEarly&&!S.znMsgSent(G)?C.metEarly:C.met):C.new).map(x=>[x[0]==null?null:nm,x[1]]); };
+    return (met?C.met:C.new).map(x=>[x[0]==null?null:nm,x[1]]); };
   S.mealIds=()=>typeof SHOP_MEET_LINES!=='undefined'&&SHOP_MEET_LINES&&SHOP_MEET_LINES.mealHello?Object.keys(SHOP_MEET_LINES.mealHello):[];
   /* 越好吃上班時同學來吃飯（AA_828 第 5 節第 6 點；字在 SHOP_JOBS_AA828.yueMeal）：不用 meal_hello（那是祐廷當客人的句子）。
      誰算「來吃飯」：SHOPLIFE 這時候排進這間店吃飯（SHOPMEET.mealSlot）、朋友以上（SHOPMEET.friendUp）、不是分手後的前任（SHOPLIFE.exBlock）——和原本一樣的那一群人，加上有自己句子的兩個人（阿哲、可昕）。
      照人各記一次（G.jobs.yue.mealHi）：第一次＝旁白 → 對方一句（阿哲、可昕各自的；其他人共用）→ 祐廷 → 「（你幫他／她點了餐。）」（照對方性別）；同一個人之後再來＝只有最後那一句旁白。
      那一餐算打過招呼（G.flags.SHOP_MEAL_HI 記那一天那一餐、不動輪到第幾句）：下班以後不會再對同一個人說一次 meal_hello。 */
   S.yueMeal=()=>(typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.yueMeal)||null;
-  S.yueOwn=function(c){ const Y=S.yueMeal(); if(!Y||!Y.own||!c) return null; for(const n of [c.name,c.nickname,c.phoneName]) if(n&&Object.prototype.hasOwnProperty.call(Y.own,n)) return Y.own[n]; return null; };   /* 稿寫的是大家叫的名字（阿哲、可昕；可昕的 name 是全名）*/
+  S.YUE_ALIAS={heroine_05:'學姊'};   /* 稿寫「學姊」（AA_828 第 7 節第 3 點）＝溫學姊；其他女主角用通用句 */
+  S.yueOwn=function(c){ const Y=S.yueMeal(); if(!Y||!Y.own||!c) return null; for(const n of [c.name,c.nickname,c.phoneName,S.YUE_ALIAS[c.id]]) if(n&&Object.prototype.hasOwnProperty.call(Y.own,n)) return Y.own[n]; return null; };   /* 稿寫的是大家叫的名字（阿哲、可昕；可昕的 name 是全名）*/
   S.yueMealIds=function(){ const Y=S.yueMeal(), out=S.mealIds().slice(); if(Y&&Y.own&&typeof CHARACTERS!=='undefined') for(const id in CHARACTERS){ if(S.yueOwn(CHARACTERS[id])&&!out.includes(id)) out.push(id); } return out; };
-  S.mealHere=function(G,id){ if(typeof SHOPMEET==='undefined'||!SHOPMEET.mealSlot||!SHOPMEET.friendUp) return null; try{ if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.exBlock&&SHOPLIFE.exBlock(G,id)) return null; const slot=SHOPMEET.mealSlot(G,id); return slot&&SHOPMEET.friendUp(id)?slot:null; }catch(e){ return null; } };
+  /* 2026-11-12：上班那一整段的時間停在開始那一刻（越好吃 17:30），吃飯的名單晚餐 17:45 才開始——只問「現在」的話真的名單下永遠沒有人來。
+     所以這一刻沒有的時候，往後看這一班（S.hrs，每 15 分鐘）：這一班裡排進這間店吃飯的＝算來吃飯。只有玩家在這間店、今天這裡有班的時候才往後看。*/
+  S.mealHere=function(G,id){ if(typeof SHOPMEET==='undefined'||!SHOPMEET.mealSlot||!SHOPMEET.friendUp) return null; try{ if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.exBlock&&SHOPLIFE.exBlock(G,id)) return null; if(!SHOPMEET.friendUp(id)) return null;
+      let slot=SHOPMEET.mealSlot(G,id); if(slot) return slot; const k=S.ZONE_KEY[G.zone]; if(!k||!S.active(G,k)||!hasCal()||!S.due(G,k,G.day)) return null; const h=S.hrs(k,G.day);
+      for(let t=Math.max(h[0],G.hour)+0.25;t<h[1]-1e-6;t+=0.25){ slot=SHOPMEET.mealSlot(Object.assign({},G,{hour:t}),id); if(slot) return slot; } return null; }catch(e){ return null; } };
   S.yueMealRun=async function(GM,j){ const G=GM.G, Y=S.yueMeal(); if(!Y) return false; const M=Array.isArray(j.mealHi)?j.mealHi:(j.mealHi=[]); let any=false;
     for(const id of S.yueMealIds()){ const slot=S.mealHere(G,id); if(!slot) continue; const c=typeof CHARACTERS!=='undefined'?CHARACTERS[id]:null, done=Y.done[c&&c.gender==='f'?'f':'m'];
       if(!M.includes(id)){ await say(GM,null,Y.narr); await say(GM,id,S.yueOwn(c)||Y.ask); await say(GM,'player',Y.me); await say(GM,null,done); M.push(id); }
       else await say(GM,null,done);
       { const F=G.flags||(G.flags={}), r=F.SHOP_MEAL_HI&&typeof F.SHOP_MEAL_HI==='object'?F.SHOP_MEAL_HI:(F.SHOP_MEAL_HI={}), v=r[id]; r[id]=[G.day,slot,Array.isArray(v)?(v[2]|0):0]; }
+      if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.yueDateMark){ try{ SHOPLIFE.yueDateMark(G,id); }catch(e){} }   /* 可昕（交往中才來，一學期最多兩次；AA_828 第 7 節第 2 點）：這一次算來過 */
       any=true; }
     return any; };
   S.segAfter=async function(GM,k,j,i,d){ const G=GM.G, A=S.ap3(k), sg=A&&A.segs&&A.segs[i]; if(!sg) return false; let any=false;
@@ -440,7 +455,10 @@ const JOBS=(function(){
      拿了＝今天有票（G.flags.NY_TICKET）＋記 G.flags.NY_TICKET_STAFF＝那一天：1 廳照平常那一場演（一個人看＝兩部都記看過，MOVIES.soloPlay），看完多一句（S.staffTicketLine）。
      約會看電影照買票（NYS.paidTicket：員工票不算；src/invites3d.js）*/
   S.staffTicket=()=>{ const A=S.ap3('cinema'); return (A&&A.ticket)||null; };
-  S.staffTicketOk=function(G){ const T=S.staffTicket(), j=S.job(G,'cinema'); if(!T||!j||j.gone||!law(G)||!hasCal()||(j.shifts|0)<T.after) return false;
+  /* 再應徵以後不用重新滿 3 班（AA_828 第 7 節第 5 點「做過的保留」；資料 ticket.keep）：以前那幾份做過的班（j.shiftsPrev，S.apply 再應徵時記）一起算。
+     這一條以前就再應徵過的存檔沒有 shiftsPrev：以前拿過員工票（tkN，再應徵沒有帶過來）也查不到——只能從再應徵以後的班數算起（沒有可以補的）*/
+  S.shiftsBefore=j=>(j&&j.shiftsPrev)|0;
+  S.staffTicketOk=function(G){ const T=S.staffTicket(), j=S.job(G,'cinema'); if(!T||!j||j.gone||!law(G)||!hasCal()||(j.shifts|0)+(T.keep?S.shiftsBefore(j):0)<T.after) return false;
     if(G.flags&&G.flags.companion) return false; return j.tkWk!==weekOf(G.day); };
   S.staffTicketTake=function(G){ const j=S.job(G,'cinema'); if(!j) return false; G.flags=G.flags||{}; j.tkWk=weekOf(G.day); j.tkN=(j.tkN|0)+1; G.flags.NY_TICKET=G.day|0; G.flags.NY_TICKET_STAFF=G.day|0; return true; };
   S.staffTicketToday=G=>!!G&&!!G.flags&&G.flags.NY_TICKET_STAFF===(G.day|0)&&G.flags.NY_TICKET===(G.day|0);
@@ -531,7 +549,7 @@ const JOBS=(function(){
   // ---------- 店裡的按鈕（STORY.populate）----------
   S.deskLabel=(G,k)=>{ if(!S.job(G,k)||S.canReapply(G,k)){ if(k==='copy') return '跟阿德說想打工'; if(S.ap3(k)) return S.ap3(k).look||'看告示'; return '應徵：'+D().notice[k]; } if(S.shiftNow(G,k)) return '開始上班'; return '找'+shop(k).boss; };
   /* 辭職以後可以再應徵（AA_828 第 4 節第 5 點：隔一個學期＝下一個學期開學起告示又看得到；山嵐書店、南洋戲院 reapply）：辭職（不是畢業）那一天以後的第一個開學日起。
-     第 5 節第 5 點：全部打工比照（資料 reapply.all：花序、越好吃、大口漢堡、早午餐、阿德影印、茶屋、Café、舊路書房、便利商店；補習班、事務所從公布欄 S.board2 再來一次）。家教不在這裡（JOB_TUTOR 另外一套，稿沒有寫）*/
+     第 5 節第 5 點：全部打工比照（資料 reapply.all：花序、越好吃、大口漢堡、早午餐、阿德影印、茶屋、Café、舊路書房、便利商店；補習班、事務所從公布欄 S.board2 再來一次）。家教是 JOB_TUTOR 另外一套（沒有告示）：AA_828 第 7 節第 4 點「舊打工全部比照（六間店＋補習班、事務所、家教）」＝S.tutorReAsk */
   S.reapplyDay=function(G,j){ if(!j||j.gone!=='quit'||j.quit==null||!hasCal()||!CALENDAR.termDays) return null; let best=null; for(const id of ['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2','Y5S1']){ const r=CALENDAR.termDays(id); if(r&&r.from>j.quit&&(best==null||r.from<best)) best=r.from; } return best; };
   S.canReapply=function(G,k){ if(!G||!S.KEYS.includes(k)) return false; if(!(S.RA()&&S.RA().all)&&!(S.ap3(k)&&shop(k).reapply)) return false; const j=S.job(G,k); if(!j||j.pendLeave) return false; const d=S.reapplyDay(G,j); return d!=null&&G.day>=d&&S.eligible(G,k); };
   S.deskHidden=(G,k)=>{ if(!G||!law(G)) return true; const j=S.job(G,k); if(j&&S.canReapply(G,k)) return false; if(!j) return !S.eligible(G,k)||(k==='copy'&&!S.rec(G)._meta.asked.copy); return !!j.gone&&!j.pendLeave; };
@@ -626,7 +644,18 @@ const JOBS=(function(){
   /* 會考以後：學生的訊息，家教結束（大二下還在上的）*/
   S.tutorEnd=function(G){ const F=G.flags, U=TU(), kk=S.tutorKK(); if(!U||kk==null||!F.JOB_TUTOR||S.tutorStopped(G)||G.day<kk||F.TUTOR_TERM_Y2S2!=='go'||typeof PHONE==='undefined') return;
     F.TUTOR_DONE=kk+1; if(!PHONE.sent(G,'tutor_done')) PHONE.at(G,kk+1,21,[{th:'p:'+U.kid.id,from:U.kid.id,text:U.doneMsg}],'tutor_done'); };
-  S.tutorPhone=function(G){ if(!G||!G.flags||!G.flags.JOB_TUTOR) return; S.tutorTrack(G); S.tutorTermAsk(G); S.tutorEnd(G); S.tutorPlan(G); };
+  /* 家教停了以後隔一個學期可以再做（AA_828 第 7 節第 4 點：舊打工全部比照再應徵；資料 reapply.tutor）：家教沒有告示、沒有玩家自己開口的地方（見上面「沒做」），
+     所以照開學問的那一則——停的那一天以後的每一個學期開學（大一下、大二上、大二下；會考以前）12:00 明軒再問一次「家長問你這學期還來嗎」（原本的字 termAsk／termOpts／stopReply，沒有新的句子）。
+     回「來」（TUTOR_RE_ANS 'go'，S.tutorTrack 收）＝TUTOR_STOP 清掉、這個學期記 'go'、以前回「不了」的那幾個學期改記 'stopped'（不然 tutorTrack 會馬上又當成停）、沒去的次數歸零、TUTOR_RE 加一；
+     堂數（TUTOR_N）、演過的事照舊留著（熟練度保留，同第 5 節第 5 點）。回「不了」或沒回＝照舊停著，下一個學期開學再問。會考後結束的（TUTOR_DONE）不問。
+     存檔多 G.flags.TUTOR_RE（再接了幾次）、TUTOR_RE_ANS（回覆，收了就清掉）；舊存檔沒有＝沒有再接過。*/
+  S.tutorReAsk=function(G){ const F=G.flags, U=TU(), RA=S.RA(); if(!U||!RA||!RA.tutor||!F.JOB_TUTOR||F.TUTOR_STOP==null||F.TUTOR_DONE!=null||typeof PHONE==='undefined'||!hasCal()) return false;
+    const T=CALENDAR.termOf(G.day); if(!T||!S.ASK_TERMS.includes(T.id)) return false; const st=S.tutorStartTerm(G); if(!st||S.TUTOR_TERMS.indexOf(T.id)<=S.TUTOR_TERMS.indexOf(st)) return false;
+    const kk=S.tutorKK(); if(kk!=null&&G.day>=kk) return false; const R=CALENDAR.termDays(T.id), tag='tutor_re_'+T.id; if(!R||R.from<=F.TUTOR_STOP||PHONE.sent(G,tag)) return false; const late=G.day>R.from;
+    return !!PHONE.at(G,late?G.day:R.from,late?Math.max(G.hour,12):12,[Object.assign(mxMsg(U.termAsk),{ask:{id:tag,until:(R.to+1)*24,opts:[{t:U.termOpts[0],set:{TUTOR_RE_ANS:'go'}},{t:U.termOpts[1],say:[mxMsg(U.stopReply)],set:{TUTOR_RE_ANS:'stop'}}]}})],tag); };
+  S.tutorReTake=function(G){ const F=G.flags, a=F.TUTOR_RE_ANS; if(a==null) return false; F.TUTOR_RE_ANS=null; if(a!=='go'||F.TUTOR_STOP==null||F.TUTOR_DONE!=null||!hasCal()) return false; const T=CALENDAR.termOf(G.day); if(!T||!S.TUTOR_TERMS.includes(T.id)) return false;
+    for(const tid of S.ASK_TERMS) if(F['TUTOR_TERM_'+tid]==='stop') F['TUTOR_TERM_'+tid]='stopped'; F['TUTOR_TERM_'+T.id]='go'; F.TUTOR_STOP=null; F.TUTOR_MISS_RUN=0; F.TUTOR_ASK3_SENT=false; F.TUTOR_MISS_PEND=null; F.TUTOR_RE=(F.TUTOR_RE|0)+1; return true; };
+  S.tutorPhone=function(G){ if(!G||!G.flags||!G.flags.JOB_TUTOR) return; S.tutorReTake(G); S.tutorTrack(G); S.tutorTermAsk(G); S.tutorEnd(G); S.tutorReAsk(G); S.tutorPlan(G); };
   S.tutorDrawDue=G=>{ const F=(G&&G.flags)||{}, T=TU(); return !!T&&!!F.JOB_TUTOR&&F.TUTOR_DRAW==null&&(F.TUTOR_N|0)>=T.drawAfter; };
   const sayAs=(GM,w,t)=>GM.say(w?{name:w}:null,t);
   /* 一堂的開頭（場景字幕之後）：上週沒去的那一句 */
