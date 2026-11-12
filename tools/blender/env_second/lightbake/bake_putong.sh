@@ -1,5 +1,5 @@
 #!/bin/bash
-# 普通教學館室內（ART-ECON-3D-GAP-1021 B；經濟系那一年在普通上課；LAWWW2-B 2026-10-31；照 bake_gongtong.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
+# 普通教學館室內（ART-ECON-3D-GAP-1021 B；舊序章那一段在普通上課；LAWWW2-B 2026-10-31；照 bake_gongtong.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 #   bash tools/blender/env_second/lightbake/bake_putong.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 # 輸出：putong_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ putong_interior_lm_day.webp、_night.webp。遊戲：teach3d.js 看到 extras.lightmap 就接（Z3.roomLightmap），不用改程式。
 # 座標＝配置（src/data/putong_layout.js）：34 × 16 m，x 往東、z 往南；一樓地板 0、天花板 3.6；二樓地板 4.2、屋頂 7.8。二樓北面往博思的空橋（門洞；空橋是另一個模型）。

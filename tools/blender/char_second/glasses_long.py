@@ -1,4 +1,4 @@
-"""何俊朗（Long）的眼鏡（US-LONG-3D-1110；企劃 AA_80 5-2、AA_145 3-5：「圓框眼鏡」；還沒有通過的參考圖，照文字做）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
+"""舊序章人物己（Long）的眼鏡（US-LONG-3D-1110；企劃 AA_80 5-2、AA_145 3-5：「圓框眼鏡」；還沒有通過的參考圖，照文字做）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
   /opt/blenv/bin/python tools/blender/char_second/glasses_long.py [-- --out assets/models/char/second_ai/glasses_long.glb]
 從許柏翰的眼鏡腳本複製：鏡框改成正圓（超橢圓 n＝2：直徑 4.6 cm）、深咖啡色、框線粗一點（半徑 1.2 mm，看起來像細的膠框圓眼鏡，
 和柏翰的細金屬方框、芷若的淺色細圓框分得出來）；鼻托、鉸鏈、鏡腳、座標相同：原點＝兩個鏡片中心的中點、前方 −z、鏡腳往 +z；鏡片中心相距 8.4 cm。

@@ -1,4 +1,4 @@
-"""唐睿（econ_tangrui）的衣服（參考圖 tangrui.webp 正面／側面／背面）：藍色短袖 POLO 衫（反摺領、胸前短門襟兩顆扣子、短袖到上臂中段、下擺沒有紮、蓋過褲頭）
+"""舊序章人物丙（econ_tangrui）的衣服（參考圖 tangrui.webp 正面／側面／背面）：藍色短袖 POLO 衫（反摺領、胸前短門襟兩顆扣子、短袖到上臂中段、下擺沒有紮、蓋過褲頭）
 ＋白色直筒長褲＋灰色球鞋（白鞋底）。胸口口袋＋便利貼第一版沒做。
 LAWWW2-C 2026-10-17 第一版：沿用柏翰 bohan_clothes 的做法（LAWWW 給溫書瑀做的 p05_clothes：襯衫身片＋領子＋門襟＋扣子＋袖口；
 高度照柏翰在 HairSample_Male 樣本量的數字），改：短袖（SLEEVE_LEN）、下擺不紮（HEM_OVER_PANTS）、顏色、沒有皮帶；

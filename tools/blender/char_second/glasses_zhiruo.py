@@ -9,7 +9,7 @@
 所以 GLB 直接取代 glasses() 回傳的 Group 就好，不用再轉 180°（舊的程式產生版本是畫成前方 +z、最後轉 π）。
 網格兩個：glasses_frame（金屬）、glasses_lens（透明）。
 
---style wei（LAWWW2-C 2026-10-17；BB_201 第 8 節「細框眼鏡，遠景最能看出老師」）：魏教授的眼鏡——深槍灰細金屬、圓角方框（5.0 × 3.3 cm），
+--style wei（LAWWW2-C 2026-10-17；BB_201 第 8 節「細框眼鏡，遠景最能看出老師」）：舊序章的教授的眼鏡——深槍灰細金屬、圓角方框（5.0 × 3.3 cm），
 其他（鼻托、鉸鏈、鏡腳、鼻樑、座標）照芷若的；輸出 glasses_wei.glb。不加 --style 時輸出和原本完全一樣。"""
 import math, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))

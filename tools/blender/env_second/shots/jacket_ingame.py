@@ -1,4 +1,4 @@
-"""X140 經濟系系外套：遊戲內截圖（LAWWW2-B 2026-10-30；SK02-LINE-JACKET-1030）。
+"""X140 舊序章系外套：遊戲內截圖（LAWWW2-B 2026-10-30；SK02-LINE-JACKET-1030）。
 patch（docs/art-rebuild/second_ai/patches/jacket_econ_1030.patch）＋新的 vroid_yuting.vrm、dorm_room4.glb 放進測試樹以後，在測試樹根目錄跑：
   python3 <這個檔> URL 輸出資料夾
 iPhone 橫向模擬（playlib：is_mobile、CDP 觸控）；不是 iPhone 實機。

@@ -1,11 +1,11 @@
-"""宋家豪（econ_jiahao）Blender 人物製作（LAWWW2-C 2026-10-17，ART-CH-JIAHAO；角色模型 D59：BB 驗收；照 BB_131 通過的標準圖 art_reference/jiahao.webp）。
-參考圖：台大經濟系二年級（學長）、20 歲、170 cm；灰色棒球帽、帽子下露出的黑色短髮、笑得很開；黑色圓領短袖 T＋螢光黃綠背心（敞開、沒有袖子：迎新工作人員）
+"""宋舊序章人物戊（econ_jiahao）Blender 人物製作（LAWWW2-C 2026-10-17，ART-CH-JIAHAO；角色模型 D59：BB 驗收；照 BB_131 通過的標準圖 art_reference/jiahao.webp）。
+參考圖：台大舊序章二年級（學長）、20 歲、170 cm；灰色棒球帽、帽子下露出的黑色短髮、笑得很開；黑色圓領短袖 T＋螢光黃綠背心（敞開、沒有袖子：迎新工作人員）
 ＋藍色直筒牛仔褲＋白色球鞋；手上拿著資料夾、菜單（之後另外做）。
-做法：同韋綸（weilun.py：Sakurada 樣本、敞開外套＋T 恤的生產線），不同的地方：
+做法：同舊序章人物乙（weilun.py：Sakurada 樣本、敞開外套＋T 恤的生產線），不同的地方：
   臉（jiahao_face：笑起來眼睛彎、臉圓一點、膚色一般）、頭髮（jiahao_hair：黑色短髮＋**棒球帽做在 VRM 裡**（綁頭骨），不用遊戲端的配件）、
   衣服（jiahao_clothes：敞開的上衣——身片＝螢光背心、短袖＝黑色 T 恤的袖子，裡面 tee_full 是黑色 T 恤；牛仔褲、白球鞋）、身高 170。
 用法：/opt/blenv/bin/python tools/blender/char_second/jiahao.py -- <輸出.vrm 或 -> [--blend 工作檔] [--from-blend 工作檔] [--stages stage0,face,clothes,hair] [--render 前綴] [--views ...]
-之後：VRM_BASE=Sakurada_Fumiriya VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 宋家豪 [虹膜色]"""
+之後：VRM_BASE=Sakurada_Fumiriya VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 宋舊序章人物戊 [虹膜色]"""
 import sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 CHAR_LIB = os.environ.get('CHAR_LIB') or next((p for p in (os.path.join(HERE, '..', 'char'), '/home/user/char_wt/tools/blender/char') if os.path.exists(os.path.join(p, 'common.py'))), None)

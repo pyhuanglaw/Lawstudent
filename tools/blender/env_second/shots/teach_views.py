@@ -1,4 +1,4 @@
-"""普通教學館、共同教學館教室的窗外景（#61 ART-ECON-3D-GAP-1021：經濟系那一年在普通上課，教室的窗是一片灰白——layout 的 photo 是 null，用的是程序化的景）。
+"""普通教學館、共同教學館教室的窗外景（#61 ART-ECON-3D-GAP-1021：舊序章那一段在普通上課，教室的窗是一片灰白——layout 的 photo 是 null，用的是程序化的景）。
 在遊戲的校園拍實際畫面，存成 assets/models/env/views/<名稱>_<day|night>.webp（和 boya_views.py、tools/shots/window_views.py 同樣的規格：
 1024×512、水平視角 90°（垂直 53.13°）、白天 11:00、晚上 20:30、藏起路人與玩家；拍的是遊戲畫面，不是照片）。
 名稱的 south／north＝室內配置的 S／N 牆（src/data/*_layout.js 的 windows[].wall），不一定是校園上的方向（共同轉了 180°）。

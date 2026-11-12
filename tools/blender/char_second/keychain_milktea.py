@@ -1,4 +1,4 @@
-"""何俊朗（Long）背包上的奶茶杯鑰匙圈（US-LONG-3D-1110；企劃 AA_80 5-2、AA_145 3-5：「背包上掛一個小小的奶茶杯鑰匙圈」）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
+"""舊序章人物己（Long）背包上的奶茶杯鑰匙圈（US-LONG-3D-1110；企劃 AA_80 5-2、AA_145 3-5：「背包上掛一個小小的奶茶杯鑰匙圈」）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
   /opt/blenv/bin/python tools/blender/char_second/keychain_milktea.py [-- --out assets/models/char/second_ai/keychain_milktea.glb]
 一個 4 cm 高的珍珠奶茶杯：下面一圈黑色珍珠、奶茶色杯身、上緣一圈透白、圓頂杯蓋、粗吸管（斜插）；杯蓋頂上的小環接兩節短鍊子、銀色鑰匙環。
 座標（three.js 模型座標）：原點＝鑰匙環最上面（扣在背包拉鍊頭上的那一點）、整個往 −y 垂下；杯子正面（有吸管那側）朝 +z（背包外面）。

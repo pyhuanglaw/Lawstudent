@@ -1,4 +1,4 @@
-"""何俊朗（Long；美國交換路線的香港朋友）Blender 人物製作（US-LONG-3D-1110；LAWWW 11-10 15:45 派；LAWWW2 帳號 A）。
+"""舊序章人物己（Long；美國交換路線的香港朋友）Blender 人物製作（US-LONG-3D-1110；LAWWW 11-10 15:45 派；LAWWW2 帳號 A）。
 外觀照企劃線 AA_80 5-2、AA_145 3-5（2026-10-16 定）：香港的大學法律系三年級、21 歲、約 176 cm、偏瘦；短髮、單眼皮、眉毛濃、
 圓框眼鏡、深藍色運動外套、背包上掛一個小小的奶茶杯鑰匙圈；笑的時候只笑一邊（表情，遊戲的 ADV／表情另外）。
 還沒有立繪、沒有通過的參考圖：這一版照文字做（D59：角色美術 BB 驗收；之後有參考圖再照圖調）。
@@ -6,10 +6,10 @@
   只換成他自己的參數（N.VAR）；眼鏡、背包、鑰匙圈是配件（props3d：glasses_long.glb、backpack、keychain_milktea.glb）。
 工具：bash tools/blender/setup_env.sh（D144）。
 用法：/opt/blenv/bin/python tools/blender/char_second/long_ho.py -- <輸出.vrm 或 -> [--render 前綴] [--views ...] [--blend 工作檔]
-之後：VRM_BASE=Sakurada_Fumiriya VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> assets/models/char/second_ai/bl_us_long.vrm 何俊朗 #241c18"""
+之後：VRM_BASE=Sakurada_Fumiriya VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> assets/models/char/second_ai/bl_us_long.vrm 舊序章人物己 #241c18"""
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-os.environ['NPC'] = 'nm10'             # npc.py 在 import 時要一個已有的名字；下面整個換成何俊朗的參數
+os.environ['NPC'] = 'nm10'             # npc.py 在 import 時要一個已有的名字；下面整個換成舊序章人物己的參數
 sys.path.insert(0, HERE)
 import npc as N                        # noqa: E402
 C = N.C

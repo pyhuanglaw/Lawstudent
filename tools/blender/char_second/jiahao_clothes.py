@@ -1,5 +1,5 @@
-"""宋家豪（econ_jiahao）的衣服（參考圖 jiahao.webp 正面／側面／背面）：黑色圓領短袖 T＋螢光黃綠背心（敞開、沒有袖子）＋藍色直筒牛仔褲＋白色球鞋。
-LAWWW2-C 2026-10-17 第一版：用韋綸 weilun_clothes 的生產線（阿哲的敞開外套＋tee_full），但「外套」短袖、身片換成螢光背心的顏色、
+"""宋舊序章人物戊（econ_jiahao）的衣服（參考圖 jiahao.webp 正面／側面／背面）：黑色圓領短袖 T＋螢光黃綠背心（敞開、沒有袖子）＋藍色直筒牛仔褲＋白色球鞋。
+LAWWW2-C 2026-10-17 第一版：用舊序章人物乙 weilun_clothes 的生產線（阿哲的敞開外套＋tee_full），但「外套」短袖、身片換成螢光背心的顏色、
 袖子整條換成黑色（sleeve_panels 的半角 180°＝袖子全部）——身片敞開看到裡面的黑色 T 恤（tee_full），手臂上是黑色短袖：看起來就是 T 恤外面套背心。
 已知簡化：背心和袖子之間沒有真的分開（肩線是材質的交界，不是兩件衣服）；背心沒有反光條（參考圖沒有）；拉鍊布條和背心同色。"""
 import os, math
@@ -26,7 +26,7 @@ STYLE = dict(KNIT_RGB=NAVY, TROUSER_RGB=DENIM, LEATHER_RGB=np.array([240, 240, 2
 # 高度寫在阿哲身上（Sakurada Fumiriya 樣本：胯 1.103、脊椎 1.288、胸 1.367、上胸 1.444、脖子 1.595、頭 1.684；遊戲裡縮到 178 cm）：
 # 牛仔褲褲頭在胯骨上方 10 cm（低腰）；外套下擺在胯骨下面 2 cm（羅紋 4.5 cm，蓋住褲頭）；外套圓領貼脖子根部；T 恤圓領比外套低一點
 STYLE_M = dict(PANTS_TOP=1.200, PANTS_BAND=1.160, KNIT_HEM=1.040, KNIT_HEM_TOP=1.056,   # 第六版：下擺長一點、平的（羅紋 4.5 cm → 1.6 cm）
-                CREW_FRONT_Z=1.588, BACK_NECK_Z=1.617, TEE_CREW_Z=1.590)   # 家豪第五版：T 恤圓領高一點（第四版遊戲裡領口兩側露出皮膚）   # 外套下擺到胯骨（第一版 1.12：太短）
+                CREW_FRONT_Z=1.588, BACK_NECK_Z=1.617, TEE_CREW_Z=1.590)   # 舊序章人物戊第五版：T 恤圓領高一點（第四版遊戲裡領口兩側露出皮膚）   # 外套下擺到胯骨（第一版 1.12：太短）
 SIDE_NECK_M = (0.066, 1.631)
 OPEN_PHI = 26.0      # 背心敞開（第五版 30 → 26：開口小一點，領口兩側蓋住）
 
@@ -69,7 +69,7 @@ def tee_under_jacket(cl, tee=3, jacket=(0, 4, 5), inset=0.004, slack=0.002, max_
     bv = BVHTree.FromPolygons(P.tolist(), FJ); T = P[vt]; moved = 0
     for i in vt:
         w = P[i]
-        if w[2] > z_max: continue          # 家豪第四版：領口附近不收（背心敞開、貼著肩膀：T 恤被收到皮膚底下，脖子兩側露出兩塊皮膚）
+        if w[2] > z_max: continue          # 舊序章人物戊第四版：領口附近不收（背心敞開、貼著肩膀：T 恤被收到皮膚底下，脖子兩側露出兩塊皮膚）
         band = T[np.abs(T[:, 2] - w[2]) < 0.012]
         if len(band) < 8: continue
         o = np.array([0.0, 0.5 * (band[:, 1].min() + band[:, 1].max()), w[2]])
@@ -138,7 +138,7 @@ def _apply(m, arm, body):
     top = XC.build_cardigan_open(skin, arm, mb, pants)
     XC.tee_full(skin, arm, mb, K.PANTS_TOP - 0.03, K.TEE_CREW_Z)
     shoes = K.build_shoes(skin, arm, mb)
-    print('  sleeve faces → black tee', sleeve_panels(mb, top, half_angle=180.0, frac=1.2))   # 家豪：整條短袖＝黑色 T 恤
+    print('  sleeve faces → black tee', sleeve_panels(mb, top, half_angle=180.0, frac=1.2))   # 舊序章人物戊：整條短袖＝黑色 T 恤
     zip_tapes(mb, top['edges'])
     os.makedirs(K.WIP, exist_ok=True)
     imgs = [C.image_from_array('J01_Jacket', _texture(NAVY), os.path.join(K.WIP, 'j01_clothes_Jacket.png')),

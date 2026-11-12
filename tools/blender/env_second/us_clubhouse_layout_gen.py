@@ -107,7 +107,7 @@ L['looks'] = [   # 「看」：AA_741 第 5 節不加新台詞——只放櫃台
     {'id': 'counter', 'x': 1.0, 'z': 0.75, 'r': 0.8, 'label': '看櫃台'},
 ]
 L['npc'] = {
-    'long': 'st_SE_s1', 'longNext': 'st_SE_s0', 'note_long': '何俊朗：自習室靠窗那張桌子（東南），固定同一個位子；旁邊那張空著（AA_741 第 2 節）',
+    'long': 'st_SE_s1', 'longNext': 'st_SE_s0', 'note_long': '舊序章人物己：自習室靠窗那張桌子（東南），固定同一個位子；旁邊那張空著（AA_741 第 2 節）',
     'sis': 'st_NE_n1', 'sisNext': 'st_NE_n0', 'note_sis': '學姊：自習室最裡面角落那張桌子（東北）、背對北牆；旁邊那張交往中空出來、挽回中放她的外套（z.setSisCoat）',
     'sisStand': {'x': 10.4, 'z': -0.3, 'yaw': r2(-PI / 2), 'note': '站在學姊那張桌子旁邊（東頭）'},
     'office': {'x': 0.9, 'z': -0.35, 'yaw': 0.0, 'note': '辦公室的人：櫃台後面（不在導航上，放著不走）'},
@@ -116,12 +116,12 @@ L['npc'] = {
     'note': '交誼廳的住戶 2～4 人（沙發看電視、長桌開電腦、販賣機或微波爐前輪流）；自習室的住戶 0～2 人。都不能聊（路人）',
 }
 L['events'] = {
-    'ev_usl_long3': {'long': 'st_SE_s1', 'player': 'st_SE_s0', 'notice': True, 'note': '何俊朗在他的位子、玩家坐他旁邊；公布欄貼一張單子'},
+    'ev_usl_long3': {'long': 'st_SE_s1', 'player': 'st_SE_s0', 'notice': True, 'note': '舊序章人物己在他的位子、玩家坐他旁邊；公布欄貼一張單子'},
     'ev_usb_fb_study': {'sis': 'st_NE_n1', 'player': {'x': 10.4, 'z': -0.3, 'yaw': r2(-PI / 2)}, 'empty': True, 'note': '學姊在她的角落；玩家站在她桌子旁邊；自習室沒有別人'},
     'ev_sis_plan_us': {'sis': 'st_NE_n1', 'player': 'st_NE_n0', 'plan': True, 'note': '兩個人並排坐，桌上攤著讀書計畫（z.setPlan(true)）'},
     'ev_usl_thanks_long': {'start': {'player': {'x': -2.35, 'z': -0.25, 'yaw': r2(PI / 2)}, 'long': {'x': -2.35, 'z': -1.2, 'yaw': r2(PI / 2)}}, 'sofa': {'player': 'sofa_2', 'long': 'sofa_1'}, 'empty': True, 'note': '販賣機前開始，之後坐到沙發；交誼廳沒有別人'},
     'ev_us_club_dinner': {'dinner': True, 'head': 'ld_w', 'roommates': ['ld_n0', 'ld_s0'], 'long': 'ld_n3', 'player': 'ld_s3', 'others': ['ld_n1', 'ld_s1', 'ld_n2', 'ld_s2', 'ld_e'],
-                          'note': '兩張長桌併成一張（z.setDinner(true)）：學姊坐西頭主位、兩位室友在她兩邊、何俊朗（MET_LONG）坐玩家對面、其他是交換生；聖誕樹亮著'},
+                          'note': '兩張長桌併成一張（z.setDinner(true)）：學姊坐西頭主位、兩位室友在她兩邊、舊序章人物己（MET_LONG）坐玩家對面、其他是交換生；聖誕樹亮著'},
 }
 
 txt = ('/* ===== 美國交換：社區 Linden Grove 會所 室內配置（US-CLUBHOUSE-3D-1110，LAWWW2 帳號 A 2026-11-10；AA_741，D109）=====\n'

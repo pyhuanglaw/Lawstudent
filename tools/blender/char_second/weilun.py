@@ -1,14 +1,14 @@
-"""邱韋綸（econ_weilun）Blender 人物製作（LAWWW2-C 2026-10-17，ART-CH-WEILUN；角色模型 D59：BB 驗收；照 BB_131 通過的標準圖 art_reference/weilun.webp）。
-參考圖：台大經濟系一年級、19 歲、176 cm；小麥色皮膚（運動型）、黑色短髮（短、往上翹、有點亂，耳朵露出來）、表情平常偏酷、笑起來大笑；
+"""邱舊序章人物乙（econ_weilun）Blender 人物製作（LAWWW2-C 2026-10-17，ART-CH-WEILUN；角色模型 D59：BB 驗收；照 BB_131 通過的標準圖 art_reference/weilun.webp）。
+參考圖：台大舊序章一年級、19 歲、176 cm；小麥色皮膚（運動型）、黑色短髮（短、往上翹、有點亂，耳朵露出來）、表情平常偏酷、笑起來大笑；
 深藍色防風外套（敞開、肩膀到袖子上段白色／淺灰拼接、羅紋袖口）＋橘色圓領 T（沒有紮）＋深藍運動短褲（膝蓋上面）＋白色中筒襪＋灰色慢跑鞋；
 黑色後背包（src/props3d.js 的 backpack）、單車安全帽（之後另外做）；膝蓋有擦傷（細節圖，第一版不做）。
 做法照阿哲（zhe.py：VRoid 樣本 Sakurada Fumiriya、敞開外套＋T 恤，x_xinci_clothes 的開襟做法）——同一條生產線，和阿哲不同的地方：
   臉（weilun_face：眼睛平、細一點，眉毛直、近黑，下顎線更硬；小麥色比阿哲淺一點）、頭髮（weilun_hair：黑色、更短、往上翹）、
   衣服（weilun_clothes：防風外套的白色拼接在肩膀＝參考圖的肩部色塊，橘色 T，短褲＝h01 褲子的 PANTS_HEM_UP，灰色慢跑鞋）、身高 176。
-  經濟系那一年（v0）才出現；阿哲、明軒（同一個樣本）是法律系那一年，不會同框。
+  舊序章那一段（v0）才出現；阿哲、明軒（同一個樣本）是法律系那一年，不會同框。
 用法：/opt/blenv/bin/python tools/blender/char_second/weilun.py -- <輸出.vrm 或 -> [--blend 工作檔] [--from-blend 工作檔] [--stages stage0,face,clothes,hair] [--render 前綴] [--views ...]
-或：tools/blender/char_second/char_build.sh weilun v1 Sakurada_Fumiriya 邱韋綸 <虹膜色> <base key> 1.76 backpack
-之後：VRM_BASE=Sakurada_Fumiriya python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 邱韋綸 [虹膜色]"""
+或：tools/blender/char_second/char_build.sh weilun v1 Sakurada_Fumiriya 邱舊序章人物乙 <虹膜色> <base key> 1.76 backpack
+之後：VRM_BASE=Sakurada_Fumiriya python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 邱舊序章人物乙 [虹膜色]"""
 import sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 CHAR_LIB = os.environ.get('CHAR_LIB') or next((p for p in (os.path.join(HERE, '..', 'char'), '/home/user/char_wt/tools/blender/char') if os.path.exists(os.path.join(p, 'common.py'))), None)

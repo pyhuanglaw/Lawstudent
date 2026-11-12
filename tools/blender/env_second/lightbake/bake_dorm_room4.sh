@@ -1,5 +1,5 @@
 #!/bin/bash
-# 宿舍四人房（玩家的房間：大一 203／經濟系 412／大二 312／大三 507／大四 409，同一個模型換東西；DORM203-LM-1030，LAWWW2-B 2026-10-30；
+# 宿舍四人房（玩家的房間：大一 203／舊序章 412／大二 312／大三 507／大四 409，同一個模型換東西；DORM203-LM-1030，LAWWW2-B 2026-10-30；
 # 使用者 P0「校內建築室內……廉價手遊感」UA-LAWWW2-1028-01、X125）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 #   bash tools/blender/env_second/lightbake/bake_dorm_room4.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 # 輸出：dorm_room4.glb（多一套 UV＝TEXCOORD_1）＋ dorm_room4_lm_day.webp、dorm_room4_lm_night.webp。遊戲：zones3d.js 的 dorm → attachRoomGLB 看到 GLB 的 extras.lightmap 就接

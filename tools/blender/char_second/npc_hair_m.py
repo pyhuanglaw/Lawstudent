@@ -43,7 +43,7 @@ def make_atlas(seed=SEED, regs=None, temple_col=None):
     def put(name, col, A):
         x0, x1, y0, y1 = REG_[name]; img[y0:y1, x0:x1, :3] = col; img[y0:y1, x0:x1, 3] = A
     def reg(name): x0, x1, y0, y1 = REG_[name]; return y1 - y0, x1 - x0
-    if temple_col is not None:      # 兩鬢灰白（魏教授）：另一格髮片貼圖，顏色淺
+    if temple_col is not None:      # 兩鬢灰白（舊序章的教授）：另一格髮片貼圖，顏色淺
         h, w = reg('cardG'); tc = np.array(temple_col, float)
         # 第六版（BB-C：灰黑夾雜）：髮根深色、往髮尾漸漸變灰白，而且一束一束深淺交錯（第五版整片灰：側面看像染了半邊）
         dark = HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=BASE)
@@ -69,7 +69,7 @@ def apply(m):
     arm = m['arm']; rng = np.random.default_rng(SEED)
     TCOL = P.get('temple_col')        # 兩鬢灰白：耳朵前後（方位 55～125°）的髮片用淺色的那一格
     REGX = dict(REG, card=(0, 256, 0, 1024), cardG=(256, 384, 0, 1024)) if TCOL is not None else REG
-    rc = float(P.get('recede', 0.0))   # 前額髮際線往後（年紀；魏教授）：正中 rc 度、額角（30～45°）多 40%，耳朵以後不動
+    rc = float(P.get('recede', 0.0))   # 前額髮際線往後（年紀；舊序章的教授）：正中 rc 度、額角（30～45°）多 40%，耳朵以後不動
     HB.HAIRLINE = [(a_, e_ + rc * (1.0 + 0.4 * math.exp(-((a_ - 38) / 14.0) ** 2)) * max(0.0, 1 - a_ / 75.0)) for a_, e_ in HAIRLINE]; HB.REG_PX = dict(REGX)          # h01_hair 的 hairline_beta、reg_uv 讀這兩個模組變數
     H = HB.Head(m); c = H.c
     print('  hair(mingxuan): head center', np.round(c, 4), 'R top %.3f brow %.3f..%.3f' % (H.Rtop, H.brow_z, H.brow_top), 'avoid clothes', H.clothes)
@@ -77,7 +77,7 @@ def apply(m):
 
     def az(a): return abs(((a + 180) % 360) - 180)
 
-    STP = float(P.get('side_taper', 0.0))   # 耳朵上面越靠髮尾越貼頭（韋綸第十二版的做法；魏教授第六版：男性短髮的兩側剪短）；0＝不變
+    STP = float(P.get('side_taper', 0.0))   # 耳朵上面越靠髮尾越貼頭（舊序章人物乙第十二版的做法；舊序章的教授第六版：男性短髮的兩側剪短）；0＝不變
     NTP = float(P.get('nape_taper', 0.0))   # 後腦到後頸（方位 115° 以後）也一樣越靠髮尾越貼頭（nm3 10-22：耳上短髮、後頸收薄；原本後面蓬著往下，從側後方看像鮑伯頭）
 
     def side_taper(a, v):
@@ -141,7 +141,7 @@ def apply(m):
             print('   az %4d v_tip %+.3f tip %s (target z %.3f) hairline %s' % (a, vt, np.round(p, 3), float(np.interp(min(a, 112), TIP_A, TIP_Z)), np.round(p0, 3)))
     # ---- 1. 髮殼 ----
     Nu, Nv, PAN = 64, 12, 4
-    A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(float(P.get('shell_v0', 0.0)), 1.0, Nv + 1)   # nm3 短髮：髮殼下緣停在髮際線上方一點，讓髮片蓋住（髮尾短的時候，髮殼的邊在耳朵上方露成一條深色的線）   # 到 1.0（0.97 在頭頂留一個洞，髮旋那裡露出一個白點；阿勳、品妤修過）
+    A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(float(P.get('shell_v0', 0.0)), 1.0, Nv + 1)   # nm3 短髮：髮殼下緣停在髮際線上方一點，讓髮片蓋住（髮尾短的時候，髮殼的邊在耳朵上方露成一條深色的線）   # 到 1.0（0.97 在頭頂留一個洞，髮旋那裡露出一個白點；舊序章人物甲、舊序章人物丁修過）
     SP = np.zeros((Nu + 1, Nv + 1, 3)); SN = np.zeros_like(SP)
     for i, a in enumerate(A_):
         for j, v in enumerate(vs):

@@ -1,11 +1,11 @@
-"""V0-ART-DORM 經濟系那一年的宿舍房間道具（AA_168 第 1、4、5 節；LAWWW2-B 分工 2026-10-16 08:11；AA-B 支援製作）
+"""V0-ART-DORM 舊序章那一段的宿舍房間道具（AA_168 第 1、4、5 節；LAWWW2-B 分工 2026-10-16 08:11；AA-B 支援製作）
   /opt/blenv/bin/python tools/blender/env_second/aa_support/v0_dorm_props.py [-- --out assets/models/env/second_ai/aa_support/v0_dorm_props.glb]
 
 房間沿用法律系 203 的 3D 房間（AA_168 第 5 節：門牌改 412、換室友那一半的東西）。每件一個頂層節點，原點＝底面中心、正面朝 +z：
   BOXES_ONBED  開場：三個搬家紙箱疊在床上（最下面那一箱寫「被子」，AA_168「被子在最下面那一箱」）；原點＝床面
-  BOXES_BED    阿勳搬下來的兩箱，放在床邊地上（「書」「衣服」）
+  BOXES_BED    舊序章人物甲搬下來的兩箱，放在床邊地上（「書」「衣服」）
   BOXES_FOOT   先睡的玩家：兩箱推到床尾，歪歪的靠在一起
-  XUN_DESK     阿勳的書桌上：打開的筆電、一疊寫滿算式的計算紙、自動鉛筆、計算機；原點＝桌面
+  XUN_DESK     舊序章人物甲的書桌上：打開的筆電、一疊寫滿算式的計算紙、自動鉛筆、計算機；原點＝桌面
   XUN_BOWLING  床下露出來的保齡球球袋（單顆袋，拉鍊半開，看得到球）
   BOOK_ECON    《經濟學原理》課本（平放；要立在書架上就繞 x 轉 90°）
 紙箱上的字是媽媽的麥克筆字（只畫進貼圖）；沒有品牌、校名（D77）。筆電、計算機沒有標誌。
@@ -268,7 +268,7 @@ def boxes_foot():
     return pm
 
 
-# ---------------- 阿勳的書桌 ----------------
+# ---------------- 舊序章人物甲的書桌 ----------------
 def laptop(M=None):
     pm = PM(); W, D, t = 0.31, 0.215, 0.009; al, ald = S('alu'), S('alu_dark')
     rbox(pm, -W / 2, W / 2, 0, t, -D / 2, D / 2, {'t': lambda s, u: ruv('keys', s, u), '*': al}, r=0.004, seg=2)

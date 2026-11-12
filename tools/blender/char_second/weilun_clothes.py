@@ -1,4 +1,4 @@
-"""邱韋綸（econ_weilun）的衣服（參考圖 weilun.webp 正面／側面／背面）：深藍防風外套（敞開、肩膀到上臂外側白色／淺灰拼接、羅紋袖口與下擺、拉鍊邊）
+"""邱舊序章人物乙（econ_weilun）的衣服（參考圖 weilun.webp 正面／側面／背面）：深藍防風外套（敞開、肩膀到上臂外側白色／淺灰拼接、羅紋袖口與下擺、拉鍊邊）
 ＋橘色圓領 T（沒有紮）＋深藍運動短褲（膝蓋上面一點、寬鬆）＋灰色慢跑鞋（白鞋底）。後背包是 src/props3d.js 的 backpack。
 LAWWW2-C 2026-10-17 第一版：直接沿用阿哲的 zhe_clothes（h01_clothes＋x_xinci_clothes 的敞開外套、tee_full、拼接、拉鍊；同一個 Sakurada 樣本，高度照用）。
 和阿哲不同：顏色；拼接在肩膀到上臂（參考圖的肩部色塊，阿哲是沿著整條手臂外側的細條）；褲子是短褲（PANTS_HEM_UP）、不是牛仔布；鞋是灰色。
@@ -13,7 +13,7 @@ import common as C
 import h01_clothes as K
 import x_xinci_clothes as XC
 
-NAVY = np.array([38, 44, 66]) / 255.0          # 韋綸：防風外套深藍（參考圖 #262c42）
+NAVY = np.array([38, 44, 66]) / 255.0          # 舊序章人物乙：防風外套深藍（參考圖 #262c42）
 CREAM = np.array([226, 228, 230]) / 255.0      # 肩膀拼接：白／淺灰（參考圖 #e2e4e6）
 MUSTARD = np.array([226, 112, 52]) / 255.0     # 橘色 T 恤（參考圖 #e27034）
 DENIM = np.array([40, 46, 68]) / 255.0         # 深藍運動短褲

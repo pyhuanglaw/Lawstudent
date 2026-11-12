@@ -21,7 +21,7 @@ HT = dict(
     Sakurada_Fumiriya=dict(M=dict(PANTS_TOP=1.200, PANTS_BAND=1.160, KNIT_HEM=1.060, KNIT_HEM_TOP=1.075, CREW_FRONT_Z=1.578, BACK_NECK_Z=1.615, V_BOTTOM=1.540), side=(0.066, 1.631)),
     Victoria_Rubin=dict(M=dict(PANTS_TOP=1.083, PANTS_BAND=1.046, KNIT_HEM=0.960, KNIT_HEM_TOP=0.975, CREW_FRONT_Z=1.395, BACK_NECK_Z=1.430, V_BOTTOM=1.360), side=(0.058, 1.436)),
     HairSample_Female=dict(M=dict(PANTS_TOP=1.100, PANTS_BAND=1.031, KNIT_HEM=0.990, KNIT_HEM_TOP=1.005, CREW_FRONT_Z=1.345, BACK_NECK_Z=1.388, V_BOTTOM=1.300), side=(0.071, 1.402)),
-    Darkness_Shibu=dict(M=dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=0.985, KNIT_HEM_TOP=1.005, CREW_FRONT_Z=1.330, BACK_NECK_Z=1.380, V_BOTTOM=1.290), side=(0.078, 1.392)),   # 沛珊、品妤量過的
+    Darkness_Shibu=dict(M=dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=0.985, KNIT_HEM_TOP=1.005, CREW_FRONT_Z=1.330, BACK_NECK_Z=1.380, V_BOTTOM=1.290), side=(0.078, 1.392)),   # 沛珊、舊序章人物丁量過的
 )
 
 def style(top, pants, shoe, sole, tex='jersey', neck='crew', sleeve=0.46, sleeve_k=0.85, ease=0.9, pants_ell=(0.064, 0.074), drop=False, ptex='twill', shoe_style='sneaker', hem_loose=True, top_fit=0.0):
@@ -222,7 +222,7 @@ VARIANTS = {
                  face=dict(EYE_SX=1.08, EYE_SZ=0.70, EYE_TILT=0.02, BROW_ARCH=0.50, BROW_K=1.50, FACE_NARROW=0.980, CHIN_WIDEN=0.62, JAW_OUT=0.0046, MOUTH_K=1.45),
                  hair=dict(seed=20261330, part=-4.0, col=(0.18, 0.14, 0.11), tip=(-0.026, -0.026, -0.026, -0.016, -0.026, -0.026, -0.026, -0.026, -0.026, -0.026), nape=0.032, vol=1.05, curl=(18, 32)),   # 頭髮第二版：髮尾不超過 −0.026、後頸 ≤0.032（第一版耳後、後腦岔出一撮長髮，遊戲裡變成黑色翅膀）
                  layered=dict(style=outer_style(rgb(232, 228, 216), rgb(64, 66, 54), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve_k=0.82, ease=0.90, pants_ell=(0.070, 0.080), drop=True))),   # 深棕微捲中長髮＋米白針織衫＋深橄欖寬褲＋白球鞋
-    # 魏教授（prof_wei；AA_159 的 look：五十多歲、灰黑短髮、白襯衫＋深藍毛衣背心、袖子捲到手肘、不戴眼鏡；只在講台上遠景，AA-C：用現有教授底模改裝、不必精做）
+    # 舊序章的教授（prof_wei；AA_159 的 look：五十多歲、灰黑短髮、白襯衫＋深藍毛衣背心、袖子捲到手肘、不戴眼鏡；只在講台上遠景，AA-C：用現有教授底模改裝、不必精做）
     # 臉：眼睛小一點、上眼皮重（年紀）、眉毛平、下顎寬一點；皮膚暗一點點；頭髮灰黑、短、整齊側分；衣服 wei_clothes（背心＋白袖子＋白色內層）
     # 第三版（BB-C BB_201 第 4 節：「看起來像國中生」）：頭小一點（0.95 → 0.91）、上身寬厚（torso 1.08）、稍微駝（stoop 1.8 cm）、
     # 頭髮灰白多一點（0.33 → 0.50）、前額髮際線往後（recede 9°）、眉毛灰、臉寬、嘴角低一點；遠景看得出年紀，臉不精修
@@ -257,7 +257,7 @@ def stage0(m):
     import heroine_05 as H05
     H05.fill_hidden_skin(m['body'], 'Body_00_SKIN', TAG + '_Body_filled')
     if VAR['head'] != 1.0: C.scale_head(arm, [m['face'], m['body']], VAR['head'])
-    if VAR.get('torso') or VAR.get('stoop'):     # 魏教授：上身寬厚、稍微駝（身體和臉一起動，之後的衣服、頭髮照新的身體做）
+    if VAR.get('torso') or VAR.get('stoop'):     # 舊序章的教授：上身寬厚、稍微駝（身體和臉一起動，之後的衣服、頭髮照新的身體做）
         ch, nk = C.bone_head(arm, 'J_Bip_C_Chest'), C.bone_head(arm, 'J_Bip_C_Neck'); sp = C.bone_head(arm, 'J_Bip_C_Spine')
         tw, st = float(VAR.get('torso', 1.0)), float(VAR.get('stoop', 0.0)); nkk, bl = float(VAR.get('neck', 1.0)), float(VAR.get('belly', 0.0)); hd = C.bone_head(arm, 'J_Bip_C_Head')
         def sst(a, b, x): t = np.clip((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t)
@@ -297,7 +297,7 @@ def clothes(m):
     # 每個路人用自己的暫存資料夾：h01_clothes 把衣服貼圖存成 WIP/clothes_*.png 再打包，同時建好幾個路人會互相覆蓋
     # （2026-10-14 第二批五個一起建：nm3 打包到寫到一半的 clothes_Trouser.png，VRM 匯出時讀不了）
     PC.K.WIP = os.path.join(PC.K.WIP, 'npc_' + TAG.lower()); os.makedirs(PC.K.WIP, exist_ok=True)
-    if VAR.get('clothes_mod'):           # 款式比 p00_clothes 多的（魏教授：背心＋白袖子＋白色內層）用自己的模組
+    if VAR.get('clothes_mod'):           # 款式比 p00_clothes 多的（舊序章的教授：背心＋白袖子＋白色內層）用自己的模組
         import importlib
         m['clothes'] = importlib.import_module(VAR['clothes_mod']).apply(m); m['clothes'].name = 'Clothes_' + TAG
         return

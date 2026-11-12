@@ -1,12 +1,12 @@
-"""唐睿（econ_tangrui）Blender 人物製作（LAWWW2-C 2026-10-17，ART-CH-TANGRUI；角色模型 D59：BB 驗收；照 BB_131 通過的標準圖 art_reference/tangrui.webp）。
-參考圖：台大經濟系一年級、19 歲、177 cm；黑色蓬鬆捲髮（一圈一圈、蓋到眉毛、耳朵上面）、很愛笑（大笑、誇張的驚訝）；
+"""舊序章人物丙（econ_tangrui）Blender 人物製作（LAWWW2-C 2026-10-17，ART-CH-TANGRUI；角色模型 D59：BB 驗收；照 BB_131 通過的標準圖 art_reference/tangrui.webp）。
+參考圖：台大舊序章一年級、19 歲、177 cm；黑色蓬鬆捲髮（一圈一圈、蓋到眉毛、耳朵上面）、很愛笑（大笑、誇張的驚訝）；
 藍色短袖 POLO 衫（反摺領、胸前短門襟兩顆扣子、沒有紮、胸口口袋插著便利貼）＋白色直筒長褲＋灰色球鞋。
 做法照柏翰（bohan.py：VRoid 樣本 HairSample_Male、p05_clothes 的襯衫身片＋領子＋門襟＋扣子）——同一條生產線，和柏翰、祐廷不同的地方：
   臉（tangrui_face：開朗——眼睛大一點、略彎，嘴寬、唇色自然）、頭髮（tangrui_hair：蓬鬆的黑色捲髮）、
   衣服（tangrui_clothes：短袖 POLO 衫不紮、門襟只到胸口、白長褲、灰球鞋）、身高 177、沒有眼鏡。
   和祐廷同一個樣本（柏翰也是）：臉的差別靠參數＋髮型。
 用法：/opt/blenv/bin/python tools/blender/char_second/tangrui.py -- <輸出.vrm 或 -> [--blend 工作檔] [--from-blend 工作檔] [--stages stage0,face,clothes,hair] [--render 前綴] [--views ...]
-之後：VRM_BASE=HairSample_Male VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 唐睿 [虹膜色]"""
+之後：VRM_BASE=HairSample_Male VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 舊序章人物丙 [虹膜色]"""
 import sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 CHAR_LIB = os.environ.get('CHAR_LIB') or next((p for p in (os.path.join(HERE, '..', 'char'), '/home/user/char_wt/tools/blender/char') if os.path.exists(os.path.join(p, 'common.py'))), None)

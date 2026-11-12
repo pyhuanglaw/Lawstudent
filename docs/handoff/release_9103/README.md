@@ -32,7 +32,7 @@
 - **bcbd4b65**：f72a2a21＋手機修正。**只在 LAWWW-C 暫存區，沒推上 GitHub**；重做：
   `git worktree add --detach <dir> f72a2a21 && cd <dir> && git apply docs/handoff/release_9103/phonefix_4c90c913.patch`（patch 從開發分支拿）`&& git add src/story3d.js tests/phone_auto_unit.js && git commit -m "v9.10.3 候選第二版"`。
 - 回退目標：v9.10.2（main `9335763d`）。
-- 開發分支在 f72a2a21 以後又合了很多（AA_360、AA_357 大五上、AA_362、AA-C 交班兩句、右上角日期、經濟系手機小事隔 3 天）——**都還沒做發布前測試**；建議 v9.10.3 維持 bcbd4b65（只多一個手機修正），其他放下一版。
+- 開發分支在 f72a2a21 以後又合了很多（AA_360、AA_357 大五上、AA_362、AA-C 交班兩句、右上角日期、舊序章手機小事隔 3 天）——**都還沒做發布前測試**；建議 v9.10.3 維持 bcbd4b65（只多一個手機修正），其他放下一版。
 
 ## 6. 下一班怎麼做（乾淨環境比較）
 1. 機器上**一次只跑一支瀏覽器測試**，同時不跑 node 測試、不開子代理（D96：SwiftShader 一次一支）。

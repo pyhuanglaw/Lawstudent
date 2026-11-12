@@ -19,8 +19,8 @@
 |---|---|---|---|---|---|---|
 | BG-01 | riverside（河濱） | ev_mid_autumn_bbq 中秋烤肉（L439）、ev_nye_river 跨年（L756） | 大一上 | **B**（生成圖） | **改用 BB-B 第 20 組使用者生成的 riverside**（LAWWW-B 已接進遊戲，run13 驗過）；跨年也用同一張（LAWWW-B 04:25 決定） | **INTEGRATED（BB-B 版本）**；LAWWW2-B 停 |
 | BG-02 | gongguan_luwei（公館・滷味攤） | ev_midterm_supper 考完的宵夜（L525）；v0 E19、E28 | 大一上 | **C** | 公館店面街 GLB（G05「滷味・鹹酥雞」）＋晚上 20:30＋騎樓下的攤車、**一張折疊桌**、塑膠椅（AA_147） | **INTEGRATED**：`cee40151` → LAWWW-B `92094895`（READY_FOR_ART_REVIEW，等使用者看） |
-| BG-03 | nccu_campus（政大・校園裡的路） | ev_kexin_yule_pass（L418） | 大一上 | **D**（已做） | `bg_nccu.py campus --time night｜dusk`。AA_147：主圖是**十月平日 21:30 夜晚**，傍晚是變體 | **INTEGRATED**：夜晚主圖 `6e5a02b6` → LAWWW-B `92094895`；傍晚變體 v8 暫停（山色太黃，只是變體） |
-| BG-04 | nccu_dorm（政大・宿舍） | ev_kexin_yule_pass（L424；字幕寫「政大・宿舍樓下」） | 大一上 | **D** | 自強十舍樓下有長椅的角度 | 等使用者照片 |
+| BG-03 | nccu_campus（外校・校園裡的路） | ev_kexin_yule_pass（L418） | 大一上 | **D**（已做） | `bg_nccu.py campus --time night｜dusk`。AA_147：主圖是**十月平日 21:30 夜晚**，傍晚是變體 | **INTEGRATED**：夜晚主圖 `6e5a02b6` → LAWWW-B `92094895`；傍晚變體 v8 暫停（山色太黃，只是變體） |
+| BG-04 | nccu_dorm（外校・宿舍） | ev_kexin_yule_pass（L424；字幕寫「外校・宿舍樓下」） | 大一上 | **D** | 自強十舍樓下有長椅的角度 | 等使用者照片 |
 | BG-05 | dorm_roof（宿舍頂樓） | ev_nye_roof 跨年（L767）；v0 E24c | 大一上 | **C** | 男一舍的套件建築沒有頂樓；用 Blender 做頂樓：水泥平台、矮牆、水塔、**一盞昏黃的燈**、矮牆上有便利商店塑膠袋和飲料；遠方最高的大樓放煙火，很小、很遠，**不打出字或數字**（AA_147）；深夜 | **交付** `2a0a7ff4`（`assets/bg/dorm_roof.webp`；READY_FOR_ART_REVIEW） |
 | BG-06 | home_living（臺北・家裡的客廳） | LAND_Y1 除夕（L46）、home3d.js 週末回家 | 大一上寒假起 | **D**＋**B** | **平常版（主圖）、白天版**＝`bg_home.py living`（LAWWW2-B）；**除夕版**＝BB-B 第 25 組使用者生成（c57e39ad，LAWWW-B 04:11 分配） | 平常版 `1fc16c76` **INTEGRATED**（`792946fd`）；白天版 `2a0a7ff4` 交付；除夕版＝BB-B |
 | BG-07 | home_balcony（臺北・家裡的陽台） | LAND_Y1（L61） | 大一上寒假 | **B**（生成圖） | **改用 BB-B 第 26 組使用者生成**（LAWWW-B 04:25 同意）：`bg_home.py balcony` 試算的曬衣、構圖不夠，停在試算 | LAWWW2-B 停；BB-B 處理 |
@@ -31,7 +31,7 @@
 | BG-12 | seaside_town（春假・海邊的小鎮） | ev_noodle_trip_spring_y1（L874，坐火車去） | 大一下 | **B** | AA-B 確認用 D13（字幕寫通稱） | 已確認 |
 | BG-13 | wenzhou_tutoring（溫州街・課輔班門口） | ev_peishan_tutoring（L992，term Y1S2） | 大一下 | **A** | 溫州街正式 GLB：選一棟一樓改成課輔班門口（招牌虛構）；晚上 | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖 19:36，溫州街 v6 的 22 號公寓大門＋「課輔」直幅、樓上「小書包兒童」招牌；`assets/bg/wenzhou_tutoring.webp` 1920×1080） |
 | BG-14 | yongkang_curry（永康街・咖哩店） | ev_family_dinner 家族聚餐（L978） | 大一下 | **C** | 店名照 D77；店面＋室內用 Café／麵店的構件 | **交付**（LAWWW2-C 2026-10-17 15:4x：`assets/bg/yongkang_curry.webp` 1920×1080，`bg_curry.py`＋`bg_paint.py`；虛構的日式小咖哩店、晚上 18:42；`test_shots/bg_cinema_curry/`；READY_FOR_ART_REVIEW） |
-| BG-15 | ntu_soc（台大・社科院門口） | ev_kexin_visits_ntu（L1074）＝K2 第 6 週六 16:00 | 大一下 | **A** | 社科院正式 GLB 取鏡頭；**傍晚**（AA_147；可昕和品妤在門口等，品妤用 compact） | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖傍晚，社科院正面＋菇狀柱；`assets/bg/ntu_soc.webp`） |
+| BG-15 | ntu_soc（台大・社科院門口） | ev_kexin_visits_ntu（L1074）＝K2 第 6 週六 16:00 | 大一下 | **A** | 社科院正式 GLB 取鏡頭；**傍晚**（AA_147；可昕和舊序章人物丁在門口等，舊序章人物丁用 compact） | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖傍晚，社科院正面＋菇狀柱；`assets/bg/ntu_soc.webp`） |
 | BG-16 | ntu_linze（台大・霖澤館前） | 同上（L1079） | 大一下 | **A** | 霖澤館正式 GLB 取鏡頭；傍晚 | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖傍晚粉紅天空，霖澤館穿堂＋館名；`assets/bg/ntu_linze.webp`）；**10-30 重拍（D115 改名：外牆館名改法律系館A；鏡頭 d、16:36；`test_shots/rename_art_1030/` 第五節）** |
 | BG-17 | ntu_avenue（台大・椰林大道） | 同上（L1087） | 大一下 | **A** | 椰林大道（遊戲校園）取鏡頭；傍晚 | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖傍晚，椰林大道往總圖；`assets/bg/ntu_avenue.webp`） |
 | BG-18 | video（視訊） | ev_kexin_video_study（L1099）、ev_kexin_grades_open（L1149）、情人節 | 大一下 | **C** | **可昕那一端：書桌一角＋檯燈**，看不出是宿舍還是家（AA_147、LAWWW-B）；晚上；宿舍和寒假在家用同一張 | **交付** `3a85d367`（`assets/bg/video.webp`）→ LAWWW-B `5ec6a388` 接進 S.BG.video |
@@ -70,4 +70,4 @@
 - ~~BG-01：河濱是哪一條河？~~ 新店溪，同一處。
 - ~~BG-09～12 能不能用約會底圖？~~ 可以（D25、D18、D09 夜晚版、D13，字幕寫通稱）。還沒解決：AA_147 的海邊、老街是白天，D25、D18 是夕陽／黃昏。
 - ~~BG-18：視訊要哪一邊？~~ 可昕那一端：書桌一角＋檯燈。
-- BG-04：字幕「政大・宿舍樓下」和 label「政大・宿舍」要統一。
+- BG-04：字幕「外校・宿舍樓下」和 label「外校・宿舍」要統一。

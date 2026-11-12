@@ -10,7 +10,7 @@
   xs_floor.png   地磚（1024²＝1.8 m：60 cm 米色磚 3×3，每片色差、磚縫積灰、鞋底磨痕）
   xs_atlas.json  每一格的 UV 範圍（u0,v0,u1,v1；Blender 的 v 往上）
 全部是程式畫的；字用系統的文泉驛正黑（wqy-zenhei，GPL＋字型例外：嵌進圖片可以）。沒有任何真實品牌、標誌（D77）；店名「新生運動廣場」、系名都是虛構的，
-參考圖上球衣的校名（其中兩個是真的學校）換成系名（電機系、土木系、經濟系）。"""
+參考圖上球衣的校名（其中兩個是真的學校）換成系名（電機系、土木系、舊序章）。"""
 import json, math, os, sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -252,7 +252,7 @@ cell('volley', 512, 0, 512, 256, volleyball, pad=0)
 cell('tennis', 1024, 0, 256, 128, tennis, pad=0)
 cell('trees', 1280, 0, 512, 512, trees)
 cell('street', 1792, 0, 256, 512, street)
-JERSEYS = [('j37', '#1f2d55', '電機系', 37, '#f4f2ec', None), ('j16', '#b8242c', '土木系', 16, '#f4f2ec', None), ('j88', '#eeede6', '經濟系', 88, '#1f2d55', None),
+JERSEYS = [('j37', '#1f2d55', '電機系', 37, '#f4f2ec', None), ('j16', '#b8242c', '土木系', 16, '#f4f2ec', None), ('j88', '#eeede6', '舊序章', 88, '#1f2d55', None),
            ('j7', '#17213f', '法律系', 7, '#d9b45a', None), ('j12', '#6e1f2c', '化工系', 12, '#efe6d2', None), ('j21', '#2f6b45', '森林系', 21, '#f4f2ec', None),
            ('j5', '#8fb8de', '大氣系', 5, '#1f2d55', None), ('j30', '#26272b', '機械系', 30, '#d8742c', None)]
 for k, (nm, col, dept, no, nc, sd) in enumerate(JERSEYS):

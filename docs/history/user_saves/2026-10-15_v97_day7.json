@@ -189,7 +189,7 @@
   },
   {
    "day": 4,
-   "t": "第一次去政大：可昕當導遊"
+   "t": "第一次去外校：可昕當導遊"
   },
   {
    "day": 4,
@@ -590,7 +590,7 @@
     {
      "tag": "KNOWS_ECON_YEAR",
      "day": 2,
-     "note": "他說他念過一年經濟系"
+     "note": "他說他念過一年舊序章"
     },
     {
      "tag": "CAFE_AFTERNOON",
@@ -751,7 +751,7 @@
     {
      "tag": "OUR_SHOP_FIRST",
      "day": 4,
-     "note": "政大山下的小吃街"
+     "note": "外校山下的小吃街"
     }
    ],
    "prof_zhang": [
@@ -1769,7 +1769,7 @@
    "day": 1,
    "h": 21.21,
    "who": "kexin",
-   "text": "假設你在台大讀的案例，和我在政大讀的是同一個。",
+   "text": "假設你在台大讀的案例，和我在外校讀的是同一個。",
    "iv": null,
    "th": "p:kexin",
    "from": "kexin"
@@ -1986,7 +1986,7 @@
    "day": 3,
    "h": 19.5,
    "who": "kexin",
-   "text": "週末來政大？我當導遊。",
+   "text": "週末來外校？我當導遊。",
    "iv": null,
    "th": "p:kexin",
    "from": "kexin",
@@ -2177,8 +2177,8 @@
    "ev": "ev_kexin_tour_nccu",
    "day": 4,
    "h": 14,
-   "place": "政大",
-   "title": "去政大找可昕",
+   "place": "外校",
+   "title": "去外校找可昕",
    "travel": "開車約 30 分鐘"
   }
  ],

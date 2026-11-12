@@ -23,7 +23,7 @@ from cafe_layout import bush, pot, card, rand_uv, proto, combine, uv01   # noqa:
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None):
     return ARGS[ARGS.index(name) + 1] if name in ARGS else default
-SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝政大山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
+SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝外校山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
 OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb', 'xinsheng': 'xinsheng_street.glb', 'xinsheng_far': 'xinsheng_far.glb', 'tingzhou': 'tingzhou_street.glb'}.get(SET, 'wenzhou_street.glb')))
 
 # ---------------- 遊戲裡的配置（照 zones3d.js buildWenzhou；改那邊要一起改這裡） ----------------
@@ -213,9 +213,9 @@ if SET == 'gongguan':
 # 巷子南北向（x 往東、z 往南）：西側立面在 x=facade.west、朝東（ry=π/2：建築的 +x＝世界 −z）；東側在 x=facade.east、朝西（ry=−π/2：建築的 +x＝世界 +z）。
 # 配置裡的 9 間店照 z0～z1 蓋（店門在中間）；店與店之間的空檔補上沒有互動的樓房：寬度不到 2.6 m 的是住家樓梯間（紅／綠鐵門），其他是住家、鐵捲門、一般小店；
 # 兩條小巷（alleys）不蓋（走不進去的背景巷由遊戲做）；靠小巷、靠和平東路／辛亥路的那一面開側窗。店名是虛構的（配置裡的名字）。
-# 政大山下（--set nccu_food；LAWWW2-B 2026-10-16；outings3d.js 的 nccu_food「政大・山下的小吃街」）：只給 bg_nccu.py 算 2D 背景（沒有導航）。
-# 使用者 2026-10-16：「政大附近有麥當勞 和主要什麼學生會去的店你要實際查 不要虛構」→ 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：
-# 指南路二段 57～67 號（政大側門「麥側」斜對面、學生人流最多的一段）由南往北：敏忠小吃 57、迷客夏 59、50嵐 63、一樓甜品店＋二樓四川飯館 65、麥當勞 67（三層）。
+# 外校山下（--set nccu_food；LAWWW2-B 2026-10-16；outings3d.js 的 nccu_food「外校・山下的小吃街」）：只給 bg_nccu.py 算 2D 背景（沒有導航）。
+# 使用者 2026-10-16：「外校附近有麥當勞 和主要什麼學生會去的店你要實際查 不要虛構」→ 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：
+# 指南路二段 57～67 號（外校側門「麥側」斜對面、學生人流最多的一段）由南往北：敏忠小吃 57、迷客夏 59、50嵐 63、一樓甜品店＋二樓四川飯館 65、麥當勞 67（三層）。
 # 店面寬度、樓層數、配色是推估（沒有看到照片）；只有一側（W）有房子，對面是指南路和校園（bg_nccu.py 做）。
 # 使用者 2026-10-16：店名一律改諧音（避免侵權）：敏忠小吃→明中小吃、迷客夏→米可夏、50嵐→五十藍、四川飯館→肆川飯館、麥當勞→麥丹勞、摩斯漢堡→魔司漢堡；不畫商標、不照抄品牌配色
 NCCU_FOOD = {"sides": ["W"], "lane": {"x0": -3.0, "x1": 3.0, "z0": -40.0, "z1": 14.0}, "facade": {"west": -4.6, "east": 4.6}, "floorH": 3.1, "groundH": 3.5, "alleys": [],

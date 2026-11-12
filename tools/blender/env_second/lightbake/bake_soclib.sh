@@ -1,5 +1,5 @@
 #!/bin/bash
-# 社科院圖書館（辜先生紀念圖書館一樓開架閱覽室；SOCLIB-LM-1030，LAWWW-B 10-30 派工、D99 經濟系那一年念書的地方；LAWWW2-B 2026-10-30）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
+# 社科院圖書館（辜先生紀念圖書館一樓開架閱覽室；SOCLIB-LM-1030，LAWWW-B 10-30 派工、D99 舊序章那一段念書的地方；LAWWW2-B 2026-10-30）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 #   bash tools/blender/env_second/lightbake/bake_soclib.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 # 輸出：soclib_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ soclib_interior_lm_day.webp、_night.webp（＋soclib_interior.json 統計）。
 #   遊戲：soclib3d.js 用 Z3.attachRoomGLB 接正式模型，看到 GLB 的 extras.lightmap 就接（和 Café 同一套），不用改程式；天窗（--dayemit）晚上由 Z3.roomLightmap 調暗（RT-NIGHT-1028）。

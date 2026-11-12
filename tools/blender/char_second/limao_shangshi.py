@@ -1,11 +1,11 @@
 """禮貌生財上師（X332；使用者 11-10 23:4x 的人物圖 docs/handoff/user_specs/limao_ref/shangshi_character.png；LAWWW2 帳號 A 2026-11-11）。
 六十多歲、灰白捲髮、圓框細金屬眼鏡、灰白山羊鬍、咖啡色鴨舌帽、深咖啡燈芯絨西裝外套、墨綠 V 領毛衣＋米色襯衫、棕藍格紋長圍巾、灰褐毛料長褲；成人比例（不 Q 版）。
-做法：路人生產線 npc.py（同何俊朗 long_ho.py）換成他的參數；帽子、眼鏡、鬍子、圍巾是配件（shangshi_props.py → GLB，props3d 掛在頭、胸）。角色美術 LAWWW 驗（D100a）。
+做法：路人生產線 npc.py（同舊序章人物己 long_ho.py）換成他的參數；帽子、眼鏡、鬍子、圍巾是配件（shangshi_props.py → GLB，props3d 掛在頭、胸）。角色美術 LAWWW 驗（D100a）。
 用法：/opt/blenv/bin/python tools/blender/char_second/limao_shangshi.py -- <輸出.vrm 或 -> [--render 前綴] [--views ...]
 之後：VRM_BASE=Sakurada_Fumiriya VRM_MALE=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> assets/models/char/second_ai/bl_limao_shangshi.vrm 禮貌生財上師 #2a2018"""
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-os.environ['NPC'] = 'nm10'             # npc.py 在 import 時要一個已有的名字；下面整個換成何俊朗的參數
+os.environ['NPC'] = 'nm10'             # npc.py 在 import 時要一個已有的名字；下面整個換成舊序章人物己的參數
 sys.path.insert(0, HERE)
 import npc as N                        # noqa: E402
 C = N.C
