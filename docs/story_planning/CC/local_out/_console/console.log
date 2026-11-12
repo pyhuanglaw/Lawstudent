@@ -247,3 +247,12 @@
 [14:48:10] ==== START X352_CON_dabu  (probe @ 42c493ca277073a91d87dca7f971f6625a56d6a0) ====
 [14:48:13] [res] cpu=51% mem=48% (15.1/31.4 GB) chrome_testing=8  START X352_CON_dabu
 [14:52:03] [res] cpu=19% mem=52% (16.4/31.4 GB) chrome_testing=10  END X352_CON_dabu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1cbd49a90..8e645cdd1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:52:12] ==== END   X352_CON_dabu  exit=1  233s   ====
+[14:52:23] memory 53% before starting X352_CON_nanyang (2 running)
+[14:52:23] ==== START X352_CON_nanyang  (probe @ 42c493ca277073a91d87dca7f971f6625a56d6a0) ====
+[14:52:26] [res] cpu=13% mem=53% (16.9/31.4 GB) chrome_testing=10  START X352_CON_nanyang
+[14:52:48] 正在跑：X352B_new_a（已跑 6 分／上限 60 分）、X352B_new_b（已跑 6 分／上限 60 分）、X352_CON_nanyang（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:57:41] [res] cpu=17% mem=52% (16.3/31.4 GB) chrome_testing=10  END X352_CON_nanyang
