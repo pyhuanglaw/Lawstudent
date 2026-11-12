@@ -47,9 +47,10 @@ def build(src, sha):
     for v in src['keys']:
         w = f'AA_719 {v.get("id")}'
         who, n = v['who'], int(v['beat'])
-        if who not in A or not (1 <= n <= len(A[who]['beats'])):
+        B = [b for b in (A.get(who) or {}).get('beats', []) if b.get('n') == n]   # 照 n 找（CANON-NO-ECON-1112 第三批：可昕第 4、5 拍整拍拿掉，n 不重排）
+        if not B:
             raise SystemExit(f'{w}：AA_712 沒有 {who} 第 {n} 拍')
-        nopt = len(A[who]['beats'][n - 1]['opts'])
+        nopt = len(B[0]['opts'])
         if v.get('style') not in STYLES:
             raise SystemExit(f'{w}.style「{v.get("style")}」：不認得')
         vals = set((v.get('values') or {}).keys())
