@@ -50514,7 +50514,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-12 08:5x】做好、已合併（子代理 d5a1f170c9）：選單「說明」分頁重寫 12 節（src/data/help_text.js，全部的字在這一份）＋第一次提示 11 種（src/hints3d.js；每種每份存檔一次、G.flags.HINT_SEEN；劇情中不出、兩則隔 45 秒；舊存檔不跳一串；設定「提示」可關）。機制逐條對過程式（時段、上課、考試、約人、手機、存檔）。tests/help_guide_1110_unit.js 59 項 ALL PASS；**瀏覽器、手機都沒看過**（提示條的位置、會不會被別的通知蓋掉）。字請 AA 過目；BB／CC 驗。已知限制：提示可能被別的通知提早換掉；打工那一節等 SHOP-JOBS 第四輪合併後再對一次｜【11-10 00:3x LAWWW-B】使用者 X268 選「說明頁＋第一次提示」。說明分頁現在是舊原型文字（credits 也過時）。LAWWW 寫（UI 文字，不是台詞；用詞照 00_台詞寫作規則的白話原則），BB 測。",
+   "next": "【LAWWW-C 11-12 11:0x】BB 判：六則 PASS、「花錢」那則 1.7 秒被下一則通知換掉＝FAIL P2 → 已修：新手提示至少顯示 6 秒、別的通知排在後面（game3d.js toast 第三個參數 hold；tests/hint_toast_hold_1112_unit.js）；等 CC 重跑 HELP_GUIDE、BB 判｜【LAWWW-C 11-12 08:5x】做好、已合併（子代理 d5a1f170c9）：選單「說明」分頁重寫 12 節（src/data/help_text.js，全部的字在這一份）＋第一次提示 11 種（src/hints3d.js；每種每份存檔一次、G.flags.HINT_SEEN；劇情中不出、兩則隔 45 秒；舊存檔不跳一串；設定「提示」可關）。機制逐條對過程式（時段、上課、考試、約人、手機、存檔）。tests/help_guide_1110_unit.js 59 項 ALL PASS；**瀏覽器、手機都沒看過**（提示條的位置、會不會被別的通知蓋掉）。字請 AA 過目；BB／CC 驗。已知限制：提示可能被別的通知提早換掉；打工那一節等 SHOP-JOBS 第四輪合併後再對一次｜【11-10 00:3x LAWWW-B】使用者 X268 選「說明頁＋第一次提示」。說明分頁現在是舊原型文字（credits 也過時）。LAWWW 寫（UI 文字，不是台詞；用詞照 00_台詞寫作規則的白話原則），BB 測。",
    "xai": {
     "spec": "使用者 11-10 00:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",

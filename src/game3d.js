@@ -20,10 +20,10 @@ const GAME = (function(){
   /* 提示一次一則：前一則出現不到 1.5 秒又有新的，排在後面（原本直接蓋掉——BB 10-21 經濟系天天睡覺：12/13 生活費的提示 24 次有 1 次看不到，UI-MONEY-TOAST-ADV-1021）；
      同一句還在畫面上＝延長；同一句已經在排＝不重複；最多排三則 */
   const TQ=[]; let tCur='', tMin=0, tHide=null, tNext=null; const TOAST_MIN=1500;
-  function toastShow(t,ms){ const el=$('toast'); if(!el) return; el.textContent=t; el.classList.remove('hide'); el.style.opacity=1; tCur=t; tMin=Date.now()+TOAST_MIN; clearTimeout(tHide);
+  function toastShow(t,ms,hold){ const el=$('toast'); if(!el) return; el.textContent=t; el.classList.remove('hide'); el.style.opacity=1; tCur=t; tMin=Date.now()+Math.max(TOAST_MIN,Math.min(hold||0,ms||2200));   /* hold：這一則至少顯示這麼久，後面的才換（新手提示 6 秒；BB 11-12：「花錢」那則 1.7 秒就被下一則換掉、讀不完）*/ clearTimeout(tHide);
     tHide=setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ if(el.textContent===t&&tCur!==t) el.classList.add('hide'); },300); tCur=''; toastPump(); },ms||2200); }
-  function toastPump(){ clearTimeout(tNext); tNext=null; if(!TQ.length) return; const w=tMin-Date.now(); if(tCur&&w>0){ tNext=setTimeout(toastPump,w); return; } const [t,ms]=TQ.shift(); toastShow(t,ms); }
-  function toast(t,ms){ if(t===tCur){ toastShow(t,ms); return; } if(TQ.some(x=>x[0]===t)) return; if(tCur&&Date.now()<tMin){ TQ.push([t,ms]); if(TQ.length>3) TQ.shift(); toastPump(); return; } toastShow(t,ms); }
+  function toastPump(){ clearTimeout(tNext); tNext=null; if(!TQ.length) return; const w=tMin-Date.now(); if(tCur&&w>0){ tNext=setTimeout(toastPump,w); return; } const [t,ms,hold]=TQ.shift(); toastShow(t,ms,hold); }
+  function toast(t,ms,hold){ if(t===tCur){ toastShow(t,ms,hold); return; } if(TQ.some(x=>x[0]===t)) return; if(tCur&&Date.now()<tMin){ TQ.push([t,ms,hold]); if(TQ.length>3){ const i=TQ.findIndex(x=>!x[2]); TQ.splice(i>=0?i:0,1); }   /* 排太多：先丟不是提示的 */ toastPump(); return; } toastShow(t,ms,hold); }
   toast.queue=()=>TQ.map(x=>x[0]);   /* 測試用 */
   /* 讀檔、開新遊戲：上一局排著、還在畫面上的提示收掉（BUG-LOAD-INVITE-LEAK-1107：讀完 13:48 的檔，畫面還是上一局的「提醒：14:00 和杜可昕約在……」）*/
   function toastClear(){ TQ.length=0; clearTimeout(tNext); tNext=null; clearTimeout(tHide); tHide=null; tCur=''; tMin=0; const el=$('toast'); if(el){ el.classList.add('hide'); el.style.opacity=0; el.textContent=''; } }

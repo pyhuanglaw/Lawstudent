@@ -16,7 +16,7 @@
 const HINTS=(function(){
   const S={};
   const T=()=>typeof HELP_TEXT!=='undefined'&&HELP_TEXT?HELP_TEXT:{sections:[],credits:[],hints:{}};
-  S.GAP_MS=45000; S.FIRST_MS=4000; S.SHOW_MS=6500; S.MONEY_LOW=300;
+  S.GAP_MS=45000; S.FIRST_MS=4000; S.SHOW_MS=6500; S.HOLD_MS=6000;   /* 這一則至少顯示 6 秒，別的通知排在後面（BB 11-12 HELP-GUIDE FAIL P2）*/ S.MONEY_LOW=300;
   S._now=()=>Date.now();
   /* 基本的幾種：玩了一陣子的舊存檔直接當作看過 */
   S.BASIC=['free','slot','cls','phone','invite','invited','travel','buy','save'];
@@ -58,7 +58,7 @@ const HINTS=(function(){
   };
   function canShow(GM){ if(S.busy(GM)) return false; const now=S._now(), G=GM.G; let t0=seenG.get(G); if(t0==null){ t0=now; seenG.set(G,t0); }
     if(now-t0<S.FIRST_MS) return false; if(lastAt&&now-lastAt<S.GAP_MS) return false; return true; }
-  function show(GM,k){ const txt=(T().hints||{})[k]; if(!txt) return false; S.rec(GM.G)[k]=1; pend.delete(k); lastAt=S._now(); if(GM.toast) GM.toast(txt,S.SHOW_MS); return true; }
+  function show(GM,k){ const txt=(T().hints||{})[k]; if(!txt) return false; S.rec(GM.G)[k]=1; pend.delete(k); lastAt=S._now(); if(GM.toast) GM.toast(txt,S.SHOW_MS,S.HOLD_MS); return true; }
   /* 別的程式遇到了某一種情況：能出就出，不能出（劇情中、剛出過一則）就排著 */
   S.fire=function(GM,k,o){ const G=GM&&GM.G; if(!G||!S.on(GM)||!(T().hints||{})[k]) return false; if(S.seen(G,k)) return false;
     if(o&&o.later){ S.rec(G)[k]=1; pend.add(k); return true; }   /* later：現在就記成看過（接著要存檔），字排著、等一下出 */
