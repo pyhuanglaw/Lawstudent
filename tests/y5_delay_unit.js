@@ -231,7 +231,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G5. 模擬 日本路線 9/2 跳到 12/23（總圖／家教／國考各一輪）：每一次跳過的那一段出那一段的一句（三選一照 9/3 的選擇）；10/16 一跳到 11/20＝出 10/17～11/19 的三選一（借延長線／橘子／刑法的書邊），共通的不出（AA_363 T3）；12/18 最後一次實習有停、不重複；12/19～23 那句在這條路上被下一段蓋過（照現在）',
       !bad.length,bad.map(v=>v+'='+(R[v].err?R[v].err.stack:JSON.stringify(R[v].lines))).join('｜'));
     const U=await simY5({EXCHANGE_ROUTE:'US'},()=>{ H.FRIEND('kexin'); H.date('kexin'); },'接家教');
-    const ue=[L.us,t('2029-09-04','work'),t('2029-09-12','work'),t('2029-09-23','work'),OCT.work,t('2029-11-21','work'),L.end,L.nyeDating];   /* 和可昕交往中：跨年那一句是交往中那一版（AA_471 第 7 節）。10/16 實習 → 10/17 週年（隔一天，沒有句子）→ 11/20：落在範圍以後＝三選一（AA_363 T3）*/
+    const ue=[L.us,t('2029-09-04','work'),t('2029-09-12','work'),t('2029-09-23','work'),L.common/* 10/17 週年沒選地點那晚她打來的電話（原本停一下）CANON-NO-ECON-1112 第三批拿掉：這一段改出共通那一句 */,OCT.work,t('2029-11-21','work'),L.end,L.nyeDating];   /* 和可昕交往中：跨年那一句是交往中那一版（AA_471 第 7 節）。10/16 實習 → 10/17 週年（隔一天，沒有句子）→ 11/20：落在範圍以後＝三選一（AA_363 T3）*/
     check('G5. 模擬 美國路線（和可昕交往、接家教）：第一次跳先出「週一、週三補修兩門課……」，下一次跳再出第一週那一句；10/17 → 11/20 出橘子那句（AA_363 T3）；可昕的學期末約會（12/21）有停、出「大五上結束了……」、跨年出交往中那一句（AA_471 第 7 節）',
       !U.err&&JSON.stringify(U.lines)===JSON.stringify(ue)&&U.stops.some(s=>/^te_kx_Y5S1@2029-12-2[123]$/.test(s))&&PG.done(U.G,'y5_intern4'),(U.err?U.err.stack:'')+JSON.stringify(U.lines)+JSON.stringify(U.stops)); }
   H.done();

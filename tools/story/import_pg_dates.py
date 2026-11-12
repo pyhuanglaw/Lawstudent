@@ -13,7 +13,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as G
 ALLOW = G.load(ROOT)
-P366 = 'docs/story_planning/AA_366_可昕我們的日子_畢業以後.md'
 P367 = 'docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'
 APPROVED = G.approved_files(ALLOW, 'docs/story_planning/')
 
@@ -41,46 +40,8 @@ def iso(md, year):
     return f'{year}-{int(m):02d}-{int(d):02d}'
 
 
-# ---------- AA_366 ----------
-t366, s366 = read(P366)
-sec = None
+# ---------- AA_366（可昕畢業以後的「我們的日子」）：CANON-NO-ECON-1112 第三批拿掉（固定的「我們的日子」只是兩校才需要；白名單那一筆也拿掉了）——不讀、可昕的格子空著 ----------
 segs, slots = {}, []
-SEG_YEAR = {'p1': 2029, 'p2': 2029, 'p3': 2029, 'p4': None, 'p5': 2030}
-yr = lambda seg, md: SEG_YEAR[seg] or (2029 if int(md.split('/')[0]) >= 6 else 2030)   # P4：12 月是 2029，1 月是 2030
-for line in t366.split('\n'):
-    if line.startswith('## '): sec = line; continue
-    if not sec or not line.startswith('| P'): continue
-    c = cells(line); seg = c[0].split()[0].lower()
-    if seg not in SEG_YEAR: sys.exit(f'AA_366：認不得的段（{c[0]}）')
-    if sec.startswith('## 1.'):
-        m = re.match(r'^(\d+/\d+)(?:（.）)?：', c[3])
-        if not m: sys.exit(f'AA_366 第 1 節 {seg}：開頭那一則讀不出日子（{c[3]}）')
-        lines = re.findall(r'「([^」]*)」', c[3])
-        if len(lines) != 2: sys.exit(f'AA_366 第 1 節 {seg}：開頭那一則不是兩句（{c[3]}）')
-        days = c[2]
-        if seg == 'p3':
-            wh = re.search(r'週五 (\d\d):00／週六、週日 (\d\d):00', days)
-            if not wh: sys.exit('AA_366 第 1 節 p3：讀不出週五／週六、週日的時間')
-            h = {'fri': int(wh.group(1)), 'sat': int(wh.group(2)), 'sun': int(wh.group(2))}
-        else:
-            wh = re.search(r'(\d\d):00', days)
-            if not wh: sys.exit(f'AA_366 第 1 節 {seg}：讀不出時間（{days}）')
-            h = int(wh.group(1))
-        lst = days.split('：', 1)[1] if '：' in days else ''
-        lst = re.sub(r'（[^）]*）', '', lst).replace('那三週', '')
-        dl = [iso(x.strip(), yr(seg, x.strip())) for x in lst.split('、') if re.match(r'^\d+/\d+$', x.strip())]
-        segs[seg] = {'open': iso(m.group(1), yr(seg, m.group(1))), 'lines': lines, 'h': h, 'days': dl, 'call': '電話' in days}
-    elif sec.startswith('## 2.'):
-        md = c[1].replace('那週', '').strip()
-        line_, note = one_quote(c[2], f'AA_366 第 2 節 {seg} {c[1]}')
-        s = {'seg': seg, 'key': iso(md, yr(seg, md)), 'line': line_}
-        if '那週' in c[1]: s['week'] = True
-        slots.append(s)
-if sorted(segs) != ['p1', 'p2', 'p3', 'p4', 'p5'] or len(slots) != 25: sys.exit(f'AA_366：段 {sorted(segs)}、格 {len(slots)}（應該是五段、25 格）')
-for seg, S in segs.items():   # 第 1 節的日子＝第 2 節的日子（照順序）
-    got = [s['key'] for s in slots if s['seg'] == seg]
-    if got != S['days']: sys.exit(f'AA_366 {seg}：第 1 節的日子 {S["days"]} 和第 2 節 {got} 不一樣')
-    del S['days']
 
 # ---------- AA_367 ----------
 t367, s367 = read(P367)
@@ -129,7 +90,7 @@ if P759 in APPROVED:
         cell['line'] = r['new']; n759 += 1
     src759 = f'{P759}@{s759}（沛珊每月一格 12 列，換了 {n759} 列）'
 
-out = {'source': {'AA_366': f'{P366}@{s366}', 'AA_367': f'{P367}@{s367}'}, 'kexin': {'segs': segs, 'slots': slots}, 'six': six}
+out = {'source': {'AA_367': f'{P367}@{s367}'}, 'kexin': {'segs': segs, 'slots': slots}, 'six': six}   # kexin 空著：src/pgdates3d.js 照舊讀得到（沒有格子）
 if src523: out['source']['AA_523'] = src523
 if src759: out['source']['AA_759'] = src759
 js = ('/* 自動產生：tools/story/import_pg_dates.py（AA_366 第二版、AA_367；企劃線照白名單的 commit；台詞一字不改）。不要手改：改企劃、白名單以後重跑。\n'

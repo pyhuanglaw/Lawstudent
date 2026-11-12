@@ -235,7 +235,7 @@ sec('9',()=>{ const SAT=TD(5,6);
   check('9. 紙皇冠：「這週不行」＝不再私訊（kx_yule_crown）；動態第 3 則在宵夜那一晚之後隔天 12:30',!(H.G.msgs||[]).some(x=>x.tag==='kx_yule_crown')&&!!k3&&k3.day===ASK+2&&Math.abs(k3.h-12.5)<0.01&&k3.v==='no',J(k3));
   if(HAS()) FEED.respond(H.G,'kx3','cm'); check('9. 紙皇冠：沒去的留言「女王好。」→「她說謝謝。她說下次要見你本人。」',J(th('kexin').slice(-2).map(x=>x.text))===J(['女王好。','她說謝謝。她說下次要見你本人。']));
   fresh(ASK,16,{dating_kexin:true,NCCU_VISITED:true,kxYuleAskDay:ASK,KX_YULE:'yes',yulePassDay:ASK+1}); H.G.outings=[{id:'kx_yule',ev:'ev_kexin_yule_pass',day:ASK+1,h:19.5,state:'done'}]; walk(ASK+2,13,{rules:true,step:0.5}); k3=item('kx3');
-  if(HAS()) FEED.respond(H.G,'kx3','cm'); check('9. 紙皇冠：有去＝一樣出（隔天 12:30），留言回「她說謝謝。她說你及格了。」',!!k3&&k3.day===ASK+2&&k3.v==='yes'&&th('kexin').slice(-1)[0].text==='她說謝謝。她說你及格了。',J(k3));
+  if(HAS()) FEED.respond(H.G,'kx3','cm'); check('9. 紙皇冠：有去的版本（那一晚的宵夜拿掉，一律沒去的版本）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!k3&&k3.day===ASK+2&&k3.v==='no',J(k3));
   fresh(ASK,16,{dating_kexin:true,NCCU_VISITED:true,kxYuleAskDay:ASK,KX_YULE:'yes'}); H.G.outings=[{id:'kx_yule',ev:'ev_kexin_yule_pass',day:ASK+1,h:19.5,state:'planned'}]; walk(ASK+1,12,{step:0.5});
   check('9. 紙皇冠：答應了、還沒去＝先等（不先貼沒去的版本）',!item('kx3')&&!R().done.kx3);
   /* 酸辣湯餃（12/3）*/

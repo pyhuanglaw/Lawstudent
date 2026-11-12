@@ -96,7 +96,7 @@ const FEED=(function(){
   /* 去沒去（照片、回覆的兩個版本）*/
   S.WENT={
     kxBbq:G=>!!(G.flags&&G.flags.KX_BBQ_COME&&G.events&&G.events.done&&G.events.done.ev_mid_autumn_bbq!=null),   /* K3「來我們這邊。」而且中秋烤肉有去（她在你旁邊）*/
-    kxYule:G=>!!(G.flags&&G.flags.yulePassDay!=null),   /* 予樂的宵夜你有去 */
+    kxYule:G=>false,   /* 那一晚的宵夜（外校）：CANON-NO-ECON-1112 第三批拿掉，一律是沒去的版本 */
     kxDec3:G=>{ const F=G.flags||{}; return !!(F.KX_DEC3_VISIT||(F.KX_DEC3&&F.KX_DEC3[1]==='visit')); },   /* 12/3 交完報告那晚（那一場 CANON-NO-ECON-1112 第三批拿掉，這裡一律是沒去的版本；AA_503 d13ab3ab7 第 12 節第 3 點）*/
     anWent:G=>(G.invites||[]).some(iv=>iv&&iv.who==='heroine_01'&&iv.state==='done')||!!(G.dateLog&&G.dateLog.heroine_01&&(G.dateLog.heroine_01.count|0)>0),   /* 和以安一起去過：INV 任一地點見到了，或校外約會（AA_505 1-3 第 3 則）*/
     /* 報了 C12 京都語言課（還在京都＝'yes'、回來了＝'done'；沒去＝'missed' 不算）而且和以安 FAMILIAR 以上（同班那一版，vac_activities.js 的 AN_C12：她只有大二暑假在京都）（AA_506 1-3 第 7 則）*/
