@@ -646,7 +646,19 @@ const GAME = (function(){
      做法：最多每秒 GM.fpsCap 幀（預設 60）——還沒到下一幀的時間就跳過這次 rAF（不更新、不畫）；60 Hz 的螢幕每次 rAF 都過（和以前一樣）。
      用「排定的下一幀時間」累加（不是「距離上一幀多久」），在 120／144／240／300 Hz 上都落在固定的那幾個垂直同步上。網址 ?fps=N 改上限、?fps=0 不設上限（對照用）。測試 tests/fps_cap_1112_unit.js */
   GM.fpsCap=(()=>{ try{ const m=/[?&]fps=(\d+)/.exec(location.search||''); if(m) return +m[1]; }catch(e){} return 60; })();
-  let nextAt=0; GM.frameDue=function(now){ const cap=GM.fpsCap; if(!(cap>0)) return true; const iv=1000/cap; if(now<nextAt-1) return false;   /* 1 ms 容許：60 Hz 的 rAF 間隔在 16.6～16.7 ms 之間抖動，不能因此隔一幀才畫 */ nextAt=nextAt+iv>now?nextAt+iv:now+iv;   /* 照排定的時間累加；落後了（卡頓、切回分頁）就從現在重新排，不連續補畫 */ return true; };
+  /* 幀率上限 v2（BUG-RUN-STUTTER-1112；2026-11-12 08:2x 重寫）：照「螢幕幾個垂直同步畫一幀」算，不照累加的時間表。
+     v1（nextAt 累加 16.67 ms、容許 1 ms）的洞：螢幕比 60 Hz 快一點點（60.05 Hz＝間隔 16.653）時每幀落後 0.014 ms，約 1.2 秒就掉一幀＝在 60 Hz 螢幕上反而製造頓；75／90／144 Hz 忽長忽短。
+     v2：①量螢幕的更新間隔 est＝最近 90 次 rAF 間隔裡最小的那個（畫一幀很久的時候間隔是好幾個垂直同步，取最小才是螢幕本身）；
+        ②div＝每幾個垂直同步畫一幀＝round(更新率÷上限−0.1)、至少 1（60／75／90 Hz＝每次都畫；120、144＝2；165、180＝3；240＝4；300＝5；360＝6），連續 30 次算出同一個新值才換；
+        ③離上一次畫的時間 ≥ (div−0.5)×est 就畫＝永遠落在第 div 個垂直同步上，前後各有半個間隔的餘裕，不會因為計時抖動多等一幀。卡住（切分頁、載入）以後第一個 rAF 就畫，不補畫。*/
+  let fdLastCb=0, fdLastDraw=-1e9, fdDiv=1, fdCand=1, fdCandN=0; const fdRing=new Float64Array(90).fill(1e9); let fdRi=0;
+  GM.frameDue=function(now){ const cap=GM.fpsCap; if(!(cap>0)) return true;
+    const d=now-fdLastCb; fdLastCb=now; if(d>1.5&&d<100){ fdRing[fdRi]=d; fdRi=(fdRi+1)%fdRing.length; }
+    let est=1e9; for(let i=0;i<fdRing.length;i++) if(fdRing[i]<est) est=fdRing[i];
+    if(est<1e8){ const c=Math.max(1,Math.round(1000/est/cap-0.1)); if(c===fdDiv){ fdCandN=0; } else if(c===fdCand){ if(++fdCandN>=30){ fdDiv=c; fdCandN=0; } } else { fdCand=c; fdCandN=1; } } else est=1000/cap;
+    if(now-fdLastDraw<(fdDiv-0.5)*est) return false;
+    fdLastDraw=now; return true; };
+  GM.frameInfo=()=>{ let est=1e9; for(let i=0;i<fdRing.length;i++) if(fdRing[i]<est) est=fdRing[i]; return {cap:GM.fpsCap,div:fdDiv,hz:est<1e8?+(1000/est).toFixed(1):null}; };   /* CC 探針看：螢幕幾 Hz、每幾個垂直同步畫一幀 */
   function frame(now){ requestAnimationFrame(frame); if(!GM.running) return; if(!GM.frameDue(now)) return; const realDt=(now-last)/1000||0.016; let dt=Math.min(GM.turbo?0.3:0.1,realDt); last=now; if(E.paused||document.hidden) return; E.update(dt); if(typeof BIKE!=='undefined') BIKE.tick(GM,dt); updateWalks(dt); dlgTick(dt); staleCheck(realDt); if((GM._upT=(GM._upT||0)-realDt)<0){ GM._upT=1.5; GM.upgradeModels(); GM.dedupAnon(false); }
     // 時間流動（自由行動時）
     if(!E.player.busy&&!D.active){ G.hour+=dt*GM.hourRate; E.hour=G.hour; if(E.frame%3===0) actTrack(); }
