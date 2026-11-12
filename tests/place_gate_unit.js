@@ -287,6 +287,7 @@ async function checkShop(z){ const nm=nameOf(z), ty=TYPE[z], L=tzLay(z), s118=l1
 async function checkStalls(){ const defs=[
     {zone:'tingzhou',area:'夜市（汀州路）',pick:it=>it.nmStall,id:it=>it.nmStall,times:[[SAT,19.5],[SAT,21],[DK('2026-07-11'),19.5]]},
     {zone:'gongguan',area:'夜市（公館）',pick:it=>it.nmStall,id:it=>it.nmStall,times:[[SAT,19.5],[SAT,21],[DK('2026-07-11'),19.5]]},
+    {zone:'gongguan',area:'宵夜（公館）',pick:it=>it.lwStall,id:it=>it.lwStall,times:[[SAT,19.5],[SAT,22.5],[DK('2026-07-11'),19.5]]},   /* 滷味攤（EAT-EFFECT-1020，src/luwei3d.js；每天 18:00～24:00）*/
     {zone:'lane118',area:'118 巷（外帶）',pick:it=>typeof it.shop118==='string'&&/^drink/.test(it.shop118),id:it=>it.shop118,times:[[WED,15],[WED,12.5]]},
     {zone:'wenzhou',area:'溫州街（窗口）',pick:it=>it.wzShop&&it.kind==='window',id:it=>it.wzShop,times:[[WED,15],[DK('2026-07-08'),15]]} ];
   for(const D of defs){ if(!Z3.ZONES[D.zone]) continue; const seen={};

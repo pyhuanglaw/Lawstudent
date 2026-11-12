@@ -17,8 +17,14 @@ const BG=(typeof OUT!=='undefined'&&OUT.BG)||{}; const exists=f=>!!f&&fs.existsS
 const args=process.argv.slice(2); const md=args.includes('--md')?args[args.indexOf('--md')+1]:null; const stage=args.includes('--stage')?args[args.indexOf('--stage')+1]:null;
 const rows=[], wrong=[]; const bgNote=k=>{ if(k==='car') k='car_day';   /* 'car' 由 outings3d.js 的 carVariant 照時間、天氣換成 car_day／car_night／car_rain（白天＝car_day＝car.webp），不是沒圖（BB 10-21 18:46）*/ const b=BG[k]; if(!b) return '背景代號不存在'; if(!b.image) return '沒有圖（image:null）'; if(!exists(b.image)) return '檔案不在：'+b.image; return null; };
 const text=l=>(l&&l.text?String(l.text):'').replace(/\s+/g,' ').slice(0,36);
-function scan(id,title,stg,when,bg0,dlg,trig){ let cur=bg0==='dark'?{why:'事件底色 dark、還沒換背景',label:'（事件開頭）',key:'dark'}:null, n=0, first=null; const flush=()=>{ if(cur&&n) rows.push({id,title,stage:stg,when,scene:cur.label,key:cur.key,why:cur.why,lines:n,first}); n=0; first=null; };
+/* in3d（BAR-GROUP-3D-1112）：src/outings3d.js 的 OUT.IN3D[事件 id]＝{zone,scene}＝那個地點字幕的段落實際上在 3D 的那個區域演（例：律師讀書小組在大口漢堡二樓，src/r2y4b3d.js 的 S.barPlay 把那一步的深色底拿掉、底用 freeze）；
+   資料裡的 bg:'dark' 只是區域沒載入時的備用。區域在 src/ 裡有登記（Z3.ZONES.<zone>=）才不算黑畫面，另外列在第 5 節 */
+const SRC_ALL=fs.readdirSync(path.join(ROOT,'src')).filter(f=>/\.js$/.test(f)).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n');
+const zoneOk=z=>!!z&&/^[a-z0-9_]+$/.test(z)&&new RegExp('Z3\\.ZONES\\.'+z+'\\s*=').test(SRC_ALL);
+const staged=[], IN3D=(typeof OUT!=='undefined'&&OUT.IN3D)||{};
+function scan(id,title,stg,when,bg0,dlg,trig,in3d){ if(in3d&&!(in3d.scene&&zoneOk(in3d.zone))) in3d=null; let cur=bg0==='dark'?{why:'事件底色 dark、還沒換背景',label:'（事件開頭）',key:'dark'}:null, n=0, first=null; const flush=()=>{ if(cur&&n) (cur.in3d?staged:rows).push({id,title,stage:stg,when,scene:cur.label,key:cur.key,why:cur.why,lines:n,first,zone:cur.in3d||null}); n=0; first=null; };
   for(const l of dlg||[]){ if(!l||typeof l!=='object') continue;
+    if(l.scene!==undefined&&in3d&&l.scene===in3d.scene){ flush(); cur={in3d:in3d.zone,label:l.scene,key:String(l.bg),why:'在 3D 演'}; continue; }
     if(l.scene!==undefined){ flush(); const k=l.bg==null&&l.bg!==false&&l.scene==='電話'&&trig!=='home'?'phone_street_night':l.bg; if(k==null&&trig==='home'){ cur=null; continue; }   /* events3d.js：沒給背景、人在家＝家裡的背景；不在家的電話＝phone_street_night */ if(k===false||k==null){ cur=bg0==='dark'?{why:'換場景但沒有給背景（'+(k===false?'bg:false':'沒有 bg')+'）',label:l.scene,key:String(k)}:null; } else { const w=bgNote(k); cur=w?{why:w,label:l.scene||BG[k]&&BG[k].label||k,key:k}:null; } continue; }
     if(l.cg){ const f=CG[l.cg]; if(!f||!exists(f)) rows.push({id,title,stage:stg,when,scene:'CG',key:l.cg,why:f?'CG 檔案不在：'+f:'CG 沒登記',lines:1,first:''}); continue; }
     if(l.text&&cur){ n++; if(!first) first=text(l); } }
@@ -26,7 +32,7 @@ function scan(id,title,stg,when,bg0,dlg,trig){ let cur=bg0==='dark'?{why:'事件
 for(const e of (typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[])){ if(e.retired) continue; if(stage&&(e.stage||'law')!==stage) continue;
   const when=[e.term&&e.term.join('/'),e.weeks&&('第'+e.weeks.join(',')+'週'),e.trigger].filter(Boolean).join(' ');
   let d=e.dialogue; if(typeof d==='function'){ try{ d=d({flags:{},events:{done:{}},rel:{},day:0,hour:12}); }catch(_){ d=null; } }
-  if(Array.isArray(d)){ scan(e.id,e.title||'',e.stage||'law',when,e.background||'blur',d,e.trigger);
+  if(Array.isArray(d)){ scan(e.id,e.title||'',e.stage||'law',when,e.background||'blur',d,e.trigger,IN3D[e.id]);
     const f=d.find(l=>l&&typeof l==='object'&&(l.text||l.scene!==undefined)), b0=e.background, img0=!!b0&&typeof b0==='object'&&!!b0.image;   /* img0：事件的 background 是 OUT.bg(...) 的圖（getter，稿沒有地點字幕的開場）＝有底圖，不是 3D 模糊底 */
     if(e.trigger==='outing'&&!img0&&(b0||'blur')!=='dark'&&!(f&&f.scene!==undefined)) wrong.push({id:e.id,title:e.title||'',stage:e.stage||'law',bg:b0||'blur',first:text(f)}); } }
 if(typeof RETAKE_HOME!=='undefined'&&(!stage||stage==='econ')){ for(const e of [].concat(RETAKE_HOME.long||[],RETAKE_HOME.short||[])){ if(!e) continue; const d=[{scene:e.place||'',bg:e.bg===false?false:(e.bg||'home_living')}].concat((e.lines||[]).map(x=>Array.isArray(x)?{speaker:x[0],text:x[1]}:x)); scan('RH:'+e.id,e.title||e.id,'econ',e.date||e.kind||'',e.bg===false?'dark':'blur',d); } }
@@ -42,4 +48,6 @@ for(const r of wrong) out.push(`| ${r.id} | ${r.title} | ${r.stage} | ${r.bg} | 
 out.push('','## 4. 使用者實玩回報（工具抓不到：有背景圖，但不是那個地方）','','| 回報 | 事件 | 現在的背景 | 要補的圖 |','|---|---|---|---|',
   '| 2026-10-18 14:2x「桌遊也沒畫面」 | ev_y0_gather（10/15 經濟系的聚會：桌遊 19:00～22:00 → 夜市） | `gongguan`（公館街景）整段共用 | 公館的桌遊店室內（六個人一桌、桌上有牌）；之後夜市那段要不要另一張，問使用者 |',
   '| 2026-10-18 14:1x「烤肉沒接到cg」 | ev_y0_e08（9/21 中秋系烤） | `riverside`＋沒有 CG | CG-ECON-BBQ-1018（提示詞已給使用者） |');
+out.push('','## 5. 改在 3D 演的段落（資料的深色底只是區域沒載入時的備用，不算黑畫面）','','| 事件 | 標題 | 場景 | 3D 區域 | 句數 | 第一句 |','|---|---|---|---|---|---|');
+for(const r of staged) out.push(`| ${r.id} | ${r.title} | ${r.scene} | \`${r.zone}\` | ${r.lines} | ${r.first||''} |`);
 const s=out.join('\n')+'\n'; if(md){ fs.writeFileSync(path.join(ROOT,md),s); console.log('寫入',md,rows.length,'段'); } else console.log(s);

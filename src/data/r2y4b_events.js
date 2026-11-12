@@ -576,7 +576,7 @@ const R2Y4B_EVENTS=(function(){
       ...threeRows(),
       {end:true},
       {label:'first'},
-      {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）'},
+      {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）'},   /* AA_836（企劃線 48d153407，BAR-GROUP-3D-1112）：三個人都在時語彤坐可昕旁邊、祐廷在對面，不是「長桌另一頭」*/
       {if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）'},   /* AA_350 N1 白天版 */
       ...CG20_LINES,   /* AA-B 11-01 CG-20 (a)：白天那句照留，後面加旁白再放 CG */
       {speaker:'heroine_03',text:'我們一起考。……我先考你。'},   /* AA_642 第 4 節 */

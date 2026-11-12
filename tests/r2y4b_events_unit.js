@@ -499,7 +499,7 @@ const date=id=>H.date(id);
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); at('2029-02-23',21.2); await goOut('y4_bar_group_start');
     check('BG2 只有語彤：「我今年也考。……你考的那幾科，我也要考。」（AA_642 第 4 節）「所以你讀的時候，我也在旁邊讀我的。」', H.G.flags.BAR_GROUP_KIND==='yutong'&&has('我今年也考。……你考的那幾科，我也要考。')&&has('所以你讀的時候，我也在旁邊讀我的。'));
     at('2029-02-26',21.5); await run('ev_bar_group_out');
-    check('2-Y4-58 只有語彤的第一次（大口漢堡二樓）：「（十點，語彤買了三杯熱可可上來…）」「我們一起考。……我先考你。」（AA_642 第 4 節）「買賣不破租賃那一條。你講給我聽，講到我聽得懂。」', has('（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）')&&has('我們一起考。……我先考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。'));
+    check('2-Y4-58 只有語彤的第一次（大口漢堡二樓）：「（十點，語彤買了三杯熱可可上來…）」「我們一起考。……我先考你。」（AA_642 第 4 節）「買賣不破租賃那一條。你講給我聽，講到我聽得懂。」', has('（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）')&&has('我們一起考。……我先考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。'));
     at('2029-03-03',11); H.G.zone='library_hall'; check('2-Y4-58 只有語彤：週六在總圖', EVENTS.check(ev('ev_bar_group_night'))&&S.session(H.G,H.G.day).mode==='library');
     at('2029-06-23',18); phone(); check('2-Y4-58 只有一個人的玩家：沒有 6/23 那一場', !OUT.get(H.G,'y4_bar_three')); }
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar',KX_VDAY:{4:'video'}},'TW'); date('kexin'); at('2029-02-23',8); phone(); const q=OUT.get(H.G,'y4_bar_group_start'); at('2029-02-23',21.4); await goOut('y4_bar_group_start');
@@ -509,7 +509,7 @@ const date=id=>H.date(id);
     fresh('2029-02-23',21.4,'dorm',{Y4_PATH:'bar',BAR_GROUP_KIND:'kexin',BAR_STUDY_GROUP:['kexin'],BAR_GROUP_START:'kexin'},'TW'); date('kexin'); OUT.plan(H.G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:D('2029-02-23'),h:21.5,place:'視訊',title:'t',travelH:0}); await goOut('y4_bar_group_start');
     check('2-Y4-58 沒有 2/14 那張表：第一句換成「我排了一張表，到八月，一天三科。」', has('我排了一張表，到八月，一天三科。')&&!has('情人節那張表，我把八月以前都排完了。')); }
   /* AA_345 G6 58：兩個人互不知情、分開讀：成立那晚走可昕的視訊；語彤「只有語彤的第一次」放在她的第一個週五晚上 3/2 21:00，週六白天（總圖）不演 */
-  { const FIRST='（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）';
+  { const FIRST='（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）';
     fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); date('kexin'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); const q=OUT.get(H.G,'y4_bar_group_start');
     check('G6-58 分開讀（兩人互不知情）：成立那晚是可昕的視訊', H.G.flags.BAR_GROUP_KIND==='split'&&!!q&&q.place==='視訊');
     at('2029-03-02',21.5); const ss=S.session(H.G,H.G.day), due=!!ss&&ss.mode==='noodle'&&ss.who==='yutong'&&!EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_out');   /* 那一晚是大口漢堡的 2D 出遊（排程在上面 2/26 那一段看過）*/
