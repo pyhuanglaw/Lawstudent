@@ -328,3 +328,19 @@
 [15:35:25] [res] cpu=5% mem=33% (10.4/31.4 GB) chrome_testing=0  START XS_REAL_perf_old
 [15:37:48] 正在跑：XS_REAL_perf_old（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:39:12] [res] cpu=3% mem=34% (10.9/31.4 GB) chrome_testing=0  END XS_REAL_perf_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1a23f3336..e919dc4f5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:39:18] ==== END   XS_REAL_perf_old  exit=0  230s   ====
+[15:39:27] memory 35% before starting XS_REAL_consist_r2 (0 running)
+[15:39:27] memory 35% before starting XS_REAL_cal_old (1 running)
+[15:39:27] ==== START XS_REAL_consist_r2  (probe @ fcbc3aab3117c1fec2c1c833b3d44813684e18fd) ====
+[15:39:27] memory 35% before starting XS_NANYANG_real (2 running)
+[15:39:27] ==== START XS_REAL_cal_old  (probe @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
+[15:39:27] ==== START XS_NANYANG_real  (probe @ fcbc3aab3117c1fec2c1c833b3d44813684e18fd) ====
+[15:39:30] [res] cpu=5% mem=32% (11.1/31.4 GB) chrome_testing=0  START XS_REAL_cal_old
+[15:39:30] [res] cpu=4% mem=32% (11.1/31.4 GB) chrome_testing=0  START XS_REAL_consist_r2
+[15:39:30] [res] cpu=4% mem=32% (11.1/31.4 GB) chrome_testing=0  START XS_NANYANG_real
+[15:39:51] worktree add fcbc3aab3117c1fec2c1c833b3d44813684e18fd: invalid reference - fetching main and the commit itself
+[15:42:48] 正在跑：XS_REAL_consist_r2（已跑 3 分／上限 50 分）、XS_REAL_cal_old（已跑 3 分／上限 15 分）、XS_NANYANG_real（已跑 3 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:43:57] [res] cpu=18% mem=47% (14.9/31.4 GB) chrome_testing=8  END XS_REAL_cal_old

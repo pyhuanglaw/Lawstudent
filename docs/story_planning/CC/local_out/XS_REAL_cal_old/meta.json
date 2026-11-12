@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "XS_REAL_cal_old",
+  "sha": "dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_place_gate_probe.py",
+  "env": "TAG=real_cal_old;ZONES=xs_dabu,xs_shanlan;HOURS=14;PARTS=1,5;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c",
+  "machine": "MSI",
+  "start": "2026-11-12T15:39:27",
+  "end": "2026-11-12T15:43:57",
+  "seconds": 270,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 26,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 12
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
