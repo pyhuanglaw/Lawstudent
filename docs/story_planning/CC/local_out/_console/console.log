@@ -485,3 +485,12 @@
 [16:53:30] [res] cpu=6% mem=48% (15.2/31.4 GB) chrome_testing=9  START ZN_SHANLAN
 [16:53:30] worktree add d4daa6326c81c2ba7a57c266235dec49cd7b5ab6: invalid reference - fetching main and the commit itself
 [16:55:49] [res] cpu=6% mem=47% (14.8/31.4 GB) chrome_testing=9  END ZN_SHANLAN
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7ff8ce360..ec8794755  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:56:09] ==== END   ZN_SHANLAN  exit=1  142s   ====
+[16:56:19] memory 48% before starting YUE_MEAL (2 running)
+[16:56:19] ==== START YUE_MEAL  (probe @ d4daa6326c81c2ba7a57c266235dec49cd7b5ab6) ====
+[16:56:22] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=9  START YUE_MEAL
+[16:57:48] 正在跑：TZ_REAL_consist（已跑 25 分／上限 60 分）、HELP_GUIDE_b（已跑 14 分／上限 35 分）、YUE_MEAL（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:58:51] [res] cpu=2% mem=47% (14.8/31.4 GB) chrome_testing=9  END YUE_MEAL
