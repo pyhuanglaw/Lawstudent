@@ -27488,7 +27488,7 @@
    "id": "AA351-KX-DRIFT-1021",
    "title": "AA_351 可昕「個性磨合不了，慢慢分手」事件包：D0「跟可昕說一聲」到 D6 變回朋友七段（重要的當面或她打來的電話）；KX_CRACK（ROM.crack／mend／end(…,'drift')）；只在學期末分手，交換、寒暑假、大四下不演 D4、D5；分開後 ROM.canStart(kexin) 一律 false、尾聲朋友版",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P2",
    "source": "企劃線 AA_351（c29c49eb；f1472f22）；取代 AA_288 第 3～6 節；USER_WANTS C23",
    "first": {
@@ -27503,7 +27503,10 @@
    },
    "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c）：A-部分——已演的部分有 PASS（可昕慢慢分手：L1472-1477（9f9e13cc）D0_TELL、D0_SILENT、REPAIR、SPLIT ALL PASS；done 欄自己寫 PARTIAL 的 D1、D6 朋友層台詞屬沒做的範圍）；剩下的留著｜【LAWWW 帳號 A 10-22 09:5x】AA_384 E 節（企劃線 1a4f2eb3，AA 選①）做了：D6 午餐那個週六她在高雄（D5 在春季學期末）＝第 61 天那一則照傳、午餐順延到開學以後第一個週六，那週週四 21:00 她傳「週六中午，公館。吃個飯。」（kxdrift3d.js S.r6Thu；tests/aa384e_kx_d6_summer_unit.js 修改前 FAILED 5）；白名單 AA_384→1a4f2eb3 ｜ 【LAWWW 帳號 A 10-22 09:4x】AA_384 十四題進開發分支（子代理 3c0a0ea9、合併 5d5adbad，放 v9.10.6）：朋友層訊息 R、尾聲朋友版、「她會約」一學期一次午餐（ev_kx_drift_r7）、D6 拿掉祐廷生日、只看玩家自己約的（她約的 by:npc 不算）、D1 拿掉 118 巷、畢業那天 12:00 drift 版；aa384_kx_friend_unit 54 項（修改前 FAILED 27）、aa351 90 項、全部 476 支單元測試 ALL PASS；白名單 AA_351→b6588bf5、AA_384@b6588bf5。待 BB 瀏覽器測；兩件範圍外問 AA（D5 在春季學期末＝D6 午餐落在暑假她在高雄；交往中 L 層「祐廷在國外」兩則 sitOk 認不得→LAWWW 查） ｜ 【AA 08:52（AA_384，企劃線 b6588bf5；AA_351 跟著改）】14 題都回了：朋友層 R 的回覆、尾聲朋友版、一學期一次的午餐、D6 拿掉祐廷生日、劇情手機出遊不算單獨、D1 拿掉 118 巷、畢業那天 drift 版「恭喜。」＋一句；8、9 照舊——08:5x 派子代理接著做（worktree，基礎 8352054b） ｜ AA 回覆子代理的 15 個解讀與缺的句子（朋友層回覆、尾聲朋友版、祐廷生日、分開後她怎麼約、哪些劇情出遊算單獨、118 巷、分開後還會出現的前任口氣四處）；BB 瀏覽器（v9.10.6）照 AA_351 第 6 節：做對（數字一直 0～1）、修補成功、分開三條；交換那一學期不演 D1／D2 見面／D4／D5；寒暑假不演 D4／D5；大四下不分手；分開以後心意邀約沒有可昕 ｜ 【LAWWW（帳號 A）2026-10-22 07:1x】子代理在 worktree 照 AA_351（c29c49eb）整包做（D0～D6、第 2 節加減含「一週最多一次」、只在學期末、交換／寒暑假／大四下的限制、分開後 canStart false、心意邀約沒有可昕、尾聲朋友版；第 6 節「只看 dating_kexin false 的句子」列給 AA）；新測試 tests/aa351_kx_drift_unit.js 修改前要失敗；做完 LAWWW 合併、跑回歸、派 BB（三條路線：做對、修補成功、分開） ｜ 【LAWWW（帳號 A）2026-10-21 22:5x UTC】AA_354 的固定格已接（src/kxod3d.js），大二上起準時 −1、答應了沒到／遲到 15 分鐘以上 ＋1（KX_CRACK，同畢業後篇）；剩 D0～D6 七段、只在學期末分手、分開後朋友版 ｜ 【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理｜BB_251 判 Node 通過，但交付 DL-AA-c29c49eb 還是未整合／部分整合：LAWWW 核對交付是否已被取代或真的漏接，再標已驗收",
    "done": "開發分支 0e465ae4（合併子代理 e028fe50，LAWWW 帳號 A 10-22 08:4x）：新檔 src/kxdrift3d.js——第 2 節加減全部（準時 −1、主動約她 −1 一週一次，只在大二上～大四下；畢業以後照 PGDATE 原本）、第 1 節範圍（只和她一位、交換／寒暑假／大四下）、D1b、D2、D3、D4、修補期、D5（含電話版、文字版）FIXED；分開以後 ROM.canStart false、女朋友期末約會關掉、K5／K7／階梯照 dating_kexin 停、取消她排好的東西。PARTIAL：D0（邀約、校外約會、去她的縣市接了；劇情裡手機答應的出遊、她們主動約你沒接）、D1（118 巷沒有單獨約的地點）、D6（祐廷生日沒定；朋友層的訊息回覆、她會約、尾聲朋友版沒有台詞）。tests/aa351_kx_drift_unit.js（修改前 36 FAIL、修改後 90 項 ALL PASS）；子代理全部單元測試 469 支通過；合併後 aa351、kxod、termend、inv_both_present、alison、aa296、pg_askat_home ALL PASS",
-   "note": null
+   "note": null,
+   "reason": "機制拿掉、走向保留：這一包的吵架來源綁在不同學校見不到面；src/kxdrift3d.js 第三批整支拿掉，AA 另寫同系版（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）；AA-C 11-12 15:06",
+   "replacedBy": "KX-DRIFT-SAMEDEPT-1112"
   },
   {
    "id": "AA283-PARK-1021",
@@ -27672,7 +27675,7 @@
    "id": "AA354-KX-OURDAYS-1021",
    "title": "AA_354 可昕「我們的日子」大二到大四（大二每週、大三大四隔週、大四下問改回每週；交換視訊；開學第 1 週一則私訊；分手停）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "source": "企劃線 AA_354（86c104df）；AA-C 10-21 12:33 訊息",
    "first": {
@@ -27686,7 +27689,10 @@
     "confirmed": true
    },
    "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】src/kxod3d.js（KXOD，掛 STORY.PHONE_RULES；index.html 在 pgdates3d.js 後面）：大二上、下每週，大三上起隔週（單週），大四下開學那一則問（「好。」＝每週、不回或「隔週就好。」＝隔週，KX_OD_Y4S2）；第 2 週起、考試週和她的那一週（4/24、10/17、她的出遊、和她的校外約會）不排；日本路線大三下視訊臺灣 19:00（當地 20:00）、美國路線大四上臺灣週六 08:00＝當地週五 20:00（11/5 起 19:00）；開學那一則 7 種逐字（白名單 AA_354@86c104df kind text）；分手 skipped；KX_CRACK 照畢業後篇 PGDATE.kxArrive／kxMissed。順手修：story3d.js 大一下那段把大一下以外的 kx_od_ 全部改 skipped（畢業以後可昕的固定格會被改掉）→ 只管大二上開學以前的格子。tests/kxod_unit.js 33 項（修改前全部 FAIL，第 9 項 pg＝skipped）；相關 26 支全過。BB：交往中的存檔從大二上第 1 週跳到大四下，每學期看開學那一則和前兩格（AA_354 第 3 節） ｜ 【LAWWW（帳號 A）16:2x】畢業以後那段 AA_366 交了（AA366-KX-POSTGRAD-1021），一起做 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】和 AA351-KX-DRIFT-1021（慢慢分手的加減分靠這一格）、V6-S5、V6-S4 三選一一起派子代理；發布前測試跑完再派（CPU）｜BB_251 判 Node 通過，但交付 DL-AA-86c104df 還是未整合／部分整合：LAWWW 核對交付是否已被取代或真的漏接，再標已驗收",
-   "note": null
+   "note": null,
+   "reason": "固定一天的「我們的日子」是不同學校才需要的制度；可昕改成同系同學以後，交往走一般女主角的邀約、約會（AA_872 #11、12，AA-C 11-12 同意）。程式 src/kxod3d.js 第三批整支拿掉（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）；AA-C 11-12 15:06",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "AA355-WAITS-1021",
@@ -55943,7 +55949,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 15:1x UTC】AA 交 AA_861（可昕大一上閒聊八層定稿，企劃線 967dd0447：整組取代 ladder_bb.json 她的 K-L1～K-L8 和 AA_781 的 Y1S1 覆蓋；條件讀熟悉階段、第 1 層要 KX_MET、不讀交往旗標）；AA_862 大一下八層等 BB（會拿掉記憶 tag KX2_23_CALLS、KX2_FEWER_IFS、KX2_TASSEL、KX2_PLAN_SHEET、KX2_SUMMER，新 tag 只有 KX2_BDAY_TOLD——讀這些的地方要跟著改）→ 都排批次 C。AA 給了白名單 17 筆的處理表（備忘在 scratchpad CANON_BATCH_C_notes.md）｜【LAWWW-C 11-12 14:5x UTC】開發分支 canon_scan：514 檔、5,055 處（src 159／2,246、tests 323／2,589、tools 28、docs 2＝白名單 json 的稿路徑）。本輪：紀錄／文件／美術工具 133 檔換代號（tools/handoff/canon_clean.py）、wip_backup 刪 178 個已合併的 bundle、使用者答「沛珊的留著」（工具列例外）。子代理三個在跑：批次 B（AA_858 新開場、AA_856 可昕開局不認識＋第一堂必修見面、AA_859 宿營那段）、BB 六件修正、AA 答案重匯（含 AA_860 約會稿拿掉外校句子）。**下一批（批次 C）要做**：①法律系時期還引用舊序章人物／外校的場景（AA 給「整場拿掉／換人」的表）；②舊序章的系外套那一件（祐廷 VRM 的外套網格、tools/jacket 那支、tests、劇情選項——整個拿掉，要 LAWWW2 重出 VRM 或把網格藏死）；③tools 底下產生器裡的字（rename 對照表要改成編碼存）；④白名單 11 筆稿路徑（等 AA 的「舊路徑→新路徑／已刪」表）；⑤tests 裡 323 檔的字（跟著台詞換）；⑥素材刪檔（等 LAWWW2 的 patch：舊序章人物模型／立繪、外校五張、宿營 CG；兩張宿營背景改名沿用）；⑦檔名和識別字（--latin）最後做｜【LAWWW-C 11-12 13:5x UTC】第一批程式合併 2289c984aa（子代理：只在舊序章才跑的模組、事件 96 個、過場、課、訊息、測試 73 支整塊拿掉；src＋index.html＋tools 少 2,808 行；子代理全套 1,279 支只剩兩支舊紅、都已另外修好）；合併後全套在背景重跑。計畫表和剩餘清單（1,848 行）放在工作階段 scratchpad、不進 repo（D158）。使用者另一個答案（經 AA）：可昕沒有記帳這種個性（UA-LAWWW-1112-40）。AA 定稿：AA_858 開局回顧五句、AA_856 可昕第一次見面（開學第一週有去上的第一堂必修開頭；保底第 5 週）、AA_859 宿營打牌那段——下一批子代理做。各分支清字進度：BB 名下 0、CC 路徑 0、LAWWW2 美術文件 0、AA 第一批後 990 檔 20,992 處。待問使用者：沛珊大二上那條線算不算在內。開發分支現況 canon_scan 見下一筆｜【LAWWW-C 11-12 13:4x UTC】main 的 README 已換（PR #37，b3e86d9141，使用者選擇題同意另開分支；掃過 0 處）。四個職位已通知 D158。開發分支現況 743 檔、10,795 處。tests/v0_a3_unit.js 因為第一步改了標題按鈕而紅——它整支在測舊序章，等 Batch A 子代理刪｜【LAWWW-C 11-12 13:0x UTC】使用者五題答案都有了：可昕之後可以追；舊存檔不留；國考落榜再考留著；Git 歷史不重寫、公開前換新倉庫；紀錄改用代號。已做：標題只留法律系開局＋舊序章存檔提示（d6f4070fb6）、README（b2f0688477）、規則 D158／HV-38、檢查工具 tools/handoff/canon_scan.py（開發分支現況：746 檔、10,842 處——src 169 檔、tests 400、docs 88、tools 75、wip_backup 9、根目錄 3）。進行中：子代理 Batch A（只在舊序章才跑的程式整塊拿掉）。AA：AA_854／855 清單、設定總表已改（可昕＝法律系同屆、祐廷應屆）、在寫可昕第一次出場。LAWWW2 素材清單 8c9cc4cc37。BB 驗收點 BB_399。接下來：main 的 README 單獨開 PR；docs／tests／tools 的字分批清（這個欄位更早的紀錄也要改寫成代號）；各職位清自己的分支；識別字和檔名（--latin）最後一批",
+   "next": "【LAWWW-C 11-12 15:1x UTC】AA_872（b53e85beb）可昕 51 場處置：拿掉 25 場（第三批先拿）、其餘重寫等 AA 分批交字；週年改從在一起那天起算（做得到，AA 寫假期那年怎麼過）；kxod3d.js、kxdrift3d.js 整支拿掉（走向保留→KX-DRIFT-SAMEDEPT-1112）；約會稿 AA_869～871 定稿＠5afc5c0e3 待重匯。只和舊序章有關的 39 筆任務已取消（8641180904）。｜【LAWWW-C 11-12 15:1x UTC】AA 交 AA_861（可昕大一上閒聊八層定稿，企劃線 967dd0447：整組取代 ladder_bb.json 她的 K-L1～K-L8 和 AA_781 的 Y1S1 覆蓋；條件讀熟悉階段、第 1 層要 KX_MET、不讀交往旗標）；AA_862 大一下八層等 BB（會拿掉記憶 tag KX2_23_CALLS、KX2_FEWER_IFS、KX2_TASSEL、KX2_PLAN_SHEET、KX2_SUMMER，新 tag 只有 KX2_BDAY_TOLD——讀這些的地方要跟著改）→ 都排批次 C。AA 給了白名單 17 筆的處理表（備忘在 scratchpad CANON_BATCH_C_notes.md）｜【LAWWW-C 11-12 14:5x UTC】開發分支 canon_scan：514 檔、5,055 處（src 159／2,246、tests 323／2,589、tools 28、docs 2＝白名單 json 的稿路徑）。本輪：紀錄／文件／美術工具 133 檔換代號（tools/handoff/canon_clean.py）、wip_backup 刪 178 個已合併的 bundle、使用者答「沛珊的留著」（工具列例外）。子代理三個在跑：批次 B（AA_858 新開場、AA_856 可昕開局不認識＋第一堂必修見面、AA_859 宿營那段）、BB 六件修正、AA 答案重匯（含 AA_860 約會稿拿掉外校句子）。**下一批（批次 C）要做**：①法律系時期還引用舊序章人物／外校的場景（AA 給「整場拿掉／換人」的表）；②舊序章的系外套那一件（祐廷 VRM 的外套網格、tools/jacket 那支、tests、劇情選項——整個拿掉，要 LAWWW2 重出 VRM 或把網格藏死）；③tools 底下產生器裡的字（rename 對照表要改成編碼存）；④白名單 11 筆稿路徑（等 AA 的「舊路徑→新路徑／已刪」表）；⑤tests 裡 323 檔的字（跟著台詞換）；⑥素材刪檔（等 LAWWW2 的 patch：舊序章人物模型／立繪、外校五張、宿營 CG；兩張宿營背景改名沿用）；⑦檔名和識別字（--latin）最後做｜【LAWWW-C 11-12 13:5x UTC】第一批程式合併 2289c984aa（子代理：只在舊序章才跑的模組、事件 96 個、過場、課、訊息、測試 73 支整塊拿掉；src＋index.html＋tools 少 2,808 行；子代理全套 1,279 支只剩兩支舊紅、都已另外修好）；合併後全套在背景重跑。計畫表和剩餘清單（1,848 行）放在工作階段 scratchpad、不進 repo（D158）。使用者另一個答案（經 AA）：可昕沒有記帳這種個性（UA-LAWWW-1112-40）。AA 定稿：AA_858 開局回顧五句、AA_856 可昕第一次見面（開學第一週有去上的第一堂必修開頭；保底第 5 週）、AA_859 宿營打牌那段——下一批子代理做。各分支清字進度：BB 名下 0、CC 路徑 0、LAWWW2 美術文件 0、AA 第一批後 990 檔 20,992 處。待問使用者：沛珊大二上那條線算不算在內。開發分支現況 canon_scan 見下一筆｜【LAWWW-C 11-12 13:4x UTC】main 的 README 已換（PR #37，b3e86d9141，使用者選擇題同意另開分支；掃過 0 處）。四個職位已通知 D158。開發分支現況 743 檔、10,795 處。tests/v0_a3_unit.js 因為第一步改了標題按鈕而紅——它整支在測舊序章，等 Batch A 子代理刪｜【LAWWW-C 11-12 13:0x UTC】使用者五題答案都有了：可昕之後可以追；舊存檔不留；國考落榜再考留著；Git 歷史不重寫、公開前換新倉庫；紀錄改用代號。已做：標題只留法律系開局＋舊序章存檔提示（d6f4070fb6）、README（b2f0688477）、規則 D158／HV-38、檢查工具 tools/handoff/canon_scan.py（開發分支現況：746 檔、10,842 處——src 169 檔、tests 400、docs 88、tools 75、wip_backup 9、根目錄 3）。進行中：子代理 Batch A（只在舊序章才跑的程式整塊拿掉）。AA：AA_854／855 清單、設定總表已改（可昕＝法律系同屆、祐廷應屆）、在寫可昕第一次出場。LAWWW2 素材清單 8c9cc4cc37。BB 驗收點 BB_399。接下來：main 的 README 單獨開 PR；docs／tests／tools 的字分批清（這個欄位更早的紀錄也要改寫成代號）；各職位清自己的分支；識別字和檔名（--latin）最後一批",
    "source": "使用者 2026-11-12 12:1x～13:0x（UA-LAWWW-1112-32～38；原話依 D158 不留字）",
    "authorized": true,
    "xai": {
@@ -56104,6 +56110,38 @@
     "spec": "BB_379",
     "ack": "ACK",
     "acceptance": "BB：對話結束不用移動就看得到離開的按鈕"
+   }
+  },
+  {
+   "id": "KX-DRIFT-SAMEDEPT-1112",
+   "title": "可昕「個性磨合不了、慢慢分開」同系版本：照使用者 10-18 四題（她的不安也算、做對就避得掉、只在學期末、分開後只當朋友不復合；USER_WANTS C23），吵架來源改成同班天天見面才有的；接一般女主角的學期末流程",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "和可昕交往以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "USER_WANTS C23（使用者 10-18 四題）；AA-C 2026-11-12 15:06 UTC：「這條線要留」",
+   "authorized": "D109（感情線細節 AA 定）、UA-LAWWW-1112-32",
+   "next": "【LAWWW-C 11-12 15:1x UTC】AA 寫新稿一包 → LAWWW 接一般女主角的學期末流程（舊的 kxdrift3d.js 第三批拿掉，不沿用）→ BB 測。舊稿 AA_351 不再用。",
+   "pausedReason": "等 AA 的同系版新稿",
+   "resumeWhen": "AA 交稿",
+   "recheckOn": "2026-11-15",
+   "xai": {
+    "from": "LAWWW",
+    "to": "AA",
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "企劃線 AA_872（b53e85beb）最後一節；新稿稿號 AA 定",
+    "acceptance": "交往中、照四題條件走得到「慢慢分開」到變回朋友，做對了避得掉；BB 瀏覽器 PASS",
+    "ack": "ACK"
    }
   }
  ]
