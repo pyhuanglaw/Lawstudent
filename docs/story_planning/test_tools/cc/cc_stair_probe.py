@@ -10,7 +10,7 @@ PC 重現三次：L118D_H_B REG_YT、H_C REG_XC、H_B_r2 REG_YT 都停在 (−3.
   RUN＝1：觸控按「跑」（#btnRun 切成跑步）；FPSCAP＝10：包 requestAnimationFrame 限 10 fps（【前置／捷徑】只改幀率）。
 判定：每一段 PASS／FAIL；結尾印每條線「上 n/TRIPS、下 n/TRIPS、卡住的座標」總表。舊版（線上 779ddd650）也照跑，分辨本來就有還是這一版才有。
 PUSH（CC-C 11-12，BB-C 03:30）：straight 直線推／diag 稍微斜推（目標往樓梯中線偏 0.5 m；樓梯 x −4.5～−3、中線 −3.75＝be1e 雲端量 11-12）／tap 點樓梯面（每次點前面 2 m、快到才點目標）。
-CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（BB 指定固定三條線、每條線一趟，不挑候選） 4✓ 5✓ 6n/a（不測時刻，只測走路；讀檔 15:00 木曜日有開） 7✓ 8✓ 9n/a（卡住截圖本來就要看到人，不藏玩家） 10✓ 11✓ 12✓ 13✓
+CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（BB 指定固定三條線、每條線一趟，不挑候選） 4✓ 5✓ 6n/a（不測時刻，只測走路；讀檔 15:00 木曜日有開） 7✓ 8✓ 9n/a（卡住截圖本來就要看到人，不藏玩家） 10✓ 11✓ 12✓ 13✓（11-12 第二次：tap 每一下記遊戲的解讀＝第 5 點走不到要附診斷）
 用法：LW_TESTS=<wt>/tests SHA=<sha> RUN=0|1 FPSCAP=0|10 [PUSH=straight|diag|tap] python3 cc_stair_probe.py <url> <out>"""
 import os, sys, json, time, math, asyncio, datetime
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -138,8 +138,14 @@ async def down_escape(pg, cdp, t, x):
     return out
 
 
+TAPLOG_JS = r"""(()=>{ const E=GAME.E; if(E.__ccTapHook) return 1; E.__ccTapHook=1; window.__ccTaps=[]; const o=E.onTapGround;
+  E.onTapGround=function(h){ try{ const P=E.player, f=v=>v==null?null:+(+v).toFixed(2); window.__ccTaps.push({x:f(h.x), z:f(h.z), lv:h.lv==null?null:h.lv, hy:f(h.y), stair:!!(h.obj&&h.obj.userData&&h.obj.userData.stairEnds), obj:h.obj?String(h.obj.name||'').slice(0,24):null, me:[f(P.obj.position.x), f(P.obj.position.z), f(P.obj.position.y), P.lv|0], path:P.path?P.path.length:0}); }catch(e){} return o?o.apply(this,arguments):undefined; }; return 1; })()"""
+TAPPATH_JS = "(()=>{ const P=GAME.E.player; return {path:P.path?P.path.length:0, last:P.path&&P.path.length?P.path[P.path.length-1]:null, stall:+(P._stall||0).toFixed(2)}; })()"
+
+
 async def tap_seg(pg, cdp, tag, tx, tz, lv):
     """點地走：點目標那一點（那一層地板投影）；沒在動就每 6 秒再點一次（看不到就轉鏡頭）；記最長一次沒前進 0.3 m 的秒數＝卡多久"""
+    await pg.evaluate(TAPLOG_JS); n0 = await pg.evaluate("(window.__ccTaps||[]).length")   # CC-C 11-12：記遊戲把每一下點地解讀成哪一點、哪一層、有沒有點到樓梯、有沒有排出路線（雲端 be1e 第一次：樓梯頂第 0 層點平台 6 次人不動）
     t0 = time.time(); taps = 0; miss = 0; aim = None; last = None; still0 = time.time(); worst = 0.0; e = None
     while time.time() - t0 < 45:
         e = await D.st(pg)
@@ -159,6 +165,7 @@ async def tap_seg(pg, cdp, tag, tx, tz, lv):
             if pt and await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):   # CC_02 乙 4：點下去打開了手機＝點到 HUD 旁邊，不算點到遊戲畫面，收起來
                 R.note('%s 這一下打開了手機（點到 HUD 旁邊）：收起來，不算' % tag); await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(500); pt = None
             if pt: taps += 1; still0 = time.time()
+            if pt: await pg.wait_for_timeout(600); R.note('%s 第 %d 下點 (%.2f, %.2f) lv%d：遊戲解讀 %s；0.6 秒後路線 %s' % (tag, taps, ax, az, alv, J((await pg.evaluate('(window.__ccTaps||[]).slice(-1)[0]||null'))), J(await pg.evaluate(TAPPATH_JS))))
             else: miss += 1
         await pg.wait_for_timeout(300)
     e = await D.st(pg); ok = math.hypot(e['x'] - tx, e['z'] - tz) <= 0.5 and e['lv'] == lv
