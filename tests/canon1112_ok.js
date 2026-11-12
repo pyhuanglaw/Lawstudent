@@ -1,0 +1,24 @@
+/* CANON-NO-ECON-1112 第四批：照 AA 的 src 對照表（AA_890、AA_894…）換過的句子。
+   「每一句都在稿上（一字照稿）」那類測試：這些句子改比 AA 的對照表（不在原本那份稿裡）。新的句子一律照 AA 的字，不是測試自己寫的。 */
+'use strict';
+const NEW = {
+  AA_890: ['（芯慈占了一整排，把旁邊那個位子上的包包拿起來，示意你坐。）', '（你發現，芯慈在同一句話旁邊寫了兩行筆記：一行寫「效率」，一行寫「誰信任了誰」，中間畫了一個問號。）'],
+  AA_894: ['這場你應該會想聽。', '物權考壞的那一章，我講給我室友聽，講到她懂。', '妳室友有說謝謝嗎？', '我室友說我讀書的時候會自言自語。她錄下來了。我不承認。',
+    '我室友說我一直在罵民法。', '再沒到，我叫我室友去你宿舍樓下堵你。', '阿哲拍的。他拍完才跟我說。', '阿哲很有精神。',
+    '好。你先去占位子，我下課就到。', '椰影大道？好，早上六點半。', '下一局換我發球。你不要跑。', '映月湖？好。我每天經過，沒有好好看過。', '好。你負責晚餐。',
+    '好啊。我下課直接過去。', '好。十點以前，我還要回去念書。', '（小聲）總圖晚上人好少。', '我回宿舍了。今天謝謝你。',
+    '傳給我室友。她會問我吃了什麼，我就叫她自己猜。', '我室友叫我拍她喜歡的那間的照片回去。她說要來。', '（她拍了店裡的菜單傳給室友，對方馬上回了一串驚嘆號。）',
+    '我室友問我你是誰。我說是同學。……她不信。', '（她把手機蓋起來，沒有回室友。）', '高雄有一間九分的。這間七分，已經很高了。', '公館的咖啡廳好多。我在高雄家附近只有兩間。',
+    '「高雄那兩間妳都去過？」', '臺北的電影院好大。我家附近那間只有三個廳。', '……我還不想回宿舍。', '我室友生日快到了，我想送她一本書。你幫我挑。'],
+  AA_892: ['📷（大口漢堡二樓的長桌。阿哲比 YA，可昕低頭在寫講義，沒有看鏡頭。）'],
+};
+/* invites.js（手寫檔）照 AA_894 第 4 節換的句子：舊 → 新（舊字用跳脫寫，D158）；拿整份資料和舊 commit 逐句比的測試用 pair() 認這幾句、drop() 認拿掉的那兩格 */
+const PAIRS=[["\u597d\u3002\u6211\u5f9e\u6728\u67f5\u904e\u53bb\u56db\u5341\u5206\u9418\uff0c\u4f60\u5148\u9ede\uff0c\u6211\u5230\u4e86\u5c31\u5403\u3002","\u597d\u3002\u4f60\u5148\u53bb\u5360\u4f4d\u5b50\uff0c\u6211\u4e0b\u8ab2\u5c31\u5230\u3002"],["\u6930\u5f71\u5927\u9053\uff1f\u5f9e\u6728\u67f5\u5927\u5b78\u904e\u53bb\u8981\u56db\u5341\u5206\u9418\u3002","\u6930\u5f71\u5927\u9053\uff1f\u597d\uff0c\u65e9\u4e0a\u516d\u9ede\u534a\u3002"],["\u63db\u4f60\u4f86\u6728\u67f5\u5927\u5b78\u6253\u3002\u4f60\u8981\u4e0a\u5c71\u3002","\u4e0b\u4e00\u5c40\u63db\u6211\u767c\u7403\u3002\u4f60\u4e0d\u8981\u8dd1\u3002"],["\u6620\u6708\u6e56\uff1f\u4f60\u5011\u5b78\u6821\u7684\u6e56\uff1f\u597d\uff0c\u6211\u53bb\u770b\u770b\u6709\u591a\u5927\u3002","\u6620\u6708\u6e56\uff1f\u597d\u3002\u6211\u6bcf\u5929\u7d93\u904e\uff0c\u6c92\u6709\u597d\u597d\u770b\u904e\u3002"],["\u597d\u3002\u6211\u5f9e\u6728\u67f5\u904e\u53bb\uff0c\u4f60\u8ca0\u8cac\u665a\u9910\u3002","\u597d\u3002\u4f60\u8ca0\u8cac\u665a\u9910\u3002"],["\u597d\u554a\u3002\u6211\u65e9\u4e00\u9ede\u5f9e\u6728\u67f5\u51fa\u767c\u3002","\u597d\u554a\u3002\u6211\u4e0b\u8ab2\u76f4\u63a5\u904e\u53bb\u3002"],["\u597d\u3002\u5341\u9ede\u4ee5\u524d\uff0c\u6211\u9084\u8981\u56de\u6728\u67f5\u3002","\u597d\u3002\u5341\u9ede\u4ee5\u524d\uff0c\u6211\u9084\u8981\u56de\u53bb\u5ff5\u66f8\u3002"],["\uff08\u5c0f\u8072\uff09\u4f60\u5011\u7684\u7e3d\u5716\u597d\u5927\u3002","\uff08\u5c0f\u8072\uff09\u7e3d\u5716\u665a\u4e0a\u4eba\u597d\u5c11\u3002"],["\u6211\u56de\u6728\u67f5\u4e86\u3002\u4eca\u5929\u8b1d\u8b1d\u4f60\u3002","\u6211\u56de\u5bbf\u820d\u4e86\u3002\u4eca\u5929\u8b1d\u8b1d\u4f60\u3002"]];
+const pair=(a,b)=>typeof a==='string'&&typeof b==='string'&&a!==b&&(PAIRS.some(([o,n])=>(a===o&&b===n)||(a.includes(o)&&a.split(o).join(n)===b))||PAIRS.some(([o,n])=>n===b));   /* 舊 commit 的字可能是更早的寫法（覆蓋層以前）：現在的字是 AA_894 的新字就算 */
+/* 拿掉的兩格（AA_894 第 4 節）：子晴 walk.any 裡 once:'ZQ_CHANGE_ASK' 那一個、芯慈 walk.any 裡 one:'w118_xc_10' 那一個——舊資料（[路徑, 值] 的清單）先拿掉那一格、後面的序號往前移，再和現在的比 */
+const GONE=[['INVITE_DATA.people.heroine_04.walk.any','once','ZQ_CHANGE_ASK'],['INVITE_DATA.people.classmate_xinci.walk.any','one','w118_xc_10'],['INVITE_DATA.walk118.classmate_xinci','one','w118_xc_10']];
+const drop=L=>{ let out=L; for(const [arr,key,val] of GONE){ const pre=arr+'.'; const hit=out.find(e=>e[0].startsWith(pre)&&e[0].slice(pre.length).split('.')[1]===key&&e[1]===val); if(!hit) continue; const k=+hit[0].slice(pre.length).split('.')[0];
+    out=out.filter(e=>!(e[0].startsWith(pre)&&+e[0].slice(pre.length).split('.')[0]===k)).map(e=>{ if(!e[0].startsWith(pre)) return e; const rest=e[0].slice(pre.length).split('.'), i=+rest[0]; if(!(i>k)) return e; rest[0]=String(i-1); return [pre+rest.join('.')].concat(e.slice(1)); }); }
+  return out; };
+const ALL = new Set([].concat(...Object.values(NEW)));
+module.exports = { NEW, ALL, PAIRS, pair, drop, ok: t => ALL.has(String(t).replace(/^「|」$/g, '')) || ALL.has(String(t)) };

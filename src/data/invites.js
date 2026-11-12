@@ -132,9 +132,7 @@ const INVITE_DATA={
     heroine_04:{ walk:{noodle:[['我們社團練團的地方就在B館旁邊。','你們法律系的人有沒有被我們吵到？'],['這家的珍珠超 Q。公館的我喝過快十家，這家最好。']],   /* BB_172 Q2、Q3 */
         wenzhou:[{if:G=>typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_ziqing_secret_game']}),l:['這邊機車停得好亂。做成關卡的話，玩家一定一直撞到。','欸，我要把它做進去。']},{if:G=>!(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_ziqing_secret_game']})),l:['這邊機車停得好亂，走路都要側身。']}],   /* Q4：看過 Q6（ev_ziqing_secret_game）才說遊戲；還沒看過＝10-2 第 6 點 */
         library:['你們法律系考試是寫申論對吧？','我們寫程式有點像，只是改的是電腦，錯一個字就零分。'],   /* Q5 */any:[['（她看到一隻松鼠。）','那隻松鼠在看我。……牠在看我的餅乾。'],
-        {if:G=>typeof SOCIAL!=='undefined'&&['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_04'))&&!SOCIAL.has('heroine_04','TOLD_HER_CHANGE'),once:'ZQ_CHANGE_ASK',l:['欸，阿凱說你之前念經濟？那你怎麼會換來法律？'],   /* BB_172 Q7（10-1 第 10 點）的問句；①的回答照 LIFE-LINE（念了一個多月）不動 */
-         ch:[{t:'（說換方向的事）',mem:'TOLD_HER_CHANGE',r:[{me:'念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。'},'你換過？',{me:'嗯。'},'你家裡說什麼？',{me:'一開始不太懂。後來就懂了。'},'（她走了好幾步沒說話。）','好。知道了。']},
-             {t:'下次再講。',r:['好喔，那你欠我一次。']}]}]},   /* Q7 ② */   /* BB_70 2-5（選項句：走到目的地、見面前；「下次再講」不記，Q10 第四個選項還有一次機會）*/   /* 子晴（2-4）：社團＝作息 club（週一、週三晚上）*/
+        /* 子晴問換方向那一段（ZQ_CHANGE_ASK、記 TOLD_HER_CHANGE）：CANON-NO-ECON-1112 第四批照 AA_894 第 4 節整段拿掉 */]},   /* Q7 ② */   /* BB_70 2-5（選項句：走到目的地、見面前；「下次再講」不記，Q10 第四個選項還有一次機會）*/   /* 子晴（2-4）：社團＝作息 club（週一、週三晚上）*/
       firstAt:{teahouse:['地板是榻榻米。我要脫鞋？……我的襪子是貓的。不准看。'],
         gym_badminton:['（她借了一支拍子，握的方向是反的。）','這樣握比較帥。不是嗎？'],run_avenue:['（六點半，她穿著帽 T 出現，眼睛只開一半。）','我起來了。這件事你要記得。']},   /* AA_417 3-1 的 first（第一次去，在那裡說）*/
       acc:{teahouse:{R:['一盞？那裡不能大聲對吧。……好，這是挑戰模式。']},cafe:{A:['Café？好啊，我要點最甜的。']},library:{R:['（她答應了，條件是「二樓靠窗，有插座的那一排」。）']},
@@ -225,11 +223,11 @@ const INVITE_DATA={
         return null; } },   /* rule：BB_158 第 4 節，大二下重考那一學期半熟、一盞都婉拒（SYS-21 起她那學期休學、presence 先回 away：照樣換成她自己的這一句）*/   /* 沛珊（6-4）*/
     kexin:{ rule:(G,c,I)=>c.pid==='lawlib'&&c.r&&(c.r.res==='accept'||c.r.res==='resched')?INVITE_DATA.toSlow(G,'kexin',c,I,['法圖？我是外校的，進不去吧。','……木曜日好不好？那裡不用證件。']):null,   /* AA_535b 2-1：她是外校的，法圖進不去，改約慢讀 */
       acc:{brunch:{A:['SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。'],R:['好啊，我先查一下菜單。']},teahouse:{R:['一盞。安靜的地方。我可能一個小時都不講話喔。']},
-        pasta118:['好。我從木柵過去四十分鐘，你先點，我到了就吃。'],teahouse_ceremony:['茶席。我要穿裙子嗎？','我穿。'],   /* AA_535b 4-2（企劃線 b3e5bca3b）：茶席那句接茶席現場她「坐下來，又站起來，把裙子拉好再坐」（wzlines3d.js CEREMONY_LINES）*/
+        pasta118:['好。你先去占位子，我下課就到。'],teahouse_ceremony:['茶席。我要穿裙子嗎？','我穿。'],   /* AA_535b 4-2（企劃線 b3e5bca3b）：茶席那句接茶席現場她「坐下來，又站起來，把裙子拉好再坐」（wzlines3d.js CEREMONY_LINES）*/
         /* AA_417 3-2（她是政大的學生：羽球場由祐廷用台大的帳號預約）；政大那幾年的句子，經濟系那一年不用 */
         gym_badminton:G=>(G.stage||'law')==='law'?{A:['首都帝大的球場？好。……先說，我高中打過。'],R:['好，我從山上下來，拍子你負責借。']}:null,
-        run_avenue:G=>(G.stage||'law')==='law'?{R:['椰影大道？從木柵大學過去要四十分鐘。','……好。你敢遲到試試看。']}:null},
-      sport:{gym_badminton:{during:[['那一球你讓我？……不准讓。'],['再一局。這局不算，我鞋帶鬆了。'],['你們的球場比較亮。這不是藉口。']],end:['換你來木柵大學打。你要上山。']},
+        run_avenue:G=>(G.stage||'law')==='law'?{R:['椰影大道？好，早上六點半。','……好。你敢遲到試試看。']}:null},
+      sport:{gym_badminton:{during:[['那一球你讓我？……不准讓。'],['再一局。這局不算，我鞋帶鬆了。'],['你們的球場比較亮。這不是藉口。']],end:['下一局換我發球。你不要跑。']},
         run_avenue:{during:[['跑到晨思鐘不要停。跑回來才算。'],['我不喘。……我在講話，所以我不喘。'],['早上的首都帝大好安靜。山上的鳥比較吵。']],end:['早餐我知道一家。走。']}},   /* AA_417 3-2：一起的時候三句輪流、結束 */   /* BB_158 第 5 節（她在政大：時間照她的作息；2026-10-17 BB-C 改稿：不再每句「假設」）*/
       firstAt:{gym_badminton:G=>(G.stage||'law')==='law'?['我高中打過一學期。你不要放水。']:null,run_avenue:G=>(G.stage||'law')==='law'?['六點二十五分。我先到了。']:null,   /* AA_417 3-2 的 first */
         brunch:['蛋可以選熟度欸。我要半熟。'],teahouse:['我們學校後山也有茶園欸。','不過這邊的院子比較安靜。'],
@@ -303,7 +301,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
     heroine_04:{first:['映月湖？晚上去？會不會有蚊子。','好啦。'],acc:['好。我帶防蚊液。這是條件。'],plan:['那時候不行。{zh}？'],firstAt:['（她看著湖心亭的燈，拿出手機開了一個空白的檔案。）','這個場景，我要做進下一關。'],walk:['湖的形狀要做成地圖的話，邊邊很難畫。']},
     heroine_05:{first:['映月湖。好。我很久沒有不念書地走路了。'],acc:['好啊。'],plan:['那時候我有安排了。{zh}，可以嗎？'],firstAt:['（她站在湖邊，手上什麼都沒拿。）','這裡比我記得的安靜。'],walk:['我大一的時候，常常繞這個湖背書。一圈背一條。']},
     classmate_peishan:{first:['映月湖！好啊，我想看湖心亭晚上有沒有開燈。'],acc:['好！走完我們去吃東西。'],plan:['啊，那時候我有事！{zh}可以嗎？'],firstAt:['（她走到湖心亭，摸了一下欄杆。）','這欄杆好舊。我們家店門口也有一個這麼舊的。'],walk:['你有沒有覺得，晚上的學校跟白天是兩個地方。']},
-    kexin:{first:['映月湖？你們學校的湖？好，我去看看有多大。'],acc:['好。我從木柵過去，你負責晚餐。'],plan:['那時候不行。{zh}，不准再改。'],firstAt:['（她繞到湖的另一邊看了一下，又走回來。）','比我們學校的大一點。……一點點。'],walk:['你們學校晚上的路燈比較亮。我們山上比較黑。']} };
+    kexin:{first:['映月湖？好。我每天經過，沒有好好看過。'],acc:['好。你負責晚餐。'],plan:['那時候不行。{zh}，不准再改。'],firstAt:['（她繞到湖的另一邊看了一下，又走回來。）','比我們學校的大一點。……一點點。'],walk:['你們學校晚上的路燈比較亮。我們山上比較黑。']} };
   /* AA_595 1-D10（AA 11-02 22:30 定稿）：沛珊第一次去法圖的第二句前面加「（走出法圖）」——櫃台那句旁白照留，這一句走出去才說、不加（小聲）（LIBQ.isOut；INV.meet 從這句起到道別都不加）。
      她說的：動作在前面、說的話不加「」（「（走出法圖）館員人好好。……」，TEXT-QUOTE-UNIFY-1108 第六批，AA-B 11-08 11:50；S.narrLine 看整句是不是一對（））*/
   INVITE_DATA.lawlibLines=LAW; INVITE_DATA.lakeLines=LAKE;
@@ -432,7 +430,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
       W('w118_xc_7','any',inT('Y2S1',8,9),['財管的期中考完，下午接債總。早上算利息，下午聽遲延利息。至少主題有連起來。']),
       W('w118_xc_8','any',all(Y(2),done('ev_xinci_second')),['那天在便利商店說的，數字對起來那個。我第一次跟同學講這個。']),   /* 慈 3 新版 */
       W('w118_xc_9','any',Y(2),['我爸今天出庭，傳了一張法院走廊的照片給我。沒有字。他每次順利都這樣。']),
-      W('w118_xc_10','any',all(Y(2),G=>Array.isArray(G.flags&&G.flags.SK10_DONE)&&G.flags.SK10_DONE.length>0),['我問阿勳統計，他問我民法。交換了一個下午。這是我做過最划算的交易。']),   /* BB_106 SK10（bbpack3d.js SK10_DONE）之後 */
+    /* w118_xc_10（讀 SK10_DONE）：CANON-NO-ECON-1112 第四批照 AA_894 第 4 節整列拿掉 */
       W('w118_xc_11','library',Y(2),['這學期我把四色筆換成五色。多的那一色寫財金。']),
       W('w118_xc_12','any',inT('Y2S2',13,16),['期末前我會先把桌面清空。我媽說我跟她一樣，考試前一定要先整理。']),
       W('w118_xc_13','any',all(Y(3),from('2027-11-18',12)),['我不去交換。雙主修還要修二十幾個學分。……我其實有點想去。']),   /* 交換志願表截止 11/18 12:00 之後 */
@@ -539,7 +537,7 @@ INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去
 (function(){ const AF={heroine_01:'好。我帶書去，你不要一直跟我講話。',heroine_02:'afar？好。窗邊那一排的燈很好看。',heroine_03:'好。我想吃他們的布丁。',heroine_04:'可以。那裡插座很多。',heroine_05:'好。我也剛好要寫東西。',
     classmate_peishan:'好！我上次經過就想進去了。',kexin:'好啊。我到公館再跟你說。'};
   const DB={heroine_01:'好。不要遲到。',heroine_02:'好。那家的鬆餅我只吃過一次，想再吃一次。',heroine_03:'Daybreak？好。我想吃法式吐司。',heroine_04:'Daybreak？好。我會起來。',heroine_05:'好。那天我空下來。',
-    classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我早一點從木柵出發。'};
+    classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我下課直接過去。'};
   INVITE_DATA.afarAcc=AF; INVITE_DATA.daybreakAcc=DB;
   for(const [pid,ACC] of [['afar',AF],['daybreak',DB]]) for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={}))[pid]=[ACC[id]]; } })();
 /* ---------- 洋洋鹹酥雞（公館 G05，區域 yangyang；YANGYANG-IN-1107）當邀約地點（AA_724 第 8～10 節，AA 定稿 D109，企劃線 bf5c3e6c6，一字照稿）----------
@@ -551,7 +549,7 @@ INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去
 INVITE_DATA.places.push({id:'yangyang',zone:'yangyang',name:'洋洋鹹酥雞',verb:'去洋洋鹹酥雞吃宵夜',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[19,23],times:[19,20,21,22],
   whoLast:{kexin:21},prefTable:[1,2,3,4]});
 (function(){ const YY={heroine_01:'宵夜？好。我只吃一點。',heroine_02:'好。我下班剛好餓。',heroine_03:'鹹酥雞？好。我沒有在店裡吃過。',heroine_04:'好！！我要雞皮。很多雞皮。',heroine_05:'好。讀完書，剛好。',
-    classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回木柵。'};
+    classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回去念書。'};
   INVITE_DATA.yangyangAcc=YY;
   for(const id in YY){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).yangyang=[YY[id]]; } })();
 /* ---------- 轉角唱片（公館 G12，區域 corner_records；CORNER-IN-1107）當邀約地點（AA_725 第 8～9 節，AA 定稿 D109，企劃線 bf5c3e6c6，一字照稿）----------
@@ -597,7 +595,7 @@ INVITE_DATA.libStudy={
     heroine_04:{sit:'（小聲）圖書館的冷氣好冷。你外套借我。',bye:'我寫了一整頁的程式。你讀了幾頁？'},
     heroine_05:{sit:'（小聲）我寫我的報告，你有問題可以問我。',bye:'讀得不錯。下次我考你。'},
     classmate_peishan:{sit:'（小聲）我第一次在這裡讀書耶。',bye:'我今天讀了十頁，畫了十頁。效率很平均。'},
-    kexin:{sit:'（小聲）你們的總圖好大。',bye:'我回木柵了。今天謝謝你。'} }
+    kexin:{sit:'（小聲）總圖晚上人好少。',bye:'我回宿舍了。今天謝謝你。'} }
 };
 /* AA_649 第 4 節：其他約會兩個人一起坐下以後的開場句（每次隨機一則）。店自己有見面內容的（一盞、木曜日、日常失速、Pasta 118：地點的 scene／ownMeal）用店的，不加。
    電影、頁間書屋：現在還不是可以約的地點（INVITE_DATA.places 沒有），等地點加進來再接 */

@@ -9621,6 +9621,15 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "第 1 節：tools/story/import_arcs.py 的 CANON892 那一層（舊→新逐列對，對不到就停）＋可昕 theme；第 2 節：src/r2y4b3d.js 排程地點、照片、K26 地點、分開那一場的地點；第 3 節 msg_pool 見下一個 commit（第四批，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_894_src對照表_social_msg_invites_scenes.md",
+   "sha": "3443745dcb",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "social3d.js 去向、記憶標籤（ECON_NIGHT、HEARD_ECON_NIGHT、XUN_PATH 拿掉；KNOWS_ECON_YEAR、MIRROR_PEISHAN 還有地方在設，暫留）、KX_BDAY2_CAKE；msg_replies／activity_scenes 照 tools/story/canon1112_rows.py 疊在稿上重匯；invites.js 手寫檔照列換字、兩格拿掉（brunch kx25 那句留給 AA_891 那一份）；assets3d.js、WN_COMMON 沒動（第四批，LAWWW 的子代理）"
   }
  ]
 }

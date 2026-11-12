@@ -362,7 +362,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(D('2026-11-18'),8,'dorm',{dpN:{y2_kx_giraffe1:1,y2_kx_giraffe:2},R3_DPT:{y2_kx_giraffe:{Y2S1:2}}}); date('kexin'); only('y2_kx_giraffe',()=>run(G.day,8,23.5)); check('14. 一學期最多 2 次', !K().length);
     fresh(D('2026-11-18'),8,'dorm'); date('kexin'); only('y2_kx_giraffe',()=>run(G.day,8,23.5)); check('14. 沒收過說明那一則：沒有', !K().length);
     fresh(D('2026-12-03'),8,'dorm'); date('kexin'); G.events.done.ev_kexin_bad_exam=1; G.events.last.ev_kexin_bad_exam=D('2026-11-19'); only('y2_kx_k10c',()=>run(G.day,8,21.5));
-    check('14. K10c 演過 14 天以後：21:10「物權考壞的那一章，我講給予樂聽，講到她懂。」', K().slice(-1)[0]==='kexin:物權考壞的那一章，我講給予樂聽，講到她懂。');
+    check('14. K10c 演過 14 天以後（CANON-NO-ECON-1112 第四批：照 AA_894 換字）：21:10「物權考壞的那一章，我講給我室友聽，講到她懂。」', K().slice(-1)[0]==='kexin:物權考壞的那一章，我講給我室友聽，講到她懂。');
     fresh(D('2026-12-02'),8,'dorm'); date('kexin'); G.events.done.ev_kexin_bad_exam=1; G.events.last.ev_kexin_bad_exam=D('2026-11-19'); only('y2_kx_k10c',()=>run(G.day,8,21.5)); check('14. 13 天：還沒有', !K().length);
     fresh(D('2027-07-19'),19,'home'); R('npc_fangyt','FAM'); C('npc_fangyt'); run(G.day,19,19.75);
     check('14. M3 大二暑假 7/19 19:30 苔蘚的照片「沒訊號。下山才傳。」', JSON.stringify(txt('p:npc_fangyt'))===JSON.stringify(['npc_fangyt:📷（山上的一片苔蘚，上面有露水）','npc_fangyt:沒訊號。下山才傳。'])&&Math.abs(at('p:npc_fangyt','沒訊號。下山才傳。')-(G.day*24+19.5))<0.26);

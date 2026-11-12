@@ -68,7 +68,7 @@ const BBPACK=(function(){
   S.phone=function(G){ const ph=P(); if(!ph||!law(G)||!G.flags) return; const F=G.flags;
     /* B6：芯慈私訊（BB_137 2-1）*/
     { const sat=TD('Y2S1',5,6), tue=TD('Y2S1',6,2); if(win(G,sat,20,tue,18.5)&&knows(XC)&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,XC))
-        ph.at(G,sat,20,[{th:'p:'+XC,from:XC,text:'週二晚上博思有一場講座。「經濟和法律，在同一張桌子上」。'},{th:'p:'+XC,from:XC,text:'這場你應該會想聽。阿勳也會去。'}],'bb_b6_dm');
+        ph.at(G,sat,20,[{th:'p:'+XC,from:XC,text:'週二晚上博思有一場講座。「經濟和法律，在同一張桌子上」。'},{th:'p:'+XC,from:XC,text:'這場你應該會想聽。'}],'bb_b6_dm');
     }
     /* B7：語彤轉海報（稿：「語彤在桌遊團群組轉了一張海報」；照片的說明是這裡寫的）*/
     { const mon=TD('Y2S2',6,1); if(win(G,mon,21,mon+2,19)&&knows(YT)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th:'g:noodle_team',from:YT,text:'📷（海報：「老房子、租屋與城市」）'}],'bb_b7_poster'); }
