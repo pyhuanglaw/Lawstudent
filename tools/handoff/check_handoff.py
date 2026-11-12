@@ -1000,6 +1000,10 @@ def loose(args):
     for ln in git('for-each-ref', '--format=%(refname:short)', 'refs/heads').split():
         if ln in (head, 'main'):
             continue
+        # 別人分支的本機副本（例：CC 抓下來看結果的 claude/cc-local）：遠端同名分支已經有它全部的 commit＝不是沒收進來的成果（CC-C 11-12）
+        if git('rev-parse', '--verify', '--quiet', 'refs/remotes/origin/' + ln).strip() and subprocess.run(['git', 'merge-base', '--is-ancestor', ln, 'origin/' + ln], cwd=str(ROOT)).returncode == 0:
+            print('[資訊] 本機分支 %s 是 origin/%s 的副本（遠端都有），不算' % (ln, ln))
+            continue
         n = git('rev-list', '--count', head + '..' + ln).strip() or '0'
         if n != '0':
             files = [f for f in git('diff', '--name-only', head + '...' + ln).split('\n') if f][:6]
