@@ -50862,7 +50862,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】加戀愛的程式在線上版；使用者要的「哪些活動加戀愛、哪些加友情」對照表沒寫過（docs/ROMANCE_ACTIVITY_TABLE.md 從來不存在，舊紀錄寫錯）——LAWWW 從 invites3d.js:370,424 產生這張表給使用者看｜【11-10 01:5x LAWWW-B】使用者 X281。invites3d 單獨約出來原本第 3 階（朋友）起才加戀愛 +1（AA_243 1 節）；改成可以攻略的對象（DATE.HEROINES，可昕照舊另算）認識以上每次單獨見面：她的戀愛 +1、祐廷的戀愛 +1、信任 +1（一天一次）。對照表寫在 docs/ROMANCE_ACTIVITY_TABLE.md，選項對話交 DATE-CHOICES-1110。",
+   "next": "【LAWWW-C 11-12 11:5x】對照表補上了：docs/ROMANCE_ACTIVITY_TABLE.md（照開發分支程式整理：會加戀愛的七種、只加友情的十一種、和使用者原話對照）。留給使用者決定：私下約每一種都 +1 夠不夠、要不要照活動分輕重——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】加戀愛的程式在線上版；使用者要的「哪些活動加戀愛、哪些加友情」對照表沒寫過（docs/ROMANCE_ACTIVITY_TABLE.md 從來不存在，舊紀錄寫錯）——LAWWW 從 invites3d.js:370,424 產生這張表給使用者看｜【11-10 01:5x LAWWW-B】使用者 X281。invites3d 單獨約出來原本第 3 階（朋友）起才加戀愛 +1（AA_243 1 節）；改成可以攻略的對象（DATE.HEROINES，可昕照舊另算）認識以上每次單獨見面：她的戀愛 +1、祐廷的戀愛 +1、信任 +1（一天一次）。對照表寫在 docs/ROMANCE_ACTIVITY_TABLE.md，選項對話交 DATE-CHOICES-1110。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
