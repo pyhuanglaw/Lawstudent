@@ -72,6 +72,13 @@ async def talk(pg, cdp, want):
 
 
 PATHSCAN = [float(v) for v in os.environ.get('PATHSCAN').split(',')] if os.environ.get('PATHSCAN') else None   # x0,z0,x1,z1,step
+SEG_PICK = r"""((a)=>{ const E=GAME.E, cam=E.camera, P=E.player.obj.position, W=innerWidth, H=innerHeight; const L=E.zone&&E.zone.levelGroups; const fy=(L&&L[a.lv|0])?L[a.lv|0].y:0;
+  const pr=(x,z)=>{ const v=new THREE.Vector3(x,fy,z).project(cam); return {sx:(v.x+1)/2*W, sy:(1-v.y)/2*H, z:v.z}; };
+  const ok=q=>q.z<1&&q.sx>40&&q.sx<W-40&&q.sy>=120&&q.sy<H-40;
+  const t=pr(a.tx,a.tz); if(ok(t)) return {x:a.tx, z:a.tz, seg:false, sy:Math.round(t.sy)};
+  const dx=a.tx-P.x, dz=a.tz-P.z, D=Math.hypot(dx,dz)||1;
+  for(const d of [12,9,7,5,3.5,2.5]){ if(d>=D) continue; const x=P.x+dx/D*d, z=P.z+dz/D*d, q=pr(x,z); if(ok(q)&&(!E.canStand||E.canStand(x,z,0.3,a.lv|0))) return {x:+x.toFixed(2), z:+z.toFixed(2), seg:true, sy:Math.round(q.sy)}; }
+  return {x:null, seg:false, sy:Math.round(t.sy)}; })"""
 STUCKSHOT = (os.environ.get('STUCKSHOT') or '0') == '1'   # 11-13 BB-C：卡住 4 秒當下截圖（遊戲鏡頭＋正上方往下看）＋列 1.2 m 內的網格，看是什麼擋住
 NEAR_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, mine=new Set(); E.player.obj.traverse(o=>mine.add(o)); const out=[]; const b=new THREE.Box3(), v=new THREE.Vector3();
   E.scene.traverse(o=>{ if(!o.isMesh||mine.has(o)||o.visible===false) return; try{ b.setFromObject(o); }catch(e){ return; } if(b.isEmpty()) return;
@@ -200,14 +207,19 @@ async def main():
                         out['joy'] = {k: r_.get(k) for k in ('ok', 'why', 't', 'pushes')} if isinstance(r_, dict) else r_
                     else:
                         async def _taps():
-                            n_ = 0
+                            # 11-13 BB-C（WZ_TAP_28＝TEST_BUG）：遠的目標投影到地平線、點到最上面 HUD 列（y 49）＝人不動。
+                            # 目標在螢幕上 y<120 或出畫面：沿玩家→目標那條線找比較近、在畫面裡（y≥120）、站得住的點先點那裡（分段點），每次點的螢幕座標都記
+                            n_ = 0; log_ = []
                             for _ in range(45):
                                 p = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z,GAME.E.player.lv|0]; })()")
-                                if ((p[0] - a[0]) ** 2 + (p[1] - a[1]) ** 2) ** 0.5 < 0.6 and (lv_ is None or p[2] == lv_): return {'ok': True, 'taps': n_}
-                                hit = await L.tap_ground(pg, cdp, a[0], a[1], lv=lv_); n_ += 1
-                                if not hit: await L.turn_camera_to(pg, cdp, a[0], a[1])
+                                if ((p[0] - a[0]) ** 2 + (p[1] - a[1]) ** 2) ** 0.5 < 0.6 and (lv_ is None or p[2] == lv_): return {'ok': True, 'taps': n_, 'log': log_[-12:]}
+                                pick = await pg.evaluate(SEG_PICK, {'tx': a[0], 'tz': a[1], 'lv': lv_ if lv_ is not None else p[2]})
+                                gx, gz = (pick['x'], pick['z']) if pick and pick.get('x') is not None else (a[0], a[1])
+                                hit = await L.tap_ground(pg, cdp, gx, gz, lv=lv_); n_ += 1
+                                log_.append({'n': n_, 'pl': [round(p[0], 2), round(p[1], 2)], 'goal': [round(gx, 2), round(gz, 2)], 'seg': bool(pick and pick.get('seg')), 'screen': hit and [round(hit.get('sx', -1)), round(hit.get('sy', -1))], 'proj': pick and pick.get('sy')})
+                                if not hit: await L.turn_camera_to(pg, cdp, gx, gz)
                                 await pg.wait_for_timeout(2000)
-                            return {'ok': False, 'taps': n_}
+                            return {'ok': False, 'taps': n_, 'log': log_[-12:]}
                         out['tap'], out['stuck'] = await watched(pg, _taps(), t)
                     await D.settle(pg); out['s'] = await record(pg, k, kind, J(out.get('joy') or out.get('tap')))
                 elif kind == 'look':
