@@ -56272,7 +56272,7 @@
    "id": "SOCLIB2F-PLANT-TRAP-1112",
    "title": "【發布前必修】社科院圖書館 2F 植物盆旁夾縫：走向置物櫃被夾在盆栽和柱子／矮木牆之間，搖桿、點地都出不來，要重讀檔",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -56286,7 +56286,7 @@
    },
    "source": "BB-C 11-12（BB_255 d4c13dcc60／SSB_gg2_r2）",
    "authorized": "D108、D154",
-   "next": "【LAWWW-C 11-12 17:2x UTC】已轉 LAWWW2（DELIVERED）。停在 (-3.48,-3.01)→(-3.79,-5.07)；同支另有 P2：沙發起身被放到 10.5 m 外 (6.99,1.7)。這一筆不修不發布。",
+   "next": "【LAWWW-C 11-12 17:3x UTC】LAWWW2 26b757e35e soclib2f_plant_trap_v1.patch 合進開發分支：原因＝一樓木格柵牆（x −3.9）和沙發西端（x −3.2）之間只剩 0.1 m 寬、4 m 長的縫＋盆栽旁一格口袋，擋掉（不動模型）。Node soclib2f_plant_trap_1112（掃一樓 0.1 m 格子）、nav_notch、soclib2f、nav_soclib、soclib_hours、place_gate exit 0。CC route 探針重走（點地、搖桿、一樓上樓）→ BB 判。沒查：P2 沙發起身被放到 10.5 m 外。｜【LAWWW-C 11-12 17:2x UTC】已轉 LAWWW2（DELIVERED）。停在 (-3.48,-3.01)→(-3.79,-5.07)；同支另有 P2：沙發起身被放到 10.5 m 外 (6.99,1.7)。這一筆不修不發布。",
    "xai": {
     "from": "LAWWW",
     "to": "LAWWW2",
@@ -56294,8 +56294,9 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "企劃線 BB_255；cc-local SOFA_SOCLIB2F／SSB_gg2_r2",
     "acceptance": "CC route 探針（點地、搖桿各一次＋從一樓上樓一次）卡住 0 次；BB 判 PASS",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "sha": "PENDING"
   },
   {
    "id": "FLOWER-2F-TAPNAV-1112",
