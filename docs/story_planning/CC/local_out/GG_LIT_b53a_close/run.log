@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_lit_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_LIT_b53a_close\out
+CC 公館打烊亮窗：TAG gg14e5c；SHA b53abd654b；2025-11-05 [14.0]；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到公館 2025-11-05 1400（晴；條件事件關掉）
+PASS [1400] 讀到 gongguan  {"zone": "gongguan", "x": -2.5, "z": -29, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  56.2s] [1400] 亮窗網格 NOSHADOW_xs_fronts_lit；xsShops ["ggcvs", "ggyy", "ggafar", "ggfn", "ggdb"]；店 [{"idx": 0, "id": "G00", "zone": "noodle", "name": "公館燒臘（燒臘）", "label": "進入公館燒臘", "x": -63, "y": 2, "z": 21, "w": 4, "d": 0, "open": true, "door": true, "side": -1, "freeRun": [0, 11]}, {"idx": 1, "id": "ggcvs", "zone": "cvs", "name": "日和便利店", "x": -31, "y": 2.1, "z": 20.17, "w": 6.12, "d": 2.74, "open": true, "side": -1, "freeRun": [0, 10]}, {"idx": 2, "id": "ggyy", "zone": "yangyang", "name": "洋洋鹹酥雞", "x": -9.7, "y": 3.53, "z": 20.37, "w": 5, "d": 3.14, "open": false, "side": -1, "freeRun": [0, 11]}, {"idx": 3, "id": "ggafar", "zone": "afar", "name": "afar café", "x": 6.5, "y": 1.6, "z": 21.95, "w": 0.6, "d": 0, "open": true, "side": -1, "freeRun": [0, 11]}, {"idx": 4, "id": "ggfn", "zone": "flower_notes", "name": "花序 Flower Notes", "x": 46.6, "y": 3.58, "z": 21.17, "w": 9, "d": 3.25, "open": true, "side": -1, "freeRun": [0, 11]}, {"idx": 5, "id": "ggdb", "zone": "daybreak", "name": "Daybreak", "x": 69.48, "y": 1.68, "z": 21.95, "w": 0.65, "d": 0, "open": true, "side": -1, "freeRun": [0, 11]}]
+PASS [1400] 找得到亮窗網格（xs_fronts_lit）
+PASS [1400] 找得到公館燒臘的門（exit.to＝noodle）
+  [  56.7s] [1400] 公館燒臘（燒臘）（G00）遊戲認為 開著；近照中間亮度 110.2
+  [  56.8s] [1400] 日和便利店（ggcvs）遊戲認為 開著；近照中間亮度 166.1
+  [  56.9s] [1400] 洋洋鹹酥雞（ggyy）遊戲認為 打烊；近照中間亮度 42.5
+  [  56.9s] [1400] afar café（ggafar）遊戲認為 開著；近照中間亮度 61.2
+  [  57.0s] [1400] 花序 Flower Notes（ggfn）遊戲認為 開著；近照中間亮度 133.7
+  [  57.1s] [1400] Daybreak（ggdb）遊戲認為 開著；近照中間亮度 119.2
+PASS 沒有 JS 例外  []
+ALL PASS
