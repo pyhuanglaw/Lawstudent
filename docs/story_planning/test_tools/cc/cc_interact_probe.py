@@ -37,6 +37,9 @@ async def main():
             if not R.check('%s 讀到 %s' % (tag, ZONE), s['zone'] == ZONE, J(s)): continue
             it = await pg.evaluate("(l=>{ const L=GAME.E.interactables.filter(q=>(q.label||'').indexOf(l)>=0); const i=L.find(q=>!q.hidden)||L[0]; return i?{x:i.x,z:i.z,lv:i.lv|0,label:i.label,hidden:!!i.hidden}:null; })", LABEL)
             if not R.check('FAIL_SETUP 檢查：%s 找得到「%s」' % (tag, LABEL), bool(it), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label)"))): continue
+            if it.get('hidden'):   # 11-13 BB-C（WZ_ICE_r2 按到 hidden 的「看夏日冰菓室」）：玩家看不到的互動點不按，記下來＝那個時段遊戲沒開這個點
+                R.note('%s 「%s」這個時段 hidden（玩家看不到這個按鈕）；看得到的有 %s' % (tag, it['label'], J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label)"))))
+                await pg.screenshot(path=os.path.join(OUT, 'hidden_%s_%d.png' % (TAG, n))); continue
             await L.go_to(pg, cdp, R, it['x'], it['z'], 0.7, it['label'], max_s=90, lv=it['lv'])
             st = await pg.evaluate(ST)
             R.note('%s 互動鍵「%s」（互動點 %s）' % (tag, st['interact'], J(it)))
