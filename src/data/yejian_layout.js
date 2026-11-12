@@ -52,6 +52,8 @@ const YEJIAN_LAYOUT = {
     {x: 0.5, z: -3.75, kind: 'shelf_browse', label: '看看書牆'},
     {x: 2.4, z: 1.75, kind: 'new_books', label: '看新書'},
     {x: 3.85, z: 0.6, kind: 'cafe_order', label: '點咖啡', note: '店員站在咖啡吧後面 x 5.0～5.7'},
+    {x: 0.0, z: 1.6, kind: 'magazines', note: 'AA_853（LAWWW 11-12）：雜誌＝第一座斜面書架（display_rack x −0.6、面向北，前緣 z 2.03）前面；正前方 (−0.6, 1.55) 是路人看雜誌站的位置（crowd3d.js），所以偏東 0.6 m。按鈕的字用 AA 的（yejian_shaola_buy.js），這裡不寫 label'},
+    {x: 4.5, z: 3.9, kind: 'postcards', note: 'AA_853：明信片＝窗上那條麻繩（items 的 postcards），站在窗邊長吧台東端前面——最後一張高腳椅 x 3.2 再往東、盆栽 (5.5, 4.3) 以西、吧台前緣 z 4.4 以北。字用 AA 的'},
     {x: -4.0, z: 3.6, kind: 'job_notice', label: '門上的告示', note: '打工（wz_jobs.js books.desk 原本 (1.9, 3.9)，跟著搬到門邊）'}
   ],
   floorSit: [],

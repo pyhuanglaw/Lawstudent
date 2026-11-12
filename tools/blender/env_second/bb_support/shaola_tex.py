@@ -193,8 +193,9 @@ def prints(path):
     d.rectangle([x0, y0, x1, y1], fill=(240, 236, 226)); d.rectangle([x0 + 8, y0 + 8, x1 - 8, y1 - 8], outline=(178, 48, 40), width=5)
     for cx, cy in ((x1 - 46, y1 - 46), (x1 - 46, y0 + 20)):
         for k in range(3): d.line([(cx, cy + k * 10), (cx + 26 - k * 8, cy + k * 10)], fill=(178, 48, 40), width=3)
-    L_ = [('叉燒飯', '100'), ('雞腿飯', '110'), ('燒肉飯', '110'), ('上鴨飯', '110'), ('雙拼飯', '130')]
-    R_ = [('燒鴨飯', '110'), ('油雞飯', '120'), ('三寶飯', '130')]
+    # 菜單照 AA_853（src/data/yejian_shaola_buy.js；LAWWW 11-12）：叉燒 90、油雞 90、燒鴨 100、雙拼 110、三寶 130、例湯 20、加滷蛋 15。原本是做模型時自己排的（雞腿飯、燒肉飯、上鴨飯…價錢也不同）
+    L_ = [('叉燒飯', '90'), ('油雞飯', '90'), ('燒鴨飯', '100'), ('雙拼飯', '110'), ('三寶飯', '130')]
+    R_ = [('例湯', '20'), ('加滷蛋', '15')]
     for col, rows in ((0, L_), (1, R_)):
         for i, (n, p) in enumerate(rows):
             x, y = x0 + 40 + col * 510, y0 + 30 + i * 80
@@ -211,7 +212,7 @@ def prints(path):
     a[y0:y1, x0:x1] = blk * (0.86 + 0.16 * n[..., None]) + np.array([60, 40, 10]) * 0.06 * (1 - n[..., None])
     im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
     # 3 價目卡（米黃底、黑字、紅色手寫價錢、底下畫一條線）512 × 200 × 2
-    for k, (t, p) in enumerate((('叉燒飯', '100'), ('燒鴨飯', '110'))):
+    for k, (t, p) in enumerate((('叉燒飯', '90'), ('燒鴨飯', '100'))):
         x0, y0, x1, y1 = _cell(f'card{k}', 1536 + 0, 448 + k * 150, 512, 150)
         d.rectangle([x0, y0, x1, y1], fill=(240, 226, 196)); d.rectangle([x0, y0, x1, y1], outline=(200, 186, 150), width=3)
         _hand(d, (x0 + 22, y0 + 32), t, 80, (28, 24, 22), rng, 2); _hand(d, (x0 + 320, y0 + 26), p, 84, (192, 28, 26), rng, 3)
