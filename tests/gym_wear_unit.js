@@ -30,16 +30,16 @@ const glb=f=>{ const b=fs.readFileSync(path.join(ROOT,f)), jl=b.readUInt32LE(12)
   if(u.driver!=='vrm'){ check('（前提）祐廷的 VRM 載得到',false,u.driver); console.log('FAILED '+fails); process.exit(1); }
   const meshes=(re)=>{ const a=[]; h.traverse(o=>{ if(!o.isMesh) return; const mn=((Array.isArray(o.material)?o.material[0]:o.material)||{}).name||''; if(re.test(o.name)||re.test(mn)) a.push(o); }); return a; };
   const vis=o=>{ for(let p=o;p;p=p.parent) if(p.visible===false) return false; return true; };
-  const G=meshes(/^GYM_(TOP|SHORTS)$/), TB=meshes(/_(Tops|Bottoms)_\d+_CLOTH/).filter(o=>o.parent&&o.parent.name==='Body'), SK=meshes(/Body_00_SKIN|Shoes_01/), JK=meshes(/^JACKET_ECON$/), bp=u.props&&u.props.backpack;
+  const G=meshes(/^GYM_(TOP|SHORTS)$/), TB=meshes(/_(Tops|Bottoms)_\d+_CLOTH/).filter(o=>o.parent&&o.parent.name==='Body'), SK=meshes(/Body_00_SKIN|Shoes_01/), bp=u.props&&u.props.backpack;
   check('② 剛建好：運動服藏著、毛衣褲子在',G.length===2&&G.every(o=>!vis(o))&&TB.length===2&&TB.every(vis),'運動服 '+G.length+'、毛衣褲子 '+TB.length);
   const can=typeof CHAR.setGymWear==='function';
   check('② 有 CHAR.setGymWear',can);
   if(can){
     CHAR.setGymWear(h,true);
     check('② 穿上：運動服顯示、毛衣褲子藏、皮膚鞋子照舊',G.every(vis)&&TB.every(o=>!vis(o))&&SK.every(vis));
-    check('② 穿上：舊的外套網格照舊藏著、後背包拿下（setJacket（CANON-NO-ECON-1112 第三批：這一項拿掉））',JK.every(o=>!vis(o))&&(!bp||!bp.visible),'背包 '+(bp?bp.visible:'無'));
+    check('② 穿上：後背包拿下（CANON-NO-ECON-1112：舊外套網格已從模型拿掉）',(!bp||!bp.visible),'背包 '+(bp?bp.visible:'無'));
     CHAR.setGymWear(h,false);
-    check('② 脫下：毛衣褲子、後背包回來，運動服藏；舊的外套網格照舊藏著（CANON-NO-ECON-1112 第三批：這一項拿掉）',G.every(o=>!vis(o))&&TB.every(vis)&&JK.every(o=>!vis(o))&&(!bp||bp.visible));
+    check('② 脫下：毛衣褲子、後背包回來，運動服藏（CANON-NO-ECON-1112：舊外套網格已從模型拿掉）',G.every(o=>!vis(o))&&TB.every(vis)&&(!bp||bp.visible));
     CHAR.setProp(h,'backpack',false); CHAR.setGymWear(h,true); CHAR.setGymWear(h,false);
     check('② 原本沒背後背包：脫下運動服後也不背',!bp||!bp.visible); CHAR.setProp(h,'backpack',true);
   }

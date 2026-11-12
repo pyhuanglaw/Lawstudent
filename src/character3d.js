@@ -207,7 +207,6 @@ const CHAR = (function(){
   C.carryOff=function(h){ const u=h&&h.userData; if(!u||!u.props) return ()=>{}; const was=[];
     for(const k of C.CARRY){ const o=u.props[k]; if(!o) continue; const on=u.propOn&&Object.prototype.hasOwnProperty.call(u.propOn,k)?u.propOn[k]:undefined; was.push([k,on,o.visible]); C.setProp(h,k,false); }
     return h2=>{ const x=h2||h, v=x&&x.userData; if(!v) return; for(const [k,on,vis] of was){ if(on!==undefined){ C.setProp(x,k,on); continue; } if(v.propOn) delete v.propOn[k]; const o=v.props&&v.props[k]; if(o) o.visible=vis; } }; };
-  /* 祐廷 VRM 裡另有一件外套網格（JACKET_ECON，舊序章那一件；CANON-NO-ECON-1112 第三批起遊戲不再穿）：manifest 的 hide 讓每次建模型都藏起來，LAWWW2 之後從模型拿掉。*/
   /* 祐廷的健身短袖運動服（GYM-FIT-1107 ③，LAWWW2-B 11-07；LAWWW-B 05:46 定案，人物外觀 D128）：VRM 裡的 GYM_TOP、GYM_SHORTS（tools/gym_wear.py；同一副骨架、一樣有 fit 形狀；manifest 的 hide 先藏）。
      穿上＝顯示運動服，藏原本的上衣（Body 的 _Tops_ 那一塊）、褲子（_Bottoms_），拿下後背包；脫下＝照原樣（後背包照穿之前的狀態）。鞋子照舊。
      什麼時候穿由 FIT.gymWearSync 決定（B1、體育課）；每次重建人物模型後要再呼叫一次（buildVRM 照 manifest hide 先藏；CHAR.upgrade 會帶過去）*/
