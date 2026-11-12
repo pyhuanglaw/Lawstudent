@@ -16,6 +16,7 @@ const KEEP_COMPAT={
   'src/data/l118_shop_layouts.js':{why:'LAWWW2 的室內配置（layout.json 產生，不手改）：配置當時的店名、給開發組的說明；遊戲裡的區域名稱、「點餐（○○）」「離開○○」由 src/l118_shops3d.js 換成店家資料的店名。LAWWW2 重做室內以後這一格拿掉',words:NAMES.concat(ITEMS)} };
 const AA='AA 判不改（AA_772 checked_against ②／not_changed）：';
 const KEEP_AA={
+  'src/data/events.js':{why:'AA_874（企劃線 0050081594，CANON-NO-ECON-1112 第四批）：可昕大一下生日沒交往那一版，她自己點的飲料「紅茶拿鐵，半糖。」（照稿；不是 118 巷的店）',words:['紅茶拿鐵']},
   'src/lane118.js':{why:AA+'學姊的「無糖綠茶，去冰」（H1 店員那一句，台詞不變）',words:['無糖綠茶']},
   'src/data/gift_lines.js':{why:AA+'送禮的品項「無糖綠茶」顯示的字照舊',words:['無糖綠茶']},
   'src/gift3d.js':{why:AA+'送禮的品項「無糖綠茶」',words:['無糖綠茶']},

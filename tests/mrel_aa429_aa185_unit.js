@@ -146,7 +146,7 @@ await sec(2,async()=>{
   check('2. 「你都沒有打來。」「……我等了一個月。」→「我不知道要怎麼講。」→「一個月了，你還不知道。」「那我們就這樣吧。」「我掛了。」＝照 D 分開',
     J(T())===J(['你都沒有打來。','……我等了一個月。','一個月了，你還不知道。','那我們就這樣吧。','我掛了。'])&&!H.G.flags.dating_kexin&&st.result==='E');
   const d0=H.G.day; setD(d0+30,21.2); PHONE.tick(H.G);
-  check('2. 電話後第 30 天：（可昕發了一張照片：木柵大學後山的步道，傍晚。沒有寫字。）',(H.G.msgs||[]).some(m=>m.th==='p:kexin'&&m.text==='（可昕發了一張照片：木柵大學後山的步道，傍晚。沒有寫字。）'));
+  check('2. 電話後第 30 天：（可昕發了一張照片：象山的步道，傍晚。沒有寫字。）',(H.G.msgs||[]).some(m=>m.th==='p:kexin'&&m.text==='（可昕發了一張照片：象山的步道，傍晚。沒有寫字。）'));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   fresh('2027-04-07',15,'campus',{dating_kexin:true}); H.CLOSE(A1); ROM.start(H.G,A1); const s2=X().startStrain(H.G,KX,A1,{ver:'base'}); s2.done={self:H.G.day}; H.G.flags.MREL_KX_REPLY='yes'; setD(H.G.day+28,21.6);
   check('2. 回了她的照片（做了一步）＝不打',!X().kxEDue(H.G,s2));
   fresh('2027-04-07',15,'campus',{dating_kexin:true}); H.CLOSE(A1); ROM.start(H.G,A1); const s3=X().startStrain(H.G,KX,A1,{ver:'base'}); s3.done={self:H.G.day}; H.picks=[2]; setD(H.G.day+28,21.6); clr(); await X().kxE(GM,s3);

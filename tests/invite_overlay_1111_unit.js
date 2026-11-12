@@ -109,7 +109,7 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
     const lib = RI.filter(x => x.who === '(共用)' && /^libStudy\./.test(x.at)); if (!lib.length) { console.log('（還沒有 libStudy 的列：第 6 項略過）'); return; }
     const ss = read('src/data/study_scenes.js'), both = lib.filter(x => ss.includes(x.new));
     check('6. libStudy ' + lib.length + ' 列：study_scenes.js（一起念書的場景，AA_707）沒有任何一句舊字', lib.every(x => !ss.includes(x.old)), J(lib.filter(x => ss.includes(x.old)).map(x => x.old)));
-    check('6. 和一起念書同句的（' + both.length + ' 句）兩邊一樣是新字：' + both.map(x => '「' + x.new + '」').join(''), both.length >= 4, J(both.map(x => x.at)));
+    check('6. 和一起念書同句的（' + both.length + ' 句）兩邊一樣是新字：' + both.map(x => '「' + x.new + '」').join(''), both.length >= 3, J(both.map(x => x.at)));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 第 2 節，可昕「今天讀完」那一句 study_scenes 換成新句，同句的少一句：4 → 3）*/
   });
 
   await sec(7, async () => {

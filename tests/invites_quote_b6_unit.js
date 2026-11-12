@@ -201,7 +201,9 @@ const O=runProbe('old'), N=runProbe('new');
     // CANON-NO-ECON-1112：經濟系那一年拿掉（照留清單裡經濟系那一年的兩句拿掉（events.js 選項一句、retake_home.js 一句），econff3d.js 的那一格跟著拿掉）
     'src/data/events.js':['choice',['「謝謝學姊。」（拿了書狀就走）','（替她答）「她想知道法律外面還有什麼。」']],
     'src/data/r2y4a_events.js':['choice',['（再問一次）「妳還好嗎？」','（指著法律系館B）「先記得這棟就好。」','（收下）「謝謝阿嬤。」']],
-    'src/y2r2_3d.js':['choice',['（裝不知道）「恭喜！」']] };
+    'src/y2r2_3d.js':['choice',['（裝不知道）「恭喜！」']],
+    /* （CANON-NO-ECON-1112 第四批：AA_876 D3 的選項字（祐廷的選項，動作＋說的話；選項照留那一類）一個）*/
+    'src/kxdrift3d.js':['choice',['（把書蓋起來）「我在聽，妳講。」']] };
   const KEEP2={
     'src/data/ladder.js':['choice',['（喝掉，說）「我也太兇了。」']],'src/data/date_lines.js':['choice',['「一起拍？」（第 6 階以上）']],
     /* 2026-11-11（L118-LUNCH-INVITE-1111／L118-SHOPS-REDO-1111；AA_771 最終版 @1669b3ae0）：午餐邀約多一個選項 options.skip「好，走。」（直接到吃完）——選項字（GM.choose 的 t），照既有選項的慣例留「」（同一個檔的 accept、decline 也是帶「」的選項）；舊期望：沒有這一格 */
