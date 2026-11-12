@@ -4,6 +4,8 @@
 工作階段只能 push 自己的開發分支（`claude/confident-ritchie-8rwh7t`），所以還沒合併的本機分支用 **git bundle** 備份在這裡。
 **這些都是 WORK_IN_PROGRESS：保存不等於完成、不等於可以發布。**
 
+> **2026-11-12 整理（LAWWW-C，D158／CANON-NO-ECON-1112）**：這個資料夾的備份檔逐個核對過——每一個分支頭都已經在開發分支歷史裡的 178 個 bundle 刪掉（內容都合併了）；`wip_1023c_all_subagents.patch` 刪掉（半成品已由 1e6d0ff13＋8f9b305c1 合併）。留下 12 個 bundle：分支頭不在開發分支歷史裡或本機沒有那個物件（發布樹 rel9101x 六個、homepromise_1027、lines664、handoff_c_1104 一個、k1_exchange_1102、lawww_b_loadleak、wancai-stairs）——還沒逐個證明內容都在，先不刪，等分支稽核。留下的文字檔（兩個 patch、舊存檔、v9.6／v9.7 發布紀錄）內文已換成代號，**那兩個 patch 不能再直接套用**，只當紀錄。下面表格裡被刪掉的列是歷史紀錄。
+
 | 檔案 | 本機分支 | 最新 commit | 內容 | 狀態 |
 |---|---|---|---|---|
 | `dorm-hall.bundle` | `wip/dorm-hall` | `bf750b4` | 宿舍走廊（D44）：新區域 `dorm_hall`（src/dorm3d.js、src/data/dorm_layout.js）、Blender 正式模型（tools/blender/dorm_hall.py → assets/models/env/dorm_hall.glb）、窗景拍攝腳本（tools/shots/dorm_views.py）、測試（tests/flow_dorm_hall.py、nav_buildings_unit 宿舍段） | WIP：導航單元測試 17 項通過；**瀏覽器流程測試、窗景照片、VISUAL_REVIEW 還沒做**；不可合併進要發布的版本 |
