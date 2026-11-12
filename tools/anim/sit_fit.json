@@ -5,10 +5,10 @@
   ],
   "H": 1.75,
   "ul": 0.5417,
-  "bt": 0.0709,
-  "b": 0.0709,
+  "bt": 0.0634,
+  "b": 0.0634,
   "skirt": false,
-  "B": 0.0709,
+  "B": 0.0634,
   "fe": 0.0714,
   "knee": 0.0301,
   "ank": 0.285,
@@ -110,86 +110,6 @@
   "ank": 0.2815,
   "knZ": 0.2141,
   "ra": 0.0814
- },
- "bl_econ_zhengxun.vrm": {
-  "keys": [
-   "char.econ_zhengxun"
-  ],
-  "H": 1.8,
-  "ul": 0.5791,
-  "bt": 0.0487,
-  "b": 0.0487,
-  "skirt": false,
-  "B": 0.0487,
-  "fe": 0.0623,
-  "knee": 0.0422,
-  "ank": 0.2802,
-  "knZ": 0.2778,
-  "ra": 0.0609
- },
- "bl_econ_weilun.vrm": {
-  "keys": [
-   "char.econ_weilun"
-  ],
-  "H": 1.76,
-  "ul": 0.5785,
-  "bt": 0.0488,
-  "b": 0.0488,
-  "skirt": false,
-  "B": 0.0488,
-  "fe": 0.0635,
-  "knee": 0.0421,
-  "ank": 0.2799,
-  "knZ": 0.2775,
-  "ra": 0.0608
- },
- "bl_econ_tangrui.vrm": {
-  "keys": [
-   "char.econ_tangrui"
-  ],
-  "H": 1.77,
-  "ul": 0.5469,
-  "bt": 0.0613,
-  "b": 0.0613,
-  "skirt": false,
-  "B": 0.0613,
-  "fe": 0.0622,
-  "knee": 0.0304,
-  "ank": 0.2875,
-  "knZ": 0.2212,
-  "ra": 0.0666
- },
- "bl_econ_jiahao.vrm": {
-  "keys": [
-   "char.econ_jiahao"
-  ],
-  "H": 1.7,
-  "ul": 0.5728,
-  "bt": 0.0482,
-  "b": 0.0482,
-  "skirt": false,
-  "B": 0.0482,
-  "fe": 0.0617,
-  "knee": 0.0417,
-  "ank": 0.2772,
-  "knZ": 0.2748,
-  "ra": 0.0602
- },
- "bl_econ_pinyu.vrm": {
-  "keys": [
-   "char.econ_pinyu"
-  ],
-  "H": 1.58,
-  "ul": 0.5504,
-  "bt": 0.0619,
-  "b": 0.0619,
-  "skirt": false,
-  "B": 0.0619,
-  "fe": 0.0642,
-  "knee": 0.0297,
-  "ank": 0.2811,
-  "knZ": 0.2138,
-  "ra": 0.0813
  },
  "bl_prof_wei.vrm": {
   "keys": [
