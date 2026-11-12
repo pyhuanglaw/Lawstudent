@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_stair_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BE1E_STAIR10_straight\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  24.5s] CC STAIR：受測 SHA be1e5d725634580ee25313a7bbd14f941687bfde、版本 v9.10.25；走、10 fps；三條線 [-3.75]、每條 1 趟；平台 z 1.90、樓梯底 z 5.40；Playwright（PC GPU）≠ iPhone
+== x -3.75
+  [前置／捷徑] 【前置／捷徑】x=-3.75：day46 存檔 → 2025-11-05 15.00 木曜日一樓樓梯底 (-3.75, 5.40) lv0、【捷徑】限 10 fps（站在 (-3.75, 5.40) lv0、跑步 False）
+  [  47.0s] [走、10 fps x=-3.75] 實際幀率 8.5 fps
+  [  48.0s] [走、10 fps x=-3.75 第 1 趟] 上樓梯（straight） → (-3.75, 1.90) lv1：到了、1.0 秒、推 1 次、停在 (-3.75, 2.30) y=3.2 lv1、跳 []
+PASS [走、10 fps x=-3.75 第 1 趟] 上樓梯（straight）上得去、換到第 1 層  {"end": [-3.75, 2.301, 3.2, 1], "t": 1.0}
+  [  48.9s] [走、10 fps x=-3.75 第 1 趟] 進店 → (0.00, 0.90) lv1：到了、0.9 秒、推 1 次、停在 (-0.27, 1.00) y=3.2 lv1、跳 []
+PASS [走、10 fps x=-3.75 第 1 趟] 從平台走進二樓店裡  {"end": [-0.265, 0.998, 1]}
+  [  50.1s] [走、10 fps x=-3.75 第 1 趟] 回平台 → (-3.75, 1.90) lv1：到了、1.2 秒、推 2 次、停在 (-3.74, 1.91) y=3.2 lv1、跳 []
+  [  50.8s] [走、10 fps x=-3.75 第 1 趟] 下樓梯（straight） → (-3.75, 5.60) lv0：到了、0.7 秒、推 1 次、停在 (-3.75, 6.25) y=0.6 lv0、跳 []
+PASS [走、10 fps x=-3.75 第 1 趟] 下樓梯（straight）下得去、換回第 0 層  {"end": [-3.752, 6.248, 0.6, 0], "t": 0.7}
+PASS [走、10 fps x=-3.75] 沒有 JS 例外  []
+  [  50.8s] [走、10 fps x=-3.75] 用了 26 秒
+  [  50.8s] 【總表 走、10 fps】[{"x": -3.75, "上": "1/1", "下": "1/1", "上卡住": [], "下卡住": []}]
+ALL PASS
