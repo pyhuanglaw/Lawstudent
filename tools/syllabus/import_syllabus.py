@@ -25,7 +25,7 @@ PASS = ('無誤', '已修正', '補充')   # BB_115 的 review.result：通過�
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 OVR = dict(a.split('=', 1) for a in sys.argv[2:] if '=' in a)   # 個別檔案改用別的 ref（例：Y0S1.json=9ebf6663）
 show = lambda p: GUARD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{OVR.get(os.path.basename(p), REF)}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
-out = {'source': (LABEL or REF.replace('origin/', '')) + ' ' + sha + ''.join(f'＋{k}@{v}' for k, v in OVR.items()), 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
+out = {'source': (LABEL or REF.replace('origin/', '')) + ' ' + sha + ''.join(f'＋{k}@{v}' for k, v in OVR.items()), 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：舊序章那一段的課與台詞池（遊戲裡還沒有）
 KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines', 'ask', 'recall', 'more')   # recall＝週層級的回想（例：大一下憲法二第 12 週回想 B4 演講；v2 C15，AA-B 2026-10-16：要匯入）   # ask＝課堂提問 {qid}（AA_130 第 3 節第 3 點；題目從 EXAM_BANK 讀）
 owner = {}
 # 2026-10-14 課程調整（使用者 16:15，企劃分支 AA_130）：刪掉的 7 門課——就算舊的 JSON 還有，也不匯入
@@ -195,7 +195,7 @@ if P255 in A255:
 dst = os.path.join(ROOT, 'src', 'data', 'syllabus.js')
 with open(dst, 'w', encoding='utf8') as f:
     f.write('/* 普通課堂內容（BB 撰寫；AA_104 第 1 節的 syllabus 格式）。產生器：tools/syllabus/import_syllabus.py（不要手改，改企劃分支的 JSON 再匯入）。\n'
-            '   來源：' + out['source'] + '。法律系八學期＋日文＋經濟系那一年（遊戲裡還沒有那一年的課，先放著）。heroine_06 等新人物的句子在遊戲裡略過（人物設定還沒確認）。\n'
+            '   來源：' + out['source'] + '。法律系八學期＋日文＋舊序章那一段（遊戲裡還沒有那一年的課，先放著）。heroine_06 等新人物的句子在遊戲裡略過（人物設定還沒確認）。\n'
             '   reviewed：法律審查（BB_115）那一週的項目全部通過、或那一週沒有項目，才顯示 BB 的內容；其他週只用寫主題的一般句子（AA_122 第 0a 節）。AA_585 的第 8、9 週照 BB_231 的法律審（60 週全部 PASS）。' + drop_note + ' */\n')
     f.write('const SYLLABUS=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
 nweeks = sum(len(v) for v in out['courses'].values())
