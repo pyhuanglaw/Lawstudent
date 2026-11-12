@@ -843,3 +843,13 @@
 [03:06:51] 正在跑：L118_CAM36_a（已跑 12 分／上限 60 分）、L118_CAM36_b（已跑 12 分／上限 60 分）、L118_CAM36_c（已跑 9 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:11:51] 正在跑：L118_CAM36_a（已跑 17 分／上限 60 分）、L118_CAM36_b（已跑 17 分／上限 60 分）、L118_CAM36_c（已跑 14 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:16:22] [res] cpu=2% mem=46% (14.5/31.4 GB) chrome_testing=10  END L118_CAM36_a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       eed1297f55..f8719df981  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:16:40] ==== END   L118_CAM36_a  exit=1  1333s   ====
+[03:16:43] memory 46% before starting CANON_JACKET_MODEL (2 running)
+[03:16:43] ==== START CANON_JACKET_MODEL  (probe @ 209b33be094f08e62eb8531e9462c17c02db5eea) ====
+[03:16:46] [res] cpu=5% mem=47% (14.7/31.4 GB) chrome_testing=10  START CANON_JACKET_MODEL
+[03:16:46] worktree add 209b33be094f08e62eb8531e9462c17c02db5eea: invalid reference - fetching main and the commit itself
+[03:16:51] 正在跑：L118_CAM36_b（已跑 22 分／上限 60 分）、L118_CAM36_c（已跑 19 分／上限 60 分）、CANON_JACKET_MODEL（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:20:09] [res] cpu=10% mem=47% (15.0/31.4 GB) chrome_testing=10  END CANON_JACKET_MODEL
