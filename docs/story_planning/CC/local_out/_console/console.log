@@ -422,3 +422,18 @@
 [01:02:50] ==== START FIRST_xs_touch  (probe @ 07f294852ffac8d2bba2664ba9ed4eb2753834bd) ====
 [01:02:53] [res] cpu=13% mem=33% (10.6/31.4 GB) chrome_testing=0  START FIRST_xs_touch
 [01:06:39] [res] cpu=2% mem=35% (11.0/31.4 GB) chrome_testing=0  END FIRST_xs_touch
+[01:06:51] 正在跑：FIRST_xs_touch（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       62b0f27d70..249c42d51e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:06:54] ==== END   FIRST_xs_touch  exit=0  229s   ====
+[01:06:57] memory 32% before starting YEJIAN_r2_card (0 running)
+[01:06:57] memory 32% before starting YEJIAN_r2_cafe (1 running)
+[01:06:57] ==== START YEJIAN_r2_card  (probe @ 07f294852ffac8d2bba2664ba9ed4eb2753834bd) ====
+[01:06:57] memory 32% before starting WZ_REAL_r3 (2 running)
+[01:06:57] ==== START YEJIAN_r2_cafe  (probe @ 07f294852ffac8d2bba2664ba9ed4eb2753834bd) ====
+[01:06:57] ==== START WZ_REAL_r3  (probe @ 322a41f49957a87aeaf9aa9f9b76cc2d02bbec55) ====
+[01:07:00] [res] cpu=2% mem=32% (10.3/31.4 GB) chrome_testing=0  START YEJIAN_r2_card
+[01:07:00] [res] cpu=2% mem=32% (10.3/31.4 GB) chrome_testing=0  START YEJIAN_r2_cafe
+[01:07:00] [res] cpu=2% mem=32% (10.3/31.4 GB) chrome_testing=0  START WZ_REAL_r3
+[01:08:42] [res] cpu=3% mem=46% (14.6/31.4 GB) chrome_testing=9  END YEJIAN_r2_card
