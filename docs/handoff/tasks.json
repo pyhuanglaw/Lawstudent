@@ -55899,7 +55899,7 @@
    "id": "WZ-SUNNY-FIRSTBUILD-1112",
    "title": "SUNNY SIDE 第一次從街上走到店前不建店內（空的灰玻璃盒）：觸發範圍沒跟著新門位置",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -55912,7 +55912,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 14:1x UTC】BB e0ae8b13c8／2cd6a9bb3e FAIL（WZ_REAL_f3e1）；已派 LAWWW2",
+   "next": "【LAWWW-C 11-12 14:5x UTC】LAWWW2 ce5a51447b 已進開發分支：原因不是門的位置，是預載排隊（溫州街四間，SUNNY SIDE 排最後）；改成人站在哪一間前面就先建哪一間、那時一幀做 4 件。**沒量**一幀 4 件會不會超過 50 ms——CC 量 SUNNY SIDE 和公館任一間，超過就改成 2 或 3｜【LAWWW-C 11-12 14:1x UTC】BB e0ae8b13c8／2cd6a9bb3e FAIL（WZ_REAL_f3e1）；已派 LAWWW2",
    "source": "BB-C 2026-11-12 13:20 訊息",
    "authorized": true,
    "xai": {
