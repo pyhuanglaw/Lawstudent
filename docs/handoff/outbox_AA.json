@@ -6934,6 +6934,262 @@
    "ack": "ACK",
    "noDirectIntegrate": false,
    "next": "開發分支 6f1308ee5a；BB 測"
+  },
+  {
+   "task": "BAR-GROUP-3D-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "48d153407",
+   "files": [
+    "docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 子代理在做（大口二樓三場）"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a573a50dc",
+   "files": [
+    "docs/story_planning/AA_837_sis_today_gag.json",
+    "docs/story_planning/AA_838_sis_remember_last.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 e58351da9；BB 測"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "edb1a1a5c",
+   "files": [
+    "docs/story_planning/AA_839_sis_events_ellipsis.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 224c231f3c"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "02264217e",
+   "files": [
+    "docs/story_planning/AA_840_sis_us_arcs_ellipsis.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 c0a12c42e3"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "41f77eab5",
+   "files": [
+    "docs/story_planning/AA_842_sis_hao_replies.json",
+    "docs/story_planning/AA_843_yt_hao_replies.json",
+    "docs/story_planning/AA_844_ps_hao_replies.json",
+    "docs/story_planning/AA_845_zr_hao_replies.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 eba12de420（259 格）"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d7d818f8a",
+   "files": [
+    "docs/story_planning/AA_846_zq_hao_replies.json",
+    "docs/story_planning/AA_847_kx_hao_replies.json",
+    "docs/story_planning/AA_848_yt_remember_last.json",
+    "docs/story_planning/AA_812_date_pays_promises.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 子代理重匯中，回 SHA 以前不要推 date_system/lines"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0ec5f3751",
+   "files": [
+    "docs/story_planning/AA_849_ps_today.json"
+   ],
+   "state": "WIP",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "等 LAWWW 回 d7d818f8a 匯完再套源稿、再交",
+   "remaining": "定稿了但源稿還沒套用（31 句）"
+  },
+  {
+   "task": "STALE-SOURCES-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "88da7ca51",
+   "files": [
+    "docs/story_planning/AA_710_gifts.json",
+    "docs/story_planning/AA_728_gifts_friends.json",
+    "docs/story_planning/AA_755_peishan_arc.json",
+    "docs/story_planning/AA_755_peishan_feed_misc.json",
+    "docs/story_planning/AA_792_flower_notes.json",
+    "docs/story_planning/AA_793_season3_stalls.json",
+    "docs/story_planning/AA_826_shop_backfill_1.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "AA_710／728／792／793、故事線、節日禮物已重匯；階梯五檔、free_trip 兩檔、wish_bb、AA_755 兩份、AA_826 還沒看到重匯的 SHA，下次跑 tools/story/check_stale_sources.py 確認"
+  },
+  {
+   "task": "EAT-EFFECT-1020",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "1f5d6efed",
+   "files": [
+    "docs/story_planning/AA_841_luwei_stall.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 子代理在做（滷味攤）"
+  },
+  {
+   "task": "SHOP-JOBS-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3e9cd7d9d",
+   "files": [
+    "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "第 8 節已進開發分支；第 9 節（第六輪）子代理在做"
+  },
+  {
+   "task": "CLUB-BOARD-INFO-1105",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a21a9ddc6",
+   "files": [
+    "docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 7e404a6220"
+  },
+  {
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0ec5f3751",
+   "files": [
+    "docs/story_planning/AA_750_limao.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 91d828c314；CC 拍三點近照給 BB"
+  },
+  {
+   "task": "FLOWER-NOTES-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a82fe117b",
+   "files": [
+    "docs/story_planning/AA_793_season3_stalls.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 a9baa14913；LAWWW2 看花台平常有沒有盆栽和小卡"
+  },
+  {
+   "task": "YIZHAN-TAKEOUT-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "335301d35",
+   "files": [
+    "docs/story_planning/AA_710_gifts.json",
+    "docs/story_planning/AA_792_flower_notes.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "芯慈收花、學姊紅茶已匯；一盞外帶排在 LAWWW 子代理後面；語彤當班那一句等 BB"
+  },
+  {
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "043111f23",
+   "files": [
+    "docs/story_planning/AA_850_us_markets_buy.json"
+   ],
+   "state": "WIP",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "等 BB 第二意見，定稿再交 LAWWW",
+   "remaining": "BB 還沒回"
+  },
+  {
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3185d8a4f",
+   "files": [
+    "docs/story_planning/AA_851_tz_invite_supper.json"
+   ],
+   "state": "WIP",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "等 BB 第二意見，定稿再交 LAWWW",
+   "remaining": "BB 還沒回"
+  },
+  {
+   "task": "CLUB-LATER-TERMS-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "4386fe49f",
+   "files": [
+    "docs/story_planning/AA_852_club_later_terms.json"
+   ],
+   "state": "WIP",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "等 BB 第二意見，定稿再交 LAWWW",
+   "remaining": "BB 還沒回"
   }
  ],
  "items": [
