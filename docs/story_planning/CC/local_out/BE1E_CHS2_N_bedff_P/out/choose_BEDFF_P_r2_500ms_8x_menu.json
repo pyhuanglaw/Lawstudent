@@ -1,0 +1,211 @@
+{
+ "tag": "BEDFF_P_r2_500ms_8x_menu",
+ "spec": {
+  "rate": 500,
+  "n": 8,
+  "start": "menu",
+  "point": "L1:快轉",
+  "xy": [
+   195.0,
+   730.5
+  ],
+  "firstAt": null
+ },
+ "pace": 584,
+ "preTaps": [
+  {
+   "ms": -898,
+   "menu": null,
+   "hit": "interact"
+  }
+ ],
+ "taps": [
+  {
+   "n": 1,
+   "ms": 33,
+   "burst": 1,
+   "menu": "小睡 30 分鐘",
+   "menuAll": [
+    "小睡 30 分鐘",
+    "小睡 1 小時",
+    "小睡 2 小時",
+    "睡到傍晚（不設鬧鐘）"
+   ],
+   "hit": "快轉",
+   "sinceMenu": 840.4
+  },
+  {
+   "n": 2,
+   "ms": 634,
+   "burst": 2,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "過一週",
+   "sinceMenu": 561.9
+  },
+  {
+   "n": 3,
+   "ms": 1218,
+   "burst": 3,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 4,
+   "ms": 1801,
+   "burst": 4,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "n": 5,
+   "ms": 2384,
+   "burst": 5,
+   "menu": "算了",
+   "menuAll": [
+    "算了",
+    "快轉"
+   ],
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 532.8
+  },
+  {
+   "n": 6,
+   "ms": 2969,
+   "burst": 6,
+   "menu": "算了",
+   "menuAll": [
+    "算了",
+    "快轉"
+   ],
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 1117.2
+  },
+  {
+   "n": 7,
+   "ms": 3551,
+   "burst": 7,
+   "menu": "算了",
+   "menuAll": [
+    "算了",
+    "快轉"
+   ],
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 1699.7
+  },
+  {
+   "n": 8,
+   "ms": 4134,
+   "burst": 8,
+   "menu": "算了",
+   "menuAll": [
+    "算了",
+    "快轉"
+   ],
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 2282.1
+  }
+ ],
+ "picks": [
+  {
+   "picked": "快轉",
+   "menu": [
+    "小睡 30 分鐘",
+    "小睡 1 小時",
+    "小睡 2 小時",
+    "睡到傍晚（不設鬧鐘）",
+    "快轉",
+    "再撐一下"
+   ],
+   "downDt": 840,
+   "burst": 1,
+   "burstBeforeMenu": false,
+   "v350": false,
+   "vburst": false,
+   "expired": false,
+   "irr": false,
+   "ours": true
+  },
+  {
+   "picked": "過一週",
+   "menu": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "downDt": 562,
+   "burst": 2,
+   "burstBeforeMenu": false,
+   "v350": false,
+   "vburst": false,
+   "expired": false,
+   "irr": true,
+   "ours": true
+  }
+ ],
+ "bursts": [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "menus": [
+  [
+   "小睡 30 分鐘",
+   "小睡 1 小時",
+   "小睡 2 小時",
+   "睡到傍晚（不設鬧鐘）",
+   "快轉",
+   "再撐一下"
+  ],
+  [
+   "到下一個有事的時候",
+   "過一週",
+   "不用了"
+  ],
+  [
+   "算了",
+   "快轉"
+  ]
+ ],
+ "diff": [
+  [
+   "hour",
+   15.034,
+   15.035
+  ]
+ ],
+ "end": {
+  "dlg": false,
+  "ch": 2,
+  "busy": true,
+  "path": false,
+  "seat": false,
+  "fade": false,
+  "phone": false,
+  "paused": false,
+  "zone": "dorm",
+  "h": 15.035,
+  "day": 57,
+  "dtext": "快轉：過一週，最多到 11/19（三）07:30，中間有事會先停。沒有劇情的課會",
+  "dlgC": [
+   195,
+   765
+  ],
+  "nd": 6,
+  "typing": false
+ },
+ "shot": "05_BEDFF_P_r2_500ms_8x_menu_end.png"
+}
