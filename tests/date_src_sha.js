@@ -6,7 +6,8 @@
 //   4. node tests/an_dates_1111_unit.js（和 zq／zr／yt／kx／sis／peishan_dates_1111、date_overnight、date_wish、date_lines_* 這幾支）
 // 工具（import_date_lines.py）裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 module.exports={
-  ALLOW_SHA:'74e0421b8',       // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 06:57 AA-C「回 LAWWW」：D23 海堤可昕那一句的停頓改寫法，只動這一格，見 KX_1112 那一列的 was；上一版 07d50af2f7＝KX_1112_SHA）
+  ALLOW_SHA:'b84e779563',      // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 AA-C AA_832 以安第一批定稿：約會三連短句 31 格＋D21「退色→褪色」一格，只動以安 32 格，見 tests/an_dates_1112_unit.js；上一版 74e0421b8＝KX_1112_FIX_SHA）
+  KX_1112_FIX_SHA:'74e0421b8', // 可昕續改後續的那一版（2026-11-12 06:57 AA-C「回 LAWWW」：D23 海堤可昕那一句的停頓改寫法，只動這一格，見 KX_1112 那一列的 was；上一版 07d50af2f7＝KX_1112_SHA）
   KX_1112_SHA:'07d50af2f7',    // 可昕續改的那一版（2026-11-12 AA-C 交 X324 可昕續改：AA_819 三連短句 26 句＋AA_822 remember 開頭的「上次」46 句，只動可昕 72 格，見 KX_1112；上一版 52c3ee258＝KX_1112_PREV）
   KX_1112_PREV:'52c3ee258',    // 可昕續改以前的那一版（2026-11-11 19:03 AA 交 X324 選項效果：1,765 個選項加 fx；把 fx 拿掉和 248c8e390 一字不差）
   FX_PREV:'248c8e390',         // 加 fx 以前的那一版（2026-11-11 以安重寫 bd1ce5be0 匯入以後，AA 照 LAWWW 的匯入回報再改以安 14 格，見 AN_FIX14；別人的格子和 bd1ce5be0 一樣）
@@ -185,6 +186,44 @@ module.exports={
     {loc:'D32',doc:'AA_822',path:'hotspots/D32.stall/remember/lines/0/text',old:'上次那顆高麗菜，我們宿舍吃了一個禮拜的泡麵加菜。',new:'那顆高麗菜，我們宿舍吃了一個禮拜的泡麵加菜。'},
     {loc:'D33',doc:'AA_822',path:'hotspots/D33.food/remember/lines/0/text',old:'上次那家換菜單了，我們吃新的。',new:'這家換菜單了，我們吃新的。'},
   ],
+  /* 2026-11-12 b84e779563（DLG-FULL-REVIEW-1110／X324 以安續改第一批，AA-C AA_832 定稿；BB_381 ③ 第二意見四處採納）：源稿只動以安 32 格——AA_832_an_triple_short.json 的 32 列
+     （約會三連短句 31 格＋D21 染布「退色→褪色」錯字一格，typo:true）。path 是 Dxx.json 裡 lines.heroine_01 底下的位置（遊戲檔＝/loc/Dxx/lines/heroine_01/＋path）；old＝上一版 74e0421b8 的字（＝248c8e390 的字）、new＝稿的字。
+     game（只有一格，D16 車上）＝遊戲裡的字：稿的新句在「。」後面有「……」，匯入工具寫檔前照 AA_694 的規則（tools/date/ellipsis694.py）拿掉了——和稿差這一個刪節號，已回報 AA（做法同 KX_1112 的 D08）。
+     各支「和源稿一字不差」「和重匯以前比」的測試：遊戲用 un812 還原（只有那一格現在剛好是新字才還原）、源稿用 src248 還原；這 32 格本身在 tests/an_dates_1112_unit.js 逐格驗 */
+  AN_1112:[
+    {loc:'D03',doc:'AA_832',path:'hotspots/D03.demo/dating/0/lines/0/text',old:'我們輪流。一人一關。你先。',new:'我們輪流，一人玩一關。你先。'},
+    {loc:'D04',doc:'AA_832',path:'hotspots/D04.lobby/normal/1/lines/0/text',old:'爆米花太甜。我吃了一半。好，大半。',new:'爆米花太甜了，結果我還是吃了一半。好，大半。'},
+    {loc:'D05',doc:'AA_832',path:'hotspots/D05.shop/first/choice/0/reply/0/text',old:'買。上課用得到。還有，我想看。',new:'買。上課用得到，而且我自己也想看。'},
+    {loc:'D05',doc:'AA_832',path:'hotspots/D05.shop/first/choice/1/reply/0/text',old:'大部分不對。可是很好看。不衝突。',new:'大部分不對，可是很好看，這兩件事不衝突。'},
+    {loc:'D08',doc:'AA_832',path:'hotspots/D08.penguin/first/choice/1/reply/0/text',old:'真的。那隻插隊了。好，有例外。',new:'真的，那隻插隊了。好，有例外。'},
+    {loc:'D13',doc:'AA_832',path:'hotspots/D13.rail/first/choice/1/reply/0/text',old:'好。你對。我改。',new:'好，你說得對，我改。'},
+    {loc:'D14',doc:'AA_832',path:'hotspots/D14.sunset/normal/0/lines/0/text',old:'大家都在拍。我不拍。我記得就好。',new:'大家都在拍。我不拍，我自己記得就好。'},
+    {loc:'D15',doc:'AA_832',path:'hotspots/D15.car/first/choice/1/reply/0/text',old:'好。你選。我聽聽看。',new:'好，你選，我聽聽看你平常都聽什麼。'},
+    {loc:'D15',doc:'AA_832',path:'hotspots/D15.sky/first/choice/0/reply/0/text',old:'第五顆是飛機。我收回四顆。不，維持四顆。',new:'第五顆是飛機。那我收回……不對，還是四顆。'},
+    {loc:'D15',doc:'AA_832',path:'hotspots/D15.sky/first/lines/1/text',old:'光害。可是有四顆。我數過了。',new:'有光害，可是還看得到四顆，我數過了。'},
+    {loc:'D16',doc:'AA_832',path:'hotspots/D16.drive/first/choice/0/reply/0/text',old:'好。你選。好，我選。',new:'好，你選。……好啦，我選。',game:'好，你選。好啦，我選。'},
+    {loc:'D16',doc:'AA_832',path:'hotspots/D16.rest/normal/1/lines/0/text',old:'我帶了三明治。切得很整齊。不要笑。',new:'我帶了三明治，切得很整齊。你不要笑。'},
+    {loc:'D18',doc:'AA_832',path:'hotspots/D18.snack/first/choice/0/reply/0/text',old:'配角。配角也很重要。我等一下吃。',new:'這個是配角。配角也很重要，我等一下再吃。'},
+    {loc:'D18',doc:'AA_832',path:'hotspots/D18.snack/first/choice/1/reply/0/text',old:'謝謝。我換你一顆。公平。',new:'謝謝。那我換你一顆，這樣公平。'},
+    {loc:'D18',doc:'AA_832',path:'hotspots/D18.steps/first/choice/1/reply/0/text',old:'好。一張。我站這裡。',new:'好，一張。我站這裡可以嗎？'},
+    {loc:'D18',doc:'AA_832',path:'hotspots/D18.teahouse/normal/2/lines/0/text',old:'這壺茶多少錢？好，不貴。我請。',new:'這壺茶多少錢？好，不貴，這壺我請。'},
+    {loc:'D19',doc:'AA_832',path:'arrive/first/lines/0/text',old:'金瓜石。以前是礦山。我查過。',new:'金瓜石以前是礦山，我來之前查過。'},
+    {loc:'D19',doc:'AA_832',path:'arrive/normal/0/lines/0/text',old:'山上的路很彎。我有一點暈。一下就好。',new:'山上的路很彎，我有一點暈。休息一下就好。'},
+    {loc:'D19',doc:'AA_832',path:'hotspots/D19.shrine/normal/0/lines/0/text',old:'步道好陡。我在喘。不要計時。',new:'步道好陡，我已經在喘了。你不要計時。'},
+    {loc:'D20',doc:'AA_832',path:'hotspots/D20.bridge/first/choice/0/reply/0/text',old:'對。找不到。就說很綠。',new:'對，我找不到別的詞，就說很綠。'},
+    {loc:'D20',doc:'AA_832',path:'hotspots/D20.street/normal/1/lines/0/text',old:'香腸好燙。我等它涼。你不要先吃完。',new:'香腸好燙，我等它涼一點。你不要先吃完。'},
+    {loc:'D20',doc:'AA_832',path:'hotspots/D20.trolley/normal/1/lines/0/text',old:'它一直晃。我抓著扶手。不是怕。',new:'它一直晃，所以我抓著扶手。不是怕。'},
+    {loc:'D21',doc:'AA_832',path:'hotspots/D21.dye/normal/2/lines/0/text',old:'手帕要怎麼洗？會不會退色？我去問老師。',new:'手帕要怎麼洗？會不會褪色？我去問老師。',typo:true},
+    {loc:'D21',doc:'AA_832',path:'hotspots/D21.street/normal/0/lines/0/text',old:'牛角形的麵包。大家都在買。我也買一個。',new:'牛角形的麵包，大家都在買。那我也買一個。'},
+    {loc:'D23',doc:'AA_832',path:'hotspots/D23.cook/normal/1/lines/0/text',old:'湯裡有薑。我不太吃薑。今天吃了。',new:'湯裡有薑。我平常不太吃薑，今天吃了。'},
+    {loc:'D24',doc:'AA_832',path:'hotspots/D24.footbath/first/choice/1/reply/0/text',old:'不。我要泡。你都泡了。',new:'不要，我要泡。你都泡了。'},
+    {loc:'D26',doc:'AA_832',path:'hotspots/D26.path/normal/0/lines/0/text',old:'樹變高了。還是我變矮了。不可能。',new:'樹變高了。還是我變矮了？不可能。'},
+    {loc:'D26',doc:'AA_832',path:'hotspots/D26.plaza/first/choice/0/reply/0/text',old:'好。草地是乾的。我摸過了。',new:'好。草地是乾的，我剛剛摸過了。'},
+    {loc:'D27',doc:'AA_832',path:'hotspots/D27.rail/first/choice/0/reply/0/text',old:'可以嗎？好。只坐一下。',new:'可以嗎？好，那只坐一下。'},
+    {loc:'D27',doc:'AA_832',path:'hotspots/D27.veranda/first/choice/0/reply/0/text',old:'鞋子要脫嗎？我看一下。不用。',new:'鞋子要脫嗎？我看一下……不用。'},
+    {loc:'D28',doc:'AA_832',path:'hotspots/D28.alley/first/choice/0/reply/0/text',old:'好。不准走太快。我要看門牌。',new:'好。你不准走太快，我要一間一間看門牌。'},
+    {loc:'D30',doc:'AA_832',path:'hotspots/D30.stall/first/choice/0/reply/0/text',old:'好。你說了算。今天。',new:'好，今天你說了算。'},
+  ],
 };
 /* 「和重匯以前比」用：回傳一份複本，把 AA_780 換的那三格（FLAKED_780）還原成各人自己那一輪的字。x＝整份 DATE_LINES（或 strip 過、少了幾個人的）；只有那一格現在剛好是 AA_780 的 new 才還原（不是＝不動，照舊會紅）；
    重匯以前的那一份（那一格還是 old）丟進來不會變 */
@@ -197,8 +236,9 @@ module.exports.want780=r=>{ const x=module.exports.FLAKED_780.find(y=>y.path===r
 /* 2026-11-11 起（AA 52c3ee258，X324 選項效果）：源稿和遊戲的選項多了 fx（友情／愛情）。「和源稿一字不差」「和重匯以前比」只比字：
    noFx 回傳拿掉所有 fx 的複本；un812 也一起拿掉（un812＝回到 248c8e390 那一層）。fx 本身和源稿逐格比在 tests/date_fx_x324_1111_unit.js
    2026-11-12 起（AA 07d50af2f7，X324 可昕續改 KX_1112）：un812 也把可昕那 72 格還原成 52c3ee258 的字（只有那一格現在剛好是新字才還原）；
-   src248(k,json)＝源稿 Dxx.json（ALLOW_SHA 那一版）拿掉 fx、可昕那 72 格還原＝回到 248c8e390 的字（別人那幾輪「和源稿／上一版逐格比」用；舊寫法 noFx(JSON.parse(t))） */
+   src248(k,json)＝源稿 Dxx.json（ALLOW_SHA 那一版）拿掉 fx、可昕那 72 格還原＝回到 248c8e390 的字（別人那幾輪「和源稿／上一版逐格比」用；舊寫法 noFx(JSON.parse(t))）
+   2026-11-12 起（AA b84e779563，X324 以安續改第一批 AN_1112）：un812、src248 也把以安那 32 格還原成 74e0421b8（＝248c8e390）的字（同上，只有那一格現在剛好是新字才還原） */
 module.exports.noFx=x=>JSON.parse(JSON.stringify(x,(k,v)=>k==='fx'?undefined:v));
-module.exports.un812=x=>{ const y=module.exports.noFx(x); for(const r of module.exports.KX_1112){ let o=y; const k=['loc',r.loc,'lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; } for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
+module.exports.un812=x=>{ const y=module.exports.noFx(x); for(const r of module.exports.KX_1112){ let o=y; const k=['loc',r.loc,'lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; } for(const r of module.exports.AN_1112){ let o=y; const k=['loc',r.loc,'lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格也還原（AN_1112）*/ for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
 module.exports.cell812=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1)) o=o==null?o:o[t]; return o; };
-module.exports.src248=(loc,x)=>{ const y=module.exports.noFx(x); for(const r of module.exports.KX_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
+module.exports.src248=(loc,x)=>{ const y=module.exports.noFx(x); for(const r of module.exports.KX_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } for(const r of module.exports.AN_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格也還原（AN_1112）*/ return y; };

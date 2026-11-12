@@ -26,7 +26,7 @@ const sum=(id,k)=>ADJ.filter(([w,d])=>w===id&&d[k]!=null).reduce((a,[,d])=>a+d[k
   // 1
   const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===C.FX_PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved；加 fx 以前的 '+C.FX_PREV+' 在 history',C.ALLOW_SHA==='74e0421b8'&&C.KX_1112_SHA==='07d50af2f7'&&C.KX_1112_PREV==='52c3ee258'&&C.FX_PREV==='248c8e390'&&bad.length===0,J(bad));   /* 2026-11-12 再換 74e0421b8（AA 06:57：只改 D23 海堤可昕一句的字、fx 沒動；07d50af2f7＝C.KX_1112_SHA）。舊期望：C.ALLOW_SHA==='07d50af2f7' */   /* 2026-11-12（X324 可昕續改，AA_819＋AA_822）：白名單 D01～D33 換 07d50af2f7（只改可昕 72 格的字、fx 沒動）；加 fx 的那一版 52c3ee258＝C.KX_1112_PREV。舊期望：C.ALLOW_SHA==='52c3ee258' */
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved；加 fx 以前的 '+C.FX_PREV+' 在 history',C.ALLOW_SHA==='b84e779563'&&C.KX_1112_FIX_SHA==='74e0421b8'&&C.KX_1112_SHA==='07d50af2f7'&&C.KX_1112_PREV==='52c3ee258'&&C.FX_PREV==='248c8e390'&&bad.length===0,J(bad));   /* 2026-11-12 再換 b84e779563（AA_832 以安第一批：只改以安 32 格的字、fx 沒動，見 date_src_sha.js AN_1112；74e0421b8＝C.KX_1112_FIX_SHA）。舊期望：C.ALLOW_SHA==='74e0421b8' */   /* 2026-11-12 再換 74e0421b8（AA 06:57：只改 D23 海堤可昕一句的字、fx 沒動；07d50af2f7＝C.KX_1112_SHA）。舊期望：C.ALLOW_SHA==='07d50af2f7' */   /* 2026-11-12（X324 可昕續改，AA_819＋AA_822）：白名單 D01～D33 換 07d50af2f7（只改可昕 72 格的字、fx 沒動）；加 fx 的那一版 52c3ee258＝C.KX_1112_PREV。舊期望：C.ALLOW_SHA==='52c3ee258' */
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA)),NOW.source.slice(0,200));
   // 2、3
   const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.ALLOW_SHA,SP+'date_system/lines/'+k+'.json'), u=show(C.FX_PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
@@ -36,7 +36,7 @@ const sum=(id,k)=>ADJ.filter(([w,d])=>w===id&&d[k]!=null).reduce((a,[,d])=>a+d[k
     const all=walk(NOW,'',[]);
     check('2. 稿裡的 fx（'+n+' 個）每一個都在遊戲資料同一個位置、值一樣；遊戲資料的 fx 一共也是 '+n+' 個（沒有稿以外的）；至少 1765 個',n>=1765&&!miss.length&&!diff.length&&all.length===n,J({n,all:all.length,miss:miss.slice(0,5),diff:diff.slice(0,5)}));
     const txt=LOCS.filter(k=>J(C.src248(k,SRC[k]))!==J(OLD[k]));   /* 2026-11-12（AA_819＋AA_822@07d50af2f7）：可昕 72 格之後換了字——src248 還原那 72 格再比（date_src_sha.js KX_1112）。舊寫法：C.noFx(SRC[k]) */
-    check('3. 稿把 fx 拿掉（可昕 11-12 續改的 72 格還原）＝'+C.FX_PREV+' 一字不差（只加 fx、沒改字）',!txt.length,J(txt));
+    check('3. 稿把 fx 拿掉（可昕 11-12 續改的 72 格、以安 AA_832 的 32 格還原）＝'+C.FX_PREV+' 一字不差（只加 fx、沒改字）',!txt.length,J(txt));
     const kinds=new Set(all.map(([,fx])=>Object.keys(fx).filter(x=>fx[x]).sort().join('+')));
     check('2. fx 只有 fr、love 兩種鍵（S.optFx／SOCIAL.applyFx 認得的）',all.every(([,fx])=>Object.keys(fx).every(x=>x==='fr'||x==='love')&&Object.values(fx).every(v=>Number.isInteger(v))),J([...kinds]));
   } else console.log('（跳過第 2、3 項：讀不到 '+C.ALLOW_SHA+'／'+C.FX_PREV+' 的源稿，企劃線沒 fetch）');
