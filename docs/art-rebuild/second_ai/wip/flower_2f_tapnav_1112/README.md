@@ -6,6 +6,6 @@
   - 不會誤判：二樓點桌子、靠牆、離欄杆 1 m 的地方照舊是二樓；中間先打到樓梯的照舊（不穿過樓梯）；一樓點一樓照舊。
   - 共用引擎：所有有兩層可點地板（walkMeshes）的區域都會用到（霖澤館、萬才館、總圖、社科院、山嵐、花序……），只在「點樓板邊緣、底下是挑高看得到的下一層」時才變。
 - patch：`flower_2f_tapnav_v1.patch`（對開發分支 9e3fcbe123 `apply --check` 過；動 `src/engine3d.js`＋新測試）。
-- 測試（Node，模擬）：新 `tests/flower_2f_tapnav_1112_unit.js` ALL PASS（修改前 1 FAIL）。其他點地、樓梯、花序測試的回歸還在跑，結果出來補在這裡；全部 Node 以 GitHub Actions node-unit-auto 為準。
+- 測試（Node，模擬）：新 `tests/flower_2f_tapnav_1112_unit.js` ALL PASS（修改前 1 FAIL）。回歸：nav_notch_traps_1112、place_gate＋名字有 flower／tap／stair 的 27 支全部 ALL PASS（跑在加「中間先打到樓梯就照舊」那一句之前；那一句只會讓改道更少）；全部 Node 以 GitHub Actions node-unit-auto 為準。
 - 沒做：瀏覽器。請 CC 用 route 探針重走：二樓起身 → 點地到「離開花序」、搖桿一次、從一樓上樓一次。
 - 先將就的：從二樓欄杆邊鏡頭太低，一樓門口其實看不見；玩家要點看得到的一樓地板或樓梯。鏡頭在挑高邊抬高是另一件事（沒做）。
