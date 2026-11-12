@@ -5,6 +5,7 @@
   ②【捷徑】日子直接跳到下一個學期（大二上）開學第一天 12:30（不讀檔、同一個存檔往後）→ 手機檢查跑一次 → 記 JOBS.tutorBackDue、選項掛在哪一則（第幾則、哪一句、ask id）→
      照玩家：打開手機 →「訊息」→ 明軒那一串 → 截圖（剛打開看得到選項嗎：按鈕在不在對話框的可視範圍、要不要往回捲、有沒有被蓋到）→ 看不到就捲到它再截一張 →
      按「我現在可以接家教了。」→ 截圖 → 記明軒回的那句、TUTOR_RE_ANS／TUTOR_STOP／TUTOR_TERM_Y2S1 → 再跑一次手機檢查 → 記有沒有排下一堂家教（G.outings 裡 tutor 的那幾筆）。
+11-12 r4：打開那一串每一步截圖（主畫面、手機、訊息、那一串），點不到把列表倒出來（BB-C 14:31）。
 11-12 r3：PHONE.tick 第二個參數要是函式（r2 傳 true → notify is not a function，BB-C 13:30）；打開那一串前先關手機。
 CC_02 清單 2026-11-12：1✓（日子從遊戲讀：CALENDAR.termDays 大一下、大二上開學日） 2✓（明軒那一串、選項從畫面的 data-th／data-ask 找） 3✓（同一個存檔往後，不重讀） 4✓（選項照字找「我現在可以接家教了。」） 5n/a（手機操作，不走路） 6✓（每一步等 1～1.6 秒） 7✓ 8n/a（不判，給 BB） 9n/a（手機截圖不藏東西） 10✓（條件事件關掉） 11✓ 12✓（兩次打開手機同樣欄位） 13✓（讀檔、旗標、跳日子標【捷徑】）
 三種起點（CASES，BB-C 11:51 照 AA_828 §10，同一支）：NO＝①按「不了」（上面這條）；EXPIRE＝開學那一則完全不回、讓它過期（第 4 題：一樣要出選項）；
@@ -37,13 +38,30 @@ TUT = r"""(()=>{ const G=GAME.G, F=G.flags; const O=(typeof OUT!=='undefined'&&O
   const k={}; for(const x of Object.keys(F)) if(/^TUTOR|^tutor|^JOB_TUTOR/.test(x)) k[x]=F[x]; return {flags:k, due:JOBS.tutorBackDue?JOBS.tutorBackDue(G):null, outings:O, key:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(2)}; })()"""
 
 
-async def open_thread(pg, cdp):
-    await close_phone(pg, cdp)   # 11-12 r3：上一次留著同一串的畫面，列表不在 → 點不到（r2 ② 點到 False）；先關掉再照玩家打開
+async def open_thread(pg, cdp, tag='th'):
+    """照玩家：主畫面 → 手機 → 訊息 → 明軒那一串；每一步截圖（BB-C 14:31），點不到就把聊天列表倒出來"""
+    global _TH_N
+    _TH_N += 1; pre = 'tutor_open_%02d_%s' % (_TH_N, tag)
+    await close_phone(pg, cdp)   # 11-12 r3：上一次留著同一串的畫面，列表不在 → 點不到；先關掉再照玩家打開
+    await pg.screenshot(path=os.path.join(OUT, pre + '_1_main.png'))
     if not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
+    await pg.screenshot(path=os.path.join(OUT, pre + '_2_phone.png'))
     await L.tap(pg, cdp, '#phoneTabs button[data-ptab="msg"]'); await pg.wait_for_timeout(1000)
-    ok = await L.tap(pg, cdp, '#phoneBody .chatList [data-th=%s]' % J(MX)); await pg.wait_for_timeout(1300)
+    await pg.screenshot(path=os.path.join(OUT, pre + '_3_msg.png'))
+    sel = '#phoneBody .chatList [data-th=%s]' % J(MX)
+    await pg.evaluate("(s=>{ const e=document.querySelector(s); if(e) e.scrollIntoView({block:'center'}); })", sel); await pg.wait_for_timeout(300)
+    ok = await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1300)
+    await pg.screenshot(path=os.path.join(OUT, pre + '_4_thread.png'))
+    if not ok:
+        dump = await pg.evaluate(r"""(()=>{ const b=document.getElementById('phoneBody'); const tabs=[...document.querySelectorAll('#phoneTabs button')].map(x=>[x.dataset.ptab,x.className]);
+          return {open:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), tabs, chatList:!!(b&&b.querySelector('.chatList')), th:[...(b?b.querySelectorAll('[data-th]'):[])].map(x=>[x.dataset.th,(x.textContent||'').trim().slice(0,30),x.offsetParent?1:0]),
+            body:b?(b.innerText||'').replace(/\s+/g,' ').slice(0,300):null}; })()""")
+        R.note('打開明軒那一串點不到：畫面 %s' % J(dump))
     return ok
+
+
+_TH_N = 0
 
 
 async def close_phone(pg, cdp):
