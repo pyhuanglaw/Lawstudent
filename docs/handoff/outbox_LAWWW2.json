@@ -9116,10 +9116,10 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "e83488f007",
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "CANON-NO-ECON-1112",
    "title": "D158 模型清理 ①＋③：玩家 VRM 舊外套網格、宿舍椅背外套節點從模型拿掉；宿舍建模腳本、layout 跟著拿；舊外套截圖、腳本、貼圖刪檔清單；glb_prune.py",
@@ -9128,7 +9128,8 @@
     "docs/art-rebuild/second_ai/wip/canon_assets_1112/README.md"
    ],
    "remaining": "瀏覽器沒跑（玩家正面、宿舍書桌椅）；宿舍光照貼圖沒重烘（椅背可能有一塊舊影子）；② 五個人物 VRM／立繪下一包",
-   "next": "LAWWW-C 套 patch＋刪檔＋一行指令，拿掉 character3d／zones3d 的 hide；CC 拍玩家、宿舍椅子"
+   "next": "LAWWW-C 套 patch＋刪檔＋一行指令，拿掉 character3d／zones3d 的 hide；CC 拍玩家、宿舍椅子",
+   "ackNote": "LAWWW-C 18:54 已套 patch＋刪檔＋指令，並拿掉 assets3d／zones3d／character3d 的 hide、gym_wear 的 JK；剩 lightbake/bake_dorm_room4.sh、pc_ref/dorm_room4_bakein.glb、tools/anim/fit_body_morph.py 下次重烘宿舍時處理"
   }
  ]
 }
