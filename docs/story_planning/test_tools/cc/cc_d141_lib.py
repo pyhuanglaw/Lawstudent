@@ -150,7 +150,7 @@ async def load_zone(pg, cdp, zone, day_key, h=14.0, x=None, z=None, yaw=None, lv
     return await st(pg)
 
 
-async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, only=None):
+async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, only=None, on_seated=None):
     """每一張玩家能坐的位子：走到 GAME.seatApproach（那一層）→ 按 → player.seat、位置 0.15 m 內、高度＝座位 y（沒有＝那一層地板）→ 起身、推得動。回傳 [每張的結果]"""
     seats = await pg.evaluate(SEATS)
     if only: seats = [q for q in seats if any(abs(q['sx'] - a) < 0.06 and abs(q['sz'] - b) < 0.06 for a, b in only)]
@@ -209,6 +209,7 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             fy = round(fy + (s.get('lift') or 0), 3)   # 高腳椅、凳子（seat.lift：好拍 0.25、大口 0.325）
             R.check('%s 坐下的位置離座位 %.3f m（≤0.15）、人的高度 %.3f＝座位那一層＋lift %.3f（±0.06）' % (t, d, p['y'], fy), d <= 0.15 and abs(p['y'] - fy) <= 0.06, J(p))
             await shot(pg, '%s_seat_%d' % (shot_prefix, k + 1))
+            if on_seated: await on_seated(k, s, t)   # CC-C 11-12：坐下以後做的事（例：點餐吃完，cc_seat_hours_probe EAT=1）；沒給＝照舊直接起身
         # 起身：坐下以後可能先有對話（大步試穿椅：店員「你幾號？」→ 旁白 → 才出「坐一下，看看四周／起身」；PC 11-05 XSSHOP_dabu 只看一次選項＝TEST_BUG）
         said = []; t1 = time.time()
         while time.time() - t1 < 25:
