@@ -1632,7 +1632,10 @@ const Z3 = (function(){
     /* SUNNY SIDE（B7，x 40～48、朝南 +z、玻璃面 z −5.9；室內 6.4×10×3.2，右牆貼著東側的落地窗：室內中心在這一棟中心往東 0.65−0.03）、小路（B3，x −9.6～4；室內 8×8×2.9 在這一棟正中間）：
        街景模型的簡化店內（暗褐色的牆／窗後一整面碗盤架）和走進去的不一樣（自查 11-12）。鍵用 wzGlbKey（和進店用的同一顆）；sx＝店面玻璃的範圍（以 cx 為準），鐵捲門蓋整面玻璃 */
     const Ly=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT:null, add=(id,k,place,cx,dx,sx)=>{ const L=Ly&&Ly[k]; if(!L||!L.glb||!L.w||!L.d) return; out.push({id,place,key:wzGlbKey(k,L),w:L.w,d:L.d,h:L.h||3,x:cx+dx,z:-5.92-L.d/2,ry:0,cx,cz:-5.9,ex:L.w/2,ez:0,sx,sh:2.7}); };
-    add('B7','brunch','wz_brunch',44,0.62,[-3.7,3.7]); add('B3','teishoku','wz_teishoku',-2.8,0,[-6.5,6.5]); return out; };
+    add('B7','brunch','wz_brunch',44,0.62,[-3.7,3.7]); add('B3','teishoku','wz_teishoku',-2.8,0,[-6.5,6.5]);
+    /* 林家乾麵（A4，x 32～40、朝北 −z、店面 z 5.9；室內 6.4×8×3 正面 +z 轉成朝 −z）：整面開著的店，原本街景模型裡是另外做的一套簡化店內（第三批 11-12）。門在室內本地 x +1 → 世界 x 35，和進店點一樣 */
+    { const L=Ly&&Ly.lin; if(L&&L.glb&&L.w&&L.d) out.push({id:'A4',place:'wz_lin',key:wzGlbKey('lin',L),w:L.w,d:L.d,h:L.h||3,x:36,z:5.92+L.d/2,ry:Math.PI,cx:36,cz:5.9,ex:L.w/2,ez:0,sx:[-3.3,3.3],sh:2.7}); }
+    return out; };
   const GG_SHOP_REAL=(()=>{ const WB={G00:11.2,G01:9.2,G02:13.2,G03:11.2,G04:9.2,G05:9.2,G06:10.2,G07:10.2,G08:8,G11:10,G12:8,G13:9,G14:9};   /* 各棟的寬（wz_street.py）*/
     const mk=(id,place,key,cx,w,d,h,sx)=>({id,place,key,w,d,h,x:cx,z:22.02+d/2,ry:Math.PI,cx,cz:22,ex:w/2,ez:0,sx,sh:2.95,kx:Math.floor(Math.min(1,(WB[id]/2)/(w/2+0.2))*1000)/1000});   /* sx＝門窗的範圍（鐵捲門只蓋這一段；照 wz_street.py GG_XS 的 cards＋door）*/ return [mk('G04','gg_antai','bldg.gg_antai_interior',-18.6,9,10,3.3,[-4.15,4.15]),mk('G08','gg_xianguo','bldg.gg_xianguo_interior',19.6,8,10,3.3,[-3.65,3.65]),mk('G13','gg_rongendian','bldg.gg_rongendian_interior',64.1,9,10,3.3,[-4.15,4.15]),
       /* 第二批（11-12）：青木茶室、頁間書屋、日和便利店、洋洋鹹酥雞、慢輪單車、Afar、轉角唱片、Daybreak——室內配置的門窗本來就照這一排外觀做的（各店 layout 的 front），寬深高照各自的配置檔 */

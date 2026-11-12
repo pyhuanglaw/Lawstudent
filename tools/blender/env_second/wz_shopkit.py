@@ -2627,7 +2627,7 @@ SF = {
     'A3': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_quarry', step=0.1, door_x=1.4, frame='#4a2e1c', sign_w=10.4, bright=0.85, light='warm',   # WZ-SECOND-1104 溫州書屋（原本的巷口書房；參考圖 wenzhou_books_ext）：米白長飾帶深綠字、四盞綠色鵝頸燈、深色木框大窗、沒有雨遮、營業時間黑板
                lamps=[-4.2, -1.4, 1.4, 4.2], lampcol='goose_green', notes=[],
                clutter=[('bookcart', -3.4, 0.35), ('aboard', 3.9, 0.45, 'wz2_wenzhou_books_chalk'), ('pot', -4.9, 0.3, 'broad'), ('pot', 5.0, 0.3)]),
-    'A4': dict(inner=True, bright=0.86, door='open', sign='panel', awning='#2f5a47', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,   # WZ-FIVE-1104 林家（參考圖 wz_lin_ext）：深綠雨遮、門邊參考圖裁的價目牌、兩盆大盆栽
+    'A4': dict(real=dict(x0=-3.2, x1=3.2, d=8.0, fill='#f1eee4'), inner=True, bright=0.86, door='open', sign='panel', awning='#2f5a47', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,   # WZ-FIVE-1104 林家（參考圖 wz_lin_ext）：深綠雨遮、門邊參考圖裁的價目牌、兩盆大盆栽
                notes=[('wz_lin_menu', 3.22, 1.05, 0.62, 0.97)],   # WZ-LIN-STREET-REF-1112：2.4 → 3.22（靠右邊門柱；原本擋在玻璃菜櫃前面）
                clutter=[('noodle', -1.6, 0.42), ('pot', 3.3, 0.35, 'broad'), ('pot', -3.45, 0.35, 'broad')]),   # WZ-LIN-STREET-REF-1112：門口的紅、藍塑膠凳拿掉（參考圖是店裡的木凳）
     'A5': dict(inner=True, door='auto', sign='lightbox', awning=None, floor='f_white', light='cool', door_x=-1.4, rollbox=False,
@@ -2646,10 +2646,10 @@ SF = {
                            lamps=[-1.6, 1.6], front=dict(win=(-3.2, 0.25), frame='#86bab2', wains='#a6d2ca', ledge='wood', curtain=True, door=(0.95, 2.25), door_col='#9cc9c1', awning='stripe_mint', awn_door=True,
                                                          menu=('wz2_summer_ice_menu', 0.6, 1.1, 0.5, 1.0), flag=('wz2_summer_ice_flag', 2.6)),   # 參考圖左邊的繡球花盆不放：騎樓走得到的地方沒有導航阻擋（tests/street_props_nav_unit.js），不新增阻擋
                            notes=[('hours', 2.95, 1.3, 0.3, 0.3)], clutter=[('aboard', 3.0, 0.5, 'wz2_summer_ice_menu')])]),
-    'B7': dict(real=dict(x0=-2.55, x1=3.85, d=10.0, fill='#e9dcc4'), inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2, frame='#3f5a3c', grid=0.55,
+    'B7': dict(real=dict(x0=-2.55, x1=3.85, d=10.0, fill='#e9dcc4'), inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_terrazzo', step=0.08, light='warm', door_x=1.02, door_w=1.0, ac=3.2, frame='#3f5a3c', grid=0.55,   # WZ-SUNNY-DOOR-1112：門 −2.0 → 1.02（＝室內的門：室內本地 x 0.4＋室內中心偏東 0.62；原本店外的門在左、走進去門在右邊）
                side_glass=dict(z0=-8.3, z1=-1.3, dep=0.15, head=2.6, int='sunnyside_side'),   # BB 11-04 06:43：參考圖是轉角店，東側（朝 2:30 AM 路口）整排綠框落地窗；室內右牆 z −2.4～4.6（＝本地 z −8.3～−1.3，室內 z − 5.9），窗台 0.75 以下木腰板   # WZ-FIVE-1104 SUNNY SIDE（原本的半熟；參考圖 wz_sunnyside_ext）：綠白條紋雨遮、參考圖的黑板立牌、門口盆栽
-               notes=[('hours', -1.0, 1.25, 0.34, 0.34)],
-               clutter=[('aboard', 0.6, 0.5, 'wz_sunnyside_board'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('pot', 1.5, 0.32)]),
+               notes=[('hours', 2.0, 1.25, 0.34, 0.34)],
+               clutter=[('aboard', -0.6, 0.5, 'wz_sunnyside_board'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('pot', -2.0, 0.32)]),   # WZ-SUNNY-DOOR-1112：黑板、小盆栽讓開新的門口
     'B6': dict(inner=True, door='open', sign='panel', awning='#4b7055', floor='f_concrete', light='warm', ac=-3.7, sign_w=9.0,   # WZ-SECOND-1104 阿忠鮮果（原本的阿忠水果；參考圖 azhong_fruit_ext）：米白招牌＋水果插畫、綠色帆布雨遮
                notes=[('pay', 3.5, 1.6, 0.32, 0.32)],
                clutter=[('fruitstall', -0.1, 0.5), ('fruit_pine', -3.75, 0.5), ('fruit_banana', -2.45, 0.5), ('fruit_melon', 3.6, 0.5), ('stool_b', 2.4, 0.45)]),   # WZ-SECOND-1104：攤子兩邊加鳳梨箱、香蕉架、西瓜箱（參考圖；都在門廊的導航阻擋裡），紙箱拿掉   # AA_413（10-23）：門廊前緣的攤子（原本是 x −1.2 的三層木架 crates）；老闆站在攤子後面＝世界 (34.9, −6.15)

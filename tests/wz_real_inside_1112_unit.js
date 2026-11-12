@@ -6,7 +6,7 @@ const src=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8'), st=fs.readFileS
 const WZL=new Function(fs.readFileSync(path.join(R,'src/data/wz_shops_layout.js'),'utf8')+';return WZ_SHOPS_LAYOUT;')();
 const m=/const wzShopReal=\(\)=>\{([\s\S]*?return out; )\};/.exec(src); ok(!!m,'① zones3d.js 有 wzShopReal');
 const L=m?vm.runInNewContext('(()=>{'+m[1]+'})()',{WZ_SHOPS_LAYOUT:WZL,Math,wzGlbKey:(k,l)=>'bldg.wz_'+k+'_interior_v'+(l.version|0)}):[];
-ok(L.length===3&&L.map(q=>q.id).join()==='W2,B7,B3','② 三間：'+L.map(q=>q.id+'→'+q.place).join('、'));
+ok(L.length===4&&L.map(q=>q.id).join()==='W2,B7,B3,A4','② 四間（林家乾麵 A4 朝北：ry π、z 5.92＋d/2）：'+L.map(q=>q.id+'→'+q.place).join('、'));
 const W2=L[0]||{}, B7=L[1]||{}, B3=L[2]||{};
 ok(W2.key==='bldg.wz_offbeat_interior'&&W2.x===-42.2&&W2.z===-13.5&&Math.abs(W2.ry-Math.PI/2)<1e-9&&W2.w===11&&W2.d===10,'③ 日常失速：室內原點 (−42.2,−13.5)、正面朝東（和街景腳本 W2 的對應一樣）');
 ok(B7.place==='wz_brunch'&&B7.w===WZL.brunch.w&&B7.d===WZL.brunch.d&&Math.abs(B7.x-44.62)<1e-9&&Math.abs(B7.z-(-5.92-WZL.brunch.d/2))<1e-9&&B7.ry===0,'④ SUNNY SIDE：寬深照配置（'+B7.w+'×'+B7.d+'），正面貼在玻璃面 z −5.9 後面，右牆貼著東側落地窗（中心 x 44.62）');
@@ -21,4 +21,10 @@ ok(names.includes('sk_in_B2')||names.some(n=>/^sk_in_/.test(n)),'⑪ 其他店�
 const hm=/const HIDE=(\/.*?\/i),/.exec(src); const HIDE=hm?vm.runInNewContext(hm[1]):/x^/;
 ok(!HIDE.test('sunnyside_interior/sns_floor/')&&HIDE.test('a/WALL_front_sns_wall/')&&HIDE.test('a/sun_patch/')&&HIDE.test('a/WALL_right_VIEW_x/'),'⑫ 藏零件的規則不會把 sunnyside 整間藏掉（原本寫 /sun/）；正面牆、陽光斑、窗景卡照舊藏');
 ok(/nx=Math\.sin\(s\.ry\|\|0\), nz=Math\.cos\(s\.ry\|\|0\)/.test(src),'⑬ 鐵捲門朝街的方向用室內的 ry（室內不在正中間也不會斜）');
+const A4=L[3]||{}, LIN=(typeof LIN_LAYOUT!=='undefined'?LIN_LAYOUT:WZL.lin)||{};
+ok(A4.place==='wz_lin'&&A4.w===LIN.w&&A4.d===LIN.d&&A4.x===36&&Math.abs(A4.z-(5.92+LIN.d/2))<1e-9&&Math.abs(A4.ry-Math.PI)<1e-9&&Math.abs((A4.x-LIN.front.door.x)-LIN.enterAt.x)<1e-9,'⑭ 林家乾麵：室內轉 180°貼在店面 z 5.9 後面，室內的門（本地 x +1）落在進店點 x 35');
+ok(/'A4': dict\(real=dict\(x0=-3\.2, x1=3\.2, d=8\.0/.test(kit)&&!names.includes('sk_in_A4'),'⑮ 街景腳本：林家 real；街景模型裡沒有林家另外做的那一套簡化店內');
+{ const SL=new Function(fs.readFileSync(path.join(R,'src/data/sunnyside_layout.js'),'utf8').replace(/^\s*(const|var|let)\s+SUNNYSIDE_LAYOUT/m,'var SUNNYSIDE_LAYOUT')+';return typeof SUNNYSIDE_LAYOUT!=="undefined"?SUNNYSIDE_LAYOUT:null;')()||WZL.brunch;
+  const dm=/'B7': dict\(real=dict\([^)]*\)[^\n]*?door_x=(-?[\d.]+)/.exec(kit), dx=dm?+dm[1]:NaN, inDoor=B7.x+SL.front.door.x;
+  ok(Math.abs((44+dx)-inDoor)<0.05&&Math.abs(SL.enterAt.x-inDoor)<0.05&&Math.abs(SL.exit.spawn.x-inDoor)<0.05&&Math.abs(WZL.brunch.enterAt.x-inDoor)<0.05,'⑯ WZ-SUNNY-DOOR-1112：SUNNY SIDE 店外的門（世界 x '+(44+dx)+'）＝室內的門（'+inDoor.toFixed(2)+'）；進店點、出店點跟著（'+SL.enterAt.x+'、'+SL.exit.spawn.x+'）'); }
 console.log(fail?'FAILED '+fail:'ALL PASS'); process.exit(fail?1:0);
