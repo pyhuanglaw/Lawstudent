@@ -1,0 +1,106 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shift_shots_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHIFT_SHOTS_72fc\out
+CC 上班中各一張：SHA 72fc1ffc88；KEYS ['shanlan', 'cinema', 'flower', 'yue', 'dakou']；TERM Y1S2
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS [shanlan] 找得到班表和日子  {"zone": "xs_shanlan", "name": "山嵐書店", "wd": 3, "t0": 18, "t1": 22, "day": 176, "key": "2026-03-11", "desk": {"x": 3.9, "z": 0.4, "lv": 0, "label": "櫃檯旁邊的告示"}}
+  [前置／捷徑] [shanlan] 【前置／捷徑】讀檔改成 Y1S2 有 山嵐書店 的班（2026-03-11 週3 18.00～22.00），班開始前 12 分鐘進店（條件事件關掉）
+  [  49.6s] [shanlan] first 鏡頭位置 {"x": 5.45, "y": 3.21, "z": 7.2, "dir": [0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [  52.6s] [shanlan] after_choice 鏡頭位置 {"x": 5.45, "y": 3.21, "z": 7.2, "dir": [0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [  52.6s] [shanlan] first：祐廷 {"x": 5.45, "z": 3.3, "yaw": -1.57, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "坐下看書", "d": 1.59}, {"label": "結帳", "d": 1.84}, {"label": "坐下看書", "d": 2.05}, {"label": "坐下看書", "d": 2.83}]；1 m 內家具 [{"name": "Body", "d": 0.24}, {"name": "Clothes_H01", "d": 0.39}, {"name": "Clothes_H01_1", "d": 0.39}, {"name": "Clothes_H01_2", "d": 0.39}, {"name": "Facebaked", "d": 0.79}, {"name": "Facebaked_1", "d": 0.79}]；店裡的人 [{"id": "", "name": "", "x": 5.45, "z": 2.4, "seat": false, "clerk": true}]；當下那一句「（一車新書，書背上的分類號你一本一本對，對到第五本就放錯櫃。）」
+  [  52.6s] [shanlan] after_choice：祐廷 {"x": 5.45, "z": 3.3, "yaw": -1.57, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "坐下看書", "d": 1.59}, {"label": "結帳", "d": 1.84}, {"label": "坐下看書", "d": 2.05}, {"label": "坐下看書", "d": 2.83}]；1 m 內家具 [{"name": "Body", "d": 0.24}, {"name": "Clothes_H01", "d": 0.39}, {"name": "Clothes_H01_1", "d": 0.39}, {"name": "Clothes_H01_2", "d": 0.39}, {"name": "Facebaked", "d": 0.79}, {"name": "Facebaked_1", "d": 0.79}]；店裡的人 [{"id": "", "name": "", "x": 5.45, "z": 2.4, "seat": false, "clerk": true}]；當下那一句「（平台上的書要封面朝上，疊成階梯。你疊歪了一次。）」
+  [  70.3s] [shanlan] 下班後 0.0 秒：亮度 [0, 0]；畫面上蓋著的元素 [{"id": "fade", "cls": "", "op": "1", "bg": "rgb(0, 0, 0)"}]
+  [  71.1s] [shanlan] 下班後 0.5 秒：亮度 [68.6, 36.7]；畫面上蓋著的元素 []
+  [  71.7s] [shanlan] 下班後 1.0 秒：亮度 [23.8, 12.3]；畫面上蓋著的元素 [{"id": "advBg", "cls": "", "op": "1", "bg": "rgb(21, 23, 29)"}]
+  [  72.3s] [shanlan] 下班後 1.5 秒：亮度 [24.5, 16.4]；畫面上蓋著的元素 [{"id": "advBg", "cls": "", "op": "1", "bg": "rgb(21, 23, 29)"}]
+  [  72.9s] [shanlan] 下班後 2.0 秒：亮度 [25.5, 20.3]；畫面上蓋著的元素 [{"id": "advBg", "cls": "", "op": "1", "bg": "rgb(21, 23, 29)"}]
+  [  73.5s] [shanlan] 下班後 2.5 秒：亮度 [25.5, 20.6]；畫面上蓋著的元素 [{"id": "advBg", "cls": "", "op": "1", "bg": "rgb(21, 23, 29)"}]
+  [  74.1s] [shanlan] 下班後 3.0 秒：亮度 [25.5, 20.3]；畫面上蓋著的元素 [{"id": "advBg", "cls": "", "op": "1", "bg": "rgb(21, 23, 29)"}]
+  [  74.7s] [shanlan] 下班後 3.5 秒：亮度 [25.5, 20.5]；畫面上蓋著的元素 [{"id": "advBg", "cls": "", "op": "1", "bg": "rgb(21, 23, 29)"}]
+  [  75.3s] [shanlan] 下班後 4.0 秒：亮度 [25.5, 20.3]；畫面上蓋著的元素 [{"id": "advBg", "cls": "", "op": "1", "bg": "rgb(21, 23, 29)"}]
+  [  76.2s] [shanlan] 下班以後：祐廷 {"x": -13.9, "z": 10.2, "yaw": 1.57, "pose": "idle"}；書包 [["prop:backpack", true]]；鏡頭到頭之間被 {"camToHead": 2.32, "blockedBy": null, "at": null} 擋
+  [  76.2s] [shanlan] first：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.26, "blockedBy": null, "at": null}
+  [  76.2s] [shanlan] after_choice：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.26, "blockedBy": null, "at": null}
+  [  76.2s] [shanlan] 上班中位置變化 0.00 m（被碰撞推出來的參考）
+PASS [shanlan] 上班中有拍到（3 張）
+PASS [cinema] 找得到班表和日子  {"zone": "xs_nanyang", "name": "南洋戲院", "wd": 5, "t0": 18, "t1": 22, "day": 178, "key": "2026-03-13", "desk": {"x": -2, "z": 4.2, "lv": 0, "label": "售票口旁邊的告示"}}
+  [前置／捷徑] [cinema] 【前置／捷徑】讀檔改成 Y1S2 有 南洋戲院 的班（2026-03-13 週5 18.00～22.00），班開始前 12 分鐘進店（條件事件關掉）
+  [ 106.0s] [cinema] first 鏡頭位置 {"x": -4.1, "y": 3.13, "z": -0.89, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [ 108.2s] [cinema] after_choice 鏡頭位置 {"x": -4.1, "y": 3.13, "z": -0.89, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [ 108.2s] [cinema] first：祐廷 {"x": -4.1, "z": -4.6, "yaw": 1.57, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "買票", "d": 2.34}, {"label": "看今日放映", "d": 4.61}, {"label": "進 1 廳", "d": 6.55}, {"label": "看這部在演什麼", "d": 7.2}]；1 m 內家具 [{"name": "fallback", "d": 0}, {"name": "Body", "d": 0.21}, {"name": "fallback", "d": 0.3}, {"name": "WALL_left_wains", "d": 0.36}, {"name": "WALL_left_plaster", "d": 0.4}, {"name": "Clothes_H01", "d": 0.6}]；店裡的人 [{"id": "", "name": "", "x": -4.1, "z": -3.7, "seat": false, "clerk": true}]；當下那一句「（票根要撕一半。你撕的第一張，撕到了座位號碼。）」
+  [ 108.2s] [cinema] after_choice：祐廷 {"x": -4.1, "z": -4.6, "yaw": 1.57, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "買票", "d": 2.34}, {"label": "看今日放映", "d": 4.61}, {"label": "進 1 廳", "d": 6.55}, {"label": "看這部在演什麼", "d": 7.2}]；1 m 內家具 [{"name": "fallback", "d": 0}, {"name": "Body", "d": 0.21}, {"name": "fallback", "d": 0.3}, {"name": "WALL_left_wains", "d": 0.36}, {"name": "WALL_left_plaster", "d": 0.4}, {"name": "Clothes_H01", "d": 0.6}]；店裡的人 [{"id": "", "name": "", "x": -4.1, "z": -3.7, "seat": false, "clerk": true}]；當下那一句「（客人往右邊走了。你又說了一次。）」
+  [ 115.1s] [cinema] 下班後 0.0 秒：亮度 [50.6, 27.9]；畫面上蓋著的元素 []
+  [ 115.8s] [cinema] 下班後 0.5 秒：亮度 [47.1, 29.9]；畫面上蓋著的元素 []
+  [ 116.5s] [cinema] 下班後 1.0 秒：亮度 [49, 33.8]；畫面上蓋著的元素 []
+  [ 118.1s] [cinema] 下班後 1.5 秒：亮度 [48.8, 33.4]；畫面上蓋著的元素 []
+  [ 119.2s] [cinema] 下班後 2.0 秒：亮度 [49, 33.8]；畫面上蓋著的元素 []
+  [ 119.9s] [cinema] 下班後 2.5 秒：亮度 [48.9, 33.6]；畫面上蓋著的元素 []
+  [ 120.6s] [cinema] 下班後 3.0 秒：亮度 [51, 37.6]；畫面上蓋著的元素 []
+  [ 121.4s] [cinema] 下班後 3.5 秒：亮度 [51.2, 37.7]；畫面上蓋著的元素 []
+  [ 122.1s] [cinema] 下班後 4.0 秒：亮度 [51.2, 37.9]；畫面上蓋著的元素 []
+  [ 123.3s] [cinema] 下班以後：祐廷 {"x": 0, "z": 5.2, "yaw": 3.14, "pose": "idle"}；書包 [["prop:backpack", true]]；鏡頭到頭之間被 {"camToHead": 4.06, "blockedBy": "ny_vc_metal", "at": 2.04} 擋
+  [ 123.3s] [cinema] first：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.06, "blockedBy": "ny_vc_matte", "at": 0.21}
+  [ 123.3s] [cinema] after_choice：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.06, "blockedBy": "ny_vc_matte", "at": 0.21}
+  [ 123.3s] [cinema] 上班中位置變化 0.00 m（被碰撞推出來的參考）
+PASS [cinema] 上班中有拍到（3 張）
+PASS [flower] 找得到班表和日子  {"zone": "flower_notes", "name": "花序 Flower Notes", "wd": 6, "t0": 9, "t1": 13, "day": 179, "key": "2026-03-14", "desk": {"x": -3.2, "z": -5.2, "lv": 1, "r": 0.8}}
+  [前置／捷徑] [flower] 【前置／捷徑】讀檔改成 Y1S2 有 花序 Flower Notes 的班（2026-03-14 週6 9.00～13.00），班開始前 12 分鐘進店（條件事件關掉）
+  [ 147.9s] [flower] first 鏡頭位置 {"x": 4.22, "y": 3.28, "z": 9.39, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [ 150.2s] [flower] after_choice 鏡頭位置 {"x": 4.22, "y": 3.28, "z": 9.39, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [ 150.2s] [flower] first：祐廷 {"x": 4.22, "z": 5.3, "yaw": -1.57, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "看包裝紙", "d": 1.81}, {"label": "買花", "d": 1.99}, {"label": "看大盆栽", "d": 2.39}, {"label": "看包裝櫃檯", "d": 2.82}]；1 m 內家具 [{"name": "L0_oak", "d": 0.52}, {"name": "fallback0", "d": 0.68}, {"name": "WALL_L0_E", "d": 0.78}]；店裡的人 []；當下那一句「（一箱一箱的花從冷藏車搬下來。你剪花莖剪得太短，花藝師看了一眼，沒有說話，把那一」
+  [ 150.2s] [flower] after_choice：祐廷 {"x": 4.22, "z": 5.3, "yaw": -1.57, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "看包裝紙", "d": 1.81}, {"label": "買花", "d": 1.99}, {"label": "看大盆栽", "d": 2.39}, {"label": "看包裝櫃檯", "d": 2.82}]；1 m 內家具 [{"name": "L0_oak", "d": 0.52}, {"name": "fallback0", "d": 0.68}, {"name": "WALL_L0_E", "d": 0.78}]；店裡的人 []；當下那一句「（刺要一根一根刮掉。你的手套破了一個洞。）」
+  [ 157.0s] [flower] 下班後 0.0 秒：亮度 [102.5, 60.4]；畫面上蓋著的元素 []
+  [ 157.8s] [flower] 下班後 0.5 秒：亮度 [102.9, 60.3]；畫面上蓋著的元素 []
+  [ 158.5s] [flower] 下班後 1.0 秒：亮度 [102.9, 60.3]；畫面上蓋著的元素 []
+  [ 159.3s] [flower] 下班後 1.5 秒：亮度 [102.9, 60.3]；畫面上蓋著的元素 []
+  [ 160.1s] [flower] 下班後 2.0 秒：亮度 [102.9, 60.3]；畫面上蓋著的元素 []
+  [ 160.8s] [flower] 下班後 2.5 秒：亮度 [102.9, 60.3]；畫面上蓋著的元素 []
+  [ 161.6s] [flower] 下班後 3.0 秒：亮度 [102.9, 60.3]；畫面上蓋著的元素 []
+  [ 162.3s] [flower] 下班後 3.5 秒：亮度 [102.6, 60.1]；畫面上蓋著的元素 []
+  [ 163.1s] [flower] 下班後 4.0 秒：亮度 [102.6, 60.1]；畫面上蓋著的元素 []
+  [ 164.2s] [flower] 下班以後：祐廷 {"x": 0, "z": 6.1, "yaw": 3.14, "pose": "idle"}；書包 [["prop:backpack", true]]；鏡頭到頭之間被 {"camToHead": 4.46, "blockedBy": "L0_vcm", "at": 3.38} 擋
+  [ 164.2s] [flower] first：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.46, "blockedBy": "L0_glass", "at": 2.55}
+  [ 164.2s] [flower] after_choice：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.46, "blockedBy": "L0_glass", "at": 2.55}
+  [ 164.2s] [flower] 上班中位置變化 0.00 m（被碰撞推出來的參考）
+PASS [flower] 上班中有拍到（3 張）
+PASS [yue] 找得到班表和日子  {"zone": "tz_yuehaochi", "name": "越好吃小館", "wd": 2, "t0": 17.5, "t1": 21, "day": 175, "key": "2026-03-10", "desk": {"x": -1.2, "z": -2.3, "lv": 0, "r": 0.7}}
+  [前置／捷徑] [yue] 【前置／捷徑】讀檔改成 Y1S2 有 越好吃小館 的班（2026-03-10 週2 17.50～21.00），班開始前 12 分鐘進店（條件事件關掉）
+  [ 191.5s] [yue] first 鏡頭位置 {"x": 1.9, "y": 3.21, "z": 0.5, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [ 193.7s] [yue] after_choice 鏡頭位置 {"x": 1.9, "y": 3.21, "z": 0.5, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [ 193.7s] [yue] first：祐廷 {"x": 1.9, "z": -3.4, "yaw": 0, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "點餐", "d": 1.88}, {"label": "看香草檯", "d": 2.65}, {"label": "看廚房", "d": 2.88}, {"label": "坐下", "d": 3.13}]；1 m 內家具 [{"name": "S_steel", "d": 0.15}, {"name": "Body", "d": 0.24}, {"name": "Clothes_H01", "d": 0.39}, {"name": "Clothes_H01_1", "d": 0.39}, {"name": "Clothes_H01_2", "d": 0.39}, {"name": "S_wood_d", "d": 0.45}]；店裡的人 [{"id": "", "name": "", "x": -2.6, "z": -2.25, "seat": true, "clerk": false}, {"id": "", "name": "", "x": 1, "z": -3.4, "seat": false, "clerk": true}]；當下那一句「（客人點了三碗，一碗不要香菜、一碗加辣、一碗河粉換米線。你寫在手上。）」
+  [ 193.7s] [yue] after_choice：祐廷 {"x": 1.9, "z": -3.4, "yaw": 0, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "點餐", "d": 1.88}, {"label": "看香草檯", "d": 2.65}, {"label": "看廚房", "d": 2.88}, {"label": "坐下", "d": 3.13}]；1 m 內家具 [{"name": "S_steel", "d": 0.15}, {"name": "Body", "d": 0.24}, {"name": "Clothes_H01", "d": 0.39}, {"name": "Clothes_H01_1", "d": 0.39}, {"name": "Clothes_H01_2", "d": 0.39}, {"name": "S_wood_d", "d": 0.45}]；店裡的人 [{"id": "", "name": "", "x": -2.6, "z": -2.25, "seat": true, "clerk": false}, {"id": "", "name": "", "x": 1, "z": -3.4, "seat": false, "clerk": true}]；當下那一句「（客人說對。旁邊那桌已經在舉手了。）」
+  [ 200.9s] [yue] 下班後 0.0 秒：亮度 [6.4, 21.7]；畫面上蓋著的元素 [{"id": "fade", "cls": "on", "op": "1", "bg": "rgb(0, 0, 0)"}]
+  [ 207.3s] [yue] 下班後 0.5 秒：亮度 [4.6, 28.1]；畫面上蓋著的元素 [{"id": "fade", "cls": "on", "op": "1", "bg": "rgb(0, 0, 0)"}]
+  [ 211.4s] [yue] 下班後 1.0 秒：亮度 [19.8, 32.2]；畫面上蓋著的元素 [{"id": "fade", "cls": "", "op": "0.216759", "bg": "rgb(0, 0, 0)"}]
+  [ 212.3s] [yue] 下班後 1.5 秒：亮度 [54.1, 36.6]；畫面上蓋著的元素 []
+  [ 213.2s] [yue] 下班後 2.0 秒：亮度 [54.7, 37.7]；畫面上蓋著的元素 []
+  [ 214.0s] [yue] 下班後 2.5 秒：亮度 [54.7, 37.7]；畫面上蓋著的元素 []
+  [ 214.9s] [yue] 下班後 3.0 秒：亮度 [55, 38.3]；畫面上蓋著的元素 []
+  [ 216.3s] [yue] 下班後 3.5 秒：亮度 [54.6, 38.1]；畫面上蓋著的元素 []
+  [ 217.2s] [yue] 下班後 4.0 秒：亮度 [54.7, 37.7]；畫面上蓋著的元素 []
+  [ 218.4s] [yue] 下班以後：祐廷 {"x": -5.4, "z": 29, "yaw": 1.57, "pose": "idle"}；書包 [["prop:backpack", true]]；鏡頭到頭之間被 {"camToHead": 2.53, "blockedBy": null, "at": null} 擋
+  [ 218.4s] [yue] first：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.26, "blockedBy": null, "at": null}
+  [ 218.4s] [yue] after_choice：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.26, "blockedBy": null, "at": null}
+  [ 218.4s] [yue] 上班中位置變化 0.00 m（被碰撞推出來的參考）
+PASS [yue] 上班中有拍到（3 張）
+PASS [dakou] 找得到班表和日子  {"zone": "xs_dakou", "name": "大口漢堡", "wd": 1, "t0": 18, "t1": 22, "day": 174, "key": "2026-03-09", "desk": {"x": -4.2, "z": -3, "lv": 0, "r": 0.9}}
+  [前置／捷徑] [dakou] 【前置／捷徑】讀檔改成 Y1S2 有 大口漢堡 的班（2026-03-09 週1 18.00～22.00），班開始前 12 分鐘進店（條件事件關掉）
+  [ 248.5s] [dakou] first 鏡頭位置 {"x": -0.6, "y": 3.21, "z": -1, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [ 251.2s] [dakou] after_choice 鏡頭位置 {"x": -0.6, "y": 3.21, "z": -1, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [ 251.2s] [dakou] first：祐廷 {"x": -0.6, "z": -4.9, "yaw": 0, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "坐下讀書", "d": 0.6}, {"label": "坐下讀書", "d": 0.75}, {"label": "坐下讀書", "d": 1.12}, {"label": "坐下讀書", "d": 1.21}]；1 m 內家具 [{"name": "Body", "d": 0.17}, {"name": "Clothes_H01", "d": 0.33}, {"name": "Clothes_H01_1", "d": 0.33}, {"name": "Clothes_H01_2", "d": 0.33}, {"name": "dk1_atlas", "d": 0.4}, {"name": "GLOW_SCREENS", "d": 0.4}]；店裡的人 [{"id": "", "name": "", "x": -1.5, "z": -4.9, "seat": false, "clerk": true}]；當下那一句「（螢幕上的按鍵比菜單多三倍。客人要去冰、換薯條，你找了很久。）」
+  [ 251.2s] [dakou] after_choice：祐廷 {"x": -0.6, "z": -4.9, "yaw": 0, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "坐下讀書", "d": 0.6}, {"label": "坐下讀書", "d": 0.75}, {"label": "坐下讀書", "d": 1.12}, {"label": "坐下讀書", "d": 1.21}]；1 m 內家具 [{"name": "Body", "d": 0.17}, {"name": "Clothes_H01", "d": 0.33}, {"name": "Clothes_H01_1", "d": 0.33}, {"name": "Clothes_H01_2", "d": 0.33}, {"name": "dk1_atlas", "d": 0.4}, {"name": "GLOW_SCREENS", "d": 0.4}]；店裡的人 [{"id": "", "name": "", "x": -1.5, "z": -4.9, "seat": false, "clerk": true}]；當下那一句「（客人說內用，又說等一下，改外帶。）」
+  [ 259.7s] [dakou] 下班後 0.0 秒：亮度 [104.4, 50.4]；畫面上蓋著的元素 []
+  [ 260.9s] [dakou] 下班後 0.5 秒：亮度 [100.3, 50.9]；畫面上蓋著的元素 []
+  [ 261.8s] [dakou] 下班後 1.0 秒：亮度 [99.4, 50.4]；畫面上蓋著的元素 []
+  [ 262.8s] [dakou] 下班後 1.5 秒：亮度 [99, 50.5]；畫面上蓋著的元素 []
+  [ 263.8s] [dakou] 下班後 2.0 秒：亮度 [99.1, 50.6]；畫面上蓋著的元素 []
+  [ 264.6s] [dakou] 下班後 2.5 秒：亮度 [99.1, 50.6]；畫面上蓋著的元素 []
+  [ 265.5s] [dakou] 下班後 3.0 秒：亮度 [99, 50.5]；畫面上蓋著的元素 []
+  [ 266.5s] [dakou] 下班後 3.5 秒：亮度 [99.1, 50.6]；畫面上蓋著的元素 []
+  [ 267.4s] [dakou] 下班後 4.0 秒：亮度 [99.1, 50.6]；畫面上蓋著的元素 []
+  [ 268.6s] [dakou] 下班以後：祐廷 {"x": 0, "z": 6.4, "yaw": 3.14, "pose": "idle"}；書包 [["prop:backpack", true]]；鏡頭到頭之間被 {"camToHead": 4.26, "blockedBy": "dk_glass", "at": 2.51} 擋
+  [ 268.6s] [dakou] first：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.26, "blockedBy": "fallback0", "at": 2.84}
+  [ 268.6s] [dakou] after_choice：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.26, "blockedBy": "fallback0", "at": 2.84}
+  [ 268.6s] [dakou] 上班中位置變化 0.00 m（被碰撞推出來的參考）
+PASS [dakou] 上班中有拍到（3 張）
+PASS 沒有 JS 例外  []
+ALL PASS
