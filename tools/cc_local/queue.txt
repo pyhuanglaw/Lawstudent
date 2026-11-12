@@ -1917,5 +1917,9 @@ STUDY_fix_c | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_plan
 ROUTE_E4 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E4;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 ROUTE_E6 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E6;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 ROUTE_E8 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E8;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+# BB-C 09:08 P0 STUDY-EXAM-CAREER-1102 B 節瀏覽器實玩（BB_222 第 239～285 行；不用 turbo、作答捷徑標明）第一批：SE06 兩場期末、SE12 考試週體育國文旁白、FA01 法服週六 08:30；SE01／SE03／SE11／FA05 寫好再排
+STUDY_SE06 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=SE06;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+STUDY_SE12 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=SE12;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+STUDY_FA01 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=FA01;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 # SAVE-LZ-1104（BB_384）瀏覽器量測：存檔 A（day54_1110）× plain／?lzsave × CPU 1／4 倍；①② 自動存檔那一下、③ 每欄字元＋7 欄全滿、④ 繼續到能走動、⑤ 存讀一致、⑦ 舊存檔（B 等 SAVE_LZ_growB 回來做成 fixture 再排）
 SAVE_LZ_A | ed70b6d3589dc2731171347afa6d623f2b0339ca | probe | docs/story_planning/test_tools/cc/cc_save_lz_probe.py | index.html | 70 | SOLO=1;FIXES=A=tests/fixtures/user_save_day54_1110.json;SHA=ed70b6d3589dc2731171347afa6d623f2b0339ca
