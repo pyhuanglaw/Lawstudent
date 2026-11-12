@@ -209,7 +209,7 @@ D['characters'][PS] = {'context':'date','friendOnly': True, 'steps': [
          {'week':[15,16],'t':'期末。我在改課輔班的考卷，也在寫自己的。'}]},
  'note':'教育相關科系大一（P5b 媽媽說「在念師範」）；週末在舊路書房（bookstore）打工、課輔班照舊。第 6 週 P5b 以後才推進（她第一次在書店出現）。戀愛事件照 BB_100 2-5，階梯只有朋友的話。2026-10-17 BB-C 稽核：她在別的學校念書、週末在書店打工 → 每一層加 location bookstore＋weekday 六日（只在週末的書店推進）。base 第 2、4 句〔書店櫃台、書店很安靜〕2026-10-17 BB-C（照 AA_234 b7e7d445）移到 when location bookstore〔週末〕，base 補 AA 寫的 2 句不看地點的短招呼'}
 
-# ───────── 杜可昕（木柵大學法律三上；法律系開場已交往；只在「我們的日子」見面或視訊時推進）─────────
+# ───────── 杜可昕（外校大學法律三上；法律系開場已交往；只在「我們的日子」見面或視訊時推進）─────────
 DK = {'flags': ['dating_kexin']}
 # 2026-11-12 AA-C（CANON-NO-ECON-1112）：可昕這一組整組換成同班同學版，內容在 ../AA_865_kx_ladder_Y3S1_new.json（源稿 json 已直接換）。
 _kx=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','AA_865_kx_ladder_Y3S1_new.json'),encoding='utf-8'))

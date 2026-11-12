@@ -280,7 +280,7 @@ D['characters'][PS] = {'friendOnly': True, 'steps': [
          {'week':[15,16],'t':'期末。筆記拼好了，要的話跟我說。'}]},
  'note':'這學期她和柏翰交往（期中公開，BB_100 2-3）：只有朋友的話，沒有曖昧的選項或訊號（friendOnly）。「我可以問一個奇怪的問題嗎」不用（只在 P0、P5）；「對不起」不用（只在她真的改約的時候）（2026-10-17 短招呼照 AA_209 附錄 B：「下次聊！」那句改成還有時間；早餐那句移到 when 8～10 點，base 補「嗨，你要去哪？」；6～8 點那句換掉；期中那句照 BB_167 SC1 #33）'}
 
-# ───────── 杜可昕（木柵大學法律一；法律系開場已交往；只在「我們的日子」見面或視訊時推進）─────────
+# ───────── 杜可昕（外校大學法律一；法律系開場已交往；只在「我們的日子」見面或視訊時推進）─────────
 DK = {'flags': ['dating_kexin']}
 # 2026-11-12 AA-C（CANON-NO-ECON-1112）：可昕這一組整組換成同班同學版，內容在 ../AA_862_kx_ladder_Y1S2_new.json（源稿 json 已直接換）。
 _kx=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','AA_862_kx_ladder_Y1S2_new.json'),encoding='utf-8'))

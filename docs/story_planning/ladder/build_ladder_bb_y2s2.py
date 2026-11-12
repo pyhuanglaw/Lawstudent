@@ -234,7 +234,7 @@ D['characters']['heroine_05'] = {'friendOnly': True,
 # ───────── 郭沛珊（大二上第 15 週 2026-12-17 交接讀書會後休學，準備重考教育相關科系）─────────
 # 2026-10-17 BB-C：沛珊重考期間消失、聯絡不到（使用者；BB_194 §19）——這學期沒有她的階梯
 
-# ───────── 杜可昕（木柵大學法律二下；法律系開場已交往；只在「我們的日子」見面或視訊時推進）─────────
+# ───────── 杜可昕（外校大學法律二下；法律系開場已交往；只在「我們的日子」見面或視訊時推進）─────────
 DK = {'flags': ['dating_kexin']}
 # 2026-11-12 AA-C（CANON-NO-ECON-1112）：可昕這一組整組換成同班同學版，內容在 ../AA_864_kx_ladder_Y2S2_new.json（源稿 json 已直接換）。
 _kx=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','AA_864_kx_ladder_Y2S2_new.json'),encoding='utf-8'))

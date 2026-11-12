@@ -282,7 +282,7 @@ D['characters'][PS] = {'context':'date','friendOnly': True, 'steps': [
          {'week':[15,16],'t':'期末。我在寫教案，也在準備營隊。'}]},
  'note':'教育相關科系大一下；週末舊路書房、每週去國小帶一節課；只給在台灣的玩家（台灣、美國路線）；戀愛事件照 BB_100 2-5，階梯只有朋友的話（2026-10-17 BB-C 稽核＋2026-10-17 BB-C（照 AA_234 b7e7d445）：base 第 2 句〔書店櫃台後面〕移到 when location bookstore〔週末〕，base 補 AA 寫的句子；P6-L1 國小一節改四十分鐘）。2026-10-17 BB-C（AA_260 附錄 B P8、P9）：base「你吃早餐了嗎？」移到 when time[6,11]；「教材教法」是大三以後的課，改「教育概論」（AA 的句子）'}
 
-# ───────── 杜可昕（木柵大學法律三下；只在「我們的日子」推進——見面或視訊都算；三條路線都有）─────────
+# ───────── 杜可昕（外校大學法律三下；只在「我們的日子」推進——見面或視訊都算；三條路線都有）─────────
 DK = {'flags': ['dating_kexin']}
 # 2026-11-12 AA-C（CANON-NO-ECON-1112）：可昕這一組整組換成同班同學版，內容在 ../AA_866_kx_ladder_Y3S2_new.json（源稿 json 已直接換）。
 _kx=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','AA_866_kx_ladder_Y3S2_new.json'),encoding='utf-8'))
