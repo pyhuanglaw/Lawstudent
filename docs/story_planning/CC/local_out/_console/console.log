@@ -1,43 +1,43 @@
-[12:27:47] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
-[12:27:47] run_forever round: 2   runner sha256: 1556bf529d
-[12:27:47] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[12:27:47]          playwright 1.64.1 OK
-[12:27:47] git    : git version 2.56.0.windows.4
-[12:27:47] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[12:27:47] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[12:27:47] repo   : C:\Users\USER\Documents\Lawstudent
-[12:27:47] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[12:27:47] parallel: 2  (blender items run alone)
-[12:27:47] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[12:27:47] git fetch
+[12:33:11] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
+[12:33:11] run_forever round: 3   runner sha256: 1556bf529d
+[12:33:11] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[12:33:11]          playwright 1.64.1 OK
+[12:33:11] git    : git version 2.56.0.windows.4
+[12:33:11] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[12:33:11] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[12:33:11] repo   : C:\Users\USER\Documents\Lawstudent
+[12:33:11] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[12:33:11] parallel: 2  (blender items run alone)
+[12:33:11] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[12:33:12] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/modest-rubin-2lyp7g -> FETCH_HEAD
-       9936ed9b1..9e5c894a1  claude/cc-testing -> origin/claude/cc-testing
+       9e5c894a1..d460c3404  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
     Already on 'claude/cc-local'
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
     Merge made by the 'ort' strategy.
-     .../test_tools/cc/cc_run_stutter_probe.py          | 119 +++++++++++++++++++++
-     .../test_tools/cc/cc_shop_view_probe.py            |  98 +++++++++++++++++
-     .../cc/fixtures/fn_old_saves_fd4dd9aef/index.json  |  90 ++++++++++++++++
-     .../cc/fixtures/fn_old_saves_fd4dd9aef/save_1.json |   1 +
-     .../cc/fixtures/fn_old_saves_fd4dd9aef/save_2.json |   1 +
-     .../cc/fixtures/fn_old_saves_fd4dd9aef/save_4.json |   1 +
-     6 files changed, 310 insertions(+)
-     create mode 100644 docs/story_planning/test_tools/cc/cc_run_stutter_probe.py
-     create mode 100644 docs/story_planning/test_tools/cc/cc_shop_view_probe.py
-     create mode 100644 docs/story_planning/test_tools/cc/fixtures/fn_old_saves_fd4dd9aef/index.json
-     create mode 100644 docs/story_planning/test_tools/cc/fixtures/fn_old_saves_fd4dd9aef/save_1.json
-     create mode 100644 docs/story_planning/test_tools/cc/fixtures/fn_old_saves_fd4dd9aef/save_2.json
-     create mode 100644 docs/story_planning/test_tools/cc/fixtures/fn_old_saves_fd4dd9aef/save_4.json
-[12:27:58] dev head = bb8a32765   lawww2 head = ab925827d
-[12:27:59] startup: 3 local result commit(s) not on origin yet - merge origin and push now
+     .../CC/logs/P0_shopview_cloud_1cd2/run.log         |  10 +
+     .../CC/logs/P0_shopview_cloud_1cd2/shopview.json   |   1 +
+     .../P0_shopview_cloud_1cd2/taimi_1400_cloud.jpg    | Bin 0 -> 93228 bytes
+     docs/story_planning/test_tools/cc/cc_fn_lib.py     | 156 ++++++-
+     .../test_tools/cc/cc_season3_stalls_probe.py       | 512 +++++++++++++++++++++
+     .../test_tools/cc/cc_shop_flicker_probe.py         | 108 +++++
+     tools/cc_local/queue.txt                           |  10 +
+     7 files changed, 792 insertions(+), 5 deletions(-)
+     create mode 100644 docs/story_planning/CC/logs/P0_shopview_cloud_1cd2/run.log
+     create mode 100644 docs/story_planning/CC/logs/P0_shopview_cloud_1cd2/shopview.json
+     create mode 100644 docs/story_planning/CC/logs/P0_shopview_cloud_1cd2/taimi_1400_cloud.jpg
+     create mode 100644 docs/story_planning/test_tools/cc/cc_season3_stalls_probe.py
+     create mode 100644 docs/story_planning/test_tools/cc/cc_shop_flicker_probe.py
+[12:33:23] dev head = bb8a32765   lawww2 head = ab925827d
+[12:33:24] startup: 6 local result commit(s) not on origin yet - merge origin and push now
     To https://github.com/pyhuanglaw/Lawstudent.git
-       9f0d08ea4..94998d03d  claude/cc-local -> claude/cc-local
+       d73f9a176..882744df6  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[12:28:05] config.txt: PARALLEL 2 -> 3
-[12:28:05] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
-[12:28:05] memory used: 33%  (new items wait while >= 85%)
+[12:33:29] config.txt: PARALLEL 2 -> 3
+[12:33:29] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
+[12:33:29] memory used: 32%  (new items wait while >= 85%)
