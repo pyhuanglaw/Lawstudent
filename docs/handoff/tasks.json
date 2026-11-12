@@ -54801,8 +54801,8 @@
   {
    "id": "PLACE-GATE-WINDOW-RECT-1112",
    "title": "地點關卡第二層 ⑦b（店外＝店內）讓機器自己量：每間店給櫥窗四角座標（各店 layout 或 places 加 window:{x0,x1,y0,y1,z}，從店門位置推），CC 探針照座標裁框（現在整條街玻璃是同一塊網格，框會混到隔壁店，只能 BB 看並排圖）",
-   "owner": "LAWWW",
-   "status": "待開工",
+   "owner": "CC",
+   "status": "已實作待整合",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -54815,7 +54815,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "BB-C 11-12 08:08 提（不擋任何東西）；先做新生南路六間＋南洋，再汀州路七間",
+   "next": "【LAWWW-C 11-12 08:3x】遊戲這邊做好：`Z3.shopWindowRects(GAME.E.zone)` 回傳每間店櫥窗的四角（左下、右下、右上、左上）、中心、朝街上的方向、寬高——照 shopInsideReal 的表算（新生南路六間、汀州路七間；之後接的店自動有）。tests/shop_window_rects_1112_unit.js ALL PASS。剩 CC 把 cc_place_gate_probe 的 ⑦b 改用這個裁框｜BB-C 11-12 08:08 提（不擋任何東西）；先做新生南路六間＋南洋，再汀州路七間",
    "xai": {
     "from": "BB",
     "to": "LAWWW",

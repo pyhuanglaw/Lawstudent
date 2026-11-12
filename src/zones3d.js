@@ -3023,5 +3023,14 @@ const Z3 = (function(){
         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  /* 每間店的櫥窗四角（PLACE-GATE-WINDOW-RECT-1112，BB-C 2026-11-12）：地點關卡第二層要比「店外看到的」和「走進去的」——整條街的玻璃是同一塊網格，探針分不出每間店自己的那一段。
+     這裡照 Z3.shopInsideReal 那張表（玻璃面中心 cx,cz、半寬 ex,ez、室內高 h、室內模型中心 x,z）算：
+     回傳 [{id,place,corners:[[x,y,z]×4]（左下、右下、右上、左上，從街上看）,center:[x,y,z],normal:[nx,0,nz]（朝街上）,w,h}]。沒有 shopReal 的區域＝[]。*/
+  function shopWindowRects(zone){ const R=zone&&zone.shopReal; if(!R||!Array.isArray(R.shops)) return []; const out=[];
+    for(const q of R.shops){ if(!q||typeof q.cx!=='number'||typeof q.cz!=='number') continue; const ex=+q.ex||0, ez=+q.ez||0, h=+q.h||3; let nx=q.cx-(+q.x||0), nz=q.cz-(+q.z||0); const nl=Math.hypot(nx,nz)||1; nx/=nl; nz/=nl;
+      /* 從街上看的左右：站在玻璃外面往店裡看，右手邊＝(−nz, nx) 的反方向 */ const tx=nz, tz=-nx, hw=Math.hypot(ex,ez), sx=tx*hw, sz=tz*hw;
+      out.push({id:q.id,place:q.place,w:+(hw*2).toFixed(3),h,center:[q.cx,h/2,q.cz],normal:[+nx.toFixed(4),0,+nz.toFixed(4)],
+        corners:[[q.cx-sx,0,q.cz-sz],[q.cx+sx,0,q.cz+sz],[q.cx+sx,h,q.cz+sz],[q.cx-sx,h,q.cz-sz]].map(c=>c.map(v=>+v.toFixed(3)))}); }
+    return out; }
+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();
