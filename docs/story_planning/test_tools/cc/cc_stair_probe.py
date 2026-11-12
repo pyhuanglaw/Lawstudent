@@ -10,7 +10,7 @@ PC 重現三次：L118D_H_B REG_YT、H_C REG_XC、H_B_r2 REG_YT 都停在 (−3.
   RUN＝1：觸控按「跑」（#btnRun 切成跑步）；FPSCAP＝10：包 requestAnimationFrame 限 10 fps（【前置／捷徑】只改幀率）。
 判定：每一段 PASS／FAIL；結尾印每條線「上 n/TRIPS、下 n/TRIPS、卡住的座標」總表。舊版（線上 779ddd650）也照跑，分辨本來就有還是這一版才有。
 PUSH（CC-C 11-12，BB-C 03:30）：straight 直線推／diag 稍微斜推（搖桿固定往樓梯方向偏 DIAG_DEG＝12° 推，不重新對準；12° 是 CC 對「稍微斜推」的解讀）／tap 點樓梯面（每次點前面 2 m、快到才點目標）。
-CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（BB 指定固定三條線、每條線一趟，不挑候選） 4✓ 5✓ 6n/a（不測時刻，只測走路；讀檔 15:00 木曜日有開） 7✓ 8✓ 9n/a（卡住截圖本來就要看到人，不藏玩家） 10✓ 11✓ 12✓ 13✓（11-12 第二次：tap 每一下記遊戲的解讀＝第 5 點走不到要附診斷）（11-12 第三次：diag 改成搖桿固定斜 12°——第 8 點：第一版「偏 0.5 m 的目標點」沒出處、等於貼扶手；12° 是 CC 對 BB「稍微斜推」的解讀，已報 BB、可用 DIAG_DEG 改）
+CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（BB 指定固定三條線、每條線一趟，不挑候選） 4✓ 5✓ 6n/a（不測時刻，只測走路；讀檔 15:00 木曜日有開） 7✓ 8✓ 9n/a（卡住截圖本來就要看到人，不藏玩家） 10✓ 11✓ 12✓ 13✓（11-12 第二次：tap 每一下記遊戲的解讀＝第 5 點走不到要附診斷）（11-12 第四次：STALLDIAG＝點地那一段記停住前 1.5 秒＝第 5 點走不到要附診斷，LAWWW2 要的）（11-12 第三次：diag 改成搖桿固定斜 12°——第 8 點：第一版「偏 0.5 m 的目標點」沒出處、等於貼扶手；12° 是 CC 對 BB「稍微斜推」的解讀，已報 BB、可用 DIAG_DEG 改）
 用法：LW_TESTS=<wt>/tests SHA=<sha> RUN=0|1 FPSCAP=0|10 [PUSH=straight|diag|tap] python3 cc_stair_probe.py <url> <out>"""
 import os, sys, json, time, math, asyncio, datetime
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -140,12 +140,24 @@ async def down_escape(pg, cdp, t, x):
 
 TAPLOG_JS = r"""(()=>{ const E=GAME.E; if(E.__ccTapHook) return 1; E.__ccTapHook=1; window.__ccTaps=[]; const o=E.onTapGround;
   E.onTapGround=function(h){ try{ const P=E.player, f=v=>v==null?null:+(+v).toFixed(2); window.__ccTaps.push({x:f(h.x), z:f(h.z), lv:h.lv==null?null:h.lv, hy:f(h.y), stair:!!(h.obj&&h.obj.userData&&h.obj.userData.stairEnds), obj:h.obj?String(h.obj.name||'').slice(0,24):null, me:[f(P.obj.position.x), f(P.obj.position.z), f(P.obj.position.y), P.lv|0], path:P.path?P.path.length:0}); }catch(e){} return o?o.apply(this,arguments):undefined; }; return 1; })()"""
+STALL_ON_JS = r"""(()=>{ const E=GAME.E, P=E.player; if(window.__ccStallT) clearInterval(window.__ccStallT); window.__ccStall={s:[], ev:[], stallStop:E.stallStop}; let prev=null; const f=v=>v==null?null:+(+v).toFixed(3);
+  window.__ccStallT=setInterval(()=>{ try{ const o=P.obj.position, lv=P.lv|0, pl=P.path?P.path.length:0, last=pl?P.path[pl-1]:null;
+    const q={t:+performance.now().toFixed(0), x:f(o.x), z:f(o.z), y:f(o.y), lv, sp:f(P.speed), pose:P.pose||null, path:pl, next:pl?[f(P.path[0][0]),f(P.path[0][1]),P.path[0][2]==null?null:P.path[0][2]]:null, last:last?[f(last[0]),f(last[1]),last[2]==null?null:last[2]]:null,
+      stall:f(P._stall||0), h0:E.heightAt?f(E.heightAt(o.x,o.z,0)):null, h1:E.heightAt?f(E.heightAt(o.x,o.z,1)):null, c0:E.canStand?!!E.canStand(o.x,o.z,0.3,0):null, c1:E.canStand?!!E.canStand(o.x,o.z,0.3,1):null};
+    const S=window.__ccStall; S.s.push(q); if(S.s.length>400) S.s.shift();
+    if(prev&&prev.path>0&&pl===0){ const dl=prev.last?Math.hypot(prev.last[0]-q.x,prev.last[1]-q.z):null; S.ev.push({t:q.t, why:(prev.stall>=1.2?'stallStop（_stall '+prev.stall+'）':(dl!=null&&dl<0.4?'到了':'路線清掉（其他）')), at:[q.x,q.z,q.y,lv], lastWp:prev.last, dLast:dl==null?null:f(dl)}); }
+    prev=q; }catch(e){} },100); return true; })()"""
+STALL_OFF_JS = "(()=>{ if(window.__ccStallT) clearInterval(window.__ccStallT); window.__ccStallT=null; return window.__ccStall||null; })()"
+STALLDIAG = os.environ.get('STALLDIAG') == '1'   # CC-C 11-12（LAWWW2-C 經 BB-C 04:06：Node 重現不了木曜日點地上樓停在 (−3.75,3.45)）：點地那一段每 0.1 秒記位置／速度／lv／heightAt／路線剩幾段／_stall，路線清掉時記原因（E.stallStop？）
+
+
 TAPPATH_JS = "(()=>{ const P=GAME.E.player; return {path:P.path?P.path.length:0, last:P.path&&P.path.length?P.path[P.path.length-1]:null, stall:+(P._stall||0).toFixed(2)}; })()"
 
 
 async def tap_seg(pg, cdp, tag, tx, tz, lv):
     """點地走：點目標那一點（那一層地板投影）；沒在動就每 6 秒再點一次（看不到就轉鏡頭）；記最長一次沒前進 0.3 m 的秒數＝卡多久"""
-    await pg.evaluate(TAPLOG_JS); n0 = await pg.evaluate("(window.__ccTaps||[]).length")   # CC-C 11-12：記遊戲把每一下點地解讀成哪一點、哪一層、有沒有點到樓梯、有沒有排出路線（雲端 be1e 第一次：樓梯頂第 0 層點平台 6 次人不動）
+    await pg.evaluate(TAPLOG_JS); n0 = await pg.evaluate("(window.__ccTaps||[]).length")
+    if STALLDIAG: await pg.evaluate(STALL_ON_JS)   # CC-C 11-12：記遊戲把每一下點地解讀成哪一點、哪一層、有沒有點到樓梯、有沒有排出路線（雲端 be1e 第一次：樓梯頂第 0 層點平台 6 次人不動）
     t0 = time.time(); taps = 0; miss = 0; aim = None; last = None; still0 = time.time(); worst = 0.0; e = None
     while time.time() - t0 < 45:
         e = await D.st(pg)
@@ -168,6 +180,15 @@ async def tap_seg(pg, cdp, tag, tx, tz, lv):
             if pt: await pg.wait_for_timeout(600); R.note('%s 第 %d 下點 (%.2f, %.2f) lv%d：遊戲解讀 %s；0.6 秒後路線 %s' % (tag, taps, ax, az, alv, J((await pg.evaluate('(window.__ccTaps||[]).slice(-1)[0]||null'))), J(await pg.evaluate(TAPPATH_JS))))
             else: miss += 1
         await pg.wait_for_timeout(300)
+    if STALLDIAG:
+        sd = await pg.evaluate(STALL_OFF_JS) or {}
+        evs = sd.get('ev') or []; smp = sd.get('s') or []
+        R.note('%s 【停住診斷】E.stallStop=%s；路線清掉 %d 次：%s' % (tag, sd.get('stallStop'), len(evs), J(evs)))
+        for ev in evs[:3]:
+            before = [q for q in smp if ev['t'] - 1600 <= q['t'] <= ev['t']]
+            R.note('%s 【停住診斷】路線清掉（%s）前 1.5 秒每 0.1 秒：%s' % (tag, ev['why'], J(before)))
+        try: open(os.path.join(OUT, 'stalldiag_%s.json' % tag.replace(' ', '_').replace('[', '').replace(']', '')[:60]), 'w', encoding='utf-8').write(J(sd))
+        except Exception: pass
     e = await D.st(pg); ok = math.hypot(e['x'] - tx, e['z'] - tz) <= 0.5 and e['lv'] == lv
     r = {'ok': ok, 't': round(time.time() - t0, 1), 'pushes': taps, 'jumps': [], 'end': {'x': e['x'], 'z': e['z'], 'y': e.get('y'), 'lv': e['lv']}, 'why': None if ok else ('45 秒沒到' + ('；點了 0 次＝探針沒點到（不是遊戲走不動）' if taps == 0 else '')), 'stuck_s': round(worst, 1), 'miss': miss}
     R.note('%s → (%.2f, %.2f) lv%d：%s、%s 秒、點到 %d 次（沒點到 %d 次）、最長停住 %.1f 秒、停在 (%.2f, %.2f) y=%s lv%d' % (tag, tx, tz, lv, '到了' if ok else '沒到', r['t'], taps, miss, worst, e['x'], e['z'], e.get('y'), e['lv']))
