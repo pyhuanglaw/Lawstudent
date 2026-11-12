@@ -1,0 +1,90 @@
+{
+ "_src": "舊存檔：CC-local FN_mig_a（739cbcae03，case 1）、FN_mig_b（38fb99f182，case 2、4）在 fd4dd9aef6cb0d31b06d137636a25ab52eceedc4（還有公館捷運口舊花攤的版本）用遊戲的 quickSave 存的；BB_312 技術 2 的三種：①站在舊花攤前面 ②包包有舊花攤買的花 ③節日送過花",
+ "1": {
+  "why": "站在舊花攤前面",
+  "how": "quickSave",
+  "meta": {
+   "zone": "gongguan",
+   "day": 46,
+   "hour": 10.09,
+   "x": -46.36,
+   "z": 13.09,
+   "lv": 0,
+   "money": 5000,
+   "ver": "版本 v9.10.24",
+   "bag": [],
+   "given": {},
+   "sent": {},
+   "fest": {},
+   "giftMem": []
+  }
+ },
+ "2": {
+  "why": "2025-12-24 包包有舊花攤的一束花、向日葵（人在花攤前面）",
+  "how": "quickSave",
+  "meta": {
+   "zone": "gongguan",
+   "day": 99,
+   "hour": 11.11,
+   "x": -46.36,
+   "z": 13.09,
+   "lv": 0,
+   "money": 4430,
+   "ver": "版本 v9.10.24",
+   "bag": [
+    {
+     "id": "g_bouquet",
+     "shop": "gg_flower",
+     "day": 99
+    },
+    {
+     "id": "g_sunflower",
+     "shop": "gg_flower",
+     "day": 99
+    }
+   ],
+   "given": {},
+   "sent": {},
+   "fest": {},
+   "giftMem": []
+  }
+ },
+ "4": {
+  "why": "2025-12-24 送了 heroine_05 一束花（人在她旁邊）",
+  "how": "quickSave",
+  "meta": {
+   "zone": "library",
+   "day": 99,
+   "hour": 11.2,
+   "x": -10.49,
+   "z": -7.41,
+   "lv": 0,
+   "money": 4430,
+   "ver": "版本 v9.10.24",
+   "bag": [
+    {
+     "id": "g_sunflower",
+     "shop": "gg_flower",
+     "day": 99
+    }
+   ],
+   "given": {
+    "heroine_05": [
+     "g_bouquet"
+    ]
+   },
+   "sent": {
+    "heroine_05|xmas|2025": "g_bouquet"
+   },
+   "fest": {
+    "xmas|2025": [
+     "heroine_05"
+    ]
+   },
+   "giftMem": [
+    "GIFT_LOVE_heroine_05",
+    "GIFT_GIVEN_heroine_05"
+   ]
+  }
+ }
+}
