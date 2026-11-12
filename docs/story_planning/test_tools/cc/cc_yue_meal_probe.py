@@ -10,7 +10,7 @@
   記店裡所有人（E.npcs：誰、位置、坐不坐、姿勢）、她在不在、她和祐廷的距離和方向、她 1 m 內最近的家具；拍遊戲鏡頭一張＋俯視一張（另一台相機，藏玩家以外不動）。
   演完這一班以後再記一次（時間走了以後她會不會出現）。
 CC_02 清單 2026-11-12：1✓（班表從資料讀：週二、週四 17:30；她來不來用遊戲的 JOBS.mealHere 掃，不硬放） 2✓（人物位置從 E.npcs 讀） 3✓（對話照第一個選項；記每一句） 4✓（對話用 #dlg、#choices） 5n/a（不走路，讀檔進店） 6✓（讀檔後等 6 秒） 7✓ 8n/a（不判，有沒有人照實記，BB 判） 9✓（俯視相機藏玩家頭以外不藏人；遊戲鏡頭原樣） 10✓（條件事件關掉；打工的開班不是條件事件，照跑） 11✓ 12✓（記日期、句子、每個人的位置、距離、家具） 13✓（改存檔、捷徑都標）
-用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=KX,SIS] [FIX=…] python3 cc_yue_meal_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=KX,SIS,SISD] [TERMS=Y1S2] [FIX=…]（SISD＝學姊交往中；TERMS 依序掃，第一個找到的那一班就演） python3 cc_yue_meal_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, base64
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -23,7 +23,9 @@ SHA = (os.environ.get('SHA') or '')[:10]
 TESTS = os.environ.get('LW_TESTS') or 'tests'
 FIX = os.environ.get('FIX') or 'tests/fixtures/user_save_day51b_1110.json'
 CASES = [c for c in (os.environ.get('CASES') or 'KX,SIS').split(',') if c]
-WHO = {'KX': 'kexin', 'SIS': 'heroine_05'}
+WHO = {'KX': 'kexin', 'SIS': 'heroine_05', 'SISD': 'heroine_05'}   # SISD＝學姊交往中（BB-C 09:12）
+DATING = {'KX', 'SISD'}
+TERMS = [t for t in (os.environ.get('TERMS') or 'Y1S2').split(',') if t]   # BB-C 09:12：學姊大二上、大二下各掃一次
 R = L.Run('yue_meal', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ZONE = 'tz_yuehaochi'
@@ -39,7 +41,7 @@ def fix_path(rel):
 APPLY = r"""(async(s)=>{ document.getElementById('titleScreen').classList.add('hide'); const rot=document.getElementById('rotate'); if(rot) rot.classList.remove('want'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}; await GAME.applySave(s); return {zone:GAME.G.zone, day:GAME.G.day, hour:GAME.G.hour}; })"""
 # 掃大一下週二、週四：遊戲自己的 JOBS.mealHere（玩家在越好吃、這一班她會不會來吃飯）
 SCAN = r"""((a)=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday,zone:G.zone}; const out=[]; let n=0;
-  try{ for(let d=0; d<2600; d++){ const T=CALENDAR.termOf(d); if(!T||T.id!=='Y1S2') continue; const wd=CALENDAR.dateOf(d).wd%7; if(wd!==2&&wd!==4) continue; n++;
+  try{ for(let d=0; d<2600; d++){ const T=CALENDAR.termOf(d); if(!T||T.id!==a.term) continue; const wd=CALENDAR.dateOf(d).wd%7; if(wd!==2&&wd!==4) continue; n++;
       G.day=d; G.weekday=wd; G.zone=a.zone; G.hour=17.5; let due=null, slot=null; try{ due=JOBS.due(G,'yue',d); slot=JOBS.mealHere(G,a.who); }catch(e){ slot='ERR '+String(e).slice(0,80); }
       const ok=!!slot&&!(typeof slot==='string'&&slot.indexOf('ERR')===0); if(ok){ out.push({day:d, key:CALENDAR.dateOf(d).key, wd, due, slot}); if(out.length>=a.max) break; } else if(n<=3) out.push({probe:true, day:d, key:CALENDAR.dateOf(d).key, due, slot}); } }
   finally{ Object.assign(G,keep); } return {scanned:n, hits:out.filter(x=>!x.probe), first:out.filter(x=>x.probe)}; })"""
@@ -62,7 +64,7 @@ def wsave(u, name):
     if u: open(os.path.join(OUT, name), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
 
 
-def prep(sv0, who, day=None, wd=None, h=None):
+def prep(sv0, who, day=None, wd=None, h=None, dating=False):
     sv = json.loads(json.dumps(sv0))
     if day is not None:
         sv['day'] = day; sv['weekday'] = wd; sv['hour'] = h; sv['zone'] = ZONE; sv['weather'] = 'clear'; sv.pop('pos', None)
@@ -75,25 +77,27 @@ def prep(sv0, who, day=None, wd=None, h=None):
     rel = sv.setdefault('social', {}).setdefault('rel', {})
     r0 = rel.get(who) or {}
     r0.update({'fam': max(r0.get('fam', 0), 90), 'trust': max(r0.get('trust', 0), 70), 'comf': max(r0.get('comf', 0), 70), 'seen': max(r0.get('seen', 0), 30), 'talked': max(r0.get('talked', 0), 30), '_migrated': True})
-    if who == 'kexin':
-        F['dating_kexin'] = True; r0['rom'] = max(r0.get('rom', 0), 80); r0['aff'] = max(r0.get('aff', 0), 60)
+    if dating:
+        F['dating_' + who] = True; r0['rom'] = max(r0.get('rom', 0), 80); r0['aff'] = max(r0.get('aff', 0), 60)
     rel[who] = r0
     return sv
 
 
 async def run_case(pg, cdp, sv0, case, res):
-    who = WHO[case]; tag = case
-    r = await pg.evaluate(APPLY, prep(sv0, who))
+    who = WHO[case]; tag = case; dt = case in DATING
+    r = await pg.evaluate(APPLY, prep(sv0, who, dating=dt))
     await pg.wait_for_timeout(4000)
-    sc = await pg.evaluate(SCAN, {'zone': ZONE, 'who': who, 'max': 3})
-    R.setup('[%s] 【前置／捷徑】讀檔改成大一下、越好吃週二週四的班、%s 的關係；掃大一下週二週四 JOBS.mealHere → %s' % (tag, who, J({'scanned': sc['scanned'], 'hits': sc['hits'][:3]})))
-    out = {'who': who, 'scan': sc}
-    if not sc['hits']:
-        R.note('[%s] 掃了 %d 天，遊戲沒有一天說「這一班 %s 會來吃飯」：%s' % (tag, sc['scanned'], who, J(sc['first'])))
-        R.check('[%s] 大一下找得到 %s 會來越好吃吃飯的一班（JOBS.mealHere）' % (tag, who), False, J(sc['first']))
+    out = {'who': who, 'dating': dt, 'scans': {}}; hit = None
+    for term in TERMS:
+        sc = await pg.evaluate(SCAN, {'zone': ZONE, 'who': who, 'max': 3, 'term': term})
+        out['scans'][term] = sc
+        R.setup('[%s] 【前置／捷徑】讀檔改成越好吃週二週四的班、%s 的關係（交往中=%s）；掃 %s 週二週四 JOBS.mealHere → %s' % (tag, who, dt, term, J({'scanned': sc['scanned'], 'hits': sc['hits'][:3]})))
+        if sc['hits'] and not hit: hit = sc['hits'][0]; hit['term'] = term
+    if not hit:
+        R.note('[%s] %s 全部掃不到：遊戲沒有一天說「這一班 %s 會來吃飯」：%s' % (tag, '、'.join(TERMS), who, J({t: {'scanned': v['scanned'], 'first': v['first']} for t, v in out['scans'].items()})))
+        R.check('[%s] %s 找得到 %s 會來越好吃吃飯的一班（JOBS.mealHere）' % (tag, '、'.join(TERMS), who), False, '全部掃不到')
         res[case] = out; return
-    hit = sc['hits'][0]
-    r = await pg.evaluate(APPLY, prep(sv0, who, hit['day'], hit['wd'], 17.4))
+    r = await pg.evaluate(APPLY, prep(sv0, who, hit['day'], hit['wd'], 17.4, dating=dt))
     R.setup('[%s] 【前置／捷徑】%s 17:24 讀檔到越好吃（條件事件關掉）' % (tag, hit['key']))
     await pg.wait_for_timeout(6000)
     started = await pg.evaluate("!!(typeof JOBS!=='undefined'&&JOBS.running)")
