@@ -50,6 +50,8 @@ const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一�
   AA_514:['docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md','9bca0f407'],   /* AA_514 第 4 節第 3 點：晨希叫子晴不加「學姊」（h507_cx_zq、h508_cx_zq 改字，src 'AA_514 4'）*/
   AA_520:['docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md','481dd8238']};   /* AA_520 第 2 節：h503_yule 後面兩句（items 第 4 欄 'AA_520 2'）；其他在 tests/aa520_yule_unit.js */
 const show0=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
+/* CANON-NO-ECON-1112 第三批拿掉的手機列（外校室友、舊序章人物；條件 yule／econGroup）的句子：從拿掉以前的開發分支讀，稿上那幾句不算漏 */
+const GONE=(()=>{ const s=show0('cfc0fd04bf','src/data/heard_lines.js'), o=new Set(); for(const l of s.split('\n')) if(/cond:'(yule|econGroup)'/.test(l)) for(const m of l.matchAll(/'((?:[^'\\]|\\.)*)'/g)) o.add(m[1]); return o; })();
 const show=(sha,f)=>require('./an_rev_doc.js').overlay(show0(sha,f),/^heard_lines\.js/)[0].replace(/三號桌的阿伯/g,'一盞那個常來的阿伯');   /* 2026-11-04：一盞「三號桌的阿伯」五句照 AA 11-04 07:07 訊息改成「一盞那個常來的阿伯」（開發分支 97713958b；語彤搬到一盞茶屋，AA_610／AA_624）——讀稿時照改再比 */   /* 以安改稿④b（AA_594 第 35 列：Alison「…她把另一半貼在手帳裡了。」→「…收起來了。」）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
 const DOC={}; for(const k in SPEC) DOC[k]=show(SPEC[k][1],SPEC[k][0]);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
@@ -78,7 +80,8 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   for(const k in L.noodle) for(const e of L.noodle[k]) for(const d of e.dialogue) all.push([srcOf(e),d.text,e.once]);
   for(const e of L.phone) for(const it of e.items) all.push([it[3]?String(it[3]).split(' ')[0]:srcOf(e),it[2],e.id]);   /* items 第 4 欄＝那一句另外的稿（AA_520 第 2 節 h503_yule 後面兩句）*/
   const bad=all.filter(([s,t])=>!DOC[s]||!DOC[s].includes(t));
-  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 da3e72727、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196、AA_520 481dd8238、AA_523 0d7b5388b，一字不差；'+all.length+' 句）',all.length===123&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
+  /* 句數 123→99：外校室友、舊序章人物的手機列拿掉（CANON-NO-ECON-1112 第三批：這一項拿掉） */
+  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 da3e72727、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196、AA_520 481dd8238、AA_523 0d7b5388b，一字不差；'+all.length+' 句）',all.length===99&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
   /* 稿上的「別人說起她」（X-4）每一句 */
   const got=new Set(all.map(x=>x[1])), heard=[];
   for(const k of ['AA_503','AA_504','AA_505','AA_506','AA_507']){ let on=false, last=''; for(const l of (DOC[k]||'').split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
@@ -97,7 +100,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
     '學姊把吧檯的抽屜整理好了。她排錯的那張班表，她帶走了。':'小婷：AA_519 3-3 接上（同上）',
     '學姊現在來當客人。她都坐窗邊，可是我一忙，她就一直看吧檯。':'新來的工讀生（2027-06-04 起叫小禾）：AA_519 3-3 接上（同上）',
     '學姊每個月傳一次訊息，問店裡的貓。……她沒有問我。':'新來的工讀生（小禾）：AA_519 3-3 接上（同上；字照 AA_509 0-2 改「問公園的貓」）','子晴學姊拿走我的毯子了。……她說借，可是她已經睡了一個月。':'改私訊，AA_513 第 1 節'};
-  const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
+  const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]&&!GONE.has(t)), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
   check('0. 稿上「別人說起她」'+heard.length+' 句：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、小婷、大一的學妹、新來的工讀生、本來就有的；阿凱大二上和大三上改私訊，AA_513 第 1 節），沒有漏掉',heard.length>=74&&!miss.length&&!extra.length,J({miss,extra}));
   /* 「改私訊，AA_513 第 1 節」的那幾句：AA_513 稿的那一塊（標題寫的是哪一份的 4-4、哪一天幾點；「> 阿凱：…」那幾行）真的在遊戲裡（heard_lines.js phone） */
   const K513={}; { let cur=null; for(const l of (DOC.AA_513||'').split('\n')){ let m; if((m=/^### (1-\d)\s+[^（]*（`(AA_5\d\d)` 4-4）：(\d{4}-\d\d-\d\d)（.）(\d\d:\d\d)?/.exec(l))){ cur=K513[m[1]]={ref:m[2],date:m[3],hm:m[4]||null,lines:[]}; continue; }
@@ -204,21 +207,7 @@ await sec('4',async()=>{ if(!HAS()){ check('4. 手機',false,'沒有 HEARD'); re
   check('4. AA_504：Kevin 6/20 學姊學游泳四則（學姊「早上七點。」、Kevin「……那算了」）',J(msgs('h504_kevin').map(m=>[m.name,m.text]))===J([['Kevin','學姊說她在學游泳'],['Kevin','學姊妳下次游泳可以約家族一起去啊'],['溫學姊','早上七點。'],['Kevin','……那算了']]),J(msgs('h504_kevin').map(m=>m.text)));
   const D123=DK('2027-01-23'); fresh(D123,20,{}); PHONE.join(H.G,'family_law','法律系家族'); run(D123,21.1);
   check('4. AA_505：Kevin 1/23 學姊去池上四則（學姊「冬天。」）',J(msgs('h505_kevin').map(m=>m.text))===J(['學姊去池上了','她只傳了一張照片給我 稻田 沒有稻子','學姊妳要不要說明一下','冬天。']));
-  /* 予樂：見過予樂（予樂的宵夜）才有 */
-  const W11=TDt('Y1S1',11,4); fresh(W11,23,{}); run(W11,23.8); const y0=msgs('h503_yule').length;
-  fresh(W11,23,{yulePassDay:TDt('Y1S1',6,3)}); run(W11,23.5); const y1=msgs('h503_yule').length; run(W11,23.8);
-  /* AA_520 第 2 節（481dd8238）：後面加兩句（同一組、同樣的條件；那兩句的稿在 AA_520，tests/aa520_yule_unit.js 逐字對）*/
-  check('4. AA_503：予樂（見過她：去過予樂的宵夜）第 11 週週四 23:40「可昕的報告被誇了 她嘴上說還好 其實開心到睡不著」（p:yule）＋AA_520 第 2 節後面兩句；沒見過予樂＝沒有',y0===0&&y1===0&&J(msgs('h503_yule').map(m=>[m.th,m.from,m.text]))===J([['p:yule','yule','可昕的報告被誇了 她嘴上說還好 其實開心到睡不著'],['p:yule','yule','我的也被講了 老師說我很敢講'],['p:yule','yule','……我在想這是不是好話']])&&PHONE.title(H.G,'p:yule')==='予樂',J(msgs('h503_yule')));
-  const D722=DK('2026-07-22'); fresh(D722,21,{yulePassDay:1}); run(D722,22.1);
-  check('4. AA_504：予樂 7/22 22:00 兩則（她搭高鐵走的那晚）',J(msgs('h504_yule').map(m=>m.text))===J(['可昕的媽媽煮了一桌 可昕一直叫她不要再煮了','她在家跟在學校差好多']));
-  const S11=TDt('Y2S1',11,6); fresh(S11,23,{}); H.G.events.done.ev_kexin_yule_pass=1; run(S11,23.9);
-  check('4. AA_505：予樂第 11 週週六 23:50 兩則（可昕「輸了。」那晚）',J(msgs('h505_yule').map(m=>m.text))===J(['可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份','她好認真']));
-  /* 品妤：「走啦」群組 */
-  const W6=TDt('Y1S1',6,2); fresh(W6,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(W6,21.4);
-  check('4. AA_503：品妤第 6 週週二 21:20 在「走啦」群組「可昕上禮拜貼她們系的烤肉。她烤的玉米全部是焦的。」',J(msgs('h503_pinyu').map(m=>[m.th,m.name,m.text]))===J([['g:econ_friends','品妤','可昕上禮拜貼她們系的烤肉。她烤的玉米全部是焦的。']]));
-  const W12=TDt('Y2S1',12,2); fresh(W12,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(W12,21.4);
-  check('4. AA_505：品妤第 12 週週二 21:20「可昕說她模擬法庭輸給一個大三的。……」',J(msgs('h505_pinyu').map(m=>m.text))===J(['可昕說她模擬法庭沒過。她講的時候一直在笑，你知道那代表她很在意。']));
-  fresh(W12,21,{}); run(W12,21.4); check('4. 不在「走啦」群組：沒有',!msgs('h505_pinyu').length);
+  /* 4. 外校室友、舊序章人物那幾則（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   /* 接在 STORY.PHONE_RULES */
   fresh(D620,20,{}); PHONE.join(H.G,'family_law','法律系家族'); at(D620,21.1); STORY.phoneRules(GM); PHONE.tick(H.G); check('4. 接在 STORY.PHONE_RULES（每次手機規則都跑）',msgs('h504_kevin').length===4); });
 
@@ -257,14 +246,7 @@ await sec('5',async()=>{ if(!HAS()){ check('5. 第三輪',false,'沒有 HEARD');
   check('5. AA_506 5-4：Kevin 3/20 21:00 家族群組四則（學姊搬家；學姊「你自己挑的。」）',k0===0&&J(msgs('h506_kevin').map(m=>[m.name,m.text]))===J([['Kevin','學姊搬家了'],['Kevin','我搬了一箱 她說我搬的是最輕的那箱'],['Kevin','我有意見'],['溫學姊','你自己挑的。']]),J(msgs('h506_kevin').map(m=>m.text)));
   const D13=DK('2028-01-03'); fresh(D13,20,{}); PHONE.join(H.G,'family_law','法律系家族'); run(D13,21.1);
   check('5. AA_507 5-4：Kevin 1/3 21:00 三則（學姊寒假要放一天假；學姊「對。」）',J(msgs('h507_kevin').map(m=>[m.name,m.text]))===J([['Kevin','學姊說寒假要放一天假 已經寫進計畫本了'],['Kevin','我問哪一天 她說說了就會有人約'],['溫學姊','對。']]),J(msgs('h507_kevin').map(m=>m.text)));
-  const D410=DK('2027-04-10'); fresh(D410,22,{}); run(D410,23.1); const y0=msgs('h506_yule').length; fresh(D410,22,{yulePassDay:1}); run(D410,23.1);
-  check('5. AA_506 7-4：予樂 4/10 23:00 兩則（可昕贏了那晚；見過予樂才有）',y0===0&&J(msgs('h506_yule').map(m=>[m.th,m.text]))===J([['p:yule','可昕贏了 回來第一件事是把上次輸的那份書狀拿出來看'],['p:yule','我問她幹嘛 她說要記得']]),J(msgs('h506_yule').map(m=>m.text)));
-  const W4S=TDt('Y3S1',4,6); fresh(W4S,23,{yulePassDay:1}); run(W4S,23.6);
-  check('5. AA_507 7-4：予樂大三上第 4 週週六 23:30 兩則（可昕帶讀書會那晚）',J(msgs('h507_yule').map(m=>m.text))===J(['可昕帶讀書會第一天提早半小時到 結果學弟妹更早','她回來說現在的大一很可怕']),J(msgs('h507_yule').map(m=>m.text)));
-  const D712=DK('2027-07-12'), D15=DK('2028-01-05'); fresh(D712,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(D712,21.4); const q1=msgs('h506_pinyu').map(m=>[m.th,m.name,m.text]);
-  fresh(D15,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(D15,21.4); const q2=msgs('h507_pinyu').map(m=>m.text); fresh(D15,21,{}); run(D15,21.4); const q3=msgs('h507_pinyu').length;
-  check('5. AA_506、AA_507 7-4：品妤在「走啦」群組 7/12 21:20「可昕在高雄實習。……」、1/5 21:20「可昕的期末報告寫房東。……」；不在群組沒有',
-    J(q1)===J([['g:econ_friends','品妤','可昕在高雄實習。她說每天都在影印，可是講的時候一直在笑。']])&&J(q2)===J(['可昕的期末報告寫房東。她說寫完以後，以後租房子要自己換鎖。'])&&q3===0,J({q1,q2,q3})); });
+  /* 5. AA_506、AA_507 7-4 的外校室友、舊序章人物那幾則（CANON-NO-ECON-1112 第三批：這一項拿掉） */ });
 
 H.done();
 })();

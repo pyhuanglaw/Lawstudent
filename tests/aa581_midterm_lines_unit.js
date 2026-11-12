@@ -49,7 +49,7 @@ const ROWS = [
   ['27', 'src/data/home_lines.js', '"t": "還在等成績。"', '"t": "還好。"'],
   ['28', 'src/data/home_lines.js', '"t": "有一科不太好。"', '"t": "有一份不太順。"'],
   ['29', 'src/data/home_lines.js', '"dad": "不太好就下次好。"', '"dad": "不順的先放著，先吃飯。"'],
-  ['30', 'src/data/events.js', '你們法律系的期中考，也要背那麼多嗎？', '你們法律系考試，也要背那麼多嗎？'],
+  /* 第 30 列（舊序章人物的事件）（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   ['31', 'src/data/events.js', '經濟系的期中，會不會跟法律系的撞在同一週？', '經濟系的期末，會不會跟法律系的撞在同一週？'],
   ['32', 'src/data/events.js', '期中考前一週我會出現。這是我和學分的約定。', '期末考前一週我會出現。學分要顧。'],
   ['33', 'src/data/sup497_lines.js', '期中考前一週我會出現。這是我和學分的約定。', '期末考前一週我會出現。學分要顧。'],
@@ -100,8 +100,8 @@ for (const [row, f, oldS, newS] of ROWS) {
   check('(a) 第 7B 列 src/data/events.js：護腕那一句不在；AA_679 第 1 列：「端麵的還是語彤」「端麵的是一個沒見過的女生」兩句也拿掉', !!s && !s.includes('（阿姨的手腕綁著護腕。') && !s.includes("text:'（阿姨的手好了，今天端麵的還是語彤。）'") && !s.includes("text:'（今天端麵的是一個沒見過的女生。）'")); }
 /* 第 63～65 列：民總、刑分、債總二第 7 週的黑板（經濟系那一年的會計學 acct_y0 同字，照舊）*/
 { const s = R('src/data/syllabus.js'), j = s.indexOf('{'), J = s ? JSON.parse(s.slice(j, s.lastIndexOf('}') + 1)) : null, bd = c => J && J.courses[c] && J.courses[c][6] ? J.courses[c][6].board[2] : null;
-  check('(a) 第 63～65 列：民總、刑分、債總二第 7 週黑板「下週、下下週：前七週整理＋案例作業」；經濟系那一年的會計學照舊「下週、下下週：期中考」',
-    ['civ_general', 'crim_spec', 'oblig_gen2'].every(c => bd(c) === '下週、下下週：前七週整理＋案例作業') && bd('acct_y0') === '下週、下下週：期中考', JSON.stringify(['civ_general', 'crim_spec', 'oblig_gen2', 'acct_y0'].map(bd))); }
+  check('(a) 第 63～65 列：民總、刑分、債總二第 7 週黑板「下週、下下週：前七週整理＋案例作業」（舊序章那一年的會計學（CANON-NO-ECON-1112 第三批：這一項拿掉））',
+    ['civ_general', 'crim_spec', 'oblig_gen2'].every(c => bd(c) === '下週、下下週：前七週整理＋案例作業'), JSON.stringify(['civ_general', 'crim_spec', 'oblig_gen2'].map(bd))); }
 /* 第 3 列、連1：柏翰倒數算到第一科期末考（S.bhCountDay）；AT 的日子函式拿得到 G */
 { const s = R('src/aa555_3d.js');
   check('(a) 連1：柏翰倒數那天＝大一上第一科期末考往前 21 天（CLS.examList），沒有期末考用第 13 週週一；S.atRule 把 G 傳給日子函式',

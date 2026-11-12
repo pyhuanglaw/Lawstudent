@@ -81,7 +81,7 @@ await sec(2,()=>{ check('2. AN_L8_MIDTERM＝「和她聊過期中週讀書的進
 await sec(3,()=>{ const C=SYLLABUS.courses, w=(c,n)=>(C[c]||[]).find(x=>x.w===n)||{};
   check('3. 第 7 週黑板第三行（民總、刑法分則、債總二）＝「下週、下下週：前七週整理＋案例作業」',['civ_general','crim_spec','oblig_gen2'].every(c=>(w(c,7).board||[])[2]==='下週、下下週：前七週整理＋案例作業'));
   check('3. 柏翰缺課訊息（行政法、債各）＝「（群組）柏翰：期末考範圍表更新了。」',['admin_law','oblig_spec'].every(c=>(SYLLABUS.skip[c]||[]).includes('（群組）柏翰：期末考範圍表更新了。')),J([SYLLABUS.skip.admin_law,SYLLABUS.skip.oblig_spec]));
-  check('3. 經濟系會計學那句不動（經濟系那一年保留期中考，AA_578 第 3 節第 4 條）',(w('acct_y0',7).line||'').includes('期中考就是你們的結帳')&&(w('acct_y0',7).board||[])[2]==='下週、下下週：期中考');
+  /* 3. 舊序章那一年的會計學那句（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   check('3. AA_389 第 9 點（企劃線 b30766683）勞動法阿哲翹課訊息一起進來',(SYLLABUS.skip.labor_law||[]).includes('（群組）阿哲：老師今天講加班費，舉了超商店員的例子。全班都在算自己以前打工被扣多少。')&&!JSON.stringify(SYLLABUS.skip).includes('聽起來好像我打工的店'));
   check('3. source＝claude/story-planning 80ed4ea06（2026-11-11 16:3x 沒有期中考的四句換字：Y1S1、Y1S2、Y4S2、JP 白名單 80ed4ea06；之前 ba322d6ae 大四下兩科＋日文上下，BB_372～374。舊期望 ba322d6ae、96eb06e4f、50e653270、d501078a3、d3a22505b、1edea905f）',/^claude\/story-planning 80ed4ea06/.test(SYLLABUS.source),SYLLABUS.source.slice(0,60));
   const T=['Y1S1','Y2S1','Y2S2','Y3S2'].filter(t=>!allow('docs/story_planning/syllabus/'+t+'.json',t==='Y1S1'?'80ed4ea06':(t==='Y2S1'||t==='Y2S2'||t==='Y3S2')?'96eb06e4f':'1edea905f'));   /* 2026-11-11 13:1x：Y2S1 換 96eb06e4f（大二上法律四科課堂內容，BB_348～351）；舊期望 1edea905f */   /* Y1S1：2026-11-11 06:5x 起 d501078a3（刑總第 7／13 週換句）；之前 d3a22505b（大一上三科課堂內容補寫，BB_332～334）；history 仍記 1edea905f、57b2a7b39 */
