@@ -9,7 +9,7 @@
 用法：
   python3 tools/handoff/rules_sync.py --check          和 origin/<RULE_SOURCE> 比；一樣＝結束碼 0，不一樣＝1 並列出哪些檔
   python3 tools/handoff/rules_sync.py --apply          把規則包換成 RULE_SOURCE 的版本（只動規則包，不合併程式）；之後自己 commit＋push
-  python3 tools/handoff/rules_sync.py --hook           給 UserPromptSubmit hook 用：舊了就印一段提醒（JSON），不舊不印；最多每 10 分鐘 fetch 一次
+  python3 tools/handoff/rules_sync.py --hook           給 UserPromptSubmit hook 用：舊了就印一段提醒（JSON），不舊不印；最多每 10 分鐘 fetch 一次，而且只抓 RULE_SOURCE 那一條分支（12 秒逾時）
 RULE_SOURCE 自己那條分支跑＝永遠一樣。找不到 RULE_SOURCE（duty find 失敗）＝結束碼 2。"""
 import json, os, re, subprocess, sys, time
 
@@ -25,10 +25,22 @@ def git(*a, check=False):
     return r
 
 
-def rule_source(fetch):
+FETCH_TIMEOUT = 12
+
+
+def rule_source(fetch, full=False):
     """值班 LAWWW 的開發分支。先看遠端各分支的 duty.json，取 seq 最大的那一份的 ruleSource.branch（和 duty find 同一個意思，但不依賴本機的 check_handoff 版本）。"""
     if fetch:
-        git('fetch', '-q', 'origin', '+refs/heads/claude/*:refs/remotes/origin/claude/*')
+        # 只 fetch RULE_SOURCE 那一條（AA-C 11-12：fetch 全部 claude/* 要兩分多鐘，cc-local 很大，hook 會逾時）。
+        # 先用本機已有的遠端參照找出 RULE_SOURCE，再抓那一條；換帳號、RULE_SOURCE 換分支時，接班第 1 步的全量 fetch 會帶進來。
+        rs0 = rule_source(False)
+        if rs0:
+            try:
+                subprocess.run(['git', '-C', ROOT, 'fetch', '-q', 'origin', f'+refs/heads/{rs0}:refs/remotes/origin/{rs0}'], capture_output=True, timeout=FETCH_TIMEOUT)
+            except subprocess.TimeoutExpired:
+                pass
+        elif full:
+            git('fetch', '-q', 'origin', '+refs/heads/claude/*:refs/remotes/origin/claude/*')
         try:
             open(STAMP, 'w').write(str(time.time()))
         except OSError:
@@ -89,7 +101,7 @@ def main():
                 '工作階段啟動時載入的 CLAUDE.md 是舊的——先回使用者，然後這個回合就跑 python3 tools/handoff/rules_sync.py --apply、commit＋push，'
                 f'再讀 git show origin/{rs}:CLAUDE.md 和自己職位頁裡新的條文（docs/AI_SESSION_HANDOFF.md 第 13 節最新幾個 HV）。'}}, ensure_ascii=False))
         return 0
-    rs = rule_source(True)
+    rs = rule_source(True, full=True)
     if not rs:
         print('找不到 RULE_SOURCE（遠端沒有任何 duty.json）——回報使用者')
         return 2
