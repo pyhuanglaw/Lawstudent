@@ -169,7 +169,7 @@ const R2Y3B_EVENTS=(function(){
     dialogue:[ {scene:'大學城的便利商店',bg:'jp_konbini'},   /* 日本便利商店的 2D（AA_31）沒有＝深色底＋字幕 */
       {if:{custom:G=>!dating(G,'heroine_01')},goto:'repair'},
       {speaker:null,text:'（晚上十點，便利商店。以安站在飯糰櫃前面，十分鐘沒有動。）'},
-      {speaker:'heroine_01',text:'……我在決定。'},
+      {speaker:'heroine_01',text:'我在決定。'},
       {speaker:'heroine_01',text:'這裡有三十幾種飯糰，有一半我看不懂。'},
       cg('cg_japan_konbini_heroine01'),   /* CG-13 在這一句出現 */
       {speaker:'heroine_01',text:'（一本正經）標籤只寫給看得懂的人。'},
@@ -363,7 +363,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'player',text:'要幫忙嗎？'},
       {speaker:null,text:'（她停了一下，把通知推過來，指著一個字。）'},
       {speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'},
-      {speaker:'heroine_01',text:'……謝謝。'},
+      {speaker:'heroine_01',text:'謝謝。'},
       {choice:[{text:'（不再多說）',goto:'a'},{text:'「那我們可以談一下嗎？」',goto:'b'}]},
       {label:'a'},{speaker:null,text:'（她把通知折好，收進包包。）'},{speaker:'heroine_01',text:'晚安。'},{set:{AN_NOTICE_REPAIR_OK:true}},{goto:'end'},
       {label:'b'},{speaker:'heroine_01',text:'……我只是看不懂這個字。'},{speaker:null,text:'（她拿起字典走了。）'},
@@ -465,7 +465,7 @@ const R2Y3B_EVENTS=(function(){
       {choice:[{text:'「以安，我喜歡妳。」',set:{AN_TANABATA_SAID:'player'},goto:'p'},{text:'（把短冊掛上去）',set:{AN_TANABATA_SAID:'her'},goto:'h'}]},
       {label:'p'},{goto:'pk',if:AN_KNOWS},{speaker:'heroine_01',text:'……我知道。我等你說，等了三個月。'},{speaker:'heroine_01',text:'好。'},{goto:'e'},
       {label:'pk'},{speaker:'heroine_01',text:'……我知道。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,true); }},{goto:'e'},   /* AA_474 3b：她知道祐廷有別人＝「……我知道。」接 KNOW.say、三個選項（R2Y3B.tanabataKnow）*/
-      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{goto:'hk',if:AN_KNOWS},{unless:SHOP_SEEN,speaker:'heroine_01',text:'我喜歡你。回臺灣，我有東西給你。'},{if:SHOP_SEEN,speaker:'heroine_01',text:'我喜歡你。……回臺灣，那一行我想勾掉。'},{speaker:'heroine_01',text:'……你不准賴。'},{goto:'e'},
+      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{goto:'hk',if:AN_KNOWS},{unless:SHOP_SEEN,speaker:'heroine_01',text:'我喜歡你。回臺灣，我有東西給你。'},{if:SHOP_SEEN,speaker:'heroine_01',text:'我喜歡你。……回臺灣，那一行我想勾掉。'},{speaker:'heroine_01',text:'你不准賴。'},{goto:'e'},
       {label:'hk'},{speaker:'heroine_01',text:'我喜歡你。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,false); }},   /* AA_481 第 1 節：她知道＝只說兩句就接 KNOW.she（「理由我寫在手帳裡」沒答應就沒有下文、「……你不准賴。」和她接著問的打架，都不說）；答應的照原本排 ev_an_notebook */
       {label:'e'} ],
     d3:[ {scene:'關西・大學城',bg:'jp_street_day'},{speaker:null,text:'（她排的行程表上，每一格都有時間。你們只走完一半。）'} ],   /* 7/8、7/9 兩個摘要日（新寫）*/
@@ -503,7 +503,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'heroine_01',text:'（拿著一張照片對著鏡頭）町公所門口的通知。'},
       {speaker:'heroine_01',text:'最後一行我還是看不懂。你幫我想。'},
       {choice:[{text:'「應該是叫大家準時倒垃圾。」',set:{AN_FAR_VIDEO:'trash'},goto:'a'},{text:'「把照片傳給我，我查。」',set:{AN_FAR_VIDEO:'check'},goto:'b'},{text:'「我也看不懂。」',set:{AN_FAR_VIDEO:'same'},goto:'c'}]},
-      {label:'a'},{speaker:'heroine_01',text:'……那我這三個禮拜都倒錯了。'},{goto:'end'},
+      {label:'a'},{speaker:'heroine_01',text:'那我這三個禮拜都倒錯了。'},{goto:'end'},
       {label:'b'},{speaker:'heroine_01',text:'好。查到了先跟我說。'},{goto:'end'},
       {label:'c'},{speaker:'heroine_01',text:'好。那我們兩個一起看不懂。'},   /* 回聲 J1 */
       {label:'end'} ] };

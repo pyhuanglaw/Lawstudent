@@ -352,7 +352,7 @@ const R2Y3A_EVENTS=(function(){
       {choice:[{text:'「一個人對兩台筆電？」',goto:'a1'},{text:'「妳怎麼不去刑事庭？」',goto:'a2'},{text:'「下次我也想去。」',goto:'a3'}]},
       {label:'a1'},{speaker:'heroine_01',text:'嗯。可是法官一直讓他講完。'},{speaker:null,text:'（她把開庭表摺起來。）'},{speaker:'heroine_01',expression:'thinking',text:'……我在想，那是規定，還是那個法官。'},{goto:'end'},
       {label:'a2'},{speaker:'heroine_01',text:'禮拜五去。'},{speaker:null,text:'（她停了一下。）'},{speaker:'heroine_01',text:'刑事庭的旁聽席，有人會認得我。行政法院不會。'},
-        {if:kn('zhe'),speaker:'zhe',text:'認得妳？妳是明星喔。'},{if:kn('zhe'),speaker:'heroine_01',text:'……不是。飯要涼了。'},{goto:'end'},
+        {if:kn('zhe'),speaker:'zhe',text:'認得妳？妳是明星喔。'},{if:kn('zhe'),speaker:'heroine_01',text:'不是。飯要涼了。'},{goto:'end'},
       {label:'a3'},{speaker:'heroine_01',text:'好。開庭表我傳給你。……要早到，旁聽席很小。'},{set:{AN_ADMIN_NEXT:true}},   /* AA_601 第 1 節第 1 點：接 10/27 她傳開庭表 */
       {label:'end'},{advance:toH(19+40/60)},
       {speaker:null,text:'（七點四十，她看了一下錶，把飯吃完。）'},

@@ -160,7 +160,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   CG_REGISTRY.cg_japan_konbini_heroine01={file:'x'}; picks=[1]; await run('ev_an_konbini');
   check('J1. 交往中：「標籤只寫給看得懂的人。」＋CG-13（在那一句之前）；三選一；「我幫妳翻譯」＝「那我們兩個一起看不懂。」；AN_J1 dating', has('（一本正經）標籤只寫給看得懂的人。')&&cgs.join()==='cg_japan_konbini_heroine01'&&opts[0].length===3&&has('那我們兩個一起看不懂。')&&G.flags.AN_J1==='dating');
   fresh('2028-03-26',21,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_01','FRI'); await run('ev_an_konbini'); delete CG_REGISTRY.cg_japan_konbini_heroine01;
-  check('J2. 挽回中：點頭、去結帳；沒有 CG、沒有選項；AN_J1 repair', has('（她看到你，點了一下頭，拿了一個飯糰就去結帳。）')&&cgs.length===0&&opts.length===0&&G.flags.AN_J1==='repair'&&!has('……我在決定。'));
+  check('J2. 挽回中：點頭、去結帳；沒有 CG、沒有選項；AN_J1 repair', has('（她看到你，點了一下頭，拿了一個飯糰就去結帳。）')&&cgs.length===0&&opts.length===0&&G.flags.AN_J1==='repair'&&!has('我在決定。'));
   { const L=ev('ev_an_konbini').dialogue.filter(l=>/她想了一下/.test(l.text||'')).length; check('J. 「（她想了一下）」只留一次（檔尾裁定 #31）', L===1); }
   fresh('2028-03-25',12,'dorm',{EXCHANGE_ROUTE:'TW'}); rules(); check('J. 台灣路線：沒有', !OUT.get(G,'y3_an_j1'));
 

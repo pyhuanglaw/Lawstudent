@@ -78,7 +78,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('6. 隔天不開始（B5_GO 只算當天）',(()=>{ b5(20.7,1.5); G.day=thu+1; G.weekday=wdOf(thu+1); return !EVENTS.check(ev3); })());
   const playB5=async(k,knowYu)=>{ b5(20.7,1.5); if(knowYu!==false) meet('yu'); picks=[k]; await EVENTS.run(ev3); return lines(); };
   L=await playB5(0);
-  check('6. 開頭四句（以安、Alison、以安）＋「（把便利貼推過來）你呢？寫一句。不用對。」',JSON.stringify(L.slice(0,5))===JSON.stringify(['沈以安：他說，限制自由要用最小的手段。','沈以安：可是「最小」，是對誰來說最小？','Alison：對整個社會吧？','沈以安：……對那個被限制的人呢？','沈以安：（把便利貼推過來）你呢？寫一句。不用對。']),JSON.stringify(L.slice(0,5)));
+  check('6. 開頭四句（以安、Alison、以安）＋「（把便利貼推過來）你呢？寫一句。不用對。」',JSON.stringify(L.slice(0,5))===JSON.stringify(['沈以安：他說，限制自由要用最小的手段。','沈以安：可是「最小」，是對誰來說最小？','Alison：對整個社會吧？','沈以安：對那個被限制的人呢？','沈以安：（把便利貼推過來）你呢？寫一句。不用對。']),JSON.stringify(L.slice(0,5)));
   check('6. 三個想法',JSON.stringify(opts[opts.length-1])==='["「最小，要問被限制的人。」","「最小，要看大家換到了什麼。」","「我還不知道。我想知道他最後去了哪裡。」"]',JSON.stringify(opts));
   check('6. 「最小，要問被限制的人。」：以安「那他說『全部都太多』呢？」Alison「那就……再問一次？」→ 三張便利貼 → 「九點半了。我回宿舍讀刑總。」；B5_THOUGHT＝ask_them',JSON.stringify(L.slice(5))===JSON.stringify(['沈以安：那他說『全部都太多』呢？','Alison：那就……再問一次？','她把三張便利貼並排貼在筆記本上：她的、Alison 的、你的。','沈以安：九點半了。我回宿舍讀刑總。'])&&G.flags.B5_THOUGHT==='ask_them',JSON.stringify(L.slice(5)));
   check('6. 記 B4_DISCUSSED、以安記得便利貼（B5_STICKY）',G.flags.B4_DISCUSSED===true&&SOCIAL.has('heroine_01','B5_STICKY'));

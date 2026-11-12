@@ -364,7 +364,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   { const A=ev('ev_an_admin_court'); npc('heroine_01',1,2,0); me(1,3,0); check('13. A1 17:45 到麵店、走到她旁邊：可以演；19:45 不演；不到 FAMILIAR 不演',EVENTS.check(A)&&(()=>{ to('2027-10-21',19.75); const a=!EVENTS.check(A); to('2027-10-21',17.75); R('heroine_01','ACQ'); const b=!EVENTS.check(A); R('heroine_01','FAM'); return a&&b; })()); }
   await play('ev_an_admin_court',[1]);
   { const W=['（燒臘店的長桌。以安比平常晚到，手帳裡夾著一張開庭表。）','今天下午，我先去了一趟行政法院。','一個人告區公所。他坐左邊，區公所的人坐右邊。','他帶了一個資料夾，裡面全部是收據。區公所來了兩個人，一人一台筆電。','刑訴的作業不是要去地院嗎？','那個禮拜五去。今天這個是我自己想看的。',
-      '禮拜五去。','（她停了一下。）','刑事庭的旁聽席，有人會認得我。行政法院不會。','認得妳？妳是明星喔。','……不是。飯要涼了。','（七點四十，她看了一下錶，把飯吃完。）','讀書會。我先走。'];
+      '禮拜五去。','（她停了一下。）','刑事庭的旁聽席，有人會認得我。行政法院不會。','認得妳？妳是明星喔。','不是。飯要涼了。','（七點四十，她看了一下錶，把飯吃完。）','讀書會。我先走。'];
     check('13. A2「妳怎麼不去刑事庭？」→「刑事庭的旁聽席，有人會認得我。」；認識阿哲多四句；不說原因（逐字）；AN14 there、記 AN_ADMIN_COURT',JSON.stringify(all())===JSON.stringify(W)&&G.flags.AN14==='there'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT')&&!any(/媽媽|法官的女兒/),JSON.stringify(all())); }
   fresh('2027-10-21',17.75,'noodle',{MET_ZHE:false}); noZhe(); R('heroine_01','FAM'); await play('ev_an_admin_court',[0]); zheBack();
   check('13. 不認識阿哲：沒有阿哲那兩段；「一個人對兩台筆電？」→「嗯。可是法官一直讓他講完。」（她把開庭表摺起來。）「……我在想，那是規定，還是那個法官。」',!any(/刑訴的作業不是要去地院嗎|明星/)&&has('嗯。可是法官一直讓他講完。')&&has('（她把開庭表摺起來。）')&&has('……我在想，那是規定，還是那個法官。'));

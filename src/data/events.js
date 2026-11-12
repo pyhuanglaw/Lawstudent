@@ -1342,7 +1342,7 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'他說，限制自由要用最小的手段。'},
       {speaker:'heroine_01',expression:'thinking',text:'可是「最小」，是對誰來說最小？'},
       {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'對整個社會吧？'},
-      {speaker:'heroine_01',expression:'neutral',text:'……對那個被限制的人呢？'},
+      {speaker:'heroine_01',expression:'neutral',text:'對那個被限制的人呢？'},
       {speaker:'heroine_01',expression:'neutral',text:'（把便利貼推過來）你呢？寫一句。不用對。'},
       {choice:[{text:'「最小，要問被限制的人。」',set:{B5_THOUGHT:'ask_them'},goto:'t1'},{text:'「最小，要看大家換到了什麼。」',set:{B5_THOUGHT:'trade'},goto:'t2'},{text:'「我還不知道。我想知道他最後去了哪裡。」',set:{B5_THOUGHT:'where'},goto:'t3'}]},
       {label:'t1'},{speaker:'heroine_01',expression:'thinking',text:'那他說『全部都太多』呢？'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'那就……再問一次？'},{goto:'end'},
@@ -3593,7 +3593,7 @@ const STORY_EVENTS=[
       {choice:[{text:'「法服週六有值班。」',if:EV_KNOWS('heroine_03'),set:{AN10_PICK:'fafu'},goto:'a'},{text:'「妳可以先陪他們看駁回的理由。」',set:{AN10_PICK:'reason'},goto:'b'},{text:'「妳已經在幫了。」',set:{AN10_PICK:'help'},goto:'c'}]},
       {label:'a'},{speaker:'heroine_01',expression:'neutral',text:'我知道。我是怕我講錯。'},{goto:'end'},
       {label:'b'},{speaker:'heroine_01',expression:'thinking',text:'先看駁回的原因。……對。還有寫期限的那一段。'},{speaker:null,text:'（她拿出手機記下來。）'},{goto:'end'},
-      {label:'c'},{speaker:'heroine_01',expression:'neutral',text:'這不算。'},{speaker:null,text:'她停了一下。'},{speaker:'heroine_01',expression:'smile',text:'……好，算一點。'},
+      {label:'c'},{speaker:'heroine_01',expression:'neutral',text:'這不算。'},{speaker:null,text:'她停了一下。'},{speaker:'heroine_01',expression:'smile',text:'好，算一點。'},
       {label:'end'},{set:{AN_TUTOR_FAMILY:1}} ] },
   /* D10 慈 3「第二名」（AA_40、AA_177 第 5 節：寫成芯慈的作息）：大二上第 14～18 週，週一到週四的深夜（隔天 00:15～00:45）她在溫州街的便利商店，第一次遇到就演；
      第 15 週以後沒遇到＝不演（AA_243 #20：16 週制改第 12～15 週）。記 XINCI_NIGHT（AA_547 2-1，原本 XINCI_SECOND；主線 4 xc_drama「那部劇大結局了」在這之後）*/
@@ -3885,7 +3885,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_05',expression:'serious',text:'（把外套拿起來）那就這樣。'},
       {speaker:'heroine_05',expression:'serious',text:'志願表的事，你自己決定。不要因為今天。'},
       {speaker:null,text:'（她走出去。門上的鈴響了一聲。）'},
-      {speaker:'heroine_01',expression:'neutral',text:'……我們走吧。我不想在這裡待太久。'},
+      {speaker:'heroine_01',expression:'neutral',text:'我們走吧。我不想在這裡待太久。'},
       {label:'end'} ] },
   { id:'ev_y3_newyear', title:'跨年（大三）', participants:[], location:'any', trigger:'outing', once:true, background:'dorm_roof', hours:40/60,
     dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},{speaker:null,text:'（十一點半。阿哲和 Alison 已經在了，地上放著一袋鹹酥雞。）'},
@@ -4200,7 +4200,7 @@ const STORY_EVENTS=[
       {choice:[{text:'「留三條就好。」',goto:'a'},{text:'「十二條都有理由，可是沒人記得住。」',goto:'b'},{text:'「我覺得十二條很好。」',goto:'c'}]},
       {label:'a'},{speaker:null,text:'以安想了一下，在白板寫：「一、每人十分鐘。二、離題可以，要拉回來。三、不准賴。」'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'第三條一定要留嗎？'},{speaker:'heroine_01',expression:'neutral',text:'一定。'},{goto:'end'},
-      {label:'b'},{speaker:'heroine_01',expression:'thinking',text:'……好啦，我自己也記不住十二條。'},{speaker:null,text:'她寫下同樣的三條。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',expression:'thinking',text:'好啦，我自己也記不住十二條。'},{speaker:null,text:'她寫下同樣的三條。'},{goto:'end'},
       {label:'c'},{if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'你是她那邊的？'},{speaker:'heroine_01',expression:'smile',text:'（嘴角動了一下）謝謝。……可是人都走了。'},{speaker:null,text:'她還是重寫成三條。'},
       {label:'end'} ],
     consequences:{flags:{PLG_RULES_SEEN:true},memo:'以安的讀書會規則從十二條變三條'} },
@@ -4362,7 +4362,7 @@ const STORY_EVENTS_V11=[
   { id:'ev_an_report_feedback', title:'報告發回來了', participants:['heroine_01'], location:['campus','library','cafe'], trigger:'interact', priority:8, once:true, day_min:9, prereq:{memory:[{npc:'heroine_01',tag:'CAFE_AFTERNOON'}],custom:G=>typeof STORY==='undefined'||!STORY.termDay||G.day>=STORY.termDay('Y1S1',6,1)}, background:'blur',   /* 交付清單 A4：第 6 週（報告交出去之後）；舊存檔過了第 6 週的照舊 */
     dialogue:[ {speaker:'heroine_01',expression:'surprised',text:'報告發回來了。周老師在我的結論旁邊寫了一行字。'},{if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'laugh',text:'「無過失的判斷標準寫得好。」——所以我說了，是你的主意，他信了。'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'「兩邊的利益都有看到。」……那是你那天講的。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'thinking',text:'「反方意見比正方精彩。」——那段是照你講的寫的。'},{choice:[{text:'「這份我學到很多。」',if:{memory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},consequences:{rel:{heroine_01:{fam:5,aff:4,trust:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'說從她的報告學到很多'}]}},{text:'「這份我學到很多。」',unless:{memory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},consequences:{rel:{heroine_01:{fam:5,aff:4,trust:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'說從她的報告學到很多'}]}},{text:'「那是妳寫的，不是我。」',consequences:{rel:{heroine_01:{resp:4,fam:2}}}}]},{speaker:'heroine_01',expression:'smile',text:'……嗯。'} ] },
   { id:'ev_an_mother', title:'書記官的女兒', retired:'D60（使用者 2026-10-14）：以安新版——母親是法官，停用書記官的舊事件。定義留著：已經演過的舊存檔（events.done、TALKED_FAMILY 記憶）照樣讀得到', participants:['heroine_01'], location:'campus', trigger:'interact', priority:7, once:true, time:[17.5,20.5], prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'}}, background:'blur',
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'我媽今天打來，問我期中考幾分。還沒考。'},{speaker:'heroine_01',expression:'thinking',text:'她是書記官。從我小學開始，她每天回家都會講法院發生什麼事——誰哭、誰吵、誰被帶走。'},{speaker:'heroine_01',expression:'serious',text:'我念法律，一半是因為她。另一半是想知道，坐在那個位置上的人，到底看得到什麼。'},{choice:[{text:'「妳現在看到什麼？」',consequences:{rel:{heroine_01:{trust:7,aff:4}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'她媽媽是書記官'}]},goto:'see'},{text:'「妳可以不用一直想這個。」',consequences:{rel:{heroine_01:{comf:5,trust:3}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'她媽媽是書記官'}]},goto:'rest'},{text:'「書記官很穩定啊。」',consequences:{rel:{heroine_01:{comf:-4}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'你說書記官很穩定'}]},goto:'stable'}]},{label:'see'},{speaker:'heroine_01',expression:'sad',text:'……看到很多人不是壞人，只是沒有人幫他們把話講清楚。'},{speaker:'heroine_01',expression:'smile',text:'謝謝你問。大家都只問我成績。'},{goto:'end'},{label:'rest'},{speaker:'heroine_01',expression:'tired',text:'我知道。……可是不想的時候，就不知道為什麼要念這些。'},{goto:'end'},{label:'stable'},{speaker:'heroine_01',expression:'annoyed',text:'……我媽也這樣說。'},{speaker:null,text:'她沒有再說話。你們並肩走了一段，她在晨思鐘前面說要回宿舍。'},{label:'end'} ] },
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'我媽今天打來，問我期中考幾分。還沒考。'},{speaker:'heroine_01',expression:'thinking',text:'她是書記官。從我小學開始，她每天回家都會講法院發生什麼事——誰哭、誰吵、誰被帶走。'},{speaker:'heroine_01',expression:'serious',text:'我念法律，一半是因為她。另一半是想知道，坐在那個位置上的人，到底看得到什麼。'},{choice:[{text:'「妳現在看到什麼？」',consequences:{rel:{heroine_01:{trust:7,aff:4}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'她媽媽是書記官'}]},goto:'see'},{text:'「妳可以不用一直想這個。」',consequences:{rel:{heroine_01:{comf:5,trust:3}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'她媽媽是書記官'}]},goto:'rest'},{text:'「書記官很穩定啊。」',consequences:{rel:{heroine_01:{comf:-4}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'你說書記官很穩定'}]},goto:'stable'}]},{label:'see'},{speaker:'heroine_01',expression:'sad',text:'看到很多人不是壞人，只是沒有人幫他們把話講清楚。'},{speaker:'heroine_01',expression:'smile',text:'謝謝你問。大家都只問我成績。'},{goto:'end'},{label:'rest'},{speaker:'heroine_01',expression:'tired',text:'我知道。……可是不想的時候，就不知道為什麼要念這些。'},{goto:'end'},{label:'stable'},{speaker:'heroine_01',expression:'annoyed',text:'……我媽也這樣說。'},{speaker:null,text:'她沒有再說話。你們並肩走了一段，她在晨思鐘前面說要回宿舍。'},{label:'end'} ] },
   // ── 芷若 arc ──
   /* 阿哲初遇（AA_195 4-8，AA-B d5b5d188；台詞是 AA 的）：只限開學改 9/1 的局、還沒認識阿哲。9/1（一）憲法第一堂開始前，在 201 坐下以後；
      那天沒遇到（沒去、上課以後才進教室）改 9/3（三）刑總第一堂前（第二句換）。兩堂都沒遇到，9/4 campusMorning 演初遇版（story3d.js zheW1Morning）。
