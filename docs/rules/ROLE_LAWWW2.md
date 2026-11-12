@@ -76,6 +76,8 @@
 
 指定的是工具用途與品質流程，不代表每項資產都必須用全部工具。已有品質更好、授權合法的正式模型可以直接使用。
 
+**店內、店面一律用 CC0 掃描素材（D160，使用者 2026-11-12 21:5x：「早就該這麼做了 這些素材早就跟你講了 一定要寫進規則 每間店做好的也要檢查 用這些素材更貼近2D圖篇」）**：不只近景小道具——店內、店面的家具、貨品、牆地材質都先找 Poly Haven／ambientCG 的 CC0 模型和材質組（`tools/blender/env_second/cc0_fetch.py`），燈光用 Cycles 烘進貼圖；交件附 CC0 清單（`LICENSES.md` 同一個 commit）＋2D 參考圖並排；做好的每一間都查，沒用的進 SHOP-REALISM-1112。機器檢查 `tests/shop_cc0_unit.js`（LAWWW2 寫，接 `node-unit-auto`）。CLAUDE.md §12 第 2 點。
+
 **實景掃描小道具（R1；LAWWW2-C 提、LAWWW-C 和 BB 同意，D128 定案，2026-11-04）**：
 - 只用 Poly Haven、ambientCG 的 CC0 模型；不要有品牌的東西（D77）。
 - 貼圖預設 512。玩家常在 1 m 內看到的桌上小物，遊戲截圖看起來糊的話可以用 1024。
