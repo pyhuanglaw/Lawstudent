@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_help_guide_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HELP_GUIDE_new3\out
+CC HELP-GUIDE：SHA 1ca8b70aac；PARTS ['NEW']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [NEW] 標題畫面按「從法律系開始」（真的開新遊戲），對話照第一個選項一路按，最多 18 分鐘
+  [ 214.7s] [NEW] 按了 46 次（收起自動打開的手機 1 次）；出過的提示 ['phone', 'free']；遊戲時間 day -18 22.97；HINT_SEEN {"phone":1,"free":1}
+PASS [NEW] 開新遊戲到可以自由活動，「free」那一則出來（18 分鐘內）  [{"t": 143029.89999985695, "k": "phone", "txt": "手機打開的時候，時間會停住。上面那一排可以換頁：課表、地點、訊息、朋友……", "day": -18, "h": 22.67, "ms": 6500}, {"t": 188301.69999980927, "k": "free", "txt": "現在可以自由活動了。拖搖桿或點地面走路；靠近人或門，右下角會出現按鈕。", "day": -18, "h": 22.96, "ms": 6500}]
+FAIL [NEW] free 之前沒有別的提示先出  ["phone", "free"]
+PASS 沒有 JS 例外  []
+FAILED 1: [NEW] free 之前沒有別的提示先出
