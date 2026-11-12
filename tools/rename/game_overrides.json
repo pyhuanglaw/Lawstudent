@@ -50,7 +50,6 @@
 {"path": "src/data/wz_events.js", "line": 129, "cls": "written", "body": "週四晚上，萬才館研討室 A。以安、Alison，還有兩個你不熟的同學。桌上是呂老師那個鐵盒子裡的東西：一疊發黃的紙。"},
 {"path": "src/data/wz_events.js", "line": 165, "cls": "spoken", "body": "「萬才館週六上午有法服，學長姐會幫人看。我可以陪妳去。」"},
 {"path": "src/data/wz_events.js", "line": 169, "cls": "written", "body": "萬才館一樓。林太太把信一封一封攤開，排得很整齊。"},
-{"path": "src/data/yule_lines.js", "line": 37, "cls": "spoken", "body": "在霖澤館 講的人是法院的家事調查官"},
 {"path": "src/data/zrzq_events.js", "line": 34, "cls": "written", "body": "你經過萬才館"},
 {"path": "src/data/zrzq_events.js", "line": 111, "cls": "written", "body": "萬才館門口"},
 {"path": "src/msg3d.js", "line": 179, "cls": "spoken", "body": "隔週週六九點，萬才館一樓。不要遲到。"},
