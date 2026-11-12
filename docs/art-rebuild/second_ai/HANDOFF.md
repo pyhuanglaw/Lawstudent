@@ -2,6 +2,22 @@
 
 
 
+
+## 進度（2026-11-12 05:45 UTC；LAWWW2-C）——以這一節為準，下面 04:5x 那一節是舊的
+
+- 今天使用者連續回報（經 LAWWW-C 轉）的順序：室內窗景 P0 → 兩個「閃」→ 林家乾麵街景 → **水源市場巷子（正在做）** → 櫥窗立體（新生南路 → 汀州路 → 公館）→ 店面盤點五項、L118 打烊看得出來關了。汀州路最後一間溫特寶邸室內**停著**（排在這些之後）。
+- 已交（都 DELIVERED LAWWW-C）：
+  - 兩個「閃」`e6fdba625`、東南大聯 `1948e2c15`、汀州聯通 `83e6ec3c3`、室內窗景 `207d70f5f` → **都已整合**。
+  - 室內窗景補件（七間天花板 3.3 m）`fe2ec2820`、林家乾麵街景 `d36d98f16` → 等 ACK／整合。
+- 新規則（LAWWW-C 11-12）：D154 地點關卡、D155 店面標準（CLAUDE.md §12，開發分支）。**進得去的地點交付要附四張遊戲內截圖**（進門全景、往窗外、櫃檯、店外往裡看）＋Node 結果，沒附不整合。天花板要比跟隨鏡頭 3.18 m 高（做 ≥ 3.3 m）。
+- **今天確認的事（接手的人一定要知道）**：
+  1. 這個雲端環境**可以重建整條街**：Poly Haven 連得到，`python3 tools/blender/fetch_polyhaven.py <名稱…>` 抓到 `tools/blender/textures/`（gitignore，不進版本庫）。溫州街重建 23 秒。
+  2. 重建要在**開發分支的工作目錄**做（`textures/gen` 以開發分支追蹤的為準）。我這個分支的 `textures/gen` 有些是舊的（公館、汀州路的圖集），拿來蓋會讓 `flower_notes_unit`、`tingzhou_unit` 失敗。
+  3. 溫州街最新的 `wz_signs_atlas`、`wz_fronts_atlas` 原本沒進版本庫，只在線上的 GLB 裡；已從 GLB 取出、放進林家那個 patch。**重建後一定要和線上版比內嵌貼圖的雜湊、同鏡頭畫面**（做法在 `wip/wz_lin_street_1112/README.md`），不然招牌會整塊空白而測試全過。
+  4. 雲端瀏覽器可以自己進店截圖：`python3 tools/blender/env_second/shots/fast_shots.py <URL> <shots.json>`（一間店約 2～3 分鐘；不給 cam＝遊戲的跟隨鏡頭）。
+- 水源市場巷子（SHUIYUAN-MARKET-LANE-1112）LAWWW 裁定的做法：市場一棟三層樓 x 5～29、z 28～40，北面臨巷；新巷子 x 5～29、z 21～28（寬 7 m），十二攤兩側交錯；e_cvs、e_shoes 兩格通用店面拿掉；原巷 A 留著可走、不擺攤、不通公館；斑馬線搬到 z 24.5；公館那側巷口標籤先不改。交件：layout＋兩個 GLB＋tingzhou_walk 路線＋新舊座標對照表＋四張遊戲內截圖。
+- 記帳還沒補：outbox（今天八件）、user_asks（11-12）、`TODO_SHORTCUTS.md`。
+
 ## 進度（2026-11-12 04:5x UTC；LAWWW2-C）
 
 - 已交（都 DELIVERED LAWWW-C，等 ACK／整合）：
