@@ -1,7 +1,8 @@
 """CC 校園定點截圖（11-10 LAWWW dcc9276f8：X283 CAMPUS-FLOOR-STRIP-1110 路緣長條、X285 AVENUE-FAR-SIGNS-1110 遠景看板；改前 e73888074c／改後 dcc9276f8 同一支）。
 【前置／捷徑】讀使用者存檔（FIX，預設遊戲 repo tests/fixtures/user_save_day51b_1110.json），區域、時間改成 VIEW 指定的、玩家擺到那一點；條件事件關掉；
 鏡頭：遊戲鏡頭直接擺 yaw／距離（和使用者截圖同一個角度，不是玩家流程）＋（有給 look 的）另一台相機 render 看遠處。只截圖、記鏡頭與畫面，判斷給 BB。
-VIEWS（+ 分隔；佇列 ENV 裡不能用分號）：name:zone:x:z:hour:camYawRad:dist[:lx:ly:lz:fov]——lx/ly/lz 有給＝另一台相機從玩家頭（+1.6 m）看那一點、fov 度。
+VIEWS（+ 分隔；佇列 ENV 裡不能用分號）：name:zone:x:z:hour:camYawRad:dist[:lx:ly:lz:fov[:ch]]——lx/ly/lz 有給＝另一台相機從玩家位置高 ch m（預設 1.6＝頭；BB-C 08:44 聯通店員側面要「腰的高度」＝1.0）看那一點、fov 度。
+CC_02 清單 2026-11-12：1✓（時間＝VIEW 指定） 2✓（位置、相機照 VIEW；人物位置從遊戲讀） 3✓（每個 VIEW 各讀一次檔） 4n/a（不按按鈕） 5n/a（不走路，讀檔放位置） 6✓（讀檔後等素材） 7✓ 8n/a（不判，圖給 BB） 9✓（另一台相機只藏玩家自己） 10✓（條件事件關掉） 11✓ 12✓（記鏡頭、玩家位置、區域、時間） 13✓（【前置／捷徑】寫在檔頭；BB-C 08:44 加相機高度 ch）
 Playwright／SwiftShader ≠ iPhone。用法：LW_TESTS=<wt>/tests TAG=old|new VIEWS=... python3 cc_campus_view_shot_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -46,9 +47,10 @@ async def main():
             await pg.screenshot(path=os.path.join(OUT, 'cv_%s_%s.png' % (TAG, name)))
             if len(v) >= 11:
                 lx, ly, lz, fov = float(v[7]), float(v[8]), float(v[9]), float(v[10])
-                url = await pg.evaluate(SNAP_JS, {'from': [s['player'][0], s['player'][1] + 1.6, s['player'][2]], 'at': [lx, ly, lz], 'fov': fov})
+                ch = float(v[11]) if len(v) >= 12 else 1.6
+                url = await pg.evaluate(SNAP_JS, {'from': [s['player'][0], s['player'][1] + ch, s['player'][2]], 'at': [lx, ly, lz], 'fov': fov})
                 open(os.path.join(OUT, 'cv_%s_%s_far.png' % (TAG, name)), 'wb').write(base64.b64decode(url.split(',', 1)[1]))
-                R.note('%s 另一台相機：玩家頭 → (%s, %s, %s) fov %s' % (name, lx, ly, lz, fov))
+                R.note('%s 另一台相機：玩家位置高 %s m → (%s, %s, %s) fov %s' % (name, ch, lx, ly, lz, fov))
             await pg.evaluate(D.HUD + '(true)')
         json.dump(res, open(os.path.join(OUT, 'campus_view_%s.json' % TAG), 'w'), ensure_ascii=False, indent=1)
         R.check('沒有 JS 例外', not errs, J(errs[:3]))

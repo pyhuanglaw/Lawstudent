@@ -4,7 +4,7 @@
   聯絡人有她、關係 fam 30（「還不夠熟」不擋）→ 時間設週六 15:00／週日 15:30（她的班：週六 14～17、週日 14～18）、地點 xs_shanlan、條件事件關掉。
   店內偶遇是擲骰（同一天同一時段固定；有人符合時 60%），所以從 DAY0 往後試週末，週六、週日各找到 NEED 次就停（最多 MAXTRY 天）；每一次記遊戲的決定（G.daily.shopEnc.dec：誰、站哪、取消原因）。
   找到她 → 記位置、樓層、身體高度和腳下地板（往下打射線，不算她自己）、面向（yaw 和她面前 1.5 m 打到什麼）、1 m 內的互動點、導航格四周能不能走（擋走道的參考）→
-  再讀一次檔把玩家放到二樓她面前 2 m（同一天同一時段＝同一個決定），拍：遊戲鏡頭、正面（她面前 2.2 m）、斜上方 45°（看她和走道的關係）。
+  再讀一次檔把玩家放到二樓她面前 2 m（同一天同一時段＝同一個決定），拍：遊戲鏡頭、正面（她面前 2.2 m）、斜上方 45°（看她和走道的關係）、俯視（BB-C 08:42）、腳；記 1 m 內最近的家具名（場景網格外框離她 ≤1 m、不是地板天花板）。
 CC_02 清單 2026-11-12：1✓（她的班從遊戲的 SHOPENC.npOf 讀，拍照時間在班內） 2✓（她站哪＝遊戲 standPick 決定，從 E.npcs 的 shopZn 讀，不寫死座標） 3✓（每個日期各讀一次檔；同一天第二次讀檔確認同一個決定） 4n/a（不按按鈕） 5n/a（玩家用讀檔放到二樓，不走樓梯） 6✓（讀檔後等 7 秒、人生出來再量） 7✓ 8n/a（不判，記事實＋圖給 BB；腳離地 >0.08 m、1 m 內有互動點只標★提示） 9✓（拍她的鏡頭藏玩家） 10✓（條件事件關掉） 11✓ 12✓（每次記日期、決定、位置、地板差、面向、互動點、導航格） 13✓（改存檔的捷徑寫在【前置／捷徑】）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [FIX=tests/fixtures/user_save_day51b_1110.json] [DAY0=52] [MAXTRY=10] [NEED=1] python3 cc_zn_shanlan_probe.py <url> <out>"""
 import os, sys, json, asyncio, math
@@ -44,7 +44,11 @@ ZN = r"""(()=>{ const E=GAME.E, G=GAME.G; const n=(E.npcs||[]).find(q=>q&&q.shop
   const ry=o.rotation.y, fwd=new THREE.Vector3(Math.sin(ry),0,Math.cos(ry)); const front=hit(new THREE.Vector3(o.position.x,o.position.y+1.4,o.position.z), fwd, 3);
   const its=(E.interactables||[]).filter(i=>!i.hidden&&((i.lv|0)===(n.lv|0))).map(i=>({label:i.label, d:+Math.hypot(i.x-o.position.x,i.z-o.position.z).toFixed(2)})).filter(i=>i.d<1.0).sort((a,b)=>a.d-b.d);
   const N=E.nav, fr=(x,z)=>{ try{ return N?(N.free.length>=3?N.free(x,z,n.lv|0):N.free(x,z)):null; }catch(e){ return null; } }; const ring=[]; for(let a=0;a<8;a++){ const t=a*Math.PI/4; ring.push(fr(o.position.x+Math.sin(t)*0.8,o.position.z+Math.cos(t)*0.8)); }
-  return Object.assign(base,{found:true, name:n.name, label:n.talkLabel, lv:n.lv|0, x:+o.position.x.toFixed(2), y:+o.position.y.toFixed(3), z:+o.position.z.toFixed(2), yaw:+ry.toFixed(3), pose:n.pose, visible:o.visible, until:n.until,
+  const furn=[]; const bx=new THREE.Box3(); E.scene.traverse(q=>{ if(!q.isMesh||ex.has(q)||q.visible===false||!q.geometry) return; if(!q.geometry.boundingBox) q.geometry.computeBoundingBox(); bx.copy(q.geometry.boundingBox).applyMatrix4(q.matrixWorld);
+    const sx=bx.max.x-bx.min.x, sz=bx.max.z-bx.min.z, sy=bx.max.y-bx.min.y; if(sx>8||sz>8||sy<0.15) return; if(bx.max.y<o.position.y+0.1||bx.min.y>o.position.y+2.2) return;
+    const dx=Math.max(bx.min.x-o.position.x,0,o.position.x-bx.max.x), dz=Math.max(bx.min.z-o.position.z,0,o.position.z-bx.max.z), d=Math.hypot(dx,dz); if(d<=1.0) furn.push({name:q.name||(q.parent&&q.parent.name)||'?', d:+d.toFixed(2), size:[+sx.toFixed(2),+sy.toFixed(2),+sz.toFixed(2)]}); });
+  furn.sort((a,b)=>a.d-b.d);
+  return Object.assign(base,{found:true, furn1m:furn.slice(0,8), name:n.name, label:n.talkLabel, lv:n.lv|0, x:+o.position.x.toFixed(2), y:+o.position.y.toFixed(3), z:+o.position.z.toFixed(2), yaw:+ry.toFixed(3), pose:n.pose, visible:o.visible, until:n.until,
     floor:down, gap:down?+(o.position.y-down.y).toFixed(3):null, front, near_its:its, ring_free:ring, here_free:fr(o.position.x,o.position.z)}); })()"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov, c.width/c.height, 0.05, 300); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const P=E.player&&E.player.obj, pv=P?P.visible:null; if(P) P.visible=false; let url; try{ r.render(E.scene,cam); url=c.toDataURL('image/jpeg',0.9); } finally { if(P) P.visible=pv; } return url; })"""
@@ -109,14 +113,15 @@ async def main():
             a45 = zz['yaw'] + math.pi / 4
             frm2 = [zz['x'] + math.sin(a45) * 3.5, fy + 2.8, zz['z'] + math.cos(a45) * 3.5]
             wsave(await pg.evaluate(SNAP, {'from': frm2, 'at': [zz['x'], fy + 0.6, zz['z']], 'fov': 65}), 'zn_%s_high45.jpg' % tag)
+            wsave(await pg.evaluate(SNAP, {'from': [zz['x'], fy + 6.5, zz['z'] + 0.01], 'at': [zz['x'], fy, zz['z']], 'fov': 60}), 'zn_%s_top.jpg' % tag)   # BB-C 08:42：俯視一張（天花板擋到就看 high45）
             side = zz['yaw'] + math.pi / 2   # 腳：從側面 1.3 m、低 0.35 m 平看腳底和地板
             wsave(await pg.evaluate(SNAP, {'from': [zz['x'] + math.sin(side) * 1.3, fy + 0.35, zz['z'] + math.cos(side) * 1.3], 'at': [zz['x'], fy + 0.1, zz['z']], 'fov': 60}), 'zn_%s_feet.jpg' % tag)
             star = []
             if zz.get('gap') is not None and abs(zz['gap']) > 0.08: star.append('★腳離地板 %.3f m' % zz['gap'])
             if zz.get('near_its'): star.append('★1 m 內有互動點 %s' % J(zz['near_its']))
             if zz.get('ring_free') and zz['ring_free'].count(False) >= 5: star.append('★四周 0.8 m 有 %d／8 方向走不過去' % zz['ring_free'].count(False))
-            R.note('[%s] 她：lv %s 位置 (%s, %s, y %s)；地板 %s（差 %s）；面向 yaw %s、面前 1.5 m 打到 %s；1 m 內互動點 %s；四周導航 %s；站的地方能走=%s；姿勢 %s；按鈕「%s」 %s' % (
-                tag, zz['lv'], zz['x'], zz['z'], zz['y'], J(zz.get('floor')), zz.get('gap'), zz['yaw'], J(zz.get('front')), J(zz.get('near_its')), J(zz.get('ring_free')), zz.get('here_free'), zz.get('pose'), zz.get('label'), ' '.join(star)))
+            R.note('[%s] 她：lv %s 位置 (%s, %s, y %s)；地板 %s（差 %s）；面向 yaw %s、面前 1.5 m 打到 %s；1 m 內互動點 %s；四周導航 %s；站的地方能走=%s；姿勢 %s；按鈕「%s」；1 m 內最近的家具 %s %s' % (
+                tag, zz['lv'], zz['x'], zz['z'], zz['y'], J(zz.get('floor')), zz.get('gap'), zz['yaw'], J(zz.get('front')), J(zz.get('near_its')), J(zz.get('ring_free')), zz.get('here_free'), zz.get('pose'), zz.get('label'), J(zz.get('furn1m')), ' '.join(star)))
             R.check('[%s] 她在二樓（lv 1）' % tag, zz['lv'] == 1, str(zz['lv']))
             res['found'].append({'tag': tag, 'zn': zz, 'stars': star})
         R.check('週六找到她（%d 次）' % got[6], got[6] >= 1, J([t['zn'].get('dec') for t in res['tries'] if t['tag'].endswith('sat')]))
