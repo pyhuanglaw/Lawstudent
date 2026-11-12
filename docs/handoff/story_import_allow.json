@@ -8121,9 +8121,9 @@
   },
   {
    "path": "docs/story_planning/AA_793_season3_stalls.json",
-   "sha": "58c5c2c1bb",
+   "sha": "f06354493",
    "status": "approved",
-   "approvedBy": "AA（SEASON3-LINES-1111）；58c5c2c1bb：AA-C 11-12 08:49 回「要重匯」（STALE-SOURCES-1112：花序門口的花照季節各一句、回 LAWWW-C 五問）",
+   "approvedBy": "AA（SEASON3-LINES-1111）；58c5c2c1bb：AA-C 11-12 08:49 回「要重匯」（STALE-SOURCES-1112：花序門口的花照季節各一句、回 LAWWW-C 五問）；f06354493：AA-C 11-12 11:01：花序秋天那句改字（不指定花種）",
    "task": "SEASON3-LINES-1111",
    "kind": "json",
    "note": "季節攤販六攤的看、買＋季節落地布置五項的看：tools/story/import_season_stalls.py → src/data/season_stalls.js（SEASON_STALLS）。名字、品名、價錢、台詞一字照稿；演出 src/season_stalls3d.js（買的流程用 src/night_market3d.js 的）。",
@@ -8131,6 +8131,10 @@
     {
      "sha": "e2ea0ea3c",
      "note": "被 58c5c2c1bb 取代（AA-C 11-12 08:49 回「要重匯」（STALE-SOURCES-1112：花序門口的花照季節各一句、回 LAWWW-C 五問））"
+    },
+    {
+     "sha": "58c5c2c1bb",
+     "note": "被 f06354493 取代（AA-C 11-12 11:01：花序秋天那句改字（不指定花種））"
     }
    ]
   },
