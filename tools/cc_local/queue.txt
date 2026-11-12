@@ -120,6 +120,10 @@ HUD_LAND_live | f701afca024758d5dcc8d6b48a1db906f108ae05 | probe | docs/story_pl
 TUTOR_BACK_r2 | 762104842ae5c75400e4c380d1e4d746d0998376 | probe | docs/story_planning/test_tools/cc/cc_tutor_back_probe.py | index.html | 25 | SHA=762104842ae5c75400e4c380d1e4d746d0998376
 # BB-C 12:32 P1：汀州路走騎樓（SHUT_TZ_door_14_r2 四間站在門前四周是店內，懷疑室內長到騎樓上）：泰米→聯通→東南→客居→越好吃，每間門外 1.5 m 停 2 秒，遊戲鏡頭＋俯視，記 shopReal 四角、比門往外凸幾 m、柱子位置
 TZ_ARCADE_WALK | 762104842ae5c75400e4c380d1e4d746d0998376 | probe | docs/story_planning/test_tools/cc/cc_tz_arcade_probe.py | index.html | 15 | SHA=762104842ae5c75400e4c380d1e4d746d0998376
+# LAWWW-C 12:37（f3e19b8eca）：滷味攤新攤車模型、17:00 攤車出現按了是還沒開、白天沒有按鈕和老闆、20:00 兩側
+LUWEI_f3e1 | 9aaa31edb9e6cfed31271cce28ec7041d37b0306 | probe | docs/story_planning/test_tools/cc/cc_luwei_probe.py | index.html | 35 | TIMES=17,18.5,20,22.5,0.5,14;SHA=9aaa31edb9e6cfed31271cce28ec7041d37b0306
+# CC-C 12:4x：FN_LOOKS_72fc 14 個看全部沒抓到字＝探針問題（看的字是 toast，被新手提示佔著、探針只等 1.5 秒）；修了重跑
+FN_LOOKS_r2 | 9aaa31edb9e6cfed31271cce28ec7041d37b0306 | probe | docs/story_planning/test_tools/cc/cc_look_all_probe.py | index.html | 30 | TAG=fn14_r2;ZONE=flower_notes;SEL=fnLook;CASES=2025-10-14@14;SHA=9aaa31edb9e6cfed31271cce28ec7041d37b0306
 # BB-C 12:31（SSB_gg3c 洋洋：點餐 picked 空、錢沒扣）：照玩家按「看炸物櫃」→ 選第一樣 → 確認，記每個選單每一行、錢前後
 YY_ORDER | 762104842ae5c75400e4c380d1e4d746d0998376 | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 10 | TAG=yy_order;ZONE=yangyang;LABEL=炸物櫃;CASES=2025-10-22@18;PICK=點好了,確定,結帳,好;SHA=762104842ae5c75400e4c380d1e4d746d0998376
 # BB-C 11:27：SHIFT_SHOTS 重拍（031d 以後，上班中不跳手機橫幅；修了截圖時機、下班後 0.5 秒連拍 4 秒、鏡頭位置＋俯視）、YUE_MEAL 改新版；LAWWW-C 11:37 南洋鏡頭修正 52870df0ad → 改排 18a3666452（含）；LAWWW-C 11:40：18a3 含已還原的鏡頭修改＝對照組：SHIFT_SHOTS_72fc＝沒改鏡頭、SHIFT_SHOTS_18a3＝上班時鏡頭轉到客人那一邊
