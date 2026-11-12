@@ -1,5 +1,36 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 全部待辦（2026-11-12 22:1x UTC 交班；LAWWW2-C）——以這一節為準
+
+值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜claude/focused-cray-c9uwvw｜接班基準見 duty_LAWWW2.json｜2026-11-12 03:17 UTC
+上一班（本班交班）：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 見本節下面 A｜正常交班（使用者 22:0x「現在交班」）
+
+### 暫停中
+- BADMINTON-CLIP v4（WIP 1aba3ec42）、FAIR-TENT-CAM（WIP 未交）：照舊暫停（使用者室內美術優先）；恢復條件：SHOP-REALISM-1112 汀州路那批交完；下次檢查 11-19。
+- HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104；下次檢查 11-19。
+
+### 下一班第一件事（任務 ID，照順序）
+1. **SHOP-WINDOW-3D-1112／SHOP-REALISM-1112（P0 使用者 UA-LAWWW2-1112-05／06／07，D159／D160）溫特寶邸 v2 交件**：從 `docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/wente_v2_wip.patch`（底 21773bf35b，含已整合過的 zones3d sb、game3d／engine3d 那幾段，套之前和開發分支比對、只取 wente 相關：tz_wente_interior.py、cc0_fetch.py、tingzhou3d.js REAL_VIEW／REAL_SB、wz_street.py wente real=True back=3.7、tingzhou_street.glb、tests/tz_wente_interior_1112_unit.js、LICENSES 12 列）。GLB `tz_wente_interior_v2.glb` 是**寬 4.96**（修隔壁聯通店內東牆伸進來 5 cm、白牆擋住側牆）；tingzhou3d.js REAL_VIEW w 要 4.96。**遊戲內照片 shots/ingame_w52_*.jpg 是寬 5.2 那版（兩側白牆就是那個問題）**——要用 4.96 版重拍（fast_shots spec 在 scratchpad 會不見：鏡頭 full cam(−3.6,1.6,5.75)→(−10.5,1.45,5.75)；obl (−4.4,1.6,2.2)；counter (−7.6,1.5,6.8)；rack (−7.4,1.5,4.4)；closed 23:00；hour 15 要避開週三公休，日子 +1），和 wente_concept_v1_v3.jpg 並排三組 → 交 LAWWW-C 先看圖（他 22:00Z 說先看再整合）→ BB 判 → 給使用者看。
+2. **SHOP-REALISM-1112：tests/shop_cc0_unit.js**（D160，答應 LAWWW-C）：每間店內 GLB 有貼圖、不是一物一純色、LICENSES 有這間的 CC0 列；寫好交 LAWWW-C 接 node-unit-auto；跑全部店，沒過的列進 SHOP-REALISM-1112、SHOP_STANDARD_STATUS「CC0 素材」欄。
+3. **SHOP-REALISM-1112 汀州路 7 間**（tz_shops_interior.py，對照表 research/SHOP_REALISM_PLAN_TZ7.md）→ 新生南路 6 → 公館 → 118 巷 9 → 溫州街。
+4. **L118-SEAT-FIX-1112 r4**（BB_379 b0c5796b24 P2）：辛亥韓食 #6 (1.05,−0.22)、#12 (1.05,−0.74) 坐到隔壁 0.55 那張；大學食堂 #5 (−0.35,−1.4) 坐到 (−0.35,−0.8)——兩張椅子靠很近時坐下抓到另一張的座位點（看 game3d.js 坐下選座位那段，不是 tapToSeat）。
+5. 【表外，請 LAWWW-C 開 ID】WZ-FRUIT-CLOSED：溫州街阿忠鮮果（wz_shopkit p_fruitstall）加收攤節點 FRUIT_CLOSED_on／FRUIT_OPEN_off（LAWWW-C 22:00Z，BB_379 50352b7e36 P2）。
+6. 【表外】清州刀削麵打烊後門口湯鍋檯還擺在外面（BB L118_CLOSED_LOOK_r2 P3）。
+7. SHOP-FIRST-APPROACH-1112（BB 仍 FAIL；長幀看街景那邊：行人、招牌圖集、LOD、陰影）；INCR-LAWWW2-1104 記帳；WINVIEW-AUDIT-1105；PERF-WZ-DAY-1103（等 CC 數字）。
+
+## 交班六類（2026-11-12 22:1x UTC；LAWWW2-C）
+- **A 本班成果**：L118-SEAT-FIX r3、WZ-SUNNY-TAPNAV（tap nopath）、L118-SHUTTER-FULL、SHOP-FIRST r7 都已交、LAWWW-C 已整合；溫特寶邸 v2 **WIP 沒交件**（見上 1）。本班最後 commit 見 git log（交班 commit）。沒發布、沒碰 main。
+- **B 全部未完成**：上面「下一班第一件事」1～7 全部；其他照 `check_handoff.py queue --owner LAWWW2`。
+- **C 正在做的**：溫特寶邸 v2 已烘好 2048／48 樣本（2 分鐘）、77,998 三角形、3.2 MB、單一材質一張貼圖；Node 測試 tz_wente_interior_1112_unit ALL PASS（4.96 版）。模型還可以改的：假人頭偏亮、盆栽仍有點碎、衣服近看貼圖糊（烘焙 2048 分給衣服的太少，可試 4096 或衣服另一張）。
+- **D 最新決策與規則**：D159（店內道具不准塑膠方塊）、D160／HV-40（店內店面一律 Poly Haven／ambientCG CC0＋烘焙＋交件附素材清單、以前的店都要查；LAWWW-C f742748135）；使用者原話 UA-LAWWW2-1112-07（5f3bf53c99）。規則包已同步 3c2db62c22。
+- **E 跨 AI 協作**：→LAWWW-C D160 提案 DELIVERED、ACK（已寫進規則）；BB-C／LAWWW-C L118_CAM36 r3 結果 收到、排進 4；LAWWW-C 阿忠鮮果 收到、排進 5，還沒回 ACK。
+- **F 測試與問題**：溫特寶邸 4.96 版沒有遊戲內照片（重拍被中斷）；沒 iPhone 實機。
+- **G 東西放在哪**：
+  - `docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/`：wente_v2_wip.patch、tz_wente_interior_v2.glb、tz_wente_interior.py、cc0_fetch.py、測試、shots/。
+  - scratchpad worktree `wt_tz5`（detached 138b955dc7，會隨容器不見，內容都已在上面 patch）。
+  - CC0 下載快取 `~/.cache/lawstudent_cc0`（不進 repo，cc0_fetch.py 會重抓）。
+
+
 
 
 
@@ -255,7 +286,7 @@
 - 空檔的佇列：季節第三批（落地的 11 項：A1～A6、B1、B2、B6、C2、C5；做之前先跟 LAWWW 對導航）、泳池水面（#17）、電影海報位置（#11，等 CC 截圖）、泰米村食的窗。
 - 這個容器的注意事項照舊（下一則最後一點）。
 
-## 全部待辦（場景；2026-11-11 04:5x UTC 列，LAWWW 要的；依據開發分支 `docs/handoff/tasks.json` owner 含 LAWWW2 的 88 筆未結案＋`queue_audit_1110.md`）
+## 舊待辦清單（場景；2026-11-11 04:5x UTC 列，LAWWW 要的；依據開發分支 `docs/handoff/tasks.json` owner 含 LAWWW2 的 88 筆未結案＋`queue_audit_1110.md`）
 
 **A. 我手上真的還沒做完的（12 項）**
 

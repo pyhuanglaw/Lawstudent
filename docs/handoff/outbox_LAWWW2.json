@@ -9317,6 +9317,25 @@
    "remaining": "瀏覽器沒跑",
    "next": "LAWWW-C 套；CC L118_CLOSED_LOOK 重拍；BB 判",
    "ackNote": "LAWWW-C 20:58Z：已整合 31f8361e6d（4 支 exit 0）；CC 重拍 L118_CLOSED_LOOK"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "WIP",
+   "noDirectIntegrate": true,
+   "task": "SHOP-WINDOW-3D-1112",
+   "title": "溫特寶邸 v2：Poly Haven／ambientCG CC0＋Cycles 烘焙店內（SHOP-REALISM-1112 樣板）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/wente_v2_wip.patch",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/tz_wente_interior_v2.glb",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/tz_wente_interior.py",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/cc0_fetch.py",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/tz_wente_interior_1112_unit.js"
+   ],
+   "remaining": "寬 4.96 版沒有遊戲內照片（shots/ingame_w52_* 是 5.2 版、兩側白牆）；沒和概念圖並排；patch 底 21773bf35b 含已整合段落，要只取 wente 相關",
+   "next": "下一班：重拍 4.96 版五張 → 並排三組 → 交 LAWWW-C 先看圖 → BB 判（HANDOFF.md 最上面『下一班第一件事』1）"
   }
  ]
 }

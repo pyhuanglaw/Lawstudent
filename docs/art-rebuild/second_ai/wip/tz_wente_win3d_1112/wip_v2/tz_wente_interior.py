@@ -18,7 +18,7 @@ def arg(k, d=None): return A[A.index(k) + 1] if k in A else d
 OUT = arg('--out'); PREVIEW = arg('--preview'); RES = int(arg('--res', '2048')); SAMPLES = int(arg('--samples', '96'))
 HERE = os.path.dirname(os.path.abspath(__file__)); TEX = os.path.join(HERE, 'textures')
 sys.path.insert(0, HERE); import cc0_fetch   # SHOP-REALISM-1112：Poly Haven 掃描模型、ambientCG 材質組（CC0，下載到快取）
-W, D, H = 5.2, 3.6, 3.1          # 寬（沿街）、深、高
+W, D, H = 4.96, 3.6, 3.1         # 寬（沿街）、深、高——寬原本 5.2：隔壁汀州聯通的店內東牆伸進來 5 cm、白牆擋住這間的側牆；改成和玻璃兩側的牆（±2.48～2.5）對齊
 rr = random.Random(11)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -195,7 +195,7 @@ WALLP = mat_tex('wall_green', 'white_plaster_02/white_plaster_02_diff_1k.jpg', 0
 BRASS = mat_col('brass', '#b8893e', rough=0.35, metal=1.0)
 IRON = mat_col('iron', '#2a2826', rough=0.5, metal=0.8)
 BULB = mat_col('bulb', '#ffd9a0', emit=18.0)
-SKIN = mat_col('mannequin', '#e9e2d6', rough=0.4)
+SKIN = mat_col('mannequin', '#c9bfae', rough=0.7)   # 原本 #e9e2d6 在聚光燈下過曝成一顆白球
 
 # ---------------- 工具 ----------------
 OBJS = []
@@ -271,7 +271,7 @@ def garment(name, outline, thick, mat, loc, rot_z=0.0, tilt=0.0, folds=0.012, su
 def garment2(name, w, L, thick, mat, loc, rot_z=0.0, coat=False, seed=0):
     """立體衣服（SHOP-REALISM-1112；取代平板的 garment）：前、後兩片有弧度（胸口鼓、兩側薄），往下愈來愈多的直向皺摺，
     肩線斜下接衣架；袖子是兩支從肩膀垂下來、稍微往前的圓管（外套比較粗、有袖口）；領子一圈。原點＝衣架鉤下面；衣服的寬沿本地 X、厚沿 Y。"""
-    R = random.Random(seed); bm = bmesh.new(); NU, NV = 12, 18
+    R = random.Random(seed); bm = bmesh.new(); NU, NV = 9, 12
     freqs = [(R.uniform(1.5, 4.5), R.uniform(0, 6.28), R.uniform(0.4, 1.0)) for _ in range(3)]
     def P(su, tv, side):
         top = -0.075 * abs(2 * su - 1) ** 1.3 - (0.02 if coat else 0.0)
@@ -292,7 +292,7 @@ def garment2(name, w, L, thick, mat, loc, rot_z=0.0, coat=False, seed=0):
         for i in (0, NU): bm.faces.new((F[j][i], F[j + 1][i], B[j + 1][i], B[j][i]))
     for i in range(NU): bm.faces.new((F[NV][i], F[NV][i + 1], B[NV][i + 1], B[NV][i])); bm.faces.new((F[0][i], B[0][i], B[0][i + 1], F[0][i + 1]))
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-    o = new_obj(name, bm, mat); sm = o.modifiers.new('sub', 'SUBSURF'); sm.levels = 1; sm.render_levels = 1
+    o = new_obj(name, bm, mat)
     for p_ in o.data.polygons: p_.use_smooth = True
     M = Matrix.Translation(Vector(loc)) @ Matrix.Rotation(rot_z, 4, 'Z') @ Matrix.Rotation(R.uniform(-0.04, 0.04), 4, 'X')
     o.matrix_world = M
@@ -364,10 +364,16 @@ def folded(name, x, y, z, w, d, h, mat, rz=0.0):
     return o
 
 # ---------------- 房間 ----------------
-box('floor', -W / 2, W / 2, FRONT, BACK, -0.02, 0.0, FLOOR, bev=0)
-box('ceil', -W / 2, W / 2, FRONT, BACK, H, H + 0.02, PLASTER, bev=0)
-for nm, x0, x1, y0, y1 in (('wall_L', -W / 2 - 0.02, -W / 2, FRONT, BACK), ('wall_R', W / 2, W / 2 + 0.02, FRONT, BACK), ('wall_B', -W / 2, W / 2, BACK, BACK + 0.02)):
-    box(nm + '_lo', x0, x1, y0, y1, 0.0, 1.05, WOOD_D, bev=0); box(nm + '_hi', x0, x1, y0, y1, 1.05, H, WALLP, bev=0)
+def quad(name, pts, mat):
+    """一片朝室內的面（四個點照逆時針、從室內看）：房間外殼不用方塊——方塊朝外、朝上那幾面永遠看不到，烘焙時白佔圖"""
+    bm = bmesh.new(); vs = [bm.verts.new(p) for p in pts]; bm.faces.new(vs); return new_obj(name, bm, mat)
+X0, X1 = -W / 2, W / 2
+quad('floor', [(X0, FRONT, 0), (X1, FRONT, 0), (X1, BACK, 0), (X0, BACK, 0)], FLOOR)
+quad('ceil', [(X0, BACK, H), (X1, BACK, H), (X1, FRONT, H), (X0, FRONT, H)], PLASTER)
+for lo, hi, mat_ in ((0.0, 1.05, WOOD_D), (1.05, H, WALLP)):
+    quad('wall_B_%d' % int(lo * 10), [(X0, BACK, lo), (X1, BACK, lo), (X1, BACK, hi), (X0, BACK, hi)], mat_)
+    quad('wall_L_%d' % int(lo * 10), [(X0, FRONT, lo), (X0, BACK, lo), (X0, BACK, hi), (X0, FRONT, hi)], mat_)
+    quad('wall_R_%d' % int(lo * 10), [(X1, BACK, lo), (X1, FRONT, lo), (X1, FRONT, hi), (X1, BACK, hi)], mat_)
 # 牆板：下半木作的直條（每 0.3 m 一條細縫）、上緣壓條
 for x in [i * 0.3 - W / 2 + 0.15 for i in range(int(W / 0.3))]: box('bead_B%d' % int(x * 100), x - 0.006, x + 0.006, BACK - 0.012, BACK, 0.08, 1.02, WOOD_D, bev=0.002)
 box('rail_B', -W / 2, W / 2, BACK - 0.03, BACK, 1.02, 1.08, WOOD, bev=0.008)
@@ -395,7 +401,7 @@ while x < -0.15:   # 上層（左半邊）：一疊疊毛衣、帽子、木盒�
     if k < 0.45:
         stack_h = 0.0; c = rr.choice(SOLIDS); w = rr.uniform(0.26, 0.34)
         for j in range(rr.randint(2, 5)):
-            hh = rr.uniform(0.035, 0.06); folded('top_f%d_%d' % (int(x * 100), j), x + w / 2, BACK - 0.17, 2.18 + stack_h, w + rr.uniform(-0.02, 0.02), 0.26, hh, mat_fabric('solid_' + (c if j % 2 == 0 else rr.choice(SOLIDS)), c if j % 2 == 0 else rr.choice(SOLIDS)), rz=rr.uniform(-0.05, 0.05)); stack_h += hh
+            hh = rr.uniform(0.035, 0.06); folded('top_f%d_%d' % (int(x * 100), j), x + w / 2, BACK - 0.2, 2.18 + stack_h, w + rr.uniform(-0.02, 0.02), 0.22, hh, mat_fabric('solid_' + (c if j % 2 == 0 else rr.choice(SOLIDS)), c if j % 2 == 0 else rr.choice(SOLIDS)), rz=rr.uniform(-0.05, 0.05)); stack_h += hh
         x += w + rr.uniform(0.06, 0.14)
     elif k < 0.6:
         lathe('hat_%d' % int(x * 100), [(0.0, 0.0), (0.17, 0.0), (0.17, 0.008), (0.11, 0.015), (0.105, 0.1), (0.09, 0.125), (0.0, 0.13)], x + 0.17, BACK - 0.17, 2.18, mat_fabric('felt_' + str(int(x * 10) % 3), ('#4a3a2e', '#2e2a26', '#6a5a46')[int(x * 10) % 3]), seg=20, sx=1.0, sy=0.85)
@@ -407,9 +413,9 @@ while x < -0.15:   # 上層（左半邊）：一疊疊毛衣、帽子、木盒�
         for j in range(rr.randint(4, 8)):
             bw = rr.uniform(0.025, 0.045); bh = rr.uniform(0.18, 0.26); box('book_%d_%d' % (int(x * 100), j), x, x + bw, BACK - 0.26, BACK - 0.06, 2.18, 2.18 + bh, mat_col('book' + str(j % 5), ('#6a2a22', '#2a3a5a', '#3a4a2a', '#8a7a5a', '#4a2a3a')[j % 5], rough=0.6), bev=0.003); x += bw + 0.003
         x += 0.12
-ph_place('decorative_book_set_01', (1.05, BACK - 0.17, 2.18), size=0.24, axis=2, decimate=0.15)   # Poly Haven 舊書一整排（CC0）
-ph_place('vintage_suitcase', (-1.2, BACK - 0.17, 2.55), size=0.32, axis=2, decimate=0.3)   # Poly Haven 古董皮箱一組（CC0）
-ph_place('mantel_clock_01', (1.6, BACK - 0.2, 2.55), size=0.42, axis=0, decimate=0.1)
+ph_place('decorative_book_set_01', (1.05, BACK - 0.17, 2.18), size=0.24, axis=2, decimate=0.02)   # Poly Haven 舊書一整排（CC0）
+ph_place('vintage_suitcase', (-1.2, BACK - 0.17, 2.55), size=0.32, axis=2, decimate=0.15)   # Poly Haven 古董皮箱一組（CC0）
+ph_place('mantel_clock_01', (1.6, BACK - 0.2, 2.55), size=0.42, axis=0, decimate=0.05)
 x = -0.2
 while x < 1.2:   # 第二層（右半邊：木盒、相框）：皮箱、木盒、相框（小一點、靠後）
     k = rr.random()
@@ -446,14 +452,14 @@ for k, y in enumerate((0.0, 0.42, 0.84)):
 RX = W / 2
 rail_of_clothes('right', -0.55, 1.05, RX - 0.3, 1.75, along='Y', seed=3, lmin=0.7, lmax=1.05)
 for y in (-0.55, 1.05): tube('right_post_%d' % int(y * 100), [(RX - 0.3, y, 1.75), (RX, y, 1.75)], [0.01, 0.01], BRASS, seg=8)
-ph_place('ornate_mirror_01', (RX - 0.03, 1.47, 0.5), rz=math.pi / 2, size=1.25, axis=2, decimate=0.3)   # Poly Haven 雕花鏡（CC0）
+ph_place('ornate_mirror_01', (RX - 0.03, 1.3, 0.5), rz=math.pi / 2, size=1.25, axis=2, decimate=0.15)   # Poly Haven 雕花鏡（CC0）
 # 櫃台：木頭前面板、檯面、收銀機、舊收音機、小盆栽
 box('counter', 0.95, 2.35, BACK - 0.95, BACK - 0.45, 0.0, 0.92, WOOD_D, bev=0.012)
 box('counter_top', 0.92, 2.38, BACK - 0.98, BACK - 0.42, 0.92, 0.96, WOOD, bev=0.01)
 for k in range(4): box('counter_panel_%d' % k, 1.0 + k * 0.34, 1.28 + k * 0.34, BACK - 0.955, BACK - 0.95, 0.12, 0.8, WOOD, bev=0.008)
-ph_place('CashRegister_01', (1.85, BACK - 0.7, 0.96), size=0.36, axis=2, decimate=0.4)   # Poly Haven 古董收銀機（CC0）
-ph_place('potted_plant_02', (1.15, BACK - 0.68, 0.96), rz=0.6, size=0.5, axis=2, decimate=0.12)
-ph_place('potted_plant_02', (0.35, FRONT + 0.35, 0.0), rz=2.0, size=1.05, axis=2, decimate=0.12)   # 櫥窗和門中間落地一盆（概念圖門口的盆栽）
+ph_place('CashRegister_01', (1.85, BACK - 0.7, 0.96), size=0.36, axis=2, decimate=0.25)   # Poly Haven 古董收銀機（CC0）
+ph_place('potted_plant_02', (1.15, BACK - 0.68, 0.96), rz=0.6, size=0.5, axis=2, decimate=0.1)
+ph_place('potted_plant_02', (0.35, FRONT + 0.52, 0.0), rz=2.0, size=0.95, axis=2, decimate=0.18)   # 櫥窗和門中間落地一盆（概念圖門口的盆栽）
 
 # ---------------- 櫥窗（左前）：木台、假人、彩色玻璃檯燈、皮公事包、牛仔褲一疊 ----------------
 PX0, PX1, PY0, PY1, PH = -W / 2 + 0.1, 0.35, FRONT + 0.08, FRONT + 0.95, 0.42
@@ -577,7 +583,7 @@ def light(kind, loc, energy, color=WARM, size=0.05, aim=None, spot=None):
     return o
 for x in (-1.6, 0.0, 1.6): light('POINT', (x, 0.15, 2.3), 80, size=0.06)
 for p in SPOTS: light('SPOT', p, 140, aim=(p[0], BACK - 0.3, 1.4), spot=45, size=0.03)
-light('SPOT', (-1.15, FRONT + 0.2, H - 0.1), 120, aim=(MX, MY, 1.5), spot=40, size=0.03)   # 打在假人身上的那一盞
+light('SPOT', (-1.15, FRONT + 0.2, H - 0.1), 60, aim=(MX, MY, 1.5), spot=40, size=0.03)   # 打在假人身上的那一盞
 light('POINT', (LX_, LY_, B0 + 0.3), 12, color=(1.0, 0.62, 0.3), size=0.04)
 light('AREA', (0.0, 0.2, H - 0.05), 45, color=(1.0, 0.8, 0.6), size=3.0)   # 天花板反射的柔光
 light('AREA', (0.0, FRONT - 1.5, 1.6), 50, color=(0.95, 0.97, 1.0), size=4.0, aim=(0.0, 0.5, 1.2))   # 街上進來的天光（窗外）
@@ -599,48 +605,75 @@ if PREVIEW:
         sc.render.filepath = PREVIEW + '_' + n + '.png'; bpy.ops.render.render(write_still=True)
     print('preview done'); sys.exit(0)
 
-# ---------------- 烘焙：所有東西一起展 UV 到一張圖 → Cycles 把光、影、反彈光、顏色烘進去 → 合成一個網格、一個材質 ----------------
+# ---------------- 烘焙（第 2 版）：先合成一個物件再烘（一個物件一次，原本 566 個物件一個一個烘要 41 分鐘）----------------
+# 材質原本用「物件座標」投影貼圖；合成以後物件座標會變，所以合成前把每一點原本的物件座標存成屬性 opos，材質改讀這個屬性。
+# 烘焙 UV 用 lightmap pack（每個面照面積平均分到圖上；原本 smart project 把牆、地板擠成一小塊）。
 setup_cycles(SAMPLES)
 apply_all()
 meshes = [o for o in sc.objects if o.type == 'MESH']
 for o in meshes:
-    for uv in list(o.data.uv_layers): o.data.uv_layers.remove(uv)
-    o.data.uv_layers.new(name='bake')
-bpy.ops.object.select_all(action='DESELECT')
-for o in meshes: o.select_set(True)
-bpy.context.view_layer.objects.active = meshes[0]
-bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
-bpy.ops.uv.smart_project(angle_limit=math.radians(60), island_margin=0.002, area_weight=0.0, scale_to_bounds=False)
-try: bpy.ops.uv.pack_islands(margin=0.002, rotate=True)
-except Exception as e: print('pack', e)
-bpy.ops.object.mode_set(mode='OBJECT')
-BIMG = bpy.data.images.new('wente_bake', RES, RES, alpha=False, float_buffer=True)
+    me = o.data
+    a_ = me.attributes.new('opos', 'FLOAT_VECTOR', 'POINT')
+    for i, v in enumerate(me.vertices): a_.data[i].vector = v.co
+    if not me.uv_layers: me.uv_layers.new(name='UVMap')
+    else: me.uv_layers[0].name = 'UVMap'
+    while len(me.uv_layers) > 1: me.uv_layers.remove(me.uv_layers[1])
 for m in bpy.data.materials:
     if not m.use_nodes: continue
-    n = m.node_tree.nodes.new('ShaderNodeTexImage'); n.image = BIMG; n.name = 'BAKE'
-    for x in m.node_tree.nodes: x.select = False
-    n.select = True; m.node_tree.nodes.active = n
-bk = sc.render.bake; bk.use_pass_direct = True; bk.use_pass_indirect = True; bk.use_pass_diffuse = True; bk.use_pass_emit = True
-bk.use_pass_glossy = False; bk.use_pass_transmission = False; bk.margin = 6; bk.margin_type = 'EXTEND'
-print('bake start', len(meshes), 'objects', RES, SAMPLES, flush=True)
-bpy.ops.object.bake(type='COMBINED')
-print('bake done', flush=True)
-# 降噪：烘焙沒有內建降噪，用一次 3×3 中值濾波去掉亮暗雜點（貼圖細節在 2048 下還看得到）
-# 降噪：Blender 合成器的 Denoise 節點跑在烘好的圖上
-try:
-    sc.use_nodes = True; tree = sc.compositing_node_group if hasattr(sc, 'compositing_node_group') else sc.node_tree
-except Exception: tree = None
-out_png = os.path.splitext(OUT)[0] + '_bake.png'
-import numpy as np
-px = np.array(BIMG.pixels[:], dtype=np.float32).reshape(RES, RES, 4)
-st = np.stack([np.roll(np.roll(px, dy, 0), dx, 1) for dy in (-1, 0, 1) for dx in (-1, 0, 1)], 0); px = np.median(st, 0)
-BIMG.pixels[:] = px.ravel()
-BIMG.filepath_raw = out_png; BIMG.file_format = 'PNG'; BIMG.save()
-# 合成一個網格、一個材質（底色＝烘好的圖；遊戲 shopInsideReal 換成不受光的材質）
+    nt = m.node_tree
+    for bs in [n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED']:   # 烘的是漫射光：金屬（黃銅、鐵）的漫射是 0 會變黑——改成非金屬、顏色照舊
+        for l in [l for l in nt.links if l.to_socket == bs.inputs['Metallic']]: nt.links.remove(l)
+        bs.inputs['Metallic'].default_value = 0.0
+    for tcn in [n for n in nt.nodes if n.type == 'TEX_COORD']:
+        links = [l for l in nt.links if l.from_node == tcn and l.from_socket.name == 'Object']
+        if not links: continue
+        at = nt.nodes.new('ShaderNodeAttribute'); at.attribute_name = 'opos'; at.attribute_type = 'GEOMETRY'
+        for l in links: nt.links.new(at.outputs['Vector'], l.to_socket)
+import collections
+_cnt = collections.Counter()
+for o in meshes: _cnt[o.name.split('.')[0].rstrip('0123456789_')] += sum(len(p_.vertices) - 2 for p_ in o.data.polygons)
+print('TRI BREAKDOWN', _cnt.most_common(25), flush=True)
+if os.environ.get('COUNT_ONLY'):
+    for o in meshes:
+        wv = [o.matrix_world @ v.co for v in o.data.vertices]; ys = [v.y for v in wv]; xs = [v.x for v in wv]
+        if ys and (min(ys) < FRONT - 0.01 or max(ys) > BACK + 0.01 or min(xs) < -W / 2 - 0.01 or max(xs) > W / 2 + 0.01): print('OUTSIDE', o.name, round(min(xs), 2), round(max(xs), 2), round(min(ys), 2), round(max(ys), 2))
+    sys.exit(0)
 bpy.ops.object.select_all(action='DESELECT')
 for o in meshes: o.select_set(True)
 bpy.context.view_layer.objects.active = meshes[0]; bpy.ops.object.join()
 J = bpy.context.view_layer.objects.active; J.name = 'wente_interior'
+TRI = sum(len(p_.vertices) - 2 for p_ in J.data.polygons)
+print('tris before', TRI, flush=True)
+if TRI > 80000:
+    dm = J.modifiers.new('dec', 'DECIMATE'); dm.ratio = 78000 / TRI; dm.use_collapse_triangulate = True
+    with bpy.context.temp_override(object=J, active_object=J): bpy.ops.object.modifier_apply(modifier=dm.name)
+print('joined', len(J.data.polygons), 'faces', flush=True)
+J.data.uv_layers['UVMap'].active_render = True
+bu = J.data.uv_layers.new(name='bake'); J.data.uv_layers.active = bu
+bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
+bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.0015, area_weight=0.0, correct_aspect=True, scale_to_bounds=False)   # 一個物件：每一塊照實際面積縮放（同樣的像素密度）
+try: bpy.ops.uv.pack_islands(rotate=True, margin=0.0015)
+except Exception as e: print('pack', e)
+bpy.ops.object.mode_set(mode='OBJECT')
+J.data.uv_layers['UVMap'].active_render = True; J.data.uv_layers.active = J.data.uv_layers['bake']
+BIMG = bpy.data.images.new('wente_bake', RES, RES, alpha=False, float_buffer=False)
+for m in J.data.materials:
+    if not m or not m.use_nodes: continue
+    n = m.node_tree.nodes.new('ShaderNodeTexImage'); n.image = BIMG; n.name = 'BAKE'
+    for x in m.node_tree.nodes: x.select = False
+    n.select = True; m.node_tree.nodes.active = n
+bk = sc.render.bake; bk.use_pass_direct = True; bk.use_pass_indirect = True; bk.use_pass_diffuse = True; bk.use_pass_emit = True
+bk.use_pass_glossy = False; bk.use_pass_transmission = False; bk.margin = 4; bk.margin_type = 'EXTEND'
+bpy.ops.object.select_all(action='DESELECT'); J.select_set(True); bpy.context.view_layer.objects.active = J
+print('bake start', len(J.data.polygons), 'faces', RES, SAMPLES, flush=True)
+bpy.ops.object.bake(type='COMBINED')
+print('bake done', flush=True)
+import numpy as np
+px = np.array(BIMG.pixels[:], dtype=np.float32).reshape(RES, RES, 4)
+st = np.stack([np.roll(np.roll(px, dy, 0), dx, 1) for dy in (-1, 0, 1) for dx in (-1, 0, 1)], 0); BIMG.pixels[:] = np.median(st, 0).ravel()   # 3×3 中值去雜點
+out_png = os.path.splitext(OUT)[0] + '_bake.png'
+BIMG.filepath_raw = out_png; BIMG.file_format = 'PNG'; BIMG.save()
+# 一個材質（底色＝烘好的圖，用 bake 那一套 UV）；別的 UV 拿掉
 J.data.materials.clear()
 fm = bpy.data.materials.new('wente_baked'); fm.use_nodes = True; nb = fm.node_tree.nodes['Principled BSDF']
 it = fm.node_tree.nodes.new('ShaderNodeTexImage'); it.image = bpy.data.images.load(out_png); fm.node_tree.links.new(it.outputs['Color'], nb.inputs['Base Color'])
@@ -648,9 +681,11 @@ nb.inputs['Roughness'].default_value = 1.0
 try: nb.inputs['Specular IOR Level'].default_value = 0.0
 except Exception: pass
 J.data.materials.append(fm)
-for p in J.data.polygons: p.material_index = 0
+for p_ in J.data.polygons: p_.material_index = 0
+J.data.uv_layers.remove(J.data.uv_layers['UVMap']); J.data.uv_layers['bake'].active_render = True
+if 'opos' in J.data.attributes: J.data.attributes.remove(J.data.attributes['opos'])
 for o in list(sc.objects):
     if o.type != 'MESH': bpy.data.objects.remove(o)
 bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', use_selection=False, export_lights=False, export_cameras=False,
-                          export_image_format='WEBP', export_image_quality=88, export_normals=False, export_apply=True)
+                          export_image_format='WEBP', export_image_quality=88, export_normals=False, export_apply=True, export_attributes=False)
 print('export', OUT, len(J.data.polygons), 'faces', flush=True)

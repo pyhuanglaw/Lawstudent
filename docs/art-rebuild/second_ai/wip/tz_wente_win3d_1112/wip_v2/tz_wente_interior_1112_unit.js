@@ -11,7 +11,7 @@ else {
   for(const m of j.meshes) for(const p of m.primitives){ const a=j.accessors[p.indices!==undefined?p.indices:p.attributes.POSITION]; tris+=Math.floor(a.count/3); if(p.attributes.COLOR_0!==undefined) vc=true;
     const q=j.accessors[p.attributes.POSITION]; for(let i=0;i<3;i++){ mn[i]=Math.min(mn[i],q.min[i]); mx[i]=Math.max(mx[i],q.max[i]); } }
   const dim=mx.map((v,i)=>+(v-mn[i]).toFixed(2));
-  ok(Math.abs(dim[0]-5.24)<0.1&&Math.abs(dim[1]-3.12)<0.1&&Math.abs(dim[2]-3.62)<0.1,'① 店內大小 寬 5.2 × 高 3.1 × 深 3.6（遊戲座標 x、y、z）',JSON.stringify(dim));
+  ok(Math.abs(dim[0]-4.98)<0.1&&Math.abs(dim[1]-3.12)<0.1&&Math.abs(dim[2]-3.62)<0.1,'① 店內大小 寬 4.96 × 高 3.1 × 深 3.6（遊戲座標 x、y、z）',JSON.stringify(dim));
   ok(j.materials.length===1&&j.materials[0].pbrMetallicRoughness&&j.materials[0].pbrMetallicRoughness.baseColorTexture!==undefined&&!vc,'① 一個材質、一張烘好的貼圖、沒有頂點色（不是 v1 那種平塗方塊）');
   ok((j.images||[]).length===1,'① 只有一張圖',(j.images||[]).map(i=>i.mimeType).join(','));
   ok(tris>=15000&&tris<=80000,'① 三角形 1.5～8 萬（衣服、假人、燈有曲面；不爆量）',String(tris));
