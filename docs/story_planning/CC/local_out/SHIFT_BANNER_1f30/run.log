@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shift_shots_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHIFT_BANNER_1f30\out
+CC 上班中各一張：SHA 1f304f0054；KEYS ['cinema']；TERM Y1S2
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS [cinema] 找得到班表和日子  {"zone": "xs_nanyang", "name": "南洋戲院", "wd": 5, "t0": 18, "t1": 22, "day": 178, "key": "2026-03-13", "desk": {"x": -2, "z": 4.2, "lv": 0, "label": "售票口旁邊的告示"}}
+  [前置／捷徑] [cinema] 【前置／捷徑】讀檔改成 Y1S2 有 南洋戲院 的班（2026-03-13 週5 18.00～22.00），班開始前 12 分鐘進店（條件事件關掉）
+  [  43.2s] [cinema] first 鏡頭位置 {"x": -4.1, "y": 3.13, "z": -0.89, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [  43.2s] [cinema] first 畫面上的橫幅／toast：{"running": true, "dlg": "（票根要撕一半。你撕的第一張，撕到了座位號碼。）", "h": 18, "items": [], "toast": {"text": "", "op": "0", "vis": "visible", "disp": "none", "cls": "hide"}}
+  [  45.5s] [cinema] after_choice 鏡頭位置 {"x": -4.1, "y": 3.13, "z": -0.89, "dir": [-0.0, -0.44, -0.9]}（俯視以祐廷為中心）
+  [  45.6s] [cinema] after_choice 畫面上的橫幅／toast：{"running": true, "dlg": "（客人往右邊走了。你又說了一次。）", "h": 18, "items": [], "toast": {"text": "", "op": "0", "vis": "visible", "disp": "none", "cls": "hide"}}
+  [  45.6s] [cinema] first：祐廷 {"x": -4.1, "z": -4.6, "yaw": 1.57, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "買票", "d": 2.34}, {"label": "看今日放映", "d": 4.61}, {"label": "進 1 廳", "d": 6.55}, {"label": "看這部在演什麼", "d": 7.2}]；1 m 內家具 [{"name": "fallback", "d": 0}, {"name": "Body", "d": 0.21}, {"name": "fallback", "d": 0.3}, {"name": "WALL_left_wains", "d": 0.36}, {"name": "WALL_left_plaster", "d": 0.4}, {"name": "Clothes_H01", "d": 0.6}]；店裡的人 [{"id": "", "name": "", "x": -4.1, "z": -3.7, "seat": false, "clerk": true}]；當下那一句「（票根要撕一半。你撕的第一張，撕到了座位號碼。）」
+  [  45.6s] [cinema] after_choice：祐廷 {"x": -4.1, "z": -4.6, "yaw": 1.57, "pose": "idle"}；圍裙網格 []；最近的互動點 [{"label": "買票", "d": 2.34}, {"label": "看今日放映", "d": 4.61}, {"label": "進 1 廳", "d": 6.55}, {"label": "看這部在演什麼", "d": 7.2}]；1 m 內家具 [{"name": "fallback", "d": 0}, {"name": "Body", "d": 0.21}, {"name": "fallback", "d": 0.3}, {"name": "WALL_left_wains", "d": 0.36}, {"name": "WALL_left_plaster", "d": 0.4}, {"name": "Clothes_H01", "d": 0.6}]；店裡的人 [{"id": "", "name": "", "x": -4.1, "z": -3.7, "seat": false, "clerk": true}]；當下那一句「（客人往右邊走了。你又說了一次。）」
+  [  52.4s] [cinema] 下班後 0.0 秒：亮度 [50.6, 27.8]；畫面上蓋著的元素 []；#toast {"text": "南洋戲院 薪水 784 元", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  53.1s] [cinema] 下班後 0.5 秒：亮度 [47, 29.8]；畫面上蓋著的元素 []；#toast {"text": "南洋戲院 薪水 784 元", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  53.8s] [cinema] 下班後 1.0 秒：亮度 [50.1, 35.9]；畫面上蓋著的元素 []；#toast {"text": "手機｜法律系直屬家族｜Kevin：學姊上學期聚餐遲到一分鐘。", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  55.3s] [cinema] 下班後 1.5 秒：亮度 [50.3, 36.2]；畫面上蓋著的元素 []；#toast {"text": "手機｜法律系直屬家族｜Kevin：學姊上學期聚餐遲到一分鐘。", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  56.4s] [cinema] 下班後 2.0 秒：亮度 [50.1, 35.9]；畫面上蓋著的元素 []；#toast {"text": "手機｜法律系直屬家族｜Kevin：學姊上學期聚餐遲到一分鐘。", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  57.1s] [cinema] 下班後 2.5 秒：亮度 [50.3, 36.2]；畫面上蓋著的元素 []；#toast {"text": "手機｜可昕：我們選一天。叫它「我們的日子」。", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  57.8s] [cinema] 下班後 3.0 秒：亮度 [49.3, 34.4]；畫面上蓋著的元素 []；#toast {"text": "手機｜可昕：我們選一天。叫它「我們的日子」。", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  58.6s] [cinema] 下班後 3.5 秒：亮度 [49.1, 34.2]；畫面上蓋著的元素 []；#toast {"text": "手機｜可昕：我們選一天。叫它「我們的日子」。", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  59.4s] [cinema] 下班後 4.0 秒：亮度 [49.3, 34.3]；畫面上蓋著的元素 []；#toast {"text": "手機｜可昕：我們選一天。叫它「我們的日子」。", "op": "1", "vis": "visible", "disp": "block", "cls": ""}
+  [  60.7s] [cinema] 下班以後：祐廷 {"x": 0, "z": 5.2, "yaw": 3.14, "pose": "idle"}；書包 [["prop:backpack", true]]；鏡頭到頭之間被 {"camToHead": 4.06, "blockedBy": "ny_vc_metal", "at": 2.04} 擋
+  [  60.7s] [cinema] first：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.06, "blockedBy": "ny_vc_matte", "at": 0.21}
+  [  60.7s] [cinema] after_choice：書包 [["prop:backpack", false]]；鏡頭到頭之間 {"camToHead": 4.06, "blockedBy": "ny_vc_matte", "at": 0.21}
+  [  60.7s] [cinema] 上班中位置變化 0.00 m（被碰撞推出來的參考）
+PASS [cinema] 上班中有拍到（3 張）
+PASS 沒有 JS 例外  []
+ALL PASS
