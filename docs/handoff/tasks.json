@@ -56494,6 +56494,35 @@
     "acceptance": "起身落在椅子旁邊、坐下對準椅子、點哪張走哪張；CC ALLSEATS PASS",
     "ack": "DELIVERED"
    }
+  },
+  {
+   "id": "RONG-SIGN-1112",
+   "title": "公館榮恩典文具社招牌近看是馬賽克（招牌從參考圖裁、放進店面大貼圖只剩 983×182）",
+   "owner": "LAWWW2",
+   "priority": "P3",
+   "status": "已整合待測試",
+   "source": "BB-C 回報（店面近看）；LAWWW2-C 11-12 19:29 UTC 交件 7ef14727c8【表外】",
+   "authorized": "D108、D133（店名不改）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "from": "BB",
+    "to": "LAWWW2",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "docs/art-rebuild/second_ai/wip/rong_sign_1112/README.md",
+    "acceptance": "榮恩典門口近拍招牌字清楚、不馬賽克；店名照舊",
+    "ack": "ACTIONED"
+   },
+   "next": "【LAWWW-C 11-12 19:3x UTC】已整合（gongguan_shops.glb 只換 gg_fronts_atlas 招牌那一塊；引用 gongguan_shops 的 12 支 Node exit 0）。等 CC 榮恩典門口近拍、BB 判。"
   }
  ]
 }

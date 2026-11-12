@@ -51,6 +51,43 @@ def fn_sign(w=2048, h=200):
     for ch in t2: bb = d.textbbox((0, 0), 'F', font=fe); d.text((x, cy - (bb[1] + bb[3]) / 2), ch, font=fe, fill=ink); x += d.textlength(ch, font=fe) + sp2
     return im.resize((w, h), Image.LANCZOS)
 
+def rong_sign(w=2048, h=380):
+    """榮恩典文具社的招牌帶（RONG-SIGN-1112，LAWWW2-C；BB：招牌近看馬賽克——參考圖那一塊只有約 800 像素寬、拉正以後邊緣是糊的）：
+    照參考圖重畫——米白燈箱底（淡淡的橫向紋理、上下緣略暗）＋黑色粗黑體「榮恩典文具社」＋左邊交叉的鉛筆和毛筆（線稿）＋字下面紅黃藍綠四條色塊；店名是使用者指定的，不改"""
+    S = 3; W, H = w * S, h * S; rng = np.random.default_rng(13)
+    base = np.array([241, 232, 208], float); n = rng.normal(0, 1, (H // 10, W // 80)); n = np.array(Image.fromarray(((n * 28) + 128).clip(0, 255).astype('uint8')).resize((W, H), Image.BICUBIC), float)[..., None] - 128
+    yy = np.linspace(-1, 1, H)[:, None, None]; shade = 1.0 - 0.07 * yy ** 4
+    arr = ((base + n * 0.12) * shade).clip(0, 255).astype('uint8'); im = Image.fromarray(arr, 'RGB'); d = ImageDraw.Draw(im)
+    ink = (28, 26, 26); cy = int(H * 0.46)
+    # 左邊：交叉的鉛筆和毛筆（照參考圖：鉛筆從左上斜到右下、筆尖朝下；毛筆從左下斜到右上、筆頭在右上）——線稿
+    lw = max(6, H // 45); sz = H * 0.9; ox, oy = H * 0.12, H * 0.05
+    P = lambda u, v: (ox + u * sz, oy + v * sz)
+    def body(p0, p1, wd):
+        ang = math.atan2(p1[1] - p0[1], p1[0] - p0[0]); nx, ny = -math.sin(ang) * wd / 2, math.cos(ang) * wd / 2
+        q = [(p0[0] + nx, p0[1] + ny), (p1[0] + nx, p1[1] + ny), (p1[0] - nx, p1[1] - ny), (p0[0] - nx, p0[1] - ny)]
+        d.line(q + [q[0]], fill=ink, width=lw, joint='curve'); return ang, (nx, ny)
+    p0, e, tip = P(0.06, 0.03), P(0.44, 0.76), P(0.55, 0.98)
+    a1, (nx, ny) = body(p0, e, sz * 0.13)                                                            # 鉛筆桿
+    d.line([(e[0] + nx, e[1] + ny), tip, (e[0] - nx, e[1] - ny)], fill=ink, width=lw, joint='curve')  # 削尖的筆頭
+    m = (e[0] * 0.55 + tip[0] * 0.45, e[1] * 0.55 + tip[1] * 0.45); d.line([(m[0] + nx * 0.45, m[1] + ny * 0.45), (m[0] - nx * 0.45, m[1] - ny * 0.45)], fill=ink, width=lw)
+    r0 = (p0[0] + (e[0] - p0[0]) * 0.12, p0[1] + (e[1] - p0[1]) * 0.12); d.line([(r0[0] + nx, r0[1] + ny), (r0[0] - nx, r0[1] - ny)], fill=ink, width=lw)   # 尾端的金屬環
+    c, h1 = P(0.50, 0.34), P(0.10, 0.98)
+    a2, (mx, my) = body(h1, c, sz * 0.075)                                                            # 毛筆桿（左下 → 右上）
+    L = sz * 0.36; W2 = sz * 0.095; ux, uy = math.cos(a2), math.sin(a2); vx, vy = -uy, ux                 # 筆頭：從桿子上端往右上收尖的水滴
+    side = lambda sg: [(c[0] + sg * vx * W2 * (1 - t) ** 0.8 * (0.6 + 0.4 * math.sin(math.pi * t)) + ux * L * t, c[1] + sg * vy * W2 * (1 - t) ** 0.8 * (0.6 + 0.4 * math.sin(math.pi * t)) + uy * L * t) for t in np.linspace(0, 1, 30)]
+    tuft = side(1) + side(-1)[::-1]
+    d.polygon(tuft, fill=(248, 241, 222)); d.line(tuft + [tuft[0]], fill=ink, width=lw, joint='curve')
+    d.line([(c[0] + vx * W2 * 1.1, c[1] + vy * W2 * 1.1), (c[0] - vx * W2 * 1.1, c[1] - vy * W2 * 1.1)], fill=ink, width=int(lw * 1.6))   # 箍
+    # 字：「榮恩典文具社」，粗黑體（描邊加粗；參考圖是很粗的黑體）
+    fz = ImageFont.truetype(FONT, int(H * 0.54)); t = '榮恩典文具社'; x = int(H * 1.12); sp = int(H * 0.07); sw = max(3, int(H * 0.022))
+    for ch in t:
+        bb = d.textbbox((0, 0), ch, font=fz); d.text((x, cy - (bb[1] + bb[3]) / 2), ch, font=fz, fill=ink, stroke_width=sw, stroke_fill=ink)
+        x += d.textlength(ch, font=fz) + sp
+    # 字下面的四條色塊（紅、黃、藍、綠）
+    cols = [(214, 44, 36), (238, 200, 30), (40, 112, 196), (68, 170, 64)]; y0b, y1b = int(H * 0.78), int(H * 0.9); x0b = int(H * 1.1); wb = int((x - sp - x0b) / 4.12)
+    for i, c in enumerate(cols): xb = x0b + int(i * wb * 1.04); d.rectangle([xb, y0b, xb + wb, y1b], fill=c)
+    return im.resize((w, h), Image.LANCZOS)
+
 def coeffs(dst, src):
     A = []; Bv = []
     for (x, y), (u, v) in zip(dst, src):
@@ -63,6 +100,7 @@ def main():
     for key, (d, n, quad, w, h) in Q.items():
         im = Image.open(os.path.join(d, n)).convert('RGB').transform((w, h), Image.PERSPECTIVE, coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad), Image.BICUBIC)
         if key == 'ggfn_sign' and os.path.exists(FONT): im = fn_sign(w, h)   # 花序的招牌重畫（不用參考圖裁的那一塊）
+        if key == 'ggrong_sign' and os.path.exists(FONT): im = rong_sign(w, h)   # 榮恩典的招牌重畫（RONG-SIGN-1112）
         im.save(os.path.join(OUT, key + '.jpg'), quality=92)
     print('saved', len(Q))
 
