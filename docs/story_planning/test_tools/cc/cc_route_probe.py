@@ -114,9 +114,9 @@ async def main():
             kind, _, arg = step.partition(':'); t = '[%02d %s]' % (k, step); out = {'k': k, 'step': step}
             try:
                 if kind == 'exit':
-                    exs = await pg.evaluate("(to=>GAME.E.interactables.filter(i=>i.exit&&String(i.exit.to||'').indexOf(to)===0&&!i.hidden).map(i=>i.label))", arg)
+                    exs = await pg.evaluate("(to=>{ const P=GAME.E.player.obj.position; return GAME.E.interactables.filter(i=>i.exit&&String(i.exit.to||'').indexOf(to)===0&&!i.hidden).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)).map(i=>i.label); })", arg)   # 11-12 BB-C 16:33：最近的排第一（exit: 空字串＝最近的出口）
                     if not R.check('%s 找得到往 %s 的出口' % (t, arg), bool(exs), J(await pg.evaluate("GAME.E.interactables.filter(i=>i.exit).map(i=>[i.label,i.exit.to])"))): res['steps'].append(out); break
-                    to = await pg.evaluate("(a=>{ const i=GAME.E.interactables.find(i=>i.exit&&String(i.exit.to||'').indexOf(a)===0&&!i.hidden); return i.exit.to; })", arg)
+                    to = await pg.evaluate("(a=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.label===a.l&&!i.hidden); return i.exit.to; })", {'l': exs[0]})
                     s2, out['stuck'] = await watched(pg, D.use_exit(pg, cdp, t, exs[0], to), t)
                     out['s'] = await record(pg, k, 'exit', '出口「%s」→ %s' % (exs[0], to))
                     if not s2 or s2.get('zone') != to: res['steps'].append(out); break
