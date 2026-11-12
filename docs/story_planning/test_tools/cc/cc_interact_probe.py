@@ -98,6 +98,8 @@ async def main():
                 m0 = await pg.evaluate("GAME.G.money|0")
                 lines, menus = await once(None, 'a')
                 m1 = await pg.evaluate("GAME.G.money|0"); R.note('%s 錢 %s → %s（%+d）' % (tag, m0, m1, m1 - m0))   # BB-C 12:31：洋洋炸物櫃錢有沒有扣
+                await pg.wait_for_timeout(2500); ps = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position; return {seat:!!P.seat, pose:P.pose||null, x:+o.x.toFixed(2), z:+o.z.toFixed(2), h:+(+GAME.G.hour).toFixed(3)}; })()")
+                R.note('%s 演完 2.5 秒祐廷：%s（11-12 YY_ORDER_r2：內用有沒有坐下吃）' % (tag, json.dumps(ps, ensure_ascii=False))); await pg.screenshot(path=os.path.join(OUT, 'after_%s_%d.png' % (TAG, n)))
             await pg.screenshot(path=os.path.join(OUT, 'end_%s_%d.png' % (TAG, n)))
             R.note('%s 整段（%d 句、%d 個選單）：%s' % (tag, len(lines), len(menus), J(lines)))
             R.note('%s 選單：%s' % (tag, J(menus)))
