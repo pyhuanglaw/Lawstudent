@@ -79,7 +79,7 @@ await sec(6,async()=>{ H.fresh('2027-10-05',22.5,'campus'); H.picks=[0];
   await STORY.interact({exit:{to:'library_hall'},b1Door:true,label:'進入總圖'},GM);
   check('6. 22:30 總圖門口：「從側門下 B1」→ 到 B1 的樓梯間門口',H.entered.includes('library_b1')&&H.opts.some(o=>o.includes('從側門下 B1')),J(H.opts));
   H.fresh('2027-10-05',22.5,'campus'); H.picks=[1]; await STORY.interact({exit:{to:'library_hall'},b1Door:true},GM); check('6. 「先不要」：不進去',!H.entered.length);
-  H.fresh('2024-12-05',23,'campus',{Y0_LEFT:true}); H.G.stage='econ'; await STORY.interact({exit:{to:'library_hall'},b1Door:true},GM); check('6. 休學的那一年：刷不進去',!H.entered.length&&H.opts.some(o=>o.some(t=>/沒有學生證/.test(t))));
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 6 項 休學的那一年刷不進去（Y0_LEFT））
   H.fresh('2027-10-05',23,'library_b1'); await STORY.interact({exit:{to:'library_hall'},b1Stairs:true},GM); check('6. 人在 B1、大廳關了：樓梯間出口走側門回校園',H.entered[0]==='campus');
   H.fresh('2027-10-05',15,'library_b1'); const r=await STORY.interact({exit:{to:'library_hall'},b1Stairs:true},GM); check('6. 白天：照舊上 1F 大廳（交給原本的出口）',!H.entered.length&&!r); });
 

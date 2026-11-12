@@ -18,7 +18,7 @@ const {check,GM,E}=H, J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const loadErr=[];
 const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有這個檔'); return false; } try{ let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+e.message); return false; } };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js',
   'src/data/bbpack_events.js','src/bbpack3d.js']) L3(f);   /* index.html 的順序（照 aa462_y3s1_unit.js、bbpack_r2_unit.js 載的檔）*/
 GM.toast=()=>{}; GM.caption=()=>{}; GM.studySession=async()=>{}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null;
@@ -191,10 +191,7 @@ const BOSS_FAFU=BOSS.find(s=>/法服/.test(s)), BOSS_GT=BOSS.find(s=>/吉他/.te
     check('6. 法服週六（大一）帶的人：標籤「法服的社長」（第一次來的那兩句也是他說）',lead===BOSS_FAFU&&said(BOSS_FAFU,'第一次來？站這邊聽就好。'),J([lead,H.said.filter(s=>s.who).map(s=>s.who+'：'+s.t)]));
     fresh(TD('Y1S2',7,6),10,'wancai',{KAI_KB_ASK:'fafu'}); await play('ev_kai_keyboard_fafu');
     check('6. 阿凱的鍵盤（法服）：「三件事。」…「……三分鐘。」都是「法服的社長」',said(BOSS_FAFU,'三件事。')&&said(BOSS_FAFU,'……三分鐘。')&&!H.said.some(s=>s.who==='社長'),J(H.said.filter(s=>s.who).map(s=>s.who)));
-    fresh(D('2024-10-10'),19,'dorm'); H.G.stage='econ'; await play('ev_y0_c1',[0]);
-    check('6. 即興劇社（經濟系那一年的舊事件，留給演過的舊存檔）：「即興劇社社長」',said(BOSS_IMP,'熱身。規則只有一個：對方說什麼，你都說「對，而且——」。')&&!H.said.some(s=>s.who==='社長'));
-    fresh(D('2024-11-04'),19,'wancai'); H.G.stage='econ'; await play('ev_y0_c2_guitar',[0]);
-    check('6. 吉他社（同上）：「吉他社社長」',said(BOSS_GT,'今天只教一個和弦。C。三根手指，按到聲音乾淨為止。')&&!H.said.some(s=>s.who==='社長'));
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 6 節即興劇社、吉他社社長（ev_y0_c1、ev_y0_c2_guitar））
     const src=['src/story3d.js','src/data/events.js','src/data/bbpack_events.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8')).join('\n');
     const bare=(src.match(/speaker:'社長'|say\('社長'|name:'社長'|\?'社長':/g)||[]).length, pres=[...src.matchAll(/from:'npc_lawclub_pres',name:'([^']+)'/g)].map(m=>m[1]);
     check('6. 程式裡沒有只寫「社長」的說話人標籤；法服群組裡社長的訊息都是「法服的社長」',bare===0&&pres.length>=3&&pres.every(n=>n===BOSS_FAFU),J({bare,pres}));

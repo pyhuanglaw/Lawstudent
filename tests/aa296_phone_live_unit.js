@@ -18,7 +18,7 @@ const {check,GM,E}=H;
 const NAMES=/^(EXCH|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|NEEDED_MSGS|HOMETOWN_LINES|Y2B|Y2B_EVENTS|Y34B|R2Y3B|R2Y3B_EVENTS)$/;
 const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.CG_REGISTRY={};
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/y34b3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js']) if(fs.existsSync(path.join(H.ROOT,f))) load(f);
 const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };   /* 地點字幕（{scene}：「電話」「視訊」）*/
 const J=JSON.stringify, D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h;

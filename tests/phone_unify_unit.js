@@ -17,7 +17,7 @@ const LAYOUTS=/^(LINZE_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|GYM_LAY
 for(const f of ['src/data/linze_layout.js','src/data/library_layout.js','src/data/lawlib_layout.js','src/data/soclib_layout.js','src/data/gym_layout.js','src/data/wancai_layout.js','src/data/dorm_layout.js','src/data/room_glb_layouts.js'])
   if(fs.existsSync(path.join(ROOT,f))) load(f,LAYOUTS);
 const MSGN=/^(MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|HOMETOWN_LINES)$/;
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f,MSGN);
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f,MSGN);
 /* 區域（瀏覽器裡 Z3.ZONES 的 id 和名字；2026-10-30 從遊戲裡印出來）*/
 const ZN={campus:'台大校園',gongguan:'公館',wenzhou:'溫州街',lane118:'118 巷',classroom:'霖澤館 201 階梯教室',library:'總圖書館 閱覽室',cafe:'兩點半 Café',cvs:'日日便利',noodle:'阿鳳麵店',bookstore:'舊路書房',dorm:'宿舍 房間',
   wz_brunch:'半熟',wz_print:'阿德影印輸出',wz_teahouse:'一盞',wz_lin:'林家乾麵',wz_teishoku:'巷子裡定食',linze:'霖澤館',wancai:'萬才館 大廳',library_hall:'總圖書館 大廳',library_b1:'總圖書館 B1',library_carrels:'總圖 2F 研究小間',library_stacks:'總圖 5F 書庫',

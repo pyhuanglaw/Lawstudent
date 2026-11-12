@@ -214,12 +214,10 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const sum1=CALENDAR.gradeDay('Y1S2'); fresh(sum1,20.9,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'best_one'}); run(20.9,21.1);
     const m=(G.msgs||[]).find(x=>x.tag==='kx_best_one'&&x.ask), k=m?m.ask.opts.findIndex(o=>o.set&&o.set.KX_BEST_ONE_Y1S2!=='econ_principles_2'):-1; if(m&&k>=0) PHONE.answer(G,m.ask.id,k); const last=txt('p:kexin').slice(-1)[0]||'';
     check('第 6-1 節. 6/29 各說一科（kx_best_one）：「「…」。好，我記下來了。……明年再各說一科。」（不是「明年再比一次」）',!!m&&/。好，我記下來了。……明年再各說一科。$/.test(last)&&!txt('p:kexin').some(t=>/再比一次/.test(t)),last);
-    const r7=evText('ev_y0_r7'), p2b=evText('ev_y0_p2b');
-    check('第 6-1 節. 經濟系 ev_y0_r7：「宵夜你請。……上次是我請的。」（不比分數）',r7.includes('宵夜你請。……上次是我請的。')&&!r7.some(t=>/分數比較低/.test(t)),J(r7.filter(t=>/宵夜/.test(t))));
-    check('第 6-1 節. 經濟系 ev_y0_p2b：「那是我的第一次，不是你的。……好，聽你的。」（不是「算你贏」）',p2b.includes('那是我的第一次，不是你的。……好，聽你的。')&&!p2b.some(t=>/算你贏/.test(t)),J(p2b.filter(t=>/第一次，不是你的/.test(t))));
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 6-1 節 ev_y0_r7、ev_y0_p2b）
     const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('第 6-1 節. 對照（照留）：大二成績打賭「你輸了。」「我輸了。」「上次你請。這次你也會請。」「成績那一攤，你請。說好的。」；休學在家比早起；「那今天宵夜誰請？」；可昕 K1b「好，那下週換你請。」AA_525 3-11 改「好。」（2026-10-30 AA_525 改稿，企劃線 6081f725f：tests/aa525_promises_unit.js）',
-      ['你輸了。','我輸了。','上次你請。這次你也會請。','成績那一攤，你請。說好的。'].every(t=>src('src/y2r2_3d.js').includes(t))&&/今天算你贏/.test(src('src/data/retake_home.js'))&&src('src/data/r2y4a_events.js').includes('那今天宵夜誰請？')&&src('src/story3d.js').includes("{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好。')]}")); }
+      ['你輸了。','我輸了。','上次你請。這次你也會請。','成績那一攤，你請。說好的。'].every(t=>src('src/y2r2_3d.js').includes(t))&&src('src/data/r2y4a_events.js').includes('那今天宵夜誰請？')&&src('src/story3d.js').includes("{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好。')]}")); }
   { const w6=(SYLLABUS.courses.ge_y1s2||[]).find(w=>w.w===6)||{}, ob=((w6.obs||{}).options||[]).find(o=>o.text==='看旁邊的人'), pre=(CLS.SPECIAL_PRE||{})['ge_y1s2|6']||[];
     check('第 6-2 節第 3 題. 通識第 6 週：黑板「（本週在天文館）」（不是「（本週晚上在操場）」）；觀察「看旁邊的人」＝「宥辰仰著頭，一直到燈亮都沒有說話。」；開頭旁白「（這堂課移到天文館。）」',
       (w6.board||[])[1]==='（本週在天文館）'&&!(w6.board||[]).some(t=>/操場/.test(t))&&!!ob&&ob.result==='宥辰仰著頭，一直到燈亮都沒有說話。'&&!!pre[0]&&pre[0][1]==='（這堂課移到天文館。）',J([w6.board,ob,pre]));

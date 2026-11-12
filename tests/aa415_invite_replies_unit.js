@@ -90,7 +90,7 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 9144d
 
 await sec(2,()=>{ const COMBO=[['cafe',15.5],['library',15.5],['noodle',15.5],['wenzhou',15.5],['cafe',12+10/60],['noodle',12+10/60],['library',12+10/60],['cafe',17.5],['noodle',17.5]];
   for(const id of IDS){ const res=[];
-    for(const s of [1,2,3,4,5,6,'d']){ let got=null;
+    for(const s of (id==='kexin'?['d']:[1,2,3,4,5,6,'d'])){   /* CANON-NO-ECON-1112：可昕交往前的第 1～6 階只在經濟系那一年約得到，拿掉 */ let got=null;
       for(const key of (id==='kexin'?(s==='d'?['2026-03-11']:['2025-03-12']):['2026-03-14','2026-03-11','2026-03-12'])){ for(const [pid,hh] of COMBO){
         fresh(key,id,s,{econ:id==='kexin'&&s!=='d'}); const n=INV.replyStage(H.G,id); const P=INV.place(pid);
         const r=id==='kexin'?INV.personal(H.G,id,P,H.G.day,hh,{res:'accept'}):ask(id,pid,hh); if(r.res!=='accept'||!r.lines) continue; const row=picked(id,r.lines); if(!row||row.off) continue;
@@ -134,7 +134,7 @@ await sec(5,()=>{ /* [階段, 地點, 時間, 那一階合用的句子有沒有�
   const PLAN=[['heroine_01',[[2,'cafe',15.5,true],[5,'noodle',15.5,false],[4,'cafe',19,true,'2026-03-11']]],['heroine_02',[[2,'cafe',15.5,true],['d','noodle',15.5,false]]],
     ['heroine_03',[[2,'library',15.5,false],[4,'cafe',19,false],[6,'library',15.5,false]]],['heroine_04',[[2,'cafe',15.5,true],[4,'noodle',19,true]]],
     ['heroine_05',[[4,'noodle',19,true],[6,'noodle',19,false]]],['classmate_peishan',[[3,'cafe',15.5,false,'2026-03-11'],[4,'cafe',19,true,'2026-03-11'],['d','cafe',19,true,'2026-03-11']]],
-    ['kexin',[[2,'cafe',15.5,false],['d','cafe',15.5,true,'2026-04-14']]]];
+    ['kexin',[['d','cafe',15.5,true,'2026-04-14']]]];
   for(const [id,L] of PLAN) for(const [s,pid,hh,three,key] of L){ fresh(key||(id==='kexin'&&s!=='d'?'2025-03-12':'2026-03-14'),id,s,{econ:id==='kexin'&&s!=='d'}); const out=[];
     for(let i=0;i<10;i++){ const r=id==='kexin'?INV.personal(H.G,id,INV.place(pid),H.G.day,hh,{res:'accept'}):ask(id,pid,hh); out.push(txt(r.lines)); }
     const rep=out.findIndex((t,i)=>i>0&&t===out[i-1]), n3=new Set(out.slice(0,3)).size;
@@ -197,16 +197,14 @@ await sec(9,()=>{ fresh('2026-03-14');
     fresh('2026-03-13','heroine_01',6); const c=txt(ask('heroine_01','cafe',15.5).lines); check('9. 前一天（3/13）不是節日',!fest.includes(c),c); }
   finally { INV.REPLY_ON['節日']=false; } });
 
-await sec(10,()=>{ fresh('2025-03-12','kexin',1,{econ:true}); const k1=INV.personal(H.G,'kexin',INV.place('library'),H.G.day,15.5,{res:'accept'});
-  const K1=FW('kexin','總圖？好。……你是會計課坐我斜前面的那個？');   /* X324 D 區（AA_783）：拿掉刪節號——舊期望「總圖？好。……你是會計課坐我斜前面的那個？」*/
-  check('10. 可昕經濟系那一年第 1 階約總圖：「'+K1+'」',txt(k1.lines)===K1,txt(k1.lines));
+await sec(10,()=>{ 
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（可昕經濟系那一年第 1 階約總圖）
   fresh('2026-03-11','kexin','d'); const k2=INV.personal(H.G,'kexin',INV.place('cafe'),H.G.day,15.5,{res:'accept'});
   check('10. 法律系交往中約 Café：「首都帝大的 Café？好。我要坐你平常坐的那張。」',txt(k2.lines)==='首都帝大的 Café？好。我要坐你平常坐的那張。',txt(k2.lines));
   fresh('2026-03-11','kexin',6); H.G.flags.EX_kexin=true; const st=INV.replyStage(H.G,'kexin'); const ex=[]; for(let i=0;i<4;i++) ex.push(INV.personal(H.G,'kexin',INV.place('cafe'),H.G.day,19,{res:'accept'}));
   const rows=ex.map(r=>rowOf('kexin',r.lines));
   check('10. 分開以後：最多第 4 階、只用「4（分開以後）」的句子（沒有交往中、第 5、6 階）',st===4&&rows.every(r=>r&&r.apart&&r.st[0]===4),st+' '+J(ex.map(r=>txt(r.lines))));
-  fresh('2025-03-12','kexin','d',{econ:true}); const k3=INV.personal(H.G,'kexin',INV.place('cafe'),H.G.day,15.5,{res:'accept'});
-  check('10. 經濟系那一年交往中：7-1 沒有交往中的句子＝不用表（不會說「你終於約了」）',!rowOf('kexin',k3.lines||[]),txt(k3.lines));
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（經濟系那一年交往中）
   fresh('2026-03-11','kexin',3); const k4=INV.personal(H.G,'kexin',INV.place('cafe'),H.G.day,15.5,{res:'accept'});
   check('10. 法律系沒交往、沒分開：7-2 沒有句子',!rowOf('kexin',k4.lines||[]),txt(k4.lines)); });
 

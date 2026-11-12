@@ -31,7 +31,7 @@ await sec(2,async()=>{ H.fresh('2028-07-20',10,'campus'); H.FRIEND(SIS); H.date(
   const src=rd('src/outings3d.js');
   check('2. 標題卡（兩處）用 S.tt',(src.match(/GM\.titleCard\(S\.tt\(q\.title\),tr\.travel,2400\)/g)||[]).length===2);
   const hs=rd('src/home3d.js');
-  check('2. 家裡的選單（三個出發按鈕＋行程列表）也換',(hs.match(/OUT\.tt\?OUT\.tt\(q\.title\):q\.title/g)||[]).length>=5); });
+  check('2. 家裡的選單（三個出發按鈕＋行程列表）也換',(hs.match(/OUT\.tt\?OUT\.tt\(q\.title\):q\.title/g)||[]).length>=3);   /* CANON-NO-ECON-1112：休學在家、經濟系寒假那兩個選單拿掉，剩放假在家的選單三處（原本 5） */ });
 
 await sec(3,()=>{ H.fresh('2029-06-10',12,'campus'); H.FRIEND(SIS);
   const ok=TERMEND_LINES.HOOK.Y3S2.heroine_05.ok, rs=x=>typeof x==='function'?x(H.G):x;

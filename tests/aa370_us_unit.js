@@ -12,7 +12,7 @@ global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.
 global.CG_REGISTRY={};
 /* index.html 的順序（3D、畫面的檔不載入）*/
 const FILES=['src/data/characters.js','src/data/legal_qbank.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/calendar.js','src/data/places.js','src/data/activities.js','src/data/l118_redo772.js','src/data/invites.js','src/data/rel_lines.js',
-  'src/invites3d.js','src/phone3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/outings3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js','src/data/us_layouts.js',
+  'src/invites3d.js','src/phone3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/outings3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js','src/data/us_layouts.js',
   'src/data/home_lines.js','src/data/needed_msgs.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js',
   'src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/holff3d.js','src/data/courses.js','src/data/syllabus.js','src/data/exam_bank.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js','src/noodle_closed3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/y34b3d.js','src/data/r2y3b_events.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/data/r3_events.js','src/r3_3d.js','src/data/us_life_events.js','src/us_life3d.js'];

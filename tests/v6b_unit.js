@@ -16,7 +16,7 @@ const {check,GM,E}=H, J=JSON.stringify;
 global.CG_REGISTRY=global.CG_REGISTRY||{};
 const loadErr=[];
 const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有這個檔'); return false; } try{ let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+e.message); return false; } };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js',
   'src/data/zrzq_events.js','src/zrzq3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/data/cracktalk_lines.js','src/cracktalk3d.js','src/data/rom1016_events.js','src/rom1016_3d.js']) L3(f);
 const okNew=L3('src/v6b_3d.js');
 GM.toast=()=>{}; GM.caption=()=>{}; GM.money=n=>{ H.G.money=(H.G.money|0)+n; };   /* pg_harness 的 GM.money 不記錢（高鐵票要看得到）*/

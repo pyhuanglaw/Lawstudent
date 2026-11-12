@@ -19,7 +19,7 @@ const {check,GM,E}=H, J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const loadErr=[];
 const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有這個檔'); return false; } try{ let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+e.message); return false; } };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js',
   'src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/cracktalk_lines.js','src/cracktalk3d.js','src/data/twfill_events.js','src/twfill3d.js']) L3(f);   /* index.html 的順序（照 r2y3b_events_unit.js、v6_crack_unit.js、aa342_twfill_unit.js 載的檔）*/
 GM.toast=()=>{}; GM.caption=()=>{}; GM.studySession=async()=>{};
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;

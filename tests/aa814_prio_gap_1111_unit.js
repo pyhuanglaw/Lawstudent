@@ -19,8 +19,7 @@ check('0. 白名單有 AA_814@91c6aaf9f（approved）',!!e&&e.sha===SHA&&e.statu
 let doc=null; try{ doc=cp.execFileSync('git',['-C',ROOT,'show',SHA+':'+DOC],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(err){ doc=null; }
 // 1. 新台詞：稿裡有、遊戲檔裡有
 const LINES=[
-  ['src/data/events.js','還不知道。整科就那一份，我只是記錯日子。'],
-  ['src/data/events.js','宿舍月底要退。我本來想，回高雄讀。'],['src/data/events.js','我媽說，姊姊的房間空著。'],['src/data/events.js','你問過了？'],['src/data/events.js','上禮拜就問了。'],['src/data/events.js','那我明天搬。……輸的人，幫忙扛書。'],
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（1-1、1-2 的六句在 events.js 的經濟系那一年（j8a、E27b））
   ['src/data/vac_activities.js','歡迎回來！我在台中，桌上的考古題疊得比你的行李還高。'],['src/data/vac_activities.js','下次放風的那個下午，你要從第一天開始講。'],
   ['src/data/vac_activities.js','我現在連台中市區都很少去耶。……等我考完，第一個要去的地方給你選。'],
   ['src/data/r2y4a_events.js','（交換生一個一個把行李推上車。你的機票是二十一號。）'],['src/data/r2y4a_events.js','（巴士開走了。你還要再待五天。）'],
@@ -36,7 +35,7 @@ else console.log('（跳過：讀不到 '+SHA+':'+DOC+'，企劃線沒 fetch）'
 const old=[['src/data/r2y4a_events.js','坐在你們前面的'],['src/data/r2y4a_events.js','我聽你們講話聽出來的']].filter(([f,t])=>read(f).includes(t));
 check('1. 3-5 舊句（「你們」）拿掉了',!old.length,J(old));
 // 2
-const ecf=read('src/econff3d.js'); check('2. 1-3：S.KEEP 有 ev_y0_exam2',/S\.KEEP=new Set\(\[[\s\S]*?'ev_y0_exam2'[\s\S]*?\]\)/.test(ecf));
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 2 項 1-3 econff3d.js 的 S.KEEP）
 const r2=read('src/r2y4a3d.js'), m=r2.match(/S\.us2RepairDue=G=>\{[^\n]*/); check('2. 3-1：us2RepairDue 看 inUS(G)、不再只限社區三區',!!m&&/inUS\(G\)/.test(m[0])&&!/'us_outside','us_apartment','us_shared'/.test(m[0]),m&&m[0].slice(0,200));
 // 3、4、5：載 vac_activities.js 和 vac3d.js 的函式（假的 STORY／CALENDAR）
 const sb={console,Math,JSON,Object,Array,Set,Map,String,Number,Date,Promise};

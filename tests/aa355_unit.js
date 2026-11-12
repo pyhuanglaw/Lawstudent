@@ -24,7 +24,7 @@ const items=k=>{ const day=D(k); const G={day,hour:8,weekday:CALENDAR.dateOf(day
     ['src/data/calendar.js','校定假日：等 AA 給清單'],['src/data/calendar.js','其他學年等 AA'],['src/data/characters.js','休學等 AA 確認'],['src/data/characters.js','其他個性等 AA、BB 寫'],
     ['src/data/events.js','LAWWW 加的場景說明（等 AA 看）'],['src/data/events.js','邀約的台詞等 AA（已問）'],['src/data/events.js','LAWWW 2026-10-14，等 AA 確認'],['src/data/events.js','跟媽媽說那段等 AA'],
     ['src/data/events.js','熟悉度上升沒有給數字（等 AA-B）'],['src/data/events.js','10/15 的聚會等 AA-B 給內容'],['src/data/events.js','邀約句等 AA-B'],['src/data/events.js','要不要提前到 10/17 以前等 AA'],
-    ['src/data/events.js','「路過」版本等 AA-B 給字'],['src/data/events.js','照片說明等 AA-B'],['src/econff3d.js','另一張表（等 AA）'],['src/econff3d.js','等 AA 交 retake_home'],['src/game3d.js','內容等 AA、BB；目前是空的'],
+    ['src/data/events.js','「路過」版本等 AA-B 給字'],['src/data/events.js','照片說明等 AA-B'],['src/game3d.js','內容等 AA、BB；目前是空的'],
     ['src/group3d.js','AA 沒有寫祐廷這時候回什麼'],['src/home3d.js','日期暫定（等 AA-B）'],['src/invites3d.js','每個人的個性等 AA、BB'],['src/invites3d.js','劇情內容等 AA、BB'],
     ['src/story3d.js','搬到大一下的版本等 AA_218'],['src/story3d.js','細節等 AA_195'],['src/story3d.js','旁白的新字等 AA_195'],['src/story3d.js','等 AA-B 定字'],['src/story3d.js','現任社長的歡迎一則等 AA'],
     ['src/story3d.js','要不要提前到 10/17 以前等 AA'],['src/story3d.js','是 LAWWW 寫的（等 AA）'],['src/story3d.js','之後每週的固定格等 AA-B'],['src/story3d.js','之後的學期等那一學年做'],['src/story3d.js','「被拱出來」的那一句等 AA'],

@@ -4,7 +4,7 @@
 const fs=require('fs'), path=require('path'), vm=require('vm');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global;
-for(const [f,n] of [['src/data/retake_home.js','RETAKE_HOME'],['src/data/ladder.js','LADDER']]) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const '+n+'\\s*=','m'),'global.'+n+'='),{filename:f});
+for(const [f,n] of [['RETAKE_HOME'],['src/data/ladder.js','LADDER']]) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const '+n+'\\s*=','m'),'global.'+n+'='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const EXPR=['annoyed','embarrassed','laugh','neutral','sad','serious','smile','surprised','teasing','thinking','tired'];   /* 可昕的立繪（assets/portraits/kexin/）*/
 const lines=(o,pick,out=[])=>{ if(Array.isArray(o)) o.forEach(x=>lines(x,pick,out)); else if(o&&typeof o==='object'){ if(pick(o)) out.push(o); for(const k in o) lines(o[k],pick,out); } return out; };

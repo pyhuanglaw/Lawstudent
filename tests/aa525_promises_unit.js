@@ -316,7 +316,7 @@ await sec('3-8',async()=>{
   const k13=lad('Y1S2',KX,'K2-L8');
   check('3-8 K-13. 閒聊階梯 K2-L8「我去找妳。」→「……真的喔？那我帶你去夜市。」',!!k13&&k13.choices[0].reply==='……真的喔？那我帶你去夜市。');
   const s=stripComments(SRC('src/story3d.js'));
-  check('3-8 K-14. 經濟系 E12 的兩個回覆：「……牠脖子很短。就這樣。」「……不用補。睡飽一點。」',s.includes("say:[K('……牠脖子很短。就這樣。')]")&&s.includes("say:[K('……不用補。睡飽一點。')]"));
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（3-8 K-14 經濟系 E12 的兩個回覆）
 });
 await sec('3-9',async()=>{
   const kh=async(noshow,call)=>{ fresh('2027-08-07',10,Object.assign({dating_kexin:true},noshow?{Y2R2_K14_NOSHOW:true}:{})); H.FRIEND(KX); if(call) H.G.events.done.ev_kexin_summer_plan_call=true; await runEv('ev_kexin_trip_summer_y2',['恭喜']); return {s:said(),o:H.opts.slice()}; };
@@ -341,9 +341,7 @@ await sec('3-11',async()=>{
     s.includes("{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好。')]}")&&s.includes("say:[K('這題我要偷走。')]")&&y.includes("{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}"));
   check('3-11. 出國的計畫「歐洲要排很久。……我先存錢。」',VAC_DATA&&JSON.stringify(VAC_DATA).includes('"later":"歐洲要排很久。……我先存錢。"'));
   check('3-11. AA_526 撤回：大三上期末飯第二句照原句「寒假你來高雄。……我們都沒去過的地方，我來排。」；「寒假要去哪裡？」→「不告訴你。來了就知道。」不改',J(TERMEND_LINES.KX.Y3S1.table)===J(['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……我們都沒去過的地方，我來排。'])&&J(TERMEND_LINES.KX_ASK.Y3S1[1].r)===J(['不告訴你。來了就知道。']));
-  const e18=async r2=>{ fresh('2025-04-24',19,{},'gongguan'); if(r2) H.G.events.done.ev_y0_r2=true; H.G.stage='econ'; await runEv('ev_y0_e18b',['請她吃一碗豆花']); return said(); };
-  const A=await e18(true), B=await e18(false);
-  check('3-11. AA_356 漏的一筆：演過豆花賭注（「所以你欠我一碗。」）、4/24 生日選「請她吃一碗豆花」＝多「……欠的那一碗。好，扣掉。」',seq(['難怪你剛剛一直不見。','……欠的那一碗。好，扣掉。'],A)&&!B.includes('……欠的那一碗。好，扣掉。')&&B.includes('難怪你剛剛一直不見。'),J([A.slice(-3),B.slice(-2)]));
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（3-11 AA_356 漏的一筆（ev_y0_e18b 可昕生日））
 });
 await sec(4,async()=>{
   const nf=['ZQ_SAW_THIRD','ZQ_D06_TREAT','ZQ_D15_NEXT','PS_NOT_YET_TOLD','PS_SCHOOLROAD','PS_D05_EGG','KX_PAGE2_MINE','KX_WISH3','KX_CARD_MINE','KX_CAKE_YOU','KX_TASSEL_PROMISE'];
