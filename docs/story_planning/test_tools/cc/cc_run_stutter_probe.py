@@ -11,7 +11,7 @@
   另外記遊戲自己的 dt（GAME.E.lastDt／E.dt 有就記）、JS 長任務（PerformanceObserver longtask，有就記）。
 輸出：stutter_<TAG>.json（每段每幀原始資料）＋run.log 總表。判定只有「探針有跑完、量到東西」；數字給 LAWWW 判。
 （第二輪 LAWWW-C 04:42：VIEW／DSF／HOUR；跑步前後記 E.q、renderer 像素比、畫布、render.calls／triangles、programs；每幀記畫質有沒有變；跑不遠就記停的位置和附近 collider）
-CC_02 清單 2026-11-12：1✓ 2✓（第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
+CC_02 清單 2026-11-12：1✓ 2✓（第五輪加 WINPOS、renderer.render 間隔、螢幕資訊；第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONES=wenzhou,campus,gongguan] [RUN_S=10] [VIEW=2308x1064 DSF=1|1.25|1.5|2 HOUR=17.58] python3 cc_run_stutter_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, statistics
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -34,9 +34,10 @@ DAY = '2025-10-22'
 PLACE = {'wenzhou': {'x': None, 'z': None, 'dir': None, 'name': '溫州街'},
          'campus': {'x': 2.0, 'z': -100.0, 'dir': (0.0, -1.0), 'name': '校園椰林大道（往北）'},
          'gongguan': {'x': None, 'z': None, 'dir': None, 'name': '公館'}}
-REC_ON = r"""(()=>{ const E=GAME.E, P=E.player; window.__st={f:[], lt:[]}; window.__stOn=true;
+REC_ON = r"""(()=>{ const E=GAME.E, P=E.player; window.__st={f:[], lt:[], r:[]}; window.__stOn=true;
+  if(!window.__stRW&&E.renderer){ const r0=E.renderer.render; E.renderer.render=function(){ if(window.__stOn){ window.__st.r.push(performance.now()); window.__stRC=(window.__stRC|0)+1; } return r0.apply(this,arguments); }; window.__stRW=true; }   /* 第五輪（LAWWW-C 06:51）：真的有畫的幀（renderer.render 被叫的時間）；有幀率上限時 rAF 會空轉 */
   try{ if(!window.__stLT&&typeof PerformanceObserver!=='undefined'){ window.__stLT=new PerformanceObserver(l=>{ if(window.__stOn) for(const e of l.getEntries()) window.__st.lt.push([+e.startTime.toFixed(1), +e.duration.toFixed(1)]); }); window.__stLT.observe({entryTypes:['longtask']}); } }catch(e){}
-  let last=null; const f=t=>{ if(!window.__stOn) return; const o=P.obj.position; const cv=E.renderer&&E.renderer.domElement, qq=E.q||{}; window.__st.f.push([+t.toFixed(2), last==null?null:+(t-last).toFixed(2), +o.x.toFixed(4), +o.z.toFixed(4), P.speed==null?null:+(+P.speed).toFixed(2), P.pose||null, E.lastDt!=null?+(+E.lastDt).toFixed(4):(E.dt!=null?+(+E.dt).toFixed(4):null), !!P.runHold, qq.level||null, qq.pr==null?null:+qq.pr, E.renderer?+E.renderer.getPixelRatio().toFixed(3):null, cv?cv.width+'x'+cv.height:null, !!qq.shadows]); last=t; requestAnimationFrame(f); };
+  let last=null; const f=t=>{ if(!window.__stOn) return; const o=P.obj.position; const cv=E.renderer&&E.renderer.domElement, qq=E.q||{}; window.__st.f.push([+t.toFixed(2), last==null?null:+(t-last).toFixed(2), +o.x.toFixed(4), +o.z.toFixed(4), P.speed==null?null:+(+P.speed).toFixed(2), P.pose||null, E.lastDt!=null?+(+E.lastDt).toFixed(4):(E.dt!=null?+(+E.dt).toFixed(4):null), !!P.runHold, qq.level||null, qq.pr==null?null:+qq.pr, E.renderer?+E.renderer.getPixelRatio().toFixed(3):null, cv?cv.width+'x'+cv.height:null, !!qq.shadows, window.__stRC|0]); last=t; requestAnimationFrame(f); };
   requestAnimationFrame(f); return true; })()"""
 REC_OFF = "(()=>{ window.__stOn=false; return window.__st; })()"
 INFO_JS = r"""(()=>{ const E=GAME.E, r=E.renderer, i=r&&r.info, cv=r&&r.domElement; return {q:JSON.parse(JSON.stringify(E.q||{})), pr:r?r.getPixelRatio():null, canvas:cv?[cv.width,cv.height]:null, css:cv?[cv.clientWidth,cv.clientHeight]:null, dpr:window.devicePixelRatio,
@@ -78,6 +79,20 @@ async def seg(pg, cdp, tag, name, fn):
     runs = sum(1 for f in d['f'] if f[7]); poses = {}
     for f in d['f']: poses[f[5]] = poses.get(f[5], 0) + 1
     st['runHold_frames'] = runs; st['poses'] = poses
+    rr = d.get('r') or []; ri = [rr[i] - rr[i - 1] for i in range(1, len(rr))]
+    fa = [f[1] for f in d['f'] if f[1] is not None]
+    def dist(v):
+        if not v: return None
+        q = sorted(v); n = len(q); m = sum(q) / n
+        return {'n': n, 'p10': round(q[int(0.1 * n)], 2), 'p50': round(q[n // 2], 2), 'p95': round(q[min(n - 1, int(0.95 * n))], 2), 'max': round(q[-1], 2), 'mean': round(m, 2), 'std': round((sum((x - m) ** 2 for x in q) / n) ** 0.5, 2)}
+    st['raf_interval'] = dist(fa); st['render_interval'] = dist(ri)
+    st['render_fps'] = round(len(ri) / (sum(ri) / 1000.0), 1) if ri and sum(ri) else None
+    # 有幀率上限時，rAF 空轉的那幾幀人本來就不動：「凍住再一大跳」改用真的有畫的幀再算一次（第 13 欄＝renderer.render 次數）
+    fr = [f for i, f in enumerate(d['f']) if len(f) > 13 and (i == 0 or f[13] != d['f'][i - 1][13])]
+    if len(fr) > 3:
+        fr2 = [list(fr[0][:2]) + list(fr[0][2:])]
+        for i in range(1, len(fr)): x = list(fr[i]); x[1] = round(fr[i][0] - fr[i - 1][0], 2); fr2.append(x)
+        sr = stats(fr2); st['rendered'] = {k: sr.get(k) for k in ('frames', 'fps', 'gt50', 'max_ms', 'p50', 'p95', 'freeze_then_jump', 'fj_examples')}
     R.note('%s %s：%s' % (tag, name, J(st)))
     return st, d
 
@@ -94,6 +109,7 @@ async def main():
             if os.environ.get('CHANNEL'): kw.pop('executable_path', None); kw['channel'] = os.environ['CHANNEL']
             # BB-C 06:47 選 B：只有 PROBE_HEADED=1 的那兩項自己開視窗（runner 的 config HEADLESS=1 不動；gpu_wrap 在 launch 當下讀 CC_HEADLESS）
             if os.environ.get('PROBE_HEADED') == '1': os.environ['CC_HEADLESS'] = '0'; kw['headless'] = False
+            if os.environ.get('WINPOS'): xa = xa + ['--window-position=' + os.environ['WINPOS']]   # 第五輪：視窗放到哪個螢幕（使用者外接 300 Hz 在 [0,0]、內建 60 Hz 在 [-1098,0]）
             b = await p.chromium.launch(args=L.ARGS + xa, **kw)
             R.setup('【前置】瀏覽器：channel %s；加的參數 %s；CC_GPU=%s CC_HEADLESS=%s（gpu_wrap 在 CC_GPU=1 時另外加 d3d11 參數）' % (kw.get('channel') or 'Playwright Chromium', xa, os.environ.get('CC_GPU', '1'), os.environ.get('CC_HEADLESS')))
             ctx = await b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=DSF, has_touch=True, is_mobile=False)
@@ -105,6 +121,8 @@ async def main():
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         res['renderer'] = await pg.evaluate("(()=>{ try{ const g=GAME.E.renderer.getContext(); const x=g.getExtension('WEBGL_debug_renderer_info'); return x?g.getParameter(x.UNMASKED_RENDERER_WEBGL):g.getParameter(g.RENDERER); }catch(e){ return String(e); } })()")
         R.note('WebGL：%s' % res['renderer'])
+        res['screen'] = await pg.evaluate("({screenX:window.screenX, screenY:window.screenY, sw:screen.width, sh:screen.height, availLeft:screen.availLeft, dpr:window.devicePixelRatio, fpsCap:(typeof GAME!=='undefined'&&GAME.fpsCap!=null)?GAME.fpsCap:null, url:location.search})")
+        R.note('視窗在螢幕上的位置、螢幕大小、dpr、遊戲的 fpsCap：%s' % J(res['screen']))
         for zid in ZONES:
             P = PLACE.get(zid, {'x': None, 'z': None, 'dir': None, 'name': zid}); tag = '[%s]' % P['name']
             s = await D.load_zone(pg, cdp, zid, DAY, HOUR, x=P['x'], z=P['z'], yaw=0.0, wait=10000) if P['x'] is not None else await D.load_zone(pg, cdp, zid, DAY, HOUR, wait=10000)
@@ -143,6 +161,7 @@ async def main():
             zres['walk'], _ = await seg(pg, cdp, tag, '③ 走路 %.0f 秒（反方向走回來）' % RUN_S, lambda: push(int(RUN_S * 1000)))
             res['zones'][zid] = zres
             open(os.path.join(OUT, 'stutter_%s_%s_run_frames.json' % (TAG, zid)), 'w', encoding='utf-8').write(J(raw_run))
+            R.note('%s 【有畫的幀】跑步 rAF 間隔 %s；renderer.render 間隔 %s；有畫的 fps %s；只算有畫的幀 %s' % (tag, J(zres['run'].get('raf_interval')), J(zres['run'].get('render_interval')), zres['run'].get('render_fps'), J(zres['run'].get('rendered'))))
             R.note('%s 【總表】站著 fps %s／>50ms %s；跑步 fps %s／>50ms %s／最長 %s ms／凍住再一大跳 %s 次；走路 fps %s／>50ms %s／凍住再一大跳 %s 次' % (
                 tag, zres['idle'].get('fps'), zres['idle'].get('gt50'), zres['run'].get('fps'), zres['run'].get('gt50'), zres['run'].get('max_ms'), zres['run'].get('freeze_then_jump'),
                 zres['walk'].get('fps'), zres['walk'].get('gt50'), zres['walk'].get('freeze_then_jump')))
