@@ -21,7 +21,7 @@ await sec(1,()=>{ const L=WZS.windowItems().map(x=>x.label);
   check('1. 溫州街多五個按鈕（日日便利 2026-11-04 改名日和便利店，AA_647 第 6 節）',['進入日和便利店','買水果','看阿忠鮮果','看常在洗衣','看布告欄'].every(l=>L.includes(l)),J(L)); });
 
 await sec(2,async()=>{ fresh('2026-06-10',8);
-  await WZS.interact(GM,{wzShop:'fruit',kind:'window'}); check('2. 08:00 還沒開：提示營業時間',toasts.includes('阿忠鮮果：09:00～22:00')&&!H.said.length);
+  await WZS.interact(GM,{wzShop:'fruit',kind:'window'}); check('2. 08:00 還沒開：提示營業時間（照 places.js：AA-C 11-12 改 10:00–21:00、週一公休）',toasts.includes('阿忠鮮果：'+PLACES.hours.wz_fruit.text)&&!H.said.length);
   fresh('2026-06-10',10); H.picks=['「送人。」','芒果']; await WZS.interact(GM,{wzShop:'fruit',kind:'window'});
   check('2. 第一次：「要吃還是要送人？」→「送人。」→「那我幫你挑漂亮的。」（他把袋子裡的一顆換掉了。）',H.has('要吃還是要送人？')&&H.has('那我幫你挑漂亮的。')&&H.has('（他把袋子裡的一顆換掉了。）'),J(H.lines()));
   const m6=H.opts[1]||[]; check('2. 6 月：有芒果、西瓜、鳳梨，沒有柳丁、草莓',m6.some(t=>/芒果/.test(t))&&m6.some(t=>/西瓜/.test(t))&&m6.some(t=>/鳳梨/.test(t))&&!m6.some(t=>/柳丁|草莓/.test(t)),J(m6));

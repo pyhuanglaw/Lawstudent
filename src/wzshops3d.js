@@ -233,7 +233,7 @@ const WZS=(()=>{
   S.cvsHere=G=>!!G&&G.zone==='cvs'&&G.flags.CVS_FROM==='wenzhou';
   S.cvsGreet=G=>{ const C=S.AA413.cvs, h=((hr(G)%24)+24)%24, P=h>=6&&h<22?C.day:C.night; return (G.flags.WZ_CVS_N|0)>=4?P.known:P.first; };
   S.cvsExamLine=G=>{ const t=T_(G), h=((hr(G)%24)+24)%24; return !!t&&!!t.exam&&h>=21&&G.flags.WZ_CVS_EXAM!==G.day; };
-  S.fruit=async function(GM){ const G=GM.G, A=S.AA413.fruit; if(!S.fruitOpen(G)){ GM.toast('阿忠鮮果：09:00～22:00',4000); return false; }
+  S.fruit=async function(GM){ const G=GM.G, A=S.AA413.fruit; if(!S.fruitOpen(G)){ const t=typeof PLACES!=='undefined'&&PLACES.hours&&PLACES.hours.wz_fruit&&PLACES.hours.wz_fruit.text; GM.toast('阿忠鮮果：'+(t||'09:00～22:00'),4000); return false; }   /* 營業時間照 places.js（AA-C 11-12：10:00–21:00、週一公休）*/
     if(typeof EAT!=='undefined'&&EAT.addShop&&!(EAT.SHOPS_X&&EAT.SHOPS_X[A.key])) EAT.addShop(A.key,{shop:'溫州街・'+A.key,show:'溫州街・'+A.name,staff:{who:A.who,line5:null,same:null,alt:null},first:null,door:false});
     const who={name:A.who}, kn=typeof EAT!=='undefined'&&EAT.count?EAT.count(G,A.key)>=4:false;
     if(kn) await GM.say(who,A.known(G));

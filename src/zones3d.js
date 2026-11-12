@@ -1534,7 +1534,9 @@ const Z3 = (function(){
   /* 季節節點（LAWWW2-B）：SEASON_AZALEA_on／_off（3 月杜鵑開）、SEASON_SWEETGUM_on_*／_off_*（12～1 月楓香紅葉）；那個季節顯示 _on、藏 _off，其他月份相反。月份照遊戲日期（進區域時決定） */
   /* ICECLOSED（溫州街 v5 的夏日冰菓室）：AA_164 1-2「只在 5～9 月拉開鐵門」——10～4 月顯示 _on（鐵捲門、冬天休息）*/
   function wzParkSeason(root){ let m=6; try{ const G=typeof GAME!=='undefined'&&GAME.G; if(G&&typeof CALENDAR!=='undefined') m=CALENDAR.dateOf(G.day).m; }catch(e){}
-    root.traverse(o=>{ const k=/^SEASON_([A-Z]+)_(on|off)/.exec(o.name||''); if(!k) return; const on=k[1]==='AZALEA'?m===3:(k[1]==='SWEETGUM'?(m===12||m===1):(k[1]==='ICECLOSED'?!(m>=5&&m<=9):false)); o.visible=(k[2]==='on')===on; }); return m; }
+    /* 冰菓室改全年營業（AA-C 11-12；places.js wz_ice）：鐵捲門照 PLACES.inSeason，不再寫死 5～9 月（BB_379 WZ_ICE_tue FAIL）*/
+    let iceShut=!(m>=5&&m<=9); try{ const G=typeof GAME!=='undefined'&&GAME.G; if(typeof PLACES!=='undefined'&&PLACES.inSeason) iceShut=!PLACES.inSeason('wz_ice',G&&G.day); }catch(e){}
+    root.traverse(o=>{ const k=/^SEASON_([A-Z]+)_(on|off)/.exec(o.name||''); if(!k) return; const on=k[1]==='AZALEA'?m===3:(k[1]==='SWEETGUM'?(m===12||m===1):(k[1]==='ICECLOSED'?iceShut:false)); o.visible=(k[2]==='on')===on; }); return m; }
   /* 阿德影印的狀態（WZ_COPY_SHOP，wz_events.js 1-5／wzlines3d.js）：'moved'｜'stay'｜''（還沒決定）；節點顯示的規則；店門在哪裡 */
   function wzCopyState(G){ const v=G&&G.flags&&G.flags.WZ_COPY_SHOP; return v==='moved'||v==='stay'?v:''; }
   function wzCopyVis(name,st){ return name==='COPY_CORNER_OPEN'||name==='COPY_A1_SHUT'?st==='moved':(name==='COPY_A1_RENEW'?st==='stay':st!=='moved'); }
