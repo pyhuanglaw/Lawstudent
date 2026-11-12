@@ -1,0 +1,34 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_place_gate_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SOFA_SOCLIB2F_r3\out
+CC 地點關卡第二層：TAG sofa_soclib2f_r3；SHA a57b6ec8ab549a16ff15a53c38edcba63429f019；ZONES soclib_2f；HOURS [14.0]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [soclib_2f 1400] 【前置／捷徑】讀檔進 soclib_2f 2025-10-22 14.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+PASS [soclib_2f 1400] 量得到房間範圍、有門  {"n": 851, "box": [-7.2, 7.2, -10.4, 2], "c": [0, -4.2], "exit": {"x": -7.6, "z": -8.4, "label": "回閱覽室", "to": "soclib", "spawn": {"x": 13.4, "z": 8.8, "yaw": -1.5708}}, "counter": {"x": -2.7, "z": -1.5, "label": "看置物櫃"}, "seat": {"x": 7.62, "z": -3, "label": "坐在長椅上"}, "name": "soclib_2f"}
+  [  94.4s] 走不到「[soclib_2f 1400] ⑦ 走到「看置物櫃」（第 1 段）」：最後位置 (-1.39,-1.87)，目標 (-2.7,-1.5)；點地面 8 次、轉鏡頭 1 次、搖桿 0 次
+  [  94.4s]   這段時間：畫面 1500 格／32 秒、遊戲時間 14.06→14.27、paused=False、開著的面板 []
+  [ 127.5s] 走不到「[soclib_2f 1400] ⑦ 走到「看置物櫃」（第 2 段）」：最後位置 (-1.39,-1.87)，目標 (-2.7,-1.5)；點地面 12 次、轉鏡頭 0 次、搖桿 0 次
+  [ 127.5s]   這段時間：畫面 1502 格／32 秒、遊戲時間 14.28→14.49、paused=False、開著的面板 []
+  [ 160.6s] 走不到「[soclib_2f 1400] ⑦ 走到「看置物櫃」（第 3 段）」：最後位置 (-1.39,-1.87)，目標 (-2.7,-1.5)；點地面 12 次、轉鏡頭 0 次、搖桿 0 次
+  [ 160.7s]   這段時間：畫面 1456 格／33 秒、遊戲時間 14.50→14.71、paused=False、開著的面板 []
+  [ 162.2s] [soclib_2f 1400] ⑦ 座位 1 張：[{"label": "坐在長椅上", "x": 6.97, "z": -3, "lv": 1, "sx": 7.62, "sz": -3, "sy": null, "slv": 1, "row": null, "ap": [6.82, -3], "lift": 0}]
+  [ 197.4s] 到達「[soclib_2f 1400] ⑦ #1（7.62, -3 二樓）（走到椅子附近）」附近（0.24 m）：點地面 5 次、轉鏡頭 2 次、搖桿 0 次，35 秒
+PASS [soclib_2f 1400] ⑦ #1（7.62, -3 二樓） 點椅子（螢幕 [376, 264]）走過去停在 (6.64, -3.157)（seatApproach [6.82, -3]）：最近的「坐下」是這一張  {"at": [6.64, -3.157], "nearest": {"label": "坐在長椅上", "seat": [7.62, -3], "exit": null}}
+PASS [soclib_2f 1400] ⑦ #1（7.62, -3 二樓） 走到旁邊，互動按鈕是「坐在長椅上」  {"x": 6.64, "z": -3.157, "lv": 1, "interact": "坐在長椅上", "stand": true}
+PASS [soclib_2f 1400] ⑦ #1（7.62, -3 二樓） 坐下了（player.seat）  {"x": 7.62, "z": -3, "y": 4.2, "lv": 1, "sx": 7.62, "sz": -3, "sy": null}
+PASS [soclib_2f 1400] ⑦ #1（7.62, -3 二樓） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 4.200＝座位那一層＋lift 4.200（±0.06）  {"x": 7.62, "z": -3, "y": 4.2, "lv": 1, "sx": 7.62, "sz": -3, "sy": null}
+PASS [黑畫面] gate_sofa_soclib2f_r3_soclib_2f_seat_seat_1 不是黑畫面（平均亮度 141.6、變化 67.6）  [141.6, 67.6]
+  [ 204.4s] [soclib_2f 1400] ⑦ #1（7.62, -3 二樓） 起身點了：["起身"]
+PASS [soclib_2f 1400] ⑦ #1（7.62, -3 二樓） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 8.42, "x": 0.974, "z": -9.006, "lv": 1, "stand": true, "fb": 0}
+  [ 206.4s] [soclib_2f 1400] ⑦ 出口「回閱覽室」範圍 {"label": "回閱覽室", "x": -7.6, "z": -8.4, "r": 0.9, "lv": 0, "to": "soclib"}；走到範圍裡站得住的 {"x": -7.1, "z": -8.4, "d": 8.096849561293858}
+  [ 247.7s] 走不到「[soclib_2f 1400] ⑦ 走到「回閱覽室」（第 1 段）」：最後位置 (-7.21,-6.28)，目標 (-7.1,-8.4)；點地面 8 次、轉鏡頭 1 次、搖桿 0 次
+  [ 247.7s]   這段時間：畫面 2161 格／41 秒、遊戲時間 14.99→15.27、paused=False、開著的面板 []
+  [ 290.6s] 走不到「[soclib_2f 1400] ⑦ 走到「回閱覽室」（第 2 段）」：最後位置 (-7.23,-6.28)，目標 (-7.1,-8.4)；點地面 13 次、轉鏡頭 0 次、搖桿 0 次
+  [ 290.6s]   這段時間：畫面 2357 格／42 秒、遊戲時間 15.27→15.55、paused=False、開著的面板 []
+  [ 331.3s] 走不到「[soclib_2f 1400] ⑦ 走到「回閱覽室」（第 3 段）」：最後位置 (-7.48,-6.28)，目標 (-7.6,-8.4)；點地面 15 次、轉鏡頭 0 次、搖桿 0 次
+  [ 331.4s]   這段時間：畫面 2211 格／40 秒、遊戲時間 15.56→15.83、paused=False、開著的面板 []
+  [ 332.5s] [soclib_2f 1400] 【機器判】1_clerk=FAIL  1b_people_pos=PASS  2_window=PASS  3_ceiling=PASS  4_solid=PASS  7_console=PASS  7_func=FAIL；證據 {"people": {"total": 2, "clerk": 0, "customers": 2, "clerk_in_furniture": [], "face_wall": [], "people": [{"id": "", "x": -3.79, "z": -6.12, "clerkFlag": false, "pose": "walk", "seat": false, "stand": true, "face_m": null}, {"id": "", "x": -2.95, "z": -6.11, "clerkFlag": false, "pose": "walk", "seat": false, "stand": true, "face_m": null}]}, "ceiling": {"ray": {"hit": true, "d": 2.35, "name": ""}, "sky_up_pct": 0.1, "sky_top_entry": 6.8, "sky_top_counter": 0}, "parallax": null, "solid": {"magenta": {"1": 0, "2": 0, "3": 0, "5": 0}, "flat_top_pct": {"1": 11, "2": 6.1, "3": 30.1, "5": 11.3}}}
+  [ 332.5s] [soclib_2f 1400] 窗 {"rects": [{"rect": [0.474, 0.482, 0.513, 0.587, ""], "top_pct": 12.1, "top_rgb": [220, 180, 124], "n": 99, "edge_pct": 67, "near_med_pct": 50.5, "med": [220, 175, 118]}, {"rect": [0.474, 0.481, 0.513, 0.586, "L0_frost"], "top_pct": 13.3, "top_rgb": [220, 180, 124], "n": 90, "edge_pct": 70, "near_med_pct": 53.3, "med": [220, 175, 118]}, {"rect": [0, 0.055, 0.635, 0.717, "L0_glass"], "top_pct": 11.8, "top_rgb": [244, 220, 180], "n": 7747, "edge_pct": 41.5, "near_med_pct": 17.9, "med": [241, 204, 160]}, {"rect": [0.462, 0.659, 0.54, 0.69, ""], "top_pct": 15.6, "top_rgb": [52, 60, 60], "n": 64, "edge_pct": 25, "near_med_pct": 14.1, "med": [82, 83, 85]}], "worst": [15.6, [52, 60, 60], ""], "main": [17.9, [241, 204, 160], "L0_glass", 0.42, 41.5]}；閃 {}；做得到 {"order": {"reach": false, "picked": [], "said": 0, "money": [22000, 22000], "ui": null, "verdict": "UNKNOWN"}, "sit": {"res": [[1, "ok", 7.62, -3]], "verdict": "PASS"}, "out": {"verdict": "FAIL", "zone_after": "soclib_2f"}}
+FAIL [soclib_2f 1400] 1_clerk 機器判 FAIL  {"total": 2, "clerk": 0, "customers": 2, "clerk_in_furniture": [], "face_wall": [], "people": [{"id": "", "x": -3.79, "z": -6.12, "clerkFlag": false, "pose": "walk", "seat": false, "stand": true, "face_m": null}, {"id": "", "x": -2.95, "z": -6.11, "clerkFlag": false, "pose": "walk", "seat": false, "stand": true, "face_m": null}]}
+FAIL [soclib_2f 1400] 7_func 機器判 FAIL  {"order": {"reach": false, "picked": [], "said": 0, "money": [22000, 22000], "ui": null, "verdict": "UNKNOWN"}, "sit": {"res": [[1, "ok", 7.62, -3]], "verdict": "PASS"}, "out": {"verdict": "FAIL", "zone_after": "soclib_2f"}}
+【總表】{"1_clerk": {"FAIL": ["soclib_2f@14.0"]}, "1b_people_pos": {"PASS": ["soclib_2f@14.0"]}, "2_window": {"PASS": ["soclib_2f@14.0"]}, "3_ceiling": {"PASS": ["soclib_2f@14.0"]}, "4_solid": {"PASS": ["soclib_2f@14.0"]}, "7_func": {"FAIL": ["soclib_2f@14.0"]}, "7_console": {"PASS": ["soclib_2f@14.0"]}}
+FAILED 2: [soclib_2f 1400] 1_clerk 機器判 FAIL；[soclib_2f 1400] 7_func 機器判 FAIL
