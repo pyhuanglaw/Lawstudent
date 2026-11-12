@@ -119,7 +119,7 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
     check('4. 一起拿掉的：夜談的定義不在了',!ev('ev_camp_d2_talk'));
     check('4. 一起拿掉的：遊覽車那一段最後沒有「去年來過」那一句（條件 PLAYED_Y0 的列不在了）',!(ev('ev_camp_d1_bus').dialogue||[]).some(l=>l.if&&(l.if.flags||[]).includes('PLAYED_Y0')));
     const w=ev('ev_welcome_y1s1'), ch=(w.dialogue.find(l=>l.choice)||{}).choice||[];
-    check('4. 一起拿掉的：迎新自我介紹剩兩個選項、沒有 econ 那一支',ch.length===2&&!w.dialogue.some(l=>l.label==='econ'||l.label==='why_h')&&!ch.some(c=>c.goto==='econ'),J(ch.map(c=>c.text))); });
+    check('4. 一起拿掉的：迎新自我介紹照 AA_883 三個選項、沒有 econ 那一支',ch.length===3&&ch[1].text==='「我叫{name}。從小就想念這裡。」'&&!w.dialogue.some(l=>l.label==='econ'||l.label==='why_h')&&!ch.some(c=>c.goto==='econ'),J(ch.map(c=>c.text))); });
 
   await sec('5',async()=>{
     const B=docs?quoteBlocks(A856).map(b=>b.map(sayOf)):null;   /* 0＝開頭三句、1＝選項一、2＝選項二、3＝保底、4＝教室外面那一句 */
