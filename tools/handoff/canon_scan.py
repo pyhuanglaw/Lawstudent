@@ -7,7 +7,7 @@ import subprocess, sys, re, os
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 T = lambda s: s.encode('ascii').decode('unicode_escape')
 # 字表：舊序章的系名、入學方式、說法、外校的名字（遊戲內代稱和真實校名）、舊序章的人
-TERMS = [T(x) for x in [r'\u7d93\u6fdf\u7cfb', r'\u7d93\u6fdf\u5b78\u7cfb', r'\u91cd\u8003', r'\u4f11\u5b78', r'\u6728\u67f5', r'\u653f\u5927', r'\u524d\u50b3', r'\u653f\u6cbb\u5927\u5b78', r'\u7fe0\u5dba\u5341\u820d', r'\u6b63\u52f3', r'\u963f\u52f3', r'\u97cb\u7db8', r'\u5510\u777f', r'\u54c1\u59a4', r'\u5bb6\u8c6a', r'\u4f55\u4fca\u6717', r'\u4e88\u6a02']]
+TERMS = [T(x) for x in [r'\u54c1\u745c', r'\u9b4f\u6559\u6388', r'\u7d93\u6fdf\u7cfb', r'\u7d93\u6fdf\u5b78\u7cfb', r'\u91cd\u8003', r'\u4f11\u5b78', r'\u6728\u67f5', r'\u653f\u5927', r'\u524d\u50b3', r'\u653f\u6cbb\u5927\u5b78', r'\u7fe0\u5dba\u5341\u820d', r'\u6b63\u52f3', r'\u963f\u52f3', r'\u97cb\u7db8', r'\u5510\u777f', r'\u54c1\u59a4', r'\u5bb6\u8c6a', r'\u4f55\u4fca\u6717', r'\u4e88\u6a02']]
 # 不算的：行政大樓；畢業後國考落榜可以再考（D118，使用者 11-12 選擇題：留著）
 OK = [T(x) for x in [r'\u884c\u653f\u5927', r'\u570b\u8003[^\u3002\uff1b\n]{0,12}\u91cd\u8003', r'\u843d\u699c[^\u3002\uff1b\n]{0,8}\u91cd\u8003', r'\u91cd\u8003[^\u3002\uff1b\n]{0,6}(\u53f8\u6cd5\u5b98|\u5f8b\u5e2b|\u570b\u8003)', r'(\u53f8\u6cd5\u5b98|\u5f8b\u5e2b)[^\u3002\uff1b\n]{0,16}\u91cd\u8003']]
 # 沛珊大二上那條線留著（使用者 11-12 選擇題 UA-LAWWW-1112-41）：同一行或同一個檔講的是她時，「那種入學方式」「離開學校」兩個詞不算
