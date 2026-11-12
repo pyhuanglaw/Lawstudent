@@ -378,7 +378,7 @@ const R2Y4B_EVENTS=(function(){
       {advance:toDay('2028-10-13',18)},{scene:'峽谷',bg:'gc_rim_sunset'},   /* 11-02 使用者生成（傍晚的峽谷；原本深色底）*/
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
       {speaker:'heroine_05',text:'第四章，我本來想在這裡寫完。'},
-      {speaker:'heroine_05',text:'……結果一個字都沒寫。'},
+      {speaker:'heroine_05',text:'結果一個字都沒寫。'},
       {choice:[{text:'「那就不要寫。」',goto:'a'},{text:'（把你的外套也披到她身上）',goto:'b'}]},
       {label:'a'},{speaker:'heroine_05',text:'嗯。今天不寫。'},{speaker:null,text:'（她把頭靠在你肩上。）'},{goto:'back'},
       {label:'b'},{speaker:'heroine_05',text:'你會冷。'},{speaker:null,text:'（她拉開外套，把你也包進來。）'},
@@ -405,18 +405,18 @@ const R2Y4B_EVENTS=(function(){
       {choice:[{text:'「妳贏了。」',goto:'t4a',aa516:true},{text:'「你們有說話嗎？」',goto:'t4b',aa516:true}]},
       {label:'t4a'},{speaker:'heroine_05',text:'嗯。明天他會更早。',aa516:true},{goto:'inv'},
       {label:'t4b'},{speaker:'heroine_05',text:'沒有。點頭。這樣剛好。',aa516:true},{goto:'inv'},
-      {label:'t5'},{speaker:'heroine_05',text:'葉子全紅了。',aa516:true},{speaker:'heroine_05',text:'……我寄了一片回去。應該快到了。',aa516:true},   /* 10/26 楓葉書籤（ev_sis_maple）前面 */
+      {label:'t5'},{speaker:'heroine_05',text:'葉子全紅了。',aa516:true},{speaker:'heroine_05',text:'我寄了一片回去。應該快到了。',aa516:true},   /* 10/26 楓葉書籤（ev_sis_maple）前面 */
       {choice:[{text:'「寄給誰？」',goto:'t5a',aa516:true},{text:'「拍給我看。」',goto:'t5b',aa516:true}]},
       {label:'t5a'},{speaker:'heroine_05',text:'到了你就知道。',aa516:true},{goto:'inv'},
       {label:'t5b'},{speaker:null,text:'（她把鏡頭轉向窗外：一棵紅的樹。）',aa516:true},{speaker:'heroine_05',text:'這棵。',aa516:true},{goto:'inv'},
       {label:'t6'},{speaker:'heroine_05',text:'感恩節，同學的媽媽要請我吃飯。',aa516:true},{speaker:'heroine_05',text:'我在練習說謝謝。英文的，要說得像真的。',aa516:true},
       {choice:[{text:'「說一次給我聽。」',goto:'t6a',aa516:true},{text:'「妳本來就說得很真。」',goto:'t6b',aa516:true}]},
-      {label:'t6a'},{speaker:null,text:'（她說了一次。很標準。）',aa516:true},{speaker:'heroine_05',text:'……這樣可以嗎。',aa516:true},{goto:'inv'},
+      {label:'t6a'},{speaker:null,text:'（她說了一次。很標準。）',aa516:true},{speaker:'heroine_05',text:'這樣可以嗎。',aa516:true},{goto:'inv'},
       {label:'t6b'},{speaker:'heroine_05',text:'中文的才是。',aa516:true},{goto:'inv'},
       {label:'t7'},{speaker:'heroine_05',text:'最後一通。下週六回去。',aa516:true},{speaker:'heroine_05',text:'回去以後，這個時間我應該在睡覺。',aa516:true},
       {choice:[{text:'「回來見。」',goto:'t7a',aa516:true},{text:'「那換我打給妳。」',set:{SIS16_T7B:true},goto:'t7b',aa516:true}]},   /* AA_523 2-5（企劃線 0d7b5388b）：選 t7b 記 SIS16_T7B＝12/25 14:00「白天了。」（src/sis_b16_3d.js）*/
       {label:'t7a'},{speaker:'heroine_05',text:'嗯。回去見。',aa516:true},{goto:'inv'},
-      {label:'t7b'},{speaker:'heroine_05',text:'……白天打。我會醒著。',aa516:true},{goto:'inv'},
+      {label:'t7b'},{speaker:'heroine_05',text:'白天打。我會醒著。',aa516:true},{goto:'inv'},
       {label:'vn'},{unless:{custom:G=>R().sisVNarr(G)>0},speaker:null,text:'（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）'},   /* R().SA_V_NARR（AA_531 7-4 第 1 句）*/
       {if:{custom:G=>R().sisVNarr(G)===1},speaker:null,text:'（視訊。她那邊在下雨，窗戶的聲音比她的聲音還大。）',aa531:true},   /* AA_531 7-4（企劃線 475f55fe6）：七句輪流（r2y4b3d.js S.saVNarrNext）*/
       {if:{custom:G=>R().sisVNarr(G)===2},speaker:null,text:'（視訊。她一邊講一邊在計畫本上劃掉東西。你看不到她劃的是哪一格。）',aa531:true},
@@ -460,7 +460,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'g2a'},{speaker:'heroine_05',text:'我也在想。下禮拜再舉一次，看他怎麼說。'},{end:true},
       {label:'g2b'},{speaker:'heroine_05',text:'臺灣的法律扶助要等多久。他們那邊等更久。'},{end:true},
       {label:'g3'},{speaker:'heroine_05',text:'這邊沒有中秋。'},{speaker:null,text:'（她把一個小紙盒舉到鏡頭前，裡面是一顆月餅。）'},
-      {speaker:'heroine_05',text:'亞洲超市買的。一顆就要五塊美金。'},{speaker:'heroine_05',text:'……我切一半給你看。另一半留到星期二。'},
+      {speaker:'heroine_05',text:'亞洲超市買的。一顆就要五塊美金。'},{speaker:'heroine_05',text:'我切一半給你看。另一半留到星期二。'},
       {choice:[{text:'「我這邊也還沒吃。」',consequences:{stamp:['SIS13_G3_DAY']},goto:'g3a'},{text:'（把你桌上的柚子拿起來給她看）',goto:'g3b'}]},   /* AA_512 第 2 節第 9 點：記那一天（SIS13_G3_DAY），下一次視訊開頭兌現 */
       {label:'g3a'},{speaker:'heroine_05',text:'那星期二一起吃。你那邊早上，我這邊晚上。'},{end:true},
       {label:'g3b'},{speaker:'heroine_05',text:'不公平。'},{end:true},
@@ -486,7 +486,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'h2'},{speaker:'heroine_05',text:'這邊的游泳池是五十公尺的。',aa516:true},{speaker:'heroine_05',text:'我游一趟，中間要停一次。在臺灣不用。',aa516:true},
       {choice:[{text:'「會習慣的。」',goto:'h2a',aa516:true},{text:'「那就停一次。」',goto:'h2b',aa516:true}]},
       {label:'h2a'},{speaker:'heroine_05',text:'嗯。救生員已經記得我了。……他說我每天都是第一個。',aa516:true},{end:true},
-      {label:'h2b'},{speaker:'heroine_05',text:'……好。停一次，不算輸。',aa516:true},{end:true},
+      {label:'h2b'},{speaker:'heroine_05',text:'好。停一次，不算輸。',aa516:true},{end:true},
       {label:'h3'},{speaker:'heroine_05',text:'研討課的同學，都叫我 Shu。',aa516:true},{speaker:'heroine_05',text:'書瑀太難念了。他們念了三次，我說 Shu 就好。',aa516:true},
       {choice:[{text:'「那我也叫妳 Shu？」',goto:'h3a',aa516:true},{text:'「Shu 很好聽。」',set:{SIS16_H3B:true},goto:'h3b',aa516:true}]},   /* AA_523 1-2：選 h3b 記 SIS16_H3B＝1/20 拆箱多一個選項「Shu，謝謝。」*/
       {label:'h3a'},{speaker:'heroine_05',text:'不要。……你叫原本那個。',aa516:true},{end:true},
@@ -506,15 +506,15 @@ const R2Y4B_EVENTS=(function(){
       {label:'h7'},{speaker:'heroine_05',text:'宿舍的烘衣機壞了一台。大家都在排隊。',aa516:true},{speaker:'heroine_05',text:'我帶論文下去排。排到的時候，剛好寫完一段。',aa516:true},
       {choice:[{text:'「效率很好。」',goto:'h7a',aa516:true},{text:'「衣服乾了嗎？」',goto:'h7b',aa516:true}]},
       {label:'h7a'},{speaker:'heroine_05',text:'嗯。烘衣機壞掉的那一台，我希望它不要修。',aa516:true},{end:true},
-      {label:'h7b'},{speaker:'heroine_05',text:'……還沒。我又要下去一次。',aa516:true},{end:true},
+      {label:'h7b'},{speaker:'heroine_05',text:'還沒。我又要下去一次。',aa516:true},{end:true},
       {label:'h8'},{speaker:'heroine_05',text:'下雪了。這次積起來了。',aa516:true},{speaker:null,text:'（她把鏡頭轉向窗外：路燈下，白的。）',aa516:true},{speaker:'heroine_05',text:'你沒看過雪吧。',aa516:true},   /* 對齊 1-8、1-9（家族群組 12/3、12/6 的照片）*/
       {choice:[{text:'「沒有。」',goto:'h8a',aa516:true},{text:'「看過，在合歡山。」',goto:'h8b',aa516:true}]},
       {label:'h8a'},{speaker:'heroine_05',text:'那我拍給你。……有腳印的那種。',aa516:true},{end:true},   /* 家族群組 12/6（三）的照片就是 1-9 那一張（不另外送）*/
-      {label:'h8b'},{speaker:'heroine_05',text:'……那不一樣。這邊是一整片。',aa516:true},{end:true},
+      {label:'h8b'},{speaker:'heroine_05',text:'那不一樣。這邊是一整片。',aa516:true},{end:true},
       {label:'h9'},{speaker:'heroine_05',text:'最後一通了。',aa516:true},{speaker:'heroine_05',text:'下禮拜六，就不用開鏡頭了。',aa516:true},
       {choice:[{text:'「我會去接妳。」',set:{SIS14_RIGHT:true},goto:'h9a',aa516:true},{text:'「還是開一下。」',set:{SIS16_H9B:true},goto:'h9b',aa516:true}]},   /* AA_516 第 8 節第 2 點（企劃線 3cd10909b）：記 SIS14_RIGHT＝12/23 接機戀人版第一句旁白前面多一句「（你站在出口的右邊。）」（r2y4a_events.js ev_sis_pickup）。AA_523 5-2：選 h9b 記 SIS16_H9B＝接機戀人版回程車上多一句旁白 */
       {label:'h9a'},{speaker:'heroine_05',text:'嗯。……出口那邊，你站右邊。我出來先看右邊。',aa516:true},{end:true},
-      {label:'h9b'},{speaker:'heroine_05',text:'……好。在車上開。你開車，我拍你。',aa516:true} ],
+      {label:'h9b'},{speaker:'heroine_05',text:'好。在車上開。你開車，我拍你。',aa516:true} ],
     outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined') PHONE.post(G,{th:'p:heroine_05',from:'heroine_05',text:'你在忙。下週。',tag:'y4_sa_gmiss_'+((q.sa&&q.sa.k)|0)}); } },
   /* ---------- 2-Y4-57 台灣、日本路線：學姊在美國，秋假大峽谷（告白；AA_253 10-2、10-3）。10/7 早上桃園起飛 → 10/13 日落 → 10/14 起飛、10/15 晚上回到臺北 ---------- */
   { id:'ev_sis_canyon', title:'秋假：大峽谷', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,

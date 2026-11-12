@@ -421,9 +421,9 @@
    "sha": "07d45c98",
    "what": "第 13 組通過：CG-24 以安西洋情人節、CG-25 語彤中秋",
    "task": "ART-15",
-   "msg": "DELIVERED",
-   "integration": "部分整合",
-   "note": "",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "BB-C 11-12 判 ART-15 已驗收（CG_REGISTRY 90 張檔案全在，224c231f3c 讀碼）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
