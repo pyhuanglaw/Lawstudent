@@ -1019,8 +1019,13 @@ def loose(args):
             bad.append('有 %s 個 commit 還沒 push 到 %s' % (n, up))
     else:
         bad.append('目前分支沒有設定遠端（沒 push 過）')
-    try:
-        tasks = json.load(open(os.path.join(ROOT, 'docs/handoff/tasks.json'), encoding='utf-8'))['tasks']
+    try:   # 總表：--ref 給了就照它讀；沒給、這條分支也沒有總表（LAWWW2／AA／BB／CC）＝自動從 RULE_SOURCE 讀（BB-C 11-12：非 LAWWW 分支永遠報「讀不到 tasks.json」）
+        ref = getattr(args, 'ref', None)
+        if not ref and not os.path.exists(os.path.join(ROOT, TASKS)):
+            code, b = duty_state.find(args, quiet=True)
+            if not code and b:
+                ref = 'origin/' + b
+        tasks = json.loads(Src(getattr(args, 'root', ROOT), ref).read(TASKS))['tasks']
     except Exception as e:
         tasks = []; bad.append('讀不到 tasks.json：%s' % e)
     for t in tasks:
