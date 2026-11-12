@@ -490,14 +490,15 @@ const CROWD=(function(){
        盤點出來一個路人客人都沒有的店（都排在最後面：前面每一間的 ix 不變＝原本那些店的客人長相不變）：
        汀州路吃飯的店（配置 TZ_SHOPS_LAYOUT 有 tables 的：泰米村食、越好吃小館、客居雲南……之後新加的同一類自動算進來）＝配置的座位、吃飯的店的時段（meal）；
        印得好（自助電腦兩張椅子＋影印機前、櫃台前）、洗樂洗衣坊（三張「坐著等」的塑膠椅＋洗衣機、烘衣機前）＝影印店的時段、同時最多 2 位（print 的 cap：洗樂三張椅子一定留一張給玩家）；
-       安泰藥局、汀州鮮果、榮恩典文具社、花序（一樓）、慢輪單車＝站在貨架、展示前面看（shop：同時最多 4 位）。
+       安泰藥局、汀州鮮果、榮恩典文具社、東南大聯商行、汀州聯通、花序（一樓）、慢輪單車＝站在貨架、展示前面看（shop：同時最多 4 位）。
        站的點是在 Node 建出真正的區域量的（站得住、走得到、前面 0.75 m 是家具或牆、離每一個按鈕 0.95 m 以上、離出口 1.6 m 以上；tests/shop_life_audit_1112_unit.js 每一點都再驗一次）。
        禮貌生財不排（上師的命理館，不是一般的店）。人數上限照舊（S.SHOP_CAP 10、各種店的 cap），沒有新增任何一句話。*/
     { const TZL=typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT:null;
       const tzSeats=L=>seatsOf((L.seats||[]).map(q=>Object.assign({},q,{table:L.id+'_t'+q.table})));   /* 區域的座位（tz_shops3d.js）table＝'<店>_t<桌號>' */
       const STAND={ yindehao:[[-2.0,-0.5,-P/2],[0.5,-0.75,P/2]], xile:[[-1.75,0.5,-P/2],[1.5,-1.5,P/2]],
-        antai:[[-1.0,-1.0,-P/2],[0.75,0.0,P/2],[3.25,-1.5,-P/2],[-3.5,1.5,-P/2]], xianguo:[[-2.25,3.0,-P/2],[0.25,-0.25,P],[1.75,-0.5,P]], rongendian:[[-3.5,-1.75,-P/2],[-1.0,-1.5,-P/2],[2.0,0.0,0],[3.25,1.0,P/2]] };
-      const KIND={yindehao:'print',xile:'print',antai:'shop',xianguo:'shop',rongendian:'shop'};
+        antai:[[-1.0,-1.0,-P/2],[0.75,0.0,P/2],[3.25,-1.5,-P/2],[-3.5,1.5,-P/2]], xianguo:[[-2.25,3.0,-P/2],[0.25,-0.25,P],[1.75,-0.5,P]], rongendian:[[-3.5,-1.75,-P/2],[-1.0,-1.5,-P/2],[2.0,0.0,0],[3.25,1.0,P/2]],
+        dongnan:[[-3.0,-0.75,-P/2],[-0.5,-2.25,-P/2],[0.75,-3.75,P],[1.75,-1.5,-P/2]], liantong:[[-1.5,1.25,-P/2],[-1.5,-1.0,P]] };   /* 東南大聯商行、汀州聯通（開發分支 11-12 才進來的兩間）；汀州聯通櫃台前的兩張圓凳留給玩家，只排站著看的 */
+      const KIND={yindehao:'print',xile:'print',antai:'shop',xianguo:'shop',rongendian:'shop',dongnan:'shop',liantong:'shop'};
       if(TZL) for(const id of Object.keys(TZL)){ const L=TZL[id]; if(!L||!L.zone||!L.spawn||out.some(d=>d.zone===L.zone)) continue;
         if(Array.isArray(L.tables)&&L.tables.length&&L.counter&&(L.seats||[]).length>=8) add(L.zone,'meal',[L.spawn.x,L.spawn.z],S.pairUnits(tzSeats(L)));   /* 吃飯的店：有桌子、有櫃台、八個位子以上 */
         else if(KIND[id]) add(L.zone,KIND[id],[L.spawn.x,L.spawn.z],(KIND[id]==='print'?S.pairUnits(tzSeats(L)):[]).concat(standUnits(STAND[id]||[])),{noKeep:true}); }

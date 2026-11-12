@@ -64,8 +64,8 @@ const SHOPS=[]; { const add=z=>{ if(z&&Z3.ZONES[z]&&Z3.ZONES[z].indoor&&!SHOPS.i
   for(const z of ['flower_notes','wz_offbeat','xs_dakou','tz_xile','us_market']) add(z); }
 const NOT_SHOP={xs_nanyang_hall:'南洋戲院的影廳（不是店面；大廳 xs_nanyang 有算）'};
 const LIST=SHOPS.filter(z=>!NOT_SHOP[z]);
-/* 2026-11-12 盤點過的 45 間（盤點表有一列）。之後新加的店（清單裡有、這裡沒有）：店員照樣要有（第 2 節會擋）；路人客人、盤點表那一列先印 WARN 提醒（不擋：加店的人把它加進 crowd3d.js 的 S.shopDefs 和盤點表，再加進這裡）*/
-const AUDITED=['cafe','cvs','noodle','bookstore','bikeshop','afar','daybreak','yangyang','corner_records','aoki','flower_notes','gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yuehaochi','tz_keju','tz_yindehao','tz_xile','tz_limao',
+/* 2026-11-12 盤點過的 47 間（盤點表有一列）。之後新加的店（清單裡有、這裡沒有）：店員照樣要有（第 2 節會擋）；路人客人、盤點表那一列先印 WARN 提醒（不擋：加店的人把它加進 crowd3d.js 的 S.shopDefs 和盤點表，再加進這裡）*/
+const AUDITED=['cafe','cvs','noodle','bookstore','bikeshop','afar','daybreak','yangyang','corner_records','aoki','flower_notes','gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yuehaochi','tz_keju','tz_yindehao','tz_xile','tz_limao','tz_dongnan','tz_liantong',
   'wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_offbeat','wz_mokuyobi','xs_tongxian','xs_nanyang','xs_shanlan','xs_dakou','xs_dabu','xs_haopai','xs_xsports','l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_pasta','l118_korea','l118_omu','l118_noodle2','us_market','us_asian_market'];
 const NEWCOMER=LIST.filter(z=>!AUDITED.includes(z));
 if(NEWCOMER.length) console.log('WARN 盤點以後新加的店（盤點表還沒有；路人客人請加進 crowd3d.js S.shopDefs）：'+NEWCOMER.join(' '));
@@ -76,7 +76,7 @@ const NO_CUST={tz_limao:'上師的命理館：不是一般的店，客人就是�
 const isOpen=(z,day,h)=>{ const m=/^l118_(.+)$/.exec(z); if(m) return L118.isOpen(m[1],{day,hour:h,weekday:CALENDAR.dateOf(day).wd%7,flags:{}});
   if(z==='noodle'&&typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed({day,hour:h,flags:{}})) return false; return PLACES.isOpen(z,h,day); };
 const WED=DK('2025-10-08'), SAT=DK('2025-10-11'), TUE=DK('2025-10-07');
-check('2 店的清單（臺灣 '+LIST.filter(TW).length+' 間＋美國 '+LIST.filter(z=>!TW(z)).length+' 間）：盤點過的 45 間都還在',AUDITED.every(z=>LIST.includes(z)),AUDITED.filter(z=>!LIST.includes(z)).join(' ')||LIST.join(' '));
+check('2 店的清單（臺灣 '+LIST.filter(TW).length+' 間＋美國 '+LIST.filter(z=>!TW(z)).length+' 間）：盤點過的 '+AUDITED.length+' 間都還在',AUDITED.every(z=>LIST.includes(z)),AUDITED.filter(z=>!LIST.includes(z)).join(' ')||LIST.join(' '));
 
 // ---------- 2 每一間店開著的時候有店員 ----------
 const HOURS=[9.5,12.5,15.5,17.5,18.5,20.5,22.5];
