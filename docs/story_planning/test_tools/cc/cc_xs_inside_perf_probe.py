@@ -18,6 +18,7 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'; SHA = os.environ.get('SHA') or ''
 PAIR = (os.environ.get('PAIR') or 'xs_dabu,xs_haopai').split(',')
 ALLBUILT = (os.environ.get('ALLBUILT') or '1') == '1'   # 等全部 built 再量一次記憶體
+MID = [float(v) for v in os.environ.get('MID').split(',')] if os.environ.get('MID') else None   # 11-12 BB-C 17:15：指定中間點（例 SUNNY 門前 3 m＝45,-1.6），不用兩個門的中點
 FAR = float(os.environ.get('FAR') or '45'); TRIPS = int(os.environ.get('TRIPS') or '3')
 R = L.Run('xsperf_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -28,7 +29,7 @@ HOUR = float(os.environ.get('HOUR') or '14')
 
 EXITS = r"""(()=>GAME.E.interactables.filter(i=>i.exit&&!i.hidden).map(i=>({label:i.label, to:i.exit.to, x:+i.x.toFixed(2), z:+i.z.toFixed(2)})))()"""
 FIND = r"""((a)=>{ const E=GAME.E, lv=0; const ok=(x,z)=>E.canStand(x,z,0.35,lv);
-  const mx=(a.d1.x+a.d2.x)/2, mz=(a.d1.z+a.d2.z)/2; const P=E.player.obj.position; let mid=null;
+  const mx=a.mid?a.mid[0]:(a.d1.x+a.d2.x)/2, mz=a.mid?a.mid[1]:(a.d1.z+a.d2.z)/2; const P=E.player.obj.position; let mid=null;
   const dx=P.x-mx, dz=P.z-mz, dl=Math.hypot(dx,dz)||1;
   for(let s=0; s<=6 && !mid; s+=0.25){ for(const sg of [1,-1]){ const x=mx+dx/dl*s*sg, z=mz+dz/dl*s*sg; if(ok(x,z)){ mid={x:+x.toFixed(2), z:+z.toFixed(2)}; break; } } }
   if(!mid) return {err:'中間點附近站不住', mx, mz};
@@ -90,7 +91,7 @@ async def main():
 
         exs = await pg.evaluate(EXITS); d1 = next((e for e in exs if e['to'] == PAIR[0]), None); d2 = next((e for e in exs if e['to'] == PAIR[1]), None)
         if not R.check('%s 有 %s、%s 兩個門' % (ZONE, PAIR[0], PAIR[1]), bool(d1 and d2), J(exs)): await b.close(); sys.exit(1)
-        pts = await pg.evaluate(FIND, {'d1': d1, 'd2': d2}); res['points'] = pts; res['doors'] = [d1, d2]
+        pts = await pg.evaluate(FIND, {'d1': d1, 'd2': d2, 'mid': MID}); res['points'] = pts; res['doors'] = [d1, d2]
         if not R.check('找得到中間點和遠點（≥%d m）' % FAR, bool(pts.get('mid') and pts.get('far') and pts['far']['d'] >= FAR * 0.6), J(pts)): await b.close(); sys.exit(1)
         R.note('門 %s；中間點 %s；遠點 %s（離中間點 %s m）' % (J([d1, d2]), J(pts['mid']), J(pts['far']), pts['far']['d']))
         mid, far = pts['mid'], pts['far']
