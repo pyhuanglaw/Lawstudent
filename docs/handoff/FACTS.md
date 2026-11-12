@@ -69,3 +69,4 @@
 - （11-11 12:5x）AA 的「她傳來的訊息」回覆選項（AA_709 → `src/data/msg_replies.js`）用**私訊原文逐字**對（`src/msgreply3d.js` S.find）。改任何私訊的字，要一起改 AA_709 那一格的 text，不然玩家收到那則就沒有回覆選項；`python3 tools/story/import_msg_replies.py --check` 會擋。
 - （11-11 12:5x）AA 的逐行改稿 {file,line,old,new} 用 `tools/story/apply_line_rows.py <稿>@<sha> [--apply] [--skip-generated]` 套（held 預先合併分支）；檔頭寫「自動產生」的檔不套，要改源稿重匯。比舊稿的測試用 `tests/line_rows_expect.js`（toOld／fwd／fixFile／toOldS／fwdS／fwdDeep）。
 - 店裡買的雜貨（不是禮物）記在 `G.flags.GG3_OWN={區域:{東西 id:份數}}`，選單「物品」分頁用 `GG3.ownHTML` 顯示（東南大聯商行 11-12 起；之後的雜貨、配件店照這個接，不要另開欄位）。
+- **店面標準**在 `CLAUDE.md` §12（D155）：店員、客人、窗景、天花板、立體櫥窗、買東西、打烊、字……新增、修改、以前建好的店都要符合；驗收照 `docs/rules/ROLE_BB.md` 2.6 地點關卡；每間店的現況在 `docs/handoff/SHOP_STANDARD_STATUS.md`。

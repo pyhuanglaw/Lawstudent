@@ -54528,6 +54528,34 @@
    },
    "source": "使用者 11-12 對 LAWWW-C",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "SHOP-STANDARD-BACKFILL-1112",
+   "title": "P0 以前建好的每一間店照店面標準七點（CLAUDE.md §12，D155）補查、補齊；一間一列寫 docs/handoff/SHOP_STANDARD_STATUS.md（X361）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "使用者 11-12：「甚至你要去檢查以前已經建好的這些店面……除了夜市的攤販以外都要符合」。①SHOP-LIFE-AUDIT-1112 子代理的盤點表（店員、客人、同學、打工、買東西）交件後擴成七點全表 SHOP_STANDARD_STATUS.md ②第 1、2 點（立體櫥窗、天花板、窗景、閃、純色塊、打烊看得出來）要 CC 逐間拍、BB 判、LAWWW2 修 ③第 3～5 點程式補（LAWWW）④第 6 點缺字清單給 AA ⑤沒過的各開任務",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
   }
  ]
 }
