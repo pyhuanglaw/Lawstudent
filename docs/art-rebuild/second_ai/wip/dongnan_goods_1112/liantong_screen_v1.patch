@@ -1,0 +1,42 @@
+diff --git a/assets/models/env/second_ai/tz_liantong_interior.glb b/assets/models/env/second_ai/tz_liantong_interior.glb
+index 5963656cf16b232e84c1b6541b7743a4f7bffe47..09168ba31f378386a97a9f1d2f0a8a488d19b066 100644
+GIT binary patch
+delta 1582
+zcmaKq%WD%+6o-FfYpRL0_Tk&DsOuoE;$+u<qTsIUb|I)$Z-SPw;-ec0Eg}sG;;Z%1
+z+Oa5(ijSmK5D{kEF6yg3KvyoLo-@h0Y0KOT^Ig7~`JHpmWhS?HG)LEzGhZqEt~ed-
+z9?swjJYp25aU8>irmC~Idkoib6Jx|3Tt^Y(w2tFGuHqPO;5^E>hl_ZCCz!x(Ow&4z
+zN0`K2%+NZ6r?`ayOcnA~r}JQd$9RK)n8QPy!gE|g1?TV*FOa7-kF%J?D-6;)h#@?~
+zN#s1g>JaOQCZd^GPb7T5+A{Y+y>{Qdz2Np|z6HI#X3r#joiRE08R+_{`@}id%Jaxo
+zy`b?Tk!=iQ_Qnv2tjQY#)%w&nUhQh-#&O=CnRUa`a5S~e)9Fc_F*)}+(DN&hKICfU
+zP2^lGp*UYS(VUfmY%W7^#^hm1)h3cgyzyF>A*7LH<as6;x`&4H?nL)OU~?d+Gujmu
+z%gyM>S9f_?x#hkefz9{#T-KR5Z$0uo>XQnW0-JNKk`Uj-IS&+;zUW4A&b9J9&gC$N
+zlb`j$>aL<m<pmepeBZ}UQJy!mxeUP>lk>q+p<2?7`1I0LoQrMF-<v;QI{hd5_9o~5
+zLo%ye)nAnR{^|d~=JKO)#^f@D^x=)yx(v}Kjp`xKD{de*5=kOOY$95T%|siqg=i-_
+bh)$x5*h*|8wi7#uoy0C;x9=7A{C)o)*K+aR
+
+delta 1582
+zcmaKq-Afcv7{;H;KFqDmk3P(9gSwUo0(ZO#{|T?>x-Nv!;OvU-reRwmY=uONBH4$1
+ziIZWCXvI$5L^pfeURcpmK~d0^z3=S4XI17LnCIm;Gtc{+_i#>Xy+1|Ig7c}E|5bEa
+zTdp938yJGZ1l0*l<{LuiMDHvLc!*ij6HMVE?qUoxc#J!^jXA1wcz|bkge9s=c!hfy
+z!~(|g6w8>$eJoO4#PfVQblOhm@Dd?jz{eWZHN3?;yuk?75sYF5myp6$6mc1^v5GX+
+zG={T&=#X}h8b~`yyGXlzKiu>FqxzgIO<!{_bbkvx&&<Gz_L!J+2HSt=oH*uQ`5v*V
+zHPnA(-1<Oft`CuMO<W(Snp0hPE33^5$8m1;PqI8P8BJ~DzbBWq$Hbg-s_$nYImBx7
+zOT^qPra11)4Y@Lqjb#Y-n7BNksuM{NFT9;)2niC8e7|+G!#y*acISJ`fsKKb_Gnhr
+zEH6NhyRo6%ne*QR8xL2mYfl`nkDZHh5~WIDWA0UA;+Ht)flAX~bx<60uY8YV*-WzO
+zi{4m`RWzym;AR_l_MeUXyqJw;2=<tmH<l==iVou4OQ<k6+nCRrkFTricXak9=KCR@
+zEv#xkJkQhjz{YaX*kfWDLUMTF?JPqyOHj>}%@!I-dr3{C1Zf{>Kj{FenRJlULTV+o
+ak=jXzNQX&BNJmK>q+_H`KU+Bd@56s-Ht=%*
+
+diff --git a/tools/blender/env_second/tz_shops_interior.py b/tools/blender/env_second/tz_shops_interior.py
+index 5ae225060..4b5d2bbc0 100644
+--- a/tools/blender/env_second/tz_shops_interior.py
++++ b/tools/blender/env_second/tz_shops_interior.py
+@@ -1254,7 +1254,7 @@ if SHOP == 'liantong':
+     # 服務櫃台（白色、正面一條藍、底下燈條）：螢幕、鍵盤、刷卡機、維修墊（拆開的手機、螺絲起子）、名片盒
+     vc().cbox(CT['x0'], CT['x1'], 0.1, CT['h'] - 0.04, CT['z0'], CT['z1'], WHT); vc().cbox(CT['x0'], CT['x1'], 0.0, 0.1, CT['z0'] + 0.03, CT['z1'] - 0.03, DK); vc().crbox(CT['x0'] - 0.02, CT['x1'], CT['h'] - 0.04, CT['h'], CT['z0'] - 0.02, CT['z1'] + 0.04, WHT, r=0.012)
+     vc().cbox(CT['x0'], CT['x1'], 0.5, 0.68, CT['z1'], CT['z1'] + 0.004, BLUE); mesh('light').box(CT['x0'] + 0.1, CT['x1'] - 0.1, 0.1, 0.115, CT['z1'] - 0.03, CT['z1'] - 0.01)
+-    hC = CT['h']; vc().cbox(0.45, 1.05, hC + 0.13, hC + 0.5, CT['z0'] + 0.14, CT['z0'] + 0.17, DK); vc().cbox(0.48, 1.02, hC + 0.16, hC + 0.47, CT['z0'] + 0.13, CT['z0'] + 0.14, '#8ac0e0'); ccyl(vc(), (0.75, hC, CT['z0'] + 0.17), (0.75, hC + 0.14, CT['z0'] + 0.17), 0.025, DK, seg=6); vc().cbox(0.6, 0.9, hC, hC + 0.012, CT['z0'] + 0.1, CT['z0'] + 0.24, DK)
++    hC = CT['h']; vc().cbox(1.55, 2.1, hC + 0.1, hC + 0.43, CT['z0'] + 0.14, CT['z0'] + 0.17, DK); vc().cbox(1.58, 2.07, hC + 0.13, hC + 0.4, CT['z0'] + 0.13, CT['z0'] + 0.14, '#8ac0e0'); ccyl(vc(), (1.825, hC, CT['z0'] + 0.17), (1.825, hC + 0.12, CT['z0'] + 0.17), 0.025, DK, seg=6); vc().cbox(1.68, 1.98, hC, hC + 0.012, CT['z0'] + 0.1, CT['z0'] + 0.24, DK)   # 螢幕、鍵盤搬到櫃台右端、放低（LIANTONG-SCREEN-1112；BB 11-12：原本在 x 0.45～1.05、頂 1.5 m，正好擋住店員（站 x 0.8）的正面）
+     vc().cbox(1.3, 1.42, hC, hC + 0.05, CT['z1'] - 0.2, CT['z1'] - 0.03, DK); vc().cbox(1.31, 1.41, hC + 0.05, hC + 0.052, CT['z1'] - 0.19, CT['z1'] - 0.1, '#8ac0e0')
+     vc().cbox(-0.9, -0.3, hC, hC + 0.006, CT['z0'] + 0.08, CT['z1'] - 0.08, '#3a6a8a'); phone(-0.7, hC + 0.006, CT['z0'] + 0.28, '#c4c8cb'); vc().cbox(-0.52, -0.45, hC + 0.006, hC + 0.012, CT['z0'] + 0.2, CT['z0'] + 0.34, '#2f8a5a')
+     ccyl(vc(), (-0.42, hC + 0.012, CT['z0'] + 0.42), (-0.6, hC + 0.012, CT['z0'] + 0.44), 0.007, '#d8362a', seg=5); vc().cbox(1.75, 1.9, hC, hC + 0.04, CT['z1'] - 0.16, CT['z1'] - 0.06, WHT)
