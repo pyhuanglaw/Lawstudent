@@ -7927,6 +7927,15 @@
    "approvedBy": "AA（帳號 A）2026-11-11 21:02 交（D100b 稿就是定稿）：閒聊階梯選項 fx 694 個（六位 fx 為 null 的全部選項；{fr:1} 362、{love:1} 307、{love:2} 22、{fr:-1} 3），格式照 LAWWW 20:59；已經有 fx 的 136 個不動",
    "task": "DLG-FULL-REVIEW-1110",
    "note": "X324 最後一塊（使用者 11-10 20:0x 對 AA：「每次約會都要有選擇性的對話選項，依據選項內容增加友情或者愛情」；AA_746 第 2 節）；tools/ladder/import_ladder.py AA_816 層"
+  },
+  {
+   "path": "docs/story_planning/AA_792_flower_notes.json",
+   "sha": "8475a3b85",
+   "status": "approved",
+   "approvedBy": "AA（FLOWER-NOTES-1110）",
+   "task": "FLOWER-NOTES-1110",
+   "kind": "json",
+   "note": "X325 花序 Flower Notes：gg_flower 改名、十樣商品（原本兩樣只換 line、新八樣 love／no 空）、花藝師的句子（greet、buy、closed、hours）、店裡 13 區的「看」、replace 四列——tools/gift/import_gift_holiday.py 的 overlay_792 → src/data/gift_holiday.js、src/data/flower_notes_text.js"
   }
  ]
 }

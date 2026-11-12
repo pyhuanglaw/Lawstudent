@@ -1,4 +1,4 @@
-/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@5acf44bbc、docs/story_planning/AA_733_gift_holiday_2.json@1edb14888、docs/story_planning/AA_734_gift_holiday_3.json@246ef6735；沛珊 5 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d）。不要手改，改企劃 AA_732／AA_733／AA_734 再重新匯入。
+/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@5acf44bbc、docs/story_planning/AA_733_gift_holiday_2.json@1edb14888、docs/story_planning/AA_734_gift_holiday_3.json@246ef6735；沛珊 5 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d；花序 docs/story_planning/AA_792_flower_notes.json@8475a3b85）。不要手改，改企劃 AA_732／AA_733／AA_734（花序：AA_792）再重新匯入。
    節日、生日送禮（GIFT-HOLIDAY-1110；播放 src/gifthol3d.js）：shops／items＝店家禮物、react＝八位收到的反應、give＝她們送祐廷的、stationery＝山嵐文具區學姊四場 */
 'use strict';
 const GIFT_HOLIDAY={
@@ -135,12 +135,20 @@ const GIFT_HOLIDAY={
    ]
   },
   "gg_flower": {
-   "name": "公館站口花攤（新）",
+   "name": "花序 Flower Notes",
    "items": [
     "g_bouquet",
-    "g_sunflower"
+    "g_sunflower",
+    "g_fn_rose",
+    "g_fn_carnation",
+    "g_fn_season",
+    "g_fn_dried",
+    "g_fn_preserved_box",
+    "g_fn_dome",
+    "g_fn_giftbox",
+    "g_fn_pot"
    ],
-   "note": "捷運公館站出口旁的花攤（新的外帶窗口，像帝大紅茶；09:00～21:00）。"
+   "note": "公館羅斯福路的雙層花藝店（店面街 G11）：一樓鮮花、永生花、花禮，二樓花藝教室；10:00～21:00。"
   }
  },
  "items": {
@@ -675,7 +683,7 @@ const GIFT_HOLIDAY={
   "g_bouquet": {
    "name": "一束花",
    "price": 450,
-   "line": "老闆幫你配的，包裝紙是牛皮紙。",
+   "line": "花藝師照你說的那個人配的。霧面的包裝紙，香檳色的緞帶。",
    "love": [
     "heroine_05"
    ],
@@ -687,7 +695,7 @@ const GIFT_HOLIDAY={
   "g_sunflower": {
    "name": "一朵向日葵",
    "price": 120,
-   "line": "一朵，用玻璃紙包著。",
+   "line": "一朵，用霧面紙包著，綁了一條米白色的緞帶。",
    "love": [
     "classmate_peishan"
    ],
@@ -719,6 +727,70 @@ const GIFT_HOLIDAY={
     "heroine_05"
    ],
    "shop": "special"
+  },
+  "g_fn_rose": {
+   "name": "一支玫瑰",
+   "price": 120,
+   "line": "單支的，花莖用水管套著。顏色可以挑。",
+   "love": [],
+   "no": [],
+   "shop": "gg_flower"
+  },
+  "g_fn_carnation": {
+   "name": "一支康乃馨",
+   "price": 90,
+   "line": "粉色的。花藝師說五月以外買的人很少。",
+   "love": [],
+   "no": [],
+   "shop": "gg_flower"
+  },
+  "g_fn_season": {
+   "name": "一束季節花",
+   "price": 1280,
+   "line": "這個月店裡最好的花，花藝師挑的。抱起來要用兩隻手。",
+   "love": [],
+   "no": [],
+   "shop": "gg_flower"
+  },
+  "g_fn_dried": {
+   "name": "一小束乾燥花",
+   "price": 580,
+   "line": "顏色淡淡的，放很久也不會謝。",
+   "love": [],
+   "no": [],
+   "shop": "gg_flower"
+  },
+  "g_fn_preserved_box": {
+   "name": "一盒永生花",
+   "price": 880,
+   "line": "一個小方盒，裡面三朵永生玫瑰。蓋子是透明的。",
+   "love": [],
+   "no": [],
+   "shop": "gg_flower"
+  },
+  "g_fn_dome": {
+   "name": "永生玫瑰玻璃罩",
+   "price": 1680,
+   "line": "一朵玫瑰罩在玻璃罩裡，底座是淺色的木頭。",
+   "love": [],
+   "no": [],
+   "shop": "gg_flower"
+  },
+  "g_fn_giftbox": {
+   "name": "一個花禮盒",
+   "price": 1180,
+   "line": "鮮花插在盒子裡，不用花瓶。附一張空白的小卡。",
+   "love": [],
+   "no": [],
+   "shop": "gg_flower"
+  },
+  "g_fn_pot": {
+   "name": "一小盆桌花",
+   "price": 480,
+   "line": "巴掌大的白瓷盆，放在書桌上剛好。",
+   "love": [],
+   "no": [],
+   "shop": "gg_flower"
   }
  },
  "react": {
@@ -2644,6 +2716,7 @@ const GIFT_HOLIDAY={
    "同一段時間，她買了東西以後：旁白「（她在皮的筆袋那裡停了一下，沒有買。）」——那一年沒送過皮筆袋才演。"
   ],
   "rotNote": "sl_sis_rot 第 3 則只在第 3 階以上（叫名字以後）。"
- }
+ },
+ "srcFlower": "docs/story_planning/AA_792_flower_notes.json@8475a3b85"
 };
 if(typeof module!=='undefined') module.exports=GIFT_HOLIDAY;
