@@ -9109,6 +9109,15 @@
      "note": "被 943f66532 取代（第 3 節：沒有活動的學期多一句、開頭用 AA_648 隨機句、兩句舊說法）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_836_大口漢堡二樓讀書小組_3D座位.md",
+   "sha": "48d153407",
+   "status": "approved",
+   "approvedBy": "AA（BAR-GROUP-3D-1112）；48d153407＝AA-C 2026-11-12 答 LAWWW-C（座位、演完留在二樓、要改的一句；D109）",
+   "task": "BAR-GROUP-3D-1112",
+   "kind": "md",
+   "note": "律師讀書小組在大口漢堡二樓的三場（ev_bar_group_start／_out／_three）改在 3D 演的座位與舞台指示（AA-C 11-12 定，分支 claude/magical-albattani-bk7b4n）。台詞只改「要改的一句」那一列：src/data/r2y4b_events.js（手寫檔，沒有產生器）ev_bar_group_night「first」那一段的第一句旁白（ev_bar_group_out 共用同一份台詞）「（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）」→「（十點，語彤買了三杯熱可可上來，兩杯推到你和可昕面前。）」——手改一處、照表一字不差（稿是 md 的表，不是 apply_line_rows.py 的 JSON）；其他台詞不動。座位、流程在 src/r2y4b3d.js（S.barSeats／barCast／barStage／barPlay）。逐字對稿、其他台詞沒動的雜湊：tests/bar_group_3d_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
   }
  ]
 }
