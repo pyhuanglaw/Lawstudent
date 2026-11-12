@@ -1921,5 +1921,9 @@ ROUTE_E8 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_plannin
 STUDY_SE06 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=SE06;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 STUDY_SE12 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=SE12;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 STUDY_FA01 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=FA01;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+# STUDY-EXAM-CAREER B 節第二批：SE11 課堂公布答案和期末逐字比、FA05 看公告不等於入社、SE01 總複習入口（五個時間點＋書桌實按＋考完的科目）；SE03 等第一批結果再寫（要接社交探針的約會）
+STUDY_SE11 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=SE11;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+STUDY_FA05 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=FA05;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
+STUDY_SE01 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=SE01;MAX_MIN=18;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 # SAVE-LZ-1104（BB_384）瀏覽器量測：存檔 A（day54_1110）× plain／?lzsave × CPU 1／4 倍；①② 自動存檔那一下、③ 每欄字元＋7 欄全滿、④ 繼續到能走動、⑤ 存讀一致、⑦ 舊存檔（B 等 SAVE_LZ_growB 回來做成 fixture 再排）
 SAVE_LZ_A | ed70b6d3589dc2731171347afa6d623f2b0339ca | probe | docs/story_planning/test_tools/cc/cc_save_lz_probe.py | index.html | 70 | SOLO=1;FIXES=A=tests/fixtures/user_save_day54_1110.json;SHA=ed70b6d3589dc2731171347afa6d623f2b0339ca

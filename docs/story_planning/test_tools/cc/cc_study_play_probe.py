@@ -7,8 +7,19 @@ Playwright（PC GPU）手機模擬 ≠ iPhone。不用 ?turbo；讀檔只當起�
         出現「考卷發下來。體育期末考。」「你認得題目裡的每一個字，合起來就不太認得了。」或照讀書次數寫的負面評語＝FAIL（AA 定稿明文允許的除外，BB 判）。
   FA01  【前置】社員存檔（SIS_CLUB_EXPO、lawclub、CLUB_lawclub_study）大二上 2026-10-24（週六）07:50 宿舍 → 不動、真的等遊戲時間走到 08:40 →
         畫面上不能出現「出發：法服值班／晚一點／這週請假」那一種例行出發選單；記 OUT.get(G,'fafu_'+今天)、所有對話和選單。
+  SE11  【前置】大一上第 15 週民法總則（civ_general）上課前 40 分鐘，prep 空的 → 一鍵去上課 → 下課前的課堂題：記題目、選項、教授公布的答案（逐字）→
+        同一份存檔（GAME.readSave 自動存檔）讀到期末那一場的早上 → 看遊戲這份存檔的期末抽題（CLS.drawExam，同一個 examSeed）有沒有這一題：
+        有＝一鍵去考，考到這一題時記畫面上的題目和選項，和上課那一次逐字比；作答選上課公布的答案，看交卷時這一題算對。沒抽到＝照實記（BB_222：「如果抽到這題」）。
+  FA05  【前置】大一上 2025-11-08（週六）10:00、沒去社博（SIS_CLUB_EXPO、lawclub、LAWCLUB_NOTICE、CLUB_lawclub_study 都沒有），在法律系館B（wancai）一樓 →
+        走到公告欄按「看公告：法律服務社招募」→ 記：lawclub、LAWCLUB_NOTICE、筆記 club_law、手機群組、STORY.fafuJoined／fafuMember、學姊招呼「值班表你看了嗎？」的條件（STORY.LADDER_GREET_IF）、
+        學姊私訊話題（MSG.sisTopics）→ 同一份存檔讀到大二上 2026-10-24（週六）07:50 宿舍、等到 08:40：不能有法服出發選單。
+        通過條件（BB_222 FA-05）：看公告只加筆記（LAWCLUB_NOTICE）、lawclub 不能是 true、不加群組、學姊招呼和值班都走非社員版。
+  SE01  【前置】大一上，prep、study、筆記清空、沒有課本（＝從沒上過課的人）。時間點（期末週從 CLS.examList 算）：考前 7 天 10:00、考前 1 天 10:00、第一場考試當天 07:30、
+        兩場考試中間、第 15 週週日 20:30 → 每個時間點記 STUDY.reviewOpt（有沒有、灰不灰、提示字）、STUDY.reviewInfo 的科目；
+        考前 7 天那一點真的用一次：走到宿舍書桌按互動 → 選單裡找「考前總複習」→ 按 → 記點了幾下、遊戲時間花多少、逐字稿；手機「今天」那一頁有沒有這一項（只記）。
+        「已經考完的科目」：【前置】把第一場記成考過（CLS.rec(G).exam[key].status='done'），看 reviewInfo 還包不包含那一科。
 CC_02 清單 2026-11-12：1✓（日期照 BB_222：12/15 07:40、第 16 週、2026-10-24 07:50；期末週從遊戲 CLS.examList 讀） 2✓（課、考試、一鍵選項都從遊戲讀：CLS.examList、CLS.dayItems、#goPop 的字） 3✓（同一份存檔每段重新讀） 4✓（選項照字找；考試選項照遊戲 optList 的字：是非＝對／錯、選擇＝（鍵）選項） 5✓（去教室用遊戲的一鍵，不瞬移） 6✓（讀檔等 6 秒、對話一句一句點） 7✓ 8✓（門檻是 BB_222 的通過條件；黑名單台詞原文照表；其他負面句只記、BB 判） 9n/a（截圖要看旁白，不藏東西） 10n/a（條件事件要開：考試、上課旁白、法服都是事件） 11✓ 12✓（逐字稿＋每一場的分數、時間、選單） 13✓（作答捷徑、改存檔都標）
-用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=SE06|SE12|FA01 [FIX=tests/fixtures/user_save_day51b_1110.json] [MAX_MIN=18] [FF=1] python3 cc_study_play_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=SE06|SE12|FA01|SE11|FA05|SE01 [FIX=tests/fixtures/user_save_day51b_1110.json] [MAX_MIN=18] [FF=1] python3 cc_study_play_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -231,6 +242,189 @@ async def part_fa01(pg, cdp, sv0, res):
     res['FA01'] = {'out0': out0, 'out1': out1, 'menus': menus, 'lines': lines, 'end': s}
 
 
+async def finish_class(pg, cdp, itkey, maxs=300, pick=None):
+    t0 = time.time(); went = None
+    while time.time() - t0 < maxs:
+        s = await pg.evaluate(ST)
+        if await step_dialog(pg, cdp, s, pick): continue
+        if itkey and await pg.evaluate("(k=>!!CLS.rec(GAME.G).done[k])", itkey): return went
+        if s['busy']: await pg.wait_for_timeout(800); continue
+        if went is None: went = await onetap(pg, cdp, '到下一堂課'); await pg.wait_for_timeout(2000); continue
+        await pg.wait_for_timeout(1500)
+    return went
+
+
+async def part_se11(pg, cdp, sv0, res):
+    tag = '[SE11]'
+    await load(pg, sv0, '2025-12-15', 7.0, 'dorm', blank_=True)
+    hits = await pg.evaluate(SCAN_CLS, {'term': 'Y1S1', 'week': 15, 'names': ['民法總則']})
+    R.note('%s 大一上第 15 週民法總則：%s' % (tag, J(hits)))
+    if not R.check('%s 第 15 週找得到民法總則' % tag, bool(hits), ''): res['SE11'] = {'hits': hits}; return
+    h = hits[-1]
+    r = await load(pg, sv0, h['key'], max(7.0, h['t0'] - 0.67), 'dorm', blank_=True)
+    R.setup('%s 【前置】讀檔到 %s %.2f 宿舍（%s 開始前 40 分鐘），prep 空的' % (tag, h['key'], r['hour'], h['name']))
+    await finish_class(pg, cdp, h['itkey'])
+    tr = await pg.evaluate(TRANS)
+    lines = [x.get('t') for x in tr if x.get('t')]
+    i0 = next((k for k, t in enumerate(lines) if '教授在黑板角落寫了一題' in t), None)
+    ask = {'q': lines[i0 + 1] if i0 is not None and i0 + 1 < len(lines) else None, 'answer': next((t for t in lines[(i0 or 0):] if t.startswith('答案是')), None)}
+    chs = [x['choose'] for x in tr if 'choose' in x]
+    ask['choices'] = chs[-1] if chs else None
+    asked = await pg.evaluate("(()=>Object.keys(CLS.rec(GAME.G).ask).filter(k=>k.indexOf('Y1S1:')===0))()")
+    qid = asked[-1].split(':', 1)[1] if asked else None
+    R.note('%s 課堂題（%s）：%s' % (tag, qid, J(ask)))
+    if not R.check('%s 上課有出課堂題' % tag, bool(ask['q'] and qid), J(lines[-15:])): res['SE11'] = {'h': h, 'ask': ask}; return
+    await pg.evaluate("GAME.autosave&&GAME.autosave(true)")
+    sv1 = await pg.evaluate("GAME.readSave('fatiao3d_auto')")
+    ex = await pg.evaluate(EXAMS, 'Y1S1'); e = next((x for x in ex if x['cid'] == h['cid']), None)
+    drawn = await pg.evaluate("((a)=>{ const r=CLS.drawExam(GAME.G,a.c,'Y1S1','final'); return r&&r.qs?r.qs.map(q=>q.id):null; })", {'c': h['cid']})
+    R.note('%s 這份存檔的期末（%s）抽到：%s' % (tag, J(e), J(drawn)))
+    out = {'h': h, 'ask': ask, 'qid': qid, 'exam': e, 'drawn': drawn}
+    if not drawn or qid not in drawn:
+        R.note('%s 這份存檔的期末沒抽到 %s（BB_222：如果抽到這題才比）' % (tag, qid)); res['SE11'] = out; return
+    k = drawn.index(qid) + 1
+    sv1 = dict(sv1); sv1.pop('pos', None)
+    r = await load(pg, sv1, e['key'], max(7.0, e['t0'] - 0.67), 'dorm')
+    R.setup('%s 同一份存檔讀到期末 %s %.2f 宿舍（考前 40 分鐘）' % (tag, e['key'], r['hour']))
+    seen = {}
+
+    def pick(a, ch):
+        if not a: return 0
+        if a['qid'] == qid:
+            seen['choices'] = ch
+            want = (ask['answer'] or '').replace('答案是', '').split('。')[0]
+            return next((i for i, t in enumerate(ch) if t == want or t.startswith(want) or (want and want in t)), 0)
+        return next((i for i, t in enumerate(ch) if t == a['right'] or t.startswith(a['right'])), 0)
+    await finish_class(pg, cdp, None, maxs=420, pick=pick)
+    tr2 = await pg.evaluate(TRANS)
+    ql = next((x['t'] for x in tr2 if x.get('t', '').startswith('%d／5　' % k)), None)
+    rec = await pg.evaluate("((c)=>{ const R=CLS.rec(GAME.G).exam||{}; return R['Y1S1:'+c+':final']||null; })", h['cid'])
+    out.update({'exam_line': ql, 'exam_choices': seen.get('choices'), 'rec': rec})
+    R.note('%s 期末第 %d 題畫面：%s；選項 %s；成績紀錄 %s' % (tag, k, J(ql), J(seen.get('choices')), J(rec)))
+    R.check('%s 題幹一字不差（上課「%s」vs 期末「%s」）' % (tag, ask['q'], ql), bool(ql) and ql.split('　', 1)[-1] == ask['q'], '')
+    R.check('%s 選項一字不差' % tag, seen.get('choices') == ask['choices'], J([ask['choices'], seen.get('choices')]))
+    if rec and rec.get('ans'):
+        bank = await pg.evaluate("(id=>{ const q=EXAM_BANK.questions.find(x=>x.id===id); return q?String(q.answer):null; })", qid)
+        R.check('%s 照上課公布的答案作答，期末算對（題庫答案 %s、作答 %s）' % (tag, bank, rec['ans'][k - 1]), str(rec['ans'][k - 1]) == bank, '')
+    res['SE11'] = out
+
+
+async def part_fa05(pg, cdp, sv0, res):
+    tag = '[FA05]'
+
+    def fresh(sv):
+        F = sv.setdefault('flags', {})
+        for k in ('SIS_CLUB_EXPO', 'lawclub', 'LAWCLUB_NOTICE', 'CLUB_lawclub_study', 'FAFU_SHIFT_N'): F.pop(k, None)
+        sv['notes'] = [n for n in (sv.get('notes') or []) if not (isinstance(n, dict) and n.get('id') == 'club_law')]
+    r = await load(pg, sv0, '2025-11-08', 10.0, 'wancai', mods=fresh)
+    R.setup('%s 【前置】大一上 %s 10:00 法律系館B（wancai）一樓，沒去社博（法服旗標都拿掉）' % (tag, r['key']))
+    it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(q=>q.notice==='lawclub'&&!q.hidden); return i?{x:i.x,z:i.z,lv:i.lv|0,label:i.label}:null; })()")
+    if not R.check('%s 找得到「看公告：法律服務社招募」' % tag, bool(it), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label).slice(0,30)"))): res['FA05'] = {}; return
+    await L.go_to(pg, cdp, R, it['x'], it['z'], 0.8, it['label'], max_s=90, lv=it['lv'])
+    s = await pg.evaluate(ST); lab = await pg.evaluate("(document.getElementById('interact')||{}).textContent||''")
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+    lines = []
+    for _ in range(30):
+        s = await pg.evaluate(ST)
+        if s['dlg']: lines.append(s['dtext']); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        if s['choices']: await step_dialog(pg, cdp, s); continue
+        break
+    after = await pg.evaluate("""(()=>{ const G=GAME.G, F=G.flags||{}; let grp=null, gl=null, fj=null, fm=null, sis=null;
+      try{ grp=Object.keys(PHONE.rec(G).groups||{}); }catch(e){ grp=String(e); } try{ const L=STORY.LADDER_GREET_IF['值班表你看了嗎？']; gl=L?!!L.test(G):null; }catch(e){ gl=String(e); }
+      try{ fj=!!STORY.fafuJoined(G); fm=!!STORY.fafuMember(G); }catch(e){ fj=String(e); } try{ sis=(MSG.sisTopics(G)||[]).map(t=>t&&(t.t||t.id||t.k||JSON.stringify(t).slice(0,40))); }catch(e){ sis=String(e); }
+      return {lawclub:F.lawclub===true, notice:!!F.LAWCLUB_NOTICE, note:(G.notes||[]).some(n=>n&&n.id==='club_law'), groups:grp, greetDuty:gl, fafuJoined:fj, fafuMember:fm, sisTopics:sis, memo:(G.memo||[]).slice(-3)}; })()""")
+    R.note('%s 互動鍵「%s」；公告那幾句 %s；按完 %s' % (tag, lab, J(lines), J(after)))
+    R.check('%s 看公告只記 LAWCLUB_NOTICE、lawclub 不是 true' % tag, after['notice'] and not after['lawclub'], J(after))
+    R.check('%s 筆記加了「法律服務社」' % tag, after['note'], '')
+    R.check('%s 沒有因為看公告就算加入（fafuJoined=false）' % tag, after['fafuJoined'] is False, J(after['fafuJoined']))
+    R.check('%s 沒有加任何法服群組' % tag, isinstance(after['groups'], list) and not any('law' in g or 'fafu' in g for g in after['groups']), J(after['groups']))
+    await pg.evaluate("GAME.autosave&&GAME.autosave(true)")
+    sv1 = await pg.evaluate("GAME.readSave('fatiao3d_auto')"); sv1 = dict(sv1); sv1.pop('pos', None)
+    ry2 = await pg.evaluate(DAYOF, '2026-09-06')
+    r = await load(pg, sv1, '2026-10-24', 7.83, 'dorm', mods=lambda sv: sv.setdefault('flags', {}).setdefault('ROOM_Y2', ry2))
+    R.setup('%s 同一份存檔讀到大二上 %s 07:50 宿舍（等到 08:40）' % (tag, r['key']))
+    g2 = await pg.evaluate("(()=>{ const G=GAME.G; let gl=null, fm=null; try{ const L=STORY.LADDER_GREET_IF['值班表你看了嗎？']; gl=L?!!L.test(G):null; fm=!!STORY.fafuMember(G); }catch(e){ gl=String(e); } return {greetDuty:gl, fafuMember:fm, lawclub:G.flags.lawclub===true}; })()")
+    R.check('%s 大二：學姊「值班表你看了嗎？」不給（非社員版）' % tag, g2['greetDuty'] is False and g2['fafuMember'] is False, J(g2))
+    t0 = time.time(); menus = []
+    while time.time() - t0 < 6 * 60:
+        s = await pg.evaluate(ST)
+        if s['h'] >= 8.67 and not s['dlg'] and not s['choices']: break
+        if s['choices']:
+            menus.append([s['key'], s['h'], s['choices']]); i = next((k for k, t in enumerate(s['choices']) if '請假' in t or '不' in t), 0)
+            await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(800); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        await pg.wait_for_timeout(2000)
+    bad = [m for m in menus if any(('法服值班' in t or '這週請假' in t or t.startswith('晚一點')) for t in m[2])]
+    R.check('%s 大二值班週六 08:30 沒有法服出發選單' % tag, not bad, J(bad))
+    R.note('%s 大二週六的選單 %s' % (tag, J(menus)))
+    res['FA05'] = {'lines': lines, 'after': after, 'y2': g2, 'menus': menus}
+
+
+async def part_se01(pg, cdp, sv0, res):
+    tag = '[SE01]'
+    await load(pg, sv0, '2025-12-15', 7.0, 'dorm', blank_=True)
+    ex = await pg.evaluate(EXAMS, 'Y1S1')
+    if not R.check('%s 大一上有期末（CLS.examList）' % tag, bool(ex), ''): res['SE01'] = {}; return
+    d0 = ex[0]['day']; e2 = ex[1] if len(ex) > 1 else None
+    w15sun = await pg.evaluate("(()=>{ for(let d=0;d<2600;d++){ const T=CALENDAR.termOf(d); if(T&&T.id==='Y1S1'&&T.week===15&&CALENDAR.dateOf(d).wd%7===0) return d; } return null; })()")
+    key = lambda d: pg.evaluate("((d)=>CALENDAR.dateOf(d).key)", d)
+    pts = [('考前7天', d0 - 7, 10.0), ('考前1天', d0 - 1, 10.0), ('考試當天早上', d0, 7.5)]
+    if e2: pts.append(('兩場中間', e2['day'], max(7.5, (ex[0]['t1'] or 12) + 0.3) if e2['day'] == d0 else 7.5))
+    if w15sun is not None: pts.append(('第15週週日晚上', w15sun, 20.5))
+    out = {'exams': ex, 'points': []}
+    for nm, d, h in pts:
+        k = await key(d)
+        r = await load(pg, sv0, k, h, 'dorm', blank_=True)
+        o = await pg.evaluate("(()=>{ const G=GAME.G; let ro=null, info=null; try{ ro=STUDY.reviewOpt(G); }catch(e){ ro=String(e); } try{ const i=STUDY.reviewInfo(G,'final'); info=i?i.courses.map(x=>x.c&&x.c.name):null; }catch(e){ info=String(e); } return {opt:ro&&{t:ro.t,dim:ro.dim,hint:ro.hint}, courses:info}; })()")
+        R.note('%s %s（%s %.1f）：總複習 %s；範圍 %s' % (tag, nm, k, h, J(o['opt']), J(o['courses'])))
+        R.check('%s %s 有「考前總複習」可以按（不是灰的）' % (tag, nm), bool(o['opt']) and not o['opt']['dim'], J(o['opt']))
+        out['points'].append({'nm': nm, 'key': k, 'h': h, 'o': o})
+    # 已經考完的科目【前置】
+    k = await key(e2['day'] if e2 else d0)
+    def done1(sv):
+        C = sv.setdefault('courses', {}); E_ = C.setdefault('exam', {}); E_['Y1S1:%s:final' % ex[0]['cid']] = {'status': 'done', 'correct': 5, 'score': 100, 'qs': [], 'ans': []}
+    await load(pg, sv0, k, 7.5, 'dorm', mods=done1, blank_=True)
+    o = await pg.evaluate("(()=>{ const i=STUDY.reviewInfo(GAME.G,'final'); return i?i.courses.map(x=>x.c&&x.c.id):null; })()")
+    R.note('%s 【前置】%s 記成考過以後的範圍：%s' % (tag, ex[0]['cid'], J(o)))
+    R.check('%s 考完的科目（%s）不在總複習範圍裡' % (tag, ex[0]['name']), isinstance(o, list) and ex[0]['cid'] not in o, J(o))
+    # 考前 7 天：真的走到書桌按一次
+    k = await key(d0 - 7)
+    await load(pg, sv0, k, 10.0, 'dorm', blank_=True)
+    desk = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(q=>!q.hidden&&(q.desk||q.deskStudy||/書桌/.test(q.label||''))); return i?{x:i.x,z:i.z,lv:i.lv|0,label:i.label}:null; })()")
+    clicks = 0; h0 = (await pg.evaluate(ST))['h']; got = False
+    if R.check('%s 宿舍找得到書桌' % tag, bool(desk), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label)"))):
+        await L.go_to(pg, cdp, R, desk['x'], desk['z'], 0.8, desk['label'], max_s=60, lv=desk['lv'])
+        await L.tap(pg, cdp, '#interact'); clicks += 1; await pg.wait_for_timeout(1200)
+        for _ in range(12):
+            s = await pg.evaluate(ST)
+            if s['choices']:
+                i = next((k2 for k2, t in enumerate(s['choices']) if '考前總複習' in t), None)
+                if i is None: i = next((k2 for k2, t in enumerate(s['choices']) if t.startswith('讀書')), 0)
+                else: got = True
+                await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); clicks += 1; await pg.wait_for_timeout(900)
+                if got: break
+                continue
+            if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+            break
+        t1 = time.time()
+        while time.time() - t1 < 240:
+            s = await pg.evaluate(ST)
+            if not await step_dialog(pg, cdp, s):
+                if not s['busy']: break
+                await pg.wait_for_timeout(800)
+    h1 = (await pg.evaluate(ST))['h']
+    R.note('%s 書桌：點了 %d 下到「考前總複習」（找到=%s）；遊戲時間 %.2f → %.2f' % (tag, clicks, got, h0, h1))
+    R.check('%s 書桌找得到「考前總複習」、≤3 下（點了 %d 下）' % (tag, clicks), got and clicks <= 3, '')
+    await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1500)
+    ph = await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return p?(p.innerText||'').replace(/\\s+/g,' ').slice(0,1500):''; })()")
+    await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); if(b) b.click(); })()")
+    R.note('%s 手機「今天」頁有沒有總複習：%s（只記）；頁面字 %s' % (tag, '總複習' in ph, ph[:300]))
+    tr = await pg.evaluate(TRANS)
+    transcript_checks(tag, tr)
+    out.update({'desk': desk, 'clicks': clicks, 'got': got, 'h': [h0, h1], 'phone_has': '總複習' in ph})
+    res['SE01'] = out
+
+
 async def main():
     print('CC STUDY-EXAM-CAREER B 節：SHA %s；PARTS %s；不用 turbo；Playwright ≠ iPhone' % (SHA or '?', PARTS), flush=True)
     sv0 = json.load(open(fix_path(FIX), encoding='utf-8'))
@@ -239,7 +433,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
-        for name, fn in (('SE06', part_se06), ('SE12', part_se12), ('FA01', part_fa01)):
+        for name, fn in (('SE06', part_se06), ('SE12', part_se12), ('FA01', part_fa01), ('SE11', part_se11), ('FA05', part_fa05), ('SE01', part_se01)):
             if name not in PARTS: continue
             try:
                 await fn(pg, cdp, sv0, res)
