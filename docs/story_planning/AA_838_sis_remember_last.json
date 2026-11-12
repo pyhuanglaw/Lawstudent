@@ -1,0 +1,280 @@
+{
+ "_meta": {
+  "doc": "AA_838 學姊第二批（DLG-FULL-REVIEW-1110）：約會 remember 格「上次…」開頭 78 句裡改 45 句。做法照 AA_822／BB_377：眼前的東西直接講；「上次…這次…」有對比的留；重複的梗（坐到天黑兩處、差點睡著三處、設成桌布兩處、看完夕陽回去兩處、說十分鐘兩處）各留一處。",
+  "by": "AA-C 2026-11-12",
+  "status": "待 BB 第二意見（D153）",
+  "apply": "已直接改 date_system/lines/Dxx.json；LAWWW 重新匯入即可"
+ },
+ "rows": [
+  {
+   "file": "date_system/lines/D01.json",
+   "who": "heroine_05",
+   "old": "上次那張，我設成鎖定畫面了。（她把手機蓋起來）",
+   "new": "那張牆的照片，我設成鎖定畫面了。（她把手機蓋起來）"
+  },
+  {
+   "file": "date_system/lines/D02.json",
+   "who": "heroine_05",
+   "old": "上次說到勞基法，是一九八四年。我回去確認了，怕自己講錯。",
+   "new": "勞基法是一九八四年。我回去確認了，怕自己講錯。"
+  },
+  {
+   "file": "date_system/lines/D03.json",
+   "who": "heroine_05",
+   "old": "上次那個遊戲我回去下載了。卡在第三關，卡了一個禮拜。",
+   "new": "那個遊戲我回去下載了。卡在第三關，卡了一個禮拜。"
+  },
+  {
+   "file": "date_system/lines/D03.json",
+   "who": "heroine_05",
+   "old": "上次那隻貓，你還留著嗎？",
+   "new": "那隻貓，你還留著嗎？"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "heroine_05",
+   "old": "上次那個街頭藝人今天也在，換了一首。",
+   "new": "那個街頭藝人還在，換了一首。"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "heroine_05",
+   "old": "上次那個攤位的老闆，還記得我買過書籤。",
+   "new": "那個攤位的老闆，還記得我買過書籤。"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "heroine_05",
+   "old": "上次那家，我跟同學說了，他們也要去。",
+   "new": "這家我跟同學說了，他們也要來。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "heroine_05",
+   "old": "上次在這裡坐到天黑。",
+   "new": "坐到天黑的那張椅子，有人了。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "heroine_05",
+   "old": "上次寄給自己的明信片，到了。字寫得很亂。",
+   "new": "寄給自己的那張明信片到了。字寫得很亂。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "heroine_05",
+   "old": "上次記下來的那部，我們看了。行事曆上打了勾。",
+   "new": "記下來的那部，我們看了。行事曆上打了勾。"
+  },
+  {
+   "file": "date_system/lines/D06.json",
+   "who": "heroine_05",
+   "old": "上次那幅站得很直的人，換位置了。",
+   "new": "那幅站得很直的人，換位置了。"
+  },
+  {
+   "file": "date_system/lines/D07.json",
+   "who": "heroine_05",
+   "old": "上次說要重新教。我把以前寫給學弟妹的那份講義改了，寄回社辦。",
+   "new": "以前寫給學弟妹的那份講義，我改了，寄回社辦了。"
+  },
+  {
+   "file": "date_system/lines/D07.json",
+   "who": "heroine_05",
+   "old": "上次那個說「沒有做錯事」的人，我回去查了。查得到的很少。",
+   "new": "那個說「沒有做錯事」的人，我回去查了。查得到的很少。"
+  },
+  {
+   "file": "date_system/lines/D09.json",
+   "who": "heroine_05",
+   "old": "上次在這裡喝的茶，我回去買了一個小茶壺。",
+   "new": "我回去買了一個小茶壺。泡得沒有這裡好。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "heroine_05",
+   "old": "上次那個放風箏的人，今天沒來。",
+   "new": "放風箏的那個人沒來。"
+  },
+  {
+   "file": "date_system/lines/D11.json",
+   "who": "heroine_05",
+   "old": "上次回去，頭髮的硫磺味兩天才散。",
+   "new": "頭髮的硫磺味，回去兩天才散。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "heroine_05",
+   "old": "上次那間店的老闆，今天跟我點頭了。",
+   "new": "那間店的老闆跟我點頭了。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "heroine_05",
+   "old": "上次那罐我每天喝一杯，同學都來偷喝。",
+   "new": "那罐茶我每天喝一杯，同學都來偷喝。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "heroine_05",
+   "old": "上次說站十分鐘，結果站了半小時。",
+   "new": "這次我不說站幾分鐘了。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "heroine_05",
+   "old": "上次拍的那張，我傳給奶奶了。她說她以前也在這裡看過。",
+   "new": "在這裡拍的那張，我傳給奶奶了。她說她以前也在這裡看過。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "heroine_05",
+   "old": "上次那張夕陽，我設成桌布了。",
+   "new": "那張夕陽，我妹問我是誰拍的。"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "heroine_05",
+   "old": "上次那個慢跑的人，今天也在跑。",
+   "new": "那個慢跑的人還在跑。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "heroine_05",
+   "old": "上次你說B館在那一片。我回去對過地圖，不是。",
+   "new": "你說B館在那一片。我回去對過地圖，不是。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "heroine_05",
+   "old": "上次那首歌，我回去加進歌單了。讀書的時候不聽。",
+   "new": "那首歌我加進歌單了。讀書的時候不聽。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "heroine_05",
+   "old": "上次在這裡站了很久。回去以後，我跟學弟妹講了這裡的石頭。",
+   "new": "這裡的石頭，我回去跟學弟妹講了。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "heroine_05",
+   "old": "上次的陶杯我放在書桌上，每天都用。",
+   "new": "那個陶杯我放在書桌上，每天都用。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "heroine_05",
+   "old": "上次看的那張薪資單，我回去查了那時候的工時。好長。",
+   "new": "那張薪資單，我回去查了那時候的工時。好長。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "heroine_05",
+   "old": "上次說的休假，我查了。很少。",
+   "new": "那時候的休假，我查了。很少。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "heroine_05",
+   "old": "上次那條線，我後來跟助教講了。他說他沒去過。",
+   "new": "海上那條線，我後來跟助教講了。他說他沒去過。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "heroine_05",
+   "old": "上次說街變短了。我回去翻了照片，一樣長。",
+   "new": "我回去翻了照片。街沒有變短，一樣長。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "heroine_05",
+   "old": "上次的手套破了一個洞。我手指藍了一個禮拜，沒有人問。",
+   "new": "那雙手套破了一個洞。我手指藍了一個禮拜，沒有人問。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "heroine_05",
+   "old": "上次坐這裡我差點睡著。這次不會。大概。",
+   "new": "這個位子很危險。我坐下去就想睡。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "heroine_05",
+   "old": "上次問他們一次出去多久。我後來知道了，有的一趟好幾個月。",
+   "new": "他們出去一趟多久，我後來知道了。有的好幾個月。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "heroine_05",
+   "old": "上次在這裡待到天黑。",
+   "new": "這座橋，天黑以後比較好看。我記得。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_05",
+   "old": "上次說都市計畫。我回去真的查了。今天不講。",
+   "new": "都市計畫我回去真的查了。你想聽再說。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_05",
+   "old": "上次買的那張卡片，還夾在書裡。還沒想到要寫什麼。",
+   "new": "那張卡片還夾在書裡。還沒想到要寫什麼。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_05",
+   "old": "上次你放的風箏飛很高，我拍了。",
+   "new": "你放的那個風箏飛很高，我拍了。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "heroine_05",
+   "old": "上次你挑的筆筒在我桌上。來的人都會問。",
+   "new": "你挑的筆筒在我桌上。來的人都會問。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "heroine_05",
+   "old": "上次那份手稿旁邊的說明，我抄下來了。寫得很好。",
+   "new": "那份手稿旁邊的說明，我抄下來了。寫得很好。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "heroine_05",
+   "old": "上次看完夕陽，我回旅館早早就睡了。睡得很好。",
+   "new": "這裡的夕陽，比我記得的還大。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "heroine_05",
+   "old": "上次那面看不懂的牆，換成別的作品了。",
+   "new": "那面看不懂的牆，換成別的作品了。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "heroine_05",
+   "old": "上次那顆很圓的石頭，今天找不到了。",
+   "new": "那顆很圓的石頭找不到了。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "heroine_05",
+   "old": "上次我看到一半睡著了。今天不會。",
+   "new": "這次我帶了外套當枕頭。睡著也沒關係。"
+  },
+  {
+   "file": "date_system/lines/D33.json",
+   "who": "heroine_05",
+   "old": "上次那部，我後來又想了一下。還是我猜的那個結局比較好。",
+   "new": "那部的結局，我還是覺得我猜的比較好。"
+  },
+  {
+   "file": "date_system/lines/D33.json",
+   "who": "heroine_05",
+   "old": "上次在這裡，我們也站了很久。",
+   "new": "這座天橋，我們每次都站很久。"
+  }
+ ]
+}
