@@ -11,7 +11,7 @@
   另外記遊戲自己的 dt（GAME.E.lastDt／E.dt 有就記）、JS 長任務（PerformanceObserver longtask，有就記）。
 輸出：stutter_<TAG>.json（每段每幀原始資料）＋run.log 總表。判定只有「探針有跑完、量到東西」；數字給 LAWWW 判。
 （第二輪 LAWWW-C 04:42：VIEW／DSF／HOUR；跑步前後記 E.q、renderer 像素比、畫布、render.calls／triangles、programs；每幀記畫質有沒有變；跑不遠就記停的位置和附近 collider）
-CC_02 清單 2026-11-12：1✓ 2✓（第五輪加 WINPOS、renderer.render 間隔、螢幕資訊；r2 加 NO_VIEWPORT、headless 判斷、閒置 rAF 間隔、GAME.frameInfo()；第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
+CC_02 清單 2026-11-12：1✓ 2✓（DN_GOODS_fps：「真的在跑」改看 run 姿勢幀數〔runHold 不亮也會跑〕；第五輪加 WINPOS、renderer.render 間隔、螢幕資訊；r2 加 NO_VIEWPORT、headless 判斷、閒置 rAF 間隔、GAME.frameInfo()；第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONES=wenzhou,campus,gongguan] [RUN_S=10] [VIEW=2308x1064 DSF=1|1.25|1.5|2 HOUR=17.58] python3 cc_run_stutter_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, statistics
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -160,7 +160,9 @@ async def main():
             R.note('%s 跑步中新編的 shader：programs %s → %s' % (tag, zres['info_before'].get('programs'), zres['info_after'].get('programs')))
             if (zres['run'].get('dist_m') or 0) < RUN_S * 3:
                 zres['block'] = await pg.evaluate(BLOCK_JS); R.note('%s 跑不遠（%.1f m）：停的位置、附近的 collider、前方站不站得住 %s' % (tag, zres['run'].get('dist_m') or 0, J(zres['block'])))
-            R.check('%s ② 真的在跑（按了「跑」runHold=%s、跑了 %.1f m）' % (tag, run_on, zres['run'].get('dist_m') or 0), run_on and (zres['run'].get('dist_m') or 0) > 3, J({k: zres['run'].get(k) for k in ('dist_m', 'runHold_frames', 'poses')}))
+            _po = zres['run'].get('poses') or {}; _runf = _po.get('run', 0); _allf = sum(_po.values()) or 1
+            # DN_GOODS_fps（68d40a513e）：runHold 一直 False，但 329／334 幀姿勢是 run（搖桿推滿就會跑）→ 照姿勢算：runHold 亮著，或一半以上的幀是 run
+            R.check('%s ② 真的在跑（runHold=%s、run 姿勢 %d／%d 幀、跑了 %.1f m）' % (tag, run_on, _runf, _allf, zres['run'].get('dist_m') or 0), (run_on or _runf * 2 >= _allf) and (zres['run'].get('dist_m') or 0) > 3, J({k: zres['run'].get(k) for k in ('dist_m', 'runHold_frames', 'poses')}))
             if await pg.evaluate("!!GAME.E.player.runHold"): await L.tap(pg, cdp, '#btnRun'); await pg.wait_for_timeout(500)
             wx, wz = -wx, -wz   # 走回來（同一條線、反方向）
             zres['walk'], _ = await seg(pg, cdp, tag, '③ 走路 %.0f 秒（反方向走回來）' % RUN_S, lambda: push(int(RUN_S * 1000)))
