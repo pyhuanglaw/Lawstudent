@@ -10,7 +10,8 @@
    "花藝師是店員，不認識祐廷、不叫名字；D77 店名是原創的，商品沒有品牌。",
    "二樓花藝教室這一版只有「看」，沒有上課的流程。"
   ],
-  "source": "使用者規格 docs/handoff/user_specs/FLOWER_NOTES_1110.md（開發分支）；配置 src/data/flower_notes_layout.js"
+  "source": "使用者規格 docs/handoff/user_specs/FLOWER_NOTES_1110.md（開發分支）；配置 src/data/flower_notes_layout.js",
+  "lawww_1112": "11-12 回 LAWWW-C 六問：①補 looks.plinth_center；②按鈕字見 look_buttons（14 個點各一個）；③21:00 還在店裡＝花藝師說 staff.closed_line（AA_700），走到門外，可以；④開門前演 staff.not_open，不演「今日已打烊」；⑤八樣新花用 give_ok_flower；⑥颱風天照公館其他店休。"
  },
  "shop": {
   "id": "gg_flower",
@@ -167,7 +168,10 @@
     "（她把盆底擦乾淨，放進一個小紙盒。）",
     "兩三天澆一次水，不用多。"
    ]
-  }
+  },
+  "closed_line": "我們今天要打烊了。",
+  "not_open": "（玻璃門還鎖著。裡面有人在換花桶的水，冷藏櫃的燈先亮了。門上的牌子寫十點開。）",
+  "typhoon": "照公館其他店：颱風天休息。"
  },
  "looks": {
   "preserved_shelf": "（香檳金的層架，一格一格放著永生花，玻璃罩、方盒、圓盒。牌子寫「永生花藝」。）",
@@ -182,7 +186,8 @@
   "blackboard": "（黑板寫著這個月的課：基礎花束、花型設計、季節花藝。名額旁邊畫了幾個圈。）",
   "vase_shelf": "（一排白瓷花器，大小不一樣，最小的只有拳頭大。）",
   "low_cabinet": "（落地窗前的矮櫃，擺著兩瓶花，陽光照進來的時候花的影子落在地上。）",
-  "plant_big": "（一盆比人還高的綠色植物，葉子很大，擦得很亮。）"
+  "plant_big": "（一盆比人還高的綠色植物，葉子很大，擦得很亮。）",
+  "plinth_center": "（店中央的展示台上是這個禮拜的主花，一大瓶，比人的肩膀還高。旁邊的小卡寫著花名，字很小。）"
  },
  "replace": [
   {
@@ -209,5 +214,31 @@
    "old": "一朵，用玻璃紙包著。",
    "new": "一朵，用霧面紙包著，綁了一條米白色的緞帶。"
   }
- ]
+ ],
+ "look_buttons": {
+  "preserved_shelf": "看永生花",
+  "plinth_dome": "看玻璃罩",
+  "plinth_giftbox": "看花禮盒",
+  "plinth_center": "看中央展示台",
+  "bouquet_stand": "看包好的花束",
+  "cold_case": "看冷藏花櫃",
+  "counter": "看包裝櫃檯",
+  "wrap_shelf": "看包裝紙",
+  "stair_sign": "看樓梯口的牌子",
+  "demo_table": "看示範長桌",
+  "blackboard": "看黑板",
+  "vase_shelf": "看花器",
+  "low_cabinet": "看窗邊的花",
+  "plant_big": "看大盆栽"
+ },
+ "give_ok_flower": {
+  "note": "八樣新花（love、no 都空）送人時用這一組，不用各人通用的 ok 句（「我會用的」配花不合）。只寫收到花這件事，不寫她喜歡哪種花（X325）。",
+  "heroine_01": "謝謝。我回去找一個瓶子，宿舍應該有人有。",
+  "heroine_02": "哇，謝謝。我等一下上班先放店裡的水杯，下班再帶回去。",
+  "heroine_03": "謝謝。我回去先把莖剪一點再插水。",
+  "heroine_04": "給我的？謝謝。我房間沒有花瓶，先用馬克杯。",
+  "heroine_05": "謝謝。（她把花拿在手上，走路的時候換到離你遠的那一隻手，沒有被擠到。）",
+  "classmate_peishan": "給我的喔！謝謝。我要抱著走一路，讓大家都看到。",
+  "kexin": "謝謝。我帶回宿舍，放在書桌上。"
+ }
 }
