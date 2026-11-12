@@ -19,6 +19,8 @@ P0_STUTTER_v91021 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | probe | docs/stor
 P0_STUTTER_v91025 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # B SHOP-INTERIOR-VIEW-1112：泰米村食先跑（14:00、20:30；1cd2116ee1；雲端 14:00 驗過流程、五張都拍到），BB 看了再跑全部
 P0_SHOPVIEW_taimi | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_shop_view_probe.py | index.html | 10 | SHOPS=taimi;HOURS=14,20.5;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
+# ⑬ BB-C 04:29：東南大聯、汀州聯通室內 v1（bd86；雲端 14:00 兩間都拍到五張、洋紅 0～0.02%）；同泰米那一套
+BD86_SHOPVIEW_dn_lt | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_shop_view_probe.py | index.html | 12 | SHOPS=dongnan,liantong;HOURS=14,20.5;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
 
 BE1E_MOKU_PLANT_7 | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_moku_plant_probe.py | index.html | 45 | PARTS=7;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 # BB-C 03:30 第 2 項：吧檯高腳椅點不到＝繞著椅子 8 方向×2 距離換位置再點（雲端 be1e ALL PASS：繞到 1.3 m、0° 點得到、坐對那一張）
