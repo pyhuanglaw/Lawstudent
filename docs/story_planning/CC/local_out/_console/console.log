@@ -357,3 +357,12 @@
 [00:39:25] [res] cpu=11% mem=33% (10.6/31.4 GB) chrome_testing=0  START WZ_SIGN_offbeat_2330
 [00:39:25] [res] cpu=11% mem=33% (10.6/31.4 GB) chrome_testing=0  START GG_SIGN_1400_r2
 [00:41:28] [res] cpu=3% mem=48% (15.1/31.4 GB) chrome_testing=8  END WZ_SIGN_offbeat_2330
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       91b802f362..10b55acad2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:41:37] ==== END   WZ_SIGN_offbeat_2330  exit=0  126s   ====
+[00:41:41] memory 42% before starting WZ_SIGN_offbeat_1400 (2 running)
+[00:41:41] ==== START WZ_SIGN_offbeat_1400  (probe @ 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49) ====
+[00:41:44] [res] cpu=8% mem=42% (13.4/31.4 GB) chrome_testing=4  START WZ_SIGN_offbeat_1400
+[00:41:51] 正在跑：GG_SIGN_2330_r2（已跑 2 分／上限 15 分）、GG_SIGN_1400_r2（已跑 2 分／上限 15 分）、WZ_SIGN_offbeat_1400（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:41:51] [res] cpu=1% mem=40% (12.4/31.4 GB) chrome_testing=4  END GG_SIGN_2330_r2
