@@ -10,5 +10,7 @@ check('1. 同弦二樓：招牌那一段不開窗（blank）、旁邊是吉他�
 check('2. 蓋窗只蓋原本的窗：同一層前面排好的 xs 窗不動（不然第二段把第一段的櫥窗刪掉）',/wins = \[w for w in wins if not \(w\['kind'\] != 'xs' and w\['f'\] == u\['f'\]/.test(st));
 check('3. 不開窗的那一段用同一種外牆補滿（wz_street）；xs_window 不再另外補一塊平塗的顏色',/if w\.get\('blank'\): xf\.box\(wl, /.test(st)&&/if w\.get\('blank'\): return/.test(kit));
 let J={}; try{ J=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/xinsheng_street.json'),'utf8')); }catch(e){}
-check('4. 模型重新匯出了：招牌前面的鐵窗、冷氣各少一個（物件 183 → 181 以下）',J.objects>0&&J.objects<=181,'objects '+J.objects);
+/* SHOP-WINDOW-3D-1112：立體店內一間多一個物件（sk_in_<店>）——從物件數扣掉再比 */
+const XS_IN3D=(()=>{ try{ const g=fs.readFileSync(path.join(__dirname,'..','assets/models/env/second_ai/xinsheng_street.glb')); const n=g.readUInt32LE(12); return JSON.parse(g.slice(20,20+n).toString('utf8')).nodes.filter(q=>/^sk_in_/.test(q.name||'')).length; }catch(e){ return 0; } })();
+check('4. 模型重新匯出了：招牌前面的鐵窗、冷氣各少一個（物件 183 → 181 以下；不算立體店內 '+XS_IN3D+' 個）',J.objects>0&&J.objects-XS_IN3D<=181,'objects '+J.objects);
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

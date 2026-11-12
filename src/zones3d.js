@@ -1548,6 +1548,18 @@ const Z3 = (function(){
   /* 公館窗卡 v5（LAWWW2 1d4675069）：亮窗網格 NOSHADOW_xs_fronts_lit 的第二組 UV（uv1.x）＝店編號（1～8，0＝永遠亮；對照在 node extras.xsShops），
      打烊的店乘 0.18（BB 11-04「打烊的店窗還亮」FAIL）；照 PLACES.isOpen 每 30 幀更新一次 uniform，不多 draw call。洋洋 17:00～01:00、轉角唱片 12:00～21:00（AA_650 §4，BB 11-04） */
   const GG_LIT_ZONE={ggtea:'aoki',ggbook:'bookstore',ggcvs:'cvs',ggyy:'yangyang',ggbike:'bikeshop',ggafar:'afar',ggcorner:'corner_records',ggdb:'daybreak'};   /* 洋洋、轉角唱片：AA_650 §4 的營業時間（places.js；洋洋 YANGYANG-IN-1107、轉角唱片 CORNER-IN-1107 進得去了）*/
+  /* SHOP-WINDOW-3D-1112（LAWWW2-C；使用者 11-12：新生南路、汀州路、公館的店從外面看要像 118 巷一樣是立體的）：街景模型裡「玻璃後面的立體店內」是一間一個網格 sk_in_<店>
+     （不受場景光的頂點色材質 wz_in_shop，整條街共用一個材質）。打烊的店要看得出來關了（L118-CLOSED-LOOKS-OPEN）：這裡把每一間的材質各複製一份，
+     照 PLACES.isOpen 把顏色乘數設成 1（營業）或 0.07（打烊：店裡關燈，只看得到輪廓）；颱風停業也算打烊。map＝{模型裡的店 id: 地點 id}；沒列的店不動（一直亮著）。
+     每 30 幀看一次（和 ggShopLit 一樣掛在 zone.update）。回傳 {items:[{id,place,mesh,mat,k}],upd}，也記在 zone.shopInLit（測試、CC 在瀏覽器看）。 */
+  function shopInsideLit(root,zone,map){ const items=[]; if(!root||!zone||!map) return null;
+    root.traverse(o=>{ if(!o.isMesh||!o.material||Array.isArray(o.material)) return; let id=null; for(let q=o;q&&!id;q=q.parent){ const m=/^sk_in_(.+)$/.exec(q.name||''); if(m){ id=map[m[1]]?m[1]:(map[m[1].replace(/_\d+$/,'')]?m[1].replace(/_\d+$/,''):null); if(!id) return; } if(q===root) break; }
+      if(!id) return; const mat=o.material.clone(); mat.name=(o.material.name||'wz_in_shop'); mat.userData=Object.assign({},o.material.userData,{shopIn:id}); o.material=mat; items.push({id,place:map[id],mesh:o,mat,k:1}); });
+    if(!items.length) return null;
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; const P=typeof PLACES!=='undefined'?PLACES:null;
+      for(const it of items){ let open=true; if(G&&P&&P.isOpen){ open=!!P.isOpen(it.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(it.place,G.day)); } const k=open?1:0.07; if(k!==it.k||it.mat.color.r!==k){ it.k=k; it.mat.color.setRGB(k,k,k); } } };
+    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0) upd(); }; upd();
+    const R={items,upd}; zone.shopInLit=R; return R; }
   const ggLitWired=new WeakMap();   /* 接過窗卡打烊調暗的材質 → {lit, U, mine, compiled, rewrap, entries}（第二次進公館沿用，見 ggShopLit 裡的註解）*/
   function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
     let ex=null; root.traverse(o=>{ if(!ex&&o.userData&&o.userData.xsShops) ex=o.userData.xsShops; }); const ids=String(ex||'ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb').split(',');
@@ -2964,5 +2976,5 @@ const Z3 = (function(){
         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();
