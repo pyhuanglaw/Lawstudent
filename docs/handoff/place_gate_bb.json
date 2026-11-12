@@ -324,13 +324,14 @@
    "sha": "9aaa31edb9",
    "verdict": "FAIL",
    "fail": [
-    "⑦a／⑦b：SUNNY SIDE 走到店前 3 m 等 3 秒，室內（shopReal B7）還是 built:false、on:false——14:00 營業中從街上看進去是空的灰色玻璃盒（WZ_REAL_f3e1 lookin）；同一招小路、日常失速都 built:true（3295c0e05c 移門以後沒建起來？）"
+    "第一次從街上走近，室內沒建起來（WZ_REAL_f3e1：店前 3 m 等 3 秒 built:false，營業中看進去是空玻璃盒）；同一版 WZ_REAL_consist_f3e1 的店外照片卻看得到室內（米色牆、吊燈、咖啡吧）＝建起來的條件和「走近店面」對不上，疑似跟著舊門位置（3295c0e05c 移門）"
    ],
    "pending": [
     "SUNNY 門三點（SUNNY_DOOR_front／walk）"
    ],
-   "at": "2026-11-12T13:2x",
-   "ref": "BB_379 11-12 13:2x"
+   "at": "2026-11-12T13:3x",
+   "ref": "BB_379 11-12 13:2x",
+   "note": "建起來以後 ⑦b PASS（店外米色牆、黑吊燈、咖啡吧檯、綠窗框＝店內）"
   }
  ]
 }
