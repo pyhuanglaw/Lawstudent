@@ -46,8 +46,7 @@ for(const r of rows) out.push(`| ${r.id} | ${r.title} | ${r.stage} | ${r.when} |
 out.push('','## 3. 不是黑畫面、但地點不對（出遊事件開頭用 3D 模糊底：看到的是玩家出發的地方）','','| 事件 | 標題 | 路線 | 底色 | 第一句 |','|---|---|---|---|---|');
 for(const r of wrong) out.push(`| ${r.id} | ${r.title} | ${r.stage} | ${r.bg} | ${r.first||''} |`);
 out.push('','## 4. 使用者實玩回報（工具抓不到：有背景圖，但不是那個地方）','','| 回報 | 事件 | 現在的背景 | 要補的圖 |','|---|---|---|---|',
-  '| 2026-10-18 14:2x「桌遊也沒畫面」 | ev_y0_gather（10/15 舊序章的聚會：桌遊 19:00～22:00 → 夜市） | `gongguan`（公館街景）整段共用 | 公館的桌遊店室內（六個人一桌、桌上有牌）；之後夜市那段要不要另一張，問使用者 |',
-  '| 2026-10-18 14:1x「烤肉沒接到cg」 | ev_y0_e08（9/21 中秋系烤） | `riverside`＋沒有 CG | CG-ECON-BBQ-1018（提示詞已給使用者） |');
+  '| （目前沒有；原本兩列是舊序章那一段的事件，CANON-NO-ECON-1112 已拿掉） | — | — | — |');
 out.push('','## 5. 改在 3D 演的段落（資料的深色底只是區域沒載入時的備用，不算黑畫面）','','| 事件 | 標題 | 場景 | 3D 區域 | 句數 | 第一句 |','|---|---|---|---|---|---|');
 for(const r of staged) out.push(`| ${r.id} | ${r.title} | ${r.scene} | \`${r.zone}\` | ${r.lines} | ${r.first||''} |`);
 const s=out.join('\n')+'\n'; if(md){ fs.writeFileSync(path.join(ROOT,md),s); console.log('寫入',md,rows.length,'段'); } else console.log(s);
