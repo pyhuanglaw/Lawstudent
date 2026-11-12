@@ -138,8 +138,14 @@ async function await0(){}
     const pk=INV.walkPick(G,who,pid); if(pk&&pk.ask){ pk.next(); iv.ask=pk.ask; }
     const gmM={G,E:{player:{obj:{position:{x:0,z:0}}}},npc:{},sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push((w?(w.name||w):'旁白')+'：'+t); },choose:async o=>{ opts.push(o.map(x=>x.t).join('/')); return pick; },fade:async()=>{},advance(){},caption(){},sleep:async()=>{},autosave(){},toast(){},updateHUD(){}};
     await INV.meet(gmM,iv,{obj:npcObj}); return {said,opts,ask:pk&&pk.ask}; };
-  fresh(MON,10); rel('heroine_04',25); { let any=false; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask==='ZQ_CHANGE_ASK') any=true; }
-    check('13. 子晴有點熟、去 Café 的路上：「你為什麼換來法律」那一段整段拿掉、不記 TOLD_HER_CHANGE（CANON-NO-ECON-1112 第四批：照 AA_894 第 4 節）',!any&&!JSON.stringify(INVITE_DATA.people.heroine_04).includes('ZQ_CHANGE_ASK')); }
+  fresh(MON,10); rel('heroine_04',25); G.flags.walkChatN={walk:0}; G.flags.walkChatN.heroine_04=2;   /* 輪到 any 的第二個（前面：去公館的兩句、松鼠）*/
+  { let pk=null; for(let n=0;n<6&&!(pk&&pk.ask);n++){ G.flags.walkChatN.heroine_04=n; pk=INV.walkPick(G,'heroine_04','cafe'); }
+    check('13. 子晴有點熟、去 Café 的路上：輪得到「欸，阿凱說你之前念經濟？那你怎麼會換來法律？」（選項句；BB_172 Q7）',!!pk&&pk.ask==='ZQ_CHANGE_ASK',pk&&JSON.stringify(pk)); }
+  { G.flags.walkChatN.heroine_04=0; let r=null; for(let n=0;n<6;n++){ G.flags.walkChatN.heroine_04=n; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask){ r=await meetAsk('heroine_04','cafe',0); break; } }
+    check('13. 子晴：「（說換方向的事）」→ 你說換方向、她問家裡、（她走了好幾步沒說話。）→「……好。知道了。」（AA_335 T6）→ 記憶 TOLD_HER_CHANGE',!!r&&r.opts[0]==='（說換方向的事）/下次再講。'&&r.said[0]==='高子晴：欸，阿凱說你之前念經濟？那你怎麼會換來法律？'&&r.said[1]==='祐廷：念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。'&&r.said.includes('旁白：（她走了好幾步沒說話。）')&&r.said.includes('高子晴：'+OE.fwd('invites','heroine_04','……好。知道了。'))   /* 2026-11-11（X324 D 區，AA_784）：拿掉刪節號——舊期望「……好。知道了。」*/&&!r.said.some(t=>/我記住了/.test(t))&&SOCIAL.has('heroine_04','TOLD_HER_CHANGE'),r&&r.said.slice(0,8).join('｜'));
+    let again=false; for(let n=0;n<6;n++){ G.flags.walkChatN.heroine_04=n; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask) again=true; } check('13. 子晴：說過以後不再問',!again); }
+  fresh(MON,10); rel('heroine_04',25); { let r=null; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask){ r=await meetAsk('heroine_04','cafe',1); break; } }
+    check('13. 子晴：「下次再講。」→「好喔，那你欠我一次。」（BB_172 Q7）、不記 TOLD_HER_CHANGE、這句不再問（一次）',!!r&&r.said[1]==='高子晴：好喔，那你欠我一次。'&&!SOCIAL.has('heroine_04','TOLD_HER_CHANGE')&&G.flags.ZQ_CHANGE_ASK===true,r&&r.said.slice(0,3).join('｜')); }
   fresh(MON,10); rel('heroine_04',10); { let any=false; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask) any=true; } check('13. 子晴只是「認識」：不問',!any); }
   /* 沛珊「大家都不遵守的法律」（BB_70 6-5、BB 2fdef19）：三個選項都是學生的看法；最後一句大一上問讀書會、大一下起問課輔班 */
   fresh(MON,10); rel('classmate_peishan',25); { const r=await meetAsk('classmate_peishan','cafe',2);

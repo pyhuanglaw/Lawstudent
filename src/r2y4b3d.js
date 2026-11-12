@@ -132,7 +132,7 @@ const R2Y4B=(function(){
     const k=(O[i]||O[O.length-1]).k; if(k==='later'){ F.spring4AskAt=T(G.day+1,G.hour); return k; } S.springChoose(GM,k); return k; };
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G||GM, F=G.flags, D=SPD(), kx=dating(G,'kexin'), g=grp(G); F.SPRING_Y4=k;
     if(k==='noodle') plan(G,{id:'y4_spring',ev:'ev_spring_y4',day:D.d0,h:8,late:0.5,place:'首都帝大校門口',title:'春假：開車載阿哲他們去宜蘭',travel:'走到校門口約 10 分鐘',travelH:1/6,back:'回到臺北。'});
-    if(k==='kexin') plan(G,{id:'y4_spring_kx',ev:'ev_kexin_trip_spring_y4',day:D.d0,h:7+40/60,place:'女生宿舍樓下',title:'春假：開車旅行',travel:'先回家開車，再到宿舍樓下接她',travelH:40/60,back:'送她回宿舍，再把車開回家。'});   /* CANON-NO-ECON-1112 第四批：照 AA_892 第 2 節換字 */
+    if(k==='kexin') plan(G,{id:'y4_spring_kx',ev:'ev_kexin_trip_spring_y4',day:D.d0,h:7+40/60,place:'女生宿舍樓下',title:'春假：開車旅行',travel:'開車到宿舍樓下接她',travelH:40/60,back:'送她回宿舍，再把車開回家。'});   /* CANON-NO-ECON-1112 第四批：照 AA_892 第 2 節換字 */
     if(kx&&(k==='noodle'||k==='dorm'||k==='none')){ if(!o.silent) PHONE.at(G,G.day,G.hour+0.1,[P_('kexin','好。那畢業旅行再說。')],'y4_spring_kx_reply'); PHONE.at(G,D.d0,21.5,[P_('kexin','📷（大口漢堡二樓的長桌。阿哲比 YA，可昕低頭在寫講義，沒有看鏡頭。）')],'y4_spring_kx_photo'); }   /* BB_99 9-15；照片的說明照 AA_345 G5 */
     S.springPick(G,k,o);
     if(k!=='noodle'&&g) S.springPhoto(G); };
