@@ -85,7 +85,7 @@ check('4. 49 格裡之後又改過的只有三格：可昕三個選項的字（K
 
 // 5
 { const wt=show(BASE,'src/data/date_lines.js');
-  if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
+  if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source'&&p!=='/lines/kexin/cancel/1'/* （CANON-NO-ECON-1112 第四批：照 AA_899 換字）可昕取消約會第二句 */) diff.push(p);
     const want=R.map(gp).sort();
     { const KN=C.KXNL_1112.map(r=>'/loc/'+r.loc+'/lines/kexin/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), all=diff.slice(); diff.length=0; for(const p of all) if(!KN.includes(p)) diff.push(p); check('5. 之後可昕不靠記帳那一次重匯（5afc5c0e3，AA_869～871）137 格也換了字（date_src_sha.js KXNL_1112；逐格在 tests/kxnl_dates_1112_unit.js；其中三個選項的字這一輪也改過、留在這一輪）——這裡先拿掉再比',C.KXNL_1112.length===137&&KN.length===134,J(KN.length)); }   /* 2026-11-12（可昕不靠記帳 AA_869～871@5afc5c0e3，date_src_sha.js KXNL_1112）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 49 格不同（別人、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
@@ -108,7 +108,7 @@ check('4. 49 格裡之後又改過的只有三格：可昕三個選項的字（K
   check('6. 33 個地點的格子（'+Object.keys(loc).length+' 格）裡沒有 canon_scan.py 字表（'+TERMS.length+' 個詞）上的字',TERMS.length>=10&&Object.keys(loc).length>30000&&hit.length===0,J(hit.slice(0,4)));
   /* 還沒清的：不分地點的短句（DATE_LINES.lines，源頭 BB_128 3-6／AA_769，不是 Dxx.json）可昕「改天」那一類第二句——AA 還沒給新字，已列給 LAWWW 轉 AA。清掉以後這一條改成 0 */
   const rest=leaves(Object.assign({},NOW,{loc:undefined,source:undefined}),'',{}), hit2=Object.keys(rest).filter(p=>typeof rest[p]==='string'&&TERMS.some(t=>rest[p].includes(t)));
-  check('6. 地點以外（不分地點的短句等）還有字表上的字的只有一格：/lines/kexin/cancel/1（等 AA 的新字；不是這一批的範圍）',J(hit2)===J(['/lines/kexin/cancel/1']),J(hit2)); }
+  check('6. 地點以外（不分地點的短句等）沒有字表上的字（/lines/kexin/cancel/1 照 AA_899 換了；CANON-NO-ECON-1112 第四批）',J(hit2)===J([]),J(hit2)); }
 
 // 7
 { const sp=read('src/data/she_pays.js'), SPD=vm.runInNewContext(sp+';SHE_PAYS_DATA'), keys=J([SPD.pays,SPD.split]);

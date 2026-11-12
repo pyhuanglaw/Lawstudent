@@ -14,4 +14,12 @@ const back = t => typeof t === 'string' ? PAIRS.reduce((s, [, o, n]) => s.split(
 const fwd = t => typeof t === 'string' ? PAIRS.reduce((s, [, o, n]) => s.split(o).join(n), t) : t;
 const pair = (a, b) => typeof a === 'string' && typeof b === 'string' && a !== b && fwd(a) === b;
 const news = f => PAIRS.filter(x => !f || x[0] === f).map(x => x[2]), olds = f => PAIRS.filter(x => !f || x[0] === f).map(x => x[1]);
-module.exports = { PAIRS, back, fwd, pair, news, olds };
+/* ladderBack(text)：閒聊階梯第四批重匯（AA_898 語彤兩句、AA_899 沛珊、AA_753 覆寫；開發分支 41a071f78d → 71f828df89）換掉的字串換回舊字——
+   舊字不抄進測試：兩版 ladder.js 用 git show 讀、逐個字串比出 新→舊；讀不到＝原樣（用到的測試照舊比）*/
+let LB;
+const ladderPairs = () => { if (LB !== undefined) return LB; LB = null; try { const cp = require('child_process'), R = require('path').join(__dirname, '..');
+  const sh = c => cp.execFileSync('git', ['-C', R, 'show', c + ':src/data/ladder.js'], { encoding: 'utf8', maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'ignore'] });
+  const lits = t => t.match(/"(?:[^"\\]|\\.)*"/g) || [], a = lits(sh('41a071f78d')), b = lits(sh('71f828df89'));
+  if (a.length === b.length) LB = a.map((x, i) => [x, b[i]]).filter(([x, y]) => x !== y && !/^"白名單 /.test(x)); } catch (e) {} return LB; };
+const ladderBack = t => { const P = ladderPairs(); if (!P || typeof t !== 'string') return t; for (const [o, n] of P) t = t.split(n).join(o); return t; };
+module.exports = { PAIRS, back, fwd, pair, news, olds, ladderBack };

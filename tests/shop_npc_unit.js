@@ -211,7 +211,7 @@ sec(7,()=>{ const s2=(DOC.split('## 第二批')[1]||''); const bad=[];
       res.push(tid+' '+inX+'/'+ex.length+(inN?' 平常週 '+inN:'')+(late?' 時段外 '+late:'')+(normalInExam?' 考試週22:10 '+normalInExam:'')); if(inN||late||normalInExam||!inX) bad.push(tid); }
     check('7. 柏翰大口：考試那兩週 02:30～05:00 在（AA_621 第 2 節），02:30 以前、05:00 以後、平常週不在這一列；考試那兩週 22:10 那一列不在（照舊）',res.every(x=>!/平常週|時段外|考試週22/.test(x))&&res.every(x=>!/ 0\//.test(x)),res.join('；')); }
   /* 可昕 */
-  { const r=row('bookstore_kx'), c=CHARACTERS.kexin; const sat=LATER.map(t=>daysOf(r,t).find(d=>CALENDAR.termOf(d).week%2===0&&SHOPNPC.on(fresh(d,14.5),r))); const d0=sat[0];
+  { const r=row('bookstore_kx'), c=CHARACTERS.kexin; const sat=LATER.filter(t=>t!=='Y4S2'/* （CANON-NO-ECON-1112 第四批：照 AA_895 第 4 節）大四下國考前她週一～六 9:00～21:30 在總圖，週六的書店撞到、照總圖 */).map(t=>daysOf(r,t).find(d=>CALENDAR.termOf(d).week%2===0&&SHOPNPC.on(fresh(d,14.5),r))); const d0=sat[0];
     const inS=(d,h,f,pre)=>{ const G=fresh(d,h,f); if(pre) pre(G); SHOPNPC._reset(); const e=STORY.schedEnt(c,G); return !!(e&&e.shopNpc==='bookstore_kx'&&e.zone==='bookstore'&&e.act==='linger'); };
     const odd=daysOf(r,'Y1S2').find(d=>CALENDAR.termOf(d).week%2===1&&CALENDAR.termOf(d).week>1), y1=daysOf(r,'Y1S1').filter(d=>CALENDAR.termOf(d).week%2===0);
     // CANON-NO-ECON-1112：經濟系那一年拿掉（第 7 項可昕頁間書屋「經濟系那一年不在」那一格）
