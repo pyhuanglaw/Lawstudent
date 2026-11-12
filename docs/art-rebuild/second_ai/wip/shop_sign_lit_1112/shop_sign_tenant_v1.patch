@@ -1,0 +1,29 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 9fbb28e4e2..4a7523eb66 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1732,7 +1732,8 @@ const Z3 = (function(){
+     const N=32, ids=[], box=[]; for(const q of list){ if(!q||!q.place) continue; const c=Math.abs(Math.cos(q.ry||0)), sn=Math.abs(Math.sin(q.ry||0)), along=c>=sn, cx=q.cx===undefined?q.x:q.cx, cz=q.cz===undefined?q.z:q.cz, hw=(along?(q.ex||q.w/2):(q.ez||q.w/2))+0.4;
+       const b=along?{x0:cx-hw,x1:cx+hw,z0:cz-6,z1:cz+6}:{x0:cx-6,x1:cx+6,z0:cz-hw,z1:cz+hw}; b.mx=cx; b.mz=cz; if(q.id) b.re=new RegExp('^V?SIGN_FACE_(.*[_T])?'+String(q.id).replace(/[^A-Za-z0-9]/g,'')+'(_|$)'); let k=ids.indexOf(q.place); if(k<0){ if(ids.length>=N) continue; ids.push(q.place); box.push([b]); } else box[k].push(b); }
+     const items=mesh.userData.atlas.items, slot=new Array(items.length).fill(0), info={}, v=new THREE.Vector3();
+-    items.forEach((it,i)=>{ if(!it.c) return; v.set(it.c[0],it.c[1],it.c[2]).applyMatrix4(mesh.matrixWorld); let best=0, bd=1e9; for(let k=0;k<box.length&&!best;k++) for(const b of box[k]) if(b.re&&b.re.test(it.name||'')) best=k+1;   /* 板面名稱帶那一棟的編號（SIGN_FACE_G00、VSIGN_FACE_Tdongnan_t_a）＝那一間；直立招牌掛在樓房邊上，照位置會落在店面範圍外 */
++    const TENANT=/(_t(_[ab])?|_2F)$|_t_[ab]$/;   /* 樓上住戶、二樓別家的招牌（wz_street.py 的 vtenant＝VSIGN_FACE_<棟>_t_a／_b、SIGN_FACE_<棟>_2F：套房出租、按摩、桌遊、鋼琴教室、美髮）——不是一樓這間店的，照自己的時間亮，不跟著這間關 */
++    items.forEach((it,i)=>{ if(!it.c||TENANT.test(it.name||'')) return; v.set(it.c[0],it.c[1],it.c[2]).applyMatrix4(mesh.matrixWorld); let best=0, bd=1e9; for(let k=0;k<box.length&&!best;k++) for(const b of box[k]) if(b.re&&b.re.test(it.name||'')) best=k+1;   /* 板面名稱帶那一棟的編號（SIGN_FACE_G00、VSIGN_FACE_Tdongnan_t_a）＝那一間；直立招牌掛在樓房邊上，照位置會落在店面範圍外 */
+       if(!best) for(let k=0;k<box.length;k++) for(const b of box[k]){ if(v.x<b.x0||v.x>b.x1||v.z<b.z0||v.z>b.z1) continue; const d=Math.hypot(v.x-b.mx,v.z-b.mz); if(d<bd){ bd=d; best=k+1; } } slot[i]=best; if(best) info[ids[best-1]]=(info[ids[best-1]]||0)+1; });
+     const AI=mesh.geometry.attributes.aItem, A=new Float32Array(AI.count); for(let i=0;i<AI.count;i++) A[i]=slot[Math.round(AI.getX(i))]||0; mesh.geometry.setAttribute('aShopS',new THREE.BufferAttribute(A,1));
+     const lit=new Array(N+1).fill(1), U={value:lit}, m=mesh.material, prev=m.onBeforeCompile;
+diff --git a/tests/shop_sign_lit_1112_unit.js b/tests/shop_sign_lit_1112_unit.js
+index 7b64ea7233..f135467a60 100644
+--- a/tests/shop_sign_lit_1112_unit.js
++++ b/tests/shop_sign_lit_1112_unit.js
+@@ -37,8 +37,8 @@ check('1. 燒臘（G00）的招牌分給 noodle',g00.length>0&&g00.every(a=>a[1]
+ { const b2=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/tingzhou_street.glb')); const J2=JSON.parse(b2.slice(20,20+b2.readUInt32LE(12)).toString('utf8'));
+   const it2=[], p2=[], a2=[]; J2.nodes.forEach(n=>{ if(!/^V?SIGN_FACE_/.test(n.name||'')||n.mesh==null) return; const pr=J2.meshes[n.mesh].primitives[0], a=J2.accessors[pr.attributes.POSITION], t=n.translation||[0,0,0]; const c=[0,1,2].map(i=>(a.min[i]+a.max[i])/2+t[i]); const k=it2.length; it2.push({name:n.name,c}); for(let q=0;q<3;q++){ p2.push(c[0],c[1],c[2]); a2.push(k); } });
+   const r2=new THREE.Group(); const g2=new THREE.BufferGeometry(); g2.setAttribute('position',new THREE.Float32BufferAttribute(p2,3)); g2.setAttribute('aItem',new THREE.Float32BufferAttribute(a2,1)); const m2=new THREE.Mesh(g2,new THREE.MeshStandardMaterial()); m2.name='wz_signs_atlas'; m2.userData.atlas={items:it2}; r2.add(m2);
+-  const TL=TZ3.shopReal(), R2=Z3.shopSignLit(r2,{update:null},TL); const bad=[]; it2.forEach((it,i)=>{ const pl=R2.ids[R2.slot[i]-1]; for(const q of TL) if(new RegExp('[_T]'+q.id+'(_|$)').test(it.name)&&pl!==q.place) bad.push(it.name+'→'+(pl||'無')); if(pl&&!TL.some(q=>q.place===pl&&new RegExp('[_T]'+q.id+'(_|$)').test(it.name))&&/^V?SIGN_FACE_T(e|w)_/.test(it.name)) bad.push(it.name+' 被分給 '+pl); });
+-  check('1. 汀州路：名稱帶那一棟的招牌分給那一間、別人家的招牌不分給真的店內（'+it2.length+' 塊）',!bad.length,bad.slice(0,6).join('、')+'　'+JSON.stringify(R2.info)); }
++  const TL=TZ3.shopReal(), R2=Z3.shopSignLit(r2,{update:null},TL); const bad=[]; it2.forEach((it,i)=>{ const pl=R2.ids[R2.slot[i]-1]; for(const q of TL) if(new RegExp('[_T]'+q.id+'(_|$)').test(it.name)&&!/(_t_[ab]|_2F)$/.test(it.name)&&pl!==q.place) bad.push(it.name+'→'+(pl||'無')); if(pl&&!TL.some(q=>q.place===pl&&new RegExp('[_T]'+q.id+'(_|$)').test(it.name))&&/^V?SIGN_FACE_T(e|w)_/.test(it.name)) bad.push(it.name+' 被分給 '+pl); if(pl&&/(_t_[ab]|_2F)$/.test(it.name)) bad.push(it.name+'（樓上住戶）被分給 '+pl); });
++  check('1. 汀州路：名稱帶那一棟的招牌分給那一間；樓上住戶（_t_a／_t_b、_2F：套房出租、按摩、桌遊、鋼琴教室、美髮）和別人家的招牌不分給真的店內（'+it2.length+' 塊）',!bad.length,bad.slice(0,6).join('、')+'　'+JSON.stringify(R2.info)); }
+ const sh={uniforms:{},vertexShader:THREE.ShaderLib.standard.vertexShader,fragmentShader:THREE.ShaderLib.standard.fragmentShader}; mesh.material.onBeforeCompile(sh,null);
+ check('2. 發光乘 uSignLit、快取 key 分開',/totalEmissiveRadiance\*=k/.test(sh.fragmentShader)&&/attribute float aShopS/.test(sh.vertexShader)&&sh.uniforms.uSignLit.value===R.lit&&mesh.material.customProgramCacheKey()==='shopSignLit');
+ GAME.G.hour=3; R.upd(); const cl=REAL.filter(q=>!PLACES.isOpen(q.place,3,30)); check('3. 03:00 打烊的 '+cl.length+' 間＝0',cl.length>0&&cl.every(q=>R.lit[slotOf(q.place)]===0));

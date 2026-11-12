@@ -9034,8 +9034,8 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "e85b36cecd",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-STANDARD-BACKFILL-1112",
    "title": "打烊的店招牌板面不發光（wz_signs_atlas 每間開關：公館燒臘、汀州路、新生南路、溫州街）＋溫州街光暈表加阿忠鮮果＋兩支過時測試",
@@ -9044,13 +9044,14 @@
     "docs/art-rebuild/second_ai/wip/shop_sign_lit_1112/README.md"
    ],
    "remaining": "瀏覽器沒拍；沒營業時間資料的店招牌照舊亮；越好吃小館的招牌不是 SIGN_FACE",
-   "next": "LAWWW-C 套 patch；CC 拍公館燒臘、汀州路 23:30"
+   "next": "LAWWW-C 套 patch；CC 拍公館燒臘、汀州路 23:30",
+   "ackNote": "LAWWW-C 合進開發分支（17:45 訊息）"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "b4697f5eb9",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "state": "已交付",
    "noDirectIntegrate": false,
    "task": "L118-DIAN-CEILING-1112",
@@ -9061,6 +9062,22 @@
    ],
    "remaining": "瀏覽器沒跑（BB 的三個條件）",
    "next": "LAWWW-C 套 patch；CC 跑 place_gate 九間＋進門＋每張座位"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "title": "修 shop_sign_lit v1：汀州路樓上住戶的直立招牌（_t_a／_t_b、_2F）不跟著一樓店關",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_sign_lit_1112/shop_sign_tenant_v1.patch",
+    "docs/art-rebuild/second_ai/wip/shop_sign_lit_1112/README.md"
+   ],
+   "remaining": "東南大聯、聯通、科舉、越好吃沒有自己的招牌板面",
+   "next": "LAWWW-C 套 patch"
   }
  ]
 }
