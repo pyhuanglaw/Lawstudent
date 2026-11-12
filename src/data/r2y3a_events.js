@@ -190,7 +190,7 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'heroine_04',expression:'laugh',text:'（笑到彎腰）他真的很爛。跟我五歲的時候一模一樣。'},
       {choice:[{text:'「妳要教他嗎？」',goto:'d1'},{text:'「妳爸很可愛。」',goto:'d2'},{text:'「我第三關也卡很久。」',if:Q6c,goto:'d3'},{text:'「妳做的？」',if:nQ6c,goto:'d4'}]},
       {label:'d1'},{speaker:'heroine_04',text:'不要。讓他自己卡。……好啦，給他一個提示。'},{goto:'end'},
-      {label:'d2'},{speaker:'heroine_04',expression:'embarrassed',text:'……他會得意。我已經看到他得意的臉了。'},{goto:'end'},
+      {label:'d2'},{speaker:'heroine_04',expression:'embarrassed',text:'他會得意。我已經看到他得意的臉了。'},{goto:'end'},
       {label:'d3'},{speaker:'heroine_04',text:'你們兩個是同一個等級的。'},{goto:'end'},
       {label:'d4'},{speaker:'heroine_04',text:'對。我沒跟什麼人說。……現在全世界都可以玩了。'},
       {label:'end'},(mem('heroine_04','DAD_PLAYS')) ] };

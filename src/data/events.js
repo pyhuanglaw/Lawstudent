@@ -3151,7 +3151,7 @@ const STORY_EVENTS_V11=[
       {label:'cat'},{speaker:'heroine_04',expression:'serious',text:'因為牠的手機沒電了。'},{speaker:'heroine_04',expression:'laugh'},{speaker:null,text:'（她說得很認真，然後自己笑到趴在桌上。）'},{goto:'end'},
       {label:'better'},{if:SOLO('heroine_04'),speaker:'heroine_04',expression:'smile',text:'真的？那第二關做好，你再幫我玩。'}   /* AA_525 1-2：原句「那你下禮拜再來，幫我玩第二關。」（之後是 2026-06-27 期末鉤子的 zq_play）*/,{if:GFO('heroine_04'),speaker:'heroine_04',expression:'smile',text:'好，那我把它做完。做完你再玩一次。'},
         {if:DH('heroine_04'),speaker:'heroine_04',expression:'annoyed',text:'你不要突然講這種話。……我會為了你把它做完。不對，為了它。為了它啦。'},{goto:'end'},   /* BB_187 2-2 第二個選項（AA_230 Q-08）*/
-      {label:'bug'},{speaker:null,text:'（她愣住，打開程式碼。）'},{speaker:'heroine_04',expression:'surprised',text:'……真的假的。我加進去。'},
+      {label:'bug'},{speaker:null,text:'（她愣住，打開程式碼。）'},{speaker:'heroine_04',expression:'surprised',text:'真的假的。我加進去。'},
       {label:'end'} ] },
   /* 阿凱 K2「工程師也是人」（BB_96 4-3，交接包 v2，新事件）：子晴 Q6 之後第一個在宿舍和他說話的晚上（他 18 點以後都在宿舍）；兩週內沒說到話就不演。
      原稿最後一句「算了。反正名單上不會有我。」刪掉（BB：太消沉）。三個選項各記一個旗標／記憶，之後的 K4（BB_98）、BB_108 回收；好感數字 BB b6b21d6 補 */

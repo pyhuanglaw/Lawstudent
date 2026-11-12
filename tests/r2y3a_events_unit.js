@@ -222,7 +222,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
     check('8. Q1 看過 Q6：當面「你看。（把手機轉過來）」…；選項第三個「我第三關也卡很久。」→「你們兩個是同一個等級的。」（逐字）；記 DAD_PLAYS',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「妳要教他嗎？」','「妳爸很可愛。」','「我第三關也卡很久。」'])&&SOCIAL.has('heroine_04','DAD_PLAYS'),JSON.stringify(all())); }
   fresh('2027-10-06',22.2,'gongguan'); R('heroine_04','FAM'); await play('ev_ziqing_dad_stuck',[2]);
   check('8. Q2 沒看過 Q6：「……我做的。大一就開始做了」；第三個選項「妳做的？」→「對。我沒跟什麼人說。……現在全世界都可以玩了。」',has('他在玩《找插座的貓》。……我做的。大一就開始做了，上個月丟到網路上，他自己找到的。')&&opts[0][2]==='「妳做的？」'&&has('對。我沒跟什麼人說。……現在全世界都可以玩了。'));
-  fresh('2027-10-06',22.2,'gongguan'); R('heroine_04','FAM'); await play('ev_ziqing_dad_stuck',[1]); check('8. 「妳爸很可愛。」→「……他會得意。我已經看到他得意的臉了。」',has('……他會得意。我已經看到他得意的臉了。'));
+  fresh('2027-10-06',22.2,'gongguan'); R('heroine_04','FAM'); await play('ev_ziqing_dad_stuck',[1]); check('8. 「妳爸很可愛。」→「他會得意。我已經看到他得意的臉了。」',has('他會得意。我已經看到他得意的臉了。'));
   fresh('2027-10-06',22.2,'gongguan'); R('heroine_04','FAM'); await play('ev_ziqing_dad_stuck',[0]); check('8. 「妳要教他嗎？」→「不要。讓他自己卡。……好啦，給他一個提示。」；Q3 沒有「欸不是」、沒有「你不要跟他講」',has('不要。讓他自己卡。……好啦，給他一個提示。')&&!any(/欸不是|你不要跟他講|不要跟別人講/));
   fresh('2027-10-06',21,'dorm'); R('heroine_04','FAM'); run('2027-10-06',21.25,21.75); run('2027-10-08',22.75,23.25);
   check('8. Q4 三天都沒去：10/8 23:00 三則；記 DAD_PLAYS；事件算演過（階梯、Q10 讀它）；之後當面不演',JSON.stringify(txt('p:heroine_04').slice(-3))===JSON.stringify([ZQ+'我爸傳的「第三關怎麼過」',ZQ+'他在玩我做的遊戲 上個月丟到網路上的 他自己找到的',ZQ+'卡三天了 他真的很爛'])&&SOCIAL.has('heroine_04','DAD_PLAYS')&&!!G.events.done.ev_ziqing_dad_stuck&&(()=>{ G.zone='gongguan'; to('2027-10-08',23.2); npc('heroine_04',0,0,0); return !EVENTS.check(ev('ev_ziqing_dad_stuck')); })());

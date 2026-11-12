@@ -282,13 +282,13 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('第 9 節第 1 題. 話題（POOL.Y2S1）裡沒有那一句了（只在邀約後面講一次）',!TERMEND_LINES.POOL.Y2S1.heroine_02.includes('放映完隔天，我就回台中了。')&&TERMEND_LINES.HOOK.Y2S1.heroine_02.say==='店裡寒假想排一部老電影的放映。',J(TERMEND_LINES.POOL.Y2S1.heroine_02));
     const g=await din(1,'gf'); check('第 9 節第 1 題. 交往中的期末約會（大二上）也一樣：邀約那句之後才講「放映完隔天，我就回台中了。」',g.L.slice(-2).join('|')===WANT.join('|')&&g.L.filter(t=>t===WANT[1]).length===1,J(g.L)); }
   // 第 2 題：芷若 2027-06-04～09-02 不上班——隔天下午 Café 那一場、沒去的隔天那句
-  { const OLD=['（她把最後一張椅子倒扣在桌上。）','回來了。','……第一杯，我還是做給你。坐。'], NEW=['（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）','回來了。','……今天的咖啡不是我做的，學妹做的。你喝喝看。比我好喝的話，我會生氣。'];
+  { const OLD=['（她把最後一張椅子倒扣在桌上。）','回來了。','第一杯，我還是做給你。坐。'], NEW=['（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）','回來了。','今天的咖啡不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。'];
     const reQ=(id,yk)=>{ const I=VAC.inst(id,yk); fresh(I.to,17.9,'dorm',{dating_heroine_02:true}); R('heroine_02','CLO'); VAC.rec(G).reg[I.key]='done'; run(17.9,21.5); return {I,q:OUT.get(G,'vac_'+I.key+'_re_heroine_02')}; };
     const play=async(id,yk)=>{ const r=reQ(id,yk); if(!r.q) return {r,L:null}; G.day=r.q.day; G.hour=r.q.h; said=[]; await VAC.outing(GM,r.q); return {r,L:lines().map(t=>t.replace(/^[^：（]+：/,''))}; };
     const t02=await play('T02','Y2'), c18=await play('C18','Y2'), w=await play('C18W','Y2');
-    check('第 9 節第 2 題. 不上班那段的重逢（日本的山 8/5、新加坡 7/28 隔天 15:00 在 Café）：「（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）」「回來了。」「……今天的咖啡不是我做的，學妹做的。你喝喝看。比我好喝的話，我會生氣。」；15:00 照舊；沒有倒扣椅子、第一杯',
+    check('第 9 節第 2 題. 不上班那段的重逢（日本的山 8/5、新加坡 7/28 隔天 15:00 在 Café）：「（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）」「回來了。」「今天的咖啡不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。」；15:00 照舊；沒有倒扣椅子、第一杯',
       [t02,c18].every(x=>J(x.L)===J(NEW)&&x.r.q.h===15),J([t02.L,c18.L,t02.r.q&&t02.r.q.h]));
-    check('第 9 節第 2 題. 對照：2027 寒假新加坡（她還在上班）照舊「（她把最後一張椅子倒扣在桌上。）」「回來了。」「……第一杯，我還是做給你。坐。」，22:00（AA_373 第 6 節第 9 題：她晚班到 22:00）',J(w.L)===J(OLD)&&w.r.q.h===22,J([w.L,w.r.q&&w.r.q.h]));
+    check('第 9 節第 2 題. 對照：2027 寒假新加坡（她還在上班）照舊「（她把最後一張椅子倒扣在桌上。）」「回來了。」「第一杯，我還是做給你。坐。」，22:00（AA_373 第 6 節第 9 題：她晚班到 22:00）',J(w.L)===J(OLD)&&w.r.q.h===22,J([w.L,w.r.q&&w.r.q.h]));
     const miss=(id,yk)=>{ const r=reQ(id,yk); if(!r.q) return null; G.day=r.q.day; G.hour=r.q.h+1; VAC.missed(GM,r.q); G.day=r.q.day+1; G.hour=12.5; PHONE.tick(G); return TH('p:heroine_02').filter(m=>m.tag==='vac_remiss_'+r.I.key+'_heroine_02').map(m=>[K(m.day),m.h,m.text]); };
     const m1=miss('T02','Y2'), m0=miss('C18W','Y2');
     check('第 9 節第 2 題. 不上班那段沒去：隔天 12:00「昨天那個位子，我坐到打烊。」（不是「昨天的那杯，我自己喝了。」）；對照：寒假那次照舊',J(m1)===J([['2027-08-06',12,'昨天那個位子，我坐到打烊。']])&&J(m0&&m0.map(x=>x[2]))===J(['昨天的那杯，我自己喝了。']),J([m1,m0])); }

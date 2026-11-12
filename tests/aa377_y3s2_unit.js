@@ -169,7 +169,7 @@ const inMD=t=>MD.indexOf(t)>=0;
     try{ TERMEND.window=()=>({id:'Y3S2'}); a=[].concat(TERMEND_LINES.HEART.heroine_04.invite(G)); b=TERMEND_LINES.GF.heroine_04.invite(G);
       TERMEND.window=()=>({id:'Y2S2'}); c=[].concat(TERMEND_LINES.HEART.heroine_04.invite(G)); d=TERMEND_LINES.GF.heroine_04.invite(G); } finally { TERMEND.window=w0; }
     check('10. 子晴大三下（她 6/3 畢業了）：心意「欸 你考完了吧 宵夜」、交往中「你考完了吧 宵夜 我想吃兩份」；大二下照舊',a[0]==='欸 你考完了吧 宵夜'&&a[1]==='只有我們兩個 不要找阿凱'&&b==='你考完了吧 宵夜 我想吃兩份'&&c[0]==='欸 考完了 宵夜'&&d==='考完了 宵夜 我想吃兩份',J({a,b,c,d}));
-    check('11. 芷若交往中的飯桌（大三下）：「……六月的週五，你先全部給我。」',TERMEND_LINES.GF.heroine_02.tableByTerm.Y3S2[1]==='……六月的週五，你先全部給我。');
+    check('11. 芷若交往中的飯桌（大三下）：「六月的週五，你先全部給我。」',TERMEND_LINES.GF.heroine_02.tableByTerm.Y3S2[1]==='六月的週五，你先全部給我。');
     check('11. 芷若 Z12：「我七月先回台中，去影印店幫忙一個月。」',ev('ev_zhiruo_graduation_cafe').dialogue[0].text==='我七月先回台中，去影印店幫忙一個月。'); });
   /* ---- 12、13、14 ---- */
   await sec('12',async()=>{
