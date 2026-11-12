@@ -17,6 +17,7 @@ A = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(k, d=None): return A[A.index(k) + 1] if k in A else d
 OUT = arg('--out'); PREVIEW = arg('--preview'); RES = int(arg('--res', '2048')); SAMPLES = int(arg('--samples', '96'))
 HERE = os.path.dirname(os.path.abspath(__file__)); TEX = os.path.join(HERE, 'textures')
+sys.path.insert(0, HERE); import cc0_fetch   # SHOP-REALISM-1112：Poly Haven 掃描模型、ambientCG 材質組（CC0，下載到快取）
 W, D, H = 5.2, 3.6, 3.1          # 寬（沿街）、深、高
 rr = random.Random(11)
 
@@ -114,6 +115,78 @@ def mat_tiffany(name):
     nt.links.new(cr.outputs['Color'], b.inputs['Base Color']); nt.links.new(cr.outputs['Color'], b.inputs['Emission Color']); b.inputs['Emission Strength'].default_value = 2.2
     MATS[name] = m; return m
 
+
+def mat_acg(name, aid, scale=4.0, tint=None, rough_mul=1.0, nstr=1.0):
+    """ambientCG 材質組（顏色＋法線＋粗糙度＋AO）：不是一個純色；tint 乘在顏色上（同一塊布做不同顏色）"""
+    if name in MATS: return MATS[name]
+    t = cc0_fetch.acg_material(aid); m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; b = nt.nodes['Principled BSDF']
+    tc = nt.nodes.new('ShaderNodeTexCoord'); mp = nt.nodes.new('ShaderNodeMapping'); mp.inputs['Scale'].default_value = (scale, scale, scale); nt.links.new(tc.outputs['Object'], mp.inputs['Vector'])
+    def tex(path, data=False):
+        n = nt.nodes.new('ShaderNodeTexImage'); n.image = bpy.data.images.load(path, check_existing=True); n.projection = 'BOX'; n.projection_blend = 0.35
+        if data: n.image.colorspace_settings.name = 'Non-Color'
+        nt.links.new(mp.outputs['Vector'], n.inputs['Vector']); return n
+    col = tex(t['color']).outputs['Color']
+    if 'ao' in t:
+        ao = tex(t['ao'], True); mx = nt.nodes.new('ShaderNodeMix'); mx.data_type = 'RGBA'; mx.blend_type = 'MULTIPLY'; mx.inputs['Factor'].default_value = 1.0
+        nt.links.new(col, mx.inputs[6]); nt.links.new(ao.outputs['Color'], mx.inputs[7]); col = mx.outputs[2]
+    if tint:
+        mx = nt.nodes.new('ShaderNodeMix'); mx.data_type = 'RGBA'; mx.blend_type = 'MULTIPLY'; mx.inputs['Factor'].default_value = 1.0
+        mx.inputs[7].default_value = (*(hexc(tint) if isinstance(tint, str) else tint), 1); nt.links.new(col, mx.inputs[6]); col = mx.outputs[2]
+    nt.links.new(col, b.inputs['Base Color'])
+    if 'rough' in t:
+        r = tex(t['rough'], True); mm = nt.nodes.new('ShaderNodeMath'); mm.operation = 'MULTIPLY'; mm.inputs[1].default_value = rough_mul
+        nt.links.new(r.outputs['Color'], mm.inputs[0]); nt.links.new(mm.outputs[0], b.inputs['Roughness'])
+    if 'normal' in t:
+        nn = tex(t['normal'], True); nm = nt.nodes.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = nstr
+        nt.links.new(nn.outputs['Color'], nm.inputs['Color']); nt.links.new(nm.outputs['Normal'], b.inputs['Normal'])
+    MATS[name] = m; return m
+
+PH_USED = []
+def ph_place(aid, loc, rz=0.0, size=None, axis=2, decimate=None):
+    """Poly Haven 掃描模型：匯入 glTF（或 .blend）→ 合成一個物件 → 減面 → 縮放到 size（axis 那一邊的長度，公尺）→ 底部放在 loc"""
+    path = cc0_fetch.ph_model(aid); before = set(bpy.data.objects)
+    if path.endswith('.blend'):
+        with bpy.data.libraries.load(path) as (src, dst): dst.objects = list(src.objects)
+        for o in dst.objects:
+            if o is not None and o.type == 'MESH': sc.collection.objects.link(o)
+    else:
+        bpy.ops.import_scene.gltf(filepath=path)
+    new = [o for o in bpy.data.objects if o not in before and o.type == 'MESH']
+    for o in [o for o in bpy.data.objects if o not in before and o.type != 'MESH']:
+        for c in list(o.children): c.matrix_parent_inverse = Matrix(); 
+    bpy.ops.object.select_all(action='DESELECT')
+    for o in new:
+        mw = o.matrix_world.copy(); o.parent = None; o.matrix_world = mw; o.select_set(True)
+    for o in [o for o in bpy.data.objects if o not in before and o.type != 'MESH']: bpy.data.objects.remove(o)
+    bpy.context.view_layer.objects.active = new[0]
+    if len(new) > 1: bpy.ops.object.join()
+    o = bpy.context.view_layer.objects.active; bpy.ops.object.transform_apply(location=True, rotation=True, scale=True); o.name = 'ph_' + aid
+    if decimate:
+        md = o.modifiers.new('dec', 'DECIMATE'); md.ratio = decimate
+    vs = [v.co for v in o.data.vertices]; mn = Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs))); mx = Vector((max(v.x for v in vs), max(v.y for v in vs), max(v.z for v in vs)))
+    k = (size / (mx - mn)[axis]) if size else 1.0; c = Vector(((mn.x + mx.x) / 2, (mn.y + mx.y) / 2, mn.z))
+    o.data.transform(Matrix.Translation(-c)); o.data.transform(Matrix.Scale(k, 4))
+    o.matrix_world = Matrix.Translation(Vector(loc)) @ Matrix.Rotation(rz, 4, 'Z')
+    OBJS.append(o); PH_USED.append(aid); return o
+
+
+# ---- SHOP-REALISM-1112：布料、皮革改用 ambientCG 材質組（CC0）；原本的程式紋理只留給用不到的地方 ----
+TARTANS = ['Fabric050', 'Fabric051', 'Fabric052', 'Fabric053', 'Fabric054', 'Fabric080']
+def _light(hx, k=1.7):
+    c = hexc(hx); return tuple(min(1.0, x * k) for x in c)
+def mat_fabric(name, hx, kind='plain', hx2=None, scale=22.0):
+    if name in MATS: return MATS[name]
+    h = sum(ord(ch) for ch in name)
+    if name == 'rug': m = mat_acg(name, 'Carpet015', scale=1.2)
+    elif kind == 'plaid': m = mat_acg(name, TARTANS[h % len(TARTANS)], scale=3.0)
+    elif kind == 'denim': m = mat_acg(name, ('Fabric069', 'Fabric003')[h % 2], scale=6.0, tint=_light(hx, 1.6))
+    elif kind == 'cord': m = mat_acg(name, 'Fabric013', scale=5.0, tint=_light(hx, 2.4))
+    else: m = mat_acg(name, ('Fabric036', 'Fabric036', 'Fabric031', 'Fabric061')[h % 4], scale=5.0, tint=_light(hx, 1.25 if h % 4 < 2 else 1.6))
+    MATS[name] = m; return m
+def mat_leather(name, hx):
+    if name in MATS: return MATS[name]
+    m = mat_acg(name, 'Leather037', scale=4.0, tint=_light(hx, 2.3), rough_mul=0.8); MATS[name] = m; return m
+
 WOOD = mat_tex('wood_walnut', 'walnut_veneer/walnut_veneer_diff_1k.jpg', 1.6, tint=(0.62, 0.42, 0.28), rough=0.5, nor='walnut_veneer/walnut_veneer_nor_gl_1k.jpg')
 WOOD_D = mat_tex('wood_dark', 'walnut_veneer/walnut_veneer_diff_1k.jpg', 1.6, tint=(0.34, 0.22, 0.15), rough=0.5, nor='walnut_veneer/walnut_veneer_nor_gl_1k.jpg', rot=1.5708)
 FLOOR = mat_tex('floor_oak', 'laminate_floor_02/laminate_floor_02_diff_1k.jpg', 0.5, tint=(1.0, 0.92, 0.8), rough=0.45, nor='laminate_floor_02/laminate_floor_02_nor_gl_1k.jpg')
@@ -194,6 +267,45 @@ def garment(name, outline, thick, mat, loc, rot_z=0.0, tilt=0.0, folds=0.012, su
     o.matrix_world = Matrix.Translation(Vector(loc)) @ Matrix.Rotation(rot_z, 4, 'Z') @ Matrix.Rotation(tilt, 4, 'X')
     return o
 
+
+def garment2(name, w, L, thick, mat, loc, rot_z=0.0, coat=False, seed=0):
+    """立體衣服（SHOP-REALISM-1112；取代平板的 garment）：前、後兩片有弧度（胸口鼓、兩側薄），往下愈來愈多的直向皺摺，
+    肩線斜下接衣架；袖子是兩支從肩膀垂下來、稍微往前的圓管（外套比較粗、有袖口）；領子一圈。原點＝衣架鉤下面；衣服的寬沿本地 X、厚沿 Y。"""
+    R = random.Random(seed); bm = bmesh.new(); NU, NV = 12, 18
+    freqs = [(R.uniform(1.5, 4.5), R.uniform(0, 6.28), R.uniform(0.4, 1.0)) for _ in range(3)]
+    def P(su, tv, side):
+        top = -0.075 * abs(2 * su - 1) ** 1.3 - (0.02 if coat else 0.0)
+        hw = w / 2 * (1.0 + 0.06 * tv * (1 if coat else 0.5))   # 下襬微微張開
+        x = (su - 0.5) * 2 * hw; z = top + (-L - top) * tv - 0.012 * math.sin(math.pi * su) * (tv ** 6)   # 下襬中間微彎
+        bul = thick * 0.5 * max(0.0, 1 - (2 * su - 1) ** 2) ** 0.5 * (1.0 - 0.35 * tv)
+        fold = sum(a * math.sin(2 * math.pi * f * su * 2 + ph) for f, ph, a in freqs) * 0.011 * (tv ** 1.4) * (1.6 if coat else 1.0)
+        y = side * (bul + 0.004) + fold
+        return Vector((x, y, z))
+    grids = []
+    for side in (1, -1):
+        g = [[bm.verts.new(P(i / NU, j / NV, side)) for i in range(NU + 1)] for j in range(NV + 1)]; grids.append(g)
+        for j in range(NV):
+            for i in range(NU):
+                q = (g[j][i], g[j][i + 1], g[j + 1][i + 1], g[j + 1][i]); bm.faces.new(q if side < 0 else q[::-1])
+    F, B = grids
+    for j in range(NV):   # 兩側縫起來
+        for i in (0, NU): bm.faces.new((F[j][i], F[j + 1][i], B[j + 1][i], B[j][i]))
+    for i in range(NU): bm.faces.new((F[NV][i], F[NV][i + 1], B[NV][i + 1], B[NV][i])); bm.faces.new((F[0][i], B[0][i], B[0][i + 1], F[0][i + 1]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    o = new_obj(name, bm, mat); sm = o.modifiers.new('sub', 'SUBSURF'); sm.levels = 1; sm.render_levels = 1
+    for p_ in o.data.polygons: p_.use_smooth = True
+    M = Matrix.Translation(Vector(loc)) @ Matrix.Rotation(rot_z, 4, 'Z') @ Matrix.Rotation(R.uniform(-0.04, 0.04), 4, 'X')
+    o.matrix_world = M
+    sl = (0.62 if coat else 0.56) * L / 0.75; r0 = (0.065 if coat else 0.05) * (w / 0.45)
+    for sx in (-1, 1):   # 袖子
+        x0 = sx * w / 2 * 0.92; fw = R.uniform(0.01, 0.04)
+        pts = [(x0, 0.0, -0.075), (x0 + sx * 0.03, fw * 0.5, -0.075 - sl * 0.35), (x0 + sx * 0.035, fw, -0.075 - sl * 0.75), (x0 + sx * 0.03, fw * 1.1, -0.075 - sl)]
+        rad = [(r0, r0 * 0.7), (r0 * 0.92, r0 * 0.62), (r0 * 0.82, r0 * 0.55), (r0 * 0.78, r0 * 0.52)]
+        t = tube(name + '_sl%d' % sx, [tuple(M @ Vector(q)) for q in pts], rad, mat, seg=10)
+    cpts = [M @ Vector((0.075 * math.cos(a), 0.035 * math.sin(a) + 0.002, -0.012 + 0.012 * math.cos(a) ** 2)) for a in [math.pi * (0.05 + 0.9 * k / 6) for k in range(7)]]
+    tube(name + '_col', [tuple(q) for q in cpts], [0.012] * 7, mat, seg=6)   # 領子
+    return o
+
 def shirt_outline(w, L, sleeve=True, coat=False):
     """襯衫／外套從正面看的外形（肩線斜下、袖子貼著身體垂下、下擺微彎）；原點＝衣架鉤下面、領口"""
     hw = w / 2; sh = 0.07 if not coat else 0.06; sl = (0.58 if not coat else 0.62) * (L / 0.75)
@@ -233,7 +345,7 @@ def rail_of_clothes(name, x0, x1, y, z, along='X', density=0.07, face_y=True, lm
         ang = rr.uniform(-0.25, 0.25) + (0.55 if along == 'X' else -0.5); m = fabric_for(i + seed * 13)
         if along == 'X': loc = (t, y, z - 0.07); rz = math.pi / 2 + ang
         else: loc = (y, t, z - 0.07); rz = ang
-        garment('%s_%d' % (name, i), shirt_outline(w, L, coat=coat), th, m, loc, rot_z=rz, tilt=rr.uniform(-0.03, 0.03))
+        garment2('%s_%d' % (name, i), w, L, th * 2.2, m, loc, rot_z=rz, coat=coat, seed=seed * 1000 + i)
         if rr.random() < 0.85: hanger('%s_h%d' % (name, i), (loc[0], loc[1], z - 0.06), rz, w)
         step = density + th + rr.uniform(0.0, 0.05)
         if rr.random() < 0.08: step += rr.uniform(0.06, 0.14)   # 偶爾空一點
@@ -278,7 +390,7 @@ for sy in (2.18, 2.55):
     for x in (-W / 2 + 0.4, 0.0, W / 2 - 0.4): box('brk_%d_%d' % (int(sy * 100), int(x * 100)), x - 0.015, x + 0.015, BACK - 0.25, BACK, sy - 0.17, sy - 0.035, IRON, bev=0.003)
 rr.seed(5)
 x = -W / 2 + 0.25
-while x < W / 2 - 0.4:   # 上層：一疊疊毛衣、帽子、木盒、舊皮箱、書——大小每一樣不一樣
+while x < -0.15:   # 上層（左半邊）：一疊疊毛衣、帽子、木盒、舊皮箱、書——大小每一樣不一樣
     k = rr.random()
     if k < 0.45:
         stack_h = 0.0; c = rr.choice(SOLIDS); w = rr.uniform(0.26, 0.34)
@@ -288,15 +400,18 @@ while x < W / 2 - 0.4:   # 上層：一疊疊毛衣、帽子、木盒、舊皮�
     elif k < 0.6:
         lathe('hat_%d' % int(x * 100), [(0.0, 0.0), (0.17, 0.0), (0.17, 0.008), (0.11, 0.015), (0.105, 0.1), (0.09, 0.125), (0.0, 0.13)], x + 0.17, BACK - 0.17, 2.18, mat_fabric('felt_' + str(int(x * 10) % 3), ('#4a3a2e', '#2e2a26', '#6a5a46')[int(x * 10) % 3]), seg=20, sx=1.0, sy=0.85)
         x += 0.4
-    elif k < 0.8:
+    elif k < 0.0:
         w = rr.uniform(0.3, 0.45); hh = rr.uniform(0.14, 0.22); box('case_%d' % int(x * 100), x, x + w, BACK - 0.3, BACK - 0.05, 2.18, 2.18 + hh, mat_leather('case_' + str(int(w * 100) % 3), ('#7a4a2a', '#5a3a26', '#8a6a4a')[int(w * 100) % 3]), bev=0.02)
         x += w + 0.08
-    else:
+    elif False:
         for j in range(rr.randint(4, 8)):
             bw = rr.uniform(0.025, 0.045); bh = rr.uniform(0.18, 0.26); box('book_%d_%d' % (int(x * 100), j), x, x + bw, BACK - 0.26, BACK - 0.06, 2.18, 2.18 + bh, mat_col('book' + str(j % 5), ('#6a2a22', '#2a3a5a', '#3a4a2a', '#8a7a5a', '#4a2a3a')[j % 5], rough=0.6), bev=0.003); x += bw + 0.003
         x += 0.12
-x = -W / 2 + 0.3
-while x < W / 2 - 0.4:   # 第二層：皮箱、木盒、相框（小一點、靠後）
+ph_place('decorative_book_set_01', (1.05, BACK - 0.17, 2.18), size=0.24, axis=2)   # Poly Haven 舊書一整排（CC0）
+ph_place('vintage_suitcase', (-1.2, BACK - 0.17, 2.55), size=0.32, axis=2)   # Poly Haven 古董皮箱一組（CC0）
+ph_place('mantel_clock_01', (1.6, BACK - 0.2, 2.55), size=0.42, axis=0)
+x = -0.2
+while x < 1.2:   # 第二層（右半邊：木盒、相框）：皮箱、木盒、相框（小一點、靠後）
     k = rr.random()
     if k < 0.5:
         w = rr.uniform(0.35, 0.55); hh = rr.uniform(0.12, 0.3); box('box2_%d' % int(x * 100), x, x + w, BACK - 0.32, BACK - 0.04, 2.55, 2.55 + hh, mat_leather('case_' + str(int(w * 100) % 3), ('#7a4a2a', '#5a3a26', '#8a6a4a')[int(w * 100) % 3]) if rr.random() < 0.6 else WOOD, bev=0.015); x += w + rr.uniform(0.05, 0.15)
@@ -331,20 +446,14 @@ for k, y in enumerate((0.0, 0.42, 0.84)):
 RX = W / 2
 rail_of_clothes('right', -0.55, 1.05, RX - 0.3, 1.75, along='Y', seed=3, lmin=0.7, lmax=1.05)
 for y in (-0.55, 1.05): tube('right_post_%d' % int(y * 100), [(RX - 0.3, y, 1.75), (RX, y, 1.75)], [0.01, 0.01], BRASS, seg=8)
-box('mirror_frame', RX - 0.05, RX - 0.01, 1.2, 1.75, 0.15, 1.95, WOOD, bev=0.01)
-box('mirror', RX - 0.055, RX - 0.05, 1.25, 1.7, 0.2, 1.9, mat_col('mirror', '#c9d2d6', rough=0.05, metal=1.0), bev=0)
+ph_place('ornate_mirror_01', (RX - 0.03, 1.47, 0.5), rz=math.pi / 2, size=1.25, axis=2)   # Poly Haven 雕花鏡（CC0）
 # 櫃台：木頭前面板、檯面、收銀機、舊收音機、小盆栽
 box('counter', 0.95, 2.35, BACK - 0.95, BACK - 0.45, 0.0, 0.92, WOOD_D, bev=0.012)
 box('counter_top', 0.92, 2.38, BACK - 0.98, BACK - 0.42, 0.92, 0.96, WOOD, bev=0.01)
 for k in range(4): box('counter_panel_%d' % k, 1.0 + k * 0.34, 1.28 + k * 0.34, BACK - 0.955, BACK - 0.95, 0.12, 0.8, WOOD, bev=0.008)
-box('till', 1.7, 2.05, BACK - 0.85, BACK - 0.55, 0.96, 1.12, mat_col('till', '#3a3a38', rough=0.4), bev=0.02)
-box('till_top', 1.72, 2.03, BACK - 0.72, BACK - 0.56, 1.12, 1.2, mat_col('till', '#3a3a38', rough=0.4), bev=0.02)
-box('radio', 1.05, 1.42, BACK - 0.75, BACK - 0.55, 0.96, 1.18, WOOD, bev=0.02)
-box('radio_grill', 1.08, 1.3, BACK - 0.757, BACK - 0.75, 0.99, 1.15, mat_fabric('grill', '#b8a070', 'cord', '#5a4a30'), bev=0)
-lathe('pot_c', [(0.0, 0.0), (0.06, 0.0), (0.08, 0.12), (0.085, 0.13), (0.0, 0.13)], 2.22, BACK - 0.6, 0.96, mat_col('terracotta', '#b8673e', rough=0.8), seg=16)
-for k in range(9):   # 小盆栽的葉子：橢圓葉片
-    a = k * 2.4; L = rr.uniform(0.1, 0.16)
-    tube('leaf_c%d' % k, [(2.22, BACK - 0.6, 1.08), (2.22 + math.cos(a) * L * 0.6, BACK - 0.6 + math.sin(a) * L * 0.6, 1.08 + L * 0.8), (2.22 + math.cos(a) * L, BACK - 0.6 + math.sin(a) * L, 1.08 + L * 0.9)], [(0.005, 0.002), (0.03, 0.004), (0.004, 0.002)], mat_col('leaf', '#3f6a32', rough=0.6), seg=6)
+ph_place('CashRegister_01', (1.85, BACK - 0.7, 0.96), size=0.36, axis=2)   # Poly Haven 古董收銀機（CC0）
+ph_place('potted_plant_02', (1.15, BACK - 0.68, 0.96), rz=0.6, size=0.5, axis=2, decimate=0.12)
+ph_place('potted_plant_02', (0.35, FRONT + 0.35, 0.0), rz=2.0, size=1.05, axis=2, decimate=0.12)   # 櫥窗和門中間落地一盆（概念圖門口的盆栽）
 
 # ---------------- 櫥窗（左前）：木台、假人、彩色玻璃檯燈、皮公事包、牛仔褲一疊 ----------------
 PX0, PX1, PY0, PY1, PH = -W / 2 + 0.1, 0.35, FRONT + 0.08, FRONT + 0.95, 0.42
@@ -430,7 +539,7 @@ while t < GX1 - 0.1:
     m = mat_fabric('denim_0', '#3f5c80', 'denim', '#8aa0b8') if i == 0 else mat_fabric('plaid_%d' % (i % len(PLAIDS)), PLAIDS[i % len(PLAIDS)][0], 'plaid', PLAIDS[i % len(PLAIDS)][1], scale=26)
     coat = i == 0; w = 0.5 if coat else rr.uniform(0.42, 0.48); L = 0.66 if coat else rr.uniform(0.68, 0.8); th = 0.05 if coat else 0.024
     rz = math.pi / 2 + rr.uniform(-0.35, 0.35)
-    garment('rk_%d' % i, shirt_outline(w, L, coat=coat), th, m, (t, GY, 1.53), rot_z=rz)
+    garment2('rk_%d' % i, w, L, th * 2.2, m, (t, GY, 1.53), rot_z=rz, coat=coat, seed=500 + i)
     hanger('rk_h%d' % i, (t, GY, 1.54), rz, w)
     t += 0.1 + th + rr.uniform(0, 0.04); i += 1
 
