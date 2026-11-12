@@ -28,7 +28,7 @@
   - BUG-RUN-STUTTER-1112／FIRST r7：第一次走近卡 0.18～0.2 秒，原因在整條街（LAWWW2 查）。
   - PLACE-GATE-TOOL-1112：「層架上才算」沒做；程式拼的道具量不到。
   - YUE_MEAL 學姊 vis:false（BB_379 照舊未過）。
-  - 分支唯讀稽核過期（branch_audit.py --write，78 小時）。
+  - 分支唯讀稽核過期（branch_audit.py --write，上次 11-09；交班時跑了 6 分鐘還沒跑完（磁碟慢），中止了——下一班接班後背景跑）。
 - **C｜正在做的**：第五批子代理只研究、沒有改 repo（筆記 docs/handoff/canon_b5_1112/）；沒有其他未完成的本機改動。
 - **D｜本班決策與規則**：D160／HV-40（上面）。D159／HV-39（店內道具不准塑膠方塊）上一段已寫。
 - **E｜跨 AI**：AA_906～923 全部 ACK；AA 待補：AA_920 新句已 BB 照用（在 96c3a668eb）；第五批合併後 AA 會再掃一次。BB：KX-DRIFT 等瀏覽器清單已傳（三號／四號各列）。LAWWW2：D160、鮮果收攤節點、L118 座位、FIRST r7 都已傳。CC：WZ_ICE_r3 用 7f2c6bd31f。
