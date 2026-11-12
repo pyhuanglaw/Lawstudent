@@ -58,8 +58,7 @@ const run=async(id,picks)=>{ H.said=[]; H.cgs=[]; H.picks=picks||[]; await EVENT
   { const G=H.fresh('2026-10-23',18.5,'any'); H.date('kexin'); await run('ev_kexin_quiz_y2',[0]);   /* K10 改到 10/23（五）18:30（AA_343 E4：BCG-30 是十月星期五晚上的圖）*/
     const c=cgAt('cg_quiz_kexin'), l=idx('（換她出題。三題都是物權：誰的房子、誰的地、誰先登記。）');
     check('3. K10 山下小吃：BCG-30 在「換她出題」那一拍（她舉起題目卡），在玩家出完題之後',c>0&&l===c+1&&idx('定義？……你在暖身。')<c,JSON.stringify(H.said.map(s=>s.t))); }
-  { const G=H.fresh('2026-10-23',18.5,'any'); H.date('kexin'); await run('ev_kexin_quiz_y2_video',[0]);
-    check('3. K10 視訊：沒有 BCG-30（README：視訊互考的不放）',cgAt('cg_quiz_kexin')<0&&idx('（換她出題。三題都是物權：誰的房子、誰的地、誰先登記。）')>=0); }
+  check('3. K10 視訊互考那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY_EVENTS.some(e=>e.id==='ev_kexin_quiz_y2_video'));
   // 語彤事件 17（postgrad3d.js S.yt17）
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_03'); H.date('heroine_03'); H.said=[]; H.bgs=[]; await PG.yt17(GM);
     const c=cgAt('cg_one_umbrella_heroine03'), l=idx('恭喜。……四年，我們都在總圖三樓。你都坐我斜對面。');
