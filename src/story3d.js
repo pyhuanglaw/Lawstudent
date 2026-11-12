@@ -304,7 +304,7 @@ const STORY = (function(){
   S.kxNew=G=>!!(G&&G.flags&&G.flags.KX_MET!==undefined);
   S.kxMate=G=>S.kxNew(G)&&G.flags.dating_kexin!==true&&!S.kxEx(G);
   S.kxEx=G=>{ const F=(G&&G.flags)||{}, R=F.romance&&F.romance.kexin; return !!(F.EX_kexin||F.KX_ENDED!=null||F.KX_ENDED_ON!=null||(R&&R.status&&R.status!=='none'&&R.status!=='dating')); };   /* 交往過、已經分開（date3d.js、msg3d.js、feed3d.js：「沒在交往」不再等於「分開了」）*/
-  const kxReq=it=>!!(it&&it.c&&it.c.kind==='required'&&!it.c.retake&&!it.exam);   /* 法律系的必修（不算考試那一堂）*/
+  const kxReq=it=>!!(it&&it.c&&it.c.kind==='required'&&!it.c.retake&&!it.exam&&!/^econ_/.test(it.c.id||''));   /* 法律專業必修（不算考試那一堂；AA-C 11-12 18:37：經濟學原理不算——只落在法律系館A／B 的法律必修，沒去就順延到下一堂法律必修）*/
   const kxEvDone=(G,id)=>!!(G&&G.events&&G.events.done&&G.events.done[id]);
   S.kxMeetOpen=G=>!!G&&(G.stage||'law')==='law'&&S.kxNew(G)&&!S.kxKnown(G);   /* 還沒認識、等第一次見面（新設定的局才有）*/
   S.kxMeetDue=function(G,it){ if(!S.kxMeetOpen(G)||!kxReq(it)||kxEvDone(G,'ev_kx_meet_class')) return false; return !(typeof CLS!=='undefined'&&CLS.storyClass&&CLS.storyClass(G,it)); };   /* 主線第二天的民總是劇情課（不走 CLS.attend）：不算 */

@@ -3,7 +3,7 @@
    台詞：src/data/examlib_lines.js（EXAMLIB_LINES，照稿一字不差）。第 6 節的場景（社科圖二樓）是 LAWWW2 的（SOCLIB-2F-1104，src/soclib2f3d.js；2026-11-04 接進開發分支）：
    區域沒有載入＝社科圖二樓的人照一樓（S.PLACES.soc2f 的 fallback）；劇情的部分（第一次坐下的旁白、SOCLIB_2F_SEAT、「老位子」那兩句）在下面「■ 第 6 節」。
    ■ 第 0 節 時段（S.on）：每學期第 14 週起，到這學期的期末考考完（CLS.examList 最後一場的結束時間；沒有考試的學期＝期末週的最後一天）；國外那一學期沒有（CLS.termAway）。
-     法律系八個學期都有。經濟系那一年沒有（AA_669 第 5 節 11-04 17:2x 改「不用做」：10/17 休學（Y0_LEFT）以後在家、不去台大，第 14 週以後都玩不到；AA-C 11-04 20:56 確認：S.on 對 econ 回 false，第 5 節的資料、S.cast 留著）。
+     法律系八個學期都有。舊序章那一段沒有（AA_669 第 5 節 11-04 17:2x 改「不用做」：10/17 舊序章離校（Y0_LEFT）以後在家、不去台大，第 14 週以後都玩不到；AA-C 11-04 20:56 確認：S.on 對 econ 回 false，第 5 節的資料、S.cast 留著）。
      地點（S.ZONES）：總圖（大廳二樓自習區 library_hall 的二樓、3F 閱覽區 library、B1 自習室 library_b1 的 study24、研究小間 library_carrels）、社科圖（soclib，二樓 soclib_2f 做好以後）、法圖（lawlib）、法律系館A 4F（linze_4f）。
      「滿」（S.fill）：開館後一小時坐到七成、平日 10:00（週末 11:00）以後全滿；社科圖二樓平日 09:00。座位用 crowd3d.js 那一套的位子（E.zone.seats）：
        坐著的人照舊；空的位子照比例標「有人了」（st.exHeld：桌上放東西、人不在——座位的按鈕寫「有人了」、按了只說「有人了。」、SEATACT 照「休息」那一組放桌上的東西）；
@@ -15,7 +15,7 @@
      再繞一圈：時間 +20 分鐘；平日 14:00 以前一半的機會（照日期＋區域）有人收東西走了＝坐下；沒有＝這一次不能再繞。去別間：其他開著的圖書館（快速前往，路程照現有的）。回宿舍讀：快速前往宿舍（住家裡＝HOME.go）。
      有人幫你占了位子（第 4-1 節）的那一天、那一間不跳；約好一起來的（邀約、一起走）也不跳。
    ■ 第 3 節 有名字的人（S.sched：STORY.SCHED_X）：這一段，表上的人作息裡「讀書」（act read）的時段坐到表上的地方（只換讀書的時段；上課、約好的、出遊、劇情的位置、別的模組的作息都照舊；
-     那一間沒開＝照作息；只換本來就在圖書館、自習區讀書的時段（S.STUDY_FROM）——Café、店裡、研究室的讀書照作息，那裡有她們的戲）；同一天最多三位在同一間。經濟系那一年三位朋友沒有作息：這一段的平日給一段讀書的時間（S.Y0_SLOTS，LAWWW 暫定，作息歸 BB 可以改）。
+     那一間沒開＝照作息；只換本來就在圖書館、自習區讀書的時段（S.STUDY_FROM）——Café、店裡、研究室的讀書照作息，那裡有她們的戲）；同一天最多三位在同一間。舊序章那一段三位朋友沒有作息：這一段的平日給一段讀書的時間（S.Y0_SLOTS，LAWWW 暫定，作息歸 BB 可以改）。
      說話（STORY.talkCharacter 包一層，S.talk）：這一段在表上的那一間的讀書區，第一次碰到（這一段、這一間）＝點頭（LIBQ 今天點過頭的也算）；之後每人每學期照順序一句（小聲）那幾句，用完只點頭（在別間照原本的）；
      交往中的人第一句前面多一個動作。pool（二十位同學）：每人每學期一句（四句輪流），說過就照原本的閒聊。劇情、約好的、門檻台詞、第一次見面照舊先。
    ■ 第 4-1 節 請朋友占（S.topicOk／S.send41：手機私訊的話題「明天幫我占位子」，包住 MSG.topics／MSG.send）：這一段每天 18:00～23:00，FRIEND 以上、表上有答應那一句的人，一天只能問一個人。
@@ -23,10 +23,10 @@
      那段時間玩家走進讀書區＝直接走過去坐下（GM.seatMenu）→ 他說到了以後那一句（交往中先第 3 節的動作）。到了那個時間還沒到＝他傳沒到那一則（不扣任何數值）；這一學期再問同一個人＝前面多一則「這次會來吧」。
    ■ 第 4-2 節 朋友請你占（S.ask42）：阿哲、Alison、芯慈、語彤每學期最多一次，前一天 21:00 私訊（語彤只在明天是平日；芯慈的便利貼和 4-1 同一學期只用一個）；回「好。」＝隔天 10:00 以前（語彤 09:20）
      在那一間坐下＝「（你把一本講義放在旁邊的位子上。）」、旁邊留一個位子；他照時間走進來坐下、說那一句。沒去、太晚＝他照時間傳沒占到那一則（不扣任何數值）。
-   ■ 第 5 節 經濟系那一年（不用做、S.on 不開，見第 0 節；下面是原本的設計，資料留著）：同一套（人換成品妤、阿勳、韋綸）；稿上沒寫的欄（沒到、不行、品妤和阿勳到了以後）不出。休學（Y0_LEFT）、退宿以後不能約（使用者 2026-10-18「重考中不要讓我去台大」）。
+   ■ 第 5 節 舊序章那一段（不用做、S.on 不開，見第 0 節；下面是原本的設計，資料留著）：同一套（人換成舊序章人物丁、舊序章人物甲、舊序章人物乙）；稿上沒寫的欄（沒到、不行、舊序章人物丁和舊序章人物甲到了以後）不出。舊序章離校（Y0_LEFT）、退宿以後不能約（使用者 2026-10-18「舊序章考試中不要讓我去台大」）。
    ■ 第 6 節 社科圖二樓（soclib_2f；S.seat2fDue／S.seat2f、S.useOld41、S.holdPick）：這一段第一次在二樓自習室靠窗那排坐下（自己搶到、有人占、招手坐過去都一樣；旁白寫「你在靠窗那排坐下」，
-     所以只算靠窗那排）＝旁白一次，記 G.flags.SOCLIB_2F_SEAT＝{x,z,lv,term,day}（那一個位子＝玩家的「老位子」）。之後的學期（記下的不是這一學期、而且是同一個階段：法律系的人不知道經濟系那一年的位子）：
-     語彤（經濟系那一年＝阿勳）答應占位子那一句換成「老位子」那一句（hold.yesOld），隔天占的是那一個位子。語彤、阿勳在二樓常坐的位子＝靠窗那排、老位子（seat.old，北往南第三個）的南邊那一個
+     所以只算靠窗那排）＝旁白一次，記 G.flags.SOCLIB_2F_SEAT＝{x,z,lv,term,day}（那一個位子＝玩家的「老位子」）。之後的學期（記下的不是這一學期、而且是同一個階段：法律系的人不知道舊序章那一段的位子）：
+     語彤（舊序章那一段＝舊序章人物甲）答應占位子那一句換成「老位子」那一句（hold.yesOld），隔天占的是那一個位子。語彤、舊序章人物甲在二樓常坐的位子＝靠窗那排、老位子（seat.old，北往南第三個）的南邊那一個
      （第 6 節「劇情和占位子會用到其中一排」）；「我旁邊」旁邊是老位子就占老位子。二樓「滿」只算自習室的長桌和靠窗（討論室不算）。背景讀書的人：src/soclib2f_people3d.js（S.keepSeats＝哪些位子不要坐）。
    ■ D118：這是氣氛和人際，不是讀書打卡——不扣關係、不影響成績、不強迫每天去（這個檔不呼叫 SOCIAL.adjust、不碰成績）。
    存檔：G.exlib＝{v, atm:{n,seen}, nod:{學期:{區域:{人:1}}}, said:{學期:{人:用了幾句}}, pool:{n,said}, prompt:{日:區域}, ask41, hold, noShow:{學期:{人:1}}, asked42:{學期:{人:日}}, d42, note:{學期:1}}；
@@ -73,7 +73,7 @@ const EXLIB=(function(){
     try{ if(typeof CLS!=='undefined'&&CLS.examList) for(const e of CLS.examList(G,termId)){ if(!e||e.kind!=='final'||typeof e.day!=='number') continue; const t=e.day*24+(typeof e.t1==='number'?e.t1:17); if(end==null||t>end) end=t; } }catch(e){ console.warn('EXLIB.examEnd',e); }
     if(end==null&&typeof CALENDAR!=='undefined'&&CALENDAR.termDays){ const r=CALENDAR.termDays(termId); if(r) end=(r.to+1)*24; }
     if(M.size>40) M.clear(); M.set(key,end); return end; };
-  S.on=function(G,day,h){ if(!G||typeof CALENDAR==='undefined') return false; /* 經濟系那一年沒有（第 0 節：AA_669 第 5 節改「不用做」，AA-C 11-04 20:56）*/ if(day==null) day=G.day|0; if(h==null) h=hr(G); const t=termOf(G,day); if(!t||!t.week||t.week<S.WEEK) return false;
+  S.on=function(G,day,h){ if(!G||typeof CALENDAR==='undefined') return false; /* 舊序章那一段沒有（第 0 節：AA_669 第 5 節改「不用做」，AA-C 11-04 20:56）*/ if(day==null) day=G.day|0; if(h==null) h=hr(G); const t=termOf(G,day); if(!t||!t.week||t.week<S.WEEK) return false;
     if(typeof CLS!=='undefined'&&CLS.termAway&&CLS.termAway(G,t.id)) return false;   /* 國外那一學期沒有（日本、美國照 AA_340、AA_341）*/
     const end=S.examEnd(G,t.id); if(end!=null&&day*24+h>=end) return false; return true; };
 
@@ -98,7 +98,7 @@ const EXLIB=(function(){
   S.fill=function(G,z,h){ h=h==null?hr(G):h; const day=G.day|0; if(!S.on(G,day,h)||!S.isOpen(z,day,h)) return 0; const o=S.openH(z,day); if(o==null) return 0; const f=S.fullH(G,z,day);
     if(h>=f) return 1; if(h<o) return 0; if(h<o+1) return Math.min(0.7,0.7*(h-o)); return Math.min(1,0.7+0.3*(h-o-1)/Math.max(0.25,f-o-1)); };
 
-  /* ---------- 誰（表上的人；經濟系那一年換人）---------- */
+  /* ---------- 誰（表上的人；舊序章那一段換人）---------- */
   S.cast=G=>(L().people||{});
   S.inCast=function(G,id){ const P=S.cast(G)[id]; if(!P) return null; if(P.terms){ const t=termOf(G); if(!t||!P.terms.includes(t.id)) return null; } return P; };
   S.isPool=id=>typeof POOL!=='undefined'&&!!POOL.owns&&POOL.owns(id);
@@ -118,10 +118,10 @@ const EXLIB=(function(){
       case 'lawlib': return /^T\d+$/.test(String(st.table||''))||st.table==='carrel';
       case 'linze_4f': return !!st.study;
       default: return true; } };
-  /* 劇情寫死的位子不放東西：總圖大廳 0、1（小安「總圖的下午」）、3F 2、8（學姊、小安）、社科圖 16（SK12 品妤）*/
+  /* 劇情寫死的位子不放東西：總圖大廳 0、1（小安「總圖的下午」）、3F 2、8（學姊、小安）、社科圖 16（SK12 舊序章人物丁）*/
   S.KEEP={library_hall:[0,1],library:[2,8],soclib:[16]};
-  S.PREF={library_hall:{heroine_01:1},soclib_2f:{heroine_03:'byOld'}};   /* 以安「二樓靠牆那張長桌」＝總圖的下午那個位子；品妤＝SK12 那張；
-     社科圖二樓：語彤、阿勳＝靠窗那排、老位子的南邊那一個（AA_669 第 6 節「劇情和占位子會用到其中一排（例：靠窗那排的第三個位子當「老位子」）」：她旁邊就是老位子）*/
+  S.PREF={library_hall:{heroine_01:1},soclib_2f:{heroine_03:'byOld'}};   /* 以安「二樓靠牆那張長桌」＝總圖的下午那個位子；舊序章人物丁＝SK12 那張；
+     社科圖二樓：語彤、舊序章人物甲＝靠窗那排、老位子的南邊那一個（AA_669 第 6 節「劇情和占位子會用到其中一排（例：靠窗那排的第三個位子當「老位子」）」：她旁邊就是老位子）*/
   /* PREF 的值：數字＝座位表的第幾號；'byOld'＝老位子（seat.old）南邊那一個（同一層、同一種、x 一樣、往南 0.45～1.2 m）；找不到＝null（照種子）*/
   S.prefIdx=function(seats,v){ if(typeof v==='number') return v; if(v!=='byOld') return null; const o=seats.find(q=>q&&q.old); if(!o) return null;
     const i=seats.findIndex(q=>q&&q!==o&&(q.lv|0)===(o.lv|0)&&q.kind===o.kind&&Math.abs(q.x-o.x)<0.05&&q.z-o.z>0.45&&q.z-o.z<1.2); return i>=0?i:null; };
@@ -342,7 +342,7 @@ const EXLIB=(function(){
     if(R.ask41&&R.ask41.day===(G.day|0)) return false; if(R.hold&&R.hold.day===(G.day|0)+1) return false; if(R.d42&&R.d42.day===(G.day|0)+1&&R.d42.ok) return false;   /* 一天只能問一個人、一天只占一個位子 */
     if(id==='classmate_xinci'){ const t=termOf(G); if(t&&R.note&&R.note[t.id]) return false; }   /* 芯慈的便利貼和 4-2 同一學期只用一個 */
     if(!S.friendUp(G,id)||!present(id,G)) return false; const o=MSG.open?MSG.open(G,id):{ok:true}; if(!o||!o.ok||o.mode==='silent') return false; if(MSG.canSend&&!MSG.canSend(G,id)) return false;
-    if(!P.hold.no&&!S.goes(G,id,(G.day|0)+1)) return false;   /* 稿上沒有「不行」那一句的（經濟系那一年）：不去的那天不出 */
+    if(!P.hold.no&&!S.goes(G,id,(G.day|0)+1)) return false;   /* 稿上沒有「不行」那一句的（舊序章那一段）：不去的那天不出 */
     return true; };
   S.send41=function(G,id){ if(!S.topicOk(G,id)) return {ok:false,why:'這個話題現在不行'}; const P=S.inCast(G,id), R=S.rec(G), th='p:'+id, t=termOf(G), day=(G.day|0)+1;
     if(typeof PHONE!=='undefined') PHONE.post(G,{th,from:'player',who:null,text:S.TOPIC_T});
@@ -410,7 +410,7 @@ const EXLIB=(function(){
   S.seat2f=async function(GM,seat){ const G=GM.G, t=termOf(G); if(!G.flags) G.flags={}; const o=typeof SL2!=='undefined'&&SL2.oldSeat?SL2.oldSeat():null, q=o||seat;   /* 老位子＝靠窗那排第三個；SL2 沒載入才用坐下的那一個 */
     G.flags[S.SEAT2F]={x:+q.x,z:+q.z,lv:q.lv|0,term:t?t.id:null,day:G.day|0,sat:[+seat.x,+seat.z],kind:seat.kind||null};
     const txt=seat.kind==='study'?L().seat2fTable:L().seat2f; if(txt) await say(GM,null,txt); return true; };
-  /* 之後的學期（記下的不是這一學期；同一個階段——經濟系那一年的人不知道法律系的位子，反過來也一樣）：語彤、阿勳答應那一句換成「老位子」那一句；回傳記下的位子或 null */
+  /* 之後的學期（記下的不是這一學期；同一個階段——舊序章那一段的人不知道法律系的位子，反過來也一樣）：語彤、舊序章人物甲答應那一句換成「老位子」那一句；回傳記下的位子或 null */
   const stageOfTerm=id=>/^Y0/.test(String(id||''))?'econ':'law';
   S.useOld41=function(G,id){ const P=S.inCast(G,id); if(!P||!P.hold||!Array.isArray(P.hold.yesOld)||!P.hold.yesOld.length||S.zoneOf(P.place)!=='soclib_2f') return null; const o=S.old2f(G), t=termOf(G);
     if(!o||!t||!o.term||o.term===t.id||stageOfTerm(o.term)!==('law')) return null; return o; };
