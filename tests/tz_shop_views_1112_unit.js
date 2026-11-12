@@ -20,7 +20,7 @@ const webp=p=>{ if(!fs.existsSync(p)) return null; const b=fs.readFileSync(p); i
 { const py=fs.readFileSync(R('tools/blender/env_second/tz_shops_interior.py'),'utf8'); check('6. 泰米村食櫃台的蘭花：沒有那七顆洋紅色的球（#c94a8a…半徑 4.5 cm）了，有花梗和葉子',!/0\.045, RR\.choice\(\('#c94a8a'/.test(py)&&/蘭花（SHOP-INTERIOR-VIEW-1112/.test(py)); }
 // BB 11-12 追加：⑦東南大聯、汀州聯通抬頭看到天空（天花板 3.1／3.0 m，跟隨鏡頭 3.18 m 高過天花板 → 遊戲把天花板藏起來）：兩間加高到 3.3 m；之後新做的店天花板 ≥ 3.3 m
 //                ⑧進門後鏡頭在正面牆外面：牆淡出了、窗框門框布簾還留在半空 → 正面牆上的零件放進 WALL_Sfix_*（名字含 WALL_＝跟著牆淡出），dir 朝店裡（0,0,−1）
-{ const low=['dongnan','liantong','yuehaochi','keju','taimi','xile','yindehao'].filter(id=>!(ALL[id].h>=3.2)); check('7. 汀州路這幾間的天花板 ≥ 3.2 m（跟隨鏡頭 3.18 m 不會高過天花板；東南大聯、汀州聯通 3.3）',!low.length&&ALL.dongnan.h>=3.3&&ALL.liantong.h>=3.3,low.join('、')||('東南 '+ALL.dongnan.h+'、聯通 '+ALL.liantong.h)); }
+{ const low=Object.keys(ALL).filter(id=>!(ALL[id].h>=3.3)); check('7. 十一間的天花板都 ≥ 3.3 m（跟隨鏡頭 3.18 m 不會高過天花板、天花板不會被藏起來；BB、LAWWW 11-12：安泰 3.1、禮貌生財 3.0 等一起加高）',!low.length,low.join('、')||Object.keys(ALL).map(id=>id+' '+ALL[id].h).join('、')); }
 { const bad=[]; for(const id in ALL){ const f=fs.readFileSync(R(ALL[id].glb)); const n=f.readUInt32LE(12), J=JSON.parse(f.slice(20,20+n).toString('utf8')); const fx=J.nodes.filter(x=>/^WALL_Sfix_/.test(x.name||'')&&x.mesh!=null);
     const ok=fx.length>=1&&fx.every(x=>x.extras&&Array.isArray(x.extras.dir)&&x.extras.dir[2]===-1&&Array.isArray(x.extras.at)); const front=ALL[id].front; if(!ok&&(front.windows.length||!front.open)) bad.push(id+'('+fx.map(x=>x.name).join(',')+')'); }
   check('8. 每一間的模型：正面牆上的零件在 WALL_Sfix_*（有 dir＝朝店裡、at＝牆的位置），跟著正面牆一起淡出',!bad.length,bad.join(' ')); }

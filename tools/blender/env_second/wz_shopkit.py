@@ -1752,6 +1752,64 @@ def l118_peek_interior(spec, xf, iw, gz, ih, bright=0.8):
     cm.finish(root, uv=False)
 
 
+def _lin_inside(cm, cp, vb, xf, iw, gz, zb, y0, yt, pid):
+    """林家乾麵從街上看進去的那一面（WZ-LIN-STREET-REF-1112；使用者 11-12 附線上版截圖：「林家乾麵我明明有給參考圖 還這麼醜」——空的褐色牆、一排紅色方塊、紅藍塑膠凳）。
+    照參考圖 wz_lin_ext（企劃線 ref_images/shops）：白牆＋白磁磚腰牆（上緣一條墨綠）、後牆木框窗、相框、兩支壁扇、月曆；木桌＋圓木凳三組；
+    右後方不鏽鋼工作檯（疊碗、電鍋、水槽）和上面的層板；右前方滷味的玻璃菜櫃（一盤盤滷味）；後牆右邊一排紅紙菜單（紅紙條上有字和價錢的樣子，不是純紅方塊）"""
+    WOODT, WOODL, STEEL, GRN = '#9a6a3c', '#5a3a22', '#b9bdc0', '#2f5a47'
+    # 白磁磚腰牆（後牆、兩側牆）：磁磚縫、上緣墨綠
+    vb(-iw / 2 + 0.05, iw / 2 - 0.05, y0, y0 + 1.25, zb, zb + 0.018, '#eef0ee', r=0); vb(-iw / 2 + 0.05, iw / 2 - 0.05, y0 + 1.25, y0 + 1.31, zb, zb + 0.024, GRN, r=0)
+    for k in range(1, 5): vb(-iw / 2 + 0.05, iw / 2 - 0.05, y0 + k * 0.25 - 0.004, y0 + k * 0.25 + 0.004, zb + 0.018, zb + 0.021, '#c4c9c8', r=0)
+    for k in range(1, int((iw - 0.1) / 0.25)): x_ = -iw / 2 + 0.05 + k * 0.25; vb(x_ - 0.004, x_ + 0.004, y0, y0 + 1.25, zb + 0.018, zb + 0.021, '#c4c9c8', r=0)
+    for sx in (-1, 1):
+        xw = sx * (iw / 2 - 0.047); a_, b_ = sorted((xw, xw - sx * 0.018)); vb(a_, b_, y0, y0 + 1.25, zb + 0.03, gz - 0.05, '#eef0ee', r=0); a2, b2 = sorted((xw, xw - sx * 0.024)); vb(a2, b2, y0 + 1.25, y0 + 1.31, zb + 0.03, gz - 0.05, GRN, r=0)
+    # 後牆：木框窗（六格、裡面暗）、相框、月曆、兩支壁扇
+    wx0, wx1, wy0, wy1 = -2.25, -0.75, y0 + 1.5, y0 + 2.4
+    vb(wx0 - 0.06, wx1 + 0.06, wy0 - 0.06, wy1 + 0.06, zb, zb + 0.03, '#6a4a30', r=0); vb(wx0, wx1, wy0, wy1, zb + 0.03, zb + 0.034, '#4a5a62', r=0)
+    for k in (1, 2): x_ = wx0 + (wx1 - wx0) * k / 3; vb(x_ - 0.02, x_ + 0.02, wy0, wy1, zb + 0.034, zb + 0.05, '#6a4a30', r=0)
+    vb(wx0, wx1, (wy0 + wy1) / 2 - 0.02, (wy0 + wy1) / 2 + 0.02, zb + 0.034, zb + 0.05, '#6a4a30', r=0)
+    vb(-0.35, 0.15, y0 + 1.75, y0 + 2.3, zb, zb + 0.03, '#3a2a1e', r=0); vb(-0.3, 0.1, y0 + 1.8, y0 + 2.25, zb + 0.03, zb + 0.034, '#e2d8c0', r=0); vb(-0.2, 0.0, y0 + 1.9, y0 + 2.12, zb + 0.034, zb + 0.037, '#8a9a7a', r=0)
+    vb(0.45, 0.75, y0 + 1.7, y0 + 2.2, zb, zb + 0.012, '#f4f1e6', r=0); vb(0.45, 0.75, y0 + 2.05, y0 + 2.2, zb + 0.012, zb + 0.016, '#c0392b', r=0)
+    for fx_ in (-3.0, 1.15):
+        vb(fx_ - 0.05, fx_ + 0.05, y0 + 2.5, y0 + 2.62, zb, zb + 0.16, '#d9dcdc', r=0); xf_cyl(cp('#e4e7e7'), xf, (fx_, y0 + 2.5, zb + 0.16), (fx_, y0 + 2.5, zb + 0.24), 0.21, seg=14); xf_cyl(cp('#5a6068'), xf, (fx_, y0 + 2.5, zb + 0.24), (fx_, y0 + 2.5, zb + 0.25), 0.07, seg=8)
+    # 後牆右邊：一排紅紙菜單（紅紙條、上面一格格深色的字、最下面黃色的價錢）
+    for j in range(7):
+        x_ = 1.55 + j * 0.27; vb(x_, x_ + 0.2, y0 + 1.55, y0 + 2.3, zb, zb + 0.008, '#c23a2c', r=0)
+        for q in range(4): vb(x_ + 0.05, x_ + 0.15, y0 + 2.14 - q * 0.13, y0 + 2.24 - q * 0.13, zb + 0.008, zb + 0.011, '#2a1a14', r=0)
+        vb(x_ + 0.04, x_ + 0.16, y0 + 1.6, y0 + 1.68, zb + 0.008, zb + 0.011, '#f0d060', r=0)
+    # 右後方：不鏽鋼工作檯（水槽、疊碗、電鍋）＋上面一層層板（碗、調味料罐）
+    cx0, cx1 = 0.9, iw / 2 - 0.25
+    vb(cx0, cx1, y0, y0 + 0.86, zb + 0.03, zb + 0.6, STEEL, r=0.01); vb(cx0 - 0.02, cx1 + 0.02, y0 + 0.86, y0 + 0.9, zb + 0.03, zb + 0.63, '#cfd3d5', r=0)
+    vb(cx0 + 0.15, cx0 + 0.75, y0 + 0.9, y0 + 0.905, zb + 0.12, zb + 0.5, '#8a9096', r=0)
+    for k in range(4): _lathe(cp('#f2f0ea'), xf, [(0.0, 0.0), (0.05, 0.0), (0.11, 0.07), (0.105, 0.075)], cx0 + 1.1 + (k % 2) * 0.26, y0 + 0.9 + (k // 2) * 0.05, zb + 0.3)
+    _lathe(cp('#e9e6dc'), xf, [(0.0, 0.0), (0.15, 0.0), (0.17, 0.2), (0.12, 0.27), (0.0, 0.28)], cx1 - 0.35, y0 + 0.9, zb + 0.32)
+    vb(cx0 + 0.1, cx1 - 0.1, y0 + 1.36, y0 + 1.39, zb + 0.02, zb + 0.28, '#cfd3d5', r=0)
+    for k in range(7): xf_cyl(cp(['#8a4a2a', '#f2f0ea', '#c0392b', '#3a2a1e', '#e8c860', '#f2f0ea', '#5a7a3a'][k]), xf, (cx0 + 0.25 + k * 0.28, y0 + 1.39, zb + 0.15), (cx0 + 0.25 + k * 0.28, y0 + 1.39 + 0.12 + (k % 3) * 0.03, zb + 0.15), 0.045, seg=8)
+    # 右前方：滷味的玻璃菜櫃（不鏽鋼桌＋玻璃櫃，裡面兩層盤子）
+    gx0, gx1, gz0, gz1 = 1.5, 3.0, gz - 0.95, gz - 0.4
+    vb(gx0, gx1, y0, y0 + 0.82, gz0, gz1, STEEL, r=0.01); vb(gx0 - 0.02, gx1 + 0.02, y0 + 0.82, y0 + 0.86, gz0 - 0.02, gz1 + 0.02, '#cfd3d5', r=0)
+    for (a_, b_) in ((gx0, gz0), (gx1 - 0.02, gz0), (gx0, gz1 - 0.02), (gx1 - 0.02, gz1 - 0.02)): vb(a_, a_ + 0.02, y0 + 0.86, y0 + 1.36, b_, b_ + 0.02, '#aeb3b6', r=0)
+    vb(gx0, gx1, y0 + 1.36, y0 + 1.38, gz0, gz1, '#aeb3b6', r=0); vb(gx0 + 0.02, gx1 - 0.02, y0 + 1.1, y0 + 1.112, gz0 + 0.02, gz1 - 0.02, '#dfe4e6', r=0)
+    FOOD = ['#8a4a2a', '#c9822e', '#5a3a22', '#e8d9a8', '#5a9a3a', '#b84a3a', '#d4a03a', '#f2efe8']
+    for t_, yy in enumerate((y0 + 0.86, y0 + 1.112)):
+        for k in range(5):
+            x_ = gx0 + 0.08 + k * 0.28; vb(x_, x_ + 0.24, yy, yy + 0.02, gz0 + 0.06, gz1 - 0.06, '#e6e9ea', r=0)
+            for q in range(3): vb(x_ + 0.03 + q * 0.065, x_ + 0.085 + q * 0.065, yy + 0.02, yy + 0.05 + ((k + q + t_) % 3) * 0.015, gz0 + 0.1 + (q % 2) * 0.1, gz0 + 0.24 + (q % 2) * 0.1, FOOD[(k * 2 + t_ * 3 + q) % len(FOOD)], r=0)
+    gl_ = acc(M['glass'])
+    xf.quad(gl_, [(gx0, y0 + 0.86, gz1), (gx1, y0 + 0.86, gz1), (gx1, y0 + 1.36, gz1), (gx0, y0 + 1.36, gz1)]); xf.quad(gl_, [(gx0, y0 + 0.86, gz0), (gx0, y0 + 0.86, gz1), (gx0, y0 + 1.36, gz1), (gx0, y0 + 1.36, gz0)])
+    # 三組木桌＋圓木凳（參考圖左邊那一區）
+    def stool(x, z):
+        vb(x - 0.15, x + 0.15, y0 + 0.42, y0 + 0.46, z - 0.15, z + 0.15, '#8a5a34', r=0.008)   # 方的木凳面（圓柱的蓋子頂點色會掉成白的）
+        for k in range(4): a_ = math.pi / 4 + k * math.pi / 2; xf_cyl(cp(WOODL), xf, (x + math.cos(a_) * 0.13, y0, z + math.sin(a_) * 0.13), (x + math.cos(a_) * 0.09, y0 + 0.42, z + math.sin(a_) * 0.09), 0.016, seg=4)
+    for (tx, tz, w_, d_) in ((-2.75, zb + 0.95, 0.75, 0.75), (-1.1, zb + 1.05, 1.1, 0.7), (-2.4, gz - 0.7, 1.1, 0.7)):
+        vb(tx - w_ / 2, tx + w_ / 2, y0 + 0.72, y0 + 0.76, tz - d_ / 2, tz + d_ / 2, WOODT, r=0.008)
+        for sx in (-1, 1):
+            for sz in (-1, 1): vb(tx + sx * (w_ / 2 - 0.06) - 0.022, tx + sx * (w_ / 2 - 0.06) + 0.022, y0, y0 + 0.72, tz + sz * (d_ / 2 - 0.06) - 0.022, tz + sz * (d_ / 2 - 0.06) + 0.022, WOODL, r=0)
+        xf_cyl(cp('#c9a23a'), xf, (tx - 0.12, y0 + 0.76, tz), (tx - 0.12, y0 + 0.88, tz), 0.035, seg=8); vb(tx + 0.02, tx + 0.2, y0 + 0.76, y0 + 0.83, tz - 0.06, tz + 0.06, '#d8c9a0', r=0)   # 筷子筒、面紙盒
+        for sx in (-1, 1): stool(tx + sx * (w_ / 2 + 0.22), tz + 0.05)
+        if w_ > 1.0: stool(tx - 0.2, tz - d_ / 2 - 0.24); stool(tx + 0.25, tz + d_ / 2 + 0.24)
+
+
 def shallow_interior(spec, xf, iw, gz, ih, bright=0.62):
     """玻璃後面的店（深 DI）：地板、牆、天花板、燈，加上每一種店自己的東西。
     bright：店內（unlit）的整體亮度（遊戲的曝光 ×1.3 也會乘上去）。曬得到太陽的街（溫州街、118 巷）0.62——第一次 1.0、第二次 0.76，從大太陽的巷子看進去白牆都比外面亮、像在發光；公館騎樓底下 0.85"""
@@ -1763,7 +1821,7 @@ def shallow_interior(spec, xf, iw, gz, ih, bright=0.62):
     flo = {'noodle': 'f_mosaic', 'cvs': 'f_white', 'print': 'f_granite', 'laundry': 'f_terrazzo', 'teishoku': 'f_wood', 'books': 'f_wood', 'fruit': 'f_concrete', 'brunch': 'f_wood', 'buffet': 'f_white', 'tea': 'f_white', 'luwei': 'f_concrete', 'pharm': 'f_white', 'records': 'f_terrazzo', 'stationery': 'f_wood'}.get(kind, 'f_white')
     gzf = gz - 0.012                                                                                        # 店內的前緣在玻璃後面 1.2 cm（BUG-WZFLICKER-2：地板、側牆、天花板的前面原本和玻璃同一個平面）
     _floor_vc(cm, xf, iw, zb, gzf, y0, flo, rr)
-    wallc = {'noodle': '#ecdcc4', 'cvs': '#f4f4f0', 'print': '#dfe1dd', 'laundry': '#dceaf0', 'teishoku': '#e2d2b4', 'books': '#e0d2b8', 'fruit': '#efe8d8', 'brunch': '#e9dcc4', 'buffet': '#efe6d6', 'tea': '#f4f2ec', 'luwei': '#eadcc6', 'pharm': '#f4f6f2', 'records': '#dccbb0', 'stationery': '#ece2d0'}.get(kind, '#eeeeea')
+    wallc = '#f1eee4' if (pid == 'A4' and SET == 'wenzhou') else {'noodle': '#ecdcc4', 'cvs': '#f4f4f0', 'print': '#dfe1dd', 'laundry': '#dceaf0', 'teishoku': '#e2d2b4', 'books': '#e0d2b8', 'fruit': '#efe8d8', 'brunch': '#e9dcc4', 'buffet': '#efe6d6', 'tea': '#f4f2ec', 'luwei': '#eadcc6', 'pharm': '#f4f6f2', 'records': '#dccbb0', 'stationery': '#ece2d0'}.get(kind, '#eeeeea')
     vb = lambda *a, **k: xf_vbox(cm, xf, *a, **k)
     vb(-iw / 2, iw / 2, y0, yt, zb - 0.05, zb, wallc, r=0)
     sgl = spec.get('sf', {}).get('side_glass')
@@ -1776,6 +1834,7 @@ def shallow_interior(spec, xf, iw, gz, ih, bright=0.62):
         xf.box(acc(M['tube']), lx - 0.5, lx + 0.5, yt - 0.03, yt, zb + DI * 0.45 - 0.05, zb + DI * 0.45 + 0.05)
         CL.glow(root, 'shopin', *xf.p(lx, yt - 0.3, zb + DI * 0.5), color='rgba(255,226,180,1)' if warm else 'rgba(244,250,255,1)', size=1.7, day=0.0, night=0.85)   # 白天 0（2026-10-23：店內 unlit 本身就亮；白天有光暈，整個光暈網格白天也要多畫一次）
     if SET == 'wenzhou' and pid in WZ2_IN: WZ2_IN[pid](pid, cm, xf, iw, gz, zb, y0, yt, rr)   # WZ-SECOND-1104 v2：第二批五間的櫥窗（wz2_windows.py；大小、形狀、排法都不同）
+    elif kind == 'noodle' and pid == 'A4' and SET == 'wenzhou': _lin_inside(cm, cp, vb, xf, iw, gz, zb, y0, yt, pid)   # WZ-LIN-STREET-REF-1112：林家乾麵照參考圖（下面）
     elif kind == 'noodle':                                                                                    # 麵店：後面的煮麵台、紅紙菜單、兩張桌子
         vb(-iw / 2 + 0.3, iw / 2 - 1.2, y0, y0 + 0.88, zb, zb + 0.6, '#b9bdc0', r=0.01)
         for x in (-iw / 2 + 0.8, -iw / 2 + 1.5): _lathe(cp('#b9bcbf'), xf, [(0.0, 0.0), (0.24, 0.0), (0.25, 0.35), (0.23, 0.36)], x, y0 + 0.88, zb + 0.3)   # 湯鍋
@@ -2550,9 +2609,9 @@ SF = {
     'A3': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_quarry', step=0.1, door_x=1.4, frame='#4a2e1c', sign_w=10.4, bright=0.85, light='warm',   # WZ-SECOND-1104 溫州書屋（原本的巷口書房；參考圖 wenzhou_books_ext）：米白長飾帶深綠字、四盞綠色鵝頸燈、深色木框大窗、沒有雨遮、營業時間黑板
                lamps=[-4.2, -1.4, 1.4, 4.2], lampcol='goose_green', notes=[],
                clutter=[('bookcart', -3.4, 0.35), ('aboard', 3.9, 0.45, 'wz2_wenzhou_books_chalk'), ('pot', -4.9, 0.3, 'broad'), ('pot', 5.0, 0.3)]),
-    'A4': dict(inner=True, door='open', sign='panel', awning='#2f5a47', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,   # WZ-FIVE-1104 林家（參考圖 wz_lin_ext）：深綠雨遮、門邊參考圖裁的價目牌、兩盆大盆栽
-               notes=[('wz_lin_menu', 2.4, 1.05, 0.62, 0.97)],
-               clutter=[('noodle', -1.6, 0.42), ('stool_r', 0.6, 0.55), ('stool_b', 1.1, 0.4), ('pot', 3.3, 0.35, 'broad'), ('pot', -3.45, 0.35, 'broad')]),
+    'A4': dict(inner=True, bright=0.86, door='open', sign='panel', awning='#2f5a47', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,   # WZ-FIVE-1104 林家（參考圖 wz_lin_ext）：深綠雨遮、門邊參考圖裁的價目牌、兩盆大盆栽
+               notes=[('wz_lin_menu', 3.22, 1.05, 0.62, 0.97)],   # WZ-LIN-STREET-REF-1112：2.4 → 3.22（靠右邊門柱；原本擋在玻璃菜櫃前面）
+               clutter=[('noodle', -1.6, 0.42), ('pot', 3.3, 0.35, 'broad'), ('pot', -3.45, 0.35, 'broad')]),   # WZ-LIN-STREET-REF-1112：門口的紅、藍塑膠凳拿掉（參考圖是店裡的木凳）
     'A5': dict(inner=True, door='auto', sign='lightbox', awning=None, floor='f_white', light='cool', door_x=-1.4, rollbox=False,
                notes=[('hours2', 0.6, 1.25, 0.42, 0.42), ('pay', 1.2, 1.3, 0.34, 0.34), ('hiring', 2.6, 1.1, 0.42, 0.46)],
                clutter=[('bins', 2.6, 0.32), ('umb', 0.3, 0.3), ('fridge', 3.3, 0.36)]),

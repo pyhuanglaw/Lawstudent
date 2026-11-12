@@ -46,8 +46,8 @@ const KNOWN_FAIL=[].concat(
   KF(T_CLOSED,'closedLook','l118_dian l118_self l118_tea l118_home l118_cafe2 l118_pasta l118_korea l118_omu l118_noodle2',true),
   /* 以下是第一層量到的（會自動比對：過了這一列就要刪，不刪會 FAIL）*/
   /* 天花板比預設跟隨鏡頭矮（鏡頭高過天花板＝天花板不畫、抬頭看到背景色）。安泰 3.1、禮貌生財 3.0、溫州街四間 2.6～3.0；其他是 3.2 m 對鏡頭 3.208 m（差 8 mm，請第二層抬頭拍一張確認）*/
-  KF(T_VIEW,'ceiling','gg_antai tz_limao wz_print wz_teahouse wz_lin wz_teishoku'),
-  KF(T_VIEW,'ceiling','gg_rongendian tz_yuehaochi tz_yindehao tz_xile tz_keju l118_dian l118_self l118_home l118_cafe2 l118_pasta l118_korea l118_omu l118_noodle2'),
+  KF(T_VIEW,'ceiling','wz_print wz_teahouse wz_lin wz_teishoku'),
+  KF(T_VIEW,'ceiling','l118_dian l118_self l118_home l118_cafe2 l118_pasta l118_korea l118_omu l118_noodle2'),
   /* 有窗（或模型有玻璃）沒有窗景照片 */
   KF(T_VIEW,'view','afar daybreak yangyang corner_records aoki wz_brunch wz_teahouse wz_mokuyobi wz_offbeat us_asian_market us_market'),
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
