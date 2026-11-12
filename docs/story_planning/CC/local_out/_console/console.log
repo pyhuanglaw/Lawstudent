@@ -392,3 +392,12 @@
 [16:07:48] 正在跑：XS_REAL_consist_r3（已跑 15 分／上限 50 分）、TZ_REAL_consist（已跑 10 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:12:48] 正在跑：XS_REAL_consist_r3（已跑 20 分／上限 50 分）、TZ_REAL_consist（已跑 15 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:15:34] [res] cpu=0% mem=41% (12.9/31.4 GB) chrome_testing=4  END XS_REAL_consist_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4c1785262..1dc74b8ff  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:16:03] ==== END   XS_REAL_consist_r3  exit=1  1379s   ====
+[16:16:13] solo item TZ_REAL_perf waits: no new items start until the 1 running item(s) finish
+[16:17:48] 正在跑：TZ_REAL_consist（已跑 20 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:21:22] solo item XS_REAL_perf_r2 waits: no new items start until the 1 running item(s) finish
+[16:22:48] 正在跑：TZ_REAL_consist（已跑 25 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:25:34] [res] cpu=8% mem=34% (10.9/31.4 GB) chrome_testing=0  END TZ_REAL_consist
