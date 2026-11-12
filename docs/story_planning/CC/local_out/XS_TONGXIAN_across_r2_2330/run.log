@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XS_TONGXIAN_across_r2_2330\out
+CC 店門口：worktree ?；xinsheng 23.5；TAG tongxian_across_r2_2330；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 xinsheng 2025-10-18 23.5（條件事件、手機關）
+  [  57.3s] xs_tongxian zone.shopReal 沒有這間（{"none": true, "have": ["xs_dabu", "xs_haopai", "xs_xsports", "xs_shanlan", "xs_dakou", "xs_nanyang"]}）→ 照門的朝向退到對街拍
+PASS FAIL_SETUP 檢查：xs_tongxian 找得到門、對街或斜對面站得住  {"label": "進同弦樂器（吉他行）", "x": -15.6, "z": -7.2, "n": [1, 0], "how": "nav 四方向（外面站得住、背後是牆）", "eye": [-11.6, 1.6, -7.2], "look": [-15.6, 1.6, -7.2], "standEye": true}
+  [前置／捷徑] xs_tongxian 【捷徑】祐廷放到門前 3 m 等 3 秒；鏡頭 正對 4 m
+PASS [黑畫面] across_xs_tongxian_tongxian_across_r2_2330 不是黑畫面（平均亮度 32、變化 31.2）  [32, 31.2]
+  [  62.2s] [截圖] across_xs_tongxian_tongxian_across_r2_2330：鏡頭 {"eye": [-11.6, 1.7, -7.2], "look": [-15.6, 3, -7.2], "lens": 24, "vfov": 45.75}、亮度 [32, 31.2]
+  [  62.2s] xs_tongxian 對街拍（正對 4 m）：門 (-15.6, -7.2)「進同弦樂器（吉他行）」朝外 [1, 0]、鏡頭 [-11.6, 1.7, -7.2] 看 [-15.6, 3.0, -7.2]
+PASS 沒有 JS 例外  []
+ALL PASS
