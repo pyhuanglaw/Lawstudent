@@ -21,7 +21,7 @@
 'use strict';
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
-const C=require('./date_src_sha.js'), SP='docs/story_planning/', BASE='c0a12c42e3', PREV=C.HAO_1112_PREV;   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
+const C=require('./date_src_sha.js'), SP='docs/story_planning/', BASE='c0a12c42e3', PREV=C.HAO_1112_PREV, HSHA=C.HAO2_1112_PREV;   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：白名單再換 d7d818f8a8——這一支的「源稿、稿」固定讀這一批的那一版 HSHA＝41f77eab53（之後 AA 再改的 238 格見 HAO2_1112、第 4、5 項）。舊寫法：都讀 C.ALLOW_SHA */   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
 const DOCS={AA_842:['AA_842_sis_hao_replies.json','heroine_05',80],AA_843:['AA_843_yt_hao_replies.json','heroine_03',48],AA_844:['AA_844_ps_hao_replies.json','classmate_peishan',43],AA_845:['AA_845_zr_hao_replies.json','heroine_02',88]};
 let fails=0; const check=(n,ok,d)=>{ if(ok) console.log('PASS '+n); else { fails++; console.log('FAIL '+n+(d!==undefined?'　'+d:'')); } };
 const read=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
@@ -36,7 +36,7 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+PREV+' 在 history',C.ALLOW_SHA==='41f77eab53'&&PREV==='a573a50dca'&&bad.length===0,J(bad));
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+PREV+' 在 history',C.ALLOW_SHA==='d7d818f8a8'&&HSHA==='41f77eab53'&&PREV==='a573a50dca'&&bad.length===0&&LOCS.every(k=>(allow.find(x=>x.path===SP+'date_system/lines/'+k+'.json').history||[]).some(h=>h.sha===HSHA)),J(bad));   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：白名單再換 d7d818f8a8（子晴 81、可昕 83 格選項回話、語彤 66 格再訪句、學姊 5／芷若 2／沛珊 1 格再改，共 238 格）；41f77eab53＝C.HAO2_1112_PREV。舊期望：C.ALLOW_SHA==='41f77eab53' */
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 表本身（不用讀稿）
@@ -45,9 +45,9 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
   check('HAO_1112 每一格都是 hotspots/<互動點>/first/choice/n/reply/0/text，互動點開頭＝地點；old≠new',R.every(r=>{ const m=RE_PATH.exec(r.path); return m&&m[1].slice(0,3)===r.loc&&r.old!==r.new&&r.old&&r.new; }),J(R.filter(r=>!RE_PATH.test(r.path)).slice(0,3))); }
 
 // 2、3
-{ const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.ALLOW_SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
+{ const SRC={}, OLD={}; for(const k of LOCS){ const t=show(HSHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
   const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLD).length===33;
-  const T={}; for(const d of Object.keys(DOCS)){ const t=show(C.ALLOW_SHA,SP+DOCS[d][0]); if(t) T[d]=JSON.parse(t).rows; }
+  const T={}; for(const d of Object.keys(DOCS)){ const t=show(HSHA,SP+DOCS[d][0]); if(t) T[d]=JSON.parse(t).rows; }
   if(Object.keys(T).length===4){
     const key=(doc,loc,pt,o,n)=>J([doc,loc,pt,o,n]);
     const want=Object.keys(T).flatMap(d=>T[d].map(r=>key(d,r.file.slice(-8,-5),r.point,r.old,r.new))).sort(), have=R.map(r=>key(r.doc,r.loc,RE_PATH.exec(r.path)[1],r.old,r.new)).sort();
@@ -56,18 +56,21 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
     if(haveSrc){ const all=Object.keys(T).flatMap(d=>T[d].map(r=>[d,r]));
       const bad=all.filter(([d,r])=>{ const k=r.file.slice(-8,-5), x=R.filter(q=>q.doc===d&&q.loc===k&&RE_PATH.exec(q.path)[1]===r.point&&q.old===r.old&&q.new===r.new); if(x.length!==1) return true; const ch=get(SRC[k].lines[r.who],x[0].path.replace(/\/reply\/0\/text$/,'')); return !(ch&&ch.t===r.option); });
       check('2. 稿每一列的 option＝源稿那個選項的 t（那一格真的是那個選項的回話）',bad.length===0,J(bad.slice(0,3))); }
-  } else console.log('（跳過第 2 項：讀不到 '+C.ALLOW_SHA+' 的 AA_842～AA_845，企劃線沒 fetch）');
+  } else console.log('（跳過第 2 項：讀不到 '+HSHA+' 的 AA_842～AA_845，企劃線沒 fetch）');
   if(haveSrc){
     const diff=[]; for(const k of LOCS){ const a=leaves(OLD[k],'',{}), b=leaves(SRC[k],'',{}); for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]) diff.push([k,p,a[p],b[p]]); }
     const want=R.map(r=>J([r.loc,'/lines/'+r.who+'/'+r.path,r.old,r.new])).sort(), have=diff.map(x=>J(x)).sort();
-    check('3. 源稿 '+C.ALLOW_SHA+' 和上一版 '+PREV+' 逐格比（含 fx）：剛好 259 格不同、old／new 都照稿',diff.length===259&&J(want)===J(have),J(have.filter(x=>!want.includes(x)).slice(0,3)));
+    check('3. 源稿 '+HSHA+' 和上一版 '+PREV+' 逐格比（含 fx）：剛好 259 格不同、old／new 都照稿',diff.length===259&&J(want)===J(have),J(have.filter(x=>!want.includes(x)).slice(0,3)));
     check('3. 不同的格子都在這四個人底下、都是 hotspots/*/first/choice/n/reply/0/text（別人 0 格、fx 0 格、選項的字 0 格）',diff.every(([k,p])=>{ const m=/^\/lines\/([^/]+)\/(.+)$/.exec(p); return m&&C.HAO_WHO.includes(m[1])&&RE_PATH.test(m[2]); }),J(diff.filter(([k,p])=>!/\/first\/choice\/\d+\/reply\/0\/text$/.test(p)).slice(0,3)));
     check('3. 源稿用 src248 還原（拿掉 fx，可昕 72、以安 59、學姊 78 格＋多的一套、這 259 格）＝上一版同樣還原',LOCS.every(k=>J(C.src248(k,SRC[k]))===J(C.src248(k,OLD[k]))),J(LOCS.filter(k=>J(C.src248(k,SRC[k]))!==J(C.src248(k,OLD[k])))));
   } else console.log('（跳過第 3 項：讀不到源稿，企劃線沒 fetch）'); }
 
 // 4
-{ const bad=R.filter(r=>get(NOW,gp(r))!==r.new).map(r=>r.loc+' '+r.who+' '+r.path+'：稿「'+r.new+'」遊戲「'+get(NOW,gp(r))+'」');
-  check('4. 遊戲那 259 格＝稿的新字，一字不差',bad.length===0,J(bad.slice(0,4)));
+{ /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：259 格裡 7 格這一版 AA 再改了（付錢／承諾對不上，稿的 _meta.late_fix）——那幾格現在認 HAO2_1112 的 new（上一版的字要＝這裡的 new）。舊期望：259 格都＝這一輪的 new */
+  const later=r=>{ const h=C.HAO2_1112.find(x=>x.who===r.who&&x.loc===r.loc&&x.path===r.path); return h&&h.old===r.new?h.new:r.new; }, LT=R.filter(r=>later(r)!==r.new);
+  check('4. 259 格裡之後又改過的只有七格（學姊 D04.redhouse、D06.cafe、D25.cafe、D30.stall，沛珊 D05.cafe，芷若 D04.snack、D10.bridge；HAO2_1112 的 late）',J(LT.map(r=>r.who+' '+RE_PATH.exec(r.path)[1]).sort())===J(['classmate_peishan D05.cafe','heroine_02 D04.snack','heroine_02 D10.bridge','heroine_05 D04.redhouse','heroine_05 D06.cafe','heroine_05 D25.cafe','heroine_05 D30.stall']),J(LT.map(r=>r.who+' '+r.path)));
+  const bad=R.filter(r=>get(NOW,gp(r))!==later(r)).map(r=>r.loc+' '+r.who+' '+r.path+'：稿「'+r.new+'」遊戲「'+get(NOW,gp(r))+'」');
+  check('4. 遊戲那 259 格＝稿的新字，一字不差（那七格＝AA 再改的字）',bad.length===0,J(bad.slice(0,4)));
   const E=require('./ellipsis694.js'), g=R.filter(r=>r.game||E.strip(r.new)!==r.new);
   check('4. 和稿不一樣的格子：0（沒有被 AA_694 規則改到的句子）',g.length===0,J(g.map(r=>[r.new,r.game])));
   check('4. 那 259 格都是她自己說的（reply[0].who＝那個人）、那個選項的回話只有這一句的照舊',R.every(r=>{ const x=get(NOW,gp(r).replace(/\/text$/,'')); return x&&x.who===r.who; })); }
@@ -76,6 +79,7 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 { const wt=show(BASE,'src/data/date_lines.js');
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
     const want=R.map(gp).sort();
+    { const X=new Set([...want]), H2=C.HAO2_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>!X.has(p)), all=diff.slice(); diff.length=0; for(const p of all) if(!H2.includes(p)) diff.push(p); check('5. 之後第三次重匯（d7d818f8a8）子晴、可昕第一次選項的回話、語彤再訪句和 late 8 格一共 238 格也換了字（date_src_sha.js HAO2_1112；逐格在 tests/hao2_dates_1112_unit.js；其中 7 格這一輪的 259 格裡也有、留在這一輪）——這裡先拿掉再比',H2.length===231&&H2.every(p=>all.includes(p)),J(H2.filter(p=>!all.includes(p)))); }   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 259 格不同（別人、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 259 格重匯以前＝稿的 old',R.every(r=>a[gp(r)]===r.old),J(R.filter(r=>a[gp(r)]!==r.old).slice(0,3).map(r=>[gp(r),a[gp(r)],r.old])));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812（別支測試「和重匯以前比」用的還原是對的）',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
@@ -85,7 +89,8 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 { const b=leaves(NOW.loc,'',{}), cnt={}; for(const p of Object.keys(b)) if(typeof b[p]==='string') cnt[b[p]]=(cnt[b[p]]||0)+1;
   const left=[...new Set(R.map(r=>r.old))].filter(o=>cnt[o]).map(o=>[o,cnt[o]]);
   /* 同一句別的格子還有的（不是這一批的格子：AA 留著沒改的、別人的）：「好。」14 處、另外四句各 1 處——數目釘住，多了＝有格子沒換到 */
-  const WANT={'好。':14,'好。下次我請。':1,'好。你走前面。':1,'好。你不要走太快。':1,'好。謝謝。':1};
+  /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：子晴、可昕的「好。」「好。下次我請。」「好。謝謝。」那幾格這一版也改了。舊期望：{'好。':14,'好。下次我請。':1,'好。你走前面。':1,'好。你不要走太快。':1,'好。謝謝。':1} */
+  const WANT={'好。':12,'好。你走前面。':1,'好。你不要走太快。':1};
   check('6. 259 句舊字都不在那一格了；整份裡還有同一句的只有 '+J(WANT)+'（別的格子，不是這一批的）',R.every(r=>get(NOW,gp(r))!==r.old)&&J(left.sort())===J(Object.entries(WANT).sort()),J(left)); }
 
 // 7
@@ -100,7 +105,10 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
     const H=get(NOW,'/loc/'+pid.slice(0,3)+'/lines/'+who+'/hotspots/'+pid), n=Object.values(leaves(H||{},'',{})).filter(v=>v===t).length; if(n!==1) bad.push([part,who,pid,t,n]); }
   check('7. she_pays.js 的每一句（她請、平分）都還在遊戲裡那個互動點底下剛好一處',bad.length===0,J(bad));
   const RW=[['pays','heroine_03','D12.pier'],['split','heroine_05','D22.fish'],['split','heroine_05','D22.fish']], rw=(SPD.cells812||[]).filter(c=>c.was);
-  check('7. she_pays.js 跟著換字的三句（cells812 有 was）：語彤 D12.pier 她請一句、學姊 D22.fish 平分兩句；was→text＝這一批那一格的 old→new',rw.length===3&&J(rw.map(c=>[c.kind,c.who,c.pid]).sort())===J(RW.sort())&&rw.every(c=>R.some(r=>gp(r)===c.at&&r.old===c.was&&r.new===c.text)&&SPD[c.kind][c.who][c.pid].includes(c.text)),J(rw)); }
+  /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：AA 在 d7d818f8a8 把 AA_812 同步成新字、import_she_pays.py 的 REWORD 清空——cells812 沒有 was 了；那三句現在直接照稿在名單裡。
+     舊期望：rw.length===3（語彤 D12.pier 她請一句、學姊 D22.fish 平分兩句有 was；was→text＝這一批那一格的 old→new） */
+  const c8=(SPD.cells812||[]);
+  check('7. she_pays.js 當初跟著換字的三句（語彤 D12.pier 她請一句、學姊 D22.fish 平分兩句）：AA_812 已經同步新字、cells812 沒有 was；三句都還在名單、＝這一批那一格的 new',rw.length===0&&RW.length===3&&[['pays','heroine_03','D12.pier','盡頭有一個賣咖啡的貨櫃，我請你。'],['split','heroine_05','D22.fish','飯我請，飲料你請。'],['split','heroine_05','D22.fish','你堅持的話。']].every(([k,w,p,x])=>SPD[k][w][p].includes(x)&&c8.some(c=>c.kind===k&&c.who===w&&c.pid===p&&c.text===x&&R.some(r=>gp(r)===c.at&&r.new===x))),J(rw)); }
 
 // 8
 { const RE=/[一兩二三四]件事|第三件|第三格|第三點|^[一二三]，/;   /* ＝tests/sis_no_three_unit.js 的 RE */

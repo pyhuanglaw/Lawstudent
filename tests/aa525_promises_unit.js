@@ -160,8 +160,8 @@ await sec('1-6',async()=>{
   const L=(loc,who)=>(DATE_LINES.loc[loc]||{}).lines[who].hotspots, rep=(loc,pid,who,i)=>L(loc,who)[pid].first.choice[i].reply[0].text;
   /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：這五格源稿寫回或重寫了（AA_525 1-6 那五列不再疊）——D10、D12、D31 源稿寫回 AA_525 的字；D13「那我不客氣了，謝謝。」、D30「好，謝謝。」是新稿重寫的（一樣不欠）。
      舊期望＝AA_525 1-6：D13「好啦。謝謝。」、D30「好。謝謝。」 */
-  check('1-6. 子晴約會第一次的回覆不欠（沒有「下次我請／下次換我／宵夜我請」）：D10「謝謝。」、D12「謝謝。」、D13「那我不客氣了，謝謝。」、D30「好，謝謝。」、D31「好！謝謝！」',
-    rep('D10','D10.snack',ZQ,0)==='謝謝。'&&rep('D12','D12.pier',ZQ,0)==='謝謝。'&&rep('D13','D13.drink',ZQ,2)==='那我不客氣了，謝謝。'&&rep('D30','D30.stall',ZQ,0)==='好，謝謝。'&&rep('D31','D31.egg',ZQ,0)==='好！謝謝！'&&![['D10','D10.snack',0],['D12','D12.pier',0],['D13','D13.drink',2],['D30','D30.stall',0],['D31','D31.egg',0]].some(([l,p,i])=>/下次|我請|換我/.test(rep(l,p,ZQ,i))),J([rep('D10','D10.snack',ZQ,0),rep('D12','D12.pier',ZQ,0),rep('D13','D13.drink',ZQ,2),rep('D30','D30.stall',ZQ,0),rep('D31','D31.egg',ZQ,0)]));
+  check('1-6. 子晴約會第一次的回覆不欠（沒有「下次我請／下次換我／宵夜我請」）：D10「謝謝。」、D12「謝謝。」、D13「那我不客氣了，謝謝。」、D30「謝謝。兩串都你請喔，我沒有說一串。」、D31「三顆！你是好人。」',   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：AA_846 改了 D30、D31 這兩句回話（一樣不欠）。舊期望：D30「好，謝謝。」、D31「好！謝謝！」 */
+    rep('D10','D10.snack',ZQ,0)==='謝謝。'&&rep('D12','D12.pier',ZQ,0)==='謝謝。'&&rep('D13','D13.drink',ZQ,2)==='那我不客氣了，謝謝。'&&rep('D30','D30.stall',ZQ,0)==='謝謝。兩串都你請喔，我沒有說一串。'&&rep('D31','D31.egg',ZQ,0)==='三顆！你是好人。'&&![['D10','D10.snack',0],['D12','D12.pier',0],['D13','D13.drink',2],['D30','D30.stall',0],['D31','D31.egg',0]].some(([l,p,i])=>/下次|我請|換我/.test(rep(l,p,ZQ,i))),J([rep('D10','D10.snack',ZQ,0),rep('D12','D12.pier',ZQ,0),rep('D13','D13.drink',ZQ,2),rep('D30','D30.stall',ZQ,0),rep('D31','D31.egg',ZQ,0)]));
   /* 第一次選了哪一個 → 第二次的 remember */
   const two=async(who,loc,pid,pick)=>{ fresh('2027-03-06',14,{}); H.FRIEND(who); const t={who,locs:[loc],day:H.G.day,trip:'T9'}; H.said=[]; H.picks=[pick]; await DATE.spotLine(GM,t,pid,0); const f1=JSON.parse(JSON.stringify(H.G.flags));
     const m=DATE.mem(H.G,who,loc); m.last=[pid]; H.said=[]; H.picks=[]; await DATE.spotLine(GM,t,pid,1); const s2=said(); return {f1,s2,F:H.G.flags}; };
@@ -170,7 +170,7 @@ await sec('1-6',async()=>{
      舊期望：D06「上次說要請你吃滷味，十點以後半價那間。」、D15「上次的布丁，今天我要。」「上次說下次的。」；備用句兩處都是「上次也來這裡。」 */
   /* 2026-11-11（AA_812@f1fab0ec6）：回覆拿掉滷味（path_rows：「好。下次我請。」）、remember 改成當場請（改稿紀錄 zq_D06 第 45 格；那一次她請客，tests/date_she_pays_812_1111_unit.js）；旗標、REMEMBER_IF 照舊。
      舊期望：回覆「好。下次我請你吃滷味。」、remember「我說過要請你吃滷味，等一下去，我知道一間。」 */
-  check('1-6. D06 第一次選「我請妳。」（「好。下次我請。」）記 ZQ_D06_TREAT；第二次 remember「這家我來過兩次了。這次我請，你不要算。」',a.f1.ZQ_D06_TREAT!=null&&rep('D06','D06.cafe',ZQ,1)==='好。下次我請。'&&J(a.s2)===J(['這家我來過兩次了。這次我請，你不要算。']),J(a.s2));
+  check('1-6. D06 第一次選「我請妳。」（「下次我請你吃滷味。」）記 ZQ_D06_TREAT；第二次 remember「這家我來過兩次了。這次我請，你不要算。」',a.f1.ZQ_D06_TREAT!=null&&rep('D06','D06.cafe',ZQ,1)==='下次我請你吃滷味。'&&J(a.s2)===J(['這家我來過兩次了。這次我請，你不要算。']),J(a.s2));   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：AA 把這句回話改回「下次我請你吃滷味。」（AA_846 _meta.late_fix「AA_812 再訪有兌現」；AA_812 path_rows 那一列被取代）。舊期望：'好。下次我請。'——再訪她請的是這家咖啡廳、不是滷味，已列給 LAWWW 轉 AA 看 */
   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：S.REMEMBER_IF 拿掉子晴 D06.cafe 那一列＝第一次選另一個（沒旗標）的人再訪也聽 remember 的新句（她當場請）；PICK_FLAG 照記（選「我請妳。」才記 ZQ_D06_TREAT，不再影響台詞）。
      舊期望：沒旗標第二次換不提約定的「這家的位子我記得，靠牆那桌插座最近。」（AA_775 的 REMEMBER_IF 備用句） */
   check('1-6. D06 第一次選另一個：不記 ZQ_D06_TREAT；第二次一樣聽 remember 的新句「這家我來過兩次了。這次我請，你不要算。」（她請；AA_812@633b7f7d6：S.REMEMBER_IF 沒有 D06.cafe 那一列）',b.f1.ZQ_D06_TREAT==null&&J(b.s2)===J(['這家我來過兩次了。這次我請，你不要算。'])&&!DATE.REMEMBER_IF.some(r=>r.loc==='D06'||r.pid==='D06.cafe'),J(b.s2));
@@ -178,7 +178,7 @@ await sec('1-6',async()=>{
   check('1-6. D15 第一次選「布丁不行。」（「欸，好啦。布丁下次。」）記 ZQ_D15_NEXT；第二次 remember「說好的布丁，這次我要拿了。」「山上的布丁比較好吃，這是我的理論。」',c.f1.ZQ_D15_NEXT!=null&&rep('D15','D15.store',ZQ,1)==='欸，好啦。布丁下次。'&&J(c.s2)===J(['說好的布丁，這次我要拿了。','山上的布丁比較好吃，這是我的理論。']),J(c.s2));
   check('1-6. D15 第一次選「全部我請。」：不記，第二次「布丁還在同一格，我要拿了。」（AA_775）',d.f1.ZQ_D15_NEXT==null&&J(d.s2)===J(['布丁還在同一格，我要拿了。']),J(d.s2));
   /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：D15 這一格新稿重寫成「好，我記下來。」（逗號；一樣沒有「下次滷味我請」），AA_526 那一列原句對不到、不再疊（來源照舊列 AA_526）。舊期望：「好。我記下來。」 */
-  check('1-6. AA_526 第 2 節：D15「全部我請。」的回覆＝「好，我記下來。」（沒有「下次滷味我請」；2026-11-11 新稿重寫，來源照舊寫 AA_526）',rep('D15','D15.store',ZQ,0)==='好，我記下來。'&&L('D15',ZQ)['D15.store'].first.choice[0].t==='「全部我請。」'&&DATE_LINES.source.includes('AA_526_回LAWWW_AA524_525重做九題.md@'+SHA6),rep('D15','D15.store',ZQ,0));
+  check('1-6. AA_526 第 2 節：D15「全部我請。」的回覆＝「我記下來了。」（沒有「下次滷味我請」；2026-11-11 新稿重寫，來源照舊寫 AA_526）',rep('D15','D15.store',ZQ,0)==='我記下來了。'&&L('D15',ZQ)['D15.store'].first.choice[0].t==='「全部我請。」'&&DATE_LINES.source.includes('AA_526_回LAWWW_AA524_525重做九題.md@'+SHA6),rep('D15','D15.store',ZQ,0));   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：AA_846 改了這句回話。舊期望：'好，我記下來。' */
 });
 
 /* ================= 2 沛珊 ================= */
@@ -239,7 +239,7 @@ await sec('2-4',async()=>{
     DATE.mem(H.G,PS,'D05').last=['D05.cafe']; H.said=[]; await DATE.spotLine(GM,t,'D05.cafe',1); const s2=said(); H.said=[]; await DATE.spotLine(GM,t,'D05.cafe',1); return {f,s2,s3:said(),F:H.G.flags.PS_D05_EGG}; };
   const a=await two('我請妳'), b=await two('看得懂');   /* 2026-11-11（X327）：第二個選項「點小杯的？」→「點妳看得懂的。」 */
   /* 2026-11-11（X327 沛珊重寫）：回話「那下次我請你吃蛋餅。說好了。」→「好啊，那下次換我。」；remember「上次我們坐那個位子。今天被坐走了。」→「我們的位子今天被坐走了，我瞪了他們一下，沒用。」；多演的兩句改成熱紅茶、「說好的，這次換我。」（date_rewrite/peishan_D05.json 的 for_LAWWW；旗標 PS_D05_EGG 不改名） */
-  check('2-4 P-6. D05 第一次選「我請妳。」（2026-11-12 AA_844：她回「那我出甜點。我要挑名字最長的。」）記 PS_D05_EGG；remember 多「（她把一杯熱紅茶推到你面前。）」「說好的，這次換我。」（只拿一次）',a.f!=null&&J(a.s2)===J(['我們的位子今天被坐走了，我瞪了他們一下，沒用。','（她把一杯熱紅茶推到你面前。）','說好的，這次換我。'])&&a.F==='paid'&&J(a.s3)===J(['我們的位子今天被坐走了，我瞪了他們一下，沒用。'])&&L('D05')['D05.cafe'].first.choice[0].reply[0].text==='那我出甜點。我要挑名字最長的。',J(a));   /* 2026-11-12（X324「好」開頭回話 AA_844@41f77eab53，date_src_sha.js HAO_1112）：AA 改了這句回話。舊期望：D05 那一句＝'好啊，那下次換我。'——新句沒有「下次換我」的約定，可是 REMEMBER_IF 的「說好的，這次換我。」還在（程式沒動），已列給 LAWWW 轉 AA 看 */
+  check('2-4 P-6. D05 第一次選「我請妳。」（2026-11-12 AA_844 late_fix：她回「那下次換我。我要挑名字最長的。」）記 PS_D05_EGG；remember 多「（她把一杯熱紅茶推到你面前。）」「說好的，這次換我。」（只拿一次）',a.f!=null&&J(a.s2)===J(['我們的位子今天被坐走了，我瞪了他們一下，沒用。','（她把一杯熱紅茶推到你面前。）','說好的，這次換我。'])&&a.F==='paid'&&J(a.s3)===J(['我們的位子今天被坐走了，我瞪了他們一下，沒用。'])&&L('D05')['D05.cafe'].first.choice[0].reply[0].text==='那下次換我。我要挑名字最長的。',J(a));   /* 2026-11-12（X324「好」開頭回話 AA_844@41f77eab53，date_src_sha.js HAO_1112）：AA 改了這句回話。舊期望：D05 那一句＝'好啊，那下次換我。'——新句沒有「下次換我」的約定，可是 REMEMBER_IF 的「說好的，這次換我。」還在（程式沒動），已列給 LAWWW 轉 AA 看 */   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：AA 把這一格改回有「下次換我」的字（AA_844 _meta.late_fix：再訪「說好的，這次換我。」要接得上）。舊期望：'那我出甜點。我要挑名字最長的。' */
   check('2-4 P-6. D05 選另一個：不記，remember 照舊',b.f==null&&J(b.s2)===J(['我們的位子今天被坐走了，我瞪了他們一下，沒用。']),J(b));
 });
 

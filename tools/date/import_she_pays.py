@@ -16,6 +16,7 @@ tools/date/import_date_lines.py 疊進去，先跑那一支）：每一句在她
 - AA_782 的列：同一個人同一個互動點 AA_812 也列了、這一句不在 AA_812 的清單裡、而且遊戲裡已經沒有這一句＝被 AA_812 取代（superseded，AA 改了字：學姊 D06.cafe、沛珊 D21.street）；
   這一句還在遊戲裡＝不知道要不要拿掉，停下來。AA_812 和 AA_782 同一句＝不重複。
 - AA_812 的句子後來在源稿被 AA 換了字（REWORD；2026-11-12「好」開頭回話三句）：AA_812 那一句不在遊戲裡了才換成現在的字，cells812 那一列多 was（原本 AA_812 寫的）、by（哪一份稿）。
+  2026-11-12 d7d818f8a8：AA_812 已經同步成新字，REWORD 清空（cells812 沒有 was 了）。
 輸出：pays（AA_782 留下的＋AA_812 新的）、split（AA_812）、cells（AA_782 留下的列，格式照舊）、superseded（被取代的 AA_782 列）、cells812（AA_812 每一句：pays／split、位置、格號、跟誰重複）。
 用法：python3 tools/date/import_she_pays.py [--check] [--out 檔名]"""
 import json, os, re, subprocess, sys
@@ -34,10 +35,9 @@ DROP = {('classmate_peishan', 'D31.egg.normal#2'): 'AA 11-11 18:58 回 LAWWW（B
 D3 = 'src/date3d.js'
 # AA_812 的句子後來在源稿被 AA 換了字的（那一格重寫、AA_812 還沒跟著改）：(她, 互動點, AA_812 寫的那一句) → (現在的字, 哪一份稿)。
 # 只有「AA_812 那一句已經不在她那個互動點底下」才換（還在＝照 AA_812，不換；兩句都在、兩句都不在＝where() 停下來）。換了的格在 cells812 多一欄 was。AA 把 AA_812 改成新字以後這幾列就用不到、可以拿掉。
-# 2026-11-12 DLG-FULL-REVIEW-1110／X324「好」開頭回話（企劃線 41f77eab53；tests/date_src_sha.js 的 HAO_1112）：AA 只拿掉開頭的「好。」
-REWORD = {('heroine_03', 'D12.pier', '好。盡頭有一個賣咖啡的貨櫃，我請你。'): ('盡頭有一個賣咖啡的貨櫃，我請你。', 'AA_843_yt_hao_replies.json@41f77eab53'),
-          ('heroine_05', 'D22.fish', '好。飯我請，飲料你請。'): ('飯我請，飲料你請。', 'AA_842_sis_hao_replies.json@41f77eab53'),
-          ('heroine_05', 'D22.fish', '好。你堅持的話。'): ('你堅持的話。', 'AA_842_sis_hao_replies.json@41f77eab53')}
+# 2026-11-12 X324「好」開頭回話（企劃線 41f77eab53）那一輪這裡有三筆（語彤 D12.pier 一句、學姊 D22.fish 兩句：AA 只拿掉開頭的「好。」）；
+# AA 在 d7d818f8a8 把 AA_812 同步成新字（白名單 AA_812 換到那一版），三筆都拿掉了——現在是空的，機制留著給下一次用。
+REWORD = {}
 
 
 def git(*a):
