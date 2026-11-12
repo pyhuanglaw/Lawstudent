@@ -59,7 +59,8 @@ LANDING = (4.15, -6.05)   # 二樓樓梯平台（src/data/flower_notes_layout.js
 DOOR1F = (0.0, 5.6)       # 一樓門口裡面（cc_fn_func_probe.py「店裡門口」；layout spawn (0, 6.1)）
 AVOID_ZONES = r'lib|classroom|putong'   # 讀書區（library、library_media、lawlib…）GM.say 會 LIBQ.whisper 加「（小聲）」＝字和稿不同；classroom／putong＝上課
 PREF_ZONES = ['cafe', 'wancai', 'l118_dian', 'wenzhou', 'gongguan', 'campus']   # 小的區域先（走得近）
-RESULT = {'tag': TAG, 'sha': SHA, 'url': URL, 'cases': {}}
+RESULT = {'tag': TAG, 'sha': SHA, 'url': URL}
+LAST = {'fb': 0}
 
 
 # ---------------------------------------------------------------- 稿
@@ -157,7 +158,7 @@ SNAP_JS = "(()=>JSON.parse(JSON.stringify(GAME.snapshot())))()"
 WD_JS = "(d=>CALENDAR.dateOf(d).wd%7)"
 # 掃：她照作息在 3D 的時段（STORY.whereIs；同 cc_x324_ladder_probe.py 的 SCAN_JS）——只算，算完把日期時間放回去。被排掉的原因逐條計數（CC_02 乙 2）
 SCAN_JS = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday}; const why={}, out=[], bad=new RegExp(a.avoid); const W=k=>{ why[k]=(why[k]||0)+1; };
-  try{ for(let d=a.d0; d<a.d0+a.days; d++){ for(const hr of a.hours){ G.day=d; G.hour=hr; G.weekday=CALENDAR.dateOf(d).wd%7; let w=null;
+  try{ for(let d=a.d0; d<a.d0+a.days; d++){ for(const hr of a.hours){ if(a.h0!=null&&d===a.d0&&hr<a.h0+0.3){ W('比現在早（不倒回去）'); continue; } G.day=d; G.hour=hr; G.weekday=CALENDAR.dateOf(d).wd%7; let w=null;
         try{ w=STORY.whereIs(GAME,a.id); }catch(e){ W('whereIs 例外'); continue; }
         if(!w||!w.zone){ W('不在 3D'); continue; } if(w.away){ W('不在臺北／away'); continue; } if(bad.test(w.zone)){ W('避開的區域 '+w.zone); continue; }
         if(/上課|上班|打工/.test(w.act||'')){ W('上課／上班 '+w.zone); continue; } if(typeof GIFTH!=='undefined'&&GIFTH.holOf&&GIFTH.holOf(a.id,d)){ W('她的送禮節日'); continue; }
@@ -170,7 +171,7 @@ SCAN_JS = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekda
 # 一起上課的時段：她在臺北（STORY.presence）、那段時間沒課沒班（INV.busyAt）、下課不超過打烊（FNS.hours）、和 A 不同週（週一起算，同 flower_class3d.js weekOf 的定義：CALENDAR wd 1＝週一）——
 #   用的是遊戲的作息資料，不是被測的 FCLASS.canTogether（CC_02 乙 4：判準不依賴被測的程式）
 FREE_JS = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday}, why={}, W=k=>{ why[k]=(why[k]||0)+1; }; const wk=d=>d-(((CALENDAR.dateOf(d).wd|0)+6)%7); const close=(FNS.hours()||[10,21])[1];
-  try{ for(let d=a.d0; d<a.d0+a.days; d++){ if(a.notWeek!=null&&wk(d)===wk(a.notWeek)){ W('和上一次上課同一週'); continue; } for(const hr of a.hours){ G.day=d; G.hour=hr; G.weekday=CALENDAR.dateOf(d).wd%7;
+  try{ for(let d=a.d0; d<a.d0+a.days; d++){ if(a.notWeek!=null&&wk(d)===wk(a.notWeek)){ W('和上一次上課同一週'); continue; } for(const hr of a.hours){ if(a.h0!=null&&d===a.d0&&hr<a.h0+0.3){ W('比現在早（不倒回去）'); continue; } G.day=d; G.hour=hr; G.weekday=CALENDAR.dateOf(d).wd%7;
         if(hr+a.len>close-0.25){ W('下課太接近打烊'); continue; } const p=STORY.presence?STORY.presence(a.id,G):{here:true}; if(p&&p.here===false){ W('不在臺北'); continue; }
         let b=false; try{ b=!!(INV.busyAt&&INV.busyAt(G,a.id,d,hr,a.len+0.5)); }catch(e){ W('busyAt 例外'); continue; } if(b){ W('她那時候有課／班'); continue; }
         Object.assign(G,keep); return {d, dkey:CALENDAR.dateOf(d).key, wd:CALENDAR.dateOf(d).wd%7, hr, why}; } } }
@@ -210,7 +211,7 @@ async def load(pg, cdp, st, tag, why):
     pre = await drive(pg, cdp, tag + ' 讀檔以後先有的', lambda ch, ctx: (None, ''), max_s=40)
     if pre['lines'] or pre['picks']: R.note('%s 讀檔以後先有的對話／選單（照字收掉，不算）：%s' % (tag, J({'lines': pre['lines'][-6:], 'picks': pre['picks']})))
     await pg.evaluate(HOOK_JS)
-    return await pg.evaluate(GSTATE_JS)
+    g = await pg.evaluate(GSTATE_JS); LAST['fb'] = g['fb']; return g
 
 
 async def snapshot_skip(pg, day=None, hour=None, zone=None, pos=None, mutate=None):
@@ -377,7 +378,8 @@ def menus(log, i0=0):
     return [e for e in log[i0:] if e.get('k') == 'choose']
 
 
-async def end_checks(pg, tag, errs, e0, fb0):
+async def end_checks(pg, tag, errs, e0, fb0=None):
+    fb0 = LAST['fb'] if fb0 is None or LAST['fb'] < fb0 else fb0   # 讀檔可能把計數歸零：和最後一次讀檔以後比（每一段另外有自己的檢查）
     s = await L.state(pg); fb = await pg.evaluate("GAME.walkFallbacks||0")
     R.check('%s 結束：沒有對話框、選單開著' % tag, not s['dlg'] and not s['choices'], J({k: s[k] for k in ('dlg', 'choices', 'busy', 'zone')}))
     R.check('%s 結束：GAME.walkFallbacks 沒增加（%s → %s）' % (tag, fb0, fb), fb == fb0, '')
@@ -387,6 +389,7 @@ async def end_checks(pg, tag, errs, e0, fb0):
 # ---------------------------------------------------------------- 報名一次
 async def signup(pg, cdp, tag, key, mode='solo', pid=None, desc=None, from_door=False, expect='done', partners=(), first=False, flags=None, dim_tap=False):
     """走到報名 → 按 → 照字選課（和第二層）→ 演完；回傳 {log, drive, g0, g1}。expect：done／again／poor／closed／closed_menu／week（只檢查這一種結果該有的）"""
+    fbS = await pg.evaluate("GAME.walkFallbacks||0")
     X = DOC; T = X['signup']; c = X['classes'][key]; cname = c['name']; copt = '%s　%d 元' % (cname, c['price'])   # 選單格式「課名　價錢 元」：flower_class3d.js signup 的 opts
     if not await walk_to_signup(pg, cdp, tag, from_door): return None
     g0 = await pg.evaluate(GSTATE_JS)
@@ -417,6 +420,7 @@ async def signup(pg, cdp, tag, key, mode='solo', pid=None, desc=None, from_door=
     R.note('%s 前後：%s → %s' % (tag, J({k: g0[k] for k in ('dkey', 'hour', 'money', 'bag', 'fc', 'fl')}), J({k: g1[k] for k in ('hour', 'money', 'bag', 'fc', 'fl')})))
     R.check('%s 流程走完（沒有 %d 秒沒進展）' % (tag, STUCK_S), dr['done'] and not dr['stuck'], J({k: dr[k] for k in ('done', 'stuck', 'secs')}))
     R.check('%s 沒有不認識的選單' % tag, not dr['unknown'], J(dr['unknown']))
+    R.check('%s GAME.walkFallbacks 沒增加（%s → %s）' % (tag, fbS, g1['fb']), g1['fb'] <= fbS, '')
     got = says_of(log); ms = menus(log); money_ev = [e['v'] for e in log if e.get('k') == 'money']; adv = [e['v'] for e in log if e.get('k') == 'advance']; fades = [e['on'] for e in log if e.get('k') == 'fade']
     if expect == 'closed':
         cmp_seq(tag, '打烊（closed，旁白）', got, [[None, T['closed']]])
@@ -538,11 +542,11 @@ async def case_closed(pg, cdp, errs):
     await end_checks(pg, tag, errs, e0, fb0)
 
 
-async def place_her(pg, cdp, tag, pid, d0, days=14):
+async def place_her(pg, cdp, tag, pid, d0, days=14, h0=None):
     """她照作息在 3D 的時段（掃 days 天、依序試前 3 個候選）→【前置／捷徑】讀檔過去（快照）；掃不到＝GAME.spawnCharacter 在花序一樓門口前面。回傳 {way, npc}"""
     sc = None
     if GIFTWHERE != 'spawn':
-        sc = await pg.evaluate(SCAN_JS, {'id': pid, 'd0': d0, 'days': days, 'hours': [10, 11, 13, 14, 15, 16, 17, 19, 20], 'avoid': AVOID_ZONES, 'pref': PREF_ZONES})
+        sc = await pg.evaluate(SCAN_JS, {'id': pid, 'd0': d0, 'h0': h0, 'days': days, 'hours': [10, 11, 13, 14, 15, 16, 17, 19, 20], 'avoid': AVOID_ZONES, 'pref': PREF_ZONES})
         R.note('%s 掃她（%s）在 3D 的時段：候選 %s；共 %d 個；被排掉的 %s' % (tag, pid, J(sc['cands']), sc['n'], J(sc['why'])))
         for c in sc['cands'][:3]:   # CC_02 乙 3：依序試，跳過的寫原因
             s = await snapshot_skip(pg, day=c['d'], hour=c['hr'] + 0.05, zone=c['zone'], pos=None)
@@ -566,8 +570,10 @@ async def talk_her(pg, cdp, tag, pid):
     """走到她旁邊（搖桿、她會走動就追；看互動鍵是不是「和她說話」）→ 確認互動鍵最上面 → 按"""
     async def tgt():
         n = await pg.evaluate(NPC_JS, pid); return (n['x'], n['z'], n['lv']) if n else None
-    def is_her(t):
-        return t.startswith('和') and t.endswith('說話')
+    nmj = await pg.evaluate(NAME_JS, pid)
+
+    def is_her(t):   # 互動鍵＝「和○○說話」、○○＝她現在的叫法（SOCIAL.npcName；spawnCharacter／story3d.js 的 talkLabel 同一個寫法）
+        return t.startswith('和') and t.endswith('說話') and bool(nmj['npc']) and nmj['npc'] in t
     r = None
     for k in range(3):
         r = await joy_walk(pg, cdp, '%s 走到她旁邊（第 %d 次）' % (tag, k + 1), tgt, 0.9, btn=is_her, max_s=150)
@@ -594,6 +600,7 @@ async def give(pg, cdp, tag, pid, gid, ver, flags):
             if not c['offered']: c['no_offer'] = ts
             return ts.index('就這樣'), '照字選「就這樣」'
         return None, ''
+    fbS = await pg.evaluate("GAME.walkFallbacks||0")
     if not await talk_her(pg, cdp, tag, pid): return None
     g0 = await pg.evaluate(GSTATE_JS)
     dr = await drive(pg, cdp, tag, pol, max_s=420, ctx=ctx)
@@ -613,9 +620,12 @@ async def give(pg, cdp, tag, pid, gid, ver, flags):
         R.check('%s s1 以後 G.flags.FC_SIS_S1、FC.s1＝今天（%s）' % (tag, g0['day']), g1['fl'].get('FC_SIS_S1') is True and (g1['fc'] or {}).get('s1') == g0['day'], J({'fl': g1['fl'], 'fc': g1['fc']}))
     else:
         V = X['give'][pid][ver]
-        want = [[None, '你把%s遞給%s。' % (nm, nmj['disp'])]] + flat(V, who=pid, thing=nm); what = 'give.%s.%s（{物}＝%s）' % (pid, ver, nm)   # 第一句＝送禮系統原本的「你把○○遞給○○。」（gifthol3d.js hand）
+        hn = nmj['disp']   # 第一句＝送禮系統原本的「你把○○遞給○○。」（gifthol3d.js hand：who.name——talkCharacter 給 displayName、舊的 talkSis 走 offerInvite 給 npcName；兩個都是遊戲對她的叫法）
+        if got and got[0][0] is None and nmj['npc'] and got[0][1] == '你把%s遞給%s。' % (nm, nmj['npc']): hn = nmj['npc']; R.note('%s 「你把…遞給…」用的是 npcName「%s」（displayName「%s」）' % (tag, nmj['npc'], nmj['disp']))
+        want = [[None, '你把%s遞給%s。' % (nm, hn)]] + flat(V, who=pid, thing=nm); what = 'give.%s.%s（{物}＝%s）' % (pid, ver, nm)
         if any('{物}' in t for t in V): R.note('%s 這一版的稿有 {物}：%s' % (tag, J([t for t in V if '{物}' in t])))
     cmp_seq(tag, what, got, want); cmp_screen(tag, what, dr['lines'], want)
+    R.check('%s GAME.walkFallbacks 沒增加（%s → %s）' % (tag, fbS, g1['fb']), g1['fb'] <= fbS, '')
     R.check('%s 送出去：包包少了那一樣' % tag, g1['bag'].count(gid) == g0['bag'].count(gid) - 1, J({'before': g0['bag'], 'after': g1['bag']}))
     return {'log': log, 'g0': g0, 'g1': g1}
 
@@ -656,14 +666,14 @@ async def case_sis(pg, cdp, errs):
     flags = dict(a['g1']['fl'])
     if not R.check('%s A 記了描述旗標 FC_DESC_%s' % (tag0, DESC), flags.get('FC_DESC_' + DESC) is True, J(flags)): return
     # B：送她 → s1
-    pl = await place_her(pg, cdp, tag0 + ' B', SIS, dA)
+    pl = await place_her(pg, cdp, tag0 + ' B', SIS, dA, h0=a['g1']['hour'])
     R.note('%s B 走的路：%s；她 %s' % (tag0, pl['way'], J(pl['npc'])))
     if not R.check('%s B 這一區有她' % tag0, bool(pl['npc']), ''): return
     b = await give(pg, cdp, tag0 + ' B 送成品', SIS, 'g_fc_bouquet', 's1', flags)
     if not b or not b['g1']['fl'].get('FC_SIS_S1'): R.check('%s B s1 演完（前一步沒成功，後面跳過）' % tag0, False, ''); return
     dB = b['g0']['day']
     # C：下一次上課（和 A 不同週）、她沒課 → 約她一起上 → s2
-    fr = await pg.evaluate(FREE_JS, {'id': SIS, 'd0': dB, 'days': 14, 'hours': [13, 14, 10, 15], 'len': DOC['classes']['basic']['hours'], 'notWeek': dA})
+    fr = await pg.evaluate(FREE_JS, {'id': SIS, 'd0': dB, 'h0': b['g1']['hour'], 'days': 14, 'hours': [13, 14, 10, 15], 'len': DOC['classes']['basic']['hours'], 'notWeek': dA})
     R.note('%s C 一起上課的時段：%s' % (tag0, J(fr)))
     if not R.check('%s C 前置：14 天內找得到她在臺北、沒課、和 A 不同週的時段' % tag0, not fr.get('none'), J(fr.get('why'))): return
     s = await snapshot_skip(pg, day=fr['d'], hour=fr['hr'] + 0.0, zone='flower_notes', pos=pos2f(*LANDING))
@@ -672,7 +682,7 @@ async def case_sis(pg, cdp, errs):
     if not c: return
     R.check('%s C s2 以後 G.flags.FC_SIS_S2' % tag0, c['g1']['fl'].get('FC_SIS_S2') is True, J(c['g1']['fl']))
     # D：s1 那天 +5 天以後說話 → s3
-    pl = await place_her(pg, cdp, tag0 + ' D', SIS, max(dB + DOCDAYS, c['g1']['day']))
+    dD = max(dB + DOCDAYS, c['g1']['day']); pl = await place_her(pg, cdp, tag0 + ' D', SIS, dD, h0=c['g1']['hour'] if dD == c['g1']['day'] else None)
     R.note('%s D 走的路：%s；她 %s；s1 在第 %d 天' % (tag0, pl['way'], J(pl['npc']), dB))
     if not R.check('%s D 這一區有她' % tag0, bool(pl['npc']), ''): return
     gD = await pg.evaluate(GSTATE_JS)
