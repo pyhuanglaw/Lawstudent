@@ -28,6 +28,7 @@ TRIPS = int(os.environ.get('TRIPS') or '10')
 X_LIST = [float(x) for x in (os.environ.get('X_LIST') or '-4.3,-3.75,-3.35').split(',') if x.strip()]
 TOP_Z = float(os.environ.get('TOP_Z') or '1.9')
 BOT_Z = float(os.environ.get('BOT_Z') or '5.4')
+PUSH = os.environ.get('PUSH') or 'straight'   # BB-C 11-12 03:30：10 fps 樓梯照玩家三種推法——straight 直線推、diag 稍微斜推（目標往樓梯中線偏 0.5 m）、tap 點樓梯上面／下面的地面；上樓、下樓各一次，記卡不卡、卡多久
 SHOP = (0.0, 0.9)
 STAIR_DAY = os.environ.get('STAIR_DAY') or '2025-11-05'
 STAIR_H = float(os.environ.get('STAIR_H') or '15.0')
@@ -135,10 +136,44 @@ async def down_escape(pg, cdp, t, x):
     return out
 
 
+async def tap_seg(pg, cdp, tag, tx, tz, lv):
+    """點地走：點目標那一點（那一層地板投影）；沒在動就每 6 秒再點一次（看不到就轉鏡頭）；記最長一次沒前進 0.3 m 的秒數＝卡多久"""
+    t0 = time.time(); taps = 0; miss = 0; aim = None; last = None; still0 = time.time(); worst = 0.0; e = None
+    while time.time() - t0 < 45:
+        e = await D.st(pg)
+        if math.hypot(e['x'] - tx, e['z'] - tz) <= 0.5 and e['lv'] == lv: break
+        if last is None or math.hypot(e['x'] - last[0], e['z'] - last[1]) >= 0.3: last = (e['x'], e['z']); still0 = time.time()
+        worst = max(worst, time.time() - still0)
+        if taps == 0 or time.time() - still0 > 2.5 or (aim and math.hypot(e['x'] - aim[0], e['z'] - aim[1]) < 0.6):
+            # 像玩家點樓梯：目標在別的樓層、從這裡看不到（雲端 be1e 第一次從一樓直接點二樓平台，人一步沒動＝CC_02 乙 5），就點前面 2 m 的樓梯面（這一層）；快到了才點目標那一點
+            dd = math.hypot(tx - e['x'], tz - e['z'])
+            if dd > 2.2: f = 2.0 / dd; ax, az, alv = e['x'] + (tx - e['x']) * f, e['z'] + (tz - e['z']) * f, e['lv']
+            else: ax, az, alv = tx, tz, lv
+            pt = await L.tap_ground(pg, cdp, ax, az, lv=alv)
+            if not pt: await L.turn_camera_to(pg, cdp, ax, az); pt = await L.tap_ground(pg, cdp, ax, az, lv=alv)
+            aim = (ax, az)
+            if pt: taps += 1; still0 = time.time()
+            else: miss += 1
+        await pg.wait_for_timeout(300)
+    e = await D.st(pg); ok = math.hypot(e['x'] - tx, e['z'] - tz) <= 0.5 and e['lv'] == lv
+    r = {'ok': ok, 't': round(time.time() - t0, 1), 'pushes': taps, 'jumps': [], 'end': {'x': e['x'], 'z': e['z'], 'y': e.get('y'), 'lv': e['lv']}, 'why': None if ok else ('45 秒沒到' + ('；點了 0 次＝探針沒點到（不是遊戲走不動）' if taps == 0 else '')), 'stuck_s': round(worst, 1), 'miss': miss}
+    R.note('%s → (%.2f, %.2f) lv%d：%s、%s 秒、點到 %d 次（沒點到 %d 次）、最長停住 %.1f 秒、停在 (%.2f, %.2f) y=%s lv%d' % (tag, tx, tz, lv, '到了' if ok else '沒到', r['t'], taps, miss, worst, e['x'], e['z'], e.get('y'), e['lv']))
+    return r
+
+
+async def push_seg(pg, cdp, tag, x, tz, lv):
+    """上樓／下樓那一段照 PUSH 的推法"""
+    if PUSH == 'tap': return await tap_seg(pg, cdp, tag + '（點地）', x, tz, lv)
+    if PUSH == 'diag':
+        mid = -3.75; dx = 0.5 if x <= mid else -0.5   # 往樓梯中線那邊偏（樓梯 x −4.5～−3）
+        return await seg(pg, cdp, tag + '（斜推，目標偏 %+.1f m）' % dx, x + dx, tz, lv, True)
+    return await seg(pg, cdp, tag, x, tz, lv, True)
+
+
 async def trip(pg, cdp, x, k, stats):
     t = '[%s x=%.2f 第 %d 趟]' % (TAG, x, k)
     # 上：同一條線直線推上樓梯頂平台，再照路走進店裡
-    r1 = await seg(pg, cdp, t + ' 上樓梯（直線）', x, TOP_Z, 1, True)
+    r1 = await push_seg(pg, cdp, t + ' 上樓梯（%s）' % PUSH, x, TOP_Z, 1)
     ok_up = r1['ok']
     if not ok_up:
         d = await stuck_diag(pg, t + ' 上')
@@ -148,19 +183,19 @@ async def trip(pg, cdp, x, k, stats):
         stats['up_stuck'].append({'trip': k, 'pos': d['pos'], 'retry_ok': r1b['ok']})
         if not r1b['ok']:
             R.check('%s 上樓梯：卡住、退 1 m 再走也上不去' % t, False, J(d['pos'])); return False
-    R.check('%s 上樓梯直線推得上去、換到第 1 層' % t, ok_up, J({'end': [r1['end']['x'], r1['end']['z'], r1['end'].get('y'), r1['end']['lv']], 't': r1['t']}))
+    R.check('%s 上樓梯（%s）上得去、換到第 1 層' % (t, PUSH), ok_up, J({'end': [r1['end']['x'], r1['end']['z'], r1['end'].get('y'), r1['end']['lv']], 't': r1['t']}))
     if ok_up: stats['up_ok'] += 1
     r2 = await seg(pg, cdp, t + ' 進店', SHOP[0], SHOP[1], 1, False)
     R.check('%s 從平台走進二樓店裡' % t, r2['ok'], J({'end': [r2['end']['x'], r2['end']['z'], r2['end']['lv']]}))
     # 下：回到同一條線的平台，直線推下樓梯
     await seg(pg, cdp, t + ' 回平台', x, TOP_Z, 1, False)
-    r3 = await seg(pg, cdp, t + ' 下樓梯（直線）', x, BOT_Z + 0.2, 0, True)
+    r3 = await push_seg(pg, cdp, t + ' 下樓梯（%s）' % PUSH, x, BOT_Z + 0.2, 0)
     if not r3['ok']:
         d = await stuck_diag(pg, t + ' 下')
         esc = await down_escape(pg, cdp, t, x)
         stats['down_stuck'].append({'trip': k, 'pos': d['pos'], 'escape': esc})
     else: stats['down_ok'] += 1
-    R.check('%s 下樓梯直線推得下去、換回第 0 層' % t, r3['ok'], J({'end': [r3['end']['x'], r3['end']['z'], r3['end'].get('y'), r3['end']['lv']], 't': r3['t']}))
+    R.check('%s 下樓梯（%s）下得去、換回第 0 層' % (t, PUSH), r3['ok'], J({'end': [r3['end']['x'], r3['end']['z'], r3['end'].get('y'), r3['end']['lv']], 't': r3['t']}))
     return r3['ok']
 
 
