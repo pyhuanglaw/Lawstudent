@@ -78,7 +78,7 @@ MM = {}; SQ = []
 #   ambientCG 材質組：cc0_fetch 下載到快取，照 Poly Haven 的檔名（<id>_diff_1k.jpg…）放到快取的 staged 資料夾，借 L.pbr（target＝調到這個平均色、tile＝每幾公尺重複一次）；
 #   Poly Haven 掃描模型：ph_obj() 匯入、合成一個網格、減面、縮放，之後當原型複製（同一個網格）；遊戲裡的光影另外烘成光照貼圖（lightbake/bake_tz_shops.sh，不烘進顏色）
 #   自製印花（布篷的條紋、布簾的格紋、靠枕）：PIL 畫圖案 × ambientCG 布料的明暗紋路。用到的每一件在 LICENSES.md 登記（CC0_USED 印在最後）
-CC0 = SHOP in ('taimi', 'xile')
+CC0 = SHOP in ('taimi', 'xile', 'yindehao')
 CC0_USED = []
 if CC0:
     import shutil
@@ -90,23 +90,49 @@ if CC0:
             if not src_: continue
             dst = os.path.join(d, f'{pid}_{suf}_1k.jpg')
             if not os.path.exists(dst) or os.path.getmtime(dst) < os.path.getmtime(src_): Image.open(src_).convert('RGB').save(dst, quality=92)
-    def acg(name, aid, maps=('diff', 'nor'), res=512, **kw):
-        """ambientCG 材質組 → L.pbr 材質（res：遊戲裡的貼圖邊長）"""
+    def acg(name, aid, maps=('diff', 'nor'), res=512, vary=None, **kw):
+        """ambientCG 材質組 → L.pbr 材質（res：遊戲裡的貼圖邊長）。
+        vary：顏色貼圖明暗起伏壓到「平均亮度的這個比例」（標準差）——Plastic006 的顏色貼圖幾乎全黑（平均 7/255、起伏 ±40%），
+          校成白色時起伏被放大成一條條黑色大理石紋（LAWWW2-C 11-13 印得好 v1 試拍）；塑膠用 0.05：看得出細紋、不會髒"""
         f = cc0_fetch.acg_material(aid); _stage(aid, f['color'], f.get('normal'), f.get('rough')); CC0_USED.append(('ambientCG', aid))
-        old = L.tex_dir; L.tex_dir = lambda pid: STAGE if pid == aid else old(pid)
-        try: return L.pbr(name, aid, maps=maps, res=res, **kw)
+        pid = aid
+        if vary:
+            pid = f'{aid}_v{int(round(vary * 100)):02d}'; src_ = os.path.join(STAGE, aid, f'{aid}_diff_1k.jpg'); d_ = os.path.join(STAGE, pid); os.makedirs(d_, exist_ok=True)
+            a_ = np.asarray(Image.open(src_).convert('RGB'), float); lum = a_.mean(-1); m_, sd_ = lum.mean(), max(1e-3, lum.std())
+            out = a_.mean((0, 1))[None, None, :] * (1 + vary * (lum - m_) / sd_)[..., None]
+            Image.fromarray(np.clip(out, 0, 255).astype('uint8')).save(os.path.join(d_, f'{pid}_diff_1k.jpg'), quality=92)
+            for suf in ('nor_gl', 'rough'):
+                q_ = os.path.join(STAGE, aid, f'{aid}_{suf}_1k.jpg')
+                if os.path.exists(q_): Image.open(q_).save(os.path.join(d_, f'{pid}_{suf}_1k.jpg'), quality=92)
+        old = L.tex_dir; L.tex_dir = lambda q: STAGE if q == pid else old(q)
+        try: return L.pbr(name, pid, maps=maps, res=res, **kw)
         finally: L.tex_dir = old
-    def printed(name, pid, draw, weave, size=512, **kw):
+    def printed(name, pid, draw, weave, size=512, amp=0.44, **kw):
         """自製印花：draw(PIL.ImageDraw, size) 畫圖案，乘上 ambientCG 布料（weave）的明暗紋路"""
         f = cc0_fetch.acg_material(weave); CC0_USED.append(('ambientCG', weave))
         from PIL import ImageDraw, ImageOps
         im = Image.new('RGB', (size, size)); draw(ImageDraw.Draw(im), size)
-        g = ImageOps.grayscale(Image.open(f['color']).convert('RGB').resize((size, size))); a = np.asarray(g, float); a = 0.78 + 0.44 * (a - a.mean()) / max(1.0, a.std() * 3)
+        g = ImageOps.grayscale(Image.open(f['color']).convert('RGB').resize((size, size))); a = np.asarray(g, float); a = 0.78 + amp * (a - a.mean()) / max(1.0, a.std() * 3)
         out = np.clip(np.asarray(im, float) * a[..., None], 0, 255).astype('uint8'); p = os.path.join(STAGE, pid + '_src.jpg'); Image.fromarray(out).save(p, quality=92)
         _stage(pid, p, f.get('normal'))
         old = L.tex_dir; L.tex_dir = lambda q: STAGE if q == pid else old(q)
         try: return L.pbr(name, pid, maps=('diff', 'nor'), res=size, **kw)
         finally: L.tex_dir = old
+    class _AsTex:   # 把「畫成某個顏色的頂點色零件」的呼叫轉成某個材質組網格（顏色參數不用）
+        def __init__(self, m_): self.m = m_; self.bm = m_.bm
+        def paint(self, *a, **k): pass
+        def cbox(self, x0, x1, y0, y1, z0, z1, col=None): self.m.box(x0, x1, y0, y1, z0, z1)
+        def crbox(self, x0, x1, y0, y1, z0, z1, col=None, r=0.03): self.m.rbox(x0, x1, y0, y1, z0, z1, r=r, seg=2)
+    class _Route:   # vc() 的轉接：cbox／crbox／poly 照顏色（ROUTE 表）分到材質組網格；表上沒有的顏色、ccyl／blob／clathe（直接用 .bm＋paint）照舊頂點色
+        def __init__(self, base, route): self.base = base; self.route = route; self.bm = base.bm
+        def __getattr__(self, k): return getattr(self.base, k)
+        def _m(self, col): k_ = self.route.get((col or '').lower()); return mesh(k_) if k_ else None
+        def cbox(self, x0, x1, y0, y1, z0, z1, col):
+            m_ = self._m(col); (m_.box(x0, x1, y0, y1, z0, z1) if m_ else self.base.cbox(x0, x1, y0, y1, z0, z1, col))
+        def crbox(self, x0, x1, y0, y1, z0, z1, col, r=0.03):
+            m_ = self._m(col); (m_.rbox(x0, x1, y0, y1, z0, z1, r=r, seg=2) if m_ else self.base.crbox(x0, x1, y0, y1, z0, z1, col, r=r))
+        def poly(self, pts, col):
+            m_ = self._m(col); (m_.quad(pts) if m_ else self.base.poly(pts, col))
     PH_PROTO = {}
     def _ph_tex(o, res=512):
         """Poly Haven 材質瘦身：粗糙度／金屬度（arm、rough）的圖拿掉改固定值（單通道的圖匯出 WebP 會失敗、手機也不需要）；顏色、法線縮成 res（有透明的存 PNG）"""
@@ -200,6 +226,7 @@ if CC0:
         'ceil': acg('tzs_ceiling', 'Plaster001', maps=('diff',), target='#e9dcc0' if J.get('warm') else '#eef0ef', tile=2.0, rough_value=0.95, res=256),   # 暖色店（泰米）米色、其他（洗樂）白
         'duct': None,   # 天花板下的風管、冷氣（和天花板同一個材質；另外一個網格，不叫 S_ceil：tests/tz_shops_unit.js 第 12 項）
         'steel': acg('tzs_steel', 'Metal009', target='#b9bdc1', tile=1.0, metal=0.4, rough_value=0.35),
+        'steel_d': acg('tzs_steel_d', 'Metal009', maps=('diff',), target='#6f7479', tile=1.0, metal=0.4, rough_value=0.4, res=256),   # 洗樂 v3：滾筒內筒底（比外圈暗，看起來在裡面）
         'blackmetal': acg('tzs_blackmetal', 'Metal009', maps=('diff',), target='#2e2c2a', tile=1.0, metal=0.3, rough_value=0.45, res=256),
         'leather': acg('tzs_leather', 'Leather037', target='#6a4530', tile=0.8, rough_value=0.55),
         'leather_d': acg('tzs_leather_d', 'Leather037', target='#4f3222', tile=0.8, rough_value=0.55),
@@ -207,12 +234,24 @@ if CC0:
         'plaid': acg('tzs_curtain', 'Fabric054', tile=0.7, rough_value=0.9),
         'cloth_b': acg('tzs_doorcloth', 'Fabric036', maps=('diff',), target='#e6d6b4', tile=0.6, rough_value=0.9, res=256),
         'stripe': printed('tzs_awning', 'tz_taimi_awning', _awning, 'Fabric036', tile=1.0, rough_value=0.85),
-        'plastic_w': acg('tzs_plastic_w', 'Plastic006', target='#eef0ef', tile=0.5, rough_value=0.45),     # 洗樂：販賣機、洗衣籃、燈具、冷氣
-        'plastic_b': acg('tzs_plastic_b', 'Plastic006', target='#a9cfe6', tile=0.5, rough_value=0.4),      # 洗樂：候位椅、藍色洗衣籃
+        'plastic_w': acg('tzs_plastic_w', 'Plastic006', vary=0.05, target='#eef0ef', tile=0.5, rough_value=0.45),     # 洗樂：販賣機、洗衣籃、燈具、冷氣
+        'plastic_b': acg('tzs_plastic_b', 'Plastic006', vary=0.05, target='#a9cfe6', tile=0.5, rough_value=0.4),      # 洗樂：候位椅、藍色洗衣籃
+        'plastic_dk': acg('tzs_plastic_dk', 'Plastic006', vary=0.05, maps=('diff',), target='#33373c', tile=0.5, rough_value=0.45, res=256),   # 印得好：影印機的掃描台、面板、螢幕
+        'plastic_navy': acg('tzs_plastic_navy', 'Plastic006', vary=0.05, maps=('diff',), target='#2c3c5a', tile=0.5, rough_value=0.45, res=256),
+        'plastic_blue': acg('tzs_plastic_blue', 'Plastic006', vary=0.05, maps=('diff',), target='#1f3f9a', tile=0.5, rough_value=0.4, res=256),   # 聯通：招牌藍的腰線、櫃台正面、展示櫃底
+        'cardboard': acg('tzs_cardboard', 'Cardboard001', tile=0.6, rough_value=0.85),
         'tile_w': acg('tzs_kitchen_tile', 'Tiles036', target='#e9e6de', tile=0.6, rough_value=0.3),   # v2（BB_379 末節①）：廚房後牆白磁磚
         'cushion': printed('tzs_cushion', 'tz_taimi_cushion', _cushion, 'Fabric036', size=256, tile=0.45, rough_value=0.85),
     })
     M['duct'] = M['ceil']
+    if SHOP == 'yindehao':   # 影印紙的包裝紙（三色）：自畫（底色＋白色標籤＋細條紋）×ambientCG 紙的紋理
+        def _ream(col):
+            def dr(d, s_):
+                d.rectangle([0, 0, s_, s_], fill=col); d.rectangle([s_ * 0.18, s_ * 0.3, s_ * 0.82, s_ * 0.62], fill=(250, 250, 246))
+                d.rectangle([s_ * 0.18, s_ * 0.66, s_ * 0.82, s_ * 0.7], fill=tuple(max(0, c - 70) for c in col)); d.rectangle([0, 0, s_, s_ * 0.06], fill=tuple(max(0, c - 40) for c in col))
+            return dr
+        for k_, col in (('ream_p', (236, 170, 186)), ('ream_b', (168, 204, 232)), ('ream_y', (238, 222, 150))):
+            M[k_] = printed('tzs_' + k_, 'tz_yin_' + k_, _ream(col), 'Paper001', size=256, amp=0.12, tile=0.35, rough_value=0.7)   # 紙的紋理只留一點點（0.44 像髒污）
 # 機器上的字牌（BB_255：看不出是什麼機器）：黑體字畫成一張小貼圖（每一塊 256×80），材質 tzs_<店>_labels
 LABELS = {'xile': [('coin', '兌幣機', '#1f4f9a', '#ffffff'), ('soap', '洗衣精', '#e8f2fa', '#1f4f9a'), ('coin_w', '兌幣機  10 元', '#ffffff', '#1f4f9a'), ('soap_w', '洗衣精・柔軟精', '#ffffff', '#1f4f9a')],
           'yindehao': [('cut', '裁紙機', '#f2c230', '#1d1f22'), ('bind', '膠裝機', '#f2c230', '#1d1f22'), ('pc', '自助列印電腦', '#2c3c5a', '#ffffff'), ('pc_sub', '隨身碟・雲端列印', '#ffffff', '#2c3c5a')]}.get(SHOP, [])
@@ -511,19 +550,26 @@ if SHOP == 'taimi':
 # ---------- 洗樂洗衣坊 ----------
 if SHOP == 'xile':
     WS, DR, MC, CH, FT = J['washers'], J['dryers'], J['machines'], J['chairs'], J['foldTable']
-    if CC0:   # 原本畫成金屬色的頂點色零件（vm()：門把、按鈕、椅子鋼樑、水槽、龍頭…）全部改進不鏽鋼材質組（顏色參數不用）
-        class _AsTex:
-            def __init__(self, m_): self.m = m_; self.bm = m_.bm
-            def paint(self, *a, **k): pass
-            def cbox(self, x0, x1, y0, y1, z0, z1, col=None): self.m.box(x0, x1, y0, y1, z0, z1)
-            def crbox(self, x0, x1, y0, y1, z0, z1, col=None, r=0.03): self.m.rbox(x0, x1, y0, y1, z0, z1, r=r, seg=2)
+    if CC0:   # 原本畫成金屬色的頂點色零件（vm()：門把、按鈕、椅子鋼樑、水槽、龍頭…）全部改進不鏽鋼材質組（顏色參數不用；_AsTex 在上面 CC0 那一段）
         vm = lambda: _AsTex(mesh('steel'))
     BLUE, STEEL, STEEL_D, DARK = '#bfe0ee', '#c4c8cb', '#9a9fa4', '#2a2f36'
     def drum(xf, y, z, r, face):
         """滾筒的圓門：不鏽鋼圈＋深色玻璃；face＝門朝 +x（1）或 −x（−1）"""
-        if CC0:   # 不鏽鋼門圈（倒角的環）＋深色玻璃（往內凹）＋門把
-            mesh('steel').cyl((xf, y, z), (xf + face * 0.035, y, z), r, seg=28, r2=r * 0.97); mesh('blackmetal').cyl((xf + face * 0.035, y, z), (xf + face * 0.045, y, z), r * 0.82, seg=28)
-            ccyl(vc(), (xf + face * 0.045, y, z), (xf + face * 0.02, y, z), r * 0.74, DARK, seg=24); mesh('steel').box(*sorted((xf + face * 0.035, xf + face * 0.07)), y - 0.08, y + 0.08, z - r * 0.98, z - r * 0.9); return
+        if CC0:   # v2（BB_379：滾筒門整面黑色圓盤 → 要看得到玻璃和不鏽鋼內筒）：
+            #   門圈（不鏽鋼倒角環）＋黑色密封圈；裡面一面不鏽鋼內筒底（Metal009）＋三圈網孔（深色小點）＋三片擋板；最外面往外凸的玻璃碗（半透明，像真的滾筒門）
+            mesh('steel').cyl((xf, y, z), (xf + face * 0.035, y, z), r, seg=28, r2=r * 0.97)
+            mesh('blackmetal').cyl((xf + face * 0.035, y, z), (xf + face * 0.04, y, z), r * 0.82, seg=28)
+            ri = r * 0.74; mesh('steel').cyl((xf + face * 0.04, y, z), (xf + face * 0.043, y, z), ri, seg=28)            # 內筒底（看起來在玻璃後面）
+            for ring, nh in ((0.35, 8), (0.6, 14), (0.85, 20)):
+                for k in range(nh):
+                    a_ = 2 * PI * (k + 0.5 * (ring > 0.5)) / nh; yy = y + math.cos(a_) * ri * ring; zz = z + math.sin(a_) * ri * ring
+                    vc().cbox(*sorted((xf + face * 0.043, xf + face * 0.045)), yy - 0.008, yy + 0.008, zz - 0.008, zz + 0.008, '#3a3e44')
+            for k in range(3):   # 擋板（從筒壁往中心的三條凸起）
+                a_ = 2 * PI * k / 3 + 0.3; c_, s_ = math.cos(a_), math.sin(a_)
+                mesh('steel').cyl((xf + face * 0.045, y + c_ * ri * 0.55, z + s_ * ri * 0.55), (xf + face * 0.045, y + c_ * ri * 0.95, z + s_ * ri * 0.95), 0.018, seg=8)
+            bm_ = L.lathe([(ri * 1.02, 0.0), (ri * 0.95, 0.03), (ri * 0.75, 0.06), (ri * 0.4, 0.075), (0.0, 0.08)], seg=24)   # 玻璃碗（往外凸 8 cm）
+            mesh('glass').add_bm(bm_, Matrix.Translation(g2b(xf + face * 0.035, y, z)) @ Matrix.Rotation(face * PI / 2, 4, 'Y')); bm_.free()
+            mesh('steel').box(*sorted((xf + face * 0.035, xf + face * 0.07)), y - 0.08, y + 0.08, z - r * 0.98, z - r * 0.9); return
         ccyl(vm(), (xf, y, z), (xf + face * 0.04, y, z), r, STEEL, seg=20); ccyl(vc(), (xf + face * 0.04, y, z), (xf + face * 0.05, y, z), r * 0.78, DARK, seg=20)
         ccyl(vm(), (xf + face * 0.05, y, z - r * 0.9), (xf + face * 0.07, y, z - r * 0.9), 0.03, STEEL_D, seg=8)
     # 左牆：一排洗衣機（不鏽鋼機身、上面控制面板、圓門朝東）
@@ -694,7 +740,8 @@ if SHOP == 'yindehao':
     for i in range(5): zz = z0 + 0.5 + i * 0.5; vc().cbox(x0 + 0.1, x0 + 0.42, h, h + 0.05 + (i % 3) * 0.03, zz, zz + 0.3, '#f4f4f0'); vc().cbox(x0 + 0.1, x0 + 0.42, h + 0.05 + (i % 3) * 0.03, h + 0.056 + (i % 3) * 0.03, zz, zz + 0.3, ('#d8dce8', '#e8d8d8', '#f4f4f0')[i % 3])
     for i in range(5):   # 裝訂樣本架：斜立的封面
         zz = z1 - 0.9 + i * 0.12; vc().poly([(x0 + 0.12, h, zz), (x0 + 0.5, h, zz), (x0 + 0.5, h + 0.42, zz - 0.14), (x0 + 0.12, h + 0.42, zz - 0.14)][::-1], ('#1f2a48', '#7a2a2a', '#d9c9a8', '#2f3338', '#f4f1e8')[i]); vc().poly([(x0 + 0.12, h, zz), (x0 + 0.5, h, zz), (x0 + 0.5, h + 0.42, zz - 0.14), (x0 + 0.12, h + 0.42, zz - 0.14)], '#e8e8e4')
-    clathe(vc(), [(0.0, 0.0), (0.09, 0.0), (0.12, 0.2), (0.0, 0.2)], x0 + 0.3, h, z1 + 0.05, '#f4f1ea', seg=10); fern(x0 + 0.3, h + 0.32, z1 + 0.05, r=0.24, n=12)
+    if CC0: ph_put('potted_plant_02', x0 + 0.3, h, z1 + 0.05, 0.6, height=0.5, share=False, decimate=0.06)   # 櫃台上的盆栽（Poly Haven）
+    else: clathe(vc(), [(0.0, 0.0), (0.09, 0.0), (0.12, 0.2), (0.0, 0.2)], x0 + 0.3, h, z1 + 0.05, '#f4f1ea', seg=10); fern(x0 + 0.3, h + 0.32, z1 + 0.05, r=0.24, n=12)
     # 右牆鐵層架：整面彩色紙、紙箱
     sx0, sx1 = SV['x0'], SV['x1']; nb = 5; bw = (SV['z1'] - SV['z0']) / nb
     for i in range(nb + 1): zz = SV['z0'] + i * bw; vm().cbox(sx0, sx0 + 0.03, 0.0, SV['h'], zz - 0.015, zz + 0.015, STEEL)
@@ -710,7 +757,8 @@ if SHOP == 'yindehao':
     xw = -W / 2 + 0.012
     for key, d in (('price', DC['priceBoard']), ('sample', DC['samplePoster']), ('campus', DC['campusPoster'])):
         vc().cbox(-W / 2, -W / 2 + 0.01, d['y0'] - 0.03, d['y1'] + 0.03, d['z0'] - 0.03, d['z1'] + 0.03, '#f4f4f0'); pic(key, [(xw, d['y0'], d['z1']), (xw, d['y0'], d['z0']), (xw, d['y1'], d['z0']), (xw, d['y1'], d['z1'])])
-    clathe(vc(), [(0.0, 0.0), (0.16, 0.0), (0.2, 0.36), (0.0, 0.36)], -2.8, 0.0, 4.0, '#e8e0d0', seg=12); fern(-2.8, 0.75, 4.0, r=0.34, n=18)
+    if CC0: ph_put('potted_plant_02', -2.8, 0.0, 4.0, 2.2, height=1.1, share=False, decimate=0.06)   # 玻璃門旁的落地盆栽（Poly Haven）
+    else: clathe(vc(), [(0.0, 0.0), (0.16, 0.0), (0.2, 0.36), (0.0, 0.36)], -2.8, 0.0, 4.0, '#e8e0d0', seg=12); fern(-2.8, 0.75, 4.0, r=0.34, n=18)
     # 後牆：冷氣、布簾的門、紙箱；天花板：日光燈、裸露管線
     vc().crbox(-0.2, 0.9, 2.35, 2.65, -D / 2, -D / 2 + 0.24, '#f4f4f0', r=0.02)
     for i in range(8): a = 0.4 + i * 0.13; vc().cbox(a, a + 0.13, 0.05, 2.1, -D / 2 + 0.03 + (i % 2) * 0.02, -D / 2 + 0.05 + (i % 2) * 0.02, ('#c9c4b8', '#b8b2a4')[i % 2])
@@ -1101,6 +1149,11 @@ if SHOP == 'limao':
 if SHOP == 'yuehaochi':
     CT = J['counter']; KT = J['kitchen']; PT = J['partition']; DC = J['decor']; HB = J['herbBar']; FG = J['fridge']
     WD, WD2, TEAL, RED = '#3a2416', '#5a3a22', '#2f6f6a', '#8a2a2a'
+    if CC0:   # SHOP-REALISM-1112（LAWWW2-C 11-13）：深木條 → 深色木頭、櫃台正面的竹條和斗笠 → 藤編（Wicker010A）、外帶紙袋 → 紙箱、黑鐵 → 黑鐵、廚房磁磚 → 白磁磚、螢幕 → 深色塑膠；
+        #   椅子共用 chair()（CC0 已是 Poly Haven 梯背椅＋皮墊）；落地盆栽 → Poly Haven potted_plant_01、窗台小盆 → Poly Haven fern_02；燈籠、藍染布、香草照舊頂點色
+        ROUTE = {'#2b2018': 'wood_d', '#3a2416': 'wood_d', '#5a3a22': 'wood_d', '#c9a45a': 'wicker', '#b8903f': 'wicker', '#d9b872': 'wicker', '#e6d3a0': 'wicker', '#c9b278': 'wicker',
+                 '#c9a878': 'cardboard', '#b8946a': 'cardboard', '#2b2b2b': 'blackmetal', '#3a3a3c': 'blackmetal', '#eef0ee': 'tile_w', '#1f2023': 'plastic_dk', '#6a6d70': 'steel', '#8a8d90': 'steel'}
+        _vc0 = vc; vc = lambda: _Route(_vc0(), ROUTE); vm = lambda: _AsTex(mesh('steel'))
     # 牆：下半深木護牆板（1.0 m）、上緣木線條；左牆、右牆
     for sx in (-1, 1):
         xw = sx * (W / 2 - 0.02); x0, x1 = min(xw, sx * W / 2), max(xw, sx * W / 2)
@@ -1188,9 +1241,12 @@ if SHOP == 'yuehaochi':
     for (px, pz) in DC['pendants']: pendant(px, pz, y=2.2)
     # 大盆栽（窗邊，概念圖門口那種闊葉）、窗台上的小盆
     for (px, pz) in DC['plants']:
+        if CC0: ph_put('potted_plant_01', px, 0.0, pz, 2.4, height=1.5, share=False, decimate=0.022); continue   # Poly Haven 落地盆栽
         clathe(vc(), [(0.0, 0.0), (0.17, 0.0), (0.22, 0.4), (0.0, 0.4)], px, 0.0, pz, '#a8573a', seg=12); ccyl(vc(), (px, 0.4, pz), (px, 1.15, pz), 0.025, '#6a5038', seg=5); fern(px, 1.15, pz, r=0.4, n=24)
     for i in range(3):
-        wx = -2.3 + i * 0.75; clathe(vc(), [(0.0, 0.0), (0.06, 0.0), (0.075, 0.1), (0.0, 0.1)], wx, sill, zS - 0.08, ('#e8e0d0', '#a8573a', '#e8e0d0')[i], seg=8); fern(wx, sill + 0.14, zS - 0.08, r=0.12, n=7)
+        wx = -2.3 + i * 0.75
+        if CC0: ph_put('fern_02', wx, sill, zS - 0.08, i * 1.3, height=0.26, share=False, decimate=0.25); continue   # 窗台小盆（Poly Haven）
+        clathe(vc(), [(0.0, 0.0), (0.06, 0.0), (0.075, 0.1), (0.0, 0.1)], wx, sill, zS - 0.08, ('#e8e0d0', '#a8573a', '#e8e0d0')[i], seg=8); fern(wx, sill + 0.14, zS - 0.08, r=0.12, n=7)
     # 天花板：軌道燈、冷氣出風口；地上門口紅色腳踏墊（概念圖）
     vc().cbox(-0.02, 0.02, H - 0.06, H - 0.03, -2.2, 4.2, '#2b2b2b'); vc().cbox(0.0, 1.5, 0.001, 0.012, 3.55, 4.4, '#8a2a2a')
     vc().cbox(-0.5, 0.5, H - 0.08, H - 0.02, 1.9, 2.9, '#e6dcc6'); vc().cbox(-0.42, 0.42, H - 0.09, H - 0.08, 1.98, 2.82, '#bfb6a2')
@@ -1204,13 +1260,20 @@ if SHOP == 'yuehaochi':
 if SHOP == 'keju':
     CT = J['counter']; KT = J['kitchen']; PT = J['partition']; DC = J['decor']; TS = J['teaShelf']
     WD, WD2, WINE, INDIGO = '#4a2a1a', '#6a4028', '#7a2a2a', '#24456e'
+    if CC0:   # SHOP-REALISM-1112（LAWWW2-C 11-13）：木頭的直條、飾帶、櫃子 → 木頭材質組；黑鐵 → 黑鐵；廚房磁磚 → 白磁磚；螢幕 → 深色塑膠；
+        #   圓凳 → Poly Haven wooden_stool_01、砂鍋 → Poly Haven ceramic_pot（上成深褐）、盆栽 → Poly Haven potted_plant_01；扎染布、油紙傘、酒紅牆照舊（牆要平塗）
+        ROUTE = {'#5a3a22': 'wood_d', '#4a2a1a': 'wood_d', '#2b2018': 'wood_d', '#3a2a20': 'wood_d', '#2b1c12': 'wood_d', '#6a4028': 'wood', '#7a5636': 'wood', '#8a6442': 'wood', '#6a4a2a': 'wood', '#8a5a34': 'wood',
+                 '#2b2b2b': 'blackmetal', '#3a3a3c': 'blackmetal', '#eef0ee': 'tile_w', '#1f2023': 'plastic_dk', '#6a6d70': 'steel'}
+        _vc0 = vc; vc = lambda: _Route(_vc0(), ROUTE); vm = lambda: _AsTex(mesh('steel'))
     def stool(x, z, col='#8a5a34'):
         """圓木凳（概念圖門口那種）：圓座面、四支外張的腳、一圈橫撐"""
+        if CC0: ph_put('wooden_stool_01', x, 0.0, z, 0.0, height=0.46, decimate=0.05); return   # Poly Haven 圓木凳（座面高 0.46，和原本一樣）
         ccyl(vc(), (x, 0.42, z), (x, 0.46, z), 0.17, col, seg=14)
         for k in range(4): a = PI / 4 + k * PI / 2; ccyl(vc(), (x + math.cos(a) * 0.15, 0.0, z + math.sin(a) * 0.15), (x + math.cos(a) * 0.1, 0.42, z + math.sin(a) * 0.1), 0.018, '#5a3a22', seg=5)
         ccyl(vc(), (x, 0.17, z), (x, 0.19, z), 0.13, '#5a3a22', seg=10, caps=False)
     def claypot(x, y, z, r=0.085):
         """過橋米線的小砂鍋：深褐色、兩個耳、淺色的蓋"""
+        if CC0: ph_put('ceramic_pot', x, y, z, 0.0, height=r * 1.1, recolor=('#2a1a12', '#7a5640'), decimate=0.08); return   # Poly Haven 陶鍋（上成砂鍋的深褐）
         clathe(vc(), [(0.0, 0.0), (r * 0.7, 0.0), (r, r * 0.55), (r * 0.95, r * 0.9), (0.0, r * 0.9)], x, y, z, '#4a3226', seg=12)
         ccyl(vc(), (x, y + r * 0.9, z), (x, y + r * 1.1, z), r * 0.9, '#6a4a36', seg=12, r2=r * 0.3); 
         for sx in (-1, 1): vc().cbox(x + sx * r - 0.012, x + sx * r + 0.012, y + r * 0.6, y + r * 0.75, z - 0.02, z + 0.02, '#4a3226')
@@ -1289,6 +1352,7 @@ if SHOP == 'keju':
         for k in range(16): a = k * PI / 8; ccyl(vc(), (ux, uy - 0.01, uz), (ux + math.cos(a) * 0.49, uy - 0.185, uz + math.sin(a) * 0.49), 0.005, '#6a4a2a', seg=3)
     for (px, pz) in DC['pendants']: pendant(px, pz, y=2.2)
     for (px, pz) in DC['plants']:
+        if CC0: ph_put('potted_plant_01', px, 0.0, pz, 0.7, height=1.45, share=False, decimate=0.022); continue   # Poly Haven 落地盆栽
         clathe(vc(), [(0.0, 0.0), (0.17, 0.0), (0.22, 0.4), (0.0, 0.4)], px, 0.0, pz, '#a8573a', seg=12); ccyl(vc(), (px, 0.4, pz), (px, 1.1, pz), 0.025, '#6a5038', seg=5); fern(px, 1.1, pz, r=0.38, n=22)
     vc().cbox(0.25, 1.75, 0.001, 0.012, 3.55, 4.4, WINE)                                                                 # 門口腳踏墊
     vc().cbox(1.35, 1.39, H - 0.06, H - 0.03, -2.2, 4.2, '#2b2b2b')
@@ -1301,6 +1365,11 @@ if SHOP == 'keju':
 if SHOP == 'dongnan':
     WS, BS, RS, FG, RC, CT, BK = J['wallShelf'], J['backShelf'], J['rightShelf'], J['fridge'], J['rice'], J['counter'], J['baskets']
     BODY, POST, GRN, RED, YEL = '#e9e7de', '#c9c8c0', '#1f5a3e', '#d8362a', '#f0b020'
+    if CC0:   # SHOP-REALISM-1112（LAWWW2-C 11-13）：貨架本體 → 白塑膠（烤漆）、立柱和鐵桿 → 不鏽鋼、紙箱 → ambientCG 紙箱、黑色 → 深色塑膠、收銀台美耐板 → 木頭；
+        #   收銀機 → Poly Haven CashRegister_01、紅藍塑膠籃 → Poly Haven plastic_crate；一包包貨品、價格條、三角旗照舊頂點色（太小，分不到材質的紋理）
+        ROUTE = {'#e9e7de': 'plastic_w', '#f1efe6': 'plastic_w', '#eceeee': 'plastic_w', '#c9c8c0': 'steel', '#c4c8cb': 'steel', '#2a2d31': 'plastic_dk', '#1f2023': 'plastic_dk',
+                 '#c9a878': 'cardboard', '#d2b48a': 'cardboard', '#b89868': 'cardboard', '#e2d8c2': 'wood'}
+        _vc0 = vc; vc = lambda: _Route(_vc0(), ROUTE); vm = lambda: _AsTex(mesh('steel'))
     NOOD = [['#d8362a', '#f0b020', '#e86a1c', '#f4e9c8'], ['#2f8a4a', '#f0b020', '#d8362a', '#f6f1e0'], ['#e86a1c', '#7a2a8a', '#f0d040', '#d8362a'], ['#f4c8d0', '#3a7ac0', '#f0b020', '#2f8a4a']]
     DRY = [['#f1ead6', '#e8d9a8', '#f6f1e0', '#d8362a'], ['#e8d9a8', '#2f8a4a', '#f1ead6', '#f0b020']]
     def bottles(x0, x1, y, z0, z1, along, k, hmin=0.16, hmax=0.24):
@@ -1458,7 +1527,9 @@ if SHOP == 'dongnan':
     # 收銀台（淺色美耐板、墨綠踢腳）：收銀機、電子秤、糖果罐、一盒盒口香糖；上面一根桿子掛一串串零食
     vc().cbox(CT['x0'], CT['x1'], 0.1, CT['h'] - 0.04, CT['z0'], CT['z1'], '#e2d8c2'); vc().cbox(CT['x0'], CT['x1'], 0.0, 0.1, CT['z0'] - 0.005, CT['z1'], GRN); vc().crbox(CT['x0'] - 0.03, CT['x1'] + 0.03, CT['h'] - 0.04, CT['h'], CT['z0'] - 0.04, CT['z1'] + 0.02, '#f1efe6', r=0.012)
     vc().cbox(CT['x0'], CT['x0'] + 0.04, 0.0, CT['h'] - 0.04, CT['z1'], 4.5 - 1.1, '#e2d8c2')   # 櫃台側板往窗邊接一小段（客人繞不進去）
-    hC = CT['h']; vc().cbox(2.3, 2.72, hC, hC + 0.12, 2.3, 2.62, '#2a2d31'); vc().cbox(2.34, 2.68, hC + 0.12, hC + 0.36, 2.52, 2.56, '#1f2023'); vc().cbox(2.36, 2.66, hC + 0.14, hC + 0.34, 2.515, 2.52, '#8ac0e0')
+    hC = CT['h']
+    if CC0: ph_put('CashRegister_01', 2.51, hC, 2.46, 0.0, height=0.3, decimate=0.15)   # 收銀機（Poly Haven）
+    else: vc().cbox(2.3, 2.72, hC, hC + 0.12, 2.3, 2.62, '#2a2d31'); vc().cbox(2.34, 2.68, hC + 0.12, hC + 0.36, 2.52, 2.56, '#1f2023'); vc().cbox(2.36, 2.66, hC + 0.14, hC + 0.34, 2.515, 2.52, '#8ac0e0')
     vc().cbox(1.72, 2.05, hC, hC + 0.05, 2.28, 2.6, '#c4c8cb'); vc().cbox(1.74, 2.03, hC + 0.05, hC + 0.06, 2.3, 2.58, '#eceeee'); vc().cbox(1.8, 1.97, hC + 0.06, hC + 0.16, 2.56, 2.6, '#2a2d31')
     for k, col in enumerate((RED, YEL, '#2f8a4a')): ccyl(vc(), (2.86 + (k % 2) * 0.14, hC, 2.25 + k * 0.13), (2.86 + (k % 2) * 0.14, hC + 0.16, 2.25 + k * 0.13), 0.05, col, seg=8); ccyl(vc(), (2.86 + (k % 2) * 0.14, hC + 0.16, 2.25 + k * 0.13), (2.86 + (k % 2) * 0.14, hC + 0.185, 2.25 + k * 0.13), 0.052, '#f6f1e0', seg=8)
     for k in range(4): vc().cbox(2.08 + k * 0.05, 2.12 + k * 0.05, hC, hC + 0.07, 2.14, 2.24, (RED, '#3a7ac0', YEL, '#2f8a4a')[k])
@@ -1478,7 +1549,11 @@ if SHOP == 'dongnan':
         for (a, b, c, e) in ((x - w, x - w + 0.015, z - d, z + d), (x + w - 0.015, x + w, z - d, z + d), (x - w, x + w, z - d, z - d + 0.015), (x - w, x + w, z + d - 0.015, z + d)): vc().cbox(a, b, y, y + h, c, e, col)
         vc().cbox(x - w - 0.012, x + w + 0.012, y + h - 0.03, y + h, z - d - 0.012, z - d, col); vc().cbox(x - w - 0.012, x + w + 0.012, y + h - 0.03, y + h, z + d, z + d + 0.012, col)
     for k, (bx, n, col) in enumerate(((-3.08, 4, '#c8301c'), (-2.5, 3, '#2a5aa8'))):
-        for j in range(n): basket(bx, j * 0.11, 3.95, col)
+        if CC0:   # Poly Haven 塑膠籃（一疊紅、一疊藍；照原本的顏色重新上色，保留塑膠的紋路和磨損）
+            aid, rc = (('plastic_crate_01', ('#6a1208', '#e0442c')), ('plastic_crate_02', ('#14305e', '#4a86d8')))[k]
+            for j in range(n - 1): ph_put(aid, bx, j * 0.22, 3.95, 0.0, height=0.22, recolor=rc, decimate=(0.12 if k == 0 else 0.4))   # 原始 18k／5.8k 面 → 各約 2.2k
+        else:
+            for j in range(n): basket(bx, j * 0.11, 3.95, col)
     for (hx, hz, kind) in ((-3.0, 3.3, 'lamp'), (-2.35, 3.45, 'hat'), (-1.7, 3.3, 'lamp')):
         if kind == 'lamp': pendant(hx, hz, y=2.05)
         else:
@@ -1500,6 +1575,10 @@ def _tint(hexcol, t):
 if SHOP == 'liantong':
     SC, PW, CB, CT = J['showcase'], J['pegWall'], J['cabinet'], J['counter']
     BLUE, BLUE2, WHT, ALU, DK = '#1f3f9a', '#3f7ad0', '#f6f7f7', '#c4c8cb', '#1f2023'
+    if CC0:   # SHOP-REALISM-1112（LAWWW2-C 11-13）：白色櫃子、溝槽板、櫃台、盒子 → 白塑膠；鋁框、鉻柱 → 不鏽鋼；黑色櫃腳、圓凳、螢幕框 → 深色塑膠；招牌藍 → 藍塑膠；工作台面 → 木頭。手機殼、小配件、資費海報的色塊照舊頂點色（太小，分不到材質的紋理）
+        ROUTE = {c: 'plastic_w' for c in ('#f6f7f7', '#eceeee', '#f4f5f4')}
+        ROUTE.update({'#c4c8cb': 'steel', '#1f2023': 'plastic_dk', '#1f3f9a': 'plastic_blue', '#e2d8c2': 'wood'})
+        _vc0 = vc; vc = lambda: _Route(_vc0(), ROUTE); vm = lambda: _AsTex(mesh('steel'))
     CASE = ['#1f2023', '#d8362a', '#f4c8d0', '#3f7ad0', '#f0d040', '#2f8a5a', '#f6f7f7', '#7a5ab0', '#e86a1c', '#8ac0e0', '#c9a878']
     def phone(x, y, z, col, yaw=0.0, lie=True):
         """一支手機：平放（螢幕朝上）或立著靠在小架子上"""

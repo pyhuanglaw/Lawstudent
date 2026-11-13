@@ -38,6 +38,16 @@ xile)
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$xx-0.01:.3f},{$xx+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-28},1.24,0.07,$COL')")"; done; done
   for zz in -2.6 0.0 2.6; do PT="$PT;0,2.6,$zz,${FILLW:-12},$COL,0.3"; done
   SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.97,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
+yindehao)
+  # 印得好影印店（6.5×10×3.3 m）：天花板四支日光燈（x −1.22～0.22、z −3.0／−0.6／1.8／3.9；1.44×0.07 m 面光源往下，冷白）＋右側櫃台上方兩點補光（燈都在左半邊，櫃台和右牆層架只吃反彈光太暗）；
+  #   玻璃門＋兩側鋁框玻璃朝汀州路：白天天光 1.0。白天燈也開著。
+  HIDE='glass|lightpanel'
+  NOLM='lightpanel|_vc|_vcm|ph_potted|labels'
+  COL=${LCOL:-0.96,0.98,1.0}
+  for zz in -3.0 -0.6 1.8 3.9; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'-0.510,-0.490,{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-32},1.44,0.07,$COL')")"; done
+  for zz in -2.0 1.0; do PT="$PT;1.9,2.7,$zz,${FILLW:-14},$COL,0.3"; done
+  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.97,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
 *) echo "還沒做 CC0 版的店：$SHOP（先做泰米，其他五間照 SHOP_REALISM_PLAN_TZ7.md 的順序加進來）"; exit 1 ;;
 esac
 PT=${PT#;}; LIGHTS=${LIGHTS#;}

@@ -130,6 +130,7 @@
 | `potted_plant_01` | 落地盆栽兩盆（後角、門邊）（作者 Rico Cilliers） | 176,226 → 約 3,900 面 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 | `fancy_picture_frame_01` | 牆上相框四幅（v2，BB_379 末節）（作者 Rob Tuytel, Rico Cilliers） | 938 面；高 0.62 m | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 | `fern_02` | 牆上層板的植物三盆（作者 Rob Tuytel、Rico Cilliers） | 6,232 → 約 1,560 面，縮成 0.19 倍 | `assets/models/env/second_ai/tz_xile_interior.glb`（汀州路洗樂洗衣坊店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop xile`，光照 `lightbake/bake_tz_shops.sh xile`） |
+| `potted_plant_02` | 盆栽兩盆（櫃台上、玻璃門旁落地）（作者 Rico Cilliers） | 69,806 → 約 4,200 面 | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -153,6 +154,12 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Tiles036` | （同上） | 廚房後牆白磁磚（v2，校成 #e9e6de） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 | `Plastic006` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 洗衣精販賣機、洗衣籃、燈具、冷氣（白）；候位椅、藍色洗衣籃（淺藍） | `assets/models/env/second_ai/tz_xile_interior.glb`（汀州路洗樂洗衣坊店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop xile`，光照 `lightbake/bake_tz_shops.sh xile`） |
 | `Metal009` | （同上） | 洗衣機、烘衣機、兌幣機機身、滾筒門圈、層架、水槽、椅子鋼樑、鋁窗框（不鏽鋼色）；控制面板、底座（黑） | `assets/models/env/second_ai/tz_xile_interior.glb`（汀州路洗樂洗衣坊店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop xile`，光照 `lightbake/bake_tz_shops.sh xile`） |
+| `Plastic006` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 影印機機身、櫃台抽屜、燈具、冷氣、電腦主機（白）；掃描台、操作面板、螢幕、裁紙機（深灰）；大型影印機（藏青） | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
+| `Metal009` | （同上） | 鐵層架、桌腳、裁紙機刀架、圓凳腳、鋁窗框（不鏽鋼色） | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
+| `Cardboard001` | （同上） | 紙箱（後牆、層架下） | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
+| `Paper001` | （同上） | 影印紙包裝紙（粉紅、淺藍、淺黃三色；底色、白標籤、條紋是本作自己畫的，紙的紋理用 Paper001） | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
+| `Fabric036` | （同上） | 後牆布簾 | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
+| `Plaster001` | （同上） | 天花板、管線（校成 #eef0ef；牆照舊乾淨的平塗） | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 
