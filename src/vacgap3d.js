@@ -221,8 +221,8 @@ const VACGAP=(function(){
           {call:(G,GM)=>{ const X=S.tripDays(G); if(X&&X.d2!=null&&typeof STORY!=='undefined'&&STORY.travelOvernight&&GM) STORY.travelOvernight(GM,X.d2,16); }},   /* 旅館一晚：隔天下午回程 */
           {scene:'車上',bg:'car'}, ...Y.back.map(KL) ],
         after:G=>{ trip(G).Y3SUM='trip'; } },
-      { id:'ev_kexin_reunion_jp', title:'河堤', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'riverbank', hours:1.5, stage:'law',
-        dialogue:[ {scene:'河堤',bg:'riverbank'}, ...R.pre.map(KL), {choice:R.opts.map((o,i)=>({text:o.t,goto:'rj'+i}))}, ...[].concat(...R.opts.map((o,i)=>[{label:'rj'+i},...o.say.map(KL),{goto:'rje'}])),
+      { id:'ev_kexin_reunion_jp', title:'河堤', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'riverside', hours:1.5, stage:'law',
+        dialogue:[ {scene:'河堤',bg:'riverside'}, ...R.pre.map(KL), {choice:R.opts.map((o,i)=>({text:o.t,goto:'rj'+i}))}, ...[].concat(...R.opts.map((o,i)=>[{label:'rj'+i},...o.say.map(KL),{goto:'rje'}])),
           {label:'rje'}, ...R.end.map(KL) ],
         after:G=>{ flags(G).KX_REUNION_JP=true; } } ); }
   S.hookVac=function(){ if(typeof VAC==='undefined'||typeof VAC.key!=='function'||VAC.key._vacgap) return; const k0=VAC.key;
