@@ -86,6 +86,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 有空時用 iPhone 開線上版（加 `?debug`）走一圈：看會不會偶發全黑、按地圖後變黑（BUG-02、BUG-MAPBLACK）。
 - 換區域會卡一兩秒（溫州街、咖啡廳）：電腦和手機各開一次 `?perf`，把右上角的數字截圖給我們（PERF-ZONE-ENTER-1018）。
 - 三組要你生的圖（BB 會給提示詞）：社科院門口、霖澤館前兩張 2D 背景要換原創設計（現在的照抄真實建築）；南洋戲院銀幕上的電影畫面；AA_720 六場背景。
+- 兩張立繪（BB 有提示詞）：芷若在兩點半 Café 當班的圍裙版（現在那張太糊，先藏起來、當班照穿平常那套，ART-ZR-CAFE-PORTRAIT-1022）；Kevin 的立繪。
 
 ## v9.10.25（2026-11-11 15:26 UTC 合併 `dc3d33941`，PR [pyhuanglaw/Lawstudent#36](https://github.com/pyhuanglaw/Lawstudent/pull/36)；遊戲檔案＝發布樹 `f312c68cc`＝BB GO 的候選 `0d1eaadc7`＋版本字樣（`?v=9.10.25`×424、標題「版本 v9.10.25（2026-11-11）」）；Pages run 43048364768 success（build 15:28:07、deploy 完成 15:29:04 UTC））
 
