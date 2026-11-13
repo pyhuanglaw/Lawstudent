@@ -2267,6 +2267,8 @@ VACGAP_D | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_plannin
 BLACKBG_460 | 648461e26a42eb304c10c883e119c119d75f4363 | probe | docs/story_planning/test_tools/cc/cc_bg5_probe.py | index.html | 60 | BATCH=9;ORIENT=land;SHA=648461e26a42eb304c10c883e119c119d75f4363
 # CC-C 11-14 01:xx：BB_458 #6 長頸鹿鑰匙圈（其他 B～D 等 LAWWW 觸發表）
 CANON458_GIRAFFE | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 20 | CASES=GIRAFFE_A,GIRAFFE_B;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
+# BB-C 16:39：#2 D5／D6 最重要（分開那條的轉折，D103 當面）——排在 CANON458 最前面
+CANON458_D5 | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 60 | CASES=D5_FACE,D5_CALL,D6_SOUP;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 CANON458_XMAS | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 50 | CASES=XMAS_MET_A,XMAS_MET_B,XMAS_PREV,XMAS_ABROAD;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 CANON458_PG | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 50 | CASES=GRAD_KEY,GRAD_NOKEY,ORAL;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 CANON458_NIGHT | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 25 | CASES=NIGHT_MSG;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
