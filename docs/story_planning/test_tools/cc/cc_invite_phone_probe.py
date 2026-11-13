@@ -21,6 +21,7 @@ DAY = os.environ.get('DAY') or '2025-10-14'; HOUR = float(os.environ.get('HOUR')
 PICKS = [x for x in (os.environ.get('PICKS') or '吃飯>越好吃>今天').split('>') if x]
 ROUTE = [x for x in (os.environ.get('ROUTE') or 'exit:tz_yuehaochi').split('+') if x]
 REL = int(os.environ.get('REL') or 0)
+ZONE_TO = ROUTE[-1].partition(':')[2] if ROUTE else ''
 FLAGS = json.loads(os.environ.get('FLAGS') or '{}')
 EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''
 DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'
@@ -31,6 +32,7 @@ ARRIVE_LOG = int(os.environ.get('ARRIVE_LOG') or 0)   # BB-C 21:02 ⑤：到店�
 EXPECT_LINE = os.environ.get('EXPECT_LINE') or ''
 SEED_MET = [z for z in (os.environ.get('SEED_MET') or '').split(',') if z]   # BB-C 21:02 ⑥：這些人【捷徑】設成見過、初見演過（SOCIAL.meet＋talkedTo）
 SEAT_LABEL = os.environ.get('SEAT_LABEL') or ''
+ALSO = [z for z in (os.environ.get('ALSO') or '').split(',') if z]   # BB-C 22:05 INV_LIB r4：每次取樣同時印這些人（例 pool_2 蔡宗霖）的 id、座標、pose、seat，確認「她」沒認錯人
 MEET_HER = os.environ.get('MEET_HER') or ''   # BB-C 21:59 INV_LIB r3：總圖位子都帶 label，S.seatFirst 不挑＝沒有 waitSeat、坐下不開演；照程式註解直接見面——走到她 1.5 m 內、互動鍵是這個字（例「和杜可昕說話」）才按
 HER_IA = os.environ.get('HER_IA') or ''   # LAWWW-C 21:24（INV-MEET-YIELD-1113）：到了以後走到她旁邊 1 m，互動鍵要含這個字（例「和可昕說話」），不是旁人的初見   # BB-C 21:02 ⑥：坐下要按位子自己的那顆（互動鍵字含這個），不是最近的人
 VISITED = [z for z in (os.environ.get('VISITED') or '').split(',') if z]   # 11-14 BOOKSTORE：頁間這類「自己走進去過一次才列」（invites.js show:V('bookstore')）——【捷徑】墊 G.visited   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
@@ -47,8 +49,8 @@ DLGLOG_JS = r"""(()=>{ if(window.__ccDlg) return 'already'; window.__ccDlg=[]; l
   for(const id of ['dlgText','dlg','dlgName']){ const el=document.getElementById(id); if(el) new MutationObserver(rec).observe(el,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']}); }
   return 'on'; })()"""
 IV = r"""(who=>{ const v=(GAME.G.invites||[]).filter(i=>i.who===who).slice(-1)[0]; return v?JSON.parse(JSON.stringify(v)):null; })"""
-HER = r"""(who=>{ const n=GAME.npc&&GAME.npc[who]; const P=GAME.E.player, r2=v=>+(+v).toFixed(2); if(!n||!n.obj) return {none:true, zone:GAME.G.zone, h:r2(GAME.G.hour)};
-  const o=n.obj.position; return {zone:GAME.G.zone, h:r2(GAME.G.hour), x:r2(o.x), z:r2(o.z), seat:!!n.seat, pose:n.pose||null, beh:n.beh||null, d:r2(Math.hypot(o.x-P.obj.position.x,o.z-P.obj.position.z)), pSeat:!!P.seat}; })"""
+HER = r"""(who=>{ const n=(typeof INV!=='undefined'&&INV.npcOf?INV.npcOf(GAME,who):null)||(GAME.npc&&GAME.npc[who]); const P=GAME.E.player, r2=v=>+(+v).toFixed(2); if(!n||!n.obj) return {none:true, zone:GAME.G.zone, h:r2(GAME.G.hour)};
+  const o=n.obj.position; return {zone:GAME.G.zone, h:r2(GAME.G.hour), x:r2(o.x), z:r2(o.z), seat:!!n.seat, pose:n.pose||null, beh:n.beh||null, lv:n.lv|0, id:n.id||null, charId:n.charId||null, d:r2(Math.hypot(o.x-P.obj.position.x,o.z-P.obj.position.z)), pSeat:!!P.seat}; })"""
 DLG = r"""(()=>{ const d=document.getElementById('dlg'); return {dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
   choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()), busy:!!(GAME.E.player&&GAME.E.player.busy), interact:(document.getElementById('interact')||{}).textContent||'',
   toast:(document.getElementById('toast')||{}).textContent||'', phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())}; })()"""
@@ -104,22 +106,39 @@ async def talk(pg, cdp, tag, prefix, picks=None, n=80):
     return lines, menus
 
 
+async def who_where(pg):
+    out = {WHO: await pg.evaluate(HER, WHO)}
+    for a in ALSO: out[a] = await pg.evaluate(HER, a)
+    pp = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), lv:P.lv|0}; })()"); out['player'] = pp
+    return out
+
+
 async def meet_her(pg, cdp, arr):
     """BB-C 21:59：到店以後走到她 1.5 m 內，等互動鍵出現 MEET_HER 再按；是別人的鍵就往她挪（每步 0.15 m，【捷徑】）"""
     h = next((x for x in reversed(arr or []) if not x.get('none')), None)
     R.note('「到了她先坐著等（waitSeat）」在這裡不適用（總圖位子都帶 label，S.seatFirst 不挑），跳過（BB-C 21:59）')
-    if not R.check('FAIL_SETUP 檢查：到了以後她在場', bool(h), J(arr[-1:] if arr else None)): return {}
-    await L.go_to(pg, cdp, R, h['x'], h['z'], 1.2, '她面前 1.5 m 內', max_s=60); await D.settle(pg)
+    if not h: h = {'none': True, 'zone': (arr[-1] if arr else {}).get('zone')}
+    R.note('到了以後各人位置（她＝INV.npcOf(GAME,%r)）：%s' % (WHO, J(await who_where(pg))))
+    if h.get('none') or h.get('zone') != ZONE_TO:   # BB-C 22:05：她答應了卻不在約的地方＝GAME 疑點
+        await pg.screenshot(path=os.path.join(OUT, 'invp_%s_her_absent.png' % TAG))
+        R.check('GAME 疑點：她（%s）在約好的 %s（答應了卻不在場＝遊戲問題，附截圖 invp_%s_her_absent.png）' % (WHO, ZONE_TO, TAG), False, J(h)); return {}
     st = await pg.evaluate(DLG); k = 0
-    for k in range(12):
-        if MEET_HER in st['interact']: break
+    for k in range(4):   # 每一輪重新讀她現在的位置（含樓層）再走過去；她會走動
         hh = await pg.evaluate(HER, WHO)
         if hh.get('none'): break
-        await pg.evaluate("(a=>{ const P=GAME.E.player.obj.position, dx=a.x-P.x, dz=a.z-P.z, d=Math.hypot(dx,dz); if(d>0.6){ const s=Math.min(0.15,d-0.6); P.x+=dx/d*s; P.z+=dz/d*s; } if(GAME.refreshInteract) GAME.refreshInteract(); })", {'x': hh['x'], 'z': hh['z']})
-        await pg.wait_for_timeout(400); st = await pg.evaluate(DLG)
+        await L.go_to(pg, cdp, R, hh['x'], hh['z'], 1.0, '她（%s）面前 1.2 m 內（第 %d 輪）' % (WHO, k + 1), max_s=60, lv=hh.get('lv', 0)); await D.settle(pg)
+        st = await pg.evaluate(DLG); ww = await who_where(pg)
+        R.note('第 %d 輪走到以後：互動鍵「%s」；各人 %s' % (k + 1, st['interact'], J(ww)))
+        if MEET_HER in st['interact']: break
+        for _ in range(6):   # 【捷徑】往她挪（每步 0.15 m，最近 0.6 m）
+            hh = await pg.evaluate(HER, WHO)
+            if hh.get('none') or MEET_HER in st['interact']: break
+            await pg.evaluate("(a=>{ const P=GAME.E.player.obj.position, dx=a.x-P.x, dz=a.z-P.z, d=Math.hypot(dx,dz); if(d>0.6){ const s=Math.min(0.15,d-0.6); P.x+=dx/d*s; P.z+=dz/d*s; } if(GAME.refreshInteract) GAME.refreshInteract(); })", {'x': hh['x'], 'z': hh['z']})
+            await pg.wait_for_timeout(400); st = await pg.evaluate(DLG)
+        if MEET_HER in st['interact']: break
     hh = await pg.evaluate(HER, WHO)
     await pg.screenshot(path=os.path.join(OUT, 'invp_%s_meet_ia.png' % TAG))
-    R.note('走到她面前（離她 %s m，挪了 %d 步）互動鍵「%s」' % (hh.get('d'), k, st['interact']))
+    R.note('走到她面前（離她 %s m，第 %d 輪）互動鍵「%s」；各人 %s' % (hh.get('d'), k + 1, st['interact'], J(await who_where(pg))))
     if not R.check('FAIL_SETUP 檢查：互動鍵是「%s」' % MEET_HER, MEET_HER in st['interact'], st['interact']): return {}
     ms0 = await pg.evaluate("Math.round(performance.now())")
     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
@@ -136,6 +155,7 @@ async def sample(pg, tag, n, every, shot=None):
     out = []
     for j in range(n):
         out.append(await pg.evaluate(HER, WHO))
+        if ALSO and j % 4 == 0: R.note('%s 第 %d 筆 各人：%s' % (tag, j, J(await who_where(pg))))
         if shot and j in (0, n // 2, n - 1): await pg.screenshot(path=os.path.join(OUT, '%s_%02d.png' % (shot, j)))
         await pg.wait_for_timeout(every)
     R.note('%s %s' % (tag, J(out))); return out
