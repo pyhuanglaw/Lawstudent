@@ -2,7 +2,7 @@
 
 **v2（LAWWW2-C 驗收 v1 的兩點）**：①吧台高腳凳的凳面改回木頭（和吧台本體同一個 Poly Haven `walnut_veneer`）；②吧台正面直木條也改用同一個木頭材質（原本 Wood049 在 4 cm 寬的木條上太碎）。重烘、重拍全部五格。
 
-- **patch**：`docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底＝`origin/claude/adoring-meitner-mqzst8` @ `19399e5d3`；`git apply --check` 過）
+- **patch**：`docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底＝`origin/claude/adoring-meitner-mqzst8` @ `4556c4be0`；`git apply --check` 過；11-13 23:4x 重做，不再帶 cc0_kit.py）
   - 14 個檔：`aa_support/aoki.glb`（已烘焙）、`aoki.json`、`aoki_lm_day/night.webp`、`lightbake/aoki_lm.json`、建模腳本 `aa_support/aoki_interior.py`＋共用 `aa_kit.py`、`aa_int_tex.py`（開發分支原本沒有這三支，從企劃線取來）、`cc0_kit.py`（只加 `vc_tex`）、`README_aoki.md`、`README_cc0_g2.md`、`LICENSES.md`、`tests/shop_cc0_baseline.json`（拿掉 aoki）、`tests/place_gate_coplanar.json`（只換 aoki 那一列）。不含 `SHOP_STANDARD_STATUS.md`。
 - **並排圖**：`docs/art-rebuild/second_ai/cc0_g2/aoki_cmp.jpg`（參考圖 `gongguan_tea_int`；參考鏡頭、門口、從裡面朝門口、近看吧台、20:00；新版是烘焙後的遊戲內截圖，SwiftShader）
 - **測試**（套 patch 到 19399e5d3 的乾淨副本跑）：

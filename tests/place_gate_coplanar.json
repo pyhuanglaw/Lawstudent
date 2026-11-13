@@ -18,7 +18,7 @@
   "top": "WALL_right_dof_wood×WALL_right_dof_print 0.704 m² @[5.47,2.13,3.02]"
  },
  "assets/models/env/second_ai/aa_support/daybreak.glb": {
-  "sha1": "02b4fcbb08afb210b3fdbf38ecc70a08179bd2d6",
+  "sha1": "f714797089509c232854e46d3e55106a2338eeb0",
   "wall": 0.36,
   "always": 1.42,
   "top": "WALL_front_dbk_frame×WALL_front_dbk_frame 0.139 m² @[1.81,0,4.06]"
@@ -36,7 +36,7 @@
   "top": "WALL_front_mok_walnut×WALL_front_mok_wall 0.439 m² @[-2.85,0.53,7]"
  },
  "assets/models/env/second_ai/aa_support/shanlan.glb": {
-  "sha1": "882dbb947a773e37ae6763a19dee2b7ff05e411c",
+  "sha1": "ae317e5bb62171070e90c95eaf80668592afa0c6",
   "wall": 11.76,
   "always": 53.75,
   "top": "shl_wall×L2_shl_floor2 1.646 m² @[-3.73,4.2,-2.44]"
@@ -48,9 +48,9 @@
   "top": "WALL_back_sns_wood×sns_vcm 0.548 m² @[-1.2,0.33,-5]"
  },
  "assets/models/env/second_ai/aa_support/yejian.glb": {
-  "sha1": "0da54f6aaedffa21912a55441cfd58f44b32255d",
+  "sha1": "19fa5e0a8660304c14fe782d5ca84ec0af4cf8ac",
   "wall": 0.7,
-  "always": 6.78,
+  "always": 6.8,
   "top": "yej_wood×WALL_right_yej_wood 0.279 m² @[6,0.58,-3.33]"
  },
  "assets/models/env/second_ai/aa_support/yizhan.glb": {

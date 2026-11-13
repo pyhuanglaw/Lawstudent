@@ -4,8 +4,8 @@
 
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的（P2／P3） |
 |---|---|---|---|---|
-| 青木茶室 aoki | **LAWWW2 PASS**（v2，11-13 21:54）→ 已轉 LAWWW | 24957fd305 | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底 19399e5d3） | 整合時 `cc0_kit.py` 可能和便利店那版衝突：保留開發分支那一份（P2，LAWWW） |
-| Daybreak | **烘焙中**（v2：椅子、直木條改 walnut_veneer） | 50904e045（腳本） | 還沒做 | 烘完：拍五格、並排圖、patch、交 LAWWW2 |
+| 青木茶室 aoki | **LAWWW2 PASS**（v2，11-13 21:54）→ 已轉 LAWWW | （見下一個 commit） | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（11-13 23:4x 重做：底 4556c4be0、不再帶 cc0_kit.py——開發分支的 cc0_kit 有新的 part_faces，舊 patch 會把它蓋掉） | 等 LAWWW 整合 |
+| Daybreak | **已交 LAWWW2 驗收**（v2：椅子、直木條 walnut_veneer） | （見下一個 commit） | `docs/art-rebuild/second_ai/cc0_g2/daybreak_cc0.patch`（底 4556c4be0） | 等驗收 |
 | 頁間書屋 yejian | **退回自己改、等重烘**（v2：椅子改 walnut_veneer；v3：小盆栽改回葉片卡） | 4e0f33cbb（腳本） | 還沒做 | 佇列最後重烘 → 拍、交 |
 | 山嵐書店 shanlan | **等重烘**（小盆栽改回葉片卡；「從裡面朝門口」鏡頭換位置，改之前那張已重拍） | a09e6811c（腳本） | 還沒做 | 重烘 → 拍、交；7.96 萬面（大店上限 8 萬） |
 | 慢輪單車 bike | **等烘焙**（vc_tex＋收銀機掃描） | 3b7618671（腳本） | 還沒做 | 烘 → 拍、交；開發分支 cc0_kit 已有 vc_tex（LAWWW2 11-13）就不帶 cc0_kit.py |
