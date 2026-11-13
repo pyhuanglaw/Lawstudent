@@ -574,32 +574,34 @@
   },
   {
    "zone": "us_asian_market",
-   "sha": "856702f57a",
+   "sha": "379e71f77a",
    "verdict": "FAIL",
    "fail": [
-    "質感 FAIL（D159）：貨架商品整排同尺寸方塊、一格一色",
     "窗外是平平的灰街，沒有窗景層次"
    ],
    "pending": [
-    "店員：GATE_NEW3「人數 0」撤回＝TEST_BUG（探針只數 obj.visible、櫃台點離店員 >2 m；LAWWW-C 雲端截圖草原 2 位、竹葉 1 位）——CC 改 PEOPLE_JS 用 n.hidden、站到結帳前面重拍確認；客人 1bdf4848cf 已加（草原白天 8、竹葉白天 2）"
+    "店員：GATE_NEW3「人數 0」撤回＝TEST_BUG（探針只數 obj.visible、櫃台點離店員 >2 m；LAWWW-C 雲端截圖草原 2 位、竹葉 1 位）——CC 改 PEOPLE_JS 用 n.hidden、站到結帳前面重拍確認；客人 1bdf4848cf 已加（草原白天 8、竹葉白天 2）",
+    "v2（379e71f77a）BB 看圖：質感 FAIL 關——端架從近黑平板改擺促銷商品、自畫包裝圖集大小不一有空格、頂面淺色、櫃台禮盒；純色零件 19%；shop_cc0 過",
+    "P2：端架同一層盒子同尺寸同色（可加高低、缺貨空格）；促銷頭板像圖示不像印刷海報（LAWWW2 已記）；POS 改真的收銀機",
+    "正式判等窗景修好＋CC 四鏡頭"
    ],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭",
-   "at": "2026-11-12T21:1x",
-   "ref": "BB_379"
+   "at": "2026-11-13T19:5xZ",
+   "ref": "BB_379 11-13 19:5x"
   },
   {
    "zone": "us_market",
-   "sha": "856702f57a",
-   "verdict": "FAIL",
-   "fail": [
-    "質感 FAIL（D159）：貨架商品同尺寸色塊"
-   ],
+   "sha": "379e71f77a",
+   "verdict": "部分",
+   "fail": [],
    "pending": [
-    "店員：GATE_NEW3「人數 0」撤回＝TEST_BUG（探針只數 obj.visible、櫃台點離店員 >2 m；LAWWW-C 雲端截圖草原 2 位、竹葉 1 位）——CC 改 PEOPLE_JS 用 n.hidden、站到結帳前面重拍確認；客人 1bdf4848cf 已加（草原白天 8、竹葉白天 2）"
+    "店員：GATE_NEW3「人數 0」撤回＝TEST_BUG（探針只數 obj.visible、櫃台點離店員 >2 m；LAWWW-C 雲端截圖草原 2 位、竹葉 1 位）——CC 改 PEOPLE_JS 用 n.hidden、站到結帳前面重拍確認；客人 1bdf4848cf 已加（草原白天 8、竹葉白天 2）",
+    "v2（開發分支 379e71f77a，LAWWW2 PASS）BB 看圖 PASS，質感 FAIL 關：自助結帳機從純黑方塊改深灰倒角機台（掃描玻璃、螢幕框、刷卡機、裝袋台），收銀台輸送帶 Rubber004＋不鏽鋼邊；純色零件 16%；shop_cc0 過",
+    "正式判等 CC 四鏡頭（13:00、20:00）"
    ],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭",
-   "at": "2026-11-12T21:1x",
-   "ref": "BB_379"
+   "at": "2026-11-13T19:5xZ",
+   "ref": "BB_379 11-13 19:5x"
   },
   {
    "zone": "tz_wente",
