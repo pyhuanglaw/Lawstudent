@@ -2240,6 +2240,10 @@ LIMAO_GATE_131b | 131bb25e4d1c405ad657891a0b5135959a4943fc | probe | docs/story_
 # CC-C 11-14 00:0x：溫特寶邸 v2（5a6e2b07cf，用 5c96c66802）15:00 正面／斜、23:00 打烊
 TZ_WENTE_v2_1500 | 5c96c6680264aa6fe56f5450f01d848d3623c9af | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=15;DIST=9;SHA=5c96c6680264aa6fe56f5450f01d848d3623c9af
 TZ_WENTE_v2_2300 | 5c96c6680264aa6fe56f5450f01d848d3623c9af | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=23;DIST=9;SHA=5c96c6680264aa6fe56f5450f01d848d3623c9af
+# ===== CC-C 11-14 00:5x：BB_457 VACGAP 寒暑假 12 項第一批（第 8、10 項、12 的邀約第二批）@d587922b01 =====
+VACGAP_A | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 60 | CASES=W203_A,W203_B,REPAIR,BACK_IN,BACK_LATER;SHA=d587922b01345b1eae1cd207e8dd66ebc5ddc6fa
+VACGAP_B | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 60 | CASES=MXGYM,KVJP,LNY,KXHOME_F,KXHOME_D;SHA=d587922b01345b1eae1cd207e8dd66ebc5ddc6fa
+VACGAP_C | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 90 | CASES=KXY3_A,KXY3_B,OTHERS,KXY2_F,KXY2_D;SHA=d587922b01345b1eae1cd207e8dd66ebc5ddc6fa
 YUE_MEAL_r3 | 6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 25 | CASES=SIS,SISD;SHA=6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d
 # ===== CC-C 11-13 23:3x：LAWWW-C 15:31 存檔壓縮預設開（c10937dddb）——BB_384 量測＋舊存檔相容回歸（舊版＝main b3e86d9141）=====
 SAVE_LZ_c109 | c10937dddbb100a6f3b8be4b25205140d2a8e63b | probe | docs/story_planning/test_tools/cc/cc_save_lz_probe.py | index.html | 70 | SOLO=1;DEFAULT_LZ=1;FIXES=A=tests/fixtures/user_save_day54_1110.json;SHA=c10937dddbb100a6f3b8be4b25205140d2a8e63b
