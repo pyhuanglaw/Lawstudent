@@ -1,15 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       bb42456eaf..0597bc6675  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:16:42] ==== END   C1112_STAIRDIAG  exit=0  105s   ====
-[22:16:52] 正在跑：C1112_TZMEAL（已跑 16 分／上限 40 分）、C1112_TZYUE（已跑 6 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
-[22:17:00] memory 47% before starting C1112_STALLDIAG (2 running)
-[22:17:00] ==== START C1112_STALLDIAG  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[22:17:03] [res] cpu=28% mem=48% (15.1/31.4 GB) chrome_testing=10  START C1112_STALLDIAG
-[22:17:42] [res] cpu=16% mem=48% (15.1/31.4 GB) chrome_testing=9  END C1112_TZMEAL
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0597bc6675..14e373c2ee  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [22:17:52] ==== END   C1112_TZMEAL  exit=0  1040s   ====
 [22:17:55] memory 50% before starting C1112_SEASON3 (2 running)
 [22:17:55] ==== START C1112_SEASON3  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
@@ -1998,3 +1986,15 @@
 [04:01:09] [res] cpu=3% mem=42% (13.3/31.4 GB) chrome_testing=10  START CANON458_AN_BEAT6_door
 [04:01:54] 正在跑：CANON458_ENC（已跑 26 分／上限 60 分）、CANON458_DATE（已跑 25 分／上限 50 分）、CANON458_AN_BEAT6_door（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [04:05:39] [res] cpu=26% mem=41% (13.0/31.4 GB) chrome_testing=10  END CANON458_AN_BEAT6_door
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       86e2a992e4..8a961ac883  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:05:48] ==== END   CANON458_AN_BEAT6_door  exit=1  273s   ====
+[04:06:01] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[04:06:01] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[04:06:01] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[04:06:01] memory 42% before starting CANON458_AN_BEAT8_door (2 running)
+[04:06:01] ==== START CANON458_AN_BEAT8_door  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[04:06:04] [res] cpu=7% mem=42% (13.2/31.4 GB) chrome_testing=10  START CANON458_AN_BEAT8_door
+[04:06:54] 正在跑：CANON458_ENC（已跑 31 分／上限 60 分）、CANON458_DATE（已跑 30 分／上限 50 分）、CANON458_AN_BEAT8_door（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:10:46] [res] cpu=5% mem=44% (14.0/31.4 GB) chrome_testing=10  END CANON458_AN_BEAT8_door
