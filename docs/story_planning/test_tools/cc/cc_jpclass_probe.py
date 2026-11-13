@@ -1,10 +1,10 @@
 """CC-C 11-13：JPCLASS_MSGS（LAWWW-C 04:07 ⑦；src/jpclass3d.js＋src/data/jpclass_lines.js）。日文班群組 g:jp_class 的四則，照玩家打開手機看、照玩家按回覆。判定歸 BB。
 CASES（逗號分隔，預設 L2,KR,ASK_YES,ASK_NO,THANKS）：
-  L2       2027-10-26 21:27 讀檔（宿舍）→【捷徑】PHONE.join 日文班（大二日文課才會加）→ 等遊戲時間過 21:30 → 打開手機「訊息」→ 日文班 → 截圖、記全文（jpc_vet_level2）
+  L2       2027-10-26 21:15 讀檔（宿舍）→【捷徑】PHONE.join 日文班（大二日文課才會加）→ 等遊戲時間過 21:30 → 打開手機「訊息」→ 日文班 → 截圖、記全文（jpc_vet_level2）
   KR       2027-12-07 同上（jpc_korean）
-  ASK_YES  2028-04-18 20:57 讀檔 →【捷徑】PHONE.join＋JPCLASS.inJapan 改成 true（日本路線人在日本那段；探針不讀日本存檔）→ 過 21:00 → 打開那一串 → 按「好。」→ 記 CZ_VET_PHOTO、她的回覆
+  ASK_YES  2028-04-18 20:45 讀檔 →【捷徑】PHONE.join＋JPCLASS.inJapan 改成 true（日本路線人在日本那段；探針不讀日本存檔）→ 過 21:00 → 打開那一串 → 按「好。」→ 記 CZ_VET_PHOTO、她的回覆
   ASK_NO   同上，按「這週沒空。」
-  THANKS   2028-04-22 20:57 讀檔，旗標 CZ_VET_PHOTO=yes、JP.rec(G).done.cz_vet_photo＝那天（4/22 白天摘要演過）→ 過 21:00 → 看「牠好胖！」「謝謝！」
+  THANKS   2028-04-22 20:45 讀檔，旗標 CZ_VET_PHOTO=yes、JP.rec(G).done.cz_vet_photo＝那天（4/22 白天摘要演過）→ 過 21:00 → 看「牠好胖！」「謝謝！」
 CC_02 清單 2026-11-13：1✓（條件照 LAWWW-C 04:07 與 tests/canon_batch4_1112_unit.js：群組、日本、CZ_VET_PHOTO、cz_vet_photo 都設；全部標【捷徑】） 2✓（群組 id、選項字從遊戲讀：#phoneBody [data-th]、[data-ask]） 3n/a（每一則只有一個目標） 4✓（點之前確認那一串、那個回覆鍵在畫面上） 5n/a（不走路） 6✓（讀檔後等遊戲時間真的過了排定時間，最多 120 秒） 7✓（lint、node 驗 JS） 8n/a（不判數字） 9✓（手機畫面原樣截圖） 10✓（中途有對話先點完） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：真的在群組裡、時間真的過了、那一串打得開） 13n/a（不走路）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=…] python3 cc_jpclass_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -20,8 +20,8 @@ CASES = [c for c in (os.environ.get('CASES') or 'L2,KR,ASK_YES,ASK_NO,THANKS').s
 J = lambda o: json.dumps(o, ensure_ascii=False)
 R = L.Run('jpclass', OUT); D.setup(R, OUT)
 TH = 'g:jp_class'
-PLAN = {'L2': ('2027-10-26', 21.45, 21.5, None), 'KR': ('2027-12-07', 21.45, 21.5, None),   # 讀檔在排定時間前 3 分鐘（遊戲時間要真的走過去）
-        'ASK_YES': ('2028-04-18', 20.95, 21.0, '好。'), 'ASK_NO': ('2028-04-18', 20.95, 21.0, '這週沒空。'), 'THANKS': ('2028-04-22', 20.95, 21.0, None)}
+PLAN = {'L2': ('2027-10-26', 21.25, 21.5, None), 'KR': ('2027-12-07', 21.25, 21.5, None),   # 11-13 r1 KR／ASK x:cond＝讀檔等 8 秒時遊戲時間已過排定時間、還沒入群組就判了：改成提前 15 分鐘讀檔
+        'ASK_YES': ('2028-04-18', 20.75, 21.0, '好。'), 'ASK_NO': ('2028-04-18', 20.75, 21.0, '這週沒空。'), 'THANKS': ('2028-04-22', 20.75, 21.0, None)}
 MSGS = "(th=>(GAME.G.msgs||[]).filter(m=>m.th===th).map(m=>({name:m.name||m.who||'', text:String(m.text||''), h:m.h, ask:m.ask?(m.ask.opts||[]).map(o=>o.t||o.text||''):null})))"
 
 
@@ -56,7 +56,7 @@ async def one(pg, cdp, case):
     inq = await pg.evaluate("(()=>JSON.stringify(GAME.G.phone||{}).indexOf('jp_class')>=0)()")
     if not R.check('FAIL_SETUP 檢查：[%s] 在日文班群組裡' % tag, bool(inq), ''): return {'case': case, 'skip': 'not in group'}
     t0 = time.time()
-    while time.time() - t0 < 120:
+    while time.time() - t0 < 240:
         h = await pg.evaluate("+GAME.G.hour")
         if h >= due + 0.1: break
         await drain(pg, cdp); await pg.wait_for_timeout(1500)
