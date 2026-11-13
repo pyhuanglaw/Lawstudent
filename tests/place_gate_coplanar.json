@@ -108,9 +108,9 @@
   "top": "WALL_right_wall_wall×WALL_right_hp_vc 2.202 m² @[2.08,1.19,2.31]"
  },
  "assets/models/env/second_ai/bb_support/lin_interior.glb": {
-  "sha1": "9ed3a546806382f139e5bdb07fb8ad442d1e8a7c",
+  "sha1": "6064c892dcd59011160c0b10ffb385c22332e6e0",
   "wall": 0,
-  "always": 0.32,
+  "always": 0.31,
   "top": ""
  },
  "assets/models/env/second_ai/bb_support/nanyang_lobby.glb": {
@@ -150,10 +150,10 @@
   "top": "WALL_front_a23_wood×WALL_front_a23_wood 0.247 m² @[-0.58,0,6.06]"
  },
  "assets/models/env/second_ai/flower_notes_interior.glb": {
-  "sha1": "ef78dbd32f446cef8136d26b1e591eba3690d373",
-  "wall": 24.73,
-  "always": 122.43,
-  "top": "L0_vc×WALL_L0_N 13.5 m² @[-0.33,0.68,-7]"
+  "sha1": "c352e628de858c0359518d5aa78e54868594b10f",
+  "wall": 11.23,
+  "always": 99.26,
+  "top": "WALL_L0_S×WALL_L1_S 4 m² @[-4.53,3.9,7.1]"
  },
  "assets/models/env/second_ai/gg_antai_interior.glb": {
   "sha1": "829f1547708a94dfacd7bbe2022630f3be844a50",
@@ -186,10 +186,10 @@
   "top": "WALL_N_ksteel_cc0×WALL_N_ksteel_cc0 1.1 m² @[0.14,2.15,-6.2]"
  },
  "assets/models/env/second_ai/l118_home.glb": {
-  "sha1": "06fddb37f53ae111dde4011adec04bb0cb7ae75f",
+  "sha1": "d6e21982faee0b84e31831958d77034d09500968",
   "wall": 0.44,
   "always": 0.52,
-  "top": "l118_home_props×WALL_W_trim 0.317 m² @[-3.8,0.06,0.78]"
+  "top": "l118_home_wood_d×WALL_W_trim_wood_d 0.317 m² @[-3.8,0.06,0.78]"
  },
  "assets/models/env/second_ai/l118_korea.glb": {
   "sha1": "983f425cf47ea6a9b506d89eccf7a00e7b88eb67",
@@ -198,22 +198,22 @@
   "top": "WALL_N_ksteel_cc0×WALL_N_ksteel_cc0 0.78 m² @[1.09,2.15,-6.45]"
  },
  "assets/models/env/second_ai/l118_noodle2.glb": {
-  "sha1": "ed54746a94338eaf233e2481626a19821c07bf79",
-  "wall": 1.83,
-  "always": 4.67,
-  "top": "l118_noodle2_metal×WALL_E_trim 0.478 m² @[3.3,0.06,-1.37]"
+  "sha1": "79795e573a35419e0164a035aa5b6d2b578281bd",
+  "wall": 1.8,
+  "always": 4.63,
+  "top": "l118_noodle2_plastic_dk×WALL_E_trim_plastic_dk 0.472 m² @[3.3,0.06,-1.37]"
  },
  "assets/models/env/second_ai/l118_omu.glb": {
-  "sha1": "9599ab959afb27bda4267c8197cfaa5152b09003",
+  "sha1": "18dcd65a6a55cc1a44a2bea110803fd86cd0f5be",
   "wall": 0.68,
   "always": 2.89,
-  "top": "WALL_N_stall×CEIL_fix 0.624 m² @[1.17,2.98,-2.48]"
+  "top": "WALL_N_stall×CEIL_l118_omu_wood_d 0.624 m² @[1.17,2.98,-2.48]"
  },
  "assets/models/env/second_ai/l118_pasta.glb": {
-  "sha1": "73fd21bbe00dcc030ec39f540d2bf5ea0c7d9ed4",
+  "sha1": "7486786c877eb99a33510715b8e6f0ae31d610d1",
   "wall": 0.62,
   "always": 3.33,
-  "top": "WALL_N_trim×l118_pasta_steel 0.471 m² @[-1.1,0.32,-4.25]"
+  "top": "WALL_N_trim_wood_lw×l118_pasta_steel 0.471 m² @[-1.1,0.32,-4.25]"
  },
  "assets/models/env/second_ai/l118_self.glb": {
   "sha1": "afcdc06b5971605b63ad56cd157f2089a4de58d2",

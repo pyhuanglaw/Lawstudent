@@ -281,7 +281,14 @@ def begin(sid, spec, regions, atlas):
     c = LS.Shop(sid); c.extra = {}; c.REG = regions
     c.M['ceilvc'] = L.vc_material(f'l118_{sid}_ceilvc', rough=0.6)
     c.M['ceilwarm'] = L.flat(f'GLOW_l118_{sid}_ceilwarm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a'))
-    c.cf = CMesh('CEIL_fix', c.M['ceilvc']); c.cw = Mesh('CEIL_bulbs', c.M['ceilwarm'])
+    c.cf = CMesh('CEIL_fix', c.M['ceilvc']); c.cw = Mesh('CEIL_bulbs', c.M['ceilwarm']); c._cf0 = c.cf
+    if sid in LS.CC0_INT:   # SHOP-CC0-HELP-1113（D161）：CC0 材質組＋Poly Haven 模型（lane118_shops.cc0_setup，九間同一套）；天花板上的零件（軌道燈、冷氣）照顏色分到 CEIL_ 開頭的材質組網格
+        LS.cc0_setup(c); import cc0_kit as CK; R = LS.CC0_ROUTE[sid]
+        def cm_(k, n=None):
+            n = f'CEIL_l118_{sid}_{k}'
+            if n not in c.cc0m: c.cc0m[n] = Mesh(n, c.MX[k])
+            return c.cc0m[n]
+        c.cf = CK.Route(c.cf, {col: (lambda k=k: cm_(k)) for col, k in R.items()})
     return c
 
 
@@ -333,7 +340,8 @@ def ascii_map(lay):
 
 def end(c, src):
     """CEIL_* 收尾 → LS.finish（WALL_* 分組、合併、匯出、配置、導航檢查）→ 配置補上出處、縫的檢查"""
-    for m in (c.cf, c.cw): m.finish(c.root, uv=False)
+    if getattr(c, 'cc0m', None) is not None: LS.cc0_post(c)
+    for m in (c._cf0, c.cw): m.finish(c.root, uv=False)
     prob = LS.finish(c)
     p = os.path.join(LS.OUTDIR, f'l118_{c.sid}.layout.json'); lay = json.load(open(p, encoding='utf-8'))
     lay['src'] = src; bad = trap_check(lay)
@@ -554,6 +562,10 @@ def leaf(m, x, y, z, s, a, tilt, col, k=1.0):
 
 def vine(c, m, x, y, z, length, seed, n=None, spread=0.08, col='#5f9a3c', out=(0.0, 0.0)):
     """垂下來的黃金葛：一條細莖＋一片片葉子；out＝往室內偏的方向（單位向量）"""
+    if getattr(c, 'ph', None):   # CC0 的店（BB 11-13：頂點色的垂藤 FAIL）：Poly Haven 蕨類（葉子往下垂），同一個地方 0.35 m 內只放一叢
+        ferns = c.__dict__.setdefault('_ferns', [])
+        if any(abs(x - fx) + abs(z - fz) < 0.35 and abs(y - fy) < 0.3 for (fx, fy, fz) in ferns): return
+        ferns.append((x, y, z)); c.ph.put('fern_02', x + out[0] * 0.12, y - 0.05, z + out[1] * 0.12, random.Random(seed).uniform(0, 6.283), s=0.28 + 0.12 * min(length, 1.5), share=True, decimate=0.12, texres=256); return
     rr = random.Random(seed); n = n or int(length / 0.075)
     ccyl(m, (x, y, z), (x + out[0] * 0.03, y - length, z + out[1] * 0.03), 0.004, '#4a6a2c', seg=3, caps=False)
     for k in range(n):
@@ -564,6 +576,9 @@ def vine(c, m, x, y, z, length, seed, n=None, spread=0.08, col='#5f9a3c', out=(0
 
 def pot_plant(c, x, z, y=0.0, h=0.5, pot='#b9623a', col='#4f8f37', seed=1, r=0.13, m=None, n=16):
     """盆栽（陶盆＋一叢葉子）：m＝放進哪一個頂點色網格（預設 c.vc）"""
+    if getattr(c, 'ph', None):   # CC0 的店：Poly Haven 掃描盆栽（小的 potted_plant_02、落地的大盆 pachira_aquatica_01）
+        hh = h * 1.6 if h >= 0.55 else max(0.25, h * 1.1)   # 落地的也用有陶盆的 potted_plant_02 放大（pachira 沒有盆子：LAWWW2-C 11-13 退件「像從地磚長出來」）
+        c.ph.put('potted_plant_02', x, y, z, random.Random(seed).uniform(0, 6.283), s=hh / 0.6, share=True, height=0.6, part_faces=400, texres=256); return   # share：同一種盆栽共用一份網格（GLB 只存一次）；這幾間不烘光照。減面：每間店 GLB 1.5 倍、6 萬三角形以內（tests/l118_int_home_cafe2_1111_unit.js 第 5 項）
     m = m or c.vc; rr = random.Random(seed)
     clathe(m, [(0.0, 0.0), (r * 0.72, 0.0), (r, r * 1.5), (r * 1.06, r * 1.6), (0.0, r * 1.6)], x, y, z, pot, seg=10)
     for k in range(n):
