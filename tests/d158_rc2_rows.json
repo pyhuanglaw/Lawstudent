@@ -2,7 +2,7 @@
  "_meta": {
   "task": "D158-KX-SAMESCHOOL\uff0876f8 rc2\uff0cBB_467\uff09",
   "src": "\u4f01\u5283\u7dda claude/magical-albattani-bk7b4n 1d50cfaf73\uff1aAA_987 rows\uff0bpairs\u3001AA_959 \u7e3d\u8868 doc D158-KX-SAMESCHOOL",
-  "use": "\u6e2c\u8a66\u300c\u548c\u91cd\u532f\u4ee5\u524d\u6bd4\u300d\uff1a\u904a\u6232\u73fe\u5728\u7684\u5b57 new \u5148\u63db\u56de old \u518d\u6bd4\uff08tests/date_src_sha.js unD158\uff1b\u5176\u4ed6\u6e2c\u8a66 require \u9019\u4efd\uff09"
+  "use": "\u6e2c\u8a66\u300c\u548c\u91cd\u532f\u4ee5\u524d\u6bd4\u300d\uff1a\u904a\u6232\u73fe\u5728\u7684\u5b57 new \u5148\u63db\u56de old \u518d\u6bd4\uff08\u7d04\u6703\uff1atests/date_src_sha.js RC2_1113\uff0funRc2D158\uff0frc2Layer\uff1b\u5176\u4ed6\uff1atests/d158_rc2_lib.js unmap\uff0fcheck\uff1b\u532f\u5165\u5de5\u5177\u5beb\u7684\u90a3\u5e7e\u4efd\u53e6\u7531 tests/canon_b5_expect.js \u8b80 canon_b5_rows.py \u7684 #d158 \u7d44\uff09"
  },
  "rows": [
   {
