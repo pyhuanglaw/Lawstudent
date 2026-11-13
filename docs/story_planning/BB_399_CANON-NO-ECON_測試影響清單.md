@@ -87,4 +87,5 @@
   - 03:2x 76f8 黑底盤點：6 段 33 句＝基準，沒有回退（BB_460）——「黑底回來」這條 PASS。76f8 第一批：D5、D1C PASS；GIRAFFE B PASS、A 重跑（BB_458）。
 - **03:3x 補（BB 漏派）：76f8 的常規發布前回歸 REL_76f8 也是 GO 條件**——p0、reachability_all（含溫州街、公館）、touch（含 touchwz）、save_compat v95／v7／start1、social_smoke 全項、TEST-04 四流程（flow_lib_tour、flow_ladder_y1s2 直／橫、載妹墊 cc_car_probe、週末回家 flow_vac_hometown）＋flow_skybridge。v9.10.20／21 都照這組判 GO，TEST-04 和 TEST-SOCIAL-SMOKE-1104 寫明「每個發布候選照跑、沒跑＝不 GO」。已派 CC（P0，CANON458 後、DATE_LAYER／FULL 前）。發布樹 deploy_check 等 LAWWW 合 main、Pages 上線後跑。
 - **GO 條件更新**：CANON 四組（B2_r5、CANON458、DATE_LAYER、FULL_a／b）＋REL_76f8 全過＋GHA run 780 綠＋releasegate 0。
+- **03:3x GHA 綠**：node-unit-auto run 780（15710903ed）19:28:48 UTC success（全部 Node 單元測試 19:07～19:28 綠）＝候選 76f8 綠（BB 03:1x 核對過只差新模型基準）。**GO 剩**：#12 法圖 r2、GIRAFFE_A r2、B2_r5、CANON458 其餘行、DATE_LAYER＋NODL、REL_76f8（2285～2296）、FULL_a／b、releasegate 0。GO 後 LAWWW 做發布樹 9.10.26 → main → Pages → BB 排 deploy_check。
 
