@@ -1,11 +1,11 @@
 {
- "objects": 51,
- "unique_meshes": 51,
+ "objects": 50,
+ "unique_meshes": 50,
  "tris": 55370,
  "tris_drawn": 55370,
- "materials": 31,
+ "materials": 30,
  "out": "assets/models/env/second_ai/aa_support/daybreak.glb",
- "bytes": 4802024,
+ "bytes": 4683220,
  "texres": 512,
  "layout": 2,
  "seats": 23,
@@ -13,10 +13,6 @@
   [
    "ambientCG",
    "Plastic006"
-  ],
-  [
-   "ambientCG",
-   "Wood049"
   ],
   [
    "ambientCG",
