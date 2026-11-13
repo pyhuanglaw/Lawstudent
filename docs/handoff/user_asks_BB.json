@@ -270,9 +270,9 @@
    "at": "2026-11-04T04:4xZ",
    "quote": "請為 Lawstudent 現有的 Playwright 自動測試系統，建立「測試失敗時自動重跑、收集 Trace、保存證據、協助 AI 判斷原因」的機制。……由 CC 負責規劃與實作，BB 負責驗收。（全文 BB_256）",
    "kind": "原話",
-   "status": "已驗收",
+   "status": "已完成",
    "task": "TEST-TRACE-1104",
-   "note": "規格全文與 BB 驗收清單 V1～V14 在 docs/story_planning/BB_256_Playwright失敗追蹤規格.md；USER_WANTS 列請 LAWWW 開；11-13 16:2x LAWWW-C 把 TEST-TRACE-1104 改已驗收（X211 同步），這筆跟著改"
+   "note": "規格全文與 BB 驗收清單 V1～V14 在 docs/story_planning/BB_256_Playwright失敗追蹤規格.md；USER_WANTS 列請 LAWWW 開；11-13 16:2x LAWWW-C 把 TEST-TRACE-1104 改已驗收（X211 同步），這筆跟著改；11-13 19:4x status 改「已完成」（「已驗收」不是 asks 允許的值，LAWWW-C 提醒）"
   },
   {
    "id": "UA-BB-1104-ART-REF-VARIETY",
