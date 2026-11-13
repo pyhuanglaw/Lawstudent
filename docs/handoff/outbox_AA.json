@@ -7647,6 +7647,36 @@
    "noDirectIntegrate": false,
    "next": "等 BB",
    "unfinished": "BB 第二眼"
+  },
+  {
+   "task": "VAC-GAP-ROUTES",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e205f4623b",
+   "files": [
+    "docs/story_planning/AA_934_美國路線重讀_可昕.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T10:1x",
+   "receiver": "LAWWW",
+   "ack": "BB_454 照用；LAWWW-C SENT",
+   "noDirectIntegrate": false,
+   "next": "排 AA_932 後接",
+   "unfinished": ""
+  },
+  {
+   "task": "BB198-VACB22",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "329ead6bd7",
+   "files": [
+    "docs/story_planning/AA_933_假期空白_第五批_回家回臺北訊息.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T09:3x",
+   "receiver": "LAWWW",
+   "ack": "BB_456 照用；LAWWW-C ACK",
+   "noDirectIntegrate": false,
+   "next": "第五批後接；可昕日子跟 homeAway",
+   "unfinished": ""
   }
  ],
  "items": [
