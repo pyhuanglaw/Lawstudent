@@ -9700,6 +9700,25 @@
    "tests": "套用後 shop_cc0 四間 PASS；tz_*、gg_*、shop_*、limao* 全過；place_gate 已 --write（含在 patch）ALL PASS",
    "notDone": "BB 美術判定；CC 遊戲內四鏡頭；一盞天花板藏起來（P3）",
    "next": "LAWWW 套 patch；BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-INTERIOR-VIEW-1112",
+   "title": "一盞（wz_teahouse）天花板 2.6→2.9 m（yizhan.glb 2.34 m 以上頂點抬高 0.3 m、配置 h、WZ_CAMDIST teahouse 3.2）：地點關卡天花板那項過了、已知未過 14→13",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/yizhan_ceiling_1113/yizhan_ceiling_1113.patch",
+    "docs/art-rebuild/second_ai/wip/yizhan_ceiling_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/yizhan_ceiling_1113/yizhan_ceiling_cmp.jpg"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 0f9c78d37f",
+   "tests": "place_gate ALL PASS（--coplanar、--write 已含）；yizhan／teahouse 相關＋wz_*＋shop_cc0 共 102 支全過",
+   "notDone": "光照貼圖沒重烘（牆上緣跟著拉長）；BB 看圖；CC 遊戲內抬頭拍",
+   "next": "LAWWW 等 GHA 結束後套 patch；BB 判"
   }
  ]
 }
