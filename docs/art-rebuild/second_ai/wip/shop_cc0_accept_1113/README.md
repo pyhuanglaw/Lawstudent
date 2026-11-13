@@ -22,3 +22,16 @@
 - 回歸：gg_new_lm、gg_real_inside_1112、gg_interiors_1104、seat_reach、tap_seat_reach、l118_seat_reach、shop_viewpanes／viewpanes2 ALL PASS。
 - **LAWWW 套 `aoki_v2_full.patch`**（底 19399e5d39）：g2 的 patch＋重產的 `SHOP_STANDARD_STATUS.md`。
 - 還沒做：CC 第二層四鏡頭、BB 判美術。
+
+## 阿德影印 v2（幫手 g4，claude/shop-cc0-g4 17538fd36）— PASS（附一個之後補的 P2）
+
+- 驗收底：開發分支 19399e5d39，套 g4 的 `docs/art-rebuild/second_ai/shop_cc0_g4/ade_v2.patch`。乾淨；這一份已經含重產的狀態表、coplanar，**LAWWW 直接套 g4 的 patch**。
+- `shop_cc0` 三項過：Poly Haven potted_plant_01、desk_lamp_arm_01、vintage_stapler；ambientCG 材質組；純色零件 14%。
+- `place_gate` ALL PASS；`--coplanar` 沒有新的。
+- 回歸：ade_seat_clip、ade_seats_nav、ade_v1c、gg_new_lm、wall_dir_inherit、wz_shops／shops2／shops_cam／shops_lm、wz_work_spots、zq_arcade_* 等 17 支 ALL PASS。
+- 看圖：
+  - 前面的大盆栽換成掃描的真盆栽。
+  - 金屬、塑膠、紙箱有紋路。
+  - 整體和參考圖的配置一樣。
+- **P2（下一輪補，不擋整合）**：鐵層架上的便利貼一排四塊大小一樣（D159「同類東西大小、角度要有變化」）。請 g4 南洋做完以後改成高低、大小、角度不一，有的拆封散開，然後重烘。
+- 還沒做：CC 第二層四鏡頭、BB 判美術。
