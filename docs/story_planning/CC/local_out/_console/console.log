@@ -1,14 +1,3 @@
-       4f1b053a4f..2b587bbefc  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[20:56:08] ==== END   L5F03_VENDORS  exit=1  201s   ====
-[20:56:15] [res] cpu=0% mem=36% (11.5/31.4 GB) chrome_testing=4  END SSB_l118b
-[20:56:15] memory 36% before starting L2C82_ALL (2 running)
-[20:56:15] ==== START L2C82_ALL  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[20:56:18] [res] cpu=5% mem=37% (11.5/31.4 GB) chrome_testing=4  START L2C82_ALL
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       2b587bbefc..d8f2893846  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[20:56:29] ==== END   SSB_l118b  exit=1  2182s   ====
 [20:56:52] 正在跑：L5F03_CLOSED8（已跑 2 分／上限 40 分）、L2C82_ALL（已跑 0 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:56:57] memory 42% before starting L77DE_ALL (2 running)
 [20:56:57] ==== START L77DE_ALL  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
@@ -1998,3 +1987,14 @@
 [03:20:42] [res] cpu=3% mem=42% (13.2/31.4 GB) chrome_testing=9  START CANON458_INV_LAWLIB
 [03:21:53] 正在跑：CANON458_PG（已跑 13 分／上限 50 分）、CANON458_ANNIV（已跑 1 分／上限 40 分）、CANON458_INV_LAWLIB（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:22:14] [res] cpu=3% mem=42% (13.3/31.4 GB) chrome_testing=10  END CANON458_INV_LAWLIB
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c79635eb3f..1525b7a313  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:22:22] ==== END   CANON458_INV_LAWLIB  exit=1  96s   ====
+[03:22:25] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[03:22:25] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[03:22:25] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[03:22:25] memory 42% before starting CANON458_INV_BADM (2 running)
+[03:22:25] ==== START CANON458_INV_BADM  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:22:28] [res] cpu=2% mem=42% (13.4/31.4 GB) chrome_testing=10  START CANON458_INV_BADM
+[03:25:35] [res] cpu=4% mem=44% (13.9/31.4 GB) chrome_testing=10  END CANON458_PG
