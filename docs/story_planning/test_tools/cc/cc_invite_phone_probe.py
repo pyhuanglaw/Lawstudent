@@ -26,13 +26,24 @@ EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''
 DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'
 START = [float(v) for v in (os.environ.get('START') or '').split(',') if v] or None   # 讀檔站的位置 x,z
 SEAT_R = float(os.environ.get('SEAT_R') or 1.8)   # BB-C 11-14 LAWLIB：她旁邊找空位的半徑（法圖 T7 隔壁那張約 1.6～2 m）
+TRUST = int(os.environ.get('TRUST') or 0); COMF = int(os.environ.get('COMF') or 0)   # BB-C 21:02 ⑤：第 6、8 拍要第 4 階（熟悉 ≥60、信任 ≥45、自在 ≥40）——【捷徑】直接設到至少這個數
+ARRIVE_LOG = int(os.environ.get('ARRIVE_LOG') or 0)   # BB-C 21:02 ⑤：到店以後 N 秒，一邊點對話一邊記每一句（對話框文字一換就記，不靠輪詢）
+EXPECT_LINE = os.environ.get('EXPECT_LINE') or ''
+SEED_MET = [z for z in (os.environ.get('SEED_MET') or '').split(',') if z]   # BB-C 21:02 ⑥：這些人【捷徑】設成見過、初見演過（SOCIAL.meet＋talkedTo）
+SEAT_LABEL = os.environ.get('SEAT_LABEL') or ''   # BB-C 21:02 ⑥：坐下要按位子自己的那顆（互動鍵字含這個），不是最近的人
 VISITED = [z for z in (os.environ.get('VISITED') or '').split(',') if z]   # 11-14 BOOKSTORE：頁間這類「自己走進去過一次才列」（invites.js show:V('bookstore')）——【捷徑】墊 G.visited   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 MEET = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
   const AL={heroine_01:['met_an','AN_NAME_TOLD'],heroine_05:['met_sis']}; for(const k of (AL[a.who]||[])) G.flags[k]=true; try{ SOCIAL.meet(a.who,G.zone); if(SOCIAL.talkedTo) SOCIAL.talkedTo(a.who); }catch(e){} 
   if(a.rel&&SOCIAL.adjust){ try{ SOCIAL.adjust(a.who,{fam:a.rel,trust:Math.round(a.rel*0.7),comf:Math.round(a.rel*0.7),seen:20,talked:20}); }catch(e){} }
-  let st=null; try{ st=SOCIAL.stage(a.who); }catch(e){} return {stage:st, money:G.money|0}; })"""
+  if((a.trust||a.comf)&&SOCIAL.rel){ try{ const r=SOCIAL.rel(a.who); if(a.trust) r.trust=Math.max(r.trust|0,a.trust); if(a.comf) r.comf=Math.max(r.comf|0,a.comf); }catch(e){} }
+  let st=null, rv=null; try{ st=SOCIAL.stage(a.who); const r=SOCIAL.rel(a.who); rv={fam:r.fam,trust:r.trust,comf:r.comf}; }catch(e){} return {stage:st, rel:rv, money:G.money|0}; })"""
+DLGLOG_JS = r"""(()=>{ if(window.__ccDlg) return 'already'; window.__ccDlg=[]; let last='';
+  const rec=()=>{ try{ const D=GAME.D||{}, d=document.getElementById('dlg'); if(!d||d.classList.contains('hide')) return; const t=String(D.full||(document.getElementById('dlgText')||{}).textContent||'').trim(); const w=((document.getElementById('dlgName')||{}).textContent||'').trim();
+    const k=w+'｜'+t; if(t&&k!==last){ last=k; window.__ccDlg.push({ms:Math.round(performance.now()), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone, who:w, t}); } }catch(e){} };
+  for(const id of ['dlgText','dlg','dlgName']){ const el=document.getElementById(id); if(el) new MutationObserver(rec).observe(el,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']}); }
+  return 'on'; })()"""
 IV = r"""(who=>{ const v=(GAME.G.invites||[]).filter(i=>i.who===who).slice(-1)[0]; return v?JSON.parse(JSON.stringify(v)):null; })"""
 HER = r"""(who=>{ const n=GAME.npc&&GAME.npc[who]; const P=GAME.E.player, r2=v=>+(+v).toFixed(2); if(!n||!n.obj) return {none:true, zone:GAME.G.zone, h:r2(GAME.G.hour)};
   const o=n.obj.position; return {zone:GAME.G.zone, h:r2(GAME.G.hour), x:r2(o.x), z:r2(o.z), seat:!!n.seat, pose:n.pose||null, beh:n.beh||null, d:r2(Math.hypot(o.x-P.obj.position.x,o.z-P.obj.position.z)), pSeat:!!P.seat}; })"""
@@ -109,7 +120,13 @@ async def main():
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=START[0], z=START[1], wait=7000) if START else await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)   # BB-C 11-14：門口那一份從門口附近開始（從公館另一頭走 77 m，路上點到別家的門）
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
-        m = await pg.evaluate(MEET, {'who': WHO, 'rel': REL}); res['meet'] = m
+        R.note('對話紀錄（MutationObserver 掛在 #dlgText／#dlg／#dlgName，每換一句記一筆）：%s' % await pg.evaluate(DLGLOG_JS))
+        m = await pg.evaluate(MEET, {'who': WHO, 'rel': REL, 'trust': TRUST, 'comf': COMF}); res['meet'] = m
+        if TRUST or COMF: R.setup('【捷徑】%s 信任至少 %d、自在至少 %d → 關係 %s、階段 %s' % (WHO, TRUST, COMF, J(m.get('rel')), m.get('stage')))
+        if SEED_MET:
+            sm = await pg.evaluate("(ids=>ids.map(id=>{ try{ SOCIAL.meet(id,GAME.G.zone); if(SOCIAL.talkedTo) SOCIAL.talkedTo(id); }catch(e){ return [id,'ERR '+e.message]; } return [id, typeof POOL!=='undefined'&&POOL.met?POOL.met(GAME.G,id):SOCIAL.has(id,'FIRST_MET')]; }))", SEED_MET)
+            R.setup('【捷徑】設成見過、初見演過（SOCIAL.meet＋talkedTo）：%s' % J(sm))
+            if not R.check('FAIL_SETUP 檢查：%s 都已經算見過' % ','.join(SEED_MET), all(x[1] is True for x in sm), J(sm)): await b.close(); sys.exit(1)
         if VISITED:
             vv = await pg.evaluate("(a=>{ const G=GAME.G; G.visited=G.visited||{}; for(const z of a) G.visited[z]=true; return a.map(z=>[z,!!G.visited[z]]); })", VISITED)
             R.setup('【捷徑】墊「去過」G.visited %s（這類地點要自己走進去過一次才會出現在約人的選單）' % J(vv))
@@ -176,11 +193,30 @@ async def main():
                 R.note('[%d] SHOP_HOURS（%s）：%s' % (n, arg, J((sh or {}).get(arg) if isinstance(sh, dict) else sh)))
                 await pg.screenshot(path=os.path.join(OUT, 'invp_%s_door_after.png' % TAG))
             if not s2 or s2.get('zone') != arg: break
-        arr = await sample(pg, '進店 12 秒（每 0.5 秒）她：', 24, 500, 'invp_%s_arrive' % TAG)
+        if ARRIVE_LOG:   # BB-C 21:02 ⑤：到店就自動坐下開演——ARRIVE_LOG 秒內每 0.5 秒記她一次、對話點下去（選單點第一個），每一句由對話紀錄記
+            ms0 = await pg.evaluate("Math.round(performance.now())"); arr = []
+            for j in range(ARRIVE_LOG * 2):
+                arr.append(await pg.evaluate(HER, WHO))
+                if j in (0, ARRIVE_LOG, ARRIVE_LOG * 2 - 1): await pg.screenshot(path=os.path.join(OUT, 'invp_%s_arrive_%02d.png' % (TAG, j)))
+                st = await pg.evaluate(DLG)
+                if st['choices']:
+                    R.note('到店以後的選單 %s → 點第一個' % J(st['choices'])); await pg.screenshot(path=os.path.join(OUT, 'invp_%s_arrive_menu_%02d.png' % (TAG, j)))
+                    await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()")
+                elif st['dlg']:
+                    await L.tap(pg, cdp, '#dlg')
+                await pg.wait_for_timeout(500)
+            R.note('到店 %d 秒（每 0.5 秒）她：%s' % (ARRIVE_LOG, J(arr)))
+            dl = await pg.evaluate("(m=>(window.__ccDlg||[]).filter(x=>x.ms>=m))", ms0); res['arrive_log'] = dl
+            R.note('到店 %d 秒的對話紀錄（%d 句）：%s' % (ARRIVE_LOG, len(dl), J(dl)))
+            if EXPECT_LINE: R.check('到店以後有那一句「%s」（BB-C 21:02）' % EXPECT_LINE, any(EXPECT_LINE in x['t'] for x in dl), J([x['t'] for x in dl][:12]))
+        else:
+            arr = await sample(pg, '進店 12 秒（每 0.5 秒）她：', 24, 500, 'invp_%s_arrive' % TAG)
         iv2 = await pg.evaluate(IV, WHO); res['arrive'] = {'her': arr, 'iv': iv2}
         R.note('進店以後邀約紀錄：%s' % J(iv2))
         nseat = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.seat&&!i.hidden).length)()")
-        if nseat:
+        pseat = bool(arr and arr[-1].get('pSeat'))
+        if pseat: R.note('到店以後玩家已經坐下（pSeat true）：不再找她旁邊的空位（BB-C 21:02 ⑤）')
+        if nseat and not pseat:
             R.check('到了她先坐著等（坐下、iv.waitSeat 有）', any(x.get('seat') for x in arr) and bool((iv2 or {}).get('waitSeat') or (iv2 or {}).get('state') == 'done'), J([arr[-1:], iv2]))
         else:   # BB-C 11-14 INV_BADM_r2 判：羽球場這種沒有座位的地方，她在場站著等也算
             R.check('到了她在場等（這裡沒有玩家能坐的位子，站著等也算）', any(not x.get('none') for x in arr), J([arr[-1:], iv2]))
@@ -193,9 +229,18 @@ async def main():
         R.note('她旁邊的空位：%s' % J(seat))
         m0 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})")
         if not nseat: R.note('這裡沒有座位：不找空位、不坐（BB-C 11-14）'); seat = None
+        if pseat: nseat = 0; seat = None
         if nseat and R.check('她旁邊有空位可以坐', bool(seat), J(ws)):
             await L.go_to(pg, cdp, R, seat['x'], seat['z'], 0.3, seat['label'] or '她旁邊的位子', max_s=60, lv=seat['lv']); await D.settle(pg)
             st = await pg.evaluate(DLG); R.note('走到她旁邊的位子，互動鍵「%s」' % st['interact'])
+            if SEAT_LABEL and SEAT_LABEL not in st['interact']:   # BB-C 21:02 ⑥：最近的是人（「和常在圖書館的男生說話」）——【捷徑】往座位本身挪 0.15 m 一步，直到互動鍵是那張位子自己的字
+                for k in range(8):
+                    await pg.evaluate("(a=>{ const P=GAME.E.player.obj.position, dx=a.x-P.x, dz=a.z-P.z, d=Math.hypot(dx,dz); if(d>0.05){ const s=Math.min(0.15,d); P.x+=dx/d*s; P.z+=dz/d*s; } if(GAME.refreshInteract) GAME.refreshInteract(); })", {'x': seat['sx'], 'z': seat['sz']})
+                    await pg.wait_for_timeout(400); st = await pg.evaluate(DLG)
+                    if SEAT_LABEL in st['interact']: break
+                R.setup('【捷徑】往座位本身挪（每步 0.15 m，%d 步）→ 互動鍵「%s」' % (k + 1, st['interact']))
+                if not R.check('FAIL_SETUP 檢查：互動鍵是位子自己的「%s」' % SEAT_LABEL, SEAT_LABEL in st['interact'], st['interact']):
+                    await pg.screenshot(path=os.path.join(OUT, 'invp_%s_seatlabel.png' % TAG)); await b.close(); sys.exit(1)
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
             l2, mm2 = await talk(pg, cdp, '坐下以後', 'invp_%s_table' % TAG)
             m1 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})"); iv3 = await pg.evaluate(IV, WHO)
