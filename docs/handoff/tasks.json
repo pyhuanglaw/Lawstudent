@@ -53084,7 +53084,8 @@
     "acceptance": "AA 定稿（D109、D137）；LAWWW 匯入；BB 測選項效果",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "note": "2026-11-13 LAWWW-C：AA_959 覆寫表（6ccf6669f8，405 列）已整合進開發分支 4f33890792（源稿不動，11 支匯入工具寫檔前最後一步照表換＋手寫檔 aa959.py --apply-hand；123 支測試跟著改，全綠）。AA 新版 1243649c23（505 列）在 claude/aa959-v505-wip（db35a9e824）由子代理改測試中，完成後合併。SKIP 10 列（說話的人對不上）已報 AA；表 _meta.count 480≠505 已請 AA 修。"
   },
   {
    "id": "MOVIE-TALK-1110",
