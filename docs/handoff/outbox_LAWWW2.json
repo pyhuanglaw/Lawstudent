@@ -9478,10 +9478,10 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "38246bb81b",
    "receiver": "LAWWW",
-   "ack": null,
-   "state": "已交付",
+   "ack": "LAWWW-C 2026-11-13 13:41Z",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-REALISM-1112",
    "title": "洗樂洗衣坊 CC0 v2（BB_379：滾筒門看得到玻璃＋不鏽鋼內筒、網孔、擋板；補從店裡朝門口的鏡頭）",
@@ -9491,7 +9491,8 @@
     "docs/art-rebuild/second_ai/wip/tz_xile_cc0_1113/v2/cmp_xile_v2.jpg"
    ],
    "remaining": "海報、洗衣精瓶（P2）；手機效能（GLB 2.8 MB）",
-   "next": "LAWWW-C git apply（底 ebac31a76e）＋place_gate --write → CC 拍 → BB 判；我接印得好 CC0 v1"
+   "next": "LAWWW-C git apply（底 ebac31a76e）＋place_gate --write → CC 拍 → BB 判；我接印得好 CC0 v1",
+   "integratedAt": "30ca42cbf1"
   }
  ]
 }
