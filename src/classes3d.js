@@ -1233,7 +1233,7 @@ const CLS=(function(){
     if(!o.forced&&!o.fromHome&&hr(G)<pl.depart-0.02&&pl.depart-hr(G)>0.06){ const ok=await S.skipTo(GM,pl.depart); if(!ok) return false; if(hr(G)<pl.depart-0.02){ contP={day:G.day,key:it.key}; return false; } pl=S.goPlan(GM,it); }   /* BUG-GOCLASS-WINDOW-1102（BB_218 6865）：離出門不到 3 分鐘＝直接出門（skipTo 對 3 分鐘以內的跳轉回 false，原本按了沒反應）。等待照跳過時間的規則（停點：約好的時間、特殊課堂、劇情）；停下來的話，劇情演完出「繼續去上課」*/
     if(S.status(G,it)==='missed'){ GM.toast(it.c.name+'已經快下課了，現在進去不算出席。',3600); return false; }
     const d=pl.d, pe=S.peGoClass(G,it); if(G.zone!==(pe?pe.zone:d.zone)||o.fromHome){   /* BUG-PE-CLASS-1107：體育課的目的地是體育館裡（球場中圈／游泳週 B1），不是校園門口 */ if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
-      const stop=o.forced?null:S.routeStop(GM,it,pl,o);   /* 路上的事件（R2，DL-04B）：經過的區域有到達時就會演的【固】【必】＝停在那裡，照常進去讓事件演（STORY.onEnter→EVENTS.onEnter、auto 照 tick）；
+      const stop=(o.forced||it.exam)?null:S.routeStop(GM,it,pl,o);   /* STUDY_SE06（BB_255 11-13）：一鍵到下一堂課／手機直接去上課碰到考試也不在路上停（原本只有自動帶進考場 forced 不停；路上的事件若到了沒演，每按一次就停一次、走不到考場）*/   /* 路上的事件（R2，DL-04B）：經過的區域有到達時就會演的【固】【必】＝停在那裡，照常進去讓事件演（STORY.onEnter→EVENTS.onEnter、auto 照 tick）；
                                                               演完 S.oneTick 出「繼續去上課」（contP），從那裡照 goPlan 接著走、時間照實際的算（可能因此遲到）。考試帶進考場（forced）不停 */
       if(stop){ GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',(pl.mrt?'坐捷運、轉公車往':(pl.bike?'騎腳踏車往':'走路往'))+bldName(it)+'去。',2400); GM.advance(stop.leg/60); await GM.sleep(500); } finally { GM.sceneEnd(); }
         await GM.enter(stop.zone,stop.spawn); contP={day:G.day,key:it.key}; return false; }
