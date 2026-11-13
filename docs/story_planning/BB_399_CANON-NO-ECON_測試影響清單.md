@@ -79,4 +79,8 @@
   - 118 天每天 pageerror 0、walkFallbacks 0；期末三場都考到。
   - 範圍：實際跑到 12/20（探針時間上限），設定的 UNTIL 1/25 沒到——**大一寒假 12/21～1/25 這輪沒驗**；發布候選 SHA 那一輪要把 UNTIL 拉到寒假結束或分兩段跑。
   - 不能直接當 GO：d21c 之後還有 27001／4af4／4896／74ed 的改動（見上一節）。
+- **03:0x LAWWW 定發布候選 76f8b639f0**（含 CANON 全部 27001／4af4／4896、VACGAP 74ed、座位修正、第四五批店、美國超市 v2、cafe2 烘焙版、DATE-S6、窗景 gate）。本機 Node 0 FAIL；**GHA node-unit-auto 要在這一版綠了才算**（上一輪紅是 place_gate 疊面基準，17565f19fe 已補）。之後只收 P0／擋發布的修正。
+  - 已派 CC（P0、排最前面）：B2_r5 → CANON458 19 行（含 #17 四版）→ DATE_LAYER＋NODL → FULL_a（8/22～12/20）→ FULL_b（接到 2026-02-23）。全部 76f8b639f0。
+  - GO 條件：四組照本節標準全過＋GHA 綠＋`check_handoff.py releasegate` 結束碼 0。
+  - 03:0x BB 靜態：76f8b639f0 的 src＋index.html 跑 canon_scan＝**禁字 0、前提警告 0**；releasegate 現況 6 項中 5 項已驗收，只差 X364（CANON-NO-ECON-1112）。
 
