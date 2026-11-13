@@ -1,0 +1,27 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_BAR\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['BAR_FACE']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [BAR_FACE] 最小存檔讀到 2029-02-23 7.83 dorm（Y4S2 第 1 週）
+  [前置／捷徑] 【捷徑】[BAR_FACE] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"Y4_PATH": "bar"}}
+  [  46.1s] [BAR_FACE] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"Y4_PATH": "bar"}}
+PASS FAIL_SETUP 檢查：[BAR_FACE] 遊戲時間過了 8.20（現在 2029-02-23 8.21）
+  [  95.0s] [BAR_FACE_0223] 手機 p:kexin 打得開=True；這一串（G.msgs）[]
+  [  95.6s] [BAR_FACE] 排著的讀書小組 [{"id": "y4_bar_group_start", "ev": "ev_bar_group_start", "day": "2029-02-23", "h": 21.5, "place": "大口漢堡", "title": "律師讀書小組（大口漢堡）"}]
+  [前置／捷徑] [前置] 同一份進度跳到 2029-02-23（Y4S2 第 1 週）21.00 時 dorm；BAR_FACE y4_bar_group_start
+  [ 121.3s] [BAR_FACE_1_y4_bar_group_start_a] 對話（事件 None）：選項 [["出發：律師讀書小組（大口漢堡）21:30　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"]]；選了 ["出發：律師讀書小組（大口漢堡）21:30　走過去約 15 分鐘"]；GAME.say []
+  [ 137.3s] [BAR_FACE_1_y4_bar_group_start_b] 對話（事件 ev_bar_group_start）：選項 []；選了 []；GAME.say [["", "（開學第一個週五晚上，大口漢堡二樓。可昕已經坐在長桌最裡面，考古題攤開了。）"], ["杜可昕", "每週一、三、五晚上，週六整天。……有意見現在說。"], ["杜可昕", "到八月，每個禮拜這幾天，我都在這張桌子。你來不來我都會念。"], ["杜可昕", "你哪一科最怕，現在講。我們從那一科開始。"]]
+  [ 137.3s] [BAR_FACE] 第 1 場 ev_bar_group_start（2029-02-23 大口漢堡）之後在 xs_dakou
+  [ 137.3s] [BAR_FACE] 排著的讀書小組 [{"id": "y4_bar_out_1259", "ev": "ev_bar_group_out", "day": "2029-02-26", "h": 21, "place": "大口漢堡", "title": "律師讀書小組（大口漢堡）"}]
+  [前置／捷徑] [前置] 同一份進度跳到 2029-02-26（Y4S2 第 2 週）20.50 時 dorm；BAR_FACE y4_bar_out_1259
+  [ 151.3s] [BAR_FACE_2_y4_bar_out_1259_a] 對話（事件 None）：選項 [["出發：律師讀書小組（大口漢堡）21:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "今天先不讀"]]；選了 ["出發：律師讀書小組（大口漢堡）21:00　走過去約 15 分鐘"]；GAME.say []
+  [ 160.9s] [BAR_FACE_2_y4_bar_out_1259_b] 對話（事件 ev_bar_group_out）：選項 []；選了 []；GAME.say [["杜可昕", "刑總那題，你先講結論，再講理由。講完我再問。"]]
+  [ 161.0s] [BAR_FACE] 第 2 場 ev_bar_group_out（2029-02-26 大口漢堡）之後在 xs_dakou
+  [ 161.0s] [BAR_FACE] 排著的讀書小組 [{"id": "y4_bar_out_1263", "ev": "ev_bar_group_out", "day": "2029-03-02", "h": 21, "place": "大口漢堡", "title": "律師讀書小組（大口漢堡）"}]
+  [前置／捷徑] [前置] 同一份進度跳到 2029-03-02（Y4S2 第 2 週）20.50 時 dorm；BAR_FACE y4_bar_out_1263
+  [ 174.8s] [BAR_FACE_3_y4_bar_out_1263_a] 對話（事件 None）：選項 [["出發：律師讀書小組（大口漢堡）21:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "今天先不讀"]]；選了 ["出發：律師讀書小組（大口漢堡）21:00　走過去約 15 分鐘"]；GAME.say []
+  [ 183.0s] [BAR_FACE_3_y4_bar_out_1263_b] 對話（事件 ev_bar_group_out）：選項 []；選了 []；GAME.say [["杜可昕", "這題你上禮拜錯過。再一次。"]]
+  [ 183.1s] [BAR_FACE] 第 3 場 ev_bar_group_out（2029-03-02 大口漢堡）之後在 xs_dakou
+PASS [BAR_FACE] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS
