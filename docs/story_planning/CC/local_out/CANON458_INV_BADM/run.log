@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_invite_phone_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_INV_BADM\out
+CC 手機約人：TAG c458_badm；SHA 76f8b639f0；campus 2026-10-14 14.0；WHO kexin；PICKS ['運動', '羽球', '今天']；ROUTE ['exit:gym']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀到 campus  {"zone": "campus", "x": 34, "z": -98, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.04}
+  [前置／捷徑] 【前置／捷徑】讀檔到 campus 2026-10-14 14.0（條件事件關掉）、認識 kexin、有聯絡方式、【捷徑】關係加 fam 30；階段 FAMILIAR
+PASS 手機「朋友」她那一列有「約」
+  [  55.6s] 約 選單 [["念書…2:30 AM、總圖、法律學院圖書館、afar café", "吃飯…公館燒臘、SUNNY SIDE、Daybreak、洋洋鹹酥雞、泰米村食、越好吃小館、客居雲南", "喝咖啡、喝茶…2:30 AM、afar café", "散步…散步要等你們變成朋友。", "運動…新體育館羽球場", "出去玩…你們還沒那麼熟。", "算了"], ["去新體育館打羽球", "去椰影大道晨跑晨跑要等你們變成朋友。", "返回"], ["今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…之後 7 天內選一天", "算了"]]
+  [  55.6s] 約 整段 ["▶ 運動…新體育館羽球場", "▶ 去新體育館打羽球", "▶ 今天 15:30", "杜可昕（手機）｜新體育館？好。……先說，我高中打過。", "｜約好 今天 15:30，新體育館羽"]
+  [  55.6s] 約完 G.invites 最後一筆：{"id": "iv1", "who": "kexin", "place": "gym_badminton", "zone": "gym", "day": 393, "h": 15.5, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和杜可昕約在新體育館羽球場", "kxd": 1}
+PASS 約好了（G.invites 有 accepted、今天、地點是 ROUTE 最後一區）  {"id": "iv1", "who": "kexin", "place": "gym_badminton", "zone": "gym", "day": 393, "h": 15.5, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和杜可昕約在新體育館羽球場", "kxd": 1}
+  [前置／捷徑] 【捷徑】時間撥到約定時間 15.50 前 3 分鐘
+PASS [1] 找得到往 gym 的出口
+PASS [1] 有「體育館」  [{"label": "進 B1（24 小時自習室）", "x": 98, "z": -31.9, "r": 1, "lv": 0, "to": "library_b1"}, {"label": "走出校門", "x": -125.5, "z": -5.27, "r": 2.5, "lv": 0, "to": "gongguan"}, {"label": "走出校門", "x": -125.5, "z": 5.27, "r": 2.5, "lv": 0, "to": "gongguan"}, {"label": "從後門出去（118 巷）", "x": 34, "z": -126.6, "r": 1.8, "lv": 0, "to": "lane118"}, {"label": "進入法律系館A", "x": 27.9, "z": -107.5, "r": 1.5, "lv": 0, "to": "linze"}, {"label": "進入法律系館B", "x": 90.68, "z": -83.65, "r": 1.6, "lv": 0, "to": "wancai"}, {"label": "進入總圖書館", "x": 86.4, "z": 0, "r": 3.8, "lv": 0, "to": "library_hall"}, {"label": "回宿舍", "x": 20, "z": 59.6, "r": 2.6, "lv": 0, "to": "dorm_hall"}, {"label": "往新生南路（側門）", "x": -101.4, "z": -139.4, "r": 2, "lv": 0, "to": "xinsheng"}, {"label": "進入社科院圖書館", "x": 11, "z": -65.7, "r": 1.2, "lv": 0, "to": "soclib"}, {"label": "進入法律系館B（二樓）", "x": 86.03, "z": -88.64, "r": 1.4, "lv": 1, "to": "wancai"}, {"label": "共同教學館", "x": 2, "z": 22.8, "r": 1.6, "lv": 0, "to": "gongtong"}, {"label": "普通教學館", "x": -38, "z": -49.4, "r": 1.6, "lv": 0, "to": "putong"}, {"label": "博思教學館", "x": -38, "z": -72.8, "r": 1.6, "lv": 0, "to": "boya"}, {"label": "體育館", "x": -75, "z": -125, "r": 1.6, "lv": 0, "to": "gym"}]
+  [  57.9s] [1] 「體育館」在 (-75, -125) 半徑 1.6；走到範圍裡站得住的 {"x": -74.13, "z": -124.77, "d": 111.39441973137659}
+PASS [1] 「體育館」範圍裡有站得住的地方  {"label": "體育館", "x": -75, "z": -125, "r": 1.6, "lv": 0, "to": "gym"}
+  [  57.9s] 「[1] 體育館」途中：phone 開著（遊戲暫停），先關掉
+  [ 148.0s] 走不到「[1] 體育館」：最後位置 (-19.48,-18.48)，目標 (-74.13,-124.77)；點地面 14 次、轉鏡頭 2 次、搖桿 0 次
+  [ 148.1s]   這段時間：畫面 4325 格／90 秒、遊戲時間 15.45→18.35、paused=False、開著的面板 []
+  [ 210.6s] 走不到「[1] 體育館（往出口中心）」：最後位置 (-19.48,-18.48)，目標 (-75,-125)；點地面 16 次、轉鏡頭 0 次、搖桿 11 次
+  [ 210.6s]   這段時間：畫面 3709 格／62 秒、遊戲時間 18.35→18.77、paused=False、開著的面板 []
+FAIL [1] 走到那裡，互動按鈕是「體育館」  {"x": -19.476, "z": -18.48, "lv": 0, "interact": ""}
+  [ 228.4s] 進店 12 秒（每 0.5 秒）她： [{"none": true, "zone": "gym", "h": 18.8}, {"none": true, "zone": "gym", "h": 18.8}, {"none": true, "zone": "gym", "h": 18.81}, {"none": true, "zone": "gym", "h": 18.81}, {"none": true, "zone": "gym", "h": 18.81}, {"none": true, "zone": "gym", "h": 18.82}, {"none": true, "zone": "gym", "h": 18.82}, {"none": true, "zone": "gym", "h": 18.82}, {"none": true, "zone": "gym", "h": 18.83}, {"none": true, "zone": "gym", "h": 18.83}, {"none": true, "zone": "gym", "h": 18.83}, {"none": true, "zone": "gym", "h": 18.84}, {"none": true, "zone": "gym", "h": 18.84}, {"none": true, "zone": "gym", "h": 18.84}, {"none": true, "zone": "gym", "h": 18.85}, {"none": true, "zone": "gym", "h": 18.85}, {"none": true, "zone": "gym", "h": 18.86}, {"none": true, "zone": "gym", "h": 18.86}, {"none": true, "zone": "gym", "h": 18.86}, {"none": true, "zone": "gym", "h": 18.87}, {"none": true, "zone": "gym", "h": 18.87}, {"none": true, "zone": "gym", "h": 18.87}, {"none": true, "zone": "gym", "h": 18.88}, {"none": true, "zone": "gym", "h": 18.88}]
+  [ 228.4s] 進店以後邀約紀錄：{"id": "iv1", "who": "kexin", "place": "gym_badminton", "zone": "gym", "day": 393, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和杜可昕約在新體育館羽球場", "kxd": 1, "rem": 1, "waitSeat": null, "opened": 1}
+FAIL 到了她先坐著等（坐下、iv.waitSeat 有）  [[{"none": true, "zone": "gym", "h": 18.88}], {"id": "iv1", "who": "kexin", "place": "gym_badminton", "zone": "gym", "day": 393, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和杜可昕約在新體育館羽球場", "kxd": 1, "rem": 1, "waitSeat": null, "opened": 1}]
+  [ 228.4s] 她旁邊的空位：null
+FAIL 她旁邊有空位可以坐  null
+PASS 沒有 JS 例外  []
+FAILED 3: [1] 走到那裡，互動按鈕是「體育館」；到了她先坐著等（坐下、iv.waitSeat 有）；她旁邊有空位可以坐

@@ -1,18 +1,3 @@
-[20:56:52] 正在跑：L5F03_CLOSED8（已跑 2 分／上限 40 分）、L2C82_ALL（已跑 0 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[20:56:57] memory 42% before starting L77DE_ALL (2 running)
-[20:56:57] ==== START L77DE_ALL  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[20:57:00] [res] cpu=55% mem=42% (13.3/31.4 GB) chrome_testing=8  START L77DE_ALL
-[20:59:10] [res] cpu=8% mem=44% (14.0/31.4 GB) chrome_testing=10  END L5F03_CLOSED8
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d8f2893846..d9db112e63  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[20:59:19] ==== END   L5F03_CLOSED8  exit=1  305s   ====
-[20:59:22] skip X352_CON_dabu (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[20:59:22] skip X352_CON_nanyang (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[20:59:22] skip X352B_new_a (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[20:59:22] skip X352B_new_b (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[20:59:22] skip X352_DABU_new (already done on 207a8216d90c98f979b857f258e496209c2499a8)
-[20:59:22] skip X352_DABU_old (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
 [20:59:22] skip P0_LONGPLAY_dc3d (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
 [20:59:22] skip P0_LONGPLAY_98ec (already done on 98ec5b0f66120b7dcb37acfc5c362be73051f6bf)
 [20:59:22] skip P0_LONGPLAY_dc3d_solo (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
@@ -1998,3 +1983,18 @@
 [03:22:25] ==== START CANON458_INV_BADM  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [03:22:28] [res] cpu=2% mem=42% (13.4/31.4 GB) chrome_testing=10  START CANON458_INV_BADM
 [03:25:35] [res] cpu=4% mem=44% (13.9/31.4 GB) chrome_testing=10  END CANON458_PG
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[03:26:11] push failed for CANON458_PG (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[03:26:11] ==== END   CANON458_PG  exit=0  1021s   ====
+[03:26:12] fetch claude/second-ai-env-art failed (continuing): fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[03:26:12] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[03:26:12] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[03:26:12] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[03:26:12] memory 44% before starting CANON458_WELCOME (2 running)
+[03:26:12] ==== START CANON458_WELCOME  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:26:15] [res] cpu=3% mem=44% (14.0/31.4 GB) chrome_testing=10  START CANON458_WELCOME
+[03:26:51] [res] cpu=0% mem=44% (13.9/31.4 GB) chrome_testing=9  END CANON458_INV_BADM
