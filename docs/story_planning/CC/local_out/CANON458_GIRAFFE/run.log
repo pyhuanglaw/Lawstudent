@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_GIRAFFE\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['GIRAFFE_A', 'GIRAFFE_B']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [GIRAFFE_A] 最小存檔讀到 2026-02-23 10.00 dorm（Y1S2 第 1 週）
+  [前置／捷徑] 【捷徑】[GIRAFFE_A] 墊關係、旗標：{"kexin": {"stage": "FAMILIAR", "dating": false}, "flags": {"KX_Y1S1_END": "taipei"}}
+  [  46.5s] [GIRAFFE_A] 墊完 {"kexin": {"stage": "FAMILIAR", "dating": false}, "flags": {"KX_Y1S1_END": "taipei"}, "lineOk": true}
+PASS FAIL_SETUP 檢查：[GIRAFFE_A] Y1S2 第 1 週、可昕 ≥ ACQUAINTANCE（KX_LINE_OK）、KX_Y1S1_END taipei  {"d": {"d": 160, "wd": 1, "key": "2026-02-23", "hol": false, "term": "Y1S2", "week": 1}, "seed": {"kexin": {"stage": "FAMILIAR", "dating": false}, "flags": {"KX_Y1S1_END": "taipei"}, "lineOk": true}}
+  [  48.9s] [GIRAFFE_A] 手機「地點」沒有 campus
+  [  56.1s] [GIRAFFE_A] 對話（事件 ev_kai_back_y1s2_later）：選項 []；選了 []；GAME.say [["阿凱", "（頭沒回）我媽叫我帶的。少的那兩塊是阿哲。"]]
+FAIL FAIL_SETUP 檢查：[GIRAFFE_A] 手機快速前往到了校園  {"tapped": false, "zone": "dorm"}
+  [  56.1s] [GIRAFFE_A] 之後 {"ev_kx_souvenir": null, "KX_SOUVENIR": null, "GIRAFFE_KEYCHAIN": null}
+FAIL [GIRAFFE_A] ev_kx_souvenir 演了、GIRAFFE_KEYCHAIN 設了  {"ev_kx_souvenir": null, "KX_SOUVENIR": null, "GIRAFFE_KEYCHAIN": null}
+PASS [GIRAFFE_A] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [GIRAFFE_B] 最小存檔讀到 2026-02-23 10.00 dorm（Y1S2 第 1 週）
+  [前置／捷徑] 【捷徑】[GIRAFFE_B] 墊關係、旗標：{"kexin": {"stage": "FAMILIAR", "dating": false}, "flags": {"KX_Y1S1_END": "taipei"}}
+  [  86.7s] [GIRAFFE_B] 墊完 {"kexin": {"stage": "FAMILIAR", "dating": false}, "flags": {"KX_Y1S1_END": "taipei"}, "lineOk": true}
+PASS FAIL_SETUP 檢查：[GIRAFFE_B] Y1S2 第 1 週、可昕 ≥ ACQUAINTANCE（KX_LINE_OK）、KX_Y1S1_END taipei  {"d": {"d": 160, "wd": 1, "key": "2026-02-23", "hol": false, "term": "Y1S2", "week": 1}, "seed": {"kexin": {"stage": "FAMILIAR", "dating": false}, "flags": {"KX_Y1S1_END": "taipei"}, "lineOk": true}}
+  [ 120.2s] [GIRAFFE_B] 對話（事件 ev_kx_souvenir）：選項 [["「為什麼我的最短？」", "「謝謝。」"]]；選了 ["「謝謝。」"]；GAME.say [["", "（她在走廊那頭看到你，從背包裡拿出一個紙盒。）"], ["杜可昕", "說好的。高雄的餅。"], ["杜可昕", "有一點甜，我先講了。"], ["", "（盒子上面用膠帶黏著一個小小的長頸鹿鑰匙圈。）"], ["杜可昕", "那個是附的。我在高雄的動物園買了一袋，班上每個人都有。你的是脖子最短的那隻。"], ["杜可昕", "吃完跟我說甜不甜。"], ["", "（她把背包甩回肩上，走了。）"]]
+PASS FAIL_SETUP 檢查：[GIRAFFE_B] 手機快速前往到了校園  {"tapped": true, "zone": "campus"}
+  [ 120.2s] [GIRAFFE_B] 之後 {"ev_kx_souvenir": 1, "KX_SOUVENIR": true, "GIRAFFE_KEYCHAIN": true}
+PASS [GIRAFFE_B] ev_kx_souvenir 演了、GIRAFFE_KEYCHAIN 設了  {"ev_kx_souvenir": 1, "KX_SOUVENIR": true, "GIRAFFE_KEYCHAIN": true}
+PASS [GIRAFFE_B] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+FAILED 2: FAIL_SETUP 檢查：[GIRAFFE_A] 手機快速前往到了校園；[GIRAFFE_A] ev_kx_souvenir 演了、GIRAFFE_KEYCHAIN 設了
