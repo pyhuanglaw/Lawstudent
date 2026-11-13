@@ -125,3 +125,4 @@
     - 法律系舊存檔：v7／v9.5／v9.9.1 r2＋REL76_save_live 驗照讀。
     - 舊序章存檔：REL76_save_econ（取代 save_v7_ctl）驗三項——跳那一句、fatiao3d_auto 沒被蓋掉或刪掉、欄位 econ 一樣跳。
     - BOOKSTORE：可昕交往中「看電影、逛書店」整類消失＝kxPlaceOk 舊規則，LAWWW 開任務交 AA，不是 76f8 回退；CANON458_BOOKSTORE_r4 用沒交往的存檔驗。
+  - **05:2x CC 重排 ACTIONED**（cc-testing e58cd06e19，queue 2305～2328）：save_v7／v95／start1 r2（正確舊版）、REL76_save_live（f312 ?start0&turbo、stage≠econ 才跑）、REL76_ladder_ctl（f312）＋ladder_diag（76f8 印 GAME.npc／ladData／ladNext）、AN_BEAT6_r6／BEAT8_r5（信任 50、自在 45，MutationObserver 記每一句）、INV_LIB_r2（蔡宗霖設見過、對準位子的「坐下」鍵）、libtour_r2（收 #caption）；BB 補 REL76_save_econ（三項）。電腦在跑 ENC 45 分鐘那一項，跑完接這組。
