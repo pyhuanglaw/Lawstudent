@@ -172,4 +172,4 @@ const REL_LINES=(function(){
   put('heroine_04','lake',{R:'她說她在想一個關卡：玩家要繞湖一圈，湖心亭的燈才會全亮。'});
   put('heroine_05','lake',{R:'走的時候她說：「謝謝你約我。」'});
   put('classmate_peishan','lake',{R:'她繞湖走了兩圈。第二圈，她開始講家裡的事。'});
-  put('kexin','lake',{R:'走到湖心亭，她停下來說，這裡的風比山上小。'}); })();
+  put('kexin','lake',{R:'走到湖心亭，她停下來說，這裡的風比河堤小。'}); })();

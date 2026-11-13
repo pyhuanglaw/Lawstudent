@@ -312,7 +312,7 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
     { const G=fresh('2026-01-27',15,'library'); const r=ARCS.rec(G,SIS); r.k=8; r.last=null; const DS=DATE.stageNum; DATE.stageNum=()=>4; const b=ARCS.pick(G,SIS,{kind:'study',quiet:true}); DATE.stageNum=DS; check('9. 別的 quietOk:false 的拍（學姊第 8 拍）在安靜區照舊不演',b==null); }
     GM.say=sayQ; });
   /* ---------------- 10 wiringAnswers（ee689cfb8）---------------- */
-  const SHA717='033b5150a';
+  const SHA717='e622a59148';   /* 2026-11-13（CANON-NO-ECON-1112 收尾，AA_932 §1 可昕輪換句七則）：白名單 033b5150a → e622a59148；子晴第 13～15 則兩版一樣（舊期望 033b5150a，現在進 history，下面第 10 項也驗）*/
   let RAW=null; try{ RAW=JSON.parse(cp.execFileSync('git',['show',SHA+':'+DOC],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ RAW=null; }
   let R719=null; try{ R719=JSON.parse(cp.execFileSync('git',['show','963afea74:docs/story_planning/AA_719_decide_rules.json'],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ R719=null; }
   let R717=null; try{ R717=JSON.parse(cp.execFileSync('git',['show',SHA717+':docs/story_planning/AA_717_rot_life.json'],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ R717=null; }
@@ -414,7 +414,7 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
       check('10. arc_rot.js 和 AA_717@'+SHA717+' 一致；第 13 則每一版「第一關的畫面做出來了。還不能玩。」「我自己按了很多次，每次都卡在同一個地方。」',ok&&ARC_ROT.src==='docs/story_planning/AA_717_rot_life.json@'+SHA717&&J(A[12].lines)===J(['第一關的畫面做出來了。還不能玩。','我自己按了很多次，每次都卡在同一個地方。'])&&!A[12].altIntern&&J(S7[12]&&S7[12].lines)===J(A[12].lines),out.trim().slice(0,160));
       check('10. 第 14、15 則的 altIntern 逐字照稿（第 15 則兩段：辭掉前／後）',!!S7[13]&&J(A[13].altIntern.map(a=>a.lines))===J([S7[13].altIntern.lines])&&J(A[14].altIntern.map(a=>a.lines))===J(S7[14].altIntern.map(a=>a.lines))&&J(A[14].altIntern.map(a=>a.if))===J([['dec:heroine_04.summer=intern','!zqQuitIntern'],['dec:heroine_04.summer=intern','zqQuitIntern']]),J(A[14].altIntern));
       const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path==='docs/story_planning/AA_717_rot_life.json');
-      check('10. 匯入白名單：AA_717 一筆、sha '+SHA717+'、history 留 963afea74、ee689cfb8',allow.length===1&&allow[0].sha===SHA717&&allow[0].status==='approved'&&allow[0].history.some(h=>h.sha==='963afea74')&&allow[0].history.some(h=>h.sha==='ee689cfb8'),J(allow.map(e=>e.sha)));
+      check('10. 匯入白名單：AA_717 一筆、sha '+SHA717+'、history 留 963afea74、ee689cfb8',allow.length===1&&allow[0].sha===SHA717&&allow[0].status==='approved'&&allow[0].history.some(h=>h.sha==='963afea74')&&allow[0].history.some(h=>h.sha==='ee689cfb8')&&allow[0].history.some(h=>h.sha==='033b5150a'),J(allow.map(e=>e.sha)));
       const pick=(G,i)=>{ const save=ARC_ROT.rot[ZQ]; ARC_ROT.rot[ZQ]=[A[i]]; try{ const r=ARCS.rec(G,ZQ); r.k=1; r.rot=[]; const p=ARCS.rotPick(G,ZQ); return p&&Object.assign({},p,{rot:i}); } finally { ARC_ROT.rot[ZQ]=save; } };   /* 只留那一則（其他則不干擾），看 rotPick 說哪幾句 */
       const mk=(date,v,fl)=>{ const G=fresh(date,15); dec(G,ZQ,'summer',v,dk('2026-06-10')); Object.assign(G.flags,fl||{}); return G; };
       { const p1=pick(mk('2026-07-20','intern'),13), p2=pick(mk('2026-07-20','game'),13);

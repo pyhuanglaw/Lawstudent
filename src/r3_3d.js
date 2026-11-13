@@ -294,7 +294,7 @@ const R3=(function(){
     KX('y3_kx_zhan',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,'我們模擬法庭同組那個同學會拍片。他拍了公館一家麵店的老闆一整天，老闆只說了一句：好。'),   /* AA_919 第 2 節 */
     KX('y3_kx_eh1',Tm=>inT(Tm,'Y3S1','Y4S2',4),22+40/60,null,{items:G=>[P1('kexin','欸。'),Object.assign(P1('kexin','……以後我只打一個『欸』，就是想找你講話。',1/60),{ask:{id:'dp_y3_kx_eh1',until:until(G),opts:[{t:'在。',say:[{from:'kexin',text:'好。……沒事了。'}]}]}})]}),
     KX('y3_kx_eh',Tm=>inT(Tm,'Y3S1','Y4S2'),22+40/60,null,{max:()=>8,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y3_kx_eh1')&&termN(G,'y3_kx_eh')<2,items:(G,n)=>{ termInc(G,'y3_kx_eh'); return [Object.assign(P1('kexin','欸'),{ask:{id:'dp_y3_kx_eh_'+n,until:until(G),opts:[{t:'在。',say:[NAR('（她打來，講了十分鐘今天的事。掛之前說：「好，我要讀書了。」）')]}]}})]; }}),
-    KX('y3s2_kx_cat',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'山上的貓認得我了。'),
+    KX('y3s2_kx_cat',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'系館樓下那隻貓認得我了。'),
     KX('y3s2_kx_juniors',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'讀書會的學弟妹全部考過。我比他們還緊張。'),
     KX('y3s2_kx_film',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'同組那個同學的短片，在小影展放了。我坐第一排。'),   /* AA_919 第 2 節 */
     KX('y4_kx_index2',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'系上那個學長的考古題目錄，現在出第二冊了。'),   /* AA_919 第 2 節（BB_445「系上有一個學長」） */
@@ -302,8 +302,8 @@ const R3=(function(){
     KX('y4_kx_mock',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'今天模擬考，第三題我寫了兩頁。寫完才發現題目只問一句。'),
     KX('y4_kx_twenty1',Tm=>inT(Tm,'Y4S1','Y4S2',4),22+10/60,null,{items:G=>[P1('kexin','二十分鐘。'),Object.assign(P1('kexin','這段讀完就打給你。',1/60),{ask:{id:'dp_y4_kx_twenty1',until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她真的打來了。）')]}]}})]}),
     KX('y4_kx_twenty',Tm=>inT(Tm,'Y4S1','Y4S2'),22+10/60,null,{max:()=>4,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y4_kx_twenty1')&&termN(G,'y4_kx_twenty')<2,items:(G,n)=>{ termInc(G,'y4_kx_twenty'); return [Object.assign(P1('kexin','二十分鐘'),{ask:{id:'dp_y4_kx_twenty_'+n,until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她打來了。）')]}]}})]; }}),
-    KX('y4s2_kx_rest',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'讀書計畫表上，今天那一格寫著『休息』。我休息到下午三點，又開始讀了。'),
-    KX('y4s2_kx_soon',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。') ];
+    KX('y4s2_kx_rest',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'今天說好要休息。我休息到下午三點，又開始讀了。'),
+    KX('y4s2_kx_soon',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'後門那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。') ];
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.DAILY_PHONE)&&!STORY._r3dp){ for(const d of S.DP3) if(!STORY.DAILY_PHONE.some(x=>x.id===d.id)) STORY.DAILY_PHONE.push(d); STORY._r3dp=true; }
   /* 定時：[id, 日子, 臺灣的時刻（null＝寫在 local 的當地時刻）, 條件, 訊息]；隔一分鐘的照 dt 分開排 */
   const fangOk=G=>met(G,'npc_fangyt','FAMILIAR')&&contact(G,'npc_fangyt');

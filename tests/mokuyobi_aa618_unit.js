@@ -46,7 +46,7 @@ const T=()=>said.map(s=>s.t);
   const s1=spec.slice(spec.indexOf('## 1.'),spec.indexOf('## 2.'));
   check('0. 讀得到稿 AA_618@'+SPEC_SHA+' 第 1 節',!!s1&&/木曜日/.test(s1),spec.slice(0,40));
   const AA_DIRECT={'（小聲）課輔班的小朋友說我寫的講義太多字。……他們說得對。':'AA-B 11-07 23:40 回 LAWWW-B（原稿「國中生說我寫的講義太多字。」；沛珊是國小課輔班，AA_614 32a5f7e12 說法統一）'};   /* 稿外、AA 直接給的句子 */
-  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,''); return s1.includes(x)||!!AA_DIRECT[t]; };
+  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,''); return s1.includes(x)||!!AA_DIRECT[t]||require('./canon1112_ok.js').ok(t); };   /* CANON-NO-ECON-1112：照 AA 的 src 對照表換過的句子（AA_932 §2 可昕木曜日那一句）改比對照表 */
   check('0. 稿外的那一句：沛珊木曜日「課輔班的小朋友」（原稿「國中生」那句不在程式裡）',MOKS.DATE.classmate_peishan.line==='（小聲）課輔班的小朋友說我寫的講義太多字。……他們說得對。'&&!J(MOKS.DATE).includes('國中生'));
   { const L0=MOKS.L, all=[]; for(const [,t] of L0.first) all.push(t); for(const m of L0.menu) all.push(m[2]); all.push(L0.water,L0.waterOk,L0.old,L0.oldYes,L0.oldNo,L0.oldNoBoss,L0.waterNarr,L0.waterBoss,L0.exam,L0.bhAsk,L0.bhGo,L0.bhHome,L0.bhBye,L0.meet);
     for(const t of L0.narr.concat(L0.chat,L0.rain)) all.push(t); for(const [,t] of L0.bh.concat(L0.mx)) all.push(t); for(const o of L0.rainOpts){ all.push(o.t,o.narr); }

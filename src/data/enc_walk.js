@@ -1229,7 +1229,7 @@ const ENC_WALK={
    "who": "kexin",
    "spot": "D09",
    "friend": "",
-   "dating": "我走下山就到宿舍了。你要搭纜車的話，我陪你到站。"
+   "dating": "我搭公車回去。你要搭纜車的話，我陪你到站。"
   },
   {
    "batch": 2,

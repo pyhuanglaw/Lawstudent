@@ -319,7 +319,7 @@ const R2Y4A=(function(){
   /* ---- 2-Y4-26 KH（沒去、「這次不行。」）---- */
   S.khMissed=function(G){ const F=G.flags, T0=(F.KX_TRIP&&typeof F.KX_TRIP==='object')?F.KX_TRIP:{}; if(T0.Y4WIN) return; mergeF(G,'KX_TRIP',{Y4WIN:'missed'}); const d=D('2029-01-06'); if(d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,12,[K('📷（高雄車站的月台，沒有人）'),K('沒關係。今年高雄也很冷。')],'y4_kh_missed');   /* AA_921 第 3-2 節（CANON-NO-ECON-1112 第五批）：不約下次 */ };
   /* ---- 2-Y4-29 情人節（沒接）---- */
-  S.vdayMissed=function(G){ const F=G.flags, V=F.KX_VDAY||{}; if(V[4]) return; mergeF(G,'KX_VDAY',{4:'missed'}); const d=D('2029-02-14'); if(d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,22,[K('📷（讀書計畫表）'),K('情人節快樂。十點那一格，今天先空著。')],'y4_kx_vday_missed'); };   /* 十點那一格 */
+  S.vdayMissed=function(G){ const F=G.flags, V=F.KX_VDAY||{}; if(V[4]) return; mergeF(G,'KX_VDAY',{4:'missed'}); const d=D('2029-02-14'); if(d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,22,[K('📷（書桌上一杯喝到一半的熱可可）'),K('情人節快樂。今天先這樣。')],'y4_kx_vday_missed'); };   /* AA_926：不排表 */
   /* ---- 2-Y4-25 期末成績：大四上修的法律課（美國路線＝美國的三門課，AA_185 1-5）---- */
   S.US_COURSES=[{id:'us_legal_system',name:'Introduction to the U.S. Legal System'},{id:'us_comp_con',name:'Comparative Constitutional Law'},{id:'us_legal_writing',name:'Legal Writing for International Students'}];
   S.gradeOpts=function(G){ const say=(name,more)=>[{th:'p:'+KX,from:'player',who:null,text:name},{th:'p:'+KX,from:KX,text:'法律倫理。'}].concat(more?[{th:'p:'+KX,from:KX,text:more}]:[]);

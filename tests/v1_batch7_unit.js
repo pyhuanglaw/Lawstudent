@@ -67,9 +67,9 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     PHONE.answer(G,mg.ask.id,0); run(22,22.2); const o=OUT.get(G,'bbq');
     check('烤肉：回「去。」＝排週六 19:00 河濱（「七點」）',!!o&&o.day===SAT&&o.h===19&&o.place==='河濱'&&o.ev==='ev_mid_autumn_bbq',JSON.stringify(o));
     const F1=Object.assign({},G.flags), msgs=G.msgs, ph=G.phone; fresh(SAT-1,8,'campus',F1); G.msgs=msgs; G.phone=ph; G.outings=[o]; run(8,20.5); const k=G.msgs.find(x=>x.tag==='kx_bbq_ask');
-    check('K3：前一天（週五）20:00 可昕問「我們系也有烤肉。……你們的比較好玩嗎？」、兩個回覆（原文）',!!k&&k.day===SAT-1&&Math.abs(k.h-20)<0.06&&k.text==='我們系也有烤肉。……你們的比較好玩嗎？'&&JSON.stringify(k.ask.opts.map(q=>q.t))==='["來我們這邊。","妳去妳們系的。"]');
-    { const F2=Object.assign({},G.flags), ms=G.msgs.slice(), p2=JSON.parse(JSON.stringify(G.phone)); PHONE.answer(G,k.ask.id,1); fresh(SAT,8,'campus',Object.assign({},G.flags)); G.msgs=ms; G.phone=p2; G.flags.KX_BBQ_NO=true; run(8,21); const c=G.msgs.filter(x=>x.tag==='kx_bbq_corn').map(x=>x.text);
-      check('K3：「妳去妳們系的。」＝不再私訊烤玉米的照片（AA_503 9-3：改成可昕的動態第 2 則「我們的玉米比較好。」，去沒去都出，tests/aa503_feed_unit.js 第 9 段）',c.length===0,JSON.stringify(c)); }
+    check('K3 拿掉（2026-11-13 AA_901 補第 4 點，CANON-NO-ECON-1112 收尾：中秋烤肉 K3 和可昕的介紹那一段整段拿掉，有 KX_MET 的玩家在系上烤肉看得到她、不另寫介紹）：前一天（週五）20:00 可昕不再問「兩邊系各自烤」（沒有 kx_bbq_ask）。舊期望：她問、兩個回覆',!k&&!G.msgs.some(x=>/你們的比較好玩嗎/.test(x.text||'')));
+    { fresh(SAT,8,'campus',Object.assign({},G.flags)); G.flags.KX_BBQ_NO=true; run(8,21); const c=G.msgs.filter(x=>x.tag==='kx_bbq_corn').map(x=>x.text);
+      check('K3：不再私訊烤玉米的照片（AA_503 9-3：改成可昕的動態第 2 則「我們的玉米比較好。」，去沒去都出，tests/aa503_feed_unit.js 第 9 段）',c.length===0,JSON.stringify(c)); }
     const playBBQ=async(flags,setup,pk)=>{ fresh(SAT,14.5,'campus',Object.assign({ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（v1_batch12 測）*/ if(setup) setup(); OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:SAT,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25}); picks=['出發'].concat(pk||[]); await tickOut(); return lines(); };
     let L=await playBBQ({},null,[]);
     check('烤肉（只認識阿哲）：河濱、「阿哲負責烤。」，以安、語彤、柏翰、方奕廷、可昕都不在',caps.includes('河濱')&&L.includes('阿哲負責烤。')&&!L.some(t=>/以安|語彤|柏翰|方奕廷|可昕來了|菜單/.test(t)),JSON.stringify(L));

@@ -326,7 +326,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-09-20',21.1,'dorm',TWF({E10_STUDY:'study'})); date('kexin'); rules();
   check('K0. 9/20 21:00 三則＋「系館。」「總圖。」（CANON-NO-ECON-1112 第四批：照 AA_896 換字）', seq(txt('p:kexin'),['kexin:這學期，我們約讀書，就真的讀。','kexin:讀完才能聊天。','kexin:週六下午兩點。系館自習室，還是總圖？'])&&PHONE.byAsk(G,'y4_kx21').ask.opts[0].t==='系館。'&&PHONE.byAsk(G,'y4_kx21').ask.opts.length===2, JSON.stringify(txt('p:kexin')));
   answer('y4_kx21',0); rules(); const qk=OUT.get(G,'y4_kx21'); at('2028-09-23',13.2); picks=[2]; said=[]; await OUT.go(GM,qk);
-  check('K1. 選木柵大學：9/23 14:00；便條「先讀完。」；E10 讀了＝長頸鹿；三選一「你整頁都畫了。那等於沒畫。」；沒有「不公平」「騙你的」；KX_STUDY_PLAN', !!qk&&qk.h===14&&has('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）')&&has('大一那次在總圖，你有讀。我還在你筆記上畫了長頸鹿。')&&opts[0].length===3&&has('你整頁都畫了。那等於沒畫。')&&!hasRe(/不公平|騙你的/)&&G.flags.KX_STUDY_PLAN==='went');   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……你整頁都畫了。那等於沒畫。」 */
+  check('K1. 選系館：9/23 14:00；便條「先讀完。」；E10 那兩句拿掉（AA_893 第 1 節，舊期望：E10 讀了＝「大一那次在總圖……長頸鹿」）；選項二「妳剛剛那張便條，我留著。」；三選一「你整頁都畫了。那等於沒畫。」；沒有「不公平」「騙你的」；KX_STUDY_PLAN', !!qk&&qk.h===14&&has('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）')&&!hasRe(/大一那次在總圖/)&&opts[0].length===3&&opts[0][1]==='「妳剛剛那張便條，我留著。」'&&has('你整頁都畫了。那等於沒畫。')&&!hasRe(/不公平|騙你的/)&&G.flags.KX_STUDY_PLAN==='went');   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……你整頁都畫了。那等於沒畫。」 */
   fresh('2028-09-20',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kx21',1); rules(); const qlib=OUT.get(G,'y4_kx21'); at('2028-09-23',13.7); await OUT.go(GM,qlib);
   const libOk=entered.includes('library')&&EVENTS.check(ev('ev_kexin_study_really_lib')); picks=[0]; said=[]; await run('ev_kexin_study_really_lib'); await tick();
   check('K1. 選總圖：帶到 3D 總圖，到了就演（auto）；「可以。……先去吃東西，我餓了。」；演完不再問「出發」', !!qlib&&!!qlib.goto&&libOk&&has('可以。……先去吃東西，我餓了。')&&G.flags.KX_STUDY_PLAN==='went'&&qlib.state==='done');
@@ -342,7 +342,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   // ---------- 2-Y4-14 可昕 K22 ----------
   fresh('2028-11-13',21.1,'dorm',TWF()); date('kexin'); rules(); const k22ask=txt('p:kexin').includes('kexin:明天晚上七點，讀書會。你來旁聽，不用說話。'); answer('y4_kx22',0); rules(); const q22=OUT.get(G,'y4_kx22');
   at('2028-11-14',18.2); picks=[0]; said=[]; await OUT.go(GM,q22);
-  check('K4. 交往中、去了：11/14 19:00 木柵大學；沒見過邵鈞＝「這是邵鈞，考古題有目錄的那個。」；「我比較想當那個幫人講話的人。」三選一；KX_DIRECTION', k22ask&&!!q22&&q22.h===19&&has('這是邵鈞，考古題有目錄的那個。')&&has('他想當那個判的人。')&&has('我比較想當那個幫人講話的人。')&&opts[0].length===3&&has('你每次都這樣說。……好啦，謝謝。')&&G.flags.KX_DIRECTION===true);
+  check('K4. 交往中、去了：11/14 19:00 系館討論室；讀書會的學長（AA_893 第 1 節：外校同學拿掉，舊期望「這是（外校同學），考古題有目錄的那個。」）；「我比較想當那個幫人講話的人。」三選一；KX_DIRECTION', k22ask&&!!q22&&q22.h===19&&has('（讀書會有一個學長，說他從大一就知道自己要當法官。）')&&!hasRe(/考古題有目錄/)&&has('他想當那個判的人。')&&has('我比較想當那個幫人講話的人。')&&opts[0].length===3&&has('你每次都這樣說。……好啦，謝謝。')&&G.flags.KX_DIRECTION===true);
   fresh('2028-11-14',8.6,'us_apartment',US()); date('kexin'); rules();
   check('K5. 美國路線：一則「……今天想清楚了。」，沒有邀約、不算沒去', txt('p:kexin').includes('kexin:我比較想當那個幫人講話的人。今天想清楚了。')&&!PHONE.sent(G,'y4_kx22_ask')&&G.flags.KX_DIRECTION===true);
   fresh('2028-11-13',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kx22',1); at('2028-11-14',19.3); rules(); at('2028-11-14',21.6); rules();
@@ -351,7 +351,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   // ---------- 2-Y4-15 可昕：放榜那一週，她的實習 ----------
   fresh('2028-11-23',15.2,'dorm',TWF({Y4_PATH:'grad'})); date('kexin'); const R1x=CLS.rec(G); R1x.exam={}; for(const t of ['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2']) R1x.exam[t+':c:final']={status:'done',correct:5};
   rules(); const qi=OUT.get(G,'y4_kx_intern'); picks=[0]; said=[]; if(qi) await OUT.go(GM,qi);
-  check('I1. 推甄上了：15:30 她打來（電話）「結果出來了吧。你先說。」→「那今天宵夜誰請？」；KX_INTERN', !!qi&&Math.abs(qi.h-15.5)<1e-6&&qi.call===true&&has('結果出來了吧。你先說。')&&has('我事務所的實習也上了。那今天宵夜誰請？')&&has('好。山下那家。')&&G.flags.KX_INTERN===true);
+  check('I1. 推甄上了：15:30 她打來（電話）「結果出來了吧。你先說。」→「那今天宵夜誰請？」；KX_INTERN', !!qi&&Math.abs(qi.h-15.5)<1e-6&&qi.call===true&&has('結果出來了吧。你先說。')&&has('我事務所的實習也上了。那今天宵夜誰請？')&&has('好。後門那家。')/* AA_893 第 1 節，舊期望「好。山下那家。」*/&&G.flags.KX_INTERN===true);
   fresh('2028-11-23',15.2,'dorm',TWF({Y4_PATH:'grad'})); date('kexin'); rules(); const qi2=OUT.get(G,'y4_kx_intern'); said=[]; if(qi2) await OUT.go(GM,qi2); const i2a=has('你的，先說你的。')&&has('好。二月還有一次。')&&!has('我事務所的實習也上了。那今天宵夜誰請？')&&!G.flags.KX_INTERN;   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。二月還有一次。」 */
   at('2028-11-24',21.1); rules();
   check('I2. 推甄沒上：電話不提她的；隔天 21:00「我申請的那家事務所實習，上了。……不用恭喜，先吃飯。」', i2a&&txt('p:kexin').includes('kexin:我申請的那家事務所實習，上了。……不用恭喜，先吃飯。')&&G.flags.KX_INTERN===true);
@@ -362,7 +362,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   // AA_345 F9：推甄沒上、後來筆試的玩家，3/22 研究所放榜那一通（她的實習 11/24 已經說過）
   const I4F=r=>TWF({Y4_PATH:'grad',Y4_PUSH:'fail',GRAD_EXAM_2029:true,GRAD_EXAM_RESULT:r});
   fresh('2029-03-22',15.2,'dorm',Object.assign(I4F('pass'),{KX_INTERN_CALL:'fail',KX_INTERN_DAY:D('2028-11-23'),KX_INTERN:true})); date('kexin'); G.hour=15.6; rules(); const qi4=OUT.get(G,'y4_kx_intern2'); picks=[0]; said=[]; if(qi4) await OUT.go(GM,qi4);
-  check('I4. 3/22 筆試上了：「結果出來了吧。你先說。」「（你說上了。）」「好。這次換你的上了。那今天宵夜誰請？」→「好。山下那家。」；不再說「我事務所的實習也上了。」', !!qi4&&qi4.call===true&&has('結果出來了吧。你先說。')&&has('（你說上了。）')&&has('好。這次換你的上了。那今天宵夜誰請？')&&has('好。山下那家。')&&!has('我事務所的實習也上了。那今天宵夜誰請？')&&opts[0]&&opts[0].join('|')==='「我請。」|「各付各的。」', JSON.stringify(lines()));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。這次換你的上了。那今天宵夜誰請？」 */
+  check('I4. 3/22 筆試上了：「結果出來了吧。你先說。」「（你說上了。）」「好。這次換你的上了。那今天宵夜誰請？」→「好。後門那家。」（AA_893 第 1 節，舊期望「好。山下那家。」）；不再說「我事務所的實習也上了。」', !!qi4&&qi4.call===true&&has('結果出來了吧。你先說。')&&has('（你說上了。）')&&has('好。這次換你的上了。那今天宵夜誰請？')&&has('好。後門那家。')&&!has('我事務所的實習也上了。那今天宵夜誰請？')&&opts[0]&&opts[0].join('|')==='「我請。」|「各付各的。」', JSON.stringify(lines()));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。這次換你的上了。那今天宵夜誰請？」 */
   fresh('2029-03-22',15.2,'dorm',I4F('fail')); date('kexin'); G.hour=15.6; rules(); const qi5=OUT.get(G,'y4_kx_intern2'); said=[]; if(qi5) await OUT.go(GM,qi5); at('2029-03-23',21.2); rules(); at('2029-03-25',21.2); rules();
   check('I4. 3/22 筆試也沒上：「你的，先說你的。」「（你說沒上。）」「……好。今天宵夜我請，不准說不要。」；沒有「二月還有一次」、沒有隔天那則（實習 11/24 說過了）', !!qi5&&has('你的，先說你的。')&&has('（你說沒上。）')&&has('……好。今天宵夜我請，不准說不要。')&&!has('好。二月還有一次。')&&!txt('p:kexin').includes('kexin:我申請的那家事務所實習，上了。……不用恭喜，先吃飯。'), JSON.stringify([lines(),txt('p:kexin')]));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。二月還有一次。」 */   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，r2y4a_events.js:468）：舊期望「……好。今天宵夜我請。不准說不要。」 */
 
@@ -398,7 +398,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
 
   // ---------- 2-Y4-24 可昕：聖誕，讀到打烊 ----------
   fresh('2028-12-24',21.1,'dorm',TWF({KX_STUDY_PLAN:'went'})); date('kexin'); rules(); const xk0=txt('p:kexin'); answer('y4_kx_xmas',0); rules(); const qx4=OUT.get(G,'y4_kx_xmas'); at('2028-12-25',18.2); picks=[1]; said=[]; await OUT.go(GM,qx4);
-  check('XK1. 12/24 21:00「明天白天各自讀。」「晚上去公館那家咖啡店……」（CANON-NO-ECON-1112 第四批：照 AA_896 換字）；12/25 19:00 讀到打烊：「今天不算。」；圍巾「你的圍巾很醜。」；表格那一格的長頸鹿；沒有假設題；KX_XMAS[4] study', seq(xk0,['kexin:明天白天各自讀。','kexin:晚上去公館那家咖啡店，開到十點。我們讀到打烊。'])&&!!qx4&&qx4.h===19&&has('（兩個人讀到店員開始收椅子。走出來，山上的風。）')&&has('冷死了。')&&has('聖誕快樂。今天讀了幾頁，不要說。今天不算。')&&has('你的圍巾很醜。')&&has('（共用的讀書計畫表，12/25 那一格多了一行：「聖誕快樂」。旁邊畫了一隻長頸鹿。）')&&!hasRe(/假設/)&&!has('你的時差還沒調回來吧。……那今天讀到打烊，剛好。')&&G.flags.KX_XMAS[4]==='study');   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……冷死了。」「……你的圍巾很醜。」 */
+  check('XK1. 12/24 21:00「明天白天各自讀。」「晚上去公館那家咖啡店……」（CANON-NO-ECON-1112 第四批：照 AA_896 換字）；12/25 19:00 讀到打烊：「今天不算。」；圍巾「你的圍巾很醜。」；表格那一格的長頸鹿；沒有假設題；KX_XMAS[4] study', seq(xk0,['kexin:明天白天各自讀。','kexin:晚上去公館那家咖啡店，開到十點。我們讀到打烊。'])&&!!qx4&&qx4.h===19&&has('（兩個人讀到店員開始收椅子。走出來，外面的風很冷。）')&&has('冷死了。')&&has('聖誕快樂。今天讀了幾頁，不要說。今天不算。')&&has('你的圍巾很醜。')&&has('（她給你一張卡片。上面畫了一隻長頸鹿。）')&&!hasRe(/讀書計畫表/)/* 2026-11-13 AA_893 第 1 節：「山上的風」→「外面的風很冷」、共用讀書計畫表那一列拿掉（卡片不看條件）；舊期望「山上的風」「表格那一格的長頸鹿」*/&&!hasRe(/假設/)&&!has('你的時差還沒調回來吧。……那今天讀到打烊，剛好。')&&G.flags.KX_XMAS[4]==='study');   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……冷死了。」「……你的圍巾很醜。」 */
   fresh('2028-12-24',21.1,'dorm',US({US_RETURNED:D('2028-12-23')})); date('kexin'); rules(); answer('y4_kx_xmas',0); rules(); at('2028-12-25',18.2); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kx_xmas'));
   check('XK2. 美國路線（12/23 回來了）：多「你的時差還沒調回來吧。……那今天讀到打烊，剛好。」；沒有表格＝卡片上的長頸鹿（AA_345 F3「（她給你一張卡片。上面畫了一隻長頸鹿。）」）', has('你的時差還沒調回來吧。……那今天讀到打烊，剛好。')&&has('嗯。……明天我回高雄。')&&has('（她給你一張卡片。上面畫了一隻長頸鹿。）')&&!has('（共用的讀書計畫表，12/25 那一格多了一行：「聖誕快樂」。旁邊畫了一隻長頸鹿。）'));
   fresh('2028-12-24',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kx_xmas',1); at('2028-12-25',19.3); rules(); at('2028-12-25',22.1); rules();
@@ -454,15 +454,15 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
 
   // ---------- 2-Y4-29 可昕：情人節，讀書計畫表 ----------
   fresh('2029-02-14',20.5,'dorm',TWF({KX_STUDY_PLAN:'went',KX_VDAY_WX:{3:'rain'},KX_VDAY:{3:'video'}})); date('kexin'); rules(); const qv4=OUT.get(G,'y4_kx_vday'); picks=[1]; said=[]; await OUT.go(GM,qv4);
-  check('V1. 2/14 21:00 視訊；「你那邊天氣怎樣？」三選一；和去年一樣＝「跟去年一樣。」；有 KX_STUDY_PLAN＝「我們那張表，我重排了。」；十點那一格「通話」', !!qv4&&qv4.h===21&&qv4.verb==='接起來'&&has('你那邊天氣怎樣？')&&opts[0].length===3&&has('跟去年一樣。')&&has('情人節禮物。我們那張表，我重排了。')&&has('兩個人的格子排在一起。考完以前，都照這張。')&&has('（畫面：每天晚上十點那一格，兩欄都寫著「通話」。）')&&G.flags.KX_VDAY[4]==='video'&&G.flags.KX_VDAY_WX[4]==='rain');
+  check('V1. 2/14 21:00 視訊；「你那邊天氣怎樣？」三選一；和去年一樣＝「跟去年一樣。」；讀書計畫表拿掉（AA_893 第 1 節）：「情人節禮物我開學給你。是吃的。」「考完以前，情人節就先這樣。」「……可是我有想你。這句只講一次。」（舊期望「我們那張表，我重排了。」「十點那一格」）', !!qv4&&qv4.h===21&&qv4.verb==='接起來'&&has('你那邊天氣怎樣？')&&opts[0].length===3&&has('跟去年一樣。')&&has('情人節禮物我開學給你。是吃的。')&&has('考完以前，情人節就先這樣。')&&has('……可是我有想你。這句只講一次。')&&!hasRe(/讀書計畫表|那張表/)&&G.flags.KX_VDAY[4]==='video'&&G.flags.KX_VDAY_WX[4]==='rain');
   fresh('2029-02-14',20.5,'dorm',TWF({KX_VDAY_WX:{2:'rain'},KX_VDAY:{2:'video',3:'video'}})); date('kexin'); rules(); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kx_vday'));
-  check('V. 沒有 KX_STUDY_PLAN、天氣不一樣：「高雄今天二十五度。」「情人節禮物。讀書計畫表。」', has('高雄今天二十五度。')&&has('情人節禮物。讀書計畫表。')&&!has('跟去年一樣。'));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……高雄今天二十五度。」 */
+  check('V. 沒有 KX_STUDY_PLAN、天氣不一樣：「高雄今天二十五度。」「情人節禮物我開學給你。是吃的。」（AA_893 第 1 節合成一列，舊期望「情人節禮物。讀書計畫表。」）', has('高雄今天二十五度。')&&has('情人節禮物我開學給你。是吃的。')&&!has('跟去年一樣。'));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……高雄今天二十五度。」 */
   fresh('2029-02-14',20.5,'dorm',TWF({KX_VDAY_WX:{2:'rain'},KX_VDAY:{2:'video',3:'video'}})); date('kexin'); rules(); picks=[1]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kx_vday'));
   check('V. 大三的情人節沒有問天氣（r2y3a）：比上一次有問的大二「下雨。」＝「跟前年一樣。」（AA_345 F5：照差幾年換；不是「跟去年一樣。」）', has('跟前年一樣。')&&!has('跟去年一樣。')&&!has('高雄今天二十五度。'));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……高雄今天二十五度。」 */
   fresh('2029-02-14',20.5,'dorm',TWF({KX_VDAY_WX:{1:'rain'},KX_VDAY:{1:'video',2:'missed',3:'video'}})); date('kexin'); rules(); picks=[1]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kx_vday'));
   check('V. 上一次有問天氣的是大一（大二沒接）、一樣是「下雨。」：「跟大一那年一樣。」', has('跟大一那年一樣。')&&!has('跟前年一樣。')&&!has('跟去年一樣。'));
   fresh('2029-02-14',20.5,'dorm',TWF()); date('kexin'); rules(); at('2029-02-14',21.6); await outTick(); at('2029-02-14',22.1); rules();
-  check('V. 沒接：照片＋「情人節快樂。十點那一格，今天先空著。」；KX_VDAY[4] missed', txt('p:kexin').includes('kexin:📷（讀書計畫表）')&&txt('p:kexin').includes('kexin:情人節快樂。十點那一格，今天先空著。')&&G.flags.KX_VDAY[4]==='missed');
+  check('V. 沒接：照片＋「情人節快樂。今天先這樣。」（2026-11-13 AA_926，舊期望「📷（讀書計畫表）」「十點那一格，今天先空著。」）；KX_VDAY[4] missed', txt('p:kexin').includes('kexin:📷（書桌上一杯喝到一半的熱可可）')&&txt('p:kexin').includes('kexin:情人節快樂。今天先這樣。')&&G.flags.KX_VDAY[4]==='missed');
 
   // ---------- 人物面板名稱（AA_345 第 4 節，F11）----------
   { const ML=SOCIAL.MEMORY_LABEL; check('F11. 人物面板名稱定稿：CHICAGO_TRIP「芝加哥的週末，她把行程表摺起來收進口袋」、PLG_LAST_RULE「讀書會交棒那天，白板上只剩一條：「每個人講完。」」、PICKED_HER_UP「她從美國回來那晚，去機場接她」', ML.CHICAGO_TRIP==='芝加哥的週末，她把行程表摺起來收進口袋'&&ML.PLG_LAST_RULE==='讀書會交棒那天，白板上只剩一條：「每個人講完。」'&&ML.PICKED_HER_UP==='她從美國回來那晚，去機場接她', JSON.stringify([ML.CHICAGO_TRIP,ML.PLG_LAST_RULE,ML.PICKED_HER_UP])); }

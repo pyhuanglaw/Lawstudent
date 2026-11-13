@@ -48,11 +48,11 @@ const cp=require('child_process'), SPEC_SHA='5cd35678';
   const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const NEW=[['S5','src/y34b3d.js','法服？你們系上那個社團？……好。','法服？那個學姊的法服？……好。'],
     ['#5','src/y34b3d.js','你的那條路，現在走到哪了？不用現在說。','大四要走哪條路，你決定了嗎？不用現在說。'],['#5','src/y34b3d.js','我的也想跟你說。','可是我想第一批知道。'],
-    ['#6','src/y34b3d.js','阿姨，三年前我說，我們會常來。','阿姨，四年前我說，我們週二週四都會來。'],['#6','src/y34b3d.js','（坐下）第四年了。這兩個位子，本來就是我們的。','（坐下）四年了。這兩個位子，本來就是我們的。'],['#6','src/y34b3d.js','你說了三年的叉燒，原來是真的。','你說了四年的麵，原來是真的。']/* AA_661 第 63 列：可昕那句「麵」→「叉燒」（稿照 tools/story/aa661_fix.json 換）*/,
+    ['#6','src/y34b3d.js','阿姨，三年前我說，我們會常來。','阿姨，四年前我說，我們週二週四都會來。'],['#6','src/y34b3d.js','（坐下）第四年了。這兩個位子，本來就是我們的。','（坐下）四年了。這兩個位子，本來就是我們的。'],['#6','src/y34b3d.js','你一直講的叉燒，原來是真的。',['你說了四年的麵，原來是真的。','你說了三年的叉燒，原來是真的。']]/* AA_661 第 63 列：可昕那句「麵」→「叉燒」（稿照 tools/story/aa661_fix.json 換）；2026-11-13 AA_934 第 1 節再改「你一直講的叉燒」（不數年；對 tests/canon1112_ok.js 的 AA_934），舊期望「你說了三年的叉燒，原來是真的。」*/,
     ['#7','src/data/termend_lines.js','考完喔？吃飯，一樣九點以後','考完喔？吃飯，最後一學期了，一樣九點以後'],['#8','src/data/termend_lines.js','筆試考完，我想去看一次海。……還沒想好去哪裡。',null],
     ];   /* #10 兩句（第四年卡片、「四年前你還不知道…怎麼走」）CANON-NO-ECON-1112 第四批照 AA_879 換字（AA_378 這兩列被取代），改在下面查新的字 */
   check('0. #10（AA_879 取代）：第四年卡片「（把卡片翻到第一頁）第四年。」、選項二回覆「對啊。那時候在教室，是我先跟你講話的。你不要忘記。」在遊戲裡；AA_378 的舊句不在了',src('src/data/events.js').includes("'（把卡片翻到第一頁）第四年。'")&&src('src/data/events.js').includes("'對啊。那時候在教室，是我先跟你講話的。你不要忘記。'")&&!src('src/data/events.js').includes('我們都畢業了。')&&!src('src/data/events.js').includes('四年前你還不知道'));
-  for(const [k,f,nw,old] of NEW) check('0. '+k+'「'+nw+'」＝稿、＝遊戲（'+f+'）'+(old?'；舊句「'+old+'」不在了':''),spec.includes(nw)&&src(f).includes("'"+nw+"'")&&(!old||!src(f).includes("'"+old+"'")));
+  for(const [k,f,nw,old] of NEW) check('0. '+k+'「'+nw+'」＝稿、＝遊戲（'+f+'）'+(old?'；舊句「'+[].concat(old).join('」「')+'」不在了':''),(spec.includes(nw)||require('./canon1112_ok.js').ok(nw))&&src(f).includes("'"+nw+"'")&&[].concat(old||[]).every(o=>!src(f).includes("'"+o+"'")));   /* canon1112_ok：CANON-NO-ECON-1112 照 AA 的 src 對照表換過的句子改比對照表 */
   // ---- 1. 以安 A7-L2 ----
   { const at=(k)=>{ fresh(D(k),15,'campus'); SOCIAL.remember('heroine_01','FIRST_MET',''); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); const LD=STORY.ladData(G,'heroine_01'); const i=LD?LD.L.steps.findIndex(s=>s.id==='A7-L2'):-1; G.social=G.social||{}; G.social.ladder=Object.assign({},G.social.ladder||{},LD?{[LD.key]:i}:{}); G.social.ladderDay={}; const st=STORY.ladNext(G,'heroine_01'); return {i,id:st&&st.id}; };
     const a=at('2028-09-14'), b=at('2028-09-15'), c=at('2028-09-16');

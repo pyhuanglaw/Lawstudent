@@ -257,10 +257,13 @@ await sec('3-1',async()=>{
   check('3-1. 2027 聖誕沒記（期末飯在聖誕以前、或沒交往）＝都沒有',!C.includes('聖誕的。說好考完換。')&&!C.includes('還有，去年說的。今年的第二頁，你排。'),J(C.slice(2)));
 });
 await sec('3-2',async()=>{
+  /* 2026-11-13（CANON-NO-ECON-1112 收尾，AA_934 第 1 節，BB_454 照用）：10/25 美國信箱的週年卡片那一列整列拿掉——週年只會在學期末前後，「第四年」是開局就在交往的舊設定；
+     人在美國碰到週年的，照 AA_879 第 1 節留著的視訊版（下面 3-4）。舊期望：2028-10-25 18:00 交往中、KX_ANNIV[4] video 才有那一句 */
+  const CARD='（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）';
   const s=USL.SUM.find(x=>x.d==='2028-10-25'); fresh('2028-10-25',19,{EXCHANGE_ROUTE:'US',dating_kexin:true,KX_ANNIV:{4:'video'}});
-  const ok1=USL.sumOk(H.G,s), due1=USL.sumDue(H.G,(D('2028-10-25'))*24+17,(D('2028-10-25'))*24+19).some(x=>x.d==='2028-10-25');
-  H.G.flags.KX_ANNIV={4:'missed'}; const ok2=USL.sumOk(H.G,s); H.G.flags.KX_ANNIV={4:'video'}; H.G.flags.dating_kexin=false; const ok3=USL.sumOk(H.G,s);
-  check('3-2. 美國生活的日期旁白 2028-10-25 18:00「（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）」：交往中、KX_ANNIV[4] video 才有',!!s&&s.h===18&&USL.sumLine(H.G,s)==='（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）'&&ok1&&due1&&!ok2&&!ok3,J({ok1,due1,ok2,ok3}));
+  const due1=USL.sumDue(H.G,(D('2028-10-25'))*24+17,(D('2028-10-25'))*24+19).some(x=>x.d==='2028-10-25');
+  const inSrc=listSrc().filter(f=>stripComments(SRC(f)).includes(CARD));
+  check('3-2. 美國生活的日期旁白 2028-10-25 那一列（信箱的週年卡片「第四年」）拿掉了：USL.SUM 沒有 10/25、交往中 KX_ANNIV[4] video 也不會出現；src 裡（不算註解）沒有那一句',!s&&!due1&&!inSrc.length,J({s:!!s,due1,inSrc}));
   const A=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US',KX_ANNIV:{4:'video'}},[0]);
   check('3-2. 大四上期末飯（美國路線、KX_ANNIV[4] video）：飯桌最後「摩天輪。說好的。」＋旁白，在收尾旁白之前',seq(['摩天輪。說好的。','（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）','（她陪你走回宿舍區，在路口停下來。）']),J(A.slice(-4)));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   const B=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'TW',KX_ANNIV:{4:'video'}},[0]), C=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US',KX_ANNIV:{4:'missed'}},[0]);
@@ -339,7 +342,7 @@ await sec('3-11',async()=>{
   check('3-11. 閒聊階梯 K3-L5、K6-L6 換成 AA_863、AA_866 新稿（AA_525 那兩句不疊了）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!k16&&!!k17);
   const s=stripComments(SRC('src/story3d.js')), y=stripComments(SRC('src/y2r2_3d.js'));
   check('3-11. story3d.js「這題我要偷走。」；y2r2_3d.js「嗯。……講不清楚。」（K1b「好，那下週換你請。」那一則）（CANON-NO-ECON-1112 第三批：這一項拿掉）',s.includes("say:[K('這題我要偷走。')]")&&y.includes("{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}"));
-  check('3-11. 出國的計畫「歐洲要排很久。……我先存錢。」',VAC_DATA&&JSON.stringify(VAC_DATA).includes('"later":"歐洲要排很久。……我先存錢。"'));
+  check('3-11. 出國的計畫「歐洲好遠。……先不要。」（2026-11-13 AA_925 第 3 節、BB_451：存錢也是在算；舊期望「歐洲要排很久。……我先存錢。」）',VAC_DATA&&JSON.stringify(VAC_DATA).includes('"later":"歐洲好遠。……先不要。"')&&!JSON.stringify(VAC_DATA).includes('歐洲要排很久'));
   check('3-11. AA_526 撤回：大三上期末飯第二句照原句「寒假你來高雄。……我們都沒去過的地方，我來排。」；「寒假要去哪裡？」→「不告訴你。來了就知道。」不改',J(TERMEND_LINES.KX.Y3S1.table)===J(['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……我們都沒去過的地方，我來排。'])&&J(TERMEND_LINES.KX_ASK.Y3S1[1].r)===J(['不告訴你。來了就知道。']));
   // CANON-NO-ECON-1112：經濟系那一年拿掉（3-11 AA_356 漏的一筆（ev_y0_e18b 可昕生日））
 });

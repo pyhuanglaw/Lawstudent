@@ -175,7 +175,7 @@ const date=id=>H.date(id);
     check('2-Y4-38 4/23 21:00「明天我生日。今年不要慶祝，我們都在準備考試。」（回「好。」）', th('p:kexin').includes('明天我生日。今年不要慶祝，我們都在準備考試。')&&(answer('y4_kx_bday',0),th('p:kexin').includes('好。')));
     at('2029-04-24',10); check('2-Y4-38 4/24 當天問怎麼做', S.kxBdayDue(H.G));
     H.opts=[]; H.picks=[2]; await S.kxBdayPrompt(GM); const q=OUT.get(H.G,'y4_kx_bday');
-    check('2-Y4-38 四個做法：傳一句／寫在讀書計畫表（有 KX_STUDY_PLAN）／開車上山送湯餃／晚一點；選開車＝出遊（木柵大學宿舍樓下）', H.opts[0].length===4&&/讀書計畫表/.test(H.opts[0][1])&&!!q&&q.day===D('2029-04-24'));
+    check('2-Y4-38 四個做法：傳一句／寫在她筆記本的角落（有 KX_STUDY_PLAN；2026-11-13 AA_926，舊期望「讀書計畫表 4/24 那一格」）／開車上山送湯餃／晚一點；選開車＝出遊（木柵大學宿舍樓下）', H.opts[0].length===4&&H.opts[0][1]==='（在她筆記本的角落寫「生日快樂」）'&&!!q&&q.day===D('2029-04-24'));
     at('2029-04-24',20.4); await goOut('y4_kx_bday');
     check('K1 開車送湯餃：「……你開上山就為了這個？」「湯還是熱的。」；KX_BDAY[4] visit', has('……你排了多久？後門那家晚上都要排。')&&has('湯還是熱的。')&&H.G.flags.KX_BDAY[4]==='visit'); }   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   { fresh('2029-04-24',10,'dorm'); date('kexin'); H.G.msgs=[]; PHONE.at(H.G,D('2029-04-23'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y4_kx_bday'); PHONE.tick(H.G); H.opts=[]; H.picks=[0]; await S.kxBdayPrompt(GM); at('2029-04-24',10.5); PHONE.tick(H.G);
@@ -235,7 +235,7 @@ const date=id=>H.date(id);
   const GD={GRADUATED:D('2029-06-02')};
   { fresh('2029-07-05',20,'dorm',Object.assign({NCCU_FOOD_N:3},GD)); date('kexin'); at('2029-07-05',21); pg();
     const q=OUT.get(H.G,'y4_kx_k26');
-    check('2-Y4-44 7/5 21:00「禮拜六下午，我把行程表空出來了。」「三點，老地方。」（AA_366 第 4 節 A7）；出遊 7/7 15:00', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['禮拜六下午，我把行程表空出來了。','三點，老地方。'])&&!!q&&q.day===D('2029-07-07')&&q.h===15);
+    check('2-Y4-44 7/5 21:00「禮拜六下午我沒事。」「三點，老地方。」（AA_366 第 4 節 A7；2026-11-13 AA_926，舊期望「禮拜六下午，我把行程表空出來了。」）；出遊 7/7 15:00', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['禮拜六下午我沒事。','三點，老地方。'])&&!!q&&q.day===D('2029-07-07')&&q.h===15);
     at('2029-07-07',14.2); await goOut('y4_kx_k26');
     check('K1 去了（「我們的店」三次以上）：老闆「畢業了喔？」；「下個月考試。今天不讀書。……考試的事，明天再說。」；KX_K26 went', has('（老闆端上兩個人的點法，只說：「畢業了喔？」）')&&has('下個月考試。今天不讀書。……考試的事，明天再說。')&&!has('畢業了。這裡也算我們的店。')&&H.G.flags.KX_K26==='went'); }
   { fresh('2029-07-07',14.2,'dorm',GD,'JP'); date('kexin'); const L=DATE.log(H.G,'kexin'); L.byLoc={D25:3,D04:1}; L.count=4; S.k26Plan(H.G); const q=OUT.get(H.G,'y4_kx_k26'); await goOut('y4_kx_k26');
@@ -244,7 +244,7 @@ const date=id=>H.date(id);
     check('2-Y4-44 沒去：「三點，老地方。你沒來。」「……我自己吃了兩份。」（AA_366 第 4 節 A7；AA_356 1-4：不留欠債，沒有「你欠我一次」）；KX_K26 missed', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['三點，老地方。你沒來。','……我自己吃了兩份。'])&&!th('p:kexin').some(t=>/你欠我一次/.test(t))&&H.G.flags.KX_K26==='missed', JSON.stringify(th('p:kexin').slice(-3))); }
   { fresh('2029-07-07',14.2,'dorm',GD,'JP'); date('kexin'); H.G.flags.KX_GRAD='mine'; const L=DATE.log(H.G,'kexin'); L.byLoc={D25:3,D04:1}; L.count=4; S.k26Plan(H.G); await goOut('y4_kx_k26');
     const i0=iOf('畢業了。這裡也算我們的店。'), i1=iOf('（她把手機交給隔壁桌的人：「不好意思，幫我們拍一張。」）');
-    check('AA_356 1-3：她的典禮沒去（KX_GRAD mine）＝7/7 第一句之後補合照兩行（旁白＋「典禮那天欠的合照。」）；記 KX_GRAD_PHOTO k26', i0>=0&&i1===i0+1&&H.said[i1].who===null&&H.said[i1+1]&&H.said[i1+1].t==='典禮那天欠的合照。'&&H.G.flags.KX_GRAD_PHOTO==='k26', JSON.stringify(H.said.map(x=>x.t).slice(0,5)));
+    check('AA_356 1-3 那一支拿掉（2026-11-13 AA 定，CANON-NO-ECON-1112 收尾：6/2 是同一場典禮，AA_919 4-2）：舊存檔 KX_GRAD mine 也不補「典禮那天欠的合照。」、不記 KX_GRAD_PHOTO（舊期望：補兩行、記 k26）', i0>=0&&i1<0&&!H.said.some(x=>x.t==='典禮那天欠的合照。')&&H.G.flags.KX_GRAD_PHOTO===undefined, JSON.stringify(H.said.map(x=>x.t).slice(0,5)));
     fresh('2029-07-07',14.2,'dorm',GD,'JP'); date('kexin'); H.G.flags.KX_GRAD='went'; const L2=DATE.log(H.G,'kexin'); L2.byLoc={D25:3,D04:1}; L2.count=4; S.k26Plan(H.G); await goOut('y4_kx_k26');
     check('AA_356 1-3：有去她的典禮＝沒有合照那兩行', !has('典禮那天欠的合照。')&&!H.G.flags.KX_GRAD_PHOTO); }
   /* ===== 2-Y4-45 七月最後衝刺（已在 AA_319 1A-16）===== */

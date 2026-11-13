@@ -178,6 +178,8 @@ def main():
         die(why)
     data = {'src': f'{PATH}@{sha}'}
     data.update(build(json.loads(git('show', f'{sha}:{PATH}'))))
+    # CANON-NO-ECON-1112 收尾（D158；AA_922 說明文字）：rules 說明裡那個系名換代號（舊字用 \u 跳脫寫，canon_scan 不數）
+    data['rules'] = [r.replace('\u7d93\u6fdf\u7cfb\u90a3\u4e00\u5e74', '舊序章那一年') if isinstance(r, str) else r for r in data.get('rules', [])]
     js = ('/* 自動產生：tools/story/import_limao.py（' + data['src'] + '）。不要手改，改企劃稿再重新匯入。\n'
           '   禮貌生財上師的話（LIMAO-SHOP-1110，使用者 X332）：台詞一字照 AA_750；w＝說話的人（yt 祐廷、ms 上師、wu 吳教授、narr 旁白），o:true＝使用者原句。\n'
           '   when 是稿的字（條件怎麼判斷、怎麼演：src/limao3d.js） */\n'

@@ -137,7 +137,7 @@ const US_LIFE_EVENTS=(function(){
     {speaker:'kexin',expression:'smile',text:'……我這邊是晚上。剛好一人一半。'},
     {speaker:'kexin',expression:'teasing',text:'牛郎織女要等一年。我們等四個月。'},
     {choice:[{text:'「十二月二十三號。」',goto:'a'},{text:'「妳那邊幾點睡？」',goto:'b'}]},
-    {label:'a'},{speaker:'kexin',expression:'teasing',text:'我知道。我算過了。'},{goto:'e'},
+    {label:'a'},{speaker:'kexin',expression:'teasing',text:'我知道。……你不用提醒我。'},{goto:'e'},
     {label:'b'},{speaker:'kexin',expression:'smile',text:'等你掛掉就睡。……快掛。'},
     {label:'e'},{set:{USL_QIXI:true}} ]});
 
@@ -249,7 +249,6 @@ const US_LIFE_EVENTS=(function(){
       {d:'2028-08-16',t:'（迎新週的校園導覽。導覽的學生每走一棟樓都說：這棟很老。）'},
       {d:'2028-08-17',h:20,t:G=>LONG(G)?'（國際學生的晚會。何俊朗拿了兩盤披薩，一盤給你。）':'（國際學生的晚會。你吃了兩片披薩，早早回公寓。）'},
       {d:'2028-08-18',t:'（你去書店買了三本教科書。收據比你想的長。）'},
-      {d:'2028-10-25',h:18,if:G=>!!G.flags&&(G.flags.dating_kexin===true||!!(G.flags.romance&&G.flags.romance.kexin&&G.flags.romance.kexin.status==='dating'))&&!!G.flags.KX_ANNIV&&G.flags.KX_ANNIV[4]==='video',t:'（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）'},   /* AA_525 3-2（K-3）：週年視訊「卡片我寄了，下禮拜才會到。」＝交往中、KX_ANNIV[4] video 的才有（if：us_life3d.js 的 S.sumOk）*/
       {d:'2028-11-24',t:'（黑色星期五。草原超市排隊排到門口。你沒有進去。）'},
       {d:'2028-11-25',t:G=>dating(G)?'（下了一點雪，落地就化了。學姊說這不算初雪。）':'（下了一點雪，落地就化了。）'},
       {d:'2028-11-26',t:'（連假的最後一天。自習室只有你和兩個學生。）'},

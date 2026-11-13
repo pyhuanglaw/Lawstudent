@@ -409,7 +409,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(D('2028-10-04'),8,'dorm'); date('kexin'); SOCIAL.remember('kexin','ENC_D13_KX',''); only('y4_kx_index2',()=>run(G.day,8,21.5)); check('14. 見過邵鈞（ENC_D13_KX）：「邵鈞的考古題目錄，現在有第二冊。」', K()[0]==='kexin:系上那個學長的考古題目錄，現在出第二冊了。');
     { const seen=prep=>{ fresh(D('2028-10-04'),8,'dorm',prep.flags||{}); date('kexin'); if(prep.mem) SOCIAL.remember('kexin',prep.mem,''); only('y4_kx_index2',()=>run(G.day,8,21.5)); return K()[0]==='kexin:系上那個學長的考古題目錄，現在出第二冊了。'; };
       check('14. C7 見過邵鈞＝電影夜（KX_NCCU_FRIENDS）、小教室生日（KX_BDAY[2] class）、貓空（ENC_D09_KX）任一（AA_343 C7）', seen({flags:{KX_NCCU_FRIENDS:true}})&&seen({flags:{KX_BDAY:{2:'class'}}})&&seen({mem:'ENC_D09_KX'})&&seen({flags:{KX_BDAY:{2:'shop'}}})/* 2026-11-12（CANON-NO-ECON-1112 第五批 AA_919 第 2 節）：見過沒見過只留一版，誰都是同一句 */); }
-    fresh(D('2029-03-14'),8,'dorm'); date('kexin'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 大四下「山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。」', K()[0]==='kexin:山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。');
+    fresh(D('2029-03-14'),8,'dorm'); date('kexin'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 大四下「後門那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。」（2026-11-13 AA_934 第 2 節，舊期望「山下那家」）', K()[0]==='kexin:後門那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。');
     fresh(D('2029-03-14'),8,'dorm'); R('kexin','FRI'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 可昕的只給交往中', !K().length); }
 
   // ===== 15. 3-12 何俊朗 1～5（美國路線）=====
