@@ -107,14 +107,6 @@
  },
  {
   "files": [
-   "heroine_arcs.js"
-  ],
-  "old": "……我會是好律師。你說的。",
-  "new": "我會是好律師。你說的。",
-  "speaker": "kexin"
- },
- {
-  "files": [
    "activity_scenes.js"
   ],
   "old": "……我沒有說你在照顧我。我媽自己說的。",
@@ -215,14 +207,6 @@
   ],
   "old": "……好。你說的喔，考不上你要負責。",
   "new": "好。你說的喔，考不上你要負責。",
-  "speaker": "kexin"
- },
- {
-  "files": [
-   "gift_holiday.js"
-  ],
-  "old": "……很肉麻。我知道。",
-  "new": "很肉麻。我知道。",
   "speaker": "kexin"
  },
  {
