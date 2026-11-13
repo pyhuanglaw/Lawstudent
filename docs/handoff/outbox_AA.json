@@ -7926,17 +7926,18 @@
   {
    "task": "SHOP-CC0-HELP-1113",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "(本 commit)",
+   "sha": "(本 commit：v2)",
    "files": [
     "docs/art-rebuild/aa_help/l118_self_cc0.patch",
-    "docs/art-rebuild/aa_help/cmp_l118_self.jpg"
+    "docs/art-rebuild/aa_help/cmp_l118_self.jpg",
+    "docs/art-rebuild/aa_help/l118_self_food_closeup.jpg"
    ],
    "state": "已交付",
-   "at": "2026-11-13T15:10Z",
+   "at": "2026-11-13T15:35Z",
    "receiver": "LAWWW2",
-   "ack": "",
+   "ack": "LAWWW2-C 退 v1（配菜櫃色塊、飯桶八角、不鏽鋼偏藍）→ 交 v2",
    "noDirectIntegrate": true,
-   "next": "LAWWW2-C 驗收（shop_cc0 三項＋l118 店測＋並排圖）→ 過了轉 LAWWW-C 整合（patch 底＝開發分支 a9b63d9eff，git apply --check 過）→ BB 判美術",
+   "next": "LAWWW2-C 驗收 v2 → 過了轉 LAWWW-C 整合（patch 底＝開發分支 c10937dddb）→ BB 判美術",
    "unfinished": "118 巷其他八間（korea、dian、tea 用 lane118_shops.py；cafe2、home、noodle2、omu、pasta 用 l118_int_<店>.py）"
   }
  ],
