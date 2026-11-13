@@ -127,8 +127,22 @@ async def main():
         # 【捷徑】撥到約定時間前 3 分鐘，走過去
         await pg.evaluate("(h=>{ GAME.G.hour=h; })", float(iv['h']) - 0.05); await pg.wait_for_timeout(1500)
         R.setup('【捷徑】時間撥到約定時間 %.2f 前 3 分鐘' % float(iv['h']))
+        # 11-14 CANON458 BEAT6_r2：約定時間到，遊戲自己跳「直接過去：…（照快速前往的路程時間）／自己走過去」——r1 沒處理＝一直 busy、走不到門口（BADM／BEAT6／BEAT8 r1 的真正原因）
+        #   ROUTE 第一步是 travel＝選「直接過去」（遊戲自己的走法）；exit＝選「自己走過去」再照玩家走
+        go_direct = ROUTE and ROUTE[0].startswith('travel:')
+        for _ in range(16):
+            st = await pg.evaluate(DLG)
+            if st['choices']:
+                want = '直接過去' if go_direct else '自己走過去'
+                i = next((k for k, x in enumerate(st['choices']) if x.startswith(want)), None)
+                R.note('約定時間的選單 %s → 選「%s」' % (J(st['choices']), st['choices'][i] if i is not None else '（沒有，選第一個）'))
+                await pg.screenshot(path=os.path.join(OUT, 'invp_%s_gochoice.png' % TAG))
+                await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % (i or 0)); await pg.wait_for_timeout(2500); break
+            if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+            await pg.wait_for_timeout(500)
         for n, step in enumerate(ROUTE, 1):
             kind, _, arg = step.partition(':')
+            if kind == 'travel' and await pg.evaluate("GAME.G.zone") == arg: R.note('[%d] 已經在 %s（約定時間的「直接過去」）' % (n, arg)); continue
             if kind == 'travel':   # 11-14 CANON458 BADM／AN_BEAT6／8：走 111 m、或從公館另一頭走過去走不到門口——照玩家用手機「地點」快速前往（先把對話點掉）
                 ok_t = await travel_to(pg, cdp, arg)
                 if not R.check('[%d] 手機「地點」快速前往 %s' % (n, arg), ok_t, J(await pg.evaluate(DLG))): break
