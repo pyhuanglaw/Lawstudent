@@ -73,13 +73,14 @@ cafe2)
   #   ＋廚房一支日光燈（x 0、z −5.18）。白天燈也開著；店面玻璃朝 118 巷（S），只有天光。
   #   GLB 預算：tests/l118_int_home_cafe2_1111_unit.js 第 5 項「舊版 1.5 倍以內」（BB 11-13：不放寬、光照照烘）。全部烘＝3.7 MB（多一套 UV、頂點拆開）→
   #   只烘房間外殼（地板、天花板、四面牆和腰牆、廚房磁磚、木桌面），道具照舊即時光：NOLM 寫成「除了這些都不烘」
+  #   日光燈 34→28、廚房 24→20（LAWWW2-C 11-13 P2：白天牆和地板幾乎全白、牆角和餐台下沒有暗）
   BUILDER=l118_int_cafe2.py
   HIDE='glass|GLOW_|view'
   NOLM='^(?!(l118_cafe2_(floorm|ceiling|paving|woodparts)|WALL_[NSEW]_(wall|wain|kitchen_tile_[wf]|kceil_cc0))$).*'
   COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
   for xz in "-1.5 -2.4" "1.5 -2.4" "-1.5 -0.3" "1.5 -0.3" "-1.5 1.8" "1.5 1.8" "0.0 3.6"; do set -- $xz
-    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.1,1,1,${TUBEW:-34},1.2,0.25,$COL')")"; done
-  LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-5.185,-5.165,3.1,1,1,${TUBEW:-24},1.24,0.05,$COL')")"
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.1,1,1,${TUBEW:-28},1.2,0.25,$COL')")"; done
+  LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-5.185,-5.165,3.1,1,1,${TUBEW:-20},1.24,0.05,$COL')")"
   for z in -2.0 -0.3 1.4; do PT="$PT;-2.75,1.45,$z,${HEATW:-14},$WARM,0.06"; done
   SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.98,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
 *) echo "還沒做 CC0 版的店：$SHOP（lane118_shops.py 的 CC0_SHOPS 加進去、這裡加一個 case）"; exit 1 ;;

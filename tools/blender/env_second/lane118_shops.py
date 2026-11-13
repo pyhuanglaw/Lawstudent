@@ -219,7 +219,10 @@ def table_set(c, x, z, kind='tw'):
         clathe(v, [(0.0, 0.0), (0.03, 0.0), (0.035, 0.08), (0.015, 0.14), (0.018, 0.16), (0.0, 0.16)], x, 0.74, z, '#d8e4e0', seg=10)
         csph(v, (x + 0.005, 0.9, z), 0.025, '#e7b8c0', seg=8, rings=5); ccyl(v, (x + 0.12, 0.74, z + 0.02), (x + 0.12, 0.81, z + 0.02), 0.03, '#f1ede4', seg=10)
         return
-    ccyl(v, (x, 0.74, z), (x, 0.9, z), 0.035, '#b8322a' if kind != 'korea' else '#c9ced2', seg=10)          # 筷筒
+    if getattr(c, 'steel_holder', False) and getattr(c, 'vm_steel', None) is not None:   # LAWWW2-C 11-13 korea P2：參考圖是不鏽鋼網筒（原本紅色圓筒）——不鏽鋼材質組的筒身＋上下兩圈箍
+        ccyl(c.vm_steel, (x, 0.74, z), (x, 0.9, z), 0.036, '#c9ced2', seg=12)
+        for yy in (0.745, 0.893): ccyl(c.vm_steel, (x, yy, z), (x, yy + 0.008, z), 0.039, '#c9ced2', seg=12)
+    else: ccyl(v, (x, 0.74, z), (x, 0.9, z), 0.035, '#b8322a' if kind != 'korea' else '#c9ced2', seg=10)          # 筷筒
     for k in range(7): a = k * 0.9; ccyl(v, (x + 0.018 * math.cos(a), 0.86, z + 0.018 * math.sin(a)), (x + 0.02 * math.cos(a), 0.99, z + 0.02 * math.sin(a)), 0.004, '#e6d4ae', seg=4, caps=False)
     v.crbox(x + 0.07, x + 0.21, 0.74, 0.82, z - 0.06, z + 0.06, '#f4f1ea', r=0.008, seg=1); v.cbox(x + 0.12, x + 0.16, 0.82, 0.84, z - 0.03, z + 0.03, '#ffffff')   # 面紙盒
     clathe(v, [(0.0, 0.0), (0.028, 0.0), (0.03, 0.1), (0.012, 0.13), (0.012, 0.15), (0.0, 0.15)], x - 0.09, 0.74, z + 0.03, '#3a2416', seg=8)   # 醬油
@@ -487,6 +490,12 @@ def kitchen(c, x0, x1, depth=1.8, win=(0.95, 1.55), door=None):
     kt.poly([(X0, 0, Z0), (X0, 0, zk), (X0, H, zk), (X0, H, Z0)], '#d6d2c9'); kt.poly([(X1, 0, zk), (X1, 0, Z0), (X1, H, Z0), (X1, H, zk)], '#d6d2c9')
     c.wg('N', 'kceil', M['kceil']).quad([(X0, H, zk), (X1, H, zk), (X1, H, Z0), (X0, H, Z0)])          # 天花板：單面朝下（原本在頂點色網格裡、雙面）
     ks.box(X0 + 0.1, X1 - 0.1, 0.0, 0.86, zk, zk + 0.65); ks.box(X0 + 0.1, X1 - 0.1, 0.86, 0.9, zk, zk + 0.68)   # 爐台
+    if getattr(c, 'p2_full', False):   # BB 11-13 self P2「後廚櫃子是灰方塊」：爐台下的櫃門（一扇扇略凸的門板、中間的縫、橫的把手）、踢腳板
+        nd = max(2, int((X1 - X0 - 0.2) / 0.55)); wd = (X1 - X0 - 0.2) / nd; kh_ = c.wg('N', 'khandle', c.MX['steel_d']) if hasattr(c, 'MX') else ks
+        for k in range(nd):
+            xa = X0 + 0.1 + k * wd; ks.box(xa + 0.012, xa + wd - 0.012, 0.12, 0.8, zk + 0.652, zk + 0.668)
+            kh_.box(xa + wd * 0.3, xa + wd * 0.7, 0.72, 0.735, zk + 0.668, zk + 0.69)
+        kh_.box(X0 + 0.1, X1 - 0.1, 0.0, 0.1, zk + 0.652, zk + 0.66)
     kd = kw = kt
     if c.sid in CC0_KTEX and hasattr(c, 'MX'):   # CC0（辛亥韓食起）：爐口、炒鍋放黑鐵材質組，出菜口層架上的碗放白瓷（不再是頂點色；跟著後牆淡出）
         import cc0_kit as K_; kd = K_.AsTex(c.wg('N', 'kitchen_iron', c.MX['blackmetal'])); kw = K_.AsTex(c.wg('N', 'kitchen_bowl', c.MX['plastic_w']))
@@ -497,7 +506,15 @@ def kitchen(c, x0, x1, depth=1.8, win=(0.95, 1.55), door=None):
     ks.box(X0 + 0.05, X1 - 0.05, 2.1, 2.5, zk, zk + 0.75)                                                 # 抽油煙機
     kt.cbox((X0 + X1) / 2 - 0.7, (X0 + X1) / 2 + 0.7, H - 0.06, H, Z0 - 0.75, Z0 - 0.6, '#e9e9e6'); _ct(c).cyl(((X0 + X1) / 2 - 0.62, H - 0.085, Z0 - 0.675), ((X0 + X1) / 2 + 0.62, H - 0.085, Z0 - 0.675), 0.016, seg=8)   # 廚房的日光燈
     ks.box(X0 + 0.2, X1 - 0.2, 1.5, 1.53, Z0 - 0.32, Z0 - 0.02)                                           # 出菜口後面的層架
-    for k in range(10): x = X0 + 0.4 + k * (X1 - X0 - 0.8) / 9; clathe(kw, [(0.0, 0.0), (0.05, 0.0), (0.075, 0.06), (0.07, 0.06), (0.0, 0.006)], x, 1.53, Z0 - 0.17, '#f4f1ea', seg=10)
+    kp = None
+    if getattr(c, 'kpots', False) and hasattr(c, 'MX'):   # LAWWW2-C 11-13 cafe2 P2「後面不鏽鋼層架上的鍋子太少」：層架上隔一個放一個有蓋的不鏽鋼湯鍋（跟著後牆淡出）
+        import cc0_kit as K_; kp = K_.AsTex(c.wg('N', 'kitchen_pot', c.MX['steel']))
+    for k in range(10):
+        x = X0 + 0.4 + k * (X1 - X0 - 0.8) / 9
+        if kp is not None and k % 3 == 1:
+            r_, h_ = (0.13, 0.2) if k % 2 else (0.11, 0.16)
+            clathe(kp, [(0.0, 0.0), (r_, 0.0), (r_, h_), (r_ + 0.01, h_ + 0.008), (r_ * 0.3, h_ + 0.04), (0.025, h_ + 0.04), (0.025, h_ + 0.065), (0.0, h_ + 0.065)], x, 1.532, Z0 - 0.17, '#c6cbce', seg=12); continue
+        clathe(kw, [(0.0, 0.0), (0.05, 0.0), (0.075, 0.06), (0.07, 0.06), (0.0, 0.006)], x, 1.53, Z0 - 0.17, '#f4f1ea', seg=10)
     # 後牆的腰牆線、踢腳板（開口的地方斷開）；廚房門口掛門簾
     tr = c.wg('N', 'trim', M['vc'], cm=True); tc = c.S.get('trim', '#6b4a30')
     for (ya, yb, col, t) in ((wh - 0.02, wh + 0.03, tc, 0.015), (0.0, 0.09, '#3a3530', 0.012)):
@@ -858,6 +875,10 @@ def build_dian(c):
     c.spawn['z'] = round(Z1 - 1.35, 3)
     cz0, cz1 = Z0 + 1.0, Z0 + 1.55
     counter(c, X0, 0.55, cz0, cz1, h=1.05, top='steel', front=RED, block=False); register(c, -0.2, 1.05, (cz0 + cz1) / 2, face='+z')
+    if getattr(c, 'p2_full', False):   # LAWWW2-C 11-13 dian P2：櫃台正面一整片大紅板 → 深紅木條分成幾段＋深色踢腳
+        nseg = max(2, round((0.55 - X0) / 0.6)); wseg = (0.55 - X0) / nseg
+        for k in range(nseg + 1): xs_ = X0 + k * wseg; c.vc.cbox(max(X0, xs_ - 0.022), min(0.55, xs_ + 0.022), 0.1, 1.005, cz1 + 0.002, cz1 + 0.016, '#7a100c')
+        c.vc.cbox(X0, 0.55, 0.95, 0.985, cz1 + 0.002, cz1 + 0.018, '#7a100c'); c.vc.cbox(X0, 0.55, 0.0, 0.1, cz1 + 0.002, cz1 + 0.014, '#3a2a1e')
     for k in range(3): clathe(c.vc, [(0.0, 0.0), (0.03, 0.0), (0.032, 0.12), (0.014, 0.16), (0.0, 0.16)], -1.5 + k * 0.14, 1.05, cz1 - 0.14, ['#3a2416', '#a8241a', '#3a2416'][k], seg=8)   # 黑胡椒醬、番茄醬、蘑菇醬
     c.vc.cbox(0.62, 0.66, 0.0, 1.0, cz0, cz1, '#8a8f93'); c.steel.box(0.55, 0.9, 0.95, 0.98, cz0, cz1)                                   # 櫃台右端的掀板（關著）
     c.block(X0, 0.92, Z0, cz1 + 0.02, 'counter')
@@ -871,8 +892,10 @@ def build_dian(c):
     kx = X0 + 0.33
     clathe(c.vm, [(0.0, 0.0), (0.23, 0.0), (0.23, 0.36), (0.22, 0.37), (0.0, 0.37)], kx, 0.9, 2.05, '#b9bec2', seg=18); clathe(c.vc, [(0.0, 0.0), (0.23, 0.0), (0.24, 0.03), (0.07, 0.07), (0.03, 0.1), (0.0, 0.1)], kx, 1.27, 2.05, '#2b2b2b', seg=18)   # 玉米濃湯的保溫桶＋蓋子
     c.vc.cbox(sx1 - 0.105, sx1 - 0.1, 0.98, 1.16, 1.9, 2.2, '#f2c21a')                                                                      # 桶子上的黃色品名牌
+    if getattr(c, 'p2_full', False): text_tag(c, 'soup', sx1 - 0.0995, 0.99, 1.15, 1.91, 2.19, ['玉米濃湯', '自取'])   # BB 11-13 dian P2：貼紙印字
     ccyl(c.vc, (kx, 0.9, 2.62), (kx, 1.42, 2.62), 0.17, '#6a3420', seg=16); ccyl(c.vm, (kx, 1.42, 2.62), (kx, 1.47, 2.62), 0.18, '#b9bec2', seg=16); ccyl(c.vm, (kx, 0.9, 2.62), (kx, 0.96, 2.62), 0.19, '#b9bec2', seg=16)
     c.vc.cbox(kx + 0.17, kx + 0.26, 1.0, 1.04, 2.6, 2.64, '#222222'); c.vc.cbox(sx1 - 0.105, sx1 - 0.1, 1.1, 1.26, 2.48, 2.76, '#f2c21a')   # 紅茶桶的龍頭、品名牌
+    if getattr(c, 'p2_full', False): text_tag(c, 'tea', sx1 - 0.0995, 1.11, 1.25, 2.49, 2.75, ['紅茶', '自取'])
     cups_stack(c, kx + 0.1, 0.9, 3.0, 7); cups_stack(c, kx - 0.08, 0.9, 3.02, 5)
     for k in range(6): clathe(c.vc, [(0.0, 0.0), (0.055, 0.0), (0.085, 0.065), (0.08, 0.065), (0.0, 0.006)], kx, 0.9 + k * 0.024, 1.75, '#f4f1ea', seg=10)   # 一疊湯碗
     c.block(X0, X0 + 0.8, 1.6, 3.2, 'soup')
@@ -963,7 +986,9 @@ def build_self(c):
         if getattr(c, 'foodm', None): fried_pile(c, ('leg', 'cutlet', 'chop')[k], sx0 + 0.27, 1.115, zc_)   # CC0：炸雞腿（一頭粗一頭細＋骨頭）、雞排、排骨（扁長），貼菜色貼圖集
         else:
             for j in range(7): csph(c.vc, (sx0 + 0.2 + (j % 2) * 0.16, 1.16 + (j // 4) * 0.05, zc_ - 0.3 + (j % 4) * 0.2), 0.085, col if j % 3 else '#e0a848', seg=8, rings=5, sy=0.65)
-        c.vc.cbox(sx1 - 0.3, sx1 - 0.292, 1.115, 1.2, zc_ - 0.14, zc_ + 0.14, '#f2c21a'); ccyl(c.vm, (sx0 + 0.3, 1.5, zc_), (sx0 + 0.3, 1.62, zc_), 0.09, '#b9bec2', seg=12, r2=0.03); c.warm.sphere((sx0 + 0.3, 1.5, zc_), 0.04, seg=8, rings=4)
+        c.vc.cbox(sx1 - 0.3, sx1 - 0.292, 1.115, 1.2, zc_ - 0.14, zc_ + 0.14, '#f2c21a')
+        if getattr(c, 'foodm', None): self_tag(c, k, sx1 - 0.2915, 1.12, 1.195, zc_ - 0.135, zc_ + 0.135)   # BB 11-13 self P2：黃牌上沒有字 → 品名＋價錢（店家資料的菜單）
+        ccyl(c.vm, (sx0 + 0.3, 1.5, zc_), (sx0 + 0.3, 1.62, zc_), 0.09, '#b9bec2', seg=12, r2=0.03); c.warm.sphere((sx0 + 0.3, 1.5, zc_), 0.04, seg=8, rings=4)
     wall_shelf(c, 'W', 1.95, 3.6, 1.55, items='bowls')
     # 第 3 版：店中間的不鏽鋼取餐檯（參考圖：成疊的便當盒、塑膠袋、「取餐／外帶」黃牌；阻擋剛好 3×2 格導航格）、東牆的雙門冰箱、天花板格線、盆栽
     ix0, ix1, iz0, iz1 = 0.33, 1.47, -0.87, -0.13
@@ -1392,6 +1417,7 @@ def build_korea(c):
     """清州刀削麵（L118-SHOPS-REDO-1111，X338；參考圖 l118_ref/ext_korea）：使用者的規格「白底紅字老式招牌、門口可見製麵區；不鏽鋼桌、廚房可見削麵及煮麵」。
     靠店面玻璃的左邊是製麵區（不鏽鋼工作台上的麵團、兩口大湯鍋——從街上的玻璃看得到；削麵的師傅站在台子後面）；最裡面櫃台＋出菜口；五張不鏽鋼四人桌配圓凳；白磁磚牆、壁扇、紅字菜單"""
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; RED = '#b41e1c'
+    c.steel_holder = getattr(c, 'cc0m', None) is not None   # CC0：桌上的筷筒是不鏽鋼網筒
     shell(c); kitchen(c, -1.6, 2.9, depth=2.2, win=(1.0, 2.5), door=(-2.6, -1.85))   # 第 2 版：開放式廚房（室內參考圖：大湯鍋、煮麵籃、抽油煙罩、層架上一盤盤醒著的麵團）
     kitchen_rich(c, hood=(0.3, 2.7), rack=(-1.5, -0.2), dough=True)
     if getattr(c, 'cc0m', None) is not None:   # CC0（BB 11-13 korea P2：從出菜口看進去廚房沒有爐台、蒸氣、麵粉袋）：抽油煙罩下兩口大湯鍋＋蒸氣、牆角一袋麵粉
@@ -1546,7 +1572,8 @@ CC0_FOOD = ('self', 'tea', 'cafe2')
 CC0_INT = ('cafe2', 'pasta', 'omu', 'noodle2', 'home')   # l118_int_<店>.py 那五間（自己在 main 呼叫 cc0_setup／cc0_post）
 CC0_STEAK = ('dian',)
 CC0_KTEX = ('tea',)
-CC0_SHINY = ('korea', 'home')   # home：LAWWW2-C 11-13 P2（包水餃的不鏽鋼太霧、太暗）
+CC0_P2 = ('self', 'dian', 'tea')   # BB 11-13 P2 第二輪：炸物堆滿、廚房爐台下的櫃門（重建這幾間才會變）
+CC0_SHINY = ('korea', 'home')   # home：LAWWW2-C 11-13 P2（包水餃的不鏽鋼太霧、太暗）   # 清州刀削麵（BB 11-13 P2：不鏽鋼桌面是霧面灰板）   # 開放式廚房的爐口、炒鍋、碗也放進材質組的店（之後做的店都加；已交的 self、korea、dian 不動，重建才會和交出去的一樣）   # 有鐵板牛排的店   # 有配菜盤、炸物的店：用菜色貼圖集
 CC0_VM = {'cafe2': 'steel', 'self': 'steel', 'korea': 'steel', 'dian': 'steel', 'tea': 'steel', 'pasta': 'steel', 'omu': 'steel', 'noodle2': 'blackmetal', 'home': 'steel'}   # 迪倫：圓柱畫的椅腳、網格是黑鐵   # 金屬零件（c.vm）表上沒有的顏色、圓柱、車床零件（直接畫進網格的）歸哪一種：水上便當幾乎都是不鏽鋼（飯鍋、保溫燈罩、餐盤）
 CC0_CHAIRS = {'steelstool': ('metal_stool_02', dict(height=0.46, decimate=0.15, mat='steel')),   # 掃描的是白烤漆凳：形狀照用、材質換不鏽鋼（參考圖、原本都是不鏽鋼）
               'wood': ('painted_wooden_chair_02', dict(height=0.92, recolor=('#170e08', '#5e3f29'), decimate=0.45, chair=True)),
@@ -1568,8 +1595,20 @@ def food_atlas(path, size=1024):
         d.rectangle([x0, y0, x0 + cs, y0 + cs], fill=hx(base, 0.8))
         for _ in range(n_):
             cx, cy = x0 + rr.uniform(0, cs), y0 + rr.uniform(0, cs); r = rr.uniform(r0, r1); col = hx(rr.choice(cols), rr.uniform(0.85, 1.12))
-            if sq: d.rectangle([cx - r, cy - r * 0.8, cx + r, cy + r * 0.8], fill=col, outline=hx(base, 0.6))
+            if sq:   # 豆干：轉不同角度的四邊形（不畫外框：BB 11-13 像磁磚）
+                a = rr.uniform(0, math.pi); d.polygon([(cx + math.cos(a + k * 1.5708 + rr.uniform(-0.15, 0.15)) * r, cy + math.sin(a + k * 1.5708 + rr.uniform(-0.15, 0.15)) * r * 0.8) for k in range(4)], fill=col)
             else: d.ellipse([cx - r, cy - r * rr.uniform(0.5, 1.0), cx + r, cy + r * rr.uniform(0.5, 1.0)], fill=col)
+    def chunks(x0, y0, base, lean, fat, n_, r0, r1):
+        """滷肉、紅燒肉（BB 11-13 self P2：方塊加外框看起來像磁磚）：醬汁底＋一塊塊歪的肉（不規則四邊形、轉不同角度）、一條肥的、醬汁的油光點"""
+        d.rectangle([x0, y0, x0 + cs, y0 + cs], fill=hx(base, 0.75))
+        for _ in range(260): cx, cy, r = x0 + rr.uniform(0, cs), y0 + rr.uniform(0, cs), rr.uniform(3, 9); d.ellipse([cx - r, cy - r * 0.7, cx + r, cy + r * 0.7], fill=hx(base, rr.uniform(0.6, 1.0)))
+        for _ in range(n_):
+            cx, cy = x0 + rr.uniform(-8, cs + 8), y0 + rr.uniform(-8, cs + 8); r = rr.uniform(r0, r1); a = rr.uniform(0, math.pi)
+            pts = [(cx + math.cos(a + k * 1.5708 + rr.uniform(-0.35, 0.35)) * r * rr.uniform(0.75, 1.2), cy + math.sin(a + k * 1.5708 + rr.uniform(-0.35, 0.35)) * r * rr.uniform(0.75, 1.2)) for k in range(4)]
+            d.polygon(pts, fill=hx(rr.choice(lean), rr.uniform(0.85, 1.1)))
+            if fat and rr.random() < 0.7:   # 一條肥的（靠一邊）
+                m0, m1 = pts[0], pts[1]; d.line([((m0[0] * 2 + pts[3][0]) / 3, (m0[1] * 2 + pts[3][1]) / 3), ((m1[0] * 2 + pts[2][0]) / 3, (m1[1] * 2 + pts[2][1]) / 3)], fill=hx(rr.choice(fat), rr.uniform(0.9, 1.1)), width=int(r * 0.35))
+            gx, gy = (pts[0][0] + pts[2][0]) / 2 + rr.uniform(-4, 4), (pts[0][1] + pts[2][1]) / 2 + rr.uniform(-4, 4); d.ellipse([gx - 3, gy - 2, gx + 3, gy + 2], fill=hx('#e8b890'))   # 油光
     def leaves(x0, y0, base, cols, stems):
         d.rectangle([x0, y0, x0 + cs, y0 + cs], fill=hx(base, 0.6))
         for _ in range(140):
@@ -1587,12 +1626,12 @@ def food_atlas(path, size=1024):
         if i == 0 or i == 12: blobs(x0, y0, '#b8742a', ['#d89a42', '#e8b45a', '#c98a3a', '#a8642a', '#f0c870'], 900, 3, 9)       # 炸物酥皮顆粒
         elif i == 1: leaves(x0, y0, '#3f6a2a', ['#5f9a3c', '#7aaa45', '#4f8a32', '#8aba55'], '#c9d9a0')                           # 炒青菜
         elif i == 2: blobs(x0, y0, '#d8a83a', ['#f0c84a', '#e8b83a', '#f5d860', '#dca030'], 520, 6, 10)                       # 玉米粒
-        elif i == 3: blobs(x0, y0, '#6a2a1a', ['#8a3a22', '#a84a2a', '#7a321e', '#c9784a'], 160, 10, 24, sq=True)              # 滷肉、三杯
+        elif i == 3: chunks(x0, y0, '#5a2414', ['#8a3a22', '#9a4226', '#7a321e', '#a8502c'], ['#d8a070', '#e8c090'], 46, 16, 26)   # 滷肉、三杯
         elif i == 4: leaves(x0, y0, '#c8c8a0', ['#e6e6c8', '#d8dcb0', '#c9d49a', '#f0f0d8'], '#f4f4e8')                           # 高麗菜
         elif i == 5: leaves(x0, y0, '#2a4a1a', ['#3f6a2a', '#4a7a2e', '#355e24', '#5a8a3a'], '#8aa86a')                           # 菠菜
         elif i == 6: blobs(x0, y0, '#7a4a1e', ['#a8642a', '#b8742a', '#c98a4a', '#8a5222'], 70, 16, 28, sq=True)               # 滷豆干
         elif i == 7: sticks(x0, y0, '#d8cca0', ['#f2ecd0', '#e8e0b8', '#f8f4e0', '#d8c890'], 10, 22, 4)                         # 豆芽、馬鈴薯絲
-        elif i == 8: blobs(x0, y0, '#4a1a12', ['#6a2a1a', '#7a3220', '#5a2216', '#9a5a3a'], 200, 8, 20)                       # 紅燒肉
+        elif i == 8: chunks(x0, y0, '#3a160e', ['#6a2a1a', '#7a3220', '#5a2216', '#8a3a24'], ['#c89068', '#d8a878', '#e0b890'], 38, 18, 30)   # 紅燒肉（三層肉：瘦的＋一條肥的）
         elif i == 9: sticks(x0, y0, '#4a7a2a', ['#7aaa45', '#8aba55', '#6a9a3a', '#9ac865'], 18, 34, 9)                         # 四季豆
         elif i == 10: blobs(x0, y0, '#b8862a', ['#d8a83a', '#c9963a', '#e8c060', '#a8762a', '#f0e0a0'], 360, 5, 14)           # 咖哩、炒麵
         elif i == 11: blobs(x0, y0, '#e8dcc0', ['#f8f0d8', '#f0e4c4', '#e0c890', '#fff8e8'], 420, 5, 12)                       # 蒸蛋、炒蛋
@@ -1653,9 +1692,36 @@ def _disc_uv(c, cx, y, cz, a, b, yaw, h, cell, seg=14, rings=3, m=None, rect=Non
             p = [P(rs[i], k), P(rs[i + 1], k), P(rs[i + 1], k + 1), P(rs[i], k + 1)]
             f = _uvface(m, [q[0] for q in p], [q[1] for q in p])
             if f.normal.z < 0: f.normal_flip()
-    for k in range(seg):   # 邊緣往下
+    for k in range(seg):   # 邊緣往下：下緣的 UV 往圓心收一圈（BB 11-13 self P2：上下同一個 UV＝側面的貼圖被拉成一條條）
         p, q = P(1.0, k), P(1.0, k + 1); pd, qd = P(1.0, k, -edge), P(1.0, k + 1, -edge)
-        _uvface(m, [pd[0], qd[0], q[0], p[0]], [pd[1], qd[1], q[1], p[1]])
+        _uvface(m, [pd[0], qd[0], q[0], p[0]], [P(0.86, k)[1], P(0.86, k + 1)[1], q[1], p[1]])
+
+
+def self_tag(c, k, x, y0, y1, z0, z1):
+    """水上便當配菜櫃上層的黃色品名牌（面向 +x）：第 k 張＝炸雞腿飯、雞排飯、排骨飯（品名、價錢照 src/data/lane118_shops.js 的菜單）"""
+    if 'tags' not in c.extra:
+        from PIL import Image, ImageDraw, ImageFont
+        sh = json.loads((lambda s: s[s.index('{', s.index('const LANE118_SHOPS=')):s.rindex('}') + 1])(open(os.path.join(L.ROOT, 'src/data/lane118_shops.js'), encoding='utf-8').read()))
+        menu = dict(next(q for q in sh['shops'] if q['id'] == c.sid)['menu']); f = ImageFont.truetype(TX.CJK, 64); fp = ImageFont.truetype(TX.CJK, 54)
+        im = Image.new('RGB', (512, 480), '#f2c21a'); d = ImageDraw.Draw(im)
+        for i, nm in enumerate(('炸雞腿飯', '雞排飯', '排骨飯')):
+            y_ = i * 160; d.rectangle([4, y_ + 4, 507, y_ + 155], outline='#b8860a', width=5)
+            d.text((24, y_ + 42), nm, font=f, fill='#3a1a0a'); pr_ = f'${menu[nm]}'; w_ = d.textlength(pr_, font=fp); d.text((488 - w_, y_ + 48), pr_, font=fp, fill='#b41e1c')
+        im.save(os.path.join(GEN, f'l118_{c.sid}_tags.png')); c.extra['tags'] = Mesh(f'l118_{c.sid}_tags', img_mat(f'l118_{c.sid}_tags', f'l118_{c.sid}_tags.png', rough=0.5))
+    v0, v1 = 1 - (k + 1) / 3 + 0.004, 1 - k / 3 - 0.004
+    uvquad(c.extra['tags'], [(x, y0, z1), (x, y0, z0), (x, y1, z0), (x, y1, z1)], (0.0, v0, 1.0, v1))
+
+
+def text_tag(c, key, x, y0, y1, z0, z1, lines, bg='#f2c21a', fg='#3a1a0a', face='+x'):
+    """印了字的小牌子（BB／LAWWW2 11-13 P2：黃色貼紙是純色小板）：自己一張貼圖（PIL 畫：底色、框、一兩行字），貼在 x 這個平面（面向 +x）"""
+    from PIL import Image, ImageDraw, ImageFont
+    W_ = 512; H_ = int(W_ * (y1 - y0) / (z1 - z0)); im = Image.new('RGB', (W_, H_), bg); d = ImageDraw.Draw(im)
+    d.rectangle([4, 4, W_ - 5, H_ - 5], outline='#b8860a', width=5); n = len(lines)
+    for i, t in enumerate(lines):
+        fs = int(min(H_ / (n + 0.6), W_ / max(1, len(t)) * 0.9)); f = ImageFont.truetype(TX.CJK, fs); w_ = d.textlength(t, font=f)
+        d.text(((W_ - w_) / 2, H_ * (i + 0.5) / n - fs * 0.6), t, font=f, fill=fg if i == 0 else '#b41e1c')
+    fn = f'l118_{c.sid}_tag_{key}.png'; im.save(os.path.join(GEN, fn)); m = c.extra[f'tag_{key}'] = Mesh(f'l118_{c.sid}_tag_{key}', img_mat(f'l118_{c.sid}_tag_{key}', fn, rough=0.5))
+    uvquad(m, [(x, y0, z1), (x, y0, z0), (x, y1, z0), (x, y1, z1)], (0.0, 0.0, 1.0, 1.0))
 
 
 def fried_pile(c, kind, x, y, zc):
@@ -1663,17 +1729,20 @@ def fried_pile(c, kind, x, y, zc):
     rr = c.rng
     if kind == 'leg':
         prof = [(0.0, 0.012), (0.02, 0.035), (0.05, 0.048), (0.085, 0.044), (0.12, 0.028), (0.14, 0.016), (0.15, 0.012)]
-        for j in range(7):
+        for j in range(11 if getattr(c, 'p2_full', False) else 7):   # p2_full：BB 11-13 self P2「炸物架太空」→ 兩層堆滿
             px, pz, yaw = x - 0.08 + (j % 2) * 0.14 + rr.uniform(-0.02, 0.02), zc - 0.27 + (j % 4) * 0.17 + rr.uniform(-0.03, 0.03), rr.uniform(-0.6, 0.6) + (PI if j % 2 else 0.0)
-            py = y + 0.04 + (0.045 if j >= 4 else 0.0); cy_, sy_ = math.cos(yaw), math.sin(yaw); tilt = rr.uniform(-0.15, 0.15)
+            py = y + 0.04 + (0.045 if j >= 4 else 0.0) + (0.04 if j >= 8 else 0.0); cy_, sy_ = math.cos(yaw), math.sin(yaw); tilt = rr.uniform(-0.15, 0.15)
             M_ = lambda lx, ly, lz, px=px, py=py, pz=pz, cy_=cy_, sy_=sy_, tilt=tilt: (px + (lx - 0.07) * cy_ - lz * sy_, py + ly + (lx - 0.07) * tilt, pz + (lx - 0.07) * sy_ + lz * cy_)
             _lathe_uv(c, prof, M_, 12)
             b0, b1 = M_(0.15, 0.0, 0.0), M_(0.19, 0.0, 0.0); ccyl(c.vc, b0, b1, 0.008, '#efe6d0', seg=6); csph(c.vc, b1, 0.013, '#efe6d0', seg=6, rings=4)   # 骨頭
     else:
         n_, a, b, cell = (5, 0.1, 0.075, 0) if kind == 'cutlet' else (6, 0.095, 0.045, 13)
+        if getattr(c, 'p2_full', False): n_ += 4
         for j in range(n_):
             px, pz = x - 0.07 + (j % 2) * 0.13 + rr.uniform(-0.02, 0.02), zc - 0.24 + (j % 3) * 0.2 + rr.uniform(-0.03, 0.03)
-            _disc_uv(c, px, y + 0.02 + (j // 3) * 0.022, pz, a * rr.uniform(0.85, 1.1), b * rr.uniform(0.85, 1.1), rr.uniform(0, PI), 0.014, cell)
+            if getattr(c, 'p2_full', False):   # LAWWW2-C 11-13 self P2：炸物像一片片扁平圓餅 → 每塊厚約 2 cm（側邊 1.8 cm＋中間隆起）、邊緣更不規則、一層層往上疊、角度錯開
+                _disc_uv(c, px, y + 0.019 + (j // 3) * 0.024 + rr.uniform(0.0, 0.004), pz, a * rr.uniform(0.85, 1.1), b * rr.uniform(0.85, 1.1), rr.uniform(0, PI), 0.008, cell, wob_=0.13, edge=0.018, seg=18)
+            else: _disc_uv(c, px, y + 0.02 + (j // 3) * 0.022, pz, a * rr.uniform(0.85, 1.1), b * rr.uniform(0.85, 1.1), rr.uniform(0, PI), 0.014, cell)
 
 
 STEAK_CELLS = ('iron', 'steak', 'egg', 'corn', 'noodle', 'pepper')   # 鐵板貼圖集（3×2 格；118牛排）
@@ -1848,7 +1917,7 @@ def cc0_setup(c):
             return K.Route(K.AsTex(_wg(side, key + '_alu', MX['alu'])), {col: (lambda k=k: _wg(side, key + '_' + k, MX[k])) for col, k in R.items()} if sid in CC0_FRAMECOL else {})
         r_ = K.Route(base, {col: (lambda k=k: _wg(side, key + '_' + k, MX[k])) for col, k in R.items()}); r_.route_cyl = sid in CC0_FRAMECOL; return r_
     c.wg = wg
-    c.ph = K.PH(c.root, P + 'ph_'); c.CH = dict(CC0_CHAIRS, **CC0_CHAIRS_BY.get(sid, {}))
+    c.ph = K.PH(c.root, P + 'ph_'); c.CH = dict(CC0_CHAIRS, **CC0_CHAIRS_BY.get(sid, {})); c.p2_full = sid in CC0_P2
     if sid in CC0_STEAK:   # 鐵板貼圖集（同上，程式畫）
         steak_atlas(os.path.join(GEN, 'l118_steak_atlas.png')); c.steakm = Mesh(P + 'steak', img_mat(P + 'steak', 'l118_steak_atlas.png', rough=0.45)); c.cc0raw = getattr(c, 'cc0raw', []) + [c.steakm]
     if sid in CC0_FOOD:   # 菜色貼圖集（程式畫，每次建模重畫到 textures/gen：.gitignore）＋菜面網格（自己的 UV，不做盒狀 UV）
