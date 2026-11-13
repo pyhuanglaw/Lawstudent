@@ -20,7 +20,8 @@ DAY = os.environ.get('DAY') or '2025-10-14'; HOUR = float(os.environ.get('HOUR')
 PICKS = [x for x in (os.environ.get('PICKS') or '吃飯>越好吃>今天').split('>') if x]
 ROUTE = [x for x in (os.environ.get('ROUTE') or 'exit:tz_yuehaochi').split('+') if x]
 REL = int(os.environ.get('REL') or 0)
-FLAGS = json.loads(os.environ.get('FLAGS') or '{}')   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
+FLAGS = json.loads(os.environ.get('FLAGS') or '{}')
+EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 MEET = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
@@ -128,6 +129,7 @@ async def main():
             R.note('坐下以後：錢 %s → %s；時間 %s → %s；邀約 %s' % (m0['money'], m1['money'], m0['h'], m1['h'], J(iv3)))
             R.check('坐到她旁邊就開演（有句子、邀約變 done）', len([x for x in l2 if not x.startswith('▶')]) > 0 and (iv3 or {}).get('state') == 'done', J([l2[:3], iv3]))
             res['table'] = {'lines': l2, 'menus': mm2, 'before': m0, 'after': m1, 'iv': iv3}
+            if EXPECT_SIT: R.check('坐下以後有那一句「%s」（BB-C 11-14：AA 新字，27001bdc02 起）' % EXPECT_SIT, any(EXPECT_SIT in x for x in l2), J(l2[:6]))
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     open(os.path.join(OUT, 'invite_phone.json'), 'w', encoding='utf-8').write(J(res))
