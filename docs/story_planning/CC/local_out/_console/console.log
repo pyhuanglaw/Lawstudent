@@ -1,14 +1,3 @@
-[16:56:52] skip SHUT_XS_14 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[16:56:52] skip SHUT_XS_2330 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[16:56:52] skip SHUT_TZ_14 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[16:56:52] skip SHUT_TZ_2330 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[16:56:52] skip DN_FPS_7e40 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[16:56:52] skip FLK_STRIPS (already done on 1e239a985edd3a229ed5766d579afb8344d56d24)
-[16:56:52] skip G3A_COUNTER (already done on e879d9b076627591b6f42e959a4b77a821b3f774)
-[16:56:52] skip G3A_STRIPS (already done on e879d9b076627591b6f42e959a4b77a821b3f774)
-[16:56:52] skip HELP_GUIDE_a (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[16:56:52] skip HELP_GUIDE_b (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[16:56:52] skip HELP_GUIDE_b2 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
 [16:56:52] skip HELP_GUIDE_new2 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
 [16:56:52] skip HELP_GUIDE_b3 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
 [16:56:52] skip HELP_GUIDE_new3 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
@@ -1998,3 +1987,14 @@
 [23:11:42] [res] cpu=9% mem=44% (14.0/31.4 GB) chrome_testing=5  START W1R_A2_sleep
 [23:11:52] 正在跑：SAVE_LZ_growB（已跑 45 分／上限 120 分）、STUDY_SE01（已跑 3 分／上限 20 分）、W1R_A2_sleep（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:12:47] [res] cpu=1% mem=43% (13.6/31.4 GB) chrome_testing=4  END STUDY_SE01
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       13e0104301..367152458f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:13:01] ==== END   STUDY_SE01  exit=1  280s   ====
+[23:13:04] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[23:13:04] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[23:13:04] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[23:13:04] memory 43% before starting W1R_A3_dorm (2 running)
+[23:13:04] ==== START W1R_A3_dorm  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
+[23:13:07] [res] cpu=12% mem=43% (13.7/31.4 GB) chrome_testing=5  START W1R_A3_dorm
+[23:13:42] [res] cpu=12% mem=43% (13.5/31.4 GB) chrome_testing=4  END W1R_A2_sleep

@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_route_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\W1R_A2_sleep\out
+CC 照玩家走路線：TAG w1r_a2_sleep；SHA 1f304f0054；dorm 2025-10-14 23.0；ROUTE ['press:睡', 'wait:3']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 dorm 2025-10-14 23.0（出生點）（條件事件關掉）
+PASS 讀到 dorm  {"zone": "dorm", "x": 0, "z": 2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "走出房間", "stand": true, "fb": 0, "hour": 23.05}
+PASS FAIL_SETUP 檢查：開跑前沒有對話、busy=false（先點完 0 下）  {"dlg": false, "choices": [], "busy": false}
+  [  42.8s] [00 start]  區域 dorm lv0 (0, 2.4) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.0, 2.99, 5.74] 到頭 3.57 m、被 [] 擋；互動鍵「走出房間」
+PASS [01 press:睡] 找得到標籤含「睡」的互動點  [["坐在書桌前", 0], ["睡覺", 0], ["走出房間", 0], ["看看房間裡的東西", 0], ["床底下的紙箱", 0]]
+  [  45.6s] 到達「睡覺」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  46.9s] [01 at] 走到「睡覺」(-0.55, 1.5) lv0 區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  48.0s] [01 press0]  區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  49.1s] [01 press1]  區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  50.1s] [01 press2]  區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  51.1s] [01 press3]  區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  52.2s] [01 press4]  區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  53.1s] [01 press5]  區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  54.1s] [01 press6]  區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  55.1s] [01 press7]  區域 dorm lv0 (-0.42, 1.71) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.42, 2.99, 5.05] 到頭 3.64 m、被 [] 擋；互動鍵「睡覺」
+  [  62.4s] [01 after] 按了「睡覺」：["▶ 睡到明天早上（08:10）08:10（第一堂 09:10 刑法總則（一）前一小時）（睡到明天早上（08:10）08:10（第一堂 09:10 刑法總則（一）前一小時） / 睡到明天中午12:00。會錯過：09:10 刑法總則（一） / 睡到明天下午14:00。會錯過：09:10 刑法總則（一）、13:20 服務學習（一） / 睡到明天晚上18:00。會錯過：09:10 刑法總則（一）、13:20 服務學習（一） / 快轉到下一個有事的時候、過一週；沒有劇情的課自動去上 / 再撐一下）"] 區域 dorm lv0 (-1.49, 0.97) y=1.86 站得住=False 坐著=False pose=lie；鏡頭 [0.12, 2.75, 0.92] 到頭 1.94 m、被 [{"name": "<fallback>", "d": 1.7}] 擋；互動鍵「坐在書桌前」
+  [  65.8s] [02 wait]  區域 dorm lv0 (0, 2.6) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-0.07, 1.89, -0.32] 到頭 2.89 m、被 [] 擋；互動鍵「坐在書桌前」
+PASS 沒有 JS 例外  []
+ALL PASS
