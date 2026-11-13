@@ -232,8 +232,9 @@ async def one_case(pg, cdp, run, case):
     st, d = await state_at(pg, '2029-08-03', 20.0, 'gongguan', flags, done={e: 1 for e in Y4_EVENTS})
     r = await load(pg, cdp, run, st, '%s：最小存檔 %s 20:00 公館（已畢業、BAR_REG、沒有延畢、HOME_AFTER gongguan；一試答對 %d 題、傾向 %s）' % (tag, d['key'], N, lean), lean)
     s0 = await pg.evaluate(STATE)
-    run.check('%s：前置成立：畢業後篇（PG.on）、2029 會考（PG.sits）、沒有延畢、傾向 top＝%s（careerLean %s）' % (tag, lean, J(r.get('lean'))),
-              bool(r.get('pgOn')) and bool(r.get('sits2029')) and not r.get('delayed') and (r.get('lean') or {}).get('top') == lean, J(s0))
+    if not run.check('%s：FAIL_SETUP 檢查：前置成立：畢業後篇（PG.on）、2029 會考（PG.sits）、沒有延畢、傾向 top＝%s（careerLean %s）' % (tag, lean, J(r.get('lean'))),
+                     bool(r.get('pgOn')) and bool(r.get('sits2029')) and not r.get('delayed') and (r.get('lean') or {}).get('top') == lean, J(s0)):
+        return   # BB-C 22:24：前置不成立就停這個 case（之前 A 傾向沒設進去還照跑，結果不能用）
     nmsg0 = s0['nmsg']; n0 = await pl_len(pg)
     sv = {}; answered = {}; shots = {}; firstPhone = None; stuck = None; days = []
     t0 = time.time(); last = None; since = time.time(); lastday = s0['clock']['key']
