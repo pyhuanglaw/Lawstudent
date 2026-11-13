@@ -1,0 +1,39 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_route_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MOKU_FULL_route\out
+CC 照玩家走路線：TAG moku_full；SHA 322a41f499；wz_mokuyobi 2025-11-05 14.0；ROUTE ['walk:0,0.9,1', 'burst:up', 'sit:坐', 'exit:wenzhou', 'burst:out']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wz_mokuyobi 2025-11-05 14.0（出生點）（條件事件關掉）
+PASS 讀到 wz_mokuyobi  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.04}
+PASS FAIL_SETUP 檢查：開跑前沒有對話、busy=false（先點完 0 下）  {"dlg": false, "choices": [], "busy": false}
+  [  49.4s] [00 start]  區域 wz_mokuyobi lv0 (-3.75, 5.4) y=1.2 站得住=True 坐著=False pose=idle；鏡頭 [-3.75, 4.11, 8.56] 到頭 3.37 m、被 [{"name": "<fallback1>", "d": 2.38}, {"name": "mks_vcm<mokuyobi_stair>", "d": 2.38}, {"name": "mks_vcm<mokuyobi_stair>", "d": 2.39}] 擋；互動鍵「互動」
+  [  61.9s] 到達「walk:0,0.9,1」附近（0.21 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+  [  61.9s] [01 walk:0,0.9,1] 【卡住偵測】取樣 24 筆（每 0.5 秒）；連續 ≥5 秒沒位移 1 次 [{"at": [-2.2, 1.71, 1], "zone": "wz_mokuyobi", "from_s": 4.2, "secs": 5.7}]
+  [  63.3s] [01 walk]  區域 wz_mokuyobi lv1 (-0.2, 0.97) y=3.2 站得住=True 坐著=False pose=idle；鏡頭 [-0.2, 6.11, 4.13] 到頭 3.42 m、被 [] 擋；互動鍵「坐下」
+  [  68.8s] [02 burst]  區域 wz_mokuyobi lv1 (-0.2, 0.97) y=3.2 站得住=True 坐著=False pose=idle；鏡頭 [-0.2, 6.11, 4.13] 到頭 3.42 m、被 [] 擋；互動鍵「坐下」
+PASS [03 sit:坐] 找得到標籤含「坐」的座位  [["坐窗邊", 1], ["坐窗邊", 1], ["坐窗邊", 1], ["坐窗邊", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐沙發", 1], ["坐沙發", 1], ["坐沙發", 1], ["坐單人沙發", 1], ["坐吧檯", 1], ["坐吧檯旁邊", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["坐下", 1], ["離開木曜日", 0], ["點東西", 1], ["看看書櫃", 1], ["看唱片機", 1], ["看海報", 1]]
+  [  69.0s] [03 sit:坐] 座位 1 張：[{"label": "坐下", "x": -0.05, "z": 2.6, "lv": 1, "sx": -0.05, "sz": 2.6, "sy": null, "slv": 1, "row": null, "ap": [-0.05, 2.05], "lift": 0}]
+  [  69.1s] 到達「[03 sit:坐] #1（-0.05, 2.6 二樓）（走到椅子附近）」附近（1.09 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [  75.3s] [03 sit:坐] #1（-0.05, 2.6 二樓） 點擊打到 {"screen": [422, 229], "hits": [{"name": "mok_print", "p": [-0.05, 3.21, 2.62], "d": 5.6}, {"name": "mok_floor", "p": [-0.05, 3.2, 2.63], "d": 5.62}, {"name": "fallback1", "p": [-0.05, 3.2, 2.63], "d": 5.62}, {"name": "mok_floor", "p": [-0.04, 3.18, 2.66], "d": 5.65}], "screenToFloor": {"x": -0.046113131721490064, "z": 2.6268904061670635, "y": 3.2, "lv": 1}}
+PASS [03 sit:坐] #1（-0.05, 2.6 二樓） 點椅子（螢幕 [422, 229]）走過去停在 (-0.08, 1.836)（seatApproach [-0.05, 2.05]）：最近的「坐下」是這一張  {"at": [-0.08, 1.836], "nearest": {"label": "坐下", "seat": [-0.05, 2.6], "exit": null}}
+PASS [03 sit:坐] #1（-0.05, 2.6 二樓） 走到旁邊，互動按鈕是「坐下」  {"x": -0.08, "z": 1.836, "lv": 1, "interact": "坐下", "stand": true}
+PASS [03 sit:坐] #1（-0.05, 2.6 二樓） 坐下了（player.seat）  {"x": -0.05, "z": 2.6, "y": 3.2, "lv": 1, "sx": -0.05, "sz": 2.6, "sy": null}
+PASS [03 sit:坐] #1（-0.05, 2.6 二樓） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 3.200＝座位那一層＋lift 3.200（±0.06）  {"x": -0.05, "z": 2.6, "y": 3.2, "lv": 1, "sx": -0.05, "sz": 2.6, "sy": null}
+PASS [黑畫面] route_moku_full_03_seat_1 不是黑畫面（平均亮度 84.7、變化 49.1）  [84.7, 49.1]
+  [  83.5s] [03 sit:坐] #1（-0.05, 2.6 二樓） 起身點了：["買一份帶走送人…\n飲料、早餐，帶在身上，見面的時候送人", "算了", "起身"]
+PASS [03 sit:坐] #1（-0.05, 2.6 二樓） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 7.98, "x": -1.046, "z": -6.072, "lv": 1, "stand": true, "fb": 0}
+  [  86.2s] [03 sit] 坐「坐下」結果 [[1, "ok", -0.05, 2.6]] 區域 wz_mokuyobi lv1 (-1.05, -6.07) y=3.2 站得住=True 坐著=False pose=idle；鏡頭 [-1.24, 6.11, -9.14] 到頭 3.36 m、被 [{"name": "<fallback1>", "d": 2.22}] 擋；互動鍵「坐下」
+PASS [04 exit:wenzhou] 找得到往 wenzhou 的出口  [["離開木曜日", "wenzhou"]]
+PASS [04 exit:wenzhou] 有「離開木曜日」  [{"label": "離開木曜日", "x": -3.75, "z": 6.75, "r": 1, "lv": 0, "to": "wenzhou"}]
+  [  86.3s] [04 exit:wenzhou] 「離開木曜日」在 (-3.75, 6.75) 半徑 1；走到範圍裡站得住的 {"x": -3.59, "z": 6.17, "d": 12.505115991456991}
+PASS [04 exit:wenzhou] 「離開木曜日」範圍裡有站得住的地方  {"label": "離開木曜日", "x": -3.75, "z": 6.75, "r": 1, "lv": 0, "to": "wenzhou"}
+  [  86.3s] [04 exit:wenzhou] 「離開木曜日」在第 0 層、人在第 1 層：E.pathTo 換層處 [[-3.35, 2.55, 1], [-3.59, 6.17, 0]]
+  [  94.8s] 到達「[04 exit:wenzhou] 換層第 1 點」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [ 106.4s] 「[04 exit:wenzhou] 換層第 2 點」：停在離目標 0.53 m（點到的地面偏了），用搖桿往目標推一下
+  [ 115.0s] 到達「[04 exit:wenzhou] 換層第 2 點」附近（0.50 m）：點地面 1 次、轉鏡頭 0 次、搖桿 6 次，20 秒
+PASS [04 exit:wenzhou] 走到那裡，互動按鈕是「離開木曜日」  {"x": -3.648, "z": 6.674, "lv": 0, "interact": "離開木曜日"}
+PASS [04 exit:wenzhou] 按下去到了 wenzhou（站得住、沒有被放到目的地）  {"zone": "wenzhou", "x": 7.4, "z": -2.85, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.38}
+  [ 125.3s] [04 exit:wenzhou] 【卡住偵測】取樣 49 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [ 129.0s] [04 exit] 出口「離開木曜日」→ wenzhou 區域 wenzhou lv0 (7.4, -2.85) y=0 站得住=True 坐著=False pose=idle；鏡頭 [7.4, 1.93, -4.66] 到頭 1.8 m、被 [] 擋；互動鍵「離開木曜日」
+  [ 134.5s] [05 burst]  區域 wenzhou lv0 (7.4, -2.85) y=0 站得住=True 坐著=False pose=idle；鏡頭 [7.4, 1.93, -4.66] 到頭 1.8 m、被 [] 擋；互動鍵「離開木曜日」
+PASS 沒有 JS 例外  []
+ALL PASS
