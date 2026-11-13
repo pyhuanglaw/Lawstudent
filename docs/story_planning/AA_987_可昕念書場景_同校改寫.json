@@ -4,7 +4,8 @@
   "by": "AA-C 2026-11-13",
   "target": "src/data/study_scenes.js 的 kexin（稿 AA_707）",
   "how": "pairs 照 tools/story/canon897_fix.json 的格式（左舊右新、整句換），請 LAWWW 加進 canon897_fix.json 再重匯 import_study_scenes.py；左邊照那張表的寫法用 \\u 跳脫。",
-  "scope": "BB 點的 3 句以外，同一條線還有 15 句是外校前提（她們學校的圖書館、動物園站、我們老師／你們老師、窗外是山、趕車）。第 6 場解鎖的 mzu_lib 現在是「週末和她去系館自習室」（AA_920 ⑩），這裡改成邀你去系館自習室、她幫你佔位子，接得上那一格「你坐這裡。這是我的位子，今天借你。」。第 2 場改成同屆不同班（各自那班老師的講義）。第 3、4 場、其他輪換不是外校前提，不動。id、旗標（KX_STUDY_MZU、mzu_lib）不改。"
+  "scope": "BB 點的 3 句以外，同一條線還有 15 句是外校前提（她們學校的圖書館、動物園站、我們老師／你們老師、窗外是山、趕車）。第 6 場解鎖的 mzu_lib 現在是「週末和她去系館自習室」（AA_920 ⑩），這裡改成邀你去系館自習室、她幫你佔位子，接得上那一格「你坐這裡。這是我的位子，今天借你。」。第 2 場改成同屆不同班（各自那班老師的講義）。第 3、4 場、其他輪換不是外校前提，不動。id、旗標（KX_STUDY_MZU、mzu_lib）不改。",
+  "part2": "study_scenes 以外的 23 句（AA-C 全掃可昕所有句子：你們學校／你們老師／趕車／末班車／車上／捷運站接我…，逐句看上下文）。canon897 只管 study_scenes 等幾支匯入工具，這些在別的產生檔＋events.js（手寫），所以放 rows（AA_959 格式，已同步加進 AA_959 總表）。76f8 要帶的話請手動照 rows 換（每句在檔裡只出現一次；gift_lines 兩句 all＝pool 和 lines 各一次）。看過不改的：date_lines「法律書區，我們老師寫的那本也在」「烏來。我們學校很多人週末騎車來」、enc_walk 兩句、study_scenes 第 4 場「我們老師說我的報告」（同校也成立）；電影、書店那兩句末班車（約會地點遠，住宿舍也一樣要搭車）；影片、寒暑假視訊的「你們那邊」（玩家在國外或實習）。"
  },
  "pairs": [
   [
@@ -87,5 +88,239 @@
    "今天我只能讀一下，要趕車。",
    "今天我只能讀一下，晚上要回家吃飯。"
   ]
+ ],
+ "rows": [
+  {
+   "doc": "AA_987",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "我要趕車，可是我想吃甜點。",
+   "new": "我等一下要回去寫報告，可是我想吃甜點。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "（她點了甜點，最後坐了下一班車。）",
+   "new": "（她點了甜點。報告晚了一個小時才開始寫。）",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "我今天不趕車。末班車才走。",
+   "new": "我今天報告寫完了。可以坐久一點。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "我今天不趕車。",
+   "new": "我今天報告寫完了。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "我們學校旁邊沒有這種書店。",
+   "new": "這種書店，我在高雄沒看過。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "gift_lines.js"
+   ],
+   "old": "早餐？我在車上吃過了。可是這個比較好吃。",
+   "new": "早餐？我在宿舍吃過了。可是這個比較好吃。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍",
+   "all": true
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "gift_lines.js"
+   ],
+   "old": "我早上都在趕車，沒時間吃。謝謝你。",
+   "new": "我早上都在趕第一堂，沒時間吃。謝謝你。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍",
+   "all": true
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "flirt_lines.js"
+   ],
+   "old": "今天不要趕車，晚一班走。",
+   "new": "今天晚一點再回去。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "flirt_lines.js"
+   ],
+   "old": "晚一班要等四十分鐘。",
+   "new": "晚一點是多晚？",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "flirt_lines.js"
+   ],
+   "old": "……好啦。四十分鐘。",
+   "new": "……好啦。再四十分鐘。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "我們圖書館今天停電。",
+   "new": "法圖今天停電。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "我們總圖今天很正常。妳要不要來？",
+   "new": "總圖今天很正常。妳要不要來？",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "我搭下一班車過去。你信了吧，我在等電。",
+   "new": "我現在走過去。……你信了吧，我在等電。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？",
+   "new": "我們班債各老師講了一個房東的例子，講了一整節。你那班講過了嗎？",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "講過了。我們老師講的是押金。",
+   "new": "講過了。我們那班老師講的是押金。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "房東？妳們老師好像很愛舉房東。",
+   "new": "房東？妳那班老師好像很愛舉房東。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "看，那是我們學校的游泳池。我游過一次，太冷。",
+   "new": "看，下面有一座游泳池。從這裡看，小得像一杯水。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這裡的窗戶好大。我們學校圖書館的窗戶只看得到另一棟。",
+   "new": "這裡的窗戶好大。總圖我坐的那一排，窗外只看得到另一棟。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這裡走路就到得了。我喜歡不用趕車的地方。",
+   "new": "這裡從宿舍走路就到得了。我喜歡這種地方。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "events.js"
+   ],
+   "old": "我只看過照片。玉米還是我們系的好。",
+   "new": "我只看過照片。下次烤肉記得叫我，玉米留一支給我。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "events.js"
+   ],
+   "old": "你們系的人，連宿舍的事都寫成申訴書。……我喜歡。",
+   "new": "我們系的人，連宿舍的事都寫成申訴書。……我喜歡。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "tz_invite_supper.js"
+   ],
+   "old": "汀州路喔。那你要來捷運站接我，我不認得那一條。",
+   "new": "汀州路喔。那你帶路，我只記得那裡有一家書店。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "早。公車等了二十分鐘，我心情不好。",
+   "new": "早。宿舍的熱水今天又沒了，我心情不好。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  }
  ]
 }
