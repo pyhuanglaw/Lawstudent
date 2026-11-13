@@ -1,0 +1,17 @@
+diff --git a/tools/shots/shop_views_layers.py b/tools/shots/shop_views_layers.py
+index 38fe096bc6..cb14cb1fb6 100644
+--- a/tools/shots/shop_views_layers.py
++++ b/tools/shots/shop_views_layers.py
+@@ -39,6 +39,12 @@ VIEWS = {
+     'yejian': ('gongguan', [-42.0, 14], [-42.0, 1.7, 21.7], [-42.0, 1.7, -40], 9.0, 3.4),
+     #   青木茶室：窗 x −1.93～1.27（配置），中心 −0.33 → 世界 −51.87；窗台 0.79～窗頂 2.5，中心 1.65（同上，原本是模型裡的靜態圖）
+     'aoki': ('gongguan', [-51.87, 14], [-51.87, 1.65, 21.7], [-51.87, 1.65, -40], 9.0, 3.4),
++    # 公館店面街第三批（GG-SHOPS3，LAWWW2-C 11-13，WINVIEW-AUDIT-1105）：安泰藥局 G04、汀州鮮果 G08、榮恩典文具社 G13 原本借別間的照片（tz_shops_layout.js 的 view：cvs、noodle、bookstore，
++    #   207d70f5f README 第 3 點：不是在這三間的位置拍的，差幾十公尺，對街的東西位置不對）。鏡頭＝店中心 x（zones3d.js 的 mk：-18.6、19.6、64.1）、窗中心高（窗台 0.12～窗頂 2.8／3.0／2.85）、
++    #   店面玻璃內側 z 21.7（和 noodle、yejian 同一套）。拍完把 tz_shops_layout.js 三間的 view 換成這三個名字、world3d.js 的 VIEW_LAYERS 照 shop_views_layers.json 補三列（D131：CC 跑）
++    'gg_antai': ('gongguan', [-18.6, 14], [-18.6, 1.46, 21.7], [-18.6, 1.46, -40], 9.0, 3.4),
++    'gg_xianguo': ('gongguan', [19.6, 14], [19.6, 1.5, 21.7], [19.6, 1.5, -40], 9.0, 3.4),
++    'gg_rongendian': ('gongguan', [64.1, 14], [64.1, 1.48, 21.7], [64.1, 1.48, -40], 9.0, 3.4),
+     'cafe': ('wenzhou', [50, 0], [55.1, 1.9, 0.0], [0, 1.9, 0.0], 7.0),
+     # 日日便利（溫州街 A5）：從溫州街進去的便利商店（cvs 區域、F.CVS_FROM='wenzhou'，AA_413）窗外原本是公館的景；這一張從 A5 的店面玻璃外往溫州街拍（對面是阿忠水果的攤子、半熟）（LAWWW2-B 10-23）
+     'cvs_wz': ('wenzhou', [44, 2.5], [44.0, 1.4, 5.6], [44.0, 1.4, -40], 6.0, 3.4),   # 11-04：高度跟著新的日和便利店室內改成窗中心 1.4（ggRoom 的 winY）
