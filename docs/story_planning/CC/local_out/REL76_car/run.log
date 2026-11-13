@@ -1,0 +1,510 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_car_probe.py http://127.0.0.1:8801/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\REL76_car\out
+==== CASE car01_A（SHA 76f8b639f0641f93a99736d06a9d0d0675966343）====
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS car01_A：遊戲載入
+  [前置／捷徑] [前置] car01_A：最小存檔 2029-08-03 20:00 公館（已畢業、BAR_REG、沒有延畢、HOME_AFTER gongguan；一試答對 14 題、傾向 A）；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發（grades.Y4S2）、加入桌遊團、傾向 A（F.LAWCLUB_SAT_VISITS=10;）→ {"lean": {"A": 0, "B": 0, "C": 0, "top": "B"}, "pgOn": true, "delayed": false, "sits2029": true, "zone": "gongguan", "day": "2029-08-03", "h": 20.035332000000007}
+FAIL car01_A：前置成立：畢業後篇（PG.on）、2029 會考（PG.sits）、沒有延畢、傾向 top＝A（careerLean {"A": 0, "B": 0, "C": 0, "top": "B"}）  {"flags": {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided"}, "done": {"grad": 1, "b1": "missed", "fd_grades_y4s2": "missed"}, "path": "A_none", "lean": {"A": 0, "B": 0, "C": 0, "top": "B"}, "pgOn": true, "nextStop": 34040, "due": null, "title": false, "clock": {"key": "2029-08-04", "h": 7.5, "zone": "gongguan"}, "nmsg": 4}
+  [ 159.7s] car01_A：SV 放榜後 2029-12-14 15:05
+  [ 166.6s] car01_A 2029-12-14 17:30 gongguan 選項 ["出發：公館燒臘・長桌18:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：公館燒臘・長桌18:00　走過去約 15 分鐘（outing-go）
+  [ 190.5s] car01_A：第一份工作（手機群組）畫面文字：‹ 訊息
+桌遊團
+☆
+8/4 07:30
+阿哲：出發
+8/4 07:30
+Alison：帶准考證。
+9/7 15:00
+Alison：一試放榜了。
+9/7 15:00
+（群組安靜了三秒。）
+9/7 15:00
+阿哲：宵夜
+9/7 15:06
+Alison：一試沒過。明年再來。
+9/7 15:06
+阿哲：我也沒過……宵夜照吃
+9/7 15:06
+柏翰：過了。
+9/20 21:00
+阿哲：禮拜六中秋
+9/20 21:00
+阿哲：河濱 六點 一樣
+9/20 21:00
+阿哲：明軒那邊我開視訊 讓他看月亮
+9/22 22:00
+阿哲：📷（河濱，烤肉架，螢幕裡的明軒在揮手）
+12/14 15:00
+阿哲：放榜了
+12/14 15:00
+Alison：我先不看 我去洗澡
+12/14 15:00
+阿哲：宵夜 洗完來
+12/14 15:06
+阿哲：恭喜。……我明年一定跟上。
+12/14 15:06
+柏翰：上了。
+12/14 15:06
+柏翰：研究所的報告還沒寫完。
+1/25 21:00
+阿哲：以安上了 司法官
+1/25 21:00
+沈以安：謝謝。
+今天 21:00
+📷（照片：法律扶助基金會的櫃台。名牌上的字還是新的。）
+  [ 191.8s] car01_A：SV 第一份工作後 2030-10-01 21:00
+  [ 220.0s] car01_A：SV 尾聲後 2034-06-03 19:00
+PASS car01_A：考卷 20 題都按了（20 題），按對 14 題（要 14）  {"1": {"id": "CRIM45_40", "right": 0, "picked": 0, "correct": true}, "2": {"id": "AI_CP2_04", "right": 3, "picked": 3, "correct": true}, "3": {"id": "Q034", "right": 0, "picked": 0, "correct": true}, "4": {"id": "CIV40_22", "right": 0, "picked": 0, "correct": true}, "5": {"id": "CIVS_37", "right": 1, "picked": 1, "correct": true}, "6": {"id": "CIVS_14", "right": 2, "picked": 2, "correct": true}, "7": {"id": "Q031", "right": 0, "picked": 0, "correct": true}, "8": {"id": "Y4_ETH_07", "right": 3, "picked": 3, "correct": true}, "9": {"id": "CIV40_04", "right": 2, "picked": 2, "correct": true}, "10
+PASS car01_A：BAR_SIT_2029 true、BAR_SCORE_2029＝14  {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided", "BAR_SCORE_2029": 14, "BAR_SIT_2029": true, "BAR_STAGE_2029": "lawyer", "BAR_YEAR": 2029, "FIRST_DAY_SEEN": true, "EPILOGUE_DONE": true}
+PASS car01_A：BAR_STAGE_2029＝lawyer（PG.tier）  "lawyer"
+  [ 221.8s] car01_A：9/7 放榜原文 [["2029-09-07", "15:05", "律師一試：通過。司法官一試：未通過。"]]
+  [ 221.8s] car01_A：12/14 放榜原文（2 行）[["2029-12-14", "15:05", "律師二試：錄取。"], ["2029-12-14", "15:05", "律師職前訓練：報到通知"]]
+PASS car01_A：12/14 放榜演了（「律師二試：錄取。」有出現）  {"exam_2029": 1, "r1_2029": 1, "r2_2029": 1, "first": 1, "epi": 1}
+PASS car01_A：BAR_YEAR＝2029  2029
+  [ 221.8s] car01_A：第一份工作（桌遊團 pg_first_day，1841）原文：[["player", "📷（照片：法律扶助基金會的櫃台。名牌上的字還是新的。）"]]
+PASS car01_A：第一份工作那一段演了（FIRST_DAY_SEEN）  {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided", "BAR_SCORE_2029": 14, "BAR_SIT_2029": true, "BAR_STAGE_2029": "lawyer", "BAR_YEAR": 2029, "FIRST_DAY_SEEN": true, "EPILOGUE_DONE": true}
+  [ 221.8s] car01_A：尾聲最後一句（EPI.last）[["2034-06-03", "祐廷", "我在法扶。這禮拜開了三個庭。"]]；PG.path＝A_bar；careerLean＝{"A": 0, "B": 0, "C": 0, "top": "B"}
+  [ 221.8s] car01_A：第一份工作照片對應 path：["A_bar"]；尾聲最後一句對應 path：["A_bar"]
+PASS car01_A：尾聲演完（EPILOGUE_DONE）、回到標題  {"clock": {"key": "2034-06-03", "h": 19, "zone": "cafe"}, "title": true}
+PASS car01_A：沒有卡住  null
+  [ 221.8s] car01_A：日期卡 [["2029-08-04", "考場", "8/4（六）08:30"], ["2029-09-07", "9/7（五）15:00", "（一試考完，離放榜還有一個月。你把法典放在書架最上面。）"], ["2029-09-20", "9/20（四）21:00", "（二試的書比一試厚。早上讀實體法，下午寫考古題，晚上把寫錯的再寫一次。）"], ["2029-09-22", "9/22（六）22:00", ""], ["2029-10-20", "10/20（六）08:30", ""], ["2029-10-20", "考場", "10/20（六）08:30"], ["2029-10-21", "10/21（日）17:30", ""], ["2029-10-21", "10/21（日）17:30", ""], ["2029-12-14", "12/14（五）15:00", "（二試考完以後等放榜的七個禮拜，比讀書的時候還長。）"], ["2029-12-14", "公館燒臘・長桌", "走過去約 15 分鐘"], ["2029-12-14", "公館的套房", ""], ["2030-01-25", "1/25（五）21:00", ""], ["2030-10-01", "10/1（二）21:00", ""], ["2030-12-13", "12/13（五）15:06", ""], ["2034-06-03", "五年後", ""], ["2034-06-03", "2034 年 6 月 3 日", "2:30 AM"], ["2034-06-03", "法條之外", ""]]
+  [ 221.8s] car01_A：場景順序 ["exam_2029", "r1_2029", "e2a_2029", "e2b_2029", "r2_2029", "first", "epi"]
+PASS car01_A：逐字稿、新訊息沒有 debug 字（undefined、NaN、📷undefined、null、{name}、內部 id）  []
+  [ 221.8s] car01_A：截圖 {"q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\01_car01_A_exam_q1.png", "r1": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\02_car01_A_r1_land.png"], "r2": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\03_car01_A_r2_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\04_car01_A_r2_port.png"], "last": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\06_car01_A_last_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\07_car01_A_last_port.png"], "end": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\08_car01_A_end_land.png"], "title": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\09_car01_A_title_after_epi.png"}
+PASS car01_A：沒有 JS 例外  []
+==== CASE car01_B（SHA 76f8b639f0641f93a99736d06a9d0d0675966343）====
+PASS car01_B：遊戲載入
+  [前置／捷徑] [前置] car01_B：最小存檔 2029-08-03 20:00 公館（已畢業、BAR_REG、沒有延畢、HOME_AFTER gongguan；一試答對 14 題、傾向 B）；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發（grades.Y4S2）、加入桌遊團、傾向 B（F.Y4_PATH='grad'; delete F.GRAD_ADMIT; delete F.Y4_PUSH; G.stats=G.stats||{}; G.stats.study=Math.max(+G.stats.study||0,100); F.STUDY_AT_LAW=0;）→ {"lean": {"A": 0, "B": 0, "C": 0, "top": "B"}, "pgOn": true, "delayed": false, "sits2029": true, "zone": "gongguan", "day": "2029-08-03", "h": 20.033776000000017}
+PASS car01_B：前置成立：畢業後篇（PG.on）、2029 會考（PG.sits）、沒有延畢、傾向 top＝B（careerLean {"A": 0, "B": 0, "C": 0, "top": "B"}）  {"flags": {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "grad"}, "done": {"grad": 1, "b1": "missed", "fd_grades_y4s2": "missed"}, "path": "B_quit", "lean": {"A": 0, "B": 0, "C": 0, "top": "B"}, "pgOn": true, "nextStop": 34040, "due": null, "title": false, "clock": {"key": "2029-08-04", "h": 7.5, "zone": "gongguan"}, "nmsg": 4}
+  [ 375.5s] car01_B：SV 放榜後 2029-12-14 15:05
+  [ 378.4s] car01_B 2029-12-14 17:30 gongguan 選項 ["出發：公館燒臘・長桌18:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：公館燒臘・長桌18:00　走過去約 15 分鐘（outing-go）
+  [ 401.5s] car01_B：第一份工作（手機群組）畫面文字：‹ 訊息
+桌遊團
+☆
+8/4 07:30
+阿哲：出發
+8/4 07:30
+Alison：帶准考證。
+9/7 15:00
+Alison：一試放榜了。
+9/7 15:00
+（群組安靜了三秒。）
+9/7 15:00
+阿哲：宵夜
+9/7 15:06
+Alison：一試沒過。明年再來。
+9/7 15:06
+阿哲：我也沒過……宵夜照吃
+9/7 15:06
+柏翰：過了。
+9/20 21:00
+阿哲：禮拜六中秋
+9/20 21:00
+阿哲：河濱 六點 一樣
+9/20 21:00
+阿哲：明軒那邊我開視訊 讓他看月亮
+9/22 22:00
+阿哲：📷（河濱，烤肉架，螢幕裡的明軒在揮手）
+12/14 15:00
+阿哲：放榜了
+12/14 15:00
+Alison：我先不看 我去洗澡
+12/14 15:00
+阿哲：宵夜 洗完來
+12/14 15:06
+阿哲：恭喜。……我明年一定跟上。
+12/14 15:06
+柏翰：上了。
+12/14 15:06
+柏翰：研究所的報告還沒寫完。
+1/25 21:00
+阿哲：以安上了 司法官
+1/25 21:00
+沈以安：謝謝。
+今天 21:00
+📷（照片：事務所會議室的白板。上面是你寫的第一份案件時間表。）
+  [ 402.9s] car01_B：SV 第一份工作後 2030-10-01 21:01
+  [ 432.0s] car01_B：SV 尾聲後 2034-06-03 19:00
+PASS car01_B：考卷 20 題都按了（20 題），按對 14 題（要 14）  {"1": {"id": "Q082", "right": 1, "picked": 1, "correct": true}, "2": {"id": "SEC40_33", "right": 0, "picked": 0, "correct": true}, "3": {"id": "CIV40_16", "right": 1, "picked": 1, "correct": true}, "4": {"id": "Y4_ETH_03", "right": 3, "picked": 3, "correct": true}, "5": {"id": "AI_CP2_03", "right": 1, "picked": 1, "correct": true}, "6": {"id": "CIVS_25", "right": 1, "picked": 1, "correct": true}, "7": {"id": "ADM20_18", "right": 2, "picked": 2, "correct": true}, "8": {"id": "SEC40_30", "right": 3, "picked": 3, "correct": true}, "9": {"id": "CIVS_30", "right": 2, "picked": 2, "correct": true}, 
+PASS car01_B：BAR_SIT_2029 true、BAR_SCORE_2029＝14  {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "grad", "BAR_SCORE_2029": 14, "BAR_SIT_2029": true, "BAR_STAGE_2029": "lawyer", "BAR_YEAR": 2029, "FIRST_DAY_SEEN": true, "EPILOGUE_DONE": true}
+PASS car01_B：BAR_STAGE_2029＝lawyer（PG.tier）  "lawyer"
+  [ 433.7s] car01_B：9/7 放榜原文 [["2029-09-07", "15:05", "律師一試：通過。司法官一試：未通過。"]]
+  [ 433.7s] car01_B：12/14 放榜原文（2 行）[["2029-12-14", "15:05", "律師二試：錄取。"], ["2029-12-14", "15:05", "律師職前訓練：報到通知"]]
+PASS car01_B：12/14 放榜演了（「律師二試：錄取。」有出現）  {"exam_2029": 1, "r1_2029": 1, "r2_2029": 1, "first": 1, "epi": 1}
+PASS car01_B：BAR_YEAR＝2029  2029
+  [ 433.7s] car01_B：第一份工作（桌遊團 pg_first_day，1841）原文：[["player", "📷（照片：事務所會議室的白板。上面是你寫的第一份案件時間表。）"]]
+PASS car01_B：第一份工作那一段演了（FIRST_DAY_SEEN）  {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "grad", "BAR_SCORE_2029": 14, "BAR_SIT_2029": true, "BAR_STAGE_2029": "lawyer", "BAR_YEAR": 2029, "FIRST_DAY_SEEN": true, "EPILOGUE_DONE": true}
+  [ 433.7s] car01_B：尾聲最後一句（EPI.last）[["2034-06-03", "祐廷", "我在事務所。這禮拜寫了兩份書狀，有一份我改了七次。"]]；PG.path＝L_firm；careerLean＝{"A": 0, "B": 0, "C": 0, "top": "B"}
+  [ 433.7s] car01_B：第一份工作照片對應 path：["L_firm"]；尾聲最後一句對應 path：["L_firm"]
+PASS car01_B：尾聲演完（EPILOGUE_DONE）、回到標題  {"clock": {"key": "2034-06-03", "h": 19, "zone": "cafe"}, "title": true}
+PASS car01_B：沒有卡住  null
+  [ 433.7s] car01_B：日期卡 [["2029-08-04", "考場", "8/4（六）08:30"], ["2029-09-07", "9/7（五）15:00", "（一試考完，離放榜還有一個月。你把法典放在書架最上面。）"], ["2029-09-20", "9/20（四）21:00", "（二試的書比一試厚。早上讀實體法，下午寫考古題，晚上把寫錯的再寫一次。）"], ["2029-09-22", "9/22（六）22:00", ""], ["2029-10-20", "10/20（六）08:30", ""], ["2029-10-20", "考場", "10/20（六）08:30"], ["2029-10-21", "10/21（日）17:30", ""], ["2029-10-21", "10/21（日）17:30", ""], ["2029-12-14", "12/14（五）15:00", "（二試考完以後等放榜的七個禮拜，比讀書的時候還長。）"], ["2029-12-14", "公館燒臘・長桌", "走過去約 15 分鐘"], ["2029-12-14", "公館的套房", ""], ["2030-01-25", "1/25（五）21:00", ""], ["2030-10-01", "10/1（二）21:00", ""], ["2030-12-13", "12/13（五）15:06", ""], ["2034-06-03", "五年後", ""], ["2034-06-03", "2034 年 6 月 3 日", "2:30 AM"], ["2034-06-03", "法條之外", ""]]
+  [ 433.7s] car01_B：場景順序 ["exam_2029", "r1_2029", "e2a_2029", "e2b_2029", "r2_2029", "first", "epi"]
+PASS car01_B：逐字稿、新訊息沒有 debug 字（undefined、NaN、📷undefined、null、{name}、內部 id）  []
+  [ 433.7s] car01_B：截圖 {"q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\10_car01_B_exam_q1.png", "r1": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\11_car01_B_r1_land.png"], "r2": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\12_car01_B_r2_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\13_car01_B_r2_port.png"], "last": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\15_car01_B_last_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\16_car01_B_last_port.png"], "end": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\17_car01_B_end_land.png"], "title": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\18_car01_B_title_after_epi.png"}
+PASS car01_B：沒有 JS 例外  []
+==== CASE car01_C（SHA 76f8b639f0641f93a99736d06a9d0d0675966343）====
+PASS car01_C：遊戲載入
+  [前置／捷徑] [前置] car01_C：最小存檔 2029-08-03 20:00 公館（已畢業、BAR_REG、沒有延畢、HOME_AFTER gongguan；一試答對 14 題、傾向 C）；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發（grades.Y4S2）、加入桌遊團、傾向 C（G.vac=G.vac||{}; G.vac.reg=Object.assign(G.vac.reg||{},{'C08@2027':'done'});）→ {"lean": {"A": 0, "B": 0, "C": 3, "top": "C"}, "pgOn": true, "delayed": false, "sits2029": true, "zone": "gongguan", "day": "2029-08-03", "h": 20.037110666666685}
+PASS car01_C：前置成立：畢業後篇（PG.on）、2029 會考（PG.sits）、沒有延畢、傾向 top＝C（careerLean {"A": 0, "B": 0, "C": 3, "top": "C"}）  {"flags": {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided"}, "done": {"grad": 1, "b1": "missed", "fd_grades_y4s2": "missed"}, "path": "C", "lean": {"A": 0, "B": 0, "C": 3, "top": "C"}, "pgOn": true, "nextStop": 34040, "due": null, "title": false, "clock": {"key": "2029-08-04", "h": 7.5, "zone": "gongguan"}, "nmsg": 4}
+  [ 580.1s] car01_C：SV 放榜後 2029-12-14 15:05
+  [ 583.0s] car01_C 2029-12-14 17:30 gongguan 選項 ["出發：公館燒臘・長桌18:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：公館燒臘・長桌18:00　走過去約 15 分鐘（outing-go）
+  [ 605.6s] car01_C：第一份工作（手機群組）畫面文字：‹ 訊息
+桌遊團
+☆
+8/4 07:30
+阿哲：出發
+8/4 07:30
+Alison：帶准考證。
+9/7 15:00
+Alison：一試放榜了。
+9/7 15:00
+（群組安靜了三秒。）
+9/7 15:00
+阿哲：宵夜
+9/7 15:06
+Alison：一試沒過。明年再來。
+9/7 15:06
+阿哲：我也沒過……宵夜照吃
+9/7 15:06
+柏翰：過了。
+9/20 21:00
+阿哲：禮拜六中秋
+9/20 21:00
+阿哲：河濱 六點 一樣
+9/20 21:00
+阿哲：明軒那邊我開視訊 讓他看月亮
+9/22 22:00
+阿哲：📷（河濱，烤肉架，螢幕裡的明軒在揮手）
+12/14 15:00
+阿哲：放榜了
+12/14 15:00
+Alison：我先不看 我去洗澡
+12/14 15:00
+阿哲：宵夜 洗完來
+12/14 15:06
+阿哲：恭喜。……我明年一定跟上。
+12/14 15:06
+柏翰：上了。
+12/14 15:06
+柏翰：研究所的報告還沒寫完。
+1/25 21:00
+阿哲：以安上了 司法官
+1/25 21:00
+沈以安：謝謝。
+今天 21:00
+📷（照片：事務所會議室的白板。上面是你寫的第一份案件時間表。）
+  [ 606.9s] car01_C：SV 第一份工作後 2030-10-01 21:00
+  [ 634.6s] car01_C：SV 尾聲後 2034-06-03 19:00
+PASS car01_C：考卷 20 題都按了（20 題），按對 14 題（要 14）  {"1": {"id": "CIVS_24", "right": 3, "picked": 3, "correct": true}, "2": {"id": "Q004", "right": 0, "picked": 0, "correct": true}, "3": {"id": "LENG25_02", "right": 0, "picked": 0, "correct": true}, "4": {"id": "Y4_CJS_04", "right": 1, "picked": 1, "correct": true}, "5": {"id": "CIVS_17", "right": 1, "picked": 1, "correct": true}, "6": {"id": "CIV40_32", "right": 1, "picked": 1, "correct": true}, "7": {"id": "BBAI_LAB_07", "right": 3, "picked": 3, "correct": true}, "8": {"id": "SEC40_21", "right": 3, "picked": 3, "correct": true}, "9": {"id": "CRIM45_14", "right": 0, "picked": 0, "correct": tru
+PASS car01_C：BAR_SIT_2029 true、BAR_SCORE_2029＝14  {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided", "BAR_SCORE_2029": 14, "BAR_SIT_2029": true, "BAR_STAGE_2029": "lawyer", "BAR_YEAR": 2029, "FIRST_DAY_SEEN": true, "EPILOGUE_DONE": true}
+PASS car01_C：BAR_STAGE_2029＝lawyer（PG.tier）  "lawyer"
+  [ 636.4s] car01_C：9/7 放榜原文 [["2029-09-07", "15:05", "律師一試：通過。司法官一試：未通過。"]]
+  [ 636.4s] car01_C：12/14 放榜原文（2 行）[["2029-12-14", "15:05", "律師二試：錄取。"], ["2029-12-14", "15:05", "律師職前訓練：報到通知"]]
+PASS car01_C：12/14 放榜演了（「律師二試：錄取。」有出現）  {"exam_2029": 1, "r1_2029": 1, "r2_2029": 1, "first": 1, "epi": 1}
+PASS car01_C：BAR_YEAR＝2029  2029
+  [ 636.4s] car01_C：第一份工作（桌遊團 pg_first_day，1841）原文：[["player", "📷（照片：事務所會議室的白板。上面是你寫的第一份案件時間表。）"]]
+PASS car01_C：第一份工作那一段演了（FIRST_DAY_SEEN）  {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided", "BAR_SCORE_2029": 14, "BAR_SIT_2029": true, "BAR_STAGE_2029": "lawyer", "BAR_YEAR": 2029, "FIRST_DAY_SEEN": true, "EPILOGUE_DONE": true}
+  [ 636.4s] car01_C：尾聲最後一句（EPI.last）[["2034-06-03", "祐廷", "我在事務所。這禮拜寫了兩份書狀，有一份我改了七次。"]]；PG.path＝L_firm；careerLean＝{"A": 0, "B": 0, "C": 3, "top": "C"}
+  [ 636.4s] car01_C：第一份工作照片對應 path：["L_firm"]；尾聲最後一句對應 path：["L_firm"]
+PASS car01_C：尾聲演完（EPILOGUE_DONE）、回到標題  {"clock": {"key": "2034-06-03", "h": 19, "zone": "cafe"}, "title": true}
+PASS car01_C：沒有卡住  null
+  [ 636.4s] car01_C：日期卡 [["2029-08-04", "考場", "8/4（六）08:30"], ["2029-09-07", "9/7（五）15:00", "（一試考完，離放榜還有一個月。你把法典放在書架最上面。）"], ["2029-09-20", "9/20（四）21:00", "（二試的書比一試厚。早上讀實體法，下午寫考古題，晚上把寫錯的再寫一次。）"], ["2029-09-22", "9/22（六）22:00", ""], ["2029-10-20", "10/20（六）08:30", ""], ["2029-10-20", "考場", "10/20（六）08:30"], ["2029-10-21", "10/21（日）17:30", ""], ["2029-10-21", "10/21（日）17:30", ""], ["2029-12-14", "12/14（五）15:00", "（二試考完以後等放榜的七個禮拜，比讀書的時候還長。）"], ["2029-12-14", "公館燒臘・長桌", "走過去約 15 分鐘"], ["2029-12-14", "公館的套房", ""], ["2030-01-25", "1/25（五）21:00", ""], ["2030-10-01", "10/1（二）21:00", ""], ["2030-12-13", "12/13（五）15:06", ""], ["2034-06-03", "五年後", ""], ["2034-06-03", "2034 年 6 月 3 日", "2:30 AM"], ["2034-06-03", "法條之外", ""]]
+  [ 636.4s] car01_C：場景順序 ["exam_2029", "r1_2029", "e2a_2029", "e2b_2029", "r2_2029", "first", "epi"]
+PASS car01_C：逐字稿、新訊息沒有 debug 字（undefined、NaN、📷undefined、null、{name}、內部 id）  []
+  [ 636.4s] car01_C：截圖 {"q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\19_car01_C_exam_q1.png", "r1": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\20_car01_C_r1_land.png"], "r2": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\21_car01_C_r2_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\22_car01_C_r2_port.png"], "last": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\24_car01_C_last_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\25_car01_C_last_port.png"], "end": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\26_car01_C_end_land.png"], "title": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\27_car01_C_title_after_epi.png"}
+PASS car01_C：沒有 JS 例外  []
+==== CASE car04_16（SHA 76f8b639f0641f93a99736d06a9d0d0675966343）====
+PASS car04_16：遊戲載入
+  [前置／捷徑] [前置] car04_16：最小存檔 2029-08-03 20:00 公館（已畢業、BAR_REG、沒有延畢、HOME_AFTER gongguan；一試答對 16 題、傾向 A）；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發（grades.Y4S2）、加入桌遊團、傾向 A（F.LAWCLUB_SAT_VISITS=10;）→ {"lean": {"A": 0, "B": 0, "C": 0, "top": "B"}, "pgOn": true, "delayed": false, "sits2029": true, "zone": "gongguan", "day": "2029-08-03", "h": 20.037221333333353}
+FAIL car04_16：前置成立：畢業後篇（PG.on）、2029 會考（PG.sits）、沒有延畢、傾向 top＝A（careerLean {"A": 0, "B": 0, "C": 0, "top": "B"}）  {"flags": {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided"}, "done": {"grad": 1, "b1": "missed", "fd_grades_y4s2": "missed"}, "path": "A_none", "lean": {"A": 0, "B": 0, "C": 0, "top": "B"}, "pgOn": true, "nextStop": 34040, "due": null, "title": false, "clock": {"key": "2029-08-04", "h": 7.5, "zone": "gongguan"}, "nmsg": 4}
+  [ 784.4s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）可以，授權撤回後乙就是無權代理，甲一定不受拘束", "（B）可以，只要甲事後通知丙", "（C）不可以，因為乙是甲的受僱人", "（D）不可以，代理權之撤回不得以之對抗善意第三人"] → （A）可以，授權撤回後乙就是無權代理，甲一定不受拘束（first）
+  [ 786.7s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）必須經法院公證始成立", "（B）必須實際交付電腦始成立買賣契約", "（C）必須先支付價金始成立契約", "（D）雙方意思表示一致，契約即成立"] → （A）必須經法院公證始成立（first）
+  [ 789.0s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）當然有效", "（B）當然無效", "（C）原則上須經法定代理人承認，始生效力", "（D）甲須負刑事責任，契約始生效力"] → （A）當然有效（first）
+  [ 791.4s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）因甲沒有與乙見面，所以不可能成立詐欺", "（B）只有金額超過十萬元才可能成立詐欺", "（C）甲可能成立詐欺取財罪", "（D）甲必然僅成立民事債務不履行"] → （A）因甲沒有與乙見面，所以不可能成立詐欺（first）
+  [ 793.7s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）只有文件經過公證才成立犯罪", "（B）只有乙實際受傷才可能成立犯罪", "（C）可能成立刑法第304條強制罪", "（D）甲只要沒有取得財物就必然無罪"] → （A）只有文件經過公證才成立犯罪（first）
+  [ 796.0s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）符合中止未遂要件時，減輕或免除其刑", "（B）甲必然成立殺人既遂", "（C）甲因未造成死亡，一律不成立任何犯罪", "（D）中止未遂必須由警察制止才成立"] → （A）符合中止未遂要件時，減輕或免除其刑（first）
+  [ 798.3s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）先以書面向賠償義務機關請求", "（B）直接向地方法院起訴", "（C）先提起訴願", "（D）先向監察院陳情"] → （A）先以書面向賠償義務機關請求（first）
+  [ 800.7s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）甲可以在總統選舉投票，但還不能參加公民投票", "（B）甲可以參加全國性公民投票，但還不能在總統選舉投票", "（C）甲兩者都可以參加", "（D）甲兩者都還不能參加"] → （A）甲可以在總統選舉投票，但還不能參加公民投票（first）
+  [ 803.0s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）行為地（臺北市）或被告住所地（臺中市）的地方法院都", "（B）只有原告住所地（新竹市）的地方法院有管轄權", "（C）只有行為地（臺北市）的地方法院有管轄權", "（D）只有被告住所地（臺中市）的地方法院有管轄權"] → （A）行為地（臺北市）或被告住所地（臺中市）的地方法院都有管（first）
+  [ 805.3s] car04_16 2029-10-21 08:30 gongguan 選項 ["（A）提起第三審上訴", "（B）提起再審之訴", "（C）聲請假扣押", "（D）什麼都不能做，判決確定就不能再爭執"] → （A）提起第三審上訴（first）
+  [ 830.1s] car04_16：SV 放榜後 2029-12-14 15:05
+  [ 832.9s] car04_16 2029-12-14 17:30 gongguan 選項 ["出發：公館燒臘・長桌18:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：公館燒臘・長桌18:00　走過去約 15 分鐘（outing-go）
+  [ 847.3s] car04_16 2029-12-14 20:30 gongguan 選項 ["「再考一次司法官。」", "「就當律師。」"] → 「再考一次司法官。」（first）
+  [ 894.7s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）設有代表人的非法人團體", "（B）中央或地方機關", "（C）胎兒，關於其可享受之利益", "（D）已經死亡的自然人"] → （A）設有代表人的非法人團體（first）
+  [ 897.0s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）陳述意見的機會", "（B）自行指定承辦公務員的權利", "（C）要求行政機關無條件接受其主張", "（D）直接要求行政法院作成判決"] → （A）陳述意見的機會（first）
+  [ 899.3s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）dispose of", "（B）accuse of", "（C）testify against", "（D）appeal from"] → （A）dispose of（first）
+  [ 901.6s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）父親過世時甲還沒出生，沒有權利能力，不能繼承", "（B）要經法院宣告後，甲才能繼承", "（C）胎兒以將來非死產者為限，關於其個人利益之保護，視為", "（D）甲只能繼承父親的債務，不能繼承財產"] → （A）父親過世時甲還沒出生，沒有權利能力，不能繼承（first）
+  [ 903.3s] car04_16 2030-08-03 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 905.0s] car04_16 2030-08-03 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 907.3s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）arrest", "（B）appeal", "（C）investigate", "（D）testify"] → （A）arrest（first）
+  [ 909.6s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）名牌手錶", "（B）還沒發表的小說手稿", "（C）很少開的跑車", "（D）另一間出租的房子"] → （A）名牌手錶（first）
+  [ 912.0s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）法院得直接依社會輿論判處甲有罪", "（B）法院得類推適用最相近的刑罰規定處罰甲", "（C）只要行為不道德，即可成立犯罪", "（D）原則上不得在欠缺行為時法律明文處罰規定的情況下，對"] → （A）法院得直接依社會輿論判處甲有罪（first）
+  [ 914.3s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）買賣契約洽談開始時", "（B）危險移轉於買受人時", "（C）買受人第一次使用後一年", "（D）出賣人取得所有權之前"] → （A）買賣契約洽談開始時（first）
+  [ 916.6s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）稱謂問題", "（B）實質防禦權遭規避", "（C）管轄問題", "（D）判決格式"] → （A）稱謂問題（first）
+  [ 918.9s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）第一審判決送達後二十日的不變期間內", "（B）第一審判決送達後十日內", "（C）第一審判決宣示後三十日內", "（D）沒有期間限制"] → （A）第一審判決送達後二十日的不變期間內（first）
+  [ 920.6s] car04_16 2030-08-03 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 922.9s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）犯罪行為或結果有一在我國領域內，即屬在我國領域內犯", "（B）只有甲本人進入台灣，才可能適用我國刑法", "（C）網路犯罪一律不適用屬地原則", "（D）必須甲乙均具有我國國籍才可適用"] → （A）犯罪行為或結果有一在我國領域內，即屬在我國領域內犯罪（first）
+  [ 925.3s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）照常審判，有沒有辯護人是被告自己的事", "（B）應指定公設辯護人或律師為被告辯護", "（C）等被告聲請才指定", "（D）改用簡易程序，不需要辯護人"] → （A）照常審判，有沒有辯護人是被告自己的事（first）
+  [ 927.0s] car04_16 2030-08-03 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 929.3s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）liable", "（B）innocent", "（C）negligent", "（D）responsible"] → （A）liable（first）
+  [ 931.6s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）可以，授權撤回後乙就是無權代理，甲一定不受拘束", "（B）可以，只要甲事後通知丙", "（C）不可以，因為乙是甲的受僱人", "（D）不可以，代理權之撤回不得以之對抗善意第三人"] → （A）可以，授權撤回後乙就是無權代理，甲一定不受拘束（first）
+  [ 933.3s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）一方委託他方處理事務，他方允為處理", "（B）一方必須移轉土地所有權", "（C）一方交付金錢，他方必須支付利息", "（D）一方保證他人債務必定清償"] → （A）一方委託他方處理事務，他方允為處理（first）
+  [ 935.0s] car04_16 2030-08-03 08:30 gongguan 選項 ["（A）只有印製紙本的股票才屬有價證券", "（B）所有私人借據均當然屬證券交易法上的有價證券", "（C）只有上市股票才受證券交易法規範", "（D）未印製實體證券的股票，仍可能屬於證券交易法上的有價"] → （A）只有印製紙本的股票才屬有價證券（first）
+  [ 953.3s] car04_16：第一份工作（手機群組）畫面文字：‹ 訊息
+桌遊團
+☆
+8/4 07:30
+阿哲：出發
+8/4 07:30
+Alison：帶准考證。
+9/7 15:00
+Alison：一試放榜了。
+9/7 15:00
+（群組安靜了三秒。）
+9/7 15:00
+阿哲：宵夜
+9/7 15:06
+Alison：一試沒過。明年再來。
+9/7 15:06
+阿哲：我也沒過……宵夜照吃
+9/7 15:06
+柏翰：過了。
+9/20 21:00
+阿哲：禮拜六中秋
+9/20 21:00
+阿哲：河濱 六點 一樣
+9/20 21:00
+阿哲：明軒那邊我開視訊 讓他看月亮
+9/22 22:00
+阿哲：📷（河濱，烤肉架，螢幕裡的明軒在揮手）
+12/14 15:00
+阿哲：放榜了
+12/14 15:00
+Alison：我先不看 我去洗澡
+12/14 15:00
+阿哲：宵夜 洗完來
+12/14 15:06
+阿哲：恭喜。……我明年一定跟上。
+12/14 15:06
+柏翰：上了。
+12/14 15:06
+柏翰：研究所的報告還沒寫完。
+1/25 21:00
+阿哲：以安上了 司法官
+1/25 21:00
+沈以安：謝謝。
+今天 21:00
+📷（照片：事務所的名牌，旁邊壓著一本司法官的考古題。）
+  [ 954.7s] car04_16：SV 第一份工作後 2030-10-01 21:00
+  [ 968.4s] car04_16 2031-05-08 21:00 gongguan 選項 ["報名", "不報名"] → 報名（first）
+  [ 989.4s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）沒有，要滿一年才有", "（B）三日", "（C）七日", "（D）十日"] → （A）沒有，要滿一年才有（first）
+  [ 991.7s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）命令與憲法或法律牴觸者無效", "（B）命令只要經過行政院院會通過，就算和法律衝突也有效", "（C）法律和命令衝突時，以比較晚公布的那一個為準", "（D）命令只有和憲法本文衝突才無效，和法律衝突仍然有效"] → （A）命令與憲法或法律牴觸者無效（first）
+  [ 995.3s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）員工午餐菜單更換", "（B）公司重大合併或收購計畫", "（C）辦公室影印紙品牌更換", "（D）員工個人購買新手機"] → （A）員工午餐菜單更換（first）
+  [ 997.6s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）lawyer", "（B）witness", "（C）victim", "（D）police officer"] → （A）lawyer（first）
+  [ 999.9s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）撤銷訴訟", "（B）課予義務訴訟（請求應為行政處分或應為特定內容之行政", "（C）民事損害賠償訴訟", "（D）確認行政處分無效訴訟"] → （A）撤銷訴訟（first）
+  [1003.5s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）只限董事、監察人、經理人", "（B）從董事等內部人獲悉消息的人，也包括在內", "（C）只限持股超過百分之十的大股東", "（D）散戶一律不受規範"] → （A）只限董事、監察人、經理人（first）
+  [1005.2s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）由立法院選舉", "（B）由國民大會選舉", "（C）由中華民國自由地區全體人民直接選舉", "（D）由行政院院長提名，經立法院同意"] → （A）由立法院選舉（first）
+  [1008.7s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）程序主體地位", "（B）土地管轄", "（C）再審", "（D）非常上訴"] → （A）程序主體地位（first）
+  [1011.1s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）judgment", "（B）crime", "（C）contract", "（D）lawsuit"] → （A）judgment（first）
+  [1013.4s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）甲必然成立殺人既遂罪", "（B）甲可能成立殺人預備罪", "（C）甲必然成立殺人未遂罪", "（D）只要尚未著手，法律一律不得處罰任何預備行為"] → （A）甲必然成立殺人既遂罪（first）
+  [1015.7s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）消費借貸", "（B）買賣", "（C）保證", "（D）無因管理"] → （A）消費借貸（first）
+  [1017.4s] car04_16 2031-08-02 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1019.7s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）對債務人不生效力", "（B）債權讓與當然無效", "（C）債務人因此免除全部債務", "（D）債務人自動成為債權人"] → （A）對債務人不生效力（first）
+  [1022.1s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）當事人及法定代理人", "（B）訴訟標的及其原因事實", "（C）應受判決事項之聲明", "（D）證人的姓名與住所"] → （A）當事人及法定代理人（first）
+  [1023.8s] car04_16 2031-08-02 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1026.1s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）prosecutor", "（B）defendant", "（C）witness", "（D）legislator"] → （A）prosecutor（first）
+  [1028.4s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）憲法沒有列舉，所以不受保障", "（B）可以依第 22 條「其他自由及權利」受到憲法保障", "（C）只有刑法有處罰規定時才受保障", "（D）只保障公務員，不保障一般人民"] → （A）憲法沒有列舉，所以不受保障（first）
+  [1030.7s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）Contract", "（B）Crime", "（C）Evidence", "（D）Judgment"] → （A）Contract（first）
+  [1033.1s] car04_16 2031-08-02 08:30 gongguan 選項 ["（A）無效", "（B）有效，三家都要全額賠", "（C）有效，但只能領一家", "（D）效力未定，等保險公司承認"] → （A）無效（first）
+  [1035.4s] car04_16 2031-08-02 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1056.2s] car04_16 2032-05-13 21:00 gongguan 選項 ["報名", "不報名"] → 報名（first）
+  [1077.3s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）十二小時", "（B）二十四小時", "（C）四十八小時", "（D）七十二小時"] → （A）十二小時（first）
+  [1079.0s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）機關內部的人事工作分配", "（B）行政機關對外就具體事件所為、直接發生法律效果的單方", "（C）行政機關與人民簽訂的所有私法契約", "（D）公務員私下提出的法律意見"] → （A）機關內部的人事工作分配（first）
+  [1082.6s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）僅限直接收取現金", "（B）僅限取得公司股份", "（C）可能包含金錢利益、名譽利益或以消息餽贈親友等情形", "（D）只要沒有書面契約，就絕對不存在個人利益"] → （A）僅限直接收取現金（first）
+  [1086.2s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）只有公司已經倒閉才可能違法", "（B）只要資料發布在網路上，就不受規範", "（C）只要投資人沒有提出抗議，就當然合法", "（D）有價證券的募集、發行、私募或買賣，不得有虛偽、詐欺"] → （A）只有公司已經倒閉才可能違法（first）
+  [1088.5s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）甲是要保人，也是被保險人；乙是受益人", "（B）甲是受益人；乙是要保人", "（C）甲是保險人；乙是被保險人", "（D）甲是要保人；乙是被保險人"] → （A）甲是要保人，也是被保險人；乙是受益人（first）
+  [1090.2s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）所有在公司裡上班的人，包括老闆", "（B）受雇主僱用從事工作獲致工資者", "（C）只有工廠裡的作業員", "（D）只有簽了一年以上合約的人"] → （A）所有在公司裡上班的人，包括老闆（first）
+  [1093.8s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）行為地（臺北市）或被告住所地（臺中市）的地方法院都", "（B）只有原告住所地（新竹市）的地方法院有管轄權", "（C）只有行為地（臺北市）的地方法院有管轄權", "（D）只有被告住所地（臺中市）的地方法院有管轄權"] → （A）行為地（臺北市）或被告住所地（臺中市）的地方法院都有管（first）
+  [1095.5s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）支持自白真實性", "（B）取代起訴", "（C）決定管轄", "（D）延長羈押"] → （A）支持自白真實性（first）
+  [1097.8s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）債務人一律免責", "（B）債權人一律自行負擔", "（C）由法院任意分配", "（D）債務人仍應負責，但能證明縱不遲延仍不免發生損害者，"] → （A）債務人一律免責（first）
+  [1100.2s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）自動作廢", "（B）只能留到下一份工作再休", "（C）由雇主決定要不要給錢", "（D）因契約終止而未休之日數，雇主應發給工資"] → （A）自動作廢（first）
+  [1103.8s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）實際偵查狀況", "（B）訊問室顏色", "（C）案號位數", "（D）警察制服品牌"] → （A）實際偵查狀況（first）
+  [1106.7s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）法官核發", "（B）被害人核發", "（C）記者核發", "（D）被告核發"] → （A）法官核發（first）
+  [1109.1s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）contracts", "（B）properties", "（C）rights", "（D）obligations"] → （A）contracts（first）
+  [1110.8s] car04_16 2032-08-07 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1112.5s] car04_16 2032-08-07 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1116.1s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）只要聽到「併購」二字，必然成立內線交易", "（B）只要消息是偶然聽見，必然不成立內線交易", "（C）應依甲實際獲悉的消息內容及其他具體事證判斷", "（D）只要甲買賣股票沒有獲利，必然不成立內線交易"] → （A）只要聽到「併購」二字，必然成立內線交易（first）
+  [1118.4s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）10 萬元", "（B）不用負任何責任", "（C）5 萬元", "（D）1 萬元"] → （A）10 萬元（first）
+  [1120.7s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）只要甲有違規行為，就必須對乙死亡負刑責", "（B）甲的超速行為與乙死亡無因果關係，不能僅因甲違規即將", "（C）甲必然成立故意殺人罪", "（D）只要甲與乙同時出現在現場，即可推定結果歸責"] → （A）只要甲有違規行為，就必須對乙死亡負刑責（first）
+  [1123.1s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）民法第179條不當得利返還請求權", "（B）民法第767條所有物返還請求權", "（C）繼承回復請求權", "（D）剩餘財產分配請求權"] → （A）民法第179條不當得利返還請求權（first）
+  [1124.8s] car04_16 2032-08-07 08:30 gongguan 選項 ["（A）時效完成後，債務人永遠不得主張時效", "（B）時效抗辯一律違反誠信原則", "（C）時效抗辯原則上可以行使，但特殊情況可能受到誠信原則", "（D）債權人只要表示不滿，即可排除時效"] → （A）時效完成後，債務人永遠不得主張時效（first）
+  [1145.1s] car04_16 2033-05-12 21:00 gongguan 選項 ["報名", "不報名"] → 報名（first）
+  [1169.1s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）無特定身分的乙仍可能以正犯或共犯論，但得減輕其刑", "（B）乙因不具公務員身分，一律無罪", "（C）乙必須先取得公務員資格才可能成立共犯", "（D）只有公務員才能教唆公務員犯罪"] → （A）無特定身分的乙仍可能以正犯或共犯論，但得減輕其刑（first）
+  [1170.9s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）一律須經法院許可", "（B）一律須以公證書為之", "（C）僅得向第三人為之", "（D）得向代理人或代理人對之為代理行為的第三人，以意思表"] → （A）一律須經法院許可（first）
+  [1173.3s] car04_16 2033-08-06 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1176.9s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）保持租賃物合於約定使用、收益的狀態", "（B）保證承租人經營必定獲利", "（C）無條件移轉租賃物所有權", "（D）永久不得終止租約"] → （A）保持租賃物合於約定使用、收益的狀態（first）
+  [1179.3s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）自用盡審級救濟之最終裁判送達後翌日起之六個月不變期", "（B）隨時都可以聲請", "（C）判決確定後十年內", "（D）第一審判決後三十日內"] → （A）自用盡審級救濟之最終裁判送達後翌日起之六個月不變期間內（first）
+  [1181.7s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）innocent", "（B）liable", "（C）legal", "（D）valid"] → （A）innocent（first）
+  [1183.4s] car04_16 2033-08-06 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1185.8s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）法官只要內心確信即可，判決不必寫理由", "（B）依自由心證判斷，不得違背論理及經驗法則，並應將得心", "（C）依證人人數的多寡決定", "（D）依當事人的社會地位判斷可信度"] → （A）法官只要內心確信即可，判決不必寫理由（first）
+  [1187.5s] car04_16 2033-08-06 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1190.5s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）補強法則", "（B）傳聞法則", "（C）上訴不可分", "（D）法官迴避"] → （A）補強法則（first）
+  [1192.3s] car04_16 2033-08-06 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1194.6s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）可能成立恐嚇危害安全罪", "（B）只有甲實際放火才可能成立恐嚇罪", "（C）恐嚇罪必須以當面口頭表示為限", "（D）只有威脅生命，威脅財產不受規範"] → （A）可能成立恐嚇危害安全罪（first）
+  [1197.7s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）法定羈押原因及必要性", "（B）被告星座", "（C）媒體聲量", "（D）檢察官喜好"] → （A）法定羈押原因及必要性（first）
+  [1199.4s] car04_16 2033-08-06 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1201.8s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）僱用人原則上與行為人連帶負損害賠償責任，但法律設有", "（B）僱用人永遠不負責任", "（C）僅由公司股東負責", "（D）丙不得請求任何損害賠償"] → （A）僱用人原則上與行為人連帶負損害賠償責任，但法律設有免責（first）
+  [1204.2s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）三日內", "（B）七日內", "（C）十五日內", "（D）二個月內"] → （A）三日內（first）
+  [1205.9s] car04_16 2033-08-06 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1208.3s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）百分之三", "（B）百分之五", "（C）百分之十", "（D）百分之二十"] → （A）百分之三（first）
+  [1211.9s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）只要股票價格異常波動，即成立責任", "（B）重視消息提供人與公司間的信賴義務，以及消息傳遞是否", "（C）所有投資人均不得交換任何資訊", "（D）只要消息受領人獲利，即推定提供人違反刑法"] → （A）只要股票價格異常波動，即成立責任（first）
+  [1214.3s] car04_16 2033-08-06 08:30 gongguan 選項 ["（A）各負擔一半", "（B）只有先簽名的人要負責", "（C）應連帶負責", "（D）都不用負責，因為沒寫清楚誰付錢"] → （A）各負擔一半（first）
+  [1253.6s] car04_16：SV 尾聲後 2034-06-03 19:00
+PASS car04_16：考卷 20 題都按了（20 題），按對 16 題（要 16）  {"1": {"id": "BBAI_LAB_10", "right": 1, "picked": 1, "correct": true}, "2": {"id": "Y4_CJS_07", "right": 2, "picked": 2, "correct": true}, "3": {"id": "BBAI_LAB_08", "right": 2, "picked": 2, "correct": true}, "4": {"id": "Q004", "right": 0, "picked": 0, "correct": true}, "5": {"id": "SEC40_26", "right": 0, "picked": 0, "correct": true}, "6": {"id": "CRIM45_04", "right": 1, "picked": 1, "correct": true}, "7": {"id": "CIV40_06", "right": 0, "picked": 0, "correct": true}, "8": {"id": "CIV40_17", "right": 1, "picked": 1, "correct": true}, "9": {"id": "Q026", "right": 0, "picked": 0, "correct": tru
+PASS car04_16：BAR_SIT_2029 true、BAR_SCORE_2029＝16  {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided", "BAR_SCORE_2029": 16, "BAR_SIT_2029": true, "BAR_STAGE_2029": "both", "BAR_YEAR": 2029, "BAR_SCORE_2030": 8, "BAR_SIT_2030": true, "BAR_STAGE_2030": "none", "FIRST_DAY_SEEN": true, "BAR_SCORE_2031": 8, "BAR_SIT_2031": true, "BAR_STAGE_2031": "none", "BAR_SCORE_2032": 8, "BAR_SIT_2032": true, "BAR_STAGE_2032": "none", "BAR_SCORE_2033": 8, "BAR_SIT_2033": true, "BAR_STAGE_2033": "none", "EPILOGUE_DONE": true}
+PASS car04_16：BAR_STAGE_2029＝both（PG.tier）  "both"
+  [1255.5s] car04_16：9/7 放榜原文 [["2029-09-07", "15:05", "律師、司法官一試：通過。"]]
+  [1255.5s] car04_16：12/14 放榜原文（2 行）[["2029-12-14", "15:05", "律師二試：錄取。"], ["2029-12-14", "15:05", "律師職前訓練：報到通知"]]
+PASS car04_16：12/14 放榜演了（「律師二試：錄取。」有出現）  {"exam_2029": 1, "r1_2029": 1, "r2_2029": 1, "exam_2030": 1, "r1_2030": 1, "first": 1, "exam_2031": 1, "r1_2031": 1, "exam_2032": 1, "r1_2032": 1, "exam_2033": 1, "r1_2033": 1, "epi": 1}
+PASS car04_16：BAR_YEAR＝2029  2029
+  [1255.5s] car04_16：第一份工作（桌遊團 pg_first_day，1841）原文：[["player", "📷（照片：事務所的名牌，旁邊壓著一本司法官的考古題。）"]]
+PASS car04_16：第一份工作那一段演了（FIRST_DAY_SEEN）  {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided", "BAR_SCORE_2029": 16, "BAR_SIT_2029": true, "BAR_STAGE_2029": "both", "BAR_YEAR": 2029, "BAR_SCORE_2030": 8, "BAR_SIT_2030": true, "BAR_STAGE_2030": "none", "FIRST_DAY_SEEN": true, "BAR_SCORE_2031": 8, "BAR_SIT_2031": true, "BAR_STAGE_2031": "none", "BAR_SCORE_2032": 8, "BAR_SIT_2032": true, "BAR_STAGE_2032": "none", "BAR_SCORE_2033": 8, "BAR_SIT_2033": true, "BAR_STAGE_2033": "none", "EPILOGUE_DONE": true}
+  [1255.5s] car04_16：尾聲最後一句（EPI.last）[["2034-06-03", "祐廷", "我在法扶。這禮拜開了三個庭。"]]；PG.path＝A_bar；careerLean＝{"A": 0, "B": 0, "C": 0, "top": "B"}
+  [1255.5s] car04_16：第一份工作照片對應 path：[]；尾聲最後一句對應 path：["A_bar"]
+PASS car04_16：尾聲演完（EPILOGUE_DONE）、回到標題  {"clock": {"key": "2034-06-03", "h": 19, "zone": "cafe"}, "title": true}
+PASS car04_16：沒有卡住  null
+  [1255.5s] car04_16：日期卡 [["2029-08-04", "考場", "8/4（六）08:30"], ["2029-09-07", "9/7（五）15:00", "（一試考完，離放榜還有一個月。你把法典放在書架最上面。）"], ["2029-09-20", "9/20（四）12:00", "（二試的書比一試厚。早上讀實體法，下午寫考古題，晚上把寫錯的再寫一次。）"], ["2029-09-22", "9/22（六）22:00", ""], ["2029-10-14", "10/14（日）20:00", ""], ["2029-10-20", "10/20（六）08:30", ""], ["2029-10-20", "考場", "10/20（六）08:30"], ["2029-10-21", "10/21（日）08:30", ""], ["2029-10-21", "考場", "10/21（日）08:30"], ["2029-10-21", "10/21（日）17:30", ""], ["2029-12-14", "12/14（五）15:00", "（二試考完以後等放榜的七個禮拜，比讀書的時候還長。）"], ["2029-12-14", "公館燒臘・長桌", "走過去約 15 分鐘"], ["2029-12-14", "公館的套房", ""], ["2029-12-14", "12/14（五）20:30", ""], ["2030-01-25", "1/25（五）21:00", ""], ["2030-03-10", "3/10（日）21:00", ""], ["2030-03-10", "【2030 年 3 月】", "白天在事務所，晚上在書桌前。考古題寫到第三輪。"], ["2030-05-06", "5/6（一）21:00", ""], ["2030-05-06", "【2030 年 5 月】", "報名截止那天，你提早三天交了。"], ["2030-07-04", "7/4（四）12:00", ""], ["2030-07-28", "7/28（日）20:00", ""], ["2030-08-03", "8/3（六）08:00", ""], ["2030-08-03", "【2030 年 8 月】", "一試。你比去年早到半小時。"], ["2030-08-03", "考場", "8/3（六）08:30"], ["2030-09-06", "9/6（五）15:05", ""], ["2030-10-01", "10/1（二）21:00", ""], ["2030-12-13", "12/13（五）15:06", ""], ["2031-05-08", "5/8（四）21:00", ""], ["2031-05-08", "2031 年", "還在考。"], ["2031-07-03", "7/3（四）12:00", ""], ["2031-07-27", "7/27（日）20:00", ""], ["2031-08-02", "8/2（六）08:00", ""], ["2031-08-02", "【2031 年 8 月】", "一試。你比去年早到半小時。"], ["2031-08-02", "考場", "8/2（六）08:30"], ["2031-09-05", "9/5（五）15:05", ""], ["2032-05-13", "5/13（四）21:00", ""], ["2032-05-13", "2032 年", "書換了一版。"], ["2032-07-08", "7/8（四）12:00", ""], ["2032-08-01", "8/1（日）20:00", ""], ["2032-08-07", "8/7（六）08:00", ""], ["2032-08-07", "【2032 年 8 月】", "一試。你比去年早到半小時。"], ["2032-08-07", "考場", "8/7（六）08:30"], ["2032-09-10", "9/10（五）15:05", ""], ["2033-05-12", "5/12（四）21:00", ""], ["2033-05-12", "2033 年", "最後一次。"], ["2033-07-07", "7/7（四）12:00", ""], ["2033-07-31", "7/31（日）20:00", ""], ["2033-08-06", "8/6（六）08:00", ""], ["2033-08-06", "【2033 年 8 月】", "一試。你比去年早到半小時。"], ["2033-08-06", "考場", "8/6（六）08:30"], ["2033-09-09", "9/9（五）15:05", ""], ["2034-06-03", "五年後", ""], ["2034-06-03", "2034 年 6 月 3 日", "2:30 AM"], ["2034-06-03", "法條之外", ""]]
+  [1255.5s] car04_16：場景順序 ["exam_2029", "r1_2029", "e2a_2029", "e2b_2029", "r2_2029", "jretake_2029", "jcard0_2030", "jcard1_2030", "exam_2030", "r1_2030", "first", "jreg_2031", "exam_2031", "r1_2031", "jreg_2032", "exam_2032", "r1_2032", "jreg_2033", "exam_2033", "r1_2033", "epi"]
+PASS car04_16：逐字稿、新訊息沒有 debug 字（undefined、NaN、📷undefined、null、{name}、內部 id）  []
+  [1255.5s] car04_16：截圖 {"q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\28_car04_16_exam_q1.png", "r1": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\29_car04_16_r1_land.png"], "r2": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\30_car04_16_r2_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\31_car04_16_r2_port.png"], "last": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\33_car04_16_last_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\34_car04_16_last_port.png"], "end": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\35_car04_16_end_land.png"], "title": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_car\\out\\36_car04_16_title_after_epi.png"}
+PASS car04_16：沒有 JS 例外  []
+==== CASE car04_17（SHA 76f8b639f0641f93a99736d06a9d0d0675966343）====
+PASS car04_17：遊戲載入
+  [前置／捷徑] [前置] car04_17：最小存檔 2029-08-03 20:00 公館（已畢業、BAR_REG、沒有延畢、HOME_AFTER gongguan；一試答對 17 題、傾向 A）；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發（grades.Y4S2）、加入桌遊團、傾向 A（F.LAWCLUB_SAT_VISITS=10;）→ {"lean": {"A": 0, "B": 0, "C": 0, "top": "B"}, "pgOn": true, "delayed": false, "sits2029": true, "zone": "gongguan", "day": "2029-08-04", "h": 8.5}
+FAIL car04_17：前置成立：畢業後篇（PG.on）、2029 會考（PG.sits）、沒有延畢、傾向 top＝A（careerLean {"A": 0, "B": 0, "C": 0, "top": "B"}）  {"flags": {"BAR_REG": true, "GRADUATED": 1355, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "Y4_PATH": "undecided"}, "done": {"grad": 1, "b1": "missed", "fd_grades_y4s2": "missed"}, "path": "A_none", "lean": {"A": 0, "B": 0, "C": 0, "top": "B"}, "pgOn": true, "nextStop": 34863, "due": null, "title": false, "clock": {"key": "2029-08-04", "h": 8.508, "zone": "gongguan"}, "nmsg": 2}
+  [1312.5s] car04_17 2029-08-04 08:30 gongguan 選項 ["（A）雙方第一次約會時", "（B）法定財產制關係消滅時", "（C）任何一方購買動產時", "（D）婚姻登記滿一年時"] → （A）雙方第一次約會時（first）
+  [1406.4s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）消費借貸", "（B）買賣", "（C）保證", "（D）無因管理"] → （A）消費借貸（first）
+  [1408.7s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）僱用人原則上與行為人連帶負損害賠償責任，但法律設有", "（B）僱用人永遠不負責任", "（C）僅由公司股東負責", "（D）丙不得請求任何損害賠償"] → （A）僱用人原則上與行為人連帶負損害賠償責任，但法律設有免責（first）
+  [1411.0s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）須全體同意，不能出售", "（B）共有人過半數、應有部分合計也過半數，可以出售", "（C）應有部分合計要超過三分之二才可以", "（D）須先經法院裁定"] → （A）須全體同意，不能出售（first）
+  [1413.4s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）甲必然成立殺人既遂罪", "（B）甲可能成立殺人預備罪", "（C）甲必然成立殺人未遂罪", "（D）只要尚未著手，法律一律不得處罰任何預備行為"] → （A）甲必然成立殺人既遂罪（first）
+  [1415.7s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）只要甲客觀上造成乙受傷，就必然成立故意傷害罪", "（B）甲因行為時欠缺辨識及控制能力，可能不具刑法上的責任", "（C）精神疾病與刑事責任完全無關，法院不得調查", "（D）甲只要事前曾經持刀，就必然具有完整責任能力"] → （A）只要甲客觀上造成乙受傷，就必然成立故意傷害罪（first）
+  [1418.0s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）甲必然成立故意竊盜罪", "（B）甲必然成立強盜罪", "（C）甲對財物屬於他人所有的事實認識有誤，可能欠缺竊盜故", "（D）只要乙沒有立即發現，甲即成立竊盜既遂罪"] → （A）甲必然成立故意竊盜罪（first）
+  [1420.4s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）甲只能請立法院修法，不能聲請憲法法庭", "（B）甲可以隨時聲請，沒有期間限制", "（C）甲在第一審判決後就可以直接聲請，不必用盡審級救濟", "（D）甲得聲請憲法法庭宣告判決違憲，應自最終裁判送達後翌"] → （A）甲只能請立法院修法，不能聲請憲法法庭（first）
+  [1422.7s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）甲可以在總統選舉投票，但還不能參加公民投票", "（B）甲可以參加全國性公民投票，但還不能在總統選舉投票", "（C）甲兩者都可以參加", "（D）甲兩者都還不能參加"] → （A）甲可以在總統選舉投票，但還不能參加公民投票（first）
+  [1425.0s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）不必理會，依辯論主義由甲自己承擔", "（B）直接駁回甲的訴", "（C）應向當事人發問或曉諭，令其敘明或補充", "（D）請檢察官替甲補充事實"] → （A）不必理會，依辯論主義由甲自己承擔（first）
+  [1427.3s] car04_17 2029-10-21 08:30 gongguan 選項 ["（A）行為地（臺北市）或被告住所地（臺中市）的地方法院都", "（B）只有原告住所地（新竹市）的地方法院有管轄權", "（C）只有行為地（臺北市）的地方法院有管轄權", "（D）只有被告住所地（臺中市）的地方法院有管轄權"] → （A）行為地（臺北市）或被告住所地（臺中市）的地方法院都有管（first）
+  [1453.1s] car04_17：SV 放榜後 2029-12-14 15:05
+  [1455.9s] car04_17 2029-12-14 17:30 gongguan 選項 ["出發：公館燒臘・長桌18:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：公館燒臘・長桌18:00　走過去約 15 分鐘（outing-go）
+  [1470.3s] car04_17 2029-12-14 20:30 gongguan 選項 ["「再考一次司法官。」", "「就當律師。」"] → 「再考一次司法官。」（first）
+  [1520.1s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）乙不是公司員工，必然不受規範", "（B）乙可能屬於證券交易法第157條之1第1項第5款的消", "（C）乙只有在取得董事職位後才受規範", "（D）乙只有在買入超過公司百分之十股份時才受規範"] → （A）乙不是公司員工，必然不受規範（first）
+  [1523.7s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）七日", "（B）十五日", "（C）六十日", "（D）三十日"] → （A）七日（first）
+  [1526.0s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）與確定判決有同一之效力", "（B）只是雙方的私人約定，沒有拘束力", "（C）要經上級法院核定才生效", "（D）任何一方反悔，就可以隨時撤回"] → （A）與確定判決有同一之效力（first）
+  [1529.5s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）須判斷行為人是否實際知悉符合規範的重大消息", "（B）只要股票價格上漲，即推定所有買受人實際知悉", "（C）只要行為人認識公司員工，即當然實際知悉", "（D）不論行為人知悉何種內容，均直接成立內線交易"] → （A）須判斷行為人是否實際知悉符合規範的重大消息（first）
+  [1533.1s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）一方移轉所有權，他方支付價金", "（B）一方以物交付他方保管，他方允為保管", "（C）一方為他方完成一定工作", "（D）一方承擔他人的債務"] → （A）一方移轉所有權，他方支付價金（first）
+  [1535.4s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）繼承人自己的全部財產", "（B）因繼承所得的遺產", "（C）被繼承人生前全部收入", "（D）繼承人配偶的財產"] → （A）繼承人自己的全部財產（first）
+  [1537.7s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）只要大家都同意，法人就成立了", "（B）只要向學校登記就成立", "（C）法人非依民法或其他法律之規定，不得成立", "（D）只要開了銀行帳戶就成立"] → （A）只要大家都同意，法人就成立了（first）
+  [1541.3s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）當然有效", "（B）當然無效", "（C）原則上須經法定代理人承認，始生效力", "（D）甲須負刑事責任，契約始生效力"] → （A）當然有效（first）
+  [1543.6s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）父親過世時甲還沒出生，沒有權利能力，不能繼承", "（B）要經法院宣告後，甲才能繼承", "（C）胎兒以將來非死產者為限，關於其個人利益之保護，視為", "（D）甲只能繼承父親的債務，不能繼承財產"] → （A）父親過世時甲還沒出生，沒有權利能力，不能繼承（first）
+  [1545.9s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）只要換一個法院起訴就可以", "（B）只要過了一年就可以重新起訴", "（C）只要甲換了律師就可以", "（D）確定之終局判決就經裁判之訴訟標的有既判力，甲不能就"] → （A）只要換一個法院起訴就可以（first）
+  [1548.2s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）一律不得撤銷贈與", "（B）必須經受贈人同意始得撤銷", "（C）必須取得法院判決始得撤銷", "（D）得撤銷贈與，但法律另有例外規定"] → （A）一律不得撤銷贈與（first）
+  [1549.9s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）僅須一方寄發存證信函", "（B）僅須分居滿一年", "（C）以書面為之，有二人以上證人簽名，並向戶政機關為離婚", "（D）必須經法院判決始得離婚"] → （A）僅須一方寄發存證信函（first）
+  [1552.2s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）10 萬元", "（B）不用負任何責任", "（C）5 萬元", "（D）1 萬元"] → （A）10 萬元（first）
+  [1553.9s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）債權人占有債務人或第三人移交的動產，以擔保債權", "（B）債權人必須取得土地所有權", "（C）質權人不須占有質物，且一律不得交付", "（D）質權僅能設定於不動產"] → （A）債權人占有債務人或第三人移交的動產，以擔保債權（first）
+  [1555.6s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）犯罪事實仍有合理懷疑", "（B）法官不知道法條號碼", "（C）被告拒絕認罪", "（D）辯護人缺席"] → （A）犯罪事實仍有合理懷疑（first）
+  [1557.3s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）總統公布後即通過", "（B）經全國人民投票，同意票多於不同意票即通過", "（C）經公告半年後，由中華民國自由地區選舉人投票複決，有", "（D）經司法院大法官審查通過"] → （A）總統公布後即通過（first）
+  [1559.6s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）董事會", "（B）股東會", "（C）監察人", "（D）主管機關"] → （A）董事會（first）
+  [1562.0s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）名牌手錶", "（B）還沒發表的小說手稿", "（C）很少開的跑車", "（D）另一間出租的房子"] → （A）名牌手錶（first）
+  [1564.3s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）監察人", "（B）董事長戊自己", "（C）公司的經理人", "（D）持股最多的股東"] → （A）監察人（first）
+  [1566.6s] car04_17 2030-08-03 08:30 gongguan 選項 ["（A）不同意見書", "（B）協同意見書", "（C）再審聲請書", "（D）抗告狀"] → （A）不同意見書（first）
+  [1584.6s] car04_17：第一份工作（手機群組）畫面文字：‹ 訊息
+桌遊團
+☆
+8/4 07:30
+阿哲：出發
+8/4 07:31
+Alison：帶准考證。
+9/7 15:00
+Alison：一試放榜了。
+9/7 15:00
+（群組安靜了三秒。）
+9/7 15:00
+阿哲：宵夜
+9/7 15:06
+Alison：一試沒過。明年再來。
+9/7 15:06
+阿哲：我也沒過……宵夜照吃
+9/7 15:06
+柏翰：過了。
+9/20 21:00
+阿哲：禮拜六中秋
+9/20 21:00
+阿哲：河濱 六點 一樣
+9/20 21:00
+阿哲：明軒那邊我開視訊 讓他看月亮
+9/22 22:00
+阿哲：📷（河濱，烤肉架，螢幕裡的明軒在揮手）
+12/14 15:00
+阿哲：放榜了
+12/14 15:00
+Alison：我先不看 我去洗澡
+12/14 15:00
+阿哲：宵夜 洗完來
+12/14 15:06
+阿哲：恭喜。……我明年一定跟上。
+12/14 15:06
+柏翰：上了。
+12/14 15:06
+柏翰：研究所的報告還沒寫完。
+1/25 21:00
+阿哲：以安上了 司法官
+1/25 21:00
+沈以安：謝謝。
+今天 21:00
+📷（照片：事務所的名牌，旁邊壓著一本司法官的考古題。）
+  [1586.0s] car04_17：SV 第一份工作後 2030-10-01 21:00
+  [1599.9s] car04_17 2031-05-08 21:00 gongguan 選項 ["報名", "不報名"] → 報名（first）
+  [1621.7s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）不負，國家只對公務員積極的行為負責", "（B）不負，應由公務員個人全部負責", "（C）只有公共設施的損害才由國家賠償", "（D）應負損害賠償責任"] → （A）不負，國家只對公務員積極的行為負責（first）
+  [1623.4s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）有法律依據", "（B）警察覺得方便即可", "（C）被害人要求即可", "（D）媒體同意"] → （A）有法律依據（first）
+  [1625.1s] car04_17 2031-08-02 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1626.8s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）法人絕對不可能成立侵權行為", "（B）法人僅能負契約責任", "（C）法人的組織活動及機關行為可能構成其侵權責任基礎", "（D）只要法人有資產就當然成立侵權"] → （A）法人絕對不可能成立侵權行為（first）
+  [1629.2s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）只要被告請求，法院就必須宣告緩刑", "（B）緩刑期間一律為十年", "（C）法院得宣告二年以上五年以下的緩刑", "（D）宣告緩刑即表示犯罪行為不成立"] → （A）只要被告請求，法院就必須宣告緩刑（first）
+  [1631.5s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）國家依法徵收私人土地，應給予合理的補償", "（B）為了公共利益，國家可以無償取得甲的土地", "（C）只要符合公共利益，徵收不需要法律依據", "（D）財產權不是憲法列舉的權利，甲只能依第 22 條主張"] → （A）國家依法徵收私人土地，應給予合理的補償（first）
+  [1634.4s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）雙方資源必須完全相同", "（B）程序應給予有效攻防的合理機會", "（C）被告一定要贏", "（D）檢察官不得提出證據"] → （A）雙方資源必須完全相同（first）
+  [1638.0s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）只要股票價格異常波動，即成立責任", "（B）重視消息提供人與公司間的信賴義務，以及消息傳遞是否", "（C）所有投資人均不得交換任何資訊", "（D）只要消息受領人獲利，即推定提供人違反刑法"] → （A）只要股票價格異常波動，即成立責任（first）
+  [1641.5s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）當日善意從事相反買賣之人", "（B）所有持有該公司股票的人，不論交易情形", "（C）只有公司的董事長", "（D）只有證券交易所"] → （A）當日善意從事相反買賣之人（first）
+  [1643.8s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）remedy", "（B）witness", "（C）offense", "（D）testimony"] → （A）remedy（first）
+  [1646.2s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）命令與憲法或法律牴觸者無效", "（B）命令只要經過行政院院會通過，就算和法律衝突也有效", "（C）法律和命令衝突時，以比較晚公布的那一個為準", "（D）命令只有和憲法本文衝突才無效，和法律衝突仍然有效"] → （A）命令與憲法或法律牴觸者無效（first）
+  [1648.5s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）債務人異議之訴", "（B）第三人異議之訴", "（C）第三審上訴", "（D）非常上訴"] → （A）債務人異議之訴（first）
+  [1650.2s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）為擔保債權而移轉財產權利", "（B）單純無償贈與", "（C）必然成立租賃契約", "（D）一律禁止債務人清償"] → （A）為擔保債權而移轉財產權利（first）
+  [1652.5s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）給付不能", "（B）給付遲延", "（C）無因管理", "（D）債權混同"] → （A）給付不能（first）
+  [1654.9s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）包括，這是回復名譽最有效的方法", "（B）包括，但只限加害人同意時", "（C）不包括，才符合憲法保障言論自由及思想自由的意旨", "（D）由法官依個案自由決定"] → （A）包括，這是回復名譽最有效的方法（first）
+  [1657.2s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）有，任何人都可以替任何人投保", "（B）有，只要丙付得起保險費", "（C）沒有；丁不是丙的家屬、生活費或教育費所仰給之人、債", "（D）有，只要丁不知道就好"] → （A）有，任何人都可以替任何人投保（first）
+  [1659.5s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）dispose of", "（B）accuse of", "（C）testify against", "（D）appeal from"] → （A）dispose of（first）
+  [1661.9s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）募集係對非特定人公開招募，私募則依法律規定對特定人", "（B）募集只能發行公司債，私募只能發行股票", "（C）募集不受證券交易法規範，私募才受規範", "（D）募集必須在證券交易所進行，私募必須在銀行進行"] → （A）募集係對非特定人公開招募，私募則依法律規定對特定人招募（first）
+  [1664.8s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）自白是否出於自由意志", "（B）被告字寫得漂亮嗎", "（C）訊問室大小", "（D）法官年齡"] → （A）自白是否出於自由意志（first）
+  [1667.2s] car04_17 2031-08-02 08:30 gongguan 選項 ["（A）主張有利於己之事實的當事人負舉證責任；但法律別有規", "（B）一律由原告負舉證責任", "（C）一律由被告負舉證責任", "（D）由法院依職權決定，和當事人的主張無關"] → （A）主張有利於己之事實的當事人負舉證責任；但法律別有規定，（first）
+  [1688.3s] car04_17 2032-05-13 21:00 gongguan 選項 ["報名", "不報名"] → 報名（first）
+  [1711.1s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）一律以股票價格實際上漲日為準", "（B）一律以新聞媒體報導日為準", "（C）一律以股東會正式通過日為準", "（D）依事實發生日、協議日、簽約日、董事會決議日或其他具"] → （A）一律以股票價格實際上漲日為準（first）
+  [1713.4s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）受益人因行政機關錯誤而取得處分，且完全不知情亦無重", "（B）受益人已依處分安排生活", "（C）受益人以詐欺方法使行政機關作成處分", "（D）受益人收到行政機關寄發的正式處分書"] → （A）受益人因行政機關錯誤而取得處分，且完全不知情亦無重大過（first）
+  [1715.7s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）防止妨礙他人自由", "（B）避免緊急危難", "（C）增進公共利益", "（D）增加政府的稅收"] → （A）防止妨礙他人自由（first）
+  [1718.1s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）調解", "（B）仲裁", "（C）訴願", "（D）國家賠償的協議"] → （A）調解（first）
+  [1720.4s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）得解除契約，不負賠償責任", "（B）不得以此解除契約", "（C）只需賠償一半", "（D）須經主管機關同意才能解除"] → （A）得解除契約，不負賠償責任（first）
+  [1722.1s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）訴願機關永遠不得撤銷原處分", "（B）提起救濟者不得因救濟決定而受到較原處分更不利的變更", "（C）訴願人提出的理由必須全部成立", "（D）行政機關不得作成任何新處分"] → （A）訴願機關永遠不得撤銷原處分（first）
+  [1724.4s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）符合中止未遂要件時，減輕或免除其刑", "（B）甲必然成立殺人既遂", "（C）甲因未造成死亡，一律不成立任何犯罪", "（D）中止未遂必須由警察制止才成立"] → （A）符合中止未遂要件時，減輕或免除其刑（first）
+  [1726.2s] car04_17 2032-08-07 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1727.9s] car04_17 2032-08-07 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [1730.2s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）當然有效", "（B）經乙承認，始對乙發生效力", "（C）當然無效且不得補正", "（D）直接對甲與乙共同生效"] → （A）當然有效（first）
+  [1731.9s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）作為公司員工的勞動契約", "（B）發行人為有價證券募集或出賣，依法向公眾提出的說明文", "（C）取代公司的所有財務報告", "（D）保證投資人購買股票後一定獲利"] → （A）作為公司員工的勞動契約（first）
+  [1733.6s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）僅須雙方口頭同意", "（B）書面、有二人以上證人簽名，並由雙方當事人向戶政機關", "（C）必須先舉行婚宴", "（D）必須經法院判決許可"] → （A）僅須雙方口頭同意（first）
+  [1735.3s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）每位共有人必然有可自由處分的應有部分", "（B）公同共有人基於公同關係共有一物", "（C）任何第三人都可以單方終止公同關係", "（D）公同共有只可能發生在動產"] → （A）每位共有人必然有可自由處分的應有部分（first）
+  [1737.1s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）113 人，任期 3 年", "（B）225 人，任期 3 年", "（C）225 人，任期 4 年", "（D）113 人，任期 4 年"] → （A）113 人，任期 3 年（first）
+  [1738.8s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）與犯罪的即時性高度相關", "（B）一定要先有有罪判決", "（C）一定要檢察總長批准", "（D）只能法院執行"] → （A）與犯罪的即時性高度相關（first）
+  [1741.1s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）民法第179條", "（B）民法第184條", "（C）民法第767條", "（D）民法第1030條之1"] → （A）民法第179條（first）
+  [1743.5s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）必然成立故意殺人罪", "（B）可能成立傷害致死罪", "（C）必然不成立任何犯罪", "（D）僅能成立毀損罪"] → （A）必然成立故意殺人罪（first）
+  [1745.2s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）合法拘捕等前提及安全、證據保全需要", "（B）任何路人存在", "（C）媒體要求", "（D）判決確定"] → （A）合法拘捕等前提及安全、證據保全需要（first）
+  [1747.5s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）甲可以直接受任，因為受過乙委任的不是甲本人", "（B）甲只要告知丙這件事，就可以受任", "（C）甲不得執行職務；但經利益受影響之當事人全體書面同意", "（D）甲不得受任，而且任何情況下都不能補正"] → （A）甲可以直接受任，因為受過乙委任的不是甲本人（first）
+  [1749.2s] car04_17 2032-08-07 08:30 gongguan 選項 ["（A）一方委託他方處理事務，他方允為處理", "（B）一方必須移轉土地所有權", "（C）一方交付金錢，他方必須支付利息", "（D）一方保證他人債務必定清償"] → （A）一方委託他方處理事務，他方允為處理（first）
+  [1769.9s] car04_17 2033-05-12 21:00 gongguan 選項 ["報名", "不報名"] → 報名（first）
+  [1793.8s] car04_17 2033-08-06 08:30 gongguan 選項 ["（A）增修條文施行後，憲法本文全部失效", "（B）憲法本文仍然存在，但有些條文依增修條文的規定停止適", "（C）增修條文是立法院通過的普通法律，效力低於憲法本文", "（D）增修條文只規範地方自治事項"] → （A）增修條文施行後，憲法本文全部失效（first）
+  [1796.2s] car04_17 2033-08-06 08:30 gongguan 選項 ["（A）買賣契約洽談開始時", "（B）危險移轉於買受人時", "（C）買受人第一次使用後一年", "（D）出賣人取得所有權之前"] → （A）買賣契約洽談開始時（first）
+  [1798.5s] car04_17 2033-08-06 08:30 gongguan 選項 ["（A）可以，原因關係不存在，票據也跟著無效", "（B）不可以；票據債務人不得以自己與執票人之前手間所存抗", "（C）可以，只要甲能證明機車有瑕疵", "（D）可以，但要先付一半"] → （A）可以，原因關係不存在，票據也跟著無效（first）
