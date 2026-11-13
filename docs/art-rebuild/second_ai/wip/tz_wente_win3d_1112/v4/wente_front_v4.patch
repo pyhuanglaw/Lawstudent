@@ -1,0 +1,44 @@
+diff --git a/tools/blender/env_second/wz_shopkit.py b/tools/blender/env_second/wz_shopkit.py
+index 04e0ab9311..a86e83f17b 100644
+--- a/tools/blender/env_second/wz_shopkit.py
++++ b/tools/blender/env_second/wz_shopkit.py
+@@ -1072,6 +1072,17 @@ def xs_awning(xf, x0, x1, y0, y1, d, col, along='x', zc=0.0):
+ 
+ 
+ _XS_N = [0]   # xs_street_front 的盆栽 instancing 編號
++GLB_PROTO = {}
++def glb_proto(rel):
++    """烘焙好光影的道具 GLB（例：tz_wente_interior.py --rack 烘的門口衣架）→ 一個網格（原點在底部中央，可以 B.instance）；SHOP-REALISM-1112（D160：道具用 CC0 材質組＋Cycles 烘焙）"""
++    if rel not in GLB_PROTO:
++        before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, rel))
++        new = [o for o in bpy.data.objects if o not in before]; parts = []
++        for o in new:
++            if o.type == 'MESH': me = o.data.copy(); me.transform(o.matrix_world); parts.append(me)
++        for o in new: bpy.data.objects.remove(o)
++        out = parts[0]; out.name = 'glb_' + os.path.splitext(os.path.basename(rel))[0]; GLB_PROTO[rel] = out
++    return GLB_PROTO[rel]
+ 
+ 
+ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
+@@ -1128,6 +1139,8 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
+     for it in c.get('clutter', []):
+         if it[0] == 'aboard': aboard(xf, it[1], it[2], it[3] if len(it) > 3 else 'chalk')
+         elif it[0] == 'bistro': bistro_table(xf, it[1], it[2])
++        elif it[0] == 'glb':   # ('glb', 檔案, x, z)：烘好的道具，橫桿和店面平行
++            _pm = glb_proto(it[1]); _w = _wp(xf, it[2], it[3]); B.instance(_pm, f'skxglb_{spec["id"]}_{_XS_N[0]}', *_w, root, ry=xf.ry); _XS_N[0] += 1; prop_fp(_pm, 'skxglb', _w[0], _w[2], xf.ry)
+         elif it[0] in ('ph_pot', 'ph_succ'):   # Poly Haven 的盆栽（CC0 掃描模型，D160）：同溫州街騎樓店面的 ph_pot／ph_succ；第四個＝放大倍數
+             _pm = ph_proto('pot' if it[0] == 'ph_pot' else 'succ'); _w = _wp(xf, it[1], it[2]); _ry = it[1] * 1.7; _sc = it[3] if len(it) > 3 else 1.0
+             ob_ = B.instance(_pm, f'skx{it[0]}_{spec["id"]}_{_XS_N[0]}', *_w, root, ry=_ry); _XS_N[0] += 1; ob_.scale = (_sc, _sc, _sc); prop_fp(_pm, 'skx' + it[0].replace('_', ''), _w[0], _w[2], _ry, _sc)
+diff --git a/tools/blender/env_second/wz_street.py b/tools/blender/env_second/wz_street.py
+index f48849416c..e3906c6277 100644
+--- a/tools/blender/env_second/wz_street.py
++++ b/tools/blender/env_second/wz_street.py
+@@ -393,7 +393,7 @@ if SET == 'tingzhou':
+         'wente': dict(arcade=False, dep=0.3, real=True, back=3.7, door=(1.42, 2.36, 2.45), glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # SHOP-WINDOW-3D-1112 v2：照片卡拿掉、牆挖到店內深（tz_wente_interior.glb 深 3.6），右邊木門框；店內在遊戲 tingzhou3d.js S.REAL_VIEW
+                         # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
+                       panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#4a3324',
+-                      kick=0.42, door_wood=True, pier_tile=('mosaic', '#8fb09a'), clutter=[('ph_pot', -2.05, 0.42, 1.15), ('ph_succ', -1.45, 0.34), ('ph_pot', 2.66, 0.4, 0.95)]),   # SHOP-REALISM-1112（D160）：照概念圖——窗下木腰板、窗前和門邊的 Poly Haven 盆栽；框改成看得出是木頭的深咖啡
++                      kick=0.42, door_wood=True, pier_tile=('mosaic', '#8fb09a'), clutter=[('ph_pot', -2.05, 0.42, 1.15), ('ph_succ', -1.45, 0.34, 1.6), ('glb', 'tools/blender/env_second/baked/tz_wente_rack.glb', -0.55, 0.62), ('ph_pot', 2.66, 0.4, 0.95)]),   # SHOP-REALISM-1112（D160）：照概念圖——窗下木腰板、窗前和門邊的 Poly Haven 盆栽；框改成看得出是木頭的深咖啡
+         'liantong': dict(arcade=False, dep=0.3, real=True, back=7.1, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
+                          panel=dict(x0=-2.15, x1=2.15, y0=2.95, y1=3.78, color='#1f3f9a', text=[('tzlian_sign', -2.1, 2.1, 3.0, 3.74)]), frame='#c9ccd0', vsigns=[('tzlian_vsign', 2.05, 4.3, 7.6, 0.85)]),
+         'dongnan': dict(arcade=False, dep=0.3, real=True, back=9.1, glass=(-3.45, 3.45), glass_h=2.6, int='tzdong_shop', pane=3.45, transom=2.6, lit=True,   # 東南大聯商行：整面開著、貨架塞滿；墨綠帆布雨棚；黃底紅字招牌

@@ -9377,6 +9377,28 @@
    ],
    "remaining": "衣服近看仍斑駁；木門開著、門口衣架、壁燈未做；多肉太小",
    "next": "LAWWW-C 套 wente_front.patch、開發分支重建街景、換店內 GLB → BB 判並排圖"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "溫特寶邸 v4：門口立式衣架（烘焙 GLB）、木門扇、綠白磁磚柱、檯燈打烊會暗、布料紋路放大、假人頭更暗",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v4/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v4/tz_wente_interior.glb",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v4/tz_wente_interior.py",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v4/tz_wente_rack.glb",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v4/wente_front_v4.patch",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v4/cmp_wide.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v4/cmp_rack.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v4/cmp_open_closed.jpg"
+   ],
+   "remaining": "木門開著、壁燈、店內衣架近看仍糊、多肉小",
+   "next": "LAWWW-C 套 v4 patch＋放 rack GLB＋換店內 GLB、重建街景 → BB 判"
   }
  ]
 }
