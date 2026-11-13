@@ -1,6 +1,6 @@
 # 每一間店照店面標準七點的現況（SHOP-STANDARD-BACKFILL-1112；CLAUDE.md §12，D155）
 
-> 這一份是測試產生的，不是手寫的：`node tests/place_gate_unit.js --write`（地點關卡第一層，ROLE_BB 2.6）。產生時的版本：`6b1d2a2b25`（2026-11-13）之後的工作目錄。
+> 這一份是測試產生的，不是手寫的：`node tests/place_gate_unit.js --write`（地點關卡第一層，ROLE_BB 2.6）。產生時的版本：`625fefcf1e`（2026-11-13）之後的工作目錄。
 > 重新產生：改了店、修了問題以後跑 `node tests/place_gate_unit.js --write`，和程式同一個 commit 交。這份過期（和測試現在算出來的不一樣）測試會 FAIL。
 > 每一格：PASS／**FAIL**（哪一項、為什麼｜任務 ID）／例外（理由，寫在測試最上面的例外表）／第二層（第一層判不了、CC 還沒拍）。七點的內容看 CLAUDE.md §12。
 > 第一層是在 Node 把整個遊戲載進來、建出每一間店、真的叫生成程式、真的按每一個互動點量的；**沒有畫面**，看起來對不對是第二層（CC）和第三層（BB）。
