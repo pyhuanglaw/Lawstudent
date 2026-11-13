@@ -185,14 +185,30 @@ const R2Y4B=(function(){
       PHONE.at(G,d25,atH(G,d25,21),[P_('kexin','昨天我生日。我知道我說不要慶祝。'),P_('kexin','可是我還是等了一天。')],'y4_kx_bday_none'); } };   /* 什麼都沒做：隔天兩句（她這學期的那一句）*/
   S.kxBdayDue=G=>{ const d=DK(KB.d24); return d!=null&&G.day===d&&hh(G)>=9&&hh(G)<23&&dating(G,'kexin')&&G.flags.KX_BDAY_Y4==null&&!outGet(G,'y4_kx_bday')&&(G.flags.KX_BDAY4_ASK==null||now(G)>=G.flags.KX_BDAY4_ASK)&&PHONE.sent(G,'y4_kx_bday'); };
   S.kxBdayPrompt=async function(GM){ const G=GM.G, F=G.flags, O=[{t:'（傳一句「生日快樂。」）',k:'quiet'}]; if(S.kxPlanTable(G)) O.push({t:'（在她筆記本的角落寫「生日快樂」）',k:'note'});
-    O.push({t:'（開車上山，送一碗山下那家的酸辣湯餃）',hint:'不進去，送到就走',k:'visit'},{t:'晚一點再說',hint:'兩個小時後再問',k:'later'});
+    O.push({t:'（走到女生宿舍樓下，送一碗後門那家的酸辣湯餃）',hint:'不進去，送到就走',k:'visit'},{t:'晚一點再說',hint:'兩個小時後再問',k:'later'});
     let i=O.length-1; GM.sceneBegin(); try{ i=await GM.choose(O.map(o=>({t:o.t,hint:o.hint}))); } finally { GM.sceneEnd(); } const k=(O[i]||O[O.length-1]).k;
     if(k==='later'){ F.KX_BDAY4_ASK=now(G)+2; return k; }
     if(k==='quiet'){ PHONE.post(G,{th:'p:kexin',from:'player',who:null,text:'生日快樂。'}); PHONE.at(G,G.day,G.hour+0.25,[P_('kexin','收到。……謝謝你照做。')],'y4_kx_bday_quiet'); kxBdaySet(G,'quiet'); }
-    if(k==='note'){ PHONE.at(G,G.day,G.hour+0.25,[P_('kexin','我說不要慶祝。'),P_('kexin','……這不算慶祝。這算註解。')],'y4_kx_bday_note'); kxBdaySet(G,'note'); }
+    if(k==='note'){ PHONE.at(G,G.day,G.hour+0.25,[P_('kexin','我說不要慶祝。'),P_('kexin','……字好醜。我收下了。')],'y4_kx_bday_note'); kxBdaySet(G,'note'); }
     if(k==='visit') plan(G,{id:'y4_kx_bday',ev:'ev_kexin_bday_visit_y4',day:G.day,h:Math.max(21,Math.ceil((G.hour+1)*4)/4),late:0.5,place:'女生宿舍樓下',title:'送湯餃',travel:'走路',travelH:0.1});   /* CANON-NO-ECON-1112 第四批：照 AA_892 第 2 節換字 */
     return k; };
   S.kxBdayMissed=G=>{};   /* 沒到：隔天那兩句照上面的規則（'none'）*/
+
+  /* ===================== 可昕：情人節禮物的兌現（AA_938 第 3 節，CANON-NO-ECON-1112 收尾；AA-C 2026-11-13 定、BB-C 照用）=====================
+     大四寒假情人節視訊（r2y4a_events.js ev_kexin_valentine_y4，KX_VDAY[4]==='video'）她說了「情人節禮物我開學給你。是吃的。」＝收到了（交往中才會收到）。
+     大四下開學第一週（2029-02-19 那週），第一次當面遇到她（在 3D 裡跟她說話：STORY.PRE_TALK；約好的見面坐下以後：INV.ON_SEATED）開頭插這一場，一次；
+     第一週到週五 21:00 都沒遇到＝她傳兩則（不留懸著的承諾）。KX_VDAY_Y4_GIVEN 記 'face'／'msg'，兩條路只會走一條。台詞照 AA_938 第 3 節，不改字 */
+  const KG={w1:'2029-02-19',fri:'2029-02-23'};
+  S.KX_GUAVA={narr:'（她從包包裡拿出一個夾鏈袋，塞進你手裡。是芭樂乾。）',say:'高雄的。情人節的。',msg:['芭樂乾我放在你宿舍的管理室了。','高雄的。情人節的。']};
+  S.kxGuavaOwed=G=>{ const F=G&&G.flags; return !!F&&!F.KX_VDAY_Y4_GIVEN&&!!F.KX_VDAY&&F.KX_VDAY[4]==='video'&&dating(G,'kexin'); };
+  S.kxGuavaFaceDue=G=>{ const d0=DK(KG.w1), fri=DK(KG.fri); return d0!=null&&fri!=null&&S.kxGuavaOwed(G)&&G.day>=d0&&now(G)<T(fri,21); };   /* 第一週週一起、週五 21:00 以前 */
+  S.kxGuavaFace=async function(GM,who){ const G=GM&&GM.G; if(!G||!S.kxGuavaFaceDue(G)) return false; G.flags.KX_VDAY_Y4_GIVEN='face';
+    const me=who&&who.charId==='kexin'?who:{name:nm('kexin'),charId:'kexin'}; await GM.say(null,S.KX_GUAVA.narr); await GM.say(me,S.KX_GUAVA.say); return true; };
+  const kxGuavaPhone=G=>{ const fri=DK(KG.fri); if(fri==null||!S.kxGuavaOwed(G)||!at(G,KG.fri,21)||G.day>fri+9) return;   /* 第一週週五 21:00 還沒遇到；過了第二週就不補（舊存檔晚很久才讀進來）*/
+    if(PHONE.at(G,fri,atH(G,fri,21),S.KX_GUAVA.msg.map(t=>P_('kexin',t)),'y4_kx_vday_guava')) G.flags.KX_VDAY_Y4_GIVEN='msg'; };
+  S.kxGuavaPhone=kxGuavaPhone;
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.PRE_TALK)&&!STORY._kxGuava){ STORY.PRE_TALK.push(async(GM,who,id)=>{ if(id==='kexin') await S.kxGuavaFace(GM,who); }); STORY._kxGuava=true; }
+  if(typeof INV!=='undefined'&&Array.isArray(INV.ON_SEATED)&&!INV._kxGuava){ INV.ON_SEATED.push(async(GM,iv,who)=>{ if(iv&&iv.who==='kexin') await S.kxGuavaFace(GM,who); }); INV._kxGuava=true; }
 
   /* ===================== 2-Y4-39 系籃最後一場＋吉他社成發（5/11 21:00 群組、5/12）===================== */
   const ballPhone=G=>{ const d11=DK('2029-05-11'), d12=d11+1; if(d11==null||G.day<d11||G.day>d12||!grp(G)||!at(G,'2029-05-11',21)) return;
@@ -828,7 +844,7 @@ const R2Y4B=(function(){
     try{ usCanyonPhone(G); saWeekly(G); sisCanyonRules(G); }catch(e){ console.warn('R2Y4B 2028',e); }
     if(n<y('2029-02-20')) return;
     S.barUpgrade(G); groupStartPhone(G); groupVideoRules(G); groupThreeRules(G);
-    azaleaPhone(G); mxPhone(G); gradPhone(G); springPhone(G,GM); psOpenPhone(G); ytAuntPhone(G); kxBdayPhone(G); ballPhone(G); ps61Phone(G);
+    azaleaPhone(G); mxPhone(G); gradPhone(G); springPhone(G,GM); psOpenPhone(G); ytAuntPhone(G); kxBdayPhone(G); kxGuavaPhone(G); ballPhone(G); ps61Phone(G);
     julyRules(G); mxDepartRules(G); anRules(G); apartRules(G);
     if(F.ZR_BACK==null&&n>=y('2029-08-25')&&knows('heroine_02',G)) F.ZR_BACK=G.day; };   /* 2-Y4-47 第 4 節：芷若回國（8/25）以後記一次 */
 

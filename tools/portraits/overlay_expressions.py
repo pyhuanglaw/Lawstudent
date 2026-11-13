@@ -31,9 +31,6 @@ CFG = {
                        eye=(160, 150, 330, 235), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(290, 325), skip=(), anchor=(120, 5, 350, 120)),
     'kexin': dict(sheet='kexin_expr9.webp', cell=(437, 400), body='assets/portraits/kexin/campus/neutral.webp',
                        eye=(165, 120, 310, 200), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(255, 290), skip=(), anchor=(130, 5, 350, 100)),
-    'yule': dict(sheet='yule_portrait_sheet.webp', cell=(420, 450), body='assets/portraits/yule/campus/neutral.webp',
-                 boxes=[('neutral', (570, 50, 990, 500)), ('smile', (570, 530, 990, 980)), ('surprised', (570, 1000, 990, 1450))],
-                 eye=(110, 150, 310, 260), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(295, 335), skip=(), anchor=(60, 0, 360, 110), band=6, speck_lum=95),
     'heroine_04': dict(sheet='heroine_04_expr9.webp', cell=(512, 341), body='assets/portraits/heroine_04/campus/neutral.webp',
                        eye=(215, 115, 360, 205), search=(200, 20, 420, 230), scales=(0.22, 0.50), fade=(252, 282), skip=(),
                        anchor=(180, 5, 440, 110), face=(292, 180, 80, 78, 16)),   # 2026-10-16 新的正面全身底圖（e69036b8）：只換臉，頭髮留底圖的（整個頭換掉，短髮外緣在脖子旁邊留一團灰）

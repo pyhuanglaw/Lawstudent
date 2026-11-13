@@ -91,7 +91,7 @@ const SOCIAL = (function(){
     if(typeof v==='string') return v+crs;
     let y=c.year; if(typeof y==='number'&&idx>0){ y+=idx-1; if(y>4) return dep+crs; }
     const ys=y?(typeof y==='number'?['','一','二','三','四'][y]+'年級':y):''; return dep+(ys?'・'+ys:'')+crs; };
-  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return (typeof PORTRAIT_ONLY!=='undefined'&&Object.prototype.hasOwnProperty.call(PORTRAIT_ONLY,id)&&PORTRAIT_ONLY[id].name)||id;   /* 只有立繪的人物（characters.js 的 PORTRAIT_ONLY）：'yule'→「予樂」，不是 id */ const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN'||rv==='RECOGNIZABLE'){ const d=typeof POOL!=='undefined'&&POOL.descNow?POOL.descNow(id,G):null; if(d) return d; if(c.descriptor) return c.descriptor; return c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'; } return c.name; }   /* 不熟的同學（法律系同學二十位）認識之前：外觀描述——在哪裡出現就用那裡的那一句（AA_498 2-2，src/pool3d.js 的 POOL.descNow）；原本沒看過三次是「法律系一年級的女生」*/ if(c.social_layer==='D'&&!S.metD(id)&&!(G&&G.contacts&&G.contacts[id]!=null)) return c.gender==='f'?'不認識的女生':'不認識的男生';   /* BB 11-03（CC_39）：有她的聯絡方式＝知道名字（使用者「『不認識的女生』不要出現」；只改顯示，不算 FIRST_MET）*/ return S.datingName(id)||c.name; };   /* 交往中的叫法（學姊：交往那天起叫「書瑀」，CALLED_SHUYU；對話框、按鈕、人物頁都照這個）*/   /* 認識前不露名字（AA 10-13 P1-1）：看過三次（noticed → RECOGNIZABLE）也一樣——BB-C 10-20：還沒認識以安，按鈕就寫「和沈以安說話」 */
+  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return (typeof PORTRAIT_ONLY!=='undefined'&&Object.prototype.hasOwnProperty.call(PORTRAIT_ONLY,id)&&PORTRAIT_ONLY[id].name)||id;   /* 只有立繪的人物（characters.js 的 PORTRAIT_ONLY）：'npc_kevin'→「Kevin」，不是 id */ const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN'||rv==='RECOGNIZABLE'){ const d=typeof POOL!=='undefined'&&POOL.descNow?POOL.descNow(id,G):null; if(d) return d; if(c.descriptor) return c.descriptor; return c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'; } return c.name; }   /* 不熟的同學（法律系同學二十位）認識之前：外觀描述——在哪裡出現就用那裡的那一句（AA_498 2-2，src/pool3d.js 的 POOL.descNow）；原本沒看過三次是「法律系一年級的女生」*/ if(c.social_layer==='D'&&!S.metD(id)&&!(G&&G.contacts&&G.contacts[id]!=null)) return c.gender==='f'?'不認識的女生':'不認識的男生';   /* BB 11-03（CC_39）：有她的聯絡方式＝知道名字（使用者「『不認識的女生』不要出現」；只改顯示，不算 FIRST_MET）*/ return S.datingName(id)||c.name; };   /* 交往中的叫法（學姊：交往那天起叫「書瑀」，CALLED_SHUYU；對話框、按鈕、人物頁都照這個）*/   /* 認識前不露名字（AA 10-13 P1-1）：看過三次（noticed → RECOGNIZABLE）也一樣——BB-C 10-20：還沒認識以安，按鈕就寫「和沈以安說話」 */
   /* 女主角（D 層）算認識了沒：FIRST_MET，或舊存檔的 met_ 旗標（met_an、met_sis，FIRST_MET 以前的寫法）。
      BB-C 10-20（6a931b8e，使用者 9/25 存檔）：還沒認識以安，按鈕卻寫「和沈以安說話」——那份存檔的以安是 ACQUAINTANCE（說過話：talkAn 不管認識了沒都記 talkedTo），
      原本只有 UNKNOWN、RECOGNIZABLE 才藏名字。改成只看認識了沒（AA_313 第 4 節第 10 點：她得先自我介紹「……同班的，你不記得？」）*/
@@ -134,14 +134,14 @@ const SOCIAL = (function(){
      規則和 tools/rename/world_names.py 一樣（tests/world_rename_unit.js 逐條對）：worldName＝正式（旁白、地點、筆記：法律系館A）、worldSpoken＝口語（人物的訊息：A館）。
      不用 (?<!…)：舊的 iPhone Safari 不認得，整個檔會載不起來；前一個字自己看。 */
   const WN_PRE=(set,to)=>(m,off,str)=>off>0&&set.indexOf(str.charAt(off-1))>=0?m:to;
-  const WN_COMMON=[[/政大自強十舍/g,'木柵大學翠嶺十舍'],[/自強十舍/g,'翠嶺十舍'],[/國立臺灣大學|國立台灣大學|[臺台]灣大學(?!生)/g,'首都帝國大學'],[/National Taiwan University/g,'Capital Imperial University'],[/\bNTU\b/g,'CIU'],
+  const WN_COMMON=[[/國立臺灣大學|國立台灣大學|[臺台]灣大學(?!生)/g,'首都帝國大學'],[/National Taiwan University/g,'Capital Imperial University'],[/\bNTU\b/g,'CIU'],
     [/國立政治大學|政治大學/g,'木柵大學'],[/\bNCCU\b/g,'MZU'],[/政大/g,WN_PRE('財行郵執','木柵大學')],[/[臺台]大/g,WN_PRE('舞平講櫃陽月擂吧檯戲','首都帝大')],
     [/博雅教學館/g,'博思教學館'],[/博雅館/g,'博思教學館'],[/博雅(?!教育|書院|學程|精神|課程)/g,'博思'],[/小椰林道/g,'椰影小徑'],[/椰林大道/g,'椰影大道'],[/椰林(?=那邊|那條|上|旁邊|走|騎|的路)/g,WN_PRE('小','椰影大道')],
     [/傅鐘/g,'晨思鐘'],[/醉月湖/g,'映月湖'],[/洞洞館/g,'圓窗館'],[/小小福/g,'小小松'],[/小福(?!利)/g,'小松'],[/活大/g,WN_PRE('生復靈','學活')],[/國青中心/g,'國際學苑'],[/辜振甫先生紀念圖書館|辜振甫紀念圖書館|辜振甫圖書館/g,'社科院圖書館'],[/哥大/g,WN_PRE('大','紐約的法學院')],[/杜鵑花節/g,'松鼠節']];
   const WN_SPOKEN=[[/霖澤館?(、|和|與|跟)萬才館?/g,'A館$1B館'],[/萬才館?(、|和|與|跟)霖澤館?/g,'B館$1A館'],[/霖澤館館/g,'A館'],[/萬才館館/g,'B館'],[/霖澤館?/g,'A館'],[/萬才館?/g,'B館']];
   const WN_WRITTEN=[[/霖澤館?(、|和|與|跟)萬才館?/g,'法律系館A$1B'],[/萬才館?(、|和|與|跟)霖澤館?/g,'法律系館B$1A'],[/霖澤館館(內|裡)/g,'法律系館A裡面'],[/萬才館館(內|裡)/g,'法律系館B裡面'],
     [/霖澤館館/g,'法律系館A'],[/萬才館館/g,'法律系館B'],[/霖澤館?/g,'法律系館A'],[/萬才館?/g,'法律系館B']];
-  const WN_OLD=/[臺台]灣大學|[臺台]大|NTU|National Taiwan|政治大學|政大|NCCU|霖澤|萬才|博雅|傅鐘|椰林|醉月湖|洞洞館|小福|活大|自強十舍|國青中心|辜振甫|哥大|杜鵑花節/;
+  const WN_OLD=/[臺台]灣大學|[臺台]大|NTU|National Taiwan|政治大學|政大|NCCU|霖澤|萬才|博雅|傅鐘|椰林|醉月湖|洞洞館|小福|活大|國青中心|辜振甫|哥大|杜鵑花節/;
   const wnApply=(t,law)=>{ if(typeof t!=='string'||!WN_OLD.test(t)) return t; for(const [rx,to] of law) t=t.replace(rx,to); for(const [rx,to] of WN_COMMON) t=t.replace(rx,to); return t; };
   S.worldName=t=>{ const r=wnApply(t,WN_WRITTEN); return typeof r==='string'?r.replace(/(法律系館[AB])(?=[0-9０-９]|研討室|教室)/g,'$1 '):r; };
   S.worldSpoken=t=>wnApply(t,WN_SPOKEN);

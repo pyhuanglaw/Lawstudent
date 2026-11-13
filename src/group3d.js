@@ -50,7 +50,7 @@ const GROUP=(function(){
     O.push({t:'春假：留在宿舍',k:'dorm'},{t:'晚一點再決定',hint:'明天再問',k:'later'});
     let i=O.length-1; GM.sceneBegin(); try{ i=await GM.choose(O.map(o=>({t:o.t,hint:o.hint}))); } finally { GM.sceneEnd(); }
     const k=(O[i]||O[O.length-1]).k; if(k==='later'){ F.spring2AskAt=T(G.day+1,G.hour); return k; } S.springChoose(GM,k); return k; };
-  /* 選了以後：出遊（桌遊團 4/4 回家取車；可昕 4/3 照大一那一趟）、可昕的回覆與照片（BB_97 9-12：選桌遊團或宿舍＝「好。那暑假再去。」、春假一張她和予樂在讀書會的照片＋一句，AA_336 C13）、
+  /* 選了以後：出遊（桌遊團 4/4 回家取車；可昕 4/3 照大一那一趟）、可昕的回覆與照片（BB_97 9-12：選桌遊團或宿舍＝「好。那暑假再去。」、春假一張她和室友在讀書會的照片＋一句，AA_336 C13）、
      沒去桌遊團的群組照片。silent：4/1 以前沒回（'none'，可昕不回）*/
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G, F=G.flags, D=S.springDays(), kx=!!F.dating_kexin, g=grp(G); F.SPRING_Y2=k;
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);

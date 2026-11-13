@@ -618,7 +618,7 @@ const STORY = (function(){
   /* 法服週六值班（V1-F，AA_163 第 1 節、BB_145）：今天是不是值班的週六；大一（Y1S1、Y1S2）可以在旁邊看（志工從大二開始，AA_132）；告示 */
   S.fafuDuty=function(G){ if(typeof CALENDAR==='undefined'||!G||(G.stage||'law')!=='law') return false; const d=CALENDAR.dateOf(G.day), t=CALENDAR.termOf(G.day); return d.wd===6&&!!t&&t.week>=3&&t.week%2===1&&!t.exam&&!CALENDAR.holiday(G.day); };   /* 國定假日、颱風假不值班（AA_184 的測試：大二上第 5 週六是 10/10 國慶日，第一次一般值班是 10/24）*/
   /* 語彤在法服值班（AA_11 事件 7、AA_177 4-6）：大二上第 3 週週六 9/26 第一次，之後每個值班的週六（characters.js heroine_03 的作息）*/
-  /* 政大山下那一家吃過幾次（BB_161 ⑯）：舊存檔沒有 NCCU_FOOD_N 的，照已經完成、一定會到那一家的事件補算（K1 導遊只算點過餐的 K1_ORDER、予樂那次、12/3 的生日；「我們的日子」政大、K6 互考見面、K7 選山下的次數舊存檔分不出來，不算）*/
+  /* 政大山下那一家吃過幾次（BB_161 ⑯）：舊存檔沒有 NCCU_FOOD_N 的，照已經完成、一定會到那一家的事件補算（K1 導遊只算點過餐的 K1_ORDER、外校室友那次、12/3 的生日；「我們的日子」政大、K6 互考見面、K7 選山下的次數舊存檔分不出來，不算）*/
   S.nccuFoodLegacy=G=>0;   /* 原本補算的三場（K1 導遊、外校室友的宵夜、12/3 那晚）：CANON-NO-ECON-1112 第三批拿掉，沒有要補算的了 */
   S.YT_FAFU='no';   /* 語彤進不進法服（AA_255 第 4 節第 2 點：固定 'no'；舊存檔 flags.YT_FAFU 也照這個）*/
   S.ytFafu=G=>S.YT_FAFU==='yes';

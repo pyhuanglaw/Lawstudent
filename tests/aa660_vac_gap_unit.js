@@ -291,8 +291,8 @@ const NM={yu:'Alison',classmate_mingxuan:'明軒',classmate_xinci:'芯慈',zhe:'
     const K=typeof HASK_DATA!=='undefined'?HASK_DATA.people.kexin:null, k=K&&K.daily.find(x=>x.place==='cafe');
     let fix=null; try{ fix=JSON.parse(fs.readFileSync(path.join(H.ROOT,'tools/story/aa655_fix.json'),'utf8')); }catch(err){}
     const PR=[['兩點半 明天四點 我要點最甜的那個 你陪我','2:30 AM 明天四點 我要點最甜的那個 你陪我'],['明天兩點半 我點最甜的 你點最苦的 交換','明天去 2:30 AM 我點最甜的 你點最苦的 交換'],['明天下午我在公館。三點，兩點半。','明天下午我在公館。三點，2:30 AM。']];
-    check('4-3 店名換 2:30 AM：子晴交往前「2:30 AM 明天四點 ……」（AA_660 第 4 節第 3 點）、交往中「明天去 2:30 AM 我點最甜的 你點最苦的 交換」、可昕「明天下午我在公館。三點，2:30 AM。」（AA_494 0777c92ac）；舊句不在 src；讀稿的換字表（aa655_fix.json pairs）有這三列',
-      !!e&&e.pre.line===PR[0][1]&&e.dat.line===PR[1][1]&&!!k&&k.pre.line===PR[2][1]&&PR.every(([a,b])=>!s.includes(a)&&!!fix&&fix.pairs.some(p=>p[0]===a&&p[1]===b)),J({pre:e&&e.pre.line,dat:e&&e.dat.line,kx:k&&k.pre.line}));
+    check('4-3 店名換 2:30 AM：子晴交往前「2:30 AM 明天四點 ……」（AA_660 第 4 節第 3 點）、交往中「明天去 2:30 AM 我點最甜的 你點最苦的 交換」、可昕「明天下午三點，2:30 AM。我去寫報告，你也來。」（AA_494 0777c92ac 的 2:30 AM；AA_939 第 1 節再換字）；舊句不在 src；讀稿的換字表（aa655_fix.json pairs）有這三列',
+      !!e&&e.pre.line===PR[0][1]&&e.dat.line===PR[1][1]&&!!k&&k.pre.line==='明天下午三點，2:30 AM。我去寫報告，你也來。'/* （AA_939 第 1 節換字：外校前提；舊期望 PR[2][1]「明天下午我在公館。三點，2:30 AM。」）*/&&!s.includes(PR[2][1])&&PR.every(([a,b])=>!s.includes(a)&&!!fix&&fix.pairs.some(p=>p[0]===a&&p[1]===b)),J({pre:e&&e.pre.line,dat:e&&e.dat.line,kx:k&&k.pre.line}));
     const raw=(ref,p)=>{ const r=cp.spawnSync('git',['-c','core.quotepath=false','show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); return r.status===0?r.stdout:''; };   /* spawnSync：不經 alison.js 的讀稿換字（看稿上原本的字）*/
     const A494='docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md', r0=raw('b3ecc563c',A494), r1=raw(SHA,A494), f0=git('b3ecc563c',A494);
     check('4-3 換字表後兩列＝AA_494 的改法：白名單的 b3ecc563c 原本是舊句、0777c92ac 是新句；讀稿（照換字表）b3ecc563c 讀出來是新句（tests/heroine_asks_unit.js 照這樣對）',

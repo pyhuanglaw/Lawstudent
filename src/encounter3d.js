@@ -74,8 +74,8 @@ const ENC=(function(){
   S.atArrive=(GM,s)=>S.check(GM,s.id,0);
   S.afterWalk=(GM,s)=>S.check(GM,s.id,Math.min(2,(GM.G.trip&&GM.G.trip.walk)|0));
   const nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
-  /* 旁邊的人說的一句（同行的 intro 寫 speaker:'yule'、淡水的 datingAfter 寫 who:'予樂'）：寫 id 或稱呼都對到人物 id，ADV 才有她的立繪。
-     原本只給名字 {name:'予樂'}：game3d.js 的 say 沒有 charId＝ADV.speaker('player')，台上的可昕變暗、予樂沒有立繪（不會變成祐廷的立繪：祐廷沒有立繪檔、'player' 不佔立繪框）。
+  /* 旁邊的人說的一句（同行的 intro 的 speaker、datingAfter 的 who）：寫 id 或稱呼都對到人物 id，ADV 才有那個人的立繪。
+     只給名字 {name}：game3d.js 的 say 沒有 charId＝ADV.speaker('player')，台上的人變暗、說話的人沒有立繪（不會變成祐廷的立繪：祐廷沒有立繪檔、'player' 不佔立繪框）。
      只有立繪的人物見 characters.js 的 PORTRAIT_ONLY。對話框的名字：寫稱呼的照原文、寫 id 的用登錄的名字。對不到的（溫媽媽、綁馬尾的小女生）照舊只有名字 */
   const PO=()=>typeof PORTRAIT_ONLY!=='undefined'?PORTRAIT_ONLY:{};
   S.sayer=function(sp){ if(!sp) return null; const C=typeof CHARACTERS!=='undefined'?CHARACTERS:{}, po=PO(), own=k=>Object.prototype.hasOwnProperty.call(po,k);
