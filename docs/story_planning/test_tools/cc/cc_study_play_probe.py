@@ -108,6 +108,10 @@ async def onetap(pg, cdp, label):
     k = {'到下一堂課': 'cls', '回去睡覺': 'sleep', '約會': 'date'}.get(label, label)
     ok = await pg.evaluate("""(k=>{ const pop=document.getElementById('goPop'); if(!pop) return 'no-pop'; const e=pop.querySelector('[data-gok="'+k+'"]'); if(!e) return 'none: '+(pop.textContent||'').slice(0,200);
       const t=(e.textContent||'').trim(); if(e.classList.contains('dim')){ e.click(); return 'dim: '+t; } e.click(); return 'ok: '+t; })""", k)   # onetap3d.js renderPop：<button data-gok="cls|sleep|date">（dim＝現在不能用，按了會跳 toast 寫原因）
+    if ok.startswith('ok'):   # 11-14 LAWWW-C（STUDY_SE06_d587 TEST_BUG）：一鍵三項都先跳防誤觸確認框（onetap3d.js S.run→domConfirm；框開著遊戲暫停、0.45 秒內點不算、點框外＝取消），要按 #goCfYes 才真的出發
+        await pg.wait_for_timeout(700); cf = await L.tap(pg, cdp, '#goCfYes'); await pg.wait_for_timeout(1500)
+        ok += '｜確定=%s' % cf
+        return ok
     await pg.wait_for_timeout(900)
     return ok
 

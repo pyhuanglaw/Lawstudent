@@ -107,6 +107,8 @@ def check_known(path, out):
             if rx.search(ln): out.append('%s:%d：%s' % (path, i, why))
     if re.search(r"PLACES\.isOpen\(", src) and re.search(r"l118|lane118", src) and 'L118.isOpen' not in src and 'lint-ok' not in src:
         out.append('%s：118 巷的營業時間用 PLACES.isOpen——那個對 l118_ 永遠 true，要用 L118.isOpen(店 id, G)（L118_CLOSED_LOOK 11-13）' % path)
+    if re.search(r"data-gok", src) and 'goCfYes' not in src and 'lint-ok' not in src:
+        out.append('%s：一鍵（#goPop data-gok）點了以後沒按確認框「確定」#goCfYes——一鍵三項都會先跳防誤觸確認框，不按＝沒出發、時間照走（STUDY_SE06_d587 11-14）' % path)
     if 'new THREE.Raycaster(' in src and not re.search(r"\.camera\s*=|setFromCamera\(", src):
         out.append('%s：用了 THREE.Raycaster 卻沒設 camera（場景有 Sprite 時 null.matrixWorld 當掉，SUNNY_DOOR_walk r1）' % path)
     if re.search(r"flags\[\s*'met_'|'met_'\s*\+", src) and 'SOCIAL.meet(' not in src and 'lint-ok' not in src:
