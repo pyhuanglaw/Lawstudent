@@ -205,7 +205,7 @@ em.rbox(sh.a('vcm'), -0.36, 0.36, 0.0, 0.5, -0.22, 0.22, r=0.02, seg=1, col='#c8
 for sx in (-0.12, 0.12): em.cyl(sh.a('vcm'), (sx, 0.22, 0.2), (sx, 0.22, 0.27), 0.03, col='#9a9a96', seg=8)
 Xf(cc['x'] + 0.1, cz0 + 2.85, 0, top).lathe(sh.a('vcm'), [(0.0, 0.0), (0.07, 0.0), (0.07, 0.25), (0.05, 0.3), (0.06, 0.42), (0.0, 0.42)], 0, 0, 0, seg=10, col='#3a3a3a')   # 磨豆機
 for k in range(3): Xf(cc['x'] - 0.05, cz0 + 3.15 + k * 0.17, 0, top).lathe(sh.a('glass'), [(0.0, 0.0), (0.05, 0.0), (0.06, 0.12), (0.04, 0.14), (0.065, 0.24), (0.06, 0.25)], 0, 0, 0, seg=8)   # 手沖壺
-xf0.rbox(sh.a('vc'), cx0 + 0.1, cx0 + 0.42, top, top + 0.22, cz1 - 0.45, cz1 - 0.12, r=0.01, seg=1, col='#2a2a2a')       # 收銀機
+CK.ph_put('CashRegister_01', cx0 + 0.26, top, cz1 - 0.285, yaw=-math.pi / 2, height=0.26, decimate=0.1)       # 收銀機：Poly Haven 掃描（SHOP-CC0-HELP-1113，取代原本的黑方塊）
 for (y, n) in ((1.4, 12), (1.8, 12)):                                                                                    # 東牆層板：罐子、杯子
     xf0.rbox(sh.a('wood'), X1 - 0.32, X1, y - 0.03, y, cz0 + 0.1, cz1 - 0.1, r=0.004, seg=1)
     for k in range(n):
