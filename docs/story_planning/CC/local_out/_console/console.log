@@ -1,12 +1,3 @@
-[22:25:53] skip FLW_old_1400 (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
-[22:25:53] skip FLWS_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[22:25:53] skip WINVIEW_A (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[22:25:53] skip WINVIEW_B (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[22:25:53] skip WINVIEW_lin (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[22:25:53] skip WINVIEW_yk (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[22:25:53] skip GGDC_tree3g_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[22:25:53] skip GGDC_tree3g_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[22:25:53] skip GGDC_tree3c_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
 [22:25:53] skip GGDC_tree3c_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
 [22:25:53] skip GGDC_tree4g_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
 [22:25:53] skip GGDC_tree4g_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
@@ -1998,3 +1989,12 @@
 [06:24:17] [res] cpu=2% mem=30% (9.6/31.4 GB) chrome_testing=0  START CANON458_INV_LIB_r5
 [06:26:54] 正在跑：CANON458_INV_LIB_r5（已跑 2 分／上限 20 分）、REL76_reach（已跑 2 分／上限 40 分）、REL76_social（已跑 2 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:28:16] [res] cpu=11% mem=47% (14.8/31.4 GB) chrome_testing=9  END CANON458_INV_LIB_r5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f633266074..4b4dc3e614  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:28:28] ==== END   CANON458_INV_LIB_r5  exit=1  242s   ====
+[06:28:41] memory 48% before starting REL76_car_r2 (2 running)
+[06:28:41] ==== START REL76_car_r2  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[06:28:44] [res] cpu=15% mem=48% (15.1/31.4 GB) chrome_testing=9  START REL76_car_r2
+[06:31:54] 正在跑：REL76_reach（已跑 7 分／上限 40 分）、REL76_social（已跑 7 分／上限 120 分）、REL76_car_r2（已跑 3 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:34:45] [res] cpu=0% mem=45% (14.3/31.4 GB) chrome_testing=10  END REL76_reach
