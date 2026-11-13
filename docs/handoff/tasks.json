@@ -1344,7 +1344,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已驗收",
-   "next": "【LAWWW-C 11-13 21:0x UTC】BB_464 A 節判 ART_APPROVED → 已驗收。 舊 home_living.webp、home_living_day.webp 已沒人用，發布後刪（BB P3）。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景圖（台北的家）＝場景美術；圖檔接線由 L2947-2951（231 張 HTTP 200）涵蓋——列進 docs/handoff/USER_ART_REVIEW_1027.md｜平常版（1fc16c76）、白天版（2a0a7ff4，home3d 7～17 點）已接；陽台用 BB-B 生成圖；除夕用 home_living_cny",
+   "next": "【LAWWW-C 11-13 21:3x UTC】舊 assets/bg/home_living.webp、home_living_day.webp 刪掉（背景 id 早改指 BG-HOME-1018 那一套，outings3d.js 33；沒有程式、測試引用）；LICENSES 兩列註明已刪；背景相關 80 支＋掃 assets/bg／LICENSES 的 21 支 ALL PASS。只在開發分支（76f8 候選照舊有這兩個檔，不影響）。｜【LAWWW-C 11-13 21:0x UTC】BB_464 A 節判 ART_APPROVED → 已驗收。 舊 home_living.webp、home_living_day.webp 已沒人用，發布後刪（BB P3）。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景圖（台北的家）＝場景美術；圖檔接線由 L2947-2951（231 張 HTTP 200）涵蓋——列進 docs/handoff/USER_ART_REVIEW_1027.md｜平常版（1fc16c76）、白天版（2a0a7ff4，home3d 7～17 點）已接；陽台用 BB-B 生成圖；除夕用 home_living_cny",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
