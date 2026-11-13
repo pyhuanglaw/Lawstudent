@@ -20,7 +20,10 @@
 
 4. **不准一樣大小的方塊排格子**（D159，BB_379 印得好 ① FAIL 的原因）：貨架上的東西要有高低、厚薄、方向、間距的變化；用得到 Poly Haven 模型的優先用模型。
 5. **白色、淺色塑膠不准有黑紋**：ambientCG `Plastic006` 這類幾乎全黑的顏色貼圖，校成淺色會放大成大理石紋 → 用 `acg(..., vary=0.05)`（第 3 節）。
-6. 天花板不髒（灰泥雲斑壓到 `vary=0.04`）；牆照舊平塗（店面測試要牆沒有貼圖）。
+6. 天花板不髒：灰泥雲斑壓到 `vary=0.015`（0.04 在暖色店還看得出棕灰雲斑，BB 11-13 判客居、越好吃）；牆照舊平塗（店面測試要牆沒有貼圖）。
+6a. **不准比舊版退步**（BB 11-13 判越好吃 FAIL：飲料冰箱從玻璃門看得到飲料變成灰鐵箱）：`_AsTex`／`_Route` 會把「畫成某個顏色的零件」整個換掉，換完逐一看原本有細節的東西（冰箱、燈具、招牌、玻璃櫃）還在不在。
+6b. **同一種東西不准同大小同顏色排格子**——就算材質換成 CC0 也一樣（BB 11-13 判聯通 FAIL：手機殼牆、配件櫃）：要有包裝圖案（自己畫一張包裝貼圖集、每一個正面貼一塊，做法見 `tz_shops_interior.py` 東南大聯的 `pkq`）或 Poly Haven 模型，尺寸、角度、款式混搭。
+6c. 燈籠、斗笠、布料這類「看得出做工」的東西不准是光滑純色球／平圓片／乾淨色塊（BB 11-13 判越好吃、客居）：用 Poly Haven 模型、或布料材質組＋骨架、流蘇、不規則染邊。
 7. 互動點、座位、導航、店員位置**都不動**（只換材質和道具外觀）。要動的話先問我。
 8. 面數：一間店 **≤ 6 萬面**（大店 ≤ 8 萬）；Poly Haven 模型一律 `decimate` 到每個幾百～兩千面。
 
@@ -93,10 +96,10 @@
 | 群 | 建模腳本 | 店 | 誰 |
 |---|---|---|---|
 | 汀州路剩下的＋公館三間＋禮貌生財 | `tz_shops_interior.py` | 聯通、東南大聯、客居、越好吃（已改好，烘焙／交件中）、安泰、榮恩典、鮮果、禮貌生財 | LAWWW2-C |
-| 118 巷九間 | `lane118_shops.py` | l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea | 待派 |
+| 118 巷九間 | `lane118_shops.py`（dian、korea、self、tea）；`l118_int_<店>.py`（cafe2、home、noodle2、omu、pasta：L118-SHOPS-REDO-1111 重做的，各自一支） | l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea | AA-C（11-13 起；AA-C 抽了共用模組 `cc0_kit.py`） |
 | BB 那批 | `bb_support/*_interior.py` | ade、yangyang、nanyang_lobby、xinsheng_sports、bike、corner、shaola、dakou_1f／2f、dabu、tongxian、haopai | 待派 |
 | AA 那批＋溫州街 | `aa_support/*_interior.py`、`wz_*.py`、`flower_notes_interior.py`、`cvs_interior.py` | afar、aoki、daybreak、shanlan、cafe230、yejian、daily_offbeat、komichi、mokuyobi、sunnyside、yizhan、lin、wz_teahouse_yard、flower_notes、cvs | 待派 |
-| 美國 | `us_market.py` | us_market、us_asian_market | 待派 |
+| 美國 | `us_market.py` | us_market、us_asian_market | LAWWW-C（子代理） |
 
 （建模腳本是查 `LICENSES.md` 找到的；`daily_offbeat`、`komichi`、`mokuyobi`、`sunnyside`、`yizhan`、`tz_limao` 在 LICENSES 沒寫腳本，開工前 `grep -rl <檔名> tools/blender` 找。）
 
