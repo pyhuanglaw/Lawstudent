@@ -88,3 +88,10 @@
 - 測試（套在 bf9d623e69 上）：shop_cc0 ALL PASS（南洋三項同時成立；baseline 刪一列）、place_gate ALL PASS（已知未過 11＝SHOP-WINDOW-3D）、nanyang_unit／bench／staff_1107／tap 四支 ALL PASS。38,539 面。
 - 看圖（`shop_cc0_g4/nanyang_cmp.jpg`）：垃圾桶換 Poly Haven metal_trash_can（有壓邊、紋路）、櫃檯收銀機 CashRegister_01，粉紅方塊減少。
 - P2（不擋，下一版再補）：①飲料櫃裡的瓶子還是純色瓶形；②櫃檯那疊紅杯子是一整塊；③入口左邊的黑色立式方箱（看起來像音箱）是純黑方塊，參考圖這位置沒有，可以換掃描模型或拿掉。
+
+## 阿德影印 v2.1（幫手 g4 cb8fabdd4）——LAWWW2-C 驗收 PASS（2026-11-13 23:5x UTC）＋南洋 v6 合併成一包
+- 看圖（`shop_cc0_g4/ade21_cmp.jpg`）：v2 的 P2「便利貼四大塊一樣大」改好——每格 1～3 疊、邊長 7.5～12 cm、厚度不一、各轉 ±20°，一疊拆封散開。33,142 面。
+- **開發分支已經到 626c128e54（青木 v2 整合）**，g4 的 nanyang_v6.patch、ade_v21.patch 各自都會在 LICENSES.md／狀態表衝突，兩包先後套也會互相衝突。所以我在 626c128e54 上把兩間合成一份：
+  **`nanyang_ade_on626c128e54.patch`**（17 個檔；LICENSES 兩邊的列都留、狀態表和 coplanar 用 place_gate `--write` 重新產生）。**請套這一份，取代上面「南洋 v6 直接套 g4 的」和 g4 的 ade_v2／ade_v21。**
+- 測試（套在 626c128e54 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 11）、ade_seat_clip／ade_seats_nav／ade_v1c／gg_new_lm／wall_dir_inherit／wz_shops／wz_work_spots、nanyang 四支、cinema_work_spot_1112、shop_real_inside_1112、xs_lm、seat_reach、tap_seat_reach、l118_seat_reach_1112、shop_npc 全 ALL PASS。
+- P2（不擋）：筆筒區的筆是一根根純色圓柱（v2 就這樣，BB 判 v2 時沒列）；之後有空可換掃描的筆筒。
