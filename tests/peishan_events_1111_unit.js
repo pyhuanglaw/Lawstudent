@@ -19,7 +19,7 @@ const LATER_PIN='9d45ef8b3', LATER_FILES=['src/data/events.js','src/data/vac_act
    和 BASE 逐個比（字串數、骨架）用改之前那一版（6c2ecfc0af，這支測試在那裡全過）；現在的檔另外查沛珊那四列還在、各一處（第 2 節最後一項）。
    舊期望：camp_y1.js 現在的檔直接和 BASE 比，一樣多、只差稿上 4 列。讀不到那一版（淺層複本）＝照現在的檔 */
 const CANON_PIN='6c2ecfc0af', CANON_FILES=['src/data/camp_y1.js'];
-const read=f=>{ if(LATER_FILES.includes(f)){ const t=show(LATER_PIN,f); if(t!=null) return t; } if(CANON_FILES.includes(f)){ const t=show(CANON_PIN,f); if(t!=null) return t; } return fs.readFileSync(path.join(H.ROOT,f),'utf8'); };
+const read=f=>{ if(LATER_FILES.includes(f)){ const t=show(LATER_PIN,f); if(t!=null) return t; } if(CANON_FILES.includes(f)){ const t=show(CANON_PIN,f); if(t!=null) return t; } return require('./aa959_map.js').unmapCode(fs.readFileSync(path.join(H.ROOT,f),'utf8'),path.basename(f))/* AA_959：之後照覆寫表換的整句先換回來再比 */; };
 const noCom=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');
 const lit=s=>{ const out=[]; noCom(s).replace(/'((?:[^'\\]|\\.)*)'/g,(m,t)=>{ out.push(t); return m; }); return out; };
 const strs=(o,out)=>{ if(typeof o==='string') out.push(o); else if(Array.isArray(o)) o.forEach(x=>strs(x,out)); else if(o&&typeof o==='object') Object.values(o).forEach(x=>strs(x,out)); return out; };
@@ -61,7 +61,7 @@ const fileCheck=(tag,f,rows0,total)=>{ const cur=cut4(f,barBack(f,require('./can
     const blk=id=>{ const a=src.indexOf("id:'"+id+"'"); if(a<0) return ''; const m=/\n  \{ id:'/.exec(src.slice(a)); return src.slice(a,a+(m?m.index:src.length-a)); };
     const miss=rows.filter(r=>!blk(r.ev).includes("'"+r.new+"'"));
     check('1. 每一列的 new 落在稿寫的那一場事件裡（ev_ps_w1_room、…、ev_peishan_handover）',miss.length===0,J(miss.map(r=>r.ev+'：'+r.new)));
-    const bad=[]; for(const e of A.events){ const ev=STORY_EVENTS.find(x=>x.id===e.id); if(!ev){ bad.push(e.id+' 不在 STORY_EVENTS'); continue; } const T=strs(ev,[]); for(const r of e.rows) if(!T.some(t=>t===r.new||t.includes(r.new))) bad.push(e.id+'：'+r.new); }
+    const bad=[]; for(const e of A.events){ const ev=STORY_EVENTS.find(x=>x.id===e.id); if(!ev){ bad.push(e.id+' 不在 STORY_EVENTS'); continue; } const T=strs(ev,[]); for(const r of e.rows){ const n9=require('./aa959_map.js').map(r.new,'events.js','classmate_peishan')/* AA_959：遊戲再照覆寫表換過 */; if(!T.some(t=>t===r.new||t.includes(r.new)||t===n9)) bad.push(e.id+'：'+r.new); } }
     check('1. 實際載入的事件資料（STORY_EVENTS）裡十場都找得到新句',bad.length===0,J(bad));
     const tb=STORY_EVENTS.find(x=>x.id==='ev_peishan_table_bench'), txt=blk('ev_peishan_table_bench');
     check('1. ev_peishan_table_bench：「好。週一前一定給你。」對話和 after 寫進手機兩處都換了',!!tb&&txt.split("'好。週一前一定給你。'").length-1===2&&!txt.includes('……好。週一前給你。')); });
