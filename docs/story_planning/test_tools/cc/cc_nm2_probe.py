@@ -585,7 +585,7 @@ async def part_gg(pg, cdp):
 # ---------------------------------------------------------------- 存讀檔
 SLOT_BTN = r"""(([i,label])=>{ const box=document.getElementById('saveSlots'); if(!box) return null; const it=[...box.querySelectorAll('.item')].find(x=>{ const b=x.querySelector('b'); return b&&(b.textContent||'').trim()==='欄位 '+i; });
   if(!it) return null; const btn=[...it.querySelectorAll('button')].find(b=>(b.textContent||'').trim()===label); if(!btn) return null; document.querySelectorAll('#__nm2btn').forEach(e=>e.removeAttribute('id')); btn.id='__nm2btn'; return (it.innerText||'').replace(/\s+/g,' ').slice(0,140); })"""
-SLOT_SUM = r"""(i=>{ try{ const s=GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null'); return s?{day:s.day, key:CALENDAR.dateOf(s.day).key, h:+(+s.hour).toFixed(3), money:s.money, zone:s.zone, pos:s.pos, keys:Object.keys(s).length}:null; }catch(e){ return 'ERR '+e; } })"""
+SLOT_SUM = r"""(i=>{ try{ const s=GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null')); return s?{day:s.day, key:CALENDAR.dateOf(s.day).key, h:+(+s.hour).toFixed(3), money:s.money, zone:s.zone, pos:s.pos, keys:Object.keys(s).length}:null; }catch(e){ return 'ERR '+e; } })"""
 
 
 async def ui_save(pg, cdp, tag, i):

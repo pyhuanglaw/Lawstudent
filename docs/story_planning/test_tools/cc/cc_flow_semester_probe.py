@@ -46,6 +46,7 @@ SAVE_CHECK = ENVI('SAVE_CHECK', 1); SHOT_EVERY = ENVI('SHOT_EVERY', 7)
 ROUTE = os.environ.get('ROUTE', 'tw').strip() or 'tw'; START = os.environ.get('START', 'law').strip() or 'law'
 STUCK_S = int(os.environ['STUCK_S']) if os.environ.get('STUCK_S') else None
 CANON = os.environ.get('CANON') == '1'; KX_PICK = os.environ.get('KX_PICK') or ''; SKIPREQ = os.environ.get('SKIPREQ') == '1'
+SKIP_UNTIL = os.environ.get('SKIP_UNTIL') or ''   # 11-13 BB-C B1：只在這天以前不去必修（例 2025-09-02＝9/1 不去），之後照常上課，看下一堂必修的 KX_MEET_LATER
 HALL_FROM = os.environ.get('HALL_FROM') or ''; EXPECT_HOW = os.environ.get('EXPECT_HOW') or ''
 PICK_HAS = [p for p in (os.environ.get('PICK_HAS') or '').split(',') if p]   # 選項含這些字就選（依序）
 CANON_SCAN = os.environ.get('CANON_SCAN') == '1'   # 11-13 LAWWW-C ⑧：結束時把整段台詞、選項、toast、字卡、手機訊息用 D158 的字表掃一次（印出來的是代號版）
@@ -291,7 +292,7 @@ async def save_reload_check(pg, cdp, run, tag, fb_acc):
     c = await pg.evaluate("(()=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>(x.querySelector('b')||{}).textContent==='欄位 1'); const b=it&&[...it.querySelectorAll('button')].find(x=>x.textContent==='存檔'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
     if not c: res['err'] = '選單裡找不到欄位 1 的「存檔」'; await L.close_panels(pg, cdp); return res
     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
-    raw = await pg.evaluate("localStorage.getItem('fatiao3d_slot_1')")
+    raw = await pg.evaluate("((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_slot_1')")
     if not raw: res['err'] = '欄位 1 是空的'; await L.close_panels(pg, cdp); return res
     slot = await pg.evaluate("(r=>(%s)(JSON.parse(r)))" % KEYF, raw)
     d1, a1 = diff_keyf(pre, slot, 0.05); res['pre_vs_slot'] = d1; res['pre_vs_slot_added'] = a1
@@ -447,8 +448,9 @@ async def main():
                 # ---- 有課：手機「今天」直接去上課 ----
                 gl = [k for k in st['gl'] if k not in tried]
                 if CANON and SKIPREQ:
-                    SKIP_GOCLASS[0] = (not HALL_FROM or st['key'] < HALL_FROM) and not await pg.evaluate("!!(GAME.G.flags||{}).KX_MET")
-                if CANON and SKIPREQ and gl and (not HALL_FROM or st['key'] < HALL_FROM):
+                    lim = SKIP_UNTIL or HALL_FROM
+                    SKIP_GOCLASS[0] = (not lim or st['key'] < lim) and not await pg.evaluate("!!(GAME.G.flags||{}).KX_MET")
+                if CANON and SKIPREQ and gl and (not (SKIP_UNTIL or HALL_FROM) or st['key'] < (SKIP_UNTIL or HALL_FROM)):
                     kinds = await pg.evaluate("(ks=>ks.map(k=>{ try{ const it=CLS.dayItems(GAME.G).find(x=>x.key===k); return it&&it.c?it.c.kind:null; }catch(e){ return null; } }))", gl)
                     met = await pg.evaluate("!!(GAME.G.flags||{}).KX_MET")
                     for k_, kd in zip(list(gl), kinds):
@@ -512,6 +514,7 @@ async def main():
                 summary['canon'] = {'end': k, 'at_meet': KXLOG['at_meet'], 'skipped': KXLOG['skipped'], 'hall': KXLOG['hall'], 'msgs': msgs, 'kx_shots': KXLOG['shots']}
                 run.note('CANON 結束：%s；見面那一刻 %s；手機相關訊息 %s' % (J(k), J(KXLOG['at_meet']), J(msgs)))
                 run.check('FAIL_SETUP 檢查：真的演到可昕見面（KX_MET）%s' % (('、方式 ' + EXPECT_HOW) if EXPECT_HOW else ''), k['met'] and (not EXPECT_HOW or k['how'] == EXPECT_HOW), J(k))
+                if os.environ.get('EXPECT_LATER'): run.check('見面是順延版（KX_MEET_LATER＝%s）' % os.environ.get('EXPECT_LATER'), bool(k.get('later')) == (os.environ.get('EXPECT_LATER') == '1'), J(k))
                 run.check('見面以後手機聯絡人有她', (not k['met']) or k['contact'], J(k))
             except Exception as e: run.check('CANON 結束檢查跑得完', False, repr(e)[:300])
         run.note('console error %d 則（只記不判）：%s' % (len(cons), J(cons[:5])))
@@ -519,7 +522,7 @@ async def main():
         except Exception: pass
         # BB 13:52：最後的存檔匯出（GAME.snapshot()＝結束那一刻的進度；沒有 GAME.G 時退回欄位 1）
         try:
-            fs = await pg.evaluate("(()=>{ try{ if(GAME.G) return {src:'GAME.snapshot()',s:JSON.stringify(GAME.snapshot())}; }catch(e){} const r=localStorage.getItem('fatiao3d_slot_1'); return r?{src:'localStorage fatiao3d_slot_1',s:r}:null; })()")
+            fs = await pg.evaluate("(()=>{ try{ if(GAME.G) return {src:'GAME.snapshot()',s:JSON.stringify(GAME.snapshot())}; }catch(e){} const r=((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_slot_1'); return r?{src:'localStorage fatiao3d_slot_1',s:r}:null; })()")
             if fs:
                 with open(os.path.join(OUT, 'final_save.json'), 'w', encoding='utf-8') as f: json.dump(json.loads(fs['s']), f, ensure_ascii=False)
                 summary['final_save'] = {'src': fs['src'], 'chars': len(fs['s'])}

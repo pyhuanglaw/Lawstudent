@@ -165,7 +165,7 @@ STATE = """(()=>{ const G=GAME.G, F=G.flags||{}, r=(F.PG&&F.PG.done)||{}; let pa
 MSGS = "(n=>(GAME.G.msgs||[]).slice(n).map(m=>({th:m.th||null,from:m.from||null,who:m.who||null,name:m.name||null,tag:m.tag||null,day:m.day,h:m.h,text:String(m.text==null?'':m.text)})))"
 PHONE_TXT = "(()=>(document.getElementById('phoneBody')||{}).innerText||'')()"
 MUST = "(()=>{ try{ return !!(PHONE.mustOpen&&PHONE.mustOpen(GAME.G)); }catch(e){ return false; } })()"
-EPI_SAVE = "(()=>{ let snap=null, auto=null; try{ snap=GAME.snapshot(); }catch(e){ snap={err:String(e.message)}; } try{ auto=(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null')); }catch(e){ auto={err:String(e.message)}; } return {snap,auto}; })()"
+EPI_SAVE = "(()=>{ let snap=null, auto=null; try{ snap=GAME.snapshot(); }catch(e){ snap={err:String(e.message)}; } try{ auto=(GAME.readSave?GAME.readSave('fatiao3d_auto'):(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'))); }catch(e){ auto={err:String(e.message)}; } return {snap,auto}; })()"
 
 DEBUG_RE = re.compile(r'undefined|NaN|📷\s*$|📷undefined|\bnull\b|\{name\}|\{item\}|\{課名\}|\b(?:heroine_0\d|classmate_[a-z]+|npc_[a-z]+|econ_[a-z]+|pg_[a-z0-9_]+|ev_[a-z0-9_]+|A_bar|A_none|B_grad|B_quit|C_zq|BAR_[A-Z0-9_]+)\b')
 DECL = ('不去了', '先不', '不用了', '算了', '就這樣', '先這樣', '沒事', '先不睡')

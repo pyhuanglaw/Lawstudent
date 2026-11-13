@@ -141,6 +141,9 @@ async def tap_walk(pg, cdp, ax, ay, lv_):
         if not vf.get('ok'):
             alt = await pg.evaluate(TAP_ALT, {'x': gx, 'z': gz, 'lv': lvq})
             if alt and alt.get('ok'): vf = alt; gx, gz = alt['x'], alt['z']
+        if not vf.get('ok') and vf.get('why') == 'off' and lvq < p[2]:   # 11-13 BB-C（r4B railtap verify_fail off）：一樓地板在畫面外＝先把鏡頭往下轉（cam.pitch，玩家拖曳的範圍 0.06～1.05）再驗證
+            pt = await pg.evaluate("(()=>{ const c=GAME.E.cam; const p0=c.pitch; c.pitch=Math.min(1.05,(c.pitch||0.3)+0.3); return [+p0.toFixed(2), +c.pitch.toFixed(2)]; })()"); await pg.wait_for_timeout(700)
+            vf = await pg.evaluate(TAP_VERIFY, {'x': gx, 'z': gz, 'lv': lvq}); vf['pitch'] = pt
         if not vf.get('ok'):
             log_.append({'n': n_, 'pl': [round(p[0], 2), round(p[1], 2)], 'goal': [round(gx, 2), round(gz, 2)], 'verify_fail': vf})
             await L.turn_camera_to(pg, cdp, gx, gz); await pg.wait_for_timeout(700); continue

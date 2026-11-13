@@ -393,9 +393,9 @@ BIGJS = r"""(([keep,other])=>{ const s=JSON.parse(JSON.stringify(GAME.snapshot()
   for(const k of other) H[k]={n:3,first:d-900,last:d-900,days:[d-902,d-901,d-900]};
   s.savedAt=Date.now()-86400000*3; const txt=JSON.stringify(s); localStorage.setItem('fatiao3d_slot_3',txt);
   const ks=Object.keys(H); return {len:txt.length,keys:ks.length,trim:ks.filter(k=>/^(place|seat|table|meal):/.test(k)&&!keep.includes(k)).length}; })"""
-HAB = r"""(([key,keep,other])=>{ let H=null; if(key){ try{ const s=JSON.parse(localStorage.getItem(key)||'null'); H=s&&s.habits; }catch(e){ return 'ERR '+e.message; } } else H=GAME.G.habits;
+HAB = r"""(([key,keep,other])=>{ let H=null; if(key){ try{ const s=(GAME.readSave?GAME.readSave(key):JSON.parse(localStorage.getItem(key)||'null')); H=s&&s.habits; }catch(e){ return 'ERR '+e.message; } } else H=GAME.G.habits;
   if(!H) return null; const ks=Object.keys(H); return {keys:ks.length,trim:ks.filter(k=>/^(place|seat|table|meal):/.test(k)&&!keep.includes(k)).length,keep:keep.filter(k=>k in H),other:other.filter(k=>k in H),
-   len:key?(localStorage.getItem(key)||'').length:null,savedAt:key?(()=>{ try{ return JSON.parse(localStorage.getItem(key)).savedAt; }catch(e){ return null; } })():null}; })"""
+   len:key?(localStorage.getItem(key)||'').length:null,savedAt:key?(()=>{ try{ return (GAME.readSave?GAME.readSave(key):JSON.parse(localStorage.getItem(key)||'null')).savedAt; }catch(e){ return null; } })():null}; })"""
 
 
 async def case_big_old(pg, cdp, run, errs):

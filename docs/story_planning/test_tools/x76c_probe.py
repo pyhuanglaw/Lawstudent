@@ -139,7 +139,7 @@ async def main():
         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='存檔'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 2')); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
         else: bad.append('選單「存檔」分頁找不到欄位 2 的存檔鍵')
-        sv = await pg.evaluate("(()=>{ const s=localStorage.getItem('fatiao3d_slot_2'); if(!s) return null; const o=JSON.parse(s); return {day:o.day, hour:o.hour, zone:o.zone}; })()")
+        sv = await pg.evaluate("(()=>{ const s=((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_slot_2'); if(!s) return null; const o=JSON.parse(s); return {day:o.day, hour:o.hour, zone:o.zone}; })()")
         say('   欄位 2 實際寫入：', json.dumps(sv, ensure_ascii=False))
         if not sv: bad.append('按了欄位 2 存檔，localStorage 沒有 fatiao3d_slot_2')
         await L.tap(pg, cdp, '#btnClose'); await pg.wait_for_timeout(800)

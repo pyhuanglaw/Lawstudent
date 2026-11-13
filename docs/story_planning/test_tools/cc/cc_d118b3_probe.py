@@ -492,7 +492,7 @@ async def wait_free(pg, cdp, max_s=60):
 # ---------------------------------------------------------------- 存檔畫面（cc_d118b1_probe 的 ui_save、ui_reload_load）
 SAVE_BTN = """(([i,label])=>{ const box=document.getElementById('saveSlots'); if(!box) return null; const it=[...box.querySelectorAll('.item')].find(x=>{ const b=x.querySelector('b'); return b&&(b.textContent||'').trim()==='欄位 '+i; });
   if(!it) return null; const btn=[...it.querySelectorAll('button')].find(b=>(b.textContent||'').trim()===label); if(!btn) return null; document.querySelectorAll('#__d118btn').forEach(e=>e.removeAttribute('id')); btn.id='__d118btn'; return (it.innerText||'').replace(/\\s+/g,' ').slice(0,160); })"""
-SLOT_SUM = """(i=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null')); if(!s) return null; const g=s.G||s; return {day:CALENDAR.dateOf(g.day).key,h:g.hour,zone:g.zone,hasStudy:!!g.study}; }catch(e){ return {err:String(e.message)}; } })"""
+SLOT_SUM = """(i=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null'))); if(!s) return null; const g=s.G||s; return {day:CALENDAR.dateOf(g.day).key,h:g.hour,zone:g.zone,hasStudy:!!g.study}; }catch(e){ return {err:String(e.message)}; } })"""
 
 
 async def ui_save(pg, cdp, run, tag, i):

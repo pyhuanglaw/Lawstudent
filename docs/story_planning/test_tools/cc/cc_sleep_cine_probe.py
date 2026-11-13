@@ -79,7 +79,7 @@ HOOK = r"""(()=>{ if(window.__SC) return 'again'; const W=window.__SC={log:[],fr
 BEDIT = "(()=>{ const it=(GAME.E.interactables||[]).find(x=>x.sleep); return it?{x:it.x,z:it.z,label:it.label||null}:null; })()"
 SCENE = "(()=>{ const sc=STORY.sleepSceneOf?STORY.sleepSceneOf(GAME):null; if(!sc) return null; return {approach:sc.approach,steps:sc.steps,feet:sc.lie.feet,top:sc.lie.mattress_top_y}; })()"
 STATE = "(()=>{ const G=GAME.G, P=GAME.E.player, o=P.obj.position; return {day:G.day,key:CALENDAR.dateOf(G.day).key,h:+(+G.hour).toFixed(3),zone:G.zone,pose:P.pose,busy:!!P.busy,frozen:!!P.frozen,x:+o.x.toFixed(2),y:+o.y.toFixed(2),z:+o.z.toFixed(2),bed:!!STORY._bed,dark:STORY._dark||0,full:STORY.SLEEP_FULL===undefined?'undefined':STORY.SLEEP_FULL}; })()"
-AUTO = "(()=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null')); if(!s) return null; const G=s.G||s; return {day:G.day,hour:G.hour,zone:G.zone}; }catch(e){ return {err:String(e)}; } })()"
+AUTO = "(()=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_auto'):(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'))); if(!s) return null; const G=s.G||s; return {day:G.day,hour:G.hour,zone:G.zone}; }catch(e){ return {err:String(e)}; } })()"
 
 
 def pick(opts, prefs):

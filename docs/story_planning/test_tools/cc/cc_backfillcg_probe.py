@@ -126,7 +126,7 @@ async def main():
             c = await pg.evaluate("""(()=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>(x.querySelector('b')||{}).textContent==='欄位 3'); if(!it) return null;
               const b=[...it.querySelectorAll('button')].find(x=>x.textContent==='存檔'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()""")
             if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
-            s3 = await pg.evaluate("(()=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_slot_3'):JSON.parse(localStorage.getItem('fatiao3d_slot_3')||'null')); return s?{v:s.v,cg:(s.cg||{}).unlocked||null}:null; }catch(e){ return 'ERR '+e; } })()")
+            s3 = await pg.evaluate("(()=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_slot_3'):(GAME.readSave?GAME.readSave('fatiao3d_slot_3'):JSON.parse(localStorage.getItem('fatiao3d_slot_3')||'null'))); return s?{v:s.v,cg:(s.cg||{}).unlocked||null}:null; }catch(e){ return 'ERR '+e; } })()")
             run.note('選單 → 存檔 → 欄位 3「存檔」（觸控%s）：%s' % ('' if c else '，找不到按鈕', J(s3)))
             cnt = lambda arr: {i: (arr or []).count(i) for i in IDS}
             run.check('③-1 用選單存到欄位 3 的新版存檔：三張各一次', isinstance(s3, dict) and all(v == 1 for v in cnt(s3['cg']).values()), J(s3))
