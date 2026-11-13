@@ -1,14 +1,3 @@
-[16:56:52] skip HELP_GUIDE_new2 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[16:56:52] skip HELP_GUIDE_b3 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[16:56:52] skip HELP_GUIDE_new3 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[16:56:52] skip ZN_SHANLAN (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
-[16:56:52] skip YUE_MEAL (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
-[16:56:52] skip ZN_SHANLAN_r2 (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
-[16:56:52] skip LT_CLERK_2bfe (already done on 2bfea29f1bd41b948c05b249c746cd556405212e)
-[16:56:52] skip LT_CLERK_d4da (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
-[16:56:52] skip XS_REAL_perf_r2 (already done on 8d459e6226513748c198013c2a4dc0730fa609f7)
-[16:56:52] skip TZ_REAL_perf (already done on 257e05a852adb29ec5851db99cebfa24b8f967cc)
-[16:56:52] skip TZ_REAL_perf_night (already done on 257e05a852adb29ec5851db99cebfa24b8f967cc)
 [16:56:52] skip TZ_REAL_perf_old (already done on fcbc3aab3117c1fec2c1c833b3d44813684e18fd)
 [16:56:52] skip BB0719_exit (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
 [16:56:52] skip BB0719_flk_1b (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
@@ -1998,3 +1987,14 @@
 [23:13:04] ==== START W1R_A3_dorm  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
 [23:13:07] [res] cpu=12% mem=43% (13.7/31.4 GB) chrome_testing=5  START W1R_A3_dorm
 [23:13:42] [res] cpu=12% mem=43% (13.5/31.4 GB) chrome_testing=4  END W1R_A2_sleep
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       367152458f..8c52ceea33  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:13:51] ==== END   W1R_A2_sleep  exit=0  123s   ====
+[23:13:54] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[23:13:54] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[23:13:54] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[23:13:54] memory 44% before starting W1R_B3B4_linze (2 running)
+[23:13:54] ==== START W1R_B3B4_linze  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
+[23:13:57] [res] cpu=26% mem=44% (13.8/31.4 GB) chrome_testing=4  START W1R_B3B4_linze
+[23:15:45] [res] cpu=68% mem=47% (14.7/31.4 GB) chrome_testing=5  END W1R_A3_dorm

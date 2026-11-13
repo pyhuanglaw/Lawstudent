@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "W1R_A3_dorm",
+  "sha": "1f304f00544cae61d8abf58bea60e3b9d7cb4ea2",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_route_probe.py",
+  "env": "TAG=w1r_a3_dorm;ZONE=dorm;HOUR=8.5;ROUTE=exit:dorm_hall+burst:hall+look:0+look:3.14+exit:campus+burst:out;SHA=1f304f00544cae61d8abf58bea60e3b9d7cb4ea2",
+  "machine": "MSI",
+  "start": "2026-11-13T23:13:04",
+  "end": "2026-11-13T23:15:45",
+  "seconds": 161,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 71,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 10
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
