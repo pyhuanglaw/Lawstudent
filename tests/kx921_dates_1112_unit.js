@@ -58,11 +58,19 @@ const E=require('./ellipsis694.js');
 
 // 5
 { const wt=show(BASE,'src/data/date_lines.js');
-  if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
+  if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source'&&!require('./date_src_sha.js').SHORT921_1112.some(r=>r.p===p)/* （CANON-NO-ECON-1112 第五批：照 AA_921 §3-1 換字）可昕不分地點的短句七格 */) diff.push(p);
     const want=R.map(gp).sort();
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 118 格不同',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 118 格重匯以前＝稿的 old',R.every(r=>a[gp(r)]===r.old),J(R.filter(r=>a[gp(r)]!==r.old).slice(0,3).map(gp)));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
   } else console.log('（跳過第 5 項：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
+
+// 6 AA_921 §3-1＋§4：可昕不分地點的短句七格（匯入工具 R921 照 path 換）、date3d.js S.MORNING.kexin（手改）
+{ const S=C.SHORT921_1112, E2=require('./ellipsis694.js');
+  check('6. 短句七格：遊戲那一格＝新字（move3、leaveEarly＝稿的字照 AA_694 拿掉「？」後面的「……」）',S.length===7&&S.every(r=>get(NOW,r.p)===r.new&&(!r.doc||E2.strip(r.doc)===r.new)),J(S.filter(r=>get(NOW,r.p)!==r.new).map(r=>r.p)));
+  const src=read('tools/date/import_date_lines.py');
+  check('6. 匯入工具 R921 七列和這張表一樣（old、稿的新字）',S.every(r=>src.includes("'old': '"+r.old+"'")&&src.includes(r.doc?"E694.strip('"+r.doc+"')":"'new': '"+r.new+"'")));
+  const code=read('src/date3d.js').replace(/\/\*[\s\S]*?\*\//g,'');
+  check('6. date3d.js S.MORNING 可昕＝「'+C.MORNING921_1112.new+'」（AA_921 §3-1 原字）；舊句不在程式裡',code.includes("kexin:'"+C.MORNING921_1112.new+"'")&&!code.includes(C.MORNING921_1112.old)); }
 
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

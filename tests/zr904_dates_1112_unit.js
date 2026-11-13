@@ -73,7 +73,7 @@ for(const X of ROUNDS){ const R=X.R;
 
 // 5
 { const wt=show(BASE,'src/data/date_lines.js');
-  if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
+  if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source'&&!require('./date_src_sha.js').SHORT921_1112.some(r=>r.p===p)/* （CANON-NO-ECON-1112 第五批：照 AA_921 §3-1 換字）可昕不分地點的短句七格 */) diff.push(p);
     const all=[].concat(...ROUNDS.map(X=>X.R.map(r=>[X,r]))), want=all.map(([X,r])=>gp(X,r)).sort();
     { const K5=C.KX921_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+(r.gpath||r.path)).filter(p=>diff.includes(p)&&!want.includes(p)), al=diff.slice(); diff.length=0; for(const p of al) if(!K5.includes(p)) diff.push(p); check('5. 之後第五批（6dbfe10d7e，AA_917／918 收尾、AA_921 可昕清句、AA_923 D09）118 格也換了字（date_src_sha.js KX921_1112；逐格在 tests/kx921_dates_1112_unit.js）——這裡先拿掉再比',C.KX921_1112.length===118&&K5.length===118,J(K5.length)); }   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：舊期望是重匯以前就只差這四輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 161 格不同',Object.keys(b).length>30000&&want.length===161&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));

@@ -1127,6 +1127,20 @@ with open(dst, 'w', encoding='utf8') as fo:
         body, n812 = apply812(body)
         print(f'AA_812@{S812}：懸著的「下次我請」——改稿紀錄 {len(REC812)} 格（照格號：' + '、'.join(f'{os.path.basename(r["rec"])} 第 {r["n"]} 格' for r in REC812) + f'）＋path_rows {len(R812)} 列（照 path），換了 {n812} 格'
               + ''.join(f'；path_rows 跳過 1 列：{p}「{o}」→「{n}」（那一格源稿後來改成「{c}」，{w}）' for p, o, n, c, w in SKIP812))
+    # CANON-NO-ECON-1112 第五批（AA_921 §3-1＋§4 放鴿子那一組，企劃線 96c3a668eb，AA-C 11-12 定稿、BB_448 採用）：可昕不排行程表、不記帳、不數次數——不分地點的短句七格照 path 換，
+    # 取代 AA_769 那幾列的 new（move3、flaked、leaveEarly）和 BB_128 3-6 的預約句（accept、acceptDating）。排在 AA_812 後面、寫檔前最後一步（old＝那幾層疊完以後的字；對不上＝停下來）。
+    # move3、leaveEarly 的新句照 AA_694 拿掉「？」後面的「……」（稿：「又改？……再改，我就自己去。」「來了就走？……好吧。」）。date3d.js 的 S.MORNING.kexin（同一張表最後一列）直接改在那個檔。
+    R921 = [
+        {'path': 'lines.kexin.accept[0]', 'old': '好。我記到行程表上了。', 'new': '好。那天空給你。'},
+        {'path': 'lines.kexin.accept[1]', 'old': '好啊。幾點，我排一下。', 'new': '好啊。幾點？'},
+        {'path': 'lines.kexin.acceptDating[0]', 'old': '好。那天我什麼都不排。', 'new': '好。那天不給別人。'},
+        {'path': 'lines.kexin.move3[0]', 'old': '第三次了。再改，我就自己去。', 'new': E694.strip('又改？……再改，我就自己去。')},
+        {'path': 'lines.kexin.flaked[0][0]', 'old': '我等了四十分鐘。', 'new': '我等了很久。'},
+        {'path': 'lines.kexin.flaked[0][1]', 'old': '你欠我一個解釋，還有一頓飯。', 'new': '你要給我一個解釋。'},
+        {'path': 'lines.kexin.leaveEarly[0]', 'old': '來了就走？好吧。你欠我一次。', 'new': E694.strip('來了就走？……好吧。')},
+    ]
+    body, n921 = apply767(body, R921, 'AA_921')
+    print(f'AA_921@96c3a668eb：可昕不分地點的短句 {len(R921)} 列（照 path），換了 {n921} 列')
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))
