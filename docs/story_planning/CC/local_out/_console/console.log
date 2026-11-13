@@ -1,16 +1,3 @@
-[22:25:50] skip MT4_d (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_zr (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_kxch (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_old_later2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:50] skip MT4_old_cd (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:50] skip MT4_arc_r2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_fb_b2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_nofb_r2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_later2_r2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_old_later2_r2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:50] skip MT4_oo_r3 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_nofb_r3 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_oo_r4 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
 [22:25:50] skip MT4_nofb_r4 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
 [22:25:50] skip MT4_oo2805_r5 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
 [22:25:50] skip TZ4_scoot (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
@@ -1998,3 +1985,16 @@
 [05:36:55] ==== START REL76_save_live_r2  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [05:36:58] [res] cpu=0% mem=39% (12.0/31.4 GB) chrome_testing=4  START REL76_save_live_r2
 [05:37:47] [res] cpu=0% mem=34% (10.3/31.4 GB) chrome_testing=0  END REL76_ladder_diag
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d2863b3334..1efef223fb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:38:36] ==== END   REL76_ladder_diag  exit=1  287s   ====
+[05:38:49] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[05:38:49] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[05:38:49] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[05:38:49] memory 43% before starting REL76_save_v95_r3 (2 running)
+[05:38:49] ==== START REL76_save_v95_r3  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[05:38:52] [res] cpu=4% mem=44% (13.7/31.4 GB) chrome_testing=9  START REL76_save_v95_r3
+[05:41:54] 正在跑：REL76_save_live_ctl（已跑 5 分／上限 40 分）、REL76_save_live_r2（已跑 4 分／上限 40 分）、REL76_save_v95_r3（已跑 3 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:43:13] [res] cpu=2% mem=43% (14.5/31.4 GB) chrome_testing=10  END REL76_save_live_ctl
+[05:43:13] D158：推送前把 3 處舊序章／外校的字換成代號
