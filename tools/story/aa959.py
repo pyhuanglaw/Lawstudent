@@ -103,6 +103,26 @@ def apply(text, fname, log=None):
     return text
 
 
+def map_str(s, fname):
+    """一句字串（不含引號）照表換完是什麼（不記 HITS）：給「覆蓋層的 new 後來又被 AA_959 換掉」的核對用。"""
+    t = "'" + s + "'"
+    for r in for_file(fname):
+        sp = _spans(t, r)
+        for a, b in reversed(sp): t = t[:a] + _new(r) + t[b:]
+    return t[1:-1]
+
+
+def layer(text, fname):
+    """給匯入工具用：寫檔前最後一步呼叫。照表換，並核對只標這個檔的列都套到了（套不到＝源稿或前面幾層改過了，停下來問 AA）。"""
+    b = os.path.basename(fname)
+    before = dict(HITS)
+    text = apply(text, b)
+    miss = [r for r in for_file(b) if r['files'] == [b] and HITS.get(r['_i'], 0) == before.get(r['_i'], 0)]
+    if miss:
+        sys.exit(f'AA_959（{TABLE}@{SRC_SHA}）：{b} 有 {len(miss)} 列對不到（舊字、新字都不在）：\n' + '\n'.join(f'第 {r["_i"]} 列「{r["old"]}」' for r in miss[:20]))
+    return text
+
+
 def missing(fnames):
     """fnames 這幾個檔負責的列裡，沒套到的（SKIP 不算）。"""
     bs = {os.path.basename(f) for f in fnames}
