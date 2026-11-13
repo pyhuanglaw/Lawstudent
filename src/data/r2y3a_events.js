@@ -438,9 +438,9 @@ const R2Y3A_EVENTS=(function(){
   /* 當面版（AA_878 #38 定稿＋AA_920 ①；BB_419：大三上期末考到 12/24，12/25 考完、她還在臺北）：法律系館・討論桌，晚上。台詞照稿一字不改 */
   const XMAS_MET={ id:'ev_kexin_xmas_y3_met', title:'她還在趕報告', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
     dialogue:[ {scene:'法律系館・討論桌',bg:'ntu_linze'},
-      {if:{flags:['KX_XMAS3_CARD']},speaker:null,text:'（去年的卡片說，今年換你決定去哪。你決定的地方是系館。）'},
-      {if:{flags:['KX_XMAS3_CARD']},speaker:'kexin',expression:'surprised',text:'……你選這裡？'},
-      {if:{flags:['KX_XMAS3_CARD']},speaker:'kexin',expression:'smile',text:'好。算你的。'},
+      {if:{flags:['KX_XMAS3_CARD']},speaker:null,text:'（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）'},   /* AA-C 11-13 18:34 定稿（BB_458 #17 ②：12/24 是她自己傳「系館」，原本「你決定的地方是系館」前後矛盾）*/
+      {if:{flags:['KX_XMAS3_CARD']},speaker:'kexin',text:'我知道今年輪你。……我先占了。'},
+      {if:{flags:['KX_XMAS3_CARD']},speaker:'kexin',expression:'teasing',text:'你要抗議，我聽。抗議完坐下。'},
       {speaker:'kexin',expression:'tired',text:'聖誕快樂。我報告還差兩頁。教授說明天中午以前。'},
       {speaker:'kexin',expression:'smile',text:'你坐著。陪我就好。'},
       {speaker:null,text:'（她低頭打字。你坐在她對面，看了一個多小時她的頭頂。）'},

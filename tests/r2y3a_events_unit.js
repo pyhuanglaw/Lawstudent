@@ -439,13 +439,13 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
 
   // ===== 21. 2-Y3-21 可昕 聖誕「她還在趕報告」 =====
   fresh('2027-12-24',20,'dorm'); date('kexin'); run('2027-12-24',20.75,21.25);
-  check('21. 12/24 21:00 兩則（當面版：AA_878 #38＋AA_920 ①，11-13）＋「好。」「明天不行。」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('明天晚上九點，系館。'),K('我報告還沒寫完。你來坐著就好。')])&&JSON.stringify(PHONE.byAsk(G,'y3_kx_xmas').ask.opts.map(o=>o.t))===JSON.stringify(['好。','明天不行。']));
+  check('21. 12/24 21:00 兩則（當面版：AA_878 #38＋AA_920 ①，11-13）＋「好。」「明天不行。」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('明天晚上九點，系館。'),K('我報告還沒寫完。')])&&JSON.stringify(PHONE.byAsk(G,'y3_kx_xmas').ask.opts.map(o=>o.t))===JSON.stringify(['好。','明天不行。']));
   ans('y3_kx_xmas',0); { const q=OUT.get(G,'y3_kx_xmas'); check('21. 「好。」→「嗯。」→ 12/25 21:00 法律系館（當面，ev_kexin_xmas_y3_met；10 分鐘沒到＝沒到）',txt('p:kexin').slice(-1)[0]===K('嗯。')&&!!q&&q.day===D('2027-12-25')&&q.h===21&&Math.abs(q.late-1/6)<1e-9&&q.ev==='ev_kexin_xmas_y3_met'&&q.place==='法律系館A'); }
   picks=[1]; await go('y3_kx_xmas');
   { const W=['聖誕快樂。我報告還差兩頁。教授說明天中午以前。','你坐著。陪我就好。','（她低頭打字。你坐在她對面，看了一個多小時她的頭頂。）','（十點半，她把筆電轉過來：最後一頁。）','寫完了。……你還在喔。','你有算喔。……好，算你陪了一個半小時。','（走回宿舍區。她上樓，拿了一個小紙袋下來。）','聖誕節的。包得很醜，你收就對了。'];   /* 當面版（AA_878 #38 定稿，11-13）；大二聖誕沒去＝沒有卡片那三列 */
     check('21. X1 當面（逐字）：「你坐著。陪我就好。」；十點半「寫完了。……你還在喔。」；結尾小紙袋兩列；KX_XMAS[3] met',JSON.stringify(all().slice(0,W.length))===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「一直都在。」','「妳寫了一個半小時。」'])&&G.flags.KX_XMAS[3]==='met'&&noSuppose(),JSON.stringify(all())); }
   fresh('2027-12-24',20,'dorm'); date('kexin'); G.flags.KX_XMAS={2:'went'}; run('2027-12-24',20.75,21.25); ans('y3_kx_xmas',0); picks=[0]; await go('y3_kx_xmas');
-  check('21. 大二聖誕去了（拿到卡片）：開頭多三列「（去年的卡片說……系館。）」「……你選這裡？」「好。算你的。」；「一直都在。」→「好。禮物在我宿舍，等一下拿給你。」',JSON.stringify(all().slice(0,3))===JSON.stringify(['（去年的卡片說，今年換你決定去哪。你決定的地方是系館。）','……你選這裡？','好。算你的。'])&&has('好。禮物在我宿舍，等一下拿給你。')&&!G.flags.KX_XMAS3_CARD,JSON.stringify(all().slice(0,4)));
+  check('21. 大二聖誕去了（拿到卡片）：開頭多三列（AA-C 11-13 18:34 定稿，BB_458 #17 ②）「（去年的卡片說……她昨天先講的。）」「我知道今年輪你。……我先占了。」「你要抗議，我聽。抗議完坐下。」；「一直都在。」→「好。禮物在我宿舍，等一下拿給你。」',JSON.stringify(all().slice(0,3))===JSON.stringify(['（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）','我知道今年輪你。……我先占了。','你要抗議，我聽。抗議完坐下。'])&&has('好。禮物在我宿舍，等一下拿給你。')&&!G.flags.KX_XMAS3_CARD,JSON.stringify(all().slice(0,4)));
   { const ab=STORY.abroad; STORY.abroad=g=>true; fresh('2027-12-24',20,'dorm'); date('kexin'); run('2027-12-24',20.75,21.25); const t=txt('p:kexin').slice(-2); ans('y3_kx_xmas',0); const q=OUT.get(G,'y3_kx_xmas'); STORY.abroad=ab;
     check('21. 祐廷那年人在國外：照舊視訊（「明天晚上九點，視訊。」「我還在趕報告。你陪我就好。」、ev_kexin_xmas_y3）',JSON.stringify(t)===JSON.stringify([K('明天晚上九點，視訊。'),K('我還在趕報告。你陪我就好。')])&&!!q&&q.ev==='ev_kexin_xmas_y3',JSON.stringify({t,ev:q&&q.ev})); }
   fresh('2027-12-25',21,'dorm'); date('kexin'); await play('ev_kexin_xmas_y3',[0]); check('21. 「一直都在。」→「好。禮物等我考完再換。」',has('好。禮物等我考完再換。'));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。禮物等我考完再換。」 */

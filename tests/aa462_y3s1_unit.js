@@ -172,7 +172,7 @@ await sec(5,async()=>{
   fresh('2027-10-01',10,{}); date(PS); ROM.get(H.G,PS).sinceDay=D('2027-09-01'); at('2027-11-30',23.1); rules(); const P3=(H.G.msgs||[]).filter(m=>/^ct_classmate_peishan_ps3_/.test(m.tag||'')).map(m=>m.text);
   check('5. 沛珊③ 10、11 月都沒去台南：11/30 23:00「'+PS3_NEW.join('」「')+'」（第二句不是「我只是……」）',J(P3)===J(PS3_NEW)&&!P3.some(t=>/我只是/.test(t)),J(P3));
   /* 可昕聖誕（CANON-NO-ECON-1112 11-13：AA_878 #38＋AA_920 ① 改當面——人在臺灣＝「陪我去系館」「系館」；AA_462 的視訊版只剩祐廷那年在國外時用）*/
-  const KX_FACE_TE=['明天吃完飯，陪我去系館。','我報告還沒寫完。你來坐著就好。'], KX_FACE=['明天晚上九點，系館。','我報告還沒寫完。你來坐著就好。'];
+  const KX_FACE_TE=['明天吃完飯，陪我去系館。','我報告還沒寫完。'], KX_FACE=['明天晚上九點，系館。','我報告還沒寫完。'];
   fresh('2027-12-23',19,{}); date(KX); run('2027-12-23',19,23.5,0.5); run('2027-12-24',8,21.25,0.25); const te=OUT.get(H.G,'te_kx_Y3S1'), X=byTag('y3_kx_xmas').map(m=>m.text);
   check('5. 可昕：學期末的飯排在 12/25（'+(te?keyOf(te.day)+' '+te.h:'沒有')+'）＝12/24 21:00「'+KX_FACE_TE.join('」「')+'」（當面版；AA_462 視訊版「'+KX_NEW.join('」「')+'」只在國外）',!!te&&te.day===D('2027-12-25')&&J(X)===J(KX_FACE_TE),J(X));
   fresh('2027-12-23',19,{}); date(KX); OUT.plan(H.G,{id:'x_1225_eve',ev:'ev_zhe_game_y2',day:D('2027-12-25'),h:19,place:'別的約',title:'[前置] 12/25 晚上別的約',travelH:0.25}); run('2027-12-23',19,23.5,0.5); run('2027-12-24',8,21.25,0.25);
