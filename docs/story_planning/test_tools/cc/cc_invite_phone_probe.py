@@ -31,6 +31,7 @@ ARRIVE_LOG = int(os.environ.get('ARRIVE_LOG') or 0)   # BB-C 21:02 ⑤：到店�
 EXPECT_LINE = os.environ.get('EXPECT_LINE') or ''
 SEED_MET = [z for z in (os.environ.get('SEED_MET') or '').split(',') if z]   # BB-C 21:02 ⑥：這些人【捷徑】設成見過、初見演過（SOCIAL.meet＋talkedTo）
 SEAT_LABEL = os.environ.get('SEAT_LABEL') or ''
+MEET_HER = os.environ.get('MEET_HER') or ''   # BB-C 21:59 INV_LIB r3：總圖位子都帶 label，S.seatFirst 不挑＝沒有 waitSeat、坐下不開演；照程式註解直接見面——走到她 1.5 m 內、互動鍵是這個字（例「和杜可昕說話」）才按
 HER_IA = os.environ.get('HER_IA') or ''   # LAWWW-C 21:24（INV-MEET-YIELD-1113）：到了以後走到她旁邊 1 m，互動鍵要含這個字（例「和可昕說話」），不是旁人的初見   # BB-C 21:02 ⑥：坐下要按位子自己的那顆（互動鍵字含這個），不是最近的人
 VISITED = [z for z in (os.environ.get('VISITED') or '').split(',') if z]   # 11-14 BOOKSTORE：頁間這類「自己走進去過一次才列」（invites.js show:V('bookstore')）——【捷徑】墊 G.visited   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
@@ -101,6 +102,34 @@ async def talk(pg, cdp, tag, prefix, picks=None, n=80):
         await pg.wait_for_timeout(500)
     R.note('%s 選單 %s' % (tag, J(menus))); R.note('%s 整段 %s' % (tag, J(lines)))
     return lines, menus
+
+
+async def meet_her(pg, cdp, arr):
+    """BB-C 21:59：到店以後走到她 1.5 m 內，等互動鍵出現 MEET_HER 再按；是別人的鍵就往她挪（每步 0.15 m，【捷徑】）"""
+    h = next((x for x in reversed(arr or []) if not x.get('none')), None)
+    R.note('「到了她先坐著等（waitSeat）」在這裡不適用（總圖位子都帶 label，S.seatFirst 不挑），跳過（BB-C 21:59）')
+    if not R.check('FAIL_SETUP 檢查：到了以後她在場', bool(h), J(arr[-1:] if arr else None)): return {}
+    await L.go_to(pg, cdp, R, h['x'], h['z'], 1.2, '她面前 1.5 m 內', max_s=60); await D.settle(pg)
+    st = await pg.evaluate(DLG); k = 0
+    for k in range(12):
+        if MEET_HER in st['interact']: break
+        hh = await pg.evaluate(HER, WHO)
+        if hh.get('none'): break
+        await pg.evaluate("(a=>{ const P=GAME.E.player.obj.position, dx=a.x-P.x, dz=a.z-P.z, d=Math.hypot(dx,dz); if(d>0.6){ const s=Math.min(0.15,d-0.6); P.x+=dx/d*s; P.z+=dz/d*s; } if(GAME.refreshInteract) GAME.refreshInteract(); })", {'x': hh['x'], 'z': hh['z']})
+        await pg.wait_for_timeout(400); st = await pg.evaluate(DLG)
+    hh = await pg.evaluate(HER, WHO)
+    await pg.screenshot(path=os.path.join(OUT, 'invp_%s_meet_ia.png' % TAG))
+    R.note('走到她面前（離她 %s m，挪了 %d 步）互動鍵「%s」' % (hh.get('d'), k, st['interact']))
+    if not R.check('FAIL_SETUP 檢查：互動鍵是「%s」' % MEET_HER, MEET_HER in st['interact'], st['interact']): return {}
+    ms0 = await pg.evaluate("Math.round(performance.now())")
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+    lines, menus = await talk(pg, cdp, '見面', 'invp_%s_meet' % TAG)
+    dl = await pg.evaluate("(m=>(window.__ccDlg||[]).filter(x=>x.ms>=m))", ms0)
+    R.note('按「%s」以後的對話紀錄（%d 句）：%s' % (MEET_HER, len(dl), J(dl)))
+    iv3 = await pg.evaluate(IV, WHO)
+    if EXPECT_SIT: R.check('見面以後有那一句「%s」' % EXPECT_SIT, any(EXPECT_SIT in x['t'] for x in dl) or any(EXPECT_SIT in x for x in lines), J([x['t'] for x in dl][:8]))
+    R.check('邀約變成 done', (iv3 or {}).get('state') == 'done', J(iv3))
+    return {'lines': lines, 'menus': menus, 'log': dl, 'iv': iv3}
 
 
 async def sample(pg, tag, n, every, shot=None):
@@ -223,6 +252,12 @@ async def main():
             nb = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position; return (E.interactables||[]).filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<2.5).map(i=>({l:String(typeof i.label==='function'?i.label():i.label||''),d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),npc:!!i.npc})).sort((a,b)=>a.d-b.d).slice(0,6); })()")
             R.note('走到她旁邊（離她 %s m）2.5 m 內的互動點：%s' % (hh.get('d'), J(nb)))
             R.check('走到她旁邊時互動鍵是「%s」（LAWWW-C INV-MEET-YIELD-1113，不是旁人的初見）' % HER_IA, HER_IA in st['interact'], st['interact'])
+        if MEET_HER:
+            res['meet_her'] = await meet_her(pg, cdp, arr)
+            R.check('沒有 JS 例外', not errs, J(errs[:3])); await b.close()
+            open(os.path.join(OUT, 'invite_phone.json'), 'w', encoding='utf-8').write(J(res))
+            print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
+            sys.exit(1 if R.fails else 0)
         pseat = any(x.get('pSeat') for x in (arr or []))   # 11-14 AN_BEAT6_r6：到店自動坐下開演、30 秒後演完站起來——只看最後一筆會漏，看整段有沒有坐過
         if ARRIVE_LOG and (iv2 or {}).get('state') == 'done' and not pseat:   # 11-14 AN_BEAT6_r6：30 秒內整場演完、回宿舍到隔天早上——邀約已經 done，不再找空位
             R.note('到店 %d 秒內邀約已經 done（最後在 %s）：不再找她旁邊的空位' % (ARRIVE_LOG, J(arr[-1:]))); pseat = True
