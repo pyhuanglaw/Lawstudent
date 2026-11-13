@@ -16,6 +16,8 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   DATE_PS／DATE_ZR  #9 約會收尾（【捷徑】DATE.book D01 15:00 → 出發 → 選「差不多了」→ 收尾；芷若同一地點隔週再去一次＝AA_904 remember）
   BAR_FACE  #5 國考讀書會當面（Y4_PATH bar、交往中；2/23 起 OUT 排的讀書小組照順序演三場：開學那場、平日大口二樓 3D、週六法律系館）
   DRIFT_D1～DRIFT_D4  #1 AA_876 慢慢分開（交往中；【捷徑】直接設 KX_DRIFT 那一段 → 手機快速前往法律系館；D3 選第 2 個、D4 選「好。」→ 河濱）。D1c（隨機 0.35）、#2 D5 長椅另外排
+  D5_FACE／D5_CALL／D6_SOUP  #2 D5 長椅（【捷徑】r5 pending＋讀檔到大二下期末最後一科考完 → 換區域 → 她當面約 → 隔天 19:00 長椅／不去＝21:00 電話）、D6 分開後第 61 天後門湯餃（【捷徑】KX_ENDED drift＋r6 ready）
+  DRIFT_D1C  #1 D1c（【捷徑】Math.random＝mulberry32 固定種子 SEED 起；Y2S1 第 5 週起每天 10:00 進法律系館，中了就停、沒中的那幾天確認沒亂跳；最多 8 天）
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -390,7 +392,84 @@ async def c_drift(pg, cdp, tag):
     return out
 
 
+async def c_d5(pg, cdp, tag):
+    """#2 D5 女宿長椅／21:00 電話（kxdrift3d.js ev_kx_drift_r5ask→r5→r5_call；tests/kx_drift_876_unit.js 87～100）：只和可昕交往中、【捷徑】KX_DRIFT.r5 pending
+       →【捷徑】讀檔到大二下期末最後一科考完那天（KXDRIFT.examDay）宿舍 → 照玩家換一次區域（手機快速前往校園）→ 她當面「明天晚上七點，我宿舍樓下。」
+       D5_FACE：隔天 18:30 等「出發」→ 長椅那一場（選第 1 個）；D5_CALL：隔天不去，20:15 起等 21:00 她打來「接起來」（選第 3 個）"""
+    d, seed = await SP.fresh(pg, cdp, tag, '2027-06-01', 12.0, 'dorm', {'kexin': 'DATING'})
+    ex = await P.prep(pg, cdp, R, "(()=>{ const G=GAME.G, R=KXDRIFT.rec(G); R.r5={st:'pending',at:G.day*24}; const e=KXDRIFT.examDay(G,'Y2S2'); return e?{day:e.day,key:CALENDAR.dateOf(e.day).key,h:e.h}:null; })()", None, True, '[%s] KX_DRIFT.r5 pending（觸發表的直接設法）' % tag)
+    if not R.check('FAIL_SETUP 檢查：[%s] 算得出大二下期末最後一科（KXDRIFT.examDay）' % tag, bool(ex), J(ex)): return {'case': tag, 'skip': 'setup'}
+    await SP.jump(pg, cdp, '%s 期末最後一科考完' % tag, ex['key'], max(ex['h'], 12) + 0.5, 'dorm', None)
+    R.setup('[%s]【捷徑】讀檔到 %s 期末最後一科考完以後（%.2f）' % (tag, ex['key'], max(ex['h'], 12) + 0.5))
+    ok = await SP.travel(pg, cdp, tag, 'campus')
+    ask = await SP.play(pg, cdp, tag + '_ask', 0, start_s=90)
+    q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'kx_drift_r5'); return q?{day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,state:q.state}:null; })()")
+    R.note('[%s] 換區域=%s；她說 %s；OUT kx_drift_r5＝%s' % (tag, ok, J(ask['said']), J(q)))
+    if not R.check('FAIL_SETUP 檢查：[%s] 隔天 19:00 長椅那一趟排上了' % tag, bool(q) and q['h'] == 19, J(q)): return {'case': tag, 'ask': ask}
+    out = {'case': tag, 'exam': ex, 'ask': ask, 'out': q}
+    if tag == 'D5_FACE':
+        await SP.jump(pg, cdp, tag + ' 隔天', q['day'], 18.5, 'dorm', None)
+        out['r'] = await SP.go_out(pg, cdp, tag + '_bench', 0)
+    else:
+        await SP.jump(pg, cdp, tag + ' 隔天不去', q['day'], 20.25, 'dorm', None)
+        out['r'] = await SP.go_out(pg, cdp, tag + '_call', 2, start_s=600, verbs=('接起來', '接'))
+    fl = await pg.evaluate("(()=>({KX_ENDED:GAME.G.flags.KX_ENDED||null, KX_ENDED_ON:GAME.G.flags.KX_ENDED_ON||null, dating:GAME.G.flags.dating_kexin===true, r5:JSON.parse(JSON.stringify((GAME.G.flags.KX_DRIFT||{}).r5||null))}))()")
+    R.note('[%s] 之後 %s' % (tag, J(fl))); out['after'] = fl
+    SP.d158(tag, ask, out.get('r'))
+    return out
+
+
+async def c_d6(pg, cdp, tag):
+    """#2 D6 分開後第 61 天後門湯餃（ev_kx_drift_r6；tests 101～106）：【捷徑】KX_ENDED drift（分開那天 2027-01-10）、不是交往中、KX_DRIFT.r6 ready；
+       大二下開學日＋60 天（第 61 天）09:00 宿舍 → 照玩家走進法律系館（手機快速前往）→ 她約、字幕「學校後門・湯餃店」→ 每句截圖"""
+    d0 = await P.day_of(pg, '2027-02-22'); dE = await P.day_of(pg, '2027-01-10')
+    fd = await pg.evaluate("(()=>{ const r=CALENDAR.termDays('Y2S2'); return r?r.from:null; })()")
+    day = (fd if fd is not None else d0['d']) + 60
+    key = await pg.evaluate("(d=>CALENDAR.dateOf(d).key)", day)
+    d, seed = await SP.fresh(pg, cdp, tag, key, 9.0, 'dorm', {'kexin': 'FRIEND'}, {'KX_ENDED': 'drift', 'KX_ENDED_ON': dE['d'], 'dating_kexin': False})
+    st = await P.prep(pg, cdp, R, "(()=>{ const R=KXDRIFT.rec(GAME.G); R.r6={st:'ready'}; return JSON.parse(JSON.stringify(R.r6)); })()", None, True, '[%s] KX_DRIFT.r6 ready（觸發表：直接 ready 最快）' % tag)
+    await P.events_on(pg)
+    R.note('[%s] 第 61 天＝%s；墊完 %s；r6 %s' % (tag, key, J(seed), J(st)))
+    c0 = await P.cap_n(pg)
+    ok = await SP.travel(pg, cdp, tag, 'linze')
+    r = await SP.play(pg, cdp, tag + '_r6', 0, start_s=90)
+    caps = [c[0] for c in P.cap_spans(await P.captions(pg, c0))]
+    R.note('[%s] 進法律系館=%s；地點字幕 %s' % (tag, ok, J(caps)))
+    SP.d158(tag, r)
+    return {'case': tag, 'day': key, 'r': r, 'captions': caps}
+
+
+RNG_JS = """(seed=>{ if(!window.__rngKeep) window.__rngKeep=Math.random; let a=seed>>>0; window.__rngN=0; window.__rngLog=[];
+  Math.random=function(){ a=(a+0x6D2B79F5)>>>0; let t=a; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); const v=((t^(t>>>14))>>>0)/4294967296; window.__rngN++; if(window.__rngLog.length<200) window.__rngLog.push(+v.toFixed(4)); return v; }; return 'mulberry32:'+seed; })"""
+
+
+async def c_d1c(pg, cdp, tag):
+    """#1 D1c（kxdrift3d.js ev_kx_drift_r1c：大二上起每學期一次、第 5～12 週、09:00～18:00 進 linze、random_weight 0.35）：只和可昕交往中
+       【捷徑】Math.random 換成 mulberry32（SEED 固定、可重播）；Y2S1 第 5 週起每天 10:00 宿舍 → 照玩家手機快速前往法律系館 → 演了就記、截圖；沒演的那幾天也記（不能亂跳）；最多 8 天"""
+    seed_n = int(os.environ.get('SEED') or 44); out = []; hit = False   # 44：第 1 天第一個亂數 0.836（不中）、第 2 天 0.037（中）——先留一輪沒中的
+    for n in range(8):
+        wk, wd = 5 + n // 5, 1 + n % 5
+        when = ['Y2S1', wk, wd]
+        if n == 0: d, seed = await SP.fresh(pg, cdp, tag, when, 10.0, 'dorm', {'kexin': 'DATING'}); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+        else: d = await SP.jump(pg, cdp, '%s 第%d週星期%d' % (tag, wk, wd), when, 10.0, 'dorm', None)
+        rng = await pg.evaluate(RNG_JS, seed_n + n); R.setup('[%s]【捷徑】Math.random＝%s（可重播）' % (tag, rng))
+        ok = await SP.travel(pg, cdp, '%s_d%d' % (tag, n + 1), 'linze')
+        r = await SP.play(pg, cdp, '%s_d%d' % (tag, n + 1), 0, start_s=25)
+        info = await pg.evaluate("(()=>({n:window.__rngN, log:(window.__rngLog||[]).slice(0,12), zone:GAME.G.zone, r1c:JSON.parse(JSON.stringify((GAME.G.flags.KX_DRIFT||{}).r1c||null)), done:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_kx_drift_r1c), crack:GAME.G.flags.KX_CRACK}))()")
+        await pg.evaluate("(()=>{ if(window.__rngKeep){ Math.random=window.__rngKeep; window.__rngKeep=null; } })()")
+        out.append({'day': d['key'], 'travel': ok, 'r': r, 'rng': info, 'event': r['event']})
+        R.note('[%s] %s：演了 %s；ev_kx_drift_r1c done=%s；亂數用了 %d 次 %s' % (tag, d['key'], r['event'], info['done'], info['n'], J(info['log'])))
+        if info['done']: hit = True; break
+        R.check('[%s] %s 沒中的那一天沒有亂跳別的分開戲' % (tag, d['key']), not (r['event'] or '').startswith('ev_kx_drift'), J(r['event']))
+    R.check('FAIL_SETUP 檢查：[%s] 8 天內 D1c 有中（固定種子 %d 起）' % (tag, seed_n), hit, J([o['day'] for o in out]))
+    SP.d158(tag, *[o['r'] for o in out])
+    return {'case': tag, 'days': out, 'hit': hit}
+
+
 async def one(pg, cdp, c):
+    if c == 'DRIFT_D1C': return await c_d1c(pg, cdp, c)
+    if c in ('D5_FACE', 'D5_CALL'): return await c_d5(pg, cdp, c)
+    if c == 'D6_SOUP': return await c_d6(pg, cdp, c)
     if c in DRIFT: return await c_drift(pg, cdp, c)
     if c == 'BAR_FACE': return await c_bar(pg, cdp, c)
     if c in DATES: return await c_date(pg, cdp, c)
