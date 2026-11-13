@@ -22,7 +22,8 @@ PICKS = [x for x in (os.environ.get('PICKS') or '吃飯>越好吃>今天').split
 ROUTE = [x for x in (os.environ.get('ROUTE') or 'exit:tz_yuehaochi').split('+') if x]
 REL = int(os.environ.get('REL') or 0)
 FLAGS = json.loads(os.environ.get('FLAGS') or '{}')
-EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
+EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''
+DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 MEET = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
@@ -135,7 +136,20 @@ async def main():
             if kind != 'exit': continue
             exs = await pg.evaluate("(to=>GAME.E.interactables.filter(i=>i.exit&&i.exit.to===to&&!i.hidden).map(i=>i.label))", arg)
             if not R.check('[%d] 找得到往 %s 的出口' % (n, arg), bool(exs), ''): break
+            samp = []; stop = asyncio.Event()
+            async def _samp():
+                while not stop.is_set():
+                    try: samp.append(await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position, d=document.getElementById('dlg'), it=document.getElementById('interact'); return {t:+performance.now().toFixed(0), zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(3), x:+o.x.toFixed(2), z:+o.z.toFixed(2), busy:!!P.busy, depth:(GAME.D&&GAME.D.busyDepth)|0, dlg:!!(d&&d.offsetParent)?((document.getElementById('dlgText')||{}).textContent||'').slice(0,40):'', interact:it&&it.offsetParent?(it.textContent||'').trim().slice(0,20):'', toast:((document.getElementById('toast')||{}).textContent||'').trim().slice(0,40)}; })()"))
+                    except Exception: pass
+                    await asyncio.sleep(0.25)
+            task = asyncio.create_task(_samp()) if DOOR_DIAG else None   # BB-C 11-14 AN_BEAT8：照玩家走到門口按「進入…」——記按前、按後各 2 秒的 zone、busy、對話
             s2 = await D.use_exit(pg, cdp, '[%d]' % n, exs[0], arg)
+            if task:
+                await pg.wait_for_timeout(2000); stop.set(); await task
+                sh = await pg.evaluate("(()=>{ try{ return typeof SHOP_HOURS!=='undefined'?JSON.parse(JSON.stringify(SHOP_HOURS)):null; }catch(e){ return String(e); } })()")
+                R.note('[%d] 門口取樣（每 0.25 秒，最後 6 秒）：%s' % (n, J(samp[-24:])))
+                R.note('[%d] SHOP_HOURS（%s）：%s' % (n, arg, J((sh or {}).get(arg) if isinstance(sh, dict) else sh)))
+                await pg.screenshot(path=os.path.join(OUT, 'invp_%s_door_after.png' % TAG))
             if not s2 or s2.get('zone') != arg: break
         arr = await sample(pg, '進店 12 秒（每 0.5 秒）她：', 24, 500, 'invp_%s_arrive' % TAG)
         iv2 = await pg.evaluate(IV, WHO); res['arrive'] = {'her': arr, 'iv': iv2}
