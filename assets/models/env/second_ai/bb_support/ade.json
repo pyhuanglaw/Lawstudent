@@ -1,8 +1,8 @@
 {
  "objects": 93,
  "unique_meshes": 67,
- "tris": 32932,
- "tris_drawn": 34542,
+ "tris": 33142,
+ "tris_drawn": 34752,
  "materials": [
   "ad_alpha",
   "ad_cc_brass",
@@ -30,54 +30,98 @@
   "ad_vc_metal",
   "ad_wood"
  ],
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ce44166-9539-55a9-b3d7-a71a95300975/scratchpad/ade_v2.glb",
- "bytes": 2887016,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ce44166-9539-55a9-b3d7-a71a95300975/scratchpad/ade_v21.glb",
+ "bytes": 2901720,
  "texres": 1024,
  "shop": "ade",
  "zone": "wz_print",
  "layout": 1,
- "drawn_tris": 34542,
+ "drawn_tris": 34752,
  "protos": {
   "ceilfx_panel": 10,
   "table": 2,
   "chair": 4
  },
  "single_side": {
-  "ad_cc_wood_d": [
-   44,
+  "ad_plaster": [
+   144,
    0
   ],
-  "ad_alpha": [
-   364,
+  "ad_cc_brass": [
+   112,
    0
   ],
-  "ad_cc_plastic_dk": [
-   2760,
+  "ad_vc": [
+   3412,
+   616
+  ],
+  "ad_goods": [
+   2738,
    0
   ],
-  "ad_cc_metal_m": [
-   764,
+  "ad_cc_plastic_g": [
+   228,
    0
   ],
   "ad_wood": [
    400,
    0
   ],
+  "ad_cc_cardboard": [
+   360,
+   0
+  ],
+  "ad_alpha": [
+   364,
+   0
+  ],
+  "ad_emit": [
+   0,
+   28
+  ],
+  "ad_cc_metal_m": [
+   764,
+   0
+  ],
+  "ad_sign": [
+   2,
+   0
+  ],
   "ad_cc_plastic_w": [
    2076,
    84
   ],
-  "ad_cc_cardboard": [
-   360,
+  "ad_vc_metal": [
+   204,
+   0
+  ],
+  "ad_ph_vintage_stapler": [
+   0,
+   1092
+  ],
+  "ad_cc_wood_d": [
+   44,
    0
   ],
   "ad_cc_metal_l": [
    592,
    36
   ],
-  "ad_ph_vintage_stapler": [
-   0,
-   1092
+  "ad_cc_plastic_dk": [
+   2760,
+   0
+  ],
+  "ad_ceil": [
+   2,
+   0
+  ],
+  "ad_cc_metal_dk": [
+   540,
+   0
+  ],
+  "ad_floor_tile": [
+   12,
+   0
   ],
   "ad_ph_desk_lamp_arm_01_0": [
    0,
@@ -86,42 +130,6 @@
   "ad_ph_desk_lamp_arm_01_1": [
    0,
    192
-  ],
-  "ad_ceil": [
-   2,
-   0
-  ],
-  "ad_emit": [
-   0,
-   28
-  ],
-  "ad_vc": [
-   3412,
-   616
-  ],
-  "ad_floor_tile": [
-   12,
-   0
-  ],
-  "ad_goods": [
-   2528,
-   0
-  ],
-  "ad_vc_metal": [
-   204,
-   0
-  ],
-  "ad_cc_metal_dk": [
-   540,
-   0
-  ],
-  "ad_plaster": [
-   144,
-   0
-  ],
-  "ad_cc_plastic_g": [
-   228,
-   0
   ],
   "ad_ph_potted_plant_01_0": [
    0,
@@ -133,14 +141,6 @@
   ],
   "（翻面）ad_cc_plastic_dk": [
    48,
-   0
-  ],
-  "ad_cc_brass": [
-   112,
-   0
-  ],
-  "ad_sign": [
-   2,
    0
   ]
  }
