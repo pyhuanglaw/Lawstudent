@@ -54758,7 +54758,7 @@
    "id": "SHOP-INTERIOR-VIEW-1112",
    "title": "店裡往外看沒有窗景（泰米村食：窗戶是一片深藍、門也是藍色平面；地上還有一堆紫紅色球）——所有新店室內逐間檢查窗景和看得出來的問題（X357）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -54771,7 +54771,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【LAWWW-C 11-13 15:2x UTC】place_gate 還有 9 間沒窗景（公館 afar／daybreak／yangyang／corner_records／aoki、溫州街 wz_brunch／wz_teahouse／wz_mokuyobi／wz_offbeat）：LAWWW2 在做 CC0 店（D161），LAWWW 派幫手子代理（worktree 分支 shopview-wt，底 65103ef7d7）照 xs_wincard2／207d70f5f 做法接 Z3.shopViewPane＋白天晚上照片；交件 wip/shop_views_1113/ → LAWWW2 先驗收 → LAWWW 整合 → BB 判。us_market 窗景圖隨美國超市 CC0 那批合。｜【LAWWW-C 11-12】補件 fe2ec2820 已整合：洗樂、印得好、安泰、榮恩典、禮貌生財、越好吃、客居雲南天花板 3.3 m（十一間都 ≥ 3.3）；place_gate 天花板已知未過 19→12（溫州街四間、118 巷八間還沒）｜【LAWWW-C 11-12】LAWWW2-C 207d70f5f patch 已整合：汀州路八間＋公館三間加視差窗景（views/tz_* 18 張；公館三間先用現成的）、泰米蘭花改成有花梗葉子、東南大聯／汀州聯通天花板加高到 3.3 m、正面牆零件跟著牆淡出（鏡頭不被擋）；tests/tz_shop_views_1112_unit.js ALL PASS。還沒：其他七間沒逐間看（CC 拍）、公館三間窗景不是原位拍的、安泰（3.1）禮貌生財（3.0）天花板也低於鏡頭——請 LAWWW2 一起加高｜使用者 11-12（附截圖，泰米村食店內）：「窗景呢 我現在才看第一家 都給你電腦測試 你看不出來???」。LAWWW2：①泰米村食：窗外接窗景（照 assets/models/env/views/ 那套＋Z3.shopViewPane／W3.windowMat，汀州路的景）、門不要整片藍、地上紫紅色球（植物缺材質？）修掉 ②同一批全部新店室內（汀州路 tz_*、公館 gg_* 新三間、118 巷、新生南路、溫州街新店）逐間開進去看：窗景有沒有、有沒有缺材質的純色塊、門對不對 ③BB／CC：每一間新店進去拍三張（進門看全景、往窗外看、櫃檯）＋店外看進去一張，照清單（店員、客人、窗景、純色塊、門）判；以後新店驗收固定有這幾張，沒拍不算 ART_APPROVED",
+   "next": "【LAWWW-C 11-13 17:3x UTC】幫手子代理（shopview-wt）15:20～17:2x 只交 README 骨架＋shots.js（沒跑過），已被系統停掉；兩個檔收進開發分支 docs/art-rebuild/second_ai/wip/shop_views_1113/，worktree 拆掉。9 間窗景改由 LAWWW-C 自己接（照 xs_wincard2／207d70f5f 做法），做完交 LAWWW2 驗。｜【LAWWW-C 11-13 15:2x UTC】place_gate 還有 9 間沒窗景（公館 afar／daybreak／yangyang／corner_records／aoki、溫州街 wz_brunch／wz_teahouse／wz_mokuyobi／wz_offbeat）：LAWWW2 在做 CC0 店（D161），LAWWW 派幫手子代理（worktree 分支 shopview-wt，底 65103ef7d7）照 xs_wincard2／207d70f5f 做法接 Z3.shopViewPane＋白天晚上照片；交件 wip/shop_views_1113/ → LAWWW2 先驗收 → LAWWW 整合 → BB 判。us_market 窗景圖隨美國超市 CC0 那批合。｜【LAWWW-C 11-12】補件 fe2ec2820 已整合：洗樂、印得好、安泰、榮恩典、禮貌生財、越好吃、客居雲南天花板 3.3 m（十一間都 ≥ 3.3）；place_gate 天花板已知未過 19→12（溫州街四間、118 巷八間還沒）｜【LAWWW-C 11-12】LAWWW2-C 207d70f5f patch 已整合：汀州路八間＋公館三間加視差窗景（views/tz_* 18 張；公館三間先用現成的）、泰米蘭花改成有花梗葉子、東南大聯／汀州聯通天花板加高到 3.3 m、正面牆零件跟著牆淡出（鏡頭不被擋）；tests/tz_shop_views_1112_unit.js ALL PASS。還沒：其他七間沒逐間看（CC 拍）、公館三間窗景不是原位拍的、安泰（3.1）禮貌生財（3.0）天花板也低於鏡頭——請 LAWWW2 一起加高｜使用者 11-12（附截圖，泰米村食店內）：「窗景呢 我現在才看第一家 都給你電腦測試 你看不出來???」。LAWWW2：①泰米村食：窗外接窗景（照 assets/models/env/views/ 那套＋Z3.shopViewPane／W3.windowMat，汀州路的景）、門不要整片藍、地上紫紅色球（植物缺材質？）修掉 ②同一批全部新店室內（汀州路 tz_*、公館 gg_* 新三間、118 巷、新生南路、溫州街新店）逐間開進去看：窗景有沒有、有沒有缺材質的純色塊、門對不對 ③BB／CC：每一間新店進去拍三張（進門看全景、往窗外看、櫃檯）＋店外看進去一張，照清單（店員、客人、窗景、純色塊、門）判；以後新店驗收固定有這幾張，沒拍不算 ART_APPROVED",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -56702,38 +56702,38 @@
     "ack": "ACK"
    }
   },
- {
-  "id": "SHOP-CC0-HELP-1113",
-  "title": "D161 店面 CC0 三項驗收：LAWWW2 做不完的店派其他 AI 幫忙（AA-C 118 巷九間、LAWWW-C 美國兩間；BB 那 12 個、AA 那批＋溫州街 15 間排隊）",
-  "owner": "AA",
-  "priority": "P0",
-  "status": "進行中",
-  "source": "使用者 11-13 14:1x 對 LAWWW2-C（UA-LAWWW2-1113-01～03）：「寫進規則 每家店都要通過 你做不完就請其他AI幫忙」「請其他AI幫忙的時候要跟它們說你現在的做法和驗收標準 仍然由你驗收 要跟它們講工具」",
-  "authorized": "使用者原話（跨職位幫忙由使用者授權）；D161",
-  "wants": "X365",
-  "next": "【LAWWW-C 11-13 17:2x UTC】dian v2（BB P1：墊在木板上的黑鑄鐵鐵板＋牛排、荷包蛋、玉米、麵）＋cafe2 v1（自助餐台菜面貼圖、殼椅、輕鋼架、PH 盆栽；不烘光照守 1.5 倍預算，BB 定只判部分）（AA-C a1e7284dfe，LAWWW2 PASS）整合：並排圖看過；lampshade_flip 的節點名照新的拆分改（metal→steel/steel_d/tubes，燈罩零件仍在、沒有翻面）；CC0 基準→36；place_gate --write、相關 394 支 Node 全過。｜【LAWWW-C 11-13 17:0x UTC】118 巷 tea 辛亥韓食（AA-C 806c20f934，LAWWW2 PASS，純色 22%）整合：小菜碟菜色貼圖、層板罐子大小不一、卡座木紋；19:00 有客人；CC0 基準→37；place_gate --write、相關 390 支 Node 全過。P2：小菜櫃分六格、四間垂藤換 PH 植物。dian 鐵板 P1 AA 改好在烘焙；cafe2 不烘光照（烘了 3.7 MB 超過 l118_int_home_cafe2 測試的 1.5 倍預算）——預算要不要放寬請 BB 定。｜【LAWWW-C 11-13 16:5x UTC】118 巷 korea（清州刀削麵 23%）＋dian（118 牛排 16%）（AA-C 26626e91f4，LAWWW2 PASS）整合：並排圖看過（實木椅、廚房層架材質、PH 盆栽）；it_fix.py 補 dian 兩個走近點；CC0 基準→39；place_gate --write、相關 390 支 Node 全過。P2：korea 蒸氣球、吊盆、桌面反光；dian 紅櫃台分段、湯桶貼紙。19:00 korea 新版截圖沒客人（舊版有）請 CC 四鏡頭確認客人。下一間 tea（LAWWW2 驗收中）、cafe2。｜【LAWWW-C 11-13 16:0x UTC】118 巷水上便當 l118_self（AA-C 19b3bbf7d2，LAWWW2 美術 PASS）整合：並排圖看過（配菜櫃改成一盤盤有貼圖的菜、便當紙盒）；純色 18%、三項成立；新工具 cc0_kit.py、bake_l118_shops.sh 進開發分支（美國超市幫手重做時用這一份）；CC0 基準 43→42；place_gate --write、相關 390 支 Node 全過。P2：紅燒肉貼圖像磁磚、雞排側面拉長、價錢牌沒字。下一間 korea（LAWWW2 驗收中）。｜【11-13 14:3x LAWWW-C 開】AA-C 14:23 接 118 巷九間（lane118_shops.py：l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea），照 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md 做；一間做完交一間（AA 分支 patch＋並排圖）→ LAWWW2 驗收 → LAWWW 整合 → BB 判美術 → CC 四鏡頭＋效能。LAWWW-C 子代理做美國兩間（us_market、us_asian_market）。owner 寫 AA＝118 巷這一份；美國兩間由 LAWWW 負責。",
-  "first": {
-   "term": "Y1S1",
-   "week": 1,
-   "earliest": "第一次走進 118 巷的店",
-   "mainline": true,
-   "blocks": false,
-   "prereq": false,
-   "parallel": true,
-   "confirmed": true
-  },
-  "xai": {
-   "from": "使用者",
-   "to": "LAWWW2",
-   "receiver": "LAWWW",
-   "helpers": [
-    "AA",
-    "LAWWW"
-   ],
-   "spec": "docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md",
-   "acceptance": "tests/shop_cc0_unit.js 三項同時成立＋店自己的測試＋place_gate；LAWWW2 看並排圖驗收；BB 判美術",
-   "ack": "ACK（AA-C 14:23）"
+  {
+   "id": "SHOP-CC0-HELP-1113",
+   "title": "D161 店面 CC0 三項驗收：LAWWW2 做不完的店派其他 AI 幫忙（AA-C 118 巷九間、LAWWW-C 美國兩間；BB 那 12 個、AA 那批＋溫州街 15 間排隊）",
+   "owner": "AA",
+   "priority": "P0",
+   "status": "進行中",
+   "source": "使用者 11-13 14:1x 對 LAWWW2-C（UA-LAWWW2-1113-01～03）：「寫進規則 每家店都要通過 你做不完就請其他AI幫忙」「請其他AI幫忙的時候要跟它們說你現在的做法和驗收標準 仍然由你驗收 要跟它們講工具」",
+   "authorized": "使用者原話（跨職位幫忙由使用者授權）；D161",
+   "wants": "X365",
+   "next": "【LAWWW-C 11-13 17:3x UTC】BB 判 e23d56706e：118 牛排鐵板 P1 關；cafe2 v1 部分（等烘外殼版）；四鏡頭已派 CC 併進 118 巷那支。｜【LAWWW-C 11-13 17:2x UTC】dian v2（BB P1：墊在木板上的黑鑄鐵鐵板＋牛排、荷包蛋、玉米、麵）＋cafe2 v1（自助餐台菜面貼圖、殼椅、輕鋼架、PH 盆栽；不烘光照守 1.5 倍預算，BB 定只判部分）（AA-C a1e7284dfe，LAWWW2 PASS）整合：並排圖看過；lampshade_flip 的節點名照新的拆分改（metal→steel/steel_d/tubes，燈罩零件仍在、沒有翻面）；CC0 基準→36；place_gate --write、相關 394 支 Node 全過。｜【LAWWW-C 11-13 17:0x UTC】118 巷 tea 辛亥韓食（AA-C 806c20f934，LAWWW2 PASS，純色 22%）整合：小菜碟菜色貼圖、層板罐子大小不一、卡座木紋；19:00 有客人；CC0 基準→37；place_gate --write、相關 390 支 Node 全過。P2：小菜櫃分六格、四間垂藤換 PH 植物。dian 鐵板 P1 AA 改好在烘焙；cafe2 不烘光照（烘了 3.7 MB 超過 l118_int_home_cafe2 測試的 1.5 倍預算）——預算要不要放寬請 BB 定。｜【LAWWW-C 11-13 16:5x UTC】118 巷 korea（清州刀削麵 23%）＋dian（118 牛排 16%）（AA-C 26626e91f4，LAWWW2 PASS）整合：並排圖看過（實木椅、廚房層架材質、PH 盆栽）；it_fix.py 補 dian 兩個走近點；CC0 基準→39；place_gate --write、相關 390 支 Node 全過。P2：korea 蒸氣球、吊盆、桌面反光；dian 紅櫃台分段、湯桶貼紙。19:00 korea 新版截圖沒客人（舊版有）請 CC 四鏡頭確認客人。下一間 tea（LAWWW2 驗收中）、cafe2。｜【LAWWW-C 11-13 16:0x UTC】118 巷水上便當 l118_self（AA-C 19b3bbf7d2，LAWWW2 美術 PASS）整合：並排圖看過（配菜櫃改成一盤盤有貼圖的菜、便當紙盒）；純色 18%、三項成立；新工具 cc0_kit.py、bake_l118_shops.sh 進開發分支（美國超市幫手重做時用這一份）；CC0 基準 43→42；place_gate --write、相關 390 支 Node 全過。P2：紅燒肉貼圖像磁磚、雞排側面拉長、價錢牌沒字。下一間 korea（LAWWW2 驗收中）。｜【11-13 14:3x LAWWW-C 開】AA-C 14:23 接 118 巷九間（lane118_shops.py：l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea），照 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md 做；一間做完交一間（AA 分支 patch＋並排圖）→ LAWWW2 驗收 → LAWWW 整合 → BB 判美術 → CC 四鏡頭＋效能。LAWWW-C 子代理做美國兩間（us_market、us_asian_market）。owner 寫 AA＝118 巷這一份；美國兩間由 LAWWW 負責。",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走進 118 巷的店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "from": "使用者",
+    "to": "LAWWW2",
+    "receiver": "LAWWW",
+    "helpers": [
+     "AA",
+     "LAWWW"
+    ],
+    "spec": "docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md",
+    "acceptance": "tests/shop_cc0_unit.js 三項同時成立＋店自己的測試＋place_gate；LAWWW2 看並排圖驗收；BB 判美術",
+    "ack": "ACK（AA-C 14:23）"
+   }
   }
- }
  ]
 }
