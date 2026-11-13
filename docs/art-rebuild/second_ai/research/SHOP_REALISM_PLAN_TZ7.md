@@ -25,7 +25,7 @@
 
 ## 走得進去的店要換做法（LAWWW2-C 2026-11-13，做泰米之前）
 溫特寶邸只從街上看，所以整間烘成「一張含光影的貼圖」、遊戲用不吃燈的材質畫。汀州路其他六間（泰米、洗樂、印得好、聯通、東南大聯、客居、越好吃）**走得進去**：同一顆模型在店裡要吃遊戲的燈（日夜、打烊熄燈），如果光影烘進顏色貼圖，進店會亮兩次。
-→ 照 201 教室那套（DEMO-201-A，`tools/blender/bake_room.py`＋遊戲 `roomLightmap`）：
+→ 照 201 教室那套（DEMO-201-A，`tools/blender/env_second/lightbake/bake_room.py`，溫州街三間 `bake_wz_shops.sh` 同型＋遊戲 `roomLightmap`）：
 1. 道具換 CC0（Poly Haven 椅子／桌子／燈／盆栽、ambientCG 材質組），**材質保留顏色貼圖**（uv0；同類材質合併成一張圖集控制 draw call）。
 2. 光影另外烘成 **lightMap（uv1）白天、晚上各一張**；遊戲 `roomLightmap` 照時段混合、打烊熄燈。
 3. 從街上看進去的 `shopInsideReal`（轉成不吃燈的材質）改成乘上 lightMap，外看內看一致（§12 第 1 點）。
