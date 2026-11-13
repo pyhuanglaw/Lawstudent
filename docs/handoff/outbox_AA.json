@@ -8084,12 +8084,12 @@
     "docs/art-rebuild/aa_help/cmp_l118_dian_r2.jpg",
     "docs/art-rebuild/aa_help/cmp_l118_cafe2_r2.jpg"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T19:35Z",
    "receiver": "LAWWW",
-   "ack": "LAWWW2-C 20:44 PASS（三件近看）",
+   "ack": "LAWWW2-C 20:44 PASS（三件近看）；LAWWW-C 20:58 已整合進開發分支 4b293fede7（place_gate ALL PASS、相關 53 支 ALL PASS）",
    "noDirectIntegrate": true,
-   "next": "LAWWW-C 整合",
+   "next": "BB 判美術（地點關卡）",
    "unfinished": "P3：麵粉袋像方盒、炸物可以更凹凸、包水餃不鏽鋼偏霧"
   },
   {
