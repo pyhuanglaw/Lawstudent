@@ -144,6 +144,7 @@ class Part:
         if key not in self.m:
             nm = (f'WALL_{self.side}_' if self.side else P) + f'{self.name}_{key}'
             rt = ROUTE_VM if key == 'vcm' else ROUTE_VC
+            if self.name == 'back_wallshelf' and key == 'vcm': rt = lambda h: None   # 後牆層架的金屬：遊戲淡出群組照節點名字 WALL_back_back_wallshelf_vcm 找（tests/gg_new_lm_unit.js 第 4 項），照舊頂點色
             if self.name.startswith('chair_'): rt = (lambda h: 'metal_m') if key == 'vcm' else (lambda h: None)   # 電腦椅：遊戲照 instancing 挪椅子（chairShift），一張椅子維持兩組（頂點色＋金屬）
             self.m[key] = KK.RCMesh(nm, M[key], rt, lambda k: self[k]) if key in ('vc', 'vcm') else (UM(nm, M[key]) if key in UVK else Mesh(nm, M[key]))
         return self.m[key]

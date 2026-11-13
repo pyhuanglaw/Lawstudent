@@ -79,7 +79,9 @@ WG = {}
 
 
 def wg(side, key):
-    if (side, key) not in WG: WG[(side, key)] = (KK.RCMesh(f'WALL_{side}_{key}', M[key], RM if key == 'vm' else RV, lambda k, s_=side: wg(s_, k)) if key in ('vc', 'vm') else Mesh(f'WALL_{side}_{key}', M[key]))
+    if (side, key) not in WG:
+        rt = (lambda h: None) if (side, key) == ('front', 'vm') else (RM if key == 'vm' else RV)   # 前牆的門框金屬照舊頂點色：遊戲照節點名字 WALL_front_vm 找（tests/gg_new_lm_unit.js 第 4 項）
+        WG[(side, key)] = KK.RCMesh(f'WALL_{side}_{key}', M[key], rt, lambda k, s_=side: wg(s_, k)) if key in ('vc', 'vm') else Mesh(f'WALL_{side}_{key}', M[key])
     return WG[(side, key)]
 
 
