@@ -1,0 +1,16 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_interact_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MOKU_ORDER\out
+CC 互動點：TAG moku_order；SHA 322a41f499；ZONE wz_mokuyobi；LABEL 點東西；CASES [['2025-11-05', '14']]
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [2025-11-05 14] 【前置／捷徑】讀檔到 wz_mokuyobi 2025-11-05 14（條件事件關掉）
+PASS [2025-11-05 14] 讀到 wz_mokuyobi  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.04}
+PASS FAIL_SETUP 檢查：[2025-11-05 14] 找得到「點東西」  ["坐窗邊", "坐窗邊", "坐窗邊", "坐窗邊", "坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "坐沙發", "坐沙發", "坐沙發", "坐單人沙發", "坐吧檯", "坐吧檯旁邊", "坐下", "坐下", "坐下", "坐下", "坐下", "坐下", "離開木曜日", "點東西", "看看書櫃", "看唱片機", "看海報"]
+  [  62.5s] 到達「點東西」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+  [  62.5s] [2025-11-05 14] 互動鍵「點東西」（互動點 {"x": -3.3, "z": -4.95, "lv": 1, "label": "點東西", "hidden": false}）
+  [  69.1s] [2025-11-05 14] 錢 22000 → 21850（-150）
+  [  71.6s] [2025-11-05 14] 演完 2.5 秒祐廷：{"seat": false, "pose": "idle", "x": -3.21, "z": -4.74, "h": 14.147, "own": null, "bag": [], "carry": []}（11-12：內用有沒有坐下吃；物品 GG3_OWN、禮物包、帶在身上）
+  [  72.1s] [2025-11-05 14] 整段（2 句、1 個選單）：["▶ 焙茶拿鐵　150 元", "｜（焙茶拿鐵上面有一層很細的奶泡。）"]
+  [  72.1s] [2025-11-05 14] 選單：[["焙茶拿鐵　150 元", "焦糖布丁　120 元", "巴斯克乳酪蛋糕　140 元", "什麼都不點", "買一份帶走送人…飲料、早餐，帶在身上，見面的時候送人"]]
+PASS [2025-11-05 14] 按了有字出來
+PASS 沒有 JS 例外  []
+ALL PASS
