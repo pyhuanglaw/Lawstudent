@@ -143,7 +143,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     /* 芷若的手機插曲：有她的聯絡方式、FAMILIAR 以上 */
     fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_02','cafe'); SOCIAL.adjust('heroine_02',{fam:40,trust:20,comf:20}); INV.addContact(G,'heroine_02'); picks=['幫妳問學姊']; await EVENTS.run(e); const L2=said.map(x=>(x.who||'')+'：'+x.t);
     const ZN=SOCIAL.displayName('heroine_02'), SN=SOCIAL.displayName('heroine_05');
-    check('校慶 芷若（有聯絡方式、熟）：手機問一題，學姊從旁邊看到螢幕（BB_95 原文）、訊息也進手機',JSON.stringify(L2.slice(-4))===JSON.stringify([ZN+'（手機）：聽說你在顧法律問答攤。問一題：電影裡偷看別人的信，算犯罪嗎。',SN+'：（從旁邊看到螢幕）哪部電影？',ZN+'（手機）：……很多部。',SN+'：那要一部一部看。'])&&PHONE.thread(G,'p:heroine_02').filter(m=>m.from==='heroine_02').length===2,JSON.stringify(L2.slice(-4))+' 手機 '+JSON.stringify(PHONE.thread(G,'p:heroine_02').map(m=>m.text)));
+    check('校慶 芷若（有聯絡方式、熟）：手機問一題，學姊從旁邊看到螢幕（BB_95 原文）、訊息也進手機',JSON.stringify(L2.slice(-4))===JSON.stringify([ZN+'（手機）：聽說你在顧法律問答攤。問一題：電影裡偷看別人的信，算犯罪嗎。',SN+'：（從旁邊看到螢幕）哪部電影？',ZN+'（手機）：很多部。',SN+'：那要一部一部看。'])&&PHONE.thread(G,'p:heroine_02').filter(m=>m.from==='heroine_02').length===2,JSON.stringify(L2.slice(-4))+' 手機 '+JSON.stringify(PHONE.thread(G,'p:heroine_02').map(m=>m.text)));
     fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_02','cafe'); picks=['幫妳問學姊']; await EVENTS.run(e); check('校慶 沒有芷若的聯絡方式：沒有手機插曲',!lines().some(t=>/偷看別人的信/.test(t)));
     /* 子晴：吉他社群組的攤位照片 */
     fresh(sat,11,'campus'); sisN(); PHONE.join(G,'guitar','吉他社'); SOCIAL.remember('heroine_04','INVITED_CLUB'); picks=['幫妳問學姊']; await EVENTS.run(e); STORY.phoneRules(GM); G.hour=12.2; PHONE.tick(G);

@@ -126,7 +126,7 @@ async function await0(){}
   INV.walkChat(gmW,7); check('13. 芷若去溫州街的路上：抽到猜電影（選項句）——路上不出字幕、記在邀約上（iv.ask）',caps.length===0&&G.invites[0].chat===true&&G.invites[0].ask==='ZR_FILM_ASK',JSON.stringify({caps,ask:G.invites[0].ask}));
   { const said=[], opts=[]; const gmM={G,E:{player:{obj:{position:{x:0,z:0}}}},npc:{},sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push((w?(w.name||w):'旁白')+'：'+t); },choose:async o=>{ opts.push(o.map(x=>x.t).join('/')); return 2; },fade:async()=>{},advance(){},caption(){},sleep:async()=>{},autosave(){},toast(){},updateHUD(){}};
     await INV.meet(gmM,G.invites[0],{obj:npcObj});
-    check('13. 到了、見面開始前：她先問 → 三個選項 → 選「什麼都沒發生的片。」→「你怎麼知道？」→ 她的答案，之後才是見面（BB_172 Z5）',said[0]==='林芷若：欸，你不覺得這條巷子很適合拍電影嗎？你猜我會拍什麼。'&&opts[0]==='愛情片。/恐怖片。/什麼都沒發生的片。'&&said[1]==='林芷若：……你怎麼知道？'&&said[2]==='林芷若：我想拍一個人每天走這條巷子去上班，然後什麼事都沒發生。'&&said[3]==='林芷若：……應該很難看吧。'&&said.length>4,said.join('｜'));
+    check('13. 到了、見面開始前：她先問 → 三個選項 → 選「什麼都沒發生的片。」→「你怎麼知道？」→ 她的答案，之後才是見面（BB_172 Z5）',said[0]==='林芷若：欸，你不覺得這條巷子很適合拍電影嗎？你猜我會拍什麼。'&&opts[0]==='愛情片。/恐怖片。/什麼都沒發生的片。'&&said[1]==='林芷若：你怎麼知道？'&&said[2]==='林芷若：我想拍一個人每天走這條巷子去上班，然後什麼事都沒發生。'&&said[3]==='林芷若：應該很難看吧。'&&said.length>4,said.join('｜'));
     check('13. 每句一次：問過以後不再抽到',G.flags.ZR_FILM_ASK===true&&!G.invites[0].ask&&(()=>{ const pk=INV.walkPick(G,'heroine_02','wenzhou'); return !!pk&&!pk.ask; })()); }
   fresh(TUE,18); rel('kai',25); G.flags.walkChatN={}; let pk2=INV.walkPick(G,'kai','noodle');
   check('13. 阿凱大一去吃飯的路上：「欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？」（選項句；BB_172 K2）',!!pk2&&pk2.ask==='KAI_SCOOTER_ASK'&&pk2.lines[0]==='欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？',pk2&&JSON.stringify(pk2));

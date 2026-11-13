@@ -221,9 +221,9 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-05-02',19.5,'cafe'); R('heroine_02','FAM'); picks=[0]; await run('ev_zhiruo_third_row');
   check('Z11. 5/1 以後才第一次去：「前陣子在戲院」；沒聽過語 5＝兩個選項', has('前陣子在戲院，倒數第三排，旁邊坐著一個也是一個人來的女生。')&&opts[0].length===2&&has('想好了再跟你說。'));
   fresh('2028-04-22',23.1,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_02','FRI'); ct('heroine_02'); rules();
-  check('Z11-2. 日本路線、單身、朋友：4/22 臺灣 22:00＝日本 23:00「坐這裡。旁邊空著。」', txt('p:heroine_02').join('|')==='heroine_02:（照片：倒數第三排的票根）|heroine_02:今天坐這裡。旁邊空著。'&&G.flags.ZR_Z11B==='photo');
+  check('Z11-2. 日本路線、單身、朋友：4/22 臺灣 22:00＝日本 23:00「坐這裡。旁邊空著。」', txt('p:heroine_02').join('|')==='heroine_02:（照片：倒數第三排的票根）|heroine_02:坐這裡。旁邊空著。'&&G.flags.ZR_Z11B==='photo');
   fresh('2028-04-22',23.1,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_02','FRI'); ct('heroine_02'); date('heroine_01'); rules();
-  check('Z11. 日本路線、交往中：「坐倒數第三排。那排的視角最好。」', txt('p:heroine_02').includes('heroine_02:今天坐倒數第三排。那排的視角最好。'));
+  check('Z11. 日本路線、交往中：「坐倒數第三排。那排的視角最好。」', txt('p:heroine_02').includes('heroine_02:坐倒數第三排。那排的視角最好。'));
   fresh('2028-04-25',19.5,'cafe',{EXCHANGE_ROUTE:'JP'}); R('heroine_02','FAM'); check('Z11. 日本路線：Café 沒有 Z11b', !EVENTS.check(ev('ev_zhiruo_third_row')));
 
   // ---------- 2-Y3-41 可昕 生日（大三）----------

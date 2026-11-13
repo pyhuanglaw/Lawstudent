@@ -116,7 +116,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     said=[]; await EVENTS.run(ev('ev_yutong_fwd')); check('G 當面：「你把學姊的回覆給語彤看。」「法服是什麼？」',JSON.stringify(lines())===JSON.stringify(['你把學姊的回覆給語彤看。','法服是什麼？'])); }
   { const e=ev('ev_yutong_customer'); fresh(80,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); INV.rec(G); G.contacts.heroine_03=70; picks=['我不知道']; await EVENTS.run(e);
     STORY.phoneRules(GM); G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); G.hour=22.75; PHONE.tick(G); const Y=KX('p:heroine_03').map(m=>m.text);
-    check('G 有語彤的聯絡方式：祐廷把截圖傳給她，她回「法服是什麼？」',Y.length===2&&/截圖/.test(Y[0])&&Y[1]==='法服是什麼？'&&!G.flags.yutongFwdInPerson,JSON.stringify(Y)); }
+    check('G 有語彤的聯絡方式：祐廷把截圖傳給她，她回「……法服是什麼？」',Y.length===2&&/截圖/.test(Y[0])&&Y[1]==='……法服是什麼？'&&!G.flags.yutongFwdInPerson,JSON.stringify(Y)); }
   { const e=ev('ev_yutong_customer'); fresh(80,20.5,'noodle',{}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); picks=['我覺得不能用']; await EVENTS.run(e); const L=lines();
     check('G 裝懂：「語彤看了你三秒。」「你剛剛停頓了。」……「那你一開始就說不知道就好。」、記下 BLUFFED',L.includes('語彤看了你三秒。')&&L.includes('你剛剛停頓了。')&&L.includes('……對，我不知道。')&&L.includes('嗯。那你一開始就說不知道就好。')&&SOCIAL.has('heroine_03','BLUFFED'));
     STORY.phoneRules(GM); check('G 裝懂、說只是嚇人：不會私訊學姊',!KX('p:heroine_05').length);

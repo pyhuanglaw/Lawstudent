@@ -46,7 +46,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
       JSON.stringify(L.slice(0,5))===JSON.stringify(['Alison：上街要先申請？那還叫自由嗎？','沈以安：先分清楚。是要申請許可，還是讓人知道你要用哪一條路。','Alison：妳每次都先挑我用詞。','沈以安：因為用詞不清楚，我們就會在吵兩件不一樣的事。','柏翰：（看了一下手錶）妳們兩個講了十二分鐘了。每人十分鐘。'])&&JSON.stringify(opts[0])==='["「我站 Alison。」","「我站以安。」","「妳們講的是同一件事的兩邊。」","（先吃 Alison 帶的宵夜）"]',JSON.stringify([L.slice(0,5),opts[0]]));
     check('前半 選 1：Alison「看吧！」以安「那你說說看，哪裡不對？」（AA_209）',JSON.stringify(L.slice(5))===JSON.stringify(['Alison：看吧！','沈以安：那你說說看，哪裡不對？'])&&G.flags.AN_YU_ARGUMENT==='yu',JSON.stringify(L.slice(5)));
     L=await play(1); check('前半 選 2：以安「謝謝。」（她轉回去跟 Alison 繼續講，聲音小了一點。）（AA_209）',JSON.stringify(L.slice(5))===JSON.stringify(['沈以安：謝謝。','（她轉回去跟 Alison 繼續講，聲音小了一點。）'])&&G.flags.AN_YU_ARGUMENT==='an',JSON.stringify(L.slice(5)));
-    L=await play(2); check('前半 選 3：（兩個人同時轉過來看你。）Alison「幹嘛突然這麼有道理。」',JSON.stringify(L.slice(5))===JSON.stringify(['（兩個人同時轉過來看你。）','Alison：……幹嘛突然這麼有道理。'])&&G.flags.AN_YU_ARGUMENT==='both',JSON.stringify(L.slice(5)));
+    L=await play(2); check('前半 選 3：（兩個人同時轉過來看你。）Alison「幹嘛突然這麼有道理。」',JSON.stringify(L.slice(5))===JSON.stringify(['（兩個人同時轉過來看你。）','Alison：幹嘛突然這麼有道理。'])&&G.flags.AN_YU_ARGUMENT==='both',JSON.stringify(L.slice(5)));
     L=await play(3); check('前半 選 4（先吃 Alison 帶的宵夜）：柏翰「明智。……我也要一塊。」',JSON.stringify(L.slice(5))===JSON.stringify(['柏翰：明智。……我也要一塊。'])&&G.flags.AN_YU_ARGUMENT==='noodle',JSON.stringify(L.slice(5))); }
   /* 不在場：群組聽說 */
   { fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','桌遊團'); run(17,23.95); const L=TH('g:noodle_team').filter(m=>!String(m.tag||'').startsWith('b4_')).map(m=>(m.from||'')+':'+m.text).filter(t=>!/建立了/.test(t));   /* 同一天中午以安在群組揪 B4 演講（交接包 v2 C13，tag b4_invite）：不算在這一項 */

@@ -212,14 +212,14 @@ const date=id=>H.date(id);
     check('S1 朋友：「祐廷也來了。」；沒有「學弟也來了」；沒有條列；SIS_BDAY_Y4 there', has('祐廷也來了。')&&!H.said.some(s=>/學弟也來了/.test(s.t))&&!H.said.some(s=>/^(一|二|三)，/.test(s.t))&&H.G.flags.SIS_BDAY_Y4==='there');
     fresh('2029-06-02',20.5,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); H.said=[]; H.picks=[0]; await PG.bdayScene(GM,'outing');
     check('S2 交往中：Kevin 先走「我們先走了！學弟，蛋糕交給你。」；「……不說。這次不排。」；SIS_BDAY_Y4 lover', has('我們先走了！學弟，蛋糕交給你。')&&has('……不說。這次不排。')&&H.G.flags.SIS_BDAY_Y4==='lover'&&!H.opts.flat().includes('（送禮物）')); }
-  /* AA_345 G9 42：友情版的「送禮物」＝四選一（BB_122 3-7「單身以後」那一欄；四個都合適＝多一句「你怎麼知道。」）；沒有「今天先不改了」券；不扣錢；只算一次（信任 +3、她的戀愛 +2）*/
+  /* AA_345 G9 42：友情版的「送禮物」＝四選一（BB_122 3-7「單身以後」那一欄；四個都合適＝多一句「……你怎麼知道。」）；沒有「今天先不改了」券；不扣錢；只算一次（信任 +3、她的戀愛 +2）*/
   { fresh('2029-06-02',20.5,'dorm'); H.FRIEND('heroine_05'); const r0=Object.assign({},SOCIAL.rel('heroine_05')), m0=H.G.money; H.said=[]; H.opts=[]; H.picks=[2,3]; await PG.bdayScene(GM,'outing'); const r1=SOCIAL.rel('heroine_05'), i=iOf('我第一次收到不是畢業典禮的花。');
     check('G9-42 友情版三個選項（「生日快樂。」「口試也過了，雙喜。」「（送禮物）」）→ 四選一：一盒綠色螢光筆／一本空白筆記本／期末考前的蜂蜜檸檬／一束花（沒有「今天先不改了」券）', JSON.stringify(H.opts[0])===JSON.stringify(['「生日快樂。」','「口試也過了，雙喜。」','（送禮物）'])&&JSON.stringify(H.opts[1])===JSON.stringify(['一盒綠色螢光筆','一本空白筆記本','期末考前的蜂蜜檸檬','一束花'])&&!H.opts.flat().some(t=>/今天先不改了/.test(t)), JSON.stringify(H.opts));
-    check('G9-42 送花：「我第一次收到不是畢業典禮的花。」→「你怎麼知道。」（她說的）；沒有「生日快樂」那兩句；SIS_BDAY_GIFT_Y4 flowers、SIS_BDAY_Y4 there；信任 +3、她的戀愛 +2；不扣錢', i>=0&&H.said[i].who!==null&&H.said[i+1]&&H.said[i+1].t==='你怎麼知道。'&&H.said[i+1].who!==null&&!has('今天你畢業，我生日。都沒排，結果還不錯。')&&H.G.flags.SIS_BDAY_GIFT_Y4==='flowers'&&H.G.flags.SIS_BDAY_Y4==='there'&&r1.trust-r0.trust===3&&(r1.npcRom|0)-(r0.npcRom|0)===2&&H.G.money===m0&&!paid.length, JSON.stringify({said:H.said.map(s=>s.t).slice(-3),dt:r1.trust-r0.trust,dr:(r1.npcRom|0)-(r0.npcRom|0)}));
+    check('G9-42 送花：「我第一次收到不是畢業典禮的花。」→「……你怎麼知道。」（她說的）；沒有「生日快樂」那兩句；SIS_BDAY_GIFT_Y4 flowers、SIS_BDAY_Y4 there；信任 +3、她的戀愛 +2；不扣錢', i>=0&&H.said[i].who!==null&&H.said[i+1]&&H.said[i+1].t==='……你怎麼知道。'&&H.said[i+1].who!==null&&!has('今天你畢業，我生日。都沒排，結果還不錯。')&&H.G.flags.SIS_BDAY_GIFT_Y4==='flowers'&&H.G.flags.SIS_BDAY_Y4==='there'&&r1.trust-r0.trust===3&&(r1.npcRom|0)-(r0.npcRom|0)===2&&H.G.money===m0&&!paid.length, JSON.stringify({said:H.said.map(s=>s.t).slice(-3),dt:r1.trust-r0.trust,dr:(r1.npcRom|0)-(r0.npcRom|0)}));
     const t1=SOCIAL.rel('heroine_05').trust; H.said=[]; H.opts=[]; H.picks=[0]; await PG.bdayScene(GM,'outing');
     check('G9-42 這一年的生日禮物只算一次：再演一次沒有「（送禮物）」、信任不再加', !H.opts[0].includes('（送禮物）')&&SOCIAL.rel('heroine_05').trust===t1, JSON.stringify(H.opts[0]));
     fresh('2029-06-02',20.5,'dorm'); H.FRIEND('heroine_05'); H.said=[]; H.picks=[2,0]; await PG.bdayScene(GM,'outing'); const j=iOf('實用。……謝謝。這週就會用完。');
-    check('G9-42 送螢光筆：「實用。……謝謝。這週就會用完。」→「你怎麼知道。」；SIS_BDAY_GIFT_Y4 highlighter', j>=0&&H.said[j+1]&&H.said[j+1].t==='你怎麼知道。'&&H.G.flags.SIS_BDAY_GIFT_Y4==='highlighter'); }
+    check('G9-42 送螢光筆：「實用。……謝謝。這週就會用完。」→「……你怎麼知道。」；SIS_BDAY_GIFT_Y4 highlighter', j>=0&&H.said[j+1]&&H.said[j+1].t==='……你怎麼知道。'&&H.G.flags.SIS_BDAY_GIFT_Y4==='highlighter'); }
   /* ===== 2-Y4-43 期末最後一頓 ===== */
   { fresh('2029-06-22',16,'dorm',{GRADUATED:D('2029-06-02')}); TEAM(); at('2029-06-22',17); pg();
     const q=OUT.get(H.G,'y4_last_meal');

@@ -92,7 +92,7 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
      ['2029-08-14',p=>isHome(p,'彰化')],['2029-08-17',here],['2027-07-15',here]]);
 
   /* ===== S5 和以安交往中、回國那天她在台中 ===== */
-  const reTwo=['heroine_01:到了嗎？','heroine_01:……好。我在台中，沒辦法去接你。行李先放著，先睡。'];
+  const reTwo=['heroine_01:到了嗎？','heroine_01:好。我在台中，沒辦法去接你。行李先放著，先睡。'];
   for(const key of ['C09@Y1','C08@Y2','C09@Y2','C10@Y2','T02@Y2']){ const [id,yk]=key.split('@'), I=VAC.inst(id,yk), rd=I&&I.to;
     fresh(rd,17.9,'dorm',{dating_heroine_01:true}); know('heroine_01',60); VAC.rec(G).reg[key]='done'; runPh(17.9,21.2);
     const A=txt('p:heroine_01'), q=OUT.get(G,'vac_'+key+'_re_heroine_01'), pr=STORY.presence('heroine_01',G);
