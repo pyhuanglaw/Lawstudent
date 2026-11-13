@@ -1956,3 +1956,14 @@
 [22:36:52] 正在跑：SAVE_LZ_growB（已跑 10 分／上限 120 分）、STUDY_fix_a（已跑 9 分／上限 20 分）、STUDY_fix_b（已跑 8 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:41:52] 正在跑：SAVE_LZ_growB（已跑 15 分／上限 120 分）、STUDY_fix_a（已跑 14 分／上限 20 分）、STUDY_fix_b（已跑 13 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:41:57] [res] cpu=15% mem=49% (15.6/31.4 GB) chrome_testing=5  END STUDY_fix_a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e0f1d0ab81..9400277b34  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:42:42] ==== END   STUDY_fix_a  exit=0  894s   ====
+[22:42:45] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[22:42:45] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[22:42:45] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[22:42:45] memory 49% before starting STUDY_fix_c (2 running)
+[22:42:45] ==== START STUDY_fix_c  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
+[22:42:48] [res] cpu=9% mem=49% (15.6/31.4 GB) chrome_testing=5  START STUDY_fix_c
+[22:43:21] [res] cpu=14% mem=45% (13.9/31.4 GB) chrome_testing=4  END STUDY_fix_b
