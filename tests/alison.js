@@ -8,7 +8,7 @@ const cp=require('child_process'), path=require('path');
 const CJK=/[㐀-䶿一-鿿぀-ヿ豈-﫿]/;
 function alison(s){ if(typeof s!=='string'||s.indexOf('小語')<0) return s;
   return s.replace(/小語/g,(m,i)=>{ const pre=i>0?s[i-1]:'', nx=s[i+2]||''; return (pre&&CJK.test(pre)?' ':'')+'Alison'+(nx&&CJK.test(nx)?' ':''); }); }
-const OLD=/[臺台]灣大學|[臺台]大|NTU|National Taiwan|政治大學|政大|NCCU|霖澤|萬才|博雅|傅鐘|椰林|醉月湖|洞洞館|小福|活大|自強十舍|國青中心|辜振甫/;
+const OLD=/[臺台]灣大學|[臺台]大|NTU|National Taiwan|霖澤|萬才|博雅|傅鐘|椰林|醉月湖|洞洞館|小福|活大|自強十舍|國青中心|辜振甫/;
 const GUARD=path.join(__dirname,'..','tools','story','import_guard.py');
 const ef0=cp.__worldEf||cp.execFileSync;
 function world(s){ if(typeof s!=='string'||!OLD.test(s)) return s;
