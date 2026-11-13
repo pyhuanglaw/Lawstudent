@@ -8,7 +8,7 @@
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的 P2／P3 |
 |---|---|---|---|---|
 | 林家乾麵 lin_interior | 已整合（f6449442c） | 8229212a9 | `lin_v2.patch` | 無 |
-| 花序 flower_notes_interior | 已整合（f6449442c） | 62e19bd05 | `flower_v3.patch` | P2（LAWWW2）：花束還是摺紙感的頂點色多邊形，可試 Poly Haven 花／葉片卡 |
+| 花序 flower_notes_interior | 已整合（f6449442c） | 62e19bd05 | `flower_v3.patch` | 無（P2 花束改 Poly Haven 花：LAWWW2-C 11-13 23:19 自己接手） |
 | 公館燒臘 shaola_interior | 已整合（19399e5d3） | 37a58d3de | `shaola_v8.patch` | 無 |
 | 阿德影印 ade | LAWWW2 PASS（v2，轉 LAWWW 整合） | 17538fd36 | `ade_v2.patch` | P2（LAWWW2）：鐵層架便利貼大小一樣 → v2.1 已改、已烘（scratchpad bake_ade21），還沒拍圖、還沒交 |
 | 洋洋鹹酥雞 yangyang_interior | 烘焙中（v2b） | 181e2a27c（腳本） | 還沒出 | 交件前：17:30 拍圖（店 17:00 才開，13:00 拍會被請出去拍到街上） |
