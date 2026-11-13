@@ -9678,6 +9678,28 @@
    "tests": "套用後 shop_cc0 兩間 PASS；limao_unit、limao_shangshi、tz_shops_unit 等 56 支全過（tz_shops_unit 第 10 項接受 PART_wood_d）；place_gate 只剩狀態表過期；baseline 拿掉 tz_limao",
    "notDone": "BB 美術判定；CC 遊戲內四鏡頭（禮貌生財 19:00～23:30 才開）；P2：禮貌生財玻璃櫃擺設、榮恩典平放疊側面、推車",
    "next": "LAWWW 套 patch、place_gate --write；BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "CC0 第六批（P2）：安泰量血壓機改圓筒機身＋斜面螢幕＋手臂墊；榮恩典平放疊側面改封面色＋紙頁、特價推車鐵網籃＋亂堆；禮貌生財木腰板＋玻璃櫃瓷盤茶杯茶葉罐＋櫃頂盆栽；汀州鮮果葡萄 7→12 顆",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_cc0_p2_1113/tz_cc0_p2_1113.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_p2_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_p2_1113/cmp_antai_v21.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_p2_1113/cmp_limao_v21.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_p2_1113/cmp_rongendian_v21.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_p2_1113/cmp_xianguo_v21.jpg"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 625fefcf1e",
+   "tests": "套用後 shop_cc0 四間 PASS；tz_*、gg_*、shop_*、limao* 全過；place_gate 已 --write（含在 patch）ALL PASS",
+   "notDone": "BB 美術判定；CC 遊戲內四鏡頭；一盞天花板藏起來（P3）",
+   "next": "LAWWW 套 patch；BB 判"
   }
  ]
 }
