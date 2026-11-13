@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_GUIDE_3ebd\tests\guide_flow.py http://127.0.0.1:8800/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GUIDE_3ebd\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+  [前置／捷徑] 讀檔：第二天 15:30 校園A館前，舊存檔格式（只有目標文字、沒有 goalDest）
+{"dest": {"zone": "cafe", "name": "2:30 AM"}, "tgt": {"x": -101.4, "z": -139.4, "text": "往新生南路（側門）", "via": "xinsheng"}, "route": 9, "bar": true, "txt": "往新生南路（側門）（往2:30 AM） · 約 160 m", "arrow": "rotate(-85.7deg)", "markers": 18}
+PASS 舊存檔推算出目的地＝兩點半 Café
+PASS 校園裡指向「往新生南路（側門）」（X199：溫州街只從新生南路進出；原本「走出校門」）  {'x': -101.4, 'z': -139.4, 'text': '往新生南路（側門）', 'via': 'xinsheng'}
+PASS 有路線  9
+PASS 導航條顯示  往新生南路（側門）（往2:30 AM） · 約 160 m
+PASS 點小地圖打開大地圖
+PASS 關閉大地圖、遊戲繼續
+  [前置／捷徑] 瞬移到新生南路側門內側 (-101.4,-134)，面向北
+[{"t": "大一女舍 A 棟（傳達室）", "s": "", "g": false, "v": false}, {"t": "大一女舍 B 棟", "s": "", "g": false, "v": false}, {"t": "進 B1（24 小時自習室）", "s": "", "g": false, "v": false}, {"t": "校門・往公館", "s": "", "g": false, "v": false}, {"t": "校門・往公館", "s": "", "g": false, "v": false}, {"t": "從後門出去（118 巷）", "s": "", "g": false, "v": false}, {"t": "法律系館A", "s": "", "g": false, "v": false}, {"t": "法律系館B", "s": "", "g": false, "v": false}, {"t": "總圖書館", "s": "開放 08:00–22:00", "g": false, "v": false}, {"t": "男生宿舍", "s": "", "g": false, "v": false}, {"t": "往新生南路（側門）", "s": "", "g": true, "v": true}, {"t": "社科院圖書館", "s": "開放・今天 08:20–22:00", "g": false, "v": false}, {"t": "法律系館B（二樓）", "s": "", "g": false, "v": false}, {"t": "共同教學館", "s": "", "g": false, "v": false}, {"t": "普通教學館", "s": "", "g": false, "v": false}, {"t": "博思教學館", "s": "", "g": false, "v": false}, {"t": "體育館", "s": "", "g": false, "v": false}, {"t": "系籃練球（星期五 17:30）", "s": "", "g": false, "v": false}]
+PASS 新生南路側門的入口標記是金色
+  [前置／捷徑] 進入公館（GAME.enter）
+{"tgt": "回到校園", "txt": "回到校園（往2:30 AM） · 約 20 m", "mk": ["公館燒臘|開放・今天 11:00–23:00|false", "青木茶室|開放・今天 11:00–21:00|false", "頁間書屋|開放・今天 10:00–21:30|false", "便利商店|24 小時|false", "洋洋鹹酥雞|已閉館・今天 17:00–01:00|false", "afar café|開放・今天 11:00–21:00|false", "轉角唱片|開放・今天 12:00–21:00|false", "Daybreak|已閉館・今天 08:00–15:00|false", "慢輪單車|開放・今天 10:00–20:00|false", "首都帝大校門||true", "首都帝大校門||false", "往汀州路（巷子）||false", "花序|開放・今天 10:00–21:00|false", "安泰藥局|開放・今天 09:00–22:00|false", "汀州鮮果|開放・今天 10:00–22:00|false", "榮恩典文具社|開放・今天 09:30–21:30|false"], "wz": false}
+PASS 公館指向「回到校園」（去新生南路側門；X199 公館往溫州街的巷口拿掉，原本指「往溫州街」）  回到校園
+{"tgt": "往溫州街", "txt": "往溫州街（往2:30 AM） · 約 50 m"}
+PASS 新生南路指向「往溫州街」  往溫州街
+{"tgt": "進入 2:30 AM", "txt": "進入 2:30 AM · 約 110 m"}
+PASS 溫州街指向 Café 的門（店名 2:30 AM）  進入 2:30 AM
+  [前置／捷徑] 回校園總圖門口、時間 07:12
+interact: 進入總圖書館
+[診斷] nearest: {"p":[84.5,0],"lv":0,"it":{"label":"進入總圖書館","x":86.4,"z":0,"npc":false,"exit":"library_hall","keys":["x","z","radius","label","exit","lv","y","b1Door"]},"its":[{"label":"進入總圖書館","x":86.4,"z":0,"hidden":false}],"ns":[]}
+toast/dlg:   總圖書館 開放時間 08:00–22:00。現在沒有開，今天 08:00 開館。
+PASS 閉館訊息寫開放時間與幾點開    總圖書館 開放時間 08:00–22:00。現在沒有開，今天 08:00 開館。
+PASS 直向：點小地圖打開大地圖
+PASS 直向：導航條不和體力列、小地圖重疊  {'hudR': False, 'minimap': False}
+page errors: []
+PASS 沒有 JS 錯誤  []
+ALL PASS
