@@ -33,6 +33,7 @@ PARTS = set((os.environ.get('PARTS') or '1,2,3,4,5,6,7').split(','))
 # 11-13 BB-C／LAWWW-C（ab9ab0fbe8 L118 cam_dist 3.6）：ENTERCAM=1＝從門外照玩家走到門口按進去，進門那一下（0／0.4／1／2 秒）鏡頭到頭之間有沒有被擋；
 #   ALLSEATS=1＝⑦ 每一張位子都坐（不只第一張），坐下以後鏡頭到頭之間有沒有被擋（牆、門框）。都只記＋截圖，判定歸 BB。
 ENTERCAM = (os.environ.get('ENTERCAM') or '0') == '1'; ALLSEATS = (os.environ.get('ALLSEATS') or '0') == '1'; SEAT_AP_ONLY = (os.environ.get('SEAT_AP_ONLY') or '0') == '1'
+GATE_FLAGS = [k for k in (os.environ.get('GATE_FLAGS') or '').split(',') if k]   # BB-C 11-14：讀進店以後墊成 true 的旗標（例 LM_STUDY）
 SEAT_ONLY = [tuple(float(v) for v in s.split(',')) for s in (os.environ.get('SEAT_ONLY') or '').split('/') if s]   # BB-C 11-14 WZ_LIN_SEAT_r2：只點這幾張（x,z/x,z）   # BB-C 11-14 TZ_SEAT：ALLSEATS 只點有走近點（ap）的
 OCC_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj, cam=E.camera; const rc=new THREE.Raycaster(); rc.camera=cam;
   const head=new THREE.Vector3(P.position.x,P.position.y+1.5,P.position.z), from=cam.getWorldPosition(new THREE.Vector3()), dir=head.clone().sub(from); const dist=dir.length(); rc.set(from, dir.normalize()); rc.far=Math.max(0,dist-0.35);
@@ -308,6 +309,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     s = await D.load_zone(pg, cdp, zid, DAY, h, wait=8000)
     R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f 時（區域的出生點）、錢補到 5000（⑦ 要買得起）' % (tag, zid, DAY, h))
     await pg.evaluate("(()=>{ if(GAME.G) GAME.G.money=Math.max(GAME.G.money|0,5000); })()")
+    if GATE_FLAGS:   # BB-C 11-14 SHOP_B5：禮貌生財書房要解鎖（LM_STUDY）才進得去——墊旗標以後用遊戲自己的讀檔再讀一次，區域照旗標重建
+        fl = await pg.evaluate("(async a=>{ const F=GAME.G.flags||(GAME.G.flags={}); for(const k of a) F[k]=true; const s=JSON.parse(JSON.stringify(GAME.snapshot())); await GAME.applySave(s); return a.map(k=>[k,!!GAME.G.flags[k]]); })", GATE_FLAGS)
+        await pg.wait_for_timeout(6000); R.setup('%s 【捷徑】墊旗標 %s、GAME.snapshot 再讀一次' % (tag, J(fl)))
     await pg.evaluate(SETTLED); await pg.wait_for_timeout(1500)
     row = {'zone': zid, 'hour': h, 'v': {}, 'm': {}}
     if s['zone'] != zid:
