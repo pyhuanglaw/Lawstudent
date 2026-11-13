@@ -1092,7 +1092,7 @@ const STORY_EVENTS=[
   /* 16 週制（AA_198 第 2 節第 1 點、AA_204 第 1 節 @4048e3ec）：改到 12/24（三）18:30 麵店，照出遊（OUT：story3d.js 的 xmas_y1，開始後 15 分鐘還沒到＝沒去）；原本第 17 週週三中午霖澤館一樓 */
   { id:'ev_xmas_exchange', title:'聖誕交換禮物', participants:[], location:'any', trigger:'outing', once:true, keep:'fixed', background:'blur', hours:2,
     prereq:{custom:(G,GM)=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&XMAS_HERE(G).length>0},
-    dialogue:[ {scene:'公館燒臘'},{speaker:null,text:'（燒臘店最裡面那張桌子。阿姨多拿了兩張椅子過來。）'},{if:{custom:G=>XMAS_HERE(G).includes('heroine_03')},speaker:null,text:'（語彤今天沒班，坐在客人這一邊。）'},{speaker:null,text:'（禮物先疊在桌子中間，吃完再抽。）'},
+    dialogue:[ {scene:'公館燒臘'},{speaker:null,text:'（燒臘店最裡面那張桌子。阿姨多拿了兩張椅子過來。）'},{if:{custom:G=>XMAS_HERE(G).includes('heroine_03')},speaker:null,text:'（語彤坐在靠牆那一邊，外套摺好放在腿上。）'},{speaker:null,text:'（禮物先疊在桌子中間，吃完再抽。）'},
       {speaker:null,text:'你帶來的禮物是——'},
       {choice:[{text:'一本小筆記本',set:{XMAS_GIFT:'notebook'}},{text:'一包咖啡豆',set:{XMAS_GIFT:'coffee'}},{text:'一張手寫卡片',set:{XMAS_GIFT:'card'}}]},
       {pick:{flag:'XMAS_TO',from:G=>XMAS_HERE(G)}},
