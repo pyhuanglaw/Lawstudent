@@ -7697,7 +7697,7 @@
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "待填",
+   "sha": "bc90baf7ab",
    "files": [
     "docs/story_planning/AA_937_語彤燒臘店舊設定_補掃.md",
     "docs/story_planning/AA_204_大一寒假_AA場景台詞_16週制.md"
@@ -7705,7 +7705,7 @@
    "state": "已交付",
    "at": "2026-11-13T11:55Z",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "BB-C 照用；已轉 LAWWW",
    "noDirectIntegrate": false,
    "next": "等 BB 第二眼；LAWWW 換 events.js 1108 一句",
    "unfinished": ""
@@ -7713,7 +7713,7 @@
   {
    "task": "CANON-NO-ECON-1112",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "待填",
+   "sha": "4539b2ebaf",
    "files": [
     "docs/story_planning/AA_938_回LAWWW_CANON收尾四件.md",
     "docs/story_planning/date_system/lines/D09.json",
@@ -7725,7 +7725,7 @@
    "state": "已交付",
    "at": "2026-11-13T12:10Z",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "LAWWW-C ACK；BB-C 照用 → 已告訴 LAWWW 定稿",
    "noDirectIntegrate": false,
    "next": "LAWWW 照 ①～④ 改、約會五句重匯；BB 第二眼（③④ 的字）",
    "unfinished": ""
@@ -7733,14 +7733,14 @@
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "待填",
+   "sha": "bfe0185431",
    "files": [
     "docs/story_planning/AA_939_女主角主動約你_舊設定句子.md"
    ],
    "state": "已交付",
    "at": "2026-11-13T12:25Z",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "BB-C 照用；已轉 LAWWW",
    "noDirectIntegrate": false,
    "next": "BB 第二眼；LAWWW 改 heroine_asks.js（可昕 5、沛珊 8、以安 1 格、語彤 1 格＋放假兩句）",
    "unfinished": ""
