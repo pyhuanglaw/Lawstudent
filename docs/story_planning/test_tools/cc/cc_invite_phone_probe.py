@@ -22,6 +22,10 @@ PICKS = [x for x in (os.environ.get('PICKS') or '吃飯>越好吃>今天').split
 ROUTE = [x for x in (os.environ.get('ROUTE') or 'exit:tz_yuehaochi').split('+') if x]
 REL = int(os.environ.get('REL') or 0)
 ZONE_TO = ROUTE[-1].partition(':')[2] if ROUTE else ''
+SECOND = os.environ.get('SECOND') or ''   # BB-C 22:49 ROMTIER b：第二輪「PICKS#ROUTE」，同一天接著再約一次
+ROUNDS = [(PICKS, ROUTE)] + ([([x for x in SECOND.split('#')[0].split('>') if x], [x for x in SECOND.split('#')[1].split('+') if x])] if '#' in SECOND else [])
+REL_TRACK = [z for z in (os.environ.get('REL_TRACK') or '').split(',') if z]   # BB-C 22:49 ROMTIER：每一輪約之前、結束各記這些人的 npcRom、rom、trust（另外記每一筆 SOCIAL.adjust／applyFx＝分開「選項」和「私下約會加成」）
+SLEEP_CHECK = (os.environ.get('SLEEP_CHECK') or '') == '1'   # BB-C 22:49：晚上約會結束以後直接跳睡覺（DATE-CHOICES-1110），沒有卡住
 FLAGS = json.loads(os.environ.get('FLAGS') or '{}')
 EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''
 DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'
@@ -106,6 +110,43 @@ async def talk(pg, cdp, tag, prefix, picks=None, n=80):
         await pg.wait_for_timeout(500)
     R.note('%s 選單 %s' % (tag, J(menus))); R.note('%s 整段 %s' % (tag, J(lines)))
     return lines, menus
+
+
+ADJ_HOOK = r"""(()=>{ if(window.__ccAdj) return 'already'; window.__ccAdj=[]; const S=SOCIAL; const st=()=>{ try{ return (new Error().stack||'').split('\n').slice(2,6).map(x=>x.trim().replace(/^at /,'').replace(/https?:\/\/[^/]+\//,'').slice(0,90)).join(' < '); }catch(e){ return ''; } };
+  if(S.adjust){ const o=S.adjust; S.adjust=function(id,d){ try{ window.__ccAdj.push({f:'adjust', id, d:JSON.parse(JSON.stringify(d||{})), h:+(+GAME.G.hour).toFixed(2), day:GAME.G.day, st:st()}); }catch(e){} return o.apply(this,arguments); }; }
+  if(S.applyFx){ const o=S.applyFx; S.applyFx=function(){ try{ window.__ccAdj.push({f:'applyFx', a:JSON.parse(JSON.stringify([...arguments].filter(x=>typeof x!=='object'||!x||!x.flags))), h:+(+GAME.G.hour).toFixed(2), day:GAME.G.day, st:st()}); }catch(e){} return o.apply(this,arguments); }; }
+  return 'on'; })()"""
+
+
+cdp_g = [None]
+
+
+async def rel_snap(pg, tag):
+    if not REL_TRACK: return None
+    if await pg.evaluate("!window.__ccAdj"): R.note('SOCIAL 記錄：%s' % await pg.evaluate(ADJ_HOOK))
+    v = await pg.evaluate("(ids=>{ const o={}; for(const id of ids){ try{ const r=SOCIAL.rel(id)||{}; o[id]={npcRom:r.npcRom, rom:r.rom, trust:r.trust, fam:r.fam, comf:r.comf, stage:SOCIAL.stage?SOCIAL.stage(id):null}; }catch(e){ o[id]='ERR '+e.message; } } return {day:GAME.G.day, h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone, daily:Object.keys(GAME.G.daily||{}).filter(k=>k.startsWith('romAlone_')).reduce((a,k)=>(a[k]=GAME.G.daily[k],a),{}), rel:o}; })", REL_TRACK)
+    adj = await pg.evaluate("(window.__ccAdj||[]).splice(0)")
+    R.note('[關係] %s：%s' % (tag, J(v)))
+    if adj: R.note('[關係] %s 之前這段的 SOCIAL 呼叫（%d 筆；st＝呼叫來源）：%s' % (tag, len(adj), J(adj)))
+    return v
+
+
+async def sleep_check(pg, tag, day0):
+    if not SLEEP_CHECK: return
+    t0 = await pg.evaluate("({day:GAME.G.day, h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone})")
+    seen = []
+    for k in range(60):   # 最多 30 秒：對話點掉、看有沒有跳到睡覺（隔天、或在宿舍睡）
+        st = await pg.evaluate(DLG)
+        if st['choices']: await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()"); await pg.wait_for_timeout(600); continue
+        if st['dlg']: await L.tap(pg, cdp_g[0], '#dlg'); await pg.wait_for_timeout(400); continue
+        g = await pg.evaluate("({day:GAME.G.day, h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone, busy:!!GAME.E.player.busy, sleeping:!!(GAME.G.flags&&GAME.G.flags.sleeping)})")
+        seen.append(g)
+        if g['day'] > day0 and not g['busy']: break
+        await pg.wait_for_timeout(500)
+    await pg.screenshot(path=os.path.join(OUT, 'invp_%s_after_%s.png' % (TAG, tag.replace(' ', ''))))
+    last = seen[-1] if seen else {}
+    R.note('[睡覺] %s 結束時 %s → 30 秒內 %s' % (tag, J(t0), J(seen[-3:])))
+    R.check('%s 晚上約會結束以後直接跳睡覺（到隔天、沒有卡住）（DATE-CHOICES-1110）' % tag, bool(last or t0) and max(last.get('day', 0), t0['day']) > day0 and not last.get('busy'), J([day0, t0, last]))
 
 
 async def who_where(pg):
@@ -219,7 +260,7 @@ async def main():
     print('CC 手機約人：TAG %s；SHA %s；%s %s %.1f；WHO %s；PICKS %s；ROUTE %s' % (TAG, SHA or '?', ZONE, DAY, HOUR, WHO, PICKS, ROUTE), flush=True)
     res = {'tag': TAG, 'sha': SHA}
     async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); cdp_g[:] = [cdp]
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=START[0], z=START[1], wait=7000) if START else await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)   # BB-C 11-14：門口那一份從門口附近開始（從公館另一頭走 77 m，路上點到別家的門）
@@ -237,137 +278,147 @@ async def main():
         if FLAGS:
             res['flags'] = await pg.evaluate("(f=>{ Object.assign(GAME.G.flags,f); return Object.keys(f); })", FLAGS); R.setup('【捷徑】旗標 %s' % J(FLAGS))
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f（條件事件關掉）、認識 %s、有聯絡方式%s；階段 %s' % (ZONE, DAY, HOUR, WHO, ('、【捷徑】關係加 fam %d' % REL) if REL else '', m.get('stage')))
-        # 手機「朋友」→ 她那一列「約」
-        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
-        await L.tap(pg, cdp, '#phoneTabs button[data-ptab="friends"]'); await pg.wait_for_timeout(1000)
-        sel = '#phoneBody [data-inv=%s]' % J(WHO)
-        await pg.evaluate("(s=>{ const e=document.querySelector(s); if(e) e.scrollIntoView({block:'center'}); })", sel); await pg.wait_for_timeout(400)
-        await pg.screenshot(path=os.path.join(OUT, 'invp_%s_friends.png' % TAG))
-        if not R.check('手機「朋友」她那一列有「約」', await pg.evaluate("(s=>!!document.querySelector(s))", sel), ''): await b.close(); sys.exit(1)
-        await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
-        lines, menus = await talk(pg, cdp, '約', 'invp_%s_book' % TAG, PICKS)
-        iv = await pg.evaluate(IV, WHO); res['book'] = {'lines': lines, 'menus': menus, 'iv': iv}
-        R.note('約完 G.invites 最後一筆：%s' % J(iv))
-        if (await pg.evaluate(DLG))['phone']: await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(700)
-        if not R.check('約好了（G.invites 有 accepted、今天、地點是 ROUTE 最後一區）', bool(iv) and iv.get('state') == 'accepted' and iv.get('accepted') and any(r.endswith(':' + str(iv.get('zone'))) for r in ROUTE[-1:]), J(iv)):
-            open(os.path.join(OUT, 'invite_phone.json'), 'w', encoding='utf-8').write(J(res)); await b.close(); sys.exit(1)
-        # 【捷徑】撥到約定時間前 3 分鐘，走過去
-        await pg.evaluate("(h=>{ GAME.G.hour=h; })", float(iv['h']) - 0.05); await pg.wait_for_timeout(1500)
-        R.setup('【捷徑】時間撥到約定時間 %.2f 前 3 分鐘' % float(iv['h']))
-        # 11-14 CANON458 BEAT6_r2：約定時間到，遊戲自己跳「直接過去：…（照快速前往的路程時間）／自己走過去」——r1 沒處理＝一直 busy、走不到門口（BADM／BEAT6／BEAT8 r1 的真正原因）
-        #   ROUTE 第一步是 travel＝選「直接過去」（遊戲自己的走法）；exit＝選「自己走過去」再照玩家走
-        go_direct = ROUTE and ROUTE[0].startswith('travel:')
-        await L.close_panels(pg, cdp); await pg.wait_for_timeout(600)   # 11-14 BEAT6_r4：撥完時間以後遊戲時間停在 18.95（手機／面板還開著＝暫停），選單出不來——先收掉
-        h0 = await pg.evaluate("+(+GAME.G.hour).toFixed(3)")
-        for _ in range(50):   # 11-14 BEAT6_r3：選單在時間撥完 8 秒以後才跳（先跳「提醒：19:00…」toast）——等到 25 秒
-            st = await pg.evaluate(DLG)
-            if st['choices']:
-                want = '直接過去' if go_direct else '自己走過去'
-                i = next((k for k, x in enumerate(st['choices']) if x.startswith(want)), None)
-                R.note('約定時間的選單 %s → 選「%s」' % (J(st['choices']), st['choices'][i] if i is not None else '（沒有，選第一個）'))
-                await pg.screenshot(path=os.path.join(OUT, 'invp_%s_gochoice.png' % TAG))
-                await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % (i or 0)); await pg.wait_for_timeout(2500); break
-            if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
-            if st.get('phone'): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(600); continue
-            await pg.wait_for_timeout(500)
-        else:
-            R.note('約定時間的選單 25 秒內沒出現：時間 %s → %s（沒走＝遊戲暫停）' % (h0, await pg.evaluate("+(+GAME.G.hour).toFixed(3)")))
-        for n, step in enumerate(ROUTE, 1):
-            kind, _, arg = step.partition(':')
-            if kind == 'travel' and await pg.evaluate("GAME.G.zone") == arg: R.note('[%d] 已經在 %s（約定時間的「直接過去」）' % (n, arg)); continue
-            if kind == 'travel':   # 11-14 CANON458 BADM／AN_BEAT6／8：走 111 m、或從公館另一頭走過去走不到門口——照玩家用手機「地點」快速前往（先把對話點掉）
-                ok_t = await travel_to(pg, cdp, arg)
-                if not R.check('[%d] 手機「地點」快速前往 %s' % (n, arg), ok_t, J(await pg.evaluate(DLG))): break
-                continue
-            if kind != 'exit': continue
-            exs = await pg.evaluate("(to=>GAME.E.interactables.filter(i=>i.exit&&i.exit.to===to&&!i.hidden).map(i=>i.label))", arg)
-            if not R.check('[%d] 找得到往 %s 的出口' % (n, arg), bool(exs), ''): break
-            samp = []; stop = asyncio.Event()
-            async def _samp():
-                while not stop.is_set():
-                    try: samp.append(await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position, d=document.getElementById('dlg'), it=document.getElementById('interact'); return {t:+performance.now().toFixed(0), zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(3), x:+o.x.toFixed(2), z:+o.z.toFixed(2), busy:!!P.busy, depth:(GAME.D&&GAME.D.busyDepth)|0, dlg:!!(d&&d.offsetParent)?((document.getElementById('dlgText')||{}).textContent||'').slice(0,40):'', interact:it&&it.offsetParent?(it.textContent||'').trim().slice(0,20):'', toast:((document.getElementById('toast')||{}).textContent||'').trim().slice(0,40)}; })()"))
-                    except Exception: pass
-                    await asyncio.sleep(0.25)
-            task = asyncio.create_task(_samp()) if DOOR_DIAG else None   # BB-C 11-14 AN_BEAT8：照玩家走到門口按「進入…」——記按前、按後各 2 秒的 zone、busy、對話
-            s2 = await D.use_exit(pg, cdp, '[%d]' % n, exs[0], arg)
-            if task:
-                await pg.wait_for_timeout(2000); stop.set(); await task
-                sh = await pg.evaluate("(()=>{ try{ return typeof SHOP_HOURS!=='undefined'?JSON.parse(JSON.stringify(SHOP_HOURS)):null; }catch(e){ return String(e); } })()")
-                R.note('[%d] 門口取樣（每 0.25 秒，最後 6 秒）：%s' % (n, J(samp[-24:])))
-                R.note('[%d] SHOP_HOURS（%s）：%s' % (n, arg, J((sh or {}).get(arg) if isinstance(sh, dict) else sh)))
-                await pg.screenshot(path=os.path.join(OUT, 'invp_%s_door_after.png' % TAG))
-            if not s2 or s2.get('zone') != arg: break
-        if ARRIVE_LOG:   # BB-C 21:02 ⑤：到店就自動坐下開演——ARRIVE_LOG 秒內每 0.5 秒記她一次、對話點下去（選單點第一個），每一句由對話紀錄記
-            ms0 = await pg.evaluate("Math.round(performance.now())"); arr = []
-            for j in range(ARRIVE_LOG * 2):
-                arr.append(await pg.evaluate(HER, WHO))
-                if j in (0, ARRIVE_LOG, ARRIVE_LOG * 2 - 1): await pg.screenshot(path=os.path.join(OUT, 'invp_%s_arrive_%02d.png' % (TAG, j)))
+        for _rnd, (_picks, _route) in enumerate(ROUNDS):   # BB-C 22:49 ROMTIER b：同一天約兩次（SECOND＝第二輪的 PICKS#ROUTE）
+            globals()['PICKS'] = _picks; globals()['ROUTE'] = _route; globals()['ZONE_TO'] = _route[-1].partition(':')[2] if _route else ''
+            if _rnd: R.setup('===== 第 %d 輪：PICKS %s；ROUTE %s（同一天、接著約）=====' % (_rnd + 1, _picks, _route)); await L.close_panels(pg, cdp); await pg.wait_for_timeout(800)
+            _day0 = await pg.evaluate("GAME.G.day")
+            _v0 = await rel_snap(pg, '第 %d 輪約之前' % (_rnd + 1))
+            # 手機「朋友」→ 她那一列「約」
+            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+            await L.tap(pg, cdp, '#phoneTabs button[data-ptab="friends"]'); await pg.wait_for_timeout(1000)
+            sel = '#phoneBody [data-inv=%s]' % J(WHO)
+            await pg.evaluate("(s=>{ const e=document.querySelector(s); if(e) e.scrollIntoView({block:'center'}); })", sel); await pg.wait_for_timeout(400)
+            await pg.screenshot(path=os.path.join(OUT, 'invp_%s_friends.png' % TAG))
+            if not R.check('手機「朋友」她那一列有「約」', await pg.evaluate("(s=>!!document.querySelector(s))", sel), ''): await b.close(); sys.exit(1)
+            await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
+            lines, menus = await talk(pg, cdp, '約', 'invp_%s_book' % TAG, PICKS)
+            iv = await pg.evaluate(IV, WHO); res['book'] = {'lines': lines, 'menus': menus, 'iv': iv}
+            R.note('約完 G.invites 最後一筆：%s' % J(iv))
+            if (await pg.evaluate(DLG))['phone']: await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(700)
+            if not R.check('約好了（G.invites 有 accepted、今天、地點是 ROUTE 最後一區）', bool(iv) and iv.get('state') == 'accepted' and iv.get('accepted') and any(r.endswith(':' + str(iv.get('zone'))) for r in ROUTE[-1:]), J(iv)):
+                open(os.path.join(OUT, 'invite_phone.json'), 'w', encoding='utf-8').write(J(res)); await b.close(); sys.exit(1)
+            # 【捷徑】撥到約定時間前 3 分鐘，走過去
+            await pg.evaluate("(h=>{ GAME.G.hour=h; })", float(iv['h']) - 0.05); await pg.wait_for_timeout(1500)
+            R.setup('【捷徑】時間撥到約定時間 %.2f 前 3 分鐘' % float(iv['h']))
+            # 11-14 CANON458 BEAT6_r2：約定時間到，遊戲自己跳「直接過去：…（照快速前往的路程時間）／自己走過去」——r1 沒處理＝一直 busy、走不到門口（BADM／BEAT6／BEAT8 r1 的真正原因）
+            #   ROUTE 第一步是 travel＝選「直接過去」（遊戲自己的走法）；exit＝選「自己走過去」再照玩家走
+            go_direct = ROUTE and ROUTE[0].startswith('travel:')
+            await L.close_panels(pg, cdp); await pg.wait_for_timeout(600)   # 11-14 BEAT6_r4：撥完時間以後遊戲時間停在 18.95（手機／面板還開著＝暫停），選單出不來——先收掉
+            h0 = await pg.evaluate("+(+GAME.G.hour).toFixed(3)")
+            for _ in range(50):   # 11-14 BEAT6_r3：選單在時間撥完 8 秒以後才跳（先跳「提醒：19:00…」toast）——等到 25 秒
                 st = await pg.evaluate(DLG)
                 if st['choices']:
-                    R.note('到店以後的選單 %s → 點第一個' % J(st['choices'])); await pg.screenshot(path=os.path.join(OUT, 'invp_%s_arrive_menu_%02d.png' % (TAG, j)))
-                    await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()")
-                elif st['dlg']:
-                    await L.tap(pg, cdp, '#dlg')
+                    want = '直接過去' if go_direct else '自己走過去'
+                    i = next((k for k, x in enumerate(st['choices']) if x.startswith(want)), None)
+                    R.note('約定時間的選單 %s → 選「%s」' % (J(st['choices']), st['choices'][i] if i is not None else '（沒有，選第一個）'))
+                    await pg.screenshot(path=os.path.join(OUT, 'invp_%s_gochoice.png' % TAG))
+                    await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % (i or 0)); await pg.wait_for_timeout(2500); break
+                if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+                if st.get('phone'): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(600); continue
                 await pg.wait_for_timeout(500)
-            R.note('到店 %d 秒（每 0.5 秒）她：%s' % (ARRIVE_LOG, J(arr)))
-            dl = await pg.evaluate("(m=>(window.__ccDlg||[]).filter(x=>x.ms>=m))", ms0); res['arrive_log'] = dl
-            R.note('到店 %d 秒的對話紀錄（%d 句）：%s' % (ARRIVE_LOG, len(dl), J(dl)))
-            if EXPECT_LINE: R.check('到店以後有那一句「%s」（BB-C 21:02）' % EXPECT_LINE, any(EXPECT_LINE in x['t'] for x in dl), J([x['t'] for x in dl][:12]))
-        else:
-            arr = await sample(pg, '進店 12 秒（每 0.5 秒）她：', 24, 500, 'invp_%s_arrive' % TAG)
-        iv2 = await pg.evaluate(IV, WHO); res['arrive'] = {'her': arr, 'iv': iv2}
-        R.note('進店以後邀約紀錄：%s' % J(iv2))
-        nseat = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.seat&&!i.hidden).length)()")
-        if HER_IA and arr and not arr[-1].get('none'):
-            h = arr[-1]
-            await L.go_to(pg, cdp, R, h['x'], h['z'], 1.0, '她旁邊 1 m', max_s=60); await D.settle(pg)
-            st = await pg.evaluate(DLG); hh = await pg.evaluate(HER, WHO)
-            await pg.screenshot(path=os.path.join(OUT, 'invp_%s_her_ia.png' % TAG))
-            nb = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position; return (E.interactables||[]).filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<2.5).map(i=>({l:String(typeof i.label==='function'?i.label():i.label||''),d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),npc:!!i.npc})).sort((a,b)=>a.d-b.d).slice(0,6); })()")
-            R.note('走到她旁邊（離她 %s m）2.5 m 內的互動點：%s' % (hh.get('d'), J(nb)))
-            R.check('走到她旁邊時互動鍵是「%s」（LAWWW-C INV-MEET-YIELD-1113，不是旁人的初見）' % HER_IA, HER_IA in st['interact'], st['interact'])
-        if MEET_LEAD or MEET_HER:
-            res['meet_her'] = await (meet_lead(pg, cdp) if MEET_LEAD else meet_her(pg, cdp, arr))
-            R.check('沒有 JS 例外', not errs, J(errs[:3])); await b.close()
-            open(os.path.join(OUT, 'invite_phone.json'), 'w', encoding='utf-8').write(J(res))
-            print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
-            sys.exit(1 if R.fails else 0)
-        pseat = any(x.get('pSeat') for x in (arr or []))   # 11-14 AN_BEAT6_r6：到店自動坐下開演、30 秒後演完站起來——只看最後一筆會漏，看整段有沒有坐過
-        if ARRIVE_LOG and (iv2 or {}).get('state') == 'done' and not pseat:   # 11-14 AN_BEAT6_r6：30 秒內整場演完、回宿舍到隔天早上——邀約已經 done，不再找空位
-            R.note('到店 %d 秒內邀約已經 done（最後在 %s）：不再找她旁邊的空位' % (ARRIVE_LOG, J(arr[-1:]))); pseat = True
-        if pseat: R.note('到店以後玩家已經坐下（pSeat true）或邀約已演完：不再找她旁邊的空位（BB-C 21:02 ⑤）')
-        if nseat and not pseat:
-            R.check('到了她先坐著等（坐下、iv.waitSeat 有）', any(x.get('seat') for x in arr) and bool((iv2 or {}).get('waitSeat') or (iv2 or {}).get('state') == 'done'), J([arr[-1:], iv2]))
-        else:   # BB-C 11-14 INV_BADM_r2 判：羽球場這種沒有座位的地方，她在場站著等也算
-            R.check('到了她在場等（這裡沒有玩家能坐的位子，站著等也算）', any(not x.get('none') for x in arr), J([arr[-1:], iv2]))
-        ws = (iv2 or {}).get('waitSeat')
-        if not ws and arr and arr[-1].get('seat'): ws = {'x': arr[-1]['x'], 'z': arr[-1]['z'], 'lv': 0}
-        seat = await pg.evaluate(SEAT_NEAR, {'ws': ws, 'r': SEAT_R}) if ws else None
-        if ws:   # BB-C 11-14 LAWLIB r4：記 SEAT_R 內每一張座位的座標、有沒有人坐
-            allst = await pg.evaluate("(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); return E.interactables.filter(i=>i.seat&&!i.hidden&&(i.seat.lv|0)===(a.ws.lv|0)&&Math.hypot(i.seat.x-a.ws.x,i.seat.z-a.ws.z)<a.r).map(i=>({x:f(i.seat.x),z:f(i.seat.z),d:f(Math.hypot(i.seat.x-a.ws.x,i.seat.z-a.ws.z)),label:String(typeof i.label==='function'?i.label():i.label||''),taken:(E.npcs||[]).filter(m=>m&&m.seat&&Math.hypot(m.seat.x-i.seat.x,m.seat.z-i.seat.z)<0.35).map(m=>m.charId||m.id||'npc')})); })", {'ws': ws, 'r': SEAT_R})
-            R.note('她（%s）%.1f m 內的座位：%s' % (J(ws), SEAT_R, J(allst)))
-        R.note('她旁邊的空位：%s' % J(seat))
-        m0 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})")
-        if not nseat: R.note('這裡沒有座位：不找空位、不坐（BB-C 11-14）'); seat = None
-        if pseat: nseat = 0; seat = None
-        if nseat and R.check('她旁邊有空位可以坐', bool(seat), J(ws)):
-            await L.go_to(pg, cdp, R, seat['x'], seat['z'], 0.3, seat['label'] or '她旁邊的位子', max_s=60, lv=seat['lv']); await D.settle(pg)
-            st = await pg.evaluate(DLG); R.note('走到她旁邊的位子，互動鍵「%s」' % st['interact'])
-            if SEAT_LABEL and SEAT_LABEL not in st['interact']:   # BB-C 21:02 ⑥：最近的是人（「和常在圖書館的男生說話」）——【捷徑】往座位本身挪 0.15 m 一步，直到互動鍵是那張位子自己的字
-                for k in range(8):
-                    await pg.evaluate("(a=>{ const P=GAME.E.player.obj.position, dx=a.x-P.x, dz=a.z-P.z, d=Math.hypot(dx,dz); if(d>0.05){ const s=Math.min(0.15,d); P.x+=dx/d*s; P.z+=dz/d*s; } if(GAME.refreshInteract) GAME.refreshInteract(); })", {'x': seat['sx'], 'z': seat['sz']})
-                    await pg.wait_for_timeout(400); st = await pg.evaluate(DLG)
-                    if SEAT_LABEL in st['interact']: break
-                R.setup('【捷徑】往座位本身挪（每步 0.15 m，%d 步）→ 互動鍵「%s」' % (k + 1, st['interact']))
-                if not R.check('FAIL_SETUP 檢查：互動鍵是位子自己的「%s」' % SEAT_LABEL, SEAT_LABEL in st['interact'], st['interact']):
-                    await pg.screenshot(path=os.path.join(OUT, 'invp_%s_seatlabel.png' % TAG)); await b.close(); sys.exit(1)
-            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-            l2, mm2 = await talk(pg, cdp, '坐下以後', 'invp_%s_table' % TAG)
-            m1 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})"); iv3 = await pg.evaluate(IV, WHO)
-            R.note('坐下以後：錢 %s → %s；時間 %s → %s；邀約 %s' % (m0['money'], m1['money'], m0['h'], m1['h'], J(iv3)))
-            R.check('坐到她旁邊就開演（有句子、邀約變 done）', len([x for x in l2 if not x.startswith('▶')]) > 0 and (iv3 or {}).get('state') == 'done', J([l2[:3], iv3]))
-            res['table'] = {'lines': l2, 'menus': mm2, 'before': m0, 'after': m1, 'iv': iv3}
-            if EXPECT_SIT: R.check('坐下以後有那一句「%s」（BB-C 11-14：AA 新字，27001bdc02 起）' % EXPECT_SIT, any(EXPECT_SIT in x for x in l2), J(l2[:6]))
+            else:
+                R.note('約定時間的選單 25 秒內沒出現：時間 %s → %s（沒走＝遊戲暫停）' % (h0, await pg.evaluate("+(+GAME.G.hour).toFixed(3)")))
+            for n, step in enumerate(ROUTE, 1):
+                kind, _, arg = step.partition(':')
+                if kind == 'travel' and await pg.evaluate("GAME.G.zone") == arg: R.note('[%d] 已經在 %s（約定時間的「直接過去」）' % (n, arg)); continue
+                if kind == 'travel':   # 11-14 CANON458 BADM／AN_BEAT6／8：走 111 m、或從公館另一頭走過去走不到門口——照玩家用手機「地點」快速前往（先把對話點掉）
+                    ok_t = await travel_to(pg, cdp, arg)
+                    if not R.check('[%d] 手機「地點」快速前往 %s' % (n, arg), ok_t, J(await pg.evaluate(DLG))): break
+                    continue
+                if kind != 'exit': continue
+                exs = await pg.evaluate("(to=>GAME.E.interactables.filter(i=>i.exit&&i.exit.to===to&&!i.hidden).map(i=>i.label))", arg)
+                if not R.check('[%d] 找得到往 %s 的出口' % (n, arg), bool(exs), ''): break
+                samp = []; stop = asyncio.Event()
+                async def _samp():
+                    while not stop.is_set():
+                        try: samp.append(await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position, d=document.getElementById('dlg'), it=document.getElementById('interact'); return {t:+performance.now().toFixed(0), zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(3), x:+o.x.toFixed(2), z:+o.z.toFixed(2), busy:!!P.busy, depth:(GAME.D&&GAME.D.busyDepth)|0, dlg:!!(d&&d.offsetParent)?((document.getElementById('dlgText')||{}).textContent||'').slice(0,40):'', interact:it&&it.offsetParent?(it.textContent||'').trim().slice(0,20):'', toast:((document.getElementById('toast')||{}).textContent||'').trim().slice(0,40)}; })()"))
+                        except Exception: pass
+                        await asyncio.sleep(0.25)
+                task = asyncio.create_task(_samp()) if DOOR_DIAG else None   # BB-C 11-14 AN_BEAT8：照玩家走到門口按「進入…」——記按前、按後各 2 秒的 zone、busy、對話
+                s2 = await D.use_exit(pg, cdp, '[%d]' % n, exs[0], arg)
+                if task:
+                    await pg.wait_for_timeout(2000); stop.set(); await task
+                    sh = await pg.evaluate("(()=>{ try{ return typeof SHOP_HOURS!=='undefined'?JSON.parse(JSON.stringify(SHOP_HOURS)):null; }catch(e){ return String(e); } })()")
+                    R.note('[%d] 門口取樣（每 0.25 秒，最後 6 秒）：%s' % (n, J(samp[-24:])))
+                    R.note('[%d] SHOP_HOURS（%s）：%s' % (n, arg, J((sh or {}).get(arg) if isinstance(sh, dict) else sh)))
+                    await pg.screenshot(path=os.path.join(OUT, 'invp_%s_door_after.png' % TAG))
+                if not s2 or s2.get('zone') != arg: break
+            if ARRIVE_LOG:   # BB-C 21:02 ⑤：到店就自動坐下開演——ARRIVE_LOG 秒內每 0.5 秒記她一次、對話點下去（選單點第一個），每一句由對話紀錄記
+                ms0 = await pg.evaluate("Math.round(performance.now())"); arr = []
+                for j in range(ARRIVE_LOG * 2):
+                    arr.append(await pg.evaluate(HER, WHO))
+                    if j in (0, ARRIVE_LOG, ARRIVE_LOG * 2 - 1): await pg.screenshot(path=os.path.join(OUT, 'invp_%s_arrive_%02d.png' % (TAG, j)))
+                    st = await pg.evaluate(DLG)
+                    if st['choices']:
+                        R.note('到店以後的選單 %s → 點第一個' % J(st['choices'])); await pg.screenshot(path=os.path.join(OUT, 'invp_%s_arrive_menu_%02d.png' % (TAG, j)))
+                        await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()")
+                    elif st['dlg']:
+                        await L.tap(pg, cdp, '#dlg')
+                    await pg.wait_for_timeout(500)
+                R.note('到店 %d 秒（每 0.5 秒）她：%s' % (ARRIVE_LOG, J(arr)))
+                dl = await pg.evaluate("(m=>(window.__ccDlg||[]).filter(x=>x.ms>=m))", ms0); res['arrive_log'] = dl
+                R.note('到店 %d 秒的對話紀錄（%d 句）：%s' % (ARRIVE_LOG, len(dl), J(dl)))
+                if EXPECT_LINE: R.check('到店以後有那一句「%s」（BB-C 21:02）' % EXPECT_LINE, any(EXPECT_LINE in x['t'] for x in dl), J([x['t'] for x in dl][:12]))
+            else:
+                arr = await sample(pg, '進店 12 秒（每 0.5 秒）她：', 24, 500, 'invp_%s_arrive' % TAG)
+            iv2 = await pg.evaluate(IV, WHO); res['arrive'] = {'her': arr, 'iv': iv2}
+            R.note('進店以後邀約紀錄：%s' % J(iv2))
+            nseat = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.seat&&!i.hidden).length)()")
+            if HER_IA and arr and not arr[-1].get('none'):
+                h = arr[-1]
+                await L.go_to(pg, cdp, R, h['x'], h['z'], 1.0, '她旁邊 1 m', max_s=60); await D.settle(pg)
+                st = await pg.evaluate(DLG); hh = await pg.evaluate(HER, WHO)
+                await pg.screenshot(path=os.path.join(OUT, 'invp_%s_her_ia.png' % TAG))
+                nb = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position; return (E.interactables||[]).filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<2.5).map(i=>({l:String(typeof i.label==='function'?i.label():i.label||''),d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),npc:!!i.npc})).sort((a,b)=>a.d-b.d).slice(0,6); })()")
+                R.note('走到她旁邊（離她 %s m）2.5 m 內的互動點：%s' % (hh.get('d'), J(nb)))
+                R.check('走到她旁邊時互動鍵是「%s」（LAWWW-C INV-MEET-YIELD-1113，不是旁人的初見）' % HER_IA, HER_IA in st['interact'], st['interact'])
+            if MEET_LEAD or MEET_HER:
+                res['meet_her'] = await (meet_lead(pg, cdp) if MEET_LEAD else meet_her(pg, cdp, arr))
+                R.check('沒有 JS 例外', not errs, J(errs[:3])); await b.close()
+                open(os.path.join(OUT, 'invite_phone.json'), 'w', encoding='utf-8').write(J(res))
+                print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
+                sys.exit(1 if R.fails else 0)
+            pseat = any(x.get('pSeat') for x in (arr or []))   # 11-14 AN_BEAT6_r6：到店自動坐下開演、30 秒後演完站起來——只看最後一筆會漏，看整段有沒有坐過
+            if ARRIVE_LOG and (iv2 or {}).get('state') == 'done' and not pseat:   # 11-14 AN_BEAT6_r6：30 秒內整場演完、回宿舍到隔天早上——邀約已經 done，不再找空位
+                R.note('到店 %d 秒內邀約已經 done（最後在 %s）：不再找她旁邊的空位' % (ARRIVE_LOG, J(arr[-1:]))); pseat = True
+            if pseat: R.note('到店以後玩家已經坐下（pSeat true）或邀約已演完：不再找她旁邊的空位（BB-C 21:02 ⑤）')
+            if nseat and not pseat:
+                R.check('到了她先坐著等（坐下、iv.waitSeat 有）', any(x.get('seat') for x in arr) and bool((iv2 or {}).get('waitSeat') or (iv2 or {}).get('state') == 'done'), J([arr[-1:], iv2]))
+            else:   # BB-C 11-14 INV_BADM_r2 判：羽球場這種沒有座位的地方，她在場站著等也算
+                R.check('到了她在場等（這裡沒有玩家能坐的位子，站著等也算）', any(not x.get('none') for x in arr), J([arr[-1:], iv2]))
+            ws = (iv2 or {}).get('waitSeat')
+            if not ws and arr and arr[-1].get('seat'): ws = {'x': arr[-1]['x'], 'z': arr[-1]['z'], 'lv': 0}
+            seat = await pg.evaluate(SEAT_NEAR, {'ws': ws, 'r': SEAT_R}) if ws else None
+            if ws:   # BB-C 11-14 LAWLIB r4：記 SEAT_R 內每一張座位的座標、有沒有人坐
+                allst = await pg.evaluate("(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); return E.interactables.filter(i=>i.seat&&!i.hidden&&(i.seat.lv|0)===(a.ws.lv|0)&&Math.hypot(i.seat.x-a.ws.x,i.seat.z-a.ws.z)<a.r).map(i=>({x:f(i.seat.x),z:f(i.seat.z),d:f(Math.hypot(i.seat.x-a.ws.x,i.seat.z-a.ws.z)),label:String(typeof i.label==='function'?i.label():i.label||''),taken:(E.npcs||[]).filter(m=>m&&m.seat&&Math.hypot(m.seat.x-i.seat.x,m.seat.z-i.seat.z)<0.35).map(m=>m.charId||m.id||'npc')})); })", {'ws': ws, 'r': SEAT_R})
+                R.note('她（%s）%.1f m 內的座位：%s' % (J(ws), SEAT_R, J(allst)))
+            R.note('她旁邊的空位：%s' % J(seat))
+            m0 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})")
+            if not nseat: R.note('這裡沒有座位：不找空位、不坐（BB-C 11-14）'); seat = None
+            if pseat: nseat = 0; seat = None
+            if nseat and R.check('她旁邊有空位可以坐', bool(seat), J(ws)):
+                await L.go_to(pg, cdp, R, seat['x'], seat['z'], 0.3, seat['label'] or '她旁邊的位子', max_s=60, lv=seat['lv']); await D.settle(pg)
+                st = await pg.evaluate(DLG); R.note('走到她旁邊的位子，互動鍵「%s」' % st['interact'])
+                if SEAT_LABEL and SEAT_LABEL not in st['interact']:   # BB-C 21:02 ⑥：最近的是人（「和常在圖書館的男生說話」）——【捷徑】往座位本身挪 0.15 m 一步，直到互動鍵是那張位子自己的字
+                    for k in range(8):
+                        await pg.evaluate("(a=>{ const P=GAME.E.player.obj.position, dx=a.x-P.x, dz=a.z-P.z, d=Math.hypot(dx,dz); if(d>0.05){ const s=Math.min(0.15,d); P.x+=dx/d*s; P.z+=dz/d*s; } if(GAME.refreshInteract) GAME.refreshInteract(); })", {'x': seat['sx'], 'z': seat['sz']})
+                        await pg.wait_for_timeout(400); st = await pg.evaluate(DLG)
+                        if SEAT_LABEL in st['interact']: break
+                    R.setup('【捷徑】往座位本身挪（每步 0.15 m，%d 步）→ 互動鍵「%s」' % (k + 1, st['interact']))
+                    if not R.check('FAIL_SETUP 檢查：互動鍵是位子自己的「%s」' % SEAT_LABEL, SEAT_LABEL in st['interact'], st['interact']):
+                        await pg.screenshot(path=os.path.join(OUT, 'invp_%s_seatlabel.png' % TAG)); await b.close(); sys.exit(1)
+                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+                l2, mm2 = await talk(pg, cdp, '坐下以後', 'invp_%s_table' % TAG)
+                m1 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})"); iv3 = await pg.evaluate(IV, WHO)
+                R.note('坐下以後：錢 %s → %s；時間 %s → %s；邀約 %s' % (m0['money'], m1['money'], m0['h'], m1['h'], J(iv3)))
+                R.check('坐到她旁邊就開演（有句子、邀約變 done）', len([x for x in l2 if not x.startswith('▶')]) > 0 and (iv3 or {}).get('state') == 'done', J([l2[:3], iv3]))
+                res['table'] = {'lines': l2, 'menus': mm2, 'before': m0, 'after': m1, 'iv': iv3}
+                if EXPECT_SIT: R.check('坐下以後有那一句「%s」（BB-C 11-14：AA 新字，27001bdc02 起）' % EXPECT_SIT, any(EXPECT_SIT in x for x in l2), J(l2[:6]))
+            _v1 = await rel_snap(pg, '第 %d 輪結束' % (_rnd + 1))
+            if _v0 and _v1:
+                dd = {i: {k: round((_v1['rel'][i].get(k) or 0) - (_v0['rel'][i].get(k) or 0), 3) for k in ('npcRom', 'rom', 'trust', 'fam', 'comf')} for i in REL_TRACK if isinstance(_v1['rel'].get(i), dict) and isinstance(_v0['rel'].get(i), dict)}
+                R.note('[關係] 第 %d 輪前後差（含選項；選項和私下約會加成分開看上面那幾筆 SOCIAL 呼叫）：%s' % (_rnd + 1, J(dd))); res.setdefault('rel_delta', []).append(dd)
+            if _rnd == len(ROUNDS) - 1: await sleep_check(pg, '第 %d 輪' % (_rnd + 1), _day0)   # 只有最後一輪（晚上那一場）看睡覺
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     open(os.path.join(OUT, 'invite_phone.json'), 'w', encoding='utf-8').write(J(res))
