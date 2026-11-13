@@ -1,0 +1,90 @@
+[
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "烏來！我第一次來。",
+  "new": "烏來！空氣裡有溫泉的味道。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "三峽！我第一次來。",
+  "new": "三峽！老街好長。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "石門水庫。我第一次來。",
+  "new": "石門水庫。水比我想的還多。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "竹圍漁港。我第一次來北部的漁港。",
+  "new": "竹圍漁港。北部的漁港跟台中的不一樣。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "宜蘭！我第一次來。",
+  "new": "宜蘭！山跟海靠好近。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "（出口，她握了一下你的手）謝謝你陪我來。",
+  "new": "（出口，她握了一下你的手）好好玩。下次還要來。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "（她在出口握了一下你的手）謝謝你陪我來。",
+  "new": "（她在出口握了一下你的手）下次換我帶路。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "gift_holiday.js"
+  ],
+  "old": "七夕？……謝謝你。",
+  "new": "七夕？……我收下了。",
+  "speaker": "classmate_xinci"
+ },
+ {
+  "files": [
+   "gift_holiday.js"
+  ],
+  "old": "謝謝你。我會從第一頁開始用。",
+  "new": "我會從第一頁開始用。",
+  "speaker": "classmate_xinci"
+ },
+ {
+  "files": [
+   "gift_holiday.js"
+  ],
+  "old": "謝謝你的心意。",
+  "new": "心意我收到了。",
+  "speaker": "classmate_xinci"
+ },
+ {
+  "files": [
+   "gift_holiday.js"
+  ],
+  "old": "謝謝你。我拿去系學會辦公室放，那邊每天都有人在。",
+  "new": "好，我拿去系學會辦公室放，那邊每天都有人在。",
+  "speaker": "classmate_xinci"
+ }
+]
