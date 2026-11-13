@@ -1,0 +1,170 @@
+[
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……你猜。",
+  "new": "你猜。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "termend_lines.js"
+  ],
+  "old": "……做好以前，不准問。",
+  "new": "做好以前，不准問。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "termend_lines.js"
+  ],
+  "old": "……交完我睡到隔天晚上。",
+  "new": "交完我睡到隔天晚上。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "termend_lines.js"
+  ],
+  "old": "……好。我知道哪裡要改了。",
+  "new": "好。我知道哪裡要改了。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "termend_lines.js"
+  ],
+  "old": "……第三關太難了。我回去改。",
+  "new": "第三關太難了。我回去改。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "termend_opts.js"
+  ],
+  "old": "……可以。你不要一直問我在寫什麼。",
+  "new": "可以。你不要一直問我在寫什麼。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "termend_opts.js"
+  ],
+  "old": "……你怎麼知道。",
+  "new": "你怎麼知道。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……你不要說我不蠢。你一定會說。",
+  "new": "你不要說我不蠢。你一定會說。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……今天晚上講給你聽。不是改天。",
+  "new": "今天晚上講給你聽。不是改天。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……那早上再說一次。早安。預約的。",
+  "new": "那早上再說一次。早安。預約的。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……算了 我有聽到",
+  "new": "算了 我有聽到",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……好啦 一年",
+  "new": "好啦 一年",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……可能是 jump 的意思",
+  "new": "可能是 jump 的意思",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……我剛剛已經沒品一次了。",
+  "new": "我剛剛已經沒品一次了。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……好啦。你講的比鬧鐘有用。",
+  "new": "好啦。你講的比鬧鐘有用。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……好，你保管。我的手會自己去開。",
+  "new": "好，你保管。我的手會自己去開。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……你很敢欸。",
+  "new": "你很敢欸。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……好啦。下禮拜你請。",
+  "new": "好啦。下禮拜你請。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……可是我們先從吃宵夜開始。就吃宵夜。",
+  "new": "可是我們先從吃宵夜開始。就吃宵夜。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "movie_plots.js"
+  ],
+  "old": "……這個解釋我喜歡。",
+  "new": "這個解釋我喜歡。",
+  "speaker": "heroine_04"
+ },
+ {
+  "files": [
+   "vac_activities.js"
+  ],
+  "old": "……曬黑了。好醜。",
+  "new": "曬黑了。好醜。",
+  "speaker": "heroine_04"
+ }
+]
