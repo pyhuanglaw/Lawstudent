@@ -1,0 +1,1852 @@
+{
+ "_meta": {
+  "doc": "AA_959 DLG-FULL-REVIEW-1110「今天」開頭砍半的覆寫表（AA_951～957 定稿，BB_465 照用）",
+  "by": "AA-C 2026-11-13",
+  "how": "每一列：files＝遊戲檔（src/data/），old 一字不差換成 new；speaker 是說話的人（LAWWW 換之前照最近的人物 id 確認）；prefix:true＝old 只是那句的開頭；all:true＝同一檔裡同一句有兩處，兩處都換。建議匯入工具在最後一步照本表換（同 aa630.apply_json 的做法），沒有匯入工具的檔直接換。",
+  "count": 204
+ },
+ "rows": [
+  {
+   "doc": "AA_951",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天事情比較多。",
+   "new": "手上事情比較多。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天總圖的冷氣好強。我帶了外套。",
+   "new": "總圖的冷氣好強。還好我帶了外套。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天研究室只有我一個。好安靜。",
+   "new": "研究室只有我一個。好安靜。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天去辦簽證，排了兩個小時。",
+   "new": "去辦簽證，排了兩個小時。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天吃了兩個飯糰。算有吃飯。",
+   "new": "午餐是兩個飯糰。算有吃飯。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天寫了三頁，刪了兩頁。",
+   "new": "寫了三頁，刪了兩頁。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天差不多了，我們走吧。",
+   "new": "差不多了，我們走吧。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天一路都很順。我很喜歡這種日子。",
+   "new": "一路都很順。我很喜歡這種日子。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天夠了。我想安靜地走出去。",
+   "new": "看夠了。我想安靜地走出去。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我什麼都沒想，只是跟著走。很輕鬆。",
+   "new": "我什麼都沒想，只是跟著走。很輕鬆。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天走了好多。",
+   "new": "走了好多路。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天會走很多路。我穿了舊的鞋。",
+   "new": "會走很多路。我穿了舊的鞋。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天走的路，我都記住了。",
+   "new": "這一路，我都記住了。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天會走很遠。我穿了球鞋。",
+   "new": "這條路要走很遠。我穿了球鞋。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天什麼都沒做。我好久沒有這樣了。",
+   "new": "一整天什麼都沒做。我好久沒有這樣了。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天的水我多帶了一瓶。你的。",
+   "new": "水我多帶了一瓶。你的。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天騎到一半，也要停下來喝水。",
+   "new": "騎到一半，也要停下來喝水。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天坐船。我坐中間，比較不晃。",
+   "new": "坐船的話，我坐中間。比較不晃。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我比較有空。可以吃久一點。",
+   "new": "我難得有空。可以吃久一點。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我不想講考試。",
+   "new": "先不要講考試。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我不想講報告。",
+   "new": "報告的事先放著。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我請。",
+   "new": "這一頓我請。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我想吃蛋糕。",
+   "new": "我想吃蛋糕。很甜的那種。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天寫完了。我請你。",
+   "new": "寫完了。我請你。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我只喝咖啡。",
+   "new": "我只喝咖啡就好。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天考完了。我想看一部很長的電影。",
+   "new": "考完了。我想看一部很長的電影。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天報告交了。我想看一部很長的電影。",
+   "new": "報告交了。我想看一部很長的電影。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天只看一部。不續攤。",
+   "new": "只看一部。不續攤。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天這部沒有圖書館。我檢查過了。",
+   "new": "這部沒有圖書館。我檢查過了。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天陪我找一本送人的書。",
+   "new": "陪我找一本送人的書。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天在法圖待到閉館。",
+   "new": "在法圖待到閉館。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天讀完一章。你那邊還好嗎。",
+   "new": "讀完一章了。你那邊還好嗎。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "r2y3a_events.js"
+   ],
+   "old": "（抱著一疊訪談稿，從攤位前面經過）今天人好多。",
+   "new": "（抱著一疊訪談稿，從攤位前面經過）人好多。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "r2y3a_events.js"
+   ],
+   "old": "（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。",
+   "new": "（抱著一疊訪談稿，從攤位前面經過，看到你）人好多。我回研究室了。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_951",
+   "files": [
+    "r2y4b_events.js"
+   ],
+   "old": "今天有人問我臺灣在哪裡。我畫了一張地圖給他。",
+   "new": "有人問我臺灣在哪裡。我畫了一張地圖給他。",
+   "speaker": "heroine_05"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天課好多，我現在腦袋是滿的，你講慢一點。",
+   "new": "課好多，我現在腦袋是滿的，你講慢一點。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天上班級經營，老師說點名要記得每個人的臉，我先拿你練習。",
+   "new": "班級經營的老師說，點名要記得每個人的臉，我先拿你練習。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天上教育概論，老師叫我們寫一份小教案，我還沒想到要寫什麼。",
+   "new": "教育概論要寫一份小教案，我還沒想到要寫什麼。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天上教育心理學，老師點我回答了兩次，我第二次是亂講的。",
+   "new": "教育心理學老師點我回答了兩次，我第二次是亂講的。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天人比較少，上次小朋友多到我以為走錯棟。",
+   "new": "人比較少耶，上次小朋友多到我以為走錯棟。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天好開心。你有開心嗎？",
+   "new": "好開心。你有開心嗎？",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天宵夜算我的。上次就想請了。",
+   "new": "宵夜算我的。上次就想請了。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我穿了運動鞋。還是爬到一半就喘。",
+   "new": "我特地穿了運動鞋。還是爬到一半就喘。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我先吃了東西才上來，不會像上次休息那麼久。",
+   "new": "我先吃了東西才上來，不會像上次休息那麼久。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "（她拉著你的手走到頂）今天好好。",
+   "new": "（她拉著你的手走到頂）爬上來了。好好喔。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "（她靠著你的肩膀，看著海）今天好好。",
+   "new": "（她靠著你的肩膀，看著海）……好好喔。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "（她的腳在水裡輕輕踢水）今天好開心。",
+   "new": "（她的腳在水裡輕輕踢水）好開心喔。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天要走完嗎？",
+   "new": "這次要走完嗎？",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天也躲它的影子，這是它最大的功能。",
+   "new": "一樣躲它的影子，這是它最大的功能。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天也來猜誤點。上次我猜對了喔。",
+   "new": "再來猜誤點。上次我猜對了喔。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "termend_opts.js"
+   ],
+   "old": "今天謝謝你來。你整個晚上怪怪的，是不是在緊張什麼。",
+   "new": "謝謝你來。你整個晚上怪怪的，是不是在緊張什麼。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "events.js"
+   ],
+   "old": "今天那一題你講得很好，我找不到地方吐槽。再多講一點。",
+   "new": "剛剛那一題你講得很好，我找不到地方吐槽。再多講一點。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "msg2_pool.js"
+   ],
+   "old": "今天看到這句，覺得很適合生日。",
+   "new": "剛剛看到這句，覺得很適合生日。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我要點沒點過的。我想通了，人不能一輩子只吃一樣。",
+   "new": "我要點沒點過的。我想通了，人不能一輩子只吃一樣。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天這杯算補高中的。還差很多杯，我慢慢補。",
+   "new": "這杯算補高中的。還差很多杯，我慢慢補。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_952",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天這部是喜劇。面紙我沒帶，你不用緊張。",
+   "new": "這部是喜劇。面紙我沒帶，你不用緊張。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天的進度我抄完了。字有點醜，你不要笑。",
+   "new": "進度我抄完了。字有點醜，你不要笑。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天的題目是 Alison 排的，我還沒看。",
+   "new": "這次的題目是 Alison 排的，我還沒看。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天有三個展，我查過了。",
+   "new": "有三個展，我查過了。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我穿了好走的鞋。園區很大，我查過。",
+   "new": "我穿了好走的鞋。園區很大，我查過。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天的行程只有兩行：上山，喝茶。",
+   "new": "行程只有兩行：上山，喝茶。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天日落是{sunset}。我查了。",
+   "new": "日落是{sunset}。我查了。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天看到五顆。有一顆可能是衛星。",
+   "new": "看到五顆。有一顆可能是衛星。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天買太多吃的了。晚餐不用吃了。",
+   "new": "買太多吃的了。晚餐不用吃了。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天沒有月亮，所以看得到比較多。",
+   "new": "沒有月亮，所以看得到比較多。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天的片，我回去會再想一次結局。",
+   "new": "這部片，我回去會再想一次結局。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天的進度還沒完成。",
+   "new": "進度還沒完成。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天去了行政法院。旁聽席只有我和一個阿伯。他也在抄筆記。",
+   "new": "去了一趟行政法院。旁聽席只有我和一個阿伯。他也在抄筆記。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天吃哪一種？",
+   "new": "這次吃哪一種？",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我請。上次說好的。",
+   "new": "這頓我請。上次說好的。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我想吃不一樣的。",
+   "new": "我想吃點不一樣的。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我想試試看咖啡。",
+   "new": "我想試試看咖啡。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天就不用點兩杯了。",
+   "new": "這次就不用點兩杯了。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天也什麼都不排。",
+   "new": "這次也什麼都不排。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天有新的法庭片。……我們看別的。",
+   "new": "有新的法庭片。……我們看別的。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天只看，不買。",
+   "new": "只看，不買。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_wish.js"
+   ],
+   "old": "今天才想到，要有人願意聽，大家才講得完。",
+   "new": "我現在才想到，要有人願意聽，大家才講得完。",
+   "all": true,
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "date_wish.js"
+   ],
+   "old": "今天才知道，那些都是真的發生過的事。",
+   "new": "我到現在才知道，那些都是真的發生過的事。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天讀了四十頁。你那邊天氣好嗎？",
+   "new": "讀了四十頁。你那邊天氣好嗎？",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天背單字背到「おかえり」。……先存著。",
+   "new": "背單字背到「おかえり」。……先存著。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天一個人去吃了你常點的那家。……有點想你。",
+   "new": "一個人去吃了你常點的那家。……有點想你。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "free_trips.js"
+   ],
+   "old": "今天雲比較多，太陽還沒落到海裡就看不到了。",
+   "new": "雲比較多，太陽還沒落到海裡就看不到了。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "free_trips.js"
+   ],
+   "old": "今天風很大，橋上的燈一直被吹得晃來晃去。",
+   "new": "風很大，橋上的燈一直被吹得晃來晃去。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "free_trips.js"
+   ],
+   "old": "今天的海，黃色那一半比上次少一點。",
+   "new": "這次的海，黃色那一半比上次少一點。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "r2y3a_events.js",
+    "r2y4a_events.js"
+   ],
+   "old": "今天下午，我先去了一趟行政法院。",
+   "new": "下午我先去了一趟行政法院。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_953",
+   "files": [
+    "r2y3a_events.js",
+    "r2y4a_events.js"
+   ],
+   "old": "今天下雪。很小，落地就不見了。",
+   "new": "下雪了。很小，落地就不見了。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天店裡放老電影的配樂，老闆選的。",
+   "new": "店裡在放老電影的配樂，老闆選的。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天沒班，我要去書店晃一下。",
+   "new": "下午沒班，我要去書店晃一下。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天好冷。你穿這樣不冷嗎？",
+   "new": "好冷。你穿這樣不冷嗎？",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天好熱。你不熱嗎？",
+   "new": "好熱。你不熱嗎？",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天的甜點是新店員做的。我先試吃了。",
+   "new": "這個甜點是新店員做的。我先試吃了。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天的豆子，新店員選的。選得不錯。",
+   "new": "這次的豆子，新店員選的。選得不錯。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天走我高中的路線。你會累，先跟你說。",
+   "new": "走我高中的路線。你會累，先跟你說。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天去的這些地方，以前都是我一個人走。",
+   "new": "這些地方，以前都是我一個人走。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天你想去哪，我都跟。雞肉飯除外，那個一定要吃。",
+   "new": "你想去哪，我都跟。雞肉飯除外，那個一定要吃。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天的雲海比上次薄。看得到山腳。",
+   "new": "雲海比上次薄。看得到山腳。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天沒班，我早到了，先在樓下逛了一圈。",
+   "new": "不用上班，我早到了，先在樓下逛了一圈。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "events.js"
+   ],
+   "old": "今天的是衣索比亞，有點像……早場電影散場、走出戲院的那種早上。",
+   "new": "這一支是衣索比亞，有點像……早場電影散場、走出戲院的那種早上。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "events.js"
+   ],
+   "old": "今天的豆子很酸，我不推。",
+   "new": "這批豆子很酸，我不推。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "events.js"
+   ],
+   "old": "今天這部，叫《父親的午後》。你不用記片名。記得是午場就好。",
+   "new": "這部叫《父親的午後》。你不用記片名。記得是午場就好。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "events.js"
+   ],
+   "old": "今天的咖啡我請。",
+   "new": "這杯咖啡我請。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "msg_pool.js"
+   ],
+   "old": "今天的片我看不懂。",
+   "new": "剛剛那部片我看不懂。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "msg_pool.js"
+   ],
+   "old": "今天看了兩部片。一部很好，一部我睡著了。",
+   "new": "連看了兩部片。一部很好，一部我睡著了。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "msg_pool.js"
+   ],
+   "old": "今天下雨。我沒帶傘，走回來的。",
+   "new": "下雨了。我沒帶傘，走回來的。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "msg_pool.js"
+   ],
+   "old": "今天的課講一個日本的老導演。他的鏡頭幾乎都不動。",
+   "new": "課上講一個日本的老導演。他的鏡頭幾乎都不動。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天坐這裡。旁邊空著。",
+   "new": "坐這裡。旁邊空著。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天坐倒數第三排。那排的視角最好。",
+   "new": "坐倒數第三排。那排的視角最好。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天謝謝你。這間我會再來。",
+   "new": "謝謝你。這間我會再來。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天的湯太燙了。",
+   "new": "湯太燙了。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天換一間。我想看別人家的吧檯。",
+   "new": "換一間吧。我想看別人家的吧檯。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天店裡的音樂，是我選的。",
+   "new": "店裡的音樂，是我選的。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天這部，我等很久了。",
+   "new": "這部我等很久了。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天這家，我希望它開很久。",
+   "new": "這家，我希望它開很久。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我只想坐著看書，不想挑。",
+   "new": "我只想坐著看書，不想挑。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "multirel_lines.js"
+   ],
+   "old": "今天也是熱拿鐵？",
+   "new": "一樣是熱拿鐵？",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天店裡放的歌，你應該會喜歡。……回來放給你聽。",
+   "new": "店裡放了一首歌，你應該會喜歡。……回來放給你聽。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天看了一部電影，結局我先不講。",
+   "new": "看了一部電影，結局我先不講。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天放的那首歌，你應該會喜歡。……我放了三次。",
+   "new": "那首歌你應該會喜歡。……我放了三次。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天的咖啡不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。",
+   "new": "這杯不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "free_trips.js"
+   ],
+   "old": "今天放的是一部修復過的老片，有幾段畫面還是有刮痕。廳不大，坐了一半。",
+   "new": "放的是一部修復過的老片，有幾段畫面還是有刮痕。廳不大，坐了一半。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_954",
+   "files": [
+    "r2y3b_events.js"
+   ],
+   "old": "今天上課被點到。我用日文答完，全班安靜了一下。",
+   "new": "上課被點到。我用日文答完，全班安靜了一下。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天在便利商店有人插隊。",
+   "new": "剛剛在便利商店有人插隊。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天有大一的叫我學姊。",
+   "new": "有大一的叫我學姊。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天口紅換了一個顏色。",
+   "new": "口紅換了一個顏色。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天上課有人說，女生當律師比較吃虧。",
+   "new": "上課有人說，女生當律師比較吃虧。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天被一個大一的坐走了。我站在旁邊看了他五秒，他沒有發現。",
+   "new": "我的位子被一個大一的坐走了。我站在旁邊看了他五秒，他沒有發現。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天上課我被老師問倒了。",
+   "new": "上課被老師問倒了。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天有人在走廊說，考不上的人就是不夠努力。",
+   "new": "走廊上有人說，考不上的人就是不夠努力。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天走了一萬兩千步，我的手錶說的。",
+   "new": "一萬兩千步。我的手錶說的。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天走得比我想的久。我不累，是腳累。",
+   "new": "走得比我想的久。我不累，是腳累。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我想走到河邊再回來。",
+   "new": "我想走到河邊再回來。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天謝謝你約我。",
+   "new": "謝謝你約我。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天人有點多。我的耐心剩一點點，留給你。",
+   "new": "人有點多。我的耐心剩一點點，留給你。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天走到哪吃到哪。",
+   "new": "走到哪吃到哪。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "events.js"
+   ],
+   "old": "今天的月亮好亮。……你上次認真看月亮，是什麼時候？",
+   "new": "月亮好亮。……你上次認真看月亮，是什麼時候？",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天很開心。",
+   "new": "很開心。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天模擬考，第三題我寫了兩頁。寫完才發現題目只問一句。",
+   "new": "模擬考第三題我寫了兩頁。寫完才發現題目只問一句。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天去旁聽一個庭。",
+   "new": "去旁聽了一個庭。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "invites.js"
+   ],
+   "old": "今天讀得比我想的多。",
+   "new": "讀得比我想的多。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天這間，我先不評分。",
+   "new": "這間我先不評分。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我請。不准搶。",
+   "new": "這頓我請。不准搶。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我坐中間那排。",
+   "new": "我坐中間那排。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我想找一本小說。不是課本。",
+   "new": "我想找一本小說。不是課本。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我們都不買，只看。",
+   "new": "我們都不買，只看。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "date_wish.js"
+   ],
+   "old": "……今天的海，跟以前一樣。",
+   "new": "……這片海，跟以前一樣。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天懶得出門",
+   "new": "懶得出門",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "r2y3a_events.js",
+    "r2y3b_events.js"
+   ],
+   "old": "今天只做三件事。渡輪、燈塔、吃東西。",
+   "new": "只做三件事。渡輪、燈塔、吃東西。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_955",
+   "files": [
+    "r2y3a_events.js",
+    "r2y3b_events.js"
+   ],
+   "old": "今天去一個我沒去過的地方。你也沒去過，我問過了。",
+   "new": "去一個我沒去過的地方。你也沒去過，我問過了。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天客人多。你先找位子坐，我等一下過去。",
+   "new": "客人多。你先找位子坐，我等一下過去。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天比較多人，你可能要等一下。",
+   "new": "人比較多，你可能要等一下。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天我顧吧檯。你要喝什麼？",
+   "new": "我顧吧檯。你要喝什麼？",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天人多，你先去收那兩桌。",
+   "new": "人多，你先去收那兩桌。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天凍頂賣完了，烏龍可以嗎？",
+   "new": "凍頂賣完了，烏龍可以嗎？",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天的片，我沒查。想直接看。",
+   "new": "這部片我沒查。想直接看。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天雲很多。也可以。",
+   "new": "雲很多。也可以。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天看起來是滿的。",
+   "new": "看起來是滿的。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天的霧比較薄。",
+   "new": "霧比較薄。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天在捷運上，看到一個阿伯抱著一盆蘭花，坐了十站。",
+   "new": "在捷運上看到一個阿伯抱著一盆蘭花，坐了十站。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天茶屋很安靜。我在洗杯子。",
+   "new": "茶屋很安靜。我在洗杯子。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "今天訪問這家。老闆說招牌是他爸寫的。",
+   "new": "訪問了這家。老闆說招牌是他爸寫的。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "invites.js"
+   ],
+   "old": "今天客人比較少。蘇姨說是下雨。我覺得是隔壁開了新的店。",
+   "new": "客人比較少。蘇姨說是下雨。我覺得是隔壁開了新的店。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "invites.js"
+   ],
+   "old": "今天茶屋那個阿伯講了半小時他的房東。",
+   "new": "茶屋那個阿伯講了半小時他的房東。……",
+   "prefix": true,
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "invites.js"
+   ],
+   "old": "今天那個老闆說，他開店三十年，最怕客人吃完什麼都不說。",
+   "new": "那個老闆說，他開店三十年，最怕客人吃完什麼都不說。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "heroine_arcs.js"
+   ],
+   "old": "今天社會學在講家暴的統計。老師說，數字後面每一個人，都要去法院。",
+   "new": "社會學課在講家暴的統計。老師說，數字後面每一個人，都要去法院。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天茶屋很忙，我餓了。",
+   "new": "茶屋很忙，我餓了。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天隔壁桌沒有人。我不知道要看什麼。",
+   "new": "隔壁桌沒有人。我不知道要看什麼。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我想坐吧檯。",
+   "new": "我想坐吧檯。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天的片是我選的。是紀錄片。",
+   "new": "這部片是我選的。是紀錄片。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天也有紀錄片。你要看嗎？",
+   "new": "這次也有紀錄片。你要看嗎？",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天坐最後一排，可以看到所有人。",
+   "new": "坐最後一排，可以看到所有人。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我只看攝影集。",
+   "new": "我只看攝影集。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天在家包水餃。我包的都站不起來。",
+   "new": "在家包水餃。我包的都站不起來。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天店裡很忙",
+   "new": "店裡很忙",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天店裡來了一個修鞋的阿伯",
+   "new": "店裡來了一個修鞋的阿伯",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "今天下雨 沒什麼客人",
+   "new": "下雨 沒什麼客人",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_956",
+   "files": [
+    "r2y3a_events.js"
+   ],
+   "old": "（倒茶過來）今天凍頂剩四壺。",
+   "new": "（倒茶過來）凍頂剩四壺。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "今天社課教刷法，你要不要進來聽？",
+   "new": "社課在教刷法，你要不要進來聽？",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "（她把耳機拿下來一邊）今天的 bug 比較可愛。",
+   "new": "（她把耳機拿下來一邊）這次的 bug 比較可愛。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天走了兩萬步。手機說的，我相信手機。",
+   "new": "走了兩萬步。手機說的，我相信手機。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我手機關靜音。你幫我看著。",
+   "new": "我手機關靜音了。你幫我看著。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天是老片，黑白的，我沒看過幾部。",
+   "new": "這部是老片，黑白的，我沒看過幾部。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天看完一層就好。好，兩層。",
+   "new": "看完一層就好。好，兩層。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天的展我給七分。",
+   "new": "這個展我給七分。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天有水晶車廂嗎？我要坐那個。",
+   "new": "有水晶車廂嗎？我要坐那個。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天一定要坐天鵝船。",
+   "new": "一定要坐天鵝船。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我只想泡腳。",
+   "new": "我只想泡腳。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我要坐渡輪。",
+   "new": "我要坐渡輪。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天要去最北邊對吧，我查好了。",
+   "new": "要去最北邊對吧，我查好了。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天差不多走了一整圈。",
+   "new": "差不多走了一整圈。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我要吃完整條街。不准阻止我。",
+   "new": "我要吃完整條街。不准阻止我。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天你想去哪就去哪，金磚要摸就是了。",
+   "new": "你想去哪就去哪，金磚要摸就是了。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天還有一半沒走到。",
+   "new": "還有一半沒走到。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我手機只拍了十幾張，很少。",
+   "new": "手機只拍了十幾張，很少。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我要下水，你負責在岸上拿我的鞋。",
+   "new": "我要下水，你負責在岸上拿我的鞋。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我帶路，{name}，吃的我都想好了。",
+   "new": "{name}，我帶路，吃的我都想好了。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天我要看火車、吃雞肉飯，其他你排。",
+   "new": "我要看火車、吃雞肉飯，其他你排。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "今天要騎車、吃烤的，還有不要曬傷。",
+   "new": "要騎車、吃烤的，還有不要曬傷。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "（她把手機收起來，靠著欄杆看你）今天不拍了。",
+   "new": "（她把手機收起來，靠著欄杆看你）不拍了。（「（她躺在石頭上……）今天不拍。」留）",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我請。我昨天賣掉一個小程式。賺了三百塊。",
+   "new": "這頓我請。我昨天賣掉一個小程式。賺了三百塊。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我想吃辣的。小辣就好，不要騙我。",
+   "new": "我想吃辣的。小辣就好，不要騙我。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我請。我買了大桶的爆米花。",
+   "new": "爆米花我請，我買了大桶的。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天這部有貓。我查過了。",
+   "new": "這部有貓。我查過了。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天寫得很順。可能是因為你在旁邊看書。",
+   "new": "寫得很順。可能是因為你在旁邊看書。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_957",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "今天我想找一本跟法律有關的書。給你看的。",
+   "new": "我想找一本跟法律有關的書。給你看的。",
+   "speaker": "heroine_04"
+  }
+ ]
+}
