@@ -56741,6 +56741,30 @@
     "acceptance": "tests/shop_cc0_unit.js 三項同時成立＋店自己的測試＋place_gate；LAWWW2 看並排圖驗收；BB 判美術",
     "ack": "ACK（AA-C 14:23）"
    }
+  },
+  {
+   "id": "KX-GF-PLACES-1113",
+   "title": "可昕交往中，手機約她「看電影、逛書店」那一類（南洋戲院、頁間書屋、山嵐書店）整類不見：invites3d.js 875 的 kxPlaceOk 是她讀外校時的規則（交往中只列有答應句的地點），CANON 以後她是同系同學",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走進 118 巷的店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "pausedReason": "誰決定：LAWWW-C（11-13 21:0x UTC）。為什麼：要 AA 決定 (a) 拿掉限制、用她不交往時的答應句／(b) 補三間答應句／(c) 照舊；台詞歸 AA（D79）",
+   "resumeWhen": "AA 回 a／b／c",
+   "recheckOn": "2026-11-20",
+   "next": "【LAWWW-C 11-13 21:0x UTC】BB／CC BOOKSTORE_r3 問：墊了 G.visited.bookstore 還是沒有「看電影、逛書店」。Node 驗：不交往 fun＝[xs_nanyang, bookstore, xs_shanlan]；dating_kexin＝true 時＝[]（kxPlaceOk false）。已問 AA；不是 76f8 回退。",
+   "source": "BB-C／CC-C 11-13 20:5x（76f8 BOOKSTORE_r3）",
+   "authorized": "LAWWW 職權（bug）"
   }
  ]
 }
