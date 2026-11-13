@@ -15,6 +15,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   ENC_DATING／ENC_FRIEND／ENC_ACQ  #8 淡水偶遇（交往中，Y1S1 第 6／8／9 週週日 16:00）／#14 朋友層偶遇（FRIEND，西門町第 6／8／9 週週六 18:00；認識＝遇不到）：捷運公館站入口 → 景點 → 散步 → 偶遇（60%）
   DATE_PS／DATE_ZR  #9 約會收尾（【捷徑】DATE.book D01 15:00 → 出發 → 選「差不多了」→ 收尾；芷若同一地點隔週再去一次＝AA_904 remember）
   BAR_FACE  #5 國考讀書會當面（Y4_PATH bar、交往中；2/23 起 OUT 排的讀書小組照順序演三場：開學那場、平日大口二樓 3D、週六法律系館）
+  DRIFT_D1～DRIFT_D4  #1 AA_876 慢慢分開（交往中；【捷徑】直接設 KX_DRIFT 那一段 → 手機快速前往法律系館；D3 選第 2 個、D4 選「好。」→ 河濱）。D1c（隨機 0.35）、#2 D5 長椅另外排
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -359,7 +360,38 @@ async def c_bar(pg, cdp, tag):
     return {'case': tag, 'kx': t, 'sessions': out}
 
 
+DRIFT = {'DRIFT_D1': ('2026-10-06', 8.85, "R.r1={area:'溫州街',day:G.day-1,st:'due'};", 0),
+         'DRIFT_D2': ('2026-10-09', 12.85, "R.r2={st:'short',day:G.day-3};", 0),
+         'DRIFT_D3': ('2027-03-15', 18.85, "F.KX_CRACK=3; R.th=Object.assign({},R.th||{},{2:1}); R.r3={st:'pending'};", 1),
+         'DRIFT_D4': ('2027-03-15', 11.85, "F.KX_CRACK=5; R.th=Object.assign({},R.th||{},{2:1,4:1}); R.r4={st:'pending'};", 0)}
+
+
+async def c_drift(pg, cdp, tag):
+    """#1 AA_876 慢慢分開（kxdrift3d.js S.EVS；tests/kx_drift_876_unit.js 51～83）：只和可昕交往中；【捷徑】照觸發表直接設 KX_DRIFT（KXDRIFT.rec）那一段的狀態
+       → 照玩家用手機「地點」走進法律系館（linze，trigger enter）→ 每句截圖。D1 昨天在溫州街沒說；D2 D1 後第 3 天；D3 大二下 19:00（選第 2 個＝「我看完這一頁就聽，給我五分鐘。」）；D4 選「好。」→ 18:00 公館河濱"""
+    day, h0, setjs, alt = DRIFT[tag]
+    d, seed = await SP.fresh(pg, cdp, tag, day, h0, 'dorm', {'kexin': 'DATING'})
+    st = await P.prep(pg, cdp, R, "(()=>{ const G=GAME.G, F=G.flags, R=KXDRIFT.rec(G); " + setjs + " return {KX_CRACK:F.KX_CRACK, KX_DRIFT:JSON.parse(JSON.stringify(F.KX_DRIFT))}; })()", None, True, '[%s] KX_DRIFT 狀態（觸發表的直接設法）' % tag)
+    await P.events_on(pg)
+    R.note('[%s] 墊完 %s；%s' % (tag, J(seed), J(st)))
+    ok = await SP.travel(pg, cdp, tag, 'linze')
+    r = await SP.play(pg, cdp, tag + '_linze', alt, prefer=('好。',) if tag == 'DRIFT_D4' else (), start_s=90)
+    z = (await P.clock(pg))['zone']
+    R.check('FAIL_SETUP 檢查：[%s] 快速前往到了法律系館（linze）' % tag, ok and z == 'linze', z)
+    out = {'case': tag, 'state': st, 'r': r}
+    if tag == 'DRIFT_D4':
+        q = await pg.evaluate("(()=>(OUT.rec(GAME.G)||[]).filter(q=>q&&/drift/.test(q.id||'')&&q.state==='planned').map(q=>({id:q.id,ev:q.ev,day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place})))()")
+        R.note('[%s] 排著的 %s' % (tag, J(q))); out['out'] = q
+        if q:
+            await SP.jump(pg, cdp, tag + ' 河濱', q[0]['day'], max(0, q[0]['h'] - 0.5), 'linze', None)
+            out['r4'] = await SP.go_out(pg, cdp, tag + '_river', 0)
+    fl = await pg.evaluate("(()=>({KX_CRACK:GAME.G.flags.KX_CRACK, KX_DRIFT:JSON.parse(JSON.stringify(GAME.G.flags.KX_DRIFT||{}))}))()"); R.note('[%s] 之後 %s' % (tag, J(fl))); out['after'] = fl
+    SP.d158(tag, r, out.get('r4'))
+    return out
+
+
 async def one(pg, cdp, c):
+    if c in DRIFT: return await c_drift(pg, cdp, c)
     if c == 'BAR_FACE': return await c_bar(pg, cdp, c)
     if c in DATES: return await c_date(pg, cdp, c)
     if c in ENC: return await c_enc(pg, cdp, c)
