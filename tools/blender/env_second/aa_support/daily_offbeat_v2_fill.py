@@ -47,8 +47,8 @@ CL.glow(sh.root, 'tablelamp', tx + 1.3, th + 0.2, tz - 0.25, color='rgba(255,210
 sh.tally('v2 long table')
 
 # ---------------------------------------------------------------- 4. 更多垂吊植物：長桌上方三個吊盆、吧檯上方兩個
-for (px_, pz_) in ((tx - 1.3, tz - 0.6), (tx, tz + 0.7), (tx + 1.4, tz - 0.6), (bf['x'] - 1.6, bf['z'] - 0.4), (bf['x'] + 1.4, bf['z'] - 0.4)):
+for _k, (px_, pz_) in enumerate(((tx - 1.3, tz - 0.6), (tx, tz + 0.7), (tx + 1.4, tz - 0.6), (bf['x'] - 1.6, bf['z'] - 0.4), (bf['x'] + 1.4, bf['z'] - 0.4))):
     Xf(px_, pz_).cyl(sh.a('vcm'), (0, H, 0), (0, 2.75, 0), 0.003, col='#2a2a2a', seg=3, caps=False)
     Xf(px_, pz_, 0, 2.6).lathe(sh.a('vcg'), [(0.05, 0.0), (0.11, 0.06), (0.12, 0.15), (0.11, 0.15)], 0, 0, 0, seg=12, col=R5.choice(['#e8dcc0', '#b0653e']))
-    sh.hanging_pothos('pothos', px_, 2.72, pz_, n=7, drop=0.6)
+    C.ph_put(sh, 'fern_02', px_, 2.68, pz_, yaw=(px_ * 7.1 + pz_ * 3.3) % 6.283, s=1.3, part=((_k + 1) % 2) * 3, tag='_p' + str(((_k + 1) % 2) * 3), decimate=0.6)   # 日常失速 v2.1（LAWWW2-C 11-13 P2）：吊盆裡的黃金葛葉片卡（大平面葉片）→ Poly Haven 掃描蕨類
 sh.tally('v2 plants')
