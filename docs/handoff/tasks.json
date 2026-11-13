@@ -12210,8 +12210,8 @@
    "title": "2D 背景 gongguan_luwei「公館・滷味攤」（BG 追蹤表 BG-02）：ev_midterm_supper 考完的宵夜；v0 E19、E28",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（滷味攤）＝場景美術，ART_APPROVED 歸使用者；圖檔已在 L2947-2951 那 231 張裡——列進 docs/handoff/USER_ART_REVIEW_1027.md｜背景、G05 店內圖 patch、gongguan_shops.glb 已接；第二層 gongguan_glb_integration 跑過才算驗收（場景美術由使用者驗收）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（滷味攤）＝場景美術，ART_APPROVED 歸使用者；圖檔已在 L2947-2951 那 231 張裡——列進 docs/handoff/USER_ART_REVIEW_1027.md｜背景、G05 店內圖 patch、gongguan_shops.glb 已接；第二層 gongguan_glb_integration 跑過才算驗收（場景美術由使用者驗收）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -12234,17 +12234,15 @@
    },
    "sha": "cee40151",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG05",
    "title": "2D 背景 dorm_roof「宿舍頂樓」（BG 追蹤表 BG-05）：ev_nye_roof 跨年；v0 E24c",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（宿舍頂樓）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜dorm_roof 已接（大一上跨年）；場景美術由使用者驗收",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（宿舍頂樓）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜dorm_roof 已接（大一上跨年）；場景美術由使用者驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -12267,17 +12265,15 @@
    },
    "sha": "2a0a7ff4",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG18",
    "title": "2D 背景 video「視訊（可昕那一端）」（BG 追蹤表 BG-18）：ev_kexin_video_study、ev_kexin_grades_open、情人節",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（視訊）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜video.webp 已接（所有可昕的視訊）；場景美術由使用者驗收",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（視訊）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜video.webp 已接（所有可昕的視訊）；場景美術由使用者驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -12300,17 +12296,15 @@
    },
    "sha": "3a85d367",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG15",
    "title": "2D 背景 ntu_soc「台大・社科院門口」（BG 追蹤表 BG-15）：ev_kexin_visits_ntu（K2）",
    "area": "ART",
-   "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（社科院門口）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜在事件裡看到背景（明軒家教／舊序章人物丁那段／可昕我們的一天）",
+   "owner": "BB",
+   "status": "待開工",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 FAIL（D136）：白柱撐圓盤那一排＝現實某大學社科院的招牌造型、牆上又寫「社會科學院」——照抄真實建築。BB 下一批跟使用者要圖時附原創設計的提示詞；換圖以前 4 個事件照用（events.js 2409、r2y3a 113、r2y4a 308、wz_events 273）。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（社科院門口）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜在事件裡看到背景（明軒家教／舊序章人物丁那段／可昕我們的一天）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -12333,8 +12327,6 @@
    },
    "commit": "d2c8809c",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-20"
   },
   {
@@ -12416,8 +12408,8 @@
    "title": "2D 背景 wenzhou_tutoring「溫州街・課輔班門口」（BG 追蹤表 BG-13）：ev_peishan_tutoring（大一下第 5 週起週二、四）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（課輔班門口）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜在事件裡看到背景（明軒家教／舊序章人物丁那段／可昕我們的一天）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（課輔班門口）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜在事件裡看到背景（明軒家教／舊序章人物丁那段／可昕我們的一天）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12440,9 +12432,7 @@
    },
    "commit": "d2c8809c",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG08",
@@ -12483,8 +12473,8 @@
    "title": "2D 背景 trip_mountain「山上（看星星）」（BG 追蹤表 BG-11）：ev_kexin_trip_spring_y1",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（山上）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10c49bf8 已換上（0f8f6a45：trip_mountain.webp 夜晚版）；待 D09 約會遊戲內截圖",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（山上）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10c49bf8 已換上（0f8f6a45：trip_mountain.webp 夜晚版）；待 D09 約會遊戲內截圖",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12506,17 +12496,15 @@
     "ack": "DELIVERED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG14",
    "title": "2D 背景 yongkang_curry「永康街・咖哩店」（BG 追蹤表 BG-14）：ev_family_dinner 家族聚餐",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（永康街咖哩）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB-B 125c6660 通過、LAWWW-B f93ba38a 換上 assets/bg/yongkang_curry.webp（outings3d S.BG）；瀏覽器看一次家族聚餐",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（永康街咖哩）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB-B 125c6660 通過、LAWWW-B f93ba38a 換上 assets/bg/yongkang_curry.webp（outings3d S.BG）；瀏覽器看一次家族聚餐",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12538,17 +12526,15 @@
     "ack": "DELIVERED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG19",
    "title": "2D 背景 gongguan_cinema「公館・二輪戲院」（BG 追蹤表 BG-19）：ev_zhiruo_early_show",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（二輪戲院）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB-B f2a891bb 通過、LAWWW-B 換上 assets/bg/gongguan_cinema.webp；瀏覽器看一次 Z5",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（二輪戲院）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB-B f2a891bb 通過、LAWWW-B 換上 assets/bg/gongguan_cinema.webp；瀏覽器看一次 Z5",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12570,17 +12556,15 @@
     "ack": "DELIVERED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG20",
    "title": "2D 背景 soymilk_shop「豆漿店」（BG 追蹤表 BG-20）：ev_zhiruo_early_show",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（豆漿店）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜等使用者看實際遊戲畫面（場景美術只有使用者能標 ART_APPROVED）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（豆漿店）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜等使用者看實際遊戲畫面（場景美術只有使用者能標 ART_APPROVED）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12601,19 +12585,16 @@
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
     "ack": "DELIVERED"
    },
-   "evidence": "soymilk_shop.webp 已接進 src/outings3d.js（S.BG.soymilk_shop）",
-   "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）",
+   "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）"
   },
   {
    "id": "ART-BG09",
    "title": "2D 背景 trip_sea「海邊」：春假開車旅行（用約會底圖 D25（夕陽））",
    "area": "ART",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（海邊）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】開發分支已完成：28afd003 assets/bg/trip_sea.webp＋OUT.BG ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（海邊）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】開發分支已完成：28afd003 assets/bg/trip_sea.webp＋OUT.BG ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12635,17 +12616,15 @@
     "ack": "未派"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG10",
    "title": "2D 背景 trip_oldtown「別的城市的老街」：春假開車旅行（用約會底圖 D18（黃昏））",
    "area": "ART",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（老街）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】開發分支已完成：28afd003 assets/bg/trip_oldtown.webp＋OUT.BG ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（老街）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】開發分支已完成：28afd003 assets/bg/trip_oldtown.webp＋OUT.BG ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12667,17 +12646,15 @@
     "ack": "未派"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-BG12",
    "title": "2D 背景 seaside_town「春假・海邊的小鎮」：ev_noodle_trip_spring_y1（用約會底圖 D13，字幕寫通稱）",
    "area": "ART",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（海邊小鎮）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 13:4x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：seaside_town 接上（大一春假桌遊團 C9）；BB 畫面驗收 ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜D13 底圖在企劃線的話直接接進 S.BG；沒有就等 ART-14",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（海邊小鎮）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 13:4x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：seaside_town 接上（大一春假桌遊團 C9）；BB 畫面驗收 ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜D13 底圖在企劃線的話直接接進 S.BG；沒有就等 ART-14",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12700,9 +12677,7 @@
     "ack": "未派"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "ART-CH-XUN",
@@ -15236,8 +15211,8 @@
    "title": "2D 背景 ntu_court_night：新體育館旁的戶外籃球場，晚上（哲 2）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（籃球場）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜照 AA_177 第 5 節「哲 2」：晚上、路燈、一個籃框；webp 放 assets/bg/ntu_court_night.webp（outings3d.js S.BG 已登記，沒有圖時是深色底＋地點字幕）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB-C BB_464 判 ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（籃球場）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜照 AA_177 第 5 節「哲 2」：晚上、路燈、一個籃框；webp 放 assets/bg/ntu_court_night.webp（outings3d.js S.BG 已登記，沒有圖時是深色底＋地點字幕）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -15261,9 +15236,7 @@
    },
    "note": "2026-10-16：LAWWW2-B 6e72e346 接進 outings3d S.BG（BB-B 驗收三點通過）。；2026-10-16 18:56 BB-B 內容核對三點通過（6e72e346）；場景美術的 ART_APPROVED 只有使用者能標（D59）。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20"
+   "evidence": "BB-C BB_464（BB 分支 8dcc31be16）照 D120 判 ART_APPROVED（76f8 的 assets/bg）"
   },
   {
    "id": "BUG-20",
@@ -23235,7 +23208,7 @@
    },
    "source": "使用者 2026-10-18 07:2x",
    "authorized": "使用者直接要求（D97、D100）",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；臺北的家 2D 背景一套＝場景圖（使用者生、使用者看）；功能面（照時段換圖）在 ② 會順便看到——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB-C：清單＋提示詞（純場景一次四份）→ 使用者生圖 → 交 LAWWW；LAWWW：home3d bg() 照時段、活動、房間換背景（念書＝餐桌、睡前＝房間、晚上＝客廳、可昕住的客房）｜BB-C 07:02：清單 11 張（BB_132 第 83 組 c3b01a2b）已給使用者：home_entry_night、home_sofa_day/night、home_dining_day/night/late、home_kitchen_day、home_room_day/night、home_guest_night、home_dining_cny；陽台、樓下用現有圖｜LAWWW-C 07:5x：11 張接好（outings3d.js 新 key；舊 home_living／home_living_day／home_room 改指新圖；home3d bg() 照時段：05～07 房間、07～17 餐桌、17～21 晚餐、21～23 客廳、深夜舊序章考試期餐桌小燈／其他房間）。可昕的客房 home_guest_night、玄關、廚房還沒有場景用到（等 AA 劇情或 RH 場景的 bg）",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB_464：多張圖，BB 下一輪看。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；臺北的家 2D 背景一套＝場景圖（使用者生、使用者看）；功能面（照時段換圖）在 ② 會順便看到——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB-C：清單＋提示詞（純場景一次四份）→ 使用者生圖 → 交 LAWWW；LAWWW：home3d bg() 照時段、活動、房間換背景（念書＝餐桌、睡前＝房間、晚上＝客廳、可昕住的客房）｜BB-C 07:02：清單 11 張（BB_132 第 83 組 c3b01a2b）已給使用者：home_entry_night、home_sofa_day/night、home_dining_day/night/late、home_kitchen_day、home_room_day/night、home_guest_night、home_dining_cny；陽台、樓下用現有圖｜LAWWW-C 07:5x：11 張接好（outings3d.js 新 key；舊 home_living／home_living_day／home_room 改指新圖；home3d bg() 照時段：05～07 房間、07～17 餐桌、17～21 晚餐、21～23 客廳、深夜舊序章考試期餐桌小燈／其他房間）。可昕的客房 home_guest_night、玄關、廚房還沒有場景用到（等 AA 劇情或 RH 場景的 bg）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -23421,7 +23394,7 @@
    },
    "source": "使用者 2026-10-18 07:4x",
    "authorized": "使用者直接要求（D97）",
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；法律系宿營 10 張背景＝場景圖；功能面 L849-856（72560881）宿營開頭全是 2D，夜間步道用白天圖（P3）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜922789ba：法律系宿營（camp_y1.js）13 個場景換 10 張（入口的青年活動中心照舊 econ_camp）。舊序章宿營（events.js ev_y0_e15）只有一個場景，照舊。BB 測畫面",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB_464：多張圖，BB 下一輪看。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；法律系宿營 10 張背景＝場景圖；功能面 L849-856（72560881）宿營開頭全是 2D，夜間步道用白天圖（P3）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜922789ba：法律系宿營（camp_y1.js）13 個場景換 10 張（入口的青年活動中心照舊 econ_camp）。舊序章宿營（events.js ev_y0_e15）只有一個場景，照舊。BB 測畫面",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -27948,7 +27921,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；七張背景＝場景圖；L765-775 BB 對過內容——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:0x UTC】七張到齊（e10b683a 六張＋3c1ca343 legal_aid_office），都接進 assets/bg＋OUT.BG；BB 畫面驗收（和 BB-TEST-VAC-C16-C18-1021 一起） ｜ 【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：六張到了（law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker），只差 legal_aid_office ｜ 【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底",
+   "next": "【LAWWW-C 11-13 20:4x UTC】BB_464：七張看了兩張 PASS，其餘五張 BB 下一輪。｜【LAWWW-C 11-13 20:4x UTC】過檢查日盤點（§2 第 6 點）：這一項等 BB 照 D120 判 ART_APPROVED（不等使用者）。58 項同類清單已整批交 BB-C（v9.10.26 發布後排進 BB 佇列，用最新開發分支畫面判；已經被 SHOP-REALISM／D161 重做取代的，BB 判「被取代」由 LAWWW 改狀態）。下次檢查 11-20。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；七張背景＝場景圖；L765-775 BB 對過內容——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:0x UTC】七張到齊（e10b683a 六張＋3c1ca343 legal_aid_office），都接進 assets/bg＋OUT.BG；BB 畫面驗收（和 BB-TEST-VAC-C16-C18-1021 一起） ｜ 【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：六張到了（law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker），只差 legal_aid_office ｜ 【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
    "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
