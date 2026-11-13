@@ -23,7 +23,8 @@ ROUTE = [x for x in (os.environ.get('ROUTE') or 'exit:tz_yuehaochi').split('+') 
 REL = int(os.environ.get('REL') or 0)
 FLAGS = json.loads(os.environ.get('FLAGS') or '{}')
 EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''
-DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
+DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'
+VISITED = [z for z in (os.environ.get('VISITED') or '').split(',') if z]   # 11-14 BOOKSTORE：頁間這類「自己走進去過一次才列」（invites.js show:V('bookstore')）——【捷徑】墊 G.visited   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 MEET = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
@@ -107,6 +108,9 @@ async def main():
         s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
         m = await pg.evaluate(MEET, {'who': WHO, 'rel': REL}); res['meet'] = m
+        if VISITED:
+            vv = await pg.evaluate("(a=>{ const G=GAME.G; G.visited=G.visited||{}; for(const z of a) G.visited[z]=true; return a.map(z=>[z,!!G.visited[z]]); })", VISITED)
+            R.setup('【捷徑】墊「去過」G.visited %s（這類地點要自己走進去過一次才會出現在約人的選單）' % J(vv))
         if FLAGS:
             res['flags'] = await pg.evaluate("(f=>{ Object.assign(GAME.G.flags,f); return Object.keys(f); })", FLAGS); R.setup('【捷徑】旗標 %s' % J(FLAGS))
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f（條件事件關掉）、認識 %s、有聯絡方式%s；階段 %s' % (ZONE, DAY, HOUR, WHO, ('、【捷徑】關係加 fam %d' % REL) if REL else '', m.get('stage')))
@@ -130,7 +134,7 @@ async def main():
         # 11-14 CANON458 BEAT6_r2：約定時間到，遊戲自己跳「直接過去：…（照快速前往的路程時間）／自己走過去」——r1 沒處理＝一直 busy、走不到門口（BADM／BEAT6／BEAT8 r1 的真正原因）
         #   ROUTE 第一步是 travel＝選「直接過去」（遊戲自己的走法）；exit＝選「自己走過去」再照玩家走
         go_direct = ROUTE and ROUTE[0].startswith('travel:')
-        for _ in range(16):
+        for _ in range(50):   # 11-14 BEAT6_r3：選單在時間撥完 8 秒以後才跳（先跳「提醒：19:00…」toast）——等到 25 秒
             st = await pg.evaluate(DLG)
             if st['choices']:
                 want = '直接過去' if go_direct else '自己走過去'
