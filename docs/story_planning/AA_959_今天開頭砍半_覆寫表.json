@@ -5,9 +5,7 @@
   "how": "每一列：files＝遊戲檔（src/data/），old 一字不差換成 new；speaker 是說話的人（LAWWW 換之前照最近的人物 id 確認）；prefix:true＝old 只是那句的開頭；all:true＝同一檔裡同一句有兩處，兩處都換。建議匯入工具在最後一步照本表換（同 aa630.apply_json 的做法），沒有匯入工具的檔直接換。",
   "count": 682,
   "note958": "AA_958 的列：old 是遊戲檔裡整句（開頭有「……」），new 是拿掉「……」的同一句。KX-GF-PLACES-1113 那列：開發分支 invites.js 268 行現在的字就是「好，我過去。四十分鐘。」（前面沒有「……」，21:0x 對 adoring-meitner 確認過）。",
-  "pendingBB": [
-   "AA_1016"
-  ],
+  "pendingBB": [],
   "pendingNote": "pendingBB 列出的 doc＝BB 還沒照用，LAWWW 併的時候先照 doc 濾掉；BB 同意後 AA 把它從清單拿掉。空陣列＝全部可以進。"
  },
  "rows": [
