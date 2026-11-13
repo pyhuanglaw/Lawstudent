@@ -22,6 +22,7 @@ tools/date/import_date_lines.py 疊進去，先跑那一支）：每一句在她
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'story'))
 import import_guard as IG
+import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110）：date_lines.js 寫檔前最後一步照覆寫表換了字——稿上的句子先照同一張表換，才對得到遊戲現在的字（she_pays.js 也是新字，date3d.js 照字比）
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_782_she_pays.json'
@@ -102,6 +103,7 @@ def build(src, sha, DL, sup=None):
         if not isinstance(r, dict) or set(r) - {'who', 'loc', 'n', 'key', 'text', 'note'}:
             raise SystemExit(f'{w}：只認 who、loc、n、key、text（note）')
         who, loc, n, key, text = r.get('who'), r.get('loc'), r.get('n'), r.get('key'), r.get('text')
+        if isinstance(text, str): text = _AA959.map_str(text, 'date_lines.js')
         if not all(isinstance(x, str) and x for x in (who, loc, key, text)) or type(n) is not int or n < 1:
             raise SystemExit(f'{w}：who、loc、key、text 要是字串，n 要是正整數')
         m = re.fullmatch(r'((D\d\d)\.\w+)\.(\w+)(?:#(\d+))?', key)
@@ -211,6 +213,7 @@ def read812(src, sha, DL):
                     raise SystemExit(f'{w}：要是有字的句子陣列（同一句不能列兩次）')
                 now = []
                 for text in L:
+                    text = _AA959.map_str(text, 'date_lines.js')
                     was = None
                     if (who, pid, text) in REWORD:   # 源稿後來換了字（見 REWORD）：AA_812 那一句不在了才換
                         H = (((((DL.get('loc') or {}).get(pid[:3]) or {}).get('lines') or {}).get(who) or {}).get('hotspots') or {}).get(pid) or {}

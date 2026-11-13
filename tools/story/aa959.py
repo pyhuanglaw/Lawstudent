@@ -42,9 +42,24 @@ def rows():
     return _rows
 
 
+# 跟著換的檔：msg_replies.js 每一則的 text＝女主角傳來的那一則訊息（src/msgreply3d.js S.find 照字比），訊息本身寫在送訊息的程式裡——
+# 表上 msg_replies.js 的列，那一句是 text（傳來的訊息）的，送訊息那一處也照換（只換整個字串就是 old 的；不然回覆選項對不上）
+LINKED = {'msg_replies.js': ['aa555_3d.js', 'r2y3b3d.js', 'r3_3d.js', 'y2b3d.js', 'y2r2_3d.js', 'aa554_3d.js', 'y1fill_events.js']}
+_incoming = None
+
+
+def _is_incoming(r):
+    global _incoming
+    if _incoming is None:
+        p = gpath('msg_replies.js'); _incoming = open(p, encoding='utf8').read() if p else ''
+    return ('"text": "' + r['old'] + '"') in _incoming or ('"text": "' + _new(r) + '"') in _incoming
+
+
 def for_file(fname):
     b = os.path.basename(fname)
     rs = [r for r in rows() if b in r['files'] and (b, r['old']) not in SKIP]
+    for src, fs in LINKED.items():
+        if b in fs: rs += [r for r in rows() if src in r['files'] and (src, r['old']) not in SKIP and _is_incoming(r)]
     return sorted(rs, key=lambda r: -len(r['old']))
 
 
@@ -133,7 +148,7 @@ def source_tag():
 # 沒有匯入工具（或匯入工具早就不再整檔重產）的手寫檔：直接照表換
 HAND = ['events.js', 'r2y3a_events.js', 'r2y3b_events.js', 'r2y4a_events.js', 'r2y4b_events.js', 'group_events.js',
         'termend_opts.js', 'termend_lines.js', 'vac_activities.js', 'invites.js', 'multirel_lines.js', 'movie_plots.js',
-        'heroine_arcs.js', 'free_trips.js', 'bbpack_events.js']
+        'heroine_arcs.js', 'free_trips.js', 'bbpack_events.js'] + LINKED['msg_replies.js']
 
 
 def gpath(f):

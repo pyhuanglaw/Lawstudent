@@ -9,6 +9,7 @@
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_guard as IG
+import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110）：tools/story/aa959.py
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_729_greet_classday.json'
@@ -81,7 +82,9 @@ def main():
             if who in GONE_WHO or who not in have:   # 舊序章人物（第三批 B）／在 ladder.js 已經沒有招呼的（第三批 A）＝不匯
                 continue
             rn = RENAMED.get((who, t)) or ()
-            rn = [x for x in ((rn,) if isinstance(rn, str) else rn) if x in have.get(who, set())]   # 換了字的新句（在 ladder.js 的才算；一句舊句可以對好幾句）
+            rn = (rn,) if isinstance(rn, str) else tuple(rn)
+            rn = tuple(dict.fromkeys(rn + tuple(_AA959.map_str(x, 'ladder.js') for x in (t,) + rn)))   # AA_959：ladder.js 寫檔前最後一步照覆寫表換了字（「今天」開頭砍半、「……」開頭減量），「只在上課日說」跟著新句子走
+            rn = [x for x in rn if x != t and x in have.get(who, set())]   # 換了字的新句（在 ladder.js 的才算；一句舊句可以對好幾句）
             if t in have.get(who, set()):   # 舊句（別的學期還在用）還在：舊句、新句都只在上課日說
                 out[tag].setdefault(who, []).append(t)
                 out[tag][who] += rn
