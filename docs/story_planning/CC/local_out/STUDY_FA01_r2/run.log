@@ -1,0 +1,16 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_study_play_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_FA01_r2\out
+CC STUDY-EXAM-CAREER B 節：SHA 5c96c66802；PARTS ['FA01']；不用 turbo；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [FA01 2026-10-31] 【前置】社員存檔（SIS_CLUB_EXPO、lawclub、CLUB_lawclub_study）讀到 2026-10-31 07:50 宿舍（大二上）
+PASS FAIL_SETUP 檢查：[FA01 2026-10-31] 讀到 2026-10-31 宿舍  {"day": 410, "hour": 7.838777999999999, "zone": "dorm", "key": "2026-10-31"}
+  [ 166.5s] [FA01 2026-10-31] 07:50 OUT.get(fafu_今天)=null；2026-10-31 8.67 時 OUT.get=null；選單 []；對話 ["（管理室有你的一箱書。上面貼著一張便利貼，跟上次一樣。）", "（便利貼：「行政法、刑分、物", "（便利貼：「行政法、刑分、物權。後半本我擦掉了，換你寫。」）", "（下面還有一行，比較小：「以", "（下面還有一行，比較小：「以後的書，問 Kevin。」）"]
+PASS [FA01 2026-10-31] 等到 8.67（要 ≥ 08:30）
+PASS [FA01 2026-10-31] 一般值班週六沒有例行的出發選單（法服值班／晚一點／這週請假）  []
+  [前置／捷徑] [FA01 2026-10-24] 【前置】社員存檔（SIS_CLUB_EXPO、lawclub、CLUB_lawclub_study）讀到 2026-10-24 07:50 宿舍（大二上）
+PASS FAIL_SETUP 檢查：[FA01 2026-10-24] 讀到 2026-10-24 宿舍  {"day": 403, "hour": 7.839999333333342, "zone": "dorm", "key": "2026-10-24"}
+  [ 302.9s] [FA01 2026-10-24] 07:50 OUT.get(fafu_今天)={"state": "planned", "ask": null, "travelH": 0.25, "id": "fafu_403", "day": 403, "h": 9, "place": "法律系館B一樓", "title": "法服值班（法律系館B一樓 9:00）", "travel": "走過去約 10 分鐘", "no": "這週請假", "goto": {"zone": "wancai", "x": 0, "z": 5, "yaw": 3.141592653589793}}；2026-10-24 8.67 時 OUT.get={"state": "missed", "ask": null, "travelH": 0.25, "id": "fafu_403", "day": 403, "h": 9, "place": "法律系館B一樓", "title": "法服值班（法律系館B一樓 9:00）", "travel": "走過去約 10 分鐘", "no": "這週請假", "goto": {"zone": "wancai", "x": 0, "z": 5, "yaw": 3.141592653589793}}；選單 [["2026-10-24", 8.5, ["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"]]]；對話 ["（管理室有你的一箱書。上面貼著一張便利貼，跟上次一樣。）", "（便利貼：「行政法、刑分、物", "（便利貼：「行政法、刑分、物權。後半本我擦掉了，換你寫。」）", "（下面還有一行，比較小：「以", "（下面還有一行，比較小：「以後的書，問 Kevin。」）"]
+PASS [FA01 2026-10-24] 等到 8.67（要 ≥ 08:30）
+PASS [FA01 2026-10-24] 法服固定場次那天有出發選單（設計如此）  [["2026-10-24", 8.5, ["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"]]]
+PASS 沒有 JS 例外  []
+ALL PASS

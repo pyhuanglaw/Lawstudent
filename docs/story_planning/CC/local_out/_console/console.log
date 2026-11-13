@@ -1,14 +1,3 @@
-[16:56:53] skip L118_CAM36_b_r2 (already done on 7d69704cdfb978816446741c8cc9bcf1e2cc8352)
-[16:56:53] skip L118_CLOSED_LOOK (already done on b0a4808c5afe2872026a9836542dbe73664cf3c4)
-[16:56:53] skip FIRST_gg_desk_r6 (already done on 53ca09531dbb3ceccbcc66859091601cf6282fba)
-[16:56:53] skip FIRST_xs_desk_r6 (already done on 53ca09531dbb3ceccbcc66859091601cf6282fba)
-[16:56:53] skip L118_UP_dark (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:56:53] skip NAV_FLOWER_2F_tap_ab9a (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:56:53] skip WZ_TAP_28 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:56:53] skip FIRST_gg_desk_r7 (already done on 0b32cab5cc265f579fb94ca66fc56c8e4a5f4b9c)
-[16:56:53] skip FIRST_gg_desk_r7noshop (already done on 0b32cab5cc265f579fb94ca66fc56c8e4a5f4b9c)
-[16:56:53] skip FIRST_xs_desk_r7 (already done on 0b32cab5cc265f579fb94ca66fc56c8e4a5f4b9c)
-[16:56:53] skip FIRST_xs_desk_r7noshop (already done on 0b32cab5cc265f579fb94ca66fc56c8e4a5f4b9c)
 [16:56:53] memory 30% before starting WZ_ICE_r3 (0 running)
 [16:56:53] ==== START WZ_ICE_r3  (probe @ 7f2c6bd31fc4bc5bea5e22e67909eb90eba6a528) ====
 [16:56:53] skip WZ_ICE_r2 (already done on d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610)
@@ -1998,3 +1987,14 @@
 [00:06:52] 正在跑：CANON_NEWGAME_A1_d21c（已跑 33 分／上限 220 分）、CANON_NEWGAME_B2_d21c（已跑 21 分／上限 240 分）、STUDY_FA01_r2（已跑 5 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:07:24] [res] cpu=7% mem=44% (13.9/31.4 GB) chrome_testing=10  END CANON_NEWGAME_A1_d21c
 [00:07:24] D158：推送前把 2 處舊序章／外校的字換成代號
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       cbaf5206ad..f7e9d32954  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:07:34] ==== END   CANON_NEWGAME_A1_d21c  exit=0  2066s   ====
+[00:07:47] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[00:07:47] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[00:07:47] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[00:07:47] memory 42% before starting SE06_diag (2 running)
+[00:07:47] ==== START SE06_diag  (probe @ a9b63d9effd5fd6299d09b2a0527db69e6931292) ====
+[00:07:50] [res] cpu=7% mem=42% (13.2/31.4 GB) chrome_testing=10  START SE06_diag
+[00:08:23] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=9  END STUDY_FA01_r2
