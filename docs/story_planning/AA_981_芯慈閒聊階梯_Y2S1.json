@@ -1,0 +1,319 @@
+{
+ "_comment": "AA_981 芯慈（classmate_xinci）閒聊階梯 大二上（AA-C 2026-11-13；接 AA_979／980）。格式同 ladder_aa_y2s1.json characters.<id>；if 裡多一個 memory（X2-L7、X2-L8：慈 3 XINCI_NIGHT 演過才有，同 extraIf 的寫法，LAWWW 依匯入工具支援的欄位調）。id 前綴 X2-、mem XC2_*。避開「期中」。",
+ "term": "Y2S1",
+ "characters": {
+  "classmate_xinci": {
+   "steps": [
+    {
+     "id": "X2-L1",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "week": [
+      1,
+      10
+     ],
+     "lines": [
+      "雙主修上了。放榜那天，我把通知截圖傳給我媽。",
+      "她回了一個貼圖。一隻在鼓掌的貓。"
+     ],
+     "choices": [
+      {
+       "t": "「恭喜！」",
+       "reply": "謝謝。我爸到現在還沒回。他說他在想要回什麼。"
+      },
+      {
+       "t": "「妳媽好可愛。」",
+       "reply": "她在事務所的時候不是這樣。"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC2_DOUBLE_IN"
+    },
+    {
+     "id": "X2-L2",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "lines": [
+      "這學期我多了兩堂財金系的課。",
+      "財金系的教室在另一棟，我每週要跑來跑去。"
+     ],
+     "choices": [
+      {
+       "t": "「會不會太累？」",
+       "reply": "會。可是跑的時候，我會順便想下一堂要講什麼。"
+      },
+      {
+       "t": "「財金系的人怎麼樣？」",
+       "reply": "很會講數字。我在那邊，話比較多。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC2_FIN_CLASS"
+    },
+    {
+     "id": "X2-L3",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "week": [
+      1,
+      11
+     ],
+     "lines": [
+      "總圖 B1 的自習室，晚上人比較少。",
+      "我最近都待到關燈才回家。最後一班公車的司機，我已經認得了。"
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC2_B1",
+     "note": "慈 3（第 12～15 週）的前情：她晚上在 B1"
+    },
+    {
+     "id": "X2-L4",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "lines": [
+      "巷口那家家常菜，我每次都點一樣的。",
+      "我有在想，下次換一道。可是每次坐下來，又點一樣的。"
+     ],
+     "choices": [
+      {
+       "t": "「下次我幫妳點。」",
+       "reply": "好。你點什麼我都吃。苦瓜除外。",
+       "mem": "XC2_PICK_FOR"
+      },
+      {
+       "t": "「點一樣的也沒關係。」",
+       "reply": "嗯。可是我想試試看換。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC2_SWAP_DISH",
+     "note": "G3「她今天要換」的伏筆（AA_548）"
+    },
+    {
+     "id": "X2-L5",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "lines": [
+      "以安說她想去日本交換。",
+      "她講的時候，眼睛在發光。我很少看到她那樣。"
+     ],
+     "choices": [
+      {
+       "t": "「妳呢？想去哪裡？」",
+       "reply": "我想留在台北。我要的東西在這裡。"
+      },
+      {
+       "t": "「妳會想她吧。」",
+       "reply": "會。可是她回來的時候，筆記一定更好看。"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC2_AN_JAPAN",
+     "note": "和以安一直是朋友、不比較（D116、AA_547）"
+    },
+    {
+     "id": "X2-L6",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "lines": [
+      "財金系的同學問我，法律系都在念什麼。",
+      "我說，念很多別人吵架的理由。"
+     ],
+     "choices": [
+      {
+       "t": "「好準。」",
+       "reply": "我爸說的。我轉述而已。"
+      },
+      {
+       "t": "「妳覺得呢？」",
+       "reply": "我覺得是在念，怎麼讓吵架停下來。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC2_LAWWHAT"
+    },
+    {
+     "id": "X2-L7",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      },
+      "memory": [
+       {
+        "npc": "classmate_xinci",
+        "tag": "XINCI_NIGHT"
+       }
+      ]
+     },
+     "week": [
+      12,
+      18
+     ],
+     "lines": [
+      "那天在便利商店，你也還沒睡。",
+      "後來我回家，作業算完才兩點。比平常早。"
+     ],
+     "choices": [
+      {
+       "t": "「下次一起在 B1 念？」",
+       "reply": "好。關燈以前一起走。",
+       "mem": "XC2_B1_TOGETHER"
+      },
+      {
+       "t": "「妳要早點睡。」",
+       "reply": "我在練習。你說了，我就多練一點。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC2_AFTER_NIGHT",
+     "note": "慈 3（XINCI_NIGHT）演過才有；不重複便利商店那一場的句子"
+    },
+    {
+     "id": "X2-L8",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FRIEND"
+      },
+      "memory": [
+       {
+        "npc": "classmate_xinci",
+        "tag": "XINCI_NIGHT"
+       }
+      ]
+     },
+     "week": [
+      13,
+      18
+     ],
+     "lines": [
+      "我半夜傳訊息給你，是不是很煩。",
+      "十二點半以後我話會變多。白天的我不會這樣。"
+     ],
+     "choices": [
+      {
+       "t": "「不煩。」",
+       "reply": "好。那我不道歉了。"
+      },
+      {
+       "t": "「白天的妳也可以這樣。」",
+       "reply": "我試試看。可能要很久。"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 2
+     },
+     "mem": "XC2_NIGHT_TALK",
+     "note": "G5 半夜訊息開始以後"
+    },
+    {
+     "id": "X2-L9",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FRIEND"
+      }
+     },
+     "week": [
+      14,
+      18
+     ],
+     "lines": [
+      "寒假前，我想把這學期的筆記整理成一本。",
+      "整理好，第一本給你。第二本給以安。"
+     ],
+     "choices": [
+      {
+       "t": "「為什麼我第一本？」",
+       "reply": "因為以安自己會整理。你不會。"
+      },
+      {
+       "t": "「謝謝。」",
+       "reply": "不用謝。整理是我喜歡的事。"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC2_NOTEBOOK"
+    }
+   ],
+   "greet": {
+    "base": [
+     "早。我剛從財金系那棟跑過來。",
+     "B1 昨天我又是最後一個走的。",
+     "你吃早餐了嗎？我飯糰買多了一個。",
+     "（她手上抱著一本很厚的財管課本）嗨。",
+     "大二的課，我還在習慣。"
+    ],
+    "when": [
+     {
+      "location": [
+       "library_hall",
+       "library"
+      ],
+      "time": [
+       21,
+       24
+      ],
+      "t": "（她小聲）B1 快關燈了。"
+     },
+     {
+      "location": [
+       "classroom",
+       "linze"
+      ],
+      "time": [
+       8,
+       12
+      ],
+      "t": "第一排。你要的話，旁邊的位子給你。"
+     }
+    ]
+   }
+  }
+ }
+}
