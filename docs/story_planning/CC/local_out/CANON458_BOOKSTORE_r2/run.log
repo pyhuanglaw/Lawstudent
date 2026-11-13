@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_invite_phone_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_BOOKSTORE_r2\out
+CC 手機約人：TAG c458_bookstore；SHA 76f8b639f0；gongguan 2026-10-14 15.0；WHO kexin；PICKS ['出去玩', '頁間', '今天']；ROUTE ['exit:bookstore']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀到 gongguan  {"zone": "gongguan", "x": -2.5, "z": -29, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.05}
+  [前置／捷徑] 【捷徑】旗標 {"ACTN": {"bookstore": {"kexin": 3}}}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-10-14 15.0（條件事件關掉）、認識 kexin、有聯絡方式、【捷徑】關係加 fam 65；階段 CLOSE_FRIEND
+PASS 手機「朋友」她那一列有「約」
+  [  57.8s] 約 選單 [["念書…2:30 AM、總圖、法律學院圖書館、afar café", "吃飯…公館燒臘、SUNNY SIDE、Daybreak、洋洋鹹酥雞、泰米村食、越好吃小館、客居雲南", "喝咖啡、喝茶…2:30 AM、一盞、afar café", "散步…溫州街、映月湖", "運動…新體育館羽球場、椰影大道", "出去玩…你們現在是朋友。再多相處一陣子。", "算了"]]
+  [  57.8s] 約 整段 ["▶ 出去玩…你們現在是朋友。再多相處一陣子。", "｜你們現在是朋友。再多相處一陣子。。"]
+  [  57.8s] 約完 G.invites 最後一筆：null
+FAIL 約好了（G.invites 有 accepted、今天、地點是 ROUTE 最後一區）  null
