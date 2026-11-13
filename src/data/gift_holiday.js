@@ -1,10 +1,10 @@
-/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@1ce262f616、docs/story_planning/AA_733_gift_holiday_2.json@88cfb1c74f、docs/story_planning/AA_734_gift_holiday_3.json@88cfb1c74f；沛珊 5 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d；花序 docs/story_planning/AA_792_flower_notes.json@335301d353）。不要手改，改企劃 AA_732／AA_733／AA_734（花序：AA_792）再重新匯入。
+/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@1ce262f616、docs/story_planning/AA_733_gift_holiday_2.json@6dbfe10d7e、docs/story_planning/AA_734_gift_holiday_3.json@88cfb1c74f；沛珊 5 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d；花序 docs/story_planning/AA_792_flower_notes.json@335301d353）。不要手改，改企劃 AA_732／AA_733／AA_734（花序：AA_792）再重新匯入。
    節日、生日送禮（GIFT-HOLIDAY-1110；播放 src/gifthol3d.js）：shops／items＝店家禮物、react＝八位收到的反應、give＝她們送祐廷的、stationery＝山嵐文具區學姊四場、flowerOk＝花序八樣新花送人時各人的那一句（AA_792 give_ok_flower；沒寫到的人照 ok）*/
 'use strict';
 const GIFT_HOLIDAY={
  "src": [
   "docs/story_planning/AA_732_gift_holiday_1.json@1ce262f616",
-  "docs/story_planning/AA_733_gift_holiday_2.json@88cfb1c74f",
+  "docs/story_planning/AA_733_gift_holiday_2.json@6dbfe10d7e",
   "docs/story_planning/AA_734_gift_holiday_3.json@88cfb1c74f"
  ],
  "third": [
@@ -1975,7 +1975,7 @@ const GIFT_HOLIDAY={
      "謝謝。我會好好用。"
     ],
     "C": [
-     "謝謝。……下次換我請你吃飯，我提前一天約你。"
+     "謝謝。……我沒想到你會記得。"
     ],
     "D": [
      "謝謝。我會收好。"

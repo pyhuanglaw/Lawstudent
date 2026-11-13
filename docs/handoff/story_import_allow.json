@@ -8810,16 +8810,20 @@
   },
   {
    "path": "docs/story_planning/AA_733_gift_holiday_2.json",
-   "sha": "88cfb1c74f",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接；88cfb1c74f：AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109）",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接；88cfb1c74f：AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109）；6dbfe10d7e（AA_915 芯慈、AA_916 可昕室友（AA-C 2026-11-12 定稿））",
    "task": "GIFT-HOLIDAY-1110",
    "kind": "json",
-   "note": "節日送禮第二批：以安、芷若、語彤、子晴、沛珊、可昕、芯慈的開場與反應——tools/gift/import_gift_holiday.py",
+   "note": "節日送禮第二批：以安、芷若、語彤、子晴、沛珊、可昕、芯慈的開場與反應——tools/gift/import_gift_holiday.py；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：芯慈生日回覆不約下次、可昕「只跟我室友說過」）",
    "history": [
     {
      "sha": "1edb14888",
      "note": "被 88cfb1c74f 取代（AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109））"
+    },
+    {
+     "sha": "88cfb1c74f",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：芯慈生日回覆不約下次、可昕「只跟我室友說過」）"
     }
    ]
   },
