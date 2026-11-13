@@ -158,8 +158,22 @@ async def part_se06(pg, cdp, sv0, res):
             return next(k for k in range(len(ch)) if k != right)
         return right
     t0 = time.time(); done = []; last_key = None; acts = []
+    stall = {'sig': None, 't': time.time(), 'last': 0, 'n': 0}
     while time.time() - t0 < (MAX_MIN - 4) * 60 and len(done) < 2:
         s = await pg.evaluate(ST)
+        # 11-14 SE06_4af4_r2：體育期末「你游完了」那句以後 13 分鐘沒有任何紀錄（分不出遊戲卡住還是點不動）——同一個畫面 45 秒沒變就每 45 秒記一次狀態＋截圖；120 秒以後對話改用 DOM click，記哪一種有效
+        sig = (s['key'], s['h'], s['dlg'], s['dtext'][:40], tuple(s['choices'][:3]), s['busy'])
+        if sig != stall['sig']:
+            if stall['n']: R.note('%s 卡住解除（%.0f 秒）：現在 %s %.2f %s dlg=%s「%s」busy=%s' % (tag, time.time() - stall['t'], s['key'], s['h'], s['zone'], s['dlg'], s['dtext'][:40], s['busy']))
+            stall = {'sig': sig, 't': time.time(), 'last': time.time(), 'n': 0}
+        elif time.time() - stall['last'] >= 45:
+            stall['last'] = time.time(); stall['n'] += 1
+            dg = await pg.evaluate(DIAG_SNAP) if DIAG_N else None
+            await pg.screenshot(path=os.path.join(OUT, 'se06_stall_%02d.png' % stall['n']))
+            R.note('%s 卡住 %.0f 秒（第 %d 次記）：%s %.2f %s dlg=%s「%s」選項 %s busy=%s；診斷 %s' % (tag, time.time() - stall['t'], stall['n'], s['key'], s['h'], s['zone'], s['dlg'], s['dtext'][:60], J(s['choices'][:4]), s['busy'], J(dg)))
+            if s['dlg'] and time.time() - stall['t'] >= 120:
+                await pg.evaluate("(()=>{ const d=document.getElementById('dlg'); if(d) d.click(); })()"); await pg.wait_for_timeout(800)
+                s2 = await pg.evaluate(ST); R.note('%s 對話改用 DOM click 以後：dlg=%s「%s」h=%.2f' % (tag, s2['dlg'], s2['dtext'][:40], s2['h'])); continue
         if await step_dialog(pg, cdp, s, pick): continue
         rec = await pg.evaluate("(()=>{ const R=CLS.rec(GAME.G).exam||{}; return Object.entries(R).filter(([k,v])=>k.indexOf('Y1S1:')===0&&v&&v.status==='done').map(([k,v])=>({k, correct:v.correct, score:v.score})); })()")
         done = rec
