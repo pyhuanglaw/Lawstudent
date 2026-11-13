@@ -2316,6 +2316,8 @@ CANON458_ENC_FRIEND | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/st
 CANON458_ENC_ACQ | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 45 | CASES=ENC_ACQ;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 CANON458_DATE_PS | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 45 | CASES=DATE_PS;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 CANON458_DATE_ZR | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 45 | CASES=DATE_ZR;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
+# LAWWW-C 04:56（台北）：「看電影、逛書店」＝G.visited 有那一間、而且可昕不在交往中（交往中 kxPlaceOk 過濾掉，另開任務）→ r4 墊 dating_kexin=false
+CANON458_BOOKSTORE_r4 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 25 | TAG=c458_bookstore;ZONE=gongguan;WHO=kexin;DAY=2026-10-14;HOUR=15;REL=45;FLAGS={"ACTN":{"bookstore":{"kexin":3}},"dating_kexin":false};PICKS=看電影>頁間>今天;ROUTE=exit:bookstore;VISITED=bookstore;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 # ===== P0 BB-C 03:28（台北）REL_76f8 常規發布前回歸（TEST-04、TEST-SOCIAL-SMOKE-1104「每個發布候選照跑」；比照 V21R）：短的先跑；save_compat 的 SHA2＝RELEASES.md 最新 v9.10.25 的發布樹 f312c68cc；deploy_check 等 main 合併、Pages 上線以後 =====
 REL76_p0 | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 REL76_save_v7 | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=f312c68cc961c70c7d548fe40c2ae42483d517ba;XARGS={url2} {url};CC_HEADLESS=0
