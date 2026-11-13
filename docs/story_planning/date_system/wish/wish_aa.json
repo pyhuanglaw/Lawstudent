@@ -1,5 +1,5 @@
 {
- "_comment": "以安、語彤的心願事件（AA_127 第 1、2 節）。原稿 wish_aa.py，欄位說明 README.md（和 wish_bb.json 同一個格式；AA 另外用到的 key 寫在 README 最後）。",
+ "_comment": "以安、語彤的心願事件（AA_127 第 1、2 節）。原稿 wish_aa.py，欄位說明 README.md（和 wish_bb.json 同一個格式；AA 另外用到的 key 寫在 README 最後）。\n芯慈（classmate_xinci）心願「午夜場」：AA_537b 第 8-2 節照格式轉進本檔（AA-C 2026-11-13）；wish_aa.py 已過時，JSON 為準。",
  "events": {
   "heroine_01": {
    "id": "wish_heroine_01",
@@ -1266,6 +1266,267 @@
    },
    "repeat": "date_system/lines/D13.json（她的 first 指到這個事件；第二次以後照 normal、remember、dating）",
    "char": "heroine_03"
+  },
+  "classmate_xinci": {
+   "id": "wish_classmate_xinci",
+   "loc": "D04",
+   "title": "午夜場",
+   "source": "AA_537b 第 8-2 節（8-3 實作決定）",
+   "char": "classmate_xinci",
+   "wish": "她每個禮拜六晚上都在西門町看七點那一場，一個人。她想看一次午夜場，可是一個人去，散場以後沒有捷運，她會覺得怪。",
+   "rule": "慈 6 以後（XC_BLANK，G8）才約；兩個人都單身才約（她只接受一對一）；交往以後也可以去，算心願完成。這一場是告白門檻（G9）。8-3：只開這一場可以到 02:30，隔天睡到十點、精力照熬夜算；別人約她去西門町七點那一場照一般約會。",
+   "record": {
+    "flag": "WISH_DONE_classmate_xinci",
+    "memory": {
+     "tag": "XC_MIDNIGHT",
+     "text": "西門町的午夜場，散場以後沒有捷運"
+    },
+    "album": "午夜場的票根兩張，日期印的是星期日（過了十二點）"
+   },
+   "mention": {
+    "where": "她的半夜訊息（AA_537 5-1）",
+    "lines": [
+     {
+      "who": "classmate_xinci",
+      "text": "我想看一次午夜場。一個人去好像有點怪。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「我陪妳。」",
+      "reply": [
+       {
+        "who": "classmate_xinci",
+        "text": "……你說的喔。"
+       }
+      ]
+     },
+     {
+      "t": "「哪一部？」",
+      "reply": [
+       {
+        "who": "classmate_xinci",
+        "text": "不知道。午夜場放什麼，我就看什麼。"
+       }
+      ]
+     },
+     {
+      "t": "（不回）",
+      "reply": []
+     }
+    ]
+   },
+   "herInvite": {
+    "if": {
+     "dateStage": {
+      "min": 5
+     },
+     "flags": [
+      "XC_BLANK"
+     ]
+    },
+    "perTerm": 1,
+    "abroadBlock": true,
+    "message": {
+     "weekday": [
+      5
+     ],
+     "time": [
+      0.67,
+      0.67
+     ]
+    },
+    "dateWeekday": [
+     6
+    ],
+    "dateTime": 23.5,
+    "note": "週五 00:40 傳，約週六 23:30，D04；提前一天（她的規矩）",
+    "lines": [
+     {
+      "who": "classmate_xinci",
+      "text": "明天晚上，西門町的午夜場。"
+     },
+     {
+      "who": "classmate_xinci",
+      "text": "……我提前一天問了。你可以說不。"
+     }
+    ],
+    "accept": [
+     {
+      "who": "classmate_xinci",
+      "text": "好。我買票。你不要遲到，午夜場不等人。"
+     }
+    ],
+    "decline": [
+     {
+      "who": "classmate_xinci",
+      "text": "好。那我自己去。……不對，我不會自己去。"
+     }
+    ]
+   },
+   "playerInvite": {
+    "known": [
+     {
+      "who": "classmate_xinci",
+      "text": "午夜場？……你記得。"
+     },
+     {
+      "who": "classmate_xinci",
+      "text": "好。散場以後沒有捷運，你要想好怎麼回去。"
+     }
+    ],
+    "unknown": [
+     {
+      "who": "classmate_xinci",
+      "text": "西門町，晚上那一場？……你怎麼知道我想去。"
+     },
+     {
+      "who": "classmate_xinci",
+      "text": "好。"
+     }
+    ],
+    "note": "還不知道的這一次也算完成心願"
+   },
+   "arrive": {
+    "narr": "十一點半的西門町。店都還亮著，街上的人比白天少一半。",
+    "lines": [
+     {
+      "who": "classmate_xinci",
+      "text": "我每個禮拜六都來這裡看電影。……都是晚上七點那一場。"
+     },
+     {
+      "who": "classmate_xinci",
+      "text": "午夜場，第一次。"
+     }
+    ]
+   },
+   "hotspots": {
+    "D04.lobby": {
+     "name": "電影院大廳",
+     "minutes": 20,
+     "cost": 0,
+     "like": "like",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "午夜場只有兩部。一部恐怖片，一部我沒聽過。"
+      }
+     ],
+     "choices": [
+      {
+       "t": "「看恐怖片。」",
+       "reply": [
+        {
+         "who": "classmate_xinci",
+         "text": "好。……我先說，我會閉眼睛。"
+        }
+       ]
+      },
+      {
+       "t": "「看沒聽過的那部。」",
+       "reply": [
+        {
+         "who": "classmate_xinci",
+         "text": "好。不知道結局的比較好看。……我以前不會這樣說。"
+        }
+       ]
+      },
+      {
+       "t": "「妳選。」",
+       "reply": [
+        {
+         "who": "classmate_xinci",
+         "text": "我選了，你會不會覺得無聊。……算了，我選。"
+        }
+       ]
+      }
+     ]
+    },
+    "D04.snack": {
+     "name": "老店小吃（開演前的宵夜）",
+     "minutes": 20,
+     "cost": 0,
+     "like": "normal",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "散場是兩點。那時候什麼都關了。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "所以要先吃。這是計畫。"
+      }
+     ],
+     "choices": [
+      {
+       "t": "「妳連這個都排了。」",
+       "reply": [
+        {
+         "who": "classmate_xinci",
+         "text": "……嗯。可是只排到這裡。後面沒有排。"
+        }
+       ]
+      },
+      {
+       "t": "「我請。」",
+       "reply": [
+        {
+         "who": "classmate_xinci",
+         "text": "好。下次換我。……我會記得是哪一次。"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "closing": {
+    "scene": "午夜場散場，西門站外面等計程車（心願場景，第一次一定播）",
+    "lines": [
+     {
+      "who": "narr",
+      "text": "午夜場散場，捷運已經沒了。你們走到西門站外面等計程車。"
+     },
+     {
+      "who": "classmate_xinci",
+      "text": "電影普通。"
+     },
+     {
+      "who": "classmate_xinci",
+      "text": "……可是我會記得。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「我也是。」",
+      "reply": [
+       {
+        "who": "classmate_xinci",
+        "text": "嗯。"
+       }
+      ]
+     },
+     {
+      "t": "「下次再來。」",
+      "reply": [
+       {
+        "who": "classmate_xinci",
+        "text": "好。下次不是午夜場也可以。"
+       }
+      ]
+     },
+     {
+      "t": "（陪她等車）",
+      "reply": [
+       {
+        "who": "narr",
+        "text": "計程車來了。她上車以前，回頭看了你一眼。"
+       }
+      ]
+     }
+    ]
+   },
+   "repeat": "date_system/lines/D04.json（她的 D04 是一般約會的七點場；心願只演這一次）",
+   "note": "cost 照 D04 現有點的花費由 LAWWW 填（稿沒寫錢）；「我請。」那一項記她請客照 she_pays 規則（下次換她）。"
   }
  }
 }
