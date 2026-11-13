@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_G2DF5_WZ_touch\tests\touch_flow_wenzhou.py http://127.0.0.1:8800/index.html
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 標題畫面：觸控點「繼續」
+PASS 讀到溫州街  {'zone': 'wenzhou', 'x': 44, 'z': -1, 'yaw': -1.57, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '', 'text': '', 'name': '', 'fade': True, 'menu': False}
+PASS 溫州街：搖桿往前走  (44, 35.84)
+PASS 溫州街：NPC 都是正式模型（沒有程序化球體人）  [{'name': '(路人)', 'driver': 'vrm', 'x': 38.4, 'z': -2}, {'name': '(路人)', 'driver': 'vrm', 'x': -22.6, 'z': 2.4}, {'name': '(路人)', 'driver': 'vrm', 'x': 6.1, 'z': 9.1}, {'name': '(路人)', 'driver': 'vrm', 'x': -18.6, 'z': -0.7}, {'name': '(路人)', 'driver': 'vrm', 'x': 38.1, 'z': -1.6}, {'name': '(路人)', 'driver': 'vrm', 'x': 16.8, 'z': -9.2}, {'name': '(路人)', 'driver': 'vrm', 'x': 19.3, 'z': 21.4}, {'name': '(路人)', 'driver': 'vrm', 'x': 31.7, 'z': 25}, {'name': '(路人)', 'driver': 'vrm', 'x': 13.6, 'z': 23.1}, {'name': '(路人)', 'driver': 'vrm', 'x': 33.5, 'z': 24.8}, {'name': '不認識的女生', 'driver': 'vrm', 'x': -30, 'z': -2.4}, {'name': '(路人)', 'driver': 'vrm', 'x': 34.9, 'z': -6.2}]
+PASS 走到 Café 門口出現「進入 2:30 AM」  {'zone': 'wenzhou', 'x': 53.27, 'z': -0.01, 'yaw': 1.51, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '進入 2:30 AM', 'text': '', 'name': '', 'fade': False, 'menu': False}
+PASS 互動按鈕不會蓋住搖桿
+  [玩家操作] 手機自己打開了（要回的訊息）→ 點「收起來」
+PASS 進入 Café  {'zone': 'cafe', 'x': 0, 'z': 5, 'yaw': 3.14, 'camYaw': 6.28, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '離開咖啡廳', 'text': '', 'name': '', 'fade': False, 'menu': False}
+PASS Café 裡有沈以安（正式模型）  {'x': -5.95, 'z': 3.95, 'driver': 'vrm', 'label': '和沈以安打招呼'}
+PASS 靠近沈以安出現對話按鈕  和沈以安打招呼
+    旁白：她坐在沙發那一區，手帳攤開，旁邊一杯冷掉的拿鐵。
+    沈以安：……你也來這裡。
+    沈以安：我在整理這週的筆記。你坐吧，
+PASS 和沈以安的對話有內容並結束  3
+PASS 對話結束後可以操作  {'zone': 'cafe', 'x': -5.47, 'z': 4.8, 'yaw': 4.68, 'camYaw': 0.34, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '和沈以安說話', 'text': '我在整理這週的筆記。你坐吧，我不會吵。', 'name': '沈以安', 'fade': False, 'menu': False}
+PASS 靠近座位出現「坐」的按鈕  坐在窗邊的雙人桌
+PASS 坐下（姿勢 sit）  sit
+PASS 起身後可以操作  {'zone': 'cafe', 'x': 3.75, 'z': 2.3, 'yaw': 3.14, 'camYaw': 0.34, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '坐在窗邊的雙人桌', 'text': '我在整理這週的筆記。你坐吧，我不會吵。', 'name': '沈以安', 'fade': False, 'menu': False}
+PASS 門口出現「離開咖啡廳」  離開咖啡廳
+PASS 回到溫州街（Café 門口）  {'zone': 'wenzhou', 'x': 51.7, 'z': 0, 'yaw': -1.57, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '', 'text': '我在整理這週的筆記。你坐吧，我不會吵。', 'name': '沈以安', 'fade': False, 'menu': False}
+PASS 出來後可以繼續走
+PASS 觸控存到欄位 1  ('wenzhou', {'x': 40.95, 'z': 0, 'yaw': -1.571, 'lv': 0, 'y': 0})
+PASS 重新整理後讀回欄位 1（溫州街、位置相同）  (40.95, 0, {'x': 40.95, 'z': 0, 'yaw': -1.571, 'lv': 0, 'y': 0})
+PASS 讀檔後可以走  4.13
+PASS 沒有 JS 例外
+ALL PASS
