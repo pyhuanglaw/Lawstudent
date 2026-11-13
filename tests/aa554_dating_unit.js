@@ -96,11 +96,11 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
 /* ======================= 1 大一下和芷若交往 ======================= */
 await sec('1-Z3',async()=>{ const d=STORY.termDay('Y1S2',3,2);
   setup(d,21.75,'cafe',{dh:ZR}); const L=await play('ev_zhiruo_own_drink');
-  check('1. Z3 和她交往中：照原文到「……不要笑。」，之後多兩句（AA_230 Z-14）；記 ZR_Z3_DH',has(L,['……不要笑。'].concat(Z3x))&&H.G.flags.ZR_Z3_DH===true,J(L.slice(-4)));
+  check('1. Z3 和她交往中：照原文到「不要笑。」（AA_961 拿掉「……」），之後多兩句（AA_230 Z-14）；記 ZR_Z3_DH',has(L,['不要笑。'].concat(Z3x))&&H.G.flags.ZR_Z3_DH===true,J(L.slice(-4)));
   const R=STORY.roomItemList(H.G).find(x=>x[0]==='吧檯的點單紙');
   check('1. Z3 和她交往中：宿舍房間多一張「熱可可＋濃縮」的點單紙（STORY.ROOM_EXTRA）',!!R&&/熱可可＋濃縮/.test(R[1])&&inD(B7,'熱可可＋濃縮'),J(R));
   setup(d,21.75,'cafe',{}); const L2=await play('ev_zhiruo_own_drink');
-  check('1. Z3 單身：最後一句是「……不要笑。」、沒有那兩句、沒有點單紙',L2[L2.length-1]==='……不要笑。'&&!H.G.flags.ZR_Z3_DH&&!STORY.roomItemList(H.G).some(x=>x[0]==='吧檯的點單紙'),J(L2.slice(-2)));
+  check('1. Z3 單身：最後一句是「不要笑。」、沒有那兩句、沒有點單紙',L2[L2.length-1]==='不要笑。'&&!H.G.flags.ZR_Z3_DH&&!STORY.roomItemList(H.G).some(x=>x[0]==='吧檯的點單紙'),J(L2.slice(-2)));
 });
 await sec('1-Z4',async()=>{ const fri=STORY.termDay('Y1S2',11,5), sat=fri+1, z4=ev('ev_zhiruo_secret');
   setup(fri,20,'dorm',{dh:ZR,lv:'fam'}); run(20,21.2);
@@ -353,6 +353,6 @@ await sec('5',async()=>{ const fri=STORY.termDay('Y1S2',11,5);
   check('5. 摘要日和別人交往中：熱可可那則照原本 15:10「今天有人點熱可可加濃縮。我以為只有我會喝這個。」',Math.abs(a.h-(15+10/60))<0.01&&J(a.items)===J(['今天有人點熱可可加濃縮。我以為只有我會喝這個。']),J(a));
   setup(D('2027-10-03'),12,'dorm',{gf:ZR}); run(12,12.1); check('5. 和別人交往中：第一次交換沒有每週的視訊',!OUT.get(H.G,'zruk_w_2027-10-03'));
   const dz=STORY.termDay('Y1S2',3,2); setup(dz,21.75,'cafe',{gf:ZR}); const L6=await play('ev_zhiruo_own_drink');
-  check('5. Z3 和別人交往中照原本（最後「……不要笑。」）',L6[L6.length-1]==='……不要笑。'&&!H.G.flags.ZR_Z3_DH);
+  check('5. Z3 和別人交往中照原本（最後「不要笑。」）',L6[L6.length-1]==='不要笑。'&&!H.G.flags.ZR_Z3_DH);
 });
 }

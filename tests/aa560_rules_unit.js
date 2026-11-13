@@ -44,7 +44,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* C6 明軒 M4 阿哲（D116）*/
 { const ev=(R2Y4B_EVENTS||[]).find(e=>e.id==='ev_mingxuan_saved')||{dialogue:[]}, zl=ev.dialogue.filter(d=>d.speaker==='zhe');
-  check('C6. 明軒 M4（ev_mingxuan_saved）阿哲「你什麼時候偷念的。我也要。」（原「……我恨你。」）；稿上那一句；認識阿哲才說的條件照舊、阿哲只有這一句；src/ 沒有「……我恨你。」',SEC.includes('→「你什麼時候偷念的。我也要。」')&&zl.length===1&&zl[0].text==='你什麼時候偷念的。我也要。'&&!!zl[0].if&&!inSrc('……我恨你。').length,J({zl,old:inSrc('……我恨你。')})); }
+  check('C6. 明軒 M4（ev_mingxuan_saved）阿哲「你什麼時候偷念的。我也要。」（原「……我恨你。」）；稿上那一句（稿「……你什麼時候偷念的。我也要。」，AA_966 拿掉開頭「……」）；認識阿哲才說的條件照舊、阿哲只有這一句；src/ 沒有「……我恨你。」',SEC.includes('→「……你什麼時候偷念的。我也要。」')&&zl.length===1&&zl[0].text==='你什麼時候偷念的。我也要。'&&!!zl[0].if&&!inSrc('……我恨你。').length,J({zl,old:inSrc('……我恨你。')})); }
 
 /* C7 方奕廷 */
 { const s=SMALLTALK.npc_fangyt||[], e=s[0]||{};

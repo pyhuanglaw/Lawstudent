@@ -61,7 +61,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 都沒加入
   fresh(d16,15,'campus',{}); G.stage='law'; meet('classmate_bohan'); at(-13.5,13.6); tick(); await wait(); L=lines();
   check('4. 都沒加入、認識柏翰（AA_358 2-5）：「（你只是走過。法服的攤位後面，柏翰在發傳單。）」柏翰「法服的傳單，週六有值班。」「（他遞一張給你，又想起來，你不是新生。）」柏翰「那你幫我拿給大一的。」（AB65-3（AA_211） 附錄 A：祐廷大二沒有學弟）；沒有「學長」、不花時間、Y2_EXPO_BOOTH none',
-    L[1]==='（你只是走過。法服的攤位後面，柏翰在發傳單。）'&&/柏翰：法服的傳單，週六有值班。$/.test(L[2]||'')&&L[3]==='（他遞一張給你，又想起來，你不是新生。）'&&/柏翰：……那你幫我拿給大一的。$/.test(L[4]||'')&&L.length===5&&!L.some(t=>/學長」/.test(t))&&G.flags.Y2_EXPO_BOOTH==='none'&&!G.flags.Y2_EXPO_SENIOR&&Math.abs(G.hour-15)<1e-6,JSON.stringify(L));
+    L[1]==='（你只是走過。法服的攤位後面，柏翰在發傳單。）'&&/柏翰：法服的傳單，週六有值班。$/.test(L[2]||'')&&L[3]==='（他遞一張給你，又想起來，你不是新生。）'&&/柏翰：那你幫我拿給大一的。$/.test(L[4]||'')&&L.length===5&&!L.some(t=>/學長」/.test(t))&&G.flags.Y2_EXPO_BOOTH==='none'&&!G.flags.Y2_EXPO_SENIOR&&Math.abs(G.hour-15)<1e-6,JSON.stringify(L));
   fresh(d16,15,'campus',{}); G.stage='law'; meet('heroine_03'); at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 只認識語彤、不認識柏翰：只有「你只是走過。」（語彤不在法服攤位的任何一路）',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
   fresh(d16,15,'campus',{}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 都不認識：只有「你只是走過。」',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
   fresh(d16,9.5,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 10:00 以前不觸發（AA_485 3-2：10:00～16:00）',!tick());

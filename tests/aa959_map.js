@@ -51,6 +51,12 @@ function mapText(s, file, who) {
   }
   return s;
 }
+/* unmapText(s, file, who)：mapText 反過來（s 裡有某一列的新字、沒有舊字＝換回舊字；給「遊戲的字在稿上找得到」那種比法用） */
+function unmapText(s, file, who) {
+  if (typeof s !== 'string') return s;
+  for (const r of rows(file, who).slice().sort((a, c) => nw(c).length - nw(a).length)) { const n = nw(r); if (n && s.includes(n) && !s.includes(r.old)) s = s.split(n).join(r.old); }
+  return s;
+}
 const is959 = (a, b, file) => typeof a === 'string' && a !== b && map(a, file) === b;
 /* 深層複本：每一個字串葉子照 map／unmap 換。路徑上最近的一個鍵是表上的說話的人（heroine_01、kexin…）＝只用那個人的列
    （同一個檔裡別人剛好說了一樣的字不動；例：語彤 D01「走了好多路。」＝另一位女主角那一列的新字） */
@@ -63,4 +69,4 @@ function deep(x, f, who) {
 }
 const mapDeep = (x, file) => deep(x, (s, w) => map(s, file, w));
 const unmapDeep = (x, file) => deep(x, (s, w) => unmap(s, file, w));
-module.exports = { map, unmap, mapText, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };
+module.exports = { map, unmap, mapText, unmapText, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };

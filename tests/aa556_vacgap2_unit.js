@@ -16,7 +16,7 @@ const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '
 const A556='docs/story_planning/AA_556_寒暑假第二批_出國旅遊_加州東京_大二暑假寒假_阿凱624.md';
 const doc=git('3d7ad0024',A556)||git('origin/claude/story-planning',A556);
 check('0. AA_556（企劃線 3d7ad0024）讀得到；模組都載得到',doc.length>3000&&doc.indexOf('# AA_556')>=0&&!loadErr,loadErr||'git fetch origin claude/story-planning');
-const inDoc=t=>!!doc&&doc.includes(String(t));
+const inDoc=t=>!!doc&&(doc.includes(String(t))||doc.includes(require('./aa959_map.js').unmapText(String(t),'vac_activities.js')));   /* AA_959：遊戲的字照覆寫表改過（「……」開頭減量）＝換回稿上的字再找 */
 const notIn=L=>L.filter(t=>!inDoc(t));
 const D=H.D, T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7;
 const TV=VAC_DATA.TRAVEL, A=VAC_DATA.A, nm=id=>SOCIAL.displayName(id);
