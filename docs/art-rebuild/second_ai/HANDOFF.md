@@ -10,6 +10,7 @@
 - HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104；下次檢查 11-19。
 
 ### 下一班第一件事（任務 ID，照順序）
+0f. **（11-13 22:0x UTC＝14:0x 本機）** **印得好 v1 交 e100945a07**（patch 底 99063ee27f，outbox 496；塑膠黑紋已修）。**我自己的錯**：洗樂 v2 patch 漏了滾筒 v2 程式碼（開發分支模型對、原始碼還是 v1 滾筒），這次印得好 patch 整份換 tz_shops_interior.py 一起補正，已告訴 LAWWW-C。聯通烘焙中；改之前四間（聯通、東南大聯、客居、越好吃）的截圖在拍（scratchpad tz4_shots）。**交件流程提醒**：從整份 diff 挑 hunk 容易漏——之後交件一律「從開發分支那份＋只開這間的 CC0」重產整份檔，並用它重建模型比對大小。
 0e. **（11-13 14:5x）** 汀州路七間的 CC0 改法都寫好了（scratchpad wt_inc 的 tz_shops_interior.py；檢查點 wip/tz_yindehao_cc0_1113/wip_src_yindehao_liantong.patch）：客居（Poly Haven wooden_stool_01、ceramic_pot 上深褐、potted_plant_01；43.9k 面）、越好吃（藤編竹條／斗笠、紙袋、PH potted_plant_01＋fern_02；51.2k 面）、洗樂 v3（滾筒：亮筒壁＋暗筒底＋圓網孔＋玻璃反光）。烘焙排隊：印得好→聯通→東南大聯→洗樂 v3→客居→越好吃（log：scratchpad yin／lian／dong／xile3／keju／yue 的 bake*.log）。LICENSES 還沒補聯通、東南大聯、客居、越好吃。
 0d. **（11-13 14:3x）** **Plastic006 黑紋**：白／藍／深灰塑膠的顏色貼圖校成淺色會出現大理石黑紋（印得好 v1 試拍抓到；已整合的洗樂 30ca42cbf1 也有）。修：`acg(vary=0.05)`。印得好→聯通→東南大聯依序重烘（scratchpad bake_run3.sh，log yin/lian/dong/bake2.log）；之後 **洗樂 v3**＝新塑膠＋BB 滾筒 P2。東南大聯 CC0 改法已寫（ROUTE、CashRegister_01、plastic_crate_01／02 減面）。已通知 LAWWW-C、BB-C。
 0c. **（11-13 14:0x）** 洗樂 v2：BB 看圖 PASS（BB_379 末節 964ebe79b0），正式 PASS 等 CC 佇列⑪（泰米、洗樂四鏡頭＋效能）。**SHOP-REALISM-1112 洗樂 P2（BB 給，不擋）**：內筒往裡凹、偏暗、網孔改圓、玻璃加反光；海報、洗衣精瓶頂點色→印的貼圖——汀州路七間第一輪交完再做。印得好 v1：烘焙中（原始碼檢查點 wip/tz_yindehao_cc0_1113，99da145cc3）。聯通：腳本已改 CC0、建得出來，等印得好烘完再烘。
