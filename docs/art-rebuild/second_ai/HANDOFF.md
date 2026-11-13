@@ -10,6 +10,7 @@
 - HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104；下次檢查 11-19。
 
 ### 下一班第一件事（任務 ID，照順序）
+0a. **（11-13 13:0x）** 泰米 v1 已整合 0eb8ce091a；v2（BB 三點）交 8383f23263（patch 疊在 0eb8ce091a，outbox 493）。SHUT_XS_across_2330：開發分支已暗，BB 初判 PASS，等 CC 確認，不用改。下一件：洗樂（工作樹 scratchpad wt_inc＝0eb8ce091a＋v2）。
 0. **（11-13 進度）** 溫特寶邸 v5、shop_cc0 已整合；**泰米村食 CC0 版已交 a67248c079**（wip/tz_taimi_cc0_1113，outbox 492；等 LAWWW-C 套 patch＋決定 zones3d.js 17 行與 shop_cc0 牆不算純色、CC 拍、BB 判）。下一間：洗樂（bake_tz_shops.sh 加 case；tz_shops_interior.py 的 CC 0 tuple 加 'xile'）。
    **SHUT_XS_across_2330**（LAWWW-C 轉 BB_379 P2）：新生運動廣場、山嵐 23:30 二樓窗——在開發分支 0029a82618 近拍已經是暗的（xs_shut 截圖），正在從對街拍確認是哪個模型還亮。之後 WZ-FRUIT-CLOSED。
 1. **SHOP-WINDOW-3D-1112／SHOP-REALISM-1112（P0 使用者 UA-LAWWW2-1112-05／06／07，D159／D160）溫特寶邸 v2 交件**：從 `docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/wente_v2_wip.patch`（底 21773bf35b，含已整合過的 zones3d sb、game3d／engine3d 那幾段，套之前和開發分支比對、只取 wente 相關：tz_wente_interior.py、cc0_fetch.py、tingzhou3d.js REAL_VIEW／REAL_SB、wz_street.py wente real=True back=3.7、tingzhou_street.glb、tests/tz_wente_interior_1112_unit.js、LICENSES 12 列）。GLB `tz_wente_interior_v2.glb` 是**寬 4.96**（修隔壁聯通店內東牆伸進來 5 cm、白牆擋住側牆）；tingzhou3d.js REAL_VIEW w 要 4.96。**遊戲內照片 shots/ingame_w52_*.jpg 是寬 5.2 那版（兩側白牆就是那個問題）**——要用 4.96 版重拍（fast_shots spec 在 scratchpad 會不見：鏡頭 full cam(−3.6,1.6,5.75)→(−10.5,1.45,5.75)；obl (−4.4,1.6,2.2)；counter (−7.6,1.5,6.8)；rack (−7.4,1.5,4.4)；closed 23:00；hour 15 要避開週三公休，日子 +1），和 wente_concept_v1_v3.jpg 並排三組 → 交 LAWWW-C 先看圖（他 22:00Z 說先看再整合）→ BB 判 → 給使用者看。
