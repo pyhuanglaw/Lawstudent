@@ -314,6 +314,8 @@ const INV=(function(){
     return null; };
   /* 現在可以「見面」：約好的時間、人在那裡（talkCharacter 先問這裡）*/
   S.meetable=function(G,id){ const e=S.entryFor(G,id); return e&&e.invite&&e.invite.state==='accepted'&&!e.invite.lead&&G.zone===e.zone?e.invite:null; };   /* 帶路途中（iv.lead）：坐到她旁邊、走到她旁邊才開演（S.leadTick），按說話不另外開 */
+  /* INV-MEET-YIELD-1113（BB-C 11-13 P3，LAWWW 決定讓位）：約好、時間到了、她就在這一區＝互動鍵優先給她（game3d.js updateInteract 設成 E.prefNpc，engine3d.js 對她多算 1.5 m）——總圖約可昕，走到她旁邊不會被別人的初見事件「和常在圖書館的男生說話」搶走 */
+  S.meetPref=function(G){ if(!G||!Array.isArray(G.invites)) return null; for(const iv of G.invites){ if(iv&&iv.who&&iv.state==='accepted'&&iv.day===G.day&&S.meetable(G,iv.who)) return iv.who; } return null; };
   /* 見面：一起待一段時間（旁白）、時間過去、留一筆小記憶、熟一點點（不推進戀愛：使用者第 7 點）、習慣記憶 */
   /* ---------- 一起運動的約會（AA_126 6-6、AA_417 第 3 節，AA-B 2026-10-23 定稿；USER_WANTS D40）：羽球 gym_badminton（新體育館 1F）、晨跑 run_avenue（椰林大道）----------
      見面：子晴、可昕照各自的 sport（第一次＝firstAt；一起的時候三句輪流；結束一句），其他人照 INVITE_DATA.sport 的共用旁白。
@@ -872,7 +874,7 @@ const INV=(function(){
   S.flow=async function(GM,id,n,together,fo){ fo=fo||{}; const G=GM.G; S.rec(G);   /* fo.place：地點已經定了（她主動約、你回改天：HER-ASK-LATER-DAY-1110），直接選日子和時間 */ const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
     const t7=!n&&t7a(G,id);   /* AA_350 T7a：以安、芷若在台中＝和可昕一樣只有「去校外…」（清單只列 D26，DATE.menu）*/
     const far=!n&&typeof STORY!=='undefined'&&!!STORY.reachable&&!STORY.reachable(id,G);   /* INVITE-MENU-1030 E：手機約、她今天不在臺北（沛珊大三起在台南、寒暑假在老家）＝校內的地點不列（比照 T7a；原本照列、每一個都回「不在臺北」）*/
-    const PL=(t7||far?[]:D().places.filter(Q=>!kxGF(G,id)||S.kxPlaceOk(G,Q))).filter(Q=>!Q.show||Q.show(G,id)).filter(Q=>!S.neverAt(id,Q)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* 可昕交往中：答應句接得上的校內地點都可以約（她從外校下來；羽球場用祐廷台大的帳號預約，AA_417 3-2）*/
+    const PL=(t7||far?[]:D().places).filter(Q=>!Q.show||Q.show(G,id)).filter(Q=>!S.neverAt(id,Q)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* KX-GF-PLACES-1113（AA-C 11-13 選 a）：可昕交往中不再用 kxPlaceOk 過濾（那是她在外校時「只列有答應句的地點」的限制；CANON 以後同系），照一般規則列 */   /* 可昕交往中：答應句接得上的校內地點都可以約（她從外校下來；羽球場用祐廷台大的帳號預約，AA_417 3-2）*/
     /* 當面約（AA_134 第 4 節，AA_140 G49）：第一句是當面的版本；她回答前看一下手機的行事曆、答應時點頭（動作用字幕，不多一個要點的對話框）*/
     const act=(t,ms)=>{ if(n&&GM.caption) GM.caption('','（'+t+'）',ms||1800); };
     if(n){ const T0=S.timeOptions(G,together); await GM.say({name:G.name||'祐廷'},T0.some(q=>q.day===G.day)?'你等一下有空嗎？':'你明天有空嗎？'); }   /* 照可選的時間說（AA-B 2026-10-16 21:53 定稿，AA_134 第 50 行下；不加週末選項）*/

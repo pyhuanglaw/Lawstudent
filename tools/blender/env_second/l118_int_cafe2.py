@@ -96,8 +96,12 @@ def mini_plant(c, x, y, z, rng, n=7):
     for k in range(n): a = k * 2 * PI / n + rng.uniform(-0.3, 0.3); cell_(c.vc, (x + 0.035 * math.cos(a), y + 0.11 + 0.03 * (k % 2), z + 0.035 * math.sin(a)), 0.045, 0.012, 0.028, rng.choice(['#4f8f44', '#3f7a3a', '#63a552']), rotz=a)
 
 
-def plates(m, x, y, z, n=8, r=0.12, col='#f1f0ec'):
-    for k in range(n): clathe(m, [(0.0, 0.0), (r * 0.6, 0.0), (r, 0.012), (r, 0.016), (r * 0.58, 0.006), (0.0, 0.006)], x, y + k * 0.011, z, col, seg=14)
+def plates(m, x, y, z, n=8, r=0.12, col='#f1f0ec', seg=10):
+    """一疊盤子：整疊一個車床外型（底、每一個盤子的盤緣凸一圈、最上面那個的盤面往下凹）——原本一個盤子一個車床零件，30 個盤子的面數太多（GLB 1.5 倍預算）"""
+    prof = [(0.0, 0.0), (r * 0.6, 0.0)]
+    for k in range(n): yk = k * 0.011; prof += [(r * 0.97, yk + 0.006), (r, yk + 0.011)]
+    top = (n - 1) * 0.011; prof += [(r, top + 0.016), (r * 0.58, top + 0.006), (0.0, top + 0.006)]
+    clathe(m, prof, x, y, z, col, seg=seg)
 
 
 def buffet(c, x0, x1, z0, z1, rng):
@@ -151,9 +155,12 @@ def build_cafe2(c):
     f0 = set(c.vm.bm.faces); bm = L.lathe([(0.0, 0.05), (0.08, 0.045), (0.17, 0.02), (0.215, 0.0), (0.215, 0.012), (0.17, 0.034), (0.08, 0.06), (0.0, 0.066)], seg=22)
     c.vm.add_bm(bm, Matrix.Translation(g2b(rx - 0.19, 1.3, rz)) @ Matrix.Rotation(math.radians(72), 4, 'Y')); bm.free(); c.vm.paint([q for q in c.vm.bm.faces if q not in f0], '#b9bec2')
     ccyl(c.vc, (rx + 0.05, 1.1, rz + 0.05), (rx + 0.2, 1.24, rz + 0.16), 0.01, '#f1efe9', seg=5)
+    us = 1.3 if getattr(c, 'cc0m', None) is not None else 1.0   # LAWWW2-C 11-13 cafe2 P2：餐台開頭那一區（白盤疊、餐具筒、飯鍋）不夠明顯 → 餐具筒放大、多一疊白盤
     for k, (ux, uz) in enumerate(((-2.62, 2.9), (-2.86, 2.9))):                                          # 餐具筒（筷子、湯匙）
-        clathe(c.vm, [(0.0, 0.0), (0.06, 0.0), (0.062, 0.005), (0.062, 0.15), (0.056, 0.15), (0.056, 0.012), (0.0, 0.012)], ux, 0.86, uz, '#b9bec2', seg=12)
-        for j in range(9): a = j * 0.75 + k; ccyl(c.vm if k else c.vc, (ux + 0.03 * math.cos(a), 0.9, uz + 0.03 * math.sin(a)), (ux + 0.045 * math.cos(a), 1.1 + 0.02 * (j % 3), uz + 0.045 * math.sin(a)), 0.004, '#c9ced2' if k else '#d8c08a', seg=4)
+        clathe(c.vm, [(0.0, 0.0), (0.06 * us, 0.0), (0.062 * us, 0.005), (0.062 * us, 0.15 * us), (0.056 * us, 0.15 * us), (0.056 * us, 0.012), (0.0, 0.012)], ux, 0.86, uz, '#b9bec2', seg=12)
+        for j in range(12 if us > 1 else 9): a = j * 0.75 * (9 / 12 if us > 1 else 1) + k; ccyl(c.vm if k else c.vc, (ux + 0.03 * us * math.cos(a), 0.9, uz + 0.03 * us * math.sin(a)), (ux + 0.045 * us * math.cos(a), 0.86 + (0.24 + 0.02 * (j % 3)) * us, uz + 0.045 * us * math.sin(a)), 0.004, '#c9ced2' if k else '#d8c08a', seg=4)
+    if us > 1:
+        for (px_, pz_, n_) in ((-2.56, 2.3, 8), (-2.56, 2.58, 6)): plates(c.vc, px_, 0.86, pz_, n=n_, r=0.105)   # 兩疊白盤（盤子一個個疊起來看得到盤緣）
     c.block(X0, -2.1, -2.9, 3.1, 'buffet')
     # 餐盤車（餐台前面、靠窗）：兩層，疊起來的盤子和餐盤；角落一盆樹
     cx0, cx1, cz0, cz1 = X0 + 0.08, -2.45, 3.2, 3.95
@@ -274,7 +281,7 @@ def main():
     if not os.path.exists(os.path.join(GEN, 'l118_screens.png')): TX.screens()
     atlas(); HM.ensure_view(SID)
     c = LS.Shop(SID); c.extra = {}; c.REG = REG
-    if SID in LS.CC0_INT: LS.cc0_setup(c)   # SHOP-CC0-HELP-1113：CC0 材質組＋Poly Haven 模型（lane118_shops.py 的同一套）
+    if SID in LS.CC0_INT: LS.cc0_setup(c); c.kpots = True   # SHOP-CC0-HELP-1113：CC0 材質組＋Poly Haven 模型（lane118_shops.py 的同一套）；kpots：出菜口後面層架放湯鍋（P2）
     c.M['wain'] = c.M['wall']   # 白牆從地板到天花板同一種（參考圖沒有腰牆；SPEC 的 wain 不用）
     c.M['iprint'] = LS.img_mat('l118_cafe2_iprint', 'l118_int_cafe2_print.png', rough=0.6)
     build_cafe2(c)
