@@ -10,7 +10,10 @@ wz_brunch 白天模型卡、晚上 WZ_AA_NIGHTVIEW），wz_teahouse（一盞）�
     相機從房間中心往前院方向走到房間邊緣（緣側）、高 1.4 m 往前院看。
   每間每個時間另外拍一張遊戲自己的鏡頭（E.camera，站在出生點）。
 CC_02 清單 2026-11-14：1✓（日期 10/22 週三、13:00／21:00，照 LAWWW-C；打烊的跳過並記） 2✓（窗景卡從場景網格的名字找，不寫死座標；房間範圍從導航格算） 3✓（每一張卡都拍，不挑第一張） 4n/a（只拍照，不點畫面） 5n/a（不走路，讀檔進店） 6✓（等 ASSETS 載完、再等 1.5 秒讓 applyTime 換窗景圖） 7✓（lint、JS 在 node --check 驗過語法） 8✓（數字只記不判，判定歸 BB） 9✓（相機對準卡的中心、記卡的位置；找不到卡＝FAIL_SETUP） 10n/a（讀檔時關事件和手機） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：真的在那一間、找到窗景卡或前院） 13n/a（不走路）
-用法：LW_TESTS=<wt>/tests SHA=<sha> [ZONES=afar,…] [HOURS=13,21] python3 cc_window_view_probe.py <url> <out>"""
+天花板（LAWWW-C 17:38，@d78586749b：wz_print／wz_lin／wz_teishoku 室內鏡頭距離 4.0→3.2）：CEIL_ZONES 的每一間、每個時間拍三張遊戲自己的鏡頭——
+  ① 預設跟隨鏡頭 ② 手指往下拖（俯角拉到最大，鏡頭最高）③ 手指往上拖（俯角最小、抬頭）；拖是真的觸控（CDP touch，和玩家一樣）。
+  每張記 E.cam.pitch、鏡頭高度、場景背景色，畫面上半有多少像素等於背景色（＝看穿天花板看到背景）。WIN=0＝這幾間不跑窗景卡那一段。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [ZONES=afar,…] [HOURS=13,21] [CEIL_ZONES=wz_print,…] [WIN=0] python3 cc_window_view_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
@@ -22,6 +25,8 @@ os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
 ZONES = [z for z in (os.environ.get('ZONES') or 'afar,daybreak,yangyang,corner_records,aoki,wz_mokuyobi,wz_offbeat,wz_brunch,wz_teahouse').split(',') if z]
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '13,21').split(',') if h]
+CEIL_ZONES = [z for z in (os.environ.get('CEIL_ZONES') or '').split(',') if z]
+WIN = (os.environ.get('WIN') or '1') != '0'
 DAY = '2025-10-22'
 R = L.Run('window_view', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -29,6 +34,10 @@ SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.ke
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||60, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const z=E.zone, P=E.player&&E.player.obj; if(z&&z.fadeWalls){ try{ z.fadeWalls(cam,P?P.position:cam.position); if(E.hideFaded) E.hideFaded(); }catch(e){} }
   try{ r.render(E.scene,cam); return c.toDataURL('image/png'); } finally { if(z&&z.fadeWalls&&E.camera){ try{ z.fadeWalls(E.camera,P.position); if(E.hideFaded) E.hideFaded(); }catch(e){} } } })"""   # 同 cc_shop_view_probe.py
+CAMST = r"""(()=>{ const E=GAME.E, c=E.camera, bg=E.scene.background; return {pitch:+E.cam.pitch.toFixed(3), dist:+(+E.cam.distTarget).toFixed(2), camY:+c.position.y.toFixed(2), ceil:(E.zone&&E.zone.h)||null, bg:bg&&bg.isColor?[Math.round(bg.r*255),Math.round(bg.g*255),Math.round(bg.b*255)]:null}; })()"""
+BGPCT = r"""(async a=>{ const im=await new Promise(res=>{ const q=new Image(); q.onload=()=>res(q); q.src=a.u; }); const W=160, H=Math.round(160*im.height/im.width);
+  const k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d'); g.drawImage(im,0,0,W,H); const d=g.getImageData(0,0,W,Math.floor(H/2)).data; let n=0,m=0;
+  for(let i=0;i<d.length;i+=4){ n++; if(a.bg&&Math.abs(d[i]-a.bg[0])<=8&&Math.abs(d[i+1]-a.bg[1])<=8&&Math.abs(d[i+2]-a.bg[2])<=8) m++; } return +(m*100/n).toFixed(1); })"""
 GAMECAM = "(()=>{ const E=GAME.E, r=E.renderer; r.render(E.scene,E.camera); return r.domElement.toDataURL('image/png'); })()"
 ANALYZE_JS = r"""(async u=>{ const im=await new Promise(res=>{ const q=new Image(); q.onload=()=>res(q); q.src=u; }); const W=160, H=Math.round(160*im.height/im.width);
   const k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d'); g.drawImage(im,0,0,W,H); const d=g.getImageData(0,0,W,H).data;
@@ -96,6 +105,27 @@ async def one(pg, cdp, zid, h, rows):
     rows.append(row)
 
 
+async def ceil(pg, cdp, zid, h, rows):
+    hh = '%02d%02d' % (int(h), int(round((h % 1) * 60))); tag = '[%s %s 天花板]' % (zid, hh)
+    s = await D.load_zone(pg, cdp, zid, DAY, h, wait=8000)
+    R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f 時（出生點、預設跟隨鏡頭）' % (tag, zid, DAY, h))
+    await pg.evaluate(SETTLED); await pg.wait_for_timeout(2500)
+    row = {'zone': zid, 'hour': h, 'ceil': []}
+    if s['zone'] != zid:
+        R.note('%s 讀檔以後在 %s＝打烊或進不去，跳過' % (tag, s['zone'])); row['skipped'] = 'closed:' + s['zone']; rows.append(row); return
+    vp = pg.viewport_size or {'width': 844, 'height': 390}; W, H = vp['width'], vp['height']
+    for k, (lab, y0, y1) in enumerate((('① 預設', None, None), ('② 手指往下拖（俯角最大）', 0.3, 0.9), ('③ 手指往上拖（抬頭）', 0.9, 0.2)), 1):
+        if y0 is not None:
+            for _ in range(2): await L.drag(pg, cdp, W * 0.55, H * y0, W * 0.55, H * y1, steps=12); await pg.wait_for_timeout(250)
+            await pg.wait_for_timeout(600)
+        cs = await pg.evaluate(CAMST); u = await pg.evaluate(GAMECAM)
+        fn = 'ceil_%s_%s_%d.png' % (zid, hh, k); open(os.path.join(OUT, fn), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
+        bgp = await pg.evaluate(BGPCT, {'u': u, 'bg': cs['bg']}); a = await pg.evaluate(ANALYZE_JS, u)
+        row['ceil'].append({'shot': lab, 'cam': cs, 'bg_top_pct': bgp, 'img': a, 'file': fn})
+        R.note('%s %s：俯角 %s、鏡頭高 %s m（天花板 %s m、距離 %s）；背景色 %s 在畫面上半佔 %s%%；畫面 %s' % (tag, lab, cs['pitch'], cs['camY'], cs['ceil'], cs['dist'], cs['bg'], bgp, J(a)))
+    rows.append(row)
+
+
 async def main():
     print('CC 窗景第二層（SHOP-INTERIOR-VIEW-1112）：SHA %s；ZONES %s；HOURS %s；Windows＋GPU ≠ iPhone' % (SHA or '?', ','.join(ZONES), HOURS), flush=True)
     rows = []
@@ -103,8 +133,13 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg, 600), ''): await b.close(); sys.exit(1)
-        for zid in ZONES:
+        for zid in ZONES + [z for z in CEIL_ZONES if z not in ZONES]:
             for h in HOURS:
+                if zid in CEIL_ZONES:
+                    try: await ceil(pg, cdp, zid, h, rows)
+                    except Exception as e:
+                        R.check('[%s %s 天花板] 沒有中斷' % (zid, h), False, repr(e)[:300])
+                if zid not in ZONES or (zid in CEIL_ZONES and not WIN): continue
                 try: await one(pg, cdp, zid, h, rows)
                 except Exception as e:
                     R.check('[%s %s] 沒有中斷' % (zid, h), False, repr(e)[:300]); await pg.screenshot(path=os.path.join(OUT, 'crash_%s_%s.png' % (zid, int(h))))
