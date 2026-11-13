@@ -49,9 +49,11 @@ async def talk(pg, cdp, tag, prefix, picks=None, n=80):
         if st['choices']:
             want = picks[k] if picks and k < len(picks) else None
             i = next((q for q, t in enumerate(st['choices']) if want and want in t), None)
-            if i is None:
-                if want: R.note('%s 選單沒有含「%s」的：%s' % (tag, want, J(st['choices'])))
-                i = 0
+            if i is None and want:   # BB-C 11-14 INV_LAWLIB TEST_BUG：PICKS 對不到字就點第一個＝約錯地方還判成功——改成 FAIL_SETUP、停下來
+                await pg.screenshot(path=os.path.join(OUT, '%s_menu_nomatch.png' % prefix))
+                R.check('FAIL_SETUP 檢查：%s 選單有含「%s」的那一項' % (tag, want), False, J(st['choices']))
+                menus.append(st['choices']); return lines, menus
+            if i is None: i = 0
             else: k += 1
             menus.append(st['choices']); lines.append('▶ ' + st['choices'][i]); await pg.screenshot(path=os.path.join(OUT, '%s_menu_%02d.png' % (prefix, len(menus))))
             await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(900); continue
