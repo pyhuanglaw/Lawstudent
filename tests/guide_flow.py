@@ -11,6 +11,15 @@ from playwright.async_api import async_playwright
 import playlib as L
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html?turbo'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/guide_flow'
+async def wait_zone(pg, z, ms=30000):
+    """BUG-LIB-DOOR-LABEL-1110（11-13 LAWWW-C 查：TEST_BUG）：GAME.enter 換區域還沒跑完（第一次進溫州街要等模型最多 12 秒）時，下一個 GAME.enter 會被直接丟掉（game3d.js enter：if(entering) return）——
+    原本 07:12 那一段其實還在溫州街、(84.5,0) 是溫州街地圖外的空地，互動鍵藏著、讀到 index.html 的預設字「互動」。每次 enter 以後等到 G.zone 對了而且不在換區域中。"""
+    try:
+        await pg.wait_for_function("GAME.G.zone===%r&&!(GAME.isEntering&&GAME.isEntering())" % z, timeout=ms)
+    except Exception:
+        print('[診斷] 等不到進入 %s：zone=%s entering=%s' % (z, await pg.evaluate("GAME.G.zone"), await pg.evaluate("!!(GAME.isEntering&&GAME.isEntering())")))
+
+
 async def wait_tgt(pg, cond="!!(window.GUIDE&&GUIDE._st&&GUIDE._st.tgt)", ms=60000):
     """等 GUIDE 的 tick 算出目標再判（BB 17:07：讀檔後只等 4 秒，雲端很慢時 tgt 還是 null；判定標準不變，只是等夠）"""
     try:
@@ -51,28 +60,28 @@ async def main():
         run.check('新生南路側門的入口標記是金色', any(m['t'].startswith('往新生南路') and m['g'] for m in mk))
         # 公館
         run.setup('進入公館（GAME.enter）')
-        await pg.evaluate("void GAME.enter('gongguan',{x:-2.5,z:-29,yaw:0})"); await pg.wait_for_timeout(5000); await wait_tgt(pg, "GAME.G.zone==='gongguan'&&!!(GUIDE._st.tgt)")
+        await pg.evaluate("void GAME.enter('gongguan',{x:-2.5,z:-29,yaw:0})"); await pg.wait_for_timeout(5000); await wait_zone(pg, 'gongguan'); await wait_tgt(pg, "GAME.G.zone==='gongguan'&&!!(GUIDE._st.tgt)")
         st = await pg.evaluate("({tgt:GUIDE._st.tgt&&GUIDE._st.tgt.text, txt:document.getElementById('guideText').textContent, mk:GUIDE._st.markers.map(m=>m.txt+'|'+m.sub+'|'+m.gold), wz:GAME.E.interactables.some(i=>i.exit&&i.exit.to==='wenzhou')})")
         print(json.dumps(st, ensure_ascii=False)); run.check('公館指向「回到校園」（去新生南路側門；X199 公館往溫州街的巷口拿掉，原本指「往溫州街」）', st['tgt'] == '回到校園' and not st['wz'], str(st['tgt']))
         await run.shot(pg, 'gongguan_bar')
         await pg.evaluate("GAME.E.placeAt(GAME.E.player,-60,14,0); GAME.E.player.obj.rotation.y=Math.PI/2; GAME.E.cam.yaw=-Math.PI/2"); await pg.wait_for_timeout(2500); await run.shot(pg, 'gongguan_marker')
         await L.tap(pg, cdp, '#minimap'); await pg.wait_for_timeout(800); await run.shot(pg, 'bigmap_gongguan'); await L.tap(pg, cdp, '#bmClose'); await pg.wait_for_timeout(300)
         # 新生南路（X199：溫州街只從這裡進出）
-        await pg.evaluate("void GAME.enter('xinsheng')"); await pg.wait_for_timeout(5000); await wait_tgt(pg, "GAME.G.zone==='xinsheng'&&!!(GUIDE._st.tgt)&&GUIDE._st.tgt.text==='往溫州街'")
+        await pg.evaluate("void GAME.enter('xinsheng')"); await pg.wait_for_timeout(5000); await wait_zone(pg, 'xinsheng'); await wait_tgt(pg, "GAME.G.zone==='xinsheng'&&!!(GUIDE._st.tgt)&&GUIDE._st.tgt.text==='往溫州街'")
         st = await pg.evaluate("({tgt:GUIDE._st.tgt&&GUIDE._st.tgt.text, txt:document.getElementById('guideText').textContent})")
         print(json.dumps(st, ensure_ascii=False)); run.check('新生南路指向「往溫州街」', st['tgt'] == '往溫州街', str(st['tgt']))
         await run.shot(pg, 'xinsheng_bar')
         # 溫州街（從新生南路進來的落點：西側橫巷北口）
-        await pg.evaluate("void GAME.enter('wenzhou',{x:-33.4,z:-25.8,yaw:0})"); await pg.wait_for_timeout(5000); await wait_tgt(pg, "GAME.G.zone==='wenzhou'&&!!(GUIDE._st.tgt)&&/2:30 AM|Café/.test(GUIDE._st.tgt.text||'')")
+        await pg.evaluate("void GAME.enter('wenzhou',{x:-33.4,z:-25.8,yaw:0})"); await pg.wait_for_timeout(5000); await wait_zone(pg, 'wenzhou'); await wait_tgt(pg, "GAME.G.zone==='wenzhou'&&!!(GUIDE._st.tgt)&&/2:30 AM|Café/.test(GUIDE._st.tgt.text||'')")
         st = await pg.evaluate("({tgt:GUIDE._st.tgt&&GUIDE._st.tgt.text, txt:document.getElementById('guideText').textContent})")
         print(json.dumps(st, ensure_ascii=False)); run.check('溫州街指向 Café 的門（店名 2:30 AM）', bool(st['tgt']) and ('2:30 AM' in st['tgt'] or 'Café' in st['tgt']), str(st['tgt']))
         await run.shot(pg, 'wenzhou_bar')
         # 總圖早上：閉館訊息寫開放時間
         run.setup('回校園總圖門口、時間 07:12')
-        await pg.evaluate("void GAME.enter('campus',{x:82,z:0,yaw:-Math.PI/2})"); await pg.wait_for_timeout(5000)
+        await pg.evaluate("void GAME.enter('campus',{x:82,z:0,yaw:-Math.PI/2})"); await pg.wait_for_timeout(5000); await wait_zone(pg, 'campus')
         await pg.evaluate("GAME.G.hour=7.2; GAME.E.hour=7.2; GAME.E.placeAt(GAME.E.player,84.5,0,0)"); await pg.wait_for_timeout(1500)
         await run.shot(pg, 'library_marker_closed')
-        lab = await pg.evaluate("document.getElementById('interact').textContent")
+        lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b.classList.contains('hide')?'(藏著) '+b.textContent:b.textContent; })()")   # 藏著的按鈕也會讀到預設字「互動」：分開寫
         print('interact:', lab)
         # [診斷] BB 11-10 16:37：按鈕寫「互動」不是「進入總圖書館」——印出現在最近的是誰、附近 6 m 內有哪些互動點和人（Node 建校園只有總圖的門）
         print('[診斷] nearest:', await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position, it=E.nearestInteractable(); const o=it?{label:it.label||null,x:it.x,z:it.z,npc:!!it.npc,exit:it.exit&&it.exit.to||null,keys:Object.keys(it).slice(0,12)}:null; const its=E.interactables.filter(i=>Math.hypot(i.x-P.x,i.z-P.z)<6).map(i=>({label:i.label||null,x:+(+i.x).toFixed(1),z:+(+i.z).toFixed(1),hidden:!!i.hidden})); const ns=E.npcs.filter(n=>Math.hypot(n.obj.position.x-P.x,n.obj.position.z-P.z)<4).map(n=>({name:n.name,talk:!!n.talk,label:n.talkLabel||null,yield:!!n.yieldIt})); return JSON.stringify({p:[+P.x.toFixed(2),+P.z.toFixed(2)],lv:E.player.lv,it:o,its,ns}); })()"))

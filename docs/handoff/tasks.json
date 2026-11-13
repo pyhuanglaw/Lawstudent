@@ -53198,7 +53198,7 @@
    "id": "BUG-LIB-DOOR-LABEL-1110",
    "title": "早上 07:12 站在總圖門口 (84.5,0)，互動鍵顯示「互動」不是「進入總圖書館」，閉館訊息出不來（guide_flow 那一項 FAIL；已加 [診斷]）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53211,7 +53211,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "看 guide_flow 的 [診斷] 輸出（是哪個互動點搶了）再修"
+   "next": "【LAWWW-C 11-13 16:5x UTC】查完＝TEST_BUG（子代理只讀查證）：guide_flow.py 進溫州街（第一次進要等模型最多 12 秒）還在換區域時就呼叫 GAME.enter(campus)，被 game3d.js enter 的 if(entering) return 丟掉；07:12 那一段其實還在溫州街，(84.5,0) 是空地，互動鍵藏著、讀到 index.html 預設字「互動」（PC [診斷] its=[]、截圖 HUD 寫溫州街）。Node 在校園 07:12 (84.5,0) 最近的就是「進入總圖書館」。改測試：每次 enter 後 wait_zone（zone 對而且不在換區域中）、互動鍵藏著時讀成「(藏著) …」。遊戲不改。待 CC 重跑 guide_flow、BB 判。｜看 guide_flow 的 [診斷] 輸出（是哪個互動點搶了）再修"
   },
   {
    "id": "BUG-NY-EXIT-1110",
