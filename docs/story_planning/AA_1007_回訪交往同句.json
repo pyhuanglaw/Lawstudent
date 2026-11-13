@@ -1,0 +1,69 @@
+{
+ "_meta": {
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "by": "AA-C 2026-11-13",
+  "what": "date_lines 回訪（normal）、交往（dating）跨女主角一字不差：D06 相框、D12 夕陽、D13 點一樣／這張可以、D19 院子、D20 瀑布 已在 AA_972／AA_992 處理；剩 D07 景美四組（門好重、站在門前、沒拿手機、靠著肩膀走 ×4），留一位、其他改 6 列。"
+ },
+ "rows": [
+  {
+   "doc": "AA_1007",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "kexin\", \"text\": \"門好重。",
+   "new": "kexin\", \"text\": \"（她推了一下門）推不太動。",
+   "speaker": "kexin",
+   "note": "D07.cell：回訪 normal／交往 dating 跨女主角一字不差，留一位、其他改"
+  },
+  {
+   "doc": "AA_1007",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_03\", \"text\": \"（她在一扇門前站了一下）",
+   "new": "heroine_03\", \"text\": \"（她在一扇門前停下來，看了很久）",
+   "speaker": "heroine_03",
+   "note": "D07.cell：回訪 normal／交往 dating 跨女主角一字不差，留一位、其他改"
+  },
+  {
+   "doc": "AA_1007",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "kexin\", \"text\": \"（她沒有拿手機出來）",
+   "new": "kexin\", \"text\": \"（她一次都沒有看手機）",
+   "speaker": "kexin",
+   "note": "D07.court：回訪 normal／交往 dating 跨女主角一字不差，留一位、其他改"
+  },
+  {
+   "doc": "AA_1007",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"（她靠著你的肩膀，走了一段）",
+   "new": "classmate_peishan\", \"text\": \"（她勾著你的手臂，走了一段）",
+   "speaker": "classmate_peishan",
+   "note": "D07.path dating：回訪 normal／交往 dating 跨女主角一字不差，留一位、其他改"
+  },
+  {
+   "doc": "AA_1007",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_04\", \"text\": \"（她靠著你的肩膀，走了一段）",
+   "new": "heroine_04\", \"text\": \"（她走得很近，肩膀一直碰到你）",
+   "speaker": "heroine_04",
+   "note": "D07.path dating：回訪 normal／交往 dating 跨女主角一字不差，留一位、其他改"
+  },
+  {
+   "doc": "AA_1007",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "kexin\", \"text\": \"（她靠著你的肩膀，走了一段）",
+   "new": "kexin\", \"text\": \"（她拉著你的袖子，走了一段）",
+   "speaker": "kexin",
+   "note": "D07.path dating：回訪 normal／交往 dating 跨女主角一字不差，留一位、其他改"
+  }
+ ]
+}
