@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_place_gate_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L5F03_CLOSED8\out
+CC 地點關卡第二層：TAG 5f03_closed；SHA a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492；ZONES bikeshop,aoki,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku,us_asian_market；HOURS [23.5, 3.0]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [bikeshop 2330] 【前置／捷徑】讀檔進 bikeshop 2025-10-22 23.50 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [  50.6s] [bikeshop 2330] 讀檔以後在 gongguan＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [bikeshop 0300] 【前置／捷徑】讀檔進 bikeshop 2025-10-22 3.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [  62.7s] [bikeshop 0300] 讀檔以後在 gongguan＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [aoki 2330] 【前置／捷徑】讀檔進 aoki 2025-10-22 23.50 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [  76.4s] [aoki 2330] 讀檔以後在 gongguan＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [aoki 0300] 【前置／捷徑】讀檔進 aoki 2025-10-22 3.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [  87.7s] [aoki 0300] 讀檔以後在 gongguan＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [wz_brunch 2330] 【前置／捷徑】讀檔進 wz_brunch 2025-10-22 23.50 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 111.3s] [wz_brunch 2330] 讀檔以後在 wenzhou＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [wz_brunch 0300] 【前置／捷徑】讀檔進 wz_brunch 2025-10-22 3.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 122.9s] [wz_brunch 0300] 讀檔以後在 wenzhou＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [wz_print 2330] 【前置／捷徑】讀檔進 wz_print 2025-10-22 23.50 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+PASS [wz_print 2330] 量得到房間範圍、有門  {"n": 67, "box": [-1.4, 1.4, -3.4, 3.4], "c": [0, 0], "exit": {"x": 0, "z": 4.15, "label": "離開影印店", "to": "wenzhou", "spawn": {"x": -8, "z": 4.1, "yaw": 3.141592653589793}}, "counter": {"x": 1.45, "z": 2.7, "label": "買文具"}, "seat": {"x": -0.32, "z": 2.6, "label": "坐下來用電腦"}, "name": "wz_print"}
+  [ 142.2s] [wz_print 2330] 【機器判】1_clerk=PASS  1b_people_pos=PASS  2_window=UNKNOWN  3_ceiling=PASS  4_solid=PASS  7_console=PASS；證據 {"people": {"total": 2, "clerk": 1, "customers": 1, "clerk_in_furniture": [], "face_wall": [], "people": [{"id": "", "x": -0.95, "z": -3.4, "clerkFlag": true, "pose": "idle", "seat": false, "stand": true, "face_m": null}, {"id": "", "x": -1, "z": 1.4, "clerkFlag": false, "pose": "walk", "seat": false, "stand": true, "face_m": null}]}, "ceiling": {"ray": {"hit": true, "d": 1.4, "name": ""}, "sky_up_pct": 0, "sky_top_entry": 3.8, "sky_top_counter": 5.3}, "parallax": null, "solid": {"magenta": {"1": 0, "2": 0, "3": 0, "5": 0}, "flat_top_pct": {"1": 14.2, "2": 2.7, "3": 3.5, "5": 22.2}}}
+  [ 142.2s] [wz_print 2330] 窗 {"rects": [{"rect": [0.429, 0.817, 0.571, 0.919, ""], "top_pct": 10.7, "top_rgb": [12, 36, 84], "n": 300, "edge_pct": 22.1, "near_med_pct": 4.3, "med": [204, 179, 149]}, {"rect": [0.349, 0.794, 0.51, 1, "ad_desk_items_glass"], "top_pct": 7.3, "top_rgb": [204, 196, 188], "n": 627, "edge_pct": 25.3, "near_med_pct": 25, "med": [206, 198, 178]}, {"rect": [0.321, 0.366, 0.679, 0.816, "WALL_front_ad_glass"], "top_pct": 13.7, "top_rgb": [68, 60, 52], "n": 3096, "edge_pct": 30.3, "near_med_pct": 47.5, "med": [79, 66, 58]}, {"rect": [0.011, 0.647, 0.279, 0.867, "WALL_right_stat_rack_gla"], "top_pct": 3.7, "top_rgb": [124, 124, 116], "n": 1134, "edge_pct": 41.5, "near_med_pct": 22.9, "med": [131, 125, 115]}], "worst": [13.7, [68, 60, 52], "WALL_front_ad_glass"], "main": [47.5, [79, 66, 58], "WALL_front_ad_glass", 0.161, 30.3]}；閃 {}；做得到 null
+FAIL [wz_print 2330] 2_window 機器判不出來＝UNKNOWN（交 BB 看圖；不能當 PASS）  {"rects": [{"rect": [0.429, 0.817, 0.571, 0.919, ""], "top_pct": 10.7, "top_rgb": [12, 36, 84], "n": 300, "edge_pct": 22.1, "near_med_pct": 4.3, "med": [204, 179, 149]}, {"rect": [0.349, 0.794, 0.51, 1, "ad_desk_items_glass"], "top_pct": 7.3, "top_rgb": [204, 196, 188], "n": 627, "edge_pct": 25.3, "near_med_pct": 25, "med": [206, 198, 178]}, {"rect": [0.321, 0.366, 0.679, 0.816, "WALL_front_ad_gla
+  [前置／捷徑] [wz_print 0300] 【前置／捷徑】讀檔進 wz_print 2025-10-22 3.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 153.9s] [wz_print 0300] 讀檔以後在 wenzhou＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [wz_teahouse 2330] 【前置／捷徑】讀檔進 wz_teahouse 2025-10-22 23.50 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 169.6s] [wz_teahouse 2330] 讀檔以後在 wenzhou＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [wz_teahouse 0300] 【前置／捷徑】讀檔進 wz_teahouse 2025-10-22 3.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 181.0s] [wz_teahouse 0300] 讀檔以後在 wenzhou＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [wz_lin 2330] 【前置／捷徑】讀檔進 wz_lin 2025-10-22 23.50 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 195.0s] [wz_lin 2330] 讀檔以後在 wenzhou＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [wz_lin 0300] 【前置／捷徑】讀檔進 wz_lin 2025-10-22 3.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 206.4s] [wz_lin 0300] 讀檔以後在 wenzhou＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [wz_teishoku 2330] 【前置／捷徑】讀檔進 wz_teishoku 2025-10-22 23.50 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+PASS [wz_teishoku 2330] 量得到房間範圍、有門  {"n": 543, "box": [-3.3, 3.1, -1.3, 3.1], "c": [-0.1, 0.9], "exit": {"x": -2, "z": 3.55, "label": "離開小路", "to": "wenzhou", "spawn": {"x": -4.8, "z": -4.1, "yaw": 0}}, "counter": {"x": -2.75, "z": 2.55, "label": "點餐"}, "seat": {"x": -0.15, "z": 2.9, "label": "坐下"}, "name": "wz_teishoku"}
+  [ 223.9s] [wz_teishoku 2330] 【機器判】1_clerk=PASS  1b_people_pos=FAIL  2_window=PASS  3_ceiling=PASS  4_solid=PASS  7_console=PASS；證據 {"people": {"total": 4, "clerk": 1, "customers": 3, "clerk_in_furniture": [["", -0.6, -2.75]], "face_wall": [], "people": [{"id": "", "x": -0.6, "z": -2.75, "clerkFlag": true, "pose": "idle", "seat": false, "stand": false, "face_m": null}, {"id": "", "x": 1.8, "z": 2.9, "clerkFlag": false, "pose": "sit", "seat": true, "stand": false, "face_m": 1.59}, {"id": "", "x": -1.6, "z": 0.1, "clerkFlag": false, "pose": "sit", "seat": true, "stand": true, "face_m": 2.3}, {"id": "", "x": -1.1, "z": -1.35, "clerkFlag": false, "pose": "sit", "seat": true, "stand": true, "face_m": 1.99}]}, "ceiling": {"ray": {"hit": true, "d": 1.3, "name": ""}, "sky_up_pct": 0, "sky_top_entry": 0, "sky_top_counter": 0}, "parallax": null, "solid": {"magenta": {"1": 0, "2": 0, "3": 0, "5": 0}, "flat_top_pct": {"1": 4.3, "2": 10.3, "3": 9.4, "5": 13.1}}}
+  [ 223.9s] [wz_teishoku 2330] 窗 {"rects": [{"rect": [0, 0, 0.289, 1, "kmc_glass"], "top_pct": 7.4, "top_rgb": [60, 28, 4], "n": 5336, "edge_pct": 9.2, "near_med_pct": 28.1, "med": [71, 51, 28]}, {"rect": [0, 0, 0.594, 1, "WALL_front_kmc_glass"], "top_pct": 9.3, "top_rgb": [60, 28, 4], "n": 10948, "edge_pct": 12.7, "near_med_pct": 10.9, "med": [68, 42, 18]}, {"rect": [0, 0, 0.611, 1, "WALL_front_VIEW_kmc_wind"], "top_pct": 9, "top_rgb": [60, 28, 4], "n": 11316, "edge_pct": 12.8, "near_med_pct": 10.8, "med": [68, 42, 18]}, {"rect": [0.396, 0.868, 0.613, 1, ""], "top_pct": 25.7, "top_rgb": [60, 28, 4], "n": 572, "edge_pct": 10.2, "near_med_pct": 46.3, "med": [98, 67, 21]}], "worst": [25.7, [60, 28, 4], ""], "main": [10.8, [68, 42, 18], "WALL_front_VIEW_kmc_wind", 0.611, 12.8]}；閃 {}；做得到 null
+FAIL [wz_teishoku 2330] 1b_people_pos 機器判 FAIL  {"total": 4, "clerk": 1, "customers": 3, "clerk_in_furniture": [["", -0.6, -2.75]], "face_wall": [], "people": [{"id": "", "x": -0.6, "z": -2.75, "clerkFlag": true, "pose": "idle", "seat": false, "stand": false, "face_m": null}, {"id": "", "x": 1.8, "z": 2.9, "clerkFlag": false, "pose": "sit", "seat": true, "stand": false, "face_m": 1.59}, {"id": "", "x": -1.6, "z": 0.1, "clerkFlag": false, "pose"
+  [前置／捷徑] [wz_teishoku 0300] 【前置／捷徑】讀檔進 wz_teishoku 2025-10-22 3.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 235.5s] [wz_teishoku 0300] 讀檔以後在 wenzhou＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [us_asian_market 2330] 【前置／捷徑】讀檔進 us_asian_market 2025-10-22 23.50 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 255.1s] [us_asian_market 2330] 讀檔以後在 us_market_street＝沒開／進不去，這個時間跳過（不判）
+  [前置／捷徑] [us_asian_market 0300] 【前置／捷徑】讀檔進 us_asian_market 2025-10-22 3.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [ 266.7s] [us_asian_market 0300] 讀檔以後在 us_market_street＝沒開／進不去，這個時間跳過（不判）
+【總表】{"1_clerk": {"PASS": ["wz_print@23.5", "wz_teishoku@23.5"]}, "1b_people_pos": {"PASS": ["wz_print@23.5"], "FAIL": ["wz_teishoku@23.5"]}, "2_window": {"UNKNOWN": ["wz_print@23.5"], "PASS": ["wz_teishoku@23.5"]}, "3_ceiling": {"PASS": ["wz_print@23.5", "wz_teishoku@23.5"]}, "4_solid": {"PASS": ["wz_print@23.5", "wz_teishoku@23.5"]}, "7_console": {"PASS": ["wz_print@23.5", "wz_teishoku@23.5"]}}
+FAILED 2: [wz_print 2330] 2_window 機器判不出來＝UNKNOWN（交 BB 看圖；不能當 PASS）；[wz_teishoku 2330] 1b_people_pos 機器判 FAIL
