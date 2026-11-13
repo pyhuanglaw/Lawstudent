@@ -3,6 +3,8 @@
 配置 src/data/flower_notes_layout.js（遊戲 src/flower_notes3d.js 讀同一份）。座標＝遊戲座標（x 往東、y 往上、z 往南；店面在 +z）。
 接法（和社科院圖書館東側館、萬才館一樣）：L0_root（一樓）、L1_root（二樓）；外牆 WALL_L<層>_<N|S|E|W>（extras dir＝朝室內，遊戲淡出）。
 材質：洞石色牆、淺色石材地板（一樓）、淺色木地板（二樓，D112）、淺橡木直紋（展示台、櫃檯）、香檳金（細框、踢腳、扶手）、玻璃；花、花器、禮盒是頂點色。
+v3（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；幫手 g4 11-13）：牆、天花板改 ambientCG 灰泥材質組（起伏壓到 1%：還是乾淨的平塗、名字不變），燈箱改乳白塑膠紋路的發光材質；
+  頂點色零件照顏色分到材質組（洞石色檯面→石材、橡木色→木紋、香檳金→金屬、白→塑膠；cc0kit.RCMesh），花、葉子照舊頂點色；大盆栽換 Poly Haven 掃描模型。
 字（區牌、招牌、黑板）畫在一張貼圖集 textures/gen/fn_signs_atlas.jpg（規格：招牌「花序 Flower Notes」、區牌「永生花藝」「鮮花花束」「包裝服務」「收銀結帳」可以用）。
   /opt/blenv/bin/python tools/blender/env_second/flower_notes_interior.py [-- --out <glb>] [--nosingle]"""
 import json, math, os, sys, random
@@ -12,6 +14,8 @@ import lib2 as L   # noqa: E402
 from lib2 import B, Mesh, CMesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
 from lane118_shops import rot, rbox, clathe   # noqa: E402
 from PIL import Image, ImageDraw, ImageFont   # noqa: E402
+sys.path.insert(0, os.path.join(HERE, 'bb_support'))
+import cc0kit as KK   # noqa: E402
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None): return ARGS[ARGS.index(name) + 1] if name in ARGS else default
@@ -74,17 +78,32 @@ M = {
     'vcm': L.vc_material('fn_vcm', rough=0.3),
 }
 M['vcm'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = min(0.4, B.MAX_METAL)
+K = KK.Kit(root, 'fn')   # v3：CC0 材質組
+bpy.data.materials.remove(M['wall']); M['wall'] = K.acg_as('fn_wall_cream', 'Plaster001', vary=0.01, target='#f4ecdd', tile=2.4, rough_value=0.85, normal=0.25)   # 名字不變（tests/flower_notes_unit.js 第 7 項）；起伏 1%＝乾淨的平塗，只多一點點灰泥的細紋
+bpy.data.materials.remove(M['ceil']); M['ceil'] = K.acg_as('fn_ceiling', 'Plaster001', maps=('diff',), vary=0.01, target='#f4f0e8', tile=2.4, rough_value=0.95, res=256)
+bpy.data.materials.remove(M['light']); M['light'] = K.glow('fn_lightpanel', '#fff6e6', B.srgb('#fff0d8'))
+KK.std_mats(K, M)
+M.update(stone=K.acg('stone', 'Travertine009', target=STONE, tile=0.8, rough_value=0.35, normal=0.3),
+         stone_d=K.acg('stone_d', 'Travertine009', maps=('diff',), target=STONE_D, tile=0.8, rough_value=0.4, res=256),
+         oak_cc=K.acg('oak', 'Wood049', maps=('diff',), target=OAK, tile=0.8, rough_value=0.5, res=256),
+         gold=K.acg('gold', 'Metal009', maps=('diff',), target=GOLD, tile=0.5, metal=0.4, rough_value=0.3, res=256),
+         silver=K.acg('silver', 'Metal009', maps=('diff',), target='#b9bdc1', tile=0.5, metal=0.4, rough_value=0.32, res=256),
+         cream=K.acg('cream', 'Plaster001', maps=('diff',), vary=0.02, target=CREAM, tile=1.0, rough_value=0.7, res=256))
+M['paper'] = K.acg('paper', 'Paper001', maps=('diff',), vary=0.05, target='#fbf8f1', tile=0.3, rough_value=0.8, res=256)
+ROUTE = KK.std_route(False, {WHITE: None, '#f6e9c8': None, '#f7d3da': None, '#fbf8f1': 'paper', STONE: 'stone', STONE_D: 'stone_d', OAK: 'oak_cc', OAK_D: 'oak_cc', GOLD: 'gold', GOLD_D: 'gold', CREAM: 'cream', '#b9bdc1': 'silver', '#e8ecec': 'plastic_w', '#f4f6f6': 'plastic_w'})
 
 
 class Lv:
     def __init__(self, k, parent): self.k, self.parent, self.m = k, parent, {}; self.sq = []
     def get(self, key, cm=False):
-        if key not in self.m: self.m[key] = CMesh(f'L{self.k}_{key}', M[key]) if cm else Mesh(f'L{self.k}_{key}', M[key])
+        if key not in self.m: self.m[key] = KK.RCMesh(f'L{self.k}_{key}', M[key], ROUTE, lambda k_: self.get(k_)) if cm else Mesh(f'L{self.k}_{key}', M[key])
         return self.m[key]
     vc = property(lambda s: s.get('vc', cm=True)); vm = property(lambda s: s.get('vcm', cm=True))
     def sign(self, key, pts): self.sq.append((key, [g2b(*p) for p in pts]))   # 左下、右下、右上、左上
     def finish(self):
-        for key, mm in self.m.items(): mm.finish(self.parent, uv=key not in ('vc', 'vcm', 'light', 'glass'), smooth=key in ('vc', 'vcm'))
+        for mm in list(self.m.values()):
+            if isinstance(mm, KK.RCMesh): mm.flush()
+        for key, mm in list(self.m.items()): mm.finish(self.parent, uv=key not in ('vc', 'vcm', 'light', 'glass'), smooth=key in ('vc', 'vcm'))
         if self.sq:
             m = Mesh(f'L{self.k}_signs', M['signs']); lay = m.bm.loops.layers.uv.new('UVMap')
             for key, pts in self.sq:
@@ -144,17 +163,17 @@ def leafq(c, x, y, z, d, ln, wd=0.36, lift=0.25, col=None):
 def cluster(c, x, y, z, r, cols, n=14, leaf=True):
     """一團花：n 朵排成半球（每朵朝外）、底下一顆深綠的葉團、周圍幾片葉子"""
     blob(c, x, y - r * 0.22, z, r * 0.5, LEAF_D, 0.9, u=7, v=4)
-    cup = RR.uniform(0.28, 0.5); sg = RR.choice((5, 6, 6, 7)); n = max(7, n); ga = 2.39996
+    cup = RR.uniform(0.28, 0.5); sg = RR.choice((5, 5, 6, 6)); n = max(5, int(round(n * 0.7))); ga = 2.39996   # v3：每團少 3 成（面數：整間 ≤ 8 萬；朵大一點補回來）
     for i in range(n):
         t = (i + 0.3) / n; th = math.acos(1 - t * 1.05); a = i * ga + RR.uniform(-0.2, 0.2); d = (math.sin(th) * math.cos(a), math.cos(th), math.sin(th) * math.sin(a))
-        c1 = cols[i % len(cols)]; c2 = cols[(i + 1) % len(cols)]; rr_ = r * RR.uniform(0.4, 0.52)
+        c1 = cols[i % len(cols)]; c2 = cols[(i + 1) % len(cols)]; rr_ = r * RR.uniform(0.46, 0.6)
         flower(c, x + d[0] * r * 0.6, y + d[1] * r * 0.55 - r * 0.05, z + d[2] * r * 0.6, rr_, (c1, c2, YEL if c1 in (WHITE, PINK, PEACH) else '#f6e9c8'), n=(d[0], d[1] + 0.3, d[2]), cup=cup, seg=sg)
     if leaf:
         for i in range(max(4, n // 2)): a = i * 2 * PI / max(4, n // 2) + RR.uniform(-0.3, 0.3); leafq(c, x + math.cos(a) * r * 0.5, y - r * 0.28, z + math.sin(a) * r * 0.5, a, r * RR.uniform(0.55, 0.8), lift=RR.uniform(0.0, 0.35))
 def vase(c, x, y, z, h, cols, r=0.16, glass=True):
     """花瓶＋一束花"""
     if glass: c.get('glass').cyl((x, y, z), (x, y + h, z), r * 0.45, seg=10, r2=r * 0.55)
-    else: clathe(c.vc, [(0.0, 0.0), (r * 0.4, 0.0), (r * 0.55, h * 0.5), (r * 0.35, h), (0.0, h)], x, y, z, WHITE, seg=10)
+    else: K.ph_put(('ceramic_vase_01', 'ceramic_vase_02', 'ceramic_vase_04')[int(abs(x * 7 + z * 3)) % 3], x, y, z, RR.uniform(0, 6.28), height=h, decimate=0.04, parent=c.parent)   # v3：白瓷花瓶（Poly Haven）
     for i in range(4): a = i * PI / 2; ccyl(c.vc, (x, y + 0.02, z), (x + math.cos(a) * r * 0.5, y + h + r * 0.4, z + math.sin(a) * r * 0.5), 0.006, LEAF_D, seg=4)
     cluster(c, x, y + h + r * 0.95, z, r * 1.6, cols, n=12)
 def bouquet(c, x, y, z, s, cols, wrap=PEACH):
@@ -193,7 +212,7 @@ def blossom(c, x, y, z, h=1.5):
         a = i * 2 * PI / 11 + RR.uniform(-0.2, 0.2); sp = RR.uniform(0.35, 0.85); top = (x + math.cos(a) * sp, y + h * RR.uniform(0.72, 1.0), z + math.sin(a) * sp * 0.7)
         mid = (x + (top[0] - x) * 0.5 + RR.uniform(-0.06, 0.06), y + 0.1 + (top[1] - y - 0.1) * 0.52, z + (top[2] - z) * 0.5 + RR.uniform(-0.06, 0.06))
         ccyl(c.vc, (x, y + 0.1, z), mid, 0.009, '#7a5e44', seg=5, r2=0.007); ccyl(c.vc, mid, top, 0.007, '#7a5e44', seg=5, r2=0.003)
-        for k in range(16):
+        for k in range(11):   # v3：16 → 11（面數）
             t = RR.uniform(0.4, 1.0); fx, fy, fz = x + (top[0] - x) * t + RR.uniform(-0.08, 0.08), y + 0.1 + (top[1] - y - 0.1) * t + RR.uniform(-0.06, 0.06), z + (top[2] - z) * t + RR.uniform(-0.08, 0.08)
             flower(c, fx, fy, fz, RR.uniform(0.055, 0.085), (RR.choice((PINK, '#f7d3da', WHITE)), '#f7d3da', ROSE), n=(RR.uniform(-0.6, 0.6), 1.0, RR.uniform(-0.6, 0.6)), cup=0.25, seg=5)
 MIX = [(PINK, ROSE, WHITE), (LILAC, '#8f86c8', WHITE), (WHITE, PEACH, '#f2e6c0'), (YEL, '#e9a23a', WHITE), (ROSE, '#d9577a', PINK), ('#8fb6e0', LILAC, WHITE)]
@@ -242,11 +261,11 @@ glazing(C1, w2[0], w2[1], FR['sill2'], FR['head2'], 6)
 if WW:
     wz0, wz1, wy0, wy1, np_ = WW['z0'], WW['z1'], Y1 + WW['sill'], RY - WW['top'], WW.get('panes', 5); xw = -W / 2 - T / 2
     gm_ = Mesh('WALL_L1_W_GLASS', M['glass']); gm_.quad([(xw, wy0, wz1), (xw, wy0, wz0), (xw, wy1, wz0), (xw, wy1, wz1)]); WALLS['L1_W_GLASS'] = (gm_, R1, [1, 0, 0])
-    fm_ = CMesh('WALL_L1_W_FRAME', M['vcm'])
+    fm_ = KK.AsTex(Mesh('WALL_L1_W_FRAME', M['gold']))   # v3：香檳金窗框（金屬材質組）
     for i in range(np_ + 1): z = wz0 + i * (wz1 - wz0) / np_; fm_.cbox(xw - 0.05, xw + 0.06, wy0, wy1, z - 0.03, z + 0.03, GOLD)
     for y in (wy0, wy1): fm_.cbox(xw - 0.05, xw + 0.06, y - 0.03, y + 0.03, wz0, wz1, GOLD)
     fm_.cbox(-W / 2 - T, -W / 2 + 0.02, wy0 - 0.06, wy0 - 0.03, wz0, wz1, STONE)
-    WALLS['L1_W_FRAME'] = (fm_, R1, [1, 0, 0])
+    WALLS['L1_W_FRAME'] = (fm_.m, R1, [1, 0, 0])
     _vw = make_view()
     if _vw:
         _vm = bpy.data.materials.new('fn_view2f'); _vm.use_nodes = True; _vn = _vm.node_tree; _vb = _vn.nodes['Principled BSDF']; _vb.inputs['Roughness'].default_value = 1.0
@@ -444,8 +463,9 @@ for i in range(8): x = -3.7 + i * 0.9; ccyl(C1.vm, (x, RY - 0.06, -4.0), (x, RY 
 
 
 # ---------- 完成 ----------
-for wid, (m, par, d) in WALLS.items(): m.finish(par, props={'dir': d}, **({'uv': False, 'merge': False} if wid.endswith('VIEW') else ({'uv': False} if wid.endswith(('GLASS', 'FRAME')) else {})))
+for wid, (m, par, d) in WALLS.items(): m.finish(par, props={'dir': d}, **({'uv': False, 'merge': False} if wid.endswith('VIEW') else ({'uv': False} if wid.endswith('GLASS') else {})))
 C0.finish(); C1.finish()
+K.remove_protos()
 L.merge_by_material(root, keep=lambda ob: 'WALL_' in ob.name, key=lambda ob: 'L0' if ob.parent == R0 else 'L1')
 if '--nosingle' not in ARGS: L.single_side(root, keep=r'glass', nodup=r'(ceil|lightpanel)')
 tris = {}
@@ -453,4 +473,5 @@ for ob in bpy.data.objects:
     if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris[ob.name] = len(ob.data.loop_triangles)
 info = L.export(OUT, gpu_instances=False)
 L.write_json(OUT[:-4] + '.json', dict(info if isinstance(info, dict) else {}, tris_total=sum(tris.values()), walls=sorted(WALLS), note='FLOWER-NOTES-ART-1110 花序室內：L0_root 一樓花藝賣場、L1_root 二樓花藝教室'))
+print('CC0_USED', K.used())
 print(json.dumps({'FLOWER_NOTES': 'OK', 'tris': sum(tris.values()), 'walls': len(WALLS)}, ensure_ascii=False))
