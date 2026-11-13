@@ -5,117 +5,77 @@
 【捷徑】可昕 FAMILIAR（SOCIAL.meet＋數值）、聯絡人、KX_MET、KX_Y1S1_END='taipei'（＝大一上期末那一場選「臺北。」），墊完 GAME.snapshot() 再讀一次、條件事件照開；
 之後照玩家：手機「地點」→ 校園 → 快速前往（進區域＝onEnter）→ 演出來的每一句截圖、選項照 CASE。每一段最後跑 D158 字表（tools/cc_local/canon_codes.hits）。
 CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲裡算；旗標照 events.js prereq） 2✓（事件 id、旗標從程式讀；地點按鈕用手機頁 data-place） 3n/a（一件） 4✓（點前 reveal 展開地區、按鈕在才點） 5✓（快速前往，不走路） 6✓（到了等事件開演最多 120 秒） 7✓（lint、node 驗 JS） 8n/a（字對不對歸 BB） 9✓（遊戲畫面原樣截圖） 10✓（別的對話照字點完並記下來） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：讀到 Y1S2 第 1 週、墊完可昕 ≥ ACQUAINTANCE、KX_Y1S1_END、真的到了校園） 13n/a（不走路）
-用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B] python3 cc_canon458_probe.py <url> <out>"""
+  XMAS_MET_A／XMAS_MET_B／XMAS_PREV／XMAS_ABROAD  #17 大三聖誕（@d999d036d8 當面版；BB 改定：當面版＋人在國外的視訊版）：12/24 21:00 兩則 → 「好。」→ 12/25 21:00 法律系館A（國外＝視訊）
+用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.join(HERE, '..', '..', '..', '..', 'tools', 'cc_local'))
 import playlib as L
 import bbplay as P
-import cc_phone
+import cc_seedplay as SP
 from playwright.async_api import async_playwright
-try:
-    import canon_codes as CC
-except Exception:
-    CC = None
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
 CASES = [c for c in (os.environ.get('CASES') or 'GIRAFFE_A,GIRAFFE_B').split(',') if c]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-R = L.Run('canon458', OUT)
-BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True,
-         'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True,
-         'fundsV2': 1, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False, 'DORM_FOUR': True, 'MET_KAI': True}
-ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
-STV = {'ACQUAINTANCE': {'fam': 10}, 'FAMILIAR': {'fam': 25, 'trust': 10, 'comf': 10}, 'FRIEND': {'fam': 45, 'trust': 30, 'comf': 25}, 'DATING': {'fam': 60, 'trust': 50, 'comf': 45, 'rom': 60, 'npcRom': 50}}
-SEED_JS = r"""(a=>{ const G=GAME.G, F=G.flags; G.contacts=G.contacts||{};
-  for(const id in a.rel){ SOCIAL.meet(id,'cc_seed'); const r=SOCIAL.rel(id), V=a.V[a.rel[id]]; for(const k in V) r[k]=Math.max(r[k]|0,V[k]);
-    if(G.contacts[id]==null) G.contacts[id]=Math.max(0,G.day-30); if(id==='kexin') F.KX_MET=true;
-    if(a.rel[id]==='DATING'){ F['dating_'+id]=true; const RM=F.romance||(F.romance={}); RM[id]=Object.assign({},RM[id]||{},{status:'dating'}); } }
-  Object.assign(F,a.flags||{});
-  const out={}; for(const id in a.rel) out[id]={stage:SOCIAL.stage(id)}; out.flags={}; for(const k in (a.flags||{})) out.flags[k]=F[k];
-  out.lineOk=typeof KX_LINE_OK==='function'?KX_LINE_OK(G,'ACQUAINTANCE'):null; return out; })"""
+R = L.Run('canon458', OUT); SP.setup(R, OUT)
 DONE_JS = "(ids=>{ const D=(GAME.G.events&&GAME.G.events.done)||{}, F=GAME.G.flags||{}; const o={}; for(const k of ids) o[k]=(k in D)?D[k]:(k in F?F[k]:null); return o; })"
 
 
-async def fresh(pg, cdp, tag, when, hour, zone, rel=None, flags=None):
-    d = await P.day_of(pg, when)
-    s = {'name': '祐廷', 'energy': 100, 'events': {'done': {}, 'last': {}, 'count': 0}, 'contacts': {}, 'outings': [], 'flags': dict(BASEF)}
-    for k, kk in ROOMS:
-        dd = (await P.day_of(pg, kk))['d']
-        if dd <= d['d']: s['flags'][k] = dd
-    s.update(day=d['d'], weekday=d['wd'], hour=hour, zone=zone, pos=None, weather='clear', stage='law', money=30000)
-    await P.load(pg, cdp, s, True)
-    R.setup('[%s] 最小存檔讀到 %s %.2f %s（%s 第 %s 週）' % (tag, d['key'], hour, zone, d['term'], d['week']))
-    seed = await P.prep(pg, cdp, R, SEED_JS, {'rel': rel or {}, 'flags': flags or {}, 'V': STV}, True, '[%s] 墊關係、旗標' % tag)
-    await P.events_on(pg)
-    return d, seed
-
-
-async def travel(pg, cdp, tag, zone):
-    """手機「地點」→ 那一區 → 快速前往（同 cc_zone_tour_probe.go）"""
-    await P.phone_tab(pg, cdp, 'places'); await cc_phone.reveal(pg, cdp, zone)
-    c = await pg.evaluate("(z=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(z+'|')||b.dataset.place===z); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })", zone)
-    await pg.screenshot(path=os.path.join(OUT, '%s_00_places.png' % tag))
-    if not c: await L.close_panels(pg, cdp); return False
-    await L.touch_tap(cdp, c[0], c[1]); return True
-
-
-async def play(pg, cdp, tag, prefer=(), alt=0, start_s=120, max_s=240):
-    """等對話開始 → 每一句截圖 → 選項：prefer 開頭優先，沒有就第 alt 個 → 到結束（同 cc_vacgap_probe.play）"""
-    n0 = await P.say_hook(pg); t0 = time.time(); seen = []; opts = []; picked = []; k = 0; started = False; idle = None; run0 = None
-    while time.time() - t0 < start_s + max_s:
-        s = await P.ts(pg)
-        if s['running'] and not run0: run0 = s['running']
-        if s['txt'] and (not seen or seen[-1] != [s['name'], s['txt']]):
-            seen.append([s['name'], s['txt']])
-            if len(seen) <= 40: await pg.wait_for_timeout(350); k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d.png' % (tag, k)))
-        if s['ch']:
-            started = True; idle = None; o = s['ch']; opts.append([x['t'] for x in o])
-            i = next((n for p in prefer for n, x in enumerate(o) if x['t'].startswith(p) and not x['dim']), None)
-            if i is None: i = min(alt, len(o) - 1)
-            picked.append(o[i]['t']); k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d_choice.png' % (tag, k)))
-            await P.tap_choice(pg, cdp, i); await pg.wait_for_timeout(900); continue
-        if s['dlg']: started = True; idle = None; await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
-        if s['depth'] > 0: started = True; idle = None; await pg.wait_for_timeout(500); continue
-        if s['busy']: idle = None; await pg.wait_for_timeout(500); continue
-        if s['phone']: await L.phone_away(pg, cdp)
-        if started:
-            idle = idle or time.time()
-            if time.time() - idle > 4: break
-        elif time.time() - t0 > start_s: break
-        await pg.wait_for_timeout(700)
-    k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d_end.png' % (tag, k)))
-    said = await P.said(pg, n0)
-    r = {'started': started, 'event': run0, 'lines': P.clean(seen), 'said': said, 'opts': opts, 'picked': picked}
-    R.note('[%s] 對話（事件 %s）：選項 %s；選了 %s；GAME.say %s' % (tag, run0, J(opts), J(picked), J(said)))
-    return r
-
-
-def d158(tag, r):
-    if CC is None: R.note('[%s] canon_codes 載入不了，D158 沒掃' % tag); return None
-    txt = '\n'.join(t for _, t in (r.get('said') or []) + (r.get('lines') or [])) + '\n' + '\n'.join(sum(r.get('opts') or [], []))
-    n = CC.hits(txt); R.check('[%s] D158 字表 0 處（台詞＋選項）' % tag, n == 0, str(n)); return n
-
-
 async def c_giraffe(pg, cdp, tag, alt):
-    d, seed = await fresh(pg, cdp, tag, ['Y1S2', 1, 1], 10.0, 'dorm', {'kexin': 'FAMILIAR'}, {'KX_Y1S1_END': 'taipei'})
+    d, seed = await SP.fresh(pg, cdp, tag, ['Y1S2', 1, 1], 10.0, 'dorm', {'kexin': 'FAMILIAR'}, {'KX_Y1S1_END': 'taipei'})
+    seed['lineOk'] = await pg.evaluate("(()=>typeof KX_LINE_OK==='function'?KX_LINE_OK(GAME.G,'ACQUAINTANCE'):null)()")
     R.note('[%s] 墊完 %s' % (tag, J(seed)))
     if not R.check('FAIL_SETUP 檢查：[%s] Y1S2 第 1 週、可昕 ≥ ACQUAINTANCE（KX_LINE_OK）、KX_Y1S1_END taipei' % tag,
                    d['term'] == 'Y1S2' and d['week'] == 1 and seed.get('lineOk') is not False and seed['flags'].get('KX_Y1S1_END') == 'taipei', J({'d': d, 'seed': seed})): return {'case': tag, 'skip': 'setup'}
-    ok = await travel(pg, cdp, tag, 'campus')
-    r = await play(pg, cdp, tag, alt=alt, start_s=120)
+    ok = await SP.travel(pg, cdp, tag, 'campus')
+    r = await SP.play(pg, cdp, tag, alt=alt, start_s=120)
     z = (await P.clock(pg))['zone']
     R.check('FAIL_SETUP 檢查：[%s] 手機快速前往到了校園' % tag, ok and z in ('campus', 'linze'), J({'tapped': ok, 'zone': z}))
     st = await pg.evaluate(DONE_JS, ['ev_kx_souvenir', 'KX_SOUVENIR', 'GIRAFFE_KEYCHAIN'])
     R.note('[%s] 之後 %s' % (tag, J(st)))
     R.check('[%s] ev_kx_souvenir 演了、GIRAFFE_KEYCHAIN 設了' % tag, bool(st.get('ev_kx_souvenir')) and st.get('GIRAFFE_KEYCHAIN') is True, J(st))
-    d158(tag, r)
+    SP.d158(tag, r)
     return {'case': tag, 'day': d, 'seed': seed, 'r': r, 'after': st}
 
 
+ABROAD_ON = "(()=>{ if(!window.__abKeep){ window.__abKeep=STORY.abroad; STORY.abroad=()=>true; } return true; })()"
+ABROAD_OFF = "(()=>{ if(window.__abKeep){ STORY.abroad=window.__abKeep; window.__abKeep=null; } return true; })()"
+
+
+async def c_xmas(pg, cdp, tag):
+    """#17 大三聖誕（r2y3a3d.js S.xmasPhone @d999d036d8；tests/r2y3a_events_unit.js 第 21 節）：交往中 12/24 20:45 宿舍 → 21:00 後兩則 → 按「好。」
+       → MET＝當面版（OUT y3_kx_xmas＝ev_kexin_xmas_y3_met 12/25 21:00 法律系館A）→ 跳 12/25 20:30 → 等「出發」→ 每句截圖（選項 MET_A 第 1 個「一直都在。」、MET_B 第 2 個）；
+       PREV＝大二聖誕去過（KX_XMAS {2:'went'}）開頭多三列；ABROAD＝【捷徑】STORY.abroad 改成 true（人在國外那一年）→ 照舊視訊版"""
+    prev = tag == 'XMAS_PREV'; abroad = tag == 'XMAS_ABROAD'; alt = 1 if tag == 'XMAS_MET_B' else 0
+    fl = {'KX_XMAS': {'2': 'went'}} if prev else {}
+    d, seed = await SP.fresh(pg, cdp, tag, '2027-12-24', 20.75, 'dorm', {'kexin': 'DATING'}, fl)
+    R.note('[%s] 墊完 %s' % (tag, J(seed)))
+    if abroad:
+        await pg.evaluate(ABROAD_ON); R.setup('[%s]【捷徑】STORY.abroad 改成永遠 true（祐廷那年人在國外；不讀交換路線存檔）' % tag)
+    if not R.check('FAIL_SETUP 檢查：[%s] 和可昕交往中' % tag, seed['kexin']['dating'], J(seed)): return {'case': tag, 'skip': 'setup'}
+    await SP.wait_h(pg, cdp, 21.1, tag); await pg.wait_for_timeout(3000)
+    t = await SP.thread(pg, cdp, tag + '_1224', 'p:kexin')
+    lab = await SP.answer(pg, cdp, tag + '_1224', 'p:kexin', 0, '好')
+    q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'y3_kx_xmas'); return q?{day:CALENDAR.dateOf(q.day).key,h:q.h,ev:q.ev,place:q.place,state:q.state,late:q.late}:null; })()")
+    R.note('[%s] 按「%s」以後 OUT y3_kx_xmas＝%s' % (tag, lab, J(q)))
+    want = 'ev_kexin_xmas_y3' if abroad else 'ev_kexin_xmas_y3_met'
+    if not R.check('FAIL_SETUP 檢查：[%s] 12/25 21:00 那一趟排上了（%s）' % (tag, want), bool(q) and q['day'] == '2027-12-25', J(q)):
+        if abroad: await pg.evaluate(ABROAD_OFF)
+        return {'case': tag, 'ask': t, 'reply': lab}
+    R.note('[%s] 排的是 %s（%s版）' % (tag, q['ev'], '視訊' if abroad else '當面'))
+    await SP.jump(pg, cdp, tag, '2027-12-25', 20.5, 'dorm', None)
+    if abroad: await pg.evaluate(ABROAD_ON)
+    r = await SP.go_out(pg, cdp, tag + '_1225', alt)
+    fl2 = await pg.evaluate("(()=>({KX_XMAS:GAME.G.flags.KX_XMAS||null, zone:GAME.G.zone}))()"); R.note('[%s] 之後 %s' % (tag, J(fl2)))
+    if abroad: await pg.evaluate(ABROAD_OFF)
+    SP.d158(tag, t, r)
+    return {'case': tag, 'ask': t, 'reply': lab, 'out': q, 'r': r, 'after': fl2}
+
+
 async def one(pg, cdp, c):
+    if c in ('XMAS_MET_A', 'XMAS_MET_B', 'XMAS_PREV', 'XMAS_ABROAD'): return await c_xmas(pg, cdp, c)
     if c in ('GIRAFFE_A', 'GIRAFFE_B'): return await c_giraffe(pg, cdp, c, 0 if c.endswith('A') else 1)
     R.check('[%s] 認得這個 CASE' % c, False, ''); return {'case': c, 'skip': 'unknown'}
 
