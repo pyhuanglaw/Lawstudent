@@ -1,0 +1,39 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_DRIFT\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['DRIFT_D1', 'DRIFT_D2', 'DRIFT_D3', 'DRIFT_D4']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [DRIFT_D1] 最小存檔讀到 2026-10-06 8.85 dorm（Y2S1 第 5 週）
+  [前置／捷徑] 【捷徑】[DRIFT_D1] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [前置／捷徑] 【捷徑】[DRIFT_D1] KX_DRIFT 狀態（觸發表的直接設法）：{"KX_CRACK": 0, "KX_DRIFT": {"v": 2, "th": {}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r1": {"area": "溫州街", "day": 384, "st": "due"}}}
+  [  54.9s] [DRIFT_D1] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}；{"KX_CRACK": 0, "KX_DRIFT": {"v": 2, "th": {}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r1": {"area": "溫州街", "day": 384, "st": "due"}}}
+  [  72.3s] [DRIFT_D1_linze] 對話（事件 ev_kx_s1_heard）：選項 []；選了 []；GAME.say [["", "（她說上學期幫室友看了一份租約，押金後來拿回一半。）"]]
+PASS FAIL_SETUP 檢查：[DRIFT_D1] 快速前往到了法律系館（linze）  linze
+  [  72.3s] [DRIFT_D1] 之後 {"KX_CRACK": 0, "KX_DRIFT": {"v": 2, "th": {}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r1": {"area": "溫州街", "day": 384, "st": "due"}}}
+PASS [DRIFT_D1] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [DRIFT_D2] 最小存檔讀到 2026-10-09 12.85 dorm（Y2S1 第 5 週）
+  [前置／捷徑] 【捷徑】[DRIFT_D2] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [前置／捷徑] 【捷徑】[DRIFT_D2] KX_DRIFT 狀態（觸發表的直接設法）：{"KX_CRACK": 0, "KX_DRIFT": {"v": 2, "th": {}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r2": {"st": "short", "day": 385}}}
+  [ 110.6s] [DRIFT_D2] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}；{"KX_CRACK": 0, "KX_DRIFT": {"v": 2, "th": {}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r2": {"st": "short", "day": 385}}}
+  [ 126.0s] [DRIFT_D2_linze] 對話（事件 ev_kx_s1_heard）：選項 []；選了 []；GAME.say [["", "（她說上學期幫室友看了一份租約，押金後來拿回一半。）"]]
+PASS FAIL_SETUP 檢查：[DRIFT_D2] 快速前往到了法律系館（linze）  linze
+  [ 126.0s] [DRIFT_D2] 之後 {"KX_CRACK": 0, "KX_DRIFT": {"v": 2, "th": {}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r2": {"st": "short", "day": 385}}}
+PASS [DRIFT_D2] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [DRIFT_D3] 最小存檔讀到 2027-03-15 18.85 dorm（Y2S2 第 4 週）
+  [前置／捷徑] 【捷徑】[DRIFT_D3] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [前置／捷徑] 【捷徑】[DRIFT_D3] KX_DRIFT 狀態（觸發表的直接設法）：{"KX_CRACK": 3, "KX_DRIFT": {"v": 2, "th": {"2": 1}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r3": {"st": "pending"}}}
+  [ 165.2s] [DRIFT_D3] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}；{"KX_CRACK": 3, "KX_DRIFT": {"v": 2, "th": {"2": 1}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r3": {"st": "pending"}}}
+  [ 189.6s] [DRIFT_D3_linze] 對話（事件 ev_kx_drift_r3）：選項 [["（把書蓋起來）「我在聽，妳講。」", "「我看完這一頁就聽，給我五分鐘。」", "（「嗯。」眼睛沒有離開書）"]]；選了 ["「我看完這一頁就聽，給我五分鐘。」"]；GAME.say [["", "（系館一樓的討論桌。她坐你對面，課本攤著。）"], ["杜可昕", "今天我們那一組吵到六點。一個說要先寫結論，一個說——"], ["", "（你在看明天要考的那幾頁。她講到一半停下來。）"], ["杜可昕", "你剛剛在看別的東西。"], ["杜可昕", "我們坐同一張桌子欸。"], ["杜可昕", "好。五分鐘。"], ["", "（五分鐘以後你把書蓋起來。她從頭講了一次。）"]]
+PASS FAIL_SETUP 檢查：[DRIFT_D3] 快速前往到了法律系館（linze）  linze
+  [ 189.6s] [DRIFT_D3] 之後 {"KX_CRACK": 3, "KX_DRIFT": {"v": 2, "th": {"2": 1}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r3": {"st": "done"}}}
+PASS [DRIFT_D3] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [DRIFT_D4] 最小存檔讀到 2027-03-15 11.85 dorm（Y2S2 第 4 週）
+  [前置／捷徑] 【捷徑】[DRIFT_D4] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [前置／捷徑] 【捷徑】[DRIFT_D4] KX_DRIFT 狀態（觸發表的直接設法）：{"KX_CRACK": 5, "KX_DRIFT": {"v": 2, "th": {"2": 1, "4": 1}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r4": {"st": "pending"}}}
+  [ 227.7s] [DRIFT_D4] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}；{"KX_CRACK": 5, "KX_DRIFT": {"v": 2, "th": {"2": 1, "4": 1}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r4": {"st": "pending"}}}
+  [ 254.0s] [DRIFT_D4_linze] 對話（事件 ev_l1_elevator）：選項 [["（等電梯）", "（走樓梯）"]]；選了 ["（等電梯）"]；GAME.say [["", "（中午下課，電梯門口擠滿人。）"], ["", "（電梯來了，進去八個人，門關不上，「嗶——」。）"], ["", "（阿哲永遠是最後擠進去的那一個。）"], ["阿哲", "我很瘦。"], ["", "「嗶——」"], ["阿哲", "……好，我走樓梯。"], ["", "（電梯裡，後面有人在講手機。）"], ["", "「……對，我在電梯裡。收訊不好，我等一下打給你。」"]]
+PASS FAIL_SETUP 檢查：[DRIFT_D4] 快速前往到了法律系館（linze）  linze
+  [ 254.1s] [DRIFT_D4] 排著的 []
+  [ 254.1s] [DRIFT_D4] 之後 {"KX_CRACK": 5, "KX_DRIFT": {"v": 2, "th": {"2": 1, "4": 1}, "outs": [], "wk": {}, "log": [], "tripSeen": {}, "r4": {"st": "pending"}}}
+PASS [DRIFT_D4] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS
