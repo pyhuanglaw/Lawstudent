@@ -126,6 +126,15 @@ def map_str(s, fname):
     return t[1:-1]
 
 
+def map_any(s):
+    """一句字串照表上所有檔的列換（不分檔；給「拿別的檔裡的一句當鑰匙」的表用，例：aa720.js cfg.quotes 引用 termend_lines.js 的句子）。"""
+    t = "'" + s + "'"
+    for r in sorted([r for r in rows() if not all((f, r['old']) in SKIP for f in r['files'])], key=lambda r: -len(r['old'])):
+        if any(c in r['old'] for c in Q): continue
+        for a, b in reversed(_spans(t, r)): t = t[:a] + _new(r) + t[b:]
+    return t[1:-1]
+
+
 def layer(text, fname, strict=True):
     """給匯入工具用：寫檔前最後一步呼叫。照表換，並核對只標這個檔的列都套到了（套不到＝源稿或前面幾層改過了，停下來問 AA）。"""
     b = os.path.basename(fname)
