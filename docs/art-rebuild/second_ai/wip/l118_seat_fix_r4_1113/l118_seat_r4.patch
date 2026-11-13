@@ -1,0 +1,52 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index ab7da0655c..61904696c8 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -591,7 +591,7 @@ const E3 = (function(){
+     talkRay.set(_tkO,_tkD); talkRay.near=E.TALK_NEAR; talkRay.far=d-E.TALK_SELF;
+     for(const s of sets){ if(talkRay.intersectObjects(s,false).length) return true; } return false; };
+   E.TAP_SEAT_REACH=0.5; E.TAP_SEAT_CLEAR=0.6;   /* 點的位置 0.6 m 內有非座位的互動點（吧檯點餐、看班表…）就不多 0.5 m（TAPSTEAL-1105）*/
+-  E.nearestInteractable=function(){ const P=E.player; if(!P) return null; let best=null, bd=1e9; const occupied=(st)=>E.npcs.some(n=>n.seat&&(n.seat.lv|0)===(st.lv|0)&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.4)||(!st.label&&E.npcs.some(n=>n.seatTarget&&Math.hypot(n.seatTarget.x-st.x,n.seatTarget.z-st.z)<0.4));   /* BUG-DAYBREAK-SEAT2-1107（BB-B 11-07 電腦重現：窗邊 #2 有人正走過去，按鈕還是「坐窗邊」，按了才說「有人坐了。」）：和 game3d.js freeSeat 用同一個判斷——0.4 m、正在走過去的人不管她現在是不是還坐在別的位子上（原本要 !n.seat、0.35 m，兩邊對不上就出了按鈕卻坐不下）*/   /* DAYBREAK-BOOTH21-1105（BB-C 10:38：卡座 #21 按兩次「坐卡座」沒坐下）：有人正走過去要坐的那一張（seatTarget）game3d.js freeSeat 會說「有人坐了」、不讓坐——按鈕也不出；長椅（label）照舊（freeSeat 會挪到旁邊半張）*/ const plv=P.lv|0, py=P.obj.position.y; const tp=P.tapPref&&P.tapPref.zone===(E.zone&&E.zone.id)&&(P.tapPref.lv|0)===plv?P.tapPref:null; let tpIt=null, tpd=1e9, tpBd=1e9; let nsd=1e9; if(tp) for(const it of E.interactables){ if(it.hidden||it.seat) continue; if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; if(it.y!==undefined&&Math.abs(it.y-py)>1.4) continue; nsd=Math.min(nsd,Math.hypot(it.x-tp.x,it.z-tp.z)); }   /* TAPSTEAL-1105（BB-C BB_255：點吧檯點餐、看班表旁邊 0.3 m 會變成坐下）：點的位置 E.TAP_SEAT_CLEAR 內有非座位的互動點，座位就不多 0.5 m（點在吧檯、班表旁邊照舊是那一個） */ for(const it of E.interactables){ if(it.hidden) continue; if(it.seat&&(occupied(it.seat)||it.seat.taken)) continue; /* 有人坐的位子（taken：替身坐的，classes3d.js）不能再坐，也不能擋住和那個人說話 */ if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; if(it.y!==undefined&&Math.abs(it.y-py)>1.4) continue; /* 多樓層：別層的東西（正上方、正下方）不算 */ const d=Math.hypot(it.x-P.obj.position.x,it.z-P.obj.position.z); const R=(it.radius||1.8)+(tp&&it.seat&&Math.hypot(it.seat.x-tp.x,it.seat.z-tp.z)<0.45&&nsd>E.TAP_SEAT_CLEAR?E.TAP_SEAT_REACH:0); if(d<R&&d-(it.prio||0)<bd){ bd=d-(it.prio||0); best=it; } if(tp&&d<R){ const tq=it.seat||it, dt=Math.hypot(tq.x-tp.x,tq.z-tp.z), dtp=dt-Math.min(0,it.prio||0); if(dt<R&&dtp<tpd){ tpd=dtp; tpIt=it; tpBd=d-(it.prio||0); } }   /* dtp：讓位的互動點（prio 負的：「看…」這種）比「離點的位置多近」時也照樣讓——洋洋鹹酥雞點椅子旁邊的地板走過去，按鈕是「看廚房」不是「坐下吃」（BB 11-12；點的那一點離「看」0.43 m、離椅子 0.45 m）。prio 正的照舊不算進來 */   /* tq：座位照椅子本身離點的位置多遠（L118-IT-REACH-1111：118 巷兩張並排的椅子，按鈕挪到各自的站位上，不在椅子上——點靠牆那張偏 0.15 m，照按鈕位置算會挑到外側那張；和 game3d.js tapToSeat 挑「離點的位置最近的椅子」同一個標準）*/ }   /* TAP-SEAT-REACH-1105（BB-C 08:28 SEATSCAN：山嵐靠窗長椅走近點 0.80 m、按鈕 0.75 m；電腦 GPU 點地常停偏 0.2 m）：點的是椅子（tapPref 離那張座位 0.45 m 內）＝那張的「坐下」範圍多 E.TAP_SEAT_REACH；推搖桿以後 tapPref 清掉＝照舊 */ if(tpIt&&tpIt!==best){ best=tpIt; bd=tpBd; }   /* 點地面走過來的：人站的地方在好幾個互動範圍裡時，取離「點的位置」最近、點的位置也在它範圍裡的那一個（點床＝睡覺，不是床底下的紙箱）；推搖桿以後照舊取離人最近的 */   /* prio：兩個範圍重疊時優先（宿舍的回家背包離床 0.8 m，站在背包旁邊卻出「睡覺」，flow_law_break）*/
++  E.nearestInteractable=function(){ const P=E.player; if(!P) return null; let best=null, bd=1e9; const occupied=(st)=>E.npcs.some(n=>n.seat&&(n.seat.lv|0)===(st.lv|0)&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.4)||(!st.label&&E.npcs.some(n=>n.seatTarget&&Math.hypot(n.seatTarget.x-st.x,n.seatTarget.z-st.z)<0.4));   /* BUG-DAYBREAK-SEAT2-1107（BB-B 11-07 電腦重現：窗邊 #2 有人正走過去，按鈕還是「坐窗邊」，按了才說「有人坐了。」）：和 game3d.js freeSeat 用同一個判斷——0.4 m、正在走過去的人不管她現在是不是還坐在別的位子上（原本要 !n.seat、0.35 m，兩邊對不上就出了按鈕卻坐不下）*/   /* DAYBREAK-BOOTH21-1105（BB-C 10:38：卡座 #21 按兩次「坐卡座」沒坐下）：有人正走過去要坐的那一張（seatTarget）game3d.js freeSeat 會說「有人坐了」、不讓坐——按鈕也不出；長椅（label）照舊（freeSeat 會挪到旁邊半張）*/ const plv=P.lv|0, py=P.obj.position.y; const tp=P.tapPref&&P.tapPref.zone===(E.zone&&E.zone.id)&&(P.tapPref.lv|0)===plv?P.tapPref:null; let tpIt=null, tpd=1e9, tpBd=1e9; let nsd=1e9; if(tp) for(const it of E.interactables){ if(it.hidden||it.seat) continue; if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; if(it.y!==undefined&&Math.abs(it.y-py)>1.4) continue; nsd=Math.min(nsd,Math.hypot(it.x-tp.x,it.z-tp.z)); }   /* TAPSTEAL-1105（BB-C BB_255：點吧檯點餐、看班表旁邊 0.3 m 會變成坐下）：點的位置 E.TAP_SEAT_CLEAR 內有非座位的互動點，座位就不多 0.5 m（點在吧檯、班表旁邊照舊是那一個） */ for(const it of E.interactables){ if(it.hidden) continue; if(it.seat&&(occupied(it.seat)||it.seat.taken)) continue; /* 有人坐的位子（taken：替身坐的，classes3d.js）不能再坐，也不能擋住和那個人說話 */ if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; if(it.y!==undefined&&Math.abs(it.y-py)>1.4) continue; /* 多樓層：別層的東西（正上方、正下方）不算 */ const d=Math.hypot(it.x-P.obj.position.x,it.z-P.obj.position.z); const R=(it.radius||1.8)+(tp&&it.seat&&Math.hypot(it.seat.x-tp.x,it.seat.z-tp.z)<0.45&&nsd>E.TAP_SEAT_CLEAR?E.TAP_SEAT_REACH:0); if(d<R&&d-(it.prio||0)<bd){ bd=d-(it.prio||0); best=it; } if(tp&&d<R){ const tq=it.seat||it, dt=(it.seat&&Math.hypot(it.x-tp.x,it.z-tp.z)<=0.15)?0:Math.hypot(tq.x-tp.x,tq.z-tp.z), dtp=dt-Math.min(0,it.prio||0); if(dt<R&&dtp<tpd){ tpd=dtp; tpIt=it; tpBd=d-(it.prio||0); } }   /* dtp：讓位的互動點（prio 負的：「看…」這種）比「離點的位置多近」時也照樣讓——洋洋鹹酥雞點椅子旁邊的地板走過去，按鈕是「看廚房」不是「坐下吃」（BB 11-12；點的那一點離「看」0.43 m、離椅子 0.45 m）。prio 正的照舊不算進來 */   /* tq：座位照椅子本身離點的位置多遠（L118-IT-REACH-1111：118 巷兩張並排的椅子，按鈕挪到各自的站位上，不在椅子上——點靠牆那張偏 0.15 m，照按鈕位置算會挑到外側那張；和 game3d.js tapToSeat 挑「離點的位置最近的椅子」同一個標準）*/   /* L118-SEAT-FIX r4（LAWWW2-C 11-13；CC L118_CAM36_a_r3：辛亥韓食 #6／#12 坐到外側那張）：點的位置離某張座位自己的按鈕（＝走近點 ap）0.15 m 以內，就是點那一張——靠內側的座位按鈕在走道上、離外側那張只有 0.4 m，點它的走近點走過去停偏 0.23 m，照椅子中心算會挑到外側那張。tests/l118_seat_inner_ap_1113_unit.js */ }   /* TAP-SEAT-REACH-1105（BB-C 08:28 SEATSCAN：山嵐靠窗長椅走近點 0.80 m、按鈕 0.75 m；電腦 GPU 點地常停偏 0.2 m）：點的是椅子（tapPref 離那張座位 0.45 m 內）＝那張的「坐下」範圍多 E.TAP_SEAT_REACH；推搖桿以後 tapPref 清掉＝照舊 */ if(tpIt&&tpIt!==best){ best=tpIt; bd=tpBd; }   /* 點地面走過來的：人站的地方在好幾個互動範圍裡時，取離「點的位置」最近、點的位置也在它範圍裡的那一個（點床＝睡覺，不是床底下的紙箱）；推搖桿以後照舊取離人最近的 */   /* prio：兩個範圍重疊時優先（宿舍的回家背包離床 0.8 m，站在背包旁邊卻出「睡覺」，flow_law_break）*/
+     /* 人和互動點比遠近：人只優先於旁邊的椅子（差 0.5 m 以內算人）；門口、出口、公告欄照實際距離。2026-10-13 v9.6 回歸 flow_class_real：
+        走路的人玩家走近就停下來（a77f1f9），下課時同學停在後門旁邊，「離開教室」被「和郭沛珊說話」蓋掉（原本人對所有互動點都先讓 0.5 m）*/
+     let yb=null, ybd=1e9;   /* 路人（AA_495 各系的學生：crowd3d.js deptOne 的 yieldIt）最後才算：旁邊有互動點（出口、座位、公告欄）或別的人（有名字的同學）時不擋——路上的人很多，不能讓「進入○○」「和小安說話」變成「聽一句」*/
+diff --git a/tests/l118_seat_inner_ap_1113_unit.js b/tests/l118_seat_inner_ap_1113_unit.js
+new file mode 100644
+index 0000000000..c149dc8ffd
+--- /dev/null
++++ b/tests/l118_seat_inner_ap_1113_unit.js
+@@ -0,0 +1,33 @@
++// L118-SEAT-FIX-1112 r4（LAWWW2-C 2026-11-13；CC L118_CAM36_a_r3 run.log 286–292：辛亥韓食 #6／#12 坐到外側那張）：靠內側的座位，按鈕和走近點（ap）在走道上，離外側那張的按鈕只有 0.4 m。
++//  點地板點在內側座位的走近點上走過去、停偏 0.23 m（CC：停在 (−0.06,−0.05)，走近點 (−0.05,0.18)），按鈕要是內側那張，不是外側那張（原本 tq 拿點的位置比椅子中心，外側那張比較近）。
++//  同時確認：點外側座位自己的走近點＝外側那張；點椅子本身＝那張（L118-IT-REACH-1111 的標準不變）。
++// 修改前（開發分支 c64a8caf61）：FAIL 2（#6、#12）。用法：node tests/l118_seat_inner_ap_1113_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){}, querySelector:()=>null, querySelectorAll:()=>[], body:{appendChild(){},classList:{add(){},remove(){}}} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch')); const clog=console.log; console.warn=()=>{}; console.error=()=>{};
++const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const all=[...html.matchAll(/src="([^"?]+)/g)].map(m=>m[1]);
++const loadErr=[]; for(const f of all){ if(/three-vrm|character3d|props3d/.test(f)) continue; if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); try{ vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+e.message.slice(0,50)); } }
++if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});
++
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; const R=0.32;
++
++function build(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); z.id=id; E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; if(E.fitSeatRadius) E.fitSeatRadius();   /* 遊戲載入區域時做的（座位按鈕範圍碰不到站得住的地方就放大）*/ E.player={obj:{position:new THREE.Vector3(0,0,0)},lv:0,radius:R}; return z; }
++
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++
++build('l118_tea'); const L=L118_SHOP_LAYOUTS.tea, P0=E.player||{};
++const P={obj:{position:new THREE.Vector3()},lv:0}; E.player=P;
++const itOf=i=>E.interactables.find(it=>it.seat&&Math.abs(it.seat.x-L.seats[i-1].x)<1e-6&&Math.abs(it.seat.z-L.seats[i-1].z)<1e-6);
++const pick=(px,pz,tp)=>{ P.obj.position.set(px,0,pz); P.tapPref=tp?{x:tp[0],z:tp[1],lv:0,zone:E.zone.id}:null; const it=E.nearestInteractable(); return it&&it.seat?L.seats.findIndex(s=>Math.abs(s.x-it.seat.x)<1e-6&&Math.abs(s.z-it.seat.z)<1e-6)+1:0; };
++const nm=i=>'#'+i+'（'+L.seats[i-1].x+', '+L.seats[i-1].z+'）';
++for(const [inner,outer] of [[6,5],[12,11]]){ const s=L.seats[inner-1], it=itOf(inner); const ap=s.ap;
++  /* 停偏 0.23 m：往外側那張按鈕的方向 */ const o=itOf(outer), dx=o.x-ap[0], dz=o.z-ap[1], d=Math.hypot(dx,dz)||1, stop=[ap[0]+dx/d*0.23, ap[1]+dz/d*0.23];
++  const got=pick(stop[0],stop[1],ap);
++  check('1 點 '+nm(inner)+' 的走近點 ['+ap+']，停偏 0.23 m 在 ['+stop.map(v=>v.toFixed(2))+']：按鈕是 '+nm(inner),got===inner,'實際 #'+got+(it?'':'（找不到互動點）'));
++  const got2=pick(o.x,o.z,[o.x,o.z]); check('2 點外側 '+nm(outer)+' 自己的走近點：按鈕是 '+nm(outer),got2===outer,'實際 #'+got2);
++  const got3=pick(ap[0],ap[1],[s.x,s.z]); check('3 點椅子 '+nm(inner)+' 本身、站在它的走近點：按鈕是它',got3===inner,'實際 #'+got3); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
