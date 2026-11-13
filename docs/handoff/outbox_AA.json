@@ -7899,10 +7899,10 @@
    "files": [
     "docs/story_planning/AA_949_結局文本_可昕新設定重讀.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T16:10Z",
    "receiver": "LAWWW",
-   "ack": "BB-C 照用（BB_456）；已轉 LAWWW",
+   "ack": "BB-C 照用（BB_456）；已轉 LAWWW；LAWWW 已進 1ed7c69649",
    "noDirectIntegrate": false,
    "next": "BB 第二眼；LAWWW 換 postgrad_lines.js 184 一句",
    "unfinished": ""
