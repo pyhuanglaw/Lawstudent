@@ -1,11 +1,11 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 510.8,
+ "bake_seconds": 188.0,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
- "samples": 384,
+ "samples": 256,
  "emit": {},
  "dayemit": {},
  "sun": [
@@ -30,7 +30,10 @@
   ],
   "night": null
  },
+ "skytint": null,
  "objects": [
+  "a23_c_leather",
+  "a23_c_rug",
   "a23_ceiling",
   "a23_floor",
   "a23_wood",

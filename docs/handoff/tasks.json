@@ -31871,6 +31871,30 @@
    "evidence": "BB-B 10-23 12:3x 第 36 項（Playwright＋SwiftShader 手機尺寸，非真機）cce997abd＋f7402a045 ALL PASS：四區紅圈、字不疊、117 次點擊 0 錯、前往到得了；tests/placemap_unit.js ALL PASS"
   },
   {
+   "id": "PHONE-MAP-ART-1113",
+   "title": "手機「地點」的正式美術地圖（H08 後半；現在是 src/placemap3d.js 程式畫的示意地圖）：從 3D 場景俯拍或依 D97 要圖，換掉示意地圖，點地點照舊前往",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "sha": "",
+   "pausedReason": "誰決定：LAWWW-C（11-13 20:2x UTC）。為什麼：LAWWW2 正在做使用者點名的店面 CC0 重做（SHOP-REALISM-1112、D161，P0）；示意地圖 v9.10.7 起已能用（UX-PHONE-MAP-1023 已驗收），不擋寒暑假、美國交換兩個優先項目（D99）",
+   "resumeWhen": "SHOP-REALISM-1112 的 CC0 剩下的店交完，或下一次發布後，取早的",
+   "recheckOn": "2026-11-20",
+   "next": "【LAWWW-C 11-13 20:2x UTC】BACKLOG-SWEEP 發現 H08「正式美術地圖」從 10-27 起沒有任務、沒有負責人（下次檢查 11-03 已過）→ 開這個任務、暫停五欄。恢復時：LAWWW2 從 3D 俯拍公館／校園／溫州街各區（或 BB 照 D97 要圖），placemap3d.js 換圖、點地點前往不動。",
+   "source": "使用者 10-23 08:0x 對 LAWWW-B（UA-LAWWW-1023-05）；USER_WANTS H08",
+   "authorized": "使用者直接要求（正式美術地圖之後要）"
+  },
+  {
    "id": "EAT-MATTER-1023",
    "title": "吃東西、喝飲料要有差別（使用者 10-23 08:0x 要建議，D56）",
    "owner": "LAWWW",
@@ -56711,7 +56735,7 @@
    "source": "使用者 11-13 14:1x 對 LAWWW2-C（UA-LAWWW2-1113-01～03）：「寫進規則 每家店都要通過 你做不完就請其他AI幫忙」「請其他AI幫忙的時候要跟它們說你現在的做法和驗收標準 仍然由你驗收 要跟它們講工具」",
    "authorized": "使用者原話（跨職位幫忙由使用者授權）；D161",
    "wants": "X365",
-   "next": "【LAWWW-C 11-13 19:4x UTC】D161 剩下 24 家派給 4 個新工作階段（各自容器、各自烘焙；簡報＝SHOP_CC0_HOWTO.md，LAWWW2 驗收；底 8d621a9637）：①session_01S1Gk9UtryMwS25pcG4ftKG→claude/shop-cc0-g1 komichi、sunnyside、yizhan、mokuyobi、daily_offbeat；②session_01S1Gk9WD6NYVtTg6gopb8ks→g2 aoki、daybreak、yejian、shanlan、corner、bike、cvs；③session_01S1Gk9W71VVmQ9D23ZrxpdU→g3 dabu、haopai、dakou_1f/2f、tongxian、xinsheng_sports；④session_01S1Gk9VE8qcQaXSoAvHHRiJ→g4 ade、lin、shaola、yangyang、nanyang_lobby、flower_notes。LAWWW2 自己做 cafe230、afar、wz_teahouse_yard；118 巷 home／noodle2／omu／pasta 照舊 AA patch。每間交件→LAWWW2 驗→LAWWW 整合→BB 判→CC 四鏡頭。｜【LAWWW-C 11-13 18:4x UTC】美國兩間超市 v2 整合 379e71f77a（LAWWW2 PASS；baseline 衝突：兩邊各拿掉不同的店＝三間都拿掉）；AA cafe2 烘焙版 fa926187f4。待 BB 判、CC 四鏡頭。P2（LAWWW2）：竹葉促銷頭板像印刷海報、三張不同；POS 換 PH CashRegister_01；窗景白天晚上兩張。AA 118 巷垂藤／korea／tea（LAWWW2 PASS）等 AA 重做底＝最新開發分支的 patch。｜【LAWWW-C 11-13 18:4x UTC】美國兩間超市 v2 幫手交件（usmkt-wt fe634a951c；wip 放開發分支 d1e7991401 docs/art-rebuild/second_ai/wip/us_market_cc0_1113/）：草原自助結帳機／輸送帶、竹葉端架／包裝圖集／櫃台禮盒四點都改；純色 16%／19%；面數 79,405／51,503；相關 113 支只差狀態表。並排圖看過、送 LAWWW2 驗收。沒做：窗景（模型有窗景卡、us3d.js 照時段調色、沒有白天晚上兩張，place_gate 照舊已知未過）、竹葉 POS 螢幕小黑盒。｜【LAWWW-C 11-13 17:4x UTC】美國兩間超市重做：幫手子代理（worktree /home/user/wt-usmkt，分支 usmkt-wt，底 97ecb29e28＋合開發分支）照 LAWWW2 驗 6df22822d3 的退件點做：草原①自助結帳機／輸送帶；竹葉①端板②貨品包裝貼圖、高低、頂面③櫃台白方塊；加做窗景（place_gate view）。交件 → LAWWW2 驗 → LAWWW 整合 → BB。｜【LAWWW-C 11-13 17:3x UTC】BB 判 e23d56706e：118 牛排鐵板 P1 關；cafe2 v1 部分（等烘外殼版）；四鏡頭已派 CC 併進 118 巷那支。｜【LAWWW-C 11-13 17:2x UTC】dian v2（BB P1：墊在木板上的黑鑄鐵鐵板＋牛排、荷包蛋、玉米、麵）＋cafe2 v1（自助餐台菜面貼圖、殼椅、輕鋼架、PH 盆栽；不烘光照守 1.5 倍預算，BB 定只判部分）（AA-C a1e7284dfe，LAWWW2 PASS）整合：並排圖看過；lampshade_flip 的節點名照新的拆分改（metal→steel/steel_d/tubes，燈罩零件仍在、沒有翻面）；CC0 基準→36；place_gate --write、相關 394 支 Node 全過。｜【LAWWW-C 11-13 17:0x UTC】118 巷 tea 辛亥韓食（AA-C 806c20f934，LAWWW2 PASS，純色 22%）整合：小菜碟菜色貼圖、層板罐子大小不一、卡座木紋；19:00 有客人；CC0 基準→37；place_gate --write、相關 390 支 Node 全過。P2：小菜櫃分六格、四間垂藤換 PH 植物。dian 鐵板 P1 AA 改好在烘焙；cafe2 不烘光照（烘了 3.7 MB 超過 l118_int_home_cafe2 測試的 1.5 倍預算）——預算要不要放寬請 BB 定。｜【LAWWW-C 11-13 16:5x UTC】118 巷 korea（清州刀削麵 23%）＋dian（118 牛排 16%）（AA-C 26626e91f4，LAWWW2 PASS）整合：並排圖看過（實木椅、廚房層架材質、PH 盆栽）；it_fix.py 補 dian 兩個走近點；CC0 基準→39；place_gate --write、相關 390 支 Node 全過。P2：korea 蒸氣球、吊盆、桌面反光；dian 紅櫃台分段、湯桶貼紙。19:00 korea 新版截圖沒客人（舊版有）請 CC 四鏡頭確認客人。下一間 tea（LAWWW2 驗收中）、cafe2。｜【LAWWW-C 11-13 16:0x UTC】118 巷水上便當 l118_self（AA-C 19b3bbf7d2，LAWWW2 美術 PASS）整合：並排圖看過（配菜櫃改成一盤盤有貼圖的菜、便當紙盒）；純色 18%、三項成立；新工具 cc0_kit.py、bake_l118_shops.sh 進開發分支（美國超市幫手重做時用這一份）；CC0 基準 43→42；place_gate --write、相關 390 支 Node 全過。P2：紅燒肉貼圖像磁磚、雞排側面拉長、價錢牌沒字。下一間 korea（LAWWW2 驗收中）。｜【11-13 14:3x LAWWW-C 開】AA-C 14:23 接 118 巷九間（lane118_shops.py：l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea），照 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md 做；一間做完交一間（AA 分支 patch＋並排圖）→ LAWWW2 驗收 → LAWWW 整合 → BB 判美術 → CC 四鏡頭＋效能。LAWWW-C 子代理做美國兩間（us_market、us_asian_market）。owner 寫 AA＝118 巷這一份；美國兩間由 LAWWW 負責。",
+   "next": "【LAWWW-C 11-13 19:5x UTC】AA 118 巷垂藤＋korea 四點＋tea 兩點（6d35b5ad46，LAWWW2 PASS）整合 094c109f1d；並排圖看過；place_gate ALL PASS、相關 52 支 ALL PASS；待 BB 判、CC 四鏡頭。LAWWW2 第七批增量版 fdf51a8aa6＝8d621a9637 逐檔 blob 相同（不用再整合）。AA 後面兩份（義大麵屋四間新店、第二輪 P2 self／dian／cafe2＋korea 筷筒）底＝094c109f1d。｜【LAWWW-C 11-13 19:4x UTC】D161 剩下 24 家派給 4 個新工作階段（各自容器、各自烘焙；簡報＝SHOP_CC0_HOWTO.md，LAWWW2 驗收；底 8d621a9637）：①session_01S1Gk9UtryMwS25pcG4ftKG→claude/shop-cc0-g1 komichi、sunnyside、yizhan、mokuyobi、daily_offbeat；②session_01S1Gk9WD6NYVtTg6gopb8ks→g2 aoki、daybreak、yejian、shanlan、corner、bike、cvs；③session_01S1Gk9W71VVmQ9D23ZrxpdU→g3 dabu、haopai、dakou_1f/2f、tongxian、xinsheng_sports；④session_01S1Gk9VE8qcQaXSoAvHHRiJ→g4 ade、lin、shaola、yangyang、nanyang_lobby、flower_notes。LAWWW2 自己做 cafe230、afar、wz_teahouse_yard；118 巷 home／noodle2／omu／pasta 照舊 AA patch。每間交件→LAWWW2 驗→LAWWW 整合→BB 判→CC 四鏡頭。｜【LAWWW-C 11-13 18:4x UTC】美國兩間超市 v2 整合 379e71f77a（LAWWW2 PASS；baseline 衝突：兩邊各拿掉不同的店＝三間都拿掉）；AA cafe2 烘焙版 fa926187f4。待 BB 判、CC 四鏡頭。P2（LAWWW2）：竹葉促銷頭板像印刷海報、三張不同；POS 換 PH CashRegister_01；窗景白天晚上兩張。AA 118 巷垂藤／korea／tea（LAWWW2 PASS）等 AA 重做底＝最新開發分支的 patch。｜【LAWWW-C 11-13 18:4x UTC】美國兩間超市 v2 幫手交件（usmkt-wt fe634a951c；wip 放開發分支 d1e7991401 docs/art-rebuild/second_ai/wip/us_market_cc0_1113/）：草原自助結帳機／輸送帶、竹葉端架／包裝圖集／櫃台禮盒四點都改；純色 16%／19%；面數 79,405／51,503；相關 113 支只差狀態表。並排圖看過、送 LAWWW2 驗收。沒做：窗景（模型有窗景卡、us3d.js 照時段調色、沒有白天晚上兩張，place_gate 照舊已知未過）、竹葉 POS 螢幕小黑盒。｜【LAWWW-C 11-13 17:4x UTC】美國兩間超市重做：幫手子代理（worktree /home/user/wt-usmkt，分支 usmkt-wt，底 97ecb29e28＋合開發分支）照 LAWWW2 驗 6df22822d3 的退件點做：草原①自助結帳機／輸送帶；竹葉①端板②貨品包裝貼圖、高低、頂面③櫃台白方塊；加做窗景（place_gate view）。交件 → LAWWW2 驗 → LAWWW 整合 → BB。｜【LAWWW-C 11-13 17:3x UTC】BB 判 e23d56706e：118 牛排鐵板 P1 關；cafe2 v1 部分（等烘外殼版）；四鏡頭已派 CC 併進 118 巷那支。｜【LAWWW-C 11-13 17:2x UTC】dian v2（BB P1：墊在木板上的黑鑄鐵鐵板＋牛排、荷包蛋、玉米、麵）＋cafe2 v1（自助餐台菜面貼圖、殼椅、輕鋼架、PH 盆栽；不烘光照守 1.5 倍預算，BB 定只判部分）（AA-C a1e7284dfe，LAWWW2 PASS）整合：並排圖看過；lampshade_flip 的節點名照新的拆分改（metal→steel/steel_d/tubes，燈罩零件仍在、沒有翻面）；CC0 基準→36；place_gate --write、相關 394 支 Node 全過。｜【LAWWW-C 11-13 17:0x UTC】118 巷 tea 辛亥韓食（AA-C 806c20f934，LAWWW2 PASS，純色 22%）整合：小菜碟菜色貼圖、層板罐子大小不一、卡座木紋；19:00 有客人；CC0 基準→37；place_gate --write、相關 390 支 Node 全過。P2：小菜櫃分六格、四間垂藤換 PH 植物。dian 鐵板 P1 AA 改好在烘焙；cafe2 不烘光照（烘了 3.7 MB 超過 l118_int_home_cafe2 測試的 1.5 倍預算）——預算要不要放寬請 BB 定。｜【LAWWW-C 11-13 16:5x UTC】118 巷 korea（清州刀削麵 23%）＋dian（118 牛排 16%）（AA-C 26626e91f4，LAWWW2 PASS）整合：並排圖看過（實木椅、廚房層架材質、PH 盆栽）；it_fix.py 補 dian 兩個走近點；CC0 基準→39；place_gate --write、相關 390 支 Node 全過。P2：korea 蒸氣球、吊盆、桌面反光；dian 紅櫃台分段、湯桶貼紙。19:00 korea 新版截圖沒客人（舊版有）請 CC 四鏡頭確認客人。下一間 tea（LAWWW2 驗收中）、cafe2。｜【LAWWW-C 11-13 16:0x UTC】118 巷水上便當 l118_self（AA-C 19b3bbf7d2，LAWWW2 美術 PASS）整合：並排圖看過（配菜櫃改成一盤盤有貼圖的菜、便當紙盒）；純色 18%、三項成立；新工具 cc0_kit.py、bake_l118_shops.sh 進開發分支（美國超市幫手重做時用這一份）；CC0 基準 43→42；place_gate --write、相關 390 支 Node 全過。P2：紅燒肉貼圖像磁磚、雞排側面拉長、價錢牌沒字。下一間 korea（LAWWW2 驗收中）。｜【11-13 14:3x LAWWW-C 開】AA-C 14:23 接 118 巷九間（lane118_shops.py：l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea），照 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md 做；一間做完交一間（AA 分支 patch＋並排圖）→ LAWWW2 驗收 → LAWWW 整合 → BB 判美術 → CC 四鏡頭＋效能。LAWWW-C 子代理做美國兩間（us_market、us_asian_market）。owner 寫 AA＝118 巷這一份；美國兩間由 LAWWW 負責。",
    "first": {
     "term": "Y1S1",
     "week": 1,

@@ -30,6 +30,27 @@ sh.M.update({
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 })
 sh.M['shade'] = sh.M['bulb']
+CC0 = '--nocc0' not in sys.argv   # SHOP-REALISM-1112（D159／D160／D161，LAWWW2-C 11-13）：CC0 材質組＋Poly Haven 掃描模型；--nocc0＝建原版（對照用）
+if CC0:
+    import cc0_aakit as cc0_kit   # noqa: E402（tools/blender/env_second/cc0_aakit.py）
+    K0 = cc0_kit.Kit(L, B, sh.root, g2b, prefix=P)
+    sh.M.update({
+        'c_fabric': K0.acg(P + 'c_fabric', 'Fabric036', target='#727069', tile=0.45, rough_value=0.9, res=256),     # 灰色布椅
+        'c_green': K0.acg(P + 'c_green', 'PaintedPlaster017', maps=('diff',), target='#3f4f40', tile=1.2, rough_value=0.7, res=256),   # 深綠腰牆、隔牆、搪瓷吊燈
+        'c_brass': K0.acg(P + 'c_brass', 'Metal009', target='#b8944a', tile=0.6, metal=0.85, rough_value=0.35, res=256),
+        'c_metal_dk': K0.acg(P + 'c_metal_dk', 'Metal009', maps=('diff',), target='#30302e', tile=0.8, metal=0.4, rough_value=0.45, res=256),   # 黑鐵、管線、軌道燈
+        'c_steel': K0.acg(P + 'c_steel', 'Metal009', target='#b8b9b6', tile=0.8, metal=0.5, rough_value=0.35, res=256),   # 不鏽鋼（咖啡機、冰箱）
+        'c_ceramic': K0.acg(P + 'c_ceramic', 'Plastic006', vary=0.05, target='#ece6da', tile=0.4, rough_value=0.25, res=256),   # 白瓷杯盤、白色花盆
+        'c_stone': K0.acg(P + 'c_stone', 'PaintedPlaster017', maps=('diff',), target='#dcd6cc', tile=0.8, rough_value=0.4, res=256),   # 淺色石檯面
+    })
+    VC_ROUTE = {   # 頂點色 → 材質組 key（cc0_kit.split_vc：最接近的顏色，距離 < 26）
+        '#6e4a30': 'wood', '#5c3d27': 'wood', '#6a4a2a': 'wood', '#5a3a22': 'wood', '#8a6a3a': 'wood', '#c9a77c': 'wood',
+        '#6e6e68': 'c_fabric', '#7a7972': 'c_fabric',
+        '#4a5a45': 'c_green', '#34443a': 'c_green', '#5e6c55': 'c_green',
+        '#b8944a': 'c_brass', '#2e2e2e': 'c_metal_dk', '#b8bab8': 'c_steel', '#b8b8b4': 'c_steel',
+        '#f2efe8': 'c_ceramic', '#e8e2d6': 'c_ceramic', '#e8e0d0': 'c_ceramic', '#e8e0cc': 'c_ceramic', '#f8eed6': 'c_ceramic', '#e8e4dc': 'c_ceramic',
+        '#dcd6cc': 'c_stone',
+    }
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 TB = {t['id']: t for t in LAY['tables']}
@@ -82,6 +103,8 @@ def laptop(x, z, y, yaw=0.0):
 
 def leafy(x, z, h=1.3, pot='#e8e2d6'):
     """闊葉的落地植物（高花盆＋兩叢葉片卡）"""
+    if CC0:   # CC0：Poly Haven 落地盆栽（掃描）
+        K0.ph_put('potted_plant_02', x, 0.0, z, (x * 5.1 + z) % 6.28, 1.0, share=False, height=h + 0.2, decimate=0.03, tag='_leafy'); return
     Xf(x, z).lathe(sh.a('vcg'), [(0.0, 0.0), (0.16, 0.0), (0.2, 0.42), (0.21, 0.45), (0.0, 0.45)], 0, 0, 0, seg=12, col=pot)
     sh.plant(x, z, h=0.66, r=0.34, pot_col='#6a5a44', y0=0.42); sh.plant(x + 0.05, z - 0.04, h=0.6, r=0.26, pot_col='#6a5a44', y0=h - 0.55)
     Xf(x, z).cyl(sh.a('vc'), (0, 0.45, 0), (0.03, h - 0.5, 0.0), 0.012, col='#5a6a3a', seg=4, caps=False)
@@ -276,4 +299,12 @@ for k in range(5): xf0.rbox(sh.a('vcg'), X0 + 0.02, X0 + 0.15, 0.47, 1.0, qz0 + 
 sh.tally('seating')
 
 for p_ in IT['plant_big']: leafy(p_['x'], p_['z'], h=1.4)
+if CC0:   # 頂點色零件照顏色分到材質組；表上沒有的顏色（葉子、書、小東西）照舊頂點色
+    VCK = ('vc', 'vcm', 'vcg')
+    mv = K0.split_vc([m for (k_, l_), m in list(sh._acc.items()) if k_ in VCK], VC_ROUTE, lambda vm, key: sh.a(key, vm.lvl))
+    for side_ in list(sh.walls):
+        mv2 = K0.split_vc([m for k_, m in list(sh.walls[side_].items()) if k_ in VCK], VC_ROUTE, lambda vm, key, sd=side_: sh.w(sd, key))
+        for k_, n_ in mv2.items(): mv[k_] = mv.get(k_, 0) + n_
+    print('CC0 split_vc', mv)
+    K0.cleanup()
 info = sh.finish(OUT, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats'])})
