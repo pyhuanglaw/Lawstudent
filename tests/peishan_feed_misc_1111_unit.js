@@ -9,13 +9,14 @@ const H=require('./pg_harness.js');
 const {check}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), vm=require('vm');
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
-const PS='classmate_peishan', SHA='c5094495d', F='docs/story_planning/AA_755_peishan_feed_misc.json', BASE='a724370bc';
+/* 2026-11-13（STALE-SOURCES-1112）：稿換到 24bd0e59e9（AA 11-11 b844bac363 節日禮物沛珊 32 列、24bd0e59e9 feed_y4s1 ps4g）。舊期望：SHA='c5094495d'、動態牆八則、other 14 列 */
+const PS='classmate_peishan', SHA='24bd0e59e9', F='docs/story_planning/AA_755_peishan_feed_misc.json', BASE='a724370bc';
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 const raw=show(SHA,F), A=raw?JSON.parse(raw):null;
 /* 資料檔各自在自己的 context 載入（不碰 harness 的全域）：回傳那個常數 */
 const loadConst=(src,name,extra)=>{ const ctx=vm.createContext(Object.assign({console,STORY_EVENTS:[],module:{exports:{}}},extra||{})); vm.runInContext(src.replace(new RegExp('^const '+name+'\\s*=','m'),'globalThis.'+name+'='),ctx); return ctx[name]; };
-const FEEDS={'feed_y1s1.js':'FEED_Y1S1','feed_y1s2.js':'FEED_Y1S2','feed_y3s1.js':'FEED_Y3S1','feed_y3s2.js':'FEED_Y3S2','feed_pg.js':'FEED_PG'};
+const FEEDS={'feed_y1s1.js':'FEED_Y1S1','feed_y1s2.js':'FEED_Y1S2','feed_y3s1.js':'FEED_Y3S1','feed_y3s2.js':'FEED_Y3S2','feed_y4s1.js':'FEED_Y4S1','feed_pg.js':'FEED_PG'};   /* 24bd0e59e9 起多 feed_y4s1（ps4g） */
 const feedOf=(f,src)=>loadConst(src||read('src/data/'+f),FEEDS[f]);
 const strs=(o,out)=>{ if(typeof o==='string') out.push(o); else if(Array.isArray(o)) o.forEach(x=>strs(x,out)); else if(o&&typeof o==='object') Object.values(o).forEach(x=>strs(x,out)); return out; };
 /* o 底下、key 是 classmate_peishan 的每一棵 */
@@ -33,8 +34,8 @@ const count=(o,t)=>{ let n=0; const w=x=>{ if(J(x)===J(t)&&typeof x===typeof t&&
     check('1. activity_scenes.js：AA_755 那一列被上游重寫取代（ps755.SUPERSEDED），檔頭不再寫 AA_755',/SUPERSEDED = \{'activity_scenes\.js'/.test(read('tools/story/ps755.py'))&&!read('src/data/activity_scenes.js').split('\n')[0].includes('AA_755'));
     for(const f of ['arc_rot.js','gift_holiday.js']) check('1. src/data/'+f+' 的檔頭寫了 AA_755_peishan_feed_misc.json@'+SHA,read('src/data/'+f).split('\n')[0].includes('AA_755_peishan_feed_misc.json@'+SHA)); });
 
-  await sec(2,async()=>{ const IDS={'feed_y1s1.js':['ps4','ps5','ps6'],'feed_y1s2.js':['ps1b','ps6b'],'feed_y3s1.js':['ps4e'],'feed_y3s2.js':['ps4f'],'feed_pg.js':['ps2i']};
-    if(A) check('2. 稿上八則＝這八個 id',J(A.feed.map(r=>r.file+':'+r.id).sort())===J(Object.keys(IDS).flatMap(f=>IDS[f].map(i=>f+':'+i)).sort()));
+  await sec(2,async()=>{ const IDS={'feed_y1s1.js':['ps4','ps5','ps6'],'feed_y1s2.js':['ps1b','ps6b'],'feed_y3s1.js':['ps4e'],'feed_y3s2.js':['ps4f'],'feed_y4s1.js':['ps4g'],'feed_pg.js':['ps2i']};
+    if(A) check('2. 稿上九則＝這九個 id（24bd0e59e9 多 feed_y4s1 ps4g；舊期望八則）',J(A.feed.map(r=>r.file+':'+r.id).sort())===J(Object.keys(IDS).flatMap(f=>IDS[f].map(i=>f+':'+i)).sort()));
     for(const f of Object.keys(IDS)){ const D=feedOf(f), ob=show(BASE,'src/data/'+f), O=ob?feedOf(f,ob):null;
       for(const id of IDS[f]){ const p=D.posts.filter(x=>x.id===id), r=A&&A.feed.find(x=>x.file===f&&x.id===id), o=O&&O.posts.find(x=>x.id===id);
         check('2. '+f+' '+id+'：剛好一則、是沛珊的、cm／dm 各兩句',p.length===1&&p[0].who===PS&&p[0].cm.length===2&&p[0].dm.length===2&&typeof p[0].say==='string');
@@ -52,8 +53,8 @@ const count=(o,t)=>{ let n=0; const w=x=>{ if(J(x)===J(t)&&typeof x===typeof t&&
       'gift_holiday.js':()=>loadConst(read('src/data/gift_holiday.js'),'GIFT_HOLIDAY') };
     const T={}; for(const f in DATA) T[f]=trees(DATA[f](),[]);
     check('3. 五個檔都找得到沛珊的資料',Object.keys(T).every(f=>T[f].length>=1),J(Object.keys(T).map(f=>[f,T[f].length])));
-    if(A){ const bad=[]; for(const r of A.other){ const t=T[r.file]; if(r.file==='activity_scenes.js'){ const nN=t.reduce((a,x)=>a+count(x,r.new),0), nO=t.reduce((a,x)=>a+count(x,r.old),0); if(nO!==0) bad.push('activity_scenes.js：舊句還在'); continue; }   /* 上游重寫：新舊都不在（舊的「我家早餐店」不能回來）*/ if(!t){ bad.push(r.file+'：測試不認得的檔'); continue; } const nNew=t.reduce((a,x)=>a+count(x,r.new),0), nOld=t.reduce((a,x)=>a+count(x,r.old),0); if(nNew!==1||nOld!==0) bad.push(r.file+'（'+r.at+'）new '+nNew+' 處、old '+nOld+' 處'); }
-      check('3. other '+A.other.length+' 列：每一列的 new 在那個檔沛珊底下剛好一處、old 不在了',A.other.length===14&&bad.length===0,J(bad));
+    if(A){ const bad=[]; for(const r of A.other){ const t=T[r.file]; if(r.new===null){ const nO=t?t.reduce((a,x)=>a+count(x,r.old),0):-1; if(nO!==0) bad.push(r.file+'（'+r.at+'）要拿掉的還有 '+nO+' 處'); continue; }   /* 24bd0e59e9：new 是 null＝那一格拿掉（gift_holiday existing[2]）*/ if(r.file==='activity_scenes.js'){ const nN=t.reduce((a,x)=>a+count(x,r.new),0), nO=t.reduce((a,x)=>a+count(x,r.old),0); if(nO!==0) bad.push('activity_scenes.js：舊句還在'); continue; }   /* 上游重寫：新舊都不在（舊的「我家早餐店」不能回來）*/ if(!t){ bad.push(r.file+'：測試不認得的檔'); continue; } const nNew=t.reduce((a,x)=>a+count(x,r.new),0), nOld=t.reduce((a,x)=>a+count(x,r.old),0); if(nNew!==1||nOld!==0) bad.push(r.file+'（'+r.at+'）new '+nNew+' 處、old '+nOld+' 處'); }
+      check('3. other '+A.other.length+' 列：每一列的 new 在那個檔沛珊底下剛好一處、old 不在了（new 是 null 的：old 不在了）',A.other.length===46/* 舊期望 14；24bd0e59e9 多 gift_holiday 32 列 */&&bad.length===0,J(bad));
       const R=loadConst(read('src/data/invite_replies.js'),'INVITE_REPLIES').people[PS], m={}; for(const r of A.other) if(r.file==='invites.js'&&r.old.length===1) m[r.old[0]]=r.new[0];
       const all=strs(R,[]);
       check('3. invite_replies.js 沛珊：和 invites.js 同句的（ps5、ps9）跟著換成新句，舊句不在了；其他列沒動',Object.keys(m).every(o=>!all.some(t=>t.includes(o)))&&J(R.find(x=>x.id==='ps5').lines)===J(['早午餐！好啊，那種不用太早起的我最可以。'])&&J(R.find(x=>x.id==='ps9').lines)===J(['好啊。我想坐吧台，可以看他們做。'])&&R.length===32,J(R.filter(x=>x.id==='ps5'||x.id==='ps9').map(x=>x.lines)));

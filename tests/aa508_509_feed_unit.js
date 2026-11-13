@@ -141,7 +141,8 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   /* 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4f 留言回「他說要三匙。我沒給。」（對齊陳助教那一句）*/
   const AA518_T=new Set(['他說要三匙。我沒給。']), AA518_ROW={sis4f:e=>{ e.cm=[e.cm[0],'他說要三匙。我沒給。']; }};
   /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：大四上 ps4g 的留言回覆換字（原本「兩週！然後回早餐店～」）——稿（AA_509）那一列的第二則留言是舊句才換成新句再比；逐字對稿在 tests/peishan_misc3_1111_unit.js */
-  AA518_T.add('兩週！然後回我們家店裡站櫃檯～'); AA518_ROW.ps4g=e=>{ if(e.cm[1]==='兩週！然後回早餐店～') e.cm=[e.cm[0],'兩週！然後回我們家店裡站櫃檯～']; };
+  /* 2026-11-13（STALE-SOURCES-1112）：AA_755_peishan_feed_misc.json@24bd0e59e9 再換一次（「回家顧店」是舊設定）；逐字對稿在 tests/peishan_feed_misc_1111_unit.js。舊期望：換成「兩週！然後回我們家店裡站櫃檯～」 */
+  AA518_T.add('兩週！代完就放假，回家給我媽養～'); AA518_ROW.ps4g=e=>{ if(e.cm[1]==='兩週！然後回早餐店～') e.cm=[e.cm[0],'兩週！代完就放假，回家給我媽養～']; };
   const PSRW=require('./peishan_rewrite_1111.js');   /* 2026-11-11（X327 沛珊重寫）：大三下 ps4f 照 AA_755 整則重寫了，不在 AA_508 稿裡——①② 都跳過這一則，逐字比對在 tests/peishan_feed_misc_1111_unit.js */
   for(const term of ['Y3S2','Y4S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!PSRW.feedSkip(term,p.id))}), md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
@@ -362,7 +363,8 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 稿的測試建議',false,'沒�
   check('5. 學姊美國路線交往中：第 2 則「多一個碗——是你的」、第 3 則「對面多一台筆電——是你的」；美國路線沒交往（AA_516 1-4）、臺灣路線一般那張',s2u.v==='yes'&&s2u.h.includes('多一個碗——是你的')&&s3u.v==='yes'&&s3u.h.includes('對面多一台筆電——是你的')&&s3t.v==='no'&&!s3t.h.includes('是你的')&&s3t.h.includes('標題「第四章」')&&s2r.v==='no'&&s3r.v==='no'&&!s2r.h.includes('是你的')&&!s3r.h.includes('是你的'),J({s2u:s2u.v,s3u:s3u.v,s3t:s3t.v,s2r:s2r.v,s3r:s3r.v}));
   /* 沛珊寒假代課再回早餐店；可昕第 2 則在 10/20 以後 */
   fresh(DK('2029-01-14'),20); who('classmate_peishan','FRIEND'); walk(DK('2029-01-14'),21.1); FEED.respond(H.G,'ps4g','cm'); const ps4=th('classmate_peishan').slice(-2).map(x=>x.text);
-  check('5. 沛珊 1/14（台中）「代課第二週～」：留言「代課？」→「兩週！然後回我們家店裡站櫃檯～」',J(ps4)===J(['代課？','兩週！然後回我們家店裡站櫃檯～']),J(ps4));
+  /* 舊期望（AA_763 那一版）：「兩週！然後回我們家店裡站櫃檯～」；2026-11-13 照 AA_755@24bd0e59e9 */
+  check('5. 沛珊 1/14（台中）「代課第二週～」：留言「代課？」→「兩週！代完就放假，回家給我媽養～」',J(ps4)===J(['代課？','兩週！代完就放假，回家給我媽養～']),J(ps4));
   check('5. 可昕第 2 則「國考」（11/5）在 10/20（交往中的先聽她說）以後；第 1 則 9/16「第四年。」',twOf('kx2g').day===DK('2028-11-05')&&twOf('kx2g').day>DK('2028-10-20')&&twOf('kx1g').day===DK('2028-09-16')); });
 
 /* ---------- 6 別人說起她（AA_508、AA_509）---------- */
