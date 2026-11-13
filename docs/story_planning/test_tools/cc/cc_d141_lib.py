@@ -263,7 +263,8 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
         if said: R.note('%s 起身點了：%s' % (t, J(said)))
         c = await st(pg); await shot(pg, '%s_stand_%d' % (shot_prefix, k + 1), judge_black=False)
         sd = round(math.hypot(c['x'] - pre['x'], c['z'] - pre['z']), 2)
-        R.check('%s 起身站的位置離坐下前 %.2f m（CC 暫定 ≤1.5 m；越好吃角落上次被推 4.6 m）；fallback %s→%s' % (t, sd, fb0, c['fb']), sd <= 1.5 and c['lv'] == pre['lv'], J({'pre': pre, 'after': [c['x'], c['z'], c['lv']], 'fb': [fb0, c['fb']]}))
+        # BB-C 11-14 定：fallback 沒變、站得住、沒換層＝PASS，距離只記；fallback 有變或距離 >3 m 才看圖（FAIL 交 BB）
+        R.check('%s 起身：fallback %s→%s、站得住 %s、沒換層、離坐下前 %.2f m（只記；>3 m 才算）' % (t, fb0, c['fb'], c['stand'], sd), c['fb'] == fb0 and bool(c['stand']) and c['lv'] == pre['lv'] and sd <= 3.0, J({'pre': pre, 'after': [c['x'], c['z'], c['lv']], 'fb': [fb0, c['fb']]}))
         mv = await pushable(pg, cdp); c = await st(pg)
         R.check('%s 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地' % t, not c['seat'] and c['stand'] and mv >= 0.3 and c['fb'] == fb0, J({'moved': mv, 'x': c['x'], 'z': c['z'], 'lv': c['lv'], 'stand': c['stand'], 'fb': c['fb'] - fb0}))
         res.append([k + 1, 'ok' if ok else 'nosit', s['sx'], s['sz']])
