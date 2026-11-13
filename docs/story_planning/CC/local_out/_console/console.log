@@ -1,21 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       540cfeae87..4decad7c5b  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:57:40] ==== END   DN_PROGRAMS_3414  exit=0  90s   ====
-[19:57:43] memory 30% before starting RONGENDIAN_glass (0 running)
-[19:57:43] ==== START RONGENDIAN_glass  (probe @ 341436a25ed53942df4059d634d953a93e6ed988) ====
-[19:57:43] skip SHAOLA_sign_2330 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[19:57:43] skip FIRST_gg_desk_r2 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[19:57:43] skip FIRST_gg_touch_r2 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[19:57:43] skip FIRST_sunny_desk_r2 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[19:57:43] solo item FIRST_sunny_touch_r2 waits: no new items start until the 1 running item(s) finish
-[19:57:46] [res] cpu=5% mem=30% (9.6/31.4 GB) chrome_testing=0  START RONGENDIAN_glass
-[19:59:15] [res] cpu=4% mem=30% (9.5/31.4 GB) chrome_testing=0  END RONGENDIAN_glass
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       4decad7c5b..e37e8641c8  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:59:21] ==== END   RONGENDIAN_glass  exit=0  92s   ====
-[19:59:24] memory 30% before starting FIRST_sunny_touch_r2 (0 running)
 [19:59:24] ==== START FIRST_sunny_touch_r2  (probe @ 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49) ====
 [19:59:27] [res] cpu=3% mem=30% (9.6/31.4 GB) chrome_testing=0  START FIRST_sunny_touch_r2
 [20:01:52] 正在跑：FIRST_sunny_touch_r2（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1980,21 @@
 [01:06:52] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 23 分／上限 600 分）、STUDY_SE06_4af4_r2（已跑 7 分／上限 20 分）、SHOP8_B3_c94f（已跑 2 分／上限 160 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:11:52] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 28 分／上限 600 分）、STUDY_SE06_4af4_r2（已跑 12 分／上限 20 分）、SHOP8_B3_c94f（已跑 7 分／上限 160 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:14:54] [res] cpu=4% mem=45% (14.2/31.4 GB) chrome_testing=10  END STUDY_SE06_4af4_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0dac8a1a0c..99900a8872  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:15:11] ==== END   STUDY_SE06_4af4_r2  exit=1  914s   ====
+[01:15:14] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[01:15:14] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[01:15:14] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[01:15:14] memory 46% before starting L118_KDT_fadf (2 running)
+[01:15:14] ==== START L118_KDT_fadf  (probe @ fadf991b274be30ed67d9405bb52901c9bdc1643) ====
+[01:15:17] [res] cpu=3% mem=46% (14.5/31.4 GB) chrome_testing=10  START L118_KDT_fadf
+[01:15:17] worktree add fadf991b274be30ed67d9405bb52901c9bdc1643: invalid reference - fetching main and the commit itself
+[01:16:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 33 分／上限 600 分）、SHOP8_B3_c94f（已跑 12 分／上限 160 分）、L118_KDT_fadf（已跑 1 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:21:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 38 分／上限 600 分）、SHOP8_B3_c94f（已跑 17 分／上限 160 分）、L118_KDT_fadf（已跑 6 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:26:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 43 分／上限 600 分）、SHOP8_B3_c94f（已跑 22 分／上限 160 分）、L118_KDT_fadf（已跑 11 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:31:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 48 分／上限 600 分）、SHOP8_B3_c94f（已跑 27 分／上限 160 分）、L118_KDT_fadf（已跑 16 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:36:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 53 分／上限 600 分）、SHOP8_B3_c94f（已跑 32 分／上限 160 分）、L118_KDT_fadf（已跑 21 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:41:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 58 分／上限 600 分）、SHOP8_B3_c94f（已跑 37 分／上限 160 分）、L118_KDT_fadf（已跑 26 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:43:46] [res] cpu=1% mem=48% (15.4/31.4 GB) chrome_testing=10  END L118_KDT_fadf
