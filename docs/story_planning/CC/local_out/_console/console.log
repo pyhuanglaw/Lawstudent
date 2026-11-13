@@ -1,14 +1,3 @@
-[22:25:51] skip MT2_with (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
-[22:25:51] skip MT2_kexin (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
-[22:25:51] skip MT2_old (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
-[22:25:51] skip TZ_func (already done on 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d)
-[22:25:51] skip TZ_walk (already done on 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d)
-[22:25:51] skip TZ_shots (already done on 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d)
-[22:25:51] skip MT2_talk0_r3 (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
-[22:25:51] skip MT2_ps (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
-[22:25:51] skip F25_deploy_rel (already done on 9518246301e9b9efa224f45231d9b3b69b3fb1a3)
-[22:25:51] skip F25_deploy (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[22:25:51] skip F25_posters (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
 [22:25:51] skip F25_uslong (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
 [22:25:51] skip F25_uslong_block (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
 [22:25:51] skip F25_p0 (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
@@ -1998,3 +1987,14 @@
 [05:46:35] [res] cpu=14% mem=43% (13.5/31.4 GB) chrome_testing=10  START REL76_libtour_r2
 [05:46:54] 正在跑：REL76_save_live_ctl_r2（已跑 2 分／上限 40 分）、CANON458_INV_LIB_r2（已跑 2 分／上限 20 分）、REL76_libtour_r2（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [05:47:26] [res] cpu=16% mem=45% (14.2/31.4 GB) chrome_testing=9  END CANON458_INV_LIB_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       85dae9ccb1..298bf66f5e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:47:34] ==== END   CANON458_INV_LIB_r2  exit=1  169s   ====
+[05:47:38] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[05:47:38] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[05:47:38] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[05:47:38] memory 40% before starting REL76_hometown (2 running)
+[05:47:38] ==== START REL76_hometown  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[05:47:41] [res] cpu=3% mem=41% (12.7/31.4 GB) chrome_testing=8  START REL76_hometown
+[05:50:12] [res] cpu=6% mem=43% (13.7/31.4 GB) chrome_testing=10  END REL76_hometown
