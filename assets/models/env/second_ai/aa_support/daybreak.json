@@ -1,12 +1,50 @@
 {
- "objects": 22,
- "unique_meshes": 22,
- "tris": 47376,
- "tris_drawn": 47376,
- "materials": 18,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/dbk/daybreak.glb",
- "bytes": 3069088,
+ "objects": 51,
+ "unique_meshes": 51,
+ "tris": 55370,
+ "tris_drawn": 55370,
+ "materials": 31,
+ "out": "assets/models/env/second_ai/aa_support/daybreak.glb",
+ "bytes": 4802024,
  "texres": 512,
  "layout": 2,
- "seats": 23
+ "seats": 23,
+ "cc0": [
+  [
+   "ambientCG",
+   "Plastic006"
+  ],
+  [
+   "ambientCG",
+   "Wood049"
+  ],
+  [
+   "ambientCG",
+   "Fabric030"
+  ],
+  [
+   "ambientCG",
+   "Marble012"
+  ],
+  [
+   "ambientCG",
+   "Metal009"
+  ],
+  [
+   "ambientCG",
+   "Plaster001"
+  ],
+  [
+   "Poly Haven",
+   "CashRegister_01"
+  ],
+  [
+   "Poly Haven",
+   "potted_plant_04"
+  ],
+  [
+   "Poly Haven",
+   "potted_plant_02"
+  ]
+ ]
 }
