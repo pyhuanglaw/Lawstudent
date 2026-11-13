@@ -1,0 +1,156 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_fix_c\out
+CASES=["heroine_01"] STEPS=["study_abandon"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS [heroine_01] 遊戲載入
+== 人物 heroine_01 沈以安 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 9, "Y2S2": 8, "Y3S1": 8, "Y3S2": 4, "Y4S1": 8, "Y4S2": 8, "Y1S1": 11}、店內偶遇 [{"spot": "cafe", "join": "friend"}]、自由出行 ["D06", "D26", "D09"]）
+-- [heroine_01] study_abandon
+  [前置／捷徑] [heroine_01] 讀檔：study：平日早上在校園（手機約總圖念書）（campus 21 9.00）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：第 5 階、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "沈以安", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] study 開始前：15 秒內回到可以自由移動
+PASS [heroine_01] study 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study 開始前：搖桿推得動（≥0.3 m）  2.10 m
+PASS [heroine_01] study 開始前：點地走得動（≥0.3 m）  點 [27.05, 32.23]，走了 0.72 m
+PASS [heroine_01] study 開始前：遊戲時間有在走  9.0948→9.1149
+PASS [heroine_01] study 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_01] study：她會答應的總圖念書時段 [["今天 12:10", 12.166666666666666], ["今天 15:30", 15.5], ["今天 17:30", 17.5], ["今天 19:00", 19], ["今天 21:00", 21], ["明天 12:10", 12.166666666666666], ["明天 19:00", 19]]
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機朋友頁他那一行有「訊息」  ‹ 訊息
+以安
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "去頁間書屋逛逛", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書", "去社科圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」
+INFO [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）（去總圖一起念書 今天 12:10，預期 accept）台詞：["沈以安（手機）｜好。那天你不要排別的。", "｜約好 今天 12:10，總圖。"]
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機約一路點得完
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：沒有新的 JS 例外
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：搖桿推得動（≥0.3 m）  3.15 m
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：點地走得動（≥0.3 m）  點 [27.05, 37.69]，走了 1.02 m
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：遊戲時間有在走  9.1776→9.1978
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：約成（library 21 12.17）
+  [前置／捷徑] [heroine_01] 讀回存檔（study：離約好的時間還有 2.5 小時，存檔的時間改到 21 11.72（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 讀回存檔（study_abandon leave：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] study_abandon leave 選單 ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"] → 選「直接過去：和沈以安約在總圖（12:10）」
+  [heroine_01] 總圖大廳的座位數（不含有名字的位子）：{"lv1": 16, "lv0": 30}
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": 0.95, "z": -2.21, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [heroine_01] study_abandon leave：帶路途中走出去（離開總圖）
+  [heroine_01] 到達「離開總圖」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [heroine_01] 帶路：{"zone": "campus", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": null}
+PASS [heroine_01] study_abandon leave：帶路途中作罷（那一筆約 cancelled）  {"lead_seen": true, "state": "cancelled", "zone": "campus", "hour": 12.1035, "lead_zone": "library_hall", "lead": [{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "hour": 12.036}, {"zone": "campus", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "hour": 12.095}]}
+PASS [heroine_01] study_abandon leave：跳一則訊息（G.msgs 多一則「……後來作罷了。」）  [{"day": 21, "h": 12.1, "text": "和沈以安一起去總圖的事，後來作罷了。", "iv": "iv1"}]
+PASS [heroine_01] study_abandon leave：畫面上有提示（toast「……後來作罷了。」）  [{"t": "和沈以安一起去總圖的事，後來作罷了。", "h": 12.102, "ms": 1794581163767}]
+  [heroine_01] study_abandon leave 之後 選單 ["「校門口有打氣筒。」", "（假裝沒看到）"] → 選「「校門口有打氣筒。」」
+PASS [heroine_01] study_abandon leave 之後：15 秒內回到可以自由移動
+FAIL [heroine_01] study_abandon leave 之後：GAME.walkFallbacks 沒增加  0→1
+PASS [heroine_01] study_abandon leave 之後：沒有新的 JS 例外
+PASS [heroine_01] study_abandon leave 之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study_abandon leave 之後：搖桿推得動（≥0.3 m）  3.30 m
+PASS [heroine_01] study_abandon leave 之後：點地走得動（≥0.3 m）  點 [76.7, 2.5]，走了 1.11 m
+PASS [heroine_01] study_abandon leave 之後：遊戲時間有在走  12.1464→12.1669
+PASS [heroine_01] study_abandon leave 之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_abandon leave 之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_abandon leave 之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [heroine_01] study_abandon leave：風險 5（兩個選單互搶，還沒修，只記錄）前一個選單還沒選完又開了一個 1 次  [{"prev": ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"], "next": ["「校門口有打氣筒。」", "（假裝沒看到）"], "h": 12.104, "zone": "campus", "ms": 1794581166871}]
+  [前置／捷徑] [heroine_01] 讀回存檔（study_abandon timeout：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] study_abandon timeout 選單 ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"] → 選「直接過去：和沈以安約在總圖（12:10）」
+  [heroine_01] 總圖大廳的座位數（不含有名字的位子）：{"lv1": 16, "lv0": 30}
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": 0.9, "z": -2.45, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [前置／捷徑] [heroine_01] study_abandon timeout：【前置／捷徑】帶路途中 帶路開始（iv.h＝12.014）後 1h55m：存檔的時間改到 13.934
+  [前置／捷徑] [heroine_01] 讀回存檔（帶路開始（iv.h＝12.014）後 1h55m：存檔的時間改到 13.934）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] study_abandon timeout：帶路途中作罷（那一筆約 cancelled）  {"lead_seen": true, "state": "cancelled", "zone": "library_hall", "hour": 14.0223, "lead_zone": "library_hall", "lead": [{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "hour": 12.0318}]}
+PASS [heroine_01] study_abandon timeout：跳一則訊息（G.msgs 多一則「……後來作罷了。」）  [{"day": 21, "h": 14.02, "text": "和沈以安一起去總圖的事，後來作罷了。", "iv": "iv1"}]
+PASS [heroine_01] study_abandon timeout：畫面上有提示（toast「……後來作罷了。」）  [{"t": "和沈以安一起去總圖的事，後來作罷了。", "h": 14.018, "ms": 1794581227651}]
+PASS [heroine_01] study_abandon timeout 之後：15 秒內回到可以自由移動
+PASS [heroine_01] study_abandon timeout 之後：GAME.walkFallbacks 沒增加  1→1
+PASS [heroine_01] study_abandon timeout 之後：沒有新的 JS 例外
+PASS [heroine_01] study_abandon timeout 之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study_abandon timeout 之後：搖桿推得動（≥0.3 m）  2.69 m
+PASS [heroine_01] study_abandon timeout 之後：點地走得動（≥0.3 m）  點 [4.44, 8.46]，走了 0.96 m
+PASS [heroine_01] study_abandon timeout 之後：遊戲時間有在走  14.0412→14.0613
+PASS [heroine_01] study_abandon timeout 之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_abandon timeout 之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_abandon timeout 之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_01] study_abandon timeout：風險 5：這一段沒有看到兩個選單同時開（GAME.choose 沒有重疊）
+  [前置／捷徑] [heroine_01] 讀檔：study：平日早上在校園（手機約總圖念書）（campus 21 9.00）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：第 5 階、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "沈以安", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] study 開始前：15 秒內回到可以自由移動
+PASS [heroine_01] study 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study 開始前：搖桿推得動（≥0.3 m）  2.15 m
+PASS [heroine_01] study 開始前：點地走得動（≥0.3 m）  點 [27.17, 32.32]，走了 0.82 m
+PASS [heroine_01] study 開始前：遊戲時間有在走  9.1093→9.1294
+PASS [heroine_01] study 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_01] study：她會答應的總圖念書時段 [["今天 12:10", 12.166666666666666], ["今天 15:30", 15.5], ["今天 17:30", 17.5], ["今天 19:00", 19], ["今天 21:00", 21], ["明天 12:10", 12.166666666666666], ["明天 19:00", 19]]
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00）：手機朋友頁他那一行有「訊息」  ‹ 訊息
+以安
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "去頁間書屋逛逛", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書", "去社科圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 21:00」
+INFO [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00）：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00）（去總圖一起念書 今天 21:00，預期 accept）台詞：["沈以安（手機）｜好。那天你不要排別的。", "｜約好 今天 21:00，總圖。"]
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00）：手機約一路點得完
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：GAME.walkFallbacks 沒增加  2→2
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：沒有新的 JS 例外
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：搖桿推得動（≥0.3 m）  3.18 m
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：點地走得動（≥0.3 m）  點 [27.1, 37.79]，走了 0.99 m
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：遊戲時間有在走  9.1915→9.2119
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00） 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 21:00）：約成（library 21 21.00）
+  [heroine_01] study：手機「今天」→ 跳過時間到 20.00
+  [heroine_01] study 跳過時間 選單 ["照樣跳過", "先不要"] → 選「照樣跳過」
+  [前置／捷徑] [heroine_01] 讀回存檔（study：離約好的時間還有 0.5 小時，存檔的時間改到 21 20.55（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 讀回存檔（study_abandon close：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] study_abandon close 選單 ["直接過去：和沈以安約在總圖（21:00）", "自己走過去"] → 選「直接過去：和沈以安約在總圖（21:00）」
+  [heroine_01] 總圖大廳的座位數（不含有名字的位子）：{"lv1": 16, "lv0": 30}
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 3.8, "lv": 1}, "me": {"x": -8.07, "z": 3.8, "lv": 1}, "look": null, "n": {"x": 0.94, "z": -2.23, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 3.8, "lv": 1}, "me": {"x": -8.07, "z": 3.8, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 3.8, "lv": 1, "seat": {"x": -7.02, "z": 3.8, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
+PASS [heroine_01] study_abandon close：帶路途中作罷（那一筆約 cancelled）  {"lead_seen": true, "state": "cancelled", "zone": "library_hall", "hour": 22.0128, "lead_zone": "library_hall", "lead": [{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 3.8, "lv": 1}, "hour": 20.7794}, {"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 3.8, "lv": 1}, "hour": 21.0024}]}
+PASS [heroine_01] study_abandon close：跳一則訊息（G.msgs 多一則「……後來作罷了。」）  [{"day": 21, "h": 22, "text": "和沈以安一起去總圖的事，後來作罷了。", "iv": "iv1"}]
+PASS [heroine_01] study_abandon close：畫面上有提示（toast「……後來作罷了。」）  [{"t": "和沈以安一起去總圖的事，後來作罷了。", "h": 22.001, "ms": 1794581524346}]
+INFO [heroine_01] study_abandon close：她作罷以後的狀態  {"zone": "library_hall", "pseat": false, "depth": 0, "npc": true, "nseat": false, "frozen": false, "beh": "leave", "pose": "walk", "ivLead": null, "where": null, "keep": false, "fade": false}
+PASS [heroine_01] study_abandon close 之後：15 秒內回到可以自由移動
+PASS [heroine_01] study_abandon close 之後：GAME.walkFallbacks 沒增加  2→2
+PASS [heroine_01] study_abandon close 之後：沒有新的 JS 例外
+PASS [heroine_01] study_abandon close 之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study_abandon close 之後：搖桿推得動（≥0.3 m）  3.12 m
+PASS [heroine_01] study_abandon close 之後：點地走得動（≥0.3 m）  點 [2.17, 4.73]，走了 1.02 m
+PASS [heroine_01] study_abandon close 之後：遊戲時間有在走  22.0325→22.0526
+PASS [heroine_01] study_abandon close 之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_abandon close 之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_abandon close 之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_01] study_abandon close：風險 5：這一段沒有看到兩個選單同時開（GAME.choose 沒有重疊）
+== 人物 heroine_01 結果 FAIL（1）：study_abandon leave 之後：GAME.walkFallbacks 沒增加
+   用了 9.1 分鐘
+==== 總結：1 人，FAIL 1 人：[["heroine_01", ["study_abandon leave 之後：GAME.walkFallbacks 沒增加"]]]
+FAILED 1
