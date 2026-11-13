@@ -1,18 +1,3 @@
-[22:25:53] skip X283b_old (already done on e73888074c)
-[22:25:53] skip X283b_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[22:25:53] skip X285b_old (already done on e73888074c)
-[22:25:53] skip X285b_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[22:25:53] skip YZCUP2_47 (already done on 1c767edf819136d164df68e5cefca5605993b7fe)
-[22:25:53] skip YZCUP2_51 (already done on 1c767edf819136d164df68e5cefca5605993b7fe)
-[22:25:53] skip X257_new (already done on 1c767edf819136d164df68e5cefca5605993b7fe)
-[22:25:53] skip X257_old (already done on fca5f80a386dd529fcd40a749b809ec30c5bb3eb)
-[22:25:53] skip X307F2_new (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
-[22:25:53] skip GREET_WD_968b (already done on 968bd311f878693a984103ae6deb3bd24c30c52f)
-[22:25:53] skip FLW_new_mrt_1400 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[22:25:53] skip FLW_new_arc_2000 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[22:25:53] skip FLW_new_2050 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[22:25:53] skip FLW_new_2110 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[22:25:53] skip FLW_new_0850 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
 [22:25:53] skip FLW_old_1400 (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
 [22:25:53] skip FLWS_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
 [22:25:53] skip WINVIEW_A (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
@@ -1998,3 +1983,18 @@
 [06:21:15] [res] cpu=2% mem=30% (9.7/31.4 GB) chrome_testing=0  START REL76_touch
 [06:21:54] 正在跑：REL76_touch（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:23:57] [res] cpu=4% mem=32% (10.3/31.4 GB) chrome_testing=0  END REL76_touch
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5e3e5e42fa..f633266074  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:24:03] ==== END   REL76_touch  exit=0  166s   ====
+[06:24:14] memory 30% before starting CANON458_INV_LIB_r5 (0 running)
+[06:24:14] memory 30% before starting REL76_reach (1 running)
+[06:24:14] ==== START CANON458_INV_LIB_r5  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[06:24:14] memory 30% before starting REL76_social (2 running)
+[06:24:14] ==== START REL76_reach  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[06:24:14] ==== START REL76_social  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[06:24:17] [res] cpu=2% mem=30% (9.6/31.4 GB) chrome_testing=0  START REL76_social
+[06:24:17] [res] cpu=4% mem=30% (9.6/31.4 GB) chrome_testing=0  START REL76_reach
+[06:24:17] [res] cpu=2% mem=30% (9.6/31.4 GB) chrome_testing=0  START CANON458_INV_LIB_r5
+[06:26:54] 正在跑：CANON458_INV_LIB_r5（已跑 2 分／上限 20 分）、REL76_reach（已跑 2 分／上限 40 分）、REL76_social（已跑 2 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:28:16] [res] cpu=11% mem=47% (14.8/31.4 GB) chrome_testing=9  END CANON458_INV_LIB_r5
