@@ -8091,6 +8091,36 @@
    "noDirectIntegrate": true,
    "next": "LAWWW2-C 驗收 → LAWWW-C 整合（底＝5769db1601＋垂藤＋四間＋cafe2 烘光照）",
    "unfinished": "九間的 P2 清單全部交出；剩 LAWWW2／BB 回饋"
+  },
+  {
+   "task": "SHOP-CC0-HELP-1113",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6d35b5ad46",
+   "files": [
+    "docs/art-rebuild/aa_help/l118_vines_korea_p2_cc0.patch"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T19:58Z",
+   "receiver": "LAWWW",
+   "ack": "",
+   "noDirectIntegrate": true,
+   "next": "LAWWW-C 整合（LAWWW2 美術 PASS；底＝c4da5b32ab）",
+   "unfinished": "無（這一份）"
+  },
+  {
+   "task": "SHOP-CC0-HELP-1113",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "bdcda3ecdf",
+   "files": [
+    "docs/art-rebuild/aa_help/l118_pasta_omu_noodle2_home_cc0.patch"
+   ],
+   "state": "WIP",
+   "at": "2026-11-13T20:10Z",
+   "receiver": "LAWWW2",
+   "ack": "",
+   "noDirectIntegrate": true,
+   "next": "並排圖拍完交 LAWWW2 驗收（義大麵屋退件那點：植物有盆子）",
+   "unfinished": "並排圖"
   }
  ],
  "items": [
