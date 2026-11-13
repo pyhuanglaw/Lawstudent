@@ -134,6 +134,39 @@ const VACGAP=(function(){
   S.gymGreet=function(G){ if(!L||!S.gymOn(G)||G.zone!=='gym') return null; const F=flags(G), R=F.MX_GYM||(F.MX_GYM={});
     if(R.first==null){ R.first=G.day; R.last=G.day; return {lines:L.mxGym}; } if(R.last===G.day) return null; R.last=G.day; return {nar:L.mxGymAgain}; };
 
+  /* ================= 第三批：AA_929（考場偶遇、Kevin 開學、學姊托福）=================
+     msg_kevin_term_start（2-3）：大二上～大三下每學期第 1 週週一 21:00 家族群組（到 2028-06 Kevin 畢業）；大三下那則學姊回「好。」。
+     考場偶遇（3-1、3-3、3-4；BB_198 7-4 第 4 點：玩家那天考同一種考試才演）：C04 的「正式考試」那一場（vac3d.js S.key）演完接著演——
+       2027-01-23 托福＝明軒（MX_SEEN_TOEFL）；2027-08-28 托福＝學姊（交往中／沒交往兩版，SIS_TOEFL_SAMEDAY）；2028-01-16 多益＝阿凱（KAI_TOEIC_SEEN）。認識他（她）才有。
+     greet_sis_toefl_tip（3-2）：大二暑假報了 C04（2027 那一期）以後，第一次在總圖或法圖和學姊說話（FAMILIAR 以上；一次；SIS_TOEFL_TIP）——接在 SISY23.preTalk 前面。
+     沒接的（交 LAWWW）：2-1 Kevin 第一堂、2-2 考前提醒（C04 已經有 AA_241 的那一場、那一則：要換還是並存要 AA／LAWWW 定）、第 1 節明軒比賽邀約（C15 那場比賽還沒有）、
+       第 4 節首爾交流（C08 的關鍵事件加句）、第 5 節芷若 ZR_IELTS、志願表旁白（YT_TOEFL）、3-4 小語那句旁白（她那天在不在的條件）。*/
+  S.KEVIN_TERMS=['Y2S1','Y2S2','Y3S1','Y3S2'];
+  S.kevinTerm=function(G){ if(!L||!inGrp(G,'family_law')||typeof STORY==='undefined'||!STORY.termDay) return; const now=T(G.day,G.hour);
+    for(const tid of S.KEVIN_TERMS){ const d=STORY.termDay(tid,1,1), tag='msg_kevin_term_start_'+tid; if(d==null||now<T(d,21)||G.day>d+1||PHONE.sent(G,tag)) continue;
+      const M=L.kevinTerm[tid].map(KV); if(tid==='Y3S2') M.push(SIS(L.kevinTermSis)); PHONE.at(G,d,21,M,tag); } };
+  { const p1=S.phone; S.phone=function(G){ p1(G); if(!law(G)||typeof PHONE==='undefined'||!L) return; S.kevinTerm(G); S.hookSis(); }; }
+  const nmOf=(id,def)=>({name:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):def,charId:id});
+  S.EXAMS=[{day:'2027-01-23',who:'classmate_mingxuan',k:'mx'},{day:'2027-08-28',who:'heroine_05',k:'sis'},{day:'2028-01-16',who:'kai',k:'kai'}];
+  S.examMeetDue=function(G,k,I){ const A=I&&I.A; if(!L||!law(G)||!k||!(k.title==='正式考試'||(A&&A.series==='C04'))) return null;   /* 第二次以後的 C04 是 rep 那一句（沒有 title）：看系列＋那一天 */ const x=S.EXAMS.find(e=>DK(e.day)===G.day); if(!x) return null;
+    const F=G.flags||{}; if(x.k==='mx'&&F.MX_SEEN_TOEFL) return null; if(x.k==='sis'&&F.SIS_TOEFL_SAMEDAY) return null; if(x.k==='kai'&&F.KAI_TOEIC_SEEN) return null;
+    if(x.k==='sis'&&!S.dating(G,'heroine_05')&&!met('heroine_05')) return null; if(x.k!=='sis'&&!met(x.who)) return null; return x; };
+  S.examMeet=async function(GM,k,I){ const G=GM.G, x=S.examMeetDue(G,k,I); if(!x) return false; const F=flags(G);
+    const play=async(who,arr)=>{ for(const l of arr){ if(l.n) await GM.say(null,l.n); else await GM.say(who,l.s); } };
+    const pick=async(who,opts)=>{ const i=await GM.choose(opts.map(o=>({t:o.t}))), o=opts[i]||opts[0]; for(const t of o.say) await GM.say(who,t); };
+    if(x.k==='mx'){ const who=nmOf('classmate_mingxuan','明軒'), X=L.mxToefl; for(const t of X.pre) await GM.say(null,t); await GM.say(who,X.say); await pick(who,X.opts); await GM.say(who,X.end); F.MX_SEEN_TOEFL=true; }
+    else if(x.k==='sis'){ const who=nmOf('heroine_05','學姊'), X=L.sisToeflDay; if(S.dating(G,'heroine_05')){ await play(who,X.dating); F.SIS_TOEFL_SAMEDAY='dating'; } else { await play(who,X.friend); await pick(who,X.friendOpts); await GM.say(who,X.friendEnd); F.SIS_TOEFL_SAMEDAY='friend'; } }
+    else if(x.k==='kai'){ await play(nmOf('kai','阿凱'),L.kaiToeic); F.KAI_TOEIC_SEEN=true; }
+    return true; };
+  S.hookVac=function(){ if(typeof VAC==='undefined'||typeof VAC.key!=='function'||VAC.key._vacgap) return; const k0=VAC.key;
+    VAC.key=Object.assign(async function(GM,k,I){ const r=await k0.apply(this,arguments); try{ await S.examMeet(GM,k,I); }catch(e){ console.warn('VACGAP.examMeet',e); } return r; },{_vacgap:true}); };
+  S.sisTipDue=function(G){ if(!L||!law(G)||bkey(G)!=='Y2S'||(G.flags&&G.flags.SIS_TOEFL_TIP)) return false; if(!/^(library|lawlib)/.test(G.zone||'')) return false; if(S.level(G,'heroine_05')<1) return false;
+    return typeof VAC!=='undefined'&&!!VAC.enrolled&&VAC.enrolled(G,'C04','Y2'); };
+  S.sisTip=async function(GM){ const G=GM&&GM.G; if(!G||!S.sisTipDue(G)) return false; flags(G).SIS_TOEFL_TIP=true; const who=nmOf('heroine_05','學姊'); for(const t of L.sisToeflTip) await GM.say(who,t); return false; };   /* 說完照常閒聊 */
+  /* SISY23（sis_y2y3_3d.js）在這個檔後面載入：第一次跑手機規則的時候包（和 closed3d.js 一樣包一層）*/
+  S.hookSis=function(){ if(typeof SISY23==='undefined'||typeof SISY23.preTalk!=='function'||SISY23.preTalk._vacgap) return; const p0=SISY23.preTalk;
+    SISY23.preTalk=Object.assign(async function(GM){ await S.sisTip(GM); return p0.apply(this,arguments); },p0,{_vacgap:true}); };
+
   /* ---------- 登記 ----------*/
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
@@ -142,5 +175,6 @@ const VACGAP=(function(){
     if(typeof STORY.kaiDormTalk==='function'&&!STORY.kaiDormTalk._vacgap){ const k0=STORY.kaiDormTalk;   /* talkKai 先問 S.kaiDormTalk：1-2 之後的招呼排在前面 */
       STORY.kaiDormTalk=Object.assign(async function(GM,n){ const t=GM&&GM.G?S.kaiRepairGreet(GM.G):null; if(t){ await GM.say(n,t); return true; } return k0.apply(this,arguments); },{_vacgap:true}); } }
   if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
+  S.hookVac(); S.hookSis();
   return S;
 })();
