@@ -10,6 +10,7 @@
 - HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104；下次檢查 11-19。
 
 ### 下一班第一件事（任務 ID，照順序）
+0b. **（11-13 13:4x）** 泰米 v3、洗樂 v1 已整合 8880225eb1；**洗樂 v2（滾筒門玻璃＋不鏽鋼內筒、朝門口鏡頭）交 38246bb81b**（wip/tz_xile_cc0_1113/v2，patch 底 ebac31a76e，outbox 495）。**印得好 CC0 v1 進行中**：scratchpad wt_inc 的 tz_shops_interior.py（CC0 加 yindehao、共用 _AsTex／_Route：頂點色照顏色分到白塑膠／深色塑膠／藏青／不鏽鋼／紙箱／三色包裝紙；PH potted_plant_02 兩盆）＋bake_tz_shops.sh yindehao（四支日光燈＋兩點補光）＋LICENSES 7 列；烘焙在背景跑（log scratchpad/yin/bake.log）。容器重開：重做「建模→bake_tz_shops.sh yindehao→測試→fast_shots→patch」。
 0a. **（11-13 13:0x）** 泰米 v1 已整合 0eb8ce091a；v2（BB 三點）交 8383f23263（patch 疊在 0eb8ce091a，outbox 493）。SHUT_XS_across_2330：開發分支已暗，BB 初判 PASS，等 CC 確認，不用改。下一件：洗樂（工作樹 scratchpad wt_inc＝0eb8ce091a＋v2）。
 0. **（11-13 進度）** 溫特寶邸 v5、shop_cc0 已整合；**泰米村食 CC0 版已交 a67248c079**（wip/tz_taimi_cc0_1113，outbox 492；等 LAWWW-C 套 patch＋決定 zones3d.js 17 行與 shop_cc0 牆不算純色、CC 拍、BB 判）。下一間：洗樂（bake_tz_shops.sh 加 case；tz_shops_interior.py 的 CC 0 tuple 加 'xile'）。
    **SHUT_XS_across_2330**（LAWWW-C 轉 BB_379 P2）：新生運動廣場、山嵐 23:30 二樓窗——在開發分支 0029a82618 近拍已經是暗的（xs_shut 截圖），正在從對街拍確認是哪個模型還亮。之後 WZ-FRUIT-CLOSED。
