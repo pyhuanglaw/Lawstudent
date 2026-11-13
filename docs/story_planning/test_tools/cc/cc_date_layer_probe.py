@@ -11,7 +11,8 @@
   D28：這個地點照設計走文字選單（DATE_HOTSPOTS 註解：D28.sunset 沒有位置）——要看到的是 #choices 選單、不是 #dateLayer。
   NODL=1（網址加 ?nodatelayer，由佇列的 page 欄給）：同一個地點要回到舊的文字選單。
 CC_02 清單 2026-11-14：1✓（日子照 cc_canon458 DATE：Y1S2 第 5 週週六；她 CLOSE；地點照 BB） 2✓（標記、她的圖、結束鍵照 datelayer3d.js 的 class／data-pid 讀；地點照 DATE_HOTSPOTS） 3✓（三個地點＋D28＋nodatelayer；停用的點也點一次） 4✓（點之前確認圖層開著、標記在畫面裡） 5n/a（2D 圖層，不走路） 6✓（防誤觸在頁面裡等圖層出現，避免 Python 來回延遲；其他等 400 ms 以上） 7✓（lint、JS 用 node --check） 8✓（只記數字、BB 判） 9✓（每一步截圖） 10✓（別的對話照字點） 11✓（SHA 40 碼、ENV 沒有「|」「;」） 12✓（FAIL_SETUP 檢查：約會排上了、真的出了圖層（D28／NODL＝真的出文字選單）） 13n/a（不走路）
-用法：LW_TESTS=<wt>/tests SHA=<sha> CASES=D01,D05,D12,D28 [WHO=heroine_02] [NODL=1] python3 cc_date_layer_probe.py <url> <out>"""
+補（BB-C 11-14 BB_461）：D33 也是文字選單；D05@20＝晚出發，至少一個標記因「時間差不多了」變暗並點一次；D05、D12 先選坐著的點（DATE_HOTSPOTS.seated），回到選點畫面她要是 H4（dl_<地點>_seated）；每個標記觸控範圍 ≥44×44。
+用法：LW_TESTS=<wt>/tests SHA=<sha> CASES=D01,D05,D12,D28,D33,D05@20 [WHO=heroine_02] [NODL=1] python3 cc_date_layer_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -22,7 +23,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
-CASES = [c for c in (os.environ.get('CASES') or 'D01,D05,D12,D28').split(',') if c]
+CASES = [c for c in (os.environ.get('CASES') or 'D01,D05,D12,D28,D33,D05@20').split(',') if c]
 WHO = os.environ.get('WHO') or 'heroine_02'
 NODL = (os.environ.get('NODL') or '') == '1'
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -33,7 +34,7 @@ BOOK_JS = "(a=>{ const G=GAME.G; const b=DATE.book(G,{who:a.who,locs:[a.loc],tra
 LAYER_JS = r"""(()=>{ const root=document.getElementById('dateLayer'); if(!root) return null; const vw=innerWidth, vh=innerHeight, f=v=>Math.round(v);
   const R=e=>{ const r=e.getBoundingClientRect(); return {x:f(r.left),y:f(r.top),w:f(r.width),h:f(r.height)}; };
   const inView=r=>r.x+r.w>0&&r.y+r.h>0&&r.x<vw&&r.y<vh, fully=r=>r.x>=0&&r.y>=0&&r.x+r.w<=vw&&r.y+r.h<=vh, ov=(a,b)=>a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h;
-  const hots=[...root.querySelectorAll('.dlHot')].map(b=>{ const r=R(b), l=b.querySelector('.lab'); return {pid:b.getAttribute('data-pid'), dim:b.classList.contains('dim')||b.disabled, up:b.classList.contains('up'), r, lab:l?R(l):null, text:(b.getAttribute('aria-label')||'').slice(0,40), inView:inView(r)}; });
+  const hots=[...root.querySelectorAll('.dlHot')].map(b=>{ const r=R(b), l=b.querySelector('.lab'); return {pid:b.getAttribute('data-pid'), dim:b.classList.contains('dim')||b.disabled, up:b.classList.contains('up'), r, lab:l?R(l):null, text:(b.getAttribute('aria-label')||'').slice(0,60), inView:inView(r)}; });
   const her=root.querySelector('.dlHer'); const hr=her?R(her):null;
   const labOv=[]; for(let i=0;i<hots.length;i++) for(let j=i+1;j<hots.length;j++){ const a=hots[i].lab, b=hots[j].lab; if(a&&b&&ov(a,b)) labOv.push([hots[i].pid,hots[j].pid]); }
   const herOnHot=hr?hots.filter(h=>ov(hr,h.r)).map(h=>h.pid):[];
@@ -41,7 +42,8 @@ LAYER_JS = r"""(()=>{ const root=document.getElementById('dateLayer'); if(!root)
   const txt=(root.innerText||'')+' '+(document.getElementById('adv')?document.getElementById('adv').innerText:'');
   const dbg=(txt.match(/PLACEHOLDER|\bD\d\d\.[a-z_]+|\b[a-z]+_[a-z0-9_]{3,}\b|\b\d+\.\d+\s*,\s*\d+\.\d+|\bid\s*[:=]/gi)||[]).slice(0,8);
   const c=(typeof DATELAYER!=='undefined'&&DATELAYER._cur)?DATELAYER._cur():null;
-  return {vw, vh, open:!!root.parentNode, on:root.classList.contains('on'), night:root.classList.contains('night'), pan:!!(sc&&sc.classList.contains('pan')), scrollLeft:sc?f(sc.scrollLeft):0, scrollMax:sc?f(sc.scrollWidth-sc.clientWidth):0,
+  const sz=hots.map(h=>Math.min(h.r.w,h.r.h)), minHot=sz.length?Math.min(...sz):null;
+  return {minHot, herSrc:her?String(her.getAttribute('src')||'').split('/').slice(-2).join('/'):null, vw, vh, open:!!root.parentNode, on:root.classList.contains('on'), night:root.classList.contains('night'), pan:!!(sc&&sc.classList.contains('pan')), scrollLeft:sc?f(sc.scrollLeft):0, scrollMax:sc?f(sc.scrollWidth-sc.clientWidth):0,
     hots, n:hots.length, dim:hots.filter(h=>h.dim).length, outView:hots.filter(h=>!h.inView).map(h=>h.pid), her:hr, herClipped:hr?!fully(hr):null, herOnHot, labOverlap:labOv, end:end?{t:(end.textContent||'').trim(),r:R(end)}:null, debugText:dbg,
     shownAgo:c&&c.shownAt?f(performance.now()-c.shownAt):null}; })()"""
 # 防誤觸：圖層一出現（DOM 裡有第一個能點的標記）就回傳它的螢幕中心（頁面裡等，最多 ms）
@@ -76,12 +78,13 @@ async def drive_until_pick(pg, cdp, tag, max_s=300):
     return None
 
 
-async def one(pg, cdp, loc):
-    tag = '[%s%s]' % (loc, ' nodatelayer' if NODL else '')
+async def one(pg, cdp, case):
+    loc, _, dep = case.partition('@'); dep = float(dep) if dep else 15.0   # BB-C 11-14：D05@20＝晚一點出發，讓時間不夠的點真的變暗
+    tag = '[%s%s]' % (case, ' nodatelayer' if NODL else ''); fn = case.replace('@', '_')
     await pg.set_viewport_size(LAND)
     d, seed = await SP.fresh(pg, cdp, tag, ['Y1S2', 5, 6], 14.5, 'dorm', {WHO: 'CLOSE'})
     await pg.evaluate("(()=>{ GAME.G.money=Math.max(GAME.G.money|0,5000); })()")
-    bk = await P.prep(pg, cdp, R, BOOK_JS, {'who': WHO, 'loc': loc, 'dep': 15}, True, '%s DATE.book %s %s 15:00' % (tag, WHO, loc)); await P.events_on(pg)
+    bk = await P.prep(pg, cdp, R, BOOK_JS, {'who': WHO, 'loc': loc, 'dep': dep}, True, '%s DATE.book %s %s %.2f' % (tag, WHO, loc, dep)); await P.events_on(pg)
     if not R.check('FAIL_SETUP 檢查：%s 約會排上了' % tag, bk['ok'] and bool(bk['q']), J(bk)): return {'loc': loc, 'skip': 'book'}
     # 防誤觸：一邊點掉對話，一邊在頁面裡等圖層出現，出現當下真的觸控點第一個能點的標記
     mode = None; guard = None; t0 = time.time()
@@ -107,22 +110,27 @@ async def one(pg, cdp, loc):
             o = [x['t'] for x in s['ch']]; i = next((k for k, t in enumerate(o) if t.startswith('出發')), 0)
             await P.tap_choice(pg, cdp, i); await pg.wait_for_timeout(600)
         elif s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(80)
-    await shot(pg, 'dl_%s_first.png' % loc)
+    await shot(pg, 'dl_%s_first.png' % fn)
     res = {'loc': loc, 'book': bk, 'mode': mode, 'guard': guard}
-    want_menu = NODL or loc == 'D28'
+    want_menu = NODL or loc in ('D28', 'D33')   # BB-C 11-14：D33 和 D28 一樣走文字選單
     if mode in (None, 'picked_by_guard'):
         R.check('FAIL_SETUP 檢查：%s 走到選互動點那一步（圖層或文字選單）' % tag, False, J({'mode': mode, 'state': await pg.evaluate(STATE)})); return res
     if want_menu:
-        R.check('%s 照設計是文字選單（%s）：出的是文字選單、沒有 #dateLayer' % (tag, 'nodatelayer' if NODL else 'D28 沒有位置'), mode == 'menu', mode)
+        R.check('%s 照設計是文字選單（%s）：出的是文字選單、沒有 #dateLayer' % (tag, 'nodatelayer' if NODL else '%s 照設計走文字選單' % loc), mode == 'menu', mode)
         o = [x['t'] for x in (await P.ts(pg))['ch']]; R.note('%s 文字選單：%s' % (tag, J(o))); res['menu'] = o
-        await shot(pg, 'dl_%s_menu.png' % loc); return res
+        await shot(pg, 'dl_%s_menu.png' % fn); return res
     if not R.check('%s 出的是圖層（#dateLayer），不是文字選單' % tag, mode == 'layer', mode): return res
     await pg.wait_for_timeout(500)
     # ② 橫向
-    a = await pg.evaluate(LAYER_JS); await shot(pg, 'dl_%s_land.png' % loc); res['land'] = a
+    a = await pg.evaluate(LAYER_JS); await shot(pg, 'dl_%s_land.png' % fn); res['land'] = a
     R.note('%s ② 橫向 %sx%s：標記 %d（停用 %d）、畫面外 %s、她 %s（被裁 %s、蓋到標記 %s）、標籤重疊 %s、結束鍵 %s、除錯字 %s' % (tag, a['vw'], a['vh'], a['n'], a['dim'], a['outView'], a['her'], a['herClipped'], a['herOnHot'], a['labOverlap'], a['end'], a['debugText']))
     R.check('%s ② 橫向：畫面上沒有除錯字（id、座標、PLACEHOLDER）' % tag, not a['debugText'], J(a['debugText']))
+    R.check('%s ② 每個標記的觸控範圍 ≥44×44 px（最小 %s px）' % (tag, a['minHot']), (a['minHot'] or 0) >= 44, J([[h['pid'], h['r']['w'], h['r']['h']] for h in a['hots']]))
     dims = [h for h in a['hots'] if h['dim']]
+    tdim = [h for h in dims if '時間差不多' in h['text']]
+    R.note('%s ② 停用的標記：%s（其中時間不夠的 %s）' % (tag, J([h['text'] for h in dims]), J([h['pid'] for h in tdim])))
+    if dep > 15.0: R.check('%s ② 晚出發（%.2f）：至少一個標記因「時間差不多了」變暗（下雨、休館停用的不算）' % (tag, dep), bool(tdim), J([h['text'] for h in dims]))
+    if tdim: dims = tdim + [h for h in dims if h not in tdim]   # 停用的先點時間不夠那一個
     if dims:
         c = await pg.evaluate(CENTER, dims[0]['pid'])
         if c: await L.touch_tap(cdp, c['x'], c['y']); await pg.wait_for_timeout(500)
@@ -130,21 +138,36 @@ async def one(pg, cdp, loc):
     else: R.note('%s ② 這一輪沒有停用的標記（時間都夠）' % tag)
     # ③ 直向
     await pg.set_viewport_size(PORT); await pg.wait_for_timeout(900)
-    b = await pg.evaluate(LAYER_JS); await shot(pg, 'dl_%s_port.png' % loc); res['port'] = b
+    b = await pg.evaluate(LAYER_JS); await shot(pg, 'dl_%s_port.png' % fn); res['port'] = b
     R.note('%s ③ 直向 %sx%s：可以左右滑 %s（scrollLeft %s／%s）；一開始畫面外的標記 %s；她 %s（被裁 %s、蓋到標記 %s）；標籤重疊 %s；除錯字 %s' % (tag, b['vw'], b['vh'], b['pan'], b['scrollLeft'], b['scrollMax'], b['outView'], b['her'], b['herClipped'], b['herOnHot'], b['labOverlap'], b['debugText']))
     R.check('%s ③ 直向：底圖照高度放滿、可以左右滑（.dlScroll.pan）' % tag, b['pan'], J({k: b[k] for k in ('pan', 'scrollLeft', 'scrollMax')}))
     R.check('%s ③ 直向：畫面上沒有除錯字' % tag, not b['debugText'], J(b['debugText']))
     live = [h for h in b['hots'] if not h['dim']]
-    tgt = next((h for h in live if not h['inView']), None) or (live[0] if live else None)
+    seated = await pg.evaluate("(()=>(typeof DATE_HOTSPOTS!=='undefined'&&DATE_HOTSPOTS.seated)||[])()")
+    st_t = next((h for h in live if h['pid'] in seated), None)   # BB-C 11-14：D05、D12 選坐著的點（咖啡館、長椅），回到選點畫面她要換成坐姿 H4
+    tgt = st_t or next((h for h in live if not h['inView']), None) or (live[0] if live else None)
     if not tgt: R.check('%s ③ 有能點的標記' % tag, False, J(b['hots'])); return res
-    c = await pg.evaluate(CENTER, tgt['pid']); await pg.wait_for_timeout(500); await shot(pg, 'dl_%s_port_scrolled.png' % loc)
+    c = await pg.evaluate(CENTER, tgt['pid']); await pg.wait_for_timeout(500); await shot(pg, 'dl_%s_port_scrolled.png' % fn)
     b2 = await pg.evaluate(LAYER_JS); R.note('%s ③ 滑到「%s」（原本畫面外＝%s）：中心 %s；scrollLeft %s' % (tag, tgt['text'], not tgt['inView'], c, b2['scrollLeft']))
     # ④ 點下去＝選了
     await L.touch_tap(cdp, c['x'], c['y']); await pg.wait_for_timeout(1200)
-    st = await pg.evaluate(STATE); await shot(pg, 'dl_%s_after_pick.png' % loc)
+    st = await pg.evaluate(STATE); await shot(pg, 'dl_%s_after_pick.png' % fn)
     R.check('%s ④ 點「%s」（螢幕 %d, %d）以後圖層收掉、接著演' % (tag, tgt['text'], c['x'], c['y']), not st['layer'], J(st))
-    after = await SP.play(pg, cdp, '%s_after' % loc, 0, prefer=(), start_s=10, max_s=60)
+    after = await SP.play(pg, cdp, '%s_after' % fn, 0, prefer=(), start_s=10, max_s=60)
     res['pick'] = {'pid': tgt['pid'], 'text': tgt['text'], 'xy': c, 'was_off_screen': not tgt['inView'], 'state': st, 'after': after}
+    # 回到選點畫面（第二輪）：她的姿勢
+    t1 = time.time(); back = False
+    while time.time() - t1 < 90:
+        if await pg.evaluate("!!document.querySelector('#dateLayer .dlHot')"): back = True; break
+        s_ = await P.ts(pg)
+        if s_['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        if s_['ch'] or not (await pg.evaluate(STATE))['adv']: break
+        await pg.wait_for_timeout(500)
+    if back:
+        await pg.wait_for_timeout(700); a2 = await pg.evaluate(LAYER_JS); await shot(pg, 'dl_%s_seated.png' % fn if st_t else 'dl_%s_round2.png' % fn); res['round2'] = a2
+        R.note('%s ④ 回到選點畫面：她的圖 %s（剛做完的「%s」%s）' % (tag, a2['herSrc'], tgt['text'], '是坐著的點' if st_t else '不是坐著的點'))
+        if st_t: R.check('%s ④ 做完坐著的點（%s）回到選點畫面，她換成坐姿 H4' % (tag, tgt['pid']), bool(a2['herSrc']) and 'H4' in a2['herSrc'], J(a2['herSrc']))
+    elif st_t: R.check('%s ④ 做完坐著的點以後回到選點畫面（看坐姿）' % tag, False, J(await pg.evaluate(STATE)))
     # ⑤ 存讀檔
     await pg.set_viewport_size(LAND); await pg.wait_for_timeout(600)
     s0 = await pg.evaluate(STATE)
@@ -152,9 +175,9 @@ async def one(pg, cdp, loc):
     R.note('%s ⑤ 存檔前 %s' % (tag, J(s0)))
     await pg.reload(); await L.wait_loaded(pg, 600); await pg.wait_for_timeout(1500)
     ok = await L.tap(pg, cdp, '#btnContinue'); await pg.wait_for_timeout(6000)
-    s1 = await pg.evaluate(STATE); await shot(pg, 'dl_%s_reload.png' % loc)
-    after2 = await SP.play(pg, cdp, '%s_reload' % loc, 0, prefer=(), start_s=8, max_s=90)
-    s2 = await pg.evaluate(STATE); await shot(pg, 'dl_%s_reload_end.png' % loc)
+    s1 = await pg.evaluate(STATE); await shot(pg, 'dl_%s_reload.png' % fn)
+    after2 = await SP.play(pg, cdp, '%s_reload' % fn, 0, prefer=(), start_s=8, max_s=90)
+    s2 = await pg.evaluate(STATE); await shot(pg, 'dl_%s_reload_end.png' % fn)
     R.note('%s ⑤ 重新整理 →「繼續」（%s）：讀回來 %s；之後照演 %d 句；最後 %s' % (tag, ok, J(s1), len(after2.get('lines') or []), J(s2)))
     R.check('%s ⑤ 存讀檔以後沒有卡住（沒有留著圖層、對話跑得完、玩家不是一直 busy）' % tag, not s2['layer'] and not s2['busy'] and s2['depth'] == 0, J(s2))
     res['reload'] = {'before': s0, 'loaded': s1, 'after': after2, 'end': s2}
