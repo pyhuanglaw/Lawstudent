@@ -446,7 +446,7 @@ RNG_JS = """(seed=>{ if(!window.__rngKeep) window.__rngKeep=Math.random; let a=s
 async def c_d1c(pg, cdp, tag):
     """#1 D1c（kxdrift3d.js ev_kx_drift_r1c：大二上起每學期一次、第 5～12 週、09:00～18:00 進 linze、random_weight 0.35）：只和可昕交往中
        【捷徑】Math.random 換成 mulberry32（SEED 固定、可重播）；Y2S1 第 5 週起每天 10:00 宿舍 → 照玩家手機快速前往法律系館 → 演了就記、截圖；沒演的那幾天也記（不能亂跳）；最多 8 天"""
-    seed_n = int(os.environ.get('SEED') or 44)   # 44：第 1 天第一個亂數 0.836（不中）、第 2 天 0.037（中）——先留一輪沒中的; out = []; hit = False
+    seed_n = int(os.environ.get('SEED') or 44); out = []; hit = False   # 44：第 1 天第一個亂數 0.836（不中）、第 2 天 0.037（中）——先留一輪沒中的
     for n in range(8):
         wk, wd = 5 + n // 5, 1 + n % 5
         when = ['Y2S1', wk, wd]
