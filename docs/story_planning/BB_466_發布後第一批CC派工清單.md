@@ -39,3 +39,4 @@
 19. CAMP-GATE-BG（LAWWW 修好後）：新遊戲開頭 ev_camp_d1_bus 前 2 句、ev_camp_d3_end 回校門 5 句不是黑底（先用 ntu_avenue）；black_bg_audit 讀到 camp_y1.js 以後重跑，數字應該從 6／33 變成 6／33（camp 兩處已有圖）或列出新的。BB_460 23:3x。
 20. BG3D_GATE 三張（CC queue 2380、2381）：看校門有沒有在畫面裡，挑一張附進 BB_132 第 128 組 6 號。
 21. D05 約會圖層（若 r2 證實是 ctx.all 多了 D05.movie＝P2）：LAWWW 補 date_hotspots D05.movie 位置或把 movie 從 all 拿掉以後，DATE_LAYER D05 重跑，要出圖層。
+22. AA_1013 可昕圈子 16 列（LAWWW 整合後）：kxKnown 以前一個人、以後帶同學；抽 大一上#1、大二上#5（模擬法庭總圖）、大四下#15（總圖門口或裡面）三列拍＋聽到的那句逐字。
