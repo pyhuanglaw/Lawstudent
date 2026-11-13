@@ -154,3 +154,6 @@ aa_kit 把頂點色零件都累積在 `sh._acc[(key, lvl)]` 和 `sh.walls[side][
    - cafe230：純色零件 33% → 16%，三角形 49,926 → 53,830；
    - afar：純色零件 42% → 16%，三角形 48,378 → 52,730。
    - LICENSES.md 要登記用到的 Poly Haven 模型和每個 ambientCG 材質組，格式照 cafe230 那幾列。
+7. **透空清單（坑，cafe230 踩過）**：有些店在 `src/zones3d.js` 有鏡頭透空清單（例：`CAFE230_SEETHRU` 列了 `a23_vc`），裡面的材質擋在鏡頭和人中間會透空。零件從 `*_vc` 搬到新的材質組以後名字變了，就不再透空、鏡頭會被吊燈、沙發背擋住。
+   - 搬完先 `grep -n "<前綴>_vc" src/zones3d.js` 看這間店有沒有清單；有的話加一條規則讓新材質照舊透空（cafe230 是 `CAFE230_SEETHRU_RE=/^a23_(c_(?!rug)|ph_)/`，地毯在地上不擋、不加）。
+   - 跑這間店的鏡頭測試（`grep -l <店名> tests/*cam*`），cafe230 是 `cafe_bar_cam_1111_unit`：沒加之前 FAILED 2。
