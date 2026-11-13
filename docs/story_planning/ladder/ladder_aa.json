@@ -1,5 +1,5 @@
 {
- "_comment": "AA_135（以安）、AA_136（語彤）→ ladder_aa.json（給 LAWWW-B 直接實作）。作者：AA-B 2026-10-15（使用者 2026-10-15：大一上閒聊全案通過，直接實作）。\n格式和 ladder_bb.json 完全一樣（欄位說明：README.md）。以安 heroine_01、語彤 heroine_03。\n用法：python3 build_ladder_aa.py → ladder_aa.json；python3 build_ladder_aa.py --check 只檢查。",
+ "_comment": "AA_135（以安）、AA_136（語彤）→ ladder_aa.json（給 LAWWW-B 直接實作）。作者：AA-B 2026-10-15（使用者 2026-10-15：大一上閒聊全案通過，直接實作）。\n格式和 ladder_bb.json 完全一樣（欄位說明：README.md）。以安 heroine_01、語彤 heroine_03。\n用法：python3 build_ladder_aa.py → ladder_aa.json；python3 build_ladder_aa.py --check 只檢查。\n芯慈（classmate_xinci）：AA_979_芯慈閒聊階梯_Y1S1（AA-C 2026-11-13，BB_465 照用；line_lint、撞句修過）直接併進本檔（build 腳本已過時，見檔頭）。",
  "term": "Y1S1",
  "characters": {
   "heroine_01": {
@@ -817,6 +817,311 @@
     ]
    },
    "note": "語彤的日程：週二四 17:30～20:30 麵店；一三五 19:00～21:30 總圖（characters.js）。她只在遇過她以後才有階梯"
+  },
+  "classmate_xinci": {
+   "steps": [
+    {
+     "id": "X-L1",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "location": [
+      "classroom",
+      "linze"
+     ],
+     "lines": [
+      "你也坐第一排？",
+      "我習慣坐第一排。後面的人講話，我會分心。"
+     ],
+     "choices": [
+      {
+       "t": "「我也是。」",
+       "reply": "那以後第一排有兩個人了。"
+      },
+      {
+       "t": "「後面比較好睡。」",
+       "reply": "這個理由，我沒辦法反駁。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC_L1_FRONT"
+    },
+    {
+     "id": "X-L2",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "lines": [
+      "你住宿舍嗎？",
+      "我住永和。每天搭公車過福和橋。",
+      "橋上塞車的時候，我會背條文。"
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC_L2_COMMUTE"
+    },
+    {
+     "id": "X-L3",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "location": [
+      "classroom",
+      "linze",
+      "library_hall",
+      "library"
+     ],
+     "lines": [
+      "（她的筆記攤在桌上，字整齊得像印出來的。）",
+      "你在看這個？我整理完才算抄完。"
+     ],
+     "choices": [
+      {
+       "t": "「可以借我看嗎？」",
+       "reply": "可以。可是還我的時候，頁的順序不能亂。",
+       "mem": "XC_L3_LEND"
+      },
+      {
+       "t": "「妳的字好整齊。」",
+       "reply": "國中以前，我都在我爸媽的事務所寫功課。旁邊的大人都很安靜，我就寫得很慢。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC_L3_NOTES"
+    },
+    {
+     "id": "X-L4",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "lines": [
+      "我爸媽都是律師。在永和開一間小事務所，開了二十年。",
+      "法律系的課，有一半我小時候在會議室聽過。只是那時候聽不懂。"
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC_L4_FAMILY",
+     "note": "她家做什麼直接講、不避諱（AA_547 第 1 節）"
+    },
+    {
+     "id": "X-L5",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "week": [
+      5,
+      18
+     ],
+     "lines": [
+      "你中午都吃什麼？",
+      "我吃飯喜歡前一天約好。臨時約，我會有點慌。"
+     ],
+     "choices": [
+      {
+       "t": "「那我明天約妳。」",
+       "reply": "好。明天中午，我先空下來。",
+       "mem": "XC_L5_LUNCH"
+      },
+      {
+       "t": "「臨時約也不錯啊。」",
+       "reply": "我知道。我在練習。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC_L5_PLAN"
+    },
+    {
+     "id": "X-L6",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "lines": [
+      "我昨天追劇追到兩點。",
+      "今天的民總，我聽懂一半。另一半明天問以安。"
+     ],
+     "choices": [
+      {
+       "t": "「什麼劇？」",
+       "reply": "一部講銀行的。我一直在算他們的利息對不對。"
+      },
+      {
+       "t": "「早點睡啦。」",
+       "reply": "好，今天十二點睡。……十二點半。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC_L6_DRAMA"
+    },
+    {
+     "id": "X-L7",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "lines": [
+      "你知道財報可以當小說看嗎？",
+      "每一個數字後面，都有人做了一個決定。"
+     ],
+     "choices": [
+      {
+       "t": "「我看不懂財報。」",
+       "reply": "我可以教你。從現金流量表開始，那個最誠實。"
+      },
+      {
+       "t": "「妳想念財金？」",
+       "reply": "想雙主修，下學期申請。我自己想的。",
+       "mem": "XC_L7_FIN"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC_L7_FINANCE",
+     "note": "雙主修財金是她自己要的（AA_547）；大一下申請"
+    },
+    {
+     "id": "X-L8",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "week": [
+      8,
+      10
+     ],
+     "lines": [
+      "這八週的重點，我整理了三頁。",
+      "你要的話，我印一份給你。"
+     ],
+     "choices": [
+      {
+       "t": "「要。謝謝。」",
+       "reply": "好。明天第一節以前給你。",
+       "mem": "XC_L8_GAVE"
+      },
+      {
+       "t": "「妳自己留著就好。」",
+       "reply": "整理好的東西，放著也是放著。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC_L8_NOTES"
+    },
+    {
+     "id": "X-L9",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FRIEND"
+      }
+     },
+     "week": [
+      14,
+      18
+     ],
+     "lines": [
+      "這學期我認識的人，比高中三年還多。",
+      "你是其中一個。這句聽起來很奇怪，算了。"
+     ],
+     "choices": [
+      {
+       "t": "「不奇怪。」",
+       "reply": "好。那我收回「算了」。"
+      },
+      {
+       "t": "「我也是。」",
+       "reply": "那我們扯平了。"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC_L9_FRIEND"
+    }
+   ],
+   "greet": {
+    "base": [
+     "早。我剛下公車。",
+     "你下一堂在哪一間？",
+     "我今天帶了兩支螢光筆，一支可以借你。",
+     "總圖今天人好多。",
+     "（她手上拿著一杯拿鐵，點了一下頭）嗨。"
+    ],
+    "when": [
+     {
+      "location": [
+       "classroom",
+       "linze"
+      ],
+      "time": [
+       8,
+       12
+      ],
+      "t": "第一排還有位子。"
+     },
+     {
+      "location": [
+       "library_hall",
+       "library"
+      ],
+      "t": "（她小聲）我在整理筆記。外面說。"
+     },
+     {
+      "time": [
+       21,
+       24
+      ],
+      "location": [
+       "campus"
+      ],
+      "t": "我要回永和了。十點半那班公車。"
+     },
+     {
+      "weekday": [
+       0
+      ],
+      "t": "禮拜天你也來學校？我來總圖寫財金的作業。"
+     }
+    ]
+   },
+   "note": "口氣照 00_人物口氣表 2-4、AA_547：完整、客氣、有距離；家裡做什麼直接講；筆記像印刷；看財報像看小說；吃飯前一天約；半夜追劇；看到別人厲害說「這個好，我學起來」；不跟別人比（D116）。"
   }
  }
 }
