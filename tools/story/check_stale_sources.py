@@ -16,6 +16,11 @@ def main():
         if e.get('status') != 'approved' or not p or not s or p in seen:
             continue
         seen.add(p)
+        # staleCheckedAt（STALE-SOURCES-1112，LAWWW-C 11-13）：LAWWW 逐份核過「白名單 sha 以後到這個企劃 commit 為止只換代號／遊戲已經是新字／AA 註明不要再從本檔重匯」＝不用重匯；
+        # 之後企劃分支這個檔又有新的改動才再報。白名單 sha（匯入工具真正讀的版本）不動。
+        ck = str(e.get('staleCheckedAt') or '')
+        if ck and git('rev-parse', f'{ck}:{p}'):
+            s = ck
         base = git('rev-parse', f'{s}:{p}')
         if not base:
             unk.append(f'{p}@{s}（本機沒有這個 commit）'); continue

@@ -106,6 +106,7 @@
   {
    "path": "docs/story_planning/ladder/ladder_aa_y3s1.json",
    "sha": "65a1b2fe9",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 24、25 列",
    "task": "SYS-15",
@@ -124,6 +125,7 @@
   {
    "path": "docs/story_planning/ladder/ladder_aa_y3s2.json",
    "sha": "759e5c000",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 26 列（源稿寫「小語」，匯入時換 Alison）；另外和舊版只差 RENAME-1030 地名",
    "task": "SYS-15",
@@ -142,6 +144,7 @@
   {
    "path": "docs/story_planning/ladder/ladder_aa_y4s1.json",
    "sha": "759e5c000",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 04:29 交付（AA_378 #9、#11、#13、#14：以安 A7-L5 選項兩種說法（choiceVariants）、招呼兩句、A7-L1 回答；語彤 Y7-L6 牆上的紅紙）；條件（A7-L5 選項、招呼 12/18～12/21、讀書會跳過第 8～9 週）照 AA 指示放 story3d.js；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 27、28 列",
    "task": "AA378-Y4S1-FIX-1021",
@@ -508,6 +511,7 @@
   {
    "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
    "sha": "9aa8ec40c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-S6",
@@ -547,6 +551,7 @@
   {
    "path": "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
    "sha": "482c7f6e9",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A／AA-C）企劃原檔同步（AA_313 第 2、4、5 節，10-20 15:18）；LAWWW（帳號 A）10-22 15:1x 換版（理由同 BB_128：741e94f1／5e910dd2 舊版把 AA_313 改過的句子蓋回）｜AA-B 2026-10-23 AA_389 改原檔（第 1 點 D13 交換回來版 ZR_UK_BACK、第 7 點以安放鴿子兩句），LAWWW-B 重新匯入（AA389-L-1023）",
    "task": "DATE-S6",
@@ -1167,6 +1172,7 @@
   {
    "path": "docs/story_planning/AA_236_外部審稿回覆_全人物台詞.md",
    "sha": "556208df8",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 09:41Z 交付（外部審稿逐條回覆，AA 定稿，照使用者已裁定的設定改字）：施工清單 A1～A5、A7～A10、B1～B3",
    "task": "AA236-1017",
@@ -1182,6 +1188,7 @@
   {
    "path": "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
    "sha": "968473469",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "使用者 2026-10-17 10:3x UTC 直接對 LAWWW-C「通過」（看的是 LAWWW-C 抄給他的 A5-1 新版全文，和 05571a45 的 A5-1 新版一節逐字相同）：只限「A5-1 新版」A、B、C1、C2；「已發布的兩處」已被 AA_218 17-1（W1 ★-6）與家族群組 (A) 取代，不照這裡；（合併 d171faef）只限 AA_224 寫「照用 BB_188 A2-x」的那幾段（A2-1e 除夕電話、A2-1b、A2-2、A2-3、A2-4、A2-5／A2-6 的底稿）與 A9 機制（BB 管機制，D98）；AA_224 衝突時以 AA_224 為準",
    "task": "LIFE-LINE-1017, LIFE-HS-1017",
@@ -1197,6 +1204,7 @@
   {
    "path": "docs/story_planning/AA_238_法服讀書會停用_缺的台詞.md",
    "sha": "01f3ce42",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 10:24Z 交付（AA 定稿，第①②級：照已裁定的 17-4、17-7 換場合、換人；D98 台詞歸 AA）",
    "task": "AA238-1017",
@@ -1205,6 +1213,7 @@
   {
    "path": "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
    "sha": "968473469",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "使用者 2026-10-17 10:3x 對 LAWWW-C 批准 17-6；AA-C 加 16 週日期（17-6）與 A5-1 實作對齊（17-13）：只限 17-6、17-13；（合併 edfcdd68）只限使用者已批准、AA-C 交付的段落：17-3 W1 第一次見面（使用者 07:5x 批准；開頭「台階」與 Café 版開頭句 2dc7f23d）、17-4 社團博覽會主版本與合併版（使用者 07:5x「可以」）、17-12／17-12a 學姊群組發言逐則改法（edfcdd68）、AA 補定（9/2 茶會學姊那段刪、家族群組 9/4 晚上加入、Kevin 置頂句）。17-5／17-6（W1 到社博之間的接觸）等使用者確認，不在內；13 節 A5-1 相識台詞暫停（使用者自己改），不在內；（合併 5063fbaf）AA-C 定稿台詞（17-11 子晴問阿凱三句；使用者 09:0x「阿凱一定知道、不主動說」的設計）＋BB-C 定觸發（BB_191 9-7 @0b075eac）；D50 第②級一般日常事件（AA、BB 共識）。只限 17-11 子晴問阿凱三句；到最新 62b16f5a 一字未改",
    "task": "SIS-W1-1017, SIS-176-1017, KNOWS-SPREAD-1017",
@@ -1220,6 +1229,7 @@
   {
    "path": "docs/story_planning/AA_204_大一寒假_AA場景台詞_16週制.md",
    "sha": "27711a39",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 12:11Z（取代 4048e3ec；含 2-5 交往中的跨年、1-4，AA 審過可以實作；明軒管制線定稿）：第 1 節已做（xmas_y1）；第 2～4 節進 events.js／story3d.js；1-4 另做",
    "task": "Y1-WINTER-AA204",
@@ -1234,6 +1244,7 @@
   {
    "path": "docs/story_planning/AA_255_大二下口語改稿_AA與BB人物.md",
    "sha": "52900eb23",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
    "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單（以安兩句、語彤不在法服…）；2026-10-23 20:1x 改到 52900eb23（AB65-3-Y2S1-L、AA312-INTEGRATE-1020 子代理照這一版）"
@@ -1241,6 +1252,7 @@
   {
    "path": "docs/story_planning/AA_255_附錄_審稿原文.md",
    "sha": "52900eb23",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 12:4x（AA_255 檔首：「AA 人物：照附錄 A 的改法定稿」，例外與裁定在 AA_255 第 2 節；附錄 B 由 AA-C 2026-10-20 在 AA_255 檔尾另外定稿，不從這個檔讀）；附錄檔首的【文件狀態｜歷史】＝「現行以 AA_255 為準」，AA_255 指回這裡的改法",
    "task": "AA255-Y2S2",
@@ -1250,6 +1262,7 @@
   {
    "path": "docs/story_planning/AA_259_大三上口語改稿_AA與BB人物.md",
    "sha": "dd9b704aa",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
    "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單；2026-10-23 20:1x 改到 dd9b704aa（AB65-3-Y2S1-L、AA312-INTEGRATE-1020 子代理照這一版）"
@@ -1264,6 +1277,7 @@
   {
    "path": "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md",
    "sha": "2d3a0735",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C） ｜ 2d3a0735（曼谷 T03 芷若也去、椰子汁接 4-7；LAWWW 帳號 A 10-22 合併 AA_232 子代理）",
    "note": "AA-C 12:45：以安假期計畫、C13 出國旅遊；芷若英國、學姊美國日期已改",
@@ -1278,6 +1292,7 @@
   {
    "path": "docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md",
    "sha": "7915ac9d3",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
    "note": "AA-C 12:45：C04 考試日；7915ac9d3：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）",
@@ -1311,6 +1326,7 @@
   {
    "path": "docs/story_planning/AA_242_出國活動台詞_交流志工暑期課.md",
    "sha": "56a36a4d0",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；（合併 18fe1b6a）AA-C（2026-10-17 交付給 LAWWW-C）；6bcb154b 出國時可昕的訊息照 AA_278 改",
    "note": "AA-C 13:03：補 8-6 重逢的約、C10 成績、Priya 改字、七夕那則拿掉；56a36a4d0：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）",
@@ -1324,6 +1340,7 @@
   {
    "path": "docs/story_planning/AA_264_假期活動每年重開_第二次以後的台詞.md",
    "sha": "7fa3660d",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；7fa3660d 第 5 節 C01 海邊改日期後的三個衝突",
    "note": "AA-C 13:29：每年重開、第二次以後日誌、C02 小隊長、換人版、招募多一句"
@@ -1331,6 +1348,7 @@
   {
    "path": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
    "sha": "e7dbfd140",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（16:44 告白文件交叉檢查 18c5505b／04184f3a＋16:46 BB-C 口氣審 8c76052b；BB_203 機制使用者 2026-10-17 確認）：以安飯桌一句、她說的旁白與 CG-11 位置、大四上兩句、第二次後半；第 0 節第 7 點第二次答應六句；美國路線大四上邀約（以安、學姊）；第 9 節 C5 三句、學姊筆試前那句刪、時段最後一天；（合併 7fa1aad4）AA-C 2026-10-17 11:58Z 更正（以安三選一與答應照 AA_187 9-1、語彤三選一照 9-2、答應照 AA_254 第 2 節）；第②級 AA 定稿；第 0～7、9 節進 src/data/termend_lines.js；（合併 89835b3a）AA-C 2026-10-17 11:58Z 更正（以安三選一與答應照 AA_187 9-1、語彤三選一照 9-2、答應照 AA_254 第 2 節）；第②級 AA 定稿；第 0～7、9 節進 src/data/termend_lines.js",
    "task": "BB203-CONFESS-1017",
@@ -1346,6 +1364,7 @@
   {
    "path": "docs/story_planning/AA_241_大一暑假_AA場景台詞.md",
    "sha": "a5b936a69",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（第 9 節 Kevin 當助教＋8c76052b BB-C 口氣審的寒暑假版、第 10 節 C04 第一次的關鍵事件，16:51 交付 LAWWW-C）：只限第 9、10 節；（合併 e8010267）AA-C 2026-10-17（第②級 AA 定稿，可以實作）：第 1～4、6、7 節進 src/data/vac_activities.js（C02 營隊隊輔、C03 日語課、C05 日本五天、VA-02／05／11）；第 5 節柏翰週四總圖另做",
    "task": "VAC-C08-12, HOLIDAY-SYS",
@@ -1547,6 +1566,7 @@
   {
    "path": "docs/story_planning/AA_250_期末聚餐話題池_大一.md",
    "sha": "f4151aa15",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 17:36（全檔照 AA_188 口語審 01029de1；BB 人物照 BB_212 換 6f6e9c7e）：話題池 1-1～7-1、邀約鉤子、9-2 可昕、10-1～10-4 用新句（劃線後的那一句）；（合併 ae841bba）AA-C 2026-10-17 12:29Z（9-2 可昕學期末約會重寫：地點照 BB_202、每學期的邀約、開場收尾、沒去的訊息）＋c524b61e 10-1、acf92ff0 第 10 節、375b91dd；第 1～7 節話題池、9-2、第 10 節進 src/data/termend_lines.js；6bcb154b 沛珊兩句、可昕大四上飯桌照 AA_278 改",
    "task": "BB203-CONFESS-1017",
@@ -1562,6 +1582,7 @@
   {
    "path": "docs/story_planning/AA_271_自由出行第三批_AA偶遇與來過一次.md",
    "sha": "01e9d706",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 17:59 交付訊息（第②級日常內容）：第 1 節偶遇表、1-1 第一二句、1-2 前任反應",
    "task": "ENC-B3-1017",
@@ -1570,6 +1591,7 @@
   {
    "path": "docs/story_planning/free_trip/aa_walk_v1.json",
    "sha": "1df3c189e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；1df3c189e：AA_686 第 5 項（AA-C 2026-11-04 定稿，D109）語彤 D14.lights 的 friend／dating 兩句（和 AA_685 C1 同字；任務 AA686-FIX3-1104）",
    "task": "ENC-B3-1017",
@@ -1587,6 +1609,7 @@
   {
    "path": "docs/story_planning/BB_213_自由出行第三批_BB五位偶遇.md",
    "sha": "b13052e5d",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 核對通過（BB_213 狀態欄，2026-10-17 17:59）；BB-C 18:00 交付訊息：第 1 節偶遇表、第 2 節打招呼與前任；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk",
    "task": "ENC-B3-1017",
@@ -1627,6 +1650,7 @@
   {
    "path": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
    "sha": "cbdbc69bf",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 18:29／18:31 交付訊息：第 8 節（8-1、8-2、8-5 口語審）",
    "task": "ENC-B2-1017",
@@ -1642,6 +1666,7 @@
   {
    "path": "docs/story_planning/BB_150_AB23_第二批景點偶遇_BB五位.md",
    "sha": "aca122d2",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 06:54 核對、AA-C 口語審＋BB-C 口氣審 b13052e5（AA-C 18:31 合併）：第 1～5 節",
    "task": "ENC-B2-1017",
@@ -1650,6 +1675,7 @@
   {
    "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
    "sha": "3b5043eef",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：6-2 三句、7-3 謝謝 L；msg_pool、msg2_pool 都用這一版；3b5043eef：AA_671 第 3 列（AA-C 2026-11-04 定稿，D109）7-3 柏翰生日 R「謝謝。今天收到三則生日快樂。兩則是我媽。」（任務 AA671-LINES-1104）；msg2_pool 用這一版",
    "task": "SYS-PHONE-CHAT, MSG-2",
@@ -1667,6 +1693,7 @@
   {
    "path": "docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md",
    "sha": "759e5c000",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；bb6baddf 第 5 節可昕學期中／在老家（AA_278）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊問課、考試週、分享吃的七句（BB_228 同意改 BB 的稿）；msg_pool 用這一版",
    "task": "SYS-PHONE-CHAT, MSG-2",
@@ -1675,6 +1702,7 @@
   {
    "path": "docs/story_planning/BB_175_AB65_大一上第3批_手機小事_BB人物.md",
    "sha": "edebddd5",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 互審通過（AA_200 第 1 節，2026-10-16 21:32）；D8 照建議改：改稿欄",
    "task": "V1-BB175",
@@ -1683,6 +1711,7 @@
   {
    "path": "docs/story_planning/AA_257_MSG2_BB九位回覆池.md",
    "sha": "3b5043eef",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊生日 R、新年 R／L 三句；msg2_pool 用這一版（之前 build_msg2.py 讀 5f9957a2）；3b5043eef：AA_671 第 4 列（AA-C 2026-11-04 定稿，D109）第 8 節方奕廷 F3「還好嗎」R「還好。她說得很清楚。……我去溫室待一下就好。」（任務 AA671-LINES-1104）；msg2_pool 用這一版",
    "task": "MSG-2",
@@ -1700,6 +1729,7 @@
   {
    "path": "docs/story_planning/AA_208_宿舍四人房_室友.md",
    "sha": "7f2cd8d8",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 19:44 回 LAWWW-C（台詞由 AA 寫，D98）：只限 7-1「搬房間的字卡」兩行；第 7、8 節的房號與擺設照 LAWWW2-C 4fa4a1e2 已整合；7f2cd8d8 第 9 節每年抽籤群組訊息",
    "task": "DORM-Y2-312",
@@ -1708,6 +1738,7 @@
   {
    "path": "docs/story_planning/BB_95_交接包v1_大一上.md",
    "sha": "9fecc202d",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "交接包 v1 使用者批准進入實作（D50）；e627d747 是照使用者 23:3x「直屬只有一個＝溫學姊」改的（Kevin「直屬學弟妹」→「家族的學弟妹」）。只限這一句",
    "task": "START-WEEK",
@@ -1723,6 +1754,7 @@
   {
    "path": "docs/story_planning/AA_276_寒暑假的人在哪_芷若英國聯絡.md",
    "sha": "b4e48e0d",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（使用者 23:4x～23:5x、10-18 00:1x 原話；D100：台詞歸 AA，AA 的稿就是定稿）；第 6 節 4fbabbee／e67b3786、第 7 節 9e875a10；b4e48e0d 第 2 節「認識、有點熟」社群發文那格改不做",
    "task": "VAC-HOMETOWN-1017, VAC-ZR-UK-1017",
@@ -1731,6 +1763,7 @@
   {
    "path": "docs/story_planning/AA_210_大二到大四跨年_16週制.md",
    "sha": "5c139cc49",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（第②級一般日常事件，照 AA_197 1-5 已批准的方向；D100：台詞歸 AA，含可昕）；第 5 節 2026-10-18 對照現行設定更正，以第 5 節為準；9c641efa 補阿凱一句（1-5）；28ac4ea3 補 5-5（回 LAWWW 三個缺口）；d5cf5589 補 5-6（大三合照、零點旁白）；b4e48e0d 補 5-7（大四沒去的照片、芷若跨年全文、子晴那行刪）；7fa3660d 1-4 阿哲回高雄改海邊隔天；d82f1374 第 0 節頂樓訪客（宿委會跨年活動，阿哲揪人多一句；AA-B 10-23，回 AA_313 第 544 行）",
    "task": "HOL-NYE-Y2, HOL-NYE-Y3, HOL-NYE-Y4, AA313-S4S5-REST-1023",
@@ -1747,6 +1780,7 @@
   {
    "path": "docs/story_planning/AA_278_寒暑假可昕沛珊不在臺北_逐件改.md",
    "sha": "dbf1cae01",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（依 AA_276 第 1 節使用者 10-17 23:4x 原話；D100 台詞歸 AA；第 1 節 AA 已直接改進開發分支，使用者 10-18 00:5x 授權）",
    "task": "VAC-HOMETOWN-1017",
@@ -1762,6 +1796,7 @@
   {
    "path": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md",
    "sha": "ef7280917",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md",
    "task": "L118-SHOPS-REDO-1111",
@@ -1778,6 +1813,7 @@
   {
    "path": "docs/story_planning/retake_home/retake_home_v1.json",
    "sha": "86ffcd9a",
+   "staleCheckedAt": "a9ce231b21",
    "status": "approved",
    "approvedBy": "AA-C 定稿（KX-EXPR 86ffcd9a：可昕 71 句全部標表情、D4／D10 兩句拿掉跟祐廷比較；含 e544b4f4 AA_308：姊姊的房間等；D100 台詞歸 AA）",
    "task": "KX-EXPR-1018",
@@ -1792,6 +1828,7 @@
   {
    "path": "docs/story_planning/AA_371_回AA368實作五題_新體育館主球場的看.md",
    "sha": "7eb45d69",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-21 19:14 定稿（D109、D110：AA 的稿就是定稿）；第 1 節第 2、3 題由 tools/msg/import_msg_kx_y0.py 疊在 AA_368 上匯入（學期中延到 12/20、「剛起床。……不要問我現在幾點。」）；第 4、5 題、第 2 節新體育館主球場的「看」照稿手動放進 story3d.js、gym3d.js",
    "task": "AA368-Y0-FIX-1021",
@@ -1800,6 +1837,7 @@
   {
    "path": "docs/story_planning/AA_370_美國交換_時差與人在哪_修正稿.md",
    "sha": "9eaf4e98",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，D99 第三項美國交換）；第 1 節 H2 已在 3a4c01cf 做；H1、H3、M1～M5、M7～M10、L1～L10 照稿手動放進 y34b3d.js、us_life_events.js、us_life3d.js、r2y4a_events.js、r2y4a3d.js、r3_3d.js、exchange3d.js、holff3d.js、msg3d.js、places.js、r2y3b_events.js、story3d.js（tests/aa370_us_unit.js）；9eaf4e98 末尾加第 6 節（AA 2026-10-21 20:3x 答 LAWWW 實作後十題；第 0～5 節和 a1dc3e61 相同）：第 1、2、3、5、8、9 題照答改（L7 選項、超市 10:00、學姊事務版「在圖書館。有事嗎？」由 tools/msg/build_pool.py 產生進 msg_pool.js、M7 臺灣 22:00、y4_xmas_photo 臺灣時間、刪 R3 版何俊朗事件資料）",
    "task": "AA370-US-FIX-1021",
@@ -1808,6 +1846,7 @@
   {
    "path": "docs/story_planning/AA_372_法律系大一上_知道太早與重複_修正稿.md",
    "sha": "965815f5",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 定稿；965815f5 只改第 7 節沛珊婉拒句的說明「只用在週末回台中」（寒暑假照 hometown3d，AA 03:41「不要」）；句子和 da55ec2b 一樣",
    "task": "AA372-S7-TAICHUNG-WEEKEND-1022",
@@ -1832,6 +1871,7 @@
   {
    "path": "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md",
    "sha": "e75d1cce",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿）；bdab2f42 加第 6 節（AA 22:0x 答 LAWWW 21:44 的比輸贏清單＋十二題：6-1 可昕四句、6-2 第 3、4、7、8、10、11、12 題要改）。大一下閒聊階梯六句由 tools/ladder/import_ladder.py 疊在大一下的階梯上匯入（第 6、8、14、25 項五句＋第 6-2 節第 4 題「上學期期中那個空的保溫瓶，你看到了。」）；通識第 6 週（第 9 項兩句＋第 6-2 節第 3 題黑板「（本週在天文館）」、觀察「宥辰仰著頭，一直到燈亮都沒有說話。」）由 tools/syllabus/import_syllabus.py 疊在課堂內容上匯入；其他項照稿手動放進 story3d.js、events.js、characters.js、encounters.js、termend_lines.js、y1fill_events.js、classes3d.js；第 6-1 節「date_lines.js」那一列（可昕不跟祐廷比輸贏，使用者 10-18：「她沒有在跟我比」）由 tools/date/import_date_lines.py 疊在 lines/D12.json、D32.json 上匯入；LAWWW 2026-10-21 交 DATE-OVERNIGHT-1021 子代理（aadate）；e75d1cce：AA（帳號 A）2026-10-21 22:3x 更正 6-1「date_lines.js」那一列（兩欄都寫整句：「有一隻羊在看我。我在看它。平手。」→「有一隻羊一直在看我。……牠應該也餓了。走，吃飯。」，AA_359 第 5 節 B1），e75d1cce 只比 bdab2f42 多那一列的改字和一行說明，第 1～5 節一字不差",
    "task": "AA373-Y1S2-FIX-1021",
@@ -1864,6 +1904,7 @@
   {
    "path": "docs/story_planning/AA_336_回LAWWW_X67吃東西四題_1B1C實作十三題.md",
    "sha": "724d7703",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（2026-10-20 回 LAWWW-C 19:22、19:44 實作問題 17 題，第①級；D100 台詞歸 AA）",
    "task": "EAT-EFFECT-1020",
@@ -1872,6 +1913,7 @@
   {
    "path": "docs/story_planning/AA_330_法律系的課搬教室_X78.md",
    "sha": "48845c36",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（2026-10-20 18:33 UTC 交付 X78，D100）",
    "task": "LAW-CLASS-WANCAI-1020",
@@ -1880,6 +1922,7 @@
   {
    "path": "docs/story_planning/AA_317_事件包_第三批之一_1A06到1A08.md",
    "sha": "361e1df8",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（1A-06～08，D100）",
    "task": "EVPKG-1A06-08-1020",
@@ -1888,6 +1931,7 @@
   {
    "path": "docs/story_planning/AA_318_事件包_第三批之二_1A09到1A12與1A15.md",
    "sha": "bf349b96",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（1A-09～12、1A-15；bf349b96 更正美國回臺、PLAYTESTED，D100）",
    "task": "EVPKG-1A09-15-1020",
@@ -1896,6 +1940,7 @@
   {
    "path": "docs/story_planning/AA_319_事件包_第三批之三_1A13_1A14_1A16到1A20.md",
    "sha": "f252a7b5",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（1A-13、1A-14、1A-16～20；c9b4f60e、b6757852、5ae6a133／f252a7b5 更正，D100）",
    "task": "EVPKG-1A13-20-1020",
@@ -1904,6 +1949,7 @@
   {
    "path": "docs/story_planning/AA_331_回LAWWW_1900_三件確認_2030那一輪_尾聲桌上的東西.md",
    "sha": "a642f518",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（AA_319 補：2030 那一輪 B1／麵店、RETAKE_STYLE 照片、尾聲伴侶桌上的東西；第 1 節 b 標 AI解讀、待使用者確認，D100）",
    "task": "EVPKG-1A13-20-1020",
@@ -1912,6 +1958,7 @@
   {
    "path": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md",
    "sha": "4adf447e5",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-11-04 22:0x AA_688 第 2 節（企劃線 8dce2f94c：第 3 節語彤畢業以後的十八格整段換——照 AA_629 2029-06-02 畢業、2029 年考上律師、2030 事務所；2029-10「事務所的實習……」搬到 2030-03、字不動；方式改週六 17:30 一盞茶屋；D109 AA 的稿就是定稿）；import_pg_dates.py 重新匯入（LAWWW-C 子代理 aa688）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）；4adf447e5（AA 11-11 10:51 選 A：AA_794 芷若老闆四句＋6458d1dc2 誤刪的沛珊三列補回、寫 AA_759 新句）",
    "task": "CANON-PURGE-SRC-1104",
@@ -1945,6 +1992,7 @@
   {
    "path": "docs/story_planning/AA_376_法律系大三上_作息與重複_修正稿.md",
    "sha": "69aa3b0c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「也可以整份由 LAWWW 做」）；第 9 項以安 A5-L2 三句（「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」「那天晚上，我看了手機好幾次。」）、第 18 項日本路線兩個選項（「那我們在日本找一家麵店。」「我們同一班。」→「……那我十點去機場。送兩個。」）由 tools/ladder/import_ladder.py 疊在大三上的階梯上匯入；第 2 項不做（v7 舊刑訴課堂 LAWWW 已在 2469df7f 停用）；其他項照稿手動放進 characters.js、y2b_events.js、r2y3a_events.js、r2y3a3d.js、story3d.js、events.js、src/y3fill3d.js（tests/aa376_y3s1_unit.js）",
    "task": "AA376-Y3S1-FIX-1021",
@@ -1953,6 +2001,7 @@
   {
    "path": "docs/story_planning/AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md",
    "sha": "f2de8d1c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C／AA（帳號 A）2026-10-21 定稿（D100、D109；全部第①級補稿；第一版 c56d4241；b7c437a1 改 3-2 的兩處：端午 5/28 是第 14 週、阿凱「那我們暑假又在同一棟了」，AA_377 第 20 項；f2de8d1c 改第 4 節大四上兩處：11/3 摘要日「六週」、柏翰 11/2 那兩則，AA_378 第 5 節）。已進遊戲：第 2-2 節大二下的七則（2/25 週四麵店、3/6 摘要日、3/12 柏翰、4/8 週四麵店、4/21 群組、5/20 摘要日、5/21 阿凱；src/y2r2_3d.js，tests/aa375_y2s2_unit.js）、第 3-1 節大三上的補稿（src/data/y3fill_events.js、src/y3fill3d.js，tests/aa376_y3s1_unit.js）；第 3-1 節在 b7c437a1 和 f2de8d1c 一字不差。第 2-1 節大二上、第 3-2 節大三下、第 4 節大四（src/data/twfill_events.js、src/twfill3d.js，tests/aa342_twfill_unit.js；10-24）；只差 3/13 法律實習那一句（大四下法律實習沒有上課地點）",
    "task": "AA342-COVERAGE-1021",
@@ -1968,6 +2017,7 @@
   {
    "path": "docs/story_planning/AA_333_HOL-VA_VA08_語彤_麵店過年店休.md",
    "sha": "56b6f64e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（HOL-VA 最後一項 VA-08，第①級，D100）",
    "task": "HOL-VA",
@@ -1976,6 +2026,7 @@
   {
    "path": "docs/story_planning/BB_106_社會科學院與附近教學館_跨學年日常事件.md",
    "sha": "3954f9b62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
    "task": "V2-SK06、V2-SK07、V3-SK08、V3-SK09、V3-SK10、V5-SK14、V1-B106-D1D2、V1-B106-42",
@@ -1984,6 +2035,7 @@
   {
    "path": "docs/story_planning/BB_105_四個地點的跨學年故事.md",
    "sha": "3954f9b62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
    "task": "V3-B105-P5、V1-B105-D2、V3-B105-G2、V3-B105-B2",
@@ -1992,6 +2044,7 @@
   {
    "path": "docs/story_planning/BB_137_AB05台詞_日文班博雅女舍十五件.md",
    "sha": "a047e5fe",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
    "task": "V3-B105-G2、V3-B105-B2",
@@ -2000,6 +2053,7 @@
   {
    "path": "docs/story_planning/BB_110_日常內容_好玩事件_颱風假_社團_打工.md",
    "sha": "3a26e94a",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
    "task": "V3-B110-L4",
@@ -2008,6 +2062,7 @@
   {
    "path": "docs/story_planning/AA_289_打工_SYS13_事件規格.md",
    "sha": "3a26e94a",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
    "task": "SYS-13-EV",
@@ -5720,6 +5775,7 @@
   {
    "path": "docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md",
    "sha": "fb5156ab",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-21 22:5x 定稿（D100、D109）：加 5-3（BB 22:54 對照看到的）：離開那一句在第二天白天說，天色、「下次早上來」的七句改字；沛珊住臺南的 D28 第一次到達句另一版；D31＋D32 同一趟可昕到清境那一句；子晴「車上我睡了一路。」；畢業後可昕電話格第三個鈕「今天先不要」。fb5156ab 的第 1～5-2 節和 e75d1cce 相同",
    "task": "DATE-OVERNIGHT-1021",
@@ -5739,6 +5795,7 @@
   {
    "path": "docs/story_planning/AA_350_回LAWWW_AA_QUESTIONS_1021_M_N十八題.md",
    "sha": "2e255e9a",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 定稿（D100、D109：AA 的稿就是定稿；第 9 節 T 節「LAWWW-C 14:02，任務 AA-Q-1021-SR；2026-10-21 補答」）：T7a「她人在台中時手機的『約』整個關著」→「打開，但只列 D26 臺中」＋她答應的那一句（以安、芷若）",
    "task": "DATE-T7A-HOMETOWN-1021",
@@ -5748,6 +5805,7 @@
   {
    "path": "docs/story_planning/AA_374_法律系大二上_重演與人在哪_修正稿.md",
    "sha": "6fc64130",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 14 項可昕 K3-L4 的週次由 tools/ladder/import_ladder.py 疊在 ladder_bb_y2s1.json 上匯入（[6,16]→[6,6]）；第 2 項已在 AA_372 第 3 項、第 20 項已在 AA_369 第 7 節第 10 題；其他項照稿手動放進 story3d.js、events.js、needed_msgs.js、characters.js、msg3d.js、classes3d.js、termend3d.js（tests/aa374_y2s1_unit.js）",
    "task": "AA374-Y2S1-FIX-1021",
@@ -5756,6 +5814,7 @@
   {
    "path": "docs/story_planning/AA_375_法律系大二下_芷若最後一個班與時間_修正稿.md",
    "sha": "45121a97",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 7 項語彤 Y4-L7、第 11 項可昕 K4-L2 週次、第 12 項芷若 Z4-L4 週次由 tools/ladder/import_ladder.py 疊在 ladder_aa_y2s2.json、ladder_bb_y2s2.json 上匯入；其他項照稿手動放進 characters.js、encounters.js、termend_lines.js、termend3d.js、invites.js、eat3d.js、msg3d.js、vac_activities.js、vac3d.js、y2r2_3d.js、y2b_events.js、y2b3d.js、needed_msgs.js、group_events.js、group3d.js、events.js、story3d.js（tests/aa375_y2s2_unit.js）；第 4 節提醒的 AA_255 兩件（說明會散場三句、6/4 子晴四則）照 AA_255@f218a3e0；LAWWW 補充 AA_373 第 6 節第 9 題（企劃線 bdab2f42）芷若 6/3 以前「九點」改「十點」、22:00 一起做",
    "task": "AA375-Y2S2-FIX-1021",
@@ -5764,6 +5823,7 @@
   {
    "path": "docs/story_planning/AA_377_法律系大三下_三條路線_修正稿.md",
    "sha": "d037c668",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 7 節（回 LAWWW 02:50 七題：芷若大三下交往中期末約會改週四 22:00、心意第二次照 LAWWW 補的那句、228、床墊）手動放進 termend_lines.js；tests/aa377_y3s2_unit.js、tests/aa379_sec3_unit.js 第 6 項",
    "task": "AA377-Y3S2-FIX-1021",
@@ -5784,6 +5844,7 @@
   {
    "path": "docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md",
    "sha": "5ef4e291",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 12:38：2-6 一般版那一句的更正指到 AA_386 第 2 節（只加一行註記；D109）",
    "task": "AA379-SIS-LATE-W1-1022",
@@ -5813,6 +5874,7 @@
   {
    "path": "docs/story_planning/AA_381_法律系大四下_交換延畢的畢業典禮那天_修正稿.md",
    "sha": "d14a0388",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 1 節 15 句照稿手動放進 src/data/postgrad_lines.js（DELAYED）、src/data/termend_lines.js（AUTO_NO_GRAD_DELAYED），第 2 節是作息（characters.js）；tests/aa381_y4s2_unit.js 逐句對稿",
    "task": "AA381-Y4S2-FIX-1021",
@@ -5821,6 +5883,7 @@
   {
    "path": "docs/story_planning/AA_378_法律系大四上_學姊在美國那半年與作息_修正稿.md",
    "sha": "5cd35678",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；S1～S4 照 8f138c5b 手動放進 r2y4b3d.js、r2y4b_events.js、r2y4a3d.js、r3_3d.js、termend3d.js（tests/aa378_sis_unit.js）；5cd35678 更正 S1：8/3「到了。」不另外傳（家族群組已有 US0）",
    "task": "AA378-Y4S1-FIX-1021",
@@ -5836,6 +5899,7 @@
   {
    "path": "docs/story_planning/AA_382_畢業以後_時間人在哪_修正稿_學姊2030生日.md",
    "sha": "116d5c72",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 07:29 改第 4 節三處（BB 07:28 瀏覽器觀察）：6/1 21:00 兩則私訊換字（「明天」放在有選項的那一則）、答應了沒到 6/2 09:30 多一則「九點半了。我先去。」、「明天不行。」照舊；手動放進 postgrad_lines.js SEA_Y5、postgrad3d.js pg_sis_sea_late；tests/aa382_pg_unit.js 讀 116d5c72 逐句對稿（D100、D109）",
    "task": "AA382-PG-FIX-1022",
@@ -5851,6 +5915,7 @@
   {
    "path": "docs/story_planning/AA_383_回BB_0400_五題_台詞與企劃對不上.md",
    "sha": "bc8a1f5d4",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 6 節（學姊升到朋友那三句：約出去、地點不是她讀書的地方換一版）手動放進 rel_lines.js（invites3d.js 的見面傳地點）；第 2、4 節照 98516b51 那一次（見 history）；tests/aa383_s6_unit.js 逐句對稿",
    "task": "AA383-S6-SIS-FRIEND-1022",
@@ -5867,6 +5932,7 @@
   {
    "path": "docs/story_planning/AA_351_事件包_可昕慢慢分手_定稿.md",
    "sha": "b6588bf5",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 08:52 定稿（AA_384 跟著改 AA_351：D1 拿掉 118 巷、D6 拿掉祐廷生日等；D100、D109）；子代理 3c0a0ea9 逐句對稿（tests/aa351_kx_drift_unit.js 讀 b6588bf5），LAWWW 帳號 A 合併 5d5adbad",
    "task": "AA351-KX-DRIFT-1021",
@@ -5881,6 +5947,7 @@
   {
    "path": "docs/story_planning/AA_245_沛珊柏翰_沒交往的版本.md",
    "sha": "2af03a63",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 定稿（D98、D100）；第 1 節柏翰三句手動放進 events.js ev_midterm_supper_y1s2（PS_NOBH），第 3 節 ev_peishan_bohan_w4 notFlags；tests/aa245_psbh_unit.js 逐句對稿",
    "task": "AA245-PSBH",
@@ -5889,6 +5956,7 @@
   {
    "path": "docs/story_planning/AA_296_只用手機演的重要劇情_盤點.md",
    "sha": "ed0daea9",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 08:41 改 ④ 沛珊 8/7 電話台中版兩句（「台中。在家。」「開學以後，我在台南。你要來的話，跟我說。」，同 AA_350 P1），其餘照 3f406dbc；手動放進 y2b_events.js；tests/aa296_phone_live_unit.js 讀 ed0daea9 逐句對稿（D100、D109）",
    "task": "AA296-PHONE-LIVE-1021",
@@ -5904,6 +5972,7 @@
   {
    "path": "docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md",
    "sha": "088556ed",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "使用者 2026-10-18 核准（選擇題「照 AA_232 做，v9.10 以後」）；AA 定稿；AA（帳號 A）2026-10-22 09:31 跟著 AA_385 改第二節互斥（只擋 L2／L3、婉拒用系統現成的句子）、4-1 第 5 句、4-4 結局 C「九月」、七-3 改宵夜、七-6 訊息版拿掉（D100、D109）；台詞手動放進 src/data/zrzq_events.js；tests/zrzq_line_unit.js 讀 088556ed 逐句對稿",
    "task": "AA290-INTAKE",
@@ -5932,6 +6001,7 @@
   {
    "path": "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md",
    "sha": "a90e8569",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "BB 機制（§23 芷若×子晴的狀態、觸發、入場旁白；使用者 10-17 回答 23-9）；src/zrzq3d.js 照用（子代理，LAWWW 帳號 A 10-22 合併）",
    "task": "AA243-P02",
@@ -5940,6 +6010,7 @@
   {
    "path": "docs/story_planning/AA_243_16週可行性_AA裁定.md",
    "sha": "20d5734f",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 裁定；第 2 節 P0-2 使用者選甲（4-4 追其中一人時順延）；src/zrzq3d.js 照做",
    "task": "AA243-P02",
@@ -5948,6 +6019,7 @@
   {
    "path": "docs/story_planning/AA_384_可昕慢慢分手_實作後十四題.md",
    "sha": "1a4f2eb3",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 09:45 定稿（AA_384 E 節：D6 午餐碰到暑假＝順延到開學後第一個週六，週四 21:00 她傳「週六中午，公館。吃個飯。」；D100、D109）；LAWWW 帳號 A 實作 kxdrift3d.js S.r6Thu（tests/aa384e_kx_d6_summer_unit.js）",
    "task": "AA351-KX-DRIFT-1021",
@@ -5962,6 +6034,7 @@
   {
    "path": "docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md",
    "sha": "d0468be4",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 14:2x 定案（取代 c6a290fe）：3-3 學姊交往版大四上那一頓固定 2028-12-24 18:30（LAWWW 建議的 A）＋3-2 有來多兩句；12/24 晚上有別的約往後讓的＝當晚 21:00 她私訊三則；其餘照 9a814945（D100、D109）",
    "task": "AA386-SIS-BATCH4-1022",
@@ -5988,6 +6061,7 @@
   {
    "path": "docs/story_planning/AA_364_溫州街其他店面_哪幾家能進去.md",
    "sha": "5ae04087",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 13:5x 第 5 節第 5 點（定食店「味噌湯續一碗」不是單點，點餐選單拿掉；牆上菜單、第一次旁白、貼圖照舊）；d56da150 第 5 節其他點、d7708ebe 第 1～4 節照舊（D100、D109）",
    "task": "WZ-SHOP-AA364-SYS",
@@ -6014,6 +6088,7 @@
   {
    "path": "docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md",
    "sha": "021ffe76",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 14:0x 定稿（回 LAWWW 六點；outbox e1cc814e；台詞照稿 D100、細節 D109）；第 8 節 F3 拒絕版一起改｜第 10 節（回 LAWWW 14:5x 六題，AA 2026-10-22 定，021ffe76）：AA387-S10-1022 實作時換成 021ffe76（LAWWW-B 10-23）",
    "task": "BB119-Y4-1017、AA387-S10-1022",
@@ -6022,6 +6097,7 @@
   {
    "path": "docs/story_planning/AA_390_芷若2027年9月2日出發那天.md",
    "sha": "5f4b9c7b",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 07:4x 定稿（AA_389 第 2 點的補場；台詞照稿 D100、細節 D109）；LAWWW-B 10-23 實作 src/zr_sendoff3d.js",
    "task": "ZR-SENDOFF-L-1023、AA389-ZR-SENDOFF-1023",
@@ -6030,6 +6106,7 @@
   {
    "path": "docs/story_planning/AA_388_學姊第五批_七夕.md",
    "sha": "3a509150",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 07:0x 交付（DL-AA388-QIXI）",
    "task": "SIS-QIXI-L-1023",
@@ -6038,6 +6115,7 @@
   {
    "path": "docs/story_planning/AA_392_學姊第六批_說了沒發生與每週視訊.md",
    "sha": "74fba9b7",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 07:3x 定稿（AA_398 已改 2-3；D109 劇情自主）；LAWWW-B 10-23 實作 r2y4b3d.js／y34b3d.js／sis_y2y3／sis_b4／postgrad3d.js；10-23 09:31 AA 改 2-4 機場等她版的旁白（74fba9b7）",
    "task": "SIS-B6-L-1023、SIS-B6-1023",
@@ -6054,6 +6132,7 @@
   {
    "path": "docs/story_planning/AA_394_學姊第八批_大二整年與兩個暑假.md",
    "sha": "e81a1afe1",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 07:5x 定稿（D109）；LAWWW-B 10-23 實作 src/sis_b8_3d.js、src/data/sis_b8_events.js",
    "task": "SIS-B8-L-1023、SIS-B8-1023",
@@ -6062,6 +6141,7 @@
   {
    "path": "docs/story_planning/AA_395_學姊第九批_大三下學期中與大四上的遠距.md",
    "sha": "e81a1afe1",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 08:3x 定稿、08:4x 定 2-3 第 2 條（D109）；LAWWW-B 10-23 實作 src/sis_b9_3d.js、src/data/sis_b9_events.js、r2y4b3d.js",
    "task": "SIS-B9-L-1023、SIS-B9-1024",
@@ -6070,6 +6150,7 @@
   {
    "path": "docs/story_planning/AA_396_學姊第十批_交往中的節日_前任_畢業以後的朋友.md",
    "sha": "53af5dfc4",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 08:5x 定稿（D109）；LAWWW-B 10-23 實作 src/sis_b10_3d.js、src/data/sis_b10_events.js、story3d.js nyeY2～Y4",
    "task": "SIS-B10-L-1023、SIS-B10-1024",
@@ -6078,6 +6159,7 @@
   {
    "path": "docs/story_planning/AA_406_家族的聖誕交換禮物_直屬送直屬.md",
    "sha": "895496a7",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 09:1x 定稿、09:34 改旁白（D109）；LAWWW-B 10-23 實作 src/family_xmas3d.js；10:2x 改大一（895496a7）",
    "task": "SIS-XMAS-GIFT-L-1023、DL-AA406",
@@ -6094,6 +6176,7 @@
   {
    "path": "docs/story_planning/AA_401_可昕學期末約會的二選一_寒假來高雄.md",
    "sha": "18251b0e1",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 10-23 實作 termend_lines.js KX_ASK、termend3d.js kexinDinner、src/kx_khh3d.js、hometown3d.js",
    "task": "AA389-REST-L-1023",
@@ -6102,6 +6185,7 @@
   {
    "path": "docs/story_planning/AA_402_柏翰芯慈大二起的閒聊_SMALLTALK.md",
    "sha": "235cf61ac",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 10-23 實作 src/data/events.js SMALLTALK",
    "task": "AA389-REST-L-1023",
@@ -6110,6 +6194,7 @@
   {
    "path": "docs/story_planning/AA_403_這一段你來講_ev_grad_debate的兌現.md",
    "sha": "720f32472",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 10-23 實作 src/data/events.js ev_grad_debate_teach",
    "task": "AA389-REST-L-1023",
@@ -6118,6 +6203,7 @@
   {
    "path": "docs/story_planning/AA_397_店員的支線_順手的事.md",
    "sha": "8f1701b23",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 08:2x 定稿、09:09 更正子晴住處（D109）；LAWWW-B 10-23 子代理實作 src/sideq3d.js、wzpark3d.js（合併 400657c77）",
    "task": "SIDEQ-AA397-1023、WZ-CAT-LIFE-1023",
@@ -6126,6 +6212,7 @@
   {
    "path": "docs/story_planning/AA_407_總圖借書_第一批書單.md",
    "sha": "e81aa74c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/loans3d.js",
    "task": "LIB-LOAN-1023",
@@ -6134,6 +6221,7 @@
   {
    "path": "docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md",
    "sha": "b0b80a54",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/sideq3d.js、wzpark3d.js（第 1 節 SQ10～SQ20 的過期句等 AA_404／405 實作時用）；47dd827c 第 5 節 Alison 營隊鉤子（termend_lines.js yu_camp2）；b0b80a54 第 6 節第二三批缺字（SIDEQ-AA408-6-1023）",
    "task": "SIDEQ-AA397-1023、AA313-S4S5-REST-1023、SIDEQ-AA408-6-1023",
@@ -6142,6 +6230,7 @@
   {
    "path": "docs/story_planning/AA_409_沛珊大一上期末可以交往_交往中的大一下.md",
    "sha": "c42a0dd3",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 12:1x 定稿（使用者 10-23 選擇題 A）；LAWWW-B 實作 src/data/events.js ev_midterm_supper_y1s2、ev_peishan_bohan_w4、SMALLTALK 柏翰；c42a0dd3 第 1 節更正（交往中版本接 AA_245 柏翰算麵錢三句，並存）",
    "task": "PS-DATE-EARLY-1023",
@@ -6158,6 +6247,7 @@
   {
    "path": "docs/story_planning/AA_405_店員的支線_第三批.md",
    "sha": "f923751c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 子代理實作 src/sideq3d.js（合併 9aaf64787）；f923751c 第 3 節 SQ16 補充",
    "task": "SIDEQ-AA404-1023",
@@ -6166,6 +6256,7 @@
   {
    "path": "docs/story_planning/AA_410_女主角各自喜歡吃的東西.md",
    "sha": "38b3c9dd",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 12:3x 定稿（D109；使用者 10-23 選擇題 C）；LAWWW-B 子代理實作 src/data/food_fav_lines.js；38b3c9dd 第 4 節補充（缺字、記憶名稱）",
    "task": "FOOD-FAV-1023",
@@ -6174,6 +6265,7 @@
   {
    "path": "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
    "sha": "9144dc2fb",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）；c71772fbc：AA-B 11-07 03:30 語彤 5 句照新背景改（使用者實玩 PLAYTEST-1107，D109）；9144dc2fb（AA 11-11 10:53：6458d1dc2 誤刪的沛珊第 2 階 brunch 那一列補回、寫現在遊戲裡的新句）",
    "task": "D14-T9",
@@ -6213,6 +6305,7 @@
   {
    "path": "docs/story_planning/AA_417_健身定稿_升階一句_注意到_羽球晨跑.md",
    "sha": "ab9d70fe0",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-27 AA_475 第 3 節改羽球「結束」句（D109；原本 AA-B 2026-10-23 18:2x 定稿 99710a908）",
    "task": "D14-T10",
@@ -6265,6 +6358,7 @@
   {
    "path": "docs/story_planning/AA_399_關著的空間_劇情用途與開放規則.md",
    "sha": "5d09bb725",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "CLOSED-SPACES-1023",
@@ -6274,6 +6368,7 @@
   {
    "path": "docs/story_planning/AA_411_交往中叫書瑀_祐廷的句子與標題.md",
    "sha": "5d09bb725",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "SIS-SHUYU-1017",
@@ -6283,6 +6378,7 @@
   {
    "path": "docs/story_planning/AA_412_美國篇清查_缺口與補稿.md",
    "sha": "b7c25dd14",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "US-AA412-1023",
@@ -6308,6 +6404,7 @@
   {
    "path": "docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md",
    "sha": "5c139cc49",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "D14-T11",
@@ -6324,6 +6421,7 @@
   {
    "path": "docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md",
    "sha": "ed80edb71",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "D14-T11",
@@ -6333,6 +6431,7 @@
   {
    "path": "docs/story_planning/AA_418_看出席的課_第一堂老師說的規定.md",
    "sha": "81c14898a",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "D43-ATTEND-1023",
@@ -6342,6 +6441,7 @@
   {
    "path": "docs/story_planning/AA_419_芷若在英國_約好的視訊與按鈕句.md",
    "sha": "1b33efe8e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "VAC-ZR-UK-1017",
@@ -6351,6 +6451,7 @@
   {
    "path": "docs/story_planning/AA_420_溫州街故事線與打工_現行版.md",
    "sha": "d805bceee",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "DL-10",
@@ -6360,6 +6461,7 @@
   {
    "path": "docs/story_planning/AA_194_大一上口語改寫對照_AA人物.md",
    "sha": "f7b96efb8",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "V1-INV-WORDING",
@@ -6369,6 +6471,7 @@
   {
    "path": "docs/story_planning/BB_172_AB65_大一上第2批_邀約同行_BB人物.md",
    "sha": "968473469",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109；BB_172 第 10 節 AA-B 審稿）",
    "task": "V1-INV-WORDING",
@@ -6378,6 +6481,7 @@
   {
    "path": "docs/story_planning/AA_421_回LAWWW兩題_大四下被當延畢_AA227與228還沒做的.md",
    "sha": "42c87f4fa",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "D14-T5B",
@@ -6387,6 +6491,7 @@
   {
    "path": "docs/story_planning/AA_422_多線交往第一批定稿_問句曖昧知情邀約發現.md",
    "sha": "310d6cc67",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "EVPKG-AA227-228-KNOW",
@@ -6396,6 +6501,7 @@
   {
    "path": "docs/story_planning/AA_423_多線交往第二批定稿_挽回與結果.md",
    "sha": "310d6cc67",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "EVPKG-AA227-228-KNOW",
@@ -6405,6 +6511,7 @@
   {
    "path": "docs/story_planning/AA_207_AB65第2批_大一上BB人物事件改稿.md",
    "sha": "310d6cc67",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AB65-2-L",
@@ -6414,6 +6521,7 @@
   {
    "path": "docs/story_planning/AA_164_溫州街規劃_三家新店_打工_事件_小公園_Café配置.md",
    "sha": "7a6469099",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
    "task": "DL-10",
@@ -6432,6 +6540,7 @@
   {
    "path": "docs/story_planning/AA_166_溫州街四條故事線_每個事件觸發什麼.md",
    "sha": "7a6469099",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
    "task": "DL-11",
@@ -6441,6 +6550,7 @@
   {
    "path": "docs/story_planning/AA_167_溫州街四條故事線_AA的完整腳本.md",
    "sha": "7a6469099",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
    "task": "DL-11",
@@ -6450,6 +6560,7 @@
   {
    "path": "docs/story_planning/BB_148_AB21_溫州街新地點_BB人物台詞與法律審查.md",
    "sha": "7a6469099",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
    "task": "DL-11",
@@ -6468,6 +6579,7 @@
   {
    "path": "docs/story_planning/AA_424_美國篇空白日_週六秋假迎新週.md",
    "sha": "de83f9af2",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 19:0x 定稿（D109）；第 7 節（9/9 改成她來借洗衣機、9/23 群組、記憶名稱）AA-B 19:4x",
    "task": "US-AA424-1023",
@@ -6483,6 +6595,7 @@
   {
    "path": "docs/story_planning/AA_211_大二上口語改稿_AA與BB人物.md",
    "sha": "671434d3c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
    "task": "AB65-3-Y2S1-L",
@@ -6492,6 +6605,7 @@
   {
    "path": "docs/story_planning/AA_211_附錄_審稿原文.md",
    "sha": "968473469",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
    "task": "AA312-INTEGRATE-1020",
@@ -6501,6 +6615,7 @@
   {
    "path": "docs/story_planning/BB_181_AA211口氣審_大二上BB人物.md",
    "sha": "968473469",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
    "task": "AB65-3-Y2S1-L",
@@ -6510,6 +6625,7 @@
   {
    "path": "docs/story_planning/AA_312_附錄B定稿後續_裁定與給LAWWW總表.md",
    "sha": "53885f148",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
    "task": "AB65-3-Y2S1-L",
@@ -6519,6 +6635,7 @@
   {
    "path": "docs/story_planning/AA_260_大三下口語改稿_AA與BB人物.md",
    "sha": "8f3d4217e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
    "task": "AA312-INTEGRATE-1020",
@@ -6528,6 +6645,7 @@
   {
    "path": "docs/story_planning/AA_262_大四上口語改稿_AA與BB人物.md",
    "sha": "f70dfac35",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
    "task": "AA312-INTEGRATE-1020",
@@ -6591,6 +6709,7 @@
   {
    "path": "docs/story_planning/AA_153_BB105一列事件_規格骨架.md",
    "sha": "c7f4ada86",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 定稿（D109）；09ecee83a 是 AA 還沒審的 WIP（18 週換 16 週），不用",
    "task": "V3-B105-P5、V3-B105-G2、V3-B105-B2",
@@ -6600,6 +6719,7 @@
   {
    "path": "docs/story_planning/AA_227_私下約會知情告白劈腿挽回_核對與台詞.md",
    "sha": "26357a440",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23：實作以 AA_422／423／425 為準，這份只當沒被取代的台詞來源",
    "task": "EVPKG-AA227-228-KNOW",
@@ -6609,6 +6729,7 @@
   {
    "path": "docs/story_planning/AA_228_語彤沛珊_私下約會知情告白劈腿挽回_核對與台詞.md",
    "sha": "26357a440",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23：實作以 AA_422／423／425 為準，這份只當沒被取代的台詞來源",
    "task": "EVPKG-AA227-228-KNOW",
@@ -6618,6 +6739,7 @@
   {
    "path": "docs/story_planning/AA_123_多段感情_架構與以安語彤.md",
    "sha": "d805bceee",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "交接包 v6（使用者批准的多段感情）；AA 定稿（D100、D109；BB 人物台詞由 AA 定稿）",
    "task": "V6-S5、V6-A2、V6-A5、V6-B4",
@@ -6627,6 +6749,7 @@
   {
    "path": "docs/story_planning/AA_182_v6多段感情AA事件_到場檢查.md",
    "sha": "d805bceee",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "交接包 v6（使用者批准的多段感情）；AA 定稿（D100、D109；BB 人物台詞由 AA 定稿）",
    "task": "V6-S5、V6-A2、V6-A5、V6-B4",
@@ -6636,6 +6759,7 @@
   {
    "path": "docs/story_planning/BB_119_多段感情_交接包v6_BB人物.md",
    "sha": "434e6d6d7",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "交接包 v6（使用者批准的多段感情）；AA 定稿（D100、D109；BB 人物台詞由 AA 定稿）",
    "task": "V6-S5、V6-A2、V6-A5、V6-B4",
@@ -6645,6 +6769,7 @@
   {
    "path": "docs/story_planning/AA_163_D79回覆_法服週六值班與家教.md",
    "sha": "a06d3f545",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-16 定稿（第②級；D109）；a06d3f545 是 AA 還沒審的 WIP（18 週改字），不用",
    "task": "V2-B32、SYS-13",
@@ -6654,6 +6779,7 @@
   {
    "path": "docs/story_planning/AA_426_心願事件改稿_子晴學姊可昕與四個提醒.md",
    "sha": "e78814663",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）",
    "task": "DATE-C4、DATE-C5",
@@ -6663,6 +6789,7 @@
   {
    "path": "docs/story_planning/AA_428_回LAWWW_AA419美國版_AA211九點.md",
    "sha": "1b33efe8e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:4x 定稿（D109）",
    "task": "VAC-ZR-UK-1017、AB65-3-Y2S1-L",
@@ -6672,6 +6799,7 @@
   {
    "path": "docs/story_planning/AA_427_溫州街補字_茶席BB四位_颱風後的早上_早午餐群組.md",
    "sha": "4d66231ab",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:4x 定稿（D109）",
    "task": "DL-11",
@@ -6681,6 +6809,7 @@
   {
    "path": "docs/story_planning/BB_154_AB27_大一下缺口_學姊傳書_阿凱鍵盤.md",
    "sha": "968473469",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "BB 交付、AA 定稿（D100：台詞由 AA 定稿；BB_154 的法服段落改給社長說，待 AA 確認）",
    "task": "BB154-KAI-KB",
@@ -6690,6 +6819,7 @@
   {
    "path": "docs/story_planning/BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md",
    "sha": "7fca0df50",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "BB 交付、AA 定稿（D100：台詞由 AA 定稿；BB_154 的法服段落改給社長說，待 AA 確認）",
    "task": "BB154-KAI-KB",
@@ -6699,6 +6829,7 @@
   {
    "path": "docs/story_planning/BB_171_BB人物假期所在地與跨年.md",
    "sha": "7fca0df50",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "BB 交付、AA 定稿（D100：台詞由 AA 定稿；BB_154 的法服段落改給社長說，待 AA 確認）",
    "task": "V1-BB171",
@@ -6708,6 +6839,7 @@
   {
    "path": "docs/story_planning/AA_429_多線交往缺字_坦白版五位_可昕E_沛珊E_子晴畢業後.md",
    "sha": "6ccaa812f",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:3x～20:4x 定稿（D109）",
    "task": "EVPKG-AA227-228-KNOW",
@@ -6717,6 +6849,7 @@
   {
    "path": "docs/story_planning/AA_430_BB事件包缺字_B6b講座_B12再聽一次.md",
    "sha": "7525db6a5",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:3x～20:4x 定稿（D109）",
    "task": "V3-B105-B2",
@@ -6726,6 +6859,7 @@
   {
    "path": "docs/story_planning/AA_431_裂縫來源的時刻_打工應徵與班表.md",
    "sha": "434e6d6d7",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:3x～20:4x 定稿（D109）",
    "task": "V6-S5、SYS-13-EV",
@@ -6735,6 +6869,7 @@
   {
    "path": "docs/story_planning/AA_432_回LAWWW_acceptsOpen待決_六個小問題_大一跨年訊息.md",
    "sha": "1ced2f8b3",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:4x～20:5x 定稿（D109）",
    "task": "DATE-C4、DATE-C5、V1-BB171",
@@ -6744,6 +6879,7 @@
   {
    "path": "docs/story_planning/AA_433_打工第二批_便利商店補習班事務所的應徵與班表.md",
    "sha": "78641fff5",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:4x～20:5x 定稿（D109）",
    "task": "SYS-13-EV",
@@ -6753,6 +6889,7 @@
   {
    "path": "docs/story_planning/AA_434_回LAWWW_分手後可以重新開始_前任版缺字.md",
    "sha": "434e6d6d7",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 20:4x～20:5x 定稿（D109）",
    "task": "V6-S3、V6-B6、V6-A7",
@@ -6762,6 +6899,7 @@
   {
    "path": "docs/story_planning/AA_435_日本篇的空白日_開學前_週末_期末週_最後一週.md",
    "sha": "0bb6e2fe6",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 03:2x 定稿（D109；回 BB_302）",
    "task": "V4-R-JP",
@@ -6771,6 +6909,7 @@
   {
    "path": "docs/story_planning/AA_185_全學年缺口補完_v0到v6.md",
    "sha": "efe575813",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 定稿（D109）；第 4 節 d85c1309～0e1fe7c1e 沒改",
    "task": "AA185-V6",
@@ -6780,6 +6919,7 @@
   {
    "path": "docs/story_planning/BB_167_附錄/SC4_事件台詞_沛珊可昕阿凱明軒方奕廷經濟系.md",
    "sha": "1b33efe8e",
+   "staleCheckedAt": "a9ce231b21",
    "status": "approved",
    "approvedBy": "AA-B AA_428 第 2 節第 8 點指定「週日宵夜照 SC4」（D109）",
    "task": "AB65-3-Y2S1-L",
@@ -6798,6 +6938,7 @@
   {
    "path": "docs/story_planning/BB_206_大三上口語審_給LAWWW程式清單.md",
    "sha": "4484e4a2d",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "BB 交付（機制）／AA 定稿（D109）",
    "task": "AA312-INTEGRATE-1020",
@@ -6807,6 +6948,7 @@
   {
    "path": "docs/story_planning/AA_369_寒暑假_人在哪與時間矛盾_修正稿.md",
    "sha": "4512c2d08",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "BB 交付（機制）／AA 定稿（D109）",
    "task": "AA369-HOL-FIX-1021",
@@ -6816,6 +6958,7 @@
   {
    "path": "docs/story_planning/BB_165_AB61_BB五位戀愛線補拍與矛盾.md",
    "sha": "a54ec2b4a",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-18 審；BB-C 10-21 照 AA_360 標註（D109 AA 劇情自主）",
    "task": "PLAN-1016-ROM",
@@ -6825,6 +6968,7 @@
   {
    "path": "docs/story_planning/AA_437_回LAWWW_九題_新15前任長桌版_主線10前任紙箱.md",
    "sha": "de83f9af2",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 LAWWW-B 10-24 03:42 九題）",
    "task": "AA437-NINE-1024",
@@ -6844,6 +6988,7 @@
   {
    "path": "docs/story_planning/AA_438_回LAWWW_他點的那一杯限學期末_可昕卡片_臺灣路線.md",
    "sha": "605902fc6",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 LAWWW-B 10-24 03:55 三題）",
    "task": "PLAN-1016-ROM",
@@ -6853,6 +6998,7 @@
   {
    "path": "docs/story_planning/AA_439_遊戲台詞禁用句總掃描_開發分支83134ddf3.md",
    "sha": "cbdbc69bf",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；口氣表禁用句總掃描）",
    "task": "AA439-LINT-1024",
@@ -6868,6 +7014,7 @@
   {
    "path": "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md",
    "sha": "fd200c2c6",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 BB_303 寒暑假掃描）",
    "task": "VAC-FILL-AA440-1024",
@@ -6898,6 +7045,7 @@
   {
    "path": "docs/story_planning/AA_441_大四下法律實習_每週一句旁白_法扶韓律師.md",
    "sha": "70d31d938",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 LAWWW-B 06:01）",
    "task": "COURSE-PRACTICE-Y4-1024",
@@ -6907,6 +7055,7 @@
   {
    "path": "docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md",
    "sha": "03b7e6dff",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；國外學期盤點）",
    "task": "VAC-FILL-AA440-1024",
@@ -6923,6 +7072,7 @@
   {
    "path": "docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md",
    "sha": "540e1d3fb",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
    "task": "ROOMS-AB3-PEOPLE-1024",
@@ -6939,6 +7089,7 @@
   {
    "path": "docs/story_planning/AA_444_美國臥室C_學姊的房間_看的字.md",
    "sha": "540e1d3fb",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
    "task": "CLOSED-SPACES-1023",
@@ -6955,6 +7106,7 @@
   {
    "path": "docs/story_planning/AA_448_美國交換程式文字盤點_季節與背景圖.md",
    "sha": "b7c25dd14",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
    "task": "QA-TRANSCRIPT-US-1024",
@@ -6964,6 +7116,7 @@
   {
    "path": "docs/story_planning/AA_450_美國交換逐日劇本讀後_交往中.md",
    "sha": "57c81bdac",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；1-8 依使用者原話「她根本就不是主動在群組會說話的人」）",
    "task": "US-READ-DATING-1024",
@@ -6980,6 +7133,7 @@
   {
    "path": "docs/story_planning/AA_340_美國交換那一學期_每一週能做什麼_盤點與補稿.md",
    "sha": "03b7e6dff",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-20 定稿 90f8faf9（D109）；AA-B 2026-10-24 第 101 行改 8/11 摘要（AA_442 第 5 節）",
    "task": "BACKLOG-SWEEP-AA-1021",
@@ -6989,6 +7143,7 @@
   {
    "path": "docs/story_planning/AA_445_寒暑假讀過一遍_麵店開兩次_五位節日邀約分節日.md",
    "sha": "fd200c2c6",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
    "task": "VAC-FILL-AA440-1024",
@@ -6998,6 +7153,7 @@
   {
    "path": "docs/story_planning/AA_446_大二寒暑假回老家訊息_和大一重複.md",
    "sha": "5c139cc49",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
    "task": "VAC-FILL-AA440-1024",
@@ -7016,6 +7172,7 @@
   {
    "path": "docs/story_planning/AA_452_美國交換讀後_挽回中.md",
    "sha": "2c75de1bc",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主）",
    "task": "US-READ-REPAIR-1025",
@@ -7032,6 +7189,7 @@
   {
    "path": "docs/story_planning/AA_453_美國交換讀後_交往中新版_七夕和退回的報告.md",
    "sha": "38820fd5e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主）",
    "task": "US-READ-DATING2-1025",
@@ -7041,6 +7199,7 @@
   {
    "path": "docs/story_planning/AA_454_美國208週末七場_快轉看不到_補她的私訊.md",
    "sha": "eaa98aaa7",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主；AA 自己排的下一項）",
    "task": "US208-DM-1025",
@@ -7050,6 +7209,7 @@
   {
    "path": "docs/story_planning/AA_455_學姊第十一批_大四下的朋友版.md",
    "sha": "0c5afca90",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109；USER_WANTS C25）",
    "task": "SIS-B11-1025",
@@ -7066,6 +7226,7 @@
   {
    "path": "docs/story_planning/AA_456_法律系寒暑假再讀一遍_每年一字不差的訊息.md",
    "sha": "71f260ecc",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109）",
    "task": "VAC-READ2-1025",
@@ -7091,6 +7252,7 @@
   {
    "path": "docs/story_planning/AA_458_法律系大一上讀一遍_媽媽週四群組_沛珊講義_家族群組的日子.md",
    "sha": "b01e32018",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109）",
    "task": "TERM-READ-Y1S1-1025",
@@ -7100,6 +7262,7 @@
   {
    "path": "docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md",
    "sha": "5f54b6545",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "SIS-B12-1025",
@@ -7108,6 +7271,7 @@
   {
    "path": "docs/story_planning/AA_471_大五讀一遍_日本路線家人群組不停_學期判斷過了220天_放榜四次.md",
    "sha": "763993620",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "PG-FIX-471-473-1027",
@@ -7116,6 +7280,7 @@
   {
    "path": "docs/story_planning/AA_472_畢業以後讀一遍_臺灣路線八種存檔_讀書計畫誰排_可昕第六年.md",
    "sha": "1ebcf530e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "PG-FIX-471-473-1027",
@@ -7124,6 +7289,7 @@
   {
    "path": "docs/story_planning/AA_473_前任的畢業以後_學姊恭喜兩次_以安不打給前男友.md",
    "sha": "66393bb91",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "PG-FIX-471-473-1027",
@@ -7132,6 +7298,7 @@
   {
    "path": "docs/story_planning/AA_475_禁用句第五輪_AA439以後新增的三句.md",
    "sha": "e089e8788",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "AA475-BAN5-1027",
@@ -7140,6 +7307,7 @@
   {
    "path": "docs/story_planning/AA_476_回LAWWW_PGFIX九題_抓包CG_AA290白名單.md",
    "sha": "6ad997806",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "PG-FIX-471-473-1027",
@@ -7148,6 +7316,7 @@
   {
    "path": "docs/story_planning/AA_479_美國交換逐日劇本讀後_交往中第三版.md",
    "sha": "02428913b",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "AA479-US-FIX-1027",
@@ -7156,6 +7325,7 @@
   {
    "path": "docs/story_planning/AA_474_acceptsOpen使用者回答C_七位各自的條件.md",
    "sha": "187584ca8",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（使用者 10-27 對 AA-C 選 C＝逐一決定，UA-AA-1027-49；D109）",
    "task": "ACCEPTSOPEN-C-1027",
@@ -7188,6 +7358,7 @@
   {
    "path": "docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md",
    "sha": "b3ecc563c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 00:0x 對 LAWWW-C 的要求，UA-LAWWW-1028-01）",
    "task": "HEROINE-ASKS-1028",
@@ -7196,6 +7367,7 @@
   {
    "path": "docs/story_planning/AA_496_法律系NPC盤點_文件寫了vs玩得到_分類_斷線清單.md",
    "sha": "dea54d89e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 直接對 AA-C 的 NPC 人物重整，UA-AA-1028-51）",
    "task": "NPC-STORY-1028",
@@ -7204,6 +7376,7 @@
   {
    "path": "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md",
    "sha": "bfede0a62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 要 AA 挑 3～5 位直接改）；第 8 節 AA-C 10-28 回 LAWWW-C（7bd68b7cf）的問題；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "NPC-STORY-1028",
@@ -7218,6 +7391,7 @@
   {
    "path": "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md",
    "sha": "a49f12cdd",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；d13ab3ab7＝AA 更正後的版本（74916d73b 三處：芷若冬季菜單、語彤當筱涵的受試者、子晴系上的練習賽；62849944b：可昕第 5 則予樂寫的期末倒數；d13ab3ab7 第 12 節：可昕第 4 則私訊問「為什麼爬好幾趟？」、第 6 則分沒去／去了、12/16 書桌照片放回），舊版 c6c93432d 的句子不放進遊戲；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "HEROINE-LIFE-1028",
@@ -7232,6 +7406,7 @@
   {
    "path": "docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md",
    "sha": "691a26400",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-28 定稿（D109：AA 的稿就是定稿；HEROINE-LIFE-1028）；第 0 節第 1 點子晴 Q4-L1（第二句、第一個選項）由 tools/ladder/import_ladder.py 疊在大二下的階梯上匯入；第 0 節第 2、3 點手動放進 characters.js、vac_activities.js（tests/aa506_s0_unit.js）；第 1～7 節之後照稿接；31a4c4002＝AA 更正以後的版本（e4fbd0192：AA_507 第 0-1 節改的五處——子晴 8/17 拍存檔點、學姊論文題目法律扶助、6/26 不說出美國、陳助教週五 18:30～20:30、以安日文課下課在總圖門口；31a4c4002：芷若 8/23 滷肉「先學一半」）；第 0 節第 1 點的兩句在 31a4c4002 沒有改",
    "task": "HEROINE-LIFE-1028",
@@ -7241,6 +7416,7 @@
   {
    "path": "docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md",
    "sha": "3120ac77a",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-28 定稿（D109；HEROINE-LIFE-1028）；第 0-2 節八件現有內容手動改進 needed_msgs.js、vacfill_events.js、encounters.js＋encounter3d.js（termFrom）、msg3d.js、characters.js、r3_3d.js、y2b3d.js（tests/aa507_s0_unit.js；aa440_vacfill、aa457_vac 的對稿照 0-2 換）；第 0-1 節、第 1～7 節之後照稿接；31a4c4002＝AA 更正以後的版本（以安讀書會的規則本交給 Alison、寒假改找住的地方〔簽證大三下才辦〕、學姊論文不寫章數、芷若滷肉先學一半）；第 0 節在 31a4c4002 沒有改",
    "task": "HEROINE-LIFE-1028",
@@ -7250,6 +7426,7 @@
   {
    "path": "docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md",
    "sha": "da3e72727",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；62849944b＝AA_505 同一個 commit 更正三處以後的版本（小婷只排週五晚上、子晴暑假多在家寫、予樂生日改期末倒數）",
    "task": "HEROINE-LIFE-1028",
@@ -7258,6 +7435,7 @@
   {
    "path": "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md",
    "sha": "795fbecfd",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；795fbecfd＝AA 更正後的版本（e05e87992：以安 1/27「一半是漢字。」；010515370 四處：子晴 2/1 換成期末作業的小遊戲、芷若「五月」、語彤阿姨在沙灘上坐了很久、3-4 改由大一的學妹說；c7c97b862／e4fbd0192：第 0 節第 4 點、5-1 陳助教時間（不是手機）；795fbecfd 第 9 節：以安 2/8 改週一、芷若第 4 則改 12/11「送出去了。」、子晴那句跟著改），62849944b 的舊句子不放進遊戲",
    "task": "HEROINE-LIFE-1028",
@@ -7266,6 +7444,7 @@
   {
    "path": "docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md",
    "sha": "bfede0a62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "KX-MOOT3-1028",
@@ -7280,6 +7459,7 @@
   {
    "path": "docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md",
    "sha": "7ad5fee84",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28「全部留著，每個都補故事」「他們可以不能攻略 但有支線任務阿」）；7ad5fee84＝AA_528（AA-B 10-30 讀 AA_499～502 的實作）同一個 commit 改的原稿（含 AA_527 的改字）（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "NPC-STORY-1028",
@@ -7294,6 +7474,7 @@
   {
    "path": "docs/story_planning/AA_499_法律系同學第二批_何宇軒_徐靜儀_詹立群_蘇承恩_馬佳蓉.md",
    "sha": "7ad5fee84",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）；7ad5fee84＝AA_528（AA-B 10-30 讀 AA_499～502 的實作）同一個 commit 改的原稿（含 AA_527 的改字）（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "NPC-STORY-1028",
@@ -7308,6 +7489,7 @@
   {
    "path": "docs/story_planning/AA_500_法律系同學第三批_大二六位_蔡宗霖_劉晏如_楊書豪_葉晨希_游振宇_蕭乃文.md",
    "sha": "7ad5fee84",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）；7ad5fee84＝AA_528（AA-B 10-30 讀 AA_499～502 的實作）同一個 commit 改的原稿（含 AA_527 的改字）（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "NPC-STORY-1028",
@@ -7322,6 +7504,7 @@
   {
    "path": "docs/story_planning/AA_501_法律系同學第四批_大三四位_洪珮瑜_施孟儒_廖芸萱_嚴守誠.md",
    "sha": "7ad5fee84",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）；7ad5fee84＝AA_528（AA-B 10-30 讀 AA_499～502 的實作）同一個 commit 改的原稿（含 AA_527 的改字）（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "NPC-STORY-1028",
@@ -7336,6 +7519,7 @@
   {
    "path": "docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md",
    "sha": "7ad5fee84",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；DORM203-MATES-1028，USER_WANTS X123）；7ad5fee84＝AA_528 第 3 節同一個 commit 改的原稿（阿凱兩句收尾「……就這樣。」；AA-B 10-30）",
    "task": "DORM203-MATES-1028",
@@ -7344,6 +7528,7 @@
   {
    "path": "docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md",
    "sha": "ce6e87a99",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "HEROINE-LIFE-1028",
@@ -7352,6 +7537,7 @@
   {
    "path": "docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md",
    "sha": "28f981438",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "HEROINE-LIFE-1028",
@@ -7360,6 +7546,7 @@
   {
    "path": "docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md",
    "sha": "28f981438",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "HEROINE-LIFE-1028",
@@ -7368,6 +7555,7 @@
   {
    "path": "docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md",
    "sha": "bfede0a62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "HEROINE-LIFE-1028",
@@ -7390,6 +7578,7 @@
   {
    "path": "docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md",
    "sha": "bfede0a62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "SIS-B13-1028",
@@ -7404,6 +7593,7 @@
   {
    "path": "docs/story_planning/AA_515_交往中約會後的動態.md",
    "sha": "bfede0a62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "FEED-DATES-1028",
@@ -7418,6 +7608,7 @@
   {
    "path": "docs/story_planning/AA_522_教授的研究室_周許林照學期換.md",
    "sha": "50cd33b53",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
    "task": "NPC-STORY2-1028",
@@ -7434,6 +7625,7 @@
   {
    "path": "docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md",
    "sha": "ca08e848c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）",
    "task": "SIS-B14-1028",
@@ -7442,6 +7634,7 @@
   {
    "path": "docs/story_planning/AA_518_學姊第十五批_學校裡的平常日子.md",
    "sha": "bfede0a62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "SIS-B15-1028",
@@ -7456,6 +7649,7 @@
   {
    "path": "docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md",
    "sha": "e5835610d",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
    "task": "NPC-STORY2-1028",
@@ -7464,6 +7658,7 @@
   {
    "path": "docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md",
    "sha": "bfede0a62",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "SIS-B16-1028",
@@ -7486,6 +7681,7 @@
   {
    "path": "docs/story_planning/AA_525_說了沒發生_子晴沛珊可昕.md",
    "sha": "6081f725f",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X122）",
    "task": "HEROINE-LIFE-1028",
@@ -7502,6 +7698,7 @@
   {
    "path": "docs/story_planning/AA_532_D99寒暑假一_過年期間別約_除夕年夜飯_家人群組_她們的放假版.md",
    "sha": "ade80d22f",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA532-VAC-FIX-1030",
@@ -7510,6 +7707,7 @@
   {
    "path": "docs/story_planning/AA_533_D99寒暑假二_出國旅遊和她_活動卡的人_回她的縣市_快轉旁白分年.md",
    "sha": "cf0066ed2",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA533-VAC-FIX-1030",
@@ -7518,6 +7716,7 @@
   {
    "path": "docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md",
    "sha": "b9d816288",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA527-FIX-1030",
@@ -7526,6 +7725,7 @@
   {
    "path": "docs/story_planning/AA_535_約她選項_分層與新地點_第一份_慢讀咖啡_學姊上限_分類名稱.md",
    "sha": "dbd49dca7",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109、D111；第②級；使用者 10-30 04:2x「約她的選項要更多 如果太多就分階層」、04:4x「慢讀咖啡為什麼不能念書 也沒有NPC去念書 也不能約NPC」）",
    "task": "INVITE-OPTS-1030",
@@ -7534,6 +7734,7 @@
   {
    "path": "docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md",
    "sha": "94ab0865e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109、D111；第②級；INVITE-OPTS-1030 第二份；b3e5bca3b 加第 4 節：回 LAWWW-B 實作問答、更正語彤慢讀的 walk、補可昕六句、沛珊慢讀撞到書店課輔班）",
    "task": "INVITE-OPTS-1030",
@@ -7548,6 +7749,7 @@
   {
    "path": "docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md",
    "sha": "a28201f61",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA531-US-FIX-1030",
@@ -7564,6 +7766,7 @@
   {
    "path": "docs/story_planning/AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md",
    "sha": "508568ae5",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "XINCI-ROMANCE-1030",
@@ -7602,6 +7805,7 @@
   {
    "path": "docs/story_planning/AA_323_事件包_第三批之六_1B18到1B25.md",
    "sha": "4618aed21",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-20 定稿（D100、D109：AA 的稿就是定稿；1B-12～25 第②級，原本 c9b4f60e，src/y34b3d.js 已照它實作）＋4618aed21 RENAME-1030（D115 換名；1B-20 這兩句沒有改到）",
    "task": "EVPKG-1B18-25-1020",
@@ -7611,6 +7815,7 @@
   {
    "path": "docs/story_planning/AA_578_取消期中考_劇情改掛點與台詞規則.md",
    "sha": "b13db535f",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 08:37 定稿（D109）",
    "task": "D118-MIDTERM-STORY-1102",
@@ -7904,6 +8109,7 @@
   {
    "path": "docs/story_planning/AA_138_回家_家人台詞池.md",
    "sha": "1edea905f",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節：晚餐第 8 題改「這學期報告多不多？」／「還好。」「有一份不太順。」／「不順的先放著，先吃飯。」，週次 8～10 不動）",
    "task": "AA588-AA581-TAIL-1102",
@@ -7919,6 +8125,7 @@
   {
    "path": "docs/story_planning/AA_588_回LAWWW_AA581收尾與交換延畢又被當.md",
    "sha": "1edea905f",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 定稿（D109，第②級）",
    "task": "AA588-AA581-TAIL-1102",
@@ -7937,6 +8144,7 @@
   {
    "path": "docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md",
    "sha": "14154434b",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-11-02 定稿（第 9 節 AA 審查決定，D109）＋BB_230 口氣審 PASS（第 89～93 列）＋使用者 2026-11-02 18:0x 選擇題 1～10 確認（第 11 節：第 9、10、29、48、67、82 列用使用者的句子；大一上 S-L8、大一下 S2-L6、大二上 S3-L3 整層刪、S3-L6 extraIf[0] 刪、第 72 列那一格刪）；企劃線 14154434b「學姊第二批確認完，可整合」",
    "task": "AA584-SIS-B2-1102",
@@ -7945,6 +8153,7 @@
   {
    "path": "docs/story_planning/AA_590_學姊改稿_第三批_大一大二事件.md",
    "sha": "68ceea665",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決4 定案）、BB_235 口氣審 PASS、使用者 2026-11-02 18:2x 選擇題 11 題確認（第 10 節：「學姊第三批使用者看完，照本節調整後可以交 LAWWW」）",
    "task": "AA590-SIS-B3-1102",
@@ -7954,6 +8163,7 @@
   {
    "path": "docs/story_planning/AA_595_三條新規則_違反清單.md",
    "sha": "320760260",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "使用者 2026-11-02 18:0x 規則（D127，AA_584 第 11 節）＋18:3x～18:4x 選擇題（圖書館選「小聲講」、臺北的家改「家」）；AA 處理決定（本檔最後一節，AA 直接定第 2、3 節）",
    "task": "AA595-LIB-NOD-THERMOS-1102",
@@ -7963,6 +8173,7 @@
   {
    "path": "docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md",
    "sha": "43d27cd80",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "history": [
     {
@@ -7987,6 +8198,7 @@
   {
    "path": "docs/story_planning/AA_587_以安改稿_第三批_大一大二事件.md",
    "sha": "1cf992d66",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；S4 方案 A、S3 A 案、CG-11 想去的店）、BB_232 口氣審與法律查核（第 10 節：訴願）、使用者 2026-11-02 11:4x 告白那一場（第 11 節）＋19:xx 選擇題 1～4（第 14 節：「以安第三批使用者看完，照第 12～14 節可以交 LAWWW」）",
    "task": "AA587-AN-B3-1102",
@@ -7996,6 +8208,7 @@
   {
    "path": "docs/story_planning/AA_589_以安改稿_第四批_大三大四畢業後.md",
    "sha": "2414f251c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決22＝第 76～97 列）、BB_233 第 10 節 PASS、使用者 2026-11-02 晚上回覆樣 1～4（第 11 節，AA 照方向定稿）、樣 5～10 由 AA 照既有規則定（第 12 節）；第 56～58 列 AA 2026-11-02 22:14 照使用者定的寫第 13 節（2414f251c）解除保留",
    "task": "AA589-AN-B4-1102",
@@ -8005,6 +8218,7 @@
   {
    "path": "docs/story_planning/AA_592_以安改稿_1b_手機訊息與一般閒聊.md",
    "sha": "4162d22e1",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決6＝第 50～55 列、新1 兔子貼圖）、BB_238 口氣審 PASS（第 1 列退回原句）、第 10 節 AA 照既有規則定（AA_596 第六節）：「本批全部可以交 LAWWW 整合」",
    "task": "AA592-AN-1B-1102",
@@ -8014,6 +8228,7 @@
   {
    "path": "docs/story_planning/AA_594_以安改稿_4b_不分年級系統事件.md",
    "sha": "4162d22e1",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決4＝第 366～368 列）、BB_240 口氣審 PASS（22 列補回原句、7 列留轉折那一個「……」）、第 10 節 AA 照既有規則定（使1～使8 採新版、「本批全部可以交 LAWWW 整合」）",
    "task": "AA594-AN-4B-1102",
@@ -8032,6 +8247,7 @@
   {
    "path": "docs/story_planning/AA_600_分手後不主動聯絡_全遊戲修正.md",
    "sha": "031414cad",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "使用者 2026-11-02（以安「分手，不會主動聯絡」、學姊「如果分手他不太會理我，就算主動找他，也要很多次才回」；挽回劇情選擇題選「祐廷先開口」）；AA 定稿（第②級，第 1、2、4 節；第 3 節挽回改稿照使用者選的方向）",
    "task": "AA600-EX-NO-CONTACT-1102",
@@ -8041,6 +8257,7 @@
   {
    "path": "docs/story_planning/AA_602_以安學姊改稿_1c_動態與零星台詞.md",
    "sha": "e648d5b31",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-02 晚審查決定（第 8 節，第②級，不問使用者；決1～決3 採 A 案、第 32 列 an_mom2「我把課表傳給她。她說：好。」）",
    "task": "AA602-FEED-1C-1102",
@@ -8050,6 +8267,7 @@
   {
    "path": "docs/story_planning/AA_630_語彤台詞改寫.md",
    "sha": "bb4401fd3",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-03 定稿（D109，第②級；816 列＋第 10 節 AA 對第 8 節的十條決定；使用者 11-03 重定語彤背景 AA_624 第三版）",
    "task": "YT-REWRITE-1103",
@@ -8221,6 +8439,7 @@
   {
    "path": "docs/story_planning/AA_637_好朋友的自動劇情_第二批_第6到16週.md",
    "sha": "b1ad8aa99",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-03 定稿（D109；九場 F2-01～F2-09＋第 3 節名字卡建議，LAWWW 決定做名字淡入）",
    "task": "STORY-FRIENDS-EVENTS-1103",
@@ -8230,6 +8449,7 @@
   {
    "path": "docs/story_planning/AA_627_語彤舊設定清查.md",
    "sha": "40374c664",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 2026-11-03（D109）：AA_630 開頭「AA_627 表上標【改句】【換字】【刪】的其他列，照 AA_627 的建議做」；表上【AA 決定】的最後的字在 AA_630 第 7 節；最後一節 AA 的決定六條",
    "task": "YT-REWRITE-1103",
@@ -8239,6 +8459,7 @@
   {
    "path": "docs/story_planning/shop_enc/shop_enc_aa_v1.json",
    "sha": "6adb0e47c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 定稿（AA_632 店內偶遇第一批，第②級，D109；AA_641 修正：以安 Café 的 why、沛珊巷口茶飲拿掉 Y2S2）",
    "task": "SHOP-ENCOUNTER-1103",
@@ -8293,6 +8514,7 @@
   {
    "path": "docs/story_planning/AA_651_回LAWWW_1104_02點_單車店小東西_約念書兩句_機場便利店.md",
    "sha": "d07e6d124",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 定稿（AA_651，第②級，D109）",
    "task": "BIKE-SHOP-PARK-1104",
@@ -8302,6 +8524,7 @@
   {
    "path": "docs/story_planning/AA_652_afar與Daybreak店內台詞.md",
    "sha": "94ab0865e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "GG-SHOPS2-1104",
@@ -8356,6 +8579,7 @@
   {
    "path": "docs/story_planning/AA_659_溫州街新室內_店內台詞.md",
    "sha": "bc021c7e1",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "WZ-SHOPS1-1104",
@@ -8413,6 +8637,7 @@
   {
    "path": "docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md",
    "sha": "6a4b6ba22",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（D109 定稿）",
    "task": "EXAM-LIB-CROWD-1104",
@@ -8474,6 +8699,7 @@
   {
    "path": "docs/story_planning/AA_694_約會台詞整批拿掉沒必要的刪節號.md",
    "sha": "1b095a239",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-11-05 定稿（D109；使用者 11-05 03:4x 選「整批改」UA-LAWWW-1105-06，LAWWW-C 03:53 轉述）",
    "task": "DATE-ELLIPSIS-1105",
@@ -8483,6 +8709,7 @@
   {
    "path": "docs/story_planning/AA_695_山嵐書店互動點與坐地板的字.md",
    "sha": "88ed60310",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C D109（AA_695 88ed60310：回 LAWWW-C 11-05 04:33；取代 AA_613 第 3 節那幾句）",
    "task": "ART-SHANLAN-BOOKSTORE-1103",
@@ -8528,6 +8755,7 @@
   {
    "path": "docs/story_planning/AA_699_新生運動廣場互動點與三間打烊.md",
    "sha": "0e112816a",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C D109（AA_699 0e112816a：回 LAWWW-C 11-05 06:26）",
    "task": "SPORT-SHOPS-1103",
@@ -8546,6 +8774,7 @@
   {
    "path": "docs/story_planning/AA_705_新店面裡遇得到的人_第一批作息.md",
    "sha": "2c62cdf1e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C D109（AA_705 補 2c62cdf1e，11-05 10:0x 回 LAWWW-C 10:06：柏翰好拍週四 17:15 也永遠撞總圖（學期中週一二四五 15:20～21:00 在總圖）→ 改週六 14:00～14:30（大一下起、句子照舊）；阿哲「宵夜？大口漢堡」（AA_621 第 3 節）每學期一次第 11 週週五 22:30、選項與見面句，和 AA_614 第 3 節第 1 列分開、不輪流、明軒那兩句不要；其他照 15eb48dfa）",
    "task": "SHOP-NAMED-NPC-1105",
@@ -8590,6 +8819,7 @@
   {
    "path": "docs/story_planning/AA_707_study_scenes.json",
    "sha": "1b8e247ec",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 定稿（D109）1b8e247ec：X324 B 區「一起念書」七人重寫（42 場每場兩個選項、沛珊整塊換語氣 PEISHAN-VOICE-1110、不綁科目學期／不寫死經濟系開局與玩家名字、第 6 場不寫哪一天幾點）；BB 抽查兩件已改；AA 11-11 07:34 交 LAWWW",
    "task": "STUDY-DATE-PROGRESS-1107",
@@ -8723,6 +8953,7 @@
   {
    "path": "docs/story_planning/AA_783_invite_replies.json",
    "sha": "5054f6cdc",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "overlay": true,
    "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324 D 區）；LAWWW 11-11 派匯入、定覆蓋層格式；子代理代登，待值班 LAWWW 核；60c08798a（AA 11-11 10:40「AA_794 產生的檔那幾列搬進 AA_783／AA_785 覆蓋層」：芷若 zr28 老闆兩列合併）；5054f6cdc（AA 11-11 11:23「zr28 要改」：「他笑了很久」——笑的是老闆）",
@@ -8798,6 +9029,7 @@
   {
    "path": "docs/story_planning/AA_712_heroine_arcs.json",
    "sha": "abb9609116",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 定稿（D109）256bcdc42：AA_736 經濟系、重考少提（每位最多一處、同一場最多一個，37 處；和可昕交往矛盾的拿掉；X287）＋8a246c40f 語彤第 2 場不指定店；AA 11-10 17:07 交 LAWWW；abb9609116：AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109）",
    "task": "STUDY-DATE-PROGRESS-1107",
@@ -8821,6 +9053,7 @@
   {
    "path": "docs/story_planning/AA_714_invite_places_acc.json",
    "sha": "696254f1c",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B D109（11-07 05:48 交付 AA_714）",
    "task": "INVITE-PLACES-1107",
@@ -8857,6 +9090,7 @@
   {
    "path": "docs/story_planning/AA_713_gym_equip.json",
    "sha": "a6cb4f488",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B D109（11-07 06:12「AA_713 加了 mat」）",
    "task": "GYM-FIT-1107",
@@ -8876,6 +9110,7 @@
   {
    "path": "docs/story_planning/AA_715_sport_gym_pool_invites.json",
    "sha": "3f1569379",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B D109（11-07 05:51「AA_715 運動健身」）；6d7810f23（AA 11-11 10:48「AA_794 那五列改好源稿」：芷若「頭髮濕的去上班，老闆會念我。」）；3f1569379（AA 11-11 10:56「X324 G 區做完」：運動邀約「游泳？……」「健身房？……」開頭八句）",
    "task": "GYM-FIT-1107",
@@ -8922,6 +9157,7 @@
   {
    "path": "docs/story_planning/AA_716_arc_invites.json",
    "sha": "256bcdc42",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 定稿（D109）256bcdc42：AA_736 經濟系、重考少提（每位最多一處、同一場最多一個，37 處；和可昕交往矛盾的拿掉；X287）＋8a246c40f 語彤第 2 場不指定店；AA 11-10 17:07 交 LAWWW",
    "task": "STUDY-DATE-PROGRESS-1107",
@@ -8937,6 +9173,7 @@
   {
    "path": "docs/story_planning/AA_719_decide_rules.json",
    "sha": "963afea74",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B D109（11-07 08:10 經 BB-B 轉「AN-1 rule 0 say 第一句」）；963afea74（AA-B 11-08 01:39：SIS-1 before 2026-01-31、沛珊 before 要交往中、子晴 intern 使用者 Q1 同意）",
    "task": "STUDY-DATE-PROGRESS-1107",
@@ -9012,6 +9249,7 @@
   {
    "path": "docs/story_planning/AA_722_study_unlock_slots.json",
    "sha": "897ddd17e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B D109（11-07 09:41「念書第 6 次的她那一格」；09:50 bbeb58f34 語彤那一場改成她下班、店還開著；10:04 897ddd17e 小路、滷味照 partnerBlock 擋＋以安的 fallback）",
    "task": "INVITE-PLACES-1107",
@@ -9021,6 +9259,7 @@
   {
    "path": "docs/story_planning/AA_723_confess_retry_ps_silence.json",
    "sha": "eca6139aa",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B D109（11-07 10:51「AA_723 使用者 Q2、Q4 的稿」；使用者 10:4x 回 AA 四題；13:42 21e9f6c50 加 pending；f5cb310d6 沉默期動態全關、柏翰一句、不在群組的 12/30 私訊；d8570a14b noGroup.optAlt；f68c998cc confess 規則文字（不進遊戲）；70b0b51a9 重聚改在 wz_lin 演：兩張小方桌併在一起）；18:0x eca6139aa 加 confess.lines[人].secondYes（第二次告白接原本答應那一場的換句）",
    "task": "AA723-CONFESS-PS-1107",
@@ -9030,6 +9269,7 @@
   {
    "path": "docs/story_planning/AA_724_洋洋鹹酥雞店內台詞.md",
    "sha": "bf5c3e6c6",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "YANGYANG-IN-1107",
@@ -9054,6 +9294,7 @@
   {
    "path": "docs/story_planning/AA_667_交換路線_同時交往的另一位_出發前回國當天.md",
    "sha": "0ba033578",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C（D109 定稿）",
    "task": "AA667-VAC-GAP2-1104",
@@ -9063,6 +9304,7 @@
   {
    "path": "docs/story_planning/AA_613_開學活動同學約_系籃怎麼加入_兩層書店.md",
    "sha": "232fe4149",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "AA613-OPENING-ACTS-1103",
@@ -9072,6 +9314,7 @@
   {
    "path": "docs/story_planning/AA_614_同學也在打工_約了不能來.md",
    "sha": "32a5f7e12",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（D109）；第 1 節沛珊每週三 18:00～21:00、做到 2026-12-17＝AA-B 2026-11-07 21:11～21:12",
    "task": "AA614-CLASSMATE-JOBS-1103",
@@ -9081,6 +9324,7 @@
   {
    "path": "docs/story_planning/AA_11_事件書_陳語彤.md",
    "sha": "0787572c6",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "AA624-YT-BACKGROUND-1103",
@@ -9090,6 +9334,7 @@
   {
    "path": "docs/story_planning/AA_720_decide_opened_scenes.json",
    "sha": "6ada48974",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B D109（11-08 01:39 AA_720 第一批）；3e9cc0385（AA-B 11-08 第二批：endings 尾聲七位照 DECIDE 各最多一句＋confFail）；4f37a68bb（AA-B 11-08 quietMove：SIS1-QUIET-LIB-1108 學姊第 6 拍在總圖安靜區＝走到樓梯間再演）；ee689cfb8（AA-B 11-08 02:4x wiringAnswers：回 LAWWW-B 02:39 十二點＋沒做的三件——ps_result 改 09:58 先傳兩則、原本照演；可昕 waited 之後兩天的短回覆 kx_waited_after；子晴 1/9 demo intern 版 demoJan9＋動態說明）；075eae472（AA-B 11-08 03:2x an1_later＋wiringAnswers2：回 LAWWW-B 03:16——以安 AN-1 later 版 3/19 Alison 群組＋以安私訊三選項；1/9 demo 實習版三處照 ZQ-2；沒交往 Café 當面版加「……獎學金拿到一半。」；選信的 9/28 生日電話照舊打）；3e6a7ff71（AA-B 11-08 03:3x wiringAnswers3：回 LAWWW-B 03:33——選信的 9/28 電話開頭旁白「（台灣晚上十點，手機響了。）」；選信、那時和別人交往中的沒有這通；1/9 demo 第一句保留「資工系館的電腦教室。」再接 AA 那一句）；6ada48974（AA D109 11-11 10:39「X324 G 區第六份：aa720 改源稿」：句首「……」拿掉 23 種，只換字串、結構沒動）",
    "task": "AA720-DECIDE-OPENED-1108",
@@ -9125,6 +9370,7 @@
   {
    "path": "docs/story_planning/AA_593_學姊改稿_1b_手機與其他系統.md",
    "sha": "6cbb0b4ab",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "使用者 2026-11-02 19:xx 第 10 節選擇題（學姊手機 12 題看完，「照本節可以交 LAWWW」）；AA-B D109 第 9 節審查決定；BB_239 口氣審 PASS",
    "task": "AA593-SIS-1B-1102",
@@ -9167,6 +9413,7 @@
   {
    "path": "docs/story_planning/AA_731_invite_acc_no_time.json",
    "sha": "94ab0865e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-B D109（11-10 00:58，BB_255 BUG-INV-ACC-TIME-1110）",
    "task": "BUG-INV-ACC-TIME-1110",
@@ -9829,6 +10076,7 @@
   {
    "path": "docs/story_planning/AA_750_limao.json",
    "sha": "0ec5f3751a",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-11-10 交稿（D100b 稿就是定稿；使用者 X332「開始做，聊天免費」）；11-11 AA 回七題後補 closed 兩句、入口 A 標題、信改木盒（93f731790）；0ec5f3751a：AA-C 11-12 10:56 交付（定稿，BB_396 聽過）：front_room.look 三筆（書櫃、玻璃櫃、掛畫）",
    "task": "LIMAO-SHOP-1110",
@@ -10058,6 +10306,7 @@
   {
    "path": "docs/story_planning/AA_771_l118_lunch.json",
    "sha": "bb6c5023b",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-11-11 v4（BB 逐組看過；D100b 稿就是定稿；使用者 X339）；LAWWW 2026-11-11 06:5x 匯企劃線 bb6c5023b",
    "task": "L118-LUNCH-INVITE-1111",
@@ -10534,6 +10783,7 @@
   {
    "path": "docs/story_planning/AA_814_三個優先項目劇情斷點對帳.md",
    "sha": "91c6aaf9f",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA 定稿（D109）；AA 11-11 16:14 交（AA-PRIO-GAP-1111，LAWWW 16:01 派）",
    "task": "AA-PRIO-GAP-1111",
@@ -10552,6 +10802,7 @@
   {
    "path": "docs/story_planning/AA_816_ladder_fx.json",
    "sha": "7732e123e",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-11-11 21:02 交（D100b 稿就是定稿）：閒聊階梯選項 fx 694 個（六位 fx 為 null 的全部選項；{fr:1} 362、{love:1} 307、{love:2} 22、{fr:-1} 3），格式照 LAWWW 20:59；已經有 fx 的 136 個不動",
    "task": "DLG-FULL-REVIEW-1110",
@@ -10603,6 +10854,7 @@
   {
    "path": "docs/story_planning/AA_826_shop_backfill_1.json",
    "sha": "ed20b301ab",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-11-12 定稿（D109；稿 _meta：BB-C 11-12 05:26 第二意見、「定稿」；f231f0514：lawww_answers 第 8 點——補宥辰、語彤／明軒／阿哲改成不分店的句子，「BB-C 06:02 看過：都 OK……定稿。」）；ed20b301ab：AA-C 11-12 08:49 回「要重匯」（STALE-SOURCES-1112）",
    "task": "SHOP-LIFE-AA826-1112",
@@ -10622,6 +10874,7 @@
   {
    "path": "docs/story_planning/AA_820_flower_class.json",
    "sha": "7917d4289",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA（FLOWER-CLASS-1112）",
    "task": "FLOWER-CLASS-1112",
@@ -10820,6 +11073,7 @@
   {
    "path": "docs/story_planning/AA_853_yejian_shaola_buy.json",
    "sha": "f6aa917593",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-11-12 定稿（BB_397 第五節聽過）；LAWWW 的匯入子代理代登，待值班 LAWWW 核；f6aa917593（AA-C 11-12 回 LAWWW：稿加 lawww_1112 十點、書牆的 look 改字）",
    "task": "GG-SHAOLA-FIX-1112、GG-YEJIAN-SHOP-1112",
@@ -10835,6 +11089,7 @@
   {
    "path": "docs/story_planning/AA_856_可昕在法律系_認識與大一上.md",
    "sha": "077a6e501d",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-11-12 定稿（BB_400／BB_402 聽過）；LAWWW 的子代理代登，待值班 LAWWW 核",
    "task": "CANON-NO-ECON-1112",
@@ -10862,6 +11117,7 @@
   {
    "path": "docs/story_planning/AA_889_src對照表_y2r2.md",
    "sha": "1af2aa94ff",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
    "task": "CANON-NO-ECON-1112",
@@ -10943,6 +11199,7 @@
   {
    "path": "docs/story_planning/AA_886_src對照表_events.md",
    "sha": "a87c7ddbc8",
+   "staleCheckedAt": "797009f9d5",
    "status": "approved",
    "approvedBy": "AA-C 2026-11-12 定稿（BB_424）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
    "task": "CANON-NO-ECON-1112",
