@@ -1,14 +1,3 @@
-[22:25:47] skip V25_main12 (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip V25_social (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip V25_reach (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip STAIR_old_run10_r2 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:47] skip STAIR_7d_run10_fl (already done on 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329)
-[22:25:47] skip V25_deploy (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip V25_classreal (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip V25_mini (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip V25_joy (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip V25_zone (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip V25_touch (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
 [22:25:47] skip V25_p0 (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
 [22:25:47] skip V25_v7 (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
 [22:25:47] skip V25_linze (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
@@ -1998,3 +1987,14 @@
 [04:48:48] ==== START CANON458_AN_BEAT8_r4  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [04:48:50] [res] cpu=10% mem=39% (12.0/31.4 GB) chrome_testing=4  START CANON458_AN_BEAT8_r4
 [04:50:48] [res] cpu=12% mem=44% (14.0/31.4 GB) chrome_testing=10  END CANON458_AN_BEAT6_r5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2444701bd0..693348551e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:50:55] ==== END   CANON458_AN_BEAT6_r5  exit=1  123s   ====
+[04:51:09] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[04:51:09] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[04:51:09] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[04:51:09] memory 39% before starting REL76_save_v7_ctl (2 running)
+[04:51:09] ==== START REL76_save_v7_ctl  (game @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[04:51:12] [res] cpu=25% mem=39% (12.3/31.4 GB) chrome_testing=5  START REL76_save_v7_ctl
+[04:51:16] [res] cpu=10% mem=40% (12.3/31.4 GB) chrome_testing=5  END CANON458_AN_BEAT8_r4
