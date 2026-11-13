@@ -2484,3 +2484,7 @@ WZ_LIN_SEAT_r2 | 5b7c5ce1243746453a74cb9c984514bc134475ef | probe | docs/story_p
 FIRST_xs_tongxian_r8 | 4896dc480cd6747c2910f7b979984e24732e5251 | probe | docs/story_planning/test_tools/cc/cc_xs_inside_perf_probe.py | index.html | 20 | SOLO=1;DESKTOP=1;TAG=first_xs_tongxian_r8;ZONE=xinsheng;PAIR=xs_tongxian,xs_haopai;FAR=45;TRIPS=1;SHA=4896dc480cd6747c2910f7b979984e24732e5251
 # BB-C 03:31（台北）HEROINE_LIFE（BB_463，低優先）：A 圈子五場（大一上第 6 週）＋B 動態 an6／kx6／ps4 各「到／不到」兩種；C 私訊從 FULL transcript 抽。這次發布以後才跑，SHA 換成當時開發分支最新、拿掉 HOLD
 # HOLD HEROINE_LIFE463 | 106385efa1946b6a3c6e74a618cbf4937238ec2a | probe | docs/story_planning/test_tools/cc/cc_heroine_life463_probe.py | index.html | 60 | SHA=106385efa1946b6a3c6e74a618cbf4937238ec2a
+# BB-C 04:29（台北）QA-REPRO-1020 補（低優先）：ROUTE_E4／E6／E8 上次 @5685a3019f 不在開發分支上、不能結案 → r2 設定同上，SHA 換成這次發布以後的開發分支最新；先 HOLD（同 HEROINE_LIFE），發布後解開
+# HOLD ROUTE_E4_r2 | c77ddb5d113c21586f688d56b78923de5578139f | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E4;SHA=c77ddb5d113c21586f688d56b78923de5578139f
+# HOLD ROUTE_E6_r2 | c77ddb5d113c21586f688d56b78923de5578139f | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E6;SHA=c77ddb5d113c21586f688d56b78923de5578139f
+# HOLD ROUTE_E8_r2 | c77ddb5d113c21586f688d56b78923de5578139f | probe | docs/story_planning/test_tools/route1a02_probe.py | index.html | 20 | SCEN=E8;SHA=c77ddb5d113c21586f688d56b78923de5578139f
