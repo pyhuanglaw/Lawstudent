@@ -65,14 +65,6 @@
  },
  {
   "files": [
-   "events.js"
-  ],
-  "old": "……今天晚上講給你聽。不是改天。",
-  "new": "今天晚上講給你聽。不是改天。",
-  "speaker": "heroine_04"
- },
- {
-  "files": [
    "msg_replies.js"
   ],
   "old": "……那早上再說一次。早安。預約的。",
