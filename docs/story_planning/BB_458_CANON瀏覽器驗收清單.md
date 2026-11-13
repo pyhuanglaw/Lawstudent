@@ -134,3 +134,6 @@
   - **REL76_save_live（f312 ?start0 法律系存檔→76f8）：核心 PASS，待對照**——繼續讀回自動存檔（名字、天數、地點、金錢一樣）；欄位 1～3 日期地點金錢對、站得住、課表紀錄新、湖邊移位、重新整理、沒有 JS 例外。FAIL：v9.5 專用三項（不算）、欄位 1／2 same()（flags 或 rel 某鍵）、阿哲熟悉度沒補（f312 存檔已經 _relSync）、手機課表讀到訊息分頁。加 **REL76_save_live_ctl（f312→f312）** 定：一樣 FAIL＝探針期望；只有 76f8 FAIL＝回退＝NO-GO。
 - **05:4x REL76_save_v95_r2（a4f2760→76f8）：讀檔 PASS**——FAIL 6 項只有欄位 1～3 的「手機課表週數」「手機今天」：讀檔後有待回覆、手機自己開在訊息分頁（既有行為，df70106 記過），探針沒切到課表分頁＝TEST_BUG；其他全過。v95_r3、save_live_r2、save_live_ctl 都改成先切 #phoneTabs 課表再讀字，並印 same() 不一樣的鍵。**CANON458_ENC_DATING：ALL PASS**（ENC 三支全過）。
 - **05:4x LAWWW 查讀檔路徑（f312 dc3d33941c vs 76f8）**：rel 兩版一樣（defaults、migrate、_relSync 都沒改）＝阿哲熟悉度「沒補」是探針期望。flags：76f8 拿掉 lifeLineMigrate／zoulaMigrate／askFixUntil／「沒有 dating_kexin 補 true」（CANON 一起拿），新增語彤房東次數轉換（ev_yutong_landlord>3 才動）。所以 f312 讀自己會改 flags、76f8 不會＝same() 拿存檔原文比讀檔後的差異。等 save_live_ctl／live_r2 印出的不一樣鍵定案；只有 76f8 不一樣的鍵交 LAWWW。
+- **05:4x 兩支定案**：
+  - **REL76_ladder：不擋發布（TEST_SETUP）**——對照 REL76_ladder_ctl（f312）同一項一樣 FAIL：大一下第 5 週那六個時段，campus／library_hall／dorm 的人 ladData＝null、linze 沒人、cafe 只有上班中的芷若（staff，ladNext null）＝這支探針的時段本來就找不到合格的人，不是 76f8 回退。探針要換時段（LAWWW 用 Node 查到以安 A2-L1、芷若 Z2-L1、語彤 Y2-L1、學姊 S2-L1、沛珊 P2-L1 有下一層），發布後改。
+  - **CANON458_AN_BEAT6_r6：PASS（#10 以安第 6 拍）**——熟悉 71、信任 50、自在 46（第 4 階）到燒臘，對話紀錄有「Alison 說你國中就決定要念法律。」；「旁邊有空位」那項是探針只看最後一筆 pSeat（整場已演完、回宿舍）＝TEST_BUG，不重跑。BEAT8_r5 以那一句為準。
