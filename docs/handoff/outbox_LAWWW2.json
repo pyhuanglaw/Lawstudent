@@ -9493,6 +9493,24 @@
    "remaining": "海報、洗衣精瓶（P2）；手機效能（GLB 2.8 MB）",
    "next": "LAWWW-C git apply（底 ebac31a76e）＋place_gate --write → CC 拍 → BB 判；我接印得好 CC0 v1",
    "integratedAt": "30ca42cbf1"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "印得好影印店 CC0 v1（白／深灰／藏青塑膠、不鏽鋼層架、紙箱、三色包裝紙、Poly Haven 盆栽兩盆、光照貼圖；塑膠黑紋已修）＋洗樂 v2 滾筒原始碼補正",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_yindehao_cc0_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_yindehao_cc0_1113/yindehao_v1.patch",
+    "docs/art-rebuild/second_ai/wip/tz_yindehao_cc0_1113/cmp_yindehao_v1.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_yindehao_cc0_1113/cmp_yindehao_v1_streaks.jpg"
+   ],
+   "remaining": "手機效能；小東西（筆、釘書機、標籤）照舊頂點色",
+   "next": "LAWWW-C git apply（底 99063ee27f）＋place_gate --write → CC 拍 → BB 判；接著聯通、東南大聯（烘焙中）"
   }
  ]
 }
