@@ -7869,10 +7869,10 @@
     "docs/story_planning/AA_749_termend_gf_v2.json",
     "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T14:40Z",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "LAWWW 已進 0be34964bd",
    "noDirectIntegrate": false,
    "next": "LAWWW 重匯 termend_opts、手改 3 句",
    "unfinished": ""
@@ -7880,7 +7880,7 @@
   {
    "task": "AA-PRIO-GAP-1111",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "待填",
+   "sha": "e13ddd7804",
    "files": [
     "docs/story_planning/AA_948_可昕大二暑假_七月臺北八月高雄.md"
    ],
