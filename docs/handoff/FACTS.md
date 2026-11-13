@@ -74,3 +74,4 @@
 - （11-12 08:0x LAWWW-C）**GitHub Actions 的 `node-unit-auto` 每次 push 會取消上一輪**（全套要跑好幾分鐘）：幾分鐘推一次＝全套永遠跑不完（11-12 下午連續 7 輪 cancelled，兩支紅的測試半小時沒人發現）。要拿全套結果：推完**等那一輪跑完**再推下一筆（`mcp__github__actions_list` list_workflow_runs 看 conclusion），小改動先存本機、併成一批推。
 - （11-12 LAWWW-C）BB 第三層（看圖）判定放 `docs/handoff/place_gate_bb.json`（BB 在自己分支更新 → 告訴 LAWWW SHA → LAWWW 合進開發分支、跑 `node tests/place_gate_unit.js --write`）；`SHOP_STANDARD_STATUS.md` 第 7 欄讀它。
 - （11-13 LAWWW-C）**整合室內模型（GLB 換了）以後，`node tests/place_gate_unit.js --coplanar` 和 `--write` 都要跑、`tests/place_gate_coplanar.json` 一起 commit**：GitHub Actions 的機器沒有 python3＋numpy，模型的 sha1 和基準對不上就判 FAIL（11-13 node-unit-auto 3cbdf9ef83 那一輪 17 間紅，本機全綠看不出來；17565f19fe 補）。
+- （11-13 LAWWW-C）**等發布候選的 GHA 結果時，不要 push 任何會觸發 node-unit-auto 的改動**（`src/** tests/** lib/** assets/** index.html`，見 `.github/workflows/node-unit-auto.yml` paths）：11-13 18:49 給 BB 候選 76f8b639f0 後，19:04 整合第六批美術 push 15710903ed，把候選那一輪取消了；只改 docs/handoff 的 commit 不會觸發，可以照推。
