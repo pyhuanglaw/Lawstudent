@@ -213,12 +213,12 @@ const GAME = (function(){
   // ---------- 移動輔助 ----------
   function walkTo(ent,x,z,opts){ opts=opts||{}; const g=GM.loadGen; return new Promise(res=>{ if(ent&&ent.seat&&ent.frozen&&ent.pose==='sit') standUp(ent);   /* BUG-CARD-BOHAN-WALK-1103（BB f606）：坐著（sitAt 設 frozen）就叫它走＝引擎不動它，4 秒後才被保險放到目的地；先起身再走（例：第一堂民總 classScene，玩家自己先坐了第 2 排）*/ if(GM.turbo){ E.placeAt(ent,x,z,opts.lv); ent.path=null; res(true); return; } ent.run=!!opts.run; let w=null; const finish=(v)=>{ if(w){ walks.delete(w); w=null; } if(GM.loadGen===g) res(v); };   /* 走路中間讀檔（GM.loadGen 變了）＝走到了也不 resolve：舊劇情不在新的一局接著演 */
     const ok=E.moveTo(ent,x,z,()=>finish(true),opts.lv); if(!ok){ E.placeAt(ent,x,z,opts.lv); finish(false); return; }
-    w={ent,x,z,lv:opts.lv,ax:ent.obj.position.x,az:ent.obj.position.z,stall:0,total:0,finish}; walks.add(w); }); }   // opts.lv：目的地在哪一層（多樓層區域）
+    w={ent,x,z,lv:opts.lv,ax:ent.obj.position.x,az:ent.obj.position.z,stall:0,total:0,finish,zone:E.zone}; walks.add(w); }); }   // opts.lv：目的地在哪一層（多樓層區域）
   /* 保險（v9.3 第二十五批）：劇情的自動走路如果被擋住（家具、比人窄的縫）——**遊戲時間**連續 4 秒沒有前進 0.25 m，或走超過 90 秒——就直接放到目的地，劇情不會永遠停住。
      用遊戲時間（主迴圈的 dt）算：淡入、暫停、切到背景時不算；手機掉幀時也不會誤判。這只是保險：GAME.walkFallbacks 記次數、console.warn 留紀錄，
      真實玩家流程測試要求次數是 0（路要真的走得通，tests/flow_class_real.py） */
   const walks=new Set();
-  function updateWalks(dt){ for(const w of Array.from(walks)){ const p=w.ent.obj.position; w.total+=dt; if(Math.hypot(p.x-w.ax,p.z-w.az)>0.25){ w.ax=p.x; w.az=p.z; w.stall=0; } else w.stall+=dt;
+  function updateWalks(dt){ for(const w of Array.from(walks)){ if(w.zone&&E.zone!==w.zone&&w.ent!==E.player){ walks.delete(w); w.finish(false); continue; }   /* 換了區域：舊區域的人還在走的那一筆直接收掉，不算卡住（BB_255 11-13 STUDY_fix_c：約念書帶路途中走出總圖，她在大廳走路那一筆被算成 walkFallbacks 0→1）*/ const p=w.ent.obj.position; w.total+=dt; if(Math.hypot(p.x-w.ax,p.z-w.az)>0.25){ w.ax=p.x; w.az=p.z; w.stall=0; } else w.stall+=dt;
       if(w.stall>4||w.total>90){ GM.walkFallbacks=(GM.walkFallbacks||0)+1; console.warn('walkTo 卡住 → 放到目的地',w.ent===E.player?'player':(w.ent.name||'npc'),[+p.x.toFixed(2),+p.z.toFixed(2)],'→',[w.x,w.z]); E.placeAt(w.ent,w.x,w.z,w.lv); w.ent.path=null; w.ent.onArrive=null; if(w.ent.pose==='walk'||w.ent.pose==='run') w.ent.pose=w.ent.idlePose||'idle'; w.finish(true); } } }
   GM.walkTo=walkTo;
   function face(ent,x,z){ if(ent&&ent.pose==='lie') return; const o=ent.obj||ent; o.rotation.y=Math.atan2(x-o.position.x,z-o.position.z); }   /* 躺在床上的人不轉（宿舍睡覺 DORM-SLEEP-1030：root 在腳的位置，轉了整個人會甩出床外；睡著以後的事件 EVENTS.run 會叫 face）*/
