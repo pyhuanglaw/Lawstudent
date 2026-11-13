@@ -34,10 +34,16 @@ PHONE_FIX = ("            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_t
              "            if await pg.evaluate(\"document.getElementById('phone').classList.contains('hide')\"): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)\n"
              "            else: run.note('CC 包裝：讀檔以後手機已經自己開著（有待回覆），不再按 #btnPhone（按了會關掉），直接切分頁')")   # BB-C 21:37 判 v95_r2 TEST_BUG：讀檔有待回覆手機自己開在訊息分頁，原檔再按一次 #btnPhone＝關掉，課表分頁點不到
 
+WK_LINE = "            wk = await pg.evaluate(\"(document.getElementById('phoneBody')||{}).textContent||''\")"
+PHONE_DIAG = (WK_LINE,   # BB-C／CC-C 22:10：v95_r3 加了 phonefix 手機課表還是讀到空字串、截圖手機沒開——印手機狀態、截圖
+              "            _cc_ph = await pg.evaluate(\"(()=>{ const p=document.getElementById('phone'), b=document.getElementById('btnPhone'); const r=b?b.getBoundingClientRect():null; const t=[...document.querySelectorAll('#phoneTabs button')].map(x=>x.dataset.ptab+(x.classList.contains('on')||x.classList.contains('active')?'*':'')); return {hide:p?p.classList.contains('hide'):null, open:typeof GAME!=='undefined'&&GAME.phoneIsOpen?GAME.phoneIsOpen():null, titleIdle:typeof GAME!=='undefined'?!!GAME.titleIdle:null, title:!document.getElementById('titleScreen').classList.contains('hide'), btn:b?{vis:!!b.offsetParent, cls:b.className, r:r&&[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)]}:null, tabs:t, body:((document.getElementById('phoneBody')||{}).textContent||'').length, dlg:!!(GAME.D&&GAME.D.active), busy:!!(GAME.E&&GAME.E.player&&GAME.E.player.busy), menu:[...document.querySelectorAll('.panel:not(.hide)')].map(x=>x.id)}; })()\")\n"
+              "            run.note('CC 診斷 phone 欄位 %s：%s' % (idx, json.dumps(_cc_ph, ensure_ascii=False)))\n"
+              "            await pg.screenshot(path=__import__('os').path.join(OUT, 'cc_phone_diag_slot%s.png' % idx))\n" + WK_LINE)
+
 PATCHES = {
-    'phonefix': ('save_compat_v95.py', [PHONE_FIX]),
+    'phonefix': ('save_compat_v95.py', [PHONE_FIX, PHONE_DIAG]),
     'live': ('save_compat_v95.py', [
-        PHONE_FIX,
+        PHONE_FIX, PHONE_DIAG,
         ("await pg.goto(V95 + '?turbo')", "await pg.goto(V95 + '?' + %r)" % OLDQ),
         ("saves = {'auto': await pg.evaluate(", STAGE_CHK + "saves = {'auto': await pg.evaluate("),
         ("        def same(g, a):\n", SAME_DIAG),   # BB-C 21:35：欄位 1、2 same() 沒過——印哪一個 flag／rel 鍵不一樣（g、a 的值都印）
