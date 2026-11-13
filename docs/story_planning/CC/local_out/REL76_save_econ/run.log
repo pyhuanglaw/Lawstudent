@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\REL76_save_econ\docs\story_planning\test_tools\cc\cc_save_econ_probe.py http://127.0.0.1:8801/index.html http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\REL76_save_econ\out
+CC REL76_save_econ：舊版 http://127.0.0.1:8801/index.html → 新版 http://127.0.0.1:8800/index.html
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 舊版載入
+  [前置／捷徑] 舊版照預設開局（#btnNew），對話點 {"dlg": 37, "choice": 1, "busy": 3, "free": 10}，自動存檔
+PASS FAIL_SETUP 檢查：舊版寫出自動存檔
+PASS FAIL_SETUP 檢查：舊版預設開局的存檔 stage＝econ（舊序章年）  {"v": 2, "stage": "econ", "name": "舊版玩家", "day": -380, "hour": 21.018, "zone": "dorm"}
+  [  47.2s] 舊版存檔：{"v": 2, "stage": "econ", "name": "舊版玩家", "day": -380, "hour": 21.018, "zone": "dorm"}；長度 4011
+PASS 舊版沒有 JS 例外  []
+PASS 新版載入
+PASS ② 標題停 8 秒：fatiao3d_auto 和原本那份一模一樣  seeded=True after8s=True
+  [  88.8s] 按「繼續」前 GAME.G={"stage": "law", "day": 1, "hour": 17.55, "zone": "dorm", "name": "祐廷"}；按完 GAME.G={"stage": "law", "day": 1, "hour": 17.55, "zone": "dorm", "name": "祐廷"}；標題還在=True；toast=[{"ms": 33804, "t": "這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。"}]
+PASS ① 按「繼續」跳出「這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。」  [{"ms": 33804, "t": "這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。"}]
+PASS ① 按「繼續」以後 GAME.G 沒有換成那份存檔（不是 econ、不是那一天那一區）  {"stage": "law", "day": 1, "hour": 17.55, "zone": "dorm", "name": "祐廷"}
+PASS ② 按「繼續」以後 fatiao3d_auto 還是原本那份  same=True exists=True
+PASS ③ 標題「讀取」選單有欄位 1 那一列的「讀取」鍵
+  [ 112.6s] 欄位 1 讀完 GAME.G={"stage": "law", "day": 1, "hour": 17.55, "zone": "dorm", "name": "祐廷"}；toast=[{"ms": 17681, "t": "這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。"}]
+PASS ③ 欄位 1（econ）讀的時候一樣跳那一句  [{"ms": 17681, "t": "這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。"}]
+PASS ③ 欄位 1 讀完 GAME.G 沒有換成那份  {"stage": "law", "day": 1, "hour": 17.55, "zone": "dorm", "name": "祐廷"}
+PASS ③ 欄位 1、自動存檔都還在、沒被改  slot1 same=True auto same=True
+PASS 新版沒有 JS 例外  []
+ALL PASS

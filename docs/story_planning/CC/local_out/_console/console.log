@@ -1,15 +1,3 @@
-[22:25:49] skip L118D_H_D (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_H_G (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_H_H (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_H_B (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_H_C (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_H_A_r2 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_H_F_r2 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_C1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_C6 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_E_MAIN (already done on b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa)
-[22:25:49] skip L118D_E_MAIN_old (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:49] skip L118D_E_TABLE (already done on b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa)
 [22:25:49] skip L118D_E_STORYBURST (already done on b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa)
 [22:25:49] skip CLASS12_crim_c (already done on b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa)
 [22:25:49] skip L118D_E_SEATMIX_A (already done on b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa)
@@ -1998,3 +1986,15 @@
 [05:27:24] ==== START REL76_save_live  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [05:27:27] [res] cpu=8% mem=45% (14.2/31.4 GB) chrome_testing=10  START REL76_save_live
 [05:28:52] [res] cpu=7% mem=46% (14.6/31.4 GB) chrome_testing=10  END REL76_save_v95_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c999af72b7..0d26ba1a9f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:28:58] ==== END   REL76_save_v95_r2  exit=1  303s   ====
+[05:29:01] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[05:29:01] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[05:29:01] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[05:29:01] memory 46% before starting REL76_save_econ (2 running)
+[05:29:01] ==== START REL76_save_econ  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[05:29:04] [res] cpu=13% mem=46% (14.7/31.4 GB) chrome_testing=10  START REL76_save_econ
+[05:31:54] 正在跑：REL76_save_start1_r2（已跑 7 分／上限 30 分）、REL76_save_live（已跑 4 分／上限 40 分）、REL76_save_econ（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:32:01] [res] cpu=8% mem=45% (14.0/31.4 GB) chrome_testing=9  END REL76_save_econ
