@@ -1,14 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       74bfeb40ca..202912439a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:50:50] ==== END   CANON_SIDE  exit=0  392s   ====
-[17:50:54] memory 41% before starting CANON_NEWGAME_B (2 running)
-[17:50:54] ==== START CANON_NEWGAME_B  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
-[17:50:57] [res] cpu=2% mem=41% (13.1/31.4 GB) chrome_testing=10  START CANON_NEWGAME_B
-[17:51:30] [res] cpu=25% mem=42% (13.2/31.4 GB) chrome_testing=9  END SHIFT_SHOTS_nanyang_msgs
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       202912439a..5503003546  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [17:51:39] ==== END   SHIFT_SHOTS_nanyang_msgs  exit=0  115s   ====
 [17:51:42] memory 43% before starting CANON_NEWGAME_FULL (2 running)
 [17:51:42] ==== START CANON_NEWGAME_FULL  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
@@ -1998,3 +1987,14 @@
 [00:40:38] [res] cpu=0% mem=43% (13.6/31.4 GB) chrome_testing=10  START STUDY_SE12_4af4
 [00:41:52] 正在跑：CANON_NEWGAME_B2_r2（已跑 13 分／上限 240 分）、STUDY_SE11_4af4（已跑 5 分／上限 20 分）、STUDY_SE12_4af4（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:43:00] [res] cpu=2% mem=42% (13.3/31.4 GB) chrome_testing=10  END STUDY_SE12_4af4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       79b22756f0..1e091c994e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:43:22] ==== END   STUDY_SE12_4af4  exit=0  145s   ====
+[00:43:37] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[00:43:37] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[00:43:37] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[00:43:37] memory 43% before starting CANON_NEWGAME_FULL_d21c (2 running)
+[00:43:37] ==== START CANON_NEWGAME_FULL_d21c  (probe @ d21c698bdef7b3ae434112ce7175ae9945deadd8) ====
+[00:43:40] [res] cpu=7% mem=43% (13.6/31.4 GB) chrome_testing=10  START CANON_NEWGAME_FULL_d21c
+[00:46:00] [res] cpu=0% mem=44% (13.9/31.4 GB) chrome_testing=10  END STUDY_SE11_4af4
