@@ -542,12 +542,12 @@ INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去
   for(const [pid,ACC] of [['afar',AF],['daybreak',DB]]) for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={}))[pid]=[ACC[id]]; } })();
 /* ---------- 洋洋鹹酥雞（公館 G05，區域 yangyang；YANGYANG-IN-1107）當邀約地點（AA_724 第 8～10 節，AA 定稿 D109，企劃線 bf5c3e6c6，一字照稿）----------
    開放約：吃飯那一類（meal：有點熟以上、和 Daybreak 同一把尺；兩個人單獨吃飯＝partnerBlock 照吃飯的規則擋）；宵夜，19:00～23:00（約會在這段時間裡：19:00、20:00、21:00、22:00 開始，
-   23:00 以後不排約會；營業到 01:00，深夜一個人來照常）。可昕只排到 21:00 開始（「十點以前，我還要回木柵」：whoLast，src/invites3d.js）；她照現在的規則（只在她在臺北、約得到的時候）。
+   23:00 以後不排約會；營業到 01:00，深夜一個人來照常）。可昕和大家一樣（AA_941：原本只排到 21:00 的 whoLast 拿掉）；她照現在的規則（只在她在臺北、約得到的時候）。
    芷若：她的班表照現有作息（2:30 AM 上班＝busyActs 的 barista），有班的時間約不到（改天）。稿上沒寫要先自己走去過一次（不加 show，和 Daybreak 一樣）。
    兩個人一起坐下先找四人桌（prefTable 1～4：開場句第一則寫「你們在四人桌坐下」，那一則只在四人桌抽，onlyAt）。
    答應的那一句：七位各一句（people[人].acc.yangyang）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；不答應照一般回覆表。*/
 INVITE_DATA.places.push({id:'yangyang',zone:'yangyang',name:'洋洋鹹酥雞',verb:'去洋洋鹹酥雞吃宵夜',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[19,23],times:[19,20,21,22],
-  whoLast:{kexin:21},prefTable:[1,2,3,4]});
+  prefTable:[1,2,3,4]});
 (function(){ const YY={heroine_01:'宵夜？好。我只吃一點。',heroine_02:'好。我下班剛好餓。',heroine_03:'鹹酥雞？好。我沒有在店裡吃過。',heroine_04:'好！！我要雞皮。很多雞皮。',heroine_05:'好。讀完書，剛好。',
     classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回去念書。'};
   INVITE_DATA.yangyangAcc=YY;
@@ -558,7 +558,7 @@ INVITE_DATA.places.push({id:'yangyang',zone:'yangyang',name:'洋洋鹹酥雞',ve
    兩個人一起坐下先找試聽的高腳椅（prefTable 'listen'：zones3d.js 給的桌號）；開場句第二則「試聽區有兩副耳機……」只在那裡抽（onlyAt）。
    答應的那一句：七位各一句（people[人].acc.corner_records）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；可昕照現在的規則（只在她在臺北、約得到的時候）。*/
 INVITE_DATA.places.push({id:'corner_records',zone:'corner_records',name:'轉角唱片',verb:'去轉角唱片逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['fun'],hours:[13,20],times:[13,15.5,17.5,19],
-  prefTable:'listen',whoDays:{kexin:[0,6]},show:G=>!!G&&!!G.visited&&!!G.visited.corner_records});   /* 可昕只排週末（AA-B 11-07 15:36：平日下午她在木柵上課；平日那一格不出現）*/
+  prefTable:'listen',show:G=>!!G&&!!G.visited&&!!G.visited.corner_records});   /* AA_941：原本可昕只排週末的 whoDays 拿掉 */
 (function(){ const CR={heroine_01:'好。我不太懂音樂，你不要笑。',heroine_02:'轉角唱片？好。我想找一張電影原聲帶。',heroine_03:'好。我喜歡那間的味道。舊紙的味道。',heroine_04:'好！我要找遊戲配樂的靈感。',
     heroine_05:'好。讀累了，聽一點音樂也好。',classmate_peishan:'好啊！我想找動畫的原聲帶！',kexin:'好啊。我想找一張老唱片。'};
   INVITE_DATA.cornerAcc=CR;

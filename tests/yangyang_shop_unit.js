@@ -226,9 +226,9 @@ const run=async()=>{
     if(P){ const ok=h=>INV.slotOpen(G,P,d,h);
       check('9 19:00～23:00（19:00、22:00 可以；22:30（吃到 23:15）、18:30、23:00 不行：23:00 以後不排約會）',ok(19)&&ok(20)&&ok(21)&&ok(22)&&!ok(22.5)&&!ok(18.5)&&!ok(23),J([19,20,21,22,22.5,18.5,23].map(ok)));
       G.hour=12; const T=INV.timeOptions(G,false,P); check('9 時間選項：今天、明天的 19:00、20:00、21:00、22:00',J(T.map(q=>[q.day-d,q.h]))===J([[0,19],[0,20],[0,21],[0,22],[1,19],[1,20],[1,21],[1,22]]),J(T.map(q=>[q.day-d,q.h])));
-      check('9 可昕只排到 21:00（whoLast；其他人照常）',INV.lastOk(P,'kexin',21)&&!INV.lastOk(P,'kexin',22)&&INV.lastOk(P,'heroine_01',22)&&P.whoLast.kexin===21);
+      check('9 可昕和大家一樣排到 22:00（AA_941：whoLast 拿掉；舊期望：可昕只排到 21:00）',INV.lastOk(P,'kexin',22)&&INV.lastOk(P,'heroine_01',22)&&!(P.whoLast&&P.whoLast.kexin!=null));
       H.FAMILIAR('kexin'); const k22=INV.decide(G,'kexin','yangyang',d+1,22), k21=INV.decide(G,'kexin','yangyang',d+1,21);
-      check('9 約可昕 22:00：改天、改的時間在 21:00 以前（她 21:00 那一格不會因為這條規則被擋）',(k22.why==='closed'||k22.res==='resched')&&(!k22.alt||((k22.alt.h%24)<=21+1e-6))&&k21.why!=='closed',J([k22,k21]));
+      check('9 約可昕 22:00：不會因為時間被擋（AA_941；舊期望：改天到 21:00 以前）',k22.why!=='closed'&&k21.why!=='closed',J([k22,k21]));
       /* 芷若：作息有班（2:30 AM barista）的時間約不到 */
       H.FAMILIAR('heroine_02'); const zr=CHARACTERS.heroine_02, wd=dd=>{ const w=CALENDAR.dateOf(dd).wd; return w===7?0:w; };
       let sh=null; for(let dd=d+1;dd<d+8&&!sh;dd++) for(const h of [19,20,21]){ const e=STORY.schedEnt(zr,{day:dd,hour:h+0.2,weekday:wd(dd),flags:G.flags,noInvite:true}); if(e&&e.act==='barista'){ sh={day:dd,h}; break; } }
