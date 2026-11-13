@@ -2281,6 +2281,19 @@ CANON458_BOOKSTORE | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/sto
 CANON458_GIRAFFE_r2 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 20 | CASES=GIRAFFE_A;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 # 11-14 INV_LAWLIB TEST_BUG（BB-C 判）：PICKS「法律學院」對不到選單「去法圖一起念書」→ 點了第一個「去 2:30 AM 念書」；改「法圖」，對不到字改 FAIL_SETUP
 CANON458_INV_LAWLIB_r2 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 20 | TAG=c458_lawlib;ZONE=campus;WHO=kexin;DAY=2026-10-14;HOUR=14;REL=30;PICKS=念書>法圖>今天;ROUTE=exit:lawlib;EXPECT_SIT=我一章大概四十分鐘。讀完一章你才可以跟我講話。;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
+# ===== P0 BB-C 03:28（台北）REL_76f8 常規發布前回歸（TEST-04、TEST-SOCIAL-SMOKE-1104「每個發布候選照跑」；比照 V21R）：短的先跑；save_compat 的 SHA2＝RELEASES.md 最新 v9.10.25 的發布樹 f312c68cc；deploy_check 等 main 合併、Pages 上線以後 =====
+REL76_p0 | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+REL76_save_v7 | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=f312c68cc961c70c7d548fe40c2ae42483d517ba;XARGS={url2} {url};CC_HEADLESS=0
+REL76_save_start1 | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/save_compat_start1.py | index.html | 30 | SHA2=f312c68cc961c70c7d548fe40c2ae42483d517ba;XARGS={url2} {url};CC_HEADLESS=0
+REL76_save_v95 | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=f312c68cc961c70c7d548fe40c2ae42483d517ba;XARGS={url2} {url};CC_HEADLESS=0
+REL76_skybridge | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/flow_skybridge.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+REL76_ladder | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/flow_ladder_y1s2.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+REL76_libtour | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/flow_lib_tour.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+REL76_hometown | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/flow_vac_hometown.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+REL76_car | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_car_probe.py | index.html?turbo | 30 | CASES=car01_A,car01_B,car01_C,car04_16,car04_17,car04_20;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
+REL76_touch | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+REL76_reach | 76f8b639f0641f93a99736d06a9d0d0675966343 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+REL76_social | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | TAG=rel76;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 DATE_LAYER_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_date_layer_probe.py | index.html | 60 | CASES=D01,D05,D12,D28,D33,D05@20;WHO=heroine_02;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_date_layer_probe.py | index.html?nodatelayer | 15 | CASES=D01;WHO=heroine_02;NODL=1;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 # FULL_b 不接 FULL_a 的存檔：runner 兩條並行，FULL_b 可能在 FULL_a 跑完以前就開跑；cc_flow_semester 也還沒有「從存檔接著跑」——照 BB-C 的備案，新玩家一路跑到 2026-02-23、上限 420 分鐘
