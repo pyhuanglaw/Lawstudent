@@ -24,7 +24,7 @@ const fileOf=r=>'src/data/'+(/^([a-z0-9_]+\.js)/.exec(r.where)||[])[1];
 const strip=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');   /* 註解裡的舊句不算（第 19 列的註解也順手改了，見下面）*/
 const miss=[], still=[];
 for(const r of rows){ const f=fileOf(r); if(!fs.existsSync(path.join(H.ROOT,f))){ miss.push('#'+r.n+' 沒有 '+f); continue; } const s=strip(RAW(f));
-  if(!s.includes(r.nw)) miss.push('#'+r.n+' '+r.nw);
+  if(!s.includes(r.nw)&&!s.includes(require('./aa959_map.js').map(r.nw,path.basename(f)))/* AA_959：之後又照覆寫表砍「今天」開頭 */) miss.push('#'+r.n+' '+r.nw);
   if(!r.nw.includes(r.old)&&s.includes(r.old)) still.push('#'+r.n+' '+r.old); }
 check('1. 32 列的「改成」一字不差在遊戲裡（那一列寫的檔案）',!miss.length,J(miss));
 check('1. 32 列的原句不在遊戲裡（不算註解）',!still.length,J(still));

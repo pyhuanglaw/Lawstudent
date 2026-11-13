@@ -10,7 +10,7 @@
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const E694=require('./ellipsis694.js');   /* AA_694（DATE-ELLIPSIS-1105）：約會台詞拿掉句首、。！？後、）後的「……」——表上的句子照同一條規則換了再和 date_lines.js 比 */
 const ROOT=path.resolve(__dirname,'..');
-const src=fs.readFileSync(path.join(ROOT,'src/data/date_lines.js'),'utf8'), t=src.split('\n')[2], DL=JSON.parse(t.slice(t.indexOf('=')+1,t.lastIndexOf(';')));
+const src=fs.readFileSync(path.join(ROOT,'src/data/date_lines.js'),'utf8'), t=src.split('\n')[2], DL=require('./aa959_map.js').unmapDeep(JSON.parse(t.slice(t.indexOf('=')+1,t.lastIndexOf(';'))),'date_lines.js');   /* AA_959（DLG-FULL-REVIEW-1110）：匯入最後一步照覆寫表換的字先換回來再比 */
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
 const J=JSON.stringify;
 const SHA='c389462be', DOCF='docs/story_planning/AA_598_學姊改稿_1c_約會地點台詞.md';
@@ -31,7 +31,7 @@ const ROWS=[
   [12, "D09", "lines/hotspots/D09.view/normal/1/lines/0", "風大。你外套的拉鍊拉起來。", "風大。你外套拉鍊要不要拉起來？"],
   [13, "D10", "lines/hotspots/D10.bridge/first/lines/1", "我不喜歡沒辦法控制的東西。", "我不太敢走會晃的橋。"],
   [14, "D10", "lines/hotspots/D10.boat/remember/lines/0", "上次你教我踩。今天我會了。我踩得比較快。", "上次踩得好累。今天我會了。"],
-  [15, "D10", "lines/hotspots/D10.snack/remember/lines/0", "今天我請。上次是你。", "這一頓我請。"],
+  [15, "D10", "lines/hotspots/D10.snack/remember/lines/0", "今天我請。上次是你。", "今天我請。"],
   [16, "D11", "lines/hotspots/D11.library/first/lines/0", "（木造的圖書館）……我想在這裡寫論文。", "（木造的圖書館。她小聲說）我想在這裡寫論文。"],
   [17, "D11", "lines/hotspots/D11.library/first/lines/1", "我知道不行。太遠了。", "（小聲）我知道不行。太遠了。"],
   [18, "D11", "lines/hotspots/D11.library/first/choice/0/reply/0", "……好。你陪我。", "（小聲）好。你陪我。"],
@@ -74,9 +74,9 @@ const ROWS=[
   [55, "D29", "lines/hotspots/D29.rail/first/choice/0/reply/0", "……好。（她走得很穩）……我平衡感很好。", "好。（她走得很穩）……我平衡感很好。"],
   [56, "D29", "lines/hotspots/D29.rail/remember/lines/0", "上次走軌道，我沒有掉下來。今天也不會。", "今天也走在軌道上。……我不會掉下來。"],
   [57, "D30", "lines/hotspots/D30.pebble/remember/lines/0", "上次那顆，我拍的照片還在手機裡。", "上次那顆很圓的石頭，今天找不到了。"],
-  [58, "D30", "lines/hotspots/D30.bike/remember/lines/0", "上次騎到一半我停下來。今天也要停。", "騎到一半，也要停下來喝水。"],
+  [58, "D30", "lines/hotspots/D30.bike/remember/lines/0", "上次騎到一半我停下來。今天也要停。", "今天騎到一半，也要停下來喝水。"],
   [59, "D31", "lines/hotspots/D31.trail/remember/lines/0", "上次在這裡坐太久，後面全部延後。", "又走到這裡了。今天也慢慢走。"],
-  [60, "D31", "lines/hotspots/D31.pier/remember/lines/0", "上次我坐中間，沒有暈船。今天也不會。", "坐船的話，我坐中間。比較不晃。"],
+  [60, "D31", "lines/hotspots/D31.pier/remember/lines/0", "上次我坐中間，沒有暈船。今天也不會。", "今天坐船。我坐中間，比較不晃。"],
   [61, "D31", "lines/hotspots/D31.ropeway/normal/0/lines/0", "從上面看，湖的形狀很清楚。像一份整理好的筆記。", "從上面看，湖的形狀很清楚。"],
   [62, "D31", "lines/hotspots/D31.ropeway/remember/lines/0", "上次我說一點點怕。今天不怕了。", "今天不怕了。……還是不往下看。"],
   [63, "D31", "lines/hotspots/D31.egg/normal/2/lines/0", "蛋殼不要丟地上。那邊有垃圾桶。", "蛋殼我拿去丟。那邊有垃圾桶。"],
