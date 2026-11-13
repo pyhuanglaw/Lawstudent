@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "CANON458_INV_LIB_r6",
+  "sha": "76f8b639f0641f93a99736d06a9d0d0675966343",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_invite_phone_probe.py",
+  "env": "TAG=c458_lib;ZONE=campus;WHO=kexin;DAY=2026-10-14;HOUR=14;REL=30;PICKS=念書>總圖>今天;ROUTE=travel:library_hall;EXPECT_SIT=我一章大概四十分鐘。讀完一章你才可以跟我講話。;SEAT_R=3;SHA=76f8b639f0641f93a99736d06a9d0d0675966343;SEED_MET=pool_2;ALSO=pool_2;MEET_LEAD=1",
+  "machine": "MSI",
+  "start": "2026-11-14T06:35:00",
+  "end": "2026-11-14T06:38:57",
+  "seconds": 237,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 11,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
