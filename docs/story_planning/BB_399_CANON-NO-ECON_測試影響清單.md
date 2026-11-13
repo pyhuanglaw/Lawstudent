@@ -70,3 +70,4 @@
 
 **結果寫法**：每一項 PASS／FAIL／TEST_BUG（重跑）＋截圖路徑；全過寫 GO 給 LAWWW-C，並跑 `check_handoff.py releasegate` 要結束碼 0。
 
+- **02:4x B2_r4（27001bdc02，exit 1）→ TEST_BUG（CC 初判）**：9/29 07:31 手機「地點」頁連 campus 都沒有（9/30 回宿舍找得到）＝探針沒走進系館A、走廊相遇沒機會觸發。**但「9/29（教師節補假）地點清單空的」可能是 GAME**——B2_r5 要截地點頁畫面＋記地區／地點清單給 BB 判；r5 找不到就【捷徑】GAME.enter('linze')，排原位（P0）。
