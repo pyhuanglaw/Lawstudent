@@ -15,6 +15,7 @@ import plants as PL   # noqa: E402（cafe_layout 已經把 tools/blender 加進 
 GEN = os.path.join(ENV2, 'textures', 'gen')
 AUTO_SEG = False   # 第二版（木曜日、山嵐 v2）設 True：小、薄的倒角方塊只倒一段（看不出差別，三角形少六成）
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
+TALLY = {} if os.environ.get('AAKIT_TALLY') else None
 ROUTE = {}   # SHOP-CC0-HELP-1113：Shop.route() 設定；頂點色零件（Xf 的 col=）照顏色改放到 CC0 材質組的網格（表上沒有的顏色照舊頂點色）
 
 
@@ -103,6 +104,9 @@ class VMesh(Mesh):
         """逐面複製（連頂點色一起；from_mesh 合進非空的 bmesh 時顏色層對不上）"""
         if not other.loops.layers.float_color.get('Col'): paint_bm(other, '#ff00ff')   # 忘了塗色：洋紅，渲染一看就知道
         src = other.loops.layers.float_color['Col']; dst = self.bm.loops.layers.float_color['Col']
+        if TALLY is not None and other.faces:   # 開發用（環境變數 AAKIT_TALLY=1）：每個顏色用了幾個三角形，找出值得換材質組的顏色
+            c = tuple(round(v, 3) for v in list(next(iter(other.faces)).loops[0][src])[:3]); k_ = (self.name, '#%02x%02x%02x' % tuple(int(round(((v * 12.92) if v <= 0.0031308 else (1.055 * v ** (1 / 2.4) - 0.055)) * 255)) for v in c))
+            TALLY[k_] = TALLY.get(k_, 0) + sum(len(f.verts) - 2 for f in other.faces)
         vmap = {v: self.bm.verts.new((matrix @ v.co) if matrix is not None else v.co.copy()) for v in other.verts}
         for f in other.faces:
             try: nf = self.bm.faces.new([vmap[v] for v in f.verts])
@@ -262,6 +266,8 @@ class Shop:
         L.merge_by_material(s.root, keep=lambda ob: 'FACE' in ob.name or keep(ob), key=key)
         for ob in s.root.children:
             if ob.type == 'MESH' and ob.name.startswith('L2_'): ob['level'] = 1
+        if TALLY:
+            for k_, n_ in sorted(TALLY.items(), key=lambda t: -t[1])[:40]: print('TALLY_COL', k_[0], k_[1], n_)
         info = L.export(out, gpu_instances=True)
         if extra_info: info.update(extra_info)
         L.write_json(out[:-4] + '.json', info); return info

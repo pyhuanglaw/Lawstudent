@@ -41,13 +41,13 @@ sh.M.update({
     'fab_sage': CK.acg(P + 'fabric_sage', 'Fabric030', target='#7d9a7e', tile=0.35, rough_value=0.85),
     'kraft': CK.acg(P + 'kraft', 'Cardboard004', target='#c9a77c', vary=0.12, tile=0.35, rough_value=0.8),
     'paper_g': CK.acg(P + 'giftbox_green', 'Paper001', target='#4a6542', vary=0.3, tile=0.3, rough_value=0.6),
-    'stone': CK.acg(P + 'stone_top', 'Marble012', target='#ece7de', vary=0.35, tile=1.2, rough_value=0.3),
+    'stone': CK.acg(P + 'stone_top', 'Marble012', target='#ece7de', vary=0.1, tile=1.2, rough_value=0.3),
     'ceramic': CK.acg(P + 'ceramic', 'Plastic006', target='#f2eee6', vary=0.05, tile=0.4, rough_value=0.2),
     'celadon': CK.acg(P + 'celadon', 'Plastic006', target='#9ab0a0', vary=0.05, tile=0.4, rough_value=0.2),
     'tin': CK.acg(P + 'tin', 'Metal009', target='#34503c', vary=0.2, tile=0.3, metal=0.3, rough_value=0.35),
     'tile_a': CK.acg(P + 'tile_green_a', 'Plastic006', target='#7f9c80', vary=0.05, tile=0.25, rough_value=0.15),
     'tile_b': CK.acg(P + 'tile_green_b', 'Plastic006', target='#77927a', vary=0.05, tile=0.25, rough_value=0.15),
-    'steel': CK.acg(P + 'steel', 'Metal009', target='#c8c8c4', vary=0.3, tile=0.4, metal=0.6, rough_value=0.35),
+    'steel': CK.acg(P + 'steel', 'Metal009', target='#c8c8c4', vary=0.08, tile=0.4, metal=0.6, rough_value=0.35),
 })
 sh.route({'#b98d5c': 'oakcg', '#a87a4a': 'oakcg', '#b0814f': 'oakcg', '#6a4a2a': 'traywood',
           '#e6ddcc': 'fab_cream', '#e8e0cc': 'fab_cream', '#b8c4a8': 'fab_oat', '#7d9a7e': 'fab_sage',
@@ -83,8 +83,8 @@ def wstool(x, z, h=0.72):
 
 
 def leafy(x, z, h=1.3):
-    """闊葉的落地植物：Poly Haven potted_plant_01（掃描；SHOP-CC0-HELP-1113，取代原本的花盆＋葉片卡）"""
-    CK.ph_put('potted_plant_01', x, 0.0, z, yaw=R.uniform(0, 6.28), share=False, height=h, decimate=0.006)
+    """闊葉的落地植物：Poly Haven potted_plant_02（掃描；SHOP-CC0-HELP-1113，取代原本的花盆＋葉片卡）"""
+    CK.ph_put('potted_plant_02', x, 0.0, z, yaw=R.uniform(0, 6.28), share=False, height=h, decimate=0.03)
     return
     Xf(x, z).lathe(sh.a('vcg'), [(0.0, 0.0), (0.16, 0.0), (0.2, 0.42), (0.21, 0.45), (0.0, 0.45)], 0, 0, 0, seg=12, col=R.choice(['#e8e0d0', '#d8d0c0']))
     sh.plant(x, z, h=0.66, r=0.34, pot_col='#6a5a44', y0=0.42); sh.plant(x + 0.05, z - 0.04, h=0.6, r=0.26, pot_col='#6a5a44', y0=h - 0.55)

@@ -63,6 +63,13 @@ M = dict(
     screen=img_mat('GLOW_cvs_screen', P['screen'], rough=0.2, emit=1.2),
 )
 M['wood']['tile'] = 1.0
+# ---- SHOP-CC0-HELP-1113（D161；幫手 g2）：頂點色零件（貨架、商品、櫃子、冷藏櫃框…）改成「頂點色 × ambientCG 材質組」——每個零件原本的顏色照舊，
+#      加上 CC0 的紋路、法線（霧面＝Plastic006、金屬＝Metal009）；牆照舊乾淨的平塗（cvs_wall）；貨架頂上的庫存紙箱換 Poly Haven 掃描模型（做法 SHOP_CC0_HOWTO.md）
+import cc0_kit   # noqa: E402
+CK = cc0_kit.Kit(root, 'cvs')
+M['wall'] = L.vc_material('cvs_wall', rough=0.55)
+M['vc'] = CK.vc_tex('cvs_vc', 'Plastic006', vary=0.05, tile=0.35, rough_value=0.55)
+M['vm'] = CK.vc_tex('cvs_vc_metal', 'Metal009', vary=0.12, tile=0.3, rough_value=0.35, metal=0.45)
 VC = CMesh('cvs_vc', M['vc']); VM = CMesh('cvs_vm', M['vm'])
 WD = Mesh('cvs_wood', M['wood']); PR = Mesh('cvs_prints', M['print']); GD = Mesh('cvs_goods', M['goods'])
 GLS = Mesh('cvs_glass', M['glass']); DEC = Mesh('cvs_decals', M['decal']); LED = Mesh('cvs_led', M['led'])
@@ -72,7 +79,7 @@ WG = {}
 
 
 def wg(side, key):
-    if (side, key) not in WG: WG[(side, key)] = (CMesh if key in ('vc', 'vm') else Mesh)(f'WALL_{side}_{key}', M[key])
+    if (side, key) not in WG: WG[(side, key)] = (CMesh if key in ('vc', 'vm') else Mesh)(f'WALL_{side}_{key}', M['wall' if key == 'vc' else key])   # 牆：平塗（cvs_wall）
     return WG[(side, key)]
 
 
@@ -397,7 +404,7 @@ shelf_run(X0 + 0.03, 1, wsh['z0'] + 0.02, wsh['z1'] - 0.02, [0.12, 0.44, 0.76, 1
 face(PR, (X0 + 0.005, 2.1, (wsh['z0'] + wsh['z1']) / 2), '+x', wsh['z1'] - wsh['z0'], 0.12, C['greenband'])
 for k in range(int((wsh['z1'] - wsh['z0']) / 1.2)):   # 頂上的庫存紙箱
     z = wsh['z0'] + 0.2 + k * 1.2
-    gbox(PR, X0 + 0.04, X0 + 0.4, wsh['h'], wsh['h'] + 0.26, z, z + 0.5, '+x', C['carton'], side=sub(C['carton'], 0, 0, 0.1, 0.1))
+    CK.ph_put('cardboard_box_01', X0 + 0.22, wsh['h'], z + 0.25, yaw=PI / 2 + R.uniform(-0.12, 0.12), height=0.26 + R.uniform(-0.03, 0.03), decimate=0.012)   # 庫存紙箱：Poly Haven 掃描
 
 # ================= 後牆右段冷藏櫃（綠色頂框，面向店門 +z）、右牆壁架、平台冷凍櫃 =================
 co = S['coolers']; cz1 = co['z1']; ch = co['h']   # 櫃子 z co.z0（後牆）～co.z1（門）；沿 x 排
@@ -516,13 +523,14 @@ if PREVIEW:
     face(ob_, (-2.0, 2.6, Z1 + 6.0), '-z', 22, 8.2, (0, 0, 1, 1)); ob_.finish(root, uv=False)
 
 # ================= 收尾：牆分組、合併、匯出 =================
-for (side, key), m in list(WG.items()): m.finish(G[side], uv=False, smooth=False)
-VC.finish(root, uv=False); VM.finish(root, uv=False, smooth=True)
+for (side, key), m in list(WG.items()): m.finish(G[side], uv=(key == 'vm'), smooth=False)
+VC.finish(root, uv=True); VM.finish(root, uv=True, smooth=True)   # 頂點色 × 材質組：要盒狀 UV
 WD.finish(root, uv=True)
 for m, pr in ((PR, None), (GD, None), (DEC, None), (COOL, None), (SCR, None), (LED, None), (GLS, {'glass': 1}), (GLSF, {'glass': 1, 'side': 'front'}), (DECF, {'side': 'front'})): m.finish(root, uv=(m is LED), props=pr)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
-L.merge_by_material(root, keep=lambda ob: ob.name.startswith(('WALL_', 'PREVIEW', 'GLASS_', 'DECAL_')), key=lambda ob: '')
+CK.drop_protos()
+L.merge_by_material(root, keep=lambda ob: ob.name.startswith(('WALL_', 'PREVIEW', 'GLASS_', 'DECAL_', 'S_ph_')), key=lambda ob: '')
 st_ = L.export(OUT)
 mats = sorted({ms.material.name for ob in bpy.data.objects if ob.type == 'MESH' for ms in ob.material_slots if ms.material})
-print('OK', OUT, 'materials', len(mats), mats)
+print('OK', OUT, 'materials', len(mats), mats); print('CC0_USED', CK.used())

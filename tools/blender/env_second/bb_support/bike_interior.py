@@ -67,6 +67,12 @@ M = {
     'goods': img_mat(P + 'goods', 'bike_goods.png', rough=0.62),
     'sign': img_mat(P + 'sign', 'bike_sign.png', rough=0.55),
 }
+# ---- SHOP-CC0-HELP-1113（D161；幫手 g2）：頂點色零件（車架、零件、櫃子…）改成「頂點色 × ambientCG 材質組」——每個零件原本的顏色照舊，
+#      加上 CC0 的紋路、法線（霧面＝Plastic006、金屬＝Metal009）；收銀機換 Poly Haven 掃描模型（做法 SHOP_CC0_HOWTO.md）
+sys.path.insert(0, os.path.dirname(HERE)); import cc0_kit   # noqa: E402,E401
+CK = cc0_kit.Kit(root, P[:-1])
+M['vc'] = CK.vc_tex(P + 'vc', 'Plastic006', vary=0.05, tile=0.35, rough_value=0.58)
+M['vcm'] = CK.vc_tex(P + 'vc_metal', 'Metal009', vary=0.12, tile=0.3, rough_value=0.38, metal=0.4)
 G3 = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))   # 遊戲 → Blender 的旋轉
 
 
@@ -142,7 +148,7 @@ class Part:
         obs = []
         for key, m in self.m.items():
             if isinstance(m, UM): ob = m.finish(root)
-            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=False)
+            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=bool(M[key].get('vc_tex')))   # 頂點色 × 材質組：要盒狀 UV
             else: ob = m.finish(root, uv=True)
             if ob is None: continue
             if self.T is not None: ob.matrix_basis = self.T
@@ -699,11 +705,7 @@ for k in range(4): g.box(cb - 0.25 + k * 0.004, y0 + 0.008 + k * 0.012, zb - 0.2
 clathe(c, [(0.0, 0.0), (0.04, 0.0), (0.04, 0.11), (0.0, 0.11)], cx + 0.55, y0, zb - 0.5, '#3a5a48', seg=10)
 for k in range(5): ccyl(c, (cx + 0.55 + 0.012 * math.cos(k), y0 + 0.05, zb - 0.5 + 0.012 * math.sin(k)), (cx + 0.55 + 0.02 * math.cos(k), y0 + 0.17, zb - 0.5 + 0.02 * math.sin(k)), 0.0035, ['#1d1d1d', '#c8202a', '#2f6fb8', '#1d1d1d', '#e0a030'][k], seg=4)
 cr = (cb - 0.3, y0, za + 0.35)   # 收銀機（米白、小螢幕、抽屜）
-crb(c, cr[0] - 0.2, cr[0] + 0.2, y0, y0 + 0.1, cr[2] - 0.2, cr[2] + 0.2, '#e3ddd0', r=0.012, seg=2)
-crb(c, cr[0] - 0.15, cr[0] + 0.15, y0 + 0.1, y0 + 0.14, cr[2] - 0.15, cr[2] + 0.12, '#d0c9ba', r=0.01)
-for i in range(4):
-    for j in range(4): crb(c, cr[0] - 0.1 + i * 0.05, cr[0] - 0.07 + i * 0.05, y0 + 0.14, y0 + 0.152, cr[2] - 0.12 + j * 0.05, cr[2] - 0.09 + j * 0.05, '#7d786e', r=0.003)
-crb(c, cr[0] - 0.12, cr[0] + 0.12, y0 + 0.14, y0 + 0.26, cr[2] - 0.2, cr[2] - 0.17, '#2a2b2d', r=0.005)
+CK.ph_put('CashRegister_01', cr[0], y0, cr[2], yaw=0.0, height=0.3, decimate=0.018)   # 收銀機：Poly Haven 掃描（取代原本 18 個方塊拼的；SHOP-CC0-HELP-1113）
 dr = (cx - 0.05, y0, za + 0.2)   # 小零件抽屜（參考圖：螢幕右邊一個灰色多格抽屜）
 g.box(dr[0], y0 + 0.14, dr[2], 0.42, 0.28, 0.22, 'drawers', front='+z', side=sub('drawers', 0, 0, 0.05, 0.05))
 gc = (cb - 0.32, y0, cz + 0.05)   # 小玻璃櫃：車鈴、車燈（AA_646「車鈴車燈的小玻璃櫃」）
@@ -1039,7 +1041,8 @@ fb_.done()
 # ======================================================================
 for ob in list(root.children):
     if ob.type == 'MESH' and len(ob.data.polygons) == 0: bpy.data.objects.remove(ob)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+CK.drop_protos()
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith('S_ph_'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
 ss = None if os.environ.get('BK_NOSS') else L.single_side(root, keep=r'glass', nodup=r'bk_(plaster|wood|floor_tile|concrete|goods|sign|alpha)')
@@ -1070,4 +1073,5 @@ info['v1b'] = {'repair_bike': dict(RB_INFO, node='REPAIR_BIKE', defaultVisible=F
 info.update({'shop': 'bike', 'layout': 2, 'drawn_tris': drawn, 'protos': protos,
              'materials': sorted({m.name for ob in root.children_recursive if ob.type == 'MESH' for m in ob.data.materials if m})})
 L.write_json(OUT[:-4] + '.json', info)
-print('DRAWN', drawn, 'MATS', len(info['materials']))
+info['cc0'] = [list(u) for u in CK.used()]; L.write_json(OUT[:-4] + '.json', info)
+print('DRAWN', drawn, 'MATS', len(info['materials'])); print('CC0_USED', CK.used())

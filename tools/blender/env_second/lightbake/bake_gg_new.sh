@@ -97,7 +97,7 @@ yejian)
     awk -F, -v cw="$CW" -v pw="$PW" -v dw="$DW" -v wc="$WC" '{x=($1+$2)/2; z=($3+$4)/2; y=$5; w=(y>3.3)?cw:((y>1.9)?pw:dw); printf "%s%.3f,%.3f,%.3f,%s,%s,0.05", (NR>1?";":""), x, y-0.02, z, w, wc}')
   LIGHTS=""
   HIDE='glass|VIEW|bulb'
-  NOLM='^yej_wood$|books|pothos|print|_vc$|vcg|vcm|bulb|glass|VIEW'
+  NOLM="^(?!(yej_floor|yej_ceiling|WALL_[a-z]+_yej_(wall|wood))\$)"   # SHOP-CC0-HELP-1113：改成只列要烘的（CC0 材質組的家具網格、Poly Haven 模型都不烘）
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS")
   ;;
 aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat|aa_afar|aa_aoki|aa_daybreak)

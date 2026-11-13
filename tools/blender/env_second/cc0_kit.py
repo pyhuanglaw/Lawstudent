@@ -209,6 +209,19 @@ class Kit:
         try: return L.pbr(name, pid, maps=maps, res=res, **kw)
         finally: L.tex_dir = old
 
+    def vc_tex(self, name, aid, vary=0.06, tile=0.5, rough_value=0.55, metal=0.0, layer='Col', **kw):
+        """頂點色 × ambientCG 材質組（SHOP-CC0-HELP-1113，幫手 g2）：顏色照舊來自頂點色（每個零件原本的顏色），
+        乘上校成近白色的材質組顏色貼圖（紋路、明暗起伏）＋法線——一個材質就讓整群頂點色零件有 CC0 的質感，不用一色一個材質。
+        glTF：baseColorTexture＋COLOR_0（three.js 兩個相乘）。網格要有 UV（Mesh.finish(uv=True) 的盒狀 UV）。"""
+        m = self.acg(name, aid, target='#f2f2f2', vary=vary, tile=tile, rough_value=rough_value, metal=metal, **kw)
+        nt = m.node_tree; N = nt.nodes; b = N['Principled BSDF']; ln = b.inputs['Base Color'].links
+        src = ln[0].from_socket if ln else None
+        vc = N.new('ShaderNodeVertexColor'); vc.layer_name = layer
+        mx = N.new('ShaderNodeMix'); mx.data_type = 'RGBA'; mx.blend_type = 'MULTIPLY'; mx.inputs['Factor'].default_value = 1.0
+        if src is not None: nt.links.new(src, mx.inputs[6])
+        nt.links.new(vc.outputs['Color'], mx.inputs[7]); nt.links.new(mx.outputs[2], b.inputs['Base Color'])
+        m['vc_tex'] = 1; return m
+
     def printed(self, name, pid, draw, weave, size=512, amp=0.44, **kw):
         """自製圖案（沒有字）：draw(PIL.ImageDraw, size) 畫圖案，乘上 ambientCG 材質（weave）的明暗紋路"""
         _free_name(name)

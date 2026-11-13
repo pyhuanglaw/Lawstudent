@@ -32,6 +32,38 @@ sh.M.update({
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 })
 sh.M['shade'] = sh.M['bulb']   # 檯燈的燈罩＝發光材質
+# ---- SHOP-CC0-HELP-1113（D161；幫手 g2）：頂點色零件照顏色換成 ambientCG 材質組、天花板換灰泥材質組、盆栽換 Poly Haven 掃描模型（做法 SHOP_CC0_HOWTO.md）
+import cc0_kit   # noqa: E402
+CK = cc0_kit.Kit(sh.root, P[:-1]); RP = random.Random(77)   # RP：掃描盆栽的轉向（另一個亂數，原本的書、雜誌排法不變）
+sh.M.update({
+    'ceil': CK.acg(P + 'ceiling', 'Plaster001', target='#d8c4a2', vary=0.04, tile=2.0, rough_value=0.95, cull=True),
+    'paper': CK.acg(P + 'paper', 'Paper001', target='#efe8d8', vary=0.3, tile=0.3, rough_value=0.8),
+    'blackmetal': CK.acg(P + 'black_metal', 'Metal009', target='#33353a', vary=0.2, tile=0.4, metal=0.4, rough_value=0.45),
+    'steel': CK.acg(P + 'steel', 'Metal009', target='#a8aaa8', vary=0.08, tile=0.4, metal=0.6, rough_value=0.35),
+    'ceramic': CK.acg(P + 'ceramic', 'Plastic006', target='#e8e4dc', vary=0.05, tile=0.4, rough_value=0.25),
+    'ceramic_b': CK.acg(P + 'ceramic_beige', 'Plastic006', target='#d8d0c0', vary=0.05, tile=0.4, rough_value=0.3),
+    'stone': CK.acg(P + 'counter_top', 'Marble012', target='#d6c4a4', vary=0.1, tile=1.2, rough_value=0.35),
+    'darkwood': CK.acg(P + 'dark_wood', 'Wood066', target='#8a7258', tile=0.6, rough_value=0.5),
+    'fab_grey': CK.acg(P + 'fabric_grey', 'Fabric030', target='#a9a49a', tile=0.35, rough_value=0.9),
+    'canvas': CK.acg(P + 'canvas', 'Fabric030', target='#dccfb4', tile=0.25, rough_value=0.9),
+    'shade_linen': CK.acg(P + 'shade_linen', 'Fabric030', target='#e8e2d4', tile=0.25, rough_value=0.85),
+    'kraft': CK.acg(P + 'kraft', 'Cardboard004', target='#6e5a44', vary=0.12, tile=0.35, rough_value=0.8),
+    'blackplastic': CK.acg(P + 'black_plastic', 'Plastic006', target='#26282a', vary=0.03, tile=0.4, rough_value=0.4),
+})
+sh.route({'#efe8d8': 'paper', '#f4efe2': 'paper', '#efe6d2': 'paper', '#3a3c3e': 'blackmetal', '#2a2a2a': 'blackmetal', '#9a9ea2': 'steel', '#b8b0a0': 'steel',
+          '#e8e4dc': 'ceramic', '#d8d0c0': 'ceramic_b', '#d6c4a4': 'stone', '#8a7258': 'darkwood', '#a9a49a': 'fab_grey',
+          '#d9cdb2': 'canvas', '#e0d4b8': 'canvas', '#e8e2d4': 'shade_linen', '#6e5a44': 'kraft', '#2f3330': 'blackplastic', '#1c1d1e': 'blackplastic'})
+
+
+def _ph_plant(x, z, h=1.0, r=0.2, pot_col=None, y0=0.0, lvl='', seed=0):
+    """盆栽：Poly Haven 掃描（小的 potted_plant_04、大的 potted_plant_02；取代 aa_kit 的花盆＋葉片卡）。二樓的放進 L2（自訂屬性 level＝1）"""
+    big = h >= 0.7
+    o = CK.ph_put('potted_plant_02' if big else 'potted_plant_04', x, y0, z, yaw=RP.uniform(0, 6.28), share=False,
+                  height=(h + r * 0.8) if big else (r * 1.5 + h * 0.75), decimate=0.012 if big else 0.03)
+    if lvl: o.name = 'L2_' + o.name; o['level'] = 1
+
+
+sh.plant = _ph_plant
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 STEEL = '#3a3c3e'; xf0 = Xf(0, 0)
@@ -118,8 +150,8 @@ Mesh(P + 'floor', sh.M['floor'], tile=1.6).box(X0, X1, -0.02, 0.0, Z0, Z1).finis
 f2 = Mesh('L2_' + P + 'floor2', sh.M['floor'], tile=1.6); f2.box(X0, X1, Y2 - 0.02, Y2, Z0, VD['z0']); f2.box(VD['x1'], X1, Y2 - 0.02, Y2, VD['z0'], Z1); o = f2.finish(sh.root); o['level'] = 1
 c1 = Mesh(P + 'ceiling1', sh.M['ceil'])
 for (a0, a1, b0, b1) in ((X0, X1, Z0, VD['z0']), (VD['x1'], X1, VD['z0'], Z1)): c1.quad([(a0, H1, b0), (a1, H1, b0), (a1, H1, b1), (a0, H1, b1)])
-c1.finish(sh.root, uv=False)
-c2 = Mesh('L2_' + P + 'ceiling2', sh.M['ceil']); c2.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); o = c2.finish(sh.root, uv=False); o['level'] = 1
+c1.finish(sh.root, uv=True)
+c2 = Mesh('L2_' + P + 'ceiling2', sh.M['ceil']); c2.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); o = c2.finish(sh.root, uv=True); o['level'] = 1
 fas = sh.a('wall')                                                                                                     # 挑空邊的樓板厚度（飾帶）
 fas.box(VD['x0'] + 0.0, VD['x1'] + 0.12, H1, Y2 + 0.0, VD['z0'] - 0.12, VD['z0']); fas.box(VD['x1'], VD['x1'] + 0.12, H1, Y2, VD['z0'], Z1)
 for side in ('back', 'left', 'right'):
@@ -217,7 +249,7 @@ for y in (0.4, 0.8, 1.2, 1.6):
     while u < ww / 2 - 0.2:
         if y < 1.5:
             k = rng.randrange(8); uu = (0.5 + k / 16 + 0.002, 1 - 768 / 1024 + 0.002, 0.5 + (k + 1) / 16 - 0.002, 1 - 640 / 1024 - 0.002)   # 筆記本封面
-            for q in range(rng.randint(2, 5)): wxf.rbox(sh.a('vcg'), u, u + 0.16, y + q * 0.015, y + 0.013 + q * 0.015, 0.03, 0.25, r=0.002, seg=1, col='#efe8d8')
+            for q in range(rng.randint(2, 5)): wxf.rbox(sh.a('vcg'), u, u + 0.16, y + q * 0.015, y + 0.013 + q * 0.015, 0.03, 0.25, r=0.0, seg=1, col='#efe8d8')   # CC0：紙材質組；不倒角（1.3 cm 厚看不出來，少 7 千面）
             sh.img_quad(sh.a('print'), wxf, u + 0.08, y + 0.075, 0.25, 0.16, 0.0001, uu)
             u += 0.2
         else:
@@ -350,7 +382,9 @@ exec(open(os.path.join(HERE, 'shanlan_v2_fill.py'), encoding='utf-8').read())   
 sh.tally('v2 fill')
 exec(open(os.path.join(HERE, 'shanlan_v3_fill.py'), encoding='utf-8').read())   # v3：樓梯實木側板、天花板格樑＋嵌燈
 exec(open(os.path.join(HERE, 'shanlan_v4_fill.py'), encoding='utf-8').read())   # v4：樓梯側板的嵌入式書架、樓梯旁西牆的書牆（§12 對參考圖）；木色 #c8955a → #c99f6e（LAWWW2 ref_match：太橘）
-info = sh.finish(OUT, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats']), 'floorSit': len(LAY['floorSit'])})
+CK.drop_protos()
+info = sh.finish(OUT, keep=lambda ob: 'S_ph_' in ob.name, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats']), 'floorSit': len(LAY['floorSit']), 'cc0': [list(u) for u in CK.used()]})
+print('CC0_USED', CK.used())
 # 每層樓的三角形（L2_ 開頭＝二樓；WALL_ 是兩層共用的牆）
 import json as _j
 lv_tris = {'L1': 0, 'L2': 0, 'walls': 0}

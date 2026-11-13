@@ -77,6 +77,12 @@ M = {
     'goods': img_mat(P + 'goods', 'corner_goods.png', rough=0.62),
     'sign': img_mat(P + 'sign', 'corner_sign.png', rough=0.7),
 }
+# ---- SHOP-CC0-HELP-1113（D161；幫手 g2）：頂點色零件（音響、唱盤、沙發、櫃子…）改成「頂點色 × ambientCG 材質組」——每個零件原本的顏色照舊，
+#      加上 CC0 的紋路、法線（霧面＝Fabric030 布紋／皮面看起來比較像布、木作；金屬＝Metal009）（做法 SHOP_CC0_HOWTO.md）
+sys.path.insert(0, os.path.dirname(HERE)); import cc0_kit   # noqa: E402,E401
+CK = cc0_kit.Kit(root, P[:-1])
+M['vc'] = CK.vc_tex(P + 'vc', 'Plastic006', vary=0.05, tile=0.35, rough_value=0.6)
+M['vcm'] = CK.vc_tex(P + 'vc_metal', 'Metal009', vary=0.12, tile=0.3, rough_value=0.38, metal=0.4)
 G3 = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))   # 遊戲 → Blender 的旋轉
 
 
@@ -157,7 +163,7 @@ class Part:
         obs = []
         for key, m in self.m.items():
             if isinstance(m, UM): ob = m.finish(root)
-            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=False)
+            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=bool(M[key].get('vc_tex')))   # 頂點色 × 材質組：要盒狀 UV
             else: ob = m.finish(root, uv=True)
             if ob is None: continue
             if self.T is not None: ob.matrix_basis = self.T
@@ -507,6 +513,8 @@ pst.done()
 
 def leafy(name, x, y, z, cells, n=14, rad=0.35, hgt=(0.5, 1.2), size=(0.12, 0.16), pot=None, potcol='#e8e3d6', side=None, droop=0.5, seed=1):
     """盆栽：盆子（旋轉體）＋一根一根的莖（管子）＋葉片卡（兩面）"""
+    if name == 'big_plant':   # SHOP-CC0-HELP-1113：右前的大盆栽（白盆）換 Poly Haven potted_plant_02（掃描）
+        CK.ph_put('potted_plant_02', x, y, z, yaw=1.1, share=False, height=hgt[1] + (pot[1] if pot else 0.0), decimate=0.03); return
     p = Part(name, side=side); c = p['vc']; u = p['alpha']; rr = random.Random(seed)
     if pot:
         pr, ph = pot; clathe(c, [(0.0, 0.0), (pr * 0.78, 0.0), (pr, ph * 0.92), (pr * 1.04, ph), (pr * 0.96, ph), (0.0, ph * 0.9)], x, y, z, potcol, seg=18)
@@ -901,7 +909,8 @@ pfs.done()
 # ======================================================================
 for ob in list(root.children):
     if ob.type == 'MESH' and len(ob.data.polygons) == 0: bpy.data.objects.remove(ob)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: 'CEIL' if ob.name.startswith('CEIL_') else (('WALL_' + ob.name.split('_')[1] + ('_TOP' if '_TOP_' in ob.name else '')) if ob.name.startswith('WALL_') else ''))
+CK.drop_protos()
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith('S_ph_'), key=lambda ob: 'CEIL' if ob.name.startswith('CEIL_') else (('WALL_' + ob.name.split('_')[1] + ('_TOP' if '_TOP_' in ob.name else '')) if ob.name.startswith('WALL_') else ''))
 for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
     if ob.type == 'MESH' and '_TOP_' in ob.name: ob['ceilHide'] = 1
@@ -945,4 +954,4 @@ n_lp = sum(int(k.split('_')[0][7:]) * p.n for k, p in ((p.name, p) for p in STAC
 info.update({'shop': 'corner', 'layout': 1, 'drawn_tris': drawn, 'protos': protos, 'records_in_bins': n_lp, 'single_side': ss,
              'materials': sorted({m.name for ob in root.children_recursive if ob.type == 'MESH' for m in ob.data.materials if m})})
 L.write_json(OUT[:-4] + '.json', info)
-print('DRAWN', drawn, 'MATS', len(info['materials']), 'BYTES', info['bytes'])
+print('DRAWN', drawn, 'MATS', len(info['materials']), 'BYTES', info['bytes']); print('CC0_USED', CK.used())

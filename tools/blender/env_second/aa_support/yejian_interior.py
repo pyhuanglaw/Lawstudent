@@ -42,9 +42,9 @@ sh.M.update({
     'rug': CK.acg(P + 'rug', 'Fabric030', target='#cbbca2', tile=0.25, rough_value=0.95),
     'brass': CK.acg(P + 'brass', 'Metal009', target='#b8944a', vary=0.2, tile=0.3, metal=0.7, rough_value=0.35),
     'blackmetal': CK.acg(P + 'black_metal', 'Metal009', target='#2a2a2a', vary=0.2, tile=0.4, metal=0.4, rough_value=0.45),
-    'steel': CK.acg(P + 'steel', 'Metal009', target='#cfccc4', vary=0.3, tile=0.4, metal=0.5, rough_value=0.4),
+    'steel': CK.acg(P + 'steel', 'Metal009', target='#cfccc4', vary=0.08, tile=0.4, metal=0.6, rough_value=0.4),
     'signboard': CK.acg(P + 'sign_board', 'Plastic006', target='#2f3a33', vary=0.03, tile=0.4, rough_value=0.55),
-    'stone': CK.acg(P + 'stone_top', 'Marble012', target='#e8e2d6', vary=0.35, tile=1.2, rough_value=0.3),
+    'stone': CK.acg(P + 'stone_top', 'Marble012', target='#e8e2d6', vary=0.1, tile=1.2, rough_value=0.3),
     'ceramic': CK.acg(P + 'ceramic', 'Plastic006', target='#f2efe8', vary=0.05, tile=0.4, rough_value=0.2),
     'ceramic_b': CK.acg(P + 'ceramic_beige', 'Plastic006', target='#e8dcc0', vary=0.05, tile=0.4, rough_value=0.25),
 })
