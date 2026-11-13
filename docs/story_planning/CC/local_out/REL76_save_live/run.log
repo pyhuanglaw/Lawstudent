@@ -1,0 +1,39 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\REL76_save_live\docs\story_planning\test_tools\cc\cc_test_patch_wrap.py http://127.0.0.1:8803/index.html http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\REL76_save_live\out
+CC 包裝：tests\save_compat_v95.py，PATCH=live（2 處），參數 ['http://127.0.0.1:8803/index.html', 'http://127.0.0.1:8802/index.html', 'C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_save_live\\out']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS v9.5 載入
+FAIL 這是 v9.5（標題畫面的版本字樣）  物與故事皆為虛構。
+    版本 v9.10.25（2026-11-11）
+  
+PASS FAIL_SETUP 檢查：舊版用 ?start0&turbo 開局，stage 不是 econ（舊序章年）  stage='law'
+PASS v9.5 開新遊戲、點完開場、寫出自動存檔  對話 52 句、選項 2 個；{"v": 2, "name": "舊版玩家", "day": 1, "hour": 21.214, "zone": "dorm", "money": 22000}
+FAIL v9.5 的存檔沒有新版的欄位（courses、invites、msgs、acts）  bike,cg,choices,contacts,courses,daily,dateLog,dateMemory,day,energy,events,fav,fest,flags,goal,goalDest,groupTrips,guitar,habits,home,hour,invites,jobs,legal,loans,memo,mokuyobi,money,msgChat,msgs,name,needed,notes,offbeat,outings,phone,pool,pos,records,rel,savedAt,side,social,stage,stats,trips,v,vac,visited,weather,weekday,zone
+FAIL v9.5 舊湖邊（-30,-53.5）是 v9.5 走得到的地方  {"x": -33.75, "z": -49.25, "yaw": 3.14, "lv": 0, "y": 0}
+PASS v9.5 做出四個存檔（v9.5 自己寫的格式）  slot1: 第 3 天 campus, slot2: 第 9 天 gongguan, slot3: 第 23 天 cafe, lake: 第 5 天 campus
+PASS v9.5 沒有 JS 例外  []
+PASS 新版載入
+PASS 標題畫面停 8 秒：v9.5 的自動存檔沒有被改寫
+PASS 按「繼續（自動存檔）」：名字、天數、時間、地點、金錢、旗標、舊版關係和 v9.5 存檔一樣、站得住  {"name": "舊版玩家", "day": 1, "hour": 21.22, "zone": "dorm", "money": 22000, "v": 2}
+PASS 欄位 1：標題「讀取」選單裡有 v9.5 的存檔（第 3 天）
+FAIL 欄位 1（第 3 天 campus）：讀得進來、各欄位一樣、站得住  {"day": 3, "hour": 10.5, "zone": "campus", "money": 19300} stand=True
+PASS 欄位 1：課表紀錄是新的（之前的天數沒有補成上過、沒有成績、沒有選課）  {"done": 0, "attend": {}, "grades": [], "el": {}}
+FAIL 欄位 1：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 19  sync=True fam=12
+FAIL 欄位 1：手機「課表」是大一上第 3 週  傳訊息給（點名字打開對話）沈以安可昕阿哲阿凱群法律系直屬家族Kevin：第三週了，家族的學弟妹還活著嗎？要考古題的舉手9/171待回覆可昕晚安。不要讀到太晚。9
+PASS 欄位 1：手機「今天」照日曆列課（週五）  9/19 週五・大一上 第 3 週現在 10:31今天的時間　上午 ○　下午 ○　晚上 ○每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。開學待辦（還有 4 項，不做也沒關係）☐ 買民總、刑總、憲法的教
+PASS 欄位 2：標題「讀取」選單裡有 v9.5 的存檔（第 9 天）
+FAIL 欄位 2（第 9 天 gongguan）：讀得進來、各欄位一樣、站得住  {"day": 9, "hour": 12.4, "zone": "gongguan", "money": 16850} stand=True
+PASS 欄位 2：課表紀錄是新的（之前的天數沒有補成上過、沒有成績、沒有選課）  {"done": 0, "attend": {}, "grades": [], "el": {}}
+FAIL 欄位 2：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 24  sync=True fam=12
+FAIL 欄位 2：手機「課表」是大一上第 4 週
+FAIL 欄位 2：手機「今天」照日曆列課（週四）  傳訊息給（點名字打開對話）沈以安可昕阿哲阿凱通通知（群組）阿哲：吳教授今天一個「行為」講了一整個早上。你沒錯過什麼，也錯過了全部。昨天1可昕週末來外校大學？我當導遊。9/197群法律系直屬家族Kevin：第三週了，家族的學弟妹還活著嗎？要考古題的舉手9/171待回覆群法律系（全班）你被加進「法律系（全班）」。9/171
+PASS 欄位 3：標題「讀取」選單裡有 v9.5 的存檔（第 23 天）
+PASS 欄位 3（第 23 天 cafe）：讀得進來、各欄位一樣、站得住  {"day": 23, "hour": 20.2, "zone": "cafe", "money": 9400} stand=True
+PASS 欄位 3：課表紀錄是新的（之前的天數沒有補成上過、沒有成績、沒有選課）  {"done": 0, "attend": {}, "grades": [], "el": {}}
+FAIL 欄位 3：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 28  sync=True fam=12
+FAIL 欄位 3：手機「課表」是大一上第 6 週
+FAIL 欄位 3：手機「今天」照日曆列課（週四）  傳訊息給（點名字打開對話）沈以安可昕阿哲阿凱群家人媽媽：這次連假 回來住幾天20:131待回覆通通知（群組）阿哲：周教授今天點到你的座位。我說你去洗手間。15:192阿哲中秋烤肉，河濱，七點。飲料自己帶。10/11可昕週末來外校大學？我當導遊。9/19群法律系直屬家族Kevin：第三週了，家族的學弟妹還活著嗎？要考古題
+PASS 方案 A：v9.5 在舊湖邊的存檔（新版是普通教學館裡面）讀得進來、移到旁邊站得住的地方（15 m 內）、走得到普通的門口  r=ok 位置 (-33.75,-49.25)、移了 5.7 m、walk=True
+PASS 新版存檔：有 courses、v 是新版、v9.5 的欄位都還在
+PASS 重新整理 → 繼續：讀回新版存檔（第 23 天 Café）  {"day": 23, "zone": "cafe", "hour": 20.22}
+PASS 新版沒有 JS 例外  []
+FAILED: 這是 v9.5（標題畫面的版本字樣）, v9.5 的存檔沒有新版的欄位（courses、invites、msgs、acts）, v9.5 舊湖邊（-30,-53.5）是 v9.5 走得到的地方, 欄位 1（第 3 天 campus）：讀得進來、各欄位一樣、站得住, 欄位 1：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 19, 欄位 1：手機「課表」是大一上第 3 週, 欄位 2（第 9 天 gongguan）：讀得進來、各欄位一樣、站得住, 欄位 2：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 24, 欄位 2：手機「課表」是大一上第 4 週, 欄位 2：手機「今天」照日曆列課（週四）, 欄位 3：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 28, 欄位 3：手機「課表」是大一上第 6 週, 欄位 3：手機「今天」照日曆列課（週四）
