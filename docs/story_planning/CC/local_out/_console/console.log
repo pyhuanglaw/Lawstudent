@@ -1,20 +1,3 @@
-[22:25:51] skip MT4_nofb_r5 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:51] skip SHIFT_IMM_r7_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:51] skip SHIFT_IMM_r7_old (already done on 8a98ff1e06c06cfb52be41dc3402ba05305945a6)
-[22:25:51] skip SHIFT_IMM_r8_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:51] skip SHIFT_IMM_r8_old (already done on 8a98ff1e06c06cfb52be41dc3402ba05305945a6)
-[22:25:51] skip TZ3_signs (already done on 24b4c2fb483a623fb42e6c0d03040548254a3237)
-[22:25:51] skip TZ3_signs_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:51] skip TZQ_ggnav (already done on 5e6f4990ce37fb9b1809d056eaa64c8024476948)
-[22:25:51] skip TZQ_zone (already done on 5e6f4990ce37fb9b1809d056eaa64c8024476948)
-[22:25:51] skip TZQ_reach (already done on 5e6f4990ce37fb9b1809d056eaa64c8024476948)
-[22:25:51] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[22:25:51] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[22:25:51] skip ARCAFTER_base_b (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:51] skip SHIFT_IMM_r6_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:51] skip SHIFT_IMM_r6_old (already done on 8a98ff1e06c06cfb52be41dc3402ba05305945a6)
-[22:25:51] skip LIVE_V91024_deploy (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:51] skip LIVE_V91024_p0 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
 [22:25:51] skip GG16_new (already done on 6ecd2843280421aa066bec20f2503a0d303742c9)
 [22:25:51] skip GG16_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
 [22:25:51] skip GG16r4_new (already done on 9c769623a07c9b13b9345771e856b55beceb2e16)
@@ -1998,3 +1981,20 @@
        b323b889a7..be4c4782bf  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [05:44:14] ==== END   REL76_save_live_r2  exit=1  409s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       be4c4782bf..b28a623d83  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:44:21] ==== END   REL76_save_v95_r3  exit=1  299s   ====
+[05:44:34] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[05:44:34] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[05:44:34] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[05:44:34] memory 39% before starting REL76_save_live_ctl_r2 (2 running)
+[05:44:34] ==== START REL76_save_live_ctl_r2  (game @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[05:44:37] [res] cpu=3% mem=39% (12.5/31.4 GB) chrome_testing=4  START REL76_save_live_ctl_r2
+[05:44:37] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[05:44:37] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[05:44:37] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[05:44:37] memory 39% before starting CANON458_INV_LIB_r2 (2 running)
+[05:44:37] ==== START CANON458_INV_LIB_r2  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[05:44:40] [res] cpu=0% mem=41% (12.5/31.4 GB) chrome_testing=4  START CANON458_INV_LIB_r2
+[05:46:11] [res] cpu=16% mem=45% (14.1/31.4 GB) chrome_testing=9  END CANON458_AN_BEAT8_r5
