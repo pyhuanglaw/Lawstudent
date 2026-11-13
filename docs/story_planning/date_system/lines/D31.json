@@ -48,6 +48,12 @@
    "D31.pier": "like",
    "D31.ropeway": "like",
    "D31.egg": "normal"
+  },
+  "classmate_xinci": {
+   "D31.trail": "normal",
+   "D31.pier": "normal",
+   "D31.ropeway": "normal",
+   "D31.egg": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3308,6 +3315,370 @@
         {
          "who": "kexin",
          "text": "（她把剝好的蛋整顆給你）這顆我剝得最漂亮。給你。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "日月潭。湖好大，看不到對岸。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "湖上的霧比上次濃。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "遊湖船的人好多。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這次我們不趕。慢慢繞湖。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "湖邊的天黑了，對岸的燈亮了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "茶葉蛋吃了三顆。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "回程的客運，山路很彎。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（客運上，她看著你）山路好彎。你不准睡，陪我講話。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D31.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "湖邊步道走起來很舒服。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "一邊是湖，一邊是樹。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「走到下一個碼頭？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我們不坐船，用走的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「湖有多大？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "繞一圈要一整天。我們只走一段。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "步道上的人在慢跑。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "湖面的光一閃一閃。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她把手伸進你的手裡）走慢一點。"
+        }
+       ]
+      }
+     ]
+    },
+    "D31.pier": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "碼頭的遊湖船，每一班都滿。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐一班看看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我們坐船頭。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「等下一班？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好，下一班比較空。我們先吃東西。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "風把我的頭髮吹亂了。不要拍。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "遊湖船靠岸的時候會晃一下。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（遊湖船上，她靠著你看湖）湖中間好安靜。"
+        }
+       ]
+      }
+     ]
+    },
+    "D31.ropeway": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的纜車，可以看到整個湖。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐上去？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我看湖，不看腳下。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「纜車要多久？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "十分鐘左右。我看過時刻表。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "纜車排隊的人比上次少。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "從纜車上看下去，湖像一塊綠色的玉。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（纜車上，她握住你的手）湖好小。剛剛明明那麼大。"
+        }
+       ]
+      }
+     ]
+    },
+    "D31.egg": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "湖邊的茶葉蛋，說是全台灣最有名的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「買幾顆？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "兩顆。一顆你的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「最有名的？妳信嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "排隊的人很多。我信排隊的人。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "茶葉蛋的攤子前面還是在排隊。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "蛋殼剝下來，裡面有花紋。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這顆的紋路最漂亮。給你。"
         }
        ]
       }

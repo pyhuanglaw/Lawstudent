@@ -48,6 +48,12 @@
    "D08.penguin": "normal",
    "D08.giraffe": "like",
    "D08.train": "like"
+  },
+  "classmate_xinci": {
+   "D08.panda": "normal",
+   "D08.penguin": "normal",
+   "D08.giraffe": "normal",
+   "D08.train": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3310,6 +3317,366 @@
         {
          "who": "kexin",
          "text": "（她靠在你肩膀上）不要講話。我在看外面。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "動物園。上次來是國小，下雨，只看到兩隻動物。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "捷運坐到底就到了。比我想的近。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "入口的地圖換新的了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了水和防曬。你的那一份也帶了。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "腿好痠。可是動物看起來都過得不錯。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "最後一班遊園列車開走了。我們用走的。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "門口的紀念品店，我每次都只看不買。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她把門票夾進筆記本）這張我要留著。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "貓熊在睡覺。說明牌說牠一天睡十個小時。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「比我們大學生還多。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "比我多四個小時。我有點羨慕。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「等牠醒？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我不急。牠醒來第一個看到的是我們。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "牠睡覺的樣子，跟我週末一樣。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "排隊的人比貓熊多。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她把手機調成靜音）牠在睡覺。我們小聲一點。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "企鵝走路的樣子，像在趕一個很重要的會。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳很喜歡企鵝？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "喜歡。牠們排隊排得很整齊。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們多看一下。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我想看那隻最小的走到水邊。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "那隻最小的長大了一點。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "企鵝館的冷氣好強。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "那兩隻一直走在一起。我注意很久了。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "長頸鹿比我想的高。脖子那麼長，喝水要張開腳。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好辛苦。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "每一種動物都有自己辛苦的地方。牠的比較看得到。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「妳看得好仔細。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我看東西都這樣。很少有人注意到。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "長頸鹿在吃樹葉。吃得很慢。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "旁邊的斑馬一直在看我們。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們跟長頸鹿拍一張。牠剛好轉過來。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "遊園列車要排好久。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那用走的。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。走路比較看得到東西。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「坐一次看看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我算過，排隊二十分鐘，坐五分鐘。你說值得就值得。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "列車還是排好長。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們走路比列車先到。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "你想坐的話，我陪你排。我帶了書。"
         }
        ]
       }

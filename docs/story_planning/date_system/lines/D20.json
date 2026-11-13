@@ -48,6 +48,12 @@
    "D20.bridge": "normal",
    "D20.trolley": "like",
    "D20.falls": "like"
+  },
+  "classmate_xinci": {
+   "D20.street": "normal",
+   "D20.bridge": "normal",
+   "D20.trolley": "normal",
+   "D20.falls": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3310,6 +3317,382 @@
         {
          "who": "kexin",
          "text": "（她靠著你，講了一句話，被水聲蓋過去）沒聽到就算了。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "烏來。出了捷運還要坐公車。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我把公車時刻表抄在筆記本上了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "南勢溪的水比上次多。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "老街的店有幾家換了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了兩條毛巾。萬一我們想泡腳。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回程的公車很擠。我們站在一起。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的霧下來了。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "腳好痠，可是值得。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（公車上，她拉著你的袖口站穩）到站叫我。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D20.street": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "烏來老街的山豬肉香腸，每一攤都說自己最好吃。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「哪一攤最好吃？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我不知道。我們買兩攤比較。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「一人一根？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你吃辣的，我吃不辣的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "老街的人比上次少。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "那攤的老闆記得我們。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我買了一根。我們一人一半。"
+        }
+       ]
+      }
+     ]
+    },
+    "D20.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "覽勝大橋下面就是南勢溪。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "水好清，看得到石頭。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳怕高嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "有一點。可是這座橋很穩，我看過它的結構。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們在橋上看溪。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。看到有人在溪裡划船。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "溪水比較急。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "橋上的風很涼。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她靠著橋的欄杆，手放在你的手旁邊）這裡的風是涼的。"
+        }
+       ]
+      }
+     ]
+    },
+    "D20.trolley": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "烏來台車以前是載木頭的。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "現在載人。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐一趟？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我想坐最前面那一節。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳怎麼知道？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "車站的牌子寫的。我看了兩遍。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "台車比上次晃。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "坐最前面，風很大。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這次我們坐最後一節。看你在前面的背影。"
+        }
+       ]
+      }
+     ]
+    },
+    "D20.falls": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "烏來瀑布從這裡看很小。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "近一點應該比較大。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「走近一點看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。可是我的鞋子不能濕。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「站在這裡就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。這個距離剛好。聲音聽得到，水噴不到。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "瀑布的水比較少。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人在瀑布下面拍照。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站在你旁邊，看著瀑布）我們再站一下。"
         }
        ]
       }

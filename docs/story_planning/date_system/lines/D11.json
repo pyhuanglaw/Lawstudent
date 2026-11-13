@@ -48,6 +48,12 @@
    "D11.valley": "like",
    "D11.library": "normal",
    "D11.footbath": "like"
+  },
+  "classmate_xinci": {
+   "D11.museum": "like",
+   "D11.valley": "normal",
+   "D11.library": "like",
+   "D11.footbath": "normal"
   }
  },
  "dislikeLine": {
@@ -61,7 +67,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3313,6 +3320,366 @@
         {
          "who": "kexin",
          "text": "（她把頭靠在你肩上）五分鐘，時間到叫我。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "北投我小時候跟我爸媽來泡過一次。只記得水很燙。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "新北投支線的車廂好短。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "路上的觀光客比上次多。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了毛巾。泡腳池那邊用得到。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "腳底還熱熱的。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "回去的車上，我想睡覺。溫泉的關係。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "圖書館閉館了。我們剛好看完。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她把濕的毛巾折好，放進你的包包）幫我拿。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D11.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "溫泉博物館以前是公共浴場。大家在這裡洗澡。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳想像得出來？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "想像得出來。很吵，很熱，大家都在講話。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "（跟她一起看牆上的老照片）",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "這張的人都在笑。我們也拍一張。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "二樓的榻榻米房間，要脫鞋。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這裡的木頭地板走起來會響。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們在榻榻米上坐一下。我腳好痠。"
+        }
+       ]
+      }
+     ]
+    },
+    "D11.valley": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "地熱谷的水在冒煙。說明牌說九十度。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好燙。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "九十度，煮一顆蛋要十二分鐘。我算的，沒有試。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「靠近一點看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你走前面，我拉著你的衣角。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "煙比上次大。天氣比較冷。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "硫磺的味道會跟著我們一整天。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站在煙的另一邊，隔著白煙看你）你看起來在雲裡。"
+        }
+       ]
+      }
+     ]
+    },
+    "D11.library": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "北投圖書館是木頭蓋的。這是我最想來的地方。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「為什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "它不用冷氣也很涼。我會想算它一年省多少電費。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們在這裡讀一下書？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好，我帶了筆記。你坐我對面。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "靠窗的位子坐滿了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這裡的書架是木頭的，聞起來很舒服。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們坐同一張桌子。你看你的，我看我的。"
+        }
+       ]
+      }
+     ]
+    },
+    "D11.footbath": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "泡腳池的水很燙。我先放一隻腳。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「一起放？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。數到三。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「慢慢來。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我每一件事都慢慢來。泡腳也是。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "泡腳池的人比上次多，我們擠一下。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "水比上次溫。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她的腳在水裡碰了一下你的腳）燙。"
         }
        ]
       }

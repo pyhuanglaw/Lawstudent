@@ -48,6 +48,12 @@
    "D17.mushroom": "normal",
    "D17.platform": "like",
    "D17.trail": "normal"
+  },
+  "classmate_xinci": {
+   "D17.queen": "normal",
+   "D17.mushroom": "normal",
+   "D17.platform": "normal",
+   "D17.trail": "normal"
   }
  },
  "dislikeLine": {
@@ -61,7 +67,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3300,6 +3307,370 @@
         {
          "who": "kexin",
          "text": "（她牽著你的手）走到盡頭再回頭。中間不喊累，我也不喊。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "野柳。石頭都長得好奇特。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我在照片看過，沒有想過真的那麼大。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "風一樣大。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "遊客比上次多了一倍。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了帽子。這次不會曬傷。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回去以前，我想再看一眼海。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "腿好痠。石頭路走起來很累。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "鞋子裡有沙。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她把帽子戴到你頭上）你比較需要。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "女王頭前面排好長的隊。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「看側面就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。側面也看得清楚。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「排一下吧？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。排隊的時候，我可以算一下隊伍多長。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "隊伍還是好長。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人說女王頭的脖子變細了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們看側面。拍一張剪影就好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "蕈狀岩的形狀像一朵一朵的香菇。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳覺得像什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "像沒有人收的紙杯。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們找最大那一顆。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你往左，我往右。找到了喊。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這一顆比上次看起來矮。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人爬到石頭上面。不可以。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站在一顆岩石旁邊）這顆跟我一樣高。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海蝕平台上都是小洞。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「洞裡有東西嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "有小螃蟹。我看到兩隻。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「小心滑。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。你走前面，我看你踩哪裡。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "海水漲上來了一點。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "平台上的水窪映著天空。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她牽著你的手跨過一個水窪）這個比較大。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海邊步道的風好大。我抓著帽子。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我幫妳抓。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你抓帽子，我抓你。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「走到頂端嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "走到頂端。可以看到整個岬角。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "步道的木樁換新了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "從上面看，石頭像一群在排隊的人。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "走到步道最上面，看一下海就走。"
         }
        ]
       }

@@ -40,6 +40,11 @@
    "D33.lobby": "like",
    "D33.food": "like",
    "D33.bridge": "normal"
+  },
+  "classmate_xinci": {
+   "D33.lobby": "normal",
+   "D33.food": "normal",
+   "D33.bridge": "normal"
   }
  },
  "dislikeLine": {
@@ -51,7 +56,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -2074,6 +2080,306 @@
         {
          "who": "kexin",
          "text": "不要走太快，我穿這雙鞋。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "信義區的影城。這裡的螢幕最大。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "新片我都想在這裡看。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "影城比上次擠。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "售票機前面在排隊。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "票我先買好了。中間的位子。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "散場以後，信義區的燈好亮。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "捷運站好擠。我們等下一班。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "爆米花吃不完，我帶回去。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（天橋上，她挽著你的手）我們走到下一站再坐捷運。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D33.lobby": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "散場的大廳，大家都在講剛剛的片。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳覺得怎麼樣？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "結局我不喜歡。可是我會再看一次。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們找個地方坐下來講？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你先講，我想聽你怎麼看。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "大廳的人比上次少。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "下一場的人在排隊進場。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站在你旁邊，等其他人先走）我們最後一個走。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.food": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "百貨公司的美食街，每一攤都好貴。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們吃什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "拉麵。最不會錯。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「一人點一樣，分著吃？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我選你沒點過的那一家。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "美食街比上次擠。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這家拉麵換了湯頭。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "你點你的，我點我的，再交換一半。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "信義區的天橋好長。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "可以從這一棟走到那一棟。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們走天橋去捷運站？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。天橋比較安靜。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「天橋下面是什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "車子。很多車子。我在算一分鐘過幾台。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "天橋上有人在拍夜景。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "天橋的燈比上次亮。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她停在天橋中間，看著下面的車流）我們在這裡站一下。"
         }
        ]
       }

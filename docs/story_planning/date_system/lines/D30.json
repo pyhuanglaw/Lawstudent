@@ -48,6 +48,12 @@
    "D30.bike": "like",
    "D30.stars": "like",
    "D30.stall": "normal"
+  },
+  "classmate_xinci": {
+   "D30.pebble": "normal",
+   "D30.bike": "normal",
+   "D30.stars": "normal",
+   "D30.stall": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3308,6 +3315,378 @@
         {
          "who": "kexin",
          "text": "（她把比較大的那一半給你）你騎比較多。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "花蓮的海，顏色好深。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "跟北部的海不一樣。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海邊的風比上次冷。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "石頭被浪磨得很圓。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了外套。晚上看星星會冷。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回去的火車要坐好久。我帶了一本書。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "鞋子裡都是小石頭。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "天黑了，海的聲音變大了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（火車上，她把書闔起來，看著你）我不想看書了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D30.pebble": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "礫石海灘的浪好大。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "石頭被浪打過去又打回來，一直在響。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「撿一顆石頭帶回去？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好，最圓的那一顆。我要放在書桌上。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「靠近一點看浪？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。可是浪打過來的時候，我們要往後退。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "浪比上次小。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人在海邊疊石頭。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她撿了一顆石頭，放進你的手心）這顆給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D30.bike": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我上次騎腳踏車，是國中。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我騎慢一點，妳跟著我。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你不要回頭看我，我會緊張。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「那我們用走的？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。走路可以看海，騎車只能看路。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "自行車道上的人比上次少。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "海風一直從側面吹過來。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她騎在你後面，叫了你的名字）{name}，等我一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D30.stars": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這裡的星星好多。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "台北看不到這麼多。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳認得幾個星座？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "一個。北斗七星。其他的我都叫不出名字。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們躺下來看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。……地上有點冰。你先躺，我再躺。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "雲遮住了一半的天。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "流星。剛剛那個是流星。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她躺在你旁邊，指著天空）那顆最亮的，是我們的。"
+        }
+       ]
+      }
+     ]
+    },
+    "D30.stall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海邊的小攤在賣烤玉米。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「一人一支？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我要不辣的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「多少錢？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "一支八十。比台北貴一點，可是看得到海。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "小攤的阿姨沒來。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "烤玉米的味道飄得好遠。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們分一支。你吃一半，我吃一半。"
         }
        ]
       }

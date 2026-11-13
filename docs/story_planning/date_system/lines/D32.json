@@ -48,6 +48,12 @@
    "D32.trail": "normal",
    "D32.cloud": "like",
    "D32.stall": "like"
+  },
+  "classmate_xinci": {
+   "D32.meadow": "normal",
+   "D32.trail": "normal",
+   "D32.cloud": "normal",
+   "D32.stall": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3310,6 +3317,382 @@
         {
          "who": "kexin",
          "text": "（她把熱湯推到你面前）你先喝，你比較冷。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "清境。好冷。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我帶的外套太薄了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的霧比上次濃。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "草原上的羊比上次多。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這次我帶了厚外套。也幫你帶了一件。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "下山的路好彎。我閉一下眼睛。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的太陽下得好快。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "臉被風吹得好乾。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（下山的車上，她看著窗外的霧）天晴的時候，我想再來一次。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D32.meadow": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "大草原好大。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "羊在吃草，牠們都不看我們。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們坐在草地上？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。草有點濕。我帶了塑膠袋墊。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「靠近羊看看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你走前面。牠們看起來比較怕我。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "草原上的霧散了一半。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "羊群比上次靠近步道。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她坐在草地上，把你拉到旁邊）坐這裡。看得到整片。"
+        }
+       ]
+      }
+     ]
+    },
+    "D32.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "高山步道坡很大。我走一半就會喘。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我們走一半。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。走到那個轉彎就好。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「慢慢走到頂？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你等我，不要先上去。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "步道的霧比上次濃，看不清楚前面。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "步道上的石頭很滑。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她走到一半，喘著氣，伸手給你）拉我上去。"
+        }
+       ]
+      }
+     ]
+    },
+    "D32.cloud": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "觀景台看雲海。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "我們比雲還高。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好像站在天上。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "嗯。在雲的上面，而且不是在飛機上。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「雲海會散嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "太陽出來就散了。我們要趁現在看。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "雲海比上次厚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "太陽出來了，雲開始散。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站在你旁邊，看著雲海）這個畫面，我想記住。"
+        }
+       ]
+      }
+     ]
+    },
+    "D32.stall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的小攤在賣熱湯。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "好香。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「喝一碗？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我手好冰。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「山上的東西比較貴？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "貴一點。可是熱的東西在山上，值得。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "熱湯的攤子收了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "小攤多了一種烤香腸。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們喝同一碗。湯很燙，你先喝。"
         }
        ]
       }

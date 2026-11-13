@@ -48,6 +48,12 @@
    "D25.cafe": "normal",
    "D25.surf": "normal",
    "D25.station": "like"
+  },
+  "classmate_xinci": {
+   "D25.shore": "normal",
+   "D25.cafe": "like",
+   "D25.surf": "normal",
+   "D25.station": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3132,6 +3139,374 @@
         {
          "who": "kexin",
          "text": "（她坐在月台的長椅上，靠著你）車來了你再動。我腳很痠。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "外澳。火車到了，海就在對面。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我沒有想過可以這麼近。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "月台上的人比上次多。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海的顏色比上次深。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了一本書。我們在咖啡館坐一個下午。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回程的火車，我想坐靠海那邊。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "腳上都是沙。上火車前要拍乾淨。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "太陽下去以後，海變黑了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（火車上，她把你那邊的窗簾拉開）你也要看海。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D25.shore": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "浪好大。我站後面一點。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我陪妳站這裡。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。這裡也聽得到浪。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「靠近一點，看浪打上來？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。只到浪打不到的地方。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "浪比上次小。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "沙灘上有人在堆沙堡。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她牽著你的手，往前走了兩步）就到這裡。"
+        }
+       ]
+      }
+     ]
+    },
+    "D25.cafe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海邊的咖啡館，窗戶整片都是海。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐窗邊？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我等很久了，終於有位子。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳要點什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "熱拿鐵。最不會錯。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "窗邊的位子空著。運氣好。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "咖啡比上次涼得快。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這次我先到，窗邊的位子我坐好了。"
+        }
+       ]
+      }
+     ]
+    },
+    "D25.surf": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "堤防上看衝浪的人。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "他們一直摔下來，又一直爬上去。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳想試試看嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "不想。我只想看。看別人很努力，我也會努力。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「那個人好厲害。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "嗯。他每次摔下來都在笑。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "衝浪的人比上次少。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有一個小孩站上去了。大家都在鼓掌。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她坐在堤防上，靠著你看海）我們看到那個人站起來。"
+        }
+       ]
+      }
+     ]
+    },
+    "D25.station": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "外澳車站很小。月台外面就是海。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「等火車的時候看海？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。這個車站，等車不會無聊。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「下一班車幾點？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "十七分。我看過時刻表了。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "月台上有一隻貓在睡覺。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "火車要進站了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站在月台上，看著你）下一班再走。"
         }
        ]
       }

@@ -48,6 +48,12 @@
    "D19.houses": "normal",
    "D19.shrine": "normal",
    "D19.view": "like"
+  },
+  "classmate_xinci": {
+   "D19.museum": "like",
+   "D19.houses": "normal",
+   "D19.shrine": "normal",
+   "D19.view": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3306,6 +3313,374 @@
         {
          "who": "kexin",
          "text": "（她靠著你的肩膀）你是哪一邊的？算了，不用回答。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "金瓜石比九份安靜。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我在書上看過這裡以前挖金子。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "黃金博物館人比上次少。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的霧比較濃。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了一本金瓜石的書。等一下你翻給我看。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回程的公車要等很久。我們先去排。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的天黑得早。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "霧把山遮住了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她把門票收進筆記本）今天這一頁，寫滿了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D19.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "黃金博物館有一塊很大的金磚。可以摸。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「摸一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。……我在算這塊值多少。不要笑我。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「妳想看哪一區？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "礦工的那一區。他們每天在做什麼。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "金磚前面還是排隊。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "礦工的照片我每次都看很久。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站在金磚前面）我們一起摸。一次就好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.houses": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "日式宿舍的木頭地板，走起來要脫鞋。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳喜歡這種房子？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "喜歡。房間很小，可是每一個東西都有位置。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「在走廊上坐一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。這裡的走廊好像可以坐一個下午。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "宿舍裡的光線比上次暗。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "走廊上有一隻貓在睡覺。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她坐在走廊上，腳懸在外面）你也坐。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.shrine": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "神社遺址要爬很多階梯。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "上面只剩石柱。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「爬上去看看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我會停兩次，不要等我太久。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「慢慢爬，我陪妳。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你陪我，我就不停了。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "階梯上的青苔比上次多。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "石柱還是那幾根。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（爬到一半，她把手伸過來）拉我一下。這次不用說謝謝。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.view": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "從這裡看下去，海的顏色分成兩邊。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「為什麼會分兩邊？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "礦物流到海裡。我看說明牌的。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們在這裡多站一下。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好，我不拍。我想記住它。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "霧太大，看不到海。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "兩邊的顏色比上次明顯。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "你看那邊。那條線，我們剛好站在正對面。"
         }
        ]
       }

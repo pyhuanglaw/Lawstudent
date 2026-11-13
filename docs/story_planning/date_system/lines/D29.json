@@ -48,6 +48,12 @@
    "D29.sculpture": "normal",
    "D29.harbor": "like",
    "D29.rail": "like"
+  },
+  "classmate_xinci": {
+   "D29.warehouse": "normal",
+   "D29.sculpture": "normal",
+   "D29.harbor": "normal",
+   "D29.rail": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3308,6 +3315,378 @@
         {
          "who": "kexin",
          "text": "（她在鐵軌上牽著你的手）走到底。不准放手。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "高雄。駁二的倉庫比我想的大。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "以前放的是貨，現在放的是藝術。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "港邊的風比上次大。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "倉庫外面多了幾個新的雕塑。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這兩天，你想去哪裡，我都跟。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "高雄的天黑得比較晚。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "腳好痠。駁二太大了。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "輕軌的站牌，我拍了一張。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（輕軌上，她握住你的手）我們下一站再下。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D29.warehouse": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "倉庫改的展間，天花板好高。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "聲音會跑到很遠。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳喜歡這種空間？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "喜歡。東西少，每一件都看得清楚。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們從最裡面看起。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。倒著看，比較少人。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這一檔的展比上次熱鬧。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "展間外面有人在賣咖啡。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她在一件作品前面停下來，把你拉過去）這件，你看。"
+        }
+       ]
+      }
+     ]
+    },
+    "D29.sculpture": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "戶外的雕塑好大。我站在它旁邊像一隻螞蟻。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我幫妳拍一張有比例的。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我站遠一點，你要拍到整個。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「這是什麼形狀？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "說明牌說是一個在等船的人。我看不出來。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "雕塑旁邊有小孩在爬。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "太陽照在雕塑上，影子好長。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們站在雕塑的影子裡。這裡比較涼。"
+        }
+       ]
+      }
+     ]
+    },
+    "D29.harbor": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "港邊的步道好長。船一直在進出。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳看得出是哪國的船嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "看旗子。那艘是巴拿馬的，很多船都掛巴拿馬。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們走到步道盡頭。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。走到盡頭再走回來。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "港邊有人在釣魚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有一艘很大的貨輪要出港了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她牽著你的手，看著港裡的船）那艘要去很遠的地方。"
+        }
+       ]
+      }
+     ]
+    },
+    "D29.rail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "舊鐵道的草地，鐵軌還在。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "可是不會有火車來了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們走在鐵軌上？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我走一邊，你走另一邊。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「以前這裡載什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "糖和香蕉。倉庫的牆上有寫。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "草地上有人在野餐。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "鐵軌被曬得好燙。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她在鐵軌上張開手保持平衡，伸手給你）拉著我。"
         }
        ]
       }

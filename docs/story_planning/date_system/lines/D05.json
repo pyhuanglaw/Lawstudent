@@ -48,6 +48,12 @@
    "D05.garden": "normal",
    "D05.shop": "normal",
    "D05.board": "like"
+  },
+  "classmate_xinci": {
+   "D05.cafe": "like",
+   "D05.garden": "normal",
+   "D05.shop": "like",
+   "D05.board": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3152,6 +3159,282 @@
         {
          "who": "kexin",
          "text": "（她在手機的行事曆上圈了一個週末）這天，不要給別人。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "hotspots": {
+    "D05.cafe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這裡的咖啡不是最好喝的。可是我喜歡坐在這裡寫片名。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳的筆記可以給我看嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "（她翻開一頁，字整齊得像印的）這一頁可以。前面的不行。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「那我點最好喝的那杯。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "菜單上沒寫哪杯最好喝。我建議熱拿鐵，最不會錯。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "靠窗那張桌子空著。我們坐那裡。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我又抄了三部片。下個月看不完。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這次的片名，我抄在你那一頁。"
+        }
+       ]
+      }
+     ]
+    },
+    "D05.garden": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "院子這棵樹比這棟房子還老。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳也查過？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "牌子上寫的。我看到字都會看完。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「在樹下坐一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。坐到下一場開演。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "樹下比咖啡館涼。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人在這裡畫畫。我們不要擋到他。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她坐下來，把包包放到另一邊，把你這邊空出來）坐。"
+        }
+       ]
+      }
+     ]
+    },
+    "D05.shop": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "電影書店的書很貴。我每次都只看目錄。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我送妳一本。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "不用。好吧，那你挑。我不要知道價錢。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「目錄看得出什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "看得出這本書值不值得。大部分不值得。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "上次那本還在，還沒人買。我放心了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這裡的海報我都想要，可是房間只有一面牆。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "那本書我自己買了。你可以借，不用還得很快。"
+        }
+       ]
+      }
+     ]
+    },
+    "D05.board": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她拿出手機，對著片單牆拍了一張）每個月一張。我有三年的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳都看完了嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "三成。剩下的七成，我知道它們在那裡就好。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「下個月挑一部一起看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你挑一部，我挑一部。不能挑一樣的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "下個月的片單比這個月好。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這部我等了一年。終於排上了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她拍完片單牆，又轉過來拍了你一張）這張不要給別人看。"
         }
        ]
       }

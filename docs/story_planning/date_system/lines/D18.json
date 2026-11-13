@@ -48,6 +48,12 @@
    "D18.steps": "like",
    "D18.teahouse": "normal",
    "D18.shop": "like"
+  },
+  "classmate_xinci": {
+   "D18.snack": "normal",
+   "D18.steps": "normal",
+   "D18.teahouse": "like",
+   "D18.shop": "like"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3306,6 +3313,282 @@
         {
          "who": "kexin",
          "text": "我們買一樣的。你不掛的話我會知道。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "hotspots": {
+    "D18.snack": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這家的芋圓要加冰。熱的會黏在一起。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「吃不完我幫妳。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你吃紫色的，我吃黃色的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳研究過？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "吃了五次才知道。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "排隊比上次短。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "碗變大了。還是我變小了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "一碗就好。兩根湯匙。"
+        }
+       ]
+      }
+     ]
+    },
+    "D18.steps": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "階梯好多。我爬到一半就要停。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們慢慢走。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你不用等我，可是你等了。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「停下來拍燈籠？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我不拍。看就好。拍了也不會再看。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "燈籠亮了。比白天好看。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這段階梯的人都在拍照。我們從旁邊過。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她爬到一半，把手伸過來）拉我一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D18.teahouse": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "茶樓的窗邊看得到海。要坐窗邊，要等很久。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「等吧。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我們等。我帶了一本書，可以分你一半。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「坐裡面也可以。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "不行。來九份就是要看海。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "窗邊有位子。運氣好。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "茶涼得很快。我每次都忘記喝。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "窗邊這個位子，我上禮拜就打電話訂了。"
+        }
+       ]
+      }
+     ]
+    },
+    "D18.shop": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這些小店賣的東西，每一家都差不多。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那就不買。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "嗯。可是那家的明信片，我想要一張。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「挑一個送妳。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "那你挑。我不幫你。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "明信片換了一批新的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "老闆在打瞌睡。我們不要吵他。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我買了一張明信片，寫好了。回去再給你。"
         }
        ]
       }

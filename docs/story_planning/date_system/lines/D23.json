@@ -48,6 +48,12 @@
    "D23.cook": "like",
    "D23.boats": "normal",
    "D23.seawall": "like"
+  },
+  "classmate_xinci": {
+   "D23.market": "normal",
+   "D23.cook": "normal",
+   "D23.boats": "normal",
+   "D23.seawall": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3313,6 +3320,378 @@
         {
          "who": "kexin",
          "text": "（她靠著你的肩膀）紫色了，你看。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "竹圍漁港。海的味道很重。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我在車上就聞到了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "港邊的船比上次多。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "傍晚的漁市在收攤。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她把外套遞給你）海邊會冷。我帶了兩件。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "衣服上都是海的味道。回家要洗。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "天暗了，港邊的燈亮了。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我們在車上吃剩下的魚丸。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（車上，她把頭靠在車窗上看你開車）你開車的時候，很安靜。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D23.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "市場的味道好重。我先在門口。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我們不進去。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。你去看，我在外面等，不會走開。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「進去看一下就好？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我跟在你後面。我不碰任何東西。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "市場比上次乾淨。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "攤位上的魚眼睛都在看我。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她拉著你的衣角走進去）走快一點。我陪你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.cook": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "代客料理要先買魚，再拿去給老闆煮。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "價錢分兩次算。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳算過總共多少？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "算過。比餐廳便宜，比我想的貴。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「妳想吃什麼魚？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "你挑。我只吃沒有刺的部分。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "老闆認得我們了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這家的湯比上次鹹一點。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "魚肚那一塊給你。沒有刺。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.boats": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "港邊的漁船都漆了名字。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳最喜歡哪一艘？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "那艘。名字最短。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們沿著港邊走。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我數船，你數人。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有一艘新的船，名字還沒漆上去。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "漁船在晃。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "那艘船的名字，跟我爸事務所的名字一樣。我想給你看。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.seawall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "堤防上看得到整片海。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "夕陽在那邊下去。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們坐著等夕陽？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我帶了兩瓶水。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「風好大，妳冷嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "有一點。可是不想下去。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "夕陽被雲擋住了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "堤防上釣魚的人比上次多。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她坐在堤防上，把你的手拉過來放在自己腿上）等太陽下去。"
         }
        ]
       }

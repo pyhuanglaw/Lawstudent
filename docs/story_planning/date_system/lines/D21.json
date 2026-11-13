@@ -48,6 +48,12 @@
    "D21.temple": "normal",
    "D21.dye": "like",
    "D21.bridge": "normal"
+  },
+  "classmate_xinci": {
+   "D21.street": "normal",
+   "D21.temple": "normal",
+   "D21.dye": "normal",
+   "D21.bridge": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
    "D21.dye": "手會染藍。我在旁邊看你染。好吧，我戴手套。"
   },
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3310,6 +3317,382 @@
         {
          "who": "kexin",
          "text": "（她靠著你，看著橋下的水）就這樣。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "三峽。從永和過來不用一個小時。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我一直以為它在很遠的山裡。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "老街的磚牆被曬得好亮。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "祖師廟前面在辦活動。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我換了一雙好走的鞋。今天要走很多。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "手上沾到藍色了。洗不掉。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我不介意。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "金牛角麵包買了一袋。給我媽。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "拱橋那邊的燈亮了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她伸出沾了藍色的手指）你看，跟你的一樣。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D21.street": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "老街每一間的門面都不一樣。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳最喜歡哪一間？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "那一間。招牌的字最工整。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「一間一間慢慢看。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我們從這一頭走到那一頭，不跳過。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "金牛角的店前面在排隊。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "老街的人比上次多。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這一間你上次說喜歡。我們再進去一次。"
+        }
+       ]
+      }
+     ]
+    },
+    "D21.temple": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "祖師廟的雕刻好細。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "一根柱子要刻好幾年。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「幾年？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "說明牌寫，有些超過十年。我在算一年刻幾公分。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們看久一點。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我想看完這一根。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "廟裡的香比上次多。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人在擲筊。我們不要擋到。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她雙手合十，很快地拜了一下）好了。不能說許了什麼。"
+        }
+       ]
+      }
+     ]
+    },
+    "D21.dye": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "藍染要自己綁布。綁的地方會留白。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳要綁什麼圖案？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "格子。最不會出錯的那一種。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們綁一樣的？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。可是染出來一定不一樣。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這次的藍比上次深。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "老師說我綁得太整齊了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我染了兩條手帕。一條給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D21.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "三峽拱橋是紅磚的。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "從下面看，像一個很大的拱門。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「站到橋中間看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。中間看得到兩邊的河。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳知道它多老嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "比我們兩個加起來還老很多。說明牌寫的。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "橋上的人在拍夕陽。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "河水比較清。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她在橋中間停下來，靠著你）我們看到燈亮再走。"
         }
        ]
       }

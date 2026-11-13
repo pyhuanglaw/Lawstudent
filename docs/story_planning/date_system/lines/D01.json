@@ -48,6 +48,12 @@
    "D01.market": "like",
    "D01.lawn": "normal",
    "D01.wall": "like"
+  },
+  "classmate_xinci": {
+   "D01.expo": "normal",
+   "D01.market": "normal",
+   "D01.lawn": "normal",
+   "D01.wall": "normal"
   }
  },
  "dislikeLine": {
@@ -65,7 +71,8 @@
   "classmate_peishan": {
    "D01.wall": "拍照喔，我一被拍就會做鬼臉，你拍牆就好。"
   },
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3334,6 +3341,374 @@
         {
          "who": "kexin",
          "text": "合照。這次正面。好啦，我也有正面。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "華山我常經過，很少進來。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "每次都覺得裡面是給別人的。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "展換了。外面的海報先看一眼。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這裡週末人多。早一點來是對的。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我先買好兩張展票了。不用排隊。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "比我想的好待。下次經過，我會進來。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "腳有點痠。可是還想再看一檔。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "出口那邊的咖啡車還在，買一杯走。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "回去的捷運，我們坐到同一站再分開。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D01.expo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她站在一張很大的圖表前面）這張在講一個城市十年的用電量。我看得懂。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳看得懂什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "夏天那幾格特別高。那幾年很熱。數字比文字誠實。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「講給我聽。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好，從左上角開始。你不要跳著看。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這一檔沒有圖表。我有點失望。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "作品下面的說明，字太小了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這一張我要拍。你站旁邊，讓我看比例。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她停在市集入口）攤位好多，每一攤的價錢都不一樣。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「去看展吧。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。市集我下次一個人來，慢慢算。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「逛一攤就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。一攤。我會算它貴不貴。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "市集比上次更擠。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這攤的價錢寫錯了。我不講。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她走在你旁邊，靠得很近）快點穿過去。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.lawn": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "草地上的人都在曬太陽。我會曬傷。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐樹蔭下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。樹蔭那一塊剛好兩個人。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「那我們走旁邊。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。我帶了傘，可是撐傘走草地很奇怪。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "太陽比上次小。可以坐一下。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人在放風箏。線纏在樹上了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我帶了兩頂帽子。一頂給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "紅磚牆前面的人都在拍照。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "我站旁邊看他們擺姿勢。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳不拍？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我拍出來都像證件照。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我幫妳拍一張。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。不准笑。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這面牆前面的人，每次都比上次多。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "磚頭上有人刻字。我數了一下，七個名字。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站到牆前面）好，拍。這次可以笑。"
         }
        ]
       }

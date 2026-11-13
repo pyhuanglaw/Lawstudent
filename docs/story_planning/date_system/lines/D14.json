@@ -48,6 +48,12 @@
    "D14.boardwalk": "normal",
    "D14.ferry": "like",
    "D14.sunset": "like"
+  },
+  "classmate_xinci": {
+   "D14.bridge": "normal",
+   "D14.boardwalk": "normal",
+   "D14.ferry": "normal",
+   "D14.sunset": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3310,6 +3317,374 @@
         {
          "who": "kexin",
          "text": "（她靠著你的肩膀）冷。借我擋風。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "漁人碼頭。我以為會很遠，結果從淡水再一站。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "碼頭的船比上次多。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "木棧道的木頭換新了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了外套。這次你的也帶了。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "風好大。頭髮都亂了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "渡輪的末班要注意。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "天黑了，碼頭的燈好亮。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她把被風吹亂的頭髮塞到耳後）回去的路上，我想安靜一下。你陪我就好。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D14.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "情人橋上的人都在拍照。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我們走過去就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。走過去，不停。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「上去看一下風景？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。可是我站中間，不要擋到人拍照。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "橋上的人跟上次一樣多。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "傍晚打燈以後，橋是白色的。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "走到橋中間的時候，你走慢一點。"
+        }
+       ]
+      }
+     ]
+    },
+    "D14.boardwalk": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "木棧道走起來會響。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "每一塊木板的聲音不太一樣。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳聽得出來？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "聽得出來。第七塊比較鬆。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「那我們一塊一塊走。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你數，我聽。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "木棧道上有人在釣魚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "海風把木棧道吹得好乾。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她走在你旁邊，腳步跟你一樣）我們走一樣的速度。"
+        }
+       ]
+      }
+     ]
+    },
+    "D14.ferry": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "渡輪比坐車慢很多。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "可是我喜歡慢的交通工具。可以看東西。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我們坐到對岸。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。船票我已經算好了，一個人四十。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「慢的比較好？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "慢的才看得到。快的只會到。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "渡輪的位子靠窗，比上次好。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "船開的時候會晃一下。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（渡輪上，她靠著你看海）坐這一趟就好。不用到對岸。"
+        }
+       ]
+      }
+     ]
+    },
+    "D14.sunset": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海風很冷。夕陽還沒下去。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「外套給妳。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。……你也會冷。我們一人一隻袖子。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「再等一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我數到太陽碰到海。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "夕陽是橘的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "雲擋住一半。剩下一半也很好看。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "太陽下去以前，我們都不要講話。"
         }
        ]
       }

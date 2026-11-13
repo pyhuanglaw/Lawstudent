@@ -48,6 +48,12 @@
    "D15.car": "normal",
    "D15.store": "normal",
    "D15.sky": "like"
+  },
+  "classmate_xinci": {
+   "D15.rail": "normal",
+   "D15.car": "normal",
+   "D15.store": "normal",
+   "D15.sky": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3150,6 +3157,282 @@
         {
          "who": "kexin",
          "text": "（她拍拍身邊的草地）坐啊。站著幹嘛。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "hotspots": {
+    "D15.rail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她靠著欄杆）台北從這裡看，像一張很大的電路板。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「找得到永和嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "那邊。燈比較暗的那一塊。我家在那裡面。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳平常會上來嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "不會。我不會開車，也不想一個人坐公車上山。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "沒有霧。看得比較遠。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "欄杆好冰。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她把手放進你的外套口袋）你的口袋比較暖。"
+        }
+       ]
+      }
+     ]
+    },
+    "D15.car": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山路好彎。你開慢一點，我會暈。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「放點音樂？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我手機裡只有劇的片頭曲。你不要笑。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「我開慢一點。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。慢一點，我才看得到外面。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "回程我比較不會暈。下坡比較好。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這首片頭曲我聽了兩百次。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "到山下叫我。我閉一下眼睛。"
+        }
+       ]
+      }
+     ]
+    },
+    "D15.store": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的便利商店，東西比山下貴五塊。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳算過？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我看標價都會算。這是職業病，雖然我還沒有職業。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我請妳喝熱的。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。熱奶茶。貴五塊的那一瓶。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "店員在看劇。我認得那部。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "關東煮只剩兩串。一人一串。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我買了你上次喝的那一瓶。"
+        }
+       ]
+      }
+     ]
+    },
+    "D15.sky": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這裡看得到星星。三顆。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳數了？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "數了。台北的天空，三顆算多了。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「多待一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我明天第一節有課，再五分鐘。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "一顆都沒有。雲太厚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "蟲好多。我們回車上。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她靠在你肩上）再一顆。數到四我們就走。"
         }
        ]
       }

@@ -48,6 +48,12 @@
    "D24.street": "normal",
    "D24.park": "normal",
    "D24.station": "like"
+  },
+  "classmate_xinci": {
+   "D24.footbath": "normal",
+   "D24.street": "normal",
+   "D24.park": "normal",
+   "D24.station": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3308,6 +3315,374 @@
         {
          "who": "kexin",
          "text": "（她坐在長椅上，拍拍旁邊）坐。站著很怪。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "礁溪。坐客運過來，我睡了一路。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "醒來就到了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "客運比上次擠。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "溫泉街的味道還是一樣。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這次我沒睡。我在客運上看你睡。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回台北的客運，我想坐靠窗。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "泡完腳，腿很輕。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "車站前的燈亮了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（客運上，她把耳機分一邊給你）這首聽完就到了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D24.footbath": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "湯圍溝的泡腳池是免費的。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "人好多。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「等空位？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我們站在旁邊，有人起來就坐。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「擠一下就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你坐我旁邊，腳不要踢到別人。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "泡腳池的水比上次燙。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "旁邊的阿伯一直在跟我們聊天。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她把腳放進水裡，碰了一下你的腳）擠一點沒關係。"
+        }
+       ]
+      }
+     ]
+    },
+    "D24.street": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "溫泉街的小吃，價錢比台北便宜一點。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「吃什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "溫泉蛋。我想知道它跟普通的蛋差多少。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「一人一樣分著吃？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我選甜的，你選鹹的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "溫泉蛋的攤子收了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這家的蔥油餅比上次大。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我買了兩顆溫泉蛋。一人一顆。剝給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D24.park": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "公園裡的小木橋好窄。只能一個人走。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳先走。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你在後面，不要催我。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「木橋會晃嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "會一點。我抓著欄杆走。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "公園的池子裡有鴨子。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "小木橋旁邊的樹開花了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她走到木橋中間，回頭看你）這裡只站得下兩個人。"
+        }
+       ]
+      }
+     ]
+    },
+    "D24.station": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "車站前的廣場，很多人在等客運。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「還有時間，我們坐一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我看一下時刻表，下一班不用等太久。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「要不要買點東西在車上吃？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。牛舌餅。一包就好，我們分。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "廣場上有人在賣花。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "客運誤點了十分鐘。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們在廣場坐到最後一班。我不急。"
         }
        ]
       }

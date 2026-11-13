@@ -48,6 +48,12 @@
    "D10.boat": "like",
    "D10.walk": "normal",
    "D10.snack": "like"
+  },
+  "classmate_xinci": {
+   "D10.bridge": "normal",
+   "D10.boat": "normal",
+   "D10.walk": "normal",
+   "D10.snack": "normal"
   }
  },
  "dislikeLine": {
@@ -61,7 +67,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3308,6 +3315,370 @@
         {
          "who": "kexin",
          "text": "這串我們一人一半。好，你多一口。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "碧潭我沒有來過。離永和其實不遠。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "近的地方，反而一直沒來。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "水比上次綠。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "吊橋上的人比較少。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我們先走吊橋，再去吃東西。順序我排好了。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回去的公車，我坐靠窗。可以看到河。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "河邊的風變涼了。該回去了。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "小吃攤收了一半。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我們走河邊回捷運站。多走一段。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D10.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "吊橋在晃。走在中間比較不晃。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳研究過？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "物理課教過。我只剩這一句還記得。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "（走在她旁邊）",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。你走這邊，我比較敢往下看。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "橋上有人在跳。橋晃得很厲害。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "從橋中間看，兩邊的山一樣高。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她在橋中間停下來）在這裡站一下。晃也沒關係。"
+        }
+       ]
+      }
+     ]
+    },
+    "D10.boat": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "天鵝船看起來很好玩。可是要自己踩。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我們在岸上看。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。看別人踩，比較好玩。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「我踩，妳坐就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好，我坐。你不要踩太快。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "天鵝船排成一排，像在等人。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有一艘卡在水中間。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這次我坐。你踩，我幫你看方向。"
+        }
+       ]
+      }
+     ]
+    },
+    "D10.walk": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "河岸步道很長。我可以一直走。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我們一直走。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。走到你喊累為止。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳常走路？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "通勤都在走。我一天大概一萬步。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "步道上的人在跑步。我們讓一下。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "河面有光。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她走著走著，牽起你的手）這段沒有人。"
+        }
+       ]
+      }
+     ]
+    },
+    "D10.snack": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "河邊的小吃攤，每一攤都說自己是老店。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「哪一攤是真的？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "排最長的那一攤。數字不會騙人。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們買一樣分著吃。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你挑，我付。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "那攤的阿姨認得我們了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "炸物要趁熱。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我買了兩支。一支先給你拿。"
         }
        ]
       }

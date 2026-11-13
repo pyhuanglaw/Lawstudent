@@ -48,6 +48,12 @@
    "D03.arcade": "like",
    "D03.gacha": "like",
    "D03.window": "normal"
+  },
+  "classmate_xinci": {
+   "D03.demo": "normal",
+   "D03.arcade": "normal",
+   "D03.gacha": "normal",
+   "D03.window": "like"
   }
  },
  "dislikeLine": {
@@ -63,7 +69,8 @@
    "D03.gacha": "扭蛋的期望值是負的。我還是站在這裡陪你。"
   },
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -3151,6 +3158,374 @@
         {
          "who": "kexin",
          "text": "（她靠在你肩上，把手機收起來）不看了。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "這棟樓我從來沒有上來過。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "每一層的聲音都不一樣。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "電梯在左邊。樓梯比較快。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "人比上次少一點。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "你想玩什麼，我陪你。我在旁邊看。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "我的耳朵還在嗡嗡叫。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我第一次在這種地方待這麼久。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我買了一個扭蛋。不知道是什麼，回家再開。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "出來外面好安靜。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "下次換我挑一層。我挑最安靜的那一層。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D03.demo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這個遊戲是兩個人做的。攤位上寫的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳想玩嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "你玩。我看你卡在哪裡。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「兩個人做得出來喔？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "做得出來。可是我算了一下，他們應該沒有賺錢。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "上次那款不見了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "試玩的人排很長。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我玩了一關，死了三次。不准說出去。"
+        }
+       ]
+      }
+     ]
+    },
+    "D03.arcade": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這一區好吵。我耳朵受不了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我們不進去。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。你想玩的話，我在外面等，真的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「玩一首就走。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。一首。我在後面幫你計分。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "機台的聲音隔著門都聽得到。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人在打很難的那首。圍了一圈人。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "玩一首。我站你旁邊，摀著耳朵看。"
+        }
+       ]
+      }
+     ]
+    },
+    "D03.gacha": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "扭蛋一次一百。我算過，要轉到想要的那個，平均要六次。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那轉一次就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。轉到什麼都不准換。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳想要哪一個？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "那隻戴眼鏡的貓。機率最低的那一隻。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "機器換了一批新的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我又轉到同一隻。第三隻了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我轉到兩隻一樣的。一隻給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D03.window": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "樓上靠窗這裡最安靜。我可以在這裡坐一個下午。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那就坐一下。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你玩你的，我看外面。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「下面那麼吵，這裡怎麼這麼安靜？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "玻璃很厚。我猜很貴。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "靠窗的位子有人。我們等一下。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "從這裡看下去，排隊的人像在排字。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她把靠窗的位子讓給你，自己坐旁邊）你坐這裡。"
         }
        ]
       }
