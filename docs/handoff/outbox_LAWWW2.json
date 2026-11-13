@@ -9939,6 +9939,25 @@
    "tests": "shop_cc0、place_gate ALL PASS；teahouse_*、wz_teahouse_*、yizhan_place、te_komichi_stage、wz_shops*、room_ceiling ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判",
    "next": "LAWWW 套 g1_yizhan_komichi_sunny_full.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-WINDOW-3D-1112",
+   "title": "place_gate 已知未過 11 列（店外立體）拿掉：BB 已判 ⑦b PASS（place_gate_bb.json）；狀態表重產",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_window3d_knownfail_1113/place_gate_knownfail.patch",
+    "docs/art-rebuild/second_ai/wip/shop_window3d_knownfail_1113/README.md"
+   ],
+   "base": "19399e5d39",
+   "at": "2026-11-13T22:12Z",
+   "tests": "place_gate ALL PASS，已知未過 11→0、第二層 174→185",
+   "notDone": "LAWWW 整合；BB 確認；質感／效能另由 SHOP-REALISM-1112 追",
+   "next": "LAWWW 套 patch；SHOP-WINDOW-3D-1112 改已整合待測試"
   }
  ]
 }
