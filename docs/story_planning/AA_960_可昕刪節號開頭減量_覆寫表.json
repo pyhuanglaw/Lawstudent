@@ -1,0 +1,294 @@
+[
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……好。至少你敢講。我會看狀況收一點，一點而已。",
+  "new": "好。至少你敢講。我會看狀況收一點，一點而已。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……還沒。走，現在去，你陪我。",
+  "new": "還沒。走，現在去，你陪我。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "termend_lines.js"
+  ],
+  "old": "……你回答就好。",
+  "new": "你回答就好。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……你偷念。",
+  "new": "你偷念。",
+  "speaker": "kexin",
+  "all": true
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……都過了。好，這次才是真的放假。",
+  "new": "都過了。好，這次才是真的放假。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……都過了。好，這下暑假真的開始了。",
+  "new": "都過了。好，這下暑假真的開始了。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……你回來我們再去一次摩天輪。",
+  "new": "你回來我們再去一次摩天輪。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "msg_pool.js"
+  ],
+  "old": "……十分鐘後可以吵。",
+  "new": "十分鐘後可以吵。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……一大早講這個。",
+  "new": "一大早講這個。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……你昨天一定被抓去打牌了。",
+  "new": "你昨天一定被抓去打牌了。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……絕對不要。",
+  "new": "絕對不要。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "invites.js"
+  ],
+  "old": "……好。你敢遲到試試看。",
+  "new": "好。你敢遲到試試看。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "invite_replies.js"
+  ],
+  "old": "……我們認識嗎？好啦，認識。",
+  "new": "我們認識嗎？好啦，認識。",
+  "speaker": "kexin",
+  "all": true
+ },
+ {
+  "files": [
+   "heroine_arcs.js"
+  ],
+  "old": "……我會是好律師。你說的。",
+  "new": "我會是好律師。你說的。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……我沒有說你在照顧我。我媽自己說的。",
+  "new": "我沒有說你在照顧我。我媽自己說的。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……就一眼。不准有第二眼。",
+  "new": "就一眼。不准有第二眼。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……不要書。書我自己會買。",
+  "new": "不要書。書我自己會買。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "date_wish.js"
+  ],
+  "old": "……關機了。",
+  "new": "關機了。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "date_wish.js"
+  ],
+  "old": "……好。可是我媽那邊要先講。",
+  "new": "好。可是我媽那邊要先講。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "date_wish.js"
+  ],
+  "old": "……今天是真的沒有。",
+  "new": "今天是真的沒有。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "date_wish.js"
+  ],
+  "old": "……手機到家再開。",
+  "new": "手機到家再開。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……我現在不想看到你。我掛了。",
+  "new": "我現在不想看到你。我掛了。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……我現在不想看到你。你不要跟過來。",
+  "new": "我現在不想看到你。你不要跟過來。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……可是是你自己講的。這個我有算進去。",
+  "new": "可是是你自己講的。這個我有算進去。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……那你就想到知道為止。我等你。可是我不會等很久喔。",
+  "new": "那你就想到知道為止。我等你。可是我不會等很久喔。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……我的條件是：她的事你要自己講，我問你的時候你不准騙我。",
+  "new": "我的條件是：她的事你要自己講，我問你的時候你不准騙我。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "movie_plots.js"
+  ],
+  "old": "……好。你說的喔，考不上你要負責。",
+  "new": "好。你說的喔，考不上你要負責。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "gift_holiday.js"
+  ],
+  "old": "……很肉麻。我知道。",
+  "new": "很肉麻。我知道。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "r2y3a_events.js"
+  ],
+  "old": "……當面。",
+  "new": "當面。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "r2y3b_events.js"
+  ],
+  "old": "……腳好痠。回去我要在車上睡。",
+  "new": "腳好痠。回去我要在車上睡。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "r2y4a_events.js"
+  ],
+  "old": "……今年我認輸。我只想吃。",
+  "new": "今年我認輸。我只想吃。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "r2y4a_events.js"
+  ],
+  "old": "……好。今天宵夜我請，不准說不要。",
+  "new": "好。今天宵夜我請，不准說不要。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "r2y4b_events.js"
+  ],
+  "old": "……目的地也你管。我只是想坐在車上。",
+  "new": "目的地也你管。我只是想坐在車上。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "group_events.js",
+   "r2y4b_events.js"
+  ],
+  "old": "……我們到底在哪。",
+  "new": "我們到底在哪。",
+  "speaker": "kexin",
+  "all": true
+ },
+ {
+  "files": [
+   "r2y4b_events.js"
+  ],
+  "old": "……十塊。算它的。",
+  "new": "十塊。算它的。",
+  "speaker": "kexin"
+ },
+ {
+  "files": [
+   "r2y4b_events.js"
+  ],
+  "old": "……你排了多久？後門那家晚上都要排。",
+  "new": "你排了多久？後門那家晚上都要排。",
+  "speaker": "kexin"
+ }
+]
