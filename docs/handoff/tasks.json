@@ -19345,7 +19345,7 @@
    "owner": "BB",
    "status": "進行中",
    "priority": "P1",
-   "next": "【10-31 23:2x 歷史複核（AA-B 最後一批：BB＋交接包）】BB_198 7-2 新事件大多沒做：阿凱寒假 203 過夜、電腦行、多益；明軒托福、C08；Kevin 助教；學姊托福那天；三人過年訊息；可昕大三暑假旅行、日本重逢、實習訊息（照 D99 寒暑假排，和 VAC-GAP-1031 一起看）｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 這邊的規劃已交，看板改 LAWWW：presence 照 7-1 補（和 HOLIDAY-PRESENCE-1021 一起做）；7-2 新事件的台詞請 AA 寫（D100），收到後照 7-2、7-3 實作 ｜ 【12:0x BB 7dc9a3e6】BB_198 第 7 節：不在臺北日期＝absentDates、新事件訊息、BB 私訊一天最多三則（多的改見面招呼）、週日宵夜（story3d 約 1507 行）寒暑假也發｜BB-C 第一批進行中",
+   "next": "【11-13 LAWWW-C】AA 開寫事件稿：AA_928 第一批大一寒假（企劃線 0bdf0d85e8；BB_452 照用）、AA_929 第二批大一暑假（77f76bdf50，等 BB 照用）、第三批可昕大三暑假（AA 寫中）。LAWWW 決定 ev_kai_shop_visit 用 B：阿凱把筆電帶回 203 修（不蓋新店，D147／§12 不卡寒暑假系統）。LAWWW 接進遊戲：等 AA 依 B 改字＋BB 照用。\n【10-31 23:2x 歷史複核（AA-B 最後一批：BB＋交接包）】BB_198 7-2 新事件大多沒做：阿凱寒假 203 過夜、電腦行、多益；明軒托福、C08；Kevin 助教；學姊托福那天；三人過年訊息；可昕大三暑假旅行、日本重逢、實習訊息（照 D99 寒暑假排，和 VAC-GAP-1031 一起看）｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 這邊的規劃已交，看板改 LAWWW：presence 照 7-1 補（和 HOLIDAY-PRESENCE-1021 一起做）；7-2 新事件的台詞請 AA 寫（D100），收到後照 7-2、7-3 實作 ｜ 【12:0x BB 7dc9a3e6】BB_198 第 7 節：不在臺北日期＝absentDates、新事件訊息、BB 私訊一天最多三則（多的改見面招呼）、週日宵夜（story3d 約 1507 行）寒暑假也發｜BB-C 第一批進行中",
    "first": {
     "term": "Y1S1",
     "week": 17,
@@ -42598,10 +42598,10 @@
    "id": "STORY-FRIENDS-EVENTS-1103",
    "title": "祐廷的好朋友（阿哲、阿凱、柏翰、明軒、Alison 等）要有自己的事件、甚至自動播放的劇情，讓玩家記得名字",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "使用者 11-03 08:1x 實玩回報（X157）",
-   "next": "【LAWWW-C 11-04 15:5x】發布說明盤點：AA_637 第二批 F2-01～F2-09＋名字卡已接（574ac35a4，v9.10.20 候選裡）｜子代理：AA_637 九場＋名字淡入（和語彤第三版同一個子代理）",
+   "next": "【11-13 LAWWW-C】AA 確認沒有待補（AA_637 第二批 F2-01～F2-09＋名字卡 574ac35a4 已在遊戲）；剩 BB 瀏覽器驗收。",
    "xai": {
     "spec": "使用者 11-03 原話",
     "branch": "claude/story-planning",
@@ -53363,7 +53363,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 10:5x LAWWW】6458d1dc2（AA 11-10 22:11 第一批）把源稿整列刪了：AA_367 沛珊三列（import_pg_dates 停：101 句→98）＝AA 選 A 加回、寫 AA_759 新句（4adf447e5）。同一筆另外 16 份白名單源稿也有刪列（白名單都還在那筆以前，遊戲照舊；下次換 SHA 會吃到）：AA_211 -1、250 -1、262 -1、278 -1、359 -1、372 -1、415 -1、416 -3、503 -5、504 -3、507 -2、508 -2、509 -3、511 -2、525 -5、667 -9——已給 AA 清單（照 AA_367 的做法：遊戲已經換成新句的就加回寫新句，真要拿掉的告訴 LAWWW 改格數檢查）。｜AA 掃企劃線；LAWWW 掃開發分支 characters.js、docs（CHARACTER_*、art-rebuild 的人物描述）；遊戲台詞照 AA 清單",
+   "next": "【11-13 LAWWW-C】AA 人物文件補掃完、沒有要改的（AA 11-13）；11-11 的 16 份源稿刪列那件 X330-RESTORE-1111 已做完。最後一句 AA_927（events.js ev_zq_ask_kai 阿凱「有啊，跟他同班的。怎樣？」，BB_451 照用）已接。剩：CANON-NO-ECON-1112 第五批合併後 AA 全掃一次，沒有剩的就改已整合待測試。",
    "xai": {
     "spec": "X330、UA-AA-1110-12",
     "branch": "claude/story-planning",
@@ -54640,7 +54640,7 @@
     "acceptance": "每間店：同鏡頭遊戲內畫面＋參考圖／2D 概念圖並排，LAWWW 看過才整合；BB 照 §12 判；溫特寶邸樣板先給使用者看",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-12 22:0x】D160 寫進規則（CLAUDE.md §12 第 2 點、ROLE_LAWWW2 12.2、HV-40）：店內、店面一律 Poly Haven／ambientCG CC0 模型＋材質組、燈光烘焙、交件附 CC0 清單＋2D 並排；以前做好的每一間都查。LAWWW2 寫 tests/shop_cc0_unit.js（LAWWW 接 node-unit-auto）、SHOP_STANDARD_STATUS 加「CC0 素材」欄；溫特寶邸 v2 已烘焙、等 patch＋並排圖。｜【LAWWW2-C 11-12 20:26 UTC】範圍確認（全部是等大方塊＋平塗頂點色，要照溫特寶邸樣板重做）：玻璃後立體店內——新生南路 6 間（wz_shopkit.py XS_IN3D）；走得進去的室內——新生南路 6（xs_*_interior）、汀州路 7（tz_shops_interior.py）、118 巷 9、公館同批 8（青木、頁間、日和、慢輪、洋洋、Afar、轉角、Daybreak）、溫州街（小路、林家、日常失速、木曜日、溫州書屋、冰菓室、帝大紅茶…）。溫特寶邸樣板預覽已先給使用者（LAWWW2 分支 b7b14109f2 wente_concept_v1_v3.jpg），現在做假人、燈光烘焙、打烊樣子，接著進遊戲拍三組並排。規則包已同步 c45369cbcd。｜【BB-C 11-12 20:20 UTC（BB_379 74e628e959）】原本 PASS 的 8 間退回「部分」，等重做後同鏡頭＋參考圖並排重判；溫特寶邸樣板交件要附進門全景、櫃台、衣架近照的同鏡頭並排，BB 判完 LAWWW 才整合。｜【LAWWW-C 11-12 20:2x UTC】任務開、規則 D159 寫進 CLAUDE.md §9 第 2a 點（HV-39）。順序：溫特寶邸樣板（掃描模型＋布料材質組＋烘焙）→ 並排給使用者看 → 通過後逐間：汀州路 7 → 新生南路 6 → 公館 → 118 巷 9 → 溫州街。SHOP-FIRST-APPROACH（第一次走近卡頓）和 L118 座位、鐵門排在溫特寶邸樣板之後。"
+   "next": "【11-13 LAWWW-C】溫特寶邸 v2 已整合（5a6e2b07cf；LAWWW2 818ce21f9f 並排圖 LAWWW 看過）；tests/shop_cc0_unit.js＋基準表（49 間待重做）＋SHOP_STANDARD_STATUS「CC0 素材」欄（cdc610c217）。剩：溫特寶邸店面（落地窗、木門、壁燈）、衣服貼圖、盆栽、假人頭四點（LAWWW2）；其他 49 間照樣板重做（LAWWW2，交件附並排圖＋CC0 清單）。\n【LAWWW-C 11-12 22:0x】D160 寫進規則（CLAUDE.md §12 第 2 點、ROLE_LAWWW2 12.2、HV-40）：店內、店面一律 Poly Haven／ambientCG CC0 模型＋材質組、燈光烘焙、交件附 CC0 清單＋2D 並排；以前做好的每一間都查。LAWWW2 寫 tests/shop_cc0_unit.js（LAWWW 接 node-unit-auto）、SHOP_STANDARD_STATUS 加「CC0 素材」欄；溫特寶邸 v2 已烘焙、等 patch＋並排圖。｜【LAWWW2-C 11-12 20:26 UTC】範圍確認（全部是等大方塊＋平塗頂點色，要照溫特寶邸樣板重做）：玻璃後立體店內——新生南路 6 間（wz_shopkit.py XS_IN3D）；走得進去的室內——新生南路 6（xs_*_interior）、汀州路 7（tz_shops_interior.py）、118 巷 9、公館同批 8（青木、頁間、日和、慢輪、洋洋、Afar、轉角、Daybreak）、溫州街（小路、林家、日常失速、木曜日、溫州書屋、冰菓室、帝大紅茶…）。溫特寶邸樣板預覽已先給使用者（LAWWW2 分支 b7b14109f2 wente_concept_v1_v3.jpg），現在做假人、燈光烘焙、打烊樣子，接著進遊戲拍三組並排。規則包已同步 c45369cbcd。｜【BB-C 11-12 20:20 UTC（BB_379 74e628e959）】原本 PASS 的 8 間退回「部分」，等重做後同鏡頭＋參考圖並排重判；溫特寶邸樣板交件要附進門全景、櫃台、衣架近照的同鏡頭並排，BB 判完 LAWWW 才整合。｜【LAWWW-C 11-12 20:2x UTC】任務開、規則 D159 寫進 CLAUDE.md §9 第 2a 點（HV-39）。順序：溫特寶邸樣板（掃描模型＋布料材質組＋烘焙）→ 並排給使用者看 → 通過後逐間：汀州路 7 → 新生南路 6 → 公館 → 118 巷 9 → 溫州街。SHOP-FIRST-APPROACH（第一次走近卡頓）和 L118 座位、鐵門排在溫特寶邸樣板之後。"
   },
   {
    "id": "WZ-OFFBEAT-WINDOW-FLICKER-1112",

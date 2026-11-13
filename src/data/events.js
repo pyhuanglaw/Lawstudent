@@ -390,7 +390,7 @@ const STORY_EVENTS=[
     prereq:{custom:G=>G.flags.ZQ_ASK_KAI_D!=null&&G.day>=G.flags.ZQ_ASK_KAI_D},
     dialogue:[ {scene:'資工系館・走廊',bg:'csie_corridor'},   /* 11-02 使用者生成（原本暗底）*/
       {speaker:'heroine_04',expression:'neutral',text:'欸，你室友……有女朋友嗎？'},
-      {speaker:'kai',text:'有啊，在台中念書。怎樣？'},   /* AA_886 第 2 節 */
+      {speaker:'kai',text:'有啊，跟他同班的。怎樣？'},   /* AA_886 第 2 節；AA_927 更正 */
       {speaker:'heroine_04',expression:'smile',text:'沒有啊，問問。'} ] },
   { id:'ev_sis_club_expo', title:'社團博覽會・法服', participants:['heroine_05'], location:'campus', trigger:'manual', once:true, background:'blur',
     prereq:{custom:G=>!G.flags.SIS_CLUB_EXPO},

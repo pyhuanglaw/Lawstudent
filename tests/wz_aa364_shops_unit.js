@@ -47,7 +47,7 @@ if(process.argv.includes('--zones')){
   for(const [ds,mon] of [['2026-07-15','7 月'],['2025-12-17','12 月']]){ global.GAME={G:{day:dayOf(ds),hour:15}};
     loadZone('wenzhou'); const it=lb=>E.interactables.find(i=>i.label===lb);
     const tea=it('買一杯飲料'), ice=it('買一碗冰'), sh=it('看夏日冰菓室'), W=WZS.WINDOW;
-    check('J. 溫州街（'+mon+'）：三個窗口按鈕在 LAWWW2 給的座標（茶飲 (17.4,−7.35)、冰菓室 (24.4,−7.4)、鐵捲門 (26.5,−7.4)）；點餐的帶 wzShop／kind，「看」是 look（五月見）',!!tea&&!!ice&&!!sh&&tea.x===17.4&&tea.z===-7.35&&ice.x===24.4&&ice.z===-7.4&&sh.x===26.5&&sh.z===-7.4&&tea.wzShop==='tea'&&tea.kind==='window'&&ice.wzShop==='ice'&&ice.kind==='window'&&sh.look==='（鐵捲門拉著。上面貼了一張紙：「五月見」。）'&&!sh.wzShop&&W.tea.x===17.4&&W.ice.shutter.x===26.5);
+    check('J. 溫州街（'+mon+'）：三個窗口按鈕在 LAWWW2 給的座標（茶飲 (17.4,−7.35)、冰菓室 (24.4,−7.4)、鐵捲門 (26.5,−7.4)）；點餐的帶 wzShop／kind，「看」是 look（AA_924：公休／打烊兩句）',!!tea&&!!ice&&!!sh&&tea.x===17.4&&tea.z===-7.35&&ice.x===24.4&&ice.z===-7.4&&sh.x===26.5&&sh.z===-7.4&&tea.wzShop==='tea'&&tea.kind==='window'&&ice.wzShop==='ice'&&ice.kind==='window'&&[WZS.AA364.ice.shutter,WZS.AA364.ice.shutterNight].includes(sh.look)&&!sh.wzShop&&W.tea.x===17.4&&W.ice.shutter.x===26.5);
     const summer=true;   /* 11-12 起冰菓室全年營業（AA-C）：兩個月都是窗口開著、「看」藏著 */
     check('J. 溫州街（'+mon+'）：'+(summer?'「買一碗冰」出現、「看夏日冰菓室」藏起來':'「買一碗冰」藏起來、「看夏日冰菓室」出現')+'；「買一杯飲料」一直在',!!tea&&!tea.hidden&&!!ice&&!!sh&&(summer?(!ice.hidden&&sh.hidden):(ice.hidden&&!sh.hidden)));
     for(const b of [tea,summer?ice:sh]) if(b) check('J. 溫州街（'+mon+'）：「'+b.label+'」站得住、從主巷走得到、站在那裡最近的是它',E.canStand(b.x,b.z,0.32,0)&&shows(b,lane),'('+b.x+','+b.z+')');
@@ -107,7 +107,7 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   check('A. 選「老樣子」的回答（第 5 節第 4 點）：老闆「好。一樣。」、小路的老闆「好，跟上次一樣。」（AA_655）、店員「好，一樣的。」、老闆娘「好。一樣的。」',J(K4.map(k=>A[k].same))===J(['好。一樣。','好，跟上次一樣。','好，一樣的。','好。一樣的。']),J(K4.map(k=>A[k].same)));
   check('A. 第一次的旁白（第 5 節第 4 點）',J(K4.map(k=>A[k].firstLine))===J(['（攤子前面只有三張小桌子。老闆煮麵的時候，沒有抬頭。）','（店裡很暗，只有吧台上方的燈是亮的。木札菜單一張一張掛在橫樑上，烤爐冒著煙。）','（價目牌只有三樣茶，每樣分中杯、大杯。你點完，後面已經排了兩個人。）','（價目表是手寫的。芒果冰那一行旁邊，用紅筆寫著「六到八月」。）']),J(K4.map(k=>A[k].firstLine)));
   check('A. 吃完（一個人）的旁白（第 5 節第 4 點）',J(K4.map(k=>A[k].done))===J(['（你吃完的時候，老闆已經在煮下一碗了。）','（老闆把最後一串烤好的雞肉放在你面前。「這串招待。」）','（你拿著飲料，沿著溫州街走回去。）','（冰化得比你吃得快。最後幾口，你是用喝的。）']),J(K4.map(k=>A[k].done)));
-  check('A. 冰菓室 10～4 月「看」的旁白：（鐵捲門拉著。上面貼了一張紙：「五月見」。）',A.ice.shutter==='（鐵捲門拉著。上面貼了一張紙：「五月見」。）');
+  check('A. 冰菓室「看」的旁白（AA_924 第 2 節，BB_450）：公休「（鐵捲門拉著。上面貼了一張紙：「星期二休息」，字寫得很圓。）」、打烊「（鐵捲門拉下來了。裡面的燈關了，冰櫃還在嗡嗡響。）」',A.ice.shutter==='（鐵捲門拉著。上面貼了一張紙：「星期二休息」，字寫得很圓。）'&&A.ice.shutterNight==='（鐵捲門拉下來了。裡面的燈關了，冰櫃還在嗡嗡響。）');
   const T=x=>J(said.map(s=>s.t))===J(x);
   // ---------- B. 點餐 ----------
   fresh('2025-10-15',12,'wz_lin'); inShop('lin'); const m0=G.money, h0=G.hour; await order('lin',0);

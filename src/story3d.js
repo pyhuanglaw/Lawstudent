@@ -249,7 +249,12 @@ const STORY = (function(){
       if(zoneId==='lane118'&&typeof L118_SHOP_LAYOUTS==='undefined'&&typeof L118!=='undefined'&&typeof LANE118_LAYOUT!=='undefined'){ let k=0; for(const sh of LANE118_LAYOUT.shops){ k++; let open=false; try{ open=L118.isOpen(sh.id,G); }catch(e){} if(!open) continue; const W=sh.side==='W', fx=W?LANE118_LAYOUT.facade.west+0.35:LANE118_LAYOUT.facade.east-0.35;
         clerk(fx,(sh.z0+sh.z1)/2+1.1,W?Math.PI/2:-Math.PI/2,50+k); } }
       if(zoneId==='us_market'&&sh831('us_market')){ clerk(-7.45,10.8,-Math.PI/2,61); clerk(-1.45,10.8,-Math.PI/2,62); }   // 美國草原超市：1、3 號收銀台（收銀機旁邊），面向輸送帶
-      if(zoneId==='us_asian_market') clerk(-4.5,2.7,0,63); }   // 竹葉亞洲超市：櫃台後面，面向門口。118 巷九間：有室內配置以後店員在店裡（上面 l118_<id>）；沒有室內配置才站在店門口旁邊
+      if(zoneId==='us_asian_market') clerk(-4.5,2.7,0,63);
+      /* 美國兩間超市的客人（BB_379 GATE_NEW3：「沒人看起來很空」；D99 ② 美國交換）：照配置的互動點（玩家站得到的貨架前）推車逛一圈；白天多、早晚少。只是逛，不加字 */
+      if((zoneId==='us_market'&&sh831('us_market'))||zoneId==='us_asian_market'){ const LY=zoneId==='us_market'?(typeof US_MARKET_LAYOUT!=='undefined'?US_MARKET_LAYOUT:null):(typeof US_ASIAN_MARKET_LAYOUT!=='undefined'?US_ASIAN_MARKET_LAYOUT:null);
+        const pts=LY&&(LY.interact||[]).filter(q=>!/checkout|carts|service/.test(q.id)).map(q=>[q.x,q.z,0]);
+        if(pts&&pts.length>=3){ const n=Math.max(1,Math.round((zoneId==='us_market'?(hr>=10&&hr<19?4:2):(hr>=11&&hr<19?1:0.5))*(S.CROWD_X||1)));   /* 亞洲超市小（16×12 m）：白天 2、早晚 1 */
+          for(let i=0;i<n;i++){ const k=(i*3)%pts.length, r=pts.slice(k).concat(pts.slice(0,k)); GM.spawnExtra(extraSpecUS(xi++),r.map(p=>[p[0]+(rnd()-0.5)*0.4,p[1]+(rnd()-0.5)*0.4,0]),{pockets:i%2===1,usShopper:true}); } } } }   // 竹葉亞洲超市：櫃台後面，面向門口。118 巷九間：有室內配置以後店員在店裡（上面 l118_<id>）；沒有室內配置才站在店門口旁邊
     if(zoneId==='us_market_street'&&typeof US_MARKET_STREET_LAYOUT!=='undefined'){ const rs=S.usStreetRoutes(US_MARKET_STREET_LAYOUT), n=Math.max(1,Math.round((hr>=8&&hr<20?7:(hr>=6.5&&hr<22?4:1))*S.CROWD_X*qf));   /* 超市街的路人（US-MARKET-CROWD-1021）：白天 7、早晚 4、深夜 1（照畫質）*/
       for(let i=0;i<n&&rs.length;i++){ const r=rs[i%rs.length]; GM.spawnExtra(extraSpecUS(xi++),r.map(p=>[p[0]+(rnd()-0.5)*0.4,p[1]+(rnd()-0.5)*0.3,p[2]]),{pockets:i%3===0}); }
       if(typeof US_TRAFFIC!=='undefined'&&US_TRAFFIC.start) US_TRAFFIC.start(GM); }   /* 馬路上的車（src/us_traffic3d.js）：紅綠燈、讓人、跟車 */
@@ -1266,7 +1271,7 @@ const STORY = (function(){
     S.routeWatch(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉（主迴圈每一格、跳時間、讀檔、ROM 改狀態之前也都叫，不靠這裡）*/
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
-    if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }
+    if(typeof PHONE!=='undefined'&&!(typeof WISH!=='undefined'&&WISH.quietNow)){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }
     S.phoneAuto(GM);   /* 要回覆的訊息自動打開手機（D103）*/   /* 手機：排定時間的訊息（交接包 v1）*/
     if(typeof PG!=='undefined'){ try{ PG.tick(GM); }catch(e){ console.warn('PG.tick',e); } }   /* 畢業以後（AA_319，src/postgrad3d.js）：國考、第一份工作、尾聲；畢業後篇跳到下一件事 */
     if(G.zone==='noodle'){ noodleRegulars(GM); S.zheNdlMark(G); }   /* 麵店的固定客人：時間到了進來、離開。S.zheNdlMark：AA_684 第 4 項（第三個徵兆「騎樓」）*/

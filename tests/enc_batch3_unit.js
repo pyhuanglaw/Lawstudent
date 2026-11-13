@@ -110,6 +110,12 @@ const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); 
     const L=[], menus=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>{ menus.push(o.map(x=>x.t)); return 0; }};
     await (ENC.meet(gm,rowOf('classmate_peishan','D08'),ENC.tier(G,'classmate_peishan')));
     check('8. 沛珊（前任）：選單是打招呼／不打擾（沒有點頭、沒有一起走），說認識的那兩句',!!menus[0]&&menus[0].join()==='打招呼,不打擾'&&L.some(t=>t.includes('我們課輔班來校外教學')),JSON.stringify({menus,L})); }
+  // 可昕朋友層（AA_893 第 4 節、AA_920 ④；CANON-NO-ECON-1112）：朋友以上遇得到、打招呼用 kx_b 第一句、沒有「一起走一段」
+  { STAGE.kexin='FRIEND'; G=mk(STORY.termDay('Y1S1',10,7),17); G.trip={};
+    const okAt=at(G,'D10')==='kexin'; const L=[], menus=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>{ menus.push(o.map(x=>x.t)); return 0; }};
+    await (ENC.meet(gm,rowOf('kexin','D10'),ENC.tier(G,'kexin')));
+    check('8. 可昕（朋友、沒交往）D10：遇得到；選單打招呼／不打擾（沒有一起走）；說 kx_b 第一句「嗨。我們在吃玉米。」',okAt&&!!menus[0]&&menus[0].join()==='打招呼,不打擾'&&L.some(t=>t.endsWith('：嗨。我們在吃玉米。')),JSON.stringify({okAt,menus,L}));
+    STAGE.kexin='ACQUAINTANCE'; G=mk(STORY.termDay('Y1S1',10,7),17); check('8. 可昕（只是認識）：還是遇不到',at(G,'D10')===''); delete STAGE.kexin; }
   // 可昕一起走：予樂的讓位句（intro batch:3）
   { G=mk(STORY.termDay('Y1S1',10,7),17,{flags:{dating_kexin:true}}); G.trip={};
     const L=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>o.findIndex(x=>x.t==='一起走一段')};

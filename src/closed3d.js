@@ -61,7 +61,7 @@ const CLOSED=(function(){
     const cur=E.npcs.find(n=>n&&n.fruitOwner&&!n.leaving), want=S.fruitOwnerWant(G);
     if(cur&&!want){ cur.until=G.hour%24; cur.leaving=true; if(GM.removeNPC&&cur.charId) GM.removeNPC(cur.charId); else if(E.removeNPC) E.removeNPC(cur); return -1; }
     if(!cur&&want){ const o=(WZS.AA413.fruit||{}).owner; if(!o) return 0; const obj=CHAR.build(STORY.extraSpec(821)); obj.position.set(o.x,0,o.z); obj.rotation.y=o.yaw||0;
-      E.addNPC({obj,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fruitOwner:true}); return 1; }
+      E.addNPC({obj,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fruitOwner:true,stallKeeper:true});   /* stallKeeper：顧攤的人（地點關卡「有人顧攤」）*/ return 1; }
     return 0; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>{ try{ const G=GM&&GM.G; if(G&&G.zone==='wenzhou') S.fruitOwner(GM); }catch(e){ console.warn('CLOSED.fruitOwner',e); } return false; });
   if(typeof STORY!=='undefined'&&STORY.populate&&!STORY._wz413Pop){ const p1=STORY.populate; STORY.populate=function(zoneId,GM){ if(zoneId!=='cvs'&&GM&&GM.G&&GM.G.flags&&GM.G.flags.CVS_FROM) GM.G.flags.CVS_FROM=null; const r=p1.apply(this,arguments); if(zoneId==='wenzhou'){ try{ S.fruitOwner(GM); }catch(e){ console.warn('CLOSED.fruitOwner',e); } } return r; }; STORY._wz413Pop=true; }

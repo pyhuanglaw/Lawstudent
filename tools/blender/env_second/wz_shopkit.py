@@ -1071,6 +1071,20 @@ def xs_awning(xf, x0, x1, y0, y1, d, col, along='x', zc=0.0):
         a_, b_ = P(u, y0 - 0.35, 0.02), P(u, y1 + 0.02, d - 0.02); acc(M['metal']).cyl(a_, b_, 0.012, seg=5)
 
 
+_XS_N = [0]   # xs_street_front 的盆栽 instancing 編號
+GLB_PROTO = {}
+def glb_proto(rel):
+    """烘焙好光影的道具 GLB（例：tz_wente_interior.py --rack 烘的門口衣架）→ 一個網格（原點在底部中央，可以 B.instance）；SHOP-REALISM-1112（D160：道具用 CC0 材質組＋Cycles 烘焙）"""
+    if rel not in GLB_PROTO:
+        before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, rel))
+        new = [o for o in bpy.data.objects if o not in before]; parts = []
+        for o in new:
+            if o.type == 'MESH': me = o.data.copy(); me.transform(o.matrix_world); parts.append(me)
+        for o in new: bpy.data.objects.remove(o)
+        out = parts[0]; out.name = 'glb_' + os.path.splitext(os.path.basename(rel))[0]; GLB_PROTO[rel] = out
+    return GLB_PROTO[rel]
+
+
 def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
     """沒有騎樓的店面（溫州街日常失速）：落地窗（黑鐵窗框，每 pane 公尺一格、tr 一道橫框）、門、玻璃上方到一樓頂的牆、綠色波浪雨棚、牆上的招牌（參考圖裁的字）、兩盞門燈、側面的窗、門口的 A 字立牌和大理石小圓桌"""
     fr = acc(frame_mat(c['frame'])) if c.get('frame') else acc(SK['black']); wm = wall
@@ -1107,9 +1121,31 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
             xs_quad(key, p if sx < 0 else [p[1], p[0], p[3], p[2]], tiles=1)
     sd = c.get('side')
     if sd: xs_side_window(spec, xf, W, c, sd)
+    if dr and c.get('door_wood'):   # SHOP-REALISM-1112（溫特寶邸概念圖、BB_379）：木門扇——兩邊直框、上中下三道橫框、下半一塊木板（玻璃只在上半）
+        d0, d1, dh = dr
+        for (xa, xb) in ((d0 + 0.04, d0 + 0.14), (d1 - 0.14, d1 - 0.04)): xf.box(fr, xa, xb, 0.0, dh - 0.03, z - 0.02, z + 0.045)
+        for (ya, yb) in ((0.0, 0.62), (1.02, 1.1), (dh - 0.16, dh - 0.03)): xf.box(fr, d0 + 0.04, d1 - 0.04, ya, yb, z - 0.02, z + 0.045)
+    pt = c.get('pier_tile')
+    if pt:   # 玻璃兩側的柱子貼磁磚（溫特寶邸概念圖：綠白小方磚柱）；外牆同一套 wall_mat，顏色放頂點色
+        _pm = Mesh(f'pier_tile_{spec["id"]}', wall_mat(pt[0]))
+        for (a, b) in ((-W / 2, gx0 - 0.05), (gx1 + 0.05, W / 2)):
+            if b - a > 0.04: xf.box(_pm, a, b, 0.0, gy1 + 0.08, 0.0, 0.035)
+        if not _pm.empty(): set_tint(_pm.finish(root), pt[1], pt[0])
+    if c.get('kick'):   # SHOP-REALISM-1112（溫特寶邸概念圖）：落地窗下面一段木腰板（高 kick 公尺），門那一段不做
+        _kh = c['kick']; _segs = [(gx0, gx1)]
+        if dr: _segs = [(gx0, dr[0] - 0.04), (dr[1] + 0.04, gx1)]
+        for (a, b) in _segs:
+            if b - a > 0.05: xf.box(fr, a, b, 0.0, _kh, z - 0.03, z + 0.06); xf.box(fr, a, b, _kh, _kh + 0.04, z - 0.05, z + 0.1)   # 腰板＋上面一道窗台
     for it in c.get('clutter', []):
         if it[0] == 'aboard': aboard(xf, it[1], it[2], it[3] if len(it) > 3 else 'chalk')
         elif it[0] == 'bistro': bistro_table(xf, it[1], it[2])
+        elif it[0] == 'glb':   # ('glb', 檔案, x, z[, 地點])：烘好的道具，橫桿和店面平行；給地點＝只在營業時擺出來（節點名 OPENONLY__<地點>__…，遊戲 Z3.openOnly 切換）
+            _pm = glb_proto(it[1]); _w = _wp(xf, it[2], it[3]); _pl = it[4] if len(it) > 4 else None
+            B.instance(_pm, (f'OPENONLY__{_pl}__{spec["id"]}_{_XS_N[0]}' if _pl else f'skxglb_{spec["id"]}_{_XS_N[0]}'), *_w, root, ry=xf.ry); _XS_N[0] += 1
+            if not _pl: prop_fp(_pm, 'skxglb', _w[0], _w[2], xf.ry)   # 會收起來的不擋路（打烊收起來以後不能留一道看不到的牆；擺出來時靠牆 0.4～0.9 m，走路照舊過得去）
+        elif it[0] in ('ph_pot', 'ph_succ'):   # Poly Haven 的盆栽（CC0 掃描模型，D160）：同溫州街騎樓店面的 ph_pot／ph_succ；第四個＝放大倍數
+            _pm = ph_proto('pot' if it[0] == 'ph_pot' else 'succ'); _w = _wp(xf, it[1], it[2]); _ry = it[1] * 1.7; _sc = it[3] if len(it) > 3 else 1.0
+            ob_ = B.instance(_pm, f'skx{it[0]}_{spec["id"]}_{_XS_N[0]}', *_w, root, ry=_ry); _XS_N[0] += 1; ob_.scale = (_sc, _sc, _sc); prop_fp(_pm, 'skx' + it[0].replace('_', ''), _w[0], _w[2], _ry, _sc)
     if c.get('lit', True):
         CL.glow(root, 'offbeat_in', *xf.p((gx0 + gx1) / 2, 1.6, z - 0.4), color='rgba(255,232,190,1)', size=4.0, day=0.0, night=0.55)
 
