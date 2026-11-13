@@ -78,9 +78,9 @@
   "top": "WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32]"
  },
  "assets/models/env/second_ai/bb_support/cvs_interior.glb": {
-  "sha1": "77ad816b3638fd3adf45947b10ff6f2a2c471b43",
+  "sha1": "85343b4ad949dfa5e7a36078ec9e019f3557804b",
   "wall": 2.66,
-  "always": 5.6,
+  "always": 5.24,
   "top": "WALL_back_vc×cvs_vc 1.052 m² @[-0.08,0.07,-5.5]"
  },
  "assets/models/env/second_ai/bb_support/dabu.glb": {

@@ -244,6 +244,7 @@
 | `potted_plant_01` | 左前角窗邊的大盆栽（原本程式拼的大葉盆栽）（作者 Rico Cilliers） | 176,226 → 約 5,000 面 | `assets/models/env/second_ai/bb_support/ade.glb`（溫州街 A1 阿德影印店內 v2，SHOP-CC0-HELP-1113，幫手 g4 2026-11-13；腳本 `tools/blender/env_second/bb_support/ade_interior.py`＋`bb_support/cc0kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh bb_ade`） |
 | `desk_lamp_arm_01` | 阿芃小桌上的摺臂檯燈（作者 Yann Kervran、Kuutti Siitonen） | 24,102 → 約 1,900 面 | `assets/models/env/second_ai/bb_support/ade.glb`（溫州街 A1 阿德影印店內 v2，SHOP-CC0-HELP-1113，幫手 g4 2026-11-13；腳本 `tools/blender/env_second/bb_support/ade_interior.py`＋`bb_support/cc0kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh bb_ade`） |
 | `vintage_stapler` | 櫃台上的釘書機（作者 Mateusz Sadek） | 4,370 → 約 1,100 面 | `assets/models/env/second_ai/bb_support/ade.glb`（溫州街 A1 阿德影印店內 v2，SHOP-CC0-HELP-1113，幫手 g4 2026-11-13；腳本 `tools/blender/env_second/bb_support/ade_interior.py`＋`bb_support/cc0kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh bb_ade`） |
+| `cardboard_box_01`（Rahul Chaudhary） | 公館日和便利店左牆貨架頂上的庫存紙箱（大小、角度不一） | 約 17,000 → 約 200 面（decimate 0.012） | `assets/models/env/second_ai/bb_support/cvs_interior.glb`（SHOP-REALISM-1112：幫手 g2 改腳本、LAWWW2-C 接手；腳本 `tools/blender/env_second/bb_support/cvs_interior.py`，光照 `lightbake/bake_gg_new.sh cvs`） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -420,6 +421,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Wood049` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 木頭（桌椅、收銀台踢腳、深色木；南洋戲院漆成深紅的護牆板、樑） | `assets/models/env/second_ai/bb_support/ade.glb`（溫州街 A1 阿德影印店內 v2，SHOP-CC0-HELP-1113，幫手 g4 2026-11-13；腳本 `tools/blender/env_second/bb_support/ade_interior.py`＋`bb_support/cc0kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh bb_ade`） |
 | `Metal009` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 金屬（亮／中／暗、黃銅、香檳金細框；南洋戲院的黃銅、黑鐵、不鏽鋼） | `assets/models/env/second_ai/bb_support/ade.glb`（溫州街 A1 阿德影印店內 v2，SHOP-CC0-HELP-1113，幫手 g4 2026-11-13；腳本 `tools/blender/env_second/bb_support/ade_interior.py`＋`bb_support/cc0kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh bb_ade`） |
 | `Cardboard001` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 紙箱、牛皮紙箱 | `assets/models/env/second_ai/bb_support/ade.glb`（溫州街 A1 阿德影印店內 v2，SHOP-CC0-HELP-1113，幫手 g4 2026-11-13；腳本 `tools/blender/env_second/bb_support/ade_interior.py`＋`bb_support/cc0kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh bb_ade`） |
+| `Plastic006`、`Metal009` | （同上） | 頂點色零件（貨架、包裝、櫃子、冷藏櫃框：頂點色 × Plastic006 的霧面紋路，起伏 0.015）、金屬（不鏽鋼、層板鐵條） | `assets/models/env/second_ai/bb_support/cvs_interior.glb`（公館日和便利店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/bb_support/cvs_interior.py`） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 
