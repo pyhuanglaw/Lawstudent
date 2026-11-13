@@ -56711,7 +56711,7 @@
   "source": "使用者 11-13 14:1x 對 LAWWW2-C（UA-LAWWW2-1113-01～03）：「寫進規則 每家店都要通過 你做不完就請其他AI幫忙」「請其他AI幫忙的時候要跟它們說你現在的做法和驗收標準 仍然由你驗收 要跟它們講工具」",
   "authorized": "使用者原話（跨職位幫忙由使用者授權）；D161",
   "wants": "X365",
-  "next": "【LAWWW-C 11-13 16:0x UTC】118 巷水上便當 l118_self（AA-C 19b3bbf7d2，LAWWW2 美術 PASS）整合：並排圖看過（配菜櫃改成一盤盤有貼圖的菜、便當紙盒）；純色 18%、三項成立；新工具 cc0_kit.py、bake_l118_shops.sh 進開發分支（美國超市幫手重做時用這一份）；CC0 基準 43→42；place_gate --write、相關 390 支 Node 全過。P2：紅燒肉貼圖像磁磚、雞排側面拉長、價錢牌沒字。下一間 korea（LAWWW2 驗收中）。｜【11-13 14:3x LAWWW-C 開】AA-C 14:23 接 118 巷九間（lane118_shops.py：l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea），照 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md 做；一間做完交一間（AA 分支 patch＋並排圖）→ LAWWW2 驗收 → LAWWW 整合 → BB 判美術 → CC 四鏡頭＋效能。LAWWW-C 子代理做美國兩間（us_market、us_asian_market）。owner 寫 AA＝118 巷這一份；美國兩間由 LAWWW 負責。",
+  "next": "【LAWWW-C 11-13 16:5x UTC】118 巷 korea（清州刀削麵 23%）＋dian（118 牛排 16%）（AA-C 26626e91f4，LAWWW2 PASS）整合：並排圖看過（實木椅、廚房層架材質、PH 盆栽）；it_fix.py 補 dian 兩個走近點；CC0 基準→39；place_gate --write、相關 390 支 Node 全過。P2：korea 蒸氣球、吊盆、桌面反光；dian 紅櫃台分段、湯桶貼紙。19:00 korea 新版截圖沒客人（舊版有）請 CC 四鏡頭確認客人。下一間 tea（LAWWW2 驗收中）、cafe2。｜【LAWWW-C 11-13 16:0x UTC】118 巷水上便當 l118_self（AA-C 19b3bbf7d2，LAWWW2 美術 PASS）整合：並排圖看過（配菜櫃改成一盤盤有貼圖的菜、便當紙盒）；純色 18%、三項成立；新工具 cc0_kit.py、bake_l118_shops.sh 進開發分支（美國超市幫手重做時用這一份）；CC0 基準 43→42；place_gate --write、相關 390 支 Node 全過。P2：紅燒肉貼圖像磁磚、雞排側面拉長、價錢牌沒字。下一間 korea（LAWWW2 驗收中）。｜【11-13 14:3x LAWWW-C 開】AA-C 14:23 接 118 巷九間（lane118_shops.py：l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea），照 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md 做；一間做完交一間（AA 分支 patch＋並排圖）→ LAWWW2 驗收 → LAWWW 整合 → BB 判美術 → CC 四鏡頭＋效能。LAWWW-C 子代理做美國兩間（us_market、us_asian_market）。owner 寫 AA＝118 巷這一份；美國兩間由 LAWWW 負責。",
   "first": {
    "term": "Y1S1",
    "week": 1,

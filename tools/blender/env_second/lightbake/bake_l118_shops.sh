@@ -29,6 +29,33 @@ self)
   for z in -2.5 -1.2 0.1; do PT="$PT;-2.0,1.47,$z,${HEATW:-18},$WARM,0.04"; done
   PT="$PT;0.55,1.85,-6.0,${HOODW:-14},$WARM,0.1"
   SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.98,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
+korea)
+  # 清州刀削麵（6.6×8.5×3.2 m＋後面 2.2 m 深的廚房）：天花板八片輕鋼架燈盤（六片沿 z、兩片沿 x；位置照 build_korea 的 troffers）＋廚房一支日光燈（x 0、z −4.93）
+  #   ＋抽油煙罩下三盞暖燈（x 0.7／1.5／2.3、z −5.85、y 1.9）。白天燈也開著；店面玻璃朝 118 巷（S），只有天光。
+  # --hide／--nolm 同上（蒸氣 steam 也藏：半透明的球，擋光）。
+  HIDE='glass|GLOW_|view|steam'
+  NOLM='_vc$|ph_potted|prints|screens'
+  COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
+  for xz in "-1.8 -1.0" "-1.8 1.4" "0.6 -1.0" "0.6 1.4" "2.4 -1.0" "2.4 1.4"; do set -- $xz
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.11,1,1,${TROFW:-30},0.3,1.2,$COL')")"; done
+  for xz in "-1.8 3.4" "-0.5 -3.25"; do set -- $xz
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.11,1,1,${TROFW:-30},1.2,0.3,$COL')")"; done
+  LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-4.935,-4.915,3.1,1,1,${TUBEW:-24},1.24,0.05,$COL')")"
+  for x in 0.7 1.5 2.3; do PT="$PT;$x,1.85,-5.85,${HOODW:-10},$WARM,0.08"; done
+  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.98,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
+dian)
+  # 118牛排（5.6×8×3.2 m＋後面 2.2 m 深的廚房）：天花板六片輕鋼架燈盤（四片沿 z、兩片沿 x；位置照 build_dian 的 troffers）＋廚房一支日光燈（x 0、z −4.68）
+  #   ＋抽油煙罩下四盞暖燈（x −1.3／−0.5／0.3／1.1、z −5.6、y 1.9）。白天燈也開著；店面玻璃朝 118 巷（S），只有天光。
+  HIDE='glass|GLOW_|view'
+  NOLM='_vc$|ph_potted|prints|screens|_steak$'
+  COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
+  for xz in "-1.6 -1.0" "-1.6 1.4" "1.6 -1.0" "1.6 1.4"; do set -- $xz
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.11,1,1,${TROFW:-30},0.3,1.2,$COL')")"; done
+  for xz in "0.0 3.2" "-1.0 -3.0"; do set -- $xz
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.11,1,1,${TROFW:-30},1.2,0.3,$COL')")"; done
+  LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-4.685,-4.665,3.1,1,1,${TUBEW:-24},1.24,0.05,$COL')")"
+  for x in -1.3 -0.5 0.3 1.1; do PT="$PT;$x,1.85,-5.6,${HOODW:-9},$WARM,0.08"; done
+  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.98,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
 *) echo "還沒做 CC0 版的店：$SHOP（lane118_shops.py 的 CC0_SHOPS 加進去、這裡加一個 case）"; exit 1 ;;
 esac
 PT=${PT#;}; LIGHTS=${LIGHTS#;}
