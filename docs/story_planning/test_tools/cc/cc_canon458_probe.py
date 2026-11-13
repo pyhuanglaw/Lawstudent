@@ -14,6 +14,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   FEED_Y1／FEED_Y4  #7 可昕動態（交往中；2025-09-14 21:00 kx1、2029-06-03 21:00 kx3h「畢業了。」→ 手機「動態」頁）
   ENC_DATING／ENC_FRIEND／ENC_ACQ  #8 淡水偶遇（交往中，Y1S1 第 6／8／9 週週日 16:00）／#14 朋友層偶遇（FRIEND，西門町第 6／8／9 週週六 18:00；認識＝遇不到）：捷運公館站入口 → 景點 → 散步 → 偶遇（60%）
   DATE_PS／DATE_ZR  #9 約會收尾（【捷徑】DATE.book D01 15:00 → 出發 → 選「差不多了」→ 收尾；芷若同一地點隔週再去一次＝AA_904 remember）
+  BAR_FACE  #5 國考讀書會當面（Y4_PATH bar、交往中；2/23 起 OUT 排的讀書小組照順序演三場：開學那場、平日大口二樓 3D、週六法律系館）
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -332,7 +333,34 @@ async def c_date(pg, cdp, tag):
     return {'case': tag, 'dates': out}
 
 
+BAROUT_JS = "(()=>(OUT.rec(GAME.G)||[]).filter(q=>q&&/bar/.test(q.id||'')&&q.state==='planned').map(q=>({id:q.id,ev:q.ev,day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,title:q.title})))()"
+
+
+async def c_bar(pg, cdp, tag):
+    """#5 國考讀書會當面那幾晚（律師讀書小組 r2y4b3d.js 667～745；tests/bar_group_3d_1112_unit.js 81～82、160～161）：Y4_PATH bar、和可昕交往中（只有可昕＝語彤不是朋友）
+       2029-02-23 07:50 宿舍 → 08:00 後手機（可昕、群組）→ OUT 排的讀書小組那幾場，照順序跳到前 30 分鐘 → 等「出發」→ 每句截圖（開學那場、之後第一個平日大口二樓、週六法律系館）；最多三場"""
+    d, seed = await SP.fresh(pg, cdp, tag, '2029-02-23', 7 + 50 / 60, 'dorm', {'kexin': 'DATING'}, {'Y4_PATH': 'bar'})
+    R.note('[%s] 墊完 %s' % (tag, J(seed)))
+    await SP.wait_h(pg, cdp, 8.2, tag); await pg.wait_for_timeout(3000)
+    t = await SP.thread(pg, cdp, tag + '_0223', 'p:kexin')
+    seen = set(); out = []
+    for n in range(3):
+        plans = await pg.evaluate(BAROUT_JS); R.note('[%s] 排著的讀書小組 %s' % (tag, J(plans)))
+        nxt = next((q for q in sorted(plans, key=lambda q: (q['day'], q['h'])) if q['id'] not in seen), None)
+        if not nxt:
+            if n == 0: R.check('FAIL_SETUP 檢查：[%s] 2/23 以後有排讀書小組' % tag, False, J(plans))
+            break
+        seen.add(nxt['id'])
+        await SP.jump(pg, cdp, '%s %s' % (tag, nxt['id']), nxt['day'], max(0, nxt['h'] - 0.5), 'dorm', None)
+        r = await SP.go_out(pg, cdp, '%s_%d_%s' % (tag, n + 1, nxt['id']), 0)
+        z = (await P.clock(pg))['zone']; out.append({'plan': nxt, 'r': r, 'zone_after': z})
+        R.note('[%s] 第 %d 場 %s（%s %s）之後在 %s' % (tag, n + 1, nxt['ev'], nxt['day'], nxt['place'], z))
+    SP.d158(tag, t, *[o['r'] for o in out])
+    return {'case': tag, 'kx': t, 'sessions': out}
+
+
 async def one(pg, cdp, c):
+    if c == 'BAR_FACE': return await c_bar(pg, cdp, c)
     if c in DATES: return await c_date(pg, cdp, c)
     if c in ENC: return await c_enc(pg, cdp, c)
     if c in FEED: return await c_feed(pg, cdp, c)
