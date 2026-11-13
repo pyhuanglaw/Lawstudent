@@ -35,3 +35,20 @@
   - 整體和參考圖的配置一樣。
 - **P2（下一輪補，不擋整合）**：鐵層架上的便利貼一排四塊大小一樣（D159「同類東西大小、角度要有變化」）。請 g4 南洋做完以後改成高低、大小、角度不一，有的拆封散開，然後重烘。
 - 還沒做：CC 第二層四鏡頭、BB 判美術。
+
+## 一盞（店內）＋小路、SUNNY SIDE v3 小修（幫手 g1，claude/shop-cc0-g1 58a50cc2cb）— PASS
+
+- 驗收底：開發分支 19399e5d39，依序套 g1 的三份 patch，都乾淨：`yizhan_cc0.patch`、`komichi_v3_cc0.patch`、`sunnyside_v3_cc0.patch`。
+- **一盞**：
+  - Poly Haven 掃描模型：電水壺、兩種藤籃、陶甕。
+  - ambientCG 材質組：灰泥、塑膠、金屬、布。
+  - 純色零件從 32% 降到 13%，面數 23.9k。
+  - 互動點、座位、導航、店員、找貓支線節點都沒動。
+  - 看圖：水屋的壺、緣側的甕換成掃描模型；地板照 D112 用淺色木。
+- **小路、SUNNY SIDE v3**：只換貼圖，把大面積淺色零件上雲狀的斑壓低。看圖沒有退步。
+- 測試：
+  - `shop_cc0` ALL PASS。
+  - `place_gate` ALL PASS（重產狀態表後）；`--coplanar` 三間牆疊面：一盞 1.22、小路 0.75、SUNNY SIDE 1.34 m²。
+  - 回歸：teahouse_tap、teahouse_yard_cam、wz_teahouse_seats、wz_teahouse_yard、yizhan_place、te_komichi_stage、wz_shops*（4 支）、wz_interiors_aa659、room_ceiling ALL PASS。
+- **LAWWW 套 `g1_yizhan_komichi_sunny_full.patch`**（底 19399e5d39）：三份合一，加上重產的狀態表和 coplanar。
+- 還沒做：CC 第二層四鏡頭、BB 判美術。

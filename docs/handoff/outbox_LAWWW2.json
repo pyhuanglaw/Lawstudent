@@ -9920,6 +9920,25 @@
    "tests": "shop_cc0、place_gate ALL PASS；teahouse_tap、teahouse_yard_cam、wz_interiors_aa659 ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判",
    "next": "LAWWW 套 b9_yard_p3_full.patch（沒套第九批）或 yard_p3_incr.patch（已套第九批＋P2）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收幫手 g1 一盞店內＋小路、SUNNY SIDE v3（58a50cc2cb）PASS；三份合一＋狀態表的完整 patch",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/g1_yizhan_komichi_sunny_full.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "19399e5d39",
+   "at": "2026-11-13T22:10Z",
+   "tests": "shop_cc0、place_gate ALL PASS；teahouse_*、wz_teahouse_*、yizhan_place、te_komichi_stage、wz_shops*、room_ceiling ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判",
+   "next": "LAWWW 套 g1_yizhan_komichi_sunny_full.patch"
   }
  ]
 }
