@@ -35,7 +35,6 @@ import cc0_kit   # noqa: E402
 RP = random.Random(77)   # 掃描盆栽的轉向（另一個亂數，原本的書、杯子排法不變）
 CK = cc0_kit.Kit(sh.root, P[:-1])
 sh.M.update({
-    'oakcg': CK.acg(P + 'oak_cc0', 'Wood049', target='#bf9462', vary=0.35, tile=0.5, rough_value=0.55),
     'fab_grey': CK.acg(P + 'fabric_grey', 'Fabric030', target='#9c968c', tile=0.35, rough_value=0.9),
     'fab_linen': CK.acg(P + 'fabric_linen', 'Fabric030', target='#dacdb6', tile=0.35, rough_value=0.9),
     'fab_moss': CK.acg(P + 'fabric_moss', 'Fabric030', target='#7d8f62', tile=0.3, rough_value=0.9),
@@ -48,7 +47,8 @@ sh.M.update({
     'ceramic': CK.acg(P + 'ceramic', 'Plastic006', target='#f2efe8', vary=0.05, tile=0.4, rough_value=0.2),
     'ceramic_b': CK.acg(P + 'ceramic_beige', 'Plastic006', target='#e8dcc0', vary=0.05, tile=0.4, rough_value=0.25),
 })
-sh.route({'#b98a58': 'oakcg', '#c79c6a': 'oakcg', '#b38a5c': 'wood', '#9c968c': 'fab_grey', '#d8cbb4': 'fab_linen', '#e4d9c4': 'fab_linen',
+sh.route({'#b98a58': 'wood', '#c79c6a': 'wood',   # 椅子、高腳椅、矮櫃門＝和書牆同一個 walnut_veneer（Wood049 在細椅腳上太碎）
+          '#b38a5c': 'wood', '#9c968c': 'fab_grey', '#d8cbb4': 'fab_linen', '#e4d9c4': 'fab_linen',
           '#7d8f62': 'fab_moss', '#cbbca2': 'rug', '#b8944a': 'brass', '#2a2a2a': 'blackmetal', '#3a3a3a': 'blackmetal', '#2f3a33': 'signboard',
           '#ece6da': 'stone', '#d9d2c4': 'stone', '#c8c8c4': 'steel', '#9a9a96': 'steel', '#d6d2c8': 'steel', '#e6e2d8': 'steel', '#bdb8ac': 'steel',
           '#f2efe8': 'ceramic', '#e8dcc0': 'ceramic_b', '#d8d0c0': 'ceramic_b', '#b8a890': 'ceramic_b'})
