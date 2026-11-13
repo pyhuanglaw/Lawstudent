@@ -1,0 +1,67 @@
+{
+ "objects": 422,
+ "unique_meshes": 142,
+ "tris": 97477,
+ "tris_drawn": 153393,
+ "materials": 182,
+ "out": "assets/models/env/second_ai/tingzhou_street.glb",
+ "bytes": 9204484,
+ "texres": 512,
+ "buildings": [
+  "Te_glass",
+  "Te_chicken",
+  "Te_malay",
+  "Te_douhua",
+  "Te_books",
+  "Te_dump",
+  "Te_lotto",
+  "Txile",
+  "Tyindehao",
+  "Te_bfast",
+  "Te_hainan",
+  "Te_market",
+  "Tw_burma",
+  "Tw_bento",
+  "Tw_sport",
+  "Tw_mian",
+  "Tw_indo",
+  "Tw_tea",
+  "Tw_cafe",
+  "Ttaimi",
+  "Twente",
+  "Tliantong",
+  "Tdongnan",
+  "Tkeju",
+  "Tyuehaochi",
+  "Tw_luwei",
+  "Tw_brunch",
+  "TA_N",
+  "TA_S",
+  "TA_END",
+  "TM_N",
+  "TM_END",
+  "TA_LIMAO"
+ ],
+ "noArcade": {
+  "Twente": [
+   -8.2,
+   10.8
+  ],
+  "Tliantong": [
+   -8.2,
+   10.8
+  ],
+  "Tdongnan": [
+   -8.2,
+   10.8
+  ],
+  "Tkeju": [
+   -8.2,
+   10.8
+  ],
+  "Tyuehaochi": [
+   -8.2,
+   10.8
+  ]
+ }
+}

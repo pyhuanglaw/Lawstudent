@@ -9355,6 +9355,28 @@
    "remaining": "基準表在 21773bf35b＋溫特寶邸 v2 上算的，整合時在開發分支重跑 --write",
    "next": "LAWWW 放進 tests/、接 node-unit-auto；SHOP_STANDARD_STATUS「CC0 素材」欄用 cc0Of() 接；49 間進 SHOP-REALISM-1112 重做清單",
    "ackNote": "LAWWW-C 09:11Z：已進開發分支 cdc610c217；SHOP_STANDARD_STATUS 加「CC0 素材（D160）」欄（place_gate 用 cc0Of）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "溫特寶邸 v3：店面木腰板＋Poly Haven 盆栽、書、折衣、布料貼圖放大、假人頭（BB_379 初判五點）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v3/tz_wente_interior.glb",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v3/tz_wente_interior.py",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v3/wente_front.patch",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v3/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v3/cmp_wide.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v3/cmp_full.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v3/cmp_rack.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v3/cmp_open_closed.jpg"
+   ],
+   "remaining": "衣服近看仍斑駁；木門開著、門口衣架、壁燈未做；多肉太小",
+   "next": "LAWWW-C 套 wente_front.patch、開發分支重建街景、換店內 GLB → BB 判並排圖"
   }
  ]
 }
