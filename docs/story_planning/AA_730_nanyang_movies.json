@@ -12,7 +12,8 @@
    "id＝海報檔名用（例 m2409a＝2024-09 那一段的第一部）；BB 照 D97 跟使用者要海報：一部一張，直式，片名照 title 寫在海報上。",
    "tags＝這部有什麼（給下面的 sceneFilm 用）：action 動作、scifi 科幻、anime 動畫、comedy 喜劇、romance 愛情、court 法庭、mystery 推理、doc 紀錄片、drama 劇情、family 家庭、sports 運動、music 音樂、art 老片重映、cat 有貓、library 有人在圖書館讀到閉館、bookstore 有書店、long 三個小時的長片。",
    "fits＝這部是她喜歡的類型（以安法庭推理、芷若老片和安靜的愛情片、語彤紀錄片和人的故事、子晴動作科幻遊戲和貓、學姊長片和法律人的片、沛珊動畫喜劇和會哭的片、可昕當紅的大片和運動片）。芯慈、Alison 不列（Alison 在戲院打工，每一部都看過）；朋友（柏翰等）約看電影＝第一部。"
-  ]
+  ],
+  "xinci": "芯慈：AA_989 fits 18 部（AA-C 2026-11-13，BB 照用）"
  },
  "pick": [
   "1. 約的那天落在哪一段，就是那一段的 bill。",
@@ -389,7 +390,8 @@
      "line": "一場車禍，三份證詞，時間都差了五分鐘。",
      "fits": [
       "heroine_01",
-      "heroine_05"
+      "heroine_05",
+      "classmate_xinci"
      ],
      "id": "m2509b",
      "slot": 2
@@ -412,7 +414,8 @@
      "line": "聖誕夜的最後一件包裹，地址寫錯了。",
      "fits": [
       "classmate_peishan",
-      "heroine_02"
+      "heroine_02",
+      "classmate_xinci"
      ],
      "id": "m2511a",
      "slot": 1
@@ -463,7 +466,8 @@
      "line": "十年前說好要一起去看極光，只剩一個人去了。片長三小時。",
      "fits": [
       "heroine_02",
-      "heroine_05"
+      "heroine_05",
+      "classmate_xinci"
      ],
      "id": "m2601b",
      "slot": 2
@@ -499,7 +503,8 @@
      "line": "開庭的時候，只有書記官發現證人改了一個字。",
      "fits": [
       "heroine_01",
-      "heroine_05"
+      "heroine_05",
+      "classmate_xinci"
      ],
      "id": "m2603b",
      "slot": 2
@@ -571,7 +576,8 @@
      "line": "一間只開暑假的冰店，和每年夏天回來打工的三個人。",
      "fits": [
       "heroine_03",
-      "classmate_peishan"
+      "classmate_peishan",
+      "classmate_xinci"
      ],
      "id": "m2607b",
      "slot": 2
@@ -607,7 +613,8 @@
      "line": "一個新律師每天早上都在早餐店接案子。",
      "fits": [
       "heroine_05",
-      "kexin"
+      "kexin",
+      "classmate_xinci"
      ],
      "id": "m2609b",
      "slot": 2
@@ -681,7 +688,8 @@
      "line": "除夕的最後一班高鐵，一節車廂裡的七個人。片長三小時。",
      "fits": [
       "heroine_03",
-      "heroine_05"
+      "heroine_05",
+      "classmate_xinci"
      ],
      "id": "m2701b",
      "slot": 2
@@ -718,7 +726,8 @@
      ],
      "line": "一個字幕翻譯每天在圖書館待到閉館，為了一句台詞想了三天。",
      "fits": [
-      "heroine_02"
+      "heroine_02",
+      "classmate_xinci"
      ],
      "id": "m2703b",
      "slot": 2
@@ -827,7 +836,8 @@
      "line": "一張三十年前的借據。一個法律系學生在圖書館翻了一整個學期的舊報紙。",
      "fits": [
       "heroine_01",
-      "heroine_05"
+      "heroine_05",
+      "classmate_xinci"
      ],
      "id": "m2709b",
      "slot": 2
@@ -848,7 +858,8 @@
      "line": "末班車上的兩個陌生人，坐過了站，在便利商店等到第一班車。",
      "fits": [
       "classmate_peishan",
-      "heroine_03"
+      "heroine_03",
+      "classmate_xinci"
      ],
      "id": "m2711a",
      "slot": 1
@@ -883,7 +894,8 @@
      "line": "跨年夜在同一張長椅上倒數的兩個人。",
      "fits": [
       "classmate_peishan",
-      "heroine_05"
+      "heroine_05",
+      "classmate_xinci"
      ],
      "id": "m2801a",
      "slot": 1
@@ -1022,7 +1034,8 @@
      "line": "老鐘錶行有一個抽屜，打開就回到昨天，可是只能回去一次。",
      "fits": [
       "heroine_02",
-      "classmate_peishan"
+      "classmate_peishan",
+      "classmate_xinci"
      ],
      "id": "m2809a",
      "slot": 1
@@ -1037,7 +1050,8 @@
      "line": "事務所的律師全部出差，只剩一個實習生和三個客戶。",
      "fits": [
       "heroine_05",
-      "kexin"
+      "kexin",
+      "classmate_xinci"
      ],
      "id": "m2809b",
      "slot": 2
@@ -1182,7 +1196,8 @@
      "line": "一個老師退休前的最後一堂課，全班沒有人缺席。前一天晚上，她在圖書館留到閉館。",
      "fits": [
       "heroine_03",
-      "heroine_01"
+      "heroine_01",
+      "classmate_xinci"
      ],
      "id": "m2905b",
      "slot": 2
@@ -1217,7 +1232,8 @@
      "line": "她回海邊的老家賣房子，隔壁修船的是高中同學。",
      "fits": [
       "heroine_02",
-      "classmate_peishan"
+      "classmate_peishan",
+      "classmate_xinci"
      ],
      "id": "m2907b",
      "slot": 2
@@ -1252,7 +1268,8 @@
      ],
      "line": "一間開了四十年的燒臘店，最後一個月。",
      "fits": [
-      "heroine_03"
+      "heroine_03",
+      "classmate_xinci"
      ],
      "id": "m2909b",
      "slot": 2
@@ -1288,7 +1305,8 @@
      "line": "奶奶每年冬至都多煮一碗湯圓，給一個還沒回來的人。",
      "fits": [
       "classmate_peishan",
-      "heroine_05"
+      "heroine_05",
+      "classmate_xinci"
      ],
      "id": "m2911b",
      "slot": 2
@@ -1362,7 +1380,8 @@
      "line": "二手書店打烊以後，店員發現每本書裡都夾著同一個人的書籤。",
      "fits": [
       "heroine_02",
-      "heroine_05"
+      "heroine_05",
+      "classmate_xinci"
      ],
      "id": "m3003b",
      "slot": 2
