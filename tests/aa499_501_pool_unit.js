@@ -132,6 +132,7 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
     for(const u of U){ let ok;
       if(EXC[u.t]){ used.add(u.t); continue; }
       { const r7=(require('./aa799_expect.js').rows||[]).find(r=>r.old===u.t); if(r7){ if(!S1.has(r7.new)) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_799 換成 '+r7.new+'）'); continue; } }   /* AA_799（X324 G 區）：稿上的舊句換成新的 */
+      { const r923=(A799.rows||[]).find(r=>r.old===String(u.t).replace(/^「|」$/g,'')&&/好問題/.test(r.old)); if(r923){ if(!S1.has(r923.new)) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_923 換成 '+r923.new+'）'); continue; } }   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：AA_923 第 3 節換掉的「好問題」兩句 */
       if(AA519R[u.t]){ if(!S1.has(AA519R[u.t])) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_519 換成 '+AA519R[u.t]+'）'); continue; }   /* AA_519 2-1：換成新的字 */
       if(u.k==='q') ok=all.indexOf(u.t)>=0||SRCALL.indexOf(u.t)>=0;   /* 段落裡「」引的：遊戲裡哪裡都可以（人物頁、房間物品、引別的事件的題目）*/
       else if(u.k==='opt'||u.k==='greet'||u.k==='rowq') ok=S1.has(u.t)||SN.has(norm(u.t));   /* 選項：手機的回覆沒有引號 */

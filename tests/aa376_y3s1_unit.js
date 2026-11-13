@@ -72,8 +72,9 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     const S342=L?flat(L).filter(t=>!/^(zhe|yu|classmate_bohan)$/.test(t)).map(t=>t.replace(/^「(.*)」$/,'$1')):[];
     const A600=require('./aa600_doc.js'), in342x=t=>in342(t)||A600.has(t);   /* AA_600 A22（企劃線 031414cad）：前任那一句旁白「（她把下週的題目寫在白板上。）」在 AA_600 的稿裡 */
     check('0. AA_342 3-1 的每一句都在稿上（逐字；AA_600 新寫的在 AA_600）',!!L&&S342.length>=14&&S342.every(in342x),S342.filter(t=>!in342x(t)).join('｜'));
-    const NEW376=['明天第一次上台。我要講二十分鐘。','……上次跟你說的那個遊戲。','民總讀書會，我先講一次給你聽。','（看了一下錶）讀書會八點。……我們先走。','我們那棟停電了。你們這棟還有電。','那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。','那天晚上，我看了手機好幾次。','他高中的時候也來這裡吃過麵。','刑訴老師昨天點了後面三排。','我七點要回學校。','……我下週期中，二十六號考第一科。','你兩天沒出門了吧。……我猜的。','那我們在日本找一家燒臘店。','我們同一班。','……那我十點去機場。送兩個。','嗯。大四還沒開始，我想在這裡過。','（你想，大四還沒開始。你想在這裡過。）'];
-    check('0. AA_376 的「改成」都在稿上（測試用的句子對過稿）',NEW376.every(in376),NEW376.filter(t=>!in376(t)).join('｜'));
+    const NEW376=['明天第一次上台。我要講二十分鐘。','……上次跟你說的那個遊戲。','民總讀書會，我先講一次給你聽。','（看了一下錶）讀書會八點。……我們先走。','我們那棟停電了。你們這棟還有電。','那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。','那天晚上，我看了手機好幾次。','他高中的時候也來這裡吃過麵。','刑訴老師昨天點了後面三排。','我七點要回學校。','……我下週要交報告。','你兩天沒出門了吧。……我猜的。','那我們在日本找一家燒臘店。','我們同一班。','……那我十點去機場。送兩個。','嗯。大四還沒開始，我想在這裡過。','（你想，大四還沒開始。你想在這裡過。）'];
+    const A923=['……我下週要交報告。'];   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：AA_923 第 2 節再換的句子（舊：AA_376 的期中考那句），不在 AA_376 稿上 */
+    check('0. AA_376 的「改成」都在稿上（測試用的句子對過稿；AA_923 再換的除外）',NEW376.every(t=>in376(t)||A923.includes(t)),NEW376.filter(t=>!in376(t)&&!A923.includes(t)).join('｜'));
   });
   // ===== 1. 語彤週四 =====
   await sec('1',async()=>{
@@ -168,7 +169,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
   // ===== 14、17. 感冒週 =====
   await sec('14',async()=>{
     fresh('2027-10-23',8,'dorm'); date('kexin'); picks=['跟可昕']; await STORY.coldWeekSneeze(GM);
-    check('14. 可昕「……我下週期中，二十六號考第一科。」（10/23 週六）',txt('p:kexin').includes('kexin:……我下週期中，二十六號考第一科。')&&!txt('p:kexin').some(t=>/這週也期中/.test(t)),J(txt('p:kexin')));
+    check('14. 可昕「……我下週要交報告。」（10/23 週六；2026-11-12 CANON-NO-ECON-1112 第五批 AA_923：舊句是期中考）',txt('p:kexin').includes('kexin:……我下週要交報告。')&&!txt('p:kexin').some(t=>/這週也期中/.test(t)),J(txt('p:kexin')));
     fresh('2027-10-24',21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); date('heroine_05'); const A=STORY.coldWeekLines(G,'heroine_05');
     fresh('2027-10-24',21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); date('heroine_05'); R('heroine_03','CLO'); const C=STORY.coldWeekCast(G), B=STORY.coldWeekLines(G,'heroine_05',C);
     check('17. 學姊交往中、沒被告知：語彤沒來（不知道）＝「你兩天沒出門了吧。……我猜的。」；語彤有來（送湯那一條的條件）＝「語彤說你兩天沒出門。」',J(A[0])===J(['heroine_05','你兩天沒出門了吧。……我猜的。'])&&C.visitors.includes('heroine_03')&&J(B[0])===J(['heroine_05','語彤說你兩天沒出門。']),J([A[0],B[0]]));

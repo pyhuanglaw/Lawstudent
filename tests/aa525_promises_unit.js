@@ -5,7 +5,7 @@
 //   1  子晴 1-1～1-6　2  沛珊 2-1～2-4　3  可昕 3-1～3-11（含 AA_356 漏的一筆）
 // AA_526（企劃線 4ada43291，AA-B 10-30 回 AA_525 的問題）第 2 節：D15「全部我請。」回覆、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過「明年還有第三張」的（ZQ_STICKER3）、3-9 條件改演過那通電話、2-1 照現在。
 // 用法：node tests/aa525_promises_unit.js（在沒有 .git 的目錄跑：設環境變數 AA525_DOCREPO＝有企劃線 commit 的 repo）
-'use strict';
+'use strict';   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：期望照 AA_919／920／921／923 的新字換（舊字見 docs/handoff/canon_b5_1112） */
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -66,7 +66,7 @@ const NEW=[
   '（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）','摩天輪。說好的。','（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）',
   '第三個願望。去年沒講的那個。','我們兩個都考過。','（這一次，第一張卡片是你寫的。你把它推過去。）','（翻開，讀完）……你的字。','第四年。','明年的卡片，又換你寫。',   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
   '下次你來，我們吃山下那家。','今天是可昕實習第一天。','……喂。你真的打了。','影印了一整天。','影印機我取了名字。叫債務人。',
-  '……蛋糕你挑。只有這個你挑。','（木柵大學門口的流蘇開了。白白的一整片。）',
+  '……蛋糕你挑。','（木柵大學門口的流蘇開了。白白的一整片。）',
   '開學我就上去了。台北見。','……好。下次找一個我們都沒去過的地方。','……真的喔？那我帶你去夜市。','……牠脖子很短。就這樣。','……不用補。睡飽一點。',
   '……當面。','恭喜。','好。收到了。','第一碗。說好我請。','（她先去付了錢。）',
   '圖書館前面那兩隻，一隻叫原告，一隻叫被告。','不要。我自己寫。','好。','這題我要偷走。','嗯。……講不清楚。','歐洲要排很久。……我先存錢。','……欠的那一碗。好，扣掉。'];   /* 3-11「寒假你來高雄。……去哪裡你決定。」AA_526 撤回 */
@@ -305,7 +305,7 @@ await sec('3-7',async()=>{
   check('3-7. 閒聊階梯 K4-L5、K2-L6 換成 AA_864、AA_862 新稿：選項不再記 KX_CAKE_YOU、KX_TASSEL_PROMISE（CANON-NO-ECON-1112 第三批：這一項拿掉）',G.flags.KX_CAKE_YOU==null&&G.flags.KX_TASSEL_PROMISE==null);
   const bd=c=>{ fresh('2028-04-23',21,Object.assign({dating_kexin:true,EXCHANGE_ROUTE:'TW',KX_BDAY:{1:'met',2:'class'}},c?{KX_CAKE_YOU:1}:{})); H.FRIEND(KX); STORY.phoneRules(GM); tick(); return (H.G.msgs||[]).filter(x=>x.tag==='y3_kx_bday_ask').map(x=>x.text); };
   const A=bd(true), B=bd(false);
-  check('3-7. 2028-04-23 21:00「明天我生日。今年你不用想了，我想好了。」後面多「……蛋糕你挑。只有這個你挑。」（KX_CAKE_YOU）；沒有照舊',A[0]==='明天我生日。今年你不用想了，我想好了。'&&A[1]==='……蛋糕你挑。只有這個你挑。'&&A.length===4&&B.length===3&&!B.includes('……蛋糕你挑。只有這個你挑。'),J([A,B]));
+  check('3-7. 2028-04-23 21:00「明天我生日。」後面多「……蛋糕你挑。」（KX_CAKE_YOU）；沒有照舊',A[0]==='明天我生日。'&&A[1]==='……蛋糕你挑。'&&A.length===4&&B.length===3&&!B.includes('……蛋糕你挑。'),J([A,B]));
   const y2=async(v,t)=>{ fresh('2027-04-24',19,Object.assign({dating_kexin:true},t?{KX_TASSEL_PROMISE:1}:{})); H.FRIEND(KX); const e=ev('ev_kexin_birthday_y2'); e.beforeOuting(H.G,GM,{bdV:v}); H.said=[]; await EVENTS.run(e); return said(); };
   const C=await y2('shop',true), Dd=await y2('gg',true), E2=await y2('class',false);
   check('3-7. 大二生日：流蘇那一句拿掉（KX_TASSEL_PROMISE 不再讀；每一版都沒有）（CANON-NO-ECON-1112 第四批：照 AA_889 換字）',![C,Dd,E2].some(L=>L.some(t=>/流蘇/.test(t))),J([C[0],Dd[0],E2[0]]));

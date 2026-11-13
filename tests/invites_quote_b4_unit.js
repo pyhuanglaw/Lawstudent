@@ -174,7 +174,7 @@ const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a
   /* 拿掉的都是說的話：BASE 那一句在 talk／greet（說的話）／zjwHand／bhCopier */
   const ok=[], ok5=[], miss=[]; for(const k of PSK){ const LO=(PS.old[k]||{}).LINES||{}, LN=(PS.now[k]||{}).LINES||{}; for(const id of Object.keys(LO)){ const A=LO[id], Bn=LN[id];
       (function w(a,b,p){ if(typeof a==='string'){ if(a!==b&&!A799.isAA799(a,b)){ if(isB5(a,b)){ if(/^greet\.\d+$/.test(p)) ok5.push(p); else miss.push(id+'.'+p); } else if(/^(talk\.\d+\.(t|old)|greet\.\d+|zjwHand|bhCopier)$/.test(p)) ok.push(p); else miss.push(id+'.'+p); } return; } if(a&&typeof a==='object'&&typeof a!=='function') for(const kk of Object.keys(a)) w(a[kk],b&&b[kk],p?p+'.'+kk:kk); })(A,Bn,''); } }
-  check('16. pool 改到的 '+ok.length+' 句都在 talk（t、old）、greet、zjwHand、bhCopier（選項、旁白、場景、房間物品沒有一句動）；第五批另外改了 greet 的 '+ok5.length+' 句',ok.length===180&&ok5.length===4&&miss.length===0,sample(miss));
+  check('16. pool 改到的 '+ok.length+' 句都在 talk（t、old）、greet、zjwHand、bhCopier（選項、旁白、場景、房間物品沒有一句動）；第五批另外改了 greet 的 '+ok5.length+' 句',ok.length===178/* 2026-11-12（CANON-NO-ECON-1112 第五批 AA_923）：「好問題」兩句改算 isAA799（舊期望 180） */&&ok5.length===4&&miss.length===0,sample(miss));
   /* S.greetTexts 照原始碼那幾行算（BASE：smallQ 包「」；第五批以後沒有 smallQ＝稿上的字）*/
   const sg=t=>{ t=noComments(t); const m=/const smallQ=t=>\{[^\n]*\};/.exec(t), g=/S\.greetTexts=\(\)=>([^\n;]*);/.exec(t); const L=vm.runInNewContext('('+/repairGreet:(\[[^\]]*\])/.exec(noComments(cur('src/data/sis_b13_events.js')))[1]+')');
     return g?vm.runInNewContext('(function(L){ '+(m?m[0]:'')+' return ('+g[1]+'); })')({repairGreet:L}):null; };
@@ -232,7 +232,7 @@ const cmp=(A,B,cut)=>{ const bad=[], nw=[]; let ch=0, named=0; A=A||[]; B=B||[];
   if(A.length!==B.length) bad.push('句數 '+A.length+' → '+B.length);
   else A.forEach((a,i)=>{ const b=B[i], ta=a[a.length-1], tb=b[b.length-1];
     if(J(a.slice(0,-1))!==J(b.slice(0,-1))) bad.push('說的人不一樣：'+J(a)+' → '+J(b));
-    else if(ta!==tb){ if((wrapped(ta)&&unq(ta)===tb||isB5(ta,tb))&&b[b.length-2]!=null) ch++; else bad.push(J(a)+' → '+J(b)); }   /* isB5：第五批的八句 */
+    else if(ta!==tb){ if((wrapped(ta)&&unq(ta)===tb||isB5(ta,tb)||A799.isAA799(ta,tb))&&b[b.length-2]!=null) ch++; else bad.push(J(a)+' → '+J(b)); }   /* isB5：第五批的八句；isAA799：AA_799、AA_923（CANON-NO-ECON-1112 第五批「好問題」兩句）照稿換了字 */
     if(b[b.length-2]!=null){ named++; if(wrapped(tb)) nw.push(J(b)); } });
   return {bad,nw,ch,named}; };
 { const KEYS={story:['閒聊（story3d.js S.smallTalk；SMALL_DAILY；不熟同學的短招呼）',150],pool:['法律系同學的閒聊、之後的招呼、短招呼（pool3d.js）',150],shops:['木曜日雨天、日常失速、公館三間店員',25]};

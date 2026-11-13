@@ -905,8 +905,10 @@ const STORY = (function(){
     if(typeof POOL!=='undefined'&&POOL.LINES) for(const id of Object.keys(POOL.LINES)) for(const e of ((POOL.LINES[id]&&POOL.LINES[id].talk)||[])){ if(e){ add(e.t); add(e.old); } }
     for(const p of B_GREET) for(const t of p.L.concat(p.law||[])) add(t);
     return K; };
+  /* CANON-NO-ECON-1112 第五批（AA_923 第 3 節「好問題」梗）：同學閒聊換了字的兩句——舊存檔「說過了」的記號換成新句（不重說） */
+  S.SMALL_RENAMED={'上課我舉手問了一個問題。老師說『好問題』，然後下課了。':'上課我舉手問了一個問題。老師叫我下課去研究室找他。','沛珊問的問題比我還多。老師每次都說『好問題』，然後下課。':'沛珊問的問題比我還多。老師現在看到她舉手，會先喝一口水。'};
   S.smallQuoteMigrate=function(s){ if(!s||typeof s!=='object') return 0; let n=0;
-    const fixBy=K=>k=>{ if(typeof k!=='string'||K.has(k)) return k; for(const c of [S.smallUnq(k),S.smallActUnq(k)]) if(c!==k&&K.has(c)){ n++; return c; } return k; };
+    const fixBy=K=>k=>{ if(typeof k!=='string'||K.has(k)) return k; { const r=S.SMALL_RENAMED[S.smallUnq(k)]; if(r&&K.has(r)){ n++; return r; } } for(const c of [S.smallUnq(k),S.smallActUnq(k)]) if(c!==k&&K.has(c)){ n++; return c; } return k; };
     const reOnce=(o,fix)=>{ const O={}; for(const k of Object.keys(o)){ const v=fix(k); if(!(v in O)||k===v) O[v]=o[k]; } return O; };
     const R=s.social&&s.social.small;
     if(R&&typeof R==='object'){ const fix=fixBy(S.smallKnown());

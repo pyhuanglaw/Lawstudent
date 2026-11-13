@@ -49,7 +49,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   fresh('2026-11-17',14,'linze',{KX_MET:true}); R('kexin','FAM'); check('K1. 熟悉、在臺北、第 11 週：條件成立（沒在交往也有）', EVENTS.checkAt(ev('ev_kexin_bad_exam')));
   fresh('2026-11-17',14,'linze',{KX_MET:true}); check('K1. 還不熟：沒有', !EVENTS.checkAt(ev('ev_kexin_bad_exam')));
   fresh('2026-11-17',14,'linze',{KX_MET:true}); R('kexin','FAM'); picks=[1]; await run('ev_kexin_bad_exam');
-  check('K1. 照 AA_873 ② 逐字：考卷對摺、「理由？」、選「要不要我問妳？」那一段、收尾；記 KX_S2、KX_S2_ASKED', JSON.stringify(opts[0])===JSON.stringify(['「妳上課都講得出來。」','「要不要我問妳？」'])&&has('（期中考卷發回來。可昕把她那一份對摺，再對摺，塞進包包最底下。）')&&has('……我每一題都知道在問什麼。老師在旁邊寫了三次「理由？」。')&&has('……剛剛那一段，我考卷上一個字都沒有寫。')&&has('結果只有一半。另一半是沒有人問的時候，我自己要問自己。')&&has('這張我要留著。很醜，可是我要留著。')&&G.flags.KX_S2===true&&G.flags.KX_S2_ASKED===true, JSON.stringify(said.map(x=>x.t)));
+  check('K1. 照 AA_873 ② 逐字：考卷對摺、「理由？」、選「要不要我問妳？」那一段、收尾；記 KX_S2、KX_S2_ASKED', JSON.stringify(opts[0])===JSON.stringify(['「妳上課都講得出來。」','「要不要我問妳？」'])&&has('（民法債編總論的作業發回來。可昕把她那一份對摺，再對摺，塞進包包最底下。）')&&has('……我每一題都知道在問什麼。老師在旁邊寫了三次「理由？」。')&&has('……剛剛那一段，我作業上一個字都沒有寫。')&&has('結果只有一半。另一半是沒有人問的時候，我自己要問自己。')&&has('這張我要留著。很醜，可是我要留著。')&&G.flags.KX_S2===true&&G.flags.KX_S2_ASKED===true, JSON.stringify(said.map(x=>x.t)));
   fresh('2026-11-18',20.9,'dorm'); date('kexin'); at('2026-11-18',21.05); rules(); check('K2. 11/18 的邀約拿掉', !PHONE.sent(G,'y2_kx_bad_exam'));
   G.events.done.ev_kexin_bad_exam=1; G.events.last.ev_kexin_bad_exam=D('2026-11-17'); at('2026-12-02',21.1); rules(); check('K2. 12/2 那則拿掉', !PHONE.sent(G,'y2_kx_bad_1202'));
   at('2026-12-05',21.1); rules(); check('B4. 12/5 21:06 還沒有那則（AA_336 B4：21:10）', !txt('p:kexin').includes('kexin:物權考壞的那一章，我講給我室友聽，講到她懂。'));

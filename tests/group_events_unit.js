@@ -66,7 +66,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('1. 3/30 21:00 桌遊團群組七則（Alison、語彤、阿哲、柏翰；阿哲 @祐廷）', JSON.stringify(txt('g:noodle_team').slice(-7))===JSON.stringify(['yu:春假那個','yu:語彤說行程她排','heroine_03:第一站是市場。','zhe:市場？','heroine_03:……田野課的。我想自己去看一次。','classmate_bohan:誰開車？','zhe:@祐廷']), JSON.stringify(txt('g:noodle_team')));
   check('1. 可昕的還沒到：先不問（兩則都到了才問）', !GROUP.springPending(G));
   run(d330,21.5,21.75);
-  check('1. 21:30 可昕兩則（大二版，AA_336 C8）、之後才問', txt('p:kexin').slice(-2).join('|')==='kexin:春假。今年也開車？|kexin:行程表做好了。……這次吃的只有一頁。'&&GROUP.springPending(G), JSON.stringify(txt('p:kexin').slice(-2)));
+  check('1. 21:30 可昕兩則（大二版，AA_336 C8）、之後才問', txt('p:kexin').slice(-2).join('|')==='kexin:春假。今年也開車？|kexin:這次我只想吃。其他的你決定。'&&GROUP.springPending(G), JSON.stringify(txt('p:kexin').slice(-2)));
   picks=['桌遊團']; const started=GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
   check('1. 三選一（S.tick 掛勾）：桌遊團／可昕／留宿舍／晚一點', started===true&&JSON.stringify(opts[0])===JSON.stringify(['春假：跟阿哲他們出去','春假：和可昕開車旅行','春假：留在宿舍','晚一點再決定']), JSON.stringify(opts[0]));
   { const q=OUT.get(G,'ndl_trip_y2s2');
@@ -97,7 +97,7 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(SD.d0,8,'dorm'); date('kexin'); K1=await play('ev_kexin_trip_spring_y2',['海邊']);
   check('1. 海邊「水比我想的冷。……你先下去。」', K1.includes(NAME('kexin')+'：水比我想的冷。……你先下去。')&&G.flags.KX_TRIP.Y2S2==='sea');
   fresh(SD.d0,8,'dorm'); date('kexin'); G.flags.KX_TRIP={Y1S2:'sea',Y1SUM:'oldtown',Y2WIN:'stars'}; K1=await play('ev_kexin_trip_spring_y2',[0]);
-  check('1. 三個都去過＝迷路到的地方（BB_97 9-12）：「這次我不出行程表。你帶路，不要看地圖。」…「行程表我回去再補。寫『迷路』，一行就好。」', K1.includes(NAME('kexin')+'：這次你帶路，不要看地圖。')/* （CANON-NO-ECON-1112 第四批：照 AA_878 #25 換字）*/&&K1.includes(NAME('kexin')+'：這間店沒有招牌欸。')&&K1[K1.length-1]===NAME('kexin')+'：行程表我回去再補。寫『迷路』，一行就好。'&&G.flags.KX_TRIP.Y2S2==='lost'&&!K1.some(t=>/假設/.test(t)), JSON.stringify(K1.slice(-2)));
+  check('1. 三個都去過＝迷路到的地方（BB_97 9-12）：「這次我不出行程表。你帶路，不要看地圖。」…「今天最好玩的，是迷路。」', K1.includes(NAME('kexin')+'：這次你帶路，不要看地圖。')/* （CANON-NO-ECON-1112 第四批：照 AA_878 #25 換字）*/&&K1.includes(NAME('kexin')+'：這間店沒有招牌欸。')&&K1[K1.length-1]===NAME('kexin')+'：今天最好玩的，是迷路。'&&G.flags.KX_TRIP.Y2S2==='lost'&&!K1.some(t=>/假設/.test(t)), JSON.stringify(K1.slice(-2)));
   // 留宿舍、沒回、晚一點
   fresh(d330,21.9,'dorm'); team(); run(d330,21,21.75); picks=['留在宿舍']; GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
   G.day=SD.d0; G.hour=10; G.zone='dorm'; check('1. 留宿舍：4/3 白天走進宿舍＝「（宿舍的走廊很安靜。這次你知道，四天很快就過了。）」（只有那一天）', G.flags.SPRING_Y2==='dorm'&&EVENTS.check(ev('ev_spring_dorm_empty_y2'))&&ev('ev_spring_dorm_empty_y2').dialogue[0].text==='（宿舍的走廊很安靜。這次你知道，四天很快就過了。）'&&(G.day=SD.trip,!EVENTS.check(ev('ev_spring_dorm_empty_y2'))));

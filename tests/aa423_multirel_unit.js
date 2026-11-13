@@ -137,7 +137,7 @@ await sec(3,async()=>{
   clr();
   const mem=G0=>{ const c={}, l=X().kxMemory(G0,c); return l&&X().subst(l,G0,c); };
   H.G.events.done={}; H.G.flags.E35_PLAN='sea'; check('3. 經歷過的事：E35 海邊（AA_425：只讀 E35_PLAN）＝「考完那個禮拜六你來高雄，我們去海邊。我真的帶了西瓜，結果沒人帶刀。」',mem(H.G)==='考完那個禮拜六你來高雄，我們去海邊。我真的帶了西瓜，結果沒人帶刀。');
-  H.G.flags.E35_PLAN=null; H.G.flags.K7_GIFT='ticket'; H.G.flags.KX_ANNIV={1:'wheel'}; check('3. 只玩過法律系、K7 週年送了票根＝「週年那天你送的摩天輪票根的影本，我還放在桌上。」',mem(H.G)==='週年那天你送的在一起那頓飯的發票，我還放在桌上。');   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
+  H.G.flags.E35_PLAN=null; H.G.flags.K7_GIFT='ticket'; H.G.flags.KX_ANNIV={1:'wheel'}; check('3. 只玩過法律系、K7 週年送了票根＝「週年那天你送的摩天輪票根的影本，我還放在桌上。」',mem(H.G)==='週年那天你送的那張發票，我還放在桌上。'/* 2026-11-12（CANON-NO-ECON-1112 第五批 AA_920 ⑦）：發票、耳環分兩句；舊期望「…送的在一起那頓飯的發票…」 */&&(H.G.flags.K7_GIFT='planner',mem(H.G)==='週年那天你送的耳環，我今天戴了一邊。')&&(H.G.flags.K7_GIFT='ticket',true));   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
   H.G.flags.K7_GIFT=null; check('3. 都沒有＝只說「我們好不容易才走到現在欸。」；沒有 K10 兩校互考「你還欠我」那一列（AA_423 3-1）',mem(H.G)===null&&!JSON.stringify(MULTIREL_LINES.REPAIR.kexin).includes('還欠我'));
   H.G.events.done.ev_y0_e10=1; check('3. ev_y0_e10 那一條（econ）照 AA_897 拿掉＝還是 null',mem(H.G)===null);   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   setRom(KX,82); setT('2026-10-09',22.1); let d=due(); check('3. 隔天晚上她的戀愛 ≥ 80、沒說謊：她打來（5-5）',!!d&&d.k==='hug');

@@ -331,7 +331,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   const libOk=entered.includes('library')&&EVENTS.check(ev('ev_kexin_study_really_lib')); picks=[0]; said=[]; await run('ev_kexin_study_really_lib'); await tick();
   check('K1. 選總圖：帶到 3D 總圖，到了就演（auto）；「可以。……先去吃東西，我餓了。」；演完不再問「出發」', !!qlib&&!!qlib.goto&&libOk&&has('可以。……先去吃東西，我餓了。')&&G.flags.KX_STUDY_PLAN==='went'&&qlib.state==='done');
   fresh('2028-09-20',21.1,'dorm',TWF()); date('kexin'); rules(); at('2028-09-23',14.3); rules(); at('2028-09-23',16.1); rules();
-  check('K2. 沒回＝沒去：16:00「今天我自己讀完了。」「表格我開好了。下次你也要真的讀。」；記 KX_STUDY_PLAN', G.flags.KX_STUDY_PLAN==='missed'&&txt('p:kexin').includes('kexin:表格我開好了。下次你也要真的讀。'));
+  check('K2. 沒回＝沒去：16:00「今天我自己讀完了。」「你沒來。我一個人讀得比較快。……騙你的。」；記 KX_STUDY_PLAN', G.flags.KX_STUDY_PLAN==='missed'&&txt('p:kexin').includes('kexin:你沒來。我一個人讀得比較快。……騙你的。'));
   fresh('2028-09-20',9.1,'us_apartment',US()); date('kexin'); rules(); const qv=OUT.get(G,'y4_kx21v');
   check('K3. 美國路線：9/20 當地 09:00「……時差也一樣。」「台灣晚上九點，你那邊早上九點。剛好。」；9/23 當地 09:00 視訊', txt('p:kexin').includes('kexin:台灣晚上九點，你那邊早上九點。剛好。')&&!PHONE.byAsk(G,'y4_kx21')&&!!qv&&qv.day===D('2028-09-23')&&Math.abs(qv.h-9)<1e-6&&qv.verb==='接起來');
   at('2028-09-23',8.9); picks=[2]; said=[]; await OUT.go(GM,qv);
@@ -340,7 +340,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('K3. 美國路線沒接：「今天我自己讀完了。你那邊現在是早上吧。……下次你也要真的讀。」', txt('p:kexin').includes('kexin:今天我自己讀完了。你那邊現在是早上吧。……下次你也要真的讀。')&&G.flags.KX_STUDY_PLAN==='missed');
 
   // ---------- 2-Y4-14 可昕 K22 ----------
-  fresh('2028-11-13',21.1,'dorm',TWF()); date('kexin'); rules(); const k22ask=txt('p:kexin').includes('kexin:明天晚上七點，讀書會。邵鈞也在。你來旁聽，不用說話。'); answer('y4_kx22',0); rules(); const q22=OUT.get(G,'y4_kx22');
+  fresh('2028-11-13',21.1,'dorm',TWF()); date('kexin'); rules(); const k22ask=txt('p:kexin').includes('kexin:明天晚上七點，讀書會。你來旁聽，不用說話。'); answer('y4_kx22',0); rules(); const q22=OUT.get(G,'y4_kx22');
   at('2028-11-14',18.2); picks=[0]; said=[]; await OUT.go(GM,q22);
   check('K4. 交往中、去了：11/14 19:00 木柵大學；沒見過邵鈞＝「這是邵鈞，考古題有目錄的那個。」；「我比較想當那個幫人講話的人。」三選一；KX_DIRECTION', k22ask&&!!q22&&q22.h===19&&has('這是邵鈞，考古題有目錄的那個。')&&has('他想當那個判的人。')&&has('我比較想當那個幫人講話的人。')&&opts[0].length===3&&has('你每次都這樣說。……好啦，謝謝。')&&G.flags.KX_DIRECTION===true);
   fresh('2028-11-14',8.6,'us_apartment',US()); date('kexin'); rules();
@@ -419,7 +419,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2029-01-02',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kh',0); rules(); at('2029-01-06',6.8); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kh'));
   check('KH. 沒有一起旅行過：「我們沒有「第一次去的地方」。……那就今天去一個。」', has('我們沒有「第一次去的地方」。……那就今天去一個。')&&!has('今年交換。'));
   fresh('2029-01-02',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kh',1); at('2029-01-06',7.1); rules(); at('2029-01-06',12.1); rules();
-  check('KH2. 「這次不行。」＝沒去：畫了一輛車的表「欠著。考完再去。」', txt('p:kexin').includes('kexin:📷（讀書計畫表，那一天的格子畫了一輛車）')&&txt('p:kexin').includes('kexin:欠著。考完再去。'));
+  check('KH2. 「這次不行。」＝沒去：畫了一輛車的表「沒關係。今年高雄也很冷。」', txt('p:kexin').includes('kexin:📷（高雄車站的月台，沒有人）')&&txt('p:kexin').includes('kexin:沒關係。今年高雄也很冷。'));
 
   // ---------- 2-Y4-27 以安考前一晚＋研究所筆試 ----------
   const EXF=f=>TWF(Object.assign({Y4_PATH:'grad',Y4_PUSH:'fail'},f||{}));

@@ -256,7 +256,7 @@ const cmp=(A,B,kinds)=>{ const bad=[], nw=[], hit=new Set(); let ch=0, named=0; 
   if(A.length!==B.length) bad.push('句數 '+A.length+' → '+B.length);
   else A.forEach((a,i)=>{ const b=B[i], ta=a[a.length-1], tb=b[b.length-1];
     if(J(a.slice(0,-1))!==J(b.slice(0,-1))) bad.push('說的人不一樣：'+J(a)+' → '+J(b));
-    else if(ta!==tb){ const k=kindOf(ta,tb); if(k&&k!=='same'&&kinds.includes(k)&&b[b.length-2]!=null){ ch++; hit.add(tb); } else bad.push(J(a)+' → '+J(b)); }
+    else if(ta!==tb){ const k=kindOf(ta,tb); if(k&&k!=='same'&&kinds.includes(k)&&b[b.length-2]!=null){ ch++; hit.add(tb); } else if(!require('./aa799_expect.js').isAA799(ta,tb)) bad.push(J(a)+' → '+J(b)); }   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：AA_923「好問題」兩句照稿換了字（aa799_expect.js） */
     if(b[b.length-2]!=null){ named++; if(quoted(tb)) nw.push(J(b)); } });
   return {bad,nw,ch,named,hit}; };
 { const KEYS={us:['學姊在美國法學院圖書館（挽回中的短招呼、交往中的 libTalk；SMALLTALK）',['act'],4],pool:['法律系同學的閒聊、之後的招呼（pool3d.js）',['say'],4],inv:['改時間的回覆七句（aa614 S.invRule → INV.playLines）',['unq'],7]};   /* econ（CANON-NO-ECON-1112 第三批：這一項拿掉） */

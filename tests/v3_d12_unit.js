@@ -51,7 +51,7 @@ GM.money=function(n){ G.money+=n; };
   check('3. 拍了照：阿哲的照片、Alison 之後，玩家的照片「頂樓的欄杆後面，煙火的上半截，很清楚」、阿哲「你們那邊比較清楚耶」',ph.length===4&&/欄杆後面/.test(ph[2])&&ph[3]==='你們那邊比較清楚耶',JSON.stringify(ph));
   // 3. 可昕交往中（AA_210 5-2）：12/24 21:00 私訊「今年跨年，高雄還是頂樓？」→ 高雄（2980，錢不夠變灰）／頂樓（零點視訊）；沒回＝視訊；答應高雄沒去＝兩句
   { const kxa=m=>TH('p:kexin').filter(x=>x.tag===m); fresh(d31-7,20,'dorm',{dating_kexin:true}); run(20,21.2); const a=kxa('kx_nye_y2');
-    check('5-2. 大二 12/24 21:00 可昕「今年跨年，高雄還是頂樓？」、選項「高雄。／頂樓。」',a.length===1&&a[0].text==='今年跨年，高雄還是頂樓？'&&a[0].ask.opts.map(o=>o.t).join('|')==='高雄。|頂樓。',JSON.stringify(a.map(x=>x.text)));
+    check('5-2. 大二 12/24 21:00 可昕「今年跨年，高雄還是頂樓？」、選項「高雄。／頂樓。」',a.length===1&&a[0].text==='今年跨年我回高雄。你要不要一起來？'&&a[0].ask.opts.map(o=>o.t).join('|')==='好。|我留在臺北。'/* 2026-11-12（CANON-NO-ECON-1112 第五批，AA_920 ⑥）：跨年不再列「一、二」、沒去的那一個不是視訊 */,JSON.stringify(a.map(x=>x.text)));
     G.money=2000; check('5-2. 錢不夠（2000 元）：「高雄。」不能選（高鐵票錢不夠。）',PHONE.optBlocked(G,a[0].ask.opts[0])&&PHONE.answer(G,'kx_nye_y2',0)===null&&a[0].ask.opts[0].need.why==='高鐵票錢不夠。');
     G.money=5000; PHONE.answer(G,'kx_nye_y2',0); G.day=d31; G.hour=21; STORY.phoneRules(GM); const q=OUT.get(G,'kx_nye_y2');
     check('5-2. 選「高雄。」→ 她「好。我去車站接你。幾點的車先跟我說。」；12/31 23:30 去高雄（不排頂樓）',txt('p:kexin').includes('kexin:好。我去車站接你。幾點的車先跟我說。')&&G.flags.KX_NYE[2]==='river'&&!!q&&q.ev==='ev_kx_nye_river_y2'&&!OUT.get(G,'nye_y2'),JSON.stringify([G.flags.KX_NYE,q&&q.ev]));
@@ -69,9 +69,9 @@ GM.money=function(n){ G.money+=n; };
     check('5-2. 大三單獨視訊那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!ev('ev_kx_nye_video_y3')); }
   { const d3=STORY.dayOfKey('2027-12-31'), d4=STORY.dayOfKey('2028-12-31');
     fresh(d3-7,20,'dorm',{dating_kexin:true,KX_NYE:{2:'video'}}); run(20,21.2); const a3=TH('p:kexin').filter(x=>x.tag==='kx_nye_y3').map(x=>x.text);
-    check('5-2. 大三 12/24：「跨年。我列了選項。」「一、你來高雄。二、零點視訊。沒有三。」，大二選視訊多「去年是二。今年我比較想要一。」',JSON.stringify(a3)===JSON.stringify(['跨年。我列了選項。','一、你來高雄。二、零點視訊。沒有三。','去年是二。今年我比較想要一。']),JSON.stringify(a3));
+    check('5-2. 大三 12/24：「跨年。我列了選項。」「一、你來高雄。二、零點視訊。沒有三。」，大二選視訊多「去年是二。今年我比較想要一。」',JSON.stringify(a3)===JSON.stringify(['跨年我又要回高雄。你來不來？','去年你沒來。今年我比較想要你來。'])/* 2026-11-12（CANON-NO-ECON-1112 第五批，AA_920 ⑥）：跨年不再列「一、二」、沒去的那一個不是視訊 */,JSON.stringify(a3));
     fresh(d4-7,20,'dorm',{dating_kexin:true,EXCHANGE_ROUTE:'US'}); run(20,21.2); const a4=TH('p:kexin').filter(x=>x.tag==='kx_nye_y4').map(x=>x.text);
-    check('5-2. 大四 12/24（美國路線）：「你的時差調回來了嗎？」＋「跨年。高雄或視訊，你選。我兩個都可以。」',JSON.stringify(a4)===JSON.stringify(['你的時差調回來了嗎？','跨年。高雄或視訊，你選。我兩個都可以。']),JSON.stringify(a4)); }
+    check('5-2. 大四 12/24（美國路線）：「你的時差調回來了嗎？」＋「跨年。高雄或視訊，你選。我兩個都可以。」',JSON.stringify(a4)===JSON.stringify(['你的時差調回來了嗎？','跨年我回高雄。你來的話，我去車站接你。'])/* 2026-11-12（CANON-NO-ECON-1112 第五批，AA_920 ⑥）：跨年不再列「一、二」、沒去的那一個不是視訊 */,JSON.stringify(a4)); }
   // 3. 跨年大三（AA_210 第 2 節＋5-1）
   { const d3=STORY.dayOfKey('2027-12-31'); fresh(d3,20,'campus'); PHONE.join(G,'noodle_team','桌遊團'); run(20,21.2); const g0=txt('g:noodle_team'), o30=OUT.get(G,'nye_y3'); o30.state='missed'; G.hour=24.2; STORY.phoneRules(GM); PHONE.tick(G); const ph0=TH('g:noodle_team').filter(m=>m.tag==='nye_y3_photo').length;
     check('大三跨年：不認識以安、芯慈＝群組只有阿哲兩則（「十一點半，頂樓」；第二則 AA_456 1-1 換字）、沒去也沒有那張寫著芯慈的合照（AA_313 第 672 行）',JSON.stringify(g0)===JSON.stringify(['zhe:十一點半，頂樓','zhe:頂樓照開 登記一樣在一樓'])&&!ph0,JSON.stringify(g0));

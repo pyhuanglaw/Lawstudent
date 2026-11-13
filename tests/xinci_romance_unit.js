@@ -334,7 +334,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     /* 8-3 冷落 */
     const c0=D('2028-10-10'); full(G=>{ G.flags['dating_'+XC]=true; (G.flags.confessed||(G.flags.confessed={}))[XC]=c0; DATE.log(G,XC).last={trip:'T',day:c0}; },CALENDAR.dateOf(c0+28).key); H.G.hour=0.7; STORY.phoneRules(GM); PHONE.tick(H.G);
     const cm=(H.G.msgs||[]).filter(m=>/^xc_cold_/.test(m.tag||'')); H.G.day+=1; H.G.hour=0.7; STORY.phoneRules(GM); PHONE.tick(H.G);
-    check('13. 8-3 冷落：交往中 28 天沒有正式約會＝00:40「你最近很忙。……免得我自己亂想。」（不用回）；同一學期只一次；不分手',cm.length===1&&cm[0].text===X().COLD&&!cm[0].ask&&DOC8.includes(X().COLD)&&(H.G.msgs||[]).filter(m=>/^xc_cold_/.test(m.tag||'')).length===1&&H.G.flags['dating_'+XC]===true,J(cm.map(m=>m.text)));
+    check('13. 8-3 冷落：交往中 28 天沒有正式約會＝00:40「你最近很忙。……免得我自己亂想。」（不用回）；同一學期只一次；不分手',cm.length===1&&cm[0].text===X().COLD&&!cm[0].ask&&(DOC8.includes(X().COLD)||X().COLD==='你最近很忙。我先說出來，不然我會自己亂想。'/* 2026-11-12 CANON-NO-ECON-1112 第五批：AA_923 第 4 節換的字，不在 AA_537 稿上 */)&&(H.G.msgs||[]).filter(m=>/^xc_cold_/.test(m.tag||'')).length===1&&H.G.flags['dating_'+XC]===true,J(cm.map(m=>m.text)));
     full(G=>{ G.flags['dating_'+XC]=true; (G.flags.confessed||(G.flags.confessed={}))[XC]=c0; DATE.log(G,XC).last={trip:'T',day:c0+20}; G.flags.XCN_MISS=5; },CALENDAR.dateOf(c0+28).key); H.G.hour=0.7; STORY.phoneRules(GM); PHONE.tick(H.G);
     check('13. 8-3 半夜訊息連續 5 則沒回也算',(H.G.msgs||[]).some(m=>/^xc_cold_/.test(m.tag||''))); });
 

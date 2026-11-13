@@ -81,12 +81,12 @@ const J=JSON.stringify;
       ['bday','R','y2029','謝謝。今天在圖書館過'],['bday','L','y2029','謝謝！！/（長頸鹿貼圖）/今天在圖書館過 國考的書比蛋糕還厚'],
       ['ok','A','k10c_bad_exam','還好。'],['ok','R','k10c_bad_exam','還好啦/我說了不要安慰/下次考好給你看'],['ok','L','k10c_bad_exam','還好啦/我說了不要安慰/……你陪我吃東西就好，不要講考試'],
       ['newyear','A',null,'新年快樂。'],['newyear','R',null,'新年快樂/我在高雄，我媽在煮，整間都是油味'],['newyear','L',null,'新年快樂/（長頸鹿貼圖）/今年也要一起'],
-      ['thanks','A',null,'不會。'],['thanks','R',null,'不會啦。下次換你幫我。'],['thanks','L',null,'不會。']];
+      ['thanks','A',null,'不會。'],['thanks','R',null,'不會啦。'],['thanks','L',null,'不會。']];
     const bad=W.filter(([tp,tr,c,t])=>row(tp,tr,c)!==t);
     check('AA_881. 可昕的回覆池 A／R／L 照稿逐字；沒有回問（上山、下山）、沒有走向 C 那一列；style 換字', !bad.length&&!P.replies.some(e=>e.ask||e.cond==='route_c')&&P.style==='短；不太用語助詞；熟了會直接叫你去吃飯；累了傳長頸鹿貼圖', J(bad)); }
   /* ===== AA_882 長頸鹿鑰匙圈 ===== */
   { const e=ev('ev_kx_souvenir'); fresh('2026-02-24',10,'linze',{KX_MET:true,KX_Y1S1_END:'taipei'}); R('kexin','FAM');
-    check('AA_882. 大一下開學第一週、大一上選「臺北。」：她給那一盒（兩列照稿）、設 KX_SOUVENIR、GIRAFFE_KEYCHAIN', EVENTS.checkAt(e)&&(await run('ev_kx_souvenir'),J(all())===J(['（盒子上面用膠帶黏著一個小小的長頸鹿鑰匙圈。）','那個是附的。我在高雄的動物園買了一袋，班上每個人都有。你的是脖子最短的那隻。']))&&G.flags.GIRAFFE_KEYCHAIN===true&&G.flags.KX_SOUVENIR===true, J(all()));
+    check('AA_882. 大一下開學第一週、大一上選「臺北。」：她給那一盒（兩列照稿）、設 KX_SOUVENIR、GIRAFFE_KEYCHAIN', EVENTS.checkAt(e)&&(await run('ev_kx_souvenir'),J(all().slice(3,5))===J(['（盒子上面用膠帶黏著一個小小的長頸鹿鑰匙圈。）','那個是附的。我在高雄的動物園買了一袋，班上每個人都有。你的是脖子最短的那隻。'])&&J(all().slice(0,3))===J(['（她在走廊那頭看到你，從背包裡拿出一個紙盒。）','說好的。高雄的餅。','有一點甜，我先講了。'])&&all()[all().length-1]==='（她把背包甩回肩上，走了。）'/* 2026-11-12（CANON-NO-ECON-1112 第五批 AA_920 ④）：整場補前後；AA_882 那兩列照稿在中間 */)&&G.flags.GIRAFFE_KEYCHAIN===true&&G.flags.KX_SOUVENIR===true, J(all()));
     fresh('2026-02-24',10,'linze',{KX_MET:true,KX_Y1S1_END:'unsure'}); R('kexin','FAM'); check('AA_882. 選「還沒想。」的：沒有', !EVENTS.checkAt(e)); }
   /* ===== AA_885 她的手機動態（逐欄）===== */
   { const K885=require('./kx885_expect.js'), posts={};

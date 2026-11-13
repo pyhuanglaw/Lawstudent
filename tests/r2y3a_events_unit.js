@@ -446,7 +446,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
     check('21. X1 接了（逐字）：「……螢幕開著。你陪我就好。」；十點半「寫完了。……你還在喔。」；KX_XMAS[3] video',JSON.stringify(all().slice(0,W.length))===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「一直都在。」','「妳寫了一個半小時。」'])&&G.flags.KX_XMAS[3]==='video'&&noSuppose(),JSON.stringify(all())); }
   fresh('2027-12-25',21,'dorm'); date('kexin'); await play('ev_kexin_xmas_y3',[0]); check('21. 「一直都在。」→「好。禮物等我考完再換。」',has('好。禮物等我考完再換。'));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。禮物等我考完再換。」 */
   fresh('2027-12-24',20,'dorm'); date('kexin'); run('2027-12-24',20.75,21.25); ans('y3_kx_xmas',0); miss('y3_kx_xmas'); run('2027-12-25',22.25,22.75);
-  check('21. X2 沒接：「報告我寫完了。聖誕快樂。禮物等考完。」；KX_XMAS[3] missed',txt('p:kexin').slice(-1)[0]===K('報告我寫完了。聖誕快樂。禮物等考完。')&&G.flags.KX_XMAS[3]==='missed');
+  check('21. X2 沒接：「報告我寫完了。聖誕快樂。」；KX_XMAS[3] missed',txt('p:kexin').slice(-1)[0]===K('報告我寫完了。聖誕快樂。')&&G.flags.KX_XMAS[3]==='missed');
   fresh('2027-12-24',20,'dorm'); date('kexin'); run('2027-12-24',20.75,21.25); ans('y3_kx_xmas',1); check('21. 「明天不行。」→「……好。」；沒有視訊',txt('p:kexin').slice(-1)[0]===K('……好。')&&!OUT.get(G,'y3_kx_xmas'));
 
   // ===== 23. 2-Y3-23 可昕 除夕 KN =====

@@ -373,10 +373,10 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('14. M4 9/15 22:30 法一吃飯群組 Alison「今年中秋有月亮」「去年下雨」「我記得」（AA_555 第 2 節改字，企劃線 56c11668d；原本「芷若說英國的月亮比較小」「我不信」）', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['yu:今年中秋有月亮','yu:去年下雨','yu:我記得']));
     fresh(D('2027-09-08'),20.5,'dorm'); date('kexin'); run(G.day,20.5,21.5); check('14. 大三上 9/8 21:10 可昕「民訴開課了。第一堂就抄了十一頁。」', K().includes('kexin:民訴開課了。第一堂就抄了十一頁。'));
     fresh(D('2027-11-10'),8,'dorm'); date('kexin'); only('y3_kx_mid',()=>run(G.day,8,21.5)); ans('dp_y3_kx_mid',1);
-    check('14. 大三上第 10 週起「民訴期中考完了。最後一題沒寫完。」；「不要想了。」→「好。不想。」「……還是會想。」（AA_581 第 53～58 列）', JSON.stringify(K())===JSON.stringify(['kexin:民訴期中考完了。最後一題沒寫完。','player:不要想了。','kexin:好。不想。','kexin:……還是會想。']));
-    fresh(D('2027-10-06'),8,'dorm'); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 沒見過詹靖：「我那個拍片的朋友詹靖，……」', K()[0]==='kexin:我那個拍片的朋友詹靖，拍了山下那家的老闆一整天。老闆只說了一句：好。');
-    fresh(D('2027-10-06'),8,'dorm',{KX_NCCU_FRIENDS:true}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 見過詹靖（木柵大學的電影夜）：「詹靖拍了山下那家的老闆一整天，……」', K()[0]==='kexin:詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。');
-    fresh(D('2027-10-06'),8,'dorm',{KX_BDAY:{2:'class'}}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. C7 見過詹靖＝系上小教室的生日在場（舊存檔只有 KX_BDAY[2] class）：「詹靖拍了……」（AA_343 C7）', K()[0]==='kexin:詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。', JSON.stringify(K()));
+    check('14. 大三上第 10 週起「民訴的書面報告交了。最後一段沒寫完。」；「不要想了。」→「好。不想。」「……還是會想。」（AA_581 第 53～58 列）', JSON.stringify(K())===JSON.stringify(['kexin:民訴的書面報告交了。最後一段沒寫完。','player:不要想了。','kexin:好。不想。','kexin:……還是會想。']));
+    fresh(D('2027-10-06'),8,'dorm'); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 沒見過詹靖：「我那個拍片的朋友詹靖，……」', K()[0]==='kexin:我們模擬法庭同組那個同學會拍片。他拍了公館一家麵店的老闆一整天，老闆只說了一句：好。');
+    fresh(D('2027-10-06'),8,'dorm',{KX_NCCU_FRIENDS:true}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 見過詹靖（木柵大學的電影夜）：「詹靖拍了山下那家的老闆一整天，……」', K()[0]==='kexin:我們模擬法庭同組那個同學會拍片。他拍了公館一家麵店的老闆一整天，老闆只說了一句：好。');
+    fresh(D('2027-10-06'),8,'dorm',{KX_BDAY:{2:'class'}}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. C7 見過詹靖＝系上小教室的生日在場（舊存檔只有 KX_BDAY[2] class）：「詹靖拍了……」（AA_343 C7）', K()[0]==='kexin:我們模擬法庭同組那個同學會拍片。他拍了公館一家麵店的老闆一整天，老闆只說了一句：好。', JSON.stringify(K()));
     fresh(D('2027-09-29'),8,'dorm'); date('kexin'); only('y3_kx_eh1',()=>run(G.day,8,23)); ans('dp_y3_kx_eh1',0);
     check('14. 「欸。」「……以後我只打一個『欸』，就是想找你講話。」 22:40；「在。」→「好。……沒事了。」', JSON.stringify(K())===JSON.stringify(['kexin:欸。','kexin:……以後我只打一個『欸』，就是想找你講話。','player:在。','kexin:好。……沒事了。'])&&Math.abs(at('p:kexin','欸。')-(G.day*24+22+40/60))<0.26);
     fresh(D('2027-10-27'),8,'dorm',{dpN:{y3_kx_eh1:1}}); date('kexin'); only('y3_kx_eh',()=>run(G.day,8,23)); ans('dp_y3_kx_eh_0',0);
@@ -397,7 +397,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('14. M5 5/18 21:40 明軒「家教又多接了一個。……德國那筆。」（沒有「獎學金」）', JSON.stringify(txt('p:classmate_mingxuan'))===JSON.stringify(['classmate_mingxuan:家教又多接了一個。……德國那筆。'])&&!txt('p:classmate_mingxuan').some(t=>/獎學金/.test(t)));
     fresh(D('2028-05-18'),21,'dorm'); R('classmate_mingxuan','FAM'); C('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_TRY',''); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); run(G.day,21,22); check('14. 有 SAW_HIM_STUDY：多「你什麼都沒看到。」', txt('p:classmate_mingxuan').slice(-1)[0]==='classmate_mingxuan:你什麼都沒看到。');
     fresh(D('2028-03-15'),8,'jp',{EXCHANGE_ROUTE:'JP',KX_NCCU_FRIENDS:true}); date('kexin'); G.day=D('2028-04-12'); only('y3s2_kx_film',()=>run(G.day,8,23));
-    check('14. 日本路線：可昕照當地時間（21:10 臺灣＝22:10 日本）「詹靖的短片在小影展放了。我坐第一排。」', K()[0]==='kexin:詹靖的短片在小影展放了。我坐第一排。'&&Math.abs(at('p:kexin','詹靖的短片在小影展放了。我坐第一排。')-(G.day*24+22+10/60))<0.26, JSON.stringify(K()));
+    check('14. 日本路線：可昕照當地時間（21:10 臺灣＝22:10 日本）「詹靖的短片在小影展放了。我坐第一排。」', K()[0]==='kexin:同組那個同學的短片，在小影展放了。我坐第一排。'&&Math.abs(at('p:kexin','同組那個同學的短片，在小影展放了。我坐第一排。')-(G.day*24+22+10/60))<0.26, JSON.stringify(K()));
     fresh(D('2028-09-10'),10,'us_apartment',{EXCHANGE_ROUTE:'US'}); R('kai','FRI'); SOCIAL.remember('kai','SUNDAY_SUPPER',''); run(G.day,10,11.25);
     check('14. 美國路線：9/10 23:00（臺灣）＝美東 11:00 阿凱「宵夜？」「喔你在美國」「那我自己吃」「拍給你看」「📷（滷味，籃子夾得很滿）」', JSON.stringify(txt('p:kai'))===JSON.stringify(['kai:宵夜？','kai:喔你在美國','kai:那我自己吃','kai:拍給你看','kai:📷（滷味，籃子夾得很滿）'])&&Math.abs(at('p:kai','宵夜？')-(G.day*24+11))<0.26);
     fresh(D('2028-09-16'),9.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); R('heroine_05','FRI'); C('heroine_05'); run(G.day,9.5,13); check('14. M7 美國路線 9/16：這一版的雞蛋（10:00）拿掉了（AA_370 M2：和 us_life3d.js 交往中 12:10 那則重複，留 USL 那則）', !PHONE.sent(G,'r3_y4_sis_egg_0')&&!txt('p:heroine_05').some(t=>/雞蛋/.test(t)));
@@ -405,10 +405,10 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(D('2028-09-27'),8,'dorm'); date('kexin'); only('y4_kx_twenty1',()=>run(G.day,8,22.5)); ans('dp_y4_kx_twenty1',0);
     check('14. M8 大四上第 4 週起 22:10「二十分鐘。」「這段讀完就打給你。」；「好。」→（二十分鐘後，她真的打來了。）', JSON.stringify(K())===JSON.stringify(['kexin:二十分鐘。','kexin:這段讀完就打給你。','player:好。',':（二十分鐘後，她真的打來了。）']));
     fresh(D('2028-10-04'),8,'dorm',{dpN:{y4_kx_twenty1:1}}); date('kexin'); only('y4_kx_twenty',()=>run(G.day,8,22.5)); check('14. 之後「二十分鐘」', K()[0]==='kexin:二十分鐘');
-    fresh(D('2028-10-04'),8,'dorm'); date('kexin'); only('y4_kx_index2',()=>run(G.day,8,21.5)); check('14. 沒見過邵鈞：「我們系那個考古題有目錄的人，現在出第二冊了。」', K()[0]==='kexin:我們系那個考古題有目錄的人，現在出第二冊了。');
-    fresh(D('2028-10-04'),8,'dorm'); date('kexin'); SOCIAL.remember('kexin','ENC_D13_KX',''); only('y4_kx_index2',()=>run(G.day,8,21.5)); check('14. 見過邵鈞（ENC_D13_KX）：「邵鈞的考古題目錄，現在有第二冊。」', K()[0]==='kexin:邵鈞的考古題目錄，現在有第二冊。');
-    { const seen=prep=>{ fresh(D('2028-10-04'),8,'dorm',prep.flags||{}); date('kexin'); if(prep.mem) SOCIAL.remember('kexin',prep.mem,''); only('y4_kx_index2',()=>run(G.day,8,21.5)); return K()[0]==='kexin:邵鈞的考古題目錄，現在有第二冊。'; };
-      check('14. C7 見過邵鈞＝電影夜（KX_NCCU_FRIENDS）、小教室生日（KX_BDAY[2] class）、貓空（ENC_D09_KX）任一（AA_343 C7）', seen({flags:{KX_NCCU_FRIENDS:true}})&&seen({flags:{KX_BDAY:{2:'class'}}})&&seen({mem:'ENC_D09_KX'})&&!seen({flags:{KX_BDAY:{2:'shop'}}})); }
+    fresh(D('2028-10-04'),8,'dorm'); date('kexin'); only('y4_kx_index2',()=>run(G.day,8,21.5)); check('14. 沒見過邵鈞：「我們系那個考古題有目錄的人，現在出第二冊了。」', K()[0]==='kexin:系上那個學長的考古題目錄，現在出第二冊了。');
+    fresh(D('2028-10-04'),8,'dorm'); date('kexin'); SOCIAL.remember('kexin','ENC_D13_KX',''); only('y4_kx_index2',()=>run(G.day,8,21.5)); check('14. 見過邵鈞（ENC_D13_KX）：「邵鈞的考古題目錄，現在有第二冊。」', K()[0]==='kexin:系上那個學長的考古題目錄，現在出第二冊了。');
+    { const seen=prep=>{ fresh(D('2028-10-04'),8,'dorm',prep.flags||{}); date('kexin'); if(prep.mem) SOCIAL.remember('kexin',prep.mem,''); only('y4_kx_index2',()=>run(G.day,8,21.5)); return K()[0]==='kexin:系上那個學長的考古題目錄，現在出第二冊了。'; };
+      check('14. C7 見過邵鈞＝電影夜（KX_NCCU_FRIENDS）、小教室生日（KX_BDAY[2] class）、貓空（ENC_D09_KX）任一（AA_343 C7）', seen({flags:{KX_NCCU_FRIENDS:true}})&&seen({flags:{KX_BDAY:{2:'class'}}})&&seen({mem:'ENC_D09_KX'})&&seen({flags:{KX_BDAY:{2:'shop'}}})/* 2026-11-12（CANON-NO-ECON-1112 第五批 AA_919 第 2 節）：見過沒見過只留一版，誰都是同一句 */); }
     fresh(D('2029-03-14'),8,'dorm'); date('kexin'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 大四下「山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。」', K()[0]==='kexin:山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。');
     fresh(D('2029-03-14'),8,'dorm'); R('kexin','FRI'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 可昕的只給交往中', !K().length); }
 

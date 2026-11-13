@@ -42,7 +42,7 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   /* YT-REWRITE-1103：語彤的句子照 AA_630 第 3 節（F 列）換了；短句（tests/alison.js 的語料不收）直接對 AA_630 表上的「改成」那一格 */
   const A630=(()=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show','bb4401fd3:docs/story_planning/AA_630_語彤台詞改寫.md'],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
   const D116={'老師說我們那一段寫得很清楚。消失的那一段。':'AA-B 11-07 04:10 訊息：原句「寫得最好」違反 D116（不跟別人比），改「寫得很清楚」；AA 會在 AA_503 稿補更正'};   /* AA 直接給的更正（不在 d13ab3ab7 稿裡）*/
-  const LR=require('./line_rows_expect.js'), UE=require('./user_line_edits.js'), bad=L.filter(([w,t])=>!(require('./kx885_expect.js').skip(w)&&require('./kx885_expect.js').has(t))/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!doc.includes(LR.toOldS(t,'src/data/feed_y1s1.js'))&&!(A630&&A630.includes(' | '+t+' | '))&&!D116[t]&&!(UE[t]&&doc.includes(UE[t])));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
+  const LR=require('./line_rows_expect.js'), UE=require('./user_line_edits.js'), bad=L.filter(([w,t])=>!require('./canon1112_ok.js').ok(t)/* 2026-11-12 第五批：AA_919 第 2 節 kx_rpt 兩句 */&&!(require('./kx885_expect.js').skip(w)&&require('./kx885_expect.js').has(t))/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!doc.includes(LR.toOldS(t,'src/data/feed_y1s1.js'))&&!(A630&&A630.includes(' | '+t+' | '))&&!D116[t]&&!(UE[t]&&doc.includes(UE[t])));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊 ps1、ps3 三句句尾「～」改掉、多一拍（AA_808 feed_y1s1 第 64、66 列）——遊戲字先換回稿上的舊句（line_rows_expect.js toOldS）再在 AA_503 找；舊稿不改。舊期望：遊戲字本身在 AA_503 */
   check('0. 每一句都在 AA_503 稿裡（'+SHA+'，一字不差；'+L.length+' 句）',doc.length>1000&&L.length>=250&&!bad.length,doc?J(bad.slice(0,8)):'git fetch origin claude/magical-albattani-bk7b4n');
   check('0. 動態 43 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 2、可昕 8、沛珊 6）、私訊 10 則（2026-11-04：學姊 sis2「空的保溫瓶」拿掉，D127④、AA_661 第 48 列 ebdd2fb59）',FEED_Y1S1.posts.length===43&&!FEED_Y1S1.posts.some(p=>p.id==='sis2')&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
@@ -178,7 +178,7 @@ sec('6',()=>{ const TUE=TD(11,2), WED=TUE+1, THU=TUE+2;
   walk(THU,17.9); const a=th('kexin').some(x=>x.tag==='aa503_kx_rpt2'); walk(THU,18.1);
   check('6. 週四 18:00「報告交了。」「老師說我們那一段寫得很清楚。消失的那一段。」（D116 不跟別人比：AA-B 11-07 04:10 把「寫得最好」改成「寫得很清楚」）',!a&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt2').map(x=>x.text))===J(['報告交了。','老師說我們那一段寫得很清楚。消失的那一段。']));
   ({m,L}=go(1)); walk(THU,18.1);
-  check('6. 「他人呢？」→ 兩句（KX_RPT who）、不排視訊；週四那一則也有',J(L.map(x=>x.text))===J(['他人呢？','邵鈞說他去宜蘭。宜蘭耶。','我明天要在群組裡講清楚。講清楚，不罵他。'])&&H.G.flags.KX_RPT==='who'&&!OUT.get(H.G,'aa503_kx_video')&&th('kexin').some(x=>x.tag==='aa503_kx_rpt2'));
+  check('6. 「他人呢？」→ 兩句（KX_RPT who）、不排視訊；週四那一則也有',J(L.map(x=>x.text))===J(['他人呢？','他室友說他去宜蘭。宜蘭耶。'/* 第五批 AA_919 */,'我明天要在群組裡講清楚。講清楚，不罵他。'])&&H.G.flags.KX_RPT==='who'&&!OUT.get(H.G,'aa503_kx_video')&&th('kexin').some(x=>x.tag==='aa503_kx_rpt2'));
   ({m,L}=go(2));
   check('6. 「妳先睡，明天再做。」→「你不懂。……算了，我自己來。」＋旁白「（她已讀，沒有再傳。）」（不是她說的）',J(L.map(x=>x.text))===J(['妳先睡，明天再做。','你不懂。……算了，我自己來。','（她已讀，沒有再傳。）'])&&!L[2].from&&L[1].from==='kexin'&&H.G.flags.KX_RPT==='sleep');
   if(typeof MSG!=='undefined'&&MSG.replyAt){ const no=(id)=>{ const hd=R().hold; R().hold={}; const r=MSG.replyAt(H.G,id); R().hold=hd; return r; };

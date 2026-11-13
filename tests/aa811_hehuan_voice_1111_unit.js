@@ -40,7 +40,7 @@ const sumAdj=(id,k)=>ADJ.filter(([w])=>w===id).reduce((s,[,d])=>s+(+d[k]||0),0);
   if(/讀不到|fatal|invalid object|CalledProcessError/i.test(ck)) console.log('（跳過：匯入工具讀不到 '+SHA+'，企劃線沒 fetch）'); else check('0. tools/story/import_aa811.py --check：src/data/aa811_lines.js 和稿一致',/^OK/.test(ck),ck);
   let doc=null; try{ doc=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show',SHA+':'+DOC],{encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(err){ doc=null; }
   if(doc){
-    check('0. 合歡山北峰 dialogue 和稿一字不差（'+doc.hehuan.dialogue.length+' 格）',J(HH.dialogue)===J(doc.hehuan.dialogue),'');
+    check('0. 合歡山北峰 dialogue 和稿一字不差（'+doc.hehuan.dialogue.length+' 格）',J(HH.dialogue)===J(require('./canon_b5_expect.js').fwd(doc.hehuan.dialogue,'aa811_lines.js'))/* 2026-11-12 第五批：AA_923 第 4 節學姊一句（canon_b5_rows） */,'');
     check('0. id、title、who 照稿；她答應那一句在稿的 when 裡',HH.id===doc.hehuan.id&&HH.title===doc.hehuan.title&&HH.who===doc.hehuan.who&&doc.hehuan.when.includes('她答應的句子：「'+HH.accept+'」')&&HH.accept==='好。四點的客運。',J([HH.id,HH.title,HH.accept]));
     check('0. 子晴十則、第九則兩個回覆和稿一字不差',J(ZV.msgs)===J(doc.zq_voice.msgs)&&J(ZV.reply9)===J(doc.zq_voice.reply9)&&ZV.flag===doc.zq_voice.flag&&ZV.who===doc.zq_voice.who,'');
     check('0. 稿的時間規格：04:00 出發、22:00 回到臺北、hours 18；2029-06-15～2029-10-31；第 N 天＝D0＋N−1、不數了＝D0＋36',/04:00 出發 → 22:00 回到臺北（hours 18）/.test(doc.hehuan.trip)&&doc.hehuan.when.includes('2029-06-15～2029-10-31')&&doc.zq_voice.when.includes('D0＋N−1')&&doc.zq_voice.when.includes('D0＋36')&&AA811.EV.hours===18&&AA811.HH.from==='2029-06-15'&&AA811.HH.to==='2029-10-31','');

@@ -118,7 +118,7 @@ const date=id=>H.date(id);
   { fresh('2029-03-25',20,'dorm'); TEAM(); date('kexin'); at('2029-03-25',20.5); phone();
     check('2-Y4-35 3/25 20:30 群組：以安「春假要不要出去？兩天一夜。」「行程我排好了。4/1 前跟我說。」；可昕的還沒到＝先不問', JSON.stringify(th('g:noodle_team').slice(-2))===JSON.stringify(['春假要不要出去？兩天一夜。','行程我排好了。4/1 前跟我說。'])&&!S.springPending(H.G));
     at('2029-03-25',21); phone();
-    check('2-Y4-35 21:00 交往中的可昕「最後一個春假。……這次不排行程表。」；兩則都到了才問三選一', th('p:kexin').includes('最後一個春假。……這次不排行程表。')&&S.springPending(H.G));
+    check('2-Y4-35 21:00 交往中的可昕「最後一個春假。開車，去哪都好。」；兩則都到了才問三選一', th('p:kexin').includes('最後一個春假。開車，去哪都好。')&&S.springPending(H.G));
     H.opts=[]; H.picks=[0]; await S.springPrompt(GM);
     const q=OUT.get(H.G,'y4_spring');
     check('2-Y4-35 三選一：阿哲他們／和可昕開車／留在宿舍（＋晚一點再決定）；選第一個＝4/3 08:00 校門出發（AA_542：選項字「跟阿哲他們出去」）', H.opts[0].length===4&&/阿哲他們/.test(H.opts[0][0])&&/可昕/.test(H.opts[0][1])&&/宿舍/.test(H.opts[0][2])&&H.G.flags.SPRING_Y4==='noodle'&&!!q&&q.day===D('2029-04-03')&&q.h===8);

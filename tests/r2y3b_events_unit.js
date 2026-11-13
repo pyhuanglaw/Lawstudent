@@ -228,7 +228,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
 
   // ---------- 2-Y3-41 可昕 生日（大三）----------
   fresh('2028-04-23',21.1,'dorm',{KX_BDAY:{1:'visit',2:'met'}}); date('kexin'); rules();
-  check('B1. 大一、大二都記得：4/23 21:00「明天我生日。今年你不用想了，我想好了。」…「六點。」、兩個回覆', mine('p:kexin','kexin:明天我生日。今年你不用想了，我想好了。').slice(0,3).join('|')==='kexin:明天我生日。今年你不用想了，我想好了。|kexin:公館，三十分鐘，一片蛋糕。我們兩個都在趕報告。|kexin:六點。'&&PHONE.byAsk(G,'y3_kx_bday_ask').ask.opts.length===2);
+  check('B1. 大一、大二都記得：4/23 21:00「明天我生日。」…「六點。」、兩個回覆', mine('p:kexin','kexin:明天我生日。').slice(0,3).join('|')==='kexin:明天我生日。|kexin:我們兩個都在趕報告。吃一片蛋糕就好。|kexin:六點，公館。'&&PHONE.byAsk(G,'y3_kx_bday_ask').ask.opts.length===2);
   answer('y3_kx_bday_ask',0); rules(); const bq=OUT.get(G,'kx_bday_y3');
   check('B1. 「好。」→ 排 4/24 18:00 公館', !!bq&&bq.day===D('2028-04-24')&&bq.h===18);
   at('2028-04-24',18); await run('ev_kexin_birthday_y3');

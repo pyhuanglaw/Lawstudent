@@ -142,5 +142,5 @@ function finish(){
   const before=JSON.stringify(R); CLS.rec(G); check('轉換只做一次（再讀一次不變）',JSON.stringify(CLS.rec(G))===before); }
 // 五年日曆（D56）：經濟系那一年的日期標示（畫面只寫學年、學期、日期、星期，不寫西元年份）
 { const lab=CLS.dayLabel(mkG(1,8),dayOf('2024-09-18')), lab2=CLS.dayLabel(mkG(1,8),dayOf('2025-07-15'));
-  check('經濟系那一年：「9/18 週三・經濟系大一上 第 3 週」；重考的暑假寫「暑假」；都不寫西元年份',lab==='9/18 週三・經濟系大一上 第 3 週'&&lab2.endsWith('・暑假')&&!/20\d\d/.test(lab+lab2),lab+'｜'+lab2); }
+  check('經濟系那一年：「9/18 週三・經濟系大一上 第 3 週」；重考的暑假寫「暑假」；都不寫西元年份',lab==='9/18 週三・Y0S1 第 3 週'/* 2026-11-12（CANON-NO-ECON-1112 第五批，AA_919 第 4-3 節）：學期名稱表拿掉 Y0S1／Y0S2（舊序章那一年不再有名字，舊存檔照代號顯示） */&&lab2.endsWith('・暑假')&&!/20\d\d/.test(lab+lab2),lab+'｜'+lab2); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); }

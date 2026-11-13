@@ -58,7 +58,7 @@ GM.money=function(n){ G.money+=n; };
   m=only('y2_kx_river',B5,{dating_kexin:true}); const r2=only('y2_kx_river',B5,{dating_kexin:true},()=>{ G.weather='rain'; });
   check('5. 大二下「今天下雨，山變成一條河。」只在下雨的日子',!m.length&&T(r2)==='kexin:今天下雨，山變成一條河。');
   m=only('y2_kx_index',W5,{dating_kexin:true}); const i2=only('y2_kx_index',W5,{dating_kexin:true},()=>{ SOCIAL.remember('kexin','ENC_D13_KX',''); });
-  check('6. 邵鈞：還沒見過＝「我們系有一個人，考古題有目錄。目錄有索引。」；淡水遇過＝「邵鈞的考古題有目錄。目錄有索引。」',m[0].text==='我們系有一個人，考古題有目錄。目錄有索引。'&&i2[0].text==='邵鈞的考古題有目錄。目錄有索引。');
+  check('6. 邵鈞：還沒見過＝「系上有一個學長，考古題有目錄。目錄有索引。」；淡水遇過＝「邵鈞的考古題有目錄。目錄有索引。」',m[0].text==='系上有一個學長，考古題有目錄。目錄有索引。'&&i2[0].text==='系上有一個學長，考古題有目錄。目錄有索引。'/* 2026-11-12（CANON-NO-ECON-1112 第五批 AA_919 第 2 節）：遇過沒遇過只留一版 */);
   const H=f=>only('y2_kx_hand',W7,Object.assign({dating_kexin:true,PLAYED_Y0:true,E12_ANSWER:'hand'},f));
   m=H({}); const h2=H({PLAYED_Y0:false}), h3=H({E12_ANSWER:'eye'}), h4=H({dating_kexin:false}), h5=only('y2_kx_hand',W5,{dating_kexin:true,PLAYED_Y0:true,E12_ANSWER:'hand'});
   check('7. 第三隻手：玩過經濟系、E12 選「第三隻手」、還在交往，第 6 週以後才有；少一個條件就沒有',m.length===1&&m[0].text==='我還在等你的第三隻手。'&&!h2.length&&!h3.length&&!h4.length&&!h5.length);
