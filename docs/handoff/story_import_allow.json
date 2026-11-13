@@ -190,9 +190,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "152f8fe16f",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_861，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_861，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history；6dbfe10d7e（AA_921／AA_923 定稿（BB_448 採用，AA-C 2026-11-12））",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
     {
@@ -218,15 +218,19 @@
     {
      "sha": "03af79d17",
      "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
+    },
+    {
+     "sha": "152f8fe16f",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
     }
    ],
-   "note": "BB-C 13:27：九個檔用 408398d7"
+   "note": "BB-C 13:27：九個檔用 408398d7；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "3f6c7d3bb9",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊 note 照 AA_899 換說法。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊 note 照 AA_899 換說法。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核；6dbfe10d7e（AA_921／AA_923 定稿（BB_448 採用，AA-C 2026-11-12））",
    "task": "ROM-1017",
    "history": [
     {
@@ -260,15 +264,19 @@
     {
      "sha": "152f8fe16f",
      "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_862，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history"
+    },
+    {
+     "sha": "3f6c7d3bb9",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
     }
    ],
-   "note": "BB-C 13:27：九個檔用 408398d7"
+   "note": "BB-C 13:27：九個檔用 408398d7；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "3f6c7d3bb9",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊三句照 AA_899（BB_433 採用）換說法（再考一次、先不念了）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊三句照 AA_899（BB_433 採用）換說法（再考一次、先不念了）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核；6dbfe10d7e（AA_921／AA_923 定稿（BB_448 採用，AA-C 2026-11-12））",
    "task": "AB65-3-Y2S1-L",
    "history": [
     {
@@ -298,17 +306,21 @@
     {
      "sha": "63da3f441e",
      "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_863（＋第 1 層對齊暑假打工 63da3f441e），直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history"
+    },
+    {
+     "sha": "3f6c7d3bb9",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
     }
    ],
-   "note": "BB-C 13:27：九個檔用 408398d7"
+   "note": "BB-C 13:27：九個檔用 408398d7；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s2.json",
-   "sha": "eb4006a2ae",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_864，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_864，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history；6dbfe10d7e（AA_921／AA_923 定稿（BB_448 採用，AA-C 2026-11-12））",
    "task": "SYS-15",
-   "note": "BB-C 13:27：九個檔用 408398d7",
+   "note": "BB-C 13:27：九個檔用 408398d7；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）",
    "history": [
     {
      "sha": "03af79d17",
@@ -321,16 +333,20 @@
     {
      "sha": "408398d7",
      "approvedBy": "BB-C（2026-10-17 13:27 已審表）"
+    },
+    {
+     "sha": "eb4006a2ae",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
     }
    ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s1.json",
-   "sha": "644d27d59e",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_865，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_865，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history；6dbfe10d7e（AA_921／AA_923 定稿（BB_448 採用，AA-C 2026-11-12））",
    "task": "SYS-15",
-   "note": "BB-C 13:27：九個檔用 408398d7",
+   "note": "BB-C 13:27：九個檔用 408398d7；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）",
    "history": [
     {
      "sha": "03af79d17",
@@ -347,16 +363,20 @@
     {
      "sha": "9fecc202",
      "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）"
+    },
+    {
+     "sha": "644d27d59e",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
     }
    ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s2.json",
-   "sha": "3f6c7d3bb9",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊「我說我考了兩次。」（AA_899）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊「我說我考了兩次。」（AA_899）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核；6dbfe10d7e（AA_921／AA_923 定稿（BB_448 採用，AA-C 2026-11-12））",
    "task": "SYS-15",
-   "note": "BB-C 13:27：九個檔用 408398d7；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入",
+   "note": "BB-C 13:27：九個檔用 408398d7；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）",
    "history": [
     {
      "sha": "03af79d17",
@@ -385,16 +405,20 @@
     {
      "sha": "644d27d59e",
      "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_866，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history"
+    },
+    {
+     "sha": "3f6c7d3bb9",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
     }
    ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s1.json",
-   "sha": "087c105f13",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_867（＋沛珊 P7-L2 晚兩年那一層 087c105f13），直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_867（＋沛珊 P7-L2 晚兩年那一層 087c105f13），直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history；6dbfe10d7e（AA_921／AA_923 定稿（BB_448 採用，AA-C 2026-11-12））",
    "task": "SYS-15",
-   "note": "BB-C：大四上口語審完，可以匯入",
+   "note": "BB-C：大四上口語審完，可以匯入；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）",
    "history": [
     {
      "sha": "03af79d17",
@@ -411,16 +435,20 @@
     {
      "sha": "f6269502",
      "approvedBy": "BB-C（2026-10-17 13:34）"
+    },
+    {
+     "sha": "087c105f13",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
     }
    ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
-   "sha": "3f6c7d3bb9",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊「為什麼又考一次」（AA_899）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊「為什麼又考一次」（AA_899）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核；6dbfe10d7e（AA_921／AA_923 定稿（BB_448 採用，AA-C 2026-11-12））",
    "task": "BB210-Y4S2",
-   "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）",
+   "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）",
    "history": [
     {
      "sha": "03af79d17",
@@ -449,6 +477,10 @@
     {
      "sha": "b63373c83d",
      "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_868，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history"
+    },
+    {
+     "sha": "3f6c7d3bb9",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕期中招呼八句（法律系沒有期中考，AA_923）、「有覺得就好」（AA_921）、芷若子晴刪節號）"
     }
    ]
   },

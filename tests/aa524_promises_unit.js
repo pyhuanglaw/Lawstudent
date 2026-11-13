@@ -331,7 +331,7 @@ await sec('Z4',async()=>{
   fresh('2026-05-02',15,{},{zone:'wenzhou'}); H.FAMILIAR(ZR); await runEv('ev_zhiruo_secret',[0]);
   check('Z4. 沒問過：沒有這一句',!has(NEW.Z4[0])&&has('……她十點要打給誰？'));
   fresh('2025-09-12',15); H.rel(ZR,10,0,0); H.G.acts={att:{econ_principles_1:2}}; await ladPlay('Y1S1',ZR,'Z-L3',['那學期怎麼了']);
-  check('Z4. 記憶從哪來：閒聊階梯 Z-L3 選「那學期怎麼了？」記 ZR_ASKED_MESSY（照舊）',mem(ZR,'ZR_ASKED_MESSY')&&has('就……很多事啦。之後再跟你講。'),J(said()));
+  check('Z4. 記憶從哪來：閒聊階梯 Z-L3 選「那學期怎麼了？」記 ZR_ASKED_MESSY（照舊）',mem(ZR,'ZR_ASKED_MESSY')&&has('就……很多事啦。那時候我開始在店裡排很多班。')/* 2026-11-12（CANON-NO-ECON-1112 第五批）：ladder_bb.json@6dbfe10d7e 芷若 Z-L3 選項②回覆 AA 改了；舊期望「就……很多事啦。之後再跟你講。」 */,J(said()));
 });
 await sec('Z5',async()=>{
   const d04=async(flags,by,day)=>{ fresh(day||'2028-05-13',18,flags); H.FRIEND(ZR); H.said=[]; H.picks=[]; await DATE.arriveLine(GM,trip(ZR,'D04',{by:by||'npc'}),0); return said(); };
