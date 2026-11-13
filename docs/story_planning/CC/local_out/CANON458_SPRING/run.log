@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_SPRING\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['SPRING_Y2', 'SPRING_Y4']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [SPRING_Y2] 最小存檔讀到 2027-03-30 21.25 dorm（Y2S2 第 6 週）
+  [前置／捷徑] 【捷徑】[SPRING_Y2] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [  45.3s] [SPRING_Y2] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+PASS FAIL_SETUP 檢查：[SPRING_Y2] 遊戲時間過了 21.60（現在 2027-03-30 21.60）
+  [ 175.0s] [SPRING_Y2_pick] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 177.9s] [SPRING_Y2_kx] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "春假。今年也開車？", "d": 560, "h": 21.5, "tag": "y2s2_spring_kx", "ask": null, "ans": null}, {"who": "kexin", "text": "這次我只想吃。其他的你決定。", "d": 560, "h": 21.5, "tag": "y2s2_spring_kx", "ask": ["開車。我來開。", "只想吃？", "去哪裡吃？"], "ans": null}, {"who": "player", "text": "好。今年也開。", "d": 560, "h": 21.55, "tag": "y2s2_spring_kx_pick", "ask": null, "ans": null}, {"who": "kexin", "text": "嗯。七點四十，宿舍樓下。", "d": 560, "h": 21.55, "tag": "y2s2_spring_kx_pick", "ask": null, "ans": null}]
+  [ 178.6s] [SPRING_Y2] 選了 []；她回 ["這次我只想吃。其他的你決定。", "好。今年也開。", "嗯。七點四十，宿舍樓下。"]；OUT kx_trip_y2s2＝{"day": "2027-04-03", "h": 7.666666666666667, "place": "女生宿舍樓下", "title": "春假：開車旅行", "state": "planned"}
+PASS FAIL_SETUP 檢查：[SPRING_Y2] 2027-04-03 07:40 的出遊排上了  {"day": "2027-04-03", "h": 7.666666666666667, "place": "女生宿舍樓下", "title": "春假：開車旅行", "state": "planned"}
+  [前置／捷徑] [前置] 同一份進度跳到 2027-04-03（Y2S2 第 6 週）7.00 時 dorm；SPRING_Y2
+  [ 212.5s] [SPRING_Y2_trip_a] 對話（事件 ev_kexin_trip_spring_y2）：選項 [["出發：春假：開車旅行女生宿舍樓下　07:40　開車到宿舍樓下接她", "晚一點（20 分鐘後再提醒）", "不去了"], ["海邊", "別的城市的老街", "山上看星星"], ["「算吧。」", "「妳自己想當嗎？」"]]；選了 ["出發：春假：開車旅行女生宿舍樓下　07:40　開車到宿舍樓下接她", "海邊", "「算吧。」"]；GAME.say [["杜可昕", "我管音樂。你管方向。"], ["杜可昕", "……目的地，現在決定。"], ["杜可昕", "水比我想的冷。……你先下去。"], ["杜可昕", "今年我真的不睡。"], ["", "（過了收費站，她又睡著了。音樂還是她選的。）"], ["杜可昕", "過年親戚都問我以後是不是要當律師。"], ["杜可昕", "我說還不知道。我阿姨說，妳這麼會吵，一定可以。我不知道這算不算稱讚。"], ["杜可昕", "那我收下。我講道理的時候比較大聲，她都當成吵。"]]
+  [ 220.3s] [SPRING_Y2_trip_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 220.3s] [SPRING_Y2] 出遊途中的地點字幕：["春假：開車旅行（大二）", "女生宿舍樓下", "車上", "海邊", "車上", "送她回宿舍，再把車開回家。"]
+PASS [SPRING_Y2] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [SPRING_Y4] 最小存檔讀到 2029-03-25 20.85 dorm（Y4S2 第 5 週）
+  [前置／捷徑] 【捷徑】[SPRING_Y4] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [ 251.6s] [SPRING_Y4] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+PASS FAIL_SETUP 檢查：[SPRING_Y4] 遊戲時間過了 21.10（現在 2029-03-25 21.10）
+  [ 366.1s] [SPRING_Y4_pick] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 369.0s] [SPRING_Y4_kx] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "最後一個春假。開車，去哪都好。", "d": 1286, "h": 21, "tag": "y4_spring_kx", "ask": ["那我們去哪？", "妳想去海邊嗎？", "好。就隨便走。"], "ans": null}, {"who": "player", "text": "好。我開車。", "d": 1286, "h": 21.05, "tag": "y4_spring_kx_pick", "ask": null, "ans": null}, {"who": "kexin", "text": "嗯。到時候見。", "d": 1286, "h": 21.05, "tag": "y4_spring_kx_pick", "ask": null, "ans": null}]
+  [ 369.7s] [SPRING_Y4] 選了 []；她回 ["最後一個春假。開車，去哪都好。", "好。我開車。", "嗯。到時候見。"]；OUT y4_spring_kx＝{"day": "2029-04-03", "h": 7.666666666666667, "place": "女生宿舍樓下", "title": "春假：開車旅行", "state": "planned"}
+PASS FAIL_SETUP 檢查：[SPRING_Y4] 2029-04-03 07:40 的出遊排上了  {"day": "2029-04-03", "h": 7.666666666666667, "place": "女生宿舍樓下", "title": "春假：開車旅行", "state": "planned"}
+  [前置／捷徑] [前置] 同一份進度跳到 2029-04-03（Y4S2 第 7 週）7.00 時 dorm；SPRING_Y4
+  [ 409.5s] [SPRING_Y4_trip_a] 對話（事件 ev_kexin_trip_spring_y4）：選項 [["出發：春假：開車旅行女生宿舍樓下　07:40　開車到宿舍樓下接她", "晚一點（20 分鐘後再提醒）", "不去了"], ["海邊", "別的城市的老街", "山上看星星"], ["「有我的嗎？」", "「妳室友很幸福。」"]]；選了 ["出發：春假：開車旅行女生宿舍樓下　07:40　開車到宿舍樓下接她", "海邊", "「有我的嗎？」"]；GAME.say [["杜可昕", "音樂我管，方向你管。"], ["杜可昕", "……目的地也你管。我只是想坐在車上。"], ["杜可昕", "水比我想的冷。……你先下去。"], ["", "（回程她沒有睡。過了收費站，她把音樂關小。）"], ["杜可昕", "……畢業以後，還是要開。"], ["杜可昕", "最後一個學期了。"], ["杜可昕", "我媽真的寄水果上來，一整箱。我一個人吃不完，寢室每個人都被我塞。"], ["杜可昕", "有。棗子，在包包裡。先講，很甜。"]]
+  [ 430.1s] [SPRING_Y4_trip_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 430.2s] [SPRING_Y4] 出遊途中的地點字幕：["春假：開車旅行（大四）", "女生宿舍樓下", "車上", "海邊", "車上", "送她回宿舍，再把車開回家。"]
+PASS [SPRING_Y4] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS
