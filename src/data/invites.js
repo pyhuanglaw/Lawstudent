@@ -519,7 +519,7 @@ INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb
   hours:[13,24],show:G=>!!G&&!!G.visited&&!!G.visited.wz_offbeat});
 /* AA_648 第 3 節（企劃線 1ebf7a590，一字照稿）：約去日常失速答應的那一句——十三人各一句（people[人].acc.offbeat）；沒列的人＝一般那句（OFFB.ACC0）；不答應照一般回覆表 */
 (function(){ const ACC={heroine_01:'好。我想吃明太子厚片。',heroine_02:'好。那家的貓會跳上桌，你不要嚇到。',heroine_03:'好。我晚一點到。',heroine_04:'日常失速？好，我要摸店長。',heroine_05:'好。我很久沒吃肉桂捲了。',
-    classmate_peishan:'好！我上次外帶的那個很好吃。',kexin:'好啊。等我到台北。',zhe:'走！我要吃兩份厚片。',classmate_bohan:'好。吃完我要回去讀書。',classmate_mingxuan:'好。我帶一款新的桌遊。',
+    classmate_peishan:'好！我上次外帶的那個很好吃。',kexin:'好啊。我念完這一章就過去。',zhe:'走！我要吃兩份厚片。',classmate_bohan:'好。吃完我要回去讀書。',classmate_mingxuan:'好。我帶一款新的桌遊。',
     yu:'Yes！日常失速！',classmate_xinci:'好。我報告寫完就去。'};
   INVITE_DATA.offbeatAcc=ACC;
   for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).offbeat=[ACC[id]]; } })();
@@ -570,7 +570,7 @@ INVITE_DATA.places.push({id:'corner_records',zone:'corner_records',name:'轉角�
 INVITE_DATA.places.push({id:'aoki',zone:'aoki',name:'青木茶室',verb:'去青木茶室喝茶',verbStudy:'去青木茶室念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'AOKI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
   hours:[11,21],show:G=>!!G&&!!G.visited&&!!G.visited.aoki});
 (function(){ const ACC={heroine_01:'好。可以讀書嗎？可以就好。',heroine_02:'好。我想喝東方美人。',heroine_03:'青木？好。我想看看別人家的茶怎麼泡。',heroine_04:'茶室？好啊，我沒去過。',
-    heroine_05:'好。那裡的白茶不錯。',classmate_peishan:'好！他們的桂花糕很好吃。',kexin:'好啊。等我到台北。'};
+    heroine_05:'好。那裡的白茶不錯。',classmate_peishan:'好！他們的桂花糕很好吃。',kexin:'好啊。我帶課本去。'};
   INVITE_DATA.aokiAcc=ACC; INVITE_DATA.aokiAcc0='好。那裡很安靜。';
   for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).aoki=[ACC[id]]; } })();
 
