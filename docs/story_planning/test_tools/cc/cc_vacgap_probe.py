@@ -286,7 +286,10 @@ async def c_others(pg, cdp, tag):
     extra = []
     await jump(pg, cdp, tag, '2026-07-19', 19 + 55 / 60, 'dorm', None)
     await wait_h(pg, cdp, 20 + 5 / 60, tag + '_fang0719'); await pg.wait_for_timeout(3000)
-    extra.append(dict(day='2026-07-19', who='npc_fangyt', **(await thread(pg, cdp, tag + '_fang_0719', 'p:npc_fangyt'))))
+    th_f = await thread(pg, cdp, tag + '_fang_0719', 'p:npc_fangyt')
+    dnow = await pg.evaluate("GAME.G.day"); pf = await pg.evaluate("(()=>STORY.presence('npc_fangyt',GAME.G))()")
+    R.check('[%s] 2026-07-19 20:05 方奕廷那則送到了（今天有他的訊息）；STORY.presence 已經不在山上 %s' % (tag, J(pf)), any(m.get('d') == dnow for m in th_f['msgs']), J(th_f['msgs'][-3:]))   # BB-C 11-14（6b1d）：期望反過來＝要送到
+    extra.append(dict(day='2026-07-19', who='npc_fangyt', presence=pf, **th_f))
     await jump(pg, cdp, tag, '2027-02-09', 21 + 55 / 60, 'campus', None)
     await wait_h(pg, cdp, 22 + 5 / 60, tag + '_kai0209'); await pg.wait_for_timeout(3000)
     k = await thread(pg, cdp, tag + '_kai_0209', 'p:kai')
@@ -294,6 +297,7 @@ async def c_others(pg, cdp, tag):
     await pg.wait_for_timeout(4000); await pg.screenshot(path=os.path.join(OUT, '%s_kai_0209_room203.png' % tag))
     pr = await pg.evaluate("(()=>STORY.presence('kai',GAME.G))()"); w = await P.who(pg, 'kai'); c = await P.clock(pg)
     R.note('[%s] 2027-02-09 走回 203（%s）：%s %.2f %s；STORY.presence(kai) %s；這一區的阿凱 %s' % (tag, back, c['key'], c['h'], (await st(pg)).get('zone'), J(pr), J(w)))
+    R.check('[%s] 2027-02-09 阿凱傳完「宵夜」、回 203 他在房間（BB-C 11-14 6b1d：不在＝FAIL）' % tag, bool(back) and bool(w), J({'back': back, 'npc': w, 'presence': pr}))
     extra.append(dict(day='2027-02-09', who='kai', back=back, presence=pr, npc=w, **k))
     return {'case': tag, 'rows': out, 'extra': extra}
 

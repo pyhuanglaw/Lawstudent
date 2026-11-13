@@ -222,7 +222,13 @@ def is_free(s):
 
 async def walk_into(pg, cdp, run, via, zone):
     """手機「地點」先到 via（第一個，校園＝法律系館A前），再走到往 zone 的出口按互動鍵（照玩家走進門）"""
-    if not await quick_go(pg, cdp, run, via): return False
+    ok_via = await quick_go(pg, cdp, run, via)
+    if not ok_via:   # 11-14 B2_r4：連 campus 都「沒有」（9/30 回宿舍卻有）——等 3 秒（旁白、對話收掉）再試一次；還是不行就用遊戲自己的換區（GAME.enter，和走過門一樣），記成【捷徑】
+        await pg.wait_for_timeout(3000); await L.close_panels(pg, cdp); ok_via = await quick_go(pg, cdp, run, via)
+    if not ok_via:
+        r = await pg.evaluate("(async z=>{ try{ await GAME.enter(z); return GAME.G.zone; }catch(e){ return 'ERR '+e.message; } })", zone); await pg.wait_for_timeout(2500)
+        run.note('【捷徑】手機「地點」兩次都找不到 %s → GAME.enter(%s)（遊戲自己的換區，trigger enter 的事件照開）：現在 %s' % (via, zone, r))
+        return (await P.ts(pg))['zone'] == zone
     ex = await pg.evaluate("(to=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i.exit&&i.exit.to===to&&!i.hidden).map(i=>({x:i.x,z:i.z,lv:i.lv|0,label:String(typeof i.label==='function'?i.label():i.label||''),d:Math.hypot(i.x-P.x,i.z-P.z)})); L.sort((a,b)=>a.d-b.d); return L[0]||null; })", zone)
     run.note('走進 %s：最近的出口 %s' % (zone, json.dumps(ex, ensure_ascii=False)))
     if not ex: return False
@@ -238,7 +244,12 @@ async def quick_go(pg, cdp, run, zone):
     await P.phone_tab(pg, cdp, 'places')
     await cc_phone.reveal(pg, cdp, zone)   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
     c = await pg.evaluate("(z=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(z+'|')); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })", zone)
-    if not c: await L.close_panels(pg, cdp); run.note('手機「地點」沒有 %s' % zone); return False
+    if not c:
+        try:
+            await pg.screenshot(path=os.path.join(getattr(run, 'outdir', '.'), 'phone_places_no_%s.png' % zone))
+            ls = await pg.evaluate("(()=>({open:!!document.querySelector('#phone:not(.hide)'), areas:[...document.querySelectorAll('#phoneBody [data-parea]')].map(b=>b.dataset.parea+':'+b.getAttribute('aria-expanded')), places:[...document.querySelectorAll('#phoneBody [data-place]')].map(b=>b.dataset.place.split('|')[0]).slice(0,30)}))()")
+        except Exception as e: ls = repr(e)[:100]
+        await L.close_panels(pg, cdp); run.note('手機「地點」沒有 %s（手機頁：%s）' % (zone, json.dumps(ls, ensure_ascii=False))); return False
     await L.touch_tap(cdp, c[0], c[1])
     for _ in range(120):
         await pg.wait_for_timeout(1000)
