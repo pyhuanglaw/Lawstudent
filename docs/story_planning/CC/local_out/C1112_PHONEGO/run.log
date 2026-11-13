@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_phone_go_prompt_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\C1112_PHONEGO\out
+CC PHONE-GO-PROMPT：TAG new；SHA a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492；CASES PROMPT,NORMAL；WHO heroine_01；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [PROMPT] 【前置／捷徑】day46 存檔、13.33 點讀檔（約好的時間 14:00 前 40 分鐘，還沒到 goPrompt 的時間）
+  [  36.3s] [PROMPT] 約：{"iv": {"id": "iv54", "who": "heroine_01", "place": "cafe", "zone": "cafe", "day": 46, "h": 14, "state": "accepted"}, "pname": "2:30 AM", "here": "dorm", "hour": 13.34}
+PASS [PROMPT] 前置：INV.accept 一筆別的區域的約（heroine_01）  {"iv": {"id": "iv54", "who": "heroine_01", "place": "cafe", "zone": "cafe", "day": 46, "h": 14, "state": "accepted"}, "pname": "2:30 AM", "here": "dorm", "hour": 13.34}
+  [前置／捷徑] [PROMPT] 【前置／捷徑】INV.accept：和 heroine_01 約在 2:30 AM（cafe 區）今天 14:00（現在在 dorm）
+  [  36.3s] [PROMPT] 等提示途中先出現別的選單 ["出發：一盞的班（13:00～17:00）溫州街・一盞茶屋　走過去約 15 分鐘", "晚一點（13:30 再提醒）", "這週請假"]：選第一個
+  [  64.8s] [PROMPT] 等提示途中先出現別的選單 ["「那就留著。」", "「請我喝一杯？」", "「為什麼不拆？」"]：選第一個
+FAIL [PROMPT] 遊戲自己跳出「直接過去／自己走過去」（18.38 點）  {"zone": "wz_teahouse", "hour": 18.376, "phone": false, "choices": null, "busy": false, "iv": [{"id": "iv54", "state": "missed", "h": 14, "zone": "cafe"}], "toasts": ["一盞的薪水 +800 元", "一盞的薪水 +800 元", "手機｜桌遊團｜Alison：新生盃第一場！！贏了！！", "手機｜桌遊團｜Alison：新生盃第一場！！贏了！！"]}
+  [前置／捷徑] [NORMAL] 【前置／捷徑】day46 存檔、12.50 點讀檔（約好的時間 14:00 前 90 分鐘，goPrompt 還不會跳）
+  [ 283.1s] [NORMAL] 約：{"iv": {"id": "iv54", "who": "heroine_01", "place": "cafe", "zone": "cafe", "day": 46, "h": 14, "state": "accepted"}, "pname": "2:30 AM", "here": "dorm", "hour": 12.51}
+PASS [NORMAL] 前置：INV.accept 一筆別的區域的約（heroine_01）  {"iv": {"id": "iv54", "who": "heroine_01", "place": "cafe", "zone": "cafe", "day": 46, "h": 14, "state": "accepted"}, "pname": "2:30 AM", "here": "dorm", "hour": 12.51}
+  [前置／捷徑] [NORMAL] 【前置／捷徑】INV.accept：和 heroine_01 約在 2:30 AM（cafe 區）今天 14:00（現在在 dorm）
+FAIL [NORMAL] 按之前沒有選單開著  {"zone": "dorm", "hour": 12.511, "phone": false, "choices": ["出發：一盞的班（13:00～17:00）溫州街・一盞茶屋　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"], "busy": true, "iv": [{"id": "iv54", "state": "accepted", "h": 14, "zone": "cafe"}], "toasts": ["一盞的薪水 +800 元", "一盞的薪水 +800 元", "手機｜桌遊團｜Alison：新生盃第一場！！贏了！！", "手機｜桌遊團｜Alison：新生盃第一場！！贏了！！"]}
+PASS 全程沒有 JS 例外  []
+FAILED 2: [PROMPT] 遊戲自己跳出「直接過去／自己走過去」（18.38 點）；[NORMAL] 按之前沒有選單開著
