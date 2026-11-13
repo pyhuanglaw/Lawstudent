@@ -2447,7 +2447,7 @@ const STORY_EVENTS=[
       {if:DH('heroine_04'),speaker:'heroine_04',expression:'thinking',text:'欸不是，你是我男朋友，你會偏心。……算了，你判。'},
       {choice:[{text:'「妳想進實驗室嗎？」',goto:'a'},{text:'「不管是哪一個，妳都很強。」',goto:'b'},{text:'「接妳爸的電話。」',goto:'c'}]},
       {label:'a'},{speaker:'heroine_04',expression:'thinking',text:'……不想。'},{speaker:null,text:'她想了很久。'},{unless:DH('heroine_04'),speaker:'heroine_04',expression:'neutral',text:'可是不進去的話，我要怎麼回？他是我爸的同學欸。'},
-        {if:DH('heroine_04'),speaker:'heroine_04',expression:'neutral',text:'但如果我不想的理由只是因為我爸，那我很蠢。'},{if:DH('heroine_04'),speaker:'heroine_04',expression:'annoyed',text:'……你不要說我不蠢。你一定會說。'},{mem:[{npc:'heroine_04',tag:'LAB_LETTER',note:'問她想不想進實驗室'}]},{goto:'end'},
+        {if:DH('heroine_04'),speaker:'heroine_04',expression:'neutral',text:'但如果我不想的理由只是因為我爸，那我很蠢。'},{if:DH('heroine_04'),speaker:'heroine_04',expression:'annoyed',text:'你不要說我不蠢。你一定會說。'},{mem:[{npc:'heroine_04',tag:'LAB_LETTER',note:'問她想不想進實驗室'}]},{goto:'end'},
       {label:'b'},{if:DH('heroine_04'),goto:'bD'},{speaker:null,text:'她沉默，然後很快地說：'},{speaker:'heroine_04',expression:'embarrassed',text:'好，C 和弦，你按給我看。'},{mem:[{npc:'heroine_04',tag:'LAB_LETTER',note:'說她不管怎樣都很強'}]},{goto:'end'},
       /* 「打完還是很強。」稿沒寫誰說：照 BB_187／BB_189 表格裡祐廷接話的寫法（例：Q8「可以。」）當作祐廷說的（已列給 AA）*/
       {label:'bD'},{speaker:'heroine_04',expression:'smile',text:'男朋友的稱讚要打七折。'},{speaker:'player',text:'打完還是很強。'},{speaker:null,text:'她沉默，然後很快地說：'},{speaker:'heroine_04',expression:'embarrassed',text:'好，C 和弦，你按給我看。'},{mem:[{npc:'heroine_04',tag:'LAB_LETTER',note:'說她不管怎樣都很強'}]},{goto:'end'},
@@ -2471,7 +2471,7 @@ const STORY_EVENTS=[
       {choice:[{text:'「妳想去就去。」',goto:'a'},{text:'「妳爸媽會怎麼想？」',goto:'b'},{text:'「要考的話，我陪妳念。」',goto:'c'}]},   /* AA_886 第 2 節（CANON-NO-ECON-1112 第四批）*/
       {label:'a'},{speaker:null,text:'她點頭。'},{speaker:'classmate_peishan',expression:'neutral',text:'嗯。考試這件事不難。'},{speaker:'classmate_peishan',expression:'thinking',text:'難的是回家，跟我爸媽講。'},{goto:'end'},   /* AA_428 §2 第 8 點：#a 現行版有後來的來源（AA_313 6-4 換掉 SC4 原句「難的是星期六回家，站在那張榜單前面。」）＝照現行；SC4 #23 的改稿「嗯。考試我不怕。」「我比較怕星期六回家要怎麼開口。」不換 */
       {label:'b'},{speaker:'classmate_peishan',expression:'neutral',text:'我爸會不講話。我媽會一直問我以後要做什麼。'},{speaker:'classmate_peishan',expression:'smile',text:'我會說我想當老師。她應該會再問三次。'},{goto:'end'},
-      {label:'c'},{speaker:'classmate_peishan',expression:'neutral',text:'……你自己的書念完了嗎？'},{speaker:null,text:'（她笑了。）'},{speaker:'classmate_peishan',expression:'smile',text:'好。那你先把你的念完。'},
+      {label:'c'},{speaker:'classmate_peishan',expression:'neutral',text:'你自己的書念完了嗎？'},{speaker:null,text:'（她笑了。）'},{speaker:'classmate_peishan',expression:'smile',text:'好。那你先把你的念完。'},
       {label:'end'} ],
     consequences:{flags:{PEISHAN_RETAKE:true},memo:'沛珊說她要重考，去念教育'} },
   /* 學姊 W7「妳自己相信這個題目嗎」（BB_97 2-2，BB-B 定稿；位置照 AA_146／AA_140 G08 統一在霖澤館）：大二上第 6～9 週平日 15–17，經過霖澤館（教授研究室走廊，2D「研究室門口」背景還沒有＝深色底）；

@@ -22,7 +22,7 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TABLE = 'docs/handoff/AA_959_overlay.json'
-SRC_SHA = '4440ffa368'   # 企劃線 claude/magical-albattani-bk7b4n（AA_961、AA_962 併入，307 列；取代 833e97635d 的 271 列、dc29919cc8 的 286 列）
+SRC_SHA = 'd5d9de0df7'   # 企劃線 claude/magical-albattani-bk7b4n（七位女主角這一輪全部：AA_951～965，350 列；取代 833e97635d、dc29919cc8、4440ffa368）
 
 # 說話的人對不上表上的 speaker（或不是某一個人的句子）：不換，報 AA。鍵＝(檔名, old)。
 SKIP = {

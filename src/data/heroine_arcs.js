@@ -445,7 +445,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你說得很輕鬆。",
-        "……可是你說得很確定。我先信你。"
+        "可是你說得很確定。我先信你。"
        ],
        "ansId": "PL_CAN_CHANGE"
       },

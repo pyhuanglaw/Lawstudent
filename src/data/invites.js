@@ -94,7 +94,7 @@ const INVITE_DATA={
       rule:(G,c,I)=>{ if(c.P&&c.P.kind==='meal'&&c.r.res==='accept'&&c.wd===4&&c.h>=21.5&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.on&&(a=>!!a&&ACTIVITIES.on(a,c.day,G))(ACTIVITIES.list.find(x=>x.id==='public_law_group'))) return {lines:['好。可是吃完我就回去。報告還沒寫完。']};   /* 週四公法讀書會（20:00～21:30）散了以後約她吃飯：AA_227 3-1 的回覆，AA_434 第 3 節改成不寫鐘點（434e6d6d7）*/
         if(c.pid!=='wenzhou'||c.r.res!=='accept') return null;   /* 大一第一次約散步：先答應、再說今天不行，改到隔天；大二以後直接答應（AA_576 第 11～13 列，AA_415@b10d0567f） */
         if(c.year<=1&&!c.first) return {lines:['好。']};   /* AA_194 第 4 節（改規則）：大一只有第一次約散步（c.first）改到隔天（AA_576：「好。」「……今天不行，明天。」）；之後照一般答應「好。」*/
-        if(c.year<=1) return {res:'resched',why:'plan',lines:['好。','……今天不行，明天。'],alt:I.nextFree(G,'heroine_01',c.P,c.day+1,10)};   /* AA_576 第 11、12 列（AA_415@b10d0567f）：先答應、再說今天不行改到隔天；祐廷那句「沒有目的。」刪；改天的結果不動 */
+        if(c.year<=1) return {res:'resched',why:'plan',lines:['好。','今天不行，明天。'],alt:I.nextFree(G,'heroine_01',c.P,c.day+1,10)};   /* AA_576 第 11、12 列（AA_415@b10d0567f）：先答應、再說今天不行改到隔天；祐廷那句「沒有目的。」刪；改天的結果不動 */
         return {lines:['好。']}; } },   /* AA_255 第 4 節第 7 點、AA_259 第 4 節第 7 點 */
     heroine_03:{ walk:{noodle:['這條路我第一次走，是高三暑假去茶屋應徵那天。那家修鞋店的老闆，三十年沒換過招牌。'],wenzhou:['這間老屋以前是一個教授住的。蘇姨說他每天來喝一壺茶，二十年。'],any:[{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','SHARED_MEAL'),l:['秀琴姨說你吃東西很像在考試。很認真，又很怕吃錯。']}],rain:['（她撐傘，傘偏向你那一邊，自己的肩膀濕了一半。）','沒事啦。']},   /* walk.rain 第二句：AA_194 第 4 節 */   /* 語彤：週二、週四晚上在阿鳳麵店幫忙（作息 help），其他時間在總圖三樓（2-2；BB_121 2-2：系統沒有反邀、改地點，先當婉拒）*/
       acc:{noodle:{A:['燒臘店？','好。']},gym_badminton:['……我不太會。','好。你不要笑。'],run_avenue:['早上九點有課。七點半以前可以。']},   /* 羽球、晨跑：AA_417 3-3 */
