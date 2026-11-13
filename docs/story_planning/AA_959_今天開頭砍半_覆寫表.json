@@ -1,9 +1,9 @@
 {
  "_meta": {
-  "doc": "AA_959 DLG-FULL-REVIEW-1110 台詞覆寫表：AA_951～957「今天」開頭砍半＋AA_958 語彤、AA_960 可昕、AA_961 芷若、AA_962 學姊、AA_963 子晴、AA_964 以安、AA_965 沛珊、AA_966 配角「……」開頭減量＋KX-GF-PLACES-1113 一句（LAWWW 11-13 21:02 選 (a)：匯入工具最後一步照本表換，源稿不動）",
+  "doc": "AA_959 DLG-FULL-REVIEW-1110 台詞覆寫表：AA_951～957「今天」開頭砍半＋AA_958 語彤、AA_960 可昕、AA_961 芷若、AA_962 學姊、AA_963 子晴、AA_964 以安、AA_965 沛珊、AA_966 配角「……」開頭減量＋AA_967「我只是」減量「……」開頭減量＋KX-GF-PLACES-1113 一句（LAWWW 11-13 21:02 選 (a)：匯入工具最後一步照本表換，源稿不動）",
   "by": "AA-C 2026-11-13",
   "how": "每一列：files＝遊戲檔（src/data/），old 一字不差換成 new；speaker 是說話的人（LAWWW 換之前照最近的人物 id 確認）；prefix:true＝old 只是那句的開頭；all:true＝同一檔裡同一句有兩處，兩處都換。建議匯入工具在最後一步照本表換（同 aa630.apply_json 的做法），沒有匯入工具的檔直接換。",
-  "count": 372,
+  "count": 405,
   "note958": "AA_958 的列：old 是遊戲檔裡整句（開頭有「……」），new 是拿掉「……」的同一句。KX-GF-PLACES-1113 那列：開發分支 invites.js 268 行現在的字就是「好，我過去。四十分鐘。」（前面沒有「……」，21:0x 對 adoring-meitner 確認過）。"
  },
  "rows": [
@@ -3376,6 +3376,304 @@
    "old": "……錄取了。金融那一組。",
    "new": "錄取了。金融那一組。",
    "speaker": "classmate_xinci"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這個杯子三百。同一個我在高雄看過，一百五。我不會買，我只是要講。",
+   "new": "這個杯子三百。同一個我在高雄看過，一百五。不買，講講。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "你剛剛在看那個新娘。我有看到。我沒有生氣，我只是講。",
+   "new": "你剛剛在看那個新娘。我有看到。沒有生氣，講一下。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "你走外面。我沒有怕，我只是平衡感不好。",
+   "new": "你走外面。我平衡感不好啦。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "我不會碰。我只是想知道有多燙。",
+   "new": "我不會碰。我想知道有多燙。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "不想，我只是好奇。",
+   "new": "不想。我是好奇。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "不行，告示寫不能丟。我只是想想。",
+   "new": "不行，告示寫不能丟。想想而已。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "沒有，我只是覺得很整齊。",
+   "new": "沒有，我覺得很整齊。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這兩個是一對。我只是在說它們。",
+   "new": "這兩個是一對。我在說它們啦。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "我只是鞋子不好走。",
+   "new": "鞋子不好走啦。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "山壁好近，手伸出去就碰得到。我沒有伸，我只是在想。",
+   "new": "山壁好近，手伸出去就碰得到。我沒有伸，想而已。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "旁邊的青苔好綠。我沒有摸，我只是手伸出去一下。",
+   "new": "旁邊的青苔好綠。我沒有摸，手伸出去一下而已。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "我知道，我只是想。",
+   "new": "我知道，想一下而已。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "不怕。我只是跟牠保持禮貌的距離。",
+   "new": "不怕。這叫跟牠保持禮貌的距離。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "不殺。我只是問問看能不能算便宜一點。",
+   "new": "不殺。問問看能不能算便宜一點。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "我只是看一下機器，看一下就好。",
+   "new": "看一下機器，看一下就好。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "上次說住這裡好像不錯。我只是說說。",
+   "new": "上次說住這裡好像不錯。說說而已。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "麻糬要帶回去。宿舍那個人指定的，我只是跑腿。",
+   "new": "麻糬要帶回去。宿舍那個人指定的，我負責跑腿。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "（纜車升高的時候，她握住你的手）我沒有怕，我只是手冷。",
+   "new": "（纜車升高的時候，她握住你的手）我沒有怕。手冷。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "住的地方看得到湖嗎？看不到也沒關係，我只是問。",
+   "new": "住的地方看得到湖嗎？看不到也沒關係，問問。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "沒有，我只是在看她們的頭髮，每個人都燙一樣的。",
+   "new": "沒有，我在看她們的頭髮，每個人都燙一樣的。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "我又沒有真的要弄，我只是想一下。",
+   "new": "我又沒有真的要弄，想一下嘛。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "我只是問一下，你不用真的算。",
+   "new": "問一下而已，你不用真的算。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "沒有啦，我亂講的，我只是想看你會不會真的聞。",
+   "new": "沒有啦，我亂講的，想看你會不會真的聞。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "沒有不喜歡，我只是想知道是誰決定的。",
+   "new": "沒有不喜歡啦，好奇是誰決定的。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "我只是跟你說今天哪支豆子比較好喝而已啦。",
+   "new": "跟你說今天哪支豆子比較好喝而已啦。",
+   "speaker": "heroine_02"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "不用認真回答啦。我只是洗澡的時候想到。",
+   "new": "不用認真回答啦。洗澡的時候想到的。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "不用送東西。我只是先講，免得你到時候說不知道。",
+   "new": "不用送東西。先講，免得你到時候說不知道。",
+   "speaker": "kexin"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "termend_opts.js"
+   ],
+   "old": "還是好吃啦。我只是嘴巴比較挑。",
+   "new": "還是好吃啦。是我嘴巴比較挑。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "termend_opts.js"
+   ],
+   "old": "我只是算給你聽。又沒有叫你翹課。",
+   "new": "算給你聽而已。又沒有叫你翹課。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "termend_opts.js"
+   ],
+   "old": "我沒有很在意喔，我只是算了一下。",
+   "new": "我沒有很在意喔，算了一下而已。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "invite_replies.js"
+   ],
+   "old": "好。你為什麼約我？我只是好奇。",
+   "new": "好。你為什麼約我？好奇問一下。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "好吃。我只是在想他們怎麼做的。完了，我真的是我爸的小孩。",
+   "new": "好吃。我在想他們怎麼做的。完了，我真的是我爸的小孩。",
+   "speaker": "classmate_peishan"
+  },
+  {
+   "doc": "AA_967",
+   "files": [
+    "date_wish.js"
+   ],
+   "old": "不行也沒關係，我只是問問看。",
+   "new": "不行也沒關係，問問看。",
+   "speaker": "classmate_peishan",
+   "all": true
   }
  ]
 }
