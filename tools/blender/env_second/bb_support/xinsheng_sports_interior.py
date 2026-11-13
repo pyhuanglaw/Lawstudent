@@ -77,7 +77,7 @@ M = {
 }
 # CC0 化（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；第③群幫手 2026-11-13）：工具 cc0_kit.py（tz_shops_interior.py 同一套）。
 #   衣服（運動 T、球衣、外套、球褲；instancing 原型）＝ambientCG Fabric036 × 每一件自己的顏色（vc_tex）；水壺＝ambientCG Plastic006 × 顏色；
-#   球鞋＝ambientCG Leather037 × 顏色；獎盃＝ambientCG Metal009 × 顏色；球架最上層後排＝Poly Haven football（足球，掃描模型）。
+#   球鞋＝ambientCG Leather037 × 顏色；獎盃＝ambientCG Metal009 × 顏色；球架最上層後排＝Poly Haven football（足球，掃描模型；充飽的那一顆、改成白色新球）。
 sys.path.insert(0, HERE)
 import cc0_kit   # noqa: E402
 K = cc0_kit.Kit(root, P)
@@ -594,7 +594,7 @@ for (proto, y, r, gap) in ((BALL_V, br['tiers'][1], 0.105, 0.222), (BALL_B, br['
         z = bz0 + r + 0.02 + (gap / 2 if row else 0)
         while z < bz1 - r:
             if y == br['tiers'][3] and row == 1:   # 最上層後排：足球（Poly Haven football，ø0.22）
-                K.ph_put('football', xo + random.uniform(-0.01, 0.01), y, z, random.uniform(0, 6.28), part=0, height=0.222, decimate=0.25); z += gap + 0.12; continue
+                K.ph_put('football', xo + random.uniform(-0.01, 0.01), y, z, random.uniform(0, 6.28), part=1, height=0.222, decimate=0.25, recolor=('#2e2e30', '#f4f2ec'))   # part 1＝充飽的那一顆（part 0 是洩氣的）；原貼圖是舊皮球的土黃，recolor 成新球的白底深縫; z += gap + 0.12; continue
             proto.place(fm((xo + random.uniform(-0.01, 0.01), y, z), rot('Y', random.uniform(0, 6.28)) @ rot('X', random.uniform(-0.6, 0.6)))); z += gap + (0.0 if row == 0 else 0.12)
 
 # ======================================================================
