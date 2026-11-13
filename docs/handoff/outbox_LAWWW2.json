@@ -9706,7 +9706,7 @@
    "sha": "(本 commit)",
    "receiver": "LAWWW",
    "ack": null,
-   "state": "已交付",
+   "state": "已取代",
    "noDirectIntegrate": false,
    "task": "SHOP-INTERIOR-VIEW-1112",
    "title": "一盞（wz_teahouse）天花板 2.6→2.9 m（yizhan.glb 2.34 m 以上頂點抬高 0.3 m、配置 h、WZ_CAMDIST teahouse 3.2）：地點關卡天花板那項過了、已知未過 14→13",
@@ -9718,7 +9718,27 @@
    "base": "origin/claude/adoring-meitner-mqzst8 0f9c78d37f",
    "tests": "place_gate ALL PASS（--coplanar、--write 已含）；yizhan／teahouse 相關＋wz_*＋shop_cc0 共 102 支全過",
    "notDone": "光照貼圖沒重烘（牆上緣跟著拉長）；BB 看圖；CC 遊戲內抬頭拍",
-   "next": "LAWWW 等 GHA 結束後套 patch；BB 判"
+   "next": "被 wip/tz_cc0_batch7_1113（v2，含紙燈縮小）取代"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-INTERIOR-VIEW-1112 / SHOP-REALISM-1112",
+   "title": "第七批：一盞天花板加高 v2（取代 v1；BB P2 紙燈以燈頂為支點縮 0.72 倍）＋汀州鮮果葡萄 v2.2（一大串一大串互相壓著、79,182 面、重烘）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch7_1113/tz_cc0_batch7_1113.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch7_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch7_1113/yizhan_ceiling_cmp_v2.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch7_1113/cmp_xianguo_v22.jpg"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 0f9c78d37f",
+   "tests": "place_gate ALL PASS（已知未過 13；--coplanar、--write 已含）；yizhan／teahouse／xianguo 相關＋wz_/tz_/gg_/shop_ 共 149 支全過",
+   "notDone": "一盞光照沒重烘（BB 判 P3）；BB 看圖；CC 四鏡頭",
+   "next": "LAWWW GHA 結束後套 patch；BB 判"
   }
  ]
 }
