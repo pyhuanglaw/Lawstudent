@@ -57,6 +57,12 @@ function unmapText(s, file, who) {
   for (const r of rows(file, who).slice().sort((a, c) => nw(c).length - nw(a).length)) { const n = nw(r); if (n && s.includes(n) && !s.includes(r.old)) s = s.split(n).join(r.old); }
   return s;
 }
+/* unmapCode(src, file)：程式原始碼（函式）裡用引號寫的整句新字換回舊字（'新' → '舊'、"新" → "舊"） */
+function unmapCode(src, file) {
+  if (typeof src !== 'string') return src;
+  for (const r of rows(file)) { const n = nw(r); for (const q of ["'", '"']) src = src.split(q + n + q).join(q + r.old + q); }
+  return src;
+}
 const is959 = (a, b, file) => typeof a === 'string' && a !== b && map(a, file) === b;
 /* 深層複本：每一個字串葉子照 map／unmap 換。路徑上最近的一個鍵是表上的說話的人（heroine_01、kexin…）＝只用那個人的列
    （同一個檔裡別人剛好說了一樣的字不動；例：語彤 D01「走了好多路。」＝另一位女主角那一列的新字） */
@@ -77,4 +83,4 @@ function deepIn(x, f, who) {
 const unmapIn = (x, file) => deepIn(x, (s, w) => unmap(s, file, w));
 const mapDeep = (x, file, who) => deep(x, (s, w) => map(s, file, w), who);
 const unmapDeep = (x, file, who) => deep(x, (s, w) => unmap(s, file, w), who);
-module.exports = { map, unmap, mapText, unmapText, unmapIn, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };
+module.exports = { map, unmap, mapText, unmapText, unmapIn, unmapCode, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };
