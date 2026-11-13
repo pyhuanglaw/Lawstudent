@@ -9979,6 +9979,25 @@
    "tests": "shop_cc0、place_gate ALL PASS；moku* 6 支 ALL PASS",
    "notDone": "LAWWW 整合；g1 補兩個 P2；CC 第二層；BB 判",
    "next": "LAWWW 套 mokuyobi_full.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(待填)",
+   "receiver": "LAWWW-C",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收幫手 g1 日常失速（912ca51920）PASS；P2 吊盆換掃描；另記東側窗晚上還是白天（WINVIEW）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/daily_offbeat_full.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "19399e5d39",
+   "at": "2026-11-13T22:30Z",
+   "tests": "shop_cc0、place_gate ALL PASS；offbeat 4 支 ALL PASS",
+   "notDone": "LAWWW 整合；g1 P2；LAWWW2 查側窗夜景；CC 第二層；BB 判",
+   "next": "LAWWW 套 daily_offbeat_full.patch"
   }
  ]
 }

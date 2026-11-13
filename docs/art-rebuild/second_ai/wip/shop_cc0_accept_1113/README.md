@@ -67,3 +67,17 @@
   2. 「店門往裡看」新版畫面右上角多了一團大葉子貼著鏡頭（20:00 也有），請查是哪一盆，是不是 v3c 黃金葛的藤垂到門口鏡頭前；是的話往裡收。
 - **LAWWW 套 `mokuyobi_full.patch`**（底 19399e5d39）：g1 的 patch＋重產的狀態表。
 - 還沒做：CC 第二層四鏡頭、BB 判美術。
+
+## 日常失速（幫手 g1，claude/shop-cc0-g1 912ca51920）— PASS（附一個 P2；另記一個窗景問題歸 LAWWW2）
+
+- 驗收底：開發分支 19399e5d39，套 g1 的 `daily_offbeat_cc0.patch`，乾淨。
+- `shop_cc0` 三項過：
+  - Poly Haven：potted_plant_04 三盆、croissant 長桌上的麵包；
+  - ambientCG 材質組；
+  - 純色零件 32% → 11%；面數 65.7k。
+- `place_gate` ALL PASS（重產狀態表後）。
+- 回歸：wz_offbeat、offbeat_aa618、offbeat_cat_board、offbeat_storefront ALL PASS。
+- **P2（g1 下一輪補，不擋整合）**：天花板吊的幾盆植物還是程式拼的大平面葉片，「店裡朝店門」那張看得最清楚；請換成掃描植物，或改成垂吊的黃金葛藤（木曜日 v3c 那一套）。
+- **另記（LAWWW2 自己查，WINVIEW-AUDIT-1105）**：並排圖 20:00 那張，東側落地窗外還是白天的綠樹，新舊版都一樣。WZ_VIEW 只有正面 WALL_front_VIEW 照時段換夜景，側面那片窗景卡大概沒有夜版。
+- **LAWWW 套 `daily_offbeat_full.patch`**（底 19399e5d39）：g1 的 patch＋重產的狀態表。如果先套了木曜日，render_interior.py、aa_cc0.py、glb_swap_images.py 內容一樣，會報「已經存在」，用 `--exclude` 略過。
+- 還沒做：CC 第二層四鏡頭、BB 判美術。
