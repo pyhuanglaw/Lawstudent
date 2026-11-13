@@ -1,11 +1,11 @@
 {
- "objects": 51,
- "unique_meshes": 51,
- "tris": 48621,
- "tris_drawn": 48621,
- "materials": 28,
+ "objects": 41,
+ "unique_meshes": 41,
+ "tris": 48771,
+ "tris_drawn": 48771,
+ "materials": 33,
  "out": "assets/models/env/second_ai/aa_support/yejian.glb",
- "bytes": 4375800,
+ "bytes": 4247252,
  "texres": 512,
  "layout": 3,
  "seats": 16,
@@ -25,10 +25,6 @@
   [
    "ambientCG",
    "Marble012"
-  ],
-  [
-   "Poly Haven",
-   "potted_plant_04"
   ],
   [
    "Poly Haven",
