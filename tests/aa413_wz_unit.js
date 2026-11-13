@@ -53,5 +53,13 @@ await sec(4,async()=>{ fresh('2025-10-08',23); await WZS.interact(GM,{wzShop:'cv
   const n=H.said.length; H.picks=[0]; await STORY.interact({label:'結帳',shop:'cvs'},GM); check('4. 同一天第二次沒有',H.said.slice(n).every(s=>s.t!=='考試週喔。咖啡第二杯半價。'));
   fresh(CALENDAR.dateOf(d).key,21.5,'cvs'); H.G.flags.CVS_FROM='gongguan'; H.picks=[0]; await STORY.interact({label:'結帳',shop:'cvs'},GM); check('4. 從公館進來的：沒有溫州街的店員句子',!H.has('考試週喔。咖啡第二杯半價。')&&!H.has('要袋子嗎？')); });
 
+// AA_924（BB_450）：阿忠鮮果、冰菓室不開的時候的字；按鈕「買水果」換「看水果攤」
+{ const A=WZS.AA413.fruit, items=()=>WZS.items413(); global.GAME=global.GAME||{}; const lab=()=>items().filter(i=>/水果/.test(i.label)&&!i.hidden).map(i=>i.label);
+  let G=fresh('2025-10-20',15); GAME.G=G; const restL=WZS.fruitLook(G), restB=lab();
+  G=fresh('2025-10-21',22); GAME.G=G; const nightL=WZS.fruitLook(G), nightB=lab();
+  G=fresh('2025-10-21',15); GAME.G=G; const openL=WZS.fruitLook(G), openB=lab();
+  check('5. 阿忠鮮果週一公休：帆布那一句、按鈕「看水果攤」；打烊：掃乾淨那一句；營業中照舊「買水果」（AA_924 第 1 節）',restL===A.lookRest&&nightL===A.lookClosed&&openL===A.look&&restB.includes('看水果攤')&&!restB.includes('買水果')&&openB.includes('買水果')&&!openB.includes('看水果攤'),JSON.stringify({restB,nightB,openB}));
+  G=fresh('2025-10-21',15); check('6. 冰菓室週二公休：「星期二休息」那一句；週三 23:00 打烊：「拉下來了」那一句（AA_924 第 2 節）',WZS.iceShutterLine(G)===WZS.AA364.ice.shutter&&WZS.iceShutterLine(fresh('2025-10-22',23))===WZS.AA364.ice.shutterNight); }
+
 H.done();
 })();

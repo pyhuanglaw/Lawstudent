@@ -168,6 +168,7 @@ const WISH=(function(){
   S.QUIET={kexin:1};
   S.scene=async function(GM,q,t){ if(!S.QUIET[t.who]) return S.scene0(GM,q,t); S.quietNow=true; try{ return await S.scene0(GM,q,t); } finally{ S.quietNow=false; } };
   S.quietNow=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['wish3d:quietNow']=()=>{ S.quietNow=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：事件中讀檔走不到 finally，手機不會一直不響 */
   S.scene0=async function(GM,q,t){ const G=GM.G, D=DT(), id=t.who, ev=S.ev(id), loc=t.locs[0], L=D.loc(loc), who={name:nameOf(id),charId:id};
     const visits=(D.log(G,id).byLoc[loc]|0), tr=D.travel(loc,t.transport)||{minutes:30}; let endH=t.day*24+t.back-tr.minutes/60; const spots=[], m0=G.money|0, pts=D.points(loc);
     await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票');
