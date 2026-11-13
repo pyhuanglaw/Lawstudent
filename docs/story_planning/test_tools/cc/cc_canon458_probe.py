@@ -12,6 +12,10 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   WELCOME_Y2  #13 大二迎新小隊輔（9/4 21:00 g:law_class → 9/6 14:00 社科院旁的草地；第 3 題三個短版）——書店那句（第 4 次起 rot）另外排
   SPRING_Y2／SPRING_Y4  #4 春假女宿接人（@4af46fd8f6；選單選「春假：和可昕…」→ 她那句 → 4/3 07:40 出遊、地點字幕）
   FEED_Y1／FEED_Y4  #7 可昕動態（交往中；2025-09-14 21:00 kx1、2029-06-03 21:00 kx3h「畢業了。」→ 手機「動態」頁）
+  ENC_DATING／ENC_FRIEND／ENC_ACQ  #8 淡水偶遇（交往中，Y1S1 第 6／8／9 週週日 16:00）／#14 朋友層偶遇（FRIEND，西門町第 6／8／9 週週六 18:00；認識＝遇不到）：捷運公館站入口 → 景點 → 散步 → 偶遇（60%）
+  DATE_PS／DATE_ZR  #9 約會收尾（【捷徑】DATE.book D01 15:00 → 出發 → 選「差不多了」→ 收尾；芷若同一地點隔週再去一次＝AA_904 remember）
+  BAR_FACE  #5 國考讀書會當面（Y4_PATH bar、交往中；2/23 起 OUT 排的讀書小組照順序演三場：開學那場、平日大口二樓 3D、週六法律系館）
+  DRIFT_D1～DRIFT_D4  #1 AA_876 慢慢分開（交往中；【捷徑】直接設 KX_DRIFT 那一段 → 手機快速前往法律系館；D3 選第 2 個、D4 選「好。」→ 河濱）。D1c（隨機 0.35）、#2 D5 長椅另外排
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -20,13 +24,14 @@ sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HE
 import playlib as L
 import bbplay as P
 import cc_seedplay as SP
+import cc_d141_lib as D
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
 CASES = [c for c in (os.environ.get('CASES') or 'GIRAFFE_A,GIRAFFE_B').split(',') if c]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-R = L.Run('canon458', OUT); SP.setup(R, OUT)
+R = L.Run('canon458', OUT); SP.setup(R, OUT); D.setup(R, OUT)
 DONE_JS = "(ids=>{ const D=(GAME.G.events&&GAME.G.events.done)||{}, F=GAME.G.flags||{}; const o={}; for(const k of ids) o[k]=(k in D)?D[k]:(k in F?F[k]:null); return o; })"
 
 
@@ -249,7 +254,147 @@ async def c_feed(pg, cdp, tag):
     return {'case': tag, 'feed': txt, 'buttons': btns, 'state': fs}
 
 
+ENC = {'ENC_DATING': ('DATING', '淡水', 7, 16.0), 'ENC_FRIEND': ('FRIEND', '西門町', 6, 18.0), 'ENC_ACQ': ('ACQUAINTANCE', '西門町', 6, 18.0)}
+MRT_JS = "(()=>{ const i=GAME.E.interactables.find(i=>i.mrt&&!i.hidden); return i?{x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||2,lv:i.lv|0,label:i.label}:null; })()"
+
+
+async def trip_loop(pg, cdp, tag, spot, walks=3, max_s=420):
+    """捷運自由出行的選單迴圈：景點 → 散步 walks 次 → 偶遇照選（打招呼／第一個）→ 回去；每一句截圖、記選單"""
+    n0 = await P.say_hook(pg); t0 = time.time(); seen = []; menus = []; k = 0; w = 0; back = False
+    while time.time() - t0 < max_s:
+        st = await P.ts(pg)
+        if st['txt'] and (not seen or seen[-1] != [st['name'], st['txt']]):
+            seen.append([st['name'], st['txt']])
+            if len(seen) <= 60: await pg.wait_for_timeout(300); k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d.png' % (tag, k)))
+        if st['ch']:
+            o = [x['t'] for x in st['ch']]; menus.append(o)
+            pick = next((i for i, t in enumerate(o) if t.startswith(spot)), None)
+            if pick is None: pick = next((i for i, t in enumerate(o) if t.startswith('打招呼') or t.startswith('「嗨')), None)
+            if pick is None and w < walks: pick = next((i for i, t in enumerate(o) if '走' in t and not t.startswith('回')), None); w += 1 if pick is not None else 0
+            if pick is None: pick = next((i for i, t in enumerate(o) if t.startswith('回去') or t.startswith('回公館') or t.startswith('直接回宿舍')), None); back = back or pick is not None
+            if pick is None: pick = 0
+            k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d_menu.png' % (tag, k)))
+            await P.tap_choice(pg, cdp, pick); await pg.wait_for_timeout(900); continue
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+        if st['busy'] or st['depth'] > 0: await pg.wait_for_timeout(500); continue
+        if back and time.time() - t0 > 10: break
+        if st['phone']: await L.phone_away(pg, cdp)
+        await pg.wait_for_timeout(700)
+        if not seen and not menus and time.time() - t0 > 40: break
+    said = await P.said(pg, n0)
+    R.note('[%s] 出行：散步 %d 次；選單 %s；GAME.say %s' % (tag, w, J(menus), J(said)))
+    return {'lines': P.clean(seen), 'said': said, 'opts': menus, 'walks': w}
+
+
+async def c_enc(pg, cdp, tag):
+    """#8 淡水偶遇（交往中，D13 週日 16:30～19:00）／#14 朋友層偶遇（FRIEND，D04 西門町週六 18:30～21:00；認識＝遇不到）：
+       公館「捷運公館站入口」照玩家走過去按 →「要去哪裡？」選景點 → 散步 → 60% 偶遇；沒遇到換下一週（最多三週）。記她那一段、選單（朋友層只有「打招呼／不打擾」）"""
+    stage, spot, wd, h0 = ENC[tag]; out = []; met = False
+    for n, wk in enumerate((6, 8, 9)):
+        when = ['Y1S1', wk, wd]
+        if n == 0: d, seed = await SP.fresh(pg, cdp, tag, when, h0, 'gongguan', {'kexin': stage}); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+        else: d = await SP.jump(pg, cdp, '%s 第 %d 週' % (tag, wk), when, h0, 'gongguan', None)
+        mrt = await pg.evaluate(MRT_JS)
+        if not R.check('FAIL_SETUP 檢查：[%s 第%d週] 公館有「捷運公館站入口」' % (tag, wk), bool(mrt), J(mrt)): break
+        tgt = await D.standable_near(pg, mrt['x'], mrt['z'], mrt['r'] * 0.6, mrt['lv'])
+        await L.go_to(pg, cdp, R, (tgt or mrt)['x'], (tgt or mrt)['z'], 0.4, '[%s] 捷運站入口' % tag, max_s=120, lv=mrt['lv'])
+        q = await D.settle(pg)
+        if not R.check('FAIL_SETUP 檢查：[%s 第%d週] 互動鍵是「捷運公館站入口」' % (tag, wk), q['interact'].startswith('捷運'), J(q)): break
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+        r = await trip_loop(pg, cdp, '%s_w%d' % (tag, wk), spot)
+        txt = ' '.join(t for _, t in r['said']); hit = '嗨' in txt or any((nm or '').startswith('可昕') for nm, _ in r['said'])
+        out.append(dict(week=wk, day=d, r=r, met=hit)); R.note('[%s 第%d週] 遇到可昕=%s' % (tag, wk, hit))
+        if hit: met = True; break
+    if tag == 'ENC_ACQ': R.check('[%s] 只是認識＝三週都沒遇到她' % tag, not met, J([o['met'] for o in out]))
+    else: R.note('[%s] 三週內遇到=%s（60%% 擲骰，沒遇到不判 FAIL）' % (tag, met))
+    if tag == 'ENC_DATING' and met:
+        d0 = out[-1]['day']['key']; await SP.jump(pg, cdp, tag + ' 當晚', d0, 21.0, 'dorm', None); await SP.wait_h(pg, cdp, 21.3, tag + '_2110'); await pg.wait_for_timeout(2500)
+        out.append({'phone': await SP.thread(pg, cdp, tag + '_2110', 'p:kexin')})
+    SP.d158(tag, *[o.get('r') for o in out if o.get('r')])
+    return {'case': tag, 'tries': out, 'met': met}
+
+
+DATES = {'DATE_PS': ('classmate_peishan', 'D01', 1), 'DATE_ZR': ('heroine_02', 'D01', 2)}
+BOOK_JS = "(a=>{ const G=GAME.G; const b=DATE.book(G,{who:a.who,locs:[a.loc],transport:'mrt',day:G.day,depart:a.dep}); const q=b&&b.trip!=null?OUT.get(G,'date_'+b.trip):null; return {ok:!!(b&&b.ok!==false&&b.trip!=null), why:b&&b.why||null, trip:b&&b.trip, q:q?{day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,title:q.title}:null}; })"
+
+
+async def c_date(pg, cdp, tag):
+    """#9（BB 改定：AA_913 沛珊收尾＋AA_904 芷若再去一次 remember）：Y1S2 第 5 週週六 14:30 宿舍、她 CLOSE（約得了）→【捷徑】DATE.book 15:00 那一趟（同 tests/date_scene_unit.js）
+       → 等「出發」→ 到了照演、選單選「差不多了」→ 收尾那幾句截圖。DATE_ZR 同一個地點隔週再去一次（看 remember 那一套）"""
+    who, loc, times = DATES[tag]; out = []
+    for n in range(times):
+        when = ['Y1S2', 5 + n, 6]
+        if n == 0: d, seed = await SP.fresh(pg, cdp, tag, when, 14.5, 'dorm', {who: 'CLOSE'}); R.note('[%s] 墊完 %s' % (tag, J(seed))); await pg.evaluate("(()=>{ GAME.G.money=Math.max(GAME.G.money|0,5000); })()")
+        else: d = await SP.jump(pg, cdp, '%s 第 %d 次' % (tag, n + 1), when, 14.5, 'dorm', None)
+        bk = await P.prep(pg, cdp, R, BOOK_JS, {'who': who, 'loc': loc, 'dep': 15}, True, '[%s 第%d次] DATE.book %s %s 15:00（同 date_scene_unit.js）' % (tag, n + 1, who, loc)); await P.events_on(pg)
+        if not R.check('FAIL_SETUP 檢查：[%s 第%d次] 約會排上了' % (tag, n + 1), bk['ok'] and bool(bk['q']), J(bk)): break
+        r = await SP.go_out(pg, cdp, '%s_%d' % (tag, n + 1), 0, verbs=('出發', '差不多了'))
+        out.append({'n': n + 1, 'book': bk, 'r': r})
+    SP.d158(tag, *[o['r'] for o in out])
+    return {'case': tag, 'dates': out}
+
+
+BAROUT_JS = "(()=>(OUT.rec(GAME.G)||[]).filter(q=>q&&/bar/.test(q.id||'')&&q.state==='planned').map(q=>({id:q.id,ev:q.ev,day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,title:q.title})))()"
+
+
+async def c_bar(pg, cdp, tag):
+    """#5 國考讀書會當面那幾晚（律師讀書小組 r2y4b3d.js 667～745；tests/bar_group_3d_1112_unit.js 81～82、160～161）：Y4_PATH bar、和可昕交往中（只有可昕＝語彤不是朋友）
+       2029-02-23 07:50 宿舍 → 08:00 後手機（可昕、群組）→ OUT 排的讀書小組那幾場，照順序跳到前 30 分鐘 → 等「出發」→ 每句截圖（開學那場、之後第一個平日大口二樓、週六法律系館）；最多三場"""
+    d, seed = await SP.fresh(pg, cdp, tag, '2029-02-23', 7 + 50 / 60, 'dorm', {'kexin': 'DATING'}, {'Y4_PATH': 'bar'})
+    R.note('[%s] 墊完 %s' % (tag, J(seed)))
+    await SP.wait_h(pg, cdp, 8.2, tag); await pg.wait_for_timeout(3000)
+    t = await SP.thread(pg, cdp, tag + '_0223', 'p:kexin')
+    seen = set(); out = []
+    for n in range(3):
+        plans = await pg.evaluate(BAROUT_JS); R.note('[%s] 排著的讀書小組 %s' % (tag, J(plans)))
+        nxt = next((q for q in sorted(plans, key=lambda q: (q['day'], q['h'])) if q['id'] not in seen), None)
+        if not nxt:
+            if n == 0: R.check('FAIL_SETUP 檢查：[%s] 2/23 以後有排讀書小組' % tag, False, J(plans))
+            break
+        seen.add(nxt['id'])
+        await SP.jump(pg, cdp, '%s %s' % (tag, nxt['id']), nxt['day'], max(0, nxt['h'] - 0.5), 'dorm', None)
+        r = await SP.go_out(pg, cdp, '%s_%d_%s' % (tag, n + 1, nxt['id']), 0)
+        z = (await P.clock(pg))['zone']; out.append({'plan': nxt, 'r': r, 'zone_after': z})
+        R.note('[%s] 第 %d 場 %s（%s %s）之後在 %s' % (tag, n + 1, nxt['ev'], nxt['day'], nxt['place'], z))
+    SP.d158(tag, t, *[o['r'] for o in out])
+    return {'case': tag, 'kx': t, 'sessions': out}
+
+
+DRIFT = {'DRIFT_D1': ('2026-10-06', 8.85, "R.r1={area:'溫州街',day:G.day-1,st:'due'};", 0),
+         'DRIFT_D2': ('2026-10-09', 12.85, "R.r2={st:'short',day:G.day-3};", 0),
+         'DRIFT_D3': ('2027-03-15', 18.85, "F.KX_CRACK=3; R.th=Object.assign({},R.th||{},{2:1}); R.r3={st:'pending'};", 1),
+         'DRIFT_D4': ('2027-03-15', 11.85, "F.KX_CRACK=5; R.th=Object.assign({},R.th||{},{2:1,4:1}); R.r4={st:'pending'};", 0)}
+
+
+async def c_drift(pg, cdp, tag):
+    """#1 AA_876 慢慢分開（kxdrift3d.js S.EVS；tests/kx_drift_876_unit.js 51～83）：只和可昕交往中；【捷徑】照觸發表直接設 KX_DRIFT（KXDRIFT.rec）那一段的狀態
+       → 照玩家用手機「地點」走進法律系館（linze，trigger enter）→ 每句截圖。D1 昨天在溫州街沒說；D2 D1 後第 3 天；D3 大二下 19:00（選第 2 個＝「我看完這一頁就聽，給我五分鐘。」）；D4 選「好。」→ 18:00 公館河濱"""
+    day, h0, setjs, alt = DRIFT[tag]
+    d, seed = await SP.fresh(pg, cdp, tag, day, h0, 'dorm', {'kexin': 'DATING'})
+    st = await P.prep(pg, cdp, R, "(()=>{ const G=GAME.G, F=G.flags, R=KXDRIFT.rec(G); " + setjs + " return {KX_CRACK:F.KX_CRACK, KX_DRIFT:JSON.parse(JSON.stringify(F.KX_DRIFT))}; })()", None, True, '[%s] KX_DRIFT 狀態（觸發表的直接設法）' % tag)
+    await P.events_on(pg)
+    R.note('[%s] 墊完 %s；%s' % (tag, J(seed), J(st)))
+    ok = await SP.travel(pg, cdp, tag, 'linze')
+    r = await SP.play(pg, cdp, tag + '_linze', alt, prefer=('好。',) if tag == 'DRIFT_D4' else (), start_s=90)
+    z = (await P.clock(pg))['zone']
+    R.check('FAIL_SETUP 檢查：[%s] 快速前往到了法律系館（linze）' % tag, ok and z == 'linze', z)
+    out = {'case': tag, 'state': st, 'r': r}
+    if tag == 'DRIFT_D4':
+        q = await pg.evaluate("(()=>(OUT.rec(GAME.G)||[]).filter(q=>q&&/drift/.test(q.id||'')&&q.state==='planned').map(q=>({id:q.id,ev:q.ev,day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place})))()")
+        R.note('[%s] 排著的 %s' % (tag, J(q))); out['out'] = q
+        if q:
+            await SP.jump(pg, cdp, tag + ' 河濱', q[0]['day'], max(0, q[0]['h'] - 0.5), 'linze', None)
+            out['r4'] = await SP.go_out(pg, cdp, tag + '_river', 0)
+    fl = await pg.evaluate("(()=>({KX_CRACK:GAME.G.flags.KX_CRACK, KX_DRIFT:JSON.parse(JSON.stringify(GAME.G.flags.KX_DRIFT||{}))}))()"); R.note('[%s] 之後 %s' % (tag, J(fl))); out['after'] = fl
+    SP.d158(tag, r, out.get('r4'))
+    return out
+
+
 async def one(pg, cdp, c):
+    if c in DRIFT: return await c_drift(pg, cdp, c)
+    if c == 'BAR_FACE': return await c_bar(pg, cdp, c)
+    if c in DATES: return await c_date(pg, cdp, c)
+    if c in ENC: return await c_enc(pg, cdp, c)
     if c in FEED: return await c_feed(pg, cdp, c)
     if c in SPRING: return await c_spring(pg, cdp, c)
     if c == 'WELCOME_Y2': return await c_welcome(pg, cdp, c)
