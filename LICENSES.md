@@ -142,6 +142,9 @@
 | `potted_plant_01` | 落地盆栽（作者 Rico Cilliers） | 176,226 → 約 3,900 面 | `assets/models/env/second_ai/tz_keju_interior.glb`（汀州路客居雲南店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop keju`，光照 `lightbake/bake_tz_shops.sh keju`） |
 | `potted_plant_01` | 門邊落地盆栽（作者 Rico Cilliers） | 176,226 → 約 2,100 面 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
 | `fern_02` | 窗台小盆三個（作者 Rob Tuytel、Rico Cilliers） | 6,232 → 約 500 面 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
+| `metal_stool_02` | 不鏽鋼圓凳六張（東牆吧台四張、門口小桌兩張） | 6,532 → 約 980 面；高 0.46 m；掃描的是白烤漆凳，形狀照用、材質換成 ambientCG `Metal009` 不鏽鋼（參考圖是不鏽鋼凳） | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
+| `potted_plant_02` | 門口落地盆栽 | 69,806 → 約 1,400 面；高 1.1 m | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
+| `potted_plant_04` | 層板、吧台上的小盆栽三盆（原本垂下來的藤照舊） | 8,929 → 約 1,340 面；高 0.22～0.26 m | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -180,6 +183,13 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Cardboard001` | （同上） | 外帶紙袋 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
 | `Tiles036` | （同上） | 廚房後牆白磁磚 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
 | `Metal009` | （同上） | 廚房不鏽鋼、軌道燈、冰箱層架（不鏽鋼色／黑鐵色） | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
+| `Plastic006` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 便當盒（自己一個材質，烘光照時排除）、塑膠袋、燈盤框、冷氣（白，vary 0.05）、黃色招牌框和地上排隊線（黃）、收銀機（深灰）、廚房層架上的藍、紅籃子 | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
+| `Metal009` | （同上） | 配菜櫃、取餐檯、出菜台、冰箱、大飯鍋、保溫燈罩、餐盤、圓凳（不鏽鋼）；冰箱把手、櫃腳（深灰）；店面鋁框、輕鋼架；相框（黃銅色） | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
+| `Tiles036` | （同上） | 廚房的牆（白磁磚）、廚房地板（灰磁磚） | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
+| `Cardboard001`、`Paper001` | （同上） | 廚房層架上的紙箱；面紙盒 | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
+| `Rubber004`、`Fabric036` | （同上） | 門口的紅色刮泥墊（橡膠底、布面） | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
+| `Concrete034` | （同上） | 店門口的騎樓地 | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
+| `Plaster001` | （同上） | 天花板、廚房天花板（vary 0.04；牆照舊乾淨的平塗） | `assets/models/env/second_ai/l118_self.glb`（118 巷水上便當店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop self`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh self`） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 
