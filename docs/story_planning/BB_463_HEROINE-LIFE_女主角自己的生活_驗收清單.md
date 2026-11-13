@@ -36,3 +36,6 @@
 - B 三則時間到有、關係不到沒有＝PASS。
 - C 私訊大多在講祐廷＝交 AA 判口氣（不是 BB 改字）。
 - Playwright ≠ iPhone 實機。
+
+## 11-13 21:2x　開發分支最新 c64a8caf61 再核一次（靜態）
+- A 五場圈子的閒聊句（heroine_circle.js）、B 三則動態（feed_y1s1.js 的 an6、kx6、ps4）都還在＝76f8 之後的整合沒動到。瀏覽器實玩照舊排在發布後（CC 佇列 HEROINE_LIFE463 HOLD）。
