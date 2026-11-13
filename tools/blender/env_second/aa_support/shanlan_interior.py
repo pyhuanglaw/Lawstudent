@@ -55,11 +55,16 @@ sh.route({'#efe8d8': 'paper', '#f4efe2': 'paper', '#efe6d2': 'paper', '#3a3c3e':
           '#d9cdb2': 'canvas', '#e0d4b8': 'canvas', '#e8e2d4': 'shade_linen', '#6e5a44': 'kraft', '#2f3330': 'blackplastic', '#1c1d1e': 'blackplastic'})
 
 
-def _ph_plant(x, z, h=1.0, r=0.2, pot_col=None, y0=0.0, lvl='', seed=0):
-    """盆栽：Poly Haven 掃描（小的 potted_plant_04、大的 potted_plant_02；取代 aa_kit 的花盆＋葉片卡）。二樓的放進 L2（自訂屬性 level＝1）"""
+_aa_plant = sh.plant
+
+
+def _ph_plant(x, z, h=1.0, r=0.2, pot_col='#e8e4dc', y0=0.0, lvl='', seed=0):
+    """大盆栽：Poly Haven potted_plant_02（掃描）。二樓的放進 L2（自訂屬性 level＝1）。
+    小盆栽（h < 0.7）照舊 aa_kit 的黃金葛葉片卡：potted_plant_04 減到兩百面以下會變成一團灰（並排圖 v1 門口那盆），不減又超過大店 8 萬面"""
     big = h >= 0.7
+    if not big: return _aa_plant(x, z, h=h, r=r, pot_col=pot_col, y0=y0, lvl=lvl, seed=seed)
     o = CK.ph_put('potted_plant_02' if big else 'potted_plant_04', x, y0, z, yaw=RP.uniform(0, 6.28), share=False,
-                  height=(h + r * 0.8) if big else (r * 1.5 + h * 0.75), decimate=0.01 if big else 0.018)
+                  height=(h + r * 0.8) if big else (r * 1.5 + h * 0.75), decimate=0.009)
     if lvl: o.name = 'L2_' + o.name; o['level'] = 1
 
 
