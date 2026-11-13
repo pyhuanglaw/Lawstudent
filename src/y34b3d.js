@@ -831,7 +831,6 @@ const Y34B=(function(){
     {label:'a_y1'},{speaker:'heroine_01',text:'大一只知道我不想變成那個舍監。後面是慢慢想的。'},{goto:'a_end'},
     {label:'a_me'},{speaker:'heroine_01',text:'好。'},{speaker:null,text:'（停一下）'},{speaker:'heroine_01',text:'你為什麼念法律？'},
     {if:C(G=>ANY(G)==='curious'),speaker:'player',text:'小時候翻過民法，看不懂。我想知道它在講什麼。……現在大概知道了。'},
-    {if:C(G=>ANY(G)==='econ'),speaker:'player',text:'我念過一個多月經濟，才知道我想念的是這個。'},
     {if:C(G=>ANY(G)==='help'),speaker:'player',text:'我想讓遇到事情的人，旁邊有一個看得懂的人。'},
     {if:C(G=>ANY(G)==='own'),speaker:'player',text:'……我還在想。可是我想念完。'},
     {if:C(G=>ANY(G)==null),speaker:'player',text:'……也沒有人問過我。讓我想一下。'},
