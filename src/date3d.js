@@ -493,6 +493,9 @@ const DATE=(function(){
   /* D33 信義區・光年影城（AA_631，2026-11-03）：企劃的 point_specs.json 沒有 D33 的互動點時間、花費——LAWWW 暫定，照 D04 西門町電影院（散場大廳 20 分、美食街照 D04 小吃、天橋 20 分）；
      名字照 D33.json 的 points。底圖 d33_base 還沒有（CG 由使用者處理），S.listable 有底圖才列 */
   S.POINT_X={'D33.lobby':{name:'散場的影城大廳',min:20,cost:0,extra:0,act:'散場後在大廳聊電影',when:'fixed後',src:'AA_631（時間花費 LAWWW 暫定）'},'D33.food':{name:'百貨公司美食街',min:40,cost:180,extra:180,act:'百貨公司美食街',src:'AA_631（時間花費 LAWWW 暫定）'},'D33.bridge':{name:'信義區天橋',min:20,cost:0,extra:0,act:'信義區天橋看夜景',src:'AA_631（時間花費 LAWWW 暫定）'}};
+  /* 選互動點的那一個選單（S.scene、S.dayRound）：能用 2D 圖層（DATE-S6：底圖＋可以點的標記＋她的去背圖，src/datelayer3d.js）就用，回傳值和文字選單一樣是第幾項；
+     圖層不能用（網址 ?nodatelayer、這個地點有互動點沒有位置、底圖或資料缺、ADV 沒開）或中途出錯＝照原本的 GM.choose（同一列選項，一個字都不變）*/
+  S.pickChoose=async function(GM,opts,ctx){ if(typeof DATELAYER!=='undefined'&&DATELAYER.can&&DATELAYER.can(ctx&&ctx.bg,ctx&&ctx.pts,ctx&&ctx.all)){ try{ return await DATELAYER.choose(GM,opts,ctx); }catch(e){ console.warn('DATELAYER → 文字選單',e); try{ DATELAYER.close(); }catch(_){ } } } return GM.choose(opts); };
   S.points=function(locId){ const P=Object.assign({},S.POINT_X,(D().points||{}).points||{}); return Object.keys(P).filter(k=>k.startsWith(locId+'.')).map(k=>Object.assign({id:k},P[k])); };
   S.GAIN=[{npcRom:5,rom:4,comf:4,fam:2,trust:2},{npcRom:3,rom:2,comf:2,fam:1,trust:1},{npcRom:2,rom:2,comf:1,fam:1,trust:0}];
   S.LIKE={like:{npcRom:1,comf:1},normal:{comf:1},dislike:{}};
@@ -626,7 +629,7 @@ const DATE=(function(){
     if(fx) await S.fixedSeg(GM,L,fx,false,t);   /* 固定段落：抵達以後先演、散場以後才選互動點（AA_128 5-1 第 2 步）*/
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour; const left=pts.filter(p=>!spots.includes(p.id));
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
-      const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }   /* 灰掉的（時間不夠、下雨停用）按了只提示，不結束 */
+      const k=await S.pickChoose(GM,opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o),{bg:S.bgKey(loc),pts:left,all:pts,who:t.who,spots}); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }   /* 灰掉的（時間不夠、下雨停用）按了只提示，不結束；2D 圖層（S.pickChoose）上灰掉的按不下去 */
       const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits), half=S.takeSplit(t,p.id)&&t.treated!==p.id, free=S.takeShePaid(t,p.id); delete t.treated; if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c) await S.pay(GM,t,c,p.name); }   /* 互動點的反應（沒有台詞的地點照舊一句旁白）；free＝她說要請的那一次不扣（S.SHE_PAYS）；half＝她說付一部分的那一次扣一半（S.SPLIT）*/
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p);
       if(spots.length===3&&pts.length>3) await S.speak(GM,t.who,'enough',t,{obj:null});   /* 第三個互動點之後她說一句「差不多了」（BB_128 2-5 第 5 步；不分地點）*/ }
@@ -688,7 +691,7 @@ const DATE=(function(){
   S.dayRound=async function(GM,t,pts,spots,visits,o){ const G=GM.G, day=[];   /* o.dayNo：第一天／第二天（有時間的互動點，S.TIMED）；o.bg：{k} 現在的底圖（互動點換底圖時記下來，S.POINT_BG）*/
     while(day.length<S.OVERNIGHT.maxSpots){ const left=pts.filter(p=>!spots.includes(p.id)&&S.timedOk(p.id,o.dayNo,day.length)); if(!left.length) break; const now=G.day*24+G.hour;
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>o.endH,why:rw||'時間差不多了'}; }).concat([{t:o.stop(day.length)}]);   /* 休館的館（第二天是週一的話，G.day 已經換到第二天）、下雨停用的灰掉 */
-      const k=await GM.choose(opts.map(x=>x.dis?{t:x.t,hint:x.why,dim:true}:x)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); continue; }
+      const k=await S.pickChoose(GM,opts.map(x=>x.dis?{t:x.t,hint:x.why,dim:true}:x),{bg:(o.bg&&o.bg.k)||S.bgKey(t.locs[0]),pts:left,all:pts,who:t.who,spots:day}); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); continue; }
       const p=left[k]; spots.push(p.id); day.push(p.id); { const pb=S.pointBg(p.id); if(pb){ setBg(pb); if(o.bg) o.bg.k=pb; } }   /* 夕陽那一點換 d28b（B12）*/
       const said=await S.spotLine(GM,t,p.id,visits), half=S.takeSplit(t,p.id)&&t.treated!==p.id, free=S.takeShePaid(t,p.id); delete t.treated; if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c) await S.pay(GM,t,c,p.name); }   /* free＝她說要請的那一次不扣（S.SHE_PAYS）；half＝她說付一部分的那一次扣一半（S.SPLIT）*/
       { const T=S.TIMED[p.id]; if(T&&T.until!=null&&G.hour<T.until&&GM.advance) GM.advance(T.until-G.hour); }   /* 夕陽演完至少到 18:00、星星 20:00（B7），接晚上那一句 */
