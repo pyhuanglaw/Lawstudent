@@ -1,9 +1,9 @@
 {
  "assets/models/env/second_ai/aa_support/afar.glb": {
-  "sha1": "5020ec9c09909a259f743395074144fc5615b887",
+  "sha1": "166162158baf45c64a39d8390d2dd150ecae35a1",
   "wall": 1.76,
   "always": 2.72,
-  "top": "WALL_right_afr_vc×afr_wood 1.495 m² @[5.1,0.65,0.37]"
+  "top": "WALL_right_afr_c_green×afr_wood 1.495 m² @[5.1,0.65,0.37]"
  },
  "assets/models/env/second_ai/aa_support/aoki.glb": {
   "sha1": "afc7cd7eb0711c5c9d66a9977c22b05a591bae3b",
@@ -144,9 +144,9 @@
   "top": "yy_steel×WALL_right_vc 0.19 m² @[4.6,0.32,-0.1]"
  },
  "assets/models/env/second_ai/cafe230.glb": {
-  "sha1": "0769fd9763d09807826debc33b274f610e24e88a",
+  "sha1": "2d3ab9f73d2f0a9147377d6607642fe3716b2fbc",
   "wall": 0.9,
-  "always": 2.53,
+  "always": 2.47,
   "top": "WALL_front_a23_wood×WALL_front_a23_wood 0.247 m² @[-0.58,0,6.06]"
  },
  "assets/models/env/second_ai/flower_notes_interior.glb": {
