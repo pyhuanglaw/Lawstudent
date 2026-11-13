@@ -431,9 +431,7 @@ async function child(o){
     if(g.rel) for(const id in g.rel){ const v=g.rel[id]; if(!(Number.isFinite(v)&&v>=0&&v<=100)) fail('REL_RANGE','UNKNOWN','舊版關係 G.rel 超出 0～100（game3d.js rel）',id+'='+v); }
     if(g.money<0) note('錢是負的（不算 FAIL，看要不要擋）','money='+g.money);
     /* ④ 只演一次的事件 */
-    /* CC-C 11-14（BB-C 判 SAVE_LZ_growB ② GAME P3，BB_255）：ytjob3d.js:70／148 把 G.day 寫進 events.done.ev_yutong_landlord（別處是次數）＝不是重演；LAWWW 修好（done 寫次數＋遷移）以前這一個不數 */
-    const DONE_IS_DAY=new Set(['ev_yutong_landlord']);
-    if(W.STORY_EVENTS&&g.events&&g.events.done){ for(const ev of W.STORY_EVENTS){ const n=g.events.done[ev.id]|0; if(!n) continue; if(DONE_IS_DAY.has(ev.id)) continue; if(ev.once&&n>1) fail('EVENT_REPEAT','UNKNOWN','once 的事件演了 '+n+' 次（events3d.js G.events.done）',ev.id); else if(ev.max_times&&n>ev.max_times) fail('EVENT_REPEAT','UNKNOWN','max_times '+ev.max_times+' 的事件演了 '+n+' 次',ev.id); } } }
+    if(W.STORY_EVENTS&&g.events&&g.events.done){ for(const ev of W.STORY_EVENTS){ const n=g.events.done[ev.id]|0; if(!n) continue; if(ev.once&&n>1) fail('EVENT_REPEAT','UNKNOWN','once 的事件演了 '+n+' 次（events3d.js G.events.done）',ev.id); else if(ev.max_times&&n>ev.max_times) fail('EVENT_REPEAT','UNKNOWN','max_times '+ev.max_times+' 的事件演了 '+n+' 次',ev.id); } } }
   let hbT=realMs();
   function heartbeat(force){ const now=realMs(); if(!force&&now-hbT<3000) return; hbT=now; const g=GM&&GM.G;
     process.stdout.write('@@HB '+JSON.stringify({seed:o.seed,day:g&&dayKey(g.day),step:R.step,frame:R.frame})+'\n');
