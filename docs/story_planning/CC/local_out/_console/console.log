@@ -1,15 +1,3 @@
-[22:25:45] skip L118A_SEAT_omu1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:45] skip L118A_SEAT_omu2 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:45] skip L118A_SEAT_omu3 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:45] skip L118A_SEAT_noodle21 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:45] skip L118A_SEAT_noodle22 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:45] skip L118A_SEAT_pasta1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:45] skip L118A_SEAT_pasta2 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:45] skip L118A_SEAT_pasta3 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:45] skip STAIR_old_walk (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:45] skip STAIR_old_run (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:45] skip STAIR_old_walk10 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:45] skip STAIR_old_run10 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
 [22:25:45] skip STAIR_new_walk (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
 [22:25:45] skip STAIR_new_run (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
 [22:25:45] skip STAIR_new_walk10 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
@@ -1998,3 +1986,15 @@
 [04:33:18] ==== START CANON458_AN_BEAT8_door_r2  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [04:33:21] [res] cpu=8% mem=42% (13.4/31.4 GB) chrome_testing=10  START CANON458_AN_BEAT8_door_r2
 [04:36:18] [res] cpu=15% mem=42% (13.3/31.4 GB) chrome_testing=10  END CANON458_AN_BEAT6_door_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e38354402a..9f0b9918a9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:36:27] ==== END   CANON458_AN_BEAT6_door_r2  exit=1  336s   ====
+[04:36:31] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[04:36:31] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[04:36:31] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[04:36:31] memory 43% before starting CANON458_BOOKSTORE_r3 (2 running)
+[04:36:31] ==== START CANON458_BOOKSTORE_r3  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[04:36:34] [res] cpu=4% mem=43% (13.5/31.4 GB) chrome_testing=10  START CANON458_BOOKSTORE_r3
+[04:36:54] 正在跑：CANON458_ENC（已跑 61 分／上限 60 分）、CANON458_AN_BEAT8_door_r2（已跑 3 分／上限 25 分）、CANON458_BOOKSTORE_r3（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:37:07] [res] cpu=14% mem=42% (13.3/31.4 GB) chrome_testing=9  END CANON458_ENC
