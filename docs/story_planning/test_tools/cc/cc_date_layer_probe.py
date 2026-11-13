@@ -55,6 +55,18 @@ CENTER = "(pid=>{ const b=document.querySelector('#dateLayer .dlHot[data-pid=\"'
 STATE = "(()=>({zone:GAME.G.zone, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), busy:!!(GAME.E.player&&GAME.E.player.busy), depth:(GAME.D&&GAME.D.busyDepth)|0, layer:!!document.getElementById('dateLayer'), adv:!!(document.getElementById('adv')&&document.getElementById('adv').classList.contains('on')), outs:(OUT.rec(GAME.G)||[]).filter(q=>q&&/^date_/.test(q.id||'')).map(q=>({id:q.id,state:q.state,day:CALENDAR.dateOf(q.day).key}))}))()"
 
 
+MENU_WHY = r"""(who=>{ const o={}; const T=(k,f)=>{ try{ o[k]=f(); }catch(e){ o[k]='ERR '+String(e.message||e).slice(0,80); } };
+  T('url', ()=>location.search); T('nodatelayer', ()=>typeof DATELAYER!=='undefined'&&DATELAYER.disabled?DATELAYER.disabled():null);
+  T('advActive', ()=>typeof ADV!=='undefined'?!!ADV.active:null); T('advRoot', ()=>typeof ADV!=='undefined'?!!ADV.root:null);
+  T('advBg', ()=>typeof ADV!=='undefined'?(ADV.bgKey||ADV.bg||ADV.curBg||(ADV.root&&ADV.root.dataset&&ADV.root.dataset.bg)||null):null);
+  T('layerEntryForBg', ()=>{ const k=typeof ADV!=='undefined'?(ADV.bgKey||ADV.bg||ADV.curBg):null; return k&&typeof DATELAYER!=='undefined'&&DATELAYER.entry?!!DATELAYER.entry(k):null; });
+  T('stage', ()=>SOCIAL.stage(who)); T('stageNum', ()=>DATE.stageNum(who)); T('dating', ()=>!!(GAME.G.flags||{})['dating_'+who]);
+  T('zone', ()=>GAME.G.zone); T('time', ()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2));
+  T('viewport', ()=>innerWidth+'x'+innerHeight+(innerWidth<innerHeight?' 直向':' 橫向'));
+  T('outing', ()=>{ const q=(GAME.G.outings||GAME.G.outs||[]); return Array.isArray(q)?q.slice(-1):null; });
+  return o; })"""
+
+
 async def shot(pg, name):
     await pg.screenshot(path=os.path.join(OUT, name))
 
@@ -125,7 +137,9 @@ async def one(pg, cdp, case):
         o = [x['t'] for x in (await P.ts(pg))['ch']]; R.note('%s 文字選單：%s' % (tag, J(o))); res['menu'] = o
         await shot(pg, 'dl_%s_menu.png' % fn); return res
     if mode == 'menu':   # 11-14 DATE_LAYER_76f8 D05：出的是文字選單——把選單內容、畫面記下來再判
-        o = [x['t'] for x in (await P.ts(pg))['ch']]; R.note('%s 出的是文字選單：%s；狀態 %s' % (tag, J(o), J(await pg.evaluate(STATE)))); res['menu'] = o
+        o = [x['t'] for x in (await P.ts(pg))['ch']]
+        why = await pg.evaluate(MENU_WHY, WHO)   # BB-C 23:20：選項、DATE stage／stageNum、地點時刻、會退回文字選單的條件（?nodatelayer、ADV 沒開、沒圖、直向）
+        R.note('%s 出的是文字選單：選項 %s；狀態 %s；條件 %s' % (tag, J(o), J(await pg.evaluate(STATE)), J(why))); res['menu'] = o; res['menu_why'] = why
         await shot(pg, 'dl_%s_menu_unexpected.png' % fn)
     if not R.check('%s 出的是圖層（#dateLayer），不是文字選單' % tag, mode == 'layer', mode): return res
     await pg.wait_for_timeout(500)
