@@ -1,11 +1,13 @@
 {
  "_meta": {
-  "doc": "AA_959 DLG-FULL-REVIEW-1110 台詞覆寫表：AA_951～957「今天」開頭砍半＋AA_958 語彤、AA_960 可昕、AA_961 芷若、AA_962 學姊、AA_963 子晴、AA_964 以安、AA_965 沛珊、AA_966 配角「……」開頭減量＋AA_967「我只是」、AA_968「我記得」減量＋AA_969「我第一次來／謝謝你」、AA_970「我們X好不好」、AA_971「好奇怪／這樣就好」模子＋AA_972 不同人同一句＋AA_973 同一人同一句＋AA_974 bbpack 補漏「……」開頭減量＋KX-GF-PLACES-1113 一句（LAWWW 11-13 21:02 選 (a)：匯入工具最後一步照本表換，源稿不動）＋可昕外校殘留 5 列（D158）＋可昕動態「期中」1 列（D118）＋AA_987 可昕念書場景以外的外校／通勤前提（D158）＋芯慈撞句 1 列（AA_975）＋AA_992 不同人同一句第二輪＋AA_993 期中（D118）2 列＋AA_994 line_lint 13 列＋AA_995 碎片收尾 30 列＋AA_997 我只是第二批＋AA_998 以安不一樣／學姊分鐘數＋AA_999 好不好／好的那種＋AA_1000 課堂發問開頭＋AA_1002＋AA_1003 語彤嗯＋AA_1004 子晴欸不是",
+  "doc": "AA_959 DLG-FULL-REVIEW-1110 台詞覆寫表：AA_951～957「今天」開頭砍半＋AA_958 語彤、AA_960 可昕、AA_961 芷若、AA_962 學姊、AA_963 子晴、AA_964 以安、AA_965 沛珊、AA_966 配角「……」開頭減量＋AA_967「我只是」、AA_968「我記得」減量＋AA_969「我第一次來／謝謝你」、AA_970「我們X好不好」、AA_971「好奇怪／這樣就好」模子＋AA_972 不同人同一句＋AA_973 同一人同一句＋AA_974 bbpack 補漏「……」開頭減量＋KX-GF-PLACES-1113 一句（LAWWW 11-13 21:02 選 (a)：匯入工具最後一步照本表換，源稿不動）＋可昕外校殘留 5 列（D158）＋可昕動態「期中」1 列（D118）＋AA_987 可昕念書場景以外的外校／通勤前提（D158）＋芯慈撞句 1 列（AA_975）＋AA_992 不同人同一句第二輪＋AA_993 期中（D118）2 列＋AA_994 line_lint 13 列＋AA_995 碎片收尾 30 列＋AA_997 我只是第二批＋AA_998 以安不一樣／學姊分鐘數＋AA_999 好不好／好的那種＋AA_1000 課堂發問開頭＋AA_1002＋AA_1003 語彤嗯＋AA_1004 子晴欸不是＋AA_1005 系統內重複開頭",
   "by": "AA-C 2026-11-13",
   "how": "每一列：files＝遊戲檔（src/data/），old 一字不差換成 new；speaker 是說話的人（LAWWW 換之前照最近的人物 id 確認）；prefix:true＝old 只是那句的開頭；all:true＝同一檔裡同一句有兩處，兩處都換。建議匯入工具在最後一步照本表換（同 aa630.apply_json 的做法），沒有匯入工具的檔直接換。",
-  "count": 627,
+  "count": 657,
   "note958": "AA_958 的列：old 是遊戲檔裡整句（開頭有「……」），new 是拿掉「……」的同一句。KX-GF-PLACES-1113 那列：開發分支 invites.js 268 行現在的字就是「好，我過去。四十分鐘。」（前面沒有「……」，21:0x 對 adoring-meitner 確認過）。",
-  "pendingBB": [],
+  "pendingBB": [
+   "AA_1005"
+  ],
   "pendingNote": "pendingBB 列出的 doc＝BB 還沒照用，LAWWW 併的時候先照 doc 濾掉；BB 同意後 AA 把它從清單拿掉。空陣列＝全部可以進。"
  },
  "rows": [
@@ -5872,6 +5874,306 @@
    "new": "\"你一個人跑來野柳？好遠欸。\"",
    "speaker": "heroine_04",
    "note": "子晴 solo_before 6 個地點都「欸不是，」開頭，改 4（留「我是在問我自己」「單人模式」兩句笑點）"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，路線你決定。我不想動腦。",
+   "new": "heroine_05\", \"text\": \"路線你決定。我不想動腦。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，爆米花買大的。我會吃你的。",
+   "new": "heroine_05\", \"text\": \"爆米花買大的。我會吃你的。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，你走前面。我想看你會停在哪一幅。",
+   "new": "heroine_05\", \"text\": \"你走前面。我想看你會停在哪一幅。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，先看企鵝。其他照你的。",
+   "new": "heroine_05\", \"text\": \"先看企鵝。其他照你的。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，船你踩。我看風景。",
+   "new": "heroine_05\", \"text\": \"船你踩。我看風景。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，奶奶以前買的那家蜜餞還在。我要買一包。",
+   "new": "heroine_05\", \"text\": \"奶奶以前買的那家蜜餞還在。我要買一包。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，你走靠海那邊。幫我擋風。",
+   "new": "heroine_05\", \"text\": \"你走靠海那邊。幫我擋風。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，累了就換我講話。你不用回。",
+   "new": "heroine_05\", \"text\": \"累了就換我講話。你不用回。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，芋圓你排隊，我找位子。",
+   "new": "heroine_05\", \"text\": \"芋圓你排隊，我找位子。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，我只帶了水。其他都沒帶。",
+   "new": "heroine_05\", \"text\": \"我只帶了水。其他都沒帶。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，你帶路。走錯也沒關係。",
+   "new": "heroine_05\", \"text\": \"你帶路。走錯也沒關係。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，今天交給你。我負責吃。",
+   "new": "heroine_05\", \"text\": \"今天交給你。我負責吃。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，最後一班車的時間我查好了。不急。",
+   "new": "heroine_05\", \"text\": \"最後一班車的時間我查好了。不急。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，今天我不看手機。有事你幫我接。",
+   "new": "heroine_05\", \"text\": \"今天我不看手機。有事你幫我接。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，這兩天不排行程。走到哪算哪。",
+   "new": "heroine_05\", \"text\": \"這兩天不排行程。走到哪算哪。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，這兩天你決定。我跟著走。",
+   "new": "heroine_05\", \"text\": \"這兩天你決定。我跟著走。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"林{name}，看完不要馬上問我感想。我要想一下。",
+   "new": "heroine_05\", \"text\": \"看完不要馬上問我感想。我要想一下。",
+   "speaker": "heroine_05",
+   "note": "學姊約會句「林{name}，」開頭 33 句，隔一句拿掉稱呼"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"回去還要讀書，不過今天值得啦。",
+   "new": "classmate_peishan\", \"text\": \"今天好值得。讀書的事回去再說。",
+   "speaker": "classmate_peishan",
+   "note": "沛珊「回去還要讀書」5 句改 4"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"回去還要讀書。可是今天看到貓熊了，值得。",
+   "new": "classmate_peishan\", \"text\": \"今天看到貓熊了。讀書明天再說。",
+   "speaker": "classmate_peishan",
+   "note": "同上"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"回去還要讀書。可是今天值得。",
+   "new": "classmate_peishan\", \"text\": \"我今天好開心。回去再當學生。",
+   "speaker": "classmate_peishan",
+   "note": "同上"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"回去還要讀書。可是泡完腳，我只想直接睡。",
+   "new": "classmate_peishan\", \"text\": \"泡完腳，我只想直接睡。書明天再讀。",
+   "speaker": "classmate_peishan",
+   "note": "同上"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"風好大，我講話你聽得到嗎？",
+   "new": "classmate_peishan\", \"text\": \"我講話你聽得到嗎？風把我的聲音吹走了。",
+   "speaker": "classmate_peishan",
+   "note": "「風好大」沛珊 7、學姊 5、語彤 4：各改幾句"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"風好大。我要抓著欄杆。",
+   "new": "classmate_peishan\", \"text\": \"我要抓著欄杆，不然會被吹走。",
+   "speaker": "classmate_peishan",
+   "note": "同上"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"風好大，可是我一點都不想走。",
+   "new": "classmate_peishan\", \"text\": \"吹成這樣，我還是一點都不想走。",
+   "speaker": "classmate_peishan",
+   "note": "同上"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"風好大，我把外套穿上了。",
+   "new": "heroine_05\", \"text\": \"外套我穿上了。這裡風大。",
+   "speaker": "heroine_05",
+   "note": "同上"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"風好大，你冷不冷？",
+   "new": "heroine_05\", \"text\": \"你冷不冷？",
+   "speaker": "heroine_05",
+   "note": "同上"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_04\", \"text\": \"步道好長，都沒有樹蔭。",
+   "new": "heroine_04\", \"text\": \"都沒有樹蔭。我要融化了。",
+   "speaker": "heroine_04",
+   "note": "子晴「步道好長」4 句幾乎一樣，改 2"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_04\", \"text\": \"步道好長，一棵樹都沒有。",
+   "new": "heroine_04\", \"text\": \"一棵樹都沒有。我們走快一點。",
+   "speaker": "heroine_04",
+   "note": "同上"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_03\", \"text\": \"上次坐的那張椅子，今天有人坐了。",
+   "new": "heroine_03\", \"text\": \"那張椅子今天有人了。站著看也好。",
+   "speaker": "heroine_03",
+   "note": "語彤「上次坐的…有人了」4 句改 2"
+  },
+  {
+   "doc": "AA_1005",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_03\", \"text\": \"上次坐的那個位子有人了。我們坐船尾，比較吵，可是看得到浪。",
+   "new": "heroine_03\", \"text\": \"我們坐船尾。比較吵，可是看得到浪。",
+   "speaker": "heroine_03",
+   "note": "同上"
   }
  ]
 }
