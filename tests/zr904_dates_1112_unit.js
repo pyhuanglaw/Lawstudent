@@ -39,7 +39,7 @@ const gp=(X,r)=>'/loc/'+r.loc+'/lines/'+X.who+'/'+r.path;
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&(e[0].approvedBy||'').includes('AA_904 定稿（BB_435）')&&(e[0].approvedBy||'').includes('AA_909 定稿（BB_437）')&&(e[0].approvedBy||'').includes('AA_913 定稿（BB_438）')&&(e[0].approvedBy||'').includes('AA_914 定稿（BB_439）')&&ROUNDS.every(X=>(e[0].history||[]).some(h=>h.sha===X.prev))); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有 AA_904、AA_909、AA_913、AA_914 四次定稿；5afc5c0e3、417c5cb9ce、6221c8e80f、f561545f38 都在 history',C.ALLOW_SHA==='dce2f8c08b'&&ROUNDS.every(X=>X.prev===X.prevWant)&&bad.length===0,J(bad));
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有 AA_904、AA_909、AA_913、AA_914 四次定稿；5afc5c0e3、417c5cb9ce、6221c8e80f、f561545f38 都在 history',C.ALLOW_SHA==='6dbfe10d7e'&&C.KX921_1112_PREV==='dce2f8c08b'&&ROUNDS.every(X=>X.prev===X.prevWant)&&bad.length===0,J(bad));
   for(const X of ROUNDS){ const e=allow.filter(x=>x.path===SP+X.doc);
     check('1. 白名單有 '+X.name+' 那一份稿、'+X.sha+'、approved',e.length===1&&e[0].sha===X.sha&&e[0].status==='approved',J(e.map(x=>x.sha))); }
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
@@ -75,6 +75,7 @@ for(const X of ROUNDS){ const R=X.R;
 { const wt=show(BASE,'src/data/date_lines.js');
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
     const all=[].concat(...ROUNDS.map(X=>X.R.map(r=>[X,r]))), want=all.map(([X,r])=>gp(X,r)).sort();
+    { const K5=C.KX921_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+(r.gpath||r.path)).filter(p=>diff.includes(p)&&!want.includes(p)), al=diff.slice(); diff.length=0; for(const p of al) if(!K5.includes(p)) diff.push(p); check('5. 之後第五批（6dbfe10d7e，AA_917／918 收尾、AA_921 可昕清句、AA_923 D09）118 格也換了字（date_src_sha.js KX921_1112；逐格在 tests/kx921_dates_1112_unit.js）——這裡先拿掉再比',C.KX921_1112.length===118&&K5.length===118,J(K5.length)); }   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：舊期望是重匯以前就只差這四輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 161 格不同',Object.keys(b).length>30000&&want.length===161&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 161 格重匯以前＝稿的 old',all.every(([X,r])=>a[gp(X,r)]===r.old),J(all.filter(([X,r])=>a[gp(X,r)]!==r.old).slice(0,3).map(([X,r])=>gp(X,r))));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
