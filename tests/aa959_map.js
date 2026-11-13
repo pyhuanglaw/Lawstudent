@@ -75,6 +75,6 @@ function deepIn(x, f, who) {
   return x;
 }
 const unmapIn = (x, file) => deepIn(x, (s, w) => unmap(s, file, w));
-const mapDeep = (x, file) => deep(x, (s, w) => map(s, file, w));
-const unmapDeep = (x, file) => deep(x, (s, w) => unmap(s, file, w));
+const mapDeep = (x, file, who) => deep(x, (s, w) => map(s, file, w), who);
+const unmapDeep = (x, file, who) => deep(x, (s, w) => unmap(s, file, w), who);
 module.exports = { map, unmap, mapText, unmapText, unmapIn, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };

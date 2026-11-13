@@ -36,7 +36,7 @@ const q6=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; };
     /* 逐字對企劃線的稿（git 讀得到才比；讀不到＝--check 已經比過） */
     let n=0, bad=[]; const IG=t=>t;
     for(const src of (ok0?TOx.src.friend:[])){ const [p,sha]=src.split('@'); let d=null; try{ d=JSON.parse(cp.execFileSync('git',['show',sha+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<24})); }catch(e){ d=null; } if(!d) continue;
-      for(const t of Object.keys(d)){ if(t==='_meta') continue; for(const who of Object.keys(d[t])){ const a=d[t][who], b=FR[t][who]; n++;
+      for(const t of Object.keys(d)){ if(t==='_meta') continue; for(const who of Object.keys(d[t])){ const a=require('./aa959_map.js').mapDeep(d[t][who],'termend_opts.js',who)/* AA_959：稿照覆寫表換成遊戲的新字再比 */, b=FR[t][who]; n++;
         const same=b&&J(a.say)===J(b.says[b.says.length-1].say)&&a.opts.length===b.opts.length&&a.opts.every((o,i)=>o.t===b.opts[i].t&&J(o.re)===J(b.opts[i].re)&&J(o.fx||null)===J(b.opts[i].fx||null))&&J(a.then||null)===J(b.then||null)&&(!a.sayUS||J(a.sayUS)===J(b.says[0].say));
         if(!same) bad.push([t,who]); } } }
     check('1. 和企劃線的稿逐字一樣（say、選項、回答、fx、then、sayUS；比了 '+n+' 頓）',ok0&&(n===0||(n===72&&bad.length===0)),J(bad.slice(0,6))); });
@@ -120,7 +120,7 @@ const q6=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; };
   await sec(7,async()=>{ if(!ok0){ check('7. thenIf',false,'沒有 TERMEND_OPTS.FRIEND'); return; }
     const E=FR.Y3S1.heroine_05, L='收到信那天，我打給你。'; let doc=null; try{ doc=JSON.parse(cp.execFileSync('git',['show','bd1a6fda3:docs/story_planning/AA_749_termend_friend_v2_Y3S1.json'],{cwd:H.ROOT,encoding:'utf8'})); }catch(e){ doc=null; }
     /* 2026-11-11 改期望：白名單的來源換成 bd1a6fda3（AA 改斷句的那一版；學姊這一格的字沒有動）——原本 1cf434dee */
-    check('7. 資料：學姊大三上 thenIf｛if SIS_FU, lines 照稿｝；來源 bd1a6fda3；其他人沒有 thenIf',!!doc&&J(E.thenIf)===J({if:'SIS_FU',lines:doc.Y3S1.heroine_05.thenIf.lines})&&J(E.thenIf.lines)===J([L])&&TOx.src.friend.includes('docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3')&&Object.keys(FR).every(t=>Object.keys(FR[t]).every(w=>(t==='Y3S1'&&w==='heroine_05')||FR[t][w].thenIf===undefined)),J(E.thenIf));
+    check('7. 資料：學姊大三上 thenIf｛if SIS_FU, lines 照稿｝；來源 bd1a6fda3；其他人沒有 thenIf',!!doc&&J(E.thenIf)===J({if:'SIS_FU',lines:require('./aa959_map.js').mapDeep(doc.Y3S1.heroine_05.thenIf.lines,'termend_opts.js','heroine_05')})&&J(E.thenIf.lines)===J([L])&&TOx.src.friend.includes('docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3')&&Object.keys(FR).every(t=>Object.keys(FR[t]).every(w=>(t==='Y3S1'&&w==='heroine_05')||FR[t][w].thenIf===undefined)),J(E.thenIf));
     const keep=Lx.COND.SIS_FU; const last=()=>{ const g=CH[0]||[], o=E.opts.find(x=>x.t===g[0]); return o?flat(o.re).slice(-1)[0]:null; };
     try{ Lx.COND.SIS_FU=()=>true; await dinner('heroine_05','Y3S1','friend'); const r=last();
       check('7. 朋友以上（SIS_FU）：選項、她的回答之後補「收到信那天，我打給你。」（只說一次、在收尾之前）',has('面試的事，今天不講。')&&CH[0].length===3&&said().filter(t=>t===L).length===1&&!!r&&idx(L)===idx(r)+1,J(said()));
