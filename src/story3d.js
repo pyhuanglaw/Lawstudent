@@ -2161,7 +2161,7 @@ const STORY = (function(){
            模 5 演完記 KX_MOOT（events.js）：came＝散場、麵店各一句；call＝說了但她有課（平日白天的比賽；現在的模 5 是週六，不會發生）→ 散場後一則；photo＝沒說或沒回 → 22:00 粉專的照片＋一則 */
         const dq=S.dayOfKey('2027-04-23'); if(dq!=null&&F.dating_kexin){ const K=t=>({th:'p:kexin',from:'kexin',text:t});
           if((G.day>dq||(G.day===dq&&G.hour>=21))&&G.day<d5&&!PHONE.sent(G,'kx_moot_ask')) PHONE.at(G,dq,21,[Object.assign(K('你最近的訊息都很短。在忙什麼？'),{ask:{id:'kx_moot_ask',until:d5*24+9,opts:[{t:'模擬法庭。第 10 週比賽，妳要來嗎？',set:{KX_MOOT_TOLD:true},say:[K('要。我坐最後一排，你不要看我。')]},{t:'一個比賽。比完再跟妳說。',set:{KX_MOOT_TOLD:false},say:[K('好。比完要說。')]}]}})],'kx_moot_ask');
-          if(ED('ev_moot_5')&&F.KX_MOOT==='call'&&!PHONE.sent(G,'kx_moot_call')) PHONE.at(G,G.day,G.hour,[K('你們學校的評審是不是比較兇？')],'kx_moot_call');
+          if(ED('ev_moot_5')&&F.KX_MOOT==='call'&&!PHONE.sent(G,'kx_moot_call')) PHONE.at(G,G.day,G.hour,[K('今天的評審是不是很兇？')],'kx_moot_call');
           if(ED('ev_moot_5')&&F.KX_MOOT==='photo'&&(G.day>d5||G.hour>=22)&&!PHONE.sent(G,'kx_moot_photo')) PHONE.at(G,d5,22,[K('📷（法律系學會粉專貼的模擬法庭照片）'),K('下次要說。我想看你發抖。')],'kx_moot_photo'); } } }
     /* 大二過年（V3-D13；AA_143 2-1 新的字，AA-B 9035ede0：不重用大一的原句）：初一 2027-02-06 11:00 桌遊團群組——阿哲、以安、Alison 的照片（Alison 那三則所有成員都看得到，
        他們交往在桌遊團是公開的事）；祐廷三選一：年夜飯照片／「醜的水餃比較好吃」／貼圖（不回就只是沒回）*/
@@ -2548,7 +2548,7 @@ const STORY = (function(){
         ['y2_zq_lab',Y2,22+10/60,(G,day)=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','LAB_LETTER')&&gotBefore(G,'heroine_04')&&(SOCIAL.has('heroine_04','ZQ3_FIFTY_ONE')||(T=>!!T&&(T.id!=='Y2S1'||T.week>=12))(CALENDAR.termOf(day))),G=>seq('heroine_04',['實驗室那封信 我回了','說不要','教授說好','就這樣','好簡單喔'].concat(zqDH(G)?['……晚上要慶祝。你請。'].concat(G.flags.LAB_LETTER_DAD?[]:['你說對了。不是我爸。']):[]))],   /* AA_374 第 8 項（AA_211 附錄 B 3-2）：先回了、閒聊 Q3-L3 又說還沒回——聊過 Q3-L3 或第 12 週以後才傳。
            BB_189 1-4／1-1：和她交往中多「……晚上要慶祝。你請。」；Q7 選第一或第二個（沒有 LAB_LETTER_DAD）最後再多「你說對了。不是我爸。」（1-1「最後多一則」照字面排最後）*/
         ['y2_zr_order',Y2,null,G=>done(G,'ev_zhiruo_applied')&&!done(G,'ev_zhiruo_last_shift')&&gotBefore(G,'heroine_02'),G=>zrDH(G)?[P1('heroine_02','今天第三個客人點錯。我記得他上週點什麼。我沒說。')]:seq('heroine_02',['今天有個常客點了熱美式。','他上禮拜都點拿鐵。我差點問他怎麼了。'])],   /* BB_189 2-5 和她交往中、Z7 之後 Z9 之前（AA_230 Z-30：只留這一則）*/
-        ['y2_kx_usual',Y2a(),21+10/60,kx,()=>[P1('kexin','午餐老樣子，山下那攤的酸辣湯餃。')]],
+        ['y2_kx_usual',Y2a(),21+10/60,kx,()=>[P1('kexin','午餐老樣子，後門那攤的酸辣湯餃。')]],
         ['y2_kx_superficies',Y2a(),21+10/60,kx,()=>[P1('kexin','物權的老師講了一個小時的地上權。我現在看到房子都想問地是誰的。')]],
         ['y2_kx_index',Y2a(),21+10/60,kx,G=>[P1('kexin','系上有一個學長，考古題有目錄。目錄有索引。')]],   /* CANON-NO-ECON-1112 第五批（AA_919 第 2 節，BB_445）：只留一版 */
         ['y2_kx_hand',Y2a(6),21+10/60,G=>kx(G)&&!!G.flags.PLAYED_Y0&&G.flags.E12_ANSWER==='hand',()=>[Object.assign(P1('kexin','我還在等你的第三隻手。'),{ask:{id:'dp_y2_kx_hand',opts:[{t:'……長頸鹿的尾巴？',say:[{from:'kexin',text:'你記得喔。尾巴我還留著。'}]},{t:'我在練。',say:[{from:'kexin',text:'練到哪了？……先幫我拿書包就好。'}]}]}})]],   /* BB_104 8-4「她會記得」：三個條件都成立才有 */

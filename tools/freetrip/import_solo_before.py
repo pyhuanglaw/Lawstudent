@@ -31,3 +31,12 @@ import sys as _sys, os as _os
 _R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
 import aa630 as _aa630, import_guard as _ig
 _aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/solo_before.js', _R0)
+# CANON-NO-ECON-1112 收尾（AA_932 §2，企劃線 e622a59148；BB_455 照用）：可昕 D08／D09／D18／D20 的外校前提句，源稿沒改——寫完照 tools/story/canon_b5_rows.py 整句換
+import canon_b5_rows as _B5
+_P = _os.path.join(_R0, 'src', 'data', 'solo_before.js')
+with open(_P, encoding='utf8') as _f:
+    _t = _f.read()
+_t2 = _B5.fix('src/data/solo_before.js', _t)
+if _t2 != _t:
+    with open(_P, 'w', encoding='utf8') as _f:
+        _f.write(_t2)

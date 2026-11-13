@@ -62,7 +62,7 @@ const MREL=(function(){
 
   /* ---------- 叫法、期間（AA_422 0-4、AA_227 第二節）---------- */
   S.nameFor=function(G,x,y){ if(x===A1){ if(y===SIS) return '書瑀學姊'; if(y===ZQ) return '資工那個高子晴'; if(y===ZR) return 'Café 那個店員'; }
-    if(x===KX&&!([A1,YT,PS].includes(y)&&G.flags&&G.flags.KX_MET_NOODLE_TEAM)) return '你們學校那個'+(S.BASE[y]||nm(y));   /* 可昕叫台大的人（不熟的）*/
+    if(x===KX&&!([A1,YT,PS].includes(y)&&G.flags&&G.flags.KX_MET_NOODLE_TEAM)) return '那個'+(S.BASE[y]||nm(y));   /* 可昕叫祐廷那幾個朋友（不熟的；同校，不用「你們學校」，AA_932 §2）*/
     return S.BASE[y]||nm(y); };
   S.sinceDay=function(G,id){ if(typeof ROM==='undefined') return G.day; const R=ROM.get(G,id); if(typeof R.sinceDay==='number') return R.sinceDay;
     const s=R.since; if(typeof s==='string'){ let m=/^Y(\d)S(\d)W(\d+)$/.exec(s); if(m&&typeof STORY!=='undefined'&&STORY.termDay){ const d=STORY.termDay('Y'+m[1]+'S'+m[2],+m[3],1); if(d!=null) return d; }

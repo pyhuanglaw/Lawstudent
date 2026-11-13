@@ -54,7 +54,7 @@ GM.money=function(n){ G.money+=n; };
   check('4. 芷若（Z7 之後、Z9 之前）兩則「今天有個常客點了熱美式。」「他上禮拜都點拿鐵。我差點問他怎麼了。」（AB65-3：AA_211 附錄 B P8；原本「今天第三個客人點錯。…」一則）：單身 22:07、交往中 15:10',a.length===2&&Math.abs(a[0].h-(22+7/60))<0.06&&b.length===2&&Math.abs(b[0].h-(15+10/60))<0.06&&a.map(x=>x.text).join('｜')==='今天有個常客點了熱美式。｜他上禮拜都點拿鐵。我差點問他怎麼了。',JSON.stringify([a.map(x=>x.h),b.map(x=>x.h)]));
   const c=only('y2_zr_order',W5,{},()=>{ done(['ev_zhiruo_applied','ev_zhiruo_last_shift']); INV.rec(G); G.contacts.heroine_02=1; }); check('4. Z9 之後沒有',c.length===0);
   m=only('y2_kx_usual',W5,{dating_kexin:true}); const m2=only('y2_kx_usual',W5,{dating_kexin:false}), m3=only('y2_kx_usual',Y1,{dating_kexin:true}), m4=only('y2_kx_usual',B5,{dating_kexin:true});
-  check('5. 可昕「午餐老樣子，山下那攤的酸辣湯餃。」（BB_97 9-16）：大二上、交往中才有（沒交往、大一、大二下都沒有）',T(m)==='kexin:午餐老樣子，山下那攤的酸辣湯餃。'&&!m2.length&&!m3.length&&!m4.length&&Math.abs(m[0].h-(21+10/60))<0.06);
+  check('5. 可昕「午餐老樣子，後門那攤的酸辣湯餃。」（BB_97 9-16；2026-11-13 照 AA_932 §2「山下」→「後門」，舊期望「山下那攤」）：大二上、交往中才有（沒交往、大一、大二下都沒有）',T(m)==='kexin:午餐老樣子，後門那攤的酸辣湯餃。'&&!m2.length&&!m3.length&&!m4.length&&Math.abs(m[0].h-(21+10/60))<0.06);
   m=only('y2_kx_river',B5,{dating_kexin:true}); const r2=only('y2_kx_river',B5,{dating_kexin:true},()=>{ G.weather='rain'; });
   check('5. 大二下「今天下雨，山變成一條河。」只在下雨的日子',!m.length&&T(r2)==='kexin:今天下雨，山變成一條河。');
   m=only('y2_kx_index',W5,{dating_kexin:true}); const i2=only('y2_kx_index',W5,{dating_kexin:true},()=>{ SOCIAL.remember('kexin','ENC_D13_KX',''); });
