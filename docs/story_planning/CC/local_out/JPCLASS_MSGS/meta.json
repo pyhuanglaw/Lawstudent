@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "JPCLASS_MSGS",
+  "sha": "8c7ed865600a085f283e1db9698ba18513cfafc8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_jpclass_probe.py",
+  "env": "CASES=L2,KR,ASK_YES,ASK_NO,THANKS;SHA=8c7ed865600a085f283e1db9698ba18513cfafc8",
+  "machine": "MSI",
+  "start": "2026-11-13T17:44:05",
+  "end": "2026-11-13T17:49:24",
+  "seconds": 319,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 62,
+    "mem": 52,
+    "used_gb": 16.2,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

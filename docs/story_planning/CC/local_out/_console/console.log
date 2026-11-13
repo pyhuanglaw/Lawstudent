@@ -367,3 +367,12 @@
 [17:44:08] [res] cpu=10% mem=29% (9.1/31.4 GB) chrome_testing=0  START JPCLASS_MSGS
 [17:44:08] [res] cpu=10% mem=29% (9.1/31.4 GB) chrome_testing=0  START CANON_NEWGAME_A2
 [17:46:07] [res] cpu=35% mem=42% (13.4/31.4 GB) chrome_testing=10  END CANON_NEWGAME_A2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       709a2f4538..0e6616d5bd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:46:14] ==== END   CANON_NEWGAME_A2  exit=1  122s   ====
+[17:46:17] memory 42% before starting CANON_NEWGAME_A1 (2 running)
+[17:46:17] ==== START CANON_NEWGAME_A1  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
+[17:46:20] [res] cpu=22% mem=42% (13.4/31.4 GB) chrome_testing=10  START CANON_NEWGAME_A1
+[17:46:52] 正在跑：CANON_SIDE（已跑 2 分／上限 30 分）、JPCLASS_MSGS（已跑 2 分／上限 25 分）、CANON_NEWGAME_A1（已跑 0 分／上限 220 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:49:24] [res] cpu=30% mem=43% (13.7/31.4 GB) chrome_testing=10  END JPCLASS_MSGS
