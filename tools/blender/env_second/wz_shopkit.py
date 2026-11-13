@@ -1072,6 +1072,17 @@ def xs_awning(xf, x0, x1, y0, y1, d, col, along='x', zc=0.0):
 
 
 _XS_N = [0]   # xs_street_front 的盆栽 instancing 編號
+GLB_PROTO = {}
+def glb_proto(rel):
+    """烘焙好光影的道具 GLB（例：tz_wente_interior.py --rack 烘的門口衣架）→ 一個網格（原點在底部中央，可以 B.instance）；SHOP-REALISM-1112（D160：道具用 CC0 材質組＋Cycles 烘焙）"""
+    if rel not in GLB_PROTO:
+        before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, rel))
+        new = [o for o in bpy.data.objects if o not in before]; parts = []
+        for o in new:
+            if o.type == 'MESH': me = o.data.copy(); me.transform(o.matrix_world); parts.append(me)
+        for o in new: bpy.data.objects.remove(o)
+        out = parts[0]; out.name = 'glb_' + os.path.splitext(os.path.basename(rel))[0]; GLB_PROTO[rel] = out
+    return GLB_PROTO[rel]
 
 
 def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
@@ -1128,6 +1139,8 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
     for it in c.get('clutter', []):
         if it[0] == 'aboard': aboard(xf, it[1], it[2], it[3] if len(it) > 3 else 'chalk')
         elif it[0] == 'bistro': bistro_table(xf, it[1], it[2])
+        elif it[0] == 'glb':   # ('glb', 檔案, x, z)：烘好的道具，橫桿和店面平行
+            _pm = glb_proto(it[1]); _w = _wp(xf, it[2], it[3]); B.instance(_pm, f'skxglb_{spec["id"]}_{_XS_N[0]}', *_w, root, ry=xf.ry); _XS_N[0] += 1; prop_fp(_pm, 'skxglb', _w[0], _w[2], xf.ry)
         elif it[0] in ('ph_pot', 'ph_succ'):   # Poly Haven 的盆栽（CC0 掃描模型，D160）：同溫州街騎樓店面的 ph_pot／ph_succ；第四個＝放大倍數
             _pm = ph_proto('pot' if it[0] == 'ph_pot' else 'succ'); _w = _wp(xf, it[1], it[2]); _ry = it[1] * 1.7; _sc = it[3] if len(it) > 3 else 1.0
             ob_ = B.instance(_pm, f'skx{it[0]}_{spec["id"]}_{_XS_N[0]}', *_w, root, ry=_ry); _XS_N[0] += 1; ob_.scale = (_sc, _sc, _sc); prop_fp(_pm, 'skx' + it[0].replace('_', ''), _w[0], _w[2], _ry, _sc)

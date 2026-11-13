@@ -393,7 +393,7 @@ if SET == 'tingzhou':
         'wente': dict(arcade=False, dep=0.3, real=True, back=3.7, door=(1.42, 2.36, 2.45), glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # SHOP-WINDOW-3D-1112 v2：照片卡拿掉、牆挖到店內深（tz_wente_interior.glb 深 3.6），右邊木門框；店內在遊戲 tingzhou3d.js S.REAL_VIEW
                         # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
                       panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#4a3324',
-                      kick=0.42, door_wood=True, pier_tile=('mosaic', '#8fb09a'), clutter=[('ph_pot', -2.05, 0.42, 1.15), ('ph_succ', -1.45, 0.34), ('ph_pot', 2.66, 0.4, 0.95)]),   # SHOP-REALISM-1112（D160）：照概念圖——窗下木腰板、窗前和門邊的 Poly Haven 盆栽；框改成看得出是木頭的深咖啡
+                      kick=0.42, door_wood=True, pier_tile=('mosaic', '#8fb09a'), clutter=[('ph_pot', -2.05, 0.42, 1.15), ('ph_succ', -1.45, 0.34, 1.6), ('glb', 'tools/blender/env_second/baked/tz_wente_rack.glb', -0.55, 0.62), ('ph_pot', 2.66, 0.4, 0.95)]),   # SHOP-REALISM-1112（D160）：照概念圖——窗下木腰板、窗前和門邊的 Poly Haven 盆栽；框改成看得出是木頭的深咖啡
         'liantong': dict(arcade=False, dep=0.3, real=True, back=7.1, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
                          panel=dict(x0=-2.15, x1=2.15, y0=2.95, y1=3.78, color='#1f3f9a', text=[('tzlian_sign', -2.1, 2.1, 3.0, 3.74)]), frame='#c9ccd0', vsigns=[('tzlian_vsign', 2.05, 4.3, 7.6, 0.85)]),
         'dongnan': dict(arcade=False, dep=0.3, real=True, back=9.1, glass=(-3.45, 3.45), glass_h=2.6, int='tzdong_shop', pane=3.45, transom=2.6, lit=True,   # 東南大聯商行：整面開著、貨架塞滿；墨綠帆布雨棚；黃底紅字招牌

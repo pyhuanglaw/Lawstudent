@@ -564,6 +564,15 @@ for k, x in enumerate((-1.8, -0.6, 0.6, 1.8)):
     tube('spot_can%d' % k, [(x, BACK - 1.2, H - 0.1), (x, BACK - 1.1, H - 0.16)], [0.035, 0.04], IRON, seg=12)
     SPOTS.append(p)
 
+# ---------------- --rack：只留中間那座木頭移動衣架（連衣服、衣架），單獨烘一顆給街上門口用（BB_379：概念圖門口的立式衣架；室外光） ----------------
+RACK = '--rack' in sys.argv
+if RACK:
+    _keep = [o for o in OBJS if o.name.startswith(('rack_', 'rk_'))]
+    for o in [o for o in bpy.data.objects if o.type == 'MESH' and o not in _keep]: bpy.data.objects.remove(o, do_unlink=True)
+    OBJS[:] = _keep
+    _T = Matrix.Translation(Vector((-(GX0 + GX1) / 2, -GY, 0.0)))
+    for o in _keep: o.matrix_world = _T @ o.matrix_world
+
 # ---------------- 修改器套用、燈 ----------------
 def apply_all():
     for o in OBJS:
@@ -582,19 +591,23 @@ def light(kind, loc, energy, color=WARM, size=0.05, aim=None, spot=None):
     o = bpy.data.objects.new(kind, ld); sc.collection.objects.link(o); o.location = loc
     if aim is not None: o.rotation_euler = (Vector(aim) - Vector(loc)).to_track_quat('-Z', 'Y').to_euler()
     return o
-for x in (-1.6, 0.0, 1.6): light('POINT', (x, 0.15, 2.3), 80, size=0.06)
-for p in SPOTS: light('SPOT', p, 140, aim=(p[0], BACK - 0.3, 1.4), spot=45, size=0.03)
-light('SPOT', (-1.15, FRONT + 0.2, H - 0.1), 60, aim=(MX, MY, 1.5), spot=40, size=0.03)   # 打在假人身上的那一盞
-light('POINT', (LX_, LY_, B0 + 0.3), 20, color=(1.0, 0.62, 0.3), size=0.04)   # 燈罩不自發光以後，靠裡面這顆照亮（12→20）
-light('AREA', (0.0, 0.2, H - 0.05), 45, color=(1.0, 0.8, 0.6), size=3.0)   # 天花板反射的柔光
-light('AREA', (0.0, FRONT - 1.5, 1.6), 50, color=(0.95, 0.97, 1.0), size=4.0, aim=(0.0, 0.5, 1.2))   # 街上進來的天光（窗外）
+if RACK:   # 室外：騎樓陰影下的天光＋一點斜射的太陽
+    light('SUN', (0, -3, 5), 2.2, color=(1.0, 0.95, 0.88), size=0.05, aim=(0.4, 0.3, 0.0))
+    light('AREA', (0.0, -2.5, 1.8), 120, color=(0.92, 0.95, 1.0), size=4.0, aim=(0.0, 0.0, 1.0))
+    light('AREA', (0.0, 2.5, 1.8), 60, color=(1.0, 0.9, 0.78), size=4.0, aim=(0.0, 0.0, 1.0))
+for x in (() if RACK else (-1.6, 0.0, 1.6)): light('POINT', (x, 0.15, 2.3), 80, size=0.06)
+for p in (() if RACK else SPOTS): light('SPOT', p, 140, aim=(p[0], BACK - 0.3, 1.4), spot=45, size=0.03)
+if not RACK: light('SPOT', (-1.15, FRONT + 0.2, H - 0.1), 60, aim=(MX, MY, 1.5), spot=40, size=0.03)   # 打在假人身上的那一盞
+if not RACK: light('POINT', (LX_, LY_, B0 + 0.3), 20, color=(1.0, 0.62, 0.3), size=0.04)   # 燈罩不自發光以後，靠裡面這顆照亮（12→20）
+if not RACK: light('AREA', (0.0, 0.2, H - 0.05), 45, color=(1.0, 0.8, 0.6), size=3.0)   # 天花板反射的柔光
+if not RACK: light('AREA', (0.0, FRONT - 1.5, 1.6), 50, color=(0.95, 0.97, 1.0), size=4.0, aim=(0.0, 0.5, 1.2))   # 街上進來的天光（窗外）
 
 def setup_cycles(samples):
     sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = samples
     try: sc.cycles.use_denoising = True
     except Exception: pass
     sc.cycles.max_bounces = 3
-    w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; w.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.02
+    w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; w.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.6 if RACK else 0.02
     sc.view_settings.view_transform = 'Standard'
 
 if PREVIEW:
