@@ -81,7 +81,7 @@ M = {
 #      加上 CC0 的紋路、法線（霧面＝Fabric030 布紋／皮面看起來比較像布、木作；金屬＝Metal009）（做法 SHOP_CC0_HOWTO.md）
 sys.path.insert(0, os.path.dirname(HERE)); import cc0_kit   # noqa: E402,E401
 CK = cc0_kit.Kit(root, P[:-1])
-M['vc'] = CK.vc_tex(P + 'vc', 'Plastic006', vary=0.05, tile=0.35, rough_value=0.6)
+M['vc'] = CK.vc_tex(P + 'vc', 'Plastic006', vary=0.015, tile=0.35, rough_value=0.6, normal=0.25)   # vary 0.015、法線 0.25：淺色包裝不能有灰黑刮痕（HOWTO 第 1 節第 5 點）
 M['vcm'] = CK.vc_tex(P + 'vc_metal', 'Metal009', vary=0.12, tile=0.3, rough_value=0.38, metal=0.4)
 G3 = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))   # 遊戲 → Blender 的旋轉
 

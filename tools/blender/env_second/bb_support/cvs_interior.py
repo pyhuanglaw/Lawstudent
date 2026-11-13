@@ -68,7 +68,7 @@ M['wood']['tile'] = 1.0
 import cc0_kit   # noqa: E402
 CK = cc0_kit.Kit(root, 'cvs')
 M['wall'] = L.vc_material('cvs_wall', rough=0.55)
-M['vc'] = CK.vc_tex('cvs_vc', 'Plastic006', vary=0.05, tile=0.35, rough_value=0.55)
+M['vc'] = CK.vc_tex('cvs_vc', 'Plastic006', vary=0.015, tile=0.35, rough_value=0.55, normal=0.25)   # vary 0.015、法線 0.25：淺色包裝不能有灰黑刮痕（HOWTO 第 1 節第 5 點）
 M['vm'] = CK.vc_tex('cvs_vc_metal', 'Metal009', vary=0.12, tile=0.3, rough_value=0.35, metal=0.45)
 VC = CMesh('cvs_vc', M['vc']); VM = CMesh('cvs_vm', M['vm'])
 WD = Mesh('cvs_wood', M['wood']); PR = Mesh('cvs_prints', M['print']); GD = Mesh('cvs_goods', M['goods'])
