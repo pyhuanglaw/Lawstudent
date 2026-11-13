@@ -51,7 +51,7 @@ const ENC=(function(){
     if(row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence('kexin',G); if(pr&&pr.here===false&&pr.kind==='home') return no('可昕：寒暑假在'+(pr.home||'老家')); }   /* 寒暑假她在高雄，西門町、淡水不會遇到（AA_278 第 2 節第 2 點）*/
     if(!row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei'&&!S.atHome(pr,spot)) return no('不在（'+(pr.away||pr.kind)+'）'); }   /* atHome：回老家（kind home）的日子，在她／他老家那個城市的偶遇照常（以安 D26 臺中、阿哲 D29 高雄，AA_271；HOLIDAY-PRESENCE-1021）*/   /* 交換、出國的日子（以安 2028-03-25～08-05 在日本）不出現；在臺北不在台大的照常（AA_271 第 0 節）*/
     const tr=S.tier(G,row.who);
-    if(row.kexin){ if(tr.t!=='dating'&&tr.t!=='ex') return no('可昕：交往中或分開了才有'); if(tr.t==='ex'){ const k=kxRoute(tr.how); if(!(row.ex&&row.ex[k])) return no('可昕：這個走向在這裡沒有台詞'); } }
+    if(row.kexin){ if(tr.t!=='dating'&&tr.t!=='ex'&&tr.t!=='friend') return no('可昕：朋友以上、交往中或分開了才有');   /* AA_893 第 4 節（AA_920 ④，CANON-NO-ECON-1112）：她從同班同學開始，朋友以上也遇得到、打招呼（不一起走：join 規則照舊只給交往中）*/ if(tr.t==='ex'){ const k=kxRoute(tr.how); if(!(row.ex&&row.ex[k])) return no('可昕：這個走向在這裡沒有台詞'); } }
     else { if(tr.t==='stranger') return no('還不認識'); if((tr.t==='ex'||tr.t==='catch')&&row.noEx) return no('前任不來這裡');
       if(row.stageMin&&tr.t!=='dating'&&tr.t!=='ex'&&tr.t!=='catch'&&ST().indexOf(tr.st)<ST().indexOf(row.stageMin)) return no('還不夠熟'); }
     if(row.flags&&!row.flags.every(f=>G.flags&&G.flags[f])) return no('旗標');
@@ -84,7 +84,7 @@ const ENC=(function(){
     if(C[id]) return {name:id!==sp?sp:nameOf(id),charId:id};
     if(own(id)) return {name:id!==sp?sp:(po[id].name||sp),charId:id};
     return {name:sp}; };
-  S.linesFor=function(row,t){ const L=row.lines||{}; if(L.all) return L.all; if(t==='dating') return L.dating||L.friend||L.acq||[]; if(t==='friend') return L.friend||L.acq||[]; return L.acq||L.friend||[]; };
+  S.linesFor=function(row,t){ const L=row.lines||{}; if(L.all) return L.all; if(t==='dating') return L.dating||L.friend||L.acq||[]; if(t==='friend') return L.friend||L.acq||(row.kexin&&row.ex&&row.ex.kx_b&&row.ex.kx_b.length?[row.ex.kx_b[0]]:[]);   /* 可昕朋友層：沒有 friend 句就用 kx_b 第一句（AA_893 第 4 節）*/ return L.acq||L.friend||[]; };
   S.meet=async function(GM,row,tr){ const G=GM.G, R=S.rec(G); R.encMet.who.push(row.who); if(G.trip) G.trip.enc=row.who;
     const who={name:nameOf(row.who),charId:row.who};
     const exAcq=(tr.t==='ex'||tr.t==='catch')&&!!row.exAsAcq; if(exAcq) tr={t:'acq',st:'ACQUAINTANCE'};   /* exAsAcq：沒有前任版，照「認識」那兩句、不一起走（BB_213 沛珊 D08：課輔班在）*/
