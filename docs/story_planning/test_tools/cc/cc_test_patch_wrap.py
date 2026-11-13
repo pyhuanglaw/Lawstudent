@@ -1,9 +1,10 @@
 """CC-C 11-14：包住 tests/ 的一支（不改原檔，tests/ 歸 LAWWW）——讀原檔、照 PATCH 換幾行、用原檔的路徑執行（playlib 照原樣 import）。判定歸 BB。
 CC_02 清單 2026-11-14：1n/a（日期照原檔） 2✓（換的那幾行先確認原檔裡剛好出現一次，對不到＝FAIL_SETUP 不跑） 3n/a（原檔的判定不動） 4n/a（原檔的判定不動） 5n/a（照原檔） 6n/a（等待照原檔） 7✓（lint） 8✓（多印的只記不判） 9✓（多印的寫進原檔的 run.note） 10n/a（事件和手機照原檔） 11✓（SHA 40 碼、ENV 沒有「;」「|」） 12✓（FAIL_SETUP：原檔找得到、每個替換點剛好一次；live 另外查舊版開局 stage 不是 econ） 13n/a（不走路）
 PATCH：
-  live         save_compat_v95.py：舊版網址照 BB-C 21:02 ③ 用「?start0&turbo」開（原檔是 V95+'?turbo'）；開完新遊戲先查 GAME.G.stage 不是 econ（舊序章年），是＝FAIL_SETUP 停；same() 每次都印哪些鍵不一樣（BB-C 21:35）。
+  phonefix     save_compat_v95.py：只修手機——讀檔以後手機已經自己開著（有待回覆）就不再按 #btnPhone（原檔按了會關掉，課表分頁點不到；BB-C 21:37 判 v95_r2 TEST_BUG）。
+  live         save_compat_v95.py：手機同 phonefix；舊版網址照 BB-C 21:02 ③ 用「?start0&turbo」開（原檔是 V95+'?turbo'）；開完新遊戲先查 GAME.G.stage 不是 econ（舊序章年），是＝FAIL_SETUP 停；same() 每次都印哪些鍵不一樣（BB-C 21:35）。
   ladder_diag  flow_ladder_y1s2.py：每個時段讀檔以後（找人之前）印 GAME.npc 每個 id、STORY.ladData 有沒有、STORY.ladNext 的 id（BB-C 21:02 ④，兩版對照）。
-用法：LW_TESTS=<wt>/tests TEST=<檔名> PATCH=<live|ladder_diag> python3 cc_test_patch_wrap.py <原檔的參數…>"""
+用法：LW_TESTS=<wt>/tests TEST=<檔名> PATCH=<phonefix|live|ladder_diag> python3 cc_test_patch_wrap.py <原檔的參數…>"""
 import os, sys
 T = os.environ.get('LW_TESTS') or 'tests'
 TEST = os.environ.get('TEST') or ''
@@ -29,8 +30,14 @@ SAME_DIAG = r"""        def same(g, a):
         def _cc_same0(g, a):
 """
 
+PHONE_FIX = ("            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)",
+             "            if await pg.evaluate(\"document.getElementById('phone').classList.contains('hide')\"): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)\n"
+             "            else: run.note('CC 包裝：讀檔以後手機已經自己開著（有待回覆），不再按 #btnPhone（按了會關掉），直接切分頁')")   # BB-C 21:37 判 v95_r2 TEST_BUG：讀檔有待回覆手機自己開在訊息分頁，原檔再按一次 #btnPhone＝關掉，課表分頁點不到
+
 PATCHES = {
+    'phonefix': ('save_compat_v95.py', [PHONE_FIX]),
     'live': ('save_compat_v95.py', [
+        PHONE_FIX,
         ("await pg.goto(V95 + '?turbo')", "await pg.goto(V95 + '?' + %r)" % OLDQ),
         ("saves = {'auto': await pg.evaluate(", STAGE_CHK + "saves = {'auto': await pg.evaluate("),
         ("        def same(g, a):\n", SAME_DIAG),   # BB-C 21:35：欄位 1、2 same() 沒過——印哪一個 flag／rel 鍵不一樣（g、a 的值都印）
