@@ -2462,3 +2462,5 @@ L118_SELF_5b7c | 5b7c5ce1243746453a74cb9c984514bc134475ef | probe | docs/story_p
 WZ_LIN_SEAT_r2 | 5b7c5ce1243746453a74cb9c984514bc134475ef | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=wz_lin_seat_r2;ZONES=wz_lin;HOURS=20;PARTS=7;SEAT_ONLY=-0.85,0.7;NODEBUG=1;SHA=5b7c5ce1243746453a74cb9c984514bc134475ef
 # BB-C 02:35／LAWWW-C 02:40（台北）店面補查第 6 項：新生南路第一次走近最長一幀（≤50 ms）——預先載入（6cbabc8098、6279e713c0）早在開發分支；FIRST_xs_desk_r8 @352f 已排（大步、好拍），補通鮮那一對 @4896
 FIRST_xs_tongxian_r8 | 4896dc480cd6747c2910f7b979984e24732e5251 | probe | docs/story_planning/test_tools/cc/cc_xs_inside_perf_probe.py | index.html | 20 | SOLO=1;DESKTOP=1;TAG=first_xs_tongxian_r8;ZONE=xinsheng;PAIR=xs_tongxian,xs_haopai;FAR=45;TRIPS=1;SHA=4896dc480cd6747c2910f7b979984e24732e5251
+# BB-C 03:31（台北）HEROINE_LIFE（BB_463，低優先）：A 圈子五場（大一上第 6 週）＋B 動態 an6／kx6／ps4 各「到／不到」兩種；C 私訊從 FULL transcript 抽。這次發布以後才跑，SHA 換成當時開發分支最新、拿掉 HOLD
+# HOLD HEROINE_LIFE463 | 106385efa1946b6a3c6e74a618cbf4937238ec2a | probe | docs/story_planning/test_tools/cc/cc_heroine_life463_probe.py | index.html | 60 | SHA=106385efa1946b6a3c6e74a618cbf4937238ec2a
