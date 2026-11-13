@@ -30,7 +30,7 @@
   "top": "WALL_front_kmc_wood×WALL_front_kmc_wood 0.235 m² @[-2.58,0,4.06]"
  },
  "assets/models/env/second_ai/aa_support/mokuyobi.glb": {
-  "sha1": "464c7f833e9c00daa10749fa17872784dea2d44a",
+  "sha1": "8bc60aa522856fbbadbdc15f1efa84955a4cd5a6",
   "wall": 2.62,
   "always": 5.54,
   "top": "WALL_front_mok_walnut×WALL_front_mok_wall 0.439 m² @[-2.85,0.53,7]"
