@@ -203,7 +203,8 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('17. 對照：沒聽過＝原本那句',L2[0]==='我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。',J(L2.slice(0,2))); }
   // ===== 第 18 項 =====
   { const it=STORY.DAILY_PHONE.find(x=>x.id==='y2_kx_landlord'); fresh('2027-03-20',21,'dorm'); const m=it?it.items(G):[];
-    check('18. 可昕房東小訊息「我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？」',!!m.length&&m[0].text==='我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？',J(m.map(x=>x.text))); }
+    /* 2026-11-13 76f8 rc2（D158-KX-SAMESCHOOL，AA_987 rows；tests/d158_rc2_rows.json）：可昕同校同屆、只是不同班——「我們債各老師……你們講過了嗎？」換成「我們班債各老師……你那班講過了嗎？」；舊期望是舊字 */
+    check('18. 可昕房東小訊息「我們班債各老師講了一個房東的例子，講了一整節。你那班講過了嗎？」（舊字不再出現）',!!m.length&&m[0].text==='我們班債各老師講了一個房東的例子，講了一整節。你那班講過了嗎？'&&!m.some(x=>x.text==='我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？'),J(m.map(x=>x.text))); }
   // ===== 第 19 項：語彤的債各 =====
   { fresh('2027-03-08',10,'dorm'); const a=sched('heroine_03'); to('2026-10-05',10); const b=sched('heroine_03');   /* 3/1 是和平紀念日的補假（停課），用第 3 週 3/8 */
     check('19. 語彤雙主修的法律課：大二下週一上午債各在霖澤館 201',!!a&&a.zone==='classroom'&&a.act==='class',J(a&&[a.zone,a.act]));
