@@ -564,11 +564,12 @@
    "sha": "856702f57a",
    "verdict": "FAIL",
    "fail": [
-    "① 14:00 櫃台沒有店員（人數 0）",
     "質感 FAIL（D159）：貨架商品整排同尺寸方塊、一格一色",
     "窗外是平平的灰街，沒有窗景層次"
    ],
-   "pending": [],
+   "pending": [
+    "店員：GATE_NEW3「人數 0」撤回＝TEST_BUG（探針只數 obj.visible、櫃台點離店員 >2 m；LAWWW-C 雲端截圖草原 2 位、竹葉 1 位）——CC 改 PEOPLE_JS 用 n.hidden、站到結帳前面重拍確認；客人 1bdf4848cf 已加（草原白天 8、竹葉白天 2）"
+   ],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭",
    "at": "2026-11-12T21:1x",
    "ref": "BB_379"
@@ -578,10 +579,11 @@
    "sha": "856702f57a",
    "verdict": "FAIL",
    "fail": [
-    "① 結帳櫃台沒有店員（人數 0）",
     "質感 FAIL（D159）：貨架商品同尺寸色塊"
    ],
-   "pending": [],
+   "pending": [
+    "店員：GATE_NEW3「人數 0」撤回＝TEST_BUG（探針只數 obj.visible、櫃台點離店員 >2 m；LAWWW-C 雲端截圖草原 2 位、竹葉 1 位）——CC 改 PEOPLE_JS 用 n.hidden、站到結帳前面重拍確認；客人 1bdf4848cf 已加（草原白天 8、竹葉白天 2）"
+   ],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭",
    "at": "2026-11-12T21:1x",
    "ref": "BB_379"
