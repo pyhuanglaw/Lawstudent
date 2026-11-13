@@ -103,7 +103,8 @@ const TZ3=(function(){
       if(typeof PLACES!=='undefined'&&PLACES.isOpen&&PLACES.hours&&PLACES.hours[q.zone]){ const G=typeof GAME!=='undefined'&&GAME?GAME.G:null; return PLACES.isOpen(q.zone,((h%24)+24)%24,G?G.day:undefined); }   /* 營業時間照 places.js（AA_831：14:00～21:00、週一公休；SHOP-STANDARD-BACKFILL-1112，LAWWW）；沒有那一份＝配置的 from／to */
       return h>=q.from&&h<q.to; };
     nav._cm=null;
-    const zoneTime=(h,E2)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E2&&E2.hemi) E2.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=0.55*k; 
+    const zoneTime=(h,E2)=>{ if(typeof zone!=='undefined'&&zone&&zone.tzOpenOnly&&zone.tzOpenOnly.length){ let G=null; try{ G=GAME.G; }catch(e){} for(const q of zone.tzOpenOnly){ let open=true; try{ if(typeof PLACES!=='undefined'&&PLACES.isOpen&&G) open=!!PLACES.isOpen(q.place,((h%24)+24)%24,G.day); }catch(e){} q.obj.visible=open; } }   /* WENTE-RACK-CLOSED-1113（BB_379 v4 P2）：門口立式衣架（skxglb_Twente_*）打烊收進去 */
+      let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E2&&E2.hemi) E2.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=0.55*k; 
       const hc=S.clockHour(h,E2);   /* 營業／收攤照時鐘（LAWWW 2026-11-11：引擎傳進來的 h 是光線用的時間——冬天 17:30 的 h 是 19.2，模型會比能買的時間早開一個多小時；CC 看到「模型開著、按下去是收攤那一句」）；燈和夜色照舊用 h */
       let on=false; const off=zone.tzStallOff||{}; for(const q of stalls){ const o=!zone.tzStallsClosed&&!off[q.id]&&S.stallOpen(hc,q,L); q.isOpen=o; on=on||o; if(q.open) q.open.visible=o; if(q.closed) q.closed.visible=!o; }
       if(lm){ const o=S.limaoOpen(hc,L)&&!zone.tzLimaoOff, N=lm.nodes, room=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[LM.zone]; lm.open=o; lm.masterAway=o&&!!zone.tzLimaoAway;
@@ -114,6 +115,7 @@ const TZ3=(function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       const tzR=c.scene.clone(true); Z3.attachWenzhouModel(E,g,tzR,'tzfb','tingzhou_street_glb'); zone.tzFormal=true;
       if(Z3.ggShopLit) Z3.ggShopLit(tzR,zone,S.SHOP_LIT_PLACE,{glow:false});   /* TZ-FRONT-LIT-1112（LAWWW2-C；店面標準 §12 第 1 點）：店面板（xs_fronts_lit：招牌字、玻璃後面的亮光，extras.xsShops＝tzxile,tztai,tzlian,tzdong,tzkeju,tzyue,limao）照營業時間調暗——東南大聯、聯通、科舉、越好吃的招牌就在這一塊（不是 SIGN_FACE 板面），原本整晚亮。光暈由 shopRealGlow 管（glow:false）*/
+      zone.tzOpenOnly=[]; tzR.traverse(o=>{ const m=/^skxglb_T(\w+?)_\d+$/.exec(o.name||''); if(m&&S.OPEN_ONLY[m[1]]) zone.tzOpenOnly.push({obj:o,place:S.OPEN_ONLY[m[1]]}); });   /* 營業中才擺出來的東西（門口衣架）；zoneTime 照 PLACES.isOpen 切 */
       if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.shopReal()); if(Z3.shopRealGlow) Z3.shopRealGlow(g,'tingzhou_street_glb',zone,S.shopReal());   /* SHOP-REAL-INSIDE-1112：走得進去的店，玻璃後面放那一間的室內模型（BB_379：汀州路泰米村食、東南大聯、汀州聯通店外是照片貼圖、和店內不一樣）*/
       }).catch(e=>console.warn('汀州路正式模型載入失敗，用方塊立面',e));
     // 路邊的機車、腳踏車（第 3 版；使用者 11-10 21:5x：「路邊新加的機車……長得幾乎一樣莫名其妙」；BB：兩側從頭排到尾、同樣間距、同樣角度，像複製貼上的一道牆）：
@@ -176,6 +178,7 @@ const TZ3=(function(){
   /* SHOP-WINDOW-3D-1112 v2（LAWWW2-C；使用者 11-12 19:5x 對 v1「醜到爆又沒質感 跟2d差太多了 可以停止複製貼上一樣大小的方塊嗎」）：
      只看得到、還不能進去的店（TINGZHOU-SHOPS5-1110 暫停）——玻璃後面一樣放一顆店內模型（Blender 建模＋Cycles 烘好光影的一張貼圖，tools/blender/env_second/tz_wente_interior.py），
      和走得進去的七間同一套 Z3.shopInsideReal（走近才顯示、打烊變暗＋鐵捲門）。以後開放走進去，室內就用這一顆。*/
+  S.OPEN_ONLY={wente:'tz_wente'};   /* 街景模型裡 skxglb_T<店>_<n>（wz_shopkit glb_proto 擺在騎樓的東西，例：溫特寶邸門口衣架）→ 地點；打烊收進去（BB_379 v4 P2）*/
   S.REAL_SB={wente:1.35};   /* 打烊鐵捲門拉一半（AA_902：溫特寶邸打烊＝鐵捲門拉一半、櫥窗燈關）：門片下緣離地 1.35 m，看得到下面暗掉的店內 */
   S.REAL_VIEW={wente:{zone:'tz_wente',asset:'bldg.tz_wente_interior',glb:'assets/models/env/second_ai/tz_wente_interior.glb',w:4.96,d:3.6,h:3.1,name:'溫特寶邸'}};
   S.shopReal=function(){ const T=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, Z=typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT:null, out=[]; if(!T||!Z) return out;
