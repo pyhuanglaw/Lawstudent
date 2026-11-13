@@ -83,7 +83,20 @@ function deepIn(x, f, who) {
   else if (x && typeof x === 'object') { const w = whoOf(x, who); for (const k of Object.keys(x)) { const ww = WHO.has(k) ? k : w; if (typeof x[k] === 'string') x[k] = f(x[k], ww); else deepIn(x[k], f, ww); } }
   return x;
 }
+/* 帶引號的列（AA_972「"who": "heroine_04", "text": "……"」、AA_973 帶前一句才唯一的那幾列；1243649c23 起）：old／new 是遊戲檔（date_lines.js、ladder.js，
+   Python json.dumps 寫的，", "、": " 分隔）裡的一段原文，map／unmap 一句一句換不到。mapDeep／unmapDeep 給的是整份（或一段）物件時：
+   先照遊戲檔的寫法排成字，照表整段換（map：old → new；unmap：new → old，那一段剛好在才換），再讀回物件，然後照舊一句一句換。
+   和 tools/story/aa959.py 套表的換法一樣（帶引號的列＝照整段字換）；只有 JSON 寫成的檔（DATA_CODE）做這一層。 */
+const DATA_CODE = new Set(['date_lines.js', 'ladder.js']);
+const codeRows = file => { const b = file ? path.basename(file) : null; return b && DATA_CODE.has(b) ? T.rows.filter(r => code(r) && r.files.includes(b) && !skip(b, r.old)).sort((a, c) => c.old.length - a.old.length) : []; };
+const pyj = x => Array.isArray(x) ? '[' + x.map(pyj).join(', ') + ']' : (x && typeof x === 'object') ? '{' + Object.keys(x).map(k => JSON.stringify(k) + ': ' + pyj(x[k])).join(', ') + '}' : JSON.stringify(x);
+function codeLayer(x, file, back) {
+  const rs = codeRows(file); if (!rs.length || !x || typeof x !== 'object') return x;
+  let s = pyj(x); const s0 = s;
+  for (const r of rs) { const [a, b] = back ? [r.new, r.old] : [r.old, r.new]; if (s.includes(a)) s = s.split(a).join(b); }
+  return s === s0 ? x : JSON.parse(s);
+}
 const unmapIn = (x, file) => deepIn(x, (s, w) => unmap(s, file, w));
-const mapDeep = (x, file, who) => deep(x, (s, w) => map(s, file, w), who);
-const unmapDeep = (x, file, who) => deep(x, (s, w) => unmap(s, file, w), who);
+const mapDeep = (x, file, who) => deep(codeLayer(x, file, false), (s, w) => map(s, file, w), who);
+const unmapDeep = (x, file, who) => deep(codeLayer(x, file, true), (s, w) => unmap(s, file, w), who);
 module.exports = { map, unmap, mapText, unmapText, unmapIn, unmapCode, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };
