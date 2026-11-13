@@ -1,15 +1,3 @@
-[22:17:52] ==== END   C1112_TZMEAL  exit=0  1040s   ====
-[22:17:55] memory 50% before starting C1112_SEASON3 (2 running)
-[22:17:55] ==== START C1112_SEASON3  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[22:17:58] [res] cpu=51% mem=49% (15.8/31.4 GB) chrome_testing=9  START C1112_SEASON3
-[22:19:48] [res] cpu=56% mem=49% (15.5/31.4 GB) chrome_testing=10  END C1112_STALLDIAG
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       14e373c2ee..1627e0f5ad  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:19:57] ==== END   C1112_STALLDIAG  exit=1  169s   ====
-[22:20:00] memory 47% before starting C1112_GIFTDRINK (2 running)
-[22:20:00] ==== START C1112_GIFTDRINK  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[22:20:04] [res] cpu=31% mem=46% (14.8/31.4 GB) chrome_testing=10  START C1112_GIFTDRINK
 [22:21:52] 正在跑：C1112_TZYUE（已跑 11 分／上限 40 分）、C1112_SEASON3（已跑 3 分／上限 40 分）、C1112_GIFTDRINK（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:25:16] [res] cpu=52% mem=53% (16.7/31.4 GB) chrome_testing=10  END C1112_GIFTDRINK
 [22:25:16] D158：推送前把 2 處舊序章／外校的字換成代號
@@ -1998,3 +1986,15 @@
 [04:06:04] [res] cpu=7% mem=42% (13.2/31.4 GB) chrome_testing=10  START CANON458_AN_BEAT8_door
 [04:06:54] 正在跑：CANON458_ENC（已跑 31 分／上限 60 分）、CANON458_DATE（已跑 30 分／上限 50 分）、CANON458_AN_BEAT8_door（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [04:10:46] [res] cpu=5% mem=44% (14.0/31.4 GB) chrome_testing=10  END CANON458_AN_BEAT8_door
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8a961ac883..adc420fee8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:10:58] ==== END   CANON458_AN_BEAT8_door  exit=1  286s   ====
+[04:11:01] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[04:11:01] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[04:11:01] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[04:11:01] memory 45% before starting CANON458_INV_LAWLIB_r3 (2 running)
+[04:11:01] ==== START CANON458_INV_LAWLIB_r3  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[04:11:04] [res] cpu=5% mem=45% (14.2/31.4 GB) chrome_testing=10  START CANON458_INV_LAWLIB_r3
+[04:11:54] 正在跑：CANON458_ENC（已跑 36 分／上限 60 分）、CANON458_DATE（已跑 35 分／上限 50 分）、CANON458_INV_LAWLIB_r3（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:13:19] [res] cpu=18% mem=42% (13.4/31.4 GB) chrome_testing=10  END CANON458_INV_LAWLIB_r3
