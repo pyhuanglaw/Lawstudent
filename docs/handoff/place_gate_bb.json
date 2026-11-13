@@ -402,12 +402,14 @@
    "sha": "21a0319ca1",
    "verdict": "FAIL",
    "fail": [
-    "質感 FAIL（D159）：層架杯罐、甜點櫃多是方塊／圓柱純色（SWIN_gg_b consist）；等 SHOP-REALISM-1112 重做後同鏡頭＋參考圖並排重判"
+    "質感 FAIL（D159，第八批 95956ffa91 後只剩這一項）：吧台正中間的義式咖啡機還是白色方盒＋三個黑點，改前改後一樣（參考圖是金屬義式機，吧台最顯眼的東西）——換 PH／CC0 咖啡機或做有金屬材質、把手、出水口的機身"
    ],
-   "pending": [],
+   "pending": [
+    "第八批 CC0（LAWWW2 focused-cray 95956ffa91，wip/tz_cc0_batch8_1113/cmp_afar_cc0.jpg）BB 看圖：層架杯罐、甜點櫃那條 FAIL 關；PH 盆栽、磨石子地、木桌椅都好；純色 42%→16%。等 LAWWW 整合（GHA 候選以後）＋CC 四鏡頭"
+   ],
    "note": "BB_379 早先輪：①②⑦b PASS；11-12 16:4x SSB_gg1_r2（c77fa6520d）14:00／20:30：①店員、②客人、③窗景、④純色塊、⑥天花板、⑤店外左中右立體（機器 PASS）、功能（買／坐／出店）PASS；⑥ PASS；17:2x SWIN_gg_b（21a0319ca1，新取色框）：⑤ 左中右 PASS；⑦b 20:30 看圖 PASS：窗裡綠牆、木層架、米色＝店內",
-   "at": "2026-11-13T00:2xZ",
-   "ref": "BB_379 11-12 16:4x"
+   "at": "2026-11-13T22:2xZ",
+   "ref": "BB_379 11-13 22:2x"
   },
   {
    "zone": "corner_records",
