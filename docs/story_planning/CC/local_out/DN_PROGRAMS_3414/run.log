@@ -1,0 +1,43 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_programs_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DN_PROGRAMS_3414\out
+CC 開跑多編的 shader：SHA 341436a25e；ZONES ['tz_dongnan']；2025-10-14 14.0；跑 10000 ms
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [tz_dongnan] 【前置／捷徑】讀檔進 tz_dongnan 2025-10-14 14.0（出生點、條件事件關掉）、站 3 秒
+PASS [tz_dongnan] 讀到 tz_dongnan  {"zone": "tz_dongnan", "x": 0, "z": 2.9, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [  55.1s] [tz_dongnan] programs 43 → 57（runHold=True）；多出來 14 支：[{"id": 75, "name": "", "used": 1}, {"id": 76, "name": "", "used": 1}, {"id": 77, "name": "NF3_HairCard_HAIR", "used": 5}, {"id": 78, "name": "npc_far", "used": 1}, {"id": 79, "name": "F00_000_00_Face_00_SKIN", "used": 8}, {"id": 80, "name": "F00_000_00_Face_00_SKIN (Outline)", "used": 6}, {"id": 81, "name": "F00_906_Tops_Sweater_CLOTH", "used": 32}, {"id": 82, "name": "X01_Skirt_CLOTH", "used": 3}, {"id": 83, "name": "X01_Skirt_CLOTH (Outline)", "used": 3}, {"id": 84, "name": "F00_002_02_Body_00_SKIN", "used": 1}, {"id": 85, "name": "F00_002_02_Body_00_SKIN (Outline)", "used": 1}, {"id": 86, "name": "W01_Watch_CLOTH (Outline)", "used": 2}, {"id": 87, "name": "PWEI_HairCard_HAIR", "used": 1}, {"id": 88, "name": "F00_000_HairBack_00_HAIR", "used": 3}]
+  [  55.1s] [tz_dongnan] 新 program #75「」cacheKey sprite,highp,srgb,false,false,,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1
+  [  55.1s] [tz_dongnan]   用它的 mesh：[{"mesh": "", "parent": "", "type": "Sprite", "mat": "SpriteMaterial", "matName": "", "skinning": false, "morph": [], "morphTargets": false, "recv": false, "cast": false, "visible": true, "defines": null, "vertexColors": false, "transparent": true, "map": true, "alphaTest": 0}]
+  [  55.1s] [tz_dongnan] 新 program #76「」cacheKey 4,5,highp,srgb,false,false,,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1
+  [  55.1s] [tz_dongnan]   用它的 mesh：[{"mesh": "VIEWPANE_tz_dongnan", "parent": "", "type": "Mesh", "mat": "ShaderMaterial", "matName": "", "skinning": false, "morph": [], "morphTargets": false, "recv": false, "cast": false, "visible": true, "defines": "{}", "vertexColors": false, "transparent": false, "map": false, "alphaTest": 0}]
+  [  55.1s] [tz_dongnan] 新 program #77「NF3_HairCard_HAIR」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,
+  [  55.1s] [tz_dongnan]   用它的 mesh：[{"mesh": "Hair_NF2", "parent": "", "type": "SkinnedMesh", "mat": "ShaderMaterial", "matName": "NF2_HairCard_HAIR", "skinning": true, "morph": [], "morphTargets": false, "recv": false, "cast": false, "visible": true, "defines": "{}", "vertexColors": false, "transparent": false, "map": true, "alphaTest": 0.5}, {"mesh": "Hair_NF3", "parent": "", "type": "SkinnedMesh", "mat": "ShaderMaterial", "matName": "NF3_HairCard_HAIR", "skinning": true, "morph": [], "morphTargets": false, "recv": false, "cast": false, "visible": true, "defines": "{}", "vertexColors": false, "transparent": false, "map": true, "alphaTest": 0.5}, {"mesh": "Hair_NF4", "parent": "", "type": "SkinnedMesh", "mat": "ShaderMaterial", "matName": "NF4_HairCard_HAIR", "skinning": true, "morph": [], "morphTargets": false, "recv": false, "cast": false, "visible": true, "defines": "{}", "vertexColors": false, "transparent": false, "map": true, "alphaTest": 0.5}]
+  [  55.1s] [tz_dongnan] 新 program #78「npc_far」cacheKey toon,TOON,,highp,srgb,false,false,,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0
+  [  55.1s] [tz_dongnan]   用它的 mesh：[{"mesh": "npc_far", "parent": "Face", "type": "SkinnedMesh", "mat": "MeshToonMaterial", "matName": "npc_far", "skinning": true, "morph": [], "morphTargets": false, "recv": false, "cast": false, "visible": false, "defines": "{\"TOON\":\"\"}", "vertexColors": false, "transparent": false, "map": true, "alphaTest": 0.5}]
+  [  55.1s] [tz_dongnan] 新 program #79「F00_000_00_Face_00_SKIN」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,0,0
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #80「F00_000_00_Face_00_SKIN (Outline)」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,0,0
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #81「F00_906_Tops_Sweater_CLOTH」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,0,0
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #82「X01_Skirt_CLOTH」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,1,0,2,1,0,0,1,0,0,1,0,
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #83「X01_Skirt_CLOTH (Outline)」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,1,0,2,1,0,0,1,0,0,1,0,
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #84「F00_002_02_Body_00_SKIN」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,0,0
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #85「F00_002_02_Body_00_SKIN (Outline)」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,0,0
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #86「W01_Watch_CLOTH (Outline)」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,0,0
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #87「PWEI_HairCard_HAIR」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 新 program #88「F00_000_HairBack_00_HAIR」cacheKey 2,3,highp,srgb,false,false,,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,,false,0,0,2,1,0,0,1,0,0,1,0,
+  [  55.1s] [tz_dongnan]   用它的 mesh：[]
+  [  55.1s] [tz_dongnan] 開跑 10000 ms 共 755 幀、>50 ms 3 幀：[[207.5, 150], [340.9, 50.1], [1524.2, 83.4]]
+  [  55.1s] [tz_dongnan] 這段時間新生的人（addNPC）0 個：[]
+  [  55.1s] [tz_dongnan] 長幀 150.0 ms（結束於 207.5 ms）前 30 ms 新生的人：[]
+  [  55.1s] [tz_dongnan] 長幀 50.1 ms（結束於 340.9 ms）前 30 ms 新生的人：[]
+  [  55.1s] [tz_dongnan] 長幀 83.4 ms（結束於 1524.2 ms）前 30 ms 新生的人：[]
+PASS [tz_dongnan] 量得到 programs
+PASS 沒有 JS 例外  []
+ALL PASS
