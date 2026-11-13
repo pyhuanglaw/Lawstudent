@@ -1,6 +1,6 @@
 # 第九批：afar 咖啡機重做（BB 第八批 FAIL）、2:30 AM 單人沙發（BB P2）、一盞前院 CC0 化（SHOP-REALISM-1112）
 
-底：開發分支 `origin/claude/adoring-meitner-mqzst8` 45ac5657bb（第八批已在 9c21a7c439 整合）。`git apply --check` 乾淨。
+底：開發分支 `origin/claude/adoring-meitner-mqzst8` b9fbcb200c（含第八批 9c21a7c439、幫手三間 f6449442c7）。`git apply --check` 乾淨。
 
 ## 1. afar：吧台的義式咖啡機（BB-C 第八批判 FAIL「白色方盒加三個黑點，改前改後一模一樣」）
 
@@ -44,13 +44,14 @@
 - 三角形 63,780 → 64,547；GLB 6.03 → 6.20 MB。
 - 前院戶外沒有光照貼圖，不用烘。
 
-## 測試（套用在 45ac5657bb 上）
+## 測試
 
-- `shop_cc0`：ALL PASS；基準表用 `--write` 重產，只拿掉一盞前院，剩 28 家。
+- `shop_cc0`：ALL PASS；基準表用 `--write` 重產，只拿掉一盞前院，剩 21 家。
 - `place_gate`：ALL PASS（已知未過 11 項）；`--coplanar`、`--write` 都已含在 patch 裡。
 - 相關單元測試 165 支全過，0 個 FAIL：
   - 提到 afar、cafe230、teahouse、yizhan 的；
   - `shop_*`、`cafe*`、`wz_*`，其中含 `cafe_bar_cam_1111`、`cafe_seethru`。
+- 改底到 b9fbcb200c 以後重跑：提到 afar、cafe230、teahouse、yizhan 的測試和 `cafe*`，共 126 支全過；`shop_cc0`、`place_gate` 也重產、全過。
 - 全部 Node 測試以 GHA 為準。
 
 ## 圖

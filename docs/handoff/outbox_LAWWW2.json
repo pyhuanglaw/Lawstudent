@@ -9777,9 +9777,9 @@
     "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/cmp_cafe230_armchair.jpg",
     "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/cmp_yard_cc0.jpg"
    ],
-   "base": "origin/claude/adoring-meitner-mqzst8 45ac5657bb",
+   "base": "origin/claude/adoring-meitner-mqzst8 b9fbcb200c（改底；第一版 585706b2c6 是 45ac5657bb）",
    "at": "2026-11-13T21:05Z",
-   "tests": "shop_cc0 ALL PASS（基準剩 28）；place_gate ALL PASS（已知未過 11）；相關 165 支全過",
+   "tests": "shop_cc0 ALL PASS（基準剩 21）；place_gate ALL PASS（已知未過 11）；45ac5657bb 上相關 165 支全過，改底後 126 支全過",
    "notDone": "BB 看圖；CC 四鏡頭",
    "next": "LAWWW 套 patch；BB 判"
   }
