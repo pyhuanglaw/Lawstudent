@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "SAVE_LZ_growB",
+  "sha": "ed70b6d3589dc2731171347afa6d623f2b0339ca",
+  "kind": "node",
+  "script": "docs/story_planning/test_tools/cc/random_play_sim.js",
+  "env": "XARGS=--seed 1 --root . --start-save tests/fixtures/user_save_day54_1110.json --to 2029-05-31 --max-steps 40000000 --save-out {out}/save_b.json",
+  "machine": "MSI",
+  "start": "2026-11-13T22:26:01",
+  "end": "2026-11-14T00:01:24",
+  "seconds": 5723,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 88,
+    "mem": 60,
+    "used_gb": 18.9,
+    "chrome_testing": 10
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}
