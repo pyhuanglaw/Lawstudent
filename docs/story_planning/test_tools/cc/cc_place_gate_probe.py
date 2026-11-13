@@ -50,6 +50,7 @@ WIN_LO, WIN_HI = float(os.environ.get('WIN_LO') or '40'), float(os.environ.get('
 ZF_LO, ZF_HI = float(os.environ.get('ZF_LO') or '0.3'), float(os.environ.get('ZF_HI') or '1.5')   # 只當參考（校正 r2）
 BURST_FAIL = int(os.environ.get('BURST_FAIL') or '3')
 NODEBUG = (os.environ.get('NODEBUG') or '0') == '1'
+CUST_HOURS = [float(x) for x in (os.environ.get('CUST_HOURS') or '').split(',') if x]; MIN_CUST = int(os.environ.get('MIN_CUST') or 1)   # BB-C 11-14：這幾個時間要看客人（0 人＝FAIL）
 DEBUGTXT_JS = r"""(()=>{ const re=/career\s*A\s*\d|\bA\d+\s+B\d+\s+C\d+\b|\bfps\s*[:=]?\s*\d|\bdraw\s*calls?\b/i, hits=[];
   for(const el of document.querySelectorAll('body *')){ if(el.children.length) continue; const t=(el.textContent||'').trim(); if(!t||!re.test(t)) continue; const c=getComputedStyle(el); if(c.display==='none'||c.visibility==='hidden'||+c.opacity<0.05) continue;
     const r=el.getBoundingClientRect(); if(!r.width||!r.height||r.right<0||r.bottom<0||r.left>innerWidth||r.top>innerHeight) continue; hits.push({id:el.id||'',cls:String(el.className||'').slice(0,40),t:t.slice(0,60),x:Math.round(r.left),y:Math.round(r.top)}); }
@@ -316,6 +317,11 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     # ① 人
     ppl = await pg.evaluate(PEOPLE_JS, rm['counter']); row['m']['people'] = ppl
     row['v']['1_clerk'] = 'PASS' if ppl['clerk'] > 0 else ('FAIL' if rm['counter'] else 'UNKNOWN')
+    if CUST_HOURS and any(abs(h - ch) < 0.01 for ch in CUST_HOURS):   # BB-C 11-14 L118_KD：刀削麵新版 19:00 一個客人都沒有、舊版有——記在場客人、zone／座位，0 人＝FAIL
+        cl = [p_ for p_ in ppl.get('people') or [] if not p_.get('clerkFlag')]
+        R.note('%s 在場客人 %d（店員 %d）：%s' % (tag, ppl['customers'], ppl['clerk'], J([[p_.get('id'), p_.get('x'), p_.get('z'), p_.get('seat'), zid] for p_ in cl])))
+        await pg.screenshot(path=os.path.join(OUT, '%s_%s_customers.png' % (zid, hh)))
+        R.check('%s 客人至少 %d 個（%d）' % (tag, MIN_CUST, ppl['customers']), ppl['customers'] >= MIN_CUST, J(ppl.get('people'))[:600])
     # BB-C 07:19 ③：站進家具的店員、面壁的客人（0.45 m 內）各一張近照（從他正前方 1.8 m、0.9 m 高看腳和櫃台）
     for kind_, lst_ in (('furn', ppl.get('clerk_in_furniture') or []), ('wall', ppl.get('face_wall') or [])):
         for j_, q_ in enumerate(lst_[:4]):
