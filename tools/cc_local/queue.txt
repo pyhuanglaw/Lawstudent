@@ -2268,6 +2268,8 @@ SHOP_B4_xianguo_close | 3cbdf9ef839fcb47a7d9e8b6745a779ba31aed87 | probe | docs/
 # BB-C 02:27（台北）順序更正：B2_r4（CANON-NO-ECON-1112 下一版必須 P0）→ CANON458 → 刀削麵／洗樂 → TZ_SEAT → 其他
 # 11-14 B2_r3：翹課對了（9/18 民法總則＝翹課）；9/29 起手機「地點」找不到 linze（分地區）＝沒去系館A＝TEST_BUG → r4 改成先到校園（法律系館A前）再走進門（BB-C：排在 TZ_SEAT 後面）
 CANON_NEWGAME_B2_r4 | 27001bdc021143e98900cce3918de1261a446e8c | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 240 | PICK_HAS=就這樣;CANON_SCAN=1;CANON=1;SKIPREQ=1;HALL_FROM=2025-09-29;EXPECT_HOW=hall;UNTIL=2025-09-30;SAVE_CHECK=0;SHOT_EVERY=7;SHA=27001bdc021143e98900cce3918de1261a446e8c
+# 11-14 B2_r4：9/29 手機「地點」連 campus 都找不到（9/30 回宿舍找得到）＝沒走進系館A＝TEST_BUG（分不出是旁白擋住手機還是地點頁）→ r5：找不到記手機頁內容＋截圖、等 3 秒重試、再不行【捷徑】GAME.enter(linze)
+CANON_NEWGAME_B2_r5 | 6b1d2a2b2594c43875fea820a45fd28956ec8aee | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 240 | PICK_HAS=就這樣;CANON_SCAN=1;CANON=1;SKIPREQ=1;HALL_FROM=2025-09-29;EXPECT_HOW=hall;UNTIL=2025-09-30;SAVE_CHECK=0;SHOT_EVERY=7;SHA=6b1d2a2b2594c43875fea820a45fd28956ec8aee
 CANON458_GIRAFFE | 27001bdc021143e98900cce3918de1261a446e8c | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 20 | CASES=GIRAFFE_A,GIRAFFE_B;SHA=27001bdc021143e98900cce3918de1261a446e8c
 CANON458_D5 | 27001bdc021143e98900cce3918de1261a446e8c | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 60 | CASES=D5_FACE,D5_CALL,D6_SOUP;SHA=27001bdc021143e98900cce3918de1261a446e8c
 CANON458_D1C | 27001bdc021143e98900cce3918de1261a446e8c | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 40 | CASES=DRIFT_D1C;SEED=44;SHA=27001bdc021143e98900cce3918de1261a446e8c
