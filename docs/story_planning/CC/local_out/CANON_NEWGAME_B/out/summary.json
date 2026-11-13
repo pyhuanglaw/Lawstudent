@@ -1,0 +1,3125 @@
+{
+ "sha": "8c7ed865600a085f283e1db9698ba18513cfafc8",
+ "url": "http://127.0.0.1:8800/index.html",
+ "route": "tw",
+ "start": "law",
+ "days_target": 112,
+ "until": "2025-09-30",
+ "days": [
+  {
+   "date": "2025-09-17",
+   "wd": 3,
+   "term": "Y1S1",
+   "week": 3,
+   "hol": false,
+   "counted": false,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-08-22",
+    "h": "08:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 6,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "2025 年 8 月 22 日（五） 迎新宿營"
+   ],
+   "attended": [],
+   "picks": [],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-08-22",
+   "wd": 5,
+   "term": null,
+   "week": null,
+   "hol": false,
+   "counted": false,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-08-23",
+    "h": "17:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 43,
+   "events": [
+    "ev_camp_d1_bus",
+    "ev_camp_d1_ice",
+    "ev_camp_d1_field",
+    "ev_camp_d1_free"
+   ],
+   "steps": [],
+   "cards": [
+    "8 月 23 日（六） 迎新宿營 第 2 天"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "10:30",
+     "「臺北。我家就在這附近。」",
+     "first"
+    ],
+    [
+     "13:30",
+     "「你偷襲。」",
+     "first"
+    ],
+    [
+     "19:30",
+     "「好啊。」",
+     "first"
+    ],
+    [
+     "19:30",
+     "「你可以問我別的。」",
+     "first"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-08-23",
+   "wd": 6,
+   "term": null,
+   "week": null,
+   "hol": false,
+   "counted": false,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-08-24",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 13,
+   "events": [
+    "ev_camp_d2_bbq",
+    "ev_camp_d2_fire"
+   ],
+   "steps": [],
+   "cards": [
+    "8 月 24 日（日） 迎新宿營 第 3 天"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "20:00",
+     "「還好，昨天主要在玩遊戲。」",
+     "first"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-08-24",
+   "wd": 7,
+   "term": null,
+   "week": null,
+   "hol": false,
+   "counted": false,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-08-29",
+    "h": "16:05",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 15,
+   "events": [
+    "ev_camp_d3_quiz",
+    "ev_camp_d3_end"
+   ],
+   "steps": [],
+   "cards": [
+    "8 月 29 日（五） 16:05 · 男生宿舍"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "12:30",
+     "「好，開學見。」",
+     "first"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-08-29",
+   "wd": 5,
+   "term": null,
+   "week": null,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-08-30",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 47,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "8 月 30 日 週六 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "16:06",
+     "沒關係，你先放。",
+     "first"
+    ],
+    [
+     "22:40",
+     "你可以直接講啊",
+     "first"
+    ],
+    [
+     "22:44",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-08-30",
+   "wd": 6,
+   "term": null,
+   "week": null,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-08-31",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 24,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "8 月 31 日 週日 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-08-31",
+   "wd": 7,
+   "term": null,
+   "week": null,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-01",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 58,
+   "events": [
+    "ev_zhe_w1_dorm"
+   ],
+   "steps": [],
+   "cards": [
+    "8 月 31 日（日） 14:00 · 綜合體育館",
+    "9 月 1 日 週一 08:10"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:33",
+     "睡到傍晚（不設鬧鐘）18:00——但開學典禮 14:00（綜合體育館），14:0",
+     "prefer"
+    ],
+    [
+     "15:48",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 憲法（上）前一小時）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-01",
+   "wd": 1,
+   "term": "Y1S1",
+   "week": 1,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-15:const_1:am",
+     "cid": "const_1",
+     "name": "憲法（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-15:pe_y1s1:pm2",
+     "cid": "pe_y1s1",
+     "name": "體育",
+     "t0": 15.5,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-15:const_1:am",
+     "cid": "const_1",
+     "name": "憲法（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-15:pe_y1s1:pm2",
+     "cid": "pe_y1s1",
+     "name": "體育",
+     "t0": 15.5,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-15:pe_y1s1:pm2",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-02",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 112,
+   "events": [
+    "ev_xc_day1",
+    "ev_kx_meet_class",
+    "ev_l1_elevator"
+   ],
+   "steps": [],
+   "cards": [
+    "9 月 2 日 週二 08:10"
+   ],
+   "attended": [
+    [
+     "-15:const_1:am",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:10",
+     "「校門對面那排有一間燒臘店，便宜，份量也夠。」",
+     "first"
+    ],
+    [
+     "08:11",
+     "直接去上課：憲法（上）09:10，法律系館A 201。走路 18 分鐘，09:0",
+     "first"
+    ],
+    [
+     "09:10",
+     "「會。」",
+     "first"
+    ],
+    [
+     "09:10",
+     "「總統。」",
+     "first"
+    ],
+    [
+     "12:12",
+     "（等電梯）",
+     "first"
+    ],
+    [
+     "12:30",
+     "睡到傍晚（不設鬧鐘）睡到 18:00。會錯過：15:30 體育",
+     "prefer"
+    ],
+    [
+     "12:30",
+     "照樣跳過會錯過：15:30 體育",
+     "first"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 大一國文（上）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-02",
+   "wd": 2,
+   "term": "Y1S1",
+   "week": 1,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-14:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-14:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-14:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-14:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-14:chinese_y1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "-14:ge_film_y1s1:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": -14,
+      "key": "2025-09-02",
+      "h": 15.17,
+      "zone": "putong"
+     },
+     "secs": 46
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-03",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 77,
+   "events": [
+    "ev_mx_w1_addclass"
+   ],
+   "steps": [],
+   "cards": [
+    "9 月 3 日 週三 07:30"
+   ],
+   "attended": [
+    [
+     "-14:ge_film_y1s1:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 大一國文（上）",
+     "first"
+    ],
+    [
+     "13:11",
+     "「有，運氣好。」",
+     "first"
+    ],
+    [
+     "15:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 刑法總則（一）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-03",
+   "wd": 3,
+   "term": "Y1S1",
+   "week": 1,
+   "hol": false,
+   "counted": false,
+   "items_start": [
+    {
+     "key": "-13:crim_gen1:am",
+     "cid": "crim_gen1",
+     "name": "刑法總則（一）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-13:crim_gen1:am",
+     "cid": "crim_gen1",
+     "name": "刑法總則（一）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-13:crim_gen1:am",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-04",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 18,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 4 日 週四 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "還沒讀案例，先睡了",
+     "first"
+    ],
+    [
+     "07:34",
+     "睡覺明天早上醒來",
+     "first"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-04",
+   "wd": 4,
+   "term": "Y1S1",
+   "week": 1,
+   "hol": false,
+   "counted": false,
+   "items_start": [
+    {
+     "key": "-12:english_y1:am",
+     "cid": "english_y1",
+     "name": "大一英文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-12:english_y1:am",
+     "cid": "english_y1",
+     "name": "大一英文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-12:english_y1:am",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-05",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 17,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 5 日 週五 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡覺明天早上醒來",
+     "first"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-05",
+   "wd": 5,
+   "term": "Y1S1",
+   "week": 1,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-11:econ_principles_1:am",
+     "cid": "econ_principles_1",
+     "name": "經濟學原理（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-11:econ_principles_1:am",
+     "cid": "econ_principles_1",
+     "name": "經濟學原理（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-11:econ_principles_1:am",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-06",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 66,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 6 日 週六 07:30"
+   ],
+   "attended": [
+    [
+     "-11:econ_principles_1:am",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "07:33",
+     "直接去上課：經濟學原理（上）09:10，普通教學館 101。走路 18 分鐘，0",
+     "first"
+    ],
+    [
+     "12:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-06",
+   "wd": 6,
+   "term": "Y1S1",
+   "week": 1,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-07",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 23,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 7 日 週日 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:33",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-07",
+   "wd": 7,
+   "term": "Y1S1",
+   "week": 1,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-08",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 23,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 8 日 週一 08:10"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 憲法（上）前一小時）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-08",
+   "wd": 1,
+   "term": "Y1S1",
+   "week": 2,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-8:const_1:am",
+     "cid": "const_1",
+     "name": "憲法（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-8:pe_y1s1:pm2",
+     "cid": "pe_y1s1",
+     "name": "體育",
+     "t0": 15.5,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-8:const_1:am",
+     "cid": "const_1",
+     "name": "憲法（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-8:pe_y1s1:pm2",
+     "cid": "pe_y1s1",
+     "name": "體育",
+     "t0": 15.5,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-8:const_1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "-8:pe_y1s1:pm2",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": -8,
+      "key": "2025-09-08",
+      "h": 17.336,
+      "zone": "gym"
+     },
+     "secs": 24
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-09",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 48,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 9 日 週二 08:10"
+   ],
+   "attended": [
+    [
+     "-8:pe_y1s1:pm2",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 憲法（上）",
+     "first"
+    ],
+    [
+     "17:38",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 大一國文（上）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-09",
+   "wd": 2,
+   "term": "Y1S1",
+   "week": 2,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-7:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-7:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-7:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-7:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-7:chinese_y1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "-7:ge_film_y1s1:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": -7,
+      "key": "2025-09-09",
+      "h": 15.171,
+      "zone": "putong"
+     },
+     "secs": 22
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-10",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 53,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 10 日 週三 08:10"
+   ],
+   "attended": [
+    [
+     "-7:ge_film_y1s1:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 大一國文（上）",
+     "first"
+    ],
+    [
+     "15:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 刑法總則（一）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-10",
+   "wd": 3,
+   "term": "Y1S1",
+   "week": 2,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-6:crim_gen1:am",
+     "cid": "crim_gen1",
+     "name": "刑法總則（一）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-6:crim_gen1:am",
+     "cid": "crim_gen1",
+     "name": "刑法總則（一）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-6:crim_gen1:am",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-11",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 113,
+   "events": [
+    "ev_kx_first_out"
+   ],
+   "steps": [],
+   "cards": [
+    "9 月 11 日 週四 08:10"
+   ],
+   "attended": [
+    [
+     "-6:crim_gen1:am",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:13",
+     "直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09",
+     "first"
+    ],
+    [
+     "08:58",
+     "繼續去上課：刑法總則（一）走路 3 分鐘，09:01 到教室",
+     "first"
+    ],
+    [
+     "09:10",
+     "（A）法院得直接依社會輿論判處甲有罪",
+     "first"
+    ],
+    [
+     "12:27",
+     "「好，走。」",
+     "first"
+    ],
+    [
+     "13:25",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 大一英文（上）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-11",
+   "wd": 4,
+   "term": "Y1S1",
+   "week": 2,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-5:english_y1:am",
+     "cid": "english_y1",
+     "name": "大一英文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-5:civ_general:pm1",
+     "cid": "civ_general",
+     "name": "民法總則",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-5:english_y1:am",
+     "cid": "english_y1",
+     "name": "大一英文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-5:civ_general:pm1",
+     "cid": "civ_general",
+     "name": "民法總則",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-5:english_y1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "-5:civ_general:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": -5,
+      "key": "2025-09-11",
+      "h": 15.17,
+      "zone": "classroom"
+     },
+     "secs": 52
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-12",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 84,
+   "events": [
+    "ev_card_bohan",
+    "ev_yc_meet_after"
+   ],
+   "steps": [],
+   "cards": [
+    "9 月 12 日 週五 08:10"
+   ],
+   "attended": [
+    [
+     "-5:civ_general:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 大一英文（上）",
+     "first"
+    ],
+    [
+     "13:11",
+     "「你真的量過？」",
+     "first"
+    ],
+    [
+     "13:20",
+     "「意思表示。」",
+     "first"
+    ],
+    [
+     "13:20",
+     "「可以，合理最重要。」",
+     "first"
+    ],
+    [
+     "15:29",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 經濟學原理（上）前一小",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-12",
+   "wd": 5,
+   "term": "Y1S1",
+   "week": 2,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-4:econ_principles_1:am",
+     "cid": "econ_principles_1",
+     "name": "經濟學原理（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-4:econ_principles_1:am",
+     "cid": "econ_principles_1",
+     "name": "經濟學原理（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-4:econ_principles_1:am",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-13",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 207,
+   "events": [
+    "ev_sis_fam_dinner"
+   ],
+   "steps": [],
+   "cards": [
+    "家聚 19:00（公館巷子裡的簡餐店） 走過去約 15 分鐘",
+    "9 月 13 日 週六 07:30"
+   ],
+   "attended": [
+    [
+     "-4:econ_principles_1:am",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "直接去上課：經濟學原理（上）09:10，普通教學館 101。走路 18 分鐘，0",
+     "first"
+    ],
+    [
+     "12:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡一下（18:15 叫醒你）約好的時間：家聚 19:00（公館巷子裡的簡餐店），",
+     "prefer"
+    ],
+    [
+     "18:16",
+     "睡一下（18:35 叫醒你）約好的時間：家聚 19:00（公館巷子裡的簡餐店），",
+     "prefer"
+    ],
+    [
+     "18:35",
+     "出發：家聚 19:00（公館巷子裡的簡餐店）走過去約 15 分鐘",
+     "first"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-13",
+   "wd": 6,
+   "term": "Y1S1",
+   "week": 2,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-14",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 22,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 14 日 週日 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-14",
+   "wd": 7,
+   "term": "Y1S1",
+   "week": 2,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-15",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 22,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 15 日 週一 08:10"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 憲法（上）前一小時）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-15",
+   "wd": 1,
+   "term": "Y1S1",
+   "week": 3,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "-1:const_1:am",
+     "cid": "const_1",
+     "name": "憲法（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-1:pe_y1s1:pm2",
+     "cid": "pe_y1s1",
+     "name": "體育",
+     "t0": 15.5,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "-1:const_1:am",
+     "cid": "const_1",
+     "name": "憲法（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "-1:pe_y1s1:pm2",
+     "cid": "pe_y1s1",
+     "name": "體育",
+     "t0": 15.5,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "-1:const_1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "-1:pe_y1s1:pm2",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": -1,
+      "key": "2025-09-15",
+      "h": 17.335,
+      "zone": "gym"
+     },
+     "secs": 10
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-16",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 35,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 16 日 週二 08:10"
+   ],
+   "attended": [
+    [
+     "-1:pe_y1s1:pm2",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 憲法（上）",
+     "first"
+    ],
+    [
+     "17:38",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 大一國文（上）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-16",
+   "wd": 2,
+   "term": "Y1S1",
+   "week": 3,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "0:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "0:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "0:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "0:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "0:chinese_y1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "0:ge_film_y1s1:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": 0,
+      "key": "2025-09-16",
+      "h": 15.171,
+      "zone": "putong"
+     },
+     "secs": 24
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-17",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 55,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 17 日 週三 08:10"
+   ],
+   "attended": [
+    [
+     "0:ge_film_y1s1:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 大一國文（上）",
+     "first"
+    ],
+    [
+     "15:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 刑法總則（一）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-17",
+   "wd": 3,
+   "term": "Y1S1",
+   "week": 3,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "1:crim_gen1:am",
+     "cid": "crim_gen1",
+     "name": "刑法總則（一）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "1:crim_gen1:am",
+     "cid": "crim_gen1",
+     "name": "刑法總則（一）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "1:crim_gen1:am",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-18",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 101,
+   "events": [
+    "ev_kx_dress",
+    "ev_card_mingxuan",
+    "ev_l1_elevator"
+   ],
+   "steps": [],
+   "cards": [
+    "9 月 18 日 週四 08:10"
+   ],
+   "attended": [
+    [
+     "1:crim_gen1:am",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:13",
+     "直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09",
+     "first"
+    ],
+    [
+     "09:10",
+     "（A）一律適用行為時法律",
+     "first"
+    ],
+    [
+     "12:10",
+     "「你要去哪？」",
+     "first"
+    ],
+    [
+     "12:12",
+     "（等電梯）",
+     "first"
+    ],
+    [
+     "12:30",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 大一英文（上）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-18",
+   "wd": 4,
+   "term": "Y1S1",
+   "week": 3,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "2:english_y1:am",
+     "cid": "english_y1",
+     "name": "大一英文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "2:civ_general:pm1",
+     "cid": "civ_general",
+     "name": "民法總則",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "2:english_y1:am",
+     "cid": "english_y1",
+     "name": "大一英文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "2:civ_general:pm1",
+     "cid": "civ_general",
+     "name": "民法總則",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "2:english_y1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "2:civ_general:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": 2,
+      "key": "2025-09-18",
+      "h": 15.169,
+      "zone": "classroom"
+     },
+     "secs": 31
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-19",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 62,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 19 日 週五 08:10"
+   ],
+   "attended": [
+    [
+     "2:civ_general:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 大一英文（上）",
+     "first"
+    ],
+    [
+     "13:20",
+     "「自然人，牠是活的。」",
+     "first"
+    ],
+    [
+     "15:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 經濟學原理（上）前一小",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-19",
+   "wd": 5,
+   "term": "Y1S1",
+   "week": 3,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "3:econ_principles_1:am",
+     "cid": "econ_principles_1",
+     "name": "經濟學原理（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "3:econ_principles_1:am",
+     "cid": "econ_principles_1",
+     "name": "經濟學原理（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "3:econ_principles_1:am",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-20",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 216,
+   "events": [
+    "ev_bike_flat",
+    "ev_l3_photo_1"
+   ],
+   "steps": [],
+   "cards": [
+    "圓窗館前 16:00：系學會合照 走過去",
+    "9 月 20 日 週六 07:30"
+   ],
+   "attended": [
+    [
+     "3:econ_principles_1:am",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "直接去上課：經濟學原理（上）09:10，普通教學館 101。走路 18 分鐘，0",
+     "first"
+    ],
+    [
+     "12:28",
+     "睡到傍晚（不設鬧鐘）18:00——但約好的時間：圓窗館前 16:00：系學會合照",
+     "prefer"
+    ],
+    [
+     "15:40",
+     "出發：圓窗館前 16:00：系學會合照走過去",
+     "first"
+    ],
+    [
+     "15:56",
+     "「校門口有打氣筒。」",
+     "first"
+    ],
+    [
+     "16:14",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-20",
+   "wd": 6,
+   "term": "Y1S1",
+   "week": 3,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-21",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 22,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 21 日 週日 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-21",
+   "wd": 7,
+   "term": "Y1S1",
+   "week": 3,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-22",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 21,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 22 日 週一 08:10"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 憲法（上）前一小時）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-22",
+   "wd": 1,
+   "term": "Y1S1",
+   "week": 4,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "6:const_1:am",
+     "cid": "const_1",
+     "name": "憲法（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "6:pe_y1s1:pm2",
+     "cid": "pe_y1s1",
+     "name": "體育",
+     "t0": 15.5,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "6:const_1:am",
+     "cid": "const_1",
+     "name": "憲法（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "6:pe_y1s1:pm2",
+     "cid": "pe_y1s1",
+     "name": "體育",
+     "t0": 15.5,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "6:const_1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "6:pe_y1s1:pm2",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": 6,
+      "key": "2025-09-22",
+      "h": 17.336,
+      "zone": "gym"
+     },
+     "secs": 7
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-23",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 32,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 23 日 週二 08:10"
+   ],
+   "attended": [
+    [
+     "6:pe_y1s1:pm2",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 憲法（上）",
+     "first"
+    ],
+    [
+     "17:38",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 大一國文（上）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-23",
+   "wd": 2,
+   "term": "Y1S1",
+   "week": 4,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "7:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "7:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "7:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "7:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "7:chinese_y1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "7:ge_film_y1s1:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": 7,
+      "key": "2025-09-23",
+      "h": 15.171,
+      "zone": "putong"
+     },
+     "secs": 23
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-24",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 53,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 24 日 週三 08:10"
+   ],
+   "attended": [
+    [
+     "7:ge_film_y1s1:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 大一國文（上）",
+     "first"
+    ],
+    [
+     "15:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 刑法總則（一）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-24",
+   "wd": 3,
+   "term": "Y1S1",
+   "week": 4,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "8:crim_gen1:am",
+     "cid": "crim_gen1",
+     "name": "刑法總則（一）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "8:service_1:pm1",
+     "cid": "service_1",
+     "name": "服務學習（一）",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "8:crim_gen1:am",
+     "cid": "crim_gen1",
+     "name": "刑法總則（一）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "8:service_1:pm1",
+     "cid": "service_1",
+     "name": "服務學習（一）",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "8:crim_gen1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "8:service_1:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": 8,
+      "key": "2025-09-24",
+      "h": 15.169,
+      "zone": "lawlib"
+     },
+     "secs": 43
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-25",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 102,
+   "events": [
+    "ev_l2_hist_door"
+   ],
+   "steps": [],
+   "cards": [
+    "9 月 25 日 週四 08:10"
+   ],
+   "attended": [
+    [
+     "8:crim_gen1:am",
+     true
+    ],
+    [
+     "8:service_1:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09",
+     "first"
+    ],
+    [
+     "09:10",
+     "「第一道，推人不算傷害。」",
+     "first"
+    ],
+    [
+     "12:12",
+     "直接去下一堂：服務學習（一）13:20，法律學院圖書館 櫃台。走路 5 分鐘，1",
+     "first"
+    ],
+    [
+     "15:30",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 大一英文（上）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-25",
+   "wd": 4,
+   "term": "Y1S1",
+   "week": 4,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "9:english_y1:am",
+     "cid": "english_y1",
+     "name": "大一英文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "9:civ_general:pm1",
+     "cid": "civ_general",
+     "name": "民法總則",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "9:english_y1:am",
+     "cid": "english_y1",
+     "name": "大一英文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "9:civ_general:pm1",
+     "cid": "civ_general",
+     "name": "民法總則",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "9:english_y1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "9:civ_general:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": 9,
+      "key": "2025-09-25",
+      "h": 15.17,
+      "zone": "classroom"
+     },
+     "secs": 41
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-26",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 73,
+   "events": [
+    "ev_an_report_split"
+   ],
+   "steps": [],
+   "cards": [
+    "9 月 26 日 週五 08:10"
+   ],
+   "attended": [
+    [
+     "9:civ_general:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 大一英文（上）",
+     "first"
+    ],
+    [
+     "13:20",
+     "「一樣可以繼承。」",
+     "first"
+    ],
+    [
+     "15:10",
+     "「好，一起寫。」",
+     "first"
+    ],
+    [
+     "15:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 經濟學原理（上）前一小",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-26",
+   "wd": 5,
+   "term": "Y1S1",
+   "week": 4,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "10:econ_principles_1:am",
+     "cid": "econ_principles_1",
+     "name": "經濟學原理（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "10:econ_principles_1:am",
+     "cid": "econ_principles_1",
+     "name": "經濟學原理（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "10:econ_principles_1:am",
+     "ok": false,
+     "btn": null
+    }
+   ],
+   "end_clock": {
+    "key": "2025-09-27",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 182,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 27 日 週六 07:30"
+   ],
+   "attended": [
+    [
+     "10:econ_principles_1:am",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:13",
+     "直接去上課：經濟學原理（上）09:10，普通教學館 101。走路 18 分鐘，0",
+     "first"
+    ],
+    [
+     "12:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-27",
+   "wd": 6,
+   "term": "Y1S1",
+   "week": 4,
+   "hol": false,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-28",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 22,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 28 日 週日 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-28",
+   "wd": 7,
+   "term": "Y1S1",
+   "week": 4,
+   "hol": true,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-29",
+    "h": "07:30",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 21,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 29 日 週一 07:30"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（07:30）07:30（明天沒有課）",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-29",
+   "wd": 1,
+   "term": "Y1S1",
+   "week": 5,
+   "hol": true,
+   "counted": true,
+   "items_start": [],
+   "items_end": [],
+   "end_clock": {
+    "key": "2025-09-30",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 22,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "9 月 30 日 週二 08:10"
+   ],
+   "attended": [],
+   "picks": [
+    [
+     "07:34",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 大一國文（上）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  },
+  {
+   "date": "2025-09-30",
+   "wd": 2,
+   "term": "Y1S1",
+   "week": 5,
+   "hol": false,
+   "counted": true,
+   "items_start": [
+    {
+     "key": "14:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "14:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "upcoming",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "items_end": [
+    {
+     "key": "14:chinese_y1:am",
+     "cid": "chinese_y1",
+     "name": "大一國文（上）",
+     "t0": 9.166666666666666,
+     "exam": null,
+     "st": "missed",
+     "done": false,
+     "late": false,
+     "abs": false,
+     "skip": false
+    },
+    {
+     "key": "14:ge_film_y1s1:pm1",
+     "cid": "ge_film_y1s1",
+     "name": "通識：電影與敘事",
+     "t0": 13.333333333333334,
+     "exam": null,
+     "st": "done",
+     "done": true,
+     "late": false,
+     "abs": false,
+     "skip": false
+    }
+   ],
+   "trips": [
+    {
+     "key": "14:chinese_y1:am",
+     "ok": false,
+     "btn": null
+    },
+    {
+     "key": "14:ge_film_y1s1:pm1",
+     "ok": true,
+     "btn": "直接去上課",
+     "done": true,
+     "end": {
+      "day": 14,
+      "key": "2025-09-30",
+      "h": 15.171,
+      "zone": "putong"
+     },
+     "secs": 26
+    }
+   ],
+   "end_clock": {
+    "key": "2025-10-01",
+    "h": "08:10",
+    "zone": "dorm"
+   },
+   "why_end": "day change",
+   "secs": 57,
+   "events": [],
+   "steps": [],
+   "cards": [
+    "10 月 1 日 週三 08:10"
+   ],
+   "attended": [
+    [
+     "14:ge_film_y1s1:pm1",
+     true
+    ]
+   ],
+   "picks": [
+    [
+     "08:12",
+     "照樣跳過會錯過：09:10 大一國文（上）",
+     "first"
+    ],
+    [
+     "13:20",
+     "演員的臉",
+     "first"
+    ],
+    [
+     "15:28",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
+    ],
+    [
+     "18:01",
+     "睡到明天早上（08:10）08:10（第一堂 09:10 刑法總則（一）前一小時",
+     "prefer"
+    ]
+   ],
+   "exams_new": {},
+   "exam_answers": [],
+   "walkFallbacks": 0,
+   "pageerrors": 0,
+   "console_errors": 0
+  }
+ ],
+ "shortcuts": [
+  "[前置] localStorage.clear()（乾淨的玩家，沒有舊存檔）"
+ ],
+ "fps_title": 38.65,
+ "stuck_s": 300,
+ "terminfo": {
+  "now": "2025-09-17",
+  "term": "Y1S1",
+  "week": 3,
+  "exams": {
+   "Y1S1": [
+    {
+     "c": "憲法（上）",
+     "kind": "final",
+     "date": "2025-12-15"
+    },
+    {
+     "c": "刑法總則（一）",
+     "kind": "final",
+     "date": "2025-12-17"
+    },
+    {
+     "c": "民法總則",
+     "kind": "final",
+     "date": "2025-12-18"
+    }
+   ],
+   "Y1S2": [
+    {
+     "c": "憲法（下）",
+     "kind": "final",
+     "date": "2026-06-08"
+    },
+    {
+     "c": "刑法總則（二）",
+     "kind": "final",
+     "date": "2026-06-10"
+    },
+    {
+     "c": "民法債編總論（一）",
+     "kind": "final",
+     "date": "2026-06-11"
+    }
+   ]
+  }
+ },
+ "ended": "days reached",
+ "counted": 31,
+ "real_secs": 2208,
+ "pageerrors": [],
+ "console_errors": [],
+ "console_error_n": 0,
+ "walkFallbacks": 0,
+ "final_reminders": [],
+ "canon": {
+  "end": {
+   "met": true,
+   "how": "class",
+   "day": -15,
+   "later": false,
+   "contact": true,
+   "key": "2025-10-01",
+   "h": 8.17,
+   "zone": "dorm",
+   "cls": [
+    [
+     "15:crim_gen1:am",
+     "刑法總則（一）",
+     "required",
+     "upcoming"
+    ],
+    [
+     "15:service_1:pm1",
+     "服務學習（一）",
+     "service",
+     "upcoming"
+    ]
+   ]
+  },
+  "at_meet": {
+   "met": false,
+   "how": null,
+   "day": null,
+   "later": false,
+   "contact": false,
+   "key": "2025-09-01",
+   "h": 9.17,
+   "zone": "classroom",
+   "cls": [
+    [
+     "-15:const_1:am",
+     "憲法（上）",
+     "required",
+     "open"
+    ],
+    [
+     "-15:pe_y1s1:pm2",
+     "體育",
+     "general",
+     "upcoming"
+    ]
+   ],
+   "trip": "-15:pe_y1s1:pm2",
+   "first_line": "我先講，我很不會這種。你會講"
+  },
+  "skipped": [
+   [
+    "2025-09-01",
+    "-15:const_1:am"
+   ]
+  ],
+  "hall": null,
+  "msgs": [
+   {
+    "day": -15,
+    "key": "2025-09-01",
+    "h": 9.17,
+    "who": "kexin",
+    "th": "",
+    "text": "加了杜可昕的聯絡方式。"
+   }
+  ],
+  "kx_shots": 7
+ },
+ "final_save": {
+  "src": "GAME.snapshot()",
+  "chars": 31328
+ },
+ "fails": [
+  "FAIL_SETUP 檢查：真的演到可昕見面（KX_MET）、方式 hall"
+ ]
+}
