@@ -113,10 +113,6 @@
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 73%（零件 11 個，要 <25%）"
   },
-  "assets/models/env/second_ai/l118_cafe2.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 61%（零件 28 個，要 <25%）"
-  },
   "assets/models/env/second_ai/l118_home.glb": {
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 52%（零件 29 個，要 <25%）"

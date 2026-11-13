@@ -81,6 +81,7 @@ def atlas():
 
 def chair_grey(c, x, z, yaw, col=GREY):
     """深灰色的塑膠殼椅（坐墊和椅背是有圓角的殼、四支細腳往外張）；(x, z) 是坐的位置，面向 yaw"""
+    # CC0 的店（SHOP-CC0-HELP-1113）：形狀照舊（參考圖是塑膠殼椅；Poly Haven 沒有這種、掃描的木椅不像），殼的顏色 GREY 由 cc0_setup 分到深灰塑膠材質組、椅腳分到深色不鏽鋼
     T = LS.rot(x, z, yaw)
     LS.rbox(c.vc, T, -0.21, 0.21, 0.425, 0.455, -0.2, 0.21, col, r=0.014, seg=1)
     LS.rbox(c.vc, T, -0.2, 0.2, 0.52, 0.86, -0.225, -0.195, col, r=0.014, seg=1)
@@ -90,6 +91,7 @@ def chair_grey(c, x, z, yaw, col=GREY):
 
 
 def mini_plant(c, x, y, z, rng, n=7):
+    if getattr(c, 'ph', None): c.ph.put('potted_plant_04', x, y, z, rng.uniform(0, 6.283), s=0.65, share=False, height=0.2, decimate=0.07, texres=256); return   # CC0：Poly Haven 小盆栽
     clathe(c.vc, [(0.0, 0.0), (0.035, 0.0), (0.045, 0.07), (0.048, 0.075), (0.0, 0.075)], x, y, z, '#f1efe9', seg=10)
     for k in range(n): a = k * 2 * PI / n + rng.uniform(-0.3, 0.3); cell_(c.vc, (x + 0.035 * math.cos(a), y + 0.11 + 0.03 * (k % 2), z + 0.035 * math.sin(a)), 0.045, 0.012, 0.028, rng.choice(['#4f8f44', '#3f7a3a', '#63a552']), rotz=a)
 
@@ -110,6 +112,7 @@ def buffet(c, x0, x1, z0, z1, rng):
         for j in range(2):
             a = x0 + 0.05 + j * dx + 0.02; b = a + dx - 0.04; za = z0 + 0.05 + i * dzr + 0.02; zb = za + dzr - 0.04
             km.crbox(a, b, 0.86, 0.878, za, zb, '#c9ced2', r=0.006, seg=1)                                # 菜盤的邊
+            if getattr(c, 'foodm', None): LS.food_dome(c, a + 0.012, b - 0.012, za + 0.012, zb - 0.012, 0.874, 0.035, (i * 2 + j * 5 + i // 3) % 12); continue   # CC0：菜色貼圖集的菜面（和水上便當同一張）
             c1, c2 = FOODS[(i * 2 + j * 5 + i // 3) % len(FOODS)]
             v.crbox(a + 0.014, b - 0.014, 0.87, 0.905, za + 0.014, zb - 0.014, c1, k=0.9, r=0.016, seg=2)   # 一盤菜：鋪滿的一層＋上面堆起來的幾塊（兩種顏色）
             for q in range(7):
@@ -271,9 +274,11 @@ def main():
     if not os.path.exists(os.path.join(GEN, 'l118_screens.png')): TX.screens()
     atlas(); HM.ensure_view(SID)
     c = LS.Shop(SID); c.extra = {}; c.REG = REG
+    if SID in LS.CC0_INT: LS.cc0_setup(c)   # SHOP-CC0-HELP-1113：CC0 材質組＋Poly Haven 模型（lane118_shops.py 的同一套）
     c.M['wain'] = c.M['wall']   # 白牆從地板到天花板同一種（參考圖沒有腰牆；SPEC 的 wain 不用）
     c.M['iprint'] = LS.img_mat('l118_cafe2_iprint', 'l118_int_cafe2_print.png', rough=0.6)
     build_cafe2(c)
+    if SID in LS.CC0_INT: LS.cc0_post(c)
     prob = HM.finish2(c, src='L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、餐飲類型；參考圖 l118_ref/int_cafe2.webp）；室內 tools/blender/env_second/l118_int_cafe2.py')
     print('L118_INT_CAFE2', 'OK' if not prob else prob)
     if pv: HM.preview(SID, os.path.join(L.ROOT, pv), *PREVIEW)

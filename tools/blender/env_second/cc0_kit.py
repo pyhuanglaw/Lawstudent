@@ -109,7 +109,7 @@ class PH:
     def __init__(self, root, prefix):
         self.root = root; self.prefix = prefix; self.proto = {}; self.n = {}
 
-    def obj(self, aid, height=None, decimate=None, recolor=None, length=None, chair=False, material=None):
+    def obj(self, aid, height=None, decimate=None, recolor=None, length=None, chair=False, material=None, texres=512):
         if aid in self.proto: return self.proto[aid]
         path = cc0_fetch.ph_model(aid); before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=path); _use('Poly Haven', aid)
         new = [o for o in bpy.data.objects if o not in before]; ms = [o for o in new if o.type == 'MESH']
@@ -120,7 +120,7 @@ class PH:
         bpy.context.view_layer.objects.active = ms[0]
         if len(ms) > 1: bpy.ops.object.join()
         o = bpy.context.view_layer.objects.active; bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
-        _ph_tex(o)
+        _ph_tex(o, res=texres)   # texres：貼圖縮成多大（很小的東西用 256，模型檔小一點）
         if decimate:
             md = o.modifiers.new('dec', 'DECIMATE'); md.ratio = decimate; bpy.ops.object.modifier_apply(modifier=md.name)
         vs = [v.co for v in o.data.vertices]; mn = Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs))); mx = Vector((max(v.x for v in vs), max(v.y for v in vs), max(v.z for v in vs)))

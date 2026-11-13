@@ -26,7 +26,7 @@ function insideOut(G,nodeRe,matRe){ const out=[]; let tris=0;
         c.v+=(a[0]*(b2[1]*d[2]-b2[2]*d[1])-a[1]*(b2[0]*d[2]-b2[2]*d[0])+a[2]*(b2[0]*d[1]-b2[1]*d[0]))/6; for(const pt of q) for(let i=0;i<3;i++){ c.mn[i]=Math.min(c.mn[i],pt[i]); c.mx[i]=Math.max(c.mx[i],pt[i]); } }
       for(const c of comp.values()){ const ext=c.mx.map((x,i)=>x-c.mn[i]), m=Math.min(...ext); if(c.v<0&&m>=0.001&&m<=1.0) out.push(nd.name+' @('+(c.mn[0]+t[0]).toFixed(2)+','+(c.mn[1]+t[1]).toFixed(2)+','+(c.mn[2]+t[2]).toFixed(2)+')'); } } }
   return {out,tris}; }
-const CASES=[['l118_cafe2.glb',/^l118_cafe2_metal$/,'118 巷 慢讀咖啡（5 盞）'],['l118_pasta.glb',/lampshade/,'118 巷 Pasta 118 吧檯（3 盞）'],['wenzhou_street.glb',/^(sk_in_|wz_in_)/,'溫州街 店內（吊燈 5 盞：10-31 的 3 盞＋11-04 帝大紅茶、冰菓室）',/^wz_in_shop$/]];
+const CASES=[['l118_cafe2.glb',/^l118_cafe2_(metal|steel|steel_d|tubes)$/,'118 巷 慢讀咖啡（5 盞）']   /* SHOP-CC0-HELP-1113（AA-C a1e7284dfe）：金屬零件拆成 CC0 材質組（steel／steel_d／tubes），沒有 l118_cafe2_metal 這個節點了 */,['l118_pasta.glb',/lampshade/,'118 巷 Pasta 118 吧檯（3 盞）'],['wenzhou_street.glb',/^(sk_in_|wz_in_)/,'溫州街 店內（吊燈 5 盞：10-31 的 3 盞＋11-04 帝大紅茶、冰菓室）',/^wz_in_shop$/]];
 /* 2026-11-11 L118-SHOPS-REDO-1111：義大麵屋（pasta，原 Pasta 118）室內重做（tools/blender/env_second/l118_int_pasta.py）——吧檯上那 3 盞（WALL_N_lampshade）沒有了，
    吊燈改放在 CEIL_fix（鏡頭高過天花板時一起藏；燈罩輪廓和修過的 lane118_shops.py pendant 同一個方向）；奈良咖哩、迪倫窯烤披薩的吊燈也在 CEIL_fix，一起查 */
 CASES[1]=['l118_pasta.glb',/^CEIL_fix$/,'118 巷 義大麵屋 吊燈（CEIL_fix）']; CASES.push(['l118_omu.glb',/^CEIL_fix$/,'118 巷 奈良咖哩 吊燈（CEIL_fix）'],['l118_noodle2.glb',/^CEIL_fix$/,'118 巷 迪倫窯烤披薩 吊燈（CEIL_fix）']);

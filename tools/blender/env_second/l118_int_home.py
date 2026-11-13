@@ -126,15 +126,21 @@ def finish2(c, src, old_name=None, old_type=None, smooth_keys=('trim', 'kitchen'
     D = {'N': [0, 0, 1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'S': [0, 0, -1]}
     for k, ms in c.WG.items():
         for key, m in ms.items():
-            uv = key in ('wall', 'wain'); mg = key not in ('print', 'iprint', 'screen', 'view')
+            uv = key in ('wall', 'wain') or '_' in key; mg = key not in ('print', 'iprint', 'screen', 'view')   # '_'：CC0 的店分到材質組的牆上零件（lane118_shops.cc0_setup）要盒狀 UV
             m.finish(c.root, props=dict({'dir': D[k]}, **c.WGP.get((k, key), {})), uv=uv, merge=mg, smooth=key in smooth_keys)
+    cc0m = getattr(c, 'cc0m', None)
+    if cc0m is not None: c.vc, c.vm, c.steel = c._vc0, c._vm0, c._steel0   # CC0 的店（SHOP-CC0-HELP-1113）：轉接器拿掉，剩下的頂點色零件照舊
     for m in (c.vc, c.vm, c.steel): m.finish(c.root, uv=False, smooth=True)
+    for m in (cc0m or {}).values(): m.finish(c.root)                                  # 材質組網格（盒狀 UV）
+    for m in getattr(c, 'cc0raw', []): m.finish(c.root, uv=False, smooth=True)       # 自己帶 UV 的（菜色貼圖集）
     for m in (c.tube, c.warm, c.fridgel): m.finish(c.root, uv=False)
     c.wood.finish(c.root, smooth=True)
     for m in (c.prt, c.scr): m.finish(c.root, uv=False, merge=False)
     for k, m in c.extra.items(): m.finish(c.root, uv=k in getattr(c, 'extra_uv', ()), smooth=k in getattr(c, 'extra_smooth', ()))
+    if getattr(c, 'ph', None): c.ph.cleanup()   # Poly Haven 原型不匯出
     L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')
     out = os.path.join(LS.OUTDIR, f'l118_{c.sid}.glb'); st = L.export(out, gpu_instances=False)
+    if getattr(c, 'ph', None): import cc0_kit; print('CC0_USED', json.dumps(cc0_kit.USED, ensure_ascii=False))
     tris = 0
     for ob in bpy.data.objects:
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
@@ -142,10 +148,12 @@ def finish2(c, src, old_name=None, old_type=None, smooth_keys=('trim', 'kitchen'
     street = dict(side=sh['side'], door=dict(x=round(fx + (0.9 if Wst else -0.9), 3), z=cz, note='118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）'),
                   spawn_out=dict(x=round(fx + (1.3 if Wst else -1.3), 3), z=round(cz + 1.7, 3), yaw=0.0, note='出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）'))
     lay = dict(version=1, zone=f'l118_{c.sid}', shop=c.sid, name=old_name or c.T['name'], type=old_type or c.T['sub'], src=src,
-               bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=c.S.get('cam', 4.2), door=c.door, spawn=c.spawn, exits=c.exits, street=street,
+               bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=c.S.get('cam', 3.6), door=c.door, spawn=c.spawn, exits=c.exits, street=street,
                counter=c.counter, clerk=c.clerk, order=c.order, seats=c.seats, interact=c.inter, blocks=c.blocks,
                **({'name_note': f'name／type 是配置原本的店名（街上招牌換字用的對照，見 l118_int_home.py finish2）；現在的店名是「{c.T["name"]}」（{c.T["sub"]}），遊戲讀 src/data/lane118_shops.js'} if old_name else {}),
                ceiling=dict(single_sided=True, node=f'l118_{c.sid}_ceiling', note='天花板只有朝下的單面（材質 cull）：鏡頭高過天花板時看得穿，不需要 ceilHide；吊著的燈在 2.5 m 以上'))
+    sys.path.insert(0, os.path.join(L.ROOT, 'tools', 'lane118')); import it_fix; _st = it_fix.apply(c.sid, lay)   # SHOP-CC0-HELP-1113（AA-C 11-13）：按鈕位置、走近點、半徑照 tools/lane118/it_fix.py（和 lane118_shops.py 一樣）；
+    if _st: print('IT_FIX 對不到配置：' + '、'.join(_st))                                                                          #   cam_dist 預設 3.6＝ab9ab0fbe8 改的值。原本只改了 layout.json，重建會蓋回去
     prob = LS.navcheck(c, lay); p2, info = notrap(lay); prob = prob + p2
     lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob, notrap=info)
     L.write_json(os.path.join(LS.OUTDIR, f'l118_{c.sid}.layout.json'), lay)

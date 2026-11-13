@@ -12,7 +12,7 @@ OUTDIR=${3:-assets/models/env/second_ai}
 RES=${4:-1024}
 TMP=$(mktemp -d)
 NAME=l118_${SHOP}
-PT=""; LIGHTS=""
+PT=""; LIGHTS=""; BUILDER=""
 case "$SHOP" in
 self)
   # 水上便當（6.6×9×3.2 m＋後面 2.2 m 深的廚房）：天花板八片輕鋼架燈盤（沿 z，0.3×1.2 m 面光源往下，冷白；位置照 build_self 的 troffers）＋配菜櫃上三盞保溫燈（暖、點光源 y 1.5）
@@ -68,10 +68,24 @@ tea)
   for xz in "-0.75 3.0" "-0.75 1.2" "-0.75 -0.6" "-0.75 -2.4" "0.75 3.2"; do set -- $xz; PT="$PT;$1,3.1,$2,${DOWNW:-10},$WARM,0.05"; done
   for z in 2.1 0.38 -1.34; do PT="$PT;0.8,2.66,$z,${LANTW:-22},$WARM,0.12"; done
   SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-1.0,0.96,0.9}; DAYL=${DAYL:-1.0}; SHELL=S ;;
+cafe2)
+  # 大學食堂（6.6×9×3.2 m＋後面 1.8 m 深的廚房；建模 l118_int_cafe2.py）：天花板七組雙管日光燈（照 build_cafe2 的 tubes，沿 x 1.2 m、兩支相隔 0.18 m）＋自助餐台上方的保溫燈條（暖）
+  #   ＋廚房一支日光燈（x 0、z −5.18）。白天燈也開著；店面玻璃朝 118 巷（S），只有天光。
+  #   現在交的是沒烘的版本：烘了 GLB 會變 3.7 MB，超過 tests/l118_int_home_cafe2_1111_unit.js 第 5 項「舊版 1.5 倍以內」（AA-C 11-13；預算要不要放寬由 BB 定）
+  BUILDER=l118_int_cafe2.py
+  HIDE='glass|GLOW_|view'
+  NOLM='_vc$|ph_potted|prints|screens|printfree|iprint'
+  COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
+  for xz in "-1.5 -2.4" "1.5 -2.4" "-1.5 -0.3" "1.5 -0.3" "-1.5 1.8" "1.5 1.8" "0.0 3.6"; do set -- $xz
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.1,1,1,${TUBEW:-34},1.2,0.25,$COL')")"; done
+  LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-5.185,-5.165,3.1,1,1,${TUBEW:-24},1.24,0.05,$COL')")"
+  for z in -2.0 -0.3 1.4; do PT="$PT;-2.75,1.45,$z,${HEATW:-14},$WARM,0.06"; done
+  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.98,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
 *) echo "還沒做 CC0 版的店：$SHOP（lane118_shops.py 的 CC0_SHOPS 加進去、這裡加一個 case）"; exit 1 ;;
 esac
 PT=${PT#;}; LIGHTS=${LIGHTS#;}
-/opt/blenv/bin/python tools/blender/env_second/lane118_shops.py -- --shop "$SHOP" --out-dir "$TMP"
+if [ -n "$BUILDER" ]; then /opt/blenv/bin/python tools/blender/env_second/$BUILDER -- --out-dir "$TMP"   # l118_int_<店>.py 那五間（一個店一支腳本）
+else /opt/blenv/bin/python tools/blender/env_second/lane118_shops.py -- --shop "$SHOP" --out-dir "$TMP"; fi
 cp "$TMP/$NAME.layout.json" "$OUTDIR/$NAME.layout.json"
 python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/$NAME.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/$NAME.json" "$OUTDIR/$NAME.json"
 EXTRA=(); [ -n "$LIGHTS" ] && EXTRA+=(--lights "$LIGHTS"); [ -n "$PT" ] && EXTRA+=(--points "$PT")

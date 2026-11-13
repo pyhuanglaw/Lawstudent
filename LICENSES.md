@@ -160,6 +160,8 @@
 | `potted_plant_02` | 門口落地盆栽 | 69,806 → 約 1,400 面；高 1.15 m | `assets/models/env/second_ai/l118_dian.glb`（118 巷 118牛排店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop dian`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh dian`） |
 | `potted_plant_04` | 自助台上方層板的小盆栽（原本垂下來的藤照舊） | 8,929 → 約 1,340 面；高 0.26 m | `assets/models/env/second_ai/l118_dian.glb`（118 巷 118牛排店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop dian`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh dian`） |
 | `potted_plant_04` | 東牆層板、櫃台上的小盆栽三盆（原本垂下來的藤照舊） | 8,929 → 約 1,340 面；高 0.18～0.26 m | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
+| `potted_plant_02` | 門邊、餐盤車旁的落地盆栽兩盆 | 69,806 → 約 1,400 面；高 1.2 m | `assets/models/env/second_ai/l118_cafe2.glb`（118 巷大學食堂店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/l118_int_cafe2.py`（lane118_shops.cc0_setup）＋`cc0_kit.py`，沒有烘光照：烘了模型會超過 tests/l118_int_home_cafe2_1111_unit.js 的「舊版 1.5 倍以內」） |
+| `potted_plant_04` | 桌上的小盆栽三盆 | 8,929 → 約 1,340 面；高 0.13 m | `assets/models/env/second_ai/l118_cafe2.glb`（118 巷大學食堂店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/l118_int_cafe2.py`（lane118_shops.cc0_setup）＋`cc0_kit.py`，沒有烘光照：烘了模型會超過 tests/l118_int_home_cafe2_1111_unit.js 的「舊版 1.5 倍以內」） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -233,6 +235,12 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Concrete034` | （同上） | 東牆層板上的石鍋；店門口的騎樓地 | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
 | `Tiles036` | （同上） | 廚房的牆（白磁磚）、廚房地板（灰磁磚） | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
 | `Plaster001` | （同上） | 天花板、廚房天花板（vary 0.015；牆照舊乾淨的平塗） | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
+| `Plastic006` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 橘色櫃台、飾板、吊牌（vary 0.02）、深灰塑膠殼椅（形狀照舊）、回收的深灰餐盤（深灰）、疊起來的白餐盤、磅秤、燈框（白）、收銀機 | `assets/models/env/second_ai/l118_cafe2.glb`（118 巷大學食堂店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/l118_int_cafe2.py`（lane118_shops.cc0_setup）＋`cc0_kit.py`，沒有烘光照：烘了模型會超過 tests/l118_int_home_cafe2_1111_unit.js 的「舊版 1.5 倍以內」） |
+| `Metal009` | （同上） | 自助餐台、白飯鍋、湯桶、層架、餐盤車、餐盤架、出菜台（不鏽鋼）；店面鋁框、輕鋼架 | `assets/models/env/second_ai/l118_cafe2.glb`（118 巷大學食堂店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/l118_int_cafe2.py`（lane118_shops.cc0_setup）＋`cc0_kit.py`，沒有烘光照：烘了模型會超過 tests/l118_int_home_cafe2_1111_unit.js 的「舊版 1.5 倍以內」） |
+| `Tiles036` | （同上） | 廚房的牆（白磁磚）、廚房地板（灰磁磚） | `assets/models/env/second_ai/l118_cafe2.glb`（118 巷大學食堂店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/l118_int_cafe2.py`（lane118_shops.cc0_setup）＋`cc0_kit.py`，沒有烘光照：烘了模型會超過 tests/l118_int_home_cafe2_1111_unit.js 的「舊版 1.5 倍以內」） |
+| `Paper001` | （同上） | 秤旁邊的立牌 | `assets/models/env/second_ai/l118_cafe2.glb`（118 巷大學食堂店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/l118_int_cafe2.py`（lane118_shops.cc0_setup）＋`cc0_kit.py`，沒有烘光照：烘了模型會超過 tests/l118_int_home_cafe2_1111_unit.js 的「舊版 1.5 倍以內」） |
+| `Concrete034` | （同上） | 店門口的騎樓地 | `assets/models/env/second_ai/l118_cafe2.glb`（118 巷大學食堂店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/l118_int_cafe2.py`（lane118_shops.cc0_setup）＋`cc0_kit.py`，沒有烘光照：烘了模型會超過 tests/l118_int_home_cafe2_1111_unit.js 的「舊版 1.5 倍以內」） |
+| `Plaster001` | （同上） | 天花板、廚房天花板（vary 0.015；牆照舊乾淨的平塗） | `assets/models/env/second_ai/l118_cafe2.glb`（118 巷大學食堂店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/l118_int_cafe2.py`（lane118_shops.cc0_setup）＋`cc0_kit.py`，沒有烘光照：烘了模型會超過 tests/l118_int_home_cafe2_1111_unit.js 的「舊版 1.5 倍以內」） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 

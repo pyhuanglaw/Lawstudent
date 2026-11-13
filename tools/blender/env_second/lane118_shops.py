@@ -1495,15 +1495,19 @@ _COMMON = dict([(k, 'plastic_w') for k in _W] + [(k, 'steel') for k in _ST] + [(
 CC0_ROUTE = {   # 顏色 → 材質 key（cc0_setup 的 MX）；表上沒有的顏色＝食物、植物、照片、小東西，照舊頂點色
     'self': dict(_COMMON, **{'#f6f4ee': 'box_w', '#c9a46a': 'box_k', '#b8860a': 'brass', '#f2c21a': 'plastic_y', '#e8b81e': 'plastic_y', '#e8b616': 'plastic_y', '#e0b24a': 'plastic_y', '#c8281c': 'plastic_red', '#2a5fb8': 'plastic_blue',
                              '#8a1f1a': 'mat', '#a52a22': 'mat_l'}),
+    'cafe2': dict(_COMMON, **{'#e2742b': 'orange', '#c9652a': 'orange', '#4b4e53': 'tray_grey', '#42454a': 'tray_grey', '#e9e4d8': 'plastic_w', '#ded8ca': 'plastic_w', '#dfe2e4': 'plastic_w',
+                              '#e4e1d8': 'plastic_w', '#e9e6dc': 'paper', '#2a2c2e': 'plastic_dk', '#a9aeb2': 'steel', '#bcc1c5': 'steel', '#b7bcc0': 'steel', '#b4b9bd': 'steel', '#8e9499': 'steel_d',
+                              '#c6cbce': 'steel', '#d9c7a3': 'wood_l', '#b08a5e': 'wood_m', '#fbfaf6': 'plastic_w'}),
     'tea': dict(_COMMON, **{'#7a1418': 'red_wine', '#262221': 'leather_d', '#5a3c2a': 'wood_d', '#6a4a2e': 'wood_d', '#2a2a2c': 'plastic_dk', '#e8e4dc': 'plastic_w', '#f1efe8': 'plastic_w'}),
     'dian': dict(_COMMON, **{'#c4201a': 'red2', '#7a100c': 'red_d', '#7a2a26': 'apron', '#7a4a28': 'wood_m', '#e8eaec': 'plastic_w', '#f2c21a': 'plastic_y', '#c8281c': 'plastic_red', '#2a5fb8': 'plastic_blue', '#e0b24a': 'plastic_y'}),
     'korea': dict(_COMMON, **{'#b41e1c': 'red', '#a8281e': 'red', '#26262a': 'plastic_dk', '#2b1a12': 'wood_d', '#5a3a22': 'wood_d', '#8a6a4a': 'wood_m', '#d8c8a8': 'wood_l',
                               '#eef0ec': 'plastic_w', '#e8eaec': 'plastic_w', '#f1efe8': 'plastic_w', '#e9e2cf': 'sack', '#b8860a': 'brass', '#c8281c': 'plastic_red', '#2a5fb8': 'plastic_blue', '#e0b24a': 'plastic_y'}),
 }
-CC0_FOOD = ('self', 'tea')
+CC0_FOOD = ('self', 'tea', 'cafe2')
+CC0_INT = ('cafe2',)   # l118_int_<店>.py 那五間（自己在 main 呼叫 cc0_setup／cc0_post）
 CC0_STEAK = ('dian',)
 CC0_KTEX = ('tea',)   # 開放式廚房的爐口、炒鍋、碗也放進材質組的店（之後做的店都加；已交的 self、korea、dian 不動，重建才會和交出去的一樣）   # 有鐵板牛排的店   # 有配菜盤、炸物的店：用菜色貼圖集
-CC0_VM = {'self': 'steel', 'korea': 'steel', 'dian': 'steel', 'tea': 'steel'}   # 金屬零件（c.vm）表上沒有的顏色、圓柱、車床零件（直接畫進網格的）歸哪一種：水上便當幾乎都是不鏽鋼（飯鍋、保溫燈罩、餐盤）
+CC0_VM = {'cafe2': 'steel', 'self': 'steel', 'korea': 'steel', 'dian': 'steel', 'tea': 'steel'}   # 金屬零件（c.vm）表上沒有的顏色、圓柱、車床零件（直接畫進網格的）歸哪一種：水上便當幾乎都是不鏽鋼（飯鍋、保溫燈罩、餐盤）
 CC0_CHAIRS = {'steelstool': ('metal_stool_02', dict(height=0.46, decimate=0.15, mat='steel')),   # 掃描的是白烤漆凳：形狀照用、材質換不鏽鋼（參考圖、原本都是不鏽鋼）
               'wood': ('painted_wooden_chair_02', dict(height=0.92, recolor=('#170e08', '#5e3f29'), decimate=0.45, chair=True)),
               'bar': ('bar_chair_round_01', dict(height=0.76, decimate=0.1))}
@@ -1673,17 +1677,18 @@ def _scell(kind):
 
 
 def steak_plate_cc0(c, x, z):
-    """CC0 的店（118牛排）：木墊板（材質組）＋橢圓黑鐵板（中間略凹、邊緣翹）＋牛排（深褐、烤紋、中間隆起）＋荷包蛋（蛋白邊緣不規則）＋一小撮玉米＋一小撮麵＋黑胡椒醬，都貼鐵板貼圖集；
-    每一份的角度、大小差一點（不是同一份複製）"""
+    """CC0 的店（118牛排）：木墊板（材質組）＋墊在上面的橢圓黑鑄鐵鐵板（邊緣高 1.4 cm、中間微凹；BB_379 末節 P1：第一版鐵板和木板同高、被木板蓋住，只看得到木頭）
+    ＋鐵板上的牛排（深褐、烤紋、中間隆起）、荷包蛋、一小撮玉米、一小撮麵、牛排上的黑胡椒醬，都貼鐵板貼圖集；每一份的角度、大小差一點"""
     rr = c.rng; m = c.steakm; yaw = rr.uniform(-0.25, 0.25)
-    c.vc.crbox(x - 0.18, x + 0.18, 0.74, 0.756, z - 0.12, z + 0.12, '#7a4a28', r=0.01, seg=1)
-    _disc_uv(c, x, 0.756, z, 0.15, 0.105, yaw, -0.004, None, seg=18, rings=3, m=m, rect=_scell('iron'), wob_=0.0, edge=0.01)          # 鐵板（邊緣高、中間低）
-    ca, sa = math.cos(yaw), math.sin(yaw); R = lambda lx, lz: (x + lx * ca - lz * sa, z + lx * sa + lz * ca)
-    px, pz = R(-0.035, 0.005); _disc_uv(c, px, 0.762, pz, 0.075 * rr.uniform(0.9, 1.1), 0.055 * rr.uniform(0.9, 1.1), yaw + rr.uniform(-0.3, 0.3), 0.014, None, m=m, rect=_scell('steak'), wob_=0.15, edge=0.008)
-    px, pz = R(0.085, -0.04); _disc_uv(c, px, 0.758, pz, 0.042, 0.038, rr.uniform(0, PI), 0.008, None, seg=16, m=m, rect=_scell('egg'), wob_=0.18, edge=0.003)
-    px, pz = R(0.08, 0.055); _disc_uv(c, px, 0.758, pz, 0.03, 0.026, rr.uniform(0, PI), 0.012, None, seg=10, rings=2, m=m, rect=_scell('corn'), wob_=0.2, edge=0.003)
-    px, pz = R(-0.04, -0.075); _disc_uv(c, px, 0.758, pz, 0.045, 0.028, yaw, 0.01, None, seg=12, rings=2, m=m, rect=_scell('noodle'), wob_=0.2, edge=0.003)
-    px, pz = R(-0.03, 0.005); _disc_uv(c, px, 0.777, pz, 0.03, 0.022, rr.uniform(0, PI), 0.003, None, seg=10, rings=2, m=m, rect=_scell('pepper'), wob_=0.25, edge=0.001)   # 牛排上的黑胡椒醬
+    c.vc.crbox(x - 0.18, x + 0.18, 0.74, 0.752, z - 0.125, z + 0.125, '#7a4a28', r=0.01, seg=1)                                      # 木墊板（薄一點）
+    top = 0.768
+    _disc_uv(c, x, top, z, 0.16, 0.11, yaw, -0.006, None, seg=24, rings=3, m=m, rect=_scell('iron'), wob_=0.0, edge=top - 0.752)      # 鑄鐵鐵板：邊緣 0.768、中間 0.762、側面一路到木板
+    ca, sa = math.cos(yaw), math.sin(yaw); R = lambda lx, lz: (x + lx * ca - lz * sa, z + lx * sa + lz * ca); y0 = top - 0.004
+    px, pz = R(-0.04, 0.005); _disc_uv(c, px, y0, pz, 0.085 * rr.uniform(0.92, 1.08), 0.06 * rr.uniform(0.92, 1.08), yaw + rr.uniform(-0.3, 0.3), 0.022, None, m=m, rect=_scell('steak'), wob_=0.15, edge=0.006)
+    px, pz = R(0.092, -0.035); _disc_uv(c, px, y0, pz, 0.048, 0.042, rr.uniform(0, PI), 0.01, None, seg=16, m=m, rect=_scell('egg'), wob_=0.18, edge=0.003)
+    px, pz = R(0.09, 0.058); _disc_uv(c, px, y0, pz, 0.032, 0.028, rr.uniform(0, PI), 0.016, None, seg=10, rings=2, m=m, rect=_scell('corn'), wob_=0.2, edge=0.003)
+    px, pz = R(-0.05, -0.078); _disc_uv(c, px, y0, pz, 0.05, 0.03, yaw, 0.014, None, seg=12, rings=2, m=m, rect=_scell('noodle'), wob_=0.2, edge=0.003)
+    px, pz = R(-0.035, 0.005); _disc_uv(c, px, y0 + 0.022, pz, 0.032, 0.024, rr.uniform(0, PI), 0.003, None, seg=10, rings=2, m=m, rect=_scell('pepper'), wob_=0.25, edge=0.001)   # 牛排上的黑胡椒醬
 
 
 def rice_pot_cc0(c, x, y, z):
@@ -1709,6 +1714,9 @@ def cc0_setup(c):
         'jar': K.acg(P + 'jar_amber', 'Plastic006', vary=0.03, maps=('diff',), target='#d0a85a', tile=0.3, rough_value=0.25, res=256),       # 層板上的醬料罐
         'stone_pot': K.acg(P + 'stone_pot', 'Concrete034', maps=('diff', 'nor'), target='#2b2a28', tile=0.25, rough_value=0.8, res=256),     # 層板上的石鍋
         'bottle': K.acg(P + 'bottle_dark', 'Plastic006', vary=0.03, maps=('diff',), target='#3a3020', tile=0.3, rough_value=0.2, res=256),
+        'orange': K.acg(P + 'orange', 'Plastic006', vary=0.02, maps=('diff',), target='#e2742b', tile=0.5, rough_value=0.4, res=256),          # 大學食堂：橘色櫃台、飾板、吊牌
+        'tray_grey': K.acg(P + 'tray_grey', 'Plastic006', vary=0.03, maps=('diff',), target='#4b4e53', tile=0.4, rough_value=0.45, res=256),
+        'chair_grey': K.acg(P + 'chair_grey', 'Plastic006', vary=0.02, maps=('diff',), target='#4b4e53', tile=0.4, rough_value=0.4, res=256),   # 大學食堂：深灰塑膠殼椅
         'red_wine': K.acg(P + 'red_wine', 'Plastic006', vary=0.02, maps=('diff',), target='#7a1418', tile=0.5, rough_value=0.45, res=256),   # 辛亥韓食：深紅櫃台、框、橫樑
         'leather_d': K.acg(P + 'leather_dark', 'Leather037', target='#2a2422', tile=0.6, rough_value=0.5),                                # 辛亥韓食：卡座的黑色皮坐墊、靠墊
         'red2': K.acg(P + 'red_counter', 'Plastic006', vary=0.02, maps=('diff',), target='#c4201a', tile=0.5, rough_value=0.4, res=256),   # 118牛排：紅色櫃台（飽和色 vary 0.02：0.05 會變一塊塊斑）
@@ -1767,8 +1775,9 @@ def cc0_setup(c):
 
 def cc0_post(c):
     """建完以後：天花板的輕鋼架（ceil_grid 的平塗網格）換鋁材質組"""
-    g = c.extra.pop('cgrid', None)
-    if g is not None: g.mat = c.MX['alu']; g.tile = 1.0; c.cc0m[g.name] = g
+    for gk in ('cgrid', 'ceilgrid'):   # 輕鋼架（lane118 叫 cgrid、l118_int_cafe2 叫 ceilgrid）
+        g = c.extra.pop(gk, None)
+        if g is not None: g.mat = c.MX['alu']; g.tile = 1.0; c.cc0m[g.name] = g
     b = c.extra.pop('beams', None)   # 辛亥韓食的深紅橫樑：材質組（照舊單面、CEIL_ 開頭）
     if b is not None:
         import cc0_kit as K
