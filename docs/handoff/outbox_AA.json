@@ -8150,14 +8150,100 @@
    "files": [
     "docs/story_planning/AA_959_今天開頭砍半_覆寫表.json"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T21:35Z",
    "receiver": "LAWWW",
-   "ack": "LAWWW-C 21:02 選 (a)；21:07 開始做共用套用模組，每版都已通知",
+   "ack": "LAWWW-C 21:02 選 (a)；21:07 開始做共用套用模組，每版都已通知；23:08 LAWWW 改成直接拿最新版",
    "noDirectIntegrate": true,
    "next": "LAWWW-C 共用套用模組接到各匯入工具最後一步；AA_973（9 列）、AA_974（2 列）BB 第二眼後併表",
    "unfinished": "463 列已交；AA_973／974 等 BB",
    "note": "內容：AA_951～957「今天」開頭、AA_958／960～966「……」開頭、AA_967「我只是」、AA_968「我記得」、AA_969～972 模子與不同人同一句、KX-GF-PLACES「四十分鐘」"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "7404d67085（AA_959 615 列，_meta.pendingBB＝[AA_1000]）",
+   "files": [
+    "docs/story_planning/AA_959_今天開頭砍半_覆寫表.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T23:22Z",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C 23:18：併開發分支時直接拿最新版、照 pendingBB 濾；4f33890792 已合 405 列版",
+   "noDirectIntegrate": true,
+   "next": "76f8 發布後 LAWWW 併最新版",
+   "unfinished": "AA_1000 15 列等 BB",
+   "note": "新增 AA_973～974、D158-KX、AA_987 rows、芯慈撞句、AA_992～1000"
+  },
+  {
+   "task": "D158-KX-SAMESCHOOL（BB P0，76f8）",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "1243649c23／16398fa636",
+   "files": [
+    "docs/story_planning/AA_987_可昕念書場景_同校改寫.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-13T23:22Z",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C 23:08：rc2 已換 pairs 20＋rows 26＋D158 5；4 句 AA 判留（ALLOW）",
+   "noDirectIntegrate": true,
+   "next": "BB 驗 rc2 → GO",
+   "unfinished": "—",
+   "note": "可昕念書場景、其他系統外校／通勤前提"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110／芯慈約會（AA_975）",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3cf5dbc71e",
+   "files": [
+    "docs/story_planning/date_system/lines/D01～D33.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T23:22Z",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C 23:03 併法①：76f8 發布後 import_date_lines 重匯",
+   "noDirectIntegrate": true,
+   "next": "白名單加這 33 檔",
+   "unfinished": "—",
+   "note": "lines／likes／dislikeLine.classmate_xinci"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110／芯慈閒聊階梯（AA_979～986）",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "7ec3d18a64",
+   "files": [
+    "docs/story_planning/ladder/ladder_aa*.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T23:22Z",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C 23:03 併法②（build 腳本過時，直接併 JSON）",
+   "noDirectIntegrate": true,
+   "next": "白名單加這 8 檔、import_ladder 重匯",
+   "unfinished": "—",
+   "note": "characters.classmate_xinci 八學期"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110／芯慈其他系統",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "AA_976 c8b12b6c69＋74b49096d4；AA_978 d4a44c1295；AA_988 4639c7ea05／c820a0d3ac；AA_989 4c8564a289；AA_990 0ac75a11cd；AA_991 ecae5efd10",
+   "files": [
+    "AA_976",
+    "AA_978",
+    "AA_988",
+    "AA_989",
+    "AA_990",
+    "AA_991",
+    "AA_537b §8-2"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T23:22Z",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C 23:03 併法③④⑤：各自匯入工具加來源；名單五處（feed3d HEROINES、活動邀約、flower_class、multirel S.BASE、food_fav）LAWWW 程式",
+   "noDirectIntegrate": true,
+   "next": "76f8 發布後併",
+   "unfinished": "—",
+   "note": "BB 全部照用；總表 AA_977 第 3 節"
   }
  ],
  "items": [
