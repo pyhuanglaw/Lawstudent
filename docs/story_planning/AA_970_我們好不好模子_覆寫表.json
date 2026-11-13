@@ -1,0 +1,50 @@
+[
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "我們走到最前面好不好？走不到也沒關係，有吃到就好。",
+  "new": "我們走到最前面！走不到也沒關係，有吃到就好。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "我們在這邊停一下好不好？我腿在抖。",
+  "new": "在這邊停一下，我腿在抖。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "我們在這邊拍一張好不好？要把整個拍進去，你要退很遠。",
+  "new": "在這邊拍一張！要把整個拍進去，你要退很遠。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "我們坐一下好不好？沙裡面好暖。",
+  "new": "坐一下，沙裡面好暖。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "這邊人少。我們坐一下好不好？",
+  "new": "這邊人少。坐一下吧。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "老闆說等一下會更冷。我們買兩杯帶著走好不好？",
+  "new": "老闆說等一下會更冷。買兩杯帶著走。",
+  "speaker": "heroine_02"
+ }
+]
