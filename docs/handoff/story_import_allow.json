@@ -9739,9 +9739,9 @@
   },
   {
    "path": "docs/story_planning/AA_749_termend_kx_v2.json",
-   "sha": "bd1a6fda3",
+   "sha": "110b0fd990",
    "status": "approved",
-   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 8 節，四處已改）",
+   "approvedBy": "AA（D109）AA_1015；BB-C 11-13 23:54 照用（BB_465），判進 rc2c（X364）",
    "task": "TERMEND-OPTS-1110",
    "kind": "json",
    "people": {
@@ -9749,6 +9749,10 @@
    },
    "note": "X324 可昕的學期末約會（大二上～大五上六頓；大一下第一次那頓照現有的）：有選項、選項有效果——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.KX）；place、invite、KX_PLACE、KX_EXTRA、KX_ASK 不動（AA _meta.target）。LAWWW 11-10 通知可以匯入（企劃線 898820f8b）。（11-10 補：AA 交代有選項稿的學期 KX_ASK 的二選一不再接在後面，KX_KHH.Y2W 改由選項「我去。妳排哪幾天？」記。）（11-10 再補，企劃線 1cf434dee：每個選項多 set——KX_KHH true＝原本二選一的「去」（yes）、false＝原本的「沒空」（no）；美國路線 optsUS 不記；大五上三個都記 KX_Y5_CALL（sat）。「我去。妳排哪幾天？」的特例拿掉，改讀 set。）；bd1a6fda3（AA 2026-11-11，企劃線 6bcf38237）：芷若、可昕、Alison、阿哲說的字改斷句（一口氣講的寫法，113 處，意思不變；選項文字 t、fx、set、if、條件、narr 沒動）；美國路線大三下 optsUS 還是沒有 set＝照匯入工具 KX_US_YES 的例外記 Y3S yes",
    "history": [
+    {
+     "sha": "bd1a6fda3",
+     "approvedBy": "（2026-11-13 換成 110b0fd990 以前的版本）"
+    },
     {
      "sha": "1cf434dee",
      "approvedBy": "（2026-11-11 換成 bd1a6fda3 以前的版本）"
@@ -10026,7 +10030,9 @@
    "staleCheckedAt": "6ed4de3685",
    "status": "approved",
    "approvedBy": "AA（D109、D149；BB_323 的修正已改）；LAWWW 2026-11-11 指定只認 6b5507f8a；2026-11-13 STALE-SOURCES-1112 改認 9685559c84（AA-C 11-11「拿掉四句多餘的重複開頭」）——不認 a9465983f0（那一版把第 5 拍「換跑道」那句改成和遊戲不同的字；AA_950：以遊戲為準）；6ed4de3685（AA 對齊遊戲的那句）也不改認：import_arcs 的「應該原樣」要和 AA_712@abb9609116 同字，而 AA_712 新版帶代號、AA 註明不再匯——遊戲那句由 canon897_fix 換成定稿，結果和 6ed4de3685 一樣」",
-   "history": ["6b5507f8a"],
+   "history": [
+    "6b5507f8a"
+   ],
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "note": "X327 沛珊故事線八拍：classmate_peishan 整段取代 AA_712 匯出來的同名物件——tools/story/import_arcs.py 的 overlay_peishan → src/data/heroine_arcs.js。只換 theme、topic、lines、ask、opts[].reply、第 5 拍 cite；祐廷的選項 t、ansId、rel、tell、toldAlt、need、invite、set、from／until／late 工具逐欄比過（不一樣就停）"

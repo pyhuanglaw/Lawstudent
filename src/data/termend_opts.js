@@ -1,11 +1,11 @@
-/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@5d48cae98f、docs/story_planning/AA_748_termend_heart_v2.json@5d48cae98f、docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5d48cae98f、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@5d48cae98f、docs/story_planning/AA_748_termend_heart_v2.json@5d48cae98f、docs/story_planning/AA_749_termend_kx_v2.json@110b0fd990、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5d48cae98f、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
    期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]、「她先說」的告白 HEART[人]（SHE-FIRST-1110）；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */
 'use strict';
 const TERMEND_OPTS={
  "src": {
   "gf": "docs/story_planning/AA_749_termend_gf_v2.json@5d48cae98f",
   "heart": "docs/story_planning/AA_748_termend_heart_v2.json@5d48cae98f",
-  "kx": "docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3",
+  "kx": "docs/story_planning/AA_749_termend_kx_v2.json@110b0fd990",
   "friend": [
    "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5d48cae98f",
    "docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3",
@@ -6093,7 +6093,7 @@ const TERMEND_OPTS={
    "says": [
     {
      "say": [
-      "期末報告我寫房東能不能進房客的房間，老師說題目很奇怪，可是給過了。"
+      "期末報告我寫宿舍可不可以不先講就進房間，老師說題目很奇怪，可是給過了。"
      ]
     }
    ],
@@ -6101,8 +6101,8 @@ const TERMEND_OPTS={
     {
      "t": "「所以能不能？」",
      "re": [
-      "不能！除非很急，像漏水、失火那種。",
-      "我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。"
+      "要先講！除非很急，像漏水、失火那種。",
+      "上個月舍監沒敲門就進來看冷氣，我室友在換衣服。我就是那天決定寫這個的。"
      ],
      "fx": {
       "love": 1
@@ -6113,9 +6113,9 @@ const TERMEND_OPTS={
      ]
     },
     {
-     "t": "「妳房東後來呢？」",
+     "t": "「舍監後來呢？」",
      "re": [
-      "我把報告印一份貼在門上，他現在會先傳訊息了，還加一個貼圖。"
+      "我把報告印一份交給宿舍辦公室。現在要進房間前，他們會先在門上貼一張紙。"
      ],
      "fx": {
       "love": 2
@@ -6140,7 +6140,7 @@ const TERMEND_OPTS={
     }
    ],
    "then": [
-    "寒假你來高雄，我們都沒去過的地方，我來排。"
+    "寒假你來高雄，去我們兩個都沒去過的地方。"
    ]
   },
   "Y3S2": {
@@ -6148,15 +6148,13 @@ const TERMEND_OPTS={
     {
      "if": "US",
      "say": [
-      "八月你就去美國了，我算過了，我們分開最久就是這次。"
+      "八月你就去美國了，我們分開最久就是這次。"
      ]
     },
     {
      "say": [
-      "暑假你在臺北，我在高雄。",
-      {
-       "narr": "（她把手機的行事曆打開。七月、八月，每一格都寫著「高雄」。）"
-      }
+      "下禮拜我回高雄。兩個禮拜，七月二號就回來實習。",
+      "回來以後每天九點上班，你不要以為我很閒。"
      ]
     }
    ],
@@ -6165,7 +6163,7 @@ const TERMEND_OPTS={
      "t": "「幾天？」",
      "re": [
       "四個多月。",
-      "我沒有很在意喔，我只是算了一下。"
+      "我沒有很在意喔。只是剛好想到。"
      ],
      "fx": {
       "love": 2
@@ -6193,7 +6191,7 @@ const TERMEND_OPTS={
     {
      "t": "「妳可以來找我玩啊。」",
      "re": [
-      "機票錢你出嗎？我還要補習啦，你講得好像去墾丁。"
+      "機票錢你出嗎？我暑假要實習啦，你講得好像去墾丁。"
      ],
      "khh": [
       "Y3S",
@@ -6202,11 +6200,10 @@ const TERMEND_OPTS={
      "if": "US"
     },
     {
-     "t": "（把她的手機拿過來，在某個週六打上自己的名字。）",
+     "t": "「那我去高雄找妳。」",
      "re": [
-      "欸！",
-      "你打錯格了，那是禮拜天。",
-      "……禮拜天也可以。"
+      "兩個禮拜而已欸。",
+      "……好啊。禮拜六來，我帶你去吃我家巷口的早餐。"
      ],
      "fx": {
       "love": 2
@@ -6232,9 +6229,9 @@ const TERMEND_OPTS={
      "if": "noUS"
     },
     {
-     "t": "「撐過去就好了。」",
+     "t": "「兩個禮拜很快啦。」",
      "re": [
-      "你講得好輕鬆。"
+      "我又沒有說很久。"
      ],
      "fx": {
       "fr": -1
