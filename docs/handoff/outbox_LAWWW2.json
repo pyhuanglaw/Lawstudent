@@ -9553,6 +9553,29 @@
    "tests": "tz_shops_unit、shop_cc0_unit、notrap、shop_views、front_lit、tz_dongnan_aa823、shop_real_inside、tingzhou_unit、tingzhou_places ALL PASS；place_gate 只差狀態表要 --write",
    "notDone": "端架招牌仍是純色板；面數 11.8 萬超過大店 8 萬建議，請 CC 量手機效能",
    "next": "LAWWW 套 patch、place_gate --write；BB 判美術；接著做聯通 v2、越好吃 v2（底 ba2c7f60ee 以後）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "汀州聯通 v2（手機殼吊卡／配件盒／手機盒／資費海報印刷、大小款式角度不一）、越好吃小館 v2（冰箱看得到飲料、絲布會安燈籠、尖錐斗笠、藍染印花布）——BB 607f3fef2a 兩間 FAIL 重做；shop_cc0 三項都過",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_lian_yue_v2_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_lian_yue_v2_1113/liantong_yuehaochi_v2.patch",
+    "docs/art-rebuild/second_ai/wip/tz_lian_yue_v2_1113/cmp_liantong_v2.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_lian_yue_v2_1113/cmp_yuehaochi_v2.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_lian_yue_v2_1113/v2_liantong_close.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_lian_yue_v2_1113/v2_yuehaochi_close.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_lian_yue_v2_1113/liantong_packs_atlas.png"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 3a37ba48ab（git apply --check 過）",
+   "tests": "16 支 ALL PASS（tz_shops、shop_cc0、tz_liantong_aa824、tz_yuehaochi_aa821、tz_shops_notrap、tz_shop_views、tz_front_lit、shop_real_inside、tingzhou、tingzhou_places…）；place_gate 只差狀態表 --write",
+   "notDone": "聯通左後牆零件抽屜盒、維修台小零件盒仍是純色小方塊",
+   "next": "LAWWW 套 patch、place_gate --write；CC 四鏡頭；BB 判美術。LAWWW2 接著做東南大聯 v2.1（≤8 萬面、枕頭袋、圓杯麵、端架印刷）"
   }
  ]
 }
