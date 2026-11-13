@@ -32,7 +32,8 @@ HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,20.5').split(',') if 
 PARTS = set((os.environ.get('PARTS') or '1,2,3,4,5,6,7').split(','))
 # 11-13 BB-C／LAWWW-C（ab9ab0fbe8 L118 cam_dist 3.6）：ENTERCAM=1＝從門外照玩家走到門口按進去，進門那一下（0／0.4／1／2 秒）鏡頭到頭之間有沒有被擋；
 #   ALLSEATS=1＝⑦ 每一張位子都坐（不只第一張），坐下以後鏡頭到頭之間有沒有被擋（牆、門框）。都只記＋截圖，判定歸 BB。
-ENTERCAM = (os.environ.get('ENTERCAM') or '0') == '1'; ALLSEATS = (os.environ.get('ALLSEATS') or '0') == '1'; SEAT_AP_ONLY = (os.environ.get('SEAT_AP_ONLY') or '0') == '1'   # BB-C 11-14 TZ_SEAT：ALLSEATS 只點有走近點（ap）的
+ENTERCAM = (os.environ.get('ENTERCAM') or '0') == '1'; ALLSEATS = (os.environ.get('ALLSEATS') or '0') == '1'; SEAT_AP_ONLY = (os.environ.get('SEAT_AP_ONLY') or '0') == '1'
+SEAT_ONLY = [tuple(float(v) for v in s.split(',')) for s in (os.environ.get('SEAT_ONLY') or '').split('/') if s]   # BB-C 11-14 WZ_LIN_SEAT_r2：只點這幾張（x,z/x,z）   # BB-C 11-14 TZ_SEAT：ALLSEATS 只點有走近點（ap）的
 OCC_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj, cam=E.camera; const rc=new THREE.Raycaster(); rc.camera=cam;
   const head=new THREE.Vector3(P.position.x,P.position.y+1.5,P.position.z), from=cam.getWorldPosition(new THREE.Vector3()), dir=head.clone().sub(from); const dist=dir.length(); rc.set(from, dir.normalize()); rc.far=Math.max(0,dist-0.35);
   const mine=new Set(); P.traverse(o=>mine.add(o)); const skip=o=>{ if(mine.has(o)||o.visible===false||o.isSprite) return true; const m=o.material; if(!m) return false; const ms=Array.isArray(m)?m:[m];
@@ -233,7 +234,7 @@ async def do_func(pg, cdp, tag, rm, zid):
 
         async def _occ(k, s_, t_):
             o = await pg.evaluate(OCC_JS); occs.append({'seat': [s_['sx'], s_['sz']], 'occ': o}); R.note('%s 坐下鏡頭：%s' % (t_, J(o)))
-        rs = await D.sit_all(pg, cdp, tag + ' ⑦', 'gate_%s_%s_seat' % (TAG, zid), only=None if ALLSEATS else [(rm['seat']['x'], rm['seat']['z'])], on_seated=_occ if ALLSEATS else None, ap_only=SEAT_AP_ONLY)
+        rs = await D.sit_all(pg, cdp, tag + ' ⑦', 'gate_%s_%s_seat' % (TAG, zid), only=SEAT_ONLY or (None if ALLSEATS else [(rm['seat']['x'], rm['seat']['z'])]), on_seated=_occ if ALLSEATS else None, ap_only=SEAT_AP_ONLY)
         res['sit'] = {'res': rs, 'verdict': 'PASS' if rs and rs[0][1] in ('ok', 'occupied') else 'FAIL'}
         if ALLSEATS:
             blk = [o for o in occs if o['occ'].get('hit')]
