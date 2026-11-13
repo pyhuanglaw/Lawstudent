@@ -165,10 +165,11 @@ TAP_HIT = r"""((a)=>{ const E=GAME.E, cam=E.camera, r2=v=>+(+v).toFixed(2); cons
   return {screen:[Math.round(a.x),Math.round(a.y)], hits:hs, screenToFloor:f}; })"""
 
 
-async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, only=None, on_seated=None):
+async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, only=None, on_seated=None, ap_only=False):
     """每一張玩家能坐的位子：走到 GAME.seatApproach（那一層）→ 按 → player.seat、位置 0.15 m 內、高度＝座位 y（沒有＝那一層地板）→ 起身、推得動。回傳 [每張的結果]"""
     seats = await pg.evaluate(SEATS)
     if only: seats = [q for q in seats if any(abs(q['sx'] - a) < 0.06 and abs(q['sz'] - b) < 0.06 for a, b in only)]
+    if ap_only: seats = [q for q in seats if q.get('ap')]   # BB-C 11-14 TZ_SEAT：只點有走近點（ap）的座位
     R.note('%s 座位 %d 張：%s' % (tag, len(seats), J(seats))); res = []
     for k, s in enumerate(seats):
         t = '%s #%d（%s, %s%s）' % (tag, k + 1, s['sx'], s['sz'], (' 二樓' if s['slv'] == 1 else '') + ((' 第 %d 排' % s['row']) if s['row'] else ''))
@@ -214,6 +215,7 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             await pg.wait_for_timeout(500); b = await st(pg)
         if not R.check('%s 走到旁邊，互動按鈕是「%s」' % (t, s['label']), b['interact'].startswith(s['label']), J({k_: b[k_] for k_ in ('x', 'z', 'lv', 'interact', 'stand')})):
             await shot(pg, '%s_nobtn_%d' % (shot_prefix, k + 1), judge_black=False); res.append([k + 1, 'nobtn', s['sx'], s['sz']]); continue
+        pre = {'x': b['x'], 'z': b['z'], 'lv': b['lv']}   # BB-C 11-14 TZ_SEAT：坐下前站的位置（起身要站回這附近）
         await L.tap(pg, cdp, '#interact'); ok = False; ordered = []
         for i_ in range(30):
             await pg.wait_for_timeout(500)
@@ -253,6 +255,9 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             if c['interact'].startswith('起身') or c['interact'].startswith('站起'): said.append(c['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
             await pg.wait_for_timeout(500)
         if said: R.note('%s 起身點了：%s' % (t, J(said)))
+        c = await st(pg); await shot(pg, '%s_stand_%d' % (shot_prefix, k + 1), judge_black=False)
+        sd = round(math.hypot(c['x'] - pre['x'], c['z'] - pre['z']), 2)
+        R.check('%s 起身站的位置離坐下前 %.2f m（CC 暫定 ≤1.5 m；越好吃角落上次被推 4.6 m）；fallback %s→%s' % (t, sd, fb0, c['fb']), sd <= 1.5 and c['lv'] == pre['lv'], J({'pre': pre, 'after': [c['x'], c['z'], c['lv']], 'fb': [fb0, c['fb']]}))
         mv = await pushable(pg, cdp); c = await st(pg)
         R.check('%s 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地' % t, not c['seat'] and c['stand'] and mv >= 0.3 and c['fb'] == fb0, J({'moved': mv, 'x': c['x'], 'z': c['z'], 'lv': c['lv'], 'stand': c['stand'], 'fb': c['fb'] - fb0}))
         res.append([k + 1, 'ok' if ok else 'nosit', s['sx'], s['sz']])
