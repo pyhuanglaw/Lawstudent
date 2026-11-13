@@ -1,9 +1,9 @@
 {
  "_meta": {
-  "doc": "AA_959 DLG-FULL-REVIEW-1110 台詞覆寫表：AA_951～957「今天」開頭砍半＋AA_958 語彤、AA_960 可昕、AA_961 芷若、AA_962 學姊、AA_963 子晴、AA_964 以安、AA_965 沛珊、AA_966 配角「……」開頭減量＋AA_967「我只是」減量「……」開頭減量＋KX-GF-PLACES-1113 一句（LAWWW 11-13 21:02 選 (a)：匯入工具最後一步照本表換，源稿不動）",
+  "doc": "AA_959 DLG-FULL-REVIEW-1110 台詞覆寫表：AA_951～957「今天」開頭砍半＋AA_958 語彤、AA_960 可昕、AA_961 芷若、AA_962 學姊、AA_963 子晴、AA_964 以安、AA_965 沛珊、AA_966 配角「……」開頭減量＋AA_967「我只是」、AA_968「我記得」減量「……」開頭減量＋KX-GF-PLACES-1113 一句（LAWWW 11-13 21:02 選 (a)：匯入工具最後一步照本表換，源稿不動）",
   "by": "AA-C 2026-11-13",
   "how": "每一列：files＝遊戲檔（src/data/），old 一字不差換成 new；speaker 是說話的人（LAWWW 換之前照最近的人物 id 確認）；prefix:true＝old 只是那句的開頭；all:true＝同一檔裡同一句有兩處，兩處都換。建議匯入工具在最後一步照本表換（同 aa630.apply_json 的做法），沒有匯入工具的檔直接換。",
-  "count": 405,
+  "count": 427,
   "note958": "AA_958 的列：old 是遊戲檔裡整句（開頭有「……」），new 是拿掉「……」的同一句。KX-GF-PLACES-1113 那列：開發分支 invites.js 268 行現在的字就是「好，我過去。四十分鐘。」（前面沒有「……」，21:0x 對 adoring-meitner 確認過）。"
  },
  "rows": [
@@ -3674,6 +3674,204 @@
    "new": "不行也沒關係，問問看。",
    "speaker": "classmate_peishan",
    "all": true
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "樹下這張長椅我記得。坐下來，風會從左邊來。",
+   "new": "坐樹下這張長椅，風會從左邊來。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這家的蛋糕我記得，檸檬的那個。這次我請。",
+   "new": "這家要點檸檬的蛋糕。這次我請。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這條路我記得有一段會滑。我走前面，你踩我踩過的地方。",
+   "new": "這條路有一段會滑。我走前面，你踩我踩過的地方。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這條步道的盡頭我記得。最後一段沒有欄杆，要走中間。",
+   "new": "這條步道的盡頭，最後一段沒有欄杆，要走中間。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這段階梯我記得哪一階最滑。就是你現在踩的那一階。",
+   "new": "這段階梯，最滑的就是你現在踩的那一階。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "橋中間最高的那一塊石板，我記得是哪一塊。有裂痕的那塊。",
+   "new": "橋中間最高的那一塊石板，是有裂痕的那塊。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這個車站的椅子我記得。靠柱子那張不會晃。",
+   "new": "這個車站的椅子，靠柱子那張不會晃。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這家的熱紅茶我記得。要等它涼一下，不然嘗不出味道。",
+   "new": "這家的熱紅茶要等它涼一下，不然嘗不出味道。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這個月台我記得。坐最右邊，海最多。",
+   "new": "這個月台坐最右邊，看到的海最多。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "藍色的那扇門我記得在第幾條巷子。第三條，右轉。",
+   "new": "藍色的那扇門在第三條巷子，右轉。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "港邊這張椅子我記得。椅背上有人刻了一個日期。",
+   "new": "港邊這張椅子，椅背上有人刻了一個日期。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "車道上哪裡可以停下來看海，我記得。第二個涼亭。",
+   "new": "車道上可以停下來看海的地方，是第二個涼亭。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這攤的烤玉米我記得要刷兩次醬。我跟老闆說了。",
+   "new": "這攤的烤玉米要刷兩次醬。我跟老闆說了。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "步道的第一段最陡。我記得，所以這次先喝水。",
+   "new": "步道的第一段最陡。這次先喝水。",
+   "speaker": "heroine_01"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "樓梯第三階叫得最大聲，我記得，你踩踩看。",
+   "new": "樓梯第三階叫得最大聲，你踩踩看。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這段路我記得，過了這個彎就看得到海。",
+   "new": "這段路，過了這個彎就看得到海。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這家的香腸我記得，要選瘦的那一邊。",
+   "new": "這家的香腸要選瘦的那一邊。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這條步道我記得有一張椅子，在第二個彎。",
+   "new": "這條步道有一張椅子，在第二個彎。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "炒螃蟹我要跟老闆說小辣，我記得那個辣。",
+   "new": "炒螃蟹我要跟老闆說小辣，上次辣到我。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這條走廊我記得哪一塊木板會叫，我跳過去給你看。",
+   "new": "這條走廊有一塊木板會叫，我跳過去給你看。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這條車道我記得有一段逆風，在橋那邊，要先喝水。",
+   "new": "這條車道在橋那邊有一段逆風，要先喝水。",
+   "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_968",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這次水比較藍，上次是綠的，我記得很清楚。",
+   "new": "這次水比較藍，上次是綠的。",
+   "speaker": "heroine_02"
   }
  ]
 }
