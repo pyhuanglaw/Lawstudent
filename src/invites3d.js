@@ -314,6 +314,8 @@ const INV=(function(){
     return null; };
   /* 現在可以「見面」：約好的時間、人在那裡（talkCharacter 先問這裡）*/
   S.meetable=function(G,id){ const e=S.entryFor(G,id); return e&&e.invite&&e.invite.state==='accepted'&&!e.invite.lead&&G.zone===e.zone?e.invite:null; };   /* 帶路途中（iv.lead）：坐到她旁邊、走到她旁邊才開演（S.leadTick），按說話不另外開 */
+  /* INV-MEET-YIELD-1113（BB-C 11-13 P3，LAWWW 決定讓位）：約好、時間到了、她就在這一區＝互動鍵優先給她（game3d.js updateInteract 設成 E.prefNpc，engine3d.js 對她多算 1.5 m）——總圖約可昕，走到她旁邊不會被別人的初見事件「和常在圖書館的男生說話」搶走 */
+  S.meetPref=function(G){ if(!G||!Array.isArray(G.invites)) return null; for(const iv of G.invites){ if(iv&&iv.who&&iv.state==='accepted'&&iv.day===G.day&&S.meetable(G,iv.who)) return iv.who; } return null; };
   /* 見面：一起待一段時間（旁白）、時間過去、留一筆小記憶、熟一點點（不推進戀愛：使用者第 7 點）、習慣記憶 */
   /* ---------- 一起運動的約會（AA_126 6-6、AA_417 第 3 節，AA-B 2026-10-23 定稿；USER_WANTS D40）：羽球 gym_badminton（新體育館 1F）、晨跑 run_avenue（椰林大道）----------
      見面：子晴、可昕照各自的 sport（第一次＝firstAt；一起的時候三句輪流；結束一句），其他人照 INVITE_DATA.sport 的共用旁白。

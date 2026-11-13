@@ -56758,7 +56758,7 @@
    "id": "INV-MEET-YIELD-1113",
    "title": "約好的女主角在旁邊時，別人的初見事件（例：總圖蔡宗霖「和常在圖書館的男生說話」）不要搶互動鍵——有約、她在 3 m 內的時候初見事件讓位",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -56771,7 +56771,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【LAWWW-C 11-13 21:1x UTC】BB-C P3（76f8 INV_LIB 按到蔡宗霖）：LAWWW 決定讓位；v9.10.26 發布後做（E.nearestInteractable 的優先順序：約會對象＞初見事件），測試 CC INV_LAWLIB。",
+   "next": "【LAWWW-C 11-13 21:2x UTC】做好：invites3d.js S.meetPref（約好、當天、時間到、人在那一區＝她）＋ game3d.js updateInteract 設成 E.prefNpc（findWho 優先）→ engine3d 原有的 1.5 m 優先；tests/inv_meet_yield_1113_unit.js ALL PASS；相關 314 支 ALL PASS。不在 76f8；發布後 CC INV_LAWLIB 驗走到可昕旁邊互動鍵是她。｜【LAWWW-C 11-13 21:1x UTC】BB-C P3（76f8 INV_LIB 按到蔡宗霖）：LAWWW 決定讓位；v9.10.26 發布後做（E.nearestInteractable 的優先順序：約會對象＞初見事件），測試 CC INV_LAWLIB。",
    "source": "BB-C 11-13 21:02（76f8 測試）",
    "authorized": "BB 交 LAWWW 決定"
   }
