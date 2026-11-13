@@ -31,7 +31,11 @@ SAME_DIAG = r"""        def same(g, a):
 """
 
 PHONE_FIX = ("            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)",
-             "            if await pg.evaluate(\"document.getElementById('phone').classList.contains('hide')\"): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)\n"
+             "            _cc_ep = await pg.evaluate(\"(()=>{ const b=document.getElementById('btnPhone'); if(!b) return null; const r=b.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2, e=document.elementFromPoint(x,y); return {xy:[Math.round(x),Math.round(y)], top:e?(e.id||e.tagName)+'.'+String(e.className||'').slice(0,40):null, isBtn:!!e&&(e===b||b.contains(e)), open:GAME.phoneIsOpen?GAME.phoneIsOpen():null, titleIdle:!!GAME.titleIdle}; })()\")\n"
+             "            run.note('CC 診斷 按 #btnPhone 之前（欄位 %s）：%s' % (idx, json.dumps(_cc_ep, ensure_ascii=False)))\n"
+             "            if await pg.evaluate(\"document.getElementById('phone').classList.contains('hide')\"):\n"
+             "                await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)\n"
+             "                run.note('CC 診斷 按完 1 秒（欄位 %s）：phoneOpen=%s' % (idx, await pg.evaluate(\"GAME.phoneIsOpen?GAME.phoneIsOpen():null\")))\n"
              "            else: run.note('CC 包裝：讀檔以後手機已經自己開著（有待回覆），不再按 #btnPhone（按了會關掉），直接切分頁')")   # BB-C 21:37 判 v95_r2 TEST_BUG：讀檔有待回覆手機自己開在訊息分頁，原檔再按一次 #btnPhone＝關掉，課表分頁點不到
 
 WK_LINE = "            wk = await pg.evaluate(\"(document.getElementById('phoneBody')||{}).textContent||''\")"
