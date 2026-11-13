@@ -56177,7 +56177,7 @@
    "id": "BUG-EXIT-PROMPT-STALE-1112",
    "title": "進店那一刻還在對話、人站在出口範圍內：對話結束後不動的話互動鍵是空的，走一步才出現「離開…」（花序；其他店門口也可能）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -56190,7 +56190,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 15:1x UTC】BB（SSB_gg_fnexit，c77fa6520d）：不會卡死；通用修法＝對話結束時重算一次互動點。game3d.js 現在有兩個子代理在改別的段落，等它們合併以後我自己改",
+   "next": "【LAWWW-C 11-13 16:0x UTC】改了：game3d.js GM.refreshInteract（忘掉上一個互動點和字、立刻 updateInteract），對話全部結束（sceneEnd busyDepth 0）、換完區域（enter finally）都叫；兩個方向（進店對話後站在出口不動、出店後還寫「離開花序」）同一個修法。根因沒在瀏覽器確認（每格本來就會重算，只有選單、手機、大地圖暫停時不算）。tests/exit_prompt_refresh_unit.js＋載入 game3d 的 226 支 Node 全過。待 CC 重跑 SSB_gg_fnexit（兩個方向）、BB 判。｜【LAWWW-C 11-12 15:1x UTC】BB（SSB_gg_fnexit，c77fa6520d）：不會卡死；通用修法＝對話結束時重算一次互動點。game3d.js 現在有兩個子代理在改別的段落，等它們合併以後我自己改",
    "source": "BB-C 2026-11-12 14:45 訊息",
    "authorized": true,
    "xai": {
