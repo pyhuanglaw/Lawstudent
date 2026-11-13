@@ -1,15 +1,3 @@
-[16:56:52] skip TZ_REAL_perf_old (already done on fcbc3aab3117c1fec2c1c833b3d44813684e18fd)
-[16:56:52] skip BB0719_exit (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[16:56:52] skip BB0719_flk_1b (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[16:56:52] skip SSB_gg1 (already done on b4706662f3a882d5bfd7c72aca65c845754dde8a)
-[16:56:52] skip SSB_gg2 (already done on b4706662f3a882d5bfd7c72aca65c845754dde8a)
-[16:56:52] skip SSB_gg3a (already done on b4706662f3a882d5bfd7c72aca65c845754dde8a)
-[16:56:52] skip SSB_gg3b (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[16:56:52] skip SSB_gg3c (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[16:56:52] skip STRIP_VERIFY_dakou (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[16:56:52] skip SHUT_XS_door_14 (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[16:56:52] skip SHUT_XS_door_2330 (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[16:56:52] skip SHUT_TZ_door_14 (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
 [16:56:52] skip SHUT_TZ_door_2330 (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
 [16:56:52] skip SHUT_XS_door_14_r2 (already done on 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2)
 [16:56:52] skip SHUT_XS_door_2330_r2 (already done on 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2)
@@ -1998,3 +1986,15 @@
 [23:13:54] ==== START W1R_B3B4_linze  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
 [23:13:57] [res] cpu=26% mem=44% (13.8/31.4 GB) chrome_testing=4  START W1R_B3B4_linze
 [23:15:45] [res] cpu=68% mem=47% (14.7/31.4 GB) chrome_testing=5  END W1R_A3_dorm
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8c52ceea33..d4c9bbecff  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:16:16] ==== END   W1R_A3_dorm  exit=0  161s   ====
+[23:16:20] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[23:16:20] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[23:16:20] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[23:16:20] memory 45% before starting W1R_B5_wancai (2 running)
+[23:16:20] ==== START W1R_B5_wancai  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
+[23:16:22] [res] cpu=18% mem=44% (14.2/31.4 GB) chrome_testing=5  START W1R_B5_wancai
+[23:16:52] 正在跑：SAVE_LZ_growB（已跑 50 分／上限 120 分）、W1R_B3B4_linze（已跑 2 分／上限 20 分）、W1R_B5_wancai（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:17:01] [res] cpu=10% mem=43% (13.5/31.4 GB) chrome_testing=4  END W1R_B3B4_linze
