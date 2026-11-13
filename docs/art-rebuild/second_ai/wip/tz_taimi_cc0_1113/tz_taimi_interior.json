@@ -3,9 +3,9 @@
  "unique_meshes": 33,
  "tris": 38432,
  "tris_drawn": 56352,
- "materials": 26,
+ "materials": 25,
  "out": "assets/models/env/second_ai/tz_taimi_interior.glb",
- "bytes": 3052524,
+ "bytes": 2996796,
  "texres": 512,
  "tris_total": 56352,
  "walls": [

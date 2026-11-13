@@ -9416,6 +9416,27 @@
    ],
    "remaining": "無（衣服近看／假人頭依 LAWWW-C 留下一輪）",
    "next": "LAWWW-C 套 patch（底 cabdf8ad9a）→ BB 判打烊照片；鮮果／刀削麵用同一套"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "泰米村食 CC0 版：Poly Haven 椅子／蕨類／盆栽＋ambientCG 皮、藤、布、金屬、灰泥＋光照貼圖（日／夜）；街上看進去乘同一張光照貼圖；照片圖集 bug",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/taimi_cc0_full.patch",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/taimi_cc0_text.patch",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/cmp_taimi_v1.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/tz_taimi_interior.glb",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/tz_taimi_interior_lm_day.webp",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/tz_taimi_interior_lm_night.webp"
+   ],
+   "remaining": "手機效能未量；光照貼圖 1024 地板較糊；shop_cc0 牆不算純色要 LAWWW／BB 同意",
+   "next": "LAWWW-C 套 taimi_cc0_full.patch（底 0029a82618）→ CC 拍 → BB 判；我接著做 SHUT_XS_across_2330，再來洗樂"
   }
  ]
 }
