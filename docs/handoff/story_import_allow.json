@@ -1272,7 +1272,9 @@
    "sha": "247198e8",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；247198e8 補 VA-10 沒去的玩家看到的第一天照片（阿哲傳三則，取代暫用句）",
-   "note": "AA-C 12:45：VA-09 芯慈事務所、VA-10 桌遊團香港；只在 AA 分支 claude/magical-albattani-bk7b4n"
+   "note": "AA-C 12:45：VA-09 芯慈事務所、VA-10 桌遊團香港；只在 AA 分支 claude/magical-albattani-bk7b4n",
+   "staleCheckedAt": "a3349e94b3",
+   "staleCheckNote": "LAWWW-C 11-13：檔名從「麵店團」改「桌遊團」（b711530d69、a3349e94b3 都只改名），舊檔名在 247198e8 的內容換名後和現在一字不差＝遊戲沒有舊字"
   },
   {
    "path": "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md",
@@ -10026,7 +10028,9 @@
    "staleCheckedAt": "6ed4de3685",
    "status": "approved",
    "approvedBy": "AA（D109、D149；BB_323 的修正已改）；LAWWW 2026-11-11 指定只認 6b5507f8a；2026-11-13 STALE-SOURCES-1112 改認 9685559c84（AA-C 11-11「拿掉四句多餘的重複開頭」）——不認 a9465983f0（那一版把第 5 拍「換跑道」那句改成和遊戲不同的字；AA_950：以遊戲為準）；6ed4de3685（AA 對齊遊戲的那句）也不改認：import_arcs 的「應該原樣」要和 AA_712@abb9609116 同字，而 AA_712 新版帶代號、AA 註明不再匯——遊戲那句由 canon897_fix 換成定稿，結果和 6ed4de3685 一樣」",
-   "history": ["6b5507f8a"],
+   "history": [
+    "6b5507f8a"
+   ],
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "note": "X327 沛珊故事線八拍：classmate_peishan 整段取代 AA_712 匯出來的同名物件——tools/story/import_arcs.py 的 overlay_peishan → src/data/heroine_arcs.js。只換 theme、topic、lines、ask、opts[].reply、第 5 拍 cite；祐廷的選項 t、ansId、rel、tell、toldAlt、need、invite、set、from／until／late 工具逐欄比過（不一樣就停）"
