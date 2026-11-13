@@ -1,0 +1,50 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_view_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\C1112_SHOPV_gen\out
+CC SHOP-INTERIOR-VIEW：SHA a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492；SHOPS ；HOURS [14.0, 20.5]；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [gg_antai 1400] 【前置／捷徑】讀檔進 gg_antai 2025-10-22 14.00 時（區域的出生點）
+PASS [gg_antai 1400] 量得到房間範圍、有門（「離開…」）  {"n": 862, "box": [-3.8, 3.6, -3.1, 4.1], "c": [-0.1, 0.5], "exit": {"x": 0, "z": 4.55, "label": "離開安泰藥局", "to": "gongguan", "spawn": {"x": -18.6, "z": 18, "yaw": 3.1416}}, "counter": {"x": 0, "z": -2.1, "label": "藥師櫃台"}, "h": null, "name": "gg_antai"}
+  [前置／捷徑] [gg_antai 1400] 【前置／捷徑】讀檔到門外 gongguan (-18.60, 18.00)
+  [  64.7s] [gg_antai 1400] 店員（櫃檯 2 m 內）[]、客人 1、門 [{"label": "離開安泰藥局", "x": 0, "z": 4.55}]；天花板旗標 {}；每張（洋紅%／中央標準差／上三分之一天空色%）：{"1_entry": [0, 73.6, 0], "2_window": [0, 44.6, 2.1], "3_counter": [0, 37.5, 0.4], "4_outside": [0, 60.4, 0], "5_game": [0, 49.1, 0.9]}
+PASS [gg_antai 1400] 拍到 5 張（門外那張要有出口的 spawn）  ["1_entry", "2_window", "3_counter", "4_outside", "5_game"]
+  [前置／捷徑] [gg_antai 2030] 【前置／捷徑】讀檔進 gg_antai 2025-10-22 20.50 時（區域的出生點）
+PASS [gg_antai 2030] 量得到房間範圍、有門（「離開…」）  {"n": 862, "box": [-3.8, 3.6, -3.1, 4.1], "c": [-0.1, 0.5], "exit": {"x": 0, "z": 4.55, "label": "離開安泰藥局", "to": "gongguan", "spawn": {"x": -18.6, "z": 18, "yaw": 3.1416}}, "counter": {"x": 0, "z": -2.1, "label": "藥師櫃台"}, "h": null, "name": "gg_antai"}
+  [前置／捷徑] [gg_antai 2030] 【前置／捷徑】讀檔到門外 gongguan (-18.60, 18.00)
+  [  93.3s] [gg_antai 2030] 店員（櫃檯 2 m 內）[]、客人 2、門 [{"label": "離開安泰藥局", "x": 0, "z": 4.55}]；天花板旗標 {}；每張（洋紅%／中央標準差／上三分之一天空色%）：{"1_entry": [0, 77.3, 0], "2_window": [0, 59.4, 0], "3_counter": [0, 39.9, 0.3], "4_outside": [0, 69.7, 0], "5_game": [0, 53.9, 0.7]}
+PASS [gg_antai 2030] 拍到 5 張（門外那張要有出口的 spawn）  ["1_entry", "2_window", "3_counter", "4_outside", "5_game"]
+  [前置／捷徑] [l118_korea 1400] 【前置／捷徑】讀檔進 l118_korea 2025-10-22 14.00 時（區域的出生點）
+PASS [l118_korea 1400] 量得到房間範圍、有門（「離開…」）  {"n": 129, "box": [-2.3, 2.5, -3.25, 3.55], "c": [0.1, 0.15], "exit": {"x": 2.2, "z": 3.8, "label": "離開清州刀削麵", "to": "lane118", "spawn": {"x": 3.9, "z": 17.2, "yaw": 0}}, "counter": {"x": -0.2, "z": -2.2, "label": "點餐（清州刀削麵）"}, "h": null, "name": "l118_korea"}
+  [前置／捷徑] [l118_korea 1400] 【前置／捷徑】讀檔到門外 lane118 (3.90, 17.20)
+  [ 130.9s] [l118_korea 1400] 店員（櫃檯 2 m 內）[{"id": "", "name": "", "x": 0.65, "z": -1.86, "seat": true}]、客人 1、門 [{"label": "離開清州刀削麵", "x": 2.2, "z": 3.8}]；天花板旗標 {"1_entry": "上面三分之一 58% 是天空色（沒有天花板？）"}；每張（洋紅%／中央標準差／上三分之一天空色%）：{"1_entry": [0, 57.2, 57.7], "2_window": [0, 53.5, 22.3], "3_counter": [0, 51.9, 0.3], "4_outside": [0, 45.4, 10.7], "5_game": [0, 67.6, 0.1]}
+PASS [l118_korea 1400] 拍到 5 張（門外那張要有出口的 spawn）  ["1_entry", "2_window", "3_counter", "4_outside", "5_game"]
+  [前置／捷徑] [l118_korea 2030] 【前置／捷徑】讀檔進 l118_korea 2025-10-22 20.50 時（區域的出生點）
+  [ 143.0s] [l118_korea 2030] 讀檔以後在 lane118＝打烊或進不去，跳過
+  [前置／捷徑] [xs_dabu 1400] 【前置／捷徑】讀檔進 xs_dabu 2025-10-22 14.00 時（區域的出生點）
+PASS [xs_dabu 1400] 量得到房間範圍、有門（「離開…」）  {"n": 4176, "box": [-2.95, 2.95, -5.25, 5.25], "c": [0, 0], "exit": {"x": 2.5, "z": 5.6, "label": "離開大步球鞋", "to": "xinsheng", "spawn": {"x": -13.9, "z": -16.7, "yaw": 1.5707963267948966}}, "counter": {"x": 0.85, "z": -3.88, "label": "買東西"}, "h": null, "name": "xs_dabu"}
+  [前置／捷徑] [xs_dabu 1400] 【前置／捷徑】讀檔到門外 xinsheng (-13.90, -16.70)
+  [ 179.4s] [xs_dabu 1400] 店員（櫃檯 2 m 內）[{"id": "", "name": "", "x": 0.85, "z": -5.17, "seat": false}]、客人 1、門 [{"label": "離開大步球鞋", "x": 2.5, "z": 5.6}]；天花板旗標 {}；每張（洋紅%／中央標準差／上三分之一天空色%）：{"1_entry": [0, 34.6, 0], "2_window": [0, 29.1, 0], "3_counter": [0, 45.1, 0], "4_outside": [0, 54.2, 0], "5_game": [0, 44.1, 3.3]}
+PASS [xs_dabu 1400] 拍到 5 張（門外那張要有出口的 spawn）  ["1_entry", "2_window", "3_counter", "4_outside", "5_game"]
+  [前置／捷徑] [xs_dabu 2030] 【前置／捷徑】讀檔進 xs_dabu 2025-10-22 20.50 時（區域的出生點）
+PASS [xs_dabu 2030] 量得到房間範圍、有門（「離開…」）  {"n": 4176, "box": [-2.95, 2.95, -5.25, 5.25], "c": [0, 0], "exit": {"x": 2.5, "z": 5.6, "label": "離開大步球鞋", "to": "xinsheng", "spawn": {"x": -13.9, "z": -16.7, "yaw": 1.5707963267948966}}, "counter": {"x": 0.85, "z": -3.88, "label": "買東西"}, "h": null, "name": "xs_dabu"}
+  [前置／捷徑] [xs_dabu 2030] 【前置／捷徑】讀檔到門外 xinsheng (-13.90, -16.70)
+  [ 205.5s] [xs_dabu 2030] 店員（櫃檯 2 m 內）[{"id": "", "name": "", "x": 0.85, "z": -5.17, "seat": false}]、客人 1、門 [{"label": "離開大步球鞋", "x": 2.5, "z": 5.6}]；天花板旗標 {}；每張（洋紅%／中央標準差／上三分之一天空色%）：{"1_entry": [0, 40.7, 0], "2_window": [0, 28.8, 0], "3_counter": [0, 41.3, 0], "4_outside": [0, 56.2, 0], "5_game": [0, 35.8, 0]}
+PASS [xs_dabu 2030] 拍到 5 張（門外那張要有出口的 spawn）  ["1_entry", "2_window", "3_counter", "4_outside", "5_game"]
+  [前置／捷徑] [wz_brunch 1400] 【前置／捷徑】讀檔進 wz_brunch 2025-10-22 14.00 時（區域的出生點）
+PASS [wz_brunch 1400] 量得到房間範圍、有門（「離開…」）  {"n": 135, "box": [-2.4, 2.4, -3.8, 3.8], "c": [0, 0], "exit": {"x": 0.4, "z": 4.45, "label": "離開 SUNNY SIDE", "to": "wenzhou", "spawn": {"x": 45, "z": -4.1, "yaw": 0}}, "counter": {"x": 1.95, "z": -1.1, "label": "點餐"}, "h": null, "name": "wz_brunch"}
+  [前置／捷徑] [wz_brunch 1400] 【前置／捷徑】讀檔到門外 wenzhou (45.00, -4.10)
+  [ 247.3s] [wz_brunch 1400] 店員（櫃檯 2 m 內）[{"id": "", "name": "", "x": 2.6, "z": -2.05, "seat": false}]、客人 5、門 [{"label": "離開 SUNNY SIDE", "x": 0.4, "z": 4.45}]；天花板旗標 {}；每張（洋紅%／中央標準差／上三分之一天空色%）：{"1_entry": [0, 55.3, 0.5], "2_window": [0, 47.6, 0.2], "3_counter": [0, 51.9, 2.2], "4_outside": [0, 65.2, 0.1], "5_game": [0, 49.6, 0.2]}
+PASS [wz_brunch 1400] 拍到 5 張（門外那張要有出口的 spawn）  ["1_entry", "2_window", "3_counter", "4_outside", "5_game"]
+  [前置／捷徑] [wz_brunch 2030] 【前置／捷徑】讀檔進 wz_brunch 2025-10-22 20.50 時（區域的出生點）
+  [ 259.0s] [wz_brunch 2030] 讀檔以後在 wenzhou＝打烊或進不去，跳過
+  [前置／捷徑] [tz_dongnan 1400] 【前置／捷徑】讀檔進 tz_dongnan 2025-10-22 14.00 時（區域的出生點）
+PASS [tz_dongnan 1400] 量得到房間範圍、有門（「離開…」）  {"n": 717, "box": [-3.05, 3.15, -3.8, 3.6], "c": [0.05, -0.1], "exit": {"x": 0, "z": 4.05, "label": "離開東南大聯商行", "to": "tingzhou", "spawn": {"x": -5.4, "z": 16.75, "yaw": 1.5708}}, "counter": {"x": 2.3, "z": 1.55, "label": "結帳"}, "h": null, "name": "tz_dongnan"}
+  [前置／捷徑] [tz_dongnan 1400] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, 16.75)
+  [ 288.0s] [tz_dongnan 1400] 店員（櫃檯 2 m 內）[]、客人 3、門 [{"label": "離開東南大聯商行", "x": 0, "z": 4.05}]；天花板旗標 {}；每張（洋紅%／中央標準差／上三分之一天空色%）：{"1_entry": [0, 43.9, 0], "2_window": [0, 57.5, 4.2], "3_counter": [0, 65, 16.9], "4_outside": [0, 69.9, 0.3], "5_game": [0, 57.3, 2.7]}
+PASS [tz_dongnan 1400] 拍到 5 張（門外那張要有出口的 spawn）  ["1_entry", "2_window", "3_counter", "4_outside", "5_game"]
+  [前置／捷徑] [tz_dongnan 2030] 【前置／捷徑】讀檔進 tz_dongnan 2025-10-22 20.50 時（區域的出生點）
+PASS [tz_dongnan 2030] 量得到房間範圍、有門（「離開…」）  {"n": 717, "box": [-3.05, 3.15, -3.8, 3.6], "c": [0.05, -0.1], "exit": {"x": 0, "z": 4.05, "label": "離開東南大聯商行", "to": "tingzhou", "spawn": {"x": -5.4, "z": 16.75, "yaw": 1.5708}}, "counter": {"x": 2.3, "z": 1.55, "label": "結帳"}, "h": null, "name": "tz_dongnan"}
+  [前置／捷徑] [tz_dongnan 2030] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, 16.75)
+  [ 314.8s] [tz_dongnan 2030] 店員（櫃檯 2 m 內）[]、客人 2、門 [{"label": "離開東南大聯商行", "x": 0, "z": 4.05}]；天花板旗標 {}；每張（洋紅%／中央標準差／上三分之一天空色%）：{"1_entry": [0, 45.3, 0], "2_window": [0.04, 62.6, 4.3], "3_counter": [0.24, 63.5, 16.8], "4_outside": [0, 71.7, 0.3], "5_game": [0, 56.8, 1.9]}
+PASS [tz_dongnan 2030] 拍到 5 張（門外那張要有出口的 spawn）  ["1_entry", "2_window", "3_counter", "4_outside", "5_game"]
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -851,3 +851,12 @@
 [22:03:14] ==== START C1112_SHOPV_gen  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
 [22:03:16] [res] cpu=8% mem=45% (14.3/31.4 GB) chrome_testing=9  START C1112_SHOPV_gen
 [22:03:49] [res] cpu=17% mem=40% (12.7/31.4 GB) chrome_testing=9  END G2DF5_reach
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9ccb918548..a5d23c2809  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:03:55] ==== END   G2DF5_reach  exit=1  665s   ====
+[22:03:58] memory 41% before starting C1112_PHONEGO (2 running)
+[22:03:58] ==== START C1112_PHONEGO  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[22:04:01] [res] cpu=14% mem=42% (12.9/31.4 GB) chrome_testing=9  START C1112_PHONEGO
+[22:06:52] 正在跑：C1112_TZMEAL（已跑 6 分／上限 40 分）、C1112_SHOPV_gen（已跑 3 分／上限 40 分）、C1112_PHONEGO（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:09:05] [res] cpu=14% mem=42% (13.4/31.4 GB) chrome_testing=10  END C1112_SHOPV_gen
