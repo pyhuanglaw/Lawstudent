@@ -3677,11 +3677,13 @@
   {
    "doc": "AA_968",
    "files": [
-    "date_lines.js"
+    "date_lines.js",
+    "date3d.js"
    ],
    "old": "這家的蛋糕我記得，檸檬的那個。這次我請。",
    "new": "這家要點檸檬的蛋糕。這次我請。",
-   "speaker": "heroine_01"
+   "speaker": "heroine_01",
+   "note": "date3d.js S.SHE_PAYS 照整句比，兩處一起換（LAWWW 23:08）"
   },
   {
    "doc": "AA_968",
