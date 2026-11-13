@@ -1,12 +1,3 @@
-[22:25:52] skip X285_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[22:25:52] skip X294_new (already done on 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464)
-[22:25:52] skip X294_old (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[22:25:52] skip X294S_new (already done on 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464)
-[22:25:52] skip X294S_old (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[22:25:52] skip ROMPRIV_new (already done on 6c7e3918f26db59161d8f284f4fa25ca02be2964)
-[22:25:52] skip ROMPRIV_old (already done on 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6)
-[22:25:52] skip SVC2_new (already done on a883f36de45740335f9a1ea30d8512d1f5a9c4a9)
-[22:25:52] skip SVC2_old (already done on bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213)
 [22:25:52] skip X295B_old (already done on 10df264ed291cbef985ed22109443d26535ce790)
 [22:25:52] skip SHADER_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
 [22:25:52] skip SHADER_p0 (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
@@ -1998,3 +1989,12 @@
 [06:10:13] [res] cpu=1% mem=39% (12.3/31.4 GB) chrome_testing=5  START CANON458_INV_LIB_r4
 [06:11:54] 正在跑：REL76_car（已跑 21 分／上限 30 分）、CANON458_INV_LIB_r4（已跑 1 分／上限 20 分）、REL76_save_v95_r4（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:14:25] [res] cpu=3% mem=44% (13.8/31.4 GB) chrome_testing=10  END CANON458_INV_LIB_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bd0cbb62fa..48fe9a77a7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:14:43] ==== END   CANON458_INV_LIB_r4  exit=1  255s   ====
+[06:14:46] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[06:14:46] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[06:14:46] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[06:14:46] solo item REL76_touch waits: no new items start until the 2 running item(s) finish
+[06:15:16] [res] cpu=5% mem=39% (12.2/31.4 GB) chrome_testing=5  END REL76_save_v95_r4
