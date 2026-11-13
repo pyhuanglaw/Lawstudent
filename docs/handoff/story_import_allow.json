@@ -8891,12 +8891,12 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_1.json",
-   "sha": "a9465983f0",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA（D109）",
+   "approvedBy": "AA（D109）；6dbfe10d7e（AA-C 2026-11-12 刪節號收字（DLG-FULL-REVIEW））",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：芷若兩格、子晴一格拿掉句首刪節號）",
    "history": [
     {
      "sha": "4e41f0d09",
@@ -8913,6 +8913,10 @@
     {
      "sha": "d94b6ae6d",
      "approvedBy": "AA（D109）"
+    },
+    {
+     "sha": "a9465983f0",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：芷若兩格、子晴一格拿掉句首刪節號）"
     }
    ]
   },
@@ -8949,12 +8953,12 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_3.json",
-   "sha": "a9465983f0",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA（D109）",
+   "approvedBy": "AA（D109）；6dbfe10d7e（AA-C 2026-11-12 刪節號收字（DLG-FULL-REVIEW））",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：芷若兩格、子晴一格拿掉句首刪節號）",
    "history": [
     {
      "sha": "4e41f0d09",
@@ -8971,23 +8975,33 @@
     {
      "sha": "4de16b994",
      "approvedBy": "AA（D109）"
+    },
+    {
+     "sha": "a9465983f0",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：芷若兩格、子晴一格拿掉句首刪節號）"
     }
    ]
   },
   {
    "path": "docs/story_planning/AA_745_fallback.json",
-   "sha": "4e41f0d09",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA（D109）；BB 11-10 審過（BB_313，第三版）",
+   "approvedBy": "AA（D109）；BB 11-10 審過（BB_313，第三版）；6dbfe10d7e（AA-C 2026-11-12 刪節號收字（DLG-FULL-REVIEW））",
    "task": "MOVIE-FALLBACK-1110",
    "kind": "json",
-   "note": "X324 這部片沒有她的專屬回答時她怎麼回（七個人×六種 kind 各三句，re＋fx）——tools/movie/import_movie_plots.py → src/data/movie_plots.js 的 fallback；src/movies3d.js S.CFG.fallback＝true"
+   "note": "X324 這部片沒有她的專屬回答時她怎麼回（七個人×六種 kind 各三句，re＋fx）——tools/movie/import_movie_plots.py → src/data/movie_plots.js 的 fallback；src/movies3d.js S.CFG.fallback＝true；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：芷若兩格、子晴一格拿掉句首刪節號）",
+   "history": [
+    {
+     "sha": "4e41f0d09",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：芷若兩格、子晴一格拿掉句首刪節號）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_749_termend_gf_v2.json",
-   "sha": "bd1a6fda3",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314，五處已改）",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314，五處已改）；6dbfe10d7e（AA-C 2026-11-12 刪節號收字、語彤不靠蘇姨講道理（DLG-FULL-REVIEW））",
    "task": "TERMEND-OPTS-1110",
    "kind": "json",
    "people": {
@@ -8999,19 +9013,23 @@
      "heroine_04"
     ]
    },
-   "note": "X324 女朋友版的期末飯：每一頓有選項、選項有效果——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.GF）。只匯入 people.gf 的五位（以安、語彤、學姊、芷若、子晴）；classmate_peishan 整段不匯入（使用者 X327 沛珊個性更正、重寫中，AA _meta.rules 最後一條），遊戲照 termend_lines.js 現在的字。可昕另外一筆（AA_749_termend_kx_v2.json）。AA 交重寫版以後由值班 LAWWW 改 sha 和 people。；bd1a6fda3（AA 2026-11-11，企劃線 6bcf38237）：芷若、可昕、Alison、阿哲說的字改斷句（一口氣講的寫法，113 處，意思不變；選項文字 t、fx、set、if、條件、narr 沒動）；這一版 gf_v2 已經刪掉 classmate_peishan 舊段（沛珊照 AA_751@33a1769f8）",
+   "note": "X324 女朋友版的期末飯：每一頓有選項、選項有效果——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.GF）。只匯入 people.gf 的五位（以安、語彤、學姊、芷若、子晴）；classmate_peishan 整段不匯入（使用者 X327 沛珊個性更正、重寫中，AA _meta.rules 最後一條），遊戲照 termend_lines.js 現在的字。可昕另外一筆（AA_749_termend_kx_v2.json）。AA 交重寫版以後由值班 LAWWW 改 sha 和 people。；bd1a6fda3（AA 2026-11-11，企劃線 6bcf38237）：芷若、可昕、Alison、阿哲說的字改斷句（一口氣講的寫法，113 處，意思不變；選項文字 t、fx、set、if、條件、narr 沒動）；這一版 gf_v2 已經刪掉 classmate_peishan 舊段（沛珊照 AA_751@33a1769f8）；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：學期末選項芷若兩格、子晴一格刪節號、語彤一格）",
    "history": [
     {
      "sha": "da2f67faa",
      "approvedBy": "（2026-11-11 換成 bd1a6fda3 以前的版本）"
+    },
+    {
+     "sha": "bd1a6fda3",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：學期末選項芷若兩格、子晴一格刪節號、語彤一格）"
     }
    ]
   },
   {
    "path": "docs/story_planning/AA_748_termend_heart_v2.json",
-   "sha": "33a1769f8",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA（D109）",
+   "approvedBy": "AA（D109）；6dbfe10d7e（AA-C 2026-11-12 刪節號收字、語彤不靠蘇姨講道理（DLG-FULL-REVIEW））",
    "task": "TERMEND-OPTS-1110",
    "kind": "json",
    "people": {
@@ -9031,11 +9049,15 @@
      "heroine_02"
     ]
    },
-   "note": "X324 心意邀約（學期末的告白）：飯桌那一句之後的選項 tableOpts、祐廷說出來的選項 confessOpts——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.TABLE／CONFESS）。只匯入 people 的四位（以安、語彤、學姊、子晴）；芷若（heroine_02）、沛珊（classmate_peishan）的 HEART／tableOpts／confessOpts 不匯入（使用者 X327：重寫中），遊戲照 termend_lines.js、confess_lines.js 現在的字。；33a1769f8（＝09f276fff 那一版，兩版這個檔沒有差別）：芷若的告白改成「寫在杯子上」＋「她先說」模式（SHE-FIRST-1110，LAWWW 2026-11-10 23:26；people.heart → TERMEND_OPTS.HEART.heroine_02）；其他四位的 tableOpts／confessOpts 只是排版不同、匯出來的字一樣；沛珊三段已經從這個檔刪掉（改在 AA_751）",
+   "note": "X324 心意邀約（學期末的告白）：飯桌那一句之後的選項 tableOpts、祐廷說出來的選項 confessOpts——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.TABLE／CONFESS）。只匯入 people 的四位（以安、語彤、學姊、子晴）；芷若（heroine_02）、沛珊（classmate_peishan）的 HEART／tableOpts／confessOpts 不匯入（使用者 X327：重寫中），遊戲照 termend_lines.js、confess_lines.js 現在的字。；33a1769f8（＝09f276fff 那一版，兩版這個檔沒有差別）：芷若的告白改成「寫在杯子上」＋「她先說」模式（SHE-FIRST-1110，LAWWW 2026-11-10 23:26；people.heart → TERMEND_OPTS.HEART.heroine_02）；其他四位的 tableOpts／confessOpts 只是排版不同、匯出來的字一樣；沛珊三段已經從這個檔刪掉（改在 AA_751）；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：學期末選項芷若兩格、子晴一格刪節號、語彤一格）",
    "history": [
     {
      "sha": "da2f67faa",
      "approvedBy": "（2026-11-11 換成 33a1769f8 以前的版本：芷若、沛珊還沒重寫）"
+    },
+    {
+     "sha": "33a1769f8",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：學期末選項芷若兩格、子晴一格刪節號、語彤一格）"
     }
    ]
   },

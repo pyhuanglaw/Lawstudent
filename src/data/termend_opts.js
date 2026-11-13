@@ -1,10 +1,10 @@
-/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@bd1a6fda3、docs/story_planning/AA_748_termend_heart_v2.json@33a1769f8、docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@6dbfe10d7e、docs/story_planning/AA_748_termend_heart_v2.json@6dbfe10d7e、docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
    期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]、「她先說」的告白 HEART[人]（SHE-FIRST-1110）；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */
 'use strict';
 const TERMEND_OPTS={
  "src": {
-  "gf": "docs/story_planning/AA_749_termend_gf_v2.json@bd1a6fda3",
-  "heart": "docs/story_planning/AA_748_termend_heart_v2.json@33a1769f8",
+  "gf": "docs/story_planning/AA_749_termend_gf_v2.json@6dbfe10d7e",
+  "heart": "docs/story_planning/AA_748_termend_heart_v2.json@6dbfe10d7e",
   "kx": "docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3",
   "friend": [
    "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@bd1a6fda3",
@@ -3657,7 +3657,7 @@ const TERMEND_OPTS={
    ],
    "yes": [
     "好了。你可以喝了，要涼了。",
-    "……店長明天一定會看出來。"
+    "店長明天一定會看出來。"
    ],
    "she2": [
     {
@@ -4276,7 +4276,7 @@ const TERMEND_OPTS={
        "t": "「妳平常不吃的。」",
        "re": [
         "今天想。",
-        "蘇姨說人會變。我試試看。"
+        "人會變嘛。我試試看。"
        ],
        "fx": {
         "love": 1
@@ -4923,7 +4923,7 @@ const TERMEND_OPTS={
        "t": "「妳三天就會認識整層樓。」",
        "re": [
         "你把我講得很吵欸。",
-        "……好啦，可能兩天。"
+        "好啦，可能兩天。"
        ],
        "fx": {
         "love": 2
@@ -5309,7 +5309,7 @@ const TERMEND_OPTS={
        "t": "「上架了嗎？我要買。」",
        "re": [
         "不用買。我給你序號。",
-        "……你還是買一下好了。銷量很難看。"
+        "你還是買一下好了。銷量很難看。"
        ],
        "fx": {
         "love": 2
