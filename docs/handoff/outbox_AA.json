@@ -8077,7 +8077,7 @@
   {
    "task": "SHOP-CC0-HELP-1113",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "cd39c6fe88（底＝c77ddb5d11＋四間新店）＋7cb5a38226＋8aefc0d979",
+   "sha": "7231491848（底 01a512595d）＋7cb5a38226＋8aefc0d979",
    "files": [
     "docs/art-rebuild/aa_help/l118_p2_round2_cc0.patch",
     "docs/art-rebuild/aa_help/cmp_l118_self_r2.jpg",
@@ -8086,11 +8086,11 @@
    ],
    "state": "已交付",
    "at": "2026-11-13T19:35Z",
-   "receiver": "LAWWW2",
-   "ack": "LAWWW2-C 19:42 三間 PASS（加的 korea 筷筒、self 厚炸物待看）",
+   "receiver": "LAWWW",
+   "ack": "LAWWW2-C 20:44 PASS（三件近看）",
    "noDirectIntegrate": true,
-   "next": "LAWWW2 看完加的三件 → 和四間新店一起交 LAWWW-C",
-   "unfinished": "九間的 P2 清單全部交出；剩 LAWWW2／BB 回饋"
+   "next": "LAWWW-C 整合",
+   "unfinished": "P3：麵粉袋像方盒、炸物可以更凹凸、包水餃不鏽鋼偏霧"
   },
   {
    "task": "SHOP-CC0-HELP-1113",
@@ -8114,13 +8114,34 @@
    "files": [
     "docs/art-rebuild/aa_help/l118_pasta_omu_noodle2_home_cc0.patch"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T20:10Z",
    "receiver": "LAWWW",
-   "ack": "LAWWW2-C 20:18 PASS",
+   "ack": "LAWWW-C 01a512595d 已整合",
    "noDirectIntegrate": true,
    "next": "LAWWW-C 整合",
    "unfinished": "無"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "98cb6b7968＋7231491848＋108c601678",
+   "files": [
+    "docs/story_planning/AA_951_學姊今天開頭砍半.md",
+    "docs/story_planning/AA_952_沛珊今天開頭砍半.md",
+    "docs/story_planning/AA_953_以安今天開頭砍半.md",
+    "docs/story_planning/AA_954_芷若今天開頭砍半.md",
+    "docs/story_planning/AA_955_可昕今天開頭砍半.md",
+    "docs/story_planning/AA_956_語彤今天開頭砍半.md",
+    "docs/story_planning/AA_957_子晴今天開頭砍半.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T20:50Z",
+   "receiver": "LAWWW",
+   "ack": "BB_465 照用 951～954",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 照表換（951～954 定稿）；955～957 等 BB 第二眼",
+   "unfinished": "AA_955～957 BB 第二眼"
   }
  ],
  "items": [
