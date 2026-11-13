@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_invite_phone_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_AN_BEAT8_r3\out
+CC 手機約人：TAG c458_anbeat8；SHA 76f8b639f0；gongguan 2027-10-20 17.5；WHO heroine_01；PICKS ['吃飯', '燒臘', '今天']；ROUTE ['travel:noodle']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀到 gongguan  {"zone": "gongguan", "x": -2.5, "z": -29, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 17.55}
+  [前置／捷徑] 【捷徑】旗標 {"BEATS": {"heroine_01": {"k": 8, "last": null, "ans": {}, "missed": []}}}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2027-10-20 17.5（條件事件關掉）、認識 heroine_01、有聯絡方式、【捷徑】關係加 fam 65；階段 CLOSE_FRIEND
+PASS 手機「朋友」她那一列有「約」
+  [  63.3s] 約 選單 [["念書…2:30 AM、總圖、法律學院圖書館、afar café", "吃飯…公館燒臘、SUNNY SIDE、Daybreak、洋洋鹹酥雞、泰米村食、越好吃小館、客居雲南", "喝咖啡、喝茶…2:30 AM、一盞、afar café", "散步…溫州街、映月湖", "運動…新體育館羽球場、椰影大道", "出去玩…你們現在是朋友。再多相處一陣子。", "算了"], ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯", "去越好吃小館吃河粉", "去客居雲南吃米線", "返回"], ["今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…之後 7 天內選一天", "算了"]]
+  [  63.3s] 約 整段 ["▶ 吃飯…公館燒臘、SUNNY SIDE、Daybreak、洋洋鹹酥雞、泰米村食、越好吃小館、客居雲南", "▶ 去公館燒臘吃飯", "▶ 今天 19:00", "沈以安（手機）｜好。我要叉燒飯。", "｜約好 今天 19:00，公館燒臘"]
+  [  63.3s] 約完 G.invites 最後一筆：{"id": "iv1", "who": "heroine_01", "place": "noodle", "zone": "noodle", "day": 764, "h": 19, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在公館燒臘", "kxd": 1}
+PASS 約好了（G.invites 有 accepted、今天、地點是 ROUTE 最後一區）  {"id": "iv1", "who": "heroine_01", "place": "noodle", "zone": "noodle", "day": 764, "h": 19, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在公館燒臘", "kxd": 1}
+  [前置／捷徑] 【捷徑】時間撥到約定時間 19.00 前 3 分鐘
+  [  96.5s] 手機「地點」沒有 noodle
+FAIL [1] 手機「地點」快速前往 noodle  {"dlg": false, "t": "約好 今天 19:00，公館燒臘。", "who": "", "choices": ["直接過去：和沈以安約在公館燒臘（19:00）照快速前往的路程時間", "自己走過去"], "busy": true, "interact": "互動", "toast": "提醒：19:00 和沈以安約在公館燒臘。", "phone": false}
+  [ 110.4s] 進店 12 秒（每 0.5 秒）她： [{"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}, {"none": true, "zone": "gongguan", "h": 18.95}]
+  [ 110.4s] 進店以後邀約紀錄：{"id": "iv1", "who": "heroine_01", "place": "noodle", "zone": "noodle", "day": 764, "h": 19, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在公館燒臘", "kxd": 1, "rem": 1}
+FAIL 到了她先坐著等（坐下、iv.waitSeat 有）  [[{"none": true, "zone": "gongguan", "h": 18.95}], {"id": "iv1", "who": "heroine_01", "place": "noodle", "zone": "noodle", "day": 764, "h": 19, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在公館燒臘", "kxd": 1, "rem": 1}]
+  [ 110.5s] 她旁邊的空位：null
+FAIL 她旁邊有空位可以坐  null
+PASS 沒有 JS 例外  []
+FAILED 3: [1] 手機「地點」快速前往 noodle；到了她先坐著等（坐下、iv.waitSeat 有）；她旁邊有空位可以坐
