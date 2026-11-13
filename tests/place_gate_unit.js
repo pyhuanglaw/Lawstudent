@@ -27,6 +27,7 @@ const EXCEPT=[
   {zone:'us_market',       item:'quick', reason:'在美國手機「地點」只列公寓和公寓社區（交換流程的設計，src/exchange3d.js EXCH.places、tests/exch_min_unit.js 第 4 項）；超市從公寓「出門（去超市）」搭車去'},
   {zone:'us_asian_market', item:'quick', reason:'同上：在美國不用手機快速前往去店裡，從超市那條街走過去'},
   {zone:'cvs',         item:'typhoon', reason:'便利商店 24 小時、颱風天照開（使用者 11-04「所有便利商店都是24小時」）'},
+  {zone:'wz_teahouse', item:'view', reason:'玻璃（緣側）外面是 3D 的前院，不是照片：wz_teahouse_yard.glb（庭院、冠木門、竹垣、石燈籠、老樟樹、牆外的街；zones3d.js teaYard，WZ-YIZHAN-1104）。LAWWW-C 11-13 判；請 CC 第二層從店裡往外拍一張確認'},
   {zone:'xs_dakou',    item:'typhoon', reason:'24 小時的速食店（places.js：AA_613 沒寫颱風天關）'},
   {zone:'stall:tingzhou:st_ring',      item:'buy', reason:'夜市背景攤（套圈圈）：稿（AA_752）只有看，沒有買'},
   {zone:'stall:tingzhou:st_socks',     item:'buy', reason:'夜市背景攤（襪子）：稿（AA_752）只有看，沒有買'},
@@ -50,7 +51,7 @@ const KNOWN_FAIL=[].concat(
   KF(T_VIEW,'ceiling','wz_print wz_teahouse wz_lin wz_teishoku'),
   /* 118 巷八間店的天花板（L118-DIAN-CEILING-1112）：BB 17:4x 定鏡頭距離 4.2→3.6 m，過了（LAWWW2-C） */
   /* 有窗（或模型有玻璃）沒有窗景照片 */
-  KF(T_VIEW,'view','wz_brunch wz_teahouse us_asian_market us_market'),
+  KF(T_VIEW,'view','us_asian_market us_market'),
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   /* 其他（補查出來的）*/
   /* 美國兩間超市的買得到／錢不夠／字：2026-11-12 接好了（AA_850；src/us_markets3d.js），這三列拿掉 */
@@ -241,9 +242,9 @@ async function checkShop(z){ const nm=nameOf(z), ty=TYPE[z], L=tzLay(z), s118=l1
     const glass=glbsOf(z).some(p=>{ const j=glbJson(p); return j&&(j.materials||[]).some(m=>/glass|玻璃/i.test(m.name||'')); });
     const bad=kinds.filter(k=>!ok(k));
     /* 模型裡的窗景卡換照片（公館 GG_VIEW：材質名；溫州街 WZ_VIEW：網格名；zones3d.js）——卡要真的在模型裡、白天晚上兩張照片都在（SHOP-INTERIOR-VIEW-1112 LAWWW-C 11-13：afar 等七間原本被當成沒有窗景）*/
-    const cards=[]; if(typeof Z3!=='undefined'){ const gv=Z3.GG_VIEW&&Z3.GG_VIEW[z]; if(gv) cards.push({re:new RegExp('^'+gv.mat+'$'),mat:true,day:gv.day,night:gv.night}); const wv=Z3.WZ_VIEW&&Z3.WZ_VIEW[z.replace(/^wz_/,'')]; if(wv) for(const e of wv) cards.push({re:new RegExp(e.mesh),mat:false,day:e.day,night:e.night}); }
-    const cardOk=c=>fs.existsSync(path.join(ROOT,c.day))&&fs.existsSync(path.join(ROOT,c.night))&&glbsOf(z).some(p=>{ const j=glbJson(p); return j&&(c.mat?(j.materials||[]):(j.nodes||[]).concat(j.meshes||[])).some(o=>c.re.test(o.name||'')); });
-    if(!kinds.length&&cards.length){ const cb=cards.filter(c=>!cardOk(c)); if(!cb.length) pass(z,'view'); else fail(z,'view','窗景卡設定了、但模型裡找不到那張卡或照片缺檔：'+cb.map(c=>c.re.source+'（'+c.day+'）').join('、')); }
+    const cards=[]; if(typeof Z3!=='undefined'){ const gv=Z3.GG_VIEW&&Z3.GG_VIEW[z]; if(gv) cards.push({re:new RegExp('^'+gv.mat+'$'),mat:true,day:gv.day,night:gv.night}); const wv=Z3.WZ_VIEW&&Z3.WZ_VIEW[z.replace(/^wz_/,'')]; if(wv) for(const e of wv) cards.push({re:new RegExp(e.mesh),mat:false,day:e.day,night:e.night}); const nv=Z3.WZ_AA_NIGHTVIEW&&Z3.WZ_AA_NIGHTVIEW[z.replace(/^wz_/,'')]; if(nv) cards.push({re:new RegExp('^'+nv.mat+'$'),mat:true,tex:true,night:nv.url}); }   /* WZ_AA_NIGHTVIEW（SUNNY SIDE）：白天是模型裡那張卡自己的貼圖（要有貼圖），晚上換這張 */
+    const cardOk=c=>(c.tex||fs.existsSync(path.join(ROOT,c.day)))&&fs.existsSync(path.join(ROOT,c.night))&&glbsOf(z).some(p=>{ const j=glbJson(p); return j&&(c.mat?(j.materials||[]):(j.nodes||[]).concat(j.meshes||[])).some(o=>c.re.test(o.name||'')&&(!c.tex||!!(o.pbrMetallicRoughness&&o.pbrMetallicRoughness.baseColorTexture)||!!o.emissiveTexture)); });
+    if(!kinds.length&&cards.length){ const cb=cards.filter(c=>!cardOk(c)); if(!cb.length) pass(z,'view'); else fail(z,'view','窗景卡設定了、但模型裡找不到那張卡或照片缺檔：'+cb.map(c=>c.re.source+'（'+(c.day||c.night)+'）').join('、')); }
     else if(kinds.length&&!bad.length) pass(z,'view'); else if(kinds.length) fail(z,'view','窗景照片缺檔：'+bad.join('、')+'（白天、晚上各一張）');
     else if(zone.wins&&zone.wins.length) fail(z,'view','房間有 '+zone.wins.length+' 扇窗、沒有窗外照片（assets/models/env/views/'+z+'_day／_night.webp）');
     else if(glass) fail(z,'view','模型有玻璃、沒有窗景設定（views/ 沒有這一區的照片，程式也沒有放視差窗）'); else pass(z,'view'); }
