@@ -150,6 +150,8 @@ async def meet_lead(pg, cdp):
                 sat_try += 1; R.note('互動鍵「%s」→ 按（第 %d 次）' % (st['interact'], sat_try)); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
             elif sec % 5 == 0: R.note('在 lead.me 附近，互動鍵「%s」（不是坐下）' % st['interact'])
         await pg.wait_for_timeout(1000)
+    # 11-14 INV_LIB_r5：開演那一刻邀約就記 done（mid 1），對話還在演——不能看到 done 就停，要把整場點完（talk 點到沒有對話、能動為止）
+    lines2, menus2 = await talk(pg, cdp, '帶路開演以後', 'invp_%s_lead_scene' % TAG, n=200)
     await pg.screenshot(path=os.path.join(OUT, 'invp_%s_lead_end.png' % TAG))
     dl = await pg.evaluate("(m=>(window.__ccDlg||[]).filter(x=>x.ms>=m))", ms0)
     R.note('帶路開始以後的對話紀錄（%d 句）：%s' % (len(dl), J(dl)))
