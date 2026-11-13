@@ -57,4 +57,13 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
   } else console.log('（跳過第 5 項：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
+// 6 同一份 AA_932 §1：AA_717 可昕輪換句（tools/story/import_arc_rot.py 照白名單 e622a59148 重匯 → src/data/arc_rot.js）
+{ const ROT=read('src/data/arc_rot.js'), allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(e=>e.path===SP+'AA_717_rot_life.json');
+  check('6. 白名單 AA_717 一筆、sha e622a59148、033b5150a 在 history；arc_rot.js 的來源寫 @e622a59148',allow.length===1&&allow[0].sha==='e622a59148'&&allow[0].history.some(h=>h.sha==='033b5150a')&&ROT.includes('AA_717_rot_life.json@e622a59148'));
+  const NEW=['期末週，總圖的位子要搶。','我七點就去排了。','颱風天，學校停課。','新學期，系館的教室又換了。','我每次都走錯樓層。','今天回宿舍的路上，有一隻狗一直跟著我走。','……我差點帶牠回去。','宿舍好冷。','我室友說，冬天會更冷。','我想買一台新筆電。','暑假在臺北的事務所打雜。','我幫忙寫的書狀，最後只被改了兩個地方。'];
+  const OLD=['期末週，我們的圖書館位子要搶。','我搭第一班公車上山。','颱風天，山上的公車停駛。','新學期，我們系的教室又換了。','在山上，換來換去都要爬。','今天下山的時候，有一隻狗一直跟著公車跑。','……我差點下車。','山上的宿舍好冷。','我在存錢買新筆電。','暑假在高雄的事務所實習。','我寫的書狀，最後只被改了兩個地方。'];
+  check('6. arc_rot.js 可昕那幾則＝AA_932 §1 的新字（狗那兩句照 BB_455）',NEW.every(s=>ROT.includes(J(s))),J(NEW.filter(s=>!ROT.includes(J(s)))));
+  check('6. 舊字都不在 arc_rot.js 了',OLD.every(s=>!ROT.includes(J(s))),J(OLD.filter(s=>ROT.includes(J(s)))));
+  check('6. 企劃原稿這一版的代號（舊序章、外校、她室友）沒有進遊戲：照 tools/story/canon897_fix.json 換成 AA_897 的字',!/舊序章|外校|她室友/.test(ROT)); }
+
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

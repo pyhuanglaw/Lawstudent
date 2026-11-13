@@ -3,7 +3,8 @@
   "task": "CANON-NO-ECON-1112 第四批",
   "src": "docs/story_planning/AA_897_src對照表_收尾.md@90780d4661 第 2 節（AA-C 定稿，BB_431）",
   "note": "匯入工具讀稿（import_guard.read_fix 最後一步）一律照這張表整句換：企劃原稿 AA_7xx 已經改成代號、標「不要再從本檔重匯」，所以產生檔照白名單上原本那一版重匯、再照這張表換（重匯一字不差）。只放 AA_897 第 2 節給了新字的整句；拿掉的（flirt_lines 653、712）、整段要重寫的（study_slots 可昕週末那一格）不在這裡。",
-  "encoding": "pairs 的左邊（要換掉的舊句）寫成 \\u 跳脫：canon_scan 不數（D158 新檔不得有那些字）；json.load 讀回來一樣"
+  "encoding": "pairs 的左邊（要換掉的舊句）寫成 \\u 跳脫：canon_scan 不數（D158 新檔不得有那些字）；json.load 讀回來一樣",
+  "note_1113": "CANON-NO-ECON-1112 收尾（2026-11-13）：AA_717 白名單換到 e622a59148（AA_932 §1）。那一版企劃原稿已經把舊名改成代號（a9465983f0），所以最後 4 對＝同一句的代號版，換成的字和上面舊名版那一對一模一樣（AA_897 第 2 節的字），不是新寫的字。"
  },
  "pairs": [
  [
@@ -73,6 +74,22 @@
  [
   "\u6211\u4f11\u5b78\u90a3\u5929\uff0c\u662f\u6211\u5abd\u5148\u958b\u53e3\u554f\u7684\u3002",
   "\u9ad8\u4e09\u90a3\u4e00\u5e74\uff0c\u5f88\u591a\u8a71\u90fd\u662f\u6211\u5abd\u5148\u958b\u53e3\u554f\u7684\u3002"
+ ],
+ [
+  "\u5979\u5ba4\u53cb\u8aaa\uff0c\u51ac\u5929\u6703\u66f4\u51b7\u3002",
+  "\u6211\u5ba4\u53cb\u8aaa\uff0c\u51ac\u5929\u6703\u66f4\u51b7\u3002"
+ ],
+ [
+  "\u4ed6\u5011\u554f\u7684\u554f\u984c\uff0c\u8ddf\u6211\u5011\u820a\u5e8f\u7ae0\u90a3\u5e74\u554f\u7684\u4e00\u6a23\u3002",
+  "\u4ed6\u5011\u554f\u7684\u554f\u984c\uff0c\u8ddf\u6211\u5011\u5927\u4e00\u7684\u6642\u5019\u554f\u7684\u4e00\u6a23\u3002"
+ ],
+ [
+  "\u5916\u6821\u5927\u5b78\u6cd5\u5f8b\u5927\u4e00\uff0c\u5c71\u4e0a\u5bbf\u820d\uff0c\u5ba4\u53cb\u5979\u5ba4\u53cb",
+  "\u9996\u90fd\u5e1d\u5927\u6cd5\u5f8b\u5927\u4e00\uff0c\u5b78\u6821\u5bbf\u820d\uff0c\u5ba4\u53cb\u5f88\u5435"
+ ],
+ [
+  "\u548c\u5979\u5ba4\u53cb\u628a\u623f\u9593\u6f06\u6210\u6de1\u9ec3",
+  "\u548c\u5ba4\u53cb\u5728\u66f8\u684c\u524d\u7684\u7246\u8cbc\u4e86\u6de1\u9ec3\u8272\u7684\u7d19"
  ]
 ]
 }
