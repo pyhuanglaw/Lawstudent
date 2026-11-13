@@ -227,6 +227,7 @@ const GAME = (function(){
   // 起身：放到椅子旁「半徑 0.3 也站得住」的位置（側邊 → 另一側 → 前方 → 後方，距離 0.75/1.0/1.3），都不行就找最近合法格；否則會發生「有走路動畫但走不動」
   function standUp(ent){ ent.pose='idle'; ent.idlePose='idle'; ent.frozen=false; const s=ent.seat; if(s){ const o=ent.obj; const yaw=s.yaw||0; const r=ent.radius||0.3; const ok=(x,z)=>!E.nav||E.canStand(x,z,r,ent.lv|0); const dirs=[[Math.cos(yaw),-Math.sin(yaw)],[-Math.cos(yaw),Math.sin(yaw)],[Math.sin(yaw),Math.cos(yaw)],[-Math.sin(yaw),-Math.cos(yaw)]]; let best=null; const sameFloor=(x,z)=>s.y==null||Math.abs(E.heightAt(x,z,ent.lv|0)-s.y)<=0.2;   /* 階梯教室：起身要站在同一排的平台上（不能站到前一排）*/
       { const bx=s.x-Math.sin(yaw)*0.6, bz=s.z-Math.cos(yaw)*0.6; if(s.y!=null&&ok(bx,bz)&&sameFloor(bx,bz)) best=[bx,bz]; }   /* 有高度的座位（階梯教室）：先試椅子後面 0.6 m（坐下時就是從那裡坐的）*/
+      if(!best&&s.ap&&isFinite(s.ap[0])&&isFinite(s.ap[1])&&ok(s.ap[0],s.ap[1])&&sameFloor(s.ap[0],s.ap[1])) best=[s.ap[0],s.ap[1]];   /* 有指定走近點的座位：起身站回坐下前站的地方（BB 11-13 P2：越好吃角落座位四周 0.75～1.3 m 都被桌子擋住，原本 unstick 把人推到 4.6 m 外）*/
       if(!best) for(const d of [0.75,1.0,1.3]){ for(const [dx,dz] of dirs){ const nx=s.x+dx*d, nz=s.z+dz*d; if(ok(nx,nz)&&sameFloor(nx,nz)){ best=[nx,nz]; break; } } if(best) break; } if(!best&&E.nav){ o.position.set(s.x,o.position.y,s.z); if(E.unstick(ent,12)) best=[o.position.x,o.position.z]; } if(!best) best=[s.x+Math.cos(yaw)*0.75,s.z-Math.sin(yaw)*0.75]; E.placeAt(ent,best[0],best[1]); } ent.seat=null; }
   GM.sitAt=sitAt; GM.standUp=standUp;
   // ---------- NPC ----------

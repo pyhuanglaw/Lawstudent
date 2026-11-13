@@ -30,7 +30,7 @@ const TZS3=(function(){
     bin.build(fb); nav._cm=null;
     const IT=E.interactables, EX=L.exit;
     IT.push({x:EX.x,z:EX.z,radius:EX.r,label:EX.label,exit:{to:L.outZone,spawn:Object.assign({},L.out)}});
-    for(const q of L.seats||[]){ const s={x:q.x,z:q.z,yaw:q.yaw,table:L.id+'_t'+q.table}; if(q.ap) s.ap=q.ap; const ip=q.ap||q; IT.push({x:ip.x,z:ip.z,radius:q.ap?0.6:0.7,label:q.label||'坐下',tzSeat:q.id,seat:s}); }   /* label：配置可以寫（洗樂的塑膠椅「坐著等」、印得好的電腦圓凳「用電腦」，AA_743；GG-SHOPS3 資料補五項，LAWWW2 11-11）*/   /* 卡座（bench）：走近點在兩張桌子中間（ap） */
+    for(const q of L.seats||[]){ const s={x:q.x,z:q.z,yaw:q.yaw,table:L.id+'_t'+q.table}; if(q.ap) s.ap=Array.isArray(q.ap)?q.ap.slice():[q.ap.x,q.ap.z]; const ip=q.ap?(Array.isArray(q.ap)?{x:q.ap[0],z:q.ap[1]}:q.ap):q;   /* seat.ap 一律陣列 [x,z]（game3d.js seatApproach、crowd3d.js 都讀 ap[0]／ap[1]）：配置寫 {x,z}，原本整個傳過去＝走近點讀到 NaN 被跳過，泰米點長椅 t1b 走到旁邊、坐到 1.4 m 外的 t1c（BB 11-13 P2，SHOP-STANDARD-BACKFILL-1112）*/ IT.push({x:ip.x,z:ip.z,radius:q.ap?0.6:0.7,label:q.label||'坐下',tzSeat:q.id,seat:s}); }   /* label：配置可以寫（洗樂的塑膠椅「坐著等」、印得好的電腦圓凳「用電腦」，AA_743；GG-SHOPS3 資料補五項，LAWWW2 11-11）*/   /* 卡座（bench）：走近點在兩張桌子中間（ap） */
     for(const p of L.points||[]) IT.push({x:p.x,z:p.z,radius:p.r,label:p.label,kind:p.kind,tzPoint:p.id,look:'（'+L.name+'）'});   /* 句子、選單：AA_742，LAWWW 接；沒接之前只有這一句 */
     // 鎖著的後間（禮貌生財的書房，X332）：平常導航擋住（隔牆後面整塊）、模型的 STUDY_* 不顯示、STUDY_LID 蓋著、STUDY_DOOR 關著；setStudy(true)＝開門：放行、擋家具、加互動點
     if(L.study){ const SD=L.study, P=L.partition, pts=[]; z.studyOpen=false;

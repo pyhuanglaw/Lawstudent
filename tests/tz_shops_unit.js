@@ -106,4 +106,11 @@ if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,
     const below=at(Lc.h-0.5), above=at(Math.max(cam.y,Lc.h+0.2)), again=at(Lc.h-0.5);
     rows.push(id+' h'+Lc.h+' 鏡頭'+cam.y.toFixed(2)+(cam.y>Lc.h?'（高過）':'')); if(!(below===true&&above===false&&again===true&&Math.abs(z.ceilTop-(Lc.h-0.02))<0.011)) bad.push(id+JSON.stringify([below,above,again,z.ceilTop])); }
   check('天花板 13. 七間：鏡頭在天花板下面看得到天花板和吸頂燈；高過天花板整組藏（Z3.attachRoomGLB 的 ceilHide，門檻＝天花板高度 −2 cm）；降回來又看得到',rows.length>=7&&!bad.length,bad.join(' ')||rows.join('、')); }
+/* 座位 14. 走近點 seat.ap 一律陣列 [x,z]（game3d.js seatApproach、crowd3d.js 讀 ap[0]／ap[1]）；站在走近點上，最近的「坐下」是這一張
+   （BB 11-13 P2：泰米點長椅 t1b (−3.62,3.6) 坐到 1.4 m 外的 t1c——配置的 {x,z} 原本整個傳過去，走近點讀到 NaN 被跳過）*/
+{ const bad=[]; let n=0;
+  for(const id of ids){ const L=ALL[id]; if(!(L.seats||[]).some(q=>q.ap)) continue; loadZone(L.zone); const its=E.interactables.filter(i=>i.seat&&i.tzSeat);
+    for(const it of its){ const ap=it.seat.ap; if(!ap) continue; n++; if(!Array.isArray(ap)||!isFinite(ap[0])||!isFinite(ap[1])){ bad.push(id+'.'+it.tzSeat+' ap='+JSON.stringify(ap)); continue; }
+      if(!stand(ap[0],ap[1],it.lv|0,0.3)) bad.push(id+'.'+it.tzSeat+' 走近點站不住（起身會被推遠：game3d.js standUp 先站回走近點）'); const near=its.filter(q=>q!==it).find(q=>Math.hypot(q.x-ap[0],q.z-ap[1])<Math.hypot(it.x-ap[0],it.z-ap[1])-1e-6); if(near) bad.push(id+'.'+it.tzSeat+' 走近點離 '+near.tzSeat+' 比較近'); } }
+  check('座位 14. 有走近點的座位（'+n+' 張）：seat.ap 是 [x,z] 陣列、站在走近點上最近的「坐下」是這一張、走近點站得住（起身站回這裡）',n>0&&!bad.length,bad.slice(0,6).join('；')); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
