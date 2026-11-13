@@ -101857,6 +101857,58 @@ index 28e0dd3630..ba23d6a5ec 100644
  | 奈良咖哩<br>`l118_omu` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 l118_omu.glb 0.68 m²（基準；連拍確認閃不閃）；質感（D159）：零件 38 個：沒貼圖的純色 45%、方塊 3 個（8%）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；**BB 部分**（@ab9ab0fbe8；未過：④ 有幾張點椅子停在別張旁邊（走到旁邊按坐下可以）；P3；還沒判：質感（D159）：等 SHOP-REALISM-1112 同鏡頭＋參考圖並排判；初看：木樑、木桌有紋路（L118_CAM36 df0db3669 進門全景／櫃檯）；21:2x L118_CAM36_b/c（ab9ab0fbe8，cam 3.6）：店員、客人、窗、天花板、純色塊、功能 PASS；進門與每張座位坐下鏡頭 hit null（沒被門框擋、沒卡牆）；23:3x L118_CLOSED_LOOK（b0a4808c5a）：打烊（21:50）和公休日（14:00）店裡燈全暗、鐵捲門拉下＝看得出關了 PASS；鐵門只拉到一半高（下半截看得到暗的玻璃和櫃台）P3；11-12 21:2x L118_CLOSED_LOOK_r2（31f8361e6d）打烊／公休：鐵捲門拉到地、看不到店內 PASS｜BB_379 11-12 21:2x） | **沒用**（l118_omu.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 50%（零件 34 個，要 <25%）｜SHOP-REALISM-1112） |
  | 迪倫窯烤披薩<br>`l118_noodle2` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 l118_noodle2.glb 1.83 m²（基準；連拍確認閃不閃）；質感（D159）：零件 40 個：沒貼圖的純色 43%、方塊 1 個（3%）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；**BB 部分**（@ab9ab0fbe8；未過：④ 有幾張點椅子停在別張旁邊（走到旁邊按坐下可以）；P3；還沒判：質感（D159）：等 SHOP-REALISM-1112 同鏡頭＋參考圖並排判；初看：紅磚牆有紋路、窯有造型（L118_CAM36 df0db3669 進門全景／櫃檯）；21:2x L118_CAM36_b/c（ab9ab0fbe8，cam 3.6）：店員、客人、窗、天花板、純色塊、功能 PASS；進門與每張座位坐下鏡頭 hit null（沒被門框擋、沒卡牆）；23:3x L118_CLOSED_LOOK（b0a4808c5a）：打烊（21:50）和公休日（14:00）店裡燈全暗、鐵捲門拉下＝看得出關了 PASS；鐵門只拉到一半高（下半截看得到暗的玻璃和櫃台）P3；11-12 21:2x L118_CLOSED_LOOK_r2（31f8361e6d）打烊／公休：鐵捲門拉到地、看不到店內 PASS｜BB_379 11-12 21:2x） | **沒用**（l118_noodle2.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 50%（零件 34 個，要 <25%）｜SHOP-REALISM-1112） |
  
+diff --git a/tests/place_gate_coplanar.json b/tests/place_gate_coplanar.json
+index 9f8e511283..0bed8b3278 100644
+--- a/tests/place_gate_coplanar.json
++++ b/tests/place_gate_coplanar.json
+@@ -180,10 +180,10 @@
+   "top": "WALL_N_trim×l118_cafe2_props 0.196 m² @[-1.18,0.3,-4.5]"
+  },
+  "assets/models/env/second_ai/l118_dian.glb": {
+-  "sha1": "2c83debc643256c1b2e3eb0d807c617d79a67b0b",
+-  "wall": 2.56,
+-  "always": 5.29,
+-  "top": "WALL_N_ksteel×WALL_N_ksteel 1.1 m² @[0.14,2.15,-6.2]"
++  "sha1": "6546e8bf4afcce60cc5bc7ef4669f99290ca1c4b",
++  "wall": 2.54,
++  "always": 5.28,
++  "top": "WALL_N_ksteel_cc0×WALL_N_ksteel_cc0 1.1 m² @[0.14,2.15,-6.2]"
+  },
+  "assets/models/env/second_ai/l118_home.glb": {
+   "sha1": "06fddb37f53ae111dde4011adec04bb0cb7ae75f",
+@@ -192,10 +192,10 @@
+   "top": "l118_home_props×WALL_W_trim 0.317 m² @[-3.8,0.06,0.78]"
+  },
+  "assets/models/env/second_ai/l118_korea.glb": {
+-  "sha1": "c0daa1c14ed17156ee151e8f6a9c08fe2340a2d7",
+-  "wall": 1.54,
+-  "always": 5.69,
+-  "top": "WALL_N_ksteel×WALL_N_ksteel 0.78 m² @[1.09,2.15,-6.45]"
++  "sha1": "983f425cf47ea6a9b506d89eccf7a00e7b88eb67",
++  "wall": 1.53,
++  "always": 5.78,
++  "top": "WALL_N_ksteel_cc0×WALL_N_ksteel_cc0 0.78 m² @[1.09,2.15,-6.45]"
+  },
+  "assets/models/env/second_ai/l118_noodle2.glb": {
+   "sha1": "ed54746a94338eaf233e2481626a19821c07bf79",
+@@ -216,13 +216,13 @@
+   "top": "WALL_N_trim×l118_pasta_steel 0.471 m² @[-1.1,0.32,-4.25]"
+  },
+  "assets/models/env/second_ai/l118_self.glb": {
+-  "sha1": "e7c1d41f0d2407d6ecf73c912d0e4b06a2ada760",
++  "sha1": "afcdc06b5971605b63ad56cd157f2089a4de58d2",
+   "wall": 1.4,
+-  "always": 6.16,
+-  "top": "WALL_N_ksteel×WALL_N_ksteel 0.58 m² @[0.66,2.15,-6.7]"
++  "always": 5.76,
++  "top": "WALL_N_ksteel_cc0×WALL_N_ksteel_cc0 0.58 m² @[0.66,2.15,-6.7]"
+  },
+  "assets/models/env/second_ai/l118_tea.glb": {
+-  "sha1": "b6198478aeaffeaf732c282499b40736e483d939",
++  "sha1": "936e4ba90093b310c4021e5247fd39529d4e12ab",
+   "wall": 0.4,
+   "always": 3.74,
+   "top": "WALL_E_wall×l118_tea_caseglass 0.212 m² @[1.3,1.41,-0.68]"
 diff --git a/tools/blender/env_second/lane118_shops.py b/tools/blender/env_second/lane118_shops.py
 index dc7322408d..6ac40f8f5b 100644
 --- a/tools/blender/env_second/lane118_shops.py
