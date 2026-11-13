@@ -1,4 +1,5 @@
 """CC（帳號 A）11-02：第五批 10 張 ADV 2D 底圖（開發分支 63f00030＝第 1～5 張、78ebf658＝第 6～10 張）
+CC_02 清單 2026-11-14：1✓（日子、時間照程式排出遊那一行；CASES9 照 r2y4a3d.js、r2y4b3d.js @648461e26a） 2✓（事件 id、底圖 id 從程式讀；k 是名字、bg 是底圖） 3n/a（一張一件） 4✓（等遊戲自己跳「出發」才點） 5n/a（不走路） 6✓（PROMPT_S、SCENE_S 等到開演、打完字才拍） 7✓（lint、node 驗 JS） 8n/a（好不好看歸人看截圖） 9✓（截圖原樣、另拍只有底圖） 10✓（之前的對話照字點過去） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：讀到那一天、存檔裡有那一趟出遊） 13n/a（不走路）
   ＋第六批 10 張（c3036bc9，BB_132 第 103 組；清單在檔案下面的 CASES6）
   ＋第七批 10 張（8c00f06d＝前 5 張、6767db8f＝後 5 張，BB_132 第 104 組；清單在 CASES7）
   ＋第八批 10 張（296ed2d0a，BB_132 第 105 組；清單在 CASES8）在遊戲裡的畫面——
@@ -322,7 +323,25 @@ CASES8 = [
              '【前置】畢業典禮那一段記成演過（ev_grad_family、F.PG.done.grad、GRADUATED）＝不先演一整段畢業典禮；不是交往＝朋友版'),
 ]
 for _c in CASES8: _c['batch'] = 8
-CASES = CASES + CASES6 + CASES7 + CASES8
+# CC-C 11-14：BB_460（BLACK-BG-AUDIT-1018 重跑；LAWWW 648461e26a 接好的四段）瀏覽器確認——大四讀書小組「只有可昕的週六」（kxsat）、大四她生日、兩場讀書。
+#   k＝這一張的名字，bg＝要對的底圖（同一張 classroom_small 三個事件用）；q＝程式排出遊那一行照抄（r2y4a3d.js、r2y4b3d.js @648461e26a）；交往中（dating_kexin）
+CASES9 = [
+    dict(k='y4_bar_kxsat', bg='classroom_small', kind='outing', ev='ev_bar_group_video', when='2029-03-03', load_h=9.75, zone='dorm', match='讀書',
+         q=dict(id='y4_bar_vid_{d}', ev='ev_bar_group_video', h=10, late=0.5, place='法律系館・自習室', no='今天先不讀', title='律師讀書小組（法律系館・自習室）', travel='走路', travelH=0.1),
+         flags={'dating_kexin': True, 'KX_MET': True}, src='src/r2y4b3d.js:737 groupVideoRules（S.session mode kxsat：週六 10:00；2029-03-03 是週六）；r2y4b_events.js:578 isSat → bg classroom_small'),
+    dict(k='y4_kx_bday_visit', bg='girls_dorm_gate', kind='outing', ev='ev_kexin_bday_visit_y4', when='2029-04-24', load_h=20.75, zone='dorm', match='湯餃',
+         q=dict(id='y4_kx_bday', ev='ev_kexin_bday_visit_y4', h=21, late=0.5, place='女生宿舍樓下', title='送湯餃', travel='走路', travelH=0.1),
+         flags={'dating_kexin': True, 'KX_MET': True}, src='src/r2y4b3d.js:193 kxBdayPrompt 選「送一碗酸辣湯餃」（KB.d24 2029-04-24）'),
+    dict(k='y4_kx21_study', bg='classroom_small', kind='outing', ev='ev_kexin_study_really', when='2028-09-23', load_h=13.75, zone='dorm', match='讀書',
+         q=dict(id='y4_kx21', ev='ev_kexin_study_really', h=14, late=0.25, place='法律系館・自習室', title='約讀書（可昕）', travel='走路', travelH=0.1),
+         flags={'dating_kexin': True, 'KX_MET': True, 'KX_K21_AT': 'nccu'}, src='src/r2y4a3d.js:351（9/20 回「系館。」KX_K21_AT nccu → 9/23 14:00）'),
+    dict(k='y4_kx22_two', bg='classroom_small', kind='outing', ev='ev_kexin_two_directions', when='2028-11-14', load_h=18.75, zone='dorm', match='讀書會',
+         q=dict(id='y4_kx22', ev='ev_kexin_two_directions', h=19, late=0.25, place='法律系館・自習室', title='兩個方向的讀書會（可昕）', travel='走路', travelH=0.1),
+         flags={'dating_kexin': True, 'KX_MET': True, 'KX_K22': 'go'}, src='src/r2y4a3d.js:361（11/13 回「去。」KX_K22 go → 11/14 19:00）'),
+]
+for _c in CASES9: _c['batch'] = 9
+CASES = CASES + CASES6 + CASES7 + CASES8 + CASES9
+BGOF = lambda c: c.get('bg') or c['k']   # CC-C 11-14：k＝這一張的名字（檔名、總表），bg＝要對的底圖 id（同一張圖給好幾個事件用時 k 不同、bg 相同；沒寫＝k）
 
 # ---------------------------------------------------------------- 頁面裡的小工具
 CLEARP = "(()=>{ if(typeof CLS!=='undefined'&&CLS.clearPending){ CLS.clearPending(); return true; } return false; })()"
@@ -532,7 +551,7 @@ async def wait_scene(pg, cdp, run, c):
     """開演以後等到底圖換成那一張、第一句打完字（或出選項）。之前的對話（例：台中車站接人）照玩家點過去。回傳 (到了沒, ts, bgnow, 之前點過的句子)"""
     t0 = time.time(); last = None; same = 0; pre = []; s = None; g = None
     while time.time() - t0 < max(SCENE_S, c.get('scene_s') or 0):
-        g = await pg.evaluate(BGNOW_JS, c['k']); s = await ts(pg)
+        g = await pg.evaluate(BGNOW_JS, BGOF(c)); s = await ts(pg)
         if g['target']:
             if s['ch']: return True, s, g, pre
             if s['dlg'] and s['txt']:
@@ -610,7 +629,7 @@ async def shoot_set(pg, run, c, o, tag, rec, bgonly=True):
     """這一個方向：量 → 截圖（對話框開著）→（bgonly）暫時只留底圖拍一張、加虛線框再拍一張 → 還原 → 畫 cropmap"""
     k = c['k']
     await set_orient(pg, run, o)
-    m = await pg.evaluate(MEASURE_JS, k)
+    m = await pg.evaluate(MEASURE_JS, BGOF(c))
     await pg.wait_for_timeout(300)
     out = {'measure': m, 'dlg': await run.shot(pg, '%s_%s_%s_dlg' % (k, o, tag))}
     if bgonly:
@@ -622,7 +641,7 @@ async def shoot_set(pg, run, c, o, tag, rec, bgonly=True):
             out['bgbox'] = await run.shot(pg, '%s_%s_%s_bgbox' % (k, o, tag))
         finally:
             await pg.evaluate(OUTLINE_JS, None); await pg.evaluate(HIDE_JS + '(false)'); await pg.wait_for_timeout(250)
-    if m and m.get('cover'): out['cropmap'] = crop_map(k, m, os.path.join(OUT, '%s_%s_%s_cropmap.png' % (k, o, tag)))
+    if m and m.get('cover'): out['cropmap'] = crop_map(BGOF(c), m, os.path.join(OUT, '%s_%s_%s_cropmap.png' % (k, o, tag)))
     run.note('%s［%s・%s］%s' % (k, ONAME[o], tag, describe(m)))
     rec.setdefault('shots', {}).setdefault(tag, {})[o] = out
     return out
@@ -644,12 +663,12 @@ async def case_run(p, run, c):
         if not loaded: run.note('%s：遊戲沒有在時間內載入完（照樣往下）' % k)
         await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
         if c.get('also'):   # 同一張圖也接在別的事件：只讀 STORY_EVENTS 確認（不演）
-            al = await pg.evaluate(ALSO_JS, {'ids': c['also'], 'k': k}); rec['also'] = al
+            al = await pg.evaluate(ALSO_JS, {'ids': c['also'], 'k': BGOF(c)}); rec['also'] = al
             for eid in c['also']:
                 a = (al or {}).get(eid) or {}
                 run.check('%s：只讀確認 %s 的背景有設 %s（不演）' % (k, eid, k), bool(a.get('hit')), J(a.get('bgs')))
         if c.get('hookcheck'):   # 先登記的圖：這一版事件有沒有接到（只讀 STORY_EVENTS）；沒接＝INFO，不演、不算 FAIL
-            hk = await pg.evaluate(ALSO_JS, {'ids': [c['ev']], 'k': k}); a = (hk or {}).get(c['ev']) or {}; rec['hook'] = a
+            hk = await pg.evaluate(ALSO_JS, {'ids': [c['ev']], 'k': BGOF(c)}); a = (hk or {}).get(c['ev']) or {}; rec['hook'] = a
             if not a.get('hit'):
                 rec['info'] = '先登記、還沒接到事件'
                 run.note('%s：INFO 這一版 %s 的背景沒有 %s（%s）＝先登記、還沒接到事件（6767db8f 的狀態；366ac3e2 以後才接）→ 不演、不拍' % (k, c['ev'], k, J(a.get('bgs'))))
@@ -669,6 +688,8 @@ async def case_run(p, run, c):
             '條件事件、手機自動打開先關（QUIET）' if QUIET else '條件事件照常'))
         if c.get('done'): run.setup('[前置] %s：%s 在存檔裡記成演過（G.events.done）%s' % (k, J(c['done']), '，讓遊戲自己的串（%s）從這一張開始' % c['src'] if c['kind'] == 'self' else '（照 src 的說明）'))
         await pg.wait_for_timeout(2500); await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
+        fs = await pg.evaluate("(a=>{ const G=GAME.G; return {key:CALENDAR.dateOf(G.day).key, zone:G.zone, q:a.q?!!(typeof OUT!=='undefined'&&OUT.get&&OUT.get(G,a.q)):null}; })", {'q': q and q['id']})
+        run.check('FAIL_SETUP 檢查：%s 讀到 %s %s%s' % (k, d['key'], cs['zone'], '、存檔裡有出遊 %s' % q['id'] if q else ''), fs['key'] == d['key'] and (not q or fs['q']), J(fs))   # CC-C 11-14（CC_02 丁7）
         cinfo = {'qid': None, 'ev': c['ev'], 'stop': None, 'kind': 'direct'}
         if c['kind'] == 'lines':   # 在 3D 對話裡接的台詞（不是出遊、不是 STORY_EVENTS）：一開始就【捷徑】
             r = await pg.evaluate(LINES_JS, {'ev': c['ev'], 'who': c['who'], 'key': c['key']})
@@ -705,7 +726,7 @@ async def case_run(p, run, c):
             await run.shot(pg, '%s_noscene' % k)
             log = await pg.evaluate("(window.__BG5||[]).slice(-40)"); rec['log_tail'] = log
             run.note('%s：沒到那一張底圖。最後的紀錄：%s' % (k, J(log)[:1500]))
-            for o in orients: run.check('%s［%s］：背景是 assets/bg/%s.webp' % (k, ONAME[o], k), False, '沒到那一張底圖')
+            for o in orients: run.check('%s［%s］：背景是 assets/bg/%s.webp' % (k, ONAME[o], BGOF(c)), False, '沒到那一張底圖')
             for o in orients: run.check('%s［%s］：截圖存在（對話框開著／只有底圖）' % (k, ONAME[o]), False, '沒拍')
             return
         first_named = bool(s.get('name'))
@@ -718,14 +739,14 @@ async def case_run(p, run, c):
         for o in orients:
             sh = await shoot_set(pg, run, c, o, 'first', rec)
             m = sh['measure'] or {}
-            run.check('%s［%s］：背景是 assets/bg/%s.webp' % (k, ONAME[o], k), bool(m.get('target')), J({'file': m.get('file'), 'adv': m.get('advCls'), 'nat': m.get('nat'), 'bgSize': m.get('bgSize'), 'bgPos': m.get('bgPos')}))
+            run.check('%s［%s］：背景是 assets/bg/%s.webp' % (k, ONAME[o], BGOF(c)), bool(m.get('target')), J({'file': m.get('file'), 'adv': m.get('advCls'), 'nat': m.get('nat'), 'bgSize': m.get('bgSize'), 'bgPos': m.get('bgPos')}))
             run.check('%s［%s］：截圖存在（對話框開著／只有底圖）' % (k, ONAME[o]), exists(sh.get('dlg')) and exists(sh.get('bgonly')), J([sh.get('dlg'), sh.get('bgonly'), sh.get('bgbox')]))
         if SPK and not first_named and not s.get('ch'):   # 往下點到第一句有人說話（立繪出來）
             if pg.viewport_size != VP[orients[0]]: await set_orient(pg, run, orients[0])
             got = None
             for i in range(SPK_TAPS):
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700)
-                s2 = await wait_line(pg); g2 = await pg.evaluate(BGNOW_JS, k)
+                s2 = await wait_line(pg); g2 = await pg.evaluate(BGNOW_JS, BGOF(c))
                 if not g2['target']: run.note('%s：往下點第 %d 句，底圖換掉了（%s）——不拍說話那一句' % (k, i + 1, g2.get('bg'))); break
                 if not s2['ch'] and not s2['dlg']: run.note('%s：往下點第 %d 句，事件已經演完（沒有對話框、沒有選項）——不拍說話那一句' % (k, i + 1)); break
                 if s2['ch'] or (s2['dlg'] and s2['name']): got = s2; break
