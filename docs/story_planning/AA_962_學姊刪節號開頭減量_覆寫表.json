@@ -1,0 +1,182 @@
+[
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……你是這禮拜第三個問的。考上再告訴你。",
+  "new": "你是這禮拜第三個問的。考上再告訴你。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……好。那我不要遲到。",
+  "new": "好。那我不要遲到。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……還很久。可是我已經在看學校了。",
+  "new": "還很久。可是我已經在看學校了。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……食譜說「適量」。我討厭適量。",
+  "new": "食譜說「適量」。我討厭適量。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……你這樣說，是因為你習慣了。",
+  "new": "你這樣說，是因為你習慣了。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……她明天還要來問第二題。",
+  "new": "她明天還要來問第二題。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "termend_lines.js"
+  ],
+  "old": "……收到信那天，我打給你。",
+  "new": "收到信那天，我打給你。",
+  "speaker": "heroine_05",
+  "all": true,
+  "note": "同檔其他處是程式註解提到同一句，一起換"
+ },
+ {
+  "files": [
+   "termend_lines.js"
+  ],
+  "old": "……說好你請。",
+  "new": "說好你請。",
+  "speaker": "heroine_05",
+  "all": true,
+  "note": "同檔其他處是程式註解提到同一句，一起換"
+ },
+ {
+  "files": [
+   "termend_opts.js"
+  ],
+  "old": "……收到信那天，我打給你。",
+  "new": "收到信那天，我打給你。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "termend_opts.js"
+  ],
+  "old": "……借我。一行就好。",
+  "new": "借我。一行就好。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……阿嬤，下一次值班，週六早上來。",
+  "new": "阿嬤，下一次值班，週六早上來。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……我自己的研究計畫還沒改完。走了。",
+  "new": "我自己的研究計畫還沒改完。走了。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……可是聽的人會問：那他為什麼要跳？",
+  "new": "可是聽的人會問：那他為什麼要跳？",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……那些人後來去了哪裡。",
+  "new": "那些人後來去了哪裡。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……京都。",
+  "new": "京都。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……你管我。",
+  "new": "你管我。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "invites.js"
+  ],
+  "old": "……我大一的時候，這些都沒人告訴我。",
+  "new": "我大一的時候，這些都沒人告訴我。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……好，我喝一口。",
+  "new": "好，我喝一口。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……好，你拿。",
+  "new": "好，你拿。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……還有沒有別人。我現在問你，你就一次講完。",
+  "new": "還有沒有別人。我現在問你，你就一次講完。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……你去見她那天，出門前發一句給我就好。",
+  "new": "你去見她那天，出門前發一句給我就好。",
+  "speaker": "heroine_05"
+ },
+ {
+  "files": [
+   "gift_holiday.js"
+  ],
+  "old": "……不要拿給別人看。",
+  "new": "不要拿給別人看。",
+  "speaker": "heroine_05"
+ }
+]
