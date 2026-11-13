@@ -9760,6 +9760,28 @@
    "tests": "shop_cc0 兩間 PASS；place_gate ALL PASS（已知未過 11）；相關 83 支全過（cafe_bar_cam_1111 抓到新材質沒透空 → zones3d.js 補 CAFE230_SEETHRU_RE，FAILED 2→ALL PASS）",
    "notDone": "BB 看圖；CC 四鏡頭；wz_teahouse_yard 下一批",
    "next": "LAWWW 套 patch（GHA 候選跑完以後）；BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "第九批：afar 雙孔義式咖啡機（BB 第八批 FAIL）、2:30 AM 單人沙發 v2＋毛毯抱枕改布料（BB P2）、一盞前院 wz_teahouse_yard CC0 化（三項同時成立）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/tz_cc0_batch9_1113.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/cmp_afar_em.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/cmp_cafe230_armchair.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/cmp_yard_cc0.jpg"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 45ac5657bb",
+   "at": "2026-11-13T21:05Z",
+   "tests": "shop_cc0 ALL PASS（基準剩 28）；place_gate ALL PASS（已知未過 11）；相關 165 支全過",
+   "notDone": "BB 看圖；CC 四鏡頭",
+   "next": "LAWWW 套 patch；BB 判"
   }
  ]
 }
