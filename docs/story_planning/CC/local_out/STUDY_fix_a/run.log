@@ -1,0 +1,350 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_fix_a\out
+CASES=["heroine_01"] STEPS=["study_x207", "study_f3", "study_reload_lead", "study_phone_reload"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS [heroine_01] 遊戲載入
+== 人物 heroine_01 沈以安 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 9, "Y2S2": 8, "Y3S1": 8, "Y3S2": 4, "Y4S1": 8, "Y4S2": 8, "Y1S1": 11}、店內偶遇 [{"spot": "cafe", "join": "friend"}]、自由出行 ["D06", "D26", "D09"]）
+-- [heroine_01] study_x207
+  [前置／捷徑] [heroine_01] 讀檔：study：平日早上在校園（手機約總圖念書）（campus 21 9.00）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：第 5 階、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "沈以安", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] study 開始前：15 秒內回到可以自由移動
+PASS [heroine_01] study 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study 開始前：搖桿推得動（≥0.3 m）  2.15 m
+PASS [heroine_01] study 開始前：點地走得動（≥0.3 m）  點 [27.17, 32.32]，走了 0.73 m
+PASS [heroine_01] study 開始前：遊戲時間有在走  9.0960→9.1159
+PASS [heroine_01] study 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_01] study：她會答應的總圖念書時段 [["今天 12:10", 12.166666666666666], ["今天 15:30", 15.5], ["今天 17:30", 17.5], ["今天 19:00", 19], ["今天 21:00", 21], ["明天 12:10", 12.166666666666666], ["明天 19:00", 19]]
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機朋友頁他那一行有「訊息」  ‹ 訊息
+以安
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "去頁間書屋逛逛", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書", "去社科圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」
+INFO [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）（去總圖一起念書 今天 12:10，預期 accept）台詞：["沈以安（手機）｜好。那天你不要排別的。", "｜約好 今天 12:10，總圖。"]
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機約一路點得完
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：沒有新的 JS 例外
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：搖桿推得動（≥0.3 m）  3.12 m
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：點地走得動（≥0.3 m）  點 [27.1, 37.75]，走了 1.02 m
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：遊戲時間有在走  9.1781→9.1983
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：約成（library 21 12.17）
+  [前置／捷徑] [heroine_01] 讀回存檔（study：離約好的時間還有 2.5 小時，存檔的時間改到 21 11.72（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 讀回存檔（study_x207 總圖念書：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] study_x207 總圖念書 選單 ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"] → 選「直接過去：和沈以安約在總圖（12:10）」
+  [heroine_01] 總圖大廳的座位數（不含有名字的位子）：{"lv1": 16, "lv0": 30}
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": 0.93, "z": -2.27, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [heroine_01] 到達「跟著沈以安（go）」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [heroine_01] 「跟著沈以安（go）」：停在離目標 3.32 m（點到的地面偏了），用搖桿往目標推一下
+  [heroine_01] 到達「跟著沈以安（go）」附近（1.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 2 次，11 秒
+  [heroine_01] 到達「跟著沈以安（go）」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 2.2, "lv": 1, "seat": {"x": -7.02, "z": 2.2, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
+  [heroine_01] 「跟著沈以安（wait）」途中停下（離目標 3.23 m）：（小聲）二樓靠窗那排比較安靜。
+  [heroine_01] 「跟著沈以安（wait）」途中停下（離目標 2.10 m）：（你們在長桌的一角坐下。
+  [heroine_01] study_x207 總圖念書 選單 ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「有一次半夜睡不著，我騎車去河堤吹風。」
+  [heroine_01] study_x207 總圖念書 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
+PASS [heroine_01] study_x207 總圖念書：出發、到場、見面那一場一路點得完
+PASS [heroine_01] study_x207 總圖念書：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 10.98, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_x207 總圖念書：約會中時間有往前走  遊戲時間 6.28 小時（21 11.74 → 21 18.02）
+INFO [heroine_01] study_x207 總圖念書：錢 30000 → 30000（+0）  
+PASS [heroine_01] study_x207 總圖念書：關係或記憶有變化  {"rel": {"fam": 3, "trust": 5, "comf": 2, "rom": 1, "npcRom": 1}, "mem": "1→3 ['FIRST_MET', 'REPORT_PARTNER', 'STUDIED_TOGETHER']"}
+PASS [heroine_01] study_x207 總圖念書：對話沒有空白的句子  []
+PASS [heroine_01] study_x207 總圖念書：說話的人名字不是 id  []
+INFO [heroine_01] study_x207 總圖念書：有名字的句子、ADV 開著、立繪框是空的（1 句）  ["沈以安｜下次"]
+  [heroine_01] study_x207 總圖念書：對話紀錄 20 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_fix_a\out\heroine_01_study_x207__transcript.json
+    沈以安｜（小聲）二樓靠窗那排比較安靜。
+    沈以安｜民總的報告，老師分組那天你沒來。
+    沈以安｜我把你寫在我這組了。剩下的人裡，你最不會遲交。
+    （旁白）｜（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
+    沈以安｜我讀我的，你讀你的。不懂再問我。
+    （旁白）｜（她把計時器放在桌角，按了一下。）
+    沈以安｜你知道女舍的門禁是十二點嗎？
+    沈以安｜我昨天十一點五十九分進門。舍監看了我一眼。
+    沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。
+    沈以安｜你呢？你上一次做規則以外的事，是什麼時候？
+    祐廷｜有一次半夜睡不著，我騎車去河堤吹風。
+    沈以安｜一個人？
+    （旁白）｜（她想了一下，好像在想那是什麼樣子。）
+    沈以安｜憲法第八條，是本文裡最長的一條。你知道為什麼嗎？
+    沈以安｜這是一半。
+    沈以安｜新店有一個地方，以前是軍事法庭和看守所。現在是博物館。
+    沈以安｜我一直想去看一次。
+    沈以安｜一個人去的話，我會一直寫筆記。所以還沒去。
+    （旁白）｜（她把螢光筆照顏色排回筆袋。）
+    沈以安｜下次換你決定讀哪一科。
+PASS [heroine_01] study_x207 總圖念書：喝咖啡／吃飯的約會：開演時兩個人都坐著（不查離門口距離，那條只給約念書）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 10.98, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_x207 總圖念書 結束：15 秒內回到可以自由移動
+PASS [heroine_01] study_x207 總圖念書 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] study_x207 總圖念書 結束：沒有新的 JS 例外
+PASS [heroine_01] study_x207 總圖念書 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study_x207 總圖念書 結束：搖桿推得動（≥0.3 m）  3.09 m
+PASS [heroine_01] study_x207 總圖念書 結束：點地走得動（≥0.3 m）  點 [-3.35, 6.05]，走了 0.99 m
+PASS [heroine_01] study_x207 總圖念書 結束：遊戲時間有在走  18.0392→18.0594
+PASS [heroine_01] study_x207 總圖念書 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_x207 總圖念書 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_x207 總圖念書 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_x207 總圖念書：人在約定的地點（G.zone＝library_hall）  library_hall
+PASS [heroine_01] study_x207 總圖念書：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library_hall", "day": 21, "h": 12.018}]
+PASS [heroine_01] study_x207 總圖念書：結束後玩家起身了  {"seat": false}
+PASS [heroine_01] study_x207 總圖念書：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": {"zone": "campus", "away": null, "act": "走走"}, "npc": {"zone": "library_hall", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 3.83, "spawnD": 3.27, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-3.26, 6.28], "ptable": null, "ntable": null, "others": [], "othersInfo": []}}
+INFO [heroine_01] study_x207：風險 5（兩個選單互搶，還沒修，只記錄）前一個選單還沒選完又開了一個 2 次  [{"prev": ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"], "next": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "h": 13.05, "zone": "library_hall", "ms": 1794580261538}, {"prev": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "next": ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"], "h": 13.8, "zone": "library_hall", "ms": 1794580268441}]
+-- [heroine_01] study_f3
+  [前置／捷徑] [heroine_01] 讀回存檔（study_f3 總圖念書：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] study_f3 總圖念書：X207 ② 二樓（lv1）的座位全部設成有人坐（seat.taken，進總圖大廳就設）
+  [heroine_01] study_f3 總圖念書 選單 ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"] → 選「直接過去：和沈以安約在總圖（12:10）」
+  [heroine_01] 總圖大廳的座位數（不含有名字的位子）：{"lv1": 16, "lv0": 30}
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "look", "her": null, "me": null, "look": {"x": -7.03, "z": 5.2, "lv": 1}, "n": {"x": 0.89, "z": -2.43, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [heroine_01] 到達「跟著沈以安（look）」附近（0.16 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_01] 「跟著沈以安（look）」：停在離目標 3.26 m（點到的地面偏了），用搖桿往目標推一下
+  [heroine_01] 到達「跟著沈以安（look）」附近（1.03 m）：點地面 1 次、轉鏡頭 0 次、搖桿 2 次，11 秒
+  [heroine_01] 到達「跟著沈以安（look）」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "full", "her": null, "me": null, "look": {"x": -7.03, "z": 5.2, "lv": 1}, "n": {"x": -7.26, "z": 5.12, "lv": 1, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "idle"}}
+  [heroine_01] 「跟著沈以安（full）」途中停下（離目標 4.90 m）：（小聲）民總的報告，老師分組那天你沒來。
+  [heroine_01] 「跟著沈以安（full）」途中停下（離目標 2.76 m）：（二樓
+  [heroine_01] study_f3 總圖念書：一起走去 library：走到「樓梯間：往 3F 閱覽區」（lv1）
+  [heroine_01] 到達「往 library 的門（樓梯間：往 3F 閱覽區）」附近（0.26 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  [heroine_01] study_f3 總圖念書：按「樓梯間：往 3F 閱覽區」
+  [heroine_01] 帶路：{"zone": "library", "ph": "go", "her": {"x": 7.6, "z": -11.8, "lv": 0}, "me": {"x": 7.6, "z": -13.4, "lv": 0}, "look": null, "n": {"x": 9.98, "z": -8.07, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [heroine_01] 到達「跟著沈以安（go）」附近（1.65 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_01] 到達「跟著沈以安（go）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_01] 帶路：{"zone": "library", "ph": "wait", "her": {"x": 7.6, "z": -11.8, "lv": 0}, "me": {"x": 7.6, "z": -13.4, "lv": 0}, "look": null, "n": {"x": 7.6, "z": -11.8, "lv": 0, "seat": {"x": 7.6, "z": -11.8, "lv": 0}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
+  [heroine_01] 「跟著沈以安（wait）」途中停下（離目標 1.60 m）：（你們在長桌的一角坐下。她把書攤開，把
+  [heroine_01] study_f3 總圖念書 選單 ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「有一次半夜睡不著，我騎車去河堤吹風。」
+  [heroine_01] study_f3 總圖念書 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
+PASS [heroine_01] study_f3 總圖念書：出發、到場、見面那一場一路點得完
+PASS [heroine_01] study_f3 總圖念書：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.6, "sameGroup": false, "doorD": 8.23, "spawnD": 7.98, "npc": true, "nD": 1.6, "nbeh": "idle", "nleaving": false, "nx": 7.6, "nz": -11.8, "p": [7.6, -13.4], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_f3 總圖念書：X207 ② 二樓滿了→真的走到三樓閱覽區（開演時 zone＝library）  {"zone": "library", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.6, "sameGroup": false, "doorD": 8.23, "spawnD": 7.98, "npc": true, "nD": 1.6, "nbeh": "idle", "nleaving": false, "nx": 7.6, "nz": -11.8, "p": [7.6, -13.4], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_f3 總圖念書：約會中時間有往前走  遊戲時間 6.27 小時（21 11.74 → 21 18.01）
+INFO [heroine_01] study_f3 總圖念書：錢 30000 → 30000（+0）  
+PASS [heroine_01] study_f3 總圖念書：關係或記憶有變化  {"rel": {"fam": 3, "trust": 5, "comf": 2, "rom": 1, "npcRom": 1}, "mem": "1→3 ['FIRST_MET', 'REPORT_PARTNER', 'STUDIED_TOGETHER']"}
+PASS [heroine_01] study_f3 總圖念書：對話沒有空白的句子  []
+PASS [heroine_01] study_f3 總圖念書：說話的人名字不是 id  []
+  [heroine_01] study_f3 總圖念書：對話紀錄 22 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_fix_a\out\heroine_01_study_f3__transcript.json
+    沈以安｜（小聲）二樓靠窗那排比較安靜。
+    沈以安｜民總的報告，老師分組那天你沒來。
+    沈以安｜我把你寫在我這組了。剩下的人裡，你最不會遲交。
+    （旁白）｜（二樓的長桌都坐滿了。）
+    沈以安｜（小聲）去三樓好了。三樓沒有人講話。
+    （旁白）｜（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
+    沈以安｜我讀我的，你讀你的。不懂再問我。
+    （旁白）｜（她把計時器放在桌角，按了一下。）
+    沈以安｜你知道女舍的門禁是十二點嗎？
+    沈以安｜我昨天十一點五十九分進門。舍監看了我一眼。
+    沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。
+    沈以安｜你呢？你上一次做規則以外的事，是什麼時候？
+    祐廷｜有一次半夜睡不著，我騎車去河堤吹風。
+    沈以安｜一個人？
+    （旁白）｜（她想了一下，好像在想那是什麼樣子。）
+    沈以安｜憲法第八條，是本文裡最長的一條。你知道為什麼嗎？
+    沈以安｜這是一半。
+    沈以安｜新店有一個地方，以前是軍事法庭和看守所。現在是博物館。
+    沈以安｜我一直想去看一次。
+    沈以安｜一個人去的話，我會一直寫筆記。所以還沒去。
+    （旁白）｜（她把螢光筆照顏色排回筆袋。）
+    沈以安｜下次換你決定讀哪一科。
+PASS [heroine_01] study_f3 總圖念書：喝咖啡／吃飯的約會：開演時兩個人都坐著（不查離門口距離，那條只給約念書）  {"zone": "library", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.6, "sameGroup": false, "doorD": 8.23, "spawnD": 7.98, "npc": true, "nD": 1.6, "nbeh": "idle", "nleaving": false, "nx": 7.6, "nz": -11.8, "p": [7.6, -13.4], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_f3 總圖念書 結束：15 秒內回到可以自由移動
+PASS [heroine_01] study_f3 總圖念書 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] study_f3 總圖念書 結束：沒有新的 JS 例外
+PASS [heroine_01] study_f3 總圖念書 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study_f3 總圖念書 結束：搖桿推得動（≥0.3 m）  2.33 m
+PASS [heroine_01] study_f3 總圖念書 結束：點地走得動（≥0.3 m）  點 [8.13, -4.29]，走了 0.97 m
+PASS [heroine_01] study_f3 總圖念書 結束：遊戲時間有在走  18.0311→18.0510
+PASS [heroine_01] study_f3 總圖念書 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_f3 總圖念書 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_f3 總圖念書 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_f3 總圖念書：人在約定的地點（G.zone＝library_hall）  library
+PASS [heroine_01] study_f3 總圖念書：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library", "day": 21, "h": 12.435}]
+PASS [heroine_01] study_f3 總圖念書：結束後玩家起身了  {"seat": false}
+PASS [heroine_01] study_f3 總圖念書：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": {"zone": "campus", "away": null, "act": "走走"}, "npc": {"zone": "library", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 3.45, "spawnD": 2.94, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [8.16, -4.37], "ptable": null, "ntable": null, "others": [], "othersInfo": []}}
+INFO [heroine_01] study_f3：風險 5（兩個選單互搶，還沒修，只記錄）前一個選單還沒選完又開了一個 2 次  [{"prev": ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"], "next": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "h": 13.235, "zone": "library", "ms": 1794580455988}, {"prev": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "next": ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"], "h": 13.985, "zone": "library", "ms": 1794580462689}]
+-- [heroine_01] study_reload_lead
+  [前置／捷徑] [heroine_01] 讀回存檔（study_reload_lead 總圖念書：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] study_reload_lead 總圖念書 選單 ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"] → 選「直接過去：和沈以安約在總圖（12:10）」
+  [heroine_01] 總圖大廳的座位數（不含有名字的位子）：{"lv1": 16, "lv0": 30}
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": 0.87, "z": -2.58, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [前置／捷徑] [heroine_01] study_reload_lead 總圖念書：X207 ⑥ 帶路途中（iv.lead.ph＝go，她正走向座位）GAME.snapshot→applySave（＝存檔再讀檔）
+  [前置／捷徑] [heroine_01] 讀回存檔（帶路途中）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] study_reload_lead 總圖念書：X207 ⑥ 讀回來以後那一筆約還在帶路（iv.lead 有值、她在旁邊）  {"iv": {"id": "iv1", "state": "accepted", "place": "library", "zone": "library_hall", "day": 21, "h": 12.02, "early": false, "err": false, "opened": true, "alt": false, "noLead": false, "lead": {"ph": "go", "z": "library_hall", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null}}, "n": {"x": 0.07, "z": 1.6, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [heroine_01] 到達「跟著沈以安（go）」附近（0.22 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+  [heroine_01] 到達「跟著沈以安（go）」附近（0.23 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，16 秒
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 2.2, "lv": 1, "seat": {"x": -7.02, "z": 2.2, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
+  [heroine_01] 「跟著沈以安（wait）」途中停下（離目標 1.14 m）：我把你寫在我這組了。剩下的人裡，你最不會遲交。
+  [heroine_01] study_reload_lead 總圖念書 選單 ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「有一次半夜睡不著，我騎車去河堤吹風。」
+  [heroine_01] study_reload_lead 總圖念書 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
+PASS [heroine_01] study_reload_lead 總圖念書：出發、到場、見面那一場一路點得完
+PASS [heroine_01] study_reload_lead 總圖念書：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 10.98, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_reload_lead 總圖念書：X207 ⑥ 帶路途中（iv.lead 有值）讀檔以後接著帶路、兩個人坐下  {"reloaded": true, "seat": {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 10.98, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}, "lead": [{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "hour": 12.0377}, {"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "hour": 12.2513}]}
+PASS [heroine_01] study_reload_lead 總圖念書：約會中時間有往前走  遊戲時間 6.27 小時（21 11.74 → 21 18.02）
+INFO [heroine_01] study_reload_lead 總圖念書：錢 30000 → 30000（+0）  
+PASS [heroine_01] study_reload_lead 總圖念書：關係或記憶有變化  {"rel": {"fam": 3, "trust": 5, "comf": 2, "rom": 1, "npcRom": 1}, "mem": "1→3 ['FIRST_MET', 'REPORT_PARTNER', 'STUDIED_TOGETHER']"}
+PASS [heroine_01] study_reload_lead 總圖念書：對話沒有空白的句子  []
+PASS [heroine_01] study_reload_lead 總圖念書：說話的人名字不是 id  []
+  [heroine_01] study_reload_lead 總圖念書：對話紀錄 20 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_fix_a\out\heroine_01_study_reload_lead__transcript.json
+    沈以安｜（小聲）二樓靠窗那排比較安靜。
+    沈以安｜民總的報告，老師分組那天你沒來。
+    沈以安｜我把你寫在我這組了。剩下的人裡，你最不會遲交。
+    （旁白）｜（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
+    沈以安｜我讀我的，你讀你的。不懂再問我。
+    （旁白）｜（她把計時器放在桌角，按了一下。）
+    沈以安｜你知道女舍的門禁是十二點嗎？
+    沈以安｜我昨天十一點五十九分進門。舍監看了我一眼。
+    沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。
+    沈以安｜你呢？你上一次做規則以外的事，是什麼時候？
+    祐廷｜有一次半夜睡不著，我騎車去河堤吹風。
+    沈以安｜一個人？
+    （旁白）｜（她想了一下，好像在想那是什麼樣子。）
+    沈以安｜憲法第八條，是本文裡最長的一條。你知道為什麼嗎？
+    沈以安｜這是一半。
+    沈以安｜新店有一個地方，以前是軍事法庭和看守所。現在是博物館。
+    沈以安｜我一直想去看一次。
+    沈以安｜一個人去的話，我會一直寫筆記。所以還沒去。
+    （旁白）｜（她把螢光筆照顏色排回筆袋。）
+    沈以安｜下次換你決定讀哪一科。
+PASS [heroine_01] study_reload_lead 總圖念書：喝咖啡／吃飯的約會：開演時兩個人都坐著（不查離門口距離，那條只給約念書）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 10.98, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_reload_lead 總圖念書 結束：15 秒內回到可以自由移動
+PASS [heroine_01] study_reload_lead 總圖念書 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] study_reload_lead 總圖念書 結束：沒有新的 JS 例外
+PASS [heroine_01] study_reload_lead 總圖念書 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study_reload_lead 總圖念書 結束：搖桿推得動（≥0.3 m）  3.15 m
+PASS [heroine_01] study_reload_lead 總圖念書 結束：點地走得動（≥0.3 m）  點 [-3.86, 5.11]，走了 0.97 m
+PASS [heroine_01] study_reload_lead 總圖念書 結束：遊戲時間有在走  18.0372→18.0574
+PASS [heroine_01] study_reload_lead 總圖念書 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_reload_lead 總圖念書 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_reload_lead 總圖念書 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_reload_lead 總圖念書：人在約定的地點（G.zone＝library_hall）  library_hall
+PASS [heroine_01] study_reload_lead 總圖念書：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library_hall", "day": 21, "h": 12.02}]
+PASS [heroine_01] study_reload_lead 總圖念書：結束後玩家起身了  {"seat": false}
+PASS [heroine_01] study_reload_lead 總圖念書：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": {"zone": "campus", "away": null, "act": "走走"}, "npc": {"zone": "library_hall", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 5.09, "spawnD": 4.19, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-3.87, 5], "ptable": null, "ntable": null, "others": [], "othersInfo": []}}
+INFO [heroine_01] study_reload_lead：風險 5（兩個選單互搶，還沒修，只記錄）前一個選單還沒選完又開了一個 2 次  [{"prev": ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"], "next": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "h": 13.067, "zone": "library_hall", "ms": 1794580583021}, {"prev": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "next": ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"], "h": 13.817, "zone": "library_hall", "ms": 1794580589951}]
+-- [heroine_01] study_phone_reload
+  [前置／捷徑] [heroine_01] 讀檔：study：平日早上在校園（手機約總圖念書）（campus 21 9.00）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：第 5 階、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "沈以安", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] study 開始前：15 秒內回到可以自由移動
+PASS [heroine_01] study 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study 開始前：搖桿推得動（≥0.3 m）  2.18 m
+PASS [heroine_01] study 開始前：點地走得動（≥0.3 m）  點 [27.17, 32.35]，走了 0.82 m
+PASS [heroine_01] study 開始前：遊戲時間有在走  9.1076→9.1279
+PASS [heroine_01] study 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_01] study：她會答應的總圖念書時段 [["今天 12:10", 12.166666666666666], ["今天 15:30", 15.5], ["今天 17:30", 17.5], ["今天 19:00", 19], ["今天 21:00", 21], ["明天 12:10", 12.166666666666666], ["明天 19:00", 19]]
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機朋友頁他那一行有「訊息」  ‹ 訊息
+以安
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "去頁間書屋逛逛", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書", "去社科圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」
+INFO [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）（去總圖一起念書 今天 12:10，預期 accept）台詞：["沈以安（手機）｜好。那天你不要排別的。", "｜約好 今天 12:10，總圖。"]
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：手機約一路點得完
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：沒有新的 JS 例外
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：搖桿推得動（≥0.3 m）  3.12 m
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：點地走得動（≥0.3 m）  點 [27.13, 37.82]，走了 1.02 m
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：遊戲時間有在走  9.1901→9.2103
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10） 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study 手機約念書（去總圖一起念書 今天 12:10）：約成（library 21 12.17）
+  [前置／捷徑] [heroine_01] 讀回存檔（study_phone_reload：選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] study_phone_reload：讀回來（snapshot→applySave）
+PASS [heroine_01] study_phone_reload：讀回來（snapshot）以後約還在（accepted）  [{"id": "iv1", "state": "accepted", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]
+PASS [heroine_01] study_phone_reload 讀回來：15 秒內回到可以自由移動
+PASS [heroine_01] study_phone_reload 讀回來：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study_phone_reload 讀回來：搖桿推得動（≥0.3 m）  3.12 m
+PASS [heroine_01] study_phone_reload 讀回來：點地走得動（≥0.3 m）  點 [27.14, 43.28]，走了 0.96 m
+PASS [heroine_01] study_phone_reload 讀回來：遊戲時間有在走  9.3019→9.3221
+PASS [heroine_01] study_phone_reload 讀回來：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_phone_reload 讀回來：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_phone_reload 讀回來：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [前置／捷徑] [heroine_01] 讀回存檔（study：離約好的時間還有 2.4 小時，存檔的時間改到 21 11.72（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 讀回存檔（study_phone_reload 總圖念書：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] study_phone_reload 總圖念書 選單 ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"] → 選「直接過去：和沈以安約在總圖（12:10）」
+  [heroine_01] 總圖大廳的座位數（不含有名字的位子）：{"lv1": 16, "lv0": 30}
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": 0.93, "z": -2.3, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [heroine_01] 到達「跟著沈以安（go）」附近（0.23 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [heroine_01] 「跟著沈以安（go）」：停在離目標 1.83 m（點到的地面偏了），用搖桿往目標推一下
+  [heroine_01] 到達「跟著沈以安（go）」附近（0.75 m）：點地面 4 次、轉鏡頭 0 次、搖桿 1 次，25 秒
+  [heroine_01] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 2.2, "lv": 1, "seat": {"x": -7.02, "z": 2.2, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
+  [heroine_01] 「跟著沈以安（wait）」途中停下（離目標 4.91 m）：（小聲）民總的報告，老師分組那天你沒來。
+  [heroine_01] 「跟著沈以安（wait）」途中停下（離目標 0.75 m）：（小聲）我把你寫在我這組了。剩下的人裡，你最不會遲交。
+  [heroine_01] study_phone_reload 總圖念書 選單 ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"] → 選「有一次半夜睡不著，我騎車去河堤吹風。」
+  [heroine_01] study_phone_reload 總圖念書 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
+PASS [heroine_01] study_phone_reload 總圖念書：出發、到場、見面那一場一路點得完
+PASS [heroine_01] study_phone_reload 總圖念書：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 10.98, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_phone_reload 總圖念書：約會中時間有往前走  遊戲時間 6.27 小時（21 11.75 → 21 18.02）
+INFO [heroine_01] study_phone_reload 總圖念書：錢 30000 → 30000（+0）  
+PASS [heroine_01] study_phone_reload 總圖念書：關係或記憶有變化  {"rel": {"fam": 3, "trust": 5, "comf": 2, "rom": 1, "npcRom": 1}, "mem": "1→3 ['FIRST_MET', 'REPORT_PARTNER', 'STUDIED_TOGETHER']"}
+PASS [heroine_01] study_phone_reload 總圖念書：對話沒有空白的句子  []
+PASS [heroine_01] study_phone_reload 總圖念書：說話的人名字不是 id  []
+INFO [heroine_01] study_phone_reload 總圖念書：有名字的句子、ADV 開著、立繪框是空的（1 句）  ["沈以安｜下"]
+  [heroine_01] study_phone_reload 總圖念書：對話紀錄 20 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_fix_a\out\heroine_01_study_phone_reload__transcript.json
+    沈以安｜（小聲）二樓靠窗那排比較安靜。
+    沈以安｜民總的報告，老師分組那天你沒來。
+    沈以安｜我把你寫在我這組了。剩下的人裡，你最不會遲交。
+    （旁白）｜（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
+    沈以安｜我讀我的，你讀你的。不懂再問我。
+    （旁白）｜（她把計時器放在桌角，按了一下。）
+    沈以安｜你知道女舍的門禁是十二點嗎？
+    沈以安｜我昨天十一點五十九分進門。舍監看了我一眼。
+    沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。
+    沈以安｜你呢？你上一次做規則以外的事，是什麼時候？
+    祐廷｜有一次半夜睡不著，我騎車去河堤吹風。
+    沈以安｜一個人？
+    （旁白）｜（她想了一下，好像在想那是什麼樣子。）
+    沈以安｜憲法第八條，是本文裡最長的一條。你知道為什麼嗎？
+    沈以安｜這是一半。
+    沈以安｜新店有一個地方，以前是軍事法庭和看守所。現在是博物館。
+    沈以安｜我一直想去看一次。
+    沈以安｜一個人去的話，我會一直寫筆記。所以還沒去。
+    （旁白）｜（她把螢光筆照顏色排回筆袋。）
+    沈以安｜下次換你決定讀哪一科。
+PASS [heroine_01] study_phone_reload 總圖念書：喝咖啡／吃飯的約會：開演時兩個人都坐著（不查離門口距離，那條只給約念書）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 10.98, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2], "ptable": null, "ntable": null, "others": [], "othersInfo": []}
+PASS [heroine_01] study_phone_reload 總圖念書 結束：15 秒內回到可以自由移動
+PASS [heroine_01] study_phone_reload 總圖念書 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] study_phone_reload 總圖念書 結束：沒有新的 JS 例外
+PASS [heroine_01] study_phone_reload 總圖念書 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] study_phone_reload 總圖念書 結束：搖桿推得動（≥0.3 m）  2.08 m
+PASS [heroine_01] study_phone_reload 總圖念書 結束：點地走得動（≥0.3 m）  點 [2.65, 8.47]，走了 0.92 m
+PASS [heroine_01] study_phone_reload 總圖念書 結束：遊戲時間有在走  18.0354→18.0557
+PASS [heroine_01] study_phone_reload 總圖念書 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_phone_reload 總圖念書 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_phone_reload 總圖念書 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] study_phone_reload 總圖念書：人在約定的地點（G.zone＝library_hall）  library_hall
+PASS [heroine_01] study_phone_reload 總圖念書：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library_hall", "day": 21, "h": 12.012}]
+PASS [heroine_01] study_phone_reload 總圖念書：結束後玩家起身了  {"seat": false}
+PASS [heroine_01] study_phone_reload 總圖念書：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": {"zone": "campus", "away": null, "act": "走走"}, "npc": {"zone": "library_hall", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 2.43, "spawnD": 3.05, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [2.42, 8.46], "ptable": null, "ntable": null, "others": [], "othersInfo": []}}
+INFO [heroine_01] study_phone_reload：風險 5（兩個選單互搶，還沒修，只記錄）前一個選單還沒選完又開了一個 2 次  [{"prev": ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"], "next": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "h": 13.087, "zone": "library_hall", "ms": 1794580839964}, {"prev": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "next": ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"], "h": 13.837, "zone": "library_hall", "ms": 1794580846584}]
+== 人物 heroine_01 結果 PASS（139 項；SKIP 0：）
+   用了 14.2 分鐘
+==== 總結：1 人，FAIL 0 人：[]
+ALL PASS
