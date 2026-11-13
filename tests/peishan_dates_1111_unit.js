@@ -104,7 +104,7 @@ const haveSrc=Object.keys(SRC).length===33;
   const DW=t=>JSON.parse(t.slice(t.indexOf('const DATE_WISH=')+16,t.lastIndexOf(';')));
   const lit=s=>{ const out=[]; s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/'((?:[^'\\]|\\.)*)'/g,(m,t)=>{ out.push(t); return m; }); return out; };
   const loadHT=src=>{ const vm=require('vm'), ctx=vm.createContext({console,STORY:undefined}); vm.runInContext(src.replace(/^const HOMETOWN_LINES\s*=/m,'globalThis.HOMETOWN_LINES='),ctx); return ctx.HOMETOWN_LINES; };
-  await sec(7,async()=>{ const e=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(x=>x.path===P757), W=DW(read('src/data/date_wish.js'));
+  await sec(7,async()=>{ const e=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(x=>x.path===P757), W=M959.unmapDeep(DW(read('src/data/date_wish.js')),'date_wish.js');
     check('7. 白名單一筆 AA_757_peishan_wish_hometown.json、sha '+S757+'、approved；date_wish.js 的來源寫著 AA_757@'+S757,e.length===1&&e[0].sha===S757&&e[0].status==='approved'&&W.source.includes('AA_757@'+S757),W.source.slice(-60));
     console.log(A757?'（AA_757 讀得到：逐字比對）':'（這份 checkout 讀不到 AA_757@'+S757+'：不比稿）');
     const ev=W.events[PS]; check('7. 沛珊的心願事件：id、地點 D06、記憶 PS_UNTITLED 照舊；標題「不用接話的一天」',ev.id==='wish_classmate_peishan'&&ev.loc==='D06'&&J(ev).includes('PS_UNTITLED')&&ev.title==='不用接話的一天',J([ev.id,ev.loc,ev.title]));
@@ -150,7 +150,7 @@ const haveSrc=Object.keys(SRC).length===33;
     eq('close.lines',F(M.close.lines),D.close.lines); M.close.opts.forEach((o,i)=>{ eq('close.opts['+i+'].t',o.t,D.close.opts[i].t); eq('close.opts['+i+'].say',o.say,D.close.opts[i].say); });
     for(const k of ['after','end5','end6','endDating']) eq('close.'+k,M.close[k],D.close[k]);
     check('9. 台南美術館那一段的每一句、每一個選項照稿的 tainan_museum（一字不差；旁白、act 的結構照舊）',bad.length===0,J(bad.slice(0,6)));
-    const W=DW(read('src/data/date_wish.js')).events[PS];
+    const W=M959.unmapDeep(DW(read('src/data/date_wish.js')),'date_wish.js').events[PS];
     check('9. points_note：草地第三個選項和心願事件同一句；咖啡廳第三個選項 hi＝「台中很遠喔。」「好。我叫我爸留位子。」、其他＝「我爸會出來跟你聊天，你會走不掉。」',M.points['D06.lawn'].opts[2].say[0]===W.hotspots['D06.lawn'].choices[2].reply[0].text&&M.points['D06.lawn'].opts[2].say[0]==='雲走得好慢。今天什麼都不用趕。'&&J(M.points['D06.cafe'].opts[2].say(G0,true))===J(['台中很遠喔。','好。我叫我爸留位子。'])&&J(M.points['D06.cafe'].opts[2].say(G0,false))===J(['我爸會出來跟你聊天，你會走不掉。'])); });
   /* ======================= AA_758 ======================= */
   await sec(10,async()=>{ const P758=SP+'AA_758_peishan_date_common.json', S758='bed993604', r=show(S758,P758), A=r?JSON.parse(r):null, LP=NOW.lines[PS];

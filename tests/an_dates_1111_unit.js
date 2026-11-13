@@ -195,7 +195,7 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
     const nm=Object.entries(all).filter(([p,v])=>v.includes('{name}')).map(([p])=>p);
     check('6. {name} 只在八格、都在交往格（dating 底下）：D11、D15、D18、D20、D24、D26、D30、D33；其他佔位符只有 D13 的 {sunset}、{lastDrink}',nm.length===8&&J(nm.map(p=>p.slice(0,3)))===J(['D11','D15','D18','D20','D24','D26','D30','D33'])&&nm.every(p=>/\/dating\//.test(p))&&J(Object.entries(all).filter(([p,v])=>/\{(?!name\})/.test(v)).map(([p,v])=>p.slice(0,3)+(v.match(/\{(?!name\})[^}]*\}/)||[''])[0]))===J(['D13{sunset}','D13{lastDrink}']),J(nm)); });
 
-  await sec(7,async()=>{ const W=DW(read('src/data/date_wish.js')), ev=W.events[AN], I=ev.herInvite;
+  await sec(7,async()=>{ const W=M959.unmapDeep(DW(read('src/data/date_wish.js')),'date_wish.js'), ev=W.events[AN], I=ev.herInvite;
     check('7. date_wish.js 的來源寫著「AA_778@'+C.AN_WISH_SHA+'（以安 D07 心願 16 列，換了 16 列）」；以安的事件 id、地點 D07 照舊；她主動約答應的那一句「好。13:30 出發。週一休館，所以是週六。」沒動、對得上她約的時間（13.5）',W.source.includes('AA_778@'+C.AN_WISH_SHA+'（以安 D07 心願 16 列，換了 16 列）')&&ev.id==='wish_heroine_01'&&ev.loc==='D07'&&I.dateTime===13.5&&J(I.accept).includes('好。13:30 出發。週一休館，所以是週六。'),J([I.dateTime,I.accept]));
     const raw=show(C.AN_WISH_SHA,SP+'AA_778_an_wish.json'), A=raw?JSON.parse(raw):null;
     const get=(o,pth)=>{ let x=o; const tk=[...pth.matchAll(/\["([^"]+)"\]|\.?([^.\[\]"]+)|\[(\d+)\]/g)].map(m=>m[1]!=null?m[1]:(m[2]!=null?m[2]:+m[3])); for(let i=0;i<tk.length;i++){ if(x==null) return x; let t=tk[i]; if(typeof x==='object'&&!Array.isArray(x)&&!(t in x)&&typeof tk[i+1]==='string'&&(t+'.'+tk[i+1]) in x){ t=t+'.'+tk[i+1]; i++; } x=x[t]; } return x&&typeof x==='object'?x.text:x; };   /* hotspots 的 key 是「D07.court」這種帶點的字串 */

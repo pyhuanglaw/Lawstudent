@@ -110,7 +110,7 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 { const d3=read('src/date3d.js'), sp=read('src/data/she_pays.js');
   const hit=(t,o)=>t.includes("'"+o+"'")||t.includes('"'+o+'"');
   /* date3d.js 註解裡「好。下次我請。」「好啊，那下次換我。」是寫在 PICK_FLAG 旁邊的說明（用「」不是引號）；前一句現在是子晴 D06.cafe 的回話（AA_812 path_rows），不是學姊那一格 */
-  const left=R.filter(r=>hit(d3,r.old)).map(r=>r.loc+' '+r.old), SPD=vm.runInNewContext(sp+';SHE_PAYS_DATA'), keys=J([SPD.pays,SPD.split]), left2=R.filter(r=>keys.includes(J(r.old))).map(r=>r.who+' '+r.loc+' '+r.old);   /* 只看 pays、split（合進 S.SHE_PAYS／S.SPLIT 的）；cells812 的 was 欄留著舊字是紀錄 */
+  const left=R.filter(r=>hit(d3,r.old)).map(r=>r.loc+' '+r.old), SPD=require('./aa959_map.js').unmapIn(vm.runInNewContext(sp+';SHE_PAYS_DATA'),'date_lines.js')/* AA_959：NOW 換回舊字比，she_pays 也換回 */, keys=J([SPD.pays,SPD.split]), left2=R.filter(r=>keys.includes(J(r.old))).map(r=>r.who+' '+r.loc+' '+r.old);   /* 只看 pays、split（合進 S.SHE_PAYS／S.SPLIT 的）；cells812 的 was 欄留著舊字是紀錄 */
   check('7. src/date3d.js 照整句認句子的表裡沒有留著這 259 句的舊字',left.length===0,J(left));
   check('7. src/data/she_pays.js（S.SHE_PAYS、S.SPLIT）裡沒有留著這 259 句的舊字',left2.length===0,J(left2));
   const bad=[];

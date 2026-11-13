@@ -137,7 +137,7 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
       const t=await DATE.menu(GM,KX,null), L=H.said.map(s=>s.t); res.push([loc,mode,!!(t&&t.ok),t&&t.transport,t&&t.kind,L.includes(TL)]); }
     check('6. 實際約一次（選單）：D30 花蓮（兩天一夜）改開車＝她說這一句、照她的搭火車＝不說；D25 外澳（當天來回）改開車＝說、搭火車＝不說；D29 高雄（她沒有偏好）開車、高鐵都不說',J(res)===J([['D30','開車',true,'car','overnight',true],['D30','台鐵',true,'rail','overnight',false],['D25','開車',true,'car','day',true],['D25','台鐵',true,'rail','day',false],['D29','開車',true,'car','overnight',false],['D29','高鐵',true,'hsr','overnight',false]]),J(res)); });
 
-  await sec(7,async()=>{ const W=DW(read('src/data/date_wish.js')), ev=W.events[KX], TPL='不行，火車有時間。{出發時間}，車站見。', BACK='不行，火車有時間。九點，台北車站。';
+  await sec(7,async()=>{ const W=M959.unmapDeep(DW(read('src/data/date_wish.js')),'date_wish.js'), ev=W.events[KX], TPL='不行，火車有時間。{出發時間}，車站見。', BACK='不行，火車有時間。九點，台北車站。';
     check('7. date_wish.js 的來源寫著「AA_770@'+SHA+'（可昕 D25 心願 23 列，換了 23 列）」；可昕的事件 id、地點 D25、她約的時間（週六 9:00、火車）照舊',W.source.includes('AA_770@'+SHA+'（可昕 D25 心願 23 列，換了 19 列；源稿重寫成新主題跳過 4 列）')/* 2026-11-12（CANON-NO-ECON-1112 第五批，wish_bb.json@6dbfe10d7e，AA_921 第 2 節）：23 列裡 4 格源稿重寫成「手機關掉的一天」、照源稿。舊期望「換了 23 列」 */&&ev.id==='wish_kexin'&&ev.loc==='D25'&&ev.herInvite.dateTime===9&&J(ev.herInvite.dateWeekday)===J([6])&&ev.herInvite.transport==='train',W.source.slice(-60));
     check('7. 她開口約、玩家答應以後兩句：「好。那我們連集合時間都不要約。」「'+TPL+'」',J(ev.herInvite.accept.map(x=>x.text))===J(['好。那我們連集合時間都不要約。',TPL]));
     const raw=show(SHA,SP+'AA_770_kx_wish.json'), A=raw?JSON.parse(raw):null;

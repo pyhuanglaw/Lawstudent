@@ -61,12 +61,20 @@ const is959 = (a, b, file) => typeof a === 'string' && a !== b && map(a, file) =
 /* 深層複本：每一個字串葉子照 map／unmap 換。路徑上最近的一個鍵是表上的說話的人（heroine_01、kexin…）＝只用那個人的列
    （同一個檔裡別人剛好說了一樣的字不動；例：語彤 D01「走了好多路。」＝另一位女主角那一列的新字） */
 const WHO = new Set(T.rows.map(r => r.speaker));
+const whoOf = (x, who) => (x && typeof x === 'object' && !Array.isArray(x) && (WHO.has(x.who) ? x.who : WHO.has(x.speaker) ? x.speaker : null)) || who;   // {who:'kexin', text:…} 這種寫法
 function deep(x, f, who) {
   if (typeof x === 'string') return f(x, who);
   if (Array.isArray(x)) return x.map(v => deep(v, f, who));
-  if (x && typeof x === 'object') { const o = {}; for (const k of Object.keys(x)) o[k] = deep(x[k], f, WHO.has(k) ? k : who); return o; }
+  if (x && typeof x === 'object') { const w = whoOf(x, who), o = {}; for (const k of Object.keys(x)) o[k] = deep(x[k], f, WHO.has(k) ? k : w); return o; }
   return x;
 }
+/* 原地換（給「還原再比」那種會改傳進來的物件的 helper 用，例 tests/date_src_sha.js unSp944、unWish921） */
+function deepIn(x, f, who) {
+  if (Array.isArray(x)) { for (let i = 0; i < x.length; i++) { if (typeof x[i] === 'string') x[i] = f(x[i], who); else deepIn(x[i], f, who); } }
+  else if (x && typeof x === 'object') { const w = whoOf(x, who); for (const k of Object.keys(x)) { const ww = WHO.has(k) ? k : w; if (typeof x[k] === 'string') x[k] = f(x[k], ww); else deepIn(x[k], f, ww); } }
+  return x;
+}
+const unmapIn = (x, file) => deepIn(x, (s, w) => unmap(s, file, w));
 const mapDeep = (x, file) => deep(x, (s, w) => map(s, file, w));
 const unmapDeep = (x, file) => deep(x, (s, w) => unmap(s, file, w));
-module.exports = { map, unmap, mapText, unmapText, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };
+module.exports = { map, unmap, mapText, unmapText, unmapIn, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };
