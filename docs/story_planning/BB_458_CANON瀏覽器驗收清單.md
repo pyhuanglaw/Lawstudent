@@ -144,3 +144,4 @@
   - **REL76_hometown：ALL PASS**——去高雄找可昕（高鐵 2980）、去台中找沛珊（1400）都演完回臺北；錢不夠變灰寫原因；沒有 undefined／{name}。
   - **REL76_libtour_r2：ALL PASS**——七站依序都出現（改讀 #caption）、跟館員到三樓、full／partial 都對＝上次是探針漏抓。
   - **CANON458_INV_LIB_r2：還沒驗到，TEST_BUG→r3**——蔡宗霖已設見過、探針挪到位子按「坐下（用電腦）」＝只出一般的「坐一下，看看四周」選單、邀約沒開演。看 invites3d.js：S.seatFirst 只挑沒有 label 的桌邊位子，總圖的位子全部有 label（「坐下（用電腦）」），所以她沒有 waitSeat、照註解「找不到位子……就照舊直接見面」＝這裡要**走到她面前按「和杜可昕說話」**開演（INV.meetable），不是坐下。r3 改成走到她旁邊按和她說話，要看到「（小聲）我一章大概四十分鐘。讀完一章你才可以跟我講話。」。P3 給 LAWWW：總圖因為座位都有 label，「坐到她旁邊」那一套永遠不會用到，要不要讓總圖的長桌位子也能當 waitSeat，LAWWW 決定。
+- **06:1x CANON458_INV_LIB_r3：FAIL_SETUP（探針認錯人）**——探針取樣的「她」(3.6,-1.41) 坐著讀書，走過去互動鍵是「和蔡宗霖說話」、紀錄寫「離她 12.82 m」＝那個位置多半是 pool_2 蔡宗霖，可昕在 12.8 m 外。r4：用 INV.npcOf／charId==='kexin' 取位置、同時印 kexin 和 pool_2；kexin 不在 library_hall＝GAME 疑點（答應了卻不在）。
