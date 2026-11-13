@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1192.7,
+ "bake_seconds": 1196.1,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -26,6 +26,7 @@
   "day": null,
   "night": null
  },
+ "skytint": null,
  "objects": [
   "CEILING",
   "FLOOR",
@@ -35,5 +36,5 @@
   "WALL_right_wall"
  ],
  "src": "assets/models/env/second_ai/bb_support/shaola_interior.glb",
- "src_sha256": "ef642b2bc9cb8ca2554fd6b50c6193f6c2239a64d45e4fcca54490dba7263904"
+ "src_sha256": "a43b5a7c276e91525503a278aa1718d36ef65552e5a862b7e76aa16158dd6e23"
 }

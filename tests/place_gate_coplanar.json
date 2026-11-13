@@ -120,9 +120,9 @@
   "top": "ny_vc_matte×WALL_left_wains 7.785 m² @[-4.5,1.65,3.54]"
  },
  "assets/models/env/second_ai/bb_support/shaola_interior.glb": {
-  "sha1": "134eaa1bc5e52b700a4736b53c1de9f208296c48",
-  "wall": 3.5,
-  "always": 6.79,
+  "sha1": "0ed24261c2f485621f42c85f9b64cbc833d0203a",
+  "wall": 3.49,
+  "always": 6.78,
   "top": "WALL_back_vc×WALL_back_steel 1.218 m² @[1.86,0,-7.89]"
  },
  "assets/models/env/second_ai/bb_support/tongxian.glb": {
