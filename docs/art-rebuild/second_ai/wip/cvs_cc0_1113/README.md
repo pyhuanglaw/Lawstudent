@@ -21,3 +21,27 @@ g2 改到一半（腳本已經改了、還沒烘焙），LAWWW2-C 接手做完�
 
 ## 光照
 `bash tools/blender/env_second/lightbake/bake_gg_new.sh cvs 384` 重烘。
+- 白天光照貼圖平均 0.34、晚上 0.26。
+- 烘焙：第一次的背景程序在烘完白天時被收掉（外層殼結束），重烘一次才完成，GLB 是第二次的結果。
+
+## 測試（開發分支 4556c4be0c＋這一包）
+- `shop_cc0` ALL PASS：三項同時成立，便利店從基準表拿掉。
+- `place_gate` ALL PASS（重產狀態表）；`--coplanar` 便利店牆疊面 2.66 m²。
+- 回歸：cvs_interior_lm、cvs_view_cam_1110、gg_interiors_1104、gg_new_lm、gg_real_inside_1112、gg_shops2_1104 ALL PASS。
+- 並排圖 `cvs_cmp.jpg`（遊戲內同鏡頭，改前＝開發分支那一版）：
+  - 參考圖；
+  - 店門往裡看 14:00；
+  - 走道；
+  - 貨架近看：最能看出商品高低、深淺、縫隙的變化；
+  - 櫃台；
+  - 晚上 21:00。
+
+## patch
+`cvs_cc0.patch`（底開發分支 4556c4be0c）。
+- 改的檔：
+  - 便利店 GLB 和兩張光照貼圖、`cvs_interior_lm.json`；
+  - 建模腳本 `bb_support/cvs_interior.py`（開發分支原本沒有，從企劃線 BB 版＋g2 的 CC0 改法＋這次的商品拆段）；
+  - `cc0_kit.py`：只加 g2 的 `vc_tex`，開發分支的 `part_faces` 保留；
+  - `bake_gg_new.sh`：只改 cvs 那一行 NOLM＋S_ph_；
+  - LICENSES 兩列、`shop_cc0_baseline.json`、`place_gate_coplanar.json`、`SHOP_STANDARD_STATUS.md`。
+- 還沒做：CC 第二層四鏡頭、BB 判美術。

@@ -9998,6 +9998,26 @@
    "tests": "shop_cc0、place_gate ALL PASS；offbeat 4 支 ALL PASS",
    "notDone": "LAWWW 整合；g1 P2；LAWWW2 查側窗夜景；CC 第二層；BB 判",
    "next": "LAWWW 套 daily_offbeat_full.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(待填)",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "日和便利店 CC0（接手幫手 g2）：頂點色×Plastic006／Metal009、Poly Haven 紙箱、貨架商品拆段高低深淺不一；重烘；三項過",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/cvs_cc0_1113/cvs_cc0.patch",
+    "docs/art-rebuild/second_ai/wip/cvs_cc0_1113/cvs_cmp.jpg",
+    "docs/art-rebuild/second_ai/wip/cvs_cc0_1113/README.md"
+   ],
+   "base": "4556c4be0c",
+   "at": "2026-11-13T23:10Z",
+   "tests": "shop_cc0、place_gate ALL PASS；cvs_interior_lm、cvs_view_cam、gg_* 5 支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判",
+   "next": "LAWWW 套 cvs_cc0.patch"
   }
  ]
 }
