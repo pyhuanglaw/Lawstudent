@@ -52,3 +52,18 @@
   - 回歸：teahouse_tap、teahouse_yard_cam、wz_teahouse_seats、wz_teahouse_yard、yizhan_place、te_komichi_stage、wz_shops*（4 支）、wz_interiors_aa659、room_ceiling ALL PASS。
 - **LAWWW 套 `g1_yizhan_komichi_sunny_full.patch`**（底 19399e5d39）：三份合一，加上重產的狀態表和 coplanar。
 - 還沒做：CC 第二層四鏡頭、BB 判美術。
+
+## 木曜日（幫手 g1，claude/shop-cc0-g1 c5f00f9619）— PASS（附兩個之後補的 P2）
+
+- 驗收底：開發分支 19399e5d39，套 g1 的 `mokuyobi_cc0.patch`，乾淨。
+- `shop_cc0` 三項過：
+  - Poly Haven：potted_plant_04 窗台兩盆、book_encyclopedia_set_01 東牆精裝書；
+  - ambientCG 材質組：灰泥、塑膠、金屬、布、皮革；
+  - 純色零件 38% → 9%；面數 66.6k（大店 ≤8 萬）。
+- `place_gate` ALL PASS（重產狀態表後）。
+- 回歸：mokuyobi_unit、mokuyobi_aa618、moku_stair_void_1112、moku_exam_seats_1110、mokuyobi_stair_top_1111、mokuyobi_plant_corner_1111 ALL PASS。
+- **P2（下一輪補，不擋整合）**：
+  1. 東牆矮櫃上那盆大葉植物還是程式拼的平面葉片（近看一片片切面）。請換成 Poly Haven 盆栽，potted_plant_01／02 都已經在用。
+  2. 「店門往裡看」新版畫面右上角多了一團大葉子貼著鏡頭（20:00 也有），請查是哪一盆，是不是 v3c 黃金葛的藤垂到門口鏡頭前；是的話往裡收。
+- **LAWWW 套 `mokuyobi_full.patch`**（底 19399e5d39）：g1 的 patch＋重產的狀態表。
+- 還沒做：CC 第二層四鏡頭、BB 判美術。

@@ -9958,6 +9958,25 @@
    "tests": "place_gate ALL PASS，已知未過 11→0、第二層 174→185",
    "notDone": "LAWWW 整合；BB 確認；質感／效能另由 SHOP-REALISM-1112 追",
    "next": "LAWWW 套 patch；SHOP-WINDOW-3D-1112 改已整合待測試"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收幫手 g1 木曜日（c5f00f9619）PASS；P2：矮櫃大葉植物換掃描、門口鏡頭前的葉子",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/mokuyobi_full.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "19399e5d39",
+   "at": "2026-11-13T22:16Z",
+   "tests": "shop_cc0、place_gate ALL PASS；moku* 6 支 ALL PASS",
+   "notDone": "LAWWW 整合；g1 補兩個 P2；CC 第二層；BB 判",
+   "next": "LAWWW 套 mokuyobi_full.patch"
   }
  ]
 }
