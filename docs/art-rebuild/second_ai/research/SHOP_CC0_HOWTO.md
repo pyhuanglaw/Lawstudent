@@ -100,4 +100,13 @@
 
 （建模腳本是查 `LICENSES.md` 找到的；`daily_offbeat`、`komichi`、`mokuyobi`、`sunnyside`、`yizhan`、`tz_limao` 在 LICENSES 沒寫腳本，開工前 `grep -rl <檔名> tools/blender` 找。）
 
+## 6. 別的建模腳本沒有這套輔助函式：先搬過去（11-13 補，LAWWW-C／AA-C 問的）
+
+`acg`、`printed`、`_Route`、`_AsTex`、`ph_obj`、`ph_put` 都只在 `tz_shops_interior.py`（開發分支版本）的 `if CC0:` 區塊裡（約第 83～223 行；第 224 行起是 `M.update({...})` 材質表）。`lane118_shops.py`、`bb_support/*`、`aa_support/*` 都沒有。搬法：
+1. 複製 `if CC0:` 那一整塊（`import cc0_fetch`、`STAGE`、`_stage` 到 `ph_put`），貼在你的腳本「材質表 `M` 和 `mesh()` 已經定義好」之後（它要用 `M`、`mesh(key)`、`root`、`g2b`、`L`、`B`、`np`、`Image`、`Matrix`、`math`）。`PH_PROTO`、`PH_N`、`CC0_USED` 是它自己建的。
+2. 檔尾照抄 `tz_shops_interior.py` 第 1686 行起那兩段：匯出前刪掉 Poly Haven 原型（`for p_ in PH_PROTO.values(): bpy.data.objects.remove(p_)`）、印 `CC0_USED`；`L.single_side(..., nodup=...)` 把貼在一起的牆、照片列進 `nodup`。
+3. 你的腳本如果用的是頂點色 `vc()` 之類的函式名稱不同，`_Route` 轉接的方法一樣：把原本「拿一個顏色畫方塊」的那個物件包起來，照顏色分到材質組網格。
+4. 烘焙：沒有那條街的烘焙腳本就照 `lightbake/bake_tz_shops.sh` 複製一支（例：`bake_l118_shops.sh`），一間店一個 case（燈的位置照那間店的 layout）。也可以先不烘（`attachRoomGLB` 沒有 `extras.lightmap` 就用即時光），三項檢查一樣過得了——但烘了好看很多，能烘就烘。
+5. 搬完先建一次「CC0 關掉」的版本，大小要和開發分支上的一樣（確定搬的時候沒動到原本的東西），再開 CC0。
+
 **驗收流程**：幫手交件（自己的分支＋通知 LAWWW2）→ LAWWW2 看並排圖、跑測試，過了轉 LAWWW-C 整合（不過就寫哪裡要改退回）→ BB 判美術 → CC 拍四鏡頭、量效能。
