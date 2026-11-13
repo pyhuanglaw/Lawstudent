@@ -755,7 +755,7 @@ const STORY_EVENTS=[
   /* 迎新（交接包 v1 A11：AA_71 2-1＋沛珊 P0 BB_95 3-3）：參加法律系迎新的活動時演（src/data/activities.js 的 welcome_y1s1：第 4 週週六傅鐘前；classes3d.js 的 attendActivity 讀活動的 event）。
      只有認識的人在場（交付清單第 0 節第 1 點）：Alison、柏翰沒見過就跳過那兩句。
      自我介紹三個選項照 AA_883（企劃線 db44bb9ab，定稿 BB_422；CANON-NO-ECON-1112 第四批）：都不設旗標、不加減數值；「哥」的來源在宿營打牌（AA_859 ZHE_CALLS_GE），這裡只讀。「學長」是帶隊的學長，沒有名字、立繪。
-     沛珊 P0：大地遊戲同一組、「奇怪的問題」只在這裡一次；記 FIRST_MET（participants）＋聯絡方式（迎新的群組）。第一句、「輪到你。」、大地遊戲那句是 LAWWW 加的場景說明（AA_355 第 2 節：AA 看過、照用）*/
+     沛珊 P0：大地遊戲同一組、她反問關主那一句（AA_950 ③；原本的口頭禪 X327 拿掉）；記 FIRST_MET（participants）＋聯絡方式（迎新的群組）。第一句、「輪到你。」、大地遊戲那句是 LAWWW 加的場景說明（AA_355 第 2 節：AA 看過、照用）*/
   /* 民總報告分組的補救（AA_160 3-4 C、R3，AA-B 2026-10-16 寫的台詞）：第 4、5 週民總都沒去、分組事件沒演過——第 6 週起第一次在教室或總圖遇到以安，
      她說把你寫進她那組了；記同一個 REPORT_PARTNER（備註 assigned_absent）＋REPORT_PARTNER_LATE，後面讀 REPORT_PARTNER 的事件照常接。分組是事實、不是玩家經歷的場面（R4）*/
   { id:'ev_an_report_split_late', title:'民總的報告（分組那天你沒來）', participants:['heroine_01'], location:['classroom','library','library_hall'], trigger:'auto', near:{npc:'heroine_01',r:5}, term:['Y1S1'], weeks:[6,7,8,9,10,11,12,13,14,15], once:true, keep:'must', background:'blur',
@@ -771,7 +771,7 @@ const STORY_EVENTS=[
       {label:'here'},{speaker:null,text:'（前面有人回頭看了你一眼。）'},{if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'（小聲）哥講得好認真。'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'旁邊一個男生',text:'（小聲）好認真。'},{goto:'game'},
       {label:'short'},{speaker:null,text:'（全場安靜了一秒，有人笑出來。）'},{speaker:'學長',text:'好，很有效率。下一個。'},{goto:'game'},
       {label:'game'},{speaker:null,text:'大地遊戲，你和沛珊同一組。最後一關：用一句話說為什麼念法律。'},
-      {speaker:'classmate_peishan',expression:'neutral',text:'我可以問一個奇怪的問題嗎？如果答不出來，可以算過關嗎？'},
+      {speaker:'classmate_peishan',expression:'neutral',text:'一句話？……學長，你自己答得出來嗎？'},{speaker:null,text:'（關主愣了一下。）'},   /* AA_950 ③（企劃線 829dc2bff1，BB_459 照用）：沛珊舊口頭禪拿掉（X327） */
       {choice:[{text:'（替她答）「她想知道法律外面還有什麼。」',goto:'answer'},{text:'「我也還在找。」',goto:'search'}]},
       {label:'answer'},{speaker:null,text:'她看了你一眼。'},{speaker:'classmate_peishan',expression:'surprised',text:'……你怎麼知道。'},{speaker:null,text:'關主讓你們過了。'},{goto:'end'},
       {label:'search'},{speaker:'classmate_peishan',expression:'smile',text:'好。那我們兩個都還在找。'},
