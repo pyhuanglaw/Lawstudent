@@ -327,3 +327,13 @@
 [17:13:08] ==== START YY_GATE_full  (probe @ 856702f57aa70d5996e26fdba56fd3eda318483e) ====
 [17:13:11] [res] cpu=17% mem=47% (14.9/31.4 GB) chrome_testing=10  START YY_GATE_full
 [17:14:42] [res] cpu=16% mem=45% (14.4/31.4 GB) chrome_testing=10  END YY_GATE_full
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5d3f33d938..7a6aa0ad34  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:14:48] ==== END   YY_GATE_full  exit=0  94s   ====
+[17:14:51] solo item DN_FPS_edf2 waits: no new items start until the 2 running item(s) finish
+[17:16:52] 正在跑：SSB_tz_a（已跑 17 分／上限 90 分）、SSB_tz_b（已跑 16 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:21:52] 正在跑：SSB_tz_a（已跑 22 分／上限 90 分）、SSB_tz_b（已跑 21 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:26:52] 正在跑：SSB_tz_a（已跑 27 分／上限 90 分）、SSB_tz_b（已跑 26 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:31:52] 正在跑：SSB_tz_a（已跑 32 分／上限 90 分）、SSB_tz_b（已跑 31 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:31:57] [res] cpu=1% mem=39% (12.4/31.4 GB) chrome_testing=5  END SSB_tz_b
