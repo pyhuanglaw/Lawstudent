@@ -94,7 +94,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   fresh('2027-07-20',21.5,'dorm'); date('kexin'); { said=[]; picks=[1]; await play('ev_kexin_trip_summer_y2',[1]); check('1. 選「上面風好大。」→「下面更熱。……再站一下。」（她靠著欄杆，看了很久的海。）',has('下面更熱。……再站一下。')&&has('（她靠著欄杆，看了很久的海。）')); }
   fresh('2027-07-20',21.5,'dorm'); date('kexin'); { await play('ev_kexin_trip_summer_y2',[2,2]); check('1. 選陪她看海：「好。下次找一個我們都沒去過的地方。」（AA_525 3-8 K-12 改句，原「……好。下次換你。去一個你也沒去過的地方。」）；七夕選靠肩：「……很重。」（她沒有推開。）',has('好。下次找一個我們都沒去過的地方。')&&has('……很重。')&&has('（她沒有推開。）'),JSON.stringify(all())); }   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。下次找一個我們都沒去過的地方。」 */
   fresh('2027-07-20',21.5,'dorm'); date('kexin'); run('2027-07-20',21.5,21.75); ans('y3_kh_inv',1);
-  check('1. K3 婉拒：「好。那寒假。……行程表我先留著。」、KX_TRIP_DEFERRED、沒有出遊',txt('p:kexin').slice(-1)[0]===K('好。那寒假。……行程表我先留著。')&&!!G.flags.KX_TRIP_DEFERRED&&!OUT.get(G,'y3_kh'));
+  check('1. K3 婉拒：「好。那寒假。」（AA_948；舊：「好。那寒假。……行程表我先留著。」）、KX_TRIP_DEFERRED、沒有出遊',txt('p:kexin').slice(-1)[0]===K('好。那寒假。')&&!!G.flags.KX_TRIP_DEFERRED&&!OUT.get(G,'y3_kh'));
   run('2027-08-08',20,20.25); { const q=OUT.get(G,'kx_qixi_2027'); check('1. K3 婉拒的：8/8 21:00 七夕視訊（CANON-NO-ECON-1112 第三批：這一項拿掉）',!q); }
   check('1. 七夕視訊那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY_EVENTS.some(e=>e.id==='ev_kexin_qixi_video'));
   fresh('2027-07-20',21.5,'dorm'); date('kexin'); run('2027-07-20',21.5,21.75); run('2027-07-22',20.75,21.25);

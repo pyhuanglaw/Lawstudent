@@ -91,7 +91,7 @@ const R2Y3A=(function(){
     if(dating(G,'kexin')&&n>=T(di,21.5)&&n<T(d1-1,21)&&!sent(G,'y3_kh_inv')){
       const L=[K('八月七號、八號，週末。我空下來了。'),K('你來高雄。這次住一晚。'),K('八號是七夕。……我借了我爸的車。')]; if(S.khTwoMissed(G)) L.push(K('一天也算。……這次是兩天。'));
       L[L.length-1].ask={id:'y3_kh_inv',until:T(d1-1,21),opts:[{t:'好。我坐早上的高鐵。',say:[Kr('九點到左營。旅館我幫你找好了，在車站旁邊。')],set:{KX_KH_GO:true},need:{money:S.KH_FARE+S.KH_LODGING(),why:'高鐵票和旅館的錢不夠。'}},   /* AA_350 M1：出發前要付得出高鐵＋旅館 4,780（AA_343 B1 旅館他自己付）*/
-        {t:'那兩天不行。',say:[Kr('好。那寒假。……行程表我先留著。')],set:{KX_KH_GO:false}}]};
+        {t:'那兩天不行。',say:[Kr('好。那寒假。')/* AA_948（排表口氣 UA-AA-1112-15） */],set:{KX_KH_GO:false}}]};
       PHONE.at(G,di,atH(G,di,21.5),L,'y3_kh_inv'); }
     const m=PHONE.byAsk(G,'y3_kh_inv');
     if(m&&m.ans==null&&n>=T(dr,21)&&n<T(d1-1,21)&&!sent(G,'y3_kh_inv2')) PHONE.at(G,dr,atH(G,dr,21),[K('七號、八號。你回一下。')],'y3_kh_inv2');

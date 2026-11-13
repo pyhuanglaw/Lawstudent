@@ -27,7 +27,7 @@ check('5. 沒交往＝都沒有',!Object.keys(LOG).some(t=>/^msg_kx_(intern|home
   const P=['2028-06-08','2028-06-12','2028-06-18','2028-06-19','2028-07-01','2028-07-02','2028-07-20','2028-08-31','2028-09-01'].map(x=>x+' '+s(k(x)));
   check('6. presence：學期末時段到 6/18 在臺北、6/19～7/1 在高雄、7/2 起整個暑假在臺北（AA_935 ①；原本 6/12～9/1 都在高雄）',J(P)===J(['2028-06-08 臺北','2028-06-12 臺北','2028-06-18 臺北','2028-06-19 home','2028-07-01 home','2028-07-02 臺北','2028-07-20 臺北','2028-08-31 臺北','2028-09-01 臺北']),P.join('、'));
   const Q=['2027-06-20','2027-08-20','2029-01-20'].map(x=>x+' '+s(k(x)));
-  check('6b. 別的寒暑假照舊（大二暑假、大四寒假都在高雄）',J(Q)===J(['2027-06-20 home','2027-08-20 home','2029-01-20 home']),Q.join('、')); }
+  check('6b. 別的寒暑假照舊（大四寒假在高雄）；大二暑假照 AA_948：七月在臺北、8/1 起在高雄',J(Q)===J(['2027-06-20 臺北','2027-08-20 home','2029-01-20 home'])/* 舊期望（AA_948 以前）：2027-06-20 home */,Q.join('、')); }
 check('7. 七夕 ev_kexin_qixi_y3（AA_942 ①）、開車旅行、重逢都在 STORY_EVENTS（原本七夕還沒有）',['ev_kexin_qixi_y3','ev_kexin_trip_summer_y3','ev_kexin_reunion_jp'].every(id=>STORY_EVENTS.some(e=>e.id===id)));
 const ev=id=>STORY_EVENTS.find(e=>e.id===id), said=()=>H.said.map(x=>x.t), TL=X.trip;
 const runTrip=async(route,ans)=>{ start(true); if(route) H.G.flags.EXCHANGE_ROUTE=route; runTo(route==='JP'?'2028-08-16':'2028-07-12',8,3);
@@ -75,7 +75,7 @@ const runTrip=async(route,ans)=>{ start(true); if(route) H.G.flags.EXCHANGE_ROUT
     H.said=[]; H.picks=['「妳說牛郎織女？」']; ev('ev_kexin_qixi_y3').once=false; await EVENTS.run(ev('ev_kexin_qixi_y3')); ev('ev_kexin_qixi_y3').once=true;
     check('22b. 選「「妳說牛郎織女？」」＝她回「嗯。……我們不用。」',said()[2]==='嗯。……我們不用。'&&J(Q.opts.map(o=>o.t))===J(['「妳說牛郎織女？」','（把外套脫給她）']),J(said()));
     runTo('2028-08-27',8,3); check('22c. 去了：22:00 沒有照片',!got('msg_kx_qixi_y3_photo').length); }
-  { // 心願：第一次和她去 D15＝先播心願事件（WISH.due／WISH.scene）；她的心願地點是 D25（外澳），D15 不會是她的心願
+  { // 心願：可昕七夕不播心願（AA 11-13：D15 是學姊的心願地點；她的心願地點是 D25 外澳）
     let wishOk=true; try{ for(const f of ['src/data/date_wish.js','src/wish3d.js']) loadG(f); }catch(e){ wishOk=false; }
     const real=globalThis.WISH; QX('JP',0); set(D('2028-08-26'),20);
     const due=real&&real.due?real.due(H.G,{who:'kexin',locs:['D15'],day:H.G.day,transport:'car',kind:'eve'}):null;
@@ -83,7 +83,7 @@ const runTrip=async(route,ans)=>{ start(true); if(route) H.G.flags.EXCHANGE_ROUT
     check('23. JP 路線也有；真的 WISH：可昕的心願在 D25＝D15 不是心願、不另外播，直接演七夕',wishOk&&due===false&&said()[0]===Q.pre[0].n&&H.G.flags.KX_QIXI_Y3===true,J([wishOk,due,said()[0]]));
     let calls=[]; globalThis.WISH={due:(G,t)=>{ calls.push(t.who+'@'+t.locs[0]); return true; },scene:async(GM,q,t)=>{ H.said.push({who:null,t:'〔心願事件〕'}); }};
     QX('TW',0); set(D('2028-08-26'),20); H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_kexin_qixi_y3'));
-    check('24. 第一次和她去 D15（WISH.due 成立）＝先播心願事件，七夕那一段接在後面',J(calls)===J(['kexin@D15'])&&said()[0]==='〔心願事件〕'&&said()[1]===Q.pre[0].n&&said().slice(-1)[0]===Q.back[0].s,J(said().slice(0,2)));
+    check('24. 就算 WISH.due 成立也不先播心願（AA 2026-11-13 更正 AA_942 ①：D15 是學姊的心願地點）；七夕從第一段演到回程',!calls.length&&!said().includes('〔心願事件〕')&&said()[0]===Q.pre[0].n&&said().slice(-1)[0]===Q.back[0].s,J(said().slice(0,2)));   /* 舊期望（AA_942 原稿）：calls＝['kexin@D15']、先播〔心願事件〕 */
     globalThis.WISH=real; }
   { QX('TW',1); runTo('2028-08-27',8,3); check('25. 「那天不行。」＝不排、不演、也不補（沒有芷若＝沒有照片）',!OUT.get(H.G,'kx_qixi_y3')&&H.G.flags.KX_QIXI_Y3_ASK==='no'&&!got('msg_kx_qixi_y3_photo').length&&!H.G.flags.KX_QIXI_Y3); }
   { QX('TW',null); runTo('2028-08-27',8,3); check('26. 一直不回＝當作不行，不排',!OUT.get(H.G,'kx_qixi_y3')&&H.G.flags.KX_QIXI_Y3_ASK==='no'); }
