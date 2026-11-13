@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "REL76_ladder_ctl",
+  "sha": "f312c68cc961c70c7d548fe40c2ae42483d517ba",
+  "kind": "game",
+  "script": "docs/story_planning/test_tools/cc/cc_test_patch_wrap.py",
+  "env": "SCRIPT_FROM=cc;TEST=flow_ladder_y1s2.py;PATCH=ladder_diag;XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-14T05:32:12",
+  "end": "2026-11-14T05:36:27",
+  "seconds": 255,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 10,
+    "mem": 50,
+    "used_gb": 15.8,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

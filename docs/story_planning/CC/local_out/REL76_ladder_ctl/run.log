@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\REL76_ladder_ctl\docs\story_planning\test_tools\cc\cc_test_patch_wrap.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\REL76_ladder_ctl\out
+CC 包裝：tests\flow_ladder_y1s2.py，PATCH=ladder_diag（1 處），參數 ['http://127.0.0.1:8800/index.html', 'C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_ladder_ctl\\out']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 橫向：遊戲載入
+  [前置／捷徑] 橫向：讀檔到大一下第 5 週（第 189 天）12.4 時、campus
+  [  44.1s] CC 診斷（ladder_diag）campus 12.4：{"zone": "campus", "day": 189, "hour": 12.42, "stage": "law", "n": 7, "npc": [{"key": "econ_weilun", "cid": "econ_weilun", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "npc_fangyt", "cid": "npc_fangyt", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "npc_huangxh", "cid": "npc_huangxh", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_3", "cid": "pool_3", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_8", "cid": "pool_8", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_13", "cid": "pool_13", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_14", "cid": "pool_14", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [  44.2s] campus 12.4：有下一層階梯的人 []
+  [前置／捷徑] 橫向：讀檔到大一下第 5 週（第 190 天）17.6 時、campus
+  [  56.2s] CC 診斷（ladder_diag）campus 17.6：{"zone": "campus", "day": 190, "hour": 17.64, "stage": "law", "n": 2, "npc": [{"key": "classmate_mingxuan", "cid": "classmate_mingxuan", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_14", "cid": "pool_14", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [  56.3s] campus 17.6：有下一層階梯的人 []
+  [前置／捷徑] 橫向：讀檔到大一下第 5 週（第 191 天）12.2 時、linze
+  [  65.3s] CC 診斷（ladder_diag）linze 12.2：{"zone": "linze", "day": 191, "hour": 12.21, "stage": "law", "n": 0, "npc": []}
+  [  65.4s] linze 12.2：有下一層階梯的人 []
+  [前置／捷徑] 橫向：讀檔到大一下第 5 週（第 189 天）15.0 時、library_hall
+  [  88.8s] CC 診斷（ladder_diag）library_hall 15.0：{"zone": "library_hall", "day": 189, "hour": 15.04, "stage": "law", "n": 1, "npc": [{"key": "pool_2", "cid": "pool_2", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [  88.9s] library_hall 15.0：有下一層階梯的人 []
+  [前置／捷徑] 橫向：讀檔到大一下第 5 週（第 190 天）20.0 時、cafe
+  [  99.6s] CC 診斷（ladder_diag）cafe 20.0：{"zone": "cafe", "day": 190, "hour": 20.03, "stage": "law", "n": 2, "npc": [{"key": "heroine_02", "cid": "heroine_02", "staff": true, "obj": true, "lad": "heroine_02@Y1S2", "next": null}, {"key": "classmate_xinci", "cid": "classmate_xinci", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [  99.7s] cafe 20.0：有下一層階梯的人 []
+  [前置／捷徑] 橫向：讀檔到大一下第 5 週（第 188 天）21.5 時、dorm
+  [ 109.7s] CC 診斷（ladder_diag）dorm 21.5：{"zone": "dorm", "day": 188, "hour": 21.54, "stage": "law", "n": 1, "npc": [{"key": "kai", "cid": "kai", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [ 109.7s] dorm 21.5：有下一層階梯的人 []
+FAIL 橫向：找到在場、有下一層階梯的人
+PASS 直向：遊戲載入
+  [前置／捷徑] 直向：讀檔到大一下第 5 週（第 189 天）12.4 時、campus
+  [ 151.2s] CC 診斷（ladder_diag）campus 12.4：{"zone": "campus", "day": 189, "hour": 12.42, "stage": "law", "n": 7, "npc": [{"key": "econ_weilun", "cid": "econ_weilun", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "npc_fangyt", "cid": "npc_fangyt", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "npc_huangxh", "cid": "npc_huangxh", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_3", "cid": "pool_3", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_8", "cid": "pool_8", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_13", "cid": "pool_13", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_14", "cid": "pool_14", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [ 151.3s] campus 12.4：有下一層階梯的人 []
+  [前置／捷徑] 直向：讀檔到大一下第 5 週（第 190 天）17.6 時、campus
+  [ 163.3s] CC 診斷（ladder_diag）campus 17.6：{"zone": "campus", "day": 190, "hour": 17.64, "stage": "law", "n": 2, "npc": [{"key": "classmate_mingxuan", "cid": "classmate_mingxuan", "staff": false, "obj": true, "lad": null, "next": null}, {"key": "pool_14", "cid": "pool_14", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [ 163.3s] campus 17.6：有下一層階梯的人 []
+  [前置／捷徑] 直向：讀檔到大一下第 5 週（第 191 天）12.2 時、linze
+  [ 171.7s] CC 診斷（ladder_diag）linze 12.2：{"zone": "linze", "day": 191, "hour": 12.21, "stage": "law", "n": 0, "npc": []}
+  [ 171.7s] linze 12.2：有下一層階梯的人 []
+  [前置／捷徑] 直向：讀檔到大一下第 5 週（第 189 天）15.0 時、library_hall
+  [ 195.4s] CC 診斷（ladder_diag）library_hall 15.0：{"zone": "library_hall", "day": 189, "hour": 15.04, "stage": "law", "n": 1, "npc": [{"key": "pool_2", "cid": "pool_2", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [ 195.5s] library_hall 15.0：有下一層階梯的人 []
+  [前置／捷徑] 直向：讀檔到大一下第 5 週（第 190 天）20.0 時、cafe
+  [ 205.2s] CC 診斷（ladder_diag）cafe 20.0：{"zone": "cafe", "day": 190, "hour": 20.03, "stage": "law", "n": 2, "npc": [{"key": "heroine_02", "cid": "heroine_02", "staff": true, "obj": true, "lad": "heroine_02@Y1S2", "next": null}, {"key": "classmate_xinci", "cid": "classmate_xinci", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [ 205.2s] cafe 20.0：有下一層階梯的人 []
+  [前置／捷徑] 直向：讀檔到大一下第 5 週（第 188 天）21.5 時、dorm
+  [ 215.0s] CC 診斷（ladder_diag）dorm 21.5：{"zone": "dorm", "day": 188, "hour": 21.54, "stage": "law", "n": 1, "npc": [{"key": "kai", "cid": "kai", "staff": false, "obj": true, "lad": null, "next": null}]}
+  [ 215.0s] dorm 21.5：有下一層階梯的人 []
+FAIL 直向：找到在場、有下一層階梯的人
+FAILED: 橫向：找到在場、有下一層階梯的人, 直向：找到在場、有下一層階梯的人
