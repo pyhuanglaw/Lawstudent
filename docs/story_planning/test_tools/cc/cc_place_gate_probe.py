@@ -17,7 +17,7 @@
 11-12 BB-C 15:21：③ 櫃檯鏡頭改從門口方向看（退 min(2.5, 到門口距離×0.8) m）；⑦b 店外取色框往內往下收到玻璃以內。
 CC_02 清單 2026-11-13：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；STRIPS=1 藏人那一輪每個翻動格子切 12 張條圖（BB-C 10:23）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
-import os, sys, json, asyncio, base64, math, time
+import os, sys, json, asyncio, base64, math, time, re
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
 import cc_d141_lib as D
@@ -110,7 +110,9 @@ ZF_JS = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, W=200, H=Math.ro
   const out=[]; for(let i=0;i<12;i++){ const b=(i-6)*0.004; const A=shot(b), B=shot(b+0.05*Math.PI/180); let n=0,m=0; for(let y=Math.floor(H*0.15);y<Math.floor(H*0.85);y++) for(let x=Math.floor(W*0.15);x<Math.floor(W*0.85);x++){ const o=(y*W+x)*4; const la=0.299*A[o]+0.587*A[o+1]+0.114*A[o+2], lb=0.299*B[o]+0.587*B[o+1]+0.114*B[o+2]; m++; if(Math.abs(la-lb)>40) n++; } out.push(+(n*100/m).toFixed(3)); }
   if(z&&z.fadeWalls&&E.camera){ try{ z.fadeWalls(E.camera,P.position); if(E.hideFaded) E.hideFaded(); }catch(e){} } r.render(E.scene,E.camera); const s=out.slice().sort((x,y)=>x-y); return {pct:out, median:s[6], max:s[11]}; })"""
 CEIL_JS = r"""(a=>{ const E=GAME.E, rc=new THREE.Raycaster(new THREE.Vector3(a[0],1.6,a[1]), new THREE.Vector3(0,1,0), 0.05, 6); const ex=new Set(); const P=E.player&&E.player.obj; if(P) P.traverse(o=>ex.add(o)); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o));
-  const h=rc.intersectObjects(E.scene.children,true).filter(x=>x.object.visible!==false&&!ex.has(x.object))[0]; return h?{hit:true, d:+h.distance.toFixed(2), name:String(h.object.name||'').slice(0,30)}:{hit:false}; })"""
+  const hs=rc.intersectObjects(E.scene.children,true).filter(x=>x.object.visible!==false&&!ex.has(x.object)); const h=hs[0];
+  const nm=x=>String(x.object.name||(x.object.parent&&x.object.parent.name)||''); const ce=hs.find(x=>/^CEIL_/i.test(nm(x))&&!/light|lamp|glow|fan/i.test(nm(x)));   /* 11-14 BB-C a：白天花板＋燈管被當成天空——射線打到模型的 CEIL_*（不算燈）就以射線為準 */
+  return h?{hit:true, d:+h.distance.toFixed(2), name:nm(h).slice(0,30), ceil:ce?{d:+ce.distance.toFixed(2), name:nm(ce).slice(0,30)}:null, hits:hs.slice(0,5).map(x=>[nm(x).slice(0,24),+x.distance.toFixed(2)])}:{hit:false}; })"""
 BURST_JS = r"""(async a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, W=64, H=Math.round(64*c.height/c.width), k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d',{willReadFrequently:true});
   const B=8, bw=Math.floor(W/B), bh=Math.floor(H/B), seq=[]; const y0=E.cam.yaw;
   const fr=[], t00=performance.now(); const FW=640, FH=Math.round(640*c.height/c.width);
@@ -166,6 +168,10 @@ WINRECT_JS = r"""(a=>{ if(typeof Z3==='undefined'||!Z3.shopWindowRects) return {
   const pts=w.corners.map(p=>{ const v=new THREE.Vector3(p[0],p[1],p[2]).project(cam); return [(v.x+1)/2,(1-v.y)/2,v.z]; }).filter(p=>p[2]<1&&p[2]>-1);
   if(pts.length<3) return {why:'櫥窗四角不在畫面裡', w};
   const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]); return {rect:[Math.max(0,Math.min(...xs)),Math.max(0,Math.min(...ys)),Math.min(1,Math.max(...xs)),Math.min(1,Math.max(...ys))].map(v=>+v.toFixed(3)), id:w.id, place:w.place}; })"""
+AIM_JS = r"""(a=>{ const f=v=>+(+v).toFixed(2);
+  try{ if(typeof Z3!=='undefined'&&Z3.shopWindowRects){ const w=(Z3.shopWindowRects(GAME.E.zone)||[]).find(q=>q&&(q.place===a.zid||q.id===a.zid)); if(w&&w.corners&&w.corners.length){ const n=w.corners.length, c=[0,1,2].map(i=>w.corners.reduce((s,p)=>s+p[i],0)/n); return {c:c.map(f), from:'shopWindowRects', id:w.id}; } } }catch(e){}
+  const L=(GAME.E.interactables||[]).filter(i=>i.exit&&i.exit.to===a.zid&&!i.hidden).map(i=>({x:i.x,z:i.z,d:Math.hypot(i.x-a.sx,i.z-a.sz)})).sort((p,q)=>p.d-q.d);
+  if(L[0]) return {c:[f(L[0].x),1.4,f(L[0].z)], from:'door'}; return {c:null, from:'none'}; })"""
 MEANS_JS = r"""(async a=>{ const im=await new Promise(res=>{ const q=new Image(); q.onload=()=>res(q); q.src=a.u; }); const W=240, H=Math.round(240*im.height/im.width);
   const k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d'); g.drawImage(im,0,0,W,H); const d=g.getImageData(0,0,W,H).data; const out={};
   for(const n in a.regs){ const [x0,y0,x1,y1]=a.regs[n]; let r=0,gg=0,b=0,c=0; for(let y=Math.max(0,Math.floor(y0*H));y<Math.min(H,Math.ceil(y1*H));y++) for(let x=Math.max(0,Math.floor(x0*W));x<Math.min(W,Math.ceil(x1*W));x++){ const o=(y*W+x)*4; r+=d[o]; gg+=d[o+1]; b+=d[o+2]; c++; }
@@ -364,7 +370,8 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     # ③ 天花板
     ce = await pg.evaluate(CEIL_JS, [cx, cz]); row['m']['ceiling'] = {'ray': ce, 'sky_up_pct': aup['sky_all_pct'], 'sky_top_entry': a1['sky_top_pct'], 'sky_top_counter': a3['sky_top_pct']}
     # 往上拍是主要證據（bd86 東南大聯沒天花板：往上 100% 天空，但射線打到 1.5 m 高的吊燈／彩旗，舊判法誤判 PASS）
-    if aup['sky_all_pct'] >= 30: row['v']['3_ceiling'] = 'FAIL'
+    if ce.get('ceil') and 0.6 <= ce['ceil']['d'] <= 4.5: row['v']['3_ceiling'] = 'PASS'; row['m']['ceiling']['by'] = 'ray CEIL_*（上半偏藍 %s%% 只記：白天花板＋燈管會被當成天空，BB-C 11-14 a）' % aup['sky_all_pct']
+    elif aup['sky_all_pct'] >= 30: row['v']['3_ceiling'] = 'FAIL'
     elif ce['hit'] and ce['d'] >= 1.0: row['v']['3_ceiling'] = 'PASS'
     else: row['v']['3_ceiling'] = 'UNKNOWN'
     # ④ 純色／洋紅
@@ -413,9 +420,24 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         await pg.evaluate(SETTLED); await pg.wait_for_timeout(1500)
         oy = sp.get('yaw', 0.0); fx, fz = math.sin(oy), math.cos(oy); px, pz = fz, -fx
         tgt = (sp['x'] - fx * 2.0, 1.4, sp['z'] - fz * 2.0); base = (sp['x'] + fx * 2.5, 1.6, sp['z'] + fz * 2.5)
+        # 11-14 BB-C c：L118 的店外鏡頭照出生點的朝向，對著巷子、沒對到店面——改成對準這間店的櫥窗（Z3.shopWindowRects 四角中心）或進這間店的門（出口 to＝這一區）
+        aim = await pg.evaluate(AIM_JS, {'zid': zid, 'sx': sp['x'], 'sz': sp['z']}); row['m']['outside_aim'] = aim
+        if aim and aim.get('c'):
+            ax, az = aim['c'][0], aim['c'][2]; dx, dz = sp['x'] - ax, sp['z'] - az; dd = math.hypot(dx, dz)
+            if dd < 0.5: dx, dz, dd = fx, fz, 1.0
+            ux, uz = dx / dd, dz / dd; back = max(3.5, min(6.0, dd + 1.0))
+            tgt = (ax, 1.4, az); base = (ax + ux * back, 1.6, az + uz * back); fx, fz = ux, uz; px, pz = uz, -ux
+        # 左右 1.5 m 那兩張：位置站不住（柱子、牆）就往中間收到 1.0／0.6 m（11-14 BB-C：L118 店外右 1.5 m 卡進柱子）
+        side = {}
+        for sg in (-1, 1):
+            for off in (1.5, 1.0, 0.6):
+                q = (base[0] + sg * px * off, base[2] + sg * pz * off)
+                if await pg.evaluate("(a=>{ try{ return !!GAME.E.canStand(a[0],a[1],0.25,0); }catch(e){ return true; } })", list(q)): side[sg] = (q, off); break
+            else: side[sg] = ((base[0] + sg * px * 0.6, base[2] + sg * pz * 0.6), 0.6)
+        row['m']['outside_side_offsets'] = {'L': side[-1][1], 'R': side[1][1]}
         await pg.evaluate(D.HUD + '(false)')
         await pg.evaluate(HIDE_PEOPLE + '(true)')  # 視差只看店面：玩家、路人在畫面中間會把差值灌高
-        s4 = await snap(pg, base, tgt, win=True, near=[tgt[0], tgt[2], 4.5]); s4l = await snap(pg, (base[0] - px * 1.5, 1.6, base[2] - pz * 1.5), tgt); s4r = await snap(pg, (base[0] + px * 1.5, 1.6, base[2] + pz * 1.5), tgt)
+        s4 = await snap(pg, base, tgt, win=True, near=[tgt[0], tgt[2], 4.5]); s4l = await snap(pg, (side[-1][0][0], 1.6, side[-1][0][1]), tgt); s4r = await snap(pg, (side[1][0][0], 1.6, side[1][0][1]), tgt)
         await pg.evaluate(HIDE_PEOPLE + '(false)'); await pg.evaluate(D.HUD + '(true)')
         pd = await pg.evaluate(CROPDIFF_JS, {'us': [s4l['u'], s4['u'], s4r['u']]}); a4 = await pg.evaluate(ANA_JS, {'u': s4['u']})
         # 判法改射線（PC GATE_CAL：左右移 1.5 m 連平面圖的畫面也整個變，像素差不能分立體）：從店外鏡頭往門面打 24×16 條，略過玻璃、半透明、人；
@@ -449,6 +471,10 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         # X352 r2：大步舊版（照片卡片放在門面後面）和新版（立體店內）deep 一樣＝deep 分不出卡片；改看門面後面打到的深度分散（p90−p10）
         bn, bsp = rays.get('behind_n', 0), rays.get('behind_spread')
         row['v']['5_parallax'] = 'FAIL' if bn < 6 else ('UNKNOWN' if bsp is None else ('PASS' if bsp >= SPR_HI else ('FAIL' if bsp < SPR_LO else 'UNKNOWN')))
+        _hn = rays.get('hit_names') or []; _top = _hn[0] if _hn else None
+        if _top and rays.get('n') and _top[1] >= 0.8 * rays['n'] and re.search(r'zone|merged|static', _top[0], re.I) and row['v']['5_parallax'] != 'PASS':
+            # 11-14 BB-C b：汀州路店內和街道合成一個網格（tingzhou_zone），射線分不出門面和店內——不能寫 FAIL，改 UNKNOWN＋三張圖給 BB 看
+            row['m']['parallax']['why'] = '射線 %d／%d 打到同一個合併網格「%s」，分不出門面和店內（看 ⑤ 店外 中／左／右 三張）' % (_top[1], rays['n'], _top[0]); row['v']['5_parallax'] = 'UNKNOWN'
         # ⑦b 店外看到的和走進去一致（使用者 06:4x：「大步球鞋店外面看進去牆壁是灰色 可是人在店裡面居然墻壁是木頭的……你應該審查所有的店面會不會有一樣的問題」；BB-C 06:46）
         #   店外中間那張：最大那塊窗（從店外投影的窗玻璃框）上半＝牆、下半＝地板 的平均色；進門全景：畫面中上（x 0.2～0.8、y 0.15～0.45）＝牆、下面（x 0.25～0.75、y 0.8～0.97）＝地板
         #   色差＝RGB 距離；兩個都 ≤ CON_LO＝PASS、任一 ≥ CON_HI＝FAIL（★）、中間＝UNKNOWN（暫定門檻，等大步 FAIL 那一間校正）
