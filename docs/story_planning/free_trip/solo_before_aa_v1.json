@@ -1,5 +1,5 @@
 {
- "source": "AA_160 4-4、AA_161 第 1 節；AA-B 2026-10-16；第三批 AA_271，AA-C 2026-10-17",
+ "source": "AA_160 4-4、AA_161 第 1 節；AA-B 2026-10-16；第三批 AA_271，AA-C 2026-10-17；芯慈 AA_978（AA-C 2026-11-13，BB 照用；撞句、line_lint 修過）",
  "status": "READY_FOR_INTEGRATION（第②級日常內容，AA-B 定）",
  "rules": {
   "if": "G.places.free[地點] ≥ 1（自由出行的次數；約會、心願不算）",
@@ -428,6 +428,278 @@
     {
      "who": "heroine_03",
      "text": "你來過了。那霧什麼時候散，你應該看過。"
+    }
+   ]
+  },
+  "classmate_xinci": {
+   "D04": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過西門町？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那我們兩個都是一個人來的人。"
+    }
+   ],
+   "D06": [
+    {
+     "who": "classmate_xinci",
+     "text": "你自己來過美術館。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你一定也在某一幅畫前面站很久。"
+    }
+   ],
+   "D12": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過迪化街？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你知道哪一家的招牌最長。"
+    }
+   ],
+   "D13": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過淡水？一個人坐到最後一站？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我高中也是這樣。"
+    }
+   ],
+   "D09": [
+    {
+     "who": "classmate_xinci",
+     "text": "你坐過纜車了。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那等一下纜車晃的時候，你跟我說快到了沒。"
+    }
+   ],
+   "D18": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過九份？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你一定也被那段階梯累過。"
+    }
+   ],
+   "D20": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過烏來？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "公車時刻表，你那天有抄嗎？"
+    }
+   ],
+   "D24": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來泡過腳？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我一直以為泡腳要有人陪。原來不用。"
+    }
+   ],
+   "D25": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來看過海。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我也想試試看一個人來。可是不是今天。"
+    }
+   ],
+   "D01": [
+    {
+     "who": "classmate_xinci",
+     "text": "你自己來過華山。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那今天的展你先挑，我挑第二檔。"
+    }
+   ],
+   "D02": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過松菸？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你有看到長廊中間那根柱子嗎。"
+    }
+   ],
+   "D03": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人上來過？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你知道哪一層最安靜。帶我去。"
+    }
+   ],
+   "D05": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人看過電影？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我也是一個人看的。所以這次，我們兩個人看。"
+    }
+   ],
+   "D07": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過這裡。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你知道走廊那一段很窄。我走你後面。"
+    }
+   ],
+   "D08": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來動物園？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那企鵝館你一定去了。"
+    }
+   ],
+   "D10": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過碧潭？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我住這麼近，都還沒來過。"
+    }
+   ],
+   "D11": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過北投？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "泡了溫泉，還是只有走一走？"
+    }
+   ],
+   "D14": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過漁人碼頭？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你知道風有多大。外套穿好。"
+    }
+   ],
+   "D17": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過野柳。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "女王頭那邊，你那天有排隊嗎？"
+    }
+   ],
+   "D19": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過金瓜石？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那金磚你摸過了。我等一下也要摸。"
+    }
+   ],
+   "D21": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過三峽？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "金牛角你買了幾個？"
+    }
+   ],
+   "D26": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人坐高鐵去過臺中？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "比我還敢一個人出遠門。"
+    }
+   ],
+   "D27": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人去過嘉義？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那火車雞肉飯，你吃過了。"
+    }
+   ],
+   "D28": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過臺南？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那哪一家的早餐好吃，你帶我去。"
+    }
+   ],
+   "D29": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過駁二？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "倉庫那麼大，你一個人逛得完嗎？"
+    }
+   ],
+   "D30": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過這片海？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你聽過石頭被浪打的聲音了。"
+    }
+   ],
+   "D31": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過日月潭？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那天你坐客運上山嗎？我會暈。"
     }
    ]
   }
