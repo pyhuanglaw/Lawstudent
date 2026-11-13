@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_flirt.py（docs/story_planning/AA_711_flirt.json@a9465983f0）。不要手改，改企劃 AA_711 再重新匯入。
+/* 自動產生：tools/story/import_flirt.py（docs/story_planning/AA_711_flirt.json@6dbfe10d7e）。不要手改，改企劃 AA_711 再重新匯入。
    說點不一樣的（GIFT-FLIRT-1107；播放 src/flirt3d.js）*/
 'use strict';
 const FLIRT_LINES={
- "src": "docs/story_planning/AA_711_flirt.json@a9465983f0",
+ "src": "docs/story_planning/AA_711_flirt.json@6dbfe10d7e",
  "people": {
   "heroine_01": [
    {
@@ -710,7 +710,7 @@ const FLIRT_LINES={
    },
    {
     "need": 5,
-    "t": "（CANON-NO-ECON-1112：這一句拿掉，AA_897）",
+    "t": "期末那幾天，有妳傳的「還沒睡？」，我才撐下去的。",
     "ok": {
      "lines": [
       "你幹嘛突然說這個。",
@@ -728,8 +728,7 @@ const FLIRT_LINES={
      "rel": {
       "comf": -1
      }
-    },
-    "gone": true
+    }
    }
   ]
  }

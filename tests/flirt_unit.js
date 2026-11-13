@@ -29,6 +29,6 @@ const stageOf={}; const DS=DATE.stageNum; DATE.stageNum=id=>stageOf[id]!=null?st
     check('2. 太早說（階段 1、need '+e.need+'）＝early、好感照 early 那一格',res==='early'&&said().includes(e.early.lines[0])&&Object.keys(e.early.rel).every(k2=>((r1[k2]||0)-(r0[k2]||0))===Math.max(-(r0[k2]||0),e.early.rel[k2])),J({res,said:said(),rel:e.early.rel})); }
   { const G=H.fresh('2025-10-15',15,'campus'); delete G.flags.FLIRT; let err=null; try{ FLIRT.talkOpts(G,'heroine_02'); }catch(x){ err=x; } check('5. 舊存檔不丟例外',!err,String(err)); }
   { const G=H.fresh('2025-10-15',15,'campus'); const KX=FLIRT_LINES.people.kexin||[], gone=KX.filter(e=>e.gone);   /* CANON-NO-ECON-1112（AA_897）：AA 拿掉的那兩句留位置、不給選 */
-    check('6. 可昕：AA_897 拿掉的兩句標 gone、不在可以選的句子裡；其他人的句子沒有 gone',gone.length===2&&!FLIRT.left(G,'kexin').some(([e])=>e.gone)&&FLIRT.left(G,'kexin').length===KX.length-2&&Object.keys(FLIRT_LINES.people).filter(k=>k!=='kexin').every(k=>!FLIRT_LINES.people[k].some(e=>e.gone)),J(gone.map(e=>e.need))); }
+    check('6. 可昕：AA_897 拿掉的兩句，第 4 句 AA 補了新句（2026-11-12 CANON-NO-ECON-1112 第五批，AA_711@6dbfe10d7e：「期末那幾天，有妳傳的「還沒睡？」，我才撐下去的。」），剩一句標 gone、不在可以選的句子裡；其他人的句子沒有 gone（舊期望兩句 gone）',gone.length===1&&!!KX[4]&&!KX[4].gone&&KX[4].t==='期末那幾天，有妳傳的「還沒睡？」，我才撐下去的。'&&!FLIRT.left(G,'kexin').some(([e])=>e.gone)&&FLIRT.left(G,'kexin').length===KX.length-1&&Object.keys(FLIRT_LINES.people).filter(k=>k!=='kexin').every(k=>!FLIRT_LINES.people[k].some(e=>e.gone)),J(gone.map(e=>e.need))); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });
