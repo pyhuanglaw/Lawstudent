@@ -151,3 +151,7 @@
 - **06:3x 手機 6 項原因確定＝TEST_BUG**——REL76_save_v95_r4 診斷：按 #btnPhone 那一刻最上層是 `fade.on`（index.html 64：opacity 1、pointer-events auto＝讀檔換區域的黑幕還沒退，攔住點擊），稍後截圖已是校園＝黑幕有退、沒卡住。探針按太早，不是遊戲問題、不是 titleIdle。改成等 #fade 退且 elementFromPoint 是按鈕再按；發布後重跑，不擋 GO。save 五支定案：全部 PASS。
 - **06:4x REL76_car：流程 PASS、A 傾向前置 TEST_SETUP**——47 項 PASS：國考放榜（律師二試錄取）、第一份工作、尾聲、回到標題、沒卡住、沒有 debug 字、沒有 JS 例外。FAIL 3 項只在 A 傾向 case 的「前置」（careerLean 全 0、top 預設 B＝探針的 A 捷徑沒生效）；STORY.careerLean 在 f312 和 76f8 一字不差＝不是回退。30 分鐘逾時、car04_20 沒跑到。REL76_car_r2（car01_A＋car04_20、修 A 捷徑）排在 touch 後面，不擋 GO。
 - **06:5x REL76_touch（touch_flow_wenzhou）：ALL PASS**（76f8，166 s）。REL76_car_r2 排在後面（A 捷徑改設 CLUB_lawclub_study＋vac.reg C16／C09，不成立＝FAIL_SETUP）。
+- **07:0x CANON458_INV_LIB_r5＋發現：76f8 判 NO-GO（X364）**
+  - r5：照設計帶路（lead go→wait→sit，二樓長桌坐下）、邀約 done＝流程 PASS。台詞是「每次來都覺得好大。你走前面。」「（小聲）二樓靠窗那排比較安靜。」＋seated；AA 那句 first.sit 沒出現——invites3d.js 388、397：有 STUDYN 第 N 場（SN）就不走 libFirst，可昕在 study_scenes.js 有自己的第 1 場，所以 first.sit 永遠不會出現（P3：AA 新字用不到，請 AA／LAWWW 決定要不要搬進 STUDYN 第 1 場）。
+  - **查第 1 場時發現外校前提還在（玩家看得到）**：study_scenes.js kexin 1867「你們的總圖好大。」、1881 選項「妳們的圖書館多大？」、2109「你們的總圖還是好大。」；invite_place_lines.js 62／65／66／665「我又不是你們學校的」「換了臨時證」「你們學校的證件好醜」「你們這邊的牛肉麵」。canon_scan 抓不到（沒有校名），但這就是 X364／D158「可昕＝首都帝大法律系同屆」要清的東西。invite_place 4 句 AA 已改在 AA_959 總表（D158-KX-SAMESCHOOL），study_scenes 3 句請 AA 補。
+  - **判定：這 7 句換掉以前 NO-GO**；建議 rc2＝76f8＋這 7 列（純資料），驗 GHA 綠＋canon_scan 0＋CC 跑可昕第一次一起念書確認新字。其他已過的回歸不重跑。
