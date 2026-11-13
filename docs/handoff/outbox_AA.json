@@ -7686,10 +7686,10 @@
     "docs/story_planning/AA_936_台詞規則_7-3_7-6_7-12_看完.md",
     "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T11:50Z",
    "receiver": "LAWWW",
-   "ack": "BB-C 照用 11:41（BB_456 末節）；LAWWW 待 CANON 收尾後接",
+   "ack": "BB-C 照用 11:41（BB_456 末節）；LAWWW 待 CANON 收尾後接；LAWWW 已進 dbcdee452a",
    "noDirectIntegrate": false,
    "next": "人讀其他女主角被舊設定寫成某種個性的句子",
    "unfinished": "BB 第二眼；LAWWW 換 sup497_lines.js 187 一句"
@@ -7768,12 +7768,28 @@
     "docs/story_planning/AA_941_回LAWWW_可昕外校前提的約人規則三條.md",
     "docs/story_planning/AA_721_l118_invite_acc.json"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T12:55Z",
    "receiver": "LAWWW",
-   "ack": "BB-C 照用；已轉 LAWWW",
+   "ack": "BB-C 照用；已轉 LAWWW；LAWWW 已進 dbcdee452a",
    "noDirectIntegrate": false,
    "next": "BB 第二眼（③兩句）；LAWWW 拿掉三條規則、重匯 AA_721",
+   "unfinished": ""
+  },
+  {
+   "task": "BB198-VACB22",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "待填",
+   "files": [
+    "docs/story_planning/AA_942_回LAWWW_可昕2028暑假六件.md",
+    "docs/story_planning/AA_721_l118_invite_acc.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T13:15Z",
+   "receiver": "LAWWW",
+   "ack": "",
+   "noDirectIntegrate": false,
+   "next": "BB 第二眼（①七夕、④⑤⑥字）；LAWWW 接七夕、挪 kx4f 與 JP 開車旅行、重匯 AA_721",
    "unfinished": ""
   }
  ],
