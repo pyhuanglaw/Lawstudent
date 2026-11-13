@@ -1,0 +1,272 @@
+{
+ "_comment": "AA_982 芯慈（classmate_xinci）閒聊階梯 大二下（AA-C 2026-11-13；接 AA_979～981）。格式同 ladder_aa_y2s2.json characters.<id>。id 前綴 X3-、mem XC3_*。避開「期中」、termend 已有的句（爸爸問暑假去事務所）、AA_547／548 事件裡的句子。",
+ "term": "Y2S2",
+ "characters": {
+  "classmate_xinci": {
+   "steps": [
+    {
+     "id": "X3-L1",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "week": [
+      1,
+      6
+     ],
+     "lines": [
+      "寒假我把財金系的課本先讀了一章。",
+      "讀完才發現，它講的事，我家會議室都講過，只是換了一種說法。"
+     ],
+     "choices": [
+      {
+       "t": "「哪一種比較好懂？」",
+       "reply": "財金的。數字不會跟你吵。"
+      },
+      {
+       "t": "「妳寒假都在讀書？」",
+       "reply": "也在追劇。一半一半。"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC3_PREREAD"
+    },
+    {
+     "id": "X3-L2",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "lines": [
+      "這學期的財管，老師每堂都點人上台算題目。",
+      "被點到的時候，我手會抖。可是算出來的那一下很過癮。"
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC3_FINMGMT"
+    },
+    {
+     "id": "X3-L3",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "ACQUAINTANCE"
+      }
+     },
+     "lines": [
+      "我最近午餐都在系館後面那張長椅吃。",
+      "那裡有一隻貓，每天差不多中午會來。"
+     ],
+     "choices": [
+      {
+       "t": "「牠會跟妳要吃的嗎？」",
+       "reply": "會。我不給。我們就互相看。"
+      },
+      {
+       "t": "「明天我也去。」",
+       "reply": "好。我幫你留半張長椅。",
+       "mem": "XC3_BENCH_JOIN"
+      }
+     ],
+     "rel": {
+      "fam": 2
+     },
+     "mem": "XC3_BENCH"
+    },
+    {
+     "id": "X3-L4",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "week": [
+      11,
+      18
+     ],
+     "lines": [
+      "那天我爸問你民法教到哪裡，你不要介意。",
+      "他對每個法律系的人都問這一題。他覺得這樣是在關心。"
+     ],
+     "choices": [
+      {
+       "t": "「我不介意。」",
+       "reply": "謝謝。我會跟他說，他會很高興。"
+      },
+      {
+       "t": "「妳爸人很好。」",
+       "reply": "嗯。在家的時候，他比較不像律師。"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC3_DAD_AFTER",
+     "note": "在 AA_547 2-2「爸爸接她」（2027-04-23）之後；LAWWW 照那一場的事件 id 加條件"
+    },
+    {
+     "id": "X3-L5",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "lines": [
+      "以安的交換申請送出去了。我幫她看了一遍讀書計畫。",
+      "她寫得很好。我改了兩個標點。"
+     ],
+     "choices": [
+      {
+       "t": "「她一定很謝謝妳。」",
+       "reply": "她請我喝了一杯咖啡。我們扯平。"
+      },
+      {
+       "t": "「妳沒想過交換嗎？」",
+       "reply": "想過。可是我想要的實習在台北。"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC3_AN_APPLY"
+    },
+    {
+     "id": "X3-L6",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FAMILIAR"
+      }
+     },
+     "lines": [
+      "我在練習當天約人吃飯。",
+      "昨天約了財金系的同學，她說好。我緊張了一整個下午。"
+     ],
+     "choices": [
+      {
+       "t": "「結果呢？」",
+       "reply": "很好吃。我下次還要試。"
+      },
+      {
+       "t": "「下次也可以當天約我。」",
+       "reply": "我知道。我在練習的就是這個。",
+       "mem": "XC3_SAMEDAY_OK"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC3_SAMEDAY_PRACTICE",
+     "note": "G7「沒有提前一天」（大三上慈 5 以後第一個週三）的伏筆；這裡她還沒有當天約玩家"
+    },
+    {
+     "id": "X3-L7",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FRIEND"
+      }
+     },
+     "lines": [
+      "我把這學期看過的劇列了一張表。",
+      "每一部我都打了分數。你要看嗎？"
+     ],
+     "choices": [
+      {
+       "t": "「要。」",
+       "reply": "（她把手機遞過來，表格對得很整齊）最高分的那一部，你一定要看。",
+       "mem": "XC3_LIST_SEEN"
+      },
+      {
+       "t": "「妳連這個都整理？」",
+       "reply": "整理是我放鬆的方式。"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC3_DRAMA_LIST"
+    },
+    {
+     "id": "X3-L8",
+     "if": {
+      "stage": {
+       "npc": "classmate_xinci",
+       "min": "FRIEND"
+      }
+     },
+     "week": [
+      13,
+      18
+     ],
+     "lines": [
+      "暑假我想報財金系的讀書會，每週一次，討論財報。",
+      "法律系以外的事，我也想試試看。"
+     ],
+     "choices": [
+      {
+       "t": "「妳一定會很喜歡。」",
+       "reply": "我也這樣覺得。所以有點怕。"
+      },
+      {
+       "t": "「我可以去旁聽嗎？」",
+       "reply": "可以。可是你要先讀一份財報。我挑一份短的給你。",
+       "mem": "XC3_FIN_CLUB_JOIN"
+      }
+     ],
+     "rel": {
+      "fam": 2,
+      "trust": 1
+     },
+     "mem": "XC3_SUMMER_FIN"
+    }
+   ],
+   "greet": {
+    "base": [
+     "早。財管今天要小考。",
+     "你明天中午有約嗎？我是說，明天。",
+     "長椅那隻貓今天沒來。",
+     "（她邊走邊在手機上算數字）嗨。等我一下。",
+     "大二下了。時間好快。"
+    ],
+    "when": [
+     {
+      "location": [
+       "library_hall",
+       "library"
+      ],
+      "time": [
+       21,
+       24
+      ],
+      "t": "B1，我還是最後一個走。"
+     },
+     {
+      "location": [
+       "classroom",
+       "linze"
+      ],
+      "time": [
+       8,
+       12
+      ],
+      "t": "第一排。今天的講義我多印了一份。"
+     }
+    ]
+   }
+  }
+ }
+}
