@@ -164,7 +164,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   fresh('2027-09-14',17.6,'campus',{rain_umbrella:'give'}); R('heroine_03','FRI'); date('kexin'); ROM.learn(G,'heroine_03','kexin','test'); picks=[0]; await run('ev_yt_umbrella_y3');
   check('U. 和別人交往、她知道：只用友情版（「我今天有帶傘。」、沒有「你的傘」、沒有「可以再說一次嗎」）', has('我今天有帶傘。')&&!has('（她撐著你兩年前那把傘。）')&&has('謝謝。秀琴姨等一下一定會說第二次。')&&!has('……可以再說一次嗎。'));
   fresh('2027-09-14',18.6,'dorm'); R('heroine_03','FRI'); ct('heroine_03'); rules(); PHONE.tick(G); at('2027-09-14',20.1); rules();
-  check('U5. 沒去：20:00「今天講完了」「……傘我自己有帶」', txt('p:heroine_03').join('|')==='heroine_03:今天講完了|heroine_03:……傘我自己有帶'&&G.flags.YT_UMBRELLA_Y3==='missed');
+  check('U5. 沒去：20:00「今天講完了」「傘我自己有帶」', txt('p:heroine_03').join('|')==='heroine_03:今天講完了|heroine_03:……傘我自己有帶'&&G.flags.YT_UMBRELLA_Y3==='missed');
 
   // ---------- 1B-09 子晴 Q10 ----------
   const cp=ev('ev_ziqing_capstone');

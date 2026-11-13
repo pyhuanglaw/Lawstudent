@@ -117,7 +117,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
   // ===== M3 重逢、Café 的班、總圖的照片、Alison 那句 =====
   { fresh(D('2027-01-17'),7,'dorm',{dating_heroine_02:true}); R('heroine_02','CLO'); VAC.signup(G,'C11@Y2','yes'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C11@Y2')); PHONE.tick(G);
     const Z=allTxt('p:heroine_02'), CAFE=/下班了。今天放的是|有個客人點了你都點的那杯|Café 打烊後的吧台|店裡很安靜|今天店裡放的歌|我早班/;
-    check('M3. 芷若東京那兩週都在台中（1/17 起）：沒有 Café 的班（下班、客人、打烊的吧台、店裡、店裡放的歌、回來那天的早班）；照樣有其他幾則',!Z.some(t=>CAFE.test(t))&&Z.includes('今天看了一部電影，結局我先不講。')&&Z.includes('落地跟我說一聲。'),J(Z));
+    check('M3. 芷若東京那兩週都在台中（1/17 起）：沒有 Café 的班（下班、客人、打烊的吧台、店裡、店裡放的歌、回來那天的早班）；照樣有其他幾則',!Z.some(t=>CAFE.test(t))&&Z.includes('看了一部電影，結局我先不講。')&&Z.includes('落地跟我說一聲。'),J(Z));
     run(18,21.5); check('M3. 回國重逢那天她在台中（1/31）：不約臺北的 Café',!OUT.get(G,'vac_C11@Y2_re_heroine_02')&&!txt('p:heroine_02').some(t=>/九點下班|晚一點關燈/.test(t)),J(txt('p:heroine_02')));
     { const M=TH('p:heroine_02').filter(m=>m.tag==='vac_re_C11@Y2_heroine_02');
       check('第 7 節第 2 題. 東京 1/30 回來、芷若在台中：那天 21:00「回來了喔？我在台中。……東京好玩嗎？開學再跟我講。」（只傳私訊、不約）',J(M.map(m=>[K(m.day),m.h,m.text]))===J([['2027-01-30',21,'回來了喔？我在台中。……東京好玩嗎？開學再跟我講。']]),J(TH('p:heroine_02').map(m=>[K(m.day),m.h,m.text,m.tag]))); }
@@ -127,7 +127,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('M3. 以安的池子：「Alison 說你不在，宵夜沒人跟她搶。」（寒暑假沒有讀書會）',P.includes('Alison 說你不在，宵夜沒人跟她搶。')&&!P.some(t=>/讀書會/.test(t)),J(P));
     fresh(D('2026-07-27'),7,'dorm',{dating_heroine_01:true}); VAC.tripMsgs(G,VAC.inst('C09','Y1')); const A9=allTxt('p:heroine_01');
     fresh(D('2026-07-13'),7,'dorm',{dating_heroine_01:true}); VAC.tripMsgs(G,VAC.inst('C08','Y1')); const A8=allTxt('p:heroine_01');
-    check('M3. 總圖的照片：柬埔寨那幾天她回台中（7/25～8/7）＝不傳；首爾那幾天她在臺北＝照樣傳',!A9.includes('📷（總圖三樓靠窗的位子）')&&A9.includes('今天讀了四十頁。你那邊天氣好嗎？')&&A8.includes('📷（總圖三樓靠窗的位子）'),J([A9,A8])); }
+    check('M3. 總圖的照片：柬埔寨那幾天她回台中（7/25～8/7）＝不傳；首爾那幾天她在臺北＝照樣傳',!A9.includes('📷（總圖三樓靠窗的位子）')&&A9.includes('讀了四十頁。你那邊天氣好嗎？')&&A8.includes('📷（總圖三樓靠窗的位子）'),J([A9,A8])); }
   { fresh(D('2027-08-09'),7,'dorm',{dating_heroine_02:true}); R('heroine_02','CLO'); VAC.rec(G).reg['C12@Y2']='done'; G.day=D('2027-08-27'); run(17.9,21.5);
     check('M3. 京都 8/27 回來、芷若 8/21 起在台中：不約 Café',!OUT.get(G,'vac_C12@Y2_re_heroine_02')&&!txt('p:heroine_02').some(t=>/九點下班/.test(t)),J(txt('p:heroine_02')));
     check('第 7 節第 2 題. 京都 8/27 回來、芷若在台中準備 9/2 出發：那天 21:00「回來了喔？我在台中收行李，箱子關不起來。……京都好玩嗎？傳照片給我。」',J(TH('p:heroine_02').filter(m=>m.tag==='vac_re_C12@Y2_heroine_02').map(m=>[K(m.day),m.h,m.text]))===J([['2027-08-27',21,'回來了喔？我在台中收行李，箱子關不起來。……京都好玩嗎？傳照片給我。']]),J(TH('p:heroine_02').map(m=>[K(m.day),m.h,m.text,m.tag]))); }
@@ -178,8 +178,8 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('L3. 可昕「這個週末記得視訊」「高雄今天出大太陽。你那邊呢」；子晴「你那邊幾點 我這邊還沒睡」；學姊「我今天在法圖待到閉館。你那邊現在幾點。」',
       P('kexin').includes('這個週末記得視訊')&&P('kexin').includes('高雄今天出大太陽。你那邊呢')&&P('heroine_04').includes('你那邊幾點 我這邊還沒睡')&&P('heroine_05').includes('我今天在法圖待到閉館。你那邊現在幾點。')&&
       !all.some(t=>/晚上九點|明天週六|三十五度|你應該在吃午餐|我這邊三點|應該是早上/.test(t)),J(all));
-    check('第 7 節第 6 題＋第 8 節第 6 題. L3 整句換：以安中間那則「你那邊現在幾點？……吃飯了沒？」、池子「你吃過了嗎？」（開頭不要刪節號）；可昕「你那邊現在幾點」「今天懶得出門」；舊的四句都沒有了',
-      M.heroine_01.mid.length===1&&M.heroine_01.mid[0]==='你那邊現在幾點？……吃飯了沒？'&&P('heroine_01').includes('你吃過了嗎？')&&!P('heroine_01').includes('……你吃過了嗎？')&&P('kexin').includes('你那邊現在幾點')&&P('kexin').includes('今天懶得出門')&&
+    check('第 7 節第 6 題＋第 8 節第 6 題. L3 整句換：以安中間那則「你那邊現在幾點？……吃飯了沒？」、池子「你吃過了嗎？」（開頭不要刪節號）；可昕「你那邊現在幾點」「懶得出門」；舊的四句都沒有了',
+      M.heroine_01.mid.length===1&&M.heroine_01.mid[0]==='你那邊現在幾點？……吃飯了沒？'&&P('heroine_01').includes('你吃過了嗎？')&&!P('heroine_01').includes('……你吃過了嗎？')&&P('kexin').includes('你那邊現在幾點')&&P('kexin').includes('懶得出門')&&
       !all.some(t=>['你那邊幾點？我算了一下，你吃飯了沒？','你那邊幾點？我算了一下，應該在吃早餐。','我算了一下 你那邊現在幾點','今天熱到不想出門'].includes(t)),J([P('heroine_01'),P('kexin')])); }
   // ===== L4 可昕大三下的約會分路線 =====
   { const KX=TERMEND_LINES.KX.Y3S2, tb=r=>{ fresh(D('2028-06-20'),12,'campus',r?{EXCHANGE_ROUTE:r}:{}); return typeof KX.table==='function'?KX.table(G):KX.table; };
@@ -205,7 +205,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
       !a.length&&J(M.map(m=>[K(m.day),m.h,m.text]))===J([['2026-07-25',15,'你回來了。我今天回台中，八號回臺北。……到時候再約。']])&&!OUT.get(G,'vac_C08@Y1_re_heroine_01'),J([a,TH('p:heroine_01').map(m=>[K(m.day),m.h,m.text,m.tag])]));
     fresh(D('2027-07-24'),17.9,'dorm',{dating_heroine_01:true}); R('heroine_01','CLO'); VAC.rec(G).reg['C08@Y2']='done'; run(17.9,21.5);
     check('第 7 節第 2 題. 對照：2027 首爾 7/24 回來那天她已經在台中＝照 AA_350 S5 那兩則（「到了嗎？」「……好。我在台中，沒辦法去接你。…」），沒有第 2 題那句',
-      J(TH('p:heroine_01').filter(m=>m.tag==='vac_re_C08@Y2_heroine_01').map(m=>m.text))===J(['到了嗎？','……好。我在台中，沒辦法去接你。行李先放著，先睡。'])&&!txt('p:heroine_01').some(t=>/我今天回台中/.test(t)),J(TH('p:heroine_01').map(m=>[K(m.day),m.h,m.text,m.tag]))); }
+      J(TH('p:heroine_01').filter(m=>m.tag==='vac_re_C08@Y2_heroine_01').map(m=>m.text))===J(['到了嗎？','好。我在台中，沒辦法去接你。行李先放著，先睡。'])&&!txt('p:heroine_01').some(t=>/我今天回台中/.test(t)),J(TH('p:heroine_01').map(m=>[K(m.day),m.h,m.text,m.tag]))); }
   // ===== 第 7 節第 5 題：旅行、出國的日子「在幹嘛」＝presence 的地名＋每人一句 =====
   { const pick=(id,k,lv,h)=>{ fresh(D(k),h||15,'campus',{}); R(id,lv||'FAM'); INV.addContact(G,id); G.events.done.ev_ziqing_secret_game=1; return MSG.pick(G,id,'chat'); };
     const want=[['heroine_01','2027-08-15',['在京都。','……晚一點回你。']],['heroine_01','2027-01-20',['在東京。','……晚一點回你。']],['kai','2026-08-26',['在日本。','……這邊網路很慢。']],['kai','2028-07-05',['在曼谷。','……這邊網路很慢。']],
@@ -231,7 +231,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     const yt=(yk,k0)=>{ fresh(D(k0),7,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); VAC.tripMsgs(G,VAC.inst('C11',yk)); return byDay('p:heroine_03'); };
     const y3=yt('Y3','2028-01-17'), y2=yt('Y2','2027-01-17');
     const BIZ=/今天店裡很忙|收店了|沒什麼客人|不是你的 是客人的|一碗加蛋的乾麵|修鞋的阿伯|店裡的蛋用得比較少|今天也有開|麵店的鍋子|蘇姨說幫你留一杯|一壺泡好的烏龍|前院的貓碗|蘇姨問你什麼時候回來/;   /* AA_685 A6-4 的新字也算講店裡 */
-    const S1='茶屋過年休息。我回淡水了，睡到十點。……我媽說我很難得。', S2='我媽的診所休三天。她說要帶我去看海。', S3='今天在家包水餃。我包的都站不起來。', NEU=['你那邊在吃什麼','晚安'];
+    const S1='茶屋過年休息。我回淡水了，睡到十點。……我媽說我很難得。', S2='我媽的診所休三天。她說要帶我去看海。', S3='在家包水餃。我包的都站不起來。', NEU=['你那邊在吃什麼','晚安'];
     const shutK=Object.keys(y3).filter(k=>NOODLE_CLOSED.closed(G,D(k))), all3=[].concat(...Object.values(y3));
     const WKP=[].concat(...((VAC_DATA.TRIP_MSG.gf.heroine_03.offWd||{}).pool||[])).concat(NEU);   /* AA_686 第 3b 項（企劃線 1df3c189e）：平日輪流的多三則（今天在淡水…） */
     /* AA_687 第 7 項（企劃線 d41750385，AA-C 定 D109）：其他店休的日子原本只用不講店裡的那兩則，改用平日那一組（新的三則＋那兩則，不管星期幾；本身的測試在 tests/aa687_fix4_unit.js）*/
@@ -260,13 +260,13 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     const t02=zrRe('T02','Y2'), c18=zrRe('C18','Y2'), w=zrRe('C18W','Y2');
     check('第 8 節第 8 題. 芷若 2027-06-04～09-02 不上班：日本的山（8/4 回來）、新加坡（7/27 回來）的重逢改「回來了喔？明天下午我在 Café。……這次是當客人。來嗎？」、隔天下午在 Café；沒有「明天我九點下班。」',
       [t02,c18].every(x=>J(x.t)===J(['回來了喔？明天下午我在 Café。……這次是當客人。來嗎？'])&&!!x.q&&x.q.day===x.I.to+1&&x.q.h===15&&x.q.place==='2:30 AM'),J([t02.t,t02.q&&[K(t02.q.day),t02.q.h],c18.t,c18.q&&[K(c18.q.day),c18.q.h]]));
-    check('第 8 節第 8 題. 對照：2027 寒假新加坡（1/10 回來，她還在上班）照舊在班的那一句——AA_373 第 6 節第 9 題以後是「明天我十點下班。」「……你來的話，我晚一點關燈。」、隔天 22:00（她晚班到 22:00）',
-      J(w.t)===J(['明天我十點下班。','……你來的話，我晚一點關燈。'])&&!!w.q&&w.q.h===22,J([w.t,w.q&&w.q.h]));
+    check('第 8 節第 8 題. 對照：2027 寒假新加坡（1/10 回來，她還在上班）照舊在班的那一句——AA_373 第 6 節第 9 題以後是「明天我十點下班。」「你來的話，我晚一點關燈。」、隔天 22:00（她晚班到 22:00）',
+      J(w.t)===J(['明天我十點下班。','你來的話，我晚一點關燈。'])&&!!w.q&&w.q.h===22,J([w.t,w.q&&w.q.h]));
     const zrTrip=(id,yk)=>{ const I=VAC.inst(id,yk); fresh(I.from,7,'dorm',{dating_heroine_02:true}); R('heroine_02','CLO'); VAC.tripMsgs(G,I); return allTxt('p:heroine_02'); };
     const CAFE=/下班了。今天放的是|有個客人點了你都點的那杯|Café 打烊後的吧台|店裡很安靜|今天店裡放的歌|我早班/;
     const a=zrTrip('C18','Y2'), b=zrTrip('C08','Y2'), c=zrTrip('C18W','Y2');
     check('第 8 節第 8 題. 出國期間講 Café 班的那幾則（下班了…、客人、打烊的吧台、店裡、店裡放的歌、「你回來那天我早班」）2027-06-04～09-02 不傳（新加坡 7/19～7/27、首爾 7/13～7/24），其他幾則照樣有；對照：2027 寒假新加坡照樣有',
-      !a.some(t=>CAFE.test(t))&&!b.some(t=>CAFE.test(t))&&a.includes('今天看了一部電影，結局我先不講。')&&b.includes('落地跟我說一聲。')&&c.some(t=>CAFE.test(t)),J([a,b])); }
+      !a.some(t=>CAFE.test(t))&&!b.some(t=>CAFE.test(t))&&a.includes('看了一部電影，結局我先不講。')&&b.includes('落地跟我說一聲。')&&c.some(t=>CAFE.test(t)),J([a,b])); }
   // ===== 範圍外（第 4 節）=====
   { fresh(D('2026-11-13'),20,'campus',{lawclub:true}); PHONE.join(G,'lawclub_study','法服'); run(20,21.2); const T=TH('g:lawclub_study').map(m=>m.from+':'+m.text);
     check('第 4 節＋第 7 節第 10 題. 法服群組 11/13「明天九點半，攤位集合。」發話的人是柏翰（大二排法服班、大三發市集通知的都是他），不是語彤、不是沒名字的社長；句子不改',J(T)===J(['classmate_bohan:明天九點半，攤位集合。'])&&!TH('g:lawclub_study').some(m=>m.name),J(TH('g:lawclub_study')));
@@ -282,11 +282,11 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('第 9 節第 1 題. 話題（POOL.Y2S1）裡沒有那一句了（只在邀約後面講一次）',!TERMEND_LINES.POOL.Y2S1.heroine_02.includes('放映完隔天，我就回台中了。')&&TERMEND_LINES.HOOK.Y2S1.heroine_02.say==='店裡寒假想排一部老電影的放映。',J(TERMEND_LINES.POOL.Y2S1.heroine_02));
     const g=await din(1,'gf'); check('第 9 節第 1 題. 交往中的期末約會（大二上）也一樣：邀約那句之後才講「放映完隔天，我就回台中了。」',g.L.slice(-2).join('|')===WANT.join('|')&&g.L.filter(t=>t===WANT[1]).length===1,J(g.L)); }
   // 第 2 題：芷若 2027-06-04～09-02 不上班——隔天下午 Café 那一場、沒去的隔天那句
-  { const OLD=['（她把最後一張椅子倒扣在桌上。）','回來了。','第一杯，我還是做給你。坐。'], NEW=['（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）','回來了。','今天的咖啡不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。'];
+  { const OLD=['（她把最後一張椅子倒扣在桌上。）','回來了。','第一杯，我還是做給你。坐。'], NEW=['（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）','回來了。','這杯不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。'];
     const reQ=(id,yk)=>{ const I=VAC.inst(id,yk); fresh(I.to,17.9,'dorm',{dating_heroine_02:true}); R('heroine_02','CLO'); VAC.rec(G).reg[I.key]='done'; run(17.9,21.5); return {I,q:OUT.get(G,'vac_'+I.key+'_re_heroine_02')}; };
     const play=async(id,yk)=>{ const r=reQ(id,yk); if(!r.q) return {r,L:null}; G.day=r.q.day; G.hour=r.q.h; said=[]; await VAC.outing(GM,r.q); return {r,L:lines().map(t=>t.replace(/^[^：（]+：/,''))}; };
     const t02=await play('T02','Y2'), c18=await play('C18','Y2'), w=await play('C18W','Y2');
-    check('第 9 節第 2 題. 不上班那段的重逢（日本的山 8/5、新加坡 7/28 隔天 15:00 在 Café）：「（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）」「回來了。」「今天的咖啡不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。」；15:00 照舊；沒有倒扣椅子、第一杯',
+    check('第 9 節第 2 題. 不上班那段的重逢（日本的山 8/5、新加坡 7/28 隔天 15:00 在 Café）：「（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）」「回來了。」「這杯不是我做的，學妹做的。你喝喝看。她拉花比我第一年好多了。」；15:00 照舊；沒有倒扣椅子、第一杯',
       [t02,c18].every(x=>J(x.L)===J(NEW)&&x.r.q.h===15),J([t02.L,c18.L,t02.r.q&&t02.r.q.h]));
     check('第 9 節第 2 題. 對照：2027 寒假新加坡（她還在上班）照舊「（她把最後一張椅子倒扣在桌上。）」「回來了。」「第一杯，我還是做給你。坐。」，22:00（AA_373 第 6 節第 9 題：她晚班到 22:00）',J(w.L)===J(OLD)&&w.r.q.h===22,J([w.L,w.r.q&&w.r.q.h]));
     const miss=(id,yk)=>{ const r=reQ(id,yk); if(!r.q) return null; G.day=r.q.day; G.hour=r.q.h+1; VAC.missed(GM,r.q); G.day=r.q.day+1; G.hour=12.5; PHONE.tick(G); return TH('p:heroine_02').filter(m=>m.tag==='vac_remiss_'+r.I.key+'_heroine_02').map(m=>[K(m.day),m.h,m.text]); };
@@ -297,7 +297,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     fresh(D('2028-01-17'),7,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); VAC.tripMsgs(G,VAC.inst('C11','Y3')); const A3=asks('p:heroine_03');
     const shutA=A3.filter(a=>NOODLE_CLOSED.closed(G,D(a[0]))), openA=A3.filter(a=>!NOODLE_CLOSED.closed(G,D(a[0])));
     check('第 9 節第 3 題. 大三寒假東京（店休 2028-01-19～01-28）：店休那幾天她傳的，玩家能回「好好休息。」「開店我第一個去。」（不是「辛苦了。」「想吃乾麵。」）；排法照舊（1/19 店休第一天、1/20 迪化街、1/21 包餃子）',
-      shutA.length>=5&&shutA.every(a=>J(a[2])===J(['好好休息。','開店我第一個去。']))&&J(shutA.slice(0,3).map(a=>[a[0],a[1]]))===J([['2028-01-19','茶屋過年休息。我回淡水了，睡到十點。……我媽說我很難得。'],['2028-01-20','我媽的診所休三天。她說要帶我去看海。'],['2028-01-21','今天在家包水餃。我包的都站不起來。']]),J(shutA));
+      shutA.length>=5&&shutA.every(a=>J(a[2])===J(['好好休息。','開店我第一個去。']))&&J(shutA.slice(0,3).map(a=>[a[0],a[1]]))===J([['2028-01-19','茶屋過年休息。我回淡水了，睡到十點。……我媽說我很難得。'],['2028-01-20','我媽的診所休三天。她說要帶我去看海。'],['2028-01-21','在家包水餃。我包的都站不起來。']]),J(shutA));
     const weA=openA.filter(a=>[0,6].includes(CALENDAR.dateOf(D(a[0])).wd%7)), wkA=openA.filter(a=>![0,6].includes(CALENDAR.dateOf(D(a[0])).wd%7));
     check('第 9 節第 3 題. 對照：有開店的週末照舊「辛苦了。」「想喝茶。」（AA_685 A6-4：「想吃乾麵。」→「想喝茶。」）；平日換「淡水冷嗎？」「好好休息。」（AA_686 第 3c 項，企劃線 1df3c189e）',weA.length>=1&&weA.every(a=>J(a[2])===J(['辛苦了。','想喝茶。']))&&wkA.length>=1&&wkA.every(a=>J(a[2])===J(['淡水冷嗎？','好好休息。'])),J(openA));
     const fr=(yk,k0)=>{ fresh(D(k0),7,'dorm',{}); R('heroine_03','FAM'); VAC.tripMsgs(G,VAC.inst('C11',yk)); const o={}; for(const q of PHONE.rec(G).q) for(const x of (q.items||[])) if(x.th==='p:heroine_03') (o[K(q.day)]=o[K(q.day)]||[]).push(x.text); for(const m of TH('p:heroine_03')) (o[K(m.day)]=o[K(m.day)]||[]).push(m.text); return o; };

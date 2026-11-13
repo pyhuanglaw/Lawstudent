@@ -49,9 +49,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* AA_358 2-5（AA-C 2026-10-21 659d9d81）：語彤不進法服（AA_255），博覽會法服攤位的三處換成柏翰（法服社員、同一學期接社長）——修改前 FAIL */
   fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; meet('heroine_05'); meet('heroine_03'); meet('classmate_bohan'); R('classmate_bohan',...LV.ACQ); R('heroine_03',...LV.ACQ); const fb0=SOCIAL.rel('classmate_bohan').fam, fy0=SOCIAL.rel('heroine_03').fam;
   at(-13.5,13.6); picks=['法服','先聽他']; tick(); await wait(); L=lines();   /* AB65-3（AA_211） 附錄 A 祐廷的選項：「先問事實，再找條文。」→「有人來問問題，我們先聽他把事情講完，再找條文。」 */
-  check('2. 法服：只加入一個也有選單（一項）；新生問、柏翰「……順序對了。」（AA_374 第 6 項）；「……這句，是學姊的。」刪掉（AB65-3（AA_211） 附錄 A、AA_193 第 5 節）；在場的熟悉 +1 是柏翰、不是語彤',L.includes('新生：學長，法服是做什麼的？')&&L.some(t=>t.endsWith('……順序對了。'))&&!L.some(t=>/這句，是學姊的/.test(t))&&!L.some(t=>/語彤：/.test(t))&&G.flags.Y2_EXPO_BOOTH==='lawclub_study'&&SOCIAL.rel('classmate_bohan').fam===fb0+1&&SOCIAL.rel('heroine_03').fam===fy0,JSON.stringify(L));
+  check('2. 法服：只加入一個也有選單（一項）；新生問、柏翰「順序對了。」（AA_374 第 6 項）；「……這句，是學姊的。」刪掉（AB65-3（AA_211） 附錄 A、AA_193 第 5 節）；在場的熟悉 +1 是柏翰、不是語彤',L.includes('新生：學長，法服是做什麼的？')&&L.some(t=>t.endsWith('順序對了。'))&&!L.some(t=>/這句，是學姊的/.test(t))&&!L.some(t=>/語彤：/.test(t))&&G.flags.Y2_EXPO_BOOTH==='lawclub_study'&&SOCIAL.rel('classmate_bohan').fam===fb0+1&&SOCIAL.rel('heroine_03').fam===fy0,JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; meet('heroine_03'); at(-13.5,13.6); picks=['法服','先聽他']; tick(); await wait(); L=lines();
-  check('2. 法服選第二項（AB65-3（AA_211）：「有人來問問題，我們先聽他把事情講完，再找條文。」）、只認識語彤（不認識柏翰）：沒有「……這句，是學姊的。」、沒有「……順序對了。」',L.includes('新生：學長，法服是做什麼的？')&&!L.some(t=>t.endsWith('……這句，是學姊的。'))&&!L.some(t=>/順序對了/.test(t)),JSON.stringify(L));
+  check('2. 法服選第二項（AB65-3（AA_211）：「有人來問問題，我們先聽他把事情講完，再找條文。」）、只認識語彤（不認識柏翰）：沒有「……這句，是學姊的。」、沒有「順序對了。」',L.includes('新生：學長，法服是做什麼的？')&&!L.some(t=>t.endsWith('……這句，是學姊的。'))&&!L.some(t=>/順序對了/.test(t)),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; at(-13.5,13.6); picks=['法服','幫人看']; tick(); await wait(); L=lines();
   check('2. 法服「幫人看法律問題。」：新生「那你很厲害耶。」＋旁白；學姊不說話',L.includes('新生：那你很厲害耶。')&&L.includes('你想說「我只是坐在旁邊做紀錄」，最後沒說。')&&!L.some(t=>/順序對了/.test(t)),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_dept_basketball:true,ZHE_CALLS_GE:true}); G.stage='law'; at(-13.5,13.6); picks=['系籃']; tick(); await wait(); L=lines();   /* AA_374 第 7 項：有「哥」的玩家（ZHE_CALLS_GE）照原句 */
@@ -60,7 +60,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(d16,15,'campus',{CLUB_club_hiking:true}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('3. 登山社（AB65-3（AA_211）：「會啊，我第一次爬完腿痠三天。」）',L.includes('祐廷：會啊，我第一次爬完腿痠三天。'),JSON.stringify(L));
   // 都沒加入
   fresh(d16,15,'campus',{}); G.stage='law'; meet('classmate_bohan'); at(-13.5,13.6); tick(); await wait(); L=lines();
-  check('4. 都沒加入、認識柏翰（AA_358 2-5）：「（你只是走過。法服的攤位後面，柏翰在發傳單。）」柏翰「法服的傳單，週六有值班。」「（他遞一張給你，又想起來，你不是新生。）」柏翰「……那你幫我拿給大一的。」（AB65-3（AA_211） 附錄 A：祐廷大二沒有學弟）；沒有「學長」、不花時間、Y2_EXPO_BOOTH none',
+  check('4. 都沒加入、認識柏翰（AA_358 2-5）：「（你只是走過。法服的攤位後面，柏翰在發傳單。）」柏翰「法服的傳單，週六有值班。」「（他遞一張給你，又想起來，你不是新生。）」柏翰「那你幫我拿給大一的。」（AB65-3（AA_211） 附錄 A：祐廷大二沒有學弟）；沒有「學長」、不花時間、Y2_EXPO_BOOTH none',
     L[1]==='（你只是走過。法服的攤位後面，柏翰在發傳單。）'&&/柏翰：法服的傳單，週六有值班。$/.test(L[2]||'')&&L[3]==='（他遞一張給你，又想起來，你不是新生。）'&&/柏翰：……那你幫我拿給大一的。$/.test(L[4]||'')&&L.length===5&&!L.some(t=>/學長」/.test(t))&&G.flags.Y2_EXPO_BOOTH==='none'&&!G.flags.Y2_EXPO_SENIOR&&Math.abs(G.hour-15)<1e-6,JSON.stringify(L));
   fresh(d16,15,'campus',{}); G.stage='law'; meet('heroine_03'); at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 只認識語彤、不認識柏翰：只有「你只是走過。」（語彤不在法服攤位的任何一路）',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
   fresh(d16,15,'campus',{}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 都不認識：只有「你只是走過。」',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));

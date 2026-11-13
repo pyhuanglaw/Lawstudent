@@ -14,6 +14,7 @@
 //      _meta.she_pays 三格＝S.SHE_PAYS（扣不扣錢在 tests/date_she_pays_1111_unit.js）；date3d.js 字串增減固定比 AN780_D3_SHA
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/an_dates_1111_unit.js
 require('./alison.js');
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), os=require('os'), vm=require('vm');
@@ -39,7 +40,7 @@ const cell=s=>s[0][s[1]];
 /* 2026-11-11（AA_812@f1fab0ec6）：懸著的「下次我請」七格（date_src_sha.js 的 CELLS_812：學姊、子晴 D06.cafe remember，沛珊 D15.store、D21.street，可昕 D15 收尾，子晴 D06 第一次選項的回覆，語彤 D10.boat remember）
    是匯入工具最後一步疊上去的（改稿紀錄 date_rewrite/ 和稿的 path_rows；源稿 Dxx.json 沒有重新 apply）——這支的逐字對稿、和重匯以前比，NOW 先用 un812 把那七格還原成舊字再比
    （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
-const NOW812=DL(read('src/data/date_lines.js')), NOW=C.un812(NOW812);
+const NOW812=M959.unmapDeep(DL(read('src/data/date_lines.js')),'date_lines.js'), NOW=C.un812(NOW812);
 check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',C.CELLS_812.length===7&&C.CELLS_812.every(r=>C.cell812(NOW812,r)===(r.now||r.new)&&C.cell812(NOW,r)===r.old),JSON.stringify(C.CELLS_812.map(r=>C.cell812(NOW812,r))));   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：第六格（子晴 D06.cafe 第一次選項的回覆）AA 在 AA_846 late_fix 改回「下次我請你吃滷味。」，AA_812 path_rows 那一列被取代（import_date_lines.py SUPER812）——那一格現在認 CELLS_812 的 now。舊期望：七格都＝r.new */
 const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(SHA,SP+'date_rewrite/an_'+k+'.json'); if(t) SRC[k]=C.src248(k,JSON.parse(t));   /* 52c3ee258 起源稿有 fx：只比字（date_src_sha.js noFx） */ if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }   /* 2026-11-12（X324 可昕續改，AA_819＋AA_822@07d50af2f7）：源稿可昕 72 格換了新字——src248 把那 72 格還原再比（date_src_sha.js KX_1112；逐格在 tests/kx_dates_1112_unit.js）。舊寫法：C.noFx(JSON.parse(t)) */
 const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLDSRC).length===33&&Object.keys(REC).length===33;

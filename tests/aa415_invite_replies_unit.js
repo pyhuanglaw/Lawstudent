@@ -167,7 +167,7 @@ await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03',
   fresh('2027-03-10','classmate_peishan',3); const p1=ask('classmate_peishan','brunch',10);   /* AA_255 (b-1) 第 20 條：消失期約她一律沒有回覆、不顯示她的句子（原本「我在念書。……考完再去。你先幫我記住菜單。」）*/
   check('7. 沛珊大二下（消失期）約半熟：沒有她的句子，系統「沒有回覆。」（AA_255 (b-1) 第 20 條）',p1.res==='decline'&&p1.why==='away'&&!p1.lines&&/沒有回覆。$/.test(INV.reply(H.G,'classmate_peishan','brunch',p1)),JSON.stringify(p1));
   fresh('2025-10-14','heroine_01',3); const a1=ask('heroine_01','wenzhou',15.5,null,{res:'accept'});
-  check('7. 以安大一約散步：rule 的「好。」「……今天不行，明天。」（改天；祐廷那句刪，AA_576 第 11、12 列）',a1.res==='resched'&&txt(a1.lines)==='好。……今天不行，明天。',a1.res+' '+txt(a1.lines));
+  check('7. 以安大一約散步：rule 的「好。」「今天不行，明天。」（改天；祐廷那句刪，AA_576 第 11、12 列）',a1.res==='resched'&&txt(a1.lines)==='好。……今天不行，明天。',a1.res+' '+txt(a1.lines));
   fresh('2026-03-10','heroine_01',3); const h1=ask('heroine_01','library',9), h2=ask('heroine_01','library',9);
   check('7. 以安早上在總圖（作息）：here「我本來就在總圖。二樓靠窗。」（照舊，兩次一樣）',h1.res==='here'&&txt(h1.lines)==='我本來就在總圖。二樓靠窗。'&&txt(h2.lines)===txt(h1.lines),h1.res+' '+txt(h1.lines));
   fresh('2026-03-10','heroine_02',3); const c1=ask('heroine_02','cafe',19);

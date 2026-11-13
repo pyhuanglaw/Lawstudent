@@ -54,7 +54,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   at(34,-95); picks=['妳想去就去']; tick(); await wait(); L=norm(lines());
   check('2. 備案：霖澤館前 25 m 內；沒有 NOT_FOR_ME 的開頭（AB65-3：AA_211 附錄 B E5「我想了很久，到底要不要繼續念法律。」）；「妳想去就去。」',L[0]==='我想了很久，到底要不要繼續念法律。'&&L[1]==='我決定了。我要重考。去念教育。'&&L[L.length-1]==='難的是回家，跟我爸媽講。',JSON.stringify(L));
   fresh(tue5,12.2,'linze',{dating_classmate_peishan:true}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',...LV.FAM); G.events.done.ev_peishan_doubt=1; at(0,0); picks=['我陪妳念']/* （CANON-NO-ECON-1112 第四批：照 AA_886 換字）*/; tick(); await wait(); L=norm(lines());
-  check('2. 第三個選項的回覆只有一版（AA_886 第 2 節：不分玩家說過什麼）：「……你自己的書念完了嗎？」→（她笑了。）→「好。那你先把你的念完。」',L.slice(-3).join('|')==='……你自己的書念完了嗎？|（她笑了。）|好。那你先把你的念完。',JSON.stringify(L));
+  check('2. 第三個選項的回覆只有一版（AA_886 第 2 節：不分玩家說過什麼）：「你自己的書念完了嗎？」→（她笑了。）→「好。那你先把你的念完。」',L.slice(-3).join('|')==='……你自己的書念完了嗎？|（她笑了。）|好。那你先把你的念完。',JSON.stringify(L));
   fresh(tue5,14,'linze',{dating_classmate_peishan:true}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',...LV.FAM); G.events.done.ev_peishan_doubt=1; at(0,0); check('2. 13:00 以後不演',!tick());
   // W7
   const w6=termDay('Y2S1',6,3); fresh(w6,15.5,'linze',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',...LV.ACQ); at(0,0); check('3. 學姊只是認識不演',!tick());

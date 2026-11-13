@@ -104,7 +104,7 @@ if(REAL){ global.MSG_POOL=realPool; const P=realPool.people||{}; let src=''; try
   if(src&&realPool.source.AA_538){ try{ src+=cp.execSync('git -c core.quotepath=false show '+realPool.source.AA_538+':"docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_538 4-2：子晴分享 A 層各補兩則（PHONE-UNIFY-1030）*/
   if(src&&realPool.source.AA_531){ try{ src+=cp.execSync('git -c core.quotepath=false show '+realPool.source.AA_531+':"docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_531 3-3：語彤「在店裡。阿姨問你美國有沒有麵。」（祐廷在美國）*/
   src=src.replace(/《東京物語》/g,'《進城的那一週》').replace(/《晚春》/g,'《父親的午後》');   /* AA_313 6-2：真實片名改虛構的（AA 定，原文之後照這張表讀）*/
-  src=src.replace(/今天的課講小津。我有舉手。/g,'今天的課講一個日本的老導演。他的鏡頭幾乎都不動。');
+  src=src.replace(/今天的課講小津。我有舉手。/g,'課上講一個日本的老導演。他的鏡頭幾乎都不動。');
   src=src.replace(/在改論文的第二章。/g,'在改論文的第四章。');   /* AA_509 0-2 第 1 點（企劃線 691a26400）：學姊大四上回覆池第二章改第四章（產生器 tools/msg/build_pool.py 的 FIX）*/
   src=src.replace(/在追劇，這集好扯。/g,'在讀書。等我一章。').replace(/一家多一顆滷蛋 哈哈/g,'一家多送一碗湯 哈哈');   /* AA_497 第 8 節第 3、4 點（企劃線 60fc3b9a3；2026-10-28 加）：芯慈追劇減量、明軒的滷蛋（同產生器的 FIX）*/   /* AA_350 R6（企劃線 cae5cc76）：真實的導演名字不寫，1-E 第 5 則換這一句 */
   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊三則回覆（在幹嘛 R、分享吃的 A、放假在台中 A）換成新稿的句子（產生器 tools/msg/to_js.py 疊稿、那幾則多一格 ps755＝新稿的來源）——

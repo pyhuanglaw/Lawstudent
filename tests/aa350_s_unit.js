@@ -96,7 +96,7 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
   for(const key of ['C09@Y1','C08@Y2','C09@Y2','C10@Y2','T02@Y2']){ const [id,yk]=key.split('@'), I=VAC.inst(id,yk), rd=I&&I.to;
     fresh(rd,17.9,'dorm',{dating_heroine_01:true}); know('heroine_01',60); VAC.rec(G).reg[key]='done'; runPh(17.9,21.2);
     const A=txt('p:heroine_01'), q=OUT.get(G,'vac_'+key+'_re_heroine_01'), pr=STORY.presence('heroine_01',G);
-    check('S5. '+key+'（回國 '+(rd!=null?K(rd):'?')+'，以安在台中）：21:00 兩則「到了嗎？」「……好。我在台中，沒辦法去接你。行李先放著，先睡。」；不約見面、不排出遊',
+    check('S5. '+key+'（回國 '+(rd!=null?K(rd):'?')+'，以安在台中）：21:00 兩則「到了嗎？」「好。我在台中，沒辦法去接你。行李先放著，先睡。」；不約見面、不排出遊',
       isHome(pr,'台中')&&JSON.stringify(A)===JSON.stringify(reTwo)&&!q&&(G.msgs||[]).filter(m=>m.th==='p:heroine_01').every(m=>m.h===21),JSON.stringify([sh(pr),A,!!q])); }
   { fresh(D('2026-07-24'),17.9,'dorm',{dating_heroine_01:true}); know('heroine_01',60); VAC.rec(G).reg['C08@Y1']='done'; runPh(17.9,21.2); const A=txt('p:heroine_01'), q=OUT.get(G,'vac_C08@Y1_re_heroine_01');
     /* AA_369 M3（取代原本的防回歸「照原本的重逢」）：重逢那天（7/25）她回台中＝一律走 reunionHome，以安沒有那一句＝不約總圖、不排出遊；回國那天她還在臺北＝也不是 S5 那兩則 */

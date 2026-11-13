@@ -47,7 +47,7 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
     const dd=TD('Y2S1',10,1);
     const Y=ev('ev_b106d2_yutong'); const yt=async(flags,pick)=>{ fresh(dd,17.4,'campus',flags); SOCIAL.remember('heroine_03','FIRST_MET',''); picks=[pick]; await RUN(Y); return {L:lines().map(t=>t.replace(/^[^：]*語彤：/,'語彤：')),F:G.flags,O:opts.slice()}; };
     let y=await yt({},0);   /* （CANON-NO-ECON-1112 第四批：照 AA_886 換字）不分支（原本照 ECON_PAST_SHARED 三支、記 YT_KNOWS_ECON）*/
-    check('D2：語彤：「你怎麼在我們這一區？」→「我來借書。」「法律系的來這裡借書？」「總圖人太多。」「……這裡也不少。坐那邊，那排插座是好的。」，不記旗標（AA_886 第 2 節）',J(y.L)===J(['語彤：你怎麼在我們這一區？','祐廷：我來借書。','語彤：法律系的來這裡借書？','祐廷：總圖人太多。','語彤：……這裡也不少。坐那邊，那排插座是好的。'])&&y.F.YT_KNOWS_ECON===undefined&&!y.O.length,J(y.L));
+    check('D2：語彤：「你怎麼在我們這一區？」→「我來借書。」「法律系的來這裡借書？」「總圖人太多。」「這裡也不少。坐那邊，那排插座是好的。」，不記旗標（AA_886 第 2 節）',J(y.L)===J(['語彤：你怎麼在我們這一區？','祐廷：我來借書。','語彤：法律系的來這裡借書？','祐廷：總圖人太多。','語彤：……這裡也不少。坐那邊，那排插座是好的。'])&&y.F.YT_KNOWS_ECON===undefined&&!y.O.length,J(y.L));
     check('D2：語彤週一、五 17:20～17:50 在社科院門口（週三她在 118 巷）；說過一次就不再排',(()=>{ const e=CHARACTERS.heroine_03.daily_schedule.find(x=>x.b106d2); fresh(dd,17.4,'campus'); G.events.done.ev_b106d2_yutong=1; return !!e&&J(e.days)==='[1,5]'&&!B2.due(G,'heroine_03'); })()); }
   // ======================= BB_105 大一女舍門口（V1-B105-D2）=======================
   // ---- D4 一年後，再走到女舍門口（AA_289 5-4：沛珊還筆記）----

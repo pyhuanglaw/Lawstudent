@@ -30,7 +30,7 @@ check('1. 32 列的「改成」一字不差在遊戲裡（那一列寫的檔案�
 check('1. 32 列的原句不在遊戲裡（不算註解）',!still.length,J(still));
 check('1. 第 19 列：學姊「八點你們有讀書會。我先下線了。」；原句（含註解）都不在',RAW('src/data/r2y3a_events.js').includes("text:'八點你們有讀書會。我先下線了。'")&&!RAW('src/data/r2y3a_events.js').includes('下線吧。'));
 check('1. 第 32 列（AA 第 8 節第 5 點）：an_mom2「我把課表傳給她。她說：好。」；「我說公司法。」不在',RAW('src/data/feed_y1s2.js').includes("'我把課表傳給她。她說：好。'")&&!RAW('src/data/feed_y1s2.js').includes('我說公司法。'));
-check('1. 第 30 列（決3）：路過版「（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。」；「今年不抓你」不在',RAW('src/data/r2y3a_events.js').includes('（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。')&&!RAW('src/data/r2y3a_events.js').includes('今年不抓你'));
+check('1. 第 30 列（決3）：路過版「（抱著一疊訪談稿，從攤位前面經過，看到你）人好多。我回研究室了。」；「今年不抓你」不在',RAW('src/data/r2y3a_events.js').includes('（抱著一疊訪談稿，從攤位前面經過，看到你）人好多。我回研究室了。')&&!RAW('src/data/r2y3a_events.js').includes('今年不抓你'));
 { const her=[], pics=new Set(); const T=x=>x==null?[]:(typeof x==='object'?['yes','no','nar'].map(k=>x[k]).filter(v=>v!=null).map(String):[String(x)]);
   for(const k of FEEDS){ const F=globalThis['FEED_'+k.toUpperCase()]; if(!F) continue;
     for(const p of F.posts||[]){ if(p.who!=='heroine_01') continue; if(T(p.pic).some(t=>t.includes('手帳'))) pics.add(p.id); her.push(...T(p.say)); if(p.cm) her.push(...T(p.cm[1])); if(p.dm) her.push(...T(p.dm[1])); }

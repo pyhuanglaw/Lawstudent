@@ -13,6 +13,7 @@
 //     第 6 節選「我們平分。」也扣一半、學姊 D30.stall 第一次選「我自己來。」照原價；第 7 節 S.REMEMBER_IF 拿掉子晴 D06.cafe 那一列＝沒旗標的人也聽新句、她請（上面第 2、5、6、7 行是 f1fab0ec6 那時的說法）。
 // 用法：node tests/date_she_pays_812_1111_unit.js
 require('./alison.js');
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), os=require('os');
@@ -21,7 +22,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26}); }catch(e){ return null; } };
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 const DLp=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf(';')));
-const NOW=DLp(read('src/data/date_lines.js'));
+const NOW=M959.unmapDeep(DLp(read('src/data/date_lines.js')),'date_lines.js');
 const leaves=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>leaves(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) leaves(x[k],p+'/'+k,o); else o[p]=x; return o; };
 const getAt=(o,p)=>p.split('/').slice(1).reduce((x,k)=>x==null?x:x[k],o);
 /* 格號＝date_rewrite.py list 的順序（同 tests/date_she_pays_1111_unit.js 的 slots()）*/
@@ -74,7 +75,7 @@ const A812=JSON.parse(show(SHA812,SP+'AA_812_date_pays_promises.json')||'null');
 const REC=[
   {rec:'sis_D06',who:SIS,loc:'D06',n:45,old:'上次你請的。這次我請。',new:'這次我請。你坐著就好。'},
   {rec:'zq_D06',who:ZQ,loc:'D06',n:45,old:'我說過要請你吃滷味，等一下去，我知道一間。',new:'這家我來過兩次了。這次我請，你不要算。'},
-  {rec:'peishan_D15',who:PS,loc:'D15',n:43,old:'上次說宵夜算我的，我記得喔，今天兌現。',new:'今天宵夜算我的。上次就想請了。'},
+  {rec:'peishan_D15',who:PS,loc:'D15',n:43,old:'上次說宵夜算我的，我記得喔，今天兌現。',new:'宵夜算我的。上次就想請了。'},
   {rec:'peishan_D21',who:PS,loc:'D21',n:20,old:'你要吃什麼？我請你，上次是你請的。',new:'你要吃什麼？這攤我請。'},
   {rec:'kx_D15',who:KX,loc:'D15',n:10,old:'宵夜下次我請。我已經挑好了。',new:'宵夜我請。我已經挑好了，在山下。'}];
 const PATHS=[

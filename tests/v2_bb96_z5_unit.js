@@ -62,7 +62,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     await go('我挑'); const s0=G.day; G.day=s0+3; G.hour=15; G.zone='cafe'; G.flags.CAFE_VISITS=6; G.flags.zhiruoFirstOrder='拿鐵'; picks=[0,0,0,0]; await EVENTS.run(bar); let L=lines();
     check('「下次我挑」：兩週內在 Café 點餐，她問「你挑好了嗎？」（一次）',L.includes(nm+'：你挑好了嗎？')&&G.flags.Z5_MINE_ASKED===true,JSON.stringify(L.slice(-3)));
     said.length=0; G.day=s0+4; picks=[0,0,0,0]; await EVENTS.run(bar); check('之後點餐不再問',!lines().includes(nm+'：你挑好了嗎？'));
-    await go('室友'); const r0=G.day; G.zone='cafe'; G.day=r0+5; check('「帶室友來」：兩週內走進 Café，阿凱「聽說這裡有電影。」芷若「……這裡是咖啡廳。」',EVENTS.check(kai)&&(G.day=r0+15,!EVENTS.check(kai)));
+    await go('室友'); const r0=G.day; G.zone='cafe'; G.day=r0+5; check('「帶室友來」：兩週內走進 Café，阿凱「聽說這裡有電影。」芷若「這裡是咖啡廳。」',EVENTS.check(kai)&&(G.day=r0+15,!EVENTS.check(kai)));
     G.day=r0+5; said.length=0; await EVENTS.run(kai); check('阿凱那兩句',JSON.stringify(lines())===JSON.stringify([CHARACTERS.kai?CHARACTERS.kai.name+'：聽說這裡有電影。':'阿凱：聽說這裡有電影。',nm+'：……這裡是咖啡廳。'])||lines().length===2,JSON.stringify(lines())); }
   /* Z6 */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,'campus',o.dating?{dating_kexin:true}:{}); if(o.film!==false) SOCIAL.remember('heroine_02',o.group?'WATCHED_FILM_GROUP':'WATCHED_FILM','早場'); return EVENTS.check(z6); };

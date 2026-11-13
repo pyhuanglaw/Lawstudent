@@ -49,7 +49,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     L=await go({ECON_PAST_SHARED:'half'},[3]);
     check('慈 2（half）：「自學的人，第三章懂嗎？」→「懂一半。」→「好，那你懂的那一半先講。」（AA_209）',L.includes('芯慈：自學的人，第三章懂嗎？')&&L.includes('祐廷：懂一半。')&&L.includes('芯慈：好，那你懂的那一半先講。')&&opts.length===1,JSON.stringify(L));
     L=await go({},[3,0]);
-    check('慈 2（沒說過）：「……你怎麼這麼熟？」→ 玩家選說多少（三個）→「念過。一個多月。」→「我就知道。」→ full',L.includes('芯慈：……你怎麼這麼熟？')&&JSON.stringify(opts[1])==='["「念過。一個多月。」","「自學過一點。」","「第三章我也還在念。」"]'&&L.includes('芯慈：我就知道。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L));
+    check('慈 2（沒說過）：「你怎麼這麼熟？」→ 玩家選說多少（三個）→「念過。一個多月。」→「我就知道。」→ full',L.includes('芯慈：……你怎麼這麼熟？')&&JSON.stringify(opts[1])==='["「念過。一個多月。」","「自學過一點。」","「第三章我也還在念。」"]'&&L.includes('芯慈：我就知道。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L));
     check('慈 2：以安不在場，KNOWS_ECON_YEAR 不變',!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     L=await go({ECON_PAST_SHARED:'none'},[3,1]);
     check('慈 2（none）：「自學過一點。」→「自學的人，第三章懂嗎？」「懂一半。」「一半也好。」→ half',L.includes('芯慈：自學的人，第三章懂嗎？')&&L.includes('祐廷：懂一半。')&&G.flags.ECON_PAST_SHARED==='half',JSON.stringify(L));

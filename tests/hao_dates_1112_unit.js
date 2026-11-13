@@ -19,6 +19,7 @@
 //   8. 新字沒有「幾件事／第三件／一，二，三，」這種數件數的說法（tests/sis_no_three_unit.js 的同一條規則；只查學姊的 80 句，那條規則是學姊的）
 // 稿讀 git show；讀不到（淺層複本）＝第 2、3、5 項跳過並印出來。用法：node tests/hao_dates_1112_unit.js
 'use strict';
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', BASE='c0a12c42e3', PREV=C.HAO_1112_PREV, HSHA=C.HAO2_1112_PREV;   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：白名單再換 d7d818f8a8——這一支的「源稿、稿」固定讀這一批的那一版 HSHA＝41f77eab53（之後 AA 再改的 238 格見 HAO2_1112、第 4、5 項）。舊寫法：都讀 C.ALLOW_SHA */   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
@@ -30,7 +31,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.HAO_1112, RE_PATH=/^hotspots\/(D\d\d\.\w+)\/first\/choice\/(\d+)\/reply\/0\/text$/;
+const NOWT=read('src/data/date_lines.js'), NOW=M959.unmapDeep(DL(NOWT),'date_lines.js'), R=C.HAO_1112, RE_PATH=/^hotspots\/(D\d\d\.\w+)\/first\/choice\/(\d+)\/reply\/0\/text$/;
 const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 
 // 1
