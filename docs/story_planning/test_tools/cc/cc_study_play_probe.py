@@ -170,6 +170,10 @@ async def part_se06(pg, cdp, sv0, res):
             acts.append([s['key'], s['h'], '一鍵 到下一堂課 → %s' % (nxt['name'],), await onetap(pg, cdp, '到下一堂課')])
         else:
             acts.append([s['key'], s['h'], '一鍵 回去睡覺', await onetap(pg, cdp, '回去睡覺')])
+            if str(acts[-1][3]).startswith('dim'):   # 11-14 SE06_4af4 TEST_BUG：17:30 以前「回去睡覺」是暗的（「晚上（17:30 以後）才能直接睡」），連按 41 次到上限＝沒考第二場；暗的不算次數，等到 17:35 再按
+                acts.pop(); t0w = time.time()
+                while time.time() - t0w < 240 and (await pg.evaluate(ST))['h'] % 24 < 17.58: await pg.wait_for_timeout(2000)
+                continue
         await pg.wait_for_timeout(1500)
         if DIAG_N:
             dg = await pg.evaluate(DIAG_SNAP); acts[-1].append(dg)
