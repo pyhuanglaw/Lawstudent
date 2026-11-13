@@ -9841,6 +9841,27 @@
    "tests": "shop_cc0 ALL PASS；place_gate ALL PASS；coplanar 前院 0 m²；teahouse_tap、teahouse_yard_cam、wz_* 20 支 ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層四鏡頭；BB 判美術",
    "next": "LAWWW 套 b9_yard_p2_full.patch（沒套第九批）或 yard_p2_incr.patch（已套）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "ZQ-C504-LAPTOP-1101",
+   "title": "方案 A：afar café 門口騎樓戶外小桌＋兩張椅子（Poly Haven outdoor_table_chair_set_01）、桌上冰美式；兩個座位、腳印、manifest、LICENSES",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/zq_c504_afar_1113/zq_c504_afar.patch",
+    "docs/art-rebuild/second_ai/wip/zq_c504_afar_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/zq_c504_afar_1113/game_shots.jpg",
+    "docs/art-rebuild/second_ai/wip/zq_c504_afar_1113/model_preview.jpg"
+   ],
+   "base": "19399e5d39",
+   "at": "2026-11-13T22:0xZ",
+   "tests": "zq_c504_afar_seat_unit 修改前 FAIL 4→ALL PASS；gg_* 16、seat_*／seated_* 13、street_props_nav、prop_restand、zq_arcade_*、zq_dates、place_gate ALL PASS",
+   "notDone": "LAWWW 改 c504_4_3（act read、seatAt [11.87,21.46]、prop laptop_lap）；CC 拍、BB 判",
+   "next": "LAWWW 套 patch、改 c504_4_3"
   }
  ]
 }
