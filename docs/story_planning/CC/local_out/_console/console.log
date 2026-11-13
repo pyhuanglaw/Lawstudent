@@ -1,14 +1,3 @@
-[16:56:25] git    : git version 2.56.0.windows.4
-[16:56:25] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[16:56:26] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[16:56:26] repo   : C:\Users\USER\Documents\Lawstudent
-[16:56:26] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[16:56:26] parallel: 2  (blender items run alone)
-[16:56:26] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[16:56:26] git fetch
-    From https://github.com/pyhuanglaw/Lawstudent
-     * branch                  claude/cc-testing -> FETCH_HEAD
-     * branch                  claude/modest-rubin-2lyp7g -> FETCH_HEAD
        2175b05169..6726691128  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                  claude/second-ai-env-art -> FETCH_HEAD
@@ -1998,3 +1987,14 @@
 [22:52:00] ==== START ROUTE_E8  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
 [22:52:03] [res] cpu=30% mem=48% (15.2/31.4 GB) chrome_testing=5  START ROUTE_E8
 [22:52:40] [res] cpu=50% mem=47% (14.8/31.4 GB) chrome_testing=4  END STUDY_fix_c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bd5bc448f9..e799ac2572  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:53:23] ==== END   STUDY_fix_c  exit=1  596s   ====
+[22:53:28] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[22:53:28] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[22:53:28] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[22:53:28] memory 47% before starting STUDY_SE06 (2 running)
+[22:53:28] ==== START STUDY_SE06  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
+[22:53:31] [res] cpu=60% mem=47% (14.9/31.4 GB) chrome_testing=5  START STUDY_SE06
+[22:54:43] [res] cpu=17% mem=46% (14.7/31.4 GB) chrome_testing=5  END ROUTE_E8
