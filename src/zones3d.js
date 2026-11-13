@@ -2315,9 +2315,11 @@ const Z3 = (function(){
      鏡頭停在梁下面（上面 cafe 的 z.slabs）；剩下擋住的（鏡頭轉到吧台那一邊時的吊燈、層架…）照溫州街 SUNNY SIDE、小路座位鏡頭的做法（WZ-SEAT-CAMS-1104：家具、管線、植物、胡桃木的材質網點透空）：這幾個材質擋在鏡頭和人中間、或離鏡頭 1.7 m 內時網點透空
      （engine3d.js updateSeeThrough；區域本來就 seeThru:true；比人遠的照常畫——人面前的吧台不會透）。牆（WALL_，本來就淡出）、地板、天花板不動。測試：node tests/cafe_bar_cam_1111_unit.js */
   const CAFE230_SEETHRU=['a23_vc','a23_vc_metal','a23_vc_gloss','a23_walnut','a23_bulb','a23_leaf_pothos'];
+  /* SHOP-REALISM-1112 第八批（LAWWW2-C 11-13）：CC0 化把 a23_vc 的家具、燈具、皮面照顏色搬到 ambientCG 材質組（a23_c_*）、大盆栽換 Poly Haven（a23_ph_*）——照舊透空；地毯（a23_c_rug）在地上不擋，不加 */
+  const CAFE230_SEETHRU_RE=/^a23_(c_(?!rug)|ph_)/;
   function attachCafe230(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'cafe230_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
-    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&(/^seethru_/.test(nm)||CAFE230_SEETHRU.includes(nm))&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
+    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&(/^seethru_/.test(nm)||CAFE230_SEETHRU.includes(nm)||CAFE230_SEETHRU_RE.test(nm))&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
     const vm=[]; let front=null; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)){ if(/^WALL_front/.test(o.name)) front=o; for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } } });
     /* 窗景卡 a23_window_view（AA v1f 30c2d5998：上半正面溫州街、下半右窗毛玻璃）：晚上換夜版圖、不調暗（和 SUNNY SIDE 一樣，WZ_AA_NIGHTVIEW）；夜版圖載不到或其他窗景卡：照舊調暗 */
     const nv=CAFE230_NIGHTVIEW, nt=wzNightViewTex(nv.url), nvm=nt?vm.filter(m=>m.name===nv.mat):[]; for(const m of nvm){ m.userData.mapDay=m.map; m.userData.emDay=m.emissiveMap; } z.cafe230NightView=nvm.length;

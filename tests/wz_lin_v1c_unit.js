@@ -39,5 +39,5 @@ check('② 進來的位置站得住（出生點、出口和舊配置一樣）',s
 { const pts=L.interact||[], bad=[]; for(const q of pts){ let ok=false; for(let r=0;r<=0.9&&!ok;r+=0.1) for(let a=0;a<6.28&&!ok;a+=0.39){ const x=q.x+Math.cos(a)*r, zz=q.z+Math.sin(a)*r; if(stand(x,zz)&&walk(IN,[x,zz]).ok) ok=true; } if(!ok) bad.push(q.kind||q.label); }
   check(`④ ${pts.length} 個互動點都走得到`,pts.length===4&&!bad.length,bad.join('、')); }
 { const b=fs.readFileSync(path.join(ROOT,L.glb)), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString()); let tris=0; for(const m of J.meshes) for(const p of m.primitives){ const a=J.accessors[p.indices]; tris+=a?a.count/3:0; }
-  check('⑤ 正式模型是 v1c（26,029 三角形、12 材質，BB README）',tris===26029&&J.materials.length===12,`${tris} 三角形、${J.materials.length} 材質`); }
+  check('⑤ 正式模型是 v2（38,678 三角形、36 材質：v1c 26,029／12 換成 CC0 材質組＋Poly Haven 模型，SHOP-CC0-HELP-1113 幫手 g4 11-13）',tris===38678&&J.materials.length===36,`${tris} 三角形、${J.materials.length} 材質`); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

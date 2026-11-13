@@ -32,6 +32,29 @@ sh.M.update({
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 })
 sh.M['shade'] = sh.M['bulb']
+CC0 = '--nocc0' not in sys.argv   # SHOP-REALISM-1112（D159／D160／D161，LAWWW2-C 11-13）：CC0 材質組＋Poly Haven 掃描模型；--nocc0＝建原版（對照用）
+if CC0:
+    import cc0_aakit as cc0_kit   # noqa: E402（tools/blender/env_second/cc0_aakit.py：給 aa_kit 腳本用的 CC0 工具；118 巷那支 cc0_kit.py 是 AA 的，不一樣）
+    K0 = cc0_kit.Kit(L, B, sh.root, g2b, prefix=P)
+    sh.M.update({
+        'c_fabric': K0.acg(P + 'c_fabric', 'Fabric036', target='#7f7b76', tile=0.45, rough_value=0.9, res=256),     # 灰布坐墊、沙發
+        'c_leather': K0.acg(P + 'c_leather', 'Leather037', target='#3e5a46', tile=0.6, rough_value=0.5, res=256),   # 綠色皮卡座
+        'c_leather_r': K0.acg(P + 'c_leather_r', 'Leather026', target='#7b2d26', tile=0.6, rough_value=0.55, res=256),
+        'c_brass': K0.acg(P + 'c_brass', 'Metal009', target='#b8944a', tile=0.6, metal=0.85, rough_value=0.35, res=256),
+        'c_metal_dk': K0.acg(P + 'c_metal_dk', 'Metal009', maps=('diff',), target='#34322f', tile=0.8, metal=0.4, rough_value=0.45, res=256),   # 黑鐵、天花板管線、深色梁
+        'c_ceramic': K0.acg(P + 'c_ceramic', 'Plastic006', vary=0.05, target='#e8e2d6', tile=0.4, rough_value=0.25, res=256),   # 白瓷杯盤、米色燈罩、陶盆
+        'c_clay': K0.acg(P + 'c_clay', 'PaintedPlaster017', maps=('diff',), target='#a85a3a', tile=0.4, rough_value=0.8, res=256),   # 赤陶盆
+        'c_rug': K0.acg(P + 'c_rug', 'Carpet015', maps=('diff',), target='#6a3a2c', tile=0.8, rough_value=0.95, res=256),   # 四人桌下的舊地毯
+    })
+    VC_ROUTE = {   # 頂點色 → 材質組 key（cc0_kit.split_vc：找最接近的顏色，距離 < 26）
+        '#5a3c26': 'wood', '#4a3120': 'wood', '#3a2418': 'wood', '#8a6a3a': 'wood', '#6a5236': 'wood',
+        '#7a7672': 'c_fabric', '#8a857e': 'c_fabric', '#9a9a94': 'c_fabric', '#a8a8a4': 'c_fabric',
+        '#3e5a46': 'c_leather', '#7b2d26': 'c_leather_r',
+        '#b8944a': 'c_brass', '#c9b48a': 'c_brass', '#b89a6a': 'c_brass',
+        '#4a4642': 'c_metal_dk', '#5c5852': 'c_metal_dk', '#3a3a38': 'c_metal_dk', '#2e2e2e': 'c_metal_dk', '#2a2a2a': 'c_metal_dk', '#2a2a28': 'c_metal_dk', '#2e2e2c': 'c_metal_dk', '#24221f': 'c_metal_dk', '#1e1e1e': 'c_metal_dk',
+        '#d8d0c0': 'c_ceramic', '#d8cfc0': 'c_ceramic', '#e8e0cc': 'c_ceramic', '#e8dcc8': 'c_ceramic', '#f2efe8': 'c_ceramic', '#f4f2ea': 'c_ceramic', '#f8f6ee': 'c_ceramic', '#d8d4cc': 'c_ceramic', '#d8d8d6': 'c_ceramic', '#c9c0ae': 'c_ceramic', '#e8e2d6': 'c_ceramic',
+        '#b0653e': 'c_clay', '#a85a3a': 'c_clay', '#6a5a44': 'c_clay',
+    }
 IT = {}
 for i in LAY['added']: IT.setdefault(i['kind'], []).append(i)
 xf0 = Xf(0, 0); R = random.Random(1109)
@@ -122,6 +145,9 @@ def snake_plant(x, z, y0, n=14, h=0.95, rng=None):
 
 
 def big_plant(x, z, kind):
+    if CC0 and kind != 'snake':   # CC0：大盆栽換 Poly Haven 掃描（琴葉榕的位置放 potted_plant_02、大葉盆栽放 potted_plant_01）；虎尾蘭照舊
+        K0.ph_put('potted_plant_02' if kind == 'fig' else 'potted_plant_01', x, 0.0, z, (x * 7.3) % 6.28, 1.0, share=False, height=1.6 if kind == 'fig' else 1.05, decimate=0.03, tag='_fig' if kind == 'fig' else '_big')
+        return
     if kind == 'fig':                                                                                                      # 琴葉榕：高、細幹、大葉子在上半部；藤編籃
         basket(x, z, r=0.22, h=0.4); sh.plant(x, z, h=1.75, r=0.2, pot_col='#b89a6a', y0=0.0, seed=71)
         Xf(x, z).cyl(sh.a('vc'), (0, 0.4, 0), (0.04, 1.1, 0.02), 0.018, col='#6a5236', seg=5, caps=False)
@@ -471,11 +497,21 @@ sh.tally('lounge')
 
 # ---------------------------------------------------------------- v1b（LAWWW2 11-04 05:00）：四人桌下的舊地毯、牆上的框畫
 fx, fz = CF.FOUR_TOP
-xf0.rbox(sh.a('vc'), fx - 1.5, fx + 1.5, 0.0, 0.008, fz - 1.3, fz + 1.3, r=0.0, seg=1, col='#6a3a2c')
-xf0.rbox(sh.a('vc'), fx - 1.36, fx + 1.36, 0.008, 0.011, fz - 1.16, fz + 1.16, r=0.0, seg=1, col='#8a5a3a')
-xf0.rbox(sh.a('vc'), fx - 1.0, fx + 1.0, 0.011, 0.013, fz - 0.8, fz + 0.8, r=0.0, seg=1, col='#5a3a2a')
+if CC0: xf0.rbox(sh.a('c_rug'), fx - 1.5, fx + 1.5, 0.0, 0.011, fz - 1.3, fz + 1.3, r=0.0, seg=1)   # CC0：一張 Carpet015 地毯（原本三層頂點色）
+else:
+    xf0.rbox(sh.a('vc'), fx - 1.5, fx + 1.5, 0.0, 0.008, fz - 1.3, fz + 1.3, r=0.0, seg=1, col='#6a3a2c')
+    xf0.rbox(sh.a('vc'), fx - 1.36, fx + 1.36, 0.008, 0.011, fz - 1.16, fz + 1.16, r=0.0, seg=1, col='#8a5a3a')
+    xf0.rbox(sh.a('vc'), fx - 1.0, fx + 1.0, 0.011, 0.013, fz - 0.8, fz + 0.8, r=0.0, seg=1, col='#5a3a2a')
 for side, along, cell in (('right', -0.5, (6, 0)), ('left', -3.2, (0, 1)), ('left', 3.0, (2, 1))):
     sh.wall_img(side, 'print', along, 1.85, 0.5, 0.5, K.cell_uv(cell[0], cell[1], 2, 2), off=0.03)
     wx = sh.wall_xf(side, along, 0.0, 1.85); wx.rbox(sh.w(side, 'wood'), -0.29, 0.29, -0.29, 0.29, 0.0, 0.025, r=0.0, seg=1)
 sh.tally('v1b')
+if CC0:   # 頂點色零件照顏色分到材質組（累積網格＋四面牆的組）；表上沒有的顏色（植物葉子、書背、蠟燭、燈泡…）照舊頂點色
+    VCK = ('vc', 'vcm', 'vcg')
+    mv = K0.split_vc([m for (k_, l_), m in list(sh._acc.items()) if k_ in VCK], VC_ROUTE, lambda vm, key: sh.a(key, vm.lvl))
+    for side_ in list(sh.walls):
+        mv2 = K0.split_vc([m for k_, m in list(sh.walls[side_].items()) if k_ in VCK], VC_ROUTE, lambda vm, key, sd=side_: sh.w(sd, key))
+        for k_, n_ in mv2.items(): mv[k_] = mv.get(k_, 0) + n_
+    print('CC0 split_vc', mv)
+    K0.cleanup()
 info = sh.finish(OUT, keep=lambda ob: 'ceiling' in ob.name, extra_info={'layout': LAY['version'], 'zone': 'cafe'})

@@ -12,6 +12,7 @@
 //   9. 逐格演（當天來回 S.scene；D30、D31 兩天一夜 S.dayRound）：演到那一句那一次那個互動點不扣；同一個互動點演別套照扣
 // 用法：node tests/date_she_pays_1111_unit.js
 require('./alison.js');
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path');
@@ -21,7 +22,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26}); }catch(e){ return null; } };
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf(';')));
-const NOW=DL(read('src/data/date_lines.js'));
+const NOW=M959.unmapDeep(DL(read('src/data/date_lines.js')),'date_lines.js');
 const leaves=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>leaves(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) leaves(x[k],p+'/'+k,o); else o[p]=x; return o; };
 const getAt=(o,p)=>p.split('/').slice(1).reduce((x,k)=>x==null?x:x[k],o);
 /* 扣錢記下來（名稱、金額）；選單的提示（「30 分　160 元」）也記下來；選單一直重來＝丟例外。

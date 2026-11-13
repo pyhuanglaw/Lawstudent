@@ -96,7 +96,7 @@ const K=t=>'kexin:'+t;
   fresh('2026-09-24',20,'dorm',{KX_MET_NOODLE_TEAM:true,KX_JOKE:'kexin'}); date('kexin'); run('2026-09-24',21,21.75);
   check('3. 見過桌遊團：9/24 21:30 那兩則（CANON-NO-ECON-1112 第三批：這一項拿掉）',!PHONE.sent(G,'y2r2_ma_pre'));
   await play('ev_y2_midautumn',['用筷子']);
-  { const W=['（她到的時候，炭已經是第二輪了。她提著一袋玉米。）','冷笑話，第二回合。','好。今年我帶了新的。','月亮為什麼中秋特別圓？……因為它也吃了月餅。','……妳有練。','（看了一眼烤肉架）……你們在用筷子烤？','借烤肉架的人，只借到一支夾子。','（她看了你一眼，把玉米放上架子，用筷子翻。）'];
+  { const W=['（她到的時候，炭已經是第二輪了。她提著一袋玉米。）','冷笑話，第二回合。','好。今年我帶了新的。','月亮為什麼中秋特別圓？……因為它也吃了月餅。','妳有練。','（看了一眼烤肉架）……你們在用筷子烤？','借烤肉架的人，只借到一支夾子。','（她看了你一眼，把玉米放上架子，用筷子翻。）'];
     const i=idx(W[0]); check('3. M1 第二輪才到；冷笑話「今年我帶了新的」；筷子三句（逐字、順序）',i>=0&&JSON.stringify(said.slice(i).map(s=>s.t))===JSON.stringify(W)&&G.flags.MA_Y2_TONGS==='chop',JSON.stringify(said.map(s=>s.t))); }
   G.events.done.ev_y2_midautumn=1; run('2026-09-25',20.5,21.25); check('3. 有去、她也來：21:00 沒有照片',!PHONE.sent(G,'y2r2_ma_photo'));
   fresh('2026-09-25',17,'dorm',{KX_MET_NOODLE_TEAM:true,KX_JOKE:'zhe'}); date('kexin'); await play('ev_y2_midautumn',['便利商店']);
@@ -213,7 +213,7 @@ const K=t=>'kexin:'+t;
   await go('y2r2_kn_call'); { const W=['（你打過去。她那邊的鞭炮聲還沒停。）','……你那邊好安靜。','（她後面有人在喊她。）','我表弟又要開一局。……你媽媽是不是也在叫你？','（客廳裡，你媽媽在叫你。）','去吧。早點睡。'];
     check('9. N2 電話逐字、沒有第二次「新年快樂」',JSON.stringify(said.slice(0,6).map(s=>s.t))===JSON.stringify(W)&&!any(/新年快樂/)&&!any(/假設/),JSON.stringify(said.map(s=>s.t))); }
   fresh('2027-02-05',21,'dorm'); date('kexin'); run('2027-02-05',21.75,22.25); run('2027-02-06',9.75,10.25);
-  check('9. 不回：2/6 10:00「初一了。」「……你昨天一定被抓去打牌了。」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('初一了。'),K('……你昨天一定被抓去打牌了。')]));
+  check('9. 不回：2/6 10:00「初一了。」「你昨天一定被抓去打牌了。」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('初一了。'),K('你昨天一定被抓去打牌了。')]));
 
   // 10. 2-Y2-12 情人節
   fresh('2027-02-08',12,'dorm',{KX_VDAY_WX:{1:'sunny'},KX_VDAY:{1:'video'}}); date('kexin'); run('2027-02-08',12,12.25);

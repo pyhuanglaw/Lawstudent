@@ -31,11 +31,12 @@ const cgLeaves = L => { const o = {}; for (const p in L) { const q = cgPath(p); 
 const RI = OE.rows('invites').filter(x => !CSUP.includes(x.at)).map(x => Object.assign({}, x, { at: cgPath(x.at) })).filter(x => x.at !== null), RR = OE.rows('invite_replies');
 
 (async () => {
-  const L1 = leaves(read('src/data/invites.js')), b0 = show(BASE, 'src/data/invites.js'), L0 = b0 ? cgLeaves(leaves(b0)) : null;
+  const M959 = require('./aa959_map.js'), U959 = L => { const o = {}; for (const [k, v] of Object.entries(L)) { const m = /^(?:people|walk118|first)\.(\w+)/.exec(k); o[k] = typeof v !== 'string' ? v : v.startsWith('ƒ') ? M959.unmapCode(v, 'invites.js') : M959.unmap(v, 'invites.js', m ? m[1] : null); } return o; };   /* AA_959（DLG-FULL-REVIEW-1110）：覆蓋層之後又照覆寫表換的字先換回來再比 */
+  const L1 = U959(leaves(read('src/data/invites.js'))), b0 = show(BASE, 'src/data/invites.js'), L0 = b0 ? cgLeaves(leaves(b0)) : null;
   /* AA_940（11-13）：可昕法圖改約慢讀那條 rule 拿掉、補 acc.lawlib：BASE 拿掉 rule、現在拿掉 acc.lawlib 再比 */
   if (L0) for (const p of Object.keys(L0)) if (/^people\.kexin\.rule$/.test(p)) delete L0[p];
   for (const p of Object.keys(L1)) if (/^people\.kexin\.acc\.lawlib/.test(p)) delete L1[p];   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）拿掉的那兩格先拿掉 */
-  const ir1 = IR(read('src/data/invite_replies.js')), irb = show(BASE, 'src/data/invite_replies.js'), ir0 = irb ? IR(irb) : null;
+  const ir1 = M959.unmapDeep(IR(read('src/data/invite_replies.js')), 'invite_replies.js'), irb = show(BASE, 'src/data/invite_replies.js'), ir0 = irb ? IR(irb) : null;
   if (!L0 || !ir0) console.log('（讀不到 BASE ' + BASE + '：第 3、4 項的逐格比略過）');
 
   await sec(1, async () => {

@@ -1,4 +1,10 @@
 # 小路 室內（溫州街 B3，取代巷子裡定食；昭和懷舊居酒屋；AA 2026-11-04 v1f，READY_FOR_REVIEW）
+
+## SHOP-CC0-HELP-1113（2026-11-13，D161 第①群幫手）：CC0 化（v1f 之後）
+- 頂點色零件（霧面、亮面、金屬）乘 ambientCG Plaster001／Plastic006／Metal009 的紋路＋法線（顏色照舊）；椅腳、直木板、椽等木頭色零件併進胡桃木材質（木紋）；綠色皮面（高腳凳、椅墊、卡座）用 ambientCG Leather037。Poly Haven：結帳台的古董收銀機（取代兩個黑方塊）、右牆層板的陶壺三種（取代旋轉體）、吧台右端的花瓶、廚房的砧板＋小木碗三個。
+- 共用的做法在 `aa_cc0.py`（`C.enable` 換頂點色材質、照顏色分材質組；`C.ph_put` 放 Poly Haven 模型）；互動點、座位、導航、店員位置都沒動。
+- 匯出：`/opt/blenv/bin/python tools/blender/env_second/aa_support/komichi_interior.py -- --out <tmp>.glb`，再 `IN=<tmp>.glb bash tools/blender/env_second/lightbake/bake_gg_new.sh aa_komichi` 烘光照。
+
 - **v1f**（BB_257 §10：v1e 是從斜牆直接裁的，被拉寬，還帶到木框和光斑）：改用四點透視校正（PIL QUAD），只取框裡面那一塊，邊緣往內縮。牆上的尺寸照原本的長寬比：海報二 0.6×0.96、卡座照片 0.48×0.4、人像 0.32×0.4。近景：`model_renders/komichi_v1f_posters.jpg`。
 - **v1d**（BB_257 §2 退件，照使用者 G 符合參考圖、H 不准複製貼上、§9-7）：
   1. 「カルピス」（真實商標，D77）→ 木札「乳酸サワー」、紙菜單「乳酸飲料」。

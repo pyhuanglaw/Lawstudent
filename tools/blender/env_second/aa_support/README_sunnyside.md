@@ -1,4 +1,10 @@
 # SUNNY SIDE 室內（溫州街 B7，取代半熟；歐式街角早午餐；AA 2026-11-04 v1c，READY_FOR_REVIEW）
+
+## SHOP-CC0-HELP-1113（2026-11-13，D161 第①群幫手）：CC0 化（v1e 之後）
+- 頂點色零件乘 ambientCG 紋路＋法線（顏色照舊）；曲木椅的深木色併進胡桃木（木紋）、藤編坐墊用 ambientCG Wicker010A。Poly Haven：甜點櫃和桌上的可頌（取代四段圓柱）、兩個玻璃罩裡的草莓巧克力蛋糕、紅蘿蔔蛋糕。
+- 共用的做法在 `aa_cc0.py`（`C.enable` 換頂點色材質、照顏色分材質組；`C.ph_put` 放 Poly Haven 模型）；互動點、座位、導航、店員位置都沒動。
+- 匯出：`/opt/blenv/bin/python tools/blender/env_second/aa_support/sunnyside_interior.py -- --out <tmp>.glb`，再 `IN=<tmp>.glb bash tools/blender/env_second/lightbake/bake_gg_new.sh aa_sunnyside` 烘光照。
+
 - **v1b**（LAWWW2 11-04 05:57：卡座兩個位子站不進去）：沙發 block 深 0.45（中心 x −2.975）、卡座桌和對面椅子往東 0.15（桌 x −1.575、椅 x −0.95）。shopchk2.js（LAWWW2 021262b9b）：17 個互動點 NG 0。
 - 使用者 11-04 04:4x 參考圖；分工 AA_654（室內 AA、MODEL_READY LAWWW2、功能 BB／CC、ART_APPROVED BB）；菜單照 AA_655 §5。
 - 參考圖：`docs/story_planning/ref_images/shops/wz_sunnyside_int.webp`（室內）、`wz_sunnyside_ext.webp`（外觀，LAWWW2）。

@@ -5,6 +5,8 @@
 房間、門窗、出口、出生點照 claude/confident-ritchie-8rwh7t 的 wz_shops_layout.js 的 lin（LAWWW2：不動）。外觀（雨遮、招牌、攤車朝街那一面）是 LAWWW2 的。
 做法：磨石子地、天花板、米白牆、木頭、不鏽鋼是 PIL＋numpy 自己畫的貼圖（lin_tex.py）；招牌、紅紙菜單（照室內圖，AA_654 第 4 節）、月曆、時鐘、
   玻璃磚窗、白磁磚在一張印刷圖集；碗、凳子、醬料瓶用亮面頂點色；材質 12 個以內。
+v2（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；幫手 g4 11-13）：木頭、塑膠、陶碗、紙箱、灰泥、磁磚改用 ambientCG CC0 材質組，
+  頂點色零件照顏色分到材質組（cc0kit.RCMesh：route 表）；盆栽、塑膠籃、紙箱、清潔劑、時鐘換 Poly Haven 掃描模型（cc0kit.Kit.ph_put）。互動點、座位、導航都沒動。
 --preview：正面開口外面加一張街景卡片（只給渲染用，正式 GLB 裡沒有）。
 D77：沒有真實品牌；D112：地板是淺色磨石子，不是深色木頭；金屬度 ≤ 0.45；天花板單面朝下。"""
 import json, math, os, random, subprocess, sys
@@ -13,6 +15,7 @@ sys.path.insert(0, os.path.dirname(HERE)); sys.path.insert(0, HERE)
 import lib2 as L   # noqa: E402
 from lib2 import B, Mesh, CMesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
 import lin_tex as TX   # noqa: E402
+import cc0kit as KK   # noqa: E402
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 PREVIEW = '--preview' in ARGS
@@ -62,18 +65,54 @@ M = dict(
 M['steam'].node_tree.links.new(M['steam'].node_tree.nodes['Image Texture'].outputs['Alpha'], M['steam'].node_tree.nodes['Principled BSDF'].inputs['Alpha'])
 try: M['steam'].surface_render_method = 'BLENDED'
 except Exception: pass
+K = KK.Kit(root, 'lin')
+M.update(   # v2：CC0 材質組（ambientCG；target＝原本的顏色）
+    wood=K.acg('woodgrain', 'Wood049', target='#a97b4f', tile=1.0, rough_value=0.45),
+    blackmetal=K.acg('blackmetal', 'Metal009', maps=('diff',), target='#3c3e40', tile=0.7, metal=0.3, rough_value=0.45, res=256),
+    wood_d=K.acg('wood_d', 'Wood049', maps=('diff',), target='#4a3424', tile=0.6, rough_value=0.5, res=256),
+    wood_l=K.acg('wood_l', 'Bamboo001C', maps=('diff',), target='#d8b880', tile=0.3, rough_value=0.6, res=256),
+    plaster=K.acg('plaster', 'Plaster001', maps=('diff',), vary=0.04, target='#e8dfc8', tile=2.0, rough_value=0.9, res=256),
+    tile=K.acg('tile', 'Tiles036', target='#efede5', tile=0.6, rough_value=0.3),
+    plastic_w=K.acg('plastic_w', 'Plastic006', vary=0.05, target='#ecebe6', tile=0.5, rough_value=0.45),
+    plastic_dk=K.acg('plastic_dk', 'Plastic006', vary=0.05, maps=('diff',), target='#2a2c2e', tile=0.5, rough_value=0.45, res=256),
+    plastic_red=K.acg('plastic_red', 'Plastic006', vary=0.05, maps=('diff',), target='#c23a30', tile=0.5, rough_value=0.4, res=256),
+    plastic_blue=K.acg('plastic_blue', 'Plastic006', vary=0.05, maps=('diff',), target='#2a5aa8', tile=0.5, rough_value=0.4, res=256),
+    plastic_yel=K.acg('plastic_yel', 'Plastic006', vary=0.05, maps=('diff',), target='#e8c030', tile=0.5, rough_value=0.4, res=256),
+    stool=K.acg('stool', 'Plastic006', vary=0.05, target='#b8424a', tile=0.4, rough_value=0.3),
+    ceramic=K.acg('ceramic', 'Plastic006', vary=0.03, target='#f3f1ea', tile=0.3, rough_value=0.22),
+    ceramic_b=K.acg('ceramic_b', 'Plastic006', vary=0.03, maps=('diff',), target='#3a6ab0', tile=0.3, rough_value=0.22, res=256),
+    cardboard=K.acg('cardboard', 'Cardboard001', tile=0.6, rough_value=0.85),
+    paper=K.acg('paper', 'Paper001', maps=('diff',), vary=0.05, target='#f6f5f0', tile=0.3, rough_value=0.8, res=256),
+    wicker=K.acg('wicker', 'Wicker010A', target='#c9a060', tile=0.3, rough_value=0.7),
+)
+M['wall_b'] = M['wall']   # 牆的外殼、正面牆：和貼圖牆同一個材質，但要 box UV（另一個網格）
+# 頂點色零件照顏色分到材質組（表上沒有的：食物、醬料瓶這些小東西照舊頂點色）
+ROUTE = {'#eeeae2': 'plastic_w', '#e6dcc4': 'plaster', '#3a3a38': 'blackmetal', '#c8c4b0': 'steel', '#e8e4dc': 'plastic_w', '#c8a060': 'wicker',
+         '#5a5e60': 'blackmetal', '#3a3e40': 'blackmetal', '#f2e8d0': 'plaster', '#efede5': 'tile', '#6a6e70': 'blackmetal', '#2a5aa8': 'plastic_blue',
+         '#e8c030': 'plastic_yel', '#c83a2a': 'plastic_red', '#c83a3a': 'plastic_red', '#c8a070': 'cardboard', '#f8f8f4': 'paper', '#3a2a1e': 'wood_d',
+         '#2a2c2e': 'plastic_dk', '#1e2022': 'plastic_dk', '#f2f0ea': 'ceramic', '#f4f2ec': 'ceramic', '#eef2f6': 'ceramic', '#e8eef4': 'ceramic', '#f0ece0': 'ceramic',
+         '#3a6ab0': 'ceramic_b', '#b8424a': 'stool', '#d8b880': 'wood_l', '#e8e6e0': 'plastic_w', '#d8dcdf': 'plastic_w', '#cfd4d8': 'plastic_w',
+         '#ece2cc': 'wall_b', '#d8ccb0': 'wall_b', '#8a8e90': 'steel', '#6a4428': 'wood_d'}
+ROUTE_M = {'#c8ccce': 'steel', '#9a9ea2': 'steel', '#b8bcbe': 'steel', '#a8acae': 'steel', '#c8c8c0': 'steel', '#c4c8ca': 'steel', '#9a9ea0': 'steel',
+           '#5a5e5a': 'blackmetal', '#6a4a2a': 'wood_d', '#7a5a3a': 'wood_d'}
+TM = {}
+def tm(k):
+    if k == 'steel': return ST
+    if k == 'wood': return WD
+    if k not in TM: TM[k] = Mesh(f'lin_{k}', M[k])
+    return TM[k]
 STM = Mesh('lin_steam', M['steam'])
 M['wood']['tile'] = 1.0; M['steel']['tile'] = 0.7
-VC = CMesh('lin_vc', M['vc']); VM = CMesh('lin_vm', M['vm'])
+VC = KK.RCMesh('lin_vc', M['vc'], ROUTE, tm); VM = KK.RCMesh('lin_vm', M['vm'], dict(ROUTE, **ROUTE_M), tm)
 WD = Mesh('lin_wood', M['wood']); ST = Mesh('lin_steel', M['steel']); PR = Mesh('lin_prints', M['print'])
-GLS = Mesh('lin_glass', M['glass']); GL = CMesh('lin_gloss', M['gloss']); WARM = Mesh('lin_warm', M['warm']); SCR = Mesh('lin_screens', M['screen'])
+GLS = Mesh('lin_glass', M['glass']); GL = KK.RCMesh('lin_gloss', M['gloss'], ROUTE, tm); WARM = Mesh('lin_warm', M['warm']); SCR = Mesh('lin_screens', M['screen'])
 GLSF = Mesh('GLASS_front', M['glass'])   # 正面的玻璃：不放進淡出群組（玻璃規則），分開一個物件，鏡頭在店外時可以單獨藏
 WG = {}
 WARMM = WARM
 
 
 def wg(side, key):
-    if (side, key) not in WG: WG[(side, key)] = (CMesh if key in ('vc', 'vm') else Mesh)(f'WALL_{side}_{key}', M[key])
+    if (side, key) not in WG: WG[(side, key)] = (KK.RCMesh(f'WALL_{side}_{key}', M[key], dict(ROUTE, **ROUTE_M), lambda k, s_=side: wg(s_, k)) if key in ('vc', 'vm') else Mesh(f'WALL_{side}_{key}', M[key]))
     return WG[(side, key)]
 
 
@@ -340,26 +379,27 @@ while x < bw_['x1'] - 1e-6:
 ST.box(-1.2, 1.0, 0, 0.88, Z0 + 0.05, Z0 + 0.7)   # 洗碗槽檯
 VC.cbox(-0.9, -0.2, 0.86, 0.885, Z0 + 0.15, Z0 + 0.6, '#5a5e60'); ccyl(VM, (-0.55, 0.88, Z0 + 0.12), (-0.55, 1.25, Z0 + 0.12), 0.015, '#c8ccce', seg=6); ccyl(VM, (-0.55, 1.25, Z0 + 0.12), (-0.55, 1.2, Z0 + 0.35), 0.012, '#c8ccce', seg=6)
 for k in range(4): clathe(VM, [(0.0, 0.0), (0.13, 0.0), (0.14, 0.14), (0.0, 0.14)], 0.1 + k * 0.22, 0.88, Z0 + 0.35, '#c4c8ca', seg=10)
-for k in range(6): clathe(GL, [(0.0, 0.0), (0.03, 0.0), (0.03, 0.16), (0.015, 0.2), (0.0, 0.2)], -1.1 + k * 0.08, 0.88, Z0 + 0.25, R.choice(['#e8c040', '#3a8a3a', '#f0f0ea', '#c83a2a']), seg=6)   # 洗碗精、醬料
+for k in range(3): clathe(GL, [(0.0, 0.0), (0.03, 0.0), (0.03, 0.16), (0.015, 0.2), (0.0, 0.2)], -1.1 + k * 0.08, 0.88, Z0 + 0.25, R.choice(['#e8c040', '#3a8a3a', '#f0f0ea', '#c83a2a']), seg=6)   # 醬料
+K.ph_put('multi_cleaner_bottle', -0.82, 0.88, Z0 + 0.26, 0.4, height=0.22, decimate=0.25); K.ph_put('bleach_bottle', -0.72, 0.88, Z0 + 0.22, -0.3, height=0.26, decimate=0.3)   # v2：洗碗精、漂白水（Poly Haven）
 fz = S['fridge']   # 不鏽鋼冰箱（兩門）
 ST.box(fz['x0'], fz['x1'], 0, fz['h'], fz['z0'] + 0.05, fz['z1']); VC.cbox(fz['x0'] + 0.01, fz['x1'] - 0.01, 1.2, 1.205, fz['z1'], fz['z1'] + 0.004, '#6a6e70')
 for y0, y1 in ((0.5, 1.0), (1.35, 1.75)): VM.cbox(fz['x1'] - 0.1, fz['x1'] - 0.08, y0, y1, fz['z1'], fz['z1'] + 0.05, '#9a9ea2')
 for k in range(3): VC.cbox(fz['x0'] + 0.05, fz['x1'] - 0.05, fz['h'] + k * 0.16, fz['h'] + 0.14 + k * 0.16, fz['z0'] + 0.1, fz['z1'] - 0.05, ['#2a5aa8', '#e8c030', '#2a5aa8'][k])   # 冰箱上的塑膠籃
-for k in range(2): VC.cbox(X0 + 0.05, X0 + 0.55, k * 0.32, k * 0.32 + 0.3, Z0 + 0.05, Z0 + 0.45, ['#c83a2a', '#2a5aa8'][k])   # 冰箱左邊地上的籃子
+for k in range(2): K.ph_put('plastic_crate_02', X0 + 0.3, k * 0.26, Z0 + 0.25, 0.0 if k == 0 else 0.06, height=0.26, decimate=0.3, recolor=(['#6a1410', '#1a3a78'][k], ['#d8483a', '#4a7ad0'][k]), tag=['_r', '_b'][k])   # 冰箱左邊地上的籃子（v2：Poly Haven 塑膠籃，紅、藍）
 dr_ = S['dishRack']
 for y in (0.3, 0.75, 1.2, 1.65): ST.box(dr_['x0'], dr_['x1'], y - 0.02, y, dr_['z0'], dr_['z1'])
 for x in (dr_['x0'], dr_['x1']): VM.cbox(x - 0.015, x + 0.015, 0, dr_['h'], dr_['z0'], dr_['z1'], '#b8bcbe')
 for y in (0.3, 0.75, 1.2, 1.65):
     for k in range(5):
         for j in range(R.randint(4, 9)): clathe(GL, [(0.0, 0.0), (0.05, 0.0), (0.085, 0.06), (0.0, 0.012)], dr_['x0'] + 0.15 + k * 0.25, y + j * 0.028, (dr_['z0'] + dr_['z1']) / 2, R.choice(['#f4f2ec', '#eef2f6']), seg=10)
-for k in range(2): face(PR, (dr_['x0'] + 0.35 + k * 0.6, dr_['h'] + 0.14, dr_['z1'] - 0.094), '+z', 0.5, 0.28, C['carton']); VC.cbox(dr_['x0'] + 0.1 + k * 0.6, dr_['x0'] + 0.6 + k * 0.6, dr_['h'], dr_['h'] + 0.28, dr_['z0'] + 0.05, dr_['z1'] - 0.1, '#c8a070')
+for k in range(2): K.ph_put('cardboard_box_01', dr_['x0'] + 0.35 + k * 0.6, dr_['h'], (dr_['z0'] + dr_['z1']) / 2 - 0.02, PI / 2 + (0.05 if k else -0.04), height=0.3 - 0.04 * k, decimate=0.08)   # v2：紙箱（Poly Haven）
 
 # ================= 右牆：紅紙菜單、時鐘、壁扇、相框、自助調味區、收銀台 =================
 mn = S['menu']; rp = wg('right', 'print'); rv = wg('right', 'vc')
 n_ = len(mn['items']); step = (mn['z1'] - mn['z0']) / n_
 for k in range(n_):
     z = mn['z0'] + (k + 0.5) * step; face(rp, (X1 - 0.005, (mn['y0'] + mn['y1']) / 2, z), '-x', step - 0.03, mn['y1'] - mn['y0'], C[f'menu{k}'])
-face(rp, (X1 - 0.03, 2.3, 1.15), '-x', 0.42, 0.42, C['clock']); rv.cbox(X1 - 0.028, X1, 2.08, 2.52, 0.93, 1.37, '#6a4428')
+K.ph_put('wall_clock', X1 - 0.03, 2.1, 1.15, -PI / 2, height=0.4, decimate=0.5)   # v2：時鐘（Poly Haven）
 face(rp, (X1 - 0.005, 1.65, 1.15), '-x', 0.42, 0.52, C['photo'])
 face(rp, (X1 - 0.005, 1.5, -1.2), '-x', 0.8, 0.25, C['selfsauce'])
 
@@ -404,8 +444,7 @@ VC.cbox(ca2['x0'] + 0.24, ca2['x0'] + 0.3, ca2['h'] + 0.2, ca2['h'] + 0.44, 2.2,
 clathe(VM, [(0.0, 0.0), (0.04, 0.0), (0.04, 0.02), (0.03, 0.05), (0.0, 0.06)], ca2['x0'] + 0.12, ca2['h'], 1.95, '#c8a040', seg=10)   # 叫人鈴
 face(PR, (ca2['x0'] + 0.15, ca2['h'] + 0.002, 2.9), '+y', 0.18, 0.12, C['card'], up=(0, 0, -1)); face(PR, (ca2['x0'] + 0.15, ca2['h'] + 0.002, 3.12), '+y', 0.18, 0.12, C['price'], up=(0, 0, -1))
 for k in range(5): ccyl(VC, (ca2['x0'] + 0.3, ca2['h'], 1.75 + k * 0.01), (ca2['x0'] + 0.32, ca2['h'] + 0.14, 1.74 + k * 0.015), 0.005, R.choice(['#2a2a2a', '#c83a2a', '#2a5aa8']), seg=3)   # 筆
-clathe(VC, [(0.0, 0.0), (0.09, 0.0), (0.1, 0.15), (0.0, 0.15)], ca2['x1'] - 0.2, ca2['h'], 3.05, '#f2f0ea', seg=10)
-for k in range(9): blob(VC, (ca2['x1'] - 0.2 + R.uniform(-0.12, 0.12), ca2['h'] + 0.28 + R.uniform(-0.08, 0.12), 3.05 + R.uniform(-0.12, 0.12)), 0.07, R.choice(['#4e7a34', '#6a9640', '#3e6a2c']), sy=0.6)
+K.ph_put('potted_plant_02', ca2['x1'] - 0.2, ca2['h'], 3.05, 0.7, share=False, height=0.48, decimate=0.06)   # v2：小盆栽（Poly Haven）
 
 # ================= 窗外（只給渲染用） =================
 if PREVIEW:
@@ -413,9 +452,13 @@ if PREVIEW:
     face(ob_, (0, 2.0, Z1 + 3.5), '-z', 14, 6, (0, 0, 1, 1)); ob_.finish(root, uv=False)
 
 # ================= 收尾 =================
-for (side, key), m in list(WG.items()): m.finish(G[side], uv=(key in ('steel',)), smooth=False)
+for (side, key), m in list(WG.items()):
+    if isinstance(m, KK.RCMesh): m.flush()
+for (side, key), m in list(WG.items()): m.finish(G[side], uv=(key not in ('wall', 'print')), smooth=False)
 VC.finish(root, uv=False); VM.finish(root, uv=False, smooth=True); GL.finish(root, uv=False, smooth=True)
 WD.finish(root, uv=True); ST.finish(root, uv=True)
+for m in TM.values(): m.finish(root, uv=True, smooth=True)
+K.remove_protos()
 STM.finish(root, uv=False, props={'steam': 1})
 for m, pr in ((PR, None), (SCR, None), (WARM, None), (GLS, {'glass': 1}), (GLSF, {'glass': 1, 'side': 'front'})): m.finish(root, uv=(m is WARM), props=pr)
 for ob in list(root.children_recursive):
@@ -424,3 +467,4 @@ L.merge_by_material(root, keep=lambda ob: ob.name.startswith(('WALL_', 'PREVIEW'
 st_ = L.export(OUT)
 mats = sorted({ms.material.name for ob in bpy.data.objects if ob.type == 'MESH' for ms in ob.material_slots if ms.material})
 print('OK', OUT, 'materials', len(mats), mats)
+print('CC0_USED', K.used())

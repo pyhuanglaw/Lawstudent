@@ -15,6 +15,7 @@
 //   8. 換了字的 27 個選項：源稿兩版那個選項只差 t 和（有改的）回話，fx、選項數沒動
 // 稿讀 git show；讀不到（淺層複本）＝第 2、3、5、7、8 項的那幾條跳過並印出來。用法：node tests/kxnl_dates_1112_unit.js
 'use strict';
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', SHA='5afc5c0e3', BASE='4bf9b126a2', PREV=C.KXNL_1112_PREV;   /* SHA＝這一批的那一版（以後白名單再換版也還是比這一版）；BASE＝匯入以前的那一筆（這條線上 D158 那一次重匯以後；src/data/date_lines.js 和 08b6027ca0 一樣） */
@@ -26,7 +27,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.KXNL_1112, KX='kexin';
+const NOWT=read('src/data/date_lines.js'), NOW=M959.unmapDeep(DL(NOWT),'date_lines.js'), R=C.KXNL_1112, KX='kexin';
 const RE_T=/^hotspots\/(D\d\d\.\w+)\/first\/choice\/(\d+)\/t$/;
 const gp=r=>'/loc/'+r.loc+'/lines/'+KX+'/'+r.path;
 const DOCS={AA_869:'AA_869_kx_dates_no_ledger_b1.json',AA_870:'AA_870_kx_dates_no_ledger_b2.json',AA_871:'AA_871_kx_dates_no_ledger_b3.json'};

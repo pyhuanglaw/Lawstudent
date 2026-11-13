@@ -1,11 +1,11 @@
 {
- "objects": 27,
- "unique_meshes": 27,
- "tris": 49926,
- "tris_drawn": 49926,
- "materials": 18,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/a23/cafe230.glb",
- "bytes": 3045168,
+ "objects": 35,
+ "unique_meshes": 35,
+ "tris": 53830,
+ "tris_drawn": 53830,
+ "materials": 30,
+ "out": "../c230/cc0.glb",
+ "bytes": 3492836,
  "texres": 512,
  "layout": 3,
  "zone": "cafe"

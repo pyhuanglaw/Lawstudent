@@ -123,7 +123,7 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
       check('15-2. 子晴 Q15 前置：TOLD_HER_CHANGE 不是必要（沒有也走專屬版）；CLAPPED、ZQ_DAD_HEARD、ATTENDED_SHOW、不是日本路線照舊', r.noTold&&r.told&&!r.noClap&&!r.noDad&&!r.noShow&&!r.jp, JSON.stringify(r)); }
     { const Z7=ev('ev_zhiruo_applied'), d=DK('2026-12-10'); freshD(d+1,15,'cafe',{Z4_PICK:'family'}); SOCIAL.remember('heroine_02','FIRST_MET',''); SOCIAL.rel('heroine_02').fam=25; H.G.events.done.ev_zhiruo_secret=1; SOCIAL.remember('heroine_02','SHARED_SECRET','');
       H.said=[]; H.opts=[]; H.picks=[2]; await EVENTS.run(Z7); const L=txts(), i=L.indexOf('你那時候說家裡比較重要。'), mem=SOCIAL.memories('heroine_02').filter(m=>m.tag==='IMPORTANT_CONVERSATION').map(m=>m.note);
-      check('15-3. 芷若 Z7 家裡那版（BB_167 E1）：「你那時候說家裡比較重要。」「我後來算了一下。她十點打來，英國那邊是下午兩、三點。」「我那個時間沒課。……接得到。」→「今天的咖啡我請。」', i>=0&&JSON.stringify(L.slice(i))===JSON.stringify(['你那時候說家裡比較重要。','我後來算了一下。她十點打來，英國那邊是下午兩、三點。','我那個時間沒課。……接得到。','今天的咖啡我請。'])&&!!H.opts[0]&&H.opts[0][2]==='「妳那時候說的家裡……」', JSON.stringify(L));
+      check('15-3. 芷若 Z7 家裡那版（BB_167 E1）：「你那時候說家裡比較重要。」「我後來算了一下。她十點打來，英國那邊是下午兩、三點。」「我那個時間沒課。……接得到。」→「這杯咖啡我請。」', i>=0&&JSON.stringify(L.slice(i))===JSON.stringify(['你那時候說家裡比較重要。','我後來算了一下。她十點打來，英國那邊是下午兩、三點。','我那個時間沒課。……接得到。','這杯咖啡我請。'])&&!!H.opts[0]&&H.opts[0][2]==='「妳那時候說的家裡……」', JSON.stringify(L));
       check('15-3. 記憶的備註：「她交了交換申請：她算過時差，媽媽十點打來接得到」', mem.includes('她交了交換申請：她算過時差，媽媽十點打來接得到')&&!mem.some(n=>/家也跟著我去/.test(n)), JSON.stringify(mem)); }
   });
 

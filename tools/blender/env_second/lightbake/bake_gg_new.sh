@@ -80,7 +80,7 @@ shaola)
   for zz in 2.5 3.15 3.8 4.45 5.1; do PTS="$PTS${PTS:+;}1.3,2.3,$zz,$BW,$WC,0.05"; done
   for zz in 0.43 0.77; do PTS="$PTS;-2.65,2.3,$zz,$BW,$WC,0.05"; done
   HIDE='glass'
-  NOLM='_vc$|sl_vm|_vm$|gloss|steel|tube|warm|screens|print|glass'
+  NOLM='_vc$|sl_vm|_vm$|gloss|steel|tube|warm|screens|print|glass|_cc_|_ph_|^WALL_[a-z]+_(plastic|metal|cardboard|wood_d|brass|sack)'   # v8（SHOP-CC0-HELP-1113）：CC0 材質組的零件（sl_cc_*、牆上的 WALL_*_plastic_w…）、Poly Haven 模型（*_ph_*）照舊即時光
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS")
   ;;
 yejian)

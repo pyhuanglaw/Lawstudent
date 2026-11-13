@@ -1145,6 +1145,8 @@ with open(dst, 'w', encoding='utf8') as fo:
     R915 = [{'path': 'loc.D02.lines.classmate_xinci.closing.first.lines[0].text', 'old': '下次你挑地方。我想看你會挑哪裡。', 'new': '我原本以為一個小時就夠了。結果待了三個小時。'}]
     body, n915 = apply767(body, R915, 'AA_915')
     print(f'AA_915@96c3a668eb：芯慈 D02 第一次收尾 {len(R915)} 列（照 path），換了 {n915} 列')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    body = _AA959.layer(body, 'date_lines.js')
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))

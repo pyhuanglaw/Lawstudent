@@ -465,6 +465,8 @@ def main():
     allow = IG.load(ROOT)
     data = build(load_batches(allow), load_fallback(allow))
     js = render(data)
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    js = _AA959.layer(js, 'movie_plots.js')
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

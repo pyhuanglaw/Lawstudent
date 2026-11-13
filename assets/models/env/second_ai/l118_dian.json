@@ -1,13 +1,13 @@
 {
- "objects": 80,
- "unique_meshes": 64,
- "tris": 21343,
- "tris_drawn": 32927,
- "materials": 62,
+ "objects": 85,
+ "unique_meshes": 69,
+ "tris": 22791,
+ "tris_drawn": 34375,
+ "materials": 73,
  "out": "assets/models/env/second_ai/l118_dian.glb",
- "bytes": 1797556,
+ "bytes": 1887020,
  "texres": 512,
- "tris_total": 32927,
+ "tris_total": 34375,
  "layout": "l118_dian.layout.json",
  "seats": 17
 }

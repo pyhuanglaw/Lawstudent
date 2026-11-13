@@ -174,7 +174,7 @@ const R2Y3B=(function(){
   S.z11bPhone=function(G){ const F=G.flags, d22=D('2028-04-22'), R=M('p:heroine_02','heroine_02');
     if(d22!=null&&G.day>=d22&&G.day<=d22+1&&isJP(G)&&now(G)>=T(d22,lt(G,d22,22))&&!PHONE.sent(G,'y3_zr_z11b_jp')&&met(G,'heroine_02','FAMILIAR')&&contact(G,'heroine_02')){
       const single=!datingAny(G)&&!herMate(G,'heroine_02'), v1=single&&stageAt('heroine_02','FRIEND');
-      PHONE.at(G,d22,lt(G,d22,22),[R('（照片：倒數第三排的票根）'),R(v1?'今天坐這裡。旁邊空著。':'今天坐倒數第三排。那排的視角最好。')],'y3_zr_z11b_jp'); if(!F.ZR_Z11B) F.ZR_Z11B='photo'; }
+      PHONE.at(G,d22,lt(G,d22,22),[R('（照片：倒數第三排的票根）'),R(v1?'坐這裡。旁邊空著。':'坐倒數第三排。那排的視角最好。')],'y3_zr_z11b_jp'); if(!F.ZR_Z11B) F.ZR_Z11B='photo'; }
     if(F.ZR_Z11B==='yu'&&F.ZR_Z11B_DAY!=null&&!PHONE.sent(G,'y3_zr_z11b_yu')){ const d8=D('2028-05-08'), d=Math.max(d8!=null?d8:0,F.ZR_Z11B_DAY+14);   /* 兩週後（4/24 那天選的＝5/8）*/
       if(now(G)>=T(d,lt(G,d,22+7/60))) PHONE.at(G,d,lt(G,d,22+7/60),[R('Alison 傳了一張票根給我。她說她也坐倒數第三排。')],'y3_zr_z11b_yu'); } };
 

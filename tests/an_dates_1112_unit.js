@@ -15,6 +15,7 @@
 //   7. src/date3d.js 照「整句一字不差」認句子的表（S.SHE_PAYS 等）裡沒有留著這 32 句的舊字（留著＝那個效果不會再觸發）
 // 稿讀 git show；讀不到（淺層複本）＝第 2、3、5 項跳過並印出來。用法：node tests/an_dates_1112_unit.js
 'use strict';
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', AN='heroine_01', BASE='3611dfac34', PREV=C.KX_1112_FIX_SHA;   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
@@ -25,7 +26,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.AN_1112;
+const NOWT=read('src/data/date_lines.js'), NOW=M959.unmapDeep(DL(NOWT),'date_lines.js'), R=C.AN_1112;
 
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;

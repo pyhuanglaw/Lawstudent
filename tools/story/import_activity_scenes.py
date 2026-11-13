@@ -102,6 +102,8 @@ def main():
           "'use strict';\nconst ACTIVITY_SCENES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     import l118_fix772   # 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 給這個檔的幾列 old→new 疊在組好的文字上（tools/story/l118_fix772.py；白名單沒有那份稿＝不疊）
     js = l118_fix772.layer_js(OUT, js, ROOT, allow)
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    js = _AA959.layer(js, 'activity_scenes.js')
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

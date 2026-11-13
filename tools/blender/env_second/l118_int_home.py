@@ -373,7 +373,8 @@ def ceiling_fan(c, x, z):
 def build_home(c):
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; M = c.M; rng = c.rng
     LS.shell(c)
-    fr = c.WG['S']['frame']; fr.paint(list(fr.bm.faces), '#4a3122')                                   # 深木框的門窗（參考圖；shell 的框是鋁色）
+    if getattr(c, 'cc0m', None) is not None: c.WG['S']['frame_alu'].mat = c.MX['wood_d']                # CC0（SHOP-CC0-HELP-1113）：店面框的材質組換深木（同下）
+    else: fr = c.WG['S']['frame']; fr.paint(list(fr.bm.faces), '#4a3122')                             # 深木框的門窗（參考圖；shell 的框是鋁色）
     KZ = -2.25                                                                                        # 煮水餃區和用餐區的界線（導航格線）
     kt = c.wg('N', 'kitchen', M['vc'], cm=True); km = c.wg('N', 'kmetal', M['vcm'], cm=True); ks = c.wg('N', 'ksteel', M['steel'])
     for key in ('kitchen', 'kmetal', 'ksteel', 'iprint', 'ksteam'): c.WGP[('N', key)] = {'at': [0.0, 1.6, KZ - 0.05]}   # 鏡頭在煮水餃區裡或後牆外面：整個煮水餃區跟著後牆淡出（不擋住人）
@@ -455,6 +456,7 @@ def build_home(c):
     ccyl(c.vc, (1.14, 0.885, -2.42), (1.46, 0.885, -2.38), 0.022, '#c8a46a', seg=8)                                                    # 擀麵棍
     for k in range(2): ccyl(kt, (1.25 + k * 0.13, 0.86, -2.7), (1.25 + k * 0.13, 0.9 - k * 0.012, -2.7), 0.05, '#f3ecd9', seg=12)     # 餃子皮
     LS.register(c, 1.82, 0.86, -2.6, face='+z')
+    if getattr(c, 'ph', None): c.ph.put('wooden_cutting_board', 1.36, 0.861, -2.68, 0.0, length=0.36, decimate=0.1, texres=256)   # CC0：餡料盆和收銀機中間一塊掃描的木砧板（Poly Haven）
     # 員工進出的矮門（工作檯右邊到東牆）
     ccyl(km, (2.2, 0.0, KZ - 0.04), (2.2, 0.98, KZ - 0.04), 0.03, STEEL_D, seg=8); ccyl(km, (X1 - 0.06, 0.0, KZ - 0.04), (X1 - 0.06, 0.98, KZ - 0.04), 0.03, STEEL_D, seg=8)
     km.crbox(2.25, 3.0, 0.22, 0.93, KZ - 0.055, KZ - 0.025, '#b7bcc0', r=0.01, seg=1); km.crbox(3.03, X1 - 0.1, 0.22, 0.93, KZ - 0.055, KZ - 0.025, '#b7bcc0', r=0.01, seg=1)
@@ -558,7 +560,9 @@ def main():
     c = LS.Shop(SID); c.extra = {}; c.REG = REG
     c.M['iprint'] = LS.img_mat('l118_home_iprint', 'l118_int_home_print.png', rough=0.6)
     c.M['wain'] = LS.img_mat('l118_home_walltile', 'l118_int_home_tile.png', rough=0.34)   # 牆面的方磚換成自己畫的 20 cm 米白磚（SPEC 的 wain 那張馬賽克不用）
+    if SID in LS.CC0_INT: LS.cc0_setup(c)   # SHOP-CC0-HELP-1113（D161）：CC0 材質組＋Poly Haven 模型（lane118_shops.py 的同一套）
     build_home(c)
+    if SID in LS.CC0_INT: LS.cc0_post(c)
     prob = finish2(c, src='L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、菜單；參考圖 l118_ref/int_home.webp）；室內 tools/blender/env_second/l118_int_home.py')
     print('L118_INT_HOME', 'OK' if not prob else prob)
     if pv: preview(SID, os.path.join(L.ROOT, pv), *PREVIEW)

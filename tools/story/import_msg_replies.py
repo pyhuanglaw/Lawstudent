@@ -41,6 +41,11 @@ def rel(v, w):
     return {k: int(x) for k, x in v.items()}
 
 
+def _AA959_map(t):
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959
+    return aa959.map_str(t, 'msg_replies.js')
+
+
 def build(src, sha):
     people = {}
     for hid, v in src.items():
@@ -55,7 +60,7 @@ def build(src, sha):
             new = bool(e.get('new'))
             if t in GONE and not new:
                 continue
-            if not t or (not new and not in_src(t)):
+            if not t or (not new and not in_src(t) and not in_src(_AA959_map(t))):   # AA_959：送訊息的程式（aa959.LINKED）已經照覆寫表換成新字，訊息本身寫檔前最後一步才換
                 raise SystemExit(f'{w}.text「{t}」：src/ 裡找不到這一則訊息（要逐字；AA 新寫的要標 new）')
             opts = []
             for j, o in enumerate(e.get('opts') or []):
@@ -191,6 +196,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_msg_replies.py（' + data['src'] + '）。不要手改，改企劃 AA_709 再重新匯入。\n'
           '   女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/\n'
           "'use strict';\nconst MSG_REPLIES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    js = _AA959.layer(js, 'msg_replies.js')
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

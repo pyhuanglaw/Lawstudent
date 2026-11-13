@@ -299,7 +299,7 @@ const R3=(function(){
     KX('y3s2_kx_film',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'同組那個同學的短片，在小影展放了。我坐第一排。'),   /* AA_919 第 2 節 */
     KX('y4_kx_index2',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'系上那個學長的考古題目錄，現在出第二冊了。'),   /* AA_919 第 2 節（BB_445「系上有一個學長」） */
     KX('y4_kx_mutter',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'我室友說我讀書的時候會自言自語。她錄下來了。我不承認。'),
-    KX('y4_kx_mock',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'今天模擬考，第三題我寫了兩頁。寫完才發現題目只問一句。'),
+    KX('y4_kx_mock',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'模擬考第三題我寫了兩頁。寫完才發現題目只問一句。'),
     KX('y4_kx_twenty1',Tm=>inT(Tm,'Y4S1','Y4S2',4),22+10/60,null,{items:G=>[P1('kexin','二十分鐘。'),Object.assign(P1('kexin','這段讀完就打給你。',1/60),{ask:{id:'dp_y4_kx_twenty1',until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她真的打來了。）')]}]}})]}),
     KX('y4_kx_twenty',Tm=>inT(Tm,'Y4S1','Y4S2'),22+10/60,null,{max:()=>4,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y4_kx_twenty1')&&termN(G,'y4_kx_twenty')<2,items:(G,n)=>{ termInc(G,'y4_kx_twenty'); return [Object.assign(P1('kexin','二十分鐘'),{ask:{id:'dp_y4_kx_twenty_'+n,until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她打來了。）')]}]}})]; }}),
     KX('y4s2_kx_rest',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'今天說好要休息。我休息到下午三點，又開始讀了。'),

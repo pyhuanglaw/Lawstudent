@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 862.6,
+ "bake_seconds": 1052.7,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -44,5 +44,5 @@
   "WALL_right_sns_wood"
  ],
  "src": "assets/models/env/second_ai/aa_support/sunnyside.glb",
- "src_sha256": "d94d70d09acb49586625f750bbcc6b925b1d8c64efeb77d7e082822a3c47e8a4"
+ "src_sha256": "8821a3c6547be1f65f7e1e38aa9d6c87381d907e4c0a8a70f643ed39cbaafc9e"
 }

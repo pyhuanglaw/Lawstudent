@@ -123,7 +123,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
     /src\/sis_b14_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b15_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b15_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/sis_b15_3d.js')<a('<script>GAME.boot();</script>'));
   const G0=mine().concat(changed()), GS=new Set(G0.concat(G0.map(unq)));
   /* 稿 → 遊戲 */
-  const lostQ=QUOTES.filter(t=>!GS.has(t)&&!FIX590[t]&&!(FIX611[t]&&GS.has(FIX611[t]))&&!(LQO.REPLACED[t]&&GS.has(LQO.REPLACED[t]))&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
+  const lostQ=QUOTES.filter(t=>!GS.has(t)&&!GS.has(require('./aa959_map.js').map(t,null,'heroine_05'))/* AA_959（AA_962）：之後照覆寫表拿掉開頭「……」*/&&!FIX590[t]&&!(FIX611[t]&&GS.has(FIX611[t]))&&!(LQO.REPLACED[t]&&GS.has(LQO.REPLACED[t]))&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
   check('0. 稿 → 遊戲：第 1～3 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡',QUOTES.length===98&&!lostQ.length,J({n:QUOTES.length,lostQ}));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、→ 同一行的回覆（'+INLR.length+' 句）都在遊戲裡',OPTS.length===35&&INLR.length===7&&!lostO.length&&!lostR.length,J({o:OPTS.length,r:INLR.length,lostO,lostR}));
   const INLINE=['今天的題目在白板上。','坐。今天這題比較長。','佳穎，你先講。……好，換人。','明天讀書會。','去。','禮拜六畢業典禮 A館門口拍照 家族都來','（傳一張照片給她）','坐。還有十分鐘。','你沒去過吧。','學姊的三本書（每一本都畫了線）'];   /* 稿寫在說明句裡的（「」括起來）*/
@@ -309,8 +309,8 @@ await sec(3,async()=>{
   { fresh('2026-11-06',12.3,'dating'); await runEv('ev_sis_lunch_y2',[0]); const yp=H.G.flags.SIS15_YOUPAY; fresh('2026-11-06',12.3,'fam'); await runEv('ev_sis_lunch_y2',[0]); const np=H.G.flags.SIS15_YOUPAY;
     const dinner=async(fl,term)=>{ fresh('2027-01-15',18.5,'dating',fl); H.said=[]; H.opts=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:term||'Y2S1',who:ID,kind:'gf'}}); };
     await dinner({SIS15_YOUPAY:true}); const s1=said(); await dinner({}); const s0=said(); await dinner({SIS15_YOUPAY:true},'Y2S2'); const s2=said();
-    check('3. 8 11/6 交往版「……下次你請。」記 SIS15_YOUPAY（朋友版不記）；大二上女朋友版期末飯收尾多兩行「（結帳的時候，她站在旁邊沒有動。）」「……說好你請。」；沒聽過、別的學期沒有',
-      yp===true&&!np&&s1.indexOf('（結帳的時候，她站在旁邊沒有動。）')>=0&&s1.indexOf('……說好你請。')===s1.indexOf('（結帳的時候，她站在旁邊沒有動。）')+1&&!s0.includes('……說好你請。')&&!s2.includes('……說好你請。'),J({yp,np,s1})); }
+    check('3. 8 11/6 交往版「……下次你請。」記 SIS15_YOUPAY（朋友版不記）；大二上女朋友版期末飯收尾多兩行「（結帳的時候，她站在旁邊沒有動。）」「說好你請。」；沒聽過、別的學期沒有',
+      yp===true&&!np&&s1.indexOf('（結帳的時候，她站在旁邊沒有動。）')>=0&&s1.indexOf('說好你請。')===s1.indexOf('（結帳的時候，她站在旁邊沒有動。）')+1&&!s0.includes('說好你請。')&&!s2.includes('說好你請。'),J({yp,np,s1})); }
   /* 9 火鍋的照片 */
   { const d=D('2026-06-19'); fresh(d,21.5,'none'); phAt(d,21.9); const n0=byTag('sisb15_hotpot').length; phAt(d,22.1); const M=byTag('sisb15_hotpot');
     check('3. 9 2026-06-19（五）22:00 家族群組 Kevin「（照片：火鍋店的長桌，學姊坐在最旁邊，碗裡只有青菜）」「學姊只吃菜 我們吃了九盤肉」（所有群組成員）',wdOf(d)===5&&n0===0&&J(M.map(m=>[m.from,m.text]))===J([['kevin','（照片：火鍋店的長桌，學姊坐在最旁邊，碗裡只有青菜）'],['kevin','學姊只吃菜 我們吃了九盤肉']]),J(M)); }
@@ -358,19 +358,19 @@ await sec(4,async()=>{
   /* 4-7、4-8、4-10、4-11 */
   { const TL=TERMEND_LINES; fresh('2027-01-15',18,'fam'); const y3fam=resolveL(TL.POOL.Y3S1.heroine_05,H.G); fresh('2027-01-15',18,'friend'); const y3fri=resolveL(TL.POOL.Y3S1.heroine_05,H.G);
     check('4. 4-7 大一下「暑假我在總圖。」、大二上「寒假我在總圖。」；大二下「暑假我在法圖，寫報告。」不改',TL.POOL.Y1S2.heroine_05[1]==='暑假我在總圖。'&&TL.POOL.Y2S1.heroine_05[1]==='寒假我在總圖。'&&TL.POOL.Y2S2.heroine_05[0]==='暑假我在法圖，寫報告。'&&(ROW['4-7']||{toQ:[]}).toQ.includes('暑假我在總圖。'),J([TL.POOL.Y1S2.heroine_05,TL.POOL.Y2S1.heroine_05]));
-    check('4. 4-8、4-10、4-11（第 6 節第 22 點：飯桌第一句換「面試的事，今天不講。」）大三上：「面試的事，今天不講。」「論文第二章，卡住的那一段過了。」；朋友以上第三句「……收到信那天，我打給你。」、有點熟沒有',
-      J(y3fam)===J(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&J(y3fri)===J(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J({y3fam,y3fri}));
+    check('4. 4-8、4-10、4-11（第 6 節第 22 點：飯桌第一句換「面試的事，今天不講。」）大三上：「面試的事，今天不講。」「論文第二章，卡住的那一段過了。」；朋友以上第三句「收到信那天，我打給你。」、有點熟沒有',
+      J(y3fam)===J(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&J(y3fri)===J(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','收到信那天，我打給你。']),J({y3fam,y3fri}));
     check('4. 4-10 邀約那一句（termend_lines.js 朋友版大三上）：「我在等美國那邊的結果。」換成「明年夏天，我申請了美國的交換。下個月面試。」',TL.FRIEND.heroine_05.genByTerm.Y3S1==='期末考完了嗎？明年夏天，我申請了美國的交換。下個月面試。法圖旁邊那家？',TL.FRIEND.heroine_05.genByTerm.Y3S1);
     fresh('2028-01-14',18.5,'friend'); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
     /* 2026-11-10 改期望（TERMEND-OPTS-1110 朋友版，AA_749_termend_friend_v2_Y3S1 @5ffd725b8）：朋友版這一頓改讀新稿（開頭照舊「面試的事，今天不講。」→ 選項），不抽話題池——
-       「……收到信那天，我打給你。」這一頓不再說（3/15 她照樣打來，sis_y2y3_3d.js 2-7 本來就不看有沒有吃這頓）；話題池那三句留在 termend_lines.js（上面 4-8 那一項照查）、沒有新稿的舊資料照說 */
-    /* 2026-11-10 再改期望（AA 回 LAWWW，AA_749_termend_friend_v2_Y3S1 @1cf434dee）：稿加了 thenIf｛SIS_FU｝——朋友以上，選項演完以後照原本的條件補上「……收到信那天，我打給你。」；有點熟沒有 */
-    check('4. 4-11 朋友版期末飯（新稿）：「面試的事，今天不講。」→「論文第二章，卡住的那一段過了。」→ 三個選項 →（朋友以上）「……收到信那天，我打給你。」一次',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。'])&&said().filter(t=>t==='……收到信那天，我打給你。').length===1&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
+       「收到信那天，我打給你。」這一頓不再說（3/15 她照樣打來，sis_y2y3_3d.js 2-7 本來就不看有沒有吃這頓）；話題池那三句留在 termend_lines.js（上面 4-8 那一項照查）、沒有新稿的舊資料照說 */
+    /* 2026-11-10 再改期望（AA 回 LAWWW，AA_749_termend_friend_v2_Y3S1 @1cf434dee）：稿加了 thenIf｛SIS_FU｝——朋友以上，選項演完以後照原本的條件補上「收到信那天，我打給你。」；有點熟沒有 */
+    check('4. 4-11 朋友版期末飯（新稿）：「面試的事，今天不講。」→「論文第二章，卡住的那一段過了。」→ 三個選項 →（朋友以上）「收到信那天，我打給你。」一次',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','收到信那天，我打給你。'])&&said().filter(t=>t==='收到信那天，我打給你。').length===1&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
     fresh('2028-01-14',18.5,'fam'); H.said=[]; H.opts=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
-    check('4. 4-11 朋友版期末飯（新稿）有點熟：三個選項、沒有「……收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&!said().includes('……收到信那天，我打給你。')&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
+    check('4. 4-11 朋友版期末飯（新稿）有點熟：三個選項、沒有「收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&!said().includes('收到信那天，我打給你。')&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
     { const keepTO=globalThis.TERMEND_OPTS; if(keepTO) globalThis.TERMEND_OPTS=Object.assign({},keepTO,{FRIEND:undefined});
       try{ fresh('2028-01-14',18.5,'friend'); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
-        check('4. 4-11 沒有朋友版新稿（舊資料）：話題三句照舊說到「……收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J(said())); } finally{ globalThis.TERMEND_OPTS=keepTO; } } }
+        check('4. 4-11 沒有朋友版新稿（舊資料）：話題三句照舊說到「收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','收到信那天，我打給你。']),J(said())); } finally{ globalThis.TERMEND_OPTS=keepTO; } } }
   /* 第 6 節（0e21cccde，LAWWW-C 12:5x 問、AA 定）★17：大二上期末飯「這一頓我請」和「說好你請」矛盾——只改有 YOUPAY 的 */
   { const TL=TERMEND_LINES, S6=part('## 6. 實作時定的',null), yp={flags:{SIS15_YOUPAY:true}}, np={flags:{}}, rs=(v,G)=>typeof v==='function'?v(G):v, gB=TL.FRIEND[ID].genByTerm, gT=TL.GF[ID].tableByTerm.Y2S1;
     check('6. 讀得到第 6 節（★17、22、其他照現在）',S6.indexOf('### ★17')>=0&&S6.indexOf('### 22')>=0&&S6.indexOf('### 其他子代理的解讀：全部照現在')>=0&&S6.indexOf('> 面試的事，今天不講。')>=0,J({n:S6.length}));
@@ -379,7 +379,7 @@ await sec(4,async()=>{
       &&resolveL(gT,yp)[1]==='……第三次他說可以。'&&resolveL(gT,np)[1]==='……第三次他說可以。這一頓我請。'
       &&rs(gB.Y2S2,yp)==='期末考完了嗎？法圖旁邊那家，這次我請。'&&rs(gB.Y2S2,np)==='期末考完了嗎？法圖旁邊那家，這次你請。'
       &&S6.indexOf('> 期末考完了嗎？我研究室今天沒人。法圖旁邊那家。')>=0&&S6.indexOf('> ……第三次他說可以。')>=0&&S6.indexOf('> 期末考完了嗎？法圖旁邊那家，這次我請。')>=0
-      &&J(resolveL(TL.GF[ID].lastByTerm.Y2S1,yp))===J([{narr:'（結帳的時候，她站在旁邊沒有動。）'},'……說好你請。']),
+      &&J(resolveL(TL.GF[ID].lastByTerm.Y2S1,yp))===J([{narr:'（結帳的時候，她站在旁邊沒有動。）'},'說好你請。']),
       J({y1:rs(gB.Y2S1,yp),t:resolveL(gT,yp),y2:rs(gB.Y2S2,yp)})); }
   /* 4-9 */
   check('4. 4-9 characters.js 學姊 contradictions「財經法學組」（不是公法組）',/財經法學組/.test(CHARACTERS[ID].contradictions)&&!/公法組/.test(CHARACTERS[ID].contradictions),CHARACTERS[ID].contradictions);
