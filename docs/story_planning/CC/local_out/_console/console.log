@@ -319,3 +319,11 @@
 [17:06:52] 正在跑：SSB_tz_a（已跑 7 分／上限 90 分）、SSB_tz_b（已跑 6 分／上限 75 分）、GATE_NEW3（已跑 3 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:11:52] 正在跑：SSB_tz_a（已跑 12 分／上限 90 分）、SSB_tz_b（已跑 11 分／上限 75 分）、GATE_NEW3（已跑 8 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:12:55] [res] cpu=26% mem=46% (14.7/31.4 GB) chrome_testing=10  END GATE_NEW3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       dee27b4604..5d3f33d938  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:13:05] ==== END   GATE_NEW3  exit=1  551s   ====
+[17:13:08] memory 47% before starting YY_GATE_full (2 running)
+[17:13:08] ==== START YY_GATE_full  (probe @ 856702f57aa70d5996e26fdba56fd3eda318483e) ====
+[17:13:11] [res] cpu=17% mem=47% (14.9/31.4 GB) chrome_testing=10  START YY_GATE_full
+[17:14:42] [res] cpu=16% mem=45% (14.4/31.4 GB) chrome_testing=10  END YY_GATE_full
