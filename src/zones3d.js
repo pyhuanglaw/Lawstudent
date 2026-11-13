@@ -1613,11 +1613,15 @@ const Z3 = (function(){
        零件都打開以後，在畫面外先「真的畫一次」整間：同一個鏡頭、只畫 1×1 像素（viewport＋scissor 都設 1×1，畫在畫布左下角那一點；這一幀的正式畫面接著整張清掉重畫，看不到），
        用一個暫時的場景（同一個霧——霧會改著色器，不一樣的話正式畫的時候又要編一次）。材質都是不受光的 MeshBasic，跟燈沒有關係。不用 1×1 的 render target：畫到 render target 時 three.js 用不同的輸出色彩空間／色調映射，編的是另一個著色器。
        ?noshoppre 關掉（CC 對照用）。量測：prof.step.pre。*/
-    const PRE=!(typeof location!=='undefined'&&/[?&]noshoppre\b/.test(location.search||''));
-    const preDraw=s=>{ const Rn=E.renderer; if(!Rn||!s.grp||!E.camera||!THREE.Scene||!THREE.Vector4) return; const par=s.grp.parent, vis=s.grp.visible, vp=new THREE.Vector4(), sc=new THREE.Vector4(), st=Rn.getScissorTest?Rn.getScissorTest():false;
+    /* r8（LAWWW2-C 11-13；CC r7 0b32cab5cc：整間一次先畫，pre 自己就是那一頓——公館 G03 153 ms、新生南路 shanlan 115 ms；compile 只剩 2 ms，剩下的是頂點上傳＋第一次用到的光照貼圖上傳）：
+       分幀先畫——一幀只畫 PRE_V 個頂點以內的幾個零件（其他零件這一下藏起來），光照貼圖（白天／晚上兩張）排在貼圖上傳那一段先傳。 */
+    const PRE=!(typeof location!=='undefined'&&/[?&]noshoppre\b/.test(location.search||'')), PRE_V=12000;
+    const preDraw=(s,part)=>{ const Rn=E.renderer; if(!Rn||!s.grp||!E.camera||!THREE.Scene||!THREE.Vector4) return; const par=s.grp.parent, vis=s.grp.visible, vp=new THREE.Vector4(), sc=new THREE.Vector4(), st=Rn.getScissorTest?Rn.getScissorTest():false;
+      const keep=part?s.list.map(o=>o.visible):null; if(part) for(const o of s.list) o.visible=part.has(o);
       const tmp=new THREE.Scene(); tmp.fog=E.scene&&E.scene.fog||null; try{ Rn.getViewport(vp); Rn.getScissor(sc); tmp.add(s.grp); s.grp.visible=true; s.grp.updateMatrixWorld(true);
         Rn.setViewport(0,0,1,1); Rn.setScissor(0,0,1,1); Rn.setScissorTest(true); Rn.render(tmp,E.camera); }catch(e){}
-      try{ Rn.setViewport(vp); Rn.setScissor(sc); Rn.setScissorTest(st); }catch(e){} if(par) par.add(s.grp); s.grp.visible=vis; };
+      try{ Rn.setViewport(vp); Rn.setScissor(sc); Rn.setScissorTest(st); }catch(e){} if(par) par.add(s.grp); s.grp.visible=vis; if(keep) s.list.forEach((o,i)=>{ o.visible=keep[i]; }); };
+    const preParts=s=>{ const out=[]; let cur=null, v=0; for(const o of s.list){ const a=o.geometry&&o.geometry.attributes&&o.geometry.attributes.position, n=a?a.count:0; if(!cur||(v+n>PRE_V&&cur.size)){ cur=new Set(); v=0; out.push(cur); } cur.add(o); v+=n; } return out; };
     const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set();
       /* SHOP-FIRST-APPROACH-1112（LAWWW2-C；BB FIRST_gg_desk_r3：公館燒臘 233 ms、新生南路 150 ms、SUNNY 333 ms，都是第一次走近建店內那一幀）：材質第一次畫時 WebGL 在主執行緒同步編譯、連結著色器——
          一開始就用 compileAsync 把這一間全部的材質送去編（有 KHR_parallel_shader_compile 的話不卡主執行緒；照場景的燈編，之後畫的時候直接用同一個程式），編好以前零件先不打開（warmRun 看 s.compiling）。
@@ -1626,9 +1630,9 @@ const Z3 = (function(){
          （Rn.compile(那個網格, 鏡頭, 整個場景)，同一組材質只編一次），全部送出以後再 compileAsync 整間等 isReady（材質都準備過了，這一步不再編）。排在貼圖上傳後面、零件打開前面。 */
       const cj=[]; { const Rn=E.renderer; if(Rn&&Rn.compile&&E.camera&&E.scene&&s.grp&&s.list&&s.list.length){ const keys=new Set();
           for(const o of s.list) (o.traverse?o.traverse.bind(o):(f=>f(o)))(m=>{ if(!m.material) return; const ms=Array.isArray(m.material)?m.material:[m.material]; const k=ms.map(x=>x.uuid||x.id||'').join('|'); if(keys.has(k)) return; keys.add(k); cj.push({s,c:m}); });
-          if(cj.length){ s.compiling=true; s.ct0=now(); cj.push({s,cwait:true}); } } } for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const q of cj) warmQ.push(q); for(const o of s.list) warmQ.push({s,m:o}); if(PRE) warmQ.push({s,pre:true}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
+          if(cj.length){ s.compiling=true; s.ct0=now(); cj.push({s,cwait:true}); } } } for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } if(s.lm) for(const t of [s.lm.day,s.lm.night]) if(t&&t.image&&!seen.has(t)){ seen.add(t); warmQ.push({s,t}); }   /* r8：光照貼圖也先傳（不然第一次畫才傳）*/ for(const q of cj) warmQ.push(q); for(const o of s.list) warmQ.push({s,m:o}); if(PRE) for(const p of preParts(s)) warmQ.push({s,pre:p});   /* r8：分幀先畫 */ warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
     const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(j.stage){ stage(j); return; } if(!j.s.built) return;
-      if(j.pre){ preDraw(j.s); return; }
+      if(j.pre){ preDraw(j.s,j.pre===true?null:j.pre); return; }
       if(j.c){ try{ Rn.compile(j.c,E.camera,E.scene); }catch(e){} return; } if(j.cwait){ const s=j.s; const fin=()=>{ if(!s.compiling) return; s.compiling=false; rec(prof.step,'compileWait',now()-s.ct0,s.id); }; try{ const pr=Rn&&Rn.compileAsync?Rn.compileAsync(s.grp,E.camera,E.scene):null; if(pr&&pr.then){ pr.then(fin,fin); if(typeof setTimeout==='function') setTimeout(fin,2500); } else fin(); }catch(e){ fin(); } return; }   /* 2.5 秒保險：等不到 isReady 也照常一幀一個打開 */
       try{ if(j.m){ if(!j.s.grp.visible){ j.s.grp.visible=true; j.s.k=-1; light(j.s); if(j.s.want) fallback(j.s,false); } j.m.visible=true; j.m.frustumCulled=false; } else if(j.t&&Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
       if(j.done){ for(const o of j.s.list) o.frustumCulled=true; j.s.ready=true; show(j.s,!!j.s.want); } };

@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 227.4,
+ "bake_seconds": 250.6,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -35,6 +35,9 @@
   "CEIL_ceil",
   "S_blackmetal",
   "S_floor",
+  "S_packs",
+  "S_ph_fern_02_0",
+  "S_ph_fern_02_1",
   "S_pics",
   "S_plastic_dk",
   "S_steel",

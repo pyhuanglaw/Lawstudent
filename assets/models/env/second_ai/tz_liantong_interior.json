@@ -1,13 +1,13 @@
 {
  "objects": 25,
  "unique_meshes": 24,
- "tris": 19730,
- "tris_drawn": 21688,
+ "tris": 19794,
+ "tris_drawn": 21752,
  "materials": 36,
  "out": "assets/models/env/second_ai/tz_liantong_interior.glb",
- "bytes": 1520080,
+ "bytes": 1521984,
  "texres": 512,
- "tris_total": 21688,
+ "tris_total": 21752,
  "walls": [
   "E",
   "N",
