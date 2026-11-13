@@ -7763,7 +7763,7 @@
   {
    "task": "CANON-NO-ECON-1112",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "待填",
+   "sha": "4158dae820",
    "files": [
     "docs/story_planning/AA_941_回LAWWW_可昕外校前提的約人規則三條.md",
     "docs/story_planning/AA_721_l118_invite_acc.json"
@@ -7771,7 +7771,7 @@
    "state": "已交付",
    "at": "2026-11-13T12:55Z",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "BB-C 照用；已轉 LAWWW",
    "noDirectIntegrate": false,
    "next": "BB 第二眼（③兩句）；LAWWW 拿掉三條規則、重匯 AA_721",
    "unfinished": ""
