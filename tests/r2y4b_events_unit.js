@@ -181,7 +181,7 @@ const date=id=>H.date(id);
   { fresh('2029-04-24',10,'dorm'); date('kexin'); H.G.msgs=[]; PHONE.at(H.G,D('2029-04-23'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y4_kx_bday'); PHONE.tick(H.G); H.opts=[]; H.picks=[0]; await S.kxBdayPrompt(GM); at('2029-04-24',10.5); PHONE.tick(H.G);
     check('2-Y4-38 沒有 KX_STUDY_PLAN：沒有寫在表上那一個；傳一句「生日快樂。」→「收到。……謝謝你照做。」；quiet', H.opts[0].length===3&&th('p:kexin').includes('生日快樂。')&&th('p:kexin').includes('收到。……謝謝你照做。')&&H.G.flags.KX_BDAY[4]==='quiet'); }
   { fresh('2029-04-24',10,'dorm',{KX_STUDY_PLAN:true}); date('kexin'); PHONE.at(H.G,D('2029-04-23'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y4_kx_bday'); PHONE.tick(H.G); H.picks=[1]; await S.kxBdayPrompt(GM); at('2029-04-24',10.5); PHONE.tick(H.G);
-    check('2-Y4-38 寫在讀書計畫表：「我說不要慶祝。」「……這不算慶祝。這算註解。」；note', th('p:kexin').includes('我說不要慶祝。')&&th('p:kexin').includes('……這不算慶祝。這算註解。')&&H.G.flags.KX_BDAY[4]==='note'); }
+    check('2-Y4-38 寫在讀書計畫表：「我說不要慶祝。」「……字好醜。我收下了。」（AA_938 第 4 節換字）；note', th('p:kexin').includes('我說不要慶祝。')&&th('p:kexin').includes('……字好醜。我收下了。')&&H.G.flags.KX_BDAY[4]==='note'); }
   { fresh('2029-04-23',20,'dorm'); date('kexin'); at('2029-04-23',21); phone(); at('2029-04-25',21); phone(); PHONE.tick(H.G);
     check('K2 什麼都沒做：隔天「昨天我生日。我知道我說不要慶祝。」「可是我還是等了一天。」；none', th('p:kexin').includes('昨天我生日。我知道我說不要慶祝。')&&th('p:kexin').includes('可是我還是等了一天。')&&H.G.flags.KX_BDAY[4]==='none'); }
   /* ===== 2-Y4-39 系籃最後一場＋吉他社成發 ===== */

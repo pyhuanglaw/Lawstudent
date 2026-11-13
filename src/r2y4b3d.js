@@ -185,11 +185,11 @@ const R2Y4B=(function(){
       PHONE.at(G,d25,atH(G,d25,21),[P_('kexin','昨天我生日。我知道我說不要慶祝。'),P_('kexin','可是我還是等了一天。')],'y4_kx_bday_none'); } };   /* 什麼都沒做：隔天兩句（她這學期的那一句）*/
   S.kxBdayDue=G=>{ const d=DK(KB.d24); return d!=null&&G.day===d&&hh(G)>=9&&hh(G)<23&&dating(G,'kexin')&&G.flags.KX_BDAY_Y4==null&&!outGet(G,'y4_kx_bday')&&(G.flags.KX_BDAY4_ASK==null||now(G)>=G.flags.KX_BDAY4_ASK)&&PHONE.sent(G,'y4_kx_bday'); };
   S.kxBdayPrompt=async function(GM){ const G=GM.G, F=G.flags, O=[{t:'（傳一句「生日快樂。」）',k:'quiet'}]; if(S.kxPlanTable(G)) O.push({t:'（在她筆記本的角落寫「生日快樂」）',k:'note'});
-    O.push({t:'（開車上山，送一碗山下那家的酸辣湯餃）',hint:'不進去，送到就走',k:'visit'},{t:'晚一點再說',hint:'兩個小時後再問',k:'later'});
+    O.push({t:'（走到女生宿舍樓下，送一碗後門那家的酸辣湯餃）',hint:'不進去，送到就走',k:'visit'},{t:'晚一點再說',hint:'兩個小時後再問',k:'later'});
     let i=O.length-1; GM.sceneBegin(); try{ i=await GM.choose(O.map(o=>({t:o.t,hint:o.hint}))); } finally { GM.sceneEnd(); } const k=(O[i]||O[O.length-1]).k;
     if(k==='later'){ F.KX_BDAY4_ASK=now(G)+2; return k; }
     if(k==='quiet'){ PHONE.post(G,{th:'p:kexin',from:'player',who:null,text:'生日快樂。'}); PHONE.at(G,G.day,G.hour+0.25,[P_('kexin','收到。……謝謝你照做。')],'y4_kx_bday_quiet'); kxBdaySet(G,'quiet'); }
-    if(k==='note'){ PHONE.at(G,G.day,G.hour+0.25,[P_('kexin','我說不要慶祝。'),P_('kexin','……這不算慶祝。這算註解。')],'y4_kx_bday_note'); kxBdaySet(G,'note'); }
+    if(k==='note'){ PHONE.at(G,G.day,G.hour+0.25,[P_('kexin','我說不要慶祝。'),P_('kexin','……字好醜。我收下了。')],'y4_kx_bday_note'); kxBdaySet(G,'note'); }
     if(k==='visit') plan(G,{id:'y4_kx_bday',ev:'ev_kexin_bday_visit_y4',day:G.day,h:Math.max(21,Math.ceil((G.hour+1)*4)/4),late:0.5,place:'女生宿舍樓下',title:'送湯餃',travel:'走路',travelH:0.1});   /* CANON-NO-ECON-1112 第四批：照 AA_892 第 2 節換字 */
     return k; };
   S.kxBdayMissed=G=>{};   /* 沒到：隔天那兩句照上面的規則（'none'）*/
