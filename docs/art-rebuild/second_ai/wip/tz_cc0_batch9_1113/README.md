@@ -63,3 +63,17 @@
 ## 還沒做
 
 - BB 看圖；LAWWW 套了以後 CC 拍四鏡頭。
+
+## 一盞前院 BB 三個 P2（11-13 21:4x，LAWWW2-C）
+
+BB 第九批說的三點，都改在 `tools/blender/env_second/wz_teahouse_yard.py`：
+1. **耙紋**：原本是虛線圈 → 石頭外圍 5 圈連續的同心圓，圈外與樹以外的地方每 0.13 m 一條平行直紋（凸紋 `#aaa59a`、凹紋 `#76726a`）。
+2. **踏石**：原本大小、形狀一樣 → 每塊 8～11 邊、半徑 0.16～0.31 m，邊緣不規則，角度、高度各不同（`Random(1113)` 固定）。
+3. **灌木**：原本是光滑的綠色塊、每叢一樣 → 每叢 6～9 團小葉團（雲剪的杜鵑），高低大小錯開，外面再插 3n+6 張葉片卡；每叢用自己的亂數。範圍和原本一樣，不擋路。
+
+- 面數 64,547 → 69,973。CC0 三項照舊過（shop_cc0 PASS）；`--coplanar` 前院牆疊面 0 m²。
+- 回歸：place_gate ALL PASS；teahouse_tap、teahouse_yard_cam、wz_* 共 20 支 ALL PASS。
+- 對照圖 `cmp_yard_p2.jpg`（第九批交件前 v1 → 這一版，同四個鏡頭）。
+- **兩份 patch，挑一份套**：
+  - 還沒套第九批：`b9_yard_p2_full.patch`＝第九批＋這三點，底 **048ebcd24f**（`git apply --check` 乾淨）。
+  - 已經套了第九批：`yard_p2_incr.patch`＝只有前院 GLB、腳本，和兩個重產的檔（狀態表、coplanar）；這兩個檔有衝突就直接重跑 `node tests/place_gate_unit.js --coplanar --write` 和 `--write`。

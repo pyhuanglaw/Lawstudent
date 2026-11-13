@@ -9820,6 +9820,27 @@
    "tests": "shop_cc0 ALL PASS；place_gate ALL PASS（--coplanar 不變多）；shaola_wire、gg_new_lm、shaola_order_1112、noodle_seat_ap、yejian_buy_1112、shop_viewpanes_1105 ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層四鏡頭；BB 判美術",
    "next": "LAWWW 套 shaola_v8_full.patch（底 5057ca2f14）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "一盞前院 BB 第九批三個 P2（耙紋連續同心圓＋平行紋、踏石形狀不一、灌木改小葉團）；第九批改底 048ebcd24f",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/b9_yard_p2_full.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/yard_p2_incr.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/cmp_yard_p2.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/README.md"
+   ],
+   "base": "048ebcd24f",
+   "at": "2026-11-13T21:42Z",
+   "tests": "shop_cc0 ALL PASS；place_gate ALL PASS；coplanar 前院 0 m²；teahouse_tap、teahouse_yard_cam、wz_* 20 支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層四鏡頭；BB 判美術",
+   "next": "LAWWW 套 b9_yard_p2_full.patch（沒套第九批）或 yard_p2_incr.patch（已套）"
   }
  ]
 }
