@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "CANON458_AN_BEAT8_door_r2",
+  "sha": "76f8b639f0641f93a99736d06a9d0d0675966343",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_invite_phone_probe.py",
+  "env": "TAG=c458_anbeat8;ZONE=gongguan;WHO=heroine_01;DAY=2027-10-20;HOUR=17.5;REL=65;FLAGS={\"BEATS\":{\"heroine_01\":{\"k\":8,\"last\":null,\"ans\":{},\"missed\":[]}}};PICKS=吃飯>燒臘>今天;ROUTE=exit:noodle;DOOR_DIAG=1;SHA=76f8b639f0641f93a99736d06a9d0d0675966343",
+  "machine": "MSI",
+  "start": "2026-11-14T04:33:18",
+  "end": "2026-11-14T04:38:47",
+  "seconds": 329,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 34,
+    "mem": 49,
+    "used_gb": 16.2,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
