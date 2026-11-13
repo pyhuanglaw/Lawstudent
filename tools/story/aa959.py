@@ -22,20 +22,12 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TABLE = 'docs/handoff/AA_959_overlay.json'
-SRC_SHA = 'd5d9de0df7'   # 企劃線 claude/magical-albattani-bk7b4n（七位女主角這一輪全部：AA_951～965，350 列；取代 833e97635d、dc29919cc8、4440ffa368）
+SRC_SHA = '185068f716'   # 企劃線 claude/magical-albattani-bk7b4n（AA_951～966：七位女主角＋配角，372 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7）
 
-# 說話的人對不上表上的 speaker（或不是某一個人的句子）：不換，報 AA。鍵＝(檔名, old)。
-SKIP = {
-    ('msg_replies.js', '今天吃哪一種？'): '以安訊息串的玩家選項（opts.t），是祐廷說的，不是以安',
-    ('msg_replies.js', '今天很開心。'): '可昕訊息串的玩家選項（opts.t），是祐廷說的，不是可昕',
-    ('free_trips.js', '今天雲比較多，太陽還沒落到海裡就看不到了。'): '自由出行 D14 的旁白，不是以安說的',
-    ('free_trips.js', '今天風很大，橋上的燈一直被吹得晃來晃去。'): '自由出行 D14 的旁白，不是以安說的',
-    ('free_trips.js', '今天的海，黃色那一半比上次少一點。'): '自由出行 D19 的旁白，不是以安說的',
-    ('free_trips.js', '今天放的是一部修復過的老片，有幾段畫面還是有刮痕。廳不大，坐了一半。'): '自由出行 D05 的旁白，不是芷若說的',
-    ('invites.js', '今天讀得比我想的多。'): 'INVITE_DATA.libStudy.bye 是每位女主角共用的道別句，不是可昕一個人的',
-    ('vac_activities.js', '……我只聽懂 adjourned。'): 'C18 新加坡參訪法院，SY()＝團長姚思穎（npc_siying）說的，不是語彤',
-    ('vac_activities.js', '……其實是因為沒人要當。'): 'C18 行前說明，SY()＝團長姚思穎（npc_siying）說的，不是語彤',
-}
+# 說話的人對不上表上的 speaker（或不是某一個人的句子）：不換，報 AA。鍵＝(檔名, old)；表在 docs/handoff/AA_959_skip.json（tests/aa959_map.js 也讀）
+SKIPFILE = 'docs/handoff/AA_959_skip.json'
+with open(os.path.join(ROOT, SKIPFILE), encoding='utf8') as _f:
+    SKIP = {(x['file'], x['old']): x['why'] for x in json.load(_f)['rows']}
 
 Q = '\'"'
 _rows = None
@@ -129,7 +121,7 @@ def missing(fnames):
     out = []
     for r in rows():
         own = [f for f in r['files'] if f in bs]
-        if not own or all((f, r['old']) in SKIP for f in own): continue
+        if not own or len(own) < len(r['files']) or all((f, r['old']) in SKIP for f in own): continue   # 標了好幾個檔、這次只給了其中幾個＝這裡不核（--check 會核）
         if not HITS.get(r['_i']): out.append(r)
     return out
 
@@ -141,7 +133,7 @@ def source_tag():
 # 沒有匯入工具（或匯入工具早就不再整檔重產）的手寫檔：直接照表換
 HAND = ['events.js', 'r2y3a_events.js', 'r2y3b_events.js', 'r2y4a_events.js', 'r2y4b_events.js', 'group_events.js',
         'termend_opts.js', 'termend_lines.js', 'vac_activities.js', 'invites.js', 'multirel_lines.js', 'movie_plots.js',
-        'heroine_arcs.js', 'free_trips.js']
+        'heroine_arcs.js', 'free_trips.js', 'bbpack_events.js']
 
 
 def gpath(f):

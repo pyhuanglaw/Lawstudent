@@ -339,7 +339,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {scene:'河濱',bg:'riverside'},
       nar('（河濱。兩個烤肉架，一支夾子。）'),
       IF(G=>knows('yu',G)&&done(G,'ev_y2_midautumn'),{speaker:'yu',text:'又來了。'}),
-      IF(G=>knows('yu',G)&&!done(G,'ev_y2_midautumn'),{speaker:'yu',text:'……兩個架子，一支夾子？'}),
+      IF(G=>knows('yu',G)&&!done(G,'ev_y2_midautumn'),{speaker:'yu',text:'兩個架子，一支夾子？'}),
       IF(here('heroine_03'),{speaker:'heroine_03',text:'秀琴姨今年醃了兩倍。她說你們最後一年了。'}),
       IF(here(BH),{speaker:BH,text:'夾子排班。一人十分鐘。'}),
       IF(here('heroine_01'),{speaker:'heroine_01',text:'……我贊成。'}),   /* 大四只說「……我贊成。」（裁定第 4 點）*/

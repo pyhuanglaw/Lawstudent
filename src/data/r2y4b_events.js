@@ -82,7 +82,7 @@ const R2Y4B_EVENTS=(function(){
     dialogue:[ {speaker:'classmate_mingxuan',expression:'laugh',text:'（衝進來，手機舉得很高）我存夠了！'},
       {speaker:'classmate_mingxuan',text:'德國，一年。九月走。……錢是我自己存的。'},
       {speaker:'classmate_mingxuan',text:'（喘氣）家教三年、暑假打工兩次。都沒跟你們說。'},   /* 裁定 #39 */
-      {if:kn('zhe'),speaker:'zhe',text:'……你什麼時候偷念的。我也要。'},   /* DIALOGUE-DEPTH-1031（AA_560 2-7 C6，D116 看到別人厲害＝看到可能性）換字 */
+      {if:kn('zhe'),speaker:'zhe',text:'你什麼時候偷念的。我也要。'},   /* DIALOGUE-DEPTH-1031（AA_560 2-7 C6，D116 看到別人厲害＝看到可能性）換字 */
       {if:kn('zhe'),speaker:'classmate_mingxuan',text:'我知道。'},
       {if:SAW,speaker:'classmate_mingxuan',text:'你有看到一點點。'},   /* 他坐下來以後小聲說（AA 審稿 #10：不算口頭禪）*/
       {set:{MX_SAVED:'there'}} ] },

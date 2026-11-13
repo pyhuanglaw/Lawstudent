@@ -83,7 +83,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'手機筆記',text:'誰：社團（她是負責人）'},{speaker:'手機筆記',text:'向誰：經手的學弟，和社團大家'},{speaker:'手機筆記',text:'依據什麼：社團的規則、收支表和單據'},{speaker:'手機筆記',text:'請求什麼：'},
       {choice:C6_OPTS},
       {label:'p'},{speaker:'yu',text:'……他是學弟耶。我先不要這樣。'},{goto:'q'},
-      {label:'o'},{speaker:'yu',text:'……好。這樣比較不像在抓人。'},{goto:'q'},
+      {label:'o'},{speaker:'yu',text:'好。這樣比較不像在抓人。'},{goto:'q'},
       {label:'r'},{speaker:'yu',expression:'laugh',text:'對！我們社團有規則！……我去找出來。'},
       {label:'q'},
       {speaker:'player',text:'妳真正想要的是什麼？'},
@@ -183,7 +183,7 @@ const R2Y3B_EVENTS=(function(){
       {if:kn('yu','heroine_01'),speaker:'yu',text:'（把吐司排好）欸，以安在日本有沒有吃早餐。'},
       {if:kn('classmate_bohan','heroine_01'),speaker:'classmate_bohan',text:'她傳了照片。日本的吐司比較厚。'},
       {if:kn('yu','heroine_01'),speaker:null,text:'（Alison 把手機拿給大家看：一片很厚的吐司，旁邊攤著一本手帳。）'},
-      {if:kn('classmate_xinci'),speaker:'classmate_xinci',text:'……我們的比較薄。可是我們有四種果醬。'},
+      {if:kn('classmate_xinci'),speaker:'classmate_xinci',text:'我們的比較薄。可是我們有四種果醬。'},
       {choice:[{text:'「我來烤。」',goto:'a'},{text:'（拍一張傳給以安）',if:fam('heroine_01','FRIEND'),goto:'b'},{text:'「期中週過完再來一次？」',goto:'c'}]},
       {label:'a'},{speaker:null,text:'（第一片烤焦了。阿哲：「焦的給我。」）'},{goto:'end'},
       {label:'b'},{speaker:null,text:'（十分鐘後，以安回了一張照片：同一片厚吐司，咬了一口。）'},{phone:'heroine_01',text:'這邊也是晚上。'},{goto:'end'},
@@ -296,7 +296,7 @@ const R2Y3B_EVENTS=(function(){
   /* ---------- 2-Y3-42 慈 6「暑期實習」（AA_547 2-4 新寫，D116：原本「第一名」、改輔系、隔天「排名出來了。我第一。」都拿掉）：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
   const XON={custom:()=>typeof XCROM!=='undefined'&&!!XCROM.ON};   /* 芯慈戀愛線開關（src/xcrom3d.js）*/
   const XC_LINES=[ {speaker:'classmate_xinci',text:'我申請了國際所的暑期實習。台灣分所。'},
-    {speaker:'classmate_xinci',expression:'smile',text:'……錄取了。金融那一組。'},
+    {speaker:'classmate_xinci',expression:'smile',text:'錄取了。金融那一組。'},
     {choice:[{text:'「恭喜！」',goto:'a'},{text:'「為什麼是金融那一組？」',goto:'b'},{text:'「妳爸媽怎麼說？」',goto:'c'}]},
     {label:'a'},{speaker:'classmate_xinci',expression:'smile',text:'謝謝。我想做的就是這個。'},{goto:'end'},
     {label:'b'},{speaker:'classmate_xinci',text:'因為那裡的合約，數字跟條文一樣多。'},{goto:'end'},
