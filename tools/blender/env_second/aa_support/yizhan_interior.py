@@ -254,7 +254,7 @@ sh.tally('mizuya')
 
 # ---------------------------------------------------------------- 吊燈、植物、角落的甕
 for (x, z_) in ((-2.3, 1.7), (-0.9, 1.7), (1.4, 1.7)): lantern(x, z_, 1.92)
-C.ph_put(sh, 'antique_ceramic_vase_01', -1.8, 0.0, 4.55, yaw=0.7, height=0.54, decimate=0.15)   # 緣側入口邊的大甕（SHOP-CC0：Poly Haven 掃描的陶甕；v1d 是旋轉體）
+C.ph_put(sh, 'antique_ceramic_vase_01', -1.8, 0.0, 4.55, yaw=0.7, height=0.54, decimate=0.15, recolor=('#3a2a1e', '#a88a64'), tag='_earth')   # 青花改成土色（保留釉面的明暗紋理）：日式茶屋   # 緣側入口邊的大甕（SHOP-CC0：Poly Haven 掃描的陶甕；v1d 是旋轉體）
 flowers(-1.8, 4.55, 0.42, col='#f4f0e6')
 sh.plant(3.85, 4.55, h=1.0, r=0.3, pot_col='#6a5a44', y0=0.0)
 sh.tally('decor')

@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1159.8,
+ "bake_seconds": 934.2,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -45,5 +45,5 @@
   "yzn_tatami"
  ],
  "src": "assets/models/env/second_ai/aa_support/yizhan.glb",
- "src_sha256": "a4d1bc30917e7463a6bc1b33ed6731be4e3eb67ad3210927c83a0a890f86a529"
+ "src_sha256": "c66a4e1e9f244975a3bb5231eb117732b9da3de014f0329d690c655861d67870"
 }
