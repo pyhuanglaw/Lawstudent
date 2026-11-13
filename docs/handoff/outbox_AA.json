@@ -7542,6 +7542,66 @@
    "noDirectIntegrate": false,
    "next": "全 src 補掃 10 列；等 BB",
    "unfinished": "BB 第二眼"
+  },
+  {
+   "task": "CHAR-OLD-PURGE-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "da9dfef8ee",
+   "files": [
+    "docs/story_planning/AA_927_人物舊設定_補掃.md"
+   ],
+   "state": "已整合",
+   "at": "2026-11-13T09:3x",
+   "receiver": "LAWWW",
+   "ack": "BB_451／LAWWW ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 已接 c0b6927f2c",
+   "unfinished": ""
+  },
+  {
+   "task": "BB198-VACB22",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0bdf0d85e8",
+   "files": [
+    "docs/story_planning/AA_928_假期空白_大一寒假_阿凱明軒Kevin.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T09:3x",
+   "receiver": "LAWWW",
+   "ack": "SENT/DELIVERED",
+   "noDirectIntegrate": false,
+   "next": "等 BB",
+   "unfinished": "BB 第二眼"
+  },
+  {
+   "task": "BB198-VACB22",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "77f76bdf50",
+   "files": [
+    "docs/story_planning/AA_929_假期空白_第二批_考試補習交流.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T09:3x",
+   "receiver": "LAWWW",
+   "ack": "SENT/DELIVERED",
+   "noDirectIntegrate": false,
+   "next": "等 BB",
+   "unfinished": "BB 第二眼"
+  },
+  {
+   "task": "BB198-VACB22",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d6db8230af",
+   "files": [
+    "docs/story_planning/AA_930_假期空白_第三批_可昕大三暑假.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T09:3x",
+   "receiver": "LAWWW",
+   "ack": "SENT/DELIVERED",
+   "noDirectIntegrate": false,
+   "next": "等 BB",
+   "unfinished": "BB 第二眼"
   }
  ],
  "items": [

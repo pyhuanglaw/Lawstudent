@@ -3,6 +3,7 @@
 - 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 0c9daff873｜2026-11-13（使用者「繼續」，交班後同一帳號同一工作階段回班；duty register 重新登記）
 - 上一班：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit 0c9daff873｜正常交班（2026-11-12 22:09Z）。交班後到的：BB 22:07 補記 AA_923 第 4 節照用（BB_449），所以 AA_919～923 全部 BB 照用。
 - **11-13 09:1x 進度（回班後）**：AA_924（42cd6a1304，BB §12 ⑥：阿忠鮮果週一公休／打烊、冰菓室「五月見」舊設定換週二公休／打烊）；AA_925（ef4ac434b2，vac_activities 可昕「我算過了／我排了一下」10 句）；AA_926（2416832980，全 src 補掃可昕排表／記帳 10 列）——三份都等 BB 第二眼。開發分支 2d65882387 舊字字串 45（第五批還在匯）。下一步：BB 回了就轉 LAWWW；DLG-FULL-REVIEW-1110 下一類 7-6 破折號（3，多半照留）→ 其他女主角有沒有同樣「被舊設定寫成某種個性」的句子。
+- **11-13 09:3x 進度**：AA_924～927 BB 照用、LAWWW 已接 924、927。**BB198-VACB22（寒暑假 D99 ①，LAWWW 定第一順位、BB 同意 AA 寫）**：AA_928（大一寒假：阿凱 203／電腦行／過年／回 203、明軒寒訓、Kevin 日本照片）、AA_929（明軒比賽邀約、Kevin 補習班＋考前提醒＋開學、托福／多益考場偶遇、首爾交流、雅思一句、志願表旁白）、AA_930（可昕大三暑假照同系、不排表重寫）——三份等 BB。下一步：BB_198 第 2 節過年訊息（msg_<人>_lny）、第 5 節回家訊息，查哪些還沒字再補。
 - 上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit a9ce231b2（2026-11-11 21:05 UTC）｜**未交班**（使用者 11-12：「上一個帳號來不及交班使用量就到了上限，你現在接班，我也會通知其他AI」→ register --user-ok，記 no-handoff）
 - 接班對帳（RULE_SOURCE origin/claude/confident-ritchie-8rwh7t，seq 126，HV-33）：asks 0（203 筆）；roles 1＝4 項都是任務 ID 沒寫日期尾碼或是要求檔 id（DLG-FULL-REVIEW＝DLG-FULL-REVIEW-1110、MOVIE-TALK＝MOVIE-TALK-1110、UA-AA-1111-06／07 是使用者要求檔的 id），不是漏登；userwork：這一班還沒動 6 項，下一步寫在下面。
 - 暫停中：DIALOGUE-DEPTH-1031 語彤共創（誰決定：使用者 11-12 選「再等等」；為什麼：還不要共創；負責人：AA；恢復條件：使用者說要共創；下次檢查日：2026-11-19）。
