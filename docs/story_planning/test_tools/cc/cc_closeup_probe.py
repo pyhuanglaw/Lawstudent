@@ -19,7 +19,9 @@ SHA = os.environ.get('SHA') or ''
 ZONE = os.environ.get('ZONE') or ''
 TAG = os.environ.get('TAG') or ZONE
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '14').split(',') if h]
-DAY = '2025-10-22'
+DAY = os.environ.get('DAY') or '2025-10-22'
+VIEW = [int(v) for v in (os.environ.get('VIEW') or '').split('x') if v]   # BB-C 23:23 BG-3DSHOT：16:9（例 1600x900）
+PLAIN = (os.environ.get('PLAIN_NAMES') or '') == '1'   # 另存一份「<相機名>.png」（給使用者的參考圖要固定檔名）
 R = L.Run('closeup', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 
@@ -53,6 +55,7 @@ async def main():
     rows = []
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        if len(VIEW) == 2: await pg.set_viewport_size({'width': VIEW[0], 'height': VIEW[1]})
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg, 600), ''): await b.close(); sys.exit(1)
         if not R.check('FAIL_SETUP 檢查：CAMS 解析得出來（%d 組）' % len(cams), bool(cams) and bool(ZONE), os.environ.get('CAMS') or ''): await b.close(); sys.exit(1)
@@ -66,6 +69,7 @@ async def main():
             for c in cams:
                 u = await pg.evaluate(SNAP, c); fn = 'close_%s_%s_%s.png' % (TAG, hh, c['name'])
                 open(os.path.join(OUT, fn), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
+                if PLAIN: open(os.path.join(OUT, c['name'] + '.png'), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
                 a = await pg.evaluate(ANALYZE_JS, u); rows.append({'hour': h, 'cam': c, 'img': a, 'file': fn})
                 R.note('%s 近照「%s」相機 %s → %s（fov %s）：%s' % (tag, c['name'], c['from'], c['at'], c['fov'], J(a)))
             u = await pg.evaluate(GAMECAM); open(os.path.join(OUT, 'close_%s_%s_game.png' % (TAG, hh)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))

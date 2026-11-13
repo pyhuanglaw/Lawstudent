@@ -55,6 +55,18 @@ CENTER = "(pid=>{ const b=document.querySelector('#dateLayer .dlHot[data-pid=\"'
 STATE = "(()=>({zone:GAME.G.zone, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), busy:!!(GAME.E.player&&GAME.E.player.busy), depth:(GAME.D&&GAME.D.busyDepth)|0, layer:!!document.getElementById('dateLayer'), adv:!!(document.getElementById('adv')&&document.getElementById('adv').classList.contains('on')), outs:(OUT.rec(GAME.G)||[]).filter(q=>q&&/^date_/.test(q.id||'')).map(q=>({id:q.id,state:q.state,day:CALENDAR.dateOf(q.day).key}))}))()"
 
 
+MENU_WHY = r"""(who=>{ const o={}; const T=(k,f)=>{ try{ o[k]=f(); }catch(e){ o[k]='ERR '+String(e.message||e).slice(0,80); } };
+  T('url', ()=>location.search); T('nodatelayer', ()=>typeof DATELAYER!=='undefined'&&DATELAYER.disabled?DATELAYER.disabled():null);
+  T('advActive', ()=>typeof ADV!=='undefined'?!!ADV.active:null); T('advRoot', ()=>typeof ADV!=='undefined'?!!ADV.root:null);
+  T('advBg', ()=>typeof ADV!=='undefined'?(ADV.bgKey||ADV.bg||ADV.curBg||(ADV.root&&ADV.root.dataset&&ADV.root.dataset.bg)||null):null);
+  T('layerEntryForBg', ()=>{ const k=typeof ADV!=='undefined'?(ADV.bgKey||ADV.bg||ADV.curBg):null; return k&&typeof DATELAYER!=='undefined'&&DATELAYER.entry?!!DATELAYER.entry(k):null; });
+  T('stage', ()=>SOCIAL.stage(who)); T('stageNum', ()=>DATE.stageNum(who)); T('dating', ()=>!!(GAME.G.flags||{})['dating_'+who]);
+  T('zone', ()=>GAME.G.zone); T('time', ()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2));
+  T('viewport', ()=>innerWidth+'x'+innerHeight+(innerWidth<innerHeight?' 直向':' 橫向'));
+  T('outing', ()=>{ const q=(GAME.G.outings||GAME.G.outs||[]); return Array.isArray(q)?q.slice(-1):null; });
+  return o; })"""
+
+
 async def shot(pg, name):
     await pg.screenshot(path=os.path.join(OUT, name))
 
@@ -82,10 +94,15 @@ async def one(pg, cdp, case):
     loc, _, dep = case.partition('@'); dep = float(dep) if dep else 15.0   # BB-C 11-14：D05@20＝晚一點出發，讓時間不夠的點真的變暗
     tag = '[%s%s]' % (case, ' nodatelayer' if NODL else ''); fn = case.replace('@', '_')
     await pg.set_viewport_size(LAND)
-    d, seed = await SP.fresh(pg, cdp, tag, ['Y1S2', 5, 6], 14.5, 'dorm', {WHO: 'CLOSE'})
+    rel = 'DATING' if loc in ('D28',) else 'CLOSE'   # 11-14 DATE_LAYER_76f8：D28（兩天一夜）要第 6 階或交往中——用交往中
+    d, seed = await SP.fresh(pg, cdp, tag, ['Y1S2', 5, 6], 14.5, 'dorm', {WHO: rel})
     await pg.evaluate("(()=>{ GAME.G.money=Math.max(GAME.G.money|0,5000); })()")
     bk = await P.prep(pg, cdp, R, BOOK_JS, {'who': WHO, 'loc': loc, 'dep': dep}, True, '%s DATE.book %s %s %.2f' % (tag, WHO, loc, dep)); await P.events_on(pg)
     if not R.check('FAIL_SETUP 檢查：%s 約會排上了' % tag, bk['ok'] and bool(bk['q']), J(bk)): return {'loc': loc, 'skip': 'book'}
+    qh = float((bk.get('q') or {}).get('h') or dep)
+    if qh - 0.25 > 14.5:   # 11-14 DATE_LAYER_76f8 D05@20：20:20 出發，讀檔在 14:30，300 秒只走到 16:39——【捷徑】撥到出發前 10 分鐘
+        await pg.evaluate("(h=>{ GAME.G.hour=h; })", qh - 0.17); await pg.wait_for_timeout(1200)
+        R.setup('%s 【捷徑】時間撥到出發（%.2f）前 10 分鐘' % (tag, qh))
     # 防誤觸：一邊點掉對話，一邊在頁面裡等圖層出現，出現當下真的觸控點第一個能點的標記
     mode = None; guard = None; t0 = time.time()
     while time.time() - t0 < 300 and mode is None:
@@ -119,6 +136,11 @@ async def one(pg, cdp, case):
         R.check('%s 照設計是文字選單（%s）：出的是文字選單、沒有 #dateLayer' % (tag, 'nodatelayer' if NODL else '%s 照設計走文字選單' % loc), mode == 'menu', mode)
         o = [x['t'] for x in (await P.ts(pg))['ch']]; R.note('%s 文字選單：%s' % (tag, J(o))); res['menu'] = o
         await shot(pg, 'dl_%s_menu.png' % fn); return res
+    if mode == 'menu':   # 11-14 DATE_LAYER_76f8 D05：出的是文字選單——把選單內容、畫面記下來再判
+        o = [x['t'] for x in (await P.ts(pg))['ch']]
+        why = await pg.evaluate(MENU_WHY, WHO)   # BB-C 23:20：選項、DATE stage／stageNum、地點時刻、會退回文字選單的條件（?nodatelayer、ADV 沒開、沒圖、直向）
+        R.note('%s 出的是文字選單：選項 %s；狀態 %s；條件 %s' % (tag, J(o), J(await pg.evaluate(STATE)), J(why))); res['menu'] = o; res['menu_why'] = why
+        await shot(pg, 'dl_%s_menu_unexpected.png' % fn)
     if not R.check('%s 出的是圖層（#dateLayer），不是文字選單' % tag, mode == 'layer', mode): return res
     await pg.wait_for_timeout(500)
     # ② 橫向
@@ -173,7 +195,7 @@ async def one(pg, cdp, case):
     s0 = await pg.evaluate(STATE)
     await pg.evaluate("(()=>{ try{ GAME.autosave(true); return true; }catch(e){ return String(e); } })()"); await pg.wait_for_timeout(800)
     R.note('%s ⑤ 存檔前 %s' % (tag, J(s0)))
-    await pg.reload(); await L.wait_loaded(pg, 600); await pg.wait_for_timeout(1500)
+    await pg.reload(); await L.wait_loaded(pg, 600); await pg.wait_for_timeout(1500); await P.init(pg)   # 11-14 DATE_LAYER_76f8 D01／D12：reload 以後 __BBF 不見了（bbplay 的 helper 要重裝）
     ok = await L.tap(pg, cdp, '#btnContinue'); await pg.wait_for_timeout(6000)
     s1 = await pg.evaluate(STATE); await shot(pg, 'dl_%s_reload.png' % fn)
     after2 = await SP.play(pg, cdp, '%s_reload' % fn, 0, prefer=(), start_s=8, max_s=90)
