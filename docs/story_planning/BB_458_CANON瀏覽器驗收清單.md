@@ -121,3 +121,7 @@
     - P3 問 LAWWW：約會中初見事件要不要讓位。
   - **INV_LAWLIB_r4：** #12 已 PASS（答應那句），這支多跑的坐下項不算。
   - **REL76_libtour：探針漏抓。** 七站只輪詢到 [1,3,6]，N19 也這樣 FAIL 過、V18 PASS；r2 改讀對話紀錄。
+  - **05:1x save 驗法定案**（LAWWW-C 確認 game3d.js:551 loadFrom：econ 存檔不讀、跳「這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。」）：
+    - 法律系舊存檔：v7／v9.5／v9.9.1 r2＋REL76_save_live 驗照讀。
+    - 舊序章存檔：REL76_save_econ（取代 save_v7_ctl）驗三項——跳那一句、fatiao3d_auto 沒被蓋掉或刪掉、欄位 econ 一樣跳。
+    - BOOKSTORE：可昕交往中「看電影、逛書店」整類消失＝kxPlaceOk 舊規則，LAWWW 開任務交 AA，不是 76f8 回退；CANON458_BOOKSTORE_r4 用沒交往的存檔驗。
