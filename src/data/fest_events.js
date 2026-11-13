@@ -6,7 +6,7 @@
    - 以安、語彤的 2/14 是 AA_414 那幾場（src/an_yt_hol3d.js；第 6 階也演，第 3 節的換字在那裡）；語彤的中秋也是 AA_414。
    - 學姊的禮物照 BB_122 3-7（企劃線 5788b1cb）單身以後那一欄，花那一句照 AA_416 第 7 節改；芷若 2029 白色情人節的明信片照 BB_124 第 1 節（企劃線 96847346）。
    - CG（第 1-9 節）：CG_REGISTRY 有登錄才放。芷若聖誕 cg_one_cup_heroine02（第 6 階以上）、沛珊白色情人節 cg_last_page_peishan（醉月湖那一版；台南運河那一版不放，BB-B 18:09）、
-     子晴跨年 cg_savefile_heroine04（交往中）、可昕七夕改成高雄的山上＝新的一張 cg_our_car_kh_kexin（還沒畫；舊的政大後山 cg_our_car_kexin 不用，BB-B 18:09）。
+     子晴跨年 cg_savefile_heroine04（交往中）、可昕七夕改成高雄的山上＝新的一張 cg_our_car_kh_kexin（還沒畫；舊的外校後山 cg_our_car_kexin 不用，BB-B 18:09）。
    - 芯慈（只有交往中）：AA_537b 第 5 節的五個節日（XINCI-EPI-FEST-1031；在第 9 節可昕後面，tests/xinci_fest_unit.js）。
    測試：node tests/aa416_fest_unit.js */
 'use strict';
@@ -216,7 +216,7 @@ const FEST_DATA=(function(){
     QIXI:{2026:'2026-08-19',2027:'2027-08-08',2028:'2028-08-26',2029:'2029-08-16'},
     BDAY:{[AN]:'09-15',[ZR]:'09-28',[YT]:'07-09',[ZQ]:'02-10',[SIS]:'06-02',[PS]:'03-15',[KX]:'04-24',[XC]:'03-28'},   /* 芯慈 3/28（msg2_pool.js、AA_537b 第 5 節）*/
     /* 祐廷的生日（'MM-DD'）：人物設定、留給使用者（AA_384 第 4 項：「祐廷的生日是人物設定，留給使用者，AA 不定」）——還沒定＝null，芯慈 00:00 那一則（dm.myBday）先不發 */
-    PLAYER_BDAY:'11-26',   /* AA_639（企劃線 afed9e592；使用者 11-01 選「交給 AA 挑」）：學期中、不撞任何人的生日或節日；經濟系那年不發（fest3d 照 stage）*/
+    PLAYER_BDAY:'11-26',   /* AA_639（企劃線 afed9e592；使用者 11-01 選「交給 AA 挑」）：學期中、不撞任何人的生日或節日；舊序章那年不發（fest3d 照 stage）*/
     /* 第 6 階以上 1-3：三個情人節＝第 6 階或交往中；生日、聖誕（子晴的跨年同）＝第 5 階以上 */
     MIN:{vday:6,white:6,qixi:6,bday:5,xmas:5,nye:5},
     /* 好感 1-7（不受每天上限）*/

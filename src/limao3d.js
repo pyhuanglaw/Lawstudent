@@ -3,7 +3,7 @@
    場景（LAWWW2，不改它的檔）：街上 src/tingzhou3d.js（zone.tzLimao＝{open, masterAway, table, door}、zone.tzLimaoOff／tzLimaoAway；配置 TINGZHOU_LAYOUT.limao）、
      室內 src/tz_shops3d.js（區域 tz_limao；書房 zone.setStudy、TZS3.studyOpen；配置 TZ_SHOPS_LAYOUT.limao）。這支只包它們的 build（和 night_market3d.js 同一個做法）。
    做的事：
-   1 桌前的互動點（配置 limao.table.at；按鈕 S.LABEL）：店開著、上師在、祐廷是法律系的時候是「算命桌」（聊天）；收攤、上師不在＝按鈕變「看算命桌」、念稿 closed 的一句旁白（AA 93f731790）；經濟系那一年整個藏起來。
+   1 桌前的互動點（配置 limao.table.at；按鈕 S.LABEL）：店開著、上師在、祐廷是法律系的時候是「算命桌」（聊天）；收攤、上師不在＝按鈕變「看算命桌」、念稿 closed 的一句旁白（AA 93f731790）；舊序章那一年整個藏起來。
      第一次＝first（記 LM_MET＝那一天）；之後＝選單（稿的四類＋離開）→ 那一類抽一組演完就結束；每聊一次時間過 15 分鐘（S.HRS）。一天幾次稿沒寫＝不限。全部免費，不加好感、不動成績。
      抽法（S.pick）：條件成立的組裡，先挑還沒講過的；全部講過再輪（不連續抽到剛講過的那一組）。講過哪幾組只記在記憶體，不進存檔。
      serious 的兩組（剛分手 lv4、落榜 lf5）：條件成立、還沒演過＝不管選哪一類先演這一組一次（記在 LM_SER），之後不再出、也不進一般的抽組。
@@ -42,7 +42,7 @@ const LM=(function(){
 
   /* ---------- 狀態 ---------- */
   S.hour=G=>(((+G.hour||0)%24)+24)%24;
-  /* 祐廷現在的學期（法律系）：{y,s,id}；經濟系那一年、不知道＝null。寒暑假算剛過完的那個學期（STORY.termAt） */
+  /* 祐廷現在的學期（法律系）：{y,s,id}；舊序章那一年、不知道＝null。寒暑假算剛過完的那個學期（STORY.termAt） */
   S.term=function(G){ if(!G) return null; let id=null;
     try{ if(typeof STORY!=='undefined'&&STORY.termAt) id=STORY.termAt(G.day); else { const t=CAL()&&CAL().termOf?CAL().termOf(G.day):null; id=t?t.id:null; } }catch(e){ id=null; }
     const m=/^Y([1-5])S([12])/.exec(id||''); return m?{y:+m[1],s:+m[2],id}:null; };
@@ -101,7 +101,7 @@ const LM=(function(){
     if(typeof PLACES!=='undefined'&&PLACES.isOpen&&PLACES.hours&&PLACES.hours.tz_limao) return PLACES.isOpen('tz_limao',h,G.day);   /* AA_831 第二版：19:00～23:30、每天（places.js；颱風假也在裡面）；和街上的模型（tingzhou3d.js S.limaoOpen）同一份 */
     return h>=L.from&&h<L.to&&!S.typhoon(G); };
   S.sync=function(zone,G){ if(zone&&G) zone.tzLimaoOff=S.typhoon(G); };
-  /* 現在能不能在桌前找他：店開著、他在、祐廷是法律系學生（稿的句子都是法律系的；經濟系那一年沒有稿）*/
+  /* 現在能不能在桌前找他：店開著、他在、祐廷是法律系學生（稿的句子都是法律系的；舊序章那一年沒有稿）*/
   S.canTalk=function(G,zone){ if(!D()||!G||!S.term(G)) return false; if(zone&&(zone.tzLimaoOff||zone.tzLimaoAway)) return false; return S.openAt(G); };
   S.masterSeat=()=>{ const L=LAY(); return L&&L.table&&L.table.seatMaster?Object.assign({},L.table.seatMaster):null; };
 
@@ -127,7 +127,7 @@ const LM=(function(){
   /* ---------- 算命桌 ---------- */
   S.table=async function(GM,zone){ const G=GM.G, d=D(); if(!d||!G) return null; S.sync(zone,G);
     if(zone&&zone.applyTimeOutdoor){ try{ zone.applyTimeOutdoor(S.hour(G),null); }catch(e){ console.warn('LM.table',e); } }   /* 模型的開收和這裡看同一個鐘點 */
-    if(!S.canTalk(G,zone)){ const c=d.closed, lm=zone&&zone.tzLimao;   /* 收攤、店開著他不在：稿 closed 的一句旁白（AA 93f731790）；經濟系那一年不出（互動點藏著）*/
+    if(!S.canTalk(G,zone)){ const c=d.closed, lm=zone&&zone.tzLimao;   /* 收攤、店開著他不在：稿 closed 的一句旁白（AA 93f731790）；舊序章那一年不出（互動點藏著）*/
       if(c&&S.term(G)) await S.narr(GM,[lm&&lm.open&&zone.tzLimaoAway?c.away:c.shut]); return 'closed'; }
     const F=F_(G); S.begin(GM);
     try{

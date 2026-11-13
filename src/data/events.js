@@ -777,9 +777,9 @@ const STORY_EVENTS=[
       {label:'search'},{speaker:'classmate_peishan',expression:'smile',text:'好。那我們兩個都還在找。'},
       {label:'end'} ],
     consequences:{contact:'classmate_peishan',stamp:['welcomeDay']} },
-  /* 可昕 K1 導遊：第一次開車去政大（BB_95 9-1）：出遊事件（trigger 'outing'：src/outings3d.js 在約好的時間問「出發」，出發才演）；政大的 2D 背景還沒有圖（深色底＋地點字幕）。
+  /* 可昕 K1 導遊：第一次開車去外校（BB_95 9-1）：出遊事件（trigger 'outing'：src/outings3d.js 在約好的時間問「出發」，出發才演）；外校的 2D 背景還沒有圖（深色底＋地點字幕）。
      影子那一題三個選項都不記憶（BB 2026-10-14）；小吃街記 K1_ORDER（hers／mine／let_her）；記憶 OUR_SHOP_FIRST；NCCU_VISITED。只一次。
-     v1 不放經濟系大一的回聲（「上次是假裝的導遊。這次是真的。」）*/
+     v1 不放舊序章那一年的回聲（「上次是假裝的導遊。這次是真的。」）*/
   /* 中秋烤肉（交付清單 A13：AA_71 2-2、AA_109 7-3）＋可昕 K3 第一次見桌遊團（BB_95 9-4）：大一上第 5 週週六 15:00 河濱（出遊；阿哲在桌遊團群組、沒有群組的私訊揪，story3d.js）。
      只有認識的人在場（交付清單第 0 節第 1 點）：AA 的「小事」每一句看那個人認識了沒；語彤不在就沒有阿姨醃的肉那一段。可昕：前一天她問，回「來我們這邊」才來（KX_BBQ_COME）。
      介紹她三選一（BB 2026-10-14）；之後阿哲和她比冷笑話，玩家選誰贏。
@@ -946,7 +946,7 @@ const STORY_EVENTS=[
   /* ===== BB_105 大一女舍門口（企劃線 BB_105@68a8479e，AA-C 2026-10-18 審過＝可以實作；白名單 LAWWW-C 10-21 已登記；V1-B105-D2）：D4、D4b（這裡）；D7 宿舍的人們、D9 法服的攤位在 src/crowd3d.js。
      祐廷不進女舍，場景只有門口（5-1）；晚上不排長戲 ===== */
   /* D4 一年後，再走到女舍門口（AA_289 5-4：讀書會第 10 週才開，改成沛珊把借的課堂筆記還給祐廷）：大一上第 4～8 週，12:00～21:00 走到大一女舍門口（長椅一帶）。
-     要有沛珊的聯絡方式（第一句是她的私訊）、她在臺北（單數週末回台中）。旁白「一年前，你常在這裡等人。」只出現這一次（所有玩家都有：經濟系那年他和可昕交往、她住這裡，是劇情事實）。
+     要有沛珊的聯絡方式（第一句是她的私訊）、她在臺北（單數週末回台中）。旁白「一年前，你常在這裡等人。」只出現這一次（所有玩家都有：舊序章那年他和可昕交往、她住這裡，是劇情事實）。
      稿沒有寫怎麼約的（借筆記也沒有另外一場）：走到門口就演，當作已經說好（給 AA 的問題）。一次 */
   { id:'ev_b105_d4_notes', title:'一年後，再走到女舍門口', participants:['classmate_peishan'], portraitLater:true, location:'campus', trigger:'auto', near:{x:-93,z:56,r:5}, term:['Y1S1'], weeks:[4,5,6,7,8], time:[12,21], once:true, tier:'short', building:'fdorm', background:'blur',
     prereq:{custom:G=>typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'classmate_peishan')&&typeof STORY!=='undefined'&&!!STORY.freeNow&&STORY.freeNow('classmate_peishan',G)},   /* 她照作息沒有別的事（上課、總圖、118 巷的時候不演）*/
@@ -1376,7 +1376,7 @@ const STORY_EVENTS=[
   /* 春假三選一（交接包 v2 C9；草稿第 3 節「春假」）——可昕 K8 開車旅行（BB_96 9-5）：第 5 週選了「和可昕開車旅行」＝4/3 早上 8:00 出遊（story3d.js 的 springChoose）。一天來回、不演住宿。
      車上的規則 → 目的地三選一（山上看星星只給第 6 週天文課有去的玩家：CLS.attendedWeek 'Y1S2:ge_y1s2:w6'，那一堂有同學說「連假的時候，我要去山上看星星。」）→ 到了（2D，依目的地）一題假設題、
      怎麼接都可以 → 回程（車上，晚上）。記 KX_TRIP:{Y1S2:'sea'|'oldtown'|'stars'}。旅行的照片（房間物件）：照片上寫的字照 BB-B 定稿，在 story3d.js 的房間物件 */
-  { id:'ev_kexin_trip_spring_y1', title:'春假：開車旅行', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,   /* 07:40 政大校門接她 → 08:00 出發 … 晚上送她回政大、車開回家（AA_147 #1；台詞不改）*/
+  { id:'ev_kexin_trip_spring_y1', title:'春假：開車旅行', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,   /* 07:40 外校校門接她 → 08:00 出發 … 晚上送她回外校、車開回家（AA_147 #1；台詞不改）*/
     dialogue:[ {scene:'女生宿舍樓下',bg:'dark'},{scene:'車上',bg:'car'},   /* CANON-NO-ECON-1112 第四批（AA_877 #4）：早上到女生宿舍樓下接她、晚上送回宿舍 */
       {speaker:'kexin',expression:'smile',text:'規則。我管音樂，你管方向。'},
       {speaker:'kexin',expression:'teasing',text:'誰都不能管對方的。目的地，現在決定。'},   /* AA_373 #11：她傳過「我做了行程表。第二頁是我想吃的，第三頁才是行程。」*/
@@ -1554,7 +1554,7 @@ const STORY_EVENTS=[
   /* 沛珊 P3b「課輔班的晚上」（BB_96 3-3，交接包 v2；原本「課輔班的下午」）：大一下第 5～15 週，週三 20:45–21:15 走進溫州街（下課、家長來接），P2（ev_peishan_doubt）之後、只一次。
      AA-B 2026-11-07 21:11～21:12（AA614-CLASSMATE-JOBS-1103；AA_614 第 1 節 a0b8a3e40：課輔班每週三 18:00～21:00）：原本週二、四 16:30–18:00；開頭旁白、「一週兩天」兩句照 AA-B 改，其他台詞不動。
      她不用在 3D 裡出現：直接換成 2D 背景「溫州街・課輔班門口」（圖還沒有＝深色底＋字幕）。第二個選項只給去過法服讀書會的玩家（CLUB_lawclub_study）。
-     記 SAW_HER_TEACH（大二 P3「我要重考。去念教育」的伏筆；不寫成憂鬱或逃避）*/
+     記 SAW_HER_TEACH（沛珊大二 P3「我要重考。去念教育」的伏筆；不寫成憂鬱或逃避）*/
   { id:'ev_peishan_tutoring', title:'課輔班的晚上', participants:['classmate_peishan'], location:'wenzhou', trigger:'enter', term:['Y1S2'], weeks:[5,6,7,8,9,10,11,12,13,14,15], weekday:[3], time:[20.75,21.25], once:true, background:'dark',
     prereq:{events:['ev_peishan_doubt']},
     dialogue:[ {scene:'溫州街・課輔班門口',bg:'wenzhou_tutoring'},
@@ -1755,7 +1755,7 @@ const STORY_EVENTS=[
     prereq:{custom:G=>{ if(!G.flags.dating_kexin||!G.flags.KX_ANNIV_PLACE||G.flags.K7_GIFT!=null||typeof STORY==='undefined'||!STORY.kxAnnivDay) return false; const a1=STORY.kxAnnivDay(G,1); return a1!=null&&((G.day===a1-1&&G.hour>=21)||(G.day===a1&&G.hour<18.5)); }},
     dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.kxAnnivDay(G,1)-1},speaker:null,text:'明天是週年。你準備的東西：'},{if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.kxAnnivDay(G,1)},speaker:null,text:'今天是週年。你準備的東西：'},
       /* CANON-NO-ECON-1112 第四批（AA_879 第 3 節）：值照舊、意思換——ticket＝在一起那頓飯的發票（只有第一年）、planner＝一副耳環、dumpling＝後門那家的湯餃 */
-      {choice:[{text:'在一起那頓飯的發票，背面寫了那天的日期',set:{K7_GIFT:'ticket'}},{text:'一副耳環',set:{K7_GIFT:'planner'}},{text:'後門那家的酸辣湯餃（外帶）',unless:{flagIs:{KX_ANNIV_PLACE:'shop'}},set:{K7_GIFT:'dumpling'}},{text:'什麼都沒準備',set:{K7_GIFT:'none'}}]} ] },   /* AA_313 第 2 節第 10 列：地點選政大山下＝湯餃那個選項不出（在同一家收到同一家的外帶）*/
+      {choice:[{text:'在一起那頓飯的發票，背面寫了那天的日期',set:{K7_GIFT:'ticket'}},{text:'一副耳環',set:{K7_GIFT:'planner'}},{text:'後門那家的酸辣湯餃（外帶）',unless:{flagIs:{KX_ANNIV_PLACE:'shop'}},set:{K7_GIFT:'dumpling'}},{text:'什麼都沒準備',set:{K7_GIFT:'none'}}]} ] },   /* AA_313 第 2 節第 10 列：地點選外校山下＝湯餃那個選項不出（在同一家收到同一家的外帶）*/
   /* 9-4 K7 交往週年（2026-03-22）：出門前選準備的東西（K7_GIFT，AA-B 確認中的提案：出發前選）→ 她收到的反應 → 她的卡片第一頁的假設題 → 旁白。記 KX_ANNIV {1:place}。不做 CG。
      沒去（婉拒、沒到）：KX_ANNIV {1:'missed'}，卡片的照片「週年快樂。下次你準備。」隔天中午（AA_313 第 2 節第 10 列；當晚的電話 CANON-NO-ECON-1112 第三批拿掉）。卡片之後變成宿舍的房間物件「她的週年卡片」（AA-B 2026-10-16：說明用卡片第一頁那句，story3d.js roomItemList）*/
   { id:'ev_kexin_anniversary_y1', title:'週年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
@@ -1780,7 +1780,7 @@ const STORY_EVENTS=[
   { id:'ev_k7_gift_prep_n', title:'週年的準備', participants:[], location:'any', trigger:'auto', background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.kxAnnivGiftYear&&STORY.kxAnnivGiftYear(G)>0},
     dialogue:[ {if:{custom:G=>STORY.kxAnnivGiftYear(G,true)>0},speaker:null,text:'明天是週年。你準備的東西：'},{unless:{custom:G=>STORY.kxAnnivGiftYear(G,true)>0},speaker:null,text:'今天是週年。你準備的東西：'},
-      {choice:[/* AA_879 第 3 節：發票只有第一年 */{text:'一副耳環',set:{_K7G:'planner'}},{text:'後門那家的酸辣湯餃（外帶）',unless:{custom:G=>{ const n=STORY.kxAnnivGiftYear(G); return !!n&&G.flags['KX_ANNIV_PLACE_'+n]==='shop'; }},set:{_K7G:'dumpling'}},{text:'什麼都沒準備',set:{_K7G:'none'}}]} ],   /* AA_313 第 2 節第 10 列：那一年地點是政大山下＝湯餃不出 */
+      {choice:[/* AA_879 第 3 節：發票只有第一年 */{text:'一副耳環',set:{_K7G:'planner'}},{text:'後門那家的酸辣湯餃（外帶）',unless:{custom:G=>{ const n=STORY.kxAnnivGiftYear(G); return !!n&&G.flags['KX_ANNIV_PLACE_'+n]==='shop'; }},set:{_K7G:'dumpling'}},{text:'什麼都沒準備',set:{_K7G:'none'}}]} ],   /* AA_313 第 2 節第 10 列：那一年地點是外校山下＝湯餃不出 */
     after:G=>{ const n=STORY.kxAnnivGiftYear(G); if(n) G.flags['K7_GIFT_'+n]=G.flags._K7G||'none'; delete G.flags._K7G; } },
   /* K7 第二～四年的週年：地點（q.ap）、第幾年（q.year）由排程帶進來；她收到的反應照第一年；卡片換句：第二年「第二年。」、第三年「第三年。」（AA_259 (b) 第 5 點：原本「第三年。我們好像…」）、第四年「第四年。」（選項同第三年）、第五年「第五年。……明年的卡片，換你寫。」（自己的一組選項，AA_363 T1）、第六年卡片在祐廷手上（y6，AA_472 第 3 節；排程 story3d.js 的 n===6）。
      卡片第一頁「那天在最高的地方，你說在一起吧。我說好。」（AA_303 第 2 節 9）只在第一年。記 KX_ANNIV {n:地點}；沒去＝卡片的照片（同第一年），KX_ANNIV {n:'missed'} */
@@ -1872,7 +1872,7 @@ const STORY_EVENTS=[
   /* ★E21 除夕的電話（AA_224 3-10 @31708531＝BB_188 A2-1e，最後一句改；交往中的版本）：1/28（二）22:00 在家（寒假／在家模式的選單到這個時間就演，home3d.js；trigger:'home'）。
      她在外婆家、他在家（不在家＝在外面接，ev_y0_e21o）。記 E21_CALLED（兩個只演一個）。原本的 E21_ANSWER 不再寫。
      AA_303 第 2 節 14 整段換：她約你大年初三開車去高雄（兩個選項都記 KH_TRIP，高雄三天兩夜讀它）；阿嬤那段和 KX_THINK_LEAVE 的第三個選項拿掉 */
-  /* AA_307 第 12 列：人在外面接，不出「家」字幕 */   /* 不在家（休學後可以出門）也會接到：在外面自動演 */
+  /* AA_307 第 12 列：人在外面接，不出「家」字幕 */   /* 不在家（舊序章後可以出門）也會接到：在外面自動演 */
   /* CANON-1112（AA_856 第 4 節「整場拿掉」）：8/30 開車載她搬宿舍那一場（原本接在這裡）整段拿掉 */
   /* D7（交接包 v3 第 8～9 週）：G1 考完走出教室（大二上版，AA_143 1-4）＋語彤事件 10 期中考那一週（AA_11 事件 10、AA_177 第 5 節）。
      G1：刑法分則期末考考完（D118 沒有期中考，AA_578 第 2 節 #9：原本期中考），在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'final'）；有去考才有、翹考＝沒有；只有認識的人；考題只說「第三題」。
@@ -2456,7 +2456,7 @@ const STORY_EVENTS=[
       {label:'end'} ] },
   /* 沛珊 P3 我要重考（BB_97 4-2，BB-B 定稿；CG BCG-16）：大二上第 5 週平日 12–13 下課時，霖澤館走廊（備案：校園的霖澤館前）、前置 P2 或 P2b、和她有點熟以上、只一次。
      她走過來（spawn）。開頭照 NOT_FOR_ME；有 SIS_ANSWERED_WHY 多一句；第三個選項不記標籤（MIRROR_PEISHAN 照 AA_901 第 10 項拿掉，CANON-NO-ECON-1112 第四批；AA_886 第 2 節：「要考的話，我陪妳念。」、她的回覆合成一版、不留約定）。三個選項都不改變她的決定 */
-  /* P3「我要重考」只對交往中的玩家（AA_281 第 4 節 B-5，使用者 10-18：她什麼都不說；交往中的才知道）*/
+  /* 沛珊 P3「我要重考」只對交往中的玩家（AA_281 第 4 節 B-5，使用者 10-18：她什麼都不說；交往中的才知道）*/
   { id:'ev_peishan_decision', title:'我要重考', participants:['classmate_peishan'], location:['linze','campus'], trigger:'auto', term:['Y2S1'], weeks:[5], weekday:[1,2,3,4,5], time:[12,13], once:true, background:'blur',
     spawn:{npc:'classmate_peishan',dist:2.2},
     prereq:{stage:{npc:'classmate_peishan',min:'FAMILIAR'},flags:['dating_classmate_peishan'],custom:G=>{ const d=G.events&&G.events.done||{}; if(!(d.ev_peishan_doubt||d.ev_peishan_syllogism)) return false; if(G.zone==='linze') return true;
@@ -2832,7 +2832,7 @@ const STORY_EVENTS=[
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
    location（區域）、time:[a,b]、weekday、once（true＝一輩子一次；'term'＝每學期一次）。條件照 AA_120 第 1、2 節（第①級：只加條件、不改字）；
-   改字（第 5 節：柏翰「二十一天」、芯慈「經濟系」、黃教授「電影」、Alison 的內層引號）等使用者批准，字先不動。 */
+   改字（第 5 節：柏翰「二十一天」、芯慈「舊序章」、黃教授「電影」、Alison 的內層引號）等使用者批准，字先不動。 */
 /* TEXT-QUOTE-UNIFY-1108 第四批（AA-B 2026-11-08 05:31）：閒聊是 story3d.js S.smallTalk → GM.say(who,…) 有名字說的，句子不加外面的「」（原本「SMALLTALK 的寫法：說的話加「」」）。
    說過了的記號是句子本身：舊存檔記的（有「」）讀檔時 STORY.smallQuoteMigrate 換成現在的句子 */
 const SMALLTALK={
@@ -2862,7 +2862,7 @@ const SMALLTALK={
     {t:'畢業專題的樣區在嘉義。……我可能會留在那邊。',once:'term',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day>=STORY.dayOfKey('2027-09-01')&&G.day<STORY.dayOfKey('2028-07-01')}},   /* AA_519 第 6 節：原本「森林系的野外實習，下週去溪頭。」每學期一次同一句，改成照學年（大一、大二、大三；大四以後不說：AA_357 2-2 第 6 點，2028-07 起他在嘉義）*/{t:'芷若跟你講過我嗎？她高中就這樣，什麼都不講。',if:{events:['ev_fangyt_hint']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
   npc_huangxh:[],   /* AA_519 4-1（企劃線 d75cd0228）：原本一句撐四年，改成照學年一年兩句（「語彤最近很累」只在大一、大二；src/data/aa519_lines.js hxh.years，src/sup519_3d.js 登記 STORY.SMALL_DAILY）*/
   npc_ta_chen:[],   /* AA_519 2-2（企劃線 d75cd0228）：原本兩句撐四年，改成照學年一年兩句（src/data/aa519_lines.js ta.years，src/sup519_3d.js 登記 STORY.SMALL_DAILY）*/
-  prof_zhou:[{t:'有問題可以來研究室。週四下課以後我都在。',term:['Y1S1','Y1S2','Y2S1']},{t:'大四了。你們這一屆，我從民總教到專題。',term:['Y4S2']}]/* AA_522 1-1：研究室是週四他的課下課以後；只在他有課的學期說（其他學期沒有句子＝聊兩句天氣；story3d.js talkProf 同一句同一份學期）。第 9 節第 2 點（a3ea3918e）：大四下他的課在週一、週四沒有研究室，換「大四了……」、不邀研究室 */,prof_lin:['判決要整個讀，不要只讀結論。'],prof_zhang:[{t:'講義第三十頁，自己回去看。',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'這個概念我們下週再講兩小時。',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。'],   /* AA_120 7-1 第 4 項：那是書不是電影（AA_522 第 4 節：她只在經濟系那年教法學緒論，這句沒有「上過她的課以後」的條件）*/prof_xu:[{t:'行政法大二再說。先把民總讀好。',if:{course:{admin_law:{max:0}}},term:['Y1S1','Y1S2']}]/* AA_375 第 20 項：只在大一說 */,prof_tsai:['民訴的題目很長，因為人生很長。'],prof_chen:['國際法的新聞，每天都有。只是大部分人不知道那是國際法。']/* AA_522 第 4 節：他沒有開課、沒有研究室事件，不說「來研究室聊」*/,
+  prof_zhou:[{t:'有問題可以來研究室。週四下課以後我都在。',term:['Y1S1','Y1S2','Y2S1']},{t:'大四了。你們這一屆，我從民總教到專題。',term:['Y4S2']}]/* AA_522 1-1：研究室是週四他的課下課以後；只在他有課的學期說（其他學期沒有句子＝聊兩句天氣；story3d.js talkProf 同一句同一份學期）。第 9 節第 2 點（a3ea3918e）：大四下他的課在週一、週四沒有研究室，換「大四了……」、不邀研究室 */,prof_lin:['判決要整個讀，不要只讀結論。'],prof_zhang:[{t:'講義第三十頁，自己回去看。',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'這個概念我們下週再講兩小時。',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。'],   /* AA_120 7-1 第 4 項：那是書不是電影（AA_522 第 4 節：她只在舊序章那年教法學緒論，這句沒有「上過她的課以後」的條件）*/prof_xu:[{t:'行政法大二再說。先把民總讀好。',if:{course:{admin_law:{max:0}}},term:['Y1S1','Y1S2']}]/* AA_375 第 20 項：只在大一說 */,prof_tsai:['民訴的題目很長，因為人生很長。'],prof_chen:['國際法的新聞，每天都有。只是大部分人不知道那是國際法。']/* AA_522 第 4 節：他沒有開課、沒有研究室事件，不說「來研究室聊」*/,
   kai:[{t:'所以那個賣家可以告嗎？……不能？那法律系在幹嘛。',if:{flags:['classDone']}},{t:'宿舍網路又斷了。你們有教這個嗎？',location:'dorm',if:{notFlags:['GRADUATED']}}],   /* AA_357 2-2 第 2 點：畢業以後不說 */
   zhe:[{t:'系籃週五練球，來坐也可以。',term:['Y1S1','Y1S2','Y2S1','Y2S2'],if:{notFlags:['ball_invite','GRADUATED']}},{t:'這季我是隊長。週五你來記分。',term:['Y3S1','Y3S2','Y4S1','Y4S2'],if:{notFlags:['GRADUATED']}},   /* AA_313 5-3：系籃那句到大二下，大三起他是隊長 */{t:'總圖 B1 的冷氣，比去年冷。',if:{flags:['GRADUATED']}},'公館那家滷味晚上十點後半價。'],   /* AA_357 2-2：畢業以後系籃那句換成總圖 B1 的冷氣 */
   yu:[{t:'辯論社下週辯『網拍標錯價要不要出貨』。',term:['Y1S1'],week:[4,6],once:true,if:{flags:['classDone']}},   /* AA_120 7-1 第 5 項：引號；辯論社第 5 週開始，第 4～6 週說「下週」才對 */'溫州街的貓你有看到嗎？'],

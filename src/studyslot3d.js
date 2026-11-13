@@ -5,8 +5,8 @@
      一次性的（repeat:false）演過就不再出現（以安的小路：演完記 AN_SHOP1_DONE＝她故事線第 7 拍的 after）、已經約好還沒去的不重複列。答應句照 AA 的 acc。
    - 有 3D 店的（mode:'zone'：小路、南洋、一盞）：照一般的約（到店裡見面），見面那一段（P.scene）演那一場：第一次 first，之後 rot 輪流（rotIf：要那個旗標才用）。
      錢：小路 200（LAWWW 定）；南洋的票照 INV.buyTicket（150 元）。
-   - 沒有場景的（mode:'out'：公館滷味、課輔班、木柵大學圖書館）：約好以後排進行程（OUT.plan，和 AA_716 故事線的約一樣），時間到了「出發」→ 2D 背景演那一場
-     → 演完到 end（ARCINV.placeAfter：公館商圈、溫州街；木柵＝回家／宿舍）。滷味第一次她請、之後 120。
+   - 沒有場景的（mode:'out'：公館滷味、課輔班、外校圖書館）：約好以後排進行程（OUT.plan，和 AA_716 故事線的約一樣），時間到了「出發」→ 2D 背景演那一場
+     → 演完到 end（ARCINV.placeAfter：公館商圈、溫州街；外校＝回家／宿舍）。滷味第一次她請、之後 120。
    - 你和別人交往、她知道（AA_722 897ddd17e）：小路、滷味不出現；以安解鎖以後第一次見面說兩句、記 AN_SHOP1_DONE＝'alone'（S.blockSay：INV.meetOpen 之後、STORY.PRE_TALK）。
    存檔：G.flags.STUDYSLOT＝{<id>:{n:演過幾次, last:上一次的 rot 組, day}}；舊存檔沒有＝一次都沒演過。
    測試：node tests/study_slots_unit.js */

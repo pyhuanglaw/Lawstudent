@@ -511,7 +511,7 @@ const R2Y4A_EVENTS=(function(){
     {label:'k3'},kx('你整頁都畫了。那等於沒畫。'),
     {label:'ke'},{set:{KX_STUDY_PLAN:'went'}} ];   /* KX_STUDY_PLAN：旗標名照留，意思改成「大四上一起讀過書」（AA_893 第 1 節），不再是共用的讀書計畫表 */
   const TO16={advance:G=>Math.max(0,16-hh(G))};   /* 讀到 16:00（9/23 14:00～16:00）*/
-  /* ---- 2-Y4-13 K21「約讀書，而且真的有讀」（BB_99 9-2、9-0b；裁定第 18 點）：9/23（六）14:00 政大（出遊）／總圖（3D：goto 到閱覽室，這裡的 auto 演）；美國路線＝視訊（當地 09:00）---- */
+  /* ---- 2-Y4-13 K21「約讀書，而且真的有讀」（BB_99 9-2、9-0b；裁定第 18 點）：9/23（六）14:00 外校（出遊）／總圖（3D：goto 到閱覽室，這裡的 auto 演）；美國路線＝視訊（當地 09:00）---- */
   EV.push({ id:'ev_kexin_study_really', title:'約讀書，而且真的有讀', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
     dialogue:[ {scene:'法律系館・自習室'},nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_PICK('（給她看自己畫滿重點的那一頁）')) });
@@ -523,7 +523,7 @@ const R2Y4A_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
     dialogue:[ {scene:'視訊',bg:'video'},nar('（兩個小時，視訊開著，兩邊都沒有人說話。）'),kx('（把便條舉到鏡頭前）先讀完。'),{advance:2} ].concat(K21_PICK('（把自己畫滿重點的那一頁舉到鏡頭前）')) });   /* AA_345 F3 定稿 */
 
-  /* ---- 2-Y4-14 K22「兩個方向的讀書會」（BB_99 9-6）：11/14（二）19:00 政大；美國路線、沒去＝r2y4a3d.js 一則 ---- */
+  /* ---- 2-Y4-14 K22「兩個方向的讀書會」（BB_99 9-6）：11/14（二）19:00 外校；美國路線、沒去＝r2y4a3d.js 一則 ---- */
   /* SJ_MET（見過那位外校同學）拿掉（AA_893 第 1 節，CANON-NO-ECON-1112 收尾）：讀書會裡改成一個沒名字的學長（同 AA_885）*/
   EV.push({ id:'ev_kexin_two_directions', title:'兩個方向的讀書會', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k22Missed(G); },
@@ -538,7 +538,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'c'},nar('（她把筆記收進包包。）'),kx('走吧，後門那家還開著。'),
       {label:'e'},{set:{KX_DIRECTION:true}} ] });
 
-  /* ---- 2-Y4-24 可昕「聖誕，讀到打烊」（BB_99 9-9；裁定第 21 點）：12/25（一）19:00 政大山下的咖啡店（沒有底圖＝深色底＋字幕）→ 自強十舍樓下 ---- */
+  /* ---- 2-Y4-24 可昕「聖誕，讀到打烊」（BB_99 9-9；裁定第 21 點）：12/25（一）19:00 外校山下的咖啡店（沒有底圖＝深色底＋字幕）→ 自強十舍樓下 ---- */
   const usR=G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US';
   const merge=(G,k,v)=>{ G.flags[k]=Object.assign({},(G.flags[k]&&typeof G.flags[k]==='object')?G.flags[k]:{},v); };
   EV.push({ id:'ev_kexin_xmas_y4', title:'聖誕，讀到打烊', participants:[KX], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('mucha_cafe_night'):'dark'; }, hours:2/3,

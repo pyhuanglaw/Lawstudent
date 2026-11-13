@@ -21,7 +21,7 @@ const COURSES={
     WSEM:{name:'法律系館B 研討室',door:'wancai_seminar',zone:'wancai',label:'研討室 A',lv:1},   /* 萬才館二樓的研討室 A：門口上課（classes3d.js 的 DOORS.wancai_seminar，門在 wancai3d.js）；2026-10-13 審查：原本沒有這個門，大四的研討課上不了 */                           /* wancai_sem：門口上課（2D）*/
     GONGTONG:{name:'共同教學館 102',zone:'gongtong',room:'102',door:'common'},  /* gongtong_hall：英文、日文（AA_107：共同教學館是小班的語言教室）*/
     PUTONG:{name:'普通教學館 101',zone:'putong',room:'101',door:'putong'},   /* putong_hall（方案 A，D55）：文學院正後方；重修經濟學原理（AA 2026-10-13）*/
-    BOYA:{name:'博思教學館 101',zone:'boya',room:'101',door:'boya'},           /* boya_hall（方案 A）：普通北邊；經濟系大一的經濟學原理（D56，劇情做好之前不會排到）*/
+    BOYA:{name:'博思教學館 101',zone:'boya',room:'101',door:'boya'},           /* boya_hall（方案 A）：普通北邊；舊序章那一年的經濟學原理（D56，劇情做好之前不會排到）*/
     LAWLIB_DESK:{name:'法律學院圖書館 櫃台',door:'lawlib_desk',zone:'lawlib'},     /* 服務學習（一）：在櫃台報到，和門口上課一樣用 2D 帶過（AA_110 6-1）*/
     CAMPUS_SVC:{name:'晨思鐘旁的服務學習集合點',door:'campus_service'},                /* 服務學習（二）：椰林大道、醉月湖的校園環境（大二上；內容 AA 大二前再補）*/
     WANCAI_LSC_DESK:{name:'法律服務中心（法律系館B 一樓）',door:'wancai_lsc_desk',zone:'wancai'},   /* 服務學習（二）（AA_735，企劃線 d14a03136；使用者 11-10「服務學習另外有法律服務一學期」）：法律系館B 一樓大廳東側的接待桌，一張桌子（像 LAWLIB_DESK）*/

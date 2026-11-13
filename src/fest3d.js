@@ -11,7 +11,7 @@
      開車去外縣市＝那一天只有一位。G.fest.bk 記這裡排的；別的系統排的出遊、邀約、校外約會照時間算。
    - 怎麼開始（1-4）：
      玩家約＝邀約選單多一項（S.flowOpt／S.ask；invites3d.js 要接一行，見檔尾）：選中午場或晚上場、選地點（Café、總圖、麵店、溫州街、半熟、一盞；
-       可昕在政大＝公館）；那一格寫了地方的（芷若聖誕 Café、語彤生日麵店、沛珊白色情人節醉月湖、學姊七夕陽明山）只有那個地方。她照 AA_415 的「節日」句回答（INV.replyPick）。
+       可昕在外校＝公館）；那一格寫了地方的（芷若聖誕 Café、語彤生日麵店、沛珊白色情人節醉月湖、學姊七夕陽明山）只有那個地方。她照 AA_415 的「節日」句回答（INV.replyPick）。
        校外約會（date3d.js 的外出地點）約在她的節日：到了先演節日那一段（OUT.BEFORE）。
      她約（只有交往中、不是生日）＝前一天 21:00 還沒約她：她的私訊（第 3～9 節「她約」；以安、沛珊第一句照節日換）→「好。」排出遊、「那天不行。」她回一句。
        她不在臺北、那一格有視訊的（以安 2027 七夕、芷若 2029 情人節、沛珊 2027 情人節、可昕的七夕）＝那天她打來（臺灣 21:00）。
@@ -93,7 +93,7 @@ const FEST=(function(){
   S.where=function(G,id,k,y,day){ const c=S.cell(id,k)||{};
     if(abroadMe(G,day)) return c.abroadDedicated?null:{mode:'abroad'};   /* 祐廷在國外：視訊 */
     if(S.inBlackout(id,day)) return dating(G,id)?{mode:'phone'}:null;   /* 沛珊消失期：只有電話（交往中）*/
-    if(c.taipei&&c.taipei.includes(y)) return {mode:'taipei'};   /* 可昕 2025 聖誕：她從政大下來 */
+    if(c.taipei&&c.taipei.includes(y)) return {mode:'taipei'};   /* 可昕 2025 聖誕：她從外校下來 */
     if(c.fixed&&c.fixed[y]) return {mode:'taipei',fixed:c.fixed[y]};   /* 沛珊 2026 白色情人節：醉月湖邊 */
     if(c.homeYears&&c.homeYears[y]) return {mode:'home',city:c.homeYears[y]};   /* 稿寫了她那天在老家（以安 2027 七夕在台中、可昕 2029 七夕在高雄）*/
     const p=pres(G,id,day)||{here:true}; if(p.lost) return null;
@@ -220,7 +220,7 @@ const FEST=(function(){
   S.venues=function(G,f,slot){ const id=f.id, c=S.cell(id,f.k)||{}, P=X.PEOPLE[id]||{}, h=S.TIME[slot], out=[];
     if(c.drive) return [{kind:'drive',t:'開車上陽明山',loc:c.drive,city:'陽明山',h:19}];   /* 學姊的七夕（她的心願地點 D15）*/
     if(f.W.fixed) return [{kind:'2d',t:f.W.fixed.place,place:f.W.fixed.place,bg:f.W.fixed.bg,h:f.W.fixed.h}];   /* 沛珊 2026 白色情人節：醉月湖邊 */
-    if(id==='kexin') return [{kind:'2d',t:(P.ask||{}).place||'公館',place:(P.ask||{}).place||'公館',bg:(P.ask||{}).bg,h}];   /* 可昕在政大：約在公館 */
+    if(id==='kexin') return [{kind:'2d',t:(P.ask||{}).place||'公館',place:(P.ask||{}).place||'公館',bg:(P.ask||{}).bg,h}];   /* 可昕在外校：約在公館 */
     const ver=S.ver(G,id,f.k), vb=c.venueBy&&c.venueBy[ver], want=c.venue||(vb&&typeof vb==='object'?vb[f.y]:vb)||null;
     { const v2=c.venue2d&&c.venue2d[ver]; if(v2){ const sl=S.slotOf(v2.h); return sl===slot?[{kind:'2d',t:v2.place,place:v2.place,bg:v2.bg,h:v2.h}]:[]; } }   /* 那一版寫了 2D 的地方（AA_675 2-3：語彤交往中的生日 18:30 在她家，新生南路）：只有那個時段、只有那個地方 */
     for(const Q of ((typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places)||[])){ if(!S.PLACES.includes(Q.id)||(want&&Q.id!==want)) continue;
@@ -312,7 +312,7 @@ const FEST=(function(){
   /* 只有訊息的節日（P.dm；芯慈交往中，AA_537b 第 5 節）：跨年 12/31 23:58、00:01 兩則；你的生日 00:00 一則（X.PLAYER_BDAY 'MM-DD'；還沒定＝null＝不發）。
      時間是臺灣時間（她在臺灣準時傳）；祐廷在國外換成手機上的時間（STORY.tzOffset，同 S.videoH）。到了那個時間才排（同 S.zrDm：睡過去的照原本的時間補進去），過了 36 小時還沒排到的不補；
      那時候要是交往中、有她的聯絡方式（S.barred 照 datingOnly、線開關）。一年一則（tag fest_dm_<人物>_<種類>_<年>_<第幾則>）*/
-  S.DM_YEARS={nye:'nye',myBday:'mybday'};   /* 祐廷的生日 11-26（AA_639）：法律系大一 2025 起；經濟系那年（2024）不發 */
+  S.DM_YEARS={nye:'nye',myBday:'mybday'};   /* 祐廷的生日 11-26（AA_639）：法律系大一 2025 起；舊序章那年（2024）不發 */
   S.dmDay=function(k,y){ if(k==='nye') return D(y+'-12-31'); if(k==='myBday') return X.PLAYER_BDAY?D(y+'-'+X.PLAYER_BDAY):null; return null; };
   S.dmRule=function(G){ for(const id of HER){ const M=(X.PEOPLE[id]||{}).dm; if(!M||!dating(G,id)) continue;
       for(const k of Object.keys(M)) for(const y of (S.YEARS[S.DM_YEARS[k]]||[])){ const d=S.dmDay(k,y); if(d==null||S.barred(G,id,'dm_'+k,y)||!contact(G,id,d)) continue;

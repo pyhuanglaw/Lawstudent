@@ -98,7 +98,7 @@ const SHOPENC=(function(){
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
     if(!timeOk(G,row.days,row.from,row.to)) return no('時段'); if(calOk(G,row,no)!==true) return null;
     if(row.flags&&!row.flags.every(f=>G.flags&&G.flags[f])) return no('旗標'); if(row.needFlags&&!row.needFlags.every(f=>G.flags&&G.flags[f])) return no('needFlags');
-    if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei') return no('不在（'+(pr.away||pr.kind)+'）'); }   /* 國外、休學、回老家 */
+    if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei') return no('不在（'+(pr.away||pr.kind)+'）'); }   /* 國外、離校、回老家 */
     const tr=tierOf(G,row.who); if(tr.t==='stranger') return no('還不認識');
     if(row.stageMin&&tr.t!=='dating'&&tr.t!=='ex'&&tr.t!=='catch'&&ST().indexOf(tr.st)<ST().indexOf(row.stageMin)) return no('還不夠熟');
     if(metToday(G,row.who)) return no('今天遇過了');

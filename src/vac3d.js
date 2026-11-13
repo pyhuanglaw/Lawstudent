@@ -329,7 +329,7 @@ const VAC=(function(){
          玩家能回的換 offWd.rep。過年店休那幾天照 shut（店休先算），店休的輪流原本只用 sAlt（AA_369 第 8 節第 5 題；AA_687 第 7 項改，見 shutPick）。沒有 offWd＝照 AA_685 A6-4（只有 sAlt）*/
       const OW=P.offWd||{}, wAlt=(OW.pool||[]).map(t=>({t})).concat(sAlt.map(i=>({i}))); let wj=0;
       /* AA_687 第 6 項（企劃線 d41750385，AA-C 定 D109）：平日玩家能回的分寒假、暑假——寒假 offWd.rep（「淡水冷嗎？」）、暑假 offWd.repSummer（「淡水熱嗎？」），「好好休息。」兩個假期都有。
-         寒假、暑假照那一天：HOME.breakOf(那一天).kind（home3d.js 判斷寒假／暑假的那一支，S.momOf 也用它）；那天不在它的假期裡（沒載到 HOME、經濟系那一年、畢業以後）＝照這一趟的 A.season */
+         寒假、暑假照那一天：HOME.breakOf(那一天).kind（home3d.js 判斷寒假／暑假的那一支，S.momOf 也用它）；那天不在它的假期裡（沒載到 HOME、舊序章那一年、畢業以後）＝照這一趟的 A.season */
       const summerOn=d=>{ const B=typeof HOME!=='undefined'&&HOME.breakOf?HOME.breakOf(d):null; return B?B.kind==='summer':A.season==='summer'; };
       const owRep=d=>OW.repSummer&&summerOn(d)?OW.repSummer:OW.rep;
       const shutPick=d=>{ const W=NOODLE_CLOSED.window?NOODLE_CLOSED.window(d):null; if(W&&d===W.from&&SH.first&&!sUsed.first){ sUsed.first=true; return SH.first; }
@@ -372,7 +372,7 @@ const VAC=(function(){
   /* 這個假期（或這學期第 10 週以後＝下一個假期）：{kind, from, to} */
   S.nextBreak=function(G){ if(typeof HOME==='undefined'||!HOME.breakOf||typeof CALENDAR==='undefined') return null; let B=HOME.breakOf(G.day); if(B) return B; const t=CALENDAR.termOf(G.day); if(!t||t.week<10) return null; const r=CALENDAR.termDays(t.id); if(!r) return null;
     for(let d=r.to+1;d<=r.to+14;d++){ if(!CALENDAR.termOf(d)){ B=HOME.breakOf(d); if(B) return B; } } return null; };
-  /* 交往了幾天（ROM 的 start 紀錄；可昕從經濟系那一年就在交往）*/
+  /* 交往了幾天（ROM 的 start 紀錄；可昕從舊序章那一年就在交往）*/
   S.datingDays=function(G,id){ if(id==='kexin') return 9999; const R=G.flags&&G.flags.romance&&G.flags.romance[id]; let d=null;
     for(const h of ((R&&R.history)||[])){ if(!h||h.ev!=='start') continue; if(typeof h.day==='number') d=h.day; else if(typeof h.at==='string'){ const m=/^(Y\dS\d)W(\d+)$/.exec(h.at), m2=/^D(-?\d+)$/.exec(h.at); if(m) d=termDay(m[1],+m[2],1); else if(m2) d=+m2[1]; } }
     return d==null?0:G.day-d; };

@@ -702,7 +702,7 @@ const MREL=(function(){
     st.version=v; S.planOut(G,SIS,'dinner',G.day+1,us?21:19,us?{place:'視訊',title:'和'+nm(SIS)+'視訊',verb:'接起來',call:true,travel:'',travelH:0}:{place:'公館的小店',title:'公館的小店',travel:'走過去約 15 分鐘',travelH:0.25}); };
   S.sisDinner=async function(GM,st){ const G=GM.G, c=S.ctx(G,SIS,st.y,{second:(st.n|0)>=2,remote:st.us?'video':null}); await S.run(GM,SIS,RL(SIS).dinner,c);
     st.intent=S.intent(G,SIS,c.intent||'unsure'); if(c.promise&&st.y) S.promise(G,SIS,c.promise,[st.y]); st.phase='talked'; st.meets=0; st.talkDay=G.day; G.flags.SIS_TALKED=G.day; };
-  /* 可昕：前半（政大）＋照片 →（回了）10 分鐘後／（沒回）隔天「明天晚上，公館。你出來。」→ 隔天 19:00 公館（後半）*/
+  /* 可昕：前半（外校）＋照片 →（回了）10 分鐘後／（沒回）隔天「明天晚上，公館。你出來。」→ 隔天 19:00 公館（後半）*/
   S.kxSelf=async function(GM,st){ const G=GM.G, Rp=RL(KX), two=(st.n|0)>=2; mark(st,'self',G); if(G.flags) G.flags.MREL_KX_REPLY=null;   /* 這一次的照片回不回（結果 E 看「挽回的任何一步」）*/ await S.run(GM,KX,L().SELF.kexin[two?1:0],{});
     if(typeof PHONE!=='undefined'){ const tag='mrel_kx_photo_'+st.day; const items=two?[{th:'p:'+KX,from:KX,text:Rp.see}]:[{th:'p:'+KX,from:KX,text:Rp.photo},{th:'p:'+KX,from:KX,text:Rp.dontReply}];
       items[items.length-1].ask={id:tag,opts:[{t:'（回她）',post:false,set:{MREL_KX_REPLY:'yes'}},{t:'（不回）',post:false,set:{MREL_KX_REPLY:'no'}}]}; PHONE.at(G,G.day,+G.hour||17,items,tag); st.photoTag=tag; } };

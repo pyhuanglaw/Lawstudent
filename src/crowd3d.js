@@ -619,9 +619,9 @@ const CROWD=(function(){
        椰、館＝兩個走路的人一起走（第二個人跟著第一個：beh buddy）；圖＝相鄰的兩個空位一起坐（總圖大廳 2F、3F 閱覽區、社科圖，開館時；第 15 組：工讀的人站在座位旁邊）；
        體＝1F 場邊的長椅一起坐（開館時、不是典禮的日子、一層 16 個人放得下）。
        那個時段沒有對話的地點用「平常」那幾段（寒暑假除外）。
-     - 教學館的課（第 3、4 節，原本是教室門口的對話；CROWD-NO-DOOR-1103 起在教室裡，下面 S.seatTalk…）：通識（courses.js kind:'general'）各系混著，法律系必修（kind:'required'，經濟系那一年的必修除外）都是法律系；
+     - 教學館的課（第 3、4 節，原本是教室門口的對話；CROWD-NO-DOOR-1103 起在教室裡，下面 S.seatTalk…）：通識（courses.js kind:'general'）各系混著，法律系必修（kind:'required'，舊序章那一年的必修除外）都是法律系；
        坐在玩家前一排或旁邊（同一排）的兩個（三個）同學說那一段。共同、博雅、普通的教室才有（S.seatTalkRoom）；霖澤館 201、萬才館照舊沒有。
-     - 經濟系那一年（Y0）照同一套。沒有載入 crowd_depts.js（測試）＝照舊。測試：node tests/crowd_depts_unit.js */
+     - 舊序章那一年（Y0）照同一套。沒有載入 crowd_depts.js（測試）＝照舊。測試：node tests/crowd_depts_unit.js */
   const DP=()=>typeof CROWD_DEPTS!=='undefined'?CROWD_DEPTS:null;
   S.deptPlace=zone=>{ const D=DP(); return (D&&D.ZONES[zone])||null; };
   S.deptName=id=>id+'系的學生';
@@ -747,7 +747,7 @@ const CROWD=(function(){
   S.seatTalkPrep=function(GM,it,ph){ const D=DP(), E=GM&&GM.E, G=GM&&GM.G, P=E&&E.player, me=P&&P.seat; if(!D||!G||!me||!it||!it.c||!it.room) return null;
     if(!E.zone||G.zone!==it.room.zone||me.room!==it.room.room||!S.seatTalkRoom(it.room.zone,it.room.room)) return null;
     const c=it.c, T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T) return null;
-    const ge=c.kind==='general', law=c.kind==='required'&&!/^Y0/.test(T.id); if(!ge&&!law) return null;   /* 經濟系那一年的必修、選修、演講：沒有 */
+    const ge=c.kind==='general', law=c.kind==='required'&&!/^Y0/.test(T.id); if(!ge&&!law) return null;   /* 舊序章那一年的必修、選修、演講：沒有 */
     const conv=S.deptTalkPick(GM,(law?'law:':'ge:')+ph,S.deptDoorTalks(G,c,ph,law?D.LAW:D.GE,T),law?'l':'g'); if(!conv) return null;
     const k=S.deptSpeakers(conv.d), sts=S.seatTalkSeats(E,me,k,it.key); if(!sts) return null;
     const names=law?sts.map(()=>S.deptName('法律')):conv.who.map(S.deptName), ppl=[], used=new Set(sts);

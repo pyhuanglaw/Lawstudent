@@ -129,7 +129,7 @@ const V6EX=(function(){
     E.interactables.push(it); };
   if(STORY.populate&&!STORY._v6exPopulate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(GM&&GM.G) S.place(GM); }catch(e){ console.warn('V6EX.populate',e); } return r; }; STORY._v6exPopulate=true; }
   /* 在家：在家的選單之前，一天問一次（trigger 'home'）*/
-  S.homeDue=G=>S.pending(G)&&S.rec(G).home!==G.day;   /* 經濟系那一年（休學在家）也算：事件標 stage:'any' */
+  S.homeDue=G=>S.pending(G)&&S.rec(G).home!==G.day;   /* 舊序章那一年（舊序章在家）也算：事件標 stage:'any' */
   /* 週末在家（home3d.js 的週末選單沒有跑 trigger 'home' 的事件）：選單多一個「收拾」（HOME.MENU_OPTS），阿哲那一項＝打電話 */
   S.homeOpt=G=>S.pending(G)?{t:'收拾',run:GM=>S.menu(GM,'call')}:null;
   if(typeof HOME!=='undefined'&&Array.isArray(HOME.MENU_OPTS)&&!HOME.MENU_OPTS.includes(S.homeOpt)) HOME.MENU_OPTS.push(S.homeOpt);

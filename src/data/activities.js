@@ -197,7 +197,7 @@ const ACTIVITIES={
   lastAttendedDay(G,id,any){ const A=(G.acts&&G.acts.att)||{}, p=id+'@'; let best=null; for(const k in A){ if(!k.startsWith(p)) continue; const r=A[k]; if(!r) continue; const full=(r.end||'full')==='full'; if(!full&&!any) continue; const d=+k.slice(p.length); if(best===null||d>best) best=d; } return best; },
   /* 最近一場已經結束的是第幾天（今天的已經結束也算）；還沒辦過就 null。往回找到第 1 天（四年約 1500 天；每個活動記住上一次的答案）*/
   lastEnded(G,id){ const a=ACTIVITIES.list.find(q=>q.id===id); if(!a) return null; const h=G.hour%24, k=G.day+'|'+(h>=a.t1?1:0); if(a._last&&a._last.k===k) return a._last.v;
-    let v=null; for(let d=G.day; d>=-420; d--){ if(d===G.day&&h<a.t1) continue; if(ACTIVITIES.on(a,d,G)){ v=d; break; } }   /* 第 1 天以前也找（開學改 9/1、經濟系那一年）*/ a._last={k,v}; return v; },
+    let v=null; for(let d=G.day; d>=-420; d--){ if(d===G.day&&h<a.t1) continue; if(ACTIVITIES.on(a,d,G)){ v=d; break; } }   /* 第 1 天以前也找（開學改 9/1、舊序章那一年）*/ a._last={k,v}; return v; },
   missed(G,id){ const d=ACTIVITIES.lastEnded(G,id); return d!=null&&!ACTIVITIES.attendedAny(G,id,d); },   /* 中途離開不算沒去 */
   /* 坐在這一間的位子上，現在可以聽的活動：開始前 15 分鐘起、過了一半以前（之後進去不算聽過）；今天這一場已經聽過的不再列 */
   atSeat(G,zone,room){ if(!room) return null; return ACTIVITIES.list.find(a=>a.zone===zone&&a.room===room&&ACTIVITIES.canJoin(G,a))||null; },

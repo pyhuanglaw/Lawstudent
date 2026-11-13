@@ -114,7 +114,7 @@ const GG3=(function(){
   S.finalsNear=G=>typeof PLACES!=='undefined'&&PLACES.finalsNear?PLACES.finalsNear(G.day):S.finalWeek(G);
   S.preExam=G=>{ const t=term(G.day), n=term(G.day+7); return !!t&&!!n&&n.id===t.id&&!!n.exam&&n.exam!==t.exam; };   /* 期中、期末考的前一週 */
   S.termWeek=G=>{ const t=term(G.day); return t?t.week:0; };
-  /* 祐廷現在是法律系第幾年（寒暑假算剛過完的那個學期；經濟系那一年＝0）*/
+  /* 祐廷現在是法律系第幾年（寒暑假算剛過完的那個學期；舊序章那一年＝0）*/
   S.year=G=>{ if(!G) return 0; let id=null; try{ if(typeof STORY!=='undefined'&&STORY.termAt) id=STORY.termAt(G.day); else { const t=term(G.day); id=t?t.id:null; } }catch(e){ id=null; } const m=/^Y([1-5])S/.exec(id||''); return m?+m[1]:0; };
   const buyDone=async(GM,shop,name,p)=>{ GM.money(-p,shop); if(GM.advance) GM.advance(S.HRS.buy); if(GM.toast) GM.toast(S.SYS.bought+name,2200); };
 

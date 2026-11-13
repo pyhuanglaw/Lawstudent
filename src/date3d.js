@@ -324,7 +324,7 @@ const DATE=(function(){
   S.LAST_DAY='2029-06-01';
   S.lastDay=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(S.LAST_DAY):null;
   S.playerAbroad=(G,day)=>typeof STORY!=='undefined'&&!!STORY.abroad&&!!STORY.abroad(Object.assign({},G,{day}));
-  /* 出發地（AA_128 4-1、11-1）：寒暑假住家裡（法律系的寒暑假；經濟系休學以後、畢業退宿以後、交換退宿以後也住家裡）＝不加回家取車的時間 */
+  /* 出發地（AA_128 4-1、11-1）：寒暑假住家裡（法律系的寒暑假；舊序章以後、畢業退宿以後、交換退宿以後也住家裡）＝不加回家取車的時間 */
   S.fromHomeOn=function(G,day){ if(typeof HOME==='undefined') return false; if((G.stage||'law')==='law'&&HOME.breakOf&&HOME.breakOf(day)) return true;
     if((HOME.pgHome&&HOME.pgHome(G))) return true; return typeof STORY!=='undefined'&&!!STORY.movedOut&&!!STORY.movedOut(Object.assign({},G,{day})); };
   /* 當天來回：那一天她在臺北，或就在那個地點的城市（照 overnightWhere 的一天版）*/

@@ -1,6 +1,6 @@
 /* ===== 1B 大二～大三上的人物事件（AA_316 1B-01～07、AA_321 1B-08～11；AA-C 定稿，第②級，台詞照原文、不改字）=====
    這裡是用事件系統演的段落（出遊、人在場景裡碰到的、下課後）；手機、時間窗、明信片、法服 5/22、債各第 6 週的課堂段、沛珊在 src/y2b3d.js。
-   1B-01 ev_kexin_bad_exam（出遊：政大宿舍樓下 11/19 20:30）　1B-02 ev_yt_lease_text（債各第 6 週下課後傳訊息；課堂段在 y2b3d.js）
+   1B-01 ev_kexin_bad_exam（出遊：外校宿舍樓下 11/19 20:30）　1B-02 ev_yt_lease_text（債各第 6 週下課後傳訊息；課堂段在 y2b3d.js）
    1B-03 ev_yt_aunt_retell（不在場：之後第一次在麵店或總圖和語彤說話；在場版在 y2b3d.js 的法服 5/22）　1B-04 ev_an_mother_map（麵店）
    1B-05 ev_ziqing_dad_visit（公館騎樓＋河堤）、ev_ziqing_dad_sorry（選了「一定會懂」：兩週內吉他社社課）　1B-06 ev_zhiruo_last_shift（Café 6/3）
    1B-07（CANON-NO-ECON-1112 第三批拿掉）　1B-08 ev_yt_ta_news／ev_yt_ta_news_lib（13b）、ev_yt_umbrella_y3（事件 12）

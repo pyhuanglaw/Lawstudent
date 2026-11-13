@@ -15,7 +15,7 @@
            吉他社成員（CLUB_club_guitar）九折（入門款 3,420、面單款 5,850……，選項小字「九折」）；錢不夠＝「錢不夠」，不扣錢；買了＝扣錢、時間 +0.15 小時（照 story3d.js 的 counter）；
            吉他＝OWN_GUITAR（'entry'｜'solid'）、送一個琴袋、一次調音（旁白用 2-3 那一句「（老闆幫你調好音，把琴裝進琴袋。）」）、日誌「買了○○」；同一款買過就不再列；
            小東西＝G.guitar.items 記數量、旁白一句（三樣共用，AA_693 A11）。S.look／S.lookUkes／S.tryPlay／S.shop（參數 GM）也可以直接叫；按鈕 it.guitar＝'look'|'ukes'|'shop' 由 STORY.interact 分派。
-           經濟系那一年按鈕藏起來。
+           舊序章那一年按鈕藏起來。
      - 偶遇子晴（S.encDue／S.encounter，STORY.TICKS）：大一上第 6、10、14 週週六 15:00～16:00 人在店裡、認識她（FIRST_MET）、她在臺北＝她兩句、旁白一句；一個存檔一次；
        2-3 排過（和她約過同弦，不管去了沒）就不演（稿是「你也來這家？」）。
    第 2 節　加入吉他社、買吉他
@@ -31,7 +31,7 @@
      2-4 之後的社課（包 CLS.clubNarr，不加數值、不懲罰）：有琴＝這學期第 7 週起、阿凱還是室友（STORY.kaiRoommate）多一句（一學期一次，第一次符合的那一堂出）；
          沒有琴＝偶爾（照日期，約三分之一；第一次社課、上一堂剛出過的不算）換成第三弦那一句。兩種都不讓輪流的六句往前。
      宿舍「彈吉他」（房間裡的按鈕 S.dormButton，有 OWN_GUITAR；11-05 起不在「看看房間裡的東西」裡面）：轉暗、30 分鐘、旁白兩句隨機一句（阿凱不是室友了＝只有第二句）。
-   第 3 節　吉他社社遊（群組 g:guitar；條件：吉他社成員、去過兩次以上社課；經濟系那一年、人在國外不排）
+   第 3 節　吉他社社遊（群組 g:guitar；條件：吉他社成員、去過兩次以上社課；舊序章那一年、人在國外不排）
      3-1 宜蘭兩天一夜：大一上第 11 週週一 21:00（社課結束）社長學長在群組貼報名表，報名／不報名（回到出發為止）；報名＝扣 2,500、排出遊（11/22 08:00 校門口，只有「出發」）；
          錢不夠＝你在群組說「下次吧。」、沒有報名、不扣錢。不報名＝照選項傳出去。撞到同一天的活動＝人在宜蘭，那些照錯過處理（不懲罰）。
          事件 ev_guitar_trip_yilan：遊覽車上 → 14:00 外澳海邊 → 19:00 宜蘭・民宿（烤肉、輪到你：有琴＝拿出自己的琴，沒有＝子晴遞琴；AA_693 A6）→ 隔天 00:15「十二點多」上頂樓／回房間（A7）
@@ -148,7 +148,7 @@ const GUITAR=(function(){
   S.buttons=function(E){ if(!E||!Array.isArray(E.interactables)||typeof TX3==='undefined'||!TX3.INTERACT) return 0; let n=0;
     for(const q of TX3.INTERACT()){ const k=S.BTN[q.kind]; if(!k) continue; E.interactables.push({x:q.x,z:q.z,lv:0,radius:0.9,label:S.L.labels[k],guitar:k,tongxian:q.id}); n++; }
     return n; };
-  /* 經濟系那一年：店裡的按鈕藏起來（STORY.populate 換區域的時候）*/
+  /* 舊序章那一年：店裡的按鈕藏起來（STORY.populate 換區域的時候）*/
   S.install=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!Array.isArray(E.interactables)||!S.ZONES.includes(G.zone)) return 0; let n=0;
     for(const it of E.interactables) if(it&&it.guitar){ it.hidden=!law(G); n++; } return n; };
   /* 老闆：開門的時候站在櫃台後面（TX3.OWNER＝配置的 npc.owner；照木曜日 MOKS.populate：路人底模、不說話——他的話用「老闆」那幾句）*/

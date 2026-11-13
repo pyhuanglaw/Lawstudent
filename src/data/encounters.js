@@ -1,7 +1,7 @@
 /* 自由出行的偶遇第一批（DL-07）：AA_160 第 5 節（5-6 統整）＋ BB_144 第 1～4 節（BB 五位）＋ AA_162 第 1～4 節（AA 六位）；企劃線 claude/cool-heisenberg-o8kuqx（1a708adc 一帶）。
    台詞照抄，不在這裡改內容；{name}＝玩家的名字。第一批只有「打招呼」「不打擾」（前任：「點頭」「走過去」「打招呼」）；一起走一段、重訪、支線是第三批（DL-08）。
    每一列：
-     who 人物、spot 景點、why 旁白（她在做什麼）、days 星期、from～to 時段、terms 哪幾個學期（null＝全部；交換、休學、出國的學期不寫）、weeks 'odd'/'even'（學期的單週／雙週）或陣列（第幾週）、
+     who 人物、spot 景點、why 旁白（她在做什麼）、days 星期、from～to 時段、terms 哪幾個學期（null＝全部；交換、離校、出國的學期不寫）、weeks 'odd'/'even'（學期的單週／雙週）或陣列（第幾週）、
      dates 日期區間（含頭尾）、vacation 只在寒暑假（AA_271）、
      stageMin 最少要多熟、flags 還要哪些劇情旗標（只讀不寫）、busy（第三批用；'yes' 才會不能聊）、join（第三批）、memo 第一次在這裡打招呼留的記憶（ENC_ 開頭）、
      away 作息上掛的字（characters.js 也有同一筆，朋友頁的位置照它）、lines 認識／朋友以上／交往中的兩句、ex 前任的反應（照分開的方式）。

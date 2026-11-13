@@ -1,6 +1,6 @@
 /* ===== 溫州街三家店的打工系統 JOBS（DL-10；USER_WANTS B06；AA_420 第 2 節＋AA_164 第 2、3、6、7 節＋AA_165）=====
    三家店：半熟早午餐（週六／週日 07:30～11:30，上午）、阿德影印輸出（週二～四 18:00～22:00，晚上；考試週可以加班 21:00～24:00）、一盞茶屋（週六／週日 13:00～17:00，下午）。
-   - 應徵（第 6 條第 2 點）：大一上第 1 週起（使用者 11-03「一開始就要有」、AA 確認；原本大一下第 1 週起；經濟系那一年照舊沒有）。早午餐、茶屋＝門上的告示（店裡的選單「應徵：…」）；或客人來過幾次以後老闆開口（吃三次／印三次／喝兩次，WZ_JOBS_DATA.ask）。
+   - 應徵（第 6 條第 2 點）：大一上第 1 週起（使用者 11-03「一開始就要有」、AA 確認；原本大一下第 1 週起；舊序章那一年照舊沒有）。早午餐、茶屋＝門上的告示（店裡的選單「應徵：…」）；或客人來過幾次以後老闆開口（吃三次／印三次／喝兩次，WZ_JOBS_DATA.ask）。
      答應時選班表；那一學期那一天、那個時段有課的不列（AA_420 第 12 條第 1 點）；一週最多兩班（所有打工加起來，家教也算；加班不算）。
      選了週六早午餐、去過法服週六值班的＝小米姐一句；選了週四影印、去過公法讀書會的＝阿德一句（AA_420 第 12 條第 3 點）。
    - 出門提醒（第 3 條）：開班前 30 分鐘（OUT.plan，goto 那一家店的室內），「出發」或「這週請假」。走進店裡、班的時間到了就開班（也可以按「開始上班」）。
@@ -115,7 +115,7 @@ const JOBS=(function(){
   S.route=G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute?STORY.routeAbroadRoute(G):null;   /* 交換延畢（日本、美國路線）*/
   S.finalTerm=G=>S.route(G)?'Y5S1':'Y4S2';   /* AA_420 第 15 條 */
   S.endDay=G=>{ const r=hasCal()&&CALENDAR.termDays?CALENDAR.termDays(S.finalTerm(G)):null; return r?r.to:1e9; };
-  S.startDay=()=>{ const r=hasCal()&&CALENDAR.termDays?CALENDAR.termDays('Y1S1'):null; return r?r.from:1e9; };   /* 大一上第 1 週起（使用者 11-03「一開始就要有」；原本 AA_164 第 2 節大一下第 1 週起）；經濟系那一年看 law(G) */
+  S.startDay=()=>{ const r=hasCal()&&CALENDAR.termDays?CALENDAR.termDays('Y1S1'):null; return r?r.from:1e9; };   /* 大一上第 1 週起（使用者 11-03「一開始就要有」；原本 AA_164 第 2 節大一下第 1 週起）；舊序章那一年看 law(G) */
   S.termAt=(G,d)=>{ if(!hasCal()) return null; const t=CALENDAR.termOf(d); if(t) return t; if(S.route(G)&&CALENDAR.termOfDelayed) return CALENDAR.termOfDelayed(d); return null; };
   /* 寒暑假：HOME.breakOf（大一～大四）；延畢的玩家大四下到大五上中間的暑假另外算（key 'Y4S'）*/
   S.breakAt=function(G,d){ if(!hasCal()||CALENDAR.termOf(d)) return null; if(typeof HOME!=='undefined'&&HOME.breakOf){ const b=HOME.breakOf(d); if(b) return b; }

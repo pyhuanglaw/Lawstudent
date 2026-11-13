@@ -566,7 +566,7 @@ const E3 = (function(){
       const ol=(typeof CHAR!=='undefined'&&CHAR.shadowPassBegin)?CHAR.shadowPassBegin():null;   /* 人物的描邊不進影子那一輪（和本體同一份深度，白畫；PERF-WZ-DC-1107）*/
       try{ return smr.apply(SM,arguments); } finally{ for(const g of hid) g.visible=true; if(ol) CHAR.shadowPassEnd(ol); } }; }
   E.cinematic=function(pos,look,via){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone(),via:via?via.clone():null,back:via?via.clone():null}; };
-  /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識阿勳的時候轉回來玩的視角也很暈，隔天起來也是」）：
+  /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識舊序章的人的時候轉回來玩的視角也很暈，隔天起來也是」）：
      原本看的點瞬間跳回玩家、位置 0.3 秒內拉回背後（還會繞半圈）。改成：跟隨鏡頭的方向接在劇情鏡頭現在的方位（不繞），1.1 秒內慢慢拉回距離、看的點慢慢移過去 */
   E.endCinematic=function(){ const C=E.cam; if(C.mode==='cinematic'&&C.cine&&C.cine.back&&!C.cine.ending&&camera.position.distanceTo(C.cine.back)>0.15){ C.cine={pos:C.cine.back,look:C.cine.look.clone(),via:null,back:null,ending:true}; return; }   /* 有 via 的運鏡（宿舍書桌）：先退回走道上的 via，再拉回跟隨鏡頭（不從床板下面直接往上拉）*/
     if(C.mode==='cinematic'&&E.player){ const p=E.player.obj.position, dx=camera.position.x-p.x, dz=camera.position.z-p.z;

@@ -85,7 +85,7 @@ body:has(#adv.on.image) #letterT,body:has(#adv.on.image) #letterB,body:has(#adv.
   A.noPic=charId=>!!(charId&&charId!=='player'&&charId!=='narrator'&&(()=>{ try{ return A.resolve(charId,null,'neutral').placeholder; }catch(e){ return false; } })());
   A.speaker=function(charId,expression,outfit){ if(!A.active) return; const occ=s=>A.want[s]||A.slots[s]; let slot=null; for(const s of ['left','right']){ if(occ(s)&&occ(s).charId===charId) slot=s; } const noPic=!slot&&A.noPic(charId); if(!slot&&!noPic&&charId&&charId!=='player'&&charId!=='narrator'){ slot=occ('right')?(occ('left')?'right':'left'):'right'; render(slot,charId,expression||'neutral',outfit); } else if(slot){ const o=occ(slot); render(slot,charId,expression||o.expression||'neutral',outfit||o.outfit); } for(const s of ['left','right']){ const box=s==='left'?A.L:A.R; box.classList.toggle('dim',!!(occ(s)&&slot&&s!==slot)); if(!slot) box.classList.toggle('dim',!!(occ(s)&&(charId==='player'||noPic))); } };   /* occ：框裡最後要的那一個人（還在載圖的也算），不是已經載好的那一個（BUG-ADV-EXPR-RACE-1021）*/   /* 說話的人沒有立繪（祐廷、櫃台、媽媽…）：台上的人都變暗，不會看起來像旁邊的人在講（2026-10-18 使用者：「柏翰的圖，但說話的是我欸」）；旁白照舊都亮 */
   /* 手機直向（兩個立繪框都是全寬、會疊在一起）：只顯示最後說話的那個人（.off 只在直向的 CSS 有作用）；旁白的時候他也變暗——
-     2026-10-18 使用者：「有時候顯示藍色衣服的是唐睿，有時候又變成橘色衣服的」（旁白講唐睿，台上疊著阿勳和韋綸）、系烤品妤說話時韋綸站在前面（BUG-ADV-OVERLAP-1018）*/
+     2026-10-18 使用者：「有時候顯示藍色衣服的是舊序章的人，有時候又變成橘色衣服的」（旁白講舊序章的人，台上疊著舊序章的人）、系烤舊序章的人說話時舊序章的人站在前面（BUG-ADV-OVERLAP-1018）*/
   A.lastSlot=null;
   function solo(){ if(!A.L) return; for(const s of ['left','right']){ const box=s==='left'?A.L:A.R; box.classList.toggle('off',!!(A.lastSlot&&s!==A.lastSlot)); } }   /* 不看 A.slots：新說話的人立繪還在載入（render 是非同步），另一邊先收起來 */
   A.narrate=function(on){ if(A.active&&A.root) A.root.classList.toggle('narr',on!==false); };

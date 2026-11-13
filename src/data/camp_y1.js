@@ -1,6 +1,6 @@
 /* 開學前迎新宿營 2025/8/22（五）～8/24（日），三天兩夜（CAMP-L1；新遊戲的第一段）。
    規格：AA_205（AA 分支 37e34086／c0d12275／d3de3c88：入口、骨架、旗標、AA 台詞、6-13 補字）、BB_177 第五版（BB 分支 eee886d8＋e627d747：Kevin（臥底）、沛珊、明軒、小隊輔、關主）。
-   使用者 2026-10-16 23:1x～23:5x：開學前三天兩夜、強制參加（沒有報名、費用、沒去的分支）、所有玩家（含經濟系路線）都完整演；每天至少兩個活動；第一天 6～7 人小隊破冰；
+   使用者 2026-10-16 23:1x～23:5x：開學前三天兩夜、強制參加（沒有報名、費用、沒去的分支）、所有玩家（含舊序章的路線）都完整演；每天至少兩個活動；第一天 6～7 人小隊破冰；
    大二學長（Kevin）假裝大一混在小隊、營火晚會揭曉；第二天晚上烤肉；不新增有名字的人物（小隊輔、關主、主持的學長都是背景）。
    一段一個事件（trigger:'camp'），由 story3d.js 的 S.campY1 依時間順序跑（設定日子、時間、背景）；句子只照上面兩份規格，LAWWW 不自己寫（D79）。每段開頭的註解寫來源節。
    旗標：CAMP_Y1（演完）、CAMP_MOLE_CLUE（Kevin 的破綻看過幾個，0～4）、CAMP_MOLE_GUESSED、CAMP_MOLE_REVEALED、CAMP_SEEN（陣列，現在只有 yu）、MX_CAMP_PAIR、MET_ZHE、ZHE_CALLS_GE；
@@ -14,7 +14,7 @@
    台詞用 speaker:'npc_kevin'＋name（揭曉前「凱文」、揭曉後「Kevin」）。圖放進 assets/portraits/npc_kevin/campus/<表情>.webp、跑 build.py（或 tools/gen_portrait_manifest.py）就出現；沒放＝照舊沒有立繪 */
 if(typeof PORTRAITS!=='undefined'&&!PORTRAITS.npc_kevin){ const o={campus:{}}; for(const ex of ['neutral','smile','laugh','surprised']) o.campus[ex]='assets/portraits/npc_kevin/campus/'+ex+'.webp'; PORTRAITS.npc_kevin={characterId:'npc_kevin',displayName:'Kevin',tier:2,defaultOutfit:'campus',defaultPortrait:'assets/portraits/npc_kevin/campus/neutral.webp',outfits:o,silhouette:'m'}; }
 const CAMP_Y1_EVENTS=[
-  /* 8/22 08:30 校門集合、遊覽車（AA_205 2-2 開頭旁白；AA_608 第 10 節第 1 點：不給選項、坐窗邊（CAMP_BUS 固定 'win'）；10-1 明軒的印象一句（不寫名字、不記認識）；AA_195 4-10 經濟系玩家到營地那句）*/
+  /* 8/22 08:30 校門集合、遊覽車（AA_205 2-2 開頭旁白；AA_608 第 10 節第 1 點：不給選項、坐窗邊（CAMP_BUS 固定 'win'）；10-1 明軒的印象一句（不寫名字、不記認識）；AA_195 4-10 舊序章的玩家到營地那句）*/
   { id:'ev_camp_d1_bus', stage:'any', title:'迎新宿營：遊覽車', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'首都帝大校門口',bg:'dark'},
       {speaker:null,text:'放榜以後，系學會建了一個新生群組。宿營的通知是一個禮拜前貼的，新生都要去。'},

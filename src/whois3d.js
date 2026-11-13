@@ -5,7 +5,7 @@
    - 一個人最多 8 行（第 5 節 5-1，企劃線 f726507f7；原本 6 行）：①②、叫你「哥」、任何「在一起了／在一起過」那一行（keep）永遠不擠掉，其他超過的從最舊的拿掉（ord：預設＝表上的順序）。
    - 合併（5-1）：宿營＋遊覽車一行（阿哲、明軒）、阿哲室友＋大三搬走一行、阿哲系籃＋17 號＋隊長一行。
    - 字一字照稿；群組名照 AA_542（STORY.ndlGroupName，法一吃飯……）。
-   名單：法律系 阿哲、Alison、柏翰、芯慈、明軒、宥辰、阿凱；（舊序章那年的四位：AA_893 第 3 節拿掉）；其他 方奕廷、黃筱涵（七位女主角、宋家豪、Kevin 不做，第 0 節）。
+   名單：法律系 阿哲、Alison、柏翰、芯慈、明軒、宥辰、阿凱；（舊序章那年的四位：AA_893 第 3 節拿掉）；其他 方奕廷、黃筱涵（七位女主角、舊序章的人、Kevin 不做，第 0 節）。
    個性那一行（characters.js personality）8 人改字在 characters.js；Alison 照進度換段在 S.desc（1-2）。 */
 'use strict';
 const WHOIS=(()=>{
@@ -118,7 +118,7 @@ const WHOIS=(()=>{
     {c:1,id:'name0',if:mxOld,t:'江明軒。法律系，跟你同班。阿哲的系籃隊友。'},   /* 舊開局（演過 ev_mingxuan_ball）*/
     {c:1,id:'dorm',if:f('DORM_FOUR'),t:'也住宿舍，在別棟。'},
     {c:1,id:'home',if:G=>F(G).MX_3ON3==='went'||done(G,'ev_mx_3on3'),t:'彰化人。'},
-    {c:2,id:'list',if:f('FRIEND_CARD_classmate_mingxuan'),t:'開學第 3 週，給你一張公館便宜好吃的清單。'},   /* AA 11-03 10:07（AA_606 3-4）：原本「宿營夜談，是他問你為什麼重考」——現在問的是阿哲 */
+    {c:2,id:'list',if:f('FRIEND_CARD_classmate_mingxuan'),t:'開學第 3 週，給你一張公館便宜好吃的清單。'},   /* AA 11-03 10:07（AA_606 3-4）：原本「宿營夜談，是他問你為什麼舊序章」——現在問的是阿哲 */
     {c:3,id:'ball',if:G=>!mxOld(G),t:'打系籃，是阿哲的隊友。'},   /* 舊開局的第一行已經寫了，不重複 */
     {c:3,id:'study',if:G=>mem(G,MX,'SAW_HIM_STUDY'),t:'他看起來都沒念書。你撞見過他偷偷念。'},
     {c:3,id:'tutor',if:f('JOB_TUTOR'),t:'你的家教是他介紹的。'},

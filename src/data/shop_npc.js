@@ -77,7 +77,7 @@ const SHOP_NPC={
       hearAny:true,notDating:true,noPlanDay:true,
       place:'法律書那一櫃前面，站著翻（read）',hear:{who:'kexin',t:'你也來這家？……我只是來看有沒有新出的考古題。'},
       hearDating:{who:'kexin',t:'你也來這家？……我來看考古題，不是來等你的。'}}   /* AA_705 補（4f71f7719）：交往中也出（SHOPNPC.KX_DATING_OFF=false；notDating 留著當開關）、只有那一天跟你有約才不出；交往中的那一句（沒交往照原句）*/   /* 北牆書牆西段（「看看法律書與文具」(−4.0, −3.9) 那一櫃）前面、按鈕西邊 0.75 m，面向書牆；路人站的位置 (−2.3, −4.0)、法律系同學找書的 (0.3, −3.95) 都錯開。
-       「她在木柵大學念書，週末才會在公館；和她交往中、或她那一天跟你有約，照約的走，這一列不出」：交往中（G.flags.dating_kexin）、那一天有約（邀約 G.invites、校外約會 G.trips、出遊）＝不出 */
+       「她在外校念書，週末才會在公館；和她交往中、或她那一天跟你有約，照約的走，這一列不出」：交往中（G.flags.dating_kexin）、那一天有約（邀約 G.invites、校外約會 G.trips、出遊）＝不出 */
   ],
   /* 照現在、不另外排的（AA_705 表上「照現在」「不另寫」那幾列；測試對稿用）*/
   asIs:[{shop:'公館燒臘',who:'zhe'},{shop:'頁間書屋',who:'classmate_mingxuan'},{shop:'一盞茶屋',who:'heroine_03'},{shop:'SUNNY SIDE',who:'classmate_xinci'},{shop:'SUNNY SIDE',who:'zhe'}],
