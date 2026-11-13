@@ -354,7 +354,7 @@ const ASSETS = (function(){
   A.prefetchNear=function(E,zoneId){ if(typeof ZONE_ASSETS==='undefined'||!E||!E.player||!E.player.obj||A._pf.cur||A._pf.q.length||A.loadingNow()) return null; const p=E.player.obj.position; let best=null, bd=A.PREFETCH_NEAR_M;
     for(const it of E.interactables||[]){ const to=it&&it.exit&&typeof it.exit.to==='string'?it.exit.to:null; if(!to||to===zoneId||!ZONE_ASSETS[to]) continue; const d=Math.hypot(it.x-p.x,it.z-p.z); if(d<bd&&A.prefetchWanted(ZONE_ASSETS[to])){ bd=d; best=to; } }
     if(best) A.prefetch(ZONE_ASSETS[best]); return best; };
-  A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A._req) A._req.add(key); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
+  A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A._req) A._req.add(key); if(A.zoneUsed) A.zoneUsed.add(key); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
     A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='building') A.markOpaque(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
       if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
@@ -403,6 +403,25 @@ const ASSETS = (function(){
     const disp=o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } for(const m of [].concat(o.material||[])){ if(!m||seen.has(m)) continue; seen.add(m); for(const k of Object.getOwnPropertyNames(m)) tex(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) tex(u.value); } if(m.dispose) m.dispose(); } if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); };
     try{ c.tpl.vrm.scene.traverse(disp); if(c.rest&&c.rest!==c.tpl.vrm.scene) c.rest.traverse(disp); if(c.lod) for(const p of c.lod.parts) disp({geometry:p.geo,material:[p.mat].concat(p.toon||[])}); }catch(e){ console.warn('VRM unload',key,e); }   /* 遠距離版本（p.toon＝character3d.js 做的卡通材質）一起放掉 */
     delete A.cache[key]; delete A.status[key]; A.unloaded=(A.unloaded|0)+1; return true; };
+  /* BUG-IOS-RELOAD（LAWWW-C 11-13；任務表「下一步：離開區域時把下一區用不到的建築 GLB 從 ASSETS.cache 拿掉，要先量」）：
+     iPhone Safari 記憶體不夠會把分頁重新載入（玩家被踢回標題）。建築 GLB（type:'building'）載過一直留在 A.cache——換區域時 engine3d.js disposeGroup 只放掉 GPU 那份，
+     CPU 那份（幾何陣列、貼圖圖片）一直在。這裡記每個區域用過哪些鍵（A.zoneUse：game3d.js enter 換區域時呼叫；之後在區域裡才載的也算，loadOne 會加進 A.zoneUsed），
+     換區域以後把「現在這一區、前 A.EVICT_KEEP_ZONES 個區域都沒用到」的建築 GLB 放掉（幾何、材質、自己的貼圖 dispose；跨模型共用的貼圖 A.texShare 不碰；圖片不 close——
+     同一張圖可能也被共用的那份貼圖用著，交給 GC）；再去那一區時重新下載（瀏覽器 HTTP 快取）＋解析。
+     先只在網址加 ?glbevict 時做（要量：renderer.info 貼圖數、JS heap、再進同一區的時間、有沒有黑貼圖），量過才決定要不要預設打開。A.lastEvict／A.evicted 記結果。*/
+  A.EVICT_KEEP_ZONES=2; A.zoneUsed=null; A.zoneHist=[]; A.evicted=0; A.lastEvict=null;
+  A.evictOn=function(){ return typeof location!=='undefined'&&/[?&]glbevict(?:[=&]|$)/.test(location.search||''); };
+  A.zoneUse=function(keys){ if(A.zoneUsed){ A.zoneHist.unshift(A.zoneUsed); if(A.zoneHist.length>A.EVICT_KEEP_ZONES) A.zoneHist.length=A.EVICT_KEEP_ZONES; } A.zoneUsed=new Set(keys||[]); return A.zoneUsed; };
+  A.evictBuildings=function(){ const keep=new Set(A.zoneUsed||[]); for(const z of A.zoneHist) for(const k of z) keep.add(k);
+    const shared=new Set(A.texShare.values()); let n=0, tex=0; const keys=[];
+    for(const k of Object.keys(A.cache)){ const m=A.manifest[k], c=A.cache[k]; if(!m||m.type!=='building'||m.keep||keep.has(k)||!c||!c.scene||!c.scene.traverse) continue;
+      const seen=new Set();
+      try{ c.scene.traverse(o=>{ const g=o.geometry; if(g&&!seen.has(g)&&!(g.userData&&g.userData.shared)){ seen.add(g); g.dispose(); }
+          for(const mt of [].concat(o.material||[])){ if(!mt||seen.has(mt)) continue; seen.add(mt);
+            for(const tk of TEX_KEYS){ const t=mt[tk]; if(!t||!t.isTexture||seen.has(t)||shared.has(t)) continue; seen.add(t); t.dispose(); tex++; }
+            if(mt.dispose) mt.dispose(); } }); }catch(e){ console.warn('ASSETS.evictBuildings',k,e); }
+      delete A.cache[k]; delete A.status[k]; delete A.prefetched[k]; keys.push(k); n++; }
+    A.evicted+=n; A.lastEvict={n,tex,keep:keep.size,keys}; return A.lastEvict; };
   A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { const had=c.clones.some(e=>e.vrm===vrm); c.clones=c.clones.filter(e=>e.vrm!==vrm); if(had) disposeClone(vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
   A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.tpl?99:0; };
   // 清單（給 REVIEW / LICENSES 用）
