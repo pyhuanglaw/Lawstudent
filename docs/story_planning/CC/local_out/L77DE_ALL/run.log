@@ -1,0 +1,310 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l77de_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L77DE_ALL\out
+CC L77DE（LAWWW-C 07:43／07:47 更正）：TAG 8cd9；SHA a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492；PARTS HOURS,JOBS2；Windows＋GPU ≠ iPhone
+  [前置／捷徑] 網址加 ?tapguard（選單剛出來那一下不收點擊，和真手機一樣；CC_02 乙 4）：http://127.0.0.1:8802/index.html?tapguard
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到使用者存檔 tests/fixtures/user_save_day51_1110.json
+PASS 這一版有要測的東西（SH831、AA_831 第二版 limaoClose、JOBS.busyLine／znCoLines／staffTicketTakeLine／liveAt）  {"sh831": true, "limaoClose": true, "busyLine": true, "zn": true, "take": true, "live": true}
+PASS [HOURS] 找得到存檔以後第一個學期中的週三（不是假日、颱風）  {"d": 57, "key": "2025-11-12", "wd": 3, "term": "Y1S1", "week": 11, "why": {"wd": 5, "term": 0, "exam": 0, "hol": 0, "ty": 0}}
+PASS [HOURS] 找得到存檔以後第一個學期中的週六（頁間書屋的班）  {"d": 53, "key": "2025-11-08", "wd": 6, "term": "Y1S1", "week": 10, "why": {"wd": 1, "term": 0, "exam": 0, "hol": 0, "ty": 0}}
+PASS [HOURS us_market] 美國那一天 2028-09-13、出發日 2028-08-02 讀得到（STORY.dayOfKey）  [{"d": 1093, "key": "2028-09-13", "wd": 3, "typhoon": false, "hol": false}, {"d": 1051, "key": "2028-08-02", "wd": 3, "typhoon": false, "hol": false}, {"d": 996, "key": "2028-06-08", "wd": 4, "typhoon": false, "hol": false}]
+  [  26.4s] [HOURS noodle] 頁面上的資料：{"z": "noodle", "name": "公館燒臘", "door": "（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", "sh831": true, "ws": [[11, 23]], "text": "每天 11:00–23:00", "who": "老闆娘", "line": "我們今天要打烊了。", "mute": false, "to": "gongguan", "typhoon": false, "limaoClose": {"who": "上師", "line": "今天就看到這裡。回去早點睡。"}, "close": 23}
+PASS [HOURS noodle] 這一版的時間＝原始碼 places.js（[11, 23]）  [[11, 23]]
+PASS [HOURS noodle] 門口那一句＝原始碼 shop_hours_aa831.js  "（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）"
+PASS [HOURS noodle] 打烊那一句、說話的人＝原始碼 xs_close3d.js（["老闆娘", "我們今天要打烊了。"]）  ["老闆娘", "我們今天要打烊了。", false]
+  [前置／捷徑] [HOURS noodle a 打烊以後的店門] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 23.20 時（關門 23.00 後 0.2 小時）gongguan 出生點
+PASS [HOURS noodle a 打烊以後的店門] 讀到 gongguan  {"zone": "gongguan", "day": 57, "hour": 23.247, "money": 95220, "x": -2.5, "z": -29, "lv": 0, "busy": false, "dlg": false, "dtext": "｜", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS noodle a 打烊以後的店門] gongguan 有看得到的店門  {"door": [{"n": 1, "label": "進入公館燒臘", "x": -63, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "noodle", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進入公館燒臘", "to": "noodle"}, {"label": "進入青木茶室", "to": "aoki"}, {"label": "進入頁間書屋", "to": "bookstore"}, {"label": "進入便利商店", "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"label": "進入 afar café", "to": "afar"}, {"label": "進入 轉角唱片", "to": "corner_records"}, {"label": "進入 Daybreak", "to": "daybreak"}, {"label": "進入慢輪單車", "to": "bikeshop"}, {"label": "回到校園", "to": "campus"}, {"label": "回到校園", "to": "campus"}, {"label": "往汀州路（巷子）", "to": "tingzhou"}, {"label": "進入花序", "to": "flower_notes"}, {"label": "進入安泰藥局", "to": "gg_antai"}, {"label": "進入汀州鮮果", "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "to": "gg_rongendian"}]}
+  [前置／捷徑] [HOURS noodle a 打烊以後的店門] 【前置／捷徑】E.placeAt 站到「進入公館燒臘」(-63, 21) 前 4 m 的 (-59.02, 20.56)（path）
+  [  55.2s] 到達「[HOURS noodle a 打烊以後的店門] 走到「進入公館燒臘」旁（第 1 點、第 1 段）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS noodle a 打烊以後的店門] 走到「進入公館燒臘」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [-63, 21], "seg": 1, "ok": true, "at": [-62.777, 20.976, 0], "interact": "進入公館燒臘", "how": "點地 go_to"}]
+  [  60.9s] [HOURS noodle a 打烊以後的店門] 按下去：{"zone": "gongguan", "hour": 23.303, "stand": true}；對話 [[null, "（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", 23.283, "gongguan"]]；toast ["公館燒臘 現在沒有開（今天 11:00–23:00）。下次開門：明天 11:00。"]；caption []
+PASS [HOURS noodle a 打烊以後的店門] 按了以後沒有進去（還在 gongguan）  {"zone": "gongguan", "day": 57, "hour": 23.303, "money": 95220, "x": -62.78, "z": 20.98, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", "nch": 0, "interact": "進入公館燒臘", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS noodle a 打烊以後的店門] 旁白＝稿的那一句「（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）」（說話的人空白）  [[null, "（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", 23.283, "gongguan"]]
+PASS [HOURS noodle a 打烊以後的店門] toast＝開放時間 PLACES.closedText「公館燒臘 現在沒有開（今天 11:00–23:00）。下次開門：明天 11:00。」  ["公館燒臘 現在沒有開（今天 11:00–23:00）。下次開門：明天 11:00。"]
+  [前置／捷徑] [HOURS noodle b 打烊時人在店裡] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 22.70 時（關門前 0.3 小時）在 noodle 店裡（出生點）
+PASS [HOURS noodle b 打烊時人在店裡] 讀到 noodle（開著）  {"zone": "noodle", "day": 57, "hour": 22.758, "money": 95220, "x": 0, "z": 4.5, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS noodle b 打烊時人在店裡] 前置：讀檔的時候店開著（這一趟看過開著）  {"open": true, "due": false, "early": false}
+  [ 103.3s] [HOURS noodle b 打烊時人在店裡] 等打烊 30 秒：{"zone": "noodle", "hour": 22.961, "busy": false, "interact": ""}；{"open": true, "due": false, "early": false}
+  [ 117.5s] [HOURS noodle b 打烊時人在店裡] 對話 [["老闆娘", "我們今天要打烊了。", 23.003, "noodle"]]；toast ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。"]；最後 {"zone": "gongguan", "day": 57, "hour": 23.024, "money": 95220, "x": -63, "z": 18, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS noodle b 打烊時人在店裡] 等到打烊、被帶出店（等的時候在店裡，900 秒內）  {"zone": "gongguan", "day": 57, "hour": 23.024, "money": 95220, "x": -63, "z": 18, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS noodle b 打烊時人在店裡] 打烊那一句：老闆娘「我們今天要打烊了。」  [["老闆娘", "我們今天要打烊了。", 23.003, "noodle"]]
+  [ 117.5s] [HOURS noodle b 打烊時人在店裡] 那一句說的時候 23.003 時、在 noodle
+PASS [HOURS noodle b 打烊時人在店裡] 那一句在店裡說（走出去以前）  [["老闆娘", "我們今天要打烊了。", 23.003, "noodle"]]
+PASS [HOURS noodle b 打烊時人在店裡] 走到店外：gongguan（表上的 to／店裡的出口）  {"zone": "gongguan", "exits": [{"label": "離開公館燒臘", "to": "gongguan"}]}
+PASS [HOURS noodle b 打烊時人在店裡] 出來以後站得住（canStand）  {"zone": "gongguan", "day": 57, "hour": 23.024, "money": 95220, "x": -63, "z": 18, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [前置／捷徑] [HOURS noodle c 讀檔在已經關的店裡] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 9.50 時（關著）人在 noodle 店裡（出生點）
+  [ 129.4s] [HOURS noodle c 讀檔在已經關的店裡] 讀檔後 10 秒：{"zone": "gongguan", "day": 57, "hour": 9.557, "money": 95220, "x": -63, "z": 18, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}；對話 []；toast ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。", "公館燒臘 現在沒有開（今天 11:00–23:00）。下次開門：今天 11:00。"]
+PASS [HOURS noodle c 讀檔在已經關的店裡] 被帶出店（不在 noodle）  {"zone": "gongguan", "day": 57, "hour": 9.557, "money": 95220, "x": -63, "z": 18, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS noodle c 讀檔在已經關的店裡] 到了 gongguan（表上的 to）  {"zone": "gongguan", "day": 57, "hour": 9.557, "money": 95220, "x": -63, "z": 18, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS noodle c 讀檔在已經關的店裡] 沒有說打烊那一句（不是打烊那一刻、這一趟沒看過開著）  []
+PASS [HOURS noodle c 讀檔在已經關的店裡] toast＝開放時間（PLACES.closedText，含「每天 11:00–23:00」）  {"toast": ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。", "公館燒臘 現在沒有開（今天 11:00–23:00）。下次開門：今天 11:00。"], "exp": "公館燒臘 現在沒有開（今天 11:00–23:00）。下次開門：今天 11:00。"}
+PASS [HOURS noodle c 讀檔在已經關的店裡] 出來以後站得住（canStand）  {"zone": "gongguan", "day": 57, "hour": 9.557, "money": 95220, "x": -63, "z": 18, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS noodle c 讀檔在已經關的店裡] 推搖桿走得動（沒有卡住，≥0.3 m）  3.18
+  [前置／捷徑] [HOURS noodle d 邀約] 【前置／捷徑】讀使用者存檔，改到 2025-11-12（週三）10.20 時 gongguan 出生點（noodle 關著）；G.jobs 只留 _meta、拿掉那天的邀約；G.invites 加一筆答應了的邀約 noodle 11.00 時（約的前一小時起 SH831.due）
+PASS [HOURS noodle d 邀約] 讀到 gongguan  {"zone": "gongguan", "day": 57, "hour": 10.256, "money": 95220, "x": -2.5, "z": -29, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [ 143.7s] [HOURS noodle d 邀約] 按以前：{"open": false, "due": true, "early": false}
+PASS [HOURS noodle d 邀約] 前置：店關著、這一天有邀約（SH831.due 真）  {"open": false, "due": true, "early": false}
+PASS [HOURS noodle d 邀約] gongguan 有看得到的店門  {"door": [{"n": 1, "label": "進入公館燒臘", "x": -63, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "noodle", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進入公館燒臘", "to": "noodle"}, {"label": "進入青木茶室", "to": "aoki"}, {"label": "進入頁間書屋", "to": "bookstore"}, {"label": "進入便利商店", "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"label": "進入 afar café", "to": "afar"}, {"label": "進入 轉角唱片", "to": "corner_records"}, {"label": "進入 Daybreak", "to": "daybreak"}, {"label": "進入慢輪單車", "to": "bikeshop"}, {"label": "回到校園", "to": "campus"}, {"label": "回到校園", "to": "campus"}, {"label": "往汀州路（巷子）", "to": "tingzhou"}, {"label": "進入花序", "to": "flower_notes"}, {"label": "進入安泰藥局", "to": "gg_antai"}, {"label": "進入汀州鮮果", "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "to": "gg_rongendian"}]}
+  [前置／捷徑] [HOURS noodle d 邀約] 【前置／捷徑】E.placeAt 站到「進入公館燒臘」(-63, 21) 前 4 m 的 (-59.02, 20.56)（path）
+  [ 148.0s] 到達「[HOURS noodle d 邀約] 走到「進入公館燒臘」旁（第 1 點、第 1 段）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS noodle d 邀約] 走到「進入公館燒臘」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [-63, 21], "seg": 1, "ok": true, "at": [-62.807, 20.98, 0], "interact": "進入公館燒臘", "how": "點地 go_to"}]
+  [ 152.9s] [HOURS noodle d 邀約] 按下去：{"zone": "noodle", "hour": 10.315, "stand": true}；對話 []；toast []；caption ["（約好的是 11:00。還早。你在門口的長椅坐了一下。）"]
+PASS [HOURS noodle d 邀約] 關著也進得去（到了 noodle）  {"q": {"zone": "noodle", "x": 0, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.32}, "inv": [{"state": "accepted", "accepted": true, "h": 11, "day": 57, "place": "noodle"}]}
+  [前置／捷徑] [HOURS noodle d 邀約 對照（沒有約、沒有班）] 【前置／捷徑】讀使用者存檔，改到 2025-11-12（週三）10.20 時 gongguan 出生點（noodle 關著）；G.jobs 只留 _meta、拿掉那天的邀約
+PASS [HOURS noodle d 邀約 對照（沒有約、沒有班）] 讀到 gongguan  {"zone": "gongguan", "day": 57, "hour": 10.258, "money": 95220, "x": -2.5, "z": -29, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [ 164.5s] [HOURS noodle d 邀約 對照（沒有約、沒有班）] 按以前：{"open": false, "due": false, "early": false}
+PASS [HOURS noodle d 邀約 對照（沒有約、沒有班）] 前置：店關著、沒有約也沒有班（SH831.due 假）  {"open": false, "due": false, "early": false}
+PASS [HOURS noodle d 邀約 對照（沒有約、沒有班）] gongguan 有看得到的店門  {"door": [{"n": 1, "label": "進入公館燒臘", "x": -63, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "noodle", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進入公館燒臘", "to": "noodle"}, {"label": "進入青木茶室", "to": "aoki"}, {"label": "進入頁間書屋", "to": "bookstore"}, {"label": "進入便利商店", "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"label": "進入 afar café", "to": "afar"}, {"label": "進入 轉角唱片", "to": "corner_records"}, {"label": "進入 Daybreak", "to": "daybreak"}, {"label": "進入慢輪單車", "to": "bikeshop"}, {"label": "回到校園", "to": "campus"}, {"label": "回到校園", "to": "campus"}, {"label": "往汀州路（巷子）", "to": "tingzhou"}, {"label": "進入花序", "to": "flower_notes"}, {"label": "進入安泰藥局", "to": "gg_antai"}, {"label": "進入汀州鮮果", "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "to": "gg_rongendian"}]}
+  [前置／捷徑] [HOURS noodle d 邀約 對照（沒有約、沒有班）] 【前置／捷徑】E.placeAt 站到「進入公館燒臘」(-63, 21) 前 4 m 的 (-59.02, 20.56)（path）
+  [ 168.8s] 到達「[HOURS noodle d 邀約 對照（沒有約、沒有班）] 走到「進入公館燒臘」旁（第 1 點、第 1 段）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS noodle d 邀約 對照（沒有約、沒有班）] 走到「進入公館燒臘」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [-63, 21], "seg": 1, "ok": true, "at": [-62.777, 20.977, 0], "interact": "進入公館燒臘", "how": "點地 go_to"}]
+  [ 174.5s] [HOURS noodle d 邀約 對照（沒有約、沒有班）] 按下去：{"zone": "gongguan", "hour": 10.313, "stand": true}；對話 [[null, "（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", 10.293, "gongguan"]]；toast ["公館燒臘 現在沒有開（今天 11:00–23:00）。下次開門：今天 11:00。"]；caption []
+PASS [HOURS noodle d 邀約 對照（沒有約、沒有班）] 對照：同一時間進不去（還在 gongguan、旁白是門口那一句）  {"after": {"zone": "gongguan", "day": 57, "hour": 10.313, "money": 95220, "x": -62.78, "z": 20.98, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", "nch": 0, "interact": "進入公館燒臘", "fb": 0, "stand": true, "phone": false, "jr": false}, "say": [[null, "（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", 10.293, "gongguan"]]}
+  [ 174.5s] [HOURS bookstore] 頁面上的資料：{"z": "bookstore", "name": "頁間書屋", "door": "（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "sh831": true, "ws": [[10, 21.5]], "text": "每天 10:00–21:30", "who": "老闆", "line": "我們今天要打烊了。", "mute": false, "to": "gongguan", "typhoon": false, "limaoClose": {"who": "上師", "line": "今天就看到這裡。回去早點睡。"}, "close": 21.5}
+PASS [HOURS bookstore] 這一版的時間＝原始碼 places.js（[10, 21.5]）  [[10, 21.5]]
+PASS [HOURS bookstore] 門口那一句＝原始碼 shop_hours_aa831.js  "（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）"
+PASS [HOURS bookstore] 打烊那一句、說話的人＝原始碼 xs_close3d.js（["老闆", "我們今天要打烊了。"]）  ["老闆", "我們今天要打烊了。", false]
+  [前置／捷徑] [HOURS bookstore a 打烊以後的店門] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 21.70 時（關門 21.50 後 0.2 小時）gongguan 出生點
+PASS [HOURS bookstore a 打烊以後的店門] 讀到 gongguan  {"zone": "gongguan", "day": 57, "hour": 21.758, "money": 95220, "x": -2.5, "z": -29, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來了。玻璃櫃裡的掛鉤是空的，只剩一盞小燈。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS bookstore a 打烊以後的店門] gongguan 有看得到的店門  {"door": [{"n": 4, "label": "進入頁間書屋", "x": -36.4, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "bookstore", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進入公館燒臘", "to": "noodle"}, {"label": "進入青木茶室", "to": "aoki"}, {"label": "進入頁間書屋", "to": "bookstore"}, {"label": "進入便利商店", "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"label": "進入 afar café", "to": "afar"}, {"label": "進入 轉角唱片", "to": "corner_records"}, {"label": "進入 Daybreak", "to": "daybreak"}, {"label": "進入慢輪單車", "to": "bikeshop"}, {"label": "回到校園", "to": "campus"}, {"label": "回到校園", "to": "campus"}, {"label": "往汀州路（巷子）", "to": "tingzhou"}, {"label": "進入花序", "to": "flower_notes"}, {"label": "進入安泰藥局", "to": "gg_antai"}, {"label": "進入汀州鮮果", "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "to": "gg_rongendian"}]}
+  [前置／捷徑] [HOURS bookstore a 打烊以後的店門] 【前置／捷徑】E.placeAt 站到「進入頁間書屋」(-36.4, 21) 前 4 m 的 (-35.54, 17.09)（path）
+  [ 190.2s] 到達「[HOURS bookstore a 打烊以後的店門] 走到「進入頁間書屋」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS bookstore a 打烊以後的店門] 走到「進入頁間書屋」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [-36.4, 21], "seg": 1, "ok": true, "at": [-36.352, 20.782, 0], "interact": "進入頁間書屋", "how": "點地 go_to"}]
+  [ 195.8s] [HOURS bookstore a 打烊以後的店門] 按下去：{"zone": "gongguan", "hour": 21.813, "stand": true}；對話 [[null, "（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", 21.793, "gongguan"]]；toast ["頁間書屋 現在沒有開（今天 10:00–21:30）。下次開門：明天 10:00。"]；caption []
+PASS [HOURS bookstore a 打烊以後的店門] 按了以後沒有進去（還在 gongguan）  {"zone": "gongguan", "day": 57, "hour": 21.813, "money": 95220, "x": -36.35, "z": 20.78, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "nch": 0, "interact": "進入頁間書屋", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS bookstore a 打烊以後的店門] 旁白＝稿的那一句「（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）」（說話的人空白）  [[null, "（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", 21.793, "gongguan"]]
+PASS [HOURS bookstore a 打烊以後的店門] toast＝開放時間 PLACES.closedText「頁間書屋 現在沒有開（今天 10:00–21:30）。下次開門：明天 10:00。」  ["頁間書屋 現在沒有開（今天 10:00–21:30）。下次開門：明天 10:00。"]
+  [前置／捷徑] [HOURS bookstore b 打烊時人在店裡] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 21.20 時（關門前 0.3 小時）在 bookstore 店裡（出生點）
+PASS [HOURS bookstore b 打烊時人在店裡] 讀到 bookstore（開著）  {"zone": "bookstore", "day": 57, "hour": 21.257, "money": 95220, "x": -4.6, "z": 3, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "nch": 0, "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS bookstore b 打烊時人在店裡] 前置：讀檔的時候店開著（這一趟看過開著）  {"open": true, "due": false, "early": false}
+  [ 237.3s] [HOURS bookstore b 打烊時人在店裡] 等打烊 30 秒：{"zone": "bookstore", "hour": 21.46, "busy": false, "interact": "應徵：週末缺人。會搬書、不怕灰塵。"}；{"open": true, "due": false, "early": false}
+  [ 250.2s] [HOURS bookstore b 打烊時人在店裡] 對話 [["老闆", "我們今天要打烊了。", 21.5, "bookstore"]]；toast ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。"]；最後 {"zone": "gongguan", "day": 57, "hour": 21.522, "money": 95220, "x": -38.8, "z": 20.2, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS bookstore b 打烊時人在店裡] 等到打烊、被帶出店（等的時候在店裡，900 秒內）  {"zone": "gongguan", "day": 57, "hour": 21.522, "money": 95220, "x": -38.8, "z": 20.2, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS bookstore b 打烊時人在店裡] 打烊那一句：老闆「我們今天要打烊了。」  [["老闆", "我們今天要打烊了。", 21.5, "bookstore"]]
+  [ 250.2s] [HOURS bookstore b 打烊時人在店裡] 那一句說的時候 21.5 時、在 bookstore
+PASS [HOURS bookstore b 打烊時人在店裡] 那一句在店裡說（走出去以前）  [["老闆", "我們今天要打烊了。", 21.5, "bookstore"]]
+PASS [HOURS bookstore b 打烊時人在店裡] 走到店外：gongguan（表上的 to／店裡的出口）  {"zone": "gongguan", "exits": [{"label": "離開頁間書屋", "to": "gongguan"}]}
+PASS [HOURS bookstore b 打烊時人在店裡] 出來以後站得住（canStand）  {"zone": "gongguan", "day": 57, "hour": 21.522, "money": 95220, "x": -38.8, "z": 20.2, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [前置／捷徑] [HOURS bookstore c 讀檔在已經關的店裡] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 22.50 時（關著）人在 bookstore 店裡（出生點）
+  [ 262.3s] [HOURS bookstore c 讀檔在已經關的店裡] 讀檔後 10 秒：{"zone": "gongguan", "day": 57, "hour": 22.559, "money": 95220, "x": -38.8, "z": 20.2, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}；對話 []；toast ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。", "頁間書屋 現在沒有開（今天 10:00–21:30）。下次開門：明天 10:00。"]
+PASS [HOURS bookstore c 讀檔在已經關的店裡] 被帶出店（不在 bookstore）  {"zone": "gongguan", "day": 57, "hour": 22.559, "money": 95220, "x": -38.8, "z": 20.2, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS bookstore c 讀檔在已經關的店裡] 到了 gongguan（表上的 to）  {"zone": "gongguan", "day": 57, "hour": 22.559, "money": 95220, "x": -38.8, "z": 20.2, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS bookstore c 讀檔在已經關的店裡] 沒有說打烊那一句（不是打烊那一刻、這一趟沒看過開著）  []
+PASS [HOURS bookstore c 讀檔在已經關的店裡] toast＝開放時間（PLACES.closedText，含「每天 10:00–21:30」）  {"toast": ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。", "頁間書屋 現在沒有開（今天 10:00–21:30）。下次開門：明天 10:00。"], "exp": "頁間書屋 現在沒有開（今天 10:00–21:30）。下次開門：明天 10:00。"}
+PASS [HOURS bookstore c 讀檔在已經關的店裡] 出來以後站得住（canStand）  {"zone": "gongguan", "day": 57, "hour": 22.559, "money": 95220, "x": -38.8, "z": 20.2, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS bookstore c 讀檔在已經關的店裡] 推搖桿走得動（沒有卡住，≥0.3 m）  0.47
+  [前置／捷徑] [HOURS bookstore d 邀約] 【前置／捷徑】讀使用者存檔，改到 2025-11-12（週三）9.20 時 gongguan 出生點（bookstore 關著）；G.jobs 只留 _meta、拿掉那天的邀約；G.invites 加一筆答應了的邀約 bookstore 10.00 時（約的前一小時起 SH831.due）
+PASS [HOURS bookstore d 邀約] 讀到 gongguan  {"zone": "gongguan", "day": 57, "hour": 9.258, "money": 95220, "x": -2.5, "z": -29, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [ 275.7s] [HOURS bookstore d 邀約] 按以前：{"open": false, "due": true, "early": false}
+PASS [HOURS bookstore d 邀約] 前置：店關著、這一天有邀約（SH831.due 真）  {"open": false, "due": true, "early": false}
+PASS [HOURS bookstore d 邀約] gongguan 有看得到的店門  {"door": [{"n": 4, "label": "進入頁間書屋", "x": -36.4, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "bookstore", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進入公館燒臘", "to": "noodle"}, {"label": "進入青木茶室", "to": "aoki"}, {"label": "進入頁間書屋", "to": "bookstore"}, {"label": "進入便利商店", "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"label": "進入 afar café", "to": "afar"}, {"label": "進入 轉角唱片", "to": "corner_records"}, {"label": "進入 Daybreak", "to": "daybreak"}, {"label": "進入慢輪單車", "to": "bikeshop"}, {"label": "回到校園", "to": "campus"}, {"label": "回到校園", "to": "campus"}, {"label": "往汀州路（巷子）", "to": "tingzhou"}, {"label": "進入花序", "to": "flower_notes"}, {"label": "進入安泰藥局", "to": "gg_antai"}, {"label": "進入汀州鮮果", "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "to": "gg_rongendian"}]}
+  [前置／捷徑] [HOURS bookstore d 邀約] 【前置／捷徑】E.placeAt 站到「進入頁間書屋」(-36.4, 21) 前 4 m 的 (-35.54, 17.09)（path）
+  [ 280.1s] 到達「[HOURS bookstore d 邀約] 走到「進入頁間書屋」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS bookstore d 邀約] 走到「進入頁間書屋」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [-36.4, 21], "seg": 1, "ok": true, "at": [-36.351, 20.782, 0], "interact": "進入頁間書屋", "how": "點地 go_to"}]
+  [ 285.3s] [HOURS bookstore d 邀約] 按下去：{"zone": "bookstore", "hour": 9.315, "stand": true}；對話 []；toast []；caption ["（約好的是 10:00。還早。你在門口的長椅坐了一下。）"]
+PASS [HOURS bookstore d 邀約] 關著也進得去（到了 bookstore）  {"q": {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 9.32}, "inv": [{"state": "accepted", "accepted": true, "h": 10, "day": 57, "place": "bookstore"}]}
+  [前置／捷徑] [HOURS bookstore d 邀約 對照（沒有約、沒有班）] 【前置／捷徑】讀使用者存檔，改到 2025-11-12（週三）9.20 時 gongguan 出生點（bookstore 關著）；G.jobs 只留 _meta、拿掉那天的邀約
+PASS [HOURS bookstore d 邀約 對照（沒有約、沒有班）] 讀到 gongguan  {"zone": "gongguan", "day": 57, "hour": 9.258, "money": 95220, "x": -2.5, "z": -29, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [ 296.7s] [HOURS bookstore d 邀約 對照（沒有約、沒有班）] 按以前：{"open": false, "due": false, "early": false}
+PASS [HOURS bookstore d 邀約 對照（沒有約、沒有班）] 前置：店關著、沒有約也沒有班（SH831.due 假）  {"open": false, "due": false, "early": false}
+PASS [HOURS bookstore d 邀約 對照（沒有約、沒有班）] gongguan 有看得到的店門  {"door": [{"n": 4, "label": "進入頁間書屋", "x": -36.4, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "bookstore", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進入公館燒臘", "to": "noodle"}, {"label": "進入青木茶室", "to": "aoki"}, {"label": "進入頁間書屋", "to": "bookstore"}, {"label": "進入便利商店", "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"label": "進入 afar café", "to": "afar"}, {"label": "進入 轉角唱片", "to": "corner_records"}, {"label": "進入 Daybreak", "to": "daybreak"}, {"label": "進入慢輪單車", "to": "bikeshop"}, {"label": "回到校園", "to": "campus"}, {"label": "回到校園", "to": "campus"}, {"label": "往汀州路（巷子）", "to": "tingzhou"}, {"label": "進入花序", "to": "flower_notes"}, {"label": "進入安泰藥局", "to": "gg_antai"}, {"label": "進入汀州鮮果", "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "to": "gg_rongendian"}]}
+  [前置／捷徑] [HOURS bookstore d 邀約 對照（沒有約、沒有班）] 【前置／捷徑】E.placeAt 站到「進入頁間書屋」(-36.4, 21) 前 4 m 的 (-35.54, 17.09)（path）
+  [ 301.0s] 到達「[HOURS bookstore d 邀約 對照（沒有約、沒有班）] 走到「進入頁間書屋」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS bookstore d 邀約 對照（沒有約、沒有班）] 走到「進入頁間書屋」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [-36.4, 21], "seg": 1, "ok": true, "at": [-36.351, 20.782, 0], "interact": "進入頁間書屋", "how": "點地 go_to"}]
+  [ 306.7s] [HOURS bookstore d 邀約 對照（沒有約、沒有班）] 按下去：{"zone": "gongguan", "hour": 9.313, "stand": true}；對話 [[null, "（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", 9.293, "gongguan"]]；toast ["頁間書屋 現在沒有開（今天 10:00–21:30）。下次開門：今天 10:00。"]；caption []
+PASS [HOURS bookstore d 邀約 對照（沒有約、沒有班）] 對照：同一時間進不去（還在 gongguan、旁白是門口那一句）  {"after": {"zone": "gongguan", "day": 57, "hour": 9.313, "money": 95220, "x": -36.35, "z": 20.78, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "nch": 0, "interact": "進入頁間書屋", "fb": 0, "stand": true, "phone": false, "jr": false}, "say": [[null, "（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", 9.293, "gongguan"]]}
+  [前置／捷徑] [HOURS bookstore d 有班] 【前置／捷徑】讀使用者存檔，改到 2025-11-08（週六）9.60 時 gongguan 出生點（bookstore 關著）；G.jobs 只留 _meta、拿掉那天的邀約；G.jobs.books＝頁間書屋週六 10:00～14:00 的班（JOBS.early：開班前半小時起）
+  [ 319.3s] [HOURS bookstore d 有班] 讀檔以後先有的劇情（照字點完，記下來）：["選項：出發：頁間書屋的班（10:00～14:00）｜晚一點（20 分鐘後再提醒）｜這週請假"]
+PASS [HOURS bookstore d 有班] 讀到 gongguan  {"zone": "gongguan", "day": 53, "hour": 9.62, "money": 95220, "x": -2.5, "z": -29, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [ 319.3s] [HOURS bookstore d 有班] 按以前：{"open": false, "due": true, "early": true}
+PASS [HOURS bookstore d 有班] 前置：店關著、這一天有有班（SH831.due 真）  {"open": false, "due": true, "early": true}
+PASS [HOURS bookstore d 有班] gongguan 有看得到的店門  {"door": [{"n": 4, "label": "進入頁間書屋", "x": -36.4, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "bookstore", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進入公館燒臘", "to": "noodle"}, {"label": "進入青木茶室", "to": "aoki"}, {"label": "進入頁間書屋", "to": "bookstore"}, {"label": "進入便利商店", "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"label": "進入 afar café", "to": "afar"}, {"label": "進入 轉角唱片", "to": "corner_records"}, {"label": "進入 Daybreak", "to": "daybreak"}, {"label": "進入慢輪單車", "to": "bikeshop"}, {"label": "回到校園", "to": "campus"}, {"label": "回到校園", "to": "campus"}, {"label": "往汀州路（巷子）", "to": "tingzhou"}, {"label": "進入花序", "to": "flower_notes"}, {"label": "進入安泰藥局", "to": "gg_antai"}, {"label": "進入汀州鮮果", "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "to": "gg_rongendian"}]}
+  [前置／捷徑] [HOURS bookstore d 有班] 【前置／捷徑】E.placeAt 站到「進入頁間書屋」(-36.4, 21) 前 4 m 的 (-35.54, 17.09)（path）
+  [ 329.6s] 「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 1 點、第 1 段）」途中停下（離目標 36.54 m）：（書架上的書按什麼排的，你還看不出來。）
+  [ 385.2s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 1 點、第 3 段）」：最後位置 (-4.6,3)，目標 (-36.4,21)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 385.2s]   這段時間：畫面 2446 格／42 秒、遊戲時間 14.00→14.28、paused=False、開著的面板 []
+  [ 427.6s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 1 點、第 4 段）」：最後位置 (-4.6,3)，目標 (-36.4,21)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 427.6s]   這段時間：畫面 2499 格／42 秒、遊戲時間 14.28→14.56、paused=False、開著的面板 []
+  [ 428.2s] [HOURS bookstore d 有班] 第 1 點到了、互動鍵是「找老闆」不是「進入頁間書屋」：換下一點
+  [ 469.9s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 2 點、第 1 段）」：最後位置 (-4.6,3)，目標 (-36.3,20.72)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 469.9s]   這段時間：畫面 2498 格／42 秒、遊戲時間 14.56→14.84、paused=False、開著的面板 []
+  [ 512.3s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 2 點、第 2 段）」：最後位置 (-4.6,3)，目標 (-36.3,20.72)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 512.4s]   這段時間：畫面 2495 格／42 秒、遊戲時間 14.85→15.12、paused=False、開著的面板 []
+  [ 554.8s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 2 點、第 3 段）」：最後位置 (-4.6,3)，目標 (-36.3,20.72)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 554.8s]   這段時間：畫面 2501 格／42 秒、遊戲時間 15.13→15.41、paused=False、開著的面板 []
+  [ 597.4s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 2 點、第 4 段）」：最後位置 (-4.6,3)，目標 (-36.3,20.72)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 597.4s]   這段時間：畫面 2499 格／42 秒、遊戲時間 15.41→15.69、paused=False、開著的面板 []
+  [ 598.1s] [HOURS bookstore d 有班] 第 2 點到了、互動鍵是「找老闆」不是「進入頁間書屋」：換下一點
+  [ 639.9s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 3 點、第 1 段）」：最後位置 (-4.6,3)，目標 (-36.57,20.53)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 639.9s]   這段時間：畫面 2510 格／42 秒、遊戲時間 15.70→15.98、paused=False、開著的面板 []
+  [ 682.3s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 3 點、第 2 段）」：最後位置 (-4.6,3)，目標 (-36.57,20.53)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 682.3s]   這段時間：畫面 2498 格／42 秒、遊戲時間 15.98→16.26、paused=False、開著的面板 []
+  [ 724.8s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 3 點、第 3 段）」：最後位置 (-4.6,3)，目標 (-36.57,20.53)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 724.8s]   這段時間：畫面 2506 格／42 秒、遊戲時間 16.26→16.54、paused=False、開著的面板 []
+  [ 767.2s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 3 點、第 4 段）」：最後位置 (-4.6,3)，目標 (-36.57,20.53)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 767.2s]   這段時間：畫面 2498 格／42 秒、遊戲時間 16.55→16.82、paused=False、開著的面板 []
+  [ 767.9s] [HOURS bookstore d 有班] 第 3 點到了、互動鍵是「找老闆」不是「進入頁間書屋」：換下一點
+  [ 809.8s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 4 點、第 1 段）」：最後位置 (-4.6,3)，目標 (-36.1,21.05)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 809.8s]   這段時間：畫面 2508 格／42 秒、遊戲時間 16.83→17.11、paused=False、開著的面板 []
+  [ 852.3s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 4 點、第 2 段）」：最後位置 (-4.6,3)，目標 (-36.1,21.05)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 852.3s]   這段時間：畫面 2508 格／42 秒、遊戲時間 17.11→17.39、paused=False、開著的面板 []
+  [ 894.8s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 4 點、第 3 段）」：最後位置 (-4.6,3)，目標 (-36.1,21.05)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 894.8s]   這段時間：畫面 2503 格／42 秒、遊戲時間 17.40→17.67、paused=False、開著的面板 []
+  [ 937.4s] 走不到「[HOURS bookstore d 有班] 走到「進入頁間書屋」旁（第 4 點、第 4 段）」：最後位置 (-4.6,3)，目標 (-36.1,21.05)；點地面 16 次、轉鏡頭 0 次、搖桿 0 次
+  [ 937.4s]   這段時間：畫面 2511 格／42 秒、遊戲時間 17.68→17.96、paused=False、開著的面板 []
+  [ 938.1s] [HOURS bookstore d 有班] 第 4 點到了、互動鍵是「找老闆」不是「進入頁間書屋」：換下一點
+FAIL [HOURS bookstore d 有班] 走到「進入頁間書屋」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [-36.1, 21.05], "seg": 3, "ok": false, "at": [-4.6, 3, 0], "interact": "找老闆", "how": "點地 go_to"}, {"pt": [-36.1, 21.05], "seg": 4, "ok": false, "at": [-4.6, 3, 0], "interact": "找老闆", "how": "點地 go_to"}, {"diag": {"me": [-4.6, 3, 0], "to": [-36.4, 21, 0], "d": 36.54, "pathLen": null, "standHere": true, "standThere": false, "nearest": "找老闆"}}]
+  [前置／捷徑] [HOURS bookstore d 有班 對照（沒有約、沒有班）] 【前置／捷徑】讀使用者存檔，改到 2025-11-08（週六）9.60 時 gongguan 出生點（bookstore 關著）；G.jobs 只留 _meta、拿掉那天的邀約
+PASS [HOURS bookstore d 有班 對照（沒有約、沒有班）] 讀到 gongguan  {"zone": "gongguan", "day": 53, "hour": 9.658, "money": 95220, "x": -2.5, "z": -29, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（你借了一本書回去。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [ 949.6s] [HOURS bookstore d 有班 對照（沒有約、沒有班）] 按以前：{"open": false, "due": false, "early": false}
+PASS [HOURS bookstore d 有班 對照（沒有約、沒有班）] 前置：店關著、沒有約也沒有班（SH831.due 假）  {"open": false, "due": false, "early": false}
+PASS [HOURS bookstore d 有班 對照（沒有約、沒有班）] gongguan 有看得到的店門  {"door": [{"n": 4, "label": "進入頁間書屋", "x": -36.4, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "bookstore", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進入公館燒臘", "to": "noodle"}, {"label": "進入青木茶室", "to": "aoki"}, {"label": "進入頁間書屋", "to": "bookstore"}, {"label": "進入便利商店", "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"label": "進入 afar café", "to": "afar"}, {"label": "進入 轉角唱片", "to": "corner_records"}, {"label": "進入 Daybreak", "to": "daybreak"}, {"label": "進入慢輪單車", "to": "bikeshop"}, {"label": "回到校園", "to": "campus"}, {"label": "回到校園", "to": "campus"}, {"label": "往汀州路（巷子）", "to": "tingzhou"}, {"label": "進入花序", "to": "flower_notes"}, {"label": "進入安泰藥局", "to": "gg_antai"}, {"label": "進入汀州鮮果", "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "to": "gg_rongendian"}]}
+  [前置／捷徑] [HOURS bookstore d 有班 對照（沒有約、沒有班）] 【前置／捷徑】E.placeAt 站到「進入頁間書屋」(-36.4, 21) 前 4 m 的 (-35.54, 17.09)（path）
+  [ 954.0s] 到達「[HOURS bookstore d 有班 對照（沒有約、沒有班）] 走到「進入頁間書屋」旁（第 1 點、第 1 段）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS bookstore d 有班 對照（沒有約、沒有班）] 走到「進入頁間書屋」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [-36.4, 21], "seg": 1, "ok": true, "at": [-36.358, 20.811, 0], "interact": "進入頁間書屋", "how": "點地 go_to"}]
+  [ 959.6s] [HOURS bookstore d 有班 對照（沒有約、沒有班）] 按下去：{"zone": "gongguan", "hour": 9.713, "stand": true}；對話 [[null, "（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", 9.693, "gongguan"]]；toast ["頁間書屋 現在沒有開（今天 10:00–21:30）。下次開門：今天 10:00。"]；caption []
+PASS [HOURS bookstore d 有班 對照（沒有約、沒有班）] 對照：同一時間進不去（還在 gongguan、旁白是門口那一句）  {"after": {"zone": "gongguan", "day": 53, "hour": 9.713, "money": 95220, "x": -36.36, "z": 20.81, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "nch": 0, "interact": "進入頁間書屋", "fb": 0, "stand": true, "phone": false, "jr": false}, "say": [[null, "（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", 9.693, "gongguan"]]}
+  [ 959.6s] [HOURS tz_limao] 頁面上的資料：{"z": "tz_limao", "name": "禮貌生財", "door": "（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）", "sh831": true, "ws": [[19, 23.5]], "text": "每天 19:00–23:30", "who": "上師", "line": "今天就看到這裡。回去早點睡。", "mute": false, "to": "tingzhou", "typhoon": false, "limaoClose": {"who": "上師", "line": "今天就看到這裡。回去早點睡。"}, "close": 23.5}
+PASS [HOURS tz_limao] 這一版的時間＝原始碼 places.js（[19, 23.5]）  [[19, 23.5]]
+PASS [HOURS tz_limao] 門口那一句＝原始碼 shop_hours_aa831.js  "（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）"
+PASS [HOURS tz_limao] 打烊那一句、說話的人＝原始碼 xs_close3d.js（["上師", "今天就看到這裡。回去早點睡。"]）  ["上師", "今天就看到這裡。回去早點睡。", false]
+  [前置／捷徑] [HOURS tz_limao a 打烊以後的店門] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 23.70 時（關門 23.50 後 0.2 小時）tingzhou 出生點
+PASS [HOURS tz_limao a 打烊以後的店門] 讀到 tingzhou  {"zone": "tingzhou", "day": 57, "hour": 23.762, "money": 95220, "x": 27, "z": 23.5, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "nch": 0, "interact": "往公館（羅斯福路）", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS tz_limao a 打烊以後的店門] tingzhou 有看得到的店門  {"door": [{"n": 28, "label": "看禮貌生財", "x": 27.3, "z": 4.75, "lv": 0, "r": 0.9, "hidden": false, "to": null, "wzJob": null, "lmDoor": true, "look": "（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）", "nyTicket": null}], "exits": [{"label": "往公館（羅斯福路）", "to": "gongguan"}, {"label": "進泰米村食", "to": "tz_taimi"}, {"label": "進汀州聯通", "to": "tz_liantong"}, {"label": "進東南大聯商行", "to": "tz_dongnan"}, {"label": "進客居雲南", "to": "tz_keju"}, {"label": "進越好吃小館", "to": "tz_yuehaochi"}, {"label": "進洗樂洗衣坊", "to": "tz_xile"}, {"label": "進印得好", "to": "tz_yindehao"}]}
+  [前置／捷徑] [HOURS tz_limao a 打烊以後的店門] 【前置／捷徑】E.placeAt 站到「看禮貌生財」(27.3, 4.75) 前 4 m 的 (25.74, 1.25)（path）
+  [ 980.2s] 到達「[HOURS tz_limao a 打烊以後的店門] 走到「看禮貌生財」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [HOURS tz_limao a 打烊以後的店門] 走到「看禮貌生財」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [27.36, 4.67], "seg": 1, "ok": true, "at": [27.123, 4.592, 0], "interact": "看禮貌生財", "how": "點地 go_to"}]
+  [ 985.3s] [HOURS tz_limao a 打烊以後的店門] 按下去：{"zone": "tingzhou", "hour": 23.842, "stand": true}；對話 []；toast []；caption ["（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）"]
+PASS [HOURS tz_limao a 打烊以後的店門] 按了以後沒有進去（還在 tingzhou）  {"zone": "tingzhou", "day": 57, "hour": 23.842, "money": 95220, "x": 27.12, "z": 4.59, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "nch": 0, "interact": "看禮貌生財", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS tz_limao a 打烊以後的店門] 門的互動點是「看…」、沒有 exit（tingzhou3d.js L111）  {"label": "看禮貌生財", "look": "（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）", "exit": null}
+PASS [HOURS tz_limao a 打烊以後的店門] 跳出的字（caption）＝稿的那一句「（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）」  ["（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）"]
+  [ 985.3s] [HOURS tz_limao a 打烊以後的店門] 開放時間提示：toast []（原始碼：look 只出 caption，沒有 toast＝記下來給 BB 看）
+  [前置／捷徑] [HOURS tz_limao b 打烊時人在店裡] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 23.20 時（關門前 0.3 小時）在 tz_limao 店裡（出生點）
+PASS [HOURS tz_limao b 打烊時人在店裡] 讀到 tz_limao（開著）  {"zone": "tz_limao", "day": 57, "hour": 23.254, "money": 95220, "x": 0.9, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門上掛著「休息中」。櫥窗裡的書換了一排，燈還留著一盞。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS tz_limao b 打烊時人在店裡] 前置：讀檔的時候店開著（這一趟看過開著）  {"open": true, "due": false, "early": false}
+  [1025.0s] [HOURS tz_limao b 打烊時人在店裡] 等打烊 30 秒：{"zone": "tz_limao", "hour": 23.458, "busy": false, "interact": ""}；{"open": true, "due": false, "early": false}
+  [1037.5s] [HOURS tz_limao b 打烊時人在店裡] 對話 [["上師", "今天就看到這裡。回去早點睡。", 23.502, "tz_limao"]]；toast ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。"]；最後 {"zone": "tingzhou", "day": 57, "hour": 23.523, "money": 95220, "x": 27.4, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "上師｜今天就看到這裡。回去早點睡。", "nch": 0, "interact": "看算命桌", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS tz_limao b 打烊時人在店裡] 等到打烊、被帶出店（等的時候在店裡，900 秒內）  {"zone": "tingzhou", "day": 57, "hour": 23.523, "money": 95220, "x": 27.4, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "上師｜今天就看到這裡。回去早點睡。", "nch": 0, "interact": "看算命桌", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS tz_limao b 打烊時人在店裡] 打烊那一句：上師「今天就看到這裡。回去早點睡。」  [["上師", "今天就看到這裡。回去早點睡。", 23.502, "tz_limao"]]
+  [1037.5s] [HOURS tz_limao b 打烊時人在店裡] 那一句說的時候 23.502 時、在 tz_limao
+PASS [HOURS tz_limao b 打烊時人在店裡] 那一句在店裡說（走出去以前）  [["上師", "今天就看到這裡。回去早點睡。", 23.502, "tz_limao"]]
+PASS [HOURS tz_limao b 打烊時人在店裡] 走到店外：tingzhou（表上的 to／店裡的出口）  {"zone": "tingzhou", "exits": [{"label": "離開禮貌生財", "to": "tingzhou"}]}
+PASS [HOURS tz_limao b 打烊時人在店裡] 出來以後站得住（canStand）  {"zone": "tingzhou", "day": 57, "hour": 23.523, "money": 95220, "x": 27.4, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "上師｜今天就看到這裡。回去早點睡。", "nch": 0, "interact": "看算命桌", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [前置／捷徑] [HOURS tz_limao c 讀檔在已經關的店裡] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 15.00 時（關著）人在 tz_limao 店裡（出生點）
+  [1049.7s] [HOURS tz_limao c 讀檔在已經關的店裡] 讀檔後 10 秒：{"zone": "tingzhou", "day": 57, "hour": 15.067, "money": 95220, "x": 27.4, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "上師｜今天就看到這裡。回去早點睡。", "nch": 0, "interact": "看算命桌", "fb": 0, "stand": true, "phone": false, "jr": false}；對話 []；toast ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。", "禮貌生財 現在沒有開（今天 19:00–23:30）。下次開門：今天 19:00。"]
+PASS [HOURS tz_limao c 讀檔在已經關的店裡] 被帶出店（不在 tz_limao）  {"zone": "tingzhou", "day": 57, "hour": 15.067, "money": 95220, "x": 27.4, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "上師｜今天就看到這裡。回去早點睡。", "nch": 0, "interact": "看算命桌", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS tz_limao c 讀檔在已經關的店裡] 到了 tingzhou（表上的 to）  {"zone": "tingzhou", "day": 57, "hour": 15.067, "money": 95220, "x": 27.4, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "上師｜今天就看到這裡。回去早點睡。", "nch": 0, "interact": "看算命桌", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS tz_limao c 讀檔在已經關的店裡] 沒有說打烊那一句（不是打烊那一刻、這一趟沒看過開著）  []
+PASS [HOURS tz_limao c 讀檔在已經關的店裡] toast＝開放時間（PLACES.closedText，含「每天 19:00–23:30」）  {"toast": ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：我們組有一個人消失了。", "禮貌生財 現在沒有開（今天 19:00–23:30）。下次開門：今天 19:00。"], "exp": "禮貌生財 現在沒有開（今天 19:00–23:30）。下次開門：今天 19:00。"}
+PASS [HOURS tz_limao c 讀檔在已經關的店裡] 出來以後站得住（canStand）  {"zone": "tingzhou", "day": 57, "hour": 15.067, "money": 95220, "x": 27.4, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "上師｜今天就看到這裡。回去早點睡。", "nch": 0, "interact": "看算命桌", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS tz_limao c 讀檔在已經關的店裡] 推搖桿走得動（沒有卡住，≥0.3 m）  1.38
+  [1051.5s] [HOURS tz_limao d] 不測：invites.js 沒有禮貌生財這個地點、JOBS.ZONE_KEY 沒有、SH831.OUT_RE 沒有；而且 tingzhou3d.js L111 門關著的時候沒有 exit（只看 S.limaoOpen，不看 SH831.due）
+  [1051.5s] [HOURS us_market] 頁面上的資料：{"z": "us_market", "name": "草原超市（美國）", "door": "（自動門沒有開。裡面的燈暗了一半，推車排成一長列。）", "sh831": true, "ws": [[8, 22]], "text": "每天 08:00–22:00", "who": "店員", "line": "我們今天要打烊了。", "mute": false, "to": null, "typhoon": false, "limaoClose": {"who": "上師", "line": "今天就看到這裡。回去早點睡。"}, "close": 22}
+PASS [HOURS us_market] 這一版的時間＝原始碼 places.js（[8, 22]）  [[8, 22]]
+PASS [HOURS us_market] 門口那一句＝原始碼 shop_hours_aa831.js  "（自動門沒有開。裡面的燈暗了一半，推車排成一長列。）"
+PASS [HOURS us_market] 打烊那一句、說話的人＝原始碼 xs_close3d.js（["店員", "我們今天要打烊了。"]）  ["店員", "我們今天要打烊了。", false]
+  [前置／捷徑] [HOURS us_market a 打烊以後的店門] 【前置／捷徑】讀使用者存檔，改到 2028-09-13 22.20 時（關門 22.00 後 0.2 小時）us_market_street 出生點；美國路線旗標 {"EXCHANGE_ROUTE": "US", "EXCH_RULE": 1, "US_DEPARTED": true, "US_ARRIVED": true, "US_ARRIVED_DAY": 1051, "US1": "together", "Y4_PATH": "bar", "Y4_PATH_DAY": 996}、events.done 補 ev_us1_arrive、ev_us1_mom（同 cc_aa814_probe.py us_flags）
+PASS [HOURS us_market a 打烊以後的店門] 讀到 us_market_street  {"zone": "us_market_street", "day": 1093, "hour": 22.258, "money": 95220, "x": -22.6, "z": 12.9, "lv": 0, "busy": false, "dlg": false, "dtext": "上師｜今天就看到這裡。回去早點睡。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS us_market a 打烊以後的店門] 前置：人在美國（USL.here）  {"here": true, "inUS": true, "route": "US"}
+PASS [HOURS us_market a 打烊以後的店門] us_market_street 有看得到的店門  {"door": [{"n": 0, "label": "進草原超市", "x": 13.5, "z": -18.8, "lv": 0, "r": 1.2, "hidden": false, "to": "us_market", "wzJob": null, "lmDoor": false, "look": null, "nyTicket": null}], "exits": [{"label": "進草原超市", "to": "us_market"}, {"label": "進竹葉亞洲超市", "to": "us_asian_market"}, {"label": "搭公車（回社區）", "to": "us_outside"}]}
+  [前置／捷徑] [HOURS us_market a 打烊以後的店門] 【前置／捷徑】E.placeAt 站到「進草原超市」(13.5, -18.8) 前 4 m 的 (12.96, -14.84)（path）
+  [1065.8s] 到達「[HOURS us_market a 打烊以後的店門] 走到「進草原超市」旁（第 1 點、第 1 段）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS us_market a 打烊以後的店門] 走到「進草原超市」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）  [{"pt": [13.5, -18.8], "seg": 1, "ok": true, "at": [13.466, -18.556, 0], "interact": "進草原超市", "how": "點地 go_to"}]
+  [1071.0s] [HOURS us_market a 打烊以後的店門] 按下去：{"zone": "us_market_street", "hour": 22.311, "stand": true}；對話 [[null, "（自動門沒有開。裡面的燈暗了一半，推車排成一長列。）", 22.291, "us_market_street"]]；toast ["草原超市 現在沒有開（今天 08:00–22:00）。下次開門：明天 08:00。"]；caption []
+PASS [HOURS us_market a 打烊以後的店門] 按了以後沒有進去（還在 us_market_street）  {"zone": "us_market_street", "day": 1093, "hour": 22.311, "money": 95220, "x": 13.47, "z": -18.56, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（自動門沒有開。裡面的燈暗了一半，推車排成一長列。）", "nch": 0, "interact": "進草原超市", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS us_market a 打烊以後的店門] 旁白＝稿的那一句「（自動門沒有開。裡面的燈暗了一半，推車排成一長列。）」（說話的人空白）  [[null, "（自動門沒有開。裡面的燈暗了一半，推車排成一長列。）", 22.291, "us_market_street"]]
+PASS [HOURS us_market a 打烊以後的店門] toast＝開放時間 PLACES.closedText「草原超市 現在沒有開（今天 08:00–22:00）。下次開門：明天 08:00。」  ["草原超市 現在沒有開（今天 08:00–22:00）。下次開門：明天 08:00。"]
+  [前置／捷徑] [HOURS us_market b 打烊時人在店裡] 【前置／捷徑】讀使用者存檔，改到 2028-09-13 21.70 時（關門前 0.3 小時）在 us_market 店裡（出生點）；美國路線旗標 {"EXCHANGE_ROUTE": "US", "EXCH_RULE": 1, "US_DEPARTED": true, "US_ARRIVED": true, "US_ARRIVED_DAY": 1051, "US1": "together", "Y4_PATH": "bar", "Y4_PATH_DAY": 996}、events.done 補 ev_us1_arrive、ev_us1_mom（同 cc_aa814_probe.py us_flags）
+PASS [HOURS us_market b 打烊時人在店裡] 讀到 us_market（開著）  {"zone": "us_market", "day": 1093, "hour": 21.758, "money": 95220, "x": 13.5, "z": 13.6, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（自動門沒有開。裡面的燈暗了一半，推車排成一長列。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS us_market b 打烊時人在店裡] 前置：讀檔的時候店開著（這一趟看過開著）  {"open": true, "due": false, "early": false}
+  [1115.4s] [HOURS us_market b 打烊時人在店裡] 等打烊 31 秒：{"zone": "us_market", "hour": 21.961, "busy": false, "interact": ""}；{"open": true, "due": false, "early": false}
+  [1125.8s] [HOURS us_market b 打烊時人在店裡] 對話 [["店員", "我們今天要打烊了。", 22.002, "us_market"]]；toast ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：贏了。", "手機｜交換生｜溫書瑀（直屬）：Legal Writing 的教授改得很細。交之前，大…", "手機｜蘇姨：還要做嗎？"]；最後 {"zone": "us_market_street", "day": 1093, "hour": 22.023, "money": 95220, "x": -13.5, "z": -18.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS us_market b 打烊時人在店裡] 等到打烊、被帶出店（等的時候在店裡，900 秒內）  {"zone": "us_market_street", "day": 1093, "hour": 22.023, "money": 95220, "x": -13.5, "z": -18.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS us_market b 打烊時人在店裡] 打烊那一句：店員「我們今天要打烊了。」  [["店員", "我們今天要打烊了。", 22.002, "us_market"]]
+  [1125.8s] [HOURS us_market b 打烊時人在店裡] 那一句說的時候 22.002 時、在 us_market
+PASS [HOURS us_market b 打烊時人在店裡] 那一句在店裡說（走出去以前）  [["店員", "我們今天要打烊了。", 22.002, "us_market"]]
+PASS [HOURS us_market b 打烊時人在店裡] 走到店外：us_market_street（表上的 to／店裡的出口）  {"zone": "us_market_street", "exits": [{"label": "離開超市", "to": "us_market_street"}]}
+PASS [HOURS us_market b 打烊時人在店裡] 出來以後站得住（canStand）  {"zone": "us_market_street", "day": 1093, "hour": 22.023, "money": 95220, "x": -13.5, "z": -18.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [前置／捷徑] [HOURS us_market c 讀檔在已經關的店裡] 【前置／捷徑】讀使用者存檔，改到 2028-09-13 23.00 時（關著）人在 us_market 店裡（出生點）；美國路線旗標 {"EXCHANGE_ROUTE": "US", "EXCH_RULE": 1, "US_DEPARTED": true, "US_ARRIVED": true, "US_ARRIVED_DAY": 1051, "US1": "together", "Y4_PATH": "bar", "Y4_PATH_DAY": 996}、events.done 補 ev_us1_arrive、ev_us1_mom（同 cc_aa814_probe.py us_flags）
+  [1138.1s] [HOURS us_market c 讀檔在已經關的店裡] 讀檔後 10 秒：{"zone": "us_market_street", "day": 1093, "hour": 23.073, "money": 95220, "x": -13.5, "z": -18.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}；對話 []；toast ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：贏了。", "手機｜交換生｜溫書瑀（直屬）：Legal Writing 的教授改得很細。交之前，大…", "手機｜蘇姨：還要做嗎？"]
+PASS [HOURS us_market c 讀檔在已經關的店裡] 被帶出店（不在 us_market）  {"zone": "us_market_street", "day": 1093, "hour": 23.073, "money": 95220, "x": -13.5, "z": -18.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS us_market c 讀檔在已經關的店裡] 到了 店的出口（表上的 to）  {"zone": "us_market_street", "day": 1093, "hour": 23.073, "money": 95220, "x": -13.5, "z": -18.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS us_market c 讀檔在已經關的店裡] 沒有說打烊那一句（不是打烊那一刻、這一趟沒看過開著）  []
+FAIL [HOURS us_market c 讀檔在已經關的店裡] toast＝開放時間（PLACES.closedText，含「每天 08:00–22:00」）  {"toast": ["手機｜小安：我媽昨天看到我寫的「想去的店」。", "手機｜可昕：贏了。", "手機｜交換生｜溫書瑀（直屬）：Legal Writing 的教授改得很細。交之前，大…", "手機｜蘇姨：還要做嗎？"], "exp": "草原超市 現在沒有開（今天 08:00–22:00）。下次開門：明天 08:00。"}
+PASS [HOURS us_market c 讀檔在已經關的店裡] 出來以後站得住（canStand）  {"zone": "us_market_street", "day": 1093, "hour": 23.073, "money": 95220, "x": -13.5, "z": -18.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜我們今天要打烊了。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [HOURS us_market c 讀檔在已經關的店裡] 推搖桿走得動（沒有卡住，≥0.3 m）  0.67
+  [1140.0s] [HOURS us_market d] 不測：invites.js 沒有草原超市這個地點、JOBS.ZONE_KEY 沒有、SH831.OUT_RE 沒有（美國那一學期沒有在這間店的約、班）
+  [1140.0s] [JOBS2] 頁面上的字：{"busyLine": "（這個時段你已經有班了。）", "jobsBusyLine": "（這個時段你已經有班了。）", "take": ["售票員", "員工票。站最後面，不要擋到走道。"], "opt": "拿員工票（站著看）", "after": 3, "co": {"who": "宋知寧", "seg": "上架", "flag": "SHOP_ZN_MET", "met": [["宋知寧", "……又是你。"], [null, "（她抱著一疊書，看了你的名牌一眼。）"], ["宋知寧", "我上次說的另一家，就是這裡。二樓的書我比較熟，找不到就問我。"]], "until": "大二下", "msgN": 5, "at": [{"wd": 6, "t0": 14, "t1": 17}, {"wd": 7, "t0": 14, "t1": 18}], "wd": 7, "t0": 14, "t1": 18}}
+FAIL [JOBS2] 這一版的字＝原始碼（busyLine、員工票 take、宋知寧 co）  {"busyLine": "（這個時段你已經有班了。）", "jobsBusyLine": "（這個時段你已經有班了。）", "take": ["售票員", "員工票。站最後面，不要擋到走道。"], "opt": "拿員工票（站著看）", "after": 3, "co": {"who": "宋知寧", "seg": "上架", "flag": "SHOP_ZN_MET", "met": [["宋知寧", "……又是你。"], [null, "（她抱著一疊書，看了你的名牌一眼。）"], ["宋知寧", "我上次說的另一家，就是這裡。二樓的書我比較熟，找不到就問我。"]], "until": "大二下", "msgN": 5, "at": [{"wd": 6, "t0": 14, "t1": 17}, {"wd": 7, "t0": 14, "t1": 18}], "wd": 7, "t0": 14, "t1": 18}, "segs": [{"name": "上架", "nov": "（一車新書，書背上的分類號你一本一本對，對到第五本就放錯櫃。）", "ch": [["「先上新書平台。」", "（平台上的書要封面朝上，疊成階梯。你疊歪了一次。）"], ["「先上二樓法律區。」", "（六法又出新版了。舊版你抱下來，抱了兩趟。）"]]}, {"name": "櫃檯", "nov": "（客人要包書套。你包的第一本，書套比書大一圈。）", "ch": [["「問要不要袋子。」", "（客人說不用，把書直接夾在手臂下面走了。）"], ["「先刷條碼。」", "（條碼刷不過。你把書轉了三個方向。）"]]}, {"name": "整理、找書", "nov": "（有人問一本書，只記得封面是藍色的。你在文學區找了十分鐘。）", "ch": [["「把坐地板的人身邊的書收回去。」", "（那個人說還要看。你把書放回他腳邊。）"], ["「把亂放的書歸位。」", "（一本食譜插在刑法旁邊。你把它送回一樓。）"]]}], "look": null, "notice": "徵門市工讀　晚班、假日班　喜歡書的優先，不喜歡也可以", "askOpt": "「問店員。」", "laterOpt": "「再想想。」", "boss": "店長", "ask": "你常來嗎？", "nyLabel": "買票", "nyNone": "不用了"}
+PASS [JOBS2 GREY] 找得到日子（DAY_JS）  {"d": 57, "key": "2025-11-12", "wd": 3, "term": "Y1S1", "week": 11, "why": {"wd": 5, "term": 0, "exam": 0, "hol": 0, "ty": 0}}
+  [1140.0s] [JOBS2 1 灰的那一班 shanlan] 計畫：{"k": "shanlan", "term": {"from": -15, "to": 96}, "d0": 57, "eligible": true, "days": [3, 7], "hours": {"3": [18, 22], "7": [14, 18]}, "ok": [3, 7], "cands": [{"wd": 3, "c": {"o": "copy", "b": [18, 22]}, "night": false}, {"wd": 7, "c": {"o": "tea", "b": [13, 17]}, "night": false}], "pick": {"work": 3, "clash": 7, "o": "tea", "ob": [13, 17]}}
+PASS [JOBS2 1 灰的那一班 shanlan] 找得到撞班的對象（PLAN_JS）、告示看得到（eligible）  {"k": "shanlan", "term": {"from": -15, "to": 96}, "d0": 57, "eligible": true, "days": [3, 7], "hours": {"3": [18, 22], "7": [14, 18]}, "ok": [3, 7], "cands": [{"wd": 3, "c": {"o": "copy", "b": [18, 22]}, "night": false}, {"wd": 7, "c": {"o": "tea", "b": [13, 17]}, "night": false}], "pick": {"work": 3, "clash": 7, "o": "tea", "ob": [13, 17]}}
+  [前置／捷徑] [JOBS2 1 灰的那一班 shanlan] 【前置／捷徑】讀使用者存檔，改到 2025-11-12（週三）15.00 時山嵐書店；G.jobs 換成只有 tea（週日 [13, 17]，撞山嵐 週日 的班）
+  [1157.7s] [JOBS2 1 灰的那一班 shanlan] 讀檔以後先有的劇情（照字點完，記下來）：["店員｜歡迎，慢慢看。"]
+PASS [JOBS2 1 灰的那一班 shanlan] 讀到 xs_shanlan  {"zone": "xs_shanlan", "day": 57, "hour": 15.016, "money": 95220, "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜歡迎，慢慢看。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [JOBS2 1 灰的那一班 shanlan] 告示在（wzJob 互動點、看得到）  [{"n": 34, "label": "看告示", "x": 3.9, "z": 0.4, "lv": 0, "r": 1, "hidden": false, "to": null, "wzJob": "shanlan", "lmDoor": false, "look": null, "nyTicket": null}]
+PASS [JOBS2 1 灰的那一班 shanlan] 告示按鈕的字＝「看告示」  {"n": 34, "label": "看告示", "x": 3.9, "z": 0.4, "lv": 0, "r": 1, "hidden": false, "to": null, "wzJob": "shanlan", "lmDoor": false, "look": null, "nyTicket": null}
+  [1163.4s] 到達「[JOBS2 1 灰的那一班 shanlan] 走到「看告示」旁（第 1 點、第 1 段）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [JOBS2 1 灰的那一班 shanlan] 走到告示旁、互動鍵是「看告示」（路：出生點 → 點地 go_to）  [{"pt": [3.9, 0.4], "seg": 1, "ok": true, "at": [3.767, 0.604, 0], "interact": "看告示", "how": "點地 go_to"}]
+  [1168.5s] [JOBS2 1 灰的那一班 shanlan] 班表 ["週三", "[灰]週日", "先不要"]：先按撞班的「週日」（灰）
+  [1174.1s] [JOBS2 1 灰的那一班 shanlan] 選單 [["「問店員。」", "「再想想。」"], ["週三", "[灰]週日", "先不要"], ["週三", "[灰]週日", "先不要"]]；對話 [[null, "徵門市工讀　晚班、假日班　喜歡書的優先，不喜歡也可以", 15.057, "xs_shanlan"], ["店長", "你常來嗎？", 15.057, "xs_shanlan"], ["店長", "沒關係，上班以後就會常來了。下禮拜可以開始嗎？", 15.057, "xs_shanlan"], [null, "（這個時段你已經有班了。）", 15.057, "xs_shanlan"]]；toast ["班表：山嵐書店　週三 18:00～22:00"]
+PASS [JOBS2 1 灰的那一班 shanlan] 出了班表、按了撞班的那一項（真的走到選班表）  [["「問店員。」", "「再想想。」"], ["週三", "[灰]週日", "先不要"], ["週三", "[灰]週日", "先不要"]]
+PASS [JOBS2 1 灰的那一班 shanlan] 撞班的「週日」是灰的  {"k": 1, "t": "週日", "hint": "14:00～18:00", "dim": true}
+PASS [JOBS2 1 灰的那一班 shanlan] 按了灰的：旁白「（這個時段你已經有班了。）」（說話的人空白）  [[null, "（這個時段你已經有班了。）", 15.057, "xs_shanlan"]]
+PASS [JOBS2 1 灰的那一班 shanlan] 那一句以後同一份班表再出一次、還沒排班  {"same": true, "job": null, "opts": ["週三", "[灰]週日", "先不要"], "say_at": 26}
+PASS [JOBS2 1 灰的那一班 shanlan] 選另一天：排的班＝週三  {"day": [3], "shifts": 0, "worked": [], "since": 62, "gone": null}
+PASS [JOBS2 1 灰的那一班 shanlan] 跳出「班表：山嵐書店…」toast  ["班表：山嵐書店　週三 18:00～22:00"]
+PASS [JOBS2 TICKET] 找得到日子（DAY_JS）  {"d": 169, "key": "2026-03-04", "wd": 3, "term": "Y1S2", "week": 2, "why": {"wd": 2, "term": 0, "exam": 0, "hol": 0, "ty": 0}}
+  [前置／捷徑] [JOBS2 2 南洋員工票 shifts=3] 【前置／捷徑】讀使用者存檔，改到 2026-03-04（週三，大一下）14.00 時南洋戲院大廳；G.jobs 換成只有 cinema（週五晚場、shifts=3）；拿掉 NY_TICKET／NY_TICKET_STAFF／companion
+PASS [JOBS2 2 南洋員工票 shifts=3] 讀到 xs_nanyang  {"zone": "xs_nanyang", "day": 169, "hour": 14.058, "money": 95220, "x": 0, "z": 5.2, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（這個時段你已經有班了。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [1185.8s] [JOBS2 2 南洋員工票 shifts=3] 前置：{"NY_TICKET": null, "NY_TICKET_STAFF": null, "ok": true}
+PASS [JOBS2 2 南洋員工票 shifts=3] 大廳有「買票」（nyTicket）  [{"n": 6, "label": "買票", "x": -2.6, "z": -2.8, "lv": 0, "r": 0.9, "hidden": false, "to": null, "wzJob": null, "lmDoor": false, "look": null, "nyTicket": "lobby"}]
+  [1191.4s] 到達「[JOBS2 2 南洋員工票 shifts=3] 走到「買票」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [JOBS2 2 南洋員工票 shifts=3] 走到「買票」、互動鍵是它（路：出生點 → 點地 go_to）  [{"pt": [-2.6, -2.8], "seg": 1, "ok": true, "at": [-2.436, -2.641, 0], "interact": "買票", "how": "點地 go_to"}]
+  [1196.2s] [JOBS2 2 南洋員工票 shifts=3] 選單 ["買票　150 元", "拿員工票（站著看）", "買禮物…", "不用了"]；選了 "拿員工票（站著看）"；對話 [["售票員", "員工票。站最後面，不要擋到走道。", 14.101, "xs_nanyang"]]；旗標 {"NY_TICKET": 169, "NY_TICKET_STAFF": 169, "ok": false}
+PASS [JOBS2 2 南洋員工票 shifts=3] 按了「買票」、出了選單
+PASS [JOBS2 2 南洋員工票 shifts=3] 選單有「拿員工票（站著看）」，排在「買票」下面（第 2 項）  ["買票　150 元", "拿員工票（站著看）", "買禮物…", "不用了"]
+PASS [JOBS2 2 南洋員工票 shifts=3] 選了以後 售票員：「員工票。站最後面，不要擋到走道。」  [["售票員", "員工票。站最後面，不要擋到走道。", 14.101, "xs_nanyang"]]
+PASS [JOBS2 2 南洋員工票 shifts=3] 記下今天拿了員工票（NY_TICKET_STAFF＝今天）  {"NY_TICKET": 169, "NY_TICKET_STAFF": 169, "ok": false}
+  [前置／捷徑] [JOBS2 2 南洋員工票 shifts=2 對照] 【前置／捷徑】讀使用者存檔，改到 2026-03-04（週三，大一下）14.00 時南洋戲院大廳；G.jobs 換成只有 cinema（週五晚場、shifts=2）；拿掉 NY_TICKET／NY_TICKET_STAFF／companion
+PASS [JOBS2 2 南洋員工票 shifts=2 對照] 讀到 xs_nanyang  {"zone": "xs_nanyang", "day": 169, "hour": 14.057, "money": 95220, "x": 0, "z": 5.2, "lv": 0, "busy": false, "dlg": false, "dtext": "售票員｜員工票。站最後面，不要擋到走道。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [1204.9s] [JOBS2 2 南洋員工票 shifts=2 對照] 前置：{"NY_TICKET": null, "NY_TICKET_STAFF": null, "ok": false}
+PASS [JOBS2 2 南洋員工票 shifts=2 對照] 大廳有「買票」（nyTicket）  [{"n": 6, "label": "買票", "x": -2.6, "z": -2.8, "lv": 0, "r": 0.9, "hidden": false, "to": null, "wzJob": null, "lmDoor": false, "look": null, "nyTicket": "lobby"}]
+  [1210.6s] 到達「[JOBS2 2 南洋員工票 shifts=2 對照] 走到「買票」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [JOBS2 2 南洋員工票 shifts=2 對照] 走到「買票」、互動鍵是它（路：出生點 → 點地 go_to）  [{"pt": [-2.6, -2.8], "seg": 1, "ok": true, "at": [-2.436, -2.641, 0], "interact": "買票", "how": "點地 go_to"}]
+  [1214.8s] [JOBS2 2 南洋員工票 shifts=2 對照] 選單 ["買票　150 元", "買禮物…", "不用了"]；選了 "不用了"；對話 []；旗標 {"NY_TICKET": null, "NY_TICKET_STAFF": null, "ok": false}
+PASS [JOBS2 2 南洋員工票 shifts=2 對照] 按了「買票」、出了選單
+PASS [JOBS2 2 南洋員工票 shifts=2 對照] 對照：shifts=2 選單沒有「拿員工票（站著看）」  ["買票　150 元", "買禮物…", "不用了"]
+PASS [JOBS2 2 南洋員工票 shifts=2 對照] 對照：沒有售票員那一句  []
+PASS [JOBS2 ZN] 找得到日子（DAY_JS）  {"d": 54, "key": "2025-11-09", "wd": 7, "term": "Y1S1", "week": 10, "why": {"wd": 2, "term": 0, "exam": 0, "hol": 0, "ty": 0}}
+  [前置／捷徑] [JOBS2 3 山嵐第一班 宋知寧 不認識] 【前置／捷徑】讀使用者存檔，改到 2025-11-09（週日）13.40 時山嵐書店；G.jobs 換成只有 shanlan（週日假日班 14:00～18:00、shifts=0、_meta.znCo 沒有）；G.flags.SHOP_ZN_MET 拿掉（沒認識）
+  [1224.1s] [JOBS2 3 山嵐第一班 宋知寧 不認識] 讀檔以後先有的劇情（照字點完，記下來）：["店員｜歡迎，慢慢看。"]
+PASS [JOBS2 3 山嵐第一班 宋知寧 不認識] 讀到 xs_shanlan  {"zone": "xs_shanlan", "day": 54, "hour": 13.415, "money": 95220, "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜歡迎，慢慢看。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [1224.1s] [JOBS2 3 山嵐第一班 宋知寧 不認識] 期望（稿 co.new，說話的人＝宋知寧）：[["宋知寧", "新來的？二樓我比較熟，找不到可以問我。"]]
+  [1250.7s] [JOBS2 3 山嵐第一班 宋知寧 不認識] 對話全文：[[null, "（一車新書，書背上的分類號你一本一本對，對到第五本就放錯櫃。）", 14, "xs_shanlan"], [null, "（平台上的書要封面朝上，疊成階梯。你疊歪了一次。）", 14, "xs_shanlan"], [null, "（客人要包書套。你包的第一本，書套比書大一圈。）", 15.333, "xs_shanlan"], [null, "（客人說不用，把書直接夾在手臂下面走了。）", 15.333, "xs_shanlan"], [null, "（有人問一本書，只記得封面是藍色的。你在文學區找了十分鐘。）", 16.667, "xs_shanlan"], [null, "（那個人說還要看。你把書放回他腳邊。）", 16.667, "xs_shanlan"], [null, "（六點，換班的人來了。你的手上都是書的灰。）", 16.667, "xs_shanlan"]]
+PASS [JOBS2 3 山嵐第一班 宋知寧 不認識] 開班、做完一班（shifts=1）  {"j": {"day": [7], "shifts": 1, "worked": [54], "since": 40, "gone": null}, "shiftNow": false, "running": false, "hour": 18.004, "day": 54, "zone": "xs_shanlan", "znCo": null}
+FAIL [JOBS2 3 山嵐第一班 宋知寧 不認識] 宋知寧那幾句照稿、連在一起、說話的人對（宋知寧）  [[null, "（一車新書，書背上的分類號你一本一本對，對到第五本就放錯櫃。）"], [null, "（平台上的書要封面朝上，疊成階梯。你疊歪了一次。）"], [null, "（客人要包書套。你包的第一本，書套比書大一圈。）"], [null, "（客人說不用，把書直接夾在手臂下面走了。）"], [null, "（有人問一本書，只記得封面是藍色的。你在文學區找了十分鐘。）"], [null, "（那個人說還要看。你把書放回他腳邊。）"], [null, "（六點，換班的人來了。你的手上都是書的灰。）"]]
+FAIL [JOBS2 3 山嵐第一班 宋知寧 不認識] 記下說過了（_meta.znCo＝那天）  {"j": {"day": [7], "shifts": 1, "worked": [54], "since": 40, "gone": null}, "shiftNow": false, "running": false, "hour": 18.004, "day": 54, "zone": "xs_shanlan", "znCo": null}
+  [前置／捷徑] [JOBS2 3 山嵐第一班 宋知寧 認識] 【前置／捷徑】讀使用者存檔，改到 2025-11-09（週日）13.40 時山嵐書店；G.jobs 換成只有 shanlan（週日假日班 14:00～18:00、shifts=0、_meta.znCo 沒有）；G.flags.SHOP_ZN_MET ＝true（在二手書架認識過）
+  [1260.1s] [JOBS2 3 山嵐第一班 宋知寧 認識] 讀檔以後先有的劇情（照字點完，記下來）：["店員｜歡迎，慢慢看。"]
+PASS [JOBS2 3 山嵐第一班 宋知寧 認識] 讀到 xs_shanlan  {"zone": "xs_shanlan", "day": 54, "hour": 13.415, "money": 95220, "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "dtext": "店員｜歡迎，慢慢看。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [1260.1s] [JOBS2 3 山嵐第一班 宋知寧 認識] 期望（稿 co.met，說話的人＝知寧）：[["知寧", "……又是你。"], [null, "（她抱著一疊書，看了你的名牌一眼。）"], ["知寧", "我上次說的另一家，就是這裡。二樓的書我比較熟，找不到就問我。"]]
+  [1286.5s] [JOBS2 3 山嵐第一班 宋知寧 認識] 對話全文：[[null, "（一車新書，書背上的分類號你一本一本對，對到第五本就放錯櫃。）", 14, "xs_shanlan"], [null, "（平台上的書要封面朝上，疊成階梯。你疊歪了一次。）", 14, "xs_shanlan"], [null, "（客人要包書套。你包的第一本，書套比書大一圈。）", 15.333, "xs_shanlan"], [null, "（客人說不用，把書直接夾在手臂下面走了。）", 15.333, "xs_shanlan"], [null, "（有人問一本書，只記得封面是藍色的。你在文學區找了十分鐘。）", 16.667, "xs_shanlan"], [null, "（那個人說還要看。你把書放回他腳邊。）", 16.667, "xs_shanlan"], [null, "（六點，換班的人來了。你的手上都是書的灰。）", 16.667, "xs_shanlan"]]
+PASS [JOBS2 3 山嵐第一班 宋知寧 認識] 開班、做完一班（shifts=1）  {"j": {"day": [7], "shifts": 1, "worked": [54], "since": 40, "gone": null}, "shiftNow": false, "running": false, "hour": 18.003, "day": 54, "zone": "xs_shanlan", "znCo": null}
+FAIL [JOBS2 3 山嵐第一班 宋知寧 認識] 宋知寧那幾句照稿、連在一起、說話的人對（知寧）  [[null, "（一車新書，書背上的分類號你一本一本對，對到第五本就放錯櫃。）"], [null, "（平台上的書要封面朝上，疊成階梯。你疊歪了一次。）"], [null, "（客人要包書套。你包的第一本，書套比書大一圈。）"], [null, "（客人說不用，把書直接夾在手臂下面走了。）"], [null, "（有人問一本書，只記得封面是藍色的。你在文學區找了十分鐘。）"], [null, "（那個人說還要看。你把書放回他腳邊。）"], [null, "（六點，換班的人來了。你的手上都是書的灰。）"]]
+FAIL [JOBS2 3 山嵐第一班 宋知寧 認識] 記下說過了（_meta.znCo＝那天）  {"j": {"day": [7], "shifts": 1, "worked": [54], "since": 40, "gone": null}, "shiftNow": false, "running": false, "hour": 18.003, "day": 54, "zone": "xs_shanlan", "znCo": null}
+PASS [JOBS2 NIGHT] 找得到日子（DAY_JS）  {"d": 53, "key": "2025-11-08", "wd": 6, "term": "Y1S1", "week": 10, "why": {"wd": 1, "term": 0, "exam": 0, "hol": 0, "ty": 0}}
+  [前置／捷徑] [JOBS2 4 大夜班下班] 【前置／捷徑】讀使用者存檔，改到 2025-11-08（週六）21.40 時大口漢堡；G.jobs 換成只有 dakou（週六大夜班 22:00～隔天 02:00、shifts=0）
+PASS [JOBS2 4 大夜班下班] 讀到 xs_dakou  {"zone": "xs_dakou", "day": 53, "hour": 21.458, "money": 95220, "x": 0, "z": 6.4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（六點，換班的人來了。你的手上都是書的灰。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false}
+  [1299.2s] [JOBS2 4 大夜班下班] 住哪（JOBS.liveAt）：{"liveAt": "dorm", "day": 53, "hour": 21.458}
+  [1318.4s] [JOBS2 4 大夜班下班] 做完一班了，等下班以後的那一步（上限 90 秒）：{"zone": "xs_dakou", "day": 53, "hour": 26.003}
+  [1323.1s] [JOBS2 4 大夜班下班] 下班以後：{"zone": "dorm", "day": 53, "hour": 26.006, "money": 96100, "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（兩點。二樓還有三個人在讀書。你下班的時候，他們頭都沒有抬。）", "nch": 0, "interact": "收拾背包回家", "fb": 0, "stand": true, "phone": false, "jr": false}；toast ["大口漢堡 薪水 880 元"]；錢 [[880, 26]]；醒來以後 []
+PASS [JOBS2 4 大夜班下班] 開班、做完一班（shifts=1）  {"j": {"day": [6], "shifts": 1, "worked": [53], "since": 39, "gone": null}, "shiftNow": false, "running": false, "hour": 26.007, "day": 53, "zone": "dorm", "znCo": null}
+PASS [JOBS2 4 大夜班下班] 回住的地方：宿舍（liveAt＝dorm；期望 dorm）  {"zone": "dorm", "day": 53, "hour": 26.006, "money": 96100, "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（兩點。二樓還有三個人在讀書。你下班的時候，他們頭都沒有抬。）", "nch": 0, "interact": "收拾背包回家", "fb": 0, "stand": true, "phone": false, "jr": false}
+FAIL [JOBS2 4 大夜班下班] 隔天（day 53 → 54）  {"zone": "dorm", "day": 53, "hour": 26.006, "money": 96100, "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（兩點。二樓還有三個人在讀書。你下班的時候，他們頭都沒有抬。）", "nch": 0, "interact": "收拾背包回家", "fb": 0, "stand": true, "phone": false, "jr": false}
+FAIL [JOBS2 4 大夜班下班] 睡到 10:00（10.00～10.50 時）  {"zone": "dorm", "day": 53, "hour": 26.006, "money": 96100, "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（兩點。二樓還有三個人在讀書。你下班的時候，他們頭都沒有抬。）", "nch": 0, "interact": "收拾背包回家", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS [JOBS2 4 大夜班下班] 薪水 880 元（大夜班 payWd）  [[880, 26]]
+PASS [JOBS2 4 大夜班下班] 醒來站得住（canStand）  {"zone": "dorm", "day": 53, "hour": 26.006, "money": 96100, "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（兩點。二樓還有三個人在讀書。你下班的時候，他們頭都沒有抬。）", "nch": 0, "interact": "收拾背包回家", "fb": 0, "stand": true, "phone": false, "jr": false}
+PASS 沒有 JS 例外  []
+FAILED 9: [HOURS bookstore d 有班] 走到「進入頁間書屋」、互動鍵是它（路：E.placeAt 前 4 m → 點地 go_to）；[HOURS us_market c 讀檔在已經關的店裡] toast＝開放時間（PLACES.closedText，含「每天 08:00–22:00」）；[JOBS2] 這一版的字＝原始碼（busyLine、員工票 take、宋知寧 co）；[JOBS2 3 山嵐第一班 宋知寧 不認識] 宋知寧那幾句照稿、連在一起、說話的人對（宋知寧）；[JOBS2 3 山嵐第一班 宋知寧 不認識] 記下說過了（_meta.znCo＝那天）；[JOBS2 3 山嵐第一班 宋知寧 認識] 宋知寧那幾句照稿、連在一起、說話的人對（知寧）；[JOBS2 3 山嵐第一班 宋知寧 認識] 記下說過了（_meta.znCo＝那天）；[JOBS2 4 大夜班下班] 隔天（day 53 → 54）；[JOBS2 4 大夜班下班] 睡到 10:00（10.00～10.50 時）
