@@ -1,0 +1,316 @@
+{
+ "_meta": {
+  "task": "DLG-FULL-REVIEW-1110（X324）／line_lint 7-2",
+  "by": "AA-C 2026-11-13",
+  "what": "開發分支 src 7-2 單句碎片收尾 104 句逐句看：面對面講話、讀起來像一句一句念的 30 列，用逗號接一處或把問句標成問句；學姊「三件事。一，二，三……」那一場（events.js 601）順便拿掉編號（7-12），「她停住」的節拍照留。",
+  "kept": "手機訊息、動態（本來就短：feed_*、msg_replies、sis_b*、termend 簡訊、holff、kxdrift、jpprep…）；本來就短的人（語彤、學姊、芯慈的「好。很細。我抄了三頁。」）；情緒停頓（告白「好啦。好。你不准反悔喔。」、「……好爽。好爛。兩個都有。」、vacgap、r2y4a 那一排只剩我）；喊單、主持、清單（「好。開始。每人十分鐘。」「三十份。雙面。膠裝。」「安全。好玩。一定會過。」）；笑點節拍（「一杯一百五……好喝」「我數一下。……少一個」）。"
+ },
+ "rows": [
+  {
+   "doc": "AA_995",
+   "files": [
+    "events.js"
+   ],
+   "old": "text:'上週的問題。我想了一週。三件事。'",
+   "new": "text:'上週的問題，我想了一週。'",
+   "speaker": "heroine_05",
+   "note": "7-12＋7-2：學姊不用「三件事」"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "events.js"
+   ],
+   "old": "text:'一，因為會考。'",
+   "new": "text:'因為會考。'",
+   "speaker": "heroine_05",
+   "note": "7-12 拿掉編號"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "events.js"
+   ],
+   "old": "text:'二，因為背了，才有東西可以吵。'",
+   "new": "text:'還有，因為背了，才有東西可以吵。'",
+   "speaker": "heroine_05",
+   "note": "7-12"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "events.js"
+   ],
+   "old": "{speaker:'heroine_05',expression:'neutral',text:'三……'}",
+   "new": "{speaker:'heroine_05',expression:'neutral',text:'還有……'}",
+   "speaker": "heroine_05",
+   "note": "7-12；後面「她停住。」照留"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "events.js"
+   ],
+   "old": "我決定了。我要重考。去念教育。",
+   "new": "我決定了。我要重考，去念教育。",
+   "speaker": "classmate_peishan",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "adv3d.js"
+   ],
+   "old": "我決定了。我要重考。去念教育。",
+   "new": "我決定了。我要重考，去念教育。",
+   "speaker": "classmate_peishan",
+   "note": "7-2（同一句的 adv 版）"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "aa667_3d.js"
+   ],
+   "old": "五個月做的。你玩。我不講話。",
+   "new": "五個月做的。你玩，我不講話。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "aa519_lines.js"
+   ],
+   "old": "實習要投十家。我投了三家。三家也算吧。",
+   "new": "實習要投十家，我投了三家。三家也算吧。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "cracktalk_lines.js"
+   ],
+   "old": "你對。我改。我先找人代。",
+   "new": "你對，我改。我先找人代。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "enc_walk.js"
+   ],
+   "old": "你站進去看看。……我不拍。只是想看看。",
+   "new": "你站進去看看。……我不拍，只是想看看。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "events.js"
+   ],
+   "old": "我有看到你。很丟臉。……不過謝啦。",
+   "new": "我有看到你，很丟臉。……不過謝啦。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "events.js"
+   ],
+   "old": "好。今天先不問。飲料喝完再走。",
+   "new": "好，今天先不問。飲料喝完再走。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "events.js"
+   ],
+   "old": "好。你列。電話我給你。",
+   "new": "好，你列。電話我給你。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "invite_place_lines.js"
+   ],
+   "old": "山嵐。好。那裡很安靜。",
+   "new": "山嵐？好，那裡很安靜。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "invites.js"
+   ],
+   "old": "好。我帶防蚊液。這是條件。",
+   "new": "好，我帶防蚊液。這是條件。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "r2y3b_events.js"
+   ],
+   "old": "樓下有。一次一百圓。我又記了一筆。",
+   "new": "樓下有，一次一百圓。我又記了一筆。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "rel_lines.js"
+   ],
+   "old": "做壞了。拉花歪了。你喝。",
+   "new": "做壞了，拉花歪了。你喝。",
+   "speaker": "heroine_02",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "sup497_lines.js"
+   ],
+   "old": "一千二。夠付場地費。你顧得很好。",
+   "new": "一千二，夠付場地費。你顧得很好。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "termend_opts.js"
+   ],
+   "old": "對啦。以後都免費。只有我做的。",
+   "new": "對啦，以後都免費。只有我做的。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "termend_opts.js"
+   ],
+   "old": "錯。差很多。你欠我一杯。",
+   "new": "錯，差很多。你欠我一杯。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "vacfill_events.js"
+   ],
+   "old": "好。我也讀那一科。明天對進度。",
+   "new": "好，我也讀那一科。明天對進度。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "date3d.js"
+   ],
+   "old": "沒錢了齁。我來。下次你請早餐。",
+   "new": "沒錢了齁？我來。下次你請早餐。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "family_xmas3d.js"
+   ],
+   "old": "好。我收下。不保證會用。",
+   "new": "好，我收下。不保證會用。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "r2y4b3d.js"
+   ],
+   "old": "好了。你先走。我再坐一下。",
+   "new": "好了，你先走。我再坐一下。",
+   "speaker": "（見檔）",
+   "note": "7-2"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "invite_replies.js"
+   ],
+   "old": "好。十點前結束。我十一點要睡。",
+   "new": "好，十點前結束。我十一點要睡。",
+   "speaker": "（見檔）",
+   "all": true,
+   "note": "7-2；lines 和 say 各一處"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "invite_replies.js"
+   ],
+   "old": "好。我帶一本小說。你念你的。",
+   "new": "好，我帶一本小說，你念你的。",
+   "speaker": "（見檔）",
+   "all": true,
+   "note": "7-2；lines 和 say 各一處"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "invite_replies.js"
+   ],
+   "old": "我在上班。改天。時間我記得。",
+   "new": "我在上班，改天。時間我記得。",
+   "speaker": "（見檔）",
+   "all": true,
+   "note": "7-2；lines 和 say 各一處"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "invite_replies.js"
+   ],
+   "old": "好。我不會看地圖。我看窗外。",
+   "new": "好。我不會看地圖，我看窗外。",
+   "speaker": "（見檔）",
+   "all": true,
+   "note": "7-2；lines 和 say 各一處"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "invite_replies.js"
+   ],
+   "old": "好。我剛好卡住了。出去走一走。",
+   "new": "好，我剛好卡住了。出去走一走。",
+   "speaker": "（見檔）",
+   "all": true,
+   "note": "7-2；lines 和 say 各一處"
+  },
+  {
+   "doc": "AA_995",
+   "files": [
+    "invite_replies.js"
+   ],
+   "old": "好。公館燒臘。我自己付。",
+   "new": "好，公館燒臘。我自己付。",
+   "speaker": "（見檔）",
+   "all": true,
+   "note": "7-2；lines 和 say 各一處"
+  }
+ ]
+}
