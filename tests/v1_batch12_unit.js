@@ -64,9 +64,9 @@ const KX={dating_kexin:true};
     L=await g({},['不告訴你']); check('　選「不告訴你。」→「好喔。」、沒有 ZHE_CALLS_GE',L.includes('好喔。')&&!G.flags.ZHE_CALLS_GE);
     L=await g({ZHE_CALLS_GE:true},[]); check('　已經有「哥」的不問',!L.includes('欸，明軒說你比我們大一屆？')); }
   { let r=await bbq({KX_BBQ_COME:true},null,['我女朋友','可昕贏']);
-    check('K3：比冷笑話「可昕贏」→「我練過。不要問跟誰。」（BB 2026-10-14；AA_305 第 9 節改句）、沒有「好，我回去練。」',r.L.includes('我練過。不要問跟誰。')&&!r.L.includes('好，我回去練。')&&G.flags.KX_JOKE==='kexin',JSON.stringify(r.L.slice(-3)));
+    check('K3 拿掉（2026-11-13 AA_901 補第 4 點，CANON-NO-ECON-1112 收尾：中秋烤肉 K3 和可昕的介紹那一段整段拿掉，有 KX_MET 的玩家在系上烤肉看得到她、不另寫介紹）：舊存檔有 KX_BBQ_COME 也不演可昕那一段（沒有「可昕來了。」、比冷笑話；KX_JOKE 不設）。舊期望：「可昕贏」→「我練過。不要問跟誰。」',!r.L.includes('可昕來了。')&&!r.L.includes('之後阿哲和她比冷笑話。')&&!r.L.includes('我練過。不要問跟誰。')&&G.flags.KX_JOKE===undefined,JSON.stringify(r.L.slice(-3)));
     r=await bbq({KX_BBQ_COME:true},null,['我女朋友','阿哲贏']);
-    check('K3：「阿哲贏」照舊「好，我回去練。」、沒有可昕贏的那句',r.L.includes('好，我回去練。')&&!r.L.includes('我練過。不要問跟誰。')&&G.flags.KX_JOKE==='zhe');
+    check('K3 拿掉：「阿哲贏」那一支也沒有（舊期望「好，我回去練。」）',!r.L.includes('好，我回去練。')&&G.flags.KX_JOKE===undefined);
     const at=(res)=>res.L.indexOf('你被分到顧火。火一直熄。');
     r=await bbq({},null,[]);
     check('CG-14：只認識阿哲的玩家也有「中秋的河濱」，在「你被分到顧火。火一直熄。」那一句出現、只一張',r.cg.length===1&&r.cg[0].id==='cg_midautumn_riverside'&&r.cg[0].at===at(r)&&at(r)>0,JSON.stringify({cg:r.cg,at:at(r)}));

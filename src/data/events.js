@@ -814,23 +814,10 @@ const STORY_EVENTS=[
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'秀琴姨醃的肉被搶光了。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'zhe',expression:'laugh',text:'可以叫秀琴姨開一個烤肉的菜單嗎？'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'heroine_03',expression:'neutral',text:'不行。她會真的開。'},
-      {unless:{flags:['KX_BBQ_COME']},goto:'end'},
-      {speaker:null,text:'可昕來了。'},
-      {choice:[{text:'「這是可昕，我女朋友。」',set:{KX_INTRO:'gf'},goto:'i1'},{text:'「她會出題考你們。」',set:{KX_INTRO:'quiz'},goto:'i2'},{text:'「讓她說我們怎麼認識的。」',set:{KX_INTRO:'story'},goto:'i3'}]},
-      {label:'i1'},{speaker:'zhe',expression:'smile',text:'哪間學校的？'},{speaker:'kexin',expression:'smile',text:'木柵大學的。考古題可以交換。'},{goto:'joke'},
-      {label:'i2'},{speaker:'kexin',expression:'teasing',text:'刑總第一題。準備好了嗎？'},{speaker:'zhe',expression:'laugh',text:'我拒絕回答。'},{goto:'joke'},
-      {label:'i3'},{speaker:'kexin',expression:'smile',text:'杜可昕。木柵大學法律。我們以前是經濟系的同學。……後來一起重考。'},
-      {if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'known'},
-      {speaker:'zhe',expression:'surprised',text:'等一下。經濟系？重考？'},{speaker:'player',text:'……嗯。念了一個多月。'},
-      {set:{ECON_PAST_SHARED:'full'}},{goto:'joke'},
-      {label:'known'},{speaker:'zhe',expression:'laugh',text:'喔——就是那一年。'},
-      {label:'joke'},{speaker:null,text:'之後阿哲和她比冷笑話。'},
-      {choice:[{text:'（阿哲贏）',set:{KX_JOKE:'zhe'},goto:'zw'},{text:'（可昕贏）',set:{KX_JOKE:'kexin'},goto:'kw'}]},
-      {label:'zw'},{speaker:'kexin',expression:'smile',text:'好，我回去練。'},{goto:'end'},
-      {label:'kw'},{speaker:'kexin',expression:'laugh',text:'我練過。不要問跟誰。'},   /* AA_305 第 9 節 */
+      /* 可昕的介紹那一段（KX_BBQ_COME 才演：「這是可昕……」三選一、她自我介紹、比冷笑話）整段拿掉：AA_901 補第 4 點（CANON-NO-ECON-1112 收尾）——有 KX_MET 的玩家在系上烤肉看得到她，跟其他同學一樣，不另寫介紹。舊存檔的 KX_INTRO／KX_JOKE 照留（romance3d.js k3Tell 舊存檔、events.js 大二中秋讀 KX_JOKE）*/
       {label:'end'} ],
     consequences:{flags:{MIDAUTUMN_Y1:true},stamp:['bbqDay'],memo:'中秋烤肉（河濱）'},
-    after:(G)=>{ if(G.flags.KX_BBQ_COME) G.flags.KX_MET_NOODLE_TEAM=true; if(typeof ROM!=='undefined'&&ROM.k3Tell) ROM.k3Tell(G); } },   /* KX_MET_NOODLE_TEAM 只給可昕那邊用；選①「這是可昕，我女朋友。」＝在場的人 knowsGF（BB_191 9-4 #2）*/
+    after:(G)=>{ if(typeof ROM!=='undefined'&&ROM.k3Tell) ROM.k3Tell(G); } },   /* AA_901 補第 4 點：K3 拿掉，KX_BBQ_COME 不再設 KX_MET_NOODLE_TEAM（舊存檔已經有的照留）*/   /* KX_MET_NOODLE_TEAM 只給可昕那邊用；選①「這是可昕，我女朋友。」＝在場的人 knowsGF（BB_191 9-4 #2）*/
   /* 以安新 3 宿舍的規則（交付清單 A14；交接包_v1 第 3 節、AA_113 事件 3）：祐廷不在，轉述。桌遊團群組的訊息在 story3d.js 的 phoneRules（第 7 週週二晚上）；
      沒有加入桌遊團群組的玩家，改成沛珊當面說同樣的內容（第 7 週起找她說話；要認識她）。只記旗標 AN_DORM_RULES（聽說，不寫成玩家在場）*/
   { id:'ev_an_dorm_rules_peishan', title:'宿舍的規則', participants:['classmate_peishan'], location:'any', trigger:'interact', priority:3, term:['Y1S1'], once:true, background:'blur',

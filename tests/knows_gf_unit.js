@@ -37,11 +37,11 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   const k3=ev('ev_mid_autumn_bbq'), d5=termDay('Y1S1',5,6);
   { fresh(d5,15,'campus',{dating_kexin:true,KX_BBQ_COME:true,ECON_PAST_SHARED:'full'}); meet('zhe'); meet('heroine_01'); meet('classmate_bohan'); picks=['我大一歲','這是可昕']; await EVENTS.run(k3);
     const K=G.flags.knowsRel||{};
-    check('A. K3 選①「這是可昕，我女朋友。」：阿哲、在場的以安、柏翰知道（source ev_mid_autumn_bbq、他也知道他們知道）',G.flags.KX_INTRO==='gf'&&['zhe','heroine_01','classmate_bohan'].every(x=>ROM.knowsGF(G,x)&&K[x].kexin.source==='ev_mid_autumn_bbq'&&ROM.ytKnows(G,x,'kexin')),JSON.stringify(K));
+    check('A. K3 拿掉（2026-11-13 AA_901 補第 4 點，CANON-NO-ECON-1112 收尾：中秋烤肉 K3 和可昕的介紹那一段整段拿掉，有 KX_MET 的玩家在系上烤肉看得到她、不另寫介紹）：舊存檔的 KX_BBQ_COME 也不演介紹（沒有「這是可昕」三選一、KX_INTRO 不設）、沒有人因為烤肉知道（舊期望：選①阿哲、以安、柏翰知道）',G.flags.KX_INTRO===undefined&&!lines().some(t=>/這是可昕|可昕來了/.test(t))&&['zhe','heroine_01','classmate_bohan'].every(x=>!ROM.knowsGF(G,x)),JSON.stringify(K));
     check('A. 不認識的語彤、Alison、方奕廷，不在 K3 的沛珊、芷若、子晴、學姊：不知道',['heroine_03','yu','npc_fangyt','classmate_peishan','heroine_02','heroine_04','heroine_05'].every(x=>!ROM.knowsGF(G,x)));
-    check('A. KX_MET_NOODLE_TEAM 照設（可昕那邊的台詞用）',G.flags.KX_MET_NOODLE_TEAM===true); }
+    check('A. KX_BBQ_COME 不再設 KX_MET_NOODLE_TEAM（舊期望：照設）'+'（2026-11-13 AA_901 補第 4 點，CANON-NO-ECON-1112 收尾：中秋烤肉 K3 和可昕的介紹那一段整段拿掉，有 KX_MET 的玩家在系上烤肉看得到她、不另寫介紹）',G.flags.KX_MET_NOODLE_TEAM!==true); }
   { fresh(d5,15,'campus',{dating_kexin:true,KX_BBQ_COME:true,ECON_PAST_SHARED:'full'}); meet('zhe'); meet('heroine_01'); meet('heroine_03'); picks=['我大一歲','她會出題']; await EVENTS.run(k3);
-    check('A. K3 選②「她會出題考你們。」：誰都不知道（阿凱除外）',G.flags.KX_INTRO==='quiz'&&['zhe','heroine_01','heroine_03'].every(x=>!ROM.knowsGF(G,x))&&ROM.knowsGF(G,'kai')); }
+    check('A. K3 拿掉：選②那一支也沒有了（KX_INTRO 不設）；在場的人都不因為烤肉知道（舊期望：選②誰都不知道、阿凱除外）',G.flags.KX_INTRO===undefined&&['zhe','heroine_01','heroine_03'].every(x=>!ROM.knowsGF(G,x))); }
   /* ---------- B 芷若 Z5 週末看片 ---------- */
   const z5=ev('ev_zhiruo_film_night'), fri12=termDay('Y1S2',12,5);
   { fresh(fri12,20,'cafe',{dating_kexin:true}); meet('heroine_02'); picks=['幾點']; await EVENTS.run(z5); const L=lines().join('｜');

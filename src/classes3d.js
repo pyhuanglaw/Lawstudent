@@ -42,7 +42,7 @@ const CLS=(function(){
      存檔已經過了大二下：法學英文不補修，大二下的成績單寫「未修（2026-10-14 課程調整）」；大四下已經上過：成績單照「已修」。其他資料都不動 */
   const DROPPED=['law_society','law_society_2','juris','intl_public','legal_history','fair_trade','conflict_laws'];
   S.DROPPED=DROPPED;
-  const TERM_ORDER=['Y0S1','Y0S2','Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
+  const TERM_ORDER=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];   /* 舊序章那兩個學期拿掉（AA_919 4-3，CANON-NO-ECON-1112 收尾）：termIndex 只拿來比先後，那兩個學期（舊存檔讀不了）＝-1，比較結果不變 */
   S.termIndex=id=>TERM_ORDER.indexOf(id);
   function migrateV3(R,G){ const gone=id=>DROPPED.includes(id); const keyGone=k=>{ const p=String(k).split(':'); return p.length===3&&gone(p[1]); };
     for(const k of Object.keys(R.done)) if(keyGone(k)) delete R.done[k];

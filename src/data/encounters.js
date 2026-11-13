@@ -106,7 +106,7 @@ const ENCOUNTERS={
       lines:{all:['{name}？我們在找一部劇的拍攝地點。','要同一個角度，連光都要一樣。我們已經找兩個小時了。']},src:'AA_162 8、8-1、8-5'},
     {who:'kexin',spot:'D09',why:'她和室友坐在茶館的窗邊，兩個人盯著一壺茶。',days:[0],from:15,to:19,terms:null,weeks:[7],stageMin:null,kexin:true,busy:'short',join:'dating',memo:'ENC_D09_KX',memoIf:'dating',
       lines:{dating:['我們在等茶涼。我室友說可以喝了，我說還太燙。','你喝一口。你說，誰對？']},
-      ex:{kx_b:['嗨。我們在喝茶。','我們讀完書上來的。你也是？'],kx_c:['好久不見。這裡的茶，還是一樣苦。','我們要下山了。你慢慢走。']},src:'BB_150 1、2-1（予樂讓位：enc_walk intro）'},
+      ex:{kx_b:['嗨。我們在喝茶。','我們讀完書上來的。你也是？'],kx_c:['好久不見。這裡的茶，還是一樣苦。','我們要下山了。你慢慢走。']},src:'BB_150 1、2-1（她室友讓位：enc_walk intro）'},
     {who:'heroine_04',spot:'D18',why:'她坐在石階上，平板上畫著九份的燈籠。',days:[0],from:16,to:20,terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[13],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D18_ZQ',away:'在九份',
       lines:{acq:['你怎麼也在九份。','我在畫燈籠。……畫好玩的。'],friend:['你來得剛好。站到那個燈籠下面，我要比一下大小。','好。燈籠比我想的還小。'],dating:['欸不是，你也來九份？我又沒有打卡。','好啦，我畫累了。陪我去吃芋圓。']},src:'BB_150 1、2-2'},
     /* AA_675 2-4（AA_661 第 32 列，企劃線 920791094，AA-C 定 D109）：礁溪那一場照 AA_609 第 8 節（學姊一家：媽媽、阿公、奶奶、Alison；發現 Alison 是她妹妹）——

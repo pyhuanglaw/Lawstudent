@@ -223,7 +223,7 @@ const R2Y4B=(function(){
   S.k26Scene=async function(GM,q){ const G=GM.G, sp=(q&&q.k26)||S.k26Spot(G), A=adv(), K=who('kexin');
     if(A&&A.begin) A.begin({background:bg(sp.bg),right:{charId:'kexin',expression:'smile'}}); if(GM.caption) GM.caption('',sp.name,2400);
     if(sp.shop) await GM.say(null,'（老闆端上兩個人的點法，只說：「畢業了喔？」）'); else await GM.say(K,'畢業了。這裡也算我們的店。');
-    if(G.flags.KX_GRAD==='mine'){ await GM.say(null,'（她把手機交給隔壁桌的人：「不好意思，幫我們拍一張。」）'); await GM.say(K,'典禮那天欠的合照。'); G.flags.KX_GRAD_PHOTO='k26'; }   /* AA_356 1-3：她的典禮沒去（「你欠我一張合照」）的下文 */
+    /* KX_GRAD==='mine'（她外校那一場典禮沒去、「典禮那天欠的合照。」）那一支拿掉：AA 定（CANON-NO-ECON-1112 收尾；6/2 是同一場，AA_919 4-2）*/
     await GM.say(K,delayed(G)?'你還差一個學期。……那今天先慶祝我的。':'下個月考試。今天不讀書。……考試的事，明天再說。');   /* 交換延畢：她說的那一句換掉 */
     G.flags.KX_K26='went'; };
   S.k26Missed=G=>{ const d=DK('2029-07-07'); G.flags.KX_K26='missed'; if(d!=null) PHONE.at(G,d,Math.max(16,G.day===d?G.hour:16),[P_('kexin','三點，老地方。你沒來。'),P_('kexin','……我自己吃了兩份。')],'y4_kx_k26_missed'); };   /* AA_356 1-4：之後沒有見面的場合，不留欠債（原句「你欠我一次。」）*/
