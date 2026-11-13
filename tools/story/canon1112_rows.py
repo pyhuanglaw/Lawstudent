@@ -33,6 +33,9 @@ ROWS = {
         (U(r'\u4e88\u6a02\u751f\u65e5\u5feb\u5230\u4e86\uff0c\u6211\u60f3\u9001\u5979\u4e00\u672c\u66f8\u3002\u4f60\u5e6b\u6211\u6311\u3002'), '我室友生日快到了，我想送她一本書。你幫我挑。'),
         # AA_905（AA-C 11-12 20:1x，源稿 AA_708 在 5cf795e7dd 已改；這裡疊在白名單那一版上）：可昕書店 rot seat
         (U(r'\u4eca\u5929\u6211\u60f3\u627e\u4e00\u672c\u8b1b\u7d93\u6fdf\u7684\u66f8\u3002\u4e0d\u662f\u8ab2\u672c\u3002'), '今天我想找一本小說。不是課本。'),
+        # AA_921 第 3-3 節（企劃線 96c3a668eb，CANON-NO-ECON-1112 第五批）：可昕不打分數、不記帳——吃東西、買東西那兩句旁白（源稿 AA_708 沒改，src 對照表）
+        ('（她邊吃邊評分，每一道都給了分數，最高六分。）', '（她每一道都吃一口，吃到喜歡的就把盤子往自己那邊拉。）'),
+        ('（她把收據收進錢包，說要記帳。）', '（她把收據揉成一團，丟進門口的垃圾桶。）'),
     ]),
 }
 
@@ -53,6 +56,14 @@ ALT = {
     },
 }
 
+# AA_708（白名單換 6dbfe10d7e，AA_916、AA_905）：同一件事，舊字裡的名字 AA 換成代號（外校室友→「她室友」、外校的地名→「外校」）；照同一個對應算代號版（整句）
+ALT_SUB = {'docs/story_planning/AA_708_activity_scenes.json': [(U(r'\u4e88\u6a02'), '她室友'), (U(r'\u6728\u67f5'), '外校')]}
+for _p, _subs in ALT_SUB.items():
+    for _old, _new in ROWS[_p][1]:
+        _a = _old
+        for _x, _y in _subs: _a = _a.replace(_x, _y)
+        if _a != _old: ALT.setdefault(_p, {})[_old] = _a
+
 
 def fix(path, text):
     row = ROWS.get(path)
@@ -64,6 +75,8 @@ def fix(path, text):
     for old, new in L:
         if old not in text and alt.get(old) and alt[old] in text:   # 第五批：稿那一版已經換成代號版
             old = alt[old]
+        if old not in text and path in ALT_SUB and new in text:   # 第五批：稿那一版已經直接寫成新字（AA_905 書店那一列）
+            continue
         if old not in text:
             bad.append(old[:24])
             continue

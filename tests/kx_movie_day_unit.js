@@ -7,7 +7,7 @@ const fs=require('fs'), path=require('path'), vm=require('vm');
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 loadG('src/data/study_scenes.js',['STUDY_SCENES']); loadG('src/data/activity_scenes.js',['ACTIVITY_SCENES']); loadG('src/studyn3d.js',['STUDYN']);
 const K=ACTIVITY_SCENES.kinds, sc=(kind,k)=>K[kind].people.kexin.scenes[String(k)];
-check('0. activity_scenes.js 照 AA_708 白名單版本（256bcdc42 起含 e0e92919e 的 day）、有 day',/@(e0e92919e|256bcdc42|d30416e6b)/.test(ACTIVITY_SCENES.src||'')&&!!(sc('movie',1)||{}).day,ACTIVITY_SCENES.src);
+check('0. activity_scenes.js 照 AA_708 白名單版本（256bcdc42 起含 e0e92919e 的 day）、有 day',/@(e0e92919e|256bcdc42|d30416e6b|6dbfe10d7e)/.test(ACTIVITY_SCENES.src||'')&&!!(sc('movie',1)||{}).day,ACTIVITY_SCENES.src);
 const at=h=>{ const G=H.fresh('2025-10-25',h,'campus'); return G; };
 const r=(kind,k,h,f)=>STUDYN.resolve(at(h),sc(kind,k),{k,kind})[f];
 /* 2026-11-11（X324 A 區，AA_708@d30416e6b）：可昕電影第 1 場散場句 AA 改了——白天第二句「我搭下一班就好，不用趕。」→「早知道就不用一直看時間。」、晚上「末班車還有。好險。」→「我中間看了一次手機。習慣而已，片子沒有問題。」（不再提搭車）；白天晚上還是不同句（day 照舊有用）。舊期望是那兩句舊字 */

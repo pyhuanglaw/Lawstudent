@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@d30416e6b）。不要手改，改企劃 AA_708 再重新匯入。
+/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@6dbfe10d7e）。不要手改，改企劃 AA_708 再重新匯入。
    一起活動第 1～N 次（吃飯、咖啡、電影、書店；播放 src/studyn3d.js STUDYN.act）*/
 'use strict';
 const ACTIVITY_SCENES={
- "src": "docs/story_planning/AA_708_activity_scenes.json@d30416e6b",
+ "src": "docs/story_planning/AA_708_activity_scenes.json@6dbfe10d7e",
  "kinds": {
   "eat": {
    "people": {
@@ -356,7 +356,7 @@ const ACTIVITY_SCENES={
       },
       {
        "seat": [
-        "今天也沒班。"
+        "我把班換掉了。"
        ],
        "mid": [
         "（她吃得很慢，好像在把下午留給你。）"
@@ -1145,7 +1145,7 @@ const ACTIVITY_SCENES={
       "1": {
        "need": 1,
        "seat": [
-        "你們學校附近的東西好貴。",
+        "學校附近的東西好貴。",
         "（她看了一下菜單，點了最便宜的那一個，又改成第二便宜的。）"
        ],
        "mid": [
@@ -1216,10 +1216,10 @@ const ACTIVITY_SCENES={
       "3": {
        "need": 3,
        "seat": [
-        "你們學校旁邊這間，我吃過了。很普通。"
+        "這間我吃過了。很普通。……可是我還是會來。"
        ],
        "mid": [
-        "（她邊吃邊評分，每一道都給了分數，最高六分。）",
+        "（她每一道都吃一口，吃到喜歡的就把盤子往自己那邊拉。）",
         "我很挑。你又不是今天才知道。"
        ],
        "bye": [
@@ -1552,7 +1552,7 @@ const ACTIVITY_SCENES={
       "2": {
        "need": 2,
        "seat": [
-        "今天我沒班。我是客人。"
+        "我是客人。不要叫我幫忙收杯子。"
        ],
        "mid": [
         "（老闆經過，問她「休假還來？」她說「帶朋友來」。）"
@@ -2612,7 +2612,7 @@ const ACTIVITY_SCENES={
         "今天我請。不准搶。"
        ],
        "mid": [
-        "（她把收據收進錢包，說要記帳。）"
+        "（她把收據揉成一團，丟進門口的垃圾桶。）"
        ]
       },
       {
@@ -3035,7 +3035,7 @@ const ACTIVITY_SCENES={
          "（演到一半，她把頭靠在你肩膀上。很輕，好像隨時會拿開。）"
         ],
         "bye": [
-         "……我剛剛沒有睡著。"
+         "我剛剛沒有睡著。真的。"
         ]
        }
       }

@@ -8421,12 +8421,12 @@
   },
   {
    "path": "docs/story_planning/AA_708_activity_scenes.json",
-   "sha": "d30416e6b",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109）d30416e6b：X324 A 區「一起活動」七人重寫（98 場每場兩個選項、沛珊整塊重寫 PEISHAN-VOICE-1110、舊店名菜名／寫死的承諾換掉）；BB 抽查 BB_342（企劃線 e5dd28d2b）四點已改；AA 11-11 07:20 交 LAWWW",
+   "approvedBy": "AA 定稿（D109）d30416e6b：X324 A 區「一起活動」七人重寫（98 場每場兩個選項、沛珊整塊重寫 PEISHAN-VOICE-1110、舊店名菜名／寫死的承諾換掉）；BB 抽查 BB_342（企劃線 e5dd28d2b）四點已改；AA 11-11 07:20 交 LAWWW；6dbfe10d7e（AA_916／AA_905 定稿（AA-C 2026-11-12））",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
-   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js",
+   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：芷若、語彤、可昕幾列（AA_916 不寫外校前提；芷若沒班的說法、語彤刪節號））",
    "history": [
     {
      "sha": "e0e92919e",
@@ -8435,6 +8435,10 @@
     {
      "sha": "256bcdc42",
      "approvedBy": "AA 定稿（D109）256bcdc42：AA_736 經濟系、重考少提（每位最多一處、同一場最多一個，37 處；和可昕交往矛盾的拿掉；X287）＋8a246c40f 語彤第 2 場不指定店；AA 11-10 17:07 交 LAWWW"
+    },
+    {
+     "sha": "d30416e6b",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：芷若、語彤、可昕幾列（AA_916 不寫外校前提；芷若沒班的說法、語彤刪節號））"
     }
    ]
   },
