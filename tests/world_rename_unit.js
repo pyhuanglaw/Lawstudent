@@ -16,8 +16,8 @@ const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fail++;
     '1. src 字串常數沒有舊名（apply_game.py）　' + (r.stderr || '').trim() + ' ' + (r.stdout || '').slice(0, 600)); }
 
 /* 2 */
-const OLD = /[臺台]灣大學(?!生)|National Taiwan University|\bNTU\b|霖澤|萬才館?|傅鐘|椰林大道|小椰林道|醉月湖|洞洞館|國青中心|辜振甫|(?<!大)哥大|杜鵑花節/;
-const OLD_CTX = [[/[臺台]大/g, '舞平講櫃陽月擂吧檯戲'], [/活大/g, '生復靈']];
+const OLD = /[臺台]灣大學(?!生)|National Taiwan University|\bNTU\b|\u653f\u6cbb\u5927\u5b78|\bNCCU\b|霖澤|萬才館?|傅鐘|椰林大道|小椰林道|醉月湖|洞洞館|國青中心|辜振甫|(?<!大)哥大|杜鵑花節/;
+const OLD_CTX = [[/[臺台]大/g, '舞平講櫃陽月擂吧檯戲'], [/\u653f\u5927/g, '財行郵執'], [/活大/g, '生復靈']];
 const hasOld = s => OLD.test(s) || OLD_CTX.some(([rx, pre]) => { rx.lastIndex = 0; let m; while ((m = rx.exec(s))) if (pre.indexOf(s.charAt(m.index - 1)) < 0) return true; return false; })
   || /博雅(?!教育|書院|學程|精神|課程)/.test(s) || /小福(?!利)/.test(s);
 { const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8').replace(/<!--[\s\S]*?-->/g, '').replace(/<script\b[\s\S]*?<\/script>/g, '').replace(/<style\b[\s\S]*?<\/style>/g, '');
