@@ -1,0 +1,21 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_FEED\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['FEED_Y1', 'FEED_Y4']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [FEED_Y1] 最小存檔讀到 2025-09-14 20.83 dorm（Y1S1 第 2 週）
+  [前置／捷徑] 【捷徑】[FEED_Y1] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [  47.2s] [FEED_Y1] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}；要看的那一則 kx1
+PASS FAIL_SETUP 檢查：[FEED_Y1] 遊戲時間過了 21.20（現在 2025-09-14 21.21）
+  [  96.1s] [FEED_Y1] 動態頁："可昕\n今天 21:00\n（照片：宿舍窗外，對面那棟每一間都亮著）\n開學。對面那棟的人都不睡覺。\n（按愛心）\n妳也沒睡。\n（私訊問一句）\n住得慣嗎？\n動態只留七天。"；按鈕 ["（按愛心）", "妳也沒睡。", "（私訊問一句）住得慣嗎？"]；FEED {"start": "2025-09-14", "items": [{"id": "kx1", "who": "kexin", "day": -2, "h": 21}]}
+PASS FAIL_SETUP 檢查：[FEED_Y1] 手機有「動態」頁、打得開
+PASS [FEED_Y1] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [FEED_Y4] 最小存檔讀到 2029-06-03 20.83 dorm（Y4S2 第 15 週）
+  [前置／捷徑] 【捷徑】[FEED_Y4] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [ 141.9s] [FEED_Y4] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}；要看的那一則 kx3h
+  [ 154.2s] FEED_Y4 等的途中點過的對話：[["", "（晨思鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）"], ["Alison", "（把學士帽戴到阿哲頭上）你的帽子歪了。"], ["阿哲", "那是妳的帽子。"], ["", "（她從拍照的人群裡走過來，學士帽還戴著。）"], ["杜可昕", "我媽在那邊，一直在整理我的領子。你等一下過來，她會問你吃飽沒。"], ["阿凱", "畢業快樂。宵夜？"], ["祐廷", "……現在才中午。"], ["阿凱", "那晚上。"], ["阿哲", "晚上五點半兩點半啦，能來的都來。"]]
+PASS FAIL_SETUP 檢查：[FEED_Y4] 遊戲時間過了 21.20（現在 2029-06-03 22.00）
+  [ 159.0s] [FEED_Y4] 動態頁："可昕\n今天 21:00\n（照片：晨思鐘前，一頂學士帽放在階梯上）\n畢業了。\n（按愛心）\n恭喜！\n（私訊問一句）\n真的沒有？\n動態只留七天。"；按鈕 ["（按愛心）", "恭喜！", "（私訊問一句）真的沒有？"]；FEED {"start": "2029-06-03", "items": [{"id": "kx3h", "who": "kexin", "day": 1356, "h": 21, "tr": "pg"}]}
+PASS FAIL_SETUP 檢查：[FEED_Y4] 手機有「動態」頁、打得開
+PASS [FEED_Y4] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS

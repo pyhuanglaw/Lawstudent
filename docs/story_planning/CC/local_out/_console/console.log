@@ -1,16 +1,3 @@
-[21:21:52] 正在跑：P0_LONGPLAY_fix_solo（已跑 1 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
-[21:26:52] 正在跑：P0_LONGPLAY_fix_solo（已跑 6 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
-[21:28:37] [res] cpu=0% mem=31% (10.0/31.4 GB) chrome_testing=0  END P0_LONGPLAY_fix_solo
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       cb6f8d2f16..e9454b20a3  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[21:29:06] ==== END   P0_LONGPLAY_fix_solo  exit=0  521s   ====
-[21:29:09] skip GATE_CAL_1cd2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
-[21:29:09] skip GATE_CAL_bd86 (already done on bd8643003a363ecd3e9bb87fa59d839f6d22475a)
-[21:29:09] skip GATE_CAL_1cd2_r2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
-[21:29:09] skip GATE_CAL_bd86_r2 (already done on bd8643003a363ecd3e9bb87fa59d839f6d22475a)
-[21:29:09] skip GATE_CAL_dc3d_xs_r2 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[21:29:09] skip GATE_CAL_flk_1cd2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
 [21:29:09] skip GATE_CAL_flk_head (already done on c4e07078078a77df3fcc7cdfa5bf481992a0f8fc)
 [21:29:09] skip GATE_CAL_dc3d_xs (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
 [21:29:09] skip GATE_CAL_2771 (already done on 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37)
@@ -1998,3 +1985,16 @@
 [03:30:35] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [03:30:35] memory 36% before starting CANON458_FEED (2 running)
 [03:30:35] ==== START CANON458_FEED  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:30:38] [res] cpu=1% mem=36% (11.4/31.4 GB) chrome_testing=5  START CANON458_FEED
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       41c0c54c61..c03cdf94b7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:30:44] ==== END   CANON458_ANNIV  exit=0  624s   ====
+[03:31:10] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[03:31:10] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[03:31:10] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[03:31:10] memory 41% before starting CANON458_AN_BEAT6 (2 running)
+[03:31:10] ==== START CANON458_AN_BEAT6  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:31:13] [res] cpu=22% mem=41% (12.9/31.4 GB) chrome_testing=9  START CANON458_AN_BEAT6
+[03:31:53] 正在跑：CANON458_SPRING（已跑 4 分／上限 40 分）、CANON458_FEED（已跑 1 分／上限 20 分）、CANON458_AN_BEAT6（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:34:11] [res] cpu=1% mem=43% (13.6/31.4 GB) chrome_testing=10  END CANON458_FEED
