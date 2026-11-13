@@ -8,6 +8,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   XMAS_MET_A／XMAS_MET_B／XMAS_PREV／XMAS_ABROAD  #17 大三聖誕（@d999d036d8 當面版；BB 改定：當面版＋人在國外的視訊版）：12/24 21:00 兩則 → 「好。」→ 12/25 21:00 法律系館A（國外＝視訊）
   GRAD_KEY／GRAD_NOKEY  #15 6/2 畢業典禮（交往中；有／沒有長頸鹿鑰匙圈）：一路照演到 PG.done.grad，記 ADV.cg（不能有 cg_two_graduations）
   ORAL  #16 國考口試（【捷徑】畢業後篇＋JUDGE_PASS_2030，2031-01-11 09:50）：記「你為什麼念法律？」那一段，祐廷不提以前的系（D158 字表掃）
+  NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -124,7 +125,38 @@ async def c_oral(pg, cdp, tag):
     return {'case': tag, 'seed': seed, 'skip': sk, 'rs': rs, 'pg': st}
 
 
+async def send_chat(pg, cdp, tag, pid, topic='chat'):
+    """手機訊息 → 那一串 → 「傳訊息」(data-msgto) → 話題 (data-msgt="pid|topic")"""
+    t = await P.phone_thread(pg, cdp, 'p:' + pid, open_folds=False)
+    ok1 = await L.tap(pg, cdp, '#phoneBody [data-msgto="%s"]' % pid); await pg.wait_for_timeout(900)
+    tops = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-msgt]')].map(b=>({k:b.dataset.msgt,t:(b.textContent||'').trim()}))")
+    await pg.screenshot(path=os.path.join(OUT, '%s_topics.png' % tag))
+    ok2 = await L.tap(pg, cdp, '#phoneBody [data-msgt="%s|%s"]' % (pid, topic)); await pg.wait_for_timeout(1500)
+    toast = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return (e&&e.offsetParent)?(e.textContent||'').trim():''; })()")
+    await pg.screenshot(path=os.path.join(OUT, '%s_sent.png' % tag))
+    R.note('[%s] 傳訊息：串=%s 傳訊息鍵=%s 話題 %s 按「%s」=%s toast「%s」' % (tag, t['ok'], ok1, J(tops), topic, ok2, toast))
+    await L.close_panels(pg, cdp)
+    return {'thread': t['ok'], 'msgto': ok1, 'topics': tops, 'sent': ok2, 'toast': toast}
+
+
+async def c_night(pg, cdp, tag):
+    """#11 可昕深夜訊息（msg_pool.js 358「深夜」版、msg3d.js sitOk 深夜＝23～05、tier L＝交往中）：學期中、非考試週的平日 23:20 宿舍 → 手機傳「在幹嘛」→ 等她回（最多 40 遊戲分鐘）→ 那一串截圖；連兩晚（看輪流）"""
+    out = []
+    for i, day in enumerate(('2026-10-14', '2026-10-15')):
+        if i == 0: d, seed = await SP.fresh(pg, cdp, tag, day, 23 + 20 / 60, 'dorm', {'kexin': 'DATING'}); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+        else: await SP.jump(pg, cdp, tag, day, 23 + 20 / 60, 'dorm', None)
+        ex = await pg.evaluate("(()=>{ const t=CALENDAR.termOf(GAME.G.day); return {term:t&&t.id, week:t&&t.week, exam:!!(t&&t.exam), tier:(MSG.tierOf?MSG.tierOf(GAME.G,'kexin'):null)}; })()")
+        R.check('FAIL_SETUP 檢查：[%s %s] 學期中、不是考試週' % (tag, day), bool(ex['term']) and not ex['exam'], J(ex))
+        sc = await send_chat(pg, cdp, '%s_%s' % (tag, day[5:]), 'kexin')
+        await SP.wait_h(pg, cdp, 23 + 20 / 60 + 0.66, '%s_%s' % (tag, day[5:]), max_s=400); await pg.wait_for_timeout(2500)
+        t = await SP.thread(pg, cdp, '%s_%s_reply' % (tag, day[5:]), 'p:kexin')
+        out.append(dict(day=day, ex=ex, send=sc, msgs=t['msgs'][-4:]))
+    SP.d158(tag, *[{'msgs': o['msgs']} for o in out])
+    return {'case': tag, 'nights': out}
+
+
 async def one(pg, cdp, c):
+    if c == 'NIGHT_MSG': return await c_night(pg, cdp, c)
     if c in ('GRAD_KEY', 'GRAD_NOKEY'): return await c_grad(pg, cdp, c)
     if c == 'ORAL': return await c_oral(pg, cdp, c)
     if c in ('XMAS_MET_A', 'XMAS_MET_B', 'XMAS_PREV', 'XMAS_ABROAD'): return await c_xmas(pg, cdp, c)
