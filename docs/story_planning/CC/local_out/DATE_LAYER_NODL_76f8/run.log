@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_date_layer_probe.py http://127.0.0.1:8802/index.html?nodatelayer C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DATE_LAYER_NODL_76f8\out
+CC DATE_LAYER（DATE-S6）：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['D01']；WHO heroine_02；nodatelayer=True；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [[D01 nodatelayer]] 最小存檔讀到 2026-03-28 14.50 dorm（Y1S2 第 5 週）
+  [前置／捷徑] 【捷徑】[[D01 nodatelayer]] 墊關係、旗標：{"heroine_02": {"stage": "CLOSE_FRIEND", "dating": false}, "flags": {}}
+  [前置／捷徑] 【捷徑】[D01 nodatelayer] DATE.book heroine_02 D01 15.00：{"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.416666666666666, "state": "planned"}}
+PASS FAIL_SETUP 檢查：[D01 nodatelayer] 約會排上了  {"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.416666666666666, "state": "planned"}}
+PASS [D01 nodatelayer] 照設計是文字選單（nodatelayer）：出的是文字選單、沒有 #dateLayer  menu
+  [  67.0s] [D01 nodatelayer] 文字選單：["老倉庫裡的展覽30 分　250 元", "週末市集20 分", "大草地20 分", "紅磚牆前15 分", "就這樣回去"]
+PASS 沒有 JS 例外  []
+ALL PASS
