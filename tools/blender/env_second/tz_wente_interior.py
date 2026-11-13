@@ -112,7 +112,7 @@ def mat_tiffany(name):
     e[0].position = 0.0; e[0].color = (*hexc('#c8781e'), 1); e[1].position = 1.0; e[1].color = (*hexc('#e8c060'), 1)
     for p, h in ((0.3, '#7a3a18'), (0.55, '#d89a38'), (0.8, '#5a7a3a')): el = e.new(p); el.color = (*hexc(h), 1)
     nt.links.new(vo.outputs['Color'], cr.inputs['Fac'])
-    nt.links.new(cr.outputs['Color'], b.inputs['Base Color']); nt.links.new(cr.outputs['Color'], b.inputs['Emission Color']); b.inputs['Emission Strength'].default_value = 2.2
+    nt.links.new(cr.outputs['Color'], b.inputs['Base Color']); nt.links.new(cr.outputs['Color'], b.inputs['Emission Color']); b.inputs['Emission Strength'].default_value = 0.0   # BB 11-13：燈罩自發光烘進貼圖、打烊不會暗——改成只讓裡面的光源照它
     MATS[name] = m; return m
 
 
@@ -178,10 +178,10 @@ def mat_fabric(name, hx, kind='plain', hx2=None, scale=22.0):
     if name in MATS: return MATS[name]
     h = sum(ord(ch) for ch in name)
     if name == 'rug': m = mat_acg(name, 'Carpet015', scale=1.2)
-    elif kind == 'plaid': m = mat_acg(name, TARTANS[h % len(TARTANS)], scale=3.0)
-    elif kind == 'denim': m = mat_acg(name, ('Fabric069', 'Fabric003')[h % 2], scale=6.0, tint=_light(hx, 1.6))
-    elif kind == 'cord': m = mat_acg(name, 'Fabric013', scale=5.0, tint=_light(hx, 2.4))
-    else: m = mat_acg(name, ('Fabric036', 'Fabric036', 'Fabric031', 'Fabric061')[h % 4], scale=5.0, tint=_light(hx, 1.25 if h % 4 < 2 else 1.6))
+    elif kind == 'plaid': m = mat_acg(name, TARTANS[h % len(TARTANS)], scale=1.2)   # 3.0：格子 3 cm、烘焙圖上不到 2 像素 → 糊成斑駁色塊（BB 11-13）；1.2＝格子約 8 cm
+    elif kind == 'denim': m = mat_acg(name, ('Fabric069', 'Fabric003')[h % 2], scale=2.5, tint=_light(hx, 1.6))
+    elif kind == 'cord': m = mat_acg(name, 'Fabric013', scale=2.5, tint=_light(hx, 2.4))
+    else: m = mat_acg(name, ('Fabric036', 'Fabric036', 'Fabric031', 'Fabric061')[h % 4], scale=2.5, tint=_light(hx, 1.25 if h % 4 < 2 else 1.6))
     MATS[name] = m; return m
 def mat_leather(name, hx):
     if name in MATS: return MATS[name]
@@ -195,7 +195,7 @@ WALLP = mat_tex('wall_green', 'white_plaster_02/white_plaster_02_diff_1k.jpg', 0
 BRASS = mat_col('brass', '#b8893e', rough=0.35, metal=1.0)
 IRON = mat_col('iron', '#2a2826', rough=0.5, metal=0.8)
 BULB = mat_col('bulb', '#ffd9a0', emit=18.0)
-SKIN = mat_col('mannequin', '#c9bfae', rough=0.7)   # 原本 #e9e2d6 在聚光燈下過曝成一顆白球
+SKIN = mat_col('mannequin', '#8a8072', rough=0.85)   # BB 11-13：還是比衣服亮   # 原本 #e9e2d6 在聚光燈下過曝成一顆白球
 
 # ---------------- 工具 ----------------
 OBJS = []
@@ -356,8 +356,9 @@ def rail_of_clothes(name, x0, x1, y, z, along='X', density=0.07, face_y=True, lm
 
 def folded(name, x, y, z, w, d, h, mat, rz=0.0):
     """折好的衣服一疊：圓角、上面微鼓"""
-    o = box(name, x - w / 2, x + w / 2, y - d / 2, y + d / 2, z, z + h, mat, bev=min(h * 0.35, 0.025))
-    o.modifiers['bev'].segments = 3
+    o = box(name, x - w / 2, x + w / 2, y - d / 2, y + d / 2, z, z + h, mat, bev=min(h * 0.45, 0.03))
+    o.modifiers['bev'].segments = 4
+    cs = o.modifiers.new('soft', 'CAST'); cs.cast_type = 'SPHERE'; cs.factor = 0.12; cs.use_z = True   # BB 11-13「書架上的書還是一色薄板」：折衣整件微微鼓起，不是四角方正的板子
     o.rotation_euler[2] = rz; o.location = (0, 0, 0)
     if rz:
         o.data.transform(Matrix.Translation((x, y, 0)) @ Matrix.Rotation(rz, 4, 'Z') @ Matrix.Translation((-x, -y, 0)))
@@ -413,7 +414,7 @@ while x < -0.15:   # 上層（左半邊）：一疊疊毛衣、帽子、木盒�
         for j in range(rr.randint(4, 8)):
             bw = rr.uniform(0.025, 0.045); bh = rr.uniform(0.18, 0.26); box('book_%d_%d' % (int(x * 100), j), x, x + bw, BACK - 0.26, BACK - 0.06, 2.18, 2.18 + bh, mat_col('book' + str(j % 5), ('#6a2a22', '#2a3a5a', '#3a4a2a', '#8a7a5a', '#4a2a3a')[j % 5], rough=0.6), bev=0.003); x += bw + 0.003
         x += 0.12
-ph_place('decorative_book_set_01', (1.05, BACK - 0.17, 2.18), size=0.24, axis=2, decimate=0.02)   # Poly Haven 舊書一整排（CC0）
+ph_place('decorative_book_set_01', (1.05, BACK - 0.17, 2.18), size=0.24, axis=2, decimate=0.06)   # Poly Haven 舊書一整排（CC0）——0.02 減成一片片薄板（BB 11-13），改 0.06
 ph_place('vintage_suitcase', (-1.2, BACK - 0.17, 2.55), size=0.32, axis=2, decimate=0.15)   # Poly Haven 古董皮箱一組（CC0）
 ph_place('mantel_clock_01', (1.6, BACK - 0.2, 2.55), size=0.42, axis=0, decimate=0.05)
 x = -0.2
@@ -438,7 +439,7 @@ for i, sy in enumerate((0.55, 0.98, 1.41, 1.84)):
         w = rr.uniform(0.22, 0.32); n = rr.randint(2, 5) if sy < 1.8 else rr.randint(1, 3); hz = 0.0; c = rr.choice(SOLIDS)
         for j in range(n):
             hh = rr.uniform(0.04, 0.07); cc = c if rr.random() < 0.6 else rr.choice(SOLIDS)
-            folded('lf_%d_%d_%d' % (i, int(y * 100), j), LX + 0.22, y + w / 2, sy + hz, 0.3, w, hh, mat_fabric('solid_' + cc, cc), rz=rr.uniform(-0.04, 0.04)); hz += hh
+            folded('lf_%d_%d_%d' % (i, int(y * 100), j), LX + 0.22 + rr.uniform(-0.025, 0.02), y + w / 2 + rr.uniform(-0.015, 0.015), sy + hz, rr.uniform(0.26, 0.32), w * rr.uniform(0.9, 1.0), hh, mat_fabric('solid_' + cc, cc), rz=rr.uniform(-0.08, 0.08)); hz += hh * 0.92   # 每件深淺、位置、角度錯開；疊起來互相壓一點
         y += w + rr.uniform(0.03, 0.09)
 # 最下層：三雙靴子（車削的靴筒＋鞋頭）
 for k, y in enumerate((0.0, 0.42, 0.84)):
@@ -584,7 +585,7 @@ def light(kind, loc, energy, color=WARM, size=0.05, aim=None, spot=None):
 for x in (-1.6, 0.0, 1.6): light('POINT', (x, 0.15, 2.3), 80, size=0.06)
 for p in SPOTS: light('SPOT', p, 140, aim=(p[0], BACK - 0.3, 1.4), spot=45, size=0.03)
 light('SPOT', (-1.15, FRONT + 0.2, H - 0.1), 60, aim=(MX, MY, 1.5), spot=40, size=0.03)   # 打在假人身上的那一盞
-light('POINT', (LX_, LY_, B0 + 0.3), 12, color=(1.0, 0.62, 0.3), size=0.04)
+light('POINT', (LX_, LY_, B0 + 0.3), 20, color=(1.0, 0.62, 0.3), size=0.04)   # 燈罩不自發光以後，靠裡面這顆照亮（12→20）
 light('AREA', (0.0, 0.2, H - 0.05), 45, color=(1.0, 0.8, 0.6), size=3.0)   # 天花板反射的柔光
 light('AREA', (0.0, FRONT - 1.5, 1.6), 50, color=(0.95, 0.97, 1.0), size=4.0, aim=(0.0, 0.5, 1.2))   # 街上進來的天光（窗外）
 
@@ -618,6 +619,10 @@ for o in meshes:
     if not me.uv_layers: me.uv_layers.new(name='UVMap')
     else: me.uv_layers[0].name = 'UVMap'
     while len(me.uv_layers) > 1: me.uv_layers.remove(me.uv_layers[1])
+    # 布料、皮革（ambientCG Fabric／Leather 材質）的面：烘焙圖上放大兩倍（≈4 倍像素）——v2 衣架近照衣服糊、斑駁（BB 11-13）
+    fw = me.attributes.new('uvw', 'FLOAT', 'FACE')
+    cloth = [any(n.type == 'TEX_IMAGE' and n.image and any(t in n.image.filepath for t in ('Fabric', 'Leather')) for n in (m_.node_tree.nodes if m_ and m_.use_nodes else [])) for m_ in me.materials]
+    for i, pg in enumerate(me.polygons): fw.data[i].value = 2.0 if (cloth and pg.material_index < len(cloth) and cloth[pg.material_index]) else 1.0
 for m in bpy.data.materials:
     if not m.use_nodes: continue
     nt = m.node_tree
@@ -652,6 +657,16 @@ J.data.uv_layers['UVMap'].active_render = True
 bu = J.data.uv_layers.new(name='bake'); J.data.uv_layers.active = bu
 bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
 bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.0015, area_weight=0.0, correct_aspect=True, scale_to_bounds=False)   # 一個物件：每一塊照實際面積縮放（同樣的像素密度）
+bpy.ops.object.mode_set(mode='OBJECT')
+if 'uvw' in J.data.attributes:   # 布料的面整組放大（對原點縮放，島的形狀不變；重疊的部分 pack_islands 會重新排）
+    _fw = J.data.attributes['uvw'].data; _uv = J.data.uv_layers['bake'].data; _n = 0
+    for pg in J.data.polygons:
+        k_ = _fw[pg.index].value
+        if k_ > 1.0:
+            _n += 1
+            for li in pg.loop_indices: _uv[li].uv = (_uv[li].uv[0] * k_, _uv[li].uv[1] * k_)
+    print('cloth faces scaled', _n, flush=True)
+bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
 try: bpy.ops.uv.pack_islands(rotate=True, margin=0.0015)
 except Exception as e: print('pack', e)
 bpy.ops.object.mode_set(mode='OBJECT')
