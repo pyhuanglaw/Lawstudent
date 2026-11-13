@@ -72,4 +72,8 @@
   - **#2 D5／D5 電話／第 61 天湯餃（CANON458_D5）：PASS**——ALL PASS，D5_FACE、D5_CALL、D6_SOUP 的 D158 都 0。
   - **#1 D1c（CANON458_D1C）：PASS**——ALL PASS，種子 44；沒抽到的 10/5～10/12 沒有亂跳別的分開戲，10/5 是 ev_kx_s1_heard。
   - **#6 長頸鹿鑰匙圈（CANON458_GIRAFFE）**：B 版 PASS（ev_kx_souvenir 演了、GIRAFFE_KEYCHAIN 設了、D158 0）；A 版 TEST_BUG（讀檔進宿舍那一刻阿凱 ev_kai_back_y1s2_later 剛好開演，探針沒等演完就開手機）→ GIRAFFE_r2 只跑 A。
+- **03:3x 76f8 第二批**：
+  - **#17 大三聖誕（CANON458_XMAS）：PASS**——XMAS_PREV（有卡片）開場「（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）」「我知道今年輪你。……我先占了。」；MET_A／B 沒有這句、直接「聖誕快樂。我報告還差兩頁。」；ABROAD 排成視訊；四版 12/25 21:00 都排上、D158 0。
+  - **#11 可昕深夜訊息（CANON458_NIGHT）：PASS**——大二上第 6 週 10/14、10/15 兩晚，D158 0、沒有 JS 例外。
+  - **#12 法圖（CANON458_INV_LAWLIB）：TEST_BUG**——探針 PICKS 找「法律學院」，選單字是「去法圖一起念書」，對不到就點了第一個（2:30 AM）→約成咖啡店。改 PICKS 用「法圖」重跑；要看到她答「好。我常坐的那一排，靠窗。」、坐下那句「（小聲）我一章大概四十分鐘。……」。
 
