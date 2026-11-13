@@ -32,6 +32,7 @@ SHA = (os.environ.get('SHA') or '')[:10]
 TESTS = os.environ.get('LW_TESTS') or 'tests'
 FIX = os.environ.get('FIX') or 'tests/fixtures/user_save_day51b_1110.json'
 PARTS = [x for x in (os.environ.get('PARTS') or 'SE06').split(',') if x]
+JUMP2 = (os.environ.get('JUMP2') or '') == '1'   # BB-C 11-14 SE06：第一場考完卡住就【捷徑】讀到第二場那天
 MAX_MIN = float(os.environ.get('MAX_MIN') or '18'); FF = (os.environ.get('FF') or '1') == '1'
 R = L.Run('study_play_' + '_'.join(PARTS), OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -158,7 +159,7 @@ async def part_se06(pg, cdp, sv0, res):
             return next(k for k in range(len(ch)) if k != right)
         return right
     t0 = time.time(); done = []; last_key = None; acts = []
-    stall = {'sig': None, 't': time.time(), 'last': 0, 'n': 0}
+    stall = {'sig': None, 't': time.time(), 'last': 0, 'n': 0}; jumped = [False]
     while time.time() - t0 < (MAX_MIN - 4) * 60 and len(done) < 2:
         s = await pg.evaluate(ST)
         # 11-14 SE06_4af4_r2：體育期末「你游完了」那句以後 13 分鐘沒有任何紀錄（分不出遊戲卡住還是點不動）——同一個畫面 45 秒沒變就每 45 秒記一次狀態＋截圖；120 秒以後對話改用 DOM click，記哪一種有效
@@ -174,6 +175,17 @@ async def part_se06(pg, cdp, sv0, res):
             if s['dlg'] and time.time() - stall['t'] >= 120:
                 await pg.evaluate("(()=>{ const d=document.getElementById('dlg'); if(d) d.click(); })()"); await pg.wait_for_timeout(800)
                 s2 = await pg.evaluate(ST); R.note('%s 對話改用 DOM click 以後：dlg=%s「%s」h=%.2f' % (tag, s2['dlg'], s2['dtext'][:40], s2['h'])); continue
+        # BB-C 11-14：JUMP2=1＝第一場考完、當天卡住 180 秒或過了 17:30，【捷徑】同一份進度讀到下一場期末那天 07:40 宿舍，再一鍵——只驗第二場
+        if JUMP2 and len(done) == 1 and not jumped[0] and (time.time() - stall['t'] >= 180 or s['h'] >= 17.5):
+            nx = next((e for e in ex if e['day'] > s['day'] and not any((':%s:' % e['cid']) in d_['k'] for d_ in done)), None)
+            if nx:
+                jumped[0] = True; sv = await pg.evaluate("JSON.parse(JSON.stringify(GAME.snapshot()))")
+                await pg.evaluate("(()=>{ const d=document.getElementById('dlg'); if(d) d.classList.add('hide'); })()")
+                await load(pg, sv, nx['key'], 7.67, 'dorm')
+                R.setup('%s 【捷徑】JUMP2：第一場考完、%s %.2f %s（卡住 %.0f 秒）→ 同一份進度讀到 %s 07:40 宿舍，只驗第二場 %s' % (tag, s['key'], s['h'], s['zone'], time.time() - stall['t'], nx['key'], nx['name']))
+                kept = await pg.evaluate("(()=>Object.keys(CLS.rec(GAME.G).exam||{}).filter(k=>k.indexOf('Y1S1:')===0))()")
+                if not R.check('FAIL_SETUP 檢查：%s JUMP2 讀檔以後第一場的成績還在（%s）' % (tag, kept), any(done[0]['k'] == k for k in kept), J(kept)): break
+                stall = {'sig': None, 't': time.time(), 'last': time.time(), 'n': 0}; continue
         if await step_dialog(pg, cdp, s, pick): continue
         rec = await pg.evaluate("(()=>{ const R=CLS.rec(GAME.G).exam||{}; return Object.entries(R).filter(([k,v])=>k.indexOf('Y1S1:')===0&&v&&v.status==='done').map(([k,v])=>({k, correct:v.correct, score:v.score})); })()")
         done = rec

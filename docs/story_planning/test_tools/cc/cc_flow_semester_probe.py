@@ -189,7 +189,7 @@ class Driver:
             T = [o['t'] for o in s['ch']]; live = [i for i, o in enumerate(s['ch']) if not o['dim']] or list(range(len(T)))
             k = None; why = 'first'
             if SKIP_GOCLASS[0]:   # 11-13 B r1：手機「今天」不按，但起床選單第一個「直接去上課」還是去了＝SKIPREQ 期間選單不選去上課的
-                live = [i for i in live if not any(w in T[i] for w in ('直接去上課', '去上課', '進教室'))] or live
+                live = [i for i in live if not any(w in T[i] for w in ('直接去上課', '去上課', '進教室', '還是去'))] or live   # 11-14 B2_r2 TEST_BUG（LAWWW-C 找到）：翹課確認框〔還是去／翹〕第一個是「還是去」＝去上課
             for p in PICK_HAS:   # 11-13 LAWWW-C：迎新自我介紹三個選項（開頭都是「我叫」）用「含這幾個字」挑
                 k = next((i for i in live if p in T[i]), None)
                 if k is not None: why = 'pick_has'; break
