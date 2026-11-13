@@ -1,0 +1,478 @@
+{
+ "_meta": {
+  "doc": "AA_978 芯慈約會周邊句：solo_before（你自己來過）、invite_place_lines（約她去新地方的答應句＋第一次一起去）、she_pays（她請客的格）",
+  "by": "AA-C 2026-11-13",
+  "task": "DLG-FULL-REVIEW-1110（AA_977 盤點出來的缺口）",
+  "format": {
+   "solo_before": "同 src/data/solo_before.js lines[id][地點]＝[{who,text}]（narr 照現有的，不用另寫）",
+   "invite_place": "同 AA_714／AA_721：{店 id:{classmate_xinci:{acc:[「…」],firstAt:[…]}}}",
+   "she_pays": "AA_975 裡她說要請客的句子，給 LAWWW 對到 she_pays 的格（pays＝這一點祐廷那一份不扣）"
+  }
+ },
+ "solo_before": {
+  "classmate_xinci": {
+   "D04": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過西門町？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那我們兩個都是一個人來的人。"
+    }
+   ],
+   "D06": [
+    {
+     "who": "classmate_xinci",
+     "text": "你自己來過美術館。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你一定也在某一幅畫前面站很久。"
+    }
+   ],
+   "D12": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過迪化街？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你知道哪一家的招牌最長。"
+    }
+   ],
+   "D13": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過淡水？一個人坐到最後一站？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我高中也是這樣。"
+    }
+   ],
+   "D09": [
+    {
+     "who": "classmate_xinci",
+     "text": "你坐過纜車了。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那等一下我不看下面，你看。"
+    }
+   ],
+   "D18": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過九份？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你一定也被那段階梯累過。"
+    }
+   ],
+   "D20": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過烏來？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "公車時刻表，你那天有抄嗎？"
+    }
+   ],
+   "D24": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來泡過腳？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我一直以為泡腳要有人陪。原來不用。"
+    }
+   ],
+   "D25": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來看過海。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我也想試試看一個人來。可是不是今天。"
+    }
+   ],
+   "D01": [
+    {
+     "who": "classmate_xinci",
+     "text": "你自己來過華山。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那今天的展你先挑，我挑第二檔。"
+    }
+   ],
+   "D02": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過松菸？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你有看到長廊中間那根柱子嗎。"
+    }
+   ],
+   "D03": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人上來過？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你知道哪一層最安靜。帶我去。"
+    }
+   ],
+   "D05": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人看過電影？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我也是一個人看的。所以這次，我們兩個人看。"
+    }
+   ],
+   "D07": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過這裡。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你知道走廊那一段很窄。我走你後面。"
+    }
+   ],
+   "D08": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來動物園？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那企鵝館你一定去了。"
+    }
+   ],
+   "D10": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過碧潭？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "我住這麼近，都還沒來過。"
+    }
+   ],
+   "D11": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過北投？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "泡了溫泉，還是只有走一走？"
+    }
+   ],
+   "D14": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過漁人碼頭？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你知道風有多大。外套穿好。"
+    }
+   ],
+   "D17": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過野柳。"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "女王頭那邊，你那天有排隊嗎？"
+    }
+   ],
+   "D19": [
+    {
+     "who": "classmate_xinci",
+     "text": "你來過金瓜石？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那金磚你摸過了。我等一下也要摸。"
+    }
+   ],
+   "D21": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過三峽？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "金牛角你買了幾個？"
+    }
+   ],
+   "D26": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人坐高鐵去過臺中？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "比我還敢一個人出遠門。"
+    }
+   ],
+   "D27": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人去過嘉義？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那火車雞肉飯，你吃過了。"
+    }
+   ],
+   "D28": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過臺南？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那哪一家的早餐好吃，你帶我去。"
+    }
+   ],
+   "D29": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過駁二？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "倉庫那麼大，你一個人逛得完嗎？"
+    }
+   ],
+   "D30": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過這片海？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那你聽過石頭被浪打的聲音了。"
+    }
+   ],
+   "D31": [
+    {
+     "who": "classmate_xinci",
+     "text": "你一個人來過日月潭？"
+    },
+    {
+     "who": "classmate_xinci",
+     "text": "那天你坐客運上山嗎？我會暈。"
+    }
+   ]
+  }
+ },
+ "invite_place": {
+  "soclib": {
+   "classmate_xinci": {
+    "acc": [
+     "「社科圖？好。我平常在總圖，換個地方也好。」"
+    ],
+    "firstAt": [
+     "（她找了一個靠窗的位子，把筆記本、筆、螢光筆排成一排。）"
+    ]
+   }
+  },
+  "wz_lin": {
+   "classmate_xinci": {
+    "acc": [
+     "「林家？好。下次可以前一天跟我說，我會比較開心。」"
+    ],
+    "firstAt": [
+     "（她拌麵拌了很久，每一根都沾到醬才吃。）"
+    ]
+   }
+  },
+  "wz_teishoku": {
+   "classmate_xinci": {
+    "acc": [
+     "「定食？好。我喜歡一個盤子裡什麼都有。」"
+    ],
+    "firstAt": [
+     "（她先把每一樣小菜都吃一口，再決定先吃哪一個。）"
+    ]
+   }
+  },
+  "xs_dakou": {
+   "classmate_xinci": {
+    "acc": [
+     "「漢堡？好。我很少吃，所以我要點最普通的那一個。」"
+    ],
+    "firstAt": [
+     "（她把漢堡的包裝紙折得很整齊，才開始吃。）"
+    ]
+   }
+  },
+  "xs_nanyang": {
+   "classmate_xinci": {
+    "acc": [
+     "「南洋戲院？好。那裡的片單我每個月都有看。」"
+    ],
+    "firstAt": [
+     "（她在售票口前面拍了片單，跟手機裡上個月那張比了一下。）"
+    ]
+   }
+  },
+  "bookstore": {
+   "classmate_xinci": {
+    "acc": [
+     "「頁間？好。我想去看財經那一櫃有沒有新書。」"
+    ],
+    "firstAt": [
+     "（她先站在新書平台前面，把每一本的定價都看了一遍。）"
+    ]
+   }
+  },
+  "xs_shanlan": {
+   "classmate_xinci": {
+    "acc": [
+     "「山嵐？好。我想找一本舊的片單手冊。」"
+    ],
+    "firstAt": [
+     "（她在舊書區蹲下來，一本一本翻，很久沒有站起來。）"
+    ]
+   }
+  },
+  "l118_dian": {
+   "classmate_xinci": {
+    "acc": [
+     "「牛排？好。我點最小份的。」"
+    ],
+    "firstAt": [
+     "（鐵板一上來，她先用紙巾擋在前面，等油不濺了才拿開。）"
+    ]
+   }
+  },
+  "l118_home": {
+   "classmate_xinci": {
+    "acc": [
+     "「水餃？好。我一次吃十二顆，剛好。」"
+    ],
+    "firstAt": [
+     "（她把醬油、醋、辣油各倒一點在小碟子裡，倒得很準。）"
+    ]
+   }
+  },
+  "l118_omu": {
+   "classmate_xinci": {
+    "acc": [
+     "「咖哩？好。我要不辣的。」"
+    ],
+    "firstAt": [
+     "（她把咖哩和飯分成兩邊，一口一口配著吃，最後剛好一起吃完。）"
+    ]
+   }
+  },
+  "l118_korea": {
+   "classmate_xinci": {
+    "acc": [
+     "「刀削麵？好。我想看師傅削麵。」"
+    ],
+    "firstAt": [
+     "（她坐在看得到廚房的位子，一直看師傅削麵。）"
+    ]
+   }
+  },
+  "l118_tea": {
+   "classmate_xinci": {
+    "acc": [
+     "「韓式？好。小菜可以續，對吧？」"
+    ],
+    "firstAt": [
+     "（小菜上來，她每一碟都先夾一點到自己的盤子。）"
+    ]
+   }
+  },
+  "l118_cafe2": {
+   "classmate_xinci": {
+    "acc": [
+     "「大學食堂？好。平常人太多，我都外帶。」"
+    ],
+    "firstAt": [
+     "（她找到兩個位子，先把托盤放下占位，才去拿餐具。）"
+    ]
+   }
+  },
+  "l118_self": {
+   "classmate_xinci": {
+    "acc": [
+     "「便當？好。我要三樣菜的那種。」"
+    ],
+    "firstAt": [
+     "（她選菜選得很快，青菜、蛋、一樣肉，配得很整齊。）"
+    ]
+   }
+  },
+  "l118_noodle2": {
+   "classmate_xinci": {
+    "acc": [
+     "「披薩？好。我們點一個，分著吃。」"
+    ],
+    "firstAt": [
+     "（披薩上來，她用刀把每一片切得一樣大。）"
+    ]
+   }
+  },
+  "l118_drink_a": {
+   "classmate_xinci": {
+    "acc": [
+     "「喝咖啡、走一走？好。我剛好坐太久了。」"
+    ],
+    "firstAt": [
+     "（她買了一杯熱拿鐵，走路的時候兩隻手捧著。）"
+    ]
+   }
+  },
+  "l118_drink_b": {
+   "classmate_xinci": {
+    "acc": [
+     "「果茶？好。我要最少糖的那一杯。」"
+    ],
+    "firstAt": [
+     "（她插吸管以前，先看了一下杯子上的成分標示。）"
+    ]
+   }
+  }
+ },
+ "she_pays": [
+  {
+   "point": "D06.cafe",
+   "where": "first 選項「坐一下再走？」的回話",
+   "text": "好。我請。剛剛門票是你買的。",
+   "kind": "pays"
+  },
+  {
+   "point": "D09.tea",
+   "where": "dating",
+   "text": "這壺我請。上次是你。",
+   "kind": "pays"
+  },
+  {
+   "point": "D10.snack",
+   "where": "first 選項「我們買一樣分著吃。」的回話",
+   "text": "好。你挑，我付。",
+   "kind": "pays"
+  }
+ ]
+}
