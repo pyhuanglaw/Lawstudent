@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yue_meal_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YUE_SIS_Y2\out
+CC 越好吃同學來吃飯 3D：SHA 5685a3019f；CASES ['SIS', 'SISD']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [SIS] 【前置／捷徑】讀檔改成越好吃週二週四的班、heroine_05 的關係（交往中=False）；掃 Y2S1 週二週四 JOBS.mealHere → {"scanned": 32, "hits": []}
+  [前置／捷徑] [SIS] 【前置／捷徑】讀檔改成越好吃週二週四的班、heroine_05 的關係（交往中=False）；掃 Y2S2 週二週四 JOBS.mealHere → {"scanned": 32, "hits": []}
+  [  39.4s] [SIS] Y2S1、Y2S2 全部掃不到：遊戲沒有一天說「這一班 heroine_05 會來吃飯」：{"Y2S1": {"scanned": 32, "first": [{"probe": true, "day": 357, "key": "2026-09-08", "due": true, "slot": null}, {"probe": true, "day": 359, "key": "2026-09-10", "due": true, "slot": null}, {"probe": true, "day": 364, "key": "2026-09-15", "due": true, "slot": null}]}, "Y2S2": {"scanned": 32, "first": [{"probe": true, "day": 525, "key": "2027-02-23", "due": true, "slot": null}, {"probe": true, "day": 527, "key": "2027-02-25", "due": true, "slot": null}, {"probe": true, "day": 532, "key": "2027-03-02", "due": true, "slot": null}]}}
+FAIL [SIS] Y2S1、Y2S2 找得到 heroine_05 會來越好吃吃飯的一班（JOBS.mealHere）  全部掃不到
+  [前置／捷徑] [SISD] 【前置／捷徑】讀檔改成越好吃週二週四的班、heroine_05 的關係（交往中=True）；掃 Y2S1 週二週四 JOBS.mealHere → {"scanned": 32, "hits": []}
+  [前置／捷徑] [SISD] 【前置／捷徑】讀檔改成越好吃週二週四的班、heroine_05 的關係（交往中=True）；掃 Y2S2 週二週四 JOBS.mealHere → {"scanned": 32, "hits": []}
+  [  66.3s] [SISD] Y2S1、Y2S2 全部掃不到：遊戲沒有一天說「這一班 heroine_05 會來吃飯」：{"Y2S1": {"scanned": 32, "first": [{"probe": true, "day": 357, "key": "2026-09-08", "due": true, "slot": null}, {"probe": true, "day": 359, "key": "2026-09-10", "due": true, "slot": null}, {"probe": true, "day": 364, "key": "2026-09-15", "due": true, "slot": null}]}, "Y2S2": {"scanned": 32, "first": [{"probe": true, "day": 525, "key": "2027-02-23", "due": true, "slot": null}, {"probe": true, "day": 527, "key": "2027-02-25", "due": true, "slot": null}, {"probe": true, "day": 532, "key": "2027-03-02", "due": true, "slot": null}]}}
+FAIL [SISD] Y2S1、Y2S2 找得到 heroine_05 會來越好吃吃飯的一班（JOBS.mealHere）  全部掃不到
+PASS 沒有 JS 例外  []
+FAILED 2: [SIS] Y2S1、Y2S2 找得到 heroine_05 會來越好吃吃飯的一班（JOBS.mealHere）；[SISD] Y2S1、Y2S2 找得到 heroine_05 會來越好吃吃飯的一班（JOBS.mealHere）
