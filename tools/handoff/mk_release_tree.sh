@@ -21,5 +21,5 @@ git diff "$RC" -- src tests assets lib | head -1 | grep -q . && { echo "src／te
 git commit -q -m "v$VER 發布樹：遊戲檔案（src／tests／assets／index.html）＝候選 $RC＋版本字樣（index.html ?v=$VER×$N、標題「版本 v$VER（$DAY）」），劇情匯入白名單也用候選那一份；其餘照開發分支 $DEV
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_01Eds6msqpsuzNEw98sdw8JX"
+Claude-Session: ${CLAUDE_SESSION_URL:?先 export CLAUDE_SESSION_URL=https://claude.ai/code/session_<自己的 session ID>（get_session 查）}"
 echo "發布樹 $(git rev-parse --short=9 HEAD)（父＝開發分支 $DEV）"
