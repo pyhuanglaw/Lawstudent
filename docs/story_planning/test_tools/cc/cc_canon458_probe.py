@@ -11,6 +11,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   ANNIV_A／ANNIV_C  #3 週年（在一起 2026-05-20 → 2027-05-13 21:00 邀約選「後門那家湯餃」→ 5/19 準備發票 → 5/20 18:30 出遊；卡片第 1／第 3 個選項）
   WELCOME_Y2  #13 大二迎新小隊輔（9/4 21:00 g:law_class → 9/6 14:00 社科院旁的草地；第 3 題三個短版）——書店那句（第 4 次起 rot）另外排
   SPRING_Y2／SPRING_Y4  #4 春假女宿接人（@4af46fd8f6；選單選「春假：和可昕…」→ 她那句 → 4/3 07:40 出遊、地點字幕）
+  FEED_Y1／FEED_Y4  #7 可昕動態（交往中；2025-09-14 21:00 kx1、2029-06-03 21:00 kx3h「畢業了。」→ 手機「動態」頁）
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -227,7 +228,29 @@ async def c_spring(pg, cdp, tag):
     return {'case': tag, 'pick': pick, 'kx': t, 'out': q, 'r': r, 'captions': caps}
 
 
+FEED = {'FEED_Y1': ('2025-09-14', 20 + 50 / 60, 21.2, 'kx1'), 'FEED_Y4': ('2029-06-03', 20 + 50 / 60, 21.2, 'kx3h')}
+FEED_JS = "(()=>{ const F=GAME.G.flags.FEED||null; let items=null; try{ items=(F&&(F.items||F.list||F.seen))?JSON.parse(JSON.stringify(F.items||F.list||F.seen)).slice(-6):null; }catch(e){} return {start:F&&F.start!=null?CALENDAR.dateOf(F.start).key:null, items}; })()"
+
+
+async def c_feed(pg, cdp, tag):
+    """#7 可昕動態（feed3d.js；資料 feed_y1s1.js～feed_pg.js）：交往中（新局沒交往＝不出）、有聯絡方式；讀檔在那一則時間之前（FEED.start 起才出）→ 等過了那一則 → 手機「動態」頁籤截圖、記全文、回應鍵"""
+    day, h0, h1, fid = FEED[tag]
+    d, seed = await SP.fresh(pg, cdp, tag, day, h0, 'dorm', {'kexin': 'DATING'})
+    R.note('[%s] 墊完 %s；要看的那一則 %s' % (tag, J(seed), fid))
+    await SP.wait_h(pg, cdp, h1, tag); await pg.wait_for_timeout(3000)
+    txt = await P.phone_tab(pg, cdp, 'feed'); await pg.wait_for_timeout(800)
+    await pg.screenshot(path=os.path.join(OUT, '%s_feed.png' % tag))
+    btns = await pg.evaluate("[...document.querySelectorAll('#phoneBody button')].map(b=>(b.textContent||'').trim()).filter(t=>t).slice(0,20)")
+    fs = await pg.evaluate(FEED_JS)
+    R.note('[%s] 動態頁：%s；按鈕 %s；FEED %s' % (tag, J(txt[:800]), J(btns), J(fs)))
+    R.check('FAIL_SETUP 檢查：[%s] 手機有「動態」頁、打得開' % tag, bool(txt), '')
+    await L.close_panels(pg, cdp)
+    SP.d158(tag, {'msgs': [{'text': txt}]})
+    return {'case': tag, 'feed': txt, 'buttons': btns, 'state': fs}
+
+
 async def one(pg, cdp, c):
+    if c in FEED: return await c_feed(pg, cdp, c)
     if c in SPRING: return await c_spring(pg, cdp, c)
     if c == 'WELCOME_Y2': return await c_welcome(pg, cdp, c)
     if c in ('ANNIV_A', 'ANNIV_C'): return await c_anniv(pg, cdp, c)
