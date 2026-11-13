@@ -55,7 +55,7 @@ await sec(1,async()=>{
     seq(['以安，我想跟妳談一下。','你想講什麼？','我不想跟妳分手。','我有說要分手嗎？','沒有。','那你到底在急什麼？','（你沒有回答。）','你現在是不是只怕我不理你？','……是。','可是我為什麼生氣，你知道嗎？','那你回去想。','想到了再來。'])&&!st(A1).willing,J(T()));
   setT('2026-11-19',21.6); d=due(); check('1. 「我不知道」＝下次三個選項再一次（下一個週四）',!!d&&d.k==='talk1');
   clr(); H.picks=['因為我沒有講']; await play(d);
-  check('1. 「因為我沒有講。」→「對。」「你要跟誰在一起，我管不了。可是我在跟你交往，我應該知道。」「……你現在不用回答。我只是要你知道我在氣什麼。」＝她願意談',seq(['對。','你要跟誰在一起，我管不了。可是我在跟你交往，我應該知道。','……你現在不用回答。我只是要你知道我在氣什麼。'])&&!!st(A1).willing);
+  check('1. 「因為我沒有講。」→「對。」「你要跟誰在一起，我管不了。可是我在跟你交往，我應該知道。」「你現在不用回答。我只是要你知道我在氣什麼。」＝她願意談',seq(['對。','你要跟誰在一起，我管不了。可是我在跟你交往，我應該知道。','你現在不用回答。我只是要你知道我在氣什麼。'])&&!!st(A1).willing);
   setT('2026-11-26',21.6); d=due(); check('1. 之後一次談完：總圖外面（第二段）',!!d&&d.k==='talk2'&&d.bg==='library_gate_night');
   clr(); H.picks=['我很高興妳來']; await play(d);
   check('1. 第二段（原文）「那我先回去了。」……「我真的覺得自己很煩。」→「我很高興妳來。」→「我沒有要讓你高興。」（她把背帶拉好。）「我走了。」（走了兩步）「禮拜四你要來。」',
@@ -64,8 +64,8 @@ await sec(1,async()=>{
   check('1. 結果 B（還在交往、要時間）：「這學期我想把書念好。你不要每天約我。」',J(T())===J(['這學期我想把書念好。你不要每天約我。'])&&st(A1).result==='B');
   setT('2026-12-10',21.6); check('1. B 只說一次（之後每個週四再看，沒變＝不演）',!due());
   six(A1); setT('2026-12-17',21.6); clr(); await play(due());
-  check('1. 結果 C（還想和可昕在一起＋她的戀愛 ≥ 80＋第 6 階＋沒說謊；AA_425）：「我決定了。」（她從筆記本撕下一張空白的紙，推到你面前。）「以後有什麼事，寫在這裡。我會看。」「……再有一次，我就不問了。」＝OPEN_OK、tell_first',
-    seq(['我決定了。','（她從筆記本撕下一張空白的紙，推到你面前。）','以後有什麼事，寫在這裡。我會看。','……再有一次，我就不問了。'])&&H.G.flags.OPEN_OK[A1].kexin===true&&H.G.flags.YT_PROMISED[A1]==='tell_first');
+  check('1. 結果 C（還想和可昕在一起＋她的戀愛 ≥ 80＋第 6 階＋沒說謊；AA_425）：「我決定了。」（她從筆記本撕下一張空白的紙，推到你面前。）「以後有什麼事，寫在這裡。我會看。」「再有一次，我就不問了。」＝OPEN_OK、tell_first',
+    seq(['我決定了。','（她從筆記本撕下一張空白的紙，推到你面前。）','以後有什麼事，寫在這裡。我會看。','再有一次，我就不問了。'])&&H.G.flags.OPEN_OK[A1].kexin===true&&H.G.flags.YT_PROMISED[A1]==='tell_first');
   await disc(A1,KX,'2026-10-20','2026-10-01'); setRom(A1,70); const s=st(A1); s.asked=1; s.willing=1; s.next='result'; s.talkAt=STORY.dayOfKey('2026-12-03'); s.done={self:1}; ROM.end(H.G,KX,'test'); setT('2026-12-03',21.6); clr(); await play(due());
   check('1. 結果 A（可昕真的分了）：「你跟她講了？」「講了。」「好。」「……我不會一下就好。你知道吧。」「我知道。」「那禮拜六還是出去。我訂位了。」',seq(['你跟她講了？','講了。','好。','……我不會一下就好。你知道吧。','我知道。','那禮拜六還是出去。我訂位了。'])&&st(A1).phase==='done');
   await disc(A1,KX,'2026-10-20','2026-10-01'); setRom(A1,50); Object.assign(st(A1),{asked:1,willing:1,next:'result',talkAt:STORY.dayOfKey('2026-12-03'),done:{self:1}}); setT('2026-12-03',21.6); clr(); await play(due());
@@ -93,7 +93,7 @@ await sec(2,async()=>{
   setRom(SIS,80); check('2. 之後兩次正常的見面（照常閒聊）',!X().meetAction(H.G,SIS,'talk')&&!X().meetAction(H.G,SIS,'talk'));
   const a=X().meetAction(H.G,SIS,'talk'); clr(); await a.run(GM);
   /* AA_591 整合九件第 5 件（AA 11-02 21:25，企劃線 43d27cd80）：「我還是喜歡你。這個我不想騙自己。」放回（交往中、祐廷先說以後她的回答）——AA_591 第 11 節第 13 點時改成「拿掉」的期望，照 AA 的決定換回原本的 */
-  check('2. 結果 B 接受（她的戀愛 ≥ 75、沒說謊）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「……你去見她那天，出門前發一句給我就好。」（第三句 AA_474 第 5 節改）＝OPEN_OK',seq(['我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前發一句給我就好。'])&&!H.has('她的事，你要自己跟我講。我不想用猜的。')&&H.G.flags.OPEN_OK[SIS].kexin===true);
+  check('2. 結果 B 接受（她的戀愛 ≥ 75、沒說謊）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「你去見她那天，出門前發一句給我就好。」（第三句 AA_474 第 5 節改）＝OPEN_OK',seq(['我想過了。','我還是喜歡你。這個我不想騙自己。','你去見她那天，出門前發一句給我就好。'])&&!H.has('她的事，你要自己跟我講。我不想用猜的。')&&H.G.flags.OPEN_OK[SIS].kexin===true);
   await disc(SIS,KX,'2026-04-20','2026-04-01'); Object.assign(st(SIS),{phase:'talked',intent:'both',meets:2}); setRom(SIS,60); clr(); await X().meetAction(H.G,SIS,'talk').run(GM);
   check('2. 結果 B 不接受：「我想過了。」「我沒辦法。我會一直在想你現在在哪裡。」「我們先不要在一起了。」→ 分手',seq(['我想過了。','我沒辦法。我會一直在想你現在在哪裡。','我們先不要在一起了。'])&&!H.G.flags.dating_heroine_05);
   await disc(SIS,KX,'2026-04-20','2026-04-01'); Object.assign(st(SIS),{phase:'talked',intent:'unsure',meets:2}); clr(); await X().meetAction(H.G,SIS,'talk').run(GM);
@@ -148,8 +148,8 @@ await sec(3,async()=>{
   check('3. 還想和沛珊在一起＋抱過：結果 B 第一次「你是要我跟別人分你喔？」「你瘋了嗎？」（不給答案）',J(T())===J(['你是要我跟別人分你喔？','你瘋了嗎？']));
   check('3. 同一天不再提',!X().meetAction(H.G,KX,'out'));
   setRom(KX,90); setT('2026-10-12',12); clr(); await X().meetAction(H.G,KX,'out').run(GM);
-  check('3. 之後再一次見面：接受（她的戀愛 ≥ 85、沒說謊）「我想了很久。我很不爽。」「可是我也不想因為不爽就把你丟掉。」「……我的條件是：她的事你要自己講，我問你的時候你不准騙我。」＝OPEN_OK',
-    seq(['我想了很久。我很不爽。','可是我也不想因為不爽就把你丟掉。','……我的條件是：她的事你要自己講，我問你的時候你不准騙我。'])&&H.G.flags.OPEN_OK[KX][PS]===true);
+  check('3. 之後再一次見面：接受（她的戀愛 ≥ 85、沒說謊）「我想了很久。我很不爽。」「可是我也不想因為不爽就把你丟掉。」「我的條件是：她的事你要自己講，我問你的時候你不准騙我。」＝OPEN_OK',
+    seq(['我想了很久。我很不爽。','可是我也不想因為不爽就把你丟掉。','我的條件是：她的事你要自己講，我問你的時候你不准騙我。'])&&H.G.flags.OPEN_OK[KX][PS]===true);
   await kd('2026-10-05'); Object.assign(st(KX),{done:{self:1,back:1,n4:H.G.day-3,hug:H.G.day-2},b1:H.G.day-1}); setRom(KX,60); clr(); await X().meetAction(H.G,KX,'out').run(GM);
   check('3. 不接受、她的戀愛 < 70：「我做不到。我試著想過了，做不到。」→ 分手',J(T())===J(['我做不到。我試著想過了，做不到。'])&&!H.G.flags.dating_kexin);
   await kd('2026-10-05'); Object.assign(st(KX),{done:{self:1,back:1,n4:H.G.day-3}}); ROM.end(H.G,PS,'t'); clr(); await X().meetAction(H.G,KX,'out').run(GM);
@@ -184,7 +184,7 @@ await sec(4,async()=>{
   await zr(); Object.assign(st(ZQ),{phase:'talked',intent:'both',talkDay:H.G.day-8}); setRom(ZQ,40); await X().meetAction(H.G,ZQ,'talk').run(GM);
   check('4. 子晴 B 不接受：「不行啦。」「……我們先不要了。」→ 分手',J(T())===J(['不行啦。','……我們先不要了。'])&&!H.G.flags.dating_heroine_04);
   await zr(); Object.assign(st(ZQ),{phase:'talked',intent:'exclusive',talkDay:H.G.day}); ROM.end(H.G,KX,'t'); await X().meetAction(H.G,ZQ,'talk').run(GM);
-  check('4. 子晴 A（AA_425）：「你真的講了？」祐廷「講了。」「……好啦。下禮拜你請。」',J(T())===J(['你真的講了？','講了。','……好啦。下禮拜你請。']));
+  check('4. 子晴 A（AA_425）：「你真的講了？」祐廷「講了。」「好啦。下禮拜你請。」',J(T())===J(['你真的講了？','講了。','好啦。下禮拜你請。']));
   await zr(); Object.assign(st(ZQ),{phase:'talked',intent:'both',talkDay:H.G.day}); H.G.flags.YT_LIED={heroine_04:{kexin:true}}; await X().meetAction(H.G,ZQ,'talk').run(GM);
   check('4. 子晴 D：「分手啦。」（她把外套的帽子拉起來。）「……我先回去。」',J(T())===J(['分手啦。','（她把外套的帽子拉起來。）','……我先回去。']));
   await zr(); H.picks=['我不知道']; st(ZQ).msgAt=0; setT('2026-10-27',21.6); await play(due()); setT('2026-10-27',22); clr(); await runOut('mrel_heroine_04_talk_'+H.G.day);
@@ -198,7 +198,7 @@ await sec(4,async()=>{
   fresh('2026-10-01',12,'cafe',{dating_kexin:true}); H.CLOSE(ZR); ROM.start(H.G,ZR); setT('2026-10-05',12); learn(ZR,KX); setT('2026-10-05',21.9); await play(due()); clr();
   check('4. 芷若：同一天不再演',!X().FLOW.heroine_02.meet(H.G,st(ZR),'cafe'));
   setT('2026-10-06',19.5); H.picks=['點完就走']; let r=await X().FLOW.heroine_02.meet(H.G,st(ZR),'cafe').run(GM);
-  check('4. 冷靜期去 Café：「今天也是熱拿鐵？」（她沒有笑。）→「（點完就走）」＝照常點餐（left）、一天一次',seq(['今天也是熱拿鐵？','（她沒有笑。）'])&&r==='left'&&J(H.opts[0])===J(['等她下班','（點完就走）'])&&!X().FLOW.heroine_02.meet(H.G,st(ZR),'cafe'));
+  check('4. 冷靜期去 Café：「一樣是熱拿鐵？」（她沒有笑。）→「（點完就走）」＝照常點餐（left）、一天一次',seq(['一樣是熱拿鐵？','（她沒有笑。）'])&&r==='left'&&J(H.opts[0])===J(['等她下班','（點完就走）'])&&!X().FLOW.heroine_02.meet(H.G,st(ZR),'cafe'));
   setT('2026-10-07',19.5); clr(); H.picks=['等她下班','只跟妳']; r=await X().FLOW.heroine_02.meet(H.G,st(ZR),'cafe').run(GM);
   check('4. 「等她下班」＝留到打烊（AA_425 開場）：（打烊了，她沒有趕你。她把最後一張椅子倒扣好，在你對面坐下。）「……你要講什麼？」→「我想只跟妳在一起。」→「那你去跟她講。」',
     seq(['（打烊了，她沒有趕你。她把最後一張椅子倒扣好，在你對面坐下。）','……你要講什麼？','那你去跟她講。'])&&H.G.hour>=21.9&&H.G.flags.YT_PROMISED[ZR]==='exclusive'&&!H.has('講完，再來點一杯。'));
@@ -278,7 +278,7 @@ await sec(7,async()=>{
   setT('2027-09-15',15); H.FRIEND(ZQ); H.FRIEND(ZR);
   check('7. 大二上分手 → 大二下過完、大三上起：可以（子晴，FRIEND 以上）',X().zzCanRestart(H.G,ZQ)&&!X().zzRefusing(H.G,ZQ));
   clr(); for(const f of STORY.PRE_TALK) await f(GM,{name:'子晴',charId:ZQ},ZQ);
-  check('7. 可以重新開始那天她先說：「我跟芷若講過了。她說隨便我。」「……可是我們先從吃宵夜開始。就吃宵夜。」',seq(['我跟芷若講過了。她說隨便我。','……可是我們先從吃宵夜開始。就吃宵夜。']));
+  check('7. 可以重新開始那天她先說：「我跟芷若講過了。她說隨便我。」「可是我們先從吃宵夜開始。就吃宵夜。」',seq(['我跟芷若講過了。她說隨便我。','可是我們先從吃宵夜開始。就吃宵夜。']));
   ROM.start(H.G,ZQ); check('7. 子晴先重新交往＝RESTART_WITH',H.G.flags.RESTART_WITH===ZQ);
   H.G.hour=15.5; clr(); await play(due());
   check('7. 她自己告訴芷若（祐廷不在場）：「欸，我跟妳講一件事。」「我最近又跟祐廷去吃了幾次宵夜。」……「有一點。……可是是妳的話，就好。」',seq(['欸，我跟妳講一件事。','我最近又跟祐廷去吃了幾次宵夜。','……我知道啊。妳上禮拜傳給我的照片，背景就是那家鹽酥雞。','妳自己決定就好。','妳真的不介意？','有一點。……可是是妳的話，就好。']));
