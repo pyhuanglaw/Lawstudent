@@ -7841,6 +7841,23 @@
    "noDirectIntegrate": false,
    "next": "BB 第二眼；LAWWW 重匯約會 lines",
    "unfinished": ""
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "待填",
+   "files": [
+    "docs/story_planning/AA_946_約會源稿和遊戲對齊_她請客登記.md",
+    "docs/story_planning/AA_812_date_pays_promises.json",
+    "docs/story_planning/date_system/lines/"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T14:30Z",
+   "receiver": "LAWWW",
+   "ack": "",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 重跑 import_she_pays、確認語彤 D14 收尾那句的來源",
+   "unfinished": ""
   }
  ],
  "items": [
