@@ -1107,6 +1107,36 @@
    "wants": "X365",
    "task": "SHOP-REALISM-1112",
    "note": "回覆溫特寶邸第 2 版（Poly Haven／ambientCG）預覽。查過：使用者規格書 docs/history/specs/21、22（永久 3D 美術製作規範）早就指定 Poly Haven、ambientCG，ROLE_LAWWW2 也有（只寫在近景小道具那一列），店內沒照做——是 LAWWW2 沒遵守。要做：①規則（交值班 LAWWW-C 寫，提案 D160）：每間店的店內、店面一律用 Poly Haven／ambientCG CC0 模型＋材質組＋Cycles 烘焙（cc0_fetch.py），交件附用了哪些素材清單和 2D 參考圖並排；②每間做好的店都要檢查：SHOP_STANDARD_STATUS 加一欄「CC0 素材」，機器檢查接 node-unit-auto；③做的時候對照 2D 圖。"
+  },
+  {
+   "id": "UA-LAWWW2-1113-01",
+   "at": "2026-11-13T14:1x",
+   "quote": "（引用：我會改成要求三項同時成立：掃描模型、CC0 材質組，以及純色零件少於 25%。）寫進規則 每家店都要通過 你做不完就請其他AI幫忙",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X365",
+   "task": "SHOP-REALISM-1112",
+   "note": "查過：tests/shop_cc0_unit.js 已經是三項都要（缺一項就列進基準表、新店不准缺）；開發分支基準表還有 46 間沒過。要做：①規則交值班 LAWWW-C 寫進 CLAUDE.md §12 第 2 點（提案 D161：每家進得去的店三項同時成立＝驗收門檻，基準表只准減不准加）；②請 LAWWW-C 派其他 AI 分攤（照 UA-LAWWW2-1113-02 的條件）。"
+  },
+  {
+   "id": "UA-LAWWW2-1113-02",
+   "at": "2026-11-13T14:1x",
+   "quote": "請其他AI幫忙的時候要跟它們說你現在的做法和驗收標準 仍然由你驗收 要跟它們獎工具",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X365",
+   "task": "SHOP-REALISM-1112",
+   "note": "「獎工具」＝講工具。做法：寫 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md（做法、驗收標準、工具、踩過的坑），派工時附上；幫手交件先交 LAWWW2 驗收（看並排圖＋跑測試），過了才轉 LAWWW-C 整合、BB 判美術。"
+  },
+  {
+   "id": "UA-LAWWW2-1113-03",
+   "at": "2026-11-13T14:1x",
+   "quote": "講你的工具",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X365",
+   "task": "SHOP-REALISM-1112",
+   "note": "補充 UA-LAWWW2-1113-02：做法說明要逐一列出 LAWWW2 實際在用的工具（建模、下載 CC0、烘焙、截圖、對照圖、量模型、測試、做 patch）和用法；只在 scratchpad 的小工具搬進 repo。"
   }
  ]
 }
