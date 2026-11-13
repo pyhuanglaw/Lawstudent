@@ -126,13 +126,13 @@ def map_str(s, fname):
     return t[1:-1]
 
 
-def layer(text, fname):
+def layer(text, fname, strict=True):
     """給匯入工具用：寫檔前最後一步呼叫。照表換，並核對只標這個檔的列都套到了（套不到＝源稿或前面幾層改過了，停下來問 AA）。"""
     b = os.path.basename(fname)
     before = dict(HITS)
     text = apply(text, b)
     miss = [r for r in for_file(b) if r['files'] == [b] and HITS.get(r['_i'], 0) == before.get(r['_i'], 0)]
-    if miss:
+    if miss and strict:
         sys.exit(f'AA_959（{TABLE}@{SRC_SHA}）：{b} 有 {len(miss)} 列對不到（舊字、新字都不在）：\n' + '\n'.join(f'第 {r["_i"]} 列「{r["old"]}」' for r in miss[:20]))
     return text
 

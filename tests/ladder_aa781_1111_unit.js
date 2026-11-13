@@ -57,7 +57,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
   const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'lad781-')), outA=path.join(tmp,'with.js'), outB=path.join(tmp,'base.js'), logP=path.join(tmp,'log.json');
   const run=args=>cp.spawnSync('python3',[path.join(H.ROOT,'tools/ladder/import_ladder.py'),...args],{encoding:'utf8',timeout:300000});
   const rA=run(['--out',outA,'--aa781-log',logP]), rB=run(['--out',outB,'--no-aa781']);
-  const L=LADDER, B=rB.status===0?new Function(fs.readFileSync(outB,'utf8')+';return LADDER;')():null, LOG=rA.status===0&&fs.existsSync(logP)?JSON.parse(fs.readFileSync(logP,'utf8')):[];
+  const L=require('./aa959_map.js').unmapDeep(LADDER,'ladder.js')/* AA_959（DLG-FULL-REVIEW-1110）：匯入最後一步照覆寫表換的字先換回來，再對 AA_781 的稿 */, B=rB.status===0?require('./aa959_map.js').unmapDeep(new Function(fs.readFileSync(outB,'utf8')+';return LADDER;')(),'ladder.js'):null, LOG=rA.status===0&&fs.existsSync(logP)?JSON.parse(fs.readFileSync(logP,'utf8')):[];
 
   await sec(1,async()=>{
     for(const [term,sha,ws] of BATCH) for(const w of ws){ const p=`docs/story_planning/AA_781_${w}_ladder_${term}.json`, e=allow.filter(x=>x.path===p), b0=show(sha,p), b1=show(FINAL,p), b2=show(REV2,p), b3=show(REV3,p), want=REV3_FILES.has(p)?REV3:REV2_FILES.has(p)?REV2:FINAL;

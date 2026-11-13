@@ -41,6 +41,11 @@ def rel(v, w):
     return {k: int(x) for k, x in v.items()}
 
 
+def _AA959_map(t):
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959
+    return aa959.map_str(t, 'msg_replies.js')
+
+
 def build(src, sha):
     people = {}
     for hid, v in src.items():
@@ -55,7 +60,7 @@ def build(src, sha):
             new = bool(e.get('new'))
             if t in GONE and not new:
                 continue
-            if not t or (not new and not in_src(t)):
+            if not t or (not new and not in_src(t) and not in_src(_AA959_map(t))):   # AA_959：送訊息的程式（aa959.LINKED）已經照覆寫表換成新字，訊息本身寫檔前最後一步才換
                 raise SystemExit(f'{w}.text「{t}」：src/ 裡找不到這一則訊息（要逐字；AA 新寫的要標 new）')
             opts = []
             for j, o in enumerate(e.get('opts') or []):
