@@ -56,6 +56,18 @@ dian)
   LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-4.685,-4.665,3.1,1,1,${TUBEW:-24},1.24,0.05,$COL')")"
   for x in -1.3 -0.5 0.3 1.1; do PT="$PT;$x,1.85,-5.6,${HOODW:-9},$WARM,0.08"; done
   SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.98,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
+tea)
+  # 辛亥韓食（2.6×8×3.2 m＋後面 1.8 m 深的廚房）：走道上方三支日光燈（x −0.5，沿 z 1.0 m）＋櫃台上方一支（沿 x）＋五顆嵌燈（暖）＋卡座上方三顆紙燈籠（暖，y 2.66）
+  #   ＋廚房一支日光燈（x 0、z −4.68）。白天燈也開著；店面玻璃朝 118 巷（S），只有天光。燈籠、燈管本身藏起來（GLOW_），光從點光源出。
+  HIDE='glass|GLOW_|view'
+  NOLM='_vc$|ph_potted|prints|screens|_food$'
+  COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
+  for z in 2.3 0.2 -1.9; do LIGHTS="$LIGHTS;$(python3 -c "print(f'-0.510,-0.490,{$z-0.01:.3f},{$z+0.01:.3f},3.1,1,1,${TUBEW:-18},0.05,1.0,$COL')")"; done
+  LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-3.510,-3.490,3.1,1,1,${TUBEW:-18},1.0,0.05,$COL')")"
+  LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-4.685,-4.665,3.1,1,1,${TUBEW:-18},1.24,0.05,$COL')")"
+  for xz in "-0.75 3.0" "-0.75 1.2" "-0.75 -0.6" "-0.75 -2.4" "0.75 3.2"; do set -- $xz; PT="$PT;$1,3.1,$2,${DOWNW:-10},$WARM,0.05"; done
+  for z in 2.1 0.38 -1.34; do PT="$PT;0.8,2.66,$z,${LANTW:-22},$WARM,0.12"; done
+  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-1.0,0.96,0.9}; DAYL=${DAYL:-1.0}; SHELL=S ;;
 *) echo "還沒做 CC0 版的店：$SHOP（lane118_shops.py 的 CC0_SHOPS 加進去、這裡加一個 case）"; exit 1 ;;
 esac
 PT=${PT#;}; LIGHTS=${LIGHTS#;}

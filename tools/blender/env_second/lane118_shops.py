@@ -475,14 +475,17 @@ def kitchen(c, x0, x1, depth=1.8, win=(0.95, 1.55), door=None):
     kt.poly([(X0, 0, Z0), (X0, 0, zk), (X0, H, zk), (X0, H, Z0)], '#d6d2c9'); kt.poly([(X1, 0, zk), (X1, 0, Z0), (X1, H, Z0), (X1, H, zk)], '#d6d2c9')
     c.wg('N', 'kceil', M['kceil']).quad([(X0, H, zk), (X1, H, zk), (X1, H, Z0), (X0, H, Z0)])          # 天花板：單面朝下（原本在頂點色網格裡、雙面）
     ks.box(X0 + 0.1, X1 - 0.1, 0.0, 0.86, zk, zk + 0.65); ks.box(X0 + 0.1, X1 - 0.1, 0.86, 0.9, zk, zk + 0.68)   # 爐台
+    kd = kw = kt
+    if c.sid in CC0_KTEX and hasattr(c, 'MX'):   # CC0（辛亥韓食起）：爐口、炒鍋放黑鐵材質組，出菜口層架上的碗放白瓷（不再是頂點色；跟著後牆淡出）
+        import cc0_kit as K_; kd = K_.AsTex(c.wg('N', 'kitchen_iron', c.MX['blackmetal'])); kw = K_.AsTex(c.wg('N', 'kitchen_bowl', c.MX['plastic_w']))
     for k in range(int((X1 - X0 - 0.4) / 0.7)):
-        bx = X0 + 0.5 + k * 0.7; ccyl(kt, (bx, 0.9, zk + 0.35), (bx, 0.93, zk + 0.35), 0.16, '#202020', seg=14)
-        if k % 2 == 0: clathe(kt, [(0.0, 0.0), (0.12, 0.02), (0.2, 0.09), (0.21, 0.1), (0.0, 0.1)], bx, 0.93, zk + 0.35, '#2b2b2b', seg=16)   # 炒鍋
+        bx = X0 + 0.5 + k * 0.7; ccyl(kd, (bx, 0.9, zk + 0.35), (bx, 0.93, zk + 0.35), 0.16, '#202020', seg=14)
+        if k % 2 == 0: clathe(kd, [(0.0, 0.0), (0.12, 0.02), (0.2, 0.09), (0.21, 0.1), (0.0, 0.1)], bx, 0.93, zk + 0.35, '#2b2b2b', seg=16)   # 炒鍋
         else: clathe(c.vm, [(0.0, 0.0), (0.17, 0.0), (0.17, 0.26), (0.16, 0.26), (0.0, 0.01)], bx, 0.93, zk + 0.35, '#b9bec2', seg=16)        # 湯鍋
     ks.box(X0 + 0.05, X1 - 0.05, 2.1, 2.5, zk, zk + 0.75)                                                 # 抽油煙機
     kt.cbox((X0 + X1) / 2 - 0.7, (X0 + X1) / 2 + 0.7, H - 0.06, H, Z0 - 0.75, Z0 - 0.6, '#e9e9e6'); _ct(c).cyl(((X0 + X1) / 2 - 0.62, H - 0.085, Z0 - 0.675), ((X0 + X1) / 2 + 0.62, H - 0.085, Z0 - 0.675), 0.016, seg=8)   # 廚房的日光燈
     ks.box(X0 + 0.2, X1 - 0.2, 1.5, 1.53, Z0 - 0.32, Z0 - 0.02)                                           # 出菜口後面的層架
-    for k in range(10): x = X0 + 0.4 + k * (X1 - X0 - 0.8) / 9; clathe(kt, [(0.0, 0.0), (0.05, 0.0), (0.075, 0.06), (0.07, 0.06), (0.0, 0.006)], x, 1.53, Z0 - 0.17, '#f4f1ea', seg=10)
+    for k in range(10): x = X0 + 0.4 + k * (X1 - X0 - 0.8) / 9; clathe(kw, [(0.0, 0.0), (0.05, 0.0), (0.075, 0.06), (0.07, 0.06), (0.0, 0.006)], x, 1.53, Z0 - 0.17, '#f4f1ea', seg=10)
     # 後牆的腰牆線、踢腳板（開口的地方斷開）；廚房門口掛門簾
     tr = c.wg('N', 'trim', M['vc'], cm=True); tc = c.S.get('trim', '#6b4a30')
     for (ya, yb, col, t) in ((wh - 0.02, wh + 0.03, tc, 0.015), (0.0, 0.09, '#3a3530', 0.012)):
@@ -673,6 +676,19 @@ def wall_shelf(c, side, a0, a1, y, depth=0.25, items='bowls'):
             big = rr.random() < 0.4; r0 = 0.075 if big else 0.06; col = rr.choice(['#f4f1ea', '#f4f1ea', '#e8e0d0', '#3a3a3a']); px, pz = P(a + r0, depth * 0.5)
             for k in range(rr.choice((1, 2, 2, 3, 4))): clathe(m, [(0.0, 0.0), (r0 * 0.66, 0.0), (r0, r0 * 0.93), (r0 * 0.93, r0 * 0.93), (0.0, 0.006)], px, y + k * r0 * 0.42, pz, col, seg=12)
             a += 2 * r0 + rr.uniform(0.03, 0.09)
+        a = a1
+    if getattr(c, 'ph', None) and items in ('jars', 'stone', 'cups', 'bottles'):   # CC0 的店（D159）：罐子、石鍋、杯子、瓶子大小不一（0.78～1.2 倍）、間距不一、偶爾空一格
+        PROF = {'jars': ([(0.0, 0.0), (0.05, 0.0), (0.05, 0.2), (0.035, 0.22), (0.035, 0.24), (0.0, 0.24)], 0.13, ['#e0c070', '#d8b060', '#e8d8a0', '#c89040']),
+                'stone': ([(0.0, 0.0), (0.07, 0.0), (0.09, 0.08), (0.08, 0.09), (0.0, 0.01)], 0.22, ['#2b2a28']),
+                'cups': ([(0.0, 0.0), (0.035, 0.0), (0.04, 0.08), (0.036, 0.08), (0.0, 0.005)], 0.12, ['#f4f1ea', '#e9e4da', '#c9b8a0']),
+                'bottles': ([(0.0, 0.0), (0.035, 0.0), (0.035, 0.2), (0.012, 0.27), (0.012, 0.31), (0.0, 0.31)], 0.1, ['#2f4a2a', '#5a2a2a', '#3a3020'])}
+        prof, step, cols = PROF[items]
+        import cc0_kit as K_; mk = {'jars': 'jar', 'stone': 'stone_pot', 'cups': 'plastic_w', 'bottles': 'bottle'}[items]
+        if mk in c.MX: m = K_.AsTex(c.wg(side, 'trim_' + mk, c.MX[mk]))   # 層板上的東西放進材質組（跟著那面牆淡出）
+        while a < a1 - 0.1:
+            if rr.random() < 0.12: a += step; continue
+            s_ = rr.uniform(0.78, 1.2); px, pz = P(a + 0.02 * s_, depth * 0.5)
+            clathe(m, [(r_ * s_, y_ * s_) for (r_, y_) in prof], px, y, pz, rr.choice(cols), seg=12); a += step * s_ + rr.uniform(0.0, 0.07)
         a = a1
     while a < a1 - 0.08:
         px, pz = P(a, depth * 0.5)
@@ -1018,6 +1034,14 @@ def steak_plate(c, x, z):
 
 def banchan(c, x, z):
     """桌上的四小碟小菜＋兩個不鏽鋼杯（辛亥韓食，室內參考圖）"""
+    if getattr(c, 'foodm', None):   # CC0 的店：每一碟的菜是一小片中間隆起、貼菜色貼圖集的菜面（泡菜、豆芽、菠菜、豆干），碟子的位置差一點
+        rr = c.rng
+        for k, cell in enumerate((3, 7, 5, 6)):
+            zz = z - 0.2 + k * 0.13 + rr.uniform(-0.01, 0.01); xx = x + rr.uniform(-0.015, 0.015)
+            clathe(c.vm, [(0.0, 0.0), (0.04, 0.0), (0.052, 0.024), (0.048, 0.026), (0.0, 0.008)], xx, 0.74, zz, '#c9ced2', seg=16)
+            _disc_uv(c, xx, 0.756, zz, 0.036, 0.034, rr.uniform(0, PI), 0.014, cell, seg=12, rings=2, wob_=0.15, edge=0.004)
+        for dz in (-0.2, 0.2): ccyl(c.vm, (x - 0.22, 0.74, z + dz), (x - 0.22, 0.83, z + dz), 0.033, '#c9ced2', seg=12, r2=0.038)
+        return
     for k, col in enumerate(('#c8281c', '#e8d8a0', '#3f7a2a', '#f4f0e0')):
         zz = z - 0.2 + k * 0.13; clathe(c.vm, [(0.0, 0.0), (0.04, 0.0), (0.052, 0.024), (0.048, 0.026), (0.0, 0.008)], x, 0.74, zz, '#c9ced2', seg=10); csph(c.vc, (x, 0.762, zz), 0.034, col, seg=8, rings=4, sy=0.35)
     for dz in (-0.2, 0.2): ccyl(c.vm, (x - 0.22, 0.74, z + dz), (x - 0.22, 0.83, z + dz), 0.033, '#c9ced2', seg=10, r2=0.038)
@@ -1204,13 +1228,18 @@ def build_tea(c):
     for zc in ZC:
         booth(c, BX0, X1, zc); table_set(c, BX0 + 0.72, zc, 'korea'); banchan(c, BX0 + 0.38, zc)
         c.vm.cbox(X1 - 0.3, X1 - 0.08, 0.74, 0.86, zc - 0.07, zc + 0.07, '#b9bec2'); ccyl(c.vm, (X1 - 0.19, 0.86, zc), (X1 - 0.19, 0.88, zc), 0.05, '#8a8f93', seg=8)   # 靠牆的不鏽鋼餐具盒
-        ccyl(c.vc, (BX0 + 0.5, 2.82, zc), (BX0 + 0.5, H, zc), 0.005, '#2a2a2a', seg=4); c.warm.sphere((BX0 + 0.5, 2.66, zc), 0.17, seg=14, rings=8)   # 圓形紙燈籠（室內參考圖；2.5 m 以上）
+        ccyl(c.vc, (BX0 + 0.5, 2.82, zc), (BX0 + 0.5, H, zc), 0.005, '#2a2a2a', seg=4)
+        if getattr(c, 'ph', None): c.warm.sphere((BX0 + 0.5, 2.66, zc), 0.17, seg=28, rings=16, sy=0.88); ccyl(c.vc, (BX0 + 0.5, 2.79, zc), (BX0 + 0.5, 2.82, zc), 0.05, '#2a2a2a', seg=16); ccyl(c.vc, (BX0 + 0.5, 2.5, zc), (BX0 + 0.5, 2.52, zc), 0.045, '#2a2a2a', seg=16)   # CC0：圓的紙燈籠（28 邊、略扁）＋上下兩圈黑框
+        else: c.warm.sphere((BX0 + 0.5, 2.66, zc), 0.17, seg=14, rings=8)   # 圓形紙燈籠（室內參考圖；2.5 m 以上）
     c.block(BX0, X1, -2.55, ZC[0] + 0.87, 'booths')                                                                                    # 三張卡座＋卡座到櫃台之間 0.35 m 的縫：一整塊
     # 最裡面：櫃台（西半：點餐、收銀；東半：小菜櫃），後面是店員和出菜口
     counter(c, X0, 0.25, -3.0, -2.55, h=1.0, top='wood', front=RED, why='counter'); register(c, -0.75, 1.0, -2.78, face='+z')
     glass_case(c, 0.25, X1, -3.0, -2.55, face='+z', rows=1, warm=False); c.block(0.22, X1, -3.03, -2.52, 'banchan')
     sys.path.insert(0, os.path.join(HERE, 'aa_support')); import sq_traces as TR; TR.sq13_korea(c.root, X1, cz=-2.78, y0=1.5)   # 店員支線 SQ13 做完以後小菜櫃上多一罐泡菜（「她的」）：TRACE_SQ13_jar，遊戲照名字開關；跟著韓食老闆從 korea 搬來（AA_772）
-    for k in range(6): c.vc.crbox(0.36 + k * 0.15, 0.48 + k * 0.15, 0.89, 0.93, -2.92, -2.64, ['#c8281c', '#3f7a2a', '#e8d8a0', '#6a4a2e', '#e8842a', '#f4f0e0'][k], r=0.004, seg=1)   # 小菜盒（泡菜、海帶、豆芽、滷蛋…）
+    if getattr(c, 'foodm', None):   # CC0：不鏽鋼小菜盒＋菜面（泡菜、海帶、豆芽、滷豆干、辣蘿蔔、蒸蛋）
+        for k, cell in enumerate((3, 5, 7, 6, 10, 11)): c.vm.cbox(0.36 + k * 0.15, 0.48 + k * 0.15, 0.89, 0.93, -2.92, -2.64, '#c9ced2'); food_dome(c, 0.37 + k * 0.15, 0.47 + k * 0.15, -2.91, -2.65, 0.93, 0.025, cell, nx=3, nz=3)
+    else:
+        for k in range(6): c.vc.crbox(0.36 + k * 0.15, 0.48 + k * 0.15, 0.89, 0.93, -2.92, -2.64, ['#c8281c', '#3f7a2a', '#e8d8a0', '#6a4a2e', '#e8842a', '#f4f0e0'][k], r=0.004, seg=1)   # 小菜盒（泡菜、海帶、豆芽、滷蛋…）
     ccyl(c.vm, (-1.08, 1.0, -2.8), (-1.08, 1.34, -2.8), 0.11, '#b9bec2', seg=14); ccyl(c.vc, (-1.08, 1.34, -2.8), (-1.08, 1.37, -2.8), 0.115, '#2a2a2c', seg=14); c.vc.cbox(-1.1, -1.06, 1.06, 1.1, -2.69, -2.62, '#222222')   # 茶水桶（第二組參考圖 int2_tea）
     for k in range(4): ccyl(c.vm, (-0.32, 1.0 + k * 0.03, -2.7), (-0.32, 1.09 + k * 0.03, -2.7), 0.036, '#c9ced2', seg=10, r2=0.042)   # 一疊不鏽鋼杯
     c.block(X0, X1, Z0, -3.0, 'staff')
@@ -1455,7 +1484,7 @@ BUILD = {'dian': build_dian, 'self': build_self, 'tea': build_tea, 'home': build
 #   金屬零件（c.vm）照顏色分到不鏽鋼／黑鐵材質組、不鏽鋼（c.steel）、天花板、廚房天花板、輕鋼架換材質組；椅凳、盆栽換 Poly Haven 掃描模型（cc0_kit.PH）。
 #   形狀、配置、座位、互動點、導航都不動。牆上的東西（腰牆收邊、踢腳板、層板、框、廚房的牆和地）分到同一面牆的分組網格（WALL_<面>_<key>_<材質>），照舊跟著牆淡出。
 #   油漆牆照舊平塗（店面測試：牆不貼圖）；玻璃、發光的燈、店門外的景照舊。做法、驗收：docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md
-CC0_SHOPS = ('self', 'korea', 'dian')
+CC0_SHOPS = ('self', 'korea', 'dian', 'tea')
 _W = ('#f4f1ea', '#f4f4f1', '#e9e9e6', '#f2f2ee', '#d9dad6', '#ffffff', '#f1ede4')
 _ST = ('#c9ccce', '#c9ced2', '#b9bec2', '#c4c8cb', '#b3b8bc', '#9aa0a4', '#8a8f93', '#d9dadb', '#aeb0ac')
 _SD = ('#5f6468', '#3a3d40', '#3a3d41', '#7f868b', '#8f969b')
@@ -1466,13 +1495,15 @@ _COMMON = dict([(k, 'plastic_w') for k in _W] + [(k, 'steel') for k in _ST] + [(
 CC0_ROUTE = {   # 顏色 → 材質 key（cc0_setup 的 MX）；表上沒有的顏色＝食物、植物、照片、小東西，照舊頂點色
     'self': dict(_COMMON, **{'#f6f4ee': 'box_w', '#c9a46a': 'box_k', '#b8860a': 'brass', '#f2c21a': 'plastic_y', '#e8b81e': 'plastic_y', '#e8b616': 'plastic_y', '#e0b24a': 'plastic_y', '#c8281c': 'plastic_red', '#2a5fb8': 'plastic_blue',
                              '#8a1f1a': 'mat', '#a52a22': 'mat_l'}),
+    'tea': dict(_COMMON, **{'#7a1418': 'red_wine', '#262221': 'leather_d', '#5a3c2a': 'wood_d', '#6a4a2e': 'wood_d', '#2a2a2c': 'plastic_dk', '#e8e4dc': 'plastic_w', '#f1efe8': 'plastic_w'}),
     'dian': dict(_COMMON, **{'#c4201a': 'red2', '#7a100c': 'red_d', '#7a2a26': 'apron', '#7a4a28': 'wood_m', '#e8eaec': 'plastic_w', '#f2c21a': 'plastic_y', '#c8281c': 'plastic_red', '#2a5fb8': 'plastic_blue', '#e0b24a': 'plastic_y'}),
     'korea': dict(_COMMON, **{'#b41e1c': 'red', '#a8281e': 'red', '#26262a': 'plastic_dk', '#2b1a12': 'wood_d', '#5a3a22': 'wood_d', '#8a6a4a': 'wood_m', '#d8c8a8': 'wood_l',
                               '#eef0ec': 'plastic_w', '#e8eaec': 'plastic_w', '#f1efe8': 'plastic_w', '#e9e2cf': 'sack', '#b8860a': 'brass', '#c8281c': 'plastic_red', '#2a5fb8': 'plastic_blue', '#e0b24a': 'plastic_y'}),
 }
-CC0_FOOD = ('self',)
-CC0_STEAK = ('dian',)   # 有鐵板牛排的店   # 有配菜盤、炸物的店：用菜色貼圖集
-CC0_VM = {'self': 'steel', 'korea': 'steel', 'dian': 'steel'}   # 金屬零件（c.vm）表上沒有的顏色、圓柱、車床零件（直接畫進網格的）歸哪一種：水上便當幾乎都是不鏽鋼（飯鍋、保溫燈罩、餐盤）
+CC0_FOOD = ('self', 'tea')
+CC0_STEAK = ('dian',)
+CC0_KTEX = ('tea',)   # 開放式廚房的爐口、炒鍋、碗也放進材質組的店（之後做的店都加；已交的 self、korea、dian 不動，重建才會和交出去的一樣）   # 有鐵板牛排的店   # 有配菜盤、炸物的店：用菜色貼圖集
+CC0_VM = {'self': 'steel', 'korea': 'steel', 'dian': 'steel', 'tea': 'steel'}   # 金屬零件（c.vm）表上沒有的顏色、圓柱、車床零件（直接畫進網格的）歸哪一種：水上便當幾乎都是不鏽鋼（飯鍋、保溫燈罩、餐盤）
 CC0_CHAIRS = {'steelstool': ('metal_stool_02', dict(height=0.46, decimate=0.15, mat='steel')),   # 掃描的是白烤漆凳：形狀照用、材質換不鏽鋼（參考圖、原本都是不鏽鋼）
               'wood': ('painted_wooden_chair_02', dict(height=0.92, recolor=('#170e08', '#5e3f29'), decimate=0.45, chair=True)),
               'bar': ('bar_chair_round_01', dict(height=0.76, decimate=0.1))}
@@ -1675,6 +1706,11 @@ def cc0_setup(c):
         'plastic_w': K.acg(P + 'plastic_w', 'Plastic006', vary=0.05, maps=('diff',), target='#eceae4', tile=0.5, rough_value=0.45, res=256),
         'box_w': K.acg(P + 'bento_box', 'Plastic006', vary=0.05, maps=('diff',), target='#f2f0ea', tile=0.5, rough_value=0.45, res=256),   # 便當盒：自己一個材質（一疊疊的盒子烘光照會烘成一條條黑的：物件 l118_self_box_w，bake_l118_shops.sh 的 --nolm 排除）
         'box_k': K.acg(P + 'bento_kraft', 'Cardboard001', maps=('diff',), target='#c9a46a', tile=0.4, rough_value=0.85, res=256),   # 牛皮紙便當盒（同上，物件 l118_<店>_box_k 不烘光照）
+        'jar': K.acg(P + 'jar_amber', 'Plastic006', vary=0.03, maps=('diff',), target='#d0a85a', tile=0.3, rough_value=0.25, res=256),       # 層板上的醬料罐
+        'stone_pot': K.acg(P + 'stone_pot', 'Concrete034', maps=('diff', 'nor'), target='#2b2a28', tile=0.25, rough_value=0.8, res=256),     # 層板上的石鍋
+        'bottle': K.acg(P + 'bottle_dark', 'Plastic006', vary=0.03, maps=('diff',), target='#3a3020', tile=0.3, rough_value=0.2, res=256),
+        'red_wine': K.acg(P + 'red_wine', 'Plastic006', vary=0.02, maps=('diff',), target='#7a1418', tile=0.5, rough_value=0.45, res=256),   # 辛亥韓食：深紅櫃台、框、橫樑
+        'leather_d': K.acg(P + 'leather_dark', 'Leather037', target='#2a2422', tile=0.6, rough_value=0.5),                                # 辛亥韓食：卡座的黑色皮坐墊、靠墊
         'red2': K.acg(P + 'red_counter', 'Plastic006', vary=0.02, maps=('diff',), target='#c4201a', tile=0.5, rough_value=0.4, res=256),   # 118牛排：紅色櫃台（飽和色 vary 0.02：0.05 會變一塊塊斑）
         'red_d': K.acg(P + 'red_frame', 'Plastic006', vary=0.02, maps=('diff',), target='#7a100c', tile=0.5, rough_value=0.45, res=256),
         'apron': K.acg(P + 'apron', 'Fabric036', maps=('diff',), target='#7a2a26', tile=0.3, rough_value=0.9, res=256),
@@ -1733,6 +1769,11 @@ def cc0_post(c):
     """建完以後：天花板的輕鋼架（ceil_grid 的平塗網格）換鋁材質組"""
     g = c.extra.pop('cgrid', None)
     if g is not None: g.mat = c.MX['alu']; g.tile = 1.0; c.cc0m[g.name] = g
+    b = c.extra.pop('beams', None)   # 辛亥韓食的深紅橫樑：材質組（照舊單面、CEIL_ 開頭）
+    if b is not None:
+        import cc0_kit as K
+        bm_ = K.acg(f'l118_{c.sid}_beam_cc0', 'Plastic006', vary=0.02, maps=('diff',), target='#7a1418', tile=0.5, rough_value=0.6, res=256); bm_.use_backface_culling = True
+        b.mat = bm_; b.tile = 0.5; c.cc0m[b.name] = b
 
 
 def build(sid):

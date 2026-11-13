@@ -159,6 +159,7 @@
 | `painted_wooden_chair_01` | 靠背椅十七張（參考圖是咖啡色塑膠椅面：掃描的形狀照用、材質換成 ambientCG `Plastic006` 咖啡色） | 724 面；高 0.9 m | `assets/models/env/second_ai/l118_dian.glb`（118 巷 118牛排店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop dian`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh dian`） |
 | `potted_plant_02` | 門口落地盆栽 | 69,806 → 約 1,400 面；高 1.15 m | `assets/models/env/second_ai/l118_dian.glb`（118 巷 118牛排店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop dian`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh dian`） |
 | `potted_plant_04` | 自助台上方層板的小盆栽（原本垂下來的藤照舊） | 8,929 → 約 1,340 面；高 0.26 m | `assets/models/env/second_ai/l118_dian.glb`（118 巷 118牛排店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop dian`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh dian`） |
+| `potted_plant_04` | 東牆層板、櫃台上的小盆栽三盆（原本垂下來的藤照舊） | 8,929 → 約 1,340 面；高 0.18～0.26 m | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -226,6 +227,12 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Fabric036` | （同上） | 掛在牆上的暗紅圍裙 | `assets/models/env/second_ai/l118_dian.glb`（118 巷 118牛排店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop dian`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh dian`） |
 | `Concrete034` | （同上） | 店門口的騎樓地 | `assets/models/env/second_ai/l118_dian.glb`（118 巷 118牛排店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop dian`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh dian`） |
 | `Plaster001` | （同上） | 天花板、廚房天花板（vary 0.015；牆照舊乾淨的平塗） | `assets/models/env/second_ai/l118_dian.glb`（118 巷 118牛排店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop dian`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh dian`） |
+| `Leather037` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 三張卡座的黑色皮坐墊、靠墊 | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
+| `Plastic006` | （同上） | 深紅櫃台、框、天花板橫樑（vary 0.02）、層板上的醬料罐（琥珀）、燈框、冷氣（白）、收銀機（深灰） | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
+| `Metal009` | （同上） | 小菜碟、小菜盒、不鏽鋼杯、餐具盒、茶水桶、出菜台（不鏽鋼）；廚房的爐口、炒鍋（黑鐵）；店面鋁框 | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
+| `Concrete034` | （同上） | 東牆層板上的石鍋；店門口的騎樓地 | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
+| `Tiles036` | （同上） | 廚房的牆（白磁磚）、廚房地板（灰磁磚） | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
+| `Plaster001` | （同上） | 天花板、廚房天花板（vary 0.015；牆照舊乾淨的平塗） | `assets/models/env/second_ai/l118_tea.glb`（118 巷辛亥韓食店內，SHOP-CC0-HELP-1113，AA-C 2026-11-13；腳本 `tools/blender/env_second/lane118_shops.py --shop tea`（CC0_SHOPS）＋`cc0_kit.py`，光照 `lightbake/bake_l118_shops.sh tea`） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 
