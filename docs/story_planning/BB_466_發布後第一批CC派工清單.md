@@ -34,3 +34,8 @@
 ## 補（22:5x）
 17. ROM-PRIVATE-DATE-1110（開發分支 bc53f04880，使用者 11-13 選擇題「照活動分輕重」）：ROMTIER_a（以安晚餐 vs 咖啡：npcRom／rom +2 vs +1、trust +1，選項另算）、ROMTIER_b（同一天第二次不再加、阿哲不加、晚上約會結束直接睡）。已派 CC，排在 INV_MEET_YIELD 後面。
 18. T1_76f8／T1_rc2（BB_257，隨機玩家一整年 8 種子，比對兩版）。
+
+## 補（23:3x）
+19. CAMP-GATE-BG（LAWWW 修好後）：新遊戲開頭 ev_camp_d1_bus 前 2 句、ev_camp_d3_end 回校門 5 句不是黑底（先用 ntu_avenue）；black_bg_audit 讀到 camp_y1.js 以後重跑，數字應該從 6／33 變成 6／33（camp 兩處已有圖）或列出新的。BB_460 23:3x。
+20. BG3D_GATE 三張（CC queue 2380、2381）：看校門有沒有在畫面裡，挑一張附進 BB_132 第 128 組 6 號。
+21. D05 約會圖層（若 r2 證實是 ctx.all 多了 D05.movie＝P2）：LAWWW 補 date_hotspots D05.movie 位置或把 movie 從 all 拿掉以後，DATE_LAYER D05 重跑，要出圖層。
