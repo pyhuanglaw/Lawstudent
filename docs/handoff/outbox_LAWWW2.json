@@ -9739,6 +9739,27 @@
    "tests": "place_gate ALL PASS（已知未過 13；--coplanar、--write 已含）；yizhan／teahouse／xianguo 相關＋wz_/tz_/gg_/shop_ 共 149 支全過",
    "notDone": "一盞光照沒重烘（BB 判 P3）；BB 看圖；CC 四鏡頭",
    "next": "LAWWW GHA 結束後套 patch；BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "第八批：2:30 AM（cafe230）、afar CC0 化（D161 三項同時成立；純色 33%→16%、42%→16%）＋新工具 cc0_aakit.py＋cafe230 透空清單補新材質",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch8_1113/tz_cc0_batch8_1113.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch8_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch8_1113/cmp_cafe230_cc0.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch8_1113/cmp_afar_cc0.jpg"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 b0f0d0b59f",
+   "at": "2026-11-13T20:25Z",
+   "tests": "shop_cc0 兩間 PASS；place_gate ALL PASS（已知未過 11）；相關 83 支全過（cafe_bar_cam_1111 抓到新材質沒透空 → zones3d.js 補 CAFE230_SEETHRU_RE，FAILED 2→ALL PASS）",
+   "notDone": "BB 看圖；CC 四鏡頭；wz_teahouse_yard 下一批",
+   "next": "LAWWW 套 patch（GHA 候選跑完以後）；BB 判"
   }
  ]
 }
