@@ -1,13 +1,3 @@
-[21:14:29] solo item P0_LONGPLAY_fix_solo waits: no new items start until the 1 running item(s) finish
-[21:16:52] 正在跑：L77DE_ALL（已跑 19 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[21:19:39] [res] cpu=8% mem=30% (9.5/31.4 GB) chrome_testing=0  END L77DE_ALL
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       8f2b5f2499..cb6f8d2f16  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[21:19:53] ==== END   L77DE_ALL  exit=1  1362s   ====
-[21:19:56] memory 31% before starting P0_LONGPLAY_fix_solo (0 running)
-[21:19:56] ==== START P0_LONGPLAY_fix_solo  (probe @ 2b6a545be878d1436ade6e987bb25822dadb1521) ====
-[21:19:59] [res] cpu=12% mem=31% (9.7/31.4 GB) chrome_testing=0  START P0_LONGPLAY_fix_solo
 [21:21:52] 正在跑：P0_LONGPLAY_fix_solo（已跑 1 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:26:52] 正在跑：P0_LONGPLAY_fix_solo（已跑 6 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:28:37] [res] cpu=0% mem=31% (10.0/31.4 GB) chrome_testing=0  END P0_LONGPLAY_fix_solo
@@ -1998,3 +1988,13 @@
 [03:27:27] ==== START CANON458_SPRING  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [03:27:30] [res] cpu=0% mem=44% (13.9/31.4 GB) chrome_testing=9  START CANON458_SPRING
 [03:29:47] [res] cpu=3% mem=45% (14.0/31.4 GB) chrome_testing=10  END CANON458_WELCOME
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1525b7a313..41c0c54c61  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:30:17] ==== END   CANON458_WELCOME  exit=0  215s   ====
+[03:30:26] [res] cpu=3% mem=36% (11.3/31.4 GB) chrome_testing=5  END CANON458_ANNIV
+[03:30:35] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[03:30:35] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[03:30:35] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[03:30:35] memory 36% before starting CANON458_FEED (2 running)
+[03:30:35] ==== START CANON458_FEED  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====

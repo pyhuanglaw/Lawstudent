@@ -1,0 +1,46 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_ANNIV\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['ANNIV_A', 'ANNIV_C']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [ANNIV_A] 最小存檔讀到 2027-05-13 20.83 dorm（Y2S2 第 12 週）
+  [前置／捷徑] 【捷徑】[ANNIV_A] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"confessed": {"kexin": 246}}}
+  [  45.7s] [ANNIV_A] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"confessed": {"kexin": 246}}}；週年 {"day": "2027-05-20", "early": false}
+PASS FAIL_SETUP 檢查：[ANNIV_A] 交往中、算出來的週年是 2027-05-20  {"day": "2027-05-20", "early": false}
+PASS FAIL_SETUP 檢查：[ANNIV_A] 遊戲時間過了 21.10（現在 2027-05-13 21.11）
+  [  79.4s] [ANNIV_A_0513] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "下禮拜四是我們的週年。", "d": 604, "h": 21, "tag": "kx_anniv_ask", "ask": null, "ans": null}, {"who": "kexin", "text": "地點你選。我準備一樣東西，你也準備一樣。", "d": 604, "h": 21, "tag": "kx_anniv_ask", "ask": ["摩天輪。", "後門那家湯餃。", "河堤。"], "ans": null}]
+  [  82.9s] [ANNIV_A_0513] 回覆鍵 [{"t": "摩天輪。", "id": "a3|0", "dis": false}, {"t": "後門那家湯餃。", "id": "a3|1", "dis": false}, {"t": "河堤。", "id": "a3|2", "dis": false}]
+  [  88.9s] [ANNIV_A_0513] 按「後門」以後：[{"who": "kexin", "text": "下禮拜四是我們的週年。", "d": 604, "h": 21, "tag": "kx_anniv_ask", "ask": null, "ans": null}, {"who": "kexin", "text": "地點你選。我準備一樣東西，你也準備一樣。", "d": 604, "h": 21, "tag": "kx_anniv_ask", "ask": ["摩天輪。", "後門那家湯餃。", "河堤。"], "ans": 1}, {"who": "player", "text": "後門那家湯餃。", "d": 604, "h": 21.13, "tag": null, "ask": null, "ans": null}, {"who": "kexin", "text": "老闆會以為今天很普通。我們不要告訴他。", "d": 604, "h": 21.13, "tag": null, "ask": null, "ans": null}]
+  [  89.6s] [ANNIV_A] 按「後門」以後 KX_ANNIV_PLACE=shop；OUT kx_anniv1＝{"day": "2027-05-20", "h": 18.5, "place": "學校後門・湯餃店", "title": "週年：後門那家湯餃", "travel": "走路", "state": "planned"}
+PASS FAIL_SETUP 檢查：[ANNIV_A] 5/20 18:30 的週年出遊排上了  {"day": "2027-05-20", "h": 18.5, "place": "學校後門・湯餃店", "title": "週年：後門那家湯餃", "travel": "走路", "state": "planned"}
+  [前置／捷徑] [前置] 同一份進度跳到 2027-05-19（Y2S2 第 13 週）20.83 時 dorm；ANNIV_A
+  [ 125.5s] ANNIV_A_0519 等的途中點過的對話：[["", "明天是週年。你準備的東西："]]
+PASS FAIL_SETUP 檢查：[ANNIV_A_0519] 遊戲時間過了 21.05（現在 2027-05-19 21.06）
+  [ 216.1s] [ANNIV_A_0519_gift] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 216.1s] [ANNIV_A] 準備的東西 K7_GIFT=ticket
+  [前置／捷徑] [前置] 同一份進度跳到 2027-05-20（Y2S2 第 13 週）18.00 時 dorm；ANNIV_A
+  [ 229.9s] [ANNIV_A_0520_a] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 277.7s] [ANNIV_A_0520_b] 對話（事件 ev_kexin_anniversary_y1）：選項 [["出發：週年：後門那家湯餃學校後門・湯餃店　18:30　走路", "晚一點（20 分鐘後再提醒）", "不去了"], ["「沒有。」", "「有一次。妳罵我那次。」", "（握住她的手）"], ["「算吧。」", "「妳自己想當嗎？」"]]；選了 ["出發：週年：後門那家湯餃學校後門・湯餃店　18:30　走路", "「沒有。」", "「算吧。」"]；GAME.say [["", "（她把發票翻到背面，看了那個日期很久。）"], ["杜可昕", "你留這個？"], ["祐廷", "夾在我書桌的桌墊下面，夾了一年。"], ["杜可昕", "你有對過獎嗎？"], ["祐廷", "沒有。"], ["杜可昕", "（笑了）很好。中了也不要去換。這張歸我。"], ["杜可昕", "（把卡片翻到第一頁）那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。"], ["杜可昕", "一年了。你有沒有後悔過？"], ["杜可昕", "回答太快。可是我收。"], ["", "後面幾頁，她說：『回去再看。』"], ["杜可昕", "過年親戚都問我以後是不是要當律師。"], ["杜可昕", "我說還不知道。我阿姨說，妳這麼會吵，一定可以。我不知道這算不算稱讚。"], ["杜可昕", "那我收下。我講道理的時候比較大聲，她都當成吵。"]]
+  [ 277.7s] [ANNIV_A] 之後 {"KX_ANNIV": {"1": "shop"}, "K7_GIFT": "ticket"}
+PASS [ANNIV_A] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [ANNIV_C] 最小存檔讀到 2027-05-13 20.83 dorm（Y2S2 第 12 週）
+  [前置／捷徑] 【捷徑】[ANNIV_C] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"confessed": {"kexin": 246}}}
+  [ 309.8s] [ANNIV_C] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"confessed": {"kexin": 246}}}；週年 {"day": "2027-05-20", "early": false}
+PASS FAIL_SETUP 檢查：[ANNIV_C] 交往中、算出來的週年是 2027-05-20  {"day": "2027-05-20", "early": false}
+PASS FAIL_SETUP 檢查：[ANNIV_C] 遊戲時間過了 21.10（現在 2027-05-13 21.11）
+  [ 343.4s] [ANNIV_C_0513] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "下禮拜四是我們的週年。", "d": 604, "h": 21, "tag": "kx_anniv_ask", "ask": null, "ans": null}, {"who": "kexin", "text": "地點你選。我準備一樣東西，你也準備一樣。", "d": 604, "h": 21, "tag": "kx_anniv_ask", "ask": ["摩天輪。", "後門那家湯餃。", "河堤。"], "ans": null}]
+  [ 346.9s] [ANNIV_C_0513] 回覆鍵 [{"t": "摩天輪。", "id": "a3|0", "dis": false}, {"t": "後門那家湯餃。", "id": "a3|1", "dis": false}, {"t": "河堤。", "id": "a3|2", "dis": false}]
+  [ 352.9s] [ANNIV_C_0513] 按「後門」以後：[{"who": "kexin", "text": "下禮拜四是我們的週年。", "d": 604, "h": 21, "tag": "kx_anniv_ask", "ask": null, "ans": null}, {"who": "kexin", "text": "地點你選。我準備一樣東西，你也準備一樣。", "d": 604, "h": 21, "tag": "kx_anniv_ask", "ask": ["摩天輪。", "後門那家湯餃。", "河堤。"], "ans": 1}, {"who": "player", "text": "後門那家湯餃。", "d": 604, "h": 21.13, "tag": null, "ask": null, "ans": null}, {"who": "kexin", "text": "老闆會以為今天很普通。我們不要告訴他。", "d": 604, "h": 21.13, "tag": null, "ask": null, "ans": null}]
+  [ 353.5s] [ANNIV_C] 按「後門」以後 KX_ANNIV_PLACE=shop；OUT kx_anniv1＝{"day": "2027-05-20", "h": 18.5, "place": "學校後門・湯餃店", "title": "週年：後門那家湯餃", "travel": "走路", "state": "planned"}
+PASS FAIL_SETUP 檢查：[ANNIV_C] 5/20 18:30 的週年出遊排上了  {"day": "2027-05-20", "h": 18.5, "place": "學校後門・湯餃店", "title": "週年：後門那家湯餃", "travel": "走路", "state": "planned"}
+  [前置／捷徑] [前置] 同一份進度跳到 2027-05-19（Y2S2 第 13 週）20.83 時 dorm；ANNIV_C
+  [ 389.3s] ANNIV_C_0519 等的途中點過的對話：[["", "明天是週年。你準備的東西："]]
+PASS FAIL_SETUP 檢查：[ANNIV_C_0519] 遊戲時間過了 21.05（現在 2027-05-19 21.06）
+  [ 480.1s] [ANNIV_C_0519_gift] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 480.1s] [ANNIV_C] 準備的東西 K7_GIFT=ticket
+  [前置／捷徑] [前置] 同一份進度跳到 2027-05-20（Y2S2 第 13 週）18.00 時 dorm；ANNIV_C
+  [ 494.0s] [ANNIV_C_0520_a] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 548.0s] [ANNIV_C_0520_b] 對話（事件 ev_kexin_anniversary_y1）：選項 [["出發：週年：後門那家湯餃學校後門・湯餃店　18:30　走路", "晚一點（20 分鐘後再提醒）", "不去了"], ["「沒有。」", "「有一次。妳罵我那次。」", "（握住她的手）"], ["「算吧。」", "「妳自己想當嗎？」"]]；選了 ["出發：週年：後門那家湯餃學校後門・湯餃店　18:30　走路", "（握住她的手）", "「妳自己想當嗎？」"]；GAME.say [["", "（她把發票翻到背面，看了那個日期很久。）"], ["杜可昕", "你留這個？"], ["祐廷", "夾在我書桌的桌墊下面，夾了一年。"], ["杜可昕", "你有對過獎嗎？"], ["祐廷", "沒有。"], ["杜可昕", "（笑了）很好。中了也不要去換。這張歸我。"], ["杜可昕", "（把卡片翻到第一頁）那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。"], ["杜可昕", "一年了。你有沒有後悔過？"], ["", "（她沒有說話。手握緊了一點。）"], ["", "後面幾頁，她說：『回去再看。』"], ["杜可昕", "過年親戚都問我以後是不是要當律師。"], ["杜可昕", "我說還不知道。我阿姨說，妳這麼會吵，一定可以。我不知道這算不算稱讚。"], ["杜可昕", "還在看。我只知道我不想做要一直忍的工作。"]]
+  [ 548.0s] [ANNIV_C] 之後 {"KX_ANNIV": {"1": "shop"}, "K7_GIFT": "ticket"}
+PASS [ANNIV_C] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS
