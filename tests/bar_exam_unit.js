@@ -117,7 +117,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
   { const G=await z1(['kexin','yutong']); const q=OUT.get(G,'pg_bar_noodle_2029'); H.said=[]; if(q) await PG.EVS.find(e=>e.id==='ev_pg_noodle').beforeOuting(G,GM,q);
     check('14. Z1：三個人＝18:00 麵店「（麵店的電視開著…）」可昕「上了。……你的也上了。我先查了你的，不要生氣。」語彤「…明年換我。」；沒有紅紙、阿哲那一句',!!q&&H.has('（大口漢堡二樓的電視開著，沒有人在看。可昕的手機先震。）')&&H.has('上了。……你的也上了。我先查了你的，不要生氣。')&&H.has('（端了三杯熱可可上來）……先喝。榜單等一下再看。')&&!H.has('（舉起碗）今天我請。……明年換你請我。')); }
   { const G=await z1(['kexin']); const q=OUT.get(G,'pg_bar_noodle_2029'); H.said=[]; if(q) await PG.EVS.find(e=>e.id==='ev_pg_noodle').beforeOuting(G,GM,q);
-    check('14. 只有可昕：「上了。兩個都上了。……今天不要排任何東西。」',!!q&&H.has('上了。兩個都上了。……今天不要排任何東西。')&&!H.has('（舉起碗）今天我請。……明年換你請我。')); }
+    check('14. 只有可昕：「上了。兩個都上了。……今天什麼都不要做。」',!!q&&H.has('上了。兩個都上了。……今天什麼都不要做。')&&!H.has('（舉起碗）今天我請。……明年換你請我。')); }
   { const G=await z1(['yutong']); H.at('2029-12-14',18.1); PHONE.tick(G);
     check('14. 只有語彤：沒有麵店的出遊，18:00 她傳紅紙的照片「蘇姨貼的，我攔不住。」「她說我的那張明天貼。」（AA_630 Z-038、Z-129；最後一句 AA_689 4-4）',!OUT.get(G,'pg_bar_noodle_2029')&&H.msgs('p:heroine_03').join('|')==='（照片：茶屋牆上，一張剛貼上去的紅紙，寫著祐廷的名字）|蘇姨貼的，我攔不住。|她說我的那張明天貼。',JSON.stringify(H.msgs('p:heroine_03'))); }
   H.done();
