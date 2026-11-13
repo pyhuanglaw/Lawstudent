@@ -168,13 +168,18 @@ async def main():
         arr = await sample(pg, '進店 12 秒（每 0.5 秒）她：', 24, 500, 'invp_%s_arrive' % TAG)
         iv2 = await pg.evaluate(IV, WHO); res['arrive'] = {'her': arr, 'iv': iv2}
         R.note('進店以後邀約紀錄：%s' % J(iv2))
-        R.check('到了她先坐著等（坐下、iv.waitSeat 有）', any(x.get('seat') for x in arr) and bool((iv2 or {}).get('waitSeat') or (iv2 or {}).get('state') == 'done'), J([arr[-1:], iv2]))
+        nseat = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.seat&&!i.hidden).length)()")
+        if nseat:
+            R.check('到了她先坐著等（坐下、iv.waitSeat 有）', any(x.get('seat') for x in arr) and bool((iv2 or {}).get('waitSeat') or (iv2 or {}).get('state') == 'done'), J([arr[-1:], iv2]))
+        else:   # BB-C 11-14 INV_BADM_r2 判：羽球場這種沒有座位的地方，她在場站著等也算
+            R.check('到了她在場等（這裡沒有玩家能坐的位子，站著等也算）', any(not x.get('none') for x in arr), J([arr[-1:], iv2]))
         ws = (iv2 or {}).get('waitSeat')
         if not ws and arr and arr[-1].get('seat'): ws = {'x': arr[-1]['x'], 'z': arr[-1]['z'], 'lv': 0}
         seat = await pg.evaluate(SEAT_NEAR, {'ws': ws}) if ws else None
         R.note('她旁邊的空位：%s' % J(seat))
         m0 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})")
-        if R.check('她旁邊有空位可以坐', bool(seat), J(ws)):
+        if not nseat: R.note('這裡沒有座位：不找空位、不坐（BB-C 11-14）'); seat = None
+        if nseat and R.check('她旁邊有空位可以坐', bool(seat), J(ws)):
             await L.go_to(pg, cdp, R, seat['x'], seat['z'], 0.3, seat['label'] or '她旁邊的位子', max_s=60, lv=seat['lv']); await D.settle(pg)
             st = await pg.evaluate(DLG); R.note('走到她旁邊的位子，互動鍵「%s」' % st['interact'])
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
