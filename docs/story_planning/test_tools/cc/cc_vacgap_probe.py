@@ -9,7 +9,7 @@ CASES（逗號分隔；BB_457 的項次）：
   BACK_IN          3① 2026-02-20 21:55 203 → 22:00 後 ev_kai_back_y1s2
   BACK_LATER       3② 2026-02-20 在校園、不回 203 →【前置】2/21 21:00 讀到 203（＝他回來以後第一次回 203）→ ev_kai_back_y1s2_later
   MXGYM            4  2025-12-29（一）14:30 新體育館（明軒 FAMILIAR）→ 走到明軒旁邊說話 → 跳 12/31（三）14:30 再說一次
-  KVJP             5  家族群組；2026-01-24、01-29、01-31 17:55 → 過 18:00 → 手機家族群組
+  KVJP             5  家族群組；2026-01-24～01-31 每天 17:55（一天一天走，BB-C 11-14） → 過 18:00 → 手機家族群組
   LNY              6  家族群組＋阿凱、明軒、沛珊 FAMILIAR；2026-02-17 10:25 → 家族群組、沛珊；2026-02-18 22:05 → 阿凱、明軒
   KXHOME_F／_D     7  可昕 FRIEND／交往中；VACGAP.flipOn 算大一寒假回家（go）、回臺北（back）那兩天 17:55 → 過 18:00 → 可昕那一串；（1/2 是阿哲的日子，不拍；BB-C 11-14）
   KXY3_A／_B       9  可昕交往中；2028-06-19 21:55 → 22:00 後；7/6、7/27、8/24 20:55 → 21:00 後實習三則按第 1／第 2 個回覆鍵；8/30 21:00 讀國考那則（_B 不看 6/19）
@@ -213,7 +213,7 @@ async def c_mxgym(pg, cdp, tag):
 
 async def c_kvjp(pg, cdp, tag):
     out = []
-    for i, day in enumerate(('2026-01-24', '2026-01-29', '2026-01-31')):
+    for i, day in enumerate(['2026-01-%02d' % d for d in range(24, 32)]):   # BB-C 11-14（3339cd454f）：1/24～1/31 每天 18:00 一則，過了隔天不補發（vacgap3d.js G.day>d+1）——一天一天走
         if i == 0: seed = await fresh(pg, cdp, tag, day, 17 + 55 / 60, 'dorm', {}, [FAM]); R.note('[%s] 墊完 %s' % (tag, J(seed)))
         else: await jump(pg, cdp, tag, day, 17 + 55 / 60, 'dorm', None)
         await wait_h(pg, cdp, 18.1, tag + day[5:]); await pg.wait_for_timeout(3000)
@@ -222,10 +222,10 @@ async def c_kvjp(pg, cdp, tag):
 
 
 async def c_lny(pg, cdp, tag):
-    rel = {'kai': 'FAMILIAR', 'classmate_mingxuan': 'FAMILIAR', 'classmate_peishan': 'FAMILIAR'}
-    seed = await fresh(pg, cdp, tag, '2026-02-17', 10 + 25 / 60, 'dorm', rel, [FAM]); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+    rel = {'kai': 'FAMILIAR', 'classmate_mingxuan': 'FAMILIAR', 'classmate_peishan': 'FAMILIAR', 'heroine_05': 'FRIEND'}   # BB-C 11-14：溫學姊初一 10:20 那句只在「沒和她交往」時出——墊 FRIEND、不交往
+    seed = await fresh(pg, cdp, tag, '2026-02-17', 10 + 15 / 60, 'dorm', rel, [FAM]); R.note('[%s] 墊完 %s' % (tag, J(seed)))
     await wait_h(pg, cdp, 10.5, tag); await pg.wait_for_timeout(3000)
-    a = [await thread(pg, cdp, tag + '_0217', th) for th in ('g:family_law', 'p:classmate_peishan')]
+    a = [await thread(pg, cdp, tag + '_0217', th) for th in ('g:family_law', 'p:classmate_peishan', 'p:heroine_05')]
     await jump(pg, cdp, tag, '2026-02-18', 22 + 5 / 60, 'dorm', None)
     await wait_h(pg, cdp, 22.15, tag); await pg.wait_for_timeout(3000)
     b = [await thread(pg, cdp, tag + '_0218', th) for th in ('p:kai', 'p:classmate_mingxuan')]
@@ -300,6 +300,7 @@ async def c_kxy2(pg, cdp, tag, dating):
     return {'case': tag, 'days': out}
 
 
+KNOW3 = {'classmate_mingxuan': 'FAMILIAR', 'heroine_05': 'FRIEND', 'kai': 'FAMILIAR'}   # BB-C 11-14（31cc5cd4df）：考場偶遇要認識那個人＋報同一場 C04——三個人都墊認識
 EXAMS = {'EXAM_MX': ('2027-01-23', 'C04W@Y2', {'classmate_mingxuan': 'FAMILIAR'}), 'EXAM_SIS_F': ('2027-08-28', 'C04@Y2', {'heroine_05': 'FRIEND'}),
          'EXAM_SIS_D': ('2027-08-28', 'C04@Y2', {'heroine_05': 'DATING'}), 'EXAM_KAI': ('2028-01-16', 'C04W@Y3', {'kai': 'FAMILIAR'})}
 SIGNUP_JS = r"""(k=>{ const G=GAME.G, ok=VAC.signup(G,k,'yes'), I=VAC.inst(k.split('@')[0],k.split('@')[1]); const outs=(G.outings||[]).filter(q=>q&&q.vac&&q.vac.key===k).map(q=>({id:q.id,day:CALENDAR.dateOf(q.day).key,h:q.h,title:q.title,state:q.state}));
@@ -314,7 +315,7 @@ async def go_out(pg, cdp, tag, alt=0, start_s=420):
 
 
 async def c_exam(pg, cdp, tag):
-    day, key, rel = EXAMS[tag]
+    day, key, rel = EXAMS[tag]; rel = dict(KNOW3, **rel)
     seed = await fresh(pg, cdp, tag, day, 7.5, 'dorm', rel); R.note('[%s] 墊完 %s' % (tag, J(seed)))
     su = await P.prep(pg, cdp, R, SIGNUP_JS, key, True, '[%s] 報名 %s（VAC.signup，玩家報同一場 C04）' % (tag, key)); await P.events_on(pg)
     ex = [o for o in su['outs'] if o['day'] == day]
@@ -328,8 +329,24 @@ async def c_exam(pg, cdp, tag):
 async def c_qixi(pg, cdp, tag, alt):
     seed = await fresh(pg, cdp, tag, '2028-08-24', 20 + 55 / 60, 'dorm', {'kexin': 'DATING'}); R.note('[%s] 墊完 %s' % (tag, J(seed)))
     await wait_h(pg, cdp, 21.1, tag); await pg.wait_for_timeout(3000)
+    zq = await pg.evaluate("(()=>{ const E=(GAME.G.events||{}).done||{}, F=GAME.G.flags||{}; return {zr_last_screening:!!(E.zr_last_screening||F.zr_last_screening), fest_heroine_02_qixi_2028:!!(E.fest_heroine_02_qixi_2028||F.fest_heroine_02_qixi_2028)}; })()")
+    R.check('FAIL_SETUP 檢查：[%s] 存檔沒有芷若的七夕（%s）' % (tag, J(zq)), not any(zq.values()), J(zq))
     t = await thread(pg, cdp, tag + '_0824', 'p:kexin')
-    lab = await answer(pg, cdp, tag + '_0824', 'p:kexin', 0)
+    # BB-C 11-14（31cc5cd4df）：同一分鐘兩則都有按鈕——實習第三則、七夕邀約（好／那天不行）。兩組都要看得到、按得到；先按實習那組、確認七夕那組還在、再按「好」
+    asks_m = [m for m in t['msgs'] if m.get('ask')]
+    R.note('[%s] 8/24 有按鈕的訊息（先後）：%s' % (tag, J([[m['h'], m['text'][:30], m['ask'], m.get('ans')] for m in asks_m[-4:]])))
+    QX = ('好', '那天不行')
+    live = [a for a in t['asks'] if not a['dis']]
+    intern = [a for a in live if not any(a['t'].startswith(x) for x in QX)]; qixi = [a for a in live if any(a['t'].startswith(x) for x in QX)]
+    R.check('[%s] 兩組按鈕都看得到、按得到（實習 %d 個、七夕 %d 個）' % (tag, len(intern), len(qixi)), bool(intern) and bool(qixi), J(t['asks']))
+    if intern:
+        l1 = await answer(pg, cdp, tag + '_0824_intern', 'p:kexin', live.index(intern[0]))
+        t2 = await thread(pg, cdp, tag + '_0824_after_intern', 'p:kexin')
+        q2 = [a for a in t2['asks'] if not a['dis'] and any(a['t'].startswith(x) for x in QX)]
+        R.check('[%s] 按了實習那組（「%s」）以後，七夕那組還在、按得到' % (tag, l1), bool(q2), J(t2['asks']))
+        live = [a for a in t2['asks'] if not a['dis']]
+    ok_i = next((k for k, a in enumerate(live) if a['t'].startswith('好')), 0)
+    lab = await answer(pg, cdp, tag + '_0824', 'p:kexin', ok_i)
     q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'kx_qixi_y3'); return q?{day:CALENDAR.dateOf(q.day).key,h:q.h,state:q.state,title:q.title}:null; })()")
     R.note('[%s] 按「%s」以後 OUT kx_qixi_y3：%s；route %s' % (tag, lab, J(q), await pg.evaluate("(()=>STORY.route?STORY.route(GAME.G):null)()")))
     if not R.check('FAIL_SETUP 檢查：[%s] 8/26 20:00 的七夕排上了' % tag, bool(q), J(q)): return {'case': tag, 'ask': t, 'reply': lab}
