@@ -636,3 +636,12 @@
 [20:42:23] ==== START SEASON_FN  (probe @ 5b54ca9f8bd83286bec44f1b645d7ca3a83d972d) ====
 [20:42:26] [res] cpu=10% mem=46% (14.5/31.4 GB) chrome_testing=10  START SEASON_FN
 [20:46:03] [res] cpu=5% mem=43% (14.7/31.4 GB) chrome_testing=10  END SEASON_FN
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0bbc54e7f9..60a4c78018  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:46:38] ==== END   SEASON_FN  exit=0  220s   ====
+[20:46:41] memory 44% before starting SEASON_FRUIT (2 running)
+[20:46:41] ==== START SEASON_FRUIT  (probe @ 5b54ca9f8bd83286bec44f1b645d7ca3a83d972d) ====
+[20:46:44] [res] cpu=0% mem=44% (14.0/31.4 GB) chrome_testing=10  START SEASON_FRUIT
+[20:46:52] 正在跑：SSB_l118a（已跑 27 分／上限 80 分）、SSB_l118b（已跑 26 分／上限 80 分）、SEASON_FRUIT（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:49:57] [res] cpu=1% mem=46% (14.5/31.4 GB) chrome_testing=10  END SEASON_FRUIT
