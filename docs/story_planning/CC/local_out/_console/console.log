@@ -1,15 +1,3 @@
-[22:03:49] [res] cpu=17% mem=40% (12.7/31.4 GB) chrome_testing=9  END G2DF5_reach
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       9ccb918548..a5d23c2809  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:03:55] ==== END   G2DF5_reach  exit=1  665s   ====
-[22:03:58] memory 41% before starting C1112_PHONEGO (2 running)
-[22:03:58] ==== START C1112_PHONEGO  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[22:04:01] [res] cpu=14% mem=42% (12.9/31.4 GB) chrome_testing=9  START C1112_PHONEGO
-[22:06:52] 正在跑：C1112_TZMEAL（已跑 6 分／上限 40 分）、C1112_SHOPV_gen（已跑 3 分／上限 40 分）、C1112_PHONEGO（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
-[22:09:05] [res] cpu=14% mem=42% (13.4/31.4 GB) chrome_testing=10  END C1112_SHOPV_gen
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       a5d23c2809..0456ffb6c9  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [22:10:00] ==== END   C1112_SHOPV_gen  exit=0  352s   ====
 [22:10:08] [res] cpu=8% mem=36% (11.4/31.4 GB) chrome_testing=5  END C1112_PHONEGO
@@ -1998,3 +1986,15 @@
 [03:54:25] ==== START CANON458_INV_BADM_r2  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [03:54:28] [res] cpu=0% mem=43% (13.6/31.4 GB) chrome_testing=10  START CANON458_INV_BADM_r2
 [03:56:34] [res] cpu=4% mem=44% (14.1/31.4 GB) chrome_testing=10  END CANON458_INV_BADM_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9de32403a3..994fab1dbb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:56:46] ==== END   CANON458_INV_BADM_r2  exit=1  128s   ====
+[03:56:50] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[03:56:50] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[03:56:50] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[03:56:50] memory 45% before starting CANON458_AN_BEAT6_r2 (2 running)
+[03:56:50] ==== START CANON458_AN_BEAT6_r2  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:56:53] [res] cpu=4% mem=45% (14.2/31.4 GB) chrome_testing=10  START CANON458_AN_BEAT6_r2
+[03:56:53] 正在跑：CANON458_ENC（已跑 21 分／上限 60 分）、CANON458_DATE（已跑 20 分／上限 50 分）、CANON458_AN_BEAT6_r2（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:58:46] [res] cpu=0% mem=41% (13.0/31.4 GB) chrome_testing=10  END CANON458_AN_BEAT6_r2
