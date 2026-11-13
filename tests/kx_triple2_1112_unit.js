@@ -32,7 +32,7 @@ if(D){ const hand=D.rows.filter(r=>!r.generated), gen=D.rows.filter(r=>r.generat
 // CANON-NO-ECON-1112：經濟系那一年拿掉（稿的第 0 列（「412？那我們同一間…」）在 events.js 經濟系那一年的事件裡，整場拿掉了＝這一列不查；events.js 和匯入以前比會多掉經濟系那一年的字串，所以 events.js 只查「稿上要換掉的舊句都不在了、多出來的只有稿上的新句」）
 for(const f of [...new Set(K.PAIRS.map(x=>x[0]))]){ const now=lits(read(f)), ECON_ROW='（從後面探頭）412？那我們同一間，我也是晚上那一班。', rows=K.PAIRS.filter(x=>x[0]===f&&x[2]!==ECON_ROW), was=show(BASE,f);
   /* CANON-NO-ECON-1112 第三批：bbpack_events.js 那一列在可昕和舊序章人物在社科院門口那一場（ev_kx_pinyu_soc），整場拿掉＝那一列不查；和匯入以前比用拿掉以前那一版（cfc0fd04bf）*/
-  const SUP878={'聖誕快樂。我報告還差兩頁。你們考完了吧？':'聖誕快樂。我報告還差兩頁。教授說明天中午以前。'};   /* （CANON-NO-ECON-1112 第四批：照 AA_878／AA_897 換字）AA_878 #38 第一列又換了這一句 */
+  const SUP878={'聖誕快樂。我報告還差兩頁。你們考完了吧？':'聖誕快樂。我報告還差兩頁。教授說明天中午以前。','好，我從山上下來，拍子你負責借。':'好。拍子你負責借，我只出人。'/* （CANON-NO-ECON-1112 第五批：AA_916，AA_827@6dbfe10d7e）羽球 R 那一句又換了 */};   /* （CANON-NO-ECON-1112 第四批：照 AA_878／AA_897 換字）AA_878 #38 第一列又換了這一句 */
   if(f!=='src/data/bbpack_events.js') for(const [,o,n0] of rows){ const n=SUP878[n0]||n0; check('2. '+f+'：「'+n+'」剛好一次、舊句「'+o+'」沒有了',cnt(now,n)===1&&cnt(now,o)===0&&!noComments(read(f)).includes(o),J([cnt(now,n),cnt(now,o)])); }
   /* 之後又進來的改句（同一個檔、別的稿）：AA_833 以安事件刪節號 10 列（41837baa3d，2026-11-12）——這裡一起算進「應該差的」 */
   const LATER={'src/data/events.js':['……對那個被限制的人呢？','……好，算一點。','……我們走吧。我不想在這裡待太久。','……好啦，我自己也記不住十二條。','……看到很多人不是壞人，只是沒有人幫他們把話講清楚。',

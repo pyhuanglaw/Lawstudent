@@ -8342,17 +8342,21 @@
   },
   {
    "path": "docs/story_planning/AA_784_invites.json",
-   "sha": "da666ecda9",
+   "sha": "6dbfe10d7e",
    "status": "approved",
    "overlay": true,
-   "approvedBy": "AA（帳號 A）2026-11-11 交稿（07628e2a7 七個女主角、b95709364 芷若 Daybreak 照 BB、18ffdd1ea 加配角七人和一起念書 libStudy 9 列；D100b 稿就是定稿；使用者 X324 D 區）；LAWWW 11-11 指定讀 18ffdd1ea；子代理代登，待值班 LAWWW 核；da666ecda9（AA-C 11-12 19:4x AA_901 第 8 項：可昕羽球 end[0]、總圖 bye 兩列移出覆寫層，其他列一字不差；LAWWW-C 的子代理代登，待值班 LAWWW 核）",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（07628e2a7 七個女主角、b95709364 芷若 Daybreak 照 BB、18ffdd1ea 加配角七人和一起念書 libStudy 9 列；D100b 稿就是定稿；使用者 X324 D 區）；LAWWW 11-11 指定讀 18ffdd1ea；子代理代登，待值班 LAWWW 核；da666ecda9（AA-C 11-12 19:4x AA_901 第 8 項：可昕羽球 end[0]、總圖 bye 兩列移出覆寫層，其他列一字不差；LAWWW-C 的子代理代登，待值班 LAWWW 核）；6dbfe10d7e（AA_916 定稿（AA-C 2026-11-12））",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 D 區邀約台詞覆蓋列（invites.js：七個女主角＋阿哲、Alison、柏翰、芯慈、阿凱、明軒、方奕廷＋(共用) libStudy；刪節號、「下次」、芷若窗邊三連）。overlay:true：tools/invite/apply_overlay.py 改 src/data/invites.js 原始碼那一個字串（at 當驗證、舊句一個不剩、選項字不換）；AA_783 已經給過的 13 列不重複。逐列 tests/invite_overlay_1111_unit.js；2026-11-12 改讀 da666ecda9（AA_901 第 8 項，CANON-NO-ECON-1112）：兩列移出，那兩格照 AA_894 第 4 節直接改 src/data/invites.js",
+   "note": "X324 D 區邀約台詞覆蓋列（invites.js：七個女主角＋阿哲、Alison、柏翰、芯慈、阿凱、明軒、方奕廷＋(共用) libStudy；刪節號、「下次」、芷若窗邊三連）。overlay:true：tools/invite/apply_overlay.py 改 src/data/invites.js 原始碼那一個字串（at 當驗證、舊句一個不剩、選項字不換）；AA_783 已經給過的 13 列不重複。逐列 tests/invite_overlay_1111_unit.js；2026-11-12 改讀 da666ecda9（AA_901 第 8 項，CANON-NO-ECON-1112）：兩列移出，那兩格照 AA_894 第 4 節直接改 src/data/invites.js；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕 firstAt[2] 焙茶拿鐵那句（遊戲 1cca1d9605 已經手改））",
    "history": [
     {
      "sha": "18ffdd1ea",
      "note": "被 da666ecda9 取代（AA_901 第 8 項：兩列移出）"
+    },
+    {
+     "sha": "da666ecda9",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕 firstAt[2] 焙茶拿鐵那句（遊戲 1cca1d9605 已經手改））"
     }
    ]
   },
