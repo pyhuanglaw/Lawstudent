@@ -276,6 +276,20 @@
    "old": "\u4eca\u5929\u6211\u53ea\u80fd\u8b80\u4e00\u4e0b\uff0c\u8981\u8d95\u8eca\u3002",
    "new": "\u4eca\u5929\u6211\u53ea\u80fd\u8b80\u4e00\u4e0b\uff0c\u665a\u4e0a\u8981\u56de\u5bbf\u820d\u8d95\u5831\u544a\u3002",
    "pair": true
+  },
+  {
+   "file": "invites.js",
+   "old": "\u597d\u554a\u3002\u7b49\u6211\u5230\u53f0\u5317\u3002",
+   "new": "\u597d\u554a\u3002\u6211\u5ff5\u5b8c\u9019\u4e00\u7ae0\u5c31\u904e\u53bb\u3002",
+   "where": "people.kexin.acc.offbeat",
+   "doc": "AA_1012 \u7b2c 2 \u7bc0\uff08rc2b\uff09"
+  },
+  {
+   "file": "invites.js",
+   "old": "\u597d\u554a\u3002\u7b49\u6211\u5230\u53f0\u5317\u3002",
+   "new": "\u597d\u554a\u3002\u6211\u5e36\u8ab2\u672c\u53bb\u3002",
+   "where": "people.kexin.acc.aoki",
+   "doc": "AA_1012 \u7b2c 2 \u7bc0\uff08rc2b\uff09"
   }
  ]
 }
