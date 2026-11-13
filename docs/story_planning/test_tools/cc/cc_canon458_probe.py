@@ -8,6 +8,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   XMAS_MET_A／XMAS_MET_B／XMAS_PREV／XMAS_ABROAD  #17 大三聖誕（@d999d036d8 當面版；BB 改定：當面版＋人在國外的視訊版）：12/24 21:00 兩則 → 「好。」→ 12/25 21:00 法律系館A（國外＝視訊）
   GRAD_KEY／GRAD_NOKEY  #15 6/2 畢業典禮（交往中；有／沒有長頸鹿鑰匙圈）：一路照演到 PG.done.grad，記 ADV.cg（不能有 cg_two_graduations）
   ORAL  #16 國考口試（【捷徑】畢業後篇＋JUDGE_PASS_2030，2031-01-11 09:50）：記「你為什麼念法律？」那一段，祐廷不提以前的系（D158 字表掃）
+  ANNIV_A／ANNIV_C  #3 週年（在一起 2026-05-20 → 2027-05-13 21:00 邀約選「後門那家湯餃」→ 5/19 準備發票 → 5/20 18:30 出遊；卡片第 1／第 3 個選項）
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -155,7 +156,35 @@ async def c_night(pg, cdp, tag):
     return {'case': tag, 'nights': out}
 
 
+async def c_anniv(pg, cdp, tag):
+    """#3 週年（story3d.js 1844～1852、events.js ev_k7_gift_prep／ev_kexin_anniversary_y1；tests/kx_line_873_unit.js 65～77）：
+       交往中、在一起那天 2026-05-20（confessed.kexin）→ 週年 2027-05-20（學期中）。2027-05-13 20:50 宿舍 → 21:00 後兩則＋三選一 → 按「後門那家湯餃」→ OUT kx_anniv1 5/20 18:30
+       →【前置】跳 5/19 20:50 → 21:00 後「明天是週年。你準備的東西：」選發票（ticket）→【前置】跳 5/20 18:00 → 等「出發」→ 卡片三選項：ANNIV_A 第 1 個、ANNIV_C 第 3 個"""
+    alt = 2 if tag == 'ANNIV_C' else 0
+    cd = (await P.day_of(pg, '2026-05-20'))['d']
+    d, seed = await SP.fresh(pg, cdp, tag, '2027-05-13', 20 + 50 / 60, 'dorm', {'kexin': 'DATING'}, {'confessed': {'kexin': cd}})
+    at = await pg.evaluate("(()=>{ const A=STORY.kxAnnivAt?STORY.kxAnnivAt(GAME.G,1):null; return A?{day:CALENDAR.dateOf(A.day).key, early:!!A.early}:null; })()")
+    R.note('[%s] 墊完 %s；週年 %s' % (tag, J(seed), J(at)))
+    if not R.check('FAIL_SETUP 檢查：[%s] 交往中、算出來的週年是 2027-05-20' % tag, seed['kexin']['dating'] and bool(at) and at['day'] == '2027-05-20', J(at)): return {'case': tag, 'skip': 'setup'}
+    await SP.wait_h(pg, cdp, 21.1, tag); await pg.wait_for_timeout(3000)
+    t = await SP.thread(pg, cdp, tag + '_0513', 'p:kexin')
+    lab = await SP.answer(pg, cdp, tag + '_0513', 'p:kexin', 1, '後門')
+    q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'kx_anniv1'); return q?{day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,title:q.title,travel:q.travel,state:q.state}:null; })()")
+    R.note('[%s] 按「%s」以後 KX_ANNIV_PLACE=%s；OUT kx_anniv1＝%s' % (tag, lab, await pg.evaluate("GAME.G.flags.KX_ANNIV_PLACE||null"), J(q)))
+    if not R.check('FAIL_SETUP 檢查：[%s] 5/20 18:30 的週年出遊排上了' % tag, bool(q) and q['day'] == '2027-05-20', J(q)): return {'case': tag, 'ask': t, 'reply': lab}
+    await SP.jump(pg, cdp, tag, '2027-05-19', 20 + 50 / 60, 'dorm', None)
+    await SP.wait_h(pg, cdp, 21.05, tag + '_0519')
+    prep = await SP.play(pg, cdp, tag + '_0519_gift', 0, prefer=('發票', '（發票', '電影票'), start_s=90)
+    gift = await pg.evaluate("GAME.G.flags.K7_GIFT||null"); R.note('[%s] 準備的東西 K7_GIFT=%s' % (tag, gift))
+    await SP.jump(pg, cdp, tag, '2027-05-20', 18.0, 'dorm', None)
+    r = await SP.go_out(pg, cdp, tag + '_0520', alt)
+    fl = await pg.evaluate("(()=>({KX_ANNIV:GAME.G.flags.KX_ANNIV||null, K7_GIFT:GAME.G.flags.K7_GIFT||null}))()"); R.note('[%s] 之後 %s' % (tag, J(fl)))
+    SP.d158(tag, t, prep, r)
+    return {'case': tag, 'ask': t, 'reply': lab, 'out': q, 'prep': prep, 'r': r, 'after': fl}
+
+
 async def one(pg, cdp, c):
+    if c in ('ANNIV_A', 'ANNIV_C'): return await c_anniv(pg, cdp, c)
     if c == 'NIGHT_MSG': return await c_night(pg, cdp, c)
     if c in ('GRAD_KEY', 'GRAD_NOKEY'): return await c_grad(pg, cdp, c)
     if c == 'ORAL': return await c_oral(pg, cdp, c)
