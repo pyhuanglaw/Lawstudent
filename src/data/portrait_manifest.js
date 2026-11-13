@@ -266,13 +266,6 @@ const PORTRAIT_FILES={
    "surprised"
   ]
  },
- "yule": {
-  "campus": [
-   "neutral",
-   "smile",
-   "surprised"
-  ]
- },
  "zhe": {
   "campus": [
    "laugh",

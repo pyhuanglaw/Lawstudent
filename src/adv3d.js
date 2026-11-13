@@ -51,7 +51,7 @@ body:has(#adv.on.image) #letterT,body:has(#adv.on.image) #letterB,body:has(#adv.
   A.hasProductionPortrait=function(charId){ const f=FILES()[charId]; if(!f) return false; for(const o in f){ if(f[o]&&f[o].length) return true; } return false; };
   A.portraitQuality=function(charId){ if(A.hasProductionPortrait(charId)) return 'production'; if(typeof PORTRAIT_TEMP!=='undefined'&&PORTRAIT_TEMP[charId]) return 'temporary'; return 'missing'; };
   /* characters.js 只登錄有 portrait 欄位的人（五位女主角）；其他人有立繪檔（PORTRAIT_FILES，BB_131 對照的 10/14 確認圖，LAWWW2-B 去背 8fbe1e1）就照檔案補登錄。
-     只有立繪、不在 CHARACTERS 的人（characters.js 的 PORTRAIT_ONLY，例：可昕的室友予樂 yule）也一樣照檔案補登——原本只認 CHARACTERS，她的台詞一直沒有立繪 */
+     只有立繪、不在 CHARACTERS 的人（characters.js 的 PORTRAIT_ONLY，例：Kevin npc_kevin）也一樣照檔案補登——原本只認 CHARACTERS，只有立繪的人台詞一直沒有立繪 */
   const portraitOnly=id=>typeof PORTRAIT_ONLY!=='undefined'&&Object.prototype.hasOwnProperty.call(PORTRAIT_ONLY,id)?PORTRAIT_ONLY[id]:null;
   const regFromFiles=id=>{ if(typeof PORTRAITS==='undefined'||PORTRAITS[id]||!FILES()[id]) return; const c=(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])||portraitOnly(id); if(!c) return; const o={}; for(const of in FILES()[id]){ o[of]={}; for(const ex of FILES()[id][of]) o[of][ex]='assets/portraits/'+id+'/'+of+'/'+ex+'.webp'; } PORTRAITS[id]={characterId:id,displayName:c.name,tier:c.visual_tier||1,defaultOutfit:'campus',defaultPortrait:'assets/portraits/'+id+'/campus/neutral.webp',outfits:o,silhouette:c.gender==='f'?'f':'m'}; };
   A.CAFE_APRON=false;   /* 芷若在兩點半當班的圍裙版立繪先不用（2026-10-22 使用者 iPhone 實機：「林芷若太糊了吧」）：assets/portraits/heroine_02/cafe 是最早的低解析度立繪放大的（銳利度 58，全部 133 張裡最低，第二低 122；手臂旁、兩腿間還有沒去乾淨的白邊），

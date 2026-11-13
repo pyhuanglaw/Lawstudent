@@ -251,7 +251,6 @@ for(const id in CHARACTERS){ const c=CHARACTERS[id]; if(!c.portrait) continue; c
    關係面板、作息、3D 生成、存檔這些 for(const id in CHARACTERS) 的地方都看不到她。
    台詞的 speaker 寫稱呼（alias）或 id 都對到這個 id（events3d.js 的 speakerId、encounter3d.js 的 sayer）；ADV 照檔案補登立繪（adv3d.js 的 regFromFiles）；
    對話框的名字：寫稱呼的照原文、寫 id 的用 name（SOCIAL.displayName）。沒有立繪檔的配角不要放這裡（照舊 compact 對話）。
-   yule：外校室友。CANON-NO-ECON-1112 第三批原本要拿掉，先留著——可昕那幾場偶遇（src/data/enc_walk.js speaker 'yule'）、可昕的事件還有她的句子，拿掉會讓對話框顯示 id；那幾場改完再拿。*/
-const PORTRAIT_ONLY={ yule:{id:'yule',name:'予樂',alias:['予樂'],gender:'f'},
-  npc_kevin:{id:'npc_kevin',name:'Kevin',alias:['Kevin'],gender:'m'},   /* Kevin：11-02 第 106 組立繪（BB 驗收）；台詞照舊 speaker:'npc_kevin'＋name（camp_y1.js：揭曉前「凱文」）*/
+   外校室友（CANON-NO-ECON-1112，AA_938 第 2 節）：整個人拿掉了（台詞、立繪、立繪檔）；舊存檔裡記到她的 id 只是對不到人，照不認得的 id 處理。*/
+const PORTRAIT_ONLY={ npc_kevin:{id:'npc_kevin',name:'Kevin',alias:['Kevin'],gender:'m'},   /* Kevin：11-02 第 106 組立繪（BB 驗收）；台詞照舊 speaker:'npc_kevin'＋name（camp_y1.js：揭曉前「凱文」）*/
   npc_long:{id:'npc_long',name:'何俊朗',alias:['何俊朗','Long'],gender:'m'} };   /* 何俊朗：美國交換的香港同學（AA_80 5-2、AA_328 3-12）。只登錄名字（手機的對話串、對話框、記憶），立繪、3D 都沒有＝compact */
