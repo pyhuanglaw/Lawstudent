@@ -96,7 +96,7 @@ async def play(pg, cdp, tag, alt=0, prefer=(), start_s=120, max_s=300):
     return r
 
 
-async def go_out(pg, cdp, tag, alt=0, start_s=420, verbs=('出發', '接起來')):
+async def go_out(pg, cdp, tag, alt=0, start_s=420, verbs=('出發', '接起來', '直接過去')):   # 11-14：約定時間遊戲跳「直接過去／自己走過去」（BB-C：約人的探針都照這樣選）
     a = await play(pg, cdp, tag + '_a', alt, prefer=verbs, start_s=start_s)
     b = await play(pg, cdp, tag + '_b', alt, prefer=verbs, start_s=20)
     return {'a': a, 'b': b}
