@@ -1,11 +1,11 @@
 {
  "objects": 419,
  "unique_meshes": 139,
- "tris": 90205,
- "tris_drawn": 146121,
+ "tris": 90143,
+ "tris_drawn": 146059,
  "materials": 178,
  "out": "assets/models/env/second_ai/tingzhou_street.glb",
- "bytes": 8652940,
+ "bytes": 8649200,
  "texres": 512,
  "buildings": [
   "Te_glass",

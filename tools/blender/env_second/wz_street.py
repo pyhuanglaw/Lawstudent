@@ -390,7 +390,8 @@ if SET == 'tingzhou':
     # 第 2 版（使用者 11-10 20:5x「混合」）：這五間沒有騎樓、直接臨人行道——整棟退到店面線（立面 x −8.2），用沒有騎樓的店面（wz_shopkit.xs_street_front，同溫州街日常失速）：
     #   落地窗後面一張店內卡（概念圖裁的）、門框、雨棚、窗上一塊招牌板（概念圖的招牌貼在上面）、門燈。本地 x＝從街上看的左→右。照片菜單貼在窗旁的牆上（panel 的 text）
     TZ_XS = {
-        'wente': dict(arcade=False, dep=0.3, glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
+        'wente': dict(arcade=False, dep=0.3, real=True, back=3.7, door=(1.42, 2.36, 2.45), glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # SHOP-WINDOW-3D-1112 v2：照片卡拿掉、牆挖到店內深（tz_wente_interior.glb 深 3.6），右邊木門框；店內在遊戲 tingzhou3d.js S.REAL_VIEW
+                        # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
                       panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#3a2a20'),
         'liantong': dict(arcade=False, dep=0.3, real=True, back=7.1, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
                          panel=dict(x0=-2.15, x1=2.15, y0=2.95, y1=3.78, color='#1f3f9a', text=[('tzlian_sign', -2.1, 2.1, 3.0, 3.74)]), frame='#c9ccd0', vsigns=[('tzlian_vsign', 2.05, 4.3, 7.6, 0.85)]),

@@ -120,6 +120,12 @@
 | `exterior_aircon_unit`（只取乾淨的那一台） | 冷氣室外機（掛在一樓門楣旁） | 9,493 → 1,517 面；半透明的散熱格柵改 alpha clip | `assets/models/env/second_ai/wenzhou_street.glb`（溫州街 A1 阿德影印） |
 | `potted_plant_02` | 陶盆合果芋（店門口的大盆栽） | 69,806 → 約 3,000 面（葉子 0.2、盆 0.12、土 0.004） | `wenzhou_street.glb`（阿德影印門口） |
 | `potted_plant_04` | 白盆多肉（門口的小盆栽，放大 1.5 倍） | 8,929 → 約 1,300 面 | `wenzhou_street.glb`（阿德影印門口） |
+| `CashRegister_01` | 古董收銀機（櫃台）（作者 Joe Seabuhr） | 9,927 → 約 4,000 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `vintage_suitcase` | 古董皮箱一組（後牆上層）（作者 Maximilian Schuster） | 16,474 → 約 4,900 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `ornate_mirror_01` | 雕花穿衣鏡（右牆）（作者 James Ray Cock） | 14,246 → 約 4,300 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `potted_plant_02` | 盆栽兩盆（櫃台、窗邊落地）（作者 Rico Cilliers） | 69,806 → 約 8,400 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `decorative_book_set_01` | 舊書一整排（後牆層板）（作者 James Ray Cock） | 57,028 → 約 8,600 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `mantel_clock_01` | 座鐘（後牆上層）（作者 Yann Kervran、Rico Cilliers） | 25,721 → 約 2,600 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -128,6 +134,12 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | ambientCG id | 本作的資料夾 | 用途 | 用在哪個模型 |
 |---|---|---|---|
 | `Tiles139` | `acg_tiles139` | 暖米色小方磚外牆（一塊 10 cm；外牆種類 `tile_sq`，校成 #ebe0cd 再乘每棟的牆色） | `wenzhou_street.glb`（溫州街 A1 阿德影印整棟） |
+| `Fabric050、Fabric051、Fabric052、Fabric053、Fabric054、Fabric080` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 格紋襯衫、外套（蘇格蘭格紋） | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `Fabric003、Fabric069` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 丹寧外套、牛仔褲 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `Fabric013` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 燈芯絨 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `Fabric031、Fabric036、Fabric061` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 素色襯衫、毛衣、折好的衣服（乘上各件的顏色） | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `Carpet015` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 古董地毯 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `Leather037` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 皮夾克、皮包、皮帶、靴子、皮箱（乘上各件的顏色） | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 

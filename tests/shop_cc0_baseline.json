@@ -173,10 +173,6 @@
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 76%（零件 17 個，要 <25%）"
   },
-  "assets/models/env/second_ai/tz_wente_interior.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "檔案不存在"
-  },
   "assets/models/env/second_ai/tz_xile_interior.glb": {
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 80%（零件 15 個，要 <25%）"
