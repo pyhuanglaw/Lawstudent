@@ -78,8 +78,8 @@ if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,
   { const PZ=L.partition.z, v=(x,y,zz)=>({x,y,z:zz}), front=v(-0.8,0,-0.2), back=v(0.3,0,-3.0), camBack=v(-0.8,2.6,PZ-2.8), camFront=v(-0.8,2.6,3.5), src=fs.readFileSync(path.join(ROOT,'src/tz_shops3d.js'),'utf8');
     const a1=z.partCutOf&&z.partCutOf(camBack,front), a2=z.partCutOf&&z.partCutOf(camFront,front), a3=z.partCutOf&&z.partCutOf(camFront,back), a4=z.partCutOf&&z.partCutOf(camBack,back);
     z.fadeWalls({position:camBack},front); const c1=z.partCut; z.fadeWalls({position:camFront},front); const c2=z.partCut;
-    check('禮貌生財 10. 隔牆的鏡頭（BB 11-11 01:47：玩家站在掛畫前、鏡頭退到隔牆後面的書房，整個畫面是隔牆背面）：鏡頭和玩家在隔牆兩邊 → 隔牆整組藏（partCut）、同一邊不藏；模型有 PART_wall、PART_vc（隔牆、門框、掛畫）；遊戲照 partCut 藏 PART_* 和關著的門',
-      a1===true&&a2===false&&a3===true&&a4===false&&c1===true&&c2===false&&names.includes('PART_wall')&&names.includes('PART_vc')&&/indexOf\('PART_'\)===0\) o\.visible=!z\.partCut/.test(src)&&/indexOf\('STUDY_DOOR'\)===0\) o\.visible=!z\.studyOpen&&!z\.partCut/.test(src),[a1,a2,a3,a4,c1,c2].join(',')+' '+names.filter(n=>/^PART/.test(n)).join(' ')); }
+    check('禮貌生財 10. 隔牆的鏡頭（BB 11-11 01:47：玩家站在掛畫前、鏡頭退到隔牆後面的書房，整個畫面是隔牆背面）：鏡頭和玩家在隔牆兩邊 → 隔牆整組藏（partCut）、同一邊不藏；模型有 PART_wall、PART_vc 或 PART_wood_d（隔牆、門框、掛畫；CC0 版門框是木頭材質組）；遊戲照 partCut 藏 PART_* 和關著的門',
+      a1===true&&a2===false&&a3===true&&a4===false&&c1===true&&c2===false&&names.includes('PART_wall')&&names.some(n=>/^PART_(vc|wood_d)$/.test(n))&&/indexOf\('PART_'\)===0\) o\.visible=!z\.partCut/.test(src)&&/indexOf\('STUDY_DOOR'\)===0\) o\.visible=!z\.studyOpen&&!z\.partCut/.test(src),[a1,a2,a3,a4,c1,c2].join(',')+' '+names.filter(n=>/^PART/.test(n)).join(' ')); }
   check('禮貌生財 7. 配置的旗標名是 LAWWW 實際用的 LM_STUDY；書房有「學生來信」的點（study_letters，東牆矮櫃前）',SD.flag==='LM_STUDY'&&SD.points.some(p=>p.id==='study_letters'&&p.kind==='tz_limao_study_letters')); }
 /* 天花板（TZS-CEIL-1111，LAWWW／BB 11-11 03:15）：禮貌生財玩家走到房間後半，跟隨鏡頭全距離時 y 3.21、天花板 3.0——鏡頭在天花板上面，看到的是天花板的上表面（整個畫面一片米色）。
    每一間室內的模型：天花板是 CEIL_ceil 節點（Z3.attachRoomGLB 的 ceilHide：鏡頭高過天花板時整組藏）、只有朝下的那一面（每個頂點的法線朝下、高度＝配置的 h）、材質單面；沒有舊的 S_ceil（六個面的板子）。

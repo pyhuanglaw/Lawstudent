@@ -121,6 +121,17 @@ rongendian)
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$xx-0.01:.3f},{$xx+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-22},1.16,0.16,$COL')")"; done; done
   PT="-1.25,1.34,-3.3,${LAMPW:-12},1.0,0.82,0.55,0.04"
   SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-1.0,0.97,0.92}; DAYL=${DAYL:-1.0}; SHELL=S; NAME=gg_rongendian_interior ;;
+limao)
+  # 禮貌生財（4.6×10×3.3 m，X332；照外觀概念圖 shop_limao_shengcai_exterior 從門看進去）：前半命理館兩盞紙燈籠（茶桌上方 y 2.2、門口 y 2.3；燈泡在燈籠中心，暖、柔）＋一點天花板補光；
+  #   後半書房（平常藏著）：一盞紙燈籠、綠罩銀行燈、東牆壁燈。門開著朝汀州路、左邊格子窗：白天天光 0.8（巷子裡的老店，不亮）。白天燈也開著。
+  #   --nolm：Poly Haven 盆栽（葉子碎）；茶壺茶杯、陶罐（S_ceramic、S_clay：小東西分不到幾個光照像素，烘了茶壺變黑——照舊即時光）。
+  HIDE='glass|lightpanel'
+  NOLM='lightpanel|_vc|_vcm|labels|ph_potted|_ceramic|_clay'
+  WARM=${LCOL:-1.0,0.8,0.55}
+  PT="-0.45,2.2,1.5,${LANW:-55},$WARM,0.18;0.9,2.3,3.4,${LANW:-55},$WARM,0.15;0.3,2.35,-3.0,${LANW:-45},$WARM,0.15"
+  PT="$PT;-0.25,1.04,-3.25,${LAMPW:-10},1.0,0.85,0.6,0.04;2.16,2.18,-4.55,${WALLW:-12},$WARM,0.06"
+  for z in -3.5 0.5 3.0; do PT="$PT;0.0,3.0,$z,${FILLW:-14},$WARM,0.3"; done
+  SUN="180,30,0"; SKY=${SKY:-0.8}; DAYWB=${DAYWB:-1.0,0.94,0.86}; DAYL=${DAYL:-1.0}; SHELL=S; NAME=tz_limao_interior ;;
 *) echo "還沒做 CC0 版的店：$SHOP（先做泰米，其他五間照 SHOP_REALISM_PLAN_TZ7.md 的順序加進來）"; exit 1 ;;
 esac
 PT=${PT#;}; LIGHTS=${LIGHTS#;}
