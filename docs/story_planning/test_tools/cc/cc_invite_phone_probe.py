@@ -11,6 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
 import playlib as L
 import cc_d141_lib as D
+import cc_phone
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
@@ -39,6 +40,25 @@ SEAT_NEAR = r"""(a=>{ const E=GAME.E; const near=(p,q,r)=>Math.hypot(p.x-q.x,p.z
   const its=E.interactables.filter(i=>i.seat&&!i.hidden&&ws&&(i.seat.lv|0)===(ws.lv|0)&&near(i.seat,ws,1.8)&&!near(i.seat,ws,0.3)&&!busy(i.seat));
   its.sort((p,q)=>Math.hypot(p.seat.x-ws.x,p.seat.z-ws.z)-Math.hypot(q.seat.x-ws.x,q.seat.z-ws.z));
   const i=its[0]; if(!i) return null; const ap=(GAME.seatApproach&&GAME.seatApproach(i.seat))||[i.x,i.z]; return {x:ap[0], z:ap[1], lv:i.seat.lv|0, sx:i.seat.x, sz:i.seat.z, label:String(typeof i.label==='function'?i.label():i.label||'')}; })"""
+
+
+async def travel_to(pg, cdp, zone):
+    for _ in range(20):
+        st = await pg.evaluate(DLG)
+        if not st['dlg']: break
+        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500)
+    if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
+        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+    await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
+    await cc_phone.reveal(pg, cdp, zone)
+    c = await pg.evaluate("(z=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(z+'|')||b.dataset.place===z); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })", zone)
+    await pg.screenshot(path=os.path.join(OUT, 'invp_%s_places_%s.png' % (TAG, zone)))
+    if not c: R.note('手機「地點」沒有 %s' % zone); await L.close_panels(pg, cdp); return False
+    await L.touch_tap(cdp, c[0], c[1])
+    for _ in range(40):
+        await pg.wait_for_timeout(1000)
+        if await pg.evaluate("GAME.G.zone") == zone: await pg.wait_for_timeout(1500); return True
+    return await pg.evaluate("GAME.G.zone") == zone
 
 
 async def talk(pg, cdp, tag, prefix, picks=None, n=80):
@@ -108,6 +128,10 @@ async def main():
         R.setup('【捷徑】時間撥到約定時間 %.2f 前 3 分鐘' % float(iv['h']))
         for n, step in enumerate(ROUTE, 1):
             kind, _, arg = step.partition(':')
+            if kind == 'travel':   # 11-14 CANON458 BADM／AN_BEAT6／8：走 111 m、或從公館另一頭走過去走不到門口——照玩家用手機「地點」快速前往（先把對話點掉）
+                ok_t = await travel_to(pg, cdp, arg)
+                if not R.check('[%d] 手機「地點」快速前往 %s' % (n, arg), ok_t, J(await pg.evaluate(DLG))): break
+                continue
             if kind != 'exit': continue
             exs = await pg.evaluate("(to=>GAME.E.interactables.filter(i=>i.exit&&i.exit.to===to&&!i.hidden).map(i=>i.label))", arg)
             if not R.check('[%d] 找得到往 %s 的出口' % (n, arg), bool(exs), ''): break
