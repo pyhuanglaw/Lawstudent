@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_kx_tour_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\W1R_E1E2_zrshow\out
+CC 可昕導遊（外校大學）：SHA f701afca02；CASES ['E1', 'E2']；2026-06-04
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [E1] 【前置／捷徑】讀檔到宿舍 2026-06-04 20:00；旗標 zhiruo_film_date:1,met_heroine_02:1 → 出遊 {"day": 263, "key": "2026-06-06", "h": 9.667, "state": "planned", "place": "公館的二輪戲院門口", "arrived": false}（排的：probe OUT.plan（捷徑））
+PASS [E1] 有排出遊 zr_early_show
+  [前置／捷徑] [E1] 【捷徑】日子跳到 2026-06-06 9.22（約好的時間減車程再提早 12 分鐘；同一個存檔往後）
+  [  62.9s] [E1] 跳出來的選單：["出發：《進城的那一週》的早場（10:00 開演）公館的二輪戲院門口　09:40　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"]（{"day": 263, "key": "2026-06-06", "h": 9.667, "state": "planned", "place": "公館的二輪戲院門口", "arrived": false}）
+PASS [E1] 時間到跳「出發」
+  [  83.4s] [E1] 句子（說話的人｜字｜字幕｜底）：[["", "出發：《進城的那一週》的早場（10:00 開演）公館的二輪戲院門口　09:40　走過去約 15 分鐘", null, null], ["", "九點四十，", "公館・二輪戲院", "url(\"http://127.0.0.1:8801/assets/bg/gongguan_cinema.webp\")"], ["", "九點四十，巷子裡的二輪戲院。她已經到了。", "公館・二輪戲院", "url(\"http://127.0.0.1:8801/assets/bg/gongguan_cinema.webp\")"], ["林芷若", "（把兩張票舉到臉旁邊）早。……票我先買了", "公館・二輪戲院", "url(\"http://127.0.0.1:8801/assets/cg/heroine_02/cg_two_tickets.webp\")"], ["林芷若", "早場的人比較少。我喜歡。", "公館・二輪戲院", "url(\"http://127.0.0.1:8801/assets/cg/heroine_02/cg_two_tickets.webp\")"], ["林芷若", "我每次看都在想，那個媽媽進", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["林芷若", "我每次看都在想，那個媽媽進城看小孩，大家都很忙。", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["林芷若", "最後對她最好的，是一個不是她小孩的人。", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["林芷若", "……我在想，我媽會不會也是這樣。", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["林芷若", "我在台北，對每個客人都很好。", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["林芷若", "（喝豆漿）好了，太沉重了。", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["林芷若", "你覺得那個老闆，像不像演爸爸的那個演員", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["祐廷", "誰？", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["林芷若", "……沒事。下次帶你看別部。", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"], ["", "「下次妳挑。」", null, null], ["林芷若", "好。我列一張表給你。很長。", "豆漿店", "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"]]
+  [  83.4s] [E1] 演完：{"zone": "dorm", "key": "2026-06-06", "h": 18, "x": 0, "z": 2.4, "flag": null, "K1_ORDER": null, "done": 1}；出遊 {"day": 263, "key": "2026-06-06", "h": 9.667, "state": "done", "place": "公館的二輪戲院門口", "arrived": false}
+  [ 103.5s] [E1] 演完 20 秒內插進來的：[]
+FAIL [E1] 演完、記成演過（ev_zhiruo_early_show；NCCU_VISITED）  {"zone": "dorm", "key": "2026-06-06", "h": 18, "x": 0, "z": 2.4, "flag": null, "K1_ORDER": null, "done": 1}
+PASS [E1] 回程沒有別的事件插進來  []
+  [前置／捷徑] [E2] 【前置／捷徑】讀檔到宿舍 2026-06-04 20:00；旗標 zhiruo_film_date:1,met_heroine_02:1 → 出遊 {"day": 263, "key": "2026-06-06", "h": 9.667, "state": "planned", "place": "公館的二輪戲院門口", "arrived": false}（排的：probe OUT.plan（捷徑））
+PASS [E2] 有排出遊 zr_early_show
+  [前置／捷徑] [E2] 【捷徑】日子跳到 2026-06-06 9.22（約好的時間減車程再提早 12 分鐘；同一個存檔往後）
+  [ 131.0s] [E2] 跳出來的選單：["出發：《進城的那一週》的早場（10:00 開演）公館的二輪戲院門口　09:40　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"]（{"day": 263, "key": "2026-06-06", "h": 9.667, "state": "planned", "place": "公館的二輪戲院門口", "arrived": false}）
+PASS [E2] 時間到跳「出發」
+  [ 139.9s] [E2] 演到小吃街那一刻停：{"dlg": true, "t": "我每次看都在想，那個媽媽進", "who": "林芷若", "choices": [], "ev": true, "cap": "豆漿店", "bg": {"op": "1", "img": "url(\"http://127.0.0.1:8801/assets/bg/soymilk_shop.webp\")"}, "tc": "", "zone": "dorm", "h": 9.67, "key": "2026-06-06"}；到這裡的句子 [["", "出發：《進城的那一週》的早場（10:00 開演）公館的二輪戲院門口　09:40　走過去約 15 分鐘"], ["", "九點四十，巷"], ["", "九點四十，巷子裡的二輪戲院。她已經到了。"], ["林芷若", "（把兩張票舉到臉旁邊）早。……票我先買了"], ["林芷若", "早場的人比較少。我喜歡。"]]
+  [前置／捷徑] [E2] 【捷徑】重新整理頁面、按標題「繼續（自動存檔）」（按到 True）
+  [ 161.8s] [E2] 讀回來：{"zone": "dorm", "key": "2026-06-06", "h": 9.68, "x": 0, "z": 2.4, "flag": null, "K1_ORDER": null, "done": 0}；出遊 {"day": 263, "key": "2026-06-06", "h": 9.667, "state": "planned", "place": "公館的二輪戲院門口", "arrived": true}；畫面 {"dlg": false, "t": "", "who": "", "ev": false, "cap": "", "bg": null, "zone": "dorm", "h": 9.68}
+  [ 181.9s] [E2] 讀回來以後的句子：[["", "出發：《進城的那一週》的早場（10:00 開演）公館的二輪戲院門口　09:40　走過去約 15 分鐘"], ["", "九點四十"], ["", "九點四十，巷子裡的二輪戲院。她已經到了。"], ["林芷若", "（把兩張票舉到臉旁邊）早。……票我先買"], ["林芷若", "早場的人比較少。我喜歡。"], ["林芷若", "我每次看都在想，那個媽媽進"], ["林芷若", "我每次看都在想，那個媽媽進城看小孩，大家都很忙。"], ["林芷若", "最後對她最好的，是一個不是她小孩的人。"], ["林芷若", "……我在想，我媽會不會也是這樣。"], ["林芷若", "我在台北，對每個客人都很好。"], ["林芷若", "（喝豆漿）好了，太沉重了。"], ["林芷若", "你覺得那個老闆，像不像演爸爸的那個演員"], ["祐廷", "誰？"], ["林芷若", "……沒事。下次帶你看別部。"], ["", "「下次妳挑。」"], ["林芷若", "好。我列一張表給你。很長。"]]
+  [ 182.1s] [E2] 句子（說話的人｜字｜字幕｜底）：[["", "出發：《進城的那一週》的早場（10:00 開演）公館的二輪戲院門口　09:40　走過去約 15 分鐘", null, null], ["", "九點四十，巷", "公館・二輪戲院", "url(\"http://127.0.0.1:8801/assets/bg/gongguan_cinema.webp\")"], ["", "九點四十，巷子裡的二輪戲院。她已經到了。", "公館・二輪戲院", "url(\"http://127.0.0.1:8801/assets/bg/gongguan_cinema.webp\")"], ["林芷若", "（把兩張票舉到臉旁邊）早。……票我先買了", "公館・二輪戲院", "url(\"http://127.0.0.1:8801/assets/cg/heroine_02/cg_two_tickets.webp\")"], ["林芷若", "早場的人比較少。我喜歡。", "公館・二輪戲院", "url(\"http://127.0.0.1:8801/assets/cg/heroine_02/cg_two_tickets.webp\")"]]
+  [ 182.1s] [E2] 演完：{"zone": "dorm", "key": "2026-06-06", "h": 18, "x": 0, "z": 2.4, "flag": null, "K1_ORDER": null, "done": 1}；出遊 {"day": 263, "key": "2026-06-06", "h": 9.667, "state": "done", "place": "公館的二輪戲院門口", "arrived": false}
+  [ 202.2s] [E2] 演完 20 秒內插進來的：[]
+FAIL [E2] 演完、記成演過（ev_zhiruo_early_show；NCCU_VISITED）  {"zone": "dorm", "key": "2026-06-06", "h": 18, "x": 0, "z": 2.4, "flag": null, "K1_ORDER": null, "done": 1}
+PASS [E2] 回程沒有別的事件插進來  []
+PASS 沒有 JS 例外  []
+FAILED 2: [E1] 演完、記成演過（ev_zhiruo_early_show；NCCU_VISITED）；[E2] 演完、記成演過（ev_zhiruo_early_show；NCCU_VISITED）

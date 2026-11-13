@@ -1,16 +1,3 @@
-[16:56:52] skip SSB_gg_strips (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[16:56:52] skip SSB_gg_1b (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[16:56:52] skip SSB_gg_fnexit (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[16:56:53] skip FLK_STILL_tz (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[16:56:53] skip FLK_STILL_xs (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[16:56:53] skip FN_REAL_c77f (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[16:56:53] skip GG_PERF_c77f_desk (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[16:56:53] skip GG_PERF_c77f_touch (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[16:56:53] skip NAV_WZ_notch (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
-[16:56:53] skip NAV_SOCLIB_notch (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
-[16:56:53] skip NAV_CAMPUS_notch (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
-[16:56:53] skip SOFA_SOCLIB2F (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
-[16:56:53] skip NAV_WZ_notch_rev (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
 [16:56:53] skip NAV_SOCLIB_notch_rev (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
 [16:56:53] skip NAV_CAMPUS_notch_rev (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
 [16:56:53] skip SOFA_SOCLIB2F_back (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
@@ -1998,3 +1985,16 @@
 [23:23:58] ==== START W1R_E1E2_zrshow  (probe @ f701afca024758d5dcc8d6b48a1db906f108ae05) ====
 [23:24:01] [res] cpu=49% mem=39% (14.3/31.4 GB) chrome_testing=0  START W1R_E1E2_zrshow
 [23:24:09] [res] cpu=42% mem=41% (12.5/31.4 GB) chrome_testing=0  END W1R_D5_study
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       08d0afc3a8..a9e76680e0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:24:45] ==== END   W1R_D5_study  exit=1  105s   ====
+[23:24:59] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[23:24:59] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[23:24:59] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[23:24:59] memory 44% before starting JPCLASS_MSGS_r2 (2 running)
+[23:24:59] ==== START JPCLASS_MSGS_r2  (probe @ fd97559d2830e6921df1fa758ce8e9e4795ff3b5) ====
+[23:25:02] [res] cpu=23% mem=44% (14.0/31.4 GB) chrome_testing=4  START JPCLASS_MSGS_r2
+[23:25:02] worktree add fd97559d2830e6921df1fa758ce8e9e4795ff3b5: invalid reference - fetching main and the commit itself
+[23:26:52] 正在跑：SAVE_LZ_growB（已跑 60 分／上限 120 分）、W1R_E1E2_zrshow（已跑 2 分／上限 20 分）、JPCLASS_MSGS_r2（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:28:07] [res] cpu=56% mem=43% (13.7/31.4 GB) chrome_testing=4  END W1R_E1E2_zrshow

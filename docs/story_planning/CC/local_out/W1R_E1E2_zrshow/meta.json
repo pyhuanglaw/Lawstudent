@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "W1R_E1E2_zrshow",
+  "sha": "f701afca024758d5dcc8d6b48a1db906f108ae05",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_kx_tour_probe.py",
+  "env": "CASES=E1,E2;DAY=2026-06-04;OUT_ID=zr_early_show;OUT_EV=ev_zhiruo_early_show;OUT_PLACE=公館的二輪戲院門口;OUT_TITLE=《進城的那一週》的早場（10:00 開演）;OUT_TRAVEL=走過去約 15 分鐘;OUT_TRAVELH=0.25;OUT_H=9.667;OUT_WD=6;OUT_FLAGS=zhiruo_film_date:1,met_heroine_02:1;OUT_WHO=heroine_02;STOP_RE=soymilk",
+  "machine": "MSI",
+  "start": "2026-11-13T23:23:58",
+  "end": "2026-11-13T23:28:08",
+  "seconds": 250,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 62,
+    "mem": 53,
+    "used_gb": 16.7,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
