@@ -1,13 +1,13 @@
-/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@6dbfe10d7e、docs/story_planning/AA_748_termend_heart_v2.json@6dbfe10d7e、docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@5d48cae98f、docs/story_planning/AA_748_termend_heart_v2.json@5d48cae98f、docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5d48cae98f、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
    期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]、「她先說」的告白 HEART[人]（SHE-FIRST-1110）；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */
 'use strict';
 const TERMEND_OPTS={
  "src": {
-  "gf": "docs/story_planning/AA_749_termend_gf_v2.json@6dbfe10d7e",
-  "heart": "docs/story_planning/AA_748_termend_heart_v2.json@6dbfe10d7e",
+  "gf": "docs/story_planning/AA_749_termend_gf_v2.json@5d48cae98f",
+  "heart": "docs/story_planning/AA_748_termend_heart_v2.json@5d48cae98f",
   "kx": "docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3",
   "friend": [
-   "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@bd1a6fda3",
+   "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5d48cae98f",
    "docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3",
    "docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3",
    "docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3",
@@ -579,7 +579,7 @@ const TERMEND_OPTS={
      {
       "t": "「排這麼多，妳不用過寒假喔？」",
       "re": [
-       "在店裡就是我的寒假啊，沒有客人的時候店長會讓我用投影機放我想看的，根本是包場。"
+       "在店裡就是我的寒假啊，沒有客人的時候老闆會讓我用投影機放我想看的，根本是包場。"
       ],
       "fx": {
        "fr": 2
@@ -3657,7 +3657,7 @@ const TERMEND_OPTS={
    ],
    "yes": [
     "好了。你可以喝了，要涼了。",
-    "店長明天一定會看出來。"
+    "老闆明天一定會看出來。"
    ],
    "she2": [
     {
@@ -4832,7 +4832,7 @@ const TERMEND_OPTS={
     "says": [
      {
       "say": [
-       "店長最近都讓我早一點下班，而且她什麼都沒問。"
+       "老闆最近都讓我早一點下班，而且他什麼都沒問。"
       ]
      }
     ],
@@ -4902,7 +4902,7 @@ const TERMEND_OPTS={
         {
          "narr": "（她把手機收起來。）"
         },
-        "那我去問店長週五缺不缺人。"
+        "那我去問老闆週五缺不缺人。"
        ],
        "fx": {
         "fr": -1
@@ -4992,7 +4992,7 @@ const TERMEND_OPTS={
      "says": [
       {
        "say": [
-        "回來以後，店長把週五晚上的班排回給我了，我沒說要，她就排了。"
+        "回來以後，老闆把週五晚上的班排回給我了，我沒說要，他就排了。"
        ]
       }
      ],

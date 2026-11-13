@@ -270,7 +270,7 @@ await sec('3-視訊',async()=>{ const s1=D('2027-09-05'), s2=D('2028-02-06');
   check('3. 每週視訊（第一次交換）：開頭→話題 W1、W2、W3→收尾「你那邊很晚了吧。」；「早點睡。」連三次都不算裂縫（ZR_CRACK 不動）',L1.includes('上課有個同學每次都坐同一排。他問我臺灣的冬天冷不冷。')&&L2.includes('室友煮了一鍋湯，叫我喝。很鹹。')&&L3.includes('學校旁邊有一家咖啡店，店員記得我點什麼了。')&&L1.includes('你那邊很晚了吧。')&&(+H.G.flags.ZR_CRACK||0)===crack0&&ZRUK.rec(H.G).w.sleep===0,J([L1,H.G.flags.ZR_CRACK]));
   const used=ZRUK.rec(H.G).w.used.slice(); const L4=await P(D('2028-09-10'),'讀書'), L5=await P(D('2028-09-17'),'早點睡');
   check('3. 話題和第二次在英國共用（同一個紀錄）：2028-09 接著往下——開頭第 4 句「今天換你先講。」接 W11、下一週 W4（不從 W1 重來）；第二次「早點睡。」連兩次＝ZR_CRACK +1（照原本）',
-    J(used)===J(['W1','W2','W3'])&&L4[0]==='今天換你先講。'&&L4.includes('你那邊呢？這週有什麼？')&&L5.includes('店長傳照片給我，吧檯換了新的燈。')&&!L5.includes('上課有個同學每次都坐同一排。他問我臺灣的冬天冷不冷。')&&(+H.G.flags.ZR_CRACK||0)===crack0+1,J([used,L4.slice(0,2),L5.slice(0,2),H.G.flags.ZR_CRACK]));
+    J(used)===J(['W1','W2','W3'])&&L4[0]==='今天換你先講。'&&L4.includes('你那邊呢？這週有什麼？')&&L5.includes('老闆傳照片給我，吧檯換了新的燈。')&&!L5.includes('上課有個同學每次都坐同一排。他問我臺灣的冬天冷不冷。')&&(+H.G.flags.ZR_CRACK||0)===crack0+1,J([used,L4.slice(0,2),L5.slice(0,2),H.G.flags.ZR_CRACK]));
   check('3. W13（2029-03 以後的機票）不在第一次交換的話題裡',!ZRUK.W.W13||D(ZRUK.W.W13.from)>s2);
 });
 await sec('3-摘要日',async()=>{ const d=D('2026-12-15');

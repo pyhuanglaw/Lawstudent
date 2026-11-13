@@ -298,7 +298,7 @@ GM.money=function(n){ G.money+=n; };
     const s5=await gfDin('heroine_05','Y4S1',T('2029-01-12'));
     check('15. 學姊大四上（12/23 才回國）「時差還沒調好。我現在很想睡。」「……可是這頓我不想錯過。」（AA_363 第 4 節，原本「回來三個禮拜……」）；沒有「今天我沒帶計畫本出門。」',has(s5,['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'])&&!s5.includes('回來三個禮拜，時差還沒調好。')&&!s5.includes('今天我沒帶計畫本出門。'),JSON.stringify(s5));
     const z=await gfDin('heroine_02','Y3S2',T('2028-06-15'));
-    check('15. 芷若大三下「九月又要走，這次一年。」「六月的週五，你先全部給我。」（AA_377 第 11 項：她 7/1～8/1 在台中）',has(z,['九月又要走，這次一年。','六月的週五，你先全部給我。'])&&!z.includes('店長最近都讓我早一點下班。她什麼都沒問。'),JSON.stringify(z));
+    check('15. 芷若大三下「九月又要走，這次一年。」「六月的週五，你先全部給我。」（AA_377 第 11 項：她 7/1～8/1 在台中）',has(z,['九月又要走，這次一年。','六月的週五，你先全部給我。'])&&!z.includes('老闆最近都讓我早一點下班。他什麼都沒問。'),JSON.stringify(z));
     const c=await gfDin('heroine_04','Y3S1',T('2028-01-13'));
     check('15. 子晴大三上「期末專題，我挑了一個可能做不完的題目。」「……做不完也沒關係吧。」',has(c,['期末專題，我挑了一個可能做不完的題目。','……做不完也沒關係吧。']),JSON.stringify(c));
     const ps=await gfDin('classmate_peishan','Y3S2',T('2028-06-15')), ps0=await gfDin('classmate_peishan','Y1S2',T('2026-06-15'));
