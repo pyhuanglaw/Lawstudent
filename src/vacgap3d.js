@@ -140,7 +140,7 @@ const VACGAP=(function(){
        2027-01-23 托福＝明軒（MX_SEEN_TOEFL）；2027-08-28 托福＝學姊（交往中／沒交往兩版，SIS_TOEFL_SAMEDAY）；2028-01-16 多益＝阿凱（KAI_TOEIC_SEEN）。認識他（她）才有。
      greet_sis_toefl_tip（3-2）：大二暑假報了 C04（2027 那一期）以後，第一次在總圖或法圖和學姊說話（FAMILIAR 以上；一次；SIS_TOEFL_TIP）——接在 SISY23.preTalk 前面。
      沒接的（交 LAWWW）：2-1 Kevin 第一堂、2-2 考前提醒（C04 已經有 AA_241 的那一場、那一則：要換還是並存要 AA／LAWWW 定）、第 1 節明軒比賽邀約（C15 那場比賽還沒有）、
-       第 4 節首爾交流（C08 的關鍵事件加句）、第 5 節芷若 ZR_IELTS、志願表旁白（YT_TOEFL）、3-4 小語那句旁白（她那天在不在的條件）。*/
+       第 4 節首爾交流（C08 的關鍵事件加句）、第 5 節芷若 ZR_IELTS、志願表旁白（YT_TOEFL）、3-4 AA_251 C15 那位同學從另一個門出來的旁白（她那天在不在的條件；稿上的名字是舊名，見 tests/alison_unit.js）。*/
   S.KEVIN_TERMS=['Y2S1','Y2S2','Y3S1','Y3S2'];
   S.kevinTerm=function(G){ if(!L||!inGrp(G,'family_law')||typeof STORY==='undefined'||!STORY.termDay) return; const now=T(G.day,G.hour);
     for(const tid of S.KEVIN_TERMS){ const d=STORY.termDay(tid,1,1), tag='msg_kevin_term_start_'+tid; if(d==null||now<T(d,21)||G.day>d+1||PHONE.sent(G,tag)) continue;
