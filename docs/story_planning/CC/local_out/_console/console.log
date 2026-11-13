@@ -1,14 +1,3 @@
-[16:56:52] skip DN_GOODS_gate (already done on 68d40a513ee22e140bbabc69c294c3ce9a254fb3)
-[16:56:52] skip DN_GOODS_close (already done on 68d40a513ee22e140bbabc69c294c3ce9a254fb3)
-[16:56:52] skip DN_GOODS_fps (already done on 68d40a513ee22e140bbabc69c294c3ce9a254fb3)
-[16:56:52] skip TZ_REAL_consist (already done on 68d40a513ee22e140bbabc69c294c3ce9a254fb3)
-[16:56:52] skip TZ_REAL_case (already done on 2bfea29f1bd41b948c05b249c746cd556405212e)
-[16:56:52] skip TZ_CASE_257e (already done on 257e05a852adb29ec5851db99cebfa24b8f967cc)
-[16:56:52] skip GG_LIT_new (already done on bc559a032df71bba8d53bb766f9d547e06ee30d9)
-[16:56:52] skip GG_LIT_old (already done on 5f03f455e21a8d4fc38d2cbf07aa3eea05b79501)
-[16:56:52] skip XS_PERF_b53a_desk (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
-[16:56:52] skip TZ_PERF_b53a_desk (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
-[16:56:52] skip TZ_PERF_b53a_night (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
 [16:56:52] skip GG_PERF_b53a_desk (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
 [16:56:52] skip XS_PERF_b53a_touch (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
 [16:56:52] skip TZ_PERF_b53a_touch (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
@@ -1998,3 +1987,14 @@
 [23:07:13] ==== START STUDY_FA05  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
 [23:07:16] [res] cpu=34% mem=45% (14.2/31.4 GB) chrome_testing=5  START STUDY_FA05
 [23:07:56] [res] cpu=24% mem=42% (13.1/31.4 GB) chrome_testing=4  END STUDY_SE11
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b8f63a09e8..66e421d87b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:08:03] ==== END   STUDY_SE11  exit=1  390s   ====
+[23:08:06] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[23:08:06] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[23:08:06] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[23:08:06] memory 44% before starting STUDY_SE01 (2 running)
+[23:08:06] ==== START STUDY_SE01  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
+[23:08:09] [res] cpu=27% mem=44% (13.9/31.4 GB) chrome_testing=4  START STUDY_SE01
+[23:11:07] [res] cpu=31% mem=43% (13.4/31.4 GB) chrome_testing=5  END STUDY_FA05

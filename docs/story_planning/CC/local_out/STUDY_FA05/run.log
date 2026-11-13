@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_study_play_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_FA05\out
+CC STUDY-EXAM-CAREER B 節：SHA 5685a3019f；PARTS ['FA05']；不用 turbo；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [FA05] 【前置】大一上 2025-11-08 10:00 法律系館B（wancai）一樓，沒去社博（法服旗標都拿掉）
+PASS [FA05] 找得到「看公告：法律服務社招募」  ["坐在沙發上", "坐在沙發上", "看公告：法律服務社招募", "看樓層簡介", "離開法律系館B", "走出去（大樓梯平台）", "法律服務中心", "法律學院圖書館", "演講廳", "進入 多功能教室", "進入 研討室 A", "研討室 B", "樓梯間（往 3F 以上）", "搭電梯", "搭電梯", "看門口的告示"]
+  [  48.3s] 到達「看公告：法律服務社招募」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [  50.7s] [FA05] 互動鍵「看公告：法律服務社招募」；公告那幾句 ["【法律服務社 招募新社員】隔週週六上午，法律系館B一樓，民眾法律諮詢（學長姊", "【法律服務社 招募新社員】隔週週六上午，法律系館B一樓，民眾法律諮詢（學長姊帶著做）。新社員先跟著旁聽、做紀錄。報名請到社團博覽會的攤位，或週六上午到法律系館B一樓找值班的學長姊。"]；按完 {"lawclub": false, "notice": true, "note": true, "groups": ["family_law", "econ_friends", "home", "law_class", "lawclub_study", "noodle_team", "ge_econ"], "greetDuty": false, "fafuJoined": false, "fafuMember": false, "sisTopics": ["問法服"], "memo": [{"day": 46, "t": "颱風後的院子"}, {"day": 47, "t": "咖啡買錯"}, {"day": 53, "t": "看了法律服務社的招募公告"}]}
+PASS [FA05] 看公告只記 LAWCLUB_NOTICE、lawclub 不是 true  {"lawclub": false, "notice": true, "note": true, "groups": ["family_law", "econ_friends", "home", "law_class", "lawclub_study", "noodle_team", "ge_econ"], "greetDuty": false, "fafuJoined": false, "fafuMember": false, "sisTopics": ["問法服"], "memo": [{"day": 46, "t": "颱風後的院子"}, {"day": 47, "t": "咖啡買錯"}, {"day": 53, "t": "看了法律服務社的招募公告"}]}
+PASS [FA05] 筆記加了「法律服務社」
+PASS [FA05] 沒有因為看公告就算加入（fafuJoined=false）  false
+FAIL [FA05] 沒有加任何法服群組  ["family_law", "econ_friends", "home", "law_class", "lawclub_study", "noodle_team", "ge_econ"]
+  [前置／捷徑] [FA05] 同一份存檔讀到大二上 2026-10-24 07:50 宿舍（等到 08:40）
+PASS [FA05] 大二：學姊「值班表你看了嗎？」不給（非社員版）  {"greetDuty": false, "fafuMember": false, "lawclub": false}
+PASS [FA05] 大二值班週六 08:30 沒有法服出發選單  []
+  [ 192.0s] [FA05] 大二週六的選單 []
+PASS 沒有 JS 例外  []
+FAILED 1: [FA05] 沒有加任何法服群組
