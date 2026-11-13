@@ -907,7 +907,7 @@
      "lines": [
       {
        "who": "classmate_xinci",
-       "text": "腳踏車我很久沒騎了。"
+       "text": "我上次騎腳踏車，是國中。"
       }
      ],
      "choice": [
@@ -1311,7 +1311,7 @@
       "lines": [
        {
         "who": "classmate_xinci",
-        "text": "碼頭的風好大。"
+        "text": "風把我的頭髮吹亂了。不要拍。"
        }
       ]
      },
@@ -1715,7 +1715,7 @@
       },
       {
        "who": "classmate_xinci",
-       "text": "雲在山的下面。"
+       "text": "我們比雲還高。"
       }
      ],
      "choice": [
