@@ -8829,12 +8829,12 @@
   },
   {
    "path": "docs/story_planning/AA_708_activity_scenes.json",
-   "sha": "6dbfe10d7e",
+   "sha": "8d3bec48be",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109）d30416e6b：X324 A 區「一起活動」七人重寫（98 場每場兩個選項、沛珊整塊重寫 PEISHAN-VOICE-1110、舊店名菜名／寫死的承諾換掉）；BB 抽查 BB_342（企劃線 e5dd28d2b）四點已改；AA 11-11 07:20 交 LAWWW；6dbfe10d7e（AA_916／AA_905 定稿（AA-C 2026-11-12））",
+   "approvedBy": "AA 定稿（D109）d30416e6b：X324 A 區「一起活動」七人重寫（98 場每場兩個選項、沛珊整塊重寫 PEISHAN-VOICE-1110、舊店名菜名／寫死的承諾換掉）；BB 抽查 BB_342（企劃線 e5dd28d2b）四點已改；AA 11-11 07:20 交 LAWWW；6dbfe10d7e（AA_916／AA_905 定稿（AA-C 2026-11-12））；8d3bec48be（AA-C 2026-11-13 AA_944 定稿、BB_456 照用；LAWWW-C 的子代理代登，待值班 LAWWW 核）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
-   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：芷若、語彤、可昕幾列（AA_916 不寫外校前提；芷若沒班的說法、語彤刪節號））",
+   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：芷若、語彤、可昕幾列（AA_916 不寫外校前提；芷若沒班的說法、語彤刪節號））；2026-11-13 改到 8d3bec48be（AA_944 第 2 節：沛珊「今天」開頭 5 句（我請、這頓我請、坐窗邊、推你入坑、只看不買））",
    "history": [
     {
      "sha": "e0e92919e",
@@ -8847,6 +8847,10 @@
     {
      "sha": "d30416e6b",
      "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：芷若、語彤、可昕幾列（AA_916 不寫外校前提；芷若沒班的說法、語彤刪節號））"
+    },
+    {
+     "sha": "6dbfe10d7e",
+     "note": "被 8d3bec48be 取代（AA_944 第 2 節：沛珊「今天」開頭 5 句（我請、這頓我請、坐窗邊、推你入坑、只看不買））"
     }
    ]
   },
@@ -9745,16 +9749,20 @@
   },
   {
    "path": "docs/story_planning/AA_753_peishan_ladder_Y4.json",
-   "sha": "3f6c7d3bb9",
+   "sha": "8d3bec48be",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_899 定稿、BB_433 採用）：大四下「我們班有人問我，為什麼又考一次來念教育。」（AA_899 表上和 AA_753 同一句）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_899 定稿、BB_433 採用）：大四下「我們班有人問我，為什麼又考一次來念教育。」（AA_899 表上和 AA_753 同一句）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核；8d3bec48be（AA-C 2026-11-13 AA_944 定稿、BB_456 照用；LAWWW-C 的子代理代登，待值班 LAWWW 核）",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊大四上 P7-L1～P7-L8、大四下 P8-L1～P8-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base，when、id、if、順序、rel、context、friendOnly、mem 不動；P8-L2 加 skipIf ev_peishan_open_class（稿的 event_open_class.ladder）——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。同一個檔的 event_open_class（4/14 公開課媽媽的旁白＋四句）：src/data/r2y4b_events.js 手改、逐句照稿（tests/peishan_ladder_1111_unit.js 對稿）；CG BCG-05 新圖到以前不放。面板字（src/social3d.js）：PS7_MOM_WAITS、PS7_MY_EGGS",
+   "note": "X327 沛珊大四上 P7-L1～P7-L8、大四下 P8-L1～P8-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base，when、id、if、順序、rel、context、friendOnly、mem 不動；P8-L2 加 skipIf ev_peishan_open_class（稿的 event_open_class.ladder）——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。同一個檔的 event_open_class（4/14 公開課媽媽的旁白＋四句）：src/data/r2y4b_events.js 手改、逐句照稿（tests/peishan_ladder_1111_unit.js 對稿）；CG BCG-05 新圖到以前不放。面板字（src/social3d.js）：PS7_MOM_WAITS、PS7_MY_EGGS；2026-11-13 改到 8d3bec48be（AA_944 第 3 節：大四上閒聊「今天上特教，我筆記寫到手痠。」→「特教課我筆記寫到手痠。」）",
    "history": [
     {
      "sha": "465382f83",
      "approvedBy": "AA（D109、D149；BB_322 的修正已改）；LAWWW 2026-11-11 指定只認 465382f83"
+    },
+    {
+     "sha": "3f6c7d3bb9",
+     "note": "被 8d3bec48be 取代（AA_944 第 3 節：大四上閒聊「今天上特教，我筆記寫到手痠。」→「特教課我筆記寫到手痠。」）"
     }
    ]
   },
@@ -9829,12 +9837,18 @@
   },
   {
    "path": "docs/story_planning/AA_757_peishan_wish_hometown.json",
-   "sha": "052644c58",
+   "sha": "8d3bec48be",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫第 2 批）；LAWWW 2026-11-11 指定匯這一版（企劃線到 60f84df8b 這個檔沒有再改）",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫第 2 批）；LAWWW 2026-11-11 指定匯這一版（企劃線到 60f84df8b 這個檔沒有再改）；8d3bec48be（AA-C 2026-11-13 AA_944 定稿、BB_456 照用；LAWWW-C 的子代理代登，待值班 LAWWW 核）",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊美術館心願事件「不用接話的一天」＋去她的縣市（台中、台南）＋台南美術館：①wish_rows 69 列 old→new 由 tools/date/import_wish.py 疊在 wish_bb.json 的 classmate_peishan 上（換完要等於稿的 wish_event；物件、旗標 PS_UNTITLED、條件、時間、花費不動）→ src/data/date_wish.js；②hometown_rows 31 列、tainan_museum 整段的字直接換進手寫的 src/data/hometown_lines.js（sendFlag 那一句、PS_SEND、台南 extra、視訊其他開頭和結尾不動）。逐字對稿 tests/peishan_dates_1111_unit.js"
+   "note": "X327 沛珊美術館心願事件「不用接話的一天」＋去她的縣市（台中、台南）＋台南美術館：①wish_rows 69 列 old→new 由 tools/date/import_wish.py 疊在 wish_bb.json 的 classmate_peishan 上（換完要等於稿的 wish_event；物件、旗標 PS_UNTITLED、條件、時間、花費不動）→ src/data/date_wish.js；②hometown_rows 31 列、tainan_museum 整段的字直接換進手寫的 src/data/hometown_lines.js（sendFlag 那一句、PS_SEND、台南 extra、視訊其他開頭和結尾不動）。逐字對稿 tests/peishan_dates_1111_unit.js；2026-11-13 改到 8d3bec48be（AA_944 第 3 節：沛珊心願約會（台南美術館）到達 high 那一句 3 處（wish_event、wish_rows 第 28 列、tainan_museum.arriveHigh）「今天我沒帶筆記本。好啦，帶了，但不會拿出來。」→「筆記本我放在包包最下面。不會拿出來。」）",
+   "history": [
+    {
+     "sha": "052644c58",
+     "note": "被 8d3bec48be 取代（AA_944 第 3 節：沛珊心願約會（台南美術館）到達 high 那一句 3 處（wish_event、wish_rows 第 28 列、tainan_museum.arriveHigh）「今天我沒帶筆記本。好啦，帶了，但不會拿出來。」→「筆記本我放在包包最下面。不會拿出來。」）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_758_peishan_date_common.json",
