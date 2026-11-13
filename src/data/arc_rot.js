@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@e622a59148；沛珊 2 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d）。不要手改，改企劃 AA_717 再重新匯入。
+/* 自動產生：tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@e622a59148；沛珊 2 處照 docs/story_planning/AA_755_peishan_feed_misc.json@24bd0e59e9）。不要手改，改企劃 AA_717 再重新匯入。
    輪換句跟著日期和故事走、她的生活（BB_305 第 5、6 節；播放 src/arcs3d.js ARCS.rotPick）*/
 'use strict';
 const ARC_ROT={

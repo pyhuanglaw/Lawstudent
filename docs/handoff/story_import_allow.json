@@ -9783,12 +9783,18 @@
   },
   {
    "path": "docs/story_planning/AA_755_peishan_feed_misc.json",
-   "sha": "c5094495d",
+   "sha": "24bd0e59e9",
    "status": "approved",
-   "approvedBy": "AA（D109、D149；BB_324 的修正已改）；LAWWW 2026-11-11 指定只認 c5094495d",
+   "approvedBy": "AA（D109、D149；BB_324 的修正已改）；LAWWW 2026-11-11 指定只認 c5094495d；24bd0e59e9：AA 11-11 09:17 b844bac363（節日禮物沛珊 32 列覆蓋 gift_holiday，X324 E 區）＋10:17 24bd0e59e9（feed_y4s1 ps4g 留言第二句：回家顧店的舊設定換掉）（D100b 稿就是定稿；STALE-SOURCES-1112 重匯）",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊重寫第三份之二：動態牆八則（feed_y1s1 ps4／ps5／ps6、feed_y1s2 ps1b／ps6b、feed_y3s1 ps4e、feed_y3s2 ps4f、feed_pg ps2i：id、who、st 不動，換 pic／say／cm／dm 和貼文鐘點 new.t）、other 逐則 old→new（msg_pool 三則、invites 四處＋invite_replies 同句、activity_scenes 第 4 階 mid、arc_rot 兩處、gift_holiday 四處＋existing 第三則拿掉）、fest（fest_events.js 沛珊整段的字）。工具產生的資料檔由各匯入工具呼叫 tools/story/ps755.py 疊上去（整組相同才換、只認這個 sha）；手寫資料檔（feed_*.js、invites.js、fest_events.js）直接改，逐字比對 tests/peishan_feed_misc_1111_unit.js"
+   "note": "X327 沛珊重寫第三份之二：動態牆八則（feed_y1s1 ps4／ps5／ps6、feed_y1s2 ps1b／ps6b、feed_y3s1 ps4e、feed_y3s2 ps4f、feed_pg ps2i：id、who、st 不動，換 pic／say／cm／dm 和貼文鐘點 new.t）、other 逐則 old→new（msg_pool 三則、invites 四處＋invite_replies 同句、activity_scenes 第 4 階 mid、arc_rot 兩處、gift_holiday 四處＋existing 第三則拿掉）、fest（fest_events.js 沛珊整段的字）。工具產生的資料檔由各匯入工具呼叫 tools/story/ps755.py 疊上去（整組相同才換、只認這個 sha）；手寫資料檔（feed_*.js、invites.js、fest_events.js）直接改，逐字比對 tests/peishan_feed_misc_1111_unit.js；24bd0e59e9 起：feed 多一則 feed_y4s1 ps4g（只換 cm 第二句）、other 多 gift_holiday 32 列（共 46 列；existing[2] new:null＝拿掉）",
+   "history": [
+    {
+     "sha": "c5094495d",
+     "note": "被 24bd0e59e9 取代（AA 11-11 b844bac363 節日禮物沛珊 32 列覆蓋＋24bd0e59e9 動態牆補一則 feed_y4s1 ps4g；STALE-SOURCES-1112）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_752_night_market.json",

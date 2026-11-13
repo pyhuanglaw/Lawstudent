@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_guard as IG
 
 PATH = 'docs/story_planning/AA_755_peishan_feed_misc.json'
-SHA = 'c5094495d'
+SHA = '24bd0e59e9'
 PS = 'classmate_peishan'
 _CACHE = {}
 # 上游的稿把沛珊那一塊整個重寫了＝這份稿在那個遊戲檔的列不再疊（old、new 都不在新稿裡）。逐字比對改看上游的稿。
@@ -92,6 +92,16 @@ def apply(data, file, root, allow=None, only=None):
         if only and only not in at:
             continue
         hits = [h for t in trees for h in _find(t, old, [])]
+        if new is None:   # 24bd0e59e9 起：new 是 null＝那一格拿掉（只拿陣列裡的一格；已經沒有＝跳過）
+            hits = [(c, k) for c, k in hits if isinstance(c, list)]
+            if not hits:
+                continue
+            if len(hits) != 1:
+                raise SystemExit(f'AA_755 {file}（{at}）：要拿掉的 old 在 {PS} 底下有 {len(hits)} 格：{json.dumps(old, ensure_ascii=False)[:80]}')
+            c, k = hits[0]
+            del c[k]
+            n += 1
+            continue
         if len(hits) != 1:
             if not hits and sum(len(_find(t, new, [])) for t in trees) == 1:
                 continue   # 上游的稿自己改好了
