@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_study_play_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SE06_diag\out
+CC STUDY-EXAM-CAREER B 節：SHA a9b63d9eff；PARTS ['SE06']；不用 turbo；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  38.4s] [SE06] 診斷 hook：ok
+  [前置／捷徑] [SE06] 【前置】讀檔到 2025-12-15 07:40 宿舍，prep、study、筆記清空、沒有課本
+  [  38.4s] [SE06] 大一上期末（CLS.examList）：[{"cid": "const_1", "name": "憲法（上）", "day": 90, "key": "2025-12-15", "t0": 9.166666666666666, "t1": 12.166666666666666}, {"cid": "crim_gen1", "name": "刑法總則（一）", "day": 92, "key": "2025-12-17", "t0": 9.166666666666666, "t1": 12.166666666666666}, {"cid": "civ_general", "name": "民法總則", "day": 93, "key": "2025-12-18", "t0": 13.333333333333334, "t1": 15.166666666666666}]
+  [  42.1s] [SE06] 第 1 次一鍵（一鍵 到下一堂課 → 憲法（上））：{"zone": "dorm", "pos": [0, 2.4, 0], "key": "2025-12-15", "hour": 7.714, "time": null, "busyDepth": 0, "dlg": false, "choices": false, "busy": false, "goClass": [], "events": [], "routeStop": "ERR"}
+  [  45.4s] [SE06] 第 2 次一鍵（一鍵 到下一堂課 → 憲法（上））：{"zone": "dorm", "pos": [0, 2.4, 0], "key": "2025-12-15", "hour": 7.718, "time": null, "busyDepth": 0, "dlg": false, "choices": false, "busy": false, "goClass": [], "events": [], "routeStop": "ERR"}
+  [  48.7s] [SE06] 第 3 次一鍵（一鍵 到下一堂課 → 憲法（上））：{"zone": "dorm", "pos": [0, 2.4, 0], "key": "2025-12-15", "hour": 7.723, "time": null, "busyDepth": 0, "dlg": false, "choices": false, "busy": false, "goClass": [], "events": [], "routeStop": "ERR"}
+  [  48.7s] [SE06] DIAG_N=3：診斷到這裡
+  [  48.7s] [SE06] 一鍵紀錄：[["2025-12-15", 7.71, "一鍵 到下一堂課 → 憲法（上）", "ok: 到下一堂課的教室法律系館A 201（期末考：憲法（上），09:10–12:10）", {"zone": "dorm", "pos": [0, 2.4, 0], "key": "2025-12-15", "hour": 7.714, "time": null, "busyDepth": 0, "dlg": false, "choices": false, "busy": false, "goClass": [], "events": [], "routeStop": "ERR"}], ["2025-12-15", 7.71, "一鍵 到下一堂課 → 憲法（上）", "ok: 到下一堂課的教室法律系館A 201（期末考：憲法（上），09:10–12:10）", {"zone": "dorm", "pos": [0, 2.4, 0], "key": "2025-12-15", "hour": 7.718, "time": null, "busyDepth": 0, "dlg": false, "choices": false, "busy": false, "goClass": [], "events": [], "routeStop": "ERR"}], ["2025-12-15", 7.72, "一鍵 到下一堂課 → 憲法（上）", "ok: 到下一堂課的教室法律系館A 201（期末考：憲法（上），09:10–12:10）", {"zone": "dorm", "pos": [0, 2.4, 0], "key": "2025-12-15", "hour": 7.723, "time": null, "busyDepth": 0, "dlg": false, "choices": false, "busy": false, "goClass": [], "events": [], "routeStop": "ERR"}]]
+  [  48.7s] [SE06] 考完的：[]；作答找不到正確選項：{}
+  [  48.7s] [SE06] 交卷那一句：[]
+FAIL [SE06] 考了兩場期末（0）  []
+PASS [SE06] 逐字稿沒有黑名單台詞（「考卷發下來。體育期末考。」「你認得題目裡的每一個字…」）  []
+  [  48.7s] [SE06] 照讀書次數寫的負面句（只記、BB 判）：[]
+PASS 沒有 JS 例外  []
+FAILED 1: [SE06] 考了兩場期末（0）

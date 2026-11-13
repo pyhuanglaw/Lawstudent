@@ -1,14 +1,3 @@
-[16:56:53] memory 30% before starting WZ_ICE_r3 (0 running)
-[16:56:53] ==== START WZ_ICE_r3  (probe @ 7f2c6bd31fc4bc5bea5e22e67909eb90eba6a528) ====
-[16:56:53] skip WZ_ICE_r2 (already done on d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610)
-[16:56:53] skip WZ_FRUIT_r2_look (already done on d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610)
-[16:56:53] memory 30% before starting WZ_FRUIT_r2_buy (1 running)
-[16:56:53] memory 30% before starting NAV_FLOWER_2F_tap_r4B (2 running)
-[16:56:53] ==== START WZ_FRUIT_r2_buy  (probe @ d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610) ====
-[16:56:53] ==== START NAV_FLOWER_2F_tap_r4B  (probe @ b236632dda37070b36ead90c0e327826175723d1) ====
-[16:56:55] [res] cpu=6% mem=30% (9.4/31.4 GB) chrome_testing=0  START WZ_FRUIT_r2_buy
-[16:56:55] [res] cpu=6% mem=30% (9.4/31.4 GB) chrome_testing=0  START WZ_ICE_r3
-[16:56:55] [res] cpu=6% mem=30% (9.4/31.4 GB) chrome_testing=0  START NAV_FLOWER_2F_tap_r4B
 [16:57:08] worktree add 7f2c6bd31fc4bc5bea5e22e67909eb90eba6a528: invalid reference - fetching main and the commit itself
 [16:58:52] [res] cpu=26% mem=43% (13.8/31.4 GB) chrome_testing=8  END WZ_FRUIT_r2_buy
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1987,14 @@
 [00:07:47] ==== START SE06_diag  (probe @ a9b63d9effd5fd6299d09b2a0527db69e6931292) ====
 [00:07:50] [res] cpu=7% mem=42% (13.2/31.4 GB) chrome_testing=10  START SE06_diag
 [00:08:23] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=9  END STUDY_FA01_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f7e9d32954..65e1479e78  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:08:34] ==== END   STUDY_FA01_r2  exit=0  398s   ====
+[00:08:39] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[00:08:39] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[00:08:39] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[00:08:39] memory 44% before starting CANON_NEWGAME_B1_r2 (2 running)
+[00:08:39] ==== START CANON_NEWGAME_B1_r2  (probe @ d21c698bdef7b3ae434112ce7175ae9945deadd8) ====
+[00:08:42] [res] cpu=2% mem=45% (14.1/31.4 GB) chrome_testing=9  START CANON_NEWGAME_B1_r2
+[00:09:15] [res] cpu=3% mem=44% (13.8/31.4 GB) chrome_testing=9  END SE06_diag
