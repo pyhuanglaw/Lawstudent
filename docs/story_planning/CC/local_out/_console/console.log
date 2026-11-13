@@ -1,18 +1,3 @@
-[22:25:52] skip F24_live_pos (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_posters_r2 (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip POOL_ent_new1 (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
-[22:25:52] skip POOL_ent_old1 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[22:25:52] skip POOL_ent_new2 (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
-[22:25:52] skip POOL_ent_old2 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[22:25:52] skip POOL_ent_new3 (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
-[22:25:52] skip POOL_ent_old3 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[22:25:52] skip NF_r3 (already done on 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205)
-[22:25:52] skip BGN_old (already done on cdcb2650730bc9a90563690e63f35e75e63c9fb3)
-[22:25:52] skip X296_new (already done on 7a019726dfddc3f90dc0cc60189db19084871503)
-[22:25:52] skip X296_old (already done on 9f3133b998dc3cf4631f019d085e59a8550f5d29)
-[22:25:52] skip X307_new (already done on 10df264ed291cbef985ed22109443d26535ce790)
-[22:25:52] skip X307_old (already done on e73888074c)
-[22:25:52] skip X307F_new (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
 [22:25:52] skip LE738_b1court (already done on e73888074c)
 [22:25:52] skip LE738_p0 (already done on e73888074c)
 [22:25:52] skip LE738_zone (already done on e73888074c)
@@ -1998,3 +1983,18 @@
 [05:51:16] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [05:51:16] solo item REL76_touch waits: no new items start until the 2 running item(s) finish
 [05:51:38] [res] cpu=3% mem=39% (12.5/31.4 GB) chrome_testing=4  END REL76_libtour_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6b50ca9b42..c944754c61  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:51:46] ==== END   REL76_libtour_r2  exit=0  306s   ====
+[05:51:49] blender item BLENDER_PING waits until the 1 running item(s) finish; other items go first
+[05:51:49] blender item LW2_FN_VIEW waits until the 1 running item(s) finish; other items go first
+[05:51:49] blender item LW2_TZ_PREV waits until the 1 running item(s) finish; other items go first
+[05:51:49] solo item REL76_touch waits: no new items start until the 1 running item(s) finish
+[05:51:54] 正在跑：REL76_car（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:56:54] 正在跑：REL76_car（已跑 6 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:01:54] 正在跑：REL76_car（已跑 11 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:02:04] memory 36% before starting CANON458_INV_LIB_r3 (1 running)
+[06:02:04] ==== START CANON458_INV_LIB_r3  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[06:02:07] [res] cpu=0% mem=36% (11.5/31.4 GB) chrome_testing=4  START CANON458_INV_LIB_r3
+[06:04:33] [res] cpu=3% mem=38% (11.9/31.4 GB) chrome_testing=5  END CANON458_INV_LIB_r3
