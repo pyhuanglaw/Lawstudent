@@ -133,15 +133,26 @@ def rbox(m, T, lx0, lx1, y0, y1, lz0, lz1, col=None, r=0.0, seg=2):
     else: (m.crbox(x0, x1, y0, y1, z0, z1, col, r=r, seg=seg) if r > 0 else m.cbox(x0, x1, y0, y1, z0, z1, col))
 
 
+def _rcyl(m, col):
+    """CC0 的轉接（cc0_kit.Route）開了 route_cyl：圓柱、球、車床零件也照顏色分到材質組網格（不開＝照舊塗頂點色、落到預設材質）"""
+    return m._m(col) if getattr(m, 'route_cyl', False) else None
+
+
 def ccyl(m, a, b, r, col, seg=10, r2=None, caps=True):
+    t = _rcyl(m, col)
+    if t is not None: t.cyl(a, b, r, seg=seg, r2=r2, caps=caps); return
     f0 = set(m.bm.faces); m.cyl(a, b, r, seg=seg, r2=r2, caps=caps); m.paint([q for q in m.bm.faces if q not in f0], col)
 
 
 def csph(m, c, r, col, seg=10, rings=6, sy=1.0):
+    t = _rcyl(m, col)
+    if t is not None: t.sphere(c, r, seg=seg, rings=rings, sy=sy); return
     f0 = set(m.bm.faces); m.sphere(c, r, seg=seg, rings=rings, sy=sy); m.paint([q for q in m.bm.faces if q not in f0], col)
 
 
 def clathe(m, prof, x, y, z, col, seg=14):
+    t = _rcyl(m, col)
+    if t is not None: bm = L.lathe(prof, seg=seg); t.add_bm(bm, Matrix.Translation(g2b(x, y, z))); bm.free(); return
     f0 = set(m.bm.faces); bm = L.lathe(prof, seg=seg); m.add_bm(bm, Matrix.Translation(g2b(x, y, z))); bm.free(); m.paint([q for q in m.bm.faces if q not in f0], col)
 
 
@@ -1517,12 +1528,26 @@ CC0_ROUTE = {   # 顏色 → 材質 key（cc0_setup 的 MX）；表上沒有的�
     'korea': dict(_COMMON, **{'#b41e1c': 'red', '#a8281e': 'red', '#26262a': 'plastic_dk', '#eef0ec': 'steel', '#2b1a12': 'wood_d', '#5a3a22': 'wood_d', '#8a6a4a': 'wood_m', '#d8c8a8': 'wood_l',
                               '#e8eaec': 'plastic_w', '#f1efe8': 'plastic_w', '#e9e2cf': 'sack', '#b8860a': 'brass', '#c8281c': 'plastic_red', '#2a5fb8': 'plastic_blue', '#e0b24a': 'plastic_y'}),
 }
+CC0_ROUTE['pasta'] = dict(_COMMON, **{'#d3a970': 'wood_lw', '#c8a474': 'wood_lw', '#c9a877': 'wood_lw', '#b98f58': 'wood_hm', '#8a6a48': 'wood_m', '#e9dcc4': 'fabric_b', '#b02c24': 'red',
+                                      '#a8322a': 'mat', '#b8382e': 'mat_l', '#7d8083': 'steel_d', '#55585c': 'steel_d', '#2a2b2d': 'plastic_dk', '#2a2a2a': 'blackmetal', '#d9dcde': 'steel', '#f1efe8': 'plastic_w',
+                                      '#f1ece0': 'ceramic', '#cfc8b8': 'plastic_w', '#9aa0a4': 'steel'})   # 義大麵屋（int2_pasta：淺木吧台、淺木直條椅＋米色坐墊、紅框）
+CC0_ROUTE['omu'] = dict(_COMMON, **{k: 'wood_d' for k in ('#4a2e1c', '#4b2e1c', '#4a2f1c', '#553621', '#5a3a24', '#5c3a25', '#5a3c26', '#6a442c', '#6a4a30', '#3a2416', '#3a2a1e')},
+                        **{'#6e4a38': 'fabric_br', '#8a6a48': 'wood_m', '#8a6a4a': 'wood_m', '#8a5a3a': 'wood_m', '#b08a4a': 'brass', '#e6d2a4': 'wood_lw', '#c9a56a': 'wood_lw',
+                           '#e3a82f': 'fabric_y', '#262220': 'blackmetal', '#efe6d2': 'ceramic', '#f1ece0': 'ceramic', '#3a3532': 'plastic_dk', '#f3f0e8': 'plastic_w', '#d9d6cc': 'plastic_w', '#d9dcde': 'steel'})   # 奈良咖哩（int_omu：深色木造攤架、黃色短門簾、深木桌椅＋咖啡色坐墊）
+CC0_ROUTE['noodle2'] = dict(_COMMON, **{k: 'blackmetal' for k in ('#1e1e1e', '#232323', '#1c1c1c', '#222222', '#2a2623')},
+                            **{k: 'wood_m' for k in ('#8a5c36', '#96693c', '#a87a4a')}, **{k: 'wood_hm' for k in ('#b98d5e', '#b98a58', '#c89a68')},
+                            **{'#3c3d40': 'steel_d', '#2e2f31': 'steel_d', '#2a2b2d': 'plastic_dk', '#e9e6de': 'ceramic', '#f4efe2': 'ceramic', '#f1efe9': 'plastic_w', '#f1eee6': 'plastic_w',
+                               '#c9a676': 'cardboard', '#d9cdb2': 'fabric_b', '#8f8a80': 'stone_slab', '#cfc7b6': 'plaster_dome', '#c8321e': 'plastic_red', '#d9d6cc': 'plastic_w', '#d9dcde': 'steel'})   # 迪倫窯烤披薩（int_noodle2：黑鐵、深木、磚窯）
+CC0_ROUTE['home'] = dict(_COMMON, **{k: 'steel' for k in ('#c2c7ca', '#c6cbce', '#b7bcc0', '#a9aeb2', '#bcc1c5', '#c0c5c8', '#eef0f2')},
+                         **{k: 'steel_d' for k in ('#8e9499', '#6c7176', '#3a3d40')}, **{k: 'wood_d' for k in ('#4a3122', '#3d2a1e', '#2e2018')},
+                         **{'#c9a56a': 'wood_lw', '#c8a46a': 'wood_lw', '#b98a4e': 'wood_hm', '#fbfaf6': 'ceramic', '#f4eedd': 'ceramic', '#c0392b': 'plastic_red', '#e3c35a': 'plastic_y'})   # 包水餃（int_home：不鏽鋼煮麵台、深木門窗框、木面圓凳）
+CC0_FRAMECOL = ('pasta', 'omu', 'noodle2')   # 店面框照顏色分材質組的店（其他店的框是鋁色）
 CC0_FOOD = ('self', 'tea', 'cafe2')
-CC0_INT = ('cafe2',)   # l118_int_<店>.py 那五間（自己在 main 呼叫 cc0_setup／cc0_post）
+CC0_INT = ('cafe2', 'pasta', 'omu', 'noodle2', 'home')   # l118_int_<店>.py 那五間（自己在 main 呼叫 cc0_setup／cc0_post）
 CC0_STEAK = ('dian',)
 CC0_KTEX = ('tea',)
-CC0_SHINY = ('korea',)   # 清州刀削麵（BB 11-13 P2：不鏽鋼桌面是霧面灰板）   # 開放式廚房的爐口、炒鍋、碗也放進材質組的店（之後做的店都加；已交的 self、korea、dian 不動，重建才會和交出去的一樣）   # 有鐵板牛排的店   # 有配菜盤、炸物的店：用菜色貼圖集
-CC0_VM = {'cafe2': 'steel', 'self': 'steel', 'korea': 'steel', 'dian': 'steel', 'tea': 'steel'}   # 金屬零件（c.vm）表上沒有的顏色、圓柱、車床零件（直接畫進網格的）歸哪一種：水上便當幾乎都是不鏽鋼（飯鍋、保溫燈罩、餐盤）
+CC0_SHINY = ('korea', 'home')   # home：LAWWW2-C 11-13 P2（包水餃的不鏽鋼太霧、太暗）
+CC0_VM = {'cafe2': 'steel', 'self': 'steel', 'korea': 'steel', 'dian': 'steel', 'tea': 'steel', 'pasta': 'steel', 'omu': 'steel', 'noodle2': 'blackmetal', 'home': 'steel'}   # 迪倫：圓柱畫的椅腳、網格是黑鐵   # 金屬零件（c.vm）表上沒有的顏色、圓柱、車床零件（直接畫進網格的）歸哪一種：水上便當幾乎都是不鏽鋼（飯鍋、保溫燈罩、餐盤）
 CC0_CHAIRS = {'steelstool': ('metal_stool_02', dict(height=0.46, decimate=0.15, mat='steel')),   # 掃描的是白烤漆凳：形狀照用、材質換不鏽鋼（參考圖、原本都是不鏽鋼）
               'wood': ('painted_wooden_chair_02', dict(height=0.92, recolor=('#170e08', '#5e3f29'), decimate=0.45, chair=True)),
               'bar': ('bar_chair_round_01', dict(height=0.76, decimate=0.1))}
@@ -1772,6 +1797,14 @@ def cc0_setup(c):
         'chair_br': K.acg(P + 'chair_brown', 'Plastic006', vary=0.02, maps=('diff',), target='#4a2a22', tile=0.5, rough_value=0.45, res=256),
         'red': K.acg(P + 'red_paint', 'Plastic006', vary=0.05, maps=('diff',), target='#b41e1c', tile=0.5, rough_value=0.4, res=256),   # 紅色收邊、紅框（清州刀削麵）
         'wood_m': L.pbr(P + 'wood_mid', 'dark_wood', tile=0.8, target='#8a6a4a', contrast=0.8, maps=('diff',), res=256, rough_value=0.55),
+        'wood_lw': L.pbr(P + 'wood_honey', 'dark_wood', tile=1.4, target='#d3a970', contrast=0.3, maps=('diff', 'nor'), res=256, rough_value=0.55),   # 紋路淡、間距大（tile 0.7／對比 0.6 的時候細木條上看起來像竹編）   # 義大麵屋：淺木吧台、桌椅
+        'wood_hm': L.pbr(P + 'wood_honey_d', 'dark_wood', tile=1.4, target='#b98f58', contrast=0.3, maps=('diff',), res=256, rough_value=0.6),
+        'fabric_br': K.acg(P + 'fabric_brown', 'Fabric036', maps=('diff',), target='#6e4a38', tile=0.3, rough_value=0.9, res=256),             # 奈良咖哩：咖啡色坐墊
+        'fabric_y': K.acg(P + 'fabric_yellow', 'Fabric036', maps=('diff',), target='#e3a82f', tile=0.3, rough_value=0.9, res=256),            # 奈良咖哩：黃色短門簾
+        'stone_slab': K.acg(P + 'stone_slab', 'Concrete034', maps=('diff', 'nor'), target='#8f8a80', tile=0.6, rough_value=0.7, res=256),         # 迪倫：窯爐的石板檯
+        'plaster_dome': K.acg(P + 'plaster_dome', 'Plaster001', vary=0.05, maps=('diff',), target='#cfc7b6', tile=0.8, rough_value=0.9, res=256),   # 迪倫：窯爐抹灰的圓頂
+        'fabric_b': K.acg(P + 'fabric_beige', 'Fabric036', maps=('diff',), target='#e9dcc4', tile=0.3, rough_value=0.9, res=256),               # 米色坐墊
+        'ceramic': K.acg(P + 'ceramic', 'Plastic006', vary=0.03, maps=('diff',), target='#f1ece0', tile=0.4, rough_value=0.25, res=256),       # 白瓷（盆、盤）
         'wood_l': L.pbr(P + 'wood_light', 'dark_wood', tile=0.6, target='#d8c8a8', contrast=0.6, maps=('diff',), res=256, rough_value=0.6),   # 削麵的木板
         'sack': K.acg(P + 'flour_sack', 'Fabric036', maps=('diff',), target='#e9e2cf', tile=0.3, rough_value=0.9, res=256),               # 麵粉袋
         'plastic_dk': K.acg(P + 'plastic_dk', 'Plastic006', vary=0.05, maps=('diff',), target='#2c2e31', tile=0.5, rough_value=0.45, res=256),
@@ -1802,7 +1835,8 @@ def cc0_setup(c):
         return meshes[name]
     R = CC0_ROUTE[sid]
     c.vc = K.Route(c.vc, {col: (lambda k=k: mx(k)) for col, k in R.items()})
-    c.vm = K.Route(K.AsTex(mx(CC0_VM.get(sid, 'blackmetal'))), {col: (lambda k=k: mx(k)) for col, k in R.items() if k in ('steel', 'steel_d', 'plastic_dk', 'brass')})
+    c.vm = K.Route(K.AsTex(mx(CC0_VM.get(sid, 'blackmetal'))), {col: (lambda k=k: mx(k)) for col, k in R.items() if k in ('steel', 'steel_d', 'plastic_dk', 'brass') or sid in CC0_FRAMECOL})   # CC0_FRAMECOL 那幾間：金屬零件也照整張顏色表（迪倫的黑鐵椅、黑網格不能落到預設的不鏽鋼）
+    if sid in CC0_FRAMECOL: c.vc.route_cyl = c.vm.route_cyl = True   # l118_int 那幾間：圓柱、車床零件也照顏色分（奈良咖哩的黑鐵桌腳、迪倫的黑鐵椅腳）
     c.steel = mx('steel'); c.vm_steel = K.AsTex(mx('steel')); c.vm_black = mx('blackmetal'); c.leather = mx('leather_d') if 'leather_d' in MX else None   # vm_steel：圓柱、車床零件直接放進不鏽鋼材質組（rice_pot_cc0）
     if sid in CEIL4:   # 貼天花板的零件（燈盤框）：CEIL_ 開頭（ceilHide 照舊藏得到）
         c.extra['ceil_vc'] = K.Route(CMesh(f'CEIL_l118_{sid}_vcrest', M['vc']), {col: (lambda k=k: mx(k, f'CEIL_l118_{sid}_vc' if k == 'plastic_w' else f'CEIL_l118_{sid}_{k}')) for col, k in R.items()})   # 燈盤框（白）照舊叫 CEIL_…_vc（測試、ceilHide 照名字找）
@@ -1810,8 +1844,9 @@ def cc0_setup(c):
     def wg(side, key, mat, cm=False):
         if not cm: return _wg(side, key + '_cc0', mat) if mat in cc0mats else _wg(side, key, mat)   # 材質組的牆上網格（不鏽鋼出菜台、廚房天花板）：'_' 開頭的 key＝盒狀 UV
         base = _wg(side, key, mat, cm)
-        if mat is M['vcm']: return K.Route(K.AsTex(_wg(side, key + '_alu', MX['alu'])), {})            # 店面的鋁框
-        return K.Route(base, {col: (lambda k=k: _wg(side, key + '_' + k, MX[k])) for col, k in R.items()})
+        if mat is M['vcm']:   # 店面的鋁框；l118_int 那幾間（CC0_FRAMECOL）框照原本的顏色分材質組（義大麵屋：紅色門框、淺木窗框）
+            return K.Route(K.AsTex(_wg(side, key + '_alu', MX['alu'])), {col: (lambda k=k: _wg(side, key + '_' + k, MX[k])) for col, k in R.items()} if sid in CC0_FRAMECOL else {})
+        r_ = K.Route(base, {col: (lambda k=k: _wg(side, key + '_' + k, MX[k])) for col, k in R.items()}); r_.route_cyl = sid in CC0_FRAMECOL; return r_
     c.wg = wg
     c.ph = K.PH(c.root, P + 'ph_'); c.CH = dict(CC0_CHAIRS, **CC0_CHAIRS_BY.get(sid, {}))
     if sid in CC0_STEAK:   # 鐵板貼圖集（同上，程式畫）

@@ -109,7 +109,7 @@ class PH:
     def __init__(self, root, prefix):
         self.root = root; self.prefix = prefix; self.proto = {}; self.n = {}
 
-    def obj(self, aid, height=None, decimate=None, recolor=None, length=None, chair=False, material=None, texres=512):
+    def obj(self, aid, height=None, decimate=None, recolor=None, length=None, chair=False, material=None, texres=512, part_faces=None):
         if aid in self.proto: return self.proto[aid]
         path = cc0_fetch.ph_model(aid); before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=path); _use('Poly Haven', aid)
         new = [o for o in bpy.data.objects if o not in before]; ms = [o for o in new if o.type == 'MESH']
@@ -117,6 +117,12 @@ class PH:
         for o in ms: mw = o.matrix_world.copy(); o.parent = None; o.matrix_world = mw; o.select_set(True)
         for o in new:
             if o.type != 'MESH': bpy.data.objects.remove(o)
+        if part_faces:   # 每個零件各自減到大約 part_faces 面（盆栽：土 5 萬面、盆 5 千面一起照比例減，盆子會被減光——LAWWW2-C 11-13 義大麵屋「植物沒有盆子」）
+            for o_ in ms:
+                n_ = len(o_.data.polygons)
+                if n_ > part_faces:
+                    bpy.context.view_layer.objects.active = o_; md = o_.modifiers.new('dec', 'DECIMATE'); md.ratio = part_faces / n_; bpy.ops.object.modifier_apply(modifier=md.name)
+            decimate = None
         bpy.context.view_layer.objects.active = ms[0]
         if len(ms) > 1: bpy.ops.object.join()
         o = bpy.context.view_layer.objects.active; bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
