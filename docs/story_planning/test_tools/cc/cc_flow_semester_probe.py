@@ -480,7 +480,12 @@ async def main():
                     run.check('%s：選單存到欄位 1、重新整理、標題讀取欄位 1，day／hour／zone／flags／出席一致' % st['key'], res.get('ok'), J({k: v for k, v in res.items() if not k.endswith('_added')})[:1500])
                     since = time.time(); last = None; continue
                 row['counted'] = True
-                await bed(pg, cdp, run, drv, ('睡到明天', '睡一下（', '睡覺'), '%s %s 晚上' % (st['key'], hm(h)))
+                # 11-13 BB-C（B1 r1 TEST_BUG）：「睡到明天早上（08:10）」會被鬧鐘叫去上第一堂＝SKIP 期間選「睡到明天中午」（明寫會錯過那堂課）
+                skip_bed = False
+                if CANON and SKIPREQ and SKIP_GOCLASS[0]:
+                    nk = await pg.evaluate("(()=>CALENDAR.dateOf(GAME.G.day+1).key)()"); lim = SKIP_UNTIL or HALL_FROM
+                    skip_bed = (not lim) or nk < lim   # 明天還在不去的範圍內才睡過頭
+                await bed(pg, cdp, run, drv, (('睡到明天中午',) if skip_bed else ()) + ('睡到明天', '睡一下（', '睡覺'), '%s %s 晚上' % (st['key'], hm(h)))
                 since = time.time()
         except Exception as e:
             run.check('跑完（沒有探針例外）', False, repr(e)[:500]); traceback.print_exc(); ended = 'exception'

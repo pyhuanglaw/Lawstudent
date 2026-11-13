@@ -18,7 +18,7 @@ Playwright（PC GPU）手機模擬 ≠ iPhone。不用 ?turbo；讀檔只當起�
         兩場考試中間、第 15 週週日 20:30 → 每個時間點記 STUDY.reviewOpt（有沒有、灰不灰、提示字）、STUDY.reviewInfo 的科目；
         考前 7 天那一點真的用一次：走到宿舍書桌按互動 → 選單裡找「考前總複習」→ 按 → 記點了幾下、遊戲時間花多少、逐字稿；手機「今天」那一頁有沒有這一項（只記）。
         「已經考完的科目」：【前置】把第一場記成考過（CLS.rec(G).exam[key].status='done'），看 reviewInfo 還包不包含那一科。
-CC_02 清單 2026-11-12：1✓（日期照 BB_222：12/15 07:40、第 16 週、2026-10-24 07:50；期末週從遊戲 CLS.examList 讀） 2✓（課、考試、一鍵選項都從遊戲讀：CLS.examList、CLS.dayItems、#goPop 的字） 3✓（同一份存檔每段重新讀） 4✓（選項照字找；考試選項照遊戲 optList 的字：是非＝對／錯、選擇＝（鍵）選項） 5✓（去教室用遊戲的一鍵，不瞬移） 6✓（讀檔等 6 秒、對話一句一句點） 7✓ 8✓（門檻是 BB_222 的通過條件；黑名單台詞原文照表；其他負面句只記、BB 判） 9n/a（截圖要看旁白，不藏東西） 10n/a（條件事件要開：考試、上課旁白、法服都是事件） 11✓ 12✓（逐字稿＋每一場的分數、時間、選單） 13✓（作答捷徑、改存檔都標）
+CC_02 清單 2026-11-13：1✓（日期照 BB_222：12/15 07:40、第 16 週、2026-10-24 07:50；期末週從遊戲 CLS.examList 讀） 2✓（課、考試、一鍵選項都從遊戲讀：CLS.examList、CLS.dayItems、#goPop 的字） 3✓（同一份存檔每段重新讀） 4✓（選項照字找；考試選項照遊戲 optList 的字：是非＝對／錯、選擇＝（鍵）選項） 5✓（去教室用遊戲的一鍵，不瞬移） 6✓（讀檔等 6 秒、對話一句一句點） 7✓ 8✓（門檻是 BB_222 的通過條件；黑名單台詞原文照表；其他負面句只記、BB 判） 9n/a（截圖要看旁白，不藏東西） 10n/a（條件事件要開：考試、上課旁白、法服都是事件） 11✓ 12✓（逐字稿＋每一場的分數、時間、選單） 13✓（作答捷徑、改存檔都標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=SE06|SE12|FA01|SE11|FA05|SE01 [FIX=tests/fixtures/user_save_day51b_1110.json] [MAX_MIN=18] [FF=1] python3 cc_study_play_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, re
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -85,6 +85,19 @@ async def load(pg, sv0, key, hour, zone, mods=None, blank_=False):
     return r
 
 
+DIAG_N = int(os.environ.get('DIAG_N') or 0)   # 11-13 BB-C SE06_diag：每按一次一鍵記狀態＋截圖，按 DIAG_N 次就停
+DIAG_HOOK = r"""(()=>{ if(window.__sdH) return 'again'; window.__sdH=1; window.__sd={go:[], ev:[]};
+  try{ if(typeof CLS!=='undefined'&&CLS.goClass){ const g0=CLS.goClass; CLS.goClass=function(){ let r; try{ r=g0.apply(this,arguments); }catch(e){ window.__sd.go.push({err:String(e).slice(0,80)}); throw e; }
+    try{ const rr=(r&&r.then)?'promise':r; window.__sd.go.push({t:+performance.now().toFixed(0), args:[...arguments].map(a=>typeof a==='object'?(a&&a.key)||'obj':a).slice(0,3), ret:typeof rr==='object'?JSON.parse(JSON.stringify(rr)):rr}); if(r&&r.then) r.then(v=>window.__sd.go.push({t:+performance.now().toFixed(0), resolved:v===undefined?null:(typeof v==='object'?JSON.parse(JSON.stringify(v)):v)})); }catch(e){} return r; }; } }catch(e){}
+  try{ if(typeof EVENTS!=='undefined'&&EVENTS.run){ const v0=EVENTS.run; EVENTS.run=function(ev){ window.__sd.ev.push({t:+performance.now().toFixed(0), id:String((ev&&ev.id)||'')}); return v0.apply(this,arguments); }; } }catch(e){}
+  return 'ok'; })()"""
+DIAG_SNAP = r"""(()=>{ const G=GAME.G, P=GAME.E.player, o=P.obj.position, D=GAME.D, ch=document.getElementById('choices'), dl=document.getElementById('dlg');
+  let rs=null; try{ rs=(typeof CLS!=='undefined'&&CLS.routeStop!==undefined)?JSON.parse(JSON.stringify(CLS.routeStop)):(GAME.routeStop??null); }catch(e){ rs='ERR'; }
+  const X=window.__sd||{go:[],ev:[]}; const out={zone:G.zone, pos:[+o.x.toFixed(2),+o.z.toFixed(2),P.lv|0], key:CALENDAR.dateOf(G.day).key, hour:+(+G.hour).toFixed(3), time:G.time??null,
+    busyDepth:(D&&D.busyDepth)|0, dlg:!!(dl&&!dl.classList.contains('hide')), choices:!!(ch&&!ch.classList.contains('hide')&&ch.children.length), busy:!!P.busy,
+    goClass:X.go.slice(-3), events:X.ev.slice(-5).map(e=>e.id), routeStop:rs}; X.go=[]; X.ev=[]; return out; })()"""
+
+
 async def onetap(pg, cdp, label):
     """一鍵（#btnGo）→ #goPop 裡那一項（照字）"""
     await L.tap(pg, cdp, '#btnGo'); await pg.wait_for_timeout(700)
@@ -121,6 +134,7 @@ def transcript_checks(tag, tr):
 async def part_se06(pg, cdp, sv0, res):
     tag = '[SE06]'
     r = await load(pg, sv0, '2025-12-15', 7.67, 'dorm', blank_=True)
+    if DIAG_N: R.note('%s 診斷 hook：%s' % (tag, await pg.evaluate(DIAG_HOOK)))
     R.setup('%s 【前置】讀檔到 %s 07:40 宿舍，prep、study、筆記清空、沒有課本' % (tag, r['key']))
     ex = await pg.evaluate(EXAMS, 'Y1S1')
     R.note('%s 大一上期末（CLS.examList）：%s' % (tag, J(ex)))
@@ -149,6 +163,11 @@ async def part_se06(pg, cdp, sv0, res):
         else:
             acts.append([s['key'], s['h'], '一鍵 回去睡覺', await onetap(pg, cdp, '回去睡覺')])
         await pg.wait_for_timeout(1500)
+        if DIAG_N:
+            dg = await pg.evaluate(DIAG_SNAP); acts[-1].append(dg)
+            await pg.screenshot(path=os.path.join(OUT, 'se06_diag_%02d.png' % len(acts)))
+            R.note('%s 第 %d 次一鍵（%s）：%s' % (tag, len(acts), acts[-1][2], J(dg)))
+            if len(acts) >= DIAG_N: R.note('%s DIAG_N=%d：診斷到這裡' % (tag, DIAG_N)); break
         if len(acts) > 40: break
     tr = await pg.evaluate(TRANS)
     R.note('%s 一鍵紀錄：%s' % (tag, J(acts[-20:])))
@@ -213,14 +232,22 @@ async def part_se12(pg, cdp, sv0, res):
 
 
 async def part_fa01(pg, cdp, sv0, res):
-    tag = '[FA01]'
+    # 11-13 BB-C（BB_255）：10/24 是法服固定場次第 1 場（FAFU_STORY）＝有選單是設計；一般值班的週六（10/31）才是「沒有出發選單」。兩天都跑、期望相反
+    res['FA01'] = {}
+    for day_, want_menu in (('2026-10-31', False), ('2026-10-24', True)):
+        await _fa01_day(pg, cdp, sv0, res, day_, want_menu)
+
+
+async def _fa01_day(pg, cdp, sv0, res, day_, want_menu):
+    tag = '[FA01 %s]' % day_
     ry2 = await pg.evaluate(DAYOF, '2026-09-06')   # 大二搬房間那天（ROOM_Y2 有值＝不補演拆箱）
 
     def member(sv):
         F = sv.setdefault('flags', {}); F['SIS_CLUB_EXPO'] = F.get('SIS_CLUB_EXPO') or 1; F['lawclub'] = True; F['CLUB_lawclub_study'] = max(int(F.get('CLUB_lawclub_study') or 0), 2)
         F.setdefault('ROOM_Y2', ry2)
-    r = await load(pg, sv0, '2026-10-24', 7.83, 'dorm', mods=member)
+    r = await load(pg, sv0, day_, 7.83, 'dorm', mods=member)
     R.setup('%s 【前置】社員存檔（SIS_CLUB_EXPO、lawclub、CLUB_lawclub_study）讀到 %s 07:50 宿舍（大二上）' % (tag, r['key']))
+    R.check('FAIL_SETUP 檢查：%s 讀到 %s 宿舍' % (tag, day_), r.get('key') == day_, J(r))
     out0 = await pg.evaluate("(()=>{ try{ const G=GAME.G; return OUT.get(G,'fafu_'+G.day)||null; }catch(e){ return 'err '+String(e).slice(0,80); } })()")
     t0 = time.time(); menus = []; lines = []
     while time.time() - t0 < (MAX_MIN - 4) * 60:
@@ -238,8 +265,9 @@ async def part_fa01(pg, cdp, sv0, res):
     bad = [m for m in menus if any(('法服值班' in t or '這週請假' in t or t.startswith('晚一點')) for t in m[2])]
     R.note('%s 07:50 OUT.get(fafu_今天)=%s；%s %.2f 時 OUT.get=%s；選單 %s；對話 %s' % (tag, J(out0), s['key'], s['h'], J(out1), J(menus), J(lines[-12:])))
     R.check('%s 等到 %.2f（要 ≥ 08:30）' % (tag, s['h']), s['h'] >= 8.5, '')
-    R.check('%s 沒有例行的出發選單（法服值班／晚一點／這週請假）' % tag, not bad, J(bad))
-    res['FA01'] = {'out0': out0, 'out1': out1, 'menus': menus, 'lines': lines, 'end': s}
+    if want_menu: R.check('%s 法服固定場次那天有出發選單（設計如此）' % tag, bool(bad), J(menus))
+    else: R.check('%s 一般值班週六沒有例行的出發選單（法服值班／晚一點／這週請假）' % tag, not bad, J(bad))
+    res['FA01'][day_] = {'out0': out0, 'out1': out1, 'menus': menus, 'lines': lines, 'end': s}
 
 
 async def finish_class(pg, cdp, itkey, maxs=300, pick=None):
