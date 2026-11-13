@@ -9533,6 +9533,26 @@
    ],
    "remaining": "東南大聯 v2（貨架一樣大小的方塊）；公館安泰、榮恩典、鮮果、禮貌生財；手機效能",
    "next": "LAWWW-C git apply（底 6b7619ccba）＋place_gate --write → CC 拍 → BB 判；我做東南大聯 v2"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "東南大聯商行 CC0 v2：自畫包裝貼圖集（不寫字、不像品牌）、貨品不再同大小排格子、Poly Haven 罐頭／米袋；純色 20.8%，shop_cc0 三項都過（D161）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_dongnan_v2_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_dongnan_v2_1113/dongnan_v2.patch",
+    "docs/art-rebuild/second_ai/wip/tz_dongnan_v2_1113/cmp_dongnan_v2.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_dongnan_v2_1113/v2_dongnan_shelf_close.jpg"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 556daa6486（git apply --cached --check 過）",
+   "tests": "tz_shops_unit、shop_cc0_unit、notrap、shop_views、front_lit、tz_dongnan_aa823、shop_real_inside、tingzhou_unit、tingzhou_places ALL PASS；place_gate 只差狀態表要 --write",
+   "notDone": "端架招牌仍是純色板；面數 11.8 萬超過大店 8 萬建議，請 CC 量手機效能",
+   "next": "LAWWW 套 patch、place_gate --write；BB 判美術；接著做聯通 v2、越好吃 v2（底 ba2c7f60ee 以後）"
   }
  ]
 }
