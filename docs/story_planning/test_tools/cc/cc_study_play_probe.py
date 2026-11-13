@@ -405,7 +405,7 @@ async def part_fa05(pg, cdp, sv0, res):
     R.check('%s 筆記加了「法律服務社」' % tag, after['note'], '')
     R.check('%s 沒有因為看公告就算加入（fafuJoined=false）' % tag, after['fafuJoined'] is False, J(after['fafuJoined']))
     R.note('%s 看完公告以後手機群組（id、名稱、加入天）：%s（BB-C 21:36：5685 出現 lawclub_study；76f8 story3d.js 改成 fafuJoined 才加）' % (tag, J(after['groups'])))
-    R.check('%s 沒有加任何法服群組' % tag, isinstance(after['groups'], list) and not any('law' in g['id'] or 'fafu' in g['id'] for g in after['groups']), J(after['groups']))
+    R.check('%s 沒有加任何法服群組（id＝lawclub_study 或名稱含「法服」才算；law_class、family_law 每個法律系學生都有，BB-C 21:37）' % tag, isinstance(after['groups'], list) and not any(g['id'] == 'lawclub_study' or '法服' in (g.get('name') or '') for g in after['groups']), J(after['groups']))
     await pg.evaluate("GAME.autosave&&GAME.autosave(true)")
     sv1 = await pg.evaluate("GAME.readSave('fatiao3d_auto')"); sv1 = dict(sv1); sv1.pop('pos', None)
     ry2 = await pg.evaluate(DAYOF, '2026-09-06')
