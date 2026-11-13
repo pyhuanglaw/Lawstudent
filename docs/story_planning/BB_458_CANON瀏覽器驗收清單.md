@@ -137,3 +137,5 @@
 - **05:4x 兩支定案**：
   - **REL76_ladder：不擋發布（TEST_SETUP）**——對照 REL76_ladder_ctl（f312）同一項一樣 FAIL：大一下第 5 週那六個時段，campus／library_hall／dorm 的人 ladData＝null、linze 沒人、cafe 只有上班中的芷若（staff，ladNext null）＝這支探針的時段本來就找不到合格的人，不是 76f8 回退。探針要換時段（LAWWW 用 Node 查到以安 A2-L1、芷若 Z2-L1、語彤 Y2-L1、學姊 S2-L1、沛珊 P2-L1 有下一層），發布後改。
   - **CANON458_AN_BEAT6_r6：PASS（#10 以安第 6 拍）**——熟悉 71、信任 50、自在 46（第 4 階）到燒臘，對話紀錄有「Alison 說你國中就決定要念法律。」；「旁邊有空位」那項是探針只看最後一筆 pSeat（整場已演完、回宿舍）＝TEST_BUG，不重跑。BEAT8_r5 以那一句為準。
+- **05:5x REL76_save_live：PASS（照 05:3x 定的規則）**——對照 REL76_save_live_ctl（f312→f312）沒過的是同一批：v9.5 專用三項、欄位 1／2 same() 唯一不同的鍵是 flags.deptHear（讀檔後遊戲照常累計「別系聊天聽過幾次」）、阿哲熟悉度 fam=12 兩版一樣、手機課表讀到訊息分頁（ctl 開跑時 phonefix 還沒上）。rel 全部一樣。＝探針期望，不是回退。live_r2（含 phonefix、印鍵）回來再確認 76f8 沒有多出別的鍵；有多出來的才交 LAWWW。
+- REL76_ladder_diag（76f8）名單和 f312 幾乎一樣（76f8 多一個 campus 17.6 的可昕，ladNext 也是 null）＝TEST_SETUP 確定。
