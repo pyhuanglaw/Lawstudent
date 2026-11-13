@@ -149,12 +149,20 @@ async def one_shift(pg, cdp, sv, who, tag, dt, hit, how):
         t = s.get('dtext') or ''
         if t and (not seen_lines or seen_lines[-1] != t): seen_lines.append(t)
         if t and (t == target.get('own') or t == target.get('ask') or t == target.get('narr')):
-            if snap_at is None:
-                snap_at = await pg.evaluate(PEOPLE, {'who': who}); await pg.screenshot(path=os.path.join(OUT, 'yue_%s_game.png' % tag))
-                try: out['diag'] = await pg.evaluate(DIAG, who)
-                except Exception as e: out['diag'] = {'error': repr(e)[:200]}
-                out['diag']['console_warn'] = [w for w in CONWARN if 'JOBS.meal' in w][-10:]; R.note('[%s] 她那一句那一格（LAWWW-C 要的四樣）：%s' % (tag, J(out['diag'])))
-            if VISITS < 2: break
+            # 11-13 LAWWW-C：旁白那一刻她還在走是預期的；diag 要在她那一句（ask／交往版 own）出來那一刻抓，旁白那一刻也留著前後比
+            kind_ = 'narr' if t == target.get('narr') else 'line'
+            key_ = 'diag_' + kind_
+            if key_ not in out:
+                try: out[key_] = await pg.evaluate(DIAG, who)
+                except Exception as e: out[key_] = {'error': repr(e)[:200]}
+                try: out[key_]['mealInView'] = await pg.evaluate("(()=>{ try{ return typeof JOBS!=='undefined'&&JOBS.mealInView?JOBS.mealInView(GAME):null; }catch(e){ return 'ERR'; } })()")
+                except Exception: pass
+                out[key_]['console_warn'] = [w for w in CONWARN if 'JOBS.meal' in w][-10:]; out[key_]['text'] = t[:40]
+                await pg.screenshot(path=os.path.join(OUT, 'yue_%s_%s_game.png' % (tag, kind_)))
+                R.note('[%s] %s那一格（LAWWW-C 要的）：%s' % (tag, '旁白' if kind_ == 'narr' else '她那一句', J(out[key_])))
+            if kind_ == 'line' and snap_at is None:
+                snap_at = await pg.evaluate(PEOPLE, {'who': who}); await pg.screenshot(path=os.path.join(OUT, 'yue_%s_game.png' % tag)); out['diag'] = out[key_]
+            if VISITS < 2 and kind_ == 'line': break
         if not s.get('dlg') and not s.get('choices') and not await pg.evaluate("!!(typeof JOBS!=='undefined'&&JOBS.running)"): break
         if s.get('choices'):
             await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); if(b) b.click(); })()")
