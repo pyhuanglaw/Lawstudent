@@ -5291,6 +5291,15 @@
    "wants": "X281",
    "task": "ROM-PRIVATE-DATE-1110",
    "note": "LAWWW 照選項說明定數字：晚餐（吃飯 17:00 以後）、散步、看電影逛書店 +2；念書、喝咖啡、吃午餐 +1；信任 +1、一天一次（invites3d.js S.romAloneAmt；docs/ROMANCE_ACTIVITY_TABLE.md）"
+  },
+  {
+   "id": "UA-LAWWW-1113-04",
+   "at": "2026-11-13 23:1x UTC",
+   "quote": "有幫手的對話四格是誰開的？那如果換帳號之後怎麼辦？他們怎麼交班他們沒有自己的交班規則",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "HELPER-HANDOFF-1113",
+   "note": "LAWWW-C 回：四個幫手是 LAWWW-C 11-13 19:4x 照 D161 開的；新增 D163 幫手交班規則（CLAUDE.md §4）"
   }
  ]
 }

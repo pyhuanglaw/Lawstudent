@@ -56730,7 +56730,49 @@
     "spec": "docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md",
     "acceptance": "tests/shop_cc0_unit.js 三項同時成立＋店自己的測試＋place_gate；LAWWW2 看並排圖驗收；BB 判美術",
     "ack": "ACK（AA-C 14:23）"
-   }
+   },
+   "helpers": [
+    {
+     "name": "幫手 g1",
+     "session": "session_01S1Gk9UtryMwS25pcG4ftKG",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g1",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g1/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    },
+    {
+     "name": "幫手 g2",
+     "session": "session_01S1Gk9WD6NYVtTg6gopb8ks",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g2",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g2/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    },
+    {
+     "name": "幫手 g3",
+     "session": "session_01S1Gk9W71VVmQ9D23ZrxpdU",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g3",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g3/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    },
+    {
+     "name": "幫手 g4",
+     "session": "session_01S1Gk9VE8qcQaXSoAvHHRiJ",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g4",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g4/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    }
+   ]
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -56773,6 +56815,21 @@
    "next": "【LAWWW-C 11-13 21:2x UTC】做好：invites3d.js S.meetPref（約好、當天、時間到、人在那一區＝她）＋ game3d.js updateInteract 設成 E.prefNpc（findWho 優先）→ engine3d 原有的 1.5 m 優先；tests/inv_meet_yield_1113_unit.js ALL PASS；相關 314 支 ALL PASS。不在 76f8；發布後 CC INV_LAWLIB 驗走到可昕旁邊互動鍵是她。｜【LAWWW-C 11-13 21:1x UTC】BB-C P3（76f8 INV_LIB 按到蔡宗霖）：LAWWW 決定讓位；v9.10.26 發布後做（E.nearestInteractable 的優先順序：約會對象＞初見事件），測試 CC INV_LAWLIB。",
    "source": "BB-C 11-13 21:02（76f8 測試）",
    "authorized": "BB 交 LAWWW 決定"
+  },
+  {
+   "id": "HELPER-HANDOFF-1113",
+   "title": "D163 幫手工作階段的交班規則（誰開歸誰管、幫手交接檔、換班先收幫手、不跨帳號、loose 檢查 helpers）",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "status": "已整合待測試",
+   "source": "使用者 2026-11-13 23:1x 對 LAWWW-C：「有幫手的對話四格是誰開的？那如果換帳號之後怎麼辦？他們怎麼交班他們沒有自己的交班規則」",
+   "authorized": "使用者原話；LAWWW 改規則（§0 誰改規則）",
+   "first": {
+    "term": "流程",
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-13 23:3x】CLAUDE.md §4 D163＋換班第 4b 步；check_handoff.py loose 讀 tasks.json helpers；SHOP-CC0-HELP-1113 登記 g1～g4；四個幫手都已在自己分支寫 HANDOFF.md（g1 af156a490f、g2 cbf7a248fb、g3 dac0add489、g4 5002861fb）。下次換班照 4b 步實際收一次幫手＝驗收。",
+   "xai": []
   }
  ]
 }

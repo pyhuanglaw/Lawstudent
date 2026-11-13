@@ -10,7 +10,7 @@
 >
 > 不准照舊對話、舊版 CLAUDE.md、啟動時載入的檔案假設「只有 A、B」或假設上一任是誰；上一任只看 `docs/handoff/duty.json` 的登記鏈。不叫醒休班帳號。
 
-**每一條規則只放一個地方**（使用者 2026-11-10 選擇題）：共同規則在本檔；各職位自己的做法在 `docs/rules/ROLE_<職位>.md`。D 編號是標籤，`grep -rn "D84" CLAUDE.md docs/rules` 找得到原本那一條。已經被取代的舊規則直接刪掉（git 歷史留著），不另外封存。下一個新決策用 **D163**。
+**每一條規則只放一個地方**（使用者 2026-11-10 選擇題）：共同規則在本檔；各職位自己的做法在 `docs/rules/ROLE_<職位>.md`。D 編號是標籤，`grep -rn "D84" CLAUDE.md docs/rules` 找得到原本那一條。已經被取代的舊規則直接刪掉（git 歷史留著），不另外封存。下一個新決策用 **D164**。
 
 ---
 
@@ -143,6 +143,14 @@
 4. **對使用者說「沒有、還沒做、要重做」以前先查**：用任務 ID、檔名、店名 grep 開發分支和其他職位的分支（`git grep <字> origin/<分支>`）；說出來的時候寫查了哪裡。查錯了當下更正，並把正確的事實加進 FACTS.md。
 5. **交班紀錄多一類 G｜東西放在哪**：這一班新裝的工具、新收到的圖和規格書、還沒合併的分支和 worktree（名字、SHA、裡面是什麼）、只在本機或 scratchpad 的檔；同時更新 FACTS.md。接班確認多一行「loose 結束碼、FACTS.md 讀了、上一班的 G 逐條在哪」。
 
+### 幫手工作階段也要交班（D163，使用者 2026-11-13 23:1x 對 LAWWW-C：「有幫手的對話四格是誰開的？那如果換帳號之後怎麼辦？他們怎麼交班他們沒有自己的交班規則」）
+「幫手」＝任何職位用 create_session 開的另一個工作階段（例：D161 店面 CC0 的 g1～g4）。子代理（Agent 工具）照 D148 第 3 點，不在此限。
+1. **誰開的歸誰管**：開的當下在 tasks.json 那個任務的 `helpers` 寫一筆（name、session、account、openedBy、branch、handoff＝交接檔路徑、what；不是 LAWWW 開的，交值班 LAWWW 寫）；派工訊息一定附做法、驗收標準、工具（D161）和這一節。
+2. **幫手要有交接檔**：在自己的分支寫 `<工作資料夾>/HANDOFF.md`，最上面是 `## 全部待辦`（每件一列：項目、狀態、最後 SHA、patch 路徑、還沒做的），每交一件、每推一次就更新；不改 duty.json、tasks.json。
+3. **換班時先收幫手**：開幫手的職位收到「現在換班」，先叫幫手「現在換班」（停工、commit＋push、更新 HANDOFF.md、回最後 SHA、之後不再寫入），收到 SHA 才交自己的班；幫手最後 SHA 寫進自己交班紀錄的 C、G 兩類。幫手沒回：寫「未回，最後遠端 SHA ＜x＞」。
+4. **幫手不跨帳號**：下一班不叫醒上一個帳號的幫手（D75）；下一班的同一職位照幫手的 HANDOFF.md 決定要不要用自己帳號另開幫手，從那條分支接著做（新幫手先讀 HANDOFF.md）。
+5. **機器檢查**：`check_handoff.py loose` 把 `helpers` 裡沒寫 `closed` 的幫手、分支上不在開發分支的 commit 列為異常；接班第 9 步逐條處理：整合、交給新幫手、或在那一筆寫 `closed`（原因＋最後 SHA；用 patch 交件的，全部交件都整合了才寫）。
+
 ### 平時就登記（D93、D94）
 - **五種都要持續登記**：新增任務、衍生待辦、已批准未實作的企劃、已交付未整合的成果、還沒做完的測試。LAWWW2、AA、BB、CC 寫在自己交接檔的「**全部待辦**」一節（`roles` 靠它找：**用 markdown 標題（#、##、###）、放在交接檔最上面**——工具只讀第一個標題裡有「全部待辦」的那一節，粗體行不算；舊的那幾節標題不要再出現這四個字。BB 11-10 發現：BB_00 的 roles 好幾天都在對 11-04 的舊清單），每項寫任務 ID；總表還沒有的標【表外】並通知值班 LAWWW。
 - **交付當下登記**：在自己分支的 `docs/handoff/outbox_<職位>.json`（格式 `docs/handoff/OUTBOX_TEMPLATE.md`）同一個 commit 加一筆：任務 ID、分支、SHA、檔案、狀態（`WIP`／`已交付`／`已整合`／`已測試`／`已驗收`）、還沒完成的（WIP 必填）、下一步、`noDirectIntegrate`、接收者、ACK。
@@ -159,6 +167,7 @@
    - **D 最新決策與規則**：本班新增、修訂的 D／HV、來源原話、寫在哪、SHA（其他職位交給 LAWWW 寫進規則檔）。
    - **E 跨 AI 協作**：誰交了什麼給誰，SENT／DELIVERED／ACK／ACTIONED。
    - **F 測試與問題**：未完成測試、已知 bug、阻塞、只在 scratchpad 的結果、還沒 iPhone 實機確認的。
+4b. **開過幫手的先收幫手**（D163）：叫每個幫手「現在換班」、拿到最後 SHA，寫進 C、G 兩類。
 5. `check_handoff.py snapshot --role <職位> --account <X>` → `check_handoff.py duty handoff --account <X> --role <職位> --snapshot <檔名> [--ref origin/<RULE_SOURCE>]` → commit＋push。**一定要跑 `duty handoff`**（HV-20：只寫交接檔不算，下次會被當成「值班中」）。通知同帳號值班 LAWWW（LAWWW 已交班就只寫 GitHub）。LAWWW 最後收尾，步驟在 ROLE_LAWWW。
 6. **關掉自己的喚醒**（D129）：`list_triggers` 找 `persistent_session_id`＝自己的排程 → `update_trigger enabled=false`（不刪）；自己排、還沒觸發的 `send_later` 用 `delete_trigger` 取消。
 7. 交班後**停止寫入**這個職位，回報使用者：最後 SHA、分支、push 成功與否、沒備份的項目。**不准**為了交班合併 main 或發布、force push、reset 別人的成果、把沒驗收的當作完成。
