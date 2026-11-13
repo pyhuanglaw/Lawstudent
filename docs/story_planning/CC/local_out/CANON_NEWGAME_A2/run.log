@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_flow_semester_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON_NEWGAME_A2\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [前置] localStorage.clear()（乾淨的玩家，沒有舊存檔）
+  [  36.1s] 標題畫面幀率 31.24 格／秒 → STUCK_S 300 秒
+PASS 標題畫面有 #btnNewLaw（law）
+PASS 過完 112 天（實際 0 天，結束原因 days reached）
+PASS 整段沒有 JS 例外（pageerror）  []
+  [  37.4s] 「下週期末考」提醒：沒有跑到考前一週（一則都沒出現）
+  [  37.4s] CANON 結束：{"met": false, "how": null, "day": null, "later": false, "contact": false, "key": "2025-09-17", "h": 21.2, "zone": "dorm", "cls": []}；見面那一刻 null；手機相關訊息 []
+FAIL FAIL_SETUP 檢查：真的演到可昕見面（KX_MET）、方式 class  {"met": false, "how": null, "day": null, "later": false, "contact": false, "key": "2025-09-17", "h": 21.2, "zone": "dorm", "cls": []}
+PASS 見面以後手機聯絡人有她  {"met": false, "how": null, "day": null, "later": false, "contact": false, "key": "2025-09-17", "h": 21.2, "zone": "dorm", "cls": []}
+  [  37.4s] console error 0 則（只記不判）：[]
+final_save.json：GAME.snapshot()，1624 字
+  [  37.5s] D158 字表掃描：0 段文字，含舊序章／外校字的 0 段（印出來已換成代號）：[]
+PASS 整段沒有舊序章、外校的字（台詞、選項、toast、字卡、手機訊息）  []
+SHA 8c7ed865600a085f283e1db9698ba18513cfafc8 ROUTE tw DAYS 112 前置／捷徑： ["[前置] localStorage.clear()（乾淨的玩家，沒有舊存檔）"]
+FAILED: FAIL_SETUP 檢查：真的演到可昕見面（KX_MET）、方式 class

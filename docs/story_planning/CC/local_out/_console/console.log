@@ -353,3 +353,17 @@
 [17:42:18] ==== START DN_FPS_edf2  (probe @ df0db366936e400caf6b6f59478f810b7ed84fe5) ====
 [17:42:21] [res] cpu=4% mem=31% (9.9/31.4 GB) chrome_testing=0  START DN_FPS_edf2
 [17:43:56] [res] cpu=3% mem=31% (10.0/31.4 GB) chrome_testing=0  END DN_FPS_edf2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0a811f2155..709a2f4538  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:44:02] ==== END   DN_FPS_edf2  exit=0  98s   ====
+[17:44:05] memory 29% before starting CANON_NEWGAME_A2 (0 running)
+[17:44:05] memory 29% before starting CANON_SIDE (1 running)
+[17:44:05] ==== START CANON_NEWGAME_A2  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
+[17:44:05] memory 29% before starting JPCLASS_MSGS (2 running)
+[17:44:05] ==== START CANON_SIDE  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
+[17:44:05] ==== START JPCLASS_MSGS  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
+[17:44:08] [res] cpu=10% mem=29% (9.1/31.4 GB) chrome_testing=0  START CANON_SIDE
+[17:44:08] [res] cpu=10% mem=29% (9.1/31.4 GB) chrome_testing=0  START JPCLASS_MSGS
+[17:44:08] [res] cpu=10% mem=29% (9.1/31.4 GB) chrome_testing=0  START CANON_NEWGAME_A2
+[17:46:07] [res] cpu=35% mem=42% (13.4/31.4 GB) chrome_testing=10  END CANON_NEWGAME_A2

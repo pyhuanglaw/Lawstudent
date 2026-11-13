@@ -1,0 +1,47 @@
+{
+ "sha": "8c7ed865600a085f283e1db9698ba18513cfafc8",
+ "url": "http://127.0.0.1:8802/index.html",
+ "route": "tw",
+ "start": "law",
+ "days_target": 112,
+ "until": "2025-09-02",
+ "days": [],
+ "shortcuts": [
+  "[前置] localStorage.clear()（乾淨的玩家，沒有舊存檔）"
+ ],
+ "fps_title": 31.24,
+ "stuck_s": 300,
+ "ended": "days reached",
+ "counted": 0,
+ "real_secs": 37,
+ "pageerrors": [],
+ "console_errors": [],
+ "console_error_n": 0,
+ "walkFallbacks": 0,
+ "final_reminders": [],
+ "canon": {
+  "end": {
+   "met": false,
+   "how": null,
+   "day": null,
+   "later": false,
+   "contact": false,
+   "key": "2025-09-17",
+   "h": 21.2,
+   "zone": "dorm",
+   "cls": []
+  },
+  "at_meet": null,
+  "skipped": [],
+  "hall": null,
+  "msgs": [],
+  "kx_shots": 0
+ },
+ "final_save": {
+  "src": "GAME.snapshot()",
+  "chars": 1624
+ },
+ "fails": [
+  "FAIL_SETUP 檢查：真的演到可昕見面（KX_MET）、方式 class"
+ ]
+}
