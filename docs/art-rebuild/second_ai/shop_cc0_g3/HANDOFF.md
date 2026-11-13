@@ -11,7 +11,7 @@
 | 大步球鞋 dabu | 已整合（LAWWW-C 884f09a7c3；LAWWW2 PASS） | a3a67aef7d | `docs/art-rebuild/second_ai/cc0_help/g3/dabu.patch` | P2（LAWWW2）：鞋盒牆、收銀台後的盒子牆改 `printed`（Cardboard001 上印品牌色塊、側標、尺碼標），大小顏色有變化、幾個開蓋歪放 → v2；六間交完再做 |
 | 好拍運動 haopai | 烘焙中（排第 4） | 腳本 11dd2b9e42 | （還沒有） | 要做 11-09 BACKFACE-HAOPAI 洞洞板兩步（已對新原檔做好，在本機 scratchpad）；`xs_lm_unit` instancing 64→65；`xs9_haopai_shanlan_check.py` 烘完才能跑 |
 | 同弦樂器 tongxian | 烘焙中（排第 5） | 腳本 11dd2b9e42 | （還沒有） | 要挖樓梯間地板洞（`glb_floor_hole.py`，已對新原檔做好）；`xs_lm_unit` instancing 29→30；第一次烘的沒挖洞，已丟掉 |
-| 新生運動廣場 xinsheng_sports | 烘焙中（排第 1） | 腳本 11dd2b9e42 | （還沒有） | 烘完：拍新版、並排圖、測試、patch |
+| 新生運動廣場 xinsheng_sports | 烘焙中（排最後：第一次烘好 23:28，看截圖發現足球用到洩氣的舊球，改充飽的白球後重烘） | 腳本 252bc3765a | （還沒有） | 烘完：拍新版（鏡頭 cams.json＋cams2.json 近景）、並排圖、測試（xs_lm_unit instancing 56→57 已改）、patch |
 | 大口漢堡一樓 dakou_1f | 烘焙中（排第 2） | 腳本 11dd2b9e42 | （還沒有） | 同上；牆改用自己的平塗材質 `dk_wall`（純色零件 14%） |
 | 大口漢堡二樓 dakou_2f | 烘焙中（排第 3） | 腳本 11dd2b9e42 | （還沒有） | 同上（純色零件 7%） |
 
@@ -19,6 +19,7 @@
 
 ## 目前做到哪（2026-11-13 23:20 UTC）
 
+- 23:4x：新生運動足球修正（part 1＋recolor），重烘排在大口、好拍、同弦之後。
 - 21:2x 容器重開過一次（烘焙佇列被砍掉，新生運動烘到一半）；23:17 重新排：新生運動 → 大口一樓 → 大口二樓 → 好拍（洞洞板版）→ 同弦（地板洞版），一間約 15～35 分（CPU、512 取樣）。
 - 每烘完一間：補 `lightbake/<店>_lm.json`（`glb_fix_instnames.py` 對不上新 Poly Haven instancing 的名字會讓 `bake_xs.sh` 停在最後，見 cc0_help/g3/README.md）→ 拍新版（`fast_shots.py`）→ `cmp_sheet.py` 並排圖 → 店的測試 → patch（底＝當時開發分支最新）→ commit＋push → 通知 LAWWW2-C、副本 LAWWW-C → 更新這份。
 
