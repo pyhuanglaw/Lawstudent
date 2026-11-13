@@ -196,7 +196,7 @@ const VACGAP=(function(){
   const trip=G=>{ const F=flags(G); return F.KX_TRIP&&typeof F.KX_TRIP==='object'?F.KX_TRIP:(F.KX_TRIP={}); };
   const outGet=(G,id)=>typeof OUT!=='undefined'&&OUT.get?OUT.get(G,id):null;
   S.kxTrip=function(G){ if(!L||!L.kxY3S||!L.kxY3S.trip||!S.dating(G,'kexin')||typeof PHONE==='undefined') return; const X=S.tripDays(G); if(!X||X.ask==null||G.day<X.ask||G.day>X.d2+1) return; const Y=L.kxY3S.trip, F=flags(G), now=T(G.day,G.hour), tag='msg_kx_trip_y3s';
-    if(trip(G).Y3SUM) return;
+    { const K0=F.KX_TRIP; if(K0&&typeof K0==='object'&&K0.Y3SUM) return; }   /* 讀的時候不建 KX_TRIP（舊存檔照舊）*/
     if(!PHONE.sent(G,tag)){ if(now<T(X.ask,21)||G.day>X.ask+1||!S.tripOk(G,X)) return; const M=Y.ask.map(KXm);
       M[M.length-1].ask={id:tag,until:T(X.d1-1,21),opts:Y.opts.map(([t,r],i)=>({t,say:[KXm(r)],set:{KX_TRIP_Y3S:i===0?'yes':'no'}}))}; PHONE.at(G,X.ask,21,M,tag); return; }
     const m=PHONE.byAsk?PHONE.byAsk(G,tag):null; if(m&&m.ans==null&&now>=T(X.d1-1,21)&&F.KX_TRIP_Y3S==null) F.KX_TRIP_Y3S='no';   /* 不回＝那兩天不行那一版（不另外扣分）*/
