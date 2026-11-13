@@ -51,7 +51,7 @@ def scan(paths, latin=False):
         if n:
             res[f] = n
     return res
-PREMISE = re.compile('你們學校|山上|下山|我們那邊|你們系')
+PREMISE = re.compile('你們學校|山上|下山|山下|後山|我們那邊|你們系|外校|首都帝大的|你們的球場')   # AA_940 建議（11-13）：heroine_asks、invites 可昕那格是前提層沒抓到才漏，加「外校」「後山／山下」「首都帝大的」「你們的球場」
 KX = re.compile('kexin|' + T(r'\u53ef\u6615'))
 def premise(paths):
     files = subprocess.run(['git', 'ls-files', '-z'] + (paths or ['src']), cwd=ROOT, capture_output=True).stdout.decode('utf-8', 'replace').split('\0')
