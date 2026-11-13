@@ -18,7 +18,7 @@ Playwright（PC GPU）手機模擬 ≠ iPhone。不用 ?turbo；讀檔只當起�
         兩場考試中間、第 15 週週日 20:30 → 每個時間點記 STUDY.reviewOpt（有沒有、灰不灰、提示字）、STUDY.reviewInfo 的科目；
         考前 7 天那一點真的用一次：走到宿舍書桌按互動 → 選單裡找「考前總複習」→ 按 → 記點了幾下、遊戲時間花多少、逐字稿；手機「今天」那一頁有沒有這一項（只記）。
         「已經考完的科目」：【前置】把第一場記成考過（CLS.rec(G).exam[key].status='done'），看 reviewInfo 還包不包含那一科。
-CC_02 清單 2026-11-12：1✓（日期照 BB_222：12/15 07:40、第 16 週、2026-10-24 07:50；期末週從遊戲 CLS.examList 讀） 2✓（課、考試、一鍵選項都從遊戲讀：CLS.examList、CLS.dayItems、#goPop 的字） 3✓（同一份存檔每段重新讀） 4✓（選項照字找；考試選項照遊戲 optList 的字：是非＝對／錯、選擇＝（鍵）選項） 5✓（去教室用遊戲的一鍵，不瞬移） 6✓（讀檔等 6 秒、對話一句一句點） 7✓ 8✓（門檻是 BB_222 的通過條件；黑名單台詞原文照表；其他負面句只記、BB 判） 9n/a（截圖要看旁白，不藏東西） 10n/a（條件事件要開：考試、上課旁白、法服都是事件） 11✓ 12✓（逐字稿＋每一場的分數、時間、選單） 13✓（作答捷徑、改存檔都標）
+CC_02 清單 2026-11-13：1✓（日期照 BB_222：12/15 07:40、第 16 週、2026-10-24 07:50；期末週從遊戲 CLS.examList 讀） 2✓（課、考試、一鍵選項都從遊戲讀：CLS.examList、CLS.dayItems、#goPop 的字） 3✓（同一份存檔每段重新讀） 4✓（選項照字找；考試選項照遊戲 optList 的字：是非＝對／錯、選擇＝（鍵）選項） 5✓（去教室用遊戲的一鍵，不瞬移） 6✓（讀檔等 6 秒、對話一句一句點） 7✓ 8✓（門檻是 BB_222 的通過條件；黑名單台詞原文照表；其他負面句只記、BB 判） 9n/a（截圖要看旁白，不藏東西） 10n/a（條件事件要開：考試、上課旁白、法服都是事件） 11✓ 12✓（逐字稿＋每一場的分數、時間、選單） 13✓（作答捷徑、改存檔都標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=SE06|SE12|FA01|SE11|FA05|SE01 [FIX=tests/fixtures/user_save_day51b_1110.json] [MAX_MIN=18] [FF=1] python3 cc_study_play_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, re
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -213,14 +213,22 @@ async def part_se12(pg, cdp, sv0, res):
 
 
 async def part_fa01(pg, cdp, sv0, res):
-    tag = '[FA01]'
+    # 11-13 BB-C（BB_255）：10/24 是法服固定場次第 1 場（FAFU_STORY）＝有選單是設計；一般值班的週六（10/31）才是「沒有出發選單」。兩天都跑、期望相反
+    res['FA01'] = {}
+    for day_, want_menu in (('2026-10-31', False), ('2026-10-24', True)):
+        await _fa01_day(pg, cdp, sv0, res, day_, want_menu)
+
+
+async def _fa01_day(pg, cdp, sv0, res, day_, want_menu):
+    tag = '[FA01 %s]' % day_
     ry2 = await pg.evaluate(DAYOF, '2026-09-06')   # 大二搬房間那天（ROOM_Y2 有值＝不補演拆箱）
 
     def member(sv):
         F = sv.setdefault('flags', {}); F['SIS_CLUB_EXPO'] = F.get('SIS_CLUB_EXPO') or 1; F['lawclub'] = True; F['CLUB_lawclub_study'] = max(int(F.get('CLUB_lawclub_study') or 0), 2)
         F.setdefault('ROOM_Y2', ry2)
-    r = await load(pg, sv0, '2026-10-24', 7.83, 'dorm', mods=member)
+    r = await load(pg, sv0, day_, 7.83, 'dorm', mods=member)
     R.setup('%s 【前置】社員存檔（SIS_CLUB_EXPO、lawclub、CLUB_lawclub_study）讀到 %s 07:50 宿舍（大二上）' % (tag, r['key']))
+    R.check('FAIL_SETUP 檢查：%s 讀到 %s 宿舍' % (tag, day_), r.get('key') == day_, J(r))
     out0 = await pg.evaluate("(()=>{ try{ const G=GAME.G; return OUT.get(G,'fafu_'+G.day)||null; }catch(e){ return 'err '+String(e).slice(0,80); } })()")
     t0 = time.time(); menus = []; lines = []
     while time.time() - t0 < (MAX_MIN - 4) * 60:
@@ -238,8 +246,9 @@ async def part_fa01(pg, cdp, sv0, res):
     bad = [m for m in menus if any(('法服值班' in t or '這週請假' in t or t.startswith('晚一點')) for t in m[2])]
     R.note('%s 07:50 OUT.get(fafu_今天)=%s；%s %.2f 時 OUT.get=%s；選單 %s；對話 %s' % (tag, J(out0), s['key'], s['h'], J(out1), J(menus), J(lines[-12:])))
     R.check('%s 等到 %.2f（要 ≥ 08:30）' % (tag, s['h']), s['h'] >= 8.5, '')
-    R.check('%s 沒有例行的出發選單（法服值班／晚一點／這週請假）' % tag, not bad, J(bad))
-    res['FA01'] = {'out0': out0, 'out1': out1, 'menus': menus, 'lines': lines, 'end': s}
+    if want_menu: R.check('%s 法服固定場次那天有出發選單（設計如此）' % tag, bool(bad), J(menus))
+    else: R.check('%s 一般值班週六沒有例行的出發選單（法服值班／晚一點／這週請假）' % tag, not bad, J(bad))
+    res['FA01'][day_] = {'out0': out0, 'out1': out1, 'menus': menus, 'lines': lines, 'end': s}
 
 
 async def finish_class(pg, cdp, itkey, maxs=300, pick=None):

@@ -1898,9 +1898,11 @@ class Person:
         ok, m, l, s = await self.study_scene(tag, iv)
         if not R.check('%s：見面一路演完' % tag, ok and await self.iv_done(iv['id']), why_not_free(s) + ' ' + J(await pg.evaluate(INVS_JS, self.pid))): await self.dump(tag, s); return self.study_off()
         await pg.wait_for_timeout(3000); r = await pg.evaluate(NPCST_JS, self.pid)
-        R.check('%s：演完她解凍（n.frozen＝false，不再停在劇情狀態）' % tag, r['npc'] and not r['frozen'], J(r))
+        # 11-13 BB-C（BB_255）：演完她已經離開這一區（npc 不在場、作息在別處）＝已經走了＝PASS，不是 FAIL
+        gone = (not r['npc']) and isinstance(r.get('where'), dict) and r['where'].get('zone') not in (None, r.get('zone'))
+        R.check('%s：演完她解凍（n.frozen＝false，不再停在劇情狀態；人已經走了也算）' % tag, gone or (r['npc'] and not r['frozen']), J(r))
         if r['nseat'] and r['keep']: R.info('%s：她還坐著，但作息本來就在這裡（%s），S.release 照舊讓她坐' % (tag, J(r['where'])))
-        else: R.check('%s：演完她起身（不黏在座位上）' % tag, r['npc'] and not r['nseat'], J(r))
+        else: R.check('%s：演完她起身（不黏在座位上；人已經走了也算）' % tag, gone or (r['npc'] and not r['nseat']), J(r))
         await self.check_free(tag + ' 結束', fb0, err0)
         await self.her_after(tag, True)
         await self.study_tail(tag)
