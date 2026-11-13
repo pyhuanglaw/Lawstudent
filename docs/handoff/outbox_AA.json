@@ -7945,15 +7945,15 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "(本 commit：korea v1)",
    "files": [
-    "docs/art-rebuild/aa_help/l118_korea_dian_tea_cc0.patch",
+    "docs/art-rebuild/aa_help/l118_korea_dian_cc0.patch",
     "docs/art-rebuild/aa_help/cmp_l118_korea.jpg"
    ],
    "state": "已交付",
    "at": "2026-11-13T15:55Z",
-   "receiver": "LAWWW2",
-   "ack": "",
+   "receiver": "LAWWW",
+   "ack": "LAWWW2-C 美術 PASS（P2：korea 蒸氣球、吊盆、桌面反光；dian 紅櫃台分段、桶貼紙字）",
    "noDirectIntegrate": true,
-   "next": "LAWWW2-C 驗收 korea（patch 改成 korea＋dian，底 5f35959762）（patch 換成 korea＋dian＋tea 累積版，底 352f02cb55）",
+   "next": "LAWWW-C git apply l118_korea_dian_cc0.patch（底 5f35959762，ebc3812e2a 上 apply --check 過）",
    "unfinished": "dian、tea（lane118_shops.py）；cafe2、home、noodle2、omu、pasta（l118_int_<店>.py）"
   },
   {
@@ -7961,15 +7961,15 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "(本 commit：dian v1)",
    "files": [
-    "docs/art-rebuild/aa_help/l118_korea_dian_tea_cc0.patch",
+    "docs/art-rebuild/aa_help/l118_korea_dian_cc0.patch",
     "docs/art-rebuild/aa_help/cmp_l118_dian.jpg"
    ],
    "state": "已交付",
    "at": "2026-11-13T16:15Z",
-   "receiver": "LAWWW2",
-   "ack": "",
+   "receiver": "LAWWW",
+   "ack": "LAWWW2-C 美術 PASS（P2：korea 蒸氣球、吊盆、桌面反光；dian 紅櫃台分段、桶貼紙字）",
    "noDirectIntegrate": true,
-   "next": "LAWWW2-C 驗收 korea、dian → LAWWW-C 整合（patch 底 5f35959762，apply 後 shop_cc0 ALL PASS）→ BB 判美術（patch 換成 korea＋dian＋tea 累積版，底 352f02cb55）",
+   "next": "LAWWW-C git apply l118_korea_dian_cc0.patch（底 5f35959762，ebc3812e2a 上 apply --check 過）",
    "unfinished": "tea（lane118_shops.py）；cafe2、home、noodle2、omu、pasta（l118_int_<店>.py）；self P2 五點（紅燒肉貼圖、雞排側面、價錢牌字、炸物架堆滿、後廚櫃子）"
   },
   {
