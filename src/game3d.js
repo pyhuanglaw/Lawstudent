@@ -455,7 +455,7 @@ const GAME = (function(){
      壓縮的存檔前面是 LZ1:，讀的時候認前綴；沒有前綴照舊 JSON（舊存檔、匯出檔照讀）。現在先只在「空間不足」時改存壓縮版（GM.lzSave＝false）；
      v9.10.20 發布、測試探針改用 GAME.readSave 以後，GM.lzSave 改 true（每次都壓）。網址加 ?lzsave 可以先開來測。壓完先解回來比對，對不上就存原本的 JSON。*/
   const LZP='LZ1:', lzOk=()=>typeof LZString!=='undefined'&&!!LZString.compressToUTF16;
-  if(GM.lzSave===undefined) GM.lzSave=typeof location!=='undefined'&&/[?&]lzsave(?:[=&]|$)/.test(location.search||'');
+  if(GM.lzSave===undefined) GM.lzSave=!(typeof location!=='undefined'&&/[?&]nolzsave(?:[=&]|$)/.test(location.search||''));   /* 11-13 起預設每次都壓（CC-C cc-testing 1ae6a07881：探針全部改用 GAME.readSave）；?nolzsave＝照舊只在空間不足時壓 */
   function encSave(j,force){ if((force||GM.lzSave)&&lzOk()){ try{ const c=LZString.compressToUTF16(j); if(c&&LZString.decompressFromUTF16(c)===j) return LZP+c; }catch(e){} } return j; }
   function decSave(t){ if(typeof t!=='string'||!t) return null; if(t.slice(0,LZP.length)===LZP){ if(!lzOk()) return null; const j=LZString.decompressFromUTF16(t.slice(LZP.length)); return j?JSON.parse(j):null; } return JSON.parse(t); }
   function write(key,obj){ const st=ls(); if(!st){ GM.saveErr='nostore'; return false; } const j=JSON.stringify(obj);

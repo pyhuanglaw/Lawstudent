@@ -1,5 +1,5 @@
 // SAVE-LZ-1104（使用者 11-04 13:5x 選「加 lz-string」：重度玩家 7 份存檔約 5.9 MB，超過瀏覽器 5 MB）：存檔壓縮——不需要瀏覽器。
-//   1. 舊存檔（沒有前綴的 JSON）照讀；GM.lzSave＝false 時平常照舊存 JSON（測試、探針讀 localStorage 的 JSON 不受影響）
+//   1. 舊存檔（沒有前綴的 JSON）照讀；GM.lzSave 預設 true（11-13 起），?nolzsave＝false 時平常照舊存 JSON
 //   2. 空間不足：JSON 存不進去 → 改存壓縮版（LZ1: 開頭）再試一次；存得進去就算成功、saveErr 清掉；讀回來和原本一樣
 //   3. GM.lzSave＝true：每次都壓；讀回來一樣；大存檔壓完明顯變小（印出比例和時間，只當參考）
 //   4. 壓縮的存檔在沒有 lz-string 的地方讀＝null（不當掉）；壞掉的壓縮字串＝null
@@ -28,10 +28,12 @@ function bigSave(n){ const s={v:2,day:n,hour:13.5,zone:'campus',flags:{},msgs:[]
 if(blk&&rd){
   /* 1. 舊存檔照讀；平常存 JSON */
   { const st=mkStore(1e9); const old={v:2,day:9,zone:'dorm',note:'舊存檔'}; st.m.set('fatiao3d_slot_1',JSON.stringify(old));
-    const c=mkCtx(st,true); check('1. GM.lzSave 預設 false（網址沒有 ?lzsave）', c.GM.lzSave===false, String(c.GM.lzSave));
+    const c=mkCtx(st,true); check('1. GM.lzSave 預設 true（11-13 起每次都壓；網址加 ?nolzsave 才關）', c.GM.lzSave===true, String(c.GM.lzSave));
     check('1. 舊存檔（JSON，沒有前綴）照讀', JSON.stringify(c.read('fatiao3d_slot_1'))===JSON.stringify(old));
-    const ok=c.write('fatiao3d_auto',{day:3,a:'小存檔'}); const raw=st.getItem('fatiao3d_auto');
-    check('1. GM.lzSave＝false、空間夠：照舊存 JSON（{ 開頭）', ok===true&&raw[0]==='{', raw.slice(0,12)); }
+    const ok0=c.write('fatiao3d_auto',{day:3,a:'小存檔'}); const raw0=st.getItem('fatiao3d_auto');
+    check('1. 預設：小存檔也存成 LZ1: 開頭、讀回來一樣', ok0===true&&raw0.startsWith('LZ1:')&&JSON.stringify(c.read('fatiao3d_auto'))===JSON.stringify({day:3,a:'小存檔'}), raw0.slice(0,4));
+    const cf=mkCtx(st,true,false); const ok=cf.write('fatiao3d_auto',{day:3,a:'小存檔'}); const raw=st.getItem('fatiao3d_auto');
+    check('1. GM.lzSave＝false（?nolzsave）、空間夠：照舊存 JSON（{ 開頭）', ok===true&&raw[0]==='{', raw.slice(0,12)); }
   /* 2. 空間不足 → 改存壓縮版 */
   { const S=bigSave(3000), J=JSON.stringify(S); const st=mkStore(Math.floor(J.length*0.6)); const c=mkCtx(st,true);
     const ok=c.write('fatiao3d_auto',S); const raw=st.getItem('fatiao3d_auto')||'';
