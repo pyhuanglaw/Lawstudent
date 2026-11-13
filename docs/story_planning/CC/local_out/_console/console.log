@@ -698,3 +698,25 @@
 [20:56:57] ==== START L77DE_ALL  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
 [20:57:00] [res] cpu=55% mem=42% (13.3/31.4 GB) chrome_testing=8  START L77DE_ALL
 [20:59:10] [res] cpu=8% mem=44% (14.0/31.4 GB) chrome_testing=10  END L5F03_CLOSED8
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d8f2893846..d9db112e63  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:59:19] ==== END   L5F03_CLOSED8  exit=1  305s   ====
+[20:59:22] skip X352_CON_dabu (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
+[20:59:22] skip X352_CON_nanyang (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
+[20:59:22] skip X352B_new_a (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
+[20:59:22] skip X352B_new_b (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
+[20:59:22] skip X352_DABU_new (already done on 207a8216d90c98f979b857f258e496209c2499a8)
+[20:59:22] skip X352_DABU_old (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
+[20:59:22] skip P0_LONGPLAY_dc3d (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
+[20:59:22] skip P0_LONGPLAY_98ec (already done on 98ec5b0f66120b7dcb37acfc5c362be73051f6bf)
+[20:59:22] skip P0_LONGPLAY_dc3d_solo (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
+[20:59:22] skip P0_LONGPLAY_98ec_solo (already done on 98ec5b0f66120b7dcb37acfc5c362be73051f6bf)
+[20:59:22] skip ST4_a_ccgpu (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
+[20:59:22] skip ST4_a2_pwdefault (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
+[20:59:22] skip ST4_b_lowpower (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
+[20:59:22] solo item P0_LONGPLAY_fix_solo waits: no new items start until the 2 running item(s) finish
+[21:01:52] 正在跑：L2C82_ALL（已跑 5 分／上限 90 分）、L77DE_ALL（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:06:52] 正在跑：L2C82_ALL（已跑 10 分／上限 90 分）、L77DE_ALL（已跑 9 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:11:52] 正在跑：L2C82_ALL（已跑 15 分／上限 90 分）、L77DE_ALL（已跑 14 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:14:15] [res] cpu=4% mem=36% (11.6/31.4 GB) chrome_testing=5  END L2C82_ALL

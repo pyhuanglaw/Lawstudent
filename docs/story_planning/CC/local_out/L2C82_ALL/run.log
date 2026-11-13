@@ -1,0 +1,498 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l2c82_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L2C82_ALL\out
+CC L2C82（LAWWW-C 07:16）：TAG 2c82；SHA a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492；PARTS JOBS,QT,GIFT,TYPH；Windows＋GPU ≠ iPhone
+  [前置／捷徑] 網址加 ?tapguard（選單剛出來那一下不收點擊，和真手機一樣；CC_02 乙 4）：http://127.0.0.1:8801/index.html?tapguard
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到使用者存檔 tests/fixtures/user_save_day51_1110.json
+PASS 這一版有要測的東西（JOBS.busyWith／early、SHOP_JOBS_AA829、GIFT 東南大聯商行、颱風名單有禮貌生財）  {"jobs": true, "aa829": true, "gift": true, "typh": true}
+  [  27.5s] [JOBS flower] 計畫：{"k": "flower", "term": {"from": -15, "to": 96}, "d0": 52, "eligible": true, "days": [6, 7], "hours": {"6": [9, 13], "7": [13, 17]}, "ok": [6, 7], "cands": [{"wd": 6, "c": {"o": "brunch", "b": [7.5, 11.5]}, "day": 53, "key": "2025-11-08", "why": {"wd": 1, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": false}, {"wd": 7, "c": {"o": "tea", "b": [13, 17]}, "day": 54, "key": "2025-11-09", "why": {"wd": 2, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}], "pick": {"work": 7, "day": 54, "key": "2025-11-09", "clash": 6, "o": "brunch", "ob": [7.5, 11.5], "t0": 13}, "used": 0, "cap": 2}
+PASS [JOBS flower] 算得出日子和班表（PLAN_JS）  {"k": "flower", "term": {"from": -15, "to": 96}, "d0": 52, "eligible": true, "days": [6, 7], "hours": {"6": [9, 13], "7": [13, 17]}, "ok": [6, 7], "cands": [{"wd": 6, "c": {"o": "brunch", "b": [7.5, 11.5]}, "day": 53, "key": "2025-11-08", "why": {"wd": 1, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": false}, {"wd": 7, "c": {"o": "tea", "b": [13, 17]}, "day": 54, "key": "2025-11-09", "why": {"wd": 2, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}], "pick": {"work": 7, "day": 54, "key": "2025-11-09", "clash": 6, "o": "brunch", "ob": [7.5, 11.5], "t0": 13}, "used": 0, "cap": 2}
+PASS [JOBS flower] 讀得到 AA_829 的字（SHOP_JOBS_AA829.jobs.flower）  {"look": "看小卡", "notice": "徵週末花藝助手　會拔葉子就可以", "askOpt": "「問花藝師。」", "laterOpt": "「再想想。」", "boss": "花藝師", "ask": "你上過課，知道花要怎麼拿。週末早上進貨最忙，能來嗎？", "segs": [{"name": "整理花材", "nov": "（一箱一箱的花從冷藏車搬下來。你剪花莖剪得太短，花藝師看了一眼，沒有說話，把那一枝插到最前面的矮桶。）", "ch": [["「先處理玫瑰。」", "（刺要一根一根刮掉。你的手套破了一個洞。）"], ["「先換水。」", "（十二個桶子，一個一個提。換完地上都是水。）"]]}, {"name": "包裝", "nov": "（緞帶你綁了三次，蝴蝶結都是歪的。花藝師接過去，兩秒綁好。）", "ch": [["「問客人要不要寫小卡。」", "（客人想了很久，寫了兩個字，又塗掉重寫。）"], ["「先包再說。」", "（包好了客人才說要換顏色。你拆開重包。）"]]}, {"name": "門市", "nov": "（有人問這束花可以放幾天。你回頭看花藝師，她比了一個「五」。）", "ch": [["「把落葉掃起來。」", "（掃把一動，又掉了幾片。你決定等一下再掃一次。）"], ["「補花台上的花束。」", "（最貴的那一束賣掉了。你把第二貴的往前挪。）"]]}], "end0": "（下班的時候，花藝師把一枝賣相不好的玫瑰給你。花瓣邊邊有一點黑，還是很香。）", "pay": 784, "toast": "花序 薪水 784 元", "short": "花序", "zone": "flower_notes", "desk": {"x": -3.2, "z": -5.2, "lv": 1, "r": 0.8}, "sched": [{"wd": 6, "t0": 9, "t1": 13, "name": "", "close": false}, {"wd": 7, "t0": 13, "t1": 17, "name": "", "close": false}]}
+  [前置／捷徑] [JOBS flower] ① 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51_1110.json、改到 day 54（同一天）flower_notes 店裡；拿掉 G.flags.FC（沒上過花藝課）
+  [  40.3s] [JOBS flower] ① 讀檔以後先有的劇情（照字點完，不算）：["花藝師｜歡迎。要送人的話，跟我說一下是什麼樣的人。"]
+PASS [JOBS flower] ① 讀到 flower_notes  {"zone": "flower_notes", "day": 54, "hour": 14.013, "money": 95220, "x": 0, "z": 6.1, "lv": 0, "busy": false, "dlg": false, "dtext": "花藝師｜歡迎。要送人的話，跟我說一下是什麼樣的人。", "nch": 0, "interact": "離開花序", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [JOBS flower] ① 條件不夠（沒上過花藝課）時告示藏著（wzJob 互動點 hidden）  [{"n": 30, "label": "看小卡", "x": -3.2, "z": -5.2, "lv": 1, "r": 0.8, "hidden": true, "to": null, "wzJob": "flower", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [JOBS flower] ② 【前置／捷徑】讀使用者存檔、改到 2025-11-09（週日）12.40 時 flower_notes 出生點；G.jobs 換成只有 brunch（週六 [7.5, 11.5]，撞 週六 的班；原本的一盞拿掉＝名額剩一班）；G.flags.FC={cnt:1}（上過一次花藝課）
+  [  50.1s] [JOBS flower] ② 讀檔以後先有的劇情（照字點完，不算）：["花藝師｜鮮花在左邊，永生花在前面那一櫃。"]
+PASS [JOBS flower] ② 讀到 flower_notes  {"zone": "flower_notes", "day": 54, "hour": 12.414, "money": 95220, "x": 0, "z": 6.1, "lv": 0, "busy": false, "dlg": false, "dtext": "花藝師｜鮮花在左邊，永生花在前面那一櫃。", "nch": 0, "interact": "離開花序", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [JOBS flower] ② 告示在（wzJob 互動點、看得到）、位置＝jobs3d.js desk (-3.2, -5.2) 第 1 層  [{"n": 30, "label": "看小卡", "x": -3.2, "z": -5.2, "lv": 1, "r": 0.8, "hidden": false, "to": null, "wzJob": "flower", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+PASS [JOBS flower] ② 告示按鈕的字＝稿的 look「看小卡」  {"n": 30, "label": "看小卡", "x": -3.2, "z": -5.2, "lv": 1, "r": 0.8, "hidden": false, "to": null, "wzJob": "flower", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}
+PASS [JOBS flower] ② 告示在 desk 的位置（-3.20, -5.20, lv 1）  {"x": -3.2, "z": -5.2, "lv": 1, "r": 0.8}
+PASS [JOBS flower] 讀得到花序的樓梯配置（FLOWER_NOTES_LAYOUT.stair／landing）  {"stair": {"x0": 3.5, "x1": 4.9, "zBottom": 1.4, "zTop": -5.32, "risers": 24, "rise": 0.1625, "tread": 0.28, "railX": 3.4, "note": "往北（−z）爬；最下面一階的邊緣在 z 1.4（和地面同高），最上面在 z −5.32（和二樓同高）"}, "landing": {"x0": 3.4, "x1": 4.9, "z0": -6.8, "z1": -5.32, "note": "二樓東北角的樓梯平台"}}
+  [  54.3s] 到達「[JOBS flower] 樓梯口（一樓）（第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [JOBS flower] 走到樓梯口（一樓） (4.20, 2.20) 第 0 層  {"me": [3.97, 2.19, 0], "diag": {"me": [3.97, 2.19, 0], "to": [4.2, 2.2, 0], "d": 0.23, "pathLen": 1, "standHere": true, "standThere": true, "nearest": ""}}
+  [  60.3s] 「[JOBS flower] 樓梯中段（第 1 段）」：停在離目標 4.06 m（點到的地面偏了），用搖桿往目標推一下
+  [  68.7s] 到達「[JOBS flower] 樓梯中段（第 1 段）」附近（0.05 m）：點地面 1 次、轉鏡頭 0 次、搖桿 6 次，14 秒
+PASS [JOBS flower] 走到樓梯中段 (4.20, -1.96)  {"me": [4.2, -1.91, 0], "diag": {"me": [4.2, -1.91, 0], "to": [4.2, -1.9600000000000002, 0], "d": 0.05, "pathLen": 1, "standHere": true, "standThere": true, "nearest": ""}}
+  [  72.0s] 到達「[JOBS flower] 二樓平台（第 1 段）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [JOBS flower] 走到二樓平台 (4.15, -6.06) 第 1 層  {"me": [4.15, -5.81, 1], "diag": {"me": [4.15, -5.81, 1], "to": [4.15, -6.0600000000000005, 1], "d": 0.25, "pathLen": 1, "standHere": true, "standThere": true, "nearest": ""}}
+  [  80.4s] 到達「[JOBS flower] 走到「看小卡」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS [JOBS flower] 走到告示旁、互動鍵是「看小卡」  [{"pt": [-3.2, -5.2], "seg": 1, "ok": true, "at": [-3.058, -4.991, 1], "interact": "看小卡", "how": "點地 go_to"}]
+  [  84.8s] [JOBS flower] 班表選單：["[灰]週六（09:00～13:00）", "週日（13:00～17:00）", "先不要"]；先按撞班的「週六」（灰）
+  [  88.6s] [JOBS flower] 排好班了：{"day": [7], "shifts": 0, "worked": [], "since": 54, "gone": null}（13.00 時）
+  [ 100.2s] [JOBS flower] 對話全文：[["", "徵週末花藝助手　會拔葉子就可以"], ["花藝師", "你上過課，知道花要怎麼拿。週末早上進貨最忙，能來嗎？"], ["", "（這個時段你已經有班了。）"], ["", "（一箱一箱的花從冷藏車搬下來。你剪花莖剪得太短，花藝師看了一眼，沒有說話，把那一枝插到最前面的矮桶。）"], ["", "（刺要一根一根刮掉。你的手套破了一個洞。）"], ["", "（緞帶你綁了三次，蝴蝶結都是歪的。花藝師接過去，兩秒綁好。）"], ["", "（客人想了很久，寫了兩個字，又塗掉重寫。）"], ["", "（有人問這束花可以放幾天。你回頭看花藝師，她比了一個「五」。）"], ["", "（掃把一動，又掉了幾片。你決定等一下再掃一次。）"], ["", "（下班的時候，花藝師把一枝賣相不好的玫瑰給你。花瓣邊邊有一點黑，還是很香。）"]]
+  [ 100.2s] [JOBS flower] 選單：[["「問花藝師。」", "「再想想。」"], ["[灰]週六（09:00～13:00）", "週日（13:00～17:00）", "先不要"], ["[灰]週六（09:00～13:00）", "週日（13:00～17:00）", "先不要"], ["「先處理玫瑰。」", "「先換水。」"], ["「問客人要不要寫小卡。」", "「先包再說。」"], ["「把落葉掃起來。」", "「補花台上的花束。」"]]；toast：["班表：花序　週日 13:00～17:00", "花序 薪水 784 元"]；錢 [[784, 17]]
+PASS [JOBS flower] 按告示：旁白是告示的字「徵週末花藝助手　會拔葉子就可以」  ["徵週末花藝助手　會拔葉子就可以", "你上過課，知道花要怎麼拿。週末早上進貨最忙，能來嗎？", "（這個時段你已經有班了。）", "（一箱一箱的花從冷藏車搬下來。你剪花莖剪得太短，花藝師看了一眼，沒有說話，把那一枝插到最前面的矮桶。）"]
+PASS [JOBS flower] 告示以後的選單＝「「問花藝師。」」「「再想想。」」  [["「問花藝師。」", "「再想想。」"], ["[灰]週六（09:00～13:00）", "週日（13:00～17:00）", "先不要"]]
+PASS [JOBS flower] 選了「「問花藝師。」」以後，花藝師開口「你上過課，知道花要怎麼拿。週末早上進貨最忙，能來嗎？」
+PASS [JOBS flower] 出了班表選單（真的走到選班表）  [["「問花藝師。」", "「再想想。」"], ["[灰]週六（09:00～13:00）", "週日（13:00～17:00）", "先不要"], ["[灰]週六（09:00～13:00）", "週日（13:00～17:00）", "先不要"], ["「先處理玫瑰。」", "「先換水。」"], ["「問客人要不要寫小卡。」", "「先包再說。」"], ["「把落葉掃起來。」", "「補花台上的花束。」"]]
+  [ 100.2s] [JOBS flower] 班表選項（字、時間、灰不灰）：[["週六", "09:00～13:00", true], ["週日", "13:00～17:00", false], ["先不要", "", false]]
+PASS [JOBS flower] 班表裡要選的「週日」沒有灰（{"k": 1, "t": "週日", "hint": "13:00～17:00", "dim": false}）
+PASS [JOBS flower] 和已經排的 brunch（週六 [7.5, 11.5]）重疊的「週六」灰掉（S.busyWith，AA_829 第 4 節）  {"opt": {"k": 0, "t": "週六", "hint": "09:00～13:00", "dim": true}, "job_before": null}
+PASS [JOBS flower] 按了灰的那一項：同一份班表再出一次、還沒排班（選了灰的＝再選一次）  {"same": true, "job": null, "opts": ["[灰]週六（09:00～13:00）", "週日（13:00～17:00）", "先不要"]}
+PASS [JOBS flower] 排的班＝週日（G.jobs.flower.day）  {"day": [7], "shifts": 1, "worked": [54], "since": 54, "gone": null}
+PASS [JOBS flower] 跳出「班表：花序…」toast  ["班表：花序　週日 13:00～17:00", "花序 薪水 784 元"]
+PASS [JOBS flower] 開班、做完一班（G.jobs.flower.shifts=1、worked 有今天）  {"done": {"j": {"day": [7], "shifts": 1, "worked": [54], "since": 54, "gone": null}, "shiftNow": false, "running": false, "hour": 17.003}, "started": true}
+PASS [JOBS flower] 第 1 段「整理花材」的旁白（nov）  （一箱一箱的花從冷藏車搬下來。你剪花莖剪得太短，花藝師看了一
+PASS [JOBS flower] 第 1 段選第一個「「先處理玫瑰。」」→「（刺要一根一根刮掉。你的手套破了一個洞。」
+PASS [JOBS flower] 第 2 段「包裝」的旁白（nov）  （緞帶你綁了三次，蝴蝶結都是歪的。花藝師接過去，兩秒綁好。）
+PASS [JOBS flower] 第 2 段選第一個「「問客人要不要寫小卡。」」→「（客人想了很久，寫了兩個字，又塗掉重寫。」
+PASS [JOBS flower] 第 3 段「門市」的旁白（nov）  （有人問這束花可以放幾天。你回頭看花藝師，她比了一個「五」。
+PASS [JOBS flower] 第 3 段選第一個「「把落葉掃起來。」」→「（掃把一動，又掉了幾片。你決定等一下再掃」
+PASS [JOBS flower] 最後一句旁白＝end 第一句「（下班的時候，花藝師把一枝賣相不好的玫瑰給你。花」
+PASS [JOBS flower] 薪水 toast「花序 薪水 784 元」  ["班表：花序　週日 13:00～17:00", "花序 薪水 784 元"]
+PASS [JOBS flower] 錢加了剛好 784 元（95220 → 96004；GAME.money [[784, 17]]）
+  [ 100.2s] [JOBS yue] 計畫：{"k": "yue", "term": {"from": 160, "to": 271}, "d0": 167, "eligible": true, "days": [2, 4], "hours": {"2": [17.5, 21], "4": [17.5, 21]}, "ok": [2, 4], "cands": [{"wd": 2, "c": {"o": "copy", "b": [18, 22]}, "day": 168, "key": "2026-03-03", "why": {"wd": 1, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}, {"wd": 4, "c": {"o": "copy", "b": [18, 22]}, "day": 170, "key": "2026-03-05", "why": {"wd": 3, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}], "pick": {"work": 2, "day": 168, "key": "2026-03-03", "clash": 4, "o": "copy", "ob": [18, 22], "t0": 17.5}, "used": 0, "cap": 2}
+PASS [JOBS yue] 算得出日子和班表（PLAN_JS）  {"k": "yue", "term": {"from": 160, "to": 271}, "d0": 167, "eligible": true, "days": [2, 4], "hours": {"2": [17.5, 21], "4": [17.5, 21]}, "ok": [2, 4], "cands": [{"wd": 2, "c": {"o": "copy", "b": [18, 22]}, "day": 168, "key": "2026-03-03", "why": {"wd": 1, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}, {"wd": 4, "c": {"o": "copy", "b": [18, 22]}, "day": 170, "key": "2026-03-05", "why": {"wd": 3, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}], "pick": {"work": 2, "day": 168, "key": "2026-03-03", "clash": 4, "o": "copy", "ob": [18, 22], "t0": 17.5}, "used": 0, "cap": 2}
+PASS [JOBS yue] 讀得到 AA_829 的字（SHOP_JOBS_AA829.jobs.yue）  {"look": "看告示", "notice": "徵晚班外場　會端湯、不怕燙", "askOpt": "「問老闆娘。」", "laterOpt": "「再想想。」", "boss": "老闆娘", "ask": "你端過湯嗎？沒關係，第一天我教你。晚上最忙，能來嗎？", "segs": [{"name": "點餐", "nov": "（客人點了三碗，一碗不要香菜、一碗加辣、一碗河粉換米線。你寫在手上。）", "ch": [["「再跟客人確認一次。」", "（客人說對。旁邊那桌已經在舉手了。）"], ["「直接報給廚房。」", "（老闆在裡面應了一聲。你聽不出來他有沒有聽清楚。）"]]}, {"name": "端湯", "nov": "（湯是滿的。你兩隻手端一碗，走得很慢，還是灑在托盤上。）", "ch": [["「喊『小心燙』。」", "（客人把手機往旁邊移了一下。）"], ["「從客人右邊放下去。」", "（碗放下去的時候，客人說了謝謝。）"]]}, {"name": "收桌、補香草檯", "nov": "（客人一走，桌上是碗、檸檬皮、用過的衛生紙。你收了兩趟。）", "ch": [["「先補豆芽和九層塔。」", "（豆芽一下就空了。你從冰箱又抱出一大盆。）"], ["「先擦桌子。」", "（門口有人在等位子。你擦得比平常快。）"]]}], "end0": "（九點。老闆娘端了一碗河粉給你，肉比賣的多。）", "pay": 686, "toast": "越好吃小館 薪水 686 元", "short": "越好吃小館", "zone": "tz_yuehaochi", "desk": {"x": -1.2, "z": -2.3, "lv": 0, "r": 0.7}, "sched": [{"wd": 2, "t0": 17.5, "t1": 21, "name": "", "close": false}, {"wd": 4, "t0": 17.5, "t1": 21, "name": "", "close": false}]}
+  [前置／捷徑] [JOBS yue] ① 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51_1110.json、改到 day 51（存檔那一天＝大一上）tz_yuehaochi 店裡；不補條件
+  [ 110.3s] [JOBS yue] ① 讀檔以後先有的劇情（照字點完，不算）：["老闆娘｜香草在旁邊那一檯，自己夾，吃多少夾多少。"]
+PASS [JOBS yue] ① 讀到 tz_yuehaochi  {"zone": "tz_yuehaochi", "day": 51, "hour": 16.917, "money": 95220, "x": 0.75, "z": 2.9, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜香草在旁邊那一檯，自己夾，吃多少夾多少。", "nch": 0, "interact": "聽一句", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [JOBS yue] ① 條件不夠（大一上）時告示藏著（wzJob 互動點 hidden）  [{"n": 22, "label": "看告示", "x": -1.2, "z": -2.3, "lv": 0, "r": 0.7, "hidden": true, "to": null, "wzJob": "yue", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [JOBS yue] ② 【前置／捷徑】讀使用者存檔、改到 2026-03-03（週二）16.90 時 tz_yuehaochi 出生點；G.jobs 換成只有 copy（週四 [18, 22]，撞 週四 的班；原本的一盞拿掉＝名額剩一班）
+  [ 120.3s] [JOBS yue] ② 讀檔以後先有的劇情（照字點完，不算）：["老闆娘｜今天湯頭熬得比較久，河粉可以試試看。"]
+PASS [JOBS yue] ② 讀到 tz_yuehaochi  {"zone": "tz_yuehaochi", "day": 168, "hour": 16.914, "money": 95220, "x": 0.75, "z": 2.9, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜今天湯頭熬得比較久，河粉可以試試看。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [JOBS yue] ② 告示在（wzJob 互動點、看得到）、位置＝jobs3d.js desk (-1.2, -2.3) 第 0 層  [{"n": 22, "label": "看告示", "x": -1.2, "z": -2.3, "lv": 0, "r": 0.7, "hidden": false, "to": null, "wzJob": "yue", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+PASS [JOBS yue] ② 告示按鈕的字＝稿的 look「看告示」  {"n": 22, "label": "看告示", "x": -1.2, "z": -2.3, "lv": 0, "r": 0.7, "hidden": false, "to": null, "wzJob": "yue", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}
+PASS [JOBS yue] ② 告示在 desk 的位置（-1.20, -2.30, lv 0）  {"x": -1.2, "z": -2.3, "lv": 0, "r": 0.7}
+  [ 124.5s] 到達「[JOBS yue] 走到「看告示」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [JOBS yue] 走到告示旁、互動鍵是「看告示」  [{"pt": [-1.2, -2.3], "seg": 1, "ok": true, "at": [-1.114, -2.072, 0], "interact": "看告示", "how": "點地 go_to"}]
+  [ 129.1s] [JOBS yue] 班表選單：["週二（17:30～21:00）", "[灰]週四（17:30～21:00）", "先不要"]；先按撞班的「週四」（灰）
+  [ 132.9s] [JOBS yue] 排好班了：{"day": [2], "shifts": 0, "worked": [], "since": 168, "gone": null}（16.95 時）
+  [ 139.9s] [JOBS yue] 互動鍵是「開始上班」：按
+  [ 156.4s] [JOBS yue] 對話全文：[["", "徵晚班外場　會端湯、不怕燙"], ["老闆娘", "你端過湯嗎？沒關係，第一天我教你。晚上最忙，能來嗎？"], ["", "（這個時段你已經有班了。）"], ["", "（客人點了三碗，一碗不要香菜、一碗加辣、一碗河粉換米線。你寫在手上。）"], ["", "（客人說對。旁邊那桌已經在舉手了。）"], ["", "（門口的鈴響了。進來的人看到你穿著圍裙，停了一下。）"], ["溫書瑀", "你在這裡。幾點下班？"], ["祐廷", "對。要吃什麼？"], ["", "（你幫她點了餐。）"], ["", "（湯是滿的。你兩隻手端一碗，走得很慢，還是灑在托盤上。）"], ["", "（客人把手機往旁邊移了一下。）"], ["", "（客人一走，桌上是碗、檸檬皮、用過的衛生紙。你收了兩趟。）"], ["", "（豆芽一下就空了。你從冰箱又抱出一大盆。）"], ["", "（九點。老闆娘端了一碗河粉給你，肉比賣的多。）"]]
+  [ 156.4s] [JOBS yue] 選單：[["「問老闆娘。」", "「再想想。」"], ["週二（17:30～21:00）", "[灰]週四（17:30～21:00）", "先不要"], ["週二（17:30～21:00）", "[灰]週四（17:30～21:00）", "先不要"], ["「再跟客人確認一次。」", "「直接報給廚房。」"], ["「喊『小心燙』。」", "「從客人右邊放下去。」"], ["「先補豆芽和九層塔。」", "「先擦桌子。」"]]；toast：["班表：越好吃小館　週二 17:30～21:00", "越好吃小館 薪水 686 元"]；錢 [[686, 21]]
+PASS [JOBS yue] 按告示：旁白是告示的字「徵晚班外場　會端湯、不怕燙」  ["徵晚班外場　會端湯、不怕燙", "你端過湯嗎？沒關係，第一天我教你。晚上最忙，能來嗎？", "（這個時段你已經有班了。）", "（客人點了三碗，一碗不要香菜、一碗加辣、一碗河粉換米線。你寫在手上。）"]
+PASS [JOBS yue] 告示以後的選單＝「「問老闆娘。」」「「再想想。」」  [["「問老闆娘。」", "「再想想。」"], ["週二（17:30～21:00）", "[灰]週四（17:30～21:00）", "先不要"]]
+PASS [JOBS yue] 選了「「問老闆娘。」」以後，老闆娘開口「你端過湯嗎？沒關係，第一天我教你。晚上最忙，能來嗎？」
+PASS [JOBS yue] 出了班表選單（真的走到選班表）  [["「問老闆娘。」", "「再想想。」"], ["週二（17:30～21:00）", "[灰]週四（17:30～21:00）", "先不要"], ["週二（17:30～21:00）", "[灰]週四（17:30～21:00）", "先不要"], ["「再跟客人確認一次。」", "「直接報給廚房。」"], ["「喊『小心燙』。」", "「從客人右邊放下去。」"], ["「先補豆芽和九層塔。」", "「先擦桌子。」"]]
+  [ 156.4s] [JOBS yue] 班表選項（字、時間、灰不灰）：[["週二", "17:30～21:00", false], ["週四", "17:30～21:00", true], ["先不要", "", false]]
+PASS [JOBS yue] 班表裡要選的「週二」沒有灰（{"k": 0, "t": "週二", "hint": "17:30～21:00", "dim": false}）
+PASS [JOBS yue] 和已經排的 copy（週四 [18, 22]）重疊的「週四」灰掉（S.busyWith，AA_829 第 4 節）  {"opt": {"k": 1, "t": "週四", "hint": "17:30～21:00", "dim": true}, "job_before": null}
+PASS [JOBS yue] 按了灰的那一項：同一份班表再出一次、還沒排班（選了灰的＝再選一次）  {"same": true, "job": null, "opts": ["週二（17:30～21:00）", "[灰]週四（17:30～21:00）", "先不要"]}
+PASS [JOBS yue] 排的班＝週二（G.jobs.yue.day）  {"day": [2], "shifts": 1, "worked": [168], "since": 168, "gone": null}
+PASS [JOBS yue] 跳出「班表：越好吃小館…」toast  ["班表：越好吃小館　週二 17:30～21:00", "越好吃小館 薪水 686 元"]
+PASS [JOBS yue] 開班、做完一班（G.jobs.yue.shifts=1、worked 有今天）  {"done": {"j": {"day": [2], "shifts": 1, "worked": [168], "since": 168, "gone": null}, "shiftNow": false, "running": false, "hour": 21.003}, "started": false}
+PASS [JOBS yue] 第 1 段「點餐」的旁白（nov）  （客人點了三碗，一碗不要香菜、一碗加辣、一碗河粉換米線。你寫
+PASS [JOBS yue] 第 1 段選第一個「「再跟客人確認一次。」」→「（客人說對。旁邊那桌已經在舉手了。）」
+PASS [JOBS yue] 第 2 段「端湯」的旁白（nov）  （湯是滿的。你兩隻手端一碗，走得很慢，還是灑在托盤上。）
+PASS [JOBS yue] 第 2 段選第一個「「喊『小心燙』。」」→「（客人把手機往旁邊移了一下。）」
+PASS [JOBS yue] 第 3 段「收桌、補香草檯」的旁白（nov）  （客人一走，桌上是碗、檸檬皮、用過的衛生紙。你收了兩趟。）
+PASS [JOBS yue] 第 3 段選第一個「「先補豆芽和九層塔。」」→「（豆芽一下就空了。你從冰箱又抱出一大盆。」
+PASS [JOBS yue] 最後一句旁白＝end 第一句「（九點。老闆娘端了一碗河粉給你，肉比賣的多。）」
+PASS [JOBS yue] 薪水 toast「越好吃小館 薪水 686 元」  ["班表：越好吃小館　週二 17:30～21:00", "越好吃小館 薪水 686 元"]
+PASS [JOBS yue] 錢加了剛好 686 元（95220 → 95906；GAME.money [[686, 21]]）
+  [ 156.4s] [JOBS dakou] 計畫：{"k": "dakou", "term": {"from": 160, "to": 271}, "d0": 167, "eligible": true, "days": [1, 4, 6], "hours": {"1": [18, 22], "4": [18, 22], "6": [22, 26]}, "ok": [1, 4, 6], "cands": [{"wd": 1, "c": {"o": "cram", "b": [18.5, 21.5]}, "day": 167, "key": "2026-03-02", "why": {"wd": 0, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}, {"wd": 4, "c": {"o": "copy", "b": [18, 22]}, "day": 170, "key": "2026-03-05", "why": {"wd": 3, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}, {"wd": 6, "c": null, "day": 172, "key": "2026-03-07", "why": {"wd": 5, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": true, "open": true}], "pick": {"work": 1, "day": 167, "key": "2026-03-02", "clash": 4, "o": "copy", "ob": [18, 22], "t0": 18}, "used": 0, "cap": 2}
+PASS [JOBS dakou] 算得出日子和班表（PLAN_JS）  {"k": "dakou", "term": {"from": 160, "to": 271}, "d0": 167, "eligible": true, "days": [1, 4, 6], "hours": {"1": [18, 22], "4": [18, 22], "6": [22, 26]}, "ok": [1, 4, 6], "cands": [{"wd": 1, "c": {"o": "cram", "b": [18.5, 21.5]}, "day": 167, "key": "2026-03-02", "why": {"wd": 0, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}, {"wd": 4, "c": {"o": "copy", "b": [18, 22]}, "day": 170, "key": "2026-03-05", "why": {"wd": 3, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": false, "open": true}, {"wd": 6, "c": null, "day": 172, "key": "2026-03-07", "why": {"wd": 5, "term": 0, "exam": 0, "hol": 0, "ty": 0, "exc": []}, "night": true, "open": true}], "pick": {"work": 1, "day": 167, "key": "2026-03-02", "clash": 4, "o": "copy", "ob": [18, 22], "t0": 18}, "used": 0, "cap": 2}
+PASS [JOBS dakou] 讀得到 AA_829 的字（SHOP_JOBS_AA829.jobs.dakou）  {"look": "看立牌", "notice": "徵櫃台、內場夥伴　早班、晚班、大夜班都缺", "askOpt": "「問店員。」", "laterOpt": "「再想想。」", "boss": "值班經理", "ask": "學生嗎？考試週可以排少一點。你想排哪個時段？", "segs": [{"name": "櫃檯", "nov": "（螢幕上的按鍵比菜單多三倍。客人要去冰、換薯條，你找了很久。）", "ch": [["「問內用還是外帶。」", "（客人說內用，又說等一下，改外帶。）"], ["「先報金額。」", "（客人低頭找零錢，後面的人往前站了一步。）"]]}, {"name": "內場", "nov": "（薯條的計時器響了。你把籃子拉起來，油滴了一地。）", "ch": [["「先炸薯條。」", "（鹽要撒三下，手要甩。你甩到自己的制服上。）"], ["「先包漢堡。」", "（包裝紙要對角折。你包的那一顆，醬從旁邊擠出來了。）"]]}, {"name": "二樓巡場", "nov": "（二樓有人趴著睡，桌上一杯喝完的可樂。你不知道要不要收。）", "ch": [["「收托盤。」", "（一疊托盤比你想的重。你分兩次拿下去。）"], ["「擦桌子。」", "（有一桌留了一張便條紙，寫了半行公式。你沒有丟。）"]]}], "end0": "（十點，換班。你把帽子拿下來，頭髮上有一圈壓痕。）", "pay": 784, "toast": "大口漢堡 薪水 784 元", "short": "大口漢堡", "zone": "xs_dakou", "desk": {"x": -4.2, "z": -3, "lv": 0, "r": 0.9}, "sched": [{"wd": 1, "t0": 18, "t1": 22, "name": "晚班", "close": false}, {"wd": 4, "t0": 18, "t1": 22, "name": "晚班", "close": false}, {"wd": 6, "t0": 22, "t1": 26, "name": "大夜班", "close": false, "pay": 880}]}
+  [前置／捷徑] [JOBS dakou] ① 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51_1110.json、改到 day 51（存檔那一天＝大一上）xs_dakou 店裡；不補條件
+PASS [JOBS dakou] ① 讀到 xs_dakou  {"zone": "xs_dakou", "day": 51, "hour": 15.056, "money": 95220, "x": 0, "z": 6.4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（九點。老闆娘端了一碗河粉給你，肉比賣的多。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [JOBS dakou] ① 條件不夠（大一上）時告示藏著（wzJob 互動點 hidden）  [{"n": 86, "label": "看立牌", "x": -4.2, "z": -3, "lv": 0, "r": 0.9, "hidden": true, "to": null, "wzJob": "dakou", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [JOBS dakou] ② 【前置／捷徑】讀使用者存檔、改到 2026-03-02（週一）17.40 時 xs_dakou 出生點；G.jobs 換成只有 copy（週四 [18, 22]，撞 週四 的班；原本的一盞拿掉＝名額剩一班）
+PASS [JOBS dakou] ② 讀到 xs_dakou  {"zone": "xs_dakou", "day": 167, "hour": 17.453, "money": 95220, "x": 0, "z": 6.4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（九點。老闆娘端了一碗河粉給你，肉比賣的多。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [JOBS dakou] ② 告示在（wzJob 互動點、看得到）、位置＝jobs3d.js desk (-4.2, -3) 第 0 層  [{"n": 86, "label": "看立牌", "x": -4.2, "z": -3, "lv": 0, "r": 0.9, "hidden": false, "to": null, "wzJob": "dakou", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+PASS [JOBS dakou] ② 告示按鈕的字＝稿的 look「看立牌」  {"n": 86, "label": "看立牌", "x": -4.2, "z": -3, "lv": 0, "r": 0.9, "hidden": false, "to": null, "wzJob": "dakou", "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}
+PASS [JOBS dakou] ② 告示在 desk 的位置（-4.20, -3.00, lv 0）  {"x": -4.2, "z": -3, "lv": 0, "r": 0.9}
+  [ 206.3s] 到達「[JOBS dakou] 走到「看立牌」旁（第 1 點、第 1 段）」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS [JOBS dakou] 走到告示旁、互動鍵是「看立牌」  [{"pt": [-4.2, -3], "seg": 1, "ok": true, "at": [-4.182, -2.799, 0], "interact": "看立牌", "how": "點地 go_to"}]
+  [ 211.1s] [JOBS dakou] 班表選單：["週一（18:00～22:00）", "[灰]週四（18:00～22:00）", "週六（22:00～02:00）", "先不要"]；先按撞班的「週四」（灰）
+  [ 215.0s] [JOBS dakou] 排好班了：{"day": [1], "shifts": 0, "worked": [], "since": 167, "gone": null}（18.00 時）
+  [ 227.9s] [JOBS dakou] 對話全文：[["", "徵櫃台、內場夥伴　早班、晚班、大夜班都缺"], ["值班經理", "學生嗎？考試週可以排少一點。你想排哪個時段？"], ["", "（這個時段你已經有班了。）"], ["", "（螢幕上的按鍵比菜單多三倍。客人要去冰、換薯條，你找了很久。）"], ["", "（客人說內用，又說等一下，改外帶。）"], ["", "（薯條的計時器響了。你把籃子拉起來，油滴了一地。）"], ["", "（鹽要撒三下，手要甩。你甩到自己的制服上。）"], ["", "（二樓有人趴著睡，桌上一杯喝完的可樂。你不知道要不要收。）"], ["", "（一疊托盤比你想的重。你分兩次拿下去。）"], ["", "（十點，換班。你把帽子拿下來，頭髮上有一圈壓痕。）"]]
+  [ 227.9s] [JOBS dakou] 選單：[["「問店員。」", "「再想想。」"], ["週一（18:00～22:00）", "[灰]週四（18:00～22:00）", "週六（22:00～02:00）", "先不要"], ["週一（18:00～22:00）", "[灰]週四（18:00～22:00）", "週六（22:00～02:00）", "先不要"], ["「問內用還是外帶。」", "「先報金額。」"], ["「先炸薯條。」", "「先包漢堡。」"], ["「收托盤。」", "「擦桌子。」"]]；toast：["班表：大口漢堡　週一 18:00～22:00", "大口漢堡 薪水 784 元"]；錢 [[784, 22]]
+PASS [JOBS dakou] 按告示：旁白是告示的字「徵櫃台、內場夥伴　早班、晚班、大夜班都缺」  ["徵櫃台、內場夥伴　早班、晚班、大夜班都缺", "學生嗎？考試週可以排少一點。你想排哪個時段？", "（這個時段你已經有班了。）", "（螢幕上的按鍵比菜單多三倍。客人要去冰、換薯條，你找了很久。）"]
+PASS [JOBS dakou] 告示以後的選單＝「「問店員。」」「「再想想。」」  [["「問店員。」", "「再想想。」"], ["週一（18:00～22:00）", "[灰]週四（18:00～22:00）", "週六（22:00～02:00）", "先不要"]]
+PASS [JOBS dakou] 選了「「問店員。」」以後，值班經理開口「學生嗎？考試週可以排少一點。你想排哪個時段？」
+PASS [JOBS dakou] 出了班表選單（真的走到選班表）  [["「問店員。」", "「再想想。」"], ["週一（18:00～22:00）", "[灰]週四（18:00～22:00）", "週六（22:00～02:00）", "先不要"], ["週一（18:00～22:00）", "[灰]週四（18:00～22:00）", "週六（22:00～02:00）", "先不要"], ["「問內用還是外帶。」", "「先報金額。」"], ["「先炸薯條。」", "「先包漢堡。」"], ["「收托盤。」", "「擦桌子。」"]]
+  [ 227.9s] [JOBS dakou] 班表選項（字、時間、灰不灰）：[["週一", "18:00～22:00", false], ["週四", "18:00～22:00", true], ["週六", "22:00～02:00", false], ["先不要", "", false]]
+PASS [JOBS dakou] 班表裡要選的「週一」沒有灰（{"k": 0, "t": "週一", "hint": "18:00～22:00", "dim": false}）
+PASS [JOBS dakou] 和已經排的 copy（週四 [18, 22]）重疊的「週四」灰掉（S.busyWith，AA_829 第 4 節）  {"opt": {"k": 1, "t": "週四", "hint": "18:00～22:00", "dim": true}, "job_before": null}
+PASS [JOBS dakou] 按了灰的那一項：同一份班表再出一次、還沒排班（選了灰的＝再選一次）  {"same": true, "job": null, "opts": ["週一（18:00～22:00）", "[灰]週四（18:00～22:00）", "週六（22:00～02:00）", "先不要"]}
+PASS [JOBS dakou] 排的班＝週一（G.jobs.dakou.day）  {"day": [1], "shifts": 1, "worked": [167], "since": 167, "gone": null}
+PASS [JOBS dakou] 跳出「班表：大口漢堡…」toast  ["班表：大口漢堡　週一 18:00～22:00", "大口漢堡 薪水 784 元"]
+PASS [JOBS dakou] 開班、做完一班（G.jobs.dakou.shifts=1、worked 有今天）  {"done": {"j": {"day": [1], "shifts": 1, "worked": [167], "since": 167, "gone": null}, "shiftNow": false, "running": false, "hour": 22.003}, "started": true}
+PASS [JOBS dakou] 第 1 段「櫃檯」的旁白（nov）  （螢幕上的按鍵比菜單多三倍。客人要去冰、換薯條，你找了很久。
+PASS [JOBS dakou] 第 1 段選第一個「「問內用還是外帶。」」→「（客人說內用，又說等一下，改外帶。）」
+PASS [JOBS dakou] 第 2 段「內場」的旁白（nov）  （薯條的計時器響了。你把籃子拉起來，油滴了一地。）
+PASS [JOBS dakou] 第 2 段選第一個「「先炸薯條。」」→「（鹽要撒三下，手要甩。你甩到自己的制服上」
+PASS [JOBS dakou] 第 3 段「二樓巡場」的旁白（nov）  （二樓有人趴著睡，桌上一杯喝完的可樂。你不知道要不要收。）
+PASS [JOBS dakou] 第 3 段選第一個「「收托盤。」」→「（一疊托盤比你想的重。你分兩次拿下去。）」
+PASS [JOBS dakou] 最後一句旁白＝end 第一句「（十點，換班。你把帽子拿下來，頭髮上有一圈壓痕。」
+PASS [JOBS dakou] 薪水 toast「大口漢堡 薪水 784 元」  ["班表：大口漢堡　週一 18:00～22:00", "大口漢堡 薪水 784 元"]
+PASS [JOBS dakou] 錢加了剛好 784 元（95220 → 96004；GAME.money [[784, 22]]）
+PASS [QT] 找得到存檔以後第一個學期中的週三（六間都開：慢輪週一休、榮恩典週日休）  {"d": 57, "key": "2025-11-12", "wd": 3, "term": "Y1S1", "week": 11, "why": {"wd": 5, "term": 0, "exam": 0, "hol": 0, "ty": 0}}
+  [ 228.0s] [QT] 大地圖（src/guide3d.js openMap）只畫目前區域、入口、路線，沒有快速前往清單：地圖這一項看手機「地點」上面的簡圖（PLACEMAP.html）有沒有那一顆圖釘
+PASS [QT bikeshop] 快速前往清單有這一間（PLACES.quickList 第 5 格＝bikeshop）  {"z": "bikeshop", "pl": ["bikeshop", "慢輪單車", null, null, "bikeshop"], "name": "慢輪單車", "area": "gongguan", "pin": "gongguan", "street": "gongguan", "windows": [[10, 20]], "h": 11, "visitedNow": false}
+  [前置／捷徑] [QT bikeshop] ① 【前置／捷徑】讀使用者存檔（存檔裡 visited.bikeshop＝null），拿掉 visited.bikeshop，改到 2025-11-12 11.00 時 gongguan
+  [ 247.3s] [QT bikeshop] ① 沒去過：手機「地點」gongguan 那一區 {"on": true, "t": "公館（15）▾"}、那一列 [{"muted": "還沒去過・今天 10:00–20:00", "btn": null, "place": null, "inPinBox": false}]
+PASS [QT bikeshop] ① 沒去過：清單裡有「慢輪單車」、寫「還沒去過」、沒有「前往」（places.js 第 5 格）  [{"muted": "還沒去過・今天 10:00–20:00", "btn": null, "place": null, "inPinBox": false}]
+  [前置／捷徑] [QT bikeshop] ② 【前置／捷徑】同上（沒去過），讀檔到 gongguan 出生點 11.00 時
+  [前置／捷徑] [QT bikeshop] 【前置／捷徑】E.placeAt 站到「進入慢輪單車」(-0.3, 21) 前 4 m 的 (3.7, 21)（ring）
+PASS [QT bikeshop] ② 有「進入慢輪單車」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "lv": 0, "to": "yangyang"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "lv": 0, "to": "corner_records"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "lv": 0, "to": "tingzhou"}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "lv": 0, "to": "flower_notes"}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_antai"}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "r": 2.2, "lv": 0, "to": "gg_rongendian"}]
+  [ 260.9s] [QT bikeshop] ② 「進入慢輪單車」在 (-0.3, 21) 半徑 2.2；走到範圍裡站得住的 {"x": 1, "z": 21, "d": 2.7}
+PASS [QT bikeshop] ② 「進入慢輪單車」範圍裡有站得住的地方  {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}
+  [ 263.6s] 到達「[QT bikeshop] ② 進入慢輪單車」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [QT bikeshop] ② 走到那裡，互動按鈕是「進入慢輪單車」  {"x": 1.24, "z": 21, "lv": 0, "interact": "進入慢輪單車"}
+PASS [QT bikeshop] ② 按下去到了 bikeshop（站得住、沒有被放到目的地）  {"zone": "bikeshop", "x": 0.55, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.11}
+PASS [QT bikeshop] ② 走進過 bikeshop 一次（visited.bikeshop＝true；店門）  {"zone": "bikeshop", "x": 0.55, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.11}
+  [前置／捷徑] [QT bikeshop] ③ 【前置／捷徑】同一份進度（GAME.snapshot，visited.bikeshop 留著）讀回 gongguan 出生點 11.00 時
+  [ 286.2s] [QT bikeshop] ③ 去過以後：{"area": {"on": true, "t": "公館（15）▾"}, "rows": [{"muted": "約 15 分鐘・今天 10:00–20:00", "btn": "前往", "place": "bikeshop|慢輪單車", "inPinBox": false}], "pin": true}；reveal True；按鈕 {"t": "前往", "place": "bikeshop|慢輪單車"}
+PASS [QT bikeshop] ③ 去過以後清單有「前往」（cc_phone.reveal）  {"t": "前往", "place": "bikeshop|慢輪單車"}
+PASS [QT bikeshop] ③ 手機「地點」的簡圖有那一顆圖釘（gongguan；大地圖沒有快速前往清單，看這張）  "gongguan"
+PASS [QT bikeshop] ③ 按「前往」到了 bikeshop（toast ["走了 15 分鐘到慢輪單車"]）  {"zone": "bikeshop", "day": 57, "hour": 11.33, "money": 95220, "x": 0.55, "z": 4, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（十點，換班。你把帽子拿下來，頭髮上有一圈壓痕。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [QT bikeshop] ③ 落點站得住（canStand）、沒有被放到目的地（walkFallbacks 不變）  {"x": 0.55, "z": 4, "lv": 0, "stand": true, "fb": 0}
+PASS [QT gg_antai] 快速前往清單有這一間（PLACES.quickList 第 5 格＝gg_antai）  {"z": "gg_antai", "pl": ["gg_antai", "安泰藥局", null, null, "gg_antai"], "name": "安泰藥局", "area": "gongguan", "pin": "gongguan", "street": "gongguan", "windows": [[9, 22]], "h": 10, "visitedNow": false}
+  [前置／捷徑] [QT gg_antai] ① 【前置／捷徑】讀使用者存檔（存檔裡 visited.gg_antai＝null），拿掉 visited.gg_antai，改到 2025-11-12 10.00 時 gongguan
+  [ 304.7s] [QT gg_antai] ① 沒去過：手機「地點」gongguan 那一區 {"on": true, "t": "公館（15）▾"}、那一列 [{"muted": "還沒去過・今天 09:00–22:00", "btn": null, "place": null, "inPinBox": false}]
+PASS [QT gg_antai] ① 沒去過：清單裡有「安泰藥局」、寫「還沒去過」、沒有「前往」（places.js 第 5 格）  [{"muted": "還沒去過・今天 09:00–22:00", "btn": null, "place": null, "inPinBox": false}]
+  [前置／捷徑] [QT gg_antai] ② 【前置／捷徑】同上（沒去過），讀檔到 gongguan 出生點 10.00 時
+  [前置／捷徑] [QT gg_antai] 【前置／捷徑】E.placeAt 站到「進入安泰藥局」(-18.6, 21) 前 4 m 的 (-16.79, 17.47)（path）
+PASS [QT gg_antai] ② 有「進入安泰藥局」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "lv": 0, "to": "yangyang"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "lv": 0, "to": "corner_records"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "lv": 0, "to": "tingzhou"}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "lv": 0, "to": "flower_notes"}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_antai"}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "r": 2.2, "lv": 0, "to": "gg_rongendian"}]
+  [ 317.9s] [QT gg_antai] ② 「進入安泰藥局」在 (-18.6, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -17.95, "z": 19.87, "d": 2.669385480605308}
+PASS [QT gg_antai] ② 「進入安泰藥局」範圍裡有站得住的地方  {"label": "進入安泰藥局", "x": -18.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_antai"}
+  [ 320.6s] 到達「[QT gg_antai] ② 進入安泰藥局」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [QT gg_antai] ② 走到那裡，互動按鈕是「進入安泰藥局」  {"x": -17.851, "z": 19.662, "lv": 0, "interact": "進入安泰藥局"}
+PASS [QT gg_antai] ② 按下去到了 gg_antai（站得住、沒有被放到目的地）  {"zone": "gg_antai", "x": 0, "z": 3.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.1}
+PASS [QT gg_antai] ② 走進過 gg_antai 一次（visited.gg_antai＝true；店門）  {"zone": "gg_antai", "x": 0, "z": 3.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.1}
+  [前置／捷徑] [QT gg_antai] ③ 【前置／捷徑】同一份進度（GAME.snapshot，visited.gg_antai 留著）讀回 gongguan 出生點 10.00 時
+  [ 339.8s] [QT gg_antai] ③ 去過以後：{"area": {"on": true, "t": "公館（15）▾"}, "rows": [{"muted": "約 15 分鐘・今天 09:00–22:00", "btn": "前往", "place": "gg_antai|安泰藥局", "inPinBox": false}], "pin": true}；reveal True；按鈕 {"t": "前往", "place": "gg_antai|安泰藥局"}
+PASS [QT gg_antai] ③ 去過以後清單有「前往」（cc_phone.reveal）  {"t": "前往", "place": "gg_antai|安泰藥局"}
+PASS [QT gg_antai] ③ 手機「地點」的簡圖有那一顆圖釘（gongguan；大地圖沒有快速前往清單，看這張）  "gongguan"
+PASS [QT gg_antai] ③ 按「前往」到了 gg_antai（toast ["走了 15 分鐘到安泰藥局"]）  {"zone": "gg_antai", "day": 57, "hour": 10.33, "money": 95220, "x": 0, "z": 3.1, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（門口的自動血壓計前面，一位阿伯正把袖子捲起來。）", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [QT gg_antai] ③ 落點站得住（canStand）、沒有被放到目的地（walkFallbacks 不變）  {"x": 0, "z": 3.1, "lv": 0, "stand": true, "fb": 0}
+PASS [QT gg_xianguo] 快速前往清單有這一間（PLACES.quickList 第 5 格＝gg_xianguo）  {"z": "gg_xianguo", "pl": ["gg_xianguo", "汀州鮮果", null, null, "gg_xianguo"], "name": "汀州鮮果", "area": "gongguan", "pin": "gongguan", "street": "gongguan", "windows": [[10, 22]], "h": 11, "visitedNow": false}
+  [前置／捷徑] [QT gg_xianguo] ① 【前置／捷徑】讀使用者存檔（存檔裡 visited.gg_xianguo＝null），拿掉 visited.gg_xianguo，改到 2025-11-12 11.00 時 gongguan
+  [ 357.6s] [QT gg_xianguo] ① 沒去過：手機「地點」gongguan 那一區 {"on": true, "t": "公館（15）▾"}、那一列 [{"muted": "還沒去過・今天 10:00–22:00", "btn": null, "place": null, "inPinBox": false}]
+PASS [QT gg_xianguo] ① 沒去過：清單裡有「汀州鮮果」、寫「還沒去過」、沒有「前往」（places.js 第 5 格）  [{"muted": "還沒去過・今天 10:00–22:00", "btn": null, "place": null, "inPinBox": false}]
+  [前置／捷徑] [QT gg_xianguo] ② 【前置／捷徑】同上（沒去過），讀檔到 gongguan 出生點 11.00 時
+  [前置／捷徑] [QT gg_xianguo] 【前置／捷徑】E.placeAt 站到「進入汀州鮮果」(19.6, 21) 前 4 m 的 (18.53, 17.15)（path）
+PASS [QT gg_xianguo] ② 有「進入汀州鮮果」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "lv": 0, "to": "yangyang"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "lv": 0, "to": "corner_records"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "lv": 0, "to": "tingzhou"}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "lv": 0, "to": "flower_notes"}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_antai"}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "r": 2.2, "lv": 0, "to": "gg_rongendian"}]
+  [ 370.5s] [QT gg_xianguo] ② 「進入汀州鮮果」在 (19.6, 21) 半徑 2.2；走到範圍裡站得住的 {"x": 19.26, "z": 19.74, "d": 2.696005915307164}
+PASS [QT gg_xianguo] ② 「進入汀州鮮果」範圍裡有站得住的地方  {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_xianguo"}
+  [ 373.2s] 到達「[QT gg_xianguo] ② 進入汀州鮮果」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [QT gg_xianguo] ② 走到那裡，互動按鈕是「進入汀州鮮果」  {"x": 19.197, "z": 19.518, "lv": 0, "interact": "進入汀州鮮果"}
+PASS [QT gg_xianguo] ② 按下去到了 gg_xianguo（站得住、沒有被放到目的地）  {"zone": "gg_xianguo", "x": 0.3, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.1}
+PASS [QT gg_xianguo] ② 走進過 gg_xianguo 一次（visited.gg_xianguo＝true；店門）  {"zone": "gg_xianguo", "x": 0.3, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.1}
+  [前置／捷徑] [QT gg_xianguo] ③ 【前置／捷徑】同一份進度（GAME.snapshot，visited.gg_xianguo 留著）讀回 gongguan 出生點 11.00 時
+  [ 391.5s] [QT gg_xianguo] ③ 去過以後：{"area": {"on": true, "t": "公館（15）▾"}, "rows": [{"muted": "約 15 分鐘・今天 10:00–22:00", "btn": "前往", "place": "gg_xianguo|汀州鮮果", "inPinBox": false}], "pin": true}；reveal True；按鈕 {"t": "前往", "place": "gg_xianguo|汀州鮮果"}
+PASS [QT gg_xianguo] ③ 去過以後清單有「前往」（cc_phone.reveal）  {"t": "前往", "place": "gg_xianguo|汀州鮮果"}
+PASS [QT gg_xianguo] ③ 手機「地點」的簡圖有那一顆圖釘（gongguan；大地圖沒有快速前往清單，看這張）  "gongguan"
+PASS [QT gg_xianguo] ③ 按「前往」到了 gg_xianguo（toast ["走了 15 分鐘到汀州鮮果"]）  {"zone": "gg_xianguo", "day": 57, "hour": 11.33, "money": 95220, "x": 0.3, "z": 3.4, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜來喔！今天的芭樂很甜！", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [QT gg_xianguo] ③ 落點站得住（canStand）、沒有被放到目的地（walkFallbacks 不變）  {"x": 0.3, "z": 3.4, "lv": 0, "stand": true, "fb": 0}
+PASS [QT gg_rongendian] 快速前往清單有這一間（PLACES.quickList 第 5 格＝gg_rongendian）  {"z": "gg_rongendian", "pl": ["gg_rongendian", "榮恩典文具社", null, null, "gg_rongendian"], "name": "榮恩典文具社", "area": "gongguan", "pin": "gongguan", "street": "gongguan", "windows": [[9.5, 21.5]], "h": 10.5, "visitedNow": false}
+  [前置／捷徑] [QT gg_rongendian] ① 【前置／捷徑】讀使用者存檔（存檔裡 visited.gg_rongendian＝null），拿掉 visited.gg_rongendian，改到 2025-11-12 10.50 時 gongguan
+  [ 409.1s] [QT gg_rongendian] ① 沒去過：手機「地點」gongguan 那一區 {"on": true, "t": "公館（15）▾"}、那一列 [{"muted": "還沒去過・今天 09:30–21:30", "btn": null, "place": null, "inPinBox": false}]
+PASS [QT gg_rongendian] ① 沒去過：清單裡有「榮恩典文具社」、寫「還沒去過」、沒有「前往」（places.js 第 5 格）  [{"muted": "還沒去過・今天 09:30–21:30", "btn": null, "place": null, "inPinBox": false}]
+  [前置／捷徑] [QT gg_rongendian] ② 【前置／捷徑】同上（沒去過），讀檔到 gongguan 出生點 10.50 時
+  [前置／捷徑] [QT gg_rongendian] 【前置／捷徑】E.placeAt 站到「進入榮恩典文具社」(64.1, 21) 前 4 m 的 (60.18, 20.23)（path）
+PASS [QT gg_rongendian] ② 有「進入榮恩典文具社」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "lv": 0, "to": "yangyang"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "lv": 0, "to": "corner_records"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "lv": 0, "to": "tingzhou"}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "lv": 0, "to": "flower_notes"}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_antai"}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "r": 2.2, "lv": 0, "to": "gg_rongendian"}]
+  [ 421.7s] [QT gg_rongendian] ② 「進入榮恩典文具社」在 (64.1, 21) 半徑 2.2；走到範圍裡站得住的 {"x": 62.84, "z": 20.66, "d": 2.699338483807937}
+PASS [QT gg_rongendian] ② 「進入榮恩典文具社」範圍裡有站得住的地方  {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "r": 2.2, "lv": 0, "to": "gg_rongendian"}
+  [ 424.5s] 到達「[QT gg_rongendian] ② 進入榮恩典文具社」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [QT gg_rongendian] ② 走到那裡，互動按鈕是「進入榮恩典文具社」  {"x": 62.608, "z": 20.624, "lv": 0, "interact": "進入榮恩典文具社"}
+PASS [QT gg_rongendian] ② 按下去到了 gg_rongendian（站得住、沒有被放到目的地）  {"zone": "gg_rongendian", "x": 0.15, "z": 3.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.6}
+PASS [QT gg_rongendian] ② 走進過 gg_rongendian 一次（visited.gg_rongendian＝true；店門）  {"zone": "gg_rongendian", "x": 0.15, "z": 3.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.6}
+  [前置／捷徑] [QT gg_rongendian] ③ 【前置／捷徑】同一份進度（GAME.snapshot，visited.gg_rongendian 留著）讀回 gongguan 出生點 10.50 時
+  [ 442.8s] [QT gg_rongendian] ③ 去過以後：{"area": {"on": true, "t": "公館（15）▾"}, "rows": [{"muted": "約 15 分鐘・今天 09:30–21:30", "btn": "前往", "place": "gg_rongendian|榮恩典文具社", "inPinBox": false}], "pin": true}；reveal True；按鈕 {"t": "前往", "place": "gg_rongendian|榮恩典文具社"}
+PASS [QT gg_rongendian] ③ 去過以後清單有「前往」（cc_phone.reveal）  {"t": "前往", "place": "gg_rongendian|榮恩典文具社"}
+PASS [QT gg_rongendian] ③ 手機「地點」的簡圖有那一顆圖釘（gongguan；大地圖沒有快速前往清單，看這張）  "gongguan"
+PASS [QT gg_rongendian] ③ 按「前往」到了 gg_rongendian（toast ["走了 15 分鐘到榮恩典文具社"]）  {"zone": "gg_rongendian", "day": 57, "hour": 10.827, "money": 95220, "x": 0.15, "z": 3.1, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜要找什麼，問我比較快。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [QT gg_rongendian] ③ 落點站得住（canStand）、沒有被放到目的地（walkFallbacks 不變）  {"x": 0.15, "z": 3.1, "lv": 0, "stand": true, "fb": 0}
+PASS [QT flower_notes] 快速前往清單有這一間（PLACES.quickList 第 5 格＝flower_notes）  {"z": "flower_notes", "pl": ["flower_notes", "花序 Flower Notes", null, null, "flower_notes"], "name": "花序 Flower Notes", "area": "gongguan", "pin": "gongguan", "street": "gongguan", "windows": [[10, 21]], "h": 11, "visitedNow": false}
+  [前置／捷徑] [QT flower_notes] ① 【前置／捷徑】讀使用者存檔（存檔裡 visited.flower_notes＝null），拿掉 visited.flower_notes，改到 2025-11-12 11.00 時 gongguan
+  [ 460.4s] [QT flower_notes] ① 沒去過：手機「地點」gongguan 那一區 {"on": true, "t": "公館（15）▾"}、那一列 [{"muted": "還沒去過・今天 10:00–21:00", "btn": null, "place": null, "inPinBox": false}]
+PASS [QT flower_notes] ① 沒去過：清單裡有「花序 Flower Notes」、寫「還沒去過」、沒有「前往」（places.js 第 5 格）  [{"muted": "還沒去過・今天 10:00–21:00", "btn": null, "place": null, "inPinBox": false}]
+  [前置／捷徑] [QT flower_notes] ② 【前置／捷徑】同上（沒去過），讀檔到 gongguan 出生點 11.00 時
+  [前置／捷徑] [QT flower_notes] 【前置／捷徑】E.placeAt 站到「進入花序」(46.6, 21) 前 4 m 的 (45.27, 17.23)（path）
+PASS [QT flower_notes] ② 有「進入花序」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "lv": 0, "to": "yangyang"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "lv": 0, "to": "corner_records"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "lv": 0, "to": "tingzhou"}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "lv": 0, "to": "flower_notes"}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_antai"}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "r": 2.2, "lv": 0, "to": "gg_rongendian"}]
+  [ 473.1s] [QT flower_notes] ② 「進入花序」在 (46.6, 21) 半徑 2.2；走到範圍裡站得住的 {"x": 46.26, "z": 19.74, "d": 2.7034790165174254}
+PASS [QT flower_notes] ② 「進入花序」範圍裡有站得住的地方  {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "lv": 0, "to": "flower_notes"}
+  [ 475.8s] 到達「[QT flower_notes] ② 進入花序」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [QT flower_notes] ② 走到那裡，互動按鈕是「進入花序」  {"x": 46.172, "z": 19.518, "lv": 0, "interact": "進入花序"}
+PASS [QT flower_notes] ② 按下去到了 flower_notes（站得住、沒有被放到目的地）  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.1}
+PASS [QT flower_notes] ② 走進過 flower_notes 一次（visited.flower_notes＝true；店門）  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.1}
+  [前置／捷徑] [QT flower_notes] ③ 【前置／捷徑】同一份進度（GAME.snapshot，visited.flower_notes 留著）讀回 gongguan 出生點 11.00 時
+  [ 494.1s] [QT flower_notes] ③ 去過以後：{"area": {"on": true, "t": "公館（15）▾"}, "rows": [{"muted": "約 15 分鐘・今天 10:00–21:00", "btn": "前往", "place": "flower_notes|花序 Flower Notes", "inPinBox": false}], "pin": true}；reveal True；按鈕 {"t": "前往", "place": "flower_notes|花序 Flower Notes"}
+PASS [QT flower_notes] ③ 去過以後清單有「前往」（cc_phone.reveal）  {"t": "前往", "place": "flower_notes|花序 Flower Notes"}
+PASS [QT flower_notes] ③ 手機「地點」的簡圖有那一顆圖釘（gongguan；大地圖沒有快速前往清單，看這張）  "gongguan"
+PASS [QT flower_notes] ③ 按「前往」到了 flower_notes（toast ["走了 15 分鐘到花序 Flower Notes"]）  {"zone": "flower_notes", "day": 57, "hour": 11.33, "money": 95220, "x": 0, "z": 6.1, "lv": 0, "busy": false, "dlg": false, "dtext": "花藝師｜今天的花剛進，冷藏櫃裡的比較多。", "nch": 0, "interact": "離開花序", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [QT flower_notes] ③ 落點站得住（canStand）、沒有被放到目的地（walkFallbacks 不變）  {"x": 0, "z": 6.1, "lv": 0, "stand": true, "fb": 0}
+PASS [QT tz_limao] 快速前往清單有這一間（PLACES.quickList 第 5 格＝tz_limao）  {"z": "tz_limao", "pl": ["tz_limao", "禮貌生財", null, null, "tz_limao"], "name": "禮貌生財", "area": "tingzhou", "pin": "tingzhou", "street": "tingzhou", "windows": [[19, 23.5]], "h": 20, "visitedNow": false}
+  [前置／捷徑] [QT tz_limao] ① 【前置／捷徑】讀使用者存檔（存檔裡 visited.tz_limao＝null），拿掉 visited.tz_limao，改到 2025-11-12 20.00 時 gongguan
+  [ 513.3s] [QT tz_limao] ① 沒去過：手機「地點」tingzhou 那一區 {"on": false, "t": "汀州路（10）▸"}、那一列 [{"muted": "還沒去過・今天 19:00–23:30", "btn": null, "place": null, "inPinBox": false}]
+PASS [QT tz_limao] ① 沒去過：清單裡有「禮貌生財」、寫「還沒去過」、沒有「前往」（places.js 第 5 格）  [{"muted": "還沒去過・今天 19:00–23:30", "btn": null, "place": null, "inPinBox": false}]
+  [前置／捷徑] [QT tz_limao] ② 【前置／捷徑】同上（沒去過），讀檔到 tingzhou 出生點 20.00 時
+  [前置／捷徑] [QT tz_limao] 【前置／捷徑】E.placeAt 站到「進禮貌生財」(27.3, 4.75) 前 4 m 的 (25.74, 1.25)（path）
+PASS [QT tz_limao] ② 有「進禮貌生財」  [{"label": "往公館（羅斯福路）", "x": 28.6, "z": 23.5, "r": 2, "lv": 0, "to": "gongguan"}, {"label": "進泰米村食", "x": -7.3, "z": -1, "r": 1.6, "lv": 0, "to": "tz_taimi"}, {"label": "進汀州聯通", "x": -7.3, "z": 10.75, "r": 1.6, "lv": 0, "to": "tz_liantong"}, {"label": "進東南大聯商行", "x": -7.3, "z": 16.75, "r": 1.6, "lv": 0, "to": "tz_dongnan"}, {"label": "進客居雲南", "x": -7.3, "z": 23.25, "r": 1.6, "lv": 0, "to": "tz_keju"}, {"label": "進越好吃小館", "x": -7.3, "z": 29, "r": 1.6, "lv": 0, "to": "tz_yuehaochi"}, {"label": "進洗樂洗衣坊", "x": 7.3, "z": -5.5, "r": 1.6, "lv": 0, "to": "tz_xile"}, {"label": "進印得好", "x": 7.3, "z": 5.75, "r": 1.6, "lv": 0, "to": "tz_yindehao"}, {"label": "進禮貌生財", "x": 27.3, "z": 4.75, "r": 0.9, "lv": 0, "to": "tz_limao"}]
+  [ 526.7s] [QT tz_limao] ② 「進禮貌生財」在 (27.3, 4.75) 半徑 0.9；走到範圍裡站得住的 {"x": 27.05, "z": 4.32, "d": 3.335042891291575}
+PASS [QT tz_limao] ② 「進禮貌生財」範圍裡有站得住的地方  {"label": "進禮貌生財", "x": 27.3, "z": 4.75, "r": 0.9, "lv": 0, "to": "tz_limao"}
+  [ 532.2s] 到達「[QT tz_limao] ② 進禮貌生財」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [QT tz_limao] ② 走到那裡，互動按鈕是「進禮貌生財」  {"x": 27.005, "z": 4.118, "lv": 0, "interact": "進禮貌生財"}
+PASS [QT tz_limao] ② 按下去到了 tz_limao（站得住、沒有被放到目的地）  {"zone": "tz_limao", "x": 0.9, "z": 3.3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.13}
+PASS [QT tz_limao] ② 走進過 tz_limao 一次（visited.tz_limao＝true；店門）  {"zone": "tz_limao", "x": 0.9, "z": 3.3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.13}
+  [前置／捷徑] [QT tz_limao] ③ 【前置／捷徑】同一份進度（GAME.snapshot，visited.tz_limao 留著）讀回 gongguan 出生點 20.00 時
+  [ 551.4s] [QT tz_limao] ③ 去過以後：{"area": {"on": false, "t": "汀州路（10）▸"}, "rows": [{"muted": "約 10 分鐘・今天 19:00–23:30", "btn": "前往", "place": "tz_limao|禮貌生財", "inPinBox": false}], "pin": true}；reveal True；按鈕 {"t": "前往", "place": "tz_limao|禮貌生財"}
+PASS [QT tz_limao] ③ 去過以後清單有「前往」（cc_phone.reveal）  {"t": "前往", "place": "tz_limao|禮貌生財"}
+PASS [QT tz_limao] ③ 手機「地點」的簡圖有那一顆圖釘（tingzhou；大地圖沒有快速前往清單，看這張）  "tingzhou"
+PASS [QT tz_limao] ③ 按「前往」到了 tz_limao（toast ["走了 10 分鐘到禮貌生財"]）  {"zone": "tz_limao", "day": 57, "hour": 20.246, "money": 95220, "x": 0.9, "z": 3.3, "lv": 0, "busy": false, "dlg": false, "dtext": "花藝師｜今天的花剛進，冷藏櫃裡的比較多。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [QT tz_limao] ③ 落點站得住（canStand）、沒有被放到目的地（walkFallbacks 不變）  {"x": 0.9, "z": 3.3, "lv": 0, "stand": true, "fb": 0}
+PASS [GIFT] 找得到存檔以後第一個學期中的週三  {"d": 57, "key": "2025-11-12", "wd": 3, "term": "Y1S1", "week": 11, "why": {"wd": 5, "term": 0, "exam": 0, "hol": 0, "ty": 0}}
+  [前置／捷徑] [GIFT tz_yuehaochi 越南冰咖啡] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 14:00 tz_yuehaochi 出生點
+  [ 564.2s] [GIFT tz_yuehaochi 越南冰咖啡] 讀檔以後先有的劇情（照字點完，不算）：["老闆娘｜裡面坐。菜單在牆上，想好了跟我講。"]
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 讀到 tz_yuehaochi  {"zone": "tz_yuehaochi", "day": 57, "hour": 14.014, "money": 95220, "x": 0.75, "z": 2.9, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜裡面坐。菜單在牆上，想好了跟我講。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+  [ 564.2s] [GIFT tz_yuehaochi 越南冰咖啡] 店的資料：{"name": "越好吃小館", "kind": "tz_yue_order", "label": "點餐", "price": 60, "giftOpt": "買一份帶走送人…", "no": "不用了", "giftMenu": [["越南冰咖啡", 60]], "carry0": 0}
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 店的資料有「越南冰咖啡」（價錢 60、按鈕「點餐」）  {"name": "越好吃小館", "kind": "tz_yue_order", "label": "點餐", "price": 60, "giftOpt": "買一份帶走送人…", "no": "不用了", "giftMenu": [["越南冰咖啡", 60]], "carry0": 0}
+PASS [GIFT tz_yuehaochi 越南冰咖啡] GIFT.menu 有「越南冰咖啡」（買來送人的飲料）  [["越南冰咖啡", 60]]
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 店裡有「點餐」的互動點（kind tz_yue_order）  [{"n": 17, "label": "點餐", "x": 1, "z": -1.75, "lv": 0, "r": 1, "hidden": false, "to": null, "wzJob": null, "kind": "tz_yue_order", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（越好吃小館）"}, {"n": 18, "label": "看菜單", "x": 1.75, "z": 1.5, "lv": 0, "r": 0.75, "hidden": false, "to": null, "wzJob": null, "kind": "tz_yue_menu", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（越好吃小館）"}, {"n": 19, "label": "看香草檯", "x": 1.85, "z": -0.75, "lv": 0, "r": 0.6, "hidden": false, "to": null, "wzJob": null, "kind": "tz_yue_herbs", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（越好吃小館）"}, {"n": 20, "label": "看廚房", "x": -0.5, "z": -1.8, "lv": 0, "r": 0.7, "hidden": false, "to": null, "wzJob": null, "kind": "tz_yue_kitchen", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（越好吃小館）"}, {"n": 21, "label": "看牆上的斗笠", "x": -1.2, "z": 1.75, "lv": 0, "r": 0.6, "hidden": false, "to": null, "wzJob": null, "kind": "tz_yue_hats", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（越好吃小館）"}]
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 按鈕的字＝稿的「點餐」  {"n": 17, "label": "點餐", "x": 1, "z": -1.75, "lv": 0, "r": 1, "hidden": false, "to": null, "wzJob": null, "kind": "tz_yue_order", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（越好吃小館）"}
+  [ 568.4s] 到達「[GIFT tz_yuehaochi 越南冰咖啡] 走到「點餐」旁（第 1 點、第 1 段）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 走到「點餐」、互動鍵是它  [{"pt": [1, -1.75], "seg": 1, "ok": true, "at": [0.988, -1.533, 0], "interact": "點餐", "how": "點地 go_to"}]
+  [ 574.0s] [GIFT tz_yuehaochi 越南冰咖啡] 再選一次：["牛肉河粉　130 元", "雞肉河粉　120 元", "生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 575.6s] [GIFT tz_yuehaochi 越南冰咖啡] 再選一次：["雞肉河粉　120 元", "生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 577.2s] [GIFT tz_yuehaochi 越南冰咖啡] 再選一次：["生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 578.8s] [GIFT tz_yuehaochi 越南冰咖啡] 再選一次：["炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 580.4s] [GIFT tz_yuehaochi 越南冰咖啡] 再選一次：["越式法國麵包　75 元", "越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 582.0s] [GIFT tz_yuehaochi 越南冰咖啡] 再選一次：["越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 583.6s] [GIFT tz_yuehaochi 越南冰咖啡] 再選一次：["點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 591.0s] [GIFT tz_yuehaochi 越南冰咖啡] 選單 [["牛肉河粉　130 元", "雞肉河粉　120 元", "生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "不用了", "買一份帶走送人…"], ["越南冰咖啡　60 元", "算了"], ["牛肉河粉　130 元", "雞肉河粉　120 元", "生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "不用了", "買一份帶走送人…"], ["雞肉河粉　120 元", "生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"], ["生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"], ["炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"], ["越式法國麵包　75 元", "越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"], ["越南冰咖啡　60 元", "點好了", "不用了", "買一份帶走送人…"], ["點好了", "不用了", "買一份帶走送人…"]]；對話 [["老闆娘", "要吃什麼？"], ["", "你買了越南冰咖啡，帶在身上。"], ["老闆娘", "好，找位子坐，等一下端過去。"], ["", "（塑膠椅有一點矮。桌上一罐魚露、一罐辣醬、一盒衛生紙。）"], ["", "（一大碗端上來，湯是清的，牛肉片還有一點紅。）"], ["", "（你去香草檯夾了九層塔和豆芽，擠了半顆檸檬。湯喝到見底。）"]]；GAME.money [[-60, 14.046], [-555, 14.046]]
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 選單有「買一份帶走送人…」（真的按得到）  [["牛肉河粉　130 元", "雞肉河粉　120 元", "生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "不用了", "買一份帶走送人…"], ["越南冰咖啡　60 元", "算了"]]
+PASS [GIFT tz_yuehaochi 越南冰咖啡]「買一份帶走送人…」是選單最後一項  ["牛肉河粉　130 元", "雞肉河粉　120 元", "生春捲（兩捲）　80 元", "炸春捲（四條）　90 元", "越式法國麵包　75 元", "越南冰咖啡　60 元", "不用了", "買一份帶走送人…"]
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 帶走的選單有「越南冰咖啡　60 元」（價錢＝店的資料）  ["越南冰咖啡　60 元", "算了"]
+FAIL [GIFT tz_yuehaochi 越南冰咖啡] 錢少了剛好 60 元（95220 → 94605；GAME.money 只叫一次 −60）  [[-60, 14.046], [-555, 14.046]]
+PASS [GIFT tz_yuehaochi 越南冰咖啡] G.carry 多一筆 {n:越南冰咖啡…, cat:drink, day:今天, shop:越好吃小館}  [{"n": "越南冰咖啡", "cat": "drink", "day": 57, "shop": "越好吃小館"}]
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 旁白「你買了越南冰咖啡…，帶在身上。」  [["", "（塑膠椅有一點矮。桌上一罐魚露、一罐辣醬、一盒衛生紙。）"], ["", "（一大碗端上來，湯是清的，牛肉片還有一點紅。）"], ["", "（你去香草檯夾了九層塔和豆芽，擠了半顆檸檬。湯喝到見底。）"]]
+PASS [GIFT tz_yuehaochi 越南冰咖啡] 最後沒有對話框、選單  {"dlg": false, "nch": 0, "busy": false}
+  [前置／捷徑] [GIFT tz_keju 冰普洱茶] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 14:00 tz_keju 出生點
+  [ 600.4s] [GIFT tz_keju 冰普洱茶] 讀檔以後先有的劇情（照字點完，不算）：["老闆娘｜第一次來嗎？米干是寬的，米線是圓的。"]
+PASS [GIFT tz_keju 冰普洱茶] 讀到 tz_keju  {"zone": "tz_keju", "day": 57, "hour": 14.016, "money": 95220, "x": 1, "z": 2.9, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆娘｜第一次來嗎？米干是寬的，米線是圓的。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+  [ 600.5s] [GIFT tz_keju 冰普洱茶] 店的資料：{"name": "客居雲南", "kind": "tz_keju_order", "label": "點餐", "price": 40, "giftOpt": "買一份帶走送人…", "no": "不用了", "giftMenu": [["冰普洱茶", 40]], "carry0": 0}
+PASS [GIFT tz_keju 冰普洱茶] 店的資料有「冰普洱茶」（價錢 40、按鈕「點餐」）  {"name": "客居雲南", "kind": "tz_keju_order", "label": "點餐", "price": 40, "giftOpt": "買一份帶走送人…", "no": "不用了", "giftMenu": [["冰普洱茶", 40]], "carry0": 0}
+PASS [GIFT tz_keju 冰普洱茶] GIFT.menu 有「冰普洱茶」（買來送人的飲料）  [["冰普洱茶", 40]]
+PASS [GIFT tz_keju 冰普洱茶] 店裡有「點餐」的互動點（kind tz_keju_order）  [{"n": 17, "label": "點餐", "x": 1.2, "z": -1.75, "lv": 0, "r": 0.9, "hidden": false, "to": null, "wzJob": null, "kind": "tz_keju_order", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（客居雲南）"}, {"n": 18, "label": "看菜單", "x": 1.45, "z": 1.45, "lv": 0, "r": 0.7, "hidden": false, "to": null, "wzJob": null, "kind": "tz_keju_menu", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（客居雲南）"}, {"n": 19, "label": "看茶餅櫃", "x": 1.6, "z": -0.75, "lv": 0, "r": 0.6, "hidden": false, "to": null, "wzJob": null, "kind": "tz_keju_tea", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（客居雲南）"}, {"n": 20, "label": "看廚房", "x": -0.25, "z": -1.85, "lv": 0, "r": 0.6, "hidden": false, "to": null, "wzJob": null, "kind": "tz_keju_kitchen", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（客居雲南）"}, {"n": 21, "label": "看牆上", "x": -0.85, "z": 1.7, "lv": 0, "r": 0.6, "hidden": false, "to": null, "wzJob": null, "kind": "tz_keju_batik", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（客居雲南）"}]
+PASS [GIFT tz_keju 冰普洱茶] 按鈕的字＝稿的「點餐」  {"n": 17, "label": "點餐", "x": 1.2, "z": -1.75, "lv": 0, "r": 0.9, "hidden": false, "to": null, "wzJob": null, "kind": "tz_keju_order", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（客居雲南）"}
+  [ 603.2s] 到達「[GIFT tz_keju 冰普洱茶] 走到「點餐」旁（第 1 點、第 1 段）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [GIFT tz_keju 冰普洱茶] 走到「點餐」、互動鍵是它  [{"pt": [1.2, -1.75], "seg": 1, "ok": true, "at": [1.189, -1.506, 0], "interact": "點餐", "how": "點地 go_to"}]
+  [ 609.3s] [GIFT tz_keju 冰普洱茶] 再選一次：["過橋米線　160 元", "紅燒牛肉米干　140 元", "豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 611.0s] [GIFT tz_keju 冰普洱茶] 再選一次：["紅燒牛肉米干　140 元", "豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 612.7s] [GIFT tz_keju 冰普洱茶] 再選一次：["豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 614.4s] [GIFT tz_keju 冰普洱茶] 再選一次：["破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 616.1s] [GIFT tz_keju 冰普洱茶] 再選一次：["涼拌木耳　50 元", "冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 617.7s] [GIFT tz_keju 冰普洱茶] 再選一次：["冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 619.4s] [GIFT tz_keju 冰普洱茶] 再選一次：["點好了", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 627.3s] [GIFT tz_keju 冰普洱茶] 選單 [["過橋米線　160 元", "紅燒牛肉米干　140 元", "豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "不用了", "買一份帶走送人…"], ["冰普洱茶　40 元", "算了"], ["過橋米線　160 元", "紅燒牛肉米干　140 元", "豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "不用了", "買一份帶走送人…"], ["紅燒牛肉米干　140 元", "豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"], ["豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"], ["破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"], ["涼拌木耳　50 元", "冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"], ["冰普洱茶　40 元", "點好了", "不用了", "買一份帶走送人…"], ["點好了", "不用了", "買一份帶走送人…"]]；對話 [["老闆娘", "想吃什麼？"], ["", "你買了冰普洱茶，帶在身上。"], ["老闆娘", "好，過橋米線。等一下湯很燙，不要直接喝。"], ["", "（木頭的桌椅，桌面擦得很乾淨。隔壁桌的湯還在冒煙。）"], ["", "（先上來一大碗冒煙的湯，再來一盤一小碟一小碟的料：肉片、鵪鶉蛋、豆皮、韭菜，最後才是米線。）"], ["", "（老闆娘說先下肉、再下菜、最後下米線。你照做了。湯到最後一口都還是燙的。）"]]；GAME.money [[-40, 14.04], [-520, 14.04]]
+PASS [GIFT tz_keju 冰普洱茶] 選單有「買一份帶走送人…」（真的按得到）  [["過橋米線　160 元", "紅燒牛肉米干　140 元", "豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "不用了", "買一份帶走送人…"], ["冰普洱茶　40 元", "算了"]]
+PASS [GIFT tz_keju 冰普洱茶]「買一份帶走送人…」是選單最後一項  ["過橋米線　160 元", "紅燒牛肉米干　140 元", "豌豆粉　70 元", "破酥包（兩個）　60 元", "涼拌木耳　50 元", "冰普洱茶　40 元", "不用了", "買一份帶走送人…"]
+PASS [GIFT tz_keju 冰普洱茶] 帶走的選單有「冰普洱茶　40 元」（價錢＝店的資料）  ["冰普洱茶　40 元", "算了"]
+FAIL [GIFT tz_keju 冰普洱茶] 錢少了剛好 40 元（95220 → 94660；GAME.money 只叫一次 −40）  [[-40, 14.04], [-520, 14.04]]
+PASS [GIFT tz_keju 冰普洱茶] G.carry 多一筆 {n:冰普洱茶…, cat:drink, day:今天, shop:客居雲南}  [{"n": "冰普洱茶", "cat": "drink", "day": 57, "shop": "客居雲南"}]
+PASS [GIFT tz_keju 冰普洱茶] 旁白「你買了冰普洱茶…，帶在身上。」  [["", "（木頭的桌椅，桌面擦得很乾淨。隔壁桌的湯還在冒煙。）"], ["", "（先上來一大碗冒煙的湯，再來一盤一小碟一小碟的料：肉片、鵪鶉蛋、豆皮、韭菜，最後才是米線。）"], ["", "（老闆娘說先下肉、再下菜、最後下米線。你照做了。湯到最後一口都還是燙的。）"]]
+PASS [GIFT tz_keju 冰普洱茶] 最後沒有對話框、選單  {"dlg": false, "nch": 0, "busy": false}
+  [前置／捷徑] [GIFT tz_dongnan 瓶裝泰式奶茶] 【前置／捷徑】讀使用者存檔，改到 2025-11-12 14:00 tz_dongnan 出生點
+  [ 636.7s] [GIFT tz_dongnan 瓶裝泰式奶茶] 讀檔以後先有的劇情（照字點完，不算）：["老闆｜袋子要自己拿喔，掛在櫃檯旁邊。"]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 讀到 tz_dongnan  {"zone": "tz_dongnan", "day": 57, "hour": 14.016, "money": 95220, "x": 0, "z": 2.9, "lv": 0, "busy": false, "dlg": false, "dtext": "老闆｜袋子要自己拿喔，掛在櫃檯旁邊。", "nch": 0, "interact": "", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+  [ 636.7s] [GIFT tz_dongnan 瓶裝泰式奶茶] 店的資料：{"name": "東南大聯商行", "kind": "tz_dongnan_drink", "label": "看飲料冰箱", "price": 45, "giftOpt": "買一份帶走送人…", "no": "不用了", "giftMenu": [["瓶裝泰式奶茶", 45]], "carry0": 0}
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 店的資料有「瓶裝泰式奶茶」（價錢 45、按鈕「看飲料冰箱」）  {"name": "東南大聯商行", "kind": "tz_dongnan_drink", "label": "看飲料冰箱", "price": 45, "giftOpt": "買一份帶走送人…", "no": "不用了", "giftMenu": [["瓶裝泰式奶茶", 45]], "carry0": 0}
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] GIFT.menu 有「瓶裝泰式奶茶」（買來送人的飲料）  [["瓶裝泰式奶茶", 45]]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 店裡有「看飲料冰箱」的互動點（kind tz_dongnan_drink）  [{"n": 1, "label": "結帳", "x": 2.3, "z": 1.55, "lv": 0, "r": 0.8, "hidden": false, "to": null, "wzJob": null, "kind": "tz_dongnan_counter", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（東南大聯商行）"}, {"n": 2, "label": "看泡麵和零食", "x": -2.65, "z": 0.2, "lv": 0, "r": 0.8, "hidden": false, "to": null, "wzJob": null, "kind": "tz_dongnan_noodle", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（東南大聯商行）"}, {"n": 3, "label": "看醬料和罐頭", "x": -0.2, "z": -3.4, "lv": 0, "r": 0.8, "hidden": false, "to": null, "wzJob": null, "kind": "tz_dongnan_sauce", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（東南大聯商行）"}, {"n": 4, "label": "看飲料冰箱", "x": 2.45, "z": 0, "lv": 0, "r": 0.7, "hidden": false, "to": null, "wzJob": null, "kind": "tz_dongnan_drink", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（東南大聯商行）"}, {"n": 5, "label": "看米和乾貨", "x": 2.3, "z": -2.4, "lv": 0, "r": 0.7, "hidden": false, "to": null, "wzJob": null, "kind": "tz_dongnan_rice", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（東南大聯商行）"}]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 按鈕的字＝稿的「看飲料冰箱」  {"n": 4, "label": "看飲料冰箱", "x": 2.45, "z": 0, "lv": 0, "r": 0.7, "hidden": false, "to": null, "wzJob": null, "kind": "tz_dongnan_drink", "tzPoint": true, "shop118": null, "fnDoor": false, "lmDoor": false, "look": "（東南大聯商行）"}
+  [ 639.3s] 到達「[GIFT tz_dongnan 瓶裝泰式奶茶] 走到「看飲料冰箱」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 走到「看飲料冰箱」、互動鍵是它  [{"pt": [2.45, 0], "seg": 1, "ok": true, "at": [2.336, 0.2, 0], "interact": "看飲料冰箱", "how": "點地 go_to"}]
+  [ 645.1s] [GIFT tz_dongnan 瓶裝泰式奶茶] 再選一次：["罐裝椰子水　40 元", "瓶裝泰式奶茶　45 元", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 647.2s] [GIFT tz_dongnan 瓶裝泰式奶茶] 再選一次：["瓶裝泰式奶茶　45 元", "不用了", "買一份帶走送人…"] → 選第一個
+  [ 649.7s] [GIFT tz_dongnan 瓶裝泰式奶茶] 選單 [["罐裝椰子水　40 元", "瓶裝泰式奶茶　45 元", "不用了", "買一份帶走送人…"], ["瓶裝泰式奶茶　45 元", "算了"], ["罐裝椰子水　40 元", "瓶裝泰式奶茶　45 元", "不用了", "買一份帶走送人…"], ["瓶裝泰式奶茶　45 元", "不用了", "買一份帶走送人…"]]；對話 [["", "（冰箱的玻璃門有一點霧。椰子水、奶茶、幾種你沒看過的汽水，罐子都比台灣的細長。）"], ["", "你買了瓶裝泰式奶茶，帶在身上。"], ["", "（你拿了一份，先拿在手上。）"], ["", "（你拿了一份，先拿在手上。）"]]；GAME.money [[-45, 14.039]]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 選單有「買一份帶走送人…」（真的按得到）  [["罐裝椰子水　40 元", "瓶裝泰式奶茶　45 元", "不用了", "買一份帶走送人…"], ["瓶裝泰式奶茶　45 元", "算了"]]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶]「買一份帶走送人…」是選單最後一項  ["罐裝椰子水　40 元", "瓶裝泰式奶茶　45 元", "不用了", "買一份帶走送人…"]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 帶走的選單有「瓶裝泰式奶茶　45 元」（價錢＝店的資料）  ["瓶裝泰式奶茶　45 元", "算了"]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 錢少了剛好 45 元（95220 → 95175；GAME.money 只叫一次 −45）  [[-45, 14.039]]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] G.carry 多一筆 {n:瓶裝泰式奶茶…, cat:drink, day:今天, shop:東南大聯商行}  [{"n": "瓶裝泰式奶茶", "cat": "drink", "day": 57, "shop": "東南大聯商行"}]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 旁白「你買了瓶裝泰式奶茶…，帶在身上。」  [["", "你買了瓶裝泰式奶茶，帶在身上。"], ["", "（你拿了一份，先拿在手上。）"], ["", "（你拿了一份，先拿在手上。）"]]
+PASS [GIFT tz_dongnan 瓶裝泰式奶茶] 最後沒有對話框、選單  {"dlg": false, "nch": 0, "busy": false}
+PASS [TYPH] 2025-10-13 是颱風假（CALENDAR.typhoon）  {"d": 27, "key": "2025-10-13", "wd": 1, "typhoon": true, "hol": true}
+  [ 649.7s] [TYPH] PLACES.typhoonShops 裡要測的 15 間：["xs_tongxian", "xs_nanyang", "xs_shanlan", "xs_dabu", "xs_haopai", "xs_xsports", "flower_notes", "tz_limao", "l118_dian", "l118_self", "l118_tea", "l118_home", "l118_cafe2", "l118_korea", "l118_noodle2"]（cfcbc17e75 新加的：新生南路 nanyang／shanlan／dabu／haopai／xsports、花序、禮貌生財、118 巷 7 間；xs_tongxian 是之前就有的）
+PASS [TYPH] 名單有新生南路 5 間、花序、禮貌生財、118 巷 7 間  ["xs_tongxian", "xs_nanyang", "xs_shanlan", "xs_dabu", "xs_haopai", "xs_xsports", "flower_notes", "tz_limao", "l118_dian", "l118_self", "l118_tea", "l118_home", "l118_cafe2", "l118_korea", "l118_noodle2"]
+PASS [TYPH xs_tongxian] 找得到那條街（xinsheng）  {"z": "xs_tongxian", "street": "xinsheng", "name": "同弦樂器", "h": null, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "同弦樂器：颱風假，今天沒開。", "typhoonClosed": true}
+  [ 649.7s] [TYPH xs_tongxian] 那一天（週一）平常也沒開（公休）：颱風擋不擋看不出來；照樣按、記字（14:00）
+PASS [TYPH xs_tongxian] PLACES.typhoonClosed＝true  {"z": "xs_tongxian", "street": "xinsheng", "name": "同弦樂器", "h": null, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "同弦樂器：颱風假，今天沒開。", "typhoonClosed": true}
+  [前置／捷徑] [TYPH xs_tongxian] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 xinsheng 出生點（颱風假）
+PASS [TYPH xs_tongxian] xinsheng 有看得到的店門／店門口按鈕  [{"n": 5, "label": "進同弦樂器（吉他行）", "x": -15.6, "z": -7.2, "lv": 0, "r": 1.4, "hidden": false, "to": "xs_tongxian", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH xs_tongxian] 【前置／捷徑】E.placeAt 站到「進同弦樂器（吉他行）」(-15.6, -7.2) 前 4 m 的 (-11.98, -5.5)（path）
+  [ 665.0s] 到達「[TYPH xs_tongxian] 走到「進同弦樂器（吉他行）」旁（第 1 點、第 1 段）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH xs_tongxian] 走到「進同弦樂器（吉他行）」、互動鍵是它  [{"pt": [-15.6, -7.2], "seg": 1, "ok": true, "at": [-15.401, -7.106, 0], "interact": "進同弦樂器（吉他行）", "how": "點地 go_to"}]
+  [ 669.7s] [TYPH xs_tongxian] 按下去：{"zone": "xinsheng", "hour": 14.118}；toast ["同弦樂器：颱風假，今天沒開。"]；對話 []；期望（exit）「同弦樂器：颱風假，今天沒開。」
+PASS [TYPH xs_tongxian] 颱風假按「進同弦樂器（吉他行）」：沒有進去（還在 xinsheng）  {"zone": "xinsheng", "day": 27, "hour": 14.118, "money": 95220, "x": -15.4, "z": -7.11, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（你拿了一份，先拿在手上。）", "nch": 0, "interact": "進同弦樂器（吉他行）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH xs_tongxian] 跳出的字＝遊戲資料那一句「同弦樂器：颱風假，今天沒開。」  ["同弦樂器：颱風假，今天沒開。"]
+PASS [TYPH xs_nanyang] 找得到那條街（xinsheng）  {"z": "xs_nanyang", "street": "xinsheng", "name": "南洋戲院", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "南洋戲院：颱風假，今天沒開。", "typhoonClosed": true}
+PASS [TYPH xs_nanyang] PLACES.typhoonClosed＝true  {"z": "xs_nanyang", "street": "xinsheng", "name": "南洋戲院", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "南洋戲院：颱風假，今天沒開。", "typhoonClosed": true}
+  [前置／捷徑] [TYPH xs_nanyang] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 xinsheng 出生點（颱風假）
+PASS [TYPH xs_nanyang] xinsheng 有看得到的店門／店門口按鈕  [{"n": 3, "label": "進南洋戲院（二輪戲院）", "x": -15.6, "z": 25.3, "lv": 0, "r": 1.4, "hidden": false, "to": "xs_nanyang", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH xs_nanyang] 【前置／捷徑】E.placeAt 站到「進南洋戲院（二輪戲院）」(-15.6, 25.3) 前 4 m 的 (-14.01, 21.63)（path）
+  [ 683.8s] 到達「[TYPH xs_nanyang] 走到「進南洋戲院（二輪戲院）」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH xs_nanyang] 走到「進南洋戲院（二輪戲院）」、互動鍵是它  [{"pt": [-15.6, 25.3], "seg": 1, "ok": true, "at": [-15.501, 25.07, 0], "interact": "進南洋戲院（二輪戲院）", "how": "點地 go_to"}]
+  [ 688.5s] [TYPH xs_nanyang] 按下去：{"zone": "xinsheng", "hour": 14.115}；toast ["南洋戲院：颱風假，今天沒開。"]；對話 []；期望（exit）「南洋戲院：颱風假，今天沒開。」
+PASS [TYPH xs_nanyang] 颱風假按「進南洋戲院（二輪戲院）」：沒有進去（還在 xinsheng）  {"zone": "xinsheng", "day": 27, "hour": 14.115, "money": 95220, "x": -15.5, "z": 25.07, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（你拿了一份，先拿在手上。）", "nch": 0, "interact": "進南洋戲院（二輪戲院）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH xs_nanyang] 跳出的字＝遊戲資料那一句「南洋戲院：颱風假，今天沒開。」  ["南洋戲院：颱風假，今天沒開。"]
+  [前置／捷徑] [TYPH xs_nanyang] 對照 【前置／捷徑】讀使用者存檔，改到 2025-10-20 14.00 時 xinsheng 出生點（對照：不是颱風假）
+PASS [TYPH xs_nanyang] 對照 xinsheng 有看得到的店門／店門口按鈕  [{"n": 3, "label": "進南洋戲院（二輪戲院）", "x": -15.6, "z": 25.3, "lv": 0, "r": 1.4, "hidden": false, "to": "xs_nanyang", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH xs_nanyang] 對照 【前置／捷徑】E.placeAt 站到「進南洋戲院（二輪戲院）」(-15.6, 25.3) 前 4 m 的 (-14.01, 21.63)（path）
+  [ 702.2s] 到達「[TYPH xs_nanyang] 對照 走到「進南洋戲院（二輪戲院）」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH xs_nanyang] 對照 走到「進南洋戲院（二輪戲院）」、互動鍵是它  [{"pt": [-15.6, 25.3], "seg": 1, "ok": true, "at": [-15.501, 25.07, 0], "interact": "進南洋戲院（二輪戲院）", "how": "點地 go_to"}]
+PASS [TYPH xs_nanyang] 對照 2025-10-20（不是颱風假）同一時間按：進得去（探針按得進門）  {"zone": "xs_nanyang", "x": 0, "z": 5.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.11}
+PASS [TYPH xs_shanlan] 找得到那條街（xinsheng）  {"z": "xs_shanlan", "street": "xinsheng", "name": "山嵐書店", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "山嵐書店：颱風假，今天沒開。", "typhoonClosed": true}
+PASS [TYPH xs_shanlan] PLACES.typhoonClosed＝true  {"z": "xs_shanlan", "street": "xinsheng", "name": "山嵐書店", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "山嵐書店：颱風假，今天沒開。", "typhoonClosed": true}
+  [前置／捷徑] [TYPH xs_shanlan] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 xinsheng 出生點（颱風假）
+PASS [TYPH xs_shanlan] xinsheng 有看得到的店門／店門口按鈕  [{"n": 4, "label": "進山嵐書店（書店）", "x": -15.6, "z": 10.2, "lv": 0, "r": 1.4, "hidden": false, "to": "xs_shanlan", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH xs_shanlan] 【前置／捷徑】E.placeAt 站到「進山嵐書店（書店）」(-15.6, 10.2) 前 4 m 的 (-15.6, 14.2)（ring）
+  [ 723.4s] 到達「[TYPH xs_shanlan] 走到「進山嵐書店（書店）」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH xs_shanlan] 走到「進山嵐書店（書店）」、互動鍵是它  [{"pt": [-15.6, 10.2], "seg": 1, "ok": true, "at": [-15.6, 10.45, 0], "interact": "進山嵐書店（書店）", "how": "點地 go_to"}]
+  [ 728.0s] [TYPH xs_shanlan] 按下去：{"zone": "xinsheng", "hour": 14.114}；toast ["山嵐書店：颱風假，今天沒開。"]；對話 []；期望（exit）「山嵐書店：颱風假，今天沒開。」
+PASS [TYPH xs_shanlan] 颱風假按「進山嵐書店（書店）」：沒有進去（還在 xinsheng）  {"zone": "xinsheng", "day": 27, "hour": 14.114, "money": 95220, "x": -15.6, "z": 10.45, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（你拿了一份，先拿在手上。）", "nch": 0, "interact": "進山嵐書店（書店）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH xs_shanlan] 跳出的字＝遊戲資料那一句「山嵐書店：颱風假，今天沒開。」  ["山嵐書店：颱風假，今天沒開。"]
+PASS [TYPH xs_dabu] 找得到那條街（xinsheng）  {"z": "xs_dabu", "street": "xinsheng", "name": "大步球鞋", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "大步球鞋：颱風假，今天沒開。", "typhoonClosed": true}
+PASS [TYPH xs_dabu] PLACES.typhoonClosed＝true  {"z": "xs_dabu", "street": "xinsheng", "name": "大步球鞋", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "大步球鞋：颱風假，今天沒開。", "typhoonClosed": true}
+  [前置／捷徑] [TYPH xs_dabu] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 xinsheng 出生點（颱風假）
+PASS [TYPH xs_dabu] xinsheng 有看得到的店門／店門口按鈕  [{"n": 6, "label": "進大步球鞋（球鞋）", "x": -15.6, "z": -16.7, "lv": 0, "r": 1.4, "hidden": false, "to": "xs_dabu", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH xs_dabu] 【前置／捷徑】E.placeAt 站到「進大步球鞋（球鞋）」(-15.6, -16.7) 前 4 m 的 (-14.26, -12.94)（path）
+  [ 741.7s] 到達「[TYPH xs_dabu] 走到「進大步球鞋（球鞋）」旁（第 1 點、第 1 段）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH xs_dabu] 走到「進大步球鞋（球鞋）」、互動鍵是它  [{"pt": [-15.6, -16.7], "seg": 1, "ok": true, "at": [-15.52, -16.472, 0], "interact": "進大步球鞋（球鞋）", "how": "點地 go_to"}]
+  [ 746.4s] [TYPH xs_dabu] 按下去：{"zone": "xinsheng", "hour": 14.115}；toast ["大步球鞋：颱風假，今天沒開。"]；對話 []；期望（exit）「大步球鞋：颱風假，今天沒開。」
+PASS [TYPH xs_dabu] 颱風假按「進大步球鞋（球鞋）」：沒有進去（還在 xinsheng）  {"zone": "xinsheng", "day": 27, "hour": 14.115, "money": 95220, "x": -15.52, "z": -16.47, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（你拿了一份，先拿在手上。）", "nch": 0, "interact": "進大步球鞋（球鞋）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH xs_dabu] 跳出的字＝遊戲資料那一句「大步球鞋：颱風假，今天沒開。」  ["大步球鞋：颱風假，今天沒開。"]
+PASS [TYPH xs_haopai] 找得到那條街（xinsheng）  {"z": "xs_haopai", "street": "xinsheng", "name": "好拍運動", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "好拍運動：颱風假，今天沒開。", "typhoonClosed": true}
+PASS [TYPH xs_haopai] PLACES.typhoonClosed＝true  {"z": "xs_haopai", "street": "xinsheng", "name": "好拍運動", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "好拍運動：颱風假，今天沒開。", "typhoonClosed": true}
+  [前置／捷徑] [TYPH xs_haopai] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 xinsheng 出生點（颱風假）
+PASS [TYPH xs_haopai] xinsheng 有看得到的店門／店門口按鈕  [{"n": 7, "label": "進好拍運動（球拍專賣）", "x": -15.6, "z": -23.2, "lv": 0, "r": 1.4, "hidden": false, "to": "xs_haopai", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH xs_haopai] 【前置／捷徑】E.placeAt 站到「進好拍運動（球拍專賣）」(-15.6, -23.2) 前 4 m 的 (-14.4, -19.39)（path）
+  [ 760.1s] 到達「[TYPH xs_haopai] 走到「進好拍運動（球拍專賣）」旁（第 1 點、第 1 段）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH xs_haopai] 走到「進好拍運動（球拍專賣）」、互動鍵是它  [{"pt": [-15.6, -23.2], "seg": 1, "ok": true, "at": [-15.528, -22.966, 0], "interact": "進好拍運動（球拍專賣）", "how": "點地 go_to"}]
+  [ 764.9s] [TYPH xs_haopai] 按下去：{"zone": "xinsheng", "hour": 14.115}；toast ["好拍運動：颱風假，今天沒開。"]；對話 []；期望（exit）「好拍運動：颱風假，今天沒開。」
+PASS [TYPH xs_haopai] 颱風假按「進好拍運動（球拍專賣）」：沒有進去（還在 xinsheng）  {"zone": "xinsheng", "day": 27, "hour": 14.115, "money": 95220, "x": -15.53, "z": -22.97, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（你拿了一份，先拿在手上。）", "nch": 0, "interact": "進好拍運動（球拍專賣）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH xs_haopai] 跳出的字＝遊戲資料那一句「好拍運動：颱風假，今天沒開。」  ["好拍運動：颱風假，今天沒開。"]
+PASS [TYPH xs_xsports] 找得到那條街（xinsheng）  {"z": "xs_xsports", "street": "xinsheng", "name": "新生運動廣場", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "新生運動廣場：颱風假，今天沒開。", "typhoonClosed": true}
+PASS [TYPH xs_xsports] PLACES.typhoonClosed＝true  {"z": "xs_xsports", "street": "xinsheng", "name": "新生運動廣場", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "新生運動廣場：颱風假，今天沒開。", "typhoonClosed": true}
+  [前置／捷徑] [TYPH xs_xsports] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 xinsheng 出生點（颱風假）
+PASS [TYPH xs_xsports] xinsheng 有看得到的店門／店門口按鈕  [{"n": 8, "label": "進新生運動廣場（運動用品）", "x": -15.6, "z": -33, "lv": 0, "r": 1.4, "hidden": false, "to": "xs_xsports", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH xs_xsports] 【前置／捷徑】E.placeAt 站到「進新生運動廣場（運動用品）」(-15.6, -33) 前 4 m 的 (-14.08, -29.3)（path）
+  [ 778.5s] 到達「[TYPH xs_xsports] 走到「進新生運動廣場（運動用品）」旁（第 1 點、第 1 段）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH xs_xsports] 走到「進新生運動廣場（運動用品）」、互動鍵是它  [{"pt": [-15.6, -33], "seg": 1, "ok": true, "at": [-15.517, -32.796, 0], "interact": "進新生運動廣場（運動用品）", "how": "點地 go_to"}]
+  [ 783.2s] [TYPH xs_xsports] 按下去：{"zone": "xinsheng", "hour": 14.115}；toast ["新生運動廣場：颱風假，今天沒開。"]；對話 []；期望（exit）「新生運動廣場：颱風假，今天沒開。」
+PASS [TYPH xs_xsports] 颱風假按「進新生運動廣場（運動用品）」：沒有進去（還在 xinsheng）  {"zone": "xinsheng", "day": 27, "hour": 14.115, "money": 95220, "x": -15.52, "z": -32.8, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（你拿了一份，先拿在手上。）", "nch": 0, "interact": "進新生運動廣場（運動用品）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH xs_xsports] 跳出的字＝遊戲資料那一句「新生運動廣場：颱風假，今天沒開。」  ["新生運動廣場：颱風假，今天沒開。"]
+PASS [TYPH flower_notes] 找得到那條街（gongguan）  {"z": "flower_notes", "street": "gongguan", "name": "花序 Flower Notes", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "花序 Flower Notes：颱風假，今天沒開。", "typhoonClosed": true}
+PASS [TYPH flower_notes] PLACES.typhoonClosed＝true  {"z": "flower_notes", "street": "gongguan", "name": "花序 Flower Notes", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "exit", "exp": "花序 Flower Notes：颱風假，今天沒開。", "typhoonClosed": true}
+  [前置／捷徑] [TYPH flower_notes] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 gongguan 出生點（颱風假）
+PASS [TYPH flower_notes] gongguan 有看得到的店門／店門口按鈕  [{"n": 19, "label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "flower_notes", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": true, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH flower_notes] 【前置／捷徑】E.placeAt 站到「進入花序」(46.6, 21) 前 4 m 的 (45.27, 17.23)（path）
+  [ 798.8s] 到達「[TYPH flower_notes] 走到「進入花序」旁（第 1 點、第 1 段）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH flower_notes] 走到「進入花序」、互動鍵是它  [{"pt": [46.6, 21], "seg": 1, "ok": true, "at": [46.517, 20.767, 0], "interact": "進入花序", "how": "點地 go_to"}]
+  [ 803.8s] [TYPH flower_notes] 按下去：{"zone": "gongguan", "hour": 14.117}；toast ["花序 Flower Notes：颱風假，今天沒開。"]；對話 []；期望（exit）「花序 Flower Notes：颱風假，今天沒開。」
+PASS [TYPH flower_notes] 颱風假按「進入花序」：沒有進去（還在 gongguan）  {"zone": "gongguan", "day": 27, "hour": 14.117, "money": 95220, "x": 46.52, "z": 20.77, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（你拿了一份，先拿在手上。）", "nch": 0, "interact": "進入花序", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH flower_notes] 跳出的字＝遊戲資料那一句「花序 Flower Notes：颱風假，今天沒開。」  ["花序 Flower Notes：颱風假，今天沒開。"]
+  [前置／捷徑] [TYPH flower_notes] 對照 【前置／捷徑】讀使用者存檔，改到 2025-10-20 14.00 時 gongguan 出生點（對照：不是颱風假）
+PASS [TYPH flower_notes] 對照 gongguan 有看得到的店門／店門口按鈕  [{"n": 19, "label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "hidden": false, "to": "flower_notes", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": true, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH flower_notes] 對照 【前置／捷徑】E.placeAt 站到「進入花序」(46.6, 21) 前 4 m 的 (45.27, 17.23)（path）
+  [ 819.0s] 到達「[TYPH flower_notes] 對照 走到「進入花序」旁（第 1 點、第 1 段）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH flower_notes] 對照 走到「進入花序」、互動鍵是它  [{"pt": [46.6, 21], "seg": 1, "ok": true, "at": [46.516, 20.767, 0], "interact": "進入花序", "how": "點地 go_to"}]
+PASS [TYPH flower_notes] 對照 2025-10-20（不是颱風假）同一時間按：進得去（探針按得進門）  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.11}
+PASS [TYPH tz_limao] 找得到那條街（tingzhou）  {"z": "tz_limao", "street": "tingzhou", "name": "禮貌生財", "h": 19.5, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "limao", "exp": "禮貌生財。門關著，裡面沒有開燈。", "typhoonClosed": true}
+PASS [TYPH tz_limao] PLACES.typhoonClosed＝true  {"z": "tz_limao", "street": "tingzhou", "name": "禮貌生財", "h": 19.5, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "limao", "exp": "禮貌生財。門關著，裡面沒有開燈。", "typhoonClosed": true}
+  [前置／捷徑] [TYPH tz_limao] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 19.50 時 tingzhou 出生點（颱風假）
+PASS [TYPH tz_limao] tingzhou 有看得到的店門／店門口按鈕  [{"n": 28, "label": "看禮貌生財", "x": 27.3, "z": 4.75, "lv": 0, "r": 0.9, "hidden": false, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": true, "look": "（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）"}]
+  [前置／捷徑] [TYPH tz_limao] 【前置／捷徑】E.placeAt 站到「看禮貌生財」(27.3, 4.75) 前 4 m 的 (25.74, 1.25)（path）
+  [ 842.0s] 到達「[TYPH tz_limao] 走到「看禮貌生財」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [TYPH tz_limao] 走到「看禮貌生財」、互動鍵是它  [{"pt": [27.36, 4.67], "seg": 1, "ok": true, "at": [27.123, 4.592, 0], "interact": "看禮貌生財", "how": "點地 go_to"}]
+  [ 847.0s] [TYPH tz_limao] 按下去：{"zone": "tingzhou", "hour": 19.637}；toast []；對話 []；期望（limao）「禮貌生財。門關著，裡面沒有開燈。」
+PASS [TYPH tz_limao] 颱風假按「看禮貌生財」：沒有進去（還在 tingzhou）  {"zone": "tingzhou", "day": 27, "hour": 19.637, "money": 95220, "x": 27.12, "z": 4.59, "lv": 0, "busy": false, "dlg": false, "dtext": "花藝師｜歡迎。要送人的話，跟我說一下是什麼樣的人。", "nch": 0, "interact": "看禮貌生財", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+FAIL [TYPH tz_limao] 跳出的字＝遊戲資料那一句「禮貌生財。門關著，裡面沒有開燈。」  []
+  [前置／捷徑] [TYPH tz_limao] 對照 【前置／捷徑】讀使用者存檔，改到 2025-10-20 19.50 時 tingzhou 出生點（對照：不是颱風假）
+PASS [TYPH tz_limao] 對照 tingzhou 有看得到的店門／店門口按鈕  [{"n": 28, "label": "進禮貌生財", "x": 27.3, "z": 4.75, "lv": 0, "r": 0.9, "hidden": false, "to": "tz_limao", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": true, "look": null}]
+  [前置／捷徑] [TYPH tz_limao] 對照 【前置／捷徑】E.placeAt 站到「進禮貌生財」(27.3, 4.75) 前 4 m 的 (25.74, 1.25)（path）
+  [ 865.1s] 到達「[TYPH tz_limao] 對照 走到「進禮貌生財」旁（第 1 點、第 1 段）」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [TYPH tz_limao] 對照 走到「進禮貌生財」、互動鍵是它  [{"pt": [27.36, 4.67], "seg": 1, "ok": true, "at": [27.173, 4.62, 0], "interact": "進禮貌生財", "how": "點地 go_to"}]
+PASS [TYPH tz_limao] 對照 2025-10-20（不是颱風假）同一時間按：進得去（探針按得進門）  {"zone": "tz_limao", "x": 0.9, "z": 3.3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.64}
+PASS [TYPH l118_dian] 找得到那條街（lane118）  {"z": "l118_dian", "street": "lane118", "name": "l118_dian", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+PASS [TYPH l118_dian] PLACES.typhoonClosed＝true  {"z": "l118_dian", "street": "lane118", "name": "l118_dian", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+  [前置／捷徑] [TYPH l118_dian] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 lane118 出生點（颱風假）
+PASS [TYPH l118_dian] lane118 有看得到的店門／店門口按鈕  [{"n": 0, "label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "lv": 0, "r": 1.4, "hidden": true, "to": "l118_dian", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}, {"n": 1, "label": "118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "lv": 0, "r": 1.4, "hidden": false, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": "dian", "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH l118_dian] 【前置／捷徑】E.placeAt 站到「118牛排（夜市鐵板牛排）」(-4.3, 25) 前 4 m 的 (-4.3, 29)（ring）
+  [ 885.6s] 到達「[TYPH l118_dian] 走到「118牛排（夜市鐵板牛排）」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH l118_dian] 走到「118牛排（夜市鐵板牛排）」、互動鍵是它  [{"pt": [-4.3, 25], "seg": 1, "ok": true, "at": [-4.223, 25.222, 0], "interact": "118牛排（夜市鐵板牛排）", "how": "點地 go_to"}]
+  [ 891.1s] [TYPH l118_dian] 按下去：{"zone": "lane118", "hour": 14.113}；toast []；對話 ["｜（鐵門拉下來一半。門上貼著營業時間。）"]；期望（l118）「（鐵門拉下來一半。門上貼著營業時間。）」
+PASS [TYPH l118_dian] 颱風假按「118牛排（夜市鐵板牛排）」：沒有進去（還在 lane118）  {"zone": "lane118", "day": 27, "hour": 14.113, "money": 95220, "x": -4.22, "z": 25.22, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來一半。門上貼著營業時間。）", "nch": 0, "interact": "118牛排（夜市鐵板牛排）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH l118_dian] 跳出的字＝遊戲資料那一句「（鐵門拉下來一半。門上貼著營業時間。）」  ["（鐵門拉下來一半。門上貼著營業時間。）", "（鐵門拉下來一半。門上貼著營業時間。）"]
+  [前置／捷徑] [TYPH l118_dian] 對照 【前置／捷徑】讀使用者存檔，改到 2025-10-20 14.00 時 lane118 出生點（對照：不是颱風假）
+PASS [TYPH l118_dian] 對照 lane118 有看得到的店門／店門口按鈕  [{"n": 0, "label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "lv": 0, "r": 1.4, "hidden": false, "to": "l118_dian", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}, {"n": 1, "label": "118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "lv": 0, "r": 1.4, "hidden": true, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": "dian", "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH l118_dian] 對照 【前置／捷徑】E.placeAt 站到「進118牛排（夜市鐵板牛排）」(-4.3, 25) 前 4 m 的 (-4.3, 29)（ring）
+  [ 905.1s] 到達「[TYPH l118_dian] 對照 走到「進118牛排（夜市鐵板牛排）」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH l118_dian] 對照 走到「進118牛排（夜市鐵板牛排）」、互動鍵是它  [{"pt": [-4.3, 25], "seg": 1, "ok": true, "at": [-4.223, 25.222, 0], "interact": "進118牛排（夜市鐵板牛排）", "how": "點地 go_to"}]
+PASS [TYPH l118_dian] 對照 2025-10-20（不是颱風假）同一時間按：進得去（探針按得進門）  {"zone": "l118_dian", "x": 1.5, "z": 2.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.1}
+PASS [TYPH l118_self] 找得到那條街（lane118）  {"z": "l118_self", "street": "lane118", "name": "l118_self", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+PASS [TYPH l118_self] PLACES.typhoonClosed＝true  {"z": "l118_self", "street": "lane118", "name": "l118_self", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+  [前置／捷徑] [TYPH l118_self] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 lane118 出生點（颱風假）
+PASS [TYPH l118_self] lane118 有看得到的店門／店門口按鈕  [{"n": 2, "label": "進水上便當（雞腿、雞排便當）", "x": -4.3, "z": 17.5, "lv": 0, "r": 1.4, "hidden": true, "to": "l118_self", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}, {"n": 3, "label": "水上便當（雞腿、雞排便當）", "x": -4.3, "z": 17.5, "lv": 0, "r": 1.4, "hidden": false, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": "self", "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH l118_self] 【前置／捷徑】E.placeAt 站到「水上便當（雞腿、雞排便當）」(-4.3, 17.5) 前 4 m 的 (-4.3, 21.5)（ring）
+  [ 928.5s] 到達「[TYPH l118_self] 走到「水上便當（雞腿、雞排便當）」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH l118_self] 走到「水上便當（雞腿、雞排便當）」、互動鍵是它  [{"pt": [-4.3, 17.5], "seg": 1, "ok": true, "at": [-4.24, 17.742, 0], "interact": "水上便當（雞腿、雞排便當）", "how": "點地 go_to"}]
+  [ 933.9s] [TYPH l118_self] 按下去：{"zone": "lane118", "hour": 14.11}；toast []；對話 ["｜（鐵門拉下來一半。門上貼著營業時間。）"]；期望（l118）「（鐵門拉下來一半。門上貼著營業時間。）」
+PASS [TYPH l118_self] 颱風假按「水上便當（雞腿、雞排便當）」：沒有進去（還在 lane118）  {"zone": "lane118", "day": 27, "hour": 14.11, "money": 95220, "x": -4.24, "z": 17.74, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來一半。門上貼著營業時間。）", "nch": 0, "interact": "水上便當（雞腿、雞排便當）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH l118_self] 跳出的字＝遊戲資料那一句「（鐵門拉下來一半。門上貼著營業時間。）」  ["（鐵門拉下來一半。門上貼著營業時間。）", "（鐵門拉下來一半。門上貼著營業時間。）"]
+PASS [TYPH l118_tea] 找得到那條街（lane118）  {"z": "l118_tea", "street": "lane118", "name": "l118_tea", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+PASS [TYPH l118_tea] PLACES.typhoonClosed＝true  {"z": "l118_tea", "street": "lane118", "name": "l118_tea", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+  [前置／捷徑] [TYPH l118_tea] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 lane118 出生點（颱風假）
+PASS [TYPH l118_tea] lane118 有看得到的店門／店門口按鈕  [{"n": 4, "label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "x": -4.3, "z": 11.5, "lv": 0, "r": 1.4, "hidden": true, "to": "l118_tea", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}, {"n": 5, "label": "辛亥韓食（韓式鍋物、鐵板烤肉）", "x": -4.3, "z": 11.5, "lv": 0, "r": 1.4, "hidden": false, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": "tea", "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH l118_tea] 【前置／捷徑】E.placeAt 站到「辛亥韓食（韓式鍋物、鐵板烤肉）」(-4.3, 11.5) 前 4 m 的 (-4.3, 15.5)（ring）
+  [ 947.7s] 到達「[TYPH l118_tea] 走到「辛亥韓食（韓式鍋物、鐵板烤肉）」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH l118_tea] 走到「辛亥韓食（韓式鍋物、鐵板烤肉）」、互動鍵是它  [{"pt": [-4.3, 11.5], "seg": 1, "ok": true, "at": [-4.24, 11.742, 0], "interact": "辛亥韓食（韓式鍋物、鐵板烤肉）", "how": "點地 go_to"}]
+  [ 953.2s] [TYPH l118_tea] 按下去：{"zone": "lane118", "hour": 14.109}；toast []；對話 ["｜（鐵門拉下來一半。門上貼著營業時間。）"]；期望（l118）「（鐵門拉下來一半。門上貼著營業時間。）」
+PASS [TYPH l118_tea] 颱風假按「辛亥韓食（韓式鍋物、鐵板烤肉）」：沒有進去（還在 lane118）  {"zone": "lane118", "day": 27, "hour": 14.109, "money": 95220, "x": -4.24, "z": 11.74, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來一半。門上貼著營業時間。）", "nch": 0, "interact": "辛亥韓食（韓式鍋物、鐵板烤肉）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH l118_tea] 跳出的字＝遊戲資料那一句「（鐵門拉下來一半。門上貼著營業時間。）」  ["（鐵門拉下來一半。門上貼著營業時間。）", "（鐵門拉下來一半。門上貼著營業時間。）"]
+PASS [TYPH l118_home] 找得到那條街（lane118）  {"z": "l118_home", "street": "lane118", "name": "l118_home", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+PASS [TYPH l118_home] PLACES.typhoonClosed＝true  {"z": "l118_home", "street": "lane118", "name": "l118_home", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+  [前置／捷徑] [TYPH l118_home] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 lane118 出生點（颱風假）
+PASS [TYPH l118_home] lane118 有看得到的店門／店門口按鈕  [{"n": 6, "label": "進五湖四海（水餃店）", "x": -4.3, "z": -2, "lv": 0, "r": 1.4, "hidden": true, "to": "l118_home", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}, {"n": 7, "label": "五湖四海（水餃店）", "x": -4.3, "z": -2, "lv": 0, "r": 1.4, "hidden": false, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": "home", "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH l118_home] 【前置／捷徑】E.placeAt 站到「五湖四海（水餃店）」(-4.3, -2) 前 4 m 的 (-4.3, 2)（ring）
+  [ 967.0s] 到達「[TYPH l118_home] 走到「五湖四海（水餃店）」旁（第 1 點、第 1 段）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH l118_home] 走到「五湖四海（水餃店）」、互動鍵是它  [{"pt": [-4.3, -2], "seg": 1, "ok": true, "at": [-4.24, -1.758, 0], "interact": "五湖四海（水餃店）", "how": "點地 go_to"}]
+  [ 972.4s] [TYPH l118_home] 按下去：{"zone": "lane118", "hour": 14.11}；toast []；對話 ["｜（鐵門拉下來一半。門上貼著營業時間。）"]；期望（l118）「（鐵門拉下來一半。門上貼著營業時間。）」
+PASS [TYPH l118_home] 颱風假按「五湖四海（水餃店）」：沒有進去（還在 lane118）  {"zone": "lane118", "day": 27, "hour": 14.11, "money": 95220, "x": -4.24, "z": -1.76, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來一半。門上貼著營業時間。）", "nch": 0, "interact": "五湖四海（水餃店）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH l118_home] 跳出的字＝遊戲資料那一句「（鐵門拉下來一半。門上貼著營業時間。）」  ["（鐵門拉下來一半。門上貼著營業時間。）", "（鐵門拉下來一半。門上貼著營業時間。）"]
+PASS [TYPH l118_cafe2] 找得到那條街（lane118）  {"z": "l118_cafe2", "street": "lane118", "name": "l118_cafe2", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+PASS [TYPH l118_cafe2] PLACES.typhoonClosed＝true  {"z": "l118_cafe2", "street": "lane118", "name": "l118_cafe2", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+  [前置／捷徑] [TYPH l118_cafe2] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 lane118 出生點（颱風假）
+PASS [TYPH l118_cafe2] lane118 有看得到的店門／店門口按鈕  [{"n": 8, "label": "進大學食堂（秤重自助餐）", "x": -4.3, "z": -12.5, "lv": 0, "r": 1.4, "hidden": true, "to": "l118_cafe2", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}, {"n": 9, "label": "大學食堂（秤重自助餐）", "x": -4.3, "z": -12.5, "lv": 0, "r": 1.4, "hidden": false, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": "cafe2", "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH l118_cafe2] 【前置／捷徑】E.placeAt 站到「大學食堂（秤重自助餐）」(-4.3, -12.5) 前 4 m 的 (-2.77, -8.8)（path）
+  [ 986.5s] 到達「[TYPH l118_cafe2] 走到「大學食堂（秤重自助餐）」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH l118_cafe2] 走到「大學食堂（秤重自助餐）」、互動鍵是它  [{"pt": [-4.3, -12.5], "seg": 1, "ok": true, "at": [-4.214, -12.293, 0], "interact": "大學食堂（秤重自助餐）", "how": "點地 go_to"}]
+  [ 991.9s] [TYPH l118_cafe2] 按下去：{"zone": "lane118", "hour": 14.111}；toast []；對話 ["｜（鐵門拉下來一半。門上貼著營業時間。）"]；期望（l118）「（鐵門拉下來一半。門上貼著營業時間。）」
+PASS [TYPH l118_cafe2] 颱風假按「大學食堂（秤重自助餐）」：沒有進去（還在 lane118）  {"zone": "lane118", "day": 27, "hour": 14.111, "money": 95220, "x": -4.21, "z": -12.29, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來一半。門上貼著營業時間。）", "nch": 0, "interact": "大學食堂（秤重自助餐）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH l118_cafe2] 跳出的字＝遊戲資料那一句「（鐵門拉下來一半。門上貼著營業時間。）」  ["（鐵門拉下來一半。門上貼著營業時間。）", "（鐵門拉下來一半。門上貼著營業時間。）"]
+PASS [TYPH l118_korea] 找得到那條街（lane118）  {"z": "l118_korea", "street": "lane118", "name": "l118_korea", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+PASS [TYPH l118_korea] PLACES.typhoonClosed＝true  {"z": "l118_korea", "street": "lane118", "name": "l118_korea", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+  [前置／捷徑] [TYPH l118_korea] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 lane118 出生點（颱風假）
+PASS [TYPH l118_korea] lane118 有看得到的店門／店門口按鈕  [{"n": 12, "label": "進清州刀削麵（刀削麵館）", "x": 4.3, "z": 15.5, "lv": 0, "r": 1.4, "hidden": true, "to": "l118_korea", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}, {"n": 13, "label": "清州刀削麵（刀削麵館）", "x": 4.3, "z": 15.5, "lv": 0, "r": 1.4, "hidden": false, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": "korea", "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH l118_korea] 【前置／捷徑】E.placeAt 站到「清州刀削麵（刀削麵館）」(4.3, 15.5) 前 4 m 的 (4.3, 19.5)（ring）
+  [1005.9s] 到達「[TYPH l118_korea] 走到「清州刀削麵（刀削麵館）」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH l118_korea] 走到「清州刀削麵（刀削麵館）」、互動鍵是它  [{"pt": [4.3, 15.5], "seg": 1, "ok": true, "at": [4.224, 15.722, 0], "interact": "清州刀削麵（刀削麵館）", "how": "點地 go_to"}]
+  [1011.3s] [TYPH l118_korea] 按下去：{"zone": "lane118", "hour": 14.111}；toast []；對話 ["｜（鐵門拉下來一半。門上貼著營業時間。）"]；期望（l118）「（鐵門拉下來一半。門上貼著營業時間。）」
+PASS [TYPH l118_korea] 颱風假按「清州刀削麵（刀削麵館）」：沒有進去（還在 lane118）  {"zone": "lane118", "day": 27, "hour": 14.111, "money": 95220, "x": 4.22, "z": 15.72, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來一半。門上貼著營業時間。）", "nch": 0, "interact": "清州刀削麵（刀削麵館）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH l118_korea] 跳出的字＝遊戲資料那一句「（鐵門拉下來一半。門上貼著營業時間。）」  ["（鐵門拉下來一半。門上貼著營業時間。）", "（鐵門拉下來一半。門上貼著營業時間。）"]
+PASS [TYPH l118_noodle2] 找得到那條街（lane118）  {"z": "l118_noodle2", "street": "lane118", "name": "l118_noodle2", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+PASS [TYPH l118_noodle2] PLACES.typhoonClosed＝true  {"z": "l118_noodle2", "street": "lane118", "name": "l118_noodle2", "h": 14, "ctlDay": 34, "ctlKey": "2025-10-20", "ctlTyphoon": false, "ctlHol": false, "how": "l118", "exp": "（鐵門拉下來一半。門上貼著營業時間。）", "typhoonClosed": true}
+  [前置／捷徑] [TYPH l118_noodle2] 【前置／捷徑】讀使用者存檔，改到 2025-10-13 14.00 時 lane118 出生點（颱風假）
+PASS [TYPH l118_noodle2] lane118 有看得到的店門／店門口按鈕  [{"n": 16, "label": "進迪倫窯烤披薩（個人窯烤披薩）", "x": 4.3, "z": -10.5, "lv": 0, "r": 1.4, "hidden": true, "to": "l118_noodle2", "wzJob": null, "kind": null, "tzPoint": false, "shop118": null, "fnDoor": false, "lmDoor": false, "look": null}, {"n": 17, "label": "迪倫窯烤披薩（個人窯烤披薩）", "x": 4.3, "z": -10.5, "lv": 0, "r": 1.4, "hidden": false, "to": null, "wzJob": null, "kind": null, "tzPoint": false, "shop118": "noodle2", "fnDoor": false, "lmDoor": false, "look": null}]
+  [前置／捷徑] [TYPH l118_noodle2] 【前置／捷徑】E.placeAt 站到「迪倫窯烤披薩（個人窯烤披薩）」(4.3, -10.5) 前 4 m 的 (2.77, -6.8)（path）
+  [1025.2s] 到達「[TYPH l118_noodle2] 走到「迪倫窯烤披薩（個人窯烤披薩）」旁（第 1 點、第 1 段）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [TYPH l118_noodle2] 走到「迪倫窯烤披薩（個人窯烤披薩）」、互動鍵是它  [{"pt": [4.3, -10.5], "seg": 1, "ok": true, "at": [4.214, -10.293, 0], "interact": "迪倫窯烤披薩（個人窯烤披薩）", "how": "點地 go_to"}]
+  [1030.6s] [TYPH l118_noodle2] 按下去：{"zone": "lane118", "hour": 14.11}；toast []；對話 ["｜（鐵門拉下來一半。門上貼著營業時間。）"]；期望（l118）「（鐵門拉下來一半。門上貼著營業時間。）」
+PASS [TYPH l118_noodle2] 颱風假按「迪倫窯烤披薩（個人窯烤披薩）」：沒有進去（還在 lane118）  {"zone": "lane118", "day": 27, "hour": 14.11, "money": 95220, "x": 4.21, "z": -10.29, "lv": 0, "busy": false, "dlg": false, "dtext": "｜（鐵門拉下來一半。門上貼著營業時間。）", "nch": 0, "interact": "迪倫窯烤披薩（個人窯烤披薩）", "fb": 0, "stand": true, "phone": false, "jr": false, "carry": []}
+PASS [TYPH l118_noodle2] 跳出的字＝遊戲資料那一句「（鐵門拉下來一半。門上貼著營業時間。）」  ["（鐵門拉下來一半。門上貼著營業時間。）", "（鐵門拉下來一半。門上貼著營業時間。）"]
+PASS 沒有 JS 例外  []
+FAILED 3: [GIFT tz_yuehaochi 越南冰咖啡] 錢少了剛好 60 元（95220 → 94605；GAME.money 只叫一次 −60）；[GIFT tz_keju 冰普洱茶] 錢少了剛好 40 元（95220 → 94660；GAME.money 只叫一次 −40）；[TYPH tz_limao] 跳出的字＝遊戲資料那一句「禮貌生財。門關著，裡面沒有開燈。」
