@@ -31871,6 +31871,30 @@
    "evidence": "BB-B 10-23 12:3x 第 36 項（Playwright＋SwiftShader 手機尺寸，非真機）cce997abd＋f7402a045 ALL PASS：四區紅圈、字不疊、117 次點擊 0 錯、前往到得了；tests/placemap_unit.js ALL PASS"
   },
   {
+   "id": "PHONE-MAP-ART-1113",
+   "title": "手機「地點」的正式美術地圖（H08 後半；現在是 src/placemap3d.js 程式畫的示意地圖）：從 3D 場景俯拍或依 D97 要圖，換掉示意地圖，點地點照舊前往",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "sha": "",
+   "pausedReason": "誰決定：LAWWW-C（11-13 20:2x UTC）。為什麼：LAWWW2 正在做使用者點名的店面 CC0 重做（SHOP-REALISM-1112、D161，P0）；示意地圖 v9.10.7 起已能用（UX-PHONE-MAP-1023 已驗收），不擋寒暑假、美國交換兩個優先項目（D99）",
+   "resumeWhen": "SHOP-REALISM-1112 的 CC0 剩下的店交完，或下一次發布後，取早的",
+   "recheckOn": "2026-11-20",
+   "next": "【LAWWW-C 11-13 20:2x UTC】BACKLOG-SWEEP 發現 H08「正式美術地圖」從 10-27 起沒有任務、沒有負責人（下次檢查 11-03 已過）→ 開這個任務、暫停五欄。恢復時：LAWWW2 從 3D 俯拍公館／校園／溫州街各區（或 BB 照 D97 要圖），placemap3d.js 換圖、點地點前往不動。",
+   "source": "使用者 10-23 08:0x 對 LAWWW-B（UA-LAWWW-1023-05）；USER_WANTS H08",
+   "authorized": "使用者直接要求（正式美術地圖之後要）"
+  },
+  {
    "id": "EAT-MATTER-1023",
    "title": "吃東西、喝飲料要有差別（使用者 10-23 08:0x 要建議，D56）",
    "owner": "LAWWW",
