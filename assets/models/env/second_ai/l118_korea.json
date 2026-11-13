@@ -1,13 +1,13 @@
 {
- "objects": 80,
- "unique_meshes": 61,
- "tris": 19669,
- "tris_drawn": 33425,
- "materials": 49,
+ "objects": 64,
+ "unique_meshes": 64,
+ "tris": 26205,
+ "tris_drawn": 26205,
+ "materials": 60,
  "out": "assets/models/env/second_ai/l118_korea.glb",
- "bytes": 1802576,
+ "bytes": 2291912,
  "texres": 512,
- "tris_total": 33425,
+ "tris_total": 26205,
  "layout": "l118_korea.layout.json",
  "seats": 20
 }
