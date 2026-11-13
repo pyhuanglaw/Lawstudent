@@ -95,3 +95,11 @@
   **`nanyang_ade_on626c128e54.patch`**（17 個檔；LICENSES 兩邊的列都留、狀態表和 coplanar 用 place_gate `--write` 重新產生）。**請套這一份，取代上面「南洋 v6 直接套 g4 的」和 g4 的 ade_v2／ade_v21。**
 - 測試（套在 626c128e54 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 11）、ade_seat_clip／ade_seats_nav／ade_v1c／gg_new_lm／wall_dir_inherit／wz_shops／wz_work_spots、nanyang 四支、cinema_work_spot_1112、shop_real_inside_1112、xs_lm、seat_reach、tap_seat_reach、l118_seat_reach_1112、shop_npc 全 ALL PASS。
 - P2（不擋）：筆筒區的筆是一根根純色圓柱（v2 就這樣，BB 判 v2 時沒列）；之後有空可換掃描的筆筒。
+
+## Daybreak（幫手 g2 077485f27e）驗收 PASS＋**最新套法（23:5x UTC，取代本檔上面兩段的套法）**
+- 看圖（`cc0_g2/daybreak_cmp.jpg`）：吧台檯面 Marble012、吧台直條木紋、收銀機 Poly Haven CashRegister_01、門口盆栽有盆（potted_plant_02/04）。55,370 面；純色 11%。
+- **P1（g2 v2.1 補，不擋這次整合）**：吧台上的義式咖啡機還是灰方盒加三個黑點——BB 判 afar FAIL 就是「咖啡機是白方盒」，這台會被同樣判。照第九批 afar 雙孔義式機的做法（`wz_cafe230`／afar 的 espresso 那段）換掉。
+- 另記（LAWWW2 自己的）：從 Daybreak 店內往窗外看，公館街上的行道樹是一顆顆浮著的綠球。
+- **開發分支一直在前進**（626c128e54 → fd7794caac → 35de5a923d：阿德 v2、木曜日、日常失速、便利店、cc0_kit part_faces 都已進），我前面出的 `nanyang_ade_on626c128e54.patch` 已刪。**現在請套：`batch_nanyang_ade_daybreak_on_35de5a923d.patch`**（22 檔＝南洋 v6＋阿德 v2.1（在 v2 上只換 GLB／JSON／光照貼圖／腳本）＋Daybreak；LICENSES 兩邊都留、基準表刪南洋／Daybreak、狀態表和 coplanar 重新 `--write`）。
+- 測試（套在 35de5a923d 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 11）、ade／nanyang／daybreak／gg_*／offbeat／cvs／seat_reach／shop_npc／xs_lm 等 44 支 Node 測試 ALL PASS。
+- cc0_kit.py 的 part_faces：LAWWW 在 35de5a923d 已補回（g2 23:36 提醒；我這邊也查到同一件事，本來要交的修正 patch 不需要了，已刪）。

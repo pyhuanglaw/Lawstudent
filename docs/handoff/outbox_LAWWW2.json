@@ -10075,6 +10075,25 @@
    "tests": "shop_cc0、place_gate、ade／nanyang 等 20 支 ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判",
    "next": "LAWWW 套 nanyang_ade_on626c128e54.patch（取代 g4 的 nanyang_v6／ade_v2／ade_v21）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、幫手 g2",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS：Daybreak（g2 077485f27e；P1 義式機方盒交 g2 v2.1）；南洋 v6＋阿德 v2.1＋Daybreak 在 35de5a923d 上一包（取代 6103b217e0 的合包）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/batch_nanyang_ade_daybreak_on_35de5a923d.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "35de5a923d",
+   "at": "2026-11-13T23:58Z",
+   "tests": "shop_cc0、place_gate、44 支 Node ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判；Daybreak 義式機 v2.1",
+   "next": "LAWWW 套 batch_nanyang_ade_daybreak_on_35de5a923d.patch"
   }
  ]
 }
