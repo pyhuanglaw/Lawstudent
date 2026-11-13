@@ -9,6 +9,9 @@
 ## 重烘時要知道的（bake_xs.sh）
 - **glb_fix_instnames.py 對不上的名字**：新加的 Poly Haven instancing 節點，原檔叫 `<根>.N`（例：大步 `dabu_interior.1`、`dabu_interior.2`），烘好的叫 `<網格>_inst`（大步 `Plane.070_inst`、`Plane.118_inst`：兩種盆栽）。不是牆、沒有 extras，名字不影響遊戲；但這一步會 `exit 1`，`bake_xs.sh` 因為 `set -e` 停在最後——GLB、光照貼圖已經寫好，只差 `lightbake/<店>_lm.json`。我照 .sh 剩下的步驟手動補（`tmp/<店>.json` 加 `src`、`src_sha256`＝烘焙輸入檔的 sha256）。
 - **好拍（haopai）**：遊戲用的 GLB 在 `haopai_interior.py` 匯出以後還要做 11-09 BACKFACE-HAOPAI 那兩步（`glb_flip_faces.py` 翻右牆洞洞板、左牆鐵網格＋洞洞板 `hp_peg` 不透明材質；`glb_split_tile.py --gain 3.0` 洞洞板自己的貼圖），烘焙時洞洞板不藏、自己也烘（`HIDE='glass'`、NOLM 加 `WALL_right_pegwall_alpha`）。步驟：LAWWW2 分支 `docs/art-rebuild/second_ai/wip/backface_haopai_1109/README.md`；工具在 `claude/second-ai-env-art`。開發分支的 `bake_xs.sh` 好拍那一段還是舊的（`HIDE='glass|alpha'`）。
+- **同弦（tongxian）**：匯出以後還要挖樓梯間的地板洞（11-05 GUITAR-SHOP-ZONE-1105，不在 `tongxian_interior.py` 裡）：
+  `python3 tools/blender/env_second/glb_floor_hole.py <匯出.glb> <輸出.glb> tx_floor -3.2,-1.14,1.0,5.2`，再烘（輸入用挖過的那一份）。沒挖 `tests/tongxian_unit.js` ⑨ FAIL。
+- 新生運動、大口一樓／二樓：用腳本重建的（還沒烘）原檔跑過店自己的單元測試，沒有別的事後處理。
 - `tests/xs_lm_unit.js` 的 instancing 個數要照新原檔改（大步 32 → 35：多了 Poly Haven 紙箱、兩種盆栽）。
 
 ## 待辦
