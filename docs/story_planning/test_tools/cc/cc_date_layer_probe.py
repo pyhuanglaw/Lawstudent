@@ -55,6 +55,11 @@ CENTER = "(pid=>{ const b=document.querySelector('#dateLayer .dlHot[data-pid=\"'
 STATE = "(()=>({zone:GAME.G.zone, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), busy:!!(GAME.E.player&&GAME.E.player.busy), depth:(GAME.D&&GAME.D.busyDepth)|0, layer:!!document.getElementById('dateLayer'), adv:!!(document.getElementById('adv')&&document.getElementById('adv').classList.contains('on')), outs:(OUT.rec(GAME.G)||[]).filter(q=>q&&/^date_/.test(q.id||'')).map(q=>({id:q.id,state:q.state,day:CALENDAR.dateOf(q.day).key}))}))()"
 
 
+CAN_HOOK = r"""(()=>{ if(typeof DATELAYER==='undefined'||!DATELAYER.can||DATELAYER.__ccCan) return !!(typeof DATELAYER!=='undefined'&&DATELAYER.__ccCan); const o=DATELAYER.can; window.__ccCan=[];
+  DATELAYER.can=function(bg,pts,all){ let r; try{ r=o.apply(this,arguments); }finally{ try{ const ids=a=>Array.isArray(a)?a.map(p=>p&&p.id):a; const e=DATELAYER.entry?DATELAYER.entry(bg):null;
+    const miss=(Array.isArray(all)&&all.length?all:(pts||[])).concat(pts||[]).filter(p=>p&&p.id&&!(e&&e.pts&&e.pts[p.id])).map(p=>p.id);
+    window.__ccCan.push({bg, pts:ids(pts), all:ids(all), result:r, advActive:typeof ADV!=='undefined'?!!ADV.active:null, covers:DATELAYER.covers?DATELAYER.covers(bg,pts,all):null, bgOk:DATELAYER.bgOf?!!DATELAYER.bgOf(bg):null, missingPos:[...new Set(miss)], h:+(+GAME.G.hour).toFixed(2)}); }catch(e){} } return r; };
+  DATELAYER.__ccCan=true; return true; })()"""   # BB-C 23:27：D05 出文字選單——記 DATELAYER.can 的 bg／pts／all、哪一點沒位置（懷疑 D05.movie）
 MENU_WHY = r"""(who=>{ const o={}; const T=(k,f)=>{ try{ o[k]=f(); }catch(e){ o[k]='ERR '+String(e.message||e).slice(0,80); } };
   T('url', ()=>location.search); T('nodatelayer', ()=>typeof DATELAYER!=='undefined'&&DATELAYER.disabled?DATELAYER.disabled():null);
   T('advActive', ()=>typeof ADV!=='undefined'?!!ADV.active:null); T('advRoot', ()=>typeof ADV!=='undefined'?!!ADV.root:null);
@@ -63,6 +68,8 @@ MENU_WHY = r"""(who=>{ const o={}; const T=(k,f)=>{ try{ o[k]=f(); }catch(e){ o[
   T('stage', ()=>SOCIAL.stage(who)); T('stageNum', ()=>DATE.stageNum(who)); T('dating', ()=>!!(GAME.G.flags||{})['dating_'+who]);
   T('zone', ()=>GAME.G.zone); T('time', ()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2));
   T('viewport', ()=>innerWidth+'x'+innerHeight+(innerWidth<innerHeight?' 直向':' 橫向'));
+  T('canCalls', ()=>(window.__ccCan||[]).slice(-3));
+  T('wishDue', ()=>{ if(typeof WISH==='undefined'||!WISH.due) return null; const q=(GAME.G.outings||[]).slice(-1)[0]||null; const t=q&&typeof OUT!=='undefined'&&OUT.trip?OUT.trip(GAME.G,q.id):q; return {due:!!WISH.due(GAME.G,t||q), q:q&&{id:q.id,kind:q.kind,who:q.who}}; });
   T('outing', ()=>{ const q=(GAME.G.outings||GAME.G.outs||[]); return Array.isArray(q)?q.slice(-1):null; });
   return o; })"""
 
@@ -98,6 +105,7 @@ async def one(pg, cdp, case):
     d, seed = await SP.fresh(pg, cdp, tag, ['Y1S2', 5, 6], 14.5, 'dorm', {WHO: rel})
     await pg.evaluate("(()=>{ GAME.G.money=Math.max(GAME.G.money|0,5000); })()")
     bk = await P.prep(pg, cdp, R, BOOK_JS, {'who': WHO, 'loc': loc, 'dep': dep}, True, '%s DATE.book %s %s %.2f' % (tag, WHO, loc, dep)); await P.events_on(pg)
+    R.note('%s DATELAYER.can 記錄：%s' % (tag, await pg.evaluate(CAN_HOOK)))
     if not R.check('FAIL_SETUP 檢查：%s 約會排上了' % tag, bk['ok'] and bool(bk['q']), J(bk)): return {'loc': loc, 'skip': 'book'}
     qh = float((bk.get('q') or {}).get('h') or dep)
     if qh - 0.25 > 14.5:   # 11-14 DATE_LAYER_76f8 D05@20：20:20 出發，讀檔在 14:30，300 秒只走到 16:39——【捷徑】撥到出發前 10 分鐘
