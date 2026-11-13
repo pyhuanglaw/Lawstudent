@@ -139,3 +139,8 @@
   - **CANON458_AN_BEAT6_r6：PASS（#10 以安第 6 拍）**——熟悉 71、信任 50、自在 46（第 4 階）到燒臘，對話紀錄有「Alison 說你國中就決定要念法律。」；「旁邊有空位」那項是探針只看最後一筆 pSeat（整場已演完、回宿舍）＝TEST_BUG，不重跑。BEAT8_r5 以那一句為準。
 - **05:5x REL76_save_live：PASS（照 05:3x 定的規則）**——對照 REL76_save_live_ctl（f312→f312）沒過的是同一批：v9.5 專用三項、欄位 1／2 same() 唯一不同的鍵是 flags.deptHear（讀檔後遊戲照常累計「別系聊天聽過幾次」）、阿哲熟悉度 fam=12 兩版一樣、手機課表讀到訊息分頁（ctl 開跑時 phonefix 還沒上）。rel 全部一樣。＝探針期望，不是回退。live_r2（含 phonefix、印鍵）回來再確認 76f8 沒有多出別的鍵；有多出來的才交 LAWWW。
 - REL76_ladder_diag（76f8）名單和 f312 幾乎一樣（76f8 多一個 campus 17.6 的可昕，ladNext 也是 null）＝TEST_SETUP 確定。
+- **06:0x 第八批（21:46～21:51 UTC）**：
+  - **CANON458_AN_BEAT8_r5：ALL PASS**——第 4 階（2027-10-20）到燒臘，對話紀錄有「我媽說，研究所考哪一組，我自己決定。」。#10 以安 beat 6／8 兩拍都驗到。
+  - **REL76_hometown：ALL PASS**——去高雄找可昕（高鐵 2980）、去台中找沛珊（1400）都演完回臺北；錢不夠變灰寫原因；沒有 undefined／{name}。
+  - **REL76_libtour_r2：ALL PASS**——七站依序都出現（改讀 #caption）、跟館員到三樓、full／partial 都對＝上次是探針漏抓。
+  - **CANON458_INV_LIB_r2：還沒驗到，TEST_BUG→r3**——蔡宗霖已設見過、探針挪到位子按「坐下（用電腦）」＝只出一般的「坐一下，看看四周」選單、邀約沒開演。看 invites3d.js：S.seatFirst 只挑沒有 label 的桌邊位子，總圖的位子全部有 label（「坐下（用電腦）」），所以她沒有 waitSeat、照註解「找不到位子……就照舊直接見面」＝這裡要**走到她面前按「和杜可昕說話」**開演（INV.meetable），不是坐下。r3 改成走到她旁邊按和她說話，要看到「（小聲）我一章大概四十分鐘。讀完一章你才可以跟我講話。」。P3 給 LAWWW：總圖因為座位都有 label，「坐到她旁邊」那一套永遠不會用到，要不要讓總圖的長桌位子也能當 waitSeat，LAWWW 決定。
