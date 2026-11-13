@@ -12331,9 +12331,9 @@
    "id": "ART-BG16",
    "title": "2D 背景 ntu_linze「台大・霖澤館前」（BG 追蹤表 BG-16）：ev_kexin_visits_ntu（K2）",
    "area": "ART",
-   "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：等 BB 照 D120 判；已交 BB（2D 三張可以直接看圖判，BG16／17 請一併看 D136 有沒有照抄真實建築；GYM-BG1、DORM-LOFT 發布後排 CC 鏡頭）。下次檢查 11-20。｜【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（霖澤館前）＝場景美術，任務自己寫「等使用者看畫面」——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
+   "owner": "BB",
+   "status": "待開工",
+   "next": "【LAWWW-C 11-13 21:1x UTC】BB_464 D 節（BB 分支 e0da2828c0）：FAIL：引擎截圖仰角、平貼圖、平面招牌像 blockout（11 處在用）；中間挑高大門洞＋列柱是現實那棟法學院大樓最有名的造型（D136），換圖不要再用這構圖。BB 加進給使用者的待生圖清單。｜【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：等 BB 照 D120 判；已交 BB（2D 三張可以直接看圖判，BG16／17 請一併看 D136 有沒有照抄真實建築；GYM-BG1、DORM-LOFT 發布後排 CC 鏡頭）。下次檢查 11-20。｜【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（霖澤館前）＝場景美術，任務自己寫「等使用者看畫面」——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -12359,8 +12359,6 @@
     "adf126c5"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；等 BB 照 D120 驗收（原本寫「只有使用者能標」，D120／D128 起改由 BB 標）",
-   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-20",
    "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
   },
@@ -12369,8 +12367,8 @@
    "title": "2D 背景 ntu_avenue「台大・椰林大道」（BG 追蹤表 BG-17）：ev_kexin_visits_ntu（K2）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：等 BB 照 D120 判；已交 BB（2D 三張可以直接看圖判，BG16／17 請一併看 D136 有沒有照抄真實建築；GYM-BG1、DORM-LOFT 發布後排 CC 鏡頭）。下次檢查 11-20。｜【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（椰林大道）＝場景美術，等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 21:1x UTC】BB_464 D 節（BB 分支 e0da2828c0）：ART_APPROVED → 已驗收。P2：路面黃色中線、車道線像馬路，統一畫風時再換。｜【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：等 BB 照 D120 判；已交 BB（2D 三張可以直接看圖判，BG16／17 請一併看 D136 有沒有照抄真實建築；GYM-BG1、DORM-LOFT 發布後排 CC 鏡頭）。下次檢查 11-20。｜【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（椰林大道）＝場景美術，等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -12396,10 +12394,8 @@
     "adf126c5"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；等 BB 照 D120 驗收（原本寫「只有使用者能標」，D120／D128 起改由 BB 標）",
-   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20",
-   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
+   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時",
+   "evidence": "BB-C BB_464 D 節（e0da2828c0）ART_APPROVED"
   },
   {
    "id": "ART-BG13",
@@ -12437,8 +12433,8 @@
    "title": "2D 背景 car「車上（祐廷開車）」（BG 追蹤表 BG-08）：ev_kexin_trip_spring_y1 春假開車旅行",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：等 BB 照 D120 判；已交 BB（2D 三張可以直接看圖判，BG16／17 請一併看 D136 有沒有照抄真實建築；GYM-BG1、DORM-LOFT 發布後排 CC 鏡頭）。下次檢查 11-20。｜【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（車上）＝場景美術，等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜等使用者看實際遊戲畫面（場景美術只有使用者能標 ART_APPROVED）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-13 21:1x UTC】BB_464 D 節（BB 分支 e0da2828c0）：ART_APPROVED → 已驗收。｜【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：等 BB 照 D120 判；已交 BB（2D 三張可以直接看圖判，BG16／17 請一併看 D136 有沒有照抄真實建築；GYM-BG1、DORM-LOFT 發布後排 CC 鏡頭）。下次檢查 11-20。｜【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（車上）＝場景美術，等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜等使用者看實際遊戲畫面（場景美術只有使用者能標 ART_APPROVED）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12459,11 +12455,8 @@
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
     "ack": "DELIVERED"
    },
-   "evidence": "car_morning／car_night／car_rain.webp（LAWWW2-B 702a2838）已接進 src/outings3d.js（S.BG.car_*、carVariant）",
+   "evidence": "BB-C BB_464 D 節（e0da2828c0）ART_APPROVED",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；等 BB 照 D120 驗收（原本寫「只有使用者能標」，D120／D128 起改由 BB 標）",
-   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-20",
    "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
   },
   {
