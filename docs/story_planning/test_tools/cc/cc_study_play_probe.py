@@ -159,7 +159,7 @@ async def part_se06(pg, cdp, sv0, res):
             return next(k for k in range(len(ch)) if k != right)
         return right
     t0 = time.time(); done = []; last_key = None; acts = []
-    stall = {'sig': None, 't': time.time(), 'last': 0, 'n': 0}; jumped = [False]
+    stall = {'sig': None, 't': time.time(), 'last': 0, 'n': 0}; jumped = [False]; pre_keys = []
     while time.time() - t0 < (MAX_MIN - 4) * 60 and len(done) < 2:
         s = await pg.evaluate(ST)
         # 11-14 SE06_4af4_r2：體育期末「你游完了」那句以後 13 分鐘沒有任何紀錄（分不出遊戲卡住還是點不動）——同一個畫面 45 秒沒變就每 45 秒記一次狀態＋截圖；120 秒以後對話改用 DOM click，記哪一種有效
@@ -179,7 +179,7 @@ async def part_se06(pg, cdp, sv0, res):
         if JUMP2 and len(done) == 1 and not jumped[0] and (time.time() - stall['t'] >= 180 or s['h'] >= 17.5):
             nx = next((e for e in ex if e['day'] > s['day'] and not any((':%s:' % e['cid']) in d_['k'] for d_ in done)), None)
             if nx:
-                jumped[0] = True; sv = await pg.evaluate("JSON.parse(JSON.stringify(GAME.snapshot()))")
+                jumped[0] = True; pre_keys[:] = [d_['k'] for d_ in done]; sv = await pg.evaluate("JSON.parse(JSON.stringify(GAME.snapshot()))")
                 await pg.evaluate("(()=>{ const d=document.getElementById('dlg'); if(d) d.classList.add('hide'); })()")
                 await load(pg, sv, nx['key'], 7.67, 'dorm')
                 R.setup('%s 【捷徑】JUMP2：第一場考完、%s %.2f %s（卡住 %.0f 秒）→ 同一份進度讀到 %s 07:40 宿舍，只驗第二場 %s' % (tag, s['key'], s['h'], s['zone'], time.time() - stall['t'], nx['key'], nx['name']))
@@ -216,7 +216,8 @@ async def part_se06(pg, cdp, sv0, res):
     R.check('%s 考了兩場期末（%d）' % (tag, len(done)), len(done) >= 2, J(done))
     if len(done) >= 2:
         R.check('%s 第一場全對＝100 分、第二場 4 對＝90 分（%s）' % (tag, scores), scores[:2] == [100, 90], J(done))
-        R.check('%s 交卷畫面的分數和成績紀錄一致' % tag, all(any(('%d 分' % d_['score']) in h for h in hand) for d_ in done), J(hand))
+        chk = [d_ for d_ in done if d_['k'] not in pre_keys]   # 11-14 BB-C SE06_r3 TEST_BUG：JUMP2 讀檔以後逐字稿重來，讀檔前考的那場交卷句不在裡面——只比讀檔以後考的
+        R.check('%s 交卷畫面的分數和成績紀錄一致（比 %d 場%s）' % (tag, len(chk), '，JUMP2 讀檔前那場不比' if pre_keys else ''), all(any(('%d 分' % d_['score']) in h for h in hand) for d_ in chk), J(hand))
     transcript_checks(tag, tr)
     out = {'exams': ex, 'done': done, 'hand': hand, 'acts': acts}
     if FF and len(done) >= 2:

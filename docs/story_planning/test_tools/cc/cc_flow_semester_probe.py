@@ -220,6 +220,19 @@ def is_free(s):
     return not s['dlg'] and not s['ch'] and not s['busy'] and s['depth'] == 0 and not s['phone']
 
 
+async def walk_into(pg, cdp, run, via, zone):
+    """手機「地點」先到 via（第一個，校園＝法律系館A前），再走到往 zone 的出口按互動鍵（照玩家走進門）"""
+    if not await quick_go(pg, cdp, run, via): return False
+    ex = await pg.evaluate("(to=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i.exit&&i.exit.to===to&&!i.hidden).map(i=>({x:i.x,z:i.z,lv:i.lv|0,label:String(typeof i.label==='function'?i.label():i.label||''),d:Math.hypot(i.x-P.x,i.z-P.z)})); L.sort((a,b)=>a.d-b.d); return L[0]||null; })", zone)
+    run.note('走進 %s：最近的出口 %s' % (zone, json.dumps(ex, ensure_ascii=False)))
+    if not ex: return False
+    await L.go_to(pg, cdp, run, ex['x'], ex['z'], 0.8, ex['label'] or zone, max_s=150, lv=ex['lv'])
+    for _ in range(4):
+        if (await P.ts(pg))['zone'] == zone: break
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+    ok = (await P.ts(pg))['zone'] == zone; run.note('走進 %s：%s' % (zone, ok)); return ok
+
+
 async def quick_go(pg, cdp, run, zone):
     """手機「地點」→ 那一區（玩家的快速前往）"""
     await P.phone_tab(pg, cdp, 'places')
@@ -456,7 +469,9 @@ async def main():
                     for k_, kd in zip(list(gl), kinds):
                         if kd == 'required' and not met: tried.add(k_); gl.remove(k_); KXLOG['skipped'].append([st['key'], k_]); run.note('SKIPREQ：%s 不去必修 %s' % (st['key'], k_))
                 if CANON and HALL_FROM and st['key'] >= HALL_FROM and KXLOG['hall'] is None and not await pg.evaluate("!!(GAME.G.flags||{}).KX_MET"):
-                    ok = await quick_go(pg, cdp, run, 'linze'); KXLOG['hall'] = {'key': st['key'], 'h': hm(st['h']), 'ok': ok}
+                    ok = await quick_go(pg, cdp, run, 'linze')
+                    if not ok: ok = await walk_into(pg, cdp, run, 'campus', 'linze')   # 11-14 B2_r3 TEST_BUG：手機「地點」那一頁找不到 linze（分地區）→ 照玩家：先到「校園（法律系館A前）」再走進門
+                    KXLOG['hall'] = {'key': st['key'], 'h': hm(st['h']), 'ok': ok}
                     run.note('HALL_FROM：%s %s 手機「地點」去法律系館A：%s' % (st['key'], hm(st['h']), ok)); await run.shot(pg, 'hall_%s' % st['key']); since = time.time(); continue
                 if gl:
                     tried.add(gl[0]); row.setdefault('trips', []).append(await trip(pg, cdp, run, drv, gl[0], stuck_s)); since = time.time(); continue
