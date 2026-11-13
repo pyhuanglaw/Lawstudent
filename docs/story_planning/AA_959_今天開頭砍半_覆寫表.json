@@ -626,7 +626,8 @@
    ],
    "old": "今天吃哪一種？",
    "new": "這次吃哪一種？",
-   "speaker": "heroine_01"
+   "speaker": "player",
+   "note": "以安訊息串裡祐廷的選項（LAWWW AA_959_skip #1）；「今天」開頭照樣砍"
   },
   {
    "doc": "AA_953",
@@ -744,7 +745,8 @@
    ],
    "old": "今天雲比較多，太陽還沒落到海裡就看不到了。",
    "new": "雲比較多，太陽還沒落到海裡就看不到了。",
-   "speaker": "heroine_01"
+   "speaker": null,
+   "note": "D14／D19 旁白（skip #3～5）；旁白也照砍"
   },
   {
    "doc": "AA_953",
@@ -753,7 +755,8 @@
    ],
    "old": "今天風很大，橋上的燈一直被吹得晃來晃去。",
    "new": "風很大，橋上的燈一直被吹得晃來晃去。",
-   "speaker": "heroine_01"
+   "speaker": null,
+   "note": "D14／D19 旁白（skip #3～5）；旁白也照砍"
   },
   {
    "doc": "AA_953",
@@ -762,7 +765,8 @@
    ],
    "old": "今天的海，黃色那一半比上次少一點。",
    "new": "這次的海，黃色那一半比上次少一點。",
-   "speaker": "heroine_01"
+   "speaker": null,
+   "note": "D14／D19 旁白（skip #3～5）；旁白也照砍"
   },
   {
    "doc": "AA_953",
@@ -1088,7 +1092,8 @@
    ],
    "old": "今天放的是一部修復過的老片，有幾段畫面還是有刮痕。廳不大，坐了一半。",
    "new": "放的是一部修復過的老片，有幾段畫面還是有刮痕。廳不大，坐了一半。",
-   "speaker": "heroine_02"
+   "speaker": null,
+   "note": "D05 旁白（skip #6）"
   },
   {
    "doc": "AA_954",
@@ -1232,7 +1237,8 @@
    ],
    "old": "今天很開心。",
    "new": "很開心。",
-   "speaker": "kexin"
+   "speaker": "player",
+   "note": "可昕訊息串裡祐廷的選項（skip #2）"
   },
   {
    "doc": "AA_955",
@@ -1259,7 +1265,8 @@
    ],
    "old": "今天讀得比我想的多。",
    "new": "讀得比我想的多。",
-   "speaker": "kexin"
+   "speaker": "all",
+   "note": "libStudy.bye 每位女主角共用的道別句（skip #7）：每個人都變成「讀得比我想的多。」也可以，照換"
   },
   {
    "doc": "AA_955",
@@ -2073,24 +2080,6 @@
    ],
    "old": "……你想得比較遠。我只看到那個老人笑了。",
    "new": "你想得比較遠。我只看到那個老人笑了。",
-   "speaker": "heroine_03"
-  },
-  {
-   "doc": "AA_958",
-   "files": [
-    "vac_activities.js"
-   ],
-   "old": "……我只聽懂 adjourned。",
-   "new": "我只聽懂 adjourned。",
-   "speaker": "heroine_03"
-  },
-  {
-   "doc": "AA_958",
-   "files": [
-    "vac_activities.js"
-   ],
-   "old": "……其實是因為沒人要當。",
-   "new": "其實是因為沒人要當。",
    "speaker": "heroine_03"
   },
   {
@@ -3645,7 +3634,8 @@
    ],
    "old": "我沒有很在意喔，我只是算了一下。",
    "new": "我沒有很在意喔，算了一下而已。",
-   "speaker": "heroine_04"
+   "speaker": "kexin",
+   "note": "在 TERMEND_OPTS.KX.Y3S2 可昕的期末飯（skip #10，原本寫錯子晴）；她數分開多久（四個多月），「我只是」拿掉照換"
   },
   {
    "doc": "AA_967",
