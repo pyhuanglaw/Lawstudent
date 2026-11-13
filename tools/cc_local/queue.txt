@@ -2270,6 +2270,7 @@ CANON458_ANNIV | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_p
 # BB_458 #12（BB 改定：法圖只看她答應「我常坐的那一排，靠窗。」；羽球「新體育館？」）——用現成的手機約人探針
 CANON458_INV_LAWLIB | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 20 | TAG=c458_lawlib;ZONE=campus;WHO=kexin;DAY=2026-10-14;HOUR=14;REL=30;PICKS=念書>法律學院>今天;ROUTE=exit:lawlib;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 CANON458_INV_BADM | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 20 | TAG=c458_badm;ZONE=campus;WHO=kexin;DAY=2026-10-14;HOUR=14;REL=30;PICKS=運動>羽球>今天;ROUTE=exit:gym;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
+CANON458_WELCOME | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 25 | CASES=WELCOME_Y2;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 # CC-C 11-14 01:xx：BB_403 W1～W3（第二天下午跟／不跟小安走；W2 隔天小安那句；W3 只記 prereq）
 BB403_W123 | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_planning/test_tools/cc/cc_bb403_probe.py | index.html | 40 | CASES=FOLLOW,REFUSE;SHA=d587922b01345b1eae1cd207e8dd66ebc5ddc6fa
 YUE_MEAL_r3 | 6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 25 | CASES=SIS,SISD;SHA=6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d
