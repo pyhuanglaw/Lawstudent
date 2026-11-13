@@ -1,5 +1,5 @@
 {
- "sha": "d21c698bdef7b3ae434112ce7175ae9945deadd8",
+ "sha": "27001bdc021143e98900cce3918de1261a446e8c",
  "url": "http://127.0.0.1:8801/index.html",
  "route": "tw",
  "start": "law",
@@ -50,7 +50,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 44,
+   "secs": 43,
    "events": [
     "ev_camp_d1_bus",
     "ev_camp_d1_ice",
@@ -143,7 +143,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 15,
+   "secs": 14,
    "events": [
     "ev_camp_d3_quiz",
     "ev_camp_d3_end"
@@ -181,7 +181,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 50,
+   "secs": 49,
    "events": [],
    "steps": [],
    "cards": [
@@ -266,7 +266,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 57,
+   "secs": 58,
    "events": [],
    "steps": [],
    "cards": [
@@ -562,7 +562,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 14,
+   "secs": 17,
    "events": [],
    "steps": [],
    "cards": [
@@ -571,12 +571,12 @@
    "attended": [],
    "picks": [
     [
-     "07:33",
+     "07:34",
      "還沒讀案例，先睡了",
      "first"
     ],
     [
-     "07:33",
+     "07:34",
      "睡覺明天早上醒來",
      "first"
     ]
@@ -705,17 +705,17 @@
    "attended": [],
    "picks": [
     [
-     "07:33",
+     "07:32",
      "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
      "first"
     ],
     [
-     "07:33",
+     "07:32",
      "翹",
      "first"
     ],
     [
-     "07:33",
+     "07:32",
      "再睡一下（睡到 10:30）",
      "first"
     ],
@@ -751,7 +751,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 22,
+   "secs": 23,
    "events": [],
    "steps": [],
    "cards": [
@@ -760,7 +760,7 @@
    "attended": [],
    "picks": [
     [
-     "12:04",
+     "12:03",
      "睡到傍晚（不設鬧鐘）睡到 18:00",
      "prefer"
     ],
@@ -791,7 +791,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 22,
+   "secs": 23,
    "events": [],
    "steps": [],
    "cards": [
@@ -888,7 +888,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 29,
+   "secs": 30,
    "events": [],
    "steps": [],
    "cards": [
@@ -1000,7 +1000,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 29,
+   "secs": 30,
    "events": [],
    "steps": [],
    "cards": [
@@ -1009,12 +1009,12 @@
    "attended": [],
    "picks": [
     [
-     "12:02",
+     "12:03",
      "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
      "first"
     ],
     [
-     "12:02",
+     "12:03",
      "翹",
      "first"
     ],
@@ -1081,7 +1081,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 21,
+   "secs": 19,
    "events": [],
    "steps": [],
    "cards": [
@@ -1090,7 +1090,7 @@
    "attended": [],
    "picks": [
     [
-     "12:04",
+     "12:03",
      "睡到傍晚（不設鬧鐘）睡到 18:00",
      "prefer"
     ],
@@ -1264,7 +1264,7 @@
    "attended": [],
    "picks": [
     [
-     "12:04",
+     "12:03",
      "睡到傍晚（不設鬧鐘）睡到 18:00",
      "prefer"
     ],
@@ -1305,7 +1305,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 22,
+   "secs": 23,
    "events": [],
    "steps": [],
    "cards": [
@@ -1345,67 +1345,21 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 36,
+   "secs": 21,
    "events": [],
    "steps": [],
    "cards": [
-    "回家 捷運＋公車 約 40 分鐘",
     "9 月 15 日 週一 12:00"
    ],
    "attended": [],
    "picks": [
     [
-     "12:45",
-     "在家休息一下一小時",
-     "first"
+     "12:04",
+     "睡到傍晚（不設鬧鐘）睡到 18:00",
+     "prefer"
     ],
     [
-     "13:45",
-     "在家休息一下一小時",
-     "first"
-    ],
-    [
-     "14:45",
-     "在家休息一下一小時",
-     "first"
-    ],
-    [
-     "15:45",
-     "在家休息一下一小時",
-     "first"
-    ],
-    [
-     "16:45",
-     "等吃晚餐到 18:30",
-     "first"
-    ],
-    [
-     "18:30",
-     "吃晚餐",
-     "first"
-    ],
-    [
-     "18:30",
-     "「沒有，在讀書。」",
-     "first"
-    ],
-    [
-     "19:30",
-     "在家休息一下一小時",
-     "first"
-    ],
-    [
-     "20:30",
-     "在家休息一下一小時",
-     "first"
-    ],
-    [
-     "21:30",
-     "回宿舍捷運＋公車 約 40 分鐘",
-     "first"
-    ],
-    [
-     "22:14",
+     "18:01",
      "睡到明天中午12:00。會錯過：09:10 憲法（上）",
      "prefer"
     ]
@@ -1488,7 +1442,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 29,
+   "secs": 30,
    "events": [],
    "steps": [],
    "cards": [
@@ -1497,12 +1451,12 @@
    "attended": [],
    "picks": [
     [
-     "12:02",
+     "12:04",
      "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
      "first"
     ],
     [
-     "12:02",
+     "12:04",
      "翹",
      "first"
     ],
@@ -1600,7 +1554,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 29,
+   "secs": 31,
    "events": [],
    "steps": [],
    "cards": [
@@ -1609,12 +1563,12 @@
    "attended": [],
    "picks": [
     [
-     "12:02",
+     "12:04",
      "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
      "first"
     ],
     [
-     "12:02",
+     "12:04",
      "翹",
      "first"
     ],
@@ -1681,7 +1635,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 22,
+   "secs": 23,
    "events": [],
    "steps": [],
    "cards": [
@@ -1780,12 +1734,12 @@
    "attended": [],
    "picks": [
     [
-     "12:03",
+     "12:02",
      "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
      "first"
     ],
     [
-     "12:03",
+     "12:02",
      "翹",
      "first"
     ],
@@ -1852,7 +1806,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 61,
+   "secs": 60,
    "events": [
     "ev_l3_photo_1"
    ],
@@ -2042,7 +1996,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 30,
+   "secs": 29,
    "events": [],
    "steps": [],
    "cards": [
@@ -2154,7 +2108,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 30,
+   "secs": 29,
    "events": [],
    "steps": [],
    "cards": [
@@ -2266,7 +2220,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 30,
+   "secs": 31,
    "events": [],
    "steps": [],
    "cards": [
@@ -2682,7 +2636,7 @@
     "zone": "dorm"
    },
    "why_end": "day change",
-   "secs": 71,
+   "secs": 70,
    "events": [],
    "steps": [],
    "cards": [
@@ -2726,7 +2680,7 @@
  "shortcuts": [
   "[前置] localStorage.clear()（乾淨的玩家，沒有舊存檔）"
  ],
- "fps_title": 44.53,
+ "fps_title": 48.79,
  "stuck_s": 300,
  "terminfo": {
   "now": "2025-09-17",
@@ -2771,7 +2725,7 @@
  },
  "ended": "days reached",
  "counted": 31,
- "real_secs": 1128,
+ "real_secs": 1113,
  "pageerrors": [],
  "console_errors": [],
  "console_error_n": 0,
@@ -2835,7 +2789,7 @@
  },
  "final_save": {
   "src": "GAME.snapshot()",
-  "chars": 26059
+  "chars": 25947
  },
  "fails": [
   "FAIL_SETUP 檢查：真的演到可昕見面（KX_MET）、方式 hall"
