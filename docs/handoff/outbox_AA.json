@@ -7939,6 +7939,22 @@
    "noDirectIntegrate": true,
    "next": "LAWWW2-C 驗收 v2 → 過了轉 LAWWW-C 整合（patch 底＝開發分支 c10937dddb）→ BB 判美術",
    "unfinished": "118 巷其他八間（korea、dian、tea 用 lane118_shops.py；cafe2、home、noodle2、omu、pasta 用 l118_int_<店>.py）"
+  },
+  {
+   "task": "SHOP-CC0-HELP-1113",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "(本 commit：korea v1)",
+   "files": [
+    "docs/art-rebuild/aa_help/l118_self_korea_cc0.patch",
+    "docs/art-rebuild/aa_help/cmp_l118_korea.jpg"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T15:55Z",
+   "receiver": "LAWWW2",
+   "ack": "",
+   "noDirectIntegrate": true,
+   "next": "LAWWW2-C 驗收 korea v1（patch＝self v2＋korea 累積版，底 5c96c66802；只 self 過的話用 l118_self_cc0.patch）→ LAWWW-C 整合 → BB 判美術",
+   "unfinished": "dian、tea（lane118_shops.py）；cafe2、home、noodle2、omu、pasta（l118_int_<店>.py）"
   }
  ],
  "items": [
