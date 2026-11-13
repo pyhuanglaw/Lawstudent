@@ -158,6 +158,18 @@ const VACGAP=(function(){
     else if(x.k==='sis'){ const who=nmOf('heroine_05','學姊'), X=L.sisToeflDay; if(S.dating(G,'heroine_05')){ await play(who,X.dating); F.SIS_TOEFL_SAMEDAY='dating'; } else { await play(who,X.friend); await pick(who,X.friendOpts); await GM.say(who,X.friendEnd); F.SIS_TOEFL_SAMEDAY='friend'; } }
     else if(x.k==='kai'){ await play(nmOf('kai','阿凱'),L.kaiToeic); F.KAI_TOEIC_SEEN=true; }
     return true; };
+  /* ================= 第四批：AA_930 可昕大三暑假（交往中 dating_kexin）=================
+     程式現在的 presence：可昕整個暑假（2028-06-12～09-01）在高雄（homeAway）。AA_930 寫的是 6/19～7/2 回家兩週、之後在臺北（實習、宿舍樓下出發的開車旅行、河堤重逢、上山看星星）。
+     這一批只接跟她人在哪裡無關的手機：第 1 節實習的三則（7/6、7/27、8/24 21:00，兩個按鈕，回覆開到隔天 18:00，沒回不扣分）、
+     第 2 節回家的晚上（6/19 起每晚 22:00 一則，七句不重複＝七個晚上）、第 6 節開始讀國考（8/30 21:00；傳出去就記 KX_PLAN_Y3S:true）。
+     沒接的（presence 和稿對不上，交 LAWWW）：第 3 節開車旅行、第 4 節日本路線重逢、第 5 節七夕回程那句、第 1 節週二四白天約她的回覆。人在國外照當地時間收。*/
+  const KXT='p:kexin', KXm=t=>({th:KXT,from:'kexin',text:t});
+  const kxAsk=(G,d,h,ms,opts,tag)=>{ const M=ms.map(KXm); M[M.length-1].ask={id:tag,until:T(d+1,18),opts:opts.map(([t,r])=>({t,say:[KXm(r)]}))}; return PHONE.at(G,d,h,M,tag); };
+  S.kxY3S=function(G){ if(!L||!L.kxY3S||!S.dating(G,'kexin')) return; const X=L.kxY3S, now=T(G.day,G.hour);
+    X.intern.forEach((m,i)=>{ const d=DK(m.day), tag='msg_kx_intern_y3s_'+(i+1); if(d==null) return; const h=21+abTz(G,d); if(now<T(d,h)||G.day>d+2||PHONE.sent(G,tag)) return; kxAsk(G,d,h,m.ms,m.opts,tag); });
+    { const d0=DK('2028-06-19'); if(d0!=null) X.home.forEach((t,i)=>{ const d=d0+i, tag='msg_kx_home_y3s_night_'+(i+1); const h=22+abTz(G,d); if(now<T(d,h)||G.day>d+1||PHONE.sent(G,tag)) return; PHONE.at(G,d,h,[KXm(t)],tag); }); }
+    { const P=X.plan, d=DK(P.day), tag='msg_kx_plan_y3s'; if(d!=null){ const h=21+abTz(G,d); if(now>=T(d,h)&&G.day<=d+2&&!PHONE.sent(G,tag)&&kxAsk(G,d,h,P.ms,P.opts,tag)) flags(G).KX_PLAN_Y3S=true; } } };
+  { const p2=S.phone; S.phone=function(G){ p2(G); if(!law(G)||typeof PHONE==='undefined'||!L) return; S.kxY3S(G); }; }
   S.hookVac=function(){ if(typeof VAC==='undefined'||typeof VAC.key!=='function'||VAC.key._vacgap) return; const k0=VAC.key;
     VAC.key=Object.assign(async function(GM,k,I){ const r=await k0.apply(this,arguments); try{ await S.examMeet(GM,k,I); }catch(e){ console.warn('VACGAP.examMeet',e); } return r; },{_vacgap:true}); };
   S.sisTipDue=function(G){ if(!L||!law(G)||bkey(G)!=='Y2S'||(G.flags&&G.flags.SIS_TOEFL_TIP)) return false; if(!/^(library|lawlib)/.test(G.zone||'')) return false; if(S.level(G,'heroine_05')<1) return false;
