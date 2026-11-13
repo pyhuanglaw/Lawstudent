@@ -84,7 +84,7 @@ for(const X of ROUNDS){ const R=X.R;
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 161 格不同',Object.keys(b).length>30000&&want.length===161&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 161 格重匯以前＝稿的 old',all.every(([X,r])=>a[gp(X,r)]===r.old),J(all.filter(([X,r])=>a[gp(X,r)]!==r.old).slice(0,3).map(([X,r])=>gp(X,r))));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
-    check('5. src/data/date_wish.js、src/data/she_pays.js 和重匯以前一模一樣',C.wishSame921(show(BASE,'src/data/date_wish.js'),read('src/data/date_wish.js'))/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */&&show(BASE,'src/data/she_pays.js')===read('src/data/she_pays.js'));
+    check('5. src/data/date_wish.js、src/data/she_pays.js 和重匯以前一模一樣',C.wishSame921(show(BASE,'src/data/date_wish.js'),read('src/data/date_wish.js'))/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */&&C.spSame944(show(BASE,'src/data/she_pays.js'),read('src/data/she_pays.js'))/* 2026-11-13（AA_946@b4dcd9bf9a）：之後 she_pays.js 多可昕 D23.market，unSp944 還原再比。舊期望：兩份字一樣 */);
   } else console.log('（跳過第 5 項：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
