@@ -392,3 +392,19 @@
 [17:50:54] ==== START CANON_NEWGAME_B  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
 [17:50:57] [res] cpu=2% mem=41% (13.1/31.4 GB) chrome_testing=10  START CANON_NEWGAME_B
 [17:51:30] [res] cpu=25% mem=42% (13.2/31.4 GB) chrome_testing=9  END SHIFT_SHOTS_nanyang_msgs
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       202912439a..5503003546  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:51:39] ==== END   SHIFT_SHOTS_nanyang_msgs  exit=0  115s   ====
+[17:51:42] memory 43% before starting CANON_NEWGAME_FULL (2 running)
+[17:51:42] ==== START CANON_NEWGAME_FULL  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
+[17:51:45] [res] cpu=18% mem=44% (13.7/31.4 GB) chrome_testing=9  START CANON_NEWGAME_FULL
+[17:51:52] 正在跑：CANON_NEWGAME_A1（已跑 5 分／上限 220 分）、CANON_NEWGAME_B（已跑 0 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 0 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:56:52] 正在跑：CANON_NEWGAME_A1（已跑 10 分／上限 220 分）、CANON_NEWGAME_B（已跑 5 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 5 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:01:52] 正在跑：CANON_NEWGAME_A1（已跑 15 分／上限 220 分）、CANON_NEWGAME_B（已跑 10 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 10 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:06:52] 正在跑：CANON_NEWGAME_A1（已跑 20 分／上限 220 分）、CANON_NEWGAME_B（已跑 15 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 15 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:11:52] 正在跑：CANON_NEWGAME_A1（已跑 25 分／上限 220 分）、CANON_NEWGAME_B（已跑 20 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 20 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:16:52] 正在跑：CANON_NEWGAME_A1（已跑 30 分／上限 220 分）、CANON_NEWGAME_B（已跑 25 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 25 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:21:52] 正在跑：CANON_NEWGAME_A1（已跑 35 分／上限 220 分）、CANON_NEWGAME_B（已跑 30 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 30 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:23:36] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=10  END CANON_NEWGAME_A1
+[18:23:36] D158：推送前把 2 處舊序章／外校的字換成代號
