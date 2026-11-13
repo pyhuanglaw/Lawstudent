@@ -13,7 +13,7 @@ OUTDIR=${3:-assets/models/env/second_ai}
 RES=${4:-1024}
 TMP=$(mktemp -d)
 NAME=tz_${SHOP}_interior
-PT=""; LIGHTS=""
+PT=""; LIGHTS=""; KI=""
 case "$SHOP" in
 taimi)
   # 泰米村食（8×10×3.4 m）：九盞藤編吊燈（燈泡在燈罩裡 y 2.35：光往下，燈罩擋住往上的光）＋左牆軌道上六顆往牆照的投射燈（照照片、圓盤）＋天花板下三顆弱的補光（天花板只吃反彈光太暗）。
@@ -99,6 +99,28 @@ antai)
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$xx-0.01:.3f},{$xx+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-22},1.16,0.16,$COL')")"; done; done
   PT="-3.6,2.2,0.3,${FILLW:-10},$COL,0.3;3.6,2.2,0.3,${FILLW:-10},$COL,0.3"
   SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.97,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S; NAME=gg_antai_interior ;;
+xianguo)
+  # 汀州鮮果（8×10×3.3 m，GG_XS G08；參考圖 int_tingzhou_xianguo）：天花板六組雙管日光燈（x −0.2／2.2、z −2.4／0.2／2.8；照 tz_shops_interior.py tubes()）＋四盞黃色吊燈（燈泡 y 2.3，
+  #   照 decor 的位置：木架前兩盞、工作桌和冷藏櫃上面兩盞）＋冷藏櫃裡的燈條一點補光。整面開著朝汀州路（沒有玻璃）：白天天光 1.0。白天燈也開著。
+  #   --nolm：水果（Poly Haven，一顆 8 公分，光照貼圖分不到幾個像素：照舊即時光）、自畫的西瓜鳳梨葡萄、香蕉。
+  HIDE='glass|lightpanel'
+  NOLM='lightpanel|_vc|_vcm|labels|ph_food|ph_lemon|ph_bananas|own_'
+  COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.84,0.6}
+  for xx in -0.2 2.2; do for zz in -2.4 0.2 2.8; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$xx-0.01:.3f},{$xx+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-22},1.16,0.16,$COL')")"; done; done
+  for xz in "-2.6 3.0" "-2.2 0.6" "1.6 2.2" "2.2 -0.8"; do set -- $xz; PT="$PT;$1,2.3,$2,${PENDW:-45},$WARM,0.05"; done
+  PT="$PT;3.4,1.6,1.6,${FILLW:-8},$COL,0.3"
+  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.97,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S; NAME=gg_xianguo_interior; KI=--keep-instances ;;   # 水果共用網格：不展開、不烘（GPU instancing，一種水果一次 draw call）
+rongendian)
+  # 榮恩典文具社（9×10×3.3 m，GG_XS G13；參考圖 int_rongendian）：格柵天花板八組雙管日光燈（x ±2.2、z −3.4／−1.0／1.4／3.6；照 tz_shops_interior.py tubes()，暖白）＋櫃台檯燈一盞（燈泡 y 1.34）。
+  #   正面玻璃朝汀州路：白天天光 1.0。白天燈也開著。--nolm：Poly Haven 的盆栽（葉子碎）。吊扇放 CEIL_（跟天花板一起藏），照樣烘。
+  HIDE='glass|lightpanel'
+  NOLM='lightpanel|_vc|_vcm|labels|ph_potted'
+  COL=${LCOL:-1.0,0.96,0.88}
+  for xx in -2.2 2.2; do for zz in -3.4 -1.0 1.4 3.6; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$xx-0.01:.3f},{$xx+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-22},1.16,0.16,$COL')")"; done; done
+  PT="-1.25,1.34,-3.3,${LAMPW:-12},1.0,0.82,0.55,0.04"
+  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-1.0,0.97,0.92}; DAYL=${DAYL:-1.0}; SHELL=S; NAME=gg_rongendian_interior ;;
 *) echo "還沒做 CC0 版的店：$SHOP（先做泰米，其他五間照 SHOP_REALISM_PLAN_TZ7.md 的順序加進來）"; exit 1 ;;
 esac
 PT=${PT#;}; LIGHTS=${LIGHTS#;}
@@ -107,7 +129,7 @@ python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/mo
 EXTRA=(); [ -n "$LIGHTS" ] && EXTRA+=(--lights "$LIGHTS"); [ -n "$PT" ] && EXTRA+=(--points "$PT")
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/plain.glb" --out "$OUTDIR/$NAME.glb" \
   --lm "$TMP/lm" --url assets/models/env/second_ai/${NAME}_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --sun "$SUN" --sky "$SKY" --daywb $DAYWB "${EXTRA[@]}" --daylights "$DAYL" --smooth 1 --shell "$SHELL"
+  --sun "$SUN" --sky "$SKY" --daywb $DAYWB "${EXTRA[@]}" --daylights "$DAYL" --smooth 1 --shell "$SHELL" $KI
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/$NAME.glb" --out "$OUTDIR/$NAME.glb" --lm "$OUTDIR/${NAME}_lm"
 cp "$TMP/lm.json" tools/blender/env_second/lightbake/${NAME}_lm.json

@@ -78,7 +78,7 @@ MM = {}; SQ = []
 #   ambientCG 材質組：cc0_fetch 下載到快取，照 Poly Haven 的檔名（<id>_diff_1k.jpg…）放到快取的 staged 資料夾，借 L.pbr（target＝調到這個平均色、tile＝每幾公尺重複一次）；
 #   Poly Haven 掃描模型：ph_obj() 匯入、合成一個網格、減面、縮放，之後當原型複製（同一個網格）；遊戲裡的光影另外烘成光照貼圖（lightbake/bake_tz_shops.sh，不烘進顏色）
 #   自製印花（布篷的條紋、布簾的格紋、靠枕）：PIL 畫圖案 × ambientCG 布料的明暗紋路。用到的每一件在 LICENSES.md 登記（CC0_USED 印在最後）
-CC0 = SHOP in ('taimi', 'xile', 'yindehao', 'liantong', 'dongnan', 'keju', 'yuehaochi', 'antai')
+CC0 = SHOP in ('taimi', 'xile', 'yindehao', 'liantong', 'dongnan', 'keju', 'yuehaochi', 'antai', 'xianguo', 'rongendian')
 CC0_USED = []
 if CC0:
     import shutil
@@ -156,12 +156,18 @@ if CC0:
                 for k_ in ('Roughness', 'Metallic'):
                     for l in list(bs.inputs[k_].links): mt.node_tree.links.remove(l)
                 bs.inputs['Roughness'].default_value = 0.65; bs.inputs['Metallic'].default_value = 0.0
-    def ph_obj(aid, height=None, decimate=None, recolor=None, chair=False):
+    def ph_obj(aid, height=None, decimate=None, recolor=None, chair=False, part=None, tag=''):
         """Poly Haven 模型 → 一個網格物件（底部中心在原點、Blender 座標），做為原型（之後 ph_put 複製、共用同一個網格）。
-        recolor：(深色 hex, 亮色 hex)＝顏色貼圖改成這兩色之間（照原圖明暗），保留木紋、磨損"""
-        if aid in PH_PROTO: return PH_PROTO[aid]
+        recolor：(深色 hex, 亮色 hex)＝顏色貼圖改成這兩色之間（照原圖明暗），保留木紋、磨損
+        part：模型裡有好幾個物件時只留第 part 個（汀州鮮果：一串香蕉、一顆梨）；tag：同一個模型做不同版本（不同上色、不同零件）時的區別字"""
+        key_ = aid + tag
+        if key_ in PH_PROTO: return PH_PROTO[key_]
         path = cc0_fetch.ph_model(aid); before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=path); CC0_USED.append(('Poly Haven', aid))
         new = [o for o in bpy.data.objects if o not in before]; ms = [o for o in new if o.type == 'MESH']
+        if part is not None:
+            ms.sort(key=lambda o: o.name); keep = ms[part % len(ms)]; drop = [o for o in ms if o is not keep]
+            new = [o for o in new if o not in drop]; ms = [keep]
+            for o in drop: bpy.data.objects.remove(o)
         bpy.ops.object.select_all(action='DESELECT')
         for o in ms: mw = o.matrix_world.copy(); o.parent = None; o.matrix_world = mw; o.select_set(True)
         for o in new:
@@ -193,12 +199,12 @@ if CC0:
                 tn = ln[0].from_node; src_ = bpy.path.abspath(tn.image.filepath)
                 g = np.asarray(Image.open(src_).convert('L').resize((512, 512)), float) / 255.0; g = (g - g.min()) / max(1e-3, g.max() - g.min())
                 c0, c1 = np.array(B.srgb(recolor[0])) ** (1 / 2.2), np.array(B.srgb(recolor[1])) ** (1 / 2.2)
-                out = (c0[None, None, :] + (c1 - c0)[None, None, :] * g[..., None]) * 255; p = os.path.join(STAGE, f'{aid}_recolor.jpg'); Image.fromarray(np.clip(out, 0, 255).astype('uint8')).save(p, quality=92)
-                tn.image = bpy.data.images.load(p); ms_.material.name = 'tzs_ph_' + aid
+                out = (c0[None, None, :] + (c1 - c0)[None, None, :] * g[..., None]) * 255; p = os.path.join(STAGE, f'{aid}{tag}_recolor.jpg'); Image.fromarray(np.clip(out, 0, 255).astype('uint8')).save(p, quality=92)
+                tn.image = bpy.data.images.load(p); ms_.material.name = 'tzs_ph_' + aid + tag
         else:
             for ms_ in o.material_slots:
                 if ms_.material: ms_.material.name = 'tzs_ph_' + aid + ('' if len(o.material_slots) < 2 else '_' + ms_.material.name[-8:])
-        o.name = 'PHPROTO_' + aid; o.hide_render = True; o.hide_set(True); PH_PROTO[aid] = o; return o
+        o.name = 'PHPROTO_' + key_; o.hide_render = True; o.hide_set(True); PH_PROTO[key_] = o; return o
     PH_N = {}
     def ph_put(aid, x, y, z, yaw=0.0, s=1.0, share=True, roll=0.0, **kw):
         """原型複製一份放在遊戲座標 (x, y, z)，yaw＝繞垂直軸轉（弧度，遊戲的方向：0＝原型的 −y 朝玩家看的 +z）。
@@ -223,7 +229,7 @@ if CC0:
                 for x in range(0, s, band): d.polygon([(x, y0 + band / 2), (x + band / 2, y0 + 3), (x + band, y0 + band / 2), (x + band / 2, y0 + band - 3)], fill=(150, 44, 36))
     M.update({
         # 牆照舊乾淨的平塗（BB 11-10：使用者的室內圖是乾淨的油漆牆，不要灰泥貼圖的斑塊；tests/tz_shops_unit.js 第 8 項）——質感靠烘焙的光影
-        'ceil': acg('tzs_ceiling', 'Plaster001', maps=('diff',), vary=(None if SHOP == 'taimi' else 0.008 if SHOP == 'yuehaochi' else 0.015 if SHOP in ('liantong', 'keju', 'yindehao', 'antai') else 0.04), target='#e9dcc0' if J.get('warm') else '#eef0ef', tile=2.0, rough_value=0.95, res=256),   # 暖色店（泰米）米色、其他（洗樂）白
+        'ceil': acg('tzs_ceiling', 'Plaster001', maps=('diff',), vary=(None if SHOP == 'taimi' else 0.008 if SHOP == 'yuehaochi' else 0.015 if SHOP in ('liantong', 'keju', 'yindehao', 'antai', 'xianguo', 'rongendian') else 0.04), target='#e9dcc0' if J.get('warm') else '#eef0ef', tile=2.0, rough_value=0.95, res=256),   # 暖色店（泰米）米色、其他（洗樂）白
         'duct': None,   # 天花板下的風管、冷氣（和天花板同一個材質；另外一個網格，不叫 S_ceil：tests/tz_shops_unit.js 第 12 項）
         'steel': acg('tzs_steel', 'Metal009', target='#b9bdc1', tile=1.0, metal=0.4, rough_value=0.35),
         'steel_d': acg('tzs_steel_d', 'Metal009', maps=('diff',), target='#6f7479', tile=1.0, metal=0.4, rough_value=0.4, res=256),   # 洗樂 v3：滾筒內筒底（比外圈暗，看起來在裡面）
@@ -981,13 +987,22 @@ def pharma(x0, x1, y, z0, z1, along='z', k=0):
                     if along == 'z': xf = px + sg * (r + 0.0015); pkq('label', (xf, y + h * 0.18, pz + sg * r * 0.85), (xf, y + h * 0.18, pz - sg * r * 0.85), (xf, y + h * 0.8, pz - sg * r * 0.85), (xf, y + h * 0.8, pz + sg * r * 0.85))
                     else: zf = pz + r + 0.0015; pkq('label', (px - r * 0.85, y + h * 0.18, zf), (px + r * 0.85, y + h * 0.18, zf), (px + r * 0.85, y + h * 0.8, zf), (px - r * 0.85, y + h * 0.8, zf))
                 if col == '#f6f5f0' and RRV.random() < 0.5: ccyl(vc(), (px, y + h + 0.03, pz), (px, y + h + 0.07, pz), 0.006, cap, seg=5); vc().cbox(px - 0.004, px + 0.004, y + h + 0.06, y + h + 0.072, pz - 0.004, pz + 0.035, cap)
+    FULL = CC0 and SHOP == 'antai'   # 安泰 v2（BB P1：貨架每層要塞滿）：盒子疊兩三層、段落之間不留空、瓶子高一點
+    def up(dy, f):
+        nonlocal y
+        y += dy
+        try: f()
+        finally: y -= dy
     while a < a1 - 0.08:
         kind = ('box', 'bottle', 'box', 'mask', 'small', 'box', 'bottle')[run % 7]; L_ = RR.uniform(0.38, 0.62); e = min(a1 - 0.02, a + L_); band = BAND[(run * 3 + k) % len(BAND)]
         if kind == 'box':
-            w = RR.choice((0.11, 0.13, 0.15)); h = RR.uniform(0.11, 0.16)
-            while a + w <= e: box(a, a + w - 0.006, h, '#f6f5f0', band, kd='med'); a += w
+            w = RR.choice((0.11, 0.13, 0.15)); h = RR.uniform(0.11, 0.16); nl = (2 if h < 0.15 else 1) if FULL else 1
+            while a + w <= e:
+                for l_ in range(nl):
+                    if l_ == 0 or RRV.random() < 0.85: up(l_ * (h + 0.002), lambda: box(a, a + w - 0.006, h, '#f6f5f0', band, kd='med'))
+                a += w
         elif kind == 'bottle':
-            r = RR.choice((0.036, 0.042)); h = RR.uniform(0.11, 0.16); col, cap = RR.choice((('#f6f5f0', '#2f6fb0'), ('#7a4a2a', '#f4f4f0'), ('#f6f5f0', '#3f8a5a'), ('#3f6a9a', '#f4f4f0')))
+            r = RR.choice((0.036, 0.042)); h = RR.uniform(0.11, 0.16) * (1.3 if FULL else 1.0); col, cap = RR.choice((('#f6f5f0', '#2f6fb0'), ('#7a4a2a', '#f4f4f0'), ('#f6f5f0', '#3f8a5a'), ('#3f6a9a', '#f4f4f0')))
             while a + 2 * r <= e: bottle(a + r, r, h, col, cap); a += 2 * r + 0.03
         elif kind == 'mask':
             while a + 0.2 <= e:
@@ -995,8 +1010,11 @@ def pharma(x0, x1, y, z0, z1, along='z', k=0):
                 a += 0.2
         else:
             w = 0.09; h = RR.uniform(0.05, 0.075)
-            while a + w <= e: box(a, a + w - 0.006, h, RR.choice(('#fff2c8', '#e8f0e0', '#f6e6e0')), kd='band'); a += w
-        a = e + 0.03; run += 1
+            while a + w <= e:
+                c_ = RR.choice(('#fff2c8', '#e8f0e0', '#f6e6e0'))
+                for l_ in range(3 if FULL else 1): up(l_ * (h + 0.002), lambda: box(a, a + w - 0.006, h, c_, kd='band'))
+                a += w
+        a = e + (0.008 if FULL else 0.03); run += 1
 
 
 # ---------- 安泰藥局 ----------
@@ -1046,6 +1064,33 @@ if SHOP == 'antai':
         _t = _n.nodes.new('ShaderNodeTexImage'); _t.image = bpy.data.images.load(_pk); _n.links.new(_t.outputs['Color'], _b.inputs['Base Color']); M['packs'] = _m
     GREEN = '#1f5a3a'; MED = [['#f4f4f0', '#dfe8f4', '#2f6fb0', '#f0e2a0', '#e8eef2'], ['#e8f0e0', '#f4f4f0', '#3f8a5a', '#f4d8a0', '#c9d8ee'], ['#f6e6e0', '#f4f4f0', '#b8503a', '#e6d8f0', '#fff2c8'], ['#8a4a2a', '#f4f4f0', '#5a3a22', '#e8e0c8', '#c9a23a']]
     for g in J['gondolas']: gondola(g, MED, fill=pharma)
+    if CC0:   # v2（BB P1，11-13：參考圖 int_antai 一眼認得出是藥局的東西）：兩座貨架朝門的端架——上半洞洞板掛勾掛一包包口罩（上排）、OK 繃（下排）；
+        #   下半兩層鐵網籃，裝小盒的藥膏、眼藥水、棉棒（照參考圖右邊那座的下層）。往走道只凸出 14 公分（導航不改）
+        for g in J['gondolas']:
+            x0, x1, ze = g['x0'], g['x1'], g['z1']
+            vc().cbox(x0 + 0.04, x1 - 0.04, 0.9, 1.72, ze, ze + 0.015, '#f1f0ea')
+            for k_ in range(9):
+                for j_ in range(6): vc().cbox(x0 + 0.1 + k_ * 0.11, x0 + 0.106 + k_ * 0.11, 0.95 + j_ * 0.13, 0.956 + j_ * 0.13, ze + 0.015, ze + 0.017, '#2a2d31')   # 洞洞板的孔
+            for r_, (yh, kd, bw, bh) in enumerate(((1.66, 'mask', 0.2, 0.26), (1.3, 'band', 0.17, 0.22))):
+                for i in range(4):
+                    hx = x0 + 0.19 + i * (x1 - x0 - 0.38) / 3
+                    ccyl(vm(), (hx, yh, ze + 0.015), (hx, yh + 0.012, ze + 0.12), 0.003, '#c4c8cb', seg=4, caps=False)
+                    for d_ in range(3):   # 一個掛勾掛三包，前面那一包印刷
+                        zf = ze + 0.1 - d_ * 0.025; yt = yh - 0.005 + RRV.uniform(-0.006, 0.006)
+                        vc().cbox(hx - bw / 2, hx + bw / 2, yt - 0.045, yt + 0.012, zf - 0.006, zf, '#f6f5f0')
+                        vc().cbox(hx - bw / 2 + 0.005, hx + bw / 2 - 0.005, yt - 0.045 - bh, yt - 0.045, zf - 0.016, zf - 0.004, '#e2e2dc')
+                        if d_ == 0: pkq(kd, (hx - bw / 2 + 0.005, yt - 0.045 - bh, zf + 0.0006), (hx + bw / 2 - 0.005, yt - 0.045 - bh, zf + 0.0006), (hx + bw / 2 - 0.005, yt - 0.05, zf + 0.0006), (hx - bw / 2 + 0.005, yt - 0.05, zf + 0.0006))
+            for yb in (0.2, 0.56):
+                vc().cbox(x0 + 0.04, x1 - 0.04, yb - 0.02, yb, ze, ze + 0.14, '#eceae2')
+                for (a_, b_, c_, d2) in ((x0 + 0.06, x1 - 0.06, ze + 0.125, ze + 0.13), (x0 + 0.06, x0 + 0.065, ze, ze + 0.13), (x1 - 0.065, x1 - 0.06, ze, ze + 0.13)): vm().cbox(a_, b_, yb + 0.115, yb + 0.12, c_, d2, '#c4c8cb')   # 網籃上緣
+                for k_ in range(13): xx = x0 + 0.06 + k_ * (x1 - x0 - 0.12) / 12; vm().cbox(xx - 0.002, xx + 0.002, yb, yb + 0.12, ze + 0.125, ze + 0.13, '#c4c8cb')   # 網籃正面直條
+                vm().cbox(x0 + 0.06, x1 - 0.06, yb + 0.055, yb + 0.06, ze + 0.125, ze + 0.13, '#c4c8cb')
+                xx = x0 + 0.08
+                while xx < x1 - 0.14:   # 籃子裡：小盒子歪歪疊疊
+                    w_ = RRV.uniform(0.06, 0.1); h_ = RRV.uniform(0.04, 0.07); kd = RRV.choice(('band', 'med', 'band'))
+                    for l_ in range(RRV.choice((1, 2, 2))):
+                        y_ = yb + l_ * (h_ + 0.003); vc().cbox(xx, xx + w_, y_, y_ + h_, ze + 0.02, ze + 0.11, '#f6f5f0'); pkq(kd, (xx, y_, ze + 0.1112), (xx + w_, y_, ze + 0.1112), (xx + w_, y_ + h_, ze + 0.1112), (xx, y_ + h_, ze + 0.1112))
+                    xx += w_ + 0.008
     # 藥師櫃台（白色、深綠踢腳）：收銀螢幕、筆筒；後面整面藥品櫃、上面白底綠字招牌（外觀那一塊：藥罐圖示，沒有十字）
     vc().cbox(CT['x0'], CT['x1'], 0.1, CT['h'] - 0.04, CT['z0'], CT['z1'], '#f1f0ea'); vc().cbox(CT['x0'], CT['x1'], 0.0, 0.1, CT['z0'], CT['z1'] + 0.005, GREEN); vc().crbox(CT['x0'] - 0.03, CT['x1'] + 0.03, CT['h'] - 0.04, CT['h'], CT['z0'] - 0.02, CT['z1'] + 0.04, '#f6f5f0', r=0.012)
     vc().cbox(-0.6, -0.1, CT['h'] + 0.12, CT['h'] + 0.48, CT['z0'] + 0.18, CT['z0'] + 0.22, '#1f2023'); ccyl(vc(), (-0.35, CT['h'], CT['z0'] + 0.2), (-0.35, CT['h'] + 0.14, CT['z0'] + 0.2), 0.03, '#1f2023', seg=6); vc().cbox(-0.95, -0.68, CT['h'], CT['h'] + 0.14, CT['z0'] + 0.1, CT['z0'] + 0.4, '#2a2d31')
@@ -1060,7 +1105,18 @@ if SHOP == 'antai':
     vc().cbox(WC['x0'], WC['x1'], 0.0, 0.5, WC['z0'], WC['z1'], '#f1f0ea'); vc().cbox(WC['x0'], WC['x0'] + 0.03, 0.5, WC['h'], WC['z0'], WC['z1'], '#f6f5f0')
     for y in (0.5, 0.9, 1.3, 1.7): vc().cbox(WC['x0'], WC['x1'], y - 0.02, y, WC['z0'], WC['z1'], '#eceae2'); pharma(WC['x0'] + 0.03, WC['x1'] + 0.03, y, WC['z0'] + 0.05, WC['z1'] - 0.05, 'z', int(y * 10) + 1)
     vc().cbox(WC['x0'], WC['x1'], WC['h'], WC['h'] + 0.04, WC['z0'], WC['z1'], '#e2e2dc')
-    ccyl(vc(), (-W / 2 + 0.02, 2.55, 2.0), (-W / 2 + 0.3, 2.5, 2.0), 0.02, '#eceeee', seg=6); ccyl(vc(), (-W / 2 + 0.3, 2.5, 2.0), (-W / 2 + 0.36, 2.5, 2.0), 0.22, '#eceeee', seg=16)
+    if CC0:   # v2（BB P1：壁扇）：壁座、搖頭的馬達殼、前後兩圈網罩（前面八根輻條）、三片淡藍扇葉、中間的蓋
+        fx = -W / 2 + 0.36; fy = 2.45; fz = 2.0
+        vc().crbox(-W / 2, -W / 2 + 0.04, 2.5, 2.7, fz - 0.06, fz + 0.06, '#eceeee', r=0.01); ccyl(vc(), (-W / 2 + 0.04, 2.6, fz), (fx - 0.16, fy + 0.03, fz), 0.018, '#eceeee', seg=8)
+        vc().crbox(fx - 0.2, fx - 0.08, fy - 0.07, fy + 0.07, fz - 0.07, fz + 0.07, '#eceeee', r=0.03)
+        for xx in (fx - 0.06, fx + 0.04): ccyl(vm(), (xx, fy, fz), (xx + 0.008, fy, fz), 0.22, '#c4c8cb', seg=20, caps=False)
+        for k_ in range(8): a_ = k_ * PI / 4; ccyl(vm(), (fx + 0.045, fy, fz), (fx + 0.045, fy + math.sin(a_) * 0.22, fz + math.cos(a_) * 0.22), 0.002, '#c4c8cb', seg=3, caps=False)
+        for k_ in range(3):
+            a_ = k_ * 2 * PI / 3 + 0.4; ca_, sa_ = math.cos(a_), math.sin(a_); ca2, sa2 = math.cos(a_ + 0.7), math.sin(a_ + 0.7)
+            vc().poly([(fx - 0.01, fy + sa_ * 0.04, fz + ca_ * 0.04), (fx - 0.01, fy + sa2 * 0.04, fz + ca2 * 0.04), (fx + 0.0, fy + sa2 * 0.19, fz + ca2 * 0.19), (fx + 0.0, fy + sa_ * 0.19, fz + ca_ * 0.19)], '#cfe0ea')
+            vc().poly([(fx + 0.0, fy + sa_ * 0.19, fz + ca_ * 0.19), (fx + 0.0, fy + sa2 * 0.19, fz + ca2 * 0.19), (fx - 0.01, fy + sa2 * 0.04, fz + ca2 * 0.04), (fx - 0.01, fy + sa_ * 0.04, fz + ca_ * 0.04)], '#cfe0ea')
+        ccyl(vc(), (fx - 0.02, fy, fz), (fx + 0.05, fy, fz), 0.04, '#eceeee', seg=12)
+    else: ccyl(vc(), (-W / 2 + 0.02, 2.55, 2.0), (-W / 2 + 0.3, 2.5, 2.0), 0.02, '#eceeee', seg=6); ccyl(vc(), (-W / 2 + 0.3, 2.5, 2.0), (-W / 2 + 0.36, 2.5, 2.0), 0.22, '#eceeee', seg=16)
     ccyl(vc(), (-W / 2 + 0.01, 2.5, -0.5), (-W / 2 + 0.04, 2.5, -0.5), 0.16, '#2a2d31', seg=16); ccyl(vc(), (-W / 2 + 0.04, 2.5, -0.5), (-W / 2 + 0.045, 2.5, -0.5), 0.14, '#f6f5f0', seg=16)
     vc().cbox(-W / 2, -W / 2 + 0.02, 2.2, 2.75, 3.2, 3.9, '#6a4a2a'); vc().cbox(-W / 2 + 0.02, -W / 2 + 0.024, 2.25, 2.7, 3.25, 3.85, '#cfdfe8')
     # 右牆：衛教海報、書報架、血壓計桌和黑色圓凳
@@ -1076,6 +1132,12 @@ if SHOP == 'antai':
         for sz in (-1, 1): ccyl(vm(), (x + sx * (BP['w'] / 2 - 0.06), 0.0, z + sz * (BP['d'] / 2 - 0.06)), (x + sx * (BP['w'] / 2 - 0.06), 0.7, z + sz * (BP['d'] / 2 - 0.06)), 0.018, '#c4c8cb', seg=6)
     vc().crbox(x - 0.2, x + 0.22, 0.74, 1.02, z + 0.05, z + 0.5, '#eceeee', r=0.04); ccyl(vc(), (x - 0.2, 0.9, z + 0.28), (x - 0.24, 0.9, z + 0.28), 0.1, '#3a3f46', seg=14)   # 隧道式血壓計
     vc().crbox(x - 0.16, x + 0.16, 0.74, 0.9, z - 0.5, z - 0.18, '#eceeee', r=0.02)
+    if CC0:   # v2（BB P1：量血壓機那一角）：隧道口一圈灰框、裡面深灰；機身正面小螢幕和兩顆按鈕；旁邊小台的電子血壓計螢幕＋袖帶捲著放；後面插座和電線
+        ccyl(vm(), (x - 0.2, 0.9, z + 0.28), (x - 0.215, 0.9, z + 0.28), 0.115, '#c4c8cb', seg=18, caps=False); ccyl(vc(), (x - 0.12, 0.9, z + 0.28), (x - 0.125, 0.9, z + 0.28), 0.1, '#1f2023', seg=18)
+        vc().cbox(x - 0.205, x - 0.2, 0.78, 0.82, z + 0.12, z + 0.2, '#2a2d31'); [ccyl(vc(), (x - 0.205, 0.765, z + 0.13 + i * 0.05), (x - 0.212, 0.765, z + 0.13 + i * 0.05), 0.012, '#2f6fb0' if i == 0 else '#c94a4a', seg=8) for i in range(2)]
+        vc().cbox(x - 0.165, x - 0.16, 0.79, 0.87, z - 0.44, z - 0.26, '#2a2d31')
+        ccyl(vc(), (x - 0.05, 0.775, z - 0.12), (x + 0.07, 0.775, z - 0.12), 0.035, '#2c3c5a', seg=10)
+        vc().cbox(W / 2 - 0.012, W / 2, 1.0, 1.08, z + 0.6, z + 0.66, '#f6f5f0'); ccyl(vc(), (W / 2 - 0.02, 1.0, z + 0.63), (x + 0.2, 0.75, z + 0.4), 0.004, '#1f2023', seg=4, caps=False)
     for q in J['seats']:
         if CC0:   # Poly Haven 金屬圓凳（座面上成黑、腳不鏽鋼：模型沒有顏色貼圖 → CC0 材質組）
             o_ = ph_put('metal_stool_02', q['x'], 0.0, q['z'], 0.3, height=0.5, decimate=0.15)
@@ -1107,6 +1169,140 @@ if SHOP == 'xianguo':
         for (a, b, c_, d_) in ((x0, x1, z0, z0 + 0.03), (x0, x1, z1 - 0.03, z1), (x0, x0 + 0.03, z0, z1), (x1 - 0.03, x1, z0, z1)): vc().cbox(a, b, y, y + h, c_, d_, col)
     # 左牆：三階木架，一階一階往牆升高；每一格一種水果
     FR_ = [(['#c0392b', '#a82a22', '#d9574a'], 0.055, 1.0), (['#a8c85a', '#bcd66a'], 0.06, 1.0), (['#e8962a', '#f0a83a'], 0.055, 1.0), (['#5a3a6a', '#4a2f5a', '#7a9a3a'], 0.03, 1.0), (['#a8c85a', '#c8d87a'], 0.07, 1.1), (['#e8962a', '#f0a83a'], 0.055, 1.0)]
+    if CC0:   # SHOP-REALISM-1112（LAWWW2-C 11-13，D160／D161）：水果改 Poly Haven 掃描模型（蘋果、青蘋果、柳丁、梨、奇異果、石榴、檸檬、香蕉）；
+        #   西瓜、鳳梨、葡萄 Poly Haven 沒有 → 自畫貼圖（西瓜條紋、鳳梨鱗片、葡萄一顆顆）包在球上；綠籃、黑籃、價目卡、粉紅條紋袋、切好的水果盒 → 自畫貼圖×ambientCG 紋理；
+        #   紙箱 → Cardboard001；秤、冷藏櫃、吊燈、立扇 → Metal009；果堆下面墊一層紙（一層水果就看起來滿出籃子，面數省一半）
+        from PIL import ImageDraw
+        RRF = random.Random(83)
+        def _grid(base, hole):   # 塑膠籃：一格一格的鏤空（深色孔）
+            def dr(d, s_):
+                d.rectangle([0, 0, s_, s_], fill=base); n_ = 8; c_ = s_ / n_
+                for i in range(n_):
+                    for j in range(n_): d.rounded_rectangle([i * c_ + c_ * 0.18, j * c_ + c_ * 0.22, i * c_ + c_ * 0.82, j * c_ + c_ * 0.78], 3, fill=hole)
+            return dr
+        def _melon(d, s_):   # 西瓜：深綠底、淺綠鋸齒直條（球的 UV：u 繞一圈、v 從下到上）
+            d.rectangle([0, 0, s_, s_], fill=(38, 84, 40)); n_ = 14
+            for k in range(n_):
+                x0_ = k * s_ / n_; pts = []
+                for j in range(0, s_ + 1, 8): pts.append((x0_ + s_ / n_ * 0.28 + RRF.uniform(-5, 5), j))
+                for j in range(s_, -1, -8): pts.append((x0_ + s_ / n_ * 0.62 + RRF.uniform(-5, 5), j))
+                d.polygon(pts, fill=(118, 168, 84))
+        def _pine(d, s_):   # 鳳梨：金褐色菱形鱗片、深色邊、中間一點綠褐
+            d.rectangle([0, 0, s_, s_], fill=(92, 62, 22)); nu, nv = 10, 9; cu, cv = s_ / nu, s_ / nv
+            for j in range(nv + 1):
+                for i in range(nu + 1):
+                    cx_ = i * cu + (cu / 2 if j % 2 else 0); cy_ = j * cv; g_ = RRF.randint(-18, 18)
+                    d.polygon([(cx_, cy_ - cv * 0.62), (cx_ + cu * 0.46, cy_), (cx_, cy_ + cv * 0.62), (cx_ - cu * 0.46, cy_)], fill=(196 + g_, 146 + g_, 52 + g_ // 2))
+                    d.ellipse([cx_ - 3, cy_ - 3, cx_ + 3, cy_ + 3], fill=(96, 92, 40))
+        def _grape(col):   # 葡萄串：一顆顆圓、亮點
+            def dr(d, s_):
+                d.rectangle([0, 0, s_, s_], fill=tuple(c // 2 for c in col)); r_ = s_ / 16
+                for j in range(9):
+                    for i in range(9):
+                        x_ = i * s_ / 8 + (s_ / 16 if j % 2 else 0); y_ = j * s_ / 8; g_ = RRF.randint(-20, 20)
+                        d.ellipse([x_ - r_ * 1.05, y_ - r_ * 1.05, x_ + r_ * 1.05, y_ + r_ * 1.05], fill=tuple(max(0, min(255, c + g_)) for c in col))
+                        d.ellipse([x_ - r_ * 0.55, y_ - r_ * 0.6, x_ - r_ * 0.15, y_ - r_ * 0.2], fill=tuple(min(255, c + 70) for c in col))
+            return dr
+        def _cut(cols):   # 切好的水果盒：一塊塊不規則的果肉
+            def dr(d, s_):
+                d.rectangle([0, 0, s_, s_], fill=(236, 238, 232)); n_ = 7; c_ = s_ / n_
+                for i in range(n_):
+                    for j in range(n_):
+                        cc = RRF.choice(cols); g_ = RRF.randint(-16, 16); x_ = i * c_ + RRF.uniform(-3, 3); y_ = j * c_ + RRF.uniform(-3, 3)
+                        d.rounded_rectangle([x_ + 2, y_ + 2, x_ + c_ - 2, y_ + c_ - 2], 5, fill=tuple(max(0, min(255, v + g_)) for v in cc))
+            return dr
+        def _bag(d, s_):   # 粉紅條紋塑膠袋
+            d.rectangle([0, 0, s_, s_], fill=(246, 244, 240))
+            for k in range(0, s_, s_ // 8): d.rectangle([k, 0, k + s_ // 16, s_], fill=(236, 130, 160))
+        def _turf(d, s_):   # 香蕉桌上的綠色假草墊
+            d.rectangle([0, 0, s_, s_], fill=(56, 104, 46))
+            for _ in range(900): x_, y_ = RRF.uniform(0, s_), RRF.uniform(0, s_); d.line([x_, y_, x_ + RRF.uniform(-3, 3), y_ - RRF.uniform(4, 9)], fill=(84 + RRF.randint(-20, 30), 140 + RRF.randint(-20, 30), 60), width=1)
+        def _card(d, s_):   # 黃色價目卡：紅色手寫的數字（只有數字，不寫店名、牌子）
+            from PIL import ImageFont
+            d.rectangle([0, 0, s_, s_], fill=(246, 226, 58)); f_ = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', int(s_ * 0.3))
+            for k, t in enumerate(('39', '59', '80', '120')):
+                x_, y_ = (k % 2) * s_ / 2, (k // 2) * s_ / 2; d.rectangle([x_ + 3, y_ + 3, x_ + s_ / 2 - 3, y_ + s_ / 2 - 3], outline=(200, 48, 42), width=2)
+                d.text((x_ + s_ * 0.08, y_ + s_ * 0.1), t, font=f_, fill=(200, 48, 42))
+        M.update({
+            'crate_g': printed('tzs_xg_crate_g', 'tz_xg_crate_g', _grid((44, 134, 72), (18, 52, 30)), 'Plastic006', size=256, amp=0.2, tile=0.25, rough_value=0.5),
+            'crate_k': printed('tzs_xg_crate_k', 'tz_xg_crate_k', _grid((44, 48, 54), (14, 15, 17)), 'Plastic006', size=256, amp=0.2, tile=0.25, rough_value=0.5),
+            'own_melon': printed('tzs_xg_melon', 'tz_xg_melon', _melon, 'Plastic006', size=256, amp=0.16, rough_value=0.35),
+            'own_pine': printed('tzs_xg_pine', 'tz_xg_pine', _pine, 'Wicker010A', size=256, amp=0.3, rough_value=0.75),
+            'own_grape_p': printed('tzs_xg_grape_p', 'tz_xg_grape_p', _grape((96, 52, 108)), 'Plastic006', size=256, amp=0.15, rough_value=0.3),
+            'own_grape_g': printed('tzs_xg_grape_g', 'tz_xg_grape_g', _grape((150, 184, 80)), 'Plastic006', size=256, amp=0.15, rough_value=0.3),
+            'bag_pk': printed('tzs_xg_bag', 'tz_xg_bag', _bag, 'Plastic006', size=128, amp=0.15, tile=0.2, rough_value=0.4),
+            'turf': printed('tzs_xg_turf', 'tz_xg_turf', _turf, 'Fabric036', size=256, amp=0.3, tile=0.4, rough_value=0.9),
+            'card': printed('tzs_xg_card', 'tz_xg_card', _card, 'Paper001', size=256, amp=0.1, tile=0.3, rough_value=0.7),
+            'leaf': acg('tzs_xg_leaf', 'Plastic006', vary=0.08, maps=('diff',), target='#4f7a3a', tile=0.3, rough_value=0.6, res=256),
+        })
+        for k_, cs in (('cut_y', [(240, 206, 60), (232, 190, 40)]), ('cut_r', [(226, 70, 80), (236, 92, 96)]), ('cut_g', [(196, 220, 150), (176, 206, 120)]), ('cut_o', [(240, 150, 60), (246, 168, 80)]), ('cut_p', [(122, 58, 106), (240, 206, 60)])):
+            M[k_] = printed('tzs_xg_' + k_, 'tz_xg_' + k_, _cut(cs), 'Plastic006', size=128, amp=0.15, tile=0.26, rough_value=0.35)
+        ROUTE = {CRATE: 'crate_g', '#2a2f36': 'crate_k', WOODC: 'wood', '#c9a878': 'cardboard', '#b8946a': 'cardboard', '#d9c9a8': 'cardboard', '#4f7a3a': 'turf',
+                 '#f09ab0': 'bag_pk', '#f4f4f0': 'bag_pk', '#f6e23a': 'card', '#c9302a': 'card', '#f4f1e4': 'plastic_w', '#f4f6f6': 'glass',
+                 '#f0d23a': 'cut_y', '#e84a5a': 'cut_r', '#a8c85a': 'cut_g', '#f09a3a': 'cut_o', '#7a3a6a': 'cut_p', '#f4e6c0': 'cut_y', '#e8f0d0': 'cut_g', '#f4d0c0': 'cut_r'}
+        _vc0 = vc; vc = lambda: _Route(_vc0(), ROUTE); vm = lambda: _AsTex(mesh('steel'))
+        FRK = {}   # 原本的顏色 → 哪一種水果
+        for c in ('#c0392b', '#a82a22', '#d9574a', 'apple'): FRK[c] = 'apple'
+        for c in ('#a8c85a', '#bcd66a', 'gapple'): FRK[c] = 'gapple'
+        for c in ('#c8d87a', '#e8e0c0', 'pear'): FRK[c] = 'pear'
+        for c in ('#e8962a', '#f0a83a', 'orange'): FRK[c] = 'orange'
+        for c in ('kiwi', 'pom', 'lemon'): FRK[c] = c
+        PHF = {'apple': ('food_apple_01', '', None, None, 0.006), 'gapple': ('food_apple_01', '_g', ('#3f5a12', '#c4dc6c'), None, 0.006),   # 一顆約 45 面（8 公分，平滑法線看不出稜角）
+               'orange': ('food_lime_01', '_o', ('#9a3e08', '#f8a838'), None, 0.006), 'pear': ('food_pears_asian_01', '_p', None, 0, 0.02),
+               'kiwi': ('food_kiwi_01', '', None, None, 0.006), 'pom': ('food_pomegranate_01', '', None, None, 0.006), 'lemon': ('lemon', '', None, None, 0.012)}
+        GRAPE = {'#5a3a6a': 'own_grape_p', '#4a2f5a': 'own_grape_p', '#7a9a3a': 'own_grape_g'}
+        def uvball(key, x, y, z, r, sy=1.0, seg=(12, 8), r_top=1.0):
+            """自己的 UV（u 繞一圈、v 下到上）的球：西瓜、鳳梨、葡萄串；r_top＜1＝上面細（葡萄串倒過來的錐形）"""
+            m_ = mesh(key); bm_ = m_.bm; bm_.loops.layers.uv.verify()
+            res = bmesh.ops.create_uvsphere(bm_, u_segments=seg[0], v_segments=seg[1], radius=r, calc_uvs=True)
+            yaw_ = RRF.uniform(0, 6.28); ca, sa = math.cos(yaw_), math.sin(yaw_)
+            for v in res['verts']:
+                t_ = (v.co.z / r + 1) / 2; k_ = 1.0 + (r_top - 1.0) * (1 - t_) if r_top != 1.0 else 1.0
+                vx, vy = v.co.x * k_, v.co.y * k_; v.co.x, v.co.y = vx * ca - vy * sa, vx * sa + vy * ca; v.co.z *= sy
+            bmesh.ops.translate(bm_, verts=res['verts'], vec=g2b(x, y, z))
+        def crown(a, b):
+            """鳳梨頂：九片細長的葉子從頂端往上、往外散開（不是一整個綠色圓錐）"""
+            lf = _AsTex(mesh('leaf')); h_ = b[1] - a[1]
+            for k in range(9):
+                ang = k * 2.4 + RRF.uniform(-0.2, 0.2); out_ = 0.03 + 0.05 * (k % 3) / 2; up_ = h_ * (0.75 + 0.35 * ((k * 7) % 3) / 2)
+                ccyl(lf, (a[0], a[1] - 0.02, a[2]), (a[0] + math.cos(ang) * out_, a[1] + up_, a[2] + math.sin(ang) * out_), 0.011, None, seg=3, r2=0.001, caps=False)
+        def grapes(x, y, z, key):
+            """葡萄串：一顆自畫葡萄貼圖的倒錐（芯）＋外面七顆小葡萄（輪廓看得出一顆顆），躺著、隨機轉"""
+            yaw_ = RRF.uniform(0, 6.28); ca, sa = math.cos(yaw_), math.sin(yaw_); L_ = 0.16
+            m_ = mesh(key); bm_ = m_.bm; bm_.loops.layers.uv.verify()
+            res = bmesh.ops.create_uvsphere(bm_, u_segments=8, v_segments=6, radius=0.045, calc_uvs=True)
+            for v in res['verts']:
+                t_ = (v.co.z / 0.045 + 1) / 2; k_ = 0.45 + 0.55 * t_; lx, ly, lz = v.co.x * k_, v.co.y * k_ * 0.8, v.co.z * 1.7   # 沿著 x 躺：z（長）→ 水平
+                gx, gz = lz * ca - lx * sa, lz * sa + lx * ca; v.co = Vector((0, 0, 0)); v.co = g2b(x + gx, y + 0.04 + ly, z + gz)
+            for k in range(7):
+                t_ = RRF.uniform(-0.8, 0.8); rr = 0.03 + 0.02 * (t_ + 0.8) / 1.6; a_ = RRF.uniform(0, 6.28)
+                lz, lx, ly = t_ * 0.075, math.cos(a_) * rr, abs(math.sin(a_)) * rr * 0.8
+                gx, gz = lz * ca - lx * sa, lz * sa + lx * ca
+                r2_ = bmesh.ops.create_uvsphere(bm_, u_segments=5, v_segments=3, radius=0.016, calc_uvs=True)
+                bmesh.ops.translate(bm_, verts=r2_['verts'], vec=g2b(x + gx, y + 0.04 + ly, z + gz))
+        _blob0 = blob
+        def blob(x, y, z, r, col, sy=1.0):
+            k_ = FRK.get(col)
+            if k_:
+                aid, tg, rc, pt, dec = PHF[k_]; s_ = 2 * r * (1.0 if k_ != 'pear' else 1.25) * RRF.uniform(0.92, 1.08)
+                return ph_put(aid, x + RRF.uniform(-0.006, 0.006), y - r * sy, z + RRF.uniform(-0.006, 0.006), RRF.uniform(0, 6.28), s_, height=1.0, decimate=dec, recolor=rc, part=pt, tag=tg)
+            if col in GRAPE: return grapes(x, y - r * sy, z, GRAPE[col])
+            if col in ('#3f7a3a', '#4f8a44'): return uvball('own_melon', x, y, z, r, sy=sy * 0.92, seg=(16, 10))
+            if col in ('#c9962a', '#e8c23a'): return uvball('own_pine', x, y, z, r, sy=sy, seg=(12, 9))
+            return _blob0(x, y, z, r, col, sy)
+        def pile(x0, x1, y, z0, z1, r, cols, layers=2, sy=1.0, bed=False):
+            """CC0：一層水果堆在墊紙上（墊紙比籃緣低 2 cm，看起來滿出來），再隨機疊上兩成"""
+            if cols[0] in GRAPE: r = 0.09; layers = 1
+            if bed: mesh('cardboard').box(x0, x1, y + 0.13, y + 0.14, z0, z1); y += 0.14; layers = 1
+            nx = max(1, int((x1 - x0) / (r * 2.05))); nz = max(1, int((z1 - z0) / (r * 2.05)))
+            for i in range(nx):
+                for j in range(nz):
+                    xx = x0 + r + i * (x1 - x0 - 2 * r) / max(1, nx - 1) if nx > 1 else (x0 + x1) / 2; zz = z0 + r + j * (z1 - z0 - 2 * r) / max(1, nz - 1) if nz > 1 else (z0 + z1) / 2
+                    blob(xx, y + r * sy * 0.95, zz, r, RRF.choice(cols), sy=sy)
+                    if layers == 1 and i < nx - 1 and j < nz - 1 and RRF.random() < 0.22 and cols[0] not in GRAPE:
+                        blob(xx + (x1 - x0 - 2 * r) / max(1, nx - 1) / 2, y + r * sy * 2.3, zz + (z1 - z0 - 2 * r) / max(1, nz - 1) / 2, r, RRF.choice(cols), sy=sy)
+        FR_ = [(['apple'], 0.043, 1.0), (['gapple'], 0.043, 1.0), (['orange'], 0.038, 1.0), (['#5a3a6a', '#4a2f5a'], 0.03, 1.0), (['pear'], 0.042, 1.0), (['kiwi'], 0.034, 1.0),
+               (['pom'], 0.05, 1.0), (['#7a9a3a'], 0.03, 1.0), (['lemon'], 0.036, 1.0), (['orange'], 0.038, 1.0)]
     nseg = 5; sw = (RK['z1'] - RK['z0']) / nseg
     for st in range(3):
         xa = RK['x1'] - (st + 1) * 0.5; xb = xa + 0.5; y = 0.45 + st * 0.3
@@ -1115,15 +1311,19 @@ if SHOP == 'xianguo':
             z0_ = RK['z0'] + i * sw + 0.04; z1_ = z0_ + sw - 0.08; f = FR_[(i + st * 2) % len(FR_)]
             if st == 2 and i % 2 == 0:   # 最上面：鳳梨、西瓜
                 if i % 4 == 0:
-                    for k in range(3): cx_ = (max(RK['x0'], xa) + xb) / 2; zc = z0_ + 0.14 + k * (z1_ - z0_ - 0.28) / 2; blob(cx_, y + 0.16, zc, 0.11, '#c9962a', sy=1.4); ccyl(vc(), (cx_, y + 0.3, zc), (cx_, y + 0.52, zc), 0.07, '#4f7a3a', seg=6, r2=0.01)
+                    for k in range(3): cx_ = (max(RK['x0'], xa) + xb) / 2; zc = z0_ + 0.14 + k * (z1_ - z0_ - 0.28) / 2; blob(cx_, y + 0.16, zc, 0.11, '#c9962a', sy=1.4); (crown((cx_, y + 0.3, zc), (cx_, y + 0.52, zc)) if CC0 else ccyl(vc(), (cx_, y + 0.3, zc), (cx_, y + 0.52, zc), 0.07, '#4f7a3a', seg=6, r2=0.01))
                 else:
                     for k in range(2): blob((max(RK['x0'], xa) + xb) / 2, y + 0.19, z0_ + 0.22 + k * 0.42, 0.2, '#3f7a3a' if k else '#4f8a44', sy=0.95)
                 continue
-            crate(max(RK['x0'], xa) + 0.02, xb - 0.02, y, z0_, z1_, CRATE if (i + st) % 2 else WOODC); pile(max(RK['x0'], xa) + 0.05, xb - 0.05, y + 0.03, z0_ + 0.03, z1_ - 0.03, f[1], f[0], sy=f[2])
+            crate(max(RK['x0'], xa) + 0.02, xb - 0.02, y, z0_, z1_, CRATE if (i + st) % 2 else WOODC); pile(max(RK['x0'], xa) + 0.05, xb - 0.05, y + 0.03, z0_ + 0.03, z1_ - 0.03, f[1], f[0], sy=f[2], **({'bed': True} if CC0 else {}))
     # 門口左邊：一桌香蕉（一串一串黃色）
     x, z = BT['x'], BT['z']; mesh('wood').box(x - BT['w'] / 2, x + BT['w'] / 2, 0.0, 0.7, z - BT['d'] / 2, z + BT['d'] / 2); vc().cbox(x - BT['w'] / 2, x + BT['w'] / 2, 0.7, 0.72, z - BT['d'] / 2, z + BT['d'] / 2, '#4f7a3a')
     for i in range(7):
         bx = x - BT['w'] / 2 + 0.2 + (i % 4) * 0.48; bz = z - 0.22 + (i // 4) * 0.42
+        if CC0:   # Poly Haven 香蕉：整個模型（一大串＋幾根散的）一組，一個位置放一組、轉不同方向，桌面鋪滿
+            ph_put('bananas', bx, 0.72, bz, RRF.uniform(0, 6.28), RRF.uniform(1.15, 1.35), tag='_all', decimate=0.016)   # 一組約 750 面（大店 8 萬面以內）
+            if i < 3: ph_put('bananas', bx + 0.22, 0.72, bz + 0.2, RRF.uniform(0, 6.28), RRF.uniform(1.0, 1.2), tag='_all', decimate=0.016)
+            continue
         for k in range(5): ccyl(vc(), (bx - 0.14 + k * 0.03, 0.76, bz - 0.12), (bx + 0.1 + k * 0.03, 0.8 + k * 0.012, bz + 0.14), 0.03, '#f0cf3a' if k % 2 else '#e6c22e', seg=6)
     # 中間木工作桌：電子秤、切好的水果盒、砧板上的鳳梨、桌邊掛的粉紅條紋塑膠袋、桌下的綠籃
     x, z, w_, d_ = WT['x'], WT['z'], WT['w'], WT['d']
@@ -1156,6 +1356,7 @@ if SHOP == 'xianguo':
     tubes((-2.4, 0.2, 2.8), x0=-0.2, x1=2.2, grid=False)
     # 第 2 版（BB 11-10 23:51：比參考圖空很多——參考圖堆得滿滿：掛著的香蕉、整排鳳梨西瓜、一地的箱子）
     def bunch(x, y, z, n=6):   # 掛著的一串香蕉：上面一小段梗、往下散開的幾根
+        if CC0: return ph_put('bananas', x, y - 0.22, z, RRF.uniform(0, 6.28), 1.2, part=2, tag='_b2', decimate=0.012)
         ccyl(vc(), (x, y, z), (x, y + 0.12, z), 0.012, '#6a5a2a', seg=5)
         for k in range(n): a_ = k * 2 * PI / n; ccyl(vc(), (x + math.cos(a_) * 0.02, y, z + math.sin(a_) * 0.02), (x + math.cos(a_) * 0.075, y - 0.2, z + math.sin(a_) * 0.075), 0.022, '#f0cf3a' if k % 2 else '#e2bd2a', seg=5, r2=0.012)
     for (rx, z0_, z1_, n_) in ((-2.25, -1.4, 2.9, 9), (1.1, 0.5, 2.1, 4)):   # 兩根吊桿：木架前面一整排、工作桌上面一排
@@ -1169,12 +1370,12 @@ if SHOP == 'xianguo':
             x0_ = ex0 + i * cw + 0.02; x1_ = x0_ + cw - 0.04; lv = 1 + (i * 7 + int(ez0 * 3)) % 3; kind = (i + int(abs(ez0) * 2)) % 4
             for l in range(lv): crate(x0_, x1_, l * 0.24, ez0 + 0.02, ez1 - 0.02, (CRATE, WOODC, '#c9a878', '#2a2f36')[(i + l) % 4])
             y_ = lv * 0.24 - 0.2
-            if kind == 0: pile(x0_ + 0.04, x1_ - 0.04, y_, ez0 + 0.05, ez1 - 0.05, 0.07, ['#e8962a', '#f0a83a'], layers=1)
+            if kind == 0: pile(x0_ + 0.04, x1_ - 0.04, y_, ez0 + 0.05, ez1 - 0.05, 0.038 if CC0 else 0.07, ['#e8962a', '#f0a83a'], layers=1, **({'bed': True} if CC0 else {}))
             elif kind == 1:
                 for k in range(2): blob((x0_ + x1_) / 2, y_ + 0.2, ez0 + 0.16 + k * (ez1 - ez0 - 0.32), 0.17, '#3f7a3a' if k else '#4f8a44', sy=0.95)                                   # 西瓜
             elif kind == 2:
-                for k in range(2): zc = ez0 + 0.15 + k * (ez1 - ez0 - 0.3); blob((x0_ + x1_) / 2, y_ + 0.15, zc, 0.1, '#c9962a', sy=1.4); ccyl(vc(), ((x0_ + x1_) / 2, y_ + 0.28, zc), ((x0_ + x1_) / 2, y_ + 0.48, zc), 0.065, '#4f7a3a', seg=6, r2=0.01)   # 鳳梨
-            else: pile(x0_ + 0.04, x1_ - 0.04, y_, ez0 + 0.05, ez1 - 0.05, 0.068, ['#c0392b', '#a82a22', '#a8c85a'], layers=1)
+                for k in range(2): zc = ez0 + 0.15 + k * (ez1 - ez0 - 0.3); blob((x0_ + x1_) / 2, y_ + 0.15, zc, 0.1, '#c9962a', sy=1.4); (crown(((x0_ + x1_) / 2, y_ + 0.28, zc), ((x0_ + x1_) / 2, y_ + 0.48, zc)) if CC0 else ccyl(vc(), ((x0_ + x1_) / 2, y_ + 0.28, zc), ((x0_ + x1_) / 2, y_ + 0.48, zc), 0.065, '#4f7a3a', seg=6, r2=0.01))   # 鳳梨
+            else: pile(x0_ + 0.04, x1_ - 0.04, y_, ez0 + 0.05, ez1 - 0.05, 0.043 if CC0 else 0.068, ['#c0392b', '#a82a22', '#a8c85a'], layers=1, **({'bed': True} if CC0 else {}))
             vc().poly([(x0_ + 0.08, lv * 0.24 + 0.02, ez1 + 0.004), (x1_ - 0.08, lv * 0.24 + 0.02, ez1 + 0.004), (x1_ - 0.08, lv * 0.24 + 0.2, ez1 + 0.03), (x0_ + 0.08, lv * 0.24 + 0.2, ez1 + 0.03)], '#f6e23a')                    # 黃色價目卡（字：遊戲裡看不清，不寫）
             vc().poly([(x0_ + 0.12, lv * 0.24 + 0.14, ez1 + 0.024), (x1_ - 0.12, lv * 0.24 + 0.14, ez1 + 0.024), (x1_ - 0.12, lv * 0.24 + 0.18, ez1 + 0.03), (x0_ + 0.12, lv * 0.24 + 0.18, ez1 + 0.03)], '#c9302a')
     for i in range(nseg):   # 木架每一格前緣一張黃色價目卡
@@ -1186,6 +1387,106 @@ if SHOP == 'xianguo':
 if SHOP == 'rongendian':
     PW, AW_, CT, CR = J['penWall'], J['artWall'], J['counter'], J['cart']
     PENS = ['#1f2a48', '#b8262b', '#2b4f8c', '#1d1f22', '#e8c23a', '#2f8a5a', '#e87a2a', '#8a4aa8', '#f4f4f0']; NOTE = [['#d9c9a8', '#8fb8d8', '#2f3338', '#f4f1e8', '#c9a878'], ['#e8a8b8', '#f4e6a0', '#a8c8e8', '#f4f4f0'], ['#2b4f8c', '#7a2a2a', '#d9c9a8', '#3a5a4a'], ['#f4f1e8', '#e8e0c8', '#c9c4b8']]
+    if CC0:   # SHOP-REALISM-1112（LAWWW2-C 11-13，D160／D161；參考圖 int_rongendian）：
+        #   筆牆 → 每一格壓克力盒前面一張「一排筆」的印刷（筆身、筆夾、筆蓋，八種顏色系）；中間木層架 → 立著的筆記本（印刷封面、後面還有幾本）、平放的一疊疊、
+        #   布料筆袋、紙膠帶；右牆素描本印刷封面、顏料瓶標籤；畫架、畫布、櫃台 → 木頭、畫布材質組；吊扇、收銀機、檯燈、盆栽 → Poly Haven；「特價」牌印刷
+        from PIL import ImageDraw, ImageFont
+        RRV = random.Random(97); PQ = []; PKUV = {}; _R = random.Random(23); CW = 128
+        def pkq(kd, lb, rb, rt, lt_, i=None):
+            L_ = PKUV[kd]; PQ.append((L_[RRV.randrange(len(L_)) if i is None else i % len(L_)], [g2b(*p_) for p_ in (lb, rb, rt, lt_)]))
+        at = Image.new('RGB', (1024, 512), (240, 238, 232)); _f = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', 15)
+        NC = [(196, 160, 112), (150, 186, 214), (52, 84, 70), (236, 176, 190), (240, 236, 222), (40, 42, 46), (170, 214, 196), (184, 168, 214)]
+        for c_ in range(8):   # 第 1 列：筆記本封面（牛皮紙、淡藍、墨綠、粉紅、方格、黑、薄荷、淡紫；白標籤或細線，不寫牌子）
+            im = Image.new('RGB', (CW, CW), NC[c_]); d = ImageDraw.Draw(im); dk = tuple(max(0, v - 50) for v in NC[c_])
+            if c_ == 4:
+                for k in range(0, CW, 8): d.line([k, 0, k, CW], fill=(200, 210, 220)); d.line([0, k, CW, k], fill=(200, 210, 220))
+            if c_ in (0, 2, 5): d.rectangle([CW * 0.2, CW * 0.3, CW * 0.8, CW * 0.48], fill=(246, 244, 236)); d.line([CW * 0.26, CW * 0.39, CW * 0.7, CW * 0.39], fill=dk, width=2)
+            elif c_ in (1, 6): d.rectangle([0, CW * 0.72, CW, CW * 0.8], fill=(250, 250, 248))
+            elif c_ == 3:
+                for k in range(30): x_, y_ = _R.uniform(0, CW), _R.uniform(0, CW); d.ellipse([x_ - 3, y_ - 3, x_ + 3, y_ + 3], fill=(250, 240, 244))
+            else: d.rectangle([CW * 0.12, CW * 0.12, CW * 0.88, CW * 0.88], outline=dk, width=2)
+            d.rectangle([0, 0, 5, CW], fill=dk); at.paste(im, (c_ * CW, 0)); PKUV.setdefault('note', []).append([c_ / 8, 0.75, (c_ + 1) / 8, 1.0])
+        PC = [(30, 42, 72), (184, 38, 43), (43, 79, 140), (29, 31, 34), (232, 194, 58), (47, 138, 90), (232, 122, 42), (138, 74, 168)]
+        for c_ in range(8):   # 第 2 列：一盒筆（從正面看：一支支筆身、筆夾、筆蓋高低不一；兩種顏色混）
+            im = Image.new('RGB', (CW, CW), (88, 92, 96)); d = ImageDraw.Draw(im); n_ = 7   # v2：一格七支、整支筆身上色（白筆身＋色蓋看起來像條碼）、亮面一條、深色縫
+            for k in range(n_):
+                col = PC[c_] if k % 3 else PC[(c_ + 2 + k) % 8]; x_ = 3 + k * (CW - 6) / n_; top = _R.uniform(4, 18); w_ = (CW - 6) / n_ - 3
+                lt = tuple(min(255, v + 70) for v in col); dk = tuple(max(0, v - 40) for v in col)
+                d.rectangle([x_, top, x_ + w_, CW], fill=col); d.rectangle([x_ + w_ * 0.2, top + 3, x_ + w_ * 0.38, CW], fill=lt); d.rectangle([x_ + w_ * 0.8, top, x_ + w_, CW], fill=dk)
+                d.rectangle([x_, top, x_ + w_, top + 26], fill=dk); d.rectangle([x_ + w_ * 0.55, top + 2, x_ + w_ * 0.75, top + 40], fill=(205, 205, 210))   # 筆蓋、筆夾
+            d.rectangle([0, CW * 0.7, CW, CW], fill=(206, 216, 220)); d.line([0, CW * 0.7, CW, CW * 0.7], fill=(250, 252, 252), width=3)   # 壓克力盒的前緣（透明、反光）
+            at.paste(im, (c_ * CW, CW)); PKUV.setdefault('pen', []).append([c_ / 8, 0.5, (c_ + 1) / 8, 0.75])
+        for c_ in range(8):   # 第 3 列：顏料瓶標籤（白底、上面一塊顏料色、細字條）
+            im = Image.new('RGB', (CW, CW), (248, 248, 246)); d = ImageDraw.Draw(im); pc = [(244, 244, 240), (232, 194, 58), (184, 38, 43), (43, 79, 140), (29, 31, 34), (47, 138, 90), (232, 122, 42), (138, 74, 168)][c_]
+            d.rectangle([0, 0, CW, CW * 0.45], fill=pc); d.rectangle([0, CW * 0.45, CW, CW * 0.5], fill=(60, 60, 64))
+            for r_ in range(3): d.rectangle([12, CW * (0.6 + r_ * 0.1), 12 + _R.uniform(50, 100), CW * (0.6 + r_ * 0.1) + 5], fill=(90, 90, 94))
+            at.paste(im, (c_ * CW, 2 * CW)); PKUV.setdefault('paint', []).append([c_ / 8, 0.25, (c_ + 1) / 8, 0.5])
+        for c_ in range(8):   # 第 4 列：素描本、畫紙（深色封面＋白色標題帶、上緣線圈）
+            bg = [(40, 42, 46), (120, 84, 52), (30, 52, 90), (196, 160, 112), (70, 70, 74), (150, 40, 44), (40, 42, 46), (196, 160, 112)][c_]
+            im = Image.new('RGB', (CW, CW), bg); d = ImageDraw.Draw(im)
+            for k in range(10): d.ellipse([8 + k * 12, 4, 14 + k * 12, 14], outline=(210, 210, 214), width=2)
+            d.rectangle([CW * 0.15, CW * 0.55, CW * 0.85, CW * 0.7], fill=(246, 244, 236)); at.paste(im, (c_ * CW, 3 * CW)); PKUV.setdefault('pad', []).append([c_ / 8, 0.0, (c_ + 1) / 8, 0.25])
+        _pk = os.path.join(STAGE, 'tz_rongendian_packs.png'); at.save(_pk)
+        _m = bpy.data.materials.new('tzs_rongendian_packs'); _m.use_nodes = True; _n = _m.node_tree; _b = _n.nodes['Principled BSDF']; _b.inputs['Roughness'].default_value = 0.6
+        _t = _n.nodes.new('ShaderNodeTexImage'); _t.image = bpy.data.images.load(_pk); _n.links.new(_t.outputs['Color'], _b.inputs['Base Color']); M['packs'] = _m
+        def _sale(d, s_):   # 特價牌：黃底、紅色爆炸框、紅字
+            d.rectangle([0, 0, s_, s_], fill=(242, 194, 48)); pts = []
+            for k in range(24): a_ = k * PI / 12; r_ = s_ * (0.46 if k % 2 else 0.36); pts.append((s_ / 2 + math.cos(a_) * r_, s_ / 2 + math.sin(a_) * r_ * 0.8))
+            d.polygon(pts, fill=(201, 48, 42)); f_ = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', int(s_ * 0.3)); b_ = d.textbbox((0, 0), '特價', font=f_)
+            d.text((s_ / 2 - (b_[0] + b_[2]) / 2, s_ / 2 - (b_[1] + b_[3]) / 2), '特價', font=f_, fill=(255, 236, 120))
+        M.update({'paper': acg('tzs_paper', 'Paper001', target='#f4f2ea', tile=0.3, rough_value=0.8, res=256),
+                  'canvas': acg('tzs_canvas', 'Fabric036', target='#f2efe6', tile=0.4, rough_value=0.9, res=256),
+                  'case_n': acg('tzs_case_n', 'Fabric054', target='#2c3c5a', tile=0.2, rough_value=0.85, res=256),
+                  'case_b': acg('tzs_case_b', 'Fabric036', target='#c9b08a', tile=0.2, rough_value=0.85, res=256),
+                  'case_p': acg('tzs_case_p', 'Fabric036', target='#e2a8b4', tile=0.2, rough_value=0.85, res=256),
+                  'sale': printed('tzs_ron_sale', 'tz_ron_sale', _sale, 'Paper001', size=256, amp=0.1, tile=0.5, rough_value=0.6)})
+        ROUTE = {'#eef2f2': 'glass', '#e8e4d8': 'plastic_w', '#f4f1e4': 'plastic_w', '#f1f0ea': 'plastic_w', '#c9a878': 'wood', '#7a5636': 'wood_d', '#6a4a2a': 'wood_d',
+                 '#2a2d31': 'plastic_dk', '#1f2023': 'plastic_dk', '#3a2a20': 'plastic_dk', '#d8dadc': 'steel', '#f6f4ee': 'canvas', '#ece8dc': 'canvas', '#f2c230': 'sale', '#c9302a': 'sale',
+                 '#e8e0c8': 'cardboard', '#d9c9a8': 'cardboard', '#f4f1e8': 'cardboard', '#b8946a': 'cardboard'}
+        _vc0 = vc; vc = lambda: _Route(_vc0(), ROUTE); vm = lambda: _AsTex(mesh('steel'))
+        def stat(x0, x1, y, z0, z1, along='z', k=0):
+            """木層架的一層（CC0）：一段立著的筆記本（封面朝走道、後面再兩本）、一段平放的一疊疊（最上面那本印刷封面）、一段布料筆袋、一段紙膠帶"""
+            out_ = k >= 2; a0, a1 = (z0, z1) if along == 'z' else (x0, x1); a = a0 + 0.02; run = k * 3
+            d0, d1 = (x0, x1) if along == 'z' else (z0, z1); fd = d1 - 0.02 if out_ else d0 + 0.02; sg = 1 if out_ else -1   # 朝走道那一面的位置、方向
+            def q(kd, p0, p1, yb, yt, dd):   # 一張朝走道的印刷面
+                if along == 'z': pkq(kd, (dd, yb, p1 if sg > 0 else p0), (dd, yb, p0 if sg > 0 else p1), (dd, yt, p0 if sg > 0 else p1), (dd, yt, p1 if sg > 0 else p0))
+                else: pkq(kd, (p0 if sg > 0 else p1, yb, dd), (p1 if sg > 0 else p0, yb, dd), (p1 if sg > 0 else p0, yt, dd), (p0 if sg > 0 else p1, yt, dd))
+            def bx(p0, p1, yb, yt, e0, e1, key):
+                if along == 'z': mesh(key).box(e0, e1, yb, yt, p0, p1)
+                else: mesh(key).box(p0, p1, yb, yt, e0, e1)
+            while a < a1 - 0.12:
+                kind = ('stand', 'flat', 'stand', 'case', 'stand', 'tape')[run % 6]; e = min(a1 - 0.02, a + RRV.uniform(0.35, 0.6)); run += 1
+                if kind == 'stand':
+                    w_ = RRV.choice((0.15, 0.18, 0.21)); h_ = w_ * 1.38; idx = RRV.randrange(8)
+                    while a + w_ <= e:
+                        for r_ in range(3):   # 前面一本印刷、後面兩本只有紙
+                            dd = fd - sg * (0.004 + r_ * 0.03); e0, e1 = sorted((dd, dd - sg * 0.025))
+                            bx(a, a + w_ - 0.008, y, y + h_ - r_ * 0.004, e0, e1, 'paper')
+                            if r_ == 0: q('note', a, a + w_ - 0.008, y, y + h_, dd + sg * 0.0008)
+                        a += w_
+                elif kind == 'flat':
+                    w_ = RRV.choice((0.18, 0.21)); dp = min(0.26, abs(d1 - d0) - 0.06)
+                    while a + w_ <= e:
+                        n_ = RRV.randint(3, 7); e0, e1 = sorted((fd, fd - sg * dp)); bx(a, a + w_ - 0.01, y, y + n_ * 0.012, e0, e1, 'paper')
+                        yt = y + n_ * 0.012 + 0.0008; idx = RRV.randrange(8)   # 最上面一本的封面（朝上）
+                        if along == 'z': PQ.append((PKUV['note'][idx], [g2b(*p_) for p_ in ((e0, yt, a + w_ - 0.01), (e1, yt, a + w_ - 0.01), (e1, yt, a), (e0, yt, a))]))
+                        else: PQ.append((PKUV['note'][idx], [g2b(*p_) for p_ in ((a, yt, e1), (a + w_ - 0.01, yt, e1), (a + w_ - 0.01, yt, e0), (a, yt, e0))]))
+                        q('note', a, a + w_ - 0.01, y + (n_ - 1) * 0.012, y + n_ * 0.012, fd + sg * 0.0008)
+                        a += w_
+                elif kind == 'case':
+                    while a + 0.2 <= e:
+                        key = RRV.choice(('case_n', 'case_b', 'case_p')); e0, e1 = sorted((fd, fd - sg * 0.08))
+                        if along == 'z': mesh(key).rbox(e0, e1, y, y + 0.07, a, a + 0.19, r=0.025, seg=2)
+                        else: mesh(key).rbox(a, a + 0.19, y, y + 0.07, e0, e1, r=0.025, seg=2)
+                        a += 0.21
+                else:
+                    while a + 0.07 <= e:
+                        for l_ in range(2):
+                            c_ = (a + 0.035, y + 0.0, fd - sg * 0.03) if along == 'x' else (fd - sg * 0.03, y, a + 0.035); col = RRV.choice(('#e8a8b8', '#a8c8e8', '#f4e6a0', '#b8d8b0', '#f4f4f0'))
+                            p0_ = (c_[0], y + l_ * 0.022, c_[2]) if along == 'x' else (c_[0], y + l_ * 0.022, c_[2])
+                            ccyl(_vc0(), (p0_[0], p0_[1], p0_[2] - 0.008) if along == 'x' else (p0_[0] - 0.008, p0_[1], p0_[2]), (p0_[0], p0_[1], p0_[2] + 0.008) if along == 'x' else (p0_[0] + 0.008, p0_[1], p0_[2]), 0.03, col, seg=12)
+                        a += 0.075
+                a = e + 0.01
     # 左牆：整面筆（一層一層壓克力格，每一格一把同色的筆）；下面抽屜櫃
     mesh('wood').box(PW['x0'], PW['x1'], 0.0, 0.7, PW['z0'], PW['z1']); vc().cbox(PW['x0'], PW['x0'] + 0.03, 0.7, PW['h'], PW['z0'], PW['z1'], '#f4f1e4')
     for j in range(7):
@@ -1193,25 +1494,35 @@ if SHOP == 'rongendian':
         zz = PW['z0'] + 0.05
         while zz < PW['z1'] - 0.12:
             col = RR.choice(PENS)
+            if CC0:   # 一格壓克力盒：前面一張「一排筆」的印刷（筆比盒子高出一截），盒子透明
+                xf = PW['x1'] - 0.12 + 0.002; pkq('pen', (xf, y, zz + 0.1), (xf, y, zz), (xf, y + 0.2, zz), (xf, y + 0.2, zz + 0.1)); pkq('pen', (xf - 0.1, y + 0.02, zz + 0.1), (xf - 0.1, y + 0.02, zz), (xf - 0.1, y + 0.22, zz), (xf - 0.1, y + 0.22, zz + 0.1))
+                vc().cbox(PW['x0'] + 0.06, PW['x1'] - 0.12, y, y + 0.06, zz, zz + 0.1, '#eef2f2'); zz += 0.105; continue
             for k in range(4): ccyl(vc(), (PW['x0'] + 0.1 + k * 0.06, y, zz + 0.04), (PW['x0'] + 0.16 + k * 0.06, y + 0.17, zz + 0.04), 0.008, col, seg=4)
             vc().cbox(PW['x0'] + 0.06, PW['x1'] - 0.12, y, y + 0.06, zz, zz + 0.09, '#eef2f2'); zz += 0.105
     # 右牆：畫材（畫筆筒、顏料瓶、調色盤、素描本）
     mesh('wood').box(AW_['x0'], AW_['x1'], 0.0, 0.75, AW_['z0'], AW_['z1'])
     for j, y in enumerate((0.75, 1.2, 1.65, 2.1)):
         mesh('wood').box(AW_['x0'], AW_['x1'], y - 0.03, y, AW_['z0'], AW_['z1'])
-        if j == 0: goods(AW_['x0'] + 0.03, AW_['x1'], y, AW_['z0'] + 0.05, AW_['z1'] - 0.05, NOTE[0], hmin=0.22, hmax=0.34, step=0.06)
+        if j == 0 and CC0:   # 素描本：一本本立著、封面朝店裡（印刷），幾本一組
+            zz = AW_['z0'] + 0.06
+            while zz < AW_['z1'] - 0.3:
+                w_ = RRV.choice((0.21, 0.26, 0.3)); h_ = w_ * 1.3
+                for r_ in range(4): xx = AW_['x0'] + 0.04 + r_ * 0.02; mesh('paper').box(xx, xx + 0.015, y, y + h_ - r_ * 0.01, zz, zz + w_)
+                pkq('pad', (AW_['x0'] + 0.039, y, zz), (AW_['x0'] + 0.039, y, zz + w_), (AW_['x0'] + 0.039, y + h_, zz + w_), (AW_['x0'] + 0.039, y + h_, zz)); zz += w_ + 0.03
+        elif j == 0: goods(AW_['x0'] + 0.03, AW_['x1'], y, AW_['z0'] + 0.05, AW_['z1'] - 0.05, NOTE[0], hmin=0.22, hmax=0.34, step=0.06)
         elif j == 1:
             for i in range(12): zc = AW_['z0'] + 0.2 + i * (AW_['z1'] - AW_['z0'] - 0.4) / 11; ccyl(vc(), (AW_['x0'] + 0.25, y, zc), (AW_['x0'] + 0.25, y + 0.12, zc), 0.05, '#3a2a20', seg=8); [ccyl(vc(), (AW_['x0'] + 0.25 + (k - 1.5) * 0.02, y + 0.1, zc + (k % 2 - 0.5) * 0.03), (AW_['x0'] + 0.25 + (k - 1.5) * 0.04, y + 0.32, zc + (k % 2 - 0.5) * 0.05), 0.006, ('#c9a878', '#1d1f22', '#b8262b', '#2b4f8c')[k], seg=4) for k in range(4)]
         elif j == 2:
-            for i in range(26): zc = AW_['z0'] + 0.12 + i * (AW_['z1'] - AW_['z0'] - 0.24) / 25; ccyl(vc(), (AW_['x0'] + 0.25, y, zc), (AW_['x0'] + 0.25, y + 0.2, zc), 0.035, ('#f4f4f0', '#e8c23a', '#b8262b', '#2b4f8c', '#1d1f22', '#2f8a5a', '#e87a2a')[i % 7], seg=8); ccyl(vc(), (AW_['x0'] + 0.25, y + 0.2, zc), (AW_['x0'] + 0.25, y + 0.25, zc), 0.018, '#f4f4f0', seg=6)
+            for i in range(26): zc = AW_['z0'] + 0.12 + i * (AW_['z1'] - AW_['z0'] - 0.24) / 25; ccyl(vc(), (AW_['x0'] + 0.25, y, zc), (AW_['x0'] + 0.25, y + 0.2, zc), 0.035, ('#f4f4f0', '#e8c23a', '#b8262b', '#2b4f8c', '#1d1f22', '#2f8a5a', '#e87a2a')[i % 7], seg=8); ccyl(vc(), (AW_['x0'] + 0.25, y + 0.2, zc), (AW_['x0'] + 0.25, y + 0.25, zc), 0.018, '#f4f4f0', seg=6); (pkq('paint', (AW_['x0'] + 0.2135, y + 0.03, zc - 0.028), (AW_['x0'] + 0.2135, y + 0.03, zc + 0.028), (AW_['x0'] + 0.2135, y + 0.17, zc + 0.028), (AW_['x0'] + 0.2135, y + 0.17, zc - 0.028), i=i % 7 + 1) if CC0 else None)
         else:
             for i in range(6): zc = AW_['z0'] + 0.4 + i * (AW_['z1'] - AW_['z0'] - 0.8) / 5; ccyl(vc(), (AW_['x0'] + 0.3, y + 0.16, zc), (AW_['x0'] + 0.33, y + 0.17, zc), 0.15, '#f6f4ee', seg=14)
     # 中間兩座木層架：筆記本、筆袋、膠帶
-    for g in J['gondolas']: gondola(g, NOTE, style='wood', levels=(0.2, 0.6, 1.0, 1.36))
+    for g in J['gondolas']: gondola(g, NOTE, style='wood', levels=(0.2, 0.6, 1.0, 1.36), fill=stat if CC0 else None)
     # 後方木櫃台：收銀機、檯燈、筆筒；後牆層架、紙捲、小十字架、植物
     mesh('wood').box(CT['x0'], CT['x1'], 0.0, CT['h'] - 0.04, CT['z0'], CT['z1']); mesh('wood_d').rbox(CT['x0'] - 0.03, CT['x1'] + 0.03, CT['h'] - 0.04, CT['h'], CT['z0'] - 0.02, CT['z1'] + 0.04, r=0.012, seg=2)
     for i in range(18): xx = CT['x0'] + 0.06 + i * (CT['x1'] - CT['x0'] - 0.12) / 17; vc().cbox(xx - 0.012, xx + 0.012, 0.06, CT['h'] - 0.06, CT['z1'], CT['z1'] + 0.012, '#7a5636')
-    vc().crbox(-0.6, -0.15, CT['h'], CT['h'] + 0.16, CT['z0'] + 0.1, CT['z0'] + 0.45, '#2a2d31', r=0.01); vc().cbox(-0.55, -0.2, CT['h'] + 0.16, CT['h'] + 0.42, CT['z0'] + 0.12, CT['z0'] + 0.16, '#1f2023')
+    if CC0: ph_put('CashRegister_01', -0.38, CT['h'], CT['z0'] + 0.3, 0.0, height=0.3, decimate=0.15)   # 收銀機（Poly Haven）
+    else: vc().crbox(-0.6, -0.15, CT['h'], CT['h'] + 0.16, CT['z0'] + 0.1, CT['z0'] + 0.45, '#2a2d31', r=0.01); vc().cbox(-0.55, -0.2, CT['h'] + 0.16, CT['h'] + 0.42, CT['z0'] + 0.12, CT['z0'] + 0.16, '#1f2023')
     ccyl(vm(), (-1.25, CT['h'], CT['z0'] + 0.3), (-1.25, CT['h'] + 0.32, CT['z0'] + 0.3), 0.012, '#b8a04a', seg=6); ccyl(vc(), (-1.25, CT['h'] + 0.3, CT['z0'] + 0.3), (-1.25, CT['h'] + 0.48, CT['z0'] + 0.3), 0.13, '#f4e6c0', seg=12, r2=0.07, caps=False); mesh('light').sphere((-1.25, CT['h'] + 0.34, CT['z0'] + 0.3), 0.04, seg=6, rings=4)
     ccyl(vc(), (0.5, CT['h'], CT['z1'] - 0.2), (0.5, CT['h'] + 0.11, CT['z1'] - 0.2), 0.045, '#3a2a20', seg=8)
     zb = -D / 2; mesh('wood').box(0.4, 4.0, 0.0, 0.03, zb, zb + 0.4)
@@ -1219,12 +1530,14 @@ if SHOP == 'rongendian':
     for i in range(6): ccyl(vc(), (0.6 + i * 0.12, 0.03, zb + 0.2), (0.6 + i * 0.12, 0.8, zb + 0.2), 0.045, '#d9c9a8', seg=8)
     vc().cbox(-2.2, -2.16, 1.7, 2.0, zb + 0.004, zb + 0.02, '#6a4a2a'); vc().cbox(-2.29, -2.07, 1.87, 1.91, zb + 0.004, zb + 0.02, '#6a4a2a')                   # 小十字架（規格：小、低調）
     vc().cbox(-1.8, -1.5, 1.55, 1.95, zb + 0.004, zb + 0.014, '#f4f1e4')
-    mesh('wood').box(-1.4, -0.2, 2.1, 2.13, zb, zb + 0.25); clathe(vc(), [(0.0, 0.0), (0.09, 0.0), (0.11, 0.16), (0.0, 0.16)], -0.8, 2.13, zb + 0.13, '#b8603a', seg=10); fern(-0.8, 2.3, zb + 0.14, r=0.26, n=12, hang=True)
+    mesh('wood').box(-1.4, -0.2, 2.1, 2.13, zb, zb + 0.25)
+    if CC0: ph_put('potted_plant_02', -0.8, 2.13, zb + 0.14, 0.7, height=0.5, share=False, decimate=0.05)   # 後牆層板上的綠蘿（Poly Haven；參考圖）
+    else: clathe(vc(), [(0.0, 0.0), (0.09, 0.0), (0.11, 0.16), (0.0, 0.16)], -0.8, 2.13, zb + 0.13, '#b8603a', seg=10); fern(-0.8, 2.3, zb + 0.14, r=0.26, n=12, hang=True)
     # 門口左邊：特價推車（鐵網推車＋筆記本、黃底紅字的「特價」牌是色塊）；右前方木畫架、靠牆的畫布
     x, z = CR['x'], CR['z']
     for sx in (-1, 1):
         for sz in (-1, 1): ccyl(vm(), (x + sx * (CR['w'] / 2 - 0.04), 0.06, z + sz * (CR['d'] / 2 - 0.04)), (x + sx * (CR['w'] / 2 - 0.04), 0.95, z + sz * (CR['d'] / 2 - 0.04)), 0.012, '#d8dadc', seg=6); ccyl(vc(), (x + sx * (CR['w'] / 2 - 0.04), 0.0, z + sz * (CR['d'] / 2 - 0.04)), (x + sx * (CR['w'] / 2 - 0.04), 0.07, z + sz * (CR['d'] / 2 - 0.04)), 0.035, '#2a2d31', seg=8)
-    for y in (0.3, 0.75): vm().cbox(x - CR['w'] / 2, x + CR['w'] / 2, y, y + 0.015, z - CR['d'] / 2, z + CR['d'] / 2, '#d8dadc'); goods(x - CR['w'] / 2 + 0.04, x + CR['w'] / 2 - 0.04, y + 0.015, z - CR['d'] / 2 + 0.04, z + CR['d'] / 2 - 0.04, NOTE[0] + NOTE[1], hmin=0.04, hmax=0.14, along='x', step=0.19)
+    for y in (0.3, 0.75): vm().cbox(x - CR['w'] / 2, x + CR['w'] / 2, y, y + 0.015, z - CR['d'] / 2, z + CR['d'] / 2, '#d8dadc'); (stat(x - CR['w'] / 2 + 0.04, x + CR['w'] / 2 - 0.04, y + 0.015, z - CR['d'] / 2 + 0.04, z + CR['d'] / 2 - 0.04, 'x', 2) if CC0 else goods(x - CR['w'] / 2 + 0.04, x + CR['w'] / 2 - 0.04, y + 0.015, z - CR['d'] / 2 + 0.04, z + CR['d'] / 2 - 0.04, NOTE[0] + NOTE[1], hmin=0.04, hmax=0.14, along='x', step=0.19))
     vc().poly([(x - 0.45, 0.2, z + CR['d'] / 2 + 0.02), (x + 0.45, 0.2, z + CR['d'] / 2 + 0.02), (x + 0.45, 0.62, z + CR['d'] / 2 + 0.08), (x - 0.45, 0.62, z + CR['d'] / 2 + 0.08)], '#f2c230'); vc().poly([(x - 0.3, 0.28, z + CR['d'] / 2 + 0.036), (x + 0.3, 0.28, z + CR['d'] / 2 + 0.036), (x + 0.3, 0.54, z + CR['d'] / 2 + 0.074), (x - 0.3, 0.54, z + CR['d'] / 2 + 0.074)], '#c9302a')
     for (ex, ez) in J['easels']:
         for sx in (-0.22, 0.22): ccyl(vc(), (ex + sx, 0.0, ez + 0.12), (ex + sx * 0.3, 1.65, ez - 0.1), 0.02, '#c9a878', seg=6)
@@ -1232,8 +1545,11 @@ if SHOP == 'rongendian':
     CV = J['canvases']
     for i in range(5): vc().poly([(CV['x0'] + i * 0.05, 0.0, CV['z0']), (CV['x0'] + i * 0.05, 0.0, CV['z1']), (CV['x1'] - 0.1 + i * 0.03, 1.0 - i * 0.08, CV['z1']), (CV['x1'] - 0.1 + i * 0.03, 1.0 - i * 0.08, CV['z0'])][::-1], ('#f6f4ee', '#ece8dc')[i % 2])
     # 天花板：格柵、日光燈、吊扇
-    tubes((-3.4, -1.0, 1.4, 3.6), x0=-2.2, x1=2.2); ccyl(vc(), (0.6, H - 0.3, -0.6), (0.6, H, -0.6), 0.03, '#b8a888', seg=8); ccyl(vc(), (0.6, H - 0.36, -0.6), (0.6, H - 0.28, -0.6), 0.12, '#c9b898', seg=12)
-    for k in range(4): a = k * PI / 2 + 0.3; vc().poly([(0.6 + math.cos(a) * 0.12 - math.sin(a) * 0.07, H - 0.33, -0.6 + math.sin(a) * 0.12 + math.cos(a) * 0.07), (0.6 + math.cos(a) * 0.75 - math.sin(a) * 0.09, H - 0.33, -0.6 + math.sin(a) * 0.75 + math.cos(a) * 0.09), (0.6 + math.cos(a) * 0.75 + math.sin(a) * 0.09, H - 0.33, -0.6 + math.sin(a) * 0.75 - math.cos(a) * 0.09), (0.6 + math.cos(a) * 0.12 + math.sin(a) * 0.07, H - 0.33, -0.6 + math.sin(a) * 0.12 - math.cos(a) * 0.07)], '#8a6a48')
+    tubes((-3.4, -1.0, 1.4, 3.6), x0=-2.2, x1=2.2)
+    if CC0:   # 吊扇（Poly Haven ceiling_fan；放進 CEIL_*，鏡頭高過天花板時一起藏）
+        o_ = ph_put('ceiling_fan', 0.6, H - 0.52, -0.6, 0.3, height=0.52, decimate=0.08); o_.name = 'CEIL_ph_ceiling_fan'
+    if not CC0: ccyl(vc(), (0.6, H - 0.3, -0.6), (0.6, H, -0.6), 0.03, '#b8a888', seg=8); ccyl(vc(), (0.6, H - 0.36, -0.6), (0.6, H - 0.28, -0.6), 0.12, '#c9b898', seg=12)
+    for k in range(0 if CC0 else 4): a = k * PI / 2 + 0.3; vc().poly([(0.6 + math.cos(a) * 0.12 - math.sin(a) * 0.07, H - 0.33, -0.6 + math.sin(a) * 0.12 + math.cos(a) * 0.07), (0.6 + math.cos(a) * 0.75 - math.sin(a) * 0.09, H - 0.33, -0.6 + math.sin(a) * 0.75 + math.cos(a) * 0.09), (0.6 + math.cos(a) * 0.75 + math.sin(a) * 0.09, H - 0.33, -0.6 + math.sin(a) * 0.75 - math.cos(a) * 0.09), (0.6 + math.cos(a) * 0.12 + math.sin(a) * 0.07, H - 0.33, -0.6 + math.sin(a) * 0.12 - math.cos(a) * 0.07)], '#8a6a48')
 
 
 # ---------- 禮貌生財（X332）：前半命理館＋後半書房（STUDY_*，平常不顯示） ----------
@@ -2312,14 +2628,14 @@ if SHOP == 'liantong':
 # ---------- 完成 ----------
 for side, (m, d) in WALLS.items(): m.finish(root, props={'dir': d})
 FIXP = {'WALL_Sfix:': {'dir': [0, 0, -1], 'at': [0.0, H / 2, D / 2]}, 'WALL_Efix:': {'dir': [-1, 0, 0], 'at': [W / 2, H / 2, 0.0]}}   # WALL_Efix：泰米 v2 右牆的木腰板（跟著右牆淡出）
-for key, mm in MM.items(): mm.finish(root, props=next((v for k, v in FIXP.items() if key.startswith(k)), None), uv=key.split(':')[-1] not in ('vc', 'vcm', 'light', 'glass'), smooth=key.split(':')[-1] in ('vc', 'vcm') or key.split(':')[-1].startswith('silk_'))
+for key, mm in MM.items(): mm.finish(root, props=next((v for k, v in FIXP.items() if key.startswith(k)), None), uv=key.split(':')[-1] not in ('vc', 'vcm', 'light', 'glass') and not key.split(':')[-1].startswith('own_'), smooth=key.split(':')[-1] in ('vc', 'vcm') or key.split(':')[-1].startswith(('silk_', 'own_')))
 if SQ:
     m = Mesh('S_pics', M['pics']); lay = m.bm.loops.layers.uv.new('UVMap')
     for key, pts in SQ:
         u0, v0, u1, v1 = AUV[key]; f = m.bm.faces.new([m.bm.verts.new(p) for p in pts])
         for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[lay].uv = t
     m.finish(root, uv=False, merge=False)
-if SHOP in ('dongnan', 'liantong', 'yuehaochi', 'keju', 'yindehao', 'antai') and CC0 and PQ:   # v2：包裝印刷（一個網格、一張貼圖集）
+if SHOP in ('dongnan', 'liantong', 'yuehaochi', 'keju', 'yindehao', 'antai', 'rongendian') and CC0 and PQ:   # v2：包裝印刷（一個網格、一張貼圖集）
     m = Mesh('S_packs', M['packs']); lay = m.bm.loops.layers.uv.new('UVMap'); SMP = SHOP == 'dongnan'   # v2.2：東南大聯的枕頭袋要平滑（合併頂點＋平滑法線）
     for (u0, v0, u1, v1), pts in PQ:
         f = m.bm.faces.new([m.bm.verts.new(p) for p in pts])
@@ -2336,7 +2652,7 @@ if CC0:
     print('CC0_USED', json.dumps(sorted(set(CC0_USED)), ensure_ascii=False))
 # CC0 的店：牆（灰泥，隔牆、廚房開口的柱和上緣是好幾塊貼在一起的方塊）、牆上的照片只從一面看——不補反面
 #   （補了會和正面疊在同一個平面：遊戲裡反面被剔掉看不出來，但 Cycles 烘光照貼圖時反面擋在前面，烘成全黑；LAWWW2-C 11-13 泰米試拍）
-if '--nosingle' not in ARGS: L.single_side(root, keep=r'glass', nodup=(r'(ceil|lightpanel|tzs_wall|_pics|liantong_packs|yuehaochi_packs|keju_packs|yindehao_packs|antai_packs)' if SHOP in ('liantong', 'yuehaochi', 'keju', 'yindehao', 'antai') else r'(ceil|lightpanel|tzs_wall|_pics)') if CC0 else r'(ceil|lightpanel)')
+if '--nosingle' not in ARGS: L.single_side(root, keep=r'glass', nodup=(r'(ceil|lightpanel|tzs_wall|_pics|liantong_packs|yuehaochi_packs|keju_packs|yindehao_packs|antai_packs|rongendian_packs)' if SHOP in ('liantong', 'yuehaochi', 'keju', 'yindehao', 'antai', 'rongendian') else r'(ceil|lightpanel|tzs_wall|_pics|tzs_ph_|tzs_xg_)' if SHOP == 'xianguo' else r'(ceil|lightpanel|tzs_wall|_pics)') if CC0 else r'(ceil|lightpanel)')
 if _PROF: print('TRIS_PROF', json.dumps(sorted(_PROF.items(), key=lambda kv: -kv[1])[:15]))
 tris = 0
 for ob in bpy.data.objects:
