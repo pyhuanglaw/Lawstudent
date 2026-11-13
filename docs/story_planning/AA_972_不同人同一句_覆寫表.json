@@ -1,0 +1,128 @@
+[
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "你中間是不是睡著了？沒關係，我有幫你看。\"}, {\"who\": \"narr\", \"text\": \"她把爆米花的空桶遞給你，順手勾了一下你的手。",
+  "new": "你中間是不是睡著了？沒關係，我有幫你看。\"}, {\"who\": \"narr\", \"text\": \"她把你們兩個的空杯疊在一起拿去丟，回來的時候站得比剛剛近。",
+  "speaker": "narr（heroine_02）",
+  "note": "old 帶前一句才唯一（七位同一句旁白）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "你剛剛一直在看我。我知道。\"}, {\"who\": \"narr\", \"text\": \"她把爆米花的空桶遞給你，順手勾了一下你的手。",
+  "new": "你剛剛一直在看我。我知道。\"}, {\"who\": \"narr\", \"text\": \"她把桶子裡最後一顆爆米花放進你手裡。",
+  "speaker": "narr（heroine_03）",
+  "note": "old 帶前一句才唯一（七位同一句旁白）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "剛剛那一段，你抓我的手抓好緊。\"}, {\"who\": \"narr\", \"text\": \"她把爆米花的空桶遞給你，順手勾了一下你的手。",
+  "new": "剛剛那一段，你抓我的手抓好緊。\"}, {\"who\": \"narr\", \"text\": \"她把空桶扣到你頭上，自己先笑出來。",
+  "speaker": "narr（heroine_04）",
+  "note": "old 帶前一句才唯一（七位同一句旁白）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "你剛剛有一半的時間在看我，不是在看片。\"}, {\"who\": \"narr\", \"text\": \"她把爆米花的空桶遞給你，順手勾了一下你的手。",
+  "new": "你剛剛有一半的時間在看我，不是在看片。\"}, {\"who\": \"narr\", \"text\": \"她把空桶和你的杯子一起收走，回來的時候，手在你的手背上停了一下。",
+  "speaker": "narr（heroine_05）",
+  "note": "old 帶前一句才唯一（七位同一句旁白）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "你剛剛遞面紙給我的時候，自己眼眶也紅紅的，我有看到。\"}, {\"who\": \"narr\", \"text\": \"她把爆米花的空桶遞給你，順手勾了一下你的手。",
+  "new": "你剛剛遞面紙給我的時候，自己眼眶也紅紅的，我有看到。\"}, {\"who\": \"narr\", \"text\": \"她把空桶抱在胸前，等你站起來才一起走。",
+  "speaker": "narr（classmate_peishan）",
+  "note": "old 帶前一句才唯一（七位同一句旁白）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "剛剛那段，你是不是有偷看我？\"}, {\"who\": \"narr\", \"text\": \"她把爆米花的空桶遞給你，順手勾了一下你的手。",
+  "new": "剛剛那段，你是不是有偷看我？\"}, {\"who\": \"narr\", \"text\": \"她把空桶塞給你拿，自己勾住你的手臂。",
+  "speaker": "narr（kexin）",
+  "note": "old 帶前一句才唯一（七位同一句旁白）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "\"who\": \"heroine_02\", \"text\": \"（陰陽海）海有兩種顏色。\"",
+  "new": "\"who\": \"heroine_02\", \"text\": \"（陰陽海）海有兩種顏色。像拿鐵沒攪開。\"",
+  "speaker": "heroine_02",
+  "note": "old 帶 who 才唯一（幾位同一句）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "\"who\": \"heroine_05\", \"text\": \"（陰陽海）海有兩種顏色。\"",
+  "new": "\"who\": \"heroine_05\", \"text\": \"（陰陽海）一邊黃一邊藍。是礦。\"",
+  "speaker": "heroine_05",
+  "note": "old 帶 who 才唯一（幾位同一句）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "\"who\": \"kexin\", \"text\": \"（陰陽海）海有兩種顏色。\"",
+  "new": "\"who\": \"kexin\", \"text\": \"（陰陽海）海分成兩半欸。誰畫的線？\"",
+  "speaker": "kexin",
+  "note": "old 帶 who 才唯一（幾位同一句）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "\"who\": \"heroine_05\", \"text\": \"（往山上的步道）好陡。\"",
+  "new": "\"who\": \"heroine_05\", \"text\": \"（往山上的步道）坡很陡。走慢一點，不用跟我比。\"",
+  "speaker": "heroine_05",
+  "note": "old 帶 who 才唯一（幾位同一句）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "\"who\": \"classmate_peishan\", \"text\": \"（往山上的步道）好陡。\"",
+  "new": "\"who\": \"classmate_peishan\", \"text\": \"（往山上的步道）好陡！你走前面，我拉你衣服。\"",
+  "speaker": "classmate_peishan",
+  "note": "old 帶 who 才唯一（幾位同一句）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "\"who\": \"kexin\", \"text\": \"（往山上的步道）好陡。\"",
+  "new": "\"who\": \"kexin\", \"text\": \"（往山上的步道）好陡。你不准笑我喘。\"",
+  "speaker": "kexin",
+  "note": "old 帶 who 才唯一（幾位同一句）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "\"who\": \"heroine_04\", \"text\": \"你站進去，我幫你拍。\"",
+  "new": "\"who\": \"heroine_04\", \"text\": \"你站進去。我拍，我構圖很強。\"",
+  "speaker": "heroine_04",
+  "note": "old 帶 who 才唯一（幾位同一句）"
+ },
+ {
+  "files": [
+   "date_lines.js"
+  ],
+  "old": "\"who\": \"heroine_05\", \"text\": \"你站進去，我幫你拍。\"",
+  "new": "\"who\": \"heroine_05\", \"text\": \"你站那裡。光從左邊來，剛好。\"",
+  "speaker": "heroine_05",
+  "note": "old 帶 who 才唯一（幾位同一句）"
+ }
+]
