@@ -1,7 +1,7 @@
 /* ===== 她們主動約你（HEROINE-ASKS-1028；AA_494 b3ecc563c；使用者 2026-10-28 00:0x「為什麼都要我主動約女生 如果變熟好感度高 他們不能自己約我嗎 戶外景點也可阿」「超沒有互動感」，USER_WANTS X118★）=====
    熟了、好感高的女主角（七位）自己用手機約你：
    - 日常（INV 的 8 處）：前一天晚上照她的時間傳 → INV 的邀約（手機上「答應／改天／不了」），答應以後時間到兩人都在就開始（INV 原本的見面、地點記憶、對方約的又赴約信任 +1）。
-     她本來就在那裡的（語彤顧店的麵店、週六的溫州街，here）＝只問一聲；答應了玩家直接去（INV 的 here，AA_494 第 3 節）。
+     她本來就在那裡的（語彤上班的一盞（AA_939 第 4 節）、週六的溫州街，here）＝只問一聲；答應了玩家直接去（INV 的 here，AA_494 第 3 節）。
    - 週末校外（DATE 的地點）：週三晚上傳，約週六或週日；答應＝DATE.book（by:'npc'，算一次正式校外約會）。
    規則（門檻、頻率、不約的時候、優先順序）照 AA_494 第 0 節；地點、時間、台詞照第 1～7 節（src/data/heroine_asks.js）。
    流程：每天 12:00 以後第一次（S.phone，STORY.PHONE_RULES）決定今天要不要傳、傳哪一則（S.plan），到了她傳訊息的時間才真的傳（S.fire；睡過頭、跳時間照原本的時間補在手機裡）。
@@ -14,7 +14,7 @@
      測試：node tests/aa539_sis_reread_unit.js
    AA_549 3-6（企劃線 AA_549 第 3 節 3-6；第①級；AA 回 11 題第 8～10 題）：寒暑假的假期版（data 的 vacTerm）——那一天是寒暑假、她有那一季的一句（學姊只在週末）＝只換同一個地點的那一句
      （其他地點照 AA_532 的放假版；daily 沒有那個地點的＝多一筆）；見面時她的第一句換成 first：INV 的見面（invites3d.js S.meet 叫 S.meetFirst）、
-     她本來就在那裡的（here：語彤的麵店、芷若上班的 Café）＝那天到了那裡跟她說話的時候（STORY.PRE_TALK）。sent 多記 vs（'summer'／'winter'）、firstSaid（第一句說過了）。測試：node tests/aa549_vacgap_unit.js */
+     她本來就在那裡的（here：語彤上班的一盞、芷若上班的 Café）＝那天到了那裡跟她說話的時候（STORY.PRE_TALK）。sent 多記 vs（'summer'／'winter'）、firstSaid（第一句說過了）。測試：node tests/aa549_vacgap_unit.js */
 'use strict';
 const HASK=(function(){
   const S={};

@@ -4,10 +4,10 @@
    daily：INV 的地點（invites.js 的 id）；th＝門檻（DATE.stageNum 3＝朋友、5＝朋友＋她的戀愛 ≥30；交往中全部都約）；
      pre／dat＝交往前／交往中那一句：d＝約哪一天（next 明天、sat 週六、sun 週日、today 今天晚上：句子寫「今天晚上」「晚上要不要」的，那天 17:00 傳）、
      h＝幾點（句子寫了鐘點就照句子；沒寫的照 AA_494 0-3 從 INV.times 挑，第一個不行換下一個）；off＝句子說「明天沒班」（那天整天沒有咖啡廳的班才約）
-     here＝她本來就在那裡（語彤顧店的麵店、週六的溫州街）：只問一聲，答應了玩家直接去（INV 的 here，AA_494 第 3 節）
+     here＝她本來就在那裡（語彤上班的一盞（AA_939 第 4 節）、週六的溫州街）：只問一聲，答應了玩家直接去（INV 的 here，AA_494 第 3 節）
    out：DATE 的地點；pre＝第 6 階、交往前才有（沒有 pre＝交往中才約）；d＝週六／週日（句子寫的那一天；「這個週末」＝週六）；
      depart＝出發時間（AA_494 0-3：半日 13:00、晚上 18:00、一日 09:00；子晴週末兩點以前不約＝14:00；金瓜石句子寫「九點四十分那一班」＝09:00 出發；學姊碧潭「傍晚」＝15:00）
-   later、no、yes＝玩家選「改天」「不了」「答應」以後她回的那一句；yesBy＝某個地點換一句（語彤的麵店）；yesOut＝校外那一種換一句（AA_532 第 3 節，芷若）
+   later、no、yes＝玩家選「改天」「不了」「答應」以後她回的那一句；yesBy＝某個地點換一句（語彤的一盞）；yesOut＝校外那一種換一句（AA_532 第 3 節，芷若）
    vac＝寒暑假的放假版（AA_532 第 3 節，企劃線 ade80d22f，台詞一字不差）：line 換句；h 換時間（學姊放假改下午，照 AA_494 0-3 從 INV.times 挑下午的 15:30）；wkend＝只有週末用放假版（平日照學期中那一句）
    alt＝輪流的另外幾句（可以有自己的 place、h）、noLab＝有研究室以前換句（AA_539，只有學姊；見學姊那一段的註解）
    vacTerm＝寒暑假的假期版（AA_549 3-6，企劃線 AA_549 第 3 節 3-6；AA 2026-10-31 回 11 題第 8～10 題，D109；台詞一字不差）：{summer|winter:{place, th, here, wkend, v:{d, h, off, line＝她傳, first＝見面時她的第一句}}}——
@@ -17,7 +17,7 @@
      here、d、h 寫在這裡的蓋過那一筆原本的（芷若寒假 Café 是她上班時去店裡＝here、今天；子晴的一盞是明天）*/
 'use strict';
 const HASK_DATA={
-  source:'AA_494 b3ecc563c',
+  source:'AA_494 b3ecc563c；AA_939 bfe0185431（可昕、沛珊、以安、語彤那幾格以 AA_939 為準）',
   people:{
     heroine_01:{ send:21.5,
       daily:[
@@ -25,7 +25,7 @@ const HASK_DATA={
         {place:'cafe',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我要去 Café 寫報告。你要寫東西的話，一起。',vac:{line:'明天下午我要去 Café 整理上學期的筆記。你要寫東西的話，一起。'}},dat:{d:'next',h:[15.5,17.5],line:'明天 Café。今天不寫報告，就喝咖啡。',vac:{line:'明天 Café。放假，就喝咖啡。'}}},
         {place:'noodle',th:5,pre:{d:'next',h:[18],line:'明天六點，公館燒臘。吃完我要回去寫報告，所以準時。',vac:{line:'明天六點，公館燒臘。吃完我要回去讀書，所以準時。'}},dat:{d:'next',h:[19,17.5],line:'明天晚上，阿鳳。我想吃叉燒。'}},
         {place:'wenzhou',th:5,pre:{d:'next',h:[16],line:'明天下午四點，溫州街。我空了兩個小時，沒有要做什麼。'},dat:{d:'next',h:[16,15.5],line:'明天下午，溫州街。這次什麼都沒排。'}},
-        {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天六點半，椰影大道。起得來就來。'},dat:{d:'next',h:[6.5],line:'明天六點半。我在晨思鐘前面。'}}],
+        {place:'lake',th:5,pre:{d:'next',h:[17.5],line:'我讀不下去了。明天傍晚，映月湖走一圈。'},dat:{d:'next',h:[17.5],line:'明天傍晚，映月湖。走一圈再回去讀。'}}],   /* AA_939 第 3 節（AA_565 S2：她不每天六點跑步）：晨跑那一格換映月湖、傍晚（INV.times 17:30）*/
       out:[
         {loc:'D12',pre:{d:'sat',depart:13,line:'週六下午有空嗎？我想去大稻埕。我查了，碼頭的夕陽是五點四十分。'},dat:{d:'sat',depart:13,line:'週六，大稻埕。夕陽五點四十分。你負責準時。'}},
         {loc:'D01',pre:{d:'sun',depart:13,line:'華山這個月有一個展。週日下午一點半，門口。'},dat:{d:'sun',depart:13,line:'週日下午，華山。展我查好了，看完去吃東西。'}},
@@ -48,16 +48,16 @@ const HASK_DATA={
       later:'好啦，那下次。', no:'喔。好啦。', yes:'好！那明天見。', yesOut:'好！那到時候見。' },
     heroine_03:{ send:21+40/60,
       daily:[
-        {place:'noodle',th:3,here:true,pre:{d:'next',h:[19,17.5],line:'秀琴姨說明天有滷牛腱。……她叫我問你要不要來。'},dat:{d:'next',h:[21],line:'明天晚上來店裡。我顧到九點，九點以後一起吃。'}},
+        {place:'teahouse',th:3,here:true,pre:{d:'sat',h:[15],line:'週六下午我在一盞上班。你來的話，我泡給你。'},dat:{d:'sat',h:[15],line:'週六下午來一盞。五點我下班，下班以後一起吃。'}},   /* AA_939 第 4 節：她週六、日 13:00～17:00 在一盞上班（寒暑假也是）＝here；原本是燒臘店那一格 */
         {place:'library',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我在總圖寫報告。三樓。……你要來的話，旁邊有位子。',vac:{line:'明天下午我在總圖看書。三樓。……你要來的話，旁邊有位子。'}},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。三樓，我旁邊。'}},
         {place:'wenzhou',th:5,here:true,pre:{d:'sat',h:[15.5,14],line:'週六下午我在溫州街。你來的話，我們走到公園。'},dat:{d:'sat',h:[15.5,14],line:'週六下午溫州街。我帶你去一家你沒去過的。'}},
         {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上六點半。跑完我要回去洗澡，下午要上班。'},dat:{d:'next',h:[6.5],line:'明天六點半。跑完一起吃早餐，我再去茶屋。'}}],
       out:[
         {loc:'D21',pre:{d:'sun',depart:13,line:'這個週日我跟蘇姨請假了。三峽，你去過嗎？'},dat:{d:'sun',depart:13,line:'週日去三峽。搭捷運再轉公車，我查好了。'}},
         {loc:'D09',dat:{d:'sun',depart:13,line:'週日下午，貓空。我想坐纜車。……我沒坐過。'}}],
-      vacTerm:{ summer:{place:'noodle',v:{d:'next',h:[19,17.5],line:'明天店裡不忙。你要來就來。',first:'阿姨說夏天要吃涼麵。我做的。'}},
-        winter:{place:'noodle',v:{d:'next',h:[19,17.5],line:'店裡有麻油雞。明天晚上。',first:'多喝湯。阿姨說的。'}} },   /* AA_549 3-6：換麵店那一句（她顧店的麵店，here 照那一筆）；總圖照 AA_532 放假版 */
-      later:'好。', no:'嗯。沒關係。', yes:'好。', yesBy:{noodle:'好。……我跟阿姨說。'} },
+      vacTerm:{ summer:{place:'teahouse',v:{d:'sat',h:[15],line:'週末我在一盞。你要來就來。',first:'蘇姨說夏天要喝冷泡。我泡的。'}},
+        winter:{place:'teahouse',v:{d:'sat',h:[15],line:'天冷，一盞這禮拜有桂圓紅棗茶。週末來喝。',first:'多喝一點。蘇姨說的。'}} },   /* AA_549 3-6 → AA_939 第 4 節：換一盞那一句（她上班的一盞，here 照那一筆）；總圖照 AA_532 放假版 */
+      later:'好。', no:'嗯。沒關係。', yes:'好。', yesBy:{teahouse:'好。……我跟蘇姨說。'} },
     heroine_04:{ send:23.5,
       daily:[
         {place:'gym_badminton',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午打羽球 我需要報仇'},dat:{d:'next',h:[15.5,17.5],line:'明天羽球 這次我要贏一球'}},
@@ -95,24 +95,24 @@ const HASK_DATA={
       vacTerm:{ summer:{place:'library',wkend:true,v:{d:'next',h:[15.5],line:'明天下午有空嗎。總圖。冷氣很強。',first:'坐吧。我讀我的，你讀你的。'}},   /* AA 回第 9 題：改約總圖、只排週末 15:30（法圖寒暑假週末不開）*/
         winter:{place:'library',wkend:true,v:{d:'next',h:[10,9],line:'明天早上，總圖。一起讀到中午，然後吃熱的。',first:'先讀。中午再聊。'}} },   /* AA_549 3-6：換總圖那一句；wkend：放假平日照學期中（平日 9～17 在研究室，AA-B 10-30 05:12 第 1 點）*/
       later:'好。哪天可以，告訴我。', no:'好。下次。', yes:'好。' },
-    classmate_peishan:{ send:21,
+    classmate_peishan:{ send:21,   /* AA_939 第 2 節（PEISHAN-VOICE-1110）：舊個性的八句換掉（一直有問題要問、算客運錢、早起、問老闆店名由來）；brunch pre 照留 */
       daily:[
-        {place:'library',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午要不要一起去總圖？我有一題想問你！'},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖！我坐你旁邊，不吵你。'}},
-        {place:'brunch',th:3,pre:{d:'sat',h:[10,9],line:'週六早上 SUNNY SIDE！我上次沒看清楚他們怎麼翻蛋。'},dat:{d:'sat',h:[10,9],line:'週六早上 SUNNY SIDE！我想跟你說我家的蛋怎麼翻。'}},
-        {place:'wenzhou',th:5,pre:{d:'today',h:[19,21],line:'晚上要不要走一下溫州街？我有很多問題，走路比較好問。'},dat:{d:'today',h:[19,21],line:'今天晚上溫州街好不好？我想走慢一點。'}},
-        {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上要不要跑步？我五點就醒了……六點半等你！'},dat:{d:'next',h:[6.5],line:'明天六點半！我先到，你慢慢來。'}}],
+        {place:'library',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午總圖？你不來的話，我會在群組說你怕我。'},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖！我坐你旁邊，保證只吵你一點點。'}},
+        {place:'brunch',th:3,pre:{d:'sat',h:[10,9],line:'週六早上 SUNNY SIDE！我上次沒看清楚他們怎麼翻蛋。'},dat:{d:'sat',h:[10,9],line:'週六早上 SUNNY SIDE！這次你點，我負責嫌。'}},
+        {place:'wenzhou',th:5,pre:{d:'today',h:[19,21],line:'晚上要不要走一下溫州街？我吃太撐了，需要一個人陪我散步。'},dat:{d:'today',h:[19,21],line:'今天晚上溫州街好不好？我想走慢一點。'}},
+        {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上要不要跑步？跑完早餐我請！六點半等你！'},dat:{d:'next',h:[6.5],line:'明天六點半！我先到，你慢慢來。'}}],
       out:[
-        {loc:'D17',pre:{d:'sat',depart:13,line:'週六去野柳好不好？客運很便宜！我想看女王頭還在不在。'},dat:{d:'sat',depart:13,line:'週六野柳！我查了客運，一個人來回不到兩百。'}},
-        {loc:'D21',pre:{d:'sun',depart:13,line:'週日要不要去三峽？我想吃金牛角，然後問老闆為什麼叫金牛角。'},dat:{d:'sun',depart:13,line:'週日三峽！這次換我帶路。'}},
+        {loc:'D17',pre:{d:'sat',depart:13,line:'週六去野柳好不好？我想看女王頭還在不在。'},dat:{d:'sat',depart:13,line:'週六野柳！客運我查好了，你負責叫我起床。'}},
+        {loc:'D21',pre:{d:'sun',depart:13,line:'週日要不要去三峽？老街的金牛角，我要比三家哪一家最好吃。'},dat:{d:'sun',depart:13,line:'週日三峽！這次換我帶路。'}},
         {loc:'D08',dat:{d:'sun',depart:13,line:'週日去動物園！我想看大貓熊睡覺。'}}],
       later:'好！那你想好哪天跟我說喔。', no:'好喔……那下次！', yes:'好！！' },
     kexin:{ send:21.5,
       daily:[   /* 交往中不另外約日常：已經有每週的「我們的日子」（KX_OUR_DAY，kxod3d.js）；表上只有交往前的句子（AA_494 第 7 節）*/
-        {place:'noodle',th:3,pre:{d:'next',h:[18],line:'明天我去首都帝大辦事。六點，公館燒臘。你沒事就來。'}},
-        {place:'cafe',th:3,pre:{d:'next',h:[15],line:'明天下午我在公館。三點，2:30 AM。'}},   /* 店名換 2:30 AM（AA_494 企劃線 0777c92ac；讀稿的換字表 tools/story/aa655_fix.json pairs）*/
-        {place:'wenzhou',th:5,pre:{d:'next',h:[19,21],line:'明天晚上我在公館。吃完走一段，溫州街。'}}],
+        {place:'noodle',th:3,pre:{d:'next',h:[18],line:'明天六點，公館燒臘。你沒事就來。'}},
+        {place:'cafe',th:3,pre:{d:'next',h:[15],line:'明天下午三點，2:30 AM。我去寫報告，你也來。'}},   /* 店名換 2:30 AM（AA_494 企劃線 0777c92ac；讀稿的換字表 tools/story/aa655_fix.json pairs）*/
+        {place:'wenzhou',th:5,pre:{d:'next',h:[19,21],line:'明天晚上吃完，走一段溫州街。'}}],
       out:[
-        {loc:'D09',pre:{d:'sat',depart:13,line:'週六下午，貓空。從我們學校後山上去，我帶路。'},dat:{d:'sat',depart:13,line:'週六下午，貓空。從後山上去。這次換你帶路。'}},
+        {loc:'D09',pre:{d:'sat',depart:13,line:'週六下午，貓空。走步道上去，坐纜車下來。'},dat:{d:'sat',depart:13,line:'週六下午，貓空。你走前面，我跟著。'}},   /* AA_939 第 1 節（CANON-NO-ECON-1112）：外校前提的句子換掉 */
         {loc:'D10',pre:{d:'sun',depart:13,line:'週日，碧潭。我要划船，你負責划。'},dat:{d:'sun',depart:13,line:'週日，碧潭。船我划，你坐好。'}},
         {loc:'D20',dat:{d:'sun',depart:13,line:'週日去烏來。泡腳，然後吃山豬肉香腸。'}}],
       later:'好。哪天。', no:'……好。', yes:'好。' }
