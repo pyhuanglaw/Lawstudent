@@ -10,9 +10,9 @@
 | 林家乾麵 lin_interior | 已整合（f6449442c） | 8229212a9 | `lin_v2.patch` | 無 |
 | 花序 flower_notes_interior | 已整合（f6449442c） | 62e19bd05 | `flower_v3.patch` | 無（P2 花束改 Poly Haven 花：LAWWW2-C 11-13 23:19 自己接手） |
 | 公館燒臘 shaola_interior | 已整合（19399e5d3） | 37a58d3de | `shaola_v8.patch` | 無 |
-| 阿德影印 ade | v2 LAWWW2 PASS；v2.1（便利貼 P2）已交 LAWWW2 驗收 | 見本次 commit | `ade_v21.patch`（底 bf9d623e6，整份取代 ade_v2.patch） | 無 |
+| 阿德影印 ade | v2.1 LAWWW2 PASS（LAWWW2 在 626c128e54 上和南洋合成一包給 LAWWW） | 見本次 commit | `ade_v21.patch`（底 bf9d623e6，整份取代 ade_v2.patch） | 無 |
 | 洋洋鹹酥雞 yangyang_interior | 烘焙中（v2b） | 181e2a27c（腳本） | 還沒出 | 交件前：17:30 拍圖（店 17:00 才開，13:00 拍會被請出去拍到街上） |
-| 南洋戲院 nanyang_lobby | LAWWW2 PASS（v6，轉 LAWWW 套 patch） | dc93e7768 | `nanyang_v6.patch`（底 4556c4be0） | P2（LAWWW2，下一版）：①飲料櫃的瓶子是純色瓶形 ②櫃檯那疊紅杯子是一整塊 ③入口左邊黑色立式方箱純黑（參考圖沒有，換掃描或拿掉） |
+| 南洋戲院 nanyang_lobby | LAWWW2 PASS（v6，LAWWW2 和阿德 v2.1 合成一包給 LAWWW） | dc93e7768 | `nanyang_v6.patch`（底 4556c4be0） | P2（LAWWW2，下一版）：①飲料櫃的瓶子是純色瓶形 ②櫃檯那疊紅杯子是一整塊 ③入口左邊黑色立式方箱純黑（參考圖沒有，換掃描或拿掉） |
 
 ## 目前做到哪（2026-11-13 23:15）
 - 南洋戲院 v6：已交 LAWWW2（nanyang_v6.patch、nanyang_cmp.jpg）。
