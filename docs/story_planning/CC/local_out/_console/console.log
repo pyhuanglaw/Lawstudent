@@ -1,14 +1,3 @@
-[22:21:52] 正在跑：C1112_TZYUE（已跑 11 分／上限 40 分）、C1112_SEASON3（已跑 3 分／上限 40 分）、C1112_GIFTDRINK（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
-[22:25:16] [res] cpu=52% mem=53% (16.7/31.4 GB) chrome_testing=10  END C1112_GIFTDRINK
-[22:25:16] D158：推送前把 2 處舊序章／外校的字換成代號
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       1627e0f5ad..1ea19d4a00  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:25:40] ==== END   C1112_GIFTDRINK  exit=0  316s   ====
-[22:25:43] skip P0_STUTTER2_v91025_dsf1 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[22:25:43] skip P0_STUTTER2_v91025_dsf1_25 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[22:25:43] skip P0_STUTTER2_v91025_dsf1_5 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[22:25:44] skip P0_STUTTER2_v91025_dsf2 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
 [22:25:44] skip P0_SHOPVIEW_2771_tz3 (already done on 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37)
 [22:25:44] skip P0_STUTTER_v91021 (already done on aa0f3bcd30eea217ec732963851ea5f3b35e8d97)
 [22:25:44] skip P0_STUTTER_v91025 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
@@ -1998,3 +1987,14 @@
 [04:11:04] [res] cpu=5% mem=45% (14.2/31.4 GB) chrome_testing=10  START CANON458_INV_LAWLIB_r3
 [04:11:54] 正在跑：CANON458_ENC（已跑 36 分／上限 60 分）、CANON458_DATE（已跑 35 分／上限 50 分）、CANON458_INV_LAWLIB_r3（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [04:13:19] [res] cpu=18% mem=42% (13.4/31.4 GB) chrome_testing=10  END CANON458_INV_LAWLIB_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       adc420fee8..20e541d75e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:13:36] ==== END   CANON458_INV_LAWLIB_r3  exit=1  137s   ====
+[04:13:39] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[04:13:39] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[04:13:39] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[04:13:39] memory 43% before starting CANON458_AN_BEAT6_r3 (2 running)
+[04:13:39] ==== START CANON458_AN_BEAT6_r3  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[04:13:42] [res] cpu=7% mem=43% (13.6/31.4 GB) chrome_testing=10  START CANON458_AN_BEAT6_r3
+[04:15:47] [res] cpu=0% mem=44% (14.0/31.4 GB) chrome_testing=10  END CANON458_AN_BEAT6_r3
