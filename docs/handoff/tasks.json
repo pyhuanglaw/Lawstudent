@@ -54827,7 +54827,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【11-13 13:1x LAWWW-C】同步 BB 新版 place_gate_bb.json（BB 分支 03d69af585：泰米 CC0 v1 部分、各店 pending 更新）→ place_gate --write 重產 SHOP_STANDARD_STATUS（47 間＋攤販 19；PASS 770、已知未過 26、例外 13、第二層 178）。剩：程式拼的道具（非 GLB）第一層量不到。｜11-12 21:1x LAWWW-C：地點關卡第一層加「質感（D159）」量測（每間店模型零件數、沒貼圖純色 %、方塊個數；純色≥50% 或方塊≥25% 標★警告，指向 SHOP-REALISM-1112），只量不判、BB 看圖判；SHOP_STANDARD_STATUS.md 重產（47 間：24 間★）。還沒做：程式拼的道具（非 GLB）第一層量不到、同步 BB 新版 place_gate_bb.json。",
+   "next": "【11-13 13:2x LAWWW-C】試做「程式拼的道具」第一層量測（Node 裡建好每一區、數場景裡沒貼圖的 Box／Cylinder／Sphere）：48 間結果不可靠——數到的多半是人物替身與 GLB 載入前的備用零件（每間 6 顆球＝人數的倍數），17 間的零件建在沒掛進 E.scene 的群組量不到；不收進 place_gate（會給 BB 錯的數字），這一項維持第二層看圖判。PLACE-GATE-TOOL-1112 第一層部分到此為止。｜【11-13 13:1x LAWWW-C】同步 BB 新版 place_gate_bb.json（BB 分支 03d69af585：泰米 CC0 v1 部分、各店 pending 更新）→ place_gate --write 重產 SHOP_STANDARD_STATUS（47 間＋攤販 19；PASS 770、已知未過 26、例外 13、第二層 178）。剩：程式拼的道具（非 GLB）第一層量不到。｜11-12 21:1x LAWWW-C：地點關卡第一層加「質感（D159）」量測（每間店模型零件數、沒貼圖純色 %、方塊個數；純色≥50% 或方塊≥25% 標★警告，指向 SHOP-REALISM-1112），只量不判、BB 看圖判；SHOP_STANDARD_STATUS.md 重產（47 間：24 間★）。還沒做：程式拼的道具（非 GLB）第一層量不到、同步 BB 新版 place_gate_bb.json。",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
