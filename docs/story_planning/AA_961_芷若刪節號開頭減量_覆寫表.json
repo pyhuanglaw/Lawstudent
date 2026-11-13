@@ -1,0 +1,133 @@
+[
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……連廣告信也是。",
+  "new": "連廣告信也是。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……加了兩包糖才喝得下去。",
+  "new": "加了兩包糖才喝得下去。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "termend_opts.js"
+  ],
+  "old": "……你這個人。",
+  "new": "你這個人。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "termend_opts.js"
+  ],
+  "old": "……算了，坐著。",
+  "new": "算了，坐著。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……你怎麼知道？",
+  "new": "你怎麼知道？",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……還沒。你不要每次都問這個。",
+  "new": "還沒。你不要每次都問這個。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "text:'……不要笑。'",
+  "new": "text:'不要笑。'",
+  "speaker": "heroine_02",
+  "note": "同檔還有別人說的同一句（或註解裡提到），old 帶前後的程式碼才唯一"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……很多部。",
+  "new": "很多部。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……這裡是咖啡廳。",
+  "new": "這裡是咖啡廳。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "if:GFO('heroine_02'),speaker:'heroine_02',expression:'smile',text:'……我也是。'",
+  "new": "if:GFO('heroine_02'),speaker:'heroine_02',expression:'smile',text:'我也是。'",
+  "speaker": "heroine_02",
+  "note": "同檔還有別人說的同一句（或註解裡提到），old 帶前後的程式碼才唯一"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……可是你沒來投票。",
+  "new": "可是你沒來投票。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……留到八月喔。",
+  "new": "留到八月喔。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "invites.js"
+  ],
+  "old": "……應該很難看吧。",
+  "new": "應該很難看吧。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "vac_activities.js"
+  ],
+  "old": "……你來的話，我晚一點關燈。",
+  "new": "你來的話，我晚一點關燈。",
+  "speaker": "heroine_02",
+  "all": true
+ },
+ {
+  "files": [
+   "r2y3b_events.js"
+  ],
+  "old": "……她問我練好了沒。我說，練好了。所以最近想換一種：兩個人看。",
+  "new": "她問我練好了沒。我說，練好了。所以最近想換一種：兩個人看。",
+  "speaker": "heroine_02"
+ },
+ {
+  "files": [
+   "r2y3b_events.js"
+  ],
+  "old": "……我在那邊，也跟你同一天看。時差七個小時。算同一天。",
+  "new": "我在那邊，也跟你同一天看。時差七個小時。算同一天。",
+  "speaker": "heroine_02"
+ }
+]
