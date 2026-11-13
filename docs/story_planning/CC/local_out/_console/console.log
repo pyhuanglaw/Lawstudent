@@ -1,17 +1,3 @@
-[19:41:52] 正在跑：CANON_NEWGAME_FULL（已跑 110 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
-[19:46:52] 正在跑：CANON_NEWGAME_FULL（已跑 115 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
-[19:51:52] 正在跑：CANON_NEWGAME_FULL（已跑 120 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
-[19:55:46] [res] cpu=2% mem=29% (9.2/31.4 GB) chrome_testing=0  END CANON_NEWGAME_FULL
-[19:55:47] D158：推送前把 9 處舊序章／外校的字換成代號
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       13a08c0b2a..540cfeae87  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:56:02] ==== END   CANON_NEWGAME_FULL  exit=0  7444s   ====
-[19:56:05] memory 30% before starting DN_PROGRAMS_3414 (0 running)
-[19:56:05] ==== START DN_PROGRAMS_3414  (probe @ 341436a25ed53942df4059d634d953a93e6ed988) ====
-[19:56:08] [res] cpu=2% mem=30% (9.5/31.4 GB) chrome_testing=0  START DN_PROGRAMS_3414
-[19:56:52] 正在跑：DN_PROGRAMS_3414（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
-[19:57:34] [res] cpu=2% mem=30% (9.5/31.4 GB) chrome_testing=0  END DN_PROGRAMS_3414
     To https://github.com/pyhuanglaw/Lawstudent.git
        540cfeae87..4decad7c5b  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
@@ -1998,3 +1984,17 @@
 [01:01:52] 正在跑：CANON_NEWGAME_B2_r2（已跑 33 分／上限 240 分）、CANON_NEWGAME_FULL_d21c（已跑 18 分／上限 600 分）、STUDY_SE06_4af4_r2（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:03:35] [res] cpu=5% mem=43% (13.6/31.4 GB) chrome_testing=10  END CANON_NEWGAME_B2_r2
 [01:03:36] D158：推送前把 2 處舊序章／外校的字換成代號
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0ca6b3a94a..0dac8a1a0c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:04:17] ==== END   CANON_NEWGAME_B2_r2  exit=1  2103s   ====
+[01:04:31] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[01:04:31] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[01:04:31] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[01:04:31] memory 45% before starting SHOP8_B3_c94f (2 running)
+[01:04:31] ==== START SHOP8_B3_c94f  (probe @ c94f2bf7d361defdc7549386cadb7acd4e56e355) ====
+[01:04:34] [res] cpu=2% mem=45% (14.3/31.4 GB) chrome_testing=10  START SHOP8_B3_c94f
+[01:04:34] worktree add c94f2bf7d361defdc7549386cadb7acd4e56e355: invalid reference - fetching main and the commit itself
+[01:06:52] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 23 分／上限 600 分）、STUDY_SE06_4af4_r2（已跑 7 分／上限 20 分）、SHOP8_B3_c94f（已跑 2 分／上限 160 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:11:52] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 28 分／上限 600 分）、STUDY_SE06_4af4_r2（已跑 12 分／上限 20 分）、SHOP8_B3_c94f（已跑 7 分／上限 160 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:14:54] [res] cpu=4% mem=45% (14.2/31.4 GB) chrome_testing=10  END STUDY_SE06_4af4_r2
