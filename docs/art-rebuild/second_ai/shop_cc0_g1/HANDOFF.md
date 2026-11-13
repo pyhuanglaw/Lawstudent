@@ -7,14 +7,16 @@
 
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的 |
 |---|---|---|---|---|
-| 小路 komichi | 已整合（v1 f6449442c7、v2 a1a4e29507、v3 在開發分支 4556c4be0c 裡） | 58a50cc2cb | `docs/art-rebuild/second_ai/wip/shop_cc0_g1_1113/komichi_v3_cc0.patch` | 無 |
-| SUNNY SIDE sunnyside | 已整合（v2 a1a4e29507、v3 在開發分支） | 58a50cc2cb | `…/sunnyside_v3_cc0.patch` | 無 |
-| 一盞 yizhan | 已整合（開發分支 4556c4be0c 裡） | 58a50cc2cb | `…/yizhan_cc0.patch` | 無 |
-| 木曜日 mokuyobi | v2 已整合；**v2.1 烘焙中**（LAWWW2-C P2） | 腳本 cc5bdeeb9c | v2：`…/mokuyobi_cc0.patch`；v2.1 還沒出 | P2 ①東牆矮櫃盆栽換 Poly Haven potted_plant_02（腳本已改）②店門鏡頭右上角的吊盆黃金葛搬到 (1.8, 3.6)（腳本已改、未烘焙截圖確認過） |
-| 日常失速 daily_offbeat | v2 已整合；**v2.1 等烘焙**（排在木曜日後面） | 腳本 5cf6d9cc3d | v2：`…/daily_offbeat_cc0.patch`（含狀態表）；v2.1 還沒出 | P2 天花板 13 個吊盆的黃金葛葉片卡換成 Poly Haven fern_02（腳本已改、未烘焙截圖確認過）。東窗晚上的窗景卡 LAWWW2-C 自己處理 |
+| 小路 komichi | v2 已整合（a1a4e29507）；v3（紋路再調淡）LAWWW2 PASS、**等 LAWWW 整合** | 58a50cc2cb | `docs/art-rebuild/second_ai/wip/shop_cc0_g1_1113/komichi_v3_cc0.patch` | 無 |
+| SUNNY SIDE sunnyside | v2 已整合（a1a4e29507）；v3 LAWWW2 PASS、**等 LAWWW 整合** | 58a50cc2cb | `…/sunnyside_v3_cc0.patch` | 無 |
+| 一盞 yizhan | LAWWW2 PASS、**等 LAWWW 整合**（開發分支 4556c4be0c 還是原版） | 58a50cc2cb | `…/yizhan_cc0.patch`（底 19399e5d39） | 無 |
+| 木曜日 mokuyobi | v2 LAWWW2 PASS（沒整合）；**v2.1 已交 LAWWW2 驗收**（取代 v2） | 見 git log | `…/mokuyobi_v21_cc0.patch`（底 4556c4be0c，完整的一份，含狀態表；舊的 mokuyobi_cc0.patch 不要用） | 無（P2 兩項都做了：矮櫃 potted_plant_02、吊盆搬到 (1.8, 3.6)） |
+| 日常失速 daily_offbeat | v2 LAWWW2 PASS（沒整合）；**v2.1 烘焙中**（P2：天花板吊盆換 fern_02，腳本已推） | 腳本 5cf6d9cc3d | v2：`…/daily_offbeat_cc0.patch`；v2.1 烘完出完整的一份取代它 | v2.1 烘焙、截圖、出 patch、交件 |
+
+（11-13 23:2x 更正：先前我跟 LAWWW-C 說「五間都在開發分支」是錯的——我用 `git log --find-object` 查，它也會列出「刪掉」那個檔的 commit。直接比 blob：開發分支只有小路、SUNNY SIDE 的 d8f76fdd4d 版。）
 
 ## 目前做到哪
-- 木曜日 v2.1、日常失速 v2.1：建模腳本改完、推上去了；烘焙在這個容器背景跑（`/tmp/.../scratchpad/bake/mokuyobi21`、`offbeat21`，烘焙中的模型沒有遠端備份——容器沒了就重烘）。
+- 木曜日 v2.1 已交件。日常失速 v2.1：建模腳本改完、推上去了；烘焙在這個容器背景跑（scratchpad/bake/offbeat21，沒有遠端備份——容器沒了就照下面第 3、4 步重烘）。
 - 烘完要做：GLB／光照貼圖放進 `assets/models/env/second_ai/aa_support/`、拍同一組鏡頭（「改之前」截圖在 scratchpad，沒進 repo；並排圖已在 `wip/shop_cc0_g1_1113/` 的 v2 版裡）、跑測試、出 patch（底＝開發分支最新、附 `place_gate --write` 的 `docs/handoff/SHOP_STANDARD_STATUS.md`）、交 LAWWW2-C、副本 LAWWW-C。
 
 ## 本機沒推的東西

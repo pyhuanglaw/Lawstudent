@@ -2,6 +2,7 @@
 
 ## SHOP-CC0-HELP-1113（2026-11-13，D161 第①群幫手）：CC0 化（v3c 之後）
 - 頂點色零件乘 ambientCG 紋路＋法線（顏色照舊）；深色木作併進胡桃木、墨綠沙發用 Fabric030、紅棕單人沙發用 Leather037。Poly Haven：窗台的白盆多肉兩盆、東牆矮櫃上一排精裝書（取代四本方塊）。建模腳本用 LAWWW2 claude/second-ai-env-art 的 v3c 版＋現在的 aa_kit（黃金葛有藤，BB_257 §11），三角形比 v3c 多約 5,300。
+- **v2.1（LAWWW2-C 11-13 P2）**：東牆矮櫃的大葉盆栽換 Poly Haven potted_plant_02；木樑上那盆吊掛黃金葛從 (−1.3, 1.2) 搬到 (1.8, 3.6)（藤垂到店門鏡頭右上角）。69,104 三角形。
 - 共用的做法在 `aa_cc0.py`（`C.enable` 換頂點色材質、照顏色分材質組；`C.ph_put` 放 Poly Haven 模型）；互動點、座位、導航、店員位置都沒動。
 - 匯出：`/opt/blenv/bin/python tools/blender/env_second/aa_support/mokuyobi_interior.py -- --out <tmp>.glb`，再 `IN=<tmp>.glb bash tools/blender/env_second/lightbake/bake_gg_new.sh aa_mokuyobi` 烘光照。
 
