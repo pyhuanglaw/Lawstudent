@@ -1,13 +1,3 @@
-[22:25:54] skip XSDOOR_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[22:25:54] skip XSDOOR_old (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[22:25:54] skip XSPLANT_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[22:25:54] skip XSPLANT_old (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[22:25:54] skip GIFTHOL2_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[22:25:54] skip X223KIT_new (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[22:25:54] skip X223KIT_old (already done on 48aa47a5b71453a04c983e3185201640d2f9449c)
-[22:25:54] skip XSBRICK_new (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[22:25:54] skip XSBRICK_old (already done on 48aa47a5b71453a04c983e3185201640d2f9449c)
-[22:25:54] skip CAMPUSNAV_48aa (already done on 48aa47a5b71453a04c983e3185201640d2f9449c)
 [22:25:54] skip OFFBEAT_ang_new (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
 [22:25:54] skip OFFBEAT_ang_old (already done on be84c86807aa45324daed407996770feb6dbba13)
 [22:25:54] skip GIFTHOL_new (already done on 509b54c2d9d7a2f1ab6f227124abeb4d30747db6)
@@ -1998,3 +1988,13 @@
 [06:44:42] ==== START DATE_LAYER_NODL_76f8  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [06:44:45] [res] cpu=1% mem=45% (14.3/31.4 GB) chrome_testing=10  START DATE_LAYER_NODL_76f8
 [06:46:41] [res] cpu=0% mem=45% (14.3/31.4 GB) chrome_testing=10  END DATE_LAYER_NODL_76f8
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       458cedf6b4..f7a31d3be1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:46:47] ==== END   DATE_LAYER_NODL_76f8  exit=0  119s   ====
+[06:46:51] memory 46% before starting FULL_a_76f8 (2 running)
+[06:46:51] ==== START FULL_a_76f8  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[06:46:54] [res] cpu=9% mem=46% (14.6/31.4 GB) chrome_testing=10  START FULL_a_76f8
+[06:46:54] 正在跑：REL76_social（已跑 22 分／上限 120 分）、DATE_LAYER_76f8（已跑 7 分／上限 60 分）、FULL_a_76f8（已跑 0 分／上限 200 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:51:54] 正在跑：REL76_social（已跑 27 分／上限 120 分）、DATE_LAYER_76f8（已跑 12 分／上限 60 分）、FULL_a_76f8（已跑 5 分／上限 200 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:53:08] [res] cpu=1% mem=45% (14.3/31.4 GB) chrome_testing=10  END DATE_LAYER_76f8
