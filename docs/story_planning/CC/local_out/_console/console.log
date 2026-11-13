@@ -1,20 +1,3 @@
-[22:25:46] skip L118D_H_B_a2 (already done on 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329)
-[22:25:47] skip REGA2DD_linze (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip REGA2DD_dorm (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip REGA2DD_library (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip REGA2DD_wancai (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[22:25:47] skip STAIRDN_B_new (already done on 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329)
-[22:25:47] skip STAIRDN_L_new (already done on 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329)
-[22:25:47] skip STAIRDN_L_new10 (already done on 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329)
-[22:25:47] skip REL_deploy (already done on f312c68cc961c70c7d548fe40c2ae42483d517ba)
-[22:25:47] skip REL_main12 (already done on f312c68cc961c70c7d548fe40c2ae42483d517ba)
-[22:25:47] skip REL_live (already done on f312c68cc961c70c7d548fe40c2ae42483d517ba)
-[22:25:47] skip REL_live_ctl (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:47] skip REL_soc_ctl (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:47] skip REL_soc_new (already done on f312c68cc961c70c7d548fe40c2ae42483d517ba)
-[22:25:47] skip REL_soc_new_r2 (already done on f312c68cc961c70c7d548fe40c2ae42483d517ba)
-[22:25:47] skip REL_soc_ctl_r2 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:47] skip V25_live_pos (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
 [22:25:47] skip V25_main12 (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
 [22:25:47] skip V25_social (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
 [22:25:47] skip V25_reach (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
@@ -1998,3 +1981,20 @@
        07491aa92b..b9e231e331  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [04:48:26] ==== END   REL76_save_v95  exit=1  519s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b9e231e331..2444701bd0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:48:32] ==== END   REL76_ladder  exit=1  249s   ====
+[04:48:44] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[04:48:44] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[04:48:44] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[04:48:44] memory 37% before starting CANON458_AN_BEAT6_r5 (2 running)
+[04:48:44] ==== START CANON458_AN_BEAT6_r5  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[04:48:47] [res] cpu=8% mem=38% (11.9/31.4 GB) chrome_testing=4  START CANON458_AN_BEAT6_r5
+[04:48:48] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[04:48:48] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[04:48:48] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[04:48:48] memory 38% before starting CANON458_AN_BEAT8_r4 (2 running)
+[04:48:48] ==== START CANON458_AN_BEAT8_r4  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[04:48:50] [res] cpu=10% mem=39% (12.0/31.4 GB) chrome_testing=4  START CANON458_AN_BEAT8_r4
+[04:50:48] [res] cpu=12% mem=44% (14.0/31.4 GB) chrome_testing=10  END CANON458_AN_BEAT6_r5
