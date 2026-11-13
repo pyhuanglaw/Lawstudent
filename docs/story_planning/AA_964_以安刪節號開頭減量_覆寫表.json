@@ -1,0 +1,134 @@
+[
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……還沒想好怎麼講。想好了再告訴你。",
+  "new": "還沒想好怎麼講。想好了再告訴你。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……慶祝的方式是多讀一題。這是我提的。Alison 說我沒救了。",
+  "new": "慶祝的方式是多讀一題。這是我提的。Alison 說我沒救了。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……我講到「準時開始」，才發現這學期我自己遲到兩次。",
+  "new": "我講到「準時開始」，才發現這學期我自己遲到兩次。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "ladder.js"
+  ],
+  "old": "……好。你坐我旁邊。阿哲會講很多話，我需要有人分。",
+  "new": "好。你坐我旁邊。阿哲會講很多話，我需要有人分。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "termend_lines.js"
+  ],
+  "old": "……我讀得完。只是睡得少。",
+  "new": "我讀得完。只是睡得少。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "msg_replies.js"
+  ],
+  "old": "……你怎麼知道。",
+  "new": "你怎麼知道。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "invites.js"
+  ],
+  "old": "……今天不行，明天。",
+  "new": "今天不行，明天。",
+  "speaker": "heroine_01",
+  "all": true,
+  "note": "同檔另一處是程式註解引用同一句，一起換"
+ },
+ {
+  "files": [
+   "heroine_arcs.js"
+  ],
+  "old": "……可是你說得很確定。我先信你。",
+  "new": "可是你說得很確定。我先信你。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……你現在不用回答。我只是要你知道我在氣什麼。",
+  "new": "你現在不用回答。我只是要你知道我在氣什麼。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……再有一次，我就不問了。",
+  "new": "再有一次，我就不問了。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……給我一週。",
+  "new": "給我一週。",
+  "speaker": "heroine_01",
+  "all": true,
+  "note": "同檔另一處是程式註解引用同一句，一起換"
+ },
+ {
+  "files": [
+   "multirel_lines.js"
+  ],
+  "old": "……道歉收到。然後呢？",
+  "new": "道歉收到。然後呢？",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "movie_plots.js"
+  ],
+  "old": "……法院本來就沒有劇情。",
+  "new": "法院本來就沒有劇情。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "vac_activities.js"
+  ],
+  "old": "……那下課一起練。十分鐘。",
+  "new": "那下課一起練。十分鐘。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "vac_activities.js"
+  ],
+  "old": "……我幫你念一次。",
+  "new": "我幫你念一次。",
+  "speaker": "heroine_01"
+ },
+ {
+  "files": [
+   "vac_activities.js"
+  ],
+  "old": "……好。我在台中，沒辦法去接你。行李先放著，先睡。",
+  "new": "好。我在台中，沒辦法去接你。行李先放著，先睡。",
+  "speaker": "heroine_01"
+ }
+]
