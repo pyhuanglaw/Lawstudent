@@ -48931,9 +48931,9 @@
    "title": "branch_audit.py 遇到和 main 沒有共同祖先的結果分支（claude/gha-results）整個失敗",
    "area": "HANDOFF",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "merge-base 失敗的分支（gha-results、cc-local 這類結果分支）標「結果分支、保留」繼續稽核，不要整個停；加回歸測試",
+   "next": "【LAWWW-C 11-13 16:4x UTC】修法早在 b73cf0a17c（孤兒分支不讓稽核整個停、標保留）；這次補回歸測試 tests/branch_audit_unit.py 第 8 項（臨時 repo 建一條 --orphan 結果分支）：修改前（b73cf0a17c^）RuntimeError merge-base 整支停、修改後 PASS。工具類、不用瀏覽器。｜merge-base 失敗的分支（gha-results、cc-local 這類結果分支）標「結果分支、保留」繼續稽核，不要整個停；加回歸測試",
    "first": {
     "term": "META",
     "week": 0,
