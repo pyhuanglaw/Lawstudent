@@ -4,8 +4,8 @@
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader，1～4 fps）。
 
 ★年份的判斷（讀碼，src/postgrad3d.js:33 的 Y 表）：2029 那一輪＝筆記 2029-08-03、一試 2029-08-04（六）；2030 那一輪＝筆記 2030-08-02（五）、一試 2030-08-03（六）、
-  9/6 一試放榜、10/19～20 二試、12/13 放榜。重考生（PG.retaker：BAR_SIT_2029 true、BAR_STAGE_2029 'none'＝2029 一試不到 12 題）考的是 2030-08-03。
-  規格寫「2029-08-02 的重考存檔、8/3 不去考」：2029-08-02 時還沒考過 2029 一試、不可能是重考生；「8/2 存檔、隔天 8/3 一試」只對得上 2030 那一輪。
+  9/6 一試放榜、10/19～20 二試、12/13 放榜。舊序章生（PG.retaker：BAR_SIT_2029 true、BAR_STAGE_2029 'none'＝2029 一試不到 12 題）考的是 2030-08-03。
+  規格寫「2029-08-02 的舊序章存檔、8/3 不去考」：2029-08-02 時還沒考過 2029 一試、不可能是舊序章生；「8/2 存檔、隔天 8/3 一試」只對得上 2030 那一輪。
   所以這支照遊戲資料用 2030：存檔在 2030-08-02（五），錯過的是 2030-08-03（六）08:00～8/4 06:00 的一試（PG.STEPS exam_2030 的 at／until）。
 
 ★「8/3 不去考」在遊戲裡沒有玩家選項（讀碼，修改前、目前開發分支 d4398a91 都一樣）：
@@ -35,11 +35,11 @@ CASES（逗號隔開；每個 case 開一個新的瀏覽器、從最小存檔開
                      「CLS.examDay 有日期」「那天有考試那一堂」FAIL，輸出原因。同一個原因：大四下海商法（maritime，所有路線）也沒有期末考日——reportFor 寫「缺考（不及格）」、
                      CLS.failedIn 算被當（faildelay3d.js 6/18 成績單讀它）；修改前也沒有期末考日（只有期中），這不是 B1 新造成的，但 B1 讓補修兩門也變成考五題的課＝一起掉進來。交 LAWWW 確認。
                    修改前預期：5/28 那一堂在、exam final，但不是考五題的課＝「考卷發下來。民事訴訟法甲下期末考。」＋照讀書次數一句（0 題）→ 題數 FAIL。
-  retake_skip      【前置】最小存檔 2030-08-04 07:00 公館（重考生、HOME_AFTER gongguan，exam_2030 沒演）→ 玩家：站著不動（畢業後篇＝跳到下一件事）、點對話、選項婉拒那一類、手機收起來
+  retake_skip      【前置】最小存檔 2030-08-04 07:00 公館（舊序章生、HOME_AFTER gongguan，exam_2030 沒演）→ 玩家：站著不動（畢業後篇＝跳到下一件事）、點對話、選項婉拒那一類、手機收起來
                    → 2030-10-01 21:00 第一份工作（FIRST_DAY_SEEN）→ 2034-06-03 19:00 尾聲（EPILOGUE_DONE）→ 回標題。
                    修改前預期 FAIL：PG.pendingExam 一直是 true（sits 2030、沒有 BAR_YEAR、r2_2030 的條件要 BAR_SIT_2030＝永遠不會演也不會標 missed）→ epi 的 cond 永遠 false、
                    PG.pending 裡沒有 epi → 第一份工作以後 PG.nextStop 變 null＝站著不動也不跳＝卡住（STUCK_S 秒沒變化），記卡在哪一天、nextStop、due、epi cond。
-  retake_saveload  同一份重考進度存讀檔三次（都用遊戲的存檔畫面：☰ → 存檔 → 欄位 n「存檔」；重新整理 → 標題「讀取／匯入存檔」→ 欄位 n「讀取」）：
+  retake_saveload  同一份舊序章進度存讀檔三次（都用遊戲的存檔畫面：☰ → 存檔 → 欄位 n「存檔」；重新整理 → 標題「讀取／匯入存檔」→ 欄位 n「讀取」）：
                    ① 一試前：最小存檔 2030-08-02 20:00 公館一讀進來馬上存到欄位 1 →（重新整理）讀欄位 1 → 確認還在 8/2、還沒考 →【捷徑】跳到 8/4 07:00（同 retake_skip 的理由）；
                    ② 錯過以後：exam_2030 標 missed、畫面空下來 → 存欄位 2 →（重新整理）讀欄位 2；
                    ③ 第一份工作以後（FIRST_DAY_SEEN、空下來；修改前這就是「已經卡住的舊存檔」）→ 存欄位 3 →（重新整理）讀欄位 3 → 一路到尾聲。
@@ -127,7 +127,7 @@ PREP_JS = """(()=>{ const G=GAME.G, F=G.flags;
 
 
 async def retake_state(pg, key, h, home='gongguan'):
-    """重考生（2029 一試答對 5 題＝BAR_STAGE_2029 none；aa472_pg_unit.js 的 grad(...) 同一組旗標）＋已畢業、退宿（cc_car_probe 的畢業後最小存檔）"""
+    """舊序章生（2029 一試答對 5 題＝BAR_STAGE_2029 none；aa472_pg_unit.js 的 grad(...) 同一組旗標）＋已畢業、退宿（cc_car_probe 的畢業後最小存檔）"""
     gd = await pg.evaluate("PG.gradDay()"); mo = await pg.evaluate("PG.DK('2029-06-28')")
     flags = {'BAR_REG': True, 'BAR_SIT_2029': True, 'BAR_SCORE_2029': 5, 'BAR_STAGE_2029': 'none', 'RETAKE_STYLE': 'home',
              'GRADUATED': gd, 'GRAD_DONE': True, 'GRAD_EVENING': 'none', 'PACKED_Y4': gd - 1, 'MOVED_OUT': mo, 'HOME_AFTER': home,
@@ -358,13 +358,13 @@ async def case_retake_skip(pg, cdp, run, case):
     home = 'home' if case == 'retake_skip_home' else 'gongguan'
     if home == 'home':
         st, d = await retake_state(pg, PRE_KEY, PRE_H, 'home')
-        r = await load_retake(pg, cdp, run, st, '%s：最小存檔 %s %s 臺北的家（重考生、HOME_AFTER home、G.home.at；exam_2030 還沒演）——之後照玩家整天待在家' % (tag, d['key'], hm(PRE_H)))
+        r = await load_retake(pg, cdp, run, st, '%s：最小存檔 %s %s 臺北的家（舊序章生、HOME_AFTER home、G.home.at；exam_2030 還沒演）——之後照玩家整天待在家' % (tag, d['key'], hm(PRE_H)))
     else:
         st, d = await retake_state(pg, MISS_KEY, MISS_H, 'gongguan')
-        r = await load_retake(pg, cdp, run, st, '%s：最小存檔 %s %s 公館（重考生、HOME_AFTER gongguan；exam_2030 沒演＝一試時間窗 8/3 08:00～8/4 06:00 已過、沒去考。'
+        r = await load_retake(pg, cdp, run, st, '%s：最小存檔 %s %s 公館（舊序章生、HOME_AFTER gongguan；exam_2030 沒演＝一試時間窗 8/3 08:00～8/4 06:00 已過、沒去考。'
                                                 '【捷徑】理由：遊戲沒有「不去考」的選項，見檔頭）' % (tag, d['key'], hm(MISS_H)))
     s0 = await pg.evaluate(STATE)
-    run.check('%s：前置成立：畢業後篇（PG.on）、重考生（PG.retaker）、2030 會考（PG.sits 2030）、沒有延畢' % tag,
+    run.check('%s：前置成立：畢業後篇（PG.on）、舊序章生（PG.retaker）、2030 會考（PG.sits 2030）、沒有延畢' % tag,
               bool(r.get('pgOn')) and bool(r.get('retaker')) and bool(r.get('sits2030')) and not r.get('delayed'), J(s0))
     run.note('%s：讀檔後 exam_2030＝%s、pendingExam＝%s、epi cond＝%s、nextStop＝%s、pending＝%s' % (tag, s0['exam2030'], s0['pendingExam'], s0['epiCond'], s0['nextStopKey'], J(s0['pending'])))
     nmsg0 = s0['nmsg']; n0 = await pl_len(pg)
@@ -435,12 +435,12 @@ async def case_retake_saveload(pg, cdp, run, case):
     st, d = await retake_state(pg, PRE_KEY, PRE_H, 'gongguan')
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
     r = await pg.evaluate(PREP_JS.replace('__LEAN__', LEAN_JS[LEAN]))
-    run.setup('[前置] %s ①：最小存檔 %s %s 公館（重考生、還沒考 2030）；【捷徑】讀檔後用遊戲 API 補傾向 %s 等（同 retake_skip）→ %s；讀進來馬上存（畢業後篇空下來 2 秒就會跳）'
+    run.setup('[前置] %s ①：最小存檔 %s %s 公館（舊序章生、還沒考 2030）；【捷徑】讀檔後用遊戲 API 補傾向 %s 等（同 retake_skip）→ %s；讀進來馬上存（畢業後篇空下來 2 秒就會跳）'
               % (tag, d['key'], hm(PRE_H), LEAN, J(r)))
     s1 = await ui_save(pg, cdp, run, tag, 1)
     g1 = await ui_reload_load(pg, cdp, run, tag, 1, url)
     if g1 is None: return
-    run.check('%s ①：讀欄位 1 以後還在 %s、exam_2030 沒演、BAR 旗標和存檔前一樣（重考生）' % (tag, PRE_KEY),
+    run.check('%s ①：讀欄位 1 以後還在 %s、exam_2030 沒演、BAR 旗標和存檔前一樣（舊序章生）' % (tag, PRE_KEY),
               g1['clock']['key'] == PRE_KEY and not g1['exam2030'] and g1['flags'].get('BAR_STAGE_2029') == 'none' and g1['retaker'], J({'slot': s1, 'loaded': g1}))
     # 【捷徑】跳到一試時間窗以後
     dd = await P.day_of(pg, MISS_KEY)

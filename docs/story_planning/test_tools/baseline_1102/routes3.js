@@ -44,8 +44,8 @@ const sim=async(name,flags,setup,sc)=>{ sc=sc||{}; const G=H.fresh('2029-06-02',
 (async()=>{
   const A={LAWCLUB_SAT_VISITS:10};
   const noFail=G=>{ const R=CLS.rec(G); R.grades=R.grades||{}; R.grades.Y4S2=R.grades.Y4S2||{}; };   /* [前置] 大四下成績單已發、沒有被當（FAIL_DELAY_COURSES:[]）*/
-  await sim('X3 (+r2y4b/FD) 2029 一試 5 題 → 2030 重考 5 題（落點 A）',Object.assign({BAR_REG:true,Y4_PATH:'bar',FAIL_DELAY_COURSES:[]},A),noFail,{2029:5,2030:5});
-  await sim('X5 (+r2y4b/FD) 2029 一試 5 題 → 2030 重考 18 題',Object.assign({BAR_REG:true,Y4_PATH:'bar',FAIL_DELAY_COURSES:[]},A),noFail,{2029:5,2030:18});
+  await sim('X3 (+r2y4b/FD) 2029 一試 5 題 → 2030 舊序章 5 題（落點 A）',Object.assign({BAR_REG:true,Y4_PATH:'bar',FAIL_DELAY_COURSES:[]},A),noFail,{2029:5,2030:5});
+  await sim('X5 (+r2y4b/FD) 2029 一試 5 題 → 2030 舊序章 18 題',Object.assign({BAR_REG:true,Y4_PATH:'bar',FAIL_DELAY_COURSES:[]},A),noFail,{2029:5,2030:18});
   await sim('X2 (+r2y4b/FD) 2029 17 題（律師＋司法官二試未錄取）',Object.assign({BAR_REG:true,Y4_PATH:'bar',FAIL_DELAY_COURSES:[]},A),noFail,{2029:17});
   if(0) await sim('X9 (+r2y4b/FD) 被當延畢、2030 報名 18 題',Object.assign({BAR_REG:false,FAIL_DELAY:true,FAIL_DELAY_COURSES:['maritime'],BAR_REG_2030:true},A),null,{2030:18});
   process.exit(0);

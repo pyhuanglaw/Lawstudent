@@ -1,7 +1,7 @@
 """BB-B 11-01：v9.10.15 發布後合進開發分支的幾件（開發分支 80e82a439；後三項 81dd3258c）——照玩家在畫面上看、按、截圖。一支用 MODE 分（逗號隔開可以一次跑好幾個，每個 MODE 開一個新的瀏覽器）。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader，2～4 fps）。劇情、手機的 MODE 用 '<URL>/index.html?turbo'（跟 vac_probe、date_bugs_probe 一樣）。
 存檔：預設用「最小存檔」（GAME.defaults＋過了開場的旗標，同 flow_vac_hometown／zrlast load_min 的做法；日子過了就補 ROOM_Y2／Y3／Y4）；
-  給第三個參數（或環境變數 SAVE＝使用者存檔.json）＝法律系那幾個 MODE 改用使用者存檔改日期（經濟系、畢業後的照樣用最小存檔）。
+  給第三個參數（或環境變數 SAVE＝使用者存檔.json）＝法律系那幾個 MODE 改用使用者存檔改日期（舊序章的系、畢業後的照樣用最小存檔）。
 每一個讀檔、補關係／旗標都印 [前置]；用遊戲 API 補的另外寫【捷徑】。之後照玩家：點對話、選選項、按床、手機「地點」「朋友」「訊息」、手機自己打開就按「收起來／跳過」（L.phone_away）。
 台詞全部用 GAME.say 的原文（HOOK 記 [名字, 句子, 日期, 時間, 當時 ADV 舞台]），不看打字到一半的對話框。
 
@@ -37,20 +37,20 @@ MODE：
                 us     美國公寓、法圖、亞洲超市（5003d2dd9）14:00、20:30 出生點四個方向；光照貼圖網格數
                 plates 校園側牆名牌（8b9ddfb88）女舍傳達室、男賓止步×2、共同側門、社科院系名牌：讀遊戲裡網格的 UV（從正面看 u 往右、v 往下＝字是正的）＋近拍
   kai_sheet     BUG-KAI-SHEET-Y0-1031（dbf8bec7d）：KAI＝econ,y2,old（預設全部）
-                econ [前置] 經濟系最小存檔 2024-09-23 08:00 宿舍（事件模式）、阿凱「有點熟」→ 照玩家讓事件模式自己跳到 KAI_END（預設 2024-12-02）→ 沒有 dp_kai_sheet、沒有評鑑表的句子（期間要有別的手機小事 dp_ 才算數）
+                econ [前置] 舊序章的系最小存檔 2024-09-23 08:00 宿舍（事件模式）、阿凱「有點熟」→ 照玩家讓事件模式自己跳到 KAI_END（預設 2024-12-02）→ 沒有 dp_kai_sheet、沒有評鑑表的句子（期間要有別的手機小事 dp_ 才算數）
                 y2   [前置] 2026-09-21 08:00 宿舍（大二上）、阿凱有點熟 → 床「快轉」（學期中）直到收到第一次 → 是第 1 種「表更新了」＋「📷（泡麵評鑑表）」
-                old  [前置] 同上，【捷徑】假裝經濟系那年收過三次（dpN 3、三組 2024 的訊息）→ 第一次收到的是第 1 種、KAI_SHEET_Y0N＝3、KAI_SHEET_Y0FIX＝1
+                old  [前置] 同上，【捷徑】假裝舊序章的系那年收過三次（dpN 3、三組 2024 的訊息）→ 第一次收到的是第 1 種、KAI_SHEET_Y0N＝3、KAI_SHEET_Y0FIX＝1
   adv_linger    BUG-ADV-LINGER-1018（c70058d99）：每一句台詞記 ADV 舞台（ADV.slots、ADV.want、左右框的 show）；ADV_CASES＝e26,bus_h,home_h,bus,home,e20（預設全部）
-                e26     [前置] 經濟系 2024-10-17 15:18 宿舍、E30 演過 → 事件模式自己接 16:10 的 ev_y0_e26：「（你拿了車鑰匙出門。）」時舞台上沒有可昕；她開口以前都沒有；她開口以後才出來
+                e26     [前置] 舊序章的系 2024-10-17 15:18 宿舍、E30 演過 → 事件模式自己接 16:10 的 ev_y0_e26：「（你拿了車鑰匙出門。）」時舞台上沒有可昕；她開口以前都沒有；她開口以後才出來
                 bus_h／home_h  [前置] 退宿後在家，2025-07-25 02:30（KH_GO bus）／07:30（KH_GO home）讀檔（快轉停在那一刻）→ 家裡那一輪演 ev_y0_kh_bus_h／_home_h
                 bus／home      [前置] 同一刻人在公館（不在家）→ ev_y0_kh_bus／_home（auto）；被自動送回家而演成 _h 的照記
-                e20     [前置] 退宿後在家 2024-12-25 18:35、【前置】ECON_FULL（30 分鐘版把 E20 剪了）→ 自動出發 → 火鍋店門口她說「欸。這個。」時左邊沒有阿勳殘留
+                e20     [前置] 退宿後在家 2024-12-25 18:35、【前置】ECON_FULL（30 分鐘版把 E20 剪了）→ 自動出發 → 火鍋店門口她說「欸。這個。」時左邊沒有舊序章的人殘留
   aa529_cards   AA529-ECON-FIX-1030（8a893df3f）：AA529＝cards,k7,k0b,s829（預設全部）
-                cards [前置] 經濟系退宿後在家 2025-04-24 22:40 → 在家「事件接事件」自己跳（玩家看）→ 到 6/8：日期卡出「（每天早上，還是比誰先坐到桌子前面。……）」接「（五月，書桌旁邊多了一台電風扇。……）」
+                cards [前置] 舊序章的系退宿後在家 2025-04-24 22:40 → 在家「事件接事件」自己跳（玩家看）→ 到 6/8：日期卡出「（每天早上，還是比誰先坐到桌子前面。……）」接「（五月，書桌旁邊多了一台電風扇。……）」
                       （一跳 4/24→6/8＝同一張卡兩行，DOM #title3 有 <br>）
-                k7    [前置] 法律系 2025-10-20 21:00 宿舍、和可昕交往、K7 第一年去了 → 房間的「她的週年卡片」→「翻後面幾頁」→ 第 4 頁（第三段）「2025.2.2　蓮池潭。你說一起重考的時候，風把我的頭髮全吹到臉上。」、沒有「筷子掉了兩次」
-                k0b   [前置] 經濟系退宿後在家 2025-02-15 09:00 → 事件模式跳到 3/16：期間和可昕見面的閒聊階梯 K0b-L1「國界」只在 2/15～3/15（沒見到面＝未驗證，只記）
-                s829  [前置] 經濟系退宿後在家 2025-08-30 21:30 → 家裡「睡覺」→ 8/31 轉法律系的摘要第 2 句「這個暑假，你還是住在家裡。媽媽每天問你，新宿舍還缺什麼。」、沒有「整個暑假」
+                k7    [前置] 法律系 2025-10-20 21:00 宿舍、和可昕交往、K7 第一年去了 → 房間的「她的週年卡片」→「翻後面幾頁」→ 第 4 頁（第三段）「2025.2.2　蓮池潭。你說一起舊序章的時候，風把我的頭髮全吹到臉上。」、沒有「筷子掉了兩次」
+                k0b   [前置] 舊序章的系退宿後在家 2025-02-15 09:00 → 事件模式跳到 3/16：期間和可昕見面的閒聊階梯 K0b-L1「國界」只在 2/15～3/15（沒見到面＝未驗證，只記）
+                s829  [前置] 舊序章的系退宿後在家 2025-08-30 21:30 → 家裡「睡覺」→ 8/31 轉法律系的摘要第 2 句「這個暑假，你還是住在家裡。媽媽每天問你，新宿舍還缺什麼。」、沒有「整個暑假」
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> MODE=<mode>[,<mode>...] python3 post91015_probe.py '<URL>/index.html?turbo' <輸出資料夾> [使用者存檔.json]"""
 import os, sys, json, asyncio, re, math, time, copy, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -74,7 +74,7 @@ BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone'
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
 TWROUTE = {'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1, 'Y4_PATH': 'other'}
 ECON0 = {'ECON_CAMP_OPEN': True, 'E15_BUS': 'nosleep', 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'E01_MORNING': True, 'KX_FIRST_MSG': True,
-         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 經濟系事件模式（kx3d_probe／kxmap_probe 的 BASEF）
+         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 舊序章的系事件模式（kx3d_probe／kxmap_probe 的 BASEF）
 ECON_OUT = {'Y0_MOVED_OUT': True, 'dating_kexin': True, 'KX_DATING_SINCE': '2024-10-17', 'Y0_DATING': True, 'KX_CAR': 'only_me', 'E12_ASKED': True, 'Y0_LEFT': True}
 ECON_DONE_OUT = {'ev_y0_e30': 1, 'ev_y0_a3': 1, 'ev_y0_e26': 1, 'ev_y0_e02': 1, 'ev_y0_e30_note': 1}
 ECON_FRIENDS = ('kexin', 'econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_jiahao', 'econ_pinyu')
@@ -106,7 +106,7 @@ async def state_at(pg, key, h, zone, flags=None, pos=None, weather='clear', mone
 
 
 async def econ_state(pg, key, h, zone, moved, flags=None, home_at=None, done=None):
-    """經濟系那一年的最小存檔（事件模式）；moved＝退宿以後住臺北的家"""
+    """舊序章的系那一年的最小存檔（事件模式）；moved＝退宿以後住臺北的家"""
     d = await P.day_of(pg, key); e26 = (await P.day_of(pg, '2024-10-17'))['d']
     F = dict(ECON0)
     if moved: F.update(ECON_OUT); F['E26_DAY'] = e26
@@ -986,7 +986,7 @@ PLATES = """(texts=>{ const out=[]; const a=new THREE.Vector3(), b=new THREE.Vec
     if(N.lengthSq()>0) N.normalize();
     out.push({text:t, hit, name:o.name, c:[+ctr.x.toFixed(2),+ctr.y.toFixed(2),+ctr.z.toFixed(2)], n:[+N.x.toFixed(3),+N.y.toFixed(3),+N.z.toFixed(3)], tri, bad, map:!!(o.material&&o.material.map)}); });
   return out; })"""
-PLATE_TEXTS = ['傳達室', '男賓止步', '側門', '經濟系']
+PLATE_TEXTS = ['傳達室', '男賓止步', '側門', '舊序章的系']
 
 
 async def vis_plates(pg, cdp, run):
@@ -999,7 +999,7 @@ async def vis_plates(pg, cdp, run):
         await pg.wait_for_timeout(1000)
     run.note('校園側牆名牌（遊戲裡的網格）：%s' % J(pl))
     cnt = {w: sum(1 for p in pl if p['hit'] == w) for w in PLATE_TEXTS}
-    run.check('找得到五塊：傳達室×1、男賓止步×2、共同側門×1、社科院系名牌×1（GLB 載完、畫了字）', cnt == {'傳達室': 1, '男賓止步': 2, '側門': 1, '經濟系': 1} and all(p['map'] for p in pl), J(cnt))
+    run.check('找得到五塊：傳達室×1、男賓止步×2、共同側門×1、社科院系名牌×1（GLB 載完、畫了字）', cnt == {'傳達室': 1, '男賓止步': 2, '側門': 1, '舊序章的系': 1} and all(p['map'] for p in pl), J(cnt))
     run.check('五塊名牌從正面看字是正的（u 往右、v 往下；改前 u、v 一起反＝轉 180°）', bool(pl) and all(p['tri'] > 0 and p['bad'] == 0 for p in pl), J([(p['text'], p['tri'], p['bad']) for p in pl]))
     await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); run.setup('【捷徑】藏起玩家、固定鏡頭近拍名牌（看字）')
     res = []
@@ -1008,7 +1008,7 @@ async def vis_plates(pg, cdp, run):
         r = await fixed_shot(pg, run, 'plate_%d_%s' % (i, p['hit']), cam, tuple(c)); r['text'] = p['text']; res.append(r)
     await pg.evaluate(CAMEND)
     run.note('名牌近拍：%s（社科院那一塊在大廳裡、一樓玻璃不透明，從外面看不到：照拍，看截圖）' % J(res))
-    run.check('名牌近拍都放得到鏡頭、沒有整張純黑（字看截圖）', bool(res) and all(r['placed'] and r['lum'].get('dark', 1) <= 0.25 for r in res if '經濟系' not in r['text']), J(res))
+    run.check('名牌近拍都放得到鏡頭、沒有整張純黑（字看截圖）', bool(res) and all(r['placed'] and r['lum'].get('dark', 1) <= 0.25 for r in res if '舊序章的系' not in r['text']), J(res))
 
 
 async def m_visuals(pg, cdp, run):
@@ -1034,12 +1034,12 @@ async def m_kai_sheet(pg, cdp, run):
     if 'econ' in parts:
         end = os.environ.get('KAI_END', '2024-12-02')
         st, d = await econ_state(pg, '2024-09-23', 8.0, 'dorm', False)
-        await load(pg, cdp, run, st, '經濟系最小存檔 2024-09-23 08:00 宿舍（事件模式，E01_MORNING）', js="return LV('kai',25,0,0);")
+        await load(pg, cdp, run, st, '舊序章的系最小存檔 2024-09-23 08:00 宿舍（事件模式，E01_MORNING）', js="return LV('kai',25,0,0);")
         ok = await play(pg, cdp, run, "CALENDAR.dateOf(GAME.G.day).key>=%s" % J(end), max_s=mx, ff=False, tag='kai_econ')
         k = await pg.evaluate(KAIQ); dp = await pg.evaluate(DPMSG); await run.shot(pg, 'kai_econ_end')
-        run.note('經濟系那一年（到 %s）手機小事 dp_：%s' % (k['now'], J(dp)[:2000]))
-        run.check('經濟系那一年：照玩家讓事件模式跳到 %s（現在 %s）、期間有別的手機小事（dp_ %d 則，＝每天的小事有在跑）' % (end, k['now'], len(dp)), ok and len(dp) > 0, J(k))
-        run.check('經濟系那一年：沒有收到阿凱的泡麵評鑑表（沒有 dp_kai_sheet、沒有那四種句子）', not k['sheet'], J(k))
+        run.note('舊序章的系那一年（到 %s）手機小事 dp_：%s' % (k['now'], J(dp)[:2000]))
+        run.check('舊序章的系那一年：照玩家讓事件模式跳到 %s（現在 %s）、期間有別的手機小事（dp_ %d 則，＝每天的小事有在跑）' % (end, k['now'], len(dp)), ok and len(dp) > 0, J(k))
+        run.check('舊序章的系那一年：沒有收到阿凱的泡麵評鑑表（沒有 dp_kai_sheet、沒有那四種句子）', not k['sheet'], J(k))
     for part in ('y2', 'old'):
         if part not in parts: continue
         js = "return LV('kai',25,0,0);"
@@ -1048,7 +1048,7 @@ async def m_kai_sheet(pg, cdp, run):
                   " const T=%s; [['2024-09-24',0],['2024-10-22',1],['2024-11-19',2]].forEach(([k,n])=>T[n].forEach((t,j)=>G.msgs.push({th:'p:kai',from:'kai',text:t,day:D(k),h:21.8,tag:'dp_kai_sheet_'+n+'_'+j})));"
                   " return {dpN:F.dpN.kai_sheet, n:G.msgs.filter(m=>/^dp_kai_sheet/.test(m.tag||'')).length};") % J(KAI_SHEET)
         st, d = await state_at(pg, '2026-09-21', 8.0, 'dorm')
-        await load(pg, cdp, run, st, '%s：最小存檔 2026-09-21（大二上 %s）08:00 宿舍；阿凱有點熟%s' % (part, d['term'], '；舊存檔：經濟系那年收過三次（dpN 3、三組 2024 的訊息）' if part == 'old' else ''), js=js)
+        await load(pg, cdp, run, st, '%s：最小存檔 2026-09-21（大二上 %s）08:00 宿舍；阿凱有點熟%s' % (part, d['term'], '；舊存檔：舊序章的系那年收過三次（dpN 3、三組 2024 的訊息）' if part == 'old' else ''), js=js)
         d0 = d['key']
         until = "(()=>{ const G=GAME.G; return (G.msgs||[]).some(m=>m&&/^dp_kai_sheet/.test(m.tag||'')&&CALENDAR.dateOf(m.day).key>=%s)||CALENDAR.dateOf(G.day).key>='2026-12-01'; })()" % J(d0)
         ok = await play(pg, cdp, run, until, max_s=mx, ff=True, tag='kai_' + part)
@@ -1059,7 +1059,7 @@ async def m_kai_sheet(pg, cdp, run):
         if part == 'y2':
             run.check('大二上（照玩家床「快轉」）：收得到阿凱的泡麵評鑑表，第一次是第 1 種「表更新了」「📷（泡麵評鑑表）」', texts == KAI_SHEET[0], J(k))
         else:
-            run.check('舊存檔（經濟系那年收過三次）：大二上第一次收到的是第 1 種「表更新了」、KAI_SHEET_Y0N＝3、KAI_SHEET_Y0FIX＝1、tag 從 dp_kai_sheet_3_ 開始（不撞 2024 那幾則）',
+            run.check('舊存檔（舊序章的系那年收過三次）：大二上第一次收到的是第 1 種「表更新了」、KAI_SHEET_Y0N＝3、KAI_SHEET_Y0FIX＝1、tag 從 dp_kai_sheet_3_ 開始（不撞 2024 那幾則）',
                       texts == KAI_SHEET[0] and k['y0n'] == 3 and k['fix'] == 1 and bool(new) and (new[0][1] or '').startswith('dp_kai_sheet_3_'), J(k))
 
 
@@ -1087,11 +1087,11 @@ async def adv_case(pg, cdp, run, case, kx):
     C = ADV_CASES[case]
     if case == 'e26':
         st, d = await econ_state(pg, '2024-10-17', 15.3, 'dorm', False, done={'ev_y0_e02': 1, 'ev_y0_e30': 1})
-        await load(pg, cdp, run, st, 'e26：經濟系最小存檔 2024-10-17 15:18 宿舍（事件模式；E30 辦休學演過）', js="return LV('kexin',45,30,20,{npcRom:30});")
+        await load(pg, cdp, run, st, 'e26：舊序章的系最小存檔 2024-10-17 15:18 宿舍（事件模式；E30 辦離開學校演過）', js="return LV('kexin',45,30,20,{npcRom:30});")
     else:
         bus = case.startswith('bus'); home = case.endswith('_h')
         st, d = await econ_state(pg, '2025-07-25', 2.5 if bus else 7.5, 'dorm' if home else 'gongguan', True, flags={'KH_GO': 'bus' if bus else 'home'}, home_at=home)
-        await load(pg, cdp, run, st, '%s：經濟系退宿後最小存檔 2025-07-25 %s %s（和可昕交往中、KH_GO %s；快轉停在那一刻）' % (case, '02:30' if bus else '07:30', '在家' if home else '人在公館（不在家）', 'bus' if bus else 'home'))
+        await load(pg, cdp, run, st, '%s：舊序章的系退宿後最小存檔 2025-07-25 %s %s（和可昕交往中、KH_GO %s；快轉停在那一刻）' % (case, '02:30' if bus else '07:30', '在家' if home else '人在公館（不在家）', 'bus' if bus else 'home'))
     n0 = await pl_len(pg)
     until = "(ids=>ids.some(id=>!!((GAME.G.events||{}).done||{})[id]))(%s)" % J(C['ids'])
     ok = await play(pg, cdp, run, until, max_s=900, picks=['出發', '「（傳截圖給她。）」'], ff=False, tag='adv_' + case, shots_first=2)
@@ -1114,8 +1114,8 @@ async def adv_case(pg, cdp, run, case, kx):
 
 async def adv_e20(pg, cdp, run, kx):
     st, d = await econ_state(pg, '2024-12-25', 18.58, 'dorm', True, flags={'ECON_FULL': True})
-    await load(pg, cdp, run, st, 'e20：經濟系退宿後最小存檔 2024-12-25（三）18:35 在家、和可昕交往；【前置】ECON_FULL（30 分鐘版把 E20 剪了，照完整版演）')
-    n0 = await pl_len(pg); xun = await names_of(pg, 'econ_zhengxun', ('阿勳',))
+    await load(pg, cdp, run, st, 'e20：舊序章的系退宿後最小存檔 2024-12-25（三）18:35 在家、和可昕交往；【前置】ECON_FULL（30 分鐘版把 E20 剪了，照完整版演）')
+    n0 = await pl_len(pg); xun = await names_of(pg, 'econ_zhengxun', ('舊序章的人',))
     ok = await play(pg, cdp, run, "!!((GAME.G.events||{}).done||{}).ev_y0_e20", max_s=900, picks=['出發', '「扁扁的、方方的那個。」'], ff=False, tag='adv_e20', shots_at=['欸。這個。', '她把一隻一模一樣的長頸鹿'])
     R = [r for r in await rows(pg, n0, 'say')]
     i0 = next((i for i, r in enumerate(R) if r['t'] == '欸。這個。'), None)
@@ -1123,7 +1123,7 @@ async def adv_e20(pg, cdp, run, kx):
     log = [[r['n'], r['t'][:20], stage_ids(r.get('post')), stage_ids(r.get('late'))] for r in seg]
     run.note('E20 火鍋店門口那一段的舞台：%s' % J(log))
     run.check('E20 有演（自動出發 → 火鍋店）', ok and i0 is not None, J({'now': await P.clock(pg), 'n': len(R)}))
-    run.check('E20 火鍋店門口：可昕「欸。這個。」起四句，舞台上沒有阿勳殘留（左邊）', bool(seg) and not any(on_stage(r.get('post'), 'econ_zhengxun') or on_stage(r.get('late'), 'econ_zhengxun') for r in seg), J(log))
+    run.check('E20 火鍋店門口：可昕「欸。這個。」起四句，舞台上沒有舊序章的人殘留（左邊）', bool(seg) and not any(on_stage(r.get('post'), 'econ_zhengxun') or on_stage(r.get('late'), 'econ_zhengxun') for r in seg), J(log))
 
 
 async def m_adv_linger(pg, cdp, run):
@@ -1137,17 +1137,17 @@ async def m_adv_linger(pg, cdp, run):
         except Exception as e: run.check('adv_linger %s：跑完（沒有探針例外）' % case, False, repr(e)[:400]); traceback.print_exc()
 
 
-# ================================================================ 10. 經濟系日期卡、K7 第 4 頁、K0b-L1、8/29
+# ================================================================ 10. 舊序章的系日期卡、K7 第 4 頁、K0b-L1、8/29
 NEW65 = '（每天早上，還是比誰先坐到桌子前面。這個月的早餐，大部分是你請的。）'
 FAN65 = '（五月，書桌旁邊多了一台電風扇。考前一個月，兩個人說好，去報一個衝刺班。）'
-K7P4 = '2025.2.2　蓮池潭。你說一起重考的時候，風把我的頭髮全吹到臉上。'
+K7P4 = '2025.2.2　蓮池潭。你說一起舊序章的時候，風把我的頭髮全吹到臉上。'
 K0B = ['你房間那張書桌，你坐左邊，我坐右邊。', '中間這一條線，是我們的國界。……橡皮擦可以出口。']
 Y0S2 = '這個暑假，你還是住在家裡。媽媽每天問你，新宿舍還缺什麼。'
 
 
 async def aa529_cards(pg, cdp, run, kx):
     st, d = await econ_state(pg, '2025-04-24', 22.67, 'dorm', True)
-    await load(pg, cdp, run, st, 'cards：經濟系退宿後最小存檔 2025-04-24 22:40 在家（和可昕交往中；30 分鐘版）')
+    await load(pg, cdp, run, st, 'cards：舊序章的系退宿後最小存檔 2025-04-24 22:40 在家（和可昕交往中；30 分鐘版）')
     n0 = await pl_len(pg)
     await play(pg, cdp, run, "CALENDAR.dateOf(GAME.G.day).key>='2025-06-08'", max_s=900, ff=False, tag='cards', card_watch=('電風扇', 'cards_fan_card'))
     R = await rows(pg, n0); cards = [[r['n'], r['t'], r['d']] for r in R if r['k'] == 'card']; t3 = [r['t'] for r in R if r['k'] == 't3']
@@ -1256,7 +1256,7 @@ async def aa529_k7(pg, cdp, run, kx):
 
 async def aa529_k0b(pg, cdp, run, kx):
     st, d = await econ_state(pg, '2025-02-15', 9.0, 'dorm', True)
-    await load(pg, cdp, run, st, 'k0b：經濟系退宿後最小存檔 2025-02-15 09:00 在家（和可昕交往中）')
+    await load(pg, cdp, run, st, 'k0b：舊序章的系退宿後最小存檔 2025-02-15 09:00 在家（和可昕交往中）')
     n0 = await pl_len(pg)
     await play(pg, cdp, run, "CALENDAR.dateOf(GAME.G.day).key>='2025-03-16'", max_s=int(os.environ.get('K0B_MAX', '1500')), ff=False, tag='k0b', shots_at=[K0B[1][:10]])
     R = [r for r in await rows(pg, n0, 'say')]
@@ -1269,7 +1269,7 @@ async def aa529_k0b(pg, cdp, run, kx):
 
 async def aa529_s829(pg, cdp, run, kx):
     st, d = await econ_state(pg, '2025-08-30', 21.5, 'dorm', True)
-    await load(pg, cdp, run, st, 's829：經濟系退宿後最小存檔 2025-08-30 21:30 在家')
+    await load(pg, cdp, run, st, 's829：舊序章的系退宿後最小存檔 2025-08-30 21:30 在家')
     n0 = await pl_len(pg)
     await play(pg, cdp, run, "(window.__PL||[]).some(r=>r.k==='say'&&r.t==='書桌上，經濟學原理還沒收起來。')||GAME.G.stage==='law'", max_s=600, picks=['睡覺'], ff=False, tag='s829', shots_at=[Y0S2[:10]])
     L_ = said(await rows(pg, n0))

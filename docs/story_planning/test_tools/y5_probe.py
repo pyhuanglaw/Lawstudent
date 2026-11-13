@@ -261,7 +261,7 @@ async def s_kx5(pg, cdp, run, base, route):
     other = '我十二月放榜。你八月考。……我們兩個，同一年開始。' if route == 'JP' else '……你一月拿證書。我們兩個，同一年開始。'
     sc_l = [l for l in lg if '同一年開始' in l or '五年。我們認識的時候' in l]
     say('   週年那一場：%s' % json.dumps(sc_l, ensure_ascii=False))
-    chk(tag, any('五年。我們認識的時候，你還在經濟系。' in l for l in lg) and any(second in l for l in lg) and not any(other in l for l in lg), '10/17 週年：第二句是%s那一句' % ('延畢' if route == 'JP' else '沒延畢'), json.dumps(sc_l, ensure_ascii=False))
+    chk(tag, any('五年。我們認識的時候，你還在舊序章的系。' in l for l in lg) and any(second in l for l in lg) and not any(other in l for l in lg), '10/17 週年：第二句是%s那一句' % ('延畢' if route == 'JP' else '沒延畢'), json.dumps(sc_l, ensure_ascii=False))
 
 
 # ---------- 7 2030 報名：不回答 ----------

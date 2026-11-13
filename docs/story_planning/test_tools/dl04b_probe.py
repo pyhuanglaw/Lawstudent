@@ -24,7 +24,7 @@ MODE（逗號隔開可以一次跑好幾個，每個 MODE 開一個新的瀏覽�
   stops     STOPS＝ps,psneg,l1,grad,info,late（預設；另有 l1neg）。
             ps    大二上 12:00～13:00 沛珊「我要重考」ev_peishan_decision（真實時段、真實條件，不改事件）：[前置] 大二上第 5 週週一 2026-10-05 12:20 人在 201（上完早上的行政法），
                   dating_classmate_peishan、ev_peishan_doubt 演過；【捷徑】沛珊有點熟（LV）→「直接去上課」13:20 日文（一）共同教學館 102 →
-                  只讀預測：從 201 出門 12:52 經過法律系館A（12:52）＝停。PASS：「走路往共同教學館去。」→ 停在法律系館A（linze）→ 她「我決定了。我要重考。去念教育。」（選「「妳想去就去。」」）
+                  只讀預測：從 201 出門 12:52 經過法律系館A（12:52）＝停。PASS：「走路往共同教學館去。」→ 停在法律系館A（linze）→ 她「我決定了。我要舊序章。去念教育。」（選「「妳想去就去。」」）
                   → 演完才出「繼續去上課：日文（一）」（在 linze、第二個選項「先不去了」）→ 選 →「走路到共同教學館。」→ 坐下上課；遲到照 CLS 規則和實際進教室的時間一致、提示的「HH:MM 到教室／會遲到 N 分鐘」和實際一致；事件只演一次。
             psneg 同一天、同一個地方，沒有 dating／沒演過 doubt（條件不成立）＝不停，直接到共同教學館、不遲到；ev_peishan_decision 沒演。
             l1    法律系館A 12:10～12:30 的電梯 ev_l1_elevator（src/campus_l123_3d.js）。真實時段一鍵上課碰不到（只讀：宿舍出門 12:52、到法律系館A 13:07），
@@ -45,9 +45,9 @@ MODE（逗號隔開可以一次跑好幾個，每個 MODE 開一個新的瀏覽�
                   → 起床選單（民總）→「翹這堂課」→「翹掉民法總則？記「沒去」，不扣分。」「你會錯過：同學的報告分組、同學約吃晚餐。」→「翹」。
                   PASS：句子一字不差、選項只有「翹／還是去」、兩堂都記 plan_skip、確認本身不演事件、不改事件紀錄。
             next  [前置] 2025-09-25（四）08:30 宿舍 →「直接去上課」大一英文 → 上完 → 下課選單「下一堂不去」→ 同一行「你會錯過：同學的報告分組、同學約吃晚餐。」→「翹」→ 民總記 plan_skip。
-  econ      經濟系那年（stage econ，事件模式 ECONFF：空下來 1.5 秒就跳到下一件事，中間的課自動算出席）。ECON＝2024-10-07,2024-10-08,2024-10-09（連續三個上課日，預設）、
-            ECON_PM＝2024-10-08（同一份進度那天 12:30 再去 13:20 通識：路上經過校園 13:02，經濟系的 T1「全系的秘密」12:06～13:15 在 AA_300／AA_303 拿掉了＝不能停；空字串＝不跑）。
-            每一天：[前置] 第一天經濟系最小存檔（同 fb1101 econ_state）08:40 宿舍，之後同一份進度（上完前一天的課那一刻存的）跳到隔天 08:40 宿舍；
+  econ      舊序章的系那年（stage econ，事件模式 ECONFF：空下來 1.5 秒就跳到下一件事，中間的課自動算出席）。ECON＝2024-10-07,2024-10-08,2024-10-09（連續三個上課日，預設）、
+            ECON_PM＝2024-10-08（同一份進度那天 12:30 再去 13:20 通識：路上經過校園 13:02，舊序章的系的 T1「全系的秘密」12:06～13:15 在 AA_300／AA_303 拿掉了＝不能停；空字串＝不跑）。
+            每一天：[前置] 第一天舊序章的系最小存檔（同 fb1101 econ_state）08:40 宿舍，之後同一份進度（上完前一天的課那一刻存的）跳到隔天 08:40 宿舍；
             讀檔後馬上打開手機「今天」（玩家要趕在事件模式跳走之前）→ 那天第一堂「直接去上課」→ 上完。
             PASS：手機有「直接去上課」；路上 routeStop 全部 null、沒有「繼續去上課」（事件模式不出這個選單：S.oneTick 一開始就 return，停了會卡住）、路上沒有演事件；
                   由一鍵上課坐下上完（CLS.attend，不是事件模式跳過去自動算的 skip_ 紀錄）；不遲到；沒有卡住。上完以後事件模式做了什麼（跳到哪一天）只印出來。
@@ -85,7 +85,7 @@ BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone'
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
 VISITED = ('noodle', 'cafe', 'library_hall', 'library', 'lawlib', 'wancai', 'linze', 'gongguan', 'wenzhou', 'soclib', 'cvs', 'bookstore')
 ECON0 = {'ECON_CAMP_OPEN': True, 'E15_BUS': 'nosleep', 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'E01_MORNING': True, 'KX_FIRST_MSG': True,
-         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 經濟系那一年的最小存檔（fb1101_probe／post91015_probe 的 econ_state）
+         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 舊序章的系那一年的最小存檔（fb1101_probe／post91015_probe 的 econ_state）
 ECON_FRIENDS = ('kexin', 'econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_jiahao', 'econ_pinyu')
 
 JSENV = """(()=>{ const G=GAME.G, F=G.flags;
@@ -120,7 +120,7 @@ async def state_at(pg, key, h, zone, flags=None, pos=None, weather='clear', mone
 
 
 async def econ_state(pg, key, h, zone, flags=None):
-    """經濟系那一年的最小存檔（事件模式；post91015_probe.py 的 econ_state，沒有退宿）"""
+    """舊序章的系那一年的最小存檔（事件模式；post91015_probe.py 的 econ_state，沒有退宿）"""
     d = await P.day_of(pg, key)
     F = dict(ECON0); F.update(flags or {})
     st = {'stage': 'econ', 'name': '祐廷', 'day': d['d'], 'weekday': d['wd'], 'hour': h, 'zone': zone, 'pos': None, 'weather': 'clear', 'energy': 100, 'money': 20000,
@@ -142,7 +142,7 @@ async def load(pg, cdp, run, st, label, js=None):
 
 
 async def econ_load(pg, cdp, run, st, label):
-    """[前置] 經濟系：讀檔後馬上打開手機「今天」（事件模式空下來 1.5 秒就跳到下一件事；手機開著＝遊戲暫停，不會跳）。回傳讀完那一刻的時間"""
+    """[前置] 舊序章的系：讀檔後馬上打開手機「今天」（事件模式空下來 1.5 秒就跳到下一件事；手機開著＝遊戲暫停，不會跳）。回傳讀完那一刻的時間"""
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
     await P.phone_tab(pg, cdp, 'today')
     c = await P.clock(pg)
@@ -283,7 +283,7 @@ async def tap_text(pg, cdp, ch, prefix):
 
 async def trip(pg, cdp, run, tag, it, picks=(), stop_zone=None, snap_done=False, max_s=None):
     """手機「今天」→ 那一堂的「直接去上課」→ 照玩家：對話點過去、路上停下來就選「繼續去上課：」、坐位子、上完那一堂（CLS.attend 跑完）。
-    stop_zone：在那一區第一次出現對話就截圖。snap_done：CLS.rec done 一成立就 GAME.snapshot()（經濟系：之後事件模式會跳走）。回傳整理好的紀錄"""
+    stop_zone：在那一區第一次出現對話就截圖。snap_done：CLS.rec done 一成立就 GAME.snapshot()（舊序章的系：之後事件模式會跳走）。回傳整理好的紀錄"""
     max_s = max_s or ENVI('TRIP_MAX', 600)
     out = {'ok': False, 'btn': None, 'cont': [], 'stuck': False, 'snap': None, 'jumped': False, 'shots': []}
     day0 = (await P.clock(pg))['day']
@@ -691,7 +691,7 @@ async def m_skipwarn(pg, cdp, run):
         except Exception as ex: run.check('skipwarn %s：跑完（沒有探針例外）' % c, False, repr(ex)[:400]); traceback.print_exc()
 
 
-# ================================================================ 4. econ：經濟系那年連續三個上課日
+# ================================================================ 4. econ：舊序章的系那年連續三個上課日
 async def econ_day(pg, cdp, run, tag, cid=None):
     it = await pg.evaluate(ITEM, cid) if cid else await pg.evaluate(FIRSTGO)
     c0 = await P.clock(pg)
@@ -723,7 +723,7 @@ async def m_econ(pg, cdp, run):
         try:
             if snap is None:
                 st, d = await econ_state(pg, k, 8 + 40 / 60, 'dorm')
-                c = await econ_load(pg, cdp, run, st, '%s：經濟系最小存檔 %s 08:40 宿舍（E01_MORNING：事件模式）' % (tag, d['key']))
+                c = await econ_load(pg, cdp, run, st, '%s：舊序章的系最小存檔 %s 08:40 宿舍（E01_MORNING：事件模式）' % (tag, d['key']))
             else:
                 s = copy.deepcopy(snap); d = await P.day_of(pg, k)
                 s.update(day=d['d'], weekday=d['wd'], hour=8 + 40 / 60, zone='dorm', pos=None)
@@ -739,7 +739,7 @@ async def m_econ(pg, cdp, run):
         try:
             base = snaps.get(pm) or snap
             if base is None:
-                st, d = await econ_state(pg, pm, 12.5, 'dorm'); c = await econ_load(pg, cdp, run, st, '%s：經濟系最小存檔 %s 12:30 宿舍' % (tag, d['key']))
+                st, d = await econ_state(pg, pm, 12.5, 'dorm'); c = await econ_load(pg, cdp, run, st, '%s：舊序章的系最小存檔 %s 12:30 宿舍' % (tag, d['key']))
             else:
                 s = copy.deepcopy(base); d = await P.day_of(pg, pm)
                 s.update(day=d['d'], weekday=d['wd'], hour=12.5, zone='dorm', pos=None)
@@ -747,7 +747,7 @@ async def m_econ(pg, cdp, run):
             if not run.check('%s：讀檔後打開手機時事件模式還沒跳走（還是 %s 12:30 左右、宿舍）' % (tag, d['key']), c['day'] == d['d'] and c['h'] < 12.9 and c['zone'] == 'dorm', J(c)):
                 return
             t1 = await pg.evaluate(EVINFO, ['ev_y0_t1', 'campus'])
-            run.note('%s：經濟系 T1「全系的秘密」（AA_300／AA_303 拿掉）分類（只讀）：%s' % (tag, J(t1)))
+            run.note('%s：舊序章的系 T1「全系的秘密」（AA_300／AA_303 拿掉）分類（只讀）：%s' % (tag, J(t1)))
             await econ_day(pg, cdp, run, tag, cid='ge_y0s1')
             run.check('%s：T1「全系的秘密」沒有在路上演' % tag, not await pg.evaluate(EVDONE, 'ev_y0_t1'), '')
         except Exception as ex:

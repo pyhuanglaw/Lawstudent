@@ -212,7 +212,7 @@ async def x74(pg, cdp, run, base):
 # ---------------------------------------------------------------- X80
 async def x80(pg, cdp, run, base):
     ck = await pg.evaluate("(st=>{ const G=st.G||st; return {camp:!!(G.flags&&G.flags.CAMP_Y1), econ:typeof STORY!=='undefined'&&STORY.isEcon?STORY.isEcon(G):null}; })(%s)" % json.dumps(base))
-    say('   存檔：宿營 CAMP_Y1=%s、經濟系路線=%s' % (ck['camp'], ck['econ']))
+    say('   存檔：宿營 CAMP_Y1=%s、舊序章的系路線=%s' % (ck['camp'], ck['econ']))
     unset = ('CAMP_Y1',) if ck['camp'] else ()
     await load(pg, cdp, run, base, 'X80 法律系開局、開學前（8/28 10:00 宿舍）', key='2025-08-28', h=10.0, zone='dorm', unset=unset)
     txt = await phone_tab(pg, cdp, 'events'); await run.shot(pg, 'x80_events_0828'); await close_phone(pg)

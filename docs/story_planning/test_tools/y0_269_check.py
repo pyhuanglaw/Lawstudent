@@ -2,7 +2,7 @@
 讀 <OUT>/ev.json（事件演完的時間線）、fl.json（旗標變動）、say.json（台詞）、final_snap.json（玩到 9/2 的最後狀態）。
 對照目前程式的短版（src/econff3d.js 的 S.KEEP：AA_300／AA_303，使用者 10-18 確認）：
   ①KEEP 裡的事件：有沒有演、哪一天（成對的「_h」＝在家／手機版，演一個就算）；
-  ②AA_269 第 7 點停用的事件、和不在 KEEP 的經濟系事件：9/2 早上以後有沒有演（演了＝要查）；
+  ②AA_269 第 7 點停用的事件、和不在 KEEP 的舊序章的系事件：9/2 早上以後有沒有演（演了＝要查）；
   ③關鍵旗標的最後值和第一次設定的日期。
 用法：LW=<工作樹> python3 y0_269_check.py <qa_play 輸出資料夾> [...]"""
 import os, sys, json, re
@@ -31,7 +31,7 @@ for out in sys.argv[1:]:
     bad = [k for k in STOPPED if k in first or done.get(k)]
     print('  ' + ('、'.join('%s（%s）' % (k, first.get(k, '最後狀態有')) for k in bad) if bad else '都沒有演'))
     other = sorted({e['id'] for e in ev if e['id'].startswith('ev_y0_') and e['id'] not in KEEP and e['id'] not in STOPPED and (e.get('d') or '') >= '2024-09-02'})
-    print('  不在 KEEP、9/2 以後演了的經濟系事件：' + ('、'.join('%s（%s）' % (k, first[k]) for k in other) if other else '沒有'))
+    print('  不在 KEEP、9/2 以後演了的舊序章的系事件：' + ('、'.join('%s（%s）' % (k, first[k]) for k in other) if other else '沒有'))
     pre = sorted({e['id'] for e in ev if (e.get('d') or '') < '2024-09-02'})
     print('  9/2 以前演的事件：' + '、'.join('%s（%s）' % (k, first[k]) for k in pre))
     print('\n③旗標（第一次設定的日期 → 最後值）：')

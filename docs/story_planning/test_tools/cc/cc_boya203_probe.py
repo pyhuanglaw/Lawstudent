@@ -3,7 +3,7 @@
   桌子的阻擋 why 由 signup_table 改 program_table（位置不變 x 2.42～3.38、z −3.2～−2.47）；boya_203.glb 重新匯出（LAWWW2 542b715f2：桌上貼圖的字改節目單）；
   src/data/room_glb_layouts.js 照新 layout 重新產生（src/rooms_glb3d.js 把 layout 的 interact 一個一個推進 E.interactables，label＝按鈕字、look＝按下去的字幕）。
   博思 203（區域 boya_203）只有 2026-05-27（大一下第 14 週週三，SK07 即興劇那一晚）18:30～21:30 開：博雅教學館（區域 boya）2F 203 門口 (−11.6, 1.5, lv 1) 那一晚多一個「進入 博思 203」。
-補習班的簽到：不是 3D 互動，是重考期在家（經濟系休學那年）衝刺班 RH-C3（src/data/retake_home.js；2025-06-17 10:20「補習班・櫃台」）的一句旁白
+補習班的簽到：不是 3D 互動，是舊序章期在家（舊序章的系離開學校那年）衝刺班 RH-C3（src/data/retake_home.js；2025-06-17 10:20「補習班・櫃台」）的一句旁白
   「（管理人員看了一眼牆上的鐘，在簽到表上畫了一個記號。什麼都沒說。）」——AA_574 #4，使用者決定「只留補習班」＝照舊在。src/econff3d.js：S.RH_PLAY 有 RH-C3、S.next2 排到那一刻 S.run2 → S.rhPlay（EVENTS.run）。
 不是 iPhone：Playwright 手機橫向模擬 844×390（SwiftShader 1～4 fps）；直向截圖＝同一頁把畫面改成 390×844（玩家把手機轉直，#rotate 出現就點掉），截完轉回橫向。
 URL 不加 ?turbo（走路：點地面／搖桿，playlib L.go_to）。
@@ -12,7 +12,7 @@ CASES（逗號隔開；預設 b203,cram）：
         走到節目單那張小桌前 (2.5, −1.85)（原本簽到表互動點 (2.5, −2.1) r 0.7 的範圍裡）→ 讀按鈕字＋GAME.E.interactables（只讀）→ 鏡頭轉向桌子 → 橫向、直向截圖。
         PASS：整間沒有任何 label／look 含「簽到」的互動；站在桌前按鈕不是「簽到表」。桌上的字是不是「節目單」只看截圖（READY_FOR_ART_REVIEW，探針不判）。
         修改前（6f0122821^）：互動清單有「簽到表」、桌前按鈕是「簽到表」（按下去的字幕也記下來）→ FAIL。
-  cram  [前置] 經濟系那年、退宿後在家的最小存檔（post91015_probe 的 econ_state；和可昕交往中、事件模式）2025-06-17 09:30 在家 → 照玩家：對話點過去、選項選第一個（不是「出發：」那一類）、手機自己打開就收起來，
+  cram  [前置] 舊序章的系那年、退宿後在家的最小存檔（post91015_probe 的 econ_state；和可昕交往中、事件模式）2025-06-17 09:30 在家 → 照玩家：對話點過去、選項選第一個（不是「出發：」那一類）、手機自己打開就收起來，
         讓遊戲自己跳到 10:20 衝刺班 RH-C3 → 對話框出現那一句就截圖（橫向、直向）。PASS：GAME.say 有那一句（和頁面裡 RETAKE_HOME RH-C3 的原文一字不差，含「簽到表」）。修改前後都 PASS（6f01 沒有動它）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=b203,cram] python3 cc_boya203_probe.py '<URL>/index.html' <輸出資料夾>
 等待上限（秒）：WALK_MAX（每一段走路，預設 420）、GLB_MAX（等正式模型，預設 120）、CRAM_MAX（等到 RH-C3 那一句，預設 900）。"""
@@ -64,7 +64,7 @@ async def state_at(pg, key, h, zone, pos=None, flags=None):
 
 
 async def econ_state(pg, key, h, zone):
-    """經濟系那一年、退宿以後住臺北的家（post91015_probe.py econ_state moved=True）"""
+    """舊序章的系那一年、退宿以後住臺北的家（post91015_probe.py econ_state moved=True）"""
     d = await P.day_of(pg, key); e26 = (await P.day_of(pg, '2024-10-17'))['d']
     F = dict(ECON0); F.update(ECON_OUT); F['E26_DAY'] = e26
     st = {'stage': 'econ', 'name': '祐廷', 'day': d['d'], 'weekday': d['wd'], 'hour': h, 'zone': zone, 'pos': None, 'weather': 'clear', 'energy': 100, 'money': 20000,
@@ -178,7 +178,7 @@ async def case_cram(pg, cdp, run):
     run.note('%s：頁面裡 RETAKE_HOME RH-C3（只讀）%s' % (tag, J(data)))
     run.check('%s：資料裡 RH-C3 有補習班簽到那一句（含「簽到表」）' % tag, bool(want) and '簽到表' in want, J(want))
     n0 = await pl_len(pg)
-    await load(pg, cdp, run, st, '%s：經濟系退宿後最小存檔 %s 09:30 在家（和可昕交往中；事件模式；衝刺班 6/9～7/9）' % (tag, d['key']))
+    await load(pg, cdp, run, st, '%s：舊序章的系退宿後最小存檔 %s 09:30 在家（和可昕交往中；事件模式；衝刺班 6/9～7/9）' % (tag, d['key']))
     t1 = time.time(); shots = None; same = 0; last = None
     while time.time() - t1 < ENVI('CRAM_MAX', 900):
         s = await P.ts(pg)

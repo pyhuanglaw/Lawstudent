@@ -4,7 +4,7 @@
 
 傳單在哪（讀碼，a3b1bd647）：src/zones3d.js:1827–1828 宿舍房間 build：W3.canvasTex('dormFlyer',128,180, …) 畫字，
   貼在 DORM_ROOM.units 的 L2（祐廷）wall_spot_by_desk＝(-2.896, 1.2, -0.735)、朝 +x、0.42×0.6 m 的平面，名字 'dorm_flyer'（材質獨一份，P3.mergeStatic 不會合併）。
-  每一年（非經濟系）都有；大二起往房間多 2 cm（釘在軟木板上）。這支探針看大一（203）。
+  每一年（非舊序章的系）都有；大二起往房間多 2 cm（釘在軟木板上）。這支探針看大一（203）。
 存檔【前置】：最小存檔（GAME.defaults＋過了開場的旗標 BASEF；同 cc_dl04b_probe 的 state_at），大一上第 6 週週日（DATE，預設 2025-10-12）14:00、宿舍、出生點。
   QUIET=1（預設）＝讀檔時關條件事件與手機自動打開（playlib 的 quiet_events，【前置】：這一項只看牆上的貼圖，不測劇情）；QUIET=0 照常（劇情對話會自動點過去）。
 只讀的紀錄：

@@ -121,7 +121,7 @@ async def main():
         al = [m for m in bb.get('money', []) if m['delta'] in (5000, 20000, 30000)]
         print('生活費入帳：'); [print('   ', m['d'], m['h'], '+%d' % m['delta'], '提示：', m['toast'] or m['lastToast']) for m in al]
         neg = [m for m in bb.get('money', []) if m['delta'] < 0 and (m['d'][5:7] in ('02', '06'))]
-        print('2 月、6 月的扣款（重考班 2/14、衝刺班 6/8 不該扣）：'); [print('   ', m['d'], m['h'], m['delta'], m['toast'] or m['lastToast']) for m in neg]
+        print('2 月、6 月的扣款（舊序章班 2/14、衝刺班 6/8 不該扣）：'); [print('   ', m['d'], m['h'], m['delta'], m['toast'] or m['lastToast']) for m in neg]
         kx = bb.get('kx', []); fb = [x for x in kx if x.get('slot') and x['slot']['shown'] and not x['slot']['shown'].endswith('/' + str(x['slot']['want']) + '.webp')]
         print('可昕的句子：%d 句；有立繪 %d 句；要的表情和顯示的圖不一樣（退回別的圖）%d 句' % (len(kx), len([x for x in kx if x.get('slot') and x['slot']['shown']]), len(fb)))
         byday = {}

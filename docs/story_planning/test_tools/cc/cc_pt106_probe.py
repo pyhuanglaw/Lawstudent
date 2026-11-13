@@ -42,14 +42,14 @@ check 只客觀記錄：事件演出（那個人說了話）、那個人說話�
   kevin_grad  Kevin 的畢業照 ev_sis15_kv_grad（data/sis_b15_events.js:174，speaker 'Kevin'→X.speakerId 對到 PORTRAIT_ONLY 的 npc_kevin；sis_b15_3d.js:91 GRAD_OUT）
               真實：2028-06-01 21:00 Kevin 在家族群組揪、回「去。」→ 6/3（六）10:30 法律系館A門口（學士服、學姊站在他旁邊）。
               【前置】2028-06-03 10:06 宿舍＋已經約好的出遊 sisb15_kv_grad、SIS15_KV_GRAD_GO、met_sis → 等「出發」→ 點。台上一開始是學姊（participants），Kevin 說話時進另一個框。
-  yule_name   予樂 偶遇（encounter3d.js ENC.meet；data/encounters.js:47 淡水 D13 可昕交往中，datingAfter {who:'予樂',text:'我們什麼都沒看到。邵鈞，走。'}＝資料裡只寫名字的那一句，
-              ENC.sayer → {name:'予樂',charId:'yule'}；沒有 charId 時 portraitIdByName('予樂') 也對到 yule）。
+  yule_name   舊序章的人 偶遇（encounter3d.js ENC.meet；data/encounters.js:47 淡水 D13 可昕交往中，datingAfter {who:'舊序章的人',text:'我們什麼都沒看到。邵鈞，走。'}＝資料裡只寫名字的那一句，
+              ENC.sayer → {name:'舊序章的人',charId:'yule'}；沒有 charId 時 portraitIdByName('舊序章的人') 也對到 yule）。
               【捷徑】真實要出遊到淡水（G.trip、D13 散步點）、和可昕交往中、日期＋地點＋時段的種子擲到她（S.decide）——最小存檔做不到；
               改成存檔 dating_kexin、ADV.begin({background:'dark'})＋void ENC.meet(GAME, D13 可昕那一列, {t:'dating'})（同 tests/yule_portrait_unit.js 第 5 項），選「打招呼」。
   neg_noportrait 反例：沒有立繪的人——宿營破冰的「小隊輔」（camp_y1.js:47「我是你們的小隊輔。名牌拿一下，名字上面都有。」；events3d 的 speaker 不是人物 id，ADV.speaker('小隊輔')
               → 沒有 PORTRAITS／PORTRAIT_FILES＝compact）。觸發同 kevin_camp（【前置】CAMP_Y1_ON、campStep=1，讀檔接著演）。
   neg_samename 反例：同名、多於一人——「學長」（台詞裡不同的人都叫「學長」：events.js:405、1939、3302…；不是人物、沒有立繪檔）。讀碼查過：CHARACTERS＋PORTRAIT_ONLY 裡
-              沒有「兩個不同的人同名或同別名、而且都有立繪檔」的情況（只有同一人 name＝alias：Kevin、予樂、唐睿）——探針執行時也在頁面重算一次（dupNames，記在 note）。
+              沒有「兩個不同的人同名或同別名、而且都有立繪檔」的情況（只有同一人 name＝alias：Kevin、舊序章的人、舊序章的人）——探針執行時也在頁面重算一次（dupNames，記在 note）。
               事件 ev_grad_seniors_y1（events.js:1936「學弟，幫我們拍一張！」；campus、auto、大一下第 15 週週六 10～15 點）：【前置】那天 10:10 校園、**不關條件事件**（quiet 0）讓 EVENTS.tick 自己演；
               90 秒沒演＝【捷徑】void EVENTS.run(ev_grad_seniors_y1)。
   jp_liheng   立衡（id jp_liheng；a4abf3172 立繪）日本篇二手店 ev_jpb_r_shop（JP.SCH jpb_2_2a，2028-05-13（六）14:00 日本據點，挽回中＝沒有和以安交往）。
@@ -135,10 +135,10 @@ CASES = [
     dict(k='kevin_grad', who='npc_kevin', names=['Kevin'], kind='outing', ev='ev_sis15_kv_grad', when='2028-06-03', load_h=10.1, zone='dorm', match='Kevin',
          q=dict(id='sisb15_kv_grad', ev='ev_sis15_kv_grad', h=10.5, late=0.25, place='法律系館A門口', title='法律系館A門口（Kevin 的畢業照）', travel='走路 約 10 分鐘', travelH=1 / 6, hours=0.5, back='回到住的地方。'),
          flags={'SIS15_KV_GRAD_GO': True, 'met_sis': True}, src='src/sis_b15_3d.js:91 GRAD_OUT／S.grad；台詞 src/data/sis_b15_events.js:174 ev_sis15_kv_grad（KEV＝speaker Kevin）'),
-    dict(k='yule_name', who='yule', names=['予樂'], kind='enc', spot='D13', row_who='kexin', tier='dating', when='2026-10-03', load_h=15.0, zone='dorm',
+    dict(k='yule_name', who='yule', names=['舊序章的人'], kind='enc', spot='D13', row_who='kexin', tier='dating', when='2026-10-03', load_h=15.0, zone='dorm',
          flags={'dating_kexin': True}, picks=('打招呼',),
          why='偶遇要出遊到淡水（G.trip、D13）、和可昕交往中、S.decide 的種子擲到她，最小存檔做不到；照 tests/yule_portrait_unit.js 第 5 項直接 ENC.meet',
-         src='src/encounter3d.js ENC.meet／S.sayer；src/data/encounters.js:47 D13 datingAfter {who:予樂}'),
+         src='src/encounter3d.js ENC.meet／S.sayer；src/data/encounters.js:47 D13 datingAfter {who:舊序章的人}'),
     dict(k='neg_noportrait', who='小隊輔', names=['小隊輔'], kind='camp', ev='ev_camp_d1_ice', expect='compact', when='2025-08-22', load_h=10.4, zone='dorm',
          flags={'CAMP_Y1_ON': True, 'campStep': 1, 'CAMP_BUS': 'win'}, drop=['CEREMONY_Y1', 'KAI_MOVEIN', 'FAM_GROUP_SENT'],
          src='src/data/camp_y1.js:47 小隊輔（沒有立繪檔、不是人物）'),
@@ -191,7 +191,7 @@ MEASURE_JS = r"""(who=>{ const adv=document.getElementById('adv'); const VW=inne
 DUP_JS = r"""(()=>{ const F=typeof PORTRAIT_FILES!=='undefined'?PORTRAIT_FILES:{}, m={}; const add=c=>{ if(!c||!c.id) return; for(const n of [c.name].concat(c.alias||[])) if(n){ (m[n]=m[n]||new Set()).add(c.id); } };
   if(typeof CHARACTERS!=='undefined') for(const k in CHARACTERS) add(CHARACTERS[k]); if(typeof PORTRAIT_ONLY!=='undefined') for(const k in PORTRAIT_ONLY) add(PORTRAIT_ONLY[k]);
   const all=[], withP=[]; for(const n in m){ if(m[n].size>1){ const ids=[...m[n]]; all.push([n,ids]); if(ids.filter(i=>F[i]).length>1) withP.push([n,ids]); } }
-  return {multi:all.slice(0,30),multiWithPortrait:withP,byName:typeof GAME!=='undefined'&&GAME.portraitIdByName?{學長:GAME.portraitIdByName('學長'),小隊輔:GAME.portraitIdByName('小隊輔'),Kevin:GAME.portraitIdByName('Kevin'),予樂:GAME.portraitIdByName('予樂')}:null}; })()"""
+  return {multi:all.slice(0,30),multiWithPortrait:withP,byName:typeof GAME!=='undefined'&&GAME.portraitIdByName?{學長:GAME.portraitIdByName('學長'),小隊輔:GAME.portraitIdByName('小隊輔'),Kevin:GAME.portraitIdByName('Kevin'),舊序章的人:GAME.portraitIdByName('舊序章的人')}:null}; })()"""
 JPSTOP_JS = r"""(k=>{ try{ const s=typeof JP!=='undefined'&&JP.SCH?JP.SCH.find(x=>x.k===k):null; if(!s) return '找不到 JP.SCH '+k; void JP.playStop(GAME,s,'jp'); return 'void JP.playStop(GAME,'+k+',jp)'; }catch(e){ return '例外 '+e.message; } })"""
 ENC_JS = r"""(a=>{ try{ if(typeof ENC==='undefined'||typeof ENCOUNTERS==='undefined') return '沒有 ENC／ENCOUNTERS'; const row=(ENCOUNTERS.rows||[]).find(r=>r.who===a.who&&r.spot===a.spot); if(!row) return '找不到 '+a.who+'@'+a.spot;
   if(typeof ADV!=='undefined'&&!ADV.active) ADV.begin({background:'dark'}); void ENC.meet(GAME,row,{t:a.tier}); return 'ADV.begin(dark)＋void ENC.meet(GAME,ENCOUNTERS 的 '+a.who+'@'+a.spot+',{t:'+a.tier+'})；datingAfter='+JSON.stringify(row.lines&&row.lines.datingAfter); }catch(e){ return '例外 '+e.message; } })"""

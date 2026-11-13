@@ -70,9 +70,9 @@ AG = {'n0': '（她在吧檯後面。看到你，停了一下。）', 'hi': '…
 FANG = ['她說不行。', '我一個人去看了。……片子很好。']   # 第 10 節 A4
 
 TWF = {'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1, 'Y4_PATH': 'other'}
-# BB-B 10-23 09:3x：使用者的存檔（9/25）祐廷和可昕交往中（dating_kexin、romance.kexin dating，經濟系那一年起）＝學姊的七夕、M2 以外很多事件會照「祐廷有別的交往對象」走。
+# BB-B 10-23 09:3x：使用者的存檔（9/25）祐廷和可昕交往中（dating_kexin、romance.kexin dating，舊序章的系那一年起）＝學姊的七夕、M2 以外很多事件會照「祐廷有別的交往對象」走。
 #   學姊那幾個情境讀檔後先把可昕的交往拿掉（當作沒交往過；不是分手，不會有收拾那一段）。qx1023 第一次（64ac4855）QX26_GO 等就是這樣 FAIL 的（8/17 只有可昕的七夕視訊）。
-NOKX = "G.flags.dating_kexin=false; if(G.flags.romance) delete G.flags.romance.kexin; G.flags.ROMANCE_HISTORY=(G.flags.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin'); delete G.flags.DATED_1_kexin; delete G.flags.KX_TOUR_YES;"   # BB-B 10-30 13:4x：KX_TOUR_YES 也拿掉——最小存檔（GAME.defaults）答應過導遊、沒有 ev_kexin_tour_nccu，2029 年還會排「去政大找可昕」（r43d PGF3_NOTE 看到）
+NOKX = "G.flags.dating_kexin=false; if(G.flags.romance) delete G.flags.romance.kexin; G.flags.ROMANCE_HISTORY=(G.flags.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin'); delete G.flags.DATED_1_kexin; delete G.flags.KX_TOUR_YES;"   # BB-B 10-30 13:4x：KX_TOUR_YES 也拿掉——最小存檔（GAME.defaults）答應過導遊、沒有 ev_kexin_tour_nccu，2029 年還會排「去外校找可昕」（r43d PGF3_NOTE 看到）
 JPF = {'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'Y4_PATH': 'other', 'AN_SENDOFF': 'together'}
 USF = dict(B['USF'], Y4_PATH='other')
 Y4 = "G.flags.Y4_PATH_DAY=D('2028-06-08');"
@@ -521,7 +521,7 @@ B78 = [
         ['你幫我看一下。不是看對錯，對錯我看。', '嗯。右邊寫得比較像在跟人講話。', '謝謝。……這不算洩題，你們大二早就考過了。'], 'SIS_TA_PAPERS', True),
        ('0407', '2027-04-07', 19.6, '', ['「考完還妳。」'], ['我大二債各的筆記。字很醜。', '不用還。……傳給你下一個直屬。'], 'SIS_OLD_NOTES', True),
        ('0526', '2027-05-26', 21.6, '', ['（拿她的保溫瓶去飲水機裝熱水）'], ['（她趴在桌上。保溫瓶倒在旁邊，空的。）', '……熱水。'], 'SIS_HOT_WATER_BACK', 'water')]] + [
-  # 17. 那張圖的兩種（2027-03-10 週三）：念完經濟系那一年（ECON_PAST_SHARED full）有「講給她聽」；法律系開局（沒有 Y0_LEFT）只有「我也忘得差不多了。」；教了以後隔天在 Café 找她＝熱拿鐵
+  # 17. 那張圖的兩種（2027-03-10 週三）：念完舊序章的系那一年（ECON_PAST_SHARED full）有「講給她聽」；法律系開局（沒有 Y0_LEFT）只有「我也忘得差不多了。」；教了以後隔天在 Café 找她＝熱拿鐵
   dict(id='B8_GRAPH_ECON', key='2027-03-10', h=19.6, zone='lawlib', js=SISF + " G.flags.ECON_PAST_SHARED='full';", steps=[('talk', 'heroine_05')], pref=['（講給她聽'],
        want=['你念過經濟。這張圖，我看了二十分鐘。', '好。我懂了。……我欠你一杯咖啡。'], nothree=True, cflags=['SIS_ECON_GRAPH'], eqflags={'SIS_ECON_GRAPH': 'taught'}),
   dict(id='B8_GRAPH_LAW', key='2027-03-10', h=19.6, zone='lawlib', js=SISF + " delete G.flags.Y0_LEFT; delete G.flags.ECON_PAST_SHARED;", steps=[('talk', 'heroine_05')], pref=['（講給她聽'],
@@ -796,7 +796,7 @@ GDEND = ['（她用鉛筆在你的字旁邊，把一個問號擦掉了。）', '
 BHNEW = ['「法服的值班表，我排到十二月了。」', '「這學期我週三晚上空出來了。要讀書的話，可以找我。」', '「法服這學期的個案，比上學期多一倍。」', '「你下學期修幾學分。我在看要不要多修一門。」',
          '「社長交出去了。週六早上我還是會去。習慣了。」', '「四樓樓梯間，下午兩點以後就沒有人了。」', '「推甄的書面資料，我寫到第四版了。」', '「暑假我不回新竹。總圖暑假也開。」',
          '「面試的問題，我準備了四十題。」', '「推甄上了。……我媽在電話裡哭了，我沒有。」', '「國考讀書會的考古題，我排到七月了。」', '「研究所九月開學。國考在那之前。時間剛好。」']
-XCNEW = ['「經濟系的課跟法律系的撞了一堂，我改修晚上那一班。」', '「我每天早上七點的公車。永和過來要四十分鐘。」', '「上禮拜的筆記我做了兩份，一份給以安。……她沒有要，是我自己給的。」',
+XCNEW = ['「舊序章的系的課跟法律系的撞了一堂，我改修晚上那一班。」', '「我每天早上七點的公車。永和過來要四十分鐘。」', '「上禮拜的筆記我做了兩份，一份給以安。……她沒有要，是我自己給的。」',
          '「週四晚上我借了一間討論室。你要來的話，我多印一份。」', '「期末考完那天晚上，有空嗎？我先問，你不用現在回答。」', '「我爸說寒假可以去事務所幫忙。……我還沒決定。」',
          '「以安的交換，你知道她選哪裡嗎？……我只是問。」', '「以安不在，第一排的位子我坐了。……沒有比較好。」', '「暑假我在我爸的事務所。九點到六點，跟上班一樣。」', '「國考跟研究所，我兩個都報了。」',
          '「我最近在追一部日劇。你不要問我名字，我會講兩個小時。」', '「畢業典禮那天，我媽要請假。她說要坐第一排。」', '「國考那天，我叫我媽不要來。……她說她會在外面等。」']
@@ -860,7 +860,7 @@ R4 = [
        ('Y5S1', '2030-01-10', 'Y5S1', dict(TWF), '「週末一定打。」', ['十四號以後，我就是律師了。……還要受訓。', '週六晚上十點。超過十點我就睡了。'], {'KX_Y5_CALL': 'sat'})]] + [
   # 真的時段（大二上）：[捷徑] 日子撥到 Y2S1 學期末時段第一天 20:36 → 20:45 她傳邀約、排出遊 → 快轉到那一天、時間照走、出發
   dict(id='R29_REAL', key='2026-12-01', h=12.0, zone='dorm', flags=dict(TW3), js=KXJ, steps=[('jump', "(w=>w?w.from:null)(TERMEND.windowOf('Y2S1'))", 20.6, '大二上學期末時段第一天'), ('until', 21.0), ('ffout', 'te_kx_Y2S1', 20)],
-       pref=['出發：和可昕的學期末約會', '「好。哪幾天？」'], wantMsg=['考完了！', '這次換山上 政大正門六點', '我請'], want=['我家附近那個夜市，你還沒去過。', '你自己挑。我那幾天都在。'],
+       pref=['出發：和可昕的學期末約會', '「好。哪幾天？」'], wantMsg=['考完了！', '這次換山上 外校正門六點', '我請'], want=['我家附近那個夜市，你還沒去過。', '你自己挑。我那幾天都在。'],
        cflags=['KX_KHH', 'KX_TERMEND'], eqflags={'KX_KHH': {'Y2W': 'yes'}}, jsok=[('出遊 te_kx_Y2S1', "(q=>q?CALENDAR.dateOf(q.day).key+' '+q.h+' '+q.state:null)(OUT.get(GAME.G,'te_kx_Y2S1'))", lambda x: isinstance(x, str) and x.endswith('done'))]),
   # 30. 寒假來高雄：答應了（Y2W yes）＝她回高雄第 3 天 21:00；最後一天還沒去＝那一則；「沒空」（no）＝第 5 天夜市照片；去了高雄第一次接人多一句
   #     [捷徑] 找她這一段在高雄的日子（KXKHH.run），日子撥過去
@@ -1290,7 +1290,7 @@ R7_SHOTAT = """(t=>{ const E=GAME.E, P=E.player; try{ if(P.seat&&GAME.standUp) G
   const c=E.cam, yaw=t.face?Math.atan2(O.x-best.x,O.z-best.z):Math.atan2(best.x-O.x,best.z-O.z); c.yaw=yaw; c.distTarget=t.dist||1.6; c.dist=c.distTarget; c.pitch=t.pitch!=null?t.pitch:0.3; c.manualT=60;
   return {O:[+O.x.toFixed(2),+O.y.toFixed(2),+O.z.toFixed(2)],P:[+best.x.toFixed(2),+best.z.toFixed(2)],yaw:+yaw.toFixed(2),face:!!t.face}; })(%s)"""
 # ---- 51 用 ----
-KXPLAN = " OUT.plan(G,{id:'te_kx_Y2S1',ev:'ev_termend_dinner',day:G.day,h:18,late:0.25,place:'政大正門',title:'和可昕的學期末約會（政大正門）',travel:'開車約 40 分鐘',travelH:2/3,te:{term:'Y2S1',who:'kexin',kind:'kexin'}});"   # [前置] 學期末約會已經約好（TERMEND 排的那一筆，同 tests/aa410_food_fav_unit.js 第 6 節）
+KXPLAN = " OUT.plan(G,{id:'te_kx_Y2S1',ev:'ev_termend_dinner',day:G.day,h:18,late:0.25,place:'外校正門',title:'和可昕的學期末約會（外校正門）',travel:'開車約 40 分鐘',travelH:2/3,te:{term:'Y2S1',who:'kexin',kind:'kexin'}});"   # [前置] 學期末約會已經約好（TERMEND 排的那一筆，同 tests/aa410_food_fav_unit.js 第 6 節）
 KXKNOW = " FAV.rec(G).know.kexin=G.day-30; SOCIAL.remember('kexin','KNOW_FAV_KX','');"   # [前置] 上一次已經帶過有糖的（知道她只喝無糖）
 KXQ = "(k=>k?k.item+'/'+k.oi:null)(FAV.rec(GAME.G).kx)"
 AN_D = NOKX + " LV('heroine_01',70,60,60); try{ ROM.start(G,'heroine_01'); }catch(e){} G.flags.dating_heroine_01=true;"   # [前置] 和以安交往中
@@ -2216,18 +2216,18 @@ R14 = [
   # G6：日文下第 10 週（見過日文班的人；G5 先設成演過，只看 G6）
   dict(id='JP84_G6', key='TERMDAY:Y2S2:10:1', h=12.9, zone='dorm', flags=dict(TW3, JP_MET=True), js=EVDONE('ev_jp_g1') + EVDONE('ev_jp_g5'), pref=JPPREF, steps=[PHONECLASS('japanese_2'), ('until', 15.3, 1500)],
        want=['老師點到你。', '同一句「大丈夫です」，可以是「沒關係」，也可以是「不用了」。'], jsok=[('ev_jp_g6 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_jp_g6)", True)]),
-  # P5：普通教學館門口的舊同學（9/14 那天照日子擲的數＝0.104、輪到唐睿；BBPACK.roll／p5Pick 在 Node 先算好）
+  # P5：普通教學館門口的舊同學（9/14 那天照日子擲的數＝0.104、輪到舊序章的人；BBPACK.roll／p5Pick 在 Node 先算好）
   dict(id='P5_84_TR', key='2026-09-14', h=12.4, zone='campus', flags=dict(TW3), js='', pref=[], steps=[PLACEAT(-38, -47.2, '主角放到普通教學館門口（PUTONG 觸發點 (-38,-48.4) 半徑 4 m）'), ('until', 13.0, 900)],
-       want=[], jsok=[('ev_putong_oldmate 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_putong_oldmate)", True), ('P5_USED 有唐睿、P5_TERMS 有 Y2S1', "JSON.stringify([GAME.G.flags.P5_USED,GAME.G.flags.P5_TERMS])", lambda x: isinstance(x, str) and '"tr"' in x and 'Y2S1' in x)]),
+       want=[], jsok=[('ev_putong_oldmate 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_putong_oldmate)", True), ('P5_USED 有舊序章的人、P5_TERMS 有 Y2S1', "JSON.stringify([GAME.G.flags.P5_USED,GAME.G.flags.P5_TERMS])", lambda x: isinstance(x, str) and '"tr"' in x and 'Y2S1' in x)]),
   # L4a：文學院門口的長椅（大一、第 6 週起、週二四 9～12，芷若認識）
   dict(id='L4A_84', key='2025-10-07', h=9.4, zone='campus', flags=dict(TW3), js=" LV('heroine_02',25,15,10);", pref=[], steps=[PLACEAT(-38, -20.3, '主角放到文學院門口（ARTS (-38,-21.5)）'), ('until', 10.0, 900)],
        want=['文學院門口的長椅上，芷若在讀一本很舊的英文劇本，用鉛筆在空白處寫中文。'], jsok=[('ev_l4a_pencil 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_l4a_pencil)", True)]),
   # L4b：交換說明會的海報（大二上、平日 10～16、12/10 以前）→「要去聽嗎？」
   dict(id='L4B_84', key='2026-09-15', h=10.4, zone='campus', flags=dict(TW3), js=" LV('heroine_02',25,15,10);", pref=['「要去聽嗎？」'], steps=[PLACEAT(-38, -20.3, '主角放到文學院門口'), ('until', 11.0, 900)],
        want=['布告欄貼著交換說明會的海報，芷若站在前面看了很久。', '……我只是在看海報的字體。'], jsok=[('ev_l4b_poster 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_l4b_poster)", True)]),
-  # SK08：大二上第 1 週週三：12:00 阿勳私訊（認識他：MET_XUN）→ 13:00 以後到社科院 → 迎新，選第一個介紹
+  # SK08：大二上第 1 週週三：12:00 舊序章的人私訊（認識他：MET_XUN）→ 13:00 以後到社科院 → 迎新，選第一個介紹
   dict(id='SK08_84', key='2026-09-09', h=11.9, zone='campus', flags=dict(TW3, MET_XUN=True), js='', pref=['「我是『沉沒成本』'], steps=[('until', 13.05, 900), PLACEAT(16, -83.6, '主角放到社科院門口（SOC (16,-85)）'), ('until', 13.8, 900)],
-       want=['我們那年有一個人這樣介紹自己，我一直記得。今年改成每個人都要。'], jsok=[('12:00 阿勳私訊（bb_sk08_dm）', "(typeof PHONE!=='undefined'&&PHONE.sent)?PHONE.sent(GAME.G,'bb_sk08_dm'):'沒有 PHONE'", True), ('SK08_WORD＝sunk', "GAME.G.flags.SK08_WORD||null", 'sunk')]),
+       want=['我們那年有一個人這樣介紹自己，我一直記得。今年改成每個人都要。'], jsok=[('12:00 舊序章的人私訊（bb_sk08_dm）', "(typeof PHONE!=='undefined'&&PHONE.sent)?PHONE.sent(GAME.G,'bb_sk08_dm'):'沒有 PHONE'", True), ('SK08_WORD＝sunk', "GAME.G.flags.SK08_WORD||null", 'sunk')]),
 ]
 for _s in R14:
     if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
@@ -2741,7 +2741,7 @@ DORMSHOTS = lambda tag: [CAM(0.0, 2.4, 0.0, 0.30, 4.0, '門口、鏡頭在門外
                          CAM(-1.2, 1.0, 2.3, 0.25, 3.0, '房間裡往洗手間的門看'), ('shot', tag + '_in', None, 'true', 2)]
 R28 = [dict(id='DORM_BATH_203', key='TERMDAY:Y1S1:3:2', h=7.5, zone='dorm', flags={}, js='', pref=[], steps=DORMSHOTS('dorm203'), want=[]),
        dict(id='DORM_BATH_412', key='TERMDAY:Y1S1:3:2', h=7.5, zone='dorm', flags={}, js='', pref=[],
-            steps=[('jsrun', "(()=>{ const z=GAME.E.zone; if(z&&z.dormSet){ z.dormSet('412'); return true; } return false; })()", "【捷徑】z.dormSet('412')（經濟系的四人房，同一個 GLB）")] + DORMSHOTS('dorm412'), want=[])]
+            steps=[('jsrun', "(()=>{ const z=GAME.E.zone; if(z&&z.dormSet){ z.dormSet('412'); return true; } return false; })()", "【捷徑】z.dormSet('412')（舊序章的系的四人房，同一個 GLB）")] + DORMSHOTS('dorm412'), want=[])]
 SCENS = SCENS + R28
 
 # BB-B 22:5x：R26 的 MIDNIGHT 只改了 G.hour，光線沒動（engine3d 每 5 個畫格用 E.hour 叫 applyTime；G.hour 要經過 GAME 的 advance 才同步到 E.hour）→ 讀到的都是 23:43 那一格。
@@ -3168,7 +3168,7 @@ R40 = [dict(id='R40_MOON_2027', key='2027-09-15', h=17.8, zone='dorm', flags=dic
        Y1('R40_459_CURRY', '2026-03-13', 20.8, 21.4, js=FAMJS, wantMsg=['下週五六點半，永康街那家咖哩。全家族。']),
        # AA_460 第 5 節：可昕大二上學期末邀約寫哪天（使用者存檔本來就是可昕交往中）
        dict(id='R40_460_KX', key='2026-12-24', h=20.5, zone='dorm', flags=dict(TW3), js='', steps=[('until', 21.0)], pref=[], asks={'*': ''}, nothree=True,
-            wantMsg=['考完了！', '這次換山上 禮拜六 政大正門六點', '我請'], noneMsg=['這次換山上 政大正門六點']),
+            wantMsg=['考完了！', '這次換山上 禮拜六 外校正門六點', '我請'], noneMsg=['這次換山上 外校正門六點']),
        # AA_461 第 2 節：Kevin 2027 學姊生日
        dict(id='R40_461_BDAY', key='2027-06-02', h=11.9, zone='dorm', flags=dict(TW3), js=NOKX + FAMG, steps=[('until', 12.4)], pref=[], asks={'*': ''}, nothree=True,
             wantMsg=['今天溫學姊生日🎂🎂 去年一個蛋糕，今年兩個。']),
@@ -3388,7 +3388,7 @@ R43 = [
               ('pguntil', '2029-09-07', 15.34, 2700)], pref=[], asks={'*': ''},
        want=['你可以。', '一句就夠了。', STORE29], order=['你可以。', '一句就夠了。', STORE29], none=[STORE30], cflags=['SIS_STORE_2029'], eqflags={'SIS_STORE_2029': True},
        wantMsg=[SISLOW], noneMsg=['明年。……讀書計畫我幫你排。'], msgAt={SISLOW: ('2029-09-07', 15.333, 0.1)}, nothree=True),
-  # 2030 重考（【前置】2029 一試 5 題、她 2029 在便利商店等過 SIS_STORE_2029）：8/3 考場門口＝便條一句＋「同一家便利商店。……」
+  # 2030 舊序章（【前置】2029 一試 5 題、她 2029 在便利商店等過 SIS_STORE_2029）：8/3 考場門口＝便條一句＋「同一家便利商店。……」
   dict(id='PGF6_RETAKE30', minimal=True, key='2030-08-02', h=20.5, zone='campus', pos=PGPOS, flags=dict(BAR29, BAR_STAGE_2029='none', SIS_STORE_2029=True),
        js=PGJ + SIS_D + DONE('exam_2029', 'r1_2029', 'b1', 'b1_2030'), steps=[('pguntil', '2030-08-03', 17.5, 2400)], pref=[], asks={'*': ''},
        want=[RETAKE_NOTE, STORE30], order=[RETAKE_NOTE, STORE30], none=[STORE29, '（便條：「早點睡。」「你比去年多念了一年。」）', '一句就夠了。'], nothree=True),
@@ -3409,7 +3409,7 @@ R43 = [
        steps=[('pguntil', '2029-06-02', 13.9, 3600)], pref=['不去了'], asks={'*': ''}, want=ZRV, order=ZRV + [TASSEL], none=ZRV_VOID, cflags=['PG_ZR_VIDEO'], eqflags={'PG_ZR_VIDEO': True},
        jsok=[('視訊那一句演在 10:30 前後（家人那一段）', "(window.__LOG||[]).filter(x=>x.t===%s).map(x=>x.h)" % json.dumps(ZRV[0]), lambda L: bool(L) and all(10.25 <= h <= 10.75 for h in L))]),
   # ⑨ 沛珊交往中：2030-06（台南）那一格＝「說好的，運河一圈。……」（5/26 起跳，6/1（六）10:30）
-  dict(id='PGF9_PS', minimal=True, key='2030-05-26', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + PSJS + NOKX,   # BB-B 10-30：最小存檔預設和可昕交往中＝6/1 被可昕的政大出遊佔走、多重交往選單跳出來（r43_ps 第一次＝探針）
+  dict(id='PGF9_PS', minimal=True, key='2030-05-26', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + PSJS + NOKX,   # BB-B 10-30：最小存檔預設和可昕交往中＝6/1 被可昕的外校出遊佔走、多重交往選單跳出來（r43_ps 第一次＝探針）
       
        steps=[('pguntil', '2030-06-01', 12.0, 2400)], pref=['出發'], asks={'*': ''}, want=[PS06], none=[PS04],
        jsok=[LAND('2030-06-01', 8.5, 0.3, '該問「出發」：10:30 減高鐵 1:45、再減 15 分鐘'), ('PG_DATE_classmate_peishan 有 2030-06', "GAME.G.flags.PG_DATE_classmate_peishan||[]", lambda L: isinstance(L, list) and '2030-06' in L)]),

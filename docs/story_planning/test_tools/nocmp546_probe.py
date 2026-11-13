@@ -22,16 +22,16 @@ AA_546 新句自己留下的「第二名」「比我早到」不算）③沒有 
           設好以後同一份進度重讀：走到子晴旁邊（作息「走走」）和她說話 →「比賽的結果出來了。我們系拿了第二名。」「……我傳了恭喜。他們熬了三個禮拜，很值得。」→ 選「妳還好嗎？」
   ZQL3_W  同上但沒有 CONTEST_DAY（第 10～16 週那一版）：只記看到的句子（「我沒去。……恭喜我傳了。真心的。大部分是。」＝AA_546 沒列、灰色），查沒有 AA_546 列的舊句
  第 4 節 可昕（使用者存檔裡和可昕交往中，不動；大二以後 EXCHANGE_ROUTE＝TW）
-  KX5     2025-11-20（大一上第 12 週週四）23:46、可昕 FRIEND 數值 → 等到 23:51：動態「予樂寫的。她自己都還沒念。」→ 留言「妳呢？」→「我念了。她寫的倒數我也用了。」
+  KX5     2025-11-20（大一上第 12 週週四）23:46、可昕 FRIEND 數值 → 等到 23:51：動態「舊序章的人寫的。她自己都還沒念。」→ 留言「妳呢？」→「我念了。她寫的倒數我也用了。」
   KXY2S1  2026-11-21（大二上第 11 週週六）22:26 → 22:31 私訊「輸了。」「對方的律師是大三的。」「……我下次要寫得更好。」→ 回 KXMOOT_PICK（預設「他講得很好嗎？」，記她回的）；
-          →【前置】跳到 23:46（【前置】有予樂的聯絡方式）→ 23:51 予樂「可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份」「她好認真」；
-          →【前置】跳到 11/24（第 12 週週二）21:16 → 21:21「走啦」群組品妤「可昕說她模擬法庭沒過。她講的時候一直在笑，你知道那代表她很在意。」
+          →【前置】跳到 23:46（【前置】有舊序章的人的聯絡方式）→ 23:51 舊序章的人「可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份」「她好認真」；
+          →【前置】跳到 11/24（第 12 週週二）21:16 → 21:21「走啦」群組舊序章的人「可昕說她模擬法庭沒過。她講的時候一直在笑，你知道那代表她很在意。」
   KXWIN   2027-04-10 22:26 → 22:31 私訊「贏了。」「對方是大一的。他們的書狀寫得很好。」「我們的也是。」→ 回 KXWIN_PICK（預設「恭喜！」）；
-          →【前置】跳到 22:56 → 23:01 予樂「可昕贏了 回來第一件事是把上次輸的那份書狀拿出來看」「我問她幹嘛 她說要記得」（「上次輸的」照舊：看自己的書狀）；
+          →【前置】跳到 22:56 → 23:01 舊序章的人「可昕贏了 回來第一件事是把上次輸的那份書狀拿出來看」「我問她幹嘛 她說要記得」（「上次輸的」照舊：看自己的書狀）；
           →【前置】跳到 4/11 12:56 → 13:01 動態「贏了。」→（私訊問一句）「對方是誰？」→「大一的。他們準備得很好。……我很開心。」
   KX2E    2027-10-02（大三上第 4 週週六）21:56 → 22:01：動態「我帶的。」→ 留言「學姊了。」→「他們比我早到。我覺得很好。」
  沒做（原因寫在最後的 run.note）：vac_activities.js:172（阿凱秋葉原：大一暑假報名 C05、8/24～28 出國那一趟）、vac_activities.js:368（C17 事務所實習＋可昕視訊：要面試、錄取、暑假實習）、
-   events.js:2719／story3d.js:3461（可昕重考那年：經濟系前傳的重考讀書日，要經濟系存檔）、feed_pg.js:50（畢業以後篇 2030-10-13：要畢業後篇的最小存檔、站著不動跳時間）——
+   events.js:2719／story3d.js:3461（可昕舊序章那年：舊序章的系舊序章的舊序章讀書日，要舊序章的系存檔）、feed_pg.js:50（畢業以後篇 2030-10-13：要畢業後篇的最小存檔、站著不動跳時間）——
    這四處 Node 已經確認新句在遊戲資料裡、舊句不在（feed_pg 那一則 Node 照時間走得到、私訊問的回答是新句）。
 估計時間（沒有實測）：CAMP 5～10 分、MX7 2 分、ZQ3_CM／ZQ3_DM 各 10～20 分、KAI203 5 分、ZQL3／ZQL3_W 各 5～10 分、KX5 5～8 分、KXY2S1 15～25 分、KXWIN 15～25 分、KX2E 5～8 分。
 不要和別的瀏覽器測試同時跑。
@@ -87,7 +87,7 @@ KAI_T = '系上那個練習賽，子晴第三。她跑來問我那題怎麼寫�
 ZQL3_T = ['比賽的結果出來了。我們系拿了第二名。', '……我傳了恭喜。他們熬了三個禮拜，很值得。']
 # NO-COMPARE-GRAY-1031（AA_546 第 8 節，6a86f9c2c）：灰色三句換掉——沒去那一版、可昕「他講得很好嗎？」
 ZQL3_W = ['程式比賽的結果出來了。我們系拿了第二名。', '我沒去。……恭喜我傳了。他們熬了三個禮拜，很值得。']
-KX5 = dict(pic='宿舍交誼廳的白板，寫滿了期末考倒數', say='予樂寫的。她自己都還沒念。', cm=['妳呢？', '我念了。她寫的倒數我也用了。'])
+KX5 = dict(pic='宿舍交誼廳的白板，寫滿了期末考倒數', say='舊序章的人寫的。她自己都還沒念。', cm=['妳呢？', '我念了。她寫的倒數我也用了。'])
 KXMOOT = ['輸了。', '對方的律師是大三的。', '……我下次要寫得更好。']
 KXMOOT_R = {'妳一定可以。': ['我知道。……你不用安慰我。'], '他講得很好嗎？': ['很好。好到我回去把自己那份重寫了一次。'], '下次我去看。': ['不要。你在我會看你。……好啦，下次。']}
 YULE135 = ['可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份', '她好認真']
@@ -95,7 +95,7 @@ PINYU137 = ['可昕說她模擬法庭沒過。她講的時候一直在笑，你�
 KXWIN = ['贏了。', '對方是大一的。他們的書狀寫得很好。', '我們的也是。']
 KXWIN_R = {'恭喜！': ['嗯。……我等一下再開心。現在先睡。'], '上次那個大三的呢？': ['他這次當法官。他說我講太快。'], '下次我去看。': ['好。你坐最後一排，不要讓我看到。']}
 YULE141 = ['可昕贏了 回來第一件事是把上次輸的那份書狀拿出來看', '我問她幹嘛 她說要記得']
-KX2D = dict(pic='宿舍書桌上一面小獎牌，旁邊予樂的手在比 YA', say='贏了。', dm=['對方是誰？', '大一的。他們準備得很好。……我很開心。'])
+KX2D = dict(pic='宿舍書桌上一面小獎牌，旁邊舊序章的人的手在比 YA', say='贏了。', dm=['對方是誰？', '大一的。他們準備得很好。……我很開心。'])
 KX2E = dict(pic='討論室的白板，寫著「民總讀書會」，下面一排名字', say='我帶的。', cm=['學姊了。', '他們比我早到。我覺得很好。'])
 # AA_546 列的舊句（遊戲改以前的原文，git show b76e835f7^／a68622d52^）：每一場都查全部
 OLD = ['第二個。名字接龍，順便講你今天早餐吃什麼。要先把前面的人念一遍。', '張哲維，叫我阿哲。早餐……車上那包洋芋片算嗎？', '阿哲。我吳芯慈。早餐是我家樓下的燒餅，七點吃的。',
@@ -518,7 +518,7 @@ async def s_kx5(p, run, base, sid, out):
 async def s_kxy2s1(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     b, pg, cdp, errs, r = await launch(p, run, base, '2026-11-21', 22.43, 'dorm', preflags=TWF, rels={KX: 'FRIEND'}, cts=['yule'],
-                                       label=sid + '（大二上第 11 週週六 22:26 宿舍；可昕 FRIEND 數值、【前置】有予樂的聯絡方式）')
+                                       label=sid + '（大二上第 11 週週六 22:26 宿舍；可昕 FRIEND 數值、【前置】有舊序章的人的聯絡方式）')
     try:
         n0 = len(await msgs(pg, 'p:' + KX)); ny = len(await msgs(pg, 'p:yule'))
         ok = await wait_hour(pg, cdp, run, 22.52, sid)
@@ -528,10 +528,10 @@ async def s_kxy2s1(p, run, base, sid, out):
         after = await B.phone_answer(pg, cdp, 'p:' + KX, KXMOOT_PICK); await run.shot(pg, '%s_kx_moot_answered' % sid); await B.phone_close(pg, cdp)
         got = [m['text'] for m in await new_msgs(pg, 'p:' + KX, n0)]; res['kx_moot'] = got
         run.check('%s：回「%s」→ 她回 %s' % (sid, KXMOOT_PICK, '／'.join(KXMOOT_R.get(KXMOOT_PICK, []))), bool(after) and has_seq(got, [KXMOOT_PICK] + KXMOOT_R.get(KXMOOT_PICK, [])), J(got))
-        await jump(pg, cdp, run, '2026-11-21', 23.77, why='予樂 23:50 的私訊之前')
+        await jump(pg, cdp, run, '2026-11-21', 23.77, why='舊序章的人 23:50 的私訊之前')
         ok = await wait_hour(pg, cdp, run, 23.85, sid)
         nmy, ty = await thread_check(pg, cdp, run, sid, 'p:yule', YULE135, 'yule135', ny); await B.phone_close(pg, cdp)
-        await jump(pg, cdp, run, '2026-11-24', 21.27, why='大二上第 12 週週二，品妤 21:20 在「走啦」群組之前')
+        await jump(pg, cdp, run, '2026-11-24', 21.27, why='大二上第 12 週週二，舊序章的人 21:20 在「走啦」群組之前')
         ng = len(await msgs(pg, 'g:econ_friends'))
         ok = await wait_hour(pg, cdp, run, 21.35, sid)
         nmg, tg = await thread_check(pg, cdp, run, sid, 'g:econ_friends', PINYU137, 'pinyu137', ng); await B.phone_close(pg, cdp)
@@ -544,7 +544,7 @@ async def s_kxy2s1(p, run, base, sid, out):
 async def s_kxwin(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     b, pg, cdp, errs, r = await launch(p, run, base, '2027-04-10', 22.43, 'dorm', preflags=TWF, rels={KX: 'FRIEND'}, cts=['yule'],
-                                       label=sid + '（2027-04-10（六）22:26 宿舍；可昕 FRIEND 數值、【前置】有予樂的聯絡方式）')
+                                       label=sid + '（2027-04-10（六）22:26 宿舍；可昕 FRIEND 數值、【前置】有舊序章的人的聯絡方式）')
     try:
         n0 = len(await msgs(pg, 'p:' + KX)); ny = len(await msgs(pg, 'p:yule'))
         ok = await wait_hour(pg, cdp, run, 22.52, sid)
@@ -552,7 +552,7 @@ async def s_kxwin(p, run, base, sid, out):
         after = await B.phone_answer(pg, cdp, 'p:' + KX, KXWIN_PICK); await run.shot(pg, '%s_kx_win_answered' % sid); await B.phone_close(pg, cdp)
         got = [m['text'] for m in await new_msgs(pg, 'p:' + KX, n0)]; res['kx_win'] = got
         run.check('%s：回「%s」→ 她回 %s' % (sid, KXWIN_PICK, '／'.join(KXWIN_R.get(KXWIN_PICK, []))), bool(after) and has_seq(got, [KXWIN_PICK] + KXWIN_R.get(KXWIN_PICK, [])), J(got))
-        await jump(pg, cdp, run, '2027-04-10', 22.93, why='予樂 23:00 的私訊之前')
+        await jump(pg, cdp, run, '2027-04-10', 22.93, why='舊序章的人 23:00 的私訊之前')
         ok = await wait_hour(pg, cdp, run, 23.02, sid)
         nmy, ty = await thread_check(pg, cdp, run, sid, 'p:yule', YULE141, 'yule141', ny); await B.phone_close(pg, cdp)
         await jump(pg, cdp, run, '2027-04-11', 12.93, why='可昕 4/11 13:00 的動態之前')
@@ -587,7 +587,7 @@ async def s_kx2e(p, run, base, sid, out):
 
 SKIPPED = ['vac_activities.js:172 阿凱秋葉原（C05 大一暑假日本五天：7/15 報名私訊、8/24～28 出國那一趟的 2D 場景）——要報名＋出國行程，前置太長',
            'vac_activities.js:368 可昕視訊「六份。你呢？……多寫的那幾份，借我看。」（C17 事務所暑期實習：交履歷、面試、錄取、暑假實習中的視訊）——前置太長',
-           'events.js:2719／story3d.js:3461 可昕重考那年「三章？好，我也要到第三章。」（經濟系前傳的重考讀書日，輪到第 2 句）——要經濟系路線的存檔',
+           'events.js:2719／story3d.js:3461 可昕舊序章那年「三章？好，我也要到第三章。」（舊序章的系舊序章的舊序章讀書日，輪到第 2 句）——要舊序章的系路線的存檔',
            'feed_pg.js:50 畢業以後「緊張。……沒有第一次模擬法庭那麼緊張。」（2030-10-13，畢業以後篇站著不動跳時間、落地後才看得到）——要畢業後篇的最小存檔（pgdate_probe.py 的做法）',
            '這四處 Node（nocmp546_pre.js）已確認：新句在遊戲資料、舊句不在；feed_pg 那一則照時間走得到、私訊問的回答是新句']
 

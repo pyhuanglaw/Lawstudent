@@ -1,5 +1,5 @@
-"""BB：E37（2025-08-30 政大校門）在 8/29 轉進法律系以後還在不在。
-[前置／捷徑] 讀檔到 2025-08-28 21:05 在臺北的家（經濟系、和可昕交往中，flow_v0_home 的同一組旗標）。之後照玩家：家裡選單「快轉」→「到下一個有事的日子」→ 8/29 早上「去學校」→ 等 6:00 轉法律系、搬宿舍。"""
+"""BB：E37（2025-08-30 外校校門）在 8/29 轉進法律系以後還在不在。
+[前置／捷徑] 讀檔到 2025-08-28 21:05 在臺北的家（舊序章的系、和可昕交往中，flow_v0_home 的同一組旗標）。之後照玩家：家裡選單「快轉」→「到下一個有事的日子」→ 8/29 早上「去學校」→ 等 6:00 轉法律系、搬宿舍。"""
 import os, sys, json, asyncio
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -27,7 +27,7 @@ async def main():
               'flags': {'ECON_CAMP_OPEN': True, 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'Y0_MOVED_OUT': True, 'dating_kexin': True, 'KX_DATING_SINCE': '2024-10-17',
                         'KX_FIRST_MSG': True, 'fundsV2': 1, 'allowanceMonth': 8, 'Y0_STICKY': True, 'E36_RESULT': True},
               'events': {'done': {'ev_y0_e30': 1, 'ev_y0_a3': 1, 'ev_y0_e26': 1, 'ev_y0_e02': 1, 'ev_y0_e36h': 1, 'ev_y0_e36rh': 1}, 'last': {}, 'count': 6}}
-        run.setup('讀檔到 2025-08-28（四）21:05 在臺北的家（經濟系、和可昕交往中）')
+        run.setup('讀檔到 2025-08-28（四）21:05 在臺北的家（舊序章的系、和可昕交往中）')
         await L.load_state(pg, st); await pg.wait_for_timeout(4000)
         await drain(pg, cdp)
         a = await pg.evaluate(CHK); print('8/28 21:05', json.dumps(a, ensure_ascii=False))
@@ -41,7 +41,7 @@ async def main():
                 t = await pick(pg, cdp, '快轉') or await pick(pg, cdp, '到下一個有事') or await pick(pg, cdp, '去學校') or await pick(pg, cdp, '.')
                 print('  ▶', t, g['key'], g['h'])
             if first and g['sent']:
-                first=False; run.check('1. 8/28 21:00 可昕私訊＋排了 8/30 14:00 政大校門（離開家裡的選單以後補發）', bool(g['out']) and g['out']['day'] == '2025-08-30', json.dumps(g, ensure_ascii=False))
+                first=False; run.check('1. 8/28 21:00 可昕私訊＋排了 8/30 14:00 外校校門（離開家裡的選單以後補發）', bool(g['out']) and g['out']['day'] == '2025-08-30', json.dumps(g, ensure_ascii=False))
             else: await pg.wait_for_timeout(1500)
         for _ in range(300):
             s = await drain(pg, cdp); g = await pg.evaluate(CHK)
@@ -50,8 +50,8 @@ async def main():
             await pg.wait_for_timeout(1500)
         await pg.wait_for_timeout(3000); await drain(pg, cdp)
         c = await pg.evaluate(CHK); print('轉法律系以後', json.dumps(c, ensure_ascii=False)); await run.shot(pg, 'b_law')
-        run.check('2. 8/29 轉進法律系以後，8/30 政大校門的約還在（出遊表或手機「今天」看得到）', c['stage'] == 'law' and c['out'] is not None, json.dumps(c, ensure_ascii=False))
-        # 照玩家過到 8/30：宿舍睡覺 → 8/30 手機「今天」看政大校門、出發
+        run.check('2. 8/29 轉進法律系以後，8/30 外校校門的約還在（出遊表或手機「今天」看得到）', c['stage'] == 'law' and c['out'] is not None, json.dumps(c, ensure_ascii=False))
+        # 照玩家過到 8/30：宿舍睡覺 → 8/30 手機「今天」看外校校門、出發
         lines = []; seen_today = None
         skips = []
         for i in range(600):
@@ -61,14 +61,14 @@ async def main():
             if s['dlg']:
                 lines.append(s['dtext'][:40]); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
             if s['choices']:
-                t = await pick(pg, cdp, '政大') or await pick(pg, cdp, '出發') or await pick(pg, cdp, '睡到明天早上') or await pick(pg, cdp, '^睡') or await pick(pg, cdp, '.')
+                t = await pick(pg, cdp, '外校') or await pick(pg, cdp, '出發') or await pick(pg, cdp, '睡到明天早上') or await pick(pg, cdp, '^睡') or await pick(pg, cdp, '.')
                 print('  ▶', t, g['key'], g['h']); continue
             if g['key'] == '2025-08-30' and i % 4 == 0:
                 await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
                 await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
                 txt = await pg.evaluate("(document.querySelector('#phoneBody')||{}).textContent||''")
                 if seen_today is None: seen_today = txt; await run.shot(pg, 'c_phone_today_0830')
-                c = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>/政大/.test(b.textContent)); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30)]; })()")
+                c = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>/外校/.test(b.textContent)); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30)]; })()")
                 if c: print('  手機前往', c[2]); await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); continue
                 k = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,24)]; })()")
                 if k: skips.append('%s %.2f %s' % (g['key'], g['h'], k[2])); await L.touch_tap(cdp, k[0], k[1]); await pg.wait_for_timeout(1500); continue
@@ -83,7 +83,7 @@ async def main():
         print('跳過時間：', skips)
         print('8/30 手機「今天」：', (seen_today or '')[:300])
         print('對話（最後 12 句）：'); [print('   ', x) for x in lines[-12:]]
-        run.check('3. 8/30 照玩家出發去政大校門，E37 演完（ev_y0_e37 done）', g['done'], json.dumps(g, ensure_ascii=False))
+        run.check('3. 8/30 照玩家出發去外校校門，E37 演完（ev_y0_e37 done）', g['done'], json.dumps(g, ensure_ascii=False))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3]))
         await b.close()
     run.finish()

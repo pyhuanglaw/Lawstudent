@@ -1,4 +1,4 @@
-"""BB：BUG-KX-NCCU-1018（經濟系那年可昕寫「在台大」，2025-02 起「家裡」）＋BUG-DORM-AFTER-MOVEOUT-1018（10/19 退宿以後手機「地點」沒有宿舍、最上面「回臺北的家」）。
+"""BB：BUG-KX-NCCU-1018（舊序章的系那年可昕寫「在台大」，2025-02 起「家裡」）＋BUG-DORM-AFTER-MOVEOUT-1018（10/19 退宿以後手機「地點」沒有宿舍、最上面「回臺北的家」）。
 A [前置] 讀新遊戲玩到 9/1 的存檔（9/2 07:01 宿舍）：手機「朋友」、大地圖，看可昕那一行。
 B [前置／捷徑] 讀檔到 2024-10-20 10:00 在臺北的家（退宿後，flow_v0_home 同一組旗標）：手機「地點」清單、「朋友」可昕。
 C [前置／捷徑] 同一組旗標讀檔到 2025-02-20：「朋友」可昕。"""
@@ -37,7 +37,7 @@ async def main():
         t = await tab(pg, cdp, 'friends'); a = kx_line(t); print('A 朋友：', a); await run.shot(pg, 'A_friends')
         await close(pg, cdp); await L.tap(pg, cdp, '#btnBigMap'); await pg.wait_for_timeout(1500)
         mt = await pg.evaluate("document.body.innerText"); am = [l for l in mt.split('\n') if '可昕' in l][:3]; print('A 大地圖：', am); await run.shot(pg, 'A_bigmap')
-        run.check('A 經濟系 9/2：可昕寫在台大、沒有「政大」', any('台大' in x or '臺大' in x for x in a + am) and not any('政大' in x for x in a + am), json.dumps(a + am, ensure_ascii=False))
+        run.check('A 舊序章的系 9/2：可昕寫在台大、沒有「外校」', any('台大' in x or '臺大' in x for x in a + am) and not any('外校' in x for x in a + am), json.dumps(a + am, ensure_ascii=False))
         await L.close_panels(pg, cdp)
         BASEF = {'ECON_CAMP_OPEN': True, 'E15_BUS': 'nosleep', 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'E01_MORNING': True, 'Y0_MOVED_OUT': True, 'dating_kexin': True, 'KX_DATING_SINCE': '2024-10-17', 'KX_FIRST_MSG': True, 'fundsV2': 1, 'allowanceMonth': 10, 'Y0_STICKY': True}
         for tag, key, h in (('B', '2024-10-20', 10), ('D', '2024-10-21', 15), ('C', '2025-02-20', 10)):
@@ -54,9 +54,9 @@ async def main():
             elif tag == 'B':
                 lines = [x for x in pl.split('\n') if x.strip()]
                 run.check('B 退宿後手機「地點」沒有宿舍', not any('宿舍' in x for x in lines), json.dumps(lines[:12], ensure_ascii=False))
-                run.check('B 10/20 可昕寫在台大、沒有「政大」', any('台大' in x or '臺大' in x for x in k) and not any('政大' in x for x in k), json.dumps(k, ensure_ascii=False))
+                run.check('B 10/20 可昕寫在台大、沒有「外校」', any('台大' in x or '臺大' in x for x in k) and not any('外校' in x for x in k), json.dumps(k, ensure_ascii=False))
             else:
-                run.check('C 2025-02-20 可昕寫在家裡、沒有「政大」', any('家' in x for x in k) and not any('政大' in x for x in k), json.dumps(k, ensure_ascii=False))
+                run.check('C 2025-02-20 可昕寫在家裡、沒有「外校」', any('家' in x for x in k) and not any('外校' in x for x in k), json.dumps(k, ensure_ascii=False))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3]))
         await b.close()
     run.finish()

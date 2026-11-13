@@ -1,13 +1,13 @@
 """BB（帳號 A）2026-10-21：SYS-BOOKS-1018（LAWWW 20:23；USER_WANTS X15，開發分支 1b6b1eed 起）書店照課賣教科書＋期末考「再想一次」。
-  econList  經濟系 9 月走進舊路書房：書單《經濟學原理》《初等會計學》《微積分》，沒有《民法總則》
-            【前置】讀 qa_play 存的經濟系狀態，改到 2024-09-10 14:00 書店裡；網址加 &nofastecon（經濟系 9/2～10/31 空下來 1.5 秒就快轉，走不到書店，見 econWalk）
+  econList  舊序章的系 9 月走進舊路書房：書單《經濟學原理》《初等會計學》《微積分》，沒有《民法總則》
+            【前置】讀 qa_play 存的舊序章的系狀態，改到 2024-09-10 14:00 書店裡；網址加 &nofastecon（舊序章的系 9/2～10/31 空下來 1.5 秒就快轉，走不到書店，見 econWalk）
   lawBook   法律系大一上：書店買《憲法》（錢 −650、提示「買了《憲法》教科書」）→ 宿舍書桌讀 1 小時憲法（準備度 +2）→ 12/15 憲法（上）期末考：
             第一題故意選錯 → 提示「課本上讀過這一題——再想一次。」、選錯的那個拿掉（剩 3 個）再選一次
   lawNoBook 對照：沒買課本，第一題選錯就直接下一題（沒有提示、不再選一次）
-  econWalk  經濟系 30 分鐘版（9/2～10/31）推著搖桿走路的時候，會不會被快轉帶走（讀碼：econff3d.js S.tick 的「空下來」沒有排除搖桿）
+  econWalk  舊序章的系 30 分鐘版（9/2～10/31）推著搖桿走路的時候，會不會被快轉帶走（讀碼：econff3d.js S.tick 的「空下來」沒有排除搖桿）
 【前置】讀使用者 9/25 存檔改日期、地點（書店、宿舍、期末考那天的宿舍＝同一份狀態接著改，等於【捷徑】跳日期，標在 setup）。選書、讀書、考試都照玩家點。
 不是 iPhone：Playwright Chromium（SwiftShader）手機橫向模擬、?turbo。
-用法：LW_TESTS=<開發分支>/tests python3 books_probe.py '<URL>/index.html?turbo' <輸出資料夾> <使用者存檔.json> <經濟系狀態.json>（SCEN=econList,lawBook,...）"""
+用法：LW_TESTS=<開發分支>/tests python3 books_probe.py '<URL>/index.html?turbo' <輸出資料夾> <使用者存檔.json> <舊序章的系狀態.json>（SCEN=econList,lawBook,...）"""
 import os, sys, json, asyncio, time, re
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -87,7 +87,7 @@ async def s_econ_list(pg, cdp, run, base, econ):
     G = json.loads(json.dumps(econ)); G = G.get('G', G)
     d = await pg.evaluate("STORY.dayOfKey('2024-09-10')")
     G.update({'day': d, 'hour': 14.0, 'zone': 'bookstore', 'pos': {'x': 0, 'z': 4}, 'money': 8000, 'weekday': 2}); G['flags']['books'] = {}
-    await load(pg, run, G, '[前置] econList：qa_play 存的經濟系狀態改到 2024-09-10（二）14:00 舊路書房裡，網址 &nofastecon（不然 9 月走不到書店）')
+    await load(pg, run, G, '[前置] econList：qa_play 存的舊序章的系狀態改到 2024-09-10（二）14:00 舊路書房裡，網址 &nofastecon（不然 9 月走不到書店）')
     cs = await bookstore_menu(pg, cdp, run, 'econ')
     ts = [c['t'] for c in cs]
     for w in ('《經濟學原理》', '《初等會計學》', '《微積分》'): chk('econList', any(w in t for t in ts), '書單有%s' % w)
@@ -191,7 +191,7 @@ async def s_law(pg, cdp, run, base, with_book):
 
 
 async def s_econ_walk(pg, cdp, run, base, econ):
-    await L.tap(pg, cdp, '#btnNew'); run.setup('econWalk：標題「從經濟系開始」新遊戲（不改狀態）')
+    await L.tap(pg, cdp, '#btnNew'); run.setup('econWalk：標題「從舊序章的系開始」新遊戲（不改狀態）')
     t0 = time.time(); ready = False
     while time.time() - t0 < 900:
         on = await pg.evaluate("(()=>{ try{ return typeof ECONFF!=='undefined'&&ECONFF.on(GAME.G); }catch(e){ return false; } })()")
@@ -204,7 +204,7 @@ async def s_econ_walk(pg, cdp, run, base, econ):
         if await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide'); })()"): await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(600); continue
         await pg.wait_for_timeout(400)
     sn0 = await pg.evaluate(SNAP); say('   快轉開始的時候：%s（%s）' % (json.dumps(sn0, ensure_ascii=False), ready))
-    if not ready: chk('econWalk', False, '15 分鐘內沒有走到經濟系快轉的時段'); return
+    if not ready: chk('econWalk', False, '15 分鐘內沒有走到舊序章的系快轉的時段'); return
     jx, jy = await L.center_of(pg, '#joy'); log = []
     p0 = await pg.evaluate("(()=>{ const p=GAME.E.player.obj.position; return [p.x,p.z]; })()")
     await cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': jx, 'y': jy}]})
@@ -219,7 +219,7 @@ async def s_econ_walk(pg, cdp, run, base, econ):
     jumped = [r for r in log if (r['k'], r['h']) != (sn0['key'], sn0['h']) and (r['k'] != sn0['key'] or abs(r['h'] - sn0['h']) > 0.3)]
     say('   推搖桿 12 秒：走了 %.1f m；日子／時間變了 %d 次取樣：%s' % (moved, len(jumped), json.dumps(jumped[:3], ensure_ascii=False)))
     json.dump(log, open(os.path.join(OUT, 'econWalk.json'), 'w'), ensure_ascii=False, indent=0)
-    chk('econWalk', not jumped, '經濟系快轉時段推著搖桿走路，不會被快轉帶走（觀察：讀碼的空下來沒排除搖桿）', json.dumps(jumped[:2], ensure_ascii=False))
+    chk('econWalk', not jumped, '舊序章的系快轉時段推著搖桿走路，不會被快轉帶走（觀察：讀碼的空下來沒排除搖桿）', json.dumps(jumped[:2], ensure_ascii=False))
 
 
 SCENS = [('econList', s_econ_list, '&nofastecon'), ('lawBook', lambda *a: s_law(*a[:4], True), ''), ('lawNoBook', lambda *a: s_law(*a[:4], False), ''), ('econWalk', s_econ_walk, '')]

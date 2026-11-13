@@ -11,7 +11,7 @@ MODE（環境變數）：
             觸控走到大廳裡（閘門前）→ 走回門口 → 按「離開體育館」→ 回到校園的體育館門口（74,58）、站得住、不卡。
   pending   5t／X121（使用者 10-28 01:1x「爸爸訊息一直有待回復 也沒有回復的選項」）：
             【前置】法律系大一上、第 4 週以後的週四 19:50 宿舍、在家人群組（拿掉近一週的 home_ask、約定）；
-            【捷徑】PHONE.postAt 排一則可昕「週末來政大？我當導遊。」（沒有期限的問句，前一天 18:00）當對照。
+            【捷徑】PHONE.postAt 排一則可昕「週末來外校？我當導遊。」（沒有期限的問句，前一天 18:00）當對照。
             遊戲時間照走 → 20:30 手機訊息：家人那一列「待回覆」、點進去有「會回去／這週不回」（不回）→
             照走到 22:10 以後（爸爸「？」）：家人那一列沒有「待回覆」、未讀還在（紅色數字）、點進去沒有選項；手機按鈕的紅點＝PHONE.unread（過期的問句不算）、
             看過以後家人那一串不再算進紅點；可昕那一列照舊「待回覆」、點進去有選項；
@@ -202,7 +202,7 @@ async def m_quickgym(pg, cdp, run, errs):
 THU_JS = """(()=>{ const G=GAME.G; for(const want of ['Y1S1','Y1S2']) for(let d=G.day+1; d<G.day+420; d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==want||CALENDAR.dateOf(d).wd!==4) continue;
     if(want==='Y1S1'&&t.week<4) continue; if((CALENDAR.holiday&&CALENDAR.holiday(d))||(CALENDAR.fest&&CALENDAR.fest(d))||(CALENDAR.typhoon&&(CALENDAR.typhoon(d)||CALENDAR.typhoon(d+1)))) continue;
     const g=HOME.grpPick(G,d); if(g&&!g.noAsk&&g.t) return {d,k:g.k,t:g.t,key:CALENDAR.dateOf(d).key,term:t.id,week:t.week}; } return null; })()"""
-KX_JS = """(d=>{ const m=PHONE.postAt(GAME.G,{th:'p:kexin',from:'kexin',text:'週末來政大？我當導遊。',ask:{id:'bb_kx_test',opts:[{t:'好'},{t:'這週末不行'}]}},d-1,18); if(GAME.phoneBadge) GAME.phoneBadge(); return !!m; })(%d)"""
+KX_JS = """(d=>{ const m=PHONE.postAt(GAME.G,{th:'p:kexin',from:'kexin',text:'週末來外校？我當導遊。',ask:{id:'bb_kx_test',opts:[{t:'好'},{t:'這週末不行'}]}},d-1,18); if(GAME.phoneBadge) GAME.phoneBadge(); return !!m; })(%d)"""
 ROWS_JS = """(()=>[...document.querySelectorAll('#phoneBody button.chatRow[data-th]')].map(b=>({th:b.dataset.th, title:(b.querySelector('.chatMid b')||{}).textContent||'', last:(b.querySelector('.chatLast')||{}).textContent||'', ask:!!b.querySelector('.chatAsk'), badge:b.querySelector('.chatBadge')?+b.querySelector('.chatBadge').textContent:0})))()"""
 ROW_TAP_JS = """(th=>{ const e=[...document.querySelectorAll('#phoneBody button.chatRow[data-th]')].find(b=>b.dataset.th===th); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)"""
 ASKBTN_JS = """(p=>[...document.querySelectorAll('#phoneBody [data-ask]')].filter(b=>b.dataset.ask.startsWith(p+'|')).map(b=>({k:b.dataset.ask,t:b.textContent.trim(),dis:!!b.disabled})))(%s)"""
@@ -266,7 +266,7 @@ async def m_pending(pg, cdp, run, errs):
     st.setdefault('home', {}).pop('promise', None); st['home']['at'] = False
     await load(pg, st, run, '[前置] 存檔改到 %s（週四 day %d，%s 第 %d 週）19:50 宿舍；拿掉近一週的家人群組問句、回家約定' % (th['key'], d, th['term'], th['week']))
     await L.close_panels(pg, cdp); await settle(pg, cdp, 40, pref=[])
-    ok = await pg.evaluate(KX_JS % d); run.setup('[捷徑] PHONE.postAt：可昕「週末來政大？我當導遊。」（沒有期限的問句，day %d 18:00，ask id bb_kx_test）＝對照組' % (d - 1))
+    ok = await pg.evaluate(KX_JS % d); run.setup('[捷徑] PHONE.postAt：可昕「週末來外校？我當導遊。」（沒有期限的問句，day %d 18:00，ask id bb_kx_test）＝對照組' % (d - 1))
     run.check('對照組的可昕那一則排進去了', ok)
     # ---- 20:30 ----
     await clock_to(pg, cdp, run, 20.55, 1500, '週四 20:33')

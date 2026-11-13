@@ -459,7 +459,7 @@ async def tea(p, run, base, out, sid='TEA'):
     try:
         await pg.evaluate("(()=>{ const R=SOCIAL.rel('heroine_05'); R.fam=Math.max(R.fam||0,48); R.trust=Math.max(R.trust||0,32); R.comf=Math.max(R.comf||0,20); const V=GAME.G.visited||(GAME.G.visited={}); for(const z of ['wz_teahouse','wenzhou']) V[z]=true; })()")
         await L.phone_away(pg, cdp)
-        # 使用者存檔的 9/27 本來就排了 14:00「去政大找可昕」（開車 30 分鐘＝13:30 一讀檔就跳「出發」，蓋住手機；10-22 04:12 候選第一輪停在這裡）：照玩家按「不去了」
+        # 使用者存檔的 9/27 本來就排了 14:00「去外校找可昕」（開車 30 分鐘＝13:30 一讀檔就跳「出發」，蓋住手機；10-22 04:12 候選第一輪停在這裡）：照玩家按「不去了」
         for _ in range(8):
             ops = await opts(pg)
             if ops and any(o.startswith('出發：') for o in ops):

@@ -40,8 +40,8 @@ const sim=async(name,flags,setup,sc)=>{ sc=sc||{}; const G=H.fresh('2029-06-02',
   const A={LAWCLUB_SAT_VISITS:10};
   await sim('R1 律師考取（14 題，落點 A）',Object.assign({BAR_REG:true},A),null,{2029:14});
   await sim('R2/R4 律師＋司法官二試未錄取（17 題，落點 A）',Object.assign({BAR_REG:true},A),null,{2029:17});
-  await sim('R3 2029 一試 5 題 → 2030 重考 5 題（落點 A）',Object.assign({BAR_REG:true},A),null,{2029:5,2030:5});
-  await sim('R5 2029 一試 5 題 → 2030 重考 18 題（落點 A）',Object.assign({BAR_REG:true},A),null,{2029:5,2030:18});
+  await sim('R3 2029 一試 5 題 → 2030 舊序章 5 題（落點 A）',Object.assign({BAR_REG:true},A),null,{2029:5,2030:5});
+  await sim('R5 2029 一試 5 題 → 2030 舊序章 18 題（落點 A）',Object.assign({BAR_REG:true},A),null,{2029:5,2030:18});
   await sim('R6 律師考取 14 題，落點 C（出版社）',{BAR_REG:true},G=>{ G.vac={reg:{'C08@1':'done'}}; },{2029:14});
   await sim('R7 Y4_PATH grad、沒錄取研究所、律師考取 14 題（落點 B）',{BAR_REG:true,Y4_PATH:'grad'},null,{2029:14});
   await sim('R8 沒報名國考（落點 A）',Object.assign({BAR_REG:false},A),null,{});

@@ -2,7 +2,7 @@ const LW='/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f690672
 require(LW+'/tests/alison.js'); const H=require(LW+'/tests/pg_harness.js'); const GM=H.GM;
 const grad=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
 (async()=>{
-  // N1：2029 不到 12 題的重考生，2030-08-03 一試整段錯過
+  // N1：2029 不到 12 題的舊序章生，2030-08-03 一試整段錯過
   { const G=H.fresh('2030-08-03',7,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:5,BAR_STAGE_2029:'none',LAWCLUB_SAT_VISITS:10,FAIL_DELAY_COURSES:[]}); grad(G);
     const r=PG.rec(G); ['exam_2029','r1_2029'].forEach(k=>r.done[k]=1);
     H.at('2030-08-05',7); PG.pending(G);

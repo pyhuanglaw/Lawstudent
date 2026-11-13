@@ -1,12 +1,12 @@
-"""BB：QA-PLAYTHROUGH-1018（v9.10.1 發布條件，使用者 10-18 07:1x 同意）——經濟系路線從新遊戲玩到 8/30 第一次去政大（E37）以後，照「真實玩家」的四種玩法：
+"""BB：QA-PLAYTHROUGH-1018（v9.10.1 發布條件，使用者 10-18 07:1x 同意）——舊序章的系路線從新遊戲玩到 8/30 第一次去外校（E37）以後，照「真實玩家」的四種玩法：
   MODE=sleep    天天直接睡覺：一空下來，在宿舍就走去床邊睡、在家就選「睡覺」
   MODE=nophone  完全不開手機：不打開手機、不回任何訊息（自動打開的手機直接收起來）
   MODE=decline  所有邀約都拒絕／不回：手機要回的選最後一個（不去／今天不行），選項裡有拒絕的就選拒絕
   MODE=ff       一直快轉：選項裡有「快轉」「到下一個有事的日子」「跳過」就選
-不瞬移、不改劇情狀態；開局按標題「從經濟系前傳開始」。手機模擬 844×390 觸控（Playwright，不是實機）。
+不瞬移、不改劇情狀態；開局按標題「從舊序章的系舊序章開始」。手機模擬 844×390 觸控（Playwright，不是實機）。
 記錄：卡住超過 4 分鐘（重現：日期、時間、區域、畫面）、JS 例外、畫面檢查（screencheck）、每月一張截圖、遊戲裡的台詞（dlg hook）。
 2026-10-21 BB（帳號 A）加：玩到 9/1（看法律系的生活費）；頁面裡記①每一次錢的變動（日期、時間、多少、當時的提示字）②所有提示（#toast）③可昕每一句的立繪：
-  要的表情（ADV.slots）和實際顯示的圖（img src）——AA363-S2-ECON-MONEY-1021（經濟系 10/31 搬回家後每月 5,000、重考班／衝刺班不扣錢、9/1 法律系 30,000）、
+  要的表情（ADV.slots）和實際顯示的圖（img src）——AA363-S2-ECON-MONEY-1021（舊序章的系 10/31 搬回家後每月 5,000、舊序章班／衝刺班不扣錢、9/1 法律系 30,000）、
   KX-EXPR-1018／X62（可昕表情跟著句子換）。結束時寫 money.json、toasts.json、kexin.json 並印摘要。
 用法：MODE=sleep LW_TESTS=<LAWWW>/tests python3 qa_play.py URL OUT"""
 import os, sys, json, asyncio, time
@@ -20,7 +20,7 @@ PREF = {'sleep': ['睡到明天早上', '睡覺', '睡', '出發', '直接去'],
         'decline': ['不去', '今天不行', '先不要', '不了', '下次', '不用了', '先走'],   # 2026-10-21：床的「照樣跳過會錯過的課？」是系統確認不是邀約，pick() 一律選「照樣跳過」（原本 decline 在 9/1 一直選「先不要」繞圈）
         'ff': ['快轉', '到下一個有事的日子', '跳過', '出發', '直接去']}[MODE]
 DECLINE_LAST = MODE == 'decline'
-SNAP_BEFORE = ['2024-11-01', '2024-12-01', '2025-02-14', '2025-06-08', '2025-09-01']   # 匯款、重考班、衝刺班、法律系的前一刻：存「跨過這一天之前最後看到的狀態」（事件接事件會跳日子，不能等剛好那一天）
+SNAP_BEFORE = ['2024-11-01', '2024-12-01', '2025-02-14', '2025-06-08', '2025-09-01']   # 匯款、舊序章班、衝刺班、法律系的前一刻：存「跨過這一天之前最後看到的狀態」（事件接事件會跳日子，不能等剛好那一天）
 HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[],ev:[],fl:[],say:[]}; let lastMoney=null, lastToast='', lastKx='';
   /* 2026-10-31 BB-B：AA_269 第 6 節 15 點要對事件時間線、旗標、台詞——每 300 毫秒記新演完的事件、改過的旗標、對話框的每一句（日期、時間、區域） */
   let evSeen=null, flSeen=null, lastSay='';
@@ -60,7 +60,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.add_init_script(HOOK)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
-        await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從經濟系前傳開始」', flush=True)
+        await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從舊序章的系舊序章開始」', flush=True)
         t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; snapped = set(); pre = {}
         while time.time() - t0 < MAXH * 3600:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
@@ -143,7 +143,7 @@ async def main():
         al = [m for m in bb.get('money', []) if m['delta'] in (5000, 20000, 30000)]
         print('生活費入帳：'); [print('   ', m['d'], m['h'], '+%d' % m['delta'], '提示：', m['toast'] or m['lastToast']) for m in al]
         neg = [m for m in bb.get('money', []) if m['delta'] < 0 and (m['d'][5:7] in ('02', '06'))]
-        print('2 月、6 月的扣款（重考班 2/14、衝刺班 6/8 不該扣）：'); [print('   ', m['d'], m['h'], m['delta'], m['toast'] or m['lastToast']) for m in neg]
+        print('2 月、6 月的扣款（舊序章班 2/14、衝刺班 6/8 不該扣）：'); [print('   ', m['d'], m['h'], m['delta'], m['toast'] or m['lastToast']) for m in neg]
         # UI-MONEY-TOAST-ADV-1021（LAWWW 20:11）：生活費那幾則提示，每一則都要看得到（在最上層、在畫面裡）、至少 1.5 秒；看不到的記最上層是什麼、前後的提示
         T = bb.get('toasts', []); ai = [i for i, x in enumerate(T) if '生活費' in x['t']]
         print('生活費的提示：%d 則（入帳 %d 次）' % (len(ai), len(al)))
@@ -159,7 +159,7 @@ async def main():
             if x.get('slot'): byday.setdefault(x['d'], set()).add(x['slot']['shown'].split('/')[-1])
         for d in sorted(byday): print('   ', d, sorted(byday[d]))
         for x in fb[:12]: print('    退回：', x['d'], x['t'], x['slot'])
-        run.check('玩到 8/30 第一次去政大（E37 演完）', g['e37'], json.dumps(g, ensure_ascii=False))
+        run.check('玩到 8/30 第一次去外校（E37 演完）', g['e37'], json.dumps(g, ensure_ascii=False))
         run.check('沒有卡住超過 4 分鐘', stuck == 0, str(stuck))
         run.check('沒有用到卡住保險', g['fb'] == 0, str(g['fb']))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))

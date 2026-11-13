@@ -1,14 +1,14 @@
 """BB-B 10-30（CHAR-WHOIS-1030；AA_543 第 4 節＋5-1，使用者 X145「我甚至玩這麼久搞不清楚阿哲是誰」；開發分支 bcec62805；LAWWW-B 16:06 P1）：
 手機 → 朋友 → 某人「資料」，「現在大概在」下面的「你們」那一段（· 開頭，一行一句）。照玩家點手機看畫面上的字，另外讀 WHOIS.lines 對照。
 不是 iPhone：Playwright 手機直向模擬（SwiftShader）。
-MODE=law（使用者 9/25 存檔＝舊開局；【捷徑】用旗標／記憶做出「經濟系開局到法律系」的那幾種狀態，經濟系一整年沒有真的玩過去）：
+MODE=law（使用者 9/25 存檔＝舊開局；【捷徑】用旗標／記憶做出「舊序章的系開局到法律系」的那幾種狀態，舊序章的系一整年沒有真的玩過去）：
   W8 使用者存檔原樣：阿哲第一行「阿哲。法律系，跟你同班。」
   W1 大一上第 1 週：宿營同一小隊（FIRST_MET note camp）＋遊覽車坐旁邊＋203 四人房＋叫哥 → 全名那行、宿營＋遊覽車同一行、大一同住 203、打系籃、哥；沒有「大二」開頭、沒有「17 號」；Alison 個性沒有「其實很怕一個人」
   W2 大二上 12/19 以後：阿哲「大二上學期末，他和 Alison 在一起了。」；Alison 照怎麼知道的（麵店／電話／照片）三選一
-  W4 法律系開局：阿勳「回到法律系以後，他傳訊息來：「是我，阿勳。」」，沒有「412，住了兩個月」
+  W4 法律系開局：舊序章的人「回到法律系以後，他傳訊息來：「是我，舊序章的人。」」，沒有「412，住了兩個月」
   W6 什麼都有（大三下）：一頁最多 8 行，「哥」和「在一起了」不被擠掉
   每一頁：直向畫面，這一段不壓到按鈕、字沒有被切掉（截圖）
-MODE=econ（真的從標題「從經濟系大一開始」玩）：9/2 晚上韋綸、唐睿搬進 412 以後，朋友清單有他們兩個
+MODE=econ（真的從標題「從舊序章的系大一開始」玩）：9/2 晚上舊序章的人、舊序章的人搬進 412 以後，朋友清單有他們兩個
 用法：LW_TESTS=<工作樹>/tests MODE=law|econ python3 whois_probe.py <URL>/index.html <輸出資料夾> <使用者存檔>"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -67,7 +67,7 @@ async def mode_law(pg, cdp, run):
     o = await person(pg, cdp, run, 'zhe', 'w8'); l = ln(o)
     run.check('使用者 9/25 存檔（舊開局）：阿哲第一行「阿哲。法律系，跟你同班。」（沒講過全名）', o['inList'] and bool(l) and l[0] == '阿哲。法律系，跟你同班。' and not any('張哲維' in s for s in l), J(l)); lay_ok(run, 'w8 阿哲', o)
     # W1 大一上第 1 週
-    await state(pg, cdp, run, '2025-09-03', CAMP, '經濟系開局到法律系的樣子：阿哲宿營同一小隊（FIRST_MET note camp）、去程遊覽車坐旁邊（CAMP_BUS）、大一 203 四人房（DORM_FOUR）、叫哥（ZHE_CALLS_GE）')
+    await state(pg, cdp, run, '2025-09-03', CAMP, '舊序章的系開局到法律系的樣子：阿哲宿營同一小隊（FIRST_MET note camp）、去程遊覽車坐旁邊（CAMP_BUS）、大一 203 四人房（DORM_FOUR）、叫哥（ZHE_CALLS_GE）')
     o = await person(pg, cdp, run, 'zhe', 'w1'); l = ln(o)
     want = ['張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。', '宿營同一小隊，第一天就認識了。去程的遊覽車上，他坐你旁邊。', '大一同住 203。', '打系籃。', '知道你比大家大一歲以後，他都叫你「哥」。']
     miss = [w for w in want if w not in l]
@@ -85,14 +85,14 @@ async def mode_law(pg, cdp, run):
         others = [v for kk, v in yut.items() if kk != k]
         run.check('大二上 12/19 以後（%s）Alison：「%s」，另外兩句沒有' % (k, t), t in ly and not any(v in ly for v in others), J(ly))
         if k == 'here': lay_ok(run, 'w2 Alison', oy)
-    # W4 法律系開局的阿勳
-    await state(pg, cdp, run, '2025-10-20', " if(!SOCIAL.has('econ_zhengxun','FIRST_MET')&&SOCIAL.meet) SOCIAL.meet('econ_zhengxun','phone');", '阿勳傳過訊息、在朋友清單（法律系開局；沒有就 SOCIAL.meet）')
+    # W4 法律系開局的舊序章的人
+    await state(pg, cdp, run, '2025-10-20', " if(!SOCIAL.has('econ_zhengxun','FIRST_MET')&&SOCIAL.meet) SOCIAL.meet('econ_zhengxun','phone');", '舊序章的人傳過訊息、在朋友清單（法律系開局；沒有就 SOCIAL.meet）')
     o = await person(pg, cdp, run, 'econ_zhengxun', 'w4'); l = ln(o)
-    run.check('法律系開局阿勳：「你經濟系那年的室友。回到法律系以後，他傳訊息來：「是我，阿勳。」」，沒有「412，住了兩個月」',
-              any('他傳訊息來：「是我，阿勳。」' in s for s in l) and not any('住了兩個月' in s for s in l), J(l)); lay_ok(run, 'w4 阿勳', o)
-    await state(pg, cdp, run, '2025-10-20', " F.PLAYED_Y0=true; F.MET_XUN=true; if(!SOCIAL.has('econ_zhengxun','FIRST_MET')&&SOCIAL.meet) SOCIAL.meet('econ_zhengxun','dorm');", '對照：玩過經濟系那一年（PLAYED_Y0）')
+    run.check('法律系開局舊序章的人：「你舊序章的系那年的室友。回到法律系以後，他傳訊息來：「是我，舊序章的人。」」，沒有「412，住了兩個月」',
+              any('他傳訊息來：「是我，舊序章的人。」' in s for s in l) and not any('住了兩個月' in s for s in l), J(l)); lay_ok(run, 'w4 舊序章的人', o)
+    await state(pg, cdp, run, '2025-10-20', " F.PLAYED_Y0=true; F.MET_XUN=true; if(!SOCIAL.has('econ_zhengxun','FIRST_MET')&&SOCIAL.meet) SOCIAL.meet('econ_zhengxun','dorm');", '對照：玩過舊序章的系那一年（PLAYED_Y0）')
     o = await person(pg, cdp, run, 'econ_zhengxun', 'w4y0'); l = ln(o)
-    run.check('對照：玩過經濟系那一年的阿勳是「你經濟系那年的室友，男宿 412，住了兩個月。」，沒有「是我，阿勳。」', '你經濟系那年的室友，男宿 412，住了兩個月。' in l and not any('是我，阿勳' in s for s in l), J(l))
+    run.check('對照：玩過舊序章的系那一年的舊序章的人是「你舊序章的系那年的室友，男宿 412，住了兩個月。」，沒有「是我，舊序章的人。」', '你舊序章的系那年的室友，男宿 412，住了兩個月。' in l and not any('是我，舊序章的人' in s for s in l), J(l))
     # W6 什麼都有：最多 8 行
     big = CAMP + (" F.ROOM_Y2=STORY.dayOfKey('2026-09-06'); F.ROOM_Y3=STORY.dayOfKey('2027-09-05'); F.noodleTableDay=STORY.dayOfKey('2025-09-25'); PHONE.join(G,'noodle_team','法一吃飯');"
                   " G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done.ev_zhe_game_y2=STORY.dayOfKey('2026-10-17'); F.ZHE3=true; F.CLUB_dept_basketball=true; F.ZHE2='study'; F.met_yu=true; F.YU_ZHE_TOLD='here'; F.FINAL_GAME_Y3='went';")
@@ -116,7 +116,7 @@ async def mode_econ(pg, cdp, run):
         await L.tap(pg, cdp, '#rotate'); await pg.wait_for_timeout(800)
     await L.tap(pg, cdp, '#btnNewEcon'); await pg.wait_for_timeout(2000)
     st0 = await pg.evaluate("(()=>({stage:GAME.G&&GAME.G.stage, key:GAME.G&&CALENDAR.dateOf(GAME.G.day).key, title:!document.getElementById('titleScreen').classList.contains('hide')}))()")
-    run.check('前置：按「從經濟系大一開始」真的開局（stage econ、標題收起來）', st0['stage'] == 'econ' and not st0['title'], J(st0))
+    run.check('前置：按「從舊序章的系大一開始」真的開局（stage econ、標題收起來）', st0['stage'] == 'econ' and not st0['title'], J(st0))
     if st0['stage'] != 'econ': return
     t0 = time.time(); moved = None; last = 0; trail = []
     while time.time() - t0 < 2700:   # 照玩家（同 next91015 boyaecon 走到 9/9 的那個迴圈）：點對話、選項用 P.pick_of（不選變暗的，婉拒那一類優先）、手機收起來
@@ -127,12 +127,12 @@ async def mode_econ(pg, cdp, run):
         m = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {mv:!!F.E412_MOVEIN, night:F.E01_NIGHT||null, boxes:!!F.E01_BOXES, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone, stage:GAME.G.stage, paused:!!(GAME.E&&GAME.E.paused)}; })()")
         if m['mv']: moved = m; break
         if time.time() - last > 120:
-            last = time.time(); trail.append(m); run.note('經濟系開局進度：%s' % J(m))
+            last = time.time(); trail.append(m); run.note('舊序章的系開局進度：%s' % J(m))
         await pg.wait_for_timeout(1200)
     if not moved:
         run.note('沒走到搬進 412：最後的狀態 %s；最後的畫面另存' % J(await P.ts(pg))); await run.shot(pg, 'econ_stuck')
     run.note('E412_MOVEIN：%s（%d 秒）' % (J(moved), time.time() - t0))
-    run.check('前置：照玩家走到韋綸、唐睿搬進 412（E412_MOVEIN）', bool(moved), J(moved))
+    run.check('前置：照玩家走到舊序章的人、舊序章的人搬進 412（E412_MOVEIN）', bool(moved), J(moved))
     if not moved: return
     idle = 0; t1 = time.time()
     while time.time() - t1 < 240 and idle < 6:   # 搬進來那一刻常常接著換日字卡（econ3：截圖全黑、朋友頁還沒畫出來）：先把對話、字卡等完
@@ -153,12 +153,12 @@ async def mode_econ(pg, cdp, run):
     ids = ['econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_pinyu']
     nm = await pg.evaluate("(ids=>ids.map(id=>[id,SOCIAL.displayName(id)]))", ids)
     run.note('朋友清單：%s' % txt[:400])
-    run.check('經濟系開局搬進 412 以後，朋友清單有韋綸、唐睿（CHAR-WHOIS 第 5 項）', all(n in txt for i0, n in nm[1:3]), J({'names': nm, 'list': txt[:300]}))
-    BAN = ['回到法律系以後', '你經濟系那年']
-    W1 = {'econ_zhengxun': ['盧正勳，大家叫他阿勳。經濟系，跟你同班。', '男宿 412 的室友。'],
-          'econ_weilun': ['邱韋綸。經濟系，跟你同班。口頭禪「走啦！」', '男宿 412 的室友，九月二號搬進來的。'],
-          'econ_tangrui': ['唐睿。經濟系，跟你同班。', '男宿 412 的室友，九月二號搬進來的。'],
-          'econ_pinyu': ['曾品妤。經濟系，跟你同班。']}
+    run.check('舊序章的系開局搬進 412 以後，朋友清單有舊序章的人、舊序章的人（CHAR-WHOIS 第 5 項）', all(n in txt for i0, n in nm[1:3]), J({'names': nm, 'list': txt[:300]}))
+    BAN = ['回到法律系以後', '你舊序章的系那年']
+    W1 = {'econ_zhengxun': ['盧舊序章的人，大家叫他舊序章的人。舊序章的系，跟你同班。', '男宿 412 的室友。'],
+          'econ_weilun': ['邱舊序章的人。舊序章的系，跟你同班。口頭禪「走啦！」', '男宿 412 的室友，九月二號搬進來的。'],
+          'econ_tangrui': ['舊序章的人。舊序章的系，跟你同班。', '男宿 412 的室友，九月二號搬進來的。'],
+          'econ_pinyu': ['曾舊序章的人。舊序章的系，跟你同班。']}
     FL = "(()=>{ const F=GAME.G.flags; return {key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), stage:GAME.G.stage, camp:!!F.ECON_CAMP_DONE, moved:!!F.Y0_MOVED_OUT, e01:!!F.E01_DONE, zoula:!!(PHONE.inGroup&&PHONE.inGroup(GAME.G,'econ_friends')), kx:!!(STORY.knows&&STORY.knows('kexin',GAME.G))}; })()"
     API = "(ids=>ids.map(id=>WHOIS.lines(GAME.G,id)))"
     async def cp(tag, want, ui=True):
@@ -169,7 +169,7 @@ async def mode_econ(pg, cdp, run):
             out[pid] = l
             if ui and o['inList']: lay_ok(run, '%s %s' % (tag, pid), o)
             bad = [x for x in l if any(b in x for b in BAN)]
-            run.check('%s（%s %.2f）%s：沒有「回到法律系以後」「你經濟系那年」' % (tag, fl['key'], fl['h'], n), not bad, J(l))
+            run.check('%s（%s %.2f）%s：沒有「回到法律系以後」「你舊序章的系那年」' % (tag, fl['key'], fl['h'], n), not bad, J(l))
             ww = want(pid, fl)
             if ww is not None: run.check('%s（%s）%s：有 %s' % (tag, fl['key'], n, '／'.join(ww)), all(w in l for w in ww), J(l))
         return fl, out
@@ -184,7 +184,7 @@ async def mode_econ(pg, cdp, run):
     await L.close_panels(pg, cdp); await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)   # econ5：看完人物頁手機還開著，時間停在 9/13 19:33 四十分鐘
     while time.time() - t2 < 2400:   # 照玩家往下玩到 10/19 退宿（Y0_MOVED_OUT），途中宿營過了、進「走啦」群組各看一次（WHOIS.lines）
         s = await P.ts(pg)
-        if time.time() - last2 > 120: last2 = time.time(); run.note('經濟系往下玩：%s；畫面 %s' % (J(await pg.evaluate(FL)), J({k: s[k] for k in ('dlg', 'txt', 'phone', 'busy', 'running')})))
+        if time.time() - last2 > 120: last2 = time.time(); run.note('舊序章的系往下玩：%s；畫面 %s' % (J(await pg.evaluate(FL)), J({k: s[k] for k in ('dlg', 'txt', 'phone', 'busy', 'running')})))
         if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
         if s['dlg'] and not s['txt']:   # 對話狀態開著、對話框沒顯示（手機裡的對話、被面板蓋住）：先把面板收起來
             hid += 1
@@ -197,10 +197,10 @@ async def mode_econ(pg, cdp, run):
         if fl['stage'] != 'econ' or fl['moved']: break
         if fl['camp'] and seen['camp'] is None:
             L2 = await pg.evaluate(API, ids); seen['camp'] = [fl['key'], L2]
-            run.check('宿營過了（%s）：阿勳、韋綸有「經濟系宿營同一小隊。」' % fl['key'], all('經濟系宿營同一小隊。' in L2[k] for k in (0, 1)), J(L2))
+            run.check('宿營過了（%s）：舊序章的人、舊序章的人有「舊序章的系宿營同一小隊。」' % fl['key'], all('舊序章的系宿營同一小隊。' in L2[k] for k in (0, 1)), J(L2))
         if fl['zoula'] and seen['zoula'] is None:
             L2 = await pg.evaluate(API, ids); seen['zoula'] = [fl['key'], L2]
-            run.check('進「走啦」群組以後（%s）：韋綸「「走啦」群組是他建的。」、品妤「「走啦」群組裡也有她。」' % fl['key'], '「走啦」群組是他建的。' in L2[1] and '「走啦」群組裡也有她。' in L2[3], J(L2))
+            run.check('進「走啦」群組以後（%s）：舊序章的人「「走啦」群組是他建的。」、舊序章的人「「走啦」群組裡也有她。」' % fl['key'], '「走啦」群組是他建的。' in L2[1] and '「走啦」群組裡也有她。' in L2[3], J(L2))
         await pg.wait_for_timeout(1200)
     fl2 = await pg.evaluate(FL); run.note('往下玩停在：%s；宿營那一點 %s；走啦那一點 %s' % (J(fl2), J(seen['camp'] and seen['camp'][0]), J(seen['zoula'] and seen['zoula'][0])))
     run.check('前置：照玩家玩到 10/19 退宿（Y0_MOVED_OUT）', fl2['moved'], J(fl2))

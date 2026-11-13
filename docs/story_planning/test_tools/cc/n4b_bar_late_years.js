@@ -3,7 +3,7 @@
 //   工作樹＝含 src/、tests/pg_harness.js 的資料夾（預設環境變數 WT）。對照修改前：
 //     mkdir <dir> && cd /home/user/Lawstudent && git archive 188412f3b src tests index.html | tar -x -C <dir>
 //     nice -n 19 node n4b_bar_late_years.js <dir>      ← 項目 1、2（還有 3、4 的新功能）應該 FAIL
-// 做法：用 tests/pg_harness.js 載入遊戲系統（假的 GM），從【前置】存檔（2029 一試 5 題沒過＝重考生、已畢業、2030-08-02 22:00）開始，
+// 做法：用 tests/pg_harness.js 載入遊戲系統（假的 GM），從【前置】存檔（2029 一試 5 題沒過＝舊序章生、已畢業、2030-08-02 22:00）開始，
 //   只用遊戲自己的「下一件事」機制推時間（OUT.due/OUT.tick、PG.due/PG.runStep、PG.sleepJump、PG.advance），一路到 2034-06-03 尾聲。
 //   一試真的作答（照計畫答對 k 題）、報名問題照計畫選；不直接寫 BAR_STAGE／BAR_YEAR。每一個場景記下開始的遊戲時間、那一場的旁白／系統字、字卡、手機系統訊息。
 //   日期另外用 JS Date（UTC）獨立算星期幾，和 PG.Y 與遊戲的 dateLabel 互相比對。

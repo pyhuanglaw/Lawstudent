@@ -51,11 +51,11 @@ if os.path.exists(mp):
     feb8 = [m for m in msgs if m['from'] == 'kexin' and m['d'] == '2025-02-08']
     new = any('我把高三的講義翻出來了。' in m['text'] for m in feb8); old = [m for m in msgs if '如果可以重來一次選科系' in m['text']]; ask = [m for m in feb8 if m['ask']]
     v('AA_368 H3 2/8 可昕「我把高三的講義翻出來了。」、沒有選項', new and not old and not ask, '2/8 可昕 %s；舊題 %d；有選項 %d' % ([m['text'][:16] for m in feb8], len(old), len(ask)))
-    # ③ 規則本身（a6441e98）：手機小事（tag dp_）和前面別的訊息（不是 rt_ 例行、不是 dp_）隔 3 天、不同一天；只看經濟系那一年
+    # ③ 規則本身（a6441e98）：手機小事（tag dp_）和前面別的訊息（不是 rt_ 例行、不是 dp_）隔 3 天、不同一天；只看舊序章的系那一年
     other = sorted({dd(m['d']) for m in msgs if m['from'] != 'player' and not str(m.get('tag') or '').startswith(('rt_', 'dp_')) and m['d'] < '2025-08-29'})
     smalls = [(m['d'], m.get('tag'), m['text'][:14]) for m in msgs if str(m.get('tag') or '').startswith('dp_') and m['d'] < '2025-08-29']
     bad3 = [(d, t, x) for d, t, x in smalls if any(0 <= (dd(d) - o).days < 3 for o in other)]
-    v('BB218-P3 ③ 手機小事和前面別的訊息隔 3 天、不同一天（經濟系那一年）', bool(smalls) and not bad3, '小事 %d 則；太近 %s' % (len(smalls), bad3[:6]))
+    v('BB218-P3 ③ 手機小事和前面別的訊息隔 3 天、不同一天（舊序章的系那一年）', bool(smalls) and not bad3, '小事 %d 則；太近 %s' % (len(smalls), bad3[:6]))
     nt = [m for m in msgs if '我高中的筆記還在，掃描放雲端了。' in m['text']]
     v('AA_368 附 y0_py_notes2 大一下第 4 週收到', bool(nt), '收到 %s' % [m['d'] for m in nt])
 else:

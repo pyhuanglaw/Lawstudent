@@ -1,9 +1,9 @@
-"""BB：QA-AA300-1018（同一支，MODE=ff＋記停點、日期卡）／QA-PLAYTHROUGH-1018（v9.10.1 發布條件，使用者 10-18 07:1x 同意）——經濟系路線從新遊戲玩到 8/30 第一次去政大（E37）以後，照「真實玩家」的四種玩法：
+"""BB：QA-AA300-1018（同一支，MODE=ff＋記停點、日期卡）／QA-PLAYTHROUGH-1018（v9.10.1 發布條件，使用者 10-18 07:1x 同意）——舊序章的系路線從新遊戲玩到 8/30 第一次去外校（E37）以後，照「真實玩家」的四種玩法：
   MODE=sleep    天天直接睡覺：一空下來，在宿舍就走去床邊睡、在家就選「睡覺」
   MODE=nophone  完全不開手機：不打開手機、不回任何訊息（自動打開的手機直接收起來）
   MODE=decline  所有邀約都拒絕／不回：手機要回的選最後一個（不去／今天不行），選項裡有拒絕的就選拒絕
   MODE=ff       一直快轉：選項裡有「快轉」「到下一個有事的日子」「跳過」就選
-不瞬移、不改劇情狀態；開局按標題「從經濟系前傳開始」。手機模擬 844×390 觸控（Playwright，不是實機）。
+不瞬移、不改劇情狀態；開局按標題「從舊序章的系舊序章開始」。手機模擬 844×390 觸控（Playwright，不是實機）。
 記錄：卡住超過 4 分鐘（重現：日期、時間、區域、畫面）、JS 例外、畫面檢查（screencheck）、每月一張截圖、遊戲裡的台詞（dlg hook）。
 用法：MODE=sleep LW_TESTS=<LAWWW>/tests python3 qa_play.py URL OUT"""
 import os, sys, json, asyncio, time
@@ -41,7 +41,7 @@ async def main():
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
-        await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從經濟系前傳開始」', flush=True)
+        await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從舊序章的系舊序章開始」', flush=True)
         t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; stops = []; seen_bad = set(); cards = []; beds = []; last_card = ''; in_scene = False; phone_auto = 0
         while time.time() - t0 < MAXH * 3600:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
@@ -127,7 +127,7 @@ async def main():
         msgs = await pg.evaluate("(GAME.G.msgs||[]).map(m=>({d:CALENDAR.dateOf(m.day).key, h:m.h!=null?m.h:(m.hour!=null?m.hour:null), from:m.from||'', text:String(m.text||''), ask:!!m.ask, tag:m.tag||''}))")
         json.dump(msgs, open(os.path.join(OUT, 'msgs.json'), 'w'), ensure_ascii=False, indent=1)
         print('可昕的訊息（2/1～2/14、7/10～7/26）：'); [print('   %s %s %s%s' % (m['d'], m['h'], m['text'][:60], '（有選項）' if m['ask'] else '')) for m in msgs if m['from'] == 'kexin' and ('2025-02-01' <= m['d'] <= '2025-02-14' or '2025-07-10' <= m['d'] <= '2025-07-26')]
-        run.check('玩到 8/30 第一次去政大（E37 演完）', g['e37'], json.dumps(g, ensure_ascii=False))
+        run.check('玩到 8/30 第一次去外校（E37 演完）', g['e37'], json.dumps(g, ensure_ascii=False))
         run.check('沒有卡住超過 4 分鐘', stuck == 0, str(stuck))
         run.check('沒有用到卡住保險', g['fb'] == 0, str(g['fb']))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))

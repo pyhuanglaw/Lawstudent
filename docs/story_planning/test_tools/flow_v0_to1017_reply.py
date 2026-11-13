@@ -1,4 +1,4 @@
-"""經濟系驗收（AA_269 第 6 節第 1～4 點）：從標題「新遊戲」不跳日期，一路玩到 2024-10-17 晚上（真實玩家流程，第 3 級；手機模擬 844×390 觸控，不是實機）。
+"""舊序章的系驗收（AA_269 第 6 節第 1～4 點）：從標題「新遊戲」不跳日期，一路玩到 2024-10-17 晚上（真實玩家流程，第 3 級；手機模擬 844×390 觸控，不是實機）。
 做法：像玩家一樣過日子——
   - 對話點過去；選項照下面的偏好選（起床選單選「直接去上課」、出遊選「出發」、其他選第一個）；
   - 空下來、21:00 以前：打開手機「今天」，按最後一個「跳過時間」（遇到課、約好的時間、劇情會自己停）；
@@ -185,7 +185,7 @@ async def main():
                 await pg.wait_for_timeout(800); continue
             free_since = None
             if day_check: await sc.check(pg, '%s 空下來 %s' % (day_check, s['zone'])); day_check = None
-            # WAIT_IDLE_DAYS（BB-B 11-07，BUG-Y0-DAYSKIP-CARD-1107 ③）：那幾天空下來什麼都不按，等經濟系快轉自己跳（真人站著不動＝這樣）；最多等 90 秒
+            # WAIT_IDLE_DAYS（BB-B 11-07，BUG-Y0-DAYSKIP-CARD-1107 ③）：那幾天空下來什麼都不按，等舊序章的系快轉自己跳（真人站著不動＝這樣）；最多等 90 秒
             if last_key in WAIT_IDLE_DAYS and s['hour'] < 21:
                 w0 = wait_idle.setdefault((last_key, int(s['hour'])), time.time())
                 if time.time() - w0 < 90:

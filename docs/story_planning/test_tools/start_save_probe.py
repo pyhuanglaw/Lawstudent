@@ -1,6 +1,6 @@
 """BB：開局二選一（game3d.js 533 行）＋在家存檔。
-A 標題畫面有兩個新遊戲按鈕；按「直接從法律系大一開始」→ 照玩家點對話、選第一個 → 看 stage law、日期 2025-08 宿營、沒有經濟系的東西（可昕、經濟系同學不在朋友列表）。
-B [前置／捷徑] 讀檔到 2024-11-20 21:00 在臺北的家（經濟系退宿後）→ 選單存到欄位 2 → 重新整理 → 標題「讀取」欄位 2 → 看還在家、日期時間一樣、家的選單出現。"""
+A 標題畫面有兩個新遊戲按鈕；按「直接從法律系大一開始」→ 照玩家點對話、選第一個 → 看 stage law、日期 2025-08 宿營、沒有舊序章的系的東西（可昕、舊序章的系同學不在朋友列表）。
+B [前置／捷徑] 讀檔到 2024-11-20 21:00 在臺北的家（舊序章的系退宿後）→ 選單存到欄位 2 → 重新整理 → 標題「讀取」欄位 2 → 看還在家、日期時間一樣、家的選單出現。"""
 import os, sys, json, asyncio
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -12,7 +12,7 @@ async def main():
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         btns = await pg.evaluate("[...document.querySelectorAll('#titleScreen button')].filter(b=>!b.classList.contains('hide')&&b.offsetParent).map(b=>b.textContent.trim().slice(0,20))")
         print('標題按鈕', btns); await run.shot(pg, 'A_title')
-        run.check('A 標題有「從經濟系開始（序章）」和「從法律系開始」', any('從經濟系開始' in x for x in btns) and any('從法律系開始' in x for x in btns), json.dumps(btns, ensure_ascii=False))
+        run.check('A 標題有「從舊序章的系開始（序章）」和「從法律系開始」', any('從舊序章的系開始' in x for x in btns) and any('從法律系開始' in x for x in btns), json.dumps(btns, ensure_ascii=False))
         await L.tap(pg, cdp, '#btnNewLaw'); lines = []
         for i in range(260):
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
@@ -25,7 +25,7 @@ async def main():
         g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,kx:!!(GAME.G.contacts&&GAME.G.contacts.kexin!=null),y0:!!GAME.G.flags.PLAYED_Y0})")
         print('A 法律系開局之後', json.dumps(g, ensure_ascii=False)); print('   前幾句：', lines[:8]); await run.shot(pg, 'A_after')
         run.check('A 直接法律系開局：stage law、2025-08', g['stage'] == 'law' and g['key'].startswith('2025-08'), json.dumps(g, ensure_ascii=False))
-        run.check('A 法律系開局沒有設 PLAYED_Y0（沒玩過經濟系）', not g['y0'], json.dumps(g, ensure_ascii=False))
+        run.check('A 法律系開局沒有設 PLAYED_Y0（沒玩過舊序章的系）', not g['y0'], json.dumps(g, ensure_ascii=False))
         d = await pg.evaluate("STORY.dayOfKey('2024-11-20')")
         st = {'stage': 'econ', 'zone': 'campus', 'day': d, 'weekday': 3, 'hour': 21, 'money': 12000, 'pos': {'x': -117, 'z': 0.5, 'yaw': 1.57}, 'home': {'at': True, 'base': True, 'day': d},
               'contacts': {'kexin': d - 60}, 'flags': {'ECON_CAMP_DONE': True, 'E01_DONE': True, 'E01_MORNING': True, 'Y0_MOVED_OUT': True, 'dating_kexin': True, 'KX_DATING_SINCE': '2024-10-17', 'KX_FIRST_MSG': True, 'fundsV2': 1, 'Y0_STICKY': True},

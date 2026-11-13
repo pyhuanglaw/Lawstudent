@@ -19,7 +19,7 @@ const grad=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
   { const G=H.fresh('2029-12-15',10,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:18,BAR_STAGE_2029:'both',BAR_YEAR:2029}); grad(G);
     const st2030=PG.STEPS.filter(s=>/2030/.test(s.id)).map(s=>{ let c=false; try{ c=!!s.cond(G); }catch(e){} return s.id+':'+c; });
     console.log('E5 sits2030=',PG.sits(G,2030),'retaker=',PG.retaker(G),'2030 steps cond:',st2030.join(' ')); }
-  // E6：2030 重考 0 題也錄取律師
+  // E6：2030 舊序章 0 題也錄取律師
   console.log('E6 tier(2030,0)=',PG.tier(2030,0),'tier(2029,11)=',PG.tier(2029,11));
   // E7：S.path 六種＋judge
   { const P=(f)=>{ const G=H.fresh('2034-06-03',18,'dorm',f); grad(G); return PG.path(G); };

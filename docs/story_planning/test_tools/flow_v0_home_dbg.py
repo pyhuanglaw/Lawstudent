@@ -1,4 +1,4 @@
-"""經濟系驗收（AA_269 第 6 節第 5～10 點）：10/19 退宿以後住臺北的家，一路玩到 8/29 搬進法律系宿舍（真實玩家流程；手機模擬 844×390 觸控，不是實機）。
+"""舊序章的系驗收（AA_269 第 6 節第 5～10 點）：10/19 退宿以後住臺北的家，一路玩到 8/29 搬進法律系宿舍（真實玩家流程；手機模擬 844×390 觸控，不是實機）。
 做法：像玩家一樣過日子——
   - 對話點過去；家裡的選單：有「出發」就出發（出遊、約好的見面），沒有就「快轉」→「到下一個有事的日子」（D99，d9668fab）；
   - 手機有要回的訊息（有選項的）或邀約：打開手機、進那個對話、按第一個選項（答應）；
@@ -79,7 +79,7 @@ async def main():
                   'flags': {'ECON_CAMP_OPEN': True, 'E15_BUS': 'nosleep', 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'Y0_MOVED_OUT': True, 'dating_kexin': True, 'KX_DATING_SINCE': '2024-10-17',
                             'E26_DAY': d - 2, 'KX_CAR': 'only_me', 'KX_FIRST_MSG': True, 'fundsV2': 1, 'allowanceMonth': 10, 'Y0_STICKY': True},
                   'events': {'done': {'ev_y0_e30': 1, 'ev_y0_a3': 1, 'ev_y0_e26': 1, 'ev_y0_e02': 1}, 'last': {'ev_y0_e30': d - 2, 'ev_y0_a3': d, 'ev_y0_e26': d - 2}, 'count': 4}}
-            run.setup('讀檔到 2024-10-19（六）19:00 在臺北的家（退宿後、和可昕交往中、宿營演過；聯絡人：可昕、經濟系五人）')
+            run.setup('讀檔到 2024-10-19（六）19:00 在臺北的家（退宿後、和可昕交往中、宿營演過；聯絡人：可昕、舊序章的系五人）')
             await L.load_state(pg, st)
         t0 = time.time(); last_key = None; stuck_t = time.time(); last_sig = None; recover = 0; answered = 0; fade_block = 0; days = []
         fade_run = 0

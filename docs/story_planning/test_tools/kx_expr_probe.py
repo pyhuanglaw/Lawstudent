@@ -2,7 +2,7 @@
 懷疑的原因（讀程式碼）：events3d.js 每句先叫 ADV.speaker(id, l.expression)，接著 GM.say 又叫一次 ADV.speaker(id, undefined)；
   第二次沒帶表情＝用 ADV.slots 記的表情，但 adv3d.js 的 render 是 async、await 載圖之後才更新 ADV.slots → 第二次拿到上一句（或更早）的舊表情，
   兩次 render 的 setTimeout 120 ms 換圖照順序套用，後面那次（舊表情）蓋掉前面那次（新表情）。
-做法：讀 nophone 那一輪的經濟系狀態（10/31），照順序跑四場可昕的劇情（[捷徑] void EVENTS.run）；每句停 2 秒（像人在讀）再讀台上的圖，和劇本 expression 比；
+做法：讀 nophone 那一輪的舊序章的系狀態（10/31），照順序跑四場可昕的劇情（[捷徑] void EVENTS.run）；每句停 2 秒（像人在讀）再讀台上的圖，和劇本 expression 比；
   A＝遊戲原樣；B＝同一個頁面先套「同一個人、同一瞬間第二次沒帶表情的 ADV.speaker 不再 render」的暫時修正（只在測試頁裡，不改遊戲檔），看不一樣的句子會不會消失。
 Playwright 手機橫向模擬、?turbo，不是 iPhone。
 用法：LW_TESTS=<開發分支>/tests python3 kx_expr_probe.py '<URL>/index.html?turbo' <輸出資料夾> <狀態.json> <開發分支根目錄>"""
@@ -104,7 +104,7 @@ async def main():
     run = L.Run('kx_expr', OUT); sm = script_map(ROOT); G = json.load(open(SNAPF, encoding='utf-8')); res = {}; allerrs = []
     async with async_playwright() as p:
         for mode in [m for m in ('A_原樣', 'B_暫時修正') if m[0] in MODES]:
-            run.setup('[前置] %s：讀 qa_play nophone 存的經濟系狀態（%s）；[捷徑] 每一場開新的瀏覽器、用 EVENTS.run 演 %s' % (mode, os.path.basename(SNAPF), ','.join(EVS)))
+            run.setup('[前置] %s：讀 qa_play nophone 存的舊序章的系狀態（%s）；[捷徑] 每一場開新的瀏覽器、用 EVENTS.run 演 %s' % (mode, os.path.basename(SNAPF), ','.join(EVS)))
             allrows = []
             for ev in EVS:
                 try:

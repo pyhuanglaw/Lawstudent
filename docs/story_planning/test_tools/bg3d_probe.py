@@ -19,7 +19,7 @@ SHOTS = [('cafe_window', 'cafe', 15.0, (3.2, -2.5), {}), ('cafe_closed', 'cafe',
          ('putong_empty', 'putong', 19.0, (-5.4, -4.6), {}), ('boya_201', 'boya', 14.0, (-7.0, -4.8), {}),
          ('law_courtyard', 'campus', 12.0, (60.0, -88.0), {}),
          ('us_c_door', 'us_outside', 22.5, (21.0, 8.0), {'US_DEPARTED': True, 'US_ARRIVED': True}),
-         # BB-C 10-28 13:2x：LAWWW-C P3 linze_201（AA_520 予樂「演講那一晚」10/20 19:00，霖澤館 201 階梯教室）：第 5 排後面往講台看
+         # BB-C 10-28 13:2x：LAWWW-C P3 linze_201（AA_520 舊序章的人「演講那一晚」10/20 19:00，霖澤館 201 階梯教室）：第 5 排後面往講台看
          ('linze_201', 'classroom', 19.2, (0.0, 5.6), {}),
          # BB-C 10-28 13:4x：LAWWW-C P3 AA_523 1-4 新體育館游泳池（5/12 週六 07:00；鍵暫名 gym_pool）：B1 池邊（gym_layout.js b1.pool：池子 z −21～−3.5、池邊到 z −0.2）往北看整個池子
          ('gym_pool', 'gym_b1', 7.0, (0.0, -1.6), {}),

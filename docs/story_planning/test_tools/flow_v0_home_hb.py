@@ -1,4 +1,4 @@
-"""經濟系驗收（AA_269 第 6 節第 5～10 點）：10/19 退宿以後住臺北的家，一路玩到 8/29 搬進法律系宿舍（真實玩家流程；手機模擬 844×390 觸控，不是實機）。
+"""舊序章的系驗收（AA_269 第 6 節第 5～10 點）：10/19 退宿以後住臺北的家，一路玩到 8/29 搬進法律系宿舍（真實玩家流程；手機模擬 844×390 觸控，不是實機）。
 做法：像玩家一樣過日子——
   - 對話點過去；家裡的選單：有「出發」就出發（出遊、約好的見面），沒有就「快轉」→「到下一個有事的日子」（D99，d9668fab）；
   - 手機有要回的訊息（有選項的）或邀約：打開手機、進那個對話、按第一個選項（答應）；
@@ -66,7 +66,7 @@ async def main():
                   'flags': {'ECON_CAMP_OPEN': True, 'E15_BUS': 'nosleep', 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'Y0_MOVED_OUT': True, 'dating_kexin': True, 'KX_DATING_SINCE': '2024-10-17',
                             'E26_DAY': d - 2, 'KX_CAR': 'only_me', 'KX_FIRST_MSG': True, 'fundsV2': 1, 'allowanceMonth': 10, 'Y0_STICKY': True},
                   'events': {'done': {'ev_y0_e30': 1, 'ev_y0_a3': 1, 'ev_y0_e26': 1, 'ev_y0_e02': 1}, 'last': {'ev_y0_e30': d - 2, 'ev_y0_a3': d, 'ev_y0_e26': d - 2}, 'count': 4}}
-            run.setup('讀檔到 2024-10-19（六）19:00 在臺北的家（退宿後、和可昕交往中、宿營演過；聯絡人：可昕、經濟系五人）')
+            run.setup('讀檔到 2024-10-19（六）19:00 在臺北的家（退宿後、和可昕交往中、宿營演過；聯絡人：可昕、舊序章的系五人）')
             await L.load_state(pg, st)
         t0 = time.time(); last_key = None; stuck_t = time.time(); last_sig = None; recover = 0; answered = 0; fade_block = 0; days = []
         fade_run = 0; hb_t = time.time(); walk_try = {}   # BB-B 10-31：每分鐘一行心跳；7/27「去學校走一走」像玩家一樣走到法律系館A前面、走進穿堂（原測試只等，校園上要等到半夜）
@@ -131,7 +131,7 @@ async def main():
         print('   旗標', json.dumps(res['fl'], ensure_ascii=False), flush=True)
         run.check('玩到 8/29 進法律系（stage law）', res['stage'] == 'law' and res['key'] >= '2025-08-29', json.dumps({k: res[k] for k in ('key', 'h', 'stage', 'zone')}, ensure_ascii=False))
         run.check('二月那一場：E23、E27、E24c 都演過（AA_269 第 8 點）', all(k in res['ev'] for k in ('ev_y0_e23', 'ev_y0_e27', 'ev_y0_e24c')), json.dumps({k: res['ev'].get(k) for k in ('ev_y0_e23', 'ev_y0_e27', 'ev_y0_e24c')}))
-        # E37（第一次一起去政大）照 AA_303 第 2 節改到「法律系 8/30」：8/29 轉進法律系的隔天才演，這支停在 8/29，所以不在這裡查（8/28 的私訊、8/30 的出遊由 tests/v0_e37_unit.js 查）
+        # E37（第一次一起去外校）照 AA_303 第 2 節改到「法律系 8/30」：8/29 轉進法律系的隔天才演，這支停在 8/29，所以不在這裡查（8/28 的私訊、8/30 的出遊由 tests/v0_e37_unit.js 查）
         run.check('考試、放榜（AA_272 第 4、10、11 節）：E35h、考場、對答案、7/25 成績公布（客運版或在家版）、8/13 早上旁白＋晚上電話', 'ev_y0_e35h' in res['ev'] and any(k in res['ev'] for k in ('ev_y0_exam1h', 'ev_y0_exam1')) and 'ev_y0_exam2' in res['ev'] and any(k in res['ev'] for k in ('ev_y0_kh_bus_h', 'ev_y0_kh_bus', 'ev_y0_kh_home_h', 'ev_y0_kh_home')) and any(k in res['ev'] for k in ('ev_y0_e36r', 'ev_y0_e36rh')) and any(k in res['ev'] for k in ('ev_y0_e36', 'ev_y0_e36h')), json.dumps({k: res['ev'].get(k) for k in WATCH[-15:]}, ensure_ascii=False))
         run.check('沒有用到卡住保險', res['fb'] == 0, str(res['fb']))
         run.check('黑幕沒有擋住對話', fade_block == 0, str(fade_block))

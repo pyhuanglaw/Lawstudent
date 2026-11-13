@@ -1,5 +1,5 @@
 """BB：博雅 101 上課時的同學長相（使用者 2026-10-18「博雅101有人禿頭 有人看起來很可怕」）。
-[前置] 讀上一段玩到的存檔（經濟系 2024-09-09 早上，標題「讀取」欄位 1）；之後照玩家：手機「今天」→ 經濟學原理 → 到教室，上課中截圖、近拍每個同學。"""
+[前置] 讀上一段玩到的存檔（舊序章的系 2024-09-09 早上，標題「讀取」欄位 1）；之後照玩家：手機「今天」→ 經濟學原理 → 到教室，上課中截圖、近拍每個同學。"""
 import os, sys, json, asyncio
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -14,7 +14,7 @@ async def main():
         await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1500)
         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 1'))||b[0]; if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1])
-        run.setup('讀取經濟系 9/9 的存檔'); await pg.wait_for_timeout(4000)
+        run.setup('讀取舊序章的系 9/9 的存檔'); await pg.wait_for_timeout(4000)
         print(await pg.evaluate("({key:CALENDAR.dateOf(GAME.G.day).key,h:GAME.G.hour,zone:GAME.G.zone})"))
         for i in range(400):
             z = await pg.evaluate("GAME.G.zone")

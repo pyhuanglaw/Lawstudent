@@ -30,7 +30,7 @@ async def main():
         d0 = (await P.day_of(pg, '2027-09-28'))['d']
         fl = {'ROOM_Y2': d0 - 400, 'ROOM_Y3': d0 - 20, 'DECIDE': {'heroine_02': {'distance': {'v': 'letters', 'day': d0 - 200}}}}
         if MODE == 'other': fl['dating_heroine_01'] = True
-        else: fl['dating_kexin'] = False   # day46 存檔本來和可昕交往中（經濟系那一年起）：選信、沒有和別人交往的版本要先清掉
+        else: fl['dating_kexin'] = False   # day46 存檔本來和可昕交往中（舊序章的系那一年起）：選信、沒有和別人交往的版本要先清掉
         s, d = await P.base(pg, save, '2027-09-28', 21.67, 'campus', flags=fl)
         s.setdefault('home', {})['at'] = False
         if MODE == 'letters':

@@ -16,7 +16,7 @@ MODE（環境變數）：
   invite  INVITE-MENU-1030／AA_535：手機「約」以安、學姊：第一層照分類（念書…／吃飯…／喝咖啡、喝茶…／散步…／運動…／出去玩…／算了），每一層最多 8 列；
           念書有總圖、慢讀咖啡、法圖；喝咖啡有兩點半 Café、一盞、慢讀；運動有羽球、晨跑；出去玩照地區分；灰掉的有小字原因。
   jacket  SK02-LINE-JACKET-1030：社科院正門領系外套選「（穿去法律系館A上課）」→ 身上真的穿著（JACKET_ECON 看得到）、截圖；回宿舍房間脫下掛椅背（JACKET_CHAIR）；
-          下一次 201 的課（手機「直接去上課」）穿著、阿哲「你是經濟系派來的臥底嗎？」。【捷徑】SK02_DM_DAY（系辦私訊那天）。
+          下一次 201 的課（手機「直接去上課」）穿著、阿哲「你是舊序章的系派來的臥底嗎？」。【捷徑】SK02_DM_DAY（系辦私訊那天）。
   badclip BADCLIP-FOLLOW-1030：當面約以安「約她去…」→ 運動 → 羽球 →「現在一起過去」（她跟著走）→ 短片期間她在網子另一邊（北半場），不是跑到玩家面前。
   bigmap  BIGMAP-PEOPLE-1030（4da27563c）：VP＝portrait／desktop／landscape。打開大地圖「認識的人現在大概在」預設收起、不蓋地圖；
           自由的日子 👥 有黃點、有目標的日子沒有；按 👥 展開 → 關掉地圖再開照樣展開；再按收起 → 再開照樣收起。
@@ -321,7 +321,7 @@ async def noodle(pg, cdp, run):
 async def cafe2(pg, cdp, run):
     st, d = await P.base(pg, SAVE, '2025-09-27', 14.0, 'l118_cafe2'); await P.load(pg, cdp, st); await pg.wait_for_timeout(3000)
     run.setup('[前置] 使用者存檔改到 %s 14:00 慢讀咖啡（118 巷）' % d['key'])
-    r0 = await P.dialog(pg, cdp, run, picks=['不去了'], max_s=60, start_s=6, tag='cafe2_prompt')   # 使用者存檔 9/27 14:00 有「出發：去木柵大學找可昕」：玩家選不去了（BB-B 10-30：沒處理＝出遊走掉，時間到 18:03）
+    r0 = await P.dialog(pg, cdp, run, picks=['不去了'], max_s=60, start_s=6, tag='cafe2_prompt')   # 使用者存檔 9/27 14:00 有「出發：去外校大學找可昕」：玩家選不去了（BB-B 10-30：沒處理＝出遊走掉，時間到 18:03）
     its = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>i.seat).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),label:i.label,study:!!i.study,lift:!!(i.seat&&i.seat.lift)})))()")
     run.note('慢讀的座位：%s' % J(its)); await run.shot(pg, 'cafe2_in')
     desk = [i for i in its if i['label'] == '坐下讀書']
@@ -483,7 +483,7 @@ async def jacket(pg, cdp, run):
         await pg.wait_for_timeout(1500)
     lines = await P.said(pg, n1); run.note('上課那一段：手機按鈕「%s」；%s' % (bt, J(lines[:12])))
     run.check('201 上課：身上穿著系外套', bool(j4) and j4['on'] is True, J(j4))
-    run.check('201 上課前：阿哲「你是經濟系派來的臥底嗎？」', any('臥底' in l[1] for l in lines), J(lines[:12]))
+    run.check('201 上課前：阿哲「你是舊序章的系派來的臥底嗎？」', any('臥底' in l[1] for l in lines), J(lines[:12]))
 
 
 async def badclip(pg, cdp, run):
@@ -995,11 +995,11 @@ async def drain_free(pg, cdp, secs=360):
 
 
 async def boyaecon(pg, cdp, run):
-    # 經濟系第一堂經原（博思 101，2024-09-09）：標題「從經濟系大一開始」（?y0）→ 照事件接事件的流程站著、點對話（選第一個），走到 9/9 那一堂
+    # 舊序章的系第一堂經原（博思 101，2024-09-09）：標題「從舊序章的系大一開始」（?y0）→ 照事件接事件的流程站著、點對話（選第一個），走到 9/9 那一堂
     u = URL + ('&' if '?' in URL else '?') + 'y0' + ('&nofastecon' if os.environ.get('BOYA_FULL') else '')
     await pg.goto(u); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()"); await pg.goto(u); await L.wait_loaded(pg); await pg.wait_for_timeout(1500); await P.init(pg)
     vis = await pg.evaluate("(()=>{ const b=document.getElementById('btnNewEcon'); return b?{t:b.textContent.trim(),vis:!!b.offsetParent}:null; })()")
-    run.check('前置：標題有「從經濟系大一開始」（網址 ?y0）', bool(vis) and vis['vis'], J(vis))
+    run.check('前置：標題有「從舊序章的系大一開始」（網址 ?y0）', bool(vis) and vis['vis'], J(vis))
     await L.tap(pg, cdp, '#btnNewEcon'); await pg.wait_for_timeout(2000)
     it = await pg.evaluate("(()=>{ const d=STORY.dayOfKey('2024-09-09'); const it=ECONFF.clsItem(GAME.G,d,'econ_principles_y0'); return it?{d, key:it.key, t0:it.t0, t1:it.t1, zone:it.room&&it.room.zone, room:it.room&&(it.room.room||it.room.id||it.room.name)||null, name:it.c&&it.c.name}:null; })()")
     run.note('9/9 那一堂：%s' % J(it))
@@ -1031,8 +1031,8 @@ async def boyaecon(pg, cdp, run):
             elif cap is not None and cap2 is None and time.time() - seen_boya > 40:
                 cap2 = await pg.evaluate(CLASSJS)
                 await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=0; C.pitch=0.3; C.distTarget=5; C.manualT=1e9; })()"); await pg.wait_for_timeout(1500); await run.shot(pg, 'econ_class_b'); run.note('上課中（40 秒）：%s' % J(cap2))
-        if cap3 is None and c['zone'] == 'boya' and c['day'] == it['d'] and s['dlg'] and s.get('name') and ('魏' in s['name'] or '教授' in s['name']):   # n19_boyaecon2：5 秒、40 秒都在 9:00（上課 9:10），同學還在大廳等——改成魏教授開口那一刻再量一次（判定用這一次）
-            cap3 = await pg.evaluate(CLASSJS); await run.shot(pg, 'econ_class_c'); run.note('上課中（魏教授開口）：%s' % J(cap3))
+        if cap3 is None and c['zone'] == 'boya' and c['day'] == it['d'] and s['dlg'] and s.get('name') and ('魏' in s['name'] or '教授' in s['name']):   # n19_boyaecon2：5 秒、40 秒都在 9:00（上課 9:10），同學還在大廳等——改成舊序章的教授開口那一刻再量一次（判定用這一次）
+            cap3 = await pg.evaluate(CLASSJS); await run.shot(pg, 'econ_class_c'); run.note('上課中（舊序章的教授開口）：%s' % J(cap3))
         if done and not s['dlg'] and not s['ch'] and cap is not None: break
         if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
@@ -1044,11 +1044,11 @@ async def boyaecon(pg, cdp, run):
     run.check('照玩家流程走到 9/9 經原，而且這一堂上完（CLS done）', done and cap is not None, J({'done': done, 'cap': bool(cap), 'secs': round(time.time() - t0)}))
     if cap:
         cc = cap3 or cap2 or cap
-        run.note('判定用的那一次：%s' % ('魏教授開口' if cap3 else ('進教室 40 秒' if cap2 else '進教室 5 秒')))
+        run.note('判定用的那一次：%s' % ('舊序章的教授開口' if cap3 else ('進教室 40 秒' if cap2 else '進教室 5 秒')))
         run.check('經原上課：在博思（正式模型、方塊桌椅藏著）', cc['zone'] == 'boya' and cc['formal'] and not any(cc['fallback']), J({k: cc[k] for k in ('zone', 'formal', 'fallback')}))
-        run.check('經原上課（魏教授開口時）：同學坐好（坐著 ≥ 3），站著的只有老師等少數（≤ 2）', cc['sit'] >= 3 and len(cc['stand']) <= 2, J({'sit': cc['sit'], 'stand': cc['stand'], 'named': cc['named']}))
+        run.check('經原上課（舊序章的教授開口時）：同學坐好（坐著 ≥ 3），站著的只有老師等少數（≤ 2）', cc['sit'] >= 3 and len(cc['stand']) <= 2, J({'sit': cc['sit'], 'stand': cc['stand'], 'named': cc['named']}))
         run.check('經原上課：有人坐的椅面都放下（busyUp＝0）', bool(cc['fold']) and cc['fold']['busyUp'] == 0, J(cc['fold']))
-    run.check('經原上課：魏教授的課堂內容有演（說話的人是魏教授／老師）', bool(cls_lines), J(cls_lines[:4]))
+    run.check('經原上課：舊序章的教授的課堂內容有演（說話的人是舊序章的教授／老師）', bool(cls_lines), J(cls_lines[:4]))
 
 SOC_CAMS = [('door', (-9.0, 1.7, 9.2), (0.0, 1.6, -8.0)), ('sky', (0.0, 1.6, 2.0), (4.0, 5.4, -6.0)), ('north', (6.0, 1.8, 4.0), (-10.0, 1.4, -10.5)),
             ('west', (8.0, 1.8, -2.0), (-14.5, 1.6, 0.0)), ('lamps', (-12.0, 2.2, 8.0), (6.0, 1.0, -6.0)), ('east', (-6.0, 1.7, -6.0), (14.5, 1.5, 4.0))]
@@ -1187,7 +1187,7 @@ async def roomlm(pg, cdp, run):
               len(rows) == 2 * 2 * 7 and not bad, J(bad))
 
 
-# ART-ECON-3D-GAP-1021 A：共同教學館室內正式模型（LAWWW2 c1a2026b4，c3a8aded9 接上）——經濟系那一年上課的 101（長桌＋翻椅、階梯）、走廊、樓梯、二樓走廊；白天 14:00、晚上 20:30
+# ART-ECON-3D-GAP-1021 A：共同教學館室內正式模型（LAWWW2 c1a2026b4，c3a8aded9 接上）——舊序章的系那一年上課的 101（長桌＋翻椅、階梯）、走廊、樓梯、二樓走廊；白天 14:00、晚上 20:30
 # n28_gongtong 05:59：固定鏡頭拍 2F 時玩家還在 1F——遊戲把玩家那一層以上切掉（剖面視角，updateLevelVis 只在跟隨鏡頭時跑），
 #   畫面變成從牆頂看下去、看得到天空＝探針的問題。拍 2F（鏡頭 y > 4）前把（藏起來的）玩家放到 2F 鏡頭附近站得住的地方、手動跑一次 updateLevelVis；拍 1F 放回原處
 LV_FOR_CAM = """((p,l,home)=>{ const E=GAME.E, P=E.player; const want=p[1]>4.0?1:0;
@@ -1471,7 +1471,7 @@ async def gymlm(pg, cdp, run):
 
 
 GTCLASS = """((room)=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold, S=(Z&&Z.seats)||[]; const lec=S.map((s,i)=>i).filter(i=>S[i].kind==='lecture'||S[i].room==='101');
-  /* n28_gongtong_econ：經濟系微積分在 102——那一間的範圍照 GONGTONG_LAYOUT；在不在場看 n.hidden（obj.visible 是視錐裁切）*/
+  /* n28_gongtong_econ：舊序章的系微積分在 102——那一間的範圍照 GONGTONG_LAYOUT；在不在場看 n.hidden（obj.visible 是視錐裁切）*/
   const R=(GONGTONG_LAYOUT.rooms||[]).find(r=>r.id===(room||'101'))||{x0:3.6,x1:11.9,z0:-6.9,z1:6.9,lv:0};
   const v=E.npcs.filter(n=>n.obj&&!n.hidden); const in101=n=>n.obj.position.x>R.x0&&n.obj.position.x<R.x1&&n.obj.position.z>R.z0&&n.obj.position.z<R.z1&&(n.lv|0)===(R.lv|0);
   const sitBad=v.filter(n=>(n.seat||n.pose==='sit')&&in101(n)).filter(n=>{ const p=n.obj.position; return !S.some(s=>Math.hypot(s.x-p.x,s.z-p.z)<0.45); }).map(n=>[n.charId||n.id||'?',+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]);
@@ -1483,16 +1483,16 @@ GTCLASS = """((room)=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold, S=(Z&&Z.seats
 
 
 async def gtecon(pg, cdp, run):
-    # LAWWW-B 01:56：經濟系存檔，上課時段進共同 101、坐下——翻椅（有人坐放下、沒人坐收起）、同學沒有穿過長桌、老師在講台
+    # LAWWW-B 01:56：舊序章的系存檔，上課時段進共同 101、坐下——翻椅（有人坐放下、沒人坐收起）、同學沒有穿過長桌、老師在講台
     u = URL + ('&' if '?' in URL else '?') + 'y0&nofastecon'
     await pg.goto(u); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()"); await pg.goto(u); await L.wait_loaded(pg); await pg.wait_for_timeout(1500); await P.init(pg)
     if await pg.evaluate("(()=>{ const r=document.getElementById('rotate'); return !!r&&!!r.offsetParent; })()"): await L.tap(pg, cdp, '#rotate'); await pg.wait_for_timeout(800)
     await L.tap(pg, cdp, '#btnNewEcon'); await pg.wait_for_timeout(2500)
-    run.check('前置：標題「從經濟系大一開始」開局', await pg.evaluate("GAME.G&&GAME.G.stage==='econ'"), await pg.evaluate("GAME.G&&GAME.G.stage"))
+    run.check('前置：標題「從舊序章的系大一開始」開局', await pg.evaluate("GAME.G&&GAME.G.stage==='econ'"), await pg.evaluate("GAME.G&&GAME.G.stage"))
     await drain_free(pg, cdp)
     it = await pg.evaluate("""(()=>{ const G=GAME.G; let any=null; for(let d=G.day; d<=G.day+120; d++){ const L=(CLS.dayItems(G,d)||[]).filter(x=>x.room&&x.room.zone==='gongtong'&&!x.exam); const q=L.find(x=>String(x.room.room)==='101')||L[0]; if(q&&String(q.room.room)==='101') return {d, key:CALENDAR.dateOf(d).key, t0:q.t0, t1:q.t1, k:q.key, name:q.c&&q.c.name, room:q.room.room}; if(q&&!any) any={d, key:CALENDAR.dateOf(d).key, t0:q.t0, t1:q.t1, k:q.key, name:q.c&&q.c.name, room:q.room.room}; } return any; })()""")
-    run.note('經濟系那一年在共同教學館的第一堂（優先 101）：%s' % J(it))
-    run.check('前置：經濟系那一年有一堂在共同教學館（%s）' % J(it), bool(it), J(it))
+    run.note('舊序章的系那一年在共同教學館的第一堂（優先 101）：%s' % J(it))
+    run.check('前置：舊序章的系那一年有一堂在共同教學館（%s）' % J(it), bool(it), J(it))
     if not it: return
     await P.jump(pg, cdp, run, it['key'], it['t0'] - 0.5, zone='campus', pos=None, quiet=False, note='?nofastecon：同一份進度跳到那一堂上課前 30 分鐘')
     bt = None
@@ -1527,7 +1527,7 @@ async def gtecon(pg, cdp, run):
     run.check('同學沒有穿過長桌：坐著的都在座位上、站著的都站在走得到的地方', not cap['sitBad'] and all(x['ok'] for x in cap['stand']), J({'sitBad': cap['sitBad'], 'stand': cap['stand']}))
     tch = await pg.evaluate("(room=>{ const R=(GONGTONG_LAYOUT.rooms||[]).find(r=>r.id===room); return R&&R.teacher?[R.teacher.x,R.teacher.z]:(R&&R.lectern?[R.lectern.x,R.lectern.z]:null); })", str(it.get('room')))
     run.note('%s 的講桌：%s；記的時間 %s' % (it.get('room'), J(tch), cap.get('h')))
-    # 教室不一定是 101（經濟系微積分在 102，黑板在西邊）：看那一間的講桌（layout 的 teacher／lectern）2 m 內有沒有站著的人
+    # 教室不一定是 101（舊序章的系微積分在 102，黑板在西邊）：看那一間的講桌（layout 的 teacher／lectern）2 m 內有沒有站著的人
     run.check('老師在講台（%s 講桌 %s 2 m 內有站著的人；上課中記的）' % (it.get('room'), J(tch)), bool(tch) and cap['h'] < it['t1'] - 0.05 and any(math.hypot(x['x'] - tch[0], x['z'] - tch[1]) <= 2.0 for x in cap['stand']), J({'h': cap['h'], 'stand': cap['stand']})[:900])
 
 

@@ -1,10 +1,10 @@
 """BB-B 2026-11-07：BUG-Y0-DAYSKIP-CARD-1107 第①點「不在走路中跳」瀏覽器驗收（LAWWW-B ba11c0043，在 3b942474b）。
-經濟系序章快轉（ECONFF，D102 ③ 短版）：玩家空下來 1.5 秒才跳下一件事；搖桿按著、剛停下不到 1 秒都不跳。
+舊序章的系序章快轉（ECONFF，D102 ③ 短版）：玩家空下來 1.5 秒才跳下一件事；搖桿按著、剛停下不到 1 秒都不跳。
   ① 按住搖桿 HOLD 秒（預設 30，一直推）：日期、時間不變，沒有開始跳（ECONFF.busy 一直是 false）——STORY.tick 每 30 格才跑一次（ECONFF.tick 在裡面），
      SwiftShader 每秒約 3 格＝每 10 秒才判斷一次：按住的期間至少要跑過 60 格（兩次判斷），不然這一項是空的
   ② 放開搖桿以後 0.6 秒內：還沒開始跳
   ③ 放開以後 45 秒內：開始跳（日期或時間往後、出日期卡）——「停下 1 秒」是遊戲時間（E.time），SwiftShader 每秒幾格、一格最多 0.1 秒，換成真實時間要好幾秒；空下來 1.5 秒是真實時間
-[前置／捷徑] 讀上一段 flow_v0_to1017_reply 玩到的存檔（2024-09-24 22:00 宿舍，經濟系短版）；
+[前置／捷徑] 讀上一段 flow_v0_to1017_reply 玩到的存檔（2024-09-24 22:00 宿舍，舊序章的系短版）；
 【捷徑】讀檔後先把 ECONFF.busy 設成 true（擋住讀檔那一刻就跳），搖桿按下去以後才放開。
 用法：LW_TESTS=<測試樹>/tests python3 pt1107m_noskip_walk_probe.py URL 存檔.json 輸出資料夾"""
 import asyncio, json, os, sys, time
@@ -27,10 +27,10 @@ async def main():
         s = json.load(open(SAVE, encoding='utf-8'))
         await L.load_state(pg, s, quiet_phone=True)
         await pg.evaluate("ECONFF.busy=true")
-        run.setup('讀 2024-09-24 22:00 宿舍（經濟系短版）的存檔；【捷徑】ECONFF.busy＝true 先擋住讀檔那一刻就跳')
+        run.setup('讀 2024-09-24 22:00 宿舍（舊序章的系短版）的存檔；【捷徑】ECONFF.busy＝true 先擋住讀檔那一刻就跳')
         await pg.wait_for_timeout(2500)
         on = await pg.evaluate("ECONFF.on(GAME.G)&&ECONFF.short(GAME.G)")
-        run.check('[前置] 經濟系快轉開著、短版', bool(on))
+        run.check('[前置] 舊序章的系快轉開著、短版', bool(on))
         s0 = await pg.evaluate(ST)
         jx, jy = await L.center_of(pg, '#joy')
         await cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': jx, 'y': jy}]})

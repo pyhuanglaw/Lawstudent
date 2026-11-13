@@ -1,6 +1,6 @@
 """BB-B 2026-11-08：TEXT-QUOTE-UNIFY-1108 第五批（LAWWW-B 41da7c186，測 d6b753f59）瀏覽器抽查——看畫面上的 #dlg：有名字說的那一句外面沒有「」。
-  soclib：經濟系同學在社科圖（econsl3d.js、econfr_soclib.js）。使用者 day46 存檔【前置】跳到品妤（econ_pinyu）在社科圖的那一天那個時間，走過去說話：
-          第一次＝旁白「（在社科圖講話要很小聲。）」＋品妤 met 那一句（名字欄品妤、外面沒有「」）；
+  soclib：舊序章的系同學在社科圖（econsl3d.js、econfr_soclib.js）。使用者 day46 存檔【前置】跳到舊序章的人（econ_pinyu）在社科圖的那一天那個時間，走過去說話：
+          第一次＝旁白「（在社科圖講話要很小聲。）」＋舊序章的人 met 那一句（名字欄舊序章的人、外面沒有「」）；
           舊存檔：【前置】把剛才記在 flags.ECON_SL 的「說過了」改成有「」的舊寫法 → 讀檔（smallQuoteMigrate）→ key 換回沒有「」的
           → 跳到她下一次在社科圖的時候再說話：不重講說過的、外面沒有「」。
   inv：改時間的回覆（aa614 S.L.inv）——手機約沛珊週三 19:00、明軒週二 19:00（撞到上班）：她／他說的那一句名字欄是本人、外面沒有「」。
@@ -77,15 +77,15 @@ async def mode_soclib(pg, cdp, run, s0):
     s = copy.deepcopy(s0); s['invites'] = [v for v in s.get('invites', []) if v.get('state') != 'going']
     await P.load(pg, cdp, s, quiet=True); await P.init(pg)
     hit = await pg.evaluate(FIND, [PY, s['day'], 400])
-    run.check('[soclib] 找得到品妤在社科圖的日子', bool(hit), J(hit))
+    run.check('[soclib] 找得到舊序章的人在社科圖的日子', bool(hit), J(hit))
     if not hit: return
     snap = await pg.evaluate("()=>JSON.parse(JSON.stringify(GAME.snapshot()))")
     await load_at(pg, cdp, snap, hit)
-    run.setup('[前置] day46 存檔同一份進度跳到 %s %.2f 社科圖（品妤在的時候）' % (hit['key'], hit['h']))
+    run.setup('[前置] day46 存檔同一份進度跳到 %s %.2f 社科圖（舊序章的人在的時候）' % (hit['key'], hit['h']))
     lines = await talk(pg, cdp, run, PY, 'py_1')
     named, bad = named_bad(lines)
     run.check('[soclib] 第一次（點頭以後再按）：先有旁白「%s」' % NARR, any(x['t'].startswith(NARR.rstrip('）')) and not x['n'] for x in lines), J(lines))
-    run.check('[soclib] 第一次：品妤說的那幾句名字欄是品妤、外面沒有「」（%d 句）' % len(named), named and not bad and any('品妤' in x['n'] for x in named), J({'named': named, 'bad': bad}))
+    run.check('[soclib] 第一次：舊序章的人說的那幾句名字欄是舊序章的人、外面沒有「」（%d 句）' % len(named), named and not bad and any('舊序章的人' in x['n'] for x in named), J({'named': named, 'bad': bad}))
     sl = await pg.evaluate("(()=>JSON.parse(JSON.stringify(((GAME.G.flags||{}).ECON_SL||{})['%s']||null)))()" % PY)
     run.note('[soclib] 說完 ECON_SL.%s＝%s' % (PY, J(sl)))
     said1 = [x['t'] for x in named]
@@ -97,7 +97,7 @@ async def mode_soclib(pg, cdp, run, s0):
     snap2['flags']['ECON_SL'][PY]['once'] = {('「' + k + '」' if not k.startswith('（') else k): v for k, v in o.items()}
     run.setup('[前置] 把 ECON_SL.%s.once 改成有「」的舊寫法：%s' % (PY, J(list(snap2['flags']['ECON_SL'][PY]['once'].keys()))))
     hit2 = await pg.evaluate(FIND, [PY, hit['d'] + 1, 120])
-    run.check('[soclib] 找得到品妤下一次在社科圖的日子', bool(hit2), J(hit2))
+    run.check('[soclib] 找得到舊序章的人下一次在社科圖的日子', bool(hit2), J(hit2))
     if not hit2: return
     await load_at(pg, cdp, snap2, hit2)
     run.setup('[前置] 舊寫法的存檔讀進來，跳到 %s %.2f 社科圖' % (hit2['key'], hit2['h']))
@@ -106,7 +106,7 @@ async def mode_soclib(pg, cdp, run, s0):
     lines2 = await talk(pg, cdp, run, PY, 'py_2')
     named2, bad2 = named_bad(lines2)
     said2 = [x['t'] for x in named2]
-    run.check('[soclib] 下一次（點頭以後再按）：品妤有說話、名字欄品妤、外面沒有「」（%d 句；可能是打招呼輪流）' % len(named2), named2 and not bad2, J({'lines': lines2, 'bad': bad2}))
+    run.check('[soclib] 下一次（點頭以後再按）：舊序章的人有說話、名字欄舊序章的人、外面沒有「」（%d 句；可能是打招呼輪流）' % len(named2), named2 and not bad2, J({'lines': lines2, 'bad': bad2}))
     rep = [t for t in said2 if t in said1 and t not in ('早。',)]
     run.check('[soclib] 下一次沒有重講第一次說過的那一句', not rep, J({'said1': said1, 'said2': said2}))
 

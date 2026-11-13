@@ -1,8 +1,8 @@
-"""BB-B 10-24（#155）：經濟系那年暑假，照玩家在臺北的家一直按「快轉 → 到下一個有事的日子」，看 7/22、7/27、7/31、8/10 那幾場會不會被跳過。
+"""BB-B 10-24（#155）：舊序章的系那年暑假，照玩家在臺北的家一直按「快轉 → 到下一個有事的日子」，看 7/22、7/27、7/31、8/10 那幾場會不會被跳過。
 為什麼要瀏覽器：Node 掃描（vac_sweep，BB_303 第 7、8 節）看到這四天的 stops 是空的——HOME.breakNext／y0FixedNext 都不停在這幾天。
 遊戲的快轉（HOME.breakJump，o.ff）每跳一小時看一次 S.mustEvs（trigger:'home' 的事件「新出現」就停），照理會停；Node 不真的演事件，所以排在這裡確認。
 另外看 8/13 放榜（ev_y0_e36rh）演完以後，20:30 家人群組（vf_y0_0813）有沒有發。
-[前置／捷徑] 讀檔到 2025-07-21（一）21:20 在臺北的家（經濟系、休學後住家裡；e37_probe 的同一組旗標，去掉放榜以後才有的 E36_RESULT 與 e36 系列）；
+[前置／捷徑] 讀檔到 2025-07-21（一）21:20 在臺北的家（舊序章的系、離開學校後住家裡；e37_probe 的同一組旗標，去掉放榜以後才有的 E36_RESULT 與 e36 系列）；
 7/21 以前的事件記成演過（e30、a3、e26、e02、考前一晚 e35h、考場 exam1h、對答案 exam2、7/13 發票、7/19 姊姊回來）。
 兩種存檔（PROF=kx,single；預設兩種都跑）：kx＝和可昕交往中、考前一晚選「睡一整天」（E35_PLAN sleep：7/19～7/23 不在高雄）；single＝沒交往。
 之後照玩家：對話點過去；家裡的選單有「快轉」就快轉、再選「到下一個有事的日子」；7/27 的「去學校走一走／在家」選「（在家）」（不出門，留在家裡的選單）；
@@ -17,7 +17,7 @@ PROFS = [p for p in (os.environ.get('PROF') or (os.environ.get('SCEN') if os.env
 DONE0 = ['ev_y0_e30', 'ev_y0_a3', 'ev_y0_e26', 'ev_y0_e02', 'ev_y0_e35h', 'ev_y0_exam1h', 'ev_y0_exam2', 'ev_vf_y0_0713', 'ev_vf_y0_0719_sis']
 WATCH = ['ev_vf_y0_0722', 'ev_y0_kh_home_h', 'ev_vf_y0_0726_sis', 'ev_vf_y0_0727', 'ev_vf_y0_0731', 'ev_vf_y0_0808', 'ev_vf_y0_0810', 'ev_vf_y0_0810_sum', 'ev_y0_e36h', 'ev_y0_e36rh', 'ev_y0_e36']
 TX = {'0722': '禮拜五出成績。', '0727': '（成績出來了。分數夠不夠，要等八月十三號。）', '0731': '（你去拿信。最上面一封是分科測驗的成績單，和網路上看到的一樣。）',
-      '0810': '我在看政大的宿舍照片。……還沒放榜，先看。', '0813': ['（照片：電腦螢幕上的榜單，你的名字用紅筆圈起來）', '看到了。', '……好。法律好。', '恭喜']}
+      '0810': '我在看外校的宿舍照片。……還沒放榜，先看。', '0813': ['（照片：電腦螢幕上的榜單，你的名字用紅筆圈起來）', '看到了。', '……好。法律好。', '恭喜']}
 SNAP = ("(()=>{ const G=GAME.G, dn=(G.events&&G.events.done)||{}; return {key:CALENDAR.dateOf(G.day).key,h:+G.hour.toFixed(2),stage:G.stage,zone:G.zone,"
         "home:typeof HOME!=='undefined'&&HOME.at?!!HOME.at(G):null,done:Object.keys(dn),res:!!(G.flags&&G.flags.E36_RESULT),"
         "sent0813:typeof PHONE!=='undefined'&&PHONE.sent?!!PHONE.sent(G,'vf_y0_0813'):null}; })()")
@@ -44,12 +44,12 @@ async def one(p, run, prof):
               'home': {'at': True, 'base': True, 'day': d},
               'contacts': {k: d - 300 for k in ['kexin', 'econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_jiahao', 'econ_pinyu']},
               'flags': F, 'events': {'done': {k: 1 for k in DONE0}, 'last': {}, 'count': len(DONE0)}}
-        run.setup('[前置／捷徑] %s：讀檔到 2025-07-21（一）21:20 在臺北的家（經濟系、休學後住家裡）；旗標 %s；7/21 以前記成演過 %s' % (prof, json.dumps(F, ensure_ascii=False), DONE0))
+        run.setup('[前置／捷徑] %s：讀檔到 2025-07-21（一）21:20 在臺北的家（舊序章的系、離開學校後住家裡）；旗標 %s；7/21 以前記成演過 %s' % (prof, json.dumps(F, ensure_ascii=False), DONE0))
         await L.load_state(pg, st); await pg.wait_for_timeout(4000); await pg.evaluate(HOOK)
         if prof != 'kx':   # BB-B 17:1x：只設 dating_kexin=false 不夠（預設存檔的 romance.kexin 還在＝照樣演交往中）；照 zrlast NOKX 整組清掉
             await pg.evaluate("(()=>{ const G=GAME.G; G.flags.dating_kexin=false; if(G.flags.romance) delete G.flags.romance.kexin; G.flags.ROMANCE_HISTORY=(G.flags.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin'); delete G.flags.DATED_1_kexin; delete G.flags.KX_DATING_SINCE; })()")
         g = await pg.evaluate(SNAP); print('%s 開始 %s %.2f stage=%s home=%s' % (prof, g['key'], g['h'], g['stage'], g['home']))
-        run.check('%s：前置——在臺北的家（HOME.at）、經濟系' % prof, g['home'] is True and g['stage'] == 'econ', json.dumps(g, ensure_ascii=False)[:300])
+        run.check('%s：前置——在臺北的家（HOME.at）、舊序章的系' % prof, g['home'] is True and g['stage'] == 'econ', json.dumps(g, ensure_ascii=False)[:300])
         await run.shot(pg, '%s_a_0721' % prof)
         prev = set(g['done']); idle = 0
         for i in range(900):

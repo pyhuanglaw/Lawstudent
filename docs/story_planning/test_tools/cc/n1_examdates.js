@@ -3,7 +3,7 @@
 // 檢查：Y0S1～Y4S2（含交換路線 JP／US）每學期週數、最後一週、EXAM_WEEKS、每門考五題的課（CLS.isExamCourse）的期末考日 CLS.examDay(final)：
 //   有沒有、落在不在那學期的期末週、是不是週末／假日、是不是補考（makeup）、同一天同一節有沒有兩門撞考；
 //   重修學期（CLS.planRetakes 從每個學期排到下一學期）的重修課；延畢學期 Y5S1（CALENDAR.TERMS_DELAYED）；
-//   Y0 經濟系：考試週每堂課都是考試（dayItems），檢查期末週有沒有不放假的一堂；
+//   Y0 舊序章的系：考試週每堂課都是考試（dayItems），檢查期末週有沒有不放假的一堂；
 //   6/2 畢業典禮、5/10～5/11 國考報名、6/18 成績單、6/26 補考、8/4 國考一試的日期關係。
 // 重驗（BB 09:01）加：N1-A、N1-B 兩個回歸情境（輸出 PASS／FAIL；修改前 0c3d9e7a5 應 FAIL、d2716c89e 以後應 PASS）；
 //   考試重疊全面掃描（一般學期、重修的各種組合（被當的考五題課所有子集合 × 出席課全過／全當）、連續重修、大四下 6/26 補考）：
@@ -41,7 +41,7 @@ for(const route of [null,'JP','US']){
   if(!route) report(rows); else console.log('  route',route,'：',rows.length,'門（問題見 PROBLEM 行）', rows.filter(r=>r.makeup).map(r=>r.term+':'+r.id+'→'+r.day).join(' ')||'');
   /* 撞考：照實際選課（termCourses）*/ for(const T of LAW){ const rr=[]; for(const c of CLS.termCourses(G,T).filter(CLS.isExamCourse)){ const d=CLS.examDay(G,c,T,'final'); if(d) rr.push({id:c.id,day:key(d.day),block:d.block}); } clash(rr,'route='+(route||'TW')+' '+T); }
 }
-console.log('\n## Y0 經濟系（考試週每堂都是考試；成績固定及格）');
+console.log('\n## Y0 舊序章的系（考試週每堂都是考試；成績固定及格）');
 for(const T of ['Y0S1','Y0S2']){ const r=CALENDAR.termDays(T); const fin=[]; for(let d=r.from;d<=r.to;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===T&&t.exam==='final') fin.push(d); }
   for(const c of COURSES.list.filter(c=>c.term===T)){ const ex=!(c.kind==='service'||CLS.noExam(c)); if(!ex){ console.log(' ',T,c.id,c.name,'（不考）'); continue; }
     const ok=fin.filter(d=>(c.slots||[]).some(s=>s.wd===CALENDAR.dateOf(d).wd)&&!CALENDAR.holiday(d)&&(!c.weeks||c.weeks.includes(CALENDAR.termOf(d).week)));

@@ -1,8 +1,8 @@
 """BB（帳號 A）2026-10-21：AA368-Y0-FIX-1021（開發分支 eb2bc150 起）瀏覽器驗收——AA_368 第 6 節 BB 測試的其中三項（另外兩項看 aa300 ff 的日期卡、msgs.json）：
-  W（H5、M4）：讀 qa_play 存的經濟系狀態（11/30）→ 在家照玩家的選單快轉到 12/12，之後一天一天睡 → 12/22、12/27、1/2 寒假（12/21～1/13）主動傳訊息給可昕
+  W（H5、M4）：讀 qa_play 存的舊序章的系狀態（11/30）→ 在家照玩家的選單快轉到 12/12，之後一天一天睡 → 12/22、12/27、1/2 寒假（12/21～1/13）主動傳訊息給可昕
      （手機 → 訊息 → 可昕 →「傳訊息」→ 話題）→ 睡一晚看她回什麼：不能有「剛下課」「明天八點的課」「期末考」，要是「寒假在臺北」那幾句；
      1/8 公館吃麵（出發）：旁白「期末考考完快三個禮拜了」、可昕「……葉老師那封信，我又看了一次。」，沒有「國文那份報告，我記錯時間了。」
-  S（H4、M7）：讀 qa_play 存的經濟系狀態（6/7）→ 快轉 → 7/10 晚上選「妳選一家。」→ 7/14 訊息「巷子那家我問過了。」→ 7/15～7/23 的日期卡在高雄（客運南下、巷子）
+  S（H4、M7）：讀 qa_play 存的舊序章的系狀態（6/7）→ 快轉 → 7/10 晚上選「妳選一家。」→ 7/14 訊息「巷子那家我問過了。」→ 7/15～7/23 的日期卡在高雄（客運南下、巷子）
      → 7/24 可昕的訊息選「好。我搭早上的客運。」→ 7/25 凌晨兩點半夜班客運 → 7/26 凌晨回到家
 [前置] 狀態檔是 qa_play.py 在真的玩法裡存的（G 整份）；之後全部照玩家：家裡的選單、手機介面、出發。Playwright 手機橫向模擬、?turbo，不是 iPhone。
   N（L9b、M6、H1）：新遊戲快轉到 10/25；W 加 M3 資料頁 2/14 以前；S 加 M3 2/14 以後、M8 8/30（S 延到 8/30）。AA_371 改字照新的比。
@@ -152,12 +152,12 @@ async def load_snap(pg, path):
     say('   讀檔：%s' % json.dumps(await pg.evaluate(SNAP), ensure_ascii=False))
 
 
-WINTER_OK = ['在宿舍。品妤回家了，整間都是我的。', '在總圖。放假了還是很多人。……我不是在讀書，我只是不想待在宿舍。', '剛起床。……不要問我現在幾點。', '公館那家麵店放假也開。阿姨認得我了。', '晚安。明天不用早起。……好爽。']   # 「剛起床」那句照 AA_371 第 3 題改字
+WINTER_OK = ['在宿舍。舊序章的人回家了，整間都是我的。', '在總圖。放假了還是很多人。……我不是在讀書，我只是不想待在宿舍。', '剛起床。……不要問我現在幾點。', '公館那家麵店放假也開。阿姨認得我了。', '晚安。明天不用早起。……好爽。']   # 「剛起床」那句照 AA_371 第 3 題改字
 WINTER_BAD = ['剛下課', '明天八點的課', '期末考']
 
 
 async def run_w(pg, cdp, run):
-    await load_snap(pg, SNAP_W); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_W))
+    await load_snap(pg, SNAP_W); run.setup('[前置] 讀 qa_play 存的舊序章的系狀態 %s' % os.path.basename(SNAP_W))
     plan = {'2024-12-22': ('chat', None), '2024-12-27': ('share', 'food'), '2025-01-02': ('chat', None)}; sent = []; tagw = []
     async def on_day(sn):
         p = plan.get(sn['key'])
@@ -194,12 +194,12 @@ async def run_w(pg, cdp, run):
     old = [l for l in jan8 if '國文那份報告，我記錯時間了。' in l or '期末考考完兩個禮拜了' in l]
     say('   1/8 台詞（前 12）：%s' % json.dumps(jan8[:12], ensure_ascii=False))
     tw = (tagw or [''])[0] or ''
-    verdict('M3 可昕資料頁 2/14 以前', '經濟系・一年級' in tw and '休學' not in tw, '12/22 手機「朋友」可昕那一列：%s' % tw)
+    verdict('M3 可昕資料頁 2/14 以前', '舊序章的系・一年級' in tw and '離開學校' not in tw, '12/22 手機「朋友」可昕那一列：%s' % tw)
     verdict('M4 1/8 公館吃麵', ok_new and not old, '新句 %s；舊句 %s；1/8 台詞 %d 句' % (ok_new, old[:2], len(jan8)))
 
 
 async def run_s(pg, cdp, run):
-    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_S))
+    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的舊序章的系狀態 %s' % os.path.basename(SNAP_S))
     tag0 = await kexin_tag(pg, cdp); say('   可昕資料頁（2/14 以後）：%s' % tag0); await run.shot(pg, 's_kexin_tag')
     await drive(pg, cdp, '2025-08-30 23.50', lambda k: 'day' if '2025-07-24' <= k <= '2025-07-26' else 'ff', ['「妳選一家。」', '好。我搭', '出發：'], ['好。我搭'], max_s=7200)   # AA_371 第 4 題：選項改「好。我搭半夜的客運下去。」
     await run.shot(pg, 's_end')
@@ -214,7 +214,7 @@ async def run_s(pg, cdp, run):
     kh = any('巷子' in l and '客運南下' in l for l in cards); gg = any('公館巷子' in l for l in lines)
     verdict('H4 7/10「妳選一家」→ 高雄', F.get('E35_PLAN') == 'shop' and e35 and '巷子那家我問過了。' in m714 and kh and not gg,
             'E35_PLAN=%s；她說「我家巷子裡那家」=%s；7/14「巷子那家我問過了。」=%s；日期卡客運南下＋巷子=%s；還有「公館巷子」=%s' % (F.get('E35_PLAN'), e35, '巷子那家我問過了。' in m714, kh, gg))
-    verdict('M3 可昕資料頁 2/14 以後', '休學中' in (tag0 or ''), '6/7 手機「朋友」可昕那一列：%s' % tag0)
+    verdict('M3 可昕資料頁 2/14 以後', '離開學校中' in (tag0 or ''), '6/7 手機「朋友」可昕那一列：%s' % tag0)
     m8 = [l for l in lines if l.startswith('2025-08-30') and '你把車開回家，再搭捷運回宿舍。' in l]; e37 = [l for l in lines if l.startswith('2025-08-30')]
     say('   8/30 台詞（最後 6）：%s' % json.dumps(e37[-6:], ensure_ascii=False))
     verdict('M8 8/30 住宿舍的人：開車回家再搭捷運回宿舍', bool(m8), '8/30 台詞 %d 句；那一句 %s' % (len(e37), '有' if m8 else '沒有'))
@@ -227,8 +227,8 @@ async def run_s(pg, cdp, run):
 
 
 async def run_n(pg, cdp, run):
-    """N：新遊戲「從經濟系前傳開始」一路快轉到 10/25——L9b 品妤（大一上第 4 週）、M6 阿勳（10/23 起）、H1 9/24 的日期卡（開發分支最新）"""
-    await L.tap(pg, cdp, '#btnNew'); run.setup('N：標題「從經濟系前傳開始」（新遊戲，不改狀態）')
+    """N：新遊戲「從舊序章的系舊序章開始」一路快轉到 10/25——L9b 舊序章的人（大一上第 4 週）、M6 舊序章的人（10/23 起）、H1 9/24 的日期卡（開發分支最新）"""
+    await L.tap(pg, cdp, '#btnNew'); run.setup('N：標題「從舊序章的系舊序章開始」（新遊戲，不改狀態）')
     for k in range(60):
         if await pg.evaluate("!!(GAME.G&&GAME.running)"): break
         await pg.wait_for_timeout(1000)
@@ -237,9 +237,9 @@ async def run_n(pg, cdp, run):
     msgs = await pg.evaluate(MSGS); lines = await pg.evaluate("(window.__LOG||[]).map(x=>x.at+' '+(x.n?x.n+'：':'')+x.t)")
     json.dump({'msgs': msgs, 'lines': lines}, open(os.path.join(OUT, 'n.json'), 'w'), ensure_ascii=False, indent=1)
     rain = [m for m in msgs if '社科院門口等公車' in m['text']]; old = [m for m in msgs if '雨可以退貨' in m['text'] or '今天下大雨' in m['text']]
-    verdict('L9b 品妤（大一上第 4 週）', bool(rain) and not old, '新句 %s；舊句 %s' % ([(m['d'], m['text'][:20]) for m in rain], [(m['d'], m['text'][:20]) for m in old]))
+    verdict('L9b 舊序章的人（大一上第 4 週）', bool(rain) and not old, '新句 %s；舊句 %s' % ([(m['d'], m['text'][:20]) for m in rain], [(m['d'], m['text'][:20]) for m in old]))
     seat = [m for m in msgs if '星期三的微積分' in m['text']]; oldseat = [m for m in msgs if m['text'].startswith('微積分老師今天看了一眼')]
-    verdict('M6 阿勳「星期三的微積分」10/23 起', bool(seat) and all(m['d'] >= '2024-10-23' for m in seat) and not oldseat, '新句 %s；舊句 %s' % ([(m['d'], m['text'][:16]) for m in seat], [(m['d'], m['text'][:16]) for m in oldseat]))
+    verdict('M6 舊序章的人「星期三的微積分」10/23 起', bool(seat) and all(m['d'] >= '2024-10-23' for m in seat) and not oldseat, '新句 %s；舊句 %s' % ([(m['d'], m['text'][:16]) for m in seat], [(m['d'], m['text'][:16]) for m in oldseat]))
     cards = [l for l in lines if 'CARD:' in l]
     typh = [l for l in cards if '颱風假' in l]; early = [l for l in typh if l[:10] < '2024-10-01']
     say('   日期卡：%s' % json.dumps(cards, ensure_ascii=False)[:1200])
@@ -248,15 +248,15 @@ async def run_n(pg, cdp, run):
 
 async def run_s3(pg, cdp, run):
     """M3 2/14 以後（只讀 6/7 狀態、看資料頁；S 一開頭也做同一件事，S3 是重驗用的短版）"""
-    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_S))
+    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的舊序章的系狀態 %s' % os.path.basename(SNAP_S))
     tag0 = await kexin_tag(pg, cdp); say('   可昕資料頁（2/14 以後）：%s' % tag0)
-    verdict('M3 可昕資料頁 2/14 以後', '休學中' in (tag0 or ''), '6/7 手機「朋友」→ 可昕「資料」：%s' % tag0)
+    verdict('M3 可昕資料頁 2/14 以後', '離開學校中' in (tag0 or ''), '6/7 手機「朋友」→ 可昕「資料」：%s' % tag0)
 
 
 async def run_s7(pg, cdp, run):
     """M7 回程（AA_368：九點的客運開了以後約五小時，7/26 02:10 到臺北的家）：S 那一輪 7/25 21:00 以後直接快轉到 8/13，沒看到回到家的時間——這裡從 6/7 狀態一路玩，
     7/24 起一天一天過，記下 7/25 那一場結束以後第一次停下來的時間和地點"""
-    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_S))
+    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的舊序章的系狀態 %s' % os.path.basename(SNAP_S))
     # 第一輪（3893c523）：7/25 那一場結束以後，遊戲自己一路快轉到 8/13 才停（玩家在 7/24 以前選過「快轉」），看不到 7/26 02:10——
     # 這裡只加記錄（不改遊戲）：每一次 GAME.advance 前後的日子、時間，和 HOME.go 被叫的時間
     await pg.evaluate("""(()=>{ if(window.__ADVH) return; window.__ADVH=1; window.__ADV=[]; const k=()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2);

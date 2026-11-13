@@ -1,7 +1,7 @@
 """BB（帳號 A）2026-10-21：BB218-P3-1021 的 ② ⑤（LAWWW 81acfd1f）——①③④⑥ 看 aa300 ff 的紀錄（日期卡、手機自己打開、床邊選單、右上角日期）。
   ② 手機、筆記本打開時，黃色通知條（#toast）改到畫面下面，不蓋住手機的分頁列（#phoneTabs）
-  ⑤ 手機訊息列表的未讀只算最近 14 天：讀 qa_play 存的經濟系 11/30 狀態，9/1 媽媽、8/25 第三小隊那種一兩個月前的舊訊息不再掛紅點（要回的照舊算待回覆）
-[前置] 讀 qa_play 在真的玩法裡存的經濟系狀態（11/30）；[捷徑] ② 的通知條用 GAME.toast 叫出來（真的訊息進來時也是同一個 #toast）。
+  ⑤ 手機訊息列表的未讀只算最近 14 天：讀 qa_play 存的舊序章的系 11/30 狀態，9/1 媽媽、8/25 第三小隊那種一兩個月前的舊訊息不再掛紅點（要回的照舊算待回覆）
+[前置] 讀 qa_play 在真的玩法裡存的舊序章的系狀態（11/30）；[捷徑] ② 的通知條用 GAME.toast 叫出來（真的訊息進來時也是同一個 #toast）。
 Playwright 手機橫向／直向模擬、?turbo，不是 iPhone。
 用法：LW_TESTS=<開發分支>/tests python3 p3b_probe.py '<URL>/index.html?turbo' <輸出資料夾> <11-30 狀態.json>"""
 import os, sys, json, asyncio
@@ -22,9 +22,9 @@ async def main():
         for orient in ('landscape', 'portrait'):
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(orient == 'landscape'))
             await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
-            await L.load_state(pg, G); await pg.wait_for_timeout(6000); run.setup('[前置] %s：讀經濟系 11/30 狀態 %s' % (orient, os.path.basename(SNAPF)))
+            await L.load_state(pg, G); await pg.wait_for_timeout(6000); run.setup('[前置] %s：讀舊序章的系 11/30 狀態 %s' % (orient, os.path.basename(SNAPF)))
             # 10-21 第一輪：讀檔後遊戲自己往下走（在家快轉），馬上演 12/13 補習班那一段，手機打不開——先照玩家把劇情點完、等到可以開手機
-            # 第三輪除錯（scratchpad dbg/p3b_dbg.py）：讀檔 3 秒多以後，經濟系在家快轉到 23:00 停下來，手機自己打開（訊息列表，關閉鈕寫「跳過」），遊戲暫停等玩家；
+            # 第三輪除錯（scratchpad dbg/p3b_dbg.py）：讀檔 3 秒多以後，舊序章的系在家快轉到 23:00 停下來，手機自己打開（訊息列表，關閉鈕寫「跳過」），遊戲暫停等玩家；
             # 前兩輪腳本把它當成「沒開」，收起來＝按了「跳過」→ 快轉到 12/13 補習班那一段，之後手機當然打不開。這一輪就用它自己打開的手機（玩家真的會看到的那一刻）
             for k in range(60):
                 if await pg.evaluate(PH_OPEN): break
@@ -48,7 +48,7 @@ async def main():
             print('%s ⑤ 對照：照修正前的算法（不管幾天前）還沒看過的：%s；其中超過 14 天的對話串 %s' % (orient, json.dumps(raw, ensure_ascii=False), json.dumps(raw_old, ensure_ascii=False)), flush=True)
             print('%s 訊息列表：%s' % (orient, json.dumps(th[:14], ensure_ascii=False)), flush=True)
             # ② 通知條：手機開著時叫出一個通知
-            await pg.evaluate("GAME.toast('手機｜經濟系 大一（全班）｜（BB 測試）通知條位置',6000)"); await pg.wait_for_timeout(1500)
+            await pg.evaluate("GAME.toast('手機｜舊序章的系 大一（全班）｜（BB 測試）通知條位置',6000)"); await pg.wait_for_timeout(1500)
             r1 = await pg.evaluate(RECT); await run.shot(pg, '%s_phone_toast' % orient)
             await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(1000)
             # 沒開手機的時候：通知條照舊在上面

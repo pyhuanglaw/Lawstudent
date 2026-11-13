@@ -1,4 +1,4 @@
-"""BB：BUG-ECON-SLEEPSKIP-1018（LAWWW 60c84c0c）——經濟系事件模式，玩家每天一空下來就去睡覺，事件一個都不能少。
+"""BB：BUG-ECON-SLEEPSKIP-1018（LAWWW 60c84c0c）——舊序章的系事件模式，玩家每天一空下來就去睡覺，事件一個都不能少。
 [前置] 讀新遊戲玩到 9/1 過完的存檔（欄位 1，標題「讀取」）。之後照玩家：對話點過去、選項選第一個、手機要回的回第一個；
 一空下來：在宿舍就走到床邊按「睡覺」→ 睡到明天；在家就選「睡覺」。不在宿舍也不在家＝不做事（事件模式自己會跳）。
 順便：可昕在 3D 畫面裡就截圖（BUG-KX-MALE-1018，每個事件一張）。
@@ -77,7 +77,7 @@ async def main():
         miss = [x for x in res['steps'] if not x['done'] or x['rec'] == 'missed']
         for x in res['steps']: print('   #%d %s %s%s  %s' % (x['n'], x['key'], x['ev'], ('→' + x['then']) if x['then'] else '', 'OK' if x['done'] and x['rec'] != 'missed' else ('MISSED' if x['rec'] == 'missed' else '沒演')), flush=True)
         print('   睡覺 %d 次；可昕截圖 %d 張' % (sleeps, len(kx_shots)), flush=True)
-        run.check('玩到 10/19（休學）', res['key'] >= '2024-10-18', res['key'])
+        run.check('玩到 10/19（離開學校）', res['key'] >= '2024-10-18', res['key'])
         run.check('AA_292 事件表 #4～#29 每一個都演了（沒有 missed）', not miss, json.dumps(miss, ensure_ascii=False))
         run.check('真的有去睡覺（不是全靠自動跳）', sleeps >= 5, str(sleeps))
         run.check('沒有卡住超過 4 分鐘', stuck == 0, str(stuck))

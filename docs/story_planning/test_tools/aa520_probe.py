@@ -1,9 +1,9 @@
-"""BB-B 10-30（v9.10.14 候選 92e9bca92；LAWWW-B 02:22 第 5 項）：AA_520 予樂自己的線、AA_521「走啦」群組——照玩家站著等到那個時間，手機收到訊息、用手機回、出遊那天照時間出發（不是 Node）。
+"""BB-B 10-30（v9.10.14 候選 92e9bca92；LAWWW-B 02:22 第 5 項）：AA_520 舊序章的人自己的線、AA_521「走啦」群組——照玩家站著等到那個時間，手機收到訊息、用手機回、出遊那天照時間出發（不是 Node）。
 MODE（環境變數）：
-  y31    AA_520 3-1：2025-12-06（六）22:30 宿舍站著等到 22:50 → p:yule「可昕說我太吵 叫我去跑步」…「現在停不下來」（見過予樂；沒見過＝【捷徑】yulePassDay）
+  y31    AA_520 3-1：2025-12-06（六）22:30 宿舍站著等到 22:50 → p:yule「可昕說我太吵 叫我去跑步」…「現在停不下來」（見過舊序章的人；沒見過＝【捷徑】yulePassDay）
   lec    AA_520 4-1／4-2b／4-3：2027-10-14（四）21:50 宿舍等到 22:05 → p:yule 邀請「下週三晚上七點 我要去你們學校聽一場演講」；手機回②「聽完去吃東西？」＝「好 八點十五 阿鳳」、YL_LEC＝eat；
          同一份進度跳到 10/20（三）19:50 宿舍，照時間出發（有「出發」就按）→ 阿鳳麵店「我都點了。你吃我的。」→ 4-3「我八歲的時候，也有一個阿姨來找過我。」
-  econ21 AA_521 2-1：2026-05-13（三）21:20 等到 21:40 →「走啦」群組（g:econ_friends）韋綸「走不了啦！」、阿勳「在哪？我去載你。」（不在群組＝前置不成立，照實記）
+  econ21 AA_521 2-1：2026-05-13（三）21:20 等到 21:40 →「走啦」群組（g:econ_friends）舊序章的人「走不了啦！」、舊序章的人「在哪？我去載你。」（不在群組＝前置不成立，照實記）
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader）。用法：LW_TESTS=<工作樹>/tests MODE=<上面> python3 aa520_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -28,7 +28,7 @@ async def rooms(pg, key):
 
 
 async def meet_yule(pg, cdp, run):
-    return await P.prep(pg, cdp, run, """(()=>{ const G=GAME.G, ok=HEARD&&HEARD.COND&&HEARD.COND.yule?HEARD.COND.yule(G):null; if(!ok) G.flags.yulePassDay=G.day-30; return {before:ok, after:HEARD&&HEARD.COND&&HEARD.COND.yule?HEARD.COND.yule(G):null}; })()""", label='見過予樂（沒見過才補 yulePassDay）')
+    return await P.prep(pg, cdp, run, """(()=>{ const G=GAME.G, ok=HEARD&&HEARD.COND&&HEARD.COND.yule?HEARD.COND.yule(G):null; if(!ok) G.flags.yulePassDay=G.day-30; return {before:ok, after:HEARD&&HEARD.COND&&HEARD.COND.yule?HEARD.COND.yule(G):null}; })()""", label='見過舊序章的人（沒見過才補 yulePassDay）')
 
 
 async def main():
@@ -59,7 +59,7 @@ async def main():
             if inG:
                 for w in ('走不了啦！', '在哪？我去載你。'):
                     run.check('AA_521 2-1 有「%s」' % w, w in t, J(t))
-            else: run.note('NOT_TESTED AA_521 2-1：這份存檔不在「走啦」群組（沒有經濟系那一年），群組訊息照設計不傳')
+            else: run.note('NOT_TESTED AA_521 2-1：這份存檔不在「走啦」群組（沒有舊序章的系那一年），群組訊息照設計不傳')
             await run.shot(pg, 'econ21')
 
         elif MODE == 'lec':
@@ -76,11 +76,11 @@ async def main():
             await run.shot(pg, 'lec_answer'); await P.phone_close(pg, cdp)
             await P.dialog(pg, cdp, run, max_s=40, tag='lec_after_answer')
             await pg.wait_for_timeout(4000)
-            f = await pg.evaluate("(()=>({YL_LEC:GAME.G.flags.YL_LEC==null?null:GAME.G.flags.YL_LEC, trips:(GAME.G.trips||[]).filter(x=>/予樂|yule/.test(JSON.stringify(x))).map(x=>({d:CALENDAR.dateOf(x.day).key,depart:x.depart,status:x.status,who:x.who}))}))()")
+            f = await pg.evaluate("(()=>({YL_LEC:GAME.G.flags.YL_LEC==null?null:GAME.G.flags.YL_LEC, trips:(GAME.G.trips||[]).filter(x=>/舊序章的人|yule/.test(JSON.stringify(x))).map(x=>({d:CALENDAR.dateOf(x.day).key,depart:x.depart,status:x.status,who:x.who}))}))()")
             m = await pg.evaluate(MSGS + "('p:yule')"); t2 = [x['t'] for x in m]
             run.note('回了以後：%s；p:yule %s' % (J(f), J(t2[-4:])))
             run.check('AA_520 4-1 ②：手機有回覆鍵「聽完去吃東西？」、按了', body is not None, J(body and body[-300:]))
-            run.check('AA_520 4-1 ②：予樂回「好 八點十五 阿鳳」', '好 八點十五 阿鳳' in t2, J(t2[-4:]))
+            run.check('AA_520 4-1 ②：舊序章的人回「好 八點十五 阿鳳」', '好 八點十五 阿鳳' in t2, J(t2[-4:]))
             run.check('AA_520 4-1 ②：記 YL_LEC＝eat', f['YL_LEC'] == 'eat', J(f))
             await P.jump(pg, cdp, run, '2027-10-20', 19.83, zone='dorm', pos=None, note='照時間過到那一天（同一份進度）')
             await P.events_on(pg); n0s = await P.say_hook(pg)

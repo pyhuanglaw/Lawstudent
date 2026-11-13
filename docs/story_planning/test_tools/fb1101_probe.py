@@ -57,15 +57,15 @@ MODE：
                 → [前置] 同一份進度跳到 11/10 10:30 → 當地 10:40（臺灣 23:40）子晴四則＋回覆。截圖手機對話（訊息旁邊的時間字）＋HUD 時鐘。
             neg 沒有 PS_RECONNECT（沒有重新聯絡上沛珊）＝11/08 當地 10:30 還沒有沛珊那則。
   casenotes 朋友的案子手機筆記（C0～C8；字照 tests/aa117_notes_unit.js 的 NOTE＝AA-B 11-01 回覆）。CASES＝C0,C2,C3,C5,C8（預設；all＝C0～C8＋C6face；舊的 CN 也認）。
-            手機的（C0、C2、C4、C6、C7、C8）：[前置] 那一則以前的宿舍（C0＝經濟系那年最小存檔 2024-11-07 17:20，事件模式）、【捷徑】那個朋友有點熟＋聯絡方式 → 等到那一則（有回覆鍵）
+            手機的（C0、C2、C4、C6、C7、C8）：[前置] 那一則以前的宿舍（C0＝舊序章的系那年最小存檔 2024-11-07 17:20，事件模式）、【捷徑】那個朋友有點熟＋聯絡方式 → 等到那一則（有回覆鍵）
               → 手機打開那個對話（截圖）：讀回覆鍵上面「手機筆記」那一塊的四格（DOM，要在回覆鍵上面）→ 點那一個回覆。C6＝3/15 21:00 先點「現在說？」再等手機版那一則；C2 另外對芷若的兩則、回的三則。
-              C0 誰：韋綸（買到別人被偷的車）／向誰：賣家（原車主會來要車）／依據什麼：／請求什麼：跟賣家把錢要回來（車還給原車主）　C2 誰：芷若／向誰：出版社／依據什麼：／請求什麼：照用的部分付稿費，或不要用
+              C0 誰：舊序章的人（買到別人被偷的車）／向誰：賣家（原車主會來要車）／依據什麼：／請求什麼：跟賣家把錢要回來（車還給原車主）　C2 誰：芷若／向誰：出版社／依據什麼：／請求什麼：照用的部分付稿費，或不要用
               C4 誰：阿哲（被擦撞的人）／向誰：／依據什麼：對方不小心造成的損壞／請求什麼：照修車行的估價付修車費　C6 誰：社團（她是負責人）／向誰：經手的學弟，和社團大家／依據什麼：社團的規則、收支表和單據／請求什麼：
               C7 誰：阿凱／向誰：／依據什麼：公司和玩家之間的使用規定／請求什麼：玩家要道具回來　C8 誰：子晴（要簽約的人）／向誰：發行商／依據什麼：合約本身（權利歸誰、錢怎麼分、怎麼解約）／請求什麼：
             當面的（C1、C3、C5、C6face）：說話人「手機筆記」的四格照順序、最後一格後面緊接選項（截圖）。C1 阿凱的鍵盤（大一下第 6 週週一宿舍 22:00 以後）；
               C3 押金（2027-03-23 17:35 → 阿鳳麵店）：接在阿哲「兩個月的押金耶。他本來要拿去買系籃鞋。」後面、「依據什麼：」「請求什麼：」各自緊接那一組選項、旁白「先寫了兩行」拿掉；
               C5 子晴的配樂（2027-11-09 19:05 → Café）：接在「我要簽什麼？我會不會被告？」後面、緊接「誰」的兩個選項（BB_70 8b-1）；C6face：3/15 點「有。十二點半，A館一樓。」→ [前置] 跳到 3/16 12:15 → 法律系館A。
-  boya101   BUG-03 博思 101 頭髮（坐姿替身走近換近處版）。BOYA＝law（預設：2025-10-07 週二，大一國文（上），LAWWW2 重現同一天；econ＝經濟系那年 2024-10-08 大一國文，事件模式）。
+  boya101   BUG-03 博思 101 頭髮（坐姿替身走近換近處版）。BOYA＝law（預設：2025-10-07 週二，大一國文（上），LAWWW2 重現同一天；econ＝舊序章的系那年 2024-10-08 大一國文，事件模式）。
             [前置] 08:40 宿舍 → 手機「今天」→「直接去上課」→ 博思教學館 →「自己找位子」→ 站著等到上課開始 15 分鐘（替身放好、玩家在大廳）→ 走到 101 門口 → 走道中間 → 旁邊有替身的空位旁邊（不坐）。
             每一點等 figTick 換完（SwiftShader 7～30 秒，FIG_WAIT）、手指滑鏡頭看過去、截圖（跟隨鏡頭），記每一個替身：外型、離玩家 m、離鏡頭 m、近處版（LOD0）／遠處版（_lod1）。
             PASS：三個點都是 6.5 m 內近處版、7.5 m 外遠處版；座位旁邊 6.5 m 內至少一個、全部近處版；替身總數三個點一樣。
@@ -1306,7 +1306,7 @@ def hm(h):
 
 
 CN_NOTE = {   # 遊戲裡要看到的四格（tests/aa117_notes_unit.js 的 NOTE＝AA-B 2026-11-01 回覆的字；C8「向誰」bbabb5b35 改發行商）
-    'C0': ['誰：韋綸（買到別人被偷的車）', '向誰：賣家（原車主會來要車）', '依據什麼：', '請求什麼：跟賣家把錢要回來（車還給原車主）'],
+    'C0': ['誰：舊序章的人（買到別人被偷的車）', '向誰：賣家（原車主會來要車）', '依據什麼：', '請求什麼：跟賣家把錢要回來（車還給原車主）'],
     'C1': ['誰：阿凱', '向誰：賣家', '依據什麼：（還不知道。民總的課本？）', '請求什麼：'],
     'C2': ['誰：芷若', '向誰：出版社', '依據什麼：', '請求什麼：照用的部分付稿費，或不要用'],
     'C3': ['誰：阿哲的學長', '向誰：房東', '依據什麼：', '請求什麼：'],
@@ -1325,12 +1325,12 @@ C5_WHO = ['「妳會不會被告，我不確定。我們問法服。」', '「�
 STAYUP = ['再撐一下', '先不睡']
 ASK_HAS = "(id=>(GAME.G.msgs||[]).some(m=>m&&m.ask&&m.ask.id===id))(%s)"
 ECON0 = {'ECON_CAMP_OPEN': True, 'E15_BUS': 'nosleep', 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'E01_MORNING': True, 'KX_FIRST_MSG': True,
-         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 經濟系那一年的最小存檔（post91015_probe.py econ_state 的 ECON0）
+         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 舊序章的系那一年的最小存檔（post91015_probe.py econ_state 的 ECON0）
 ECON_FRIENDS = ('kexin', 'econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_jiahao', 'econ_pinyu')
 
 
 async def econ_state(pg, key, h, zone, flags=None):
-    """經濟系那一年的最小存檔（事件模式；post91015_probe.py 的 econ_state，沒有退宿）"""
+    """舊序章的系那一年的最小存檔（事件模式；post91015_probe.py 的 econ_state，沒有退宿）"""
     d = await P.day_of(pg, key)
     F = dict(ECON0); F.update(flags or {})
     st = {'stage': 'econ', 'name': '祐廷', 'day': d['d'], 'weekday': d['wd'], 'hour': h, 'zone': zone, 'pos': None, 'weather': 'clear', 'energy': 100, 'money': 20000,
@@ -1340,7 +1340,7 @@ async def econ_state(pg, key, h, zone, flags=None):
 
 CN_PHONE = {   # 手機的案子：回覆鍵上面的手機筆記（ask.note，game3d.js noteHint）
     'C0': dict(key='2024-11-07', h=17.33, econ=True, js="return {stage:G.stage, bike:STORY.bikeDay?CALENDAR.dateOf(STORY.bikeDay()).key:null};", ask='y0_bike', pick='（查完再回）',
-               who='經濟系那年 11/7（四）17:30 班群：韋綸「我的車被認走了。有沒有人懂法律？」（現場版腳踏車只到 10/17，玩家碰得到的是群組版）'),
+               who='舊序章的系那年 11/7（四）17:30 班群：舊序章的人「我的車被認走了。有沒有人懂法律？」（現場版腳踏車只到 10/17，玩家碰得到的是群組版）'),
     'C2': dict(key='2026-11-11', h=21.92, js="NOKX(); const r=LV('heroine_02',25,10,5); return {r, h:(typeof R3!=='undefined'&&R3.zrHour)?R3.zrHour(G):null};", ask='r3_zr_fee', pick=C2_PICK,
                who='芷若的試譯稿費（R3.zrHour：沒交往＝22:07）'),
     'C4': dict(key='2027-11-19', h=20.83, js="NOKX(); return LV('zhe',25,10,5);", ask='y3_c4', pick='找對方談。', who='阿哲的機車 11/19 21:00「要簽嗎」'),
@@ -1363,7 +1363,7 @@ async def cn_phone(pg, cdp, run, k):
     X = CN_PHONE[k]; tag = 'cn_' + k
     if X.get('econ'): st, d = await econ_state(pg, X['key'], X['h'], 'dorm', X.get('flags'))
     else: st, d = await state_at(pg, X['key'], X['h'], 'dorm', flags=X.get('flags'))
-    r = await load(pg, cdp, run, st, '%s：最小存檔%s %s %s 宿舍（%s）' % (tag, '（經濟系那一年，事件模式）' if X.get('econ') else '', X['key'], hm(X['h']), X['who']), js=X['js'])
+    r = await load(pg, cdp, run, st, '%s：最小存檔%s %s %s 宿舍（%s）' % (tag, '（舊序章的系那一年，事件模式）' if X.get('econ') else '', X['key'], hm(X['h']), X['who']), js=X['js'])
     if X.get('pre'):
         aid, lab = X['pre']
         ok0 = await play(pg, cdp, run, ASK_HAS % J(aid), max_s=ENVI('VF_WAIT', 600), ff=False, tag=tag + '_pre', picks=STAYUP)
@@ -1453,7 +1453,7 @@ FIGS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, C=E.camera&&E.camera.
 SEATS_ROOM = """(room=>(GAME.E.interactables||[]).filter(it=>it.seat&&it.seat.room===room&&!it.hidden&&String(it.label||'').indexOf('坐')===0).map(it=>({x:+(+it.x).toFixed(2),z:+(+it.z).toFixed(2),sx:+(+it.seat.x).toFixed(2),sz:+(+it.seat.z).toFixed(2),lv:it.lv|0,taken:it.seat.taken||null,label:it.label})))"""
 CLS_ITEM = """(cid=>{ try{ const it=CLS.dayItems(GAME.G).find(q=>q.c&&q.c.id===cid&&!q.exam); return it?{key:it.key,t0:it.t0,t1:it.t1,status:CLS.status(GAME.G,it),room:it.room&&it.room.name}:null; }catch(e){ return 'ERR '+e.message; } })"""
 BOYA = {'law': dict(key='2025-10-07', cid='chinese_y1', who='法律系大一上，大一國文（上），週二上午（LAWWW2 重現同一天 2025-10-07）'),
-        'econ': dict(key='2024-10-08', cid='chinese_y0', who='經濟系那年大一國文，週二上午（事件模式）')}
+        'econ': dict(key='2024-10-08', cid='chinese_y0', who='舊序章的系那年大一國文，週二上午（事件模式）')}
 DOOR101_OUT, DOOR101_IN = (-5.2, 6.0), (-6.8, 6.0)   # boya_layout.js：101 的門在東牆 x＝−6.0、z 5.4～6.6
 
 

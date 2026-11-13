@@ -57,7 +57,7 @@ check 只有幾種：事件真的演出來（EVENTS.run 收到那一件，畫面
     jp_an_room_door        ev_jpb_w_light（交往中，:216 2028-06-11 16:00 她的房間門口）。
     jp_an_room_packed      ev_jpb_clean（交往中，:209 7/29 22:30 私訊 → 7/30 14:00；jp_blank3d.js:113 JPB_CLEAN go）。
     camp_trail_night       ev_camp_d1_walk（src/data/camp_y1.js:137；真實是 2025-08-22 21:30 迎新宿營，story3d.js:122 S.CAMP_SEQ 的序章串，trigger camp）。
-                           序章串（經濟系那一年 S.campY1）最小存檔接不上：【前置】法律系 Y1S1 第 2 週週五 21:30 宿舍＋【捷徑】EVENTS.run（背景只看 OUT.bg，和日期無關）。
+                           序章串（舊序章的系那一年 S.campY1）最小存檔接不上：【前置】法律系 Y1S1 第 2 週週五 21:30 宿舍＋【捷徑】EVENTS.run（背景只看 OUT.bg，和日期無關）。
                            另外查：OUT.BG.camp_trail_night 不再有 night:true（7ee28d48d 以前借白天圖 camp_trail＋night）＝#adv 沒有 night class、#advBg 的 filter 是 none
                            （adv3d.js:17 的 #adv.night #advBg{filter:brightness(.42) saturate(.6)}＋::after 藍色蓋層）——記錄 class 與 computed filter（check）。
   GROUP=lib（d8dbcd7d5，第 110b 組，BB 08:54 PASS：總圖兩張新背景）：

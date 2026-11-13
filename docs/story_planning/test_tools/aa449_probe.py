@@ -1,8 +1,8 @@
-"""BB-B 10-24（RELEASE-9109-TEST 補一項，LAWWW-B 17:22）：AA_449 經濟系那一年讀者那一輪（fac17bba3），在瀏覽器看兩個點。
+"""BB-B 10-24（RELEASE-9109-TEST 補一項，LAWWW-B 17:22）：AA_449 舊序章的系那一年讀者那一輪（fac17bba3），在瀏覽器看兩個點。
 ① 2025-02-14 15:00 和可昕去以前的補習班（ev_y0_e27b，出遊）：旁白「（工作人員走進後面的辦公室。…）」不是「（她走進…）」；
    「輸的人請早餐。……我不會輸。」之後多三句：花店旁白、「（看了一眼）……我們情人節來問補習班。」「晚餐你請。」
 ② 2025-02-02 22:30 可昕的訊息（y0_e24b）：去過高雄（KH_TRIP_DONE）＝「到家了沒。」「我媽說我這三天胖了。……都是夜市害的。」；沒去＝「我媽說我寒假胖了。」
-[前置／捷徑] 讀檔到經濟系那一年住臺北的家（econsum_probe／e37_probe 的同一組旗標）：①2/14 14:20、E27B_PLAN（1/31 高雄那一場答應過）＋ev_y0_e27 演過；②2/2 21:50，有／沒有 KH_TRIP_DONE。
+[前置／捷徑] 讀檔到舊序章的系那一年住臺北的家（econsum_probe／e37_probe 的同一組旗標）：①2/14 14:20、E27B_PLAN（1/31 高雄那一場答應過）＋ev_y0_e27 演過；②2/2 21:50，有／沒有 KH_TRIP_DONE。
 之後照玩家：對話點過去；家裡的選單有「出發」就出發，沒有就「快轉 → 到下一個有事的日子」；手機自己打開就關掉、不回。
 Playwright 手機橫向模擬、?turbo，不是 iPhone。
 用法：LW_TESTS=<開發分支>/tests python3 aa449_probe.py '<URL>/index.html?turbo' <輸出資料夾> [不用的第三個參數]"""
@@ -42,7 +42,7 @@ async def one(p, run, sc):
         st = {'stage': 'econ', 'zone': 'campus', 'day': d, 'weekday': wd, 'hour': sc['h'], 'money': 12000, 'pos': {'x': -117, 'z': 0.5, 'yaw': 1.57}, 'home': {'at': True, 'base': True, 'day': d},
               'contacts': {k: d - 200 for k in ['kexin', 'econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_jiahao', 'econ_pinyu']},
               'flags': sc['flags'], 'events': {'done': {k: 1 for k in sc['done']}, 'last': {}, 'count': len(sc['done'])}}
-        run.setup('[前置／捷徑] %s：讀檔到 %s %.2f 在臺北的家（經濟系、和可昕交往中）；旗標 %s；記成演過 %s' % (sc['id'], sc['key'], sc['h'], json.dumps(sc['flags'], ensure_ascii=False), sc['done']))
+        run.setup('[前置／捷徑] %s：讀檔到 %s %.2f 在臺北的家（舊序章的系、和可昕交往中）；旗標 %s；記成演過 %s' % (sc['id'], sc['key'], sc['h'], json.dumps(sc['flags'], ensure_ascii=False), sc['done']))
         await L.load_state(pg, st); await pg.wait_for_timeout(4000); await pg.evaluate(HOOK)
         uk, uh = sc['until']; idle = 0
         for i in range(400):

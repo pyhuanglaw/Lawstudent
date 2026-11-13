@@ -113,7 +113,7 @@ const grepSrc = (s, cmt) => SRC.filter(([f, t]) => (cmt ? t : noCmt(t)).includes
     const it = item('kx5'), r = it ? FEED.respond(H.G, 'kx5', 'cm') : null;
     rep('KX5（' + K(d) + ' 23:46 → 23:51；可昕 FRIEND）留言「妳呢？」', !!r, { post: it && K(it.day) + ' ' + hm(it.h), thread: th('p:kexin').slice(-3) });
   }
-  {  // kx_moot 私訊（大二上第 11 週週六 22:30）＋ 23:50 予樂 h505_yule
+  {  // kx_moot 私訊（大二上第 11 週週六 22:30）＋ 23:50 舊序章的人 h505_yule
     const d = TD('Y2S1', 11, 6);
     for (const pick of ['妳一定可以。', '他講得很好嗎？']) {
       mk(d, 22.43, KXF); who('kexin', 'FRIEND'); walk(d, 22.52);
@@ -122,13 +122,13 @@ const grepSrc = (s, cmt) => SRC.filter(([f, t]) => (cmt ? t : noCmt(t)).includes
       rep('KXMOOT 選「' + pick + '」（' + K(d) + ' 22:26 → 22:31）', !!m, { before, after: th('p:kexin').slice(-3) });
     }
     mk(d, 23.77, KXF); who('kexin', 'FRIEND'); H.G.contacts.yule = DK('2025-09-24'); walk(d, 23.85);
-    rep('YULE135（' + K(d) + ' 23:46 → 23:51；【前置】有予樂的聯絡方式）', th('p:yule').some(t => t === '她好認真'), { cond: HEARD.COND.yule(H.G), thread: th('p:yule') });
+    rep('YULE135（' + K(d) + ' 23:46 → 23:51；【前置】有舊序章的人的聯絡方式）', th('p:yule').some(t => t === '她好認真'), { cond: HEARD.COND.yule(H.G), thread: th('p:yule') });
   }
-  {  // 品妤 h505_pinyu（大二上第 12 週週二 21:20，走啦群組＋可昕聯絡方式）
+  {  // 舊序章的人 h505_pinyu（大二上第 12 週週二 21:20，走啦群組＋可昕聯絡方式）
     const d = TD('Y2S1', 12, 2); mk(d, 21.27, KXF); who('kexin', 'FRIEND'); PHONE.join(H.G, 'econ_friends', '走啦'); walk(d, 21.35);
     rep('PINYU137（' + K(d) + ' 21:16 → 21:21；走啦群組）', th('g:econ_friends').some(t => t.includes('可昕說她模擬法庭沒過')), { cond: HEARD.COND.econGroup(H.G), thread: th('g:econ_friends') });
   }
-  {  // 2027-04-10 kx_win 22:30＋予樂 h506_yule 23:00；4/11 13:00 kx2d 動態
+  {  // 2027-04-10 kx_win 22:30＋舊序章的人 h506_yule 23:00；4/11 13:00 kx2d 動態
     const d = DK('2027-04-10');
     mk(d, 22.43, KXF); who('kexin', 'FRIEND'); H.G.contacts.yule = DK('2025-09-24'); walk(d, 22.52);
     const m = (H.G.msgs || []).find(x => x.ask && x.ask.id === 'aa503_kx_win');

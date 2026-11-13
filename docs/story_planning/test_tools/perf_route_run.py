@@ -1,6 +1,6 @@
-"""BB-B 10-25（RELEASE-91010-TEST 第二輪，LAWWW-B 11:0x）：經濟系路線 fps（PERF-PATROL-ECON-1025 ①②③⑤⑥），兩個版本各自用自己的程式量，同一份地點清單、同一支量測腳本。
+"""BB-B 10-25（RELEASE-91010-TEST 第二輪，LAWWW-B 11:0x）：舊序章的系路線 fps（PERF-PATROL-ECON-1025 ①②③⑤⑥），兩個版本各自用自己的程式量，同一份地點清單、同一支量測腳本。
 包一層 LAWWW2 的 tools/blender/env_second/shots/perf_route.py（每個版本開一次瀏覽器；每個方向量 4 次、每次 5 秒；HUD 藏起來、劇情事件關掉、路人照時段）。
-地點清單：perf_route_econ_list.json（博雅大廳白天／晚上往北往南、博雅 101 階梯教室、普通、校門、椰林大道、公館店面；經濟系那一年 day -351）。
+地點清單：perf_route_econ_list.json（博雅大廳白天／晚上往北往南、博雅 101 階梯教室、普通、校門、椰林大道、公館店面；舊序章的系那一年 day -351）。
 博雅二樓：perf_route 只放 x、z，不放樓層，這一支量不到（另外用遊戲截圖看）。
 SCEN＝<名稱>=<port>:<工作樹資料夾名>,...（工作樹在 scratchpad 底下）；畫面 844x390（橫向）。SwiftShader 只能比相對值，不是手機實機。同一台機器上同時只跑這一個瀏覽器工作。
 用法（runner.sh 線）：perf_econ perf_route_run.py old=8832:lw33,new=8833:lw35［,list=perf_route_singleside_list.json］"""
@@ -9,7 +9,7 @@ OUT = sys.argv[2]
 HERE = os.path.dirname(os.path.abspath(__file__))
 SP = '/tmp/claude-0/-home-user-Lawstudent/773c49b9-ad25-576f-b588-101fb9f8321d/scratchpad'
 items = [x.split('=', 1) for x in os.environ.get('SCEN', '').split(',') if '=' in x]
-LIST = os.path.join(HERE, dict(items).get('list', 'perf_route_econ_list.json'))   # BB-B 15:5x：SCEN 裡寫 list=<檔名> 換地點清單（預設經濟系那一份）
+LIST = os.path.join(HERE, dict(items).get('list', 'perf_route_econ_list.json'))   # BB-B 15:5x：SCEN 裡寫 list=<檔名> 換地點清單（預設舊序章的系那一份）
 items = [x for x in items if x[0] != 'list']
 script = None
 for name, rest in items:   # 用最新那一份工作樹的量測腳本（兩個版本同一支腳本）

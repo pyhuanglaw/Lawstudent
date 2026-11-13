@@ -150,7 +150,7 @@ async function sim(name,opt){ rnd=rngOf(opt.seed); pRight=opt.pRight!=null?opt.p
   const worst=Math.max(...out.map(r=>Math.max(...r.marks.map(m=>m.chars))));
   const settings=JSON.stringify({quality:'medium',joystick:true,volume:0.6,textSpeed:1,fps:false,glbChar:true,mdbg:false,guide:true,classRemind:true,wakeMenu:true}).length;
   const stuck=5*JSON.stringify({at:'2029-06-18T10:00',v:'v9.5.x 2029',day:1400,hour:10.25,zone:'library_hall',depth:2,by:['xxxxxxxx','yyyyyyyy','zzzz','wwww'],cover:'xxxxxxxx',ff:false,evr:'ev_xxxxxxxx_yyyy'}).length;
-  const y0=Math.round(worst*0.15);   /* fatiao3d_backup_y0end：經濟系那一年最後一天（還沒有法律系的紀錄）——量不到，用 15% 估 */
+  const y0=Math.round(worst*0.15);   /* fatiao3d_backup_y0end：舊序章的系那一年最後一天（還沒有法律系的紀錄）——量不到，用 15% 估 */
   const copies={auto:1,quick:1,slot:3,backup:1,'backup_new_（最多 3）':3,'backup_y0end（小）':0,'backup_fm120（只有舊存檔）':1};
   const nFull=1+1+3+1+3+1;
   const keyChars=('fatiao3d_auto'+'fatiao3d_quick'+'fatiao3d_slot_1'.repeat(3)+'fatiao3d_backup'+'fatiao3d_backup_new_1730000000000'.repeat(3)+'fatiao3d_backup_y0end'+'fatiao3d_backup_fm120_1730000000000'+'fatiao3d_settings'+'fatiao3d_stuck').length;

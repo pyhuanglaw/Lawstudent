@@ -4,7 +4,7 @@
               15:00、20:00 各一張，對照 LAWWW2 的 cmp_*_door_15/20.webp、cmp_boya_east_15/20.webp 右半邊。看：門洞不再是全黑長方形、20:00 玻璃透出門廳的光、門縫和門底沒有漏出天空或草地（一條藍線、綠線）、
               沒有破面、閃爍、浮空。畫面中間那一塊的平均亮度、明暗差寫進 JSON（只是參考，不當判定）。
   DOORS_PLAYER 手機橫向（844×390、HUD 照常）：玩家自己走到每一扇門前（照遊戲找路，走不到才搬過去並註明），鏡頭在玩家背後朝門，15:00、20:00 各一張——玩家實際會看到的樣子。
-  DORM412     經濟系那一年的宿舍 412（第 4 個參數＝經濟系存檔快照；沒給就 NOT TESTED）：洗手間牆磚、地磚補光（e8c4ce7a，dorm_seethru.diff 第三版）。
+  DORM412     舊序章的系那一年的宿舍 412（第 4 個參數＝舊序章的系存檔快照；沒給就 NOT TESTED）：洗手間牆磚、地磚補光（e8c4ce7a，dorm_seethru.diff 第三版）。
               檢查 dorm_bath_tile、dorm_bath_floor 兩個材質有補光（TK.bounce 的 userData.bounce）；從房間看（玩家在房間中間、鏡頭在門那一側，正面牆淡出時看得到右邊洗手間）、洗手間裡面，15:00、21:00。
   DORM203     大一 203（使用者存檔 9/25 15:00）：上舖網點透空（區域實體 z.seeThru＝true、seethru_ 材質有 patch）。照玩家：走到自己的書桌按「坐在書桌前」→ 鏡頭轉到北邊（被上舖擋住）；
               再站到 R2 書桌旁 (1.0, 0.25) 鏡頭在東、等 6 秒。每個角度拍兩張：透空開著、（測試暫時）把 E.zone.seeThru 關掉——兩張在玩家周圍的像素差＝透空真的有作用。
@@ -12,7 +12,7 @@
               找到電線的位置，玩家站在電線前 2.4 m、鏡頭在電線那一側（電線在鏡頭和玩家中間），透空開／關各一張比對；地板：記下所有粗糙度 < 0.3 的材質名稱。
 【前置／捷徑】讀檔改時間、地點；DOORS_CMP、透空的鏡頭用遊戲的演出鏡頭（E.cinematic）或跟隨鏡頭參數擺好（拍照模式）；透空「關掉」那張是測試暫時改 E.zone.seeThru，拍完改回來。
 Playwright＋SwiftShader，不是 iPhone；DOORS_CMP 是 1280×720 桌機視窗（和 LAWWW2 的對照圖同尺寸），其他是手機橫向 844×390。
-用法：LW_TESTS=<開發分支>/tests SCEN=DOORS_CMP,... python3 art_gap2_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json> [經濟系快照.json]"""
+用法：LW_TESTS=<開發分支>/tests SCEN=DOORS_CMP,... python3 art_gap2_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json> [舊序章的系快照.json]"""
 import os, sys, json, asyncio, time, math
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -165,19 +165,19 @@ async def seethru_pair(pg, cdp, run, sid, tag):
 async def s_dorm412(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     if not ECON:
-        run.note('%s：NOT TESTED——沒有給經濟系存檔快照（第 4 個參數）' % sid); res['skip'] = '沒有經濟系快照'; return
+        run.note('%s：NOT TESTED——沒有給舊序章的系存檔快照（第 4 個參數）' % sid); res['skip'] = '沒有舊序章的系快照'; return
     econ = json.load(open(ECON, encoding='utf-8'))
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
     try:
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         await load_at(pg, econ, 'dorm', 15.0, (0, 0.6))
-        run.setup('[前置／捷徑] %s：經濟系存檔快照（%s）改到宿舍 412、15:00（quiet_events）；玩家放房間中間；鏡頭用跟隨鏡頭的 yaw／演出鏡頭擺好' % (sid, os.path.basename(ECON)))
+        run.setup('[前置／捷徑] %s：舊序章的系存檔快照（%s）改到宿舍 412、15:00（quiet_events）；玩家放房間中間；鏡頭用跟隨鏡頭的 yaw／演出鏡頭擺好' % (sid, os.path.basename(ECON)))
         for _ in range(30):
             if await pg.evaluate("!!(GAME.E.zone&&GAME.E.zone.dormRoot)"): break
             await pg.wait_for_timeout(1000)
         info = await pg.evaluate("(()=>{ const z=GAME.E.zone; return {stage:GAME.G.stage, set:z&&z.dormSetKey, model:!!(z&&z.dormRoot), seeThru:!!(z&&z.seeThru)}; })()"); res['info'] = info
         mats = await pg.evaluate(MATS + "('^(seethru_)?dorm_bath_|^seethru_')"); res['mats'] = mats
-        run.check('%s：經濟系那一年是 412、正式模型載入' % sid, info.get('set', '').startswith('412') and info.get('model'), json.dumps(info, ensure_ascii=False))
+        run.check('%s：舊序章的系那一年是 412、正式模型載入' % sid, info.get('set', '').startswith('412') and info.get('model'), json.dumps(info, ensure_ascii=False))
         run.check('%s：洗手間牆磚、地磚有補光（dorm_bath_tile、dorm_bath_floor 的 userData.bounce）' % sid,
                   all((mats.get(k) or {}).get('bounce') for k in ('dorm_bath_tile', 'dorm_bath_floor')), json.dumps({k: v for k, v in mats.items() if 'bath' in k}, ensure_ascii=False))
         run.check('%s：宿舍區域實體 z.seeThru＝true（e8c4ce7a 以前寫在定義上、引擎看不到）' % sid, info.get('seeThru'), json.dumps(info, ensure_ascii=False))

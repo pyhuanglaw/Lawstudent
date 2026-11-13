@@ -1,5 +1,5 @@
 """BB-B 2026-11-08：UX-WEEKEND-ASK-EXPIRE-1108（LAWWW-B c1f89f8e0，AA-B 11-08 09:19）瀏覽器驗收。
-可昕（交往中）週五 19:30「週末來木柵大學？我當導遊。」／下週五「這週末呢？導遊還在。」——那個週日 24:00 收起來：
+可昕（交往中）週五 19:30「週末來外校大學？我當導遊。」／下週五「這週末呢？導遊還在。」——那個週日 24:00 收起來：
 沒回＝跟沒回一樣、不出字；之後讀檔不會自己打開手機；記 KX_TOUR_NO 'expired'，下週五照樣有第二則；
 過期超過一週才發現（舊存檔）＝第二則也不傳。
   O（舊存檔）：使用者 day38 存檔，【前置】把 kx_tour_ask 改成沒回（ans 拿掉、KX_TOUR_YES 拿掉）→ 讀檔（只關條件事件，手機自動打開照常）
@@ -20,7 +20,7 @@ import bbplay as P
 URL, SAVES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 MODES = os.environ.get('MODE', 'O,F').split(',')
 J = lambda o: json.dumps(o, ensure_ascii=False)
-T1, T2 = '週末來木柵大學？我當導遊。', '這週末呢？導遊還在。'
+T1, T2 = '週末來外校大學？我當導遊。', '這週末呢？導遊還在。'
 OPT_YES = '好，週六下午過去。'
 TAGS = ('kx_tour_ask', 'kx_tour_ask2')
 

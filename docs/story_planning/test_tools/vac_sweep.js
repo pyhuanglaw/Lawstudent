@@ -1,5 +1,5 @@
 // BB-B 2026-10-24：寒暑假每一天有什麼（AA-B 04:27 建議：照 BB_301／BB_302 的方法，用最新開發分支逐天掃寒暑假）。Node，不需要瀏覽器。
-//   期間：HOME.breakOf 算出來的每一個法律系寒暑假（大一寒假～大四暑假；有延畢的大五上寒假也會算進來），加上經濟系那年的暑假（G.stage='econ'，只看手機與出遊）。
+//   期間：HOME.breakOf 算出來的每一個法律系寒暑假（大一寒假～大四暑假；有延畢的大五上寒假也會算進來），加上舊序章的系那年的暑假（G.stage='econ'，只看手機與出遊）。
 //   存檔三種 × 住哪兩種：
 //     single＝沒交往、在桌遊團（dating_kexin 明寫 false：GAME.defaults 預設交往中的可昕）；an＝和以安交往中；zq＝和子晴交往中（BB 女主角）。
 //     home＝這個假期回家住（G.home.stay[假期]='home'、放假模式 lbreak）；dorm＝留臺北、住宿舍。
@@ -7,7 +7,7 @@
 //     「一定要演」的事件（HOME.mustEvs，10:00／15:00／20:00／21:00／21:30 各看一次；21:00、21:30 是 AA-B 10-24 14:15 加的）、手機（STORY.phoneRules＋PHONE.tick，07:00～23:45 每 15 分鐘）、當天的出遊（OUT.rec）、
 //     誰在哪（STORY.presence：七位女主角、阿哲、阿凱、明軒、沛珊；12:00）。
 //   沒有停點、沒有一定要演的事件、沒有新訊息、沒有出遊＝「空白日」（給 AA 看要不要補）。
-//   經濟系那年的暑假（v2，10-24 06:0x）：那時候已經休學、搬回臺北的家（G.flags.Y0_MOVED_OUT、H.base＝HOME.baseMode），停點用 HOME.breakNext＋HOME.y0FixedNext（快轉真的會停的地方），
+//   舊序章的系那年的暑假（v2，10-24 06:0x）：那時候已經離開學校、搬回臺北的家（G.flags.Y0_MOVED_OUT、H.base＝HOME.baseMode），停點用 HOME.breakNext＋HOME.y0FixedNext（快轉真的會停的地方），
 //     另外記衝刺班日子卡（ECONFF.cramCard）、玩樂日（ECONFF.PLAY_DAYS）；存檔多一種 kexin（和可昕交往中＝GAME.defaults 的預設），只跑這個暑假。
 //   MODE=accept：要回的訊息一律選第一個（多半是「好」那一類）；strict（預設）＝都不回。
 //   限制（照實寫進報告）：事件不真的演（只看排了什麼）；「演過才解鎖」的會少算；3D 區域裡的偶遇、閒聊、地點觸發的事件不算（只算 mustEvs 那一類）；
@@ -43,13 +43,13 @@ const PROFILES = {
   zq: { label: '和子晴交往中', dating: 'heroine_04' },
   kexin: { label: '和可昕交往中（GAME.defaults 預設）', dating: null, kx: true, econOnly: true },
 };
-// 法律系的每一個假期（HOME.breakOf）＋經濟系那年的暑假（CALENDAR 沒有學期的日子，2025-06-01～開學前一天）
+// 法律系的每一個假期（HOME.breakOf）＋舊序章的系那年的暑假（CALENDAR 沒有學期的日子，2025-06-01～開學前一天）
 function breaks() {
   const out = [], seen = {}; const d0 = D('2025-06-01'), d1 = D('2030-01-31');
   for (let d = d0; d <= d1; d++) { let B = null; try { B = HOME.breakOf(d); } catch (e) {} if (B && B.key && !seen[B.key]) { seen[B.key] = 1; out.push({ key: B.key, from: B.from, to: B.to, kind: B.kind, year: B.year }); } }
   const law0 = out.length ? Math.min(...out.map(b => b.from)) : null;
   const econ = []; for (let d = d0; d < (law0 || d0); d++) if (!CALENDAR.termOf(d)) econ.push(d);
-  if (econ.length) out.unshift({ key: 'Y0S（經濟系暑假）', from: econ[0], to: econ[econ.length - 1], kind: 'summer', econ: true });
+  if (econ.length) out.unshift({ key: 'Y0S（舊序章的系暑假）', from: econ[0], to: econ[econ.length - 1], kind: 'summer', econ: true });
   return out;
 }
 function answer(G, row) {
@@ -61,12 +61,12 @@ function answer(G, row) {
 function sweep(pk, live, B) {
   const P = PROFILES[pk]; const key0 = CALENDAR.dateOf(B.from).key;
   const flags = { EXCHANGE_ROUTE: 'TW', EXCH_RULE: 1, dating_kexin: !!P.kx };
-  if (B.econ) flags.Y0_MOVED_OUT = true;   /* 經濟系暑假＝休學後住臺北的家（HOME.baseMode）*/
+  if (B.econ) flags.Y0_MOVED_OUT = true;   /* 舊序章的系暑假＝離開學校後住臺北的家（HOME.baseMode）*/
   const G = H.fresh(key0, 9, live === 'home' ? 'home' : 'dorm', flags); if (B.econ) G.stage = 'econ';
   G.contacts = G.contacts || {}; G.msgs = G.msgs || []; G.visited = G.visited || {}; G.outings = G.outings || [];
   if (typeof ROM !== 'undefined' && ROM.rec) ROM.rec(G);
   for (const [g, n] of [['noodle_team', '桌遊團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會'], ['home', '家人']]) { try { PHONE.join(G, g, n); } catch (e) {} }
-  if (B.econ) { try { PHONE.join(G, 'econ_friends', '走啦'); } catch (e) {} }   /* 經濟系暑假：經濟系朋友的群組（AA_272 第 13 節的「走啦」；LAWWW-B 10-24 07:09：不加的話 8/3、8/4 算不到）*/
+  if (B.econ) { try { PHONE.join(G, 'econ_friends', '走啦'); } catch (e) {} }   /* 舊序章的系暑假：舊序章的系朋友的群組（AA_272 第 13 節的「走啦」；LAWWW-B 10-24 07:09：不加的話 8/3、8/4 算不到）*/
   for (const id of WHO) { try { const r = SOCIAL.rel(id); r.fam = 45; r.trust = 30; r.comf = 15; SOCIAL.remember(id, 'FIRST_MET', ''); G.contacts[id] = B.from - 60; } catch (e) {} }
   if (P.dating) { try { const r = SOCIAL.rel(P.dating); Object.assign(r, { fam: 70, trust: 60, comf: 50, npcRom: 60, rom: 40 }); ROM.start(G, P.dating); } catch (e) { G.flags['dating_' + P.dating] = true; } }
   if (!B.econ && typeof HOME !== 'undefined' && HOME.rec) { const Hm = HOME.rec(G); Hm.stay = Hm.stay || {}; Hm.stay[B.key] = live === 'home' ? 'home' : 'dorm'; if (live === 'home') { Hm.at = true; Hm.lbreak = B.key; } else Hm.at = false; }
@@ -81,7 +81,7 @@ function sweep(pk, live, B) {
     if (B.econ && typeof ECONFF !== 'undefined') { G.hour = 9; try { const c = ECONFF.cramCard && ECONFF.cramCard(G); if (c) row.cram = String(typeof c === 'object' ? (c.t || c.text || c.title || JSON.stringify(c)) : c).slice(0, 40); } catch (e) {} if ((ECONFF.PLAY_DAYS || []).includes(x.key)) row.play = true; }
     const m0 = G.msgs.length;
     for (let h = 7; h < 24; h += 0.25) { G.hour = h; try { STORY.phoneRules(GM); PHONE.tick(G); answer(G, row); } catch (e) { if (errs.length < 40) errs.push(x.key + ' ' + fmtH(h) + ' 手機：' + String(e.message).slice(0, 80)); }
-      if (h === 10 || h === 15 || h === 20 || h === 21 || h === 21.5) {   // AA-B 10-24 14:15（AA_445）：21:00 以後的事件（經濟系暑假 7/22、8/10 可昕視訊）原本掃不到，加 21:00、21:30
+      if (h === 10 || h === 15 || h === 20 || h === 21 || h === 21.5) {   // AA-B 10-24 14:15（AA_445）：21:00 以後的事件（舊序章的系暑假 7/22、8/10 可昕視訊）原本掃不到，加 21:00、21:30
         try { for (const id of HOME.mustEvs(G)) if (!row.evs.includes(id)) row.evs.push(id); } catch (e) { if (errs.length < 40) errs.push(x.key + ' mustEvs：' + e.message); } } }
     row.msgs = G.msgs.slice(m0).map(m => (m.ask ? '【要回】' : '') + (m.th || '') + '｜' + (NM[m.from] || m.from || m.name || '') + '：' + String(m.text || '').slice(0, 26));
     row.outs = (OUT.rec ? OUT.rec(G) : []).filter(q => q.day === d).map(q => fmtH(q.h) + ' ' + (q.title || q.id) + '（' + q.state + '）');
@@ -89,7 +89,7 @@ function sweep(pk, live, B) {
     row.blank = !row.stops.length && !row.evs.length && !row.msgs.length && !row.outs.length && !row.cram && !row.play;
     days.push(row);
   }
-  return { label: P.label + '・' + (B.econ ? '休學住臺北的家' : live === 'home' ? '回家住' : '留臺北'), days, errs, baseOK };
+  return { label: P.label + '・' + (B.econ ? '離開學校住臺北的家' : live === 'home' ? '回家住' : '留臺北'), days, errs, baseOK };
 }
 const out = { lw: LW, mode: MODE, loadedExtra: loadedExtra.length, loadErr, breaks: [], runs: {} };
 const BS = breaks(); out.breaks = BS.map(b => ({ key: b.key, from: CALENDAR.dateOf(b.from).key, to: CALENDAR.dateOf(b.to).key, days: b.to - b.from + 1 }));

@@ -6,7 +6,7 @@ MODE=menu 看選單：
   ② 週一選巷口家常菜：今天的時間灰掉、小字「巷口家常菜週一休」；
   ③ 「散步」有一一八茶飲；
   ④ 「看電影、逛書店」南洋戲院：錢 1000 可以選；錢 100 灰掉「錢不夠買電影票（150 元）」；錢 100 但今天已經買過票（NY_TICKET＝今天）＝可以選；
-  ⑤ 可昕（KX=1）：「吃飯」好家自助餐灰掉、小字是她那句「平日我在木柵上課。……週末那間又沒開。」。
+  ⑤ 可昕（KX=1）：「吃飯」好家自助餐灰掉、小字是她那句「平日我在外校上課。……週末那間又沒開。」。
 MODE=meet 走一場：WHO 約滇香小館今天中午 → 答應句（AA_721）→ 去 → 第一次一起去那一句 → 吃飯那一場坐下（E.player.seat）→ 記 SHARED_MEAL；
   MOVIE=1 再約南洋戲院：那一場開始時扣 150、記 NY_TICKET＝今天。
 用法：LW_TESTS=<測試樹>/tests MODE=menu WHO=heroine_01 python3 pt1107i_invplaces_probe.py URL 存檔資料夾 輸出資料夾"""
@@ -114,7 +114,7 @@ async def menu(pg, cdp, run):
         top = (r or {}).get('top'); lst = (r or {}).get('list') or []
         print('   可昕', json.dumps({'top': [x['t'] for x in (top or [])], 'list': [x['t'] for x in lst]}, ensure_ascii=False)[:700], flush=True)
         n = find(lst, '好家自助餐')
-        run.check('⑤ 可昕：好家自助餐灰掉、小字是她那句', bool(n) and n['dim'] and '平日我在木柵上課' in n['t'], json.dumps({'item': n, 'list': [x['t'] for x in lst], 'top': [x['t'] for x in (top or [])]}, ensure_ascii=False))
+        run.check('⑤ 可昕：好家自助餐灰掉、小字是她那句', bool(n) and n['dim'] and '平日我在外校上課' in n['t'], json.dumps({'item': n, 'list': [x['t'] for x in lst], 'top': [x['t'] for x in (top or [])]}, ensure_ascii=False))
         await run.shot(pg, 'menu_kexin_self')
         await back_out(pg, cdp)
 

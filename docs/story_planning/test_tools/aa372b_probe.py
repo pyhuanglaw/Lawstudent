@@ -8,9 +8,9 @@
   KEVIN      新局 9/4 20:45 宿舍：手機上學姊的私訊串（9/3 加好友起）寫「溫書瑀」、沒有「不認識的女生」、還沒有「（直屬）」；21:00 家族群組 Kevin「家族群組開好了。學弟，這次不用臥底了。」「上面那位是你的直屬學姊。」
              接學姊兩句、Kevin「你們認識？」，沒有「我是 Kevin」「歡迎學弟」；21:00 以後聯絡人變「溫書瑀（直屬）」（第 2 項、第 12 項、第 6 節第 10 題）
              【前置／捷徑】9/1～9/3 的手機訊息（系上社群自介、她的留言、9/3 接受交友、9/3 晚上祐廷私訊她）在頁面裡把時間撥回那幾天跑手機規則補上（開場兩天不能跳過時間，照玩家走要 13 個遊戲小時）
-  NCCU       新局 9/12（五）19:20 宿舍：可昕「週末來政大？我當導遊。」→ 回「好，週六下午過去。」→ 睡覺 → 9/13 手機「等到下午」→「出發：去政大找可昕」→ 選「妳推薦哪一家？」：
+  NCCU       新局 9/12（五）19:20 宿舍：可昕「週末來外校？我當導遊。」→ 回「好，週六下午過去。」→ 睡覺 → 9/13 手機「等到下午」→「出發：去外校找可昕」→ 選「妳推薦哪一家？」：
              「山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。」、最後一句「下次你來，我們吃山上那家。」、沒有「……這是分工，不是命令。」（第 7 項、第 6 節第 7 題）
-  K2         新局 10/10（五）19:50：可昕「這次換我去台大。我先去找品妤，再去霖澤館抓你。」→ 10/11 16:00 社科院門口（床上小睡到 15:30 等出發）→ 演完，選單「筆記」的日誌寫「可昕來台大找你」、沒有「可昕第一次來台大」（第 11 項、第 6 節第 9 題）
+  K2         新局 10/10（五）19:50：可昕「這次換我去台大。我先去找舊序章的人，再去霖澤館抓你。」→ 10/11 16:00 社科院門口（床上小睡到 15:30 等出發）→ 演完，選單「筆記」的日誌寫「可昕來台大找你」、沒有「可昕第一次來台大」（第 11 項、第 6 節第 9 題）
   PS_ALT     沛珊大一下、大二上也隔週回台中（第 6 節第 8 題）：使用者存檔改到 2026-03-14（大一下第 3 週六）、03-21（第 4 週六）、2026-09-26（大二上第 3 週六）、10-03（第 4 週六）15:12 公館：
              朋友頁單數週「回台中」、沒有「約」；捷運到大稻埕：單數週迪化街不會遇到她；雙數週照遊戲擲的結果（ENC 的紀錄）——擲到她就要遇到（擲到沒人＝那天沒有偶遇，記 NOT TESTED，不算 FAIL）
   AN_D26     以安 D26（台中審計新村）加大一上第 4、8、12 週的週六（第 6 節第 8 題）：使用者存檔改到 9/27、10/25、11/22（對照 10/4）11:00 公館 → 捷運 → 臺中（外縣市）→ 到達時有沒有遇到她；
@@ -375,25 +375,25 @@ async def s_kevin(p, run, base, sid, out):
     await close(b)
 
 
-# ------------------------------------------------------------------ 可昕：政大導遊（K1）、她來台大找你（K2）
+# ------------------------------------------------------------------ 可昕：外校導遊（K1）、她來台大找你（K2）
 async def s_nccu(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     b, pg, cdp, errs, r = await launch(p, run, base, '2025-09-12', 19.33, 'dorm', flags=dict(DAY2_DONE), fresh=True, label=sid + '（9/12 週五 19:20 宿舍；9/4 主線算演過；可昕交往中＝新局預設）')
     try:
         await drive(pg, cdp, run, max_s=20, label=sid)
         ok, _ = await wait_for(pg, cdp, run, "PHONE.pending(GAME.G).some(m=>m.th==='p:kexin'&&String(m.text).includes('我當導遊'))", max_s=360, label=sid)
-        run.check('%s：9/12 19:30 可昕「週末來政大？我當導遊。」' % sid, ok, json.dumps((await msgs(pg, 'p:kexin'))[-2:], ensure_ascii=False))
+        run.check('%s：9/12 19:30 可昕「週末來外校？我當導遊。」' % sid, ok, json.dumps((await msgs(pg, 'p:kexin'))[-2:], ensure_ascii=False))
         got = await answer_text(pg, cdp, run, 'p:kexin', '我當導遊', '好，週六下午過去。', sid)
         await pg.wait_for_timeout(2500); q = await pg.evaluate(OUTQ + "(['kx_tour'])"); res['plan'] = q
-        run.check('%s：回「好，週六下午過去。」→ 排 9/13 14:00 去政大' % sid, bool(got) and any(x['d'] == '2025-09-13' and abs(x['h'] - 14) < 0.01 for x in q), json.dumps(q, ensure_ascii=False))
+        run.check('%s：回「好，週六下午過去。」→ 排 9/13 14:00 去外校' % sid, bool(got) and any(x['d'] == '2025-09-13' and abs(x['h'] - 14) < 0.01 for x in q), json.dumps(q, ensure_ascii=False))
         ops, slept = await sleep_night(pg, cdp, run, sid)
         await skip(pg, cdp, '等到下午', sid)
         n0 = await log_len(pg)
         ok, ch = await wait_for(pg, cdp, run, "!!((GAME.G.events||{}).done||{}).ev_kexin_tour_nccu&&!(typeof ADV!=='undefined'&&ADV.active)", max_s=600,
-                                picks=['妳推薦哪一家', '吃她推薦的'], go=('出發：去政大',), label=sid, shot_at='下次你來')
+                                picks=['妳推薦哪一家', '吃她推薦的'], go=('出發：去外校',), label=sid, shot_at='下次你來')
         await drive(pg, cdp, run, max_s=40, label=sid)
         lg = await log_since(pg, n0); T = texts(lg); res['log'] = T[:40]; memo = [x['t'] for x in lg if x['n'] == '［日誌］']
-        run.check('%s：9/13 時間到「出發：去政大找可昕」、導遊那一場演完' % sid, ok and any(any(o.startswith('出發：去政大') for o in c['opts']) for c in ch), json.dumps(ch[:3], ensure_ascii=False)[:300])
+        run.check('%s：9/13 時間到「出發：去外校找可昕」、導遊那一場演完' % sid, ok and any(any(o.startswith('出發：去外校') for o in c['opts']) for c in ch), json.dumps(ch[:3], ensure_ascii=False)[:300])
         run.check('%s：「山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。」' % sid, '山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。' in T, json.dumps([t for t in T if '酸辣' in t], ensure_ascii=False))
         ks = [x['t'] for x in lg if x['n'] not in ('［選項］', '［字幕］', '［日誌］', '', '祐廷')]
         run.check('%s：她最後一句「下次你來，我們吃山上那家。」；沒有「……這是分工，不是命令。」（第 6 節第 7 題）' % sid, bool(ks) and ks[-1] == '下次你來，我們吃山上那家。' and not any('分工' in t for t in T), json.dumps(ks[-3:], ensure_ascii=False))
@@ -408,7 +408,7 @@ async def s_k2(p, run, base, sid, out):
     b, pg, cdp, errs, r = await launch(p, run, base, '2025-10-10', 19.85, 'dorm', flags=dict(DAY2_DONE), fresh=True, label=sid + '（10/10 週五 19:50 宿舍；可昕交往中＝新局預設）')
     try:
         await drive(pg, cdp, run, max_s=20, label=sid)
-        dm = '這次換我去台大。我先去找品妤，再去霖澤館抓你。'
+        dm = '這次換我去台大。我先去找舊序章的人，再去霖澤館抓你。'
         ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.th==='p:kexin'&&m.text===%s)" % json.dumps(dm), max_s=360, label=sid)
         await pg.wait_for_timeout(2500); q = await pg.evaluate(OUTQ + "(['kx_ntu'])"); res['plan'] = q
         run.check('%s：10/10 20:00 可昕「%s」、排 10/11 16:00 社科院門口' % (sid, dm), ok and any(x['d'] == '2025-10-11' and abs(x['h'] - 16) < 0.01 for x in q), json.dumps(q, ensure_ascii=False))

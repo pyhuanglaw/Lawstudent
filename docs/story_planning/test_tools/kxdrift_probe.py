@@ -454,7 +454,7 @@ async def to_dinner(pg, cdp, run, who, sid, res):
 
 
 D0 = {'opt': '（跟可昕說一聲）', 'no': '（不說）', 'reply0': '好。吃完跟我說好不好吃。'}
-R1 = {'ring': '（手機響了。可昕。）', 'where': '你今天在公館？', 'lines': ['予樂說看到你，跟一個女生。', '她是誰不重要。你為什麼沒跟我講？'],
+R1 = {'ring': '（手機響了。可昕。）', 'where': '你今天在公館？', 'lines': ['舊序章的人說看到你，跟一個女生。', '她是誰不重要。你為什麼沒跟我講？'],
       'opts': ['「我忘了講。對不起。」', '「只是一起吃飯。」', '「妳想太多了吧。」'], 'r0': ['……好。下次講。', '（電話掛得很快。）']}
 D0_WHO = ['heroine_01', 'heroine_03', 'heroine_04']
 D0F = dict(TWF, **BASE0, KX_OUR_DAY={'day': 'sun', 'mode': 'mid'}, KX_DEC3_MIGRATED=True)
@@ -543,7 +543,7 @@ async def s_repair(p, run, base, sid, out):
         got = await answer(pg, cdp, run, 'p:kexin', 'kx_drift_r4_ask', '好。', sid)
         ok2, _ = await wait_for(pg, cdp, run, "OUT.rec(GAME.G).some(q=>q.id==='kx_drift_r4'&&q.state==='planned')", max_s=120, label=sid)
         q = await outq(pg, '^kx_drift_r4'); res['plan'] = q
-        run.check('%s：回「好。」＝排 5/7（五）19:00「和可昕：政大・山下的小吃街」' % sid, ok2 and bool(q) and q[0]['d'] == '2027-05-07' and abs(q[0]['h'] - 19) < 0.01, J(q))
+        run.check('%s：回「好。」＝排 5/7（五）19:00「和可昕：外校・山下的小吃街」' % sid, ok2 and bool(q) and q[0]['d'] == '2027-05-07' and abs(q[0]['h'] - 19) < 0.01, J(q))
         ops, gotb, okw = await sleep2(pg, cdp, run, ('睡到明天',), sid); res['bed'] = ops
         n0 = await log_len(pg)
         for pre_ in ('等到傍晚', '等到晚上'):
@@ -555,10 +555,10 @@ async def s_repair(p, run, base, sid, out):
         await drive(pg, cdp, run, picks=[R4['opts'][0]], max_s=150, label=sid)
         L1 = await log_since(pg, n0); T = texts(L1); res['said'] = T; k1 = await kxd(pg); res['k1'] = k1
         go = [c for c in (ch or []) if any(o.startswith('出發') for o in c['opts'])]
-        run.check('%s：5/7 傍晚跳「出發：和可昕：政大・山下的小吃街」（%s）' % (sid, go[0]['at'] if go else '—'), bool(go) and go[0]['at'].startswith('2027-05-07'), J({'go': go, 'stop': st}, 500))
+        run.check('%s：5/7 傍晚跳「出發：和可昕：外校・山下的小吃街」（%s）' % (sid, go[0]['at'] if go else '—'), bool(go) and go[0]['at'].startswith('2027-05-07'), J({'go': go, 'stop': st}, 500))
         oc = [c for c in chs(L1) if isinstance(c, list) and c == R4['opts']]
-        run.check('%s：字幕「政大・山下的小吃街」；她四句照稿 → 三個選項 → 選「%s」→「%s」「%s」' % (sid, R4['opts'][0], R4['r0'][0], R4['r0'][1]),
-                  '政大・山下的小吃街' in caps(L1) and seq_in(T, R4['lines'] + R4['r0']) and bool(oc), J({'caps': caps(L1), 'said': T, 'opts': chs(L1)}, 900))
+        run.check('%s：字幕「外校・山下的小吃街」；她四句照稿 → 三個選項 → 選「%s」→「%s」「%s」' % (sid, R4['opts'][0], R4['r0'][0], R4['r0'][1]),
+                  '外校・山下的小吃街' in caps(L1) and seq_in(T, R4['lines'] + R4['r0']) and bool(oc), J({'caps': caps(L1), 'said': T, 'opts': chs(L1)}, 900))
         run.check('%s：選「我會改…」＝歸零（KX_CRACK 0）、進修補期（35 天到 6/11）' % sid, k1['crack'] == 0 and k1['r4Pick'] == 0 and k1['repairEnd'] == '2027-06-11', J(k1))
         await run.shot(pg, '%s_r4' % sid)
         # 修補期 35 天：【捷徑】結束日改成今天 → 下一次手機規則記 KX_REPAIRED
@@ -581,7 +581,7 @@ async def s_repair(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
-# ---------------------------------------------------------------- 分開（D5：期末考最後一天 21:00 → 隔天 19:00 政大宿舍樓下）
+# ---------------------------------------------------------------- 分開（D5：期末考最後一天 21:00 → 隔天 19:00 外校宿舍樓下）
 R5 = {'ask': '明天晚上七點，我宿舍樓下。', 'talk': ['我想了一個禮拜。', '我們分開好不好。', '我不想每次見面，都在算你又遲到幾分鐘。', '你應該也不想每次都在猜我為什麼生氣。'],
       'opts': ['「再試一次？」', '「……好。」', '（不說話）'], 'r1': ['嗯。', '（她點頭，很久沒說話。）'], 'close': ['我先上去了。', '到家傳一下。這個我還是想知道。'], 'home': ['到了。', '嗯。']}
 
@@ -602,7 +602,7 @@ async def s_split(p, run, base, sid, out):
         ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>/^kx_drift_r5_msg/.test(m.tag||''))", max_s=600, label=sid)
         m = [x for x in await msgs(pg, 'p:kexin') if x['tag'].startswith('kx_drift_r5_msg')]; q = await outq(pg, '^kx_drift_r5'); res['ask'] = [m, q]
         run.check('%s：期末考最後一天 21:00 她傳「%s」' % (sid, R5['ask']), ok and bool(m) and m[0]['text'] == R5['ask'] and m[0]['d'] == ex['key'] and abs(m[0]['h'] - 21) < 0.05, J(m))
-        run.check('%s：排隔天 19:00「和可昕：政大・宿舍樓下」' % sid, bool(q) and q[0]['day'] == ex['day'] + 1 and abs(q[0]['h'] - 19) < 0.01 and q[0]['state'] == 'planned', J(q))
+        run.check('%s：排隔天 19:00「和可昕：外校・宿舍樓下」' % sid, bool(q) and q[0]['day'] == ex['day'] + 1 and abs(q[0]['h'] - 19) < 0.01 and q[0]['state'] == 'planned', J(q))
         await sleep2(pg, cdp, run, ('睡到明天',), sid)
         n0 = await log_len(pg)
         for pre_ in ('等到傍晚', '等到晚上'):
@@ -615,10 +615,10 @@ async def s_split(p, run, base, sid, out):
         await pg.wait_for_timeout(1500); await run.shot(pg, '%s_home_phone' % sid)
         L1 = await log_since(pg, n0); T = texts(L1); res['said'] = T; k1 = await kxd(pg); res['k1'] = k1
         go = [c for c in (ch or []) if any(o.startswith('出發') for o in c['opts'])]
-        run.check('%s：隔天傍晚跳「出發：和可昕：政大・宿舍樓下」' % sid, bool(go), J(go))
+        run.check('%s：隔天傍晚跳「出發：和可昕：外校・宿舍樓下」' % sid, bool(go), J(go))
         oc = [c for c in chs(L1) if isinstance(c, list) and c == R5['opts']]
-        run.check('%s：字幕「政大・宿舍樓下」；她四句照稿 → 三個選項 → 選「%s」→「%s」「%s」→「%s」「%s」' % (sid, R5['opts'][1], R5['r1'][0], R5['r1'][1], R5['close'][0], R5['close'][1]),
-                  '政大・宿舍樓下' in caps(L1) and seq_in(T, R5['talk'] + R5['r1'] + R5['close']) and bool(oc), J({'caps': caps(L1), 'said': T, 'opts': chs(L1)}, 900))
+        run.check('%s：字幕「外校・宿舍樓下」；她四句照稿 → 三個選項 → 選「%s」→「%s」「%s」→「%s」「%s」' % (sid, R5['opts'][1], R5['r1'][0], R5['r1'][1], R5['close'][0], R5['close'][1]),
+                  '外校・宿舍樓下' in caps(L1) and seq_in(T, R5['talk'] + R5['r1'] + R5['close']) and bool(oc), J({'caps': caps(L1), 'said': T, 'opts': chs(L1)}, 900))
         run.check('%s：分開了：不再交往、KX_ENDED drift、分開那天記好' % sid, not k1['dating'] and k1['ended'] == 'drift' and k1['endedOn'] == (await pg.evaluate("CALENDAR.dateOf(%d).key" % (ex['day'] + 1))), J(k1))
         th = kx_dm(await msgs(pg, 'p:kexin'))
         run.check('%s：到家手機自己打開她那一段：你傳「%s」、她回「%s」' % (sid, R5['home'][0], R5['home'][1]), ok4 and [x['text'] for x in th[-2:]] == R5['home'] and th[-2]['from'] == 'player', J(th[-3:]))

@@ -10,7 +10,7 @@
          [前置] 讀檔在 Café 門口 (0,5)（＝從溫州街走進來的出生點）→ 第 1 次：滑鏡頭對著玻璃（swipe）＋【捷徑】yaw2＝π（y0～y3＝0、π/2、π、3π/2；鏡頭在玩家北邊、看南邊 z≈6.35 的店面玻璃）同俯角同距離 →
          玩家走到門口按「離開咖啡廳」→ 溫州街（截圖）→ 走到「進入兩點半 Café」按 → 第 2 次：同一個位置、同一個鏡頭再拍。
          唯讀：cafe_street 有幾個、裡面幾個網格（兩次要一樣、不能變兩份）、畫的街景（15×3.5 的平面）藏起來沒有、窗外路人幾個、5 秒內的 fps。
-  dorm5  DORM203-LM-1030 祐廷五年的四人房：大一 203、經濟系 412、大二 312（ROOM_Y2）、大三 507（ROOM_Y3）、大四 409（ROOM_Y4）；YEARS=203,412 可以只跑幾年。每年 14:00：
+  dorm5  DORM203-LM-1030 祐廷五年的四人房：大一 203、舊序章的系 412、大二 312（ROOM_Y2）、大三 507（ROOM_Y3）、大四 409（ROOM_Y4）；YEARS=203,412 可以只跑幾年。每年 14:00：
          [前置] 讀檔在房門口 → b_desks（走到走道、滑鏡頭朝窗：兩排書桌）→ b_mydesk_low（走到自己書桌旁、往上拖到最低俯角，看床板底下的書桌）→
          a_bed（走道上、滑鏡頭朝自己的床）→ c_bird_player（雙指縮到最遠＋往下拖到最大俯角：玩家自己能做到最高的角度）→
          【捷徑】劇情鏡頭 c_bedtop_foot（床尾上方往床頭看）、c_bedtop_aisle（走道上方）、c_bedtop_nobedding（藏被子枕頭看床墊）；大二～大四再【捷徑】全部物件拿出來量一次＋近拍書桌。
@@ -359,7 +359,7 @@ async def dorm_year(pg, cdp, run, plate, key, day, stage, fdays, hour=14.0):
     if stage == 'econ':
         fl.update(E412_MOVEIN=True, E01_DONE=True, E01_NIGHT='unpack', E01_MORNING=True, E01_BOXES=True)
         st = {'stage': 'econ', 'zone': 'dorm', 'day': d['d'], 'weekday': d['wd'], 'hour': hour, 'money': 12000, 'pos': dict(DOOR), 'flags': fl}
-        what = '[前置] 經濟系那一年：新存檔（GAME.defaults）stage econ、%s %.2f 宿舍房門口；旗標 %s' % (d['key'], hour, J(fl))
+        what = '[前置] 舊序章的系那一年：新存檔（GAME.defaults）stage econ、%s %.2f 宿舍房門口；旗標 %s' % (d['key'], hour, J(fl))
     else:
         st, _ = await P.base(pg, SAVE, day, hour, 'dorm', pos=dict(DOOR), flags=fl)
         what = '[前置] 使用者存檔改到 %s %.2f 宿舍房門口；旗標 %s' % (d['key'], hour, J(fl))

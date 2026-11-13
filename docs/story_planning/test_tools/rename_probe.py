@@ -6,7 +6,7 @@ MODE（環境變數）：
            右上地點字（#clockZ）、下一堂課、目標、導引、ADV 地點條、每一個出入口走到旁邊的互動字（#interactLabel）、
            大地圖（標題、地點清單）、選單存檔頁（存一格再看）——字有沒有被截（scrollWidth＞clientWidth、超出畫面右邊）、有沒有舊名、
            「法律系館A館」疊字、自己縮的「帝大／首帝」、明衡館／致遠館、寫的字（地點、門口、地圖、存檔頁）只寫「A館／B館」。
-  oldsave  使用者的舊存檔（9/25 第 9 天，存檔裡已經寫下「週末來政大？我當導遊。」「去政大找可昕」「回到台大。」）
+  oldsave  使用者的舊存檔（9/25 第 9 天，存檔裡已經寫下「週末來外校？我當導遊。」「去外校找可昕」「回到台大。」）
            照玩家：放進自動存檔那一格 → 重新整理 → 標題「繼續」→ 手機每一個分頁、每一個對話、選單筆記、人物、存檔頁 → 有沒有舊名；
            另外兩份舊存檔改到法律系館A大廳、法律系館B大廳（舊的區域 id linze／wancai）讀進來，看地點字。
   route    照玩家走一遍常走的路線（宿舍房間 → 宿舍門廳 → 校園 → 法律系館A → 校園 → 法律系館B → 校園 → 總圖 → 校園 → 公館 → 溫州街）：
@@ -26,7 +26,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 BAD = [('疊字「法律系館A館／B館」', re.compile(r'法律系館[AB]館')), ('自己縮的「首帝」', re.compile(r'首帝(?!國|大)')),
        ('自己縮的「帝大」', re.compile(r'(?<!首都)帝大')), ('明衡館／致遠館', re.compile(r'明衡館|致遠館'))]
 SHORT = re.compile(r'(?<![系館])[AB]館')   # 寫的字（地點、門口、地圖、存檔頁）要「法律系館A」，只寫「A館」＝報
-NEWN = re.compile(r'首都帝|木柵大學|法律系館[AB]|[AB]館|晨思鐘|椰影|映月湖|博思|圓窗館|小松|學活|國際學苑|社科院圖書館|翠嶺')
+NEWN = re.compile(r'首都帝|外校大學|法律系館[AB]|[AB]館|晨思鐘|椰影|映月湖|博思|圓窗館|小松|學活|國際學苑|社科院圖書館|翠嶺')
 WRITTEN_IDS = ('clockZ', 'interactLabel', 'title3', 'bmTitle', 'bmSub', 'bmInfo', 'nextClass')
 UI = """(()=>{ const pick=id=>{ const e=document.getElementById(id); if(!e) return null; const cs=getComputedStyle(e); const vis=!!(e.offsetParent||e.getClientRects().length)&&cs.visibility!=='hidden'&&cs.display!=='none';
     const r=e.getBoundingClientRect(); return {id, t:(e.innerText||e.textContent||'').trim(), vis, over:vis&&e.scrollWidth>e.clientWidth+2, off:vis&&Math.round(r.right)>innerWidth+1, w:Math.round(r.width)}; };
@@ -160,7 +160,7 @@ async def oldsave(pg, cdp, run, F):
     for v in [mem2['msg15']] + [x for o in mem2['outings'] for x in o.values()]: F.text('看過手機以後 G', v)
     kx = await P.phone_thread(pg, cdp, 'p:kexin', open_folds=True)
     line = [l for l in (kx.get('text') or '').split('\n') if '週末來' in l]
-    run.check('舊存檔的可昕訊息「週末來政大？我當導遊。」在手機上顯示新名', bool(line) and not any(WN.find_old(l) for l in line), J(line))
+    run.check('舊存檔的可昕訊息「週末來外校？我當導遊。」在手機上顯示新名', bool(line) and not any(WN.find_old(l) for l in line), J(line))
     if line:
         await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#phoneBody *')].find(e=>e.children.length===0&&(e.textContent||'').indexOf('週末來')>=0); if(e) e.scrollIntoView({block:'center'}); })()"); await pg.wait_for_timeout(600)
         await run.shot(pg, 'old_phone_weekend')
