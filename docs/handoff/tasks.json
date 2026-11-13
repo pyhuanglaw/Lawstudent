@@ -50938,7 +50938,7 @@
    "id": "DATE-CHOICES-1110",
    "title": "約會中要有可以選的對話：不同選項加友情或戀愛、加的不一樣；晚上約會完不要馬上跳睡覺",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50950,7 +50950,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】選項對話在線上版（98 場）；晚上約會完直接睡覺沒改（classes3d.js:1357 S.eveSleep）——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 查現況】①約會中的選項對話：**已在線上版 v9.10.25**（AA_708 activity_scenes，98 場各有 opts、每個選項有 fx 友情／戀愛；dc3d33941 的 src/data/activity_scenes.js 就有；STUDYN.act 播）。校外約會 1,765 個選項的 fx 在開發分支（4e5a9a47c0）。②「晚上約會完馬上跳睡覺」：**沒改**——晚上那個時段用完＝CLS.eveSleep 直接回去睡（ACTION-BUDGET-1107 的設計，一個時段一件主要的事）。LAWWW-B 當時解讀成「改成演完回到自由走動」是 AI 解讀、沒問過使用者；現在約會本身有選項可以多講了，晚上演完要不要留在原地讓玩家自己決定什麼時候睡＝要問使用者（選擇題，下次使用者在的時候問）｜【11-10 01:4x LAWWW-B】使用者 X280、X281。AA 替單獨約會（activity_scenes 的 seat／mid／bye）每位、每種地點加選項對話：每個選項標 rel（fam、trust、comf、rom、npcRom），有的加友情、有的加戀愛；LAWWW 接選項；晚上約會完 S.eveSleep 直接睡的路，改成約會結尾演完、回到能自由走動，用存檔 day 51 重現。",
+   "next": "【LAWWW-C 11-13 21:4x UTC】使用者選擇題（UA-LAWWW-1113-02）：約會中有選項（會加友情或戀愛）＝晚上約會演完直接睡可以，不改 CLS.eveSleep。選項對話已在遊戲裡；剩 BB 驗收約會選項。｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】選項對話在線上版（98 場）；晚上約會完直接睡覺沒改（classes3d.js:1357 S.eveSleep）——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 查現況】①約會中的選項對話：**已在線上版 v9.10.25**（AA_708 activity_scenes，98 場各有 opts、每個選項有 fx 友情／戀愛；dc3d33941 的 src/data/activity_scenes.js 就有；STUDYN.act 播）。校外約會 1,765 個選項的 fx 在開發分支（4e5a9a47c0）。②「晚上約會完馬上跳睡覺」：**沒改**——晚上那個時段用完＝CLS.eveSleep 直接回去睡（ACTION-BUDGET-1107 的設計，一個時段一件主要的事）。LAWWW-B 當時解讀成「改成演完回到自由走動」是 AI 解讀、沒問過使用者；現在約會本身有選項可以多講了，晚上演完要不要留在原地讓玩家自己決定什麼時候睡＝要問使用者（選擇題，下次使用者在的時候問）｜【11-10 01:4x LAWWW-B】使用者 X280、X281。AA 替單獨約會（activity_scenes 的 seat／mid／bye）每位、每種地點加選項對話：每個選項標 rel（fam、trust、comf、rom、npcRom），有的加友情、有的加戀愛；LAWWW 接選項；晚上約會完 S.eveSleep 直接睡的路，改成約會結尾演完、回到能自由走動，用存檔 day 51 重現。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50967,7 +50967,7 @@
    "id": "ROM-PRIVATE-DATE-1110",
    "title": "單獨約會從「認識」起就加戀愛＋信任（可以攻略的對象）；活動對照表：哪些加戀愛、哪些加友情",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50979,7 +50979,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-12 11:5x】對照表補上了：docs/ROMANCE_ACTIVITY_TABLE.md（照開發分支程式整理：會加戀愛的七種、只加友情的十一種、和使用者原話對照）。留給使用者決定：私下約每一種都 +1 夠不夠、要不要照活動分輕重——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】加戀愛的程式在線上版；使用者要的「哪些活動加戀愛、哪些加友情」對照表沒寫過（docs/ROMANCE_ACTIVITY_TABLE.md 從來不存在，舊紀錄寫錯）——LAWWW 從 invites3d.js:370,424 產生這張表給使用者看｜【11-10 01:5x LAWWW-B】使用者 X281。invites3d 單獨約出來原本第 3 階（朋友）起才加戀愛 +1（AA_243 1 節）；改成可以攻略的對象（DATE.HEROINES，可昕照舊另算）認識以上每次單獨見面：她的戀愛 +1、祐廷的戀愛 +1、信任 +1（一天一次）。對照表寫在 docs/ROMANCE_ACTIVITY_TABLE.md，選項對話交 DATE-CHOICES-1110。",
+   "next": "【LAWWW-C 11-13 21:4x UTC】使用者選擇題「照活動分輕重」（UA-LAWWW-1113-03）：S.romAloneAmt——晚餐（17:00 以後吃飯）、散步、看電影逛書店 +2；念書、喝咖啡、吃午餐 +1；tests/rom_private_tier_1113_unit.js ALL PASS；對照表已更新。待 BB 驗。｜【LAWWW-C 11-12 11:5x】對照表補上了：docs/ROMANCE_ACTIVITY_TABLE.md（照開發分支程式整理：會加戀愛的七種、只加友情的十一種、和使用者原話對照）。留給使用者決定：私下約每一種都 +1 夠不夠、要不要照活動分輕重——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】加戀愛的程式在線上版；使用者要的「哪些活動加戀愛、哪些加友情」對照表沒寫過（docs/ROMANCE_ACTIVITY_TABLE.md 從來不存在，舊紀錄寫錯）——LAWWW 從 invites3d.js:370,424 產生這張表給使用者看｜【11-10 01:5x LAWWW-B】使用者 X281。invites3d 單獨約出來原本第 3 階（朋友）起才加戀愛 +1（AA_243 1 節）；改成可以攻略的對象（DATE.HEROINES，可昕照舊另算）認識以上每次單獨見面：她的戀愛 +1、祐廷的戀愛 +1、信任 +1（一天一次）。對照表寫在 docs/ROMANCE_ACTIVITY_TABLE.md，選項對話交 DATE-CHOICES-1110。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
