@@ -192,7 +192,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     const hit=said.find(s=>/好，我餓了。/.test(s.t));
     check('7. 阿凱「認識」約燒臘店（INV.meet）：見面那一句是阿凱說的「好，我餓了。」（有名字、外面沒有「」）',!err&&ec.SOCIAL.friendLevel('kai')==='ACQUAINTANCE'&&!!hit&&hit.who===ec.SOCIAL.npcName('kai')&&!!hit.who&&hit.t==='好，我餓了。',err?String(err.stack).slice(0,300):JSON.stringify(said)); }
   /* 8、9. 匯入工具產生的兩個檔：誰說的（S.playLines／S.narrLine）跟改以前一樣 */
-  const genCheck=(no,f,glob,named,unnamedSample,drop,chPlus)=>{   /* chPlus：稿換版、照稿算（aa731）的那幾句原本也是拿掉「」的句子，不算進 r.ch——門檻加回來（X324 G 區 AA_715 九句） */ const NEW=evalIn(cur(f),[glob])[glob], OLD=evalIn(gitShow(f),[glob])[glob]; if(drop){ drop(OLD); drop(NEW); }
+  const genCheck=(no,f,glob,named,unnamedSample,drop,chPlus)=>{   /* chPlus：稿換版、照稿算（aa731）的那幾句原本也是拿掉「」的句子，不算進 r.ch——門檻加回來（X324 G 區 AA_715 九句） */ const NEW=require('./aa959_map.js').unmapDeep(evalIn(cur(f),[glob])[glob],path.basename(f))/* AA_959（1243649c23 起有 invite_place_lines.js 的列：D158-KX-SAMESCHOOL 可昕社科圖三句）：匯入工具最後一步照覆寫表換的字先換回來再和 BASE 比；舊期望：現在的檔直接比 */, OLD=evalIn(gitShow(f),[glob])[glob]; if(drop){ drop(OLD); drop(NEW); }
     const r=cmpTree(OLD,NEW,named), strs=[]; (function w(v,p){ if(typeof v==='string'){ if(named(p)) strs.push([p,v]); return; } if(v&&typeof v==='object') for(const k of Object.keys(v)) w(v[k],p+(Array.isArray(v)?'['+k+']':'.'+k)); })(NEW,'');
     const wr=strs.filter(([p,t])=>wrapped(t)).map(([p,t])=>p+'：'+t);
     check(no+'. '+f+'：有名字說的（'+strs.length+' 句）沒有一句外面還有「」',strs.length>=50&&wr.length===0,sample(wr));

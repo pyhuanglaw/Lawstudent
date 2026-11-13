@@ -87,6 +87,8 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(PL[k]!=null) return PL[k]; } return real.apply(fs,arguments); }; }
   if(mode==='new'&&pinC8){ const PN={}; for(const f of PIN_FILES) PN[path.join(ROOT,f)]=gitShow(pinC8,f); const real=fs.readFileSync;
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(PN[k]!=null) return PN[k]; } return real.apply(fs,arguments); }; }
+  if(mode==='new'){ const M959=require('./aa959_map.js'), CH=new Set([path.join(ROOT,'src/data/bbpack_events.js')])/* 只換 bbpack_events.js（events.js 上面釘在 9d45ef8b3，AA_959 以前） */, real=fs.readFileSync;   /* AA_959（AA_974 列，1243649c23）：bbpack_events.js 的 say(AN,'……那是今天的。你自己的呢？')、say(ZR,'……騙人。') 拿掉開頭「……」——現在的檔照覆寫表換的字先換回來再和 BASE 比（同 invites_quote_b6）；舊期望：現在的檔直接比 */
+    fs.readFileSync=function(p){ const r=real.apply(fs,arguments); if(typeof p==='string'&&typeof r==='string'&&CH.has(path.resolve(p))) return M959.unmapCode(r,path.basename(p)); return r; }; }
   const out={errs:[]};
   console.warn=()=>{}; console.log=()=>{};
   let SEED=1; const seed=v=>{ SEED=(v>>>0)||1; }; Math.random=()=>{ SEED=(Math.imul(SEED,1664525)+1013904223)>>>0; return SEED/4294967296; };

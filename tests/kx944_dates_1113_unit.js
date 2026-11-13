@@ -64,7 +64,7 @@ const G=R.filter(r=>!r.align), AL=R.filter(r=>r.align);
     check('5. 那 54 格重匯以前＝稿的 old',G.every(r=>a[gp(r)]===r.old));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
     const D14=(t)=>(t.match(/天快暗了。夕陽，我想留到河邊看。/g)||[]).length;
-    check('5. 語彤 D14 收尾「天快暗了。夕陽，我想留到河邊看。」重匯以後照在（處數和重匯以前一樣）',D14(read('src/data/date_lines.js'))===D14(wt)&&D14(wt)>0,D14(read('src/data/date_lines.js'))+'／'+D14(wt));
+    check('5. 語彤 D14 收尾「天快暗了。夕陽，我想留到河邊看。」重匯以後照在（處數和重匯以前一樣）',D14(require('./aa959_map.js').unmapRaw(read('src/data/date_lines.js'),'date_lines.js'))===D14(wt)&&D14(wt)>0,D14(require('./aa959_map.js').unmapRaw(read('src/data/date_lines.js'),'date_lines.js'))+'／'+D14(wt));   /* AA_959（AA_973 列，1243649c23）：四處裡有三處 AA 帶前一句換了字（「河邊那段再走一次，就回去。」「太陽要下去了。去河邊。」「河邊，我們坐到看不見太陽。」）——現在的檔先照表把帶引號的列換回舊字再數；舊期望：直接數現在的檔 */
   } else console.log('（跳過第 5 項：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

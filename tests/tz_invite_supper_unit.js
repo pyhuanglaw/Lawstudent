@@ -43,7 +43,7 @@ await sec(1,()=>{ let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+D
   if(!raw) console.log('SKIP 1 讀不到稿 '+SHA+'（淺層複本：git fetch origin claude/magical-albattani-bk7b4n）');
   else { const R=JSON.parse(raw), bad=[];
     for(const r of R.invite_places){ const p=PL(r.id); if(!p){ bad.push('少 '+r.id); continue; } for(const k of ['zone','name','verb','kind','minStage']) if(p[k]!==r[k]) bad.push(r.id+'.'+k);
-      for(const f of ['accept','at_table']){ const ks=Object.keys(r[f]).sort(); if(J(Object.keys(p[f]).sort())!==J(ks)||ks.some(k=>p[f][k]!==r[f][k])) bad.push(r.id+'.'+f); } }   /* 每個人那一句一字照稿（鍵的順序不比）*/
+      for(const f of ['accept','at_table']){ const ks=Object.keys(r[f]).sort(); if(J(Object.keys(p[f]).sort())!==J(ks)||ks.some(k=>p[f][k]!==require('./aa959_map.js').map(r[f][k],'tz_invite_supper.js',k))) bad.push(r.id+'.'+f); } }   /* 每個人那一句一字照稿（鍵的順序不比）。AA_959（1243649c23 起有 tz_invite_supper.js 的列）：稿上的字先照覆寫表換再比；舊期望 p[f][k]!==r[f][k] */
     if(J(T.supper.scene)!==J(R.dorm_supper.scene)) bad.push('dorm_supper.scene');
     check('1 兩間店（名字、動詞、答應 7＋7 句、入座 8＋7 句）、宿舍那一場六句逐字對稿',!bad.length&&T.places.length===2&&T.supper.scene.length===6,bad.join('、'));
     check('1 稿的條件寫的是 tz_dn_noodle5（資料檔 supper.item）',R.dorm_supper.when.includes(T.supper.item)&&T.supper.shop==='tz_dongnan');

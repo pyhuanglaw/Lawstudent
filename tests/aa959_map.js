@@ -63,6 +63,7 @@ function unmapText(s, file, who) {
 /* unmapCode(src, file)：程式原始碼（函式）裡用引號寫的整句新字換回舊字（'新' → '舊'、"新" → "舊"） */
 function unmapCode(src, file) {
   if (typeof src !== 'string') return src;
+  src = unmapRaw(src, file);   /* 1243649c23 起：帶引號的列（AA_961／973／974）整段換回舊字 */
   for (const r of rows(file)) { const n = nw(r); for (const q of ["'", '"']) src = r.prefix ? src.split(q + n).join(q + r.old) : src.split(q + n + q).join(q + r.old + q); }
   return src;
 }
@@ -96,7 +97,11 @@ function codeLayer(x, file, back) {
   for (const r of rs) { const [a, b] = back ? [r.new, r.old] : [r.old, r.new]; if (s.includes(a)) s = s.split(a).join(b); }
   return s === s0 ? x : JSON.parse(s);
 }
+/* unmapRaw(src, file)：遊戲檔原文裡帶引號的列（AA_961 events.js、AA_973 ladder.js、AA_974 bbpack_events.js 那種 say(AN,'……')）整段新字換回舊字；mapRaw 反過來 */
+const rawRows = file => { const b = file ? path.basename(file) : null; return b ? T.rows.filter(r => code(r) && r.files.includes(b) && !skip(b, r.old)).sort((a, c) => c.old.length - a.old.length) : []; };
+const unmapRaw = (src, file) => { if (typeof src !== 'string') return src; for (const r of rawRows(file)) if (src.includes(r.new)) src = src.split(r.new).join(r.old); return src; };
+const mapRaw = (src, file) => { if (typeof src !== 'string') return src; for (const r of rawRows(file)) if (src.includes(r.old)) src = src.split(r.old).join(r.new); return src; };
 const unmapIn = (x, file) => deepIn(x, (s, w) => unmap(s, file, w));
 const mapDeep = (x, file, who) => deep(codeLayer(x, file, false), (s, w) => map(s, file, w), who);
 const unmapDeep = (x, file, who) => deep(codeLayer(x, file, true), (s, w) => unmap(s, file, w), who);
-module.exports = { map, unmap, mapText, unmapText, unmapIn, unmapCode, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };
+module.exports = { unmapRaw, mapRaw, map, unmap, mapText, unmapText, unmapIn, unmapCode, is959, rows, mapDeep, unmapDeep, SHA: (T._meta && T._meta.count) + ' 列', table: T };
