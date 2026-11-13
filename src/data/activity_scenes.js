@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@6dbfe10d7e）。不要手改，改企劃 AA_708 再重新匯入。
+/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@8d3bec48be）。不要手改，改企劃 AA_708 再重新匯入。
    一起活動第 1～N 次（吃飯、咖啡、電影、書店；播放 src/studyn3d.js STUDYN.act）*/
 'use strict';
 const ACTIVITY_SCENES={
- "src": "docs/story_planning/AA_708_activity_scenes.json@6dbfe10d7e",
+ "src": "docs/story_planning/AA_708_activity_scenes.json@8d3bec48be",
  "kinds": {
   "eat": {
    "people": {
@@ -1031,7 +1031,7 @@ const ACTIVITY_SCENES={
       "3": {
        "need": 3,
        "seat": [
-        "今天我請。課輔班有一個小朋友考了一百分，我要找人慶祝，你被選中了。"
+        "我請。課輔班有一個小朋友考了一百分，我要找人慶祝，你被選中了。"
        ],
        "mid": [
         "（她邊吃邊講那個小朋友：以前每次都不及格，這次自己拿考卷跑來給她看。）",
@@ -1132,7 +1132,7 @@ const ACTIVITY_SCENES={
       },
       {
        "seat": [
-        "今天我請。理由我還沒編好，吃完再告訴你。"
+        "這頓我請。理由我還沒編好，吃完再告訴你。"
        ],
        "mid": [
         "（她付錢付得很快，快到你來不及拿錢包。）"
@@ -2380,7 +2380,7 @@ const ACTIVITY_SCENES={
       "4": {
        "need": 4,
        "seat": [
-        "今天坐窗邊。我要看人。"
+        "坐窗邊。我要看人。"
        ],
        "mid": [
         "（窗外有一群高中生，一人一杯飲料，邊走邊鬧。她看了很久。）",
@@ -4378,7 +4378,7 @@ const ACTIVITY_SCENES={
       "2": {
        "need": 3,
        "seat": [
-        "今天我要推你入坑。站好，不要跑。"
+        "我要推你入坑。站好，不要跑。"
        ],
        "mid": [
         "（她從漫畫區抽出第一集，塞到你手上。）",
@@ -4471,7 +4471,7 @@ const ACTIVITY_SCENES={
       },
       {
        "seat": [
-        "今天只看不買。我宿舍的書已經疊到床上了。"
+        "只看不買。我宿舍的書已經疊到床上了。"
        ],
        "mid": [
         "（她看了一個小時，真的沒買。走出店門的時候，她回頭看了好幾次。）"

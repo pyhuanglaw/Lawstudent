@@ -178,7 +178,7 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
     check('8. 每一格：字在 date_lines.js 她那個互動點底下剛好一處、就在 key 那一套她說的台詞（不是選項、回話）、格號（date_rewrite.py list）那一格就是這一句',bad.length===0,J(bad));
     const SPY=DATE.SHE_PAYS, n=Object.values(SPY).reduce((a,o)=>a+Object.values(o).reduce((b,v)=>b+v.length,0),0);
     /* 2026-11-11（AA_812@f1fab0ec6）：S.SHE_PAYS＝以安手寫三句＋AA_782 留下的八句＋AA_812 新的十一句（AA_812 十八句裡七句和 AA_782 重複）＝22 句；被取代的兩句認不得。舊期望：以安三句＋十句＝13 */
-    check('8. S.SHE_PAYS＝以安三句＋AA_782 七句（沛珊 D31.egg AA 拿掉）＋AA_812 十一句（學姊 D22.fish 兩句：first、remember 同一個互動點）；每一格 S.shePays 認得；被 AA_812 取代的兩句不認得',n===21&&CELLS.every(c=>DATE.shePays(c.who,PART(c.key).pid,c.text))&&SUP.every(c=>!DATE.shePays(c.who,c.pid,c.text))&&J(SPY[SIS]['D22.fish'])===J(['（活魚料理）這家我請。你不要搶。','今天這家，還是我請。']),J(SPY));
+    check('8. S.SHE_PAYS＝以安三句＋AA_782 七句（沛珊 D31.egg AA 拿掉）＋AA_812 十二句（學姊 D22.fish 兩句：first、remember 同一個互動點；2026-11-13 AA_946 加可昕 D23.market，舊期望十一句／21）；每一格 S.shePays 認得；被 AA_812 取代的兩句不認得',n===22&&DATE.shePays('kexin','D23.market','這次飲料我買。給你一杯。')&&CELLS.every(c=>DATE.shePays(c.who,PART(c.key).pid,c.text))&&SUP.every(c=>!DATE.shePays(c.who,c.pid,c.text))&&J(SPY[SIS]['D22.fish'])===J(['（活魚料理）這家我請。你不要搶。','今天這家，還是我請。']),J(SPY));
     check('8. S.shePays 只認那個人＋那個互動點＋整句：學姊 D30 那一句可昕說不算、可昕 D30 那一句學姊說不算；學姊 D06 那一句搬到 D10 不算；多一個字不算',
       !DATE.shePays(KX,'D30.stall','這攤還在。今天兩杯都我付。')&&!DATE.shePays(SIS,'D30.stall','烤玉米這攤還在。這次我付。')&&!DATE.shePays(SIS,'D10.snack','上次你請的。這次我請。')&&!DATE.shePays(SIS,'D10.snack','這次我請。。')&&!DATE.shePays(PS,'D21.street',null)&&!DATE.shePays(SIS,null,'這次我請。'));
     const zq=((NOW.loc.D06.lines[ZQ].hotspots['D06.cafe']||{}).remember||{}).lines||[];

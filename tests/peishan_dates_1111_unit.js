@@ -98,7 +98,7 @@ const haveSrc=Object.keys(SRC).length===33;
     const treat=LOCS.reduce((a,k)=>{ const hs=NOW.loc[k].lines[PS].hotspots||{}; for(const pid in hs) for(const c of ((hs[pid].first||{}).choice||[])) if(DATE.isTreat(c.t)) a.push(pid+c.t); return a; },[]);
     check('6. 請客的選項（DATE.isTreat 看選項的字，另外扣她那一份）和重寫以前同一組五個',J(treat)===J(['D03.gacha「我請妳轉。」','D05.cafe「我請妳。」','D15.store「我請妳。」','D18.snack「這碗我請。」','D25.cafe「我請妳。」']),J(treat)); });
   /* ======================= AA_757 ======================= */
-  const P757=SP+'AA_757_peishan_wish_hometown.json', S757='052644c58'; const r757=show(S757,P757), A757=r757?JSON.parse(r757):null;
+  const P757=SP+'AA_757_peishan_wish_hometown.json', S757='8d3bec48be';   /* 2026-11-13（AA_944 第 3 節，BB_456 照用）：AA_757 換 8d3bec48be（到達 high 那一句 3 處換字）。舊：052644c58 */ const r757=show(S757,P757), A757=r757?JSON.parse(r757):null;
   const sortJ=o=>J(o,(k,v)=>v&&typeof v==='object'&&!Array.isArray(v)?Object.keys(v).sort().reduce((a,x)=>(a[x]=v[x],a),{}):v);
   const DW=t=>JSON.parse(t.slice(t.indexOf('const DATE_WISH=')+16,t.lastIndexOf(';')));
   const lit=s=>{ const out=[]; s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/'((?:[^'\\]|\\.)*)'/g,(m,t)=>{ out.push(t); return m; }); return out; };
@@ -111,7 +111,7 @@ const haveSrc=Object.keys(SRC).length===33;
       try{ out=cp.execFileSync('python3',['tools/date/import_wish.py','--out',tmp],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=fs.readFileSync(tmp,'utf8')===read('src/data/date_wish.js'); }catch(x){ out=String(x.stderr||x.stdout||x.message).slice(0,300); }
       try{ fs.unlinkSync(tmp); }catch(x){}
       check('7. tools/date/import_wish.py 重匯（--out 另存）的結果和 src/data/date_wish.js 一樣',ok,ok?'':out.slice(0,300));
-      const a=JSON.parse(J(require('./date_src_sha.js').unWish921(JSON.parse(J(W))).events[PS])), b=JSON.parse(J(A757.wish_event)); delete a.src; delete b.src;   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：源稿 6dbfe10d7e 的說明欄四格（note、rule「再考」換說法；date_src_sha.js WISH921_1112）先還原再比 */
+      const a=JSON.parse(J(require('./date_src_sha.js').unWish921(JSON.parse(J(W)),true/* 2026-11-13：比的是 AA_757@8d3bec48be，AA_944 那一格不還原（keep944） */).events[PS])), b=JSON.parse(J(A757.wish_event)); delete a.src; delete b.src;   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：源稿 6dbfe10d7e 的說明欄四格（note、rule「再考」換說法；date_src_sha.js WISH921_1112）先還原再比 */
       check('7. 沛珊的事件（說明欄四格照源稿 6dbfe10d7e，還原再比）和稿的 wish_event 逐欄相同（一字不差）',sortJ(a)===sortJ(b));
       const vals=Object.values(leaves(ev,'',{})), olds=A757.wish_rows.filter(r=>!A757.wish_rows.some(q=>q.new===r.old));
       check('7. wish_rows 69 列：new 都在她的事件裡、old 都不在了',A757.wish_rows.length===69&&A757.wish_rows.every(r=>vals.includes(r.new))&&olds.every(r=>!vals.includes(r.old)),J(A757.wish_rows.filter(r=>!vals.includes(r.new)||(olds.includes(r)&&vals.includes(r.old))).map(r=>r.path)));

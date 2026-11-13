@@ -35,9 +35,9 @@ const WANT_LOCS=['D01','D02','D03','D05','D06','D08','D09','D10','D15','D17','D1
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].approvedBy.includes('AA_869～871 定稿（BB_413～415 聽過）5afc5c0e3')&&(e[0].history||[]).some(h=>h.sha===PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有「AA_869～871 定稿（BB_413～415 聽過）5afc5c0e3」；'+PREV+' 在 history',C.ALLOW_SHA==='4539b2ebaf'&&C.KX938_1113_PREV==='e622a59148'&&C.KX932_1112_PREV==='6dbfe10d7e'&&C.KX921_1112_PREV==='dce2f8c08b'&&C.PS914_1112_PREV==='f561545f38'&&C.PS913_1112_PREV==='6221c8e80f'&&C.ZQ909_1112_PREV==='417c5cb9ce'&&C.ZR904_1112_PREV===SHA&&PREV==='f6aa917593'&&bad.length===0,J(bad));   /* 2026-11-12（芷若再去一次 AA_904@417c5cb9ce，date_src_sha.js ZR904_1112）：白名單再換 417c5cb9ce（只動芷若 remember 58 格，逐格在 tests/zr904_dates_1112_unit.js）；5afc5c0e3＝C.ZR904_1112_PREV。舊期望：C.ALLOW_SHA===SHA */   /* 2026-11-12（子晴到達句 AA_909@6221c8e80f，date_src_sha.js ZQ909_1112）：白名單再換 6221c8e80f（只動子晴 8 格）；417c5cb9ce＝C.ZQ909_1112_PREV。舊期望：C.ALLOW_SHA==='417c5cb9ce' */   /* 2026-11-12（沛珊收尾 AA_913@f561545f38，date_src_sha.js PS913_1112）：白名單再換 f561545f38（只動沛珊 42 格）；6221c8e80f＝C.PS913_1112_PREV。舊期望：C.ALLOW_SHA==='6221c8e80f' */   /* 2026-11-12（沛珊再訪 AA_914@dce2f8c08b，date_src_sha.js PS914_1112）：白名單再換 dce2f8c08b（只動沛珊 53 格）；f561545f38＝C.PS914_1112_PREV。舊期望：C.ALLOW_SHA==='f561545f38' */
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有「AA_869～871 定稿（BB_413～415 聽過）5afc5c0e3」；'+PREV+' 在 history',C.ALLOW_SHA==='b4dcd9bf9a'&&C.KX944_1113_PREV==='4539b2ebaf'&&C.KX938_1113_PREV==='e622a59148'&&C.KX932_1112_PREV==='6dbfe10d7e'&&C.KX921_1112_PREV==='dce2f8c08b'&&C.PS914_1112_PREV==='f561545f38'&&C.PS913_1112_PREV==='6221c8e80f'&&C.ZQ909_1112_PREV==='417c5cb9ce'&&C.ZR904_1112_PREV===SHA&&PREV==='f6aa917593'&&bad.length===0,J(bad));   /* 2026-11-12（芷若再去一次 AA_904@417c5cb9ce，date_src_sha.js ZR904_1112）：白名單再換 417c5cb9ce（只動芷若 remember 58 格，逐格在 tests/zr904_dates_1112_unit.js）；5afc5c0e3＝C.ZR904_1112_PREV。舊期望：C.ALLOW_SHA===SHA */   /* 2026-11-12（子晴到達句 AA_909@6221c8e80f，date_src_sha.js ZQ909_1112）：白名單再換 6221c8e80f（只動子晴 8 格）；417c5cb9ce＝C.ZQ909_1112_PREV。舊期望：C.ALLOW_SHA==='417c5cb9ce' */   /* 2026-11-12（沛珊收尾 AA_913@f561545f38，date_src_sha.js PS913_1112）：白名單再換 f561545f38（只動沛珊 42 格）；6221c8e80f＝C.PS913_1112_PREV。舊期望：C.ALLOW_SHA==='6221c8e80f' */   /* 2026-11-12（沛珊再訪 AA_914@dce2f8c08b，date_src_sha.js PS914_1112）：白名單再換 dce2f8c08b（只動沛珊 53 格）；f561545f38＝C.PS914_1112_PREV。舊期望：C.ALLOW_SHA==='f561545f38' */
   const e=allow.filter(x=>x.path===SP+'AA_812_date_pays_promises.json');
-  check('1. 白名單 AA_812 那一筆留在 3cb2939d0（這一版 AA_812 沒改）、approved',e.length===1&&e[0].sha==='3cb2939d0'&&e[0].status==='approved',J(e.map(x=>x.sha)));
+  check('1. 白名單 AA_812 那一筆留在 3cb2939d0（這一版 AA_812 沒改）、approved',e.length===1&&C.allow812(e[0],'3cb2939d0')/* 2026-11-13（AA_946@b4dcd9bf9a）：之後 AA_812 換 b4dcd9bf9a，3cb2939d0 在 history 也算 */&&e[0].status==='approved',J(e.map(x=>x.sha)));
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 表本身（不用讀稿）
@@ -74,8 +74,10 @@ const WANT_LOCS=['D01','D02','D03','D05','D06','D08','D09','D10','D15','D17','D1
   } else console.log('（跳過第 3、8 項：讀不到源稿，企劃線沒 fetch）'); }
 
 // 4
-{ const bad=R.filter(r=>get(NOW,gp(r))!==r.new).map(r=>r.loc+' '+r.path+'：稿「'+r.new+'」遊戲「'+get(NOW,gp(r))+'」');
-  check('4. 遊戲那 137 格＝稿的新字，一字不差',bad.length===0,J(bad.slice(0,4)));
+{ const L8=r=>{ const k=C.KX944_1113.find(x=>!x.align&&x.who==='kexin'&&x.loc===r.loc&&x.path===r.path); return k&&k.old===r.new?(k.game||k.new):r.new; };   /* 2026-11-13（收尾批 b4dcd9bf9a，KX944_1113）：D32 步道再訪那一格 AA_945 又改了——認 KX944_1113 的新字 */
+  check('4. 137 格裡之後 AA_945（KX944_1113）又改過的只有 D32.trail 一格',J(R.filter(r=>L8(r)!==r.new).map(r=>r.loc+' '+r.path))===J(['D32 hotspots/D32.trail/remember/lines/0/text']),J(R.filter(r=>L8(r)!==r.new).map(r=>r.loc+' '+r.path)));
+  const bad=R.filter(r=>get(NOW,gp(r))!==L8(r)).map(r=>r.loc+' '+r.path+'：稿「'+L8(r)+'」遊戲「'+get(NOW,gp(r))+'」');
+  check('4. 遊戲那 137 格＝稿的新字（之後再改過的認最新的字），一字不差',bad.length===0,J(bad.slice(0,4)));
   const E=require('./ellipsis694.js'), g=R.filter(r=>E.strip(r.new)!==r.new);
   check('4. 和稿不一樣的格子：0（沒有被 AA_694 規則改到的句子）',g.length===0,J(g.map(r=>r.new)));
   check('4. 那 110 句都是她自己說的（who＝kexin）；27 個選項的字都是「…」包著',R.filter(r=>!RE_T.test(r.path)).every(r=>{ const x=get(NOW,gp(r).replace(/\/text$/,'')); return x&&x.who===KX; })&&R.filter(r=>RE_T.test(r.path)).every(r=>/^「.+」$/.test(r.new))); }
@@ -91,11 +93,12 @@ const WANT_LOCS=['D01','D02','D03','D05','D06','D08','D09','D10','D15','D17','D1
     { const K5=C.KX921_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+(r.gpath||r.path)).filter(p=>diff.includes(p)&&!want.includes(p)), all=diff.slice(); diff.length=0; for(const p of all) if(!K5.includes(p)) diff.push(p); check('5. 之後第五批（6dbfe10d7e，AA_917／918 收尾、AA_921 可昕清句、AA_923 D09）118 格也換了字（date_src_sha.js KX921_1112）——這裡先拿掉再比',C.KX921_1112.length===118&&K5.length===118,J(K5.length)); }   /* 2026-11-12（CANON-NO-ECON-1112 第五批 6dbfe10d7e）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     { const K6=C.KX932_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a6=diff.slice(); diff.length=0; for(const p of a6) if(!K6.includes(p)) diff.push(p); check('5. 之後收尾批（e622a59148，AA_932 可昕外校前提句）5 格也換了字（date_src_sha.js KX932_1112；逐格在 tests/kx932_dates_1113_unit.js）——這裡先拿掉再比',C.KX932_1112.length===5&&K6.length===5,J(K6.length)); }   /* 2026-11-13（CANON-NO-ECON-1112 收尾 e622a59148）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     { const K7=C.KX938_1113.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a7=diff.slice(); diff.length=0; for(const p of a7) if(!K7.includes(p)) diff.push(p); check('5. 之後收尾批（4539b2ebaf，AA_938 可昕記帳口氣）5 格也換了字（date_src_sha.js KX938_1113；逐格在 tests/kx938_dates_1113_unit.js）——這裡先拿掉再比（'+K7.length+' 格）',K7.length<=5,J(K7)); }
+    { const K8=C.KX944_1113.filter(r=>!r.align).map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a8=diff.slice(); diff.length=0; for(const p of a8) if(!K8.includes(p)) diff.push(p); check('5. 之後收尾批（b4dcd9bf9a，AA_944 沛珊「今天」開頭 31 格＋AA_945 可昕再訪 23 格）也換了字（date_src_sha.js KX944_1113；AA_946 對齊的 12 格遊戲沒變；逐格在 tests/kx944_dates_1113_unit.js）——這裡先拿掉再比（'+K8.length+' 格）',K8.length<=54,J(K8)); }
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 137 格不同（別人、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 137 格重匯以前＝稿的 old',R.every(r=>a[gp(r)]===r.old),J(R.filter(r=>a[gp(r)]!==r.old).slice(0,3).map(gp)));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812（別支測試「和重匯以前比」用的還原是對的）',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
     const osp=show(BASE,'src/data/she_pays.js'), ow=show(BASE,'src/data/date_wish.js');
-    check('7. src/data/she_pays.js、src/data/date_wish.js 和重匯以前（'+BASE+'）一模一樣',osp===read('src/data/she_pays.js')&&C.wishSame921(ow,read('src/data/date_wish.js'))/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */);
+    check('7. src/data/she_pays.js、src/data/date_wish.js 和重匯以前（'+BASE+'）一模一樣',C.spSame944(osp,read('src/data/she_pays.js'))/* 2026-11-13（AA_946@b4dcd9bf9a）：之後多可昕 D23.market 一句，unSp944 還原再比 */&&C.wishSame921(ow,read('src/data/date_wish.js'))/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */);
   } else console.log('（跳過第 5 項：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
 // 6
@@ -105,7 +108,7 @@ const WANT_LOCS=['D01','D02','D03','D05','D06','D08','D09','D10','D15','D17','D1
   check('6. 可昕的格子裡沒有別的地方還留著這一批的舊句（八個字以上的整句）',kxLeft.length===0,J(kxLeft.slice(0,4))); }
 
 // 7
-{ const d3=read('src/date3d.js'), sp=read('src/data/she_pays.js'), a5=read('src/aa524_3d.js'), SPD=vm.runInNewContext(sp+';SHE_PAYS_DATA'), keys=J([SPD.pays,SPD.split]);
+{ const d3=read('src/date3d.js'), sp=read('src/data/she_pays.js'), a5=read('src/aa524_3d.js'), SPD=C.unSp944(vm.runInNewContext(sp+';SHE_PAYS_DATA'))/* 2026-11-13（AA_946@b4dcd9bf9a）：之後多的可昕 D23.market 先還原 */, keys=J([SPD.pays,SPD.split]);
   const hit=(t,o)=>t.includes("'"+o+"'")||t.includes('"'+o+'"');
   const left=R.filter(r=>hit(d3,r.old)||hit(a5,r.old)).map(r=>r.loc+' '+r.old);
   check('7. src/date3d.js、src/aa524_3d.js 照整句認句子、拿選項的字當 key 的表裡沒有留著這 137 格的舊字',left.length===0,J(left));

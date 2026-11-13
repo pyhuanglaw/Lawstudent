@@ -19,7 +19,7 @@ const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:
 const FILES=[
   {f:'AA_753_peishan_ladder_Y1S2_Y2S1.json',sha:'b59a8f9de',terms:{Y1S2:['full',['我在客運上背了一路，才背到第三章。']],Y2S1:['full',['我背到第三章，還有四章。']]}},
   {f:'AA_753_peishan_ladder_Y3.json',sha:'3f6c7d3bb9'/* （CANON-NO-ECON-1112 第四批：照 AA_899 換字）*/,terms:{Y3S1:['base',['你吃早餐了嗎？……我家開早餐店，習慣問。']],Y3S2:['base',['期中。我的考卷上，畫了一個笑臉。……我自己畫的。','你吃早餐了嗎？']]}},
-  {f:'AA_753_peishan_ladder_Y4.json',sha:'3f6c7d3bb9',terms:{Y4S1:['base',[]],Y4S2:['base',[]]},skipIf:{'P8-L2':{events:['ev_peishan_open_class']}}},
+  {f:'AA_753_peishan_ladder_Y4.json',sha:'8d3bec48be'/* 2026-11-13（AA_944 第 3 節，BB_456 照用）：大四上招呼「今天上特教…」換字。舊：3f6c7d3bb9 */,terms:{Y4S1:['base',[]],Y4S2:['base',[]]},skipIf:{'P8-L2':{events:['ev_peishan_open_class']}}},
 ];
 const LINESIF=['P2-L3','P3-L3','P3-L4','P3-L6','P3-L8'];
 const X_CROSS='（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！', X_BACK='我剛從課輔班回來。你看我的手，都是紅筆。';

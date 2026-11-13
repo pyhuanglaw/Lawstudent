@@ -474,7 +474,7 @@ if A753:
 #      - P8-L2（要排公開課，我舉手了）：稿的 event_open_class.ladder——4/14 那一場（ev_peishan_open_class）演過就跳過這一層（skipIf；原本的 skipAfterWeek 8 照留）。
 PS753_MORE = [('AA_753_peishan_ladder_Y1S2_Y2S1.json', 'b59a8f9de', {'Y1S2': ('full', ['我在客運上背了一路，才背到第三章。']), 'Y2S1': ('full', ['我背到第三章，還有四章。'])}),
               ('AA_753_peishan_ladder_Y3.json', '3f6c7d3bb9', {'Y3S1': ('base', ['你吃早餐了嗎？……我家開早餐店，習慣問。']), 'Y3S2': ('base', ['期中。我的考卷上，畫了一個笑臉。……我自己畫的。', '你吃早餐了嗎？'])}),
-              ('AA_753_peishan_ladder_Y4.json', '3f6c7d3bb9', {'Y4S1': ('base', []), 'Y4S2': ('base', [])})]
+              ('AA_753_peishan_ladder_Y4.json', '8d3bec48be', {'Y4S1': ('base', []), 'Y4S2': ('base', [])})]   # 2026-11-13 AA_944 第 3 節（BB_456 照用）：大四上「今天上特教…」→「特教課我筆記寫到手痠。」（原本 3f6c7d3bb9）
 PS753_LINESIF = {'P2-L3', 'P3-L3', 'P3-L4', 'P3-L6', 'P3-L8'}; PS753_EXTRAIF = {'P5-L6'}
 PS753_SKIPIF = {'P8-L2': {'events': ['ev_peishan_open_class']}}
 def _ps753_re(x, w):
