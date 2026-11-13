@@ -1,16 +1,3 @@
-       5503003546..f9849300e5  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[18:23:52] ==== END   CANON_NEWGAME_A1  exit=0  2239s   ====
-[18:23:56] solo item DN_PROGRAMS_3414 waits: no new items start until the 2 running item(s) finish
-[18:26:52] 正在跑：CANON_NEWGAME_B（已跑 35 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 35 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:28:20] [res] cpu=5% mem=39% (12.3/31.4 GB) chrome_testing=5  END CANON_NEWGAME_B
-[18:28:20] D158：推送前把 2 處舊序章／外校的字換成代號
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       f9849300e5..13a08c0b2a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[18:28:30] ==== END   CANON_NEWGAME_B  exit=1  2245s   ====
-[18:28:34] solo item DN_PROGRAMS_3414 waits: no new items start until the 1 running item(s) finish
-[18:31:52] 正在跑：CANON_NEWGAME_FULL（已跑 40 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:36:52] 正在跑：CANON_NEWGAME_FULL（已跑 45 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:41:52] 正在跑：CANON_NEWGAME_FULL（已跑 50 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:46:52] 正在跑：CANON_NEWGAME_FULL（已跑 55 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1985,16 @@
 [00:46:52] 正在跑：CANON_NEWGAME_B2_r2（已跑 18 分／上限 240 分）、CANON_NEWGAME_FULL_d21c（已跑 3 分／上限 600 分）、GUIDE_3ebd（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:51:52] 正在跑：CANON_NEWGAME_B2_r2（已跑 23 分／上限 240 分）、CANON_NEWGAME_FULL_d21c（已跑 8 分／上限 600 分）、GUIDE_3ebd（已跑 5 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:52:37] [res] cpu=2% mem=46% (14.5/31.4 GB) chrome_testing=10  END GUIDE_3ebd
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7ecb04081c..a00fb122b6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:53:02] ==== END   GUIDE_3ebd  exit=0  349s   ====
+[00:53:15] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[00:53:15] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[00:53:15] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[00:53:15] memory 46% before starting GUIDE_fc29 (2 running)
+[00:53:15] ==== START GUIDE_fc29  (game @ fc2984aa1a5fdbd4decdf6beaa2cef4128544f90) ====
+[00:53:18] [res] cpu=5% mem=46% (14.5/31.4 GB) chrome_testing=10  START GUIDE_fc29
+[00:53:18] worktree add fc2984aa1a5fdbd4decdf6beaa2cef4128544f90: invalid reference - fetching main and the commit itself
+[00:56:52] 正在跑：CANON_NEWGAME_B2_r2（已跑 28 分／上限 240 分）、CANON_NEWGAME_FULL_d21c（已跑 13 分／上限 600 分）、GUIDE_fc29（已跑 3 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:59:01] [res] cpu=2% mem=45% (14.2/31.4 GB) chrome_testing=10  END GUIDE_fc29
