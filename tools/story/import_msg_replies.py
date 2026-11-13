@@ -102,6 +102,7 @@ def build(src, sha):
 # 欄位：text＝新的 text、drop＝整則不匯（「見過他們」那一版：AA_919 兩則合成一則）、thread＝{i: (舊, 新)}、opts＝{j: {'t': (舊, 新), 'say': (舊陣列, 新陣列)}}
 U = lambda s: json.loads('"' + s + '"')
 B5 = [
+    ('kexin', '我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？', {'text': '我們班債各老師講了一個房東的例子，講了一整節。你那班講過了嗎？'}),   # D158-KX-SAMESCHOOL（76f8 rc2，AA_987，BB_467）：送訊息的 src/story3d.js 同一句一起換
     ('kexin', '我們系有一個人，考古題有目錄。目錄有索引。', {'text': '系上有一個學長，考古題有目錄。目錄有索引。'}),
     ('kexin', U(r'詹靖') + '拍了山下那家的老闆一整天，老闆只說了一句：好。', {'drop': True}),
     ('kexin', '我那個拍片的朋友' + U(r'詹靖') + '，拍了山下那家的老闆一整天。老闆只說了一句：好。',
@@ -191,6 +192,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_msg_replies.py（' + data['src'] + '）。不要手改，改企劃 AA_709 再重新匯入。\n'
           '   女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/\n'
           "'use strict';\nconst MSG_REPLIES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # D158-KX-SAMESCHOOL（76f8 rc2，BB_467）：可昕外校／通勤前提的句子，寫檔前照 tools/story/canon_b5_rows.py 整句換
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

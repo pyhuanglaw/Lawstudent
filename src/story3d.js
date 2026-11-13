@@ -2550,7 +2550,7 @@ const STORY = (function(){
         ['y2_kx_superficies',Y2a(),21+10/60,kx,()=>[P1('kexin','物權的老師講了一個小時的地上權。我現在看到房子都想問地是誰的。')]],
         ['y2_kx_index',Y2a(),21+10/60,kx,G=>[P1('kexin','系上有一個學長，考古題有目錄。目錄有索引。')]],   /* CANON-NO-ECON-1112 第五批（AA_919 第 2 節，BB_445）：只留一版 */
         ['y2_kx_hand',Y2a(6),21+10/60,G=>kx(G)&&!!G.flags.PLAYED_Y0&&G.flags.E12_ANSWER==='hand',()=>[Object.assign(P1('kexin','我還在等你的第三隻手。'),{ask:{id:'dp_y2_kx_hand',opts:[{t:'……長頸鹿的尾巴？',say:[{from:'kexin',text:'你記得喔。尾巴我還留著。'}]},{t:'我在練。',say:[{from:'kexin',text:'練到哪了？……先幫我拿書包就好。'}]}]}})]],   /* BB_104 8-4「她會記得」：三個條件都成立才有 */
-        ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？')]],   /* AA_375 第 18 項 */
+        ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','我們班債各老師講了一個房東的例子，講了一整節。你那班講過了嗎？')]],   /* AA_375 第 18 項 */
         ['y2_kx_river',Y2b,21+10/60,G=>kx(G)&&G.weather==='rain',()=>[P1('kexin','今天下雨，山變成一條河。')]],
         ['y2_kx_funny',Y2b,21+10/60,kx,()=>[P1('kexin','上學期的物權報告發回來了。被說舉例太好笑，分數很高。我不知道該不該高興。')]] ];
       return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>hh!=null?hh:(zrKnows(G)&&!zrDH(G)?15+10/60:22+7/60),ok:(G,day)=>ok(G,day==null?G.day:day),items})); })(),   /* 芷若：雙方都單身 22:07、祐廷交往中 15:10（AA_112 8-1）；和她交往中 22:07（BB_189 2-5）*/

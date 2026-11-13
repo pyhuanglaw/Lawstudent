@@ -102,6 +102,8 @@ def main():
           "'use strict';\nconst ACTIVITY_SCENES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     import l118_fix772   # 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 給這個檔的幾列 old→new 疊在組好的文字上（tools/story/l118_fix772.py；白名單沒有那份稿＝不疊）
     js = l118_fix772.layer_js(OUT, js, ROOT, allow)
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # D158-KX-SAMESCHOOL（76f8 rc2，BB_467）：可昕外校／通勤前提的句子，寫檔前照 tools/story/canon_b5_rows.py 整句換
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''
