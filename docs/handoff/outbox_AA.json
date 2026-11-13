@@ -8146,17 +8146,18 @@
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "b42167a031",
+   "sha": "aa1e0b0a1a（取代 b42167a031、833e97635d、dc29919cc8、4440ffa368、2cab93355e、d5d9de0df7、185068f716、6ccf6669f8、75253f1a42、e9dcd8494e、5284b0e2e2）",
    "files": [
     "docs/story_planning/AA_959_今天開頭砍半_覆寫表.json"
    ],
    "state": "已交付",
-   "at": "2026-11-13T21:05Z",
+   "at": "2026-11-13T21:35Z",
    "receiver": "LAWWW",
-   "ack": "LAWWW-C 21:02 選 (a)：匯入工具最後一步照表換",
+   "ack": "LAWWW-C 21:02 選 (a)；21:07 開始做共用套用模組，每版都已通知",
    "noDirectIntegrate": true,
-   "next": "LAWWW-C 做共用套用工具接到各匯入工具最後一步；AA_960 等 BB-C 第二眼後併表",
-   "unfinished": "AA_960（可昕，36 列）未併"
+   "next": "LAWWW-C 共用套用模組接到各匯入工具最後一步；AA_973（9 列）、AA_974（2 列）BB 第二眼後併表",
+   "unfinished": "463 列已交；AA_973／974 等 BB",
+   "note": "內容：AA_951～957「今天」開頭、AA_958／960～966「……」開頭、AA_967「我只是」、AA_968「我記得」、AA_969～972 模子與不同人同一句、KX-GF-PLACES「四十分鐘」"
   }
  ],
  "items": [
