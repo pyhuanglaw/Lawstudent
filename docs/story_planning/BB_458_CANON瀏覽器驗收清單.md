@@ -91,4 +91,8 @@
   - **#12 羽球（INV_BADM_r2）：PASS**——快速前往到新體育館，她 (0, 19.2) 站著等（羽球場沒有座位＝站著等是對的，探針期望「先坐著」是寫錯）。
   - **AN_BEAT8**：改判 TEST_BUG——2027-10-13 是設計好的颱風假（calendar.js TYPHOON、AA_326 2-Y3-09），所有店不開；手機邀約那天也不會約成（invites3d.js 139 resched closed）。BB 03:5x 說「燒臘那天開著、可能 GAME P1」撤回。r2／_door 改 2027-10-20。
   - **約人幾支卡住的真正原因（TEST_BUG）**：撥時間到約定前 3 分鐘遊戲自己跳「直接過去／自己走過去」選單，探針沒選＝一直 busy。CC 已修 invite_phone。INV_LAWLIB r3（travel:lawlib）、AN_BEAT6 r3、BOOKSTORE r2（PICKS 出去玩＞頁間、REL 65）排在 76f8 那組。
+- **04:2x 76f8 第五批**：REL76_p0 PASS。
+  - #12 法圖 INV_LAWLIB_r3：快速前往成功、她在 T7 南側 waitSeat (4.9, 6.65)；探針 1.8 m 內找不到空的玩家座位、沒坐下＝「我一章大概四十分鐘」那句沒驗到。先判 TEST_BUG（T7 寬 2 m，另一側／隔壁座位約 1.6～2 m、剛好在邊緣或被 NPC 坐走）→ r4 半徑 3 m；3 m 內還是沒有空位＝GAME P1（約來念書卻坐不到她旁邊）。
+  - AN_BEAT6／8：探針只等 8 秒、「直接過去／自己走過去」選單在 toast 之後才跳＝TEST_BUG，改等 25 秒；_door 那兩支走到一半時間跳到隔天＝整段沒驗到，重跑。BEAT8 用 2027-10-20。
+  - BOOKSTORE：頁間書屋要「自己走進去過一次」才會出現在約人選單（invites.js show:V('bookstore')）＝r1 存檔沒去過書店＝TEST_BUG；r3 墊 VISITED＝bookstore、PICKS 看電影＞頁間＞今天。這個「去過才約得到」是設計。
 
