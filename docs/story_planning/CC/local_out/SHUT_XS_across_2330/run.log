@@ -1,0 +1,37 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHUT_XS_across_2330\out
+CC 店門口：worktree ?；xinsheng 23.5；TAG xs_across_2330；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 xinsheng 2025-10-18 23.5（條件事件、手機關）
+  [前置／捷徑] xs_dabu 【捷徑】祐廷放到店面前 3 m [-7.5, -16.7] 等 3 秒
+PASS [黑畫面] across_xs_dabu_xs_across_2330 不是黑畫面（平均亮度 44.3、變化 25.7）  [44.3, 25.7]
+  [  58.0s] [截圖] across_xs_dabu_xs_across_2330：鏡頭 {"eye": [5.5, 1.7, -16.7], "look": [-10.5, 2, -16.7], "lens": 24, "vfov": 45.75}、亮度 [44.3, 25.7]
+  [  58.0s] xs_dabu 對面正拍：店面 [-10.5, -16.7] 朝 [1, 0]、鏡頭退 16 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] xs_haopai 【捷徑】祐廷放到店面前 3 m [-6.5, -23.2] 等 3 秒
+PASS [黑畫面] across_xs_haopai_xs_across_2330 不是黑畫面（平均亮度 44.2、變化 27.7）  [44.2, 27.7]
+  [  63.1s] [截圖] across_xs_haopai_xs_across_2330：鏡頭 {"eye": [6.5, 1.7, -23.2], "look": [-9.5, 2, -23.2], "lens": 24, "vfov": 45.75}、亮度 [44.2, 27.7]
+  [  63.1s] xs_haopai 對面正拍：店面 [-9.5, -23.2] 朝 [1, 0]、鏡頭退 16 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] xs_xsports 【捷徑】祐廷放到店面前 3 m [-5.5, -33] 等 3 秒
+PASS [黑畫面] across_xs_xsports_xs_across_2330 不是黑畫面（平均亮度 46.6、變化 30.7）  [46.6, 30.7]
+  [  68.2s] [截圖] across_xs_xsports_xs_across_2330：鏡頭 {"eye": [7.5, 1.7, -33], "look": [-8.5, 2, -33], "lens": 24, "vfov": 45.75}、亮度 [46.6, 30.7]
+  [  68.2s] xs_xsports 對面正拍：店面 [-8.5, -33] 朝 [1, 0]、鏡頭退 16 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] xs_shanlan 【捷徑】祐廷放到店面前 3 m [-4.5, 10.2] 等 3 秒
+PASS [黑畫面] across_xs_shanlan_xs_across_2330 不是黑畫面（平均亮度 50.8、變化 31.2）  [50.8, 31.2]
+  [  73.2s] [截圖] across_xs_shanlan_xs_across_2330：鏡頭 {"eye": [8.5, 1.7, 10.2], "look": [-7.5, 2, 10.2], "lens": 24, "vfov": 45.75}、亮度 [50.8, 31.2]
+  [  73.2s] xs_shanlan 對面正拍：店面 [-7.5, 10.2] 朝 [1, 0]、鏡頭退 16 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [  73.2s] xs_tongxian zone.shopReal 沒有這間（{"none": true, "have": ["xs_dabu", "xs_haopai", "xs_xsports", "xs_shanlan", "xs_dakou", "xs_nanyang"]}）→ 照門的朝向退到對街拍
+PASS FAIL_SETUP 檢查：xs_tongxian 找得到門、對街或斜對面站得住  {"label": "進同弦樂器（吉他行）", "x": -15.6, "z": -7.2, "n": [1, 0], "how": "nav 四方向（外面站得住、背後是牆）", "eye": [-11.6, 1.6, -7.2], "look": [-15.6, 1.6, -7.2], "standEye": true}
+  [前置／捷徑] xs_tongxian 【捷徑】祐廷放到門前 3 m 等 3 秒；鏡頭 正對 4 m
+PASS [黑畫面] across_xs_tongxian_xs_across_2330 不是黑畫面（平均亮度 30.9、變化 31.8）  [30.9, 31.8]
+  [  78.1s] [截圖] across_xs_tongxian_xs_across_2330：鏡頭 {"eye": [-11.6, 1.7, -7.2], "look": [-15.6, 3, -7.2], "lens": 24, "vfov": 45.75}、亮度 [30.9, 31.8]
+  [  78.1s] xs_tongxian 對街拍（正對 4 m）：門 (-15.6, -7.2)「進同弦樂器（吉他行）」朝外 [1, 0]、鏡頭 [-11.6, 1.7, -7.2] 看 [-15.6, 3.0, -7.2]
+  [前置／捷徑] xs_dakou 【捷徑】祐廷放到店面前 3 m [-5.5, 40.4] 等 3 秒
+PASS [黑畫面] across_xs_dakou_xs_across_2330 不是黑畫面（平均亮度 55.7、變化 44.5）  [55.7, 44.5]
+  [  83.2s] [截圖] across_xs_dakou_xs_across_2330：鏡頭 {"eye": [7.5, 1.7, 40.4], "look": [-8.5, 2, 40.4], "lens": 24, "vfov": 45.75}、亮度 [55.7, 44.5]
+  [  83.2s] xs_dakou 對面正拍：店面 [-8.5, 40.4] 朝 [1, 0]、鏡頭退 16 m；營業中=True、鐵捲門顯示=False、室內 on=True built=True
+  [前置／捷徑] xs_nanyang 【捷徑】祐廷放到店面前 3 m [-6.5, 25.3] 等 3 秒
+PASS [黑畫面] across_xs_nanyang_xs_across_2330 不是黑畫面（平均亮度 49.8、變化 32.9）  [49.8, 32.9]
+  [  88.2s] [截圖] across_xs_nanyang_xs_across_2330：鏡頭 {"eye": [6.5, 1.7, 25.3], "look": [-9.5, 2, 25.3], "lens": 24, "vfov": 45.75}、亮度 [49.8, 32.9]
+  [  88.2s] xs_nanyang 對面正拍：店面 [-9.5, 25.3] 朝 [1, 0]、鏡頭退 16 m；營業中=True、鐵捲門顯示=False、室內 on=True built=True
+PASS 沒有 JS 例外  []
+ALL PASS
