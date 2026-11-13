@@ -214,6 +214,11 @@ async function child(o){
     insertBefore(c,ref){ if(c.parentNode&&c.parentNode.removeChild) c.parentNode.removeChild(c); const i=this.childNodes.indexOf(ref); c.parentNode=this; if(i<0) this.childNodes.push(c); else this.childNodes.splice(i,0,c); return c; }
     removeChild(c){ const i=this.childNodes.indexOf(c); if(i>=0) this.childNodes.splice(i,1); c.parentNode=null; return c; } remove(){ if(this.parentNode) this.parentNode.removeChild(this); } replaceWith(n){ const p=this.parentNode; if(p){ p.insertBefore(n,this); p.removeChild(this); } }
     replaceChildren(...cs){ this.childNodes=[]; this.append(...cs); }
+    /* CC-C 11-14：SAVE_LZ_growB 種子 1 TEST_BUG——game3d.js openMenu（存檔選單、物品清單 GG3.ownHTML）用 insertAdjacentHTML，假 DOM 沒有＝例外（真瀏覽器有） */
+    insertAdjacentHTML(pos,html){ const keep=CUR_DOM; CUR_DOM=this._dom; const t=new El('div'); try{ parseHTML(String(html),t); } finally { CUR_DOM=keep; } const ns=t.childNodes.slice(), p=String(pos).toLowerCase();
+      if(p==='beforeend'){ for(const n of ns) this.appendChild(n); if(this._html!=null) this._html+=String(html); }
+      else if(p==='afterbegin'){ for(let i=ns.length-1;i>=0;i--) this.insertBefore(ns[i],this.childNodes[0]); if(this._html!=null) this._html=String(html)+this._html; }
+      else { const par=this.parentNode; if(!par) return; const ref=p==='beforebegin'?this:(par.childNodes[par.childNodes.indexOf(this)+1]||null); for(const n of ns){ if(ref) par.insertBefore(n,ref); else par.appendChild(n); } } }
     setAttribute(k,v){ v=String(v); this.attrs[k]=v; if(k==='id') this.id=v; else if(k==='class') this.className=v; else if(k.startsWith('data-')) this.dataset[camel(k.slice(5))]=v; else if(k==='value') this.value=v; }
     getAttribute(k){ if(k==='id') return this._id||null; if(k==='class') return this.className; return k in this.attrs?this.attrs[k]:null; } hasAttribute(k){ return k in this.attrs||(k==='id'&&!!this._id); } removeAttribute(k){ delete this.attrs[k]; if(k.startsWith('data-')) delete this.dataset[camel(k.slice(5))]; }
     toggleAttribute(k,f){ const on=f===undefined?!(k in this.attrs):!!f; if(on) this.attrs[k]=''; else delete this.attrs[k]; return on; }
