@@ -514,7 +514,7 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-13 K21「約讀書，而且真的有讀」（BB_99 9-2、9-0b；裁定第 18 點）：9/23（六）14:00 外校（出遊）／總圖（3D：goto 到閱覽室，這裡的 auto 演）；美國路線＝視訊（當地 09:00）---- */
   EV.push({ id:'ev_kexin_study_really', title:'約讀書，而且真的有讀', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
-    dialogue:[ {scene:'法律系館・自習室'},nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_PICK('（給她看自己畫滿重點的那一頁）')) });
+    dialogue:[ {scene:'法律系館・自習室',bg:'classroom_small'/* BLACK-BG-AUDIT-1018（BB_460）*/},nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_PICK('（給她看自己畫滿重點的那一頁）')) });
   EV.push({ id:'ev_kexin_study_really_lib', title:'約讀書，而且真的有讀', participants:[KX], location:['library','library_hall'], trigger:'auto', once:true, time:[13.75,15], background:'blur',
     prereq:{custom:G=>{ const d=D('2028-09-23'); return d!=null&&G.day===d&&KXD(G)&&G.flags.KX_K21_AT==='lib'&&!G.flags.KX_STUDY_PLAN; }},
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
@@ -527,7 +527,7 @@ const R2Y4A_EVENTS=(function(){
   /* SJ_MET（見過那位外校同學）拿掉（AA_893 第 1 節，CANON-NO-ECON-1112 收尾）：讀書會裡改成一個沒名字的學長（同 AA_885）*/
   EV.push({ id:'ev_kexin_two_directions', title:'兩個方向的讀書會', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k22Missed(G); },
-    dialogue:[ {scene:'法律系館・討論室'},
+    dialogue:[ {scene:'法律系館・討論室',bg:'classroom_small'/* BLACK-BG-AUDIT-1018（BB_460）*/},
       nar('（讀書會有一個學長，說他從大一就知道自己要當法官。）'),
       {advance:G=>Math.max(0,21-hh(G))},   /* 讀完以後（讀書會 19:00～21:00）*/
       kx('他想當那個判的人。'),

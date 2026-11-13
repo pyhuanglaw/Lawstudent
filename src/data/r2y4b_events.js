@@ -219,7 +219,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.psOpenMissed(G); } },
   /* ---------- 2-Y4-38 可昕的生日「今年不要慶祝」：帶一碗後門那家的熱湯餃到女生宿舍樓下，不進去（4/24 晚上）。CANON-NO-ECON-1112 第四批照 AA_880 #47 換字、加兩列，kxAway 拿掉 ---------- */
   { id:'ev_kexin_bday_visit_y4', title:'生日（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
-    dialogue:[ {scene:'女生宿舍樓下',bg:'dark'},
+    dialogue:[ {scene:'女生宿舍樓下',bg:'girls_dorm_gate'},   /* BLACK-BG-AUDIT-1018（BB_460） */
       {speaker:'kexin',expression:'surprised',text:'……你排了多久？後門那家晚上都要排。'},
       {speaker:'kexin',expression:'smile',text:'湯還是熱的。'},
       {speaker:null,text:'（她坐在樓下的長椅上喝湯，書還夾在手臂下面。）'},
@@ -576,7 +576,7 @@ const R2Y4B_EVENTS=(function(){
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'noodle'); } },
   /* 只有可昕的週六（CANON-NO-ECON-1112 第四批，AA_875 第 2 節：她當面來，法律系館・自習室；id 照舊、kxAway 拿掉。平日在大口漢堡二樓＝ev_bar_group_out）*/
   { id:'ev_bar_group_video', title:'律師讀書小組', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:2,
-    dialogue:[ {if:{custom:G=>R().isSat(G)},scene:'法律系館・自習室',bg:'dark'},{unless:{custom:G=>R().isSat(G)},scene:'大口漢堡・二樓',bg:'dark'},
+    dialogue:[ {if:{custom:G=>R().isSat(G)},scene:'法律系館・自習室',bg:'classroom_small'},{unless:{custom:G=>R().isSat(G)},scene:'大口漢堡・二樓',bg:'gg_family_diner'},   /* BLACK-BG-AUDIT-1018（BB_460）：CANON 搬回校內以後原本是黑底；週六（現在唯一排得到的）用小教室、平日那支（舊存檔才走得到）先用餐廳底圖 */
       {if:{custom:G=>R().groupLine(G,'kexin')==='k1'},speaker:'kexin',expression:'serious',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
       {if:{custom:G=>R().groupLine(G,'kexin')==='k2'},speaker:'kexin',expression:'teasing',text:'這題你上禮拜錯過。再一次。'},
       {if:{custom:G=>R().groupLine(G,'kexin')==='k3'},speaker:'kexin',expression:'teasing',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},
