@@ -54758,7 +54758,7 @@
    "id": "SHOP-INTERIOR-VIEW-1112",
    "title": "店裡往外看沒有窗景（泰米村食：窗戶是一片深藍、門也是藍色平面；地上還有一堆紫紅色球）——所有新店室內逐間檢查窗景和看得出來的問題（X357）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -54771,7 +54771,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【LAWWW-C 11-13 17:3x UTC】幫手子代理（shopview-wt）15:20～17:2x 只交 README 骨架＋shots.js（沒跑過），已被系統停掉；兩個檔收進開發分支 docs/art-rebuild/second_ai/wip/shop_views_1113/，worktree 拆掉。9 間窗景改由 LAWWW-C 自己接（照 xs_wincard2／207d70f5f 做法），做完交 LAWWW2 驗。｜【LAWWW-C 11-13 15:2x UTC】place_gate 還有 9 間沒窗景（公館 afar／daybreak／yangyang／corner_records／aoki、溫州街 wz_brunch／wz_teahouse／wz_mokuyobi／wz_offbeat）：LAWWW2 在做 CC0 店（D161），LAWWW 派幫手子代理（worktree 分支 shopview-wt，底 65103ef7d7）照 xs_wincard2／207d70f5f 做法接 Z3.shopViewPane＋白天晚上照片；交件 wip/shop_views_1113/ → LAWWW2 先驗收 → LAWWW 整合 → BB 判。us_market 窗景圖隨美國超市 CC0 那批合。｜【LAWWW-C 11-12】補件 fe2ec2820 已整合：洗樂、印得好、安泰、榮恩典、禮貌生財、越好吃、客居雲南天花板 3.3 m（十一間都 ≥ 3.3）；place_gate 天花板已知未過 19→12（溫州街四間、118 巷八間還沒）｜【LAWWW-C 11-12】LAWWW2-C 207d70f5f patch 已整合：汀州路八間＋公館三間加視差窗景（views/tz_* 18 張；公館三間先用現成的）、泰米蘭花改成有花梗葉子、東南大聯／汀州聯通天花板加高到 3.3 m、正面牆零件跟著牆淡出（鏡頭不被擋）；tests/tz_shop_views_1112_unit.js ALL PASS。還沒：其他七間沒逐間看（CC 拍）、公館三間窗景不是原位拍的、安泰（3.1）禮貌生財（3.0）天花板也低於鏡頭——請 LAWWW2 一起加高｜使用者 11-12（附截圖，泰米村食店內）：「窗景呢 我現在才看第一家 都給你電腦測試 你看不出來???」。LAWWW2：①泰米村食：窗外接窗景（照 assets/models/env/views/ 那套＋Z3.shopViewPane／W3.windowMat，汀州路的景）、門不要整片藍、地上紫紅色球（植物缺材質？）修掉 ②同一批全部新店室內（汀州路 tz_*、公館 gg_* 新三間、118 巷、新生南路、溫州街新店）逐間開進去看：窗景有沒有、有沒有缺材質的純色塊、門對不對 ③BB／CC：每一間新店進去拍三張（進門看全景、往窗外看、櫃檯）＋店外看進去一張，照清單（店員、客人、窗景、純色塊、門）判；以後新店驗收固定有這幾張，沒拍不算 ART_APPROVED",
+   "next": "【LAWWW-C 11-13 17:5x UTC】窗景：place_gate 認得模型窗景卡（GG_VIEW／WZ_VIEW／WZ_AA_NIGHTVIEW），afar、Daybreak、洋洋、轉角唱片、青木、木曜日、日常失速、SUNNY SIDE 八間原本是誤判（fb30bf87a8、859b5a8352）；一盞玻璃外是 3D 前院，列例外。天花板：阿德影印、林家、小路的鏡頭距離 4.0→3.2（d78586749b）。剩：一盞天花板 2.6 m 交 LAWWW2（加高或藏）、美國兩間超市跟著重做。CC 已排第二層（9 間窗外 13:00／21:00＋3 間抬頭），BB 判。｜【LAWWW-C 11-13 17:3x UTC】幫手子代理（shopview-wt）15:20～17:2x 只交 README 骨架＋shots.js（沒跑過），已被系統停掉；兩個檔收進開發分支 docs/art-rebuild/second_ai/wip/shop_views_1113/，worktree 拆掉。9 間窗景改由 LAWWW-C 自己接（照 xs_wincard2／207d70f5f 做法），做完交 LAWWW2 驗。｜【LAWWW-C 11-13 15:2x UTC】place_gate 還有 9 間沒窗景（公館 afar／daybreak／yangyang／corner_records／aoki、溫州街 wz_brunch／wz_teahouse／wz_mokuyobi／wz_offbeat）：LAWWW2 在做 CC0 店（D161），LAWWW 派幫手子代理（worktree 分支 shopview-wt，底 65103ef7d7）照 xs_wincard2／207d70f5f 做法接 Z3.shopViewPane＋白天晚上照片；交件 wip/shop_views_1113/ → LAWWW2 先驗收 → LAWWW 整合 → BB 判。us_market 窗景圖隨美國超市 CC0 那批合。｜【LAWWW-C 11-12】補件 fe2ec2820 已整合：洗樂、印得好、安泰、榮恩典、禮貌生財、越好吃、客居雲南天花板 3.3 m（十一間都 ≥ 3.3）；place_gate 天花板已知未過 19→12（溫州街四間、118 巷八間還沒）｜【LAWWW-C 11-12】LAWWW2-C 207d70f5f patch 已整合：汀州路八間＋公館三間加視差窗景（views/tz_* 18 張；公館三間先用現成的）、泰米蘭花改成有花梗葉子、東南大聯／汀州聯通天花板加高到 3.3 m、正面牆零件跟著牆淡出（鏡頭不被擋）；tests/tz_shop_views_1112_unit.js ALL PASS。還沒：其他七間沒逐間看（CC 拍）、公館三間窗景不是原位拍的、安泰（3.1）禮貌生財（3.0）天花板也低於鏡頭——請 LAWWW2 一起加高｜使用者 11-12（附截圖，泰米村食店內）：「窗景呢 我現在才看第一家 都給你電腦測試 你看不出來???」。LAWWW2：①泰米村食：窗外接窗景（照 assets/models/env/views/ 那套＋Z3.shopViewPane／W3.windowMat，汀州路的景）、門不要整片藍、地上紫紅色球（植物缺材質？）修掉 ②同一批全部新店室內（汀州路 tz_*、公館 gg_* 新三間、118 巷、新生南路、溫州街新店）逐間開進去看：窗景有沒有、有沒有缺材質的純色塊、門對不對 ③BB／CC：每一間新店進去拍三張（進門看全景、往窗外看、櫃檯）＋店外看進去一張，照清單（店員、客人、窗景、純色塊、門）判；以後新店驗收固定有這幾張，沒拍不算 ART_APPROVED",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
