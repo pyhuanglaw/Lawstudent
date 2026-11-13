@@ -37,7 +37,7 @@ const dayOfWd=(G,wd)=>{ for(let d=G.day;d<G.day+7;d++) if(CALENDAR.dateOf(d).wd%
       check('3. '+id+' 答應 '+k+'：照 AA_721 的答應句',r&&J(r.lines)===J(L[k][id].acc),J(r&&r.lines));
       const iv=INV.accept(G,id,k,d,(INV.catsOf(P(k)).includes('walk')?14:12),{by:'player'}); check('3. '+id+' 第一次和你去 '+k+'：照 AA_721 的那一句',J(INV.firstAt(G,iv))===J(L[k][id].firstAt),J(INV.firstAt(G,iv))); } }
   { const G=fresh('2025-10-15',10,'lane118'); const w=INV.placeWhy(G,'kexin',P('l118_cafe2'));
-    check('4. 可昕不去大學食堂（平日才開、她平日在木柵）：那一格灰掉、說明是她那句（AA_721 no）',w===INVITE_PLACE_LINES.places.l118_cafe2.kexin.no&&!!w,J(w));
+    check('4. 可昕和大家一樣會去大學食堂（AA_941；舊期望：不去、灰掉）：沒有 no、不會因為她被灰掉',!INVITE_PLACE_LINES.places.l118_cafe2.kexin.no&&w!=="「平日我要上課。……週末那間又沒開。」",J(w));
     check('4. 別人照常（以安：沒有原因擋）',INV.placeWhy(G,'heroine_01',P('l118_cafe2'))===''||(H.FRIEND('heroine_01'),INV.placeWhy(G,'heroine_01',P('l118_cafe2'))==='')); }
   { const G=fresh('2025-10-15',12,'l118_dian'), id='heroine_02'; H.FRIEND(id); H.said=[]; G.visited.l118_dian=1;
     const iv=INV.accept(G,id,'l118_dian',G.day,12,{by:'player'}); const n={id,charId:id,obj:{position:{x:1,y:0,z:0},rotation:{y:0}},beh:'idle',pose:'idle',lv:0}; GM.npc[id]=n; E.npcs.push(n);

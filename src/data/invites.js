@@ -652,7 +652,7 @@ INVITE_DATA.seatOpen.byPlace.corner_records='corner_records';
 
 /* ===== INVITE-PLACES-1107 第二批：118 巷的店也能約（使用者 11-07「約會、約念書、約吃飯…」；AA_721 b782e2c08 答應句、第一次一起去那一句，src/data/invite_place_lines.js）=====
    店 id＝區域 id。營業時間照 lane118_shops.js（AA_280）：一天兩段（午、晚）都能約、公休日灰掉（windows、off）；都要自己走進去過一次才列（G.visited）。
-   一一八茶飲放「散步」（AA_721：買了邊走邊喝）。她不會去的（可昕平日在木柵、好家自助餐只開平日）＝那一格灰掉、說明是她那句（noWho，匯入時併進來）。*/
+   一一八茶飲放「散步」（AA_721：買了邊走邊喝）。她不會去的（稿上寫 no）＝那一格灰掉、說明是她那句（noWho，匯入時併進來；AA_941 起可昕和大家一樣會去，沒有人寫 no）。*/
 (function(){ const V=z=>G=>!!G&&!!G.visited&&!!G.visited[z];
   /* 營業時間照 LANE118_SHOPS（src/data/lane118_shops.js，index.html 在 invites.js 前面載入）*/
   const hrs=k=>{ const s=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)&&LANE118_SHOPS.shops.find(x=>x.id===k); return (s&&s.hours)||{open:[[11,14],[17,20]],closed:[]}; };
