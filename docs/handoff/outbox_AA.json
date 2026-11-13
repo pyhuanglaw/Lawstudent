@@ -8077,7 +8077,7 @@
   {
    "task": "SHOP-CC0-HELP-1113",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "61cb66ac0d（底＝b0f0d0b59f＋四間新店）＋7cb5a38226＋8aefc0d979",
+   "sha": "cd39c6fe88（底＝c77ddb5d11＋四間新店）＋7cb5a38226＋8aefc0d979",
    "files": [
     "docs/art-rebuild/aa_help/l118_p2_round2_cc0.patch",
     "docs/art-rebuild/aa_help/cmp_l118_self_r2.jpg",
@@ -8110,16 +8110,16 @@
   {
    "task": "SHOP-CC0-HELP-1113",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "61cb66ac0d（底 b0f0d0b59f）＋並排圖 6e40119d67",
+   "sha": "cd39c6fe88（底 c77ddb5d11）＋並排圖 6e40119d67",
    "files": [
     "docs/art-rebuild/aa_help/l118_pasta_omu_noodle2_home_cc0.patch"
    ],
    "state": "已交付",
    "at": "2026-11-13T20:10Z",
-   "receiver": "LAWWW2",
-   "ack": "",
+   "receiver": "LAWWW",
+   "ack": "LAWWW2-C 20:18 PASS",
    "noDirectIntegrate": true,
-   "next": "LAWWW2-C 再驗（義大麵屋退件那點）→ 和第二輪一起交 LAWWW-C",
+   "next": "LAWWW-C 整合",
    "unfinished": "無"
   }
  ],
