@@ -1,0 +1,89 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118_meet_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118_MEET_2df5\out
+CC 118 巷遇到同學：TAG 2df5；SHA a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492；HOURS [12.25, 18.25]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS [lunch 12.25] 存檔那天（day 51）以後 40 天內找得到名單裡有人在 118 巷的平日  null
+  [  25.9s] [lunch 12.25] 日子 2025-11-06（day 51、星期 4）；SHOPLIFE.who 名單（這一餐全部）[{"id": "zhe", "zone": "l118_korea", "t0": 11.937, "t1": 12.695, "slot": "lunch"}, {"id": "classmate_peishan", "zone": "l118_omu", "t0": 11.796, "t1": 12.474, "slot": "lunch"}, {"id": "classmate_youchen", "zone": "l118_korea", "t0": 12.135, "t1": 12.995, "slot": "lunch"}]
+  [前置／捷徑] [lunch 12.25] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51_1110.json，改到 2025-11-06 12.25 118 巷（條件事件、手機自動打開關掉）
+PASS [lunch 12.25] 讀到 118 巷  {"zone": "lane118", "x": 0, "z": 31, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.29}
+  [  48.9s] [lunch 12.25] ① 巷子裡看得到的有名字的人：[["yu", "Alison", -3.6, 11.1, "idle"], ["classmate_bohan", "柏翰", -3.6, -12.9, "idle"], ["classmate_mingxuan", "明軒", -3.6, -12.1, "idle"], ["classmate_xinci", "芯慈", -3.6, -2.4, "idle"]]
+PASS [黑畫面] meet_lunch_lane 不是黑畫面（平均亮度 102.3、變化 58.7）  [102.3, 58.7]
+PASS [lunch 12.25] l118_korea 118 巷有這間的門  [{"label": "進118牛排（夜市鐵板牛排）", "to": "l118_dian"}, {"label": "進水上便當（雞腿、雞排便當）", "to": "l118_self"}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "to": "l118_tea"}, {"label": "進五湖四海（水餃店）", "to": "l118_home"}, {"label": "進大學食堂（秤重自助餐）", "to": "l118_cafe2"}, {"label": "進義大麵屋（平價義大利麵）", "to": "l118_pasta"}, {"label": "進清州刀削麵（刀削麵館）", "to": "l118_korea"}, {"label": "進奈良咖哩（日式咖哩飯）", "to": "l118_omu"}, {"label": "回到首都帝大（後門）", "to": "campus"}]
+PASS [lunch 12.25] l118_korea 有「進清州刀」  [{"label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "r": 1.4, "lv": 0, "to": "l118_dian"}, {"label": "進水上便當（雞腿、雞排便當）", "x": -4.3, "z": 17.5, "r": 1.4, "lv": 0, "to": "l118_self"}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進五湖四海（水餃店）", "x": -4.3, "z": -2, "r": 1.4, "lv": 0, "to": "l118_home"}, {"label": "進大學食堂（秤重自助餐）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "進義大麵屋（平價義大利麵）", "x": 4.3, "z": 24, "r": 1.4, "lv": 0, "to": "l118_pasta"}, {"label": "進清州刀削麵（刀削麵館）", "x": 4.3, "z": 15.5, "r": 1.4, "lv": 0, "to": "l118_korea"}, {"label": "進奈良咖哩（日式咖哩飯）", "x": 4.3, "z": 1.5, "r": 1.4, "lv": 0, "to": "l118_omu"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+  [  49.6s] [lunch 12.25] l118_korea 「進清州刀」在 (4.3, 15.5) 半徑 1.4；走到範圍裡站得住的 {"x": 4.09, "z": 16.27, "d": 15.285429810042169}
+PASS [lunch 12.25] l118_korea 「進清州刀」範圍裡有站得住的地方  {"label": "進清州刀削麵（刀削麵館）", "x": 4.3, "z": 15.5, "r": 1.4, "lv": 0, "to": "l118_korea"}
+  [  58.7s] 到達「[lunch 12.25] l118_korea 進清州刀」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+PASS [lunch 12.25] l118_korea 走到那裡，互動按鈕是「進清州刀」  {"x": 4.063, "z": 16.478, "lv": 0, "interact": "進清州刀削麵（刀削麵館）"}
+PASS [lunch 12.25] l118_korea 按下去到了 l118_korea（站得住、沒有被放到目的地）  {"zone": "l118_korea", "x": 2.2, "z": 2.75, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和賴宥辰說話", "stand": true, "fb": 0, "hour": 12.37}
+PASS [lunch 12.25] l118_korea 賴宥辰(classmate_youchen) ② 名單上的人在店裡、看得到  {"npc": {"x": 0.15, "z": 2.04, "y": 0, "lv": 0, "pose": "read", "seat": [0.15, 2.04], "hidden": false, "vis": true, "name": "賴宥辰"}, "named_inside": [["zhe", "阿哲", -2, -0.5, "read"], ["classmate_youchen", "賴宥辰", 0.1, 2, "read"]]}
+  [  76.3s] [lunch 12.25] l118_korea 賴宥辰(classmate_youchen) 姿勢 read、座位 [0.15, 2.04]
+  [  79.6s] 到達「[lunch 12.25] l118_korea 賴宥辰(classmate_youchen) 走到他旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [lunch 12.25] l118_korea 賴宥辰(classmate_youchen) 走到他旁邊、互動鍵是「和…」  {"x": 1.532, "z": 2.192, "interact": "和賴宥辰說話"}
+PASS [lunch 12.25] l118_korea 賴宥辰(classmate_youchen) 按下去有對話（認識＝True）  {"lines": ["賴宥辰\n……現在幾點？我昨天四點才睡。", "祐廷\n你等一下有空嗎？", "賴宥辰那時候", "賴宥辰那時候在上課。問你 今天 15:30 可不可以。", "約好 今天 15:30，2:30 AM。"], "picks": ["約他去…\n念書、吃飯、喝咖啡、散步、運動", "念書…\n2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館", "去 2:30 AM 念書", "現在一起過去", "好，就 今天 15:30"]}
+  [  92.6s] [lunch 12.25] l118_korea 賴宥辰(classmate_youchen) 對話全文（抄給 BB）：["賴宥辰\n……現在幾點？我昨天四點才睡。", "祐廷\n你等一下有空嗎？", "賴宥辰那時候", "賴宥辰那時候在上課。問你 今天 15:30 可不可以。", "約好 今天 15:30，2:30 AM。"]；選了 ["約他去…\n念書、吃飯、喝咖啡、散步、運動", "念書…\n2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館", "去 2:30 AM 念書", "現在一起過去", "好，就 今天 15:30"]
+PASS [lunch 12.25] l118_korea 出去 有「離開清州」  [{"label": "離開清州刀削麵", "x": 2.2, "z": 3.8, "r": 0.7, "lv": 0, "to": "lane118"}]
+  [  92.7s] [lunch 12.25] l118_korea 出去 「離開清州」在 (2.2, 3.8) 半徑 0.7；走到範圍裡站得住的 {"x": 2, "z": 3.45, "d": 1.3450372432159974}
+PASS [lunch 12.25] l118_korea 出去 「離開清州」範圍裡有站得住的地方  {"label": "離開清州刀削麵", "x": 2.2, "z": 3.8, "r": 0.7, "lv": 0, "to": "lane118"}
+  [  98.3s] 到達「[lunch 12.25] l118_korea 出去 離開清州」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [lunch 12.25] l118_korea 出去 走到那裡，互動按鈕是「離開清州」  {"x": 1.934, "z": 3.259, "lv": 0, "interact": "離開清州刀削麵"}
+PASS [lunch 12.25] l118_korea 出去 按下去到了 lane118（站得住、沒有被放到目的地）  {"zone": "lane118", "x": 3.9, "z": 17.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.49}
+PASS [lunch 12.25] 對照 有「進118」  [{"label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "r": 1.4, "lv": 0, "to": "l118_dian"}, {"label": "進水上便當（雞腿、雞排便當）", "x": -4.3, "z": 17.5, "r": 1.4, "lv": 0, "to": "l118_self"}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進五湖四海（水餃店）", "x": -4.3, "z": -2, "r": 1.4, "lv": 0, "to": "l118_home"}, {"label": "進大學食堂（秤重自助餐）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "進義大麵屋（平價義大利麵）", "x": 4.3, "z": 24, "r": 1.4, "lv": 0, "to": "l118_pasta"}, {"label": "進清州刀削麵（刀削麵館）", "x": 4.3, "z": 15.5, "r": 1.4, "lv": 0, "to": "l118_korea"}, {"label": "進奈良咖哩（日式咖哩飯）", "x": 4.3, "z": 1.5, "r": 1.4, "lv": 0, "to": "l118_omu"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+  [ 105.1s] [lunch 12.25] 對照 「進118」在 (-4.3, 25) 半徑 1.4；走到範圍裡站得住的 {"x": -3.73, "z": 24.43, "d": 10.517512367552719}
+PASS [lunch 12.25] 對照 「進118」範圍裡有站得住的地方  {"label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "r": 1.4, "lv": 0, "to": "l118_dian"}
+  [ 112.5s] 到達「[lunch 12.25] 對照 進118」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS [lunch 12.25] 對照 走到那裡，互動按鈕是「進118」  {"x": -3.572, "z": 24.243, "lv": 0, "interact": "進118牛排（夜市鐵板牛排）"}
+PASS [lunch 12.25] 對照 按下去到了 l118_dian（站得住、沒有被放到目的地）  {"zone": "l118_dian", "x": 1.5, "z": 2.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "聽一句", "stand": true, "fb": 0, "hour": 12.55}
+  [ 120.4s] [lunch 12.25] ③ 對照 l118_dian（名單上沒有人）裡面有名字的人：[]
+PASS [dinner 18.25] 存檔那天（day 51）以後 40 天內找得到名單裡有人在 118 巷的平日  null
+  [ 120.9s] [dinner 18.25] 日子 2025-11-06（day 51、星期 4）；SHOPLIFE.who 名單（這一餐全部）[{"id": "classmate_mingxuan", "zone": "l118_home", "t0": 18.195, "t1": 19.087, "slot": "dinner"}, {"id": "heroine_05", "zone": "l118_pasta", "t0": 18.097, "t1": 18.728, "slot": "dinner"}, {"id": "yu", "zone": "l118_tea", "t0": 18.134, "t1": 18.892, "slot": "dinner"}]
+  [前置／捷徑] [dinner 18.25] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51_1110.json，改到 2025-11-06 18.25 118 巷（條件事件、手機自動打開關掉）
+PASS [dinner 18.25] 讀到 118 巷  {"zone": "lane118", "x": 0, "z": 31, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 18.3}
+  [ 130.5s] [dinner 18.25] ① 巷子裡看得到的有名字的人：[]
+PASS [黑畫面] meet_dinner_lane 不是黑畫面（平均亮度 59.4、變化 39.8）  [59.4, 39.8]
+PASS [dinner 18.25] l118_home 118 巷有這間的門  [{"label": "進118牛排（夜市鐵板牛排）", "to": "l118_dian"}, {"label": "進水上便當（雞腿、雞排便當）", "to": "l118_self"}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "to": "l118_tea"}, {"label": "進五湖四海（水餃店）", "to": "l118_home"}, {"label": "進大學食堂（秤重自助餐）", "to": "l118_cafe2"}, {"label": "進義大麵屋（平價義大利麵）", "to": "l118_pasta"}, {"label": "進清州刀削麵（刀削麵館）", "to": "l118_korea"}, {"label": "進奈良咖哩（日式咖哩飯）", "to": "l118_omu"}, {"label": "回到首都帝大（後門）", "to": "campus"}]
+PASS [dinner 18.25] l118_home 有「進五湖四」  [{"label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "r": 1.4, "lv": 0, "to": "l118_dian"}, {"label": "進水上便當（雞腿、雞排便當）", "x": -4.3, "z": 17.5, "r": 1.4, "lv": 0, "to": "l118_self"}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進五湖四海（水餃店）", "x": -4.3, "z": -2, "r": 1.4, "lv": 0, "to": "l118_home"}, {"label": "進大學食堂（秤重自助餐）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "進義大麵屋（平價義大利麵）", "x": 4.3, "z": 24, "r": 1.4, "lv": 0, "to": "l118_pasta"}, {"label": "進清州刀削麵（刀削麵館）", "x": 4.3, "z": 15.5, "r": 1.4, "lv": 0, "to": "l118_korea"}, {"label": "進奈良咖哩（日式咖哩飯）", "x": 4.3, "z": 1.5, "r": 1.4, "lv": 0, "to": "l118_omu"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+  [ 131.0s] [dinner 18.25] l118_home 「進五湖四」在 (-4.3, -2) 半徑 1.4；走到範圍裡站得住的 {"x": -4.3, "z": -1.2, "d": 32.48584307048226}
+PASS [dinner 18.25] l118_home 「進五湖四」範圍裡有站得住的地方  {"label": "進五湖四海（水餃店）", "x": -4.3, "z": -2, "r": 1.4, "lv": 0, "to": "l118_home"}
+  [ 136.8s] 到達「[dinner 18.25] l118_home 進五湖四」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [dinner 18.25] l118_home 走到那裡，互動按鈕是「進五湖四」  {"x": -4.176, "z": -1.094, "lv": 0, "interact": "進五湖四海（水餃店）"}
+PASS [dinner 18.25] l118_home 按下去到了 l118_home（站得住、沒有被放到目的地）  {"zone": "l118_home", "x": -2.6, "z": 2.75, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 18.35}
+PASS [dinner 18.25] l118_home 明軒(classmate_mingxuan) ② 名單上的人在店裡、看得到  {"npc": {"x": 3.3, "z": 1.6, "y": 0, "lv": 0, "pose": "read", "seat": [3.3, 1.6], "hidden": false, "vis": true, "name": "明軒"}, "named_inside": [["classmate_mingxuan", "明軒", 3.3, 1.6, "read"]]}
+  [ 146.7s] [dinner 18.25] l118_home 明軒(classmate_mingxuan) 姿勢 read、座位 [3.3, 1.6]
+  [ 152.3s] 到達「[dinner 18.25] l118_home 明軒(classmate_mingxuan) 走到他旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [dinner 18.25] l118_home 明軒(classmate_mingxuan) 走到他旁邊、互動鍵是「和…」  {"x": 2.667, "z": 0.749, "interact": "和明軒說話"}
+PASS [dinner 18.25] l118_home 明軒(classmate_mingxuan) 按下去有對話（認識＝True）  {"lines": ["（明軒比了一下手上的綠色螢光筆。）", "祐廷\n你等一下有空嗎？", "明軒\n那時候我在家", "明軒\n那時候我在家教，九點以後可以。", "約好 今天 21:00，2:30 AM。"], "picks": ["約他去…\n念書、吃飯、喝咖啡、散步、運動", "念書…\n2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館", "去 2:30 AM 念書", "現在一起過去", "好，就 今天 21:00"]}
+  [ 164.6s] [dinner 18.25] l118_home 明軒(classmate_mingxuan) 對話全文（抄給 BB）：["（明軒比了一下手上的綠色螢光筆。）", "祐廷\n你等一下有空嗎？", "明軒\n那時候我在家", "明軒\n那時候我在家教，九點以後可以。", "約好 今天 21:00，2:30 AM。"]；選了 ["約他去…\n念書、吃飯、喝咖啡、散步、運動", "念書…\n2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館", "去 2:30 AM 念書", "現在一起過去", "好，就 今天 21:00"]
+PASS [dinner 18.25] l118_home 出去 有「離開五湖」  [{"label": "離開五湖四海", "x": -2.6, "z": 3.8, "r": 0.7, "lv": 0, "to": "lane118"}]
+  [ 164.7s] [dinner 18.25] l118_home 出去 「離開五湖」在 (-2.6, 3.8) 半徑 0.7；走到範圍裡站得住的 {"x": -2.25, "z": 3.6, "d": 5.687095242988705}
+PASS [dinner 18.25] l118_home 出去 「離開五湖」範圍裡有站得住的地方  {"label": "離開五湖四海", "x": -2.6, "z": 3.8, "r": 0.7, "lv": 0, "to": "lane118"}
+  [ 173.9s] 到達「[dinner 18.25] l118_home 出去 離開五湖」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+PASS [dinner 18.25] l118_home 出去 走到那裡，互動按鈕是「離開五湖」  {"x": -2.091, "z": 3.438, "lv": 0, "interact": "離開五湖四海"}
+PASS [dinner 18.25] l118_home 出去 按下去到了 lane118（站得住、沒有被放到目的地）  {"zone": "lane118", "x": -3.9, "z": -0.3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "騎腳踏車", "stand": true, "fb": 0, "hour": 18.51}
+PASS [dinner 18.25] l118_tea 118 巷有這間的門  [{"label": "進118牛排（夜市鐵板牛排）", "to": "l118_dian"}, {"label": "進水上便當（雞腿、雞排便當）", "to": "l118_self"}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "to": "l118_tea"}, {"label": "進五湖四海（水餃店）", "to": "l118_home"}, {"label": "進大學食堂（秤重自助餐）", "to": "l118_cafe2"}, {"label": "進義大麵屋（平價義大利麵）", "to": "l118_pasta"}, {"label": "進清州刀削麵（刀削麵館）", "to": "l118_korea"}, {"label": "進奈良咖哩（日式咖哩飯）", "to": "l118_omu"}, {"label": "回到首都帝大（後門）", "to": "campus"}]
+PASS [dinner 18.25] l118_tea 有「進辛亥韓」  [{"label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "r": 1.4, "lv": 0, "to": "l118_dian"}, {"label": "進水上便當（雞腿、雞排便當）", "x": -4.3, "z": 17.5, "r": 1.4, "lv": 0, "to": "l118_self"}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進五湖四海（水餃店）", "x": -4.3, "z": -2, "r": 1.4, "lv": 0, "to": "l118_home"}, {"label": "進大學食堂（秤重自助餐）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "進義大麵屋（平價義大利麵）", "x": 4.3, "z": 24, "r": 1.4, "lv": 0, "to": "l118_pasta"}, {"label": "進清州刀削麵（刀削麵館）", "x": 4.3, "z": 15.5, "r": 1.4, "lv": 0, "to": "l118_korea"}, {"label": "進奈良咖哩（日式咖哩飯）", "x": 4.3, "z": 1.5, "r": 1.4, "lv": 0, "to": "l118_omu"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+  [ 179.7s] [dinner 18.25] l118_tea 「進辛亥韓」在 (-4.3, 11.5) 半徑 1.4；走到範圍裡站得住的 {"x": -4.3, "z": 10.7, "d": 11.00727032465361}
+PASS [dinner 18.25] l118_tea 「進辛亥韓」範圍裡有站得住的地方  {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}
+  [ 187.0s] 到達「[dinner 18.25] l118_tea 進辛亥韓」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS [dinner 18.25] l118_tea 走到那裡，互動按鈕是「進辛亥韓」  {"x": -4.113, "z": 10.548, "lv": 0, "interact": "進辛亥韓食（韓式鍋物、鐵板烤肉）"}
+PASS [dinner 18.25] l118_tea 按下去到了 l118_tea（站得住、沒有被放到目的地）  {"zone": "l118_tea", "x": -0.5, "z": 2.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 18.58}
+PASS [dinner 18.25] l118_tea Alison(yu) ② 名單上的人在店裡、看得到  {"npc": {"x": 0.55, "z": -0.22, "y": 0, "lv": 0, "pose": "read", "seat": [0.55, -0.22], "hidden": false, "vis": true, "name": "Alison"}, "named_inside": [["yu", "Alison", 0.6, -0.2, "read"]]}
+  [ 195.8s] [dinner 18.25] l118_tea Alison(yu) 姿勢 read、座位 [0.55, -0.22]
+  [ 198.8s] 到達「[dinner 18.25] l118_tea Alison(yu) 走到他旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [dinner 18.25] l118_tea Alison(yu) 走到他旁邊、互動鍵是「和…」  {"x": -0.079, "z": -1.015, "interact": "和Alison說話"}
+PASS [dinner 18.25] l118_tea Alison(yu) 按下去有對話（認識＝True）  {"lines": ["Alison\n溫州街的貓你有看到嗎？", "祐廷\n你等一下有空嗎？", "Alison", "Alison答應了。你們一起去 2:30 AM 坐坐。"], "picks": ["約她去…\n念書、吃飯、喝咖啡、散步、運動", "念書…\n2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館", "去 2:30 AM 念書", "現在一起過去"]}
+  [ 209.5s] [dinner 18.25] l118_tea Alison(yu) 對話全文（抄給 BB）：["Alison\n溫州街的貓你有看到嗎？", "祐廷\n你等一下有空嗎？", "Alison", "Alison答應了。你們一起去 2:30 AM 坐坐。"]；選了 ["約她去…\n念書、吃飯、喝咖啡、散步、運動", "念書…\n2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館", "去 2:30 AM 念書", "現在一起過去"]
+PASS [dinner 18.25] l118_tea 出去 有「離開辛亥」  [{"label": "離開辛亥韓食", "x": -0.5, "z": 3.55, "r": 0.7, "lv": 0, "to": "lane118"}]
+  [ 209.6s] [dinner 18.25] l118_tea 出去 「離開辛亥」在 (-0.5, 3.55) 半徑 0.7；走到範圍裡站得住的 {"x": -0.5, "z": 3.15, "d": 4.1858054322971965}
+PASS [dinner 18.25] l118_tea 出去 「離開辛亥」範圍裡有站得住的地方  {"label": "離開辛亥韓食", "x": -0.5, "z": 3.55, "r": 0.7, "lv": 0, "to": "lane118"}
+  [ 212.5s] 到達「[dinner 18.25] l118_tea 出去 離開辛亥」附近（0.26 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [dinner 18.25] l118_tea 出去 走到那裡，互動按鈕是「離開辛亥」  {"x": -0.494, "z": 2.893, "lv": 0, "interact": "離開辛亥韓食"}
+PASS [dinner 18.25] l118_tea 出去 按下去到了 lane118（站得住、沒有被放到目的地）  {"zone": "lane118", "x": -3.9, "z": 13.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和Alison說話", "stand": true, "fb": 0, "hour": 18.68}
+PASS [dinner 18.25] 對照 有「進118」  [{"label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "r": 1.4, "lv": 0, "to": "l118_dian"}, {"label": "進水上便當（雞腿、雞排便當）", "x": -4.3, "z": 17.5, "r": 1.4, "lv": 0, "to": "l118_self"}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進五湖四海（水餃店）", "x": -4.3, "z": -2, "r": 1.4, "lv": 0, "to": "l118_home"}, {"label": "進大學食堂（秤重自助餐）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "進義大麵屋（平價義大利麵）", "x": 4.3, "z": 24, "r": 1.4, "lv": 0, "to": "l118_pasta"}, {"label": "進清州刀削麵（刀削麵館）", "x": 4.3, "z": 15.5, "r": 1.4, "lv": 0, "to": "l118_korea"}, {"label": "進奈良咖哩（日式咖哩飯）", "x": 4.3, "z": 1.5, "r": 1.4, "lv": 0, "to": "l118_omu"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+  [ 218.6s] [dinner 18.25] 對照 「進118」在 (-4.3, 25) 半徑 1.4；走到範圍裡站得住的 {"x": -4.3, "z": 24.2, "d": 11.00727032465361}
+PASS [dinner 18.25] 對照 「進118」範圍裡有站得住的地方  {"label": "進118牛排（夜市鐵板牛排）", "x": -4.3, "z": 25, "r": 1.4, "lv": 0, "to": "l118_dian"}
+  [ 225.9s] 到達「[dinner 18.25] 對照 進118」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS [dinner 18.25] 對照 走到那裡，互動按鈕是「進118」  {"x": -4.068, "z": 24.167, "lv": 0, "interact": "進118牛排（夜市鐵板牛排）"}
+PASS [dinner 18.25] 對照 按下去到了 l118_dian（站得住、沒有被放到目的地）  {"zone": "l118_dian", "x": 1.5, "z": 2.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和Alison說話", "stand": true, "fb": 0, "hour": 18.75}
+  [ 234.3s] [dinner 18.25] ③ 對照 l118_dian（名單上沒有人）裡面有名字的人：[["yu", "Alison", 1.6, 3.3, "idle"]]
+PASS 沒有 JS 例外  []
+ALL PASS
