@@ -71,3 +71,5 @@
 **結果寫法**：每一項 PASS／FAIL／TEST_BUG（重跑）＋截圖路徑；全過寫 GO 給 LAWWW-C，並跑 `check_handoff.py releasegate` 要結束碼 0。
 
 - **02:4x B2_r4（27001bdc02，exit 1）→ TEST_BUG（CC 初判）**：9/29 07:31 手機「地點」頁連 campus 都沒有（9/30 回宿舍找得到）＝探針沒走進系館A、走廊相遇沒機會觸發。**但「9/29（教師節補假）地點清單空的」可能是 GAME**——B2_r5 要截地點頁畫面＋記地區／地點清單給 BB 判；r5 找不到就【捷徑】GAME.enter('linze')，排原位（P0）。
+- **20:0x 補判定標準**：電腦上這輪 FULL 是 d21c698bde（cc_flow_semester_probe，CANON=1、CANON_SCAN=1、UNTIL=2026-01-25＝只到大一上）。d21c 之後 CANON 還改了 #12 法圖坐下那句（27001bdc02）、#4 春假（4af46fd8f6）、#17 大三聖誕（4896dc480c）＋寒暑假第 11 項日子（74ed683ebd）——**這輪 FULL 只當大範圍回歸；GO 前要在 LAWWW 定的發布候選 SHA 上再跑一次 FULL（至少大一上）＋B2_r5＋CANON458 19 行**，三樣都在同一個 SHA（或確認中間只差不相干的檔）才判 GO。
+
