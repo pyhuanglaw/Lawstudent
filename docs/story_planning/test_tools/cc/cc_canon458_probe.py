@@ -17,6 +17,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   BAR_FACE  #5 國考讀書會當面（Y4_PATH bar、交往中；2/23 起 OUT 排的讀書小組照順序演三場：開學那場、平日大口二樓 3D、週六法律系館）
   DRIFT_D1～DRIFT_D4  #1 AA_876 慢慢分開（交往中；【捷徑】直接設 KX_DRIFT 那一段 → 手機快速前往法律系館；D3 選第 2 個、D4 選「好。」→ 河濱）。D1c（隨機 0.35）、#2 D5 長椅另外排
   D5_FACE／D5_CALL／D6_SOUP  #2 D5 長椅（【捷徑】r5 pending＋讀檔到大二下期末最後一科考完 → 換區域 → 她當面約 → 隔天 19:00 長椅／不去＝21:00 電話）、D6 分開後第 61 天後門湯餃（【捷徑】KX_ENDED drift＋r6 ready）
+  DRIFT_D1C  #1 D1c（【捷徑】Math.random＝mulberry32 固定種子 SEED 起；Y2S1 第 5 週起每天 10:00 進法律系館，中了就停、沒中的那幾天確認沒亂跳；最多 8 天）
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -438,7 +439,35 @@ async def c_d6(pg, cdp, tag):
     return {'case': tag, 'day': key, 'r': r, 'captions': caps}
 
 
+RNG_JS = """(seed=>{ if(!window.__rngKeep) window.__rngKeep=Math.random; let a=seed>>>0; window.__rngN=0; window.__rngLog=[];
+  Math.random=function(){ a=(a+0x6D2B79F5)>>>0; let t=a; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); const v=((t^(t>>>14))>>>0)/4294967296; window.__rngN++; if(window.__rngLog.length<200) window.__rngLog.push(+v.toFixed(4)); return v; }; return 'mulberry32:'+seed; })"""
+
+
+async def c_d1c(pg, cdp, tag):
+    """#1 D1c（kxdrift3d.js ev_kx_drift_r1c：大二上起每學期一次、第 5～12 週、09:00～18:00 進 linze、random_weight 0.35）：只和可昕交往中
+       【捷徑】Math.random 換成 mulberry32（SEED 固定、可重播）；Y2S1 第 5 週起每天 10:00 宿舍 → 照玩家手機快速前往法律系館 → 演了就記、截圖；沒演的那幾天也記（不能亂跳）；最多 8 天"""
+    seed_n = int(os.environ.get('SEED') or 44)   # 44：第 1 天第一個亂數 0.836（不中）、第 2 天 0.037（中）——先留一輪沒中的; out = []; hit = False
+    for n in range(8):
+        wk, wd = 5 + n // 5, 1 + n % 5
+        when = ['Y2S1', wk, wd]
+        if n == 0: d, seed = await SP.fresh(pg, cdp, tag, when, 10.0, 'dorm', {'kexin': 'DATING'}); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+        else: d = await SP.jump(pg, cdp, '%s 第%d週星期%d' % (tag, wk, wd), when, 10.0, 'dorm', None)
+        rng = await pg.evaluate(RNG_JS, seed_n + n); R.setup('[%s]【捷徑】Math.random＝%s（可重播）' % (tag, rng))
+        ok = await SP.travel(pg, cdp, '%s_d%d' % (tag, n + 1), 'linze')
+        r = await SP.play(pg, cdp, '%s_d%d' % (tag, n + 1), 0, start_s=25)
+        info = await pg.evaluate("(()=>({n:window.__rngN, log:(window.__rngLog||[]).slice(0,12), zone:GAME.G.zone, r1c:JSON.parse(JSON.stringify((GAME.G.flags.KX_DRIFT||{}).r1c||null)), done:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_kx_drift_r1c), crack:GAME.G.flags.KX_CRACK}))()")
+        await pg.evaluate("(()=>{ if(window.__rngKeep){ Math.random=window.__rngKeep; window.__rngKeep=null; } })()")
+        out.append({'day': d['key'], 'travel': ok, 'r': r, 'rng': info, 'event': r['event']})
+        R.note('[%s] %s：演了 %s；ev_kx_drift_r1c done=%s；亂數用了 %d 次 %s' % (tag, d['key'], r['event'], info['done'], info['n'], J(info['log'])))
+        if info['done']: hit = True; break
+        R.check('[%s] %s 沒中的那一天沒有亂跳別的分開戲' % (tag, d['key']), not (r['event'] or '').startswith('ev_kx_drift'), J(r['event']))
+    R.check('FAIL_SETUP 檢查：[%s] 8 天內 D1c 有中（固定種子 %d 起）' % (tag, seed_n), hit, J([o['day'] for o in out]))
+    SP.d158(tag, *[o['r'] for o in out])
+    return {'case': tag, 'days': out, 'hit': hit}
+
+
 async def one(pg, cdp, c):
+    if c == 'DRIFT_D1C': return await c_d1c(pg, cdp, c)
     if c in ('D5_FACE', 'D5_CALL'): return await c_d5(pg, cdp, c)
     if c == 'D6_SOUP': return await c_d6(pg, cdp, c)
     if c in DRIFT: return await c_drift(pg, cdp, c)
