@@ -112,7 +112,7 @@ def mat_tiffany(name):
     e[0].position = 0.0; e[0].color = (*hexc('#c8781e'), 1); e[1].position = 1.0; e[1].color = (*hexc('#e8c060'), 1)
     for p, h in ((0.3, '#7a3a18'), (0.55, '#d89a38'), (0.8, '#5a7a3a')): el = e.new(p); el.color = (*hexc(h), 1)
     nt.links.new(vo.outputs['Color'], cr.inputs['Fac'])
-    nt.links.new(cr.outputs['Color'], b.inputs['Base Color']); nt.links.new(cr.outputs['Color'], b.inputs['Emission Color']); b.inputs['Emission Strength'].default_value = 2.2
+    nt.links.new(cr.outputs['Color'], b.inputs['Base Color']); nt.links.new(cr.outputs['Color'], b.inputs['Emission Color']); b.inputs['Emission Strength'].default_value = 0.0   # BB 11-13：燈罩自發光烘進貼圖、打烊不會暗——改成只讓裡面的光源照它
     MATS[name] = m; return m
 
 
@@ -178,10 +178,10 @@ def mat_fabric(name, hx, kind='plain', hx2=None, scale=22.0):
     if name in MATS: return MATS[name]
     h = sum(ord(ch) for ch in name)
     if name == 'rug': m = mat_acg(name, 'Carpet015', scale=1.2)
-    elif kind == 'plaid': m = mat_acg(name, TARTANS[h % len(TARTANS)], scale=3.0)
-    elif kind == 'denim': m = mat_acg(name, ('Fabric069', 'Fabric003')[h % 2], scale=6.0, tint=_light(hx, 1.6))
-    elif kind == 'cord': m = mat_acg(name, 'Fabric013', scale=5.0, tint=_light(hx, 2.4))
-    else: m = mat_acg(name, ('Fabric036', 'Fabric036', 'Fabric031', 'Fabric061')[h % 4], scale=5.0, tint=_light(hx, 1.25 if h % 4 < 2 else 1.6))
+    elif kind == 'plaid': m = mat_acg(name, TARTANS[h % len(TARTANS)], scale=1.2)   # 3.0：格子 3 cm、烘焙圖上不到 2 像素 → 糊成斑駁色塊（BB 11-13）；1.2＝格子約 8 cm
+    elif kind == 'denim': m = mat_acg(name, ('Fabric069', 'Fabric003')[h % 2], scale=2.5, tint=_light(hx, 1.6))
+    elif kind == 'cord': m = mat_acg(name, 'Fabric013', scale=2.5, tint=_light(hx, 2.4))
+    else: m = mat_acg(name, ('Fabric036', 'Fabric036', 'Fabric031', 'Fabric061')[h % 4], scale=2.5, tint=_light(hx, 1.25 if h % 4 < 2 else 1.6))
     MATS[name] = m; return m
 def mat_leather(name, hx):
     if name in MATS: return MATS[name]
@@ -195,7 +195,7 @@ WALLP = mat_tex('wall_green', 'white_plaster_02/white_plaster_02_diff_1k.jpg', 0
 BRASS = mat_col('brass', '#b8893e', rough=0.35, metal=1.0)
 IRON = mat_col('iron', '#2a2826', rough=0.5, metal=0.8)
 BULB = mat_col('bulb', '#ffd9a0', emit=18.0)
-SKIN = mat_col('mannequin', '#a99d8a', rough=0.8)   # 原本 #e9e2d6 在聚光燈下過曝成一顆白球
+SKIN = mat_col('mannequin', '#8a8072', rough=0.85)   # BB 11-13：還是比衣服亮   # 原本 #e9e2d6 在聚光燈下過曝成一顆白球
 
 # ---------------- 工具 ----------------
 OBJS = []
@@ -585,7 +585,7 @@ def light(kind, loc, energy, color=WARM, size=0.05, aim=None, spot=None):
 for x in (-1.6, 0.0, 1.6): light('POINT', (x, 0.15, 2.3), 80, size=0.06)
 for p in SPOTS: light('SPOT', p, 140, aim=(p[0], BACK - 0.3, 1.4), spot=45, size=0.03)
 light('SPOT', (-1.15, FRONT + 0.2, H - 0.1), 60, aim=(MX, MY, 1.5), spot=40, size=0.03)   # 打在假人身上的那一盞
-light('POINT', (LX_, LY_, B0 + 0.3), 12, color=(1.0, 0.62, 0.3), size=0.04)
+light('POINT', (LX_, LY_, B0 + 0.3), 20, color=(1.0, 0.62, 0.3), size=0.04)   # 燈罩不自發光以後，靠裡面這顆照亮（12→20）
 light('AREA', (0.0, 0.2, H - 0.05), 45, color=(1.0, 0.8, 0.6), size=3.0)   # 天花板反射的柔光
 light('AREA', (0.0, FRONT - 1.5, 1.6), 50, color=(0.95, 0.97, 1.0), size=4.0, aim=(0.0, 0.5, 1.2))   # 街上進來的天光（窗外）
 

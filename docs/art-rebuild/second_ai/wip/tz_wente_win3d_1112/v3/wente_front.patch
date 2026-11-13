@@ -1,5 +1,5 @@
 diff --git a/tools/blender/env_second/wz_shopkit.py b/tools/blender/env_second/wz_shopkit.py
-index 8db4fcfb3f..89bc1876fa 100644
+index 8db4fcfb3f..04e0ab9311 100644
 --- a/tools/blender/env_second/wz_shopkit.py
 +++ b/tools/blender/env_second/wz_shopkit.py
 @@ -1071,6 +1071,9 @@ def xs_awning(xf, x0, x1, y0, y1, d, col, along='x', zc=0.0):
@@ -12,10 +12,20 @@ index 8db4fcfb3f..89bc1876fa 100644
  def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
      """沒有騎樓的店面（溫州街日常失速）：落地窗（黑鐵窗框，每 pane 公尺一格、tr 一道橫框）、門、玻璃上方到一樓頂的牆、綠色波浪雨棚、牆上的招牌（參考圖裁的字）、兩盞門燈、側面的窗、門口的 A 字立牌和大理石小圓桌"""
      fr = acc(frame_mat(c['frame'])) if c.get('frame') else acc(SK['black']); wm = wall
-@@ -1107,9 +1110,17 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
+@@ -1107,9 +1110,27 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
              xs_quad(key, p if sx < 0 else [p[1], p[0], p[3], p[2]], tiles=1)
      sd = c.get('side')
      if sd: xs_side_window(spec, xf, W, c, sd)
++    if dr and c.get('door_wood'):   # SHOP-REALISM-1112（溫特寶邸概念圖、BB_379）：木門扇——兩邊直框、上中下三道橫框、下半一塊木板（玻璃只在上半）
++        d0, d1, dh = dr
++        for (xa, xb) in ((d0 + 0.04, d0 + 0.14), (d1 - 0.14, d1 - 0.04)): xf.box(fr, xa, xb, 0.0, dh - 0.03, z - 0.02, z + 0.045)
++        for (ya, yb) in ((0.0, 0.62), (1.02, 1.1), (dh - 0.16, dh - 0.03)): xf.box(fr, d0 + 0.04, d1 - 0.04, ya, yb, z - 0.02, z + 0.045)
++    pt = c.get('pier_tile')
++    if pt:   # 玻璃兩側的柱子貼磁磚（溫特寶邸概念圖：綠白小方磚柱）；外牆同一套 wall_mat，顏色放頂點色
++        _pm = Mesh(f'pier_tile_{spec["id"]}', wall_mat(pt[0]))
++        for (a, b) in ((-W / 2, gx0 - 0.05), (gx1 + 0.05, W / 2)):
++            if b - a > 0.04: xf.box(_pm, a, b, 0.0, gy1 + 0.08, 0.0, 0.035)
++        if not _pm.empty(): set_tint(_pm.finish(root), pt[1], pt[0])
 +    if c.get('kick'):   # SHOP-REALISM-1112（溫特寶邸概念圖）：落地窗下面一段木腰板（高 kick 公尺），門那一段不做
 +        _kh = c['kick']; _segs = [(gx0, gx1)]
 +        if dr: _segs = [(gx0, dr[0] - 0.04), (dr[1] + 0.04, gx1)]
@@ -31,7 +41,7 @@ index 8db4fcfb3f..89bc1876fa 100644
          CL.glow(root, 'offbeat_in', *xf.p((gx0 + gx1) / 2, 1.6, z - 0.4), color='rgba(255,232,190,1)', size=4.0, day=0.0, night=0.55)
  
 diff --git a/tools/blender/env_second/wz_street.py b/tools/blender/env_second/wz_street.py
-index 365e15f895..69f3c3f373 100644
+index 365e15f895..f48849416c 100644
 --- a/tools/blender/env_second/wz_street.py
 +++ b/tools/blender/env_second/wz_street.py
 @@ -392,7 +392,8 @@ if SET == 'tingzhou':
@@ -40,7 +50,7 @@ index 365e15f895..69f3c3f373 100644
                          # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
 -                      panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#3a2a20'),
 +                      panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#4a3324',
-+                      kick=0.42, clutter=[('ph_pot', -2.05, 0.42, 1.15), ('ph_succ', -1.45, 0.34), ('ph_pot', 2.66, 0.4, 0.95)]),   # SHOP-REALISM-1112（D160）：照概念圖——窗下木腰板、窗前和門邊的 Poly Haven 盆栽；框改成看得出是木頭的深咖啡
++                      kick=0.42, door_wood=True, pier_tile=('mosaic', '#8fb09a'), clutter=[('ph_pot', -2.05, 0.42, 1.15), ('ph_succ', -1.45, 0.34), ('ph_pot', 2.66, 0.4, 0.95)]),   # SHOP-REALISM-1112（D160）：照概念圖——窗下木腰板、窗前和門邊的 Poly Haven 盆栽；框改成看得出是木頭的深咖啡
          'liantong': dict(arcade=False, dep=0.3, real=True, back=7.1, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
                           panel=dict(x0=-2.15, x1=2.15, y0=2.95, y1=3.78, color='#1f3f9a', text=[('tzlian_sign', -2.1, 2.1, 3.0, 3.74)]), frame='#c9ccd0', vsigns=[('tzlian_vsign', 2.05, 4.3, 7.6, 0.85)]),
          'dongnan': dict(arcade=False, dep=0.3, real=True, back=9.1, glass=(-3.45, 3.45), glass_h=2.6, int='tzdong_shop', pane=3.45, transom=2.6, lit=True,   # 東南大聯商行：整面開著、貨架塞滿；墨綠帆布雨棚；黃底紅字招牌
