@@ -2235,6 +2235,8 @@ STUDY_SE11_4af4 | 4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3 | probe | docs/story_
 STUDY_SE12_4af4 | 4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3 | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=SE12;MAX_MIN=18;SHA=4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3
 # BB-C 16:41：BUG-LIB-DOOR-LABEL-1110 改判 TEST_BUG，guide_flow 用 3ebd441861（LAWWW 修測試：每次 enter 等 zone 對了才走）重跑；07:12 校園 (84.5,0) 互動鍵要是「進入總圖書館」才結案
 GUIDE_3ebd | 3ebd4418619d9f6a0f06379859376acac08bab31 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+# CC-C 11-14 00:4x：SE06_4af4 第一場考完 100 分（確定框修好了）；第二場沒考＝TEST_BUG：17:30 前「回去睡覺」是暗的，探針連按到 41 次上限。暗的不算、等到 17:35
+STUDY_SE06_4af4_r2 | 4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3 | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=SE06;MAX_MIN=18;DIAG_N=-1;SHA=4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3
 STUDY_fix_b_r2 | 5c96c6680264aa6fe56f5450f01d848d3623c9af | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;SHA=5c96c6680264aa6fe56f5450f01d848d3623c9af
 STUDY_fix_c_r2 | 5c96c6680264aa6fe56f5450f01d848d3623c9af | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_abandon;ABANDON=leave,timeout,close;ABANDON_FAST=1;ROSTER=0;SHA=5c96c6680264aa6fe56f5450f01d848d3623c9af
 CANON_NEWGAME_A1_d21c | d21c698bdef7b3ae434112ce7175ae9945deadd8 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 220 | PICK_HAS=臺北人;CANON_SCAN=1;CANON=1;KX_PICK=「會;EXPECT_HOW=class;UNTIL=2025-09-27;SAVE_CHECK=0;SHOT_EVERY=7;SHA=d21c698bdef7b3ae434112ce7175ae9945deadd8
