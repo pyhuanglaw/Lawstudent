@@ -42,7 +42,7 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
     '（過海關的時候，她排錯隊，自己笑著又排回來。）','我以前都跟在我媽後面，原來要自己填這麼多東西～'];   /* 後兩句：AA_762_peishan_events_2.json@1fc9a6658 和她出國「到了」那一組（原本「把護照握得很緊」「我過了！我真的過了～」；tests/peishan_events_1111_unit.js 逐字對） */
   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：和她出國沛珊 arr、mid 兩句句尾「～」改掉、多一拍（AA_808 vac_activities 第 558 列兩列）——遊戲字先換回 AA_808 的舊句（line_rows_expect.js toOldS）再照原本的規則找（AA_533 稿、PS757）。舊期望：遊戲字本身 */
   const LR=require('./line_rows_expect.js'), o808=t=>typeof t==='string'?LR.toOldS(t,'src/data/vac_activities.js'):t;
-  const bad=L.filter(t0=>{ const t=o808(t0); return !doc.includes(strip(t))&&!require('./libq_out_lines.js').added(t)&&!PS757.includes(t); });   /* 「（借完書出來，在法圖門口。）」：AA_595 1-B44（AA 11-02 22:30 定稿，圖書館小聲講）*/
+  const bad=L.filter(t0=>{ const t=o808(t0); return !doc.includes(strip(t))&&!require('./libq_out_lines.js').added(t)&&!PS757.includes(t)&&!require('./canon1112_ok.js').ok(t0); });   /* canon1112_ok：CANON-NO-ECON-1112 照 AA 對照表換過的（AA_925 可昕出國那幾句）改比對照表 */   /* 「（借完書出來，在法圖門口。）」：AA_595 1-B44（AA 11-02 22:30 定稿，圖書館小聲講）*/
   check('0. 新句都在 AA_533 稿裡（一字不差；'+L.length+' 句）',L.length>=110&&!bad.length,J(bad));
   const Al=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.find(e=>e.path===A533);
   check('0. 白名單有 AA_533（cf0066ed2、approved、AA-B 定稿（D109））',!!Al&&Al.sha==='cf0066ed2'&&Al.status==='approved'&&Al.approvedBy==='AA-B 定稿（D109）',J(Al)); }
