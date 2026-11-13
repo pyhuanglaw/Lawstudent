@@ -4632,6 +4632,146 @@
    "new": "那個空畫框……我想了很久，還是不懂。可是我會記得它。",
    "speaker": "classmate_xinci",
    "note": "撞句：學姊「可是我不討厭。」、子晴「港口好吵，可是我不討厭。」；AA_975 第二批源稿同步改"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_04\", \"text\": \"纜車從瀑布前面過去，裡面的人都貼在窗戶上。",
+   "new": "heroine_04\", \"text\": \"纜車經過瀑布的時候，裡面的人全部擠到同一邊。好好笑。",
+   "speaker": "heroine_04",
+   "note": "不同人同一句：D20.falls；語彤同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"門票我買了。下次換你。",
+   "new": "heroine_05\", \"text\": \"票我先買好了。",
+   "speaker": "heroine_05",
+   "note": "不同人同一句：D17 arrive；語彤 D08 同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_04\", \"text\": \"你站進去，我幫你拍。",
+   "new": "heroine_04\", \"text\": \"你站進去，我數到三。",
+   "speaker": "heroine_04",
+   "note": "不同人同一句：D06.frame；語彤、學姊同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"你站進去，我幫你拍。",
+   "new": "heroine_05\", \"text\": \"進去站好。拍一張就好。",
+   "speaker": "heroine_05",
+   "note": "不同人同一句：D06.frame"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "kexin\", \"text\": \"天空的顏色一直在變。",
+   "new": "kexin\", \"text\": \"才一下子，天空就換了好幾種顏色。",
+   "speaker": "kexin",
+   "note": "不同人同一句：D12.sunset；芷若同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "kexin\", \"text\": \"再一下。我想看完。",
+   "new": "kexin\", \"text\": \"等一下，我還沒看完這一面。",
+   "speaker": "kexin",
+   "note": "不同人同一句：D07.cell 回話；語彤同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"我們點一樣的好了。",
+   "new": "classmate_peishan\", \"text\": \"我跟你點一樣的！",
+   "speaker": "classmate_peishan",
+   "note": "不同人同一句：D13.drink dating；芷若同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"這張可以，傳給我。",
+   "new": "heroine_05\", \"text\": \"這張留著。傳一張給我。",
+   "speaker": "heroine_05",
+   "note": "不同人同一句：D13.photo；子晴同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "kexin\", \"text\": \"纜車。從上面看湖。",
+   "new": "kexin\", \"text\": \"坐纜車。我要從上面看湖。",
+   "speaker": "kexin",
+   "note": "不同人同一句：D31.ropeway；芷若同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"手機我關靜音了。",
+   "new": "heroine_05\", \"text\": \"我手機收起來了。今天不看。",
+   "speaker": "heroine_05",
+   "note": "不同人同一句：D12 arrive；芷若 D06 同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_04\", \"text\": \"看完再去吃東西。",
+   "new": "heroine_04\", \"text\": \"等太陽下去，再去找吃的。",
+   "speaker": "heroine_04",
+   "note": "不同人同一句：D28.sunset 回話；芷若 D14 同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_05\", \"text\": \"院子的樹好老。",
+   "new": "heroine_05\", \"text\": \"這棵樹，比這間房子還老吧。",
+   "speaker": "heroine_05",
+   "note": "不同人同一句：D19.houses；芷若同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "\"好。那天我就回去念書。\", \"沒關係。下次再約。\"",
+   "new": "\"好。那天我就回去念書。\", \"我把那天空著。你有空再告訴我。\"",
+   "speaker": "classmate_xinci",
+   "note": "不同人同一句：約好又取消；語彤 cancel 同一句"
+  },
+  {
+   "doc": "AA_992",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "\"出來天還亮著。\"",
+   "new": "\"天還沒黑。\"",
+   "speaker": "kexin",
+   "note": "不同人同一句：電影第 3 場白天版 bye；沛珊 D06 收尾同一句"
   }
  ]
 }
