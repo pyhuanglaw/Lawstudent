@@ -740,7 +740,21 @@ for zz, spec in ((rz1 - 0.19, [('a4', 0.05)] * 4 + [('open', 0.045)]), (rz1 - 0.
     fw = (RE_A3 if spec[0][0] == 'a3' else RE_A4)[0]; ream_stack(g, rx0 + 0.04 + fw / 2, yb, zz, _r, spec)
 yb = SHY[2]   # 便利貼、口紅膠、筆記本小疊、修正帶
 for k in range(5):
-    zz = rz1 - 0.15 - k * 0.32; tex_box(g, rx0 + 0.04, rx0 + 0.16, yb, yb + 0.09 + 0.03 * (k % 2), zz - 0.13, zz + 0.13, '-x', 'sticky', top_cell=sub('sticky', k / 6, 0.1, (k + 1) / 6, 0.9))
+    zz = rz1 - 0.15 - k * 0.32
+    # v2.1（LAWWW2-C 11-13 驗收 P2，D159「同類東西大小、角度要有變化」）：原本每格一塊一樣大的便利貼方塊 → 一疊一疊大小（7.5～12 cm）、厚薄、顏色、角度都不同，
+    #   有的疊兩三本、有的單本；第 2 格一疊拆封、幾張散開歪著
+    rr_ = random.Random(90 + k); cols_ = rr_.sample(range(6), 3)
+    for j, zo in enumerate(sorted(rr_.uniform(-0.09, 0.09) for _ in range(rr_.randint(1, 3)))):
+        y_ = yb; xo = rx0 + 0.1 + rr_.uniform(-0.03, 0.03)
+        for lay in range(rr_.choice((1, 1, 2, 3))):
+            s_ = rr_.uniform(0.075, 0.12); h_ = rr_.uniform(0.012, 0.035); cc = cols_[(j + lay) % 3]
+            ubox(g, (xo + rr_.uniform(-0.008, 0.008), y_ + h_ / 2, zz + zo + rr_.uniform(-0.008, 0.008)), s_, h_, s_ * rr_.uniform(0.75, 1.0), rot('Y', rr_.uniform(-0.35, 0.35)),
+                 {'*': sub('sticky', cc / 6, 0.1, (cc + 1) / 6, 0.3), '+y': sub('sticky', cc / 6, 0.4, (cc + 1) / 6, 0.9)})
+            y_ += h_
+    if k == 2:   # 拆封散開的幾張
+        cc = cols_[0]
+        for q in range(5):
+            ubox(g, (rx0 + 0.1 + q * 0.012, yb + 0.002 + q * 0.0025, zz + 0.1 - q * 0.015), 0.076, 0.0018, 0.076, rot('Y', -0.4 + q * 0.22), {'*': sub('sticky', cc / 6, 0.4, (cc + 1) / 6, 0.9)})
     for j in range(4): ccyl(c, (rx0 + 0.22 + (j % 2) * 0.05, yb, zz - 0.06 + (j // 2) * 0.12), (rx0 + 0.2 + (j % 2) * 0.05, yb + 0.1, zz - 0.06 + (j // 2) * 0.12), 0.012, ['#f0f0ec', '#e0b020', '#3a8ad0', '#d03a3a'][j], seg=6)
 yb = SHY[3]   # 透明收納盒裡的筆、麥克筆
 for k in range(4):

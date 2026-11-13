@@ -60,7 +60,7 @@
   "top": "WALL_back_yzn_post×WALL_left_yzn_wall 0.144 m² @[-4.26,2.02,-5]"
  },
  "assets/models/env/second_ai/bb_support/ade.glb": {
-  "sha1": "6ba442989c3a82fabc022fdd3b76427fd1688fe2",
+  "sha1": "202d1945df28bb5b723e7ca4c4a952f199c153f3",
   "wall": 3.19,
   "always": 5.36,
   "top": "WALL_back_cubby_wood×WALL_back_cubby_wood 0.489 m² @[-0.34,0.34,-4.08]"
@@ -114,10 +114,10 @@
   "top": ""
  },
  "assets/models/env/second_ai/bb_support/nanyang_lobby.glb": {
-  "sha1": "184ec15d49c083ff40e4ddf2a24bfd2274ffe3d2",
+  "sha1": "03aaed78df85e614f67913e6493b13dc26020599",
   "wall": 9.31,
   "always": 16.5,
-  "top": "ny_vc_matte×WALL_left_wains 7.785 m² @[-4.5,1.65,3.54]"
+  "top": "WALL_left_wains×ny_maroon 7.665 m² @[-4.5,0.96,1.24]"
  },
  "assets/models/env/second_ai/bb_support/shaola_interior.glb": {
   "sha1": "0ed24261c2f485621f42c85f9b64cbc833d0203a",
