@@ -107,7 +107,7 @@ async def test_D(rig):
     print('--- TEST D save → reload → 走')
     await rig.load(state('campus',{'x':-40,'z':-5,'yaw':-1.5708}))
     await rig.joy(0,-60,1500); await rig.pg.evaluate("GAME.autosave()")
-    await rig.pg.evaluate("(async()=>{ const s=JSON.parse(localStorage.getItem('fatiao3d_auto')); await GAME.applySave(s); })()"); await rig.pg.wait_for_timeout(1500)
+    await rig.pg.evaluate("(async()=>{ const s=GAME.readSave('fatiao3d_auto'); await GAME.applySave(s); })()"); await rig.pg.wait_for_timeout(1500)
     p=await rig.pos(); check('D1 reload 後未鎖定', (not p['busy']) and p['cam']=='follow', f'{p}')
     a,b=await rig.forward(3200); check('D2 reload 後前進 ≥ 5 m', dist(a,b)>=5.0, f'{a} → {b}')
     await rig.pg.screenshot(path='screenshots/T_D_after_reload.png')

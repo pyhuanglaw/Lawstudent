@@ -136,7 +136,7 @@ async def main():
         # ---------- D：存檔 ----------
         await pg.wait_for_timeout(1500)
         await pg.evaluate("GAME.autosave&&GAME.autosave()")
-        saved = await pg.evaluate("(()=>{ try{ const s=JSON.parse(localStorage.getItem('fatiao3d_auto')); const A=(s.acts&&s.acts.att)||{}; const o={}; for(const k in A) o[k.split('@')[0]]=A[k].end; return o; }catch(e){ return String(e); } })()")
+        saved = await pg.evaluate("(()=>{ try{ const s=GAME.readSave('fatiao3d_auto'); const A=(s.acts&&s.acts.att)||{}; const o={}; for(const k in A) o[k.split('@')[0]]=A[k].end; return o; }catch(e){ return String(e); } })()")
         run.check('D 自動存檔裡有三筆：中途離開、中途離開、聽完', isinstance(saved, dict) and saved.get('t_partial') == 'left' and saved.get('t_quick') == 'left' and saved.get('t_skip') == 'full', json.dumps(saved, ensure_ascii=False))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()

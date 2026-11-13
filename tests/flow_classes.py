@@ -197,7 +197,7 @@ async def main():
         await L.tap(pg, cdp, '#btnPhoneClose')
         # 翹課：照常讓時間過（坐在長椅上「坐一下」每次 20 分鐘不好找；這裡用讀檔到 14:00 當前置，檢查手機的狀態）
         run.setup('讀檔（同一份紀錄）到 14:00：民法總則開始超過 30 分鐘')
-        await pg.evaluate("(async()=>{ const s=JSON.parse(localStorage.getItem('fatiao3d_auto')); s.hour=14.0; document.getElementById('titleScreen').classList.add('hide'); await GAME.applySave(s); })()")
+        await pg.evaluate("(async()=>{ const s=GAME.readSave('fatiao3d_auto'); s.hour=14.0; document.getElementById('titleScreen').classList.add('hide'); await GAME.applySave(s); })()")
         await pg.wait_for_timeout(3500)
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")

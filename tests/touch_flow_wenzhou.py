@@ -236,7 +236,7 @@ async def main():
         await t.tap_el('.tabs button[data-tab="save"]'); await pg.wait_for_timeout(500)
         si = await pg.evaluate("(()=>{ const all=[...document.querySelectorAll('#saveSlots .btn')]; return all.findIndex(b=>b.textContent==='存檔'&&b.closest('.item').textContent.startsWith('欄位 1')); })()")
         ok = await t.tap_el('#saveSlots .btn', si); await pg.wait_for_timeout(800)
-        saved = await pg.evaluate("JSON.parse(localStorage.getItem('fatiao3d_slot_1')||'null')")
+        saved = await pg.evaluate("GAME.readSave('fatiao3d_slot_1')")
         check('觸控存到欄位 1', bool(saved) and saved['zone'] == 'wenzhou', saved and (saved['zone'], saved['pos']))
         await pg.screenshot(path=SHOTS+'/flow_07_save_menu.png')
         await t.tap_el('#btnClose'); await pg.wait_for_timeout(500)

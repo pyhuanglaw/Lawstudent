@@ -74,7 +74,7 @@ async def main():
                 check('對話結束後移動恢復', dist(p7,p8)>0.3, f'{p7} → {p8}')
                 # 存檔 → 重新讀取 → 移動
                 await pg.evaluate("GAME.autosave()")
-                await pg.evaluate("(async()=>{ const s=JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'); if(s) await GAME.applySave(s); })()"); await pg.wait_for_timeout(1500)
+                await pg.evaluate("(async()=>{ const s=GAME.readSave('fatiao3d_auto'); if(s) await GAME.applySave(s); })()"); await pg.wait_for_timeout(1500)
                 p9=await pos(pg); await joystick(pg,cdp,0,-60,1200); p10=await pos(pg)
                 check('讀檔後移動仍正常', dist(p9,p10)>0.3, f'{p9} → {p10}')
                 await pg.screenshot(path=SHOTS+'/A_linze_move_03_after_reload.png')

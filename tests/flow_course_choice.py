@@ -151,7 +151,7 @@ async def main():
                   bool(st) and any(t.startswith('選課結果出來了：大四上') for t in said) and any('勞動社會法、財稅法，選一門' in t for t in said) and any('刑事判決研討、公法判決研討，選一門' in t for t in said), json.dumps(said, ensure_ascii=False))
         run.check('A 選項：預設排第一（勞動社會法、刑事判決研討）', len(opts) >= 2 and opts[0][0].startswith('勞動社會法') and opts[1][0].startswith('刑事判決研討'), json.dumps(opts, ensure_ascii=False))
         rec = await pg.evaluate(REC_JS)
-        saved = await pg.evaluate("(()=>{ try{ return JSON.parse(localStorage.getItem('fatiao3d_auto')).courses.electives; }catch(e){ return null; } })()")
+        saved = await pg.evaluate("(()=>{ try{ return GAME.readSave('fatiao3d_auto').courses.electives; }catch(e){ return null; } })()")
         run.check('A 選了財稅法、公法判決研討（electives）、存檔', rec['el'].get('Y4S1_elec') == 'tax_law' and rec['el'].get('Y4S1_sem') == 'public_judgment_sem' and bool(saved) and saved.get('Y4S1_elec') == 'tax_law', json.dumps([rec['el'], saved], ensure_ascii=False))
         txt = await phone(pg, cdp, 'week')
         run.check('A 手機「課表」（大四上）：有財稅法、公法判決研討；沒有勞動社會法、刑事判決研討', '大四上' in txt and '財稅法' in txt and '公法判決研討' in txt and '勞動社會法' not in txt and '刑事判決研討' not in txt, txt[:300])

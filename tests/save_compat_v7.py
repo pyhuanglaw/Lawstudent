@@ -89,7 +89,7 @@ async def main():
         check('按「繼續（自動存檔）」：名字、天數、時間、地點、金錢、旗標、關係和 v7 存檔一樣', same, json.dumps({k: g[k] for k in ['name', 'day', 'hour', 'zone', 'money', 'v']}, ensure_ascii=False))
         s = await pg.evaluate(STATE)
         check('讀進來站得住、走得動', s['stand'] and s['walk'], json.dumps(s, ensure_ascii=False))
-        r = await pg.evaluate("(async()=>{ try{ await GAME.applySave(JSON.parse(localStorage.getItem('fatiao3d_slot_1'))); return 'ok'; }catch(e){ return String(e); } })()")
+        r = await pg.evaluate("(async()=>{ try{ await GAME.applySave(GAME.readSave('fatiao3d_slot_1')); return 'ok'; }catch(e){ return String(e); } })()")
         await pg.wait_for_timeout(2000)
         check('讀 v7 的欄位 1', r == 'ok', r)
         await pg.evaluate("EVENTS.onEnter=()=>false; EVENTS.tick=()=>false;")

@@ -11,6 +11,7 @@ import asyncio, json, sys
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
+SAME = lambda a, b: bool(a) and bool(b) and json.loads(a) == json.loads(b)   # SAVE-LZ-1104：存檔可能是壓縮的，比內容不比原始字串
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/save_firstmet_migration'
@@ -31,19 +32,19 @@ async def main():
         await pg.reload(); await L.wait_loaded(pg); await pg.wait_for_timeout(1500)
         await L.tap(pg, cdp, '#btnContinue'); await pg.wait_for_timeout(6000)
         st = await pg.evaluate("""(()=>{ const G=GAME.G; const m=(G.social.mem.heroine_02||[]).map(x=>x.tag); return {day:G.day, zone:G.zone, tags:m, met:SOCIAL.has('heroine_02','FIRST_MET'), fam:SOCIAL.rel('heroine_02').fam,
-            zq:SOCIAL.has('heroine_04','FIRST_MET'), fm:!!G.social.fm120, backup:localStorage.getItem('fatiao3d_backup'),
-            own:localStorage.getItem('fatiao3d_backup_fm120_'+JSON.parse(localStorage.getItem('fatiao3d_backup')||'{}').savedAt), metFlag:!!G.flags.met_heroine_02, zqFlag:!!G.flags.met_heroine_04}; })()""")
+            zq:SOCIAL.has('heroine_04','FIRST_MET'), fm:!!G.social.fm120, backup:JSON.stringify(GAME.readSave('fatiao3d_backup')),
+            own:JSON.stringify(GAME.readSave('fatiao3d_backup_fm120_'+(GAME.readSave('fatiao3d_backup')||{}).savedAt)), metFlag:!!G.flags.met_heroine_02, zqFlag:!!G.flags.met_heroine_04}; })()""")
         run.check('1 按「繼續」讀得進來（第 10 天、校園）', st['day'] == 10 and st['zone'] == 'campus', json.dumps({k: st[k] for k in ('day', 'zone')}))
         run.check('1 芷若的 FIRST_MET → GREETED（打過招呼），熟悉度 12 不變；遊戲當作還沒見過', st['tags'] == ['GREETED'] and not st['met'] and st['fam'] == 12, json.dumps({k: st[k] for k in ('tags', 'met', 'fam')}))
-        run.check('2 改之前的原始存檔在 fatiao3d_backup（一模一樣）', st['backup'] == raw, (st['backup'] or '無')[:80])
-        run.check('2 這個存檔專用的備份 fatiao3d_backup_fm120_<savedAt>（之後存到欄位也不會被蓋掉，D61 ①）也一模一樣', st['own'] == raw, (st['own'] or '無')[:80])
+        run.check('2 改之前的原始存檔在 fatiao3d_backup（一模一樣）', SAME(st['backup'], raw), (st['backup'] or '無')[:80])
+        run.check('2 這個存檔專用的備份 fatiao3d_backup_fm120_<savedAt>（之後存到欄位也不會被蓋掉，D61 ①）也一模一樣', SAME(st['own'], raw), (st['own'] or '無')[:80])
         run.check('1 芷若同一次記下的 met_ 旗標也拿掉（人物名單不會先出現她，D61 ②）', not st['metFlag'])
         run.check('3 子晴（吉他社事件播過）不動（FIRST_MET、met_ 旗標都在）', st['zq'] and st['fm'] and st['zqFlag'])
         await pg.evaluate("GAME.autosave()"); await pg.wait_for_timeout(500)
         await pg.reload(); await L.wait_loaded(pg); await pg.wait_for_timeout(1500)
         await L.tap(pg, cdp, '#btnContinue'); await pg.wait_for_timeout(6000)
-        st2 = await pg.evaluate("(()=>{ const G=GAME.G; return {tags:(G.social.mem.heroine_02||[]).map(x=>x.tag), backup:localStorage.getItem('fatiao3d_backup')}; })()")
-        run.check('4 再讀一次：不再改（還是 GREETED）、備份還是原始的那一份', st2['tags'] == ['GREETED'] and st2['backup'] == raw, json.dumps(st2['tags']))
+        st2 = await pg.evaluate("(()=>{ const G=GAME.G; return {tags:(G.social.mem.heroine_02||[]).map(x=>x.tag), backup:JSON.stringify(GAME.readSave('fatiao3d_backup'))}; })()")
+        run.check('4 再讀一次：不再改（還是 GREETED）、備份還是原始的那一份', st2['tags'] == ['GREETED'] and SAME(st2['backup'], raw), json.dumps(st2['tags']))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     print('ALL PASS' if not run.fails else 'FAILED: ' + ', '.join(run.fails))

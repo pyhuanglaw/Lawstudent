@@ -54,7 +54,7 @@ async def main():
         # 9 第三天自由：檢查存檔往返
         s=await pg.evaluate("JSON.stringify(GAME.snapshot?GAME.snapshot():null)")
         print('snapshot bytes',len(s) if s else None)
-        await pg.evaluate("GAME.applySave(JSON.parse(localStorage.getItem('fatiao3d_auto')||'null')||GAME.snapshot())"); await pg.wait_for_timeout(1500)
+        await pg.evaluate("GAME.applySave(GAME.readSave('fatiao3d_auto')||GAME.snapshot())"); await pg.wait_for_timeout(1500)
         r=await pg.evaluate("__drive(5000)"); show('after reload',r)
         print('console issues:',len(msgs)); [print('  ',m[:300]) for m in msgs[:20]]
         await b.close()
