@@ -88,7 +88,12 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('7. 走到了坐下等你（ph wait）',iv2.lead&&iv2.lead.ph==='wait'&&!!n2.seat,JSON.stringify(iv2.lead));
     /* 8 不跟上：走出總圖 */
     G.zone='campus'; INV.tick(GM); await W(5);
-    check('8. 帶路途中走出總圖＝作罷（cancelled、訊息一則；不算沒赴約）',iv2.state==='cancelled'&&!iv2.lead&&/作罷/.test(G.msgs[G.msgs.length-1].text),JSON.stringify({st:iv2.state,m:G.msgs[G.msgs.length-1]})); }
+    check('8. 帶路途中走出總圖＝作罷（cancelled、訊息一則；不算沒赴約）',iv2.state==='cancelled'&&!iv2.lead&&/作罷/.test(G.msgs[G.msgs.length-1].text),JSON.stringify({st:iv2.state,m:G.msgs[G.msgs.length-1]}));
+    /* 8b BB_255 11-13（以安約念書 study_abandon leave）：走出總圖的那一刻外面的事件插進來（帶路的檢查沒跑到）、時間拖過等待時間＝照樣作罷，不算沒赴約 */
+    { G.invites=JSON.parse(JSON.stringify(saved)); const iv3=G.invites.find(q=>q.id===iv.id); iv3.lead.ph='wait'; G.zone='campus'; G.hour=iv3.h+INV.WAIT_H+0.1;
+      const lt=INV.leadTick; INV.leadTick=()=>false; const m0=G.msgs.length; try{ INV.tick(GM); } finally { INV.leadTick=lt; }
+      const M=G.msgs.slice(m0).map(m=>m.text);
+      check('8b. 帶路途中走出總圖、外面的事插進來拖過等待時間：cancelled＋「後來作罷了」，不是 missed／「你沒有赴約」',iv3.state==='cancelled'&&!iv3.lead&&M.some(t=>/後來作罷了/.test(t))&&!M.some(t=>/沒有赴約/.test(t)),JSON.stringify({st:iv3.state,M})); } }
   /* ---- 4 第二次約：一般句；閉館前：閉館廣播 ---- */
   { const G=setup('2025-09-12',21,'library_hall',hallSeats(),SPAWN); H.FRIEND('heroine_05'); G.flags.libStudy1={heroine_05:1}; const iv=INV.accept(G,'heroine_05','library',G.day,21,{by:'player'}); const n=npc('heroine_05',SPAWN.x+1,SPAWN.z,{beh:'idle'});
     INV.tick(GM); await W(10); const L=iv.lead, her=L&&INV.seatObj(E,L.her);

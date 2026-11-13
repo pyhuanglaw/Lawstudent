@@ -44695,7 +44695,7 @@
    "priority": "P1",
    "title": "約念書／吃飯／咖啡／電影：從入口帶路到座位、兩人坐下才開演、結束一起起身走到門口道別（USER_WANTS X207）",
    "status": "已整合待測試",
-   "next": "已合（子代理 600514d5d）：總圖帶路到二樓長桌、滿了三樓、讀檔接續、演完解凍、30 秒內不自動開手機、出錯收掉、早到提示；BB 七點驗收排 PC（v9.10.20）；問 AA：早到提示的系統字、以安 meetLine 閉館那句和收書重複",
+   "next": "【LAWWW-C 11-13 16:4x UTC】BB_255（以安約念書 study_abandon leave，P2）：帶路途中走出總圖、外面的事件插進來把時間拖過等待時間＝原本記 missed＋「你沒有赴約」；改成照「走出那一區」作罷（invites3d.js S.tick 爽約迴圈前：iv.lead 而且人不在帶路那一區＝S.leadDrop）。tests/inv_sit_together_unit.js 8b（修改前 FAIL：missed、修改後 PASS）；載入 invites3d 的 304 支 Node 全過。walkFallbacks 0→1（新舊都有）另查。｜已合（子代理 600514d5d）：總圖帶路到二樓長桌、滿了三樓、讀檔接續、演完解凍、30 秒內不自動開手機、出錯收掉、早到提示；BB 七點驗收排 PC（v9.10.20）；問 AA：早到提示的系統字、以安 meetLine 閉館那句和收書重複",
    "sha": "909c729a6"
   },
   {
