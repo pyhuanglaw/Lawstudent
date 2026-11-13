@@ -737,3 +737,28 @@
 [21:21:52] 正在跑：P0_LONGPLAY_fix_solo（已跑 1 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:26:52] 正在跑：P0_LONGPLAY_fix_solo（已跑 6 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:28:37] [res] cpu=0% mem=31% (10.0/31.4 GB) chrome_testing=0  END P0_LONGPLAY_fix_solo
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       cb6f8d2f16..e9454b20a3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:29:06] ==== END   P0_LONGPLAY_fix_solo  exit=0  521s   ====
+[21:29:09] skip GATE_CAL_1cd2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
+[21:29:09] skip GATE_CAL_bd86 (already done on bd8643003a363ecd3e9bb87fa59d839f6d22475a)
+[21:29:09] skip GATE_CAL_1cd2_r2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
+[21:29:09] skip GATE_CAL_bd86_r2 (already done on bd8643003a363ecd3e9bb87fa59d839f6d22475a)
+[21:29:09] skip GATE_CAL_dc3d_xs_r2 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
+[21:29:09] skip GATE_CAL_flk_1cd2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
+[21:29:09] skip GATE_CAL_flk_head (already done on c4e07078078a77df3fcc7cdfa5bf481992a0f8fc)
+[21:29:09] skip GATE_CAL_dc3d_xs (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
+[21:29:09] skip GATE_CAL_2771 (already done on 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37)
+[21:29:09] skip GATE_98EC_tz3 (already done on 98ec5b0f66120b7dcb37acfc5c362be73051f6bf)
+[21:29:09] memory 29% before starting G2DF5_TZ3_cust (0 running)
+[21:29:09] memory 29% before starting G2DF5_LINVIEW (1 running)
+[21:29:09] ==== START G2DF5_TZ3_cust  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[21:29:09] memory 29% before starting G2DF5_CEIL_a (2 running)
+[21:29:09] ==== START G2DF5_LINVIEW  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[21:29:09] ==== START G2DF5_CEIL_a  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[21:29:12] [res] cpu=11% mem=30% (9.4/31.4 GB) chrome_testing=0  START G2DF5_CEIL_a
+[21:29:12] [res] cpu=13% mem=29% (9.4/31.4 GB) chrome_testing=0  START G2DF5_TZ3_cust
+[21:29:12] [res] cpu=3% mem=29% (9.4/31.4 GB) chrome_testing=0  START G2DF5_LINVIEW
+[21:31:51] [res] cpu=2% mem=45% (14.3/31.4 GB) chrome_testing=9  END G2DF5_CEIL_a
+[21:31:52] 正在跑：G2DF5_TZ3_cust（已跑 2 分／上限 40 分）、G2DF5_LINVIEW（已跑 2 分／上限 20 分）、G2DF5_CEIL_a（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
