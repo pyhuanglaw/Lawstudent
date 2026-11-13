@@ -607,3 +607,14 @@
 [20:19:53] ==== START SSB_l118b  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
 [20:19:56] [res] cpu=29% mem=42% (13.2/31.4 GB) chrome_testing=8  START SSB_l118b
 [20:20:29] [res] cpu=6% mem=41% (12.8/31.4 GB) chrome_testing=8  END SHUT_TZ_across_2330
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       87342fe77f..73f74c7c64  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:20:37] ==== END   SHUT_TZ_across_2330  exit=0  136s   ====
+[20:20:40] memory 42% before starting SSB_us (2 running)
+[20:20:40] ==== START SSB_us  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[20:20:43] [res] cpu=14% mem=43% (13.4/31.4 GB) chrome_testing=9  START SSB_us
+[20:21:52] 正在跑：SSB_l118a（已跑 2 分／上限 80 分）、SSB_l118b（已跑 1 分／上限 80 分）、SSB_us（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:26:52] 正在跑：SSB_l118a（已跑 7 分／上限 80 分）、SSB_l118b（已跑 6 分／上限 80 分）、SSB_us（已跑 6 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:31:52] 正在跑：SSB_l118a（已跑 12 分／上限 80 分）、SSB_l118b（已跑 11 分／上限 80 分）、SSB_us（已跑 11 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:33:54] [res] cpu=4% mem=45% (14.3/31.4 GB) chrome_testing=10  END SSB_us
