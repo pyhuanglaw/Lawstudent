@@ -27,14 +27,6 @@
   "files": [
    "activity_scenes.js"
   ],
-  "old": "……你不怕的話，我帶你去。",
-  "new": "你不怕的話，我帶你去。",
-  "speaker": "classmate_peishan"
- },
- {
-  "files": [
-   "activity_scenes.js"
-  ],
   "old": "……好。這杯喝完就去。你要陪我排到最後，不可以中途說太久。",
   "new": "好。這杯喝完就去。你要陪我排到最後，不可以中途說太久。",
   "speaker": "classmate_peishan"
