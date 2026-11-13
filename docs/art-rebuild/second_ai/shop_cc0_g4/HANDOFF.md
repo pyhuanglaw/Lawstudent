@@ -12,10 +12,10 @@
 | 公館燒臘 shaola_interior | 已整合（19399e5d3） | 37a58d3de | `shaola_v8.patch` | 無 |
 | 阿德影印 ade | LAWWW2 PASS（v2，轉 LAWWW 整合） | 17538fd36 | `ade_v2.patch` | P2（LAWWW2）：鐵層架便利貼大小一樣 → v2.1 已改、已烘（scratchpad bake_ade21），還沒拍圖、還沒交 |
 | 洋洋鹹酥雞 yangyang_interior | 烘焙中（v2b） | 181e2a27c（腳本） | 還沒出 | 交件前：17:30 拍圖（店 17:00 才開，13:00 拍會被請出去拍到街上） |
-| 南洋戲院 nanyang_lobby | 已烘完、還沒拍圖、還沒交 | 8229212a9（腳本） | 還沒出 | 無 |
+| 南洋戲院 nanyang_lobby | 已交 LAWWW2 驗收（v6） | 見本次 commit | `nanyang_v6.patch`（底 4556c4be0） | 無 |
 
 ## 目前做到哪（2026-11-13 23:15）
-- 南洋戲院 v6：烘焙完（scratchpad `bake_ny/`），下一步：拍改之前／新版同鏡頭＋近景、跑 xs_lm、nanyang 那批測試、出 patch（底＝開發分支最新、附 `node tests/place_gate_unit.js --coplanar --write`、`--write` 重產的 place_gate_coplanar.json、SHOP_STANDARD_STATUS.md）。
+- 南洋戲院 v6：已交 LAWWW2（nanyang_v6.patch、nanyang_cmp.jpg）。
 - 阿德影印 v2.1：便利貼改好、烘焙完（scratchpad `bake_ade21/`），下一步同上。
 - 洋洋鹹酥雞 v2b：cc0kit 的盆栽高度 bug 修好（181e2a27c）後重建、重烘中（scratchpad `bake_yy2/`）。`bake_gg_new.sh` 呼叫的 `lightbake/glb_add_viewcard.py` 開發分支上沒有，我補寫了一支（在本分支，照原本洋洋那張窗景卡的格式），要一起進 patch。
 - 交件方式：每間一份 patch，在乾淨的 worktree（底＝開發分支最新＋只放這間店的檔）跑 place_gate 重產兩個檔、跑店的測試，再 `git diff --cached --binary` 出 patch。不要直接合 g4 分支（上面有其他店的 WIP）。
