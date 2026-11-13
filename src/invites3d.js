@@ -92,7 +92,7 @@ const INV=(function(){
     if(typeof ROM!=='undefined'&&ROM.knows) return ROM.knows(G,id).length>0;
     return Object.keys(F).some(k=>k.indexOf('dating_')===0&&F[k]); };   /* 沒有 ROM（舊的測試環境）：照舊 */
   /* 這個地方約不約得到、為什麼（選地點時的說明；可以就空字串）*/
-  S.placeWhy=function(G,id,P){ const W=D().why||{}; if(P&&P.noWho&&P.noWho[id]) return P.noWho[id];   /* 她不會去這家（AA_721：可昕平日在木柵，好家自助餐只開平日）：灰掉，說明是她那句 */ if(S.partnerBlock(G,id,P)) return (P.kind==='meal'?W.partnerMeal:(P.kind==='walk'?W.partnerWalk:(P.id==='teahouse'?W.partnerTea:null)))||W.partner||'';   /* AA 2026-10-14：照吃飯／散步分開說、告訴玩家可以怎麼約 */
+  S.placeWhy=function(G,id,P){ const W=D().why||{}; if(P&&P.noWho&&P.noWho[id]) return P.noWho[id];   /* 她不會去這家（AA_721：可昕平日在外校，好家自助餐只開平日）：灰掉，說明是她那句 */ if(S.partnerBlock(G,id,P)) return (P.kind==='meal'?W.partnerMeal:(P.kind==='walk'?W.partnerWalk:(P.id==='teahouse'?W.partnerTea:null)))||W.partner||'';   /* AA 2026-10-14：照吃飯／散步分開說、告訴玩家可以怎麼約 */
     if(!placeOk(id,P,G)) return (P.kind==='meal'?W.meal:(P.kind==='walk'?W.walk:(P.kind==='sport'?(P.minStage==='FRIEND'?W.run:W.sport):W.stranger)))||'還不太熟';
     if(S.ticketShort(G,P)) return '錢不夠買電影票（'+NYS.PRICE+' 元）';   /* 看電影照自己去一樣買自己的票（INVITE-PLACES-1107，LAWWW-B 定）：錢不夠＝那一格灰掉 */ return ''; };
   /* 電影票（南洋戲院；NYS＝src/nanyang_sys3d.js，票價照 AA_615 150 元）：今天已經買過就不再買；在南洋的約都算（一般的南洋、芷若的週六早場 slot_zr_morning_movie）*/
@@ -111,9 +111,9 @@ const INV=(function(){
   const winOk=(G,P,day,h)=>{ if(Array.isArray(P.windows)&&P.windows.length) return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&P.windows.some(w=>h>=w[0]-1e-6&&h+P.stay<=w[1]+1e-6); if(P.hoursFrom&&typeof PLACES!=='undefined'&&PLACES.windowsOf){ const ws=PLACES.windowsOf(P.hoursFrom,day); if(ws!==undefined&&ws&&ws.length>1) return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&ws.some(w=>h>=w[0]-1e-6&&h+P.stay<=w[1]+1e-6); }   /* 一天兩段（林家乾麵 11–14、17–21；INVITE-PLACES-1107）：哪一段都可以 */ const hr=hoursOf(G,P,day); return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&(!hr||(h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6)); };   /* 只有某些星期、某段時間能約的地點（DL-12：半熟週末早上、一盞週三到週日下午）*/
   const myExam=(G,day,h,stay)=>typeof CLS!=='undefined'&&CLS.examAt?CLS.examAt(G,day,h,h+stay):null;   /* 祐廷自己的考試（D14-T3：邀約避開）*/
   const tripAt=(G,day,h,stay)=>typeof DATE!=='undefined'&&DATE.tripAt?DATE.tripAt(G,day,h,stay):null;   /* 已經約好的校外約會那段時間（BUG-DATE-OVERLAP-1021；兩天一夜佔兩天）：和「你那個時間已經約了別人」一樣處理 */
-  /* whoLast：這個人在這個地點只排到幾點開始（洋洋鹹酥雞：可昕 21:00，AA_724 第 8 節「十點以前，我還要回木柵」）；超過＝和「那個時間沒開」一樣改天 */
+  /* whoLast：這個人在這個地點只排到幾點開始（洋洋鹹酥雞：可昕 21:00，AA_724 第 8 節「十點以前，我還要回外校」）；超過＝和「那個時間沒開」一樣改天 */
   const lastOk=(P,id,h)=>!(P&&P.whoLast&&P.whoLast[id]!=null&&h>P.whoLast[id]+1e-6);
-  /* whoDays：這個人在這個地點只排這幾天（星期，0＝日、6＝六；轉角唱片：可昕只排週末，AA-B 11-07 15:36「平日下午她在木柵上課；平日那一格不出現就好，不用另外寫婉拒」）*/
+  /* whoDays：這個人在這個地點只排這幾天（星期，0＝日、6＝六；轉角唱片：可昕只排週末，AA-B 11-07 15:36「平日下午她在外校上課；平日那一格不出現就好，不用另外寫婉拒」）*/
   const dayOk=(G,P,id,day)=>!(P&&P.whoDays&&Array.isArray(P.whoDays[id])&&!P.whoDays[id].includes(wdOf(G,day)));
   S.dayOk=(G,P,id,day)=>dayOk(G,P,id,day);
   S.lastOk=lastOk;
@@ -262,7 +262,7 @@ const INV=(function(){
     const pk=S.replyPick(G,id,c,tb);   /* AA_415（D14-T9）：照階段、地點、時間、來過沒選一句；沒有表的人＝null */
     if(pk&&pk.row){ out.lines=pk.lines; if(pk.alt!==undefined) out.alt=pk.alt; return done(out,pk.row.id); }
     if(r.res==='accept'){ const L=(c.first&&tb('first'))||tb('acc'); if(L&&!(pk&&pk.governs&&S.replyRow(id,L))) out.lines=L.slice(); }   /* 表上這一階沒有句子＝照原本的 acc、first；
-       那一句在表上（「現有」）就照表的條件，不從這裡繞回來（學姊第 3 階第一次約半熟不說「這次我點鬆餅」——表上要「來過」；可昕經濟系那一年不說「我從政大過來」）*/
+       那一句在表上（「現有」）就照表的條件，不從這裡繞回來（學姊第 3 階第一次約半熟不說「這次我點鬆餅」——表上要「來過」；可昕舊序章那一年不說「我從外校過來」）*/
     else if(r.res==='resched'&&(r.why==='busy'||r.why==='booked')&&!(pk&&pk.governs)){ const L=tb('plan'); if(L) out.lines=L.slice(); }   /* 有表的人改天只照表（表上的「現有（plan）」帶著條件，例：芷若「我在上班。……」只在上班的時候）*/
     return done(out); };
   /* 台詞裡的時間：{zh}＝改天的時間（「九點十分」；不是今天的加「明天」或日期）、{明天？}＝改天是明天才說 */
@@ -320,7 +320,7 @@ const INV=(function(){
      數值：大家照 AA_124 一般的「一起運動」（SOCIAL.ACT.sport）；子晴、可昕另外自在 +3、她的戀愛 +3（AA_126 6-3，一天一次；交往中也一樣）。
      羽球＝和一個人打羽球一樣算體能（src/gym3d.js：+1，每週最多 2 次，和自己去打的共用次數）。存檔：G.flags.sportChatN＝{人物:地點: 第幾次}（輪流）*/
   S.sportLines=function(G,id,pid){ const p=(D().people||{})[id]||{}, sh=(D().sport||{})[pid]||{};
-    const own=p.sport&&p.sport[pid]&&!(id==='kexin'&&(G.stage||'law')!=='law')?p.sport[pid]:null;   /* 可昕的版本是政大那幾年（「從山上下來」）*/
+    const own=p.sport&&p.sport[pid]&&!(id==='kexin'&&(G.stage||'law')!=='law')?p.sport[pid]:null;   /* 可昕的版本是外校那幾年（「從山上下來」）*/
     if(!own) return {during:(sh.during||[]).slice(),end:(sh.end||[]).slice(),next(){},own:false};
     const F=G.flags||(G.flags={}), N=F.sportChatN||(F.sportChatN={}), k=id+':'+pid, n=N[k]|0, L=own.during||[];
     return {during:L.length?L[n%L.length].slice():[],end:(own.end||[]).slice(),next(){ N[k]=n+1; },own:true}; };
@@ -852,7 +852,7 @@ const INV=(function(){
         const r=pick?await pick(x):x; if(r===S.STAY_MENU) continue; return r; } };
     return level(norm(nodes),false); };
   /* 可昕交往中（法律系那幾年，kxGF）約校內（INVITE-MENU-1030 D；原本只有羽球、晨跑）：答應句接得上的地點才列——AA_415 表（法律系、交往中那一階：那個地點的，或不限地點、沒有條件的一般句 kx20）
-     或 INVITE_DATA.people.kexin.acc；羽球、晨跑照舊（AA_417 3-2）。沒交往照舊（她在政大：不用這個清單約）。kxPlaceLine：'own'＝那個地點自己的句子、'general'＝只有一般句、null＝沒有（不列）*/
+     或 INVITE_DATA.people.kexin.acc；羽球、晨跑照舊（AA_417 3-2）。沒交往照舊（她在外校：不用這個清單約）。kxPlaceLine：'own'＝那個地點自己的句子、'general'＝只有一般句、null＝沒有（不列）*/
   S.kxPlaceLine=function(G,P){ if(!P) return null; const R=RP(), rows=(R&&R.kexin)||[], ok=r=>r.k==='acc'&&!r.off&&!r.apart&&(!r.sec||r.sec==='law')&&Array.isArray(r.st)&&r.st[0]<=7&&r.st[1]>=7&&!r.cond&&!r.when;
     let v=(((D().people||{}).kexin||{}).acc||{})[P.id]; if(typeof v==='function') v=v(G,{}); if(v!=null||rows.some(r=>ok(r)&&(r.tags||[]).includes(P.id))) return 'own';
     return rows.some(r=>ok(r)&&!(r.tags||[]).length)?'general':null; };
@@ -871,7 +871,7 @@ const INV=(function(){
   S.flow=async function(GM,id,n,together,fo){ fo=fo||{}; const G=GM.G; S.rec(G);   /* fo.place：地點已經定了（她主動約、你回改天：HER-ASK-LATER-DAY-1110），直接選日子和時間 */ const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
     const t7=!n&&t7a(G,id);   /* AA_350 T7a：以安、芷若在台中＝和可昕一樣只有「去校外…」（清單只列 D26，DATE.menu）*/
     const far=!n&&typeof STORY!=='undefined'&&!!STORY.reachable&&!STORY.reachable(id,G);   /* INVITE-MENU-1030 E：手機約、她今天不在臺北（沛珊大三起在台南、寒暑假在老家）＝校內的地點不列（比照 T7a；原本照列、每一個都回「不在臺北」）*/
-    const PL=(t7||far?[]:D().places.filter(Q=>!kxGF(G,id)||S.kxPlaceOk(G,Q))).filter(Q=>!Q.show||Q.show(G,id)).filter(Q=>!S.neverAt(id,Q)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* 可昕交往中：答應句接得上的校內地點都可以約（她從政大下來；羽球場用祐廷台大的帳號預約，AA_417 3-2）*/
+    const PL=(t7||far?[]:D().places.filter(Q=>!kxGF(G,id)||S.kxPlaceOk(G,Q))).filter(Q=>!Q.show||Q.show(G,id)).filter(Q=>!S.neverAt(id,Q)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* 可昕交往中：答應句接得上的校內地點都可以約（她從外校下來；羽球場用祐廷台大的帳號預約，AA_417 3-2）*/
     /* 當面約（AA_134 第 4 節，AA_140 G49）：第一句是當面的版本；她回答前看一下手機的行事曆、答應時點頭（動作用字幕，不多一個要點的對話框）*/
     const act=(t,ms)=>{ if(n&&GM.caption) GM.caption('','（'+t+'）',ms||1800); };
     if(n){ const T0=S.timeOptions(G,together); await GM.say({name:G.name||'祐廷'},T0.some(q=>q.day===G.day)?'你等一下有空嗎？':'你明天有空嗎？'); }   /* 照可選的時間說（AA-B 2026-10-16 21:53 定稿，AA_134 第 50 行下；不加週末選項）*/

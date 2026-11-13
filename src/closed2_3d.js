@@ -76,8 +76,8 @@ const CLOSED2=(function(){
                 考完：和以安 FAMILIAR 以上（r2y4a3d.js 的 AN_FAM）＝帶回教學館門口（ev_grad_exam_after「考完，門口」）；其他＝在 3F 站起來，考生、監考離開。
                 學姊 08:30 的便條（r3_3d.js R3.noteRun）：帶到共同教學館門口，學姊站在旁邊（3D），演完她離開（淡出）。
                 2030-02-16 延畢版（R2Y4B.gradExam(GM,2030)）：換到 3F、走到位子坐下，黑底旁白，演完回到原本的地方。2031-02-15 照舊 2D（考場那天沒開）。
-       - 第 10 節　SK07 唐睿的即興劇（events.js ev_sk07_improv，出遊；2026-05-27 19:00）：博雅 203（rooms_glb3d.js boya_203，LAWWW2 5fff78834；只有那一晚 18:30～21:30 開）——OUT.STAGE 換到 203：
-                唐睿站在舞台中間（spots.tang）、品妤坐第一排正中間（pinyu）、阿哲（被你拉來的，zhe）、祐廷坐品妤旁邊（me）；社員兩位（member）、觀眾（audience，照畫質減少）；
+       - 第 10 節　SK07 舊序章的人的即興劇（events.js ev_sk07_improv，出遊；2026-05-27 19:00）：博雅 203（rooms_glb3d.js boya_203，LAWWW2 5fff78834；只有那一晚 18:30～21:30 開）——OUT.STAGE 換到 203：
+                舊序章的人站在舞台中間（spots.tang）、舊序章的人坐第一排正中間（pinyu）、阿哲（被你拉來的，zhe）、祐廷坐舊序章的人旁邊（me）；社員兩位（member）、觀眾（audience，照畫質減少）；
                 場景那一步的 classroom_small 換成 blur，演完回到原本的地方（人已經在 203＝不換區域，散場大家離開）。那一晚走進 203 也看得到社員、觀眾。K11 照舊在博雅 101（103 沒有做）。
        - 第 11 節　洗衣間（closed3d.js CLOSED.laundry，選項、40 分鐘、阿凱那一句、「衣服洗好了。」照舊）：洗衣服先走到洗衣機前（spots.wash）；阿凱那一句＝黑幕中他站到烘衣機前（kai_stand）、祐廷站在他旁邊（player）。
      系統字：沒有新的台詞、選項或按鈕字；房間名稱（PLACES.names，人物線索用）照配置檔的 name。測試：node tests/rooms_ab3_people_unit.js */

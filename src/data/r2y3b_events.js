@@ -91,7 +91,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'player',text:'那先找社團的指導老師。這個不用去法服。'},
       {stamp:['YU_C6_DAY']} ] };
 
-  /* ---------- 2-Y3-30 可昕 K18「最輕鬆的一學期」：3/18（六）08:00 政大校門口出發，開車一天（3/15 21:30 她約）；沒到＝08:15 電話 ---------- */
+  /* ---------- 2-Y3-30 可昕 K18「最輕鬆的一學期」：3/18（六）08:00 外校校門口出發，開車一天（3/15 21:30 她約）；沒到＝08:15 電話 ---------- */
   const wishKx=G=>!!(G.flags&&G.flags.WISH_DONE_kexin)||(typeof DATE!=='undefined'&&!!DATE.log&&!!DATE.log(G,'kexin').wish);   /* 去過外澳（她的心願地點） */
   const K18={ id:'ev_kexin_k18', title:'最輕鬆的一學期', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
     dialogue:[ {scene:'車上',bg:'car_morning'},

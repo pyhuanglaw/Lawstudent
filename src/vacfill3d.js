@@ -1,13 +1,13 @@
 /* ===== 寒暑假的空白日（AA_440，企劃線 718c06a30，修訂 edae49ca6；回 BB_303；第①級、D109；D99 第二優先「寒暑假系統」）=====
    台詞在 src/data/vacfill_events.js（VACFILL_LINES、VACFILL_EVENTS，照 AA_440 不改字）。這個檔只接線，不改 home3d.js／vac3d.js／econff3d.js 的檔案，掛在它們的掛勾或外面包一層：
    - STORY.PHONE_RULES：群組、私訊、手機提醒（PHONE.at，那一天一開始就排好；晚兩天以上才讀到的不補，同 twfill3d.js）；回覆記旗標 VF_*，出遊照旗標排（OUT.plan）。
-   - HOME.STOPS：第 1～4 節法律系那幾年的每一件都是快轉會停的地方（AA_440 第 6 節）：訊息的時間、在家的小場景、3-4 摘要（18:30）。經濟系那年暑假是 ECONFF 的事件接事件：
+   - HOME.STOPS：第 1～4 節法律系那幾年的每一件都是快轉會停的地方（AA_440 第 6 節）：訊息的時間、在家的小場景、3-4 摘要（18:30）。舊序章那年暑假是 ECONFF 的事件接事件：
      在家的事件（trigger home）、收到訊息、該出發的出遊本來就會停，不另外登記。
    - HOME.CARD_LINES：3-4 2/19 快轉停在 18:30 的日期卡下面那一行（住家裡／留宿舍兩版）。
    - 第 5 節摘要池：睡覺醒來（家裡的床＝HOME.sleep、宿舍的床＝story3d.js 的睡覺）都會跑 CLS.morning——外面包一層：醒來以後，這一天是放假、而且沒有任何一件事
      （快轉的停點 HOME.breakNext、今天演過的事件、一定要演的事件 HOME.mustEvs、出遊、當面約、今天的訊息）＝放一句（一個假期內照順序、用完從頭）。快轉（HOME.ffMenu）停下來的那一天不放（快轉自己有旁白）。
      放假第一天、人在國外（交換、假期出國的活動）、日本那一學期、日本路線住家裡那幾週（jp3d.js 自己的快轉）不放。2/19 醒來＝放 3-4 那一句（取代摘要池；放過了 18:30 不再停）。
-   - 1-5 7/27 去學校走一走（10:00 在家醒來選「（去學校走一走）」）：15:00 一鍵到校門口（OUT goto），到了一句、走到霖澤館前面一句、走進穿堂就結束。經濟系休學在家的時候人在外面空下來 3 秒會自動回家（ECONFF.tick2）——
+   - 1-5 7/27 去學校走一走（10:00 在家醒來選「（去學校走一走）」）：15:00 一鍵到校門口（OUT goto），到了一句、走到霖澤館前面一句、走進穿堂就結束。舊序章在家的時候人在外面空下來 3 秒會自動回家（ECONFF.tick2）——
      這一段走路的期間外面包一層先不回家；走進穿堂（或過了那一天）以後照原本的。
    - 4 大四寒假 1/20 以安「我去。」：1/21～1/27 每天 9:00～17:00 她在總圖三樓（作息多一筆，照總圖的座位系統；不另外寫台詞）。
    - AA_556（企劃線 3d7ad0024；VAC-GAP2-1031）寒暑假第二批：6/24 阿凱回「我也來打。」＝當晚 22:00 線上語音（電話式出遊，取代對話串的旁白）；大二暑假 7/10 阿凱、8/12 語彤，
@@ -48,13 +48,13 @@ const VACFILL=(function(){
   /* ===================== 手機 ===================== */
   const AN='heroine_01', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', KX='kexin';
   const NG='g:noodle_team', EG='g:econ_friends', HG='g:home';
-  /* 手機上顯示的名字：家人不在 CHARACTERS（phone3d.js FAM_NM）；經濟系那一群照稿的叫法（同 story3d.js 的經濟系群組）*/
+  /* 手機上顯示的名字：家人不在 CHARACTERS（phone3d.js FAM_NM）；舊序章那一群照稿的叫法（同 story3d.js 的舊序章的群組）*/
   const NAME={mom:'媽媽',dad:'爸爸',sister:'姊姊'};
   const item=(th,from,text)=>{ if(from==null) return {th,who:null,text}; const o={th,from,text}; if(NAME[from]) o.name=NAME[from]; return o; };   /* from null＝對話串裡的一行旁白（同 r2y4a3d.js 姊姊那一行）*/
   const one=(who,arr)=>arr.map(t=>[who,t]);
   const contactOf=(G,id)=>{ if(typeof CHARACTERS==='undefined'||!CHARACTERS[id]||typeof INV==='undefined'||!INV.rec) return; INV.rec(G); if(G.contacts&&G.contacts[id]==null) G.contacts[id]=G.day; };
   const R7=d=>[d+1,18];   /* 沒寫期限的回覆：開到隔天 18:00（AA_340 R7，同 holff3d.js）*/
-  /* 每一則：tag、day（或 dayFn）、h、th、ms（[[誰,字]] 或 fn(G,d)）、if(G,d)、ask(G,d)→{until:[日,時], opts:[{t,set,say:[[誰,字]],post}]}、stage（econ＝經濟系那年暑假）、
+  /* 每一則：tag、day（或 dayFn）、h、th、ms（[[誰,字]] 或 fn(G,d)）、if(G,d)、ask(G,d)→{until:[日,時], opts:[{t,set,say:[[誰,字]],post}]}、stage（econ＝舊序章那年暑假）、
      stop（法律系那幾年的快轉停在這裡）、after(G)（排進去以後）、at（時間到了才判斷 if：住家裡／留宿舍那種要看當下）*/
   S.MSGS=[
 

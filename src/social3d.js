@@ -69,8 +69,8 @@ const SOCIAL = (function(){
   S.playerYear=function(){ if(delayedP()&&typeof CALENDAR!=='undefined'&&CALENDAR.termDays){ const r=CALENDAR.termDays('Y5S1'); if(r&&G.day>=r.from) return 5; }
     const t=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):(typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day)?CALENDAR.termOf(G.day).id:null); const m=/^Y([1-4])/.exec(t||''); return m?+m[1]:1; };
   S.yearOf=function(id){ const c=CHARACTERS[id]; if(!c||!c.year) return 0; if(!/^pool_/.test(id)) return c.year; return Math.min(4,c.year+S.playerYear()-1); };
-  /* 資料頁、朋友列表的「科系・年級」照祐廷的學年（00_現行設定總表第 2-1 節，AA-C c70dc425）：characters.js 的 tagByPY＝[經濟系那一年, 法律大一～大四]；
-     沒寫的那一格：經濟系那一年照原值，法律系的年份同一屆跟著升（year＋學年−1），超過四年級只寫科系。{t,alt,ifFlag}：有其中一個旗標才寫 alt（沛珊大三、大四：交往中或放榜後重新聯絡上） */
+  /* 資料頁、朋友列表的「科系・年級」照祐廷的學年（00_現行設定總表第 2-1 節，AA-C c70dc425）：characters.js 的 tagByPY＝[舊序章那一年, 法律大一～大四]；
+     沒寫的那一格：舊序章那一年照原值，法律系的年份同一屆跟著升（year＋學年−1），超過四年級只寫科系。{t,alt,ifFlag}：有其中一個旗標才寫 alt（沛珊大三、大四：交往中或放榜後重新聯絡上） */
   /* 畢業以後（AA_357 第 2-1 節，AA-C 2026-10-21）：祐廷畢業（GRADUATED）以後、2029-09 起，資料頁寫每個人「現在在做什麼」。[從哪一天起, 字]，取最後一個已經到的；
      AA_363 T4：畢業以後資料頁一律不回到學年的規則——表上沒有新的一列（或那一列是 null）就沿用最後一列（所有畢業的人；明軒 2030-08-01 以後照樣「德國」）。
      2029-06-02～08-31 表還沒開始＝照原本的年級寫法（照現在）。沒有寫的人（沛珊「照現在（台南）」、教授、不熟的同學）照原本的規則。

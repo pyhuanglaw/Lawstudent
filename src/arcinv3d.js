@@ -91,7 +91,7 @@ const ARCINV=(function(){
     if(e.dateLoc&&typeof DATE!=='undefined'&&DATE.countVisit){ const w=DATE.wishOf?DATE.wishOf(e.who):null; const c=DATE.countVisit(G,e.who,e.place,{wish:w===e.dateLoc}); if(c&&c.counted){ const L=DATE.log(G,e.who); L.byLoc[e.dateLoc]=(L.byLoc[e.dateLoc]|0)+1; } }
     if(e.cost&&(G.money|0)>=e.cost){ G.money=(G.money|0)-e.cost; r.paid=e.cost; if(GM&&GM.toast) GM.toast('買了襯衫（－'+e.cost+' 元）'); }   /* 可昕塞給你的那件襯衫：錢夠就買 */
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(e.who,'walk'); };   /* 一起出去一整段：和一起散步同一級（social3d.js ACT）*/
-  /* 演完把人放到那一場最後的地方：校園、公館、體育館（PLACES.quickList 的落點，tests/quick_travel_unit.js 驗過站得住）；遠的（淡水、外澳、木柵）＝回家／回宿舍 */
+  /* 演完把人放到那一場最後的地方：校園、公館、體育館（PLACES.quickList 的落點，tests/quick_travel_unit.js 驗過站得住）；遠的（淡水、外澳、外校）＝回家／回宿舍 */
   S.enterSpot=async function(GM,label){ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], p=L.find(q=>q[1]===label); if(!p||!GM.enter) return false; await GM.fade(true); await GM.enter(p[0],p[2]||undefined); await GM.fade(false); return true; };
   S.placeAfter=async function(GM,e){ const G=GM&&GM.G, E=e&&e.end; if(!G||!E||!GM.enter) return false;
     if(E.home){ if(typeof HOME!=='undefined'&&HOME.livesHome&&HOME.livesHome(G)&&HOME.arriveQuiet){ await HOME.arriveQuiet(GM); return true; } return S.enterSpot(GM,'宿舍'); }

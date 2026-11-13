@@ -73,7 +73,7 @@ const ROM=(function(){
   const blank=()=>({status:'none',since:null,knows:[],suspicion:0,history:[]});
   S.rec=function(G){ const F=G.flags||(G.flags={});
     if(!Array.isArray(F.ROMANCE_HISTORY)){ F.ROMANCE_HISTORY=[];
-      for(const k in F) if(/^dating_/.test(k)&&F[k]===true) F.ROMANCE_HISTORY.push({id:k.slice(7),from:k==='dating_kexin'?'Y0':S.when(G),to:null,how:null}); }   /* 舊存檔：可昕從經濟系那一年就在交往（BB_104）*/
+      for(const k in F) if(/^dating_/.test(k)&&F[k]===true) F.ROMANCE_HISTORY.push({id:k.slice(7),from:k==='dating_kexin'?'Y0':S.when(G),to:null,how:null}); }   /* 舊存檔：可昕從舊序章那一年就在交往（BB_104）*/
     if(F.CLEANUP_DONE===undefined) F.CLEANUP_DONE=true;
     if(!F.romance||typeof F.romance!=='object') F.romance={};
     for(const k in F) if(/^dating_/.test(k)){ const id=k.slice(7), R=F.romance[id]||(F.romance[id]=blank()); if(F[k]===true&&R.status!=='dating'){ R.status='dating'; R.since=R.since||(id==='kexin'?'Y0':S.when(G)); } }

@@ -114,7 +114,7 @@ const MSG=(function(){
   /* 子晴「芷若在英國」那一句（BB_178 第 2 節）：她在英國的那一段只播一次（段＝第幾次去英國：大三上、大四）*/
   S.zrUkKey=G=>{ const k=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).key:''; return k<'2028-06-01'?'Y3':'Y4'; };
   /* 什麼時候有「傳訊息」：回傳 {ok, why, mode}（mode：'business'＝學姊的事務版；'silent'＝沛珊重考消失期，只顯示已送達）。BB_178 0-1、AA_202 第 4 節 */
-  /* 經濟系那一年交往以後的可昕（AA_301 MSG_KX_Y0；使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）：10/17～2/13、7/12～8/29 開；2/14～7/11 住在一起不開（D103 重要的事當面講）*/
+  /* 舊序章那一年交往以後的可昕（AA_301 MSG_KX_Y0；使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）：10/17～2/13、7/12～8/29 開；2/14～7/11 住在一起不開（D103 重要的事當面講）*/
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):0;
   S.open=function(G,id){
     if(S.EXTRA[id]&&S.EXTRA[id].open) return S.EXTRA[id].open(G);   /* 宋知寧（S.EXTRA）*/
@@ -154,7 +154,7 @@ const MSG=(function(){
     if(o.mode==='uk'&&o.uk==='friend') return '她在英國，一週回一兩次（臺灣時間週三、週日晚上）。'; return ''; };
   /* 聯絡人清單：七位女生在最前面，再來是其他認識、有聯絡方式的人（ids＝手機「朋友」的 knownIds，照那個順序）。
      有聯絡方式＝列出、點得開（傳不了的寫原因：分開以後、只寄明信片…）；七位女生見過、還沒有聯絡方式＝灰著、寫怎麼拿到；沒見過、也傳不到的不列（還不認識）。
-     經濟系那一年只列傳得到的（交往中的可昕）。沒有回覆池的人（同學二十位、打工的老闆…：MSG_POOL／MSG2_POOL 沒有她／他）傳了也沒有話題，不列（對話串照舊在下面）。
+     舊序章那一年只列傳得到的（交往中的可昕）。沒有回覆池的人（同學二十位、打工的老闆…：MSG_POOL／MSG2_POOL 沒有她／他）傳了也沒有話題，不列（對話串照舊在下面）。
      回傳 [{id, th, has, ok, sent, why, gray}] */
   S.pooled=id=>!!((POOL().people||{})[id]||(POOL2().people||{})[id]);
   S.contactRows=function(G,ids){ ids=Array.isArray(ids)?ids:[]; const law=(G.stage||'law')==='law', out=[], seen=new Set();

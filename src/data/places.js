@@ -172,7 +172,7 @@ const PLACES={
   /* 汀州路一間店的店門口（站的地方、面對店面）：和 tingzhou3d.js 的店門互動點同一點；西側的店在 −x＝面向西（yaw −π/2），東側面向東 */
   tzDoor(id){ const L=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, q=L&&L.shops.find(s=>s.id===id); if(!q) return null; const sx=q.side==='W'?-1:1, F=L.facade; return {x:+((sx>0?F.east:F.west)+sx*(F.arcade-0.9)).toFixed(2),z:+((q.z0+q.z1)/2).toFixed(2),yaw:sx*Math.PI/2}; },
   /* 一個區域在哪一棟、哪一條街（PHONE-UNIFY-1030）：樓上樓層、房間、店面對到它的那一棟／那條街（霖澤館 3F→linze、總圖 B1→library_hall、118 巷的店→lane118、溫州街的店→wenzhou、新生南路的店（xs_）→xinsheng、宿舍 205→dorm_hall）；
-     其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、休學退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/
+     其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、舊序章退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/
   base(z){ z=String(z||''); if(/^l118_/.test(z)) return 'lane118'; if(/^wz_/.test(z)) return 'wenzhou'; if(/^xs_/.test(z)) return 'xinsheng'; if(/^tz_/.test(z)) return 'tingzhou';   /* 汀州路的店以後有室內（tz_＋id，tingzhou3d.js）＝算汀州路 */ if(z==='library'||/^library_/.test(z)) return 'library_hall'; if(z==='dorm'||/^dorm_/.test(z)) return 'dorm_hall';
     if(/^(linze|wancai|gym|gongtong|boya|putong|us_lawlib)_/.test(z)) return z.replace(/_[^_]+$/,''); if(z==='soclib_2f') return 'soclib'; return z; },   /* soclib_2f：社科圖東側館（二樓自習室，SOCLIB-2F-1104）＝社科圖那一棟（開放時間、路程照閱覽室）*/
   /* 「已知」的地點（D54 ①）：開學第三週的大一生本來就知道的地方（校園、上課的教室、圖書館、宿舍、公館、溫州街、便利商店）；

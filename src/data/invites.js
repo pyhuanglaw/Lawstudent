@@ -228,7 +228,7 @@ const INVITE_DATA={
         gym_badminton:G=>(G.stage||'law')==='law'?{A:['新體育館？好。……先說，我高中打過。'],R:['好。拍子你負責借，我只出人。']}:null,
         run_avenue:G=>(G.stage||'law')==='law'?{R:['椰影大道？好，早上六點半。','……好。你敢遲到試試看。']}:null},
       sport:{gym_badminton:{during:[['那一球你讓我？……不准讓。'],['再一局。這局不算，我鞋帶鬆了。'],['這邊的燈好亮。這不是藉口。']],end:['下一局換我發球。你不要跑。']},
-        run_avenue:{during:[['跑到晨思鐘不要停。跑回來才算。'],['我不喘。……我在講話，所以我不喘。'],['早上的椰影大道好安靜。我平常這時候還在睡。']],end:['早餐我知道一家。走。']}},   /* AA_417 3-2：一起的時候三句輪流、結束 */   /* BB_158 第 5 節（她在政大：時間照她的作息；2026-10-17 BB-C 改稿：不再每句「假設」）*/
+        run_avenue:{during:[['跑到晨思鐘不要停。跑回來才算。'],['我不喘。……我在講話，所以我不喘。'],['早上的椰影大道好安靜。我平常這時候還在睡。']],end:['早餐我知道一家。走。']}},   /* AA_417 3-2：一起的時候三句輪流、結束 */   /* BB_158 第 5 節（她在外校：時間照她的作息；2026-10-17 BB-C 改稿：不再每句「假設」）*/
       firstAt:{gym_badminton:G=>(G.stage||'law')==='law'?['我高中打過一學期。你不要放水。']:null,run_avenue:G=>(G.stage||'law')==='law'?['六點二十五分。我先到了。']:null,   /* AA_417 3-2 的 first */
         brunch:['蛋可以選熟度欸。我要半熟。'],teahouse:['我第一次進這種茶屋。','院子好安靜。'],
         /* AA_535b 4-2：第一次和她到 Café、總圖、麵店、溫州街多說的；AA_940 換字（同系同屆）*/
@@ -316,7 +316,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
 (function(){
   const C=()=>typeof CALENDAR!=='undefined'?CALENDAR:null;
   const tm=G=>{ const c=C(); return c&&c.termOf?c.termOf(G.day):null; };
-  const ay=G=>{ const t=tm(G); if(t) return +String(t.id).charAt(1); const c=C(); if(!c||!c.dateOf) return null; const x=c.dateOf(G.day); return x.y-(x.m>=9?2024:2025); };   /* 學年：大一＝2025-09～2026-08；經濟系那一年＝0 */
+  const ay=G=>{ const t=tm(G); if(t) return +String(t.id).charAt(1); const c=C(); if(!c||!c.dateOf) return null; const x=c.dateOf(G.day); return x.y-(x.m>=9?2024:2025); };   /* 學年：大一＝2025-09～2026-08；舊序章那一年＝0 */
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const Y=n=>G=>ay(G)===n;
   const inT=(id,w0,w1)=>G=>{ const t=tm(G); return !!t&&t.id===id&&t.week>=(w0||1)&&t.week<=(w1||99); };

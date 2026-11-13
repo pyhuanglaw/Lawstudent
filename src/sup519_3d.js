@@ -95,7 +95,7 @@ const SUP519=(function(){
     if(GM.sceneBegin) GM.sceneBegin();
     try{ if(GM.face&&n&&P&&P.obj) GM.face(n,P.obj.position.x,P.obj.position.z); if(GM.cine&&n&&P&&P.obj) GM.cine('talk',P.obj,n.obj);
       if(S.auntNameDue(GM)){ G.flags.AUNT_NAME=G.day; const st=S.talkRec(G,'aunt'); st.nd=G.day; await S.playLines(GM,AY.nameScene||[],n,'阿姨'); return true; }   /* 店名由來算今天那一句 */
-      const o=S.daily(G,'aunt',law(G)?S.AUNT_ROWS:[],AY.shorts); if(o&&o.t) await GM.say(sayAs(GM,n,'阿姨'),o.t); return true; }   /* 經濟系那一年：只有短句 */
+      const o=S.daily(G,'aunt',law(G)?S.AUNT_ROWS:[],AY.shorts); if(o&&o.t) await GM.say(sayAs(GM,n,'阿姨'),o.t); return true; }   /* 舊序章那一年：只有短句 */
     finally{ if(n&&n.obj&&n.obj.rotation&&y0!=null&&n.frozen) n.obj.rotation.y=y0; if(GM.sceneEnd) GM.sceneEnd(); } };   /* 說完轉回去顧鍋子 */
 
   /* ---------- 1-1 店員的外觀、說話（3-1：Café 芷若不在班時櫃台是老闆）---------- */

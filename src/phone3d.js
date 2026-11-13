@@ -35,7 +35,7 @@ const PHONE=(function(){
     if(it.from) m.from=it.from; if(it.name) m.name=it.name;
     if(it.from==='heroine_05'&&typeof m.text==='string'&&typeof SOCIAL!=='undefined'&&SOCIAL.ytNameT){ m.text=SOCIAL.ytNameT(m.text,'heroine_05'); m.ytFix=1; }   /* AA_591 整合九件第 8 件（AA 11-02 21:25）：交往中學姊叫「林{name}」——送出的那一刻就把字定下來存進訊息（之後分手、或之前的訊息後來交往，都不再改）；game3d.js 的 ytT 不再動有 ytFix 的訊息 */ if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(it.rk) m.rk=it.rk;   /* rk：回覆選項對的那一句（AA_709；字有代入的訊息，例：可昕週年「下禮拜{週幾}週年。」，src/msgreply3d.js S.find）*/ if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/
     if(it.narr) m.narr=true;   /* narr：一對一對話串裡的旁白（手機畫面一行灰字；AA_723 沛珊 reply1 最後那句「（之後她就沒有再回。）」，src/ps_silence3d.js）*/
-    if(it.quiet) m.quiet=true;   /* quiet：不用回、快轉不停在這一則（收進手機、有紅點；經濟系社團群組三則，AA_529 第⑦點）。各個快轉的「收到訊息就停」都不算它（PHONE.loud）*/
+    if(it.quiet) m.quiet=true;   /* quiet：不用回、快轉不停在這一則（收進手機、有紅點；舊序章的社團群組三則，AA_529 第⑦點）。各個快轉的「收到訊息就停」都不算它（PHONE.loud）*/
     if(it.play) m.play=true;   /* play：錄音（宥辰的週五的歌，AA_497 1-4）——折起來的是點開聽到的那一句旁白，手機上寫「（點開聽）」*/
     if(it.ask){ const P=S.rec(G); P.n++; m.ask=Object.assign({},it.ask,{id:it.ask.id||('a'+P.n)}); }
     else for(const f of S.ON_MK){ try{ f(G,m); }catch(e){ console.warn('PHONE.ON_MK',e); } }   /* 送出那一刻掛上回覆選項（女主角分享生活的訊息，src/msgreply3d.js，MSG-REPLY-1107）*/
@@ -49,7 +49,7 @@ const PHONE=(function(){
   S.postAt=function(G,it,day,h){ S.rec(G); return put(G,mk(G,it,day,h)); };
   /* 排定時間：day 第幾天、h 幾點（24 以上＝隔天凌晨）；items 依序；tag：同一個 tag 已經排過或送過就不再排（讀檔、重進區域不會重複）*/
   S.sent=(G,tag)=>!!tag&&(S.rec(G).q.some(q=>q.tag===tag)||G.msgs.some(m=>m.tag===tag)||(S.rec(G).cut||[]).includes(tag));
-  S.at=function(G,day,h,items,tag){ const P=S.rec(G); if(S.sent(G,tag)) return false; /* AA_300 第 7 節：經濟系那一年不傳的邀約（記成傳過，條件不會再來）*/ P.q.push({day,h,items:[].concat(items),tag:tag||null}); return true; };
+  S.at=function(G,day,h,items,tag){ const P=S.rec(G); if(S.sent(G,tag)) return false; /* AA_300 第 7 節：舊序章那一年不傳的邀約（記成傳過，條件不會再來）*/ P.q.push({day,h,items:[].concat(items),tag:tag||null}); return true; };
   /* 送出時間到了的（notify：每一批送完呼叫一次，給畫面提示）。15 分鐘以上前就該送的（睡覺、跳過時間）照原本的時間補進去 */
   S.tick=function(G,notify){ const P=S.rec(G); if(!P.q.length) return 0; const now=abs(G.day,G.hour); let n=0;
     for(const q of P.q.slice().sort((a,b)=>abs(a.day,a.h)-abs(b.day,b.h))){ const t=abs(q.day,q.h); if(t>now) continue; P.q.splice(P.q.indexOf(q),1); const late=now-t>0.25; const out=[];
@@ -66,7 +66,7 @@ const PHONE=(function(){
   S.pending=G=>{ S.rec(G); return G.msgs.filter(m=>S.askOpen(G,m)); };
   S.mustOpen=(G,th)=>S.pending(G).some(m=>m.ask.must&&(!th||S.th(m)===th));   /* ask.must：一定要回才關得掉手機（v0 E12 的手機版，AA_154 A32）*/
   S.byAsk=(G,id)=>{ S.rec(G); return G.msgs.find(m=>m.ask&&m.ask.id===id)||null; };
-  /* 選項的 post:false＝不替玩家傳出那一句（選項是動作，例：「（去總圖查完再回）」「（不回）」，之後的訊息由劇情規則補；v0 韋綸的腳踏車，AA_154 2-5b）*/
+  /* 選項的 post:false＝不替玩家傳出那一句（選項是動作，例：「（去總圖查完再回）」「（不回）」，之後的訊息由劇情規則補；v0 舊序章的人的腳踏車，AA_154 2-5b）*/
   S.optBlocked=(G,o)=>!!(o&&o.need&&o.need.money!=null&&(G.money|0)<o.need.money);   /* need：{money, why}＝錢不夠就不能選（例：去高雄跨年的高鐵票，AA_210 5-2）*/
   S.answer=function(G,id,k){ const m=S.byAsk(G,id); if(!m||!S.askOpen(G,m)) return null; const o=m.ask.opts[k]; if(!o||S.optBlocked(G,o)) return null; m.ans=k; const th=S.th(m);
     const out=o.post===false?[]:[S.post(G,{th,from:'player',who:null,text:o.post||o.t})]; for(const r of (o.say||[])) out.push(S.post(G,Object.assign({th},r)));
