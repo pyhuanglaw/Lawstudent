@@ -49,6 +49,11 @@ CON_LO, CON_HI = float(os.environ.get('CON_LO') or '8'), float(os.environ.get('C
 WIN_LO, WIN_HI = float(os.environ.get('WIN_LO') or '40'), float(os.environ.get('WIN_HI') or '55')   # 窗：最大那塊和中間色差 ≤16 的比例（%）
 ZF_LO, ZF_HI = float(os.environ.get('ZF_LO') or '0.3'), float(os.environ.get('ZF_HI') or '1.5')   # 只當參考（校正 r2）
 BURST_FAIL = int(os.environ.get('BURST_FAIL') or '3')
+NODEBUG = (os.environ.get('NODEBUG') or '0') == '1'
+DEBUGTXT_JS = r"""(()=>{ const re=/career\s*A\s*\d|\bA\d+\s+B\d+\s+C\d+\b|\bfps\s*[:=]?\s*\d|\bdraw\s*calls?\b/i, hits=[];
+  for(const el of document.querySelectorAll('body *')){ if(el.children.length) continue; const t=(el.textContent||'').trim(); if(!t||!re.test(t)) continue; const c=getComputedStyle(el); if(c.display==='none'||c.visibility==='hidden'||+c.opacity<0.05) continue;
+    const r=el.getBoundingClientRect(); if(!r.width||!r.height||r.right<0||r.bottom<0||r.left>innerWidth||r.top>innerHeight) continue; hits.push({id:el.id||'',cls:String(el.className||'').slice(0,40),t:t.slice(0,60),x:Math.round(r.left),y:Math.round(r.top)}); }
+  return {url:location.search||'(沒有參數)', hits:hits.slice(0,8)}; })()"""
 R = L.Run('gate_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = '2025-10-22'
@@ -300,6 +305,10 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     if s['zone'] != zid:
         R.note('%s 讀檔以後在 %s＝沒開／進不去，這個時間跳過（不判）' % (tag, s['zone'])); row['skipped'] = 'closed:' + s['zone']; rows.append(row); return
     c0 = len(cons)
+    if NODEBUG:   # BB-C 11-14 L118_SELF：玩家版（沒有 ?dev）畫面上不能有除錯字（AA 對照圖左下角「career A0 B0 C0 = 0」）
+        dbg = await pg.evaluate(DEBUGTXT_JS); row['debugText'] = dbg
+        await pg.screenshot(path=os.path.join(OUT, '%s_%s_nodebug.png' % (zid, hh)))
+        R.check('%s 玩家版畫面上沒有除錯字（career A0 B0 C0 那一類；網址 %s）' % (tag, dbg['url']), not dbg['hits'], J(dbg))
     rm = await pg.evaluate(ROOM_JS); row['room'] = rm
     if not R.check('%s 量得到房間範圍、有門' % tag, bool(rm['box']) and bool(rm['exit']), J(rm)): rows.append(row); return
     cx, cz = rm['c']; ex, ez = rm['exit']['x'], rm['exit']['z']; dx, dz = cx - ex, cz - ez; m = math.hypot(dx, dz) or 1; ux, uz = dx / m, dz / m

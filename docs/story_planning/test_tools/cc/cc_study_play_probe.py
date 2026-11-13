@@ -85,17 +85,21 @@ async def load(pg, sv0, key, hour, zone, mods=None, blank_=False):
     return r
 
 
-DIAG_N = int(os.environ.get('DIAG_N') or 0)   # 11-13 BB-C SE06_diag：每按一次一鍵記狀態＋截圖，按 DIAG_N 次就停
+DIAG_N = int(os.environ.get('DIAG_N') or 0)   # 11-13 BB-C SE06_diag：每按一次一鍵記狀態＋截圖，按 DIAG_N 次就停；-1＝一直記不停（11-14 加 toast、CLS.next＋goPlan 的 depart／t0）
 DIAG_HOOK = r"""(()=>{ if(window.__sdH) return 'again'; window.__sdH=1; window.__sd={go:[], ev:[]};
   try{ if(typeof CLS!=='undefined'&&CLS.goClass){ const g0=CLS.goClass; CLS.goClass=function(){ let r; try{ r=g0.apply(this,arguments); }catch(e){ window.__sd.go.push({err:String(e).slice(0,80)}); throw e; }
     try{ const rr=(r&&r.then)?'promise':r; window.__sd.go.push({t:+performance.now().toFixed(0), args:[...arguments].map(a=>typeof a==='object'?(a&&a.key)||'obj':a).slice(0,3), ret:typeof rr==='object'?JSON.parse(JSON.stringify(rr)):rr}); if(r&&r.then) r.then(v=>window.__sd.go.push({t:+performance.now().toFixed(0), resolved:v===undefined?null:(typeof v==='object'?JSON.parse(JSON.stringify(v)):v)})); }catch(e){} return r; }; } }catch(e){}
   try{ if(typeof EVENTS!=='undefined'&&EVENTS.run){ const v0=EVENTS.run; EVENTS.run=function(ev){ window.__sd.ev.push({t:+performance.now().toFixed(0), id:String((ev&&ev.id)||'')}); return v0.apply(this,arguments); }; } }catch(e){}
+  try{ const el=document.getElementById('toast'); if(el){ window.__sd.toast=[]; new MutationObserver(()=>{ const t=(el.textContent||'').trim(); const L=window.__sd.toast; if(t&&L[L.length-1]!==t) L.push(t.slice(0,60)); }).observe(el,{childList:true,subtree:true,characterData:true}); } }catch(e){}
   return 'ok'; })()"""
 DIAG_SNAP = r"""(()=>{ const G=GAME.G, P=GAME.E.player, o=P.obj.position, D=GAME.D, ch=document.getElementById('choices'), dl=document.getElementById('dlg');
   let rs=null; try{ rs=(typeof CLS!=='undefined'&&CLS.routeStop!==undefined)?JSON.parse(JSON.stringify(CLS.routeStop)):(GAME.routeStop??null); }catch(e){ rs='ERR'; }
   const X=window.__sd||{go:[],ev:[]}; const out={zone:G.zone, pos:[+o.x.toFixed(2),+o.z.toFixed(2),P.lv|0], key:CALENDAR.dateOf(G.day).key, hour:+(+G.hour).toFixed(3), time:G.time??null,
     busyDepth:(D&&D.busyDepth)|0, dlg:!!(dl&&!dl.classList.contains('hide')), choices:!!(ch&&!ch.classList.contains('hide')&&ch.children.length), busy:!!P.busy,
-    goClass:X.go.slice(-3), events:X.ev.slice(-5).map(e=>e.id), routeStop:rs}; X.go=[]; X.ev=[]; return out; })()"""
+    goClass:X.go.slice(-3), events:X.ev.slice(-5).map(e=>e.id), routeStop:rs}; X.go=[]; X.ev=[];
+  { const ts=document.getElementById('toast'); out.toast=(ts&&ts.offsetParent)?(ts.textContent||'').trim().slice(0,60):''; out.toastLog=(X.toast||[]).slice(-4); X.toast=[]; }
+  try{ const it=CLS.next(G); if(it){ let pl=null; try{ pl=CLS.goPlan?CLS.goPlan(GAME,it):null; }catch(e){ pl={err:String(e).slice(0,60)}; } out.next={key:it.key||null, exam:!!it.exam, t0:it.t0, depart:pl&&pl.depart!=null?+(+pl.depart).toFixed(3):(pl&&pl.err)||null}; } }catch(e){ out.next='ERR'; }
+  return out; })()"""
 
 
 async def onetap(pg, cdp, label):
@@ -167,7 +171,7 @@ async def part_se06(pg, cdp, sv0, res):
             dg = await pg.evaluate(DIAG_SNAP); acts[-1].append(dg)
             await pg.screenshot(path=os.path.join(OUT, 'se06_diag_%02d.png' % len(acts)))
             R.note('%s 第 %d 次一鍵（%s）：%s' % (tag, len(acts), acts[-1][2], J(dg)))
-            if len(acts) >= DIAG_N: R.note('%s DIAG_N=%d：診斷到這裡' % (tag, DIAG_N)); break
+            if DIAG_N > 0 and len(acts) >= DIAG_N: R.note('%s DIAG_N=%d：診斷到這裡' % (tag, DIAG_N)); break   # DIAG_N=-1＝每按一次都記、照常考完（BB-C 11-14）
         if len(acts) > 40: break
     tr = await pg.evaluate(TRANS)
     R.note('%s 一鍵紀錄：%s' % (tag, J(acts[-20:])))
