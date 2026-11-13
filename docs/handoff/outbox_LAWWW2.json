@@ -9899,6 +9899,27 @@
    "tests": "shop_cc0 ALL PASS（純色 14%）；place_gate ALL PASS；ade_*、gg_new_lm、wz_shops* 等 17 支 ALL PASS",
    "notDone": "LAWWW 整合；g4 補便利貼（P2）；CC 第二層；BB 判",
    "next": "LAWWW 套 claude/shop-cc0-g4 17538fd36 的 docs/art-rebuild/second_ai/shop_cc0_g4/ade_v2.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "一盞前院灌木 P3（BB_379）：葉團三種綠錯開；第九批完整 patch 改底 19399e5d39",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/b9_yard_p3_full.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/yard_p3_incr.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/cmp_yard_p3.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch9_1113/README.md"
+   ],
+   "base": "19399e5d39",
+   "at": "2026-11-13T22:05Z",
+   "tests": "shop_cc0、place_gate ALL PASS；teahouse_tap、teahouse_yard_cam、wz_interiors_aa659 ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判",
+   "next": "LAWWW 套 b9_yard_p3_full.patch（沒套第九批）或 yard_p3_incr.patch（已套第九批＋P2）"
   }
  ]
 }

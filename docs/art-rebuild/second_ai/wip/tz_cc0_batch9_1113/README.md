@@ -77,3 +77,13 @@ BB 第九批說的三點，都改在 `tools/blender/env_second/wz_teahouse_yard.
 - **兩份 patch，挑一份套**：
   - 還沒套第九批：`b9_yard_p2_full.patch`＝第九批＋這三點，底 **048ebcd24f**（`git apply --check` 乾淨）。
   - 已經套了第九批：`yard_p2_incr.patch`＝只有前院 GLB、腳本，和兩個重產的檔（狀態表、coplanar）；這兩個檔有衝突就直接重跑 `node tests/place_gate_unit.js --coplanar --write` 和 `--write`。
+
+## 一盞前院灌木 P3：三種綠錯開（11-13 22:0x，LAWWW2-C）
+
+- 改了什麼：BB-C 判第九批 P2 時提的 P3（BB_379）是「整片同一個飽和綠，葉面沒有明暗」。現在灌木葉團分三種綠：偏黃的新葉 `#56693a`、原本的 `#3f5a2c`、偏藍的深綠 `#2e4630`，同一套 leafy_grass 貼圖，每一團隨機挑一種。一叢裡深淺錯開，叢和叢之間也不一樣。
+- 面數不變（69,973）；多 2 個材質。
+- 對照圖 `cmp_yard_p3.jpg`：左上一版，右這一版，上石燈籠、下竹垣。
+- 測試：shop_cc0、place_gate ALL PASS；teahouse_tap、teahouse_yard_cam、wz_interiors_aa659 ALL PASS。
+- **套法（現在以這兩份為準）**：
+  - 還沒套第九批：`b9_yard_p3_full.patch`＝第九批＋P2＋P3，底 **19399e5d39**。這一份取代上面的 `b9_yard_p2_full.patch`。
+  - 已經套了第九批和 P2：`yard_p3_incr.patch`（前院 GLB、腳本、兩個重產檔）。
