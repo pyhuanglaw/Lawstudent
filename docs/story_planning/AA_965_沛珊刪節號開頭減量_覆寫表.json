@@ -1,0 +1,66 @@
+[
+ {
+  "files": [
+   "termend_opts.js"
+  ],
+  "old": "……好啦，有一點。期末考完腦袋還沒回來。",
+  "new": "好啦，有一點。期末考完腦袋還沒回來。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "termend_opts.js"
+  ],
+  "old": "……牠是不是比較喜歡你。",
+  "new": "牠是不是比較喜歡你。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "events.js"
+  ],
+  "old": "……你自己的書念完了嗎？",
+  "new": "你自己的書念完了嗎？",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……你不怕的話，我帶你去。",
+  "new": "你不怕的話，我帶你去。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……好。這杯喝完就去。你要陪我排到最後，不可以中途說太久。",
+  "new": "好。這杯喝完就去。你要陪我排到最後，不可以中途說太久。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……對喔。我之前直接搬了一箱去，他的表情很複雜。",
+  "new": "對喔。我之前直接搬了一箱去，他的表情很複雜。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……你看完自己猜。猜對我會承認。",
+  "new": "你看完自己猜。猜對我會承認。",
+  "speaker": "classmate_peishan"
+ },
+ {
+  "files": [
+   "activity_scenes.js"
+  ],
+  "old": "……這個我要偷走。你不可以跟別人講是你想的。",
+  "new": "這個我要偷走。你不可以跟別人講是你想的。",
+  "speaker": "classmate_peishan"
+ }
+]
