@@ -83,4 +83,5 @@
   - 已派 CC（P0、排最前面）：B2_r5 → CANON458 19 行（含 #17 四版）→ DATE_LAYER＋NODL → FULL_a（8/22～12/20）→ FULL_b（接到 2026-02-23）。全部 76f8b639f0。
   - GO 條件：四組照本節標準全過＋GHA 綠＋`check_handoff.py releasegate` 結束碼 0。
   - 03:0x BB 靜態：76f8b639f0 的 src＋index.html 跑 canon_scan＝**禁字 0、前提警告 0**；releasegate 現況 6 項中 5 項已驗收，只差 X364（CANON-NO-ECON-1112）。
+  - 03:1x GHA 判讀改法（LAWWW 15710903ed 取消了候選那一輪 GHA）：BB 核對 76f8b639f0 vs 15710903ed——src、lib、index.html 完全一樣；tests 只差 place_gate_coplanar.json 7 行（第六批四間新模型的基準）；其他是 4 個 GLB＋文件。BB 另外把 76f8 的 place_gate_coplanar.json 51 筆 sha1 對 76f8 自己的 GLB——**全部相符、0 不符**＝76f8 的舊模型配舊基準是對的。**所以 15710903ed 那輪 GHA（run 780）綠＝候選 76f8 綠**。候選 SHA 不變。第六批 P2 不進這次發布。
 
