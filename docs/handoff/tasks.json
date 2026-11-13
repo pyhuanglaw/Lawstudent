@@ -19311,7 +19311,7 @@
    "owner": "BB",
    "status": "進行中",
    "priority": "P1",
-   "next": "【11-13 LAWWW-C】AA 開寫事件稿：AA_928 第一批大一寒假（企劃線 0bdf0d85e8；BB_452 照用）、AA_929 第二批大一暑假（77f76bdf50，等 BB 照用）、第三批可昕大三暑假（AA 寫中）。LAWWW 決定 ev_kai_shop_visit 用 B：阿凱把筆電帶回 203 修（不蓋新店，D147／§12 不卡寒暑假系統）。LAWWW 接進遊戲：等 AA 依 B 改字＋BB 照用。\n【10-31 23:2x 歷史複核（AA-B 最後一批：BB＋交接包）】BB_198 7-2 新事件大多沒做：阿凱寒假 203 過夜、電腦行、多益；明軒托福、C08；Kevin 助教；學姊托福那天；三人過年訊息；可昕大三暑假旅行、日本重逢、實習訊息（照 D99 寒暑假排，和 VAC-GAP-1031 一起看）｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 這邊的規劃已交，看板改 LAWWW：presence 照 7-1 補（和 HOLIDAY-PRESENCE-1021 一起做）；7-2 新事件的台詞請 AA 寫（D100），收到後照 7-2、7-3 實作 ｜ 【12:0x BB 7dc9a3e6】BB_198 第 7 節：不在臺北日期＝absentDates、新事件訊息、BB 私訊一天最多三則（多的改見面招呼）、週日宵夜（story3d 約 1507 行）寒暑假也發｜BB-C 第一批進行中",
+   "next": "【LAWWW-C 11-13 21:2x UTC】BB-C 更正：寒暑假稿 BB 都已照用（AA_928→BB_452、AA_929→BB_453、AA_930／934／942→BB_454、AA_931／932→BB_455、AA_933→BB_456），舊句「AA_929 等 BB 照用」作廢；BB 這邊只剩瀏覽器驗收 BB_457 VACGAP 清單（發布後）。｜【11-13 LAWWW-C】AA 開寫事件稿：AA_928 第一批大一寒假（企劃線 0bdf0d85e8；BB_452 照用）、AA_929 第二批大一暑假（77f76bdf50，等 BB 照用）、第三批可昕大三暑假（AA 寫中）。LAWWW 決定 ev_kai_shop_visit 用 B：阿凱把筆電帶回 203 修（不蓋新店，D147／§12 不卡寒暑假系統）。LAWWW 接進遊戲：等 AA 依 B 改字＋BB 照用。\n【10-31 23:2x 歷史複核（AA-B 最後一批：BB＋交接包）】BB_198 7-2 新事件大多沒做：阿凱寒假 203 過夜、電腦行、多益；明軒托福、C08；Kevin 助教；學姊托福那天；三人過年訊息；可昕大三暑假旅行、日本重逢、實習訊息（照 D99 寒暑假排，和 VAC-GAP-1031 一起看）｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 這邊的規劃已交，看板改 LAWWW：presence 照 7-1 補（和 HOLIDAY-PRESENCE-1021 一起做）；7-2 新事件的台詞請 AA 寫（D100），收到後照 7-2、7-3 實作 ｜ 【12:0x BB 7dc9a3e6】BB_198 第 7 節：不在臺北日期＝absentDates、新事件訊息、BB 私訊一天最多三則（多的改見面招呼）、週日宵夜（story3d 約 1507 行）寒暑假也發｜BB-C 第一批進行中",
    "first": {
     "term": "Y1S1",
     "week": 17,
@@ -39807,7 +39807,7 @@
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
    "priority": "P3",
-   "next": "【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：LAWWW2 名下 CC0 店已做完（11-13），排回 LAWWW2 佇列：咖啡店騎樓 x≈12 加座位登記；之後 LAWWW 改 c504_4_3。下次檢查 11-20。｜【11-01 21:3x LAWWW-B】判斷：現在不做（沒有座位）；程式已支援（prop＋沒座位退回站著），只差咖啡店座位｜【11-01 09:0x LAWWW-B】LAWWW2-B 交班【表外】補進總表；LAWWW 判斷：排在 ZQ-ARCADE-SEAT-1028 交件、合併以後一起做（同一個道具、heroine_circle 同一處），不在 D99 三項裡",
+   "next": "【LAWWW-C 11-13 21:2x UTC】LAWWW2-C 回：afar 門口重做後沒有座位；LAWWW 選 A——LAWWW2 在 afar 門口騎樓加咖啡店戶外小圓桌＋兩椅（gongguan_shops.glb、座位登記），預計 11-14 交；交了 LAWWW 改 c504_4_3 seatAt＋laptop。不選 B（水果行紅凳不合旁白）。｜【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：LAWWW2 名下 CC0 店已做完（11-13），排回 LAWWW2 佇列：咖啡店騎樓 x≈12 加座位登記；之後 LAWWW 改 c504_4_3。下次檢查 11-20。｜【11-01 21:3x LAWWW-B】判斷：現在不做（沒有座位）；程式已支援（prop＋沒座位退回站著），只差咖啡店座位｜【11-01 09:0x LAWWW-B】LAWWW2-B 交班【表外】補進總表；LAWWW 判斷：排在 ZQ-ARCADE-SEAT-1028 交件、合併以後一起做（同一個道具、heroine_circle 同一處），不在 D99 三項裡",
    "first": {
     "term": "Y1S2",
     "week": 0,
@@ -44529,15 +44529,13 @@
    },
    "area": null,
    "id": "NOODLE-SHAOLA-SPOTS-1103",
-   "title": "公館燒臘（noodle）改窄長老店（6×13×3.2，門 +z）：story3d 的劇情站位照企劃線 src/data/shaola_layout.js spots 改（阿哲 zhe_seat (−2.1,−0.22)、週二週四固定客人 regular_1～3、點餐點 counter）",
+   "title": "公館燒臘（noodle）改窄長老店（6×13×3.2，門 +z）：story3d 的劇情站位照企劃線 src/data/shaola_layout.js spots 改（阿哲 zhe_seat (−2.1,−0.22)、週二週四固定客人 regular_1～3、點餐點 counter）（11-13 起只剩劇情那一半：週二、週四固定客人 regular_1～3 站位）",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "note": "BB 11-03 23:10（LAWWW2 23:08 定；配置 f8be1eba8；GLB BB 照 §12 重做中）",
-   "next": "【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：問 LAWWW2 noodle 窄長老店區域的進度（11-03 起沒動）；燒臘 CC0（幫手 g4 shaola）和這件不同。下次檢查 11-20。｜等 LAWWW2 交 noodle 區域（導航格、出生點、鏡頭、牆淡出）patch，同一批改 story3d 站位（原本 zhe (0,−0.3)），跑 noodle／zhe／regulars 相關單元",
-   "resumeWhen": "LAWWW2 交 noodle 區域（窄長老店 6×13×3.2：導航格、出生點、鏡頭、牆淡出）patch",
+   "next": "【LAWWW-C 11-13 21:2x UTC】LAWWW2-C：區域那一半已被 SHAOLA-WIRE-1105（92243344b）取代（buildShaola 窄長老店 6×13×3.2、導航、出生點、camDist、牆淡出、zone.spots zhe_seat／regular_1～3／counter 都在；阿哲已用 zhe_seat）。剩 LAWWW：固定客人 regular_1～3 的站位（story3d 沒人用）——要 AA 有固定客人的劇情才接，先問 AA。｜【LAWWW-C 11-13 21:1x UTC】過檢查日盤點（§2 第 6 點）：問 LAWWW2 noodle 窄長老店區域的進度（11-03 起沒動）；燒臘 CC0（幫手 g4 shaola）和這件不同。下次檢查 11-20。｜等 LAWWW2 交 noodle 區域（導航格、出生點、鏡頭、牆淡出）patch，同一批改 story3d 站位（原本 zhe (0,−0.3)），跑 noodle／zhe／regulars 相關單元",
    "nextCheck": "2026-11-06",
-   "pausedReason": "誰決定：LAWWW-C。為什麼：劇情站位要照新的區域配置改，區域還沒交。負責人：LAWWW2（區域）→ LAWWW（站位）",
    "recheckOn": "2026-11-20"
   },
   {
