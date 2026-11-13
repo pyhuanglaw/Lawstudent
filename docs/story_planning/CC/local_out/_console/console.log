@@ -1,12 +1,3 @@
-[22:25:52] skip F24_x315 (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_posters (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_main12 (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_touch (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_guide (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_ggnav (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_capgap (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_v7 (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[22:25:52] skip F24_live (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
 [22:25:52] skip F24_live_pos (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
 [22:25:52] skip F24_posters_r2 (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
 [22:25:52] skip POOL_ent_new1 (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
@@ -1998,3 +1989,12 @@
 [05:50:24] ==== START REL76_car  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [05:50:27] [res] cpu=19% mem=45% (14.2/31.4 GB) chrome_testing=10  START REL76_car
 [05:51:04] [res] cpu=3% mem=43% (13.7/31.4 GB) chrome_testing=9  END REL76_save_live_ctl_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       93971611d6..6b50ca9b42  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:51:12] ==== END   REL76_save_live_ctl_r2  exit=1  391s   ====
+[05:51:16] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[05:51:16] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[05:51:16] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[05:51:16] solo item REL76_touch waits: no new items start until the 2 running item(s) finish
+[05:51:38] [res] cpu=3% mem=39% (12.5/31.4 GB) chrome_testing=4  END REL76_libtour_r2
