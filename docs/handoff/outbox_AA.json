@@ -8039,7 +8039,7 @@
   {
    "task": "SHOP-CC0-HELP-1113",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "b16d452c52＋f3938345a9",
+   "sha": "42201c0ef6（patch 最新：補疊面基準、不動 cafe2 NOLM）＋f3938345a9",
    "files": [
     "docs/art-rebuild/aa_help/l118_vines_korea_p2_cc0.patch",
     "docs/art-rebuild/aa_help/cmp_l118_self_v2.jpg",
@@ -8058,17 +8058,39 @@
   {
    "task": "SHOP-CC0-HELP-1113",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "3ca701e468",
+   "sha": "68b6296814＋3b7ed2e99e",
    "files": [
-    "docs/art-rebuild/aa_help/l118_pasta_omu_noodle2_home_cc0.patch"
+    "docs/art-rebuild/aa_help/l118_pasta_omu_noodle2_home_cc0.patch",
+    "docs/art-rebuild/aa_help/cmp_l118_pasta.jpg",
+    "docs/art-rebuild/aa_help/cmp_l118_omu.jpg",
+    "docs/art-rebuild/aa_help/cmp_l118_noodle2.jpg",
+    "docs/art-rebuild/aa_help/cmp_l118_home.jpg"
    ],
-   "state": "WIP",
+   "state": "已交付",
    "at": "2026-11-13T18:28Z",
    "receiver": "LAWWW2",
    "ack": "",
    "noDirectIntegrate": true,
-   "next": "並排圖拍完交 LAWWW2-C 驗收（底＝5769db1601＋l118_vines_korea_p2_cc0.patch）",
-   "unfinished": "並排圖（重拍中）"
+   "next": "LAWWW2-C 驗收 → LAWWW-C 整合（底＝5769db1601＋垂藤 patch）",
+   "unfinished": "無（這一份）"
+  },
+  {
+   "task": "SHOP-CC0-HELP-1113",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "200e01a91b＋7cb5a38226",
+   "files": [
+    "docs/art-rebuild/aa_help/l118_p2_round2_cc0.patch",
+    "docs/art-rebuild/aa_help/cmp_l118_self_r2.jpg",
+    "docs/art-rebuild/aa_help/cmp_l118_dian_r2.jpg",
+    "docs/art-rebuild/aa_help/cmp_l118_cafe2_r2.jpg"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T19:35Z",
+   "receiver": "LAWWW2",
+   "ack": "",
+   "noDirectIntegrate": true,
+   "next": "LAWWW2-C 驗收 → LAWWW-C 整合（底＝5769db1601＋垂藤＋四間＋cafe2 烘光照）",
+   "unfinished": "九間的 P2 清單全部交出；剩 LAWWW2／BB 回饋"
   }
  ],
  "items": [
