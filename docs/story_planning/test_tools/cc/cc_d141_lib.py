@@ -157,6 +157,17 @@ async def load_zone(pg, cdp, zone, day_key, h=14.0, x=None, z=None, yaw=None, lv
     return await st(pg)
 
 
+SEAT_TAP = os.environ.get('SEAT_TAP') or ''   # BB-C 11-14 21:20（L118 r3 #6）：visible＝點椅子「露出來」的那一點（射線第一個打到的就是這一張），不點被別張椅背擋住的中心投影
+SEAT_VIS = r"""((a)=>{ const E=GAME.E, cam=E.camera, W=innerWidth, H=innerHeight, r2=v=>+(+v).toFixed(2); const LG=E.zone&&E.zone.levelGroups, fy=(LG&&LG[a.lv|0])?LG[a.lv|0].y:0;
+  const mine=new Set(); E.player.obj.traverse(o=>mine.add(o)); const rc=new THREE.Raycaster(); rc.camera=cam; let tried=0;
+  const others=E.interactables.filter(i=>i.seat&&!i.hidden&&(i.seat.lv|0)===(a.lv|0)&&!(Math.abs(i.seat.x-a.x)<1e-3&&Math.abs(i.seat.z-a.z)<1e-3)).map(i=>i.seat);
+  for(const h of [0.45,0.4,0.5,0.35,0.55,0.3,0.6]) for(const dx of [0,-0.1,0.1,-0.18,0.18]) for(const dz of [0,-0.1,0.1,-0.18,0.18]){
+    const v=new THREE.Vector3(a.x+dx,fy+h,a.z+dz).project(cam); if(v.z>=1) continue; const sx=(v.x+1)/2*W, sy=(1-v.y)/2*H; if(sx<40||sx>W-40||sy<120||sy>H-20) continue;
+    const el=document.elementFromPoint(sx,sy); if(!el||el.tagName!=='CANVAS') continue; tried++;
+    rc.setFromCamera(new THREE.Vector2(v.x,v.y),cam); const q=rc.intersectObjects(E.scene.children,true).find(k=>!mine.has(k.object)&&k.object.visible!==false&&k.object.isMesh); if(!q) continue;
+    const p=q.point, d=Math.hypot(p.x-a.x,p.z-a.z), dO=others.length?Math.min(...others.map(o=>Math.hypot(p.x-o.x,p.z-o.z))):99;
+    if(d<0.35&&p.y>fy+0.15&&p.y<fy+1.0&&d<dO) return {sx:Math.round(sx),sy:Math.round(sy),hit:[r2(p.x),r2(p.y),r2(p.z)],name:q.object.name||(q.object.parent&&q.object.parent.name)||'?',d:r2(d),dOther:r2(dO),h,dx,dz,tried}; }
+  return {none:true,tried}; })"""
 TAP_HIT = r"""((a)=>{ const E=GAME.E, cam=E.camera, r2=v=>+(+v).toFixed(2); const rc=new THREE.Raycaster(); rc.camera=cam; const W=E.w||innerWidth, H=E.h||innerHeight;
   rc.setFromCamera(new THREE.Vector2(a.x/W*2-1, -(a.y/H)*2+1), cam); const mine=new Set(); E.player.obj.traverse(o=>mine.add(o));
   const hs=rc.intersectObjects(E.scene.children,true).filter(h=>!mine.has(h.object)&&h.object.visible!==false&&h.object.isMesh).slice(0,4)
@@ -186,6 +197,12 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             pj = await pg.evaluate("((a)=>{ const E=GAME.E, cam=E.camera, L=E.zone&&E.zone.levelGroups, fy=(L&&L[a.lv|0])?L[a.lv|0].y:0; const v=new THREE.Vector3(a.x,fy+0.45,a.z).project(cam); return {sx:Math.round((v.x+1)/2*innerWidth), sy:Math.round((1-v.y)/2*innerHeight), front:v.z<1}; })", {'x': s['sx'], 'z': s['sz'], 'lv': s['slv']})
             if not (pj['front'] and 40 < pj['sx'] < (await pg.evaluate('innerWidth')) - 40 and 120 <= pj['sy']):
                 R.note('%s 椅子投影 %s 不在可點範圍：先轉鏡頭' % (t, J(pj))); await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); await pg.wait_for_timeout(600)
+            if SEAT_TAP == 'visible':
+                vp = await pg.evaluate(SEAT_VIS, {'x': s['sx'], 'z': s['sz'], 'lv': s['slv']})
+                R.note('%s 椅面露出來的點：%s' % (t, J(vp)))
+                if vp and not vp.get('none'):
+                    await L.touch_tap(cdp, vp['sx'], vp['sy']); tapped = {'sx': vp['sx'], 'sy': vp['sy'], 'vis': vp}; break
+                await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); await pg.wait_for_timeout(400); continue
             tapped = await L.tap_ground(pg, cdp, s['sx'], s['sz'], lv=s['slv'])
             if tapped: break
             await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); await pg.wait_for_timeout(400)
@@ -200,7 +217,9 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
                 hit = await pg.evaluate(TAP_HIT, {'x': tapped['sx'], 'y': tapped['sy']})
                 R.note('%s 點擊打到 %s' % (t, J(hit))); res_hit = hit
             except Exception as e: res_hit = {'err': repr(e)[:120]}
+        if SEAT_TAP == 'visible' and not tapped: R.check('FAIL_SETUP 檢查：%s 轉了 4 次鏡頭都找不到椅面露出來的點（不點被擋住的中心）' % t, False, '')
         b = await settle(pg, ms=800, max_s=15)
+        await pg.screenshot(path=os.path.join(OUT, '%s_tap%02d_stopped.png' % (shot_prefix, k + 1)))   # BB-C 21:20：停下來那一刻（大學食堂 #5、#6、#8 停的位置很怪）
         ni = await pg.evaluate(NEAR_IT)
         mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
         R.check('%s 點椅子（螢幕 %s）走過去停在 (%s, %s)（seatApproach %s）：最近的「坐下」是這一張' % (t, tapped and [round(tapped['sx']), round(tapped['sy'])], b['x'], b['z'], J(tgt)), bool(tapped) and mine, J({'at': [b['x'], b['z']], 'nearest': ni}))
