@@ -1,14 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:03:41] ==== END   NAV_FLOWER_2F_tap_r4B  exit=0  396s   ====
-[17:03:45] memory 44% before starting GATE_NEW3 (2 running)
-[17:03:45] ==== START GATE_NEW3  (probe @ 856702f57aa70d5996e26fdba56fd3eda318483e) ====
-[17:03:48] [res] cpu=16% mem=44% (14.1/31.4 GB) chrome_testing=10  START GATE_NEW3
-[17:06:52] 正在跑：SSB_tz_a（已跑 7 分／上限 90 分）、SSB_tz_b（已跑 6 分／上限 75 分）、GATE_NEW3（已跑 3 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:11:52] 正在跑：SSB_tz_a（已跑 12 分／上限 90 分）、SSB_tz_b（已跑 11 分／上限 75 分）、GATE_NEW3（已跑 8 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:12:55] [res] cpu=26% mem=46% (14.7/31.4 GB) chrome_testing=10  END GATE_NEW3
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       dee27b4604..5d3f33d938  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [17:13:05] ==== END   GATE_NEW3  exit=1  551s   ====
 [17:13:08] memory 47% before starting YY_GATE_full (2 running)
 [17:13:08] ==== START YY_GATE_full  (probe @ 856702f57aa70d5996e26fdba56fd3eda318483e) ====
@@ -1998,3 +1987,14 @@
 [00:17:49] worktree add d587922b01345b1eae1cd207e8dd66ebc5ddc6fa: invalid reference - fetching main and the commit itself
 [00:21:50] [res] cpu=2% mem=44% (13.8/31.4 GB) chrome_testing=10  END CANON_NEWGAME_B2_d21c
 [00:21:51] D158：推送前把 2 處舊序章／外校的字換成代號
+[00:21:52] 正在跑：CANON_NEWGAME_B2_d21c（已跑 36 分／上限 240 分）、STUDY_fix_b_r2（已跑 9 分／上限 20 分）、STUDY_SE06_d587（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       157d98aeec..30aba9ccc1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:22:22] ==== END   CANON_NEWGAME_B2_d21c  exit=1  2165s   ====
+[00:22:29] [res] cpu=3% mem=40% (12.7/31.4 GB) chrome_testing=5  END STUDY_SE06_d587
+[00:22:39] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[00:22:39] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[00:22:39] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[00:22:39] memory 37% before starting CANON_NEWGAME_B1_r3 (2 running)
+[00:22:39] ==== START CANON_NEWGAME_B1_r3  (probe @ d21c698bdef7b3ae434112ce7175ae9945deadd8) ====
