@@ -27,6 +27,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
 import playlib as L
 import bbplay as P
+import cc_phone
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
@@ -281,7 +282,35 @@ async def c_others(pg, cdp, tag):
         await wait_h(pg, cdp, r['h'] + 0.1, '%s_%s' % (tag, r['who'])); await pg.wait_for_timeout(3000)
         t = await thread(pg, cdp, '%s_%s_%s' % (tag, r['who'], r['day']), 'p:' + r['who'])
         s = await st(pg); out.append(dict(r, cap=s['cap'], **t))
-    return {'case': tag, 'rows': out}
+    # BB-C 11-14（99c2bdae2d）加拍兩個：① 2026-07-19 20:05 方奕廷「回來了」有沒有送到（上山做調查沒訊號到 7/20）② 2027-02-09 22:05 阿凱「所以我回來了」「宵夜」以後走回 203，他在不在房間
+    extra = []
+    await jump(pg, cdp, tag, '2026-07-19', 19 + 55 / 60, 'dorm', None)
+    await wait_h(pg, cdp, 20 + 5 / 60, tag + '_fang0719'); await pg.wait_for_timeout(3000)
+    extra.append(dict(day='2026-07-19', who='npc_fangyt', **(await thread(pg, cdp, tag + '_fang_0719', 'p:npc_fangyt'))))
+    await jump(pg, cdp, tag, '2027-02-09', 21 + 55 / 60, 'campus', None)
+    await wait_h(pg, cdp, 22 + 5 / 60, tag + '_kai0209'); await pg.wait_for_timeout(3000)
+    k = await thread(pg, cdp, tag + '_kai_0209', 'p:kai')
+    back = await to_dorm(pg, cdp, tag + '_kai_0209')
+    await pg.wait_for_timeout(4000); await pg.screenshot(path=os.path.join(OUT, '%s_kai_0209_room203.png' % tag))
+    pr = await pg.evaluate("(()=>STORY.presence('kai',GAME.G))()"); w = await P.who(pg, 'kai'); c = await P.clock(pg)
+    R.note('[%s] 2027-02-09 走回 203（%s）：%s %.2f %s；STORY.presence(kai) %s；這一區的阿凱 %s' % (tag, back, c['key'], c['h'], (await st(pg)).get('zone'), J(pr), J(w)))
+    extra.append(dict(day='2027-02-09', who='kai', back=back, presence=pr, npc=w, **k))
+    return {'case': tag, 'rows': out, 'extra': extra}
+
+
+async def to_dorm(pg, cdp, tag):
+    """手機「地點」→ 宿舍（照玩家快速前往）；回傳到了沒"""
+    await P.phone_tab(pg, cdp, 'places'); await cc_phone.reveal(pg, cdp, 'dorm')
+    c = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith('dorm|')||b.dataset.place==='dorm'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+    await pg.screenshot(path=os.path.join(OUT, '%s_places_dorm.png' % tag))
+    if not c: await L.close_panels(pg, cdp); R.note('[%s] 手機「地點」沒有宿舍' % tag); return False
+    await L.touch_tap(cdp, c[0], c[1])
+    for _ in range(60):
+        await pg.wait_for_timeout(1000)
+        s = await P.ts(pg)
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+        if (await st(pg)).get('zone') == 'dorm': return True
+    return (await st(pg)).get('zone') == 'dorm'
 
 
 async def c_kxy2(pg, cdp, tag, dating):
