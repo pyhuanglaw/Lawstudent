@@ -1,0 +1,35 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHUT_TZ_across_2330\out
+CC 店門口：worktree ?；tingzhou 23.5；TAG tz_across_2330；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-10-18 23.5（條件事件、手機關）
+  [前置／捷徑] tz_taimi 【捷徑】祐廷放到店面前 3 m [0, -1] 等 3 秒
+PASS [黑畫面] across_tz_taimi_tz_across_2330 不是黑畫面（平均亮度 57.3、變化 41.4）  [57.3, 41.4]
+  [  63.7s] [截圖] across_tz_taimi_tz_across_2330：鏡頭 {"eye": [13, 1.7, -1], "look": [-3, 2, -1], "lens": 24, "vfov": 45.75}、亮度 [57.3, 41.4]
+  [  63.7s] tz_taimi 對面正拍：店面 [-3, -1] 朝 [1, 0]、鏡頭退 16 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] tz_liantong 【捷徑】祐廷放到店面前 3 m [1.2, 10.75] 等 3 秒
+PASS [黑畫面] across_tz_liantong_tz_across_2330 不是黑畫面（平均亮度 54、變化 38.4）  [54, 38.4]
+  [  68.9s] [截圖] across_tz_liantong_tz_across_2330：鏡頭 {"eye": [5.2, 1.7, 10.75], "look": [-1.8, 2, 10.75], "lens": 24, "vfov": 45.75}、亮度 [54, 38.4]
+  [  68.9s] tz_liantong 對面正拍：店面 [-1.8, 10.75] 朝 [1, 0]、鏡頭退 7 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] tz_dongnan 【捷徑】祐廷放到店面前 3 m [2.2, 16.75] 等 3 秒
+PASS [黑畫面] across_tz_dongnan_tz_across_2330 不是黑畫面（平均亮度 50、變化 39.4）  [50, 39.4]
+  [  74.0s] [截圖] across_tz_dongnan_tz_across_2330：鏡頭 {"eye": [6.2, 1.7, 16.75], "look": [-0.8, 2, 16.75], "lens": 24, "vfov": 45.75}、亮度 [50, 39.4]
+  [  74.0s] tz_dongnan 對面正拍：店面 [-0.8, 16.75] 朝 [1, 0]、鏡頭退 7 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] tz_keju 【捷徑】祐廷放到店面前 3 m [2.2, 23.25] 等 3 秒
+PASS [黑畫面] across_tz_keju_tz_across_2330 不是黑畫面（平均亮度 46.9、變化 31.9）  [46.9, 31.9]
+  [  79.0s] [截圖] across_tz_keju_tz_across_2330：鏡頭 {"eye": [15.2, 1.7, 23.25], "look": [-0.8, 2, 23.25], "lens": 24, "vfov": 45.75}、亮度 [46.9, 31.9]
+  [  79.0s] tz_keju 對面正拍：店面 [-0.8, 23.25] 朝 [1, 0]、鏡頭退 16 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] tz_yuehaochi 【捷徑】祐廷放到店面前 3 m [2.2, 29] 等 3 秒
+PASS [黑畫面] across_tz_yuehaochi_tz_across_2330 不是黑畫面（平均亮度 51.1、變化 41.2）  [51.1, 41.2]
+  [  84.1s] [截圖] across_tz_yuehaochi_tz_across_2330：鏡頭 {"eye": [6.2, 1.7, 29], "look": [-0.8, 2, 29], "lens": 24, "vfov": 45.75}、亮度 [51.1, 41.2]
+  [  84.1s] tz_yuehaochi 對面正拍：店面 [-0.8, 29] 朝 [1, 0]、鏡頭退 7 m；營業中=False、鐵捲門顯示=True、室內 on=True built=True
+  [前置／捷徑] tz_xile 【捷徑】祐廷放到店面前 3 m [0.5, -5.5] 等 3 秒
+PASS [黑畫面] across_tz_xile_tz_across_2330 不是黑畫面（平均亮度 63.3、變化 50.9）  [63.3, 50.9]
+  [  89.4s] [截圖] across_tz_xile_tz_across_2330：鏡頭 {"eye": [-6.5, 1.7, -5.5], "look": [3.5, 2, -5.5], "lens": 24, "vfov": 45.75}、亮度 [63.3, 50.9]
+  [  89.4s] tz_xile 對面正拍：店面 [3.5, -5.5] 朝 [-1, 0]、鏡頭退 10 m；營業中=True、鐵捲門顯示=False、室內 on=True built=True
+  [前置／捷徑] tz_yindehao 【捷徑】祐廷放到店面前 3 m [0, 5.75] 等 3 秒
+PASS [黑畫面] across_tz_yindehao_tz_across_2330 不是黑畫面（平均亮度 59、變化 46.5）  [59, 46.5]
+  [  94.5s] [截圖] across_tz_yindehao_tz_across_2330：鏡頭 {"eye": [-7, 1.7, 5.75], "look": [3, 2, 5.75], "lens": 24, "vfov": 45.75}、亮度 [59, 46.5]
+  [  94.5s] tz_yindehao 對面正拍：店面 [3, 5.75] 朝 [-1, 0]、鏡頭退 10 m；營業中=False、鐵捲門顯示=True、室內 on=False built=False
+PASS 沒有 JS 例外  []
+ALL PASS
