@@ -1,0 +1,50 @@
+{
+ "lin_front": {
+  "yaw": 3.142,
+  "dist": 6,
+  "cam": [
+   36,
+   2.39,
+   -4.66
+  ],
+  "player": [
+   36,
+   0,
+   -1
+  ],
+  "zone": "wenzhou",
+  "hour": 14.09
+ },
+ "lin_side": {
+  "yaw": 2.45,
+  "dist": 6,
+  "cam": [
+   39.1,
+   2.7,
+   -4.74
+  ],
+  "player": [
+   36,
+   0,
+   -1
+  ],
+  "zone": "wenzhou",
+  "hour": 14.1
+ },
+ "lin_night": {
+  "yaw": 3.142,
+  "dist": 6,
+  "cam": [
+   36,
+   2.39,
+   -4.66
+  ],
+  "player": [
+   36,
+   0,
+   -1
+  ],
+  "zone": "wenzhou",
+  "hour": 20.6
+ }
+}

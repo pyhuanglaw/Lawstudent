@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "G2DF5_LINVIEW",
+  "sha": "a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py",
+  "env": "TAG=2df5;VIEWS=lin_front:wenzhou:36:-1:14:3.1416:6:36:1.4:3.5:60+lin_side:wenzhou:36:-1:14:2.45:6:36:1.4:3.5:60+lin_night:wenzhou:36:-1:20.5:3.1416:6:36:1.4:3.5:60;SHA=a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492",
+  "machine": "MSI",
+  "start": "2026-11-13T21:29:09",
+  "end": "2026-11-13T21:32:27",
+  "seconds": 197,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 17,
+    "mem": 50,
+    "used_gb": 15.7,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

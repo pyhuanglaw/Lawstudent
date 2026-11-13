@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_campus_view_shot_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\G2DF5_LINVIEW\out
+CC 校園定點截圖：worktree ?；TAG 2df5；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 wenzhou 14.00 時、站 (36.0, -1.0)；鏡頭直接擺 yaw 3.1416 rad、距離 6.0
+  [  59.4s] lin_front：{"yaw": 3.142, "dist": 6, "cam": [36, 2.39, -4.66], "player": [36, 0, -1], "zone": "wenzhou", "hour": 14.09}
+PASS lin_front 在 wenzhou、玩家在 (36.0, -1.0) 0.6 m 內  {"yaw": 3.142, "dist": 6, "cam": [36, 2.39, -4.66], "player": [36, 0, -1], "zone": "wenzhou", "hour": 14.09}
+  [  60.2s] lin_front 另一台相機：玩家位置高 1.6 m → (36.0, 1.4, 3.5) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 wenzhou 14.00 時、站 (36.0, -1.0)；鏡頭直接擺 yaw 2.45 rad、距離 6.0
+  [  77.8s] lin_side：{"yaw": 2.45, "dist": 6, "cam": [39.1, 2.7, -4.74], "player": [36, 0, -1], "zone": "wenzhou", "hour": 14.1}
+PASS lin_side 在 wenzhou、玩家在 (36.0, -1.0) 0.6 m 內  {"yaw": 2.45, "dist": 6, "cam": [39.1, 2.7, -4.74], "player": [36, 0, -1], "zone": "wenzhou", "hour": 14.1}
+  [  78.6s] lin_side 另一台相機：玩家位置高 1.6 m → (36.0, 1.4, 3.5) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 wenzhou 20.50 時、站 (36.0, -1.0)；鏡頭直接擺 yaw 3.1416 rad、距離 6.0
+  [  96.5s] lin_night：{"yaw": 3.142, "dist": 6, "cam": [36, 2.39, -4.66], "player": [36, 0, -1], "zone": "wenzhou", "hour": 20.6}
+PASS lin_night 在 wenzhou、玩家在 (36.0, -1.0) 0.6 m 內  {"yaw": 3.142, "dist": 6, "cam": [36, 2.39, -4.66], "player": [36, 0, -1], "zone": "wenzhou", "hour": 20.6}
+  [  97.4s] lin_night 另一台相機：玩家位置高 1.6 m → (36.0, 1.4, 3.5) fov 60.0
+PASS 沒有 JS 例外  []
+ALL PASS
