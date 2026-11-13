@@ -22,7 +22,7 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TABLE = 'docs/handoff/AA_959_overlay.json'
-SRC_SHA = '185068f716'   # 企劃線 claude/magical-albattani-bk7b4n（AA_951～966：七位女主角＋配角，372 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7）
+SRC_SHA = '6ccf6669f8'   # 企劃線 claude/magical-albattani-bk7b4n（AA_951～967：七位女主角＋配角，405 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
 
 # 說話的人對不上表上的 speaker（或不是某一個人的句子）：不換，報 AA。鍵＝(檔名, old)；表在 docs/handoff/AA_959_skip.json（tests/aa959_map.js 也讀）
 SKIPFILE = 'docs/handoff/AA_959_skip.json'
@@ -165,6 +165,11 @@ def check():
             p = gpath(f)
             t = open(p, encoding='utf8').read() if p else ''
             if _spans(t, r): bad.append(f'第 {r["_i"]} 列 {f}：還有舊字「{r["old"]}」')
+        for src, fs in LINKED.items():
+            if src in r['files'] and (src, r['old']) not in SKIP and _is_incoming(r):
+                for f in fs:
+                    p = gpath(f)
+                    if p and _spans(open(p, encoding='utf8').read(), r): bad.append(f'第 {r["_i"]} 列 {f}（跟著 {src} 換）：還有舊字「{r["old"]}」')
         own = [f for f in r['files'] if (f, r['old']) not in SKIP]
         if own and not any(_new(r) in open(gpath(f), encoding='utf8').read() for f in own if gpath(f)):
             bad.append(f'第 {r["_i"]} 列 {own}：找不到新字「{_new(r)}」')

@@ -45,6 +45,11 @@
    "file": "vac_activities.js",
    "old": "……其實是因為沒人要當。",
    "why": "C18 行前說明，SY()＝團長姚思穎（npc_siying）說的，不是語彤"
+  },
+  {
+   "file": "termend_opts.js",
+   "old": "我沒有很在意喔，我只是算了一下。",
+   "why": "TERMEND_OPTS.KX.Y3S2 是可昕的期末飯（KX＝可昕，高雄、寫房東報告），表上寫子晴（heroine_04）——說話的人對不上"
   }
  ]
 }

@@ -197,7 +197,7 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
  "classmate_peishan":[
   {"id":"ps1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["好。但我會一直問你問題。"],"say":"「好。但我會一直問你問題。」","src":"現有","ex":"acc","band":"A"},
   {"id":"ps2","n":2,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":null,"lines":["好。我本來就在。"],"say":"「好。我本來就在。」","src":"BB_123"},
-  {"id":"ps3","n":3,"k":"acc","stage":"1","st":[1,1],"tags":[],"cond":null,"lines":["好。你為什麼約我？我只是好奇。"],"say":"「好。……你為什麼約我？我只是好奇。」","src":"BB_123","ov":["docs/story_planning/AA_783_invite_replies.json@5054f6cdc"]},
+  {"id":"ps3","n":3,"k":"acc","stage":"1","st":[1,1],"tags":[],"cond":null,"lines":["好。你為什麼約我？好奇問一下。"],"say":"「好。……你為什麼約我？我只是好奇。」","src":"BB_123","ov":["docs/story_planning/AA_783_invite_replies.json@5054f6cdc"]},
   {"id":"ps4","n":4,"k":"acc","stage":"2","st":[1,2],"tags":["noodle"],"cond":null,"lines":["我吃很慢。你不能催我。"],"say":"「我吃很慢。你不能催我。」","src":"現有","ex":"acc","band":"A"},
   {"id":"ps5","n":5,"k":"acc","stage":"2","st":[1,2],"tags":["brunch"],"cond":null,"lines":["早午餐！好啊，那種不用太早起的我最可以。"],"say":"「早午餐！好啊，那種不用太早起的我最可以。」","src":"現有","ex":"acc","band":"A"},
   {"id":"ps6","n":6,"k":"acc","stage":"2","st":[2,2],"tags":["cafe"],"cond":null,"lines":["好！我帶一個問題來，你也帶一個。"],"say":"「好！我帶一個問題來，你也帶一個。」","src":"BB_123"},
