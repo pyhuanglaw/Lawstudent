@@ -2248,6 +2248,8 @@ VACGAP_C | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_plannin
 VACGAP_D | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 90 | CASES=EXAM_MX,EXAM_SIS_F,EXAM_SIS_D,EXAM_KAI,QIXI_A,QIXI_B,KHINV;SHA=d587922b01345b1eae1cd207e8dd66ebc5ddc6fa
 # CC-C 11-14 01:xx：BB_460 BLACKBG 瀏覽器確認（LAWWW 648461e26a：kxsat 讀書小組、大四生日、兩場讀書）——cc_bg5_probe 第 9 批
 BLACKBG_460 | 648461e26a42eb304c10c883e119c119d75f4363 | probe | docs/story_planning/test_tools/cc/cc_bg5_probe.py | index.html | 60 | BATCH=9;ORIENT=land;SHA=648461e26a42eb304c10c883e119c119d75f4363
+# CC-C 11-14 01:xx：BB_458 #6 長頸鹿鑰匙圈（其他 B～D 等 LAWWW 觸發表）
+CANON458_GIRAFFE | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 20 | CASES=GIRAFFE_A,GIRAFFE_B;SHA=d587922b01345b1eae1cd207e8dd66ebc5ddc6fa
 YUE_MEAL_r3 | 6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 25 | CASES=SIS,SISD;SHA=6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d
 # ===== CC-C 11-13 23:3x：LAWWW-C 15:31 存檔壓縮預設開（c10937dddb）——BB_384 量測＋舊存檔相容回歸（舊版＝main b3e86d9141）=====
 SAVE_LZ_c109 | c10937dddbb100a6f3b8be4b25205140d2a8e63b | probe | docs/story_planning/test_tools/cc/cc_save_lz_probe.py | index.html | 70 | SOLO=1;DEFAULT_LZ=1;FIXES=A=tests/fixtures/user_save_day54_1110.json;SHA=c10937dddbb100a6f3b8be4b25205140d2a8e63b
