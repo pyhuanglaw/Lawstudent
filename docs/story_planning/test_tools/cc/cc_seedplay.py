@@ -124,8 +124,28 @@ async def answer(pg, cdp, tag, th, idx=0, label=None):
     return lab
 
 
+async def drain(pg, cdp, max_s=60):
+    """正在演的對話、選單先演完（選第一個）；回傳演了幾下"""
+    t0 = time.time(); n = 0; idle = None
+    while time.time() - t0 < max_s:
+        s = await P.ts(pg)
+        if s['ch']: await P.tap_choice(pg, cdp, 0); n += 1; idle = None; await pg.wait_for_timeout(700); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); n += 1; idle = None; await pg.wait_for_timeout(500); continue
+        if s['busy'] or s.get('depth', 0) > 0: idle = None; await pg.wait_for_timeout(400); continue
+        idle = idle or time.time()
+        if time.time() - idle > 2: break
+        await pg.wait_for_timeout(300)
+    return n
+
+
 async def travel(pg, cdp, tag, zone):
-    await P.phone_tab(pg, cdp, 'places'); await cc_phone.reveal(pg, cdp, zone)
+    # 11-14 CANON458 GIRAFFE_A TEST_BUG：讀檔進宿舍時阿凱的 ev_kai_back_y1s2_later 剛好開演，手機「地點」被擋＝找不到 campus（B 同一套 PASS）——先把正在演的演完，找不到再試一次
+    n = await drain(pg, cdp)
+    if n: R.note('[%s] 開手機前先演完正在演的（%d 下）' % (tag, n))
+    for k in range(2):
+        await P.phone_tab(pg, cdp, 'places'); await cc_phone.reveal(pg, cdp, zone)
+        if await pg.evaluate(cc_phone.HAS, zone) or k: break
+        await L.close_panels(pg, cdp); n = await drain(pg, cdp); R.note('[%s] 手機「地點」第一次沒有 %s，演完（%d 下）再開一次' % (tag, zone, n))
     c = await pg.evaluate("(z=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(z+'|')||b.dataset.place===z); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })", zone)
     await pg.screenshot(path=os.path.join(OUT, '%s_places_%s.png' % (tag, zone)))
     if not c: await L.close_panels(pg, cdp); R.note('[%s] 手機「地點」沒有 %s' % (tag, zone)); return False

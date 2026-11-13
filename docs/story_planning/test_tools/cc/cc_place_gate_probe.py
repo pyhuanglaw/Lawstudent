@@ -230,6 +230,11 @@ async def do_func(pg, cdp, tag, rm, zid):
                         'verdict': 'PASS' if ok_reach and (m1 < m0 or said > 0) else ('UNKNOWN' if (not ok_reach or (not picked and not said)) else 'FAIL')}
     else:
         res['order'] = {'verdict': 'UNKNOWN', 'why': '沒有點餐／結帳類的互動點（這間可能不賣東西：交 BB 看）'}
+    zn = await pg.evaluate("(()=>({zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2)}))()")
+    if zn['zone'] != zid:   # 11-14 L118_CAFE2 18:30：點餐（吃 40 分鐘）過了 19:00 打烊＝被請出店外，座位 0 張、找不到「離開」——照實記，座位、出口兩項不做（不算 FAIL_SETUP）
+        R.note('%s ⑦ 點完以後人已經不在店裡（%s %.2f）：吃完過了打烊被請出去？座位、出口兩項跳過' % (tag, zn['zone'], zn['h']))
+        res['sit'] = {'verdict': 'n/a', 'why': 'out:%s %.2f' % (zn['zone'], zn['h'])}; res['exit'] = {'verdict': 'n/a', 'why': 'out:%s' % zn['zone']}
+        return res
     if rm['seat']:
         occs = []
 
