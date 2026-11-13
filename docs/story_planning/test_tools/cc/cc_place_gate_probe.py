@@ -65,7 +65,7 @@ ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,
 PEOPLE_JS = r"""(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const ex=new Set(); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o)); if(E.player&&E.player.obj) E.player.obj.traverse(o=>ex.add(o));
   const rc=new THREE.Raycaster(); const face=n=>{ const ry=n.obj.rotation.y, o=n.obj.position; rc.set(new THREE.Vector3(o.x,o.y+1.5,o.z), new THREE.Vector3(Math.sin(ry),0,Math.cos(ry))); rc.far=3;
     const h=rc.intersectObjects(E.scene.children,true).find(x=>!ex.has(x.object)&&x.object.visible!==false); return h?f(h.distance):null; };
-  const P=(E.npcs||[]).filter(n=>n&&n.obj&&n.obj.visible!==false).map(n=>({id:n.charId||n.id||'', x:f(n.obj.position.x), z:f(n.obj.position.z), clerkFlag:!!n.clerk, pose:n.pose||null, seat:!!n.seat,
+  const P=(E.npcs||[]).filter(n=>n&&n.obj&&!n.hidden&&(n.hidden!==undefined||n.obj.visible!==false)).map(   /* 11-13 BB-C ⑧：在不在場看 n.hidden（遊戲自己的），obj.visible 會被遠近切換關掉 */n=>({id:n.charId||n.id||'', x:f(n.obj.position.x), z:f(n.obj.position.z), clerkFlag:!!n.clerk, pose:n.pose||null, seat:!!n.seat,
     stand:E.canStand?!!E.canStand(n.obj.position.x,n.obj.position.z,0.2,n.lv|0):null, face_m:face(n)}));
   const clerk=a?P.filter(p=>Math.hypot(p.x-a.x,p.z-a.z)<2||p.clerkFlag):P.filter(p=>p.clerkFlag); const cust=P.filter(p=>!clerk.includes(p));
   /* BB-C 05:26 ③：店員有沒有站進櫃檯／貨架裡（站的那一點站不住＝在家具裡；坐著的不算）；新加的客人是不是臉對空牆（頭的高度往正前方 0.45 m 內就撞到東西）*/
