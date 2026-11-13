@@ -2327,10 +2327,10 @@ LIMAO_GATE_131b | 131bb25e4d1c405ad657891a0b5135959a4943fc | probe | docs/story_
 TZ_WENTE_v2_1500 | 5c96c6680264aa6fe56f5450f01d848d3623c9af | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=15;DIST=9;SHA=5c96c6680264aa6fe56f5450f01d848d3623c9af
 TZ_WENTE_v2_2300 | 5c96c6680264aa6fe56f5450f01d848d3623c9af | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=23;DIST=9;SHA=5c96c6680264aa6fe56f5450f01d848d3623c9af
 # ===== CC-C 11-14 00:5x：BB_457 VACGAP 寒暑假 12 項第一批（第 8、10 項、12 的邀約第二批）@d587922b01 =====
-VACGAP_A | 6b1d2a2b2594c43875fea820a45fd28956ec8aee | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 60 | CASES=W203_A,W203_B,REPAIR,BACK_IN,BACK_LATER;SHA=6b1d2a2b2594c43875fea820a45fd28956ec8aee
-VACGAP_B | 6b1d2a2b2594c43875fea820a45fd28956ec8aee | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 60 | CASES=MXGYM,KVJP,LNY,KXHOME_F,KXHOME_D;SHA=6b1d2a2b2594c43875fea820a45fd28956ec8aee
-VACGAP_C | 6b1d2a2b2594c43875fea820a45fd28956ec8aee | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 90 | CASES=KXY3_A,KXY3_B,OTHERS,KXY2_F,KXY2_D;SHA=6b1d2a2b2594c43875fea820a45fd28956ec8aee
-VACGAP_D | 6b1d2a2b2594c43875fea820a45fd28956ec8aee | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 90 | CASES=EXAM_MX,EXAM_SIS_F,EXAM_SIS_D,EXAM_KAI,QIXI_A,QIXI_B,KHINV;SHA=6b1d2a2b2594c43875fea820a45fd28956ec8aee
+VACGAP_A | 625fefcf1e40e4edcee58234fd6916b7fe89ff75 | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 60 | CASES=W203_A,W203_B,REPAIR,BACK_IN,BACK_LATER;SHA=625fefcf1e40e4edcee58234fd6916b7fe89ff75
+VACGAP_B | 625fefcf1e40e4edcee58234fd6916b7fe89ff75 | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 60 | CASES=MXGYM,KVJP,LNY,KXHOME_F,KXHOME_D;SHA=625fefcf1e40e4edcee58234fd6916b7fe89ff75
+VACGAP_C | 625fefcf1e40e4edcee58234fd6916b7fe89ff75 | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 90 | CASES=KXY3_A,KXY3_B,OTHERS,KXY2_F,KXY2_D;SHA=625fefcf1e40e4edcee58234fd6916b7fe89ff75
+VACGAP_D | 625fefcf1e40e4edcee58234fd6916b7fe89ff75 | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 90 | CASES=EXAM_MX,EXAM_SIS_F,EXAM_SIS_D,EXAM_KAI,QIXI_A,QIXI_B,KHINV;SHA=625fefcf1e40e4edcee58234fd6916b7fe89ff75
 # CC-C 11-14 01:xx：BB_460 BLACKBG 瀏覽器確認（LAWWW 648461e26a：kxsat 讀書小組、大四生日、兩場讀書）——cc_bg5_probe 第 9 批
 BLACKBG_460 | 648461e26a42eb304c10c883e119c119d75f4363 | probe | docs/story_planning/test_tools/cc/cc_bg5_probe.py | index.html | 60 | BATCH=9;ORIENT=land;SHA=648461e26a42eb304c10c883e119c119d75f4363
 # BB-C 17:16：B2_r2 選「翹這堂課」還被帶進教室＝疑似 GAME P1——SKIP_DIAG_0918：9/18 12:00 醒來選翹課（對照：先起床再說），每 10 秒記到 13:30；結果直接給 LAWWW＋BB
