@@ -115,3 +115,42 @@
 5. 搬完先建一次「CC0 關掉」的版本，大小要和開發分支上的一樣（確定搬的時候沒動到原本的東西），再開 CC0。
 
 **驗收流程**：幫手交件（自己的分支＋通知 LAWWW2）→ LAWWW2 看並排圖、跑測試，過了轉 LAWWW-C 整合（不過就寫哪裡要改退回）→ BB 判美術 → CC 拍四鏡頭、量效能。
+
+## 7. aa_kit 的腳本（`aa_support/*_interior.py`）：用 `cc0_aakit.py`，不用一個一個改畫東西的函式（11-13 補，LAWWW2-C 做 cafe230、afar 時寫的）
+
+aa_kit 把頂點色零件都累積在 `sh._acc[(key, lvl)]` 和 `sh.walls[side][key]` 的 VMesh 裡（key＝`vc`／`vcm`／`vcg`），所以最快的接法是：**匯出前把這些 VMesh 的面照顏色搬到 CC0 材質組的網格**，畫東西的函式一行都不用動。
+
+1. **建置環境**：aa_support 的腳本要 `claude/second-ai-env-art` 的 `lib2.py`、`cafe_layout.py`、`tools/blender/plants.py`，還要 AA 分支（`claude/magical-albattani-bk7b4n`）的 `aa_kit.py`、`aa_int_tex.py` 和 `textures/gen/*`。在一個丟棄用的工作區做：
+   `git checkout origin/claude/magical-albattani-bk7b4n -- tools/blender && git checkout origin/claude/second-ai-env-art -- tools/blender/env_second/lib2.py tools/blender/env_second/cafe_layout.py tools/blender/plants.py && git reset`
+   先跑一次原版，確認和 repo 的模型同樣大小，才開始改。
+   注意：遊戲用的那顆可能是烘過光照的版本，大小不會一樣，比三角形數就好。
+2. **接法**：照 `aa_support/cafe230_interior.py`、`afar_interior.py` 的 `if CC0:` 兩段抄就好。
+   - 第一段放在材質表後面：
+     - `import cc0_aakit as cc0_kit`；
+     - `K0 = cc0_kit.Kit(L, B, sh.root, g2b, prefix=P)`；
+     - `sh.M.update({...K0.acg(...)...})`；
+     - `VC_ROUTE = {'#色碼': '材質 key'}`。
+   - 第二段放在 `sh.finish` 前面：
+     - `K0.split_vc(...)` 處理 `sh._acc`，再對四面牆各跑一次；
+     - 最後 `K0.cleanup()`。
+   - **不要 `import cc0_kit`**：那是 AA 給 lane118 用的另一支，介面不一樣。
+3. **VC_ROUTE 怎麼列**：
+   - `grep -o "'#[0-9a-f]\{6\}'" 腳本 | sort | uniq -c | sort -rn` 列出用最多的顏色，加上腳本開頭的常數（WAL、GREY、BRASS…）。
+   - 照「是什麼東西」分到材質組：
+     - 木頭色 → `wood`（腳本本來就有的胡桃木）；
+     - 灰布 → Fabric036；
+     - 皮 → Leather037／026；
+     - 黃銅 → Metal009（metal 0.85）；
+     - 黑鐵、管線 → Metal009（深色）；
+     - 白瓷 → Plastic006（vary 0.05）；
+     - 陶盆 → PaintedPlaster017。
+   - 顏色距離 < 26 就算同一組。
+   - 不要把葉子、書背、蠟燭、燈泡的顏色放進表：它們留在頂點色。
+4. **Poly Haven**：大盆栽換掃描模型，在畫盆栽的函式最前面 `if CC0: K0.ph_put(...); return`（`share=False`，烘焙才認得）。
+5. **烘焙**：
+   - aa 的店照舊用 `lightbake/bake_gg_new.sh aa_<店>`，它只烘地板、天花板、牆，其他都走即時光，新材質不用另外排除。
+   - cafe230 有自己的 `bake_cafe230.sh`：`NOLM` 要加上新分出來的小零件材質。
+6. **結果**：
+   - cafe230：純色零件 33% → 16%，三角形 49,926 → 53,830；
+   - afar：純色零件 42% → 16%，三角形 48,378 → 52,730。
+   - LICENSES.md 要登記用到的 Poly Haven 模型和每個 ambientCG 材質組，格式照 cafe230 那幾列。
