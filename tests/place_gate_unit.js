@@ -50,7 +50,7 @@ const KNOWN_FAIL=[].concat(
   KF(T_VIEW,'ceiling','wz_print wz_teahouse wz_lin wz_teishoku'),
   /* 118 巷八間店的天花板（L118-DIAN-CEILING-1112）：BB 17:4x 定鏡頭距離 4.2→3.6 m，過了（LAWWW2-C） */
   /* 有窗（或模型有玻璃）沒有窗景照片 */
-  KF(T_VIEW,'view','afar daybreak yangyang corner_records aoki wz_brunch wz_teahouse wz_mokuyobi wz_offbeat us_asian_market us_market'),
+  KF(T_VIEW,'view','wz_brunch wz_teahouse us_asian_market us_market'),
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   /* 其他（補查出來的）*/
   /* 美國兩間超市的買得到／錢不夠／字：2026-11-12 接好了（AA_850；src/us_markets3d.js），這三列拿掉 */
@@ -240,7 +240,11 @@ async function checkShop(z){ const nm=nameOf(z), ty=TYPE[z], L=tzLay(z), s118=l1
     for(const f of names){ const m=/^(.+?)(?:_near)?_day\.webp$/.exec(f); if(m&&(m[1]===z||m[1].indexOf(z+'_')===0)&&!kinds.includes(m[1])) kinds.push(m[1]); }
     const glass=glbsOf(z).some(p=>{ const j=glbJson(p); return j&&(j.materials||[]).some(m=>/glass|玻璃/i.test(m.name||'')); });
     const bad=kinds.filter(k=>!ok(k));
-    if(kinds.length&&!bad.length) pass(z,'view'); else if(kinds.length) fail(z,'view','窗景照片缺檔：'+bad.join('、')+'（白天、晚上各一張）');
+    /* 模型裡的窗景卡換照片（公館 GG_VIEW：材質名；溫州街 WZ_VIEW：網格名；zones3d.js）——卡要真的在模型裡、白天晚上兩張照片都在（SHOP-INTERIOR-VIEW-1112 LAWWW-C 11-13：afar 等七間原本被當成沒有窗景）*/
+    const cards=[]; if(typeof Z3!=='undefined'){ const gv=Z3.GG_VIEW&&Z3.GG_VIEW[z]; if(gv) cards.push({re:new RegExp('^'+gv.mat+'$'),mat:true,day:gv.day,night:gv.night}); const wv=Z3.WZ_VIEW&&Z3.WZ_VIEW[z.replace(/^wz_/,'')]; if(wv) for(const e of wv) cards.push({re:new RegExp(e.mesh),mat:false,day:e.day,night:e.night}); }
+    const cardOk=c=>fs.existsSync(path.join(ROOT,c.day))&&fs.existsSync(path.join(ROOT,c.night))&&glbsOf(z).some(p=>{ const j=glbJson(p); return j&&(c.mat?(j.materials||[]):(j.nodes||[]).concat(j.meshes||[])).some(o=>c.re.test(o.name||'')); });
+    if(!kinds.length&&cards.length){ const cb=cards.filter(c=>!cardOk(c)); if(!cb.length) pass(z,'view'); else fail(z,'view','窗景卡設定了、但模型裡找不到那張卡或照片缺檔：'+cb.map(c=>c.re.source+'（'+c.day+'）').join('、')); }
+    else if(kinds.length&&!bad.length) pass(z,'view'); else if(kinds.length) fail(z,'view','窗景照片缺檔：'+bad.join('、')+'（白天、晚上各一張）');
     else if(zone.wins&&zone.wins.length) fail(z,'view','房間有 '+zone.wins.length+' 扇窗、沒有窗外照片（assets/models/env/views/'+z+'_day／_night.webp）');
     else if(glass) fail(z,'view','模型有玻璃、沒有窗景設定（views/ 沒有這一區的照片，程式也沒有放視差窗）'); else pass(z,'view'); }
   /* 牆的疊面：和基準（tests/place_gate_coplanar.json）比；基準上已經有的＝疑似，交給第二層連拍 */
