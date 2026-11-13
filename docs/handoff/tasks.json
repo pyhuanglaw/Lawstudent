@@ -53350,7 +53350,7 @@
    "id": "CHAR-OLD-PURGE-1110",
    "title": "人物舊設定不符合現行的字直接刪（不標過時留著）（X330）",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -53363,7 +53363,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-13 LAWWW-C】AA 人物文件補掃完、沒有要改的（AA 11-13）；11-11 的 16 份源稿刪列那件 X330-RESTORE-1111 已做完。最後一句 AA_927（events.js ev_zq_ask_kai 阿凱「有啊，跟他同班的。怎樣？」，BB_451 照用）已接。剩：CANON-NO-ECON-1112 第五批合併後 AA 全掃一次，沒有剩的就改已整合待測試。",
+   "next": "【11-13 13:0x LAWWW-C】AA 對 01800889cb 全掃：玩家看得到的禁用字串 0；人物舊設定 AA_937～949 都已進（最後 1ed7c69649）→ 已整合待測試；約會重匯合完 AA 再掃一次，有新的另開任務。｜【11-13 LAWWW-C】AA 人物文件補掃完、沒有要改的（AA 11-13）；11-11 的 16 份源稿刪列那件 X330-RESTORE-1111 已做完。最後一句 AA_927（events.js ev_zq_ask_kai 阿凱「有啊，跟他同班的。怎樣？」，BB_451 照用）已接。剩：CANON-NO-ECON-1112 第五批合併後 AA 全掃一次，沒有剩的就改已整合待測試。",
    "xai": {
     "spec": "X330、UA-AA-1110-12",
     "branch": "claude/story-planning",
@@ -56613,9 +56613,9 @@
    "title": "台詞裡法律系的「期中考」清掉（D118 起法律系沒有期中考，classes3d 第 8～9 週照常上課）；順便清「老師說『好問題』」重複 8 次的梗",
    "owner": "AA",
    "priority": "P1",
-   "status": "進行中",
+   "status": "已整合待測試",
    "src": "AA-C 11-12 22:02（表外，LAWWW-C 開）",
-   "next": "【LAWWW-C 11-12 22:1x 交班】AA_923 定稿 96c3a668eb（BB_449）；src 手改列與 ladder／約會 D09／syllabus 重匯併在 CANON 第五批（docs/handoff/canon_b5_1112/README.md），還沒進開發分支。｜【LAWWW-C 11-12 22:0x】AA 分三類：別系／家教學生／美國交換的期中（留）、期中週／學期中講時段（留）、法律系期中考（換）；寫成 AA_923，交件後 LAWWW 匯入、BB 測。",
+   "next": "【11-13 13:0x LAWWW-C】AA 對 1ed7c69649 核過 AA_923 第 1、2、4、6 節都在開發分支（可昕期中階梯舊句 0、r3_3d 民訴書面報告、aa811 學姊、events 1701、xcrom S.COLD、syllabus 芯慈）→ 已整合待測試，交 BB。｜【LAWWW-C 11-12 22:1x 交班】AA_923 定稿 96c3a668eb（BB_449）；src 手改列與 ladder／約會 D09／syllabus 重匯併在 CANON 第五批（docs/handoff/canon_b5_1112/README.md），還沒進開發分支。｜【LAWWW-C 11-12 22:0x】AA 分三類：別系／家教學生／美國交換的期中（留）、期中週／學期中講時段（留）、法律系期中考（換）；寫成 AA_923，交件後 LAWWW 匯入、BB 測。",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
