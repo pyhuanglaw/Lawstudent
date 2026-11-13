@@ -11,6 +11,10 @@
 - PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
 
 ### 下一班第一件事（任務 ID，照順序）
+0n. **（11-13 23:3x UTC）這一段交的**
+  - **SHOP-REALISM-1112 日和便利店 CC0**（接手 g2）交 6ecd6495c8：`wip/cvs_cc0_1113/cvs_cc0.patch`（底 4556c4be0c；61,906 面；三項過）。cc0_kit.py 的 vc_tex 和青木 patch 重複，套第二包時 `--exclude` 掉那段。
+  - **SHOP-REALISM-1112 花序花束 P2**（g4 轉交）交 b774ec3f17：`wip/flower_notes_p2_1113/flower_notes_p2.patch`（拿掉綠球、花瓣根暗尖亮；72,707→76,795 面；apply --check 過 bf9d623e69）。下一步（不擋）：換 Poly Haven 花／葉片，先量面數；用 bb_support/cc0kit.py 時要拿 g4 的 181e2a27c（ph_obj 照高度分快取）。
+  - 這兩項都等 LAWWW 整合 → CC 第二層 → BB 判。
 0m. **（11-13 22:2x UTC）這一段交的、等的**
   - **SHOP-REALISM-1112 第九批一盞前院**：P2 三點（耙紋、踏石、灌木）＋P3 三種綠都交了，BB 全關（BB_379）。LAWWW 套 `wip/tz_cc0_batch9_1113/b9_yard_p3_full.patch`（底 19399e5d39，取代 b9_yard_p2_full）或 `yard_p3_incr.patch`（2ad201e55e）。等整合、CC 四鏡頭。
   - **ZQ-C504-LAPTOP-1101 方案 A 交 3d981c26da**：afar 門口小桌＋兩椅（Poly Haven outdoor_table_chair_set_01）、座位、腳印、新測試 FAIL 4→ALL PASS。LAWWW 那一半：c504_4_3 改 read＋seatAt [11.87,21.46]＋laptop_lap。
