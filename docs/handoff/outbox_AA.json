@@ -7722,10 +7722,10 @@
     "docs/story_planning/date_system/lines/D31.json",
     "docs/story_planning/date_system/lines/D32.json"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T12:10Z",
    "receiver": "LAWWW",
-   "ack": "LAWWW-C ACK；BB-C 照用 → 已告訴 LAWWW 定稿",
+   "ack": "LAWWW-C ACK；BB-C 照用 → 已告訴 LAWWW 定稿；LAWWW 已進 12b9649687",
    "noDirectIntegrate": false,
    "next": "LAWWW 照 ①～④ 改、約會五句重匯；BB 第二眼（③④ 的字）",
    "unfinished": ""
@@ -7737,10 +7737,10 @@
    "files": [
     "docs/story_planning/AA_939_女主角主動約你_舊設定句子.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T12:25Z",
    "receiver": "LAWWW",
-   "ack": "BB-C 照用；已轉 LAWWW；第 5 節 LAWWW 已刪（3af9b5afe3）",
+   "ack": "BB-C 照用；已轉 LAWWW；第 5 節 LAWWW 已刪（3af9b5afe3）；LAWWW 已進 12b9649687",
    "noDirectIntegrate": false,
    "next": "BB 第二眼；LAWWW 改 heroine_asks.js（可昕 5、沛珊 8、以安 1 格、語彤 1 格＋放假兩句）",
    "unfinished": ""
@@ -7862,7 +7862,7 @@
   {
    "task": "DLG-FULL-REVIEW-1110",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "待填",
+   "sha": "5d48cae98f",
    "files": [
     "docs/story_planning/AA_947_芷若_店長統一成老闆_補.md",
     "docs/story_planning/AA_748_termend_heart_v2.json",
