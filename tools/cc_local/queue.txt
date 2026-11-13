@@ -2215,6 +2215,10 @@ BE1E_USNAV_old | fe347b5e8ce9daba6502044c2cb89e60f3035a2a | probe | docs/story_p
 # NOODLE-NAME-PURGE-1112（使用者選「也改掉」、BB-C 04:16）：一次性維護工作（不是測試）——cc-local 的 local_out 文字檔舊群組名換「桌遊團」，自己 commit 改到的檔，runner 照常推；排在 be1e 五件後面
 ONEOFF_NOODLE_RENAME | be1e5d725634580ee25313a7bbd14f941687bfde | py | tools/cc_local/oneoff_noodle_rename.py | index.html | 10 | NOTE=oneoff
 # BB-C 08:28 SAVE-LZ-1104（BB_384）存檔 B：random_play_sim 從 A（day54_1110）讀檔接著玩到 2029-05-31（大四下），結束寫自動存檔 save_b.json（CC 下載後做成 fixture，再排瀏覽器量測）
+# ===== CC-C 11-13 22:2x（台灣）重新接班：三支 FAIL_SETUP 是探針錯，修好重跑 =====
+JPCLASS_MSGS_r2 | fd97559d2830e6921df1fa758ce8e9e4795ff3b5 | probe | docs/story_planning/test_tools/cc/cc_jpclass_probe.py | index.html | 30 | CASES=L2,KR,ASK_YES,ASK_NO,THANKS;SHA=fd97559d2830e6921df1fa758ce8e9e4795ff3b5
+CANON_NEWGAME_A2_r2 | fd97559d2830e6921df1fa758ce8e9e4795ff3b5 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 110 | PICK_HAS=從小就想念;CANON_SCAN=1;CANON=1;KX_PICK=「看跟誰;EXPECT_HOW=class;UNTIL=2025-09-02;SAVE_CHECK=0;SHOT_EVERY=0;SHA=fd97559d2830e6921df1fa758ce8e9e4795ff3b5
+CANON_NEWGAME_B_r2 | fd97559d2830e6921df1fa758ce8e9e4795ff3b5 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 240 | PICK_HAS=就這樣;CANON_SCAN=1;CANON=1;SKIPREQ=1;HALL_FROM=2025-09-29;EXPECT_HOW=hall;UNTIL=2025-09-30;SAVE_CHECK=0;SHOT_EVERY=7;SHA=fd97559d2830e6921df1fa758ce8e9e4795ff3b5
 SAVE_LZ_growB | ed70b6d3589dc2731171347afa6d623f2b0339ca | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 120 | XARGS=--seed 1 --root . --start-save tests/fixtures/user_save_day54_1110.json --to 2029-05-31 --max-steps 40000000 --save-out {out}/save_b.json
 # BB-C 09:12 P0 BUG-DAY12-FASTPC-1102：flow_main_day12 在電腦用最新 HEAD 再跑一次（不用 turbo；今天 be1e、11-11 fe5fa4a／ecc3e12a 電腦都 ALL PASS 過）
 #取消（BB-C 09:14 判 FIXED，電腦三次 ALL PASS）DAY12_main_5685 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | game | tests/flow_main_day12.py | index.html | 20 | XARGS={url} {out}

@@ -49,7 +49,7 @@ CANON = os.environ.get('CANON') == '1'; KX_PICK = os.environ.get('KX_PICK') or '
 HALL_FROM = os.environ.get('HALL_FROM') or ''; EXPECT_HOW = os.environ.get('EXPECT_HOW') or ''
 PICK_HAS = [p for p in (os.environ.get('PICK_HAS') or '').split(',') if p]   # 選項含這些字就選（依序）
 CANON_SCAN = os.environ.get('CANON_SCAN') == '1'   # 11-13 LAWWW-C ⑧：結束時把整段台詞、選項、toast、字卡、手機訊息用 D158 的字表掃一次（印出來的是代號版）
-CUR_TRIP = [None]; KXLOG = {'shots': 0, 'ev_shots': 0, 'seen': set(), 'before_met': [], 'at_meet': None, 'skipped': [], 'hall': None}
+CUR_TRIP = [None]; SKIP_GOCLASS = [False]; KXLOG = {'shots': 0, 'ev_shots': 0, 'seen': set(), 'before_met': [], 'at_meet': None, 'skipped': [], 'hall': None}
 KX_STATE = r"""(()=>{ const G=GAME.G, F=G.flags||{}; let cls=null; try{ cls=CLS.dayItems(G).map(x=>[x.key,x.c&&x.c.name,x.c&&x.c.kind,CLS.status(G,x)]); }catch(e){}
   return {met:!!F.KX_MET, how:F.KX_MET_HOW||null, day:F.KX_MET_DAY??null, later:!!F.KX_MEET_LATER, contact:!!((G.contacts||{}).kexin||(Array.isArray(G.contacts)&&G.contacts.includes('kexin'))),
     key:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(2), zone:G.zone, cls}; })()"""
@@ -187,6 +187,8 @@ class Driver:
         if s['ch']:
             T = [o['t'] for o in s['ch']]; live = [i for i, o in enumerate(s['ch']) if not o['dim']] or list(range(len(T)))
             k = None; why = 'first'
+            if SKIP_GOCLASS[0]:   # 11-13 B r1：手機「今天」不按，但起床選單第一個「直接去上課」還是去了＝SKIPREQ 期間選單不選去上課的
+                live = [i for i in live if not any(w in T[i] for w in ('直接去上課', '去上課', '進教室'))] or live
             for p in PICK_HAS:   # 11-13 LAWWW-C：迎新自我介紹三個選項（開頭都是「我叫」）用「含這幾個字」挑
                 k = next((i for i in live if p in T[i]), None)
                 if k is not None: why = 'pick_has'; break
@@ -402,7 +404,7 @@ async def main():
                         await close_row(row, 'day change')
                         if row['counted']: counted += 1
                         if counted and SHOT_EVERY and counted % SHOT_EVERY == 0 and row['counted']: await run.shot(pg, 'week_%s' % st['key'])
-                    if counted >= DAYS or (UNTIL and st['key'] > UNTIL): ended = 'days reached'; row = None; break
+                    if counted >= DAYS or (UNTIL and first_free and st['key'] > UNTIL): ended = 'days reached'; row = None; break   # 11-13 A2 r1：開新遊戲前預設日期 9/17 > UNTIL 9/2 就結束了＝要先真的開局（第一次空下來）才看 UNTIL
                     row = {'date': st['key'], 'wd': st['wd'], 'term': st['term'], 'week': st['week'], 'hol': st['hol'], 'counted': False, 't0': time.time(),
                            'exam0': await pg.evaluate(EXAMS), 'err0': len(errs), 'con0': len(cons), 'items_start': st['items']}
                     tried = set()
@@ -444,6 +446,8 @@ async def main():
                 st = await pg.evaluate(STATE)
                 # ---- 有課：手機「今天」直接去上課 ----
                 gl = [k for k in st['gl'] if k not in tried]
+                if CANON and SKIPREQ:
+                    SKIP_GOCLASS[0] = (not HALL_FROM or st['key'] < HALL_FROM) and not await pg.evaluate("!!(GAME.G.flags||{}).KX_MET")
                 if CANON and SKIPREQ and gl and (not HALL_FROM or st['key'] < HALL_FROM):
                     kinds = await pg.evaluate("(ks=>ks.map(k=>{ try{ const it=CLS.dayItems(GAME.G).find(x=>x.key===k); return it&&it.c?it.c.kind:null; }catch(e){ return null; } }))", gl)
                     met = await pg.evaluate("!!(GAME.G.flags||{}).KX_MET")
