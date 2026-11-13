@@ -1,15 +1,3 @@
-[20:06:25] memory 31% before starting L118_BTN_dian_order (0 running)
-[20:06:25] memory 31% before starting L118_BTN_tea_order (1 running)
-[20:06:25] ==== START L118_BTN_dian_order  (probe @ 9f331db43858fe6c58021a3419820c81efeb7bb4) ====
-[20:06:25] memory 31% before starting L118_BTN_dian_enter (2 running)
-[20:06:25] ==== START L118_BTN_tea_order  (probe @ 9f331db43858fe6c58021a3419820c81efeb7bb4) ====
-[20:06:25] ==== START L118_BTN_dian_enter  (probe @ 9f331db43858fe6c58021a3419820c81efeb7bb4) ====
-[20:06:28] [res] cpu=11% mem=31% (9.8/31.4 GB) chrome_testing=0  START L118_BTN_dian_order
-[20:06:28] [res] cpu=7% mem=31% (9.8/31.4 GB) chrome_testing=0  START L118_BTN_tea_order
-[20:06:28] [res] cpu=11% mem=31% (9.8/31.4 GB) chrome_testing=0  START L118_BTN_dian_enter
-[20:06:52] 正在跑：L118_BTN_dian_order（已跑 0 分／上限 10 分）、L118_BTN_tea_order（已跑 0 分／上限 10 分）、L118_BTN_dian_enter（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
-[20:08:08] [res] cpu=39% mem=45% (14.1/31.4 GB) chrome_testing=9  END L118_BTN_dian_order
-    To https://github.com/pyhuanglaw/Lawstudent.git
        07464e126f..34835c1e50  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [20:08:16] ==== END   L118_BTN_dian_order  exit=0  103s   ====
@@ -1998,3 +1986,15 @@
 [01:44:13] [res] cpu=1% mem=49% (15.7/31.4 GB) chrome_testing=10  START STUDY_SE06_4af4_r3
 [01:46:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 63 分／上限 600 分）、SHOP8_B3_c94f（已跑 42 分／上限 160 分）、STUDY_SE06_4af4_r3（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:47:45] [res] cpu=13% mem=47% (15.0/31.4 GB) chrome_testing=10  END SHOP8_B3_c94f
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d91a42cfbf..649fd4abdf  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:48:04] ==== END   SHOP8_B3_c94f  exit=1  2594s   ====
+[01:48:07] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[01:48:07] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[01:48:07] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[01:48:07] memory 45% before starting CANON_NEWGAME_B2_r3 (2 running)
+[01:48:07] ==== START CANON_NEWGAME_B2_r3  (probe @ d21c698bdef7b3ae434112ce7175ae9945deadd8) ====
+[01:48:10] [res] cpu=2% mem=45% (14.4/31.4 GB) chrome_testing=10  START CANON_NEWGAME_B2_r3
+[01:51:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 68 分／上限 600 分）、STUDY_SE06_4af4_r3（已跑 7 分／上限 25 分）、CANON_NEWGAME_B2_r3（已跑 3 分／上限 240 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:52:06] [res] cpu=1% mem=45% (14.4/31.4 GB) chrome_testing=10  END STUDY_SE06_4af4_r3
