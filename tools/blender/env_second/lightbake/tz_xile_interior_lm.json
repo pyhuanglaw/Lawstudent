@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 169.3,
+ "bake_seconds": 270.0,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -39,6 +39,7 @@
   "S_plastic_b",
   "S_plastic_w",
   "S_steel",
+  "S_steel_d",
   "S_wood",
   "WALL_E",
   "WALL_N",

@@ -1,0 +1,54 @@
+{
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 142.1,
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 256,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  0.0,
+  30.0,
+  0.0
+ ],
+ "sky": 1.0,
+ "nightsky": 0.03,
+ "shell": "S",
+ "daylights": 1.0,
+ "knee": null,
+ "dayscale": null,
+ "lights": "-1.010,-0.990,-2.410,-2.390,3.2,1,1,26,1.16,0.16,0.96,0.98,1.0;-1.010,-0.990,-0.010,0.010,3.2,1,1,26,1.16,0.16,0.96,0.98,1.0;-1.010,-0.990,2.290,2.310,3.2,1,1,26,1.16,0.16,0.96,0.98,1.0;0.990,1.010,-2.410,-2.390,3.2,1,1,26,1.16,0.16,0.96,0.98,1.0;0.990,1.010,-0.010,0.010,3.2,1,1,26,1.16,0.16,0.96,0.98,1.0;0.990,1.010,2.290,2.310,3.2,1,1,26,1.16,0.16,0.96,0.98,1.0",
+ "points": "1.5,1.6,0.05,8,0.96,0.98,1.0,0.3",
+ "dayfill": null,
+ "wb": {
+  "day": [
+   0.97,
+   0.98,
+   1.0
+  ],
+  "night": null
+ },
+ "skytint": null,
+ "objects": [
+  "CEIL_ceil",
+  "CEIL_plastic_w",
+  "S_floor",
+  "S_ph_desk_lamp_arm_01_0",
+  "S_ph_potted_plant_02_0",
+  "S_pics",
+  "S_plastic_blue",
+  "S_plastic_dk",
+  "S_plastic_w",
+  "S_steel",
+  "S_wood",
+  "tz_liantong_interior_inst",
+  "WALL_E",
+  "WALL_N",
+  "WALL_S",
+  "WALL_Sfix_plastic_blue",
+  "WALL_Sfix_steel",
+  "WALL_W"
+ ]
+}
