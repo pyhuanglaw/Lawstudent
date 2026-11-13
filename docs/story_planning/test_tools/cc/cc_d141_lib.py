@@ -189,6 +189,12 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             tapped = await L.tap_ground(pg, cdp, s['sx'], s['sz'], lv=s['slv'])
             if tapped: break
             await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); await pg.wait_for_timeout(400)
+        if tapped:   # BB-C 11-14（WZ_LIN_SEAT_r2）：點擊位置截圖——在點下去的螢幕座標畫一個紅圈再拍
+            try:
+                await pg.evaluate("(a=>{ const d=document.createElement('div'); d.id='__tapdot'; d.style.cssText='position:fixed;z-index:99999;pointer-events:none;width:22px;height:22px;border:3px solid red;border-radius:50%;left:'+(a.x-11)+'px;top:'+(a.y-11)+'px'; document.body.appendChild(d); })", {'x': tapped['sx'], 'y': tapped['sy']})
+                await pg.screenshot(path=os.path.join(OUT, '%s_tap%02d_point.png' % (shot_prefix, k + 1)))
+                await pg.evaluate("(()=>{ const d=document.getElementById('__tapdot'); if(d) d.remove(); })()")
+            except Exception: pass
         if tapped:   # 11-13 LAWWW2：點擊打到的點和物件名字（cafe2 #13 走到店外、辛亥韓食 #6 停錯張）——點下去當下用同一個螢幕座標打射線＋遊戲的 screenToFloor
             try:
                 hit = await pg.evaluate(TAP_HIT, {'x': tapped['sx'], 'y': tapped['sy']})
