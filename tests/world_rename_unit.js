@@ -16,7 +16,7 @@ const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fail++;
     '1. src 字串常數沒有舊名（apply_game.py）　' + (r.stderr || '').trim() + ' ' + (r.stdout || '').slice(0, 600)); }
 
 /* 2 */
-const OLD = /[臺台]灣大學(?!生)|National Taiwan University|\bNTU\b|政治大學|\bNCCU\b|霖澤|萬才館?|傅鐘|椰林大道|小椰林道|醉月湖|洞洞館|自強十舍|國青中心|辜振甫|(?<!大)哥大|杜鵑花節/;
+const OLD = /[臺台]灣大學(?!生)|National Taiwan University|\bNTU\b|政治大學|\bNCCU\b|霖澤|萬才館?|傅鐘|椰林大道|小椰林道|醉月湖|洞洞館|國青中心|辜振甫|(?<!大)哥大|杜鵑花節/;
 const OLD_CTX = [[/[臺台]大/g, '舞平講櫃陽月擂吧檯戲'], [/政大/g, '財行郵執'], [/活大/g, '生復靈']];
 const hasOld = s => OLD.test(s) || OLD_CTX.some(([rx, pre]) => { rx.lastIndex = 0; let m; while ((m = rx.exec(s))) if (pre.indexOf(s.charAt(m.index - 1)) < 0) return true; return false; })
   || /博雅(?!教育|書院|學程|精神|課程)/.test(s) || /小福(?!利)/.test(s);
@@ -39,7 +39,7 @@ const CORPUS = [
   '舞台大', '平台大型', '講台大聲', '櫃台大姊', '陽台大', '月台大廳', '吧台大杯', '戲台大', '財政大臣', '行政大樓', '郵政大樓',
   '生活大小事', '復活大節', '學活', '週五中午，我們在活大。', '小福的滷肉飯', '小福利社', '小小福',
   '博雅 101', '博雅教學館', '博雅館', '在博雅吵了一小時', '博雅教育', '博雅書院', '博雅學程',
-  '傅鐘二十一響。', '椰林大道・傅鐘', '小椰林道', '椰林那邊', '小椰林那邊', '醉月湖邊', '洞洞館', '政大自強十舍', '自強十舍',
+  '傅鐘二十一響。', '椰林大道・傅鐘', '小椰林道', '椰林那邊', '小椰林那邊', '醉月湖邊', '洞洞館',
   '國青中心', '辜振甫先生紀念圖書館', 'NTU', 'National Taiwan University', 'NCCU', '政大山下的小吃街', '我從政大過來，坐了四十分鐘。', '我們的日子：開車去政大',
   '（萬才館一樓。）「B館？」', '早上的台大好安靜。山上的鳥比較吵。', '哥大上了。我要去。', '她說哥大上了，八月要去紐約', '大哥大', '杜鵑花節那天，以安找我陪她去拍照。', '以安傳在群組那張杜鵑花', '沒有舊名的句子。'];
 const py = cp.spawnSync('python3', ['-c', 'import sys,json; sys.path.insert(0,sys.argv[1]); import world_names as W; L=json.load(sys.stdin); print(json.dumps([[W.written(s),W.spoken(s)] for s in L],ensure_ascii=False))', path.join(ROOT, 'tools/rename')],
