@@ -51,7 +51,7 @@ def scan(paths, latin=False):
         if n:
             res[f] = n
     return res
-PREMISE = re.compile('你們學校|山上|下山|我們那邊|你們系')
+PREMISE = re.compile('你們學校|山上|下山|山下|後山|我們那邊|你們系|外校|首都帝大的|你們的球場')   # AA_940 建議（11-13）：heroine_asks、invites 可昕那格是前提層沒抓到才漏，加「外校」「後山／山下」「首都帝大的」「你們的球場」
 KX = re.compile('kexin|' + T(r'\u53ef\u6615'))
 def premise(paths):
     files = subprocess.run(['git', 'ls-files', '-z'] + (paths or ['src']), cwd=ROOT, capture_output=True).stdout.decode('utf-8', 'replace').split('\0')
@@ -63,7 +63,21 @@ def premise(paths):
             L = open(os.path.join(ROOT, f), encoding='utf-8', errors='replace').read().split('\n')
         except Exception:
             continue
-        for k, l in enumerate(L):
+        cm = False   # 前提警告只看台詞，不看註解（CANON ③ 11-13：註解改成代號「外校」以後，前提警告多出 24 筆註解雜訊）
+        for k, l0 in enumerate(L):
+            l, s, i = '', l0, 0
+            while i < len(s):
+                if cm:
+                    j = s.find('*/', i)
+                    if j < 0: i = len(s); break
+                    cm = False; i = j + 2; continue
+                j1, j2 = s.find('/*', i), s.find('//', i)
+                j1 = j1 if j1 >= 0 else len(s); j2 = j2 if j2 >= 0 else len(s)
+                if j2 < j1 and not (j2 > 0 and s[j2 - 1] == ':'):   # 「https://」不當註解
+                    l += s[i:j2]; i = len(s); break
+                l += s[i:j1]
+                if j1 < len(s): cm = True; i = j1 + 2
+                else: i = len(s)
             for m in PREMISE.finditer(l):
                 w = l[max(0, m.start() - 90):m.start()]
                 if KX.search(w):
