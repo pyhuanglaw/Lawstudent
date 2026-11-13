@@ -113,7 +113,11 @@ market)
   # 外殼（--shell S）：正面玻璃那一面不包。
   NAME=us_asian_market; SCRIPT=tools/blender/env_second/us_asian_market.py
   HIDE='glass|usam_view|GLOW_'
-  NOLM='usam_out_|usam_products|usam_vc|usam_price|usam_signs|_sign|usam_gold|usam_black|usam_calendar'
+  NOLM='usam_out_|usam_products|usam_promo|usam_vc|usam_price|usam_signs|_sign|usam_gold|usam_black|usam_calendar|usam_pallets|usam_ricebags|usam_plastic_white|usam_oil_jugs|usam_baskets|usam_cartons|usam_giftboxes|S_ph_|_inst'
+  # v2（11-13）：印刷的端架看板、整箱泡麵紙箱、糕餅禮盒（usam_promo）也照舊即時光
+  # SHOP-CC0-HELP-1113（11-13）：CC0 化以後的小東西（棧板、米袋、電鍋、油桶、購物籃、紙箱、禮盒＝原本的頂點色小東西）和 Poly Haven 掃描模型（S_ph_*；共用網格的展開以後叫 …_inst）
+  #   照舊即時光（上千個小島排不進一張光照貼圖）；材質單面／雙面照這次建出來的白模還原（REFPLAIN：材質換了一批，部署中的那一份對不上）
+  REFPLAIN=1
   LIGHTS=$(python3 - "${TRW:-22}" <<'PY'
 import json, sys
 J = json.load(open('assets/models/env/second_ai/us_asian_market.layout.json')); W = sys.argv[1]; H = J.get('h', 3.4)
@@ -182,7 +186,7 @@ PY
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 LIGHTS=${LIGHTS#;}
-REF="$TMP/plain.glb"; [ -f "assets/models/env/second_ai/$NAME.glb" ] && cp "assets/models/env/second_ai/$NAME.glb" "$TMP/ref.glb" && REF="$TMP/ref.glb"
+REF="$TMP/plain.glb"; [ -z "$REFPLAIN" ] && [ -f "assets/models/env/second_ai/$NAME.glb" ] && cp "assets/models/env/second_ai/$NAME.glb" "$TMP/ref.glb" && REF="$TMP/ref.glb"
 if [ -n "$PLAINBLOB" ]; then git cat-file -p "$(git rev-parse "$PLAINBLOB")" > "$TMP/plain.glb"   # 部署中的檔（不重做）；統計 json 照舊用 repo 裡那一份
 else
 /opt/blenv/bin/python $SCRIPT -- "${SARGS[@]}" --out "$TMP/plain.glb"

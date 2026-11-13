@@ -160,3 +160,146 @@ class PH:
         """匯出前把隱藏的原型刪掉（不然會跟著匯出）"""
         for o in self.proto.values(): bpy.data.objects.remove(o)
         self.proto = {}
+
+
+# ---------- Kit：美國兩間超市（us_market.py、us_asian_market.py，SHOP-CC0-HELP-1113）用的物件版本 ----------
+# 店內 CC0 化的共用工具（SHOP-CC0-HELP-1113／D161；美國兩間超市 us_market.py、us_asian_market.py 用）。
+# 做法照 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md，函式照 tz_shops_interior.py 的 acg()／ph_obj()／ph_put()／_Route（LAWWW2-C 11-13）抄過來、改成不綁一間店：
+#   K = Kit(root, 'usm')                         # root＝店的群組；'usm'＝材質、物件名字的前綴
+#   K.acg('usm_shelf', 'Metal009', target='#d7d7d2', vary=0.05, tile=1.0, metal=0.3, rough_value=0.45)   # ambientCG 材質組（顏色／法線）→ L.pbr
+#   K.ph_put('cardboard_box_01', x, y, z, yaw, height=0.3, decimate=0.1)                                  # Poly Haven 掃描模型（遊戲座標）
+#   K.used()                                     # 用到的 CC0 素材清單（LICENSES.md 登記用）
+# 素材下載到 ~/.cache/lawstudent_cc0（cc0_fetch.py），不進 repo；GLB 裡的是縮過的貼圖。
+# 材質名字：Poly Haven 模型的材質叫 <前綴>_ph_<id>；物件叫 S_ph_<id>_<n>（光照烘焙 --nolm 用 S_ph_、_inst 認）。
+
+
+def _free_name(name):
+    """同名的舊材質（腳本前面 M 字典先建的純色那一份，沒有人用）改名讓開：新材質才拿得到原本的名字
+    （不然 Blender 會叫 name.001，遊戲、光照烘焙、測試都是照材質名字認的）"""
+    old = bpy.data.materials.get(name)
+    if old is not None: old.name = name + '_replaced'
+
+
+class Kit:
+    def __init__(self, root, prefix):
+        self.root, self.prefix = root, prefix
+        self.USED = []; self.PROTO = {}; self.N = {}
+
+    def used(self):
+        out = []
+        for x in self.USED:
+            if x not in out: out.append(x)
+        return out
+
+    def acg(self, name, aid, maps=('diff', 'nor'), res=512, vary=None, **kw):
+        """ambientCG 材質組 → L.pbr 材質（res：遊戲裡的貼圖邊長；target＝調到這個平均色、tile＝每幾公尺重複一次）。
+        vary：顏色貼圖的明暗起伏壓到平均亮度的這個比例（塑膠 0.05、灰泥 0.04：不壓會有黑紋、雲斑；HOWTO 第 3 節）"""
+        _free_name(name)
+        f = cc0_fetch.acg_material(aid); _stage(aid, f['color'], f.get('normal'), f.get('rough')); self.USED.append(('ambientCG', aid))
+        pid = aid
+        if vary:
+            pid = f'{aid}_v{int(round(vary * 100)):02d}'; src_ = os.path.join(STAGE, aid, f'{aid}_diff_1k.jpg'); d_ = os.path.join(STAGE, pid); os.makedirs(d_, exist_ok=True)
+            a_ = np.asarray(Image.open(src_).convert('RGB'), float); lum = a_.mean(-1); m_, sd_ = lum.mean(), max(1e-3, lum.std())
+            out = a_.mean((0, 1))[None, None, :] * (1 + vary * (lum - m_) / sd_)[..., None]
+            Image.fromarray(np.clip(out, 0, 255).astype('uint8')).save(os.path.join(d_, f'{pid}_diff_1k.jpg'), quality=92)
+            for suf in ('nor_gl', 'rough'):
+                q_ = os.path.join(STAGE, aid, f'{aid}_{suf}_1k.jpg')
+                if os.path.exists(q_): Image.open(q_).save(os.path.join(d_, f'{pid}_{suf}_1k.jpg'), quality=92)
+        old = L.tex_dir; L.tex_dir = lambda q: STAGE if q == pid else old(q)
+        try: return L.pbr(name, pid, maps=maps, res=res, **kw)
+        finally: L.tex_dir = old
+
+    def printed(self, name, pid, draw, weave, size=512, amp=0.44, **kw):
+        """自製圖案（沒有字）：draw(PIL.ImageDraw, size) 畫圖案，乘上 ambientCG 材質（weave）的明暗紋路"""
+        _free_name(name)
+        f = cc0_fetch.acg_material(weave); self.USED.append(('ambientCG', weave))
+        from PIL import ImageDraw, ImageOps
+        im = Image.new('RGB', (size, size)); draw(ImageDraw.Draw(im), size)
+        g = ImageOps.grayscale(Image.open(f['color']).convert('RGB').resize((size, size))); a = np.asarray(g, float); a = 0.78 + amp * (a - a.mean()) / max(1.0, a.std() * 3)
+        out = np.clip(np.asarray(im, float) * a[..., None], 0, 255).astype('uint8'); p = os.path.join(STAGE, pid + '_src.jpg'); Image.fromarray(out).save(p, quality=92)
+        _stage(pid, p, f.get('normal'))
+        old = L.tex_dir; L.tex_dir = lambda q: STAGE if q == pid else old(q)
+        try: return L.pbr(name, pid, maps=('diff', 'nor'), res=size, **kw)
+        finally: L.tex_dir = old
+
+    # ---------- Poly Haven 掃描模型 ----------
+    def _ph_tex(self, o, res=512):
+        """Poly Haven 材質瘦身：粗糙度／金屬度的圖拿掉改固定值；顏色、法線縮成 res（有透明的存 PNG）"""
+        for ms_ in o.material_slots:
+            mt = ms_.material
+            if not mt or not mt.use_nodes: continue
+            N = mt.node_tree.nodes; bs = N.get('Principled BSDF')
+            for n in list(N):
+                if n.type != 'TEX_IMAGE' or not n.image: continue
+                nm = n.image.name.lower(); to = {l.to_socket.name for l in n.outputs['Color'].links} | {l.to_socket.name for l in n.outputs['Alpha'].links}
+                if not ({'Base Color', 'Alpha', 'Color'} & to) or '_arm' in nm or 'rough' in nm or 'metal' in nm:
+                    N.remove(n); continue
+                src_ = bpy.path.abspath(n.image.filepath)
+                if not os.path.exists(src_): continue
+                im = Image.open(src_); alpha = im.mode in ('RGBA', 'LA') and 'Alpha' in to
+                im = im.convert('RGBA' if alpha else 'RGB')
+                if max(im.size) > res: im = im.resize((res, res), Image.LANCZOS)
+                dst = os.path.join(STAGE, os.path.splitext(os.path.basename(src_))[0] + f'_{res}' + ('.png' if alpha else '.jpg')); (im.save(dst) if alpha else im.save(dst, quality=90))
+                cs = n.image.colorspace_settings.name; n.image = bpy.data.images.load(dst); n.image.colorspace_settings.name = cs
+            if bs:
+                for k_ in ('Roughness', 'Metallic'):
+                    for l in list(bs.inputs[k_].links): mt.node_tree.links.remove(l)
+                bs.inputs['Roughness'].default_value = 0.6; bs.inputs['Metallic'].default_value = 0.0
+
+    def ph_obj(self, aid, height=None, decimate=None, recolor=None, res=512, rough=None):
+        """Poly Haven 模型 → 一個網格物件（底部中心在原點、Blender 座標），做為原型（ph_put 複製、共用同一個網格）。
+        height＝縮放到這個高度（m）；decimate＝減面比例；recolor＝(深色, 亮色)：顏色貼圖改成這兩色之間（照原圖明暗）"""
+        key = (aid, recolor)
+        if key in self.PROTO: return self.PROTO[key]
+        path = cc0_fetch.ph_model(aid); before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=path); self.USED.append(('Poly Haven', aid))
+        new = [o for o in bpy.data.objects if o not in before]; ms = [o for o in new if o.type == 'MESH']
+        bpy.ops.object.select_all(action='DESELECT')
+        for o in ms: mw = o.matrix_world.copy(); o.parent = None; o.matrix_world = mw; o.select_set(True)
+        for o in new:
+            if o.type != 'MESH': bpy.data.objects.remove(o)
+        bpy.context.view_layer.objects.active = ms[0]
+        if len(ms) > 1: bpy.ops.object.join()
+        o = bpy.context.view_layer.objects.active; bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+        self._ph_tex(o, res)
+        if decimate:
+            md = o.modifiers.new('dec', 'DECIMATE'); md.ratio = decimate; bpy.ops.object.modifier_apply(modifier=md.name)
+        vs = [v.co for v in o.data.vertices]; mn = Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs))); mx = Vector((max(v.x for v in vs), max(v.y for v in vs), max(v.z for v in vs)))
+        k = height / (mx.z - mn.z) if height else 1.0
+        o.data.transform(Matrix.Scale(k, 4) @ Matrix.Translation(-Vector(((mn.x + mx.x) / 2, (mn.y + mx.y) / 2, mn.z))))
+        tag = '' if not recolor else '_' + recolor[1].lstrip('#')
+        for i, ms_ in enumerate(o.material_slots):
+            if not ms_.material: continue
+            mt = ms_.material
+            if recolor:
+                b = mt.node_tree.nodes.get('Principled BSDF'); ln = b and b.inputs['Base Color'].links
+                if ln and ln[0].from_node.type == 'TEX_IMAGE':
+                    tn = ln[0].from_node; src_ = bpy.path.abspath(tn.image.filepath)
+                    g = np.asarray(Image.open(src_).convert('L').resize((res, res)), float) / 255.0; g = (g - g.min()) / max(1e-3, g.max() - g.min())
+                    c0, c1 = np.array(B.srgb(recolor[0])) ** (1 / 2.2), np.array(B.srgb(recolor[1])) ** (1 / 2.2)
+                    out = (c0[None, None, :] + (c1 - c0)[None, None, :] * g[..., None]) * 255; p = os.path.join(STAGE, f'{aid}{tag}_recolor_{i}.jpg')
+                    Image.fromarray(np.clip(out, 0, 255).astype('uint8')).save(p, quality=92); tn.image = bpy.data.images.load(p)
+            if rough is not None:
+                b = mt.node_tree.nodes.get('Principled BSDF')
+                if b: b.inputs['Roughness'].default_value = rough
+            mt.name = f'{self.prefix}_ph_{aid}{tag}' + ('' if len(o.material_slots) < 2 else f'_{i}')
+        o.name = 'PHPROTO_' + aid + tag; o.hide_render = True; o.hide_set(True); self.PROTO[key] = o; return o
+
+    def ph_put(self, aid, x, y, z, yaw=0.0, s=1.0, share=True, sx=None, **kw):
+        """原型複製一份放在遊戲座標 (x, y, z)（底部中心），yaw＝繞垂直軸轉（弧度）；s＝再縮放（sx＝只縮水平方向，給長短不一的同一件東西）。
+        share＝False：自己一份網格（植物：光照烘焙會把共用網格的物件合成一個、改名 …_inst）"""
+        p = self.ph_obj(aid, **kw); o = bpy.data.objects.new(f'S_ph_{aid}_{self.N.setdefault(aid, 0)}', p.data if share else p.data.copy()); self.N[aid] += 1
+        bpy.context.scene.collection.objects.link(o); o.parent = self.root
+        S_ = Matrix.Scale(s, 4) if sx is None else Matrix.Diagonal((s * sx, s * sx, s, 1.0))
+        o.matrix_world = Matrix.Translation(g2b(x, y, z)) @ Matrix.Rotation(yaw, 4, 'Z') @ S_; return o
+
+    def drop_protos(self):
+        """匯出前把原型（PHPROTO_*，藏起來的那一份）拿掉——藏起來的物件匯出器照樣匯出，會在原點多一份（網格留著，複製的那幾份在用）"""
+        for o in list(self.PROTO.values()): bpy.data.objects.remove(o)
+        self.PROTO.clear()
+
+    def ph_size(self, aid, **kw):
+        """原型的大小（遊戲座標：寬 x、高 y、深 z；m）"""
+        p = self.ph_obj(aid, **kw); vs = [v.co for v in p.data.vertices]
+        return (max(v.x for v in vs) - min(v.x for v in vs), max(v.z for v in vs) - min(v.z for v in vs), max(v.y for v in vs) - min(v.y for v in vs))
+
+
