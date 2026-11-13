@@ -81,3 +81,10 @@
 - **另記（LAWWW2 自己查，WINVIEW-AUDIT-1105）**：並排圖 20:00 那張，東側落地窗外還是白天的綠樹，新舊版都一樣。WZ_VIEW 只有正面 WALL_front_VIEW 照時段換夜景，側面那片窗景卡大概沒有夜版。
 - **LAWWW 套 `daily_offbeat_full.patch`**（底 19399e5d39）：g1 的 patch＋重產的狀態表。如果先套了木曜日，render_interior.py、aa_cc0.py、glb_swap_images.py 內容一樣，會報「已經存在」，用 `--exclude` 略過。
 - 還沒做：CC 第二層四鏡頭、BB 判美術。
+
+## 南洋戲院大廳 v6（幫手 g4 dc93e7768e）——LAWWW2-C 驗收 PASS（2026-11-13 23:4x UTC）
+- 套法：**直接套 g4 的** `docs/art-rebuild/second_ai/shop_cc0_g4/nanyang_v6.patch`（在 `claude/shop-cc0-g4` 上；底 4556c4be0；對 bf9d623e69 `git apply --3way` 乾淨；已附 SHOP_STANDARD_STATUS.md、coplanar）。
+- 內含 `bb_support/cc0kit.py` 的 ph_obj 高度快取修正（181e2a27c 那一段）；燒臘、阿德、洋洋之後的 patch 若也帶這段，以先套的為準、後面 `--exclude` 或 3way。
+- 測試（套在 bf9d623e69 上）：shop_cc0 ALL PASS（南洋三項同時成立；baseline 刪一列）、place_gate ALL PASS（已知未過 11＝SHOP-WINDOW-3D）、nanyang_unit／bench／staff_1107／tap 四支 ALL PASS。38,539 面。
+- 看圖（`shop_cc0_g4/nanyang_cmp.jpg`）：垃圾桶換 Poly Haven metal_trash_can（有壓邊、紋路）、櫃檯收銀機 CashRegister_01，粉紅方塊減少。
+- P2（不擋，下一版再補）：①飲料櫃裡的瓶子還是純色瓶形；②櫃檯那疊紅杯子是一整塊；③入口左邊的黑色立式方箱（看起來像音箱）是純黑方塊，參考圖這位置沒有，可以換掃描模型或拿掉。

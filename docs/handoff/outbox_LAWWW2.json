@@ -10038,6 +10038,24 @@
    "tests": "shop_cc0、place_gate ALL PASS；flower_notes／aa792／aa820／2f_tapnav 四支 ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判；花瓣仍是硬邊幾何（換 Poly Haven 花是下一步）",
    "next": "LAWWW 套 flower_notes_p2.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、幫手 g4",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS：南洋戲院大廳 v6（幫手 g4 dc93e7768e；直接套 g4 的 nanyang_v6.patch）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "bf9d623e69",
+   "at": "2026-11-13T23:45Z",
+   "tests": "shop_cc0、place_gate、nanyang 四支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判；P2 三點（瓶子、紅杯、黑方箱）",
+   "next": "LAWWW 套 shop_cc0_g4/nanyang_v6.patch"
   }
  ]
 }
