@@ -128,3 +128,7 @@
   - **05:2x CC 重排 ACTIONED**（cc-testing e58cd06e19，queue 2305～2328）：save_v7／v95／start1 r2（正確舊版）、REL76_save_live（f312 ?start0&turbo、stage≠econ 才跑）、REL76_ladder_ctl（f312）＋ladder_diag（76f8 印 GAME.npc／ladData／ladNext）、AN_BEAT6_r6／BEAT8_r5（信任 50、自在 45，MutationObserver 記每一句）、INV_LIB_r2（蔡宗霖設見過、對準位子的「坐下」鍵）、libtour_r2（收 #caption）；BB 補 REL76_save_econ（三項）。電腦在跑 ENC 45 分鐘那一項，跑完接這組。
 - **05:2x（21:2x UTC）CANON458_ENC_ACQ、ENC_FRIEND：ALL PASS**（76f8；各 24 分鐘）——只是認識三週都沒遇到她；朋友那一組照設計；D158 字表 0、沒有 JS 例外。剩 ENC_DATING。電腦接著跑 P0 組（save／ladder／BEAT／INV_LIB／libtour）。
 - **05:3x（21:27 UTC）REL76_save_v7_r2：ALL PASS**（正確舊版 v7 385e194）——v7 的自動存檔（法律系第 1 天 21:13 宿舍）76f8 按「繼續」名字、天數、時間、地點、金錢、旗標、關係都一樣；標題停 8 秒沒被改寫；48 個位置都讀得進、站得住、走得動；沒有 JS 例外。**save_v7 這一項正式 PASS**（11-13 那次 FAIL＝排錯舊版）。
+- **05:3x（21:32～21:33 UTC）save 三支**：
+  - **REL76_save_econ：ALL PASS**——舊序章存檔按繼續、讀欄位 1 都跳「這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。」，G 不換，fatiao3d_auto、欄位 1 一字不改。
+  - **REL76_save_start1_r2（v9.9.1）：PASS**——大一上七個存檔＋第 1 天晚上都照讀、不重播主線、睡一晚正常；只有「舊序章系所 8/30 轉進法律系」兩項 FAIL＝照設計（使用者 11-12 不留舊序章存檔）。
+  - **REL76_save_live（f312 ?start0 法律系存檔→76f8）：核心 PASS，待對照**——繼續讀回自動存檔（名字、天數、地點、金錢一樣）；欄位 1～3 日期地點金錢對、站得住、課表紀錄新、湖邊移位、重新整理、沒有 JS 例外。FAIL：v9.5 專用三項（不算）、欄位 1／2 same()（flags 或 rel 某鍵）、阿哲熟悉度沒補（f312 存檔已經 _relSync）、手機課表讀到訊息分頁。加 **REL76_save_live_ctl（f312→f312）** 定：一樣 FAIL＝探針期望；只有 76f8 FAIL＝回退＝NO-GO。
