@@ -11,7 +11,7 @@ const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), vm=require('vm');
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
-const PS='classmate_peishan', SHA='6b5507f8a', F='docs/story_planning/AA_755_peishan_arc.json', BASE='a724370bc';
+const PS='classmate_peishan', SHA='9685559c84'/* 2026-11-13 STALE-SOURCES-1112 改認（四句拿掉重複開頭）；舊：6b5507f8a */, F='docs/story_planning/AA_755_peishan_arc.json', BASE='a724370bc';
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 const loadArcs=s=>{ try{ return new Function(s.replace("'use strict';",'')+';return HEROINE_ARCS;')(); }catch(e){ return null; } };
 const CUR=loadArcs(fs.readFileSync(path.join(H.ROOT,'src/data/heroine_arcs.js'),'utf8'));

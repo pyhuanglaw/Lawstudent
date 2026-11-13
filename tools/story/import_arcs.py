@@ -168,7 +168,7 @@ def build(src, sha):
 # AA 說只換 theme、每一拍的 topic、lines、ask、opts[].reply、cite 的字；祐廷的選項 t、ansId、rel、tell、toldAlt、need、invite、set、from／until／late、cite 的 key 都原樣——
 # 這裡逐欄和 AA_712 匯出來的比，「應該原樣」的有一欄不一樣就停下來（不猜）。
 PS755_PATH = 'docs/story_planning/AA_755_peishan_arc.json'
-PS755_SHA = '6b5507f8a'
+PS755_SHA = '9685559c84'   # 2026-11-13 STALE-SOURCES-1112（舊：6b5507f8a）
 PS755_TEXT = ('topic', 'lines', 'ask', 'cite')      # 一拍裡可以換字的欄位
 PS755_KEEP = ('n', 'need', 'invite', 'set', 'from', 'until', 'late', 'after', 'where', 'quietOk', 'keyNote', 'alt')
 PS755_OPT_KEEP = ('t', 'rel', 'ansId', 'tell', 'toldAlt', 'decide', 'stance', 'key', 'opens', 'closes')

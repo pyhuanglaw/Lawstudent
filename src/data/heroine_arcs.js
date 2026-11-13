@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@abb9609116；沛珊整段照 docs/story_planning/AA_755_peishan_arc.json@6b5507f8a；照 docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md、docs/story_planning/AA_901_第四批二留下的十一件.md 換字）。不要手改，改企劃 AA_712 再重新匯入。
+/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@abb9609116；沛珊整段照 docs/story_planning/AA_755_peishan_arc.json@9685559c84；照 docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md、docs/story_planning/AA_901_第四批二留下的十一件.md 換字）。不要手改，改企劃 AA_712 再重新匯入。
    女主角自己的故事線（8 拍；規則 BB_305；播放 src/arcs3d.js）*/
 'use strict';
 const HEROINE_ARCS={
@@ -2250,7 +2250,7 @@ const HEROINE_ARCS={
         "comf": 2
        },
        "reply": [
-        "按計算機，那你算數一定很快。",
+        "那你算數一定很快。",
         "我就不行，我爸叫我不要靠近收銀台。"
        ],
        "ansId": "PS_PL_CALC",
@@ -2262,7 +2262,7 @@ const HEROINE_ARCS={
         "fam": 1
        },
        "reply": [
-        "只負責吃，那你小時候過得比我好。",
+        "那你小時候過得比我好。",
         "我還要假裝有在寫功課。"
        ],
        "ansId": "PS_PL_EAT"
@@ -2287,7 +2287,7 @@ const HEROINE_ARCS={
         "trust": 2
        },
        "reply": [
-        "想辦法改，還真的改成了。",
+        "還真的給你改成了。",
         "你很敢欸，我大概只會遵守，然後回家跟我媽抱怨一個晚上。"
        ],
        "ansId": "PS_PL_RULE"
@@ -2404,7 +2404,7 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "准考證，那就是你的公車票啊。",
+        "那准考證就是你的公車票啊。",
         "去一個很重要的地方的那一張。"
        ],
        "ansId": "PS_PL_TICKET"
@@ -2953,6 +2953,6 @@ const HEROINE_ARCS={
    ]
   }
  },
- "overlay": "docs/story_planning/AA_755_peishan_arc.json@6b5507f8a",
+ "overlay": "docs/story_planning/AA_755_peishan_arc.json@9685559c84",
  "canon": "docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md、docs/story_planning/AA_901_第四批二留下的十一件.md"
 };
