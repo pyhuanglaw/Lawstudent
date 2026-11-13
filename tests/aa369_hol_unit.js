@@ -166,7 +166,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
   // ===== L2 presence 補 =====
   { fresh(D('2027-01-10'),12,'campus',{}); const H=(id,k)=>{ const p=pr(id,k); return p.here?'here':p.kind+':'+(p.home||p.city||p.away||''); };
     const got=[H('npc_fangyt','2027-01-23'),H('npc_fangyt','2027-01-24'),H('npc_fangyt','2027-02-18'),H('npc_fangyt','2027-02-19'),H('npc_fangyt','2028-01-24'),H('npc_fangyt','2028-02-18'),H('npc_fangyt','2028-02-19')];
-    check('L2＋第 7 節第 1 題. 方奕廷 2027、2028 寒假 1/24～2/18 回台中老家（前一天、2/19 在臺北）；手機寫「回台中過年」',J(got)===J(['here','home:台中','home:台中','here','home:台中','home:台中','here'])&&pr('npc_fangyt','2027-01-30').away==='回台中過年'&&pr('npc_fangyt','2028-01-30').away==='回台中過年',J(got));
+    check('L2＋第 7 節第 1 題. 方奕廷 2027、2028 寒假 1/24 回台中老家（前一天在臺北；2027 年 2/18 傳「回來了」那天起在臺北＝AA-C 11-13 VACGAP 第 11 項 (a)；2028 年 2/19）；手機寫「回台中過年」',J(got)===J(['here','home:台中','here','here','home:台中','home:台中','here'])&&pr('npc_fangyt','2027-01-30').away==='回台中過年'&&pr('npc_fangyt','2028-01-30').away==='回台中過年',J(got));
     { const c=pr('npc_fangyt','2028-07-25'), c2=pr('npc_fangyt','2029-10-01');
       check('第 7 節第 1 題. 對照：2028-07 起工作的地方照舊在嘉義（city 嘉義）',c.kind==='city'&&c.city==='嘉義'&&c2.city==='嘉義',J([c,c2])); }
     const t2=[pr('npc_fangyt','2027-07-31'),pr('npc_fangyt','2027-08-01'),pr('npc_fangyt','2027-08-04'),pr('npc_fangyt','2027-08-05')];
@@ -252,8 +252,8 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('第 8 節第 1 題. 方奕廷上山（2027-07-06～07-19，沒有訊號）：他自己的「在山上」那一版兩則輪流；日本的山（8/2）照第 7 節第 5 題「在日本。」「……回去再說。」；下山以後（7/25）不用「在山上」',
       !!f1&&!!f2&&f1.variant==='在山上'&&f2.variant==='在山上'&&J([f1.msgs[0],f2.msgs[0]])===J(['下山了，剛看到。','剛下山。三天沒洗頭。'])&&!!f3&&J(f3.msgs)===J(['在日本。','……回去再說。'])&&!!f4&&f4.variant!=='在山上',J([f1&&f1.msgs,f2&&f2.msgs,f3&&f3.msgs,f4&&f4.msgs]));
     setup('npc_fangyt','2027-07-10'); const s=MSG.send(G,'npc_fangyt','chat'), q=PHONE.rec(G).q.slice(-1)[0];
-    check('第 8 節第 1 題. 真的傳（方奕廷在山上）：下山那天（7/20）15:00 才回「下山了，剛看到。」「（照片）」「（照片）」「這是山上的苔。」',
-      !!s&&s.ok&&!!q&&K(q.day)==='2027-07-20'&&q.h===15&&J(q.items.map(x=>x.text))===J(['下山了，剛看到。','（照片）','（照片）','這是山上的苔。']),J(q&&[K(q.day),q.h,q.items])); }
+    check('第 8 節第 1 題. 真的傳（方奕廷在山上）：下山那天（7/19，AA-C 11-13 (a)）15:00 才回「下山了，剛看到。」「（照片）」「（照片）」「這是山上的苔。」',
+      !!s&&s.ok&&!!q&&K(q.day)==='2027-07-19'&&q.h===15&&J(q.items.map(x=>x.text))===J(['下山了，剛看到。','（照片）','（照片）','這是山上的苔。']),J(q&&[K(q.day),q.h,q.items])); }
   // ===== 第 8 節第 8 題：芷若 2027-06-04～09-02 不上班 =====
   { const zrRe=(id,yk)=>{ const I=VAC.inst(id,yk); fresh(I.to,17.9,'dorm',{dating_heroine_02:true}); R('heroine_02','CLO'); VAC.rec(G).reg[I.key]='done'; run(17.9,21.5);
       return {I,t:TH('p:heroine_02').filter(m=>m.tag==='vac_re_'+I.key+'_heroine_02').map(m=>m.text),q:OUT.get(G,'vac_'+I.key+'_re_heroine_02')}; };
