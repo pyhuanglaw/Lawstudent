@@ -1,16 +1,3 @@
-[21:32:27] ==== START G2DF5_CEIL_b  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[21:32:30] [res] cpu=18% mem=37% (11.6/31.4 GB) chrome_testing=5  START G2DF5_CEIL_b
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       20e93cd9a3..ce64659391  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[21:32:34] ==== END   G2DF5_LINVIEW  exit=0  197s   ====
-[21:32:59] memory 41% before starting G2DF5_CEIL_c (2 running)
-[21:32:59] ==== START G2DF5_CEIL_c  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[21:33:02] [res] cpu=25% mem=42% (13.1/31.4 GB) chrome_testing=9  START G2DF5_CEIL_c
-[21:35:23] [res] cpu=3% mem=43% (13.7/31.4 GB) chrome_testing=9  END G2DF5_CEIL_c
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       ce64659391..88a74520f9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [21:35:32] ==== END   G2DF5_CEIL_c  exit=1  144s   ====
 [21:35:36] solo item G2DF5_WZ_touch waits: no new items start until the 2 running item(s) finish
 [21:36:11] [res] cpu=1% mem=38% (12.2/31.4 GB) chrome_testing=5  END G2DF5_CEIL_b
@@ -1998,3 +1985,16 @@
 [03:35:48] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [03:35:48] memory 37% before starting CANON458_ENC (2 running)
 [03:35:48] ==== START CANON458_ENC  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:35:51] [res] cpu=14% mem=37% (11.8/31.4 GB) chrome_testing=5  START CANON458_ENC
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0141c968ae..5baeb2c0f6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:36:23] ==== END   CANON458_AN_BEAT6  exit=1  278s   ====
+[03:36:51] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[03:36:51] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[03:36:51] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[03:36:51] memory 40% before starting CANON458_DATE (2 running)
+[03:36:51] ==== START CANON458_DATE  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:36:53] 正在跑：CANON458_AN_BEAT8（已跑 2 分／上限 25 分）、CANON458_ENC（已跑 1 分／上限 60 分）、CANON458_DATE（已跑 0 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:36:54] [res] cpu=20% mem=40% (12.6/31.4 GB) chrome_testing=9  START CANON458_DATE
+[03:37:54] [res] cpu=1% mem=44% (14.0/31.4 GB) chrome_testing=9  END CANON458_AN_BEAT8
