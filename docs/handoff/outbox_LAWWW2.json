@@ -9437,6 +9437,26 @@
    ],
    "remaining": "手機效能未量；光照貼圖 1024 地板較糊；shop_cc0 牆不算純色要 LAWWW／BB 同意",
    "next": "LAWWW-C 套 taimi_cc0_full.patch（底 0029a82618）→ CC 拍 → BB 判；我接著做 SHUT_XS_across_2330，再來洗樂"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "泰米村食 CC0 v2（BB_379 末節三點：廚房磁磚＋抽油煙機、相框四幅＋木腰板＋垂吊盆栽、重烘提亮），疊在 0eb8ce091a 上",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/v2/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/v2/taimi_cc0_v2_on_v1.patch",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/v2/cmp_taimi_v2.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/v2/tz_taimi_interior.glb",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/v2/tz_taimi_interior_lm_day.webp",
+    "docs/art-rebuild/second_ai/wip/tz_taimi_cc0_1113/v2/tz_taimi_interior_lm_night.webp"
+   ],
+   "remaining": "手機效能（4.8 MB）未量；相框畫作是 PH 自帶風景畫",
+   "next": "LAWWW-C git apply --3way（底 0eb8ce091a）→ CC 拍 → BB 判；我接洗樂"
   }
  ]
 }
