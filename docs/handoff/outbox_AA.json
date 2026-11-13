@@ -8244,6 +8244,24 @@
    "next": "76f8 發布後併",
    "unfinished": "—",
    "note": "BB 全部照用；總表 AA_977 第 3 節"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110／可昕 3D 覆蓋",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "AA_1012 59679d4ae4＋8308021706；AA_1013 1d5fe9a5fa",
+   "files": [
+    "AA_1012",
+    "AA_1013",
+    "AA_959 覆寫表 +2 列"
+   ],
+   "state": "WIP",
+   "at": "2026-11-13T23:58Z",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C 23:46 回 AA_1012（作息已在、註解已改、兩列等 BB 後隨整張表）",
+   "noDirectIntegrate": true,
+   "next": "BB-C 二看 AA_1012 第 2 節、AA_1013 → 清 pendingBB → 交 LAWWW",
+   "unfinished": "等 BB 二看",
+   "note": "AA_1012 第 1 節是 AA-C 查錯，已更正"
   }
  ],
  "items": [
