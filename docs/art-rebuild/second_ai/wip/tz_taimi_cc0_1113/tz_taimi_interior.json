@@ -1,0 +1,18 @@
+{
+ "objects": 49,
+ "unique_meshes": 33,
+ "tris": 38432,
+ "tris_drawn": 56352,
+ "materials": 26,
+ "out": "assets/models/env/second_ai/tz_taimi_interior.glb",
+ "bytes": 3052524,
+ "texres": 512,
+ "tris_total": 56352,
+ "walls": [
+  "E",
+  "N",
+  "S",
+  "W"
+ ],
+ "note": "GG-SHOPS3-ART-1110 泰米村食 室內"
+}
