@@ -10023,9 +10023,9 @@
   {
    "path": "docs/story_planning/AA_755_peishan_arc.json",
    "sha": "9685559c84",
-   "staleCheckedAt": "a9465983f0",
+   "staleCheckedAt": "6ed4de3685",
    "status": "approved",
-   "approvedBy": "AA（D109、D149；BB_323 的修正已改）；LAWWW 2026-11-11 指定只認 6b5507f8a；2026-11-13 STALE-SOURCES-1112 改認 9685559c84（AA-C 11-11「拿掉四句多餘的重複開頭」）——不認 a9465983f0（那一版把第 5 拍「換跑道」那句改成和遊戲不同的字；AA_950：以遊戲為準）",
+   "approvedBy": "AA（D109、D149；BB_323 的修正已改）；LAWWW 2026-11-11 指定只認 6b5507f8a；2026-11-13 STALE-SOURCES-1112 改認 9685559c84（AA-C 11-11「拿掉四句多餘的重複開頭」）——不認 a9465983f0（那一版把第 5 拍「換跑道」那句改成和遊戲不同的字；AA_950：以遊戲為準）；6ed4de3685（AA 對齊遊戲的那句）也不改認：import_arcs 的「應該原樣」要和 AA_712@abb9609116 同字，而 AA_712 新版帶代號、AA 註明不再匯——遊戲那句由 canon897_fix 換成定稿，結果和 6ed4de3685 一樣」",
    "history": ["6b5507f8a"],
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
