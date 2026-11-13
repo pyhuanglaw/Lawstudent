@@ -121,7 +121,7 @@ const CLS=(function(){
   S.hasBook=(G,c)=>{ const F=(G&&G.flags)||{}, t=S.bookTitle(c); return !!((F.books&&F.books[t])||(t==='民法總則'&&F.textbook)); };
   S.bookList=function(G){ if(typeof CALENDAR==='undefined'||!CALENDAR.termOf) return []; let t=null; for(let d=G.day;d<G.day+120&&!t;d++) t=CALENDAR.termOf(d); if(!t) return [];
     const out=[], seen=new Set(); for(const c of S.termCourses(G,t.id)){ if((c.kind!=='required'&&c.kind!=='elective')||S.BOOK_SKIP.has(c.id)) continue; const title=S.bookTitle(c); if(seen.has(title)) continue; seen.add(title); out.push({title,c,price:650}); } return out; };
-  S.termName=id=>({Y0S1:'經濟系大一上',Y0S2:'經濟系大一下',Y1S1:'大一上',Y1S2:'大一下',Y2S1:'大二上',Y2S2:'大二下',Y3S1:'大三上',Y3S2:'大三下',Y4S1:'大四上',Y4S2:'大四下',Y5S1:'大五上'})[id]||id;   /* Y5S1：交換延畢（AA_357 1-1，src/y5s1_3d.js）*/
+  S.termName=id=>({Y1S1:'大一上',Y1S2:'大一下',Y2S1:'大二上',Y2S2:'大二下',Y3S1:'大三上',Y3S2:'大三下',Y4S1:'大四上',Y4S2:'大四下',Y5S1:'大五上'})[id]||id;   /* Y5S1：交換延畢（AA_357 1-1，src/y5s1_3d.js）*/
   S.profName=c=>c.prof?((COURSES.profs[c.prof]||'').slice(0,1)+'老師'):(c.profName||'老師');
   S.roomName=c=>(COURSES.rooms[c.room]||{}).name||'';
   // 每一週講哪一個主題：上課週（第 1～7、10～16 週）照順序平均分到 topics；考試週＝考試

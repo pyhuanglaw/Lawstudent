@@ -275,7 +275,7 @@ const R2Y3A=(function(){
     if(n>=T(d24,21)&&n<T(d25,21)&&!sent(G,'y3_kx_xmas')) PHONE.at(G,d24,atH(G,d24,21),[K(teSame()?'明天吃完飯，九點再視訊。':'明天晚上九點，視訊。'),Object.assign(K('我還在趕報告。你陪我就好。'),{ask:{id:'y3_kx_xmas',until:T(d25,21),opts:[{t:'好。',say:[Kr('嗯。')],set:{KX_XMAS3_GO:true}},{t:'明天不行。',say:[Kr('……好。')],set:{KX_XMAS3_GO:false}}]}})],'y3_kx_xmas');
     if(F.KX_XMAS3_GO===true&&!outGet(G,'y3_kx_xmas')&&n<T(d25,21+1/6)) plan(G,VIDEO('y3_kx_xmas','ev_kexin_xmas_y3',d25,21,'可昕的視訊：聖誕',{late:1/6}));   /* 10 分鐘沒接＝沒接 */
     const m=PHONE.byAsk(G,'y3_kx_xmas'); if((F.KX_XMAS3_GO===false||(m&&m.ans==null&&n>=T(d25,21)))&&n>=T(d25,22.5)&&!(F.KX_XMAS&&F.KX_XMAS[3])) S.xmasMissed(G); };   /* 不視訊的（「明天不行」、不回）：報告寫完那一則（要問 AA）*/
-  S.xmasMissed=function(G){ const d25=DK('2027-12-25'); kxYearSet(G,'KX_XMAS',3,'missed'); PHONE.at(G,d25,22.5,[K('報告我寫完了。聖誕快樂。禮物等考完。')],'y3_kx_xmas_missed'); };
+  S.xmasMissed=function(G){ const d25=DK('2027-12-25'); kxYearSet(G,'KX_XMAS',3,'missed'); PHONE.at(G,d25,22.5,[K('報告我寫完了。聖誕快樂。')],'y3_kx_xmas_missed'); };
   S.kxYear=(G,key,v)=>kxYearSet(G,key,3,v);
 
   /* ===================== 2-Y3-23 可昕 除夕 KN（裁定 #12）===================== */

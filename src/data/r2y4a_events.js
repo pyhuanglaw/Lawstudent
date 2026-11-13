@@ -525,7 +525,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {scene:'視訊',bg:'video'},nar('（兩個小時，視訊開著，兩邊都沒有人說話。）'),kx('（把便條舉到鏡頭前）先讀完。'),{advance:2} ].concat(K21_ECHO,K21_PICK('（把自己畫滿重點的那一頁舉到鏡頭前）')) });   /* AA_345 F3 定稿 */
 
   /* ---- 2-Y4-14 K22「兩個方向的讀書會」（BB_99 9-6）：11/14（二）19:00 政大；美國路線、沒去＝r2y4a3d.js 一則 ---- */
-  const SJ_MET=G=>has(KX,'ENC_D13_KX')||has(KX,'ENC_D09_KX')||!!G.flags.KX_NCCU_FRIENDS;   /* 見過邵鈞（淡水 D13、貓空 D09 的偶遇；大二的電影夜，y2r2_3d.js 同一條）*/
+  const SJ_MET=G=>has(KX,'ENC_D13_KX')||has(KX,'ENC_D09_KX');   /* CANON-NO-ECON-1112 第五批（AA_919 第 2 節）：KX_NCCU_FRIENDS 不再有人寫，不讀了 */   /* 見過邵鈞（淡水 D13、貓空 D09 的偶遇；大二的電影夜，y2r2_3d.js 同一條）*/
   EV.push({ id:'ev_kexin_two_directions', title:'兩個方向的讀書會', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k22Missed(G); },
     dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},

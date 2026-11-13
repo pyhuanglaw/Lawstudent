@@ -347,6 +347,8 @@ def main():
           '   節日、生日送禮（GIFT-HOLIDAY-1110；播放 src/gifthol3d.js）：shops／items＝店家禮物、react＝八位收到的反應、give＝她們送祐廷的、stationery＝山嵐文具區學姊四場、flowerOk＝花序八樣新花送人時各人的那一句（AA_792 give_ok_flower；沒寫到的人照 ok）*/\n'
           "'use strict';\nconst GIFT_HOLIDAY=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n'
           "if(typeof module!=='undefined') module.exports=GIFT_HOLIDAY;\n")
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # CANON-NO-ECON-1112 第五批：AA_920／921／923 的 src 對照表在寫檔前照整句換（tools/story/canon_b5_rows.py）
+    js = _B5.fix(OUT, js)
     p, p792 = os.path.join(ROOT, OUT), os.path.join(ROOT, OUT792)
     if '--check' in sys.argv:
         for q, want, name in ((p, js, f'{OUT} 和白名單上的 AA_732／733／734（花序 AA_792）'), (p792, js792, f'{OUT792} 和白名單上的 AA_792')):

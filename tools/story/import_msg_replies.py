@@ -97,6 +97,79 @@ def build(src, sha):
     return {'src': f'{PATH}@{sha}', 'people': people}
 
 
+# CANON-NO-ECON-1112 第五批（AA_919 第 2 節、AA_920 ①⑥、AA_921 第 3-2 節，企劃線 96c3a668eb）：src 手機那句換了，回覆的 text 跟著換（AA_709 的規矩：text 要和遊戲那則一字不差）；
+# 回覆只換稿上寫到的句子。照「那一則現在的 text」找（剛好一則，對不到就停，不猜）。外校同學的名字用 \u 跳脫寫。
+# 欄位：text＝新的 text、drop＝整則不匯（「見過他們」那一版：AA_919 兩則合成一則）、thread＝{i: (舊, 新)}、opts＝{j: {'t': (舊, 新), 'say': (舊陣列, 新陣列)}}
+U = lambda s: json.loads('"' + s + '"')
+B5 = [
+    ('kexin', '我們系有一個人，考古題有目錄。目錄有索引。', {'text': '系上有一個學長，考古題有目錄。目錄有索引。'}),
+    ('kexin', U(r'詹靖') + '拍了山下那家的老闆一整天，老闆只說了一句：好。', {'drop': True}),
+    ('kexin', '我那個拍片的朋友' + U(r'詹靖') + '，拍了山下那家的老闆一整天。老闆只說了一句：好。',
+     {'text': '我們模擬法庭同組那個同學會拍片。他拍了公館一家麵店的老闆一整天，老闆只說了一句：好。',
+      'opts': {1: {'say': ([U(r'詹靖') + '說，這樣才好看。'], ['他說，這樣才好看。'])}}}),
+    ('kexin', '我那個拍片的朋友' + U(r'詹靖') + '，短片在小影展放了。我坐第一排。', {'text': '同組那個同學的短片，在小影展放了。我坐第一排。'}),
+    ('kexin', '期末報告講完了。最後一排空著。',
+     {'thread': {0: ('（照片：台上，' + U(r'詹靖') + '拍的）', '（照片：台上，同組的同學拍的）')},
+      'opts': {2: {'say': ([U(r'詹靖') + '拍的。', '他說最後一排空著，他幫你拍了一張空椅子。不准笑。'], ['同組的同學拍的。', '他說最後一排空著，他幫你拍了一張空椅子。不准笑。'])}}}),
+    ('kexin', '報告講完了。……好累。',
+     {'thread': {0: ('（照片：台上，' + U(r'詹靖') + '拍的）', '（照片：台上，同組的同學拍的）')},
+      'opts': {1: {'say': (['很順。', U(r'詹靖') + '拍了照片。你回來給你看。'], ['很順。', '同組的同學拍了照片。你回來給你看。'])}}}),
+    ('kexin', '我們系那個考古題有目錄的人，現在出第二冊了。', {'text': '系上那個學長的考古題目錄，現在出第二冊了。'}),
+    ('kexin', '報告我寫完了。聖誕快樂。禮物等考完。', {'text': '報告我寫完了。聖誕快樂。'}),
+    ('kexin', '行程表做好了。……這次吃的只有一頁。',
+     {'text': '這次我只想吃。其他的你決定。',
+      'opts': {1: {'t': ('吃的只有一頁，妳還好嗎？', '只想吃？'), 'say': (['第二頁是吃的二。', '……你每次都信。'], ['對。高雄人到哪裡都先找吃的。'])},
+               2: {'t': ('我看一下行程。', '去哪裡吃？'), 'say': (['不准改。'], ['到了再說。'])}}}),
+    ('kexin', '表格我開好了。下次你也要真的讀。',
+     {'text': '你沒來。我一個人讀得比較快。……騙你的。',
+      'opts': {1: {'t': ('表格傳給我。', '明天我去。'), 'say': (['已經傳了。', '你自己去看今天那一格，寫著「沒來」。'], ['明天我不讀了。……好啦，九點。'])},
+               2: {'say': (['你說的。', '我截圖了。'], ['你說的。'])}}}),
+    ('kexin', '欠著。考完再去。',
+     {'text': '沒關係。今年高雄也很冷。', 'thread': {0: ('📷（讀書計畫表，那一天的格子畫了一輛車）', '📷（高雄車站的月台，沒有人）')},
+      'opts': {0: {'t': ('對不起。考完我們一定去。', '對不起，沒去成。'), 'say': (['嗯。', '我把車畫在考完那一天了。你看清楚。'], ['嗯。'])},
+               1: {'t': ('車是妳畫的？', '月台怎麼沒人？'), 'say': (['對。', '畫得很爛。不准說。'], ['今天大家都在家。我也是。'])},
+               2: {'t': ('考完去哪裡都可以，妳決定。', '妳家那邊冷嗎？'), 'say': (['我決定好了。', '考完再說。現在說你會分心。'], ['冷。我媽一直叫我穿外套。'])}}}),
+    ('kexin', '最後一個春假。……這次不排行程表。',
+     {'text': '最後一個春假。開車，去哪都好。',
+      'opts': {0: {'say': (['不知道。', '不排就是不知道。你決定。'], ['不知道。', '上車再想。'])},
+               1: {'t': ('妳做得到不排嗎？', '妳想去海邊嗎？'), 'say': (['做不到。', '我已經在想了。可是我不寫下來。'], ['想。', '可是你開，你決定。'])}}}),
+]
+
+
+def apply_b5(src):
+    bad = []
+    for hid, old, ch in B5:
+        L = src.get(hid) or []
+        hit = [i for i, e in enumerate(L) if e.get('text') == old]
+        if len(hit) != 1:
+            bad.append(f'{hid}「{old[:16]}」：{len(hit)} 則'); continue
+        e = L[hit[0]]
+        if ch.get('drop'):
+            L.pop(hit[0]); continue
+        for i, (o, n) in (ch.get('thread') or {}).items():
+            th = e.get('thread') or []
+            if len(th) <= i or th[i] != o:
+                bad.append(f'{hid}「{old[:16]}」thread[{i}] 對不到'); continue
+            th[i] = n
+        for j, c in (ch.get('opts') or {}).items():
+            o = (e.get('opts') or [])[j] if len(e.get('opts') or []) > j else None
+            if o is None:
+                bad.append(f'{hid}「{old[:16]}」opts[{j}] 沒有'); continue
+            if 't' in c:
+                if o.get('t') != c['t'][0]:
+                    bad.append(f'{hid}「{old[:16]}」opts[{j}].t 對不到'); continue
+                o['t'] = c['t'][1]
+            if 'say' in c:
+                if (o.get('say') or []) != c['say'][0]:
+                    bad.append(f'{hid}「{old[:16]}」opts[{j}].say 對不到'); continue
+                o['say'] = list(c['say'][1])
+        if 'text' in ch:
+            e['text'] = ch['text']
+    if bad:
+        raise SystemExit('CANON-NO-ECON-1112 第五批（回覆跟著換）：' + '；'.join(bad))
+    return src
+
+
 def main():
     ref = sys.argv[sys.argv.index('--ref') + 1] if '--ref' in sys.argv else None
     allow = IG.load(ROOT)
@@ -108,7 +181,7 @@ def main():
     if not ok:
         raise SystemExit(why)
     import canon1112_rows as C1112   # CANON-NO-ECON-1112 第四批：AA_894 第 3 節的整句換字疊在稿上（讀稿換名以後、建資料以前）
-    data = build(json.loads(C1112.fix(PATH, IG.read_fix(git('show', f'{sha}:{PATH}')))), sha)
+    data = build(apply_b5(json.loads(C1112.fix(PATH, IG.read_fix(git('show', f'{sha}:{PATH}'))))), sha)   # 第五批：回覆跟著 src 換（apply_b5）
     js = ('/* 自動產生：tools/story/import_msg_replies.py（' + data['src'] + '）。不要手改，改企劃 AA_709 再重新匯入。\n'
           '   女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/\n'
           "'use strict';\nconst MSG_REPLIES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')

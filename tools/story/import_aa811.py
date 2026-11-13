@@ -92,6 +92,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_aa811.py（' + data['src'] + '）。不要手改，改企劃 AA_811 再重新匯入。\n'
           '   學姊合歡山北峰那一趟（hehuan）、子晴之後的十則語音（zq_voice）：src/aa811_3d.js 讀；逐句對稿 tests/aa811_hehuan_voice_1111_unit.js */\n'
           "'use strict';\nconst AA811_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # CANON-NO-ECON-1112 第五批：AA_920／921／923 的 src 對照表在寫檔前照整句換（tools/story/canon_b5_rows.py）
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

@@ -146,7 +146,7 @@ const R2Y4B=(function(){
   S.springPhoto=G=>{ const D=SPD(); if(D.d0!=null&&grp(G)) PHONE.at(G,D.d0,21.5,[GR('heroine_01','📷（火車站的月台。他們改搭火車。）')],'y4_spring_photo'); };   /* 祐廷沒去：他們改搭火車 */
   const springPhone=function(G,GM){ const F=G.flags, D=SPD(); if(D.inv==null||G.day<D.inv||G.day>D.d1+1) return;
     if(grp(G)&&G.day<=D.dl&&at(G,SP.inv,20.5)) PHONE.at(G,D.inv,atH(G,D.inv,20.5),[GR('heroine_01','春假要不要出去？兩天一夜。'),GR('heroine_01','行程我排好了。4/1 前跟我說。')],'y4_spring_grp');
-    if(dating(G,'kexin')&&G.day<=D.dl&&at(G,SP.inv,21)) PHONE.at(G,D.inv,atH(G,D.inv,21),[P_('kexin',S.kxWaiao(G)?'最後一個春假。……一樣不排行程表。':'最後一個春假。……這次不排行程表。')],'y4_spring_kx');
+    if(dating(G,'kexin')&&G.day<=D.dl&&at(G,SP.inv,21)) PHONE.at(G,D.inv,atH(G,D.inv,21),[P_('kexin','最後一個春假。開車，去哪都好。')/* AA_920 ⑥（CANON-NO-ECON-1112 第五批）：兩版合成一句 */],'y4_spring_kx');
     if(G.day>D.dl&&F.SPRING_Y4==null&&(PHONE.sent(G,'y4_spring_grp')||PHONE.sent(G,'y4_spring_kx'))) S.springChoose(GM||G,'none',{silent:true});
     if(dating(G,'heroine_03')&&PHONE.sent(G,'y4_spring_grp')&&at(G,SP.d0,18)&&G.day<=D.d1) PHONE.at(G,D.d0,18,[P_('heroine_03','看到群組了。……茶屋今天很空。')],'y4_spring_yt'); };   /* 和語彤交往中：她春假照樣上班（AA_71 2-10）；「店裡」→「茶屋」同 AA_627 A-389（大一下春假那一則，YT-REWRITE-1103；這一則表上沒有，交 AA 對）*/
   S.springCarDue=G=>{ const D=SPD(); return G.flags.SPRING_Y4==='noodle'&&G.day===D.eve&&hh(G)>=20&&!G.flags.Y4_SPRING_CAR; };

@@ -176,7 +176,7 @@ const MSG2_POOL={
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂", "我在高雄，我媽在煮，整間都是油味"], "tags": [], "src": "AA_881 第 2 節", "rowLabel": "新年快樂"},
    {"topic": "newyear", "cond": null, "tier": "L", "msgs": ["新年快樂", "（長頸鹿貼圖）", "今年也要一起"], "tags": [], "src": "AA_881 第 2 節", "rowLabel": "新年快樂"},
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不會。"], "tags": [], "src": "AA_881 第 2 節", "rowLabel": "謝謝"},
-   {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不會啦。下次換你幫我。"], "tags": [], "src": "AA_881 第 2 節", "rowLabel": "謝謝"},
+   {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不會啦。"], "tags": [], "src": "AA_881 第 2 節", "rowLabel": "謝謝"},
    {"topic": "thanks", "cond": null, "tier": "L", "msgs": ["不會。"], "tags": [], "src": "AA_881 第 2 節", "rowLabel": "謝謝"}
   ]}),
   "kai":Object.assign({"name": "阿凱", "birthday": "05-24", "style": "沒有標點；一點以前發的一點才回，先接「剛醒」", "bdayInfo": {"src": "BB_178 10-1", "cell": "5/24（雙子）【BB-C 抽，AA 可改】", "years": ["2026 週日，大一下第 13 週", "2027 週一，大二下第 14 週", "2028 週三，大三下第 14 週", "2029 週四，大四下第 14 週"], "where": ["都在臺北（大一同房，大二起住別棟）。2028 日本路線的祐廷在日本（快 1 小時）。"], "pool": "【回覆池 AA】"}, "conds": {"thanks": [{"key": "k1_keyboard", "text": "K1 換靜音鍵盤", "flag": "`ev_kai_keyboard_quiet`（他的記憶 `HELPED`）", "date": "大一上第 2 週；選「談」的隔天，其他選項一週後", "src": "BB_178 10-3"}], "ok": [{"key": "k2_engineer", "text": "K2 工程師也是人（`ev_kai_engineer`）", "date": "大一下第 11 週，Q6 之後兩週內（`BB_96` 一覽表）", "how": "演過", "days": "3 天", "tiers": "A／R", "src": "BB_178 10-2"}, {"key": "k5_sue", "text": "K5 所以他可以告我嗎（`ev_kai_can_they_sue`）", "date": "大四上，凌晨 2:00 的訊息（`BB_40` K5）", "how": "收到那幾則", "days": "3 天，從隔天算（隔天公司處理了）", "tiers": "A／R", "src": "BB_178 10-2"}], "closed": [], "closedText": null}},{"replies":[

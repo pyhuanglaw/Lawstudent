@@ -278,7 +278,7 @@ const XCROM=(()=>{
     for(const x of S.REPAIR_YES) await GM.say({charId:XC,name:nm(XC)},x); r.state='done'; r.doneDay=eDay(G); if(typeof ROM!=='undefined'&&ROM.start) ROM.start(G,XC); else F(G)['dating_'+XC]=true; };
   S.repairExpire=function(G){ const r=F(G).XC_REPAIR; if(!r||r.state!=='wait'||eDay(G)<r.day+60||eH(G)<21||sent(G,'xc_repair_no')) return; r.state='friend'; PHONE.at(G,eDay(G),eH(G),[P(S.REPAIR_NO)],'xc_repair_no'); };
   /* 8-3 冷落：交往中連續 28 天沒有正式約會、或她的半夜訊息連續 5 則沒回；一學期最多一次；00:40 一則（不用回），不會因為冷落分手 */
-  S.COLD='你最近很忙。我不是在怪你，我只是先說出來，免得我自己亂想。';
+  S.COLD='你最近很忙。我先說出來，不然我會自己亂想。';
   S.cold=function(G){ const f=F(G); if(!law(G)||!dating(G)||!contact(G)) return; const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(eDay(G)):null, tk=t?t.id:'x';
     if((f.XC_COLD||{})[tk]!=null) return; const h=eH(G); if(!(h>=40/60&&h<1.5)) return;
     const L=typeof DATE!=='undefined'&&DATE.log?DATE.log(G,XC):{}, lastDate=L.last&&L.last.day!=null?L.last.day:null, d0=Math.max(S.startDay(G)||0,lastDate||0);

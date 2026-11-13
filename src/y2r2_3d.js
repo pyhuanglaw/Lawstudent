@@ -483,9 +483,11 @@ const Y2R2=(function(){
           at(G,m,21,L,'y2r2_k9_msg'); if(!F.KX_K9||F.KX_K9==='yes') F.KX_K9=F.KX_K9==='yes'?'missed':'none'; merge(G,'KX_DIR',{Y2:'rules'}); } } }
     /* --- 2-Y2-04 中秋：她的那一段（外校的烤肉那兩則：CANON-NO-ECON-1112 第三批拿掉）--- */
     /* --- 2-Y2-05 K10 互相出題 --- */
-    { const a=d('q0'), r=d('qr'), m=d('q'), f=d('qf'); if(kx(G)&&a!=null){
-        if(win(G,a,21,3)&&!sent(G,'y2r2_q_ask')) at(G,a,21,[K('這學期起，期中、期末前都互相出題。'),K(K6(G)?'規則照舊，只能出老師上課講過的。':'只能出老師上課講過的。冷門學說算犯規。'),
-          KASK('期中前那個週五，晚上六點半，後門那家。題目一人出五題。',{id:'y2r2_q_ask',until:abs(m,17.5),opts:[{t:'好。',set:{KX_QUIZ_MODE_Y2:'meet'},say:[{from:'kexin',text:'好。題目不要先給我看。'}]}]})],'y2r2_q_ask');   /* 選視訊那一條：CANON-NO-ECON-1112 第三批拿掉；邀約這一句照 AA_901 第 1 項（AA_900 第 6 節改：邀約留著、當面）*/
+    /* CANON-NO-ECON-1112 第五批（AA_923 第 2 節，D118：法律系沒有期中考）：「期中前那個週五」→「期末前那個週五」——見面那天改成大二上期末考週的前一週、同一個星期幾（週五；STORY.termDay('Y2S1',15,5)＝2026-12-18），
+       約她那則、不回的提醒跟著挪（原本 10/09 約、10/21 提醒、10/23 見面：前 14 天、前 2 天）；讀不到 termDay＝照原本的日子。期末的題目那則（qf 12/20）照舊 */
+    { const qd=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y2S1',15,5):null, m=qd!=null?qd:d('q'), a=qd!=null?qd-14:d('q0'), r=qd!=null?qd-2:d('qr'), f=d('qf'); if(kx(G)&&a!=null){
+        if(win(G,a,21,3)&&!sent(G,'y2r2_q_ask')) at(G,a,21,[K('這學期起，期末前都互相出題。'),K(K6(G)?'規則照舊，只能出老師上課講過的。':'只能出老師上課講過的。冷門學說算犯規。'),
+          KASK('期末前那個週五，晚上六點半，後門那家。題目一人出五題。',{id:'y2r2_q_ask',until:abs(m,17.5),opts:[{t:'好。',set:{KX_QUIZ_MODE_Y2:'meet'},say:[{from:'kexin',text:'好。題目不要先給我看。'}]}]})],'y2r2_q_ask');   /* 選視訊那一條：CANON-NO-ECON-1112 第三批拿掉；邀約這一句照 AA_901 第 1 項（AA_900 第 6 節改：邀約留著、當面）*/
         /* 不回的提醒：10/21（三）21:00（AA_343 E4；原本 10/23 21:00「週日中午。」）*/
         if(!F.KX_QUIZ_MODE_Y2&&win(G,r,21,1)&&sent(G,'y2r2_q_ask')&&!sent(G,'y2r2_q_remind')) at(G,r,21,[K('週五晚上。你還沒回。')],'y2r2_q_remind');
         if(F.KX_QUIZ_MODE_Y2==='meet'&&!outGet(G,'y2r2_q')&&now(G)<abs(m,18.75)) plan(G,{id:'y2r2_q',ev:'ev_kexin_quiz_y2',day:m,h:18.5,late:0.25,place:'學校後門・湯餃店',title:'互相出題（後門那家湯餃）',travel:'走路',travelH:0.1});
@@ -512,8 +514,8 @@ const Y2R2=(function(){
     S.betRules(G,GM);
     /* --- 2-Y2-10 寒假去高雄 --- */
     { const a=d('kh0'), r=d('khr'), m=d('kh'); if(kx(G)&&a!=null){ const fare=(HL()&&HL().fare)||2980;
-        if(win(G,a,21,3)&&!sent(G,'y2r2_kh_ask')){ const L=[K('寒假的行程表做好了。這次在高雄。'),K('一月十四號。第一頁是夜市，你還沒去過的那個。')];
-          const ask={id:'y2r2_kh_ask',until:abs(m,10),opts:[{t:'可以。',need:{money:fare,why:'高鐵票錢不夠'},set:{KX_KH_Y2:'yes'},say:[{from:'kexin',text:'好。幾點的車，我去接你。'}]},{t:'那天不行。',set:{KX_KH_Y2:'no',KX_TRIP_DEFERRED:'spring'},say:[{from:'kexin',text:'好。那春假。……行程表我會再多做一頁。'}]}]};
+        if(win(G,a,21,3)&&!sent(G,'y2r2_kh_ask')){ const L=[K('寒假我在高雄。'),K('一月十四號，帶你去夜市。你還沒去過的那個。')];   /* AA_921 第 3-2 節（CANON-NO-ECON-1112 第五批） */
+          const ask={id:'y2r2_kh_ask',until:abs(m,10),opts:[{t:'可以。',need:{money:fare,why:'高鐵票錢不夠'},set:{KX_KH_Y2:'yes'},say:[{from:'kexin',text:'好。幾點的車，我去接你。'}]},{t:'那天不行。',set:{KX_KH_Y2:'no',KX_TRIP_DEFERRED:'spring'},say:[{from:'kexin',text:'好。那春假。'}]}]};
           if(!(F.KX_TRIP&&F.KX_TRIP.Y1S2)){ L.push(K('你可以下來嗎？')); L.push(KASK('一天也算。',ask)); } else L.push(KASK('你可以下來嗎？',ask));
           at(G,a,21,L,'y2r2_kh_ask'); }
         if(!F.KX_KH_Y2&&win(G,r,21,1)&&sent(G,'y2r2_kh_ask')&&!sent(G,'y2r2_kh_remind')) at(G,r,21,[K('十四號。你還沒回。')],'y2r2_kh_remind');

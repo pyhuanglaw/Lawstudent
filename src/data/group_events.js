@@ -61,10 +61,11 @@ const GROUP_EVENTS=(function(){
       {speaker:null,text:'（開了一個多小時，轉錯三次彎。路的盡頭是一片田，一間沒有招牌的雜貨店，門口一台舊的投幣販賣機。）'},
       {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'……我們到底在哪。'},
       {choice:[{text:'「買兩罐汽水。」',goto:'l1'},{text:'「下次再來？」',goto:'l2'},{text:'（坐在店門口的長椅）',goto:'l3'}]},
-      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。我要記在行程表上。'},{goto:'lb'},
+      /* AA_921 第 3-3 節（CANON-NO-ECON-1112 第五批）：販賣機、回程兩句她不記行程表 */
+      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。它今天吃得比我飽。'},{goto:'lb'},
       {label:'l2'},{speaker:'kexin',expression:'laugh',text:'你記得路嗎？我完全不知道我們在哪。'},{goto:'lb'},
       {label:'l3'},{speaker:null,text:'（田裡的風吹過來。她拍了一張照片，照片裡只有路。）'},
-      {label:'lb'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'行程表我回去再補。寫『迷路』，一行就好。'},
+      {label:'lb'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'今天最好玩的，是迷路。'},
       {label:'fin'} ],
     after:G=>{ const k=G.flags.KX_TRIP_Y2S2; if(k){ const T=(G.flags.KX_TRIP&&typeof G.flags.KX_TRIP==='object')?G.flags.KX_TRIP:{}; T.Y2S2=k; G.flags.KX_TRIP=T; } } },
   /* 留在宿舍：照大一的 ev_spring_dorm_empty_y1，旁白換成 AA_324 那一句（春假第一天 4/3 白天走進宿舍時一次）*/

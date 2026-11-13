@@ -1141,6 +1141,10 @@ with open(dst, 'w', encoding='utf8') as fo:
     ]
     body, n921 = apply767(body, R921, 'AA_921')
     print(f'AA_921@96c3a668eb：可昕不分地點的短句 {len(R921)} 列（照 path），換了 {n921} 列')
+    # AA_915（企劃線 96c3a668eb，AA-C 11-12 定稿、BB_440 採用）：芯慈約會第一次的收尾（D02 華山，AA_537b 第 3 節那一格；企劃線沒有 JSON 源稿）——說了不會發生的「下次」換掉。同一步照 path 換
+    R915 = [{'path': 'loc.D02.lines.classmate_xinci.closing.first.lines[0].text', 'old': '下次你挑地方。我想看你會挑哪裡。', 'new': '我原本以為一個小時就夠了。結果待了三個小時。'}]
+    body, n915 = apply767(body, R915, 'AA_915')
+    print(f'AA_915@96c3a668eb：芯慈 D02 第一次收尾 {len(R915)} 列（照 path），換了 {n915} 列')
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))

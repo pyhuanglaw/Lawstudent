@@ -1478,6 +1478,7 @@ module.exports.SHORT921_1112=[
   {p:'/lines/kexin/flaked/0/0',old:'我等了四十分鐘。',new:'我等了很久。'},
   {p:'/lines/kexin/flaked/0/1',old:'你欠我一個解釋，還有一頓飯。',new:'你要給我一個解釋。'},
   {p:'/lines/kexin/leaveEarly/0',old:'來了就走？好吧。你欠我一次。',new:'來了就走？好吧。',doc:'來了就走？……好吧。'},
+  {p:'/loc/D02/lines/classmate_xinci/closing/first/lines/0/text',old:'下次你挑地方。我想看你會挑哪裡。',new:'我原本以為一個小時就夠了。結果待了三個小時。',aa:'AA_915'},   /* 同一步（R915）：AA_915 芯慈 D02 第一次收尾（BB_440） */
 ];
 module.exports.MORNING921_1112={old:'第二天的我昨天重排了。你先看，有意見現在講。',new:'早。……你頭髮翹起來了。'};   /* date3d.js S.MORNING.kexin（同一張表最後一列，手改在 date3d.js；照稿原字） */
 module.exports.un921=y=>{ for(const r of module.exports.SHORT921_1112){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };

@@ -466,7 +466,7 @@ PEOPLE["kexin"] = person(
         E("newyear", "R", ["新年快樂", "我在高雄，我媽在煮，整間都是油味"], S, rowLabel="新年快樂"),
         E("newyear", "L", ["新年快樂", "（長頸鹿貼圖）", "今年也要一起"], S, rowLabel="新年快樂"),
         E("thanks", "A", ["不會。"], S, rowLabel="謝謝"),
-        E("thanks", "R", ["不會啦。下次換你幫我。"], S, rowLabel="謝謝"),
+        E("thanks", "R", ["不會啦。"], S, rowLabel="謝謝"),   # AA_920 ③（CANON-NO-ECON-1112 第五批）：拿掉沒有下文的「下次換你幫我」
         E("thanks", "L", ["不會。"], S, rowLabel="謝謝"),
     ],
     style="短；不太用語助詞；熟了會直接叫你去吃飯；累了傳長頸鹿貼圖",

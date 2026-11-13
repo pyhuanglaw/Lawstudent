@@ -33,9 +33,10 @@ CFG = {
     'ps_tutor': {'mode': 'out', 'name': '溫州街課輔班', 'verb': '週三去課輔班幫忙', 'cats': ['walk'], 'memory': 'WALKED_TOGETHER',
                  'days': [3], 'times': [18.5], 'hours': [18.5, 21], 'stay': 2.5, 'cost': 0, 'until': '2026-12-17', 'rotIf': {'2': 'PS_HIDDEN_TIRED'},
                  'bg': ['溫州街・課輔班', None], 'travel': '走路約 10 分鐘', 'travelH': 1 / 6, 'end': {'spot': '溫州街'}},
-    'kx_mzu_lib': {'mode': 'out', 'name': '木柵大學圖書館', 'verb': '週末去木柵和她念書', 'cats': ['study'], 'memory': 'STUDIED_TOGETHER',
+    # CANON-NO-ECON-1112 第五批（AA_920 ⑩，AA-C 定稿、BB_447）：可昕週末那一格改成法律系館的自習室（id、flag 照留）；台詞在下面 B920 換
+    'kx_mzu_lib': {'mode': 'out', 'name': '法律系館・自習室', 'verb': '週末和她去系館念書', 'cats': ['study'], 'memory': 'STUDIED_TOGETHER',
                    'days': [6, 0], 'times': [13], 'hours': [13, 17], 'stay': 3, 'cost': 0,
-                   'bg': ['木柵大學・圖書館', None], 'travel': '捷運轉公車約 50 分鐘', 'travelH': 50 / 60, 'end': {'home': True}},
+                   'bg': ['法律系館・自習室', None], 'travel': '走路約 5 分鐘', 'travelH': 5 / 60, 'end': {'home': True}},
 }
 WHO = {'an_shop1': 'heroine_01', 'zr_morning_movie': 'heroine_02', 'yt_after_close': 'heroine_03', 'zq_luwei': 'heroine_04',
        'ps_tutor': 'classmate_peishan', 'kx_mzu_lib': 'kexin'}
@@ -88,6 +89,27 @@ def build(src):
     return out
 
 
+# CANON-NO-ECON-1112 第五批（AA_920 ⑩，企劃線 96c3a668eb）：可昕週末那一格整格新字（稿 AA_722 那一格還是舊前提）。照 id 換；稿那一格的句數要和現在一樣，對不到就停
+B920 = {'kx_mzu_lib': {
+    'label': '週末和她去系館自習室',
+    'acc': ['「好。系館，一點。」'],
+    'first': ['（週末的法律系館。自習室只有你們兩個，窗外是椰影大道。）', '「你坐這裡。這是我的位子，今天借你。」', '（她讀民法，你讀你的。讀到一半，外面起風了。）',
+              '（她把窗簾拉開一點，讓你看椰子樹在晃。）', '「我讀不下去的時候，就看這個。」'],
+    'rot': [['（今天下雨。自習室裡很安靜，只有雨的聲音。）', '「下雨的時候，這裡最好讀書。」'], ['（讀完，她帶你去溫州街吃晚餐。老闆不問她要什麼。）'], None]}}   # None＝照留
+
+
+def b920(slots):
+    for e in slots:
+        c = B920.get(e['id'])
+        if not c:
+            continue
+        if len(e['acc']) != 1 or len(e['first']) != 7 or len(e['rot']) != 3:
+            raise SystemExit(f'AA_920 ⑩ {e["id"]}：稿那一格的句數變了（acc {len(e["acc"])}、first {len(e["first"])}、rot {len(e["rot"])}），先看稿')
+        e['label'], e['acc'], e['first'] = c['label'], list(c['acc']), list(c['first'])
+        e['rot'] = [list(n) if n is not None else o for o, n in zip(e['rot'], c['rot'])]
+    return slots
+
+
 def main():
     allow = IG.load(ROOT)
     hits = [e for e in allow.get('files', []) if e.get('path') == PATH and e.get('status') == 'approved']
@@ -97,7 +119,7 @@ def main():
     ok, why = IG.allowed(PATH, sha, allow)
     if not ok:
         raise SystemExit(why)
-    data = {'src': f'{PATH}@{sha}', 'slots': build(json.loads(git('show', f'{sha}:{PATH}')))}
+    data = {'src': f'{PATH}@{sha}', 'slots': b920(build(json.loads(git('show', f'{sha}:{PATH}'))))}
     js = ('/* 自動產生：tools/story/import_study_slots.py（' + data['src'] + '）。不要手改，改企劃 AA_722（台詞）或匯入工具的 CFG（時間、錢、怎麼演）再重新匯入。\n'
           '   一起念書第 6 次解鎖的「她那一格」：src/studyslot3d.js 讀 */\n'
           "'use strict';\nconst STUDY_SLOTS=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')

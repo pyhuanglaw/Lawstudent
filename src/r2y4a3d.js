@@ -311,13 +311,13 @@ const R2Y4A=(function(){
   /* ---- 2-Y4-13 K21（沒去、沒回、美國路線沒接）---- */
   S.k21Missed=function(G){ const F=G.flags; if(F.KX_STUDY_PLAN) return; F.KX_STUDY_PLAN='missed'; const d=D('2028-09-23'); if(d==null||typeof PHONE==='undefined') return;
     if(isUS(G)){ const l=loc(G,d,23); PHONE.at(G,l.day,l.h,[K('今天我自己讀完了。你那邊現在是早上吧。……下次你也要真的讀。')],'y4_kx21_missed'); }   /* 台灣 23:00＝當地 11:00（視訊的時段過了）*/
-    else PHONE.at(G,d,16,[K('今天我自己讀完了。'),K('表格我開好了。下次你也要真的讀。')],'y4_kx21_missed'); };   /* 16:00（讀書的時段結束）*/
+    else PHONE.at(G,d,16,[K('今天我自己讀完了。'),K('你沒來。我一個人讀得比較快。……騙你的。')],'y4_kx21_missed');   /* AA_921 第 3-2 節（CANON-NO-ECON-1112 第五批） */ };   /* 16:00（讀書的時段結束）*/
   /* ---- 2-Y4-14 K22（沒去、美國路線：不算沒去）---- */
   S.k22Missed=function(G){ const F=G.flags; if(F.KX_DIRECTION) return; F.KX_DIRECTION=true; const d=D('2028-11-14'); if(d!=null&&typeof PHONE!=='undefined') atTW(G,d,21.5,[K('我比較想當那個幫人講話的人。今天想清楚了。')],'y4_kx22_missed'); };   /* 讀書會結束以後（台灣 21:30）*/
   /* ---- 2-Y4-24 聖誕（沒去）---- */
   S.kxXmasMissed=function(G){ const F=G.flags, X=F.KX_XMAS||{}; if(X[4]) return; mergeF(G,'KX_XMAS',{4:'missed'}); const d=D('2028-12-25'); if(d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,22,[K('📷（咖啡店拉下來的鐵門）'),K('聖誕快樂。今天讀了十一個小時。……明天我回高雄。')],'y4_kx_xmas_missed'); };   /* 22:00 打烊 */
   /* ---- 2-Y4-26 KH（沒去、「這次不行。」）---- */
-  S.khMissed=function(G){ const F=G.flags, T0=(F.KX_TRIP&&typeof F.KX_TRIP==='object')?F.KX_TRIP:{}; if(T0.Y4WIN) return; mergeF(G,'KX_TRIP',{Y4WIN:'missed'}); const d=D('2029-01-06'); if(d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,12,[K('📷（讀書計畫表，那一天的格子畫了一輛車）'),K('欠著。考完再去。')],'y4_kh_missed'); };
+  S.khMissed=function(G){ const F=G.flags, T0=(F.KX_TRIP&&typeof F.KX_TRIP==='object')?F.KX_TRIP:{}; if(T0.Y4WIN) return; mergeF(G,'KX_TRIP',{Y4WIN:'missed'}); const d=D('2029-01-06'); if(d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,12,[K('📷（高雄車站的月台，沒有人）'),K('沒關係。今年高雄也很冷。')],'y4_kh_missed');   /* AA_921 第 3-2 節（CANON-NO-ECON-1112 第五批）：不約下次 */ };
   /* ---- 2-Y4-29 情人節（沒接）---- */
   S.vdayMissed=function(G){ const F=G.flags, V=F.KX_VDAY||{}; if(V[4]) return; mergeF(G,'KX_VDAY',{4:'missed'}); const d=D('2029-02-14'); if(d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,22,[K('📷（讀書計畫表）'),K('情人節快樂。十點那一格，今天先空著。')],'y4_kx_vday_missed'); };   /* 十點那一格 */
   /* ---- 2-Y4-25 期末成績：大四上修的法律課（美國路線＝美國的三門課，AA_185 1-5）---- */
@@ -357,7 +357,7 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-14 K22：11/13 21:00 私訊（去／不去）→ 11/14（二）19:00 法律系館自習室；美國路線＝沒去那一則（不算沒去）---- */
     { const a=D('2028-11-13'), d=a!=null?a+1:null; if(a!=null&&kxOn(G)&&G.day>=a-1&&G.day<=d+1){
         if(!us){
-          if(past(G,a,21)&&now(G)<T(d,19)&&!PHONE.sent(G,'y4_kx22_ask')){ const m=K('明天晚上七點，讀書會。邵鈞也在。你來旁聽，不用說話。'); m.ask={id:'y4_kx22',until:T(d,19),opts:[{t:'去。',set:{KX_K22:'go'}},{t:'不去。',set:{KX_K22:'no'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,[m],'y4_kx22_ask'); }
+          if(past(G,a,21)&&now(G)<T(d,19)&&!PHONE.sent(G,'y4_kx22_ask')){ const m=K('明天晚上七點，讀書會。你來旁聽，不用說話。'); m.ask={id:'y4_kx22',until:T(d,19),opts:[{t:'去。',set:{KX_K22:'go'}},{t:'不去。',set:{KX_K22:'no'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,[m],'y4_kx22_ask'); }
           if(F.KX_K22==='go') plan(G,{id:'y4_kx22',ev:'ev_kexin_two_directions',day:d,h:19,late:0.25,place:'法律系館・自習室',title:'兩個方向的讀書會（可昕）',travel:'走路',travelH:0.1});
           if(PHONE.sent(G,'y4_kx22_ask')&&F.KX_K22!=='go'&&now(G)>=T(d,19.25)) S.k22Missed(G); }
         else if(pastTW(G,d,21.5)) S.k22Missed(G); } }

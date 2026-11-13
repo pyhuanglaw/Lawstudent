@@ -87,7 +87,7 @@ const GROUP=(function(){
   S.springPhone=function(G,GM){ const F=G.flags, D=S.springDays(); if(D.inv==null||G.day<D.inv||G.day>D.trip+1) return; const now=T(G.day,G.hour);
     if(grp(G)&&G.day<=D.dl&&now>=T(D.inv,21)){ const Y=msg(NG,'yu'), W=msg(NG,'heroine_03'), B=msg(NG,'classmate_bohan');
       PHONE.at(G,D.inv,atH(G,D.inv,21),[Y('春假那個'),Y('語彤說行程她排'),W('第一站是市場。'),Z('市場？'),W('……田野課的。我想自己去看一次。'),B('誰開車？'),Z('@'+(G.name||'祐廷'))],'y2s2_spring_grp'); }
-    if(F.dating_kexin&&G.day<=D.dl&&now>=T(D.inv,21.5)) PHONE.at(G,D.inv,atH(G,D.inv,21.5),[{th:'p:kexin',from:'kexin',text:'春假。今年也開車？'},{th:'p:kexin',from:'kexin',text:'行程表做好了。……這次吃的只有一頁。'}],'y2s2_spring_kx');   /* 大二版的邀約（AA_336 C8，不沿用大一的句子）；流程照大一 kx_spring_y1 */
+    if(F.dating_kexin&&G.day<=D.dl&&now>=T(D.inv,21.5)) PHONE.at(G,D.inv,atH(G,D.inv,21.5),[{th:'p:kexin',from:'kexin',text:'春假。今年也開車？'},{th:'p:kexin',from:'kexin',text:'這次我只想吃。其他的你決定。'}],'y2s2_spring_kx');   /* AA_921 第 3-2 節（CANON-NO-ECON-1112 第五批）：她不排表 */   /* 大二版的邀約（AA_336 C8，不沿用大一的句子）；流程照大一 kx_spring_y1 */
     if(G.day>D.dl&&F.SPRING_Y2==null&&(PHONE.sent(G,'y2s2_spring_grp')||PHONE.sent(G,'y2s2_spring_kx'))) S.springChoose(GM,'none',{silent:true}); };
 
   /* ---------- 1C-02 中秋＝以安的生日 ---------- */

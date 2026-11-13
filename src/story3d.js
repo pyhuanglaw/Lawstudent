@@ -1856,7 +1856,7 @@ const STORY = (function(){
       else if(n===5){ if(!PHONE.sent(G,'kx_anniv_ask5')) PHONE.at(G,an-7,21,[K('下禮拜'+S.wdName(an)+'。第五年。'),Object.assign(K('……地點你選。我那天下午有空。'),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask5'); }   /* AA_357 3-2 */
       else if(n===6){ if(!PHONE.sent(G,'kx_anniv_ask6')) PHONE.at(G,an-7,21,[K(S.cnDayNum(CALENDAR.dateOf(an).d)+'號晚上，老時間。'),K('……卡片記得帶。')],'kx_anniv_ask6');   /* AA_476 A-3（企劃線 6ad997806）：前一週 10/10（四）21:00 她私訊兩則，不用回、不寫地點 */
         if(!F[key]&&G.day*24+G.hour>=(an-7)*24+21) F[key]=S.kxAnniv6Place(G); }   /* AA_472 第 3 節：地點照 KX_ANNIV_PLACE_6，沒有就照第五年的地點；10/10 21:00 起排（排進行程照現在）*/
-      else if(!PHONE.sent(G,'kx_anniv_ask'+n)) PHONE.at(G,an-7,21,[Object.assign(K(n===3?'下禮拜'+S.wdName(an)+'。第三年。地點你選。':'下禮拜'+S.wdName(an)+'。第四年。'+(S.wdName(an)==='六'||S.wdName(an)==='天'?'':'……平日也要過。')),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask'+n);
+      else if(!PHONE.sent(G,'kx_anniv_ask'+n)) PHONE.at(G,an-7,21,[Object.assign(K(n===3?'下禮拜'+S.wdName(an)+'。第三年。地點你選。':'下禮拜'+S.wdName(an)+'。第四年。'/* AA_920 ⑧（CANON-NO-ECON-1112 第五批）：平日的那一句拿掉（遠距才有的「只有週末見得到」） */),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask'+n);
       const AP=F[key]; if(AP&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_anniv'+n)){ const P=KX_ANNIV_PLACE[AP]; OUT.plan(G,{id:'kx_anniv'+n,ev:'ev_kexin_anniversary_yn',day:an,h:18.5,year:n,ap:AP,early:!!AN.early,place:P[0],title:P[1],travel:P[2],travelH:P[3]}); }
       if(!AP&&G.day*24+G.hour>=an*24+19.5){ F.KX_ANNIV=Object.assign({},F.KX_ANNIV||{},{[n]:'missed'}); S.kxAnnivMissed(G,n,an); } }   /* AA_313 第 2 節第 36 列：同第一年 */
     /* 情人節（BB_96 9-1，寒假，各自在家）：2/14 20:00 她打視訊來（出遊系統「接起來」；在家也會問，home3d.js）；沒接＝窗戶的照片（outingMissed）*/
@@ -2527,7 +2527,7 @@ const STORY = (function(){
     ...[/* kx2_steps、kx2_yule_hand、kx2_apology（數階梯、外校室友、兩校分開上課）：AA_887 第 2 節，CANON-NO-ECON-1112 第三批拿掉 */['kx2_dumpling',12,18,'今天的酸辣湯餃，老闆多給一顆。他一定覺得我很可憐。']]
       .map(([id,w0,w1,t])=>({id,term:T=>T.id==='Y1S2'&&T.week>=w0&&T.week<=w1,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>Array.isArray(t)?seq('kexin',t):[P1('kexin',t)]})),   /* 陣列＝連發幾則（AA_209）*/
     {id:'kx2_example',term:T=>T.id==='Y1S2'&&T.week>=10,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin&&!!(G.flags.KX_DIR&&G.flags.KX_DIR.Y1),   /* K6b 之後 */
-      items:()=>[P1('kexin','民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。')]},
+      items:()=>[P1('kexin','民總的案例作業，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。')]},
     {id:'kx2_coffee',term:T=>T.id==='Y1S2'&&T.week>=15&&T.week<=16,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>seq('kexin',['📷（書桌，旁邊一杯咖啡）','期末的第一杯。'])},
     /* 大二的手機小事（BB_97 第 5 節＋9-16；任務 V3-B22；2026-10-17 照 BB_205 第 4、7 節：學姊熱水改 Kevin 起頭、M2 那則刪、可昕三則改句）：BB 寫的是「摘要日的手機小事」，大二還沒有摘要日（SYS-08），照大一的做法放進每天的手機小事。每則一次；時間沒寫的是技術預設。
        接的事件還沒做的那幾則先不放（學姊 M2 之後、上榜、畢業；沛珊 P4b；方奕廷的暑假；可昕 K10c 之後；長頸鹿貼圖）——那些事件做好時在這裡加 */
@@ -2543,7 +2543,7 @@ const STORY = (function(){
         ['y2_zr_order',Y2,null,G=>done(G,'ev_zhiruo_applied')&&!done(G,'ev_zhiruo_last_shift')&&gotBefore(G,'heroine_02'),G=>zrDH(G)?[P1('heroine_02','今天第三個客人點錯。我記得他上週點什麼。我沒說。')]:seq('heroine_02',['今天有個常客點了熱美式。','他上禮拜都點拿鐵。我差點問他怎麼了。'])],   /* BB_189 2-5 和她交往中、Z7 之後 Z9 之前（AA_230 Z-30：只留這一則）*/
         ['y2_kx_usual',Y2a(),21+10/60,kx,()=>[P1('kexin','午餐老樣子，山下那攤的酸辣湯餃。')]],
         ['y2_kx_superficies',Y2a(),21+10/60,kx,()=>[P1('kexin','物權的老師講了一個小時的地上權。我現在看到房子都想問地是誰的。')]],
-        ['y2_kx_index',Y2a(),21+10/60,kx,G=>[P1('kexin',typeof SOCIAL!=='undefined'&&SOCIAL.has('kexin','ENC_D13_KX')?'邵鈞的考古題有目錄。目錄有索引。':'我們系有一個人，考古題有目錄。目錄有索引。')]],   /* 還沒見過邵鈞（淡水的偶遇 D13）的玩家：「我們系有一個人」*/
+        ['y2_kx_index',Y2a(),21+10/60,kx,G=>[P1('kexin','系上有一個學長，考古題有目錄。目錄有索引。')]],   /* CANON-NO-ECON-1112 第五批（AA_919 第 2 節，BB_445）：只留一版 */
         ['y2_kx_hand',Y2a(6),21+10/60,G=>kx(G)&&!!G.flags.PLAYED_Y0&&G.flags.E12_ANSWER==='hand',()=>[Object.assign(P1('kexin','我還在等你的第三隻手。'),{ask:{id:'dp_y2_kx_hand',opts:[{t:'……長頸鹿的尾巴？',say:[{from:'kexin',text:'你記得喔。尾巴我還留著。'}]},{t:'我在練。',say:[{from:'kexin',text:'練到哪了？……先幫我拿書包就好。'}]}]}})]],   /* BB_104 8-4「她會記得」：三個條件都成立才有 */
         ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？')]],   /* AA_375 第 18 項 */
         ['y2_kx_river',Y2b,21+10/60,G=>kx(G)&&G.weather==='rain',()=>[P1('kexin','今天下雨，山變成一條河。')]],
@@ -3486,7 +3486,7 @@ const STORY = (function(){
      ['heroine_05','粥。還是熱的。你先吃，我坐一下就走。'],[null,'（你吃粥的時候，她把你帶下來的講義疊好，沒有翻開。）'],['heroine_05','明天早上我傳訊息給你。有回就好。']],
     heroine_04:t=>[['heroine_04',t?'你說你感冒。我帶了兩樣東西。':'你兩天沒回我訊息。我還以為你被當了。']]};
   const CW_GROUP={zhe:'滷味。我跟老闆說是病人吃的，他多給一顆蛋。',yu:'面紙。你鼻子好紅。',classmate_bohan:'刑訴的筆記。我多印了一份。',heroine_01:'……喉糖。一天不要吃超過五顆。'};
-  const CW_SNEEZE={kexin:['幾度？','量了再跟我說。','……我下週期中，二十六號考第一科。'],   /* AA_376 #14：10/23 是週六，10/26 在下週 */
+  const CW_SNEEZE={kexin:['幾度？','量了再跟我說。','……我下週要交報告。'],   /* AA_923 第 2 節（D118：法律系沒有期中考） */   /* AA_376 #14：10/23 是週六，10/26 在下週 */
    heroine_01:['量體溫了嗎？','明天晚上我過去。'],heroine_03:['嗯。','明天帶粥過去。'],heroine_05:['……知道了。今天先睡。'],
     heroine_04:['感冒？','你等一下。我明天過去。'],heroine_02:['我這邊是半夜。','你吃藥了嗎？……明天醒來，跟我說一聲。'],classmate_peishan:['……我在台南。','你多喝水。睡前也喝。']};
   /* 第 4 節：誰知道、誰能來、誰問。回傳 {visitors（照 3-2 的出場順序）, rows（每個人是哪一列）, asker（問「那一句」的人，沒有＝null）, partner（親自來的交往對象）,
@@ -4051,9 +4051,10 @@ const STORY = (function(){
       if(G.day===nye+1&&hh>=8&&!PHONE.sent(G,'zr_nye_y'+y)) PHONE.at(G,nye+1,8,[{th,from:id,text:y===4?'新年快樂。今年我在這邊跨第二次了。':'新年快樂。這邊剛剛才倒數完。'}].concat(st>=SOCIAL.STAGES.indexOf('CLOSE_FRIEND')?[{th,from:id,text:y===4?'去年說臺灣的煙火比較大。……今年還是。':'臺灣的煙火我在網路上看了。比這邊大。'}]:[]),'zr_nye_y'+y); } };
   /* 可昕（交往中）大二～大四的跨年（AA_210 5-2）：12/24 21:00 她私訊問 → 高雄（高鐵來回 2980，錢不夠變灰）／頂樓・視訊；12/31 21:00 前沒回＝視訊；
      高雄＝23:30 出遊（ev_kx_nye_river_y?）；視訊＝23:59「接起來」（大二在頂樓的接在 ev_y2_newyear 裡）；答應高雄沒去＝00:05 她打來、兩句改到隔天 09:00（AA_313 2-3 B）。KX_NYE[年]＝river／video／missed */
-  S.KX_NYE_Y={2:{nye:'2026-12-31',ask:G=>['今年跨年，高雄還是頂樓？'],opts:[{t:'高雄。',k:'river',r:'好。我去車站接你。幾點的車先跟我說。'},{t:'頂樓。',k:'video',r:'好。零點我打視訊。'}]},
-    3:{nye:'2027-12-31',ask:G=>['跨年。我列了選項。','一、你來高雄。二、零點視訊。沒有三。'].concat((G.flags.KX_NYE||{})[2]==='video'?['去年是二。今年我比較想要一。']:[]),opts:[{t:'一。',k:'river',r:'好。車站見。'},{t:'二。',k:'video',r:'好。零點。'}]},
-    4:{nye:'2028-12-31',ask:G=>(G.flags.EXCHANGE_ROUTE==='US'?['你的時差調回來了嗎？']:[]).concat(['跨年。高雄或視訊，你選。我兩個都可以。']),opts:[{t:'高雄。',k:'river',r:'好。我去車站接你。'},{t:'視訊。',k:'video',r:'好。那我零點準時打。'}]}};
+  /* CANON-NO-ECON-1112 第五批（AA_920 ⑥，BB_447）：沒去的那一個選項不再是視訊（視訊那場已拿掉，改零點一則訊息），也不列「一、二」（她不排表）。key 照留（river、video） */
+  S.KX_NYE_Y={2:{nye:'2026-12-31',ask:G=>['今年跨年我回高雄。你要不要一起來？'],opts:[{t:'好。',k:'river',r:'好。我去車站接你。幾點的車先跟我說。'},{t:'我留在臺北。',k:'video',r:'好。零點我傳給你。'}]},
+    3:{nye:'2027-12-31',ask:G=>['跨年我又要回高雄。你來不來？'].concat((G.flags.KX_NYE||{})[2]==='video'?['去年你沒來。今年我比較想要你來。']:[]),opts:[{t:'來。',k:'river',r:'好。車站見。'},{t:'今年也不行。',k:'video',r:'好。零點傳給你。'}]},
+    4:{nye:'2028-12-31',ask:G=>(G.flags.EXCHANGE_ROUTE==='US'?['你的時差調回來了嗎？']:[]).concat(['跨年我回高雄。你來的話，我去車站接你。']),opts:[{t:'去。',k:'river',r:'好。'},{t:'這次不去。',k:'video',r:'好。新年第一則給你。'}]}};
   S.KX_NYE_MSG={2:'新年快樂。河邊今年人比較多。',3:'新年快樂。暖暖包我多帶了一個，自己用掉了。',4:'新年快樂。那個位置今年被別人占走了。'};   /* AA_878 #19～21 */
   S.kxNye=function(GM){ const G=GM.G, F=G.flags; if(!F.dating_kexin||typeof PHONE==='undefined'||typeof OUT==='undefined') return; const hh=G.hour;
     for(const y of [2,3,4]){ const C=S.KX_NYE_Y[y], nye=S.dayOfKey(C.nye); if(nye==null||G.day<nye-7||G.day>nye+1) continue; const K=F.KX_NYE||(F.KX_NYE={}), tag='kx_nye_y'+y, th='p:kexin';

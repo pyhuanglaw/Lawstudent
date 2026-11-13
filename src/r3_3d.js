@@ -281,8 +281,7 @@ const R3=(function(){
   const termN=(G,id)=>{ const Tm=termOf(G), R=((G.flags.R3_DPT||{})[id])||{}; return Tm?(R[Tm.id]|0):0; };
   const termInc=(G,id)=>{ const Tm=termOf(G); if(!Tm) return; const A=G.flags.R3_DPT||(G.flags.R3_DPT={}), R=A[id]||(A[id]={}); R[Tm.id]=(R[Tm.id]|0)+1; };
   const dpGot=(G,id)=>((G.flags.dpN||{})[id]|0)>0;   /* 收過那一則（每天的手機小事的 dpN）*/
-  const metZhan=G=>!!G.flags.KX_NCCU_FRIENDS||((G.flags.KX_BDAY||{})[2]==='class');   /* 見過詹靖＝政大的電影夜或系上小教室的生日（AA_343 C7）：兩場都記 KX_NCCU_FRIENDS（y2r2_3d.js）；KX_BDAY[2] 'class'＝這一版以前的舊存檔 */
-  const metShao=G=>has('kexin','ENC_D13_KX')||has('kexin','ENC_D09_KX')||metZhan(G)||done(G,'ev_kexin_k22');   /* 見過邵鈞（AA_343 C7）＝電影夜、小教室生日、貓空 D09、淡水 D13 任一；聽過＝K22 演過（AA_328 3-19 原文）*/
+  /* CANON-NO-ECON-1112 第五批（AA_919 第 2 節）：「見過外校同學甲／乙沒有」兩種版本只留沒見過的那一版（見過的那幾場都拿掉了），原本的判斷（metZhan、metShao）一起拿掉 */
   const until=G=>T(G.day+1,18);
   const giraffe={t:'（回一隻長頸鹿）',post:'（長頸鹿貼圖）'};
   const KX=(id,term,h,txt,o)=>Object.assign({id,term,h:lt(h),ok:G=>kxOn(G),items:G=>[].concat(typeof txt==='function'?txt(G):txt).map((t,k)=>P1('kexin',t,k/60))},o||{});
@@ -291,14 +290,14 @@ const R3=(function(){
     KX('y2_kx_giraffe1',Tm=>inT(Tm,'Y2S1','Y4S2',9),23+10/60,null,{items:G=>[P1('kexin','（長頸鹿貼圖）'),P1('kexin','以後我傳這隻，就是累了、不想打字',1/60),Object.assign(P1('kexin','你回一隻一樣的就好',2/60),{ask:{id:'dp_y2_kx_giraffe1',until:until(G),opts:[giraffe]}})]}),
     KX('y2_kx_giraffe',Tm=>inT(Tm,'Y2S1','Y4S2',11),23+10/60,null,{max:()=>12,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y2_kx_giraffe1')&&termN(G,'y2_kx_giraffe')<2,items:(G,n)=>{ termInc(G,'y2_kx_giraffe'); return [Object.assign(P1('kexin','（長頸鹿貼圖）'),{ask:{id:'dp_y2_kx_giraffe_'+n,until:until(G),opts:[giraffe]}})]; }}),
     KX('y3_kx_lunch',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,['📷（後門那家的碗）','午餐。']),
-    KX('y3_kx_mid',Tm=>inT(Tm,'Y3S1','Y3S1',10),21+10/60,null,{items:G=>[Object.assign(P1('kexin','民訴期中考完了。最後一題沒寫完。'),{ask:{id:'dp_y3_kx_mid',until:until(G),opts:[{t:'考哪一題？',say:[{from:'kexin',text:'你們老師上禮拜講的那個。……我們老師一定是約好的。'}]},{t:'不要想了。',say:[{from:'kexin',text:'好。不想。'},{from:'kexin',text:'……還是會想。'}]}]}})]}),
-    KX('y3_kx_zhan',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,G=>metZhan(G)?'詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。':'我那個拍片的朋友詹靖，拍了山下那家的老闆一整天。老闆只說了一句：好。'),
+    KX('y3_kx_mid',Tm=>inT(Tm,'Y3S1','Y3S1',10),21+10/60,null,{items:G=>[Object.assign(P1('kexin','民訴的書面報告交了。最後一段沒寫完。'),{ask:{id:'dp_y3_kx_mid',until:until(G),opts:[{t:'哪一段？',say:[{from:'kexin',text:'老師上禮拜講的那個。我以為我懂了。'}]},{t:'不要想了。',say:[{from:'kexin',text:'好。不想。'},{from:'kexin',text:'……還是會想。'}]}]}})]}),
+    KX('y3_kx_zhan',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,'我們模擬法庭同組那個同學會拍片。他拍了公館一家麵店的老闆一整天，老闆只說了一句：好。'),   /* AA_919 第 2 節 */
     KX('y3_kx_eh1',Tm=>inT(Tm,'Y3S1','Y4S2',4),22+40/60,null,{items:G=>[P1('kexin','欸。'),Object.assign(P1('kexin','……以後我只打一個『欸』，就是想找你講話。',1/60),{ask:{id:'dp_y3_kx_eh1',until:until(G),opts:[{t:'在。',say:[{from:'kexin',text:'好。……沒事了。'}]}]}})]}),
     KX('y3_kx_eh',Tm=>inT(Tm,'Y3S1','Y4S2'),22+40/60,null,{max:()=>8,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y3_kx_eh1')&&termN(G,'y3_kx_eh')<2,items:(G,n)=>{ termInc(G,'y3_kx_eh'); return [Object.assign(P1('kexin','欸'),{ask:{id:'dp_y3_kx_eh_'+n,until:until(G),opts:[{t:'在。',say:[NAR('（她打來，講了十分鐘今天的事。掛之前說：「好，我要讀書了。」）')]}]}})]; }}),
     KX('y3s2_kx_cat',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'山上的貓認得我了。'),
     KX('y3s2_kx_juniors',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'讀書會的學弟妹全部考過。我比他們還緊張。'),
-    KX('y3s2_kx_film',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,G=>metZhan(G)?'詹靖的短片在小影展放了。我坐第一排。':'我那個拍片的朋友詹靖，短片在小影展放了。我坐第一排。'),
-    KX('y4_kx_index2',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,G=>metShao(G)?'邵鈞的考古題目錄，現在有第二冊。':'我們系那個考古題有目錄的人，現在出第二冊了。'),
+    KX('y3s2_kx_film',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'同組那個同學的短片，在小影展放了。我坐第一排。'),   /* AA_919 第 2 節 */
+    KX('y4_kx_index2',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'系上那個學長的考古題目錄，現在出第二冊了。'),   /* AA_919 第 2 節（BB_445「系上有一個學長」） */
     KX('y4_kx_mutter',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'我室友說我讀書的時候會自言自語。她錄下來了。我不承認。'),
     KX('y4_kx_mock',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'今天模擬考，第三題我寫了兩頁。寫完才發現題目只問一句。'),
     KX('y4_kx_twenty1',Tm=>inT(Tm,'Y4S1','Y4S2',4),22+10/60,null,{items:G=>[P1('kexin','二十分鐘。'),Object.assign(P1('kexin','這段讀完就打給你。',1/60),{ask:{id:'dp_y4_kx_twenty1',until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她真的打來了。）')]}]}})]}),

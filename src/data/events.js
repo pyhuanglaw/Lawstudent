@@ -1698,7 +1698,7 @@ const STORY_EVENTS=[
       {label:'drink'},
       {speaker:null,text:'（飲料攤前面。她看菜單看了很久。）'},
       {speaker:'kexin',text:'我要最貴的那杯。'},
-      {speaker:'kexin',text:'開玩笑的。紅茶拿鐵，半糖。'},
+      {speaker:'kexin',text:'……算了。紅茶拿鐵，半糖。'},
       {call:(G,GM)=>{ if((G.money|0)>=KX_BDAY_DRINK){ if(GM&&GM.money) GM.money(-KX_BDAY_DRINK); else G.money-=KX_BDAY_DRINK; G.flags.KX_BDAY_Y1='drink'; } else G.flags.KX_BDAY_Y1='self'; }},   /* 一杯飲料 60 元；錢不夠她自己付（不欠、之後不提）*/
       {if:{flagIs:{KX_BDAY_Y1:'self'}},speaker:'kexin',text:'你沒錢喔？……好，這杯我請我自己。'},
       {speaker:null,text:'（她接過去，喝了一口。）'},
@@ -2765,27 +2765,34 @@ const STORY_EVENTS=[
   /* 長頸鹿鑰匙圈（CANON-NO-ECON-1112 第四批；企劃線 AA_882 第 1 節，BB_422）：AA_856 ④ 的兌現——大一下開學第一週，她把高雄帶上來的那盒餅給祐廷（KX_SOUVENIR）。
      那一場本身 AA_856 沒有字（見上面 AA_856 那一段的註）；AA_882 給的是「同一個場面多兩列」，先只演這兩列。只有大一上期末選「臺北。」（她說要帶東西上來，KX_Y1S1_END 'taipei'）的有。
      設 GIRAFFE_KEYCHAIN（畢業後 postgrad_lines.js 的 key／kexinKey 讀它）。不分交往 */
-  { id:'ev_kx_souvenir', title:'', participants:['kexin'], location:['linze','campus'], trigger:'enter', term:['Y1S2'], weeks:[1], carryTo:2, once:true, background:'blur',
+  { id:'ev_kx_souvenir', title:'高雄帶上來的', participants:['kexin'], location:['linze','campus'], trigger:'enter', term:['Y1S2'], weeks:[1], carryTo:2, once:true, background:'blur',
     prereq:{custom:G=>G.flags.KX_Y1S1_END==='taipei'&&!G.flags.KX_SOUVENIR&&KX_LINE_OK(G,'ACQUAINTANCE')},
     dialogue:[
+      {speaker:null,text:'（她在走廊那頭看到你，從背包裡拿出一個紙盒。）'},   /* AA_920 ④（CANON-NO-ECON-1112 第五批，BB_447）：整場補前後 */
+      {speaker:'kexin',text:'說好的。高雄的餅。'},
+      {speaker:'kexin',text:'有一點甜，我先講了。'},
       {speaker:null,text:'（盒子上面用膠帶黏著一個小小的長頸鹿鑰匙圈。）'},
       {speaker:'kexin',text:'那個是附的。我在高雄的動物園買了一袋，班上每個人都有。你的是脖子最短的那隻。'},
+      {choice:[{text:'「為什麼我的最短？」',goto:'kxs_a'},{text:'「謝謝。」',goto:'kxs_b'}]},
+      {label:'kxs_a'},{speaker:'kexin',text:'抽到的。不准換。'},{goto:'kxs_e'},
+      {label:'kxs_b'},{speaker:'kexin',text:'吃完跟我說甜不甜。'},
+      {label:'kxs_e'},{speaker:null,text:'（她把背包甩回肩上，走了。）'},
       {set:{KX_SOUVENIR:true,GIRAFFE_KEYCHAIN:true}} ] },
   { id:'ev_kexin_bad_exam', title:'', participants:['kexin'], location:'linze', trigger:'enter', term:['Y2S1'], weeks:[11], carryTo:15, time:[12,18], once:true, background:'blur',
     prereq:{custom:G=>KX_LINE_OK(G,'FAMILIAR')},
     dialogue:[
-      {speaker:null,text:'（期中考卷發回來。可昕把她那一份對摺，再對摺，塞進包包最底下。）'},
+      {speaker:null,text:'（民法債編總論的作業發回來。可昕把她那一份對摺，再對摺，塞進包包最底下。）'},
       {speaker:'kexin',text:'不要問我幾分。'},
       {speaker:'kexin',text:'……我每一題都知道在問什麼。老師在旁邊寫了三次「理由？」。'},
       {choice:[{text:'「妳上課都講得出來。」',goto:'a'},{text:'「要不要我問妳？」',set:{KX_S2_ASKED:true},goto:'b'}]},
       {label:'a'},{speaker:'kexin',text:'對。講的時候有人會追問我，我就會往下講。寫的時候沒有人問，我寫完結論就覺得講完了。'},{goto:'z'},
       {label:'b'},{speaker:'kexin',text:'現在？……好。你問。'},
-      {speaker:null,text:'（你拿她的考卷，指著第一題問她為什麼。她講了，講得很順。你再問一次為什麼，她又往下講了一層。）'},
-      {speaker:'kexin',text:'……剛剛那一段，我考卷上一個字都沒有寫。'},
+      {speaker:null,text:'（你拿她的作業，指著第一題問她為什麼。她講了，講得很順。你再問一次為什麼，她又往下講了一層。）'},
+      {speaker:'kexin',text:'……剛剛那一段，我作業上一個字都沒有寫。'},
       {label:'z'},
       {speaker:'kexin',text:'我以前覺得講得出來就是會。'},
       {speaker:'kexin',text:'結果只有一半。另一半是沒有人問的時候，我自己要問自己。'},
-      {speaker:null,text:'（她把考卷從包包底下拿出來，攤平，壓在課本下面。）'},
+      {speaker:null,text:'（她把作業從包包底下拿出來，攤平，壓在課本下面。）'},
       {speaker:'kexin',text:'這張我要留著。很醜，可是我要留著。'},
       {set:{KX_S2:true}} ] },
   { id:'ev_kexin_tutor_practice', title:'', participants:['kexin'], location:'linze', trigger:'enter', term:['Y2S2'], weeks:[7], carryTo:15, time:[16,19.5], once:true, background:'blur',
@@ -2908,7 +2915,7 @@ const STORY_EVENTS_V11=[
   { id:'ev_an_report_feedback', title:'報告發回來了', participants:['heroine_01'], location:['campus','library','cafe'], trigger:'interact', priority:8, once:true, day_min:9, prereq:{memory:[{npc:'heroine_01',tag:'CAFE_AFTERNOON'}],custom:G=>typeof STORY==='undefined'||!STORY.termDay||G.day>=STORY.termDay('Y1S1',6,1)}, background:'blur',   /* 交付清單 A4：第 6 週（報告交出去之後）；舊存檔過了第 6 週的照舊 */
     dialogue:[ {speaker:'heroine_01',expression:'surprised',text:'報告發回來了。周老師在我的結論旁邊寫了一行字。'},{if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'laugh',text:'「無過失的判斷標準寫得好。」——所以我說了，是你的主意，他信了。'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'「兩邊的利益都有看到。」……那是你那天講的。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'thinking',text:'「反方意見比正方精彩。」——那段是照你講的寫的。'},{choice:[{text:'「這份我學到很多。」',if:{memory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},consequences:{rel:{heroine_01:{fam:5,aff:4,trust:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'說從她的報告學到很多'}]}},{text:'「這份我學到很多。」',unless:{memory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},consequences:{rel:{heroine_01:{fam:5,aff:4,trust:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'說從她的報告學到很多'}]}},{text:'「那是妳寫的，不是我。」',consequences:{rel:{heroine_01:{resp:4,fam:2}}}}]},{speaker:'heroine_01',expression:'smile',text:'……嗯。'} ] },
   { id:'ev_an_mother', title:'書記官的女兒', retired:'D60（使用者 2026-10-14）：以安新版——母親是法官，停用書記官的舊事件。定義留著：已經演過的舊存檔（events.done、TALKED_FAMILY 記憶）照樣讀得到', participants:['heroine_01'], location:'campus', trigger:'interact', priority:7, once:true, time:[17.5,20.5], prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'}}, background:'blur',
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'我媽今天打來，問我期中考幾分。還沒考。'},{speaker:'heroine_01',expression:'thinking',text:'她是書記官。從我小學開始，她每天回家都會講法院發生什麼事——誰哭、誰吵、誰被帶走。'},{speaker:'heroine_01',expression:'serious',text:'我念法律，一半是因為她。另一半是想知道，坐在那個位置上的人，到底看得到什麼。'},{choice:[{text:'「妳現在看到什麼？」',consequences:{rel:{heroine_01:{trust:7,aff:4}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'她媽媽是書記官'}]},goto:'see'},{text:'「妳可以不用一直想這個。」',consequences:{rel:{heroine_01:{comf:5,trust:3}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'她媽媽是書記官'}]},goto:'rest'},{text:'「書記官很穩定啊。」',consequences:{rel:{heroine_01:{comf:-4}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'你說書記官很穩定'}]},goto:'stable'}]},{label:'see'},{speaker:'heroine_01',expression:'sad',text:'看到很多人不是壞人，只是沒有人幫他們把話講清楚。'},{speaker:'heroine_01',expression:'smile',text:'謝謝你問。大家都只問我成績。'},{goto:'end'},{label:'rest'},{speaker:'heroine_01',expression:'tired',text:'我知道。……可是不想的時候，就不知道為什麼要念這些。'},{goto:'end'},{label:'stable'},{speaker:'heroine_01',expression:'annoyed',text:'……我媽也這樣說。'},{speaker:null,text:'她沒有再說話。你們並肩走了一段，她在晨思鐘前面說要回宿舍。'},{label:'end'} ] },
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'我媽今天打來，問我這學期考得怎樣。還沒考。'},{speaker:'heroine_01',expression:'thinking',text:'她是書記官。從我小學開始，她每天回家都會講法院發生什麼事——誰哭、誰吵、誰被帶走。'},{speaker:'heroine_01',expression:'serious',text:'我念法律，一半是因為她。另一半是想知道，坐在那個位置上的人，到底看得到什麼。'},{choice:[{text:'「妳現在看到什麼？」',consequences:{rel:{heroine_01:{trust:7,aff:4}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'她媽媽是書記官'}]},goto:'see'},{text:'「妳可以不用一直想這個。」',consequences:{rel:{heroine_01:{comf:5,trust:3}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'她媽媽是書記官'}]},goto:'rest'},{text:'「書記官很穩定啊。」',consequences:{rel:{heroine_01:{comf:-4}},mem:[{npc:'heroine_01',tag:'TALKED_FAMILY',note:'你說書記官很穩定'}]},goto:'stable'}]},{label:'see'},{speaker:'heroine_01',expression:'sad',text:'看到很多人不是壞人，只是沒有人幫他們把話講清楚。'},{speaker:'heroine_01',expression:'smile',text:'謝謝你問。大家都只問我成績。'},{goto:'end'},{label:'rest'},{speaker:'heroine_01',expression:'tired',text:'我知道。……可是不想的時候，就不知道為什麼要念這些。'},{goto:'end'},{label:'stable'},{speaker:'heroine_01',expression:'annoyed',text:'……我媽也這樣說。'},{speaker:null,text:'她沒有再說話。你們並肩走了一段，她在晨思鐘前面說要回宿舍。'},{label:'end'} ] },
   // ── 芷若 arc ──
   /* 阿哲初遇（AA_195 4-8，AA-B d5b5d188；台詞是 AA 的）：只限開學改 9/1 的局、還沒認識阿哲。9/1（一）憲法第一堂開始前，在 201 坐下以後；
      那天沒遇到（沒去、上課以後才進教室）改 9/3（三）刑總第一堂前（第二句換）。兩堂都沒遇到，9/4 campusMorning 演初遇版（story3d.js zheW1Morning）。

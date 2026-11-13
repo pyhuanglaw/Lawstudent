@@ -66,10 +66,12 @@ const E=require('./ellipsis694.js');
   } else console.log('（跳過第 5 項：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
 // 6 AA_921 §3-1＋§4：可昕不分地點的短句七格（匯入工具 R921 照 path 換）、date3d.js S.MORNING.kexin（手改）
-{ const S=C.SHORT921_1112, E2=require('./ellipsis694.js');
+{ const S=C.SHORT921_1112.filter(r=>!r.aa), E2=require('./ellipsis694.js');   /* aa＝別份稿同一步換的（AA_915 芯慈那一格，下面另外驗） */
   check('6. 短句七格：遊戲那一格＝新字（move3、leaveEarly＝稿的字照 AA_694 拿掉「？」後面的「……」）',S.length===7&&S.every(r=>get(NOW,r.p)===r.new&&(!r.doc||E2.strip(r.doc)===r.new)),J(S.filter(r=>get(NOW,r.p)!==r.new).map(r=>r.p)));
   const src=read('tools/date/import_date_lines.py');
   check('6. 匯入工具 R921 七列和這張表一樣（old、稿的新字）',S.every(r=>src.includes("'old': '"+r.old+"'")&&src.includes(r.doc?"E694.strip('"+r.doc+"')":"'new': '"+r.new+"'")));
+  const X5=C.SHORT921_1112.filter(r=>r.aa==='AA_915');
+  check('6. AA_915 芯慈 D02 第一次收尾：「'+(X5[0]&&X5[0].new)+'」（舊的「下次你挑地方」不在了）',X5.length===1&&get(NOW,X5[0].p)===X5[0].new&&!read('src/data/date_lines.js').includes(X5[0].old)&&src.includes("'new': '"+X5[0].new+"'"));
   const code=read('src/date3d.js').replace(/\/\*[\s\S]*?\*\//g,'');
   check('6. date3d.js S.MORNING 可昕＝「'+C.MORNING921_1112.new+'」（AA_921 §3-1 原字）；舊句不在程式裡',code.includes("kexin:'"+C.MORNING921_1112.new+"'")&&!code.includes(C.MORNING921_1112.old)); }
 

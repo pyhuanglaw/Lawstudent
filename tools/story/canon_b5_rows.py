@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""CANON-NO-ECON-1112 第五批：AA 的 src 對照表（AA_920、AA_921 第 3 節、AA_923 第 4 節，企劃線 96c3a668eb；BB_447／BB_448／BB_449 採用）裡，
+換在「產生出來的資料檔」的句子——源稿（AA_7xx 的 JSON）新那一版只差代號、不重匯（README：docs/handoff/canon_b5_1112），所以在匯入工具寫檔以前照整句換。
+每個匯入工具寫檔前呼叫 fix(輸出檔的路徑, 要寫的字)：每一列的舊字（JSON 字串、含引號）在要寫的字裡要剛好一次（已經是新字＝跳過），對不到就停，不猜。"""
+import json, os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+ROWS = {
+    # AA_920 ⑩：可昕健身房（AA_715 稿那幾格還是外校的前提）
+    'src/data/sport_invite_lines.js': [
+        ('你們學校的健身房，外校的進得去嗎？……可以的話，我去。', '學校的健身房？好，我去。'),
+        ('（櫃台阿姨看了她的證件，收了校外的價錢。）', '（櫃台阿姨看了她的學生證，刷了一下。）'),
+        ('……爬樓梯也是運動。免費的。', '器材比我想的新。'),
+    ],
+    # AA_921 第 3-2 節：七夕（AA_733 源稿沒改）
+    'src/data/gift_holiday.js': [
+        ('七夕快樂。我原本排了一整天的計畫，看到你就忘了一半。', '七夕快樂。我原本想了很多要講的，看到你就忘了一半。'),
+    ],
+    # AA_921 第 3-2 節：考試週的禮物（BB_431 不要評分句）
+    'src/data/gift_lines.js': [
+        ('好，你今天及格了。', '考完請你吃飯。'),
+    ],
+    # AA_921 第 3-3 節：可昕第 8 拍（AA_712 源稿新那一版只差代號，不重匯）
+    'src/data/heroine_arcs.js': [
+        ('空出來的格子', '空出來的時間'),
+        ('我把下學期的行程表排好了。', '下學期的課我選好了。'),
+        ('週三晚上空著，週六下午空著。', '週三晚上沒課，週六下午也沒有。'),
+        ('那是留給你的。你不要害我排錯。', '……我故意的。你不要問。'),
+        ('排錯也沒關係，我會出現。', '空著也沒關係，我會出現。'),
+    ],
+    'src/data/decide_rules.js': [
+        ('……週六下午。我照我排的。', '……週六下午。我就是要那天。'),
+        ('（她把行程表推到你面前，等你看。）', '（她把課表推到你面前，等你看。）'),
+    ],
+    'src/data/aa720.js': [
+        ('週六下午。我排好的。', '週六下午。我空著的。'),
+        ('今天週六。下午我照樣空著。……排了好幾年，你一次都沒遲到。', '今天週六。下午我照樣空著。……這麼多年，你一次都沒遲到。'),
+    ],
+    # AA_923 第 4 節：學姊（假對比，00_台詞寫作規則 7-1）
+    'src/data/aa811_lines.js': [
+        ('不是想爬上來。是想站在這裡的時候，後面已經沒有東西在等我寫。', '我想站在這裡，然後後面沒有論文在等我寫。'),
+    ],
+}
+
+
+def fix(out, text):
+    rows = ROWS.get('src/data/' + out.replace('\\', '/').rsplit('/', 1)[-1])
+    if not rows:
+        return text
+    bad = []
+    for old, new in rows:
+        o, n = json.dumps(old, ensure_ascii=False), json.dumps(new, ensure_ascii=False)
+        c = text.count(o)
+        if c == 0 and text.count(n) >= 1:
+            continue
+        if c != 1:
+            bad.append(f'「{old[:20]}」{c} 次'); continue
+        text = text.replace(o, n)
+    if bad:
+        raise SystemExit(f'CANON-NO-ECON-1112 第五批（{out}）：' + '；'.join(bad))
+    return text

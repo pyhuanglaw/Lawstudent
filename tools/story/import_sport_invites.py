@@ -81,6 +81,8 @@ def main():
           "  for(const pid in SPORT_INVITE_LINES.shared) if(!SP[pid]) SP[pid]=SPORT_INVITE_LINES.shared[pid];\n"
           "  for(const id in SPORT_INVITE_LINES.people){ const e=SPORT_INVITE_LINES.people[id], p=P[id]||(P[id]={});\n"
           "    for(const k of ['acc','firstAt','sport','beforeLearn']) if(e[k]) for(const pid in e[k]){ const o=p[k]||(p[k]={}); if(o[pid]==null) o[pid]=e[k][pid]; } } })();\n")
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # CANON-NO-ECON-1112 第五批：AA_920／921／923 的 src 對照表在寫檔前照整句換（tools/story/canon_b5_rows.py）
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

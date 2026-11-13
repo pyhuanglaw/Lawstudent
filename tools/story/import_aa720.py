@@ -311,6 +311,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_aa720.py（' + data['src'] + '）。不要手改，改企劃 AA_720 再重新匯入。\n'
           '   決定拍打開的場景、尾聲分版本（播放 src/aa720_3d.js）*/\n'
           "'use strict';\nconst AA720=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # CANON-NO-ECON-1112 第五批：AA_920／921／923 的 src 對照表在寫檔前照整句換（tools/story/canon_b5_rows.py）
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''
