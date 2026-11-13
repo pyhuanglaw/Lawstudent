@@ -5261,6 +5261,15 @@
    "status": "進行中",
    "task": "HANDOFF-C-1112",
    "note": "P0 換班口令：通知 LAWWW2／AA／BB／CC 交班，等他們交完 LAWWW 最後收尾（ROLE_LAWWW §3）"
+  },
+  {
+   "id": "UA-LAWWW-1113-01",
+   "at": "2026-11-13 08:4x UTC",
+   "quote": "繼續",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "CANON-NO-ECON-1112",
+   "note": "帳號 C 交班後使用者對 LAWWW-C 說「繼續」：沒有別的帳號接班（duty find：值班沒有人、上一任 C），LAWWW-C 重新登記、接續下一班第一件事（CANON 第五批）。其他職位使用者沒叫，不叫醒"
   }
  ]
 }
