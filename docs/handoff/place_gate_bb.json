@@ -553,7 +553,7 @@
    "verdict": "部分",
    "fail": [],
    "pending": [
-    "全項還沒判：BB 沒有這間的進門照；第一層質感★（純色 83%），看到照片大概也是 FAIL"
+    "GATE_NEW3 14:00 沒開被跳過——照營業時間重跑全項"
    ],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭；11-12 21:5x TZ_SIGN／TZ_DOOR_2330_edf2（df0db36693）：23:30 對街和門口——鐵捲門拉到地、招牌暗、看不到店內 PASS（洗樂 24 小時亮著＝對）",
    "at": "2026-11-12T21:1x",
@@ -561,24 +561,27 @@
   },
   {
    "zone": "us_asian_market",
-   "sha": "",
-   "verdict": "部分",
-   "fail": [],
-   "pending": [
-    "全項還沒判：BB 沒有這間的進門照；第一層質感★（純色 59%），看到照片大概也是 FAIL"
+   "sha": "856702f57a",
+   "verdict": "FAIL",
+   "fail": [
+    "① 14:00 櫃台沒有店員（人數 0）",
+    "質感 FAIL（D159）：貨架商品整排同尺寸方塊、一格一色",
+    "窗外是平平的灰街，沒有窗景層次"
    ],
+   "pending": [],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭",
    "at": "2026-11-12T21:1x",
    "ref": "BB_379"
   },
   {
    "zone": "us_market",
-   "sha": "",
-   "verdict": "部分",
-   "fail": [],
-   "pending": [
-    "全項還沒判：BB 沒有這間的進門照；第一層質感★（純色 65%），看到照片大概也是 FAIL"
+   "sha": "856702f57a",
+   "verdict": "FAIL",
+   "fail": [
+    "① 結帳櫃台沒有店員（人數 0）",
+    "質感 FAIL（D159）：貨架商品同尺寸色塊"
    ],
+   "pending": [],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭",
    "at": "2026-11-12T21:1x",
    "ref": "BB_379"
