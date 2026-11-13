@@ -1,7 +1,7 @@
 """溫州街店家的窗景照片（給 W3.windowMat 的 <名稱>_<day|night>.webp）：用遊戲裡同一批溫州街正式模型在 Blender 拍（LAWWW2-C 2026-11-04，KOMICHI-NIGHTVIEW-1104）。
 原因：小路（wz_teishoku）的窗景是 10-22 在遊戲裡 20:30 拍的，街上亮得像黃昏，BB-C 判「22:00 窗外還是白天」（BB_255 1(a)）；2:30 AM、SUNNY SIDE 的窗景卡是 Blender 拍的夜景（窗、店、路燈亮，天空暗），這支照同一個做法。
 鏡頭照 tools/shots/shop_views_layers.py 的同一個名稱（窗那一片的中心、朝外、水平 90°、2:1）：W3.windowMat 的視差以那一片為準，換照片不用改程式。
-用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay] [--place 路徑@x,y,z,ry ...] [--gg-street] [--clip-start m] [--shift-y 0]（參考圖鏡頭：水平鏡頭＋鏡頭上下平移，ADE-V2-1104）[--hour 14]（太陽照遊戲那個時刻）[--pools 光圈.json --pool-w 220]（晚上路燈往下照的一圈光）
+用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png>（或 .webp） [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay] [--place 路徑@x,y,z,ry ...] [--gg-street] [--clip-start m] [--shift-y 0]（參考圖鏡頭：水平鏡頭＋鏡頭上下平移，ADE-V2-1104）[--hour 14]（太陽照遊戲那個時刻）[--pools 光圈.json --pool-w 220]（晚上路燈往下照的一圈光）
   座標是遊戲座標（x 東、y 上、z 南）；--glb 沒寫＝溫州街主巷、雜物、日式宿舍、小公園（assets/models/env/second_ai/）。
 例（小路）：-- --eye -2.8,1.25,-4.6 --at -2.8,1.25,40 --out /tmp/wz_teishoku_night.png --night
 夜晚的亮度照遊戲 zones3d.js 的 WZ_NIGHT（材質名 → 顏色、晚上亮度），GLOW_* 空節點（extras glow／size／night）放點光源；店內（wz_in_*）晚上自己發一點光（店裡開著燈）。"""
@@ -40,9 +40,58 @@ def _glb_at(p, x=0.0, y=0.0, z=0.0, ry=0.0):
     M = Matrix.Translation(g2b((x, y, z))) @ Matrix.Rotation(ry, 4, 'Z')
     for o in set(bpy.data.objects) - before:
         if o.parent is None: o.matrix_world = M @ o.matrix_world
-for p in GLBS.split(','): _glb_at(p)
+for p in ([] if GLBS == 'none' else GLBS.split(',')): _glb_at(p)   # --glb none：不載溫州街（美國超市街用 --us-street）
 for k, v in enumerate(A):   # --place 路徑@x,y,z,ry：例 cafe_exterior.glb@55.4,0,0,-1.5708（2:30 AM：zones3d.js 的 cafeB 在 (55.4, 0)、轉 −π/2）
     if v == '--place': pth, at = A[k + 1].split('@'); _glb_at(pth, *[float(t) for t in at.split(',')])
+
+# --us-street <layout.json>@x,y,z,ry：美國超市街（SHOP-INTERIOR-VIEW-1112：草原超市、竹葉亞洲超市的窗景卡）——整條街（us_market_street.glb）、停著的車（配置 cars，
+#   us_cars.glb 的款式、car_paint 照 color 上色，和 src/us3d.js outdoorZone 同一個放法）一起搬到 (x, y, z)、轉 ry（座標用店裡的座標：草原超市 0,0,38,0；竹葉 0,0,44,π）。
+#   季節照 --us-season（預設 summer：交換 8/2 開始）：SEASON_GEO_*（extras seasons）只留那一季、SEASON_MATS（換季材質的載體）藏起來。等紅燈的車（waiting）歸遊戲的車流，不拍。
+US_M = None; US_SEASON = opt('--us-season', 'summer')
+if opt('--us-street'):
+    import json as _ju
+    from mathutils import Matrix as _Mu
+    _lp, _at = opt('--us-street').split('@'); _ux, _uy, _uz, _ury = [float(t) for t in _at.split(',')]
+    US_M = _Mu.Translation(g2b((_ux, _uy, _uz))) @ _Mu.Rotation(_ury, 4, 'Z'); UL = _ju.load(open(_lp))
+    _b0 = set(bpy.data.objects); _glb_at(_lp.replace('.layout.json', '.glb'), _ux, _uy, _uz, _ury); _us_objs = set(bpy.data.objects) - _b0
+    def _hide_u(ob):
+        ob.hide_render = True; ob.hide_viewport = True
+        for c in ob.children: _hide_u(c)
+    for ob in _us_objs:
+        sv = ob.get('seasons')
+        if (sv is not None and US_SEASON not in str(sv).split(',')) or ob.get('kind') == 'season_mats': _hide_u(ob)
+    _cg = os.path.join(os.path.dirname(_lp), 'us_cars.glb')
+    if os.path.exists(_cg) and UL.get('cars'):
+        _b0 = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=_cg); _lib = [o for o in bpy.data.objects if o not in _b0]
+        _tpl = {o.name.split('.')[0]: o for o in _lib}
+        for o in _lib:
+            if not o.parent: _hide_u(o)
+        def _dup_u(src, parent=None):
+            o = src.copy(); sc.collection.objects.link(o); o.hide_render = False; o.hide_viewport = False; o.parent = parent
+            if parent is not None: o.matrix_parent_inverse = src.matrix_parent_inverse.copy()
+            for c in src.children: _dup_u(c, o)
+            return o
+        def _lin_u(h): return tuple((lambda v: v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4)(int(h[i:i + 2], 16) / 255.0) for i in (1, 3, 5))
+        _paint = {}; _ncar = 0
+        for c in UL['cars']:
+            if c.get('waiting') or c['kind'] not in _tpl: continue
+            r = _dup_u(_tpl[c['kind']]); r.matrix_world = US_M @ _Mu.Translation(g2b((c['x'], 0, c['z']))) @ _Mu.Rotation(c['yaw'], 4, 'Z')
+            st = [r]
+            while st:
+                o = st.pop(); st.extend(o.children)
+                if o.type != 'MESH': continue
+                for sl in o.material_slots:
+                    if sl.material and sl.material.name.split('.')[0] == 'car_paint':
+                        if c['color'] not in _paint:
+                            pm = sl.material.copy(); bb_ = next((n for n in pm.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
+                            if bb_: bb_.inputs['Base Color'].default_value = (*_lin_u(c['color']), 1)
+                            _paint[c['color']] = pm
+                        sl.link = 'OBJECT'; sl.material = _paint[c['color']]
+            _ncar += 1
+        print('us cars', _ncar, flush=True)
+# 美國超市街的發光材質（src/us3d.js outdoorZone：GLOW_*lamp 晚上 1、白天 0；GLOW_*interior 店裡的燈晚上 1、白天 0.55；號誌整天亮；停著的車燈關著）：材質名 → (晚上, 白天)
+US_NIGHT = {'GLOW_usms_lamp': (1.0, 0.0), 'GLOW_usms_letters_lamp': (1.0, 0.0), 'GLOW_usms_lightbox_lamp': (1.0, 0.0), 'GLOW_usms_store_interior': (1.0, 0.55),
+            'GLOW_usms_signal': (1.0, 1.0), 'GLOW_usms_sig_green': (1.0, 1.0), 'GLOW_usms_sig_red': (1.0, 1.0), 'GLOW_car_head': (0.0, 0.0), 'GLOW_car_tail': (0.0, 0.0)}
 
 # 遊戲照狀態切換的節點：照預設狀態藏起來（不然兩種外觀疊在一起）
 #   阿德影印 COPY_*（zones3d.js wzCopyVis）：還沒決定＝A1 開著、轉角拉下鐵捲門 → 藏 COPY_A1_SHUT／COPY_A1_RENEW／COPY_CORNER_OPEN
@@ -80,6 +129,8 @@ for m in bpy.data.materials:
             mix = m.node_tree.nodes.new('ShaderNodeMixRGB'); mix.blend_type = 'MULTIPLY'; mix.inputs['Fac'].default_value = 1.0
             src = ec.links[0].from_socket; m.node_tree.links.new(src, mix.inputs['Color1']); mix.inputs['Color2'].default_value = (*hexcol(col), 1)
             m.node_tree.links.new(mix.outputs['Color'], ec)
+    elif nm in US_NIGHT:   # 美國超市街（--us-street）：照遊戲的白天／晚上亮度
+        if es: es.default_value = US_NIGHT[nm][0 if NIGHT else 1] * EMIT_K
     elif nm.startswith('wz_in_') or nm.startswith('wz_sf_lamp'):
         # 店內（貨架、店內的牆、價目）：晚上店裡開著燈 → 用自己的底色貼圖發一點光；門口的燈（wz_sf_lamp*）晚上亮
         if es: es.default_value = ((0.55 if nm.startswith('wz_in_') else 3.0) if NIGHT else 0.0)
@@ -107,6 +158,27 @@ if NIGHT:
         if night <= 0.02: continue
         ld = bpy.data.lights.new('L_' + ob.name, 'POINT'); ld.color = col; ld.energy = float(opt('--lamp-k', '35')) * night * size * size; ld.shadow_soft_size = 0.15 * size   # --lamp-k：點光源的瓦數倍率（小路 20：街上暗一點、亮的只剩燈下和窗）
         lo = bpy.data.objects.new('L_' + ob.name, ld); sc.collection.objects.link(lo); lo.location = ob.matrix_world.translation; nlight += 1
+
+# 美國超市街晚上（--us-street）：發光材質 GLOW_usms_lamp 的每一顆燈頭（停車場燈桿 9.3 m、眼鏡蛇頭路燈 8.6 m、雨遮嵌燈 3.9 m、候車亭）放一盞往下照的聚光燈，
+#   瓦數照高度平方（--us-lamp-k，預設 22 W／m²）；遊戲是地面光圈（us3d.js lampPools），這裡要真的照亮地面、車、牆
+if NIGHT and US_M is not None:
+    _nul = 0
+    for ob in [o for o in bpy.data.objects if o.type == 'MESH' and not o.hide_render]:
+        idx = [i for i, sl in enumerate(ob.material_slots) if sl.material and sl.material.name.split('.')[0] == 'GLOW_usms_lamp']
+        if not idx: continue
+        cl = []   # 燈頭：同一顆燈的面（盒子的面不共用頂點）照距離併成一顆（水平 0.9 m、高度 0.4 m 以內）
+        for f in ob.data.polygons:
+            if f.material_index not in idx: continue
+            c = ob.matrix_world @ f.center
+            for k_ in cl:
+                if (Vector((k_[0].x, k_[0].y)) - Vector((c.x, c.y))).length < 0.9 and abs(k_[0].z - c.z) < 0.4: k_[1].append(c); break
+            else: cl.append([c, [c]])
+        for _, pts in cl:
+            c = sum(pts, Vector()) / len(pts); h = max(c.z, 1.0)
+            ld = bpy.data.lights.new('uslamp', 'SPOT'); ld.color = hexcol(0xfff1dc); ld.energy = float(opt('--us-lamp-k', '22')) * h * h; ld.shadow_soft_size = 0.15
+            ld.spot_size = math.radians(150); ld.spot_blend = 0.6
+            lo = bpy.data.objects.new('uslamp', ld); sc.collection.objects.link(lo); lo.location = (c.x, c.y, c.z - 0.06); _nul += 1   # 聚光燈照 −Z＝往下
+    nlight += _nul; print('us lamps', _nul, flush=True)
 
 # 停著的機車（遊戲是程式放的：zones3d.js 的套件機車位置 → attachWzScooters 換成 scooter.glb 的款式）：--scooters <json：[{x,z,ry}]>，款式和顏色照遊戲同一個 hash
 nsc = 0
@@ -271,6 +343,7 @@ if opt('--hour') and not opt('--sun-z'):
     to_sun = Vector((math.cos(el) * math.sin(az), math.sin(el), -math.cos(el) * math.cos(az)))   # 遊戲座標：從地面往太陽
     so.rotation_euler = (-g2b(to_sun)).to_track_quat('-Z', 'Y').to_euler()                      # 太陽燈照 −Z：光走的方向＝往太陽的反方向
     print('sun', opt('--hour'), 'elev %.1f az %.1f' % (math.degrees(el), math.degrees(az)), flush=True)
+    if US_M is not None: so.matrix_world = US_M.to_3x3().to_4x4() @ so.matrix_world   # 超市街轉過方向（竹葉 π）：太陽跟著街轉，照的還是街上的東南西北
 else:
     so.rotation_euler = (math.radians(38), 0, math.radians(float(opt('--sun-z', '150'))))   # 舊的固定角度（沒給 --hour）；--sun-z：繞垂直軸轉幾度（比對參考圖材質用，例如 A 側朝北的店面打正面光：--sun-z 330）
 
@@ -293,6 +366,16 @@ if NIGHT and opt('--pools') and os.path.exists(opt('--pools')):
 cd = bpy.data.cameras.new('cam'); cd.sensor_fit = 'HORIZONTAL'; cd.sensor_width = 36.0; cd.lens = float(opt('--lens', '18')); cd.shift_y = float(opt('--shift-y', '0')); cd.clip_start = float(opt('--clip-start', '0.05')); cd.clip_end = 400   # --clip-start：鏡頭放在店裡（窗景卡的正中間後面）時，把自己這一棟的玻璃、店內卡片剪掉（AFAR-VIEW-1105）
 co = bpy.data.objects.new('cam', cd); sc.collection.objects.link(co); sc.camera = co
 co.location = g2b(EYE); d = g2b(AT) - g2b(EYE); co.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
+# --card x0,x1,y0,y1,z：窗景卡（垂直於 z 軸的長方形，遊戲座標）——鏡頭在 --eye、朝 +z（卡在前面），畫面剛好框住整張卡（離軸：shift 對準卡的中心）；
+#   拍出來的每一個像素＝從 --eye 看過去、落在卡上那一點的景（站在那裡看，卡和真的街景對得上）。--res 要和卡的長寬比一樣（或用 --final 縮成貼圖大小）
+if opt('--card'):
+    cx0, cx1, cy0, cy1, cz = [float(t) for t in opt('--card').split(',')]
+    W_, D_ = cx1 - cx0, cz - EYE[2]
+    co.location = g2b(EYE); co.rotation_euler = g2b((0, 0, 1)).to_track_quat('-Z', 'Y').to_euler()
+    cd.lens = 36.0 * D_ / W_
+    cd.shift_x = -(((cx0 + cx1) / 2) - EYE[0]) / W_   # 朝 +z 看：畫面右手邊是 −x
+    cd.shift_y = (((cy0 + cy1) / 2) - EYE[1]) / W_
+    print('card lens %.2f shift %.3f %.3f aspect %.3f' % (cd.lens, cd.shift_x, cd.shift_y, W_ / (cy1 - cy0)), flush=True)
 
 sc.render.engine = 'CYCLES'; sc.cycles.samples = SAMPLES; sc.cycles.use_denoising = True
 try: sc.cycles.denoiser = 'OPENIMAGEDENOISE'
@@ -301,5 +384,15 @@ sc.cycles.max_bounces = 6; sc.cycles.transparent_max_bounces = 8
 sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.render.resolution_percentage = 100
 sc.view_settings.view_transform = 'Standard'; sc.view_settings.exposure = float(opt('--exposure', '0.0'))
 sc.render.image_settings.file_format = 'PNG'; sc.render.filepath = OUT
+FINAL = opt('--final'); WEBP = OUT.lower().endswith('.webp')
+if WEBP: OUT_PNG = OUT[:-5] + '.png'; sc.render.filepath = OUT_PNG
 bpy.ops.render.render(write_still=True)
+# --flip-x：左右翻（窗景卡的 u 往 +x 增加、從店裡往 +z 看時右手邊是 −x：草原超市 usm_outside_view）；--final WxH：縮成貼圖大小；.webp：轉 webp（品質 --q，預設 82）
+if WEBP or FINAL or '--flip-x' in A:
+    from PIL import Image
+    src = OUT_PNG if WEBP else OUT; im = Image.open(src).convert('RGB')
+    if '--flip-x' in A: im = im.transpose(Image.FLIP_LEFT_RIGHT)
+    if FINAL: im = im.resize(tuple(int(t) for t in FINAL.split('x')), Image.LANCZOS)
+    if WEBP: im.save(OUT, 'WEBP', quality=int(opt('--q', '82')), method=6); os.remove(src)
+    else: im.save(OUT)
 print('OK', OUT, 'night' if NIGHT else 'day', 'lights', nlight, 'hidden', nhide, 'scooters', nsc, 'mats', len(bpy.data.materials))
