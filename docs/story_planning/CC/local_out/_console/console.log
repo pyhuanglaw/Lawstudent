@@ -1,16 +1,3 @@
-[22:25:50] skip MT4_nofb_r4 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip MT4_oo2805_r5 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[22:25:50] skip TZ4_scoot (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:50] skip TZ4_scoot_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:50] skip TZ4_scoot3 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:51] skip TZ4_scoot3_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:51] skip TZ4_scoot3_top (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:51] skip TZ4_scoot4 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:51] skip TZ4_scoot4_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:51] skip TZ4_int_day (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:51] skip TZ4_shots_a (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:51] skip TZ4_shots_b (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:51] skip TZ4_shots_v2a (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
 [22:25:51] skip TZ4_shots_v2b (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
 [22:25:51] skip TZ4_walk (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
 [22:25:51] skip TZ4_int_night (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
@@ -1998,3 +1985,16 @@
 [05:41:54] 正在跑：REL76_save_live_ctl（已跑 5 分／上限 40 分）、REL76_save_live_r2（已跑 4 分／上限 40 分）、REL76_save_v95_r3（已跑 3 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [05:43:13] [res] cpu=2% mem=43% (14.5/31.4 GB) chrome_testing=10  END REL76_save_live_ctl
 [05:43:13] D158：推送前把 3 處舊序章／外校的字換成代號
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1efef223fb..b323b889a7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:43:19] ==== END   REL76_save_live_ctl  exit=1  381s   ====
+[05:43:35] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[05:43:35] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[05:43:35] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[05:43:35] memory 31% before starting CANON458_AN_BEAT8_r5 (2 running)
+[05:43:35] ==== START CANON458_AN_BEAT8_r5  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[05:43:38] [res] cpu=0% mem=31% (9.9/31.4 GB) chrome_testing=0  START CANON458_AN_BEAT8_r5
+[05:43:44] [res] cpu=2% mem=31% (9.9/31.4 GB) chrome_testing=0  END REL76_save_live_r2
+[05:43:48] [res] cpu=2% mem=33% (9.9/31.4 GB) chrome_testing=0  END REL76_save_v95_r3
+[05:44:07] D158：推送前把 1 處舊序章／外校的字換成代號
