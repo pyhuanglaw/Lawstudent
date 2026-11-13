@@ -1,0 +1,56 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon_side_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON_SIDE\out
+CC CANON_SIDE：SHA 8c7ed865600a085f283e1db9698ba18513cfafc8；PARTS ['OPEN', 'PE', 'SOCLIB', 'DESK']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] OPEN【前置】localStorage.clear()（乾淨的玩家）
+PASS OPEN 標題有「從法律系開始」
+  [ 150.5s] OPEN 開場選項 ["「臺北。我家就在這附近。」", "「你偷襲。」", "「好啊。」", "「你可以問我別的。」", "「還好，昨天主要在玩遊戲。」", "「好，開學見。」", "沒關係，你先放。", "你可以直接講啊"]；第一次空下來 {"zone": "dorm", "x": -0.39, "z": 0.142, "lv": 0}
+PASS FAIL_SETUP 檢查：OPEN 開場跑到第一次空下來  {"zone": "dorm", "x": -0.39, "z": 0.142, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐在書桌前", "stand": true, "fb": 0, "hour": 22.68}
+PASS [黑畫面] open_yuting_front 不是黑畫面（平均亮度 135.1、變化 61.7）  [135.1, 61.7]
+  [ 152.6s] [截圖] open_yuting_front：鏡頭 {"eye": [-2.79, 1.5, 0.14], "look": [-0.39, 1.1, 0.14], "lens": 35, "vfov": 32.27}、亮度 [135.1, 61.7]
+PASS [黑畫面] open_yuting_back 不是黑畫面（平均亮度 192.1、變化 60）  [192.1, 60]
+  [ 154.6s] [截圖] open_yuting_back：鏡頭 {"eye": [2.01, 1.5, 0.14], "look": [-0.39, 1.1, 0.14], "lens": 35, "vfov": 32.27}、亮度 [192.1, 60]
+  [ 154.6s] open_yuting 祐廷 {"x": -0.39, "y": 0, "z": 0.14, "yaw": -1.571, "lv": 0, "zone": "dorm"}
+  [ 154.6s] OPEN dorm 的椅子（近到遠）[{"label": "坐在書桌前", "x": -1.14, "z": 0.14, "sx": -1.14, "sz": 0.14, "lv": 0, "d": 0.7}]
+PASS [黑畫面] open_chair_1 不是黑畫面（平均亮度 156、變化 59）  [156, 59]
+  [ 156.8s] [截圖] open_chair_1：鏡頭 {"eye": [-0.23999999999999988, 1.3, 1.04], "look": [-1.14, 0.7, 0.14], "lens": 28, "vfov": 39.76}、亮度 [156, 59]
+  [ 181.8s] PE 掃體育課：{"hit": {"key": "2025-09-22", "t0": 15.5, "ik": "6:pe_y1s1:pm2"}, "sample": [["2025-09-18", ["civ_general"]], ["2025-09-19", ["econ_principles_1"]], ["2025-09-22", ["const_1", "pe_y1s1"]]]}
+PASS FAIL_SETUP 檢查：PE 9/1～10/27 找得到有體育課的一天  {"hit": {"key": "2025-09-22", "t0": 15.5, "ik": "6:pe_y1s1:pm2"}, "sample": [["2025-09-18", ["civ_general"]], ["2025-09-19", ["econ_principles_1"]], ["2025-09-22", ["const_1", "pe_y1s1"]]]}
+  [前置／捷徑] PE【前置／捷徑】讀檔到 2025-09-22 14.50 宿舍（體育 15.5 前 1 小時）
+PASS FAIL_SETUP 檢查：PE 讀檔那一天有體育課  {"key": "2025-09-22", "t0": 15.5, "ik": "6:pe_y1s1:pm2"}
+PASS FAIL_SETUP 檢查：PE 手機「今天」有體育的「直接去上課」  6:pe_y1s1:pm2
+PASS FAIL_SETUP 檢查：PE 進了體育館、換上運動服（CLS.peWear）  {"wear": "6:pe_y1s1:pm2", "zone": "gym"}
+PASS [黑畫面] pe_yuting_front 不是黑畫面（平均亮度 118.9、變化 52.1）  [118.9, 52.1]
+  [ 217.4s] [截圖] pe_yuting_front：鏡頭 {"eye": [-0.0, 1.5, -5], "look": [0, 1.1, -2.6], "lens": 35, "vfov": 32.27}、亮度 [118.9, 52.1]
+PASS [黑畫面] pe_yuting_back 不是黑畫面（平均亮度 97.1、變化 58.6）  [97.1, 58.6]
+  [ 219.5s] [截圖] pe_yuting_back：鏡頭 {"eye": [0, 1.5, -0.2], "look": [0, 1.1, -2.6], "lens": 35, "vfov": 32.27}、亮度 [97.1, 58.6]
+  [ 219.5s] pe_yuting 祐廷 {"x": 0, "y": 0, "z": -2.6, "yaw": 3.142, "lv": 0, "zone": "gym"}
+PASS FAIL_SETUP 檢查：PE 下課以後運動服脫下（CLS.peWear 空）  null
+PASS [黑畫面] pe_after_yuting_front 不是黑畫面（平均亮度 126.5、變化 42.7）  [126.5, 42.7]
+  [ 226.8s] [截圖] pe_after_yuting_front：鏡頭 {"eye": [-0.0, 1.5, -5], "look": [0, 1.1, -2.6], "lens": 35, "vfov": 32.27}、亮度 [126.5, 42.7]
+PASS [黑畫面] pe_after_yuting_back 不是黑畫面（平均亮度 111、變化 57.3）  [111, 57.3]
+  [ 228.9s] [截圖] pe_after_yuting_back：鏡頭 {"eye": [0, 1.5, -0.2], "look": [0, 1.1, -2.6], "lens": 35, "vfov": 32.27}、亮度 [111, 57.3]
+  [ 228.9s] pe_after_yuting 祐廷 {"x": 0, "y": 0, "z": -2.6, "yaw": 3.142, "lv": 0, "zone": "gym"}
+  [前置／捷徑] SOCLIB【前置／捷徑】讀檔進社科院圖書館 2025-10-22（週三）14:00
+PASS FAIL_SETUP 檢查：SOCLIB 讀到社科院圖書館  {"zone": "soclib", "x": -9, "z": 9.3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+PASS [黑畫面] soclib_in_top 不是黑畫面（平均亮度 189、變化 39.6）  [189, 39.6]
+  [ 274.6s] [截圖] soclib_in_top：鏡頭 {"eye": [-9, 14, 9.31], "look": [-9, 0, 9.3], "lens": 18, "vfov": 58.72}、亮度 [189, 39.6]
+  [ 274.9s] SOCLIB 圖書館裡 14:00：8 人 [{"k": "npc", "id": "", "x": -10, "z": -4.3, "d": 13.6, "seat": true}, {"k": "npc", "id": "", "x": -8.8, "z": -1.7, "d": 11, "seat": true}, {"k": "npc", "id": "", "x": -3.4, "z": -5.9, "d": 16.2, "seat": true}, {"k": "npc", "id": "", "x": -3.4, "z": -0.1, "d": 10.9, "seat": true}, {"k": "npc", "id": "", "x": -7.8, "z": -9.76, "d": 19.1, "seat": true}, {"k": "npc", "id": "", "x": 1.8, "z": -9.76, "d": 21.9, "seat": true}, {"k": "npc", "id": "", "x": -13.76, "z": -2.2, "d": 12.4, "seat": true}, {"k": "npc", "id": "會計系的學生", "x": -6.32, "z": 3.88, "d": 6, "seat": false}]
+PASS FAIL_SETUP 檢查：SOCLIB 找得到出口（門外的 spawn）
+  [前置／捷徑] SOCLIB【前置／捷徑】讀檔到社科院門口 campus (11, -67.4) 15:30
+PASS [黑畫面] soclib_door_top 不是黑畫面（平均亮度 118.4、變化 37.5）  [118.4, 37.5]
+  [ 303.7s] [截圖] soclib_door_top：鏡頭 {"eye": [11, 22, -67.39], "look": [11, 0, -67.4], "lens": 18, "vfov": 58.72}、亮度 [118.4, 37.5]
+  [ 304.4s] SOCLIB 門口 15:30（15 m 內）：1 人 [{"k": "npc", "id": "yu", "x": 11.06, "z": -70.18, "d": 2.8, "seat": false}]
+  [前置／捷徑] DESK【前置／捷徑】讀檔進宿舍 2025-10-22 14:00
+PASS FAIL_SETUP 檢查：DESK 宿舍有「書桌」的位子
+  [ 333.3s] DESK 書桌 1.6 m 內、高 0.6～1.6 m 的網格（名字、看不看得到）：[{"name": "dorm_flyer", "vis": true, "p": [-2, 1.2, -0.56]}]
+PASS [黑畫面] desk_n 不是黑畫面（平均亮度 156.8、變化 43.7）  [156.8, 43.7]
+  [ 335.5s] [截圖] desk_n：鏡頭 {"eye": [-1.14, 1.5, 1.2400000000000002], "look": [-1.14, 0.8, 0.14], "lens": 28, "vfov": 39.76}、亮度 [156.8, 43.7]
+PASS [黑畫面] desk_s 不是黑畫面（平均亮度 146.5、變化 49.1）  [146.5, 49.1]
+  [ 337.6s] [截圖] desk_s：鏡頭 {"eye": [-1.14, 1.5, -0.9600000000000001], "look": [-1.14, 0.8, 0.14], "lens": 28, "vfov": 39.76}、亮度 [146.5, 49.1]
+PASS [黑畫面] desk_e 不是黑畫面（平均亮度 138.3、變化 45）  [138.3, 45]
+  [ 339.7s] [截圖] desk_e：鏡頭 {"eye": [-0.039999999999999813, 1.5, 0.14], "look": [-1.14, 0.8, 0.14], "lens": 28, "vfov": 39.76}、亮度 [138.3, 45]
+PASS [黑畫面] desk_w 不是黑畫面（平均亮度 113.1、變化 67.8）  [113.1, 67.8]
+  [ 341.6s] [截圖] desk_w：鏡頭 {"eye": [-2.24, 1.5, 0.14], "look": [-1.14, 0.8, 0.14], "lens": 28, "vfov": 39.76}、亮度 [113.1, 67.8]
+PASS 沒有 JS 例外  []
+ALL PASS

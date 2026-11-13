@@ -376,3 +376,11 @@
 [17:46:20] [res] cpu=22% mem=42% (13.4/31.4 GB) chrome_testing=10  START CANON_NEWGAME_A1
 [17:46:52] 正在跑：CANON_SIDE（已跑 2 分／上限 30 分）、JPCLASS_MSGS（已跑 2 分／上限 25 分）、CANON_NEWGAME_A1（已跑 0 分／上限 220 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:49:24] [res] cpu=30% mem=43% (13.7/31.4 GB) chrome_testing=10  END JPCLASS_MSGS
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0e6616d5bd..74bfeb40ca  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:49:33] ==== END   JPCLASS_MSGS  exit=1  319s   ====
+[17:49:36] memory 43% before starting SHIFT_SHOTS_nanyang_msgs (2 running)
+[17:49:36] ==== START SHIFT_SHOTS_nanyang_msgs  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
+[17:49:39] [res] cpu=21% mem=43% (13.6/31.4 GB) chrome_testing=10  START SHIFT_SHOTS_nanyang_msgs
+[17:50:37] [res] cpu=11% mem=41% (13.1/31.4 GB) chrome_testing=9  END CANON_SIDE
