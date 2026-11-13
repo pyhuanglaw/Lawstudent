@@ -30,7 +30,8 @@ TRUST = int(os.environ.get('TRUST') or 0); COMF = int(os.environ.get('COMF') or 
 ARRIVE_LOG = int(os.environ.get('ARRIVE_LOG') or 0)   # BB-C 21:02 ⑤：到店以後 N 秒，一邊點對話一邊記每一句（對話框文字一換就記，不靠輪詢）
 EXPECT_LINE = os.environ.get('EXPECT_LINE') or ''
 SEED_MET = [z for z in (os.environ.get('SEED_MET') or '').split(',') if z]   # BB-C 21:02 ⑥：這些人【捷徑】設成見過、初見演過（SOCIAL.meet＋talkedTo）
-SEAT_LABEL = os.environ.get('SEAT_LABEL') or ''   # BB-C 21:02 ⑥：坐下要按位子自己的那顆（互動鍵字含這個），不是最近的人
+SEAT_LABEL = os.environ.get('SEAT_LABEL') or ''
+HER_IA = os.environ.get('HER_IA') or ''   # LAWWW-C 21:24（INV-MEET-YIELD-1113）：到了以後走到她旁邊 1 m，互動鍵要含這個字（例「和可昕說話」），不是旁人的初見   # BB-C 21:02 ⑥：坐下要按位子自己的那顆（互動鍵字含這個），不是最近的人
 VISITED = [z for z in (os.environ.get('VISITED') or '').split(',') if z]   # 11-14 BOOKSTORE：頁間這類「自己走進去過一次才列」（invites.js show:V('bookstore')）——【捷徑】墊 G.visited   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -214,6 +215,14 @@ async def main():
         iv2 = await pg.evaluate(IV, WHO); res['arrive'] = {'her': arr, 'iv': iv2}
         R.note('進店以後邀約紀錄：%s' % J(iv2))
         nseat = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.seat&&!i.hidden).length)()")
+        if HER_IA and arr and not arr[-1].get('none'):
+            h = arr[-1]
+            await L.go_to(pg, cdp, R, h['x'], h['z'], 1.0, '她旁邊 1 m', max_s=60); await D.settle(pg)
+            st = await pg.evaluate(DLG); hh = await pg.evaluate(HER, WHO)
+            await pg.screenshot(path=os.path.join(OUT, 'invp_%s_her_ia.png' % TAG))
+            nb = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position; return (E.interactables||[]).filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<2.5).map(i=>({l:String(typeof i.label==='function'?i.label():i.label||''),d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),npc:!!i.npc})).sort((a,b)=>a.d-b.d).slice(0,6); })()")
+            R.note('走到她旁邊（離她 %s m）2.5 m 內的互動點：%s' % (hh.get('d'), J(nb)))
+            R.check('走到她旁邊時互動鍵是「%s」（LAWWW-C INV-MEET-YIELD-1113，不是旁人的初見）' % HER_IA, HER_IA in st['interact'], st['interact'])
         pseat = bool(arr and arr[-1].get('pSeat'))
         if pseat: R.note('到店以後玩家已經坐下（pSeat true）：不再找她旁邊的空位（BB-C 21:02 ⑤）')
         if nseat and not pseat:
