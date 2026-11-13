@@ -1280,20 +1280,20 @@ if SHOP == 'xianguo':
             for k in range(9):
                 ang = k * 2.4 + RRF.uniform(-0.2, 0.2); out_ = 0.03 + 0.05 * (k % 3) / 2; up_ = h_ * (0.75 + 0.35 * ((k * 7) % 3) / 2)
                 ccyl(lf, (a[0], a[1] - 0.02, a[2]), (a[0] + math.cos(ang) * out_, a[1] + up_, a[2] + math.sin(ang) * out_), 0.011, None, seg=3, r2=0.001, caps=False)
-        def grapes(x, y, z, key):
-            """葡萄串：一顆自畫葡萄貼圖的倒錐（芯）＋外面七顆小葡萄（輪廓看得出一顆顆），躺著、隨機轉"""
-            yaw_ = RRF.uniform(0, 6.28); ca, sa = math.cos(yaw_), math.sin(yaw_); L_ = 0.16
+        def grapes(x, y, z, key, S_=1.45):
+            """葡萄串（v2.2，BB P2：一撮一撮的紫點→一大串一大串堆起來）：自畫葡萄貼圖的倒錐（芯，放大 1.45 倍）＋外面一圈小葡萄（上半圈、沿整串分布），躺著、隨機轉、微微傾斜（壓在別串上）"""
+            yaw_ = RRF.uniform(0, 6.28); ca, sa = math.cos(yaw_), math.sin(yaw_); tilt = RRF.uniform(-0.25, 0.25)
             m_ = mesh(key); bm_ = m_.bm; bm_.loops.layers.uv.verify()
             res = bmesh.ops.create_uvsphere(bm_, u_segments=7, v_segments=5, radius=0.045, calc_uvs=True)
             for v in res['verts']:
-                t_ = (v.co.z / 0.045 + 1) / 2; k_ = 0.45 + 0.55 * t_; lx, ly, lz = v.co.x * k_, v.co.y * k_ * 0.8, v.co.z * 1.7   # 沿著 x 躺：z（長）→ 水平
-                gx, gz = lz * ca - lx * sa, lz * sa + lx * ca; v.co = Vector((0, 0, 0)); v.co = g2b(x + gx, y + 0.04 + ly, z + gz)
-            for k in range(12):   # v2.1（BB P2：葡萄要密一點）：7 → 12 顆（每顆 4×3 段，總面數不超過 8 萬），沿長軸均勻分布（不再全擠在一邊）
-                t_ = -0.85 + 1.7 * (k + RRF.uniform(0.1, 0.9)) / 12; rr = 0.03 + 0.02 * (t_ + 0.85) / 1.7; a_ = RRF.uniform(0, 6.28)
-                lz, lx, ly = t_ * 0.075, math.cos(a_) * rr, abs(math.sin(a_)) * rr * 0.8
-                gx, gz = lz * ca - lx * sa, lz * sa + lx * ca
-                r2_ = bmesh.ops.create_uvsphere(bm_, u_segments=4, v_segments=3, radius=RRF.uniform(0.015, 0.019), calc_uvs=True)
-                bmesh.ops.translate(bm_, verts=r2_['verts'], vec=g2b(x + gx, y + 0.04 + ly, z + gz))
+                t_ = (v.co.z / 0.045 + 1) / 2; k_ = 0.45 + 0.55 * t_; lx, ly, lz = v.co.x * k_ * S_, v.co.y * k_ * 0.8 * S_, v.co.z * 1.7 * S_   # 沿著 x 躺：z（長）→ 水平
+                ly += lz * tilt; gx, gz = lz * ca - lx * sa, lz * sa + lx * ca; v.co = Vector((0, 0, 0)); v.co = g2b(x + gx, y + 0.04 * S_ + ly, z + gz)
+            for k in range(10):   # 一圈小葡萄（每顆 4×3 段）：讓輪廓看得出一顆顆
+                t_ = -0.85 + 1.7 * (k + RRF.uniform(0.1, 0.9)) / 10; rr = (0.03 + 0.02 * (t_ + 0.85) / 1.7) * S_; a_ = RRF.uniform(0.25, 2.9)
+                lz, lx, ly = t_ * 0.075 * S_, math.cos(a_) * rr, math.sin(a_) * rr * 0.8
+                ly += lz * tilt; gx, gz = lz * ca - lx * sa, lz * sa + lx * ca
+                r2_ = bmesh.ops.create_uvsphere(bm_, u_segments=4, v_segments=3, radius=RRF.uniform(0.018, 0.023), calc_uvs=True)
+                bmesh.ops.translate(bm_, verts=r2_['verts'], vec=g2b(x + gx, y + 0.04 * S_ + ly, z + gz))
         _blob0 = blob
         def blob(x, y, z, r, col, sy=1.0):
             k_ = FRK.get(col)
@@ -1306,14 +1306,14 @@ if SHOP == 'xianguo':
             return _blob0(x, y, z, r, col, sy)
         def pile(x0, x1, y, z0, z1, r, cols, layers=2, sy=1.0, bed=False):
             """CC0：一層水果堆在墊紙上（墊紙比籃緣低 2 cm，看起來滿出來），再隨機疊上兩成"""
-            if cols[0] in GRAPE: r = 0.09; layers = 1
+            if cols[0] in GRAPE: r = 0.075; layers = 1   # v2.2：串和串的間距比一串短，互相壓著、看不到箱底
             if bed: mesh('cardboard').box(x0, x1, y + 0.13, y + 0.14, z0, z1); y += 0.14; layers = 1
             nx = max(1, int((x1 - x0) / (r * 2.05))); nz = max(1, int((z1 - z0) / (r * 2.05)))
             for i in range(nx):
                 for j in range(nz):
                     xx = x0 + r + i * (x1 - x0 - 2 * r) / max(1, nx - 1) if nx > 1 else (x0 + x1) / 2; zz = z0 + r + j * (z1 - z0 - 2 * r) / max(1, nz - 1) if nz > 1 else (z0 + z1) / 2
                     blob(xx, y + r * sy * 0.95, zz, r, RRF.choice(cols), sy=sy)
-                    if layers == 1 and i < nx - 1 and j < nz - 1 and RRF.random() < 0.22 and cols[0] not in GRAPE:
+                    if layers == 1 and i < nx - 1 and j < nz - 1 and RRF.random() < (0.5 if cols[0] in GRAPE else 0.22):   # 葡萄：一半的縫上面再壓一串
                         blob(xx + (x1 - x0 - 2 * r) / max(1, nx - 1) / 2, y + r * sy * 2.3, zz + (z1 - z0 - 2 * r) / max(1, nz - 1) / 2, r, RRF.choice(cols), sy=sy)
         FR_ = [(['apple'], 0.043, 1.0), (['gapple'], 0.043, 1.0), (['orange'], 0.038, 1.0), (['#5a3a6a', '#4a2f5a'], 0.03, 1.0), (['pear'], 0.042, 1.0), (['kiwi'], 0.034, 1.0),
                (['pom'], 0.05, 1.0), (['#7a9a3a'], 0.03, 1.0), (['lemon'], 0.036, 1.0), (['orange'], 0.038, 1.0)]

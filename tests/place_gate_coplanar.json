@@ -54,9 +54,9 @@
   "top": "yej_wood×WALL_right_yej_wood 0.279 m² @[6,0.58,-3.33]"
  },
  "assets/models/env/second_ai/aa_support/yizhan.glb": {
-  "sha1": "a45be28202973bccb51c3246da481d668e89073a",
+  "sha1": "d8b284a2c26e1e77a79fe8d9526b22de724c66ce",
   "wall": 1.22,
-  "always": 2.05,
+  "always": 2.03,
   "top": "WALL_back_yzn_post×WALL_left_yzn_wall 0.144 m² @[-4.26,2.02,-5]"
  },
  "assets/models/env/second_ai/bb_support/ade.glb": {
@@ -168,7 +168,7 @@
   "top": "WALL_Sfix_steel×WALL_Sfix_steel 0.035 m² @[3.64,0.57,5.04]"
  },
  "assets/models/env/second_ai/gg_xianguo_interior.glb": {
-  "sha1": "8598903fa1a8123da87a3a4ca0beb35132e37b87",
+  "sha1": "d28cb614a65222d384aa4ea3ff885571e84eb2f7",
   "wall": 0,
   "always": 13.04,
   "top": ""
