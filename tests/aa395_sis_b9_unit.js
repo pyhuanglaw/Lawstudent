@@ -33,14 +33,14 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. 新檔載得到、index.html 接在 sis_b8_3d.js 後面',ok1&&ok2&&!!X()&&/sis_b8_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b9_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b9_3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISB9_EVENTS)+J(SISB9_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB9_LINES).flat().flatMap(x=>typeof x==='string'?[x]:[x.t,x.r]));
   const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!['總圖・門口','公館・郵局','視訊','（背面一行小字：「這邊的葉子紅了。寄到的時候，應該掉光了。——書瑀」）'].includes(t));   /* 署名「書瑀」那一版＝稿「很熟以上、交往中：署名『書瑀』」套同一行 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!require('./canon1112_ok.js').ok(t)/* AA_943 */&&!['總圖・門口','公館・郵局','視訊','（背面一行小字：「這邊的葉子紅了。寄到的時候，應該掉光了。——書瑀」）'].includes(t));   /* 署名「書瑀」那一版＝稿「很熟以上、交往中：署名『書瑀』」套同一行 */
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ const due=()=>X().rainDue(H.G,E);
   fresh('2028-04-24',16.9,'TW','FAMILIAR'); H.G.zone='campus'; door(86,2); H.G.weather='rain'; const a=due(); H.G.weather='clear'; const b=due(); H.G.weather='rain'; door(40,40); const c=due(); door(86,2); H.at('2028-04-24',16.7); const d=due(); H.at('2028-04-24',16.9); H.G.zone='library_hall'; const e=due();
   check('1. 4/24（一）下雨 16:54 在總圖門口＝演；沒下雨、離門口遠、16:42 都不演；總圖大廳也算',a&&!b&&!c&&!d&&e,J([a,b,c,d,e]));
   H.G.zone='campus'; const r0=Object.assign({},SOCIAL.rel(ID)); await run('ev_sis_y3s2_rain',[0,0]); const r1=SOCIAL.rel(ID);
-  check('1. 一起撐：照稿（「計畫本上有寫「帶傘」。」→ 傘往她那邊偏 →「今天那頁寫什麼？」→「十七點，回家。」→「謝謝。下次我會看今天。」）；share；熟悉 +2、自在 +2',seq(['（雨下得很大。她站在屋簷下，看著手機上的天氣。）','計畫本上有寫「帶傘」。','寫在下禮拜那一頁。','（傘不大。她走在靠馬路那一邊，你把傘往她那邊偏。）','十七點，回家。','謝謝。下次我會看今天。'])&&H.G.flags.SIS_Y3S2_RAIN==='share'&&r1.fam-r0.fam===2&&r1.comf-r0.comf===2,J(H.said.map(x=>x.t)));
+  check('1. 一起撐：照稿（AA_943：「早上我有看天氣。」「看的是明天的。」→ 傘往她那邊偏 →「今天那頁寫什麼？」→「十七點，回家。」→「謝謝。下次我會看今天。」）；share；熟悉 +2、自在 +2',seq(['（雨下得很大。她站在屋簷下，看著手機上的天氣。）','早上我有看天氣。','看的是明天的。','（傘不大。她走在靠馬路那一邊，你把傘往她那邊偏。）','十七點，回家。','謝謝。下次我會看今天。'])&&H.G.flags.SIS_Y3S2_RAIN==='share'&&r1.fam-r0.fam===2&&r1.comf-r0.comf===2,J(H.said.map(x=>x.t)));
   fresh('2028-04-25',16.9,'US','FAMILIAR'); H.date(ID); await run('ev_sis_y3s2_rain',[1]);
   check('1. 美國路線（還沒走）、交往中、買傘：開頭「（她看到你，沒有說話，直接走到你的傘下面。）」；「……好。錢我給你。」…「我會記得帶。」；buy',has('（她看到你，沒有說話，直接走到你的傘下面。）')&&seq(['……好。錢我給你。','下次換我帶兩把。','八月以後，那邊也會下雨吧。','我會記得帶。'])&&H.G.flags.SIS_Y3S2_RAIN==='buy');
   fresh('2028-04-25',16.9,'TW','FAMILIAR'); H.date(ID); await run('ev_sis_y3s2_rain',[0,1]); check('1. 交往中一起撐：「（傘不大。她勾著你的手臂。）」',has('（傘不大。她勾著你的手臂。）')&&!has('（傘不大。她走在靠馬路那一邊，你把傘往她那邊偏。）'));
