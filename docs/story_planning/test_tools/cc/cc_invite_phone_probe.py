@@ -223,8 +223,10 @@ async def main():
             nb = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position; return (E.interactables||[]).filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<2.5).map(i=>({l:String(typeof i.label==='function'?i.label():i.label||''),d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),npc:!!i.npc})).sort((a,b)=>a.d-b.d).slice(0,6); })()")
             R.note('走到她旁邊（離她 %s m）2.5 m 內的互動點：%s' % (hh.get('d'), J(nb)))
             R.check('走到她旁邊時互動鍵是「%s」（LAWWW-C INV-MEET-YIELD-1113，不是旁人的初見）' % HER_IA, HER_IA in st['interact'], st['interact'])
-        pseat = bool(arr and arr[-1].get('pSeat'))
-        if pseat: R.note('到店以後玩家已經坐下（pSeat true）：不再找她旁邊的空位（BB-C 21:02 ⑤）')
+        pseat = any(x.get('pSeat') for x in (arr or []))   # 11-14 AN_BEAT6_r6：到店自動坐下開演、30 秒後演完站起來——只看最後一筆會漏，看整段有沒有坐過
+        if ARRIVE_LOG and (iv2 or {}).get('state') == 'done' and not pseat:   # 11-14 AN_BEAT6_r6：30 秒內整場演完、回宿舍到隔天早上——邀約已經 done，不再找空位
+            R.note('到店 %d 秒內邀約已經 done（最後在 %s）：不再找她旁邊的空位' % (ARRIVE_LOG, J(arr[-1:]))); pseat = True
+        if pseat: R.note('到店以後玩家已經坐下（pSeat true）或邀約已演完：不再找她旁邊的空位（BB-C 21:02 ⑤）')
         if nseat and not pseat:
             R.check('到了她先坐著等（坐下、iv.waitSeat 有）', any(x.get('seat') for x in arr) and bool((iv2 or {}).get('waitSeat') or (iv2 or {}).get('state') == 'done'), J([arr[-1:], iv2]))
         else:   # BB-C 11-14 INV_BADM_r2 判：羽球場這種沒有座位的地方，她在場站著等也算
