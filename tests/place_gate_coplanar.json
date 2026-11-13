@@ -156,19 +156,19 @@
   "top": "L0_vc×WALL_L0_N 13.5 m² @[-0.33,0.68,-7]"
  },
  "assets/models/env/second_ai/gg_antai_interior.glb": {
-  "sha1": "1d81050414d5d8cb9636208d498d5e3d9e8846d6",
+  "sha1": "829f1547708a94dfacd7bbe2022630f3be844a50",
   "wall": 0.04,
   "always": 2.99,
   "top": "WALL_Sfix_steel×WALL_Sfix_steel 0.035 m² @[3.61,0.56,5.04]"
  },
  "assets/models/env/second_ai/gg_rongendian_interior.glb": {
-  "sha1": "a4a805601db3a7c667ea348c791fc145017cc9b9",
+  "sha1": "9ba4d37006f0d969281b88c9dbe6246a49d9a30d",
   "wall": 0.04,
-  "always": 1.65,
+  "always": 1.96,
   "top": "WALL_Sfix_steel×WALL_Sfix_steel 0.035 m² @[3.64,0.57,5.04]"
  },
  "assets/models/env/second_ai/gg_xianguo_interior.glb": {
-  "sha1": "ae805467885d453b95cbc98feb200b7b92b6cfdc",
+  "sha1": "8598903fa1a8123da87a3a4ca0beb35132e37b87",
   "wall": 0,
   "always": 13.04,
   "top": ""
@@ -258,9 +258,9 @@
   "top": "WALL_E×S_plastic_w 0.315 m² @[2.25,0.67,-2.19]"
  },
  "assets/models/env/second_ai/tz_limao_interior.glb": {
-  "sha1": "f59d5ab819029177f124530737b1d3f104fab208",
-  "wall": 0.19,
-  "always": 7.1,
+  "sha1": "d9321a25de77eee6ed250e0dad04719b67ee7f66",
+  "wall": 0.22,
+  "always": 31.42,
   "top": "PART_wall×PART_wood_d 0.156 m² @[-0.04,0,-1.22]"
  },
  "assets/models/env/second_ai/tz_taimi_interior.glb": {

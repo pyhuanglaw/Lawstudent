@@ -1131,12 +1131,25 @@ if SHOP == 'antai':
     x, z = BP['x'], BP['z']; vc().crbox(x - BP['w'] / 2, x + BP['w'] / 2, 0.7, 0.74, z - BP['d'] / 2, z + BP['d'] / 2, '#efe6d0', r=0.01)
     for sx in (-1, 1):
         for sz in (-1, 1): ccyl(vm(), (x + sx * (BP['w'] / 2 - 0.06), 0.0, z + sz * (BP['d'] / 2 - 0.06)), (x + sx * (BP['w'] / 2 - 0.06), 0.7, z + sz * (BP['d'] / 2 - 0.06)), 0.018, '#c4c8cb', seg=6)
-    vc().crbox(x - 0.2, x + 0.22, 0.74, 1.02, z + 0.05, z + 0.5, '#eceeee', r=0.04); ccyl(vc(), (x - 0.2, 0.9, z + 0.28), (x - 0.24, 0.9, z + 0.28), 0.1, '#3a3f46', seg=14)   # 隧道式血壓計
+    if not CC0: vc().crbox(x - 0.2, x + 0.22, 0.74, 1.02, z + 0.05, z + 0.5, '#eceeee', r=0.04); ccyl(vc(), (x - 0.2, 0.9, z + 0.28), (x - 0.24, 0.9, z + 0.28), 0.1, '#3a3f46', seg=14)   # 隧道式血壓計
     vc().crbox(x - 0.16, x + 0.16, 0.74, 0.9, z - 0.5, z - 0.18, '#eceeee', r=0.02)
-    if CC0:   # v2（BB P1：量血壓機那一角）：隧道口一圈灰框、裡面深灰；機身正面小螢幕和兩顆按鈕；旁邊小台的電子血壓計螢幕＋袖帶捲著放；後面插座和電線
-        ccyl(vm(), (x - 0.2, 0.9, z + 0.28), (x - 0.215, 0.9, z + 0.28), 0.115, '#c4c8cb', seg=18, caps=False); ccyl(vc(), (x - 0.12, 0.9, z + 0.28), (x - 0.125, 0.9, z + 0.28), 0.1, '#1f2023', seg=18)
-        vc().cbox(x - 0.205, x - 0.2, 0.78, 0.82, z + 0.12, z + 0.2, '#2a2d31'); [ccyl(vc(), (x - 0.205, 0.765, z + 0.13 + i * 0.05), (x - 0.212, 0.765, z + 0.13 + i * 0.05), 0.012, '#2f6fb0' if i == 0 else '#c94a4a', seg=8) for i in range(2)]
-        vc().cbox(x - 0.165, x - 0.16, 0.79, 0.87, z - 0.44, z - 0.26, '#2a2d31')
+    if CC0:   # v2.1（BB／LAWWW P2：量血壓機還像白方盒）：隧道式血壓計改成圓筒機身（白塑膠）＋往裡凹的深灰手臂隧道、灰色外圈；機身後上方斜的操作面板（螢幕印刷數字、藍紅兩顆鍵）；
+        #   隧道前面一塊皮手臂墊；底座。旁邊小台的電子血壓計：斜面螢幕印刷＋袖帶捲著放；後面插座和電線
+        def _bps(d, s_):
+            from PIL import ImageFont
+            d.rectangle([0, 0, s_, s_], fill=(34, 46, 50)); f_ = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', int(s_ * 0.3))
+            for k, t in enumerate(('128', '82', '72')): d.text((s_ * 0.18, s_ * (0.04 + k * 0.31)), t, font=f_, fill=(150, 230, 170))
+        if 'bpscr' not in M: M['bpscr'] = printed('tzs_antai_bpscr', 'tz_antai_bpscr', _bps, 'Plastic006', size=128, amp=0.05, tile=0.12, rough_value=0.2)
+        PW_ = _AsTex(mesh('plastic_w')); PD_ = _AsTex(mesh('plastic_dk'))
+        mesh('plastic_w').rbox(x - 0.23, x + 0.24, 0.74, 0.78, z + 0.06, z + 0.5, r=0.015, seg=2)   # 底座
+        ccyl(PW_, (x - 0.2, 0.94, z + 0.28), (x + 0.2, 0.94, z + 0.28), 0.17, None, seg=28)        # 圓筒機身
+        ccyl(PD_, (x - 0.215, 0.94, z + 0.28), (x + 0.06, 0.94, z + 0.28), 0.105, None, seg=24, caps=False); ccyl(PD_, (x + 0.05, 0.94, z + 0.28), (x + 0.06, 0.94, z + 0.28), 0.105, None, seg=24)   # 往裡凹的手臂隧道
+        ccyl(vm(), (x - 0.2, 0.94, z + 0.28), (x - 0.225, 0.94, z + 0.28), 0.128, '#c4c8cb', seg=28, caps=False)   # 隧道口灰圈
+        mesh('plastic_w').box(x + 0.02, x + 0.22, 1.06, 1.14, z + 0.12, z + 0.44)                 # 操作面板座
+        mesh('bpscr').quad([(x + 0.02, 1.141, z + 0.16), (x + 0.02, 1.141, z + 0.4), (x + 0.12, 1.2, z + 0.4), (x + 0.12, 1.2, z + 0.16)])
+        for i in range(2): ccyl(vc(), (x - 0.0, 1.11, z + 0.2 + i * 0.16), (x - 0.012, 1.11, z + 0.2 + i * 0.16), 0.016, '#2f6fb0' if i == 0 else '#c94a4a', seg=10)
+        mesh('leather_d').rbox(x - 0.5, x - 0.24, 0.78, 0.815, z + 0.18, z + 0.38, r=0.015, seg=2)   # 手臂墊
+        mesh('bpscr').quad([(x - 0.161, 0.8, z - 0.44), (x - 0.161, 0.8, z - 0.26), (x - 0.161, 0.88, z - 0.26), (x - 0.161, 0.88, z - 0.44)])   # 小台電子血壓計螢幕
         ccyl(vc(), (x - 0.05, 0.775, z - 0.12), (x + 0.07, 0.775, z - 0.12), 0.035, '#2c3c5a', seg=10)
         vc().cbox(W / 2 - 0.012, W / 2, 1.0, 1.08, z + 0.6, z + 0.66, '#f6f5f0'); ccyl(vc(), (W / 2 - 0.02, 1.0, z + 0.63), (x + 0.2, 0.75, z + 0.4), 0.004, '#1f2023', seg=4, caps=False)
     for q in J['seats']:
@@ -1271,15 +1284,15 @@ if SHOP == 'xianguo':
             """葡萄串：一顆自畫葡萄貼圖的倒錐（芯）＋外面七顆小葡萄（輪廓看得出一顆顆），躺著、隨機轉"""
             yaw_ = RRF.uniform(0, 6.28); ca, sa = math.cos(yaw_), math.sin(yaw_); L_ = 0.16
             m_ = mesh(key); bm_ = m_.bm; bm_.loops.layers.uv.verify()
-            res = bmesh.ops.create_uvsphere(bm_, u_segments=8, v_segments=6, radius=0.045, calc_uvs=True)
+            res = bmesh.ops.create_uvsphere(bm_, u_segments=7, v_segments=5, radius=0.045, calc_uvs=True)
             for v in res['verts']:
                 t_ = (v.co.z / 0.045 + 1) / 2; k_ = 0.45 + 0.55 * t_; lx, ly, lz = v.co.x * k_, v.co.y * k_ * 0.8, v.co.z * 1.7   # 沿著 x 躺：z（長）→ 水平
                 gx, gz = lz * ca - lx * sa, lz * sa + lx * ca; v.co = Vector((0, 0, 0)); v.co = g2b(x + gx, y + 0.04 + ly, z + gz)
-            for k in range(7):
-                t_ = RRF.uniform(-0.8, 0.8); rr = 0.03 + 0.02 * (t_ + 0.8) / 1.6; a_ = RRF.uniform(0, 6.28)
+            for k in range(12):   # v2.1（BB P2：葡萄要密一點）：7 → 12 顆（每顆 4×3 段，總面數不超過 8 萬），沿長軸均勻分布（不再全擠在一邊）
+                t_ = -0.85 + 1.7 * (k + RRF.uniform(0.1, 0.9)) / 12; rr = 0.03 + 0.02 * (t_ + 0.85) / 1.7; a_ = RRF.uniform(0, 6.28)
                 lz, lx, ly = t_ * 0.075, math.cos(a_) * rr, abs(math.sin(a_)) * rr * 0.8
                 gx, gz = lz * ca - lx * sa, lz * sa + lx * ca
-                r2_ = bmesh.ops.create_uvsphere(bm_, u_segments=5, v_segments=3, radius=0.016, calc_uvs=True)
+                r2_ = bmesh.ops.create_uvsphere(bm_, u_segments=4, v_segments=3, radius=RRF.uniform(0.015, 0.019), calc_uvs=True)
                 bmesh.ops.translate(bm_, verts=r2_['verts'], vec=g2b(x + gx, y + 0.04 + ly, z + gz))
         _blob0 = blob
         def blob(x, y, z, r, col, sy=1.0):
@@ -1441,6 +1454,13 @@ if SHOP == 'rongendian':
                   'case_b': acg('tzs_case_b', 'Fabric036', target='#c9b08a', tile=0.2, rough_value=0.85, res=256),
                   'case_p': acg('tzs_case_p', 'Fabric036', target='#e2a8b4', tile=0.2, rough_value=0.85, res=256),
                   'sale': printed('tzs_ron_sale', 'tz_ron_sale', _sale, 'Paper001', size=256, amp=0.1, tile=0.5, rough_value=0.6)})
+        def _stack(d, s_):   # v2.1（BB P2：平放疊高的側面一整片白）：一疊筆記本的側面——8 本一個循環，每本＝上下兩條封面色＋中間米白紙頁、紙頁有細線
+            cols = ((44, 60, 90), (201, 168, 120), (226, 168, 180), (58, 110, 78), (236, 222, 150), (168, 204, 232), (150, 52, 48), (90, 90, 96))
+            for k in range(8):
+                y0 = s_ * k / 8; y1 = s_ * (k + 1) / 8; c = cols[(k * 3) % 8]
+                d.rectangle([0, y0, s_, y1], fill=c); d.rectangle([0, y0 + (y1 - y0) * 0.2, s_, y1 - (y1 - y0) * 0.2], fill=(240, 236, 224))
+                for t in range(3): yy = y0 + (y1 - y0) * (0.3 + t * 0.15); d.line([0, yy, s_, yy], fill=(222, 216, 202), width=1)
+        M['stack'] = printed('tzs_ron_stack', 'tz_ron_stack', _stack, 'Paper001', size=128, amp=0.06, tile=0.096, rough_value=0.75)
         ROUTE = {'#eef2f2': 'glass', '#e8e4d8': 'plastic_w', '#f4f1e4': 'plastic_w', '#f1f0ea': 'wood', '#c9a878': 'wood', '#7a5636': 'wood_d', '#6a4a2a': 'wood_d',
                  '#2a2d31': 'plastic_dk', '#1f2023': 'plastic_dk', '#3a2a20': 'plastic_dk', '#d8dadc': 'steel', '#f6f4ee': 'canvas', '#ece8dc': 'canvas', '#f2c230': 'sale', '#c9302a': 'sale',
                  '#e8e0c8': 'cardboard', '#d9c9a8': 'cardboard', '#f4f1e8': 'cardboard', '#b8946a': 'cardboard'}
@@ -1469,7 +1489,7 @@ if SHOP == 'rongendian':
                     w_ = RRV.choice((0.18, 0.21)); dp = min(0.26, abs(d1 - d0) - 0.06)
                     while a + w_ <= e:
                         n_ = RRV.randint(6, 14); e0, e1 = sorted((fd, fd - sg * dp));   # v2：疊高一點（參考圖一疊疊筆記本）
-                        bx(a, a + w_ - 0.01, y, y + n_ * 0.012, e0, e1, 'paper')
+                        bx(a, a + w_ - 0.01, y, y + n_ * 0.012, e0, e1, 'stack')
                         yt = y + n_ * 0.012 + 0.0008; idx = RRV.randrange(8)   # 最上面一本的封面（朝上）
                         if along == 'z': PQ.append((PKUV['note'][idx], [g2b(*p_) for p_ in ((e0, yt, a + w_ - 0.01), (e1, yt, a + w_ - 0.01), (e1, yt, a), (e0, yt, a))]))
                         else: PQ.append((PKUV['note'][idx], [g2b(*p_) for p_ in ((a, yt, e1), (a + w_ - 0.01, yt, e1), (a + w_ - 0.01, yt, e0), (a, yt, e0))]))
@@ -1571,7 +1591,22 @@ if SHOP == 'rongendian':
     x, z = CR['x'], CR['z']
     for sx in (-1, 1):
         for sz in (-1, 1): ccyl(vm(), (x + sx * (CR['w'] / 2 - 0.04), 0.06, z + sz * (CR['d'] / 2 - 0.04)), (x + sx * (CR['w'] / 2 - 0.04), 0.95, z + sz * (CR['d'] / 2 - 0.04)), 0.012, '#d8dadc', seg=6); ccyl(vc(), (x + sx * (CR['w'] / 2 - 0.04), 0.0, z + sz * (CR['d'] / 2 - 0.04)), (x + sx * (CR['w'] / 2 - 0.04), 0.07, z + sz * (CR['d'] / 2 - 0.04)), 0.035, '#2a2d31', seg=8)
-    for y in (0.3, 0.75): vm().cbox(x - CR['w'] / 2, x + CR['w'] / 2, y, y + 0.015, z - CR['d'] / 2, z + CR['d'] / 2, '#d8dadc'); (stat(x - CR['w'] / 2 + 0.04, x + CR['w'] / 2 - 0.04, y + 0.015, z - CR['d'] / 2 + 0.04, z + CR['d'] / 2 - 0.04, 'x', 2) if CC0 else goods(x - CR['w'] / 2 + 0.04, x + CR['w'] / 2 - 0.04, y + 0.015, z - CR['d'] / 2 + 0.04, z + CR['d'] / 2 - 0.04, NOTE[0] + NOTE[1], hmin=0.04, hmax=0.14, along='x', step=0.19))
+    for y in (0.3, 0.75): vm().cbox(x - CR['w'] / 2, x + CR['w'] / 2, y, y + 0.015, z - CR['d'] / 2, z + CR['d'] / 2, '#d8dadc'); (stat(x - CR['w'] / 2 + 0.04, x + CR['w'] / 2 - 0.04, y + 0.015, z - CR['d'] / 2 + 0.04, z + CR['d'] / 2 - 0.04, 'x', 2) if CC0 and y < 0.5 else None if CC0 else goods(x - CR['w'] / 2 + 0.04, x + CR['w'] / 2 - 0.04, y + 0.015, z - CR['d'] / 2 + 0.04, z + CR['d'] / 2 - 0.04, NOTE[0] + NOTE[1], hmin=0.04, hmax=0.14, along='x', step=0.19))
+    if CC0:   # v2.1（BB P2：特價推車偏空）：最上面一層鐵網籃（籃邊一圈＋網格），裡面亂堆的筆記本（三層、各轉不同角度、封面印刷朝上）
+        y = 0.95; W_, D_ = CR['w'] / 2 - 0.03, CR['d'] / 2 - 0.03; vm().cbox(x - W_, x + W_, y - 0.01, y, z - D_, z + D_, '#d8dadc')
+        for sx in (-1, 1):   # 籃邊：上緣一圈粗線、中間一圈細線、每 6 公分一根直線（看得穿）
+            for (yy, t_) in ((y + 0.14, 0.006), (y + 0.07, 0.003)): vm().cbox(x + sx * W_ - t_, x + sx * W_ + t_, yy - t_, yy + t_, z - D_, z + D_, '#d8dadc'); vm().cbox(x - W_, x + W_, yy - t_, yy + t_, z + sx * D_ - t_, z + sx * D_ + t_, '#d8dadc')
+            for k in range(int(2 * D_ / 0.06) + 1): zz_ = z - D_ + k * 2 * D_ / int(2 * D_ / 0.06); vm().cbox(x + sx * W_ - 0.0025, x + sx * W_ + 0.0025, y, y + 0.14, zz_ - 0.0025, zz_ + 0.0025, '#d8dadc')
+            for k in range(int(2 * W_ / 0.06) + 1): xx_ = x - W_ + k * 2 * W_ / int(2 * W_ / 0.06); vm().cbox(xx_ - 0.0025, xx_ + 0.0025, y, y + 0.14, z + sx * D_ - 0.0025, z + sx * D_ + 0.0025, '#d8dadc')
+        RB = __import__('random').Random(31)
+        for (y, nl) in ((y, 3), (0.765, 2)):   # 最上面的鐵網籃三層、中間那層架子兩層
+         for lay in range(nl):
+             for i_ in range(int(W_ * D_ * 4 / 0.03) + 2):
+                 w_, d_ = RB.choice(((0.15, 0.21), (0.18, 0.25), (0.21, 0.3))); th = RB.choice((0.008, 0.012, 0.02)); an = RB.uniform(-0.6, 0.6) + (PI / 2 if RB.random() < 0.4 else 0)
+                 cx = x + RB.uniform(-W_ + 0.1, W_ - 0.1); cz = z + RB.uniform(-D_ + 0.1, D_ - 0.1); yb = y + 0.002 + lay * 0.022 + RB.uniform(0, 0.008)
+                 ca, sa = math.cos(an), math.sin(an); C = [(cx + ca * u - sa * v, cz + sa * u + ca * v) for (u, v) in ((-w_ / 2, -d_ / 2), (w_ / 2, -d_ / 2), (w_ / 2, d_ / 2), (-w_ / 2, d_ / 2))]
+                 for j_ in range(4): k_ = (j_ + 1) % 4; mesh('stack').quad([(C[j_][0], yb, C[j_][1]), (C[k_][0], yb, C[k_][1]), (C[k_][0], yb + th, C[k_][1]), (C[j_][0], yb + th, C[j_][1])][::-1])
+                 PQ.append((PKUV['note'][RB.randrange(len(PKUV['note']))], [g2b(C[j_][0], yb + th, C[j_][1]) for j_ in (0, 3, 2, 1)]))
     vc().poly([(x - 0.45, 0.2, z + CR['d'] / 2 + 0.02), (x + 0.45, 0.2, z + CR['d'] / 2 + 0.02), (x + 0.45, 0.62, z + CR['d'] / 2 + 0.08), (x - 0.45, 0.62, z + CR['d'] / 2 + 0.08)], '#f2c230'); vc().poly([(x - 0.3, 0.28, z + CR['d'] / 2 + 0.036), (x + 0.3, 0.28, z + CR['d'] / 2 + 0.036), (x + 0.3, 0.54, z + CR['d'] / 2 + 0.074), (x - 0.3, 0.54, z + CR['d'] / 2 + 0.074)], '#c9302a')
     if CC0:   # v2（BB P1：缺木畫架和畫布——參考圖右邊美術區）：木頭畫架（前兩腳、後一腳、托架、上夾、橫檔）＋架上一張木框畫布；靠牆一疊大小不一的木框畫布（有厚度）
         WD = _AsTex(mesh('wood'))
@@ -1728,6 +1763,16 @@ if SHOP == 'limao':
             elif (i + j) % 3 == 0: blob(CB['x0'] + 0.22, y + 0.07, zz, 0.07, ('#f4f0e4', '#7a4a2a', '#3f5f8a')[j], sy=0.8)
             elif (i + j) % 3 == 1: ccyl(TEA(), (CB['x0'] + 0.22, y, zz), (CB['x0'] + 0.22, y + 0.06, zz), 0.035, '#f4f0e4', seg=12 if CC0 else 8, r2=0.045)
             else: ccyl(CLAY(), (CB['x0'] + 0.22, y, zz), (CB['x0'] + 0.22, y + 0.2, zz), 0.04, ('#2f4a3a', '#8a5a2a', '#c9b890')[j], seg=12 if CC0 else 8, r2=0.025)
+    if CC0:   # v2.1（BB P2：玻璃櫃擺設偏少；概念圖那座玻璃門書櫃頂上放盆栽）：每層後排斜靠的瓷盤、前排之間的小茶杯；上層加一排有蓋茶葉罐；櫃頂陶罐＋Poly Haven 盆栽
+        for j, y in enumerate((0.82, 1.25, 1.68)):
+            for i in range(6):
+                zz = CB['z0'] + 0.18 + (i + 0.5) * (CB['z1'] - CB['z0'] - 0.36) / 6
+                if i % 2 == 0: xb = CB['x1'] - 0.06; ccyl(TEA(), (xb - 0.022, y + 0.102, zz), (xb - 0.01, y + 0.108, zz), 0.095 - 0.015 * ((i // 2 + j) % 2), '#f4f0e4', seg=18)   # 斜靠的瓷盤
+                elif j != 2: ccyl(TEA(), (CB['x0'] + 0.1, y, zz), (CB['x0'] + 0.1, y + 0.045, zz), 0.022, '#f4f0e4', seg=12, r2=0.03)   # 小茶杯
+                else:
+                    ccyl(CLAY(), (CB['x0'] + 0.12, y, zz), (CB['x0'] + 0.12, y + 0.13, zz), 0.035, None, seg=12); ccyl(CLAY(), (CB['x0'] + 0.12, y + 0.13, zz), (CB['x0'] + 0.12, y + 0.15, zz), 0.038, None, seg=12)   # 有蓋茶葉罐
+        for k, zz in enumerate((CB['z0'] + 0.25, CB['z0'] + 0.5)): clathe(CLAY(), [(0.0, 0.0), (0.06, 0.0), (0.09, 0.08), (0.07, 0.17), (0.04, 0.2), (0.0, 0.2)], (CB['x0'] + CB['x1']) / 2, CB['h'], zz, '#8a5a2a', seg=14)
+        ph_put('potted_plant_01', (CB['x0'] + CB['x1']) / 2, CB['h'], CB['z1'] - 0.35, 0.4, height=0.42, share=False, decimate=0.012, tag='_top')
     # 圓茶桌、三張木椅、茶壺茶杯
     x, z = TE['x'], TE['z']; ccyl(mesh('wood_d', False) and vc(), (x, TE['h'] - 0.04, z), (x, TE['h'], z), TE['r'], DK, seg=24); ccyl(vc(), (x, 0.04, z), (x, TE['h'] - 0.04, z), 0.06, DK, seg=10); ccyl(vc(), (x, 0.0, z), (x, 0.04, z), 0.3, DK, seg=14)
     (clathe(TEA(), [(0.0, 0.0), (0.055, 0.0), (0.085, 0.045), (0.08, 0.085), (0.05, 0.12), (0.0, 0.125)], x, TE['h'], z, '#f4f0e4', seg=16) if CC0 else blob(x, TE['h'] + 0.07, z, 0.08, '#f4f0e4', sy=0.85)); ccyl(TEA(), (x + 0.07, TE['h'] + 0.05, z), (x + 0.15, TE['h'] + 0.11, z), 0.012, '#f4f0e4', seg=6); ccyl(TEA(), (x, TE['h'] + 0.12, z), (x, TE['h'] + 0.15, z), 0.02, '#f4f0e4', seg=8)
@@ -1738,8 +1783,24 @@ if SHOP == 'limao':
     pot(-1.95, 4.2, col='#3f5f8a'); pot(1.95, -0.75, col='#7a4a2a')
     # 隔牆（到天花板）和書房的門框；牆上的山水掛畫、書法掛軸（東牆）
     # PART_*：隔牆、門框、掛在隔牆上的掛畫——鏡頭和玩家在隔牆兩邊時遊戲整組藏起來（LM-PART-CAM-1111，BB 11-11 01:47：玩家站在掛畫前、鏡頭退到鎖著的書房裡，整個畫面是隔牆背面的米色）
+    if CC0:   # v2.1（BB P2：牆面整片平的米色、佔畫面一大塊）：深色木腰板（0.85 m，和櫥窗窗台同高）＋上緣壓條＋踢腳＋每 0.5 m 一道直條；牆本身照 BB 11-10 規定維持乾淨平塗
+        WY = 0.85
+        def wains(ax, a0, a1, c, n):   # ax='x'：沿 x 的牆（z＝c）；ax='z'：沿 z 的牆（x＝c）；n＝朝室內的方向（±1）
+            wd = mesh('wood_d')
+            def bx(p0, p1, y0, y1, t0, t1):
+                e0, e1 = sorted((c + n * t0, c + n * t1))
+                if ax == 'x': wd.box(p0, p1, y0, y1, e0, e1)
+                else: wd.box(e0, e1, y0, y1, p0, p1)
+            bx(a0, a1, 0.0, WY, 0.0, 0.015); bx(a0, a1, WY - 0.01, WY + 0.035, 0.0, 0.035); bx(a0, a1, 0.0, 0.1, 0.0, 0.025)
+            n_ = max(1, round((a1 - a0) / 0.5))
+            for i_ in range(1, n_): q_ = a0 + i_ * (a1 - a0) / n_; bx(q_ - 0.02, q_ + 0.02, 0.1, WY - 0.01, 0.0, 0.025)
+        zq = PT['z']; e_ = 0.016
+        wains('z', zq + 0.06, D / 2, W / 2, -1); wains('z', zq + 0.06, D / 2, -W / 2, 1)            # 店裡東、西牆（西牆大半在書櫃後面）
+        dx0_, dx1_ = J['front']['door'][:2]; wains('x', -W / 2 + e_, dx0_, D / 2, -1); wains('x', dx1_, W / 2 - e_, D / 2, -1)   # 前牆櫥窗下
+        wains('z', -D / 2, zq - 0.06, W / 2, -1); wains('z', -D / 2, zq - 0.06, -W / 2, 1); wains('x', -W / 2 + e_, W / 2 - e_, -D / 2, 1)   # 書房三面
     PRE = 'PART:'
     zp = PT['z']; d0, d1 = PT['door']; pw = mesh('wall'); pw.box(PT['x0'], d0, 0, H, zp - 0.06, zp + 0.06); pw.box(d1, PT['x1'], 0, H, zp - 0.06, zp + 0.06); pw.box(d0, d1, 2.1, H, zp - 0.06, zp + 0.06)
+    if CC0: wains('x', PT['x0'] + e_, d0, zp + 0.06, 1); wains('x', d1, PT['x1'] - e_, zp + 0.06, 1); wains('x', PT['x0'] + e_, d0, zp - 0.06, -1); wains('x', d1, PT['x1'] - e_, zp - 0.06, -1)   # 隔牆兩面的腰板（跟著 PART 一起藏）
     for xx in (d0, d1): vc().cbox(xx - 0.05, xx + 0.05, 0, 2.1, zp - 0.08, zp + 0.08, DK)
     vc().cbox(d0 - 0.05, d1 + 0.05, 2.1, 2.18, zp - 0.08, zp + 0.08, DK)
     px0, px1, py0, py1, pz = -1.45, -0.15, 1.15, 2.05, zp + 0.062                                                                                               # 山水掛畫（色塊：遠山、近山、留白）
