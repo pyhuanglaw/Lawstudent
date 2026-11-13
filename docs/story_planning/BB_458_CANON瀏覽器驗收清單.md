@@ -84,4 +84,11 @@
   - **#7 動態（CANON458_FEED）、#4 春假（CANON458_SPRING）：PASS**——春假「嗯。七點四十，宿舍樓下。」「好。今年也開。」、大四「最後一個春假」；D158 0。
   - #11 NIGHT、#17 XMAS 前一批已 PASS。
   - **TEST_BUG 三支（手機約到了、走不到店門）**：INV_BADM（體育館出口範圍）、AN_BEAT6（燒臘門口互動鍵空）、AN_BEAT8（按「進入公館燒臘」還在公館）——r2 用手機快速前往。**AN_BEAT8 那天 2027-10-13（三）12:10 公館燒臘照營業時間（AA_831：11:00～23:00、無公休）是開的**：如果走到門口按「進入」進不去，就是 GAME P1（玩家進不了店），不是打烊；r2 兩種都留（走到門口按門＋快速前往）。
+- **04:0x 76f8 第四批**：
+  - **#6 長頸鹿 A 版（GIRAFFE_r2）：PASS**——ev_kx_souvenir 演了、GIRAFFE_KEYCHAIN 設了、D158 0（A、B 兩版都過＝#6 PASS）。
+  - **#5 國考讀書會當面（CANON458_BAR）：PASS**——大四下第 1 週排「律師讀書小組（大口漢堡）」，在 3D 大口漢堡二樓（xs_dakou）當面演（不是只有手機，D103）；D158 0。
+  - **#1 慢慢分開（CANON458_DRIFT）：PASS**——D1～D4 都 D158 0（D1c 前一批已過）。
+  - **#12 羽球（INV_BADM_r2）：PASS**——快速前往到新體育館，她 (0, 19.2) 站著等（羽球場沒有座位＝站著等是對的，探針期望「先坐著」是寫錯）。
+  - **AN_BEAT8**：改判 TEST_BUG——2027-10-13 是設計好的颱風假（calendar.js TYPHOON、AA_326 2-Y3-09），所有店不開；手機邀約那天也不會約成（invites3d.js 139 resched closed）。BB 03:5x 說「燒臘那天開著、可能 GAME P1」撤回。r2／_door 改 2027-10-20。
+  - **約人幾支卡住的真正原因（TEST_BUG）**：撥時間到約定前 3 分鐘遊戲自己跳「直接過去／自己走過去」選單，探針沒選＝一直 busy。CC 已修 invite_phone。INV_LAWLIB r3（travel:lawlib）、AN_BEAT6 r3、BOOKSTORE r2（PICKS 出去玩＞頁間、REL 65）排在 76f8 那組。
 
