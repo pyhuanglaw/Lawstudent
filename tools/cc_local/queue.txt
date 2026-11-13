@@ -2287,6 +2287,8 @@ CANON458_ENC | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_pla
 CANON458_DATE | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 50 | CASES=DATE_PS,DATE_ZR;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 CANON458_BAR | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 45 | CASES=BAR_FACE;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 CANON458_DRIFT | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 45 | CASES=DRIFT_D1,DRIFT_D2,DRIFT_D3,DRIFT_D4;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
+# BB_458 #13 書店那句（activity_scenes.js kinds.bookstore.people.kexin.rot[0].seat「今天我想找一本小說。不是課本。」，第 4 次起 rot）：【捷徑】ACTN.bookstore.kexin＝3，手機約頁間書屋＝第 4 次
+CANON458_BOOKSTORE | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 25 | TAG=c458_bookstore;ZONE=gongguan;WHO=kexin;DAY=2026-10-14;HOUR=15;REL=45;FLAGS={"ACTN":{"bookstore":{"kexin":3}}};PICKS=看電影>頁間>今天;ROUTE=exit:bookstore;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 # BB-C 11-14 16:29：fix_b_r2 r3「改天」收尾後 ev_pool_greet 接著演＝正常節奏（第 10 類）；r3 結束時把插進來的對話照字點完再量（點完還不能動才 FAIL）
 STUDY_fix_b_r3 | 5c96c6680264aa6fe56f5450f01d848d3623c9af | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_r3;DRAIN_OTHER=1;ROSTER=0;SHA=5c96c6680264aa6fe56f5450f01d848d3623c9af
 # BB-C 16:37：fix_c_r2 帶路途中出總圖被打氣筒那段插進來、state missed；DRAIN_OTHER=1 照字點完再看 state（還是 missed、沒有「作罷」＝GAME，直接給 LAWWW＋BB）
