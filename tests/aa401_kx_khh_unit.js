@@ -23,6 +23,7 @@ const homeRun=(from,to)=>{ for(let d=D(from);d<=D(to);d++){ const p=STORY.presen
 
 (async()=>{
 let doc=''; try{ doc=cp.execSync('git show 18251b0e1:"docs/story_planning/AA_401_可昕學期末約會的二選一_寒假來高雄.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+try{ if(doc) doc+='\n'+cp.execSync('git show 72ab8199aa:"docs/story_planning/AA_942_回LAWWW_可昕2028暑假六件.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_942 ④（企劃線 72ab8199aa）改的兩句 */
 await sec(0,()=>{ const A=TERMEND_LINES.KX_ASK, G0={flags:{}}; const all=[]; for(const k in A){ const v=typeof A[k]==='function'?[A[k]({flags:{EXCHANGE_ROUTE:'US'}}),A[k]({flags:{}})].flat():A[k]; for(const o of v) all.push(o.t.replace(/^「|」$/g,''),...o.r); }
   const src=fs.readFileSync(path.join(H.ROOT,'src/kx_khh3d.js'),'utf8'); for(const m of src.matchAll(/'([^'\n]{4,})'/g)) if(/[一-鿿]/.test(m[1])&&!/[＝（）／]/.test(m[1].slice(0,1))&&!/^(打給可昕)$/.test(m[1])) all.push(m[1]);
   const notIn=[...new Set(all)].filter(t=>doc.indexOf(t)<0&&!/哪一次寒暑假|十二月底|答應過|學期末約會/.test(t));
@@ -61,13 +62,13 @@ await sec('1b',async()=>{ const te={term:'Y2S1'}; fresh('2026-12-30',18); H.said
           const want=usYes?J([{Y3S:'yes'},null]):(us?J([null,null]):(term==='Y5S1'?J([null,'sat']):J([{[KEY[term]]:s.KX_KHH?'yes':'no'},null])));
           if(H.opts.length!==1||H.opts[0][i]!==src[i].t||(usYes?(s!=null&&J(s)!==J({KX_KHH:true})):(us?s!=null:s==null))||got!==want) bad.push([term,us,src[i].t,got,want]); } } } finally{ TERMEND.SHUFFLE=k0; }
     check('1. 六頓每個選項（'+n+' 個）記的存檔值＝照稿的 set：KX_KHH true→yes、false→no（key＝那一次寒暑假）；美國路線不記（大三下例外：三個都記 Y3S yes）；大五上三個都 KX_Y5_CALL sat',!!kx&&n>=18&&bad.length===0,J(bad.slice(0,4))); }
-  /* 大三下美國路線（AA 2026-11-10 23:4x）：三個選項任選 → KX_KHH.Y3S yes → 暑假她回高雄第 3 天 21:00「七月你空哪天。」會發 */
+  /* 大三下美國路線（AA 2026-11-10 23:4x）：三個選項任選 → KX_KHH.Y3S yes → 暑假她回高雄第 3 天 21:00 那一則會發（AA_942 ④ 改字：「這兩個禮拜，你空哪天。」）*/
   { const bad=[]; TERMEND.SHUFFLE=false;
     try{ for(let i=0;i<3;i++){ fresh('2028-06-17',18,{EXCHANGE_ROUTE:'US'}); const usOn=TERMEND_LINES.COND.US(H.G); H.said=[]; H.opts=[]; H.picks=[i]; await TERMEND.kexinDinner(GM,{term:'Y3S2'});
         const khh=(H.G.flags.KX_KHH||{}).Y3S, R=homeRun('2028-06-18','2028-08-31'); let m3=[];
         if(R){ H.at(keyOf(R.a+2),21.1); ph(); m3=th().filter(m=>m.tag==='kxkhh_d3_Y3S').map(m=>m.text); }
-        if(!usOn||H.opts.length!==1||H.opts[0].length!==3||khh!=='yes'||!R||R.key!=='Y3S'||J(m3)!==J(['七月你空哪天。'])) bad.push([i,usOn,H.opts[0],khh,R&&R.key,m3]); } } finally{ TERMEND.SHUFFLE=k0; }
-    check('1. 大三下美國路線：三個選項任選一個 → KX_KHH.Y3S 記 yes → 暑假她回高雄第 3 天 21:00「七月你空哪天。」照舊發',bad.length===0,J(bad.slice(0,2))); }
+        if(!usOn||H.opts.length!==1||H.opts[0].length!==3||khh!=='yes'||!R||R.key!=='Y3S'||J(m3)!==J(['這兩個禮拜，你空哪天。'])) bad.push([i,usOn,H.opts[0],khh,R&&R.key,m3]); } } finally{ TERMEND.SHUFFLE=k0; }
+    check('1. 大三下美國路線：三個選項任選一個 → KX_KHH.Y3S 記 yes → 暑假她回高雄第 3 天 21:00「這兩個禮拜，你空哪天。」照舊發（AA_942 ④：原本「七月你空哪天。」，她 7/2 就回臺北了）',bad.length===0,J(bad.slice(0,2))); }
   { fresh('2029-12-20',18); H.said=[]; H.opts=[]; H.picks=[2]; await TERMEND.kexinDinner(GM,{term:'Y5S1'}); const F=H.G.flags; const real=typeof PGDATE!=='undefined'?PGDATE.kxList:null, day=D('2030-02-16');
     if(typeof PGDATE==='undefined') globalThis.PGDATE={}; PGDATE.kxList=()=>[{kind:'call',day}];
     try{ H.at('2030-02-16',22.1); ph(); check('1. 大五上選第三個「妳比我早。」→ 受訓第一個週六 22:00「打給可昕」提醒照舊',F.KX_Y5_CALL==='sat'&&(H.G.msgs||[]).some(x=>x.tag==='kxkhh_y5_call'&&x.text==='打給可昕'),J([F.KX_Y5_CALL,(H.G.msgs||[]).slice(-2)])); } finally{ if(real) PGDATE.kxList=real; else delete PGDATE.kxList; } }
@@ -88,6 +89,9 @@ await sec(3,async()=>{ fresh('2027-01-01',12,{KX_KHH:{Y2W:'yes'}}); const R=home
   const q={id:'hv_kexin_t',ev:'ev_hv_kx',day:H.G.day,h:10,hv:{id:KX,key:KX}}; H.said=[]; H.opts=[]; H.picks=[0,0,0,0]; await HV.play(GM,q);
   check('3. 答應過的那一次寒暑假，第一次去：接人之後多「夜市晚上才有。白天先帶你去別的地方。」',has('夜市晚上才有。白天先帶你去別的地方。'),J(H.said.map(x=>x.t).slice(0,6)));
   H.said=[]; H.picks=[0,0,0,0]; await HV.play(GM,q); check('3. 第二次去：沒有那一句',!has('夜市晚上才有。白天先帶你去別的地方。')); });
+/* ---- AA_942 ④：第 3 天那則 Y3W 改字，其他照留 ---- */
+await sec(3,()=>{ const M=X().MSG3, G0={flags:{EXCHANGE_ROUTE:'TW'}};
+  check('3b. AA_942 ④：Y3W「我帶你去走走。你來就好。」（原本「我排好了。」）；Y3S 臺灣路線「一次就好。……可是要來。」、Y4W「兩個位子我占好了。」照留',J(M.Y3W(G0))===J(['我帶你去走走。你來就好。'])&&J(M.Y3S(G0))===J(['一次就好。……可是要來。'])&&J(M.Y4W(G0))===J(['兩個位子我占好了。']),J([M.Y3W(G0),M.Y3S(G0),M.Y4W(G0)])); });
 /* ---- 4 ---- */
 await sec(4,()=>{ fresh('2030-02-01',12,{KX_Y5_CALL:'sat'}); const real=typeof PGDATE!=='undefined'?PGDATE.kxList:null; const day=D('2030-02-16');
   globalThis.PGDATE=Object.assign(globalThis.PGDATE||{},{kxList:()=>[{kind:'meet',day:day-7},{kind:'call',day,h:22}]});

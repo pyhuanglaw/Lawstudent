@@ -19,8 +19,8 @@ const KXKHH=(function(){
   /* 她這一段在高雄：{a 第一天, b 最後一天, key} */
   S.run=function(G,day){ if(day==null) day=G.day; if(!home(G,day)) return null; let a=day, b=day; while(a>day-90&&home(G,a-1)) a--; while(b<day+90&&home(G,b+1)) b++;
     const d=CALENDAR.dateOf(a), Y=d.y-2025; let key=null; if(d.m<=2) key='Y'+Y+'W'; else if(d.m===12) key='Y'+(Y+1)+'W'; else if(d.m>=6&&d.m<=9) key='Y'+Y+'S';   /* 十二月底就回高雄的＝下一年一月那個寒假 */ return key?{a,b,key}:null; };
-  S.MSG3={Y2W:G=>['夜市週二、週五才有。','你說要來的。'],Y2S:G=>C10(G)?['你哪天出發？出發前那個禮拜，選一天。']:['這次待到晚上。你說的。'],Y3W:G=>['我排好了。你來就好。'],
-    Y3S:G=>US(G)?['七月你空哪天。']:['一次就好。……可是要來。'],Y4W:G=>['兩個位子我占好了。']};
+  S.MSG3={Y2W:G=>['夜市週二、週五才有。','你說要來的。'],Y2S:G=>C10(G)?['你哪天出發？出發前那個禮拜，選一天。']:['這次待到晚上。你說的。'],Y3W:G=>['我帶你去走走。你來就好。'],
+    Y3S:G=>US(G)?['這兩個禮拜，你空哪天。']:['一次就好。……可是要來。'],Y4W:G=>['兩個位子我占好了。']};   /* AA_942 ④（2026-11-13）：Y3S 美國路線「七月你空哪天。」→「這兩個禮拜，你空哪天。」（她 7/2 就回臺北了）、Y3W「我排好了。」→「我帶你去走走。」（排表口氣，UA-AA-1112-15）*/
   S.PICK={Y2W:G=>'夜市晚上才有。白天先帶你去別的地方。',Y2S:G=>C10(G)?null:'末班高鐵十點半。我查過了。',Y3W:G=>'今天去的地方，我也沒去過。',Y4W:G=>'位子在三樓靠窗。你的筆記帶了吧。'};
   const visited=(G,R)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.ev==='ev_hv_kx'&&q.state==='done'&&q.day>=R.a&&q.day<=R.b);
   S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; const F=G.flags, KH=F.KX_KHH||{};

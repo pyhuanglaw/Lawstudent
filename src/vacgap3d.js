@@ -173,10 +173,12 @@ const VACGAP=(function(){
   /* ================= 第五批：AA_935 ①（可昕 7/2 起整個暑假在臺北：characters.js presence.homeWin）＋AA_930 第 1、3、4 節 =================
      週二、四白天約她（7/4～8/31，交往中）：她在實習（到五點），回 internAsk 那兩句輪流、改到五點以後（INV.personal 包一層；記 KX_INTERN_ASK_N）。
      ev_kexin_trip_summer_y3（第 3 節；交往中、兩個人那兩天都在臺灣）：TW、US 7/11 21:00 她傳 → 「好。」＝7/15 08:00 宿舍樓下出發（路上、旅館雙床房一晚、7/16 回程）、
-       「那兩天不行。」或到 7/14 21:00 還不回＝KX_TRIP.Y3SUM 'missed'（照 BB_107 改期到下一個假期：她那句「好。那下個假期。」）；JP 8/8 21:00 → 8/12～8/13。演完記 KX_TRIP.Y3SUM 'trip'。
-     ev_kexin_reunion_jp（第 4 節；日本路線、交往中）：8/6（回國隔天）16:30 河堤（稿沒有她約的那則訊息：直接排進行程，交 LAWWW／AA）；演完記 KX_REUNION_JP。
-     沒接的（交 LAWWW／AA）：第 5 節七夕 ev_kexin_qixi_y3——2028 的七夕本體只有高雄港那一版（fest_events.js，BB_124 原本的外校後山 D158 已拿掉），她在臺北那一晚的場景、
-       約的訊息稿上沒有；回程那一句、和芷若撞期的照片接在本體上，本體有了才接。*/
+       「那兩天不行。」或到 7/14 21:00 還不回＝KX_TRIP.Y3SUM 'missed'（照 BB_107 改期到下一個假期：她那句「好。那下個假期。」）；JP（AA_942 ③：讓芷若 8/12 的信封）8/15（二）21:00 → 8/19（六）08:00～8/20（日）。演完記 KX_TRIP.Y3SUM 'trip'。
+     ev_kexin_reunion_jp（第 4 節；日本路線、交往中）：8/6（回國隔天）16:30 河堤；AA_942 ⑤ 補她約的訊息 8/6 10:00「下午四點半，河堤。我先到。」；演完記 KX_REUNION_JP。
+     ev_kexin_qixi_y3（AA_942 ①，取代 AA_930 第 5 節的「照 BB_124」；台灣、日本路線、交往中）：8/24（四）21:00 她傳兩則（好／那天不行；不回＝不行）→ 好＝8/26（六）20:00 宿舍樓下出發、
+       開車上陽明山（D15 的背景 d15_base_night）；第一次和她去 D15 的先播心願事件（WISH.due／WISH.scene，BB_124 第 77 行）；五段＋回程那一句；記 KX_QIXI_Y3。
+       那天不行＝不演、也不補。和芷若撞期（她交往中、或 8/26 有芷若那一場）而且沒去可昕這邊＝可昕 22:00 傳一張照片，不加字（AA_930 第 5 節）。
+       2028 的七夕在 r2y3a3d.js S.QIXI 算「另外處理」（fest3d.js 不另外排）；美國路線照 us_life3d.js 的視訊。*/
   S.Y3S_INTERN={from:'2028-07-04',to:'2028-08-31',wd:[2,4],end:17};
   S.internOn=function(G,id,day,h,stay){ if(id!=='kexin'||!L||!L.kxY3S||!law(G)||!S.dating(G,'kexin')) return false; const I=S.Y3S_INTERN, a=DK(I.from), b=DK(I.to); if(a==null||b==null||day<a||day>b) return false;
     const wd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(day).wd%7:null; if(!I.wd.includes(wd)) return false; const x=((h%24)+24)%24; if(x>=I.end||x+(stay||1)<=9) return false;   /* 白天＝那一段和 9:00～17:00 重疊 */
@@ -187,7 +189,7 @@ const VACGAP=(function(){
           const alt=INV.nextFree?INV.nextFree(G,id,P,day,S.Y3S_INTERN.end):null; return Object.assign({},out,{res:'resched',why:'busy',act:'intern',lines:[A[n%A.length]],alt}); } }catch(e){ console.warn('VACGAP.intern',e); }
       return out; },p0,{_vacgap:true}); };
   /* ---------- 開車旅行 ---------- */
-  S.TRIP_Y3S={TW:{ask:'2028-07-11',d1:'2028-07-15',d2:'2028-07-16'},US:{ask:'2028-07-11',d1:'2028-07-15',d2:'2028-07-16'},JP:{ask:'2028-08-08',d1:'2028-08-12',d2:'2028-08-13'}};
+  S.TRIP_Y3S={TW:{ask:'2028-07-11',d1:'2028-07-15',d2:'2028-07-16'},US:{ask:'2028-07-11',d1:'2028-07-15',d2:'2028-07-16'},JP:{ask:'2028-08-15',d1:'2028-08-19',d2:'2028-08-20'}};   /* AA_942 ③：日本路線改 8/15 → 8/19～8/20（芷若信封照 8/11 傳、8/12 演）*/
   const route=G=>(typeof STORY!=='undefined'&&STORY.route&&STORY.route(G))||'TW';
   const abroadOn=(G,d)=>typeof STORY!=='undefined'&&!!STORY.abroad&&STORY.abroad(Object.assign({},G,{day:d}));
   const kxHere=(G,d)=>typeof STORY==='undefined'||!STORY.presence||!!STORY.presence('kexin',Object.assign({},G,{day:d})).here;
@@ -204,11 +206,34 @@ const VACGAP=(function(){
     if(F.KX_TRIP_Y3S==='yes'&&!outGet(G,'kx_trip_y3s')&&now<T(X.d1,8.5)&&typeof OUT!=='undefined'&&OUT.plan)
       OUT.plan(G,{id:'kx_trip_y3s',ev:'ev_kexin_trip_summer_y3',day:X.d1,h:8,late:0.5,place:'女生宿舍樓下',title:'開車旅行（兩天一夜）',travel:'開車到宿舍樓下接她',travelH:40/60,back:'送她回宿舍，再把車開回家。',alarm:true}); };
   /* ---------- 日本路線回國隔天的重逢 ---------- */
-  S.REUNION_JP={day:'2028-08-06',h:16.5};
+  S.REUNION_JP={day:'2028-08-06',h:16.5,msgH:10};   /* AA_942 ⑤：10:00 她傳約的那一則 */
   S.kxReunion=function(G){ if(!L||!L.kxY3S||!L.kxY3S.reunionJp||route(G)!=='JP'||!S.dating(G,'kexin')||flags(G).KX_REUNION_JP||typeof OUT==='undefined'||!OUT.plan) return; const d=DK(S.REUNION_JP.day); if(d==null||G.day<d-1||G.day>d) return;
     if(abroadOn(G,d)||!kxHere(G,d)||outGet(G,'kx_reunion_jp')||T(G.day,G.hour)>=T(d,S.REUNION_JP.h)) return;
     OUT.plan(G,{id:'kx_reunion_jp',ev:'ev_kexin_reunion_jp',day:d,h:S.REUNION_JP.h,late:1,place:'河堤',title:'河堤（可昕）',travel:'走過去約 20 分鐘',travelH:1/3,back:'回到宿舍。'}); };
-  { const p3=S.phone; S.phone=function(G){ p3(G); if(!law(G)||typeof PHONE==='undefined'||!L) return; S.hookInv(); S.kxTrip(G); S.kxReunion(G); }; }
+  /* AA_942 ⑤：重逢排好了＝8/6 10:00 她傳一則（16:30 以前；已經排好、還沒演）*/
+  S.kxReunionMsg=function(G){ const R=L&&L.kxY3S&&L.kxY3S.reunionJp; if(!R||!R.msg||route(G)!=='JP'||!S.dating(G,'kexin')||flags(G).KX_REUNION_JP) return; const d=DK(S.REUNION_JP.day), tag='msg_kx_reunion_jp';
+    if(d==null||G.day!==d||T(G.day,G.hour)<T(d,S.REUNION_JP.msgH)||T(G.day,G.hour)>=T(d,S.REUNION_JP.h)||PHONE.sent(G,tag)) return; const q=outGet(G,'kx_reunion_jp'); if(!q||q.state!=='planned') return;
+    PHONE.at(G,d,S.REUNION_JP.msgH,[KXm(R.msg)],tag); };
+  /* ---------- AA_942 ①：2028 七夕（台灣、日本路線；交往中）---------- */
+  S.QIXI_Y3={ask:'2028-08-24',day:'2028-08-26',h:20,photoH:22};
+  S.qixiDays=G=>({ask:DK(S.QIXI_Y3.ask),d:DK(S.QIXI_Y3.day)});
+  /* 和芷若撞期、玩家選了芷若那一邊：她交往中，或 8/26 排了／演了芷若那一場（zr_last3d.js 的出國前最後一場、fest3d.js 芷若的七夕）*/
+  S.zrSide=function(G){ const F=flags(G); if(F.dating_heroine_02===true||F.ZR_LAST_GO===true||F.ZR_LAST==='wait'||F.ZR_LAST==='keep') return true;
+    return ['zr_last_screening','fest_heroine_02_qixi_2028'].some(id=>{ const q=outGet(G,id); return !!q&&q.state!=='missed'; }); };
+  S.kxQixi=function(G){ const Q=L&&L.kxY3S&&L.kxY3S.qixi; if(!Q||!S.dating(G,'kexin')||route(G)==='US'||typeof PHONE==='undefined') return; const X=S.qixiDays(G); if(X.ask==null||X.d==null||G.day<X.ask||G.day>X.d+1) return;
+    const F=flags(G), now=T(G.day,G.hour), tag='msg_kx_qixi_y3';
+    if(!PHONE.sent(G,tag)){ if(F.KX_QIXI_Y3||now<T(X.ask,21)||G.day>X.ask+1||abroadOn(G,X.d)||!kxHere(G,X.d)) return; const M=Q.ask.map(KXm);
+      M[M.length-1].ask={id:tag,until:T(X.d-1,21),opts:Q.askOpts.map((t,i)=>({t,set:{KX_QIXI_Y3_ASK:i===0?'yes':'no'}}))}; PHONE.at(G,X.ask,21,M,tag); return; }   /* 回覆照一般邀約：好／那天不行（稿上她不回字）*/
+    const m=PHONE.byAsk?PHONE.byAsk(G,tag):null; if(m&&m.ans==null&&now>=T(X.d-1,21)&&F.KX_QIXI_Y3_ASK==null) F.KX_QIXI_Y3_ASK='no';   /* 不回＝那天不行（不演，也不補）*/
+    if(F.KX_QIXI_Y3_ASK==='yes'&&!F.KX_QIXI_Y3&&!outGet(G,'kx_qixi_y3')&&now<T(X.d,S.QIXI_Y3.h+0.5)&&typeof OUT!=='undefined'&&OUT.plan)
+      OUT.plan(G,{id:'kx_qixi_y3',ev:'ev_kexin_qixi_y3',day:X.d,h:S.QIXI_Y3.h,late:0.5,place:'女生宿舍樓下',car:true,title:'七夕（開車上陽明山）',travel:'開車到宿舍樓下接她',travelH:40/60,back:'送她回宿舍，再把車開回家。',alarm:true});
+    /* 撞期選了芷若（沒去可昕這邊）：22:00 一張照片，不加字 */
+    const q=outGet(G,'kx_qixi_y3'), went=F.KX_QIXI_Y3===true||(!!q&&(q.state==='done'||!!q.arrived));
+    if(!went&&now>=T(X.d,S.QIXI_Y3.photoH)&&G.day<=X.d+1&&!PHONE.sent(G,'msg_kx_qixi_y3_photo')&&S.zrSide(G)) PHONE.at(G,X.d,S.QIXI_Y3.photoH,[KXm(Q.photo)],'msg_kx_qixi_y3_photo'); };
+  /* 第一次和她去 D15＝先播心願事件（BB_124 第 77 行；WISH.due 照 DATE_WISH 的心願地點判斷），節日那一段接在心願收尾後面 */
+  S.qixiWish=async function(GM){ const G=GM&&GM.G; if(!G||typeof WISH==='undefined'||!WISH.due||!WISH.scene) return false; const t={who:'kexin',locs:['D15'],day:G.day,depart:S.QIXI_Y3.h,back:23,transport:'car',kind:'eve',by:'her'};
+    try{ if(!WISH.due(G,t)) return false; await WISH.scene(GM,null,t); return true; }catch(e){ console.warn('VACGAP.qixiWish',e); return false; } };
+  { const p3=S.phone; S.phone=function(G){ p3(G); if(!law(G)||typeof PHONE==='undefined'||!L) return; S.hookInv(); S.kxTrip(G); S.kxReunion(G); S.kxReunionMsg(G); S.kxQixi(G); }; }
   /* 事件（台詞＝VACGAP_LINES.kxY3S，一字照 AA_930）*/
   const KL=x=>x.n?{speaker:null,text:x.n}:{speaker:'kexin',text:x.s};
   const toH=h=>G=>{ const x=hh(G); return h>x?h-x+1e-6:0; };
@@ -225,6 +250,13 @@ const VACGAP=(function(){
         dialogue:[ {scene:'河堤',bg:'riverside'}, ...R.pre.map(KL), {choice:R.opts.map((o,i)=>({text:o.t,goto:'rj'+i}))}, ...[].concat(...R.opts.map((o,i)=>[{label:'rj'+i},...o.say.map(KL),{goto:'rje'}])),
           {label:'rje'}, ...R.end.map(KL) ],
         after:G=>{ flags(G).KX_REUNION_JP=true; } } ); }
+  if(L&&L.kxY3S&&L.kxY3S.qixi){ const Q=L.kxY3S.qixi;
+    S.EVENTS.push(
+      { id:'ev_kexin_qixi_y3', title:'七夕（開車上陽明山）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'d15_base_night', hours:3, stage:'law',
+        dialogue:[ {call:async(G,GM)=>{ await S.qixiWish(GM); }},
+          {scene:'陽明山',bg:'d15_base_night'}, ...Q.pre.map(KL), {choice:Q.opts.map((o,i)=>({text:o.t,goto:'qx'+i}))}, ...[].concat(...Q.opts.map((o,i)=>[{label:'qx'+i},...o.say.map(KL),{goto:'qxe'}])),
+          {label:'qxe'}, ...Q.mid.map(KL), {scene:'車上',bg:'car'}, ...Q.back.map(KL) ],
+        after:G=>{ flags(G).KX_QIXI_Y3=true; } } ); }
   S.hookVac=function(){ if(typeof VAC==='undefined'||typeof VAC.key!=='function'||VAC.key._vacgap) return; const k0=VAC.key;
     VAC.key=Object.assign(async function(GM,k,I){ const r=await k0.apply(this,arguments); try{ await S.examMeet(GM,k,I); }catch(e){ console.warn('VACGAP.examMeet',e); } return r; },{_vacgap:true}); };
   S.sisTipDue=function(G){ if(!L||!law(G)||bkey(G)!=='Y2S'||(G.flags&&G.flags.SIS_TOEFL_TIP)) return false; if(!/^(library|lawlib)/.test(G.zone||'')) return false; if(S.level(G,'heroine_05')<1) return false;

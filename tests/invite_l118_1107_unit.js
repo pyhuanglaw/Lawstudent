@@ -43,5 +43,8 @@ const dayOfWd=(G,wd)=>{ for(let d=G.day;d<G.day+7;d++) if(CALENDAR.dateOf(d).wd%
     const iv=INV.accept(G,id,'l118_dian',G.day,12,{by:'player'}); const n={id,charId:id,obj:{position:{x:1,y:0,z:0},rotation:{y:0}},beh:'idle',pose:'idle',lv:0}; GM.npc[id]=n; E.npcs.push(n);
     await INV.meet(GM,iv,n,{}); const fa=INVITE_PLACE_LINES.places.l118_dian[id].firstAt;
     check('5. 118牛排（l118_dian）吃飯那一場：第一次那一句有演、時間照 stay、記成吃過飯',fa.every(t=>H.said.some(s=>s.t===t))&&iv.state==='done',J({said:H.said.map(s=>s.t),st:iv.state})); }
+  { /* AA_942 ⑥（企劃線 72ab8199aa 重匯）：夜市牛排（稿寫 l118_omu；AA_721 裡那兩句在 l118_dian＝118牛排，店改版後的 key）可昕答應句拿掉「你們」、第一次第二句源稿已改回「高雄」——canon897_fix 臨時那一對拿掉以後，遊戲裡照樣是「高雄」、沒有代號 */
+    const K=INVITE_PLACE_LINES.places.l118_dian.kexin, fx=fs.readFileSync(path.join(H.ROOT,'tools/story/canon897_fix.json'),'utf8'), fxj=JSON.parse(fx), raw=fs.readFileSync(path.join(H.ROOT,'src/data/invite_place_lines.js'),'utf8');
+    check('6. AA_942 ⑥：118牛排（l118_dian）可昕 acc「牛排？學校附近的店，我都還沒吃完。好。」、firstAt 第二句「……高雄沒有這種的。」；canon897_fix 沒有那一對、產生的檔沒有代號',J(K.acc)===J(['牛排？學校附近的店，我都還沒吃完。好。'])&&K.firstAt[1]==='……高雄沒有這種的。'&&!JSON.stringify(fxj).includes('\u5916\u6821\u6c92\u6709')&&!/\u5916\u6821/.test(raw)&&/AA_721_l118_invite_acc\.json@72ab8199aa/.test(INVITE_PLACE_LINES.src2),J(K)); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });
