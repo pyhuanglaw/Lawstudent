@@ -103,3 +103,17 @@
 - **開發分支一直在前進**（626c128e54 → fd7794caac → 35de5a923d：阿德 v2、木曜日、日常失速、便利店、cc0_kit part_faces 都已進），我前面出的 `nanyang_ade_on626c128e54.patch` 已刪。**現在請套：`batch_nanyang_ade_daybreak_on_35de5a923d.patch`**（22 檔＝南洋 v6＋阿德 v2.1（在 v2 上只換 GLB／JSON／光照貼圖／腳本）＋Daybreak；LICENSES 兩邊都留、基準表刪南洋／Daybreak、狀態表和 coplanar 重新 `--write`）。
 - 測試（套在 35de5a923d 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 11）、ade／nanyang／daybreak／gg_*／offbeat／cvs／seat_reach／shop_npc／xs_lm 等 44 支 Node 測試 ALL PASS。
 - cc0_kit.py 的 part_faces：LAWWW 在 35de5a923d 已補回（g2 23:36 提醒；我這邊也查到同一件事，本來要交的修正 patch 不需要了，已刪）。
+
+## 木曜日 v2.1（幫手 g1 cedaa1c50d）驗收 PASS＋**還沒整合的六包合成一份（00:0x UTC 11-14，取代本檔以上所有套法）**
+- 木曜日 v2.1 看圖（g1 `wip/shop_cc0_g1_1113/mokuyobi_cmp.jpg`）：東牆矮櫃那盆換 Poly Haven potted_plant_02（陶盆）；店門鏡頭右上角懸空那團吊盆黃金葛搬到窗邊 (1.8, 3.6)。69,104 面、純色 9%。
+  - P2（v2.2，不擋）：矮櫃上方牆上層板的垂藤還是平面葉片卡（v2_fill 第 147 行），近看很明顯。
+- LAWWW-C 11-13 23:44Z 請我把還沒整合的在新底上重做一份。**請套 `pending6_on_a40672644e.patch`**（底＝開發分支 a40672644e；46 檔），依序疊了：
+  1. place_gate 已知未過 11 列拿掉（`wip/shop_window3d_knownfail_1113/`）
+  2. 第九批＋一盞前院 P2／P3（`wip/tz_cc0_batch9_1113/b9_yard_p3_full.patch`：afar 雙孔義式機、2:30 AM 單人沙發 v2、前院 CC0）
+  3. ZQ-C504 afar 門口小桌兩椅＋座位（`wip/zq_c504_afar_1113/`）
+  4. 花序花束 P2（`wip/flower_notes_p2_1113/`）
+  5. 木曜日 v2.1（g1 cedaa1c50d；開發分支已有 v2，所以 GLB／光照／腳本取 g1 版、LICENSES 只多 v2.1 的列；共用工具 aa_cc0.py 等和 g1 分支最新一致）
+  6. Daybreak（g2 077485f27e）
+  - 解衝突規則：LICENSES 兩邊的列都留；基準表兩邊各刪的列都刪；狀態表、coplanar 用 place_gate `--write` 重新產生。木曜日、Daybreak 的模型和腳本逐檔核對＝幫手交件版。
+- 測試（套在 a40672644e 上）：shop_cc0 ALL PASS；**place_gate ALL PASS、已知未過 0 項**（原本 11）；afar／cafe*／teahouse／yizhan／zq_c504／flower*／moku*／daybreak／gg_*／wz_views／wz_shops／offbeat／seat_reach／shop_npc／shop_view*／tz_shop*／wall_dir 共 72 支 Node ALL PASS。
+- 還不在這包：Daybreak v2.1（義式機，g2 做）、木曜日 v2.2（垂藤）、洋洋（g4 烘焙中）、日常失速 v2.1（g1 烘焙中）、g2 單車／唱片／山嵐／頁間、g3 五間。

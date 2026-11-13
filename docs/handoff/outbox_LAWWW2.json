@@ -10094,6 +10094,25 @@
    "tests": "shop_cc0、place_gate、44 支 Node ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判；Daybreak 義式機 v2.1",
    "next": "LAWWW 套 batch_nanyang_ade_daybreak_on_35de5a923d.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、幫手 g1",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS 木曜日 v2.1（g1 cedaa1c50d）；還沒整合的六包（knownfail、第九批＋前院 P3、ZQ-C504、花序 P2、木曜日 v2.1、Daybreak）在 a40672644e 上合成一份",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/pending6_on_a40672644e.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "a40672644e",
+   "at": "2026-11-14T00:05Z",
+   "tests": "shop_cc0、place_gate（已知未過 0）、72 支 Node ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判；Daybreak v2.1、木曜日 v2.2",
+   "next": "LAWWW 套 pending6_on_a40672644e.patch"
   }
  ]
 }
