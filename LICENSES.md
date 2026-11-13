@@ -134,9 +134,14 @@
 | `cardboard_box_01` | 層架頂層、後牆前的紙箱（大小、角度不一樣） | 約 17,000 → 1,000 面 | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112 v2；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
 | `book_encyclopedia_set_01` | 層架上一排排精裝裝訂本 | 約 135,000 → 2,000 面 | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112 v2；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
 | `vintage_stapler` | 櫃台上的釘書機 | 約 8,700 → 1,750 面 | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112 v2；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
+| `metal_stool_02` | 櫃台前兩張金屬圓凳（模型沒有顏色貼圖，套 CC0 黑鐵材質組） | 6,532 → 約 1,000 面 | `assets/models/env/second_ai/tz_liantong_interior.glb`（汀州路汀州聯通店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop liantong`，光照 `lightbake/bake_tz_shops.sh liantong`） |
+| `desk_lamp_arm_01` | 維修台的檯燈（燈臂、燈罩的顏色換成 CC0 黑鐵、白塑膠材質組） | 24,102 → 約 1,450 面 | `assets/models/env/second_ai/tz_liantong_interior.glb`（汀州路汀州聯通店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop liantong`，光照 `lightbake/bake_tz_shops.sh liantong`） |
+| `potted_plant_02` | 櫃台左端一小盆（作者 Rico Cilliers） | 69,806 → 約 2,800 面 | `assets/models/env/second_ai/tz_liantong_interior.glb`（汀州路汀州聯通店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop liantong`，光照 `lightbake/bake_tz_shops.sh liantong`） |
 | `wooden_stool_01` | 圓木凳 16 張 | 約 5,500 → 1,100 面 | `assets/models/env/second_ai/tz_keju_interior.glb`（汀州路客居雲南店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop keju`，光照 `lightbake/bake_tz_shops.sh keju`） |
 | `ceramic_pot` | 砂鍋 13 個（顏色貼圖上成砂鍋的深褐） | 約 2,200 → 550 面 | `assets/models/env/second_ai/tz_keju_interior.glb`（汀州路客居雲南店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop keju`，光照 `lightbake/bake_tz_shops.sh keju`） |
 | `potted_plant_01` | 落地盆栽（作者 Rico Cilliers） | 176,226 → 約 3,900 面 | `assets/models/env/second_ai/tz_keju_interior.glb`（汀州路客居雲南店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop keju`，光照 `lightbake/bake_tz_shops.sh keju`） |
+| `potted_plant_01` | 門邊落地盆栽（作者 Rico Cilliers） | 176,226 → 約 2,100 面 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
+| `fern_02` | 窗台小盆三個（作者 Rob Tuytel、Rico Cilliers） | 6,232 → 約 500 面 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -166,8 +171,15 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Paper001` | （同上） | 影印紙包裝紙（粉紅、淺藍、淺黃三色；底色、白標籤、條紋是本作自己畫的，紙的紋理用 Paper001） | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
 | `Fabric036` | （同上） | 後牆布簾 | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
 | `Plaster001` | （同上） | 天花板、管線（校成 #eef0ef；牆照舊乾淨的平塗） | `assets/models/env/second_ai/tz_yindehao_interior.glb`（汀州路印得好影印店店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`，光照 `lightbake/bake_tz_shops.sh yindehao`） |
+| `Plastic006` | （同上） | 櫃子、溝槽板、櫃台、盒子（白）；圓凳、螢幕（深灰）；招牌藍的腰線、櫃台正面（藍） | `assets/models/env/second_ai/tz_liantong_interior.glb`（汀州路汀州聯通店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop liantong`，光照 `lightbake/bake_tz_shops.sh liantong`） |
+| `Metal009` | （同上） | 鋁框、展示櫃框、鉻柱、圓凳底座（不鏽鋼色） | `assets/models/env/second_ai/tz_liantong_interior.glb`（汀州路汀州聯通店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop liantong`，光照 `lightbake/bake_tz_shops.sh liantong`） |
 | `Metal009` | （同上） | 廚房不鏽鋼、吊燈線、軌道燈（不鏽鋼色／黑鐵色） | `assets/models/env/second_ai/tz_keju_interior.glb`（汀州路客居雲南店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop keju`，光照 `lightbake/bake_tz_shops.sh keju`） |
 | `Tiles036` | （同上） | 廚房後牆白磁磚 | `assets/models/env/second_ai/tz_keju_interior.glb`（汀州路客居雲南店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop keju`，光照 `lightbake/bake_tz_shops.sh keju`） |
+| `Wicker010A` | （同上） | 櫃台正面的竹條、斗笠、藤編吊燈 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
+| `Fabric036` | （同上） | 會安燈籠的絲布（照每盞燈籠的顏色上色）、牆上那幅和隔間門簾的藍染印花布（自畫花紋×這張布紋，v2） | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
+| `Cardboard001` | （同上） | 外帶紙袋 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
+| `Tiles036` | （同上） | 廚房後牆白磁磚 | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
+| `Metal009` | （同上） | 廚房不鏽鋼、軌道燈、冰箱層架（不鏽鋼色／黑鐵色） | `assets/models/env/second_ai/tz_yuehaochi_interior.glb`（汀州路越好吃店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop yuehaochi`，光照 `lightbake/bake_tz_shops.sh yuehaochi`） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 

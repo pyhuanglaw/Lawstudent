@@ -55,7 +55,7 @@ liantong)
   NOLM='lightpanel|_vc|_vcm|labels'
   COL=${LCOL:-0.96,0.98,1.0}
   for xx in -1.0 1.0; do for zz in -2.4 0.0 2.3; do
-    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$xx-0.01:.3f},{$xx+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-26},1.16,0.16,$COL')")"; done; done
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$xx-0.01:.3f},{$xx+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-21},1.16,0.16,$COL')")"; done; done
   PT="1.5,1.6,0.05,${FILLW:-8},$COL,0.3"
   SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.97,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
 dongnan)
