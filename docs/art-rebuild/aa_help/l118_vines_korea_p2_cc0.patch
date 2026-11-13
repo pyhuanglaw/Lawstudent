@@ -102073,7 +102073,7 @@ index dc7322408d..6ac40f8f5b 100644
          c.extra['ceil_vc'] = K.Route(CMesh(f'CEIL_l118_{sid}_vcrest', M['vc']), {col: (lambda k=k: mx(k, f'CEIL_l118_{sid}_vc' if k == 'plastic_w' else f'CEIL_l118_{sid}_{k}')) for col, k in R.items()})   # 燈盤框（白）照舊叫 CEIL_…_vc（測試、ceilHide 照名字找）
      _wg = c.wg; cc0mats = set(MX.values()) | {M['ceil'], M['kceil']}
 diff --git a/tools/blender/env_second/lightbake/bake_l118_shops.sh b/tools/blender/env_second/lightbake/bake_l118_shops.sh
-index 9635b4eb3a..4e8a95aa6e 100644
+index 9635b4eb3a..48f1ab36f0 100644
 --- a/tools/blender/env_second/lightbake/bake_l118_shops.sh
 +++ b/tools/blender/env_second/lightbake/bake_l118_shops.sh
 @@ -21,7 +21,7 @@ self)
@@ -102112,12 +102112,3 @@ index 9635b4eb3a..4e8a95aa6e 100644
    COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
    for z in 2.3 0.2 -1.9; do LIGHTS="$LIGHTS;$(python3 -c "print(f'-0.510,-0.490,{$z-0.01:.3f},{$z+0.01:.3f},3.1,1,1,${TUBEW:-18},0.05,1.0,$COL')")"; done
    LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-3.510,-3.490,3.1,1,1,${TUBEW:-18},1.0,0.05,$COL')")"
-@@ -74,7 +74,7 @@ cafe2)
-   #   現在交的是沒烘的版本：烘了 GLB 會變 3.7 MB，超過 tests/l118_int_home_cafe2_1111_unit.js 第 5 項「舊版 1.5 倍以內」（AA-C 11-13；預算要不要放寬由 BB 定）
-   BUILDER=l118_int_cafe2.py
-   HIDE='glass|GLOW_|view'
--  NOLM='_vc$|ph_potted|prints|screens|printfree|iprint'
-+  NOLM='_vc$|ph_potted|ph_fern|prints|screens|printfree|iprint'
-   COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
-   for xz in "-1.5 -2.4" "1.5 -2.4" "-1.5 -0.3" "1.5 -0.3" "-1.5 1.8" "1.5 1.8" "0.0 3.6"; do set -- $xz
-     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.1,1,1,${TUBEW:-34},1.2,0.25,$COL')")"; done
