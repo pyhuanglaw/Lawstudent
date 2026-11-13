@@ -1,7 +1,7 @@
 """CC-C 11-14：包住 tests/ 的一支（不改原檔，tests/ 歸 LAWWW）——讀原檔、照 PATCH 換幾行、用原檔的路徑執行（playlib 照原樣 import）。判定歸 BB。
 CC_02 清單 2026-11-14：1n/a（日期照原檔） 2✓（換的那幾行先確認原檔裡剛好出現一次，對不到＝FAIL_SETUP 不跑） 3n/a（原檔的判定不動） 4n/a（原檔的判定不動） 5n/a（照原檔） 6n/a（等待照原檔） 7✓（lint） 8✓（多印的只記不判） 9✓（多印的寫進原檔的 run.note） 10n/a（事件和手機照原檔） 11✓（SHA 40 碼、ENV 沒有「;」「|」） 12✓（FAIL_SETUP：原檔找得到、每個替換點剛好一次；live 另外查舊版開局 stage 不是 econ） 13n/a（不走路）
 PATCH：
-  live         save_compat_v95.py：舊版網址照 BB-C 21:02 ③ 用「?start0&turbo」開（原檔是 V95+'?turbo'）；開完新遊戲先查 GAME.G.stage 不是 econ（舊序章年），是＝FAIL_SETUP 停。
+  live         save_compat_v95.py：舊版網址照 BB-C 21:02 ③ 用「?start0&turbo」開（原檔是 V95+'?turbo'）；開完新遊戲先查 GAME.G.stage 不是 econ（舊序章年），是＝FAIL_SETUP 停；same() 每次都印哪些鍵不一樣（BB-C 21:35）。
   ladder_diag  flow_ladder_y1s2.py：每個時段讀檔以後（找人之前）印 GAME.npc 每個 id、STORY.ladData 有沒有、STORY.ladNext 的 id（BB-C 21:02 ④，兩版對照）。
 用法：LW_TESTS=<wt>/tests TEST=<檔名> PATCH=<live|ladder_diag> python3 cc_test_patch_wrap.py <原檔的參數…>"""
 import os, sys
@@ -19,10 +19,21 @@ STAGE_CHK = r'''_cc_stg = await pg.evaluate("(GAME.G&&GAME.G.stage)||''")
             await b.close(); sys.exit(run.finish())
         '''
 
+SAME_DIAG = r"""        def same(g, a):
+            _d = {k: [g.get(k), a.get(k)] for k in ['name', 'day', 'zone', 'money'] if g.get(k) != a.get(k)}
+            if abs(g['hour'] - a['hour']) >= 0.3: _d['hour'] = [g['hour'], a['hour']]
+            _d.update({'flags.' + k: [g['flags'].get(k), v] for k, v in a['flags'].items() if g['flags'].get(k) != v})
+            _d.update({'rel.' + k: [g['rel'].get(k), v] for k, v in a['rel'].items() if g['rel'].get(k) != v})
+            run.note('CC 診斷 same()（[新版讀進來 g, 舊版存檔 a]）第 %s 天 %s：不一樣的鍵 %s' % (a.get('day'), a.get('zone'), json.dumps(_d, ensure_ascii=False)[:2000]))
+            return _cc_same0(g, a)
+        def _cc_same0(g, a):
+"""
+
 PATCHES = {
     'live': ('save_compat_v95.py', [
         ("await pg.goto(V95 + '?turbo')", "await pg.goto(V95 + '?' + %r)" % OLDQ),
         ("saves = {'auto': await pg.evaluate(", STAGE_CHK + "saves = {'auto': await pg.evaluate("),
+        ("        def same(g, a):\n", SAME_DIAG),   # BB-C 21:35：欄位 1、2 same() 沒過——印哪一個 flag／rel 鍵不一樣（g、a 的值都印）
     ]),
     'ladder_diag': ('flow_ladder_y1s2.py', [
         ("c = await pg.evaluate(FIND_JS)", LAD_DIAG + "c = await pg.evaluate(FIND_JS)"),
