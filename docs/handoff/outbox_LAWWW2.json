@@ -10018,6 +10018,26 @@
    "tests": "shop_cc0、place_gate ALL PASS；cvs_interior_lm、cvs_view_cam、gg_* 5 支 ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判",
    "next": "LAWWW 套 cvs_cc0.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "花序 Flower Notes 花束 P2（g4 轉交）：拿掉花團下的深綠圓球、外圈花瓣拆根部暗／尖端亮兩段且大小角度錯開；72,707→76,795 面",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/flower_notes_p2_1113/flower_notes_p2.patch",
+    "docs/art-rebuild/second_ai/wip/flower_notes_p2_1113/fn_cmp.jpg",
+    "docs/art-rebuild/second_ai/wip/flower_notes_p2_1113/README.md"
+   ],
+   "base": "4556c4be0c（apply --check 過 bf9d623e69）",
+   "at": "2026-11-13T23:35Z",
+   "tests": "shop_cc0、place_gate ALL PASS；flower_notes／aa792／aa820／2f_tapnav 四支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判；花瓣仍是硬邊幾何（換 Poly Haven 花是下一步）",
+   "next": "LAWWW 套 flower_notes_p2.patch"
   }
  ]
 }
