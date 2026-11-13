@@ -123,7 +123,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
     /src\/sis_b14_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b15_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b15_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/sis_b15_3d.js')<a('<script>GAME.boot();</script>'));
   const G0=mine().concat(changed()), GS=new Set(G0.concat(G0.map(unq)));
   /* 稿 → 遊戲 */
-  const lostQ=QUOTES.filter(t=>!GS.has(t)&&!FIX590[t]&&!(FIX611[t]&&GS.has(FIX611[t]))&&!(LQO.REPLACED[t]&&GS.has(LQO.REPLACED[t]))&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
+  const lostQ=QUOTES.filter(t=>!GS.has(t)&&!GS.has(require('./aa959_map.js').map(t,null,'heroine_05'))/* AA_959（AA_962）：之後照覆寫表拿掉開頭「……」*/&&!FIX590[t]&&!(FIX611[t]&&GS.has(FIX611[t]))&&!(LQO.REPLACED[t]&&GS.has(LQO.REPLACED[t]))&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
   check('0. 稿 → 遊戲：第 1～3 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡',QUOTES.length===98&&!lostQ.length,J({n:QUOTES.length,lostQ}));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、→ 同一行的回覆（'+INLR.length+' 句）都在遊戲裡',OPTS.length===35&&INLR.length===7&&!lostO.length&&!lostR.length,J({o:OPTS.length,r:INLR.length,lostO,lostR}));
   const INLINE=['今天的題目在白板上。','坐。今天這題比較長。','佳穎，你先講。……好，換人。','明天讀書會。','去。','禮拜六畢業典禮 A館門口拍照 家族都來','（傳一張照片給她）','坐。還有十分鐘。','你沒去過吧。','學姊的三本書（每一本都畫了線）'];   /* 稿寫在說明句裡的（「」括起來）*/

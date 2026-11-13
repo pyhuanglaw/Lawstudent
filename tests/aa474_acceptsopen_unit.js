@@ -296,7 +296,7 @@ await sec(9,async()=>{
 J(KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes)===J(['好。可是她那邊也要知道喔。兩邊都不要偷偷的。'])
     &&J(K5.then)===J(['……好。我想一下。'])&&K5.first==='think'&&J(K5.again.then)===J(['……嗯。'])&&J(K5.again.accept.yes)===J(['這學期我一直在想這件事。','好。我們試試看。'])&&J(K5.again.accept.no)===J(['我還沒準備好。']));
   const all=[].concat(W().broke,W().heard,W().self,W().pause,W().end,W().endVideo,W().told,W().videoOpen).filter(x=>x!=null).map(x=>typeof x==='string'?x:String(x.n).replace(/^（|）$/g,''));
-  check('9. 可昕收回的台詞（AA_474 第 3 節＋AA_483 第 1 節第 1、2 點、第 2-1、2-2 節，24 句）、第 5 節改的句子都在企劃線的稿裡（一字不改）',!!doc&&all.length===24&&all.every(inDoc)&&['你去見她那天，出門前發一句給我就好。','好。可是她那邊也要知道喔。兩邊都不要偷偷的。','這學期我一直在想這件事。','……好。我們試試看。'].map(require('./canon898_1112.js').back).every(inDoc)/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）*/,doc?J(all.filter(t=>!inDoc(t))):'讀不到企劃線 187584ca8（先 git fetch origin claude/story-planning）');
+  check('9. 可昕收回的台詞（AA_474 第 3 節＋AA_483 第 1 節第 1、2 點、第 2-1、2-2 節，24 句）、第 5 節改的句子都在企劃線的稿裡（一字不改）',!!doc&&all.length===24&&all.every(inDoc)&&['……你去見她那天，出門前發一句給我就好。','好。可是她那邊也要知道喔。兩邊都不要偷偷的。','這學期我一直在想這件事。','……好。我們試試看。'].map(require('./canon898_1112.js').back).every(inDoc)/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）*/,doc?J(all.filter(t=>!inDoc(t))):'讀不到企劃線 187584ca8（先 git fetch origin claude/story-planning）');
   check('9. 七位「接受」的說法都不一樣（第 5 節：改過以後沒有撞句）',(()=>{ const ys=[Lm().REPAIR.heroine_05.result.Byes,Lm().REPAIR.kexin.result.Byes,Lm().REPAIR.heroine_04.result.Byes,Lm().REPAIR.heroine_02.result.Byes,Lm().REPAIR.heroine_03.result.B,Lm().REPAIR.heroine_01.result.C,
       KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes,KNOWL(YT).opts.find(o=>o.accept).accept.yes].map(x=>J(x)); return new Set(ys).size===ys.length&&!ys.some(y=>/她的事，你要自己跟我講/.test(y)); })());
 });
