@@ -1,16 +1,3 @@
-[16:59:06] skip L118_CAM36_b_r3 (already done on f6772d22140949c6cd01204b89bc6ddf25882f38)
-[16:59:06] skip L118_CLOSED_LOOK_r2 (already done on 31f8361e6d1c16b9715bb798276789f6bc9836d7)
-[16:59:06] skip WZ_TAP_28_r2 (already done on 31f8361e6d1c16b9715bb798276789f6bc9836d7)
-[16:59:06] skip FIRST_sunny_desk_r3 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:59:06] skip FIRST_sunny_touch_r3 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:59:06] skip YUE_MEAL_ab9a (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:59:06] skip WZ_ICE_tue (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:59:06] skip WZ_FRUIT_mon (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:59:06] skip YY_SEATS_edf2 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:59:06] skip TZ_SIGN_2330_edf2 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:59:06] skip TZ_DOOR_2330_edf2 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[16:59:06] memory 44% before starting SSB_tz_a (2 running)
-[16:59:06] ==== START SSB_tz_a  (probe @ df0db366936e400caf6b6f59478f810b7ed84fe5) ====
 [16:59:09] [res] cpu=36% mem=44% (13.9/31.4 GB) chrome_testing=9  START SSB_tz_a
 [17:00:02] [res] cpu=26% mem=43% (13.6/31.4 GB) chrome_testing=9  END WZ_ICE_r3
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1985,16 @@
 [00:09:35] ==== START EXIT_PROMPT_r2  (probe @ 5c96c6680264aa6fe56f5450f01d848d3623c9af) ====
 [00:09:38] [res] cpu=5% mem=43% (13.6/31.4 GB) chrome_testing=9  START EXIT_PROMPT_r2
 [00:11:40] [res] cpu=1% mem=43% (13.5/31.4 GB) chrome_testing=10  END EXIT_PROMPT_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9e5f1c1d6e..1470b6a28d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:11:47] ==== END   EXIT_PROMPT_r2  exit=0  125s   ====
+[00:11:52] 正在跑：CANON_NEWGAME_B2_d21c（已跑 26 分／上限 240 分）、CANON_NEWGAME_B1_r2（已跑 3 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:12:00] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[00:12:00] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[00:12:00] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[00:12:00] memory 43% before starting STUDY_fix_b_r2 (2 running)
+[00:12:00] ==== START STUDY_fix_b_r2  (probe @ 5c96c6680264aa6fe56f5450f01d848d3623c9af) ====
+[00:12:03] [res] cpu=2% mem=43% (13.7/31.4 GB) chrome_testing=10  START STUDY_fix_b_r2
+[00:16:52] 正在跑：CANON_NEWGAME_B2_d21c（已跑 31 分／上限 240 分）、CANON_NEWGAME_B1_r2（已跑 8 分／上限 90 分）、STUDY_fix_b_r2（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:17:24] [res] cpu=5% mem=47% (14.8/31.4 GB) chrome_testing=10  END CANON_NEWGAME_B1_r2
