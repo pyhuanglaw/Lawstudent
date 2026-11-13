@@ -12,6 +12,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   WELCOME_Y2  #13 大二迎新小隊輔（9/4 21:00 g:law_class → 9/6 14:00 社科院旁的草地；第 3 題三個短版）——書店那句（第 4 次起 rot）另外排
   SPRING_Y2／SPRING_Y4  #4 春假女宿接人（@4af46fd8f6；選單選「春假：和可昕…」→ 她那句 → 4/3 07:40 出遊、地點字幕）
   FEED_Y1／FEED_Y4  #7 可昕動態（交往中；2025-09-14 21:00 kx1、2029-06-03 21:00 kx3h「畢業了。」→ 手機「動態」頁）
+  ENC_DATING／ENC_FRIEND／ENC_ACQ  #8 淡水偶遇（交往中，Y1S1 第 6／8／9 週週日 16:00）／#14 朋友層偶遇（FRIEND，西門町第 6／8／9 週週六 18:00；認識＝遇不到）：捷運公館站入口 → 景點 → 散步 → 偶遇（60%）
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -20,13 +21,14 @@ sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HE
 import playlib as L
 import bbplay as P
 import cc_seedplay as SP
+import cc_d141_lib as D
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
 CASES = [c for c in (os.environ.get('CASES') or 'GIRAFFE_A,GIRAFFE_B').split(',') if c]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-R = L.Run('canon458', OUT); SP.setup(R, OUT)
+R = L.Run('canon458', OUT); SP.setup(R, OUT); D.setup(R, OUT)
 DONE_JS = "(ids=>{ const D=(GAME.G.events&&GAME.G.events.done)||{}, F=GAME.G.flags||{}; const o={}; for(const k of ids) o[k]=(k in D)?D[k]:(k in F?F[k]:null); return o; })"
 
 
@@ -249,7 +251,68 @@ async def c_feed(pg, cdp, tag):
     return {'case': tag, 'feed': txt, 'buttons': btns, 'state': fs}
 
 
+ENC = {'ENC_DATING': ('DATING', '淡水', 7, 16.0), 'ENC_FRIEND': ('FRIEND', '西門町', 6, 18.0), 'ENC_ACQ': ('ACQUAINTANCE', '西門町', 6, 18.0)}
+MRT_JS = "(()=>{ const i=GAME.E.interactables.find(i=>i.mrt&&!i.hidden); return i?{x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||2,lv:i.lv|0,label:i.label}:null; })()"
+
+
+async def trip_loop(pg, cdp, tag, spot, walks=3, max_s=420):
+    """捷運自由出行的選單迴圈：景點 → 散步 walks 次 → 偶遇照選（打招呼／第一個）→ 回去；每一句截圖、記選單"""
+    n0 = await P.say_hook(pg); t0 = time.time(); seen = []; menus = []; k = 0; w = 0; back = False
+    while time.time() - t0 < max_s:
+        st = await P.ts(pg)
+        if st['txt'] and (not seen or seen[-1] != [st['name'], st['txt']]):
+            seen.append([st['name'], st['txt']])
+            if len(seen) <= 60: await pg.wait_for_timeout(300); k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d.png' % (tag, k)))
+        if st['ch']:
+            o = [x['t'] for x in st['ch']]; menus.append(o)
+            pick = next((i for i, t in enumerate(o) if t.startswith(spot)), None)
+            if pick is None: pick = next((i for i, t in enumerate(o) if t.startswith('打招呼') or t.startswith('「嗨')), None)
+            if pick is None and w < walks: pick = next((i for i, t in enumerate(o) if '走' in t and not t.startswith('回')), None); w += 1 if pick is not None else 0
+            if pick is None: pick = next((i for i, t in enumerate(o) if t.startswith('回去') or t.startswith('回公館') or t.startswith('直接回宿舍')), None); back = back or pick is not None
+            if pick is None: pick = 0
+            k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d_menu.png' % (tag, k)))
+            await P.tap_choice(pg, cdp, pick); await pg.wait_for_timeout(900); continue
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+        if st['busy'] or st['depth'] > 0: await pg.wait_for_timeout(500); continue
+        if back and time.time() - t0 > 10: break
+        if st['phone']: await L.phone_away(pg, cdp)
+        await pg.wait_for_timeout(700)
+        if not seen and not menus and time.time() - t0 > 40: break
+    said = await P.said(pg, n0)
+    R.note('[%s] 出行：散步 %d 次；選單 %s；GAME.say %s' % (tag, w, J(menus), J(said)))
+    return {'lines': P.clean(seen), 'said': said, 'opts': menus, 'walks': w}
+
+
+async def c_enc(pg, cdp, tag):
+    """#8 淡水偶遇（交往中，D13 週日 16:30～19:00）／#14 朋友層偶遇（FRIEND，D04 西門町週六 18:30～21:00；認識＝遇不到）：
+       公館「捷運公館站入口」照玩家走過去按 →「要去哪裡？」選景點 → 散步 → 60% 偶遇；沒遇到換下一週（最多三週）。記她那一段、選單（朋友層只有「打招呼／不打擾」）"""
+    stage, spot, wd, h0 = ENC[tag]; out = []; met = False
+    for n, wk in enumerate((6, 8, 9)):
+        when = ['Y1S1', wk, wd]
+        if n == 0: d, seed = await SP.fresh(pg, cdp, tag, when, h0, 'gongguan', {'kexin': stage}); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+        else: d = await SP.jump(pg, cdp, '%s 第 %d 週' % (tag, wk), when, h0, 'gongguan', None)
+        mrt = await pg.evaluate(MRT_JS)
+        if not R.check('FAIL_SETUP 檢查：[%s 第%d週] 公館有「捷運公館站入口」' % (tag, wk), bool(mrt), J(mrt)): break
+        tgt = await D.standable_near(pg, mrt['x'], mrt['z'], mrt['r'] * 0.6, mrt['lv'])
+        await L.go_to(pg, cdp, R, (tgt or mrt)['x'], (tgt or mrt)['z'], 0.4, '[%s] 捷運站入口' % tag, max_s=120, lv=mrt['lv'])
+        q = await D.settle(pg)
+        if not R.check('FAIL_SETUP 檢查：[%s 第%d週] 互動鍵是「捷運公館站入口」' % (tag, wk), q['interact'].startswith('捷運'), J(q)): break
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+        r = await trip_loop(pg, cdp, '%s_w%d' % (tag, wk), spot)
+        txt = ' '.join(t for _, t in r['said']); hit = '嗨' in txt or any((nm or '').startswith('可昕') for nm, _ in r['said'])
+        out.append(dict(week=wk, day=d, r=r, met=hit)); R.note('[%s 第%d週] 遇到可昕=%s' % (tag, wk, hit))
+        if hit: met = True; break
+    if tag == 'ENC_ACQ': R.check('[%s] 只是認識＝三週都沒遇到她' % tag, not met, J([o['met'] for o in out]))
+    else: R.note('[%s] 三週內遇到=%s（60%% 擲骰，沒遇到不判 FAIL）' % (tag, met))
+    if tag == 'ENC_DATING' and met:
+        d0 = out[-1]['day']['key']; await SP.jump(pg, cdp, tag + ' 當晚', d0, 21.0, 'dorm', None); await SP.wait_h(pg, cdp, 21.3, tag + '_2110'); await pg.wait_for_timeout(2500)
+        out.append({'phone': await SP.thread(pg, cdp, tag + '_2110', 'p:kexin')})
+    SP.d158(tag, *[o.get('r') for o in out if o.get('r')])
+    return {'case': tag, 'tries': out, 'met': met}
+
+
 async def one(pg, cdp, c):
+    if c in ENC: return await c_enc(pg, cdp, c)
     if c in FEED: return await c_feed(pg, cdp, c)
     if c in SPRING: return await c_spring(pg, cdp, c)
     if c == 'WELCOME_Y2': return await c_welcome(pg, cdp, c)
