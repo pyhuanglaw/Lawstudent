@@ -1,17 +1,17 @@
 # 第七批：一盞天花板加高 v2（含紙燈縮小）＋汀州鮮果葡萄 v2.2
 
-底：開發分支 `origin/claude/adoring-meitner-mqzst8` 0f9c78d37f。`git apply --check` 乾淨。
-**這一份取代 `wip/yizhan_ceiling_1113/yizhan_ceiling_1113.patch`（v1）**：v1 還沒整合就直接用這一份；已經套了 v1 的話，先 `git checkout -- .` 退回再套這一份。
+底：開發分支 `origin/claude/adoring-meitner-mqzst8` c4da5b32ab（**一盞 v1 已經在裡面**：ef46d9aed3 整合的）。`git apply --check` 乾淨。
+這一份是**增量**，只有兩件：一盞紙燈縮小（v1 的 2.34 m 以上抬高、配置、鏡頭距離都已經在開發分支），以及鮮果葡萄 v2.2。
 
 ## 1. 一盞（wz_teahouse）天花板 2.6 → 2.9 m（SHOP-INTERIOR-VIEW-1112）
 
-BB 判 PASS（BB 分支 23c9c2170e）。v1 的內容不變：
+BB 判 PASS（BB 分支 23c9c2170e）。v1 已經整合（ef46d9aed3），內容如下：
 - `yizhan.glb` 2.34 m 以上的頂點抬高 0.3 m；
 - 配置 `h: 2.9`，`wz_shops_layout` 用 sync 工具重產；
 - `WZ_CAMDIST.teahouse = 3.2`，鏡頭 2.86 m；
 - place_gate 已知未過表拿掉一盞這一項。
 
-**v2 加的**：BB 判紙燈是 P2，三盞紙燈離鏡頭太近，佔了畫面上半部。
+**這一份加的**：BB 判紙燈是 P2，三盞紙燈離鏡頭太近，佔了畫面上半部。
 - BB 原本建議燈跟著上移，但鏡頭在 2.86 m，燈往上移只會更靠近鏡頭、在畫面上更大，所以改成縮小。
 - 做法：三盞紙燈（`yzn_washi` 紙面＋`yzn_pend` 木框，中心 (−2.3, 1.7)、(−0.9, 1.7)、(1.4, 1.7)）以燈頂中心為支點縮到 0.72 倍，燈頂照樣接著吊線，燈底從 1.93 m 收到 2.02 m。共 978 個頂點。
 - `GLOW_washi_*` 的光源位置沒動。

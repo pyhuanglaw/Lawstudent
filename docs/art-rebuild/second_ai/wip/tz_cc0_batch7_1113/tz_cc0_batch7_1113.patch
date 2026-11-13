@@ -1,247 +1,101 @@
 diff --git a/assets/models/env/second_ai/aa_support/yizhan.glb b/assets/models/env/second_ai/aa_support/yizhan.glb
-index 3eb272e04ace809829ba312432a2ee347fa075ed..c3b1d81b29f618ee57db794c4915145d4a6e2845 100644
+index 88888d69fba5b05db889894a5474477b3f465d91..c3b1d81b29f618ee57db794c4915145d4a6e2845 100644
 GIT binary patch
-delta 26371
-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
+delta 12027
+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
+Pg4!rP@%)C{{~r7w6I~zs
 
-delta 26213
-zcma)^50G9}dB%4)0Ydl_{;WhwU_k;2V?q)($r3bt3jr1s30M>@lrXh!w4y;P%@oiB
-zVh9x4#eO<xLV*N>#<rLst8RvA*)=IdreNC6bhebSnTRvg21T7h>ZqjWIrsd|zI$`;
-zjm#|k?m5r<yw5%N-m~AgyL@90U;5>TFFj`U&DUPm)zQ(>ebw<DkALf!zd8H3CClPJ
-z3l}f#J#Wd<^B1?bpS^JSf6o3|*NNqsdGnXFe{<Qa;jwdW?HulV=i1JLYoD2S=I|@?
-zI;R{w^S=ugbj@4besJl6;SVlc(Rso_=1bb&Ty*O23yap)%$+u6$-MdPZ(V+R`=Q<g
-zmF0_PwO?3t-tcc1f4-|~eyHz^_EVSl4F79itFlEnweIuIJt$Yv^Us$3dd8Baaiw~D
-z&s%(6-?H=DcV4itJT^Rf!J^LLU%qSplvZK1bm`Lb7WFPWe_8LmMdzO1w@40s%N8zL
-zwrJ^+Kb-fDPk#JU@3`Rl`RARxI8L2^e(%yHi~4$d7tb5Msr9bPnA`e$<7rH}=*L|V
-zrd{&(DFMzHUNNxo^x+?`zWVx81_#gXe{=4`W3OFv?^uc3D|gP1^Bo<V^1R`;PxGqZ
-zd)pUted6{WQ_sBWnV<7dg}>?_zva|ipSZmy&8voa!|f4MKeXd*xju3GfT?F*^~?`E
-zJJEmV8*@iF|HSQ~G_M-w4Y$Wl{il~t&-IDhJ<m<7AM>hbes!AH`LEmer561Yx3`&k
-z=2g%9epA17;IUkvxZT<{(VuzMGrvB~tN)vG-`!9D#O>Xto_W<XKlA$&>o<LTMXpcW
-zUiJO?v*f87<}Huh`PsuR=^9!1+0L&XHvCur^49VBZW|oDCtgjd6SuegsOYx$w#OOk
-zH{5<b&8M1}#&Emul}Yt+KGlnd-7CxA9s}Gk^woYI2gB|0Ul#_C-||SFH{9;|O);+;
-zZg<1&)oETe%o}cRGxgKQKN3#z?0(fJZtpks%&VUH)^8{Jzd84YT%WkTKFzC!dBg49
-zrhfYPnYli3d*)jc=g)l6KWf{n(!4UiId@jBPu$*O>X|S4M{WCcQ$N1>xLlvO-FIMF
-zygsU7-f;W=G_U?U-<X!`6SwyqC~im9FmL%Q{hi(4d3Wc{E%(rdljF+2_`=a+b<EX~
-zrjAvs4)|2DY8g-LVgVE3{_iJ56B9z3IwlZ4YFy^Q!IO(b7$FL#BcuJD@9R88Hm_Z?
-zssFO?PKoPd*w4ARbAA+bZ{3&$hW#1@sygGzuI!N5k04ML0>l0Q0y&&@_})?SB=!R<
-zOa=sUKrn<r4ln=ezp_JOKaN0E2n_q4OHvCtJhSoX?2y>6MxZJLhW$1Ka=5j<Jv$`!
-z`w^%Lfnnde)MWV3vM*<c#C|;jRUt6!cOy`SW9R>Mc1Y}JUS?JjfgBL5LLi4%zIJ_f
-zNbI*DP!$5h{&fU$xcV=z%MOWs-+;-0Kn@5T0y)fl>DcU$*zZE1Dg=i8jLXeR-aR%w
-zJ0$kkAy5?p!+s+IWoW<si_dURCibr)P!$5he!&$c!%II{n;jDSwFp#&z_1@hpbU$q
-z&09`}#Quo)n3Y5z2Lvk-$l+sO`eb%U>^%ZiAu#OsAdthR-`jQ}84~+B?==|^$N|9`
-z1ajE*-jVE(*pDDk6#~Ql00KFj`UkUHWJv4>t~41C$N|9+0y#YSnYq~^u^&gEDg=go
-z&-={P{K?s$&JKzFY6Pl6VAyX%pbVdD-I^T|`~3)1g}|_HU1c)7{HsT^Lt?)kfvOM~
-z_PY@%!&!$vmK_rNnJdjoB9H@uRS4v8@lDTWhs1sh0#zX}>|aM9hx>2dl^qiMzN<|J
-z1ad&&5Xj*h&+W?&iTy4FszPAc&$z~{<S+m2r`aK~zYc+_5E%9w5h%m@la7qv(hd7p
-z5vU4*VZY%0Cc_i6re}x5ek}r3Au#Mm5vcFeSIo)|iTx43Z&nh491yHTAcs9GPt6XA
-zy+@!b1cv<{1akP<9SgEUVn63vlL3Jo5UfEUhZF8zm>m-P5d^A2VAvl(Acr%ayf`}~
-z_5&X<84$<;!4LvDT=v}+*&(qXN1!SMhJDWm&DFg2l@DZx#C|mbRUt6!w;@o5KmW-G
-zvqNIPAAzb681}8}OosI*eLOoP_UjR-3V~t28-X%BG3!sVLt;PkLuMrr$N|AB1af%#
-ziaWAHV!s7}st_3VuOpDdo|T`=4vBr=hfM|qa!9=1eYkVPeYoqz6XV;9b^9LEYvTB#
-z-mqW&$*$u4&+XlhW`SY9EePi5mA9%oI&R7i73`;cs%w6)#BxCJJFx#qC^TJ8H(d^5
-zKQg&XAt<^uvY)voovhA<w>XCVDg<&vV0dK9ny#~siVGS>L&#!54f|Jbo9K}Rp$F_2
-z+&;15V>b+aA)cxn68p6XRE5B>A4Rb9jmxnO@BK3SBko8o#y4M`1%~}f1gfHiVeb*B
-z3V~t2CkWyN>sj~r;YUQpI@GZ5{ang(`QE3q*s#AHfgEUO*zXL2*iKalYS_>Ge9pG-
-z!ij8^>^~92>4I*};@i73`(Xq<>-JqpYs3E6v{My=8ulw)$`;=1_mi!L{pKK!*}@z9
-zEH>=-A&>*D4g20ZQ#(~5sA0c8h|^|qS8lg%UuM4>!JBjM$O6ND=3T~tc5+DUR|Uc8
-z+8|Vgpv?Zx&vgEgKlX3Cj%m+$en8MYeB<*+PxX)9+jWfJ_(13QNT3HgCyqte`bQt=
-z{L#qK_jmpGvGFXzkIDKk-}@J1YG>HbcqoO`&(Vwk_SYFfK215K>*Y5FLH-#a7g27o
-zeg-(ZbIZ{WcTG+AR(!mJLEIY0!kLTxoK1PX;-ek~=~0h@H3-rclN~~*C>TMIwwUaI
-z-~fX3ct?R@Kk!(}kRI<SFzkmAs4CgA-AL@m5vU4*Vc+xB)FM67v4vs38bNxbqrkA=
-zhCo%cFzojuP!$5hzO~tG3TgfO(_@_S#K&9g+d-TzTzsUXAU)Di@G=59(9W<w^YPR!
-zZ6(<Ou^IPk5vNBtifh>aa}dXD=`oIC!~Vpt<qI0OnCzBX`|E=sZl<atPYwHRxTVK9
-zx*7KS5v0dB3Jm+!*Ha!<(ax}6k3dxj43F&ode<Yf=IP-{PhsrQ#O*u3H<wLd49oO{
-zs@T80Gi^k237bH6wCp!M+BIAMnmRW%A2ZXH?8B3P@#Kx^q>*nw+x1!}`K#h^USX~{
-zNB{Hju7xAN+10i97`OMf+2N<*cgMOi7hC8(;g?Ud({@_$?cG;pz2%;D@6~wJTi$zH
-zch*~8x9@nD3&KI>p&j3ekC_@<9^d?A{0^^i%iB*oEbA=~?ReuE0$ILcXh(dm_TJ`n
-zW*p4!Up{?2ew$VU%hSg<w{)R3Zh7Y$-_UqGW6M43j_OBm`S$K(H6HbmSEYmPr(K#0
-zEO&1m$OV?)zy0%BZ+U$4omnr|rGCr5HQx2(k)QoX*SQ;9YsqP2dia07<+)Z9hvjOa
-zsp7x;#R+2{4foSS8(wNPv3j8i?Ce40-rf_V(Y+_V)M{cGtxuXm@jraF@Koc;>?Ti;
-zPNFI%&^KrOXAW1zs(m798rcPrmR(DF*H?BnvW(DF@w6vqMIT+JCRQyPXAdkB2qQHv
-zGa)oy#Wy~EWDZoruB8bYH!*=QQlK&u0v|Mt&sj7r2P)VVcXfG!KpL-O0#U1GWwwp0
-z_(qqO=&46u&u3G`DrUTn73h-tU&}sKtXjs!&K`(412t=6LP%4`1j5JqCw8%z3DRMz
-zah?tZYGOjLiJ`aS1j6T%``ttXnh^q{@;Fa{8Z<GDc{<SB@gbM48AfVWW&&Y^hH?E}
-zht5pTbQ8aJ&HrT$>{P%3#k!N5Sb8*79A4e!KusKKT}&hqA<C>XQ!|XJm=M&WVVslE
-zC78^vSUM(Da46;`!bq2+%<^HpiaD95Tu77;Dwsf=nZlKsK=`O}nF&EH8pi~W#O>Wb
-z%a2(VOV4;6E711Sp3Od0tlBW{q9`3qVx9suYhpr3Q^y3tM}Z0s`#%SSz^FXVHyZ_N
-zVnRq$#{|mzznWnR69}X7INPcMH8CNiDYLW1YJgD{69^+TjO!^l=Y|>a#YGcq<4T)V
-zvH!DknTcq`CL_}-mY(q{*4<8^YIe`XM}@``)iEJ3Vw17sgun+4<E#pM%sDQcSw1kV
-z0><lDjoD=CShZ-X*l{*&EHbKMLU3ki>^LFtWRtPugh)Ovro&VP+K5!38?%XJgr<(=
-zqni|;gV`1DewdI^nYAAfsEG+7O&t>mpY1N~M0SD@7%7lt?FR&EVnRq$$BxDrsacr`
-zgb^CXwI2|ui3uT1Viz|YJ3%0f)U3?5aTQ<Lci*VSwXZbs(2n%_Un1?v6u=kV^wCk?
-z)i$x3>CL4yRXjL27=84nb`rbNgo^d9R-!}k{Wq`9;hLC0(v;aLHHq|2wux1&ceR9T
-zVpdc;U<13D2$33;`G>Rb$(N>yRjbP<O&#m9${(M*zT)gb!Gyqw0>)3cyFUkNVnRq$
-z$MN;Q8emk#ws93Nx$%M=sEG+74eaaz#R}2HgrF8Z<D87XM>KKJyZFt9C89t^u&$ZD
-zFJM%~(lcJgoQymtvn!U42^w=|RpSK0NR7)(2z<~m&Jz(||L22{uFM3|cpVdnS~V-P
-zZEV?bz$2kEZel|4bfCB61j0vw%AEST{JbI}Q1{mL`L1qaz4+8~FHIdQkZw|ZCOGW>
-z9H_X7AHQXJ4%Ebikfx3a^tel=YK$pNAdJf6oQ*C)6UzrpnH>{cGmLaO%B*6>tC$mz
-zXA=`5Xk1((3d}@YYBj^CiU}c274sD6bz(KUVnW4;>R2nJ7b6%|v1%EwVx9u^imadi
-z<O9Qmkf@FcgsB>rnGpD(VcfB;Dnt_#LYg`z5I$;FW*R3S7nciD6|j{mP!khEnmQ&B
-zKGwhBu>X??BSehrDbR~jHkmrs#)YPiRm&a|*`-~{PN*1B73*#%L=zK2nmUfJ|Jhgw
-zfhpsJz^FXV3bB{Sr;6pncw!ef89Sk3Hkmq>9!(W<0_-aUDvytEcD&6lmWToZQNZRy
-zpz=5&G+xEpGgPaadJ?<Rgo+W>v5a(+VpPSdWxR^DAIK;E{D%WIE;AuCUdIHYR*lO{
-z2z-*Jc>S*f?Ex%N6B9z3IwlZ4)*mhcxuP-YFqKIA0fCyB5Yp5!f$+)x`uPtBgutjg
-ze#(MJTGD8fX=3eqXsY<K?+&+kQ|s)3<x7J|&Gi1Tj(d9xqvBV!^(>#_SG9$wVRz8P
-z8Bacy)7A0mK|{DYCS39B*&^J*?21Ii?`jXtT6Qg|cEBc9I5bs!-$k3E&(B@BmieH9
-zRjg|%O&t>mA2lvBA@D)tnE2uB=ZZw3SrZdNnmQ&BK5ACx)K{<n3nN4Xy0Y*29H@y2
-zAx#|<2p{z-IKBR-m<byK<_z>bqKTzPQ^yLV?<qfYY1!jJiB-&a6>~Of*2IM1B++X;
-zzW%3J&6=1H7@=pJCqfOHm_R|};x(hdOvG!i1{hVbZCu4X1@f<ES4_~D$Abbp&NahG
-zfyzt>e9$od{_T(En>w;y|LgfKPw2%b<8{nkO|5R;GOL#HDt6slcjZJ)ObBV}m_Ycb
-zahVB`d|Z0VU6_(oM!E!?O%=<C@jB*`;iJnjncbuDY?zQynK=VBYhpsAGmGKMOdxzN
-zaUoGYNK6Qd705DAgkG*Sv3$_fu~Q<w(7>pQRm^x5^AxCA6B9z3#4Z-t2?AlH#$_f1
-zMraskdoEtk7T?&a__b?Xu|z5$M41VMshXA9Hm+iJRfU+uE`66{f)EnbF@Z2rpfVEz
-zA2f{XDbR~j$0nnLD%Q@$cpa;jN4Jhui^g!V|FcmLLU(%|6GECgCImj#A1*?KpZ{Yt
-zd7{`#WyB^^$1*}w$EsytnZ$bi&xDGbn6qIcB2amp5S$o#J5C5kF`En%6f;gZJFY!L
-zdfmKDtXecBc6mZZx=S&tVihx9#o7-D)Wn3i?;=;ctX4V|OiUC;YKBo26M|YajBB4D
-zP$j$2SQ9jEVpa$vH7m1iT*cZC2qbp)z%qd(s$&9Ssz7BX1U_ie_{hqOj{n}_`uv*q
-zRKMqAowNMz>pOe=53cV#eB{CHQ)ZpozUlc>{F+a6&JO=~&Wt?%$H$I5@$XaKz1%II
-zJ~R9|d&j8$h`Nr4cAS+pb*$ROy}j9|idD;aViya{MEEQ59H^E}i2gb@fuc`pJc+}v
-zuXCbkgvbOMlTrAy<@i_Nbu2xaI#%uK!NappWS5qm2^AlL;~Au8wQNGf6GLyu709J#
-z(Wr_|plF1K@n9TRX!~i8Xa#CndNhXJm^p~W4{tbm6r(DZp7AOU0dt5ZF8aDhwA?vF
-znYBb}hEWw0f?70;cXV8>PY#P`e-Jw}@nBjaiRxHJYJgD{tCsO9erUrLIZ*iXg^7bQ
-z6GG#4Odx92xXgsW2Td4v=~}i&S)$(FdM1Q4bxa_9)U3<|>g{!f5h5m558jglH8CNi
-zsbd1+qh6U^I<SqaxVQID!!PoRo2ZEiAx#|<NE&AkEE58wVucD*arl0b12r)rq^V%1
-z?Jycy(<&wqMrauC?OhQ*!-^HEXF^E-p!WY_SJJ@*Ppm{?q-HdLZR0B5u;GdvsFqz2
-z(O9B7CJ;snQD#EmgNE^QZdf^XVc5{ZtBz4vFJJNjtY(K|867o#X0EMb`7mC^pI-hR
-zmlK79S|*S*bxa_9)VR!qz~`uOSBRKkS;E<e70AnV5T_7vyp9zpe9B_3t>W<K3#Vq0
-zj1a+`fdVx#AviPicAP-?sF$+`6l<c6!{<JZ%1HM|6Q{;eQ^&!_#Tx`8U9&Q)nDHup
-zTlnoVftr{Q(oC?k2ZfQEVN}J0zz7ZFoPaJt6UPvG`zldNbP#jRFw&(dvuYWyVopYZ
-z%Iwn8#R)=iW)#?Q0%4@aWhMkZXc!;bace8}b))9sAWn_rcpb|~mjItCRxRU`*%cGp
-zPg_T#(IzH@G<8fMeAKwigb07WTo@r@g0s;jXyOziYU-FvhL0`>9G?H;K*deW87NQ_
-z6GECgCQ#70xa?|-DNG=Y%H#SlR~dysqfMMbM9snMCW>_lFsfn|GhW3z-ncvmYGOi2
-z6Ze0eK|BZzU~VFe)VR!qpcW0|oQy769Xm~=L{U`7Tr-SxIm)bB#;ceUP@u$4XUsun
-zLU3ki>^OliRpT-f0v|MtfBX9*&z(7Su=t3eFd2Usq5rAhupd}3l}~Wc$1@k7ol|@i
-zb7Vh+KvgfkaOD^diTyYNRUt4u(z9^tPiMprK#)a8$DN^15hAgl({Dl`kOhJ@2$Dm~
-zIEeiSf>ad+hW!Bq=`_MC^CCk?EcOEznG9(#e6mP9r6?FeAcwG0*&(qXN1!SMhJDY)
-zsYUnJBS!UCQOaQ0uSU?b?wwg+*l$Cis`1UYWQW9lKLS-DFzj0^Oop&e{v#O@`}GJ^
-zg}|`ijX)WKV7YM+`<a)d7O5%<4Et3G(pj`{2!X|Z3j$T8!SMMgnf>bs(&}Z0u&U9a
-z?^2T?4Mqn94uKrPhsngNY1r>VpuPwU`x%#+l?<OSlN}QK>kt&l3xQ$35kdI$%)Hcw
-z{i_J{X(3z-!+ya)%8;t!QXBSb5u~apFg!9kF!kiaoPL_K<BfaA*6lkZ^f@%^f^8kR
-zFX|7)Hw?WadP-lz)0pt9-ZyoFljHR9`?LF@Sc%`9`#?_L#3Ybs4Ns(TSEV${{^AS8
-z2W}sVSwHCy#rlwLY2;bM)0prZSDLjUjn1Qvag^qFVG?WoYIqtG>qoDi8omw-Ux$aU
-zBf{6T@O5PPnjXH63SUQuuVcd3vEggR$mrF_E&8dG?egjSTQ9!wTKKBxj*jE{(bTbg
-z1_z(ZK2@w*#sljIGDQIs4{bOy2WnzMNK?lI!biO(vnz_3up!{^jboG*YGOi2Q^y3t
-zXV8U2`5>`vT*Vz7{W(w*6GECg4!@8ot{FyJi82!cBQz7^n_8?;*ve{oBE+W9Bi>Ig
-xKt6~(5vVXKnoVZgxQbOnpeF9<_-Jug7fq^}Kp5%2WhMkZXwtZTYxawy{~vzKT$2C*
+delta 12028
+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
+RV*(v=y7>GHTUTCR_CIOIiQ)hN
 
 diff --git a/assets/models/env/second_ai/gg_xianguo_interior.glb b/assets/models/env/second_ai/gg_xianguo_interior.glb
 index 4ab208fba390183172a569eaea18b795175409ca..9a59fe2bf2d529905a1cd83c60be510fc9471796 100644
@@ -21513,95 +21367,33 @@ z)+YWsF>39T@z7y{t)ds`K`B4M`7Iulec`7{Do9h4c70cG3g;1;px%?o#ibcqA??ZU
 sY&Y((C~u|%n`l#)Z#pViVCO8%4KFwE5P7n>CvM{w#<zgtzyJUM09>FG-~a#s
 
 diff --git a/docs/handoff/SHOP_STANDARD_STATUS.md b/docs/handoff/SHOP_STANDARD_STATUS.md
-index 6e1c349a99..0a766aca6b 100644
+index 12a1ecf811..4b30d2fee6 100644
 --- a/docs/handoff/SHOP_STANDARD_STATUS.md
 +++ b/docs/handoff/SHOP_STANDARD_STATUS.md
 @@ -1,6 +1,6 @@
  # 每一間店照店面標準七點的現況（SHOP-STANDARD-BACKFILL-1112；CLAUDE.md §12，D155）
  
--> 這一份是測試產生的，不是手寫的：`node tests/place_gate_unit.js --write`（地點關卡第一層，ROLE_BB 2.6）。產生時的版本：`f4f976e0f8`（2026-11-13）之後的工作目錄。
-+> 這一份是測試產生的，不是手寫的：`node tests/place_gate_unit.js --write`（地點關卡第一層，ROLE_BB 2.6）。產生時的版本：`0f9c78d37f`（2026-11-13）之後的工作目錄。
+-> 這一份是測試產生的，不是手寫的：`node tests/place_gate_unit.js --write`（地點關卡第一層，ROLE_BB 2.6）。產生時的版本：`863e14e230`（2026-11-13）之後的工作目錄。
++> 這一份是測試產生的，不是手寫的：`node tests/place_gate_unit.js --write`（地點關卡第一層，ROLE_BB 2.6）。產生時的版本：`c4da5b32ab`（2026-11-13）之後的工作目錄。
  > 重新產生：改了店、修了問題以後跑 `node tests/place_gate_unit.js --write`，和程式同一個 commit 交。這份過期（和測試現在算出來的不一樣）測試會 FAIL。
  > 每一格：PASS／**FAIL**（哪一項、為什麼｜任務 ID）／例外（理由，寫在測試最上面的例外表）／第二層（第一層判不了、CC 還沒拍）。七點的內容看 CLAUDE.md §12。
  > 第一層是在 Node 把整個遊戲載進來、建出每一間店、真的叫生成程式、真的按每一個互動點量的；**沒有畫面**，看起來對不對是第二層（CC）和第三層（BB）。
-@@ -9,8 +9,8 @@
- 
- ## 總計
- 
--- 店 47 間、攤販 19 攤；第一層查了 813 項：PASS 785、未過 14（已開任務 14、還沒開任務 0）、例外 14。
--- 未過・SHOP-INTERIOR-VIEW-1112（3 項）：一盞（天花板比跟隨鏡頭高）、竹葉亞洲超市（有窗的有窗景）、草原超市（有窗的有窗景）
-+- 店 47 間、攤販 19 攤；第一層查了 813 項：PASS 786、未過 13（已開任務 13、還沒開任務 0）、例外 14。
-+- 未過・SHOP-INTERIOR-VIEW-1112（2 項）：竹葉亞洲超市（有窗的有窗景）、草原超市（有窗的有窗景）
- - 未過・SHOP-WINDOW-3D-1112（11 項）：同弦樂器（從店外看進去是立體的）、山嵐書店（從店外看進去是立體的）、大步球鞋（從店外看進去是立體的）、好拍運動（從店外看進去是立體的）、新生運動廣場（從店外看進去是立體的）、泰米村食（從店外看進去是立體的）、越好吃小館（從店外看進去是立體的）、客居雲南（從店外看進去是立體的）、東南大聯商行（從店外看進去是立體的）、汀州聯通（從店外看進去是立體的）、大口漢堡（從店外看進去是立體的）
- 
- ## 第一層判不了、要第二層（CC 瀏覽器）拍的
-@@ -29,7 +29,7 @@
- | 2:30 AM<br>`cafe` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 cafe230.glb 0.9 m²（基準；連拍確認閃不閃）；質感（D159）：零件 27 個：沒貼圖的純色 33%、方塊 1 個（4%）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；第二層還沒拍、BB 還沒判 | **沒用**（cafe230.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 33%（零件 27 個，要 <25%）｜SHOP-REALISM-1112） |
- | SUNNY SIDE<br>`wz_brunch` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 sunnyside.glb 1.34 m²（基準；連拍確認閃不閃）；質感（D159）：零件 30 個：沒貼圖的純色 43%、方塊 3 個（10%）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；**BB FAIL**（@9aaa31edb9；未過：第一次從街上走近，室內沒建起來（WZ_REAL_f3e1：店前 3 m 等 3 秒 built:false，營業中看進去是空玻璃盒）；同一版 WZ_REAL_consist_f3e1 的店外照片卻看得到室內（米色牆、吊燈、咖啡吧）＝建起來的條件和「走近店面」對不上，疑似跟著舊門位置（3295c0e05c 移門）；還沒判：SUNNY 門三點（SUNNY_DOOR_front／walk）、質感（D159）：等 SHOP-REALISM-1112 同鏡頭＋參考圖並排判；初看：磁磚地、座椅有造型（進門全景）；建起來以後 ⑦b PASS（店外米色牆、黑吊燈、咖啡吧檯、綠窗框＝店內）；16:5x WZ_SIGN_1400／2330（dec3622d75）：14:00 營業中對街看是一排發白光的白板、室內 built:false、燈 off；23:30 打烊也是同一排白板＝營業和打烊看起來一樣、都不像店（同一個「室內沒建」FAIL）；17:4x WZ_REAL_r3（322a41f499）：14:00、22:00 走近 wz_brunch 都 built:false＝FAIL 照舊（日常失速、小路走近 built PASS）；18:2x FIRST_sunny_desk_r2（21a0）：中間點選在 SUNNY 門前，第一次走近最長一幀 333 ms（>50 ms 12 次）、中間點 fps 34.7，第一趟沒走到中間點＝FAIL 照舊（比上一輪 166～200 ms 更差，可能是中間點換到 SUNNY 門前、同時要建）｜BB_379 11-12 13:2x） | **沒用**（sunnyside.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 43%（零件 30 個，要 <25%）｜SHOP-REALISM-1112） |
- | 阿德影印輸出<br>`wz_print` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 ade.glb 3.2 m²（基準；連拍確認閃不閃）；質感（D159）：零件 42 個：沒貼圖的純色 45%、方塊 3 個（7%）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；第二層還沒拍、BB 還沒判 | **沒用**（ade.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 45%（零件 42 個，要 <25%）｜SHOP-REALISM-1112） |
--| 一盞<br>`wz_teahouse` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | **FAIL**（天花板比跟隨鏡頭高：房間 2.6 m < 預設跟隨鏡頭 3.134 m（鏡頭距離 4；鏡頭高過天花板＝天花板不畫）｜SHOP-INTERIOR-VIEW-1112）<br>例外（有窗的有窗景：玻璃（緣側）外面是 3D 的前院，不是照片：wz_teahouse_yard.glb（庭院、冠木門、竹垣、石燈籠、老樟樹、牆外的街；zones3d.js teaYard，WZ-YIZHAN-1104）。LAWWW-C 11-13 判；請 CC 第二層從店裡往外拍一張確認）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 yizhan.glb 1.17 m²（基準；連拍確認閃不閃）；質感（D159）：◆ 零件 68 個：沒貼圖的純色 37%、方塊 7 個（10%）；同一網格裡同尺寸重複 wzy_moss 8 個 16×4×12 cm、wzy_ridge_yard_roof 8 個 470×257×469 cm（★ 純色 ≥50% 或方塊 ≥25%；◆ 貨品同尺寸重複 ≥8｜SHOP-REALISM-1112）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | **未過 1 項**；**BB 部分**（@9aaa31edb9；還沒判：外帶冷泡茶送人（YIZHAN_TAKE_r2）、質感（D159）：等 SHOP-REALISM-1112 同鏡頭＋參考圖並排判；初看：榻榻米、木格窗有紋路（SSB_wz2b）、第一層◆（LAWWW-C 22:0x 收窄後）：貨品同尺寸重複 ≥8——並排圖時特別看貨架上重複的那一排（書背、吉他、球拍、茶罐、碗）；SSB_wz2b 14:00／19:00：①店員 1、②客人 1～2；⑦a／⑦b 例外（店在圍牆院子裡，街上看不進去＝設計，機器 FAIL 是把門口窗框當店面）｜BB_379 11-12 14:5x） | **沒用**（wz_teahouse_yard.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 40%（零件 43 個，要 <25%）｜SHOP-REALISM-1112）<br>**沒用**（yizhan.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 32%（零件 25 個，要 <25%）｜SHOP-REALISM-1112） |
-+| 一盞<br>`wz_teahouse` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>例外（有窗的有窗景：玻璃（緣側）外面是 3D 的前院，不是照片：wz_teahouse_yard.glb（庭院、冠木門、竹垣、石燈籠、老樟樹、牆外的街；zones3d.js teaYard，WZ-YIZHAN-1104）。LAWWW-C 11-13 判；請 CC 第二層從店裡往外拍一張確認）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 yizhan.glb 1.22 m²（基準；連拍確認閃不閃）；質感（D159）：◆ 零件 68 個：沒貼圖的純色 37%、方塊 7 個（10%）；同一網格裡同尺寸重複 wzy_moss 8 個 16×4×12 cm、wzy_ridge_yard_roof 8 個 470×257×469 cm（★ 純色 ≥50% 或方塊 ≥25%；◆ 貨品同尺寸重複 ≥8｜SHOP-REALISM-1112）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；**BB 部分**（@9aaa31edb9；還沒判：外帶冷泡茶送人（YIZHAN_TAKE_r2）、質感（D159）：等 SHOP-REALISM-1112 同鏡頭＋參考圖並排判；初看：榻榻米、木格窗有紋路（SSB_wz2b）、第一層◆（LAWWW-C 22:0x 收窄後）：貨品同尺寸重複 ≥8——並排圖時特別看貨架上重複的那一排（書背、吉他、球拍、茶罐、碗）；SSB_wz2b 14:00／19:00：①店員 1、②客人 1～2；⑦a／⑦b 例外（店在圍牆院子裡，街上看不進去＝設計，機器 FAIL 是把門口窗框當店面）｜BB_379 11-12 14:5x） | **沒用**（wz_teahouse_yard.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 40%（零件 43 個，要 <25%）｜SHOP-REALISM-1112）<br>**沒用**（yizhan.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 32%（零件 25 個，要 <25%）｜SHOP-REALISM-1112） |
- | 林家乾麵<br>`wz_lin` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>第二層（還沒拍：質感（D159）：◆ 零件 23 個：沒貼圖的純色 43%、方塊 2 個（9%）；同一網格裡同尺寸重複 lin_gloss 278 個 17×6×16 cm（★ 純色 ≥50% 或方塊 ≥25%；◆ 貨品同尺寸重複 ≥8｜SHOP-REALISM-1112）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；**BB 部分**（@9aaa31edb9；還沒判：⑦ 點椅子 (-0.85,0.7) 走過去停在另一張旁邊：CC 加點擊位置截圖重跑（走到旁邊按「坐下」坐得下、起身 PASS）、質感（D159）：等 SHOP-REALISM-1112 同鏡頭＋參考圖並排判；初看：不鏽鋼鍋、木櫃台有字，初看可以（SSB_wz1）、第一層◆（LAWWW-C 22:0x 收窄後）：貨品同尺寸重複 ≥8——並排圖時特別看貨架上重複的那一排（書背、吉他、球拍、茶罐、碗）；LIN_REAL 12:30／20:00：①店員、1b、⑥天花板、④、⑥閃 PASS；③窗景 PASS（機器 FAIL 是把木櫃上緣當窗框；看圖窗外是阿忠水果和機車＝街）；⑦a PASS（左中右店內櫃台、窗、碗架錯開）；⑦b PASS（店外看到白磁磚、不鏽鋼爐台、藍碗架、綠格窗＝店內同樣；機器★是晚上店內燈偏暖、店外偏冷白，P3：晚上店外那一層可以調暖一點）｜BB_379 11-12 13:2x） | **沒用**（lin_interior.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 50%（零件 20 個，要 <25%）｜SHOP-REALISM-1112） |
- | 小路<br>`wz_teishoku` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 komichi.glb 0.75 m²（基準；連拍確認閃不閃）；質感（D159）：零件 25 個：沒貼圖的純色 32%、方塊 3 個（12%）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>例外（飲料可以買來送人：居酒屋內用，杯子裝的、沒有外帶；酒不送（GIFT_DRINK_SHOPS_AUDIT_1112.md 第 2 節））<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；第二層還沒拍、BB 還沒判 | **沒用**（komichi.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 32%（零件 25 個，要 <25%）｜SHOP-REALISM-1112） |
- | 木曜日<br>`wz_mokuyobi` | PASS（第一層）<br>第二層（還沒拍：從店外看進去是立體的；打烊看得出來關了；立體櫥窗的視差、招牌、亮燈、打烊的樣子、門口互動點的字） | PASS（第一層）<br>第二層（還沒拍：牆沒有疊在同一平面：疑似牆面疊面 mokuyobi.glb 2.62 m²、mokuyobi_stair.glb 2.12 m²（基準；連拍確認閃不閃）；質感（D159）：零件 43 個：沒貼圖的純色 35%、方塊 3 個（7%）；純色塊、閃（連拍）、進門鏡頭、地板、抬頭看天花板） | PASS（第一層）<br>第二層（還沒拍：畫面上數得到店員和客人、站的位置） | PASS（第一層）<br>第二層（還沒拍：實際坐下、點一次餐、走出來） | PASS | PASS | 第一層 PASS；第二層還沒拍、BB 還沒判 | **沒用**（mokuyobi.glb：沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒有 CC0 材質組（ambientCG／Poly Haven 貼圖沒有一列寫到它）；沒貼圖的純色零件 38%（零件 29 個，要 <25%）｜SHOP-REALISM-1112） |
-diff --git a/src/data/wz_shops_layout.js b/src/data/wz_shops_layout.js
-index 61fe0109cb..9eecce010e 100644
---- a/src/data/wz_shops_layout.js
-+++ b/src/data/wz_shops_layout.js
-@@ -177,7 +177,7 @@ const WZ_SHOPS_LAYOUT = {
-   teahouse: {
-     version: 2,
-     id: 'wz_teahouse', name: '一盞', glb: 'assets/models/env/second_ai/aa_support/yizhan.glb', yardGlb: 'wz_teahouse_yard.glb（LAWWW2）',
--    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e6dcc4', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
-+    w: 8.4, d: 14.6, h: 2.9, wallColor: '#e6dcc4', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
-     zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（前院 LAWWW2 另一顆 GLB）',
-     note: '主屋約 8×10 m＋緣側。西南角是土間玄關（石板地、一階木踏台、左牆鞋櫃）；中間木地板的茶席（一張長矮桌、六個坐墊）；東邊水屋（朝店裡的木作檯：流理台、電熱水壺、茶罐、沙漏、茶巾；後面牆上茶具層架；往後面的布暖簾）；後面兩間榻榻米和室（床之間、違い棚），中間襖；前面整排格子玻璃拉門對著緣側和院子（拉開收在兩端）。深色木柱、木梁、木板天花板，方形和紙吊燈。',
-     front: {door: {x: -3.0, w: 1.0, note: '玄關的格子門（從前院的踏石進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的格子玻璃拉門：拉開收在兩端（x −2.2～−1.4、3.4～4.2）'}},
-diff --git a/src/data/yizhan_layout.js b/src/data/yizhan_layout.js
-index 7d01096ddb..2a60966f77 100644
---- a/src/data/yizhan_layout.js
-+++ b/src/data/yizhan_layout.js
-@@ -10,7 +10,7 @@
- const YIZHAN_LAYOUT = {
-   version: 2,
-   id: 'wz_teahouse', name: '一盞', glb: 'assets/models/env/second_ai/aa_support/yizhan.glb', yardGlb: 'wz_teahouse_yard.glb（LAWWW2）',
--  w: 8.4, d: 14.6, h: 2.6, wallColor: '#e6dcc4', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
-+  w: 8.4, d: 14.6, h: 2.9, wallColor: '#e6dcc4', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
-   zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（前院 LAWWW2 另一顆 GLB）',
-   note: '主屋約 8×10 m＋緣側。西南角是土間玄關（石板地、一階木踏台、左牆鞋櫃）；中間木地板的茶席（一張長矮桌、六個坐墊）；東邊水屋（朝店裡的木作檯：流理台、電熱水壺、茶罐、沙漏、茶巾；後面牆上茶具層架；往後面的布暖簾）；後面兩間榻榻米和室（床之間、違い棚），中間襖；前面整排格子玻璃拉門對著緣側和院子（拉開收在兩端）。深色木柱、木梁、木板天花板，方形和紙吊燈。',
-   front: {door: {x: -3.0, w: 1.0, note: '玄關的格子門（從前院的踏石進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的格子玻璃拉門：拉開收在兩端（x −2.2～−1.4、3.4～4.2）'}},
-diff --git a/src/zones3d.js b/src/zones3d.js
-index d87baa645c..8570df63de 100644
---- a/src/zones3d.js
-+++ b/src/zones3d.js
-@@ -2871,7 +2871,7 @@ const Z3 = (function(){
-      一盞的前面沒有牆：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（layout 的 block 擋住，看得到、走不到）——room() 以原點為中心，建好後整個往 +z 移 2.3（導航格的原點一起移）。
-      這一版：走得進去、選位子坐下、離開；點餐、印東西、喝茶的文字照 AA_172（src/wzshops3d.js；AA_355 第 3 節），打工是 DL-10。測試：node tests/wz_shops_unit.js */
-   const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#c9b08c',mosaic:'#a7aeaa'};   /* 淺色木地板（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）*/   /* wood_dark 原本 #7d5c40；溫州街店家的配置已改成 wood_light，這個鍵留著相容 */
--  const WZ_CAMDIST={print:3.2,lin:3.2,teishoku:3.2};   /* SHOP-INTERIOR-VIEW-1112（LAWWW-C 11-13）：天花板 3.0／3.0／2.9 m，鏡頭距離 4.0 時跟隨鏡頭 3.134 m 高過天花板（天花板不畫、抬頭看到背景色）；3.2 m＝鏡頭 2.86 m（118 巷 BB 定 3.6 的同一個做法）。一盞 2.6 m 要 ≤2.43 m 太擠，交 LAWWW2 */
-+  const WZ_CAMDIST={print:3.2,lin:3.2,teishoku:3.2,teahouse:3.2};   /* 一盞（LAWWW2-C 11-13）：yizhan.glb 2.34 m 以上（天花板、梁、牆頂、柱頂、吊燈線）整體抬高 0.3 m，天花板 2.6→2.9 m；鏡頭距離 3.2＝鏡頭 2.86 m，低於天花板 */   /* SHOP-INTERIOR-VIEW-1112（LAWWW-C 11-13）：天花板 3.0／3.0／2.9 m，鏡頭距離 4.0 時跟隨鏡頭 3.134 m 高過天花板（天花板不畫、抬頭看到背景色）；3.2 m＝鏡頭 2.86 m（118 巷 BB 定 3.6 的同一個做法）。一盞 2.6 m 要 ≤2.43 m 太擠，交 LAWWW2 */
-   function wzShop(key){ return { id:'wz_'+key, name:(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[key])?WZ_SHOPS_LAYOUT[key].name:key, indoor:true, camDist:WZ_CAMDIST[key]||4.0, build(E){ const L=WZ_SHOPS_LAYOUT[key], tea=!!(L.front&&L.front.openFront);
-       const winXs=(L.front&&(L.front.views||L.front.windows)||[]).map(w=>-(w[0]+w[1])/2);   /* views：窗外街景的照片平面（林家、定食店整面一片）；沒有的照建築的窗 */   /* 店面那一面的窗（room() 的 front：沿牆位置 t＝−x）*/
-       const sp=Object.assign({},L.spawn); if(!tea) sp.z=Math.min(sp.z,L.d/2-0.95);   /* room() 的牆內 0.4 m 不能站（阿德影印的出生點 3.9 太靠門）*/
 diff --git a/tests/place_gate_coplanar.json b/tests/place_gate_coplanar.json
-index 9965e93ff7..56d72f542b 100644
+index 15337bc08c..56d72f542b 100644
 --- a/tests/place_gate_coplanar.json
 +++ b/tests/place_gate_coplanar.json
-@@ -54,10 +54,10 @@
+@@ -54,9 +54,9 @@
    "top": "yej_wood×WALL_right_yej_wood 0.279 m² @[6,0.58,-3.33]"
   },
   "assets/models/env/second_ai/aa_support/yizhan.glb": {
--  "sha1": "df534842c9653d0151850f2d91832932ad23273b",
--  "wall": 1.17,
--  "always": 1.95,
--  "top": "WALL_left_yzn_post×yzn_post 0.143 m² @[-4.2,2.12,2.23]"
+-  "sha1": "a45be28202973bccb51c3246da481d668e89073a",
 +  "sha1": "d8b284a2c26e1e77a79fe8d9526b22de724c66ce",
-+  "wall": 1.22,
+   "wall": 1.22,
+-  "always": 2.05,
 +  "always": 2.03,
-+  "top": "WALL_back_yzn_post×WALL_left_yzn_wall 0.144 m² @[-4.26,2.02,-5]"
+   "top": "WALL_back_yzn_post×WALL_left_yzn_wall 0.144 m² @[-4.26,2.02,-5]"
   },
   "assets/models/env/second_ai/bb_support/ade.glb": {
-   "sha1": "59380f82190dba021a9e706d2944f0b641f667b3",
 @@ -168,7 +168,7 @@
    "top": "WALL_Sfix_steel×WALL_Sfix_steel 0.035 m² @[3.64,0.57,5.04]"
   },
@@ -21611,19 +21403,6 @@ index 9965e93ff7..56d72f542b 100644
    "wall": 0,
    "always": 13.04,
    "top": ""
-diff --git a/tests/place_gate_unit.js b/tests/place_gate_unit.js
-index 14175afeb3..4ac962bf2e 100644
---- a/tests/place_gate_unit.js
-+++ b/tests/place_gate_unit.js
-@@ -48,7 +48,7 @@ const KNOWN_FAIL=[].concat(
-   /* 118 巷打烊看起來關了：BB_379 L118_CLOSED_LOOK_r2 PASS（11-12，11 間公休／打烊鐵捲門到地、燈暗）＝這一列拿掉 */
-   /* 以下是第一層量到的（會自動比對：過了這一列就要刪，不刪會 FAIL）*/
-   /* 天花板比預設跟隨鏡頭矮（鏡頭高過天花板＝天花板不畫、抬頭看到背景色）。安泰 3.1、禮貌生財 3.0、溫州街四間 2.6～3.0；其他是 3.2 m 對鏡頭 3.208 m（差 8 mm，請第二層抬頭拍一張確認）*/
--  KF(T_VIEW,'ceiling','wz_teahouse'),   /* 阿德影印、林家乾麵、小路：鏡頭距離 3.2（zones3d.js WZ_CAMDIST，LAWWW-C 11-13）過了；一盞 2.6 m 交 LAWWW2（加高天花板或藏天花板）*/
-+  /* 一盞：LAWWW2-C 11-13 天花板抬到 2.9 m、鏡頭距離 3.2（2.86 m），過了，從表上拿掉 */
-   /* 118 巷八間店的天花板（L118-DIAN-CEILING-1112）：BB 17:4x 定鏡頭距離 4.2→3.6 m，過了（LAWWW2-C） */
-   /* 有窗（或模型有玻璃）沒有窗景照片 */
-   KF(T_VIEW,'view','us_asian_market us_market'),
 diff --git a/tools/blender/env_second/lightbake/gg_xianguo_interior_lm.json b/tools/blender/env_second/lightbake/gg_xianguo_interior_lm.json
 index 58d4eea91d..6f318c528d 100644
 --- a/tools/blender/env_second/lightbake/gg_xianguo_interior_lm.json
