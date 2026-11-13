@@ -1,0 +1,335 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_season3_stalls_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\C1112_SEASON3\out
+CC SEASON3-LINES-1111：TAG new；SHA a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492；PARTS BUY,NIGHT,LOOK；STALLS 全部；LOOKS 全部；BAG_STRICT False；網址 http://127.0.0.1:8801/index.html?tapguard；Playwright ≠ iPhone
+  [前置／捷徑] 網址加 ?tapguard（CC_02 乙 4：和手機一樣擋選單剛出來那一下的點擊）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 頁面上有 SEASON_DECO（攤子位置、日期規則）
+  [  26.6s] 稿 AA_793 和頁面 SEASON_STALLS（docs/story_planning/AA_793_season3_stalls.json@3cb2939d0）不一樣的攤：沒有（tests/season3_lines_1112_unit.js 第 2 項逐字比）
+  [  26.6s] 頁面：SS3 True、SD3 True；season_deco.js 的攤 ['sea_aiyu', 'sea_textbook', 'sea_yam', 'sea_mooncake', 'sea_couplet', 'sea_bouquet']；看的位置 {"sea_fruit": ["FRUITSPRING", "FRUITSUMMER", "FRUITAUTUMN", "FRUITWINTER"], "sea_moon_pomelo": ["MOON"], "sea_lantern": ["LANTERN"], "flower_notes_season": ["FNSPRING", "FNMAY", "FNJUNE", "FNXMAS"], "sea_moon_bbq": ["MOONBBQ"]}
+PASS 稿的六攤一對一對到 season_deco.js 擺好的攤（key）  {"deco": ["sea_aiyu", "sea_textbook", "sea_yam", "sea_mooncake", "sea_couplet", "sea_bouquet"], "aa": ["sea_aiyu", "sea_bouquet", "sea_couplet", "sea_mooncake", "sea_textbook", "sea_yam"]}
+PASS [BUY sea_aiyu] 稿上有這一攤（AA_793 @e2ea0ea3c）
+  [  26.6s] [BUY sea_aiyu] 規則 {"md": ["06-01", "08-31"], "hours": [13, 18]}：第一段 ≥第 30 天的窗口 2026-06-01～2026-08-31；候選 ['2026-07-16', '2026-07-17', '2026-07-15']；窗口外 2026-09-03；md 規則 Python 對：[True, True, True, False]
+  [前置／捷徑] [BUY sea_aiyu] 【前置／捷徑】讀檔到 wenzhou 2026-07-16 14.00 (30.62, 3.05)；天氣 clear、關條件事件、關手機自動打開（窗口裡、開攤的白天；客人站的位置）
+PASS [BUY sea_aiyu] 讀檔到窗口裡的一天（試 ['2026-07-16', '2026-07-17', '2026-07-15']）
+  [  56.7s] [BUY sea_aiyu] 2026-07-16 14.00：zone 狀態 {"zone": "wenzhou", "day": 303, "hour": 14.054, "money": 22000, "fb": 0, "seasonCodes": ["CVSSUMMER", "FRUITSUMMER", "AIYU"], "seasonStalls": ["sea_aiyu"], "seasonLooks": ["sea_fruit"], "root": true, "dtext": ""}；這一攤的互動點 [{"label": "看愛玉・仙草", "x": 30.62, "z": 3.05, "r": 1, "stall": "sea_aiyu", "look": null, "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CVSSUMMER", "FRUITSUMMER", "AIYU"], "box": [29.65, 31.55, 3.5, 5.4, 0, 2.35]}
+PASS [BUY sea_aiyu] 2026-07-16（窗口裡）有這一攤的互動點「看愛玉・仙草」、在客人站的位置 1 m 內  [{"label": "看愛玉・仙草", "x": 30.62, "z": 3.05, "r": 1, "stall": "sea_aiyu", "look": null, "fn": true}]
+PASS [BUY sea_aiyu] 模型節點 SEASON_AIYU_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CVSSUMMER", "FRUITSUMMER", "AIYU"], "box": [29.65, 31.55, 3.5, 5.4, 0, 2.35]}
+PASS [BUY sea_aiyu] 互動範圍裡有站得住、最近的就是它的點  {"me": {"x": 30.62, "z": 3.05, "r": 1, "label": "看愛玉・仙草"}, "tried": 1201, "stand": 705, "n": 705, "nearestStand": 0, "nearPt": {"x": 30.62, "z": 3.05}, "best": {"x": 30.62, "z": 3.05, "d": 0, "margin": 9, "edge": false}}
+PASS [BUY sea_aiyu] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": 30.7, "z": -1.95, "dist": 5, "ang": 179, "pathLen": 5}, {"x": 29.41, "z": -1.8, "dist": 5, "ang": 194, "pathLen": 5}, {"x": 31.99, "z": -1.76, "dist": 5, "ang": 164, "pathLen": 5}], "why": {"stand": 0, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [BUY sea_aiyu] 【前置／捷徑】放到起點 [30.7, -1.95]（站位 {"x": 30.62, "z": 3.05, "d": 0, "margin": 9, "edge": false}、離 5 m、路長 5 m）
+  [前置／捷徑] [BUY sea_aiyu] 【前置／捷徑】錢設 2000
+  [  61.4s] 「[BUY sea_aiyu]」途中停下（離目標 0.41 m）：條件成立
+  [  62.4s] [BUY sea_aiyu] 走的路：起點 [30.7, -1.95] → 點地 6 秒一段走向站位 [30.62, 3.05]：互動鍵是「看愛玉・仙草」（1 段、4 秒）；停在 {"x": 30.624, "z": 2.819, "interact": "看愛玉・仙草", "stand": true}
+PASS [BUY sea_aiyu] 走得到：互動鍵出現「看愛玉・仙草」（D141 走不到）  {"zone": "wenzhou", "x": 30.624, "z": 2.819, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看愛玉・仙草", "stand": true, "fb": 0, "hour": 14.09}
+PASS [BUY sea_aiyu] 按之前：最上面就是互動鍵「看愛玉・仙草」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看愛玉・仙草"}
+  [  73.4s] [BUY sea_aiyu] 按了以後念的 [{"w": null, "t": "（一台小推車，紅白條紋的陽傘。上面兩個大碗，一碗淡黃色的愛玉、一碗黑色的仙草，旁邊疊著一疊塑膠碗。）"}, {"w": null, "t": "（保麗龍箱上用麥克筆寫：「愛玉 40　仙草 40　綜合 50」。）"}, {"w": "阿姨", "t": "綜合的兩樣都有。"}, {"w": null, "t": "（阿姨舀了一大匙愛玉，擠了半顆檸檬，加冰塊。）"}, {"w": "阿姨", "t": "攪一下再喝。"}]；選單 [["檸檬愛玉　40 元", "仙草　40 元", "綜合（愛玉＋仙草）　50 元", "算了"]]；選了 "檸檬愛玉　40 元"
+PASS [BUY sea_aiyu] 按完不是逾時、選到「檸檬愛玉　40 元」  {"menus": [["檸檬愛玉　40 元", "仙草　40 元", "綜合（愛玉＋仙草）　50 元", "算了"]], "picked": "檸檬愛玉　40 元", "timeout": false}
+PASS [BUY sea_aiyu] 選單＝稿的全部品項「品名　價錢 元」＋「算了」  {"got": [["檸檬愛玉　40 元", "仙草　40 元", "綜合（愛玉＋仙草）　50 元", "算了"]], "want": ["檸檬愛玉　40 元", "仙草　40 元", "綜合（愛玉＋仙草）　50 元", "算了"]}
+PASS [BUY sea_aiyu] 今天第一次：先念稿的 look（2 句）  ["（一台小推車，紅白條紋的陽傘。上面兩個大碗，一碗淡黃色的愛玉、一碗黑色的仙草，旁邊疊著一疊塑膠碗。）", "（保麗龍箱上用麥克筆寫：「愛玉 40　仙草 40　綜合 50」。）"]
+PASS [BUY sea_aiyu] 攤販一句稿裡的 greet（說話的人有名字）  [{"w": "阿姨", "t": "綜合的兩樣都有。"}]
+PASS [BUY sea_aiyu] 買了：念那一樣的 buy（2 句，照順序）、念完就結束  ["（阿姨舀了一大匙愛玉，擠了半顆檸檬，加冰塊。）", "攪一下再喝。"]
+PASS [BUY sea_aiyu] 錢扣對：2000 → 1960（稿的價錢 40）；HUD 顯示 $1960  {"before": 2000, "after": 1960, "hud": "$1960"}
+  [  73.4s] [BUY sea_aiyu] 時間 14.092 → 14.195（NM3.HRS：買一樣過 5 分鐘＝0.083；走路途中也在走，只記錄）
+  [  73.5s] [BUY sea_aiyu] 【對照／觀察，不判】物品進包包：GIFTH 包包 0 → 0 樣。遊戲設計：季節攤販走 NM3.serve，買的東西不放進包包（unit 第 9 項「只有錢和時間變」）；BB 判準寫「物品進包包」→ 交 BB 判
+PASS [黑畫面] season3_new_sea_aiyu_day 不是黑畫面（平均亮度 111.4、變化 54.9）  [111.4, 54.9]
+  [  76.9s] [截圖] season3_new_sea_aiyu_day.png（只記錄、不判；鏡頭 [30.67, 2, -0.25] → [30.6, 0.9, 4.25]；亮度 [111.4, 54.9]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CVSSUMMER", "FRUITSUMMER", "AIYU"], "box": [29.65, 31.55, 3.5, 5.4, 0, 2.35]}）
+PASS [BUY sea_aiyu] 看得到：白天截圖的鏡頭裡有模型節點 SEASON_AIYU_on（顯示中）  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CVSSUMMER", "FRUITSUMMER", "AIYU"], "box": [29.65, 31.55, 3.5, 5.4, 0, 2.35]}
+PASS [BUY sea_aiyu] walkFallbacks 沒加（0 → 0）
+PASS [BUY sea_aiyu] 買完推得動 ≥0.3 m（D141 卡住）  5.79
+PASS [BUY sea_aiyu] 沒有 JS 例外  []
+  [前置／捷徑] [NIGHT sea_aiyu] 【前置／捷徑】讀檔到 wenzhou 2026-07-16 17.75 (30.62, 3.05)；天氣 clear、關條件事件、關手機自動打開（窗口裡，18 點收攤：收攤前 15 分鐘（攤子在））
+  [前置／捷徑] [NIGHT sea_aiyu] 【前置／捷徑】GAME.advance(2.17)：17.75 → 19:55（玩家待著沒走：攤子是進區域那一刻決定的，還在）
+  [  94.2s] [NIGHT sea_aiyu] 晚上：{"hour": 20, "lightH": 20.08, "lamps": true}；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CVSSUMMER", "FRUITSUMMER", "AIYU"], "box": [29.65, 31.55, 3.5, 5.4, 0, 2.35]}
+PASS [黑畫面] season3_new_sea_aiyu_night 不是黑畫面（平均亮度 78.8、變化 48.2）  [78.8, 48.2]
+  [  97.4s] [截圖] season3_new_sea_aiyu_night.png（只記錄、不判；鏡頭 [30.67, 2, -0.25] → [30.6, 0.9, 4.25]；亮度 [78.8, 48.2]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CVSSUMMER", "FRUITSUMMER", "AIYU"], "box": [29.65, 31.55, 3.5, 5.4, 0, 2.35]}）
+PASS [NIGHT sea_aiyu] 19:55 還在攤子前：互動鍵「看愛玉・仙草」  {"zone": "wenzhou", "x": 30.62, "z": 3.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看愛玉・仙草", "stand": true, "fb": 0, "hour": 20.01}
+PASS [NIGHT sea_aiyu] 按之前：最上面就是互動鍵「看愛玉・仙草」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看愛玉・仙草"}
+PASS [NIGHT sea_aiyu] 收攤以後按＝稿的 closed 一句、沒有選單、錢不動  {"said": ["（陽傘收起來綁在推車上，兩個大碗蓋著蓋子，用布包好。）"], "menus": [], "money": [22000, 22000]}
+PASS [NIGHT sea_aiyu] 推得動 ≥0.3 m、沒有 JS 例外  {"moved": 5.99, "errs": []}
+PASS [BUY sea_textbook] 稿上有這一攤（AA_793 @e2ea0ea3c）
+  [ 103.9s] [BUY sea_textbook] 規則 {"termWeek": [1, 2], "hours": [10, 21]}：第一段 ≥第 30 天的窗口 2026-02-23～2026-03-08；候選 ['2026-03-01', '2026-03-02', '2026-02-28']；窗口外 2026-03-11；md 規則 Python 對：（不是 md 規則，照 SD3.on）
+  [前置／捷徑] [BUY sea_textbook] 【前置／捷徑】讀檔到 wenzhou 2026-03-01 14.00 (14.90, 4.20)；天氣 clear、關條件事件、關手機自動打開（窗口裡、開攤的白天；客人站的位置）
+PASS [BUY sea_textbook] 讀檔到窗口裡的一天（試 ['2026-03-01', '2026-03-02', '2026-02-28']）
+  [ 117.6s] [BUY sea_textbook] 2026-03-01 14.00：zone 狀態 {"zone": "wenzhou", "day": 166, "hour": 14.067, "money": 22000, "fb": 0, "seasonCodes": ["CNY", "LANTERN", "TEXTBOOK"], "seasonStalls": ["sea_textbook"], "seasonLooks": ["sea_lantern"], "root": true, "dtext": "（陽傘收起來綁在推車上，兩個大碗蓋著蓋子，用布包好。）"}；這一攤的互動點 [{"label": "看二手教科書", "x": 14.9, "z": 4.2, "r": 1, "stall": "sea_textbook", "look": null, "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 2, "inView": null, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [14.3, 15.5, 5.11, 5.51, 0.05, 1.12]}
+PASS [BUY sea_textbook] 2026-03-01（窗口裡）有這一攤的互動點「看二手教科書」、在客人站的位置 1 m 內  [{"label": "看二手教科書", "x": 14.9, "z": 4.2, "r": 1, "stall": "sea_textbook", "look": null, "fn": true}]
+PASS [BUY sea_textbook] 模型節點 SEASON_TEXTBOOK_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 2, "inView": null, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [14.3, 15.5, 5.11, 5.51, 0.05, 1.12]}
+PASS [BUY sea_textbook] 互動範圍裡有站得住、最近的就是它的點  {"me": {"x": 14.9, "z": 4.2, "r": 1, "label": "看二手教科書"}, "tried": 1201, "stand": 590, "n": 446, "nearestStand": 0.1, "nearPt": {"x": 15, "z": 4.2}, "best": {"x": 15, "z": 4.2, "d": 0.1, "margin": 0.79, "edge": false}}
+PASS [BUY sea_textbook] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": 15, "z": -0.8, "dist": 5, "ang": 180, "pathLen": 5.31}, {"x": 13.71, "z": -0.63, "dist": 5, "ang": 195, "pathLen": 5.43}, {"x": 16.29, "z": -0.63, "dist": 5, "ang": 165, "pathLen": 5.25}], "why": {"stand": 0, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [BUY sea_textbook] 【前置／捷徑】放到起點 [15, -0.8]（站位 {"x": 15, "z": 4.2, "d": 0.1, "margin": 0.79, "edge": false}、離 5 m、路長 5.31 m）
+  [前置／捷徑] [BUY sea_textbook] 【前置／捷徑】錢設 2000
+  [ 123.7s] 「[BUY sea_textbook]」途中停下（離目標 0.51 m）：（陽傘收起來綁在推車上，兩個大碗蓋著蓋子，用布包好。）
+  [ 129.8s] [BUY sea_textbook] 走的路：起點 [15, -0.8] → 點地 6 秒一段走向站位 [15, 4.2]：互動鍵是「看二手教科書」（1 段、10 秒）；停在 {"x": 14.496, "z": 4.253, "interact": "看二手教科書", "stand": true}
+PASS [BUY sea_textbook] 走得到：互動鍵出現「看二手教科書」（D141 走不到）  {"zone": "wenzhou", "x": 14.496, "z": 4.253, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看二手教科書", "stand": true, "fb": 0, "hour": 14.15}
+PASS [BUY sea_textbook] 按之前：最上面就是互動鍵「看二手教科書」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看二手教科書"}
+  [ 139.5s] [BUY sea_textbook] 按了以後念的 [{"w": null, "t": "（門廊右邊兩層書架，上面一條長招牌：「二手教科書　法律・經濟・會計」。）"}, {"w": null, "t": "（每本書的封面貼一張黃色便利貼，寫著價錢，有的還寫「有劃線」。）"}, {"w": null, "t": "（你拿著書進去結帳。店員翻了一下便利貼。）"}, {"w": "店員", "t": "這本前面劃了很多，後面幾乎沒動。很常見。"}]；選單 [["民法總則（二手）　350 元", "刑法總則（二手）　400 元", "憲法（二手）　300 元", "經濟學原理（二手）　380 元", "算了"]]；選了 "民法總則（二手）　350 元"
+PASS [BUY sea_textbook] 按完不是逾時、選到「民法總則（二手）　350 元」  {"menus": [["民法總則（二手）　350 元", "刑法總則（二手）　400 元", "憲法（二手）　300 元", "經濟學原理（二手）　380 元", "算了"]], "picked": "民法總則（二手）　350 元", "timeout": false}
+PASS [BUY sea_textbook] 選單＝稿的全部品項「品名　價錢 元」＋「算了」  {"got": [["民法總則（二手）　350 元", "刑法總則（二手）　400 元", "憲法（二手）　300 元", "經濟學原理（二手）　380 元", "算了"]], "want": ["民法總則（二手）　350 元", "刑法總則（二手）　400 元", "憲法（二手）　300 元", "經濟學原理（二手）　380 元", "算了"]}
+PASS [BUY sea_textbook] 今天第一次：先念稿的 look（2 句）  ["（門廊右邊兩層書架，上面一條長招牌：「二手教科書　法律・經濟・會計」。）", "（每本書的封面貼一張黃色便利貼，寫著價錢，有的還寫「有劃線」。）"]
+PASS [BUY sea_textbook] 稿上沒有 greet（noVendor）：look 以後直接出選單、不說話  ["（門廊右邊兩層書架，上面一條長招牌：「二手教科書　法律・經濟・會計」。）", "（每本書的封面貼一張黃色便利貼，寫著價錢，有的還寫「有劃線」。）", "（你拿著書進去結帳。店員翻了一下便利貼。）", "這本前面劃了很多，後面幾乎沒動。很常見。"]
+PASS [BUY sea_textbook] 買了：念那一樣的 buy（2 句，照順序）、念完就結束  ["（你拿著書進去結帳。店員翻了一下便利貼。）", "這本前面劃了很多，後面幾乎沒動。很常見。"]
+PASS [BUY sea_textbook] 錢扣對：2000 → 1650（稿的價錢 350）；HUD 顯示 $1650  {"before": 2000, "after": 1650, "hud": "$1650"}
+  [ 139.5s] [BUY sea_textbook] 時間 14.150 → 14.253（NM3.HRS：買一樣過 5 分鐘＝0.083；走路途中也在走，只記錄）
+  [ 139.5s] [BUY sea_textbook] 【對照／觀察，不判】物品進包包：GIFTH 包包 0 → 0 樣。遊戲設計：季節攤販走 NM3.serve，買的東西不放進包包（unit 第 9 項「只有錢和時間變」）；BB 判準寫「物品進包包」→ 交 BB 判
+PASS [黑畫面] season3_new_sea_textbook_day 不是黑畫面（平均亮度 56、變化 35.9）  [56, 35.9]
+  [ 142.4s] [截圖] season3_new_sea_textbook_day.png（只記錄、不判；鏡頭 [14.9, 2, 0.81] → [14.9, 0.9, 5.3100000000000005]；亮度 [56, 35.9]；節點 {"root": true, "node": true, "visible": true, "meshes": 2, "inView": true, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [14.3, 15.5, 5.11, 5.51, 0.05, 1.12]}）
+PASS [BUY sea_textbook] 看得到：白天截圖的鏡頭裡有模型節點 SEASON_TEXTBOOK_on（顯示中）  {"root": true, "node": true, "visible": true, "meshes": 2, "inView": true, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [14.3, 15.5, 5.11, 5.51, 0.05, 1.12]}
+PASS [BUY sea_textbook] walkFallbacks 沒加（0 → 0）
+PASS [BUY sea_textbook] 買完推得動 ≥0.3 m（D141 卡住）  4.08
+PASS [BUY sea_textbook] 沒有 JS 例外  []
+  [前置／捷徑] [NIGHT sea_textbook] 【前置／捷徑】讀檔到 wenzhou 2026-03-01 20.00 (14.90, 4.20)；天氣 clear、關條件事件、關手機自動打開（窗口裡，收攤前 1 小時（天黑））
+  [ 160.2s] [NIGHT sea_textbook] 晚上：{"hour": 20.07, "lightH": 20.38, "lamps": true}；模型 {"root": true, "node": true, "visible": true, "meshes": 2, "inView": null, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [14.3, 15.5, 5.11, 5.51, 0.05, 1.12]}
+PASS [黑畫面] season3_new_sea_textbook_night 不是黑畫面（平均亮度 81.2、變化 48.8）  [81.2, 48.8]
+  [ 163.3s] [截圖] season3_new_sea_textbook_night.png（只記錄、不判；鏡頭 [14.9, 2, 0.81] → [14.9, 0.9, 5.3100000000000005]；亮度 [81.2, 48.8]；節點 {"root": true, "node": true, "visible": true, "meshes": 2, "inView": true, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [14.3, 15.5, 5.11, 5.51, 0.05, 1.12]}）
+PASS [NIGHT sea_textbook] 推得動 ≥0.3 m、沒有 JS 例外  {"moved": 0.35, "errs": []}
+PASS [BUY sea_yam] 稿上有這一攤（AA_793 @e2ea0ea3c）
+  [ 165.3s] [BUY sea_yam] 規則 {"md": ["12-01", "02-29"], "hours": [15, 22]}：第一段 ≥第 30 天的窗口 2025-12-01～2026-02-28；候選 ['2026-01-14', '2026-01-15', '2026-01-13']；窗口外 2026-03-03；md 規則 Python 對：[True, True, True, False]
+  [前置／捷徑] [BUY sea_yam] 【前置／捷徑】讀檔到 gongguan 2026-01-14 16.00 (-60.40, 16.40)；天氣 clear、關條件事件、關手機自動打開（窗口裡、開攤的白天；客人站的位置）
+PASS [BUY sea_yam] 讀檔到窗口裡的一天（試 ['2026-01-14', '2026-01-15', '2026-01-13']）
+  [ 190.6s] [BUY sea_yam] 2026-01-14 16.00：zone 狀態 {"zone": "gongguan", "day": 120, "hour": 16.064, "money": 22000, "fb": 0, "seasonCodes": ["CVSWINTER", "DRINKWINTER", "YAM"], "seasonStalls": ["sea_yam"], "seasonLooks": [], "root": true, "dtext": "這本前面劃了很多，後面幾乎沒動。很常見。"}；這一攤的互動點 [{"label": "看烤地瓜", "x": -60.4, "z": 16.4, "r": 1, "stall": "sea_yam", "look": null, "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 4, "inView": null, "codes": ["CVSWINTER", "DRINKWINTER", "YAM"], "box": [-61.2, -59.8, 17.65, 18.35, 0, 2]}
+PASS [BUY sea_yam] 2026-01-14（窗口裡）有這一攤的互動點「看烤地瓜」、在客人站的位置 1 m 內  [{"label": "看烤地瓜", "x": -60.4, "z": 16.4, "r": 1, "stall": "sea_yam", "look": null, "fn": true}]
+PASS [BUY sea_yam] 模型節點 SEASON_YAM_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 4, "inView": null, "codes": ["CVSWINTER", "DRINKWINTER", "YAM"], "box": [-61.2, -59.8, 17.65, 18.35, 0, 2]}
+PASS [BUY sea_yam] 互動範圍裡有站得住、最近的就是它的點  {"me": {"x": -60.4, "z": 16.4, "r": 1, "label": "看烤地瓜"}, "tried": 1201, "stand": 813, "n": 813, "nearestStand": 0, "nearPt": {"x": -60.4, "z": 16.4}, "best": {"x": -60.4, "z": 16.4, "d": 0, "margin": 9, "edge": false}}
+PASS [BUY sea_yam] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": -60.4, "z": 11.4, "dist": 5, "ang": 180, "pathLen": 5}, {"x": -61.69, "z": 11.57, "dist": 5, "ang": 195, "pathLen": 5}, {"x": -59.11, "z": 11.57, "dist": 5, "ang": 165, "pathLen": 5}], "why": {"stand": 0, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [BUY sea_yam] 【前置／捷徑】放到起點 [-60.4, 11.4]（站位 {"x": -60.4, "z": 16.4, "d": 0, "margin": 9, "edge": false}、離 5 m、路長 5 m）
+  [前置／捷徑] [BUY sea_yam] 【前置／捷徑】錢設 2000
+  [ 195.0s] 「[BUY sea_yam]」途中停下（離目標 0.41 m）：這本前面劃了很多，後面幾乎沒動。很常見。
+  [ 195.9s] [BUY sea_yam] 走的路：起點 [-60.4, 11.4] → 點地 6 秒一段走向站位 [-60.4, 16.4]：互動鍵是「看烤地瓜」（1 段、4 秒）；停在 {"x": -60.4, "z": 16.17, "interact": "看烤地瓜", "stand": true}
+PASS [BUY sea_yam] 走得到：互動鍵出現「看烤地瓜」（D141 走不到）  {"zone": "gongguan", "x": -60.4, "z": 16.17, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看烤地瓜", "stand": true, "fb": 0, "hour": 16.1}
+PASS [BUY sea_yam] 按之前：最上面就是互動鍵「看烤地瓜」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看烤地瓜"}
+  [ 206.4s] [BUY sea_yam] 按了以後念的 [{"w": null, "t": "（一台推車，上面是一個黑色的鐵桶烤爐，煙囪冒著白煙。爐邊一盤烤好的地瓜，皮都裂開了。）"}, {"w": null, "t": "（燈泡掛在推車把手上。紙板寫：「烤地瓜　一條 60～100」。）"}, {"w": "阿伯", "t": "冷天吃這個剛好。"}, {"w": null, "t": "（阿伯拿報紙包了一條，又套一個紙袋。）"}, {"w": "阿伯", "t": "皮不要丟，皮也可以吃。"}]；選單 [["烤地瓜（小）　60 元", "烤地瓜（大）　100 元", "算了"]]；選了 "烤地瓜（小）　60 元"
+PASS [BUY sea_yam] 按完不是逾時、選到「烤地瓜（小）　60 元」  {"menus": [["烤地瓜（小）　60 元", "烤地瓜（大）　100 元", "算了"]], "picked": "烤地瓜（小）　60 元", "timeout": false}
+PASS [BUY sea_yam] 選單＝稿的全部品項「品名　價錢 元」＋「算了」  {"got": [["烤地瓜（小）　60 元", "烤地瓜（大）　100 元", "算了"]], "want": ["烤地瓜（小）　60 元", "烤地瓜（大）　100 元", "算了"]}
+PASS [BUY sea_yam] 今天第一次：先念稿的 look（2 句）  ["（一台推車，上面是一個黑色的鐵桶烤爐，煙囪冒著白煙。爐邊一盤烤好的地瓜，皮都裂開了。）", "（燈泡掛在推車把手上。紙板寫：「烤地瓜　一條 60～100」。）"]
+PASS [BUY sea_yam] 攤販一句稿裡的 greet（說話的人有名字）  [{"w": "阿伯", "t": "冷天吃這個剛好。"}]
+PASS [BUY sea_yam] 買了：念那一樣的 buy（2 句，照順序）、念完就結束  ["（阿伯拿報紙包了一條，又套一個紙袋。）", "皮不要丟，皮也可以吃。"]
+PASS [BUY sea_yam] 錢扣對：2000 → 1940（稿的價錢 60）；HUD 顯示 $1940  {"before": 2000, "after": 1940, "hud": "$1940"}
+  [ 206.4s] [BUY sea_yam] 時間 16.100 → 16.201（NM3.HRS：買一樣過 5 分鐘＝0.083；走路途中也在走，只記錄）
+  [ 206.4s] [BUY sea_yam] 【對照／觀察，不判】物品進包包：GIFTH 包包 0 → 0 樣。遊戲設計：季節攤販走 NM3.serve，買的東西不放進包包（unit 第 9 項「只有錢和時間變」）；BB 判準寫「物品進包包」→ 交 BB 判
+PASS [黑畫面] season3_new_sea_yam_day 不是黑畫面（平均亮度 113.6、變化 46.2）  [113.6, 46.2]
+  [ 209.5s] [截圖] season3_new_sea_yam_day.png（只記錄、不判；鏡頭 [-60.4, 2, 13.48] → [-60.4, 0.9, 17.975]；亮度 [113.6, 46.2]；節點 {"root": true, "node": true, "visible": true, "meshes": 4, "inView": true, "codes": ["CVSWINTER", "DRINKWINTER", "YAM"], "box": [-61.2, -59.8, 17.65, 18.35, 0, 2]}）
+PASS [BUY sea_yam] 看得到：白天截圖的鏡頭裡有模型節點 SEASON_YAM_on（顯示中）  {"root": true, "node": true, "visible": true, "meshes": 4, "inView": true, "codes": ["CVSWINTER", "DRINKWINTER", "YAM"], "box": [-61.2, -59.8, 17.65, 18.35, 0, 2]}
+PASS [BUY sea_yam] walkFallbacks 沒加（0 → 0）
+PASS [BUY sea_yam] 買完推得動 ≥0.3 m（D141 卡住）  8.33
+PASS [BUY sea_yam] 沒有 JS 例外  []
+  [前置／捷徑] [NIGHT sea_yam] 【前置／捷徑】讀檔到 gongguan 2026-01-14 21.00 (-60.40, 16.40)；天氣 clear、關條件事件、關手機自動打開（窗口裡，收攤前 1 小時（天黑））
+  [ 224.5s] [NIGHT sea_yam] 晚上：{"hour": 21.06, "lightH": 21.06, "lamps": true}；模型 {"root": true, "node": true, "visible": true, "meshes": 4, "inView": null, "codes": ["CVSWINTER", "DRINKWINTER", "YAM"], "box": [-61.2, -59.8, 17.65, 18.35, 0, 2]}
+PASS [黑畫面] season3_new_sea_yam_night 不是黑畫面（平均亮度 70.9、變化 43.6）  [70.9, 43.6]
+  [ 227.5s] [截圖] season3_new_sea_yam_night.png（只記錄、不判；鏡頭 [-60.4, 2, 13.48] → [-60.4, 0.9, 17.975]；亮度 [70.9, 43.6]；節點 {"root": true, "node": true, "visible": true, "meshes": 4, "inView": true, "codes": ["CVSWINTER", "DRINKWINTER", "YAM"], "box": [-61.2, -59.8, 17.65, 18.35, 0, 2]}）
+PASS [NIGHT sea_yam] 推得動 ≥0.3 m、沒有 JS 例外  {"moved": 8.58, "errs": []}
+PASS [BUY sea_mooncake] 稿上有這一攤（AA_793 @e2ea0ea3c）
+  [ 229.6s] [BUY sea_mooncake] 規則 {"lunar": "moon", "from": -14, "to": 0, "hours": [10, 21]}：第一段 ≥第 30 天的窗口 2026-09-11～2026-09-25；候選 ['2026-09-18', '2026-09-19', '2026-09-17']；窗口外 2026-09-28；md 規則 Python 對：（不是 md 規則，照 SD3.on）
+  [前置／捷徑] [BUY sea_mooncake] 【前置／捷徑】讀檔到 gongguan 2026-09-18 14.00 (-32.90, 17.00)；天氣 clear、關條件事件、關手機自動打開（窗口裡、開攤的白天；客人站的位置）
+PASS [BUY sea_mooncake] 讀檔到窗口裡的一天（試 ['2026-09-18', '2026-09-19', '2026-09-17']）
+  [ 242.7s] [BUY sea_mooncake] 2026-09-18 14.00：zone 狀態 {"zone": "gongguan", "day": 367, "hour": 14.064, "money": 22000, "fb": 0, "seasonCodes": ["MOONCAKE"], "seasonStalls": ["sea_mooncake"], "seasonLooks": [], "root": true, "dtext": "皮不要丟，皮也可以吃。"}；這一攤的互動點 [{"label": "看中秋禮盒", "x": -32.9, "z": 17, "r": 1, "stall": "sea_mooncake", "look": null, "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["MOONCAKE"], "box": [-33.6, -32.03, 18.14, 18.75, 0, 1.36]}
+PASS [BUY sea_mooncake] 2026-09-18（窗口裡）有這一攤的互動點「看中秋禮盒」、在客人站的位置 1 m 內  [{"label": "看中秋禮盒", "x": -32.9, "z": 17, "r": 1, "stall": "sea_mooncake", "look": null, "fn": true}]
+PASS [BUY sea_mooncake] 模型節點 SEASON_MOONCAKE_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["MOONCAKE"], "box": [-33.6, -32.03, 18.14, 18.75, 0, 1.36]}
+PASS [BUY sea_mooncake] 互動範圍裡有站得住、最近的就是它的點  {"me": {"x": -32.9, "z": 17, "r": 1, "label": "看中秋禮盒"}, "tried": 1201, "stand": 737, "n": 737, "nearestStand": 0, "nearPt": {"x": -32.9, "z": 17}, "best": {"x": -32.9, "z": 17, "d": 0, "margin": 9, "edge": false}}
+PASS [BUY sea_mooncake] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": -32.9, "z": 12, "dist": 5, "ang": 180, "pathLen": 7.09}, {"x": -34.19, "z": 12.17, "dist": 5, "ang": 195, "pathLen": 6.39}, {"x": -31.61, "z": 12.17, "dist": 5, "ang": 165, "pathLen": 7.7}], "why": {"stand": 0, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [BUY sea_mooncake] 【前置／捷徑】放到起點 [-32.9, 12]（站位 {"x": -32.9, "z": 17, "d": 0, "margin": 9, "edge": false}、離 5 m、路長 7.09 m）
+  [前置／捷徑] [BUY sea_mooncake] 【前置／捷徑】錢設 2000
+  [ 248.6s] 「[BUY sea_mooncake]」途中停下（離目標 0.20 m）：皮不要丟，皮也可以吃。
+  [ 249.4s] [BUY sea_mooncake] 走的路：起點 [-32.9, 12] → 點地 6 秒一段走向站位 [-32.9, 17]：互動鍵是「看中秋禮盒」（1 段、5 秒）；停在 {"x": -33.07, "z": 16.889, "interact": "看中秋禮盒", "stand": true}
+PASS [BUY sea_mooncake] 走得到：互動鍵出現「看中秋禮盒」（D141 走不到）  {"zone": "gongguan", "x": -33.07, "z": 16.889, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看中秋禮盒", "stand": true, "fb": 0, "hour": 14.11}
+PASS [BUY sea_mooncake] 按之前：最上面就是互動鍵「看中秋禮盒」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看中秋禮盒"}
+  [ 260.1s] [BUY sea_mooncake] 按了以後念的 [{"w": null, "t": "（一張鋪了紅桌巾的臨時桌，禮盒疊成三座小山，最上面擺了幾個拆開的月餅給人看。）"}, {"w": null, "t": "（立牌寫：「中秋禮盒　蛋黃酥・綠豆椪・廣式月餅」。旁邊一疊提袋。）"}, {"w": "店員", "t": "蛋黃酥今天剛到。"}, {"w": null, "t": "（店員把禮盒裝進紅色提袋，袋口綁了一條金色的線。）"}, {"w": "店員", "t": "要送人的話，收據我另外放。"}]；選單 [["蛋黃酥禮盒（六入）　480 元", "蛋黃酥（單顆）　55 元", "綠豆椪（單顆）　45 元", "廣式月餅禮盒（四入）　560 元", "算了"]]；選了 "蛋黃酥禮盒（六入）　480 元"
+PASS [BUY sea_mooncake] 按完不是逾時、選到「蛋黃酥禮盒（六入）　480 元」  {"menus": [["蛋黃酥禮盒（六入）　480 元", "蛋黃酥（單顆）　55 元", "綠豆椪（單顆）　45 元", "廣式月餅禮盒（四入）　560 元", "算了"]], "picked": "蛋黃酥禮盒（六入）　480 元", "timeout": false}
+PASS [BUY sea_mooncake] 選單＝稿的全部品項「品名　價錢 元」＋「算了」  {"got": [["蛋黃酥禮盒（六入）　480 元", "蛋黃酥（單顆）　55 元", "綠豆椪（單顆）　45 元", "廣式月餅禮盒（四入）　560 元", "算了"]], "want": ["蛋黃酥禮盒（六入）　480 元", "蛋黃酥（單顆）　55 元", "綠豆椪（單顆）　45 元", "廣式月餅禮盒（四入）　560 元", "算了"]}
+PASS [BUY sea_mooncake] 今天第一次：先念稿的 look（2 句）  ["（一張鋪了紅桌巾的臨時桌，禮盒疊成三座小山，最上面擺了幾個拆開的月餅給人看。）", "（立牌寫：「中秋禮盒　蛋黃酥・綠豆椪・廣式月餅」。旁邊一疊提袋。）"]
+PASS [BUY sea_mooncake] 攤販一句稿裡的 greet（說話的人有名字）  [{"w": "店員", "t": "蛋黃酥今天剛到。"}]
+PASS [BUY sea_mooncake] 買了：念那一樣的 buy（2 句，照順序）、念完就結束  ["（店員把禮盒裝進紅色提袋，袋口綁了一條金色的線。）", "要送人的話，收據我另外放。"]
+PASS [BUY sea_mooncake] 錢扣對：2000 → 1520（稿的價錢 480）；HUD 顯示 $1520  {"before": 2000, "after": 1520, "hud": "$1520"}
+  [ 260.1s] [BUY sea_mooncake] 時間 14.109 → 14.211（NM3.HRS：買一樣過 5 分鐘＝0.083；走路途中也在走，只記錄）
+  [ 260.1s] [BUY sea_mooncake] 【對照／觀察，不判】物品進包包：GIFTH 包包 0 → 0 樣。遊戲設計：季節攤販走 NM3.serve，買的東西不放進包包（unit 第 9 項「只有錢和時間變」）；BB 判準寫「物品進包包」→ 交 BB 判
+PASS [黑畫面] season3_new_sea_mooncake_day 不是黑畫面（平均亮度 114.3、變化 46.7）  [114.3, 46.7]
+  [ 263.2s] [截圖] season3_new_sea_mooncake_day.png（只記錄、不判；鏡頭 [-32.9, 2, 13.95] → [-32.900000000000006, 0.9, 18.45]；亮度 [114.3, 46.7]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["MOONCAKE"], "box": [-33.6, -32.03, 18.14, 18.75, 0, 1.36]}）
+PASS [BUY sea_mooncake] 看得到：白天截圖的鏡頭裡有模型節點 SEASON_MOONCAKE_on（顯示中）  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["MOONCAKE"], "box": [-33.6, -32.03, 18.14, 18.75, 0, 1.36]}
+PASS [BUY sea_mooncake] walkFallbacks 沒加（0 → 0）
+PASS [BUY sea_mooncake] 買完推得動 ≥0.3 m（D141 卡住）  1.21
+PASS [BUY sea_mooncake] 沒有 JS 例外  []
+  [前置／捷徑] [NIGHT sea_mooncake] 【前置／捷徑】讀檔到 gongguan 2026-09-18 20.00 (-32.90, 17.00)；天氣 clear、關條件事件、關手機自動打開（窗口裡，收攤前 1 小時（天黑））
+  [ 278.0s] [NIGHT sea_mooncake] 晚上：{"hour": 20.06, "lightH": 20.38, "lamps": true}；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["MOONCAKE"], "box": [-33.6, -32.03, 18.14, 18.75, 0, 1.36]}
+PASS [黑畫面] season3_new_sea_mooncake_night 不是黑畫面（平均亮度 90.6、變化 49.4）  [90.6, 49.4]
+  [ 281.1s] [截圖] season3_new_sea_mooncake_night.png（只記錄、不判；鏡頭 [-32.9, 2, 13.95] → [-32.900000000000006, 0.9, 18.45]；亮度 [90.6, 49.4]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["MOONCAKE"], "box": [-33.6, -32.03, 18.14, 18.75, 0, 1.36]}）
+PASS [NIGHT sea_mooncake] 推得動 ≥0.3 m、沒有 JS 例外  {"moved": 1.17, "errs": []}
+PASS [BUY sea_couplet] 稿上有這一攤（AA_793 @e2ea0ea3c）
+  [ 283.0s] [BUY sea_couplet] 規則 {"lunar": "cny", "from": -20, "to": -1, "hours": [10, 21]}：第一段 ≥第 30 天的窗口 2026-01-28～2026-02-16；候選 ['2026-02-06', '2026-02-07', '2026-02-05']；窗口外 2026-02-19；md 規則 Python 對：（不是 md 規則，照 SD3.on）
+  [前置／捷徑] [BUY sea_couplet] 【前置／捷徑】讀檔到 gongguan 2026-02-06 14.00 (-37.50, 17.45)；天氣 clear、關條件事件、關手機自動打開（窗口裡、開攤的白天；客人站的位置）
+PASS [BUY sea_couplet] 讀檔到窗口裡的一天（試 ['2026-02-06', '2026-02-07', '2026-02-05']）
+  [ 296.2s] [BUY sea_couplet] 2026-02-06 14.00：zone 狀態 {"zone": "gongguan", "day": 143, "hour": 14.065, "money": 22000, "fb": 0, "seasonCodes": ["CNY", "CVSWINTER", "DRINKWINTER", "COUPLET"], "seasonStalls": ["sea_couplet"], "seasonLooks": [], "root": true, "dtext": "要送人的話，收據我另外放。"}；這一攤的互動點 [{"label": "看春聯年貨", "x": -37.5, "z": 17.45, "r": 1, "stall": "sea_couplet", "look": null, "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CNY", "CVSWINTER", "DRINKWINTER", "COUPLET"], "box": [-38.78, -36.4, 16.44, 16.72, 0, 1.95]}
+PASS [BUY sea_couplet] 2026-02-06（窗口裡）有這一攤的互動點「看春聯年貨」、在客人站的位置 1 m 內  [{"label": "看春聯年貨", "x": -37.5, "z": 17.45, "r": 1, "stall": "sea_couplet", "look": null, "fn": true}]
+PASS [BUY sea_couplet] 模型節點 SEASON_COUPLET_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CNY", "CVSWINTER", "DRINKWINTER", "COUPLET"], "box": [-38.78, -36.4, 16.44, 16.72, 0, 1.95]}
+PASS [BUY sea_couplet] 互動範圍裡有站得住、最近的就是它的點  {"me": {"x": -37.5, "z": 17.45, "r": 1, "label": "看春聯年貨"}, "tried": 1201, "stand": 737, "n": 737, "nearestStand": 0, "nearPt": {"x": -37.5, "z": 17.45}, "best": {"x": -37.5, "z": 17.45, "d": 0, "margin": 9, "edge": false}}
+PASS [BUY sea_couplet] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": -41.04, "z": 20.99, "dist": 5, "ang": -45, "pathLen": 5}, {"x": -33.17, "z": 19.95, "dist": 5, "ang": 60, "pathLen": 5.63}, {"x": -41.83, "z": 19.95, "dist": 5, "ang": -60, "pathLen": 5.35}], "why": {"stand": 6, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [BUY sea_couplet] 【前置／捷徑】放到起點 [-41.04, 20.99]（站位 {"x": -37.5, "z": 17.45, "d": 0, "margin": 9, "edge": false}、離 5 m、路長 5 m）
+  [前置／捷徑] [BUY sea_couplet] 【前置／捷徑】錢設 2000
+  [ 305.2s] 走不到「[BUY sea_couplet]」：最後位置 (-37.77,17.72)，目標 (-37.5,17.45)；點地面 1 次、轉鏡頭 1 次、搖桿 0 次
+  [ 305.3s]   這段時間：畫面 258 格／7 秒、遊戲時間 14.08→14.13、paused=False、開著的面板 []
+  [ 306.0s] [BUY sea_couplet] 走的路：起點 [-41.04, 20.99] → 點地 6 秒一段走向站位 [-37.5, 17.45]：互動鍵是「看春聯年貨」（1 段、8 秒）；停在 {"x": -37.667, "z": 17.617, "interact": "看春聯年貨", "stand": true}
+PASS [BUY sea_couplet] 走得到：互動鍵出現「看春聯年貨」（D141 走不到）  {"zone": "gongguan", "x": -37.667, "z": 17.617, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看春聯年貨", "stand": true, "fb": 0, "hour": 14.13}
+PASS [BUY sea_couplet] 按之前：最上面就是互動鍵「看春聯年貨」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看春聯年貨"}
+  [ 317.1s] [BUY sea_couplet] 按了以後念的 [{"w": null, "t": "（兩支竹竿撐起一條繩子，紅色的春聯一副一副掛著，風一吹就一起晃。）"}, {"w": null, "t": "（底下一張桌子，堆著紅紙、福字、紅包袋。紙板寫：「春聯一副 100　福字 30　紅包袋 50」。）"}, {"w": "老闆", "t": "春聯喔，手寫的跟印的都有。"}, {"w": null, "t": "（老闆把春聯捲起來，用紅紙條綁好。）"}, {"w": "老闆", "t": "上聯貼右邊喔，很多人貼錯。"}]；選單 [["春聯（一副）　100 元", "福字　30 元", "紅包袋（一包十個）　50 元", "算了"]]；選了 "春聯（一副）　100 元"
+PASS [BUY sea_couplet] 按完不是逾時、選到「春聯（一副）　100 元」  {"menus": [["春聯（一副）　100 元", "福字　30 元", "紅包袋（一包十個）　50 元", "算了"]], "picked": "春聯（一副）　100 元", "timeout": false}
+PASS [BUY sea_couplet] 選單＝稿的全部品項「品名　價錢 元」＋「算了」  {"got": [["春聯（一副）　100 元", "福字　30 元", "紅包袋（一包十個）　50 元", "算了"]], "want": ["春聯（一副）　100 元", "福字　30 元", "紅包袋（一包十個）　50 元", "算了"]}
+PASS [BUY sea_couplet] 今天第一次：先念稿的 look（2 句）  ["（兩支竹竿撐起一條繩子，紅色的春聯一副一副掛著，風一吹就一起晃。）", "（底下一張桌子，堆著紅紙、福字、紅包袋。紙板寫：「春聯一副 100　福字 30　紅包袋 50」。）"]
+PASS [BUY sea_couplet] 攤販一句稿裡的 greet（說話的人有名字）  [{"w": "老闆", "t": "春聯喔，手寫的跟印的都有。"}]
+PASS [BUY sea_couplet] 買了：念那一樣的 buy（2 句，照順序）、念完就結束  ["（老闆把春聯捲起來，用紅紙條綁好。）", "上聯貼右邊喔，很多人貼錯。"]
+PASS [BUY sea_couplet] 錢扣對：2000 → 1900（稿的價錢 100）；HUD 顯示 $1900  {"before": 2000, "after": 1900, "hud": "$1900"}
+  [ 317.2s] [BUY sea_couplet] 時間 14.131 → 14.234（NM3.HRS：買一樣過 5 分鐘＝0.083；走路途中也在走，只記錄）
+  [ 317.2s] [BUY sea_couplet] 【對照／觀察，不判】物品進包包：GIFTH 包包 0 → 0 樣。遊戲設計：季節攤販走 NM3.serve，買的東西不放進包包（unit 第 9 項「只有錢和時間變」）；BB 判準寫「物品進包包」→ 交 BB 判
+PASS [黑畫面] season3_new_sea_couplet_day 不是黑畫面（平均亮度 110.4、變化 44.6）  [110.4, 44.6]
+  [ 320.2s] [截圖] season3_new_sea_couplet_day.png（只記錄、不判；鏡頭 [-37.5, 2, 20.96] → [-37.5, 0.9, 16.46]；亮度 [110.4, 44.6]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CNY", "CVSWINTER", "DRINKWINTER", "COUPLET"], "box": [-38.78, -36.4, 16.44, 16.72, 0, 1.95]}）
+PASS [BUY sea_couplet] 看得到：白天截圖的鏡頭裡有模型節點 SEASON_COUPLET_on（顯示中）  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CNY", "CVSWINTER", "DRINKWINTER", "COUPLET"], "box": [-38.78, -36.4, 16.44, 16.72, 0, 1.95]}
+PASS [BUY sea_couplet] walkFallbacks 沒加（0 → 0）
+PASS [BUY sea_couplet] 買完推得動 ≥0.3 m（D141 卡住）  3.55
+PASS [BUY sea_couplet] 沒有 JS 例外  []
+  [前置／捷徑] [NIGHT sea_couplet] 【前置／捷徑】讀檔到 gongguan 2026-02-06 20.00 (-37.50, 17.45)；天氣 clear、關條件事件、關手機自動打開（窗口裡，收攤前 1 小時（天黑））
+  [ 334.6s] [NIGHT sea_couplet] 晚上：{"hour": 20.06, "lightH": 20.42, "lamps": true}；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CNY", "CVSWINTER", "DRINKWINTER", "YAM", "COUPLET"], "box": [-38.78, -36.4, 16.44, 16.72, 0, 1.95]}
+PASS [黑畫面] season3_new_sea_couplet_night 不是黑畫面（平均亮度 63.8、變化 33.9）  [63.8, 33.9]
+  [ 337.5s] [截圖] season3_new_sea_couplet_night.png（只記錄、不判；鏡頭 [-37.5, 2, 20.96] → [-37.5, 0.9, 16.46]；亮度 [63.8, 33.9]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CNY", "CVSWINTER", "DRINKWINTER", "YAM", "COUPLET"], "box": [-38.78, -36.4, 16.44, 16.72, 0, 1.95]}）
+PASS [NIGHT sea_couplet] 推得動 ≥0.3 m、沒有 JS 例外  {"moved": 3.74, "errs": []}
+PASS [BUY sea_bouquet] 稿上有這一攤（AA_793 @e2ea0ea3c）
+  [ 339.5s] [BUY sea_bouquet] 規則 {"md": ["06-01", "06-20"], "hours": [10, 18]}：第一段 ≥第 30 天的窗口 2026-06-01～2026-06-20；候選 ['2026-06-10', '2026-06-11', '2026-06-09']；窗口外 2026-06-23；md 規則 Python 對：[True, True, True, False]
+  [前置／捷徑] [BUY sea_bouquet] 【前置／捷徑】讀檔到 gongguan 2026-06-10 14.00 (8.25, -42.05)；天氣 clear、關條件事件、關手機自動打開（窗口裡、開攤的白天；客人站的位置）
+PASS [BUY sea_bouquet] 讀檔到窗口裡的一天（試 ['2026-06-10', '2026-06-11', '2026-06-09']）
+  [ 352.8s] [BUY sea_bouquet] 2026-06-10 14.00：zone 狀態 {"zone": "gongguan", "day": 267, "hour": 14.065, "money": 22000, "fb": 0, "seasonCodes": ["CVSSUMMER", "DRINKSUMMER", "FNJUNE", "BOUQUET"], "seasonStalls": ["sea_bouquet"], "seasonLooks": ["flower_notes_season"], "root": true, "dtext": "上聯貼右邊喔，很多人貼錯。"}；這一攤的互動點 [{"label": "看畢業花束", "x": 8.25, "z": -42.05, "r": 1, "stall": "sea_bouquet", "look": null, "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CVSSUMMER", "DRINKSUMMER", "FNJUNE", "BOUQUET"], "box": [7.85, 9.15, -43.95, -43.29, 0, 1.2]}
+PASS [BUY sea_bouquet] 2026-06-10（窗口裡）有這一攤的互動點「看畢業花束」、在客人站的位置 1 m 內  [{"label": "看畢業花束", "x": 8.25, "z": -42.05, "r": 1, "stall": "sea_bouquet", "look": null, "fn": true}]
+PASS [BUY sea_bouquet] 模型節點 SEASON_BOUQUET_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CVSSUMMER", "DRINKSUMMER", "FNJUNE", "BOUQUET"], "box": [7.85, 9.15, -43.95, -43.29, 0, 1.2]}
+PASS [BUY sea_bouquet] 互動範圍裡有站得住、最近的就是它的點  {"me": {"x": 8.25, "z": -42.05, "r": 1, "label": "看畢業花束"}, "tried": 1201, "stand": 717, "n": 717, "nearestStand": 0, "nearPt": {"x": 8.25, "z": -42.05}, "best": {"x": 8.25, "z": -42.05, "d": 0, "margin": 9, "edge": false}}
+PASS [BUY sea_bouquet] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": 7.47, "z": -37.11, "dist": 5, "ang": -9, "pathLen": 5}, {"x": 8.77, "z": -37.08, "dist": 5, "ang": 6, "pathLen": 5}, {"x": 6.21, "z": -37.48, "dist": 5, "ang": -24, "pathLen": 5}], "why": {"stand": 0, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [BUY sea_bouquet] 【前置／捷徑】放到起點 [7.47, -37.11]（站位 {"x": 8.25, "z": -42.05, "d": 0, "margin": 9, "edge": false}、離 5 m、路長 5 m）
+  [前置／捷徑] [BUY sea_bouquet] 【前置／捷徑】錢設 2000
+  [ 361.3s] 走不到「[BUY sea_bouquet]」：最後位置 (8.18,-41.58)，目標 (8.25,-42.05)；點地面 1 次、轉鏡頭 1 次、搖桿 0 次
+  [ 361.3s]   這段時間：畫面 362 格／7 秒、遊戲時間 14.08→14.12、paused=False、開著的面板 []
+  [ 362.2s] [BUY sea_bouquet] 走的路：起點 [7.47, -37.11] → 點地 6 秒一段走向站位 [8.25, -42.05]：互動鍵是「看畢業花束」（1 段、8 秒）；停在 {"x": 8.214, "z": -41.821, "interact": "看畢業花束", "stand": true}
+PASS [BUY sea_bouquet] 走得到：互動鍵出現「看畢業花束」（D141 走不到）  {"zone": "gongguan", "x": 8.214, "z": -41.821, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看畢業花束", "stand": true, "fb": 0, "hour": 14.13}
+PASS [BUY sea_bouquet] 按之前：最上面就是互動鍵「看畢業花束」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看畢業花束"}
+  [ 372.6s] [BUY sea_bouquet] 按了以後念的 [{"w": null, "t": "（白布鋪的長桌靠著校園的圍牆，五束向日葵花束排成一排，包裝紙是牛皮紙色的。）"}, {"w": null, "t": "（桌角的牌子：「畢業花束　單支 250　三朵 450」。旁邊一桶水，還有幾支沒包的。）"}, {"w": "老闆娘", "t": "畢業快樂！要送人的嗎？"}, {"w": null, "t": "（她幫你把花莖剪斜，包裝紙再折一次。）"}, {"w": "老闆娘", "t": "卡片要不要？不用錢。"}]；選單 [["向日葵花束（單支）　250 元", "向日葵花束（三朵）　450 元", "算了"]]；選了 "向日葵花束（單支）　250 元"
+PASS [BUY sea_bouquet] 按完不是逾時、選到「向日葵花束（單支）　250 元」  {"menus": [["向日葵花束（單支）　250 元", "向日葵花束（三朵）　450 元", "算了"]], "picked": "向日葵花束（單支）　250 元", "timeout": false}
+PASS [BUY sea_bouquet] 選單＝稿的全部品項「品名　價錢 元」＋「算了」  {"got": [["向日葵花束（單支）　250 元", "向日葵花束（三朵）　450 元", "算了"]], "want": ["向日葵花束（單支）　250 元", "向日葵花束（三朵）　450 元", "算了"]}
+PASS [BUY sea_bouquet] 今天第一次：先念稿的 look（2 句）  ["（白布鋪的長桌靠著校園的圍牆，五束向日葵花束排成一排，包裝紙是牛皮紙色的。）", "（桌角的牌子：「畢業花束　單支 250　三朵 450」。旁邊一桶水，還有幾支沒包的。）"]
+PASS [BUY sea_bouquet] 攤販一句稿裡的 greet（說話的人有名字）  [{"w": "老闆娘", "t": "畢業快樂！要送人的嗎？"}]
+PASS [BUY sea_bouquet] 買了：念那一樣的 buy（2 句，照順序）、念完就結束  ["（她幫你把花莖剪斜，包裝紙再折一次。）", "卡片要不要？不用錢。"]
+PASS [BUY sea_bouquet] 錢扣對：2000 → 1750（稿的價錢 250）；HUD 顯示 $1750  {"before": 2000, "after": 1750, "hud": "$1750"}
+  [ 372.6s] [BUY sea_bouquet] 時間 14.128 → 14.229（NM3.HRS：買一樣過 5 分鐘＝0.083；走路途中也在走，只記錄）
+  [ 372.7s] [BUY sea_bouquet] 【對照／觀察，不判】物品進包包：GIFTH 包包 0 → 0 樣。遊戲設計：季節攤販走 NM3.serve，買的東西不放進包包（unit 第 9 項「只有錢和時間變」）；BB 判準寫「物品進包包」→ 交 BB 判
+PASS [黑畫面] season3_new_sea_bouquet_day 不是黑畫面（平均亮度 145.8、變化 56.6）  [145.8, 56.6]
+  [ 375.7s] [截圖] season3_new_sea_bouquet_day.png（只記錄、不判；鏡頭 [7.79, 2, -39.18] → [8.5, 0.9, -43.625]；亮度 [145.8, 56.6]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CVSSUMMER", "DRINKSUMMER", "FNJUNE", "BOUQUET"], "box": [7.85, 9.15, -43.95, -43.29, 0, 1.2]}）
+PASS [BUY sea_bouquet] 看得到：白天截圖的鏡頭裡有模型節點 SEASON_BOUQUET_on（顯示中）  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CVSSUMMER", "DRINKSUMMER", "FNJUNE", "BOUQUET"], "box": [7.85, 9.15, -43.95, -43.29, 0, 1.2]}
+PASS [BUY sea_bouquet] walkFallbacks 沒加（0 → 0）
+PASS [BUY sea_bouquet] 買完推得動 ≥0.3 m（D141 卡住）  10.75
+PASS [BUY sea_bouquet] 沒有 JS 例外  []
+  [前置／捷徑] [NIGHT sea_bouquet] 【前置／捷徑】讀檔到 gongguan 2026-06-10 17.75 (8.25, -42.05)；天氣 clear、關條件事件、關手機自動打開（窗口裡，18 點收攤：收攤前 15 分鐘（攤子在））
+  [前置／捷徑] [NIGHT sea_bouquet] 【前置／捷徑】GAME.advance(2.17)：17.75 → 19:55（玩家待著沒走：攤子是進區域那一刻決定的，還在）
+  [ 392.9s] [NIGHT sea_bouquet] 晚上：{"hour": 20, "lightH": 20.1, "lamps": true}；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CVSSUMMER", "DRINKSUMMER", "FNJUNE", "BOUQUET"], "box": [7.85, 9.15, -43.95, -43.29, 0, 1.2]}
+PASS [黑畫面] season3_new_sea_bouquet_night 不是黑畫面（平均亮度 60.8、變化 32.2）  [60.8, 32.2]
+  [ 395.8s] [截圖] season3_new_sea_bouquet_night.png（只記錄、不判；鏡頭 [7.79, 2, -39.18] → [8.5, 0.9, -43.625]；亮度 [60.8, 32.2]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CVSSUMMER", "DRINKSUMMER", "FNJUNE", "BOUQUET"], "box": [7.85, 9.15, -43.95, -43.29, 0, 1.2]}）
+PASS [NIGHT sea_bouquet] 19:55 還在攤子前：互動鍵「看畢業花束」  {"zone": "gongguan", "x": 8.25, "z": -42.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看畢業花束", "stand": true, "fb": 0, "hour": 20.01}
+PASS [NIGHT sea_bouquet] 按之前：最上面就是互動鍵「看畢業花束」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看畢業花束"}
+PASS [NIGHT sea_bouquet] 收攤以後按＝稿的 closed 一句、沒有選單、錢不動  {"said": ["（白布收起來了，只剩一個空水桶倒扣在圍牆邊。）"], "menus": [], "money": [22000, 22000]}
+PASS [NIGHT sea_bouquet] 推得動 ≥0.3 m、沒有 JS 例外  {"moved": 10.75, "errs": []}
+PASS 稿的五項布置都對到 season_deco.js 看的位置（id）  {"aa": ["sea_fruit", "sea_moon_pomelo", "sea_lantern", "flower_notes_season", "sea_moon_bbq"], "deco": ["sea_fruit", "sea_moon_pomelo", "sea_lantern", "flower_notes_season", "sea_moon_bbq"]}
+PASS [LOOK sea_fruit] season_deco.js 有這一項（FRUITWINTER）  ["FRUITSPRING", "FRUITSUMMER", "FRUITAUTUMN", "FRUITWINTER"]
+  [ 401.9s] [LOOK sea_fruit] 規則 {"md": ["12-15", "02-15"]}：第一段 ≥第 30 天的窗口 2025-12-15～2026-02-15；候選 ['2026-01-15', '2026-01-16', '2026-01-14']；窗口外 2026-02-18；md 規則 Python 對：[True, True, True, False]
+PASS [LOOK sea_fruit] 稿上有字（AA_793 @e2ea0ea3c）
+  [前置／捷徑] [LOOK sea_fruit] 【前置／捷徑】讀檔到 wenzhou 2026-01-15 14.00 (33.20, -2.80)；天氣 clear、關條件事件、關手機自動打開（有這一項的日子；看的位置旁邊）
+PASS [LOOK sea_fruit] 讀檔到有這一項的一天（試 ['2026-01-15', '2026-01-16', '2026-01-14']）
+  [ 413.8s] [LOOK sea_fruit] 2026-01-15：{"zone": "wenzhou", "day": 121, "hour": 14.065, "money": 22000, "fb": 0, "seasonCodes": ["CVSWINTER", "FRUITWINTER"], "seasonStalls": [], "seasonLooks": ["sea_fruit"], "root": true, "dtext": "（白布收起來了，只剩一個空水桶倒扣在圍牆邊。）"}；互動點 [{"label": "看當季的水果", "x": 33.2, "z": -4.3, "r": 1, "stall": null, "look": "sea_fruit", "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CVSWINTER", "FRUITWINTER"], "box": [32.95, 33.45, -5.8, -5.2, 0.03, 0.96]}
+PASS [LOOK sea_fruit] 有「看當季的水果」的互動點（在 season_deco.js 的位置）  [{"label": "看當季的水果", "x": 33.2, "z": -4.3, "r": 1, "stall": null, "look": "sea_fruit", "fn": true}]
+PASS [LOOK sea_fruit] 模型節點 SEASON_FRUITWINTER_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["CVSWINTER", "FRUITWINTER"], "box": [32.95, 33.45, -5.8, -5.2, 0.03, 0.96]}
+PASS [LOOK sea_fruit] 看的範圍裡有站得住、最近的就是它的點（離看的位置 < 半徑；engine3d.js nearestInteractable d<radius）  {"me": {"x": 33.2, "z": -4.3, "r": 1, "label": "看當季的水果"}, "tried": 1201, "stand": 376, "n": 91, "nearestStand": 0.15, "nearPt": {"x": 33.35, "z": -4.3}, "best": {"x": 33.35, "z": -4.3, "d": 0.15, "margin": 0.32, "edge": false}}
+PASS [LOOK sea_fruit] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": 38.35, "z": -4.3, "dist": 5, "ang": 90, "pathLen": 7.8}, {"x": 37.68, "z": -1.8, "dist": 5, "ang": 60, "pathLen": 5.02}, {"x": 36.89, "z": -0.76, "dist": 5, "ang": 45, "pathLen": 5}], "why": {"stand": 4, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [LOOK sea_fruit] 【前置／捷徑】放到起點 [38.35, -4.3]（站位 {"x": 33.35, "z": -4.3, "d": 0.15, "margin": 0.32, "edge": false}）
+  [ 425.7s] 走不到「[LOOK sea_fruit]」：最後位置 (33.54,-4.16)，目標 (33.35,-4.3)；點地面 2 次、轉鏡頭 1 次、搖桿 0 次
+  [ 425.8s]   這段時間：畫面 390 格／10 秒、遊戲時間 14.08→14.14、paused=False、開著的面板 []
+  [ 426.5s] [LOOK sea_fruit] 走的路：起點 [38.35, -4.3] → 點地 6 秒一段走向站位 [33.35, -4.3]：互動鍵是「看當季的水果」（1 段、11 秒）
+PASS [LOOK sea_fruit] 走得到：互動鍵出現「看當季的水果」（D141 走不到）  {"zone": "wenzhou", "x": 33.537, "z": -4.156, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看當季的水果", "stand": true, "fb": 0, "hour": 14.15}
+PASS [LOOK sea_fruit] 按之前：最上面就是互動鍵「看當季的水果」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看當季的水果"}
+  [ 430.8s] [LOOK sea_fruit] 念的 [{"w": null, "t": "（木箱裡是椪柑，一顆一顆胖胖的。）"}]
+FAIL [LOOK sea_fruit] 按了念稿的 3 句（旁白、沒有名字），文字不是空的；沒有選單、錢不動  {"said": [{"w": null, "t": "（木箱裡是椪柑，一顆一顆胖胖的。）"}], "want": ["（兩個木箱並排，上面是當季的水果，旁邊一張手寫的卡：「現在最好吃的」。沒有寫價錢。）", "（木箱裡是椪柑，一顆一顆胖胖的。）", "（木箱裡是草莓，用小盒子裝好，一盒一盒疊著。）"], "menus": []}
+PASS [LOOK sea_fruit] walkFallbacks 沒加（0 → 0）、推得動 ≥0.3 m  11.05
+PASS [黑畫面] season3_new_look_sea_fruit 不是黑畫面（平均亮度 97.5、變化 49.4）  [97.5, 49.4]
+  [ 436.0s] [截圖] season3_new_look_sea_fruit.png（只記錄、不判；鏡頭 [35.35, 1.7, -4.3] → [33.2, 0.49, -5.5]；亮度 [97.5, 49.4]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["CVSWINTER", "FRUITWINTER"], "box": [32.95, 33.45, -5.8, -5.2, 0.03, 0.96]}）
+PASS [LOOK sea_fruit] 沒有 JS 例外  []
+PASS [LOOK sea_moon_pomelo] season_deco.js 有這一項（MOON）  ["MOON"]
+  [ 436.0s] [LOOK sea_moon_pomelo] 規則 {"lunar": "moon", "from": -10, "to": 0}：第一段 ≥第 30 天的窗口 2026-09-15～2026-09-25；候選 ['2026-09-20', '2026-09-21', '2026-09-19']；窗口外 2026-09-28；md 規則 Python 對：（不是 md 規則，照 SD3.on）
+PASS [LOOK sea_moon_pomelo] 稿上有字（AA_793 @e2ea0ea3c）
+  [前置／捷徑] [LOOK sea_moon_pomelo] 【前置／捷徑】讀檔到 wenzhou 2026-09-20 14.00 (37.00, -2.80)；天氣 clear、關條件事件、關手機自動打開（有這一項的日子；看的位置旁邊）
+PASS [LOOK sea_moon_pomelo] 讀檔到有這一項的一天（試 ['2026-09-20', '2026-09-21', '2026-09-19']）
+  [ 447.8s] [LOOK sea_moon_pomelo] 2026-09-20：{"zone": "wenzhou", "day": 369, "hour": 14.065, "money": 22000, "fb": 0, "seasonCodes": ["FRUITAUTUMN", "MOON", "TEXTBOOK"], "seasonStalls": ["sea_textbook"], "seasonLooks": ["sea_fruit", "sea_moon_pomelo"], "root": true, "dtext": "（木箱裡是椪柑，一顆一顆胖胖的。）"}；互動點 [{"label": "看文旦禮盒", "x": 37, "z": -4.3, "r": 1, "stall": null, "look": "sea_moon_pomelo", "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["FRUITAUTUMN", "MOON", "TEXTBOOK"], "box": [36.82, 37.25, -5.8, -5.15, 0.03, 1.03]}
+PASS [LOOK sea_moon_pomelo] 有「看文旦禮盒」的互動點（在 season_deco.js 的位置）  [{"label": "看文旦禮盒", "x": 37, "z": -4.3, "r": 1, "stall": null, "look": "sea_moon_pomelo", "fn": true}]
+PASS [LOOK sea_moon_pomelo] 模型節點 SEASON_MOON_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["FRUITAUTUMN", "MOON", "TEXTBOOK"], "box": [36.82, 37.25, -5.8, -5.15, 0.03, 1.03]}
+  [ 447.8s] [LOOK sea_moon_pomelo] 看的範圍裡沒有站得住的點（{"me": {"x": 37, "z": -4.3, "r": 1, "label": "看文旦禮盒"}, "tried": 1201, "stand": 0, "n": 0, "nearestStand": 1.3, "nearPt": {"x": 35.7, "z": -4.3}, "best": null}）：改像玩家一樣走到最近的地方再推（判在下面那一行）
+  [ 447.8s] [LOOK sea_moon_pomelo] 【診斷】範圍（半徑 1 m）裡站不住；最近站得住的點 {"x": 35.7, "z": -4.3} 離看的位置 1.3 m：走過去、再往看的位置推
+  [ 455.3s] 走不到「[LOOK sea_moon_pomelo]（最近站得住的點）」：最後位置 (35.68,-4.25)，目標 (35.7,-4.3)；點地面 1 次、轉鏡頭 1 次、搖桿 0 次
+  [ 455.4s]   這段時間：畫面 256 格／8 秒、遊戲時間 14.07→14.12、paused=False、開著的面板 []
+  [ 464.1s] [LOOK sea_moon_pomelo] 【診斷】推完停在 [35.679, -4.254]；離看的位置最近 1.32 m（半徑 1）；途中互動鍵 ["買水果"]
+FAIL [LOOK sea_moon_pomelo] 玩家走得到看的範圍：互動鍵出現「看文旦禮盒」（D141 走不到）  {"at": [35.679, -4.254], "closest": 1.32, "labels": ["買水果"]}
+PASS [黑畫面] season3_new_look_sea_moon_pomelo 不是黑畫面（平均亮度 81.7、變化 42）  [81.7, 42]
+  [ 467.5s] [截圖] season3_new_look_sea_moon_pomelo.png（只記錄、不判；鏡頭 [37, 1.7, -1.2999999999999998] → [37.03, 0.53, -5.47]；亮度 [81.7, 42]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["FRUITAUTUMN", "MOON", "TEXTBOOK"], "box": [36.82, 37.25, -5.8, -5.15, 0.03, 1.03]}）
+PASS [LOOK sea_moon_pomelo] 沒有 JS 例外  []
+PASS [LOOK sea_lantern] season_deco.js 有這一項（LANTERN）  ["LANTERN"]
+  [ 467.5s] [LOOK sea_lantern] 規則 {"lunar": "cny", "from": 10, "to": 15}：第一段 ≥第 30 天的窗口 2026-02-27～2026-03-04；候選 ['2026-03-01', '2026-03-02', '2026-02-28']；窗口外 2026-03-07；md 規則 Python 對：（不是 md 規則，照 SD3.on）
+PASS [LOOK sea_lantern] 稿上有字（AA_793 @e2ea0ea3c）
+  [前置／捷徑] [LOOK sea_lantern] 【前置／捷徑】讀檔到 wenzhou 2026-03-01 14.00 (26.00, 13.90)；天氣 clear、關條件事件、關手機自動打開（有這一項的日子；看的位置旁邊）
+PASS [LOOK sea_lantern] 讀檔到有這一項的一天（試 ['2026-03-01', '2026-03-02', '2026-02-28']）
+  [ 479.3s] [LOOK sea_lantern] 2026-03-01：{"zone": "wenzhou", "day": 166, "hour": 14.066, "money": 22000, "fb": 0, "seasonCodes": ["CNY", "LANTERN", "TEXTBOOK"], "seasonStalls": ["sea_textbook"], "seasonLooks": ["sea_lantern"], "root": true, "dtext": "（木箱裡是椪柑，一顆一顆胖胖的。）"}；互動點 [{"label": "看燈籠", "x": 26, "z": 12.4, "r": 1.6, "stall": null, "look": "sea_lantern", "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 2, "inView": null, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [21.3, 30.7, 13.3, 13.7, 2.29, 3.41]}
+PASS [LOOK sea_lantern] 有「看燈籠」的互動點（在 season_deco.js 的位置）  [{"label": "看燈籠", "x": 26, "z": 12.4, "r": 1.6, "stall": null, "look": "sea_lantern", "fn": true}]
+PASS [LOOK sea_lantern] 模型節點 SEASON_LANTERN_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 2, "inView": null, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [21.3, 30.7, 13.3, 13.7, 2.29, 3.41]}
+PASS [LOOK sea_lantern] 看的範圍裡有站得住、最近的就是它的點（離看的位置 < 半徑；engine3d.js nearestInteractable d<radius）  {"me": {"x": 26, "z": 12.4, "r": 1.6, "label": "看燈籠"}, "tried": 3133, "stand": 3133, "n": 3133, "nearestStand": 0, "nearPt": {"x": 26, "z": 12.4}, "best": {"x": 26, "z": 12.4, "d": 0, "margin": 9, "edge": false}}
+PASS [LOOK sea_lantern] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": 26, "z": 17.4, "dist": 5, "ang": 0, "pathLen": 5}, {"x": 27.29, "z": 17.23, "dist": 5, "ang": 15, "pathLen": 5}, {"x": 24.71, "z": 17.23, "dist": 5, "ang": -15, "pathLen": 5}], "why": {"stand": 0, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [LOOK sea_lantern] 【前置／捷徑】放到起點 [26, 17.4]（站位 {"x": 26, "z": 12.4, "d": 0, "margin": 9, "edge": false}）
+  [ 488.3s] 走不到「[LOOK sea_lantern]」：最後位置 (26,12.81)，目標 (26,12.4)；點地面 1 次、轉鏡頭 1 次、搖桿 0 次
+  [ 488.4s]   這段時間：畫面 259 格／7 秒、遊戲時間 14.08→14.13、paused=False、開著的面板 []
+  [ 489.3s] [LOOK sea_lantern] 走的路：起點 [26, 17.4] → 點地 6 秒一段走向站位 [26, 12.4]：互動鍵是「看燈籠」（1 段、8 秒）
+PASS [LOOK sea_lantern] 走得到：互動鍵出現「看燈籠」（D141 走不到）  {"zone": "wenzhou", "x": 26, "z": 12.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看燈籠", "stand": true, "fb": 0, "hour": 14.13}
+PASS [LOOK sea_lantern] 按之前：最上面就是互動鍵「看燈籠」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看燈籠"}
+  [ 493.5s] [LOOK sea_lantern] 念的 [{"w": null, "t": "（小公園入口上方拉了一串燈籠，紅的黃的都有，有一個是兔子的形狀。）"}]
+PASS [LOOK sea_lantern] 按了念稿的 1 句（旁白、沒有名字），文字不是空的；沒有選單、錢不動  {"said": [{"w": null, "t": "（小公園入口上方拉了一串燈籠，紅的黃的都有，有一個是兔子的形狀。）"}], "want": ["（小公園入口上方拉了一串燈籠，紅的黃的都有，有一個是兔子的形狀。）"], "menus": []}
+PASS [LOOK sea_lantern] walkFallbacks 沒加（0 → 0）、推得動 ≥0.3 m  6.58
+PASS [黑畫面] season3_new_look_sea_lantern 不是黑畫面（平均亮度 73、變化 45.4）  [73, 45.4]
+  [ 498.9s] [截圖] season3_new_look_sea_lantern.png（只記錄、不判；鏡頭 [26, 1.7, 12.4] → [26, 2.85, 13.5]；亮度 [73, 45.4]；節點 {"root": true, "node": true, "visible": true, "meshes": 2, "inView": true, "codes": ["CNY", "LANTERN", "TEXTBOOK"], "box": [21.3, 30.7, 13.3, 13.7, 2.29, 3.41]}）
+PASS [LOOK sea_lantern] 沒有 JS 例外  []
+PASS [LOOK flower_notes_season] season_deco.js 有這一項（FNSPRING）  ["FNSPRING", "FNMAY", "FNJUNE", "FNXMAS"]
+  [ 499.0s] [LOOK flower_notes_season] 規則 {"md": ["02-20", "03-10"]}：第一段 ≥第 30 天的窗口 2026-02-20～2026-03-10；候選 ['2026-03-01', '2026-03-02', '2026-02-28']；窗口外 2026-03-13；md 規則 Python 對：[True, True, True, False]
+PASS [LOOK flower_notes_season] 稿上有字（AA_793 @e2ea0ea3c）
+  [前置／捷徑] [LOOK flower_notes_season] 【前置／捷徑】讀檔到 gongguan 2026-03-01 14.00 (44.00, 22.30)；天氣 clear、關條件事件、關手機自動打開（有這一項的日子；看的位置旁邊）
+PASS [LOOK flower_notes_season] 讀檔到有這一項的一天（試 ['2026-03-01', '2026-03-02', '2026-02-28']）
+  [ 511.9s] [LOOK flower_notes_season] 2026-03-01：{"zone": "gongguan", "day": 166, "hour": 14.065, "money": 22000, "fb": 0, "seasonCodes": ["CNY", "FNSPRING"], "seasonStalls": [], "seasonLooks": ["flower_notes_season"], "root": true, "dtext": "（小公園入口上方拉了一串燈籠，紅的黃的都有，有一個是兔子的形狀。）"}；互動點 [{"label": "看門口的花", "x": 44, "z": 20.8, "r": 1.2, "stall": null, "look": "flower_notes_season", "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 2, "inView": null, "codes": ["CNY", "FNSPRING"], "box": [42.76, 50.45, 21.67, 21.93, 0.35, 0.95]}
+PASS [LOOK flower_notes_season] 有「看門口的花」的互動點（在 season_deco.js 的位置）  [{"label": "看門口的花", "x": 44, "z": 20.8, "r": 1.2, "stall": null, "look": "flower_notes_season", "fn": true}]
+PASS [LOOK flower_notes_season] 模型節點 SEASON_FNSPRING_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 2, "inView": null, "codes": ["CNY", "FNSPRING"], "box": [42.76, 50.45, 21.67, 21.93, 0.35, 0.95]}
+PASS [LOOK flower_notes_season] 看的範圍裡有站得住、最近的就是它的點（離看的位置 < 半徑；engine3d.js nearestInteractable d<radius）  {"me": {"x": 44, "z": 20.8, "r": 1.2, "label": "看門口的花"}, "tried": 1749, "stand": 1071, "n": 995, "nearestStand": 0, "nearPt": {"x": 44, "z": 20.8}, "best": {"x": 44, "z": 20.8, "d": 0, "margin": 9, "edge": false}}
+PASS [LOOK flower_notes_season] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": 49, "z": 20.8, "dist": 5, "ang": 90, "pathLen": 5.25}, {"x": 39, "z": 20.8, "dist": 5, "ang": -90, "pathLen": 5}, {"x": 48.83, "z": 19.51, "dist": 5, "ang": 105, "pathLen": 5}], "why": {"stand": 11, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [LOOK flower_notes_season] 【前置／捷徑】放到起點 [49, 20.8]（站位 {"x": 44, "z": 20.8, "d": 0, "margin": 9, "edge": false}）
+  [ 516.2s] 「[LOOK flower_notes_season]」途中停下（離目標 0.68 m）：（小公園入口上方拉了一串燈籠，紅的黃的都有，有一個是兔子的形狀。）
+  [ 517.3s] [LOOK flower_notes_season] 走的路：起點 [49, 20.8] → 點地 6 秒一段走向站位 [44, 20.8]：互動鍵是「看門口的花」（1 段、4 秒）
+PASS [LOOK flower_notes_season] 走得到：互動鍵出現「看門口的花」（D141 走不到）  {"zone": "gongguan", "x": 44.194, "z": 20.692, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看門口的花", "stand": true, "fb": 0, "hour": 14.1}
+PASS [LOOK flower_notes_season] 按之前：最上面就是互動鍵「看門口的花」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看門口的花"}
+  [ 521.2s] [LOOK flower_notes_season] 念的 [{"w": null, "t": "（門口花台的盆花換成鬱金香了。）"}]
+FAIL [LOOK flower_notes_season] 按了念稿的 1 句（旁白、沒有名字），文字不是空的；沒有選單、錢不動  {"said": [{"w": null, "t": "（門口花台的盆花換成鬱金香了。）"}], "want": ["（門口花台的盆花換了，跟著季節換：春天是鬱金香、五月是康乃馨、夏天是向日葵、冬天是聖誕紅。）"], "menus": []}
+PASS [LOOK flower_notes_season] walkFallbacks 沒加（0 → 0）、推得動 ≥0.3 m  10.43
+PASS [黑畫面] season3_new_look_flower_notes_season 不是黑畫面（平均亮度 89.3、變化 56.5）  [89.3, 56.5]
+  [ 526.0s] [截圖] season3_new_look_flower_notes_season.png（只記錄、不判；鏡頭 [44, 1.7, 20.8] → [46.61, 0.65, 21.8]；亮度 [89.3, 56.5]；節點 {"root": true, "node": true, "visible": true, "meshes": 2, "inView": true, "codes": ["CNY", "FNSPRING"], "box": [42.76, 50.45, 21.67, 21.93, 0.35, 0.95]}）
+PASS [LOOK flower_notes_season] 沒有 JS 例外  []
+PASS [LOOK sea_moon_bbq] season_deco.js 有這一項（MOONBBQ）  ["MOONBBQ"]
+  [ 526.1s] [LOOK sea_moon_bbq] 規則 {"lunar": "moon", "from": -1, "to": 0, "hours": [17, 23]}：第一段 ≥第 30 天的窗口 2026-09-24～2026-09-25；候選 ['2026-09-24', '2026-09-25']；窗口外 2026-09-28；md 規則 Python 對：（不是 md 規則，照 SD3.on）
+PASS [LOOK sea_moon_bbq] 稿上有字（AA_793 @e2ea0ea3c）
+  [前置／捷徑] [LOOK sea_moon_bbq] 【前置／捷徑】讀檔到 gongguan 2026-09-24 19.00 (26.50, 21.80)；天氣 clear、關條件事件、關手機自動打開（有這一項的日子；看的位置旁邊）
+PASS [LOOK sea_moon_bbq] 讀檔到有這一項的一天（試 ['2026-09-24', '2026-09-25']）
+  [ 539.8s] [LOOK sea_moon_bbq] 2026-09-24：{"zone": "gongguan", "day": 373, "hour": 19.065, "money": 22000, "fb": 0, "seasonCodes": ["MOONBBQ", "MOONCAKE"], "seasonStalls": ["sea_mooncake"], "seasonLooks": ["sea_moon_bbq"], "root": true, "dtext": "（門口花台的盆花換成鬱金香了。）"}；互動點 [{"label": "看騎樓的烤肉", "x": 26.5, "z": 20.3, "r": 1.2, "stall": null, "look": "sea_moon_bbq", "fn": true}]；模型 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["MOONBBQ", "MOONCAKE"], "box": [26.06, 26.94, 21.09, 21.48, 0.05, 0.66]}
+PASS [LOOK sea_moon_bbq] 有「看騎樓的烤肉」的互動點（在 season_deco.js 的位置）  [{"label": "看騎樓的烤肉", "x": 26.5, "z": 20.3, "r": 1.2, "stall": null, "look": "sea_moon_bbq", "fn": true}]
+PASS [LOOK sea_moon_bbq] 模型節點 SEASON_MOONBBQ_on 顯示、有網格  {"root": true, "node": true, "visible": true, "meshes": 3, "inView": null, "codes": ["MOONBBQ", "MOONCAKE"], "box": [26.06, 26.94, 21.09, 21.48, 0.05, 0.66]}
+PASS [LOOK sea_moon_bbq] 看的範圍裡有站得住、最近的就是它的點（離看的位置 < 半徑；engine3d.js nearestInteractable d<radius）  {"me": {"x": 26.5, "z": 20.3, "r": 1.2, "label": "看騎樓的烤肉"}, "tried": 1749, "stand": 792, "n": 792, "nearestStand": 0.15, "nearPt": {"x": 26.5, "z": 20.15}, "best": {"x": 26.5, "z": 20.15, "d": 0.15, "margin": 9, "edge": false}}
+PASS [LOOK sea_moon_bbq] 4～7 m 外有站得住、有路的起點  {"starts": [{"x": 26.5, "z": 15.15, "dist": 5, "ang": 180, "pathLen": 5}, {"x": 25.21, "z": 15.32, "dist": 5, "ang": 195, "pathLen": 5.23}, {"x": 27.79, "z": 15.32, "dist": 5, "ang": 165, "pathLen": 5}], "why": {"stand": 0, "path": 0, "detour": 0, "inR": 0}}
+  [前置／捷徑] [LOOK sea_moon_bbq] 【前置／捷徑】放到起點 [26.5, 15.15]（站位 {"x": 26.5, "z": 20.15, "d": 0.15, "margin": 9, "edge": false}）
+  [ 544.2s] 「[LOOK sea_moon_bbq]」途中停下（離目標 0.38 m）：（門口花台的盆花換成鬱金香了。）
+  [ 545.1s] [LOOK sea_moon_bbq] 走的路：起點 [26.5, 15.15] → 點地 6 秒一段走向站位 [26.5, 20.15]：互動鍵是「看騎樓的烤肉」（1 段、4 秒）
+PASS [LOOK sea_moon_bbq] 走得到：互動鍵出現「看騎樓的烤肉」（D141 走不到）  {"zone": "gongguan", "x": 26.5, "z": 19.95, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看騎樓的烤肉", "stand": true, "fb": 0, "hour": 19.1}
+PASS [LOOK sea_moon_bbq] 按之前：最上面就是互動鍵「看騎樓的烤肉」（elementFromPoint）  {"ok": true, "top": "interactLabel", "txt": "看騎樓的烤肉"}
+  [ 549.2s] [LOOK sea_moon_bbq] 念的 [{"w": null, "t": "（鐵捲門前面擺了一個烤肉架，炭剛點起來，一家人坐在小板凳上等火。）"}]
+PASS [LOOK sea_moon_bbq] 按了念稿的 1 句（旁白、沒有名字），文字不是空的；沒有選單、錢不動  {"said": [{"w": null, "t": "（鐵捲門前面擺了一個烤肉架，炭剛點起來，一家人坐在小板凳上等火。）"}], "want": ["（鐵捲門前面擺了一個烤肉架，炭剛點起來，一家人坐在小板凳上等火。）"], "menus": []}
+PASS [LOOK sea_moon_bbq] walkFallbacks 沒加（0 → 0）、推得動 ≥0.3 m  10.85
+PASS [黑畫面] season3_new_look_sea_moon_bbq 不是黑畫面（平均亮度 70.7、變化 21.9）  [70.7, 21.9]
+  [ 554.5s] [截圖] season3_new_look_sea_moon_bbq.png（只記錄、不判；鏡頭 [26.5, 1.7, 18.15] → [26.5, 0.36, 21.29]；亮度 [70.7, 21.9]；節點 {"root": true, "node": true, "visible": true, "meshes": 3, "inView": true, "codes": ["MOONBBQ", "MOONCAKE"], "box": [26.06, 26.94, 21.09, 21.48, 0.05, 0.66]}）
+PASS [LOOK sea_moon_bbq] 沒有 JS 例外  []
+PASS 全程沒有 JS 例外  []
+FAILED 3: [LOOK sea_fruit] 按了念稿的 3 句（旁白、沒有名字），文字不是空的；沒有選單、錢不動；[LOOK sea_moon_pomelo] 玩家走得到看的範圍：互動鍵出現「看文旦禮盒」（D141 走不到）；[LOOK flower_notes_season] 按了念稿的 1 句（旁白、沒有名字），文字不是空的；沒有選單、錢不動
