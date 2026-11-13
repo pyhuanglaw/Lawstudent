@@ -1,15 +1,3 @@
-[20:20:40] memory 42% before starting SSB_us (2 running)
-[20:20:40] ==== START SSB_us  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
-[20:20:43] [res] cpu=14% mem=43% (13.4/31.4 GB) chrome_testing=9  START SSB_us
-[20:21:52] 正在跑：SSB_l118a（已跑 2 分／上限 80 分）、SSB_l118b（已跑 1 分／上限 80 分）、SSB_us（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
-[20:26:52] 正在跑：SSB_l118a（已跑 7 分／上限 80 分）、SSB_l118b（已跑 6 分／上限 80 分）、SSB_us（已跑 6 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
-[20:31:52] 正在跑：SSB_l118a（已跑 12 分／上限 80 分）、SSB_l118b（已跑 11 分／上限 80 分）、SSB_us（已跑 11 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
-[20:33:54] [res] cpu=4% mem=45% (14.3/31.4 GB) chrome_testing=10  END SSB_us
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       73f74c7c64..60d6b7f0c2  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[20:34:10] ==== END   SSB_us  exit=1  794s   ====
-[20:34:13] memory 46% before starting HELP_GUIDE_b4 (2 running)
 [20:34:13] ==== START HELP_GUIDE_b4  (probe @ e879d9b076627591b6f42e959a4b77a821b3f774) ====
 [20:34:16] [res] cpu=9% mem=46% (14.5/31.4 GB) chrome_testing=10  START HELP_GUIDE_b4
 [20:36:52] 正在跑：SSB_l118a（已跑 17 分／上限 80 分）、SSB_l118b（已跑 16 分／上限 80 分）、HELP_GUIDE_b4（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1986,15 @@
 [02:59:31] [res] cpu=0% mem=44% (14.0/31.4 GB) chrome_testing=10  START CANON458_D5
 [03:01:53] 正在跑：SHOP_B4_3cbd（已跑 21 分／上限 70 分）、CANON_NEWGAME_B2_r5（已跑 7 分／上限 240 分）、CANON458_D5（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:02:37] [res] cpu=4% mem=44% (13.9/31.4 GB) chrome_testing=10  END SHOP_B4_3cbd
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       324900dae3..522f1f5818  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:02:51] ==== END   SHOP_B4_3cbd  exit=1  1324s   ====
+[03:02:54] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[03:02:54] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[03:02:54] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[03:02:54] memory 43% before starting CANON458_D1C (2 running)
+[03:02:54] ==== START CANON458_D1C  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:02:57] [res] cpu=1% mem=43% (13.7/31.4 GB) chrome_testing=10  START CANON458_D1C
+[03:06:53] 正在跑：CANON_NEWGAME_B2_r5（已跑 12 分／上限 240 分）、CANON458_D5（已跑 7 分／上限 60 分）、CANON458_D1C（已跑 3 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:06:57] [res] cpu=4% mem=41% (13.2/31.4 GB) chrome_testing=10  END CANON458_D5
