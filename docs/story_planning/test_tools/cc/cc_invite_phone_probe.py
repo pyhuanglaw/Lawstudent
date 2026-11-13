@@ -32,6 +32,7 @@ ARRIVE_LOG = int(os.environ.get('ARRIVE_LOG') or 0)   # BB-C 21:02 ⑤：到店�
 EXPECT_LINE = os.environ.get('EXPECT_LINE') or ''
 SEED_MET = [z for z in (os.environ.get('SEED_MET') or '').split(',') if z]   # BB-C 21:02 ⑥：這些人【捷徑】設成見過、初見演過（SOCIAL.meet＋talkedTo）
 SEAT_LABEL = os.environ.get('SEAT_LABEL') or ''
+FORBID = [z for z in (os.environ.get('FORBID') or '').split(',') if z]   # BB-C 22:40 INV_LIB r7：這些字（台詞、選項）一句都不能出現（例 外校前提「你們的總圖」「妳們的圖書館」）
 MEET_LEAD = (os.environ.get('MEET_LEAD') or '') == '1'   # BB-C 22:20 INV_LIB r5：總圖約念書＝她帶路去二樓兩個相鄰空位（invites3d.js iv.lead ph go→wait），坐到 lead.me 那張才開演
 ALSO = [z for z in (os.environ.get('ALSO') or '').split(',') if z]   # BB-C 22:05 INV_LIB r4：每次取樣同時印這些人（例 pool_2 蔡宗霖）的 id、座標、pose、seat，確認「她」沒認錯人
 MEET_HER = os.environ.get('MEET_HER') or ''   # BB-C 21:59 INV_LIB r3：總圖位子都帶 label，S.seatFirst 不挑＝沒有 waitSeat、坐下不開演；照程式註解直接見面——走到她 1.5 m 內、互動鍵是這個字（例「和杜可昕說話」）才按
@@ -157,9 +158,13 @@ async def meet_lead(pg, cdp):
     R.note('帶路開始以後的對話紀錄（%d 句）：%s' % (len(dl), J(dl)))
     iv3 = await pg.evaluate(IV, WHO)
     R.check('lead 有出現 ph＝wait（她帶到二樓坐下）', any(((x.get('iv') or {}).get('lead') or {}).get('ph') == 'wait' for x in trace), J([((x.get('iv') or {}).get('lead') or {}).get('ph') for x in trace][:40]))
-    if EXPECT_SIT: R.check('有那一句「%s」' % EXPECT_SIT, any(EXPECT_SIT in x['t'] for x in dl), J([x['t'] for x in dl][:10]))
+    if EXPECT_SIT: R.check('有那一句「%s」' % EXPECT_SIT, any(EXPECT_SIT in x['t'] for x in dl) or any(EXPECT_SIT in x for x in lines2), J([x['t'] for x in dl][:10]))
+    if FORBID:
+        alltxt = [x['t'] for x in dl] + lines2 + [c for m in menus2 for c in m]
+        hit = [(f, t) for f in FORBID for t in alltxt if f in t]
+        R.check('這些字一句都沒出現（台詞＋選項）：%s' % '、'.join(FORBID), not hit, J(hit[:6]))
     R.check('邀約變成 done', (iv3 or {}).get('state') == 'done', J(iv3))
-    return {'trace': trace, 'log': dl, 'iv': iv3}
+    return {'trace': trace, 'log': dl, 'iv': iv3, 'lines': lines2, 'menus': menus2}
 
 
 async def meet_her(pg, cdp, arr):
