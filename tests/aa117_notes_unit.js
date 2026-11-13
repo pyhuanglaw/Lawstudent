@@ -117,7 +117,7 @@ const C3_NARR='（你打開手機的筆記，先寫了兩行：誰——阿哲�
   /* ---- C6 Alison 的社團經費：當面（3/16 12:30 A館一樓）、手機（3/15 選「現在說？」）---- */
   { const G=H.fresh('2028-03-16',12.6,'linze',{introDone:true,met_yu:true}); H.FAMILIAR('yu'); LOG=[]; H.said=[]; H.opts=[]; H.picks=['把帳攤開']; await EVENTS.run(ev('ev_yu_club_money'));
     const i=firstNote(), nt=notesIn(); GOT.C6=nt;
-    check('5. C6 當面：她說完兩句，「手機筆記」四行，「請求什麼：」緊接請求的選項（照舊兩個）；後面照舊',J(nt)===J(NOTE.C6)&&LOG[i-1].t==='我不想讓他覺得我在懷疑他。可是三千塊。'&&J(LOG[i+4].choice)===J(['「要學弟賠。」','「把帳攤開，請大家補單據。」'])&&H.has('……好。這樣比較不像在抓人。')&&H.has('那先找社團的指導老師。這個不用去法服。')&&G.flags.YU_C6==='open',J(LOG.slice(Math.max(0,i-1),i+5))); }
+    check('5. C6 當面：她說完兩句，「手機筆記」四行，「請求什麼：」緊接請求的選項（照舊兩個）；後面照舊',J(nt)===J(NOTE.C6)&&LOG[i-1].t==='我不想讓他覺得我在懷疑他。可是三千塊。'&&J(LOG[i+4].choice)===J(['「要學弟賠。」','「把帳攤開，請大家補單據。」'])&&H.has('好。這樣比較不像在抓人。')&&H.has('那先找社團的指導老師。這個不用去法服。')&&G.flags.YU_C6==='open',J(LOG.slice(Math.max(0,i-1),i+5))); }
   { const G=H.fresh('2028-03-15',21.05,'dorm',{introDone:true,met_yu:true}); H.FAMILIAR('yu'); (G.contacts||(G.contacts={})).yu=0; R2Y3B.c6Phone(G); PHONE.tick(G); const r=PHONE.answer(G,'y3_yu_c6',1); PHONE.tick(G); const m=PHONE.byAsk(G,'y3_yu_c6_phone');
     check('5. C6 手機（選「現在說？」）：她的訊息最後一則的回覆帶同樣四行；選項照舊',!!r&&!!m&&J(m.ask.note)===J(NOTE.C6)&&J(m.ask.opts.map(o=>o.t))===J(['要學弟賠。','把帳攤開，請大家補單據。']),J(m&&m.ask)); }
   /* ---- C7 阿凱的 bug（手機 2028-11-22 23:40）---- */

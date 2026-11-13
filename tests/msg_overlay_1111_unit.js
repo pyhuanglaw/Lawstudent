@@ -25,7 +25,7 @@ const FILES = { msg_pool: 'src/data/msg_pool.js', msg2_pool: 'src/data/msg2_pool
   /* （CANON-NO-ECON-1112 第四批：照 AA_881 換字）AA_881 拿掉可昕「走向 C」的生日那一列＝覆蓋層那一列略過（tools/msg/msg_overlay.py SUPERSEDED）；可昕整組重寫，第 3 項不比她 */
   const SUP = x => x.who === 'kexin' && x.at === 'people.kexin.replies[3].msgs[0]';
   const R = { msg_pool: OE.rows('msg_pool'), msg2_pool: OE.rows('msg2_pool').filter(x => !SUP(x)) }, NOW = {}, WAS = {};
-  for (const k in FILES) { NOW[k] = parse(read(FILES[k])); const b = show(BASE, FILES[k]); WAS[k] = b ? parse(b) : null; }
+  for (const k in FILES) { NOW[k] = require('./aa959_map.js').unmapDeep(parse(read(FILES[k])), k + '.js');   /* AA_959（DLG-FULL-REVIEW-1110）：覆蓋層之後又照覆寫表換的字先換回來（分人）再比 */ const b = show(BASE, FILES[k]); WAS[k] = b ? parse(b) : null; }
 
   await sec(1, async () => {
     const A = JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(e => e.path === 'docs/story_planning/AA_785_msg_pools.json');

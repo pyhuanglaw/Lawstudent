@@ -17,4 +17,13 @@ const fwdDeep = (file, who, x) => typeof x === 'string' ? fwd(file, who, x) : Ar
 const fwdText = (file, who, s) => { if (typeof s !== 'string') return s; for (const r of rows(file).filter(r => who == null || r.who === who).sort((a, b) => b.old.length - a.old.length)) s = s.split(r.old).join(r.new); return s; };
 /* inDoc(file, who, t, has)：對稿用——t 在稿上（has(t)），或 t 是覆蓋層換上去的新字、而它的舊字在稿上（has(old)）；who＝null＝不分人 */
 const inDoc = (file, who, t, has) => has(t) || rows(file).some(r => (who == null || r.who === who) && r.new === t && has(r.old));
-module.exports = { docs, rows, fwd, fwdDeep, fwdText, inDoc, at, have: docs.length > 0 && docs.every(d => !!d.doc) };
+/* AA_959（DLG-FULL-REVIEW-1110，tests/aa959_map.js）：覆蓋層之後，匯入工具（invites.js 手寫檔直接換）最後一步再照 AA_959 表換一次（「今天」開頭砍半、「……」開頭減量）——
+   fwd／fwdDeep／fwdText 換完覆蓋層再照 AA_959 換（只換那個人的列：表上 speaker＝who；who 是 (共用)／null＝不分人）；inDoc 也認 AA_959 換上去的新字。 */
+const M959 = require('./aa959_map.js');
+const fwd0 = fwd, fwdText0 = fwdText, inDoc0 = inDoc;
+const f959 = file => file + '.js';
+const fwd959 = (file, who, t) => M959.map(fwd0(file, who, t), f959(file), who);
+const fwdDeep959 = (file, who, x) => typeof x === 'string' ? fwd959(file, who, x) : Array.isArray(x) ? x.map(v => fwdDeep959(file, who, v)) : (x && typeof x === 'object' ? Object.fromEntries(Object.entries(x).map(([k, v]) => [k, fwdDeep959(file, who, v)])) : x);
+const fwdText959 = (file, who, s) => M959.mapText(fwdText0(file, who, s), f959(file), who);
+const inDoc959 = (file, who, t, has) => inDoc0(file, who, t, has) || inDoc0(file, who, M959.unmap(t, f959(file), who), has);
+module.exports = { docs, rows, fwd: fwd959, fwdDeep: fwdDeep959, fwdText: fwdText959, inDoc: inDoc959, at, fwd0, fwdText0, have: docs.length > 0 && docs.every(d => !!d.doc) };

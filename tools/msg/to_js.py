@@ -119,3 +119,7 @@ _t0 = open(DST, encoding='utf-8').read(); _t1 = _c898.patch_text('src/data/msg_p
 if _t1 != _t0: open(DST, 'w', encoding='utf-8').write(_t1)
 # 2026-11-11（X324 D 區）：覆蓋層（白名單 overlay:true 的稿裡 file 是 msg_pool 的列：AA_785…；tools/msg/msg_overlay.py）——最後一步（AA_630、PS755／PS763 以後），只換 at 那一格；換過的那一則多一格 ov
 _sys.path.insert(0, HERE); import msg_overlay as _MOV; _MOV.apply_file(DST, 'msg_pool', _R0)
+# AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量——覆蓋層之後最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+import aa959 as _AA959
+_t0 = open(DST, encoding='utf-8').read(); _t1 = _AA959.layer(_t0, 'msg_pool.js')
+if _t1 != _t0: open(DST, 'w', encoding='utf-8').write(_t1)

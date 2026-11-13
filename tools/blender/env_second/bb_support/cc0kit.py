@@ -116,7 +116,7 @@ class Kit:
 
     def ph_obj(self, aid, height=None, decimate=None, recolor=None, part=None, tag='', texres=512):
         """Poly Haven 模型 → 原型（底部中心在原點、Blender 座標）。recolor＝(深, 亮) 照原圖明暗改成這兩色之間；part＝只留第幾個子物件"""
-        key_ = aid + tag
+        key_ = aid + tag + (f'_h{height:g}' if height else '')   # 不同高度各一個原型（原本只看 aid＋tag：同一個模型第二次給的 height 會被忽略，洋洋櫃台上 0.42 m 的小盆栽變成 0.95 m）
         if key_ in self.PROTO: return self.PROTO[key_]
         path = cc0_fetch.ph_model(aid); before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=path); self._use('Poly Haven', aid)
         new = [o for o in bpy.data.objects if o not in before]; ms = [o for o in new if o.type == 'MESH']

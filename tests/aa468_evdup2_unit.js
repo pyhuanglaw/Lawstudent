@@ -36,7 +36,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
 const fresh=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone,Object.assign({EXCHANGE_ROUTE:'TW',EXCH_RULE:1},flags||{})); G.acts={att:{}}; G.outings=[]; H.at(key,h); G.zone=zone||'dorm'; GM.npc={}; return G; };
 const run=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); await EVENTS.run(ev(id)); return H.said.map(s=>s.t); };
 const OLD_K=['刑總那題，你先講結論，再講理由。講完我再問。','這題你上禮拜錯過。再一次。',/* （CANON-NO-ECON-1112 第四批：照 AA_875 換字）舊：「這題你上禮拜錯過。……我記得。再一次。」*/'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。','好，換你出題。出一題你自己也不確定的。'];
-const OLD_Y=['押租金那個，你講給我聽。不要講條號。','……這個詞我在社會系也學過，可是意思不一樣。你講你們的。','你剛剛那一段，跟上禮拜講的不一樣。哪一個對？','我出一題我自己不會的。你答完，我抄下來。'];
+const OLD_Y=['押租金那個，你講給我聽。不要講條號。','這個詞我在社會系也學過，可是意思不一樣。你講你們的。','你剛剛那一段，跟上禮拜講的不一樣。哪一個對？','我出一題我自己不會的。你答完，我抄下來。'];
 /* 2026-11-12（AA_836 文末分兩版，企劃線 44ed07c50）：「第一次」那一段只在只有語彤的晚上演＝兩杯那一版。舊期望：第一句是三杯「兩杯推到你和可昕面前」 */
 const YT_FIRST=['（十點，語彤買了兩杯熱可可上來，一杯推到你面前。）','我們一起考。……我先考你。',   /* AA_642 第 4 節（AA_629：她 2029 也考）*/'買賣不破租賃那一條。你講給我聽，講到我聽得懂。'];
 /* 讀書小組：kind＝kexin／yutong／split／three；2/26～8/3 每一場（S.session）照時間跑事件，回傳 [{k,sat,mode,L}] */

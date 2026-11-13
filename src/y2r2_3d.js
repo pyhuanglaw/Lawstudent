@@ -524,7 +524,7 @@ const Y2R2=(function(){
     { const m=d('kn'); if(kx(G)&&m!=null){
         if(win(G,m,22,1)&&!sent(G,'y2r2_kn')) at(G,m,22,[K('新年快樂。'),K('我們家在玩撲克牌。我表弟輸到哭。'),KASK('你們家在幹嘛？',{id:'y2r2_kn',until:abs(m+1,9.75),opts:[{t:'在看電視。沒人在看。',set:{KX_KN_Y2:'tv'},say:[{from:'kexin',text:'我們家的電視也開著。……過年的電視都是這樣。'}]},{t:'我爸從上海帶了一箱點心。',set:{KX_KN_Y2:'dad'},say:[{from:'kexin',text:'你爸回來了？那你今天不要一直滑手機。'}]},{t:'打給妳。',post:false,set:{KX_KN_Y2:'call'}}]})],'y2r2_kn');
         if(F.KX_KN_Y2==='call'&&!outGet(G,'y2r2_kn_call')) plan(G,{id:'y2r2_kn_call',ev:'ev_kexin_lunar_eve_y2_call',day:G.day,h:G.hour,late:1,place:'電話',title:'打給可昕（除夕）',verb:'打給她',must:true,call:true,travel:'',travelH:0,back:'電話結束。'});
-        if(!F.KX_KN_Y2&&win(G,m+1,10,2)&&sent(G,'y2r2_kn')&&!sent(G,'y2r2_kn_none')){ F.KX_KN_Y2='none'; at(G,m+1,10,[K('初一了。'),K('……你昨天一定被抓去打牌了。')],'y2r2_kn_none'); } } }
+        if(!F.KX_KN_Y2&&win(G,m+1,10,2)&&sent(G,'y2r2_kn')&&!sent(G,'y2r2_kn_none')){ F.KX_KN_Y2='none'; at(G,m+1,10,[K('初一了。'),K('你昨天一定被抓去打牌了。')],'y2r2_kn_none'); } } }
     /* --- 2-Y2-12 情人節 --- */
     { const m=d('vd'); if(kx(G)&&m!=null&&G.day>=m-7&&G.day<=m&&!outGet(G,'y2r2_vday')) plan(G,{id:'y2r2_vday',ev:'ev_kexin_valentine_y2',day:m,h:20,late:0.5,place:'視訊',title:'可昕的視訊：情人節',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'}); }
     /* --- 2-Y2-13 阿哲押金的結果：那天之後第 7 天 22:00 --- */

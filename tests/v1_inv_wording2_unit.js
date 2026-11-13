@@ -50,7 +50,7 @@ await sec(2,async()=>{ const d=termDay('Y1S1',6,3); fresh(d,'heroine_02'); let L
   check('2. 聽過她家（ZR_HOMETOWN）：「這家影印一張一塊半欸。我媽那邊才一塊。」',L[0]==='這家影印一張一塊半欸。我媽那邊才一塊。'&&!L.includes('這家影印一張一塊半欸，好貴。'),J(L));
   H.G.flags.walkChatN={}; const lib=picks('heroine_02','library',1)[0]; check('2. 芷若去總圖：「你背包那本是什麼？好厚喔。」「我們的書都很薄，……」（Z4）',!!lib&&txt(lib.lines)==='你背包那本是什麼？好厚喔。我們的書都很薄，可是每本都要讀好幾遍。');
   const e=INV.walkEntry('heroine_02','ZR_FILM_ASK');
-  check('2. 猜電影（Z5）：問句、三個回答、after 兩句；選項照舊',!!e&&J(e.l)===J(['欸，你不覺得這條巷子很適合拍電影嗎？你猜我會拍什麼。'])&&J(e.ch.map(c=>c.t))===J(['愛情片。','恐怖片。','什麼都沒發生的片。'])&&J(e.ch.map(c=>c.r[0]))===J(['太簡單了啦。','晚上是有一點啦，可是不是。','……你怎麼知道？'])&&J(e.after)===J(['我想拍一個人每天走這條巷子去上班，然後什麼事都沒發生。','……應該很難看吧。']));
+  check('2. 猜電影（Z5）：問句、三個回答、after 兩句；選項照舊',!!e&&J(e.l)===J(['欸，你不覺得這條巷子很適合拍電影嗎？你猜我會拍什麼。'])&&J(e.ch.map(c=>c.t))===J(['愛情片。','恐怖片。','什麼都沒發生的片。'])&&J(e.ch.map(c=>c.r[0]))===J(['太簡單了啦。','晚上是有一點啦，可是不是。','……你怎麼知道？'])&&J(e.after)===J(['我想拍一個人每天走這條巷子去上班，然後什麼事都沒發生。','應該很難看吧。']));
   check('2. Z6：「我們外文的報告都要用英文寫，寫久了講中文都會卡。」',J(P.heroine_02.walk.any)===J(FI('heroine_02',['我們外文的報告都要用英文寫，寫久了講中文都會卡。'])));
   check('2. 第一次到半熟、一盞（Z7、Z8 10-2 第 7 點）',J(P.heroine_02.firstAt.brunch)===J(FI('heroine_02',['（她點完餐，看了開放廚房很久。）','她煎蛋的時候都不講話欸，好專心。','我拉花的時候也是，被叫一下就歪掉。']))&&J(P.heroine_02.firstAt.teahouse)===J(FI('heroine_02',['我完全不懂茶欸。','（店員說第一泡要等三分鐘。）','三分鐘喔？好，我等。'])));
   const SAT=termDay('Y1S1',6,6); fresh(SAT,'heroine_02'); const said=async()=>{ const iv=INV.accept(H.G,'heroine_02','brunch',H.G.day,10,{by:'player'}); H.said=[]; await INV.meet(GM,iv,null); return H.said.map(s=>s.t); };
@@ -77,7 +77,7 @@ await sec(4,()=>{ const e=P.heroine_05.walk.wenzhou[0]; check('4. 學姊筆試�
   check('4. 沛珊第一次到半熟、一盞（P3、P4）',J(P.classmate_peishan.firstAt.brunch)===J(FI('classmate_peishan',['你看她翻蛋，手腕都不動欸。','我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。']))&&J(P.classmate_peishan.firstAt.teahouse)===J(FI('classmate_peishan',['這裡講話要很小聲對不對？','……那我小聲問，第一泡為什麼要倒掉？']))); });
 
 await sec(5,()=>{ const w=P.heroine_05.walk, f=P.heroine_05.firstAt;
-  check('5. 學姊 S2、S4～S7 照 10-20 的改稿（較新：AA 直接改字、AA_313 第 6 節），不換回 BB_172',J(w.library[0].l)===J(FI('heroine_05',['B館的電梯很慢，走樓梯比較快。','總圖三樓靠窗的位子，九點以前去才有。','……我大一的時候，這些都沒人告訴我。']))&&w.library[0].if(null,{year:2})&&!w.library[0].if(null,{year:3})   /* AA_416 第 11 節第 2 點（2af5f4899）：「這兩件」算數件數，改「這些」；大三起換 AA_259 (b) 第 3 點那一版（w.library[1]） */
+  check('5. 學姊 S2、S4～S7 照 10-20 的改稿（較新：AA 直接改字、AA_313 第 6 節），不換回 BB_172',J(w.library[0].l)===J(FI('heroine_05',['B館的電梯很慢，走樓梯比較快。','總圖三樓靠窗的位子，九點以前去才有。','我大一的時候，這些都沒人告訴我。']))&&w.library[0].if(null,{year:2})&&!w.library[0].if(null,{year:3})   /* AA_416 第 11 節第 2 點（2af5f4899）：「這兩件」算數件數，改「這些」；大三起換 AA_259 (b) 第 3 點那一版（w.library[1]） */
     &&J(w.noodle)===J(FI('heroine_05',['以前法服有個個案，就住在這附近。阿伯每次來都帶一袋橘子。','……我們不能收，他就放在桌上走掉。']))&&J(w.any)===J(FI('heroine_05',['我大一的時候以為四年很長。']))   /* AA_584 第 79、80 列（學姊改稿第二批）改字 */
     &&J(f.brunch)===J(FI('heroine_05',['三分四十秒。老闆娘說的。……她每一顆都這樣計時？']))&&J(f.teahouse)===J(FI('heroine_05',['這裡不能讀書。……我很少去不能讀書的地方。'])));
   check('5. 子晴 Q6、Q8 照 10-20 AA 直接改的句子',J(P.heroine_04.walk.any[0])===J(FI('heroine_04',['（她看到一隻松鼠。）','那隻松鼠在看我。……牠在看我的餅乾。']))&&J(P.heroine_04.firstAt.teahouse)===J(FI('heroine_04',['地板是榻榻米。我要脫鞋？……我的襪子是貓的。不准看。'])));

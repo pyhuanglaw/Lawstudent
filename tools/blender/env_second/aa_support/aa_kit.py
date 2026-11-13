@@ -15,6 +15,15 @@ import plants as PL   # noqa: E402（cafe_layout 已經把 tools/blender 加進 
 GEN = os.path.join(ENV2, 'textures', 'gen')
 AUTO_SEG = False   # 第二版（木曜日、山嵐 v2）設 True：小、薄的倒角方塊只倒一段（看不出差別，三角形少六成）
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
+TALLY = {} if os.environ.get('AAKIT_TALLY') else None
+ROUTE = {}   # SHOP-CC0-HELP-1113：Shop.route() 設定；頂點色零件（Xf 的 col=）照顏色改放到 CC0 材質組的網格（表上沒有的顏色照舊頂點色）
+
+
+def _rt(m, col):
+    """col 在 ROUTE 表上、而且 m 是頂點色網格 → (那個材質組的網格, None)；否則照舊"""
+    if col is None or not ROUTE or not isinstance(m, VMesh): return m, col
+    f = ROUTE.get(col.lower())
+    return (f(m), None) if f else (m, col)
 
 
 def args():
@@ -51,14 +60,17 @@ class Xf:
     def M(self, x, y, z, extra=None):
         m = Matrix.Translation(g2b(*self.p(x, y, z))) @ Matrix.Rotation(self.ry, 4, 'Z'); return m @ extra if extra is not None else m
     def rbox(self, m, x0, x1, y0, y1, z0, z1, r=0.02, seg=None, col=None):
+        m, col = _rt(m, col)
         if seg is None: seg = 1 if AUTO_SEG and (min(abs(x1 - x0), abs(y1 - y0), abs(z1 - z0)) < 0.06 or r <= 0.008) else 2
         bm = L.rbox_bm(x1 - x0, y1 - y0, z1 - z0, r, seg)
         if col is not None: paint_bm(bm, col)
         m.add_bm(bm, self.M((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2)); bm.free(); return m
     def cyl(self, m, a, b, r, col=None, **kw):
+        m, col = _rt(m, col)
         if col is None: m.cyl(self.p(*a), self.p(*b), r, **kw); return m
         t = Mesh('_t', None, tile=1.0); t.cyl(self.p(*a), self.p(*b), r, **kw); paint_bm(t.bm, col); m.add_bm(t.bm); t.bm.free(); return m
     def lathe(self, m, prof, x, y, z, seg=16, col=None):
+        m, col = _rt(m, col)
         bm = L.lathe(prof, seg=seg)
         if col is not None: paint_bm(bm, col)
         m.add_bm(bm, self.M(x, y, z)); bm.free(); return m
@@ -92,6 +104,9 @@ class VMesh(Mesh):
         """逐面複製（連頂點色一起；from_mesh 合進非空的 bmesh 時顏色層對不上）"""
         if not other.loops.layers.float_color.get('Col'): paint_bm(other, '#ff00ff')   # 忘了塗色：洋紅，渲染一看就知道
         src = other.loops.layers.float_color['Col']; dst = self.bm.loops.layers.float_color['Col']
+        if TALLY is not None and other.faces:   # 開發用（環境變數 AAKIT_TALLY=1）：每個顏色用了幾個三角形，找出值得換材質組的顏色
+            c = tuple(round(v, 3) for v in list(next(iter(other.faces)).loops[0][src])[:3]); k_ = (self.name, '#%02x%02x%02x' % tuple(int(round(((v * 12.92) if v <= 0.0031308 else (1.055 * v ** (1 / 2.4) - 0.055)) * 255)) for v in c))
+            TALLY[k_] = TALLY.get(k_, 0) + sum(len(f.verts) - 2 for f in other.faces)
         vmap = {v: self.bm.verts.new((matrix @ v.co) if matrix is not None else v.co.copy()) for v in other.verts}
         for f in other.faces:
             try: nf = self.bm.faces.new([vmap[v] for v in f.verts])
@@ -126,7 +141,14 @@ class Shop:
     def w(s, side, key):
         if key not in s.walls[side]:
             mat = s.M[key]; s.walls[side][key] = VMesh(f'{side}_{key}', mat) if key in ('vc', 'vcm', 'vcg') else Mesh(f'{side}_{key}', mat)
+            s.walls[side][key].side = side
         return s.walls[side][key]
+
+    def route(s, table):
+        """SHOP-CC0-HELP-1113：{色碼: 材質 key}——之後 Xf 的 col= 是這些顏色的零件改放到 s.M[key] 的網格（同一層樓、同一面牆的組）"""
+        global ROUTE
+        def mk(key): return lambda m: s.w(m.side, key) if getattr(m, 'side', None) else s.a(key, getattr(m, 'lvl', ''))
+        ROUTE = {h.lower(): mk(k) for h, k in table.items()}
 
     def wall_box(s, side, key, a0, a1, y0, y1, t0=0.0, t1=0.14):
         """牆（沿著牆 a0～a1、高 y0～y1、厚度從內面 t0 到 t1——往外量）"""
@@ -244,6 +266,8 @@ class Shop:
         L.merge_by_material(s.root, keep=lambda ob: 'FACE' in ob.name or keep(ob), key=key)
         for ob in s.root.children:
             if ob.type == 'MESH' and ob.name.startswith('L2_'): ob['level'] = 1
+        if TALLY:
+            for k_, n_ in sorted(TALLY.items(), key=lambda t: -t[1])[:40]: print('TALLY_COL', k_[0], k_[1], n_)
         info = L.export(out, gpu_instances=True)
         if extra_info: info.update(extra_info)
         L.write_json(out[:-4] + '.json', info); return info

@@ -96,8 +96,8 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
     check('5. 學姊大四上美國路線（SNOWQ）：開頭 → 選項 → XM3 兩句 → 下雪那一段五行 → 第二組選項 → 她的回答；舊的三句不再說',i.o1>=0&&i.xm>i.o1&&i.xm2===i.xm+1&&i.sn>i.xm2&&i.sn2>i.sn&&i.re>i.sn2&&i.old<0&&i.n===2,J(i));
     await dinner('heroine_05','Y4S1','gf'); check('5. 臺灣路線（沒有 SNOWQ）：只有一組選項、沒有下雪那一段',CH.filter(c=>c.length===3).length===1&&!has('下雪那天，我說回來再跟你講。')&&has('可是這頓我不想錯過。'),J(CH));
     await dinner('heroine_05','Y2S1','gf',['「所以今天是慶祝。」']); const p1={she:idx('這頓我請。你不要搶。'),re:idx('我要點甜的。兩個。'),old:has('……第三次他說可以。這一頓我請。')};
-    await dinner('heroine_05','Y2S1','gf',['「所以今天是慶祝。」'],{SIS15_YOUPAY:true}); const p2={she:has('這頓我請。你不要搶。'),last:has('……說好你請。')};
-    check('5. 學姊大二上：她請（沒有 YOUPAY）＝選項後面多「這頓我請。你不要搶。」；你請（YOUPAY）＝不說，收尾照舊「……說好你請。」',p1.she>p1.re&&p1.re>=0&&!p1.old&&!p2.she&&p2.last,J({p1,p2}));
+    await dinner('heroine_05','Y2S1','gf',['「所以今天是慶祝。」'],{SIS15_YOUPAY:true}); const p2={she:has('這頓我請。你不要搶。'),last:has('說好你請。')};
+    check('5. 學姊大二上：她請（沒有 YOUPAY）＝選項後面多「這頓我請。你不要搶。」；你請（YOUPAY）＝不說，收尾照舊「說好你請。」',p1.she>p1.re&&p1.re>=0&&!p1.old&&!p2.she&&p2.last,J({p1,p2}));
     /* 語彤 sayByKind */
     const w=await dinner('heroine_03','Y1S1','gf',['「我去。哪一天？」']); const k1={say:has('秀琴姨說，放假以前要煮一桌給你吃。')&&has('（打烊後的茶屋只開了吧檯上面那一盞燈。她把茶推過來。）'),flag:w.G.flags.YT_DINNER_YES===w.G.day&&w.G.flags.YT_MOM_ASKED===w.G.day,re:has('我明天再跟她講。今天先不要。')};
     const s=await dinner('heroine_03','Y1S2','gf',['「我真的很忙啊。」']); const k2={say:has('我媽問你暑假要不要來吃飯。')&&has('我說你暑假很忙。')&&!has('秀琴姨說，放假以前要煮一桌給你吃。'),noFlag:s.G.flags.YT_DINNER_YES==null&&s.G.flags.YT_MOM_ASKED===s.G.day};
