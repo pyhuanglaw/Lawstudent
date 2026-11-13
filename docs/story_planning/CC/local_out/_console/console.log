@@ -276,3 +276,27 @@
 [16:56:55] [res] cpu=6% mem=30% (9.4/31.4 GB) chrome_testing=0  START NAV_FLOWER_2F_tap_r4B
 [16:57:08] worktree add 7f2c6bd31fc4bc5bea5e22e67909eb90eba6a528: invalid reference - fetching main and the commit itself
 [16:58:52] [res] cpu=26% mem=43% (13.8/31.4 GB) chrome_testing=8  END WZ_FRUIT_r2_buy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f3d38b7f99..fda214f0cf  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:59:02] ==== END   WZ_FRUIT_r2_buy  exit=1  119s   ====
+[16:59:06] skip L118_CAFE2_WIN (already done on 157df7b2c1939a31da2032716647f9d7fba04747)
+[16:59:06] skip NAV_FLOWER_2F_tap_r3A (already done on 375e6b82ecffd41ef44190c89111b01c46f7d40d)
+[16:59:06] skip NAV_FLOWER_2F_tap_r3B (already done on 375e6b82ecffd41ef44190c89111b01c46f7d40d)
+[16:59:06] skip NAV_FLOWER_2F_tap_r4A (already done on 07db13d3d5a0991aea8a321cc95a0d07bd076e22)
+[16:59:06] skip L118_CAM36_a_r3 (already done on f6772d22140949c6cd01204b89bc6ddf25882f38)
+[16:59:06] skip L118_CAM36_b_r3 (already done on f6772d22140949c6cd01204b89bc6ddf25882f38)
+[16:59:06] skip L118_CLOSED_LOOK_r2 (already done on 31f8361e6d1c16b9715bb798276789f6bc9836d7)
+[16:59:06] skip WZ_TAP_28_r2 (already done on 31f8361e6d1c16b9715bb798276789f6bc9836d7)
+[16:59:06] skip FIRST_sunny_desk_r3 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
+[16:59:06] skip FIRST_sunny_touch_r3 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
+[16:59:06] skip YUE_MEAL_ab9a (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
+[16:59:06] skip WZ_ICE_tue (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
+[16:59:06] skip WZ_FRUIT_mon (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
+[16:59:06] skip YY_SEATS_edf2 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
+[16:59:06] skip TZ_SIGN_2330_edf2 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
+[16:59:06] skip TZ_DOOR_2330_edf2 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
+[16:59:06] memory 44% before starting SSB_tz_a (2 running)
+[16:59:06] ==== START SSB_tz_a  (probe @ df0db366936e400caf6b6f59478f810b7ed84fe5) ====
+[16:59:09] [res] cpu=36% mem=44% (13.9/31.4 GB) chrome_testing=9  START SSB_tz_a
+[17:00:02] [res] cpu=26% mem=43% (13.6/31.4 GB) chrome_testing=9  END WZ_ICE_r3
