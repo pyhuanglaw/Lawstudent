@@ -7802,7 +7802,7 @@
    "state": "已交付",
    "at": "2026-11-13T13:25Z",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "BB-C 照用（BB_456）；已轉 LAWWW",
    "noDirectIntegrate": false,
    "next": "BB 第二眼；LAWWW 換 sis_b9_events.js 兩句",
    "unfinished": ""
