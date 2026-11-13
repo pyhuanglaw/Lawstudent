@@ -6,6 +6,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SHA='e75d1cce', SPEC='docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md';
 global.window=global;
 vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/data/date_lines.js'),'utf8').replace(/^const DATE_LINES\s*=/m,'globalThis.DATE_LINES='),{filename:'date_lines.js'});
+globalThis.DATE_LINES=require('./aa959_map.js').unmapDeep(globalThis.DATE_LINES,'date_lines.js');   /* AA_959（DLG-FULL-REVIEW-1110）：匯入最後一步照覆寫表換的字先換回來，再和源稿逐句比 */
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+String(info).slice(0,500):'')); if(!ok) fails++; };
 const J=x=>JSON.stringify(x);
 const all=[]; const walk=(x,p)=>{ if(Array.isArray(x)) x.forEach((v,i)=>walk(v,p+'['+i+']')); else if(x&&typeof x==='object'){ if(typeof x.text==='string') all.push({p,t:x.text}); for(const k in x) walk(x[k],p+'.'+k); } };

@@ -57,7 +57,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
   const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'lad781-')), outA=path.join(tmp,'with.js'), outB=path.join(tmp,'base.js'), logP=path.join(tmp,'log.json');
   const run=args=>cp.spawnSync('python3',[path.join(H.ROOT,'tools/ladder/import_ladder.py'),...args],{encoding:'utf8',timeout:300000});
   const rA=run(['--out',outA,'--aa781-log',logP]), rB=run(['--out',outB,'--no-aa781']);
-  const L=LADDER, B=rB.status===0?new Function(fs.readFileSync(outB,'utf8')+';return LADDER;')():null, LOG=rA.status===0&&fs.existsSync(logP)?JSON.parse(fs.readFileSync(logP,'utf8')):[];
+  const L=require('./aa959_map.js').unmapDeep(LADDER,'ladder.js')/* AA_959（DLG-FULL-REVIEW-1110）：匯入最後一步照覆寫表換的字先換回來，再對 AA_781 的稿 */, B=rB.status===0?require('./aa959_map.js').unmapDeep(new Function(fs.readFileSync(outB,'utf8')+';return LADDER;')(),'ladder.js'):null, LOG=rA.status===0&&fs.existsSync(logP)?JSON.parse(fs.readFileSync(logP,'utf8')):[];
 
   await sec(1,async()=>{
     for(const [term,sha,ws] of BATCH) for(const w of ws){ const p=`docs/story_planning/AA_781_${w}_ladder_${term}.json`, e=allow.filter(x=>x.path===p), b0=show(sha,p), b1=show(FINAL,p), b2=show(REV2,p), b3=show(REV3,p), want=REV3_FILES.has(p)?REV3:REV2_FILES.has(p)?REV2:FINAL;
@@ -158,7 +158,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
     const zr=['Y1S2','Y2S1','Y2S2'].map(term=>((cell(L,term,'heroine_02').greet||{}).when||[])).flat().map(w=>w.t);
     check('7. 芷若大一下～大二下的招呼是新字（舊字「要打烊了。……」「（她在吧檯後面抬頭）……嗨。」都不在了）',zr.includes('要打烊了。你可以坐到我擦完這張桌子。')&&!zr.includes('要打烊了。……你可以坐到我擦完這張桌子。')&&!zr.includes('（她在吧檯後面抬頭）……嗨。'),J(zr.filter(t=>/打烊|吧檯後面抬頭/.test(t))));
     const gcS=fs.readFileSync(path.join(H.ROOT,'src/data/greet_classday.js'),'utf8'), GC=JSON.parse(gcS.slice(gcS.indexOf('{'),gcS.lastIndexOf('}')+1));
-    check('7. 以安大一上「今天的進度我抄完了。字有點醜，你不要笑。」只在上課日說（greet_classday.js classDay，舊字拿掉）',(GC.classDay.heroine_01||[]).includes('今天的進度我抄完了。字有點醜，你不要笑。')&&!(GC.classDay.heroine_01||[]).includes('今天的進度我抄完了。你要的話晚上傳給你。'));
+    check('7. 以安大一上「進度我抄完了。字有點醜，你不要笑。」只在上課日說（greet_classday.js classDay，舊字拿掉）',(GC.classDay.heroine_01||[]).includes('進度我抄完了。字有點醜，你不要笑。')&&!(GC.classDay.heroine_01||[]).includes('今天的進度我抄完了。你要的話晚上傳給你。'));
     const r=cp.spawnSync('python3',[path.join(H.ROOT,'tools/story/import_greet_classday.py'),'--check'],{encoding:'utf8',timeout:120000});
     check('7. greet_classday.js 和重匯一致（tools/story/import_greet_classday.py --check）',r.status===0,(r.stdout||r.stderr||'').slice(-200)); });
 

@@ -171,7 +171,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   at('2028-10-03',17.8); picks=[0]; said=[]; await OUT.go(GM,qm);
   check('M1. 大二中秋去過：「又來了。」；以安「……我贊成。」；「明年還是要回來烤。」二選一', has('又來了。')&&has('……我贊成。')&&!has('我贊成。理由：公平。')&&has('明年還是要回來烤。')&&opts[0].length===2&&has('說好了喔。')&&G.flags.MIDAUTUMN_Y4==='went');
   fresh('2028-10-03',17.8,'dorm',TWF({KX_MET_NOODLE_TEAM:true})); date('kexin'); said=[]; await run('ev_y4_midautumn');
-  check('M2. 和可昕交往、見過桌遊團：「……今年我認輸。我只想吃。」', has('……今年我認輸。我只想吃。')&&has('可昕認輸了！大家記下來！'));
+  check('M2. 和可昕交往、見過桌遊團：「今年我認輸。我只想吃。」', has('今年我認輸。我只想吃。')&&has('可昕認輸了！大家記下來！'));
   fresh('2028-10-02',21.1,'us_apartment',US()); join('noodle_team','桌遊團'); date('kexin'); rules(); at('2028-10-03',7.6); rules(); at('2028-10-03',10.1); rules();
   check('M3. 美國路線：19:30（當地 07:30）照片；可昕沒見過桌遊團＝「阿哲今年贏了。」改私訊（AA_370 M7，句子不改；第 6 節第 5 題：照臺灣版 22:00＝當地 10:00）', txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')&&txt('p:kexin').includes('kexin:阿哲今年贏了。……你不在，我沒力氣講冷笑話。')&&!txt('g:noodle_team').some(t=>/阿哲今年贏了/.test(t))&&!PHONE.sent(G,'y4_ma_ask'));
   fresh('2028-10-02',21.1,'us_apartment',US({KX_MET_NOODLE_TEAM:true})); join('noodle_team','桌遊團'); date('kexin'); rules(); at('2028-10-03',7.6); rules();
@@ -364,7 +364,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2029-03-22',15.2,'dorm',Object.assign(I4F('pass'),{KX_INTERN_CALL:'fail',KX_INTERN_DAY:D('2028-11-23'),KX_INTERN:true})); date('kexin'); G.hour=15.6; rules(); const qi4=OUT.get(G,'y4_kx_intern2'); picks=[0]; said=[]; if(qi4) await OUT.go(GM,qi4);
   check('I4. 3/22 筆試上了：「結果出來了吧。你先說。」「（你說上了。）」「好。這次換你的上了。那今天宵夜誰請？」→「好。後門那家。」（AA_893 第 1 節，舊期望「好。山下那家。」）；不再說「我事務所的實習也上了。」', !!qi4&&qi4.call===true&&has('結果出來了吧。你先說。')&&has('（你說上了。）')&&has('好。這次換你的上了。那今天宵夜誰請？')&&has('好。後門那家。')&&!has('我事務所的實習也上了。那今天宵夜誰請？')&&opts[0]&&opts[0].join('|')==='「我請。」|「各付各的。」', JSON.stringify(lines()));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。這次換你的上了。那今天宵夜誰請？」 */
   fresh('2029-03-22',15.2,'dorm',I4F('fail')); date('kexin'); G.hour=15.6; rules(); const qi5=OUT.get(G,'y4_kx_intern2'); said=[]; if(qi5) await OUT.go(GM,qi5); at('2029-03-23',21.2); rules(); at('2029-03-25',21.2); rules();
-  check('I4. 3/22 筆試也沒上：「你的，先說你的。」「（你說沒上。）」「……好。今天宵夜我請，不准說不要。」；沒有「二月還有一次」、沒有隔天那則（實習 11/24 說過了）', !!qi5&&has('你的，先說你的。')&&has('（你說沒上。）')&&has('……好。今天宵夜我請，不准說不要。')&&!has('好。二月還有一次。')&&!txt('p:kexin').includes('kexin:我申請的那家事務所實習，上了。……不用恭喜，先吃飯。'), JSON.stringify([lines(),txt('p:kexin')]));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。二月還有一次。」 */   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，r2y4a_events.js:468）：舊期望「……好。今天宵夜我請。不准說不要。」 */
+  check('I4. 3/22 筆試也沒上：「你的，先說你的。」「（你說沒上。）」「好。今天宵夜我請，不准說不要。」；沒有「二月還有一次」、沒有隔天那則（實習 11/24 說過了）', !!qi5&&has('你的，先說你的。')&&has('（你說沒上。）')&&has('好。今天宵夜我請，不准說不要。')&&!has('好。二月還有一次。')&&!txt('p:kexin').includes('kexin:我申請的那家事務所實習，上了。……不用恭喜，先吃飯。'), JSON.stringify([lines(),txt('p:kexin')]));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好。二月還有一次。」 */   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，r2y4a_events.js:468）：舊期望「……好。今天宵夜我請。不准說不要。」 */
 
   // ================= 大四寒假 =================
   // ---------- 2-Y4-23 學姊 M7 接機 ----------

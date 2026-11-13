@@ -42,7 +42,7 @@ check('2. 第 3 列兩處（an_cafe、an_jp）都是「有一件事，要當面�
 check('2. 第 33 列（v6ex_lines.js 前任「理由我懂。不用解釋。」）先不改：交 AA_600',inLit(CODE['src/data/v6ex_lines.js'],'理由我懂。不用解釋。'));
 // ---------- 3 date_wish ----------
 { global.window=global; let W=null; try{ eval(R('src/data/date_wish.js').replace(/const DATE_WISH=/,'W=')); }catch(e){}
-  const E=W&&W.events&&W.events.heroine_01, s=J(E||{});
+  const E=W&&W.events&&require('./aa959_map.js').unmapDeep(W.events.heroine_01,'date_wish.js','heroine_01')/* AA_959：匯入最後一步照覆寫表換的字先換回來 */, s=J(E||{});
   const WR=rows.filter(r=>/^date_wish/.test(r.where)&&r.old!==r.nw);
   const bad=WR.filter(r=>!s.includes(J(r.nw).slice(1,-1))||s.includes(J(r.old).slice(1,-1))).map(r=>'#'+r.n);
   check('3. date_wish.js 以安 D07：第 2-13 節 '+WR.length+' 列（含第 368 列記憶名稱）改成在、原句不在',WR.length===16&&!!E&&!bad.length,J(bad));

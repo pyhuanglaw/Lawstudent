@@ -1,0 +1,55 @@
+{
+ "_doc": "AA_959 覆寫表裡不換的列（說話的人和表上的 speaker 對不上，或是幾位女主角共用的句子）；LAWWW-C 子代理 2026-11-13 逐列看前文定的，報 AA。tools/story/aa959.py、tests/aa959_map.js 都讀這份。",
+ "rows": [
+  {
+   "file": "msg_replies.js",
+   "old": "今天吃哪一種？",
+   "why": "以安訊息串的玩家選項（opts.t），是祐廷說的，不是以安"
+  },
+  {
+   "file": "msg_replies.js",
+   "old": "今天很開心。",
+   "why": "可昕訊息串的玩家選項（opts.t），是祐廷說的，不是可昕"
+  },
+  {
+   "file": "free_trips.js",
+   "old": "今天雲比較多，太陽還沒落到海裡就看不到了。",
+   "why": "自由出行 D14 的旁白，不是以安說的"
+  },
+  {
+   "file": "free_trips.js",
+   "old": "今天風很大，橋上的燈一直被吹得晃來晃去。",
+   "why": "自由出行 D14 的旁白，不是以安說的"
+  },
+  {
+   "file": "free_trips.js",
+   "old": "今天的海，黃色那一半比上次少一點。",
+   "why": "自由出行 D19 的旁白，不是以安說的"
+  },
+  {
+   "file": "free_trips.js",
+   "old": "今天放的是一部修復過的老片，有幾段畫面還是有刮痕。廳不大，坐了一半。",
+   "why": "自由出行 D05 的旁白，不是芷若說的"
+  },
+  {
+   "file": "invites.js",
+   "old": "今天讀得比我想的多。",
+   "why": "INVITE_DATA.libStudy.bye 是每位女主角共用的道別句，不是可昕一個人的"
+  },
+  {
+   "file": "vac_activities.js",
+   "old": "……我只聽懂 adjourned。",
+   "why": "C18 新加坡參訪法院，SY()＝團長姚思穎（npc_siying）說的，不是語彤"
+  },
+  {
+   "file": "vac_activities.js",
+   "old": "……其實是因為沒人要當。",
+   "why": "C18 行前說明，SY()＝團長姚思穎（npc_siying）說的，不是語彤"
+  },
+  {
+   "file": "termend_opts.js",
+   "old": "我沒有很在意喔，我只是算了一下。",
+   "why": "TERMEND_OPTS.KX.Y3S2 是可昕的期末飯（KX＝可昕，高雄、寫房東報告），表上寫子晴（heroine_04）——說話的人對不上"
+  }
+ ]
+}

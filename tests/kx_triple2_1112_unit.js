@@ -11,7 +11,7 @@
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify, K=require('./kx_rewrite_1112.js'), BASE='d6e6a6f215';   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
 let fails=0; const check=(n,ok,d)=>{ if(ok) console.log('PASS '+n); else { fails++; console.log('FAIL '+n+(d!==undefined?'　'+d:'')); } };
-const read=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+const read=f=>require('./aa959_map.js').unmapCode(fs.readFileSync(path.join(ROOT,f),'utf8'),path.basename(f));   /* AA_959（DLG-FULL-REVIEW-1110）：之後照覆寫表換的整句先換回來，再和匯入以前比 */
 const show=(sha,f)=>{ try{ return cp.execFileSync('git',['-C',ROOT,'show',sha+':'+f],{encoding:'utf8',maxBuffer:64<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return null; } };
 const noComments=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/(^|[^:'"])\/\/[^\n]*/g,'$1');
 const lits=s=>[...noComments(s).matchAll(/'((?:[^'\\\n]|\\.)*)'|"((?:[^"\\\n]|\\.)*)"/g)].map(m=>m[1]!==undefined?m[1]:m[2]);

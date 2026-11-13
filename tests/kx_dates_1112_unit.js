@@ -13,6 +13,7 @@
 //   6. 舊字不在遊戲檔裡了
 // 稿讀 git show；讀不到（淺層複本）＝第 2、3、5 項跳過並印出來。用法：node tests/kx_dates_1112_unit.js
 'use strict';
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', KX='kexin', BASE='d6e6a6f215', KS=C.KX_1112_FIX_SHA;   /* 2026-11-12（AA_832 以安第一批，白名單換 b84e779563、同一天 AA_834 再換 6d503411c1）：這一支的「源稿」固定讀可昕續改後續那一版 KS＝74e0421b8（之後 ALLOW_SHA 只多以安 59 格，見第 5 項）。舊寫法：源稿都讀 C.ALLOW_SHA */   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
@@ -23,7 +24,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.KX_1112;
+const NOWT=read('src/data/date_lines.js'), NOW=M959.unmapDeep(DL(NOWT),'date_lines.js'), R=C.KX_1112;
 
 // 1
 const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;

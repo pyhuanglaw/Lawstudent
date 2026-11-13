@@ -19,6 +19,7 @@
 //   9. 沛珊 31 句：舊字都是「今天」開頭、新字沒有「今天」開頭的
 // 稿讀 git show；讀不到（淺層複本）＝第 2、3、5 項跳過並印出來。用法：node tests/hao3_dates_1112_unit.js
 'use strict';
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', SHA='3cb2939d0', BASE='ebfb849c03', PREV=C.HAO3_1112_PREV;   /* SHA＝這一批的那一版（以後白名單再換版也還是比這一版）；BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
@@ -29,7 +30,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.HAO3_1112;
+const NOWT=read('src/data/date_lines.js'), NOW=M959.unmapDeep(DL(NOWT),'date_lines.js'), R=C.HAO3_1112;
 const PS='classmate_peishan', AN='heroine_01', ZQ='heroine_04', KX='kexin';
 const RE_REPLY=/^hotspots\/(D\d\d\.\w+)\/first\/choice\/(\d+)\/reply\/0\/text$/, RE_ARR=/^arrive\/dating\/0\/lines\/0\/text$/, RE_CLO=/^closing\/first\/lines\/0\/text$/;
 const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path, pt=r=>(RE_REPLY.exec(r.path)||[])[1];

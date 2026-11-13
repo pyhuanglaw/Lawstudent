@@ -77,7 +77,7 @@ await sec(1,async()=>{
 
   /* 子晴 4-1、芷若 5-1、語彤 6-1、沛珊 7-1 */
   fresh('2026-10-20',15,'campus',{dating_kexin:true}); H.CLOSE(ZQ); learn(ZQ,KX); H.picks=['對。']; await X().dateOpen(GM,{who:ZQ});
-  check('1. 子晴（原文）「欸，你不是有女朋友？」「有啊。」「那你現在是在追我喔？」→「對。」「……你很敢欸。」（她笑了一下，又不笑了。）「今天先玩。其他的我再想。」＝YT_HONEST、ZQ_ASKED_GF',seq(['欸，你不是有女朋友？','有啊。','那你現在是在追我喔？','……你很敢欸。','（她笑了一下，又不笑了。）','今天先玩。其他的我再想。'])&&H.G.flags.YT_HONEST[ZQ]&&H.G.flags.ZQ_ASKED_GF!=null);
+  check('1. 子晴（原文）「欸，你不是有女朋友？」「有啊。」「那你現在是在追我喔？」→「對。」「你很敢欸。」（她笑了一下，又不笑了。）「今天先玩。其他的我再想。」＝YT_HONEST、ZQ_ASKED_GF',seq(['欸，你不是有女朋友？','有啊。','那你現在是在追我喔？','你很敢欸。','（她笑了一下，又不笑了。）','今天先玩。其他的我再想。'])&&H.G.flags.YT_HONEST[ZQ]&&H.G.flags.ZQ_ASKED_GF!=null);
   fresh('2026-10-20',15,'campus',{dating_kexin:true}); H.CLOSE(ZQ); learn(ZQ,KX); H.picks=['沒有啦']; await X().dateOpen(GM,{who:ZQ});
   check('1. 子晴「沒有啦。」→「最好是。」（她笑了一下，沒有再問。）＝YT_DODGED',seq(['最好是。','（她笑了一下，沒有再問。）'])&&H.G.flags.YT_DODGED[ZQ]);
   fresh('2026-10-20',15,'campus',{dating_kexin:true}); H.CLOSE(ZR); learn(ZR,KX); H.picks=['她不知道']; await X().dateOpen(GM,{who:ZR});
@@ -268,7 +268,7 @@ await sec(3,async()=>{
   fresh('2026-04-01',12,'campus',{dating_kexin:true}); H.CLOSE(SIS); ROM.start(H.G,SIS); H.G.flags.YT_PROMISED={heroine_05:'exclusive'}; X().rec(H.G).prom[SIS]={ys:[KX],day:H.G.day}; setT('2026-04-20',12); learn(SIS,KX); H.G.hour=13; await X().meet(GM,SIS,'talk');
   check('3. 學姊說會講卻沒講：「你上次說會跟她說。」「你沒有。」「我現在很生氣。這次不是有點。」「我先走。明天再講。」',seq(['你上次說會跟她說。','你沒有。','我現在很生氣。這次不是有點。','我先走。明天再講。']));
   fresh('2026-04-01',12,'campus',{dating_kexin:true}); H.CLOSE(SIS); ROM.start(H.G,SIS); H.G.flags.OPEN_OK={heroine_05:{kexin:true}}; H.G.flags.dating_heroine_03=true; ROM.get(H.G,YT).sinceDay=H.G.day; setT('2026-04-20',12); learn(SIS,YT); H.G.hour=13; await X().meet(GM,SIS,'talk');
-  check('3. 學姊還有誰：「我以為你上次都講完了。」「語彤……也是？」「……還有沒有別人。我現在問你，你就一次講完。」',seq(['我以為你上次都講完了。','語彤……也是？','……還有沒有別人。我現在問你，你就一次講完。']));
+  check('3. 學姊還有誰：「我以為你上次都講完了。」「語彤……也是？」「還有沒有別人。我現在問你，你就一次講完。」',seq(['我以為你上次都講完了。','語彤……也是？','還有沒有別人。我現在問你，你就一次講完。']));
 
   /* 可昕（說溜嘴、當晚、變體、說謊）*/
   fresh('2026-09-10',12,'campus',{dating_kexin:true}); H.CLOSE(PS); ROM.start(H.G,PS); learn('yu',PS,'present');

@@ -481,6 +481,9 @@ def canon891(path, text):
 _TEXT = strip_quotes(OUT, _TEXT)
 _TEXT = overlay_replies(OUT, _TEXT)
 _TEXT = canon891(OUT, _TEXT)
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+_TEXT = _AA959.layer(_TEXT, 'invite_replies.js')
 _p = os.path.join(ROOT, OUT)
 if not os.path.exists(_p) or open(_p, encoding='utf-8').read() != _TEXT:
     _tmp = _p + '.tmp%d' % os.getpid()

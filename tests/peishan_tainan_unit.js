@@ -175,7 +175,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     check('6. 日子：期末考最後一天（週五）起、她回台中以前（第 16 週週日以前）', !!q&&q.day>=w.from+1&&q.day<=w.termTo&&STORY.presence(ID,Object.assign({},G,{day:q.day})).kind==='city', JSON.stringify(q&&[q.day,w.from,w.termTo]));
     G.day=q.day; G.hour=18.5; said=[]; caps=[]; picks=[3,0]; const m0=G.money; await TERMEND.dinner(GM,q);
     check('6. 飯：深色底＋地點字幕「台南・她學校附近的簡餐」、開場收尾照一對一的簡餐、飯桌一句不變；高鐵 2700', caps.includes('台南・她學校附近的簡餐')&&has('（簡餐店的電視在播新聞。靠窗的兩人座。）')&&has('你今天話好少。')&&has('平常這個時候，你已經被我鬧到翻白眼了。')&&G.money===m0-2700, JSON.stringify(caps));
-    check('6. 回家的路：字幕「台南・往她租的地方」（AA_262 第 5 點、AA_260 第 17 項）、她先說（「今天謝謝你來。你整個晚上怪怪的…」→ 猜 →「我真的很喜歡你。」）→ 第一個回應＝交往', caps.includes('台南・往她租的地方')&&has('今天謝謝你來。你整個晚上怪怪的，是不是在緊張什麼。')&&has('我真的很喜歡你。')&&has('好。那從現在開始，我鬧你就是合法的了。')&&G.flags.dating_classmate_peishan===true, JSON.stringify(caps));
+    check('6. 回家的路：字幕「台南・往她租的地方」（AA_262 第 5 點、AA_260 第 17 項）、她先說（「今天謝謝你來。你整個晚上怪怪的…」→ 猜 →「我真的很喜歡你。」）→ 第一個回應＝交往', caps.includes('台南・往她租的地方')&&has('謝謝你來。你整個晚上怪怪的，是不是在緊張什麼。')&&has('我真的很喜歡你。')&&has('好。那從現在開始，我鬧你就是合法的了。')&&G.flags.dating_classmate_peishan===true, JSON.stringify(caps));
     check('6. 舊的地點不再出現（舊路書房旁邊的簡餐、溫州街・小公園）', !JSON.stringify(TERMEND.heart(ID,'Y3S1')).includes('舊路書房')&&!JSON.stringify(TERMEND.gf(ID,'Y4S1')).includes('舊路書房')&&TERMEND.heart(ID,'Y4S1').placeName==='台南・她學校附近的簡餐'&&TERMEND.heart(ID,'Y1S2').placeName==='系館附近的簡餐');
     w=setup('Y3S1',{}); run(w.from,20,21,0.05);
     check('6. 還沒重新聯絡上：不發心意邀約（她不先找人）', !(G.msgs||[]).some(x=>(x.tag||'').indexOf(ID)>=0&&/^te_/.test(x.tag||'')));
@@ -206,7 +206,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
   // K3 她主動約（手機）→ 下一次去台南＝美術館（BB_128 3-4 照抄）
   { const d=termDay('Y3S1',3,3); fresh(d,20,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=60; SOCIAL.rel(ID).rom=35; run(d,20.5,21.2);
     const M=TH(TH_PS).filter(m=>m.from===ID).map(m=>m.text), m=PHONE.byAsk(G,'ps_museum_Y3S1');
-    check('7. K3 她主動約（第 5 階以上、雙方單身；學期中第 3 週起的晚上 21:00）：「你下次來台南，我們去美術館。」「我想找一天不用負責好笑。」（AA_462 第 5 節：第二句開頭的「美術館。」拿掉）「不行也沒關係，我只是問問看。」；選項「答應」「這週不行」',
+    check('7. K3 她主動約（第 5 階以上、雙方單身；學期中第 3 週起的晚上 21:00）：「你下次來台南，我們去美術館。」「我想找一天不用負責好笑。」（AA_462 第 5 節：第二句開頭的「美術館。」拿掉）「不行也沒關係，我只是問問看。」（hometown_lines.js 不在 AA_959 表上，照舊）；選項「答應」「這週不行」',
       JSON.stringify(M)===JSON.stringify(['你下次來台南，我們去美術館。','我想找一天不用負責好笑。','不行也沒關係，我只是問問看。'])&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='答應|這週不行', JSON.stringify(M));
     PHONE.answer(G,'ps_museum_Y3S1',0);
     check('7. K3 答應：「好。那我要想一下穿什麼。算了，不想了，隨便穿。」', txt(TH_PS).includes(ID+':好。那我要想一下穿什麼。算了，不想了，隨便穿。')&&G.flags.PS_MUSEUM==='yes');

@@ -111,7 +111,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   { fresh('2025-12-18',21,'dorm'); const w=TERMEND.windowOf('Y1S1'); R('heroine_02','FAM'); const ok=TERMEND.planDinner(G,w,'heroine_02','friend'); const q=OUT.get(G,'te_Y1S1');
     check('補充. 大一上和芷若的期末飯排在 22:00（她下班以後）',!!ok&&!!q&&q.h===22,J(q&&[q.h,K(q.day)])); }
   { const reNS=(r,d)=>typeof VAC.reNS==='function'?VAC.reNS(r,d):null, Rz=VAC_DATA.TRIP_MSG.reunion.heroine_02, a=reNS(Rz,D('2026-08-26')), b=reNS(Rz,D('2027-01-11')), c=reNS(Rz,D('2027-07-28'));
-    check('補充. 重逢在 6/4 以前（她還在上班）：「明天我十點下班。」「……你來的話，我晚一點關燈。」22:00（2026-08-26、2027-01-11）',!!a&&!!b&&J(a.invite)===J(['明天我十點下班。','……你來的話，我晚一點關燈。'])&&a.h===22&&b.h===22,J([a,b]));
+    check('補充. 重逢在 6/4 以前（她還在上班）：「明天我十點下班。」「你來的話，我晚一點關燈。」22:00（2026-08-26、2027-01-11）',!!a&&!!b&&J(a.invite)===J(['明天我十點下班。','你來的話，我晚一點關燈。'])&&a.h===22&&b.h===22,J([a,b]));
     check('補充. 對照：6/4～9/2 照 AA_369 第 8 節（「回來了喔？明天下午我在 Café。……這次是當客人。來嗎？」15:00）',!!c&&J(c.invite)===J(['回來了喔？明天下午我在 Café。……這次是當客人。來嗎？'])&&c.h===15,J(c)); }
   { const L=((MSG2_POOL.people.heroine_02||{}).replies||[]).find(e=>e.topic==='bday'&&e.tier==='L'&&e.ask), o=L&&L.ask.opts.find(x=>x.t==='在。');
     check('補充. 芷若生日（9/28，只在 2025、2026 開）L 的回問「下班以後，你在嗎。」→「在。」：「十點，店門口。」（msg2_pool.js 由 tools/msg/build_msg2.py 產生）',!!o&&J(o.r)===J(['十點，店門口。']),J(o)); }
