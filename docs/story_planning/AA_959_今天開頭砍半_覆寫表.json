@@ -4612,6 +4612,26 @@
    "new": "早。宿舍的熱水今天又沒了，我心情不好。",
    "speaker": "kexin",
    "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這裡離我學校很近。可是我沒來過，沒有人約我。",
+   "new": "這裡離學校很近。可是我沒來過，沒有人約我。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
+  },
+  {
+   "doc": "AA_987",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "這家的芋圓比我學校附近那家好吃。我承認，只承認一次。",
+   "new": "這家的芋圓比學校附近那家好吃。我承認，只承認一次。",
+   "speaker": "kexin",
+   "note": "D158-KX-SAMESCHOOL 第二輪（BB-C P0 擋 76f8 後 AA 全掃）：外校、通勤前提改同校同屆、住宿舍"
   }
  ]
 }
