@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1675.1,
+ "bake_seconds": 1766.8,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -36,5 +36,5 @@
   "WALL_right_wall_wall"
  ],
  "src": "assets/models/env/second_ai/bb_support/ade.glb",
- "src_sha256": "ed7afc477618b14a00600edaa90327a5bcdca07968ea145ceb61857d9f21c309"
+ "src_sha256": "c635b151af3d4b07f586e94ecd04b1ab697140e60fed739ffff77c1546664117"
 }
