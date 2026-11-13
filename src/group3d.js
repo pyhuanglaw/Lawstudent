@@ -63,7 +63,7 @@ const GROUP=(function(){
      4/1 以前沒回（'none'）＝4/2 21:00 柏翰一句（接得上 4/4 的海邊照片）。只給在群組裡、收到 3/30 那則的玩家 */
   S.SPRING_PICK={noodle:[['player','我開。'],['zhe','司機有了！']],kexin:[['player','春假我有約了。'],['classmate_bohan','那我租車。']],dorm:[['player','這次我不去。'],['classmate_bohan','那我租車。']]};
   /* 選可昕：私訊回她（AA_461 第 6 節④：大一下有「好。我們去。」，大二下補；她問的是 y2s2_spring_kx「春假。今年也開車？」；群組那一句照上表一起傳）*/
-  S.SPRING_PICK_KX=[['player','好。今年也開。'],['kexin','嗯。七點四十，校門口。']];
+  S.SPRING_PICK_KX=[['player','好。今年也開。'],['kexin','嗯。七點四十，宿舍樓下。']];
   S.springPick=function(G,k,o){ if(typeof PHONE==='undefined') return;
     if(k==='kexin'&&!o.silent&&PHONE.sent(G,'y2s2_spring_kx')) PHONE.at(G,G.day,G.hour+0.05,S.SPRING_PICK_KX.map(([from,text])=>from==='player'?{th:'p:kexin',from,who:null,text}:{th:'p:kexin',from,text}),'y2s2_spring_kx_pick');
     if(!grp(G)||!PHONE.sent(G,'y2s2_spring_grp')) return;

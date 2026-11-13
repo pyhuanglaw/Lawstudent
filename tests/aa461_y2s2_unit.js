@@ -5,7 +5,7 @@
 //     不在群組（只和可昕交往）：群組什麼都沒有；大一下已經傳過 spring_pick_msg 不影響；舊存檔（已經選過 SPRING_Y2）不補發
 //   2 Kevin 的「今天溫學姊生日🎂」（sis_y2y3_3d.js）：2026 照舊；2027 換第 2 節那一句；舊存檔已經收過 2027 那一則（舊句）不重發
 //   3 芷若的試譯稿費（r3_3d.js ZR_FEE_SHOTS）：兩張截圖第二張換第 3 節那一句（第一張照舊）
-//   4 第 6 節④（企劃線 878496edb，回 LAWWW-B 施工問題）：大二下選可昕＝私訊祐廷「好。今年也開。」→ 可昕「嗯。七點四十，校門口。」（group3d.js S.springPick；群組那一句照第 1 節一起傳）；
+//   4 第 6 節④（企劃線 878496edb，回 LAWWW-B 施工問題）：大二下選可昕＝私訊祐廷「好。今年也開。」→ 可昕「嗯。七點四十，宿舍樓下（AA-C 11-13 BB_458 #4：地點是女生宿舍樓下）。」（group3d.js S.springPick；群組那一句照第 1 節一起傳）；
 //     選別的、沒選（none）都不傳；不在群組也傳
 //   5 AA_465 第 3 節＋AA_461 第 6 節④ 大四下（r2y4b3d.js S.springPick）：3/25 以安在群組排最後一個春假，選完祐廷在群組一句、以安回（表三列）；
 //     選可昕另外私訊「好。我開車。」→「嗯。到時候見。」；沒選（none）不補（4/3 月台照片照舊）；不在群組只有私訊
@@ -47,6 +47,7 @@ const gitShow=(c,f)=>{ try{ return cp.execSync('git show '+c+':"docs/story_plann
 const doc6=gitShow('878496edb','AA_461_法律系大二下讀一遍_春假群組沒人回_Kevin的生日貼文.md'), doc465=gitShow('878496edb','AA_465_法律系大四下讀一遍_畢業那一週的家人群組_子晴的貓_八學期總清單.md');
 const cut=(d,a,b)=>{ const i=d.indexOf(a); if(i<0) return ''; const j=b?d.indexOf(b,i+1):-1; return d.slice(i,j<0?d.length:j); };
 const Q6=quotes(cut(doc6,'## 6.')), Q6y2=Q6.slice(0,2), Q6y4=Q6.slice(2,4);
+if(Q6y2[1]&&Q6y2[1].t==='嗯。七點四十，校門口。') Q6y2[1]=Object.assign({},Q6y2[1],{t:'嗯。七點四十，宿舍樓下。'});   /* AA-C 11-13（BB_458 #4）：地點是女生宿舍樓下，AA_461 舊字「校門口」改成「宿舍樓下」 */
 const T465={}; for(const r of rows(cut(doc465,'## 3.','## 4.'))) if(KMAP[r[0]]){ const [w,t]=r[2].split('：'); T465[KMAP[r[0]]]={me:r[1],who:w==='以安'?'heroine_01':w,t}; }
 
 (async()=>{
