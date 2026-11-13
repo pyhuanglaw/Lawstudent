@@ -10,6 +10,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   ORAL  #16 國考口試（【捷徑】畢業後篇＋JUDGE_PASS_2030，2031-01-11 09:50）：記「你為什麼念法律？」那一段，祐廷不提以前的系（D158 字表掃）
   ANNIV_A／ANNIV_C  #3 週年（在一起 2026-05-20 → 2027-05-13 21:00 邀約選「後門那家湯餃」→ 5/19 準備發票 → 5/20 18:30 出遊；卡片第 1／第 3 個選項）
   WELCOME_Y2  #13 大二迎新小隊輔（9/4 21:00 g:law_class → 9/6 14:00 社科院旁的草地；第 3 題三個短版）——書店那句（第 4 次起 rot）另外排
+  SPRING_Y2／SPRING_Y4  #4 春假女宿接人（@4af46fd8f6；選單選「春假：和可昕…」→ 她那句 → 4/3 07:40 出遊、地點字幕）
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -202,7 +203,32 @@ async def c_welcome(pg, cdp, tag):
     return {'case': tag, 'ask': t, 'out': q, 'r': r}
 
 
+SPRING = {'SPRING_Y2': ('2027-03-30', 21.25, 21.6, 'kx_trip_y2s2', '2027-04-03'), 'SPRING_Y4': ('2029-03-25', 20.85, 21.1, 'y4_spring_kx', '2029-04-03')}
+
+
+async def c_spring(pg, cdp, tag):
+    """#4 春假女宿接人（@4af46fd8f6：AA 定「嗯。七點四十，宿舍樓下。」、出遊地點女生宿舍樓下）：交往中；大二 2027-03-30 21:30／大四 2029-03-25 21:00 她私訊
+       → 三選一選單自己跳 → 選「春假：和可昕…」→ 記她回的那句、OUT 地點 →【前置】跳 4/3 07:00 → 等「出發」→ 每句截圖＋地點字幕（#caption）。看字和地點一致"""
+    day, h0, h1, oid, d0 = SPRING[tag]
+    d, seed = await SP.fresh(pg, cdp, tag, day, h0, 'dorm', {'kexin': 'DATING'})
+    R.note('[%s] 墊完 %s' % (tag, J(seed)))
+    await SP.wait_h(pg, cdp, h1, tag)
+    pick = await SP.play(pg, cdp, tag + '_pick', 0, prefer=('春假：和可昕', '和可昕'), start_s=90)
+    t = await SP.thread(pg, cdp, tag + '_kx', 'p:kexin')
+    q = await pg.evaluate("(id=>{ const q=OUT.get(GAME.G,id); return q?{day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,title:q.title,state:q.state}:null; })", oid)
+    R.note('[%s] 選了 %s；她回 %s；OUT %s＝%s' % (tag, J(pick['picked']), J([m['text'] for m in t['msgs'][-3:]]), oid, J(q)))
+    if not R.check('FAIL_SETUP 檢查：[%s] %s 07:40 的出遊排上了' % (tag, d0), bool(q) and q['day'] == d0, J(q)): return {'case': tag, 'pick': pick, 'kx': t}
+    await SP.jump(pg, cdp, tag, d0, 7.0, 'dorm', None)
+    c0 = await P.cap_n(pg)
+    r = await SP.go_out(pg, cdp, tag + '_trip', 0)
+    caps = [c[0] for c in P.cap_spans(await P.captions(pg, c0))]
+    R.note('[%s] 出遊途中的地點字幕：%s' % (tag, J(caps)))
+    SP.d158(tag, pick, t, r)
+    return {'case': tag, 'pick': pick, 'kx': t, 'out': q, 'r': r, 'captions': caps}
+
+
 async def one(pg, cdp, c):
+    if c in SPRING: return await c_spring(pg, cdp, c)
     if c == 'WELCOME_Y2': return await c_welcome(pg, cdp, c)
     if c in ('ANNIV_A', 'ANNIV_C'): return await c_anniv(pg, cdp, c)
     if c == 'NIGHT_MSG': return await c_night(pg, cdp, c)
