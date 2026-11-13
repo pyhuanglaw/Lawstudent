@@ -397,14 +397,15 @@ async def part_fa05(pg, cdp, sv0, res):
         if s['choices']: await step_dialog(pg, cdp, s); continue
         break
     after = await pg.evaluate("""(()=>{ const G=GAME.G, F=G.flags||{}; let grp=null, gl=null, fj=null, fm=null, sis=null;
-      try{ grp=Object.keys(PHONE.rec(G).groups||{}); }catch(e){ grp=String(e); } try{ const L=STORY.LADDER_GREET_IF['值班表你看了嗎？']; gl=L?!!L.test(G):null; }catch(e){ gl=String(e); }
+      try{ const GS=PHONE.rec(G).groups||{}; grp=Object.keys(GS).map(k=>({id:k, name:(GS[k]&&GS[k].name)||'', day:GS[k]&&GS[k].day})); }catch(e){ grp=String(e); } try{ const L=STORY.LADDER_GREET_IF['值班表你看了嗎？']; gl=L?!!L.test(G):null; }catch(e){ gl=String(e); }
       try{ fj=!!STORY.fafuJoined(G); fm=!!STORY.fafuMember(G); }catch(e){ fj=String(e); } try{ sis=(MSG.sisTopics(G)||[]).map(t=>t&&(t.t||t.id||t.k||JSON.stringify(t).slice(0,40))); }catch(e){ sis=String(e); }
       return {lawclub:F.lawclub===true, notice:!!F.LAWCLUB_NOTICE, note:(G.notes||[]).some(n=>n&&n.id==='club_law'), groups:grp, greetDuty:gl, fafuJoined:fj, fafuMember:fm, sisTopics:sis, memo:(G.memo||[]).slice(-3)}; })()""")
     R.note('%s 互動鍵「%s」；公告那幾句 %s；按完 %s' % (tag, lab, J(lines), J(after)))
     R.check('%s 看公告只記 LAWCLUB_NOTICE、lawclub 不是 true' % tag, after['notice'] and not after['lawclub'], J(after))
     R.check('%s 筆記加了「法律服務社」' % tag, after['note'], '')
     R.check('%s 沒有因為看公告就算加入（fafuJoined=false）' % tag, after['fafuJoined'] is False, J(after['fafuJoined']))
-    R.check('%s 沒有加任何法服群組' % tag, isinstance(after['groups'], list) and not any('law' in g or 'fafu' in g for g in after['groups']), J(after['groups']))
+    R.note('%s 看完公告以後手機群組（id、名稱、加入天）：%s（BB-C 21:36：5685 出現 lawclub_study；76f8 story3d.js 改成 fafuJoined 才加）' % (tag, J(after['groups'])))
+    R.check('%s 沒有加任何法服群組' % tag, isinstance(after['groups'], list) and not any('law' in g['id'] or 'fafu' in g['id'] for g in after['groups']), J(after['groups']))
     await pg.evaluate("GAME.autosave&&GAME.autosave(true)")
     sv1 = await pg.evaluate("GAME.readSave('fatiao3d_auto')"); sv1 = dict(sv1); sv1.pop('pos', None)
     ry2 = await pg.evaluate(DAYOF, '2026-09-06')
@@ -444,7 +445,11 @@ async def part_se01(pg, cdp, sv0, res):
         r = await load(pg, sv0, k, h, 'dorm', blank_=True)
         o = await pg.evaluate("(()=>{ const G=GAME.G; let ro=null, info=null; try{ ro=STUDY.reviewOpt(G); }catch(e){ ro=String(e); } try{ const i=STUDY.reviewInfo(G,'final'); info=i?i.courses.map(x=>x.c&&x.c.name):null; }catch(e){ info=String(e); } return {opt:ro&&{t:ro.t,dim:ro.dim,hint:ro.hint}, courses:info}; })()")
         R.note('%s %s（%s %.1f）：總複習 %s；範圍 %s' % (tag, nm, k, h, J(o['opt']), J(o['courses'])))
-        R.check('%s %s 有「考前總複習」可以按（不是灰的）' % (tag, nm), bool(o['opt']) and not o['opt']['dim'], J(o['opt']))
+        if nm in ('考試當天早上', '兩場中間'):   # BB-C 21:36 判 SE-01 照設計：三小時的總複習會撞到考試＝灰，提示寫明會錯過哪一科
+            names = [e['name'] for e in ex if e.get('name')]
+            R.check('%s %s「考前總複習」是灰的、提示寫明會錯過哪一科（%s 其中之一）' % (tag, nm, '、'.join(names)), bool(o['opt']) and bool(o['opt']['dim']) and any(n and n in (o['opt'].get('hint') or '') for n in names), J(o['opt']))
+        else:
+            R.check('%s %s 有「考前總複習」可以按（不是灰的）' % (tag, nm), bool(o['opt']) and not o['opt']['dim'], J(o['opt']))
         out['points'].append({'nm': nm, 'key': k, 'h': h, 'o': o})
     # 已經考完的科目【前置】
     k = await key(e2['day'] if e2 else d0)
