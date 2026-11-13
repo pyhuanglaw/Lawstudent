@@ -127,8 +127,22 @@ async def main():
         # 【捷徑】撥到約定時間前 3 分鐘，走過去
         await pg.evaluate("(h=>{ GAME.G.hour=h; })", float(iv['h']) - 0.05); await pg.wait_for_timeout(1500)
         R.setup('【捷徑】時間撥到約定時間 %.2f 前 3 分鐘' % float(iv['h']))
+        # 11-14 CANON458 BEAT6_r2：約定時間到，遊戲自己跳「直接過去：…（照快速前往的路程時間）／自己走過去」——r1 沒處理＝一直 busy、走不到門口（BADM／BEAT6／BEAT8 r1 的真正原因）
+        #   ROUTE 第一步是 travel＝選「直接過去」（遊戲自己的走法）；exit＝選「自己走過去」再照玩家走
+        go_direct = ROUTE and ROUTE[0].startswith('travel:')
+        for _ in range(16):
+            st = await pg.evaluate(DLG)
+            if st['choices']:
+                want = '直接過去' if go_direct else '自己走過去'
+                i = next((k for k, x in enumerate(st['choices']) if x.startswith(want)), None)
+                R.note('約定時間的選單 %s → 選「%s」' % (J(st['choices']), st['choices'][i] if i is not None else '（沒有，選第一個）'))
+                await pg.screenshot(path=os.path.join(OUT, 'invp_%s_gochoice.png' % TAG))
+                await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % (i or 0)); await pg.wait_for_timeout(2500); break
+            if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+            await pg.wait_for_timeout(500)
         for n, step in enumerate(ROUTE, 1):
             kind, _, arg = step.partition(':')
+            if kind == 'travel' and await pg.evaluate("GAME.G.zone") == arg: R.note('[%d] 已經在 %s（約定時間的「直接過去」）' % (n, arg)); continue
             if kind == 'travel':   # 11-14 CANON458 BADM／AN_BEAT6／8：走 111 m、或從公館另一頭走過去走不到門口——照玩家用手機「地點」快速前往（先把對話點掉）
                 ok_t = await travel_to(pg, cdp, arg)
                 if not R.check('[%d] 手機「地點」快速前往 %s' % (n, arg), ok_t, J(await pg.evaluate(DLG))): break
@@ -154,13 +168,18 @@ async def main():
         arr = await sample(pg, '進店 12 秒（每 0.5 秒）她：', 24, 500, 'invp_%s_arrive' % TAG)
         iv2 = await pg.evaluate(IV, WHO); res['arrive'] = {'her': arr, 'iv': iv2}
         R.note('進店以後邀約紀錄：%s' % J(iv2))
-        R.check('到了她先坐著等（坐下、iv.waitSeat 有）', any(x.get('seat') for x in arr) and bool((iv2 or {}).get('waitSeat') or (iv2 or {}).get('state') == 'done'), J([arr[-1:], iv2]))
+        nseat = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.seat&&!i.hidden).length)()")
+        if nseat:
+            R.check('到了她先坐著等（坐下、iv.waitSeat 有）', any(x.get('seat') for x in arr) and bool((iv2 or {}).get('waitSeat') or (iv2 or {}).get('state') == 'done'), J([arr[-1:], iv2]))
+        else:   # BB-C 11-14 INV_BADM_r2 判：羽球場這種沒有座位的地方，她在場站著等也算
+            R.check('到了她在場等（這裡沒有玩家能坐的位子，站著等也算）', any(not x.get('none') for x in arr), J([arr[-1:], iv2]))
         ws = (iv2 or {}).get('waitSeat')
         if not ws and arr and arr[-1].get('seat'): ws = {'x': arr[-1]['x'], 'z': arr[-1]['z'], 'lv': 0}
         seat = await pg.evaluate(SEAT_NEAR, {'ws': ws}) if ws else None
         R.note('她旁邊的空位：%s' % J(seat))
         m0 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})")
-        if R.check('她旁邊有空位可以坐', bool(seat), J(ws)):
+        if not nseat: R.note('這裡沒有座位：不找空位、不坐（BB-C 11-14）'); seat = None
+        if nseat and R.check('她旁邊有空位可以坐', bool(seat), J(ws)):
             await L.go_to(pg, cdp, R, seat['x'], seat['z'], 0.3, seat['label'] or '她旁邊的位子', max_s=60, lv=seat['lv']); await D.settle(pg)
             st = await pg.evaluate(DLG); R.note('走到她旁邊的位子，互動鍵「%s」' % st['interact'])
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
