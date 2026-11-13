@@ -8710,13 +8710,19 @@
   },
   {
    "path": "docs/story_planning/AA_721_l118_invite_acc.json",
-   "sha": "4158dae820",
+   "sha": "72ab8199aa",
    "status": "approved",
-   "approvedBy": "AA_941（AA-C 11-13）＋BB_456 照用",
+   "approvedBy": "AA_942（AA-C 11-13）＋BB_454 照用",
    "task": "CANON-NO-ECON-1112",
    "kind": "json",
-   "note": "4158dae820（AA_941 ③：可昕和大家一樣會去，acc「好。我今天沒吃早餐。」、firstAt「（她只夾了三樣，每樣都夾很多。）」「這三樣就夠了。」）；ef7280917（AA 照 BB 的審稿改了五格：l118_home／l118_dian 語彤、l118_cafe2／l118_korea／l118_drink_a 芷若）：L118-SHOPS-REDO-1111（X338）118 巷十個位置 × 七位 acc／firstAt（新 key l118_cafe2、l118_drink_a、l118_drink_b；可昕不去大學食堂＝no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js。子代理代登（2026-11-11），給值班 LAWWW 核。",
+   "note": "72ab8199aa（AA_942 ⑥：l118_omu 可昕 acc「牛排？學校附近的店，我都還沒吃完。好。」；firstAt 第二句源稿改回「……高雄沒有這種的。」，canon897_fix 那一對拿掉）；4158dae820（AA_941 ③：可昕和大家一樣會去，acc「好。我今天沒吃早餐。」、firstAt「（她只夾了三樣，每樣都夾很多。）」「這三樣就夠了。」）；ef7280917（AA 照 BB 的審稿改了五格：l118_home／l118_dian 語彤、l118_cafe2／l118_korea／l118_drink_a 芷若）：L118-SHOPS-REDO-1111（X338）118 巷十個位置 × 七位 acc／firstAt（新 key l118_cafe2、l118_drink_a、l118_drink_b；可昕不去大學食堂＝no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js。子代理代登（2026-11-11），給值班 LAWWW 核。",
    "history": [
+    {
+     "sha": "4158dae820",
+     "approvedBy": "AA_941（AA-C 11-13）＋BB_456 照用",
+     "task": "CANON-NO-ECON-1112",
+     "note": "被 72ab8199aa 取代（AA_942 ⑥：l118_omu 可昕 acc 拿掉「你們」、firstAt 源稿改回「高雄」）"
+    },
     {
      "sha": "ef7280917",
      "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md",

@@ -1,10 +1,10 @@
-/* 自動產生：tools/story/import_place_acc.py（docs/story_planning/AA_714_invite_places_acc.json@696254f1c、docs/story_planning/AA_721_l118_invite_acc.json@4158dae820）。不要手改，改企劃 AA_714／AA_721 再重新匯入。
+/* 自動產生：tools/story/import_place_acc.py（docs/story_planning/AA_714_invite_places_acc.json@696254f1c、docs/story_planning/AA_721_l118_invite_acc.json@72ab8199aa）。不要手改，改企劃 AA_714／AA_721 再重新匯入。
    新約會地點的答應句、第一次一起去的那一句（INVITE-PLACES-1107）：載入時併進 INVITE_DATA.people（要在 src/data/invites.js 後面載入）。
    acc、firstAt 有名字說的台詞外面不加「」（AA-B 2026-11-08，稿上有；（…）是旁白）；no（灰掉的說明，沒有名字）照稿*/
 'use strict';
 const INVITE_PLACE_LINES={
  "src": "docs/story_planning/AA_714_invite_places_acc.json@696254f1c",
- "src2": "docs/story_planning/AA_721_l118_invite_acc.json@4158dae820",
+ "src2": "docs/story_planning/AA_721_l118_invite_acc.json@72ab8199aa",
  "places": {
   "soclib": {
    "heroine_01": {
@@ -476,7 +476,7 @@ const INVITE_PLACE_LINES={
    },
    "kexin": {
     "acc": [
-     "牛排？你們學校附近的店，我都還沒吃完。好。"
+     "牛排？學校附近的店，我都還沒吃完。好。"
     ],
     "firstAt": [
      "（她點了雙拼，吃得一點都不剩。）",
