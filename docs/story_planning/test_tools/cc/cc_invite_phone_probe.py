@@ -23,7 +23,9 @@ ROUTE = [x for x in (os.environ.get('ROUTE') or 'exit:tz_yuehaochi').split('+') 
 REL = int(os.environ.get('REL') or 0)
 FLAGS = json.loads(os.environ.get('FLAGS') or '{}')
 EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''
-DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
+DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'
+SEAT_R = float(os.environ.get('SEAT_R') or 1.8)   # BB-C 11-14 LAWLIB：她旁邊找空位的半徑（法圖 T7 隔壁那張約 1.6～2 m）
+VISITED = [z for z in (os.environ.get('VISITED') or '').split(',') if z]   # 11-14 BOOKSTORE：頁間這類「自己走進去過一次才列」（invites.js show:V('bookstore')）——【捷徑】墊 G.visited   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 MEET = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
@@ -38,7 +40,7 @@ DLG = r"""(()=>{ const d=document.getElementById('dlg'); return {dlg:!!(d&&d.off
   toast:(document.getElementById('toast')||{}).textContent||'', phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())}; })()"""
 SEAT_NEAR = r"""(a=>{ const E=GAME.E; const near=(p,q,r)=>Math.hypot(p.x-q.x,p.z-q.z)<r; const ws=a.ws;
   const busy=st=>(E.npcs||[]).some(m=>m&&m.seat&&near(m.seat,st,0.35));
-  const its=E.interactables.filter(i=>i.seat&&!i.hidden&&ws&&(i.seat.lv|0)===(ws.lv|0)&&near(i.seat,ws,1.8)&&!near(i.seat,ws,0.3)&&!busy(i.seat));
+  const its=E.interactables.filter(i=>i.seat&&!i.hidden&&ws&&(i.seat.lv|0)===(ws.lv|0)&&near(i.seat,ws,a.r||1.8)&&!near(i.seat,ws,0.3)&&!busy(i.seat));
   its.sort((p,q)=>Math.hypot(p.seat.x-ws.x,p.seat.z-ws.z)-Math.hypot(q.seat.x-ws.x,q.seat.z-ws.z));
   const i=its[0]; if(!i) return null; const ap=(GAME.seatApproach&&GAME.seatApproach(i.seat))||[i.x,i.z]; return {x:ap[0], z:ap[1], lv:i.seat.lv|0, sx:i.seat.x, sz:i.seat.z, label:String(typeof i.label==='function'?i.label():i.label||'')}; })"""
 
@@ -107,6 +109,9 @@ async def main():
         s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
         m = await pg.evaluate(MEET, {'who': WHO, 'rel': REL}); res['meet'] = m
+        if VISITED:
+            vv = await pg.evaluate("(a=>{ const G=GAME.G; G.visited=G.visited||{}; for(const z of a) G.visited[z]=true; return a.map(z=>[z,!!G.visited[z]]); })", VISITED)
+            R.setup('【捷徑】墊「去過」G.visited %s（這類地點要自己走進去過一次才會出現在約人的選單）' % J(vv))
         if FLAGS:
             res['flags'] = await pg.evaluate("(f=>{ Object.assign(GAME.G.flags,f); return Object.keys(f); })", FLAGS); R.setup('【捷徑】旗標 %s' % J(FLAGS))
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f（條件事件關掉）、認識 %s、有聯絡方式%s；階段 %s' % (ZONE, DAY, HOUR, WHO, ('、【捷徑】關係加 fam %d' % REL) if REL else '', m.get('stage')))
@@ -130,7 +135,7 @@ async def main():
         # 11-14 CANON458 BEAT6_r2：約定時間到，遊戲自己跳「直接過去：…（照快速前往的路程時間）／自己走過去」——r1 沒處理＝一直 busy、走不到門口（BADM／BEAT6／BEAT8 r1 的真正原因）
         #   ROUTE 第一步是 travel＝選「直接過去」（遊戲自己的走法）；exit＝選「自己走過去」再照玩家走
         go_direct = ROUTE and ROUTE[0].startswith('travel:')
-        for _ in range(16):
+        for _ in range(50):   # 11-14 BEAT6_r3：選單在時間撥完 8 秒以後才跳（先跳「提醒：19:00…」toast）——等到 25 秒
             st = await pg.evaluate(DLG)
             if st['choices']:
                 want = '直接過去' if go_direct else '自己走過去'
@@ -175,7 +180,10 @@ async def main():
             R.check('到了她在場等（這裡沒有玩家能坐的位子，站著等也算）', any(not x.get('none') for x in arr), J([arr[-1:], iv2]))
         ws = (iv2 or {}).get('waitSeat')
         if not ws and arr and arr[-1].get('seat'): ws = {'x': arr[-1]['x'], 'z': arr[-1]['z'], 'lv': 0}
-        seat = await pg.evaluate(SEAT_NEAR, {'ws': ws}) if ws else None
+        seat = await pg.evaluate(SEAT_NEAR, {'ws': ws, 'r': SEAT_R}) if ws else None
+        if ws:   # BB-C 11-14 LAWLIB r4：記 SEAT_R 內每一張座位的座標、有沒有人坐
+            allst = await pg.evaluate("(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); return E.interactables.filter(i=>i.seat&&!i.hidden&&(i.seat.lv|0)===(a.ws.lv|0)&&Math.hypot(i.seat.x-a.ws.x,i.seat.z-a.ws.z)<a.r).map(i=>({x:f(i.seat.x),z:f(i.seat.z),d:f(Math.hypot(i.seat.x-a.ws.x,i.seat.z-a.ws.z)),label:String(typeof i.label==='function'?i.label():i.label||''),taken:(E.npcs||[]).filter(m=>m&&m.seat&&Math.hypot(m.seat.x-i.seat.x,m.seat.z-i.seat.z)<0.35).map(m=>m.charId||m.id||'npc')})); })", {'ws': ws, 'r': SEAT_R})
+            R.note('她（%s）%.1f m 內的座位：%s' % (J(ws), SEAT_R, J(allst)))
         R.note('她旁邊的空位：%s' % J(seat))
         m0 = await pg.evaluate("({money:GAME.G.money|0, h:+(+GAME.G.hour).toFixed(3)})")
         if not nseat: R.note('這裡沒有座位：不找空位、不坐（BB-C 11-14）'); seat = None
