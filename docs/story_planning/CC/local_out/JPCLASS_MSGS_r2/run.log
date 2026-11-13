@@ -1,0 +1,42 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_jpclass_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\JPCLASS_MSGS_r2\out
+CC 日文班群組：SHA fd97559d2830e6921df1fa758ce8e9e4795ff3b5；CASES ['L2', 'KR', 'ASK_YES', 'ASK_NO', 'THANKS']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [L2]【前置／捷徑】讀檔到 2027-10-26 21.25 宿舍
+  [前置／捷徑] [L2]【捷徑】PHONE.join 日文班
+PASS FAIL_SETUP 檢查：[L2] 在日文班群組裡
+PASS FAIL_SETUP 檢查：[L2] 遊戲時間過了 21.50（現在 21.60）
+  [  93.2s] [L2] 打開日文班=True；這一串 [{"name": "采蓁", "text": "我修了日文中級！", "h": 21.5, "ask": null}, {"name": "采蓁", "text": "今天實習，有一隻柴犬的主人是日本人。", "h": 21.5, "ask": null}, {"name": "采蓁", "text": "他講的我聽懂一半。", "h": 21.5, "ask": null}, {"name": "采蓁", "text": "另一半是狗在叫。", "h": 21.5, "ask": null}]；EF_PH {"jpc_vet_level2": "sent"}
+PASS FAIL_SETUP 檢查：[L2] 手機訊息裡日文班那一串打得開
+  [前置／捷徑] [KR]【前置／捷徑】讀檔到 2027-12-07 21.25 宿舍
+  [前置／捷徑] [KR]【捷徑】PHONE.join 日文班
+PASS FAIL_SETUP 檢查：[KR] 在日文班群組裡
+PASS FAIL_SETUP 檢查：[KR] 遊戲時間過了 21.50（現在 21.61）
+  [ 172.0s] [KR] 打開日文班=True；這一串 [{"name": "宇恆", "text": "我在學韓文了。", "h": 21.5, "ask": null}, {"name": "宇恆", "text": "韓文的子音跟電路一樣，有規則。", "h": 21.5, "ask": null}, {"name": "宇恆", "text": "日文班的群組可以發韓文嗎？", "h": 21.5, "ask": null}, {"name": "采蓁", "text": "不行。", "h": 21.5, "ask": null}]；EF_PH {"jpc_vet_level2": "x:late", "jpc_korean": "sent"}
+PASS FAIL_SETUP 檢查：[KR] 手機訊息裡日文班那一串打得開
+  [前置／捷徑] [ASK_YES]【前置／捷徑】讀檔到 2028-04-18 20.75 宿舍
+  [前置／捷徑] [ASK_YES]【捷徑】PHONE.join 日文班、JPCLASS.inJapan=true（日本路線人在日本）
+PASS FAIL_SETUP 檢查：[ASK_YES] 在日文班群組裡
+PASS FAIL_SETUP 檢查：[ASK_YES] 遊戲時間過了 21.00（現在 21.11）
+  [ 248.7s] [ASK_YES] 打開日文班=True；這一串 [{"name": "采蓁", "text": "你在日本嗎？", "h": 21, "ask": null}, {"name": "采蓁", "text": "可以幫我看一下那邊的動物醫院長怎樣嗎？", "h": 21, "ask": null}, {"name": "采蓁", "text": "拍門口就好！", "h": 21, "ask": ["好。", "這週沒空。"]}]；EF_PH {"jpc_vet_level2": "x:late", "jpc_korean": "x:late", "jpc_vet_ask": "sent"}
+PASS FAIL_SETUP 檢查：[ASK_YES] 手機訊息裡日文班那一串打得開
+  [ 248.7s] [ASK_YES] 回覆鍵 ["好。", "這週沒空。"]
+PASS FAIL_SETUP 檢查：[ASK_YES] 有「好。」回覆鍵  ["好。", "這週沒空。"]
+  [ 251.4s] [ASK_YES] 按「好。」以後：CZ_VET_PHOTO=yes；這一串 [{"name": "采蓁", "text": "你在日本嗎？", "h": 21, "ask": null}, {"name": "采蓁", "text": "可以幫我看一下那邊的動物醫院長怎樣嗎？", "h": 21, "ask": null}, {"name": "采蓁", "text": "拍門口就好！", "h": 21, "ask": ["好。", "這週沒空。"]}, {"name": "", "text": "好。", "h": 21.12, "ask": null}]
+  [前置／捷徑] [ASK_NO]【前置／捷徑】讀檔到 2028-04-18 20.75 宿舍
+  [前置／捷徑] [ASK_NO]【捷徑】PHONE.join 日文班、JPCLASS.inJapan=true（日本路線人在日本）
+PASS FAIL_SETUP 檢查：[ASK_NO] 在日文班群組裡
+PASS FAIL_SETUP 檢查：[ASK_NO] 遊戲時間過了 21.00（現在 21.11）
+  [ 328.1s] [ASK_NO] 打開日文班=True；這一串 [{"name": "采蓁", "text": "你在日本嗎？", "h": 21, "ask": null}, {"name": "采蓁", "text": "可以幫我看一下那邊的動物醫院長怎樣嗎？", "h": 21, "ask": null}, {"name": "采蓁", "text": "拍門口就好！", "h": 21, "ask": ["好。", "這週沒空。"]}]；EF_PH {"jpc_vet_level2": "x:late", "jpc_korean": "x:late", "jpc_vet_ask": "sent"}
+PASS FAIL_SETUP 檢查：[ASK_NO] 手機訊息裡日文班那一串打得開
+  [ 328.1s] [ASK_NO] 回覆鍵 ["好。", "這週沒空。"]
+PASS FAIL_SETUP 檢查：[ASK_NO] 有「這週沒空。」回覆鍵  ["好。", "這週沒空。"]
+  [ 330.7s] [ASK_NO] 按「這週沒空。」以後：CZ_VET_PHOTO=no；這一串 [{"name": "采蓁", "text": "可以幫我看一下那邊的動物醫院長怎樣嗎？", "h": 21, "ask": null}, {"name": "采蓁", "text": "拍門口就好！", "h": 21, "ask": ["好。", "這週沒空。"]}, {"name": "", "text": "這週沒空。", "h": 21.12, "ask": null}, {"name": "采蓁", "text": "好，不急！", "h": 21.12, "ask": null}]
+  [前置／捷徑] [THANKS]【前置／捷徑】讀檔到 2028-04-22 20.75 宿舍
+  [前置／捷徑] [THANKS]【捷徑】PHONE.join 日文班、CZ_VET_PHOTO=yes＋JP.rec.done.cz_vet_photo＝今天
+PASS FAIL_SETUP 檢查：[THANKS] 在日文班群組裡
+PASS FAIL_SETUP 檢查：[THANKS] 遊戲時間過了 21.00（現在 21.11）
+  [ 406.9s] [THANKS] 打開日文班=True；這一串 [{"name": "采蓁", "text": "牠好胖！", "h": 21, "ask": null}, {"name": "采蓁", "text": "謝謝！", "h": 21, "ask": null}]；EF_PH {"jpc_vet_level2": "x:late", "jpc_korean": "x:late", "jpc_vet_ask": "x:late", "jpc_vet_thanks": "sent"}
+PASS FAIL_SETUP 檢查：[THANKS] 手機訊息裡日文班那一串打得開
+PASS 沒有 JS 例外  []
+ALL PASS
