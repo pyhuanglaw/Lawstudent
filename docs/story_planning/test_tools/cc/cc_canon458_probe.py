@@ -13,6 +13,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   SPRING_Y2／SPRING_Y4  #4 春假女宿接人（@4af46fd8f6；選單選「春假：和可昕…」→ 她那句 → 4/3 07:40 出遊、地點字幕）
   FEED_Y1／FEED_Y4  #7 可昕動態（交往中；2025-09-14 21:00 kx1、2029-06-03 21:00 kx3h「畢業了。」→ 手機「動態」頁）
   ENC_DATING／ENC_FRIEND／ENC_ACQ  #8 淡水偶遇（交往中，Y1S1 第 6／8／9 週週日 16:00）／#14 朋友層偶遇（FRIEND，西門町第 6／8／9 週週六 18:00；認識＝遇不到）：捷運公館站入口 → 景點 → 散步 → 偶遇（60%）
+  DATE_PS／DATE_ZR  #9 約會收尾（【捷徑】DATE.book D01 15:00 → 出發 → 選「差不多了」→ 收尾；芷若同一地點隔週再去一次＝AA_904 remember）
   NIGHT_MSG  #11 可昕深夜訊息（交往中；2026-10-14、10-15 23:20 宿舍手機傳「在幹嘛」→ 她回的那一句；兩晚看輪流）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -311,7 +312,28 @@ async def c_enc(pg, cdp, tag):
     return {'case': tag, 'tries': out, 'met': met}
 
 
+DATES = {'DATE_PS': ('classmate_peishan', 'D01', 1), 'DATE_ZR': ('heroine_02', 'D01', 2)}
+BOOK_JS = "(a=>{ const G=GAME.G; const b=DATE.book(G,{who:a.who,locs:[a.loc],transport:'mrt',day:G.day,depart:a.dep}); const q=b&&b.trip!=null?OUT.get(G,'date_'+b.trip):null; return {ok:!!(b&&b.ok!==false&&b.trip!=null), why:b&&b.why||null, trip:b&&b.trip, q:q?{day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,title:q.title}:null}; })"
+
+
+async def c_date(pg, cdp, tag):
+    """#9（BB 改定：AA_913 沛珊收尾＋AA_904 芷若再去一次 remember）：Y1S2 第 5 週週六 14:30 宿舍、她 CLOSE（約得了）→【捷徑】DATE.book 15:00 那一趟（同 tests/date_scene_unit.js）
+       → 等「出發」→ 到了照演、選單選「差不多了」→ 收尾那幾句截圖。DATE_ZR 同一個地點隔週再去一次（看 remember 那一套）"""
+    who, loc, times = DATES[tag]; out = []
+    for n in range(times):
+        when = ['Y1S2', 5 + n, 6]
+        if n == 0: d, seed = await SP.fresh(pg, cdp, tag, when, 14.5, 'dorm', {who: 'CLOSE'}); R.note('[%s] 墊完 %s' % (tag, J(seed))); await pg.evaluate("(()=>{ GAME.G.money=Math.max(GAME.G.money|0,5000); })()")
+        else: d = await SP.jump(pg, cdp, '%s 第 %d 次' % (tag, n + 1), when, 14.5, 'dorm', None)
+        bk = await P.prep(pg, cdp, R, BOOK_JS, {'who': who, 'loc': loc, 'dep': 15}, True, '[%s 第%d次] DATE.book %s %s 15:00（同 date_scene_unit.js）' % (tag, n + 1, who, loc)); await P.events_on(pg)
+        if not R.check('FAIL_SETUP 檢查：[%s 第%d次] 約會排上了' % (tag, n + 1), bk['ok'] and bool(bk['q']), J(bk)): break
+        r = await SP.go_out(pg, cdp, '%s_%d' % (tag, n + 1), 0, verbs=('出發', '差不多了'))
+        out.append({'n': n + 1, 'book': bk, 'r': r})
+    SP.d158(tag, *[o['r'] for o in out])
+    return {'case': tag, 'dates': out}
+
+
 async def one(pg, cdp, c):
+    if c in DATES: return await c_date(pg, cdp, c)
     if c in ENC: return await c_enc(pg, cdp, c)
     if c in FEED: return await c_feed(pg, cdp, c)
     if c in SPRING: return await c_spring(pg, cdp, c)
