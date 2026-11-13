@@ -24,7 +24,7 @@
   "top": "WALL_front_dbk_frame×WALL_front_dbk_frame 0.139 m² @[1.81,0,4.06]"
  },
  "assets/models/env/second_ai/aa_support/komichi.glb": {
-  "sha1": "2e854f2ea126b27c19ae5355cbf9078a80a9577d",
+  "sha1": "f15365c161e186b6c38d600ad4fc44a8cd6aa2e8",
   "wall": 0.75,
   "always": 1.57,
   "top": "WALL_front_kmc_wood×WALL_front_kmc_wood 0.235 m² @[-2.58,0,4.06]"
