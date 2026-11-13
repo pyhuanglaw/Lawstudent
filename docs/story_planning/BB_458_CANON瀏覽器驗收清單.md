@@ -95,4 +95,10 @@
   - #12 法圖 INV_LAWLIB_r3：快速前往成功、她在 T7 南側 waitSeat (4.9, 6.65)；探針 1.8 m 內找不到空的玩家座位、沒坐下＝「我一章大概四十分鐘」那句沒驗到。先判 TEST_BUG（T7 寬 2 m，另一側／隔壁座位約 1.6～2 m、剛好在邊緣或被 NPC 坐走）→ r4 半徑 3 m；3 m 內還是沒有空位＝GAME P1（約來念書卻坐不到她旁邊）。
   - AN_BEAT6／8：探針只等 8 秒、「直接過去／自己走過去」選單在 toast 之後才跳＝TEST_BUG，改等 25 秒；_door 那兩支走到一半時間跳到隔天＝整段沒驗到，重跑。BEAT8 用 2027-10-20。
   - BOOKSTORE：頁間書屋要「自己走進去過一次」才會出現在約人選單（invites.js show:V('bookstore')）＝r1 存檔沒去過書店＝TEST_BUG；r3 墊 VISITED＝bookstore、PICKS 看電影＞頁間＞今天。這個「去過才約得到」是設計。
+- **04:5x 76f8 第六批**：
+  - **#12 法圖：PASS**——INV_LAWLIB_r3／r4 她答應「好。我常坐的那一排，靠窗。」都拍到。3 m 內沒有玩家座位＝照 16:2x 的定案（法圖不做 sit／bye），**不是 GAME P1**——BB 04:2x 說「3 m 內沒有＝P1」撤回。坐下那句「（小聲）我一章大概四十分鐘。讀完一章你才可以跟我講話。」改到**總圖**驗：CANON458_INV_LIB @76f8（P0）。
+  - **REL76_save_v7（常規回歸）：可能擋發布**——76f8 按「繼續（自動存檔）」讀進來是新的一份（祐廷 day 1 17:55 v2），不是 v7 那份（day -369 21:00）；V25（v9.10.25）同一項 PASS。對照組 REL76_save_v7_ctl（f312）排最前面；**f312 PASS＋76f8 FAIL＝回退＝NO-GO**，已請 LAWWW 查 9.10.25→76f8 之間「繼續」選存檔／讀存檔（SAVE-LZ、readSave、key）。
+  - REL76_skybridge PASS、REL76_p0 PASS。
+  - BOOKSTORE_r3：墊 visited 以後「看電影、逛書店」那一類還是沒出現——invites3d.js 884 照 show(G)＋neverAt 過濾、可昕交往中另有 kxPlaceOk；已請 LAWWW 告訴 CC 出現條件，先不重跑。
+  - 約人四支（AN_BEAT6／8）：選單沒等到＝手機面板開著遊戲暫停（TEST_BUG），CC 改先收面板、門口那兩份改從燒臘門口附近起點，重排。ENC、DATE 逾時（前面的 case 都過）→拆成五行各 45 分鐘。
 
