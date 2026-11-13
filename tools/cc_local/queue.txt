@@ -2286,6 +2286,8 @@ CANON458_BAR | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_pla
 CANON458_DRIFT | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 45 | CASES=DRIFT_D1,DRIFT_D2,DRIFT_D3,DRIFT_D4;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 # BB-C 11-14 16:29：fix_b_r2 r3「改天」收尾後 ev_pool_greet 接著演＝正常節奏（第 10 類）；r3 結束時把插進來的對話照字點完再量（點完還不能動才 FAIL）
 STUDY_fix_b_r3 | 5c96c6680264aa6fe56f5450f01d848d3623c9af | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_r3;DRAIN_OTHER=1;ROSTER=0;SHA=5c96c6680264aa6fe56f5450f01d848d3623c9af
+# BB-C 16:37：fix_c_r2 帶路途中出總圖被打氣筒那段插進來、state missed；DRAIN_OTHER=1 照字點完再看 state（還是 missed、沒有「作罷」＝GAME，直接給 LAWWW＋BB）
+STUDY_fix_c_r3 | 4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_abandon;ABANDON=leave,timeout,close;ABANDON_FAST=1;ROSTER=0;DRAIN_OTHER=1;SHA=4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3
 # CC-C 11-14 01:xx：BB_403 W1～W3（第二天下午跟／不跟小安走；W2 隔天小安那句；W3 只記 prereq）
 BB403_W123 | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_planning/test_tools/cc/cc_bb403_probe.py | index.html | 40 | CASES=FOLLOW,REFUSE;SHA=d587922b01345b1eae1cd207e8dd66ebc5ddc6fa
 YUE_MEAL_r3 | 6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 25 | CASES=SIS,SISD;SHA=6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d
