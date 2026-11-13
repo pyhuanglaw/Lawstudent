@@ -370,10 +370,10 @@ const Y34B=(function(){
     if(inGrp(G,'noodle_team')) for(const [k,L] of [['a23msg',[GZ('週四 燒臘店二十三週年 倒數三天')]],['a23tue',[{th:'g:noodle_team',from:'yu',text:'兩天'}]],['a23wed',[GZ('明天七點 不准遲到'),{th:'g:noodle_team',from:'classmate_bohan',text:'我六點半到。'}]]]){
       const dd=D(k), hh=dd!=null?tzH(G,dd,21):21; if(dd!=null&&NOW(G)>=T(dd,hh)&&G.day<=dd+1) at(G,dd,hh,L,'y4_a23_count_'+k); }   /* 桌遊團群組的倒數（AA_337 第 3 節）：12/11、12/12、12/13 21:00 */
     if(!US(G)&&F.ANNIV23==='there'&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&NOW(G)>=T(d,22.5)&&G.day<=d+1)
-      at(G,d,22.5,[{th:'p:kexin',who:null,text:'（你傳了一張長桌的照片給可昕。）'},DM('kexin','人好多。'),DM('kexin','……下次帶我去。人少的時候。')],'y4_a23_kx_photo');   /* 和可昕交往、她沒見過桌遊團（AA_337 第 3 節）：系統字＋她兩句 */
+      at(G,d,22.5,[{th:'p:kexin',who:null,text:'（你傳了一張長桌的照片給可昕。）'},DM('kexin','人好多。'),DM('kexin','……那種地方，我會想坐角落。')],'y4_a23_kx_photo');   /* 和可昕交往、她沒見過桌遊團（AA_337 第 3 節）：系統字＋她兩句 */
     if(US(G)&&F.ANNIV23==null&&NOW(G)>=T(d,tzH(G,d,19.5))){ F.ANNIV23='remote';   /* 美國路線：遠端版（AA_181 2-5、BB_99 9-0b）。ANNIVERSARY_23「聽說」拿掉（AA_625 接線補第 3 點：十週年的遠端版記）*/
       if(met('yu')&&inGrp(G,'noodle_team')) at(G,d,tzH(G,d,19.5),[{th:'g:noodle_team',from:'yu',text:'（一張滿座的照片）'},GZ('美國那兩個 阿姨說照片也算')],'y4_a23_us');   /* AA-B 11-07 回 LAWWW-B（A23 剩下五處；AA_624：語彤從來不在燒臘店，這一場整個沒有她） 第 3 點：照片改 Alison 傳（原本語彤、要和語彤 FAMILIAR）；認識 Alison 才有（和長桌上 Alison 那幾句同一個條件 met）*/
-      if(dating(G,'kexin')) at(G,d,tzH(G,d,19.5),[DM('kexin','你說了四年的麵。……今天少你一碗。'),DM('kexin','23 號回來，第一碗我請。')],'y4_a23_us_kx'); } };
+      if(dating(G,'kexin')) at(G,d,tzH(G,d,19.5),[DM('kexin','你一直在講那家麵店。……今天少你一碗。'),DM('kexin','23 號回來，第一碗我請。')],'y4_a23_us_kx'); } };
   /* AA_323 1B-20 第 1、6 節「12/11（一）起，麵店門口貼一張白紙：『12/14（四）晚上七點　二十三週年』」＋「天氣 12/14 晚上強制下雨」（10-20 稽核列的「門口白紙」）：
      公館麵店門口（zones3d.js 的「進入阿鳳麵店」旁邊）多一個「看」——12/11 到 12/14 當天、二十三週年還沒演完；白紙裡的字照稿逐字（外面的括號旁白照 r2y4b3d.js AUNT_DOOR 的寫法）。
      3D 的白紙（稿：「3D 物件：可以用公告欄那一種」）是場景物件，歸 LAWWW2（D108），這裡只有互動點。下雨：12/14 17:00 起（照 1B-08 事件 12 y2b3d.js 的寫法），美國路線不管臺北的天氣 */
@@ -663,7 +663,7 @@ const Y34B=(function(){
     {speaker:null,text:'（系館的小教室。你坐在最後一排。她講到一半看了你一眼，停了半秒，接著講完。）'},
     {speaker:'kexin',expression:'smile',text:'你坐最後一排。我看得到。……講得還好嗎？'},
     {choice:[{text:'「很好。第三頁那張圖，我聽懂了。」',goto:'k_a'},{text:'「妳停了半秒。」',goto:'k_b'}]},
-    {label:'k_a'},{speaker:'kexin',expression:'smile',text:'那張我改了四次。'},{goto:'k_end'},
+    {label:'k_a'},{speaker:'kexin',expression:'smile',text:'那張我改了好幾次。'},{goto:'k_end'},
     {label:'k_b'},{speaker:'kexin',expression:'embarrassed',text:'……你有看到喔。'},{speaker:'kexin',expression:'teasing',text:'因為你真的坐最後一排。'},
     {label:'k_end'},{set:{KX_PRESENT:'came'}} ];
   /* 1B-17 */
@@ -770,7 +770,7 @@ const Y34B=(function(){
   /* 1B-20 */
   /* AA-B 11-07 回 LAWWW-B（A23 剩下五處；AA_624：語彤從來不在燒臘店，這一場整個沒有她）：語彤那幾個判斷（ytF、ytDt、lastBowl、firstOrder／order1：她端最後一碗、她記得你第一次點什麼）拿掉——讀它們的句子都已經不在（AA_661 第 63 列、AA_625 接線補第 3 點）*/
   /* AA_661 第 63 列（AA 定：兩場都留，分開）：公館燒臘二十三週年是阿鳳和熟客（桌遊團那群）的場——地點照 AA_612 換燒臘店的字（A-450～A-458），語彤端碗、語彤的媽媽那幾句拿掉（她和阿鳳不是親戚），
-     可昕那句改「你說了三年的叉燒」。語彤自己的是一盞茶屋十週年（AA_625 事件 15，另一場）*/
+     可昕那句改「你一直講的叉燒」（AA_934 不數年）。語彤自己的是一盞茶屋十週年（AA_625 事件 15，另一場）*/
   const A23=[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
     {speaker:null,text:'（燒臘店牆上，二十年那張泛黃的紅紙旁邊，多了一張新的：「感謝各位二十三年來的照顧。明年繼續烤。」）'},
     {speaker:null,text:'（店裡坐滿，外面還有人排隊。新屋主也來排隊。）'},
@@ -779,7 +779,7 @@ const Y34B=(function(){
     {if:C(()=>met('yu')),speaker:'zhe',text:'（把一碗例湯推過去）妳的。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'你怎麼知道我要點這個？'},
     {if:C(()=>met('yu')),speaker:'zhe',text:'妳每次都點這個。……還有，阿姨說妳大一第一次點的也是這個。'},
-    {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',expression:'laugh',text:'你說了三年的叉燒，原來是真的。'},
+    {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',expression:'laugh',text:'你一直講的叉燒，原來是真的。'},
     {if:C(()=>met('heroine_05')&&met('yu')),speaker:null,text:'（Alison 把手機給大家看。）'},   /* AA-B 11-07 回 LAWWW-B（A23 剩下五處；AA_624：語彤從來不在燒臘店，這一場整個沒有她） 第 1 點：照片是美國的學姊傳的，給大家看的是她妹妹 Alison（原本語彤）；Alison 有出現（認識她，同上面那幾句的 met）才有這一句 */
     {if:C(()=>met('heroine_05')&&!met('yu')),speaker:null,text:'（有人把手機傳過來給大家看。）'},   /* AA-B 11-07 23:13：不認識 Alison＝中性的一句，後面學姊那兩句照舊 */
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'（照片：她在美國煮的一碗麵）'},
@@ -805,7 +805,7 @@ const Y34B=(function(){
   const y4p=G=>G.flags.Y4_PATH, told=G=>['bar','grad','other'].includes(y4p(G));
   const PATHS_Q=[ {choice:[{text:'（照實說自己的選擇）',if:C(told),goto:'p_told'},{text:'「還在想。」',unless:C(told),goto:'p_think'},{text:'「妳選什麼，我就配合。」',goto:'p_follow'}]},
     {label:'p_told'},{speaker:'kexin',expression:'serious',text:'好。那我們各自準備。'},{unless:C(US),speaker:'kexin',expression:'teasing',text:'……晚上十點還是要通話喔。'},{if:C(US),speaker:'kexin',expression:'teasing',text:'……台灣晚上十點、你那邊早上十點，還是要通話喔。'},{set:{KX_PATHS:'told'}},{goto:'p_end'},
-    {label:'p_think'},{speaker:'kexin',expression:'smile',text:'那我先記你『還在想』。想好了，第一批告訴我。'},{set:{KX_PATHS:'thinking'}},{goto:'p_end'},
+    {label:'p_think'},{speaker:'kexin',expression:'smile',text:'那你就先還在想。想好了，第一個告訴我。'},{set:{KX_PATHS:'thinking'}},{goto:'p_end'},
     {label:'p_follow'},{speaker:'kexin',expression:'serious',text:'不要。'},{speaker:null,text:'（她看著你。）'},{speaker:'kexin',expression:'serious',text:'你配合我的話，以後你後悔，我會覺得是我害的。'},{set:{KX_PATHS:'follow'}},
     {label:'p_end'} ];
   const PATHS=[ {unless:C(US),scene:'法律系館・門口',bg:'ntu_linze'},{if:C(US),scene:'視訊',bg:'video'},

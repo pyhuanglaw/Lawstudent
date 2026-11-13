@@ -319,9 +319,9 @@ const date=id=>H.date(id);
     const a=idx('你點的是油雞腿飯，你記錯了。'), b=idx('（把最後一碗放在阿哲面前）餛飩湯。'), c=idx('……我真的記錯了喔。'), e=idx('我記得。我記得每個人第一次點什麼。');
     check('AA_337 第 3 節：阿姨「你點的是油雞腿飯，你記錯了。」（AA_612 A-456）→ 阿哲「……我真的記錯了喔。」→「我記得。我記得每個人第一次點什麼。」；語彤端最後一碗那句拿掉（AA_661 第 63 列）', a>=0&&b<0&&c>a&&e===c+1&&/阿哲|哲/.test(H.said[c].who||''), JSON.stringify([a,b,c,e]));
     at('2028-12-14',22.4); phone(); const k0=th('p:kexin').length; at('2028-12-14',22.5); phone(); const km=(H.G.msgs||[]).filter(m=>m.th==='p:kexin');
-    check('AA_337 第 3 節 和可昕交往、她沒見過桌遊團：22:30 系統字「（你傳了一張長桌的照片給可昕。）」＋可昕「人好多。」「……下次帶我去。人少的時候。」', k0===0&&km.map(m=>m.text).join('|')==='（你傳了一張長桌的照片給可昕。）|人好多。|……下次帶我去。人少的時候。'&&!km[0].from&&km[1].from==='kexin', JSON.stringify(km.map(m=>[m.from,m.text]))); }
+    check('AA_337 第 3 節 和可昕交往、她沒見過桌遊團：22:30 系統字「（你傳了一張長桌的照片給可昕。）」＋可昕「人好多。」「……那種地方，我會想坐角落。」（2026-11-13 AA_934 第 1 節，舊期望「……下次帶我去。人少的時候。」）', k0===0&&km.map(m=>m.text).join('|')==='（你傳了一張長桌的照片給可昕。）|人好多。|……那種地方，我會想坐角落。'&&!km[0].from&&km[1].from==='kexin', JSON.stringify(km.map(m=>[m.from,m.text]))); }
   { fresh('2028-12-14',18.9,'noodle',{KX_MET_NOODLE_TEAM:true}); H.FRIEND('heroine_03'); date('kexin'); await S.a23Run(GM); at('2028-12-14',22.5); phone();
-    check('1B-20 見過桌遊團的可昕：她在場（「你說了三年的叉燒，原來是真的。」，AA_661 第 63 列）、沒有事後照片', has('你說了三年的叉燒，原來是真的。')&&!th('p:kexin').length); }
+    check('1B-20 見過桌遊團的可昕：她在場（「你一直講的叉燒，原來是真的。」，AA_661 第 63 列；2026-11-13 AA_934 第 1 節不數年，舊期望「你說了三年的叉燒」）、沒有事後照片', has('你一直講的叉燒，原來是真的。')&&!th('p:kexin').length); }
   { fresh('2028-12-11',20,'dorm'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','桌遊團'); at('2028-12-11',21); phone(); const a=th('g:noodle_team').slice(); at('2028-12-12',21); phone(); const b=th('g:noodle_team').slice(); at('2028-12-13',20.9); phone(); const c=th('g:noodle_team').length; at('2028-12-13',21); phone();
     const L=(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
     check('AA_337 第 3 節 桌遊團群組的倒數：12/11 阿哲「週四 燒臘店二十三週年 倒數三天」（AA_464 4-1 加「麵店」）、12/12 Alison「兩天」、12/13 阿哲「明天七點 不准遲到」柏翰「我六點半到。」', a.join('|')==='週四 燒臘店二十三週年 倒數三天'&&b.slice(-1)[0]==='兩天'&&c===2&&L.join('|')==='zhe:週四 燒臘店二十三週年 倒數三天|yu:兩天|zhe:明天七點 不准遲到|classmate_bohan:我六點半到。', JSON.stringify(L)); }
@@ -347,7 +347,7 @@ const date=id=>H.date(id);
   { fresh('2028-10-18',21,'dorm',{Y4_PATH:'undecided'}); date('kexin'); phone(); answer('y4_kx23',1); phone(); const q2=OUT.get(H.G,'y4_kx23b');
     check('1B-21 改天：「好。那週六下午三點，同一個地方。」（AA_337 第 5 題；「這次我等你」不在這裡）→ 10/21 15:00', th('p:kexin').includes('好。那週六下午三點，同一個地方。')&&!th('p:kexin').includes('週六下午三點。這次我等你。')&&!!q2&&q2.h===15&&q2.day===D('2028-10-21'));
     at('2028-10-21',16); OUT.tick(GM); at('2028-10-21',21); phone(); check('P2 兩次都沒到：21:00 電話', S.kx23CallDue(H.G)); await run('ev_kexin_own_paths_call');
-    check('P2 「那我們用電話各自說。」；還沒決定＝「還在想。」', has('那我們用電話各自說。')&&has('那我先記你『還在想』。想好了，第一批告訴我。')&&H.G.flags.KX_PATHS==='thinking'); }
+    check('P2 「那我們用電話各自說。」；還沒決定＝「還在想。」', has('那我們用電話各自說。')&&has('那你就先還在想。想好了，第一個告訴我。')/* 2026-11-13 AA_934 第 1 節（「我先記你」是記帳口氣），舊期望「那我先記你『還在想』。想好了，第一批告訴我。」*/&&H.G.flags.KX_PATHS==='thinking'); }
   { fresh('2028-10-18',21,'dorm',{Y4_PATH:'bar'}); date('kexin'); phone(); answer('y4_kx23',0); phone(); at('2028-10-20',20); OUT.tick(GM); phone(); const q2=OUT.get(H.G,'y4_kx23b');
     check('1B-21 答應了卻沒到：「我想好了。我們找一天，各自說。」「週六下午三點。這次我等你。」→ 10/21 15:00', th('p:kexin').slice(-2).join('|')==='我想好了。我們找一天，各自說。|週六下午三點。這次我等你。'&&!th('p:kexin').includes('好。那週六下午三點，同一個地方。')&&!!q2&&q2.h===15, JSON.stringify(th('p:kexin'))); }
   { fresh('2028-10-18',9,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true,Y4_PATH:'grad'},'US'); date('kexin'); at('2028-10-18',9); H.G.zone='us_apartment'; phone(); answer('y4_kx23',0); phone(); const q=OUT.get(H.G,'y4_kx23');
