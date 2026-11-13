@@ -7497,6 +7497,51 @@
    "noDirectIntegrate": false,
    "next": "源稿第五批用 6dbfe10d7e；src 手改等 BB 照用",
    "unfinished": "BB 第二眼"
+  },
+  {
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "42cd6a1304",
+   "files": [
+    "docs/story_planning/AA_924_阿忠鮮果與冰菓室_不開的時候.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T09:1x",
+   "receiver": "LAWWW",
+   "ack": "SENT/DELIVERED 給 LAWWW-C、BB-C",
+   "noDirectIntegrate": false,
+   "next": "§12 ⑥ 缺字；等 BB",
+   "unfinished": "BB 第二眼"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ef4ac434b2",
+   "files": [
+    "docs/story_planning/AA_925_可昕寒暑假出國不算不排.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T09:1x",
+   "receiver": "LAWWW",
+   "ack": "SENT/DELIVERED 給 LAWWW-C、BB-C",
+   "noDirectIntegrate": false,
+   "next": "vac_activities 可昕 10 句；等 BB",
+   "unfinished": "BB 第二眼"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2416832980",
+   "files": [
+    "docs/story_planning/AA_926_可昕排表個性_全src補掃.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T09:1x",
+   "receiver": "LAWWW",
+   "ack": "SENT/DELIVERED 給 LAWWW-C、BB-C",
+   "noDirectIntegrate": false,
+   "next": "全 src 補掃 10 列；等 BB",
+   "unfinished": "BB 第二眼"
   }
  ],
  "items": [
