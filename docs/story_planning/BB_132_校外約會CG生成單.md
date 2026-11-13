@@ -5470,11 +5470,12 @@
 6. 台北公館一間開了三十年的傳統文具社「榮恩典文具社」的室內。貨架排得比較密，商品很多：左邊是筆記本、原子筆、鉛筆、橡皮擦、修正帶、資料夾、活頁紙、便利貼、膠帶、剪刀；右邊是水彩顏料、壓克力顏料、素描本、畫筆和幾個畫架；靠近櫃檯有一區卡片、信封和禮物包裝紙。最裡面是結帳櫃檯，櫃檯後面的牆上很低調地掛著一個小小的木頭十字架和一張小卡片（卡片上的字糊掉），不要其他宗教用品。白色日光燈，淺色磁磚地板。傳統、擠、什麼都買得到。照片寫實，像站在店門口往裡面用手機拍的照片。橫式 16:9，1920×1080（可以的話 2560×1440）。看得到整間店的深度、天花板的燈、地板和牆面材質，店寬大約 8～10 公尺、深大約 10 公尺。地板不要深色木地板（淺色木頭、磁磚、水泥、磨石子都可以）。店裡不要客人，最多一個店員的背影。商品、包裝、牆上的紙都不要看得清楚的字或品牌；不要任何真實存在的店名、品牌、連鎖店的標誌或配色。
 ```
 
-### 第 128 組（備好、還沒給；使用者說「給我提示詞」時給）：純場景 5 張（2026-11-13 21:3x BB-C）
+### 第 128 組（備好、還沒給；使用者說「給我提示詞」時給）：純場景 6 張（2026-11-13 21:3x BB-C）
 - 來源：ART-BG16 ntu_linze FAIL、ART-BG15 ntu_soc D136 FAIL（BB_464）、語彤情人節三張（BB_432 第 1 點、BLACK-BG-AUDIT-1018）。
-- 附圖：`00_畫風參考.webp`（art_reference/from06/style_07_cafe_dusk.webp）；1、2 號另附遊戲截圖當位置參考（只參考位置，外觀照文字）。
+- 附圖：`00_畫風參考.webp`（art_reference/from06/style_07_cafe_dusk.webp）；1、2、6 號另附遊戲截圖當位置參考（只參考位置，外觀照文字）。
+- 6 號（23:3x 加）：`ntu_gate`，迎新宿營開頭與回到校門（camp_y1.js 兩處 bg:dark，BB_460 23:3x；LAWWW 先用 ntu_avenue 代）；位置截圖＝遊戲 3D 校門（CK.gate），給提示詞時由 CC 拍一張附上。BG-3DSHOT-1021。
 ```
-請照編號 1 到 5 依序生成 5 張圖片，一個編號一張，一張一張分開生成，一次給我五張。
+請照編號 1 到 6 依序生成 6 張圖片，一個編號一張，一張一張分開生成，一次給我六張。
 
 為了高畫質，絕對不可以把幾張合在同一張圖裡。
 
@@ -5503,5 +5504,9 @@ English style keywords: high-quality Japanese anime film key visual, semi-realis
 畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
 English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
 
+6. 台北一所大學的正門口，夏天的早上八點多，晴天。校門是兩根方形的米白色石柱和一道低矮的鐵柵門，門開著；門後是一條筆直、兩旁種滿高大椰子樹的大道，一路往校園深處延伸。校門前的人行道上停著一輛大型白色遊覽車（車身沒有任何字或標誌），車門打開；車旁有十幾個拖著行李箱和背包的大學新生在集合，有人低頭看手機、有人站在樹蔭下，畫面遠一點、人物小、看不清楚臉。早上的陽光從左側斜照，地上有椰子樹細長的影子，空氣乾淨、天空很藍。只參考附圖的位置和角度，校門和建築外觀照文字畫，不要照抄任何真實大學的校門。
+16:9 橫幅，高畫質。畫面主體放在上方三分之二，下方三分之一留給對話框（不要放重要東西）。畫面裡不要有任何文字、招牌字、數字、圓圈編號或標籤（編號只放在檔名或回覆文字）；不要像任何真實的作品、品牌或真實建築。畫面裡沒有人。
+畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
+English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
 ```
 - 對照（不給使用者）：1＝法律系館A前（ntu_linze，換掉現在的遊戲截圖；11 處對話用）；2＝社科院門口（ntu_soc，換掉現在照抄真實建築的那張；4 個事件用）；3＝語彤家（yt_home，情人節兩場：餐桌、廚房）；4＝新生南路情人節夜（xinsheng_vday_night）；5＝語彤家大樓樓下・過年（yt_building_gate_cny）
