@@ -9336,6 +9336,24 @@
    ],
    "remaining": "寬 4.96 版沒有遊戲內照片（shots/ingame_w52_* 是 5.2 版、兩側白牆）；沒和概念圖並排；patch 底 21773bf35b 含已整合段落，要只取 wente 相關",
    "next": "下一班：重拍 4.96 版五張 → 並排三組 → 交 LAWWW-C 先看圖 → BB 判（HANDOFF.md 最上面『下一班第一件事』1）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "tests/shop_cc0_unit.js：店內模型有沒有用 CC0 素材（D160）＋基準表 49 間",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_1113/shop_cc0_unit.js",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_1113/shop_cc0_baseline.json",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_1113/todo_49.txt",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_1113/README.md"
+   ],
+   "remaining": "基準表在 21773bf35b＋溫特寶邸 v2 上算的，整合時在開發分支重跑 --write",
+   "next": "LAWWW 放進 tests/、接 node-unit-auto；SHOP_STANDARD_STATUS「CC0 素材」欄用 cc0Of() 接；49 間進 SHOP-REALISM-1112 重做清單"
   }
  ]
 }
