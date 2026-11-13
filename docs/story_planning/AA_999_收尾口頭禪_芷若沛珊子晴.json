@@ -1,0 +1,100 @@
+{
+ "_meta": {
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "by": "AA-C 2026-11-13",
+  "what": "接 AA_998 的統計：芷若約會句「……好不好」6 句（AA_970 做過 2 句）改 3、沛珊 6 句改 4、子晴「好的那種」3 次改 2。留下的：芷若「涼了才喝得出豆子好不好」（嗆聲語氣）、「泡腳的照片就不拍了，好不好」、「前面那個彎走完就休息，好不好？」；沛珊「分我一口好不好」「我們坐外面好不好？」；子晴 D05「好的那種」。",
+  "note": "子晴 D33 改掉「我的耳朵還在嗡嗡叫」，也避開芯慈 D03 新句「我的耳朵還在嗡嗡叫。」（AA_975 撞句清理後的字）。可昕「十分鐘」只有 4 句、沛珊「是什麼」都是真的在問，不改。"
+ },
+ "rows": [
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_02\", \"text\": \"我們再走一次好不好？",
+   "new": "heroine_02\", \"text\": \"我們再走一次。",
+   "speaker": "heroine_02",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  },
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_02\", \"text\": \"我們吃完東西再回去好不好？",
+   "new": "heroine_02\", \"text\": \"吃完東西再回去吧。",
+   "speaker": "heroine_02",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  },
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_02\", \"text\": \"好短喔，我還沒坐夠。回程再坐一次好不好？",
+   "new": "heroine_02\", \"text\": \"好短喔，我還沒坐夠。回程再坐一次。",
+   "speaker": "heroine_02",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  },
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"我們坐到噴水池關掉再走好不好。",
+   "new": "classmate_peishan\", \"text\": \"我們坐到噴水池關掉再走。",
+   "speaker": "classmate_peishan",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  },
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"這邊的走廊好舒服喔。坐一下好不好？",
+   "new": "classmate_peishan\", \"text\": \"這邊的走廊好舒服喔。我要坐一下。",
+   "speaker": "classmate_peishan",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  },
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"太陽好快就下去了。再坐一下好不好？",
+   "new": "classmate_peishan\", \"text\": \"太陽好快就下去了。再坐一下嘛。",
+   "speaker": "classmate_peishan",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  },
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "classmate_peishan\", \"text\": \"這裡每一家都在排隊，我們挑最短的那排好不好。",
+   "new": "classmate_peishan\", \"text\": \"這裡每一家都在排隊，我們挑最短的那排。",
+   "speaker": "classmate_peishan",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  },
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_04\", \"text\": \"腳好熱。我的腦在融化，好的那種。",
+   "new": "heroine_04\", \"text\": \"腳好熱。我的腦在融化，可是很舒服。",
+   "speaker": "heroine_04",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  },
+  {
+   "doc": "AA_999",
+   "files": [
+    "date_lines.js"
+   ],
+   "old": "heroine_04\", \"text\": \"我的耳朵還在嗡嗡叫，是好的那種。",
+   "new": "heroine_04\", \"text\": \"我的耳朵到現在還在震。很過癮。",
+   "speaker": "heroine_04",
+   "note": "約會句收尾口頭禪：芷若、沛珊「好不好」各 6 句改一半；子晴「好的那種」3 次改 2"
+  }
+ ]
+}
