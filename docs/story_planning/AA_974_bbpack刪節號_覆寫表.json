@@ -1,0 +1,20 @@
+[
+ {
+  "files": [
+   "bbpack_events.js"
+  ],
+  "old": "say(AN,'……那是今天的。你自己的呢？')",
+  "new": "say(AN,'那是今天的。你自己的呢？')",
+  "speaker": "heroine_01",
+  "note": "old 帶 say(AN, 才唯一"
+ },
+ {
+  "files": [
+   "bbpack_events.js"
+  ],
+  "old": "say(ZR,'……騙人。')",
+  "new": "say(ZR,'騙人。')",
+  "speaker": "heroine_02",
+  "note": "old 帶 say(ZR, 才唯一"
+ }
+]
