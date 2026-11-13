@@ -1,6 +1,7 @@
 ### AA-C 目前狀態與全部待辦（2026-11-12 03:1x UTC 接班；roles 讀這一節）
 
-- 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 origin/claude/story-planning a9ce231b2｜2026-11-12T03:13Z
+- 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 0c9daff873｜2026-11-13（使用者「繼續」，交班後同一帳號同一工作階段回班；duty register 重新登記）
+- 上一班：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit 0c9daff873｜正常交班（2026-11-12 22:09Z）。交班後到的：BB 22:07 補記 AA_923 第 4 節照用（BB_449），所以 AA_919～923 全部 BB 照用。
 - 上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit a9ce231b2（2026-11-11 21:05 UTC）｜**未交班**（使用者 11-12：「上一個帳號來不及交班使用量就到了上限，你現在接班，我也會通知其他AI」→ register --user-ok，記 no-handoff）
 - 接班對帳（RULE_SOURCE origin/claude/confident-ritchie-8rwh7t，seq 126，HV-33）：asks 0（203 筆）；roles 1＝4 項都是任務 ID 沒寫日期尾碼或是要求檔 id（DLG-FULL-REVIEW＝DLG-FULL-REVIEW-1110、MOVIE-TALK＝MOVIE-TALK-1110、UA-AA-1111-06／07 是使用者要求檔的 id），不是漏登；userwork：這一班還沒動 6 項，下一步寫在下面。
 - 暫停中：DIALOGUE-DEPTH-1031 語彤共創（誰決定：使用者 11-12 選「再等等」；為什麼：還不要共創；負責人：AA；恢復條件：使用者說要共創；下次檢查日：2026-11-19）。
