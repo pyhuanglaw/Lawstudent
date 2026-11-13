@@ -5300,6 +5300,15 @@
    "status": "規則（永久）",
    "task": "HELPER-HANDOFF-1113",
    "note": "LAWWW-C 回：四個幫手是 LAWWW-C 11-13 19:4x 照 D161 開的；新增 D163 幫手交班規則（CLAUDE.md §4）"
+  },
+  {
+   "id": "UA-LAWWW-1113-05",
+   "at": "2026-11-13 23:5x UTC",
+   "quote": "反正我在新帳號不用自己開一個新的對話複製幫手對話名稱對嗎",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "HELPER-HANDOFF-1113",
+   "note": "LAWWW-C 回：對，使用者不用開；下一班 LAWWW 照幫手 HANDOFF.md 自己用 create_session 開、登記。寫進 D163 第 4 點"
   }
  ]
 }
