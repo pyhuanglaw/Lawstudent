@@ -89,6 +89,16 @@ yuehaochi)
   for i in 0 1 2 3 4 5; do z=$(python3 -c "print(round(-1.8+$i*1.15,3))"); x=$( [ $((i%2)) = 1 ] && echo 0.1 || echo -0.1 ); PT="$PT;$x,3.0,$z,${SPOTW:-16},$WARM,0.05"; done
   for z in -2.0 0.5 3.0; do PT="$PT;0.8,2.95,$z,${FILLW:-24},$WARM,0.2"; done
   SUN="180,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-1.0,0.95,0.88}; DAYL=${DAYL:-1.0}; SHELL=S ;;
+antai)
+  # 安泰藥局（9×10×3.3 m，GG_XS G04；參考圖 int_antai）：輕鋼架天花板八組雙管日光燈（x ±1.5、z −3.6／−1.2／1.2／3.6；1.16×0.16 m 面光源往下，冷白）＋兩側貨架上方各一點補光。
+  #   左右整面玻璃＋自動門朝街：白天天光 1.0。白天燈也開著。模型和光照貼圖叫 gg_antai_interior（遊戲的區域叫 gg_antai）。
+  HIDE='glass|lightpanel'
+  NOLM='lightpanel|_vc|_vcm|labels|ph_potted'
+  COL=${LCOL:-0.96,0.98,1.0}
+  for xx in -1.5 1.5; do for zz in -3.6 -1.2 1.2 3.6; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$xx-0.01:.3f},{$xx+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.2,1,1,${TUBEW:-22},1.16,0.16,$COL')")"; done; done
+  PT="-3.6,2.2,0.3,${FILLW:-10},$COL,0.3;3.6,2.2,0.3,${FILLW:-10},$COL,0.3"
+  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.97,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S; NAME=gg_antai_interior ;;
 *) echo "還沒做 CC0 版的店：$SHOP（先做泰米，其他五間照 SHOP_REALISM_PLAN_TZ7.md 的順序加進來）"; exit 1 ;;
 esac
 PT=${PT#;}; LIGHTS=${LIGHTS#;}

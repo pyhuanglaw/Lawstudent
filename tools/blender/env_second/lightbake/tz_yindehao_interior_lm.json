@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 147.5,
+ "bake_seconds": 194.3,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -37,6 +37,7 @@
   "S_cardboard",
   "S_cloth_b",
   "S_floor",
+  "S_packs",
   "S_ph_vintage_stapler_0",
   "S_pics",
   "S_plastic_dk",

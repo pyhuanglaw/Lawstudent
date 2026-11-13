@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 245.7,
+ "bake_seconds": 189.9,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -47,7 +47,6 @@
   "tz_dongnan_interior_inst",
   "tz_dongnan_interior_inst.001",
   "tz_dongnan_interior_inst.002",
-  "tz_dongnan_interior_inst.003",
   "WALL_E",
   "WALL_N",
   "WALL_S",
