@@ -71,10 +71,11 @@ tea)
 cafe2)
   # 大學食堂（6.6×9×3.2 m＋後面 1.8 m 深的廚房；建模 l118_int_cafe2.py）：天花板七組雙管日光燈（照 build_cafe2 的 tubes，沿 x 1.2 m、兩支相隔 0.18 m）＋自助餐台上方的保溫燈條（暖）
   #   ＋廚房一支日光燈（x 0、z −5.18）。白天燈也開著；店面玻璃朝 118 巷（S），只有天光。
-  #   現在交的是沒烘的版本：烘了 GLB 會變 3.7 MB，超過 tests/l118_int_home_cafe2_1111_unit.js 第 5 項「舊版 1.5 倍以內」（AA-C 11-13；預算要不要放寬由 BB 定）
+  #   GLB 預算：tests/l118_int_home_cafe2_1111_unit.js 第 5 項「舊版 1.5 倍以內」（BB 11-13：不放寬、光照照烘）。全部烘＝3.7 MB（多一套 UV、頂點拆開）→
+  #   只烘房間外殼（地板、天花板、四面牆和腰牆、廚房磁磚、木桌面），道具照舊即時光：NOLM 寫成「除了這些都不烘」
   BUILDER=l118_int_cafe2.py
   HIDE='glass|GLOW_|view'
-  NOLM='_vc$|ph_potted|prints|screens|printfree|iprint'
+  NOLM='^(?!(l118_cafe2_(floorm|ceiling|paving|woodparts)|WALL_[NSEW]_(wall|wain|kitchen_tile_[wf]|kceil_cc0))$).*'
   COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
   for xz in "-1.5 -2.4" "1.5 -2.4" "-1.5 -0.3" "1.5 -0.3" "-1.5 1.8" "1.5 1.8" "0.0 3.6"; do set -- $xz
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.1,1,1,${TUBEW:-34},1.2,0.25,$COL')")"; done
