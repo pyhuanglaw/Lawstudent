@@ -157,3 +157,4 @@
   - **判定：這 7 句換掉以前 NO-GO**；建議 rc2＝76f8＋這 7 列（純資料），驗 GHA 綠＋canon_scan 0＋CC 跑可昕第一次一起念書確認新字。其他已過的回歸不重跑。
 - **07:1x REL76_reach：PASS 114 項，1 項 P2 不擋**——29 區 1251 個互動點；只有溫州街「看門口的花」(44,20.8) r 1.2 內沒有站得住的位置＝玩家按不到（花序門口季節布置，season_deco.js 21／season_stalls3d.js 41，76f8 才有；a1efc3b6ab G2DF5_reach 已同樣 FAIL）。不卡人、只是看不到＝P2；資料修正（挪座標或 r→1.8）可順手放 rc2，LAWWW 決定。
 - **07:1x 76f8 GO 狀態**：X364 外校字 → AA_987 全部改完、BB 照用，等 LAWWW 出 rc2（BB_467 驗法）；回歸還差 social、DATE_LAYER＋NODL、FULL_a／b（76f8 跑、rc2 照算）。
+- **07:3x 第九批**：REL76_car_r2（car01_A A 傾向設成、car04_20）ALL PASS＝**car 正式 PASS**；**DATE_LAYER_NODL_76f8 ALL PASS**（?nodatelayer 回文字選單，BB_461 第 8 項）；REL76_reach＝P2（看門口的花，已記）；INV_LIB_r6＝證據（已記 BB_467）。還沒回：DATE_LAYER_76f8、REL76_social、FULL_a／b。
