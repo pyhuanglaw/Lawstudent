@@ -44,6 +44,7 @@ const DATELAYER=(function(){
 #dateLayer .dlEdge{position:absolute;top:0;bottom:0;width:22px;pointer-events:none;opacity:0;transition:opacity .2s}#dateLayer .dlEdge.l{left:0;background:linear-gradient(90deg,rgba(0,0,0,.45),transparent)}#dateLayer .dlEdge.r{right:0;background:linear-gradient(270deg,rgba(0,0,0,.45),transparent)}#dateLayer .dlEdge.show{opacity:1}
 #dateLayer .dlProbe{position:absolute;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
 #adv.dlayer .advSlot{opacity:0!important;visibility:hidden}
+#adv:not(.on) #dateLayer{display:none}
 @keyframes dlPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}`;
   function css(){ if(S.cssDone||!document.head) return; const st=document.createElement('style'); st.textContent=CSS; document.head.appendChild(st); S.cssDone=true; }
   function el(tag,cls,parent){ const e=document.createElement(tag); if(cls) e.className=cls; if(parent) parent.appendChild(e); return e; }
@@ -76,7 +77,8 @@ const DATELAYER=(function(){
     if(!e||!bg||!Array.isArray(opts)||opts.length!==pts.length+1||!S.covers(ctx.bg,pts,ctx.all)) throw new Error('DATELAYER: 資料不完整');
     S.close(); await loadImg(bg.image,4000);   /* ADV 已經載過同一張（快取），通常馬上好 */
     if(typeof ADV==='undefined'||!ADV.active||!ADV.root) throw new Error('DATELAYER: ADV 沒開');
-    css(); if(typeof ADV!=='undefined') ADV.skip=false;   /* 「略過對話」停在選擇（同 GM.choose）*/
+    css(); ADV.skip=false;   /* 「略過對話」停在選擇（同 GM.choose）*/
+    if(!ADV._dlEnd&&typeof ADV.end==='function'){ const e0=ADV.end; ADV.end=function(){ S.close(); return e0.apply(this,arguments); }; ADV._dlEnd=true; }   /* 2D 畫面收掉（讀檔、回標題）＝圖層一起收，不會留一層看不見的擋住點擊（同 GM.chooseReset：沒選完的那一段不再等）*/
     return new Promise((res,rej)=>{ try{
       const root=el('div',bg.night?'night':''); root.id='dateLayer'; const scroll=el('div','dlScroll',root), stage=el('div','dlStage',scroll); stage.style.backgroundImage='url("'+bg.image+'")';
       const probe=el('div','dlProbe',root), edgeL=el('div','dlEdge l',root), edgeR=el('div','dlEdge r',root);
