@@ -125,6 +125,9 @@
 | `potted_plant_02` | 盆栽兩盆（櫃台、窗邊落地）（作者 Rico Cilliers） | 69,806 → 約 8,400 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
 | `decorative_book_set_01` | 舊書一整排（後牆層板）（作者 James Ray Cock） | 57,028 → 約 8,600 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
 | `mantel_clock_01` | 座鐘（後牆上層）（作者 Yann Kervran、Rico Cilliers） | 25,721 → 約 2,600 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `painted_wooden_chair_02` | 深色梯背木椅 17 張（作者 Kirill Sannikov；顏色貼圖改成深色木頭、保留木紋磨損，加 ambientCG 皮坐墊） | 1,246 → 約 560 面；粗糙度圖拿掉、貼圖 512 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `fern_02` | 牆上層板的蕨類兩叢（作者 Rob Tuytel、Rico Cilliers） | 6,232 → 約 1,560 面，縮成 0.24 倍 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `potted_plant_01` | 落地盆栽兩盆（後角、門邊）（作者 Rico Cilliers） | 176,226 → 約 3,900 面 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -139,6 +142,12 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Fabric031、Fabric036、Fabric061` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 素色襯衫、毛衣、折好的衣服（乘上各件的顏色） | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
 | `Carpet015` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 古董地毯 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
 | `Leather037` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 皮夾克、皮包、皮帶、靴子、皮箱（乘上各件的顏色） | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+| `Leather037` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 長卡座的皮面、椅子的皮坐墊（校成 #6a4530／#4f3222） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `Wicker010A` | （同上） | 藤編吊燈九盞、牆上藤編圓盤、層板上的藤籃 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `Fabric054` | （同上） | 後面隔牆的紅格紋布簾 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `Fabric036` | （同上） | 門上的米色布簾；布篷條紋、靠枕織紋的布料明暗（本作自己畫的圖案乘上去） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `Metal009` | （同上） | 廚房不鏽鋼、桌腳、收銀螢幕、軌道燈（校成不鏽鋼色／黑鐵色） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `Plaster001` | （同上） | 天花板、風管、冷氣（校成 #e9dcc0；牆照舊乾淨的平塗，BB 11-10） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 

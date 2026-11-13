@@ -3,7 +3,7 @@
 // 一間店算「有用 CC0」要三樣都有：
 //   ① LICENSES.md「Poly Haven 模型」那一節有一列寫到這個模型（路徑或檔名）＝店裡的道具有用掃描模型
 //   ② LICENSES.md 的 ambientCG／Poly Haven 貼圖有一列寫到它＝有用 CC0 材質組
-//   ③ 沒貼圖的純色零件少於 25%（和地點關卡 place_gate 的「質感」同一個算法，門檻比它的 ★50% 嚴）
+//   ③ 沒貼圖的純色零件少於 25%（和地點關卡 place_gate 的「質感」同一個算法，門檻比它的 ★50% 嚴；油漆牆 …_wall 不算，見 cc0Of 裡的註解）
 // 店的清單：tests/place_gate_coplanar.json 的鍵（地點關卡 node tests/place_gate_unit.js --coplanar 從每一間店的區域算出來的店內模型）＋下面 EXTRA。
 // 以前做好、還沒重做的店：記在 tests/shop_cc0_baseline.json（每一間都是 SHOP-REALISM-1112 要重做的），只印、不擋。
 //   擋的是：①新做的店沒用 CC0 ②基準表上的店已經改好了、表還沒拿掉（照實更新：node tests/shop_cc0_unit.js --write，和模型同一個 commit 交）
@@ -28,7 +28,9 @@ function cc0Of(p){ const r={glb:p,ok:false,model:false,material:false,flatPct:nu
   for(const L of licRows()) if(L.line.includes(p)||re.test(L.line)) r[L.kind]=true;
   const j=glbJson(p); if(!j){ r.why='讀不了 GLB'; return r; }
   const mats=j.materials||[]; let n=0, flat=0;
-  for(const m of j.meshes||[]) for(const q of m.primitives||[]){ n++; const mt=mats[q.material]; const pb=(mt&&mt.pbrMetallicRoughness)||{}; if(!pb.baseColorTexture) flat++; }
+  /* 牆（材質名 …_wall）不算：油漆牆照 BB 11-10 的規則就是乾淨的平塗（tests/tz_shops_unit.js 第 8 項：不准灰泥貼圖的斑塊），不是「道具是純色方塊」（D159）；
+     這一項要抓的是道具。LAWWW2-C 11-13 泰米：四面牆＋隔牆 5 個平塗零件，算進去會擋住照兩條規則做的店 */
+  for(const m of j.meshes||[]) for(const q of m.primitives||[]){ const mt=mats[q.material]; if(mt&&/(^|_)wall(\.\d+)?$/i.test(mt.name||'')) continue; n++; const pb=(mt&&mt.pbrMetallicRoughness)||{}; if(!pb.baseColorTexture) flat++; }
   r.prims=n; r.flatPct=n?Math.round(flat*100/n):100;
   const why=[]; if(!r.model) why.push('沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）'); if(!r.material) why.push('沒有 CC0 材質組（ambientCG／Poly Haven 貼圖沒有一列寫到它）'); if(r.flatPct>=FLAT_MAX) why.push('沒貼圖的純色零件 '+r.flatPct+'%（零件 '+n+' 個，要 <'+FLAT_MAX+'%）');
   r.ok=!why.length; r.why=why.join('；'); return r; }

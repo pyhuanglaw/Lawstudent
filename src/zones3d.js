@@ -1594,13 +1594,20 @@ const Z3 = (function(){
           part('box',sw+0.16,0.3,0.24,0,hh/2-0.15,0.1,mat.userData.frame); part('bar',sw-0.04,0.09,0.07,0,-hh/2+0.045,0.03,mat.userData.dark); part('railL',0.08,sh-0.28,0.08,-sw/2+0.02,-0.14-sb/2,0.03,mat.userData.dark); part('railR',0.08,sh-0.28,0.08,sw/2-0.02,-0.14-sb/2,0.03,mat.userData.dark); }
         g.add(m); s.shutter=m; } }
     const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
-    const basic=(m,s,cache)=>{ if(!m) return m; let b=cache.get(m); if(b) return b; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
+    /* SHOP-REALISM-1112（LAWWW2-C 11-13）：店內模型有烘好的光照貼圖（GLB extras.lightmap＝白天／晚上兩張，和走進去用的同一份；改用 CC0 素材的店：泰米村食起）——
+       從街上看進去也乘上同一張光照貼圖（MeshBasic 的 lightMap 走第二套 UV：顏色×光照×強度/π，和店裡的間接光同一個算法），外面看、裡面看一樣亮、一樣有影子（CLAUDE.md §12 第 1 點）；
+       白天／晚上照時段換那一張（lmMixAt 過半就換）；營業中不再乘 LIT（光照貼圖本身就是店裡的亮度）、打烊照舊壓暗。沒有第二套 UV 的零件（小東西、植物）照舊。 */
+    const lmOf=(o,s)=>s.lm&&o.geometry&&o.geometry.attributes.uv1?s.lm:null;
+    const basic=(m,s,cache,lm)=>{ if(!m) return m; const ck=lm?(cache.lmc||(cache.lmc=new Map())):cache; let b=ck.get(m); if(b) return b; cache=ck; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
       if(!map){ if(m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&!m.vertexColors) col.copy(m.emissive); else if(m.color) col.copy(m.color); } else if(m.map&&m.color) col.copy(m.color);
       b=new THREE.MeshBasicMaterial({map,vertexColors:!!m.vertexColors,transparent:!!m.transparent,opacity:m.opacity===undefined?1:m.opacity,alphaTest:m.alphaTest||0,side:m.side,depthWrite:m.depthWrite!==false});
+      if(lm){ b.lightMap=lm.day; b.lightMapIntensity=lm.intensity; b.userData.lm=true; }
       if(m.vertexColors&&m.metalness>0.2) col.multiplyScalar(2.2);   /* 金屬的頂點色零件（南洋戲院大廳的老放映機）不受光以後是純黑的剪影：提亮一點 */
       b.name='shopreal_'+(m.name||''); b.userData.base=col; b.color.copy(col); cache.set(m,b); s.mats.push(b); return b; };
     const light=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; let open=true;
-      if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07; if(k===s.k) return; s.k=k; for(const b of s.mats) b.color.copy(b.userData.base).multiplyScalar(k); };
+      if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07;
+      const lt=s.lm?(G&&lmMixAt(+G.hour)>0.5?s.lm.night:s.lm.day):null; if(k===s.k&&lt===s.lmCur) return; s.k=k; s.lmCur=lt;
+      for(const b of s.mats){ if(b.userData.lm){ b.lightMap=lt; b.color.copy(b.userData.base).multiplyScalar(open?1:0.07); } else b.color.copy(b.userData.base).multiplyScalar(k); } };
     /* 先上傳貼圖、先編譯材質，而且分幀：一幀只上傳一張貼圖（一次全部上傳本身就是一頓），全部上傳完再編譯，然後才算「可以顯示」（s.ready）。 */
     /* SHOP-FIRST-APPROACH r7（LAWWW2-C 11-12；BB_379 r6：最長一幀前 30 ms 沒有任何記錄到的事件＝卡在 GPU 端第一次畫這一間（貼圖上傳、program link、頂點上傳）或 GC）：
        零件都打開以後，在畫面外先「真的畫一次」整間：同一個鏡頭、只畫 1×1 像素（viewport＋scissor 都設 1×1，畫在畫布左下角那一點；這一幀的正式畫面接著整張清掉重畫，看不到），
@@ -1633,13 +1640,15 @@ const Z3 = (function(){
       ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.built||s.building) return; s.building=true; s.want=!!vis; s.src=c.scene; warmQ.push({s,stage:'clone'}); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
     const stage=j=>{ const s=j.s; if(!s.building) return;
       if(j.stage==='clone'){ const r=s.src.clone(true); s.src=null; r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true); s.tmp=r; s.cache=new Map(); s.list=[]; s.pend=[];
-        r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(o.isMesh&&o.geometry) s.pend.push(o); }); warmQ.push({s,stage:'prep'}); return; }
+        r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(o.isMesh&&o.geometry) s.pend.push(o); });
+        { const L=r.userData&&r.userData.lightmap; s.lm=L&&L.day&&L.night?{day:lmLoad(L.day),night:lmLoad(L.night),intensity:L.intensity||Math.PI*2}:null; }   /* 店內模型烘好的光照貼圖（上面 lmOf 的註解）*/
+        warmQ.push({s,stage:'prep'}); return; }
       const r=s.tmp;
       for(let k=0;k<PREP&&s.pend.length;k++){ const o=s.pend.shift(); let nm=''; for(let q=o;q&&q!==r;q=q.parent) nm=(q.name||'')+'/'+nm;
         if(HIDE.test(nm)){ o.visible=false; continue; } { let dv=null; for(let q=o;q&&q!==r&&!dv;q=q.parent) dv=q.userData&&q.userData.dir; if(Array.isArray(dv)&&dv[2]<-0.9&&Math.abs(dv[0])<0.1){ o.visible=false; continue; } }   /* 正面牆：模型自訂屬性 dir＝[0,0,−1]（牆淡出用的「這面牆朝室內的方向」；汀州路的店叫 WALL_S、WALL_Sfix_*，名字對不上 WALL_front）*/
         if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
         if(Math.abs(C.x)>s.w/2+0.4||Math.abs(C.z)>s.d/2+0.4||C.y>s.h+0.6||C.y<-0.5){ o.visible=false; continue; }
-        o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,s.cache)):basic(o.material,s,s.cache); o.visible=false; s.list.push(o); }
+        o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,s.cache,lmOf(o,s))):basic(o.material,s,s.cache,lmOf(o,s)); o.visible=false; s.list.push(o); }
       if(s.pend.length){ warmQ.push({s,stage:'prep'}); return; }
       r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; if(s.kx&&s.kx!==1) r.scale.x=s.kx;   /* kx：室內的寬度方向縮一點（公館：室內和那一棟一樣寬、牆又往外厚 14～20 cm，會伸進隔壁店裡，從隔壁的窗看到一片牆的背面）*/ r.visible=false; g.add(r); s.grp=r; s.tmp=null; s.cache=null; s.pend=null; s.building=false; s.built=true; s.meshes=s.list.length; warm(s); };
     const detach=s=>{ if(s.building){ s.building=false; s.tmp=null; s.pend=null; s.cache=null; s.src=null; for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); return; } if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); fallback(s,true); };
