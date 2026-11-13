@@ -1,16 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:42:15] ==== END   SSB_tz_a  exit=1  2549s   ====
-[17:42:18] memory 31% before starting DN_FPS_edf2 (0 running)
-[17:42:18] ==== START DN_FPS_edf2  (probe @ df0db366936e400caf6b6f59478f810b7ed84fe5) ====
-[17:42:21] [res] cpu=4% mem=31% (9.9/31.4 GB) chrome_testing=0  START DN_FPS_edf2
-[17:43:56] [res] cpu=3% mem=31% (10.0/31.4 GB) chrome_testing=0  END DN_FPS_edf2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0a811f2155..709a2f4538  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:44:02] ==== END   DN_FPS_edf2  exit=0  98s   ====
-[17:44:05] memory 29% before starting CANON_NEWGAME_A2 (0 running)
-[17:44:05] memory 29% before starting CANON_SIDE (1 running)
-[17:44:05] ==== START CANON_NEWGAME_A2  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
 [17:44:05] memory 29% before starting JPCLASS_MSGS (2 running)
 [17:44:05] ==== START CANON_SIDE  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
 [17:44:05] ==== START JPCLASS_MSGS  (probe @ 8c7ed865600a085f283e1db9698ba18513cfafc8) ====
@@ -1998,3 +1985,16 @@
 [00:28:35] [res] cpu=2% mem=44% (13.8/31.4 GB) chrome_testing=10  START CANON_NEWGAME_B2_r2
 [00:31:52] 正在跑：CANON_NEWGAME_B1_r3（已跑 9 分／上限 90 分）、STUDY_fix_c_r2（已跑 8 分／上限 20 分）、CANON_NEWGAME_B2_r2（已跑 3 分／上限 240 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:34:15] [res] cpu=0% mem=44% (14.0/31.4 GB) chrome_testing=10  END STUDY_fix_c_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9e17a6a8f7..d5dcea1ddf  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:34:24] ==== END   STUDY_fix_c_r2  exit=1  647s   ====
+[00:34:36] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[00:34:36] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[00:34:36] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[00:34:36] memory 46% before starting STUDY_SE06_4af4 (2 running)
+[00:34:36] ==== START STUDY_SE06_4af4  (probe @ 4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3) ====
+[00:34:39] [res] cpu=9% mem=46% (14.5/31.4 GB) chrome_testing=10  START STUDY_SE06_4af4
+[00:34:39] worktree add 4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3: invalid reference - fetching main and the commit itself
+[00:36:02] [res] cpu=0% mem=42% (13.3/31.4 GB) chrome_testing=9  END CANON_NEWGAME_B1_r3
+[00:36:03] D158：推送前把 1 處舊序章／外校的字換成代號

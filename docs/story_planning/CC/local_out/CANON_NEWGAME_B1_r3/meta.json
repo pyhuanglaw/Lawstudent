@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "CANON_NEWGAME_B1_r3",
+  "sha": "d21c698bdef7b3ae434112ce7175ae9945deadd8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_flow_semester_probe.py",
+  "env": "PICK_HAS=從小就想念;CANON_SCAN=1;CANON=1;KX_PICK=「看跟誰;SKIPREQ=1;SKIP_UNTIL=2025-09-02;EXPECT_HOW=class;EXPECT_LATER=1;UNTIL=2025-09-10;SAVE_CHECK=0;SHOT_EVERY=0;SHA=d21c698bdef7b3ae434112ce7175ae9945deadd8",
+  "machine": "MSI",
+  "start": "2026-11-14T00:22:39",
+  "end": "2026-11-14T00:36:02",
+  "seconds": 803,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 39,
+    "mem": 52,
+    "used_gb": 16.2,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
