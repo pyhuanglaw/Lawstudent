@@ -92,7 +92,7 @@ async def main():
                 run.check('① 劇情中按「讀取」被擋（toast「劇情還在進行，結束後再讀檔」）、還在家', any('劇情還在進行' in t for t in to) and s2['home'], J([s2, to[-3:]]))
                 run.note('① 正常玩家在家的選單、手機開著時讀不了檔＝不會發生「舊的家裡選單跳回來」；② 用捷徑走讀得了的那一條')
                 await run.shot(pg, 'ui_blocked')
-                await pg.evaluate("(()=>{ const s=JSON.parse(localStorage.getItem('fatiao3d_slot_1')); window.__bbLoad=GAME.applySave(s); })()")
+                await pg.evaluate("(()=>{ const s=(GAME.readSave?GAME.readSave('fatiao3d_slot_1'):JSON.parse(localStorage.getItem('fatiao3d_slot_1')||'null')); window.__bbLoad=GAME.applySave(s); })()")
                 run.setup('[捷徑] 選單開著時直接 GAME.applySave(欄位 1)（卡住 stale 以後讀檔走的同一條）')
                 await pg.wait_for_timeout(3000)
             s3 = await pg.evaluate(ST); run.note('讀檔後：%s' % J(s3))

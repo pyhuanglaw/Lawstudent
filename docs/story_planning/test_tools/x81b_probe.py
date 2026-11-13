@@ -123,7 +123,7 @@ async def verify(pg, run, sc):
     results.append({'id': sc['id'], 'ok': not probs, 'probs': probs, 'o': {k: o[k] for k in ('flags', 'mem', 'grp', 'npcs', 'speakers', 'zone')}, 'lines': o['lines'], 'msgs': o['msgTexts'][-12:]})
     if probs: bad.extend('%s：%s' % (sc['id'], p) for p in probs)
 
-ST = """(()=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day); return {day:G.day, key:d.key, h:+G.hour.toFixed(2), zone:G.zone, busy:!!GAME.E.player.busy, depth:(GAME.D&&GAME.D.busyDepth)||0, who:(GAME.D&&GAME.D.busyWho)||null, active:!!(GAME.D&&GAME.D.active), stack:(GAME.D&&GAME.D.chooseStack&&GAME.D.chooseStack.length)||0, e37:OUT.get(G,'y0_e37')?OUT.get(G,'y0_e37').state:null, e37done:!!(G.events&&G.events.done&&G.events.done.ev_y0_e37), law:!!G.flags.E37_LAW, stuck:(()=>{ try{ return JSON.parse(localStorage.getItem('fatiao3d_stuck')||'null'); }catch(e){ return 'err'; } })()}; })()"""
+ST = """(()=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day); return {day:G.day, key:d.key, h:+G.hour.toFixed(2), zone:G.zone, busy:!!GAME.E.player.busy, depth:(GAME.D&&GAME.D.busyDepth)||0, who:(GAME.D&&GAME.D.busyWho)||null, active:!!(GAME.D&&GAME.D.active), stack:(GAME.D&&GAME.D.chooseStack&&GAME.D.chooseStack.length)||0, e37:OUT.get(G,'y0_e37')?OUT.get(G,'y0_e37').state:null, e37done:!!(G.events&&G.events.done&&G.events.done.ev_y0_e37), law:!!G.flags.E37_LAW, stuck:(()=>{ try{ return (GAME.readSave?GAME.readSave('fatiao3d_stuck'):JSON.parse(localStorage.getItem('fatiao3d_stuck')||'null')); }catch(e){ return 'err'; } })()}; })()"""
 async def reply_kx(pg, cdp):
     pend = await pg.evaluate("(()=>PHONE.pending(GAME.G).filter(m=>/載我上山/.test(m.text)).map(m=>({id:m.ask.id, th:PHONE.th(m), opts:m.ask.opts.map(o=>o.t)})))()")
     if not pend: return False

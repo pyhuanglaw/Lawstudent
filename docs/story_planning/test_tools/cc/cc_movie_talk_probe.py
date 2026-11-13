@@ -305,7 +305,7 @@ async def case_old(p, b, ctx, pg, cdp):
     cdp0 = await ctx.new_cdp_session(p0)
     iv = await book(p0, cdp0, tag + '舊版', 'heroine_01', 0)
     if iv: await go_watch(p0, cdp0, tag + '舊版', 'heroine_01', iv, 0)
-    old = await p0.evaluate("(()=>({auto:localStorage.getItem('fatiao3d_auto'), flags:{NY_WATCHED:(GAME.G.flags||{}).NY_WATCHED, MOVIE_SEEN:(GAME.G.flags||{}).MOVIE_SEEN||null}, mem:JSON.stringify(((GAME.G.social||{}).mem||{}).heroine_01||'').slice(0,300)}))()")
+    old = await p0.evaluate("(()=>({auto:((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_auto'), flags:{NY_WATCHED:(GAME.G.flags||{}).NY_WATCHED, MOVIE_SEEN:(GAME.G.flags||{}).MOVIE_SEEN||null}, mem:JSON.stringify(((GAME.G.social||{}).mem||{}).heroine_01||'').slice(0,300)}))()")
     R.note('%s 舊版看完：%s' % (tag, J({k: v for k, v in old.items() if k != 'auto'})))
     if not R.check('%s 舊版有自動存檔' % tag, bool(old['auto']), ''): return
     await p0.close()

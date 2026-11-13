@@ -18,8 +18,8 @@ URL, OUT, SAVEF = sys.argv[1], sys.argv[2], sys.argv[3]
 SAVE = json.load(open(SAVEF, encoding='utf-8')); SAVE = SAVE.get('G', SAVE)
 MODE = os.environ.get('MODE', 'new'); BTN = os.environ.get('BTN', 'btnNewLaw')
 J = lambda o: json.dumps(o, ensure_ascii=False)
-KEYS = """(()=>{ const o={}; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(!/^fatiao3d_/.test(k)||k==='fatiao3d_settings') continue; let s=null; try{ s=JSON.parse(localStorage.getItem(k)); }catch(e){} o[k]=s&&typeof s==='object'?{day:s.day,hour:s.hour==null?null:+(+s.hour).toFixed(2),zone:s.zone,savedAt:s.savedAt,label:s.backupLabel||null}:null; } return o; })()"""
-PROGJS = """(()=>{ const o={}; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k.indexOf('fatiao3d_backup_new_')!==0) continue; let b=null; try{ b=JSON.parse(localStorage.getItem(k)); }catch(e){} b=b&&(b.G||b);
+KEYS = """(()=>{ const o={}; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(!/^fatiao3d_/.test(k)||k==='fatiao3d_settings') continue; let s=null; try{ s=(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null')); }catch(e){} o[k]=s&&typeof s==='object'?{day:s.day,hour:s.hour==null?null:+(+s.hour).toFixed(2),zone:s.zone,savedAt:s.savedAt,label:s.backupLabel||null}:null; } return o; })()"""
+PROGJS = """(()=>{ const o={}; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k.indexOf('fatiao3d_backup_new_')!==0) continue; let b=null; try{ b=(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null')); }catch(e){} b=b&&(b.G||b);
   o[k]={day:b&&b.day, stage:(b&&b.stage)||'law', prog:((b&&b.events&&+b.events.count)||0)*100000+((b&&b.stats&&+b.stats.steps)||0), savedAt:b&&b.savedAt}; } return o; })()"""
 STATE = "(()=>({day:GAME.G.day,hour:+(+GAME.G.hour).toFixed(2),zone:GAME.G.zone,stage:GAME.G.stage||null}))()"
 ITEMS = """(sel=>[...document.querySelectorAll(sel+' .item')].map((it,i)=>({i, b:((it.querySelector('b')||{}).textContent||'').trim(), t:(it.innerText||'').replace(/\\n/g,'｜').slice(0,160), btns:[...it.querySelectorAll('button')].map(x=>x.textContent.trim())})))"""
@@ -54,7 +54,7 @@ async def play_until_autosave(pg, cdp, run, saved0, max_s=420):
     """開新遊戲以後照玩家點對話、選第一個，直到自動存檔那一格被新遊戲寫過（savedAt 變了）"""
     t0 = time.time(); n = 0
     while time.time() - t0 < max_s:
-        k = await pg.evaluate("(()=>{ try{ const s=JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'); return s?{savedAt:s.savedAt,day:s.day,zone:s.zone}:null; }catch(e){ return null; } })()")
+        k = await pg.evaluate("(()=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null')); return s?{savedAt:s.savedAt,day:s.day,zone:s.zone}:null; }catch(e){ return null; } })()")
         if k and k.get('savedAt') != saved0 and await pg.evaluate("!!(GAME.G&&GAME.running)"):
             run.note('新遊戲寫了自動存檔：%s（點了 %d 下）' % (J(k), n)); return k
         s = await L.state(pg)

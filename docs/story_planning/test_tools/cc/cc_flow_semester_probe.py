@@ -291,7 +291,7 @@ async def save_reload_check(pg, cdp, run, tag, fb_acc):
     c = await pg.evaluate("(()=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>(x.querySelector('b')||{}).textContent==='欄位 1'); const b=it&&[...it.querySelectorAll('button')].find(x=>x.textContent==='存檔'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
     if not c: res['err'] = '選單裡找不到欄位 1 的「存檔」'; await L.close_panels(pg, cdp); return res
     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
-    raw = await pg.evaluate("localStorage.getItem('fatiao3d_slot_1')")
+    raw = await pg.evaluate("((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_slot_1')")
     if not raw: res['err'] = '欄位 1 是空的'; await L.close_panels(pg, cdp); return res
     slot = await pg.evaluate("(r=>(%s)(JSON.parse(r)))" % KEYF, raw)
     d1, a1 = diff_keyf(pre, slot, 0.05); res['pre_vs_slot'] = d1; res['pre_vs_slot_added'] = a1
@@ -519,7 +519,7 @@ async def main():
         except Exception: pass
         # BB 13:52：最後的存檔匯出（GAME.snapshot()＝結束那一刻的進度；沒有 GAME.G 時退回欄位 1）
         try:
-            fs = await pg.evaluate("(()=>{ try{ if(GAME.G) return {src:'GAME.snapshot()',s:JSON.stringify(GAME.snapshot())}; }catch(e){} const r=localStorage.getItem('fatiao3d_slot_1'); return r?{src:'localStorage fatiao3d_slot_1',s:r}:null; })()")
+            fs = await pg.evaluate("(()=>{ try{ if(GAME.G) return {src:'GAME.snapshot()',s:JSON.stringify(GAME.snapshot())}; }catch(e){} const r=((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_slot_1'); return r?{src:'localStorage fatiao3d_slot_1',s:r}:null; })()")
             if fs:
                 with open(os.path.join(OUT, 'final_save.json'), 'w', encoding='utf-8') as f: json.dump(json.loads(fs['s']), f, ensure_ascii=False)
                 summary['final_save'] = {'src': fs['src'], 'chars': len(fs['s'])}

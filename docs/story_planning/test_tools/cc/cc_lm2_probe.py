@@ -1014,7 +1014,7 @@ async def part_save(pg, cdp, errs):
     R.check('[SAVE ①] 舊存檔走進去＝初次見面（%s）' % src, bool(r) and r['id'] == 'first', J(r and r['id']))
     R.check('[SAVE ①] 這一段沒有 JS 例外', len(errs) == e1, J(errs[e1:][:3]))
     # ② 存檔留著旗標
-    rd = "(()=>{ const k='fatiao3d_auto'; let s=null; try{ s=GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)); }catch(e){ return 'ERR '+e.message; } if(!s) return null; const o={}; for(const x in (s.flags||{})) if(/^LM_/.test(x)) o[x]=s.flags[x]; return {day:s.day, hour:s.hour, zone:s.zone, lm:o, savedAt:s.savedAt}; })()"
+    rd = "(()=>{ const k='fatiao3d_auto'; let s=null; try{ s=GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null')); }catch(e){ return 'ERR '+e.message; } if(!s) return null; const o={}; for(const x in (s.flags||{})) if(/^LM_/.test(x)) o[x]=s.flags[x]; return {day:s.day, hour:s.hour, zone:s.zone, lm:o, savedAt:s.savedAt}; })()"
     a1 = await pg.evaluate(rd); R.note('[SAVE ②] 剛演完，自動存檔（fatiao3d_auto）：%s' % J(a1))
     R.note('[SAVE ②] （limao3d.js S.spend 在段落裡叫 GM.autosave，game3d.js autosave 段落深度 >0 不存——剛演完可能還沒存，照實記）')
     if await enter_shop(pg, cdp, '[SAVE ② 進店]'):

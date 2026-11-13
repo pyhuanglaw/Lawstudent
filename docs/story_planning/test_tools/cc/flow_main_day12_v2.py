@@ -189,7 +189,7 @@ async def main():
         if saved >= 2:
             c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='存檔')[0]; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
             await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
-        slot1 = await pg.evaluate("localStorage.getItem('fatiao3d_slot_1')")
+        slot1 = await pg.evaluate("((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_slot_1')")
         run.check('用選單存到欄位 1', bool(slot1))
         await pg.reload()
         run.check('重新整理後載入', await L.wait_loaded(pg))

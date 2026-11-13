@@ -198,11 +198,11 @@ STATE = """(()=>{ const G=GAME.G, F=G.flags||{}, r=(F.PG&&F.PG.done)||{}; let pa
 MSGS = "(n=>(GAME.G.msgs||[]).slice(n).map(m=>({th:m.th||null,from:m.from||null,who:m.who||null,name:m.name||null,tag:m.tag||null,day:m.day,h:m.h,text:String(m.text==null?'':m.text)})))"
 PHONE_TXT = "(()=>(document.getElementById('phoneBody')||{}).innerText||'')()"
 MUST = "(()=>{ try{ return !!(PHONE.mustOpen&&PHONE.mustOpen(GAME.G)); }catch(e){ return false; } })()"
-SNAP_SAVE = "(()=>{ let snap=null, auto=null; try{ snap=GAME.snapshot(); }catch(e){ snap={err:String(e.message)}; } try{ auto=(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null')); }catch(e){ auto={err:String(e.message)}; } return {snap,auto}; })()"
-SLOT_SUM = """(i=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null')); if(!s) return null; const F=s.flags||{}, r=(F.PG&&F.PG.done)||{};
+SNAP_SAVE = "(()=>{ let snap=null, auto=null; try{ snap=GAME.snapshot(); }catch(e){ snap={err:String(e.message)}; } try{ auto=(GAME.readSave?GAME.readSave('fatiao3d_auto'):(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'))); }catch(e){ auto={err:String(e.message)}; } return {snap,auto}; })()"
+SLOT_SUM = """(i=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null'))); if(!s) return null; const F=s.flags||{}, r=(F.PG&&F.PG.done)||{};
   return {day:CALENDAR.dateOf(s.day).key, h:s.hour, zone:s.zone, home:!!(s.home&&s.home.at), exam2030:r.exam_2030||null, r1_2030:r.r1_2030||null, first:r.first||null, epi:r.epi||null,
           BAR_SIT_2029:F.BAR_SIT_2029, BAR_STAGE_2029:F.BAR_STAGE_2029, BAR_SIT_2030:F.BAR_SIT_2030, BAR_YEAR:F.BAR_YEAR, FIRST_DAY_SEEN:F.FIRST_DAY_SEEN||null, EPILOGUE_DONE:F.EPILOGUE_DONE||null, savedAt:s.savedAt}; }catch(e){ return {err:String(e.message)}; } })"""
-SLOT_RAW = "(i=>{ try{ return (GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null')); }catch(e){ return {err:String(e.message)}; } })"
+SLOT_RAW = "(i=>{ try{ return (GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):(GAME.readSave?GAME.readSave('fatiao3d_slot_'+i):JSON.parse(localStorage.getItem('fatiao3d_slot_'+i)||'null'))); }catch(e){ return {err:String(e.message)}; } })"
 
 DEBUG_RE = re.compile(r'undefined|NaN|📷\s*$|📷undefined|\bnull\b|\{name\}|\{item\}|\{課名\}|\b(?:heroine_0\d|classmate_[a-z]+|npc_[a-z]+|econ_[a-z]+|pg_[a-z0-9_]+|ev_[a-z0-9_]+|A_bar|A_none|B_grad|B_quit|C_zq|BAR_[A-Z0-9_]+)\b')
 DECL = ('不去了', '先不', '不用了', '算了', '就這樣', '先這樣', '沒事', '先不睡')

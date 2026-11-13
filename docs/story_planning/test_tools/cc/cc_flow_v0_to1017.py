@@ -116,12 +116,12 @@ async def main():
                         await L.tap(pg, cdp, '.tabs button[data-tab="save"]'); await pg.wait_for_timeout(1200)
                         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='存檔')[0]; if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
                         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
-                        slot = await pg.evaluate("(k=>{ const s=localStorage.getItem(k); try{ return s&&JSON.parse(s).day===GAME.G.day?s:null; }catch(e){ return null; } })('fatiao3d_slot_1')")   # 存檔的日子要是今天（不是舊的）
+                        slot = await pg.evaluate("(k=>{ const s=((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })(k); try{ return s&&JSON.parse(s).day===GAME.G.day?s:null; }catch(e){ return null; } })('fatiao3d_slot_1')")   # 存檔的日子要是今天（不是舊的）
                         if not slot:   # 選單存檔沒成功（例：起床選單剛好跳出來蓋住）：等一下再試，試三次
                             seg_try += 1
                             if seg_try < 3:
                                 await pg.keyboard.press('Escape'); await pg.wait_for_timeout(2000); continue
-                            slot = await pg.evaluate("(k=>{ const s=localStorage.getItem(k); try{ return s&&JSON.parse(s).day===GAME.G.day?s:null; }catch(e){ return null; } })('fatiao3d_auto')")   # 退一步：遊戲自己的自動存檔（標題「繼續」讀的那一份）
+                            slot = await pg.evaluate("(k=>{ const s=((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })(k); try{ return s&&JSON.parse(s).day===GAME.G.day?s:null; }catch(e){ return null; } })('fatiao3d_auto')")   # 退一步：遊戲自己的自動存檔（標題「繼續」讀的那一份）
                             if slot: run.note('選單存檔三次沒成功，改用自動存檔接下一段')
                         if slot and SEG_SAVE: open(SEG_SAVE, 'w', encoding='utf-8').write(slot)
                         seg_saved = bool(slot); break

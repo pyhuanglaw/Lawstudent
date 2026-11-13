@@ -84,7 +84,7 @@ async def one(p, tag, landscape):
     await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(700)
     await L.tap(pg, cdp, '.tabs button[data-tab="save"]'); await pg.wait_for_timeout(600)
     await tapq(pg, cdp, "[...document.querySelectorAll('#saveSlots .btn')].find(b=>b.textContent==='存檔'&&b.closest('.item').textContent.startsWith('欄位 1'))")
-    sv = await pg.evaluate("((GAME.readSave?GAME.readSave('fatiao3d_slot_1'):JSON.parse(localStorage.getItem('fatiao3d_slot_1')||'null'))||{}).phone")
+    sv = await pg.evaluate("((GAME.readSave?GAME.readSave('fatiao3d_slot_1'):(GAME.readSave?GAME.readSave('fatiao3d_slot_1'):JSON.parse(localStorage.getItem('fatiao3d_slot_1')||'null')))||{}).phone")
     check(f'{tag} ③ 存到欄位 1，存檔裡有 phone.fav', bool(sv) and len(sv.get('fav') or []) == 3, json.dumps(sv and sv.get('fav')))
     await pg.reload()
     for _ in range(240):

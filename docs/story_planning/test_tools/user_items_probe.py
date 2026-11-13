@@ -354,13 +354,13 @@ async def m_qsave(pg, cdp, run, errs):
     await L.tap(pg, cdp, '#btnQuick'); await pg.wait_for_timeout(600); n0 = await pg.evaluate("window.__bbToast.length")
     await L.tap(pg, cdp, '#btnQuickSave'); await pg.wait_for_timeout(1500)
     toasts = await pg.evaluate("window.__bbToast.slice(%d).map(x=>x.t)" % n0)
-    auto = await pg.evaluate("(()=>{ try{ const s=JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'); return s?{day:s.day,hour:s.hour,busy:!!s._busy}:null; }catch(e){ return String(e); } })()")
+    auto = await pg.evaluate("(()=>{ try{ const s=(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null')); return s?{day:s.day,hour:s.hour,busy:!!s._busy}:null; }catch(e){ return String(e); } })()")
     want = await pg.evaluate("(a=>{ if(!a) return null; const d=CALENDAR.dateOf(a.day), h=((a.hour%24)+24)%24, p2=n=>String(n).padStart(2,'0'); return '已存檔：'+d.m+'/'+d.d+' '+p2(Math.floor(h))+':'+p2(Math.floor((h%1)*60)); })(%s)" % J(auto))
     run.check('快速存檔：提示「已存檔：月/日 時:分」＝自動存檔那一格的時間', bool(want) and want in toasts, J([toasts, auto, want]))
     # 回標題 → 繼續（自動存檔）
     await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#menu .tabs button[data-tab="settings"]'); await pg.wait_for_timeout(600)
     await L.tap(pg, cdp, '#btnTitle'); await pg.wait_for_timeout(2500)
-    auto2 = await pg.evaluate("(()=>{ const s=JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'); return s?{day:s.day,hour:+s.hour.toFixed(3)}:null; })()")
+    auto2 = await pg.evaluate("(()=>{ const s=(GAME.readSave?GAME.readSave('fatiao3d_auto'):JSON.parse(localStorage.getItem('fatiao3d_auto')||'null')); return s?{day:s.day,hour:+s.hour.toFixed(3)}:null; })()")
     await L.tap(pg, cdp, '#btnContinue')
     for _ in range(60):
         if await pg.evaluate("document.getElementById('titleScreen').classList.contains('hide')&&!!GAME.G&&!!GAME.E.player"): break

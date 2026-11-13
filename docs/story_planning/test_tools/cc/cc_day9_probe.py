@@ -67,7 +67,7 @@ SUM_JS = r"""(s=>{ if(!s||typeof s!=='object') return null; const g=s.G&&typeof 
     nmsgs:Array.isArray(g.msgs)?g.msgs.length:null,ncontacts:K(g.contacts),homeAt:!!(g.home&&g.home.at),pos:p?{x:+(+p.x).toFixed(2),z:+(+p.z).toFixed(2),lv:p.lv|0}:null,
     savedAt:g.savedAt||null,hasStuck:!!s._stuck}; })"""
 LIVE_JS = "(()=>{ const s=GAME.G; const P=GAME.E.player.obj.position; const o=(" + SUM_JS + ")(s); if(o) o.pos={x:+P.x.toFixed(2),z:+P.z.toFixed(2),lv:GAME.E.player.lv|0}; return o; })()"
-AUTO_JS = "(()=>{ let t=null; try{ t=localStorage.getItem('fatiao3d_auto'); }catch(e){ return {err:String(e)}; } if(!t) return null; let o=null; try{ o=JSON.parse(t); }catch(e){ return {err:'parse'}; } return (" + SUM_JS + ")(o); })()"
+AUTO_JS = "(()=>{ let t=null; try{ t=((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_auto'); }catch(e){ return {err:String(e)}; } if(!t) return null; let o=null; try{ o=JSON.parse(t); }catch(e){ return {err:'parse'}; } return (" + SUM_JS + ")(o); })()"
 LS_KEYS = "(()=>{ const o={}; try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(/^fatiao3d_/.test(k)) o[k]=(localStorage.getItem(k)||'').length; } }catch(e){} return o; })()"
 TITLE_UP = "(()=>!document.getElementById('titleScreen').classList.contains('hide'))()"
 EXIT_JS = "(to=>{ const L=(GAME.E.interactables||[]).filter(i=>i.exit&&!i.hidden&&!(i.lv|0)); const P=GAME.E.player.obj.position; const d=i=>Math.hypot(i.x-P.x,i.z-P.z);" \

@@ -141,7 +141,7 @@ async def import_save(pg, cdp, run, path):
 
 async def save_auto(pg):
     """瀏覽器裡的自動存檔（fatiao3d_auto）＝玩家關掉分頁時留下來的進度"""
-    raw = await pg.evaluate("localStorage.getItem('fatiao3d_auto')")
+    raw = await pg.evaluate("((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_auto')")
     return json.loads(raw) if raw else None
 
 

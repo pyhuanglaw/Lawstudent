@@ -270,7 +270,7 @@ async def case_MK(pg, cdp):
     e = await pg.evaluate(EAT_JS); print('  舊版吃過的：%s' % J(e), flush=True)
     check('[MK] 舊存檔有兩點半／半熟／定食／茶飲的紀錄', all(any(k in x for x in e['ate']) or k in e['n'] for k in ('兩點半', '半熟', '定食', '巷口茶飲')), J(e))
     await pg.evaluate("GAME.autosave()"); await pg.wait_for_timeout(1500)
-    raw = await pg.evaluate("localStorage.getItem('fatiao3d_auto')")
+    raw = await pg.evaluate("((k)=>{ try{ const v=(GAME.readSave?GAME.readSave(k):(GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)||'null'))); return v==null?null:JSON.stringify(v); }catch(e){ return null; } })('fatiao3d_auto')")
     json.dump({'save': raw, 'eat': e, 'url': URL}, open(os.path.join(OUT, 'oldsave.json'), 'w', encoding='utf-8'), ensure_ascii=False)
     check('[MK] 寫出 out/oldsave.json', bool(raw), str(len(raw or '')))
 
