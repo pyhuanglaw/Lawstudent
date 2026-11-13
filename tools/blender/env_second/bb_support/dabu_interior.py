@@ -72,7 +72,16 @@ def sun_mat(name, fn):
 
 
 M['sun'] = sun_mat(P + 'sunpatch', os.path.join(GEN, 'dabu_sun.png'))
-VC = L.CMesh(P + 'vc_parts', M['vc']); VCM = L.CMesh(P + 'metal_parts', M['vcm'])
+# CC0 化（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；第③群幫手 2026-11-13）：工具 cc0_kit.py（tz_shops_interior.py 同一套）。
+#   白色檯身（收銀台、展示架檯面）＝ambientCG Plastic006（vary 0.05，不起黑紋）；鐵網、軌道、推車、門把＝ambientCG Metal009 黑鐵；
+#   盆栽＝Poly Haven potted_plant_02／potted_plant_04（共用網格：烘焙只烘地板、天花板、牆，植物不進光照貼圖）；打開的鞋盒＝ambientCG Cardboard001；鞋盒推車、櫃台後面疊的紙箱＝Poly Haven cardboard_box_01。
+import cc0_kit   # noqa: E402
+K = cc0_kit.Kit(root, P)
+M['white'] = K.acg(P + 'white_counter', 'Plastic006', vary=0.05, target='#ebe6de', tile=0.5, rough_value=0.45)
+M['iron'] = K.acg(P + 'blackiron', 'Metal009', maps=('diff',), target='#3a3b3e', tile=1.0, metal=0.3, rough_value=0.42, res=256)
+M['shoebox'] = K.acg(P + 'shoebox', 'Cardboard001', target='#efe9dd', tile=0.4, rough_value=0.85, res=256)
+VC = L.CMesh(P + 'vc_parts', M['vc']); M['iron_g'] = K.acg(P + 'steel_grey', 'Metal009', maps=('diff',), target='#7d8084', tile=1.0, metal=0.4, rough_value=0.38, res=256)
+VCM = L.CMesh(P + 'metal_parts', M['vcm'])
 
 
 def PU(name, inset=1.5):
@@ -104,6 +113,10 @@ _acc = {}
 def acc(key):
     if key not in _acc: _acc[key] = Mesh(P + key, M[key])
     return _acc[key]
+
+
+# 鐵網籃、鐵架、推車層板（cbox／crbox 畫成黑鐵、鐵灰的零件）→ 材質組網格（Metal009）；細的圓管、軌道燈（白）照舊頂點色
+VCM = cc0_kit.Route(VCM, {'#2c2c2e': acc('iron'), '#7d8084': acc('iron_g')})
 
 
 walls = {'front': {}, 'back': {}, 'left': {}, 'right': {}}
@@ -484,7 +497,7 @@ VC.cbox(PX1 + bws['side']['depth'] + 0.002, PX1 + bws['side']['depth'] + 0.012, 
 ct = it['counter'][0]; cx_, cz_, cw_, cd_, chh = ct['x'], ct['z'], ct['w'], ct['d'], ct['h']
 x0c, x1c, z0c, z1c = cx_ - cw_ / 2, cx_ + cw_ / 2, cz_ - cd_ / 2, cz_ + cd_ / 2
 VC.cbox(x0c + 0.04, x1c - 0.04, 0.0, 0.07, z0c + 0.04, z1c - 0.04, '#3a3430')
-VC.crbox(x0c, x1c, 0.07, 0.84, z0c, z1c, '#ebe6de', r=0.01)
+acc('white').rbox(x0c, x1c, 0.07, 0.84, z0c, z1c, r=0.01, seg=2)
 uv_quad(None, 'print', M['print'], face_quad(cx_, 0.455, z1c + 0.0015, cw_ - 0.02, 0.77, '+z'), PU('counterfront', 2))
 acc('led').box(x0c + 0.02, x1c - 0.02, 0.84, 0.852, z1c - 0.03, z1c + 0.004)
 acc('wood').rbox(x0c - 0.02, x1c + 0.02, 0.852, 0.95, z0c + 0.02, z1c + 0.06, r=0.012, seg=2)
@@ -505,7 +518,7 @@ bxf = Xf(cx_ + 0.3, cz_ - 0.1, 0.15)   # 紙提袋（印刷：大步球鞋）
 bxf.crbox(VC, -0.16, 0.16, 0.99, 1.31, -0.06, 0.06, '#e6dccb', r=0.004, seg=1)
 uv_quad(None, 'print', M['print'], bxf.quad(0.0, 1.15, 0.0615, 0.31, 0.3), PU('shoebag'))
 for s_ in (-0.08, 0.08): painted(VC, '#b89a72', lambda s_=s_: VC.cyl(bxf.p(s_, 1.31, 0.0), bxf.p(s_, 1.38, 0.0), 0.005, seg=4))
-VC.cbox(x1c - 0.6, x1c - 0.3, 0.99, 1.1, cz_ - 0.12, cz_ + 0.08, '#efede7'); VC.cbox(x1c - 0.605, x1c - 0.295, 1.1, 1.124, cz_ - 0.125, cz_ + 0.085, '#e1ded6')   # 打開過的鞋盒
+acc('shoebox').rbox(x1c - 0.6, x1c - 0.3, 0.99, 1.1, cz_ - 0.12, cz_ + 0.08, r=0.004, seg=1); acc('shoebox').rbox(x1c - 0.605, x1c - 0.295, 1.1, 1.124, cz_ - 0.125, cz_ + 0.085, r=0.003, seg=1)   # 打開過的鞋盒
 pd = it['pendant'][0]
 painted(VCM, '#2a2a2c', lambda: VCM.cyl((pd['x'], H, pd['z']), (pd['x'], pd['y'] + 0.2, pd['z']), 0.004, seg=4))
 painted(VC, '#f3f0ea', lambda: Xf(pd['x'], pd['z']).lathe(VC, [(0.02, 0.22), (0.05, 0.215), (0.15, 0.16), (0.21, 0.06), (0.23, 0.0), (0.22, 0.0)], 0, pd['y'], 0, seg=24))
@@ -543,7 +556,7 @@ for bn in it['bench']:
     cushion(bn['x'], bn['z'], w - 0.005, d + 0.01, 0.385, bn['h'], bn.get('ry', 0))
 # 長凳 A 旁邊地上：打開的鞋盒（包鞋紙）＋一雙正在試穿的籃球鞋
 ob_x, ob_z = -2.45, -0.15
-VC.cbox(ob_x - 0.1, ob_x + 0.1, 0.0, 0.11, ob_z - 0.17, ob_z + 0.17, '#efede7'); VC.cbox(ob_x - 0.36, ob_x - 0.14, 0.0, 0.024, ob_z - 0.175, ob_z + 0.175, '#e1ded6')
+acc('shoebox').rbox(ob_x - 0.1, ob_x + 0.1, 0.0, 0.11, ob_z - 0.17, ob_z + 0.17, r=0.004, seg=1); acc('shoebox').rbox(ob_x - 0.36, ob_x - 0.14, 0.0, 0.024, ob_z - 0.175, ob_z + 0.175, r=0.003, seg=1)
 VC.cbox(ob_x - 0.09, ob_x + 0.09, 0.11, 0.115, ob_z - 0.16, ob_z + 0.16, '#f4ecdc')
 put_shoe('bb_high', 0, -2.4, 0.0, -0.62, 0.1 - math.pi / 2); put_shoe('bb_high', 0, -2.28, 0.0, -0.55, -0.15 - math.pi / 2)
 rg = it['rug'][0]; rx0, rx1, rz0, rz1 = rg['x'] - rg['w'] / 2, rg['x'] + rg['w'] / 2, rg['z'] - rg['d'] / 2, rg['z'] + rg['d'] / 2; ry_ = 0.01
@@ -556,7 +569,7 @@ for (x0_, x1_, za_, zb_, sk_) in ((-0.95, 0.15, 0.1, -2.3, -0.55), (-0.35, 0.45,
 ir = it['island_rack'][0]; ixf = Xf(ir['x'], ir['z']); iw, idp, ih = ir['w'], ir['d'], ir['h']; wd = acc('wood')
 for sx in (-iw / 2 + 0.03, iw / 2 - 0.03):
     for sz in (-idp / 2 + 0.03, idp / 2 - 0.03): ixf.rbox(wd, sx - 0.022, sx + 0.022, 0.0, ih - 0.03, sz - 0.022, sz + 0.022, r=0.005, seg=1)
-ixf.crbox(VC, -iw / 2, iw / 2, ih - 0.03, ih, -idp / 2, idp / 2, '#f2efe9', r=0.008)
+ixf.rbox(acc('white'), -iw / 2, iw / 2, ih - 0.03, ih, -idp / 2, idp / 2, r=0.008)
 for yy in (0.12, 0.55): ixf.rbox(wd, -iw / 2 + 0.03, iw / 2 - 0.03, yy - 0.02, yy, -idp / 2 + 0.03, idp / 2 - 0.03, r=0.004, seg=1)
 CANS = ['#f4f4f2', '#3c6ea0', '#dc7a3c', '#f4f4f2', '#3c3c42', '#e9e4da']
 for side_ in (-1, 1):
@@ -598,12 +611,16 @@ def plant(x, z, h=1.1, r=0.2, y0=0.0, trail=False):
         CL.bush(lf, x, cy, z, rr * (h / 1.1), n=9, span=0.5, flat_y=0.9)
 
 
-for p_ in it['plant_big']: plant(p_['x'], p_['z'], h=1.45, r=0.21)
-pf = it['plant_floor'][0]; plant(pf['x'], pf['z'], h=0.85, r=0.17)
+# 落地盆栽、展示架上、收銀台上的盆栽：Poly Haven 掃描模型（CC0）；高處垂下來的黃金葛照舊葉片卡（參考圖）
+for k_, p_ in enumerate(it['plant_big']): K.ph_put('potted_plant_02', p_['x'], 0.0, p_['z'], 0.7 + k_ * 2.1, height=1.45, decimate=0.04)
+pf = it['plant_floor'][0]; K.ph_put('potted_plant_02', pf['x'], 0.0, pf['z'], 2.4, 0.85 / 1.45, height=1.45, decimate=0.04)
 plant(sxc, BZ + 0.12, r=0.08, y0=2.39, trail=True)                         # 襪子架上面的黃金葛（參考圖）
-plant(x1c - 0.15, cz_ - 0.05, r=0.075, y0=0.99, trail=True)                # 收銀台右端的小盆栽
-plant(ir['x'], ir['z'] - 0.15, h=0.5, r=0.1, y0=ih)                        # 展示架上的盆栽（參考圖右邊）
+K.ph_put('potted_plant_04', x1c - 0.15, 0.99, cz_ - 0.05, 0.4, 0.22 / 0.32, height=0.32, decimate=0.1)   # 收銀台右端的小盆栽
+K.ph_put('potted_plant_04', ir['x'], ih, ir['z'] - 0.15, 1.3, height=0.32, decimate=0.1)   # 展示架上的盆栽（參考圖右邊）
 plant(sx1 + 0.35, ZI0 + 0.17, r=0.08, y0=bws['back']['top'], trail=True)   # 鞋盒層架頂上（招牌右邊）
+# 鞋盒層架頂上（招牌右邊、黃金葛再過去）：還沒拆的進貨紙箱（Poly Haven cardboard_box_01，大小、方向各不同；不擋招牌）
+for k_, (dx_, sc_, yw_) in enumerate(((0.3, 1.0, 0.1), (0.78, 0.85, -0.2), (0.5, 0.7, 1.45))):
+    K.ph_put('cardboard_box_01', bws['back']['x1'] - dx_, bws['back']['top'] + (0.3 if k_ == 2 else 0.0), ZI0 + 0.24, yw_, sc_, height=0.3, decimate=0.03)
 
 # ---------------- 前半間：新品展示桌、櫥窗、鞋盒推車、門邊鐵網架 ----------------
 dt = it['display_table'][0]; xf = Xf(dt['x'], dt['z']); w, d, hh = dt['w'], dt['d'], dt['h']
@@ -721,6 +738,7 @@ L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WA
 # 圖面（印刷：海報、標籤、紙條、地毯）只從正面看、鞋子（底部、鞋口裡面開口，看不到）：單面、不補反面（nodup）；拼起來的牆、木作也不補（補了反面重疊的面在 Cycles 變黑）
 _ss = L.single_side(root, keep=r'glass|sunpatch', nodup=r'^dabu_(print|wall_paint|oak|floor_oak|shoe)$')
 print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
+K.report()
 info = L.export(OUT, gpu_instances=True)
 patch_glb(OUT); info['bytes'] = os.path.getsize(OUT)
 info.update({'shop': 'dabu', 'layout': LAY['version'], 'shoes': SHOE_N[0], 'shoe_meshes': len(SHOES), 'spots': len(SPOTS)})
