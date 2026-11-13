@@ -25,7 +25,7 @@ cvs)
   GLB=bb_support/cvs_interior.glb
   LIGHTS=$(python3 $LB/tube_lights.py assets/models/env/second_ai/$GLB --mesh 'cvs_led$' --w "${LW:-14}" --shrink 0.0)
   HIDE='glass|GLASS_'
-  NOLM='^cvs_vc$|cvs_vm|_vm$|cvs_goods|cvs_led|cvs_cooler|cvs_screens|cvs_prints|DECAL_|glass|GLASS_'
+  NOLM='^cvs_vc$|cvs_vm|_vm$|cvs_goods|cvs_led|cvs_cooler|cvs_screens|cvs_prints|DECAL_|glass|GLASS_|S_ph_'   # S_ph_＝Poly Haven 模型（SHOP-CC0-HELP-1113）
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S)
   ;;
 yangyang)

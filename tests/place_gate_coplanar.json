@@ -12,7 +12,7 @@
   "top": "WALL_back_aok_wood×aok_wood 0.466 m² @[-0.7,0.33,-3.5]"
  },
  "assets/models/env/second_ai/aa_support/daily_offbeat.glb": {
-  "sha1": "4b6bdaf7b843c878b08fc6a14f2d73b2602e0ca7",
+  "sha1": "6b055479b861904d95466049ed0aa79444f4f8fa",
   "wall": 1.16,
   "always": 3.67,
   "top": "WALL_right_dof_wood×WALL_right_dof_print 0.704 m² @[5.47,2.13,3.02]"
@@ -24,13 +24,13 @@
   "top": "WALL_front_dbk_frame×WALL_front_dbk_frame 0.139 m² @[1.81,0,4.06]"
  },
  "assets/models/env/second_ai/aa_support/komichi.glb": {
-  "sha1": "a9f4b1663953daa3998db66a01776a319fd3e5eb",
+  "sha1": "ece2fb7df276bf940bbbdd2b23cd17c18a1ca1a0",
   "wall": 0.75,
   "always": 1.57,
   "top": "WALL_front_kmc_wood×WALL_front_kmc_wood 0.235 m² @[-2.58,0,4.06]"
  },
  "assets/models/env/second_ai/aa_support/mokuyobi.glb": {
-  "sha1": "464c7f833e9c00daa10749fa17872784dea2d44a",
+  "sha1": "8bc60aa522856fbbadbdc15f1efa84955a4cd5a6",
   "wall": 2.62,
   "always": 5.54,
   "top": "WALL_front_mok_walnut×WALL_front_mok_wall 0.439 m² @[-2.85,0.53,7]"
@@ -42,7 +42,7 @@
   "top": "shl_wall×L2_shl_floor2 1.646 m² @[-3.73,4.2,-2.44]"
  },
  "assets/models/env/second_ai/aa_support/sunnyside.glb": {
-  "sha1": "3a704df5632b4857f95d01f3cb9f37075d409e62",
+  "sha1": "57253e2d2038f491e46daf89fcc7a0554f69d613",
   "wall": 1.34,
   "always": 1.54,
   "top": "WALL_back_sns_wood×sns_vcm 0.548 m² @[-1.2,0.33,-5]"
@@ -54,16 +54,16 @@
   "top": "yej_wood×WALL_right_yej_wood 0.279 m² @[6,0.58,-3.33]"
  },
  "assets/models/env/second_ai/aa_support/yizhan.glb": {
-  "sha1": "d8b284a2c26e1e77a79fe8d9526b22de724c66ce",
+  "sha1": "42980757456b6aac2c3fc720248b8f9a68a4f953",
   "wall": 1.22,
-  "always": 2.03,
+  "always": 2.07,
   "top": "WALL_back_yzn_post×WALL_left_yzn_wall 0.144 m² @[-4.26,2.02,-5]"
  },
  "assets/models/env/second_ai/bb_support/ade.glb": {
-  "sha1": "59380f82190dba021a9e706d2944f0b641f667b3",
-  "wall": 3.2,
-  "always": 5.38,
-  "top": "WALL_back_cubby_wood×WALL_back_cubby_wood 0.489 m² @[-0.67,1.23,-4.48]"
+  "sha1": "202d1945df28bb5b723e7ca4c4a952f199c153f3",
+  "wall": 3.19,
+  "always": 5.36,
+  "top": "WALL_back_cubby_wood×WALL_back_cubby_wood 0.489 m² @[-0.34,0.34,-4.08]"
  },
  "assets/models/env/second_ai/bb_support/bike.glb": {
   "sha1": "7cf7eca033299fd0d6d54601c23bb0bf36dea7e5",
@@ -78,9 +78,9 @@
   "top": "WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32]"
  },
  "assets/models/env/second_ai/bb_support/cvs_interior.glb": {
-  "sha1": "77ad816b3638fd3adf45947b10ff6f2a2c471b43",
+  "sha1": "85343b4ad949dfa5e7a36078ec9e019f3557804b",
   "wall": 2.66,
-  "always": 5.6,
+  "always": 5.24,
   "top": "WALL_back_vc×cvs_vc 1.052 m² @[-0.08,0.07,-5.5]"
  },
  "assets/models/env/second_ai/bb_support/dabu.glb": {
@@ -114,10 +114,10 @@
   "top": ""
  },
  "assets/models/env/second_ai/bb_support/nanyang_lobby.glb": {
-  "sha1": "184ec15d49c083ff40e4ddf2a24bfd2274ffe3d2",
+  "sha1": "03aaed78df85e614f67913e6493b13dc26020599",
   "wall": 9.31,
   "always": 16.5,
-  "top": "ny_vc_matte×WALL_left_wains 7.785 m² @[-4.5,1.65,3.54]"
+  "top": "WALL_left_wains×ny_maroon 7.665 m² @[-4.5,0.96,1.24]"
  },
  "assets/models/env/second_ai/bb_support/shaola_interior.glb": {
   "sha1": "0ed24261c2f485621f42c85f9b64cbc833d0203a",

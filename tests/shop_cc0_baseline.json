@@ -1,17 +1,9 @@
 {
  "note": "shop_cc0_unit.js --write 產生：還沒改用 CC0 素材的店內模型（D160；每一間都是 SHOP-REALISM-1112 要重做的）。改好一間就重跑 --write，這一列會消失。",
  "todo": {
-  "assets/models/env/second_ai/aa_support/daily_offbeat.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 32%（零件 34 個，要 <25%）"
-  },
   "assets/models/env/second_ai/aa_support/daybreak.glb": {
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 36%（零件 22 個，要 <25%）"
-  },
-  "assets/models/env/second_ai/aa_support/mokuyobi.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒有 CC0 材質組（ambientCG／Poly Haven 貼圖沒有一列寫到它）；沒貼圖的純色零件 38%（零件 29 個，要 <25%）"
   },
   "assets/models/env/second_ai/aa_support/shanlan.glb": {
    "task": "SHOP-REALISM-1112",
@@ -21,14 +13,6 @@
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 29%（零件 24 個，要 <25%）"
   },
-  "assets/models/env/second_ai/aa_support/yizhan.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 32%（零件 25 個，要 <25%）"
-  },
-  "assets/models/env/second_ai/bb_support/ade.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 45%（零件 42 個，要 <25%）"
-  },
   "assets/models/env/second_ai/bb_support/bike.glb": {
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 58%（零件 76 個，要 <25%）"
@@ -36,10 +20,6 @@
   "assets/models/env/second_ai/bb_support/corner.glb": {
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 41%（零件 71 個，要 <25%）"
-  },
-  "assets/models/env/second_ai/bb_support/cvs_interior.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 56%（零件 18 個，要 <25%）"
   },
   "assets/models/env/second_ai/bb_support/dakou_1f.glb": {
    "task": "SHOP-REALISM-1112",
@@ -52,10 +32,6 @@
   "assets/models/env/second_ai/bb_support/haopai.glb": {
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒有 CC0 材質組（ambientCG／Poly Haven 貼圖沒有一列寫到它）；沒貼圖的純色零件 45%（零件 97 個，要 <25%）"
-  },
-  "assets/models/env/second_ai/bb_support/nanyang_lobby.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 50%（零件 20 個，要 <25%）"
   },
   "assets/models/env/second_ai/bb_support/tongxian.glb": {
    "task": "SHOP-REALISM-1112",

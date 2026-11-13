@@ -56830,6 +56830,22 @@
    },
    "next": "【LAWWW-C 11-13 23:3x】CLAUDE.md §4 D163＋換班第 4b 步；check_handoff.py loose 讀 tasks.json helpers；SHOP-CC0-HELP-1113 登記 g1～g4；四個幫手都已在自己分支寫 HANDOFF.md（g1 af156a490f、g2 cbf7a248fb、g3 dac0add489、g4 5002861fb）。下次換班照 4b 步實際收一次幫手＝驗收。",
    "xai": []
+  },
+  {
+   "id": "CAMP-GATE-BG-1113",
+   "title": "迎新宿營校門口兩場黑底（ev_camp_d1_bus 開頭、ev_camp_d3_end 回校門）：先用 ntu_avenue；black_bg_audit 加讀 camp_y1.js",
+   "owner": "LAWWW",
+   "priority": "P2",
+   "status": "已整合待測試",
+   "source": "BB-C 2026-11-13 23:22（BB_460）；LAWWW-C 裁定先用 ntu_avenue、新圖 BB 照常跟使用者要（BG-3DSHOT-1021）",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "mainline": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-13 23:5x】camp_y1.js 19、197 行 bg:'dark'→'ntu_avenue'；tools/story/black_bg_audit.js 加讀 camp_y1.js（改前抓到 2 場、改後 0）；camp_y1／camp_era_lines／ui_night_bg／t1_time_bugs／friend_cards ALL PASS。待：BB 看第一個畫面；新圖到了換掉（BG-3DSHOT-1021）",
+   "xai": []
   }
  ]
 }
