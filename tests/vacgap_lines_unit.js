@@ -13,7 +13,7 @@ const src=fs.readFileSync(path.join(ROOT,'src/data/vacgap_lines.js'),'utf8').rep
 vm.runInThisContext(src,{filename:'vacgap_lines.js'});
 /* 玩家看得到的字：所有字串，扣掉日子、假期代號、'go'／'back'／'flip' */
 const META=/^(\d{4}-\d\d-\d\d|Y[1-4][WS]|go|back|flip)$/;
-const strs=[]; const walk=(x,k)=>{ if(typeof x==='string'){ if(!META.test(x)) strs.push([k,x]); return; } if(Array.isArray(x)) x.forEach((y,i)=>walk(y,k+'['+i+']')); else if(x&&typeof x==='object') for(const q in x){ if(q==='day'||q==='h') continue; walk(x[q],k+'.'+q); } };
+const strs=[]; const walk=(x,k)=>{ if(typeof x==='string'){ if(!META.test(x)) strs.push([k,x]); return; } if(Array.isArray(x)) x.forEach((y,i)=>walk(y,k+'['+i+']')); else if(x&&typeof x==='object') for(const q in x){ if(q==='day'||q==='h'||q==='speaker'||q==='goto'||q==='label') continue; walk(x[q],k+'.'+q); } };
 walk(VACGAP_LINES,'L');
 const miss=strs.filter(([k,t])=>!all.includes(t));
 check('1. 每一句都在稿裡（'+strs.length+' 句）',strs.length>150&&!miss.length,miss.slice(0,8).map(([k,t])=>k+'＝'+t).join('　'));

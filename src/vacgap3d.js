@@ -85,13 +85,62 @@ const VACGAP=(function(){
     if(id==='classmate_mingxuan'){ const t=S.termId(G); if(!t||!L.mxBack[t]||said(G,'mx_'+t)) return null; return {k:'mx_'+t,t:L.mxBack[t]}; }
     if(id==='npc_fangyt'){ const d0=DK('2026-02-19'); if(d0==null||G.day<d0||S.termId(G)!=='Y1S2'||said(G,'fy_Y1W')) return null; return {k:'fy_Y1W',t:L.fyBackGreet}; }
     return null; };
-  S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!G) return; const g=S.greetFor(G,id); if(!g) return; say(G,g.k); await GM.say(who,g.t); };
+  S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!G) return;
+    if(id==='classmate_mingxuan'&&S.gymGreet){ const x=S.gymGreet(G); if(x){ if(x.lines) for(const t of x.lines) await GM.say(who,t); else await GM.say(null,x.nar); } }   /* AA_928 2-1 寒訓（第二批）*/
+    const g=S.greetFor(G,id); if(!g) return; say(G,g.k); await GM.say(who,g.t); };
 
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined'||!L) return; S.privMsgs(G); S.groupMsgs(G); };
+
+  /* ================= 第二批：AA_928 當面的幾場（阿凱 203、明軒寒訓）=================
+     ev_kai_winter_203（1-1）：大一寒假 2026-01-10 起，第一個祐廷在 203 的晚上 21:00～24:00；阿凱在房間（STORY.dormWho）；只有 203 四人房（DORM_FOUR，台詞寫阿哲、柏翰的床）。
+     ev_kai_shop_visit（1-2，LAWWW-C 11-13 選 B：遊戲裡沒有電腦行，改成他把筆電帶回 203 修）：大一寒假、大一暑假，他打工的日子（二、四、六）19:00 以後、
+       祐廷和他在 203（他還住 203：STORY.kaiRoommate）；每個假期第一次一場（ev_kai_shop_visit_Y1W／_Y1S），之後同一個假期在 203 和他說話＝一天一句招呼（輪流）。
+       大一寒假 1/10 起那一晚要先演 1-1：1-1 還沒演的那幾天（1/10 以後）不演這一場。
+     ev_kai_back_y1s2（1-4）：2026-02-20 22:00 起祐廷在房間＝他進門那一版；不在＝他回來以後祐廷第一次回 203（2/21 起、大一下第 1 週以內，他在房間）那一版。兩版只演一版。
+     greet_mx_winter_gym（2-1）：2025-12-29～2026-01-23 週一、三、五 14:00～17:00 明軒在新體育館（STORY.SCHED_X）；第一次和他說話兩句、之後每天第一次一句旁白。*/
+  const done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
+  const hh=G=>((G.hour%24)+24)%24;
+  const kaiIn=G=>{ try{ return typeof STORY!=='undefined'&&!!STORY.dormWho&&(STORY.dormWho(G)||[]).some(w=>w[0]==='kai'); }catch(e){ return false; } };
+  const r203=G=>typeof STORY!=='undefined'&&!!STORY.r203On&&STORY.r203On(G);
+  const roommate=G=>typeof STORY!=='undefined'&&!!STORY.kaiRoommate&&STORY.kaiRoommate(G)&&!(G.flags&&G.flags.ROOM_Y2);
+  const bkey=G=>{ const B=typeof HOME!=='undefined'&&HOME.lawBreak?HOME.lawBreak(G):null; return B?B.key:null; };
+  S.W203_FROM='2026-01-10';
+  S.winter203Due=G=>law(G)&&G.zone==='dorm'&&bkey(G)==='Y1W'&&G.day>=DK(S.W203_FROM)&&hh(G)>=21&&r203(G)&&kaiIn(G);
+  S.REPAIR_KEYS=['Y1W','Y1S'];
+  S.repairDue=(G,key)=>{ if(!law(G)||G.zone!=='dorm'||bkey(G)!==key||!roommate(G)||!kaiIn(G)) return false; const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:G.weekday; if(![2,4,6].includes(wd)||hh(G)<19) return false;
+    if(key==='Y1W'){ const d0=DK(S.W203_FROM); if(G.day>=d0&&!(done(G,'ev_kai_winter_203')&&G.flags.KAI_W203_DAY!=null&&G.flags.KAI_W203_DAY<G.day)) return false; }   /* 1-1 先（同一晚不連演）*/
+    return true; };
+  S.BACK_DAY='2026-02-20';
+  S.backInDue=G=>law(G)&&G.zone==='dorm'&&G.day===DK(S.BACK_DAY)&&hh(G)>=22&&!done(G,'ev_kai_back_y1s2_later')&&roommate(G);
+  S.backLaterDue=G=>{ if(!law(G)||G.zone!=='dorm'||done(G,'ev_kai_back_y1s2')||!r203(G)||!kaiIn(G)) return false; const d=DK(S.BACK_DAY); return G.day>d&&G.day<=DK('2026-03-01'); };
+  S.EVENTS=[];
+  if(L){ S.EVENTS.push(
+    { id:'ev_kai_winter_203', title:'寒假的 203', participants:['kai'], location:'dorm', trigger:'auto', time:[21,24], once:true, background:'blur', stage:'law',
+      prereq:{custom:G=>S.winter203Due(G)}, dialogue:L.kaiWinter203, after:G=>{ flags(G).KAI_W203_DAY=G.day; } },
+    ...S.REPAIR_KEYS.map(k=>({ id:'ev_kai_shop_visit_'+k, title:'帶回來修的筆電', participants:['kai'], location:'dorm', trigger:'auto', time:[19,24], once:true, background:'blur', stage:'law',
+      prereq:{custom:G=>S.repairDue(G,k)}, dialogue:L.kaiRepair203, after:G=>{ const F=flags(G), R=F.KAI_REPAIR||(F.KAI_REPAIR={}); R[k]={day:G.day,i:0,last:G.day}; } })),
+    { id:'ev_kai_back_y1s2', title:'宜蘭的餅', participants:['kai'], location:'dorm', trigger:'auto', time:[22,24], once:true, background:'blur', stage:'law',
+      prereq:{custom:G=>S.backInDue(G)}, dialogue:L.kaiBackIn },
+    { id:'ev_kai_back_y1s2_later', title:'宜蘭的餅', participants:['kai'], location:'dorm', trigger:'auto', time:[0,24], once:true, background:'blur', stage:'law',
+      prereq:{custom:G=>S.backLaterDue(G)}, dialogue:L.kaiBackLater } ); }
+  /* 1-2 之後的招呼：同一個假期、在 203 和阿凱說話，一天一句（輪流）。包住 STORY.kaiDormTalk（talkKai 先問它）*/
+  S.kaiRepairGreet=function(G){ if(!L||!law(G)||G.zone!=='dorm') return null; const k=bkey(G), R=G.flags&&G.flags.KAI_REPAIR&&G.flags.KAI_REPAIR[k]; if(!R||R.day>=G.day||R.last===G.day) return null;
+    const t=L.kaiRepairAfter[(R.i|0)%L.kaiRepairAfter.length]; R.i=(R.i|0)+1; R.last=G.day; return t; };
+  /* 2-1 明軒寒訓 */
+  S.GYM={from:'2025-12-29',to:'2026-01-23',days:[1,3,5],h:[14,17]};
+  S.gymOn=G=>{ if(!law(G)) return false; const a=DK(S.GYM.from), b=DK(S.GYM.to); if(a==null||G.day<a||G.day>b) return false; const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:G.weekday; const x=hh(G); return S.GYM.days.includes(wd)&&x>=S.GYM.h[0]&&x<S.GYM.h[1]; };
+  S.sched=function(c,G){ if(!c||c.id!=='classmate_mingxuan'||!G||!S.gymOn(G)) return null;
+    return {days:S.GYM.days,from:S.GYM.h[0],to:S.GYM.h[1],zone:'gym',act:'linger',at:[-6.6,12.5,1.5708,0],noPair:true,label:'在系籃寒訓',note:'AA_928 2-1（BB198-VACB22）：大一寒假系籃寒訓'}; };
+  S.gymGreet=function(G){ if(!L||!S.gymOn(G)||G.zone!=='gym') return null; const F=flags(G), R=F.MX_GYM||(F.MX_GYM={});
+    if(R.first==null){ R.first=G.day; R.last=G.day; return {lines:L.mxGym}; } if(R.last===G.day) return null; R.last=G.day; return {nar:L.mxGymAgain}; };
 
   /* ---------- 登記 ----------*/
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
-    if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push(S.preTalk); }
+    if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push(S.preTalk);
+    if(Array.isArray(STORY.SCHED_X)) STORY.SCHED_X.push(S.sched);
+    if(typeof STORY.kaiDormTalk==='function'&&!STORY.kaiDormTalk._vacgap){ const k0=STORY.kaiDormTalk;   /* talkKai 先問 S.kaiDormTalk：1-2 之後的招呼排在前面 */
+      STORY.kaiDormTalk=Object.assign(async function(GM,n){ const t=GM&&GM.G?S.kaiRepairGreet(GM.G):null; if(t){ await GM.say(n,t); return true; } return k0.apply(this,arguments); },{_vacgap:true}); } }
+  if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   return S;
 })();
