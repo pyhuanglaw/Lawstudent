@@ -19,7 +19,7 @@ CLOSE = (os.environ.get('CLOSE') or '0') == '1'   # 11-12：互動點特寫（BB
 EACH = (os.environ.get('EACH') or '0') == '1'   # BB-C 10:23：第一個選單的每一個選項各按一次（每個社團那一頁）
 R = L.Run('interact_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-ST = r"""(()=>{ const d=document.getElementById('dlg'), cp=document.getElementById('caption'); return {cap:(cp&&cp.offsetParent&&getComputedStyle(cp).opacity!=='0')?(cp.textContent||'').trim():'', dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
+ST = r"""(()=>{ const d=document.getElementById('dlg'), cp=document.getElementById('caption'); const ts=document.getElementById('toast'); return {toast:(ts&&ts.offsetParent&&getComputedStyle(ts).opacity!=='0')?(ts.textContent||'').trim():'', cap:(cp&&cp.offsetParent&&getComputedStyle(cp).opacity!=='0')?(cp.textContent||'').trim():'', dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
   choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()), busy:!!(GAME.E.player&&GAME.E.player.busy), interact:(document.getElementById('interact')||{}).textContent||''}; })()"""
 
 
@@ -54,9 +54,9 @@ async def main():
                 caps = set()
 
                 async def cap_check(st):   # 11-13 BB-C（WZ_FRUIT r1＝TEST_BUG）：「看…」類互動出的是字幕（#caption），不是對話框——字幕也記、也截圖
-                    c = st.get('cap') or ''
-                    if c and c not in caps:
-                        caps.add(c); lines.append('字幕｜' + c); await pg.screenshot(path=os.path.join(OUT, 'cap_%s_%d_%s_%02d.png' % (TAG, n, sub, len(caps))))
+                    for kind_, c in (('字幕', st.get('cap') or ''), ('提示', st.get('toast') or '')):   # 11-13 BB-C：公休按「買水果」出的是 toast（提示），也要讀
+                        if c and (kind_, c) not in caps:
+                            caps.add((kind_, c)); lines.append(kind_ + '｜' + c); await pg.screenshot(path=os.path.join(OUT, 'cap_%s_%d_%s_%02d.png' % (TAG, n, sub, len(caps))))
                 for k in range(80):
                     st = await pg.evaluate(ST)
                     await cap_check(st)
