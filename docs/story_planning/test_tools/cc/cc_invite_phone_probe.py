@@ -20,6 +20,7 @@ DAY = os.environ.get('DAY') or '2025-10-14'; HOUR = float(os.environ.get('HOUR')
 PICKS = [x for x in (os.environ.get('PICKS') or '吃飯>越好吃>今天').split('>') if x]
 ROUTE = [x for x in (os.environ.get('ROUTE') or 'exit:tz_yuehaochi').split('+') if x]
 REL = int(os.environ.get('REL') or 0)
+FLAGS = json.loads(os.environ.get('FLAGS') or '{}')   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 MEET = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
@@ -82,6 +83,8 @@ async def main():
         s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
         m = await pg.evaluate(MEET, {'who': WHO, 'rel': REL}); res['meet'] = m
+        if FLAGS:
+            res['flags'] = await pg.evaluate("(f=>{ Object.assign(GAME.G.flags,f); return Object.keys(f); })", FLAGS); R.setup('【捷徑】旗標 %s' % J(FLAGS))
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f（條件事件關掉）、認識 %s、有聯絡方式%s；階段 %s' % (ZONE, DAY, HOUR, WHO, ('、【捷徑】關係加 fam %d' % REL) if REL else '', m.get('stage')))
         # 手機「朋友」→ 她那一列「約」
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
