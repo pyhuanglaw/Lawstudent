@@ -118,8 +118,8 @@
 | Poly Haven id | 用途 | 處理 | 用在哪個模型 |
 |---|---|---|---|
 | `exterior_aircon_unit`（只取乾淨的那一台） | 冷氣室外機（掛在一樓門楣旁） | 9,493 → 1,517 面；半透明的散熱格柵改 alpha clip | `assets/models/env/second_ai/wenzhou_street.glb`（溫州街 A1 阿德影印） |
-| `potted_plant_02` | 陶盆合果芋（店門口的大盆栽） | 69,806 → 約 3,000 面（葉子 0.2、盆 0.12、土 0.004） | `wenzhou_street.glb`（阿德影印門口） |
-| `potted_plant_04` | 白盆多肉（門口的小盆栽，放大 1.5 倍） | 8,929 → 約 1,300 面 | `wenzhou_street.glb`（阿德影印門口） |
+| `potted_plant_02` | 陶盆合果芋（店門口的大盆栽） | 69,806 → 約 3,000 面（葉子 0.2、盆 0.12、土 0.004） | `wenzhou_street.glb`（阿德影印門口）；`tingzhou_street.glb`（溫特寶邸門口，SHOP-REALISM-1112 v3） |
+| `potted_plant_04` | 白盆多肉（門口的小盆栽，放大 1.5 倍） | 8,929 → 約 1,300 面 | `wenzhou_street.glb`（阿德影印門口）；`tingzhou_street.glb`（溫特寶邸門口，SHOP-REALISM-1112 v3） |
 | `CashRegister_01` | 古董收銀機（櫃台）（作者 Joe Seabuhr） | 9,927 → 約 4,000 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
 | `vintage_suitcase` | 古董皮箱一組（後牆上層）（作者 Maximilian Schuster） | 16,474 → 約 4,900 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
 | `ornate_mirror_01` | 雕花穿衣鏡（右牆）（作者 James Ray Cock） | 14,246 → 約 4,300 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
