@@ -8,8 +8,21 @@
 ### 暫停中
 - BADMINTON-CLIP v4（WIP 1aba3ec42）、FAIR-TENT-CAM（WIP 未交）：照舊暫停（使用者室內美術優先）；恢復條件：SHOP-REALISM-1112 汀州路那批交完；下次檢查 11-19。
 - HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104；下次檢查 11-19。
+- PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
 
 ### 下一班第一件事（任務 ID，照順序）
+0k. **（11-13 20:5x UTC）**
+  - 第八批（cafe230、afar CC0）已整合 9c21a7c439。BB 判：2:30 AM 看圖 PASS（P2 單人沙發是方塊）；afar FAIL（咖啡機是白方盒）。
+  - **第九批製作中**（SHOP-REALISM-1112；scratchpad 的 bld＝建模樹、pk9＝打包樹，底 45ac5657bb）：
+    - afar 雙孔義式機（+1.6k 面，已重烘）；
+    - 2:30 AM 單人沙發 v2（捲邊扶手、靠背墊；毛毯、抱枕原本誤走白瓷，改走 Fabric030 c_wool，已重烘）；
+    - 一盞前院 wz_teahouse_yard CC0（Bamboo001A、Rope001、Metal032、Concrete034、Plastic006＋PH wooden_bucket_01；shop_cc0 三項過）。
+    - Poly Haven 的石頭掃描都是褐色砂岩，試過 rock_moss_set_01 像碎磚，不用。
+    - 剩：拍對照圖、跑相關測試、做 patch、交 LAWWW-C／BB-C。
+  - 驗收：
+    - AA 118 巷四間修正版 PASS，AA 改底後直接交 LAWWW；
+    - g1 用自己的 aa_cc0.py、g2 用 Shop.route，都可以，驗結果；
+    - g1 木曜日、日常失速 6.6 萬面照大店 8 萬算。
 0j. **（11-13 19:3x UTC）**
   - 第四批（xianguo、antai v2）、第五批（limao、rongendian v2）、第六批 P2（433ea3ed3b：安泰量血壓機、榮恩典平放疊與特價推車、禮貌生財木腰板與玻璃櫃、鮮果葡萄 12 顆）都已整合，第六批在開發分支 15710903ed。
   - BB 判第六批：除了鮮果葡萄（P2，不擋），其他 P2 都關了。
