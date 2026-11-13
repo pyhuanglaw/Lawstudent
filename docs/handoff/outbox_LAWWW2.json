@@ -9801,6 +9801,25 @@
    "tests": "新 l118_seat_inner_ap_1113：修改前 FAILED 2 → ALL PASS；相關 116 支全過",
    "notDone": "CC 重跑 L118_CAM36_a／b（改點椅面露出來的部分）；大學食堂 #5／#6／#8 看重跑結果",
    "next": "LAWWW 套 patch；BB 排 CC 重跑"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收幫手 g4 公館燒臘 v8（37a58d3de）PASS；補 place_gate_coplanar.json、SHOP_STANDARD_STATUS.md 的完整 patch",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/shaola_v8_full.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "5057ca2f14",
+   "at": "2026-11-13T21:36Z",
+   "tests": "shop_cc0 ALL PASS；place_gate ALL PASS（--coplanar 不變多）；shaola_wire、gg_new_lm、shaola_order_1112、noodle_seat_ap、yejian_buy_1112、shop_viewpanes_1105 ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層四鏡頭；BB 判美術",
+   "next": "LAWWW 套 shaola_v8_full.patch（底 5057ca2f14）"
   }
  ]
 }
