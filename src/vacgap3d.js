@@ -40,9 +40,9 @@ const VACGAP=(function(){
   const SHORT={heroine_02:'zr',classmate_peishan:'ps',kexin:'kx',kai:'kai',classmate_mingxuan:'mx',npc_fangyt:'fy',heroine_04:'zq'};
   S.homeTag=(who,key,kind)=>'msg_'+SHORT[who]+'_home_'+key+'_'+kind;
   /* 那一天的候選（day＝數字）*/
-  S.cands=function(G,d){ const out=[]; if(!L) return out;
+  S.cands=function(G,d){ const out=[]; if(!L) return out; const fc={}, flip=w=>fc[w]!==undefined?fc[w]:(fc[w]=S.flipOn(G,w,d));   /* 同一個人同一天只算一次 */
     PS_ORDER.forEach((who,oi)=>{ for(const r of (L.home[who]||[])){ const [key,kind,dk,h,ms,dt]=r; let day=null;
-      if(dk==='flip'){ const f=S.flipOn(G,who,d); if(!f||f.kind!==kind||f.key!==key) continue; day=d; } else { day=DK(dk); if(day!==d) continue; }
+      if(dk==='flip'){ const f=flip(who); if(!f||f.kind!==kind||f.key!==key) continue; day=d; } else { day=DK(dk); if(day!==d) continue; }
       out.push({tag:S.homeTag(who,key,kind),who,day,h,ms,dt:dt||null,ord:oi,home:{key,kind}}); } });
     const LN=L.lny, add=(who,sk,y,X,extra)=>{ const day=DK(X.day); if(day!==d) return; out.push(Object.assign({tag:'msg_'+sk+'_lny_'+y,who,day,h:X.h,ms:X.ms,dt:X.dt||null,ord:10+PS_ORDER.indexOf(who)},extra||{})); };
     for(const y in LN.zq) add('heroine_04','zq',y,LN.zq[y],{alt:LN.zq[y].noDad?(G=>!(G.flags&&G.flags.DAD_PLAYS)?LN.zq[y].noDad:null):null});
