@@ -1,0 +1,1 @@
+{"tag": "w1r_d5", "sha": "1f304f0054", "steps": [{"k": 0, "kind": "start", "s": {"zone": "library_hall", "lv": 0, "x": 0, "z": 6.6, "y": 0, "yaw": 3.14, "seat": false, "pose": "idle", "stand": true, "h": 13.04, "cam": [0, 2.88, 8.57], "camToHead": 2.3, "blocked": [], "interact": "互動"}}, {"k": 1, "step": "go:二樓自習"}]}

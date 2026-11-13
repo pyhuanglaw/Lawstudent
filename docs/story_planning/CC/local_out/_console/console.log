@@ -1,14 +1,3 @@
-[16:56:52] skip YEJIAN_425_new (already done on 425ce265d597b72e3f23264e54a4a38af5f65f94)
-[16:56:52] skip YEJIAN_425_mag (already done on 425ce265d597b72e3f23264e54a4a38af5f65f94)
-[16:56:52] skip YEJIAN_425_card (already done on 425ce265d597b72e3f23264e54a4a38af5f65f94)
-[16:56:52] skip YEJIAN_425_cafe (already done on 425ce265d597b72e3f23264e54a4a38af5f65f94)
-[16:56:52] skip SHIFT7_425_sis_y1s2 (already done on 425ce265d597b72e3f23264e54a4a38af5f65f94)
-[16:56:52] skip SHIFT7_425_sis_y2s1 (already done on 425ce265d597b72e3f23264e54a4a38af5f65f94)
-[16:56:52] skip SHIFT7_425_tutor (already done on 425ce265d597b72e3f23264e54a4a38af5f65f94)
-[16:56:52] skip SSB_wz1 (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
-[16:56:52] skip SSB_wz2a (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
-[16:56:52] skip SSB_wz2b (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
-[16:56:52] skip SSB_wz2c (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
 [16:56:52] skip SSB_gg_strips (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
 [16:56:52] skip SSB_gg_1b (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
 [16:56:52] skip SSB_gg_fnexit (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
@@ -1998,3 +1987,14 @@
 [23:22:25] ==== START W1R_D5_study  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
 [23:22:28] [res] cpu=60% mem=47% (14.9/31.4 GB) chrome_testing=5  START W1R_D5_study
 [23:23:21] [res] cpu=21% mem=44% (13.6/31.4 GB) chrome_testing=4  END W1R_D2D3_invite
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       49b29da174..08d0afc3a8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:23:54] ==== END   W1R_D2D3_invite  exit=1  267s   ====
+[23:23:58] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[23:23:58] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[23:23:58] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[23:23:58] memory 45% before starting W1R_E1E2_zrshow (2 running)
+[23:23:58] ==== START W1R_E1E2_zrshow  (probe @ f701afca024758d5dcc8d6b48a1db906f108ae05) ====
+[23:24:01] [res] cpu=49% mem=39% (14.3/31.4 GB) chrome_testing=0  START W1R_E1E2_zrshow
+[23:24:09] [res] cpu=42% mem=41% (12.5/31.4 GB) chrome_testing=0  END W1R_D5_study
