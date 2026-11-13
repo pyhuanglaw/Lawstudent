@@ -1,0 +1,399 @@
+diff --git a/tools/blender/env_second/cc0_kit.py b/tools/blender/env_second/cc0_kit.py
+new file mode 100644
+index 0000000000..d6b54a2a40
+--- /dev/null
++++ b/tools/blender/env_second/cc0_kit.py
+@@ -0,0 +1,147 @@
++# CC0 素材的共用小工具（SHOP-CC0-HELP-1113，AA-C 2026-11-13；照 tz_shops_interior.py 裡 LAWWW2-C 的 acg／ph_obj／ph_put／_Route／_AsTex 搬出來、改成不靠全域變數）
++#   給 lane118_shops.py（118 巷九間）用；做法、驗收標準：docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md
++#   ambientCG 材質組：cc0_fetch 下載 → 照 Poly Haven 的檔名放到快取的 staged 資料夾 → L.pbr（target＝調成這個平均色、tile＝每幾公尺重複一次）
++#   Poly Haven 掃描模型：ph_obj() 匯入、合成一個網格、減面、縮放，當原型；ph_put() 複製放到遊戲座標
++#   用到的每一件記在 USED（建模最後印出來，LICENSES.md 照抄）
++import os, math
++import numpy as np
++from PIL import Image
++import lib2 as L
++from lib2 import B, g2b, bpy, Vector, Matrix
++import cc0_fetch
++
++STAGE = os.path.join(cc0_fetch.CACHE, 'staged'); os.makedirs(STAGE, exist_ok=True)
++USED = []
++
++
++def _use(kind, aid):
++    if (kind, aid) not in USED: USED.append((kind, aid))
++
++
++def _stage(pid, diff, nor=None, rough=None):
++    d = os.path.join(STAGE, pid); os.makedirs(d, exist_ok=True)
++    for src_, suf in ((diff, 'diff'), (nor, 'nor_gl'), (rough, 'rough')):
++        if not src_: continue
++        dst = os.path.join(d, f'{pid}_{suf}_1k.jpg')
++        if not os.path.exists(dst) or os.path.getmtime(dst) < os.path.getmtime(src_): Image.open(src_).convert('RGB').save(dst, quality=92)
++
++
++def acg(name, aid, maps=('diff', 'nor'), res=512, vary=None, **kw):
++    """ambientCG 材質組 → L.pbr 材質。vary：顏色貼圖的明暗起伏壓到平均亮度的這個比例（塑膠 0.05、灰泥 0.04；不壓會有黑紋、雲斑）"""
++    f = cc0_fetch.acg_material(aid); _stage(aid, f['color'], f.get('normal'), f.get('rough')); _use('ambientCG', aid)
++    pid = aid
++    if vary:
++        pid = f'{aid}_v{int(round(vary * 100)):02d}'; src_ = os.path.join(STAGE, aid, f'{aid}_diff_1k.jpg'); d_ = os.path.join(STAGE, pid); os.makedirs(d_, exist_ok=True)
++        a_ = np.asarray(Image.open(src_).convert('RGB'), float); lum = a_.mean(-1); m_, sd_ = lum.mean(), max(1e-3, lum.std())
++        out = a_.mean((0, 1))[None, None, :] * (1 + vary * (lum - m_) / sd_)[..., None]
++        Image.fromarray(np.clip(out, 0, 255).astype('uint8')).save(os.path.join(d_, f'{pid}_diff_1k.jpg'), quality=92)
++        for suf in ('nor_gl', 'rough'):
++            q_ = os.path.join(STAGE, aid, f'{aid}_{suf}_1k.jpg')
++            if os.path.exists(q_): Image.open(q_).save(os.path.join(d_, f'{pid}_{suf}_1k.jpg'), quality=92)
++    old = L.tex_dir; L.tex_dir = lambda q: STAGE if q == pid else old(q)
++    try: return L.pbr(name, pid, maps=maps, res=res, **kw)
++    finally: L.tex_dir = old
++
++
++class AsTex:
++    """把「畫成某個顏色的頂點色零件」的呼叫轉到一個材質組網格（顏色參數不用）"""
++    def __init__(self, m_): self.m = m_; self.bm = m_.bm
++    def __getattr__(self, k): return getattr(self.m, k)
++    def paint(self, *a, **k): pass
++    def cbox(self, x0, x1, y0, y1, z0, z1, col=None, k=1.0): self.m.box(x0, x1, y0, y1, z0, z1)
++    def crbox(self, x0, x1, y0, y1, z0, z1, col=None, k=1.0, r=0.02, seg=2): self.m.rbox(x0, x1, y0, y1, z0, z1, r=r, seg=seg)
++    def poly(self, pts, col=None, k=1.0): self.m.quad(pts)
++
++
++class Route:
++    """CMesh 的轉接：cbox／crbox／poly 照顏色（route 表：hex → 材質組網格）分過去；表上沒有的顏色、直接用 .bm＋paint 的（ccyl、clathe）照舊頂點色"""
++    def __init__(self, base, route): self.base = base; self.route = {k.lower(): v for k, v in route.items()}; self.bm = base.bm
++    def __getattr__(self, k): return getattr(self.base, k)
++    def _m(self, col):
++        v = self.route.get((col or '').lower())
++        if v is not None and not hasattr(v, 'box'): v = self.route[(col or '').lower()] = v()   # 值可以是「回傳網格的函式」：用到才建（牆的分組網格）
++        return v
++    def cbox(self, x0, x1, y0, y1, z0, z1, col, k=1.0):
++        m_ = self._m(col); (m_.box(x0, x1, y0, y1, z0, z1) if m_ else self.base.cbox(x0, x1, y0, y1, z0, z1, col, k=k))
++    def crbox(self, x0, x1, y0, y1, z0, z1, col, k=1.0, r=0.02, seg=2):
++        m_ = self._m(col); (m_.rbox(x0, x1, y0, y1, z0, z1, r=r, seg=seg) if m_ else self.base.crbox(x0, x1, y0, y1, z0, z1, col, k=k, r=r, seg=seg))
++    def poly(self, pts, col, k=1.0):
++        m_ = self._m(col); (m_.quad(pts) if m_ else self.base.poly(pts, col, k=k))
++
++
++def _ph_tex(o, res=512):
++    """Poly Haven 材質瘦身：粗糙度／金屬度的圖拿掉改固定值（單通道的圖匯出 WebP 會失敗、手機也不需要）；顏色、法線縮成 res"""
++    for ms_ in o.material_slots:
++        mt = ms_.material
++        if not mt or not mt.use_nodes: continue
++        N = mt.node_tree.nodes; bs = N.get('Principled BSDF')
++        for n in list(N):
++            if n.type != 'TEX_IMAGE' or not n.image: continue
++            nm = n.image.name.lower(); to = {l.to_socket.name for l in n.outputs['Color'].links} | {l.to_socket.name for l in n.outputs['Alpha'].links}
++            if not ({'Base Color', 'Alpha', 'Color'} & to) or '_arm' in nm or 'rough' in nm or 'metal' in nm:
++                N.remove(n); continue
++            src_ = bpy.path.abspath(n.image.filepath)
++            if not os.path.exists(src_): continue
++            im = Image.open(src_); alpha = im.mode in ('RGBA', 'LA') and 'Alpha' in to
++            im = im.convert('RGBA' if alpha else 'RGB')
++            if max(im.size) > res: im = im.resize((res, res), Image.LANCZOS)
++            dst = os.path.join(STAGE, os.path.splitext(os.path.basename(src_))[0] + f'_{res}' + ('.png' if alpha else '.jpg')); (im.save(dst) if alpha else im.save(dst, quality=90))
++            cs = n.image.colorspace_settings.name; n.image = bpy.data.images.load(dst); n.image.colorspace_settings.name = cs
++        if bs:
++            for k_ in ('Roughness', 'Metallic'):
++                for l in list(bs.inputs[k_].links): mt.node_tree.links.remove(l)
++            bs.inputs['Roughness'].default_value = 0.65; bs.inputs['Metallic'].default_value = 0.0
++
++
++class PH:
++    """Poly Haven 模型：一個 aid 一個原型（隱藏），put() 複製到遊戲座標、掛在 root 底下。prefix＝材質名的開頭（例：l118_cafe2_ph_）"""
++    def __init__(self, root, prefix):
++        self.root = root; self.prefix = prefix; self.proto = {}; self.n = {}
++
++    def obj(self, aid, height=None, decimate=None, recolor=None, length=None, chair=False):
++        if aid in self.proto: return self.proto[aid]
++        path = cc0_fetch.ph_model(aid); before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=path); _use('Poly Haven', aid)
++        new = [o for o in bpy.data.objects if o not in before]; ms = [o for o in new if o.type == 'MESH']
++        bpy.ops.object.select_all(action='DESELECT')
++        for o in ms: mw = o.matrix_world.copy(); o.parent = None; o.matrix_world = mw; o.select_set(True)
++        for o in new:
++            if o.type != 'MESH': bpy.data.objects.remove(o)
++        bpy.context.view_layer.objects.active = ms[0]
++        if len(ms) > 1: bpy.ops.object.join()
++        o = bpy.context.view_layer.objects.active; bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
++        _ph_tex(o)
++        if decimate:
++            md = o.modifiers.new('dec', 'DECIMATE'); md.ratio = decimate; bpy.ops.object.modifier_apply(modifier=md.name)
++        vs = [v.co for v in o.data.vertices]; mn = Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs))); mx = Vector((max(v.x for v in vs), max(v.y for v in vs), max(v.z for v in vs)))
++        k = height / (mx.z - mn.z) if height else (length / max(mx.x - mn.x, mx.y - mn.y) if length else 1.0)
++        o.data.transform(Matrix.Scale(k, 4) @ Matrix.Translation(-Vector(((mn.x + mx.x) / 2, (mn.y + mx.y) / 2, mn.z))))
++        if chair:   # 椅子：靠背轉到 +y（前面＝−y＝遊戲的 +z）
++            ht = max(v.co.z for v in o.data.vertices); top = [v.co.y for v in o.data.vertices if v.co.z > ht * 0.8]
++            if top and sum(top) / len(top) < 0: o.data.transform(Matrix.Rotation(math.pi, 4, 'Z'))
++        if recolor:
++            for ms_ in o.material_slots:
++                b = ms_.material.node_tree.nodes.get('Principled BSDF') if ms_.material else None
++                ln = b and b.inputs['Base Color'].links
++                if not ln or ln[0].from_node.type != 'TEX_IMAGE': continue
++                tn = ln[0].from_node; src_ = bpy.path.abspath(tn.image.filepath)
++                g = np.asarray(Image.open(src_).convert('L').resize((512, 512)), float) / 255.0; g = (g - g.min()) / max(1e-3, g.max() - g.min())
++                c0, c1 = np.array(B.srgb(recolor[0])) ** (1 / 2.2), np.array(B.srgb(recolor[1])) ** (1 / 2.2)
++                out = (c0[None, None, :] + (c1 - c0)[None, None, :] * g[..., None]) * 255; p = os.path.join(STAGE, f'{aid}_recolor_{recolor[0][1:]}.jpg'); Image.fromarray(np.clip(out, 0, 255).astype('uint8')).save(p, quality=92)
++                tn.image = bpy.data.images.load(p)
++        for i, ms_ in enumerate(o.material_slots):
++            if ms_.material: ms_.material.name = self.prefix + aid + ('' if len(o.material_slots) < 2 else f'_{i}')
++        o.name = 'PHPROTO_' + aid; o.hide_render = True; o.hide_set(True); self.proto[aid] = o; return o
++
++    def put(self, aid, x, y, z, yaw=0.0, s=1.0, share=True, wall=None, **kw):
++        """原型複製一份放在遊戲座標 (x, y, z)；yaw＝繞垂直軸轉（弧度）。share＝False：自己一份網格（植物：烘焙時不會被合併改名）。
++        wall＝(面, dir)：放在牆上的東西（層板上的罐子…）跟著那一面牆淡出（物件名 WALL_<面>_…＋extras dir，和牆的分組網格一樣）"""
++        p = self.obj(aid, **kw); nm = f'ph_{aid}_{self.n.setdefault(aid, 0)}'; self.n[aid] += 1
++        o = bpy.data.objects.new((f'WALL_{wall[0]}_' if wall else 'S_') + nm, p.data if share else p.data.copy())
++        if wall: o['dir'] = list(wall[1])
++        bpy.context.scene.collection.objects.link(o); o.parent = self.root
++        o.matrix_world = Matrix.Translation(g2b(x, y, z)) @ Matrix.Rotation(yaw, 4, 'Z') @ Matrix.Scale(s, 4); return o
++
++    def cleanup(self):
++        """匯出前把隱藏的原型刪掉（不然會跟著匯出）"""
++        for o in self.proto.values(): bpy.data.objects.remove(o)
++        self.proto = {}
+diff --git a/tools/blender/env_second/lane118_shops.py b/tools/blender/env_second/lane118_shops.py
+index 3a83b18d8a..132cd0eb93 100644
+--- a/tools/blender/env_second/lane118_shops.py
++++ b/tools/blender/env_second/lane118_shops.py
+@@ -163,6 +163,8 @@ def table(c, cx, cz, w, d, top='wood', h=0.74, base='legs', col='#6b4a30', legc=
+ def chair(c, x, z, yaw, style='wood', col='#6b4a30'):
+     """椅子：wood＝木頭靠背椅、stool＝紅色塑膠圓凳、steelstool＝不鏽鋼圓凳、bar＝吧檯高腳椅；(x, z) 是坐的位置，面向 yaw"""
+     T = rot(x, z, yaw)
++    if getattr(c, 'ph', None) and style in c.CH:   # CC0 的店（SHOP-CC0-HELP-1113）：Poly Haven 掃描的椅凳（坐的位置、方向照舊）
++        aid, kw = c.CH[style]; c.ph.put(aid, x, 0.0, z, yaw, **kw); return
+     if style == 'wood':
+         sh = 0.45
+         rbox(c.vc, T, -0.21, 0.21, sh - 0.035, sh, -0.2, 0.2, col, r=0.01, seg=1)
+@@ -269,6 +271,7 @@ def ac_unit(c, x, y, z, face, w=0.9, fade=False):
+ 
+ def plant(c, x, z, h=1.1, pot='#5a4a3e', leaf='#3f7a3a'):
+     """發財樹（門口、櫃台旁）：花盆＋樹幹三支＋一層層的葉子（頂點色）"""
++    if getattr(c, 'ph', None): c.ph.put('potted_plant_02', x, 0.0, z, (abs(x * 7.3 + z * 3.1) % 6.283), s=h, share=False, height=1.0, decimate=0.02); return   # CC0 的店：Poly Haven 盆栽（植物不共用網格：烘焙）
+     clathe(c.vc, [(0.0, 0.0), (0.15, 0.0), (0.2, 0.32), (0.21, 0.34), (0.0, 0.34)], x, 0.0, z, pot, seg=14)
+     c.vc.cbox(x - 0.17, x + 0.17, 0.3, 0.32, z - 0.17, z + 0.17, '#3a2a1e')
+     rr = random.Random(int(abs(x * 100 + z * 37)))
+@@ -425,7 +428,7 @@ def shell(c, light='tube'):
+     c.vc.cbox(X0 - NB_W, X1 + NB_W, -0.05, 0.0, Z1, vz, '#9a9893')                                     # 門口的騎樓地（往外到巷子那張景；兩側到鄰居店面卡的外緣）
+     neighbors(c)
+     # 天花板
+-    ce = Mesh(_cn(c, f'l118_{c.sid}_ceiling'), M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root, uv=False)   # 朝下（和溫州街店家、便利商店一樣）
++    ce = Mesh(_cn(c, f'l118_{c.sid}_ceiling'), M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root, uv=hasattr(c, 'cc0m'))   # CC0 的店：灰泥材質組要 UV   # 朝下（和溫州街店家、便利商店一樣）
+     c.door = dict(x=dx, w=dw, z=Z1)
+     c.spawn = dict(x=dx, z=round(Z1 - 1.5, 3), yaw=PI, note='從門進來、面向店裡')
+     c.exits = [dict(x=dx, z=round(Z1 - 0.45, 3), r=0.7, label='離開' + c.T['name'], to='lane118')]
+@@ -498,12 +501,16 @@ def finish(c):
+     D = {'N': [0, 0, 1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'S': [0, 0, -1]}
+     for k, ms in c.WG.items():
+         for key, m in ms.items():
+-            uv = key in ('wall', 'wain'); mg = key not in ('print', 'screen', 'view')
++            uv = key in ('wall', 'wain') or '_' in key; mg = key not in ('print', 'screen', 'view')   # '_'：CC0 的店分到材質組的牆上零件（trim_wood_d、ksteel_cc0…）要盒狀 UV
+             m.finish(c.root, props=dict({'dir': D[k]}, **c.WGP.get((k, key), {})), uv=uv, merge=mg)
++    cc0m = getattr(c, 'cc0m', None)
++    if cc0m is not None: c.vc, c.vm, c.steel = c._vc0, c._vm0, c._steel0   # CC0 的店：轉接器拿掉，剩下沒分到材質組的頂點色零件照舊
+     for m in (c.vc, c.vm, c.tube, c.warm, c.fridgel, c.steel): m.finish(c.root, uv=False)
++    for m in (cc0m or {}).values(): m.finish(c.root)                          # 材質組網格（盒狀 UV）
+     c.wood.finish(c.root)
+     for m in (c.prt, c.scr): m.finish(c.root, uv=False, merge=False)
+     for m in c.extra.values(): m.finish(c.root, uv=False)
++    if getattr(c, 'ph', None): c.ph.cleanup()   # Poly Haven 原型不匯出（複製的那幾份共用同一個網格）
+     L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith(('WALL_', 'CEIL_')), key=lambda ob: '')
+     out = os.path.join(OUTDIR, f'l118_{c.sid}.glb'); st = L.export(out, gpu_instances=False)
+     tris = 0
+@@ -522,6 +529,7 @@ def finish(c):
+     L.write_json(os.path.join(OUTDIR, f'l118_{c.sid}.layout.json'), lay)
+     L.write_json(out[:-4] + '.json', dict(st if isinstance(st, dict) else {}, tris_total=tris, layout=f'l118_{c.sid}.layout.json', seats=len(c.seats)))
+     print(json.dumps({'shop': c.sid, 'tris': tris, 'seats': len(c.seats), 'problems': prob}, ensure_ascii=False))
++    if getattr(c, 'ph', None): import cc0_kit; print('CC0_USED', json.dumps(cc0_kit.USED, ensure_ascii=False))
+     return prob
+ 
+ 
+@@ -652,6 +660,13 @@ def wall_shelf(c, side, a0, a1, y, depth=0.25, items='bowls'):
+     else: box = lambda a, b, y0, y1, d0, d1, col: m.cbox(X1 - d1, X1 - d0, y0, y1, a, b, col); P = lambda a, d: (X1 - d, a)
+     box(a0, a1, y - 0.03, y, 0.0, depth, c.S.get('trim', '#6b4a30'))
+     a = a0 + 0.08
++    if getattr(c, 'ph', None) and items == 'bowls':   # CC0 的店（D159：不要一樣大小排成一排）：一疊一疊（1～4 個）、大小兩種、間距不一樣，偶爾空一格
++        while a < a1 - 0.1:
++            if rr.random() < 0.15: a += 0.14; continue
++            big = rr.random() < 0.4; r0 = 0.075 if big else 0.06; col = rr.choice(['#f4f1ea', '#f4f1ea', '#e8e0d0', '#3a3a3a']); px, pz = P(a + r0, depth * 0.5)
++            for k in range(rr.choice((1, 2, 2, 3, 4))): clathe(m, [(0.0, 0.0), (r0 * 0.66, 0.0), (r0, r0 * 0.93), (r0 * 0.93, r0 * 0.93), (0.0, 0.006)], px, y + k * r0 * 0.42, pz, col, seg=12)
++            a += 2 * r0 + rr.uniform(0.03, 0.09)
++        a = a1
+     while a < a1 - 0.08:
+         px, pz = P(a, depth * 0.5)
+         if items == 'bowls': clathe(m, [(0.0, 0.0), (0.05, 0.0), (0.075, 0.07), (0.07, 0.07), (0.0, 0.006)], px, y, pz, rr.choice(['#f4f1ea', '#e8e0d0', '#3a3a3a']), seg=10); a += 0.17
+@@ -861,6 +876,11 @@ def build_dian(c):
+ 
+ 
+ 
++def _jit(c, a=0.014):
++    """CC0 的店（D159：同樣大小的東西不要疊得完全對齊）：一疊便當盒每一個錯開一點；其他店照舊 0"""
++    return (c.rng.uniform(-a, a), c.rng.uniform(-a, a)) if getattr(c, 'ph', None) else (0.0, 0.0)
++
++
+ def build_self(c):
+     """水上便當（L118-SHOPS-REDO-1111，X338；參考圖 l118_ref/ext_self、int_self）：使用者的規格「黃色大招牌；外帶為主，設配菜櫃及少量內用座位」。
+     西邊沿牆一整排不鏽鋼配菜櫃（玻璃罩、保溫燈下的炸雞腿雞排排骨、下面一格一格的配菜），老闆站在櫃子後面；最前面一個大飯鍋（白飯自助）；
+@@ -883,7 +903,7 @@ def build_self(c):
+     # 取餐檯：中間後面（出菜口前），成疊的便當盒、塑膠袋
+     counter(c, -0.5, 1.9, Z0 + 0.95, Z0 + 1.5, h=0.95, top='steel', front='#c9ccce', why='pickup'); c.block(-1.5, X1, Z0, Z0 + 0.98, 'pickup_back')
+     for (bx, n_) in ((0.0, 7), (0.45, 5), (0.9, 6)):
+-        for k in range(n_): c.vc.crbox(bx - 0.17, bx + 0.17, 0.95 + k * 0.045, 0.99 + k * 0.045, Z0 + 1.05, Z0 + 1.4, '#f6f4ee', r=0.004, seg=1)
++        for k in range(n_): jx, jz = _jit(c); c.vc.crbox(bx - 0.17 + jx, bx + 0.17 + jx, 0.95 + k * 0.045, 0.99 + k * 0.045, Z0 + 1.05 + jz, Z0 + 1.4 + jz, '#f6f4ee', r=0.004, seg=1)
+     c.vc.cbox(1.2, 1.8, 0.4, 0.75, Z0 + 1.5, Z0 + 1.508, '#f2c21a'); uvquad(c.prt, [(1.23, 0.45, Z0 + 1.51), (1.77, 0.45, Z0 + 1.51), (1.77, 0.7, Z0 + 1.51), (1.23, 0.7, Z0 + 1.51)], TX.uv(TX.REG, 'P2'))   # 取餐檯正面的黃牌（內用・外帶）
+     # 配菜櫃上層：保溫燈下的炸雞腿、雞排、排骨（室內參考圖最顯眼的東西）——一層不鏽鋼網架、三堆炸物、黃色品名牌、三盞保溫燈
+     c.steel.box(sx0 + 0.08, sx1 - 0.3, 1.1, 1.115, sz0 + 0.15, sz1 - 0.15)
+@@ -895,7 +915,7 @@ def build_self(c):
+     ix0, ix1, iz0, iz1 = 0.33, 1.47, -0.87, -0.13
+     c.steel.box(ix0, ix1, 0.86, 0.9, iz0, iz1); c.vc.crbox(ix0 + 0.03, ix1 - 0.03, 0.0, 0.86, iz0 + 0.03, iz1 - 0.03, '#c9ccce', r=0.006, seg=1); c.steel.box(ix0 + 0.05, ix1 - 0.05, 0.3, 0.32, iz0 + 0.05, iz1 - 0.05)
+     for (bx, bz, n_) in ((0.55, -0.6, 8), (0.55, -0.32, 6), (0.95, -0.55, 7), (1.3, -0.3, 5)):
+-        for k in range(n_): c.vc.crbox(bx - 0.16, bx + 0.16, 0.9 + k * 0.045, 0.94 + k * 0.045, bz - 0.12, bz + 0.12, '#f6f4ee', r=0.004, seg=1)
++        for k in range(n_): jx, jz = _jit(c); c.vc.crbox(bx - 0.16 + jx, bx + 0.16 + jx, 0.9 + k * 0.045, 0.94 + k * 0.045, bz - 0.12 + jz, bz + 0.12 + jz, '#f6f4ee', r=0.004, seg=1)
+     for bx in (1.2, 1.36): csph(c.vc, (bx, 0.99, -0.68), 0.085, '#f4f1ea', seg=8, rings=5, sy=1.1)                                          # 兩袋裝好的塑膠袋
+     c.vc.cbox(ix0 + 0.15, ix1 - 0.15, 0.4, 0.78, iz1, iz1 + 0.008, '#f2c21a'); c.block(ix0, ix1, iz0, iz1, 'pickup_island')
+     steel_cabinet_e(c, -2.87, -1.66); c.block(X1 - 0.6, X1, -2.9, -1.6, 'fridge_e')
+@@ -1043,8 +1063,9 @@ def ceil_grid(c, step=0.6, col='#aeb0ac', w=0.022):
+ def small_plant(c, x, y, z, s=0.2, seed=1, vine=0.0, out=(0.0, 0.0), pot='#c9ccce'):
+     """層板、檯面上的小盆栽（黃金葛）：盆子＋一叢葉子；vine＞0 再垂幾條藤下來（out＝往室內偏的方向）"""
+     rr = random.Random(seed * 131 + 7); v = c.vc
+-    clathe(v, [(0.0, 0.0), (s * 0.34, 0.0), (s * 0.42, s * 0.5), (s * 0.44, s * 0.52), (0.0, s * 0.52)], x, y, z, pot, seg=10)
+-    for k in range(9):
++    if getattr(c, 'ph', None): c.ph.put('potted_plant_04', x, y, z, rr.uniform(0, 6.283), s=s * 6.5, share=False, height=0.2, decimate=0.15)   # CC0 的店：盆子和那一叢葉子換 Poly Haven 小盆栽（垂下來的藤照舊）
++    else: clathe(v, [(0.0, 0.0), (s * 0.34, 0.0), (s * 0.42, s * 0.5), (s * 0.44, s * 0.52), (0.0, s * 0.52)], x, y, z, pot, seg=10)
++    for k in range(9 if not getattr(c, 'ph', None) else 0):
+         a = rr.uniform(0, 2 * PI); rd = rr.uniform(0.0, s * 0.45); csph(v, (x + rd * math.cos(a), y + s * 0.62 + rr.uniform(0, s * 0.55), z + rd * math.sin(a)), s * rr.uniform(0.2, 0.3), rr.choice(('#4f8f37', '#5f9a3c', '#3f7a2f')), seg=6, rings=4, sy=0.55)
+     if vine > 0:
+         for j in range(3):
+@@ -1392,9 +1413,86 @@ def build_noodle2(c):
+ BUILD = {'dian': build_dian, 'self': build_self, 'tea': build_tea, 'home': build_home, 'cafe2': build_cafe2, 'pasta': build_pasta, 'korea': build_korea, 'omu': build_omu, 'noodle2': build_noodle2}
+ 
+ 
++# ================= CC0 素材（D160、D161；SHOP-CC0-HELP-1113，AA-C 2026-11-13）=================
++#   改好的店（CC0_SHOPS）：頂點色方塊照顏色分到 ambientCG／Poly Haven 材質組（cc0_kit.Route；CC0_ROUTE 表上沒有的顏色＝食物、植物、照片、小東西，照舊頂點色）、
++#   金屬零件（c.vm）照顏色分到不鏽鋼／黑鐵材質組、不鏽鋼（c.steel）、天花板、廚房天花板、輕鋼架換材質組；椅凳、盆栽換 Poly Haven 掃描模型（cc0_kit.PH）。
++#   形狀、配置、座位、互動點、導航都不動。牆上的東西（腰牆收邊、踢腳板、層板、框、廚房的牆和地）分到同一面牆的分組網格（WALL_<面>_<key>_<材質>），照舊跟著牆淡出。
++#   油漆牆照舊平塗（店面測試：牆不貼圖）；玻璃、發光的燈、店門外的景照舊。做法、驗收：docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md
++CC0_SHOPS = ('self',)
++_W = ('#f6f4ee', '#f4f1ea', '#f4f4f1', '#e9e9e6', '#f2f2ee', '#d9dad6', '#ffffff', '#f1ede4')
++_ST = ('#c9ccce', '#c9ced2', '#b9bec2', '#c4c8cb', '#b3b8bc', '#9aa0a4', '#8a8f93', '#d9dadb', '#aeb0ac')
++_SD = ('#5f6468', '#3a3d40', '#3a3d41', '#7f868b', '#8f969b')
++_DK = ('#2a2a2a', '#2b2b2b', '#202020', '#1c1c1c', '#222222', '#2c2e31', '#202225')
++_WD = ('#6b4a30', '#3a3530', '#3a2a1e', '#2f2b28', '#4a3a2a', '#3a2416')
++CC0_ROUTE = {   # 顏色 → 材質 key（cc0_setup 的 MX）
++    'self': dict([(k, 'plastic_w') for k in _W] + [(k, 'steel') for k in _ST] + [(k, 'steel_d') for k in _SD] + [(k, 'plastic_dk') for k in _DK] + [(k, 'wood_d') for k in _WD] +
++                 [('#b8860a', 'brass'), ('#f2c21a', 'plastic_y'), ('#e8b81e', 'plastic_y'), ('#e8b616', 'plastic_y'), ('#e0b24a', 'plastic_y'), ('#c8281c', 'plastic_red'), ('#2a5fb8', 'plastic_blue'),
++                  ('#8a1f1a', 'mat'), ('#a52a22', 'mat_l'), ('#d8b888', 'paper'), ('#c8a878', 'cardboard'), ('#dcd8cf', 'tile_w'), ('#d6d2c9', 'tile_w'), ('#8f8c86', 'tile_f'), ('#9a9893', 'paving')]),
++}
++CC0_VM = {'self': 'steel'}   # 金屬零件（c.vm）表上沒有的顏色、圓柱、車床零件（直接畫進網格的）歸哪一種：水上便當幾乎都是不鏽鋼（飯鍋、保溫燈罩、餐盤）
++CC0_CHAIRS = {'steelstool': ('metal_stool_02', dict(height=0.46, decimate=0.15)),
++              'wood': ('painted_wooden_chair_02', dict(height=0.92, recolor=('#170e08', '#5e3f29'), decimate=0.45, chair=True)),
++              'bar': ('bar_chair_round_01', dict(height=0.76, decimate=0.1))}
++
++
++def cc0_setup(c):
++    import cc0_kit as K
++    sid = c.sid; M = c.M; P = f'l118_{sid}_'
++    MX = {
++        'wood_d': L.pbr(P + 'wood_dark', 'dark_wood', tile=0.8, target='#4a3426', contrast=0.8, maps=('diff', 'nor'), res=256, rough_value=0.5),
++        'plastic_w': K.acg(P + 'plastic_w', 'Plastic006', vary=0.05, maps=('diff',), target='#eceae4', tile=0.5, rough_value=0.45, res=256),
++        'plastic_dk': K.acg(P + 'plastic_dk', 'Plastic006', vary=0.05, maps=('diff',), target='#2c2e31', tile=0.5, rough_value=0.45, res=256),
++        'plastic_y': K.acg(P + 'plastic_y', 'Plastic006', vary=0.05, maps=('diff',), target='#ecbe20', tile=0.5, rough_value=0.4, res=256),
++        'plastic_red': K.acg(P + 'plastic_red', 'Plastic006', vary=0.05, maps=('diff',), target='#c8281c', tile=0.5, rough_value=0.4, res=256),
++        'plastic_blue': K.acg(P + 'plastic_blue', 'Plastic006', vary=0.05, maps=('diff',), target='#2a5fb8', tile=0.5, rough_value=0.4, res=256),
++        'steel': K.acg(P + 'steel', 'Metal009', target='#bcc1c5', tile=1.0, metal=0.4, rough_value=0.3),
++        'steel_d': K.acg(P + 'steel_d', 'Metal009', maps=('diff',), target='#5f6468', tile=1.0, metal=0.4, rough_value=0.4, res=256),
++        'blackmetal': K.acg(P + 'blackmetal', 'Metal009', maps=('diff',), target='#2e2c2a', tile=1.0, metal=0.3, rough_value=0.45, res=256),
++        'alu': K.acg(P + 'alu', 'Metal009', maps=('diff',), target='#8f969b', tile=1.0, metal=0.4, rough_value=0.35, res=256),
++        'brass': K.acg(P + 'brass', 'Metal009', maps=('diff',), target='#b8860a', tile=0.6, metal=0.5, rough_value=0.35, res=256),
++        'mat': K.acg(P + 'mat', 'Rubber004', maps=('diff', 'nor'), target='#8a1f1a', tile=0.4, rough_value=0.9, res=256),
++        'mat_l': K.acg(P + 'mat_l', 'Fabric036', maps=('diff',), target='#a52a22', tile=0.3, rough_value=0.9, res=256),
++        'paper': K.acg(P + 'paper', 'Paper001', maps=('diff',), target='#d8b888', tile=0.3, rough_value=0.85, res=256),
++        'cardboard': K.acg(P + 'cardboard', 'Cardboard001', maps=('diff',), target='#c8a878', tile=0.6, rough_value=0.85, res=256),
++        'tile_w': K.acg(P + 'kitchen_tile', 'Tiles036', target='#dcd8cf', tile=0.6, rough_value=0.3),
++        'tile_f': K.acg(P + 'kitchen_floor', 'Tiles036', maps=('diff',), target='#8f8c86', tile=0.6, rough_value=0.5, res=256),
++        'paving': K.acg(P + 'paving', 'Concrete034', maps=('diff', 'nor'), target='#9a9893', tile=1.5, rough_value=0.85, res=256),
++    }
++    for k_, col, mat_ in (('ceil', c.S.get('ceil', '#f2efe8'), 'ceiling'), ('kceil', '#cfcbc3', 'kceiling')):   # 天花板：灰泥（雲斑壓到 4%）、單面朝下（同原本）
++        m_ = K.acg(P + mat_, 'Plaster001', vary=0.04, maps=('diff',), target=col, tile=2.0, rough_value=0.95, res=256); m_.use_backface_culling = True; M[k_] = m_
++    M['steel'] = MX['steel']; c.MX = MX
++    c.cc0m = meshes = {}; c._vc0, c._vm0, c._steel0 = c.vc, c.vm, c.steel
++    def mx(k, name=None):
++        name = name or P + k
++        if name not in meshes: meshes[name] = Mesh(name, MX[k])
++        return meshes[name]
++    R = CC0_ROUTE[sid]
++    c.vc = K.Route(c.vc, {col: (lambda k=k: mx(k)) for col, k in R.items()})
++    c.vm = K.Route(K.AsTex(mx(CC0_VM.get(sid, 'blackmetal'))), {col: (lambda k=k: mx(k)) for col, k in R.items() if k in ('steel', 'steel_d', 'plastic_dk', 'brass')})
++    c.steel = mx('steel')
++    if sid in CEIL4:   # 貼天花板的零件（燈盤框）：CEIL_ 開頭（ceilHide 照舊藏得到）
++        c.extra['ceil_vc'] = K.Route(CMesh(f'CEIL_l118_{sid}_vc', M['vc']), {col: (lambda k=k: mx(k, f'CEIL_l118_{sid}_{k}')) for col, k in R.items()})
++    _wg = c.wg; cc0mats = set(MX.values()) | {M['ceil'], M['kceil']}
++    def wg(side, key, mat, cm=False):
++        if not cm: return _wg(side, key + '_cc0', mat) if mat in cc0mats else _wg(side, key, mat)   # 材質組的牆上網格（不鏽鋼出菜台、廚房天花板）：'_' 開頭的 key＝盒狀 UV
++        base = _wg(side, key, mat, cm)
++        if mat is M['vcm']: return K.Route(K.AsTex(_wg(side, key + '_alu', MX['alu'])), {})            # 店面的鋁框
++        return K.Route(base, {col: (lambda k=k: _wg(side, key + '_' + k, MX[k])) for col, k in R.items()})
++    c.wg = wg
++    c.ph = K.PH(c.root, P + 'ph_'); c.CH = CC0_CHAIRS
++
++
++def cc0_post(c):
++    """建完以後：天花板的輕鋼架（ceil_grid 的平塗網格）換鋁材質組"""
++    g = c.extra.pop('cgrid', None)
++    if g is not None: g.mat = c.MX['alu']; g.tile = 1.0; c.cc0m[g.name] = g
++
++
+ def build(sid):
+     c = Shop(sid); c.extra = {}
++    if sid in CC0_SHOPS: cc0_setup(c)
+     BUILD[sid](c)
++    if sid in CC0_SHOPS: cc0_post(c)
+     return finish(c)
+ 
+ 
+diff --git a/tools/blender/env_second/lightbake/bake_l118_shops.sh b/tools/blender/env_second/lightbake/bake_l118_shops.sh
+new file mode 100644
+index 0000000000..3471a7fc8a
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/bake_l118_shops.sh
+@@ -0,0 +1,41 @@
++#!/bin/bash
++# 118 巷的店改用 CC0 素材以後的光照烘焙（SHOP-CC0-HELP-1113，AA-C 2026-11-13；照 LAWWW2-C 的 bake_tz_shops.sh）：
++#   建模（lane118_shops.py，CC0 材質組＋Poly Haven 模型）→ 光照烘焙（白天／晚上，只有光、不含顏色）→ WebP。repo 根目錄跑：
++#   bash tools/blender/env_second/lightbake/bake_l118_shops.sh self [取樣數，預設 256] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
++# 輸出：l118_<店>.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ l118_<店>_lm_day.webp、_night.webp；.layout.json 照建模那一份。
++#   遊戲：src/l118_shops3d.js → Z3.attachRoomGLB 看到 GLB 的 extras.lightmap 就接，不用改程式。
++# 座標＝遊戲區域座標（lane118_shops.py：房間中心在原點、店門在 +z＝S 面）。燈的位置照 lane118_shops.py 的 build_<店>（改那邊要一起改）。
++set -e
++SHOP=${1:?self}
++SAMPLES=${2:-256}
++OUTDIR=${3:-assets/models/env/second_ai}
++RES=${4:-1024}
++TMP=$(mktemp -d)
++NAME=l118_${SHOP}
++PT=""; LIGHTS=""
++case "$SHOP" in
++self)
++  # 水上便當（6.6×9×3.2 m＋後面 2.2 m 深的廚房）：天花板八片輕鋼架燈盤（沿 z，0.3×1.2 m 面光源往下，冷白；位置照 build_self 的 troffers）＋配菜櫃上三盞保溫燈（暖、點光源 y 1.5）
++  #   ＋廚房一支日光燈（x 0、z −5.18，沿 x 1.24 m）、抽油煙罩下的暖燈（y 1.9）。白天燈也開著；店面玻璃朝 118 巷（S），太陽不直接照進來，只有天光。
++  # --hide：玻璃（配菜櫃的防護罩、店面）、發光的燈管和燈泡（GLOW_）、店門外的巷子景和鄰居店面卡（view）。
++  # --nolm：頂點色的小東西（配菜、照片、時鐘…）、Poly Haven 的植物（葉子碎，光照貼圖分不到幾個像素）、印刷品和螢幕。
++  HIDE='glass|GLOW_|view'
++  NOLM='_vc$|ph_potted|prints|screens'
++  COL=${LCOL:-0.96,0.98,1.0}; WARM=${WCOL:-1.0,0.8,0.55}
++  for xz in "-1.8 -2.1" "-1.8 0.3" "-1.8 2.7" "0.6 -2.1" "0.6 2.7" "2.4 -2.1" "2.4 0.3" "2.4 2.7"; do set -- $xz
++    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},3.11,1,1,${TROFW:-30},0.3,1.2,$COL')")"; done
++  LIGHTS="$LIGHTS;$(python3 -c "print('-0.010,0.010,-5.185,-5.165,3.1,1,1,${TUBEW:-24},1.24,0.05,$COL')")"
++  for z in -2.5 -1.2 0.1; do PT="$PT;-2.0,1.47,$z,${HEATW:-18},$WARM,0.04"; done
++  PT="$PT;0.55,1.85,-6.0,${HOODW:-14},$WARM,0.1"
++  SUN="0,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-0.98,0.98,1.0}; DAYL=${DAYL:-1.0}; SHELL=S ;;
++*) echo "還沒做 CC0 版的店：$SHOP（lane118_shops.py 的 CC0_SHOPS 加進去、這裡加一個 case）"; exit 1 ;;
++esac
++PT=${PT#;}; LIGHTS=${LIGHTS#;}
++/opt/blenv/bin/python tools/blender/env_second/lane118_shops.py -- --shop "$SHOP" --out-dir "$TMP"
++cp "$TMP/$NAME.layout.json" "$OUTDIR/$NAME.layout.json"
++python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/$NAME.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/$NAME.json" "$OUTDIR/$NAME.json"
++EXTRA=(); [ -n "$LIGHTS" ] && EXTRA+=(--lights "$LIGHTS"); [ -n "$PT" ] && EXTRA+=(--points "$PT")
++/opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/$NAME.glb" --out "$OUTDIR/$NAME.glb" \
++  --lm "$TMP/lm" --url assets/models/env/second_ai/${NAME}_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
++  --sun "$SUN" --sky "$SKY" --daywb $DAYWB "${EXTRA[@]}" --daylights "$DAYL" --smooth 1 --shell "$SHELL"
++python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
