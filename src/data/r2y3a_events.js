@@ -435,6 +435,26 @@ const R2Y3A_EVENTS=(function(){
       {label:'end'} ],
     after:G=>{ const r=R(); if(r) r.kxYear(G,'KX_XMAS','video'); },
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.xmasMissed(G); } };
+  /* 當面版（AA_878 #38 定稿＋AA_920 ①；BB_419：大三上期末考到 12/24，12/25 考完、她還在臺北）：法律系館・討論桌，晚上。台詞照稿一字不改 */
+  const XMAS_MET={ id:'ev_kexin_xmas_y3_met', title:'她還在趕報告', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
+    dialogue:[ {scene:'法律系館・討論桌',bg:'ntu_linze'},
+      {if:{flags:['KX_XMAS3_CARD']},speaker:null,text:'（去年的卡片說，今年換你決定去哪。你決定的地方是系館。）'},
+      {if:{flags:['KX_XMAS3_CARD']},speaker:'kexin',expression:'surprised',text:'……你選這裡？'},
+      {if:{flags:['KX_XMAS3_CARD']},speaker:'kexin',expression:'smile',text:'好。算你的。'},
+      {speaker:'kexin',expression:'tired',text:'聖誕快樂。我報告還差兩頁。教授說明天中午以前。'},
+      {speaker:'kexin',expression:'smile',text:'你坐著。陪我就好。'},
+      {speaker:null,text:'（她低頭打字。你坐在她對面，看了一個多小時她的頭頂。）'},
+      {advance:toH(22.5)},
+      {speaker:null,text:'（十點半，她把筆電轉過來：最後一頁。）'},
+      {speaker:'kexin',expression:'surprised',text:'寫完了。……你還在喔。'},
+      {choice:[{text:'「一直都在。」',goto:'x1'},{text:'「妳寫了一個半小時。」',goto:'x2'}]},
+      {label:'x1'},{speaker:'kexin',expression:'smile',text:'好。禮物在我宿舍，等一下拿給你。'},{goto:'end'},
+      {label:'x2'},{speaker:'kexin',expression:'teasing',text:'你有算喔。……好，算你陪了一個半小時。'},
+      {label:'end'},
+      {speaker:null,text:'（走回宿舍區。她上樓，拿了一個小紙袋下來。）'},
+      {speaker:'kexin',expression:'smile',text:'聖誕節的。包得很醜，你收就對了。'} ],
+    after:G=>{ const r=R(); if(r) r.kxYear(G,'KX_XMAS','met'); if(G.flags) delete G.flags.KX_XMAS3_CARD; },
+    outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.xmasMissed(G); } };
 
   /* ---------- 2-Y3-23 可昕 除夕 KN 的短電話：CANON-NO-ECON-1112 第三批拿掉 ---------- */
 
@@ -451,6 +471,6 @@ const R2Y3A_EVENTS=(function(){
     after:G=>{ const r=R(); if(r){ r.kxYear(G,'KX_VDAY','video'); r.vdayGiraffe(G); } },
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.vdayMissed(G); } };
 
-  return [KH_A,KH_B,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,DAD_STUCK,TY_NOODLE,TY_FAMILY,COURT,ADMIN,ADMIN_TOGETHER,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,THU,XMAS,VDAY];
+  return [KH_A,KH_B,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,DAD_STUCK,TY_NOODLE,TY_FAMILY,COURT,ADMIN,ADMIN_TOGETHER,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,THU,XMAS,XMAS_MET,VDAY];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3A_EVENTS);
