@@ -1264,7 +1264,7 @@ const STORY = (function(){
     S.routeWatch(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉（主迴圈每一格、跳時間、讀檔、ROM 改狀態之前也都叫，不靠這裡）*/
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
-    if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }
+    if(typeof PHONE!=='undefined'&&!(typeof WISH!=='undefined'&&WISH.quietNow)){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }
     S.phoneAuto(GM);   /* 要回覆的訊息自動打開手機（D103）*/   /* 手機：排定時間的訊息（交接包 v1）*/
     if(typeof PG!=='undefined'){ try{ PG.tick(GM); }catch(e){ console.warn('PG.tick',e); } }   /* 畢業以後（AA_319，src/postgrad3d.js）：國考、第一份工作、尾聲；畢業後篇跳到下一件事 */
     if(G.zone==='noodle'){ noodleRegulars(GM); S.zheNdlMark(G); }   /* 麵店的固定客人：時間到了進來、離開。S.zheNdlMark：AA_684 第 4 項（第三個徵兆「騎樓」）*/

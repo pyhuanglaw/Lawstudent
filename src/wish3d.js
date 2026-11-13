@@ -164,7 +164,11 @@ const WISH=(function(){
     const en=S.pickIf(G,id,C.ending); if(en) await S.say(GM,id,en.lines,who); };   /* 依關係的結尾：第一個成立的 */
   S.record=function(G,t,ev){ const id=t.who, R=ev.record||{}; if(R.flag) G.flags[R.flag]=true; if(R.memory) S.mem(id,R.memory); S.learn(G,id);
     if(R.album&&typeof STORY!=='undefined'&&STORY.albumMemory) STORY.albumMemory(G,'wish_'+id,R.album,(DT().bgKey&&DT().bgKey(ev.loc))||''); };   /* Life Album：照稿的那一張（沒有人，或交往中的合照）*/
-  S.scene=async function(GM,q,t){ const G=GM.G, D=DT(), id=t.who, ev=S.ev(id), loc=t.locs[0], L=D.loc(loc), who={name:nameOf(id),charId:id};
+  /* 可昕的心願「手機關掉的一天」（AA_921 第 1 節、BB_448）：整場手機不響——心願事件進行中 WISH.quietNow＝true（執行期，不進存檔：中途存讀檔不會卡住），story3d 的手機 tick 先不送；結束後照原本的時間補送 */
+  S.QUIET={kexin:1};
+  S.scene=async function(GM,q,t){ if(!S.QUIET[t.who]) return S.scene0(GM,q,t); S.quietNow=true; try{ return await S.scene0(GM,q,t); } finally{ S.quietNow=false; } };
+  S.quietNow=false;
+  S.scene0=async function(GM,q,t){ const G=GM.G, D=DT(), id=t.who, ev=S.ev(id), loc=t.locs[0], L=D.loc(loc), who={name:nameOf(id),charId:id};
     const visits=(D.log(G,id).byLoc[loc]|0), tr=D.travel(loc,t.transport)||{minutes:30}; let endH=t.day*24+t.back-tr.minutes/60; const spots=[], m0=G.money|0, pts=D.points(loc);
     await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票');
     const A=ev.arrive||{}; if(A.narr) await S.say(GM,id,[{who:'narr',text:A.narr}],who); await S.say(GM,id,A.lines,who);
