@@ -2273,6 +2273,8 @@ VACGAP_C | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_plannin
 VACGAP_D | d587922b01345b1eae1cd207e8dd66ebc5ddc6fa | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 90 | CASES=EXAM_MX,EXAM_SIS_F,EXAM_SIS_D,EXAM_KAI,QIXI_A,QIXI_B,KHINV;SHA=d587922b01345b1eae1cd207e8dd66ebc5ddc6fa
 # CC-C 11-14 01:xx：BB_460 BLACKBG 瀏覽器確認（LAWWW 648461e26a：kxsat 讀書小組、大四生日、兩場讀書）——cc_bg5_probe 第 9 批
 BLACKBG_460 | 648461e26a42eb304c10c883e119c119d75f4363 | probe | docs/story_planning/test_tools/cc/cc_bg5_probe.py | index.html | 60 | BATCH=9;ORIENT=land;SHA=648461e26a42eb304c10c883e119c119d75f4363
+# BB-C 17:16：B2_r2 選「翹這堂課」還被帶進教室＝疑似 GAME P1——SKIP_DIAG_0918：9/18 12:00 醒來選翹課（對照：先起床再說），每 10 秒記到 13:30；結果直接給 LAWWW＋BB
+SKIP_DIAG_0918 | fadf991b274be30ed67d9405bb52901c9bdc1643 | probe | docs/story_planning/test_tools/cc/cc_skip_diag_probe.py | index.html | 30 | CASES=SKIP,UP;SHA=fadf991b274be30ed67d9405bb52901c9bdc1643
 # CC-C 11-14 01:xx：BB_458 #6 長頸鹿鑰匙圈（其他 B～D 等 LAWWW 觸發表）
 CANON458_GIRAFFE | d999d036d882b9a2b3bf49e76ae745c8df1ea243 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 20 | CASES=GIRAFFE_A,GIRAFFE_B;SHA=d999d036d882b9a2b3bf49e76ae745c8df1ea243
 # BB-C 16:39：#2 D5／D6 最重要（分開那條的轉折，D103 當面）——排在 CANON458 最前面
