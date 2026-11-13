@@ -74,12 +74,12 @@ def sun_mat(name, fn):
 M['sun'] = sun_mat(P + 'sunpatch', os.path.join(GEN, 'dabu_sun.png'))
 # CC0 化（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；第③群幫手 2026-11-13）：工具 cc0_kit.py（tz_shops_interior.py 同一套）。
 #   白色檯身（收銀台、展示架檯面）＝ambientCG Plastic006（vary 0.05，不起黑紋）；鐵網、軌道、推車、門把＝ambientCG Metal009 黑鐵；
-#   盆栽＝Poly Haven potted_plant_02／potted_plant_04（共用網格：烘焙只烘地板、天花板、牆，植物不進光照貼圖）；打開的鞋盒＝ambientCG Cardboard001；鞋盒推車、櫃台後面疊的紙箱＝Poly Haven cardboard_box_01。
+#   盆栽＝Poly Haven potted_plant_01（高的）／potted_plant_02（矮胖的）／potted_plant_04（小的）（共用網格：烘焙只烘地板、天花板、牆，植物不進光照貼圖）；打開的鞋盒＝ambientCG Cardboard001；鞋盒推車、櫃台後面疊的紙箱＝Poly Haven cardboard_box_01。
 import cc0_kit   # noqa: E402
 K = cc0_kit.Kit(root, P)
 M['white'] = K.acg(P + 'white_counter', 'Plastic006', vary=0.05, target='#ebe6de', tile=0.5, rough_value=0.45)
 M['iron'] = K.acg(P + 'blackiron', 'Metal009', maps=('diff',), target='#3a3b3e', tile=1.0, metal=0.3, rough_value=0.42, res=256)
-M['shoebox'] = K.acg(P + 'shoebox', 'Cardboard001', target='#efe9dd', tile=0.4, rough_value=0.85, res=256)
+M['shoebox'] = K.acg(P + 'shoebox', 'Cardboard001', vary=0.06, target='#efe9dd', tile=0.4, rough_value=0.85, res=256)   # vary：紙紋不起髒斑
 VC = L.CMesh(P + 'vc_parts', M['vc']); M['iron_g'] = K.acg(P + 'steel_grey', 'Metal009', maps=('diff',), target='#7d8084', tile=1.0, metal=0.4, rough_value=0.38, res=256)
 VCM = L.CMesh(P + 'metal_parts', M['vcm'])
 
@@ -612,8 +612,8 @@ def plant(x, z, h=1.1, r=0.2, y0=0.0, trail=False):
 
 
 # 落地盆栽、展示架上、收銀台上的盆栽：Poly Haven 掃描模型（CC0）；高處垂下來的黃金葛照舊葉片卡（參考圖）
-for k_, p_ in enumerate(it['plant_big']): K.ph_put('potted_plant_02', p_['x'], 0.0, p_['z'], 0.7 + k_ * 2.1, height=1.45, decimate=0.04)
-pf = it['plant_floor'][0]; K.ph_put('potted_plant_02', pf['x'], 0.0, pf['z'], 2.4, 0.85 / 1.45, height=1.45, decimate=0.04)
+for k_, p_ in enumerate(it['plant_big']): K.ph_put('potted_plant_01', p_['x'], 0.0, p_['z'], 0.7 + k_ * 2.1, height=1.45, decimate=0.022)   # 高的（0.6 m 寬）
+pf = it['plant_floor'][0]; K.ph_put('potted_plant_02', pf['x'], 0.0, pf['z'], 2.4, height=0.75, decimate=0.04)   # 矮胖的（0.6 m 寬）
 plant(sxc, BZ + 0.12, r=0.08, y0=2.39, trail=True)                         # 襪子架上面的黃金葛（參考圖）
 K.ph_put('potted_plant_04', x1c - 0.15, 0.99, cz_ - 0.05, 0.4, 0.22 / 0.32, height=0.32, decimate=0.1)   # 收銀台右端的小盆栽
 K.ph_put('potted_plant_04', ir['x'], ih, ir['z'] - 0.15, 1.3, height=0.32, decimate=0.1)   # 展示架上的盆栽（參考圖右邊）

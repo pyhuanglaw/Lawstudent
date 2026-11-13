@@ -34,6 +34,13 @@ NAVY, ORANGE, CREAM = (36, 52, 95), (232, 120, 42), (246, 236, 214)
 random.seed(621 + FL)
 B.reset(texres=512)
 root = B.group(f'dakou_{FL}f', props={'kind': f'dakou_{FL}f', 'w': W, 'd': D, 'y': Y0, 'h': HH, 'layout': LAY.get('version', 1) if 'version' in LAY else 1})
+# CC0 化（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；第③群幫手 2026-11-13）：工具 cc0_kit.py（tz_shops_interior.py 同一套）。
+#   黑色窗框、桌腳、椅腳＝ambientCG Metal009（校成 #26282c）；踢腳板＝ambientCG Plastic006；盆栽＝Poly Haven potted_plant_02（原本白方盆＋橢球葉子）；
+#   最後合併的頂點色材質（櫃檯、椅面、吧台、小東西）＝ambientCG Plastic006／Metal009 × 每一件的顏色（vc_tex：顏色照舊、多了材質組的細紋和法線）。
+#   牆（dk_wall）照舊乾淨的平塗（BB 11-10：油漆牆不給灰泥貼圖）。
+sys.path.insert(0, HERE)
+import cc0_kit   # noqa: E402
+K = cc0_kit.Kit(root, 'dk_')
 def font(sz): return ImageFont.truetype(FONT, sz)
 
 
@@ -438,7 +445,8 @@ for i in range(4): P[f'menu{i}'] = tex(f'menu{i}.png', (640, 360), t_menu(i))
 m_floor = img_mat('dk_floor', P['floor'], rough=0.35); m_floor['tile'] = 1.2
 m_lam = L.pbr('dk_laminate', 'laminate_floor_02', tile=1.4, target='#d7b78a', normal=0.2, maps=('diff',), rough_value=0.45)   # 桌面、吧台檯面、木椅、扶手（不是地板）
 m_wall = L.flat('dk_wall', '#e8c492' if FL == 2 else '#f2e0c6', rough=0.8)   # v2b：一樓的牆淺一點（外觀圖是暖白）   # v2：晚上暖光下的奶油色   # v2：暖一點的米白（晚上的暖光下）
-m_black = L.flat('dk_black', '#26282c', rough=0.45, metal=0.35)
+m_black = K.acg('dk_black', 'Metal009', maps=('diff',), target='#26282c', metal=0.35, rough_value=0.45, tile=1.0, res=256)   # CC0（原本純色）
+m_base = K.acg('dk_base', 'Plastic006', maps=('diff',), vary=0.05, target='#5a5c60', rough_value=0.6, tile=0.5, res=256)   # 踢腳板（PVC）
 m_steel = L.flat('dk_steel', '#b9bdc1', rough=0.3, metal=0.42)
 m_glass = L.flat('dk_glass', '#c8d4d8', rough=0.04, alpha=0.07)   # v2：透明的玻璃（不是霧面板），看得到窗外的夜景
 m_panel = glowmat('dk_lightpanel', '#ffc98a' if FL == 2 else '#ffcf96', 2.4 if FL == 2 else 26.0)   # v2b：一樓的燈板、崁燈再亮再暖（曝光 0 就接近參考圖）   # v2：晚上的燈板約 3000K 暖光   # v2：晚上的燈板，暖白、不刺眼
@@ -525,9 +533,9 @@ def solid_wall(side):
     if side == 'right': w.box(X1, X1 + T, Y0, Y0 + HH, Z0, Z1)
     elif side == 'back': w.box(X0, X1, Y0, Y0 + HH, Z0 - T, Z0)
     w.finish(g)
-    b = CMesh(f'WALL_{side}_base', m_vc)   # 踢腳板
-    if side == 'right': b.cbox(X1 - 0.015, X1, Y0, Y0 + 0.1, Z0, Z1, '#5a5c60')
-    else: b.cbox(X0, X1, Y0, Y0 + 0.1, Z0, Z0 + 0.015, '#5a5c60')
+    b = Mesh(f'WALL_{side}_base', m_base)   # 踢腳板（CC0 塑膠）
+    if side == 'right': b.box(X1 - 0.015, X1, Y0, Y0 + 0.1, Z0, Z1)
+    else: b.box(X0, X1, Y0, Y0 + 0.1, Z0, Z0 + 0.015)
     b.finish(g); return g
 
 
@@ -562,8 +570,9 @@ def table(top, legs, x, z, w, d, h=0.75, round_=False):
 
 
 def plant(cm, x, z, s=1.0, y=None):
-    """盆栽：白色方盆＋一叢葉子（頂點色）"""
+    """盆栽：Poly Haven potted_plant_02（CC0 掃描模型；原本白色方盆＋一叢橢球葉子）。高度照原本的 1.25 m × s"""
     y = Y0 if y is None else y; r = random.Random(int(x * 100 + z * 7))
+    K.ph_put('potted_plant_02', x, y, z, r.uniform(0, 6.28), s, height=1.2, decimate=0.04); return
     cm.crbox(x - 0.25 * s, x + 0.25 * s, y, y + 0.5 * s, z - 0.25 * s, z + 0.25 * s, '#e8e6e0', r=0.02)
     cm.cbox(x - 0.22 * s, x + 0.22 * s, y + 0.48 * s, y + 0.5 * s, z - 0.22 * s, z + 0.22 * s, '#4a3a2a')
     n0 = set(cm.bm.faces)
@@ -898,11 +907,15 @@ else:
 props.finish(root, smooth=True); legs.finish(root); tops.finish(root); SCR.finish(root, uv=False)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
-vc_m = L.vc_material('dk_vc_matte', rough=0.62); vc_g = L.vc_material('dk_vc_gloss', rough=0.3); vc_x = L.vc_metal('dk_vc_metal', rough=0.35, metal=0.4)
-grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'dk_glass', 'dk_warm', 'dk_lightpanel', 'dk_ceiling', 'dk_props_vc', 'GLOW_dk_screens'})
+vc_m = K.vc_tex('dk_vc_matte', 'Plastic006', vary=0.05, maps=('diff', 'nor'), rough_value=0.62, tile=0.5, res=256)
+vc_g = K.vc_tex('dk_vc_gloss', 'Plastic006', vary=0.05, maps=('diff', 'nor'), rough_value=0.3, tile=0.5, res=256)
+vc_x = K.vc_tex('dk_vc_metal', 'Metal009', maps=('diff',), metal=0.4, rough_value=0.35, tile=1.0, res=256)
+CC0_PROTECT = {'dk_wall', 'dk_black', 'dk_base', 'dk_vc_matte', 'dk_vc_gloss', 'dk_vc_metal'} | {m.name for m in bpy.data.materials if m.name.startswith('dk_ph_')}
+grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'dk_glass', 'dk_warm', 'dk_lightpanel', 'dk_ceiling', 'dk_props_vc', 'GLOW_dk_screens'} | CC0_PROTECT)
 grp['dk_props_vc'] = vc_m
 L.vc_consolidate(root, grp)
-L.atlas_small(root, os.path.join(TMP, f'dk{FL}_atlas.png'), f'dk{FL}_atlas', protect={'dk_ceiling', 'dk_floor', 'dk_laminate', 'GLOW_dk_screens'}, max_tris=6000, max_rep=1, cell=512, rough=0.55)
+L.atlas_small(root, os.path.join(TMP, f'dk{FL}_atlas.png'), f'dk{FL}_atlas', protect={'dk_ceiling', 'dk_floor', 'dk_laminate', 'GLOW_dk_screens'} | CC0_PROTECT, max_tris=6000, max_rep=1, cell=512, rough=0.55)
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_') or ob.name.startswith('NIGHT_'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+K.report()
 L.export(OUT)
 print('OK', OUT, B.stats())

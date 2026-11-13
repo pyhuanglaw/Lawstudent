@@ -75,6 +75,18 @@ M = {
     'goods': img_mat(P + 'goods', 'xs_goods.png', rough=0.55),
     'sign': img_mat(P + 'sign', 'xs_sign.png', rough=0.5),
 }
+# CC0 化（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；第③群幫手 2026-11-13）：工具 cc0_kit.py（tz_shops_interior.py 同一套）。
+#   衣服（運動 T、球衣、外套、球褲；instancing 原型）＝ambientCG Fabric036 × 每一件自己的顏色（vc_tex）；水壺＝ambientCG Plastic006 × 顏色；
+#   球鞋＝ambientCG Leather037 × 顏色；獎盃＝ambientCG Metal009 × 顏色；球架最上層後排＝Poly Haven football（足球，掃描模型）。
+sys.path.insert(0, HERE)
+import cc0_kit   # noqa: E402
+K = cc0_kit.Kit(root, P)
+M['vfab'] = K.vc_tex(P + 'vc_fabric', 'Fabric036', tile=0.35, rough_value=0.9)
+M['vplast'] = K.vc_tex(P + 'vc_plastic', 'Plastic006', vary=0.05, tile=0.25, rough_value=0.4)
+M['vleather'] = K.vc_tex(P + 'vc_leather', 'Leather037', tile=0.3, rough_value=0.55)
+M['vmetal'] = K.vc_tex(P + 'vc_metal_tex', 'Metal009', maps=('diff',), metal=0.5, tile=0.5, rough_value=0.3, res=256)
+VCT_PARTS = [(re.compile(r'^(tee|jersey|jacket|shorts|jsample)_'), 'vc', 'vfab'), (re.compile(r'^bottle\d+_'), 'vc', 'vplast'),
+             (re.compile(r'^shoe\d+_'), 'vc', 'vleather'), (re.compile(r'^trophy_[abc]_'), 'vcm', 'vmetal')]
 G3 = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))   # 遊戲 → Blender 的旋轉
 
 
@@ -158,14 +170,16 @@ class Part:
     def __getitem__(self, key):
         if key not in self.m:
             nm = lvname(self.lv, self.side, self.name, key)
-            self.m[key] = L.CMesh(nm, M[key]) if key in ('vc', 'vcm') else (UM(nm, M[key]) if key in UVK else Mesh(nm, M[key]))
+            tex = next((mk for rx, k_, mk in VCT_PARTS if k_ == key and rx.match(self.name)), None)
+            if tex: self.m[key] = L.CMesh(nm, M[tex]); self.m[key].vct = True   # 頂點色 × CC0 材質組
+            else: self.m[key] = L.CMesh(nm, M[key]) if key in ('vc', 'vcm') else (UM(nm, M[key]) if key in UVK else Mesh(nm, M[key]))
         return self.m[key]
 
     def done(self):
         obs = []
         for key, m in self.m.items():
             if isinstance(m, UM): ob = m.finish(root, weld=self.weld)
-            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=False)
+            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=getattr(m, 'vct', False))
             else: ob = m.finish(root, uv=True)
             if ob is None: continue
             if self.T is not None: ob.matrix_basis = self.T
@@ -579,6 +593,8 @@ for (proto, y, r, gap) in ((BALL_V, br['tiers'][1], 0.105, 0.222), (BALL_B, br['
     for row, xo in ((0, bx1 - r - 0.03), (1, bx0 + r + 0.04)):
         z = bz0 + r + 0.02 + (gap / 2 if row else 0)
         while z < bz1 - r:
+            if y == br['tiers'][3] and row == 1:   # 最上層後排：足球（Poly Haven football，ø0.22）
+                K.ph_put('football', xo + random.uniform(-0.01, 0.01), y, z, random.uniform(0, 6.28), part=0, height=0.222, decimate=0.25); z += gap + 0.12; continue
             proto.place(fm((xo + random.uniform(-0.01, 0.01), y, z), rot('Y', random.uniform(0, 6.28)) @ rot('X', random.uniform(-0.6, 0.6)))); z += gap + (0.0 if row == 0 else 0.12)
 
 # ======================================================================
@@ -1123,6 +1139,7 @@ for ob in root.children:
     m_ = re.match(r'WALL_(front|back|left|right)_', ob.name)
     if ob.type == 'MESH' and m_ and 'dir' not in ob: ob['dir'] = DIRS[m_.group(1)]
 ss = None if os.environ.get('XS_NOSS') else L.single_side(root, keep=r'glass', nodup=r'xs_(plaster|wood|floor_tile|ceiling|goods|sign|emit|alpha|stone)')
+K.report()
 info = L.export(OUT, gpu_instances=True)
 
 

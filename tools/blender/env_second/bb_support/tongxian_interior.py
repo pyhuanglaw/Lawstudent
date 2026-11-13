@@ -50,18 +50,24 @@ def img_mat(name, fn, rough=0.6, emit_fn=None):
     m['tile'] = 1.0; return m
 
 
+# CC0 化（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；第③群幫手 2026-11-13）：工具 cc0_kit.py（tz_shops_interior.py 同一套）。
+#   天花板＝ambientCG Plaster001（vary 0.04，不起雲斑）；金屬零件（掛勾、檯燈、軌道、窗框）＝ambientCG Metal009 × 每一件的顏色（vc_tex）；
+#   後面硬盒架上疊的紙箱（原本六個一樣大的純色方塊，D159）＝Poly Haven cardboard_box_01（大小、方向各不同）；等人的長木椅上放一把烏克麗麗＝Poly Haven Ukulele_01。
+sys.path.insert(0, HERE)
+import cc0_kit   # noqa: E402
+K = cc0_kit.Kit(root, P)
 # ---------------- 材質（12 個） ----------------
 M = {
     'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.8, target='#d6bc96', normal=0.5, maps=('diff', 'nor'), rough_value=0.72),   # 淺色木地板（D112；參考圖：淺橡木）。v4e（LAWWW2-C）：#c49c70（L* 67）→ #d6bc96（L* 78），BB-C 11-05「中間偏深的咖啡色」
     'plaster': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#e8d5b6', normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.9),   # 米色（參考圖），不是純白
-    'ceil': L.flat(P + 'ceiling', '#ecdcc2', rough=0.92, cull=True),   # 單面朝下；暖白
+    'ceil': K.acg(P + 'ceiling', 'Plaster001', maps=('diff',), vary=0.04, target='#ecdcc2', tile=2.0, rough_value=0.92, res=256, cull=True),   # 單面朝下；暖白（CC0 灰泥）
     'slat': L.pbr(P + 'slatwall', 'fine_grained_wood', tile=1.3, target='#ecdcc0', normal=0.25, maps=('diff', 'nor'), rough_value=0.6, contrast=0.3),   # v4：米色烤漆的木條（參考圖），溝是深色
     'wood': L.pbr(P + 'wood', 'wood_table_001', tile=1.0, target='#9c6e48', normal=0.4, maps=('diff', 'nor'), rough_value=0.5),
     'guitar': img_mat(P + 'guitars', 'tongxian_guitar.png', rough=0.3),
     'props': img_mat(P + 'props', 'tongxian_props.png', rough=0.8, emit_fn='tongxian_props_emit.png'),
     'glass': L.flat(P + 'glass', '#eef2ee', rough=0.04, alpha=0.1),   # v2：櫃台玻璃再淡一點（CC_40 缺點 4：太暗）
     'vc': L.vc_material(P + 'vc', rough=0.6),
-    'metal': L.vc_metal(P + 'metal', rough=0.42, metal=0.4),
+    'metal': K.vc_tex(P + 'metal', 'Metal009', maps=('diff',), metal=0.4, rough_value=0.42, tile=1.0, res=256),   # CC0 金屬紋 × 頂點色
     'emit': L.flat(P + 'lamp', '#fff4dc', rough=0.3, emit=B.srgb('#ffdcaa')),
     'leaf': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 }
@@ -438,7 +444,7 @@ class GProto:
 def proto_part(name, side, fn):
     """其他 instancing 的原型（頂點色＋金屬）：fn(cv, cm) 用遊戲座標在原點附近建"""
     cv = L.CMesh((f'WALL_{side}_' if side else P) + f'{name}_vc', M['vc']); cm = L.CMesh((f'WALL_{side}_' if side else P) + f'{name}_metal', M['metal'])
-    fn(cv, cm); obs = [m.finish(root, uv=False, smooth=True, props={'dir': DIRS[side]} if side else None) for m in (cv, cm)]
+    fn(cv, cm); obs = [m.finish(root, uv=m is cm, smooth=True, props={'dir': DIRS[side]} if side else None) for m in (cv, cm)]   # 金屬（材質組貼圖）要 UV
     return [o for o in obs if o is not None]
 
 
@@ -956,11 +962,16 @@ csh = IT['case_shelf'][0]; csx0, csx1, csz0, csz1 = csh['x'] - csh['w'] / 2, csh
 for k in range(4):   # 立著的硬盒（黑、咖啡）
     z_ = csz0 + 0.12 + k * 0.17; CV.crbox(csx0 + 0.05, csx1, 0.0, 1.08 - (k % 2) * 0.06, z_, z_ + 0.13, ['#1c1c1e', '#3a2a20', '#1c1c1e', '#2a2a2a'][k], r=0.03, seg=2)
     CMt.cbox(csx0 + 0.04, csx0 + 0.05, 0.5, 0.56, z_ + 0.04, z_ + 0.09, '#b9a27a')
-for k in range(6):   # 紙箱（疊起來，有的有手寫字＝沒有，只有膠帶）
-    z_ = csz0 + 0.85 + (k % 3) * 0.45; y_ = (k // 3) * 0.42
-    CV.cbox(csx0, csx1, y_, y_ + 0.4, z_, z_ + 0.42, ['#b28c5c', '#a98352', '#bb966a'][k % 3]); CV.cbox(csx0 - 0.002, csx0, y_ + 0.17, y_ + 0.22, z_, z_ + 0.42, '#d9c7a4')
+rbx = random.Random(77)
+for k in range(6):   # 紙箱（疊起來）：Poly Haven cardboard_box_01，每一箱大小、方向、位置都有一點不同（原本是六個一樣大的方塊，D159）
+    z_ = csz0 + 0.85 + (k % 3) * 0.45; y_ = (k // 3) * 0.42; sc_ = rbx.uniform(0.82, 1.0) if k < 3 else rbx.uniform(0.7, 0.92)
+    if k == 5: continue   # 上面那一排少一箱（拿去用了）
+    K.ph_put('cardboard_box_01', (csx0 + csx1) / 2 + rbx.uniform(-0.03, 0.02), y_ - (1 - sc_) * 0.42 * (k // 3), z_ + 0.21, rbx.uniform(-0.12, 0.12) + (math.pi / 2 if k % 2 else 0), sc_,
+             fit=(0.42, csx1 - csx0, 0.4), decimate=0.03)
 bn = IT['bench'][0]; bnx0, bnx1, bnz0, bnz1 = bn['x'] - bn['w'] / 2, bn['x'] + bn['w'] / 2, bn['z'] - bn['d'] / 2, bn['z'] + bn['d'] / 2
 WD.rbox(bnx0, bnx1, 0.42, 0.46, bnz0, bnz1, r=0.008, seg=2)
+_uk = K.ph_put('Ukulele_01', bn['x'] + 0.02, 0.46, bn['z'] + 0.25, 0.0, height=0.527, decimate=0.15)   # 長木椅上平放一把烏克麗麗（等人的時候彈的）
+_uk.matrix_world = Matrix.Translation(g2b(bn['x'] + 0.02, 0.46 + 0.0255, bn['z'] + 0.25)) @ Matrix.Rotation(0.15, 4, 'Z') @ Matrix.Translation((0, -0.26, 0)) @ Matrix.Rotation(-math.pi / 2, 4, 'X')   # 躺平（面板朝上）、沿著長椅
 for (lx_, lz_) in ((bnx0 + 0.05, bnz0 + 0.06), (bnx1 - 0.05, bnz0 + 0.06), (bnx0 + 0.05, bnz1 - 0.06), (bnx1 - 0.05, bnz1 - 0.06)): WD.rbox(lx_ - 0.022, lx_ + 0.022, 0.0, 0.42, lz_ - 0.022, lz_ + 0.022, r=0.004, seg=1)
 cb = IT['cork_board'][0]; cy0, cy1, cz0b, cz1b = cb['y'] - cb['h'] / 2, cb['y'] + cb['h'] / 2, cb['z'] - cb['w'] / 2, cb['z'] + cb['w'] / 2
 G('wood', 'left').rbox(SX, SX + 0.03, cy0 - 0.03, cy1 + 0.03, cz0b - 0.03, cz1b + 0.03, r=0.006, seg=2)
@@ -1019,7 +1030,7 @@ for pts in STEMS:
 
 # ---------------- 收尾：網格、合併、單面、匯出、instancing 節點改名 ----------------
 for (side, key), m in _meshes.items():
-    uv = key not in UVKEYS and key not in ('vc', 'metal', 'glass', 'emit', 'leaf')
+    uv = key not in UVKEYS and key not in ('vc', 'glass', 'emit', 'leaf')   # metal：CC0 材質組貼圖要 UV
     m.finish(root, uv=uv, smooth=key in ('metal', 'vc'), props={'dir': DIRS[side]} if side else None)
 for ob in list(root.children):
     if ob.type == 'MESH' and ob.data.materials and 'leaf' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
@@ -1028,6 +1039,7 @@ for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
 ss = L.single_side(root, keep=r'glass|leaf', nodup=r'plaster|wood|slat|floor|guitars')
 print('SINGLE_SIDE', json.dumps(ss, ensure_ascii=False))
+K.report()
 info = L.export(OUT, gpu_instances=True)
 
 

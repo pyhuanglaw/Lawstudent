@@ -147,7 +147,10 @@ class Kit:
         o.matrix_world = Matrix.Translation(g2b(x, y, z)) @ Matrix.Rotation(yaw, 4, 'Z') @ S; return o
 
     def report(self):
+        """匯出前呼叫：拿掉原型（不匯出；網格還在，複製的那幾份用）、印 CC0_USED（登記 LICENSES.md 用）"""
         import json
+        for p_ in self.proto.values(): bpy.data.objects.remove(p_)
+        self.proto = {}
         print('CC0_USED', json.dumps(sorted(set(self.used)), ensure_ascii=False))
 
 
