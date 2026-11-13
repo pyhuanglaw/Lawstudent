@@ -8,8 +8,9 @@ const load=(f,names)=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=s
 for(const f of ['src/data/calendar.js','src/data/characters.js']) load(f,['CALENDAR','CHARACTERS']);
 load('src/outings3d.js',['OUT']); load('src/data/events.js',['STORY_EVENTS','SMALLTALK']);
 /* 2026-10-21（稽核 C ART-17、D X45）：原本只掃 events.js 和 retake_home，事件包（r2y*、r3、us_life、jp、y1fill、group、y2b）的 46 個沒有圖的背景代號都沒抓到。
-   現在把 src/data/*_events.js 的 *_EVENTS 陣列也併進來（照 id 去重；有的檔案自己會 push 進 STORY_EVENTS）*/
-const EXTRA_EVENTS=[]; for(const f of fs.readdirSync(path.join(ROOT,'src/data')).filter(x=>/_events\.js$/.test(x)&&x!=='events.js').sort()){ const before=new Set(Object.keys(globalThis)); let src=fs.readFileSync(path.join(ROOT,'src/data',f),'utf8'); const names=[...src.matchAll(/^const (\w+)\s*=/mg)].map(m=>m[1]); load('src/data/'+f,names); for(const n of names){ const v=globalThis[n]; if(Array.isArray(v)&&v.length&&v[0]&&typeof v[0]==='object'&&v[0].id&&('dialogue' in v[0])) for(const e of v) EXTRA_EVENTS.push(e); } }
+   現在把 src/data/*_events.js 的 *_EVENTS 陣列也併進來（照 id 去重；有的檔案自己會 push 進 STORY_EVENTS）。
+   2026-11-13（BB_460）：迎新宿營 camp_y1.js（CAMP_Y1_EVENTS）檔名不是 *_events.js，原本漏掉——校門口兩場 bg:'dark' 沒抓到，一起掃 */
+const EXTRA_EVENTS=[]; for(const f of fs.readdirSync(path.join(ROOT,'src/data')).filter(x=>(/_events\.js$/.test(x)||x==='camp_y1.js')&&x!=='events.js').sort()){ const before=new Set(Object.keys(globalThis)); let src=fs.readFileSync(path.join(ROOT,'src/data',f),'utf8'); const names=[...src.matchAll(/^const (\w+)\s*=/mg)].map(m=>m[1]); load('src/data/'+f,names); for(const n of names){ const v=globalThis[n]; if(Array.isArray(v)&&v.length&&v[0]&&typeof v[0]==='object'&&v[0].id&&('dialogue' in v[0])) for(const e of v) EXTRA_EVENTS.push(e); } }
 if(typeof STORY_EVENTS!=='undefined'){ const seen=new Set(STORY_EVENTS.map(e=>e&&e.id)); for(const e of EXTRA_EVENTS) if(e&&!seen.has(e.id)){ STORY_EVENTS.push(e); seen.add(e.id); } }
 if(fs.existsSync(path.join(ROOT,'src/data/retake_home.js'))) load('src/data/retake_home.js',['RETAKE_HOME']);
 const adv=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8'); const CG={}; for(const m of adv.matchAll(/(\w+):\{file:'([^']+)'/g)) CG[m[1]]=m[2];
