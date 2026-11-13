@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_D1C\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['DRIFT_D1C']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [DRIFT_D1C] 最小存檔讀到 2026-10-05 10.00 dorm（Y2S1 第 5 週）
+  [前置／捷徑] 【捷徑】[DRIFT_D1C] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [  46.1s] [DRIFT_D1C] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [前置／捷徑] [DRIFT_D1C]【捷徑】Math.random＝mulberry32:44（可重播）
+  [  62.3s] [DRIFT_D1C_d1] 對話（事件 ev_kx_s1_heard）：選項 []；選了 []；GAME.say [["", "（她說上學期幫室友看了一份租約，押金後來拿回一半。）"]]
+  [  62.3s] [DRIFT_D1C] 2026-10-05：演了 ev_kx_s1_heard；ev_kx_drift_r1c done=False；亂數用了 827220 次 [0.8362, 0.1597, 0.0831, 0.801, 0.6363, 0.4955, 0.5257, 0.3752, 0.6049, 0.7588, 0.2762, 0.0122]
+PASS [DRIFT_D1C] 2026-10-05 沒中的那一天沒有亂跳別的分開戲  "ev_kx_s1_heard"
+  [前置／捷徑] [前置] 同一份進度跳到 2026-10-06（Y2S1 第 5 週）10.00 時 dorm；DRIFT_D1C 第5週星期2
+  [前置／捷徑] [DRIFT_D1C]【捷徑】Math.random＝mulberry32:45（可重播）
+  [  98.0s] [DRIFT_D1C_d2] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [  98.0s] [DRIFT_D1C] 2026-10-06：演了 None；ev_kx_drift_r1c done=False；亂數用了 9519 次 [0.0372, 0.9138, 0.7867, 0.3747, 0.4595, 0.4819, 0.0287, 0.7269, 0.5677, 0.7544, 0.6526, 0.9246]
+PASS [DRIFT_D1C] 2026-10-06 沒中的那一天沒有亂跳別的分開戲  null
+  [前置／捷徑] [前置] 同一份進度跳到 2026-10-07（Y2S1 第 5 週）10.00 時 dorm；DRIFT_D1C 第5週星期3
+  [前置／捷徑] [DRIFT_D1C]【捷徑】Math.random＝mulberry32:46（可重播）
+  [ 133.6s] [DRIFT_D1C_d3] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 133.6s] [DRIFT_D1C] 2026-10-07：演了 None；ev_kx_drift_r1c done=False；亂數用了 9398 次 [0.0601, 0.9152, 0.4422, 0.7943, 0.2251, 0.2734, 0.6149, 0.0052, 0.7677, 0.7439, 0.4889, 0.1975]
+PASS [DRIFT_D1C] 2026-10-07 沒中的那一天沒有亂跳別的分開戲  null
+  [前置／捷徑] [前置] 同一份進度跳到 2026-10-08（Y2S1 第 5 週）10.00 時 dorm；DRIFT_D1C 第5週星期4
+  [前置／捷徑] [DRIFT_D1C]【捷徑】Math.random＝mulberry32:47（可重播）
+  [ 169.1s] [DRIFT_D1C_d4] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 169.1s] [DRIFT_D1C] 2026-10-08：演了 None；ev_kx_drift_r1c done=False；亂數用了 9371 次 [0.6295, 0.0964, 0.4719, 0.5445, 0.5006, 0.6561, 0.6738, 0.5974, 0.0271, 0.5638, 0.1223, 0.0776]
+PASS [DRIFT_D1C] 2026-10-08 沒中的那一天沒有亂跳別的分開戲  null
+  [前置／捷徑] [前置] 同一份進度跳到 2026-10-09（Y2S1 第 5 週）10.00 時 dorm；DRIFT_D1C 第5週星期5
+  [前置／捷徑] [DRIFT_D1C]【捷徑】Math.random＝mulberry32:48（可重播）
+  [ 204.6s] [DRIFT_D1C_d5] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 204.7s] [DRIFT_D1C] 2026-10-09：演了 None；ev_kx_drift_r1c done=False；亂數用了 9600 次 [0.8452, 0.5348, 0.2507, 0.0698, 0.4637, 0.8044, 0.1413, 0.4348, 0.783, 0.7554, 0.2729, 0.0718]
+PASS [DRIFT_D1C] 2026-10-09 沒中的那一天沒有亂跳別的分開戲  null
+  [前置／捷徑] [前置] 同一份進度跳到 2026-10-12（Y2S1 第 6 週）10.00 時 dorm；DRIFT_D1C 第6週星期1
+  [前置／捷徑] [DRIFT_D1C]【捷徑】Math.random＝mulberry32:49（可重播）
+  [ 240.7s] [DRIFT_D1C_d6] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 240.7s] [DRIFT_D1C] 2026-10-12：演了 None；ev_kx_drift_r1c done=False；亂數用了 9999 次 [0.374, 0.6053, 0.7777, 0.1138, 0.5091, 0.2087, 0.4336, 0.8603, 0.0199, 0.1685, 0.684, 0.6628]
+PASS [DRIFT_D1C] 2026-10-12 沒中的那一天沒有亂跳別的分開戲  null
+  [前置／捷徑] [前置] 同一份進度跳到 2026-10-13（Y2S1 第 6 週）10.00 時 dorm；DRIFT_D1C 第6週星期2
+  [前置／捷徑] [DRIFT_D1C]【捷徑】Math.random＝mulberry32:50（可重播）
+  [ 270.5s] [DRIFT_D1C_d7] 對話（事件 ev_kx_drift_r1c）：選項 [["（走過去，站在她旁邊）", "（等她講完再過去）", "「妳可不可以不要在走廊講？」"]]；選了 ["（走過去，站在她旁邊）"]；GAME.say [["", "（走廊上，可昕在跟一個同組的同學講話。聲音不大，可是每一句都很直。那個同學臉是紅的。旁邊有人在看。）"], ["杜可昕", "報告是四個人的。你那一段到昨天晚上才交，還是錯的。"], ["杜可昕", "我沒有要你道歉。我要你今天晚上改好。"], ["", "（她講完，轉頭看到你站在那裡。）"], ["", "（你什麼都沒說。那個同學說「我今天改」，走了。）"], ["杜可昕", "你不用幫我講話。你站在這裡就好。"]]
+  [ 270.6s] [DRIFT_D1C] 2026-10-13：演了 ev_kx_drift_r1c；ev_kx_drift_r1c done=True；亂數用了 9469 次 [0.5426, 0.1096, 0.3362, 0.0739, 0.0814, 0.9785, 0.1679, 0.2528, 0.8978, 0.2105, 0.2395, 0.129]
+PASS FAIL_SETUP 檢查：[DRIFT_D1C] 8 天內 D1c 有中（固定種子 44 起）  ["2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08", "2026-10-09", "2026-10-12", "2026-10-13"]
+PASS [DRIFT_D1C] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS

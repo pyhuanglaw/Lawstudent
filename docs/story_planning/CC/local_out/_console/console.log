@@ -1,14 +1,3 @@
-[20:34:13] ==== START HELP_GUIDE_b4  (probe @ e879d9b076627591b6f42e959a4b77a821b3f774) ====
-[20:34:16] [res] cpu=9% mem=46% (14.5/31.4 GB) chrome_testing=10  START HELP_GUIDE_b4
-[20:36:52] 正在跑：SSB_l118a（已跑 17 分／上限 80 分）、SSB_l118b（已跑 16 分／上限 80 分）、HELP_GUIDE_b4（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
-[20:41:52] 正在跑：SSB_l118a（已跑 22 分／上限 80 分）、SSB_l118b（已跑 21 分／上限 80 分）、HELP_GUIDE_b4（已跑 7 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
-[20:42:11] [res] cpu=4% mem=45% (14.3/31.4 GB) chrome_testing=10  END HELP_GUIDE_b4
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       60d6b7f0c2..0bbc54e7f9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[20:42:20] ==== END   HELP_GUIDE_b4  exit=0  478s   ====
-[20:42:23] memory 46% before starting SEASON_FN (2 running)
-[20:42:23] ==== START SEASON_FN  (probe @ 5b54ca9f8bd83286bec44f1b645d7ca3a83d972d) ====
 [20:42:26] [res] cpu=10% mem=46% (14.5/31.4 GB) chrome_testing=10  START SEASON_FN
 [20:46:03] [res] cpu=5% mem=43% (14.7/31.4 GB) chrome_testing=10  END SEASON_FN
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1987,14 @@
 [03:02:57] [res] cpu=1% mem=43% (13.7/31.4 GB) chrome_testing=10  START CANON458_D1C
 [03:06:53] 正在跑：CANON_NEWGAME_B2_r5（已跑 12 分／上限 240 分）、CANON458_D5（已跑 7 分／上限 60 分）、CANON458_D1C（已跑 3 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:06:57] [res] cpu=4% mem=41% (13.2/31.4 GB) chrome_testing=10  END CANON458_D5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       522f1f5818..7a2f7f81fa  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:07:40] ==== END   CANON458_D5  exit=0  449s   ====
+[03:07:45] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[03:07:45] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[03:07:45] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[03:07:45] memory 43% before starting CANON458_XMAS (2 running)
+[03:07:45] ==== START CANON458_XMAS  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[03:07:48] [res] cpu=3% mem=43% (13.5/31.4 GB) chrome_testing=10  START CANON458_XMAS
+[03:08:23] [res] cpu=5% mem=43% (13.6/31.4 GB) chrome_testing=9  END CANON458_D1C
