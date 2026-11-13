@@ -56762,6 +56762,27 @@
    "next": "【LAWWW-C 11-13 21:0x UTC】AA-C 選 (a)：invites3d.js 875 拿掉 kxPlaceOk 過濾（交往中照一般規則列）；invite_whynot 第 10 項改驗新規則；邀約相關 405 支只有「四十分鐘」那句的 3 支紅＝那句已還原、交 AA 併進 AA_959 覆寫表（invites.js 有 tools/invite/apply_overlay.py）。待 CC 在瀏覽器驗 dating_kexin 時「看電影、逛書店」有出現。｜【LAWWW-C 11-13 21:0x UTC】BB／CC BOOKSTORE_r3 問：墊了 G.visited.bookstore 還是沒有「看電影、逛書店」。Node 驗：不交往 fun＝[xs_nanyang, bookstore, xs_shanlan]；dating_kexin＝true 時＝[]（kxPlaceOk false）。已問 AA；不是 76f8 回退。",
    "source": "BB-C／CC-C 11-13 20:5x（76f8 BOOKSTORE_r3）",
    "authorized": "LAWWW 職權（bug）"
+  },
+  {
+   "id": "INV-MEET-YIELD-1113",
+   "title": "約好的女主角在旁邊時，別人的初見事件（例：總圖蔡宗霖「和常在圖書館的男生說話」）不要搶互動鍵——有約、她在 3 m 內的時候初見事件讓位",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走進 118 巷的店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "【LAWWW-C 11-13 21:1x UTC】BB-C P3（76f8 INV_LIB 按到蔡宗霖）：LAWWW 決定讓位；v9.10.26 發布後做（E.nearestInteractable 的優先順序：約會對象＞初見事件），測試 CC INV_LAWLIB。",
+   "source": "BB-C 11-13 21:02（76f8 測試）",
+   "authorized": "BB 交 LAWWW 決定"
   }
  ]
 }
