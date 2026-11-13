@@ -16,8 +16,11 @@ const SK = JSON.parse(fs.readFileSync(path.join(ROOT, 'docs/handoff/AA_959_skip.
 const skip = (f, o) => SK.some(x => x.file === f && x.old === o);
 const nw = r => (r.prefix && r.new.endsWith('……') && !r.old.endsWith('……')) ? r.new.slice(0, -2) : r.new;   // 稿上「……（後面照舊）」的記號
 const code = r => /['"]/.test(r.old);
+/* 跟著換的送訊息程式（tools/story/aa959.py LINKED）：msg_replies.js 傳來的訊息那幾列 */
+const LINKED = { 'msg_replies.js': ['aa555_3d.js', 'r2y3b3d.js', 'r3_3d.js', 'y2b3d.js', 'y2r2_3d.js', 'aa554_3d.js', 'y1fill_events.js'] };
 function rows(file, who) {
-  const b = file ? path.basename(file) : null, w = (who && who !== '(共用)') ? who : null;
+  let b = file ? path.basename(file) : null; const w = (who && who !== '(共用)') ? who : null;
+  for (const [src, fs_] of Object.entries(LINKED)) if (b && fs_.includes(b)) b = src;
   return T.rows.filter(r => !code(r) && (!w || r.speaker === w) && r.files.some(f => (!b || f === b) && !skip(f, r.old))).sort((a, c) => c.old.length - a.old.length);
 }
 function map(s, file, who) {
@@ -60,7 +63,7 @@ function unmapText(s, file, who) {
 /* unmapCode(src, file)：程式原始碼（函式）裡用引號寫的整句新字換回舊字（'新' → '舊'、"新" → "舊"） */
 function unmapCode(src, file) {
   if (typeof src !== 'string') return src;
-  for (const r of rows(file)) { const n = nw(r); for (const q of ["'", '"']) src = src.split(q + n + q).join(q + r.old + q); }
+  for (const r of rows(file)) { const n = nw(r); for (const q of ["'", '"']) src = r.prefix ? src.split(q + n).join(q + r.old) : src.split(q + n + q).join(q + r.old + q); }
   return src;
 }
 const is959 = (a, b, file) => typeof a === 'string' && a !== b && map(a, file) === b;

@@ -150,7 +150,7 @@ const wrappedLits=s=>{ const t=noComments(s), out=[]; let m; LIT.lastIndex=0; wh
 /* 11. termend_lines.js、lane118.js：不改；整句「」的都是選項字 */
 { const l118=fs.readFileSync(path.join(ROOT,'src/lane118.js'),'utf8'), named=l118.match(/\[\s*(?:'[^']*'|[A-Z]{2}|null)\s*,\s*'「[^'\n]*」'\s*\]/g)||[];
   check('11b. src/lane118.js 沒有「有名字、又整句包在「」裡」的台詞（選項字照慣例留「」）',named.length===0,JSON.stringify(named.slice(0,5))); }
-{ for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞；之後劇情另外改的字照 LATER；搬到 TERMEND_OPTS.HEART 的那兩段照 MOVED 不比）',cutMoved(f,cur(f),2)===cutMoved(f,later(f,gitShow(f)),1));
+{ for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞；之後劇情另外改的字照 LATER；搬到 TERMEND_OPTS.HEART 的那兩段照 MOVED 不比）',cutMoved(f,require('./aa959_map.js').unmapCode(cur(f),path.basename(f))/* AA_959：照覆寫表換的整句先換回來 */,2)===cutMoved(f,later(f,gitShow(f)),1));
   /* TERMEND_LINES 載進來逐格走：選項的格子（t、ok、answer、OPTS、ANSWER、NOT_YET_OPT；函式裡寫在 t:／ok: 後面的字）＝GM.choose 的選項字；其他字串＝說的話、旁白、系統字 */
   const c=vm.createContext({console}); vm.runInContext(cur('src/data/termend_lines.js').replace(/^const TERMEND_LINES\s*=/m,'globalThis.TERMEND_LINES='),c); const TL=c.TERMEND_LINES;
   const OPTK=new Set(['t','ok','answer','OPTS','ANSWER','NOT_YET_OPT']); const spoken=[], opts=new Set(), seen=new Set();
