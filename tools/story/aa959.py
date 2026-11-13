@@ -22,7 +22,7 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TABLE = 'docs/handoff/AA_959_overlay.json'
-SRC_SHA = '6ccf6669f8'   # 企劃線 claude/magical-albattani-bk7b4n（AA_951～967：七位女主角＋配角，405 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
+SRC_SHA = '1243649c23'   # 企劃線 claude/magical-albattani-bk7b4n（AA_951～987：505 列（含 AA_973／974、可昕外校殘留、AA_987）；之前 6ccf6669f8 405 列、取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
 
 # 說話的人對不上表上的 speaker（或不是某一個人的句子）：不換，報 AA。鍵＝(檔名, old)；表在 docs/handoff/AA_959_skip.json（tests/aa959_map.js 也讀）
 SKIPFILE = 'docs/handoff/AA_959_skip.json'
@@ -164,7 +164,7 @@ def source_tag():
 # 沒有匯入工具（或匯入工具早就不再整檔重產）的手寫檔：直接照表換
 HAND = ['events.js', 'r2y3a_events.js', 'r2y3b_events.js', 'r2y4a_events.js', 'r2y4b_events.js', 'group_events.js',
         'termend_opts.js', 'termend_lines.js', 'vac_activities.js', 'invites.js', 'multirel_lines.js', 'movie_plots.js',
-        'heroine_arcs.js', 'free_trips.js', 'bbpack_events.js'] + LINKED['msg_replies.js']
+        'heroine_arcs.js', 'free_trips.js', 'bbpack_events.js', 'feed_y1s1.js'] + LINKED['msg_replies.js']
 
 
 def gpath(f):

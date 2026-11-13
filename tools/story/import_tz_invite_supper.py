@@ -110,6 +110,8 @@ def main():
            '   汀州路兩間店可以約人＋泡麵帶回 203 當宵夜（TZ-INVITE-SUPPER-1112；演出 src/tz_invite_supper3d.js）：places＝邀約地點（accept 每人答應一句、\n'
            '   at_table 每人入座一句，heroine_05_close＝學姊很熟以上或交往中的那一版）；supper＝宿舍那一場（item 哪一樣東西、scene 每一句、minutes 演完時間往後幾分鐘——稿 lawww_1112.h）。字一字照稿。*/\n\'use strict\';\nconst TZ_INVITE_SUPPER='
            + json.dumps(data, ensure_ascii=False, indent=1) + ';\nif(typeof module!==\'undefined\') module.exports=TZ_INVITE_SUPPER;\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    out = _AA959.layer(out, 'tz_invite_supper.js')
     p = os.path.join(ROOT, OUT)
     for c in CHANGED:
         print('換名：' + c)

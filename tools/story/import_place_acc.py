@@ -81,6 +81,8 @@ def main():
           "  for(const pid in INVITE_PLACE_LINES.places) for(const id in INVITE_PLACE_LINES.places[pid]){ const e=INVITE_PLACE_LINES.places[pid][id], p=P[id]||(P[id]={});\n"
           "    if(e.acc&&!(p.acc&&p.acc[pid])) (p.acc||(p.acc={}))[pid]=e.acc.slice(); if(e.firstAt&&!(p.firstAt&&p.firstAt[pid])) (p.firstAt||(p.firstAt={}))[pid]=e.firstAt.slice();\n"
           "    if(e.no){ const PL=(INVITE_DATA.places||[]).find(q=>q.id===pid); if(PL) (PL.noWho||(PL.noWho={}))[id]=e.no; } } })();\n")
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    js = _AA959.layer(js, 'invite_place_lines.js')
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

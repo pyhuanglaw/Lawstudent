@@ -349,6 +349,8 @@ def main():
           "if(typeof module!=='undefined') module.exports=GIFT_HOLIDAY;\n")
     sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # CANON-NO-ECON-1112 第五批：AA_920／921／923 的 src 對照表在寫檔前照整句換（tools/story/canon_b5_rows.py）
     js = _B5.fix(OUT, js)
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    js = _AA959.layer(js, 'gift_holiday.js')
     p, p792 = os.path.join(ROOT, OUT), os.path.join(ROOT, OUT792)
     if '--check' in sys.argv:
         for q, want, name in ((p, js, f'{OUT} 和白名單上的 AA_732／733／734（花序 AA_792）'), (p792, js792, f'{OUT792} 和白名單上的 AA_792')):

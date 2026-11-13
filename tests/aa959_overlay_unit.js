@@ -17,7 +17,9 @@ check('2. aa959.py --check：每一列都換好了（舊字不在、新字在）
 const TOOLS = { 'tools/ladder/import_ladder.py': 'ladder.js', 'tools/date/import_date_lines.py': 'date_lines.js', 'tools/story/import_activity_scenes.py': 'activity_scenes.js',
   'tools/story/import_msg_replies.py': 'msg_replies.js', 'tools/date/import_wish.py': 'date_wish.js', 'tools/invite/build_replies.py': 'invite_replies.js',
   'tools/story/import_termend_opts.py': 'termend_opts.js', 'tools/movie/import_movie_plots.py': 'movie_plots.js', 'tools/story/import_arcs.py': 'heroine_arcs.js',
-  'tools/msg/to_js.py': 'msg_pool.js', 'tools/msg/to_js2.py': 'msg2_pool.js' };
+  'tools/msg/to_js.py': 'msg_pool.js', 'tools/msg/to_js2.py': 'msg2_pool.js',
+  /* 1243649c23（505 列）多的檔 */ 'tools/gift/import_gift_holiday.py': 'gift_holiday.js', 'tools/story/import_place_acc.py': 'invite_place_lines.js', 'tools/story/import_flirt.py': 'flirt_lines.js',
+  'tools/story/import_gifts.py': 'gift_lines.js', 'tools/story/import_tz_invite_supper.py': 'tz_invite_supper.js' };
 const miss = Object.entries(TOOLS).filter(([p, f]) => !fs.readFileSync(path.join(ROOT, p), 'utf8').includes("_AA959.layer(") || !fs.readFileSync(path.join(ROOT, p), 'utf8').includes("'" + f + "'"));
 check('3. ' + Object.keys(TOOLS).length + ' 支匯入工具寫檔前呼叫 aa959.layer（檔名對）', miss.length === 0, JSON.stringify(miss));
 const M = require('./aa959_map.js');
