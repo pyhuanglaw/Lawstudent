@@ -19,3 +19,6 @@
 - 衣架近照衣服還是斑駁（放大兩倍有改善，但貼圖遠近縮放後還是糊成色塊）——下一步試衣服另一張圖或 4096。
 - 概念圖的木門開著、門口一架衣服、招牌下壁燈還沒做（門口衣架要做成像店內那樣的立體衣服，不能用方塊）。
 - 多肉那盆太小；右邊衣架幾件被聚光燈照太亮。
+
+## 在開發分支重建街景（LAWWW-C 11-13 問）
+`tools/blender/env_second/textures/gen/`（438 張，店面紙條、雨棚、招牌圖集等）只在 LAWWW2 分支：建之前 `git checkout origin/claude/second-ai-env-art -- tools/blender/env_second/textures/gen`，**不要 commit 進開發分支**（FACTS.md 第 66 行）。`shop_notes.png` 也可以 `python3 tools/blender/env_second/shopkit_tex.py` 重產。
