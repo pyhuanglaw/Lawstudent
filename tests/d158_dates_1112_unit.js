@@ -101,7 +101,7 @@ check('4. 49 格裡之後又改過的只有五格：可昕三個選項的字（K
     const left=R.filter(r=>[d3,a5,sp,w3].some(t=>t.includes(a[gp(r)]))).map(gp);
     check('7. src/date3d.js、src/aa524_3d.js、src/data/she_pays.js、src/data/date_wish.js 裡沒有留著這 49 格的舊字（含拿選項的字當 key 的）',left.length===0,J(left));
     const osp=show(BASE,'src/data/she_pays.js'), ow=show(BASE,'src/data/date_wish.js');
-    check('7. src/data/she_pays.js、src/data/date_wish.js 和重匯以前（'+BASE+'）一模一樣（AA_812 沒改、心願事件不讀這 49 格）',osp===sp&&ow===w3);
+    check('7. src/data/she_pays.js、src/data/date_wish.js 和重匯以前（'+BASE+'）一模一樣（AA_812 沒改、心願事件不讀這 49 格）',osp===sp&&C.wishSame921(ow,w3)/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */);
   } else console.log('（跳過第 5 項和第 7 項的舊字比對：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
 // 6

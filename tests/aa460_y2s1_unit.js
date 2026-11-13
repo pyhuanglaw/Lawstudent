@@ -168,7 +168,7 @@ await sec(6,()=>{
     check('6. AA_460 第 6 節的兩句「改成」就是 AA_774 那兩列的原句（稿沒有變）',T6.length>=2&&!!Z774[T6[0][2]]&&!!Z774[T6[1][2]],J(T6.map(r=>r[2]))); for(const r of T6) if(Z774[r[2]]) r[2]=Z774[r[2]]; }
   check('6. 邀約第三句「'+T6[0][2]+'」（原本「'+T6[0][1]+'」）',(I.lines||[]).some(x=>x.text===T6[0][2])&&!all.includes(T6[0][1]),J((I.lines||[]).map(x=>x.text)));
   check('6. 回「好」之後「'+T6[1][2]+'」（原本「'+T6[1][1]+'」）',(I.accept||[]).some(x=>x.text===T6[1][2])&&!all.includes(T6[1][1]),J((I.accept||[]).map(x=>x.text)));
-  check('6. 兩句已經改進原稿（AA_460 第 9 節，wish_bb.json@cb5caad65；10-27 AA_475 換到 ab9d70fe0；11-08 AA_593 學姊 decline 換到 9aa8ec40c）：DATE_WISH 來源是 9aa8ec40、沒有暫代換字、原稿對不到 0 句',/wish_bb\.json@9aa8ec40/.test(DATE_WISH.source)&&!(DATE_WISH.verify.replaced||[]).length&&(DATE_WISH.verify.miss||[]).length===0,J([DATE_WISH.source,DATE_WISH.verify.replaced]));
+  check('6. 兩句已經改進原稿（AA_460 第 9 節，wish_bb.json@cb5caad65；10-27 AA_475 換到 ab9d70fe0；11-08 AA_593 學姊 decline 換到 9aa8ec40c；11-12 CANON-NO-ECON-1112 第五批 AA_921 換到 6dbfe10d7e）：DATE_WISH 來源是 6dbfe10d、沒有暫代換字、原稿對不到 0 句',/wish_bb\.json@6dbfe10d/.test(DATE_WISH.source)&&!(DATE_WISH.verify.replaced||[]).length&&(DATE_WISH.verify.miss||[]).length===0,J([DATE_WISH.source,DATE_WISH.verify.replaced]));
 });
 H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

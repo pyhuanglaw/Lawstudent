@@ -111,14 +111,14 @@ const haveSrc=Object.keys(SRC).length===33;
       try{ out=cp.execFileSync('python3',['tools/date/import_wish.py','--out',tmp],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=fs.readFileSync(tmp,'utf8')===read('src/data/date_wish.js'); }catch(x){ out=String(x.stderr||x.stdout||x.message).slice(0,300); }
       try{ fs.unlinkSync(tmp); }catch(x){}
       check('7. tools/date/import_wish.py 重匯（--out 另存）的結果和 src/data/date_wish.js 一樣',ok,ok?'':out.slice(0,300));
-      const a=JSON.parse(J(ev)), b=JSON.parse(J(A757.wish_event)); delete a.src; delete b.src;
-      check('7. 沛珊的事件和稿的 wish_event 逐欄相同（一字不差）',sortJ(a)===sortJ(b));
+      const a=JSON.parse(J(require('./date_src_sha.js').unWish921(JSON.parse(J(W))).events[PS])), b=JSON.parse(J(A757.wish_event)); delete a.src; delete b.src;   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：源稿 6dbfe10d7e 的說明欄四格（note、rule「再考」換說法；date_src_sha.js WISH921_1112）先還原再比 */
+      check('7. 沛珊的事件（說明欄四格照源稿 6dbfe10d7e，還原再比）和稿的 wish_event 逐欄相同（一字不差）',sortJ(a)===sortJ(b));
       const vals=Object.values(leaves(ev,'',{})), olds=A757.wish_rows.filter(r=>!A757.wish_rows.some(q=>q.new===r.old));
       check('7. wish_rows 69 列：new 都在她的事件裡、old 都不在了',A757.wish_rows.length===69&&A757.wish_rows.every(r=>vals.includes(r.new))&&olds.every(r=>!vals.includes(r.old)),J(A757.wish_rows.filter(r=>!vals.includes(r.new)||(olds.includes(r)&&vals.includes(r.old))).map(r=>r.path)));
       check('7. 選項的字換了四處（聊天提到第 1 個、咖啡廳三個）：照稿',ev.mention.choices[0].t==='「妳撐不過十分鐘。」'&&J(ev.hotspots['D06.cafe'].choices.map(c=>c.t))===J(['「記下來了。」','「忍得很辛苦？」','「下次去妳家的店坐。」']),J(ev.hotspots['D06.cafe'].choices.map(c=>c.t))); }
     const ob=show(BASE,'src/data/date_wish.js'); if(ob){ const O=DW(ob), ids=Object.keys(O.events).filter(k=>k!==PS&&k!==SIS&&k!==YT&&k!==KX&&k!==ZR&&k!==ZQ&&k!=='heroine_01');   /* 2026-11-11（X324，AA_768@0a2136911）：語彤的心願事件收字 34 格（tests/yt_dates_1111_unit.js 第 7 節另外驗），拿掉再比 */   /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0／AA_775／AA_776@26e72fd51）：子晴的心願事件照 AA_776 收字 30 格，拿掉再比 */   /* 2026-11-11（X324 以安約會台詞重寫，AA bd1ce5be0／AA_777／AA_778@1f88da7cc）：以安的心願事件照 AA_778 收字 16 格，拿掉再比 */
       check('7. 別人（學姊、語彤、可昕、芷若以外）的心願事件（'+ids.length+' 位）和重匯以前（'+BASE+'）一樣；hold、verify.miss 照舊是空的',ids.length===0&&ids.every(k=>J(O.events[k])===J(W.events[k]))&&J(O.hold)===J(W.hold)&&W.verify.miss.length===0&&W.verify.freeVisited.length===O.verify.freeVisited.length);   /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0／AA_775／AA_776@26e72fd51）：別人剩 1 位（以安；舊：2 位） */   /* 2026-11-11（X324 以安約會台詞重寫，AA bd1ce5be0／AA_777／AA_778@1f88da7cc）：七個人的心願事件都另外驗了，這裡剩 0 位（舊：1 位＝以安）；hold、verify 照舊比 */
-      const a=leaves(O.events[PS],'',{}), b=leaves(ev,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
+      const a=leaves(O.events[PS],'',{}), b=leaves(require('./date_src_sha.js').unWish921(JSON.parse(J(W))).events[PS],'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);   /* 2026-11-12 第五批：說明欄四格先還原再比（同上） */
       check('7. 沛珊的事件和重匯以前比：格子一樣多、不一樣的 69 格都是字的欄位（條件、旗標、時間、花費、選項數沒動）',J(Object.keys(a))===J(Object.keys(b))&&d.length===69&&d.every(k=>/\/(text|t|title|wish|note|costNote)$/.test(k)),J(d.filter(k=>!/\/(text|t|title|wish|note|costNote)$/.test(k)))); } });
 
   await sec(8,async()=>{ const cur=read('src/data/hometown_lines.js'), L=lit(cur), n=t=>L.filter(x=>x===t).length;

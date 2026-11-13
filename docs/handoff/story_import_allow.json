@@ -6139,12 +6139,12 @@
   },
   {
    "path": "docs/story_planning/date_system/wish/wish_bb.json",
-   "sha": "9aa8ec40c",
+   "sha": "6dbfe10d7e",
    "status": "approved",
-   "approvedBy": "AA-B 定稿（D109；心願事件七位的資料檔，BB 那三位的台詞 D100 起由 AA 定稿）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
+   "approvedBy": "AA-B 定稿（D109；心願事件七位的資料檔，BB 那三位的台詞 D100 起由 AA 定稿）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）；6dbfe10d7e（AA_921 §2 外澳心願換主題「手機關掉的一天」、5cec9caf4e 沛珊說明欄清字（AA-C 2026-11-12，BB_448 採用））",
    "task": "DATE-C5",
    "kind": "text",
-   "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）；2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）；cb5caad65：AA_459 第 5 節／AA_460 第 6、9 節三句（芷若「……這樣才算約好。」「……兩點半是巧合。跟店名沒關係。」、沛珊「你可以說不。我只是問問看。」）LAWWW-B 10-25 換版、拿掉 import_wish.py 的 REPLACE 暫代；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入｜11-12：23e13d523a 和這一版只差一個 note 欄位改名（玩家看不到的說明字），沒有重匯（重匯會動到 date_wish 三支測試的格數比對）",
+   "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）；2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）；cb5caad65：AA_459 第 5 節／AA_460 第 6、9 節三句（芷若「……這樣才算約好。」「……兩點半是巧合。跟店名沒關係。」、沛珊「你可以說不。我只是問問看。」）LAWWW-B 10-25 換版、拿掉 import_wish.py 的 REPLACE 暫代；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入｜11-12：23e13d523a 和這一版只差一個 note 欄位改名（玩家看不到的說明字），沒有重匯（重匯會動到 date_wish 三支測試的格數比對）；2026-11-13 改到 6dbfe10d7e（CANON-NO-ECON-1112 第五批：可昕心願換主題、沛珊再考說法）",
    "history": [
     {
      "sha": "1ced2f8b3",
@@ -6165,6 +6165,10 @@
     {
      "sha": "ab9d70fe0",
      "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
+    },
+    {
+     "sha": "9aa8ec40c",
+     "note": "被 6dbfe10d7e 取代（CANON-NO-ECON-1112 第五批：可昕心願換主題、沛珊再考說法）"
     }
    ]
   },
