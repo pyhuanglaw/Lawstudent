@@ -1,15 +1,3 @@
-[22:25:46] skip L118A6_WALL_c (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A6_WALL_d (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A6_TAPSEAT_home (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A_TAPSEAT_home9_old (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[22:25:46] skip L118A6_TAPSEAT_cafe2 (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A6_TAPSEAT_dian1 (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A6_TAPSEAT_dian2 (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A6_TAPSEAT_dian3 (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A6_TAPSEAT_omu (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A6_TAPSEAT_np (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[22:25:46] skip L118A7_SEAT_tea9 (already done on a3b9f0478a5976409f305f97c7fdeac19764e4ca)
-[22:25:46] skip L118A7_TAPSEAT_fix (already done on a3b9f0478a5976409f305f97c7fdeac19764e4ca)
 [22:25:46] skip L118D_A7_teabanchan (already done on a3b9f0478a5976409f305f97c7fdeac19764e4ca)
 [22:25:46] skip L118A7_OCC_retest (already done on a3b9f0478a5976409f305f97c7fdeac19764e4ca)
 [22:25:46] skip TSR_CLASS_new (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
@@ -1998,3 +1986,15 @@
 [04:40:33] [res] cpu=24% mem=45% (14.5/31.4 GB) chrome_testing=9  START REL76_skybridge
 [04:41:54] 正在跑：REL76_save_start1（已跑 3 分／上限 30 分）、REL76_save_v95（已跑 2 分／上限 40 分）、REL76_skybridge（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [04:43:22] [res] cpu=2% mem=44% (13.8/31.4 GB) chrome_testing=10  END REL76_skybridge
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1575c446e8..c9deb0778b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:43:49] ==== END   REL76_skybridge  exit=0  172s   ====
+[04:43:52] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[04:43:52] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[04:43:52] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[04:43:52] memory 46% before starting REL76_ladder (2 running)
+[04:43:52] ==== START REL76_ladder  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[04:43:55] [res] cpu=6% mem=45% (14.4/31.4 GB) chrome_testing=10  START REL76_ladder
+[04:46:51] [res] cpu=5% mem=44% (13.8/31.4 GB) chrome_testing=9  END REL76_save_start1
+[04:46:52] D158：推送前把 12 處舊序章／外校的字換成代號
