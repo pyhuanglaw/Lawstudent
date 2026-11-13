@@ -9238,8 +9238,8 @@
    "sha": "(本 commit)",
    "receiver": "LAWWW",
    "ack": "SENT",
-   "state": "WIP",
-   "noDirectIntegrate": true,
+   "state": "已交付",
+   "noDirectIntegrate": false,
    "task": "SHOP-WINDOW-3D-1112",
    "title": "汀州路溫特寶邸：玻璃後面的照片卡換成 3 m 深的立體店內（sk_in_wente；只看得到、不進去）＋打烊變暗接線＋README「室內要對齊的基準」",
    "files": [
@@ -9247,8 +9247,8 @@
     "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/README.md",
     "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wente_old_vs_new.jpg"
    ],
-   "remaining": "【撤回】使用者 19:5x：「醜到爆又沒質感、跟2d差太多、停止複製貼上一樣大小的方塊」→ v1 不整合，做 v2（真形狀＋貼圖＋烘焙光影）",
-   "next": "LAWWW-C 套 patch；CC 地點關卡第二層四個鏡頭；BB 判 ⑦a／⑦b"
+   "remaining": "店面（街那一側）還沒照概念圖；衣服貼圖糊、盆栽碎、假人頭偏亮（STATUS.md）",
+   "next": "LAWWW-C 看並排圖 cmp_*.jpg（818ce21f9f）→ 接、shop_cc0 --write → BB 判；LAWWW2 接著做街那一側的店面"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
@@ -9323,8 +9323,8 @@
    "sha": "(本 commit)",
    "receiver": "LAWWW",
    "ack": null,
-   "state": "WIP",
-   "noDirectIntegrate": true,
+   "state": "已交付",
+   "noDirectIntegrate": false,
    "task": "SHOP-WINDOW-3D-1112",
    "title": "溫特寶邸 v2：Poly Haven／ambientCG CC0＋Cycles 烘焙店內（SHOP-REALISM-1112 樣板）",
    "files": [
@@ -9334,15 +9334,15 @@
     "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/cc0_fetch.py",
     "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/tz_wente_interior_1112_unit.js"
    ],
-   "remaining": "寬 4.96 版沒有遊戲內照片（shots/ingame_w52_* 是 5.2 版、兩側白牆）；沒和概念圖並排；patch 底 21773bf35b 含已整合段落，要只取 wente 相關",
-   "next": "下一班：重拍 4.96 版五張 → 並排三組 → 交 LAWWW-C 先看圖 → BB 判（HANDOFF.md 最上面『下一班第一件事』1）"
+   "remaining": "店面（街那一側）還沒照概念圖；衣服貼圖糊、盆栽碎、假人頭偏亮（STATUS.md）",
+   "next": "LAWWW-C 看並排圖 cmp_*.jpg（818ce21f9f）→ 接、shop_cc0 --write → BB 判；LAWWW2 接著做街那一側的店面"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "(本 commit)",
    "receiver": "LAWWW",
-   "ack": null,
-   "state": "已交付",
+   "ack": "ACK",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-REALISM-1112",
    "title": "tests/shop_cc0_unit.js：店內模型有沒有用 CC0 素材（D160）＋基準表 49 間",
@@ -9353,7 +9353,8 @@
     "docs/art-rebuild/second_ai/wip/shop_cc0_1113/README.md"
    ],
    "remaining": "基準表在 21773bf35b＋溫特寶邸 v2 上算的，整合時在開發分支重跑 --write",
-   "next": "LAWWW 放進 tests/、接 node-unit-auto；SHOP_STANDARD_STATUS「CC0 素材」欄用 cc0Of() 接；49 間進 SHOP-REALISM-1112 重做清單"
+   "next": "LAWWW 放進 tests/、接 node-unit-auto；SHOP_STANDARD_STATUS「CC0 素材」欄用 cc0Of() 接；49 間進 SHOP-REALISM-1112 重做清單",
+   "ackNote": "LAWWW-C 09:11Z：已進開發分支 cdc610c217；SHOP_STANDARD_STATUS 加「CC0 素材（D160）」欄（place_gate 用 cc0Of）"
   }
  ]
 }
