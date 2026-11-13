@@ -44,7 +44,7 @@ def count(text, s):
 # ①整個拿掉的那一格（子晴 ZQ_CHANGE_ASK、芯慈 w118_xc_10）：稿上 at 在那一格底下的列略過；同一個陣列後面的列序號往前移一格再對。
 # ②稿上那一格被 AA_894 換成新字的列（覆蓋層的 new 已經不是遊戲的字）：略過。兩種都印出來，不算沒套到。
 CANON1112_GONE = [('people.heroine_04.walk.any', 1, "once:'ZQ_CHANGE_ASK'"), ('people.classmate_xinci.walk.any', 7, "one:'w118_xc_10'"), ('walk118.classmate_xinci', 9, "one:'w118_xc_10'")]
-CANON1112_SUPERSEDED = {'people.kexin.first.lake[0]': 'AA_894 第 4 節 305 列（映月湖 first）'}
+CANON1112_SUPERSEDED = {'people.kexin.first.lake[0]': 'AA_894 第 4 節 305 列（映月湖 first）', 'people.kexin.sport.gym_badminton.during[2][0]': 'AA_940 第 2 節（羽球 during）'}
 
 
 def canon1112(rows):

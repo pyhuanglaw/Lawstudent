@@ -221,21 +221,21 @@ const INVITE_DATA={
         if(c.pid==='noodle'&&!(G.invites||[]).some(iv=>iv.who==='classmate_peishan'&&iv.place==='noodle'&&['done','accepted','going'].includes(iv.state)&&/^Y[34]/.test((CALENDAR.termOf(iv.day)||{id:''}).id))&&r.res==='accept') return {lines:['好。阿鳳阿姨一定會問我現在念什麼。……我要講很久。']};
         if(c.pid==='wenzhou'&&tutor) return {res:'resched',why:'work',act:'work',lines:['課輔班下課，剛好在溫州街。……七點，門口等我。'],alt:at(19)};
         return null; } },   /* rule：BB_158 第 4 節，大二下重考那一學期半熟、一盞都婉拒（SYS-21 起她那學期休學、presence 先回 away：照樣換成她自己的這一句）*/   /* 沛珊（6-4）*/
-    kexin:{ rule:(G,c,I)=>c.pid==='lawlib'&&c.r&&(c.r.res==='accept'||c.r.res==='resched')?INVITE_DATA.toSlow(G,'kexin',c,I,['法圖？我是外校的，進不去吧。','……木曜日好不好？那裡不用證件。']):null,   /* AA_535b 2-1：她是外校的，法圖進不去，改約慢讀 */
-      acc:{brunch:{A:['SUNNY SIDE？好。那家要排，我早一點出門。'],R:['好啊，我先查一下菜單。']},teahouse:{R:['一盞。安靜的地方。我可能一個小時都不講話喔。']},
+    kexin:{   /* AA_940（BB_456）：法圖改約慢讀那條 rule 拿掉（她是法律系的，法圖照一般答應走）*/
+      acc:{lawlib:['好。我常坐的那一排，靠窗。'],brunch:{A:['SUNNY SIDE？好。那家要排，我早一點出門。'],R:['好啊，我先查一下菜單。']},teahouse:{R:['一盞。安靜的地方。我可能一個小時都不講話喔。']},
         pasta118:['好。你先去占位子，我下課就到。'],teahouse_ceremony:['茶席。我要穿裙子嗎？','我穿。'],   /* AA_535b 4-2（企劃線 b3e5bca3b）：茶席那句接茶席現場她「坐下來，又站起來，把裙子拉好再坐」（wzlines3d.js CEREMONY_LINES）*/
-        /* AA_417 3-2（她是政大的學生：羽球場由祐廷用台大的帳號預約）；政大那幾年的句子，經濟系那一年不用 */
-        gym_badminton:G=>(G.stage||'law')==='law'?{A:['首都帝大的球場？好。……先說，我高中打過。'],R:['好。拍子你負責借，我只出人。']}:null,
+        /* AA_417 3-2；AA_940 換字（同系同屆）*/
+        gym_badminton:G=>(G.stage||'law')==='law'?{A:['新體育館？好。……先說，我高中打過。'],R:['好。拍子你負責借，我只出人。']}:null,
         run_avenue:G=>(G.stage||'law')==='law'?{R:['椰影大道？好，早上六點半。','……好。你敢遲到試試看。']}:null},
-      sport:{gym_badminton:{during:[['那一球你讓我？……不准讓。'],['再一局。這局不算，我鞋帶鬆了。'],['你們的球場比較亮。這不是藉口。']],end:['下一局換我發球。你不要跑。']},
+      sport:{gym_badminton:{during:[['那一球你讓我？……不准讓。'],['再一局。這局不算，我鞋帶鬆了。'],['這邊的燈好亮。這不是藉口。']],end:['下一局換我發球。你不要跑。']},
         run_avenue:{during:[['跑到晨思鐘不要停。跑回來才算。'],['我不喘。……我在講話，所以我不喘。'],['早上的椰影大道好安靜。我平常這時候還在睡。']],end:['早餐我知道一家。走。']}},   /* AA_417 3-2：一起的時候三句輪流、結束 */   /* BB_158 第 5 節（她在政大：時間照她的作息；2026-10-17 BB-C 改稿：不再每句「假設」）*/
       firstAt:{gym_badminton:G=>(G.stage||'law')==='law'?['我高中打過一學期。你不要放水。']:null,run_avenue:G=>(G.stage||'law')==='law'?['六點二十五分。我先到了。']:null,   /* AA_417 3-2 的 first */
-        brunch:['蛋可以選熟度欸。我要半熟。'],teahouse:['我們學校後山也有茶園欸。','不過這邊的院子比較安靜。'],
-        /* AA_535b 4-2：第一次和她到 Café、總圖、麵店、溫州街多說的（「你們學校」「我們學校山下」＝她在政大、祐廷在台大的那幾年，經濟系那一年不用，和羽球、晨跑同一把尺）*/
+        brunch:['蛋可以選熟度欸。我要半熟。'],teahouse:['我第一次進這種茶屋。','院子好安靜。'],
+        /* AA_535b 4-2：第一次和她到 Café、總圖、麵店、溫州街多說的；AA_940 換字（同系同屆）*/
         cafe:G=>(G.stage||'law')==='law'?['（她看了一圈，在吧檯前面站了很久才點。）','這家開到半夜喔。期末的時候我要住在這裡。']:null,
-        library:G=>(G.stage||'law')==='law'?['（她站在大廳，抬頭看了一圈。）','好大。我一定會迷路，你走前面。']:null,
+        library:G=>(G.stage||'law')==='law'?['（她站在大廳，抬頭看了一圈。）','每次來都覺得好大。你走前面。']:null,
         noodle:G=>(G.stage||'law')==='law'?['阿姨，叉燒飯加滷蛋。','（她轉頭看你。）','他說這樣點最好吃。']:null,
-        wenzhou:G=>(G.stage||'law')==='law'?['這條街好多書店。……我們學校山下只有影印店。']:null} },
+        wenzhou:G=>(G.stage||'law')==='law'?['這條街好多書店。……我以前都只走到影印店就回頭。']:null} },
     npc_fangyt:{ walk:{any:[['椰影大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。','走那邊我都走中間。'],['這棵是樟樹。這棵是菩提。那棵，我不知道欸，我回去查。'],{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('npc_fangyt','FANG_HINT'),l:['芷若高中就這樣，下課都是她在講。']}]},   /* BB_172 F2（10-1 第 12 點）、F3、F4（10-1 第 9 點：改條件，看過 Z6「隔壁房的人記得的事」＝FANG_HINT 才放）*/ acc:{brunch:['好。早上我本來就起得早。'],teahouse:['好。聽說那邊院子有一棵很老的樟樹，我想去看看。'],cafe:['好。順便看一下 Café 窗台那盆植物。'],library:['好。我在總圖門口等你。'],wenzhou:['溫州街有一棵很老的榕樹。我帶你去。']} }   /* 方奕廷（7-4）；Café、總圖、一盞：BB_172 F6～F8（10-2 第 1 點）*/
   }
 };

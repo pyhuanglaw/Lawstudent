@@ -276,6 +276,8 @@ function cmp772(A0,B0,same){ const A=rekey772(A0), B=rekey772(B0), mA=new Map(),
   if(!(/wz_mokuyobi/.test(sm)&&/「木曜日」/.test(sm)&&/「去木曜日念書」/.test(sm)&&/\[13,22\]/.test(sm)&&/平日 15:30、19:00/.test(sm)&&/週末 14:00、15:30、19:00/.test(sm)&&/verbStudy 拿掉/.test(sm))) bad.push('E3／E4：AA_772 slowread_to_mokuyobi.place 的字和這支測試認得的不一樣（稿改了，這裡要跟著看）');
   const plLine=(pid,p)=>{ const m=/^INVITE_DATA\.people\.([^.]+)\.(acc|firstAt)\.(l118_[a-z0-9_]+)(?:\.([A-Z]))?\.(\d+)$/.exec(p)||null; return m; };
   const explained=(p,a,b)=>{ const q=placeOf(p);
+    if(/^INVITE_DATA\.people\.kexin\.rule(\(\)#\d+)?$/.test(p)&&b===undefined) return true;   /* AA_940（11-13）：可昕法圖改約慢讀那條 rule 拿掉 */
+    if(/^INVITE_DATA\.people\.kexin\.acc\.lawlib/.test(p)&&a===undefined) return b==='好。我常坐的那一排，靠窗。';   /* AA_940：補 acc.lawlib */
     if(q){ const [id,suf]=q; if(NEW.includes(id)){ if(suf==='.name') return b===IPN[id].name; if(suf==='.verb') return b===IPN[id].verb; if(/^\.(windows|off|days)\./.test(suf)) return hoursOk(id,suf,b); return true; }   /* 新地點的其他欄位：下面 E1 另外逐值驗 */
       if(IPN[id]){ if(suf==='.name') return b===IPN[id].name; if(suf==='.verb') return b===IPN[id].verb; if(/^\.(windows|off|days)\./.test(suf)) return b===undefined?true:hoursOk(id,suf,b);
         if(id==='l118_tea'&&!IPN[id].walk){ const d=valB('INVITE_DATA.places[l118_dian]'+suf); return b===d||(typeof b==='string'&&typeof d==='string'&&b.split('l118_tea').join('l118_dian')===d)||(a!==undefined&&b===undefined&&d===undefined); } }

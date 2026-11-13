@@ -25,13 +25,16 @@ const IR = t => { const o = {}; let who = null; for (const ln of t.split('\n')) 
 const txt = x => typeof x === 'string' ? x : (x && x.me);
 /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）invites.js 以 AA_886～901 為準（同 tools/invite/apply_overlay.py 的 CANON1112_GONE／SUPERSEDED）：
    整個拿掉的那一格（子晴 ZQ_CHANGE_ASK、芯慈 w118_xc_10）底下的列略過、同一個陣列後面的序號往前移；可昕映月湖 first 那一列被 AA_894 換過、略過。BASE 那一份也照同樣拿掉那一格再比 */
-const CG = [['people.heroine_04.walk.any', 1], ['people.classmate_xinci.walk.any', 7], ['walk118.classmate_xinci', 9]], CSUP = ['people.kexin.first.lake[0]'];
+const CG = [['people.heroine_04.walk.any', 1], ['people.classmate_xinci.walk.any', 7], ['walk118.classmate_xinci', 9]], CSUP = ['people.kexin.first.lake[0]', 'people.kexin.sport.gym_badminton.during[2][0]'/* AA_940 */];
 const cgPath = at => { for (const [pre, k] of CG) { const m = new RegExp('^' + pre.replace(/[.[\]]/g, '\\$&') + '\\[(\\d+)\\](.*)$').exec(at); if (!m) continue; const i = +m[1]; return i === k ? null : i > k ? pre + '[' + (i - 1) + ']' + m[2] : at; } return at; };
 const cgLeaves = L => { const o = {}; for (const p in L) { const q = cgPath(p); if (q !== null) o[q] = L[p]; } return o; };
 const RI = OE.rows('invites').filter(x => !CSUP.includes(x.at)).map(x => Object.assign({}, x, { at: cgPath(x.at) })).filter(x => x.at !== null), RR = OE.rows('invite_replies');
 
 (async () => {
-  const L1 = leaves(read('src/data/invites.js')), b0 = show(BASE, 'src/data/invites.js'), L0 = b0 ? cgLeaves(leaves(b0)) : null;   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）拿掉的那兩格先拿掉 */
+  const L1 = leaves(read('src/data/invites.js')), b0 = show(BASE, 'src/data/invites.js'), L0 = b0 ? cgLeaves(leaves(b0)) : null;
+  /* AA_940（11-13）：可昕法圖改約慢讀那條 rule 拿掉、補 acc.lawlib：BASE 拿掉 rule、現在拿掉 acc.lawlib 再比 */
+  if (L0) for (const p of Object.keys(L0)) if (/^people\.kexin\.rule$/.test(p)) delete L0[p];
+  for (const p of Object.keys(L1)) if (/^people\.kexin\.acc\.lawlib/.test(p)) delete L1[p];   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）拿掉的那兩格先拿掉 */
   const ir1 = IR(read('src/data/invite_replies.js')), irb = show(BASE, 'src/data/invite_replies.js'), ir0 = irb ? IR(irb) : null;
   if (!L0 || !ir0) console.log('（讀不到 BASE ' + BASE + '：第 3、4 項的逐格比略過）');
 
@@ -43,7 +46,7 @@ const RI = OE.rows('invites').filter(x => !CSUP.includes(x.at)).map(x => Object.
     check('1. tools/invite/apply_overlay.py --check：invites.js 每一列都已經是新字（結束碼 0）', r.status === 0, (r.stdout || r.stderr || '').slice(-300));
     const n783 = RI.filter(x => /AA_783/.test(x.src)).length, n784 = RI.filter(x => /AA_784/.test(x.src)).length;
     /* 2026-11-11（X324 G 區，AA_783_invite_replies.json@60c08798a）：invite_replies 多一列 zr28.say（芷若「店長」→「老闆」，AA_794 搬過來的；zr28.lines[0] 同一列換新字）。舊期望：invite_replies 63 列 */
-    check('1. 列數：AA_783 invite_replies ' + RR.length + ' 列（64：lines 63＋zr28.say 1）、invites ' + n783 + ' 列（13）；AA_784 invites ' + n784 + ' 列（117：七個女主角 74、配角七人 34、(共用) libStudy 9）', RR.length === 64 && RR.filter(x => /\.say$/.test(x.at)).length === 1 && n783 === 13 && n784 === 112/* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）AA_784@da666ecda9 移出兩列（115）、拿掉的那一格底下兩列和映月湖 first 一列略過（112）；舊期望 117 */, J([RR.length, n783, n784]));
+    check('1. 列數：AA_783 invite_replies ' + RR.length + ' 列（64：lines 63＋zr28.say 1）、invites ' + n783 + ' 列（13）；AA_784 invites ' + n784 + ' 列（117：七個女主角 74、配角七人 34、(共用) libStudy 9）', RR.length === 64 && RR.filter(x => /\.say$/.test(x.at)).length === 1 && n783 === 13 && n784 === 111/* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）AA_784@da666ecda9 移出兩列（115）、拿掉的那一格底下兩列和映月湖 first 一列略過（112）；AA_940 羽球 during 那一列略過（111）；舊期望 117 */, J([RR.length, n783, n784]));
     console.log('　稿：' + OE.docs.map(d => d.src).join('、'));
   });
 

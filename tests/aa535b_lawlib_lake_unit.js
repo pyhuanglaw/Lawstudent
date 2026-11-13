@@ -123,13 +123,12 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   // ===== 可昕約法圖 → 改約慢讀（週二慢讀休 → 系統改天）=====
   /* 2026-11-11（L118-SHOPS-REDO-1111、AA_772 slowread_to_mokuyobi）：慢讀咖啡搬到木曜日（13:00～22:00、週二休）——舊期望：週六 10:00 約法圖＝同一時間改約慢讀（慢讀 09:00 開）；
      新期望：木曜日 13:00 才開，場景改成週六 14:00（同一時間木曜日有開＝同一時間改約）；選單上寫的地點是木曜日 */
+  /* AA_940（BB_456，11-13）：可昕同系同屆，法圖改約慢讀那條拿掉——舊期望：婉拒「法圖？我是外校的…」改約木曜日；新期望：照一般答應，acc.lawlib「好。我常坐的那一排，靠窗。」*/
   { const mon=TD('Y1S2',5,1); fresh(mon-2,10,{dating_kexin:true}); know('kexin',S6);
     const sat=TD('Y1S2',5,6), r=await once('kexin','lawlib',sat,14);
-    check('2-1. 可昕約法圖（週六 14:00）：婉拒「法圖？我是外校的，進不去吧。」「……木曜日好不好？那裡不用證件。」→ 同一時間慢讀有開＝改約慢讀',r.res==='resched'&&J(r.lines)===J(['法圖？我是外校的，進不去吧。','……木曜日好不好？那裡不用證件。'])&&r.alt&&r.alt.place==='slowread'&&r.alt.day===sat&&r.alt.h===14,J(r));
+    check('2-1. 可昕約法圖（週六 14:00）：照一般答應「好。我常坐的那一排，靠窗。」（AA_940；不再改約慢讀）',r.res==='accept'&&J(r.lines)===J(['好。我常坐的那一排，靠窗。']),J(r));
     const tue=mon+1, rt=await once('kexin','lawlib',tue,15.5);
-    check('2-1. 週二（慢讀休）：照系統改天（慢讀的下一個空檔，不是週二）',rt.res==='resched'&&rt.alt&&rt.alt.place==='slowread'&&rt.alt.day!==tue&&wdOf(rt.alt.day)!==2,J(rt));
-    const a=await ask('kexin',['念書','法圖','明天 12:10','好，就']); const iv=(G.invites||[]).slice(-1)[0]||{};
-    check('2-1. 手機約可昕去法圖 → 選「好，就 …（木曜日）」＝約到木曜日（地點 slowread）',iv.who==='kexin'&&iv.place==='slowread'&&iv.state==='accepted'&&a.opts.some(o=>o.some(t=>/（木曜日）$/.test(t))),J([iv,a.opts.slice(-1)])); }
+    check('2-1. 週二也照一般答應（法圖開著；不改約木曜日）',rt.res!=='resched'||!rt.alt||rt.alt.place!=='slowread',J(rt)); }
   // ===== 芷若、子晴認識階段約法圖 → 婉拒 =====
   { const sat=TD('Y1S2',5,6); fresh(sat-1,9); know('heroine_02',S2); know('heroine_04',S2);
     const z=await once('heroine_02','lawlib',sat,10), q=await once('heroine_04','lawlib',sat,10);
