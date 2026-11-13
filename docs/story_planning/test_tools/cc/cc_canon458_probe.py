@@ -63,7 +63,7 @@ async def c_xmas(pg, cdp, tag):
        → MET＝當面版（OUT y3_kx_xmas＝ev_kexin_xmas_y3_met 12/25 21:00 法律系館A）→ 跳 12/25 20:30 → 等「出發」→ 每句截圖（選項 MET_A 第 1 個「一直都在。」、MET_B 第 2 個）；
        PREV＝大二聖誕去過（KX_XMAS {2:'went'}）開頭多三列；ABROAD＝【捷徑】STORY.abroad 改成 true（人在國外那一年）→ 照舊視訊版"""
     prev = tag == 'XMAS_PREV'; abroad = tag == 'XMAS_ABROAD'; alt = 1 if tag == 'XMAS_MET_B' else 0
-    fl = {'KX_XMAS': {'2': 'went'}} if prev else {}
+    fl = {'KX_XMAS': {'2': 'went'}, 'KX_XMAS3_CARD': True} if prev else {}   # BB-C 11-14：有卡片那版＝墊 KX_XMAS3_CARD（遊戲 r2y3a3d.js 在 12/24 那則訊息時也會照 KX_XMAS[2]==='went' 設）
     d, seed = await SP.fresh(pg, cdp, tag, '2027-12-24', 20.75, 'dorm', {'kexin': 'DATING'}, fl)
     R.note('[%s] 墊完 %s' % (tag, J(seed)))
     if abroad:
@@ -84,6 +84,11 @@ async def c_xmas(pg, cdp, tag):
     r = await SP.go_out(pg, cdp, tag + '_1225', alt)
     fl2 = await pg.evaluate("(()=>({KX_XMAS:GAME.G.flags.KX_XMAS||null, zone:GAME.G.zone}))()"); R.note('[%s] 之後 %s' % (tag, J(fl2)))
     if abroad: await pg.evaluate(ABROAD_OFF)
+    # BB-C 11-14：AA 改了有卡片那段的開場三列——PREV（大二聖誕去了＝KX_XMAS3_CARD）開場要有 XMAS_CARD_LINE；沒墊的那幾版不該有
+    card = os.environ.get('XMAS_CARD_LINE') or '（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）'
+    allt = [x[1] for x in (r['a'].get('lines') or []) + (r['b'].get('lines') or [])] + [x[1] for x in (r['a'].get('said') or []) + (r['b'].get('said') or [])]
+    has = any(card.strip('（）') in x for x in allt)
+    if not abroad: R.check('[%s] 開場%s「%s」' % (tag, '有' if prev else '沒有', card), has == prev, J(allt[:6]))
     SP.d158(tag, t, r)
     return {'case': tag, 'ask': t, 'reply': lab, 'out': q, 'r': r, 'after': fl2}
 
