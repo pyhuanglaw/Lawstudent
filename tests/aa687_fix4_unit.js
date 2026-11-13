@@ -53,7 +53,7 @@ const hookFor0=TERMEND.hookFor;
 /* 舊版（39c9d8b5c）和現在的 termend_lines.js 各自單獨跑一次（不用遊戲裡那一份：postgrad3d.js 載入時會在 HEART／GF 加 Y4S2 的 over）：比對心意、交往中那兩則沒有動 */
 const ser=o=>JSON.stringify(o,(k,v)=>typeof v==='function'?'fn:'+String(v):v);
 const evalTL=s=>{ if(!s) return null; const ctx={console}; try{ vm.runInNewContext(s.replace(/^const TERMEND_LINES\s*=/m,'this.TERMEND_LINES='),ctx); }catch(e){ return null; } return ctx.TERMEND_LINES||null; };
-const BASE=evalTL(gshow('39c9d8b5c','src/data/termend_lines.js')), CUR=evalTL(fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8'));
+const BASE=evalTL(gshow('39c9d8b5c','src/data/termend_lines.js')), CUR=evalTL(require('./aa959_map.js').unmapCode(fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8'),'termend_lines.js'));   /* AA_959（DLG-FULL-REVIEW-1110）：之後照覆寫表換的整句先換回來再和 39c9d8b5c 比 */
 
 (async()=>{
 await sec(0,()=>{ check('0. 載得到 TERMEND、VAC、NOODLE_CLOSED、HOME；AA_687（d41750385）讀得到：表 8 列、開場收尾兩句；舊版 termend_lines.js（39c9d8b5c）讀得到',
