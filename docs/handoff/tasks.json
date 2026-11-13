@@ -56701,6 +56701,39 @@
     "acceptance": "BB 瀏覽器",
     "ack": "ACK"
    }
+  },
+ {
+  "id": "SHOP-CC0-HELP-1113",
+  "title": "D161 店面 CC0 三項驗收：LAWWW2 做不完的店派其他 AI 幫忙（AA-C 118 巷九間、LAWWW-C 美國兩間；BB 那 12 個、AA 那批＋溫州街 15 間排隊）",
+  "owner": "AA",
+  "priority": "P0",
+  "status": "進行中",
+  "source": "使用者 11-13 14:1x 對 LAWWW2-C（UA-LAWWW2-1113-01～03）：「寫進規則 每家店都要通過 你做不完就請其他AI幫忙」「請其他AI幫忙的時候要跟它們說你現在的做法和驗收標準 仍然由你驗收 要跟它們講工具」",
+  "authorized": "使用者原話（跨職位幫忙由使用者授權）；D161",
+  "wants": "X365",
+  "next": "【11-13 14:3x LAWWW-C 開】AA-C 14:23 接 118 巷九間（lane118_shops.py：l118_cafe2、dian、home、korea、noodle2、omu、pasta、self、tea），照 docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md 做；一間做完交一間（AA 分支 patch＋並排圖）→ LAWWW2 驗收 → LAWWW 整合 → BB 判美術 → CC 四鏡頭＋效能。LAWWW-C 子代理做美國兩間（us_market、us_asian_market）。owner 寫 AA＝118 巷這一份；美國兩間由 LAWWW 負責。",
+  "first": {
+   "term": "Y1S1",
+   "week": 1,
+   "earliest": "第一次走進 118 巷的店",
+   "mainline": true,
+   "blocks": false,
+   "prereq": false,
+   "parallel": true,
+   "confirmed": true
+  },
+  "xai": {
+   "from": "使用者",
+   "to": "LAWWW2",
+   "receiver": "LAWWW",
+   "helpers": [
+    "AA",
+    "LAWWW"
+   ],
+   "spec": "docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md",
+   "acceptance": "tests/shop_cc0_unit.js 三項同時成立＋店自己的測試＋place_gate；LAWWW2 看並排圖驗收；BB 判美術",
+   "ack": "ACK（AA-C 14:23）"
   }
+ }
  ]
 }
