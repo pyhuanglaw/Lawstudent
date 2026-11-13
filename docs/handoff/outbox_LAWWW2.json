@@ -9399,6 +9399,23 @@
    ],
    "remaining": "木門開著、壁燈、店內衣架近看仍糊、多肉小",
    "next": "LAWWW-C 套 v4 patch＋放 rack GLB＋換店內 GLB、重建街景 → BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "OPEN-ONLY-1113：Z3.openOnly（營業才擺／打烊才擺）＋溫特寶邸門口衣架打烊收（v5 最後一版），換掉 cabdf8ad9a 專用版",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v5_openonly/open_only_1113.patch",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v5_openonly/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/v5_openonly/cmp_rack_open_closed.jpg"
+   ],
+   "remaining": "無（衣服近看／假人頭依 LAWWW-C 留下一輪）",
+   "next": "LAWWW-C 套 patch（底 cabdf8ad9a）→ BB 判打烊照片；鮮果／刀削麵用同一套"
   }
  ]
 }
