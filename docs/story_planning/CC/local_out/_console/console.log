@@ -867,3 +867,13 @@
 [22:10:08] [res] cpu=8% mem=36% (11.4/31.4 GB) chrome_testing=5  END C1112_PHONEGO
 [22:10:09] memory 36% before starting C1112_TZYUE (2 running)
 [22:10:09] ==== START C1112_TZYUE  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[22:10:12] [res] cpu=20% mem=36% (11.4/31.4 GB) chrome_testing=5  START C1112_TZYUE
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0456ffb6c9..da72e90557  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:10:14] ==== END   C1112_PHONEGO  exit=0  370s   ====
+[22:10:42] memory 40% before starting C1112_H23YT (2 running)
+[22:10:42] ==== START C1112_H23YT  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[22:10:45] [res] cpu=24% mem=41% (12.8/31.4 GB) chrome_testing=9  START C1112_H23YT
+[22:11:52] 正在跑：C1112_TZMEAL（已跑 11 分／上限 40 分）、C1112_TZYUE（已跑 1 分／上限 40 分）、C1112_H23YT（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:13:58] [res] cpu=46% mem=47% (14.8/31.4 GB) chrome_testing=10  END C1112_H23YT
