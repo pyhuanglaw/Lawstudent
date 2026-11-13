@@ -24,6 +24,7 @@ REL = int(os.environ.get('REL') or 0)
 FLAGS = json.loads(os.environ.get('FLAGS') or '{}')
 EXPECT_SIT = os.environ.get('EXPECT_SIT') or ''
 DOOR_DIAG = (os.environ.get('DOOR_DIAG') or '') == '1'
+START = [float(v) for v in (os.environ.get('START') or '').split(',') if v] or None   # 讀檔站的位置 x,z
 SEAT_R = float(os.environ.get('SEAT_R') or 1.8)   # BB-C 11-14 LAWLIB：她旁邊找空位的半徑（法圖 T7 隔壁那張約 1.6～2 m）
 VISITED = [z for z in (os.environ.get('VISITED') or '').split(',') if z]   # 11-14 BOOKSTORE：頁間這類「自己走進去過一次才列」（invites.js show:V('bookstore')）——【捷徑】墊 G.visited   # BB-C 11-14：exit 那一步按前按後取樣   # BB-C 11-14 CANON458 #12：坐下以後一定要出現的那一句（只比對字串）   # CC-C 11-14 BB_458 #10：額外的旗標（例 BEATS 以安第幾拍），JSON；ENV 不能有「|」
 R = L.Run('invite_phone_' + TAG, OUT); D.setup(R, OUT)
@@ -106,7 +107,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
-        s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)
+        s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=START[0], z=START[1], wait=7000) if START else await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)   # BB-C 11-14：門口那一份從門口附近開始（從公館另一頭走 77 m，路上點到別家的門）
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
         m = await pg.evaluate(MEET, {'who': WHO, 'rel': REL}); res['meet'] = m
         if VISITED:
@@ -135,6 +136,8 @@ async def main():
         # 11-14 CANON458 BEAT6_r2：約定時間到，遊戲自己跳「直接過去：…（照快速前往的路程時間）／自己走過去」——r1 沒處理＝一直 busy、走不到門口（BADM／BEAT6／BEAT8 r1 的真正原因）
         #   ROUTE 第一步是 travel＝選「直接過去」（遊戲自己的走法）；exit＝選「自己走過去」再照玩家走
         go_direct = ROUTE and ROUTE[0].startswith('travel:')
+        await L.close_panels(pg, cdp); await pg.wait_for_timeout(600)   # 11-14 BEAT6_r4：撥完時間以後遊戲時間停在 18.95（手機／面板還開著＝暫停），選單出不來——先收掉
+        h0 = await pg.evaluate("+(+GAME.G.hour).toFixed(3)")
         for _ in range(50):   # 11-14 BEAT6_r3：選單在時間撥完 8 秒以後才跳（先跳「提醒：19:00…」toast）——等到 25 秒
             st = await pg.evaluate(DLG)
             if st['choices']:
@@ -144,7 +147,10 @@ async def main():
                 await pg.screenshot(path=os.path.join(OUT, 'invp_%s_gochoice.png' % TAG))
                 await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % (i or 0)); await pg.wait_for_timeout(2500); break
             if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+            if st.get('phone'): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(600); continue
             await pg.wait_for_timeout(500)
+        else:
+            R.note('約定時間的選單 25 秒內沒出現：時間 %s → %s（沒走＝遊戲暫停）' % (h0, await pg.evaluate("+(+GAME.G.hour).toFixed(3)")))
         for n, step in enumerate(ROUTE, 1):
             kind, _, arg = step.partition(':')
             if kind == 'travel' and await pg.evaluate("GAME.G.zone") == arg: R.note('[%d] 已經在 %s（約定時間的「直接過去」）' % (n, arg)); continue
