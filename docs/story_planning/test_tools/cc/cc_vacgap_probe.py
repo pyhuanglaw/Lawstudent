@@ -11,10 +11,10 @@ CASES（逗號分隔；BB_457 的項次）：
   MXGYM            4  2025-12-29（一）14:30 新體育館（明軒 FAMILIAR）→ 走到明軒旁邊說話 → 跳 12/31（三）14:30 再說一次
   KVJP             5  家族群組；2026-01-24、01-29、01-31 17:55 → 過 18:00 → 手機家族群組
   LNY              6  家族群組＋阿凱、明軒、沛珊 FAMILIAR；2026-02-17 10:25 → 家族群組、沛珊；2026-02-18 22:05 → 阿凱、明軒
-  KXHOME_F／_D     7  可昕 FRIEND／交往中；VACGAP.flipOn 算大一寒假回家（go）、回臺北（back）那兩天 17:55 → 過 18:00 → 可昕那一串；另記 2026-01-02 18:05 有沒有
+  KXHOME_F／_D     7  可昕 FRIEND／交往中；VACGAP.flipOn 算大一寒假回家（go）、回臺北（back）那兩天 17:55 → 過 18:00 → 可昕那一串；（1/2 是阿哲的日子，不拍；BB-C 11-14）
   KXY3_A／_B       9  可昕交往中；2028-06-19 21:55 → 22:00 後；7/6、7/27、8/24 20:55 → 21:00 後實習三則按第 1／第 2 個回覆鍵；8/30 21:00 讀國考那則（_B 不看 6/19）
   OTHERS          11  芷若、沛珊、阿凱、明軒、方奕廷 FAMILIAR；VACGAP_LINES.home 每人第一筆「回家」（日子寫死的照寫、flip 的用 VACGAP.flipOn 算）＋沛珊大三第一筆；h−0.1 → 過 h → 那一串
-  KXY2_F／_D      12  可昕 FRIEND／交往中：2027-07-05、07-20 14:00 記 STORY.presence（在臺北＝遇得到）；07-31、08-01、08-31 17:55 → 過 18:00 → 可昕那一串（7/31 不該有「回高雄了」）
+  KXY2_F／_D      12  可昕 FRIEND／交往中：2027-07-05、07-20 14:00 記 STORY.presence（在臺北＝遇得到）；07-31、08-01、08-31、09-01 17:55 → 過 18:00 → 可昕那一串（7/31 不該有「回高雄了」；8/31 沒有、9/1 有「回來了」，BB-C 11-14 更正）
   第二批（11-14 01:xx）：
   EXAM_MX／EXAM_SIS_F／EXAM_SIS_D／EXAM_KAI  8  【捷徑】考試當天 07:30 用 VAC.signup 報同一場 C04（C04W@Y2 2027-01-23、C04@Y2 2027-08-28 學姊 FRIEND／交往中、C04W@Y3 2028-01-16 多益）
                    → 等遊戲自己跳「出發：…正式考試」→ 點 → 考完的偶遇照演（選項第 1 個）；記 MX_SEEN_TOEFL／SIS_TOEFL_SAMEDAY／KAI_TOEIC_SEEN
@@ -239,8 +239,7 @@ async def c_kxhome(pg, cdp, tag, dating):
     flips = await pg.evaluate(FLIP_JS, {'who': 'kexin', 'from': '2025-12-15', 'to': '2026-03-05', 'key': 'Y1W'})
     R.note('[%s] VACGAP.flipOn（可昕，Y1W）：%s' % (tag, J(flips)))
     out = []
-    await wait_h(pg, cdp, 18.1, tag + '_0102'); await pg.wait_for_timeout(3000)
-    out.append(dict(day='2026-01-02', **(await thread(pg, cdp, tag + '_0102', 'p:kexin'))))
+    # BB-C 11-14：1/2 是阿哲的日子，可昕寒假沒有寫死日期——只照 flipOn（homeAway 實際切換那天）18:00 判，不拍 1/2
     if not R.check('FAIL_SETUP 檢查：[%s] 算得出回家、回臺北那兩天' % tag, any(f['kind'] == 'go' for f in flips) and any(f['kind'] == 'back' for f in flips), J(flips)): return {'case': tag, 'flips': flips, 'days': out}
     for f in [next(f for f in flips if f['kind'] == 'go'), next(f for f in flips if f['kind'] == 'back')]:
         await jump(pg, cdp, tag, f['key'], 17 + 55 / 60, 'dorm', None)
@@ -293,7 +292,7 @@ async def c_kxy2(pg, cdp, tag, dating):
         p = await pg.evaluate("(()=>STORY.presence('kexin',GAME.G))()"); w = await P.who(pg, 'kexin')
         await pg.screenshot(path=os.path.join(OUT, '%s_%s_campus.png' % (tag, day[5:])))
         R.note('[%s] %s 14:00 校園：STORY.presence(kexin) %s；這一區的她 %s' % (tag, day, J(p), J(w))); out.append({'day': day, 'presence': p, 'npc': w})
-    for day in ('2027-07-31', '2027-08-01', '2027-08-31'):
+    for day in ('2027-07-31', '2027-08-01', '2027-08-31', '2027-09-01'):   # BB-C 11-14 更正（ee49d7ffa8）：「回來了」在 9/1 18:00（homeWin 到 8/31 含當天、flipOn 在不在家的第一天發）——8/31 要沒有、9/1 要有
         await jump(pg, cdp, tag, day, 17 + 55 / 60, 'dorm', None)
         await wait_h(pg, cdp, 18.1, tag + day[5:]); await pg.wait_for_timeout(3000)
         p = await pg.evaluate("(()=>STORY.presence('kexin',GAME.G))()")
