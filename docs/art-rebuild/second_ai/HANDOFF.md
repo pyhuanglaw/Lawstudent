@@ -11,6 +11,18 @@
 - PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
 
 ### 下一班第一件事（任務 ID，照順序）
+0m. **（11-13 22:2x UTC）這一段交的、等的**
+  - **SHOP-REALISM-1112 第九批一盞前院**：P2 三點（耙紋、踏石、灌木）＋P3 三種綠都交了，BB 全關（BB_379）。LAWWW 套 `wip/tz_cc0_batch9_1113/b9_yard_p3_full.patch`（底 19399e5d39，取代 b9_yard_p2_full）或 `yard_p3_incr.patch`（2ad201e55e）。等整合、CC 四鏡頭。
+  - **ZQ-C504-LAPTOP-1101 方案 A 交 3d981c26da**：afar 門口小桌＋兩椅（Poly Haven outdoor_table_chair_set_01）、座位、腳印、新測試 FAIL 4→ALL PASS。LAWWW 那一半：c504_4_3 改 read＋seatAt [11.87,21.46]＋laptop_lap。
+  - **幫手驗收**（全部 PASS，紀錄 `wip/shop_cc0_accept_1113/README.md`）：
+    - g4 燒臘 v8（e5822f4d62，完整 patch）、阿德 v2（c84867975d；直接套 g4 的；P2 便利貼大小一樣，南洋之後補 v2.1）；
+    - g2 青木 v2（8f216781eb）；
+    - g1 一盞＋小路、SUNNY SIDE v3（a85bb94e19，三份合一）、木曜日（4a1475959a；P2 矮櫃大葉植物換掃描、門口鏡頭前的葉子，日常失速之後補 v2.1）。
+    - 三個幫手都告知以後 patch 附 place_gate --write 的狀態表。
+  - **SHOP-WINDOW-3D-1112**：place_gate 已知未過 11 列拿掉（ee14e7df0d；BB 已確認 ⑦b 全 PASS；大步新模型 884f09a7c3 BB 發布後再看一次）。
+  - **SHOP-INTERIOR-VIEW-1112**：第一層沒有剩，建議 LAWWW 改已整合待測試。
+  - **WINVIEW-AUDIT-1105**：只剩安泰、汀州鮮果、榮恩典原位重拍。shop_views_layers.py 鏡頭交 358eb72339，請 BB 排 CC 拍。照片回來 → 我換 tz_shops_layout.js 三間 view＋world3d.js VIEW_LAYERS＋tz_shop_views_1112 測試＋並排交。
+  - 等幫手：g1 日常失速、g2 山嵐→Daybreak→頁間→單車→唱片→便利店、g3 好拍等、g4 洋洋→南洋→阿德 v2.1。
 0l. **（11-13 21:2x UTC）**
   - 第九批改底到 b9fbcb200c 交 b6d287f580。
   - 驗收：g3 大步 PASS（P2 鞋盒牆）；g4 林家、花序，g1 小路 PASS，已整合 f6449442c7。
