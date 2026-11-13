@@ -269,9 +269,9 @@ const date=id=>H.date(id);
     await run('ev_sis_depart_us'); check('W3 「護照、簽證、學校的文件。……你的拿出來，我看一次。」（AA_370 L8：不寫死 I-20）、媽媽塞鳳梨酥、「走了。」；SIS_SENDOFF together', has('護照、簽證、學校的文件。……你的拿出來，我看一次。')&&has('（你媽媽塞了一袋鳳梨酥給學姊。）')&&has('走了。')&&H.G.flags.SIS_SENDOFF==='together'&&!S.usDepartDue(H.G));
     H.said=[]; H.cards=[]; await EXCH.fly(GM); check('W3 登機：先演登機口「（她在看一本論文。飛機起飛的時候，她把書闔上了。）」再飛', has('（她在看一本論文。飛機起飛的時候，她把書闔上了。）')&&H.G.flags.US_ARRIVED===true&&H.cards.some(c=>c[0]==='飛往美國')); }
   { fresh('2028-08-02',13,'airport_dep',{US_DEPARTED:true},'US'); date('heroine_05'); date('kexin'); await run('ev_sis_depart_us');
-    check('1B-18 9-1b 美國、和可昕也在交往、她不知道：兩袋鳳梨酥、可昕「十二個小時，我算過了。」', has('（你媽媽塞了兩袋鳳梨酥，一袋給學姊。）')&&has('到了傳訊息。十二個小時，我算過了。'));
+    check('1B-18 9-1b 美國、和可昕也在交往、她不知道：兩袋鳳梨酥、可昕「到了傳訊息。我會醒著。」（2026-11-13 AA_926，舊期望「十二個小時，我算過了。」）', has('（你媽媽塞了兩袋鳳梨酥，一袋給學姊。）')&&has('到了傳訊息。我會醒著。')&&!has('到了傳訊息。十二個小時，我算過了。'));
     const hug='（可昕抱了你一下，很快就放開。學姊在看手機上的登機證。）';
-    check('AA_337 第 6 節 美國路線、可昕不知道：先抱一下的旁白，再「到了傳訊息。十二個小時……」', idx(hug)>=0&&idx(hug)<idx('到了傳訊息。十二個小時，我算過了。')); }
+    check('AA_337 第 6 節 美國路線、可昕不知道：先抱一下的旁白，再「到了傳訊息。我會醒著。」（AA_926）', idx(hug)>=0&&idx(hug)<idx('到了傳訊息。我會醒著。')); }
   { fresh('2028-08-02',13,'airport_dep',{US_DEPARTED:true},'US'); date('heroine_05'); date('kexin'); ROM.relRec(H.G).kexin={heroine_05:true}; await run('ev_sis_depart_us');
     check('AA_337 第 6 節 美國路線、可昕知道：只有她那一句，沒有動作', has('……我知道你們同一班。到了傳訊息。兩個都是。')&&!H.said.some(s=>/抱了你一下/.test(s.t))); }
   { fresh('2028-07-26',21,'dorm',{},'US'); date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); check('1B-18 美國路線：7/26 那則不發（同一班飛機）', !th('g:family_law').length); }

@@ -302,7 +302,7 @@ const R3=(function(){
     KX('y4_kx_mock',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'今天模擬考，第三題我寫了兩頁。寫完才發現題目只問一句。'),
     KX('y4_kx_twenty1',Tm=>inT(Tm,'Y4S1','Y4S2',4),22+10/60,null,{items:G=>[P1('kexin','二十分鐘。'),Object.assign(P1('kexin','這段讀完就打給你。',1/60),{ask:{id:'dp_y4_kx_twenty1',until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她真的打來了。）')]}]}})]}),
     KX('y4_kx_twenty',Tm=>inT(Tm,'Y4S1','Y4S2'),22+10/60,null,{max:()=>4,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y4_kx_twenty1')&&termN(G,'y4_kx_twenty')<2,items:(G,n)=>{ termInc(G,'y4_kx_twenty'); return [Object.assign(P1('kexin','二十分鐘'),{ask:{id:'dp_y4_kx_twenty_'+n,until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她打來了。）')]}]}})]; }}),
-    KX('y4s2_kx_rest',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'讀書計畫表上，今天那一格寫著『休息』。我休息到下午三點，又開始讀了。'),
+    KX('y4s2_kx_rest',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'今天說好要休息。我休息到下午三點，又開始讀了。'),
     KX('y4s2_kx_soon',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'後門那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。') ];
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.DAILY_PHONE)&&!STORY._r3dp){ for(const d of S.DP3) if(!STORY.DAILY_PHONE.some(x=>x.id===d.id)) STORY.DAILY_PHONE.push(d); STORY._r3dp=true; }
   /* 定時：[id, 日子, 臺灣的時刻（null＝寫在 local 的當地時刻）, 條件, 訊息]；隔一分鐘的照 dt 分開排 */

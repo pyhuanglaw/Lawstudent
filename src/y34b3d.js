@@ -726,7 +726,7 @@ const Y34B=(function(){
     {if:C(G=>dSis(G)&&kxUn(G)),speaker:null,text:'（你媽媽塞了兩袋鳳梨酥，一袋給學姊。）'},
     {if:C(dSis),speaker:'heroine_05',text:'……謝謝阿姨。'},
     {if:C(kxUn),speaker:null,text:'（可昕抱了你一下，很快就放開。學姊在看手機上的登機證。）'},   /* AA_337 第 6 節：她不知道的版本才有動作 */
-    {if:C(kxUn),speaker:'kexin',expression:'teasing',text:'到了傳訊息。十二個小時，我算過了。'},
+    {if:C(kxUn),speaker:'kexin',expression:'teasing',text:'到了傳訊息。我會醒著。'},
     {if:C(G=>kxIn(G)&&!kxUn(G)),speaker:'kexin',expression:'teasing',text:'……我知道你們同一班。到了傳訊息。兩個都是。'},
     {if:C(dSis),speaker:'heroine_05',text:'走了。'},
     {if:C(xSis),speaker:'heroine_05',text:'到了再說。'},

@@ -137,7 +137,7 @@ const US_LIFE_EVENTS=(function(){
     {speaker:'kexin',expression:'smile',text:'……我這邊是晚上。剛好一人一半。'},
     {speaker:'kexin',expression:'teasing',text:'牛郎織女要等一年。我們等四個月。'},
     {choice:[{text:'「十二月二十三號。」',goto:'a'},{text:'「妳那邊幾點睡？」',goto:'b'}]},
-    {label:'a'},{speaker:'kexin',expression:'teasing',text:'我知道。我算過了。'},{goto:'e'},
+    {label:'a'},{speaker:'kexin',expression:'teasing',text:'我知道。……你不用提醒我。'},{goto:'e'},
     {label:'b'},{speaker:'kexin',expression:'smile',text:'等你掛掉就睡。……快掛。'},
     {label:'e'},{set:{USL_QIXI:true}} ]});
 

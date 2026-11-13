@@ -462,7 +462,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2029-02-14',20.5,'dorm',TWF({KX_VDAY_WX:{1:'rain'},KX_VDAY:{1:'video',2:'missed',3:'video'}})); date('kexin'); rules(); picks=[1]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kx_vday'));
   check('V. 上一次有問天氣的是大一（大二沒接）、一樣是「下雨。」：「跟大一那年一樣。」', has('跟大一那年一樣。')&&!has('跟前年一樣。')&&!has('跟去年一樣。'));
   fresh('2029-02-14',20.5,'dorm',TWF()); date('kexin'); rules(); at('2029-02-14',21.6); await outTick(); at('2029-02-14',22.1); rules();
-  check('V. 沒接：照片＋「情人節快樂。十點那一格，今天先空著。」；KX_VDAY[4] missed', txt('p:kexin').includes('kexin:📷（讀書計畫表）')&&txt('p:kexin').includes('kexin:情人節快樂。十點那一格，今天先空著。')&&G.flags.KX_VDAY[4]==='missed');
+  check('V. 沒接：照片＋「情人節快樂。今天先這樣。」（2026-11-13 AA_926，舊期望「📷（讀書計畫表）」「十點那一格，今天先空著。」）；KX_VDAY[4] missed', txt('p:kexin').includes('kexin:📷（書桌上一杯喝到一半的熱可可）')&&txt('p:kexin').includes('kexin:情人節快樂。今天先這樣。')&&G.flags.KX_VDAY[4]==='missed');
 
   // ---------- 人物面板名稱（AA_345 第 4 節，F11）----------
   { const ML=SOCIAL.MEMORY_LABEL; check('F11. 人物面板名稱定稿：CHICAGO_TRIP「芝加哥的週末，她把行程表摺起來收進口袋」、PLG_LAST_RULE「讀書會交棒那天，白板上只剩一條：「每個人講完。」」、PICKED_HER_UP「她從美國回來那晚，去機場接她」', ML.CHICAGO_TRIP==='芝加哥的週末，她把行程表摺起來收進口袋'&&ML.PLG_LAST_RULE==='讀書會交棒那天，白板上只剩一條：「每個人講完。」'&&ML.PICKED_HER_UP==='她從美國回來那晚，去機場接她', JSON.stringify([ML.CHICAGO_TRIP,ML.PLG_LAST_RULE,ML.PICKED_HER_UP])); }

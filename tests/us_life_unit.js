@@ -255,7 +255,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   fresh('2028-08-17',21,'us_apartment',US({MET_LONG:true})); { const s=USL.SUM.find(x=>x.d==='2028-08-17'); check('G2. 8/17 摘要日：有 MET_LONG＝「何俊朗拿了兩盤披薩」；沒有＝「你吃了兩片披薩」', USL.sumLine(G,s)==='（國際學生的晚會。何俊朗拿了兩盤披薩，一盤給你。）'&&(G.flags.MET_LONG=false,USL.sumLine(G,s)==='（國際學生的晚會。你吃了兩片披薩，早早回公寓。）')); }
   fresh('2028-08-20',9,'us_apartment',US()); date('kexin'); rules(); { const q=OUT.get(G,'usl_qixi');
     check('G2. 8/26 可昕七夕（和可昕交往中）：當地 09:00 視訊（台灣 21:00）', !!q&&q.day===D('2028-08-26')&&q.h===9&&q.verb==='接起來'); }
-  at('2028-08-26',8.8); picks=[0]; await go('usl_qixi'); check('G2. 七夕：「七夕。你那邊是早上吧。」「……我這邊是晚上。剛好一人一半。」→「十二月二十三號。」→「我知道。我算過了。」', has('七夕。你那邊是早上吧。')&&has('牛郎織女要等一年。我們等四個月。')&&has('我知道。我算過了。'));
+  at('2028-08-26',8.8); picks=[0]; await go('usl_qixi'); check('G2. 七夕：「七夕。你那邊是早上吧。」「……我這邊是晚上。剛好一人一半。」→「十二月二十三號。」→「我知道。……你不用提醒我。」（2026-11-13 AA_926，舊期望「我知道。我算過了。」）', has('七夕。你那邊是早上吧。')&&has('牛郎織女要等一年。我們等四個月。')&&has('我知道。……你不用提醒我。'));
 
   // ======================= G3 勞動節的烤肉 =======================
   fresh('2028-09-02',15,'us_outside',US()); await interact({usClub:'door',look:'x'}); check('G3. 9/1 起會所門口的公告：「（公告上畫了一個烤肉架。下面寫：自己帶飲料。）」', caps.includes('（公告上畫了一個烤肉架。下面寫：自己帶飲料。）'));

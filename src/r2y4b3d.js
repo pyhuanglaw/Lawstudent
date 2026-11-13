@@ -184,7 +184,7 @@ const R2Y4B=(function(){
     if(G.day>=d25&&F.KX_BDAY_Y4==null&&PHONE.sent(G,'y4_kx_bday')){ const q=outGet(G,'y4_kx_bday'); if(q&&q.state==='planned') return; kxBdaySet(G,'none');
       PHONE.at(G,d25,atH(G,d25,21),[P_('kexin','昨天我生日。我知道我說不要慶祝。'),P_('kexin','可是我還是等了一天。')],'y4_kx_bday_none'); } };   /* 什麼都沒做：隔天兩句（她這學期的那一句）*/
   S.kxBdayDue=G=>{ const d=DK(KB.d24); return d!=null&&G.day===d&&hh(G)>=9&&hh(G)<23&&dating(G,'kexin')&&G.flags.KX_BDAY_Y4==null&&!outGet(G,'y4_kx_bday')&&(G.flags.KX_BDAY4_ASK==null||now(G)>=G.flags.KX_BDAY4_ASK)&&PHONE.sent(G,'y4_kx_bday'); };
-  S.kxBdayPrompt=async function(GM){ const G=GM.G, F=G.flags, O=[{t:'（傳一句「生日快樂。」）',k:'quiet'}]; if(S.kxPlanTable(G)) O.push({t:'（在讀書計畫表 4/24 那一格旁邊寫「生日快樂」）',k:'note'});
+  S.kxBdayPrompt=async function(GM){ const G=GM.G, F=G.flags, O=[{t:'（傳一句「生日快樂。」）',k:'quiet'}]; if(S.kxPlanTable(G)) O.push({t:'（在她筆記本的角落寫「生日快樂」）',k:'note'});
     O.push({t:'（開車上山，送一碗山下那家的酸辣湯餃）',hint:'不進去，送到就走',k:'visit'},{t:'晚一點再說',hint:'兩個小時後再問',k:'later'});
     let i=O.length-1; GM.sceneBegin(); try{ i=await GM.choose(O.map(o=>({t:o.t,hint:o.hint}))); } finally { GM.sceneEnd(); } const k=(O[i]||O[O.length-1]).k;
     if(k==='later'){ F.KX_BDAY4_ASK=now(G)+2; return k; }
@@ -853,7 +853,7 @@ const R2Y4B=(function(){
     {tag:'y4_last_meal',at:['2029-06-22',17],cond:G=>grp(G),items:G=>[GR('zhe','今天 期末最後一頓'),GR('zhe','七點 燒臘店')],
       after:G=>plan(G,{id:'y4_last_meal',ev:'ev_last_meal_y4',day:DK('2029-06-22'),h:19,late:0.5,place:'公館燒臘',title:'期末最後一頓',travel:'走過去約 15 分鐘',travelH:0.25})},
     /* 2-Y4-44 可昕 K26 */
-    {tag:'y4_kx_k26',at:['2029-07-05',21],cond:G=>dating(G,'kexin'),items:G=>[P_('kexin','禮拜六下午，我把行程表空出來了。'),P_('kexin','三點，老地方。',{ask:{id:'y4_kx_k26',until:T(DK('2029-07-07'),15),opts:[{t:'好。'}]}})],after:G=>S.k26Plan(G)},   /* AA_366 第 4 節 A7（企劃線 e6d4a198）：6/10 已經講好畢業以後的節奏（隔週日晚上），K26 不再說「重新排」*/
+    {tag:'y4_kx_k26',at:['2029-07-05',21],cond:G=>dating(G,'kexin'),items:G=>[P_('kexin','禮拜六下午我沒事。'),P_('kexin','三點，老地方。',{ask:{id:'y4_kx_k26',until:T(DK('2029-07-07'),15),opts:[{t:'好。'}]}})],after:G=>S.k26Plan(G)},   /* AA_366 第 4 節 A7（企劃線 e6d4a198）：6/10 已經講好畢業以後的節奏（隔週日晚上），K26 不再說「重新排」*/
     /* 2-Y4-46 七月的心意邀約 */
     {tag:'y4_july',at:['2029-07-13',21],cond:G=>!!S.julyWho(G)&&S.julyOk(G,S.julyWho(G)),items:G=>S.julyMsg(G)},
     /* 2-Y4-47 芷若回國（畢業時和她交往中）*/

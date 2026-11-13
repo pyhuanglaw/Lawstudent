@@ -342,7 +342,7 @@ await sec('3-11',async()=>{
   check('3-11. 閒聊階梯 K3-L5、K6-L6 換成 AA_863、AA_866 新稿（AA_525 那兩句不疊了）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!k16&&!!k17);
   const s=stripComments(SRC('src/story3d.js')), y=stripComments(SRC('src/y2r2_3d.js'));
   check('3-11. story3d.js「這題我要偷走。」；y2r2_3d.js「嗯。……講不清楚。」（K1b「好，那下週換你請。」那一則）（CANON-NO-ECON-1112 第三批：這一項拿掉）',s.includes("say:[K('這題我要偷走。')]")&&y.includes("{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}"));
-  check('3-11. 出國的計畫「歐洲要排很久。……我先存錢。」',VAC_DATA&&JSON.stringify(VAC_DATA).includes('"later":"歐洲要排很久。……我先存錢。"'));
+  check('3-11. 出國的計畫「歐洲好遠。……先不要。」（2026-11-13 AA_925 第 3 節、BB_451：存錢也是在算；舊期望「歐洲要排很久。……我先存錢。」）',VAC_DATA&&JSON.stringify(VAC_DATA).includes('"later":"歐洲好遠。……先不要。"')&&!JSON.stringify(VAC_DATA).includes('歐洲要排很久'));
   check('3-11. AA_526 撤回：大三上期末飯第二句照原句「寒假你來高雄。……我們都沒去過的地方，我來排。」；「寒假要去哪裡？」→「不告訴你。來了就知道。」不改',J(TERMEND_LINES.KX.Y3S1.table)===J(['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……我們都沒去過的地方，我來排。'])&&J(TERMEND_LINES.KX_ASK.Y3S1[1].r)===J(['不告訴你。來了就知道。']));
   // CANON-NO-ECON-1112：經濟系那一年拿掉（3-11 AA_356 漏的一筆（ev_y0_e18b 可昕生日））
 });
