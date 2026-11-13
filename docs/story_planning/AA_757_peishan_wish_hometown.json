@@ -218,7 +218,7 @@
      "lines": [
       {
        "who": "classmate_peishan",
-       "text": "今天我沒帶筆記本。好啦，帶了，但不會拿出來。"
+       "text": "筆記本我放在包包最下面。不會拿出來。"
       }
      ]
     }
@@ -769,7 +769,7 @@
   {
    "path": "wish_classmate_peishan.arrive.extraIf[2].lines[0].text",
    "old": "今天我沒帶筆記本。……帶了，但不拿出來。",
-   "new": "今天我沒帶筆記本。好啦，帶了，但不會拿出來。"
+   "new": "筆記本我放在包包最下面。不會拿出來。"
   },
   {
    "path": "wish_classmate_peishan.hotspots.D06.gallery.lines[2].text",
@@ -1186,7 +1186,7 @@
    "我第一次知道我可以這麼小聲。"
   ],
   "arriveHigh": [
-   "今天我沒帶筆記本。好啦，帶了，但不會拿出來。"
+   "筆記本我放在包包最下面。不會拿出來。"
   ],
   "arriveDating": [
    "手機我關靜音了。今天誰找我都不回。"
