@@ -1,0 +1,74 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_XMAS\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['XMAS_MET_A', 'XMAS_MET_B', 'XMAS_PREV', 'XMAS_ABROAD']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [XMAS_MET_A] 最小存檔讀到 2027-12-24 20.75 dorm（Y3S1 第 16 週）
+  [前置／捷徑] 【捷徑】[XMAS_MET_A] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [  46.1s] [XMAS_MET_A] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+PASS FAIL_SETUP 檢查：[XMAS_MET_A] 和可昕交往中  {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+PASS FAIL_SETUP 檢查：[XMAS_MET_A] 遊戲時間過了 21.10（現在 2027-12-24 21.11）
+  [  96.6s] [XMAS_MET_A_1224] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "明天晚上九點，系館。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": null, "ans": null}, {"who": "kexin", "text": "我報告還沒寫完。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": ["好。", "明天不行。"], "ans": null}, {"who": "kexin", "text": "跨年我又要回高雄。你來不來？", "d": 829, "h": 21, "tag": "kx_nye_y3", "ask": ["來。", "今年也不行。"], "ans": null}]
+  [ 100.1s] [XMAS_MET_A_1224] 回覆鍵 [{"t": "好。", "id": "y3_kx_xmas|0", "dis": false}, {"t": "明天不行。", "id": "y3_kx_xmas|1", "dis": false}, {"t": "來。", "id": "kx_nye_y3|0", "dis": false}, {"t": "今年也不行。", "id": "kx_nye_y3|1", "dis": false}]
+  [ 106.1s] [XMAS_MET_A_1224] 按「好」以後：[{"who": "kexin", "text": "我報告還沒寫完。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": ["好。", "明天不行。"], "ans": 0}, {"who": "kexin", "text": "跨年我又要回高雄。你來不來？", "d": 829, "h": 21, "tag": "kx_nye_y3", "ask": ["來。", "今年也不行。"], "ans": null}, {"who": "player", "text": "好。", "d": 829, "h": 21.13, "tag": null, "ask": null, "ans": null}, {"who": "kexin", "text": "嗯。", "d": 829, "h": 21.13, "tag": null, "ask": null, "ans": null}]
+  [ 106.7s] [XMAS_MET_A] 按「好」以後 OUT y3_kx_xmas＝{"day": "2027-12-25", "h": 21, "ev": "ev_kexin_xmas_y3_met", "place": "法律系館A", "state": "planned", "late": 0.16666666666666666}
+PASS FAIL_SETUP 檢查：[XMAS_MET_A] 12/25 21:00 那一趟排上了（ev_kexin_xmas_y3_met）  {"day": "2027-12-25", "h": 21, "ev": "ev_kexin_xmas_y3_met", "place": "法律系館A", "state": "planned", "late": 0.16666666666666666}
+  [ 106.7s] [XMAS_MET_A] 排的是 ev_kexin_xmas_y3_met（當面版）
+  [前置／捷徑] [前置] 同一份進度跳到 2027-12-25（Y3S1 第 16 週）20.50 時 dorm；XMAS_MET_A
+  [ 147.8s] [XMAS_MET_A_1225_a] 對話（事件 ev_kexin_xmas_y3_met）：選項 [["出發：可昕：聖誕（系館）法律系館A　21:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"], ["「一直都在。」", "「妳寫了一個半小時。」"], ["「有學到什麼嗎？」", "「八月呢？」"]]；選了 ["出發：可昕：聖誕（系館）法律系館A　21:00　走過去約 10 分鐘", "「一直都在。」", "「有學到什麼嗎？」"]；GAME.say [["杜可昕", "聖誕快樂。我報告還差兩頁。教授說明天中午以前。"], ["杜可昕", "你坐著。陪我就好。"], ["", "（她低頭打字。你坐在她對面，看了一個多小時她的頭頂。）"], ["", "（十點半，她把筆電轉過來：最後一頁。）"], ["杜可昕", "寫完了。……你還在喔。"], ["杜可昕", "好。禮物在我宿舍，等一下拿給你。"], ["", "（走回宿舍區。她上樓，拿了一個小紙袋下來。）"], ["杜可昕", "聖誕節的。包得很醜，你收就對了。"], ["杜可昕", "暑假我媽答應一半。七月留臺北，八月回去。"], ["杜可昕", "七月我在一間事務所打雜，影印、跑郵局。整天沒有人跟我講話，我很不習慣。"], ["杜可昕", "影印機卡紙怎麼修。還有，律師講電話都很客氣，掛掉才罵。"]]
+  [ 168.5s] [XMAS_MET_A_1225_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 168.5s] [XMAS_MET_A] 之後 {"KX_XMAS": {"3": "met"}, "zone": "dorm"}
+PASS [XMAS_MET_A] 開場沒有「（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）」  ["聖誕快樂。我報告還差兩頁。教授說明天中午以前。", "你坐著。陪我就好。", "（她低頭打字。你坐在她對面，看了一個多小時", "（十點半，她把筆電轉過來：最後一頁。）", "寫完了。……你還在喔。", "好。禮物在我宿舍，等一下拿給你。"]
+PASS [XMAS_MET_A] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [XMAS_MET_B] 最小存檔讀到 2027-12-24 20.75 dorm（Y3S1 第 16 週）
+  [前置／捷徑] 【捷徑】[XMAS_MET_B] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [ 198.8s] [XMAS_MET_B] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+PASS FAIL_SETUP 檢查：[XMAS_MET_B] 和可昕交往中  {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+PASS FAIL_SETUP 檢查：[XMAS_MET_B] 遊戲時間過了 21.10（現在 2027-12-24 21.11）
+  [ 249.0s] [XMAS_MET_B_1224] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "明天晚上九點，系館。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": null, "ans": null}, {"who": "kexin", "text": "我報告還沒寫完。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": ["好。", "明天不行。"], "ans": null}, {"who": "kexin", "text": "跨年我又要回高雄。你來不來？", "d": 829, "h": 21, "tag": "kx_nye_y3", "ask": ["來。", "今年也不行。"], "ans": null}]
+  [ 252.5s] [XMAS_MET_B_1224] 回覆鍵 [{"t": "好。", "id": "y3_kx_xmas|0", "dis": false}, {"t": "明天不行。", "id": "y3_kx_xmas|1", "dis": false}, {"t": "來。", "id": "kx_nye_y3|0", "dis": false}, {"t": "今年也不行。", "id": "kx_nye_y3|1", "dis": false}]
+  [ 258.5s] [XMAS_MET_B_1224] 按「好」以後：[{"who": "kexin", "text": "我報告還沒寫完。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": ["好。", "明天不行。"], "ans": 0}, {"who": "kexin", "text": "跨年我又要回高雄。你來不來？", "d": 829, "h": 21, "tag": "kx_nye_y3", "ask": ["來。", "今年也不行。"], "ans": null}, {"who": "player", "text": "好。", "d": 829, "h": 21.13, "tag": null, "ask": null, "ans": null}, {"who": "kexin", "text": "嗯。", "d": 829, "h": 21.13, "tag": null, "ask": null, "ans": null}]
+  [ 259.2s] [XMAS_MET_B] 按「好」以後 OUT y3_kx_xmas＝{"day": "2027-12-25", "h": 21, "ev": "ev_kexin_xmas_y3_met", "place": "法律系館A", "state": "planned", "late": 0.16666666666666666}
+PASS FAIL_SETUP 檢查：[XMAS_MET_B] 12/25 21:00 那一趟排上了（ev_kexin_xmas_y3_met）  {"day": "2027-12-25", "h": 21, "ev": "ev_kexin_xmas_y3_met", "place": "法律系館A", "state": "planned", "late": 0.16666666666666666}
+  [ 259.2s] [XMAS_MET_B] 排的是 ev_kexin_xmas_y3_met（當面版）
+  [前置／捷徑] [前置] 同一份進度跳到 2027-12-25（Y3S1 第 16 週）20.50 時 dorm；XMAS_MET_B
+  [ 300.7s] [XMAS_MET_B_1225_a] 對話（事件 ev_kexin_xmas_y3_met）：選項 [["出發：可昕：聖誕（系館）法律系館A　21:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"], ["「一直都在。」", "「妳寫了一個半小時。」"], ["「有學到什麼嗎？」", "「八月呢？」"]]；選了 ["出發：可昕：聖誕（系館）法律系館A　21:00　走過去約 10 分鐘", "「妳寫了一個半小時。」", "「八月呢？」"]；GAME.say [["杜可昕", "聖誕快樂。我報告還差兩頁。教授說明天中午以前。"], ["杜可昕", "你坐著。陪我就好。"], ["", "（她低頭打字。你坐在她對面，看了一個多小時她的頭頂。）"], ["", "（十點半，她把筆電轉過來：最後一頁。）"], ["杜可昕", "寫完了。……你還在喔。"], ["杜可昕", "你有算喔。……好，算你陪了一個半小時。"], ["", "（走回宿舍區。她上樓，拿了一個小紙袋下來。）"], ["杜可昕", "聖誕節的。包得很醜，你收就對了。"], ["杜可昕", "暑假我媽答應一半。七月留臺北，八月回去。"], ["杜可昕", "七月我在一間事務所打雜，影印、跑郵局。整天沒有人跟我講話，我很不習慣。"], ["杜可昕", "陪我媽買菜。她說我七月瘦了，八月要把我餵回來。"]]
+  [ 321.3s] [XMAS_MET_B_1225_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 321.3s] [XMAS_MET_B] 之後 {"KX_XMAS": {"3": "met"}, "zone": "dorm"}
+PASS [XMAS_MET_B] 開場沒有「（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）」  ["聖誕快樂。我報告還差兩頁。教授說明天中午以前。", "你坐著。陪我就好。", "（她低頭打字。你坐在她對面，看了一個多", "（十點半，她把筆電轉過來：最後一頁。）", "寫完了。……你還在喔。", "你有算喔。……好，算你陪了一個半小時。"]
+PASS [XMAS_MET_B] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [XMAS_PREV] 最小存檔讀到 2027-12-24 20.75 dorm（Y3S1 第 16 週）
+  [前置／捷徑] 【捷徑】[XMAS_PREV] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"KX_XMAS": {"2": "went"}, "KX_XMAS3_CARD": true}}
+  [ 351.1s] [XMAS_PREV] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"KX_XMAS": {"2": "went"}, "KX_XMAS3_CARD": true}}
+PASS FAIL_SETUP 檢查：[XMAS_PREV] 和可昕交往中  {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"KX_XMAS": {"2": "went"}, "KX_XMAS3_CARD": true}}
+PASS FAIL_SETUP 檢查：[XMAS_PREV] 遊戲時間過了 21.10（現在 2027-12-24 21.11）
+  [ 401.3s] [XMAS_PREV_1224] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "明天晚上九點，系館。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": null, "ans": null}, {"who": "kexin", "text": "我報告還沒寫完。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": ["好。", "明天不行。"], "ans": null}, {"who": "kexin", "text": "跨年我又要回高雄。你來不來？", "d": 829, "h": 21, "tag": "kx_nye_y3", "ask": ["來。", "今年也不行。"], "ans": null}]
+  [ 404.8s] [XMAS_PREV_1224] 回覆鍵 [{"t": "好。", "id": "y3_kx_xmas|0", "dis": false}, {"t": "明天不行。", "id": "y3_kx_xmas|1", "dis": false}, {"t": "來。", "id": "kx_nye_y3|0", "dis": false}, {"t": "今年也不行。", "id": "kx_nye_y3|1", "dis": false}]
+  [ 410.9s] [XMAS_PREV_1224] 按「好」以後：[{"who": "kexin", "text": "我報告還沒寫完。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": ["好。", "明天不行。"], "ans": 0}, {"who": "kexin", "text": "跨年我又要回高雄。你來不來？", "d": 829, "h": 21, "tag": "kx_nye_y3", "ask": ["來。", "今年也不行。"], "ans": null}, {"who": "player", "text": "好。", "d": 829, "h": 21.13, "tag": null, "ask": null, "ans": null}, {"who": "kexin", "text": "嗯。", "d": 829, "h": 21.13, "tag": null, "ask": null, "ans": null}]
+  [ 411.5s] [XMAS_PREV] 按「好」以後 OUT y3_kx_xmas＝{"day": "2027-12-25", "h": 21, "ev": "ev_kexin_xmas_y3_met", "place": "法律系館A", "state": "planned", "late": 0.16666666666666666}
+PASS FAIL_SETUP 檢查：[XMAS_PREV] 12/25 21:00 那一趟排上了（ev_kexin_xmas_y3_met）  {"day": "2027-12-25", "h": 21, "ev": "ev_kexin_xmas_y3_met", "place": "法律系館A", "state": "planned", "late": 0.16666666666666666}
+  [ 411.5s] [XMAS_PREV] 排的是 ev_kexin_xmas_y3_met（當面版）
+  [前置／捷徑] [前置] 同一份進度跳到 2027-12-25（Y3S1 第 16 週）20.50 時 dorm；XMAS_PREV
+  [ 456.3s] [XMAS_PREV_1225_a] 對話（事件 ev_kexin_xmas_y3_met）：選項 [["出發：可昕：聖誕（系館）法律系館A　21:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"], ["「一直都在。」", "「妳寫了一個半小時。」"], ["「有學到什麼嗎？」", "「八月呢？」"]]；選了 ["出發：可昕：聖誕（系館）法律系館A　21:00　走過去約 10 分鐘", "「一直都在。」", "「有學到什麼嗎？」"]；GAME.say [["", "（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）"], ["杜可昕", "我知道今年輪你。……我先占了。"], ["杜可昕", "你要抗議，我聽。抗議完坐下。"], ["杜可昕", "聖誕快樂。我報告還差兩頁。教授說明天中午以前。"], ["杜可昕", "你坐著。陪我就好。"], ["", "（她低頭打字。你坐在她對面，看了一個多小時她的頭頂。）"], ["", "（十點半，她把筆電轉過來：最後一頁。）"], ["杜可昕", "寫完了。……你還在喔。"], ["杜可昕", "好。禮物在我宿舍，等一下拿給你。"], ["", "（走回宿舍區。她上樓，拿了一個小紙袋下來。）"], ["杜可昕", "聖誕節的。包得很醜，你收就對了。"], ["杜可昕", "暑假我媽答應一半。七月留臺北，八月回去。"], ["杜可昕", "七月我在一間事務所打雜，影印、跑郵局。整天沒有人跟我講話，我很不習慣。"], ["杜可昕", "影印機卡紙怎麼修。還有，律師講電話都很客氣，掛掉才罵。"]]
+  [ 477.0s] [XMAS_PREV_1225_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 477.0s] [XMAS_PREV] 之後 {"KX_XMAS": {"2": "went", "3": "met"}, "zone": "dorm"}
+PASS [XMAS_PREV] 開場有「（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）」  ["（去年的卡片說，今年換你決定去哪。可是地點是她昨天先講的。）", "我知道今年輪你。……我先占了。", "你要抗議，我聽。抗議完坐下。", "聖誕快樂。我報告還差兩頁。教授說明天中午以", "你坐著。陪我就好。", "（她低頭打字。你坐在她對面，看了一個多小時"]
+PASS [XMAS_PREV] D158 字表 0 處（台詞、選項、手機）  0
+  [前置／捷徑] [XMAS_ABROAD] 最小存檔讀到 2027-12-24 20.75 dorm（Y3S1 第 16 週）
+  [前置／捷徑] 【捷徑】[XMAS_ABROAD] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [ 505.5s] [XMAS_ABROAD] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+  [前置／捷徑] [XMAS_ABROAD]【捷徑】STORY.abroad 改成永遠 true（祐廷那年人在國外；不讀交換路線存檔）
+PASS FAIL_SETUP 檢查：[XMAS_ABROAD] 和可昕交往中  {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {}}
+PASS FAIL_SETUP 檢查：[XMAS_ABROAD] 遊戲時間過了 21.10（現在 2027-12-24 21.10）
+  [ 555.6s] [XMAS_ABROAD_1224] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "明天晚上九點，視訊。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": null, "ans": null}, {"who": "kexin", "text": "我還在趕報告。你陪我就好。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": ["好。", "明天不行。"], "ans": null}, {"who": "kexin", "text": "跨年我又要回高雄。你來不來？", "d": 829, "h": 21, "tag": "kx_nye_y3", "ask": ["來。", "今年也不行。"], "ans": null}]
+  [ 559.0s] [XMAS_ABROAD_1224] 回覆鍵 [{"t": "好。", "id": "y3_kx_xmas|0", "dis": false}, {"t": "明天不行。", "id": "y3_kx_xmas|1", "dis": false}, {"t": "來。", "id": "kx_nye_y3|0", "dis": false}, {"t": "今年也不行。", "id": "kx_nye_y3|1", "dis": false}]
+  [ 565.0s] [XMAS_ABROAD_1224] 按「好」以後：[{"who": "kexin", "text": "我還在趕報告。你陪我就好。", "d": 829, "h": 21, "tag": "y3_kx_xmas", "ask": ["好。", "明天不行。"], "ans": 0}, {"who": "kexin", "text": "跨年我又要回高雄。你來不來？", "d": 829, "h": 21, "tag": "kx_nye_y3", "ask": ["來。", "今年也不行。"], "ans": null}, {"who": "player", "text": "好。", "d": 829, "h": 21.13, "tag": null, "ask": null, "ans": null}, {"who": "kexin", "text": "嗯。", "d": 829, "h": 21.13, "tag": null, "ask": null, "ans": null}]
+  [ 565.7s] [XMAS_ABROAD] 按「好」以後 OUT y3_kx_xmas＝{"day": "2027-12-25", "h": 21, "ev": "ev_kexin_xmas_y3", "place": "視訊", "state": "planned", "late": 0.16666666666666666}
+PASS FAIL_SETUP 檢查：[XMAS_ABROAD] 12/25 21:00 那一趟排上了（ev_kexin_xmas_y3）  {"day": "2027-12-25", "h": 21, "ev": "ev_kexin_xmas_y3", "place": "視訊", "state": "planned", "late": 0.16666666666666666}
+  [ 565.7s] [XMAS_ABROAD] 排的是 ev_kexin_xmas_y3（視訊版）
+  [前置／捷徑] [前置] 同一份進度跳到 2027-12-25（Y3S1 第 16 週）20.50 時 dorm；XMAS_ABROAD
+  [ 628.8s] [XMAS_ABROAD_1225_a] 對話（事件 ev_kexin_xmas_y3）：選項 [["接起來：可昕的視訊：聖誕21:00", "晚一點（20 分鐘後再提醒）", "今天先不要"], ["「一直都在。」", "「妳寫了一個半小時。」"], ["「有學到什麼嗎？」", "「八月呢？」"]]；選了 ["接起來：可昕的視訊：聖誕21:00", "「一直都在。」", "「有學到什麼嗎？」"]；GAME.say [["杜可昕", "聖誕快樂。我報告還差兩頁。教授說明天中午以前。"], ["杜可昕", "螢幕開著。你陪我就好。"], ["", "（她低頭打字。你看著螢幕裡她的頭頂，看了一個多小時。）"], ["", "（十點半，她把螢幕轉過來：最後一頁。）"], ["杜可昕", "寫完了。……你還在喔。"], ["杜可昕", "好。禮物等我考完再換。"], ["杜可昕", "暑假我媽答應一半。七月留臺北，八月回去。"], ["杜可昕", "七月我在一間事務所打雜，影印、跑郵局。整天沒有人跟我講話，我很不習慣。"], ["杜可昕", "影印機卡紙怎麼修。還有，律師講電話都很客氣，掛掉才罵。"]]
+  [ 649.4s] [XMAS_ABROAD_1225_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 649.5s] [XMAS_ABROAD] 之後 {"KX_XMAS": {"3": "video"}, "zone": "dorm"}
+PASS [XMAS_ABROAD] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS
