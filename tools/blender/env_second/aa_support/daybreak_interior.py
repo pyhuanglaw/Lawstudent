@@ -34,7 +34,7 @@ import cc0_kit   # noqa: E402
 CK = cc0_kit.Kit(sh.root, P[:-1])
 sh.M.update({
     'frame': CK.acg(P + 'frame_sage', 'Plastic006', target='#8a9e8a', vary=0.05, tile=0.5, rough_value=0.5),    # 灰綠窗框：烤漆
-    'oakcg': CK.acg(P + 'oak_cc0', 'Wood049', target='#d4b384', tile=0.7, rough_value=0.55),
+    'oakcg': CK.acg(P + 'oak_cc0', 'Wood049', target='#d4b384', vary=0.35, tile=0.5, rough_value=0.55),
     'fab_cream': CK.acg(P + 'fabric_cream', 'Fabric030', target='#ebe4d4', tile=0.35, rough_value=0.9),
     'fab_sage': CK.acg(P + 'fabric_sage', 'Fabric030', target='#869a80', tile=0.35, rough_value=0.85),
     'fab_yellow': CK.acg(P + 'fabric_yellow', 'Fabric030', target='#f0d478', tile=0.3, rough_value=0.9),
@@ -45,7 +45,7 @@ sh.M.update({
     'tile_b': CK.acg(P + 'tile_green_b', 'Plastic006', target='#95ad93', vary=0.05, tile=0.25, rough_value=0.15),
     'sagepaint': CK.acg(P + 'sage_paint', 'Metal009', target='#7d927a', vary=0.15, tile=0.4, metal=0.2, rough_value=0.45),
     'blackmetal': CK.acg(P + 'black_metal', 'Metal009', target='#2e2e2e', vary=0.2, tile=0.4, metal=0.4, rough_value=0.45),
-    'steel': CK.acg(P + 'steel', 'Metal009', target='#d6d6d2', vary=0.08, tile=0.4, metal=0.6, rough_value=0.35),
+    'steel': CK.acg(P + 'steel', 'Metal009', target='#d6d6d2', vary=0.04, tile=0.4, metal=0.25, rough_value=0.35),
     'blackplastic': CK.acg(P + 'black_plastic', 'Plastic006', target='#3a3a38', vary=0.03, tile=0.4, rough_value=0.4),
     'beam': CK.acg(P + 'beam_plaster', 'Plaster001', target='#f4f2ec', vary=0.04, tile=1.0, rough_value=0.85),
 })

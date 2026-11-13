@@ -39,7 +39,7 @@ sh.M.update({
     'ceil': CK.acg(P + 'ceiling', 'Plaster001', target='#d8c4a2', vary=0.04, tile=2.0, rough_value=0.95, cull=True),
     'paper': CK.acg(P + 'paper', 'Paper001', target='#efe8d8', vary=0.3, tile=0.3, rough_value=0.8),
     'blackmetal': CK.acg(P + 'black_metal', 'Metal009', target='#33353a', vary=0.2, tile=0.4, metal=0.4, rough_value=0.45),
-    'steel': CK.acg(P + 'steel', 'Metal009', target='#a8aaa8', vary=0.08, tile=0.4, metal=0.6, rough_value=0.35),
+    'steel': CK.acg(P + 'steel', 'Metal009', target='#a8aaa8', vary=0.04, tile=0.4, metal=0.25, rough_value=0.35),
     'ceramic': CK.acg(P + 'ceramic', 'Plastic006', target='#e8e4dc', vary=0.05, tile=0.4, rough_value=0.25),
     'ceramic_b': CK.acg(P + 'ceramic_beige', 'Plastic006', target='#d8d0c0', vary=0.05, tile=0.4, rough_value=0.3),
     'stone': CK.acg(P + 'counter_top', 'Marble012', target='#d6c4a4', vary=0.1, tile=1.2, rough_value=0.35),
@@ -59,7 +59,7 @@ def _ph_plant(x, z, h=1.0, r=0.2, pot_col=None, y0=0.0, lvl='', seed=0):
     """盆栽：Poly Haven 掃描（小的 potted_plant_04、大的 potted_plant_02；取代 aa_kit 的花盆＋葉片卡）。二樓的放進 L2（自訂屬性 level＝1）"""
     big = h >= 0.7
     o = CK.ph_put('potted_plant_02' if big else 'potted_plant_04', x, y0, z, yaw=RP.uniform(0, 6.28), share=False,
-                  height=(h + r * 0.8) if big else (r * 1.5 + h * 0.75), decimate=0.012 if big else 0.03)
+                  height=(h + r * 0.8) if big else (r * 1.5 + h * 0.75), decimate=0.01 if big else 0.018)
     if lvl: o.name = 'L2_' + o.name; o['level'] = 1
 
 

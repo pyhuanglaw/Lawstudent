@@ -34,7 +34,7 @@ sh.M['shade'] = sh.M['bulb']
 import cc0_kit   # noqa: E402
 CK = cc0_kit.Kit(sh.root, P[:-1])
 sh.M.update({
-    'oakcg': CK.acg(P + 'oak_cc0', 'Wood049', target='#c39a69', tile=0.7, rough_value=0.55),
+    'oakcg': CK.acg(P + 'oak_cc0', 'Wood049', target='#c39a69', vary=0.35, tile=0.5, rough_value=0.55),
     'traywood': CK.acg(P + 'tray_walnut', 'Wood066', target='#6a4a2a', tile=0.5, rough_value=0.45),
     'fab_cream': CK.acg(P + 'fabric_cream', 'Fabric030', target='#e6ddcc', tile=0.35, rough_value=0.9),
     'fab_oat': CK.acg(P + 'fabric_oat', 'Fabric030', target='#b8c4a8', tile=0.35, rough_value=0.9),
@@ -47,7 +47,7 @@ sh.M.update({
     'tin': CK.acg(P + 'tin', 'Metal009', target='#34503c', vary=0.2, tile=0.3, metal=0.3, rough_value=0.35),
     'tile_a': CK.acg(P + 'tile_green_a', 'Plastic006', target='#7f9c80', vary=0.05, tile=0.25, rough_value=0.15),
     'tile_b': CK.acg(P + 'tile_green_b', 'Plastic006', target='#77927a', vary=0.05, tile=0.25, rough_value=0.15),
-    'steel': CK.acg(P + 'steel', 'Metal009', target='#c8c8c4', vary=0.08, tile=0.4, metal=0.6, rough_value=0.35),
+    'steel': CK.acg(P + 'steel', 'Metal009', target='#c8c8c4', vary=0.04, tile=0.4, metal=0.25, rough_value=0.35),
 })
 sh.route({'#b98d5c': 'oakcg', '#a87a4a': 'oakcg', '#b0814f': 'oakcg', '#6a4a2a': 'traywood',
           '#e6ddcc': 'fab_cream', '#e8e0cc': 'fab_cream', '#b8c4a8': 'fab_oat', '#7d9a7e': 'fab_sage',

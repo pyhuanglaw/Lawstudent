@@ -35,14 +35,14 @@ import cc0_kit   # noqa: E402
 RP = random.Random(77)   # 掃描盆栽的轉向（另一個亂數，原本的書、杯子排法不變）
 CK = cc0_kit.Kit(sh.root, P[:-1])
 sh.M.update({
-    'oakcg': CK.acg(P + 'oak_cc0', 'Wood049', target='#bf9462', tile=0.7, rough_value=0.55),
+    'oakcg': CK.acg(P + 'oak_cc0', 'Wood049', target='#bf9462', vary=0.35, tile=0.5, rough_value=0.55),
     'fab_grey': CK.acg(P + 'fabric_grey', 'Fabric030', target='#9c968c', tile=0.35, rough_value=0.9),
     'fab_linen': CK.acg(P + 'fabric_linen', 'Fabric030', target='#dacdb6', tile=0.35, rough_value=0.9),
     'fab_moss': CK.acg(P + 'fabric_moss', 'Fabric030', target='#7d8f62', tile=0.3, rough_value=0.9),
     'rug': CK.acg(P + 'rug', 'Fabric030', target='#cbbca2', tile=0.25, rough_value=0.95),
     'brass': CK.acg(P + 'brass', 'Metal009', target='#b8944a', vary=0.2, tile=0.3, metal=0.7, rough_value=0.35),
     'blackmetal': CK.acg(P + 'black_metal', 'Metal009', target='#2a2a2a', vary=0.2, tile=0.4, metal=0.4, rough_value=0.45),
-    'steel': CK.acg(P + 'steel', 'Metal009', target='#cfccc4', vary=0.08, tile=0.4, metal=0.6, rough_value=0.4),
+    'steel': CK.acg(P + 'steel', 'Metal009', target='#cfccc4', vary=0.04, tile=0.4, metal=0.25, rough_value=0.4),
     'signboard': CK.acg(P + 'sign_board', 'Plastic006', target='#2f3a33', vary=0.03, tile=0.4, rough_value=0.55),
     'stone': CK.acg(P + 'stone_top', 'Marble012', target='#e8e2d6', vary=0.1, tile=1.2, rough_value=0.3),
     'ceramic': CK.acg(P + 'ceramic', 'Plastic006', target='#f2efe8', vary=0.05, tile=0.4, rough_value=0.2),
