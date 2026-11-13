@@ -1035,6 +1035,19 @@ def loose(args):
     for t in tasks:
         if t.get('status') in ('進行中', '待開工') and re.search(r'子代理(在做|實作|正在)', str(t.get('next') or '')):
             bad.append('任務 %s 寫「%s」、next 說子代理在做——子代理做完了嗎？成果合進來了嗎？（%s）' % (t['id'], t['status'], str(t.get('next'))[:60]))
+    # D163（使用者 2026-11-13：「他們怎麼交班他們沒有自己的交班規則」）：任務的 helpers＝別的職位開的幫手工作階段；
+    # 幫手分支上還有不在開發分支的 commit＝還沒收進來（交班前叫幫手交班、接班第 9 步逐條處理）；closed（寫原因）的不算
+    for t in tasks:
+        for h in t.get('helpers') or []:
+            br = h.get('branch')
+            if not br or h.get('closed'):
+                continue
+            if not git('rev-parse', '--verify', '--quiet', 'refs/remotes/origin/' + br).strip():
+                bad.append('任務 %s 的幫手 %s：遠端沒有分支 %s（沒推過？）' % (t['id'], h.get('name') or h.get('session'), br)); continue
+            n = git('rev-list', '--count', head + '..origin/' + br).strip() or '0'
+            if n != '0':
+                bad.append('任務 %s 的幫手 %s（%s）：origin/%s 有 %s 個 commit 不在 %s——看它的交接檔 %s，整合／交新幫手接手／寫 closed 原因（D163）' % (
+                    t['id'], h.get('name') or '', h.get('session') or '', br, n, head, h.get('handoff') or 'HANDOFF.md'))
     for b in bad:
         print('[異常] ' + b)
     print('結果：' + ('異常 %d 項——有做好的東西還沒收進開發分支，不得宣稱交接完整' % len(bad) if bad else 'OK（沒有散落在外面的成果）'))
