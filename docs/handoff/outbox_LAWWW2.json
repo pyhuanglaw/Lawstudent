@@ -9615,6 +9615,28 @@
    "tests": "新 tests/shop_first_pre_r8_unit.js 改前 FAILED 7→ALL PASS；shop_real_inside、gg/wz_real_inside、tz_shop_views ALL PASS",
    "notDone": "真機時間沒量",
    "next": "CC 跑 FIRST_* r8（公館、新生南路；一般／?noshoppre）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "CC0 第三批：東南大聯 v2.2（零食袋枕頭形、歪倒、門口鐵網籃）、印得好 P2（封面板）、越好吃 P2（燈籠平滑）、安泰藥局 CC0 v1（包裝貼圖集、PH 模型、光照烘焙）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch3_1113/tz_cc0_batch3.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch3_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch3_1113/cmp_dongnan_v22.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch3_1113/cmp_antai_v1.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch3_1113/cmp_yuehaochi_p2.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch3_1113/close_antai_yindehao.jpg"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 83039da726",
+   "tests": "套用後 shop_cc0_unit 四間 PASS；tz_*、gg_*、shop_* 全過；place_gate 只剩狀態表過期；baseline 拿掉 gg_antai",
+   "notDone": "BB 美術判定；安泰、東南 CC 遊戲內四鏡頭",
+   "next": "LAWWW 套 patch、place_gate --write；BB 判"
   }
  ]
 }
