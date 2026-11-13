@@ -64,7 +64,9 @@ const NM=id=>SOCIAL.displayName(id);
 /* ---------- 讀稿 ---------- */
 const git=(sha,f)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+sha+':"docs/story_planning/'+f+'"',{cwd:process.env.AA497_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const DOC0=git('bfede0a62','AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md'),   /* b70bed855＝60fc3b9a3＋第 8 節後補（芯慈公車沒回那一句、豆干量詞）；bfede0a62＝AA_527 改字（1-6 宥辰第 7 則拿掉「模擬法庭」，2026-10-30）*/ BB70=git('60fc3b9a3','BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'), BB113=git('60fc3b9a3','BB_113_BB角色的同行聊天與手機小事池.md');
-const DOC=DOC0.split('宜蓁').join('佳穎');   /* 第 8 節第 5 點：學妹改名「佳穎」（稿的 5-2、5-3 還寫宜蓁；整份稿只有學妹叫宜蓁）*/
+/* AA_936（企劃線 7466ec8f8e，BB_456 看過）：sup497 seat（以安的老位子）那句旁白改字（源稿 AA_497 第 541 行同改；這裡讀的 bfede0a62 還是舊字）——照 AA_936 的新舊兩欄換，兩欄都要在 AA_936 裡 */
+const X936=git('7466ec8f8e','AA_936_台詞規則_7-3_7-6_7-12_看完.md'), SEAT936=['（以安的老位子上放著一個背包。她走進來，背包的主人——明軒——把背包拿起來，換到後面兩排去。）','（以安的老位子上放著一個背包。她走進來，明軒從旁邊站起來，把背包拿走，換到後面兩排去。）'];
+const DOC=DOC0.split('宜蓁').join('佳穎').split(SEAT936[0]).join(SEAT936[1]);   /* 第 8 節第 5 點：學妹改名「佳穎」（稿的 5-2、5-3 還寫宜蓁；整份稿只有學妹叫宜蓁）*/
 const S8=(()=>{ const i=DOC0.indexOf('## 8.'); return i<0?'':DOC0.slice(i); })();   /* 第 8 節原文（換句的新舊兩邊都要在這裡）*/
 const part=(doc,a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const B7B=part(BB70,'## 7b.','## 7c.');
@@ -77,7 +79,7 @@ const SUPERSEDED_547=new Set(['（那個女生停了一下。）','……吳芯�
 const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
 
 (async()=>{
-  check('0. 讀稿：AA_497（60fc3b9a3，有第 8 節）、BB_70 7b、BB_113、AA_547（e9504c889，有第 3、4 節）',S8.length>500&&DOC.length>15000&&B7B.length>500&&BB113.indexOf('週五的歌')>=0&&X547.indexOf('## 3.')>0&&X547.indexOf('## 4.')>0);
+  check('0. 讀稿：AA_497（60fc3b9a3，有第 8 節）、BB_70 7b、BB_113、AA_547（e9504c889，有第 3、4 節）、AA_936（7466ec8f8e，舊新兩欄都在、源稿有舊那句）',S8.length>500&&DOC.length>15000&&B7B.length>500&&BB113.indexOf('週五的歌')>=0&&X547.indexOf('## 3.')>0&&X547.indexOf('## 4.')>0&&SEAT936.every(t=>X936.indexOf(t)>=0)&&DOC0.indexOf(SEAT936[0])>=0);
   check('0. 新檔載得到：src/data/sup497_lines.js、src/sup497_3d.js（index.html 在 bbpack3d.js 後面、GAME.boot() 前面）',!!S()&&!!L()&&!loadErr.length,loadErr.join('｜'));
   { const h=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=h.indexOf('src/data/sup497_lines.js'), b=h.indexOf('src/sup497_3d.js');
     check('0. index.html：bbpack3d.js → data/sup497_lines.js → sup497_3d.js → GAME.boot()',a>h.indexOf('src/bbpack3d.js')&&b>a&&b<h.indexOf('GAME.boot()')); }

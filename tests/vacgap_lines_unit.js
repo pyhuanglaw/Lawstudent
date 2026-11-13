@@ -1,14 +1,14 @@
 // 假期空白（BB198-VACB22）逐字對稿：src/data/vacgap_lines.js（以後加的批次也放這裡）的每一句玩家看得到的字，都在 AA 的定稿裡（D137、D79：程式不自己編字）。
-// 稿：企劃線 claude/magical-albattani-bk7b4n @ 329ead6bd7 的 AA_928～AA_933（BB_452～456 的改字已經收進稿）。讀不到稿＝FAIL（請 git fetch origin claude/magical-albattani-bk7b4n）。
+// 稿：企劃線 claude/magical-albattani-bk7b4n @ 7466ec8f8e 的 AA_928～AA_933、AA_935（BB_452～456 的改字已經收進稿）。讀不到稿＝FAIL（請 git fetch origin claude/magical-albattani-bk7b4n）。
 // 用法：node tests/vacgap_lines_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; };
-const REF='329ead6bd7';
-const DOCS=['AA_928_假期空白_大一寒假_阿凱明軒Kevin.md','AA_929_假期空白_第二批_考試補習交流.md','AA_930_假期空白_第三批_可昕大三暑假.md','AA_931_假期空白_第四批_過年訊息.md','AA_933_假期空白_第五批_回家回臺北訊息.md'];
+const REF='7466ec8f8e';   /* AA_935 ①②（可昕大三暑假、大三寒那一句、沛珊改字）在這一版；原本 329ead6bd7 */
+const DOCS=['AA_928_假期空白_大一寒假_阿凱明軒Kevin.md','AA_929_假期空白_第二批_考試補習交流.md','AA_930_假期空白_第三批_可昕大三暑假.md','AA_931_假期空白_第四批_過年訊息.md','AA_933_假期空白_第五批_回家回臺北訊息.md','AA_935_回LAWWW_假期空白接線七件.md'];
 const git=p=>{ try{ return cp.execSync('git -c core.quotepath=false show '+REF+':"docs/story_planning/'+p+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const docs=DOCS.map(git), all=docs.join('\n');
-check('0. 稿讀得到（AA_928～933 @ '+REF+'）',docs.every(d=>d.length>2000),docs.map(d=>d.length).join(','));
+check('0. 稿讀得到（AA_928～933、935 @ '+REF+'）',docs.every(d=>d.length>1000),docs.map(d=>d.length).join(','));
 const src=fs.readFileSync(path.join(ROOT,'src/data/vacgap_lines.js'),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1=');
 vm.runInThisContext(src,{filename:'vacgap_lines.js'});
 /* 玩家看得到的字：所有字串，扣掉日子、假期代號、'go'／'back'／'flip' */
@@ -22,4 +22,9 @@ const glued=strs.filter(([k,t])=>t.includes('／'));
 check('2. 沒有把「／」分開的兩則黏成一則',!glued.length,glued.map(x=>x[1]).join('　'));
 /* BB 改過的那幾句用改過的版本（BB_452 P3、BB_456 P3）*/
 check('3. BB 改字：阿凱「我床上的東西不要動」、方奕廷「明年這個時候，我應該在山上的工作站。」',JSON.stringify(VACGAP_LINES.home.kai[0][4])===JSON.stringify(['所以我回宜蘭了','我床上的東西不要動'])&&VACGAP_LINES.home.npc_fangyt.some(r=>r[4][0]==='學弟好。回台中了。明年這個時候，我應該在山上的工作站。'));
+/* AA_935（BB_456 看過）的改字：舊字不能留 */
+{ const H=VACGAP_LINES.home, row=(w,k,kind)=>(H[w]||[]).find(r=>r[0]===k&&r[1]===kind)||[];
+  check('4. AA_935 ①②：可昕大三寒回臺北交往中「宿舍好冷。你那邊呢。」；沛珊大三寒、大四寒「回台南了～」「我媽說這次要我多待幾天」',JSON.stringify(row('kexin','Y3W','back')[5])===JSON.stringify(['宿舍好冷。你那邊呢。'])&&JSON.stringify(row('classmate_peishan','Y3W','back')[4])===JSON.stringify(['回台南了～'])
+    &&JSON.stringify(row('classmate_peishan','Y4W','go')[4])===JSON.stringify(['回家了～','我媽說這次要我多待幾天'])&&JSON.stringify(row('classmate_peishan','Y4W','back')[4])===JSON.stringify(['回台南了～','下禮拜開學，我有一點捨不得台中'])
+    &&!strs.some(([k,t])=>['中午公館，見一下也好','最後一個寒假，我媽說要我多待幾天','回臺北了～'].includes(t)&&/peishan|kexin/.test(k)||t==='中午公館，見一下也好')); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

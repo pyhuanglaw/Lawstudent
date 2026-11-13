@@ -3343,7 +3343,7 @@ const STORY = (function(){
       return Object.assign({here:false,away:away||'',kind:kind||'abroad',back:d1},xo); } }   /* keepDating：AA_276 第 4 節，消失期開始時和玩家交往中＝只有玩家聯絡得到（在老家）*/   /* 用日期算的不在（交換：以安 2028-01-08～07-15 在日本、學姊 2028-01-05 起在美國，AA_158 第 4 節；學期中間出發、放假也算）*/
     if(P.afterFrom&&S.dayOfKey){ const d=S.dayOfKey(P.afterFrom); if(d!=null&&G.day>=d){ const A=P.away||{}, K=P.kinds||{}; return {here:false,away:A.after||'',kind:K.after||'after'}; } }   /* afterFrom：until 那一學期的暑假裡，從這一天起就算「之後」（子晴 2028-07-10 起在工作室上班，AA_508 0-2 第 4 點）；absentDates 先看 */
     if(P.vacTown&&(G.stage||'law')==='law'&&S.vacTownOn(P.vacTown,G,id)){ const V=P.vacTown; return {here:false,away:V.away||('在'+V.town),kind:'taipei',town:V.town,home:V.town,signal:true}; }   /* AA_675 1-1（語彤寒暑假平日回淡水）：見 S.vacTownOn */
-    if(P.home&&(G.stage||'law')==='law'&&S.homeAway(G)&&!S.homeStay(P,G)){ const ht=P.homeText, hd=ht&&S.dayOfKey?S.dayOfKey(ht[0]):null; return {here:false,away:hd!=null&&G.day>=hd?ht[1]:'寒暑假在'+P.home+'的家',kind:'home',home:P.home}; }   /* AA_276 第 1 節：可昕高雄、沛珊台中；手機照常，偶遇、校園、當面約都不在臺北。homeText＝[從哪一天起, 手機寫的字]（沛珊放榜後「在台中」，AA_282 第 1 節）*/
+    if(P.home&&(G.stage||'law')==='law'&&S.homeAway(G)&&!S.homeStay(P,G)&&S.homeWinOk(P,G)){ const ht=P.homeText, hd=ht&&S.dayOfKey?S.dayOfKey(ht[0]):null; return {here:false,away:hd!=null&&G.day>=hd?ht[1]:'寒暑假在'+P.home+'的家',kind:'home',home:P.home}; }   /* AA_276 第 1 節：可昕高雄、沛珊台中；手機照常，偶遇、校園、當面約都不在臺北。homeText＝[從哪一天起, 手機寫的字]（沛珊放榜後「在台中」，AA_282 第 1 節）*/
     const t=S.termAt(G.day); if(!t) return {here:true}; const i=TERM_ORDER.indexOf(t);
     const A=P.away||{}, K=P.kinds||{}, CI=P.cities||{}; if(P.from&&i<TERM_ORDER.indexOf(P.from)) return {here:false,away:A.before||'',kind:'before'}; if(P.until&&i>TERM_ORDER.indexOf(P.until)){ const ct=CI[t]||CI.after; return Object.assign({here:false,away:A[t]||A.after||'',kind:K[t]||K.after||'after'},ct?{city:ct}:{}); }   /* cities：kind 'city'＝在臺灣的別的城市念書（沛珊大三起在台南，AA_282）：約不到臺北的地點，可以去那個城市找她（hometown3d.js 的 S.key 用 city）*/
     if(P.absent&&P.absent.includes(t)) return {here:false,away:A[t]||'',kind:K[t]||'absent'}; return {here:true}; };   /* kinds：覆寫原因的種類（taipei＝在臺北、不在台大：沛珊大二下起、子晴大四，BB_163——校園作息換成她那份、邀約照她的規則，不先擋）*/   /* kind：手機「約不了的原因」（AA_125 第 1 節：交換＝國外、until 過了＝畢業）*/
@@ -4016,6 +4016,8 @@ const STORY = (function(){
   S.VAC_STAY=[];
   S.vacStay=(G,id)=>!!id&&S.VAC_STAY.some(f=>{ try{ return !!f(G,id); }catch(e){ console.warn('STORY.VAC_STAY',e); return false; } });
   S.vacTownOn=function(V,G,id){ if(!V||!G||!S.homeAway(G)) return false; const wd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).wd%7:G.weekday; if(!(V.wd||[1,2,3,4,5]).includes(wd)) return false; if(S.vacStay(G,id)) return false; return !(V.stay&&S.inDates(G,V.stay)); };
+  /* presence.homeWin＝{假期 key:[從哪一天, 到哪一天（不含)]}：那一個寒暑假只有這幾天在老家，其他天在臺北（可昕大三暑假 6/19～7/1 回高雄、7/2 起實習整個暑假在臺北：AA_935 ①、AA_930、BB_198 第 3 節）。沒寫的假期照舊 */
+  S.homeWinOk=function(P,G){ const W=P&&P.homeWin; if(!W||typeof HOME==='undefined'||!HOME.breakOf) return true; const B=HOME.breakOf(G.day), w=B&&W[B.key]; if(!w) return true; const a=S.dayOfKey(w[0]), b=S.dayOfKey(w[1]); return a!=null&&b!=null&&G.day>=a&&G.day<b; };
   S.homeStay=function(P,G){ const L=P&&P.homeAfter; if(!L||typeof HOME==='undefined'||!HOME.breakOf) return false; const B=HOME.breakOf(G.day); if(!B) return false;
     return L.some(k=>{ const d=S.dayOfKey(k); return d!=null&&d>=B.from&&d<=B.to&&G.day<=d; }); };
   S.present=(id,G)=>S.presence(id,G).here;

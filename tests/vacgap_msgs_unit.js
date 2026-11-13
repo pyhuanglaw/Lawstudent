@@ -90,10 +90,12 @@ const kxFlips=()=>{ const out=[]; const G0=Object.assign({},H.G); let prev=null;
   for(const [kind,d] of F){ const B=kind==='go'?HOME.breakOf(d):HOME.breakOf(d-1); if(!B) continue; const tag=VACGAP.homeTag('kexin',B.key,kind), row=L.home.kexin.find(r=>r[0]===B.key&&r[1]===kind);
     if(!row){ if(got(tag).length) bad.push(tag+' 不該有'); continue; } seen.push(tag); const m=got(tag)[0];
     if(!m||m.day!==d||m.h!==18) bad.push(tag+' '+(m?K(m.day)+' '+m.h:'沒有')+' ≠ '+K(d)+' 18'); else if(J(texts(tag))!==J(row[4])) bad.push(tag+' 字'); }
-  check('5-1 可昕每一則回家、回臺北都在 presence 切換那天 18:00（寒假、暑假；大三暑假先不播）',!bad.length&&seen.length===L.home.kexin.length,bad.join('、')+'｜'+seen.length);
+  check('5-1 可昕每一則回家、回臺北都在 presence 切換那天 18:00（寒假、暑假；大三暑假 6/19～7/1 那兩週也是）',!bad.length&&seen.length===L.home.kexin.length,bad.join('、')+'｜'+seen.length);
   check('5-2 大一寒假：回家＝寒假第一天（2025-12-22）、回臺北＝2026-02-21（不是稿上的 1/2、2/19）',when('msg_kx_home_Y1W_go')==='2025-12-22 18.00'&&when('msg_kx_home_Y1W_back')==='2026-02-21 18.00',when('msg_kx_home_Y1W_go')+'／'+when('msg_kx_home_Y1W_back'));
   check('5-3 大一暑假：回家＝暑假第一天 2026-06-15（不是稿上的 7/27）',when('msg_kx_home_Y1S_go')==='2026-06-15 18.00',when('msg_kx_home_Y1S_go'));
-  check('5-4 大三暑假（AA_930 回家兩週，和 presence 整個暑假在高雄對不上）不傳',!got('msg_kx_home_Y3S_go').length&&!got('msg_kx_home_Y3S_back').length); }
+  check('5-4 大三暑假（AA_935 ①：6/19～7/1 回高雄兩週）：回家 2028-06-19 18:00、回臺北 2028-07-02 18:00，字照 AA_933',when('msg_kx_home_Y3S_go')==='2028-06-19 18.00'&&when('msg_kx_home_Y3S_back')==='2028-07-02 18.00'&&J(texts('msg_kx_home_Y3S_go'))===J(['回家兩週','高雄熱到柏油路在冒煙'])&&J(texts('msg_kx_home_Y3S_back'))===J(['回臺北了','實習下禮拜開始']),when('msg_kx_home_Y3S_go')+'／'+when('msg_kx_home_Y3S_back')); }
+{ start('2027-12-20'); H.FAMILIAR('kexin'); H.G.flags.KX_MET=true; H.G.flags.dating_kexin=true; contact('kexin'); runTo('2028-07-03',8,6);
+  check('5-4b 交往中：大三寒假回臺北多一句「宿舍好冷。你那邊呢。」（AA_935 ①，原本不播）；大三暑假回家多一句「我每天晚上傳一則給你」',J(texts('msg_kx_home_Y3W_back'))===J(['回臺北了','宿舍好冷。你那邊呢。'])&&J(texts('msg_kx_home_Y3S_go'))===J(['回家兩週','高雄熱到柏油路在冒煙','我每天晚上傳一則給你'])&&J(texts('msg_kx_home_Y3S_back'))===J(['回臺北了','實習下禮拜開始']),J(texts('msg_kx_home_Y3W_back'))); }
 { start('2026-12-20'); H.FAMILIAR('kexin'); H.G.flags.KX_MET=true; H.G.flags.dating_kexin=true; contact('kexin'); runTo('2027-02-22',8,3);
   check('5-5 交往中：大二寒假回臺北多一句「明天見」',J(texts('msg_kx_home_Y2W_back'))===J(['回臺北了','宿舍沒人，好安靜','明天見'])&&J(texts('msg_kx_home_Y2W_go'))===J(['到家了','我爸的嗓門比去年還大']),J(texts('msg_kx_home_Y2W_back'))); }
 { start('2026-12-20'); H.rel('kexin',5,0,0); H.G.flags.KX_MET=true; contact('kexin'); runTo('2027-02-22',8,3);
@@ -107,6 +109,12 @@ const kxFlips=()=>{ const out=[]; const G0=Object.assign({},H.G); let prev=null;
   const p=x=>STORY.presence('classmate_peishan',Object.assign({},H.G,{day:x})).kind==='home';
   const ok=['msg_ps_home_Y1W_go','msg_ps_home_Y1W_back','msg_ps_home_Y1S_go','msg_ps_home_Y1S_back'].every(t=>{ const m=got(t)[0]; if(!m) return false; return /_go$/.test(t)?(p(m.day)&&!p(m.day-1)):(!p(m.day)&&p(m.day-1)); });
   check('5-8 沛珊大一寒暑假四則都在 presence 切換那天（回宿舍那則 21:30）',ok&&when('msg_ps_home_Y1W_back')==='2026-02-21 21.50',['msg_ps_home_Y1W_go','msg_ps_home_Y1W_back','msg_ps_home_Y1S_go','msg_ps_home_Y1S_back'].map(when).join('／')); }
+{ start('2027-12-20'); H.FAMILIAR('classmate_peishan'); contact('classmate_peishan'); H.G.flags.PS_RECONNECT=true; runTo('2029-02-20',8,6);
+  const p=x=>STORY.presence('classmate_peishan',Object.assign({},H.G,{day:x})).kind==='home', T3=['msg_ps_home_Y3W_go','msg_ps_home_Y3W_back','msg_ps_home_Y4W_go','msg_ps_home_Y4W_back'];
+  const ok=T3.every(t=>{ const m=got(t)[0]; if(!m) return false; return /_go$/.test(t)?(p(m.day)&&!p(m.day-1)):(!p(m.day)&&p(m.day-1)); });
+  check('5-9 沛珊大三寒、大四寒（她在台南念書）：四則都在 presence 切換那天，字照 AA_935 ②（回台南了～）',ok&&J(texts('msg_ps_home_Y3W_back'))===J(['回台南了～'])&&J(texts('msg_ps_home_Y4W_go'))===J(['回家了～','我媽說這次要我多待幾天'])&&J(texts('msg_ps_home_Y4W_back'))===J(['回台南了～','下禮拜開學，我有一點捨不得台中']),T3.map(when).join('／')+' '+J(texts('msg_ps_home_Y4W_go'))); }
+{ start('2027-12-20'); H.FAMILIAR('classmate_peishan'); contact('classmate_peishan'); runTo('2029-02-20',8,6);
+  check('5-10 沛珊放榜後沒重新聯絡上（lost）＝大三寒、大四寒都沒有',!['msg_ps_home_Y3W_go','msg_ps_home_Y3W_back','msg_ps_home_Y4W_go','msg_ps_home_Y4W_back'].some(t=>got(t).length)); }
 
 // ===== 6. 一天最多三則 =====
 { const save=JSON.stringify(L.home); const add=(who,h)=>L.home[who].push(['Y1W','go','2026-01-05',h,['（測試）'+who]]);
