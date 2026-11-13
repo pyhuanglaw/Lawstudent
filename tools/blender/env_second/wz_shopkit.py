@@ -1139,8 +1139,10 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
     for it in c.get('clutter', []):
         if it[0] == 'aboard': aboard(xf, it[1], it[2], it[3] if len(it) > 3 else 'chalk')
         elif it[0] == 'bistro': bistro_table(xf, it[1], it[2])
-        elif it[0] == 'glb':   # ('glb', 檔案, x, z)：烘好的道具，橫桿和店面平行
-            _pm = glb_proto(it[1]); _w = _wp(xf, it[2], it[3]); B.instance(_pm, f'skxglb_{spec["id"]}_{_XS_N[0]}', *_w, root, ry=xf.ry); _XS_N[0] += 1; prop_fp(_pm, 'skxglb', _w[0], _w[2], xf.ry)
+        elif it[0] == 'glb':   # ('glb', 檔案, x, z[, 地點])：烘好的道具，橫桿和店面平行；給地點＝只在營業時擺出來（節點名 OPENONLY__<地點>__…，遊戲 Z3.openOnly 切換）
+            _pm = glb_proto(it[1]); _w = _wp(xf, it[2], it[3]); _pl = it[4] if len(it) > 4 else None
+            B.instance(_pm, (f'OPENONLY__{_pl}__{spec["id"]}_{_XS_N[0]}' if _pl else f'skxglb_{spec["id"]}_{_XS_N[0]}'), *_w, root, ry=xf.ry); _XS_N[0] += 1
+            if not _pl: prop_fp(_pm, 'skxglb', _w[0], _w[2], xf.ry)   # 會收起來的不擋路（打烊收起來以後不能留一道看不到的牆；擺出來時靠牆 0.4～0.9 m，走路照舊過得去）
         elif it[0] in ('ph_pot', 'ph_succ'):   # Poly Haven 的盆栽（CC0 掃描模型，D160）：同溫州街騎樓店面的 ph_pot／ph_succ；第四個＝放大倍數
             _pm = ph_proto('pot' if it[0] == 'ph_pot' else 'succ'); _w = _wp(xf, it[1], it[2]); _ry = it[1] * 1.7; _sc = it[3] if len(it) > 3 else 1.0
             ob_ = B.instance(_pm, f'skx{it[0]}_{spec["id"]}_{_XS_N[0]}', *_w, root, ry=_ry); _XS_N[0] += 1; ob_.scale = (_sc, _sc, _sc); prop_fp(_pm, 'skx' + it[0].replace('_', ''), _w[0], _w[2], _ry, _sc)
