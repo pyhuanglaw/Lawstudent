@@ -1,5 +1,5 @@
 /* ===== 畢業以後（AA_319 1A-13、1A-14、1A-16～1A-20；台詞在 src/data/postgrad_lines.js）=====
-   一條線：2029-05-10 21:00 國考報名提醒 → 6/2 畢業典禮拍照（12:00～13:30，CG-9）→ 傍晚（一對一的飯、Café 併桌）→ 20:30 學姊的生日 → 6/9 可昕的畢業典禮（BCG-07）→
+   一條線：2029-05-10 21:00 國考報名提醒 → 6/2 畢業典禮拍照（12:00～13:30，CG-9）→ 傍晚（一對一的飯、Café 併桌）→ 20:30 學姊的生日 →
    7/12 20:00 總圖 B1 → 8/3 學姊的便條 → 8/4 一試（20 題）→ 9/7 一試放榜 → 10/20～21 二試 → 12/14 二試放榜（18:00 燒臘店、21:00 以安的電話）→
    2030-01-25 以安三試放榜（電話）→（交換延畢、2029 一試不到 12 題：2030 再一輪，8/3、9/6、10/19～20、12/13）→ 2030-10-01 第一份工作 →
    （2030 一試也沒過：2031～2033 每年再一輪——5 月報名（年份字卡＋報名／不報名）、8 月一試 20 題、9 月一試放榜、10 月二試字卡、12 月二試放榜；不報名＝停在那一年，S.LATE_YEARS）→ 2034-06-03 尾聲（CG-10）→ 回標題。
@@ -317,7 +317,6 @@ const PG=(function(){
     {tag:'pg_kevin_bday',at:[GRAD,19.5],cond:G=>S.bdayKnown(G),items:G=>S.kevinItems(G),after:G=>S.planBday(G)},
     {tag:'pg_sis_lover_dm',at:[GRAD,19.5+1/60],cond:G=>graduated(G)&&S.dating(G,'heroine_05')&&S.tePicked(G)!=='heroine_05',items:G=>L().BDAY.loverDm.map(t=>P_('heroine_05',t)),after:G=>S.planBday(G)},
     {tag:'pg_sis_thanks',at:['2029-06-03',10],cond:G=>{ const q=typeof OUT!=='undefined'?OUT.get(G,'pg_sis_bday'):null; return !!q&&q.state==='missed'&&inFam(G); },items:G=>[FAM('heroine_05',L().BDAY.thanks)]},
-    {tag:'pg_kx_inv',at:['2029-06-03',21],cond:G=>graduated(G)&&S.dating(G,'kexin'),items:G=>[P_('kexin',L().KX.invite)],after:G=>S.planKx(G)},
     /* 1A-16～18 */
     {tag:'pg_b1_zhe',at:['2029-07-12',17],cond:G=>S.sits(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().B1.zhe)]},
     {tag:'pg_b1_zhe_2030',at:['2030-07-11',17],cond:G=>S.sits(G,2030)&&!!L().B1_2030,items:G=>[P_('zhe',L().B1_2030.zhe)]},   /* AA_331：2030 阿哲私訊（不發群組）*/
@@ -343,7 +342,6 @@ const PG=(function(){
   S.planCafe=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_grad_cafe',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:S.gradDay(),h:17.5,late:0.25,place:'2:30 AM',title:'2:30 AM',travel:'走過去約 15 分鐘',travelH:0.25});   /* 窗口 17:15～17:45 */
   S.planBday=function(G){ if(typeof OUT==='undefined'||OUT.get(G,'pg_sis_bday')||S.isEx(G,'heroine_05')||S.tePicked(G)==='heroine_05') return false; if(!S.sisOk(G)) return false;
     return OUT.plan(G,{id:'pg_sis_bday',ev:'ev_pg_sis_bday',day:S.gradDay(),h:20.5,late:0.5,place:'法律系館A・研究室',title:'學姊的生日：研究室，八點半',travel:'走過去約 10 分鐘',travelH:1/6}); };
-  S.planKx=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_kx_grad',ev:'ev_pg_kx_grad',day:S.DK('2029-06-09'),h:16.5,late:0.5,place:'木柵大學',title:'兩個畢業典禮（木柵大學）',travel:'開車約 40 分鐘',travelH:2/3});
   /* 學姊 2030 年的生日（AA_382 第 4 節，企劃線 e6d4a198）：畢業以後和學姊交往中（她在臺灣上班）。6/1（六）21:00 私訊「好。」／「明天不行。」（沒回＝到 6/2 09:00 為止）→
      「好。」＝6/2（日）09:00 她家樓下（跳過時間、睡覺停在出發前），開車約一小時到北海岸；沒去（明天不行、沒回、約了沒到）＝6/2 15:00 她傳照片「看到了。」；約了沒到的 09:30 先傳「九點半了。我先去。」（企劃線 116d5c72）。
      旗標 SIS_BDAY_Y5（sea／alone），和 SIS_BDAY_Y1～Y4 同一套；6/2 那天算有事（src/pgdates3d.js 的 busyDays：固定格不排在那天）*/
@@ -471,13 +469,6 @@ const PG=(function(){
     GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,S.gradDay()*24+20.5); if(A) A.begin({background:bg}); await GM.fade(false); await inner(); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,S.gradDay()*24+21.5); await GM.fade(false); };
   async function psVideo(GM){ const G=GM.G, A=adv(); GM.sceneBegin(); try{ if(A) A.begin({background:BG('video'),right:{charId:'classmate_peishan',expression:'smile'}}); await S.play(GM,L().PARTNER.classmate_peishan.video); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); } }
-  S.kxGradScene=async function(GM){ const G=GM.G, F=G.flags, K=L().KX, A=adv(); if(A) A.begin({background:BG('nccu_campus'),right:{charId:'kexin',expression:'smile'}});
-    await S.play(GM,K.photo); if(A&&A.setBg) A.setBg(BG('nccu_food'));
-    await GM.say(null,K.open); for(const t of K.table) await GM.say(S.who(G,'kexin'),t); await GM.say(null,K.close);
-    F.KX_GRAD='both'; F.KX_TERMEND_Y4S2=G.day; (F.KX_TERMEND||(F.KX_TERMEND={})).Y4S2=G.day; };
-  S.kxGradMissed=function(GM){ const G=GM.G||GM, F=G.flags, K=L().KX; F.KX_GRAD='mine'; if(typeof PHONE!=='undefined') PHONE.at(G,S.DK('2029-06-09'),18.5,K.miss.map(t=>P_('kexin',t)),'pg_kx_grad_miss'); };
-  async function kxMissScene(GM){ const G=GM.G, K=L().KX, A=adv(); GM.sceneBegin(); try{ if(A){ A.begin({background:'dark'}); if(A.cg) A.cg('cg_two_graduations_kexin'); }   /* BCG-07：去、不去都用同一張 */
-      await GM.say(null,K.miss[0].replace(/^📷/,'')); await GM.say(S.who(G,'kexin'),K.miss[1]); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); } }
   S.seaScene=async function(GM){ const G=GM.G, F=G.flags, Y=L().SEA_Y5, A=adv();
     await GM.fade(true); toAtLeast(GM,T(SEA_DAY,10)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'北海岸',2000);   /* 九點她家樓下，開車約一小時 */
     if(A) A.begin({background:BG('trip_sea'),right:{charId:'heroine_05',expression:'neutral'}}); await GM.fade(false);
@@ -740,7 +731,6 @@ const PG=(function(){
     {id:'cafe',at:G=>T(GRAD,17.25),until:G=>T(GRAD,21),cond:G=>{ const q=typeof OUT!=='undefined'?OUT.get(G,'pg_grad_cafe'):null; return !!q&&q.state==='done'&&G.zone==='cafe'; },run:cafeScene},
     {id:'ps_video',at:G=>T(GRAD,18),until:G=>T(GRAD,27),cond:G=>graduated(G)&&S.dating(G,'classmate_peishan'),run:psVideo},
     {id:'bday_walk',at:G=>T(GRAD,17.5),until:G=>T(GRAD,28),cond:G=>S.teDone(G)==='heroine_05',run:GM=>S.bdayScene(GM,'walk')},   /* 和學姊吃畢業傍晚那頓飯：不用選，直接走回研究室 */
-    {id:'kx_miss',at:G=>T('2029-06-09',18.5),until:G=>T('2029-06-10',12),cond:G=>G.flags.KX_GRAD==='mine',run:kxMissScene},
     {id:'b1',at:G=>T('2029-07-12',20),until:G=>T('2029-07-12',27),cond:G=>S.sits(G,2029),run:b1Scene},
     {id:'b1_2030',at:G=>T('2030-07-11',20),until:G=>T('2030-07-11',27),cond:G=>S.sits(G,2030)&&!!L().B1_2030,run:b1Scene2030},   /* AA_331 2a */   /* b6757852：20:00（和國考讀書會同一個時間）*/
     {id:'late_2029',at:G=>T('2029-08-04',17.5+5/60),until:G=>T('2029-08-05',12),cond:G=>S.delayed(G),run:lateNarr},
@@ -941,8 +931,6 @@ const PG=(function(){
   S.EVS=[
     {id:'ev_pg_sis_bday',title:'學姊的生日：研究室，八點半',participants:[],location:'any',trigger:'outing',background:'dark',hours:1,dialogue:[],
       beforeOuting:async(G,GM,q)=>{ await S.bdayScene(GM,'outing'); }, outingMissed:(G,GM,q)=>{ if(G.flags.SIS_BDAY_Y4==null) G.flags.SIS_BDAY_Y4='none'; }},
-    {id:'ev_pg_kx_grad',title:'兩個畢業典禮',participants:[],location:'any',trigger:'outing',background:'dark',hours:4.5,dialogue:[],
-      beforeOuting:async(G,GM,q)=>{ await S.kxGradScene(GM); }, outingMissed:(G,GM,q)=>{ S.kxGradMissed(GM); }},
     {id:'ev_pg_noodle',title:'公館燒臘・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],
       beforeOuting:async(G,GM,q)=>{ await S.noodleScene(GM); }},
     {id:'ev_pg_noodle_2030',title:'公館燒臘・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],

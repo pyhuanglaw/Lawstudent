@@ -538,7 +538,7 @@ const date=id=>H.date(id);
     at('2029-06-08',16.4); await goOut('y4_ps_te',[0,0,2]);
     check('PS1 台南的期末飯（地點字幕台南）→ 走回她租的地方 → 她先說「我真的很喜歡你。」→「……讓我想一下，好不好。」＝7/14 的那一位；票錢照扣', caps.includes('台南・她學校附近的簡餐')&&caps.includes('台南・往她租的地方')&&has('我真的很喜歡你。')&&has('好啊，你慢慢想。我又不會跑掉。')&&TERMEND.rec(H.G).think.classmate_peishan==='Y4S2'&&S.julyWho(H.G)==='classmate_peishan'&&paid.some(p=>p[0]<0)&&!caps.some(c=>/系館附近|舊路書房|新生南路/.test(c||''))); }
   { fresh('2029-06-08',14,'dorm',GD); H.FRIEND('classmate_peishan'); date('classmate_peishan'); date('kexin'); at('2029-06-08',15); phone(); const gfInv=TERMEND.gf('classmate_peishan','Y4S2').invite;
-    check('PS2 同時和沛珊、可昕交往：6/8 是沛珊（女朋友的約會：「期末考完了！今天吃飯，我想吃熱的。」）、6/9 是可昕的典禮，不撞', th('p:classmate_peishan').includes(gfInv)&&(answer('y4_ps_te',0),phone(),OUT.get(H.G,'y4_ps_te').day===D('2029-06-08'))&&POSTGRAD_LINES.KX&&PG.MSGS.some(m=>m.tag&&/kx/.test(m.tag)));
+    check('PS2 同時和沛珊、可昕交往：6/8 是沛珊（女朋友的約會：「期末考完了！今天吃飯，我想吃熱的。」）、可昕和祐廷同一天畢業（AA_919 4-2：6/9 那一場拿掉）', th('p:classmate_peishan').includes(gfInv)&&(answer('y4_ps_te',0),phone(),OUT.get(H.G,'y4_ps_te').day===D('2029-06-08'))&&!POSTGRAD_LINES.KX&&!PG.MSGS.some(m=>m.tag==='pg_kx_inv'));
     at('2029-06-08',16.4); await goOut('y4_ps_te');
     /* 2026-11-11 改期望（X327 沛珊重寫；AA_751@768b9a131 GF.tableByTerm.Y4S2）：6/8 台南那一頓有稿了——她的兩句＋三個選項＋回答（逐字比在 tests/peishan_termend_1110_unit.js 第 12 節）；
        原本是通用的一句「這學期有幾次我想打給你，後來沒打。怕你在讀書。」 */

@@ -50,7 +50,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   // ---- D2：和可昕交往 ----
   { const G=H.fresh('2029-06-02',12,'campus',{GIRAFFE_KEYCHAIN:true}); H.FRIEND('kexin'); H.date('kexin'); H.FRIEND('heroine_01'); await H.run('grad');
     const k=sayIdx('（她看到你鑰匙上的長頸鹿。）'), m=sayIdx('（以安的媽媽站在晨思鐘旁邊。）'), g=sayIdx('那是妳的帽子。');
-    check('5. D2：大合照之後第一個是可昕（長頸鹿：「它還在。脖子還是很短。」）',g>0&&k===g+1&&H.has('它還在。脖子還是很短。')&&k<m,JSON.stringify(H.lines().slice(0,7))); }
+    check('5. D2：大合照之後第一個是可昕（AA_919 4-2 旁白一句，再長頸鹿：「它還在。脖子還是很短。」）',g>0&&k>g&&k<=g+2&&H.has('它還在。脖子還是很短。')&&k<m,JSON.stringify(H.lines().slice(0,7))); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad'); check('5. 沒有長頸鹿：「我媽在那邊，一直在整理我的領子。你等一下過來，她會問你吃飽沒。」（CANON-NO-ECON-1112 第四批：照 AA_875 第 3 節換字）',H.has('我媽在那邊，一直在整理我的領子。你等一下過來，她會問你吃飽沒。')); }
   // ---- D3：和芷若交往 ----
   { const G=H.fresh('2029-06-01',22.4,'dorm'); H.FRIEND('heroine_02'); H.date('heroine_02'); PG.rules(GM); H.at('2029-06-01',23.1); H.tick();
@@ -111,16 +111,16 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM);
     /* AA_600 B9、B10：中午不私訊、前任傳生日快樂已讀不回——原本（AA_473 第 1 節）「畢業快樂。|生日快樂。|謝謝。」照 AA_600 換 */
     check('13. 前任：沒有「去」，傳一句生日快樂 → 她不回（AA_600 B10：沒有「謝謝。」；中午也沒有「畢業快樂。」）',!OUT.get(G,'pg_sis_bday')&&H.msgs('p:heroine_05').join('|')==='生日快樂。'&&!H.msgs('p:heroine_05').includes('今天畢業，恭喜你。')&&G.flags.SIS_BDAY_Y4==='msg',JSON.stringify(H.msgs('p:heroine_05'))); }
-  // ---- 可昕 6/3、6/9（BB_99 9-17、AA_250 9-2）----
-  { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad');
+  // ---- 可昕（AA_919 4-2：同系同屆，6/2 是同一場；原本 6/3 邀約、6/9 另外一場整組拿掉）----
+  { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); H.said=[]; await H.run('grad');
+    check('14. 6/2 拍照：可昕從拍照的人群裡走過來（AA_919 4-2 旁白）',H.has('（她從拍照的人群裡走過來，學士帽還戴著。）'),JSON.stringify(H.lines().slice(0,30)));
     check('14. 6/2 傍晚可昕不發約會邀約',!(G.outings||[]).some(q=>/kexin|kx/.test(q.id)));
-    H.at('2029-06-03',20.6); PG.rules(GM); H.at('2029-06-03',21.1); PHONE.tick(G);
-    check('14. 6/3 21:00「下週六，我的畢業典禮。你要來嗎？」→ 6/9 出遊（木柵大學）',H.msgs('p:kexin').includes('下週六，我的畢業典禮。你要來嗎？')&&OUT.get(G,'pg_kx_grad')&&OUT.get(G,'pg_kx_grad').day===PG.DK('2029-06-09'));
-    H.said=[]; H.cgs=[]; await PG.EVS[1].beforeOuting(G,GM,OUT.get(G,'pg_kx_grad'));
-    check('14. 去：「你來了。」「等我拍完。晚上吃山下那家。」BCG-07、飯桌「八月四號以前，我們還有八週。」；KX_GRAD both、KX_TERMEND_Y4S2',H.has('你來了。')&&H.cgs.includes('cg_two_graduations_kexin')&&H.has('八月四號以前，我們還有八週。')&&G.flags.KX_GRAD==='both'&&G.flags.KX_TERMEND_Y4S2===G.day,JSON.stringify(H.lines())); }
-  { const G=H.fresh('2029-06-09',12,'dorm',{GRADUATED:1355}); PG.rec(G).done.grad=1; H.date('kexin'); PG.planKx(G); const q=OUT.get(G,'pg_kx_grad'); H.at('2029-06-09',18); OUT.expire(G); OUT.onMissed(GM,q); H.at('2029-06-09',18.6); PHONE.tick(G);
-    const s=PG.due(G); H.cgs=[]; if(s) await PG.runStep(GM,s);
-    check('14. 不去：她傳「拍完了。予樂說，你欠我一張合照。」，BCG-07 照樣出現；KX_GRAD mine',H.msgs('p:kexin').includes('拍完了。予樂說，你欠我一張合照。')&&H.cgs.includes('cg_two_graduations_kexin')&&G.flags.KX_GRAD==='mine'); }
+    H.at('2029-06-03',20.6); PG.rules(GM); H.at('2029-06-03',21.1); PHONE.tick(G); H.at('2029-06-09',19); PG.rules(GM); PHONE.tick(G);
+    check('14. 6/3 不再傳「下週六，我的畢業典禮」、沒有 6/9 那一趟、沒有 BCG-07',!H.msgs('p:kexin').some(t=>/畢業典禮/.test(t))&&!OUT.get(G,'pg_kx_grad')&&typeof PG.planKx==='undefined'&&!(typeof CG_REGISTRY!=='undefined'&&CG_REGISTRY.cg_two_graduations_kexin)); }
+  { const L=typeof POSTGRAD_LINES!=='undefined'?POSTGRAD_LINES:null, K=L&&L.PARTNER&&L.PARTNER.kexin;
+    check('14. PARTNER.kexin：key、noKey 都先一句旁白；key 最後「同一天畢業。拍一張。」；KX 整組拿掉',!!K&&K.key[0][1]==='（她從拍照的人群裡走過來，學士帽還戴著。）'&&K.noKey[0][1]==='（她從拍照的人群裡走過來，學士帽還戴著。）'&&K.key[K.key.length-1][1]==='同一天畢業。拍一張。'&&!L.KX); }
+  { const src=require('fs').readFileSync(require('path').join(H.ROOT,'src/game3d.js'),'utf8');
+    check('14. 舊存檔排好的 6/9 那一趟（pg_kx_grad planned）讀檔取消',/q\.id==='pg_kx_grad'&&q\.state==='planned'\) q\.state='cancelled'/.test(src)); }
   // ---- 課表：畢業後篇不再跳去上課 ----
   { const G=H.fresh('2029-06-05',8,'dorm',{GRADUATED:1355}); PG.rec(G).done.grad=1; let threw=null; try{ CLS.tick(GM); }catch(e){ threw=e; }
     check('15. 畢業後篇：CLS.tick 不丟例外、PG.on',!threw&&PG.on(G),threw&&threw.stack); }

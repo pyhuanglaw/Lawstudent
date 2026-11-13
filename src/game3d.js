@@ -425,6 +425,7 @@ const GAME = (function(){
     if(s.flags&&typeof s.flags==='object'&&!s.flags.KX_DEC3_MIGRATED&&s.flags.KX_DEC3==null&&!(s.events&&s.events.done&&s.events.done.ev_kexin_birthday_y1s2)){ const F=s.flags; if(F.KX_BDAY&&typeof F.KX_BDAY==='object'&&F.KX_BDAY[1]!=null){ F.KX_DEC3=Object.assign({},F.KX_DEC3||{}); if(F.KX_DEC3[1]==null) F.KX_DEC3[1]=F.KX_BDAY[1]; delete F.KX_BDAY[1]; if(!Object.keys(F.KX_BDAY).length) delete F.KX_BDAY; }
       if(F.KX_BDAY_VISIT){ F.KX_DEC3_VISIT=true; delete F.KX_BDAY_VISIT; } if(F.KX_BDAY_MSG){ F.KX_DEC3_MSG=true; delete F.KX_BDAY_MSG; } }
     if(s.flags&&typeof s.flags==='object') s.flags.KX_DEC3_MIGRATED=true;
+    if(Array.isArray(s.outings)) for(const q of s.outings) if(q&&q.id==='pg_kx_grad'&&q.state==='planned') q.state='cancelled';   /* AA_919 4-2：6/9 可昕另外一場畢業典禮拿掉；舊存檔排好的那一趟取消 */
     if(typeof ROM!=='undefined'&&s.flags&&typeof s.flags==='object'){ try{ ROM.rec(s); }catch(e){ console.warn('ROM.rec',e); } }
     if(typeof DATE!=='undefined'){ try{ DATE.rec(s); }catch(e){ console.warn('DATE.rec',e); } }   /* 校外單獨約會（DATE-S1）：補 dateLog、trips、groupTrips（空的，不追溯以前的出遊，AA_128 1-3）*/   /* 多段感情（v6 S7）：補 ROMANCE_HISTORY、CLEANUP_DONE（有 dating_kexin 的補一筆）*/
     if(typeof STORY!=='undefined'&&STORY.routeWatch&&s.flags&&typeof s.flags==='object'){ try{ STORY.routeWatch(s); }catch(e){ console.warn('STORY.routeWatch',e); } }   /* 交換路線（1A-02，BB-C 10-20）：宿舍舊選單選過、還沒截止的（EXCH_APPLIED_DAY、沒有 EXCH_RULE）讀檔就清掉——讀進來坐著、在劇情裡 S.tick 不跑；已經過了截止、還沒有路線的照同一個規則補（在 ROM.rec 之後：routeFor 讀交往紀錄）*/

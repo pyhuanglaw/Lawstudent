@@ -60,7 +60,7 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
     const want=['grad','cafe','b1','exam_2029','r1_2029','an1','an2','exam_2030','r1_2030','first','e2a_2030','e2b_2030','r2_2030','epi'];
     check('B1. 順序：典禮 → Café → B1 → 2029 一試 → 放榜 → 以安的電話 → 2030 再考 → 第一份工作（還在準備二試）→ 二試 → 放榜 → 尾聲',want.every((id,i)=>order.indexOf(id)>=0&&(i===0||order.indexOf(id)>order.indexOf(want[i-1]))),order.join(' → '));
     check('B1. 2029 沒有二試；2030 考上（BAR_YEAR 2030）；第一份工作是補習班的自習室',!order.includes('e2a_2029')&&G.flags.BAR_YEAR===2030&&H.msgs('g:noodle_team').includes('📷（照片：補習班的自習室。）'));
-    check('B1. 可昕的畢業典禮（6/9）去了',OUT.get(G,'pg_kx_grad')&&OUT.get(G,'pg_kx_grad').state==='done'); }
+    check('B1. 沒有可昕另外一場畢業典禮（AA_919 4-2：6/2 是同一場）',!OUT.get(G,'pg_kx_grad')); }
   { const {G,order}=await sim('B2 單身、2029 考上（答對 17）',{BAR_REG:true,LAWCLUB_SAT_VISITS:10},null,{score:17,sleep:true});
     const want=['grad','b1','exam_2029','r1_2029','e2a_2029','e2b_2029','r2_2029','jretake_2029','an1','an2','first','epi'];   /* D118-B8：12/14 20:30 二選一（選「就當律師。」）*/
     check('B2. 順序：典禮 → B1 → 一試 → 放榜 → 二試兩天 → 12/14 放榜 → 以安的電話 → 第一份工作 → 尾聲（睡覺、站著不動交替）',want.every((id,i)=>order.indexOf(id)>=0&&(i===0||order.indexOf(id)>order.indexOf(want[i-1])))&&!order.some(id=>/2030/.test(id)),order.join(' → '));
