@@ -54,12 +54,7 @@ sh.route({'#b98a58': 'wood', '#c79c6a': 'wood',   # 椅子、高腳椅、矮櫃�
           '#f2efe8': 'ceramic', '#e8dcc0': 'ceramic_b', '#d8d0c0': 'ceramic_b', '#b8a890': 'ceramic_b'})
 
 
-def _ph_plant(x, z, h=1.0, r=0.2, pot_col=None, y0=0.0, lvl='', seed=0):
-    """小盆栽：Poly Haven potted_plant_04（掃描；取代 aa_kit 的花盆＋葉片卡）"""
-    CK.ph_put('potted_plant_04', x, y0, z, yaw=RP.uniform(0, 6.28), share=False, height=r * 1.5 + h * 0.75, decimate=0.03)
 
-
-sh.plant = _ph_plant
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 xf0 = Xf(0, 0); BRASS = '#b8944a'; R = random.Random(1104)
@@ -237,7 +232,7 @@ sh.tally('sofa')
 
 # ---------------------------------------------------------------- 植物、軌道燈、窗邊的吊燈和明信片
 def leafy(x, z, h=1.3):
-    """落地植物：Poly Haven potted_plant_02（掃描；SHOP-CC0-HELP-1113，取代原本的花盆＋葉片卡）"""
+    """落地植物：Poly Haven potted_plant_02（小盆栽照舊 aa_kit 的黃金葛葉片卡：potted_plant_04 減到三百面以下會變成一團灰，並排圖 v1 閱讀桌上那盆）（掃描；SHOP-CC0-HELP-1113，取代原本的花盆＋葉片卡）"""
     CK.ph_put('potted_plant_02', x, 0.0, z, yaw=RP.uniform(0, 6.28), share=False, height=h, decimate=0.03)
     return
     """v2：闊葉的落地植物（高花盆＋兩叢葉片卡；LAWWW2：v1 的大盆栽像細竹子）"""
