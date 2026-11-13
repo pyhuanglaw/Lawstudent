@@ -1,7 +1,3 @@
-[22:25:51] skip TZ4_shots_v2b (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:51] skip TZ4_walk (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:51] skip TZ4_int_night (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:51] skip TZ_scoot_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
 [22:25:51] skip MT4_nofb_r5 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
 [22:25:51] skip SHIFT_IMM_r7_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
 [22:25:51] skip SHIFT_IMM_r7_old (already done on 8a98ff1e06c06cfb52be41dc3402ba05305945a6)
@@ -1998,3 +1994,7 @@
 [05:43:44] [res] cpu=2% mem=31% (9.9/31.4 GB) chrome_testing=0  END REL76_save_live_r2
 [05:43:48] [res] cpu=2% mem=33% (9.9/31.4 GB) chrome_testing=0  END REL76_save_v95_r3
 [05:44:07] D158：推送前把 1 處舊序章／外校的字換成代號
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b323b889a7..be4c4782bf  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:44:14] ==== END   REL76_save_live_r2  exit=1  409s   ====
