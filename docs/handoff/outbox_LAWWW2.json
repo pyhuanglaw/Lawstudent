@@ -9637,6 +9637,27 @@
    "tests": "套用後 shop_cc0_unit 四間 PASS；tz_*、gg_*、shop_* 全過；place_gate 只剩狀態表過期；baseline 拿掉 gg_antai",
    "notDone": "BB 美術判定；安泰、東南 CC 遊戲內四鏡頭",
    "next": "LAWWW 套 patch、place_gate --write；BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "CC0 第四批：汀州鮮果 CC0 v1（PH 水果 7 種、自畫西瓜鳳梨葡萄、鏤空籃、--keep-instances）、安泰藥局 v2（BB P1：貨架塞滿、端架掛袋＋網籃、量血壓角、壁扇）、榮恩典文具社 CC0 v1（筆牆、筆記本封面、PH 吊扇收銀機）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch4_1113/tz_cc0_batch4.patch",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch4_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch4_1113/cmp_xianguo_v1.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch4_1113/cmp_antai_v2.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_cc0_batch4_1113/cmp_rongendian_v1.jpg"
+   ],
+   "base": "origin/claude/adoring-meitner-mqzst8 e23d56706e",
+   "tests": "套用後 shop_cc0_unit 三間 PASS；tz_*、gg_*、shop_* 54 支全過；place_gate 只剩狀態表過期；baseline 拿掉 gg_xianguo、gg_rongendian",
+   "notDone": "BB 美術判定；CC 遊戲內四鏡頭；P2：鮮果葡萄再密、榮恩典特價推車",
+   "next": "LAWWW 套 patch、place_gate --write；BB 判"
   }
  ]
 }
