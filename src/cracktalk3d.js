@@ -184,7 +184,7 @@ const CRACKTALK=(function(){
   S.prep=function(G,id){ const F=G.flags; F.CT_RES=null; F.CT_ASKED=false;
     if(id===ZR){ const td=Math.floor(twNow(G)/24+1e-9); F.CT_ZR_WINTER=typeof ZRUK!=='undefined'&&ZRUK.winter?!!ZRUK.winter(G,td):false;
       const wb=D('2028-12-25'); F.CT_ZR_TRIP_OK=!!evOf('ev_zhiruo_uk_visit')&&wb!=null&&G.day<wb; }
-    if(id===PS){ const R=ROM.get(G,PS), d0=D('2026-12-17'); F.CT_PS_RETAKE=!!R&&R.sinceDay!=null&&d0!=null&&R.sinceDay<=d0; } };   /* 重考那年（2026-12-17 起）已經在交往 */
+    if(id===PS){ const R=ROM.get(G,PS), d0=D('2026-12-17'); F.CT_PS_RETAKE=!!R&&R.sinceDay!=null&&d0!=null&&R.sinceDay<=d0; } };   /* 沛珊重考那年（2026-12-17 起）已經在交往 */
   S.after=function(G,id){ const F=G.flags, r=S.pr(G,id), res=F.CT_RES||'drift', p=r.plan||{}; r.talked[p.term||S.termKey(G)]=1; const mode=p.mode||null; S.cancel(G,id); r.mode=mode;
     F.CT_RES=null; F.CT_ASKED=false; r.last={day:G.day,res};
     if(res==='mend'){ ROM.mend(G,id); return res; }

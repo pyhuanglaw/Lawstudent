@@ -478,7 +478,7 @@ const GAME = (function(){
   function backupKeys(){ const st=ls(); const out=[]; if(!st) return out; try{ for(let i=0;i<st.length;i++){ const k=st.key(i); if(k&&(k===KEY_BACKUP||k.indexOf(KEY_BACKUP+'_')===0)) out.push(k); } }catch(e){} return out; }
   function backupList(){ return backupKeys().map(k=>[k,read(k)]).filter(([k,b])=>b&&typeof b==='object'&&typeof b.day==='number').sort((a,b)=>(+b[1].savedAt||0)-(+a[1].savedAt||0)); }
   function backupBeforeNew(){ let fail=false;
-    const prog=b=>((b&&b.events&&+b.events.count)||0)*100000+((b&&b.stats&&+b.stats.steps)||0);   /* 實際玩了多少：演過的事件數，再看走過的步數（BB-B 10-30：照 day 排會先刪舊序章序章那一份——序章的 day 一定比法律系小）*/
+    const prog=b=>((b&&b.events&&+b.events.count)||0)*100000+((b&&b.stats&&+b.stats.steps)||0);   /* 實際玩了多少：演過的事件數，再看走過的步數（BB-B 10-30：照 day 排會先刪舊序章那一份——序章的 day 一定比法律系小）*/
     const same=(a,b)=>a&&b&&a.day===b.day&&Math.abs((+a.hour||0)-(+b.hour||0))<0.05&&(a.stage||'law')===(b.stage||'law')&&prog(a)===prog(b);   /* 同一個開局狀態（剛開局連按幾次）只留一份 */
     for(const key of [KEY_AUTO,KEY_QUICK]){ const s=read(key); if(!s||typeof s!=='object'||typeof s.day!=='number') continue; const k=KEY_NEWBK+(s.savedAt||Date.now()); if(read(k)) continue;
       if(backupKeys().filter(x=>x.indexOf(KEY_NEWBK)===0).some(x=>same(read(x),s))) continue;
@@ -546,7 +546,7 @@ const GAME = (function(){
   /* 刪除欄位、備份（BUG-SAVE-QUOTA-1102：空間不足時玩家能自己騰出空間）；自動存檔、快速存檔不給刪 */
   function delSave(key,label){ if(typeof confirm==='function'&&!confirm('刪除「'+label+'」？刪掉就讀不回來了。')) return false; const st=ls(); try{ if(st) st.removeItem(key); }catch(e){} toast('已刪除「'+label+'」'); renderSlots(); return true; }
   GM.delSave=delSave;
-  async function loadFrom(s){ if(typeof CLS!=='undefined'&&CLS.resetExamMemo) CLS.resetExamMemo(); if(s&&s.stage==='econ'){ toast('這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。',5200);   /* CANON-NO-ECON-1112 第四批：照 AA_897 第 3 節換字 */ return; } /* CANON-NO-ECON-1112：使用者 11-12 選「我沒有要留的舊存檔」——舊序章那一年（含舊序章、舊序章，stage 都是 econ）的舊存檔不讀、不遷移，給一句看得懂的話；法律系的存檔照讀 */   /* BUG-EXAMDAY-MEMO-1102：讀檔清考試日快取 */ if(D.busyDepth>0&&!D.stale&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   if(!$('titleScreen').classList.contains('hide')) await waitChars();   /* 從標題畫面讀檔：主要角色還在背景下載就先等（boot 的開遊戲加速）*/   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
+  async function loadFrom(s){ if(typeof CLS!=='undefined'&&CLS.resetExamMemo) CLS.resetExamMemo(); if(s&&s.stage==='econ'){ toast('這個存檔停在已經拿掉的舊章節，讀不了。請開新遊戲。',5200);   /* CANON-NO-ECON-1112 第四批：照 AA_897 第 3 節換字 */ return; } /* CANON-NO-ECON-1112：使用者 11-12 選「我沒有要留的舊存檔」——舊序章那一年（stage 都是 econ）的舊存檔不讀、不遷移，給一句看得懂的話；法律系的存檔照讀 */   /* BUG-EXAMDAY-MEMO-1102：讀檔清考試日快取 */ if(D.busyDepth>0&&!D.stale&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   if(!$('titleScreen').classList.contains('hide')) await waitChars();   /* 從標題畫面讀檔：主要角色還在背景下載就先等（boot 的開遊戲加速）*/   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
   // ---------- 選單 ----------
   let menuOpen=false;
   function openMenu(tab){ if(tab==='people'||tab==='map'){ openPhone(tab==='people'?'friends':'places'); return; }   /* 2026-10-16 使用者：右上角手機和選單內容重複——人物併進手機「朋友」、地圖併進手機「地點」；選單只留筆記本、存檔、設定、說明 */
