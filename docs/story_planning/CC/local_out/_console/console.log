@@ -416,3 +416,27 @@
 [18:26:52] 正在跑：CANON_NEWGAME_B（已跑 35 分／上限 240 分）、CANON_NEWGAME_FULL（已跑 35 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:28:20] [res] cpu=5% mem=39% (12.3/31.4 GB) chrome_testing=5  END CANON_NEWGAME_B
 [18:28:20] D158：推送前把 2 處舊序章／外校的字換成代號
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f9849300e5..13a08c0b2a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:28:30] ==== END   CANON_NEWGAME_B  exit=1  2245s   ====
+[18:28:34] solo item DN_PROGRAMS_3414 waits: no new items start until the 1 running item(s) finish
+[18:31:52] 正在跑：CANON_NEWGAME_FULL（已跑 40 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:36:52] 正在跑：CANON_NEWGAME_FULL（已跑 45 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:41:52] 正在跑：CANON_NEWGAME_FULL（已跑 50 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:46:52] 正在跑：CANON_NEWGAME_FULL（已跑 55 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:51:52] 正在跑：CANON_NEWGAME_FULL（已跑 60 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:56:52] 正在跑：CANON_NEWGAME_FULL（已跑 65 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:01:52] 正在跑：CANON_NEWGAME_FULL（已跑 70 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:06:52] 正在跑：CANON_NEWGAME_FULL（已跑 75 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:11:52] 正在跑：CANON_NEWGAME_FULL（已跑 80 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:16:52] 正在跑：CANON_NEWGAME_FULL（已跑 85 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:21:52] 正在跑：CANON_NEWGAME_FULL（已跑 90 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:26:52] 正在跑：CANON_NEWGAME_FULL（已跑 95 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:31:52] 正在跑：CANON_NEWGAME_FULL（已跑 100 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:36:52] 正在跑：CANON_NEWGAME_FULL（已跑 105 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:41:52] 正在跑：CANON_NEWGAME_FULL（已跑 110 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:46:52] 正在跑：CANON_NEWGAME_FULL（已跑 115 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:51:52] 正在跑：CANON_NEWGAME_FULL（已跑 120 分／上限 600 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:55:46] [res] cpu=2% mem=29% (9.2/31.4 GB) chrome_testing=0  END CANON_NEWGAME_FULL
+[19:55:47] D158：推送前把 9 處舊序章／外校的字換成代號

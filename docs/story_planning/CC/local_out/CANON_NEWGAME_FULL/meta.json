@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "CANON_NEWGAME_FULL",
+  "sha": "8c7ed865600a085f283e1db9698ba18513cfafc8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_flow_semester_probe.py",
+  "env": "CANON=1;KX_PICK=「會;EXPECT_HOW=class;PICK_HAS=臺北人;CANON_SCAN=1;UNTIL=2026-01-25;SAVE_CHECK=0;SHOT_EVERY=7;SHA=8c7ed865600a085f283e1db9698ba18513cfafc8",
+  "machine": "MSI",
+  "start": "2026-11-13T17:51:42",
+  "end": "2026-11-13T19:55:46",
+  "seconds": 7444,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 24,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
