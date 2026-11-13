@@ -40,14 +40,14 @@ fresh(MON,9); rel('heroine_02',12,4,2); r=ask('heroine_02','cafe',MON,12+10/60);
 check('2. 芷若上班時約 Café：「我會在 Café 啊，你直接過來，我幫你做一杯。」（BB_172 Z16）',r.res==='here'&&L(r)==='我會在 Café 啊，你直接過來，我幫你做一杯。',r.res+' '+L(r));
 // 3 以安散步
 fresh(MON,9); rel('heroine_01',45,30,10); r=ask('heroine_01','wenzhou',MON,15.5);
-check('3. 以安大一約散步：「好。」「今天不行，明天。」→ 改天（明天以後；祐廷那句刪，AA_576 第 11、12 列）',r.res==='resched'&&L(r)==='好。｜……今天不行，明天。'&&r.alt&&r.alt.day>MON,r.res+' '+L(r)+' '+JSON.stringify(r.alt));
+check('3. 以安大一約散步：「好。」「今天不行，明天。」→ 改天（明天以後；祐廷那句刪，AA_576 第 11、12 列）',r.res==='resched'&&L(r)==='好。｜今天不行，明天。'&&r.alt&&r.alt.day>MON,r.res+' '+L(r)+' '+JSON.stringify(r.alt));
 const Y2=(()=>{ for(let d=200;d<900;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S1'&&wdOf(d)===1&&t.week===5) return d; } })();
 fresh(Y2,9); rel('heroine_01',45,30,10); r=ask('heroine_01','wenzhou',Y2,15.5); check('3. 以安大二以後：「好。」（AA_576 第 13 列）',r.res==='accept'&&L(r)==='好。',r.res+' '+L(r));
 // 4 語彤
 fresh(TUE,9); rel('heroine_03',25,8,4); r=ask('heroine_03','noodle',TUE,18);
 check('4. 語彤週二晚上約公館燒臘：不成立（AA_610／AA_624：她不在燒臘店，INV.NEVER_AT），沒有「我就在店裡。你來。」',r.res==='decline'&&r.why==='place'&&!/我就在店裡/.test(L(r))&&!r.alt,r.res+' '+L(r));
 r=ask('heroine_03','cafe',TUE,18); check('4. 語彤週二晚上約 Café：不再用「麵店。」「你來店裡就好。」（她週二不顧店，AA_610／AA_624）',!/麵店。/.test(L(r))&&!/你來店裡就好/.test(L(r)),r.res+' '+L(r));
-r=ask('heroine_03','cafe',TUE,15.5); check('4. 語彤「有點熟」約 Café：「咖啡廳我坐不住。」「總圖可以。」（婉拒；11-07 AA_415 c71772fbc）',r.res==='decline'&&L(r)==='……咖啡廳我坐不住。｜總圖可以。',r.res+' '+L(r));
+r=ask('heroine_03','cafe',TUE,15.5); check('4. 語彤「有點熟」約 Café：「咖啡廳我坐不住。」「總圖可以。」（婉拒；11-07 AA_415 c71772fbc）',r.res==='decline'&&L(r)==='咖啡廳我坐不住。｜總圖可以。',r.res+' '+L(r));
 r=ask('heroine_03','noodle',MON,12+10/60); check('4. 語彤「有點熟」約公館燒臘：不成立（AA_610／AA_624，INV.NEVER_AT）',r.res==='decline'&&r.why==='place',L(r));
 rel('heroine_03',45,30,10); r=ask('heroine_03','wenzhou',MON,15.5);
 check('4. 語彤「朋友」第一次約散步（週一）：「週六。我本來就在。」→ 改到週六',r.res==='resched'&&L(r)==='週六。我本來就在。'&&r.alt&&wdOf(r.alt.day)===6,r.res+' '+L(r)+' '+JSON.stringify(r.alt));
@@ -92,7 +92,7 @@ async function await0(){}
   await INV.flow(gm,'classmate_bohan',null,false); const o=gm.out.join('｜');
   check('10. 手機約柏翰去 Café：「柏翰（手機）：「我要念書，九點十分可以。」」→ 選改天 → 約好今天 21:10（AA_194 第 4 節）',/柏翰（手機）：我要念書，九點十分可以。/.test(o)&&G.invites.some(iv=>iv.who==='classmate_bohan'&&iv.state==='accepted'&&Math.abs(iv.h-(21+10/60))<0.01),o);
   fresh(MON,10); G.contacts.heroine_01=1; rel('heroine_01',45,30,10); gm=GMk(['溫州街','15:30','好，就']); gm.G=G; await INV.flow(gm,'heroine_01',null,false); const o2=gm.out.join('｜');
-  check('10. 以安大一散步：「好。」「今天不行，明天。」、然後問改天（祐廷「沒有目的。」那句刪，AA_576 第 11 列）',!/祐廷：「?沒有目的。/.test(o2)&&/……今天不行，明天。/.test(o2)&&/選：好，就 /.test(o2),o2);
+  check('10. 以安大一散步：「好。」「今天不行，明天。」、然後問改天（祐廷「沒有目的。」那句刪，AA_576 第 11 列）',!/祐廷：「?沒有目的。/.test(o2)&&/今天不行，明天。/.test(o2)&&/選：好，就 /.test(o2),o2);
   fresh(MON,10); G.contacts.classmate_youchen=1; rel('classmate_youchen',25,8,4); gm=GMk(['2:30 AM','15:30']); gm.G=G; const before=INVITE_DATA.people.classmate_youchen;
   if(!before&&CHARACTERS.classmate_youchen){ await INV.flow(gm,'classmate_youchen',null,false); check('10. 沒有個性資料的人照舊：「某某答應了。約好 …」（旁白）',gm.out.some(t=>/^旁白：.*答應了。約好/.test(t)),gm.out.join('｜')); }
   // 11 第一次散步
@@ -126,7 +126,7 @@ async function await0(){}
   INV.walkChat(gmW,7); check('13. 芷若去溫州街的路上：抽到猜電影（選項句）——路上不出字幕、記在邀約上（iv.ask）',caps.length===0&&G.invites[0].chat===true&&G.invites[0].ask==='ZR_FILM_ASK',JSON.stringify({caps,ask:G.invites[0].ask}));
   { const said=[], opts=[]; const gmM={G,E:{player:{obj:{position:{x:0,z:0}}}},npc:{},sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push((w?(w.name||w):'旁白')+'：'+t); },choose:async o=>{ opts.push(o.map(x=>x.t).join('/')); return 2; },fade:async()=>{},advance(){},caption(){},sleep:async()=>{},autosave(){},toast(){},updateHUD(){}};
     await INV.meet(gmM,G.invites[0],{obj:npcObj});
-    check('13. 到了、見面開始前：她先問 → 三個選項 → 選「什麼都沒發生的片。」→「你怎麼知道？」→ 她的答案，之後才是見面（BB_172 Z5）',said[0]==='林芷若：欸，你不覺得這條巷子很適合拍電影嗎？你猜我會拍什麼。'&&opts[0]==='愛情片。/恐怖片。/什麼都沒發生的片。'&&said[1]==='林芷若：你怎麼知道？'&&said[2]==='林芷若：我想拍一個人每天走這條巷子去上班，然後什麼事都沒發生。'&&said[3]==='林芷若：應該很難看吧。'&&said.length>4,said.join('｜'));
+    check('13. 到了、見面開始前：她先問 → 三個選項 → 選「什麼都沒發生的片。」→「你怎麼知道？」→ 她的答案，之後才是見面（BB_172 Z5）',said[0]==='林芷若：欸，你不覺得這條巷子很適合拍電影嗎？你猜我會拍什麼。'&&opts[0]==='愛情片。/恐怖片。/什麼都沒發生的片。'&&said[1]==='林芷若：……你怎麼知道？'&&said[2]==='林芷若：我想拍一個人每天走這條巷子去上班，然後什麼事都沒發生。'&&said[3]==='林芷若：應該很難看吧。'&&said.length>4,said.join('｜'));
     check('13. 每句一次：問過以後不再抽到',G.flags.ZR_FILM_ASK===true&&!G.invites[0].ask&&(()=>{ const pk=INV.walkPick(G,'heroine_02','wenzhou'); return !!pk&&!pk.ask; })()); }
   fresh(TUE,18); rel('kai',25); G.flags.walkChatN={}; let pk2=INV.walkPick(G,'kai','noodle');
   check('13. 阿凱大一去吃飯的路上：「欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？」（選項句；BB_172 K2）',!!pk2&&pk2.ask==='KAI_SCOOTER_ASK'&&pk2.lines[0]==='欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？',pk2&&JSON.stringify(pk2));

@@ -75,12 +75,19 @@ def _spans(text, r):
     for m in re.finditer(re.escape(o), text):
         a, b = m.start(), m.end()
         if in_comment(text, a): continue
+        if in_record(text, a): continue
         if any(c in o for c in Q) or r.get('all'): out.append((a, b)); continue
         before = text[a - 1] if a else ''
         after = text[b] if b < len(text) else ''
         if before not in Q: continue
         if r.get('prefix') or after == before: out.append((a, b))
     return out
+
+
+def in_record(text, pos):
+    """pos 在 invite_replies.js 的 "say":"…" 裡：那一格是「表上原文」（BB 表的原句紀錄，遊戲不播；tests/invites_quote_unit.js 要它和原稿一字不差），不換。"""
+    k = text.rfind('"say":"', 0, pos)
+    return k >= 0 and '"' not in text[k + 7:pos]
 
 
 def in_comment(text, pos):
