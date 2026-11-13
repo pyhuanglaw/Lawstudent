@@ -41,7 +41,7 @@
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "135fdb52",
+   "sha": "7d456096",
    "since": "2026-11-13T08:54Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
@@ -53,7 +53,7 @@
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "77f76bdf",
+   "sha": "daad404e",
    "since": "2026-11-13T08:57Z",
    "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
@@ -65,7 +65,7 @@
    "account": "C",
    "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "45aac2d7",
+   "sha": "e9557ef7",
    "since": "2026-11-13T08:54Z",
    "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
@@ -77,11 +77,11 @@
    "account": "C",
    "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
    "branch": "claude/cc-testing",
-   "sha": "2175b051",
-   "since": null,
-   "state": "handed-off",
+   "sha": "c6340b47",
+   "since": "2026-11-13T14:16Z",
+   "state": "on",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": null,
+   "sinceSha": "67266911",
    "handedOffAt": "2026-11-12T22:09Z",
    "handoffSnapshot": "2026-11-12T2209Z_C_CC.json",
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
@@ -1234,7 +1234,7 @@
    "resolved": false
   }
  ],
- "seq": 147,
+ "seq": 148,
  "chain": [
   {
    "seq": 1,
@@ -2263,6 +2263,13 @@
    "at": "2026-11-13T09:13Z",
    "account": "C",
    "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 148,
+   "at": "2026-11-13T15:13Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
    "event": "sync"
   }
  ],
