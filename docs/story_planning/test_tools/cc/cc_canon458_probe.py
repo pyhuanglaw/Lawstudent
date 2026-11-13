@@ -6,6 +6,8 @@
 之後照玩家：手機「地點」→ 校園 → 快速前往（進區域＝onEnter）→ 演出來的每一句截圖、選項照 CASE。每一段最後跑 D158 字表（tools/cc_local/canon_codes.hits）。
 CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲裡算；旗標照 events.js prereq） 2✓（事件 id、旗標從程式讀；地點按鈕用手機頁 data-place） 3n/a（一件） 4✓（點前 reveal 展開地區、按鈕在才點） 5✓（快速前往，不走路） 6✓（到了等事件開演最多 120 秒） 7✓（lint、node 驗 JS） 8n/a（字對不對歸 BB） 9✓（遊戲畫面原樣截圖） 10✓（別的對話照字點完並記下來） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：讀到 Y1S2 第 1 週、墊完可昕 ≥ ACQUAINTANCE、KX_Y1S1_END、真的到了校園） 13n/a（不走路）
   XMAS_MET_A／XMAS_MET_B／XMAS_PREV／XMAS_ABROAD  #17 大三聖誕（@d999d036d8 當面版；BB 改定：當面版＋人在國外的視訊版）：12/24 21:00 兩則 → 「好。」→ 12/25 21:00 法律系館A（國外＝視訊）
+  GRAD_KEY／GRAD_NOKEY  #15 6/2 畢業典禮（交往中；有／沒有長頸鹿鑰匙圈）：一路照演到 PG.done.grad，記 ADV.cg（不能有 cg_two_graduations）
+  ORAL  #16 國考口試（【捷徑】畢業後篇＋JUDGE_PASS_2030，2031-01-11 09:50）：記「你為什麼念法律？」那一段，祐廷不提以前的系（D158 字表掃）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=GIRAFFE_A,GIRAFFE_B,XMAS_MET_A,…] python3 cc_canon458_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -74,7 +76,57 @@ async def c_xmas(pg, cdp, tag):
     return {'case': tag, 'ask': t, 'reply': lab, 'out': q, 'r': r, 'after': fl2}
 
 
+CG_HOOK = "(()=>{ if(window.__cgH) return 'again'; window.__cgH=1; window.__cgs=[]; if(typeof ADV!=='undefined'&&ADV.cg){ const c0=ADV.cg; ADV.cg=function(id){ try{ window.__cgs.push(String(id)); }catch(e){} return c0.apply(this,arguments); }; } return 'ok'; })()"
+PG_JS = "(()=>{ const G=GAME.G, F=G.flags||{}, r=(typeof PG!=='undefined'&&PG.rec)?PG.rec(G):{done:{}}; return {key:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(2), zone:G.zone, GRADUATED:F.GRADUATED||null, done:Object.keys(r.done||{}).filter(k=>/grad|j3_|jb2_|family/.test(k)).map(k=>k+':'+r.done[k]), cgs:(window.__cgs||[]).slice(-20), pgOn:!!(typeof PG!=='undefined'&&PG.on&&PG.on(G))}; })()"
+
+
+async def play_until(pg, cdp, tag, stop_js, max_rounds=8, alt=0):
+    """一段一段演（每段 play），到 stop_js 為真或沒有新的對話為止"""
+    rs = []
+    for n in range(max_rounds):
+        if await pg.evaluate(stop_js): break
+        r = await SP.play(pg, cdp, '%s_%d' % (tag, n + 1), alt, start_s=90); rs.append(r)
+        if not r['started']: break
+    return rs
+
+
+async def c_grad(pg, cdp, tag):
+    """#15 6/2 畢業典禮（postgrad3d.js gradScene、partnerBeat；tests/graduation_unit.js 51～54、115～121）：交往中、GRAD_KEY＝GIRAFFE_KEYCHAIN（key 版）、GRAD_NOKEY＝沒有。
+       2029-06-02 07:50 校園讀檔、條件事件照開 → 家人那一段（ev_grad_family）→ 晨思鐘大合照 → 可昕那一拍，一路照演、每句截圖；記 ADV.cg（不能有 cg_two_graduations）、PG.done.grad"""
+    key = tag == 'GRAD_KEY'
+    d, seed = await SP.fresh(pg, cdp, tag, '2029-06-02', 7 + 50 / 60, 'campus', {'kexin': 'DATING'}, {'GIRAFFE_KEYCHAIN': True} if key else {})
+    await pg.evaluate(CG_HOOK); R.note('[%s] 墊完 %s；%s' % (tag, J(seed), J(await pg.evaluate(PG_JS))))
+    rs = await play_until(pg, cdp, tag, "(()=>{ const r=(typeof PG!=='undefined'&&PG.rec)?PG.rec(GAME.G):{done:{}}; return !!(r.done&&r.done.grad); })()", 10)
+    st = await pg.evaluate(PG_JS); R.note('[%s] 之後 %s' % (tag, J(st)))
+    R.check('FAIL_SETUP 檢查：[%s] 畢業典禮那一步演了（PG.done.grad）' % tag, any(x.startswith('grad:') for x in st['done']), J(st))
+    R.check('[%s] 沒有 cg_two_graduations' % tag, 'cg_two_graduations' not in st['cgs'], J(st['cgs']))
+    allsaid = [t for r in rs for _, t in r['said']]
+    R.note('[%s] 可昕那一拍附近：%s' % (tag, J([t for t in allsaid if '畢業' in t or '鑰匙' in t or '脖子' in t or '領子' in t or '學士帽' in t])))
+    SP.d158(tag, *rs)
+    return {'case': tag, 'seed': seed, 'rs': rs, 'pg': st}
+
+
+async def c_oral(pg, cdp, tag):
+    """#16 國考口試第一題（postgrad3d.js oralScene，PG 步驟 j3_2030 at 2031-01-11 10:00、cond JUDGE_PASS_2030 且 JUDGE_YEAR 沒有）：
+       【捷徑】畢業後篇（GRADUATED＝2029-06-02、PG.done.grad）、JUDGE_PASS_2030；2031-01-11 10:00 以前的其他 PG 步驟記成 cc_skip（只留 j3_2030）→ 09:50 宿舍讀檔 → 照演"""
+    d, seed = await SP.fresh(pg, cdp, tag, '2031-01-11', 9 + 50 / 60, 'dorm', {}, {'JUDGE_PASS_2030': True, 'BAR_SIT_2030': True, 'GRAD_DONE': True})
+    sk = await P.prep(pg, cdp, R, """(()=>{ const G=GAME.G, F=G.flags; F.GRADUATED=STORY.dayOfKey('2029-06-02'); const r=PG.rec(G); r.done=r.done||{}; r.done.grad=F.GRADUATED; const now=G.day*24+G.hour, sk=[];
+      for(const s of (PG.STEPS||[])){ if(!s||s.id==='j3_2030'||r.done[s.id]) continue; let at=null; try{ at=typeof s.at==='function'?s.at(G):s.at; }catch(e){} if(at!=null&&at<=now+0.25){ r.done[s.id]='cc_skip'; sk.push(s.id); } }
+      return {skipped:sk.length, sample:sk.slice(0,12), on:!!(PG.on&&PG.on(G)), j3:!!(PG.byId&&PG.byId('j3_2030'))}; })()""", None, True, '[%s] 畢業後篇、JUDGE_PASS_2030；10:00 以前別的 PG 步驟記成 cc_skip' % tag)
+    await P.events_on(pg)
+    if not R.check('FAIL_SETUP 檢查：[%s] 畢業後篇開著、有 j3_2030 這一步' % tag, sk.get('on') and sk.get('j3'), J(sk)): return {'case': tag, 'skip': 'setup'}
+    rs = await play_until(pg, cdp, tag, "(()=>{ const r=PG.rec(GAME.G); return !!(r.done&&r.done.j3_2030); })()", 6)
+    st = await pg.evaluate(PG_JS); R.note('[%s] 之後 %s' % (tag, J(st)))
+    R.check('FAIL_SETUP 檢查：[%s] 口試那一步演了（PG.done.j3_2030）' % tag, any(x.startswith('j3_2030:') for x in st['done']), J(st))
+    allsaid = [t for r in rs for _, t in r['said']]
+    R.note('[%s] 「為什麼念法律」那一段：%s' % (tag, J([t for i, t in enumerate(allsaid) if '法律' in t or (i and '法律' in allsaid[i - 1])])))
+    SP.d158(tag, *rs)
+    return {'case': tag, 'seed': seed, 'skip': sk, 'rs': rs, 'pg': st}
+
+
 async def one(pg, cdp, c):
+    if c in ('GRAD_KEY', 'GRAD_NOKEY'): return await c_grad(pg, cdp, c)
+    if c == 'ORAL': return await c_oral(pg, cdp, c)
     if c in ('XMAS_MET_A', 'XMAS_MET_B', 'XMAS_PREV', 'XMAS_ABROAD'): return await c_xmas(pg, cdp, c)
     if c in ('GIRAFFE_A', 'GIRAFFE_B'): return await c_giraffe(pg, cdp, c, 0 if c.endswith('A') else 1)
     R.check('[%s] 認得這個 CASE' % c, False, ''); return {'case': c, 'skip': 'unknown'}
