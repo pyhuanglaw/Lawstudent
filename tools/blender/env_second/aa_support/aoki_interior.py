@@ -49,7 +49,8 @@ sh.M.update({
     'tile_b': CK.acg(P + 'tile_green_b', 'Plastic006', target='#77927a', vary=0.05, tile=0.25, rough_value=0.15),
     'steel': CK.acg(P + 'steel', 'Metal009', target='#c8c8c4', vary=0.04, tile=0.4, metal=0.25, rough_value=0.35),
 })
-sh.route({'#b98d5c': 'oakcg', '#a87a4a': 'oakcg', '#b0814f': 'oakcg', '#6a4a2a': 'traywood',
+sh.route({'#b98d5c': 'oakcg', '#a87a4a': 'wood', '#b0814f': 'wood', '#b98d5d': 'wood',   # 吧台直木條、高腳凳＝和吧台本體同一個 Poly Haven walnut_veneer（v2：Wood049 在細木條上太碎）
+          '#6a4a2a': 'traywood',
           '#e6ddcc': 'fab_cream', '#e8e0cc': 'fab_cream', '#b8c4a8': 'fab_oat', '#7d9a7e': 'fab_sage',
           '#c9a77c': 'kraft', '#4f6b45': 'paper_g', '#3f5a46': 'paper_g', '#ece7de': 'stone', '#e2dcd0': 'stone',
           '#f4f1ea': 'ceramic', '#f4f0e6': 'ceramic', '#e8dcc8': 'ceramic', '#9ab0a0': 'celadon', '#34503c': 'tin',
@@ -75,7 +76,7 @@ def chair(x, z, yaw):
 def wstool(x, z, h=0.72):
     """參考圖的木高腳椅：圓木坐面、四支外八的腳、一圈腳踏（約 220 三角形）"""
     xf = Xf(x, z, 0.0); m = sh.a('vc')
-    xf.lathe(m, [(0.0, h - 0.04), (0.17, h - 0.04), (0.18, h - 0.01), (0.17, h + 0.005), (0.0, h + 0.01)], 0, 0, 0, seg=14, col=OAK)
+    xf.lathe(m, [(0.0, h - 0.04), (0.17, h - 0.04), (0.18, h - 0.01), (0.17, h + 0.005), (0.0, h + 0.01)], 0, 0, 0, seg=14, col='#b98d5d')   # 凳面：木頭（LAWWW2 驗收 v1：原本分到別的材質看起來像石紋）
     for k in range(4):
         a = math.pi / 4 + k * math.pi / 2; c, s_ = math.cos(a), math.sin(a)
         xf.cyl(m, (c * 0.2, 0.0, s_ * 0.2), (c * 0.12, h - 0.04, s_ * 0.12), 0.02, col=STOOL, seg=5, caps=False)

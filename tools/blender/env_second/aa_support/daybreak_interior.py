@@ -49,7 +49,8 @@ sh.M.update({
     'blackplastic': CK.acg(P + 'black_plastic', 'Plastic006', target='#3a3a38', vary=0.03, tile=0.4, rough_value=0.4),
     'beam': CK.acg(P + 'beam_plaster', 'Plaster001', target='#f4f2ec', vary=0.04, tile=1.0, rough_value=0.85),
 })
-sh.route({'#d9b98a': 'oakcg', '#cfae7e': 'oakcg', '#ebe4d4': 'fab_cream', '#8a9e84': 'fab_sage', '#7d927a': 'fab_sage',
+sh.route({'#d9b98a': 'oakcg', '#cfae7e': 'wood',   # 吧台直紋木條＝和吧台本體同一個 walnut_veneer（Wood049 在細木條上太碎）
+          '#ebe4d4': 'fab_cream', '#8a9e84': 'fab_sage', '#7d927a': 'fab_sage',
           '#f0d070': 'fab_yellow', '#f4e4a0': 'fab_yellow', '#b8935e': 'doormat', '#e6e1d8': 'stone',
           '#f6f3ec': 'ceramic', '#efe9de': 'ceramic', '#e8dcc8': 'ceramic', '#9fb59c': 'tile_a', '#a6bba3': 'tile_a', '#98b096': 'tile_b', '#93ab91': 'tile_b',
           '#7e937b': 'sagepaint', '#2e2e2e': 'blackmetal', '#3a3a38': 'blackplastic', '#f4f2ec': 'beam',
