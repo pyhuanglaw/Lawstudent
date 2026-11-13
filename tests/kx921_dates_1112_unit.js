@@ -24,7 +24,7 @@ const E=require('./ellipsis694.js');
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&(e[0].approvedBy||'').includes('AA_917')&&(e[0].history||[]).some(h=>h.sha===C.KX921_1112_PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有 AA_917；'+C.KX921_1112_PREV+' 在 history',C.ALLOW_SHA==='6dbfe10d7e'&&C.KX921_1112_PREV==='dce2f8c08b'&&bad.length===0,J(bad));
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有 AA_917；'+C.KX921_1112_PREV+' 在 history',C.ALLOW_SHA==='e622a59148'&&C.KX932_1112_PREV==='6dbfe10d7e'&&C.KX921_1112_PREV==='dce2f8c08b'&&bad.length===0,J(bad));
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 2
@@ -40,11 +40,11 @@ const E=require('./ellipsis694.js');
   check('2. AA_923 那一格是可昕 D09 小路「期中考前」→「考試前」',J(R.filter(r=>r.doc==='AA_923').map(r=>[r.loc,r.who,r.path,r.old.includes('期中考前'),r.new.includes('考試前')]))===J([['D09','kexin','hotspots/D09.path/first/lines/0/text',true,true]])); }
 
 // 3
-{ const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.ALLOW_SHA,SP+'date_system/lines/'+k+'.json'), u=show(C.KX921_1112_PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
+{ const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.KX932_1112_PREV,SP+'date_system/lines/'+k+'.json'), u=show(C.KX921_1112_PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
   if(Object.keys(SRC).length===33&&Object.keys(OLD).length===33){
     const diff=[]; for(const k of LOCS){ const a=leaves(OLD[k],'',{}), b=leaves(SRC[k],'',{}); for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&!p.startsWith('/_meta')) diff.push(J([k,p,a[p],b[p]])); }
     const want=R.map(r=>J([r.loc,'/lines/'+r.who+'/'+r.path,r.old,r.new]));
-    check('3. 源稿 '+C.ALLOW_SHA+' 和上一版 '+C.KX921_1112_PREV+' 逐格比：剛好 118 格不同、old／new 都照表',diff.length===118&&J(diff.sort())===J(want.sort()),J(diff.filter(x=>!want.includes(x)).slice(0,3)));
+    check('3. 源稿 '+C.KX932_1112_PREV+'（這一輪的版本；之後 AA_932 再改 5 格＝KX932_1112，逐格在 tests/kx932_dates_1113_unit.js）和上一版 '+C.KX921_1112_PREV+' 逐格比：剛好 118 格不同、old／new 都照表',diff.length===118&&J(diff.sort())===J(want.sort()),J(diff.filter(x=>!want.includes(x)).slice(0,3)));
     check('3. 源稿用 src248 還原＝上一版同樣還原',LOCS.every(k=>J(C.src248(k,SRC[k]))===J(C.src248(k,OLD[k]))),J(LOCS.filter(k=>J(C.src248(k,SRC[k]))!==J(C.src248(k,OLD[k])))));
   } else console.log('（跳過第 3 項：讀不到源稿，企劃線沒 fetch）'); }
 
@@ -60,6 +60,7 @@ const E=require('./ellipsis694.js');
 { const wt=show(BASE,'src/data/date_lines.js');
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source'&&!require('./date_src_sha.js').SHORT921_1112.some(r=>r.p===p)/* （CANON-NO-ECON-1112 第五批：照 AA_921 §3-1 換字）可昕不分地點的短句七格 */) diff.push(p);
     const want=R.map(gp).sort();
+    { const K6=C.KX932_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a6=diff.slice(); diff.length=0; for(const p of a6) if(!K6.includes(p)) diff.push(p); check('5. 之後收尾批（e622a59148，AA_932 可昕外校前提句）5 格也換了字（date_src_sha.js KX932_1112；逐格在 tests/kx932_dates_1113_unit.js）——這裡先拿掉再比',C.KX932_1112.length===5&&K6.length===5,J(K6.length)); }   /* 2026-11-13（CANON-NO-ECON-1112 收尾 e622a59148）：舊期望是重匯以前就只差這一輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 118 格不同',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 118 格重匯以前＝稿的 old',R.every(r=>a[gp(r)]===r.old),J(R.filter(r=>a[gp(r)]!==r.old).slice(0,3).map(gp)));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
