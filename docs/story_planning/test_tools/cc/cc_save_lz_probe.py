@@ -38,6 +38,9 @@ def fix_path(rel):
 
 
 def url_of(mode):
+    # 11-13 LAWWW-C c10937dddb：壓縮改成預設開、?nolzsave 關。DEFAULT_LZ=1（新版）：plain＝加 ?nolzsave、lz＝不加；舊版照舊 plain 不加、lz 加 ?lzsave
+    if os.environ.get('DEFAULT_LZ') == '1':
+        return URL + ((('&' if '?' in URL else '?') + 'nolzsave') if mode != 'lz' else '')
     return URL + (('&' if '?' in URL else '?') + 'lzsave' if mode == 'lz' else '')
 
 
