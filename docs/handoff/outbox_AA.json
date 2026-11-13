@@ -8142,6 +8142,21 @@
    "noDirectIntegrate": false,
    "next": "LAWWW 照表換（951～954 定稿）；955～957 等 BB 第二眼",
    "unfinished": "AA_955～957 BB 第二眼"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b42167a031",
+   "files": [
+    "docs/story_planning/AA_959_今天開頭砍半_覆寫表.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-13T21:05Z",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C 21:02 選 (a)：匯入工具最後一步照表換",
+   "noDirectIntegrate": true,
+   "next": "LAWWW-C 做共用套用工具接到各匯入工具最後一步；AA_960 等 BB-C 第二眼後併表",
+   "unfinished": "AA_960（可昕，36 列）未併"
   }
  ],
  "items": [
