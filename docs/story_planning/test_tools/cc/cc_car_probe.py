@@ -1,4 +1,5 @@
 """CC（帳號 A）11-02：BB_222 驗收計畫第 2 節 B-3 CAR-01、CAR-04（國考 → 第一份工作 → 尾聲）的瀏覽器探針。階段 0＝修改前基準（a3b1bd647）。
+CC_02 清單 2026-11-14：1✓（每個 case 讀檔日期照 PG 的時間表） 2✓（A 傾向改照 story3d.js careerLean 的 A 來源：法服＋C16＋C09，舊的 LAWCLUB_SAT_VISITS 在有 FAFU_STORY_SEEN 以後不算，BB-C 22:24） 3n/a（case 由 CASES 指定） 4n/a（只按對話與選單） 5n/a（不走路，讀檔到地點） 6✓（每段等對話打完） 7✓（lint） 8✓（careerLean 印出來；前置 top 不對＝前置 FAIL） 9✓（截圖、原文存 JSON） 10✓（讀檔時關條件事件） 11✓（SHA 40 碼） 12✓（前置成立檢查：PG.on、sits2029、沒有延畢、top＝傾向） 13n/a（不走路）
 【CC_02 清單：未過】CC-C 11-12 只把群組舊名改字成「桌遊團」（使用者 P0 NOODLE-NAME-PURGE-1112；PHONE.join 群組名、說明文字），邏輯沒改。這支還沒照 CC_02 丁逐條過 13 點：排電腦前要先過清單、寫清單行、雲端重跑。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader，1～4 fps），URL 用 '<URL>/index.html?turbo'。
 
@@ -100,7 +101,9 @@ async def state_at(pg, key, h, zone, flags=None, pos=None, done=None):
 CLEARP = "(()=>{ if(typeof CLS!=='undefined'&&CLS.clearPending){ CLS.clearPending(); return true; } return false; })()"
 
 LEAN_JS = {
-    'A': "F.LAWCLUB_SAT_VISITS=10;",
+    # BB-C 22:24 REL76_car：舊寫法 LAWCLUB_SAT_VISITS=10 在有 FAFU_STORY_SEEN（D118-B5b 起新存檔都有）以後不算了＝A 0、top B。
+    #   改照 story3d.js careerLean 的 A 來源：法服（CLUB_lawclub_study）2＋寒暑假 C16、C09 各 5（vac.reg 'C16@年'＝done）
+    'A': "F.CLUB_lawclub_study=true; G.vac=G.vac||{}; G.vac.reg=Object.assign(G.vac.reg||{},{'C16@2027':'done','C09@2027':'done'});",
     'B': "F.Y4_PATH='grad'; delete F.GRAD_ADMIT; delete F.Y4_PUSH; G.stats=G.stats||{}; G.stats.study=Math.max(+G.stats.study||0,100); F.STUDY_AT_LAW=0;",
     'C': "G.vac=G.vac||{}; G.vac.reg=Object.assign(G.vac.reg||{},{'C08@2027':'done'});",
 }
