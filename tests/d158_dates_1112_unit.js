@@ -40,7 +40,7 @@ const N=R.length;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].approvedBy.includes('AA_860 定稿（BB_405 聽過）f6aa917593')&&(e[0].history||[]).some(h=>h.sha===PREV)); });
   check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有「AA_860 定稿（BB_405 聽過）f6aa917593」；'+PREV+' 在 history',C.ALLOW_SHA==='b4dcd9bf9a'&&C.KX944_1113_PREV==='4539b2ebaf'&&C.KX938_1113_PREV==='e622a59148'&&C.KX932_1112_PREV==='6dbfe10d7e'&&C.KX921_1112_PREV==='dce2f8c08b'&&C.PS914_1112_PREV==='f561545f38'&&C.PS913_1112_PREV==='6221c8e80f'&&C.ZQ909_1112_PREV==='417c5cb9ce'&&C.ZR904_1112_PREV==='5afc5c0e3'&&C.KXNL_1112_PREV===SHA&&PREV==='3cb2939d0'&&bad.length===0,J(bad));   /* 2026-11-12（可昕不靠記帳 AA_869～871@5afc5c0e3，date_src_sha.js KXNL_1112）：白名單再換 5afc5c0e3（只動可昕 137 格，逐格在 tests/kxnl_dates_1112_unit.js）；f6aa917593＝C.KXNL_1112_PREV。舊期望：C.ALLOW_SHA==='f6aa917593' */   /* 2026-11-12（芷若再去一次 AA_904@417c5cb9ce，date_src_sha.js ZR904_1112）：白名單再換 417c5cb9ce（只動芷若 remember 58 格，逐格在 tests/zr904_dates_1112_unit.js）；5afc5c0e3＝C.ZR904_1112_PREV。舊期望：C.ALLOW_SHA==='5afc5c0e3' */   /* 2026-11-12（子晴到達句 AA_909@6221c8e80f，date_src_sha.js ZQ909_1112）：白名單再換 6221c8e80f（只動子晴 8 格）；417c5cb9ce＝C.ZQ909_1112_PREV。舊期望：C.ALLOW_SHA==='417c5cb9ce' */   /* 2026-11-12（沛珊收尾 AA_913@f561545f38，date_src_sha.js PS913_1112）：白名單再換 f561545f38（只動沛珊 42 格）；6221c8e80f＝C.PS913_1112_PREV。舊期望：C.ALLOW_SHA==='6221c8e80f' */   /* 2026-11-12（沛珊再訪 AA_914@dce2f8c08b，date_src_sha.js PS914_1112）：白名單再換 dce2f8c08b（只動沛珊 53 格）；f561545f38＝C.PS914_1112_PREV。舊期望：C.ALLOW_SHA==='f561545f38' */
   const e=allow.filter(x=>x.path===SP+'AA_812_date_pays_promises.json');
-  check('1. 白名單 AA_812 那一筆留在 '+PREV+'（這一版 AA_812 沒改）、approved',e.length===1&&e[0].sha===PREV&&e[0].status==='approved',J(e.map(x=>x.sha)));
+  check('1. 白名單 AA_812 那一筆留在 '+PREV+'（這一版 AA_812 沒改）、approved',e.length===1&&C.allow812(e[0],PREV)/* 2026-11-13（AA_946@b4dcd9bf9a）：之後 AA_812 換 b4dcd9bf9a（加可昕 D23.market），PREV 在 history 也算。舊期望：e[0].sha===PREV */&&e[0].status==='approved',J(e.map(x=>x.sha)));
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 表本身（不用讀稿）
@@ -104,7 +104,7 @@ check('4. 49 格裡之後又改過的只有七格：可昕三個選項的字（K
     const left=R.filter(r=>[d3,a5,sp,w3].some(t=>t.includes(a[gp(r)]))).map(gp);
     check('7. src/date3d.js、src/aa524_3d.js、src/data/she_pays.js、src/data/date_wish.js 裡沒有留著這 49 格的舊字（含拿選項的字當 key 的）',left.length===0,J(left));
     const osp=show(BASE,'src/data/she_pays.js'), ow=show(BASE,'src/data/date_wish.js');
-    check('7. src/data/she_pays.js、src/data/date_wish.js 和重匯以前（'+BASE+'）一模一樣（AA_812 沒改、心願事件不讀這 49 格）',osp===sp&&C.wishSame921(ow,w3)/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */);
+    check('7. src/data/she_pays.js、src/data/date_wish.js 和重匯以前（'+BASE+'）一模一樣（AA_812 沒改、心願事件不讀這 49 格）',C.spSame944(osp,sp)/* 2026-11-13（AA_946@b4dcd9bf9a）：之後 she_pays.js 多可昕 D23.market 一句，unSp944 還原再比。舊期望：osp===sp */&&C.wishSame921(ow,w3)/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */);
   } else console.log('（跳過第 5 項和第 7 項的舊字比對：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
 // 6
@@ -119,7 +119,7 @@ check('4. 49 格裡之後又改過的只有七格：可昕三個選項的字（K
   check('6. 地點以外（不分地點的短句等）沒有字表上的字（/lines/kexin/cancel/1 照 AA_899 換了；CANON-NO-ECON-1112 第四批）',J(hit2)===J([]),J(hit2)); }
 
 // 7
-{ const sp=read('src/data/she_pays.js'), SPD=vm.runInNewContext(sp+';SHE_PAYS_DATA'), keys=J([SPD.pays,SPD.split]);
+{ const sp=read('src/data/she_pays.js'), SPD=C.unSp944(vm.runInNewContext(sp+';SHE_PAYS_DATA'))/* 2026-11-13（AA_946@b4dcd9bf9a）：之後多的可昕 D23.market 先還原（date_src_sha.js unSp944） */, keys=J([SPD.pays,SPD.split]);
   check('7. src/data/she_pays.js（她請、平分）裡沒有這 49 格的新字（這一批沒有她請客的格）；來源照舊寫 AA_812@'+PREV,R.every(r=>!keys.includes(J(r.new)))&&SPD.src.endsWith('AA_812_date_pays_promises.json@'+PREV));
   const bad=[];
   for(const part of ['pays','split']) for(const who of Object.keys(SPD[part]||{})) for(const pid of Object.keys(SPD[part][who])) for(const t of SPD[part][who][pid]){

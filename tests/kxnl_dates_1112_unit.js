@@ -37,7 +37,7 @@ const WANT_LOCS=['D01','D02','D03','D05','D06','D08','D09','D10','D15','D17','D1
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].approvedBy.includes('AA_869～871 定稿（BB_413～415 聽過）5afc5c0e3')&&(e[0].history||[]).some(h=>h.sha===PREV)); });
   check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有「AA_869～871 定稿（BB_413～415 聽過）5afc5c0e3」；'+PREV+' 在 history',C.ALLOW_SHA==='b4dcd9bf9a'&&C.KX944_1113_PREV==='4539b2ebaf'&&C.KX938_1113_PREV==='e622a59148'&&C.KX932_1112_PREV==='6dbfe10d7e'&&C.KX921_1112_PREV==='dce2f8c08b'&&C.PS914_1112_PREV==='f561545f38'&&C.PS913_1112_PREV==='6221c8e80f'&&C.ZQ909_1112_PREV==='417c5cb9ce'&&C.ZR904_1112_PREV===SHA&&PREV==='f6aa917593'&&bad.length===0,J(bad));   /* 2026-11-12（芷若再去一次 AA_904@417c5cb9ce，date_src_sha.js ZR904_1112）：白名單再換 417c5cb9ce（只動芷若 remember 58 格，逐格在 tests/zr904_dates_1112_unit.js）；5afc5c0e3＝C.ZR904_1112_PREV。舊期望：C.ALLOW_SHA===SHA */   /* 2026-11-12（子晴到達句 AA_909@6221c8e80f，date_src_sha.js ZQ909_1112）：白名單再換 6221c8e80f（只動子晴 8 格）；417c5cb9ce＝C.ZQ909_1112_PREV。舊期望：C.ALLOW_SHA==='417c5cb9ce' */   /* 2026-11-12（沛珊收尾 AA_913@f561545f38，date_src_sha.js PS913_1112）：白名單再換 f561545f38（只動沛珊 42 格）；6221c8e80f＝C.PS913_1112_PREV。舊期望：C.ALLOW_SHA==='6221c8e80f' */   /* 2026-11-12（沛珊再訪 AA_914@dce2f8c08b，date_src_sha.js PS914_1112）：白名單再換 dce2f8c08b（只動沛珊 53 格）；f561545f38＝C.PS914_1112_PREV。舊期望：C.ALLOW_SHA==='f561545f38' */
   const e=allow.filter(x=>x.path===SP+'AA_812_date_pays_promises.json');
-  check('1. 白名單 AA_812 那一筆留在 3cb2939d0（這一版 AA_812 沒改）、approved',e.length===1&&e[0].sha==='3cb2939d0'&&e[0].status==='approved',J(e.map(x=>x.sha)));
+  check('1. 白名單 AA_812 那一筆留在 3cb2939d0（這一版 AA_812 沒改）、approved',e.length===1&&C.allow812(e[0],'3cb2939d0')/* 2026-11-13（AA_946@b4dcd9bf9a）：之後 AA_812 換 b4dcd9bf9a，3cb2939d0 在 history 也算 */&&e[0].status==='approved',J(e.map(x=>x.sha)));
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 表本身（不用讀稿）
@@ -98,7 +98,7 @@ const WANT_LOCS=['D01','D02','D03','D05','D06','D08','D09','D10','D15','D17','D1
     check('5. 那 137 格重匯以前＝稿的 old',R.every(r=>a[gp(r)]===r.old),J(R.filter(r=>a[gp(r)]!==r.old).slice(0,3).map(gp)));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812（別支測試「和重匯以前比」用的還原是對的）',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
     const osp=show(BASE,'src/data/she_pays.js'), ow=show(BASE,'src/data/date_wish.js');
-    check('7. src/data/she_pays.js、src/data/date_wish.js 和重匯以前（'+BASE+'）一模一樣',osp===read('src/data/she_pays.js')&&C.wishSame921(ow,read('src/data/date_wish.js'))/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */);
+    check('7. src/data/she_pays.js、src/data/date_wish.js 和重匯以前（'+BASE+'）一模一樣',C.spSame944(osp,read('src/data/she_pays.js'))/* 2026-11-13（AA_946@b4dcd9bf9a）：之後多可昕 D23.market 一句，unSp944 還原再比 */&&C.wishSame921(ow,read('src/data/date_wish.js'))/* 2026-11-12（CANON-NO-ECON-1112 第五批）：心願源稿換 6dbfe10d7e——可昕心願換主題、沛珊說明欄四格（date_src_sha.js WISH921_1112）還原以後一樣（source 不算） */);
   } else console.log('（跳過第 5 項：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
 // 6
@@ -108,7 +108,7 @@ const WANT_LOCS=['D01','D02','D03','D05','D06','D08','D09','D10','D15','D17','D1
   check('6. 可昕的格子裡沒有別的地方還留著這一批的舊句（八個字以上的整句）',kxLeft.length===0,J(kxLeft.slice(0,4))); }
 
 // 7
-{ const d3=read('src/date3d.js'), sp=read('src/data/she_pays.js'), a5=read('src/aa524_3d.js'), SPD=vm.runInNewContext(sp+';SHE_PAYS_DATA'), keys=J([SPD.pays,SPD.split]);
+{ const d3=read('src/date3d.js'), sp=read('src/data/she_pays.js'), a5=read('src/aa524_3d.js'), SPD=C.unSp944(vm.runInNewContext(sp+';SHE_PAYS_DATA'))/* 2026-11-13（AA_946@b4dcd9bf9a）：之後多的可昕 D23.market 先還原 */, keys=J([SPD.pays,SPD.split]);
   const hit=(t,o)=>t.includes("'"+o+"'")||t.includes('"'+o+'"');
   const left=R.filter(r=>hit(d3,r.old)||hit(a5,r.old)).map(r=>r.loc+' '+r.old);
   check('7. src/date3d.js、src/aa524_3d.js 照整句認句子、拿選項的字當 key 的表裡沒有留著這 137 格的舊字',left.length===0,J(left));

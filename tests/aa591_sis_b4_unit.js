@@ -62,7 +62,9 @@ await sec(1,()=>{
   const SUP600=new Set(['68','171']);
   /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7 等逐行改稿）：「改成」那一句後來又被逐行改稿換過（第 7 列「……下次還坐這一班。」→ sis_b4_events.js 拿掉句首「……」）＝稿的 new 在遊戲裡也算（tests/line_rows_expect.js fwd）。舊期望：r.nw 本身在遊戲裡 */
   const LR=require('./line_rows_expect.js');
-  const miss=keep.filter(r=>!SUP600.has(r.n)).filter(r=>!(inGame(r.nw)||(LR.fwd(r.nw)!==r.nw&&inGame(LR.fwd(r.nw)))||(OPT.has(r.n)&&inAny("'"+r.nw+"'"))||(/／/.test(r.nw)?r.nw.split('／').every(p=>inAny(p.trim())):false)||(/heroine_circle|social3d|loc30|APART|TELL/.test(r.where)&&inAny(r.nw)))).map(r=>'#'+r.n+' '+r.nw);
+  /* 2026-11-13（AA_943，BB 照用；開發分支 77ccc5a838）：第 26 列下雨那場「計畫本上有寫「帶傘」。」AA_943 換成「早上我有看天氣。」「看的是明天的。」（tests/canon1112_ok.js AA_943）——那一列改認 AA_943 的兩句都在遊戲裡。舊期望：r.nw 本身在遊戲裡 */
+  const SUP943={'26':require('./canon1112_ok.js').NEW.AA_943};
+  const miss=keep.filter(r=>!SUP600.has(r.n)).filter(r=>!(SUP943[r.n]&&SUP943[r.n].length===2&&SUP943[r.n].every(t=>inGame(t))&&!inGame(r.nw))).filter(r=>!(inGame(r.nw)||(LR.fwd(r.nw)!==r.nw&&inGame(LR.fwd(r.nw)))||(OPT.has(r.n)&&inAny("'"+r.nw+"'"))||(/／/.test(r.nw)?r.nw.split('／').every(p=>inAny(p.trim())):false)||(/heroine_circle|social3d|loc30|APART|TELL/.test(r.where)&&inAny(r.nw)))).map(r=>'#'+r.n+' '+r.nw);
   check('1. 每一列「改成」一字不差在遊戲裡',!miss.length,J(miss));
   /* 換掉的原句不在遊戲裡：原句是別人的句子、到處都有的短句（「……好。」「好。」「過了。」「……謝謝。」等）、原句是改成的一部分、retired 的定義留著的除外 */
   /* 194～198、222～225：AA_609（使用者 2026-11-03）改成她奶奶恢復，原句（不含爸的那幾句）回到遊戲 */

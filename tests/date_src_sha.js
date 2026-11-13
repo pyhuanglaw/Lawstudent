@@ -1621,5 +1621,20 @@ module.exports.WISH921_1112=[
   {p:'/events/kexin/closing/after/1/lines/0/text',old:'下週開始，每天都是行程表。考試的。',new:'下週開始，又要回到考試了。'},
   {p:'/events/kexin/closing/ending/1/lines/1/text',old:'這是我今天唯一的計畫。',new:'……手機到家再開。'},
 ];
-module.exports.unWish921=W=>{ for(const r of module.exports.WISH921_1112){ const k=r.p.split('/').slice(1); let o=W; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return W; };
+/* 2026-11-13（AA_944 第 3 節，AA_757_peishan_wish_hometown.json 052644c58 → 8d3bec48be；tools/date/import_wish.py 重匯）：src/data/date_wish.js 剛好這 1 格不同（另外 source 那一行）——沛珊台南美術館心願到達 high 那一句。
+   unWish944(W)：還原成上一版的字（那一格剛好是新字才還原）；unWish921 最先做這一層（舊測試「和重匯以前比」照舊用 unWish921／wishSame921） */
+module.exports.WISH944_PREV='052644c58';
+module.exports.WISH944_1113=[
+  {p:'/events/classmate_peishan/arrive/extraIf/2/lines/0/text',old:'今天我沒帶筆記本。好啦，帶了，但不會拿出來。',new:'筆記本我放在包包最下面。不會拿出來。'},
+];
+module.exports.unWish944=W=>{ for(const r of module.exports.WISH944_1113){ const k=r.p.split('/').slice(1); let o=W; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return W; };
+module.exports.unWish921=(W,keep944)=>{ if(!keep944) module.exports.unWish944(W);   /* 2026-11-13 8d3bec48be：AA_944 沛珊心願一格先還原（WISH944_1113）；keep944＝只還原第五批那 29 格（拿來和 AA_757@8d3bec48be 比的測試用）*/ for(const r of module.exports.WISH921_1112){ const k=r.p.split('/').slice(1); let o=W; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return W; };
 module.exports.wishSame921=(a,b)=>{ const P=t=>JSON.parse(t.slice(t.indexOf('const DATE_WISH=')+16,t.lastIndexOf(';'))); if(!a||!b) return false; const A=P(a), B=module.exports.unWish921(P(b)); delete A.source; delete B.source; return JSON.stringify(A)===JSON.stringify(B); };
+/* 2026-11-13（AA_946 §2，AA_812_date_pays_promises.json 3cb2939d0 → b4dcd9bf9a；tools/date/import_she_pays.py 重匯）：src/data/she_pays.js 只多可昕 D23.market「這次飲料我買。給你一杯。」（pays＋cells812 一列）、來源的 SHA。
+   unSp944(SPD)：把一份 SHE_PAYS_DATA（物件）還原成 3cb2939d0 那一版（拿掉那一句、來源寫回 3cb2939d0），舊測試「AA_812 沒改／和重匯以前比」用；spSame944(舊檔字, 新檔字)：新檔還原以後和舊檔一樣；
+   allow812(e, sha)：白名單 AA_812 那一筆是 sha，或之後換成 SP944_812、sha 在 history */
+module.exports.SP944_812='b4dcd9bf9a'; module.exports.SP944_812_PREV='3cb2939d0';
+module.exports.SP944_ADD={who:'kexin',pid:'D23.market',text:'這次飲料我買。給你一杯。'};
+module.exports.unSp944=D=>{ const X=module.exports.SP944_ADD; if(!D) return D; const p=D.pays&&D.pays[X.who]; if(p&&p[X.pid]){ p[X.pid]=p[X.pid].filter(t=>t!==X.text); if(!p[X.pid].length) delete p[X.pid]; } if(Array.isArray(D.cells812)) D.cells812=D.cells812.filter(c=>!(c.who===X.who&&c.pid===X.pid&&c.text===X.text)); if(typeof D.src==='string') D.src=D.src.split('@'+module.exports.SP944_812).join('@'+module.exports.SP944_812_PREV); return D; };
+module.exports.spSame944=(a,b)=>{ if(!a||!b) return false; const vm=require('vm'), P=t=>vm.runInNewContext(t+';SHE_PAYS_DATA'); return JSON.stringify(P(a))===JSON.stringify(module.exports.unSp944(P(b))); };
+module.exports.allow812=(e,sha)=>!!e&&(e.sha===sha||(e.sha===module.exports.SP944_812&&(e.history||[]).some(h=>h.sha===sha)));

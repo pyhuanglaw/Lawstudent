@@ -17,7 +17,7 @@ const AA593=git('6cbb0b4ab','AA_593_學姊改稿_1b_手機與其他系統.md'), 
 const AA626=git('9ba14498e','AA_626_語彤D13淡水_新背景改寫.md');   /* YT-REWRITE-1103：語彤 D13 照 AA_626（取代 AA_127 第 2 節衝突的句子），wish_aa.json 白名單 9ba14498e */
 const WAA=(()=>{ try{ return JSON.parse(git('9ba14498e','date_system/wish/wish_aa.json')); }catch(e){ return null; } })(), WBB=(()=>{ try{ return JSON.parse(git('9aa8ec40c','date_system/wish/wish_bb.json')); }catch(e){ return null; } })();
 /* 2026-11-11（X327 沛珊重寫）：沛珊 D06 的心願事件照 AA_757_peishan_wish_hometown.json@052644c58（import_wish.py 的 1f：wish_rows 69 列疊在 wish_bb.json 上，換完＝稿的 wish_event）——沛珊那一位改對這份稿 */
-const AA757=(()=>{ try{ return JSON.parse(git('052644c58','AA_757_peishan_wish_hometown.json')); }catch(e){ return null; } })();
+const AA757=(()=>{ try{ return JSON.parse(git('8d3bec48be','AA_757_peishan_wish_hometown.json')); }catch(e){ return null; } })();   /* 2026-11-13（AA_944 第 3 節）：白名單換 8d3bec48be（到達 high 那一句換字），稿跟著讀這一版。舊：052644c58 */
 /* 2026-11-11（X324 學姊約會台詞重寫，AA 82c946ad7）：學姊 D15 的心願事件照 AA_764_sis_wish.json@82c946ad7（import_wish.py 的 1g：rows 32 列疊在 wish_bb.json 上——AA_595、AA_593 兩層照舊先套——換完＝稿的 wish_event）——學姊那一位改對這份稿 */
 const AA764=(()=>{ try{ return JSON.parse(git('82c946ad7','AA_764_sis_wish.json')); }catch(e){ return null; } })();
 /* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911）：語彤 D13 的心願事件照 AA_768_yt_wish.json@0a2136911 收字（import_wish.py 的 1h：rows 34 列照 path 疊在 wish_aa.json 語彤那一段上；內容、選項、條件不動）——語彤那一位改對這份稿 */
@@ -55,7 +55,7 @@ const E_=id=>X()&&X().ev(id);
   /* ======================= 0 資料與接線 ======================= */
   check('0. src/data/date_wish.js、src/wish3d.js 載得到',ok1&&ok2&&!!X(),err);
   if(!X()){ H.done(); return; }
-  const DW=DATE_WISH, CS921=require('./date_src_sha.js'), DW0=CS921.unWish921(JSON.parse(JSON.stringify(DATE_WISH)));   /* DW0＝第五批（wish_bb.json 6dbfe10d7e）那 29 格還原成上一版的字（tests/date_src_sha.js WISH921_1112） */
+  const DW=DATE_WISH, CS921=require('./date_src_sha.js'), DW0=CS921.unWish921(JSON.parse(JSON.stringify(DATE_WISH)),true)/* 2026-11-13：unWish921 預設也會還原 AA_944 沛珊那一格（WISH944_1113）；這支比的是 AA_757@8d3bec48be，那一格不還原（keep944） */;   /* DW0＝第五批（wish_bb.json 6dbfe10d7e）那 29 格還原成上一版的字（tests/date_src_sha.js WISH921_1112） */
   check('0. 來源＝白名單版本：wish_aa.json@9ba14498e（AA_626 語彤 D13；之前 482c7f6e9）、AA_127@482c7f6e9（AA_475 第 1 節以安心願；之前 967b4273a AA_426）、wish_bb.json@9aa8ec40c、BB_128@9aa8ec40c（11-08 AA_593 學姊①b；之前 ab9d70fe0 AA_475 第 1、3 節沛珊、芷若心願；之前 cb5caad65 AA_459／460 三句改進原稿）',/wish_aa\.json@9ba14498/.test(DW.source)&&/wish_bb\.json@6dbfe10d/.test(DW.source)/* 2026-11-12（CANON-NO-ECON-1112 第五批）：wish_bb.json 換到 6dbfe10d7e（AA_921 第 2 節可昕換主題）；舊期望 9aa8ec40 */&&/AA_127[^＋]*@482c7f6e/.test(DW.source)&&/BB_128[^＋]*@9aa8ec40/.test(DW.source)&&/AA_593[^＋]*@6cbb0b4ab/.test(DW.source),DW.source);
   check('0. 匯入時逐句對原稿：對不到 0 句（「你來過一次」13 句是 AA_271、BB_213 後來加的，另外列）',(DW.verify.miss||[]).length===0&&(DW.verify.freeVisited||[]).length===13,J(DW.verify));
   /* AA_459 第 5 節、AA_460 第 6 節的換字（tools/date/import_wish.py 的 REPLACE；wish_bb.json 還沒跟著改）：比對 JSON 時換回原句、對原稿時不算 */
@@ -122,9 +122,9 @@ const E_=id=>X()&&X().ev(id);
     const sortJ=o=>J(o,(k,v)=>v&&typeof v==='object'&&!Array.isArray(v)?Object.keys(v).sort().reduce((a,x)=>(a[x]=v[x],a),{}):v), noSrc=e=>{ const x=JSON.parse(J(e)); delete x.src; return x; };
     const lv_=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>lv_(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) lv_(x[k],p+'/'+k,o); else o[p]=x; return o; };
     if(AA757&&WBB){ const a=lv_(noSrc(DW0.events[PS]),'',{})/* 第五批：說明欄四格先還原（DW0） */, b=lv_(noSrc(WBB.events[PS]),'',{}), d=Object.keys(a).filter(k=>a[k]!==b[k]);
-      check('0. 沛珊的事件（說明欄四格照源稿 6dbfe10d7e，還原再比）＝AA_757_peishan_wish_hometown.json@052644c58 的 wish_event（逐欄相同）',sortJ(noSrc(DW0.events[PS]))===sortJ(noSrc(AA757.wish_event))&&/AA_757@052644c58/.test(DW.source),DW.source.slice(-80));
+      check('0. 沛珊的事件（說明欄四格照源稿 6dbfe10d7e，還原再比）＝AA_757_peishan_wish_hometown.json@8d3bec48be 的 wish_event（逐欄相同）',sortJ(noSrc(DW0.events[PS]))===sortJ(noSrc(AA757.wish_event))&&/AA_757@8d3bec48be/.test(DW.source),DW.source.slice(-80));
       check('0. 沛珊的事件和 wish_bb.json@9aa8ec40c 比：格子一樣多，不一樣的剛好 69 格、都是字的欄位（text、t、title、wish、note、costNote）＝稿的 wish_rows',J(Object.keys(a).sort())===J(Object.keys(b).sort())&&d.length===69&&d.every(k=>/\/(text|t|title|wish|note|costNote)$/.test(k))&&AA757.wish_rows.length===69&&AA757.wish_rows.every(r=>Object.values(a).includes(r.new)),J([d.length,d.filter(k=>!/\/(text|t|title|wish|note|costNote)$/.test(k))])); }
-    else console.log('（讀不到 AA_757@052644c58 或 wish_bb.json：沛珊的事件不比稿）'); }
+    else console.log('（讀不到 AA_757@8d3bec48be 或 wish_bb.json：沛珊的事件不比稿）'); }
   { const li=(DW.events[AN].closing.linesIf||[])[0], two=li?sp(AN,li.lines):[];
     check('0. 以安大一的收尾照 AA_127 1-5「大一的版本：前三句換成」：「上憲法講第八條那天，我只覺得它很長。」「今天才知道，那些都是真的發生過的事。」（旁白照用；大二以後照原本三句）',J(two)===J(['上憲法講第八條那天，我只覺得它很長。','今天才知道，那些都是真的發生過的事。'])&&two.every(t=>AA127.includes(t)||ANREV.has(t))&&J(li.if)===J({unless:{termFrom:'Y2S1'}})&&li.lines[0].text===DW.events[AN].closing.lines[0].text&&li.lines[3].text===DW.events[AN].closing.lines[4].text,J(li)); }
   { let n=0, bad=[]; const walk=(o,src)=>{ if(Array.isArray(o)) return o.forEach(x=>walk(x,src)); if(!o||typeof o!=='object') return; if(typeof o.text==='string'&&o.who&&o.who!=='note'){ n++; if(!inMd(o.text,src)&&!REP.some(r=>r[0]===o.text)&&!ANREV.has(o.text)&&!FIX593.includes(o.text)) bad.push(o.text); return; } for(const k in o) if(!['wish','rule','note','record','where','source','title','scene','repeat','costNote','likeNote','code','memory','name','context','hotspotsTitle'].includes(k)) walk(o[k],src); };
