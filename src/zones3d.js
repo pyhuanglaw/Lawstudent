@@ -2871,7 +2871,7 @@ const Z3 = (function(){
      一盞的前面沒有牆：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（layout 的 block 擋住，看得到、走不到）——room() 以原點為中心，建好後整個往 +z 移 2.3（導航格的原點一起移）。
      這一版：走得進去、選位子坐下、離開；點餐、印東西、喝茶的文字照 AA_172（src/wzshops3d.js；AA_355 第 3 節），打工是 DL-10。測試：node tests/wz_shops_unit.js */
   const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#c9b08c',mosaic:'#a7aeaa'};   /* 淺色木地板（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）*/   /* wood_dark 原本 #7d5c40；溫州街店家的配置已改成 wood_light，這個鍵留著相容 */
-  const WZ_CAMDIST={print:3.2,lin:3.2,teishoku:3.2};   /* SHOP-INTERIOR-VIEW-1112（LAWWW-C 11-13）：天花板 3.0／3.0／2.9 m，鏡頭距離 4.0 時跟隨鏡頭 3.134 m 高過天花板（天花板不畫、抬頭看到背景色）；3.2 m＝鏡頭 2.86 m（118 巷 BB 定 3.6 的同一個做法）。一盞 2.6 m 要 ≤2.43 m 太擠，交 LAWWW2 */
+  const WZ_CAMDIST={print:3.2,lin:3.2,teishoku:3.2,teahouse:3.2};   /* 一盞（LAWWW2-C 11-13）：yizhan.glb 2.34 m 以上（天花板、梁、牆頂、柱頂、吊燈線）整體抬高 0.3 m，天花板 2.6→2.9 m；鏡頭距離 3.2＝鏡頭 2.86 m，低於天花板 */   /* SHOP-INTERIOR-VIEW-1112（LAWWW-C 11-13）：天花板 3.0／3.0／2.9 m，鏡頭距離 4.0 時跟隨鏡頭 3.134 m 高過天花板（天花板不畫、抬頭看到背景色）；3.2 m＝鏡頭 2.86 m（118 巷 BB 定 3.6 的同一個做法）。一盞 2.6 m 要 ≤2.43 m 太擠，交 LAWWW2 */
   function wzShop(key){ return { id:'wz_'+key, name:(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[key])?WZ_SHOPS_LAYOUT[key].name:key, indoor:true, camDist:WZ_CAMDIST[key]||4.0, build(E){ const L=WZ_SHOPS_LAYOUT[key], tea=!!(L.front&&L.front.openFront);
       const winXs=(L.front&&(L.front.views||L.front.windows)||[]).map(w=>-(w[0]+w[1])/2);   /* views：窗外街景的照片平面（林家、定食店整面一片）；沒有的照建築的窗 */   /* 店面那一面的窗（room() 的 front：沿牆位置 t＝−x）*/
       const sp=Object.assign({},L.spawn); if(!tea) sp.z=Math.min(sp.z,L.d/2-0.95);   /* room() 的牆內 0.4 m 不能站（阿德影印的出生點 3.9 太靠門）*/

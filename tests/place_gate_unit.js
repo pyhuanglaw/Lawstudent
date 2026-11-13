@@ -48,7 +48,7 @@ const KNOWN_FAIL=[].concat(
   /* 118 巷打烊看起來關了：BB_379 L118_CLOSED_LOOK_r2 PASS（11-12，11 間公休／打烊鐵捲門到地、燈暗）＝這一列拿掉 */
   /* 以下是第一層量到的（會自動比對：過了這一列就要刪，不刪會 FAIL）*/
   /* 天花板比預設跟隨鏡頭矮（鏡頭高過天花板＝天花板不畫、抬頭看到背景色）。安泰 3.1、禮貌生財 3.0、溫州街四間 2.6～3.0；其他是 3.2 m 對鏡頭 3.208 m（差 8 mm，請第二層抬頭拍一張確認）*/
-  KF(T_VIEW,'ceiling','wz_teahouse'),   /* 阿德影印、林家乾麵、小路：鏡頭距離 3.2（zones3d.js WZ_CAMDIST，LAWWW-C 11-13）過了；一盞 2.6 m 交 LAWWW2（加高天花板或藏天花板）*/
+  /* 一盞：LAWWW2-C 11-13 天花板抬到 2.9 m、鏡頭距離 3.2（2.86 m），過了，從表上拿掉 */
   /* 118 巷八間店的天花板（L118-DIAN-CEILING-1112）：BB 17:4x 定鏡頭距離 4.2→3.6 m，過了（LAWWW2-C） */
   /* 有窗（或模型有玻璃）沒有窗景照片 */
   /* 美國兩間超市（us_market、us_asian_market）：白天／晚上兩張照片（views/us_market_*、us_asian_market_*；src/us3d.js US_VIEW）SHOP-INTERIOR-VIEW-1112 LAWWW-C 11-13，拿掉 */
