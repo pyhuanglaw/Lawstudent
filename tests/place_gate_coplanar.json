@@ -6,7 +6,7 @@
   "top": "WALL_right_afr_vc×afr_wood 1.495 m² @[5.1,0.65,0.37]"
  },
  "assets/models/env/second_ai/aa_support/aoki.glb": {
-  "sha1": "138add22d216c4c320c2c69a2bfc1b7d2ea5e9dd",
+  "sha1": "c7afa73ebb4cb3a5abcd25a3904879f7e075857c",
   "wall": 1.01,
   "always": 1.99,
   "top": "WALL_back_aok_wood×aok_wood 0.466 m² @[-0.7,0.33,-3.5]"
@@ -18,7 +18,7 @@
   "top": "WALL_right_dof_wood×WALL_right_dof_print 0.704 m² @[5.47,2.13,3.02]"
  },
  "assets/models/env/second_ai/aa_support/daybreak.glb": {
-  "sha1": "c49d1d3194f78ec3e1244f9c146e79f3bf125e48",
+  "sha1": "02b4fcbb08afb210b3fdbf38ecc70a08179bd2d6",
   "wall": 0.36,
   "always": 1.42,
   "top": "WALL_front_dbk_frame×WALL_front_dbk_frame 0.139 m² @[1.81,0,4.06]"
@@ -48,7 +48,7 @@
   "top": "WALL_back_sns_wood×sns_vcm 0.548 m² @[-1.2,0.33,-5]"
  },
  "assets/models/env/second_ai/aa_support/yejian.glb": {
-  "sha1": "c6288da90e90222ea993dfb5a9d5aff478ac7076",
+  "sha1": "0da54f6aaedffa21912a55441cfd58f44b32255d",
   "wall": 0.7,
   "always": 6.78,
   "top": "yej_wood×WALL_right_yej_wood 0.279 m² @[6,0.58,-3.33]"
@@ -66,21 +66,21 @@
   "top": "WALL_back_cubby_wood×WALL_back_cubby_wood 0.489 m² @[-0.67,1.23,-4.48]"
  },
  "assets/models/env/second_ai/bb_support/bike.glb": {
-  "sha1": "7cf7eca033299fd0d6d54601c23bb0bf36dea7e5",
+  "sha1": "06b86cb8c4329057322fc7d344a1313b6fa09021",
   "wall": 10.9,
   "always": 17.45,
   "top": "bk_wheel3_0_alpha_inst×WALL_left_wheel4_0_alpha_inst 0.547 m² @[0.16,-0.22,0]"
  },
  "assets/models/env/second_ai/bb_support/corner.glb": {
-  "sha1": "b3b547ce9142cf7aa14443a79fbe3bad61b907c4",
+  "sha1": "3e4a30228fb22db6cb09b62aadd5ec400fc85d8b",
   "wall": 11.87,
   "always": 18.63,
   "top": "WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32]"
  },
  "assets/models/env/second_ai/bb_support/cvs_interior.glb": {
-  "sha1": "77ad816b3638fd3adf45947b10ff6f2a2c471b43",
+  "sha1": "3d175a4e93c1e6c3ebc6b459c935df8d78ee522b",
   "wall": 2.66,
-  "always": 5.6,
+  "always": 5.58,
   "top": "WALL_back_vc×cvs_vc 1.052 m² @[-0.08,0.07,-5.5]"
  },
  "assets/models/env/second_ai/bb_support/dabu.glb": {
