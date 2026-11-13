@@ -1,4 +1,5 @@
 """CC（帳號 A）11-04：社交冒煙測試（P0，使用者原話：「我還蠻常跟別人講話或者約會就卡住的……你不能只是確認地圖走得到，你應該要試著跟別的 npc 說話，
+CC_02 清單 2026-11-14：1✓（各 STEP 的前置照原本） 2✓（人、事件從遊戲讀） 3n/a（每一步一個人） 4✓（按之前確認按鈕） 5✓（走路照原本 go_to） 6✓（收尾 STUCK_S 秒內；DRAIN_OTHER 插進來的對話點完重新計時） 7✓（lint、node 驗 JS） 8n/a（只判卡不卡） 9✓（卡住時 dump＋截圖） 10✓（DRAIN_OTHER：插進來的別的劇情照字點完，BB-C 11-14） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：見各步驟） 13n/a（不改走路方式）
 可以攻略的對象尤其重要，也要跟他約會，朋友也是。」）。入口盤點：docs/story_planning/CC/CC_45_社交冒煙測試_入口盤點.md（讀的是 140cee01f）。
 
 不是 iPhone：Playwright 手機模擬（橫向 844×390、is_mobile、CDP 觸控）。不用 ?turbo、不瞬移；讀檔只當起點（每一次都印「[前置／捷徑]」）；條件事件開著
@@ -113,6 +114,7 @@ LAD_CHOICES = (os.environ.get('LAD_CHOICES') or '1') != '0'
 MENU_MAX = int(os.environ.get('MENU_MAX') or 10)
 WALK_S = int(os.environ.get('WALK_S') or 240)
 STUCK_S = float(os.environ.get('STUCK_S') or 15)
+DRAIN_OTHER = (os.environ.get('DRAIN_OTHER') or '0') == '1'   # BB-C 11-14：收尾後插進來的別的事件先照字點完再量
 DATE_WAIT_H = float(os.environ.get('DATE_WAIT_H') or 0.4)
 PLAY_S = int(os.environ.get('PLAY_S') or 900)
 PHONE_AUTO = (os.environ.get('PHONE_AUTO') or '0') == '1'
@@ -633,10 +635,15 @@ class Person:
 
     # ---- 沒卡住的檢查
     async def check_free(self, tag, fb0=None, err0=None, quick=None):
-        R, pg = self.R, self.pg; t0 = time.time(); s = await self.st()
+        R, pg = self.R, self.pg; t0 = time.time(); s = await self.st(); drained = []
         while time.time() - t0 < STUCK_S and not is_free(s):
             if s['phone']: await L.tap(pg, self.cdp, '#btnPhoneClose')
+            if DRAIN_OTHER and s['evr'] and (s['dlg'] or s['ch']):   # BB-C 11-14 fix_b_r2：收尾後別的事件接著演（ev_pool_greet）＝正常節奏：照字點完再量，點完還不能動才 FAIL
+                if s['ch']: drained.append(['［選項］', s['evr'], (s['ch'][0].get('t') if isinstance(s['ch'][0], dict) else s['ch'][0])]); await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()")
+                else: drained.append([s['evr'], s.get('text') or '']); await L.tap(pg, self.cdp, '#dlg')
+                t0 = time.time(); await pg.wait_for_timeout(700); s = await self.st(); continue
             await pg.wait_for_timeout(700); s = await self.st()
+        if drained: R.note('%s：收尾後插進來的事件照字點完（DRAIN_OTHER）：%s' % (tag, J(drained)[:1200]))
         if not R.check('%s：%d 秒內回到可以自由移動' % (tag, STUCK_S), is_free(s), '' if is_free(s) else '還有：' + why_not_free(s)):
             await self.dump(tag, s); return False
         ok = True
