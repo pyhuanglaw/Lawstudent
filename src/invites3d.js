@@ -872,7 +872,7 @@ const INV=(function(){
   S.flow=async function(GM,id,n,together,fo){ fo=fo||{}; const G=GM.G; S.rec(G);   /* fo.place：地點已經定了（她主動約、你回改天：HER-ASK-LATER-DAY-1110），直接選日子和時間 */ const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
     const t7=!n&&t7a(G,id);   /* AA_350 T7a：以安、芷若在台中＝和可昕一樣只有「去校外…」（清單只列 D26，DATE.menu）*/
     const far=!n&&typeof STORY!=='undefined'&&!!STORY.reachable&&!STORY.reachable(id,G);   /* INVITE-MENU-1030 E：手機約、她今天不在臺北（沛珊大三起在台南、寒暑假在老家）＝校內的地點不列（比照 T7a；原本照列、每一個都回「不在臺北」）*/
-    const PL=(t7||far?[]:D().places.filter(Q=>!kxGF(G,id)||S.kxPlaceOk(G,Q))).filter(Q=>!Q.show||Q.show(G,id)).filter(Q=>!S.neverAt(id,Q)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* 可昕交往中：答應句接得上的校內地點都可以約（她從外校下來；羽球場用祐廷台大的帳號預約，AA_417 3-2）*/
+    const PL=(t7||far?[]:D().places).filter(Q=>!Q.show||Q.show(G,id)).filter(Q=>!S.neverAt(id,Q)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* KX-GF-PLACES-1113（AA-C 11-13 選 a）：可昕交往中不再用 kxPlaceOk 過濾（那是她在外校時「只列有答應句的地點」的限制；CANON 以後同系），照一般規則列 */   /* 可昕交往中：答應句接得上的校內地點都可以約（她從外校下來；羽球場用祐廷台大的帳號預約，AA_417 3-2）*/
     /* 當面約（AA_134 第 4 節，AA_140 G49）：第一句是當面的版本；她回答前看一下手機的行事曆、答應時點頭（動作用字幕，不多一個要點的對話框）*/
     const act=(t,ms)=>{ if(n&&GM.caption) GM.caption('','（'+t+'）',ms||1800); };
     if(n){ const T0=S.timeOptions(G,together); await GM.say({name:G.name||'祐廷'},T0.some(q=>q.day===G.day)?'你等一下有空嗎？':'你明天有空嗎？'); }   /* 照可選的時間說（AA-B 2026-10-16 21:53 定稿，AA_134 第 50 行下；不加週末選項）*/
