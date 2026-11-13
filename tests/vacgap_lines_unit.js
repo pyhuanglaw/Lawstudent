@@ -1,10 +1,10 @@
 // 假期空白（BB198-VACB22）逐字對稿：src/data/vacgap_lines.js（以後加的批次也放這裡）的每一句玩家看得到的字，都在 AA 的定稿裡（D137、D79：程式不自己編字）。
-// 稿：企劃線 claude/magical-albattani-bk7b4n @ 7466ec8f8e 的 AA_928～AA_933、AA_935（BB_452～456 的改字已經收進稿）。讀不到稿＝FAIL（請 git fetch origin claude/magical-albattani-bk7b4n）。
+// 稿：企劃線 claude/magical-albattani-bk7b4n @ bb344d6aa1 的 AA_928～AA_933、AA_935（BB_452～456 的改字已經收進稿）。讀不到稿＝FAIL（請 git fetch origin claude/magical-albattani-bk7b4n）。
 // 用法：node tests/vacgap_lines_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; };
-const REF='7466ec8f8e';   /* AA_935 ①②（可昕大三暑假、大三寒那一句、沛珊改字）在這一版；原本 329ead6bd7 */
+const REF='bb344d6aa1';   /* AA_930 第 2 節加了可昕大三暑假 6/26～7/1 那 6 句（AA-C 11-13 20:01）；之前 7466ec8f8e（AA_935 ①②）、329ead6bd7 */
 const DOCS=['AA_928_假期空白_大一寒假_阿凱明軒Kevin.md','AA_929_假期空白_第二批_考試補習交流.md','AA_930_假期空白_第三批_可昕大三暑假.md','AA_931_假期空白_第四批_過年訊息.md','AA_933_假期空白_第五批_回家回臺北訊息.md','AA_935_回LAWWW_假期空白接線七件.md'];
 const git=p=>{ try{ return cp.execSync('git -c core.quotepath=false show '+REF+':"docs/story_planning/'+p+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const docs=DOCS.map(git);
@@ -20,9 +20,7 @@ vm.runInThisContext(src,{filename:'vacgap_lines.js'});
 const META=/^(\d{4}-\d\d-\d\d|Y[1-4][WS]|go|back|flip)$/;
 const strs=[]; const walk=(x,k)=>{ if(typeof x==='string'){ if(!META.test(x)) strs.push([k,x]); return; } if(Array.isArray(x)) x.forEach((y,i)=>walk(y,k+'['+i+']')); else if(x&&typeof x==='object') for(const q in x){ if(q==='day'||q==='h'||q==='speaker'||q==='goto'||q==='label') continue; walk(x[q],k+'.'+q); } };
 walk(VACGAP_LINES,'L');
-/* AA-C 11-13 19:34 用 send_message 給的 6 句（可昕大三暑假每晚一則 6/26～7/1，BB198-VACB22 BB 第二意見 ①）：AA 寫進稿檔、給 SHA 以後改成讀稿，這份暫列拿掉 */
-const AA_MSG_1113=['我爸今天教我修紗窗 修到一半他自己去睡了','下午雷陣雨 我在騎樓等了四十分鐘 沒帶傘的人都在這裡','跟國中同學吃飯 她們問我臺北冷不冷 現在六月','我媽把我小時候的獎狀翻出來 說要帶去臺北貼 我說不要','今天去市場幫忙提菜 提了兩趟 我媽說我終於有用了','行李收好了 我媽又塞了一袋芒果進去 拉鍊拉不起來'];
-const miss=strs.filter(([k,t])=>!all.includes(t)&&!AA_MSG_1113.includes(t));
+const miss=strs.filter(([k,t])=>!all.includes(t));
 check('1. 每一句都在稿裡（'+strs.length+' 句）',strs.length>150&&!miss.length,miss.slice(0,8).map(([k,t])=>k+'＝'+t).join('　'));
 /* 手機一則一句：稿上用「／」分開的不能黏成一則 */
 const glued=strs.filter(([k,t])=>t.includes('／'));
