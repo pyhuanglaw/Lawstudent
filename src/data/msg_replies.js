@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@addac77bb）。不要手改，改企劃 AA_709 再重新匯入。
+/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@6dbfe10d7e）。不要手改，改企劃 AA_709 再重新匯入。
    女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/
 'use strict';
 const MSG_REPLIES={
- "src": "docs/story_planning/AA_709_msg_replies.json@addac77bb",
+ "src": "docs/story_planning/AA_709_msg_replies.json@6dbfe10d7e",
  "people": {
   "classmate_xinci": [
    {
@@ -1782,7 +1782,7 @@ const MSG_REPLIES={
       },
       "say": [
        "謝謝。",
-       "……子晴說要請我吃飯，結果是我請她。"
+       "子晴說要請我吃飯，結果是我請她。"
       ]
      },
      {
@@ -3390,7 +3390,7 @@ const MSG_REPLIES={
        "npcRom": 1
       },
       "say": [
-       "你們學校的資料庫比較多。好，幫我查一個判決。"
+       "好啊。幫我查一個判決，我找了一個晚上找不到。"
       ]
      },
      {
@@ -3991,7 +3991,7 @@ const MSG_REPLIES={
        "fam": 1
       },
       "say": [
-       "你上山的話，帶你去。"
+       "那家在學校後面。走路五分鐘。"
       ]
      },
      {
