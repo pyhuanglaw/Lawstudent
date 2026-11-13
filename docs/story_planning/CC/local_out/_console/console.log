@@ -802,3 +802,17 @@
 [21:49:51] [res] cpu=5% mem=31% (9.9/31.4 GB) chrome_testing=0  START G2DF5_WZ_touch
 [21:51:52] 正在跑：G2DF5_WZ_touch（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:52:36] [res] cpu=6% mem=31% (9.8/31.4 GB) chrome_testing=0  END G2DF5_WZ_touch
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       050869ec17..264e202867  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:52:41] ==== END   G2DF5_WZ_touch  exit=0  167s   ====
+[21:52:44] memory 31% before starting G2DF5_reach (0 running)
+[21:52:44] memory 31% before starting X358_SHUIYUAN (1 running)
+[21:52:44] ==== START G2DF5_reach  (game @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[21:52:44] memory 31% before starting X358_reach_gg (2 running)
+[21:52:44] ==== START X358_SHUIYUAN  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[21:52:44] ==== START X358_reach_gg  (game @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[21:52:47] [res] cpu=5% mem=31% (9.8/31.4 GB) chrome_testing=0  START X358_reach_gg
+[21:52:47] [res] cpu=5% mem=31% (9.8/31.4 GB) chrome_testing=0  START X358_SHUIYUAN
+[21:52:47] [res] cpu=2% mem=31% (9.8/31.4 GB) chrome_testing=0  START G2DF5_reach
+[21:54:23] [res] cpu=14% mem=44% (13.8/31.4 GB) chrome_testing=8  END X358_reach_gg
