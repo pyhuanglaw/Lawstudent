@@ -9457,6 +9457,24 @@
    ],
    "remaining": "手機效能（4.8 MB）未量；相框畫作是 PH 自帶風景畫",
    "next": "LAWWW-C git apply --3way（底 0eb8ce091a）→ CC 拍 → BB 判；我接洗樂"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": null,
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "泰米 v3（相框四張不同的泰式圖、左牆垂吊盆栽一排；BB_379 相框 FAIL）＋洗樂洗衣坊 CC0 v1（不鏽鋼機器、塑膠販賣機／籃子／椅子、PH 植物、光照貼圖）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tz_xile_cc0_1113/README.md",
+    "docs/art-rebuild/second_ai/wip/tz_xile_cc0_1113/taimi_v3_xile_cc0.patch",
+    "docs/art-rebuild/second_ai/wip/tz_xile_cc0_1113/cmp_taimi_v3.jpg",
+    "docs/art-rebuild/second_ai/wip/tz_xile_cc0_1113/cmp_xile_v1.jpg"
+   ],
+   "remaining": "洗樂烘衣機內筒、海報；手機效能",
+   "next": "LAWWW-C apply --3way（底 68143cd4ca）＋place_gate --write → CC 拍 → BB 判；我接印得好"
   }
  ]
 }
