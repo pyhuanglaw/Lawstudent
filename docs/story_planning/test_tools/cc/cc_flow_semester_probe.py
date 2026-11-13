@@ -225,6 +225,18 @@ async def walk_into(pg, cdp, run, via, zone):
     ok_via = await quick_go(pg, cdp, run, via)
     if not ok_via:   # 11-14 B2_r4：連 campus 都「沒有」（9/30 回宿舍卻有）——等 3 秒（旁白、對話收掉）再試一次；還是不行就用遊戲自己的換區（GAME.enter，和走過門一樣），記成【捷徑】
         await pg.wait_for_timeout(3000); await L.close_panels(pg, cdp); ok_via = await quick_go(pg, cdp, run, via)
+    if not ok_via:   # 11-14 BB-C：地點頁「還沒去過」的地方沒有「前往」（placemap3d.js S.row）——翹課這一輪只用「直接去上課」進教室，校園、系館A 可能都沒去過 → 照玩家走出去：每一區找往 via 的出口，沒有就走「離開／走出」那個出口，最多 4 次
+        for hop in range(4):
+            if (await P.ts(pg))['zone'] == via: ok_via = True; break
+            ex = await pg.evaluate("(to=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i.exit&&!i.hidden).map(i=>({x:i.x,z:i.z,lv:i.lv|0,to:i.exit.to,label:String(typeof i.label==='function'?i.label():i.label||''),d:Math.hypot(i.x-P.x,i.z-P.z)})); const a=L.filter(i=>i.to===to).sort((p,q)=>p.d-q.d)[0]; if(a) return a; return L.filter(i=>/離開|走出|出去|下樓|大門/.test(i.label)).sort((p,q)=>p.d-q.d)[0]||null; })", via)
+            run.note('走出去第 %d 步（在 %s）：出口 %s' % (hop + 1, (await P.ts(pg))['zone'], json.dumps(ex, ensure_ascii=False)))
+            if not ex: break
+            await L.go_to(pg, cdp, run, ex['x'], ex['z'], 0.8, ex['label'] or ex['to'], max_s=150, lv=ex['lv'])
+            for _ in range(3):
+                z0 = (await P.ts(pg))['zone']
+                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+                if (await P.ts(pg))['zone'] != z0: break
+        ok_via = ok_via or (await P.ts(pg))['zone'] == via
     if not ok_via:
         r = await pg.evaluate("(async z=>{ try{ await GAME.enter(z); return GAME.G.zone; }catch(e){ return 'ERR '+e.message; } })", zone); await pg.wait_for_timeout(2500)
         run.note('【捷徑】手機「地點」兩次都找不到 %s → GAME.enter(%s)（遊戲自己的換區，trigger enter 的事件照開）：現在 %s' % (via, zone, r))
@@ -247,7 +259,7 @@ async def quick_go(pg, cdp, run, zone):
     if not c:
         try:
             await pg.screenshot(path=os.path.join(getattr(run, 'outdir', '.'), 'phone_places_no_%s.png' % zone))
-            ls = await pg.evaluate("(()=>({open:!!document.querySelector('#phone:not(.hide)'), areas:[...document.querySelectorAll('#phoneBody [data-parea]')].map(b=>b.dataset.parea+':'+b.getAttribute('aria-expanded')), places:[...document.querySelectorAll('#phoneBody [data-place]')].map(b=>b.dataset.place.split('|')[0]).slice(0,30)}))()")
+            ls = await pg.evaluate("(()=>({open:!!document.querySelector('#phone:not(.hide)'), areas:[...document.querySelectorAll('#phoneBody [data-parea]')].map(b=>b.dataset.parea+':'+b.getAttribute('aria-expanded')), places:[...document.querySelectorAll('#phoneBody [data-place]')].map(b=>b.dataset.place.split('|')[0]).slice(0,30), text:((document.getElementById('phoneBody')||{}).innerText||'').replace(/\\s+/g,' ').slice(0,400)}))()")
         except Exception as e: ls = repr(e)[:100]
         await L.close_panels(pg, cdp); run.note('手機「地點」沒有 %s（手機頁：%s）' % (zone, json.dumps(ls, ensure_ascii=False))); return False
     await L.touch_tap(cdp, c[0], c[1])
