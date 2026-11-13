@@ -1,15 +1,3 @@
-[22:25:51] skip GG16_new (already done on 6ecd2843280421aa066bec20f2503a0d303742c9)
-[22:25:51] skip GG16_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[22:25:51] skip GG16r4_new (already done on 9c769623a07c9b13b9345771e856b55beceb2e16)
-[22:25:51] skip GG16r4_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[22:25:51] skip GG16r5_new (already done on 9c769623a07c9b13b9345771e856b55beceb2e16)
-[22:25:51] skip GG16r5_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[22:25:51] skip GG16r5b_new (already done on 9c769623a07c9b13b9345771e856b55beceb2e16)
-[22:25:51] skip GG16r5b_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[22:25:51] skip GG16r5c_new (already done on 35e560bbdef3aabbc1aea11b5f6d1c5d58b7e7f7)
-[22:25:51] skip MT2_info_again_skip (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
-[22:25:51] skip MT2_talk0 (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
-[22:25:51] skip MT2_talk12 (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
 [22:25:51] skip MT2_with (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
 [22:25:51] skip MT2_kexin (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
 [22:25:51] skip MT2_old (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
@@ -1998,3 +1986,15 @@
 [05:44:37] ==== START CANON458_INV_LIB_r2  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [05:44:40] [res] cpu=0% mem=41% (12.5/31.4 GB) chrome_testing=4  START CANON458_INV_LIB_r2
 [05:46:11] [res] cpu=16% mem=45% (14.1/31.4 GB) chrome_testing=9  END CANON458_AN_BEAT8_r5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b28a623d83..85dae9ccb1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:46:19] ==== END   CANON458_AN_BEAT8_r5  exit=0  156s   ====
+[05:46:32] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[05:46:32] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[05:46:32] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[05:46:32] memory 43% before starting REL76_libtour_r2 (2 running)
+[05:46:32] ==== START REL76_libtour_r2  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[05:46:35] [res] cpu=14% mem=43% (13.5/31.4 GB) chrome_testing=10  START REL76_libtour_r2
+[05:46:54] 正在跑：REL76_save_live_ctl_r2（已跑 2 分／上限 40 分）、CANON458_INV_LIB_r2（已跑 2 分／上限 20 分）、REL76_libtour_r2（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:47:26] [res] cpu=16% mem=45% (14.2/31.4 GB) chrome_testing=9  END CANON458_INV_LIB_r2
