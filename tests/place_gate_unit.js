@@ -51,7 +51,7 @@ const KNOWN_FAIL=[].concat(
   KF(T_VIEW,'ceiling','wz_teahouse'),   /* 阿德影印、林家乾麵、小路：鏡頭距離 3.2（zones3d.js WZ_CAMDIST，LAWWW-C 11-13）過了；一盞 2.6 m 交 LAWWW2（加高天花板或藏天花板）*/
   /* 118 巷八間店的天花板（L118-DIAN-CEILING-1112）：BB 17:4x 定鏡頭距離 4.2→3.6 m，過了（LAWWW2-C） */
   /* 有窗（或模型有玻璃）沒有窗景照片 */
-  KF(T_VIEW,'view','us_asian_market us_market'),
+  /* 美國兩間超市（us_market、us_asian_market）：白天／晚上兩張照片（views/us_market_*、us_asian_market_*；src/us3d.js US_VIEW）SHOP-INTERIOR-VIEW-1112 LAWWW-C 11-13，拿掉 */
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   /* 其他（補查出來的）*/
   /* 美國兩間超市的買得到／錢不夠／字：2026-11-12 接好了（AA_850；src/us_markets3d.js），這三列拿掉 */

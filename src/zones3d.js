@@ -2958,7 +2958,7 @@ const Z3 = (function(){
   const WZ_VIEW={teishoku:[{mesh:'VIEW',day:'assets/models/env/second_ai/aa_support/komichi_view_day.webp',night:'assets/models/env/second_ai/aa_support/komichi_view_night.webp'}],
     mokuyobi:[{mesh:'mok_window_view',day:'assets/models/env/second_ai/aa_support/mokuyobi_view_day.webp',night:'assets/models/env/second_ai/aa_support/mokuyobi_view_night.webp'}],   /* 木曜日（溫州街 B4 二樓）臨街窗往南看：原本是手繪的樹（mok_view），換成溫州街正式模型拍的街景（WINVIEW-AUDIT，LAWWW2-B 11-07；mokuyobi3d.js 載入室內模型後呼叫 Z3.wzViewSwap）*/
     offbeat:[{mesh:'WALL_front_VIEW',day:'assets/models/env/second_ai/aa_support/offbeat_view_front_day.webp',night:'assets/models/env/second_ai/aa_support/offbeat_view_front_night.webp'}]};   /* 日常失速右窗（朝北）：遊戲裡那一頭是地圖外、什麼都沒有，拍出來是一片空地，先留模型原本那張樹 */
-  function wzViewSwap(z,root,key){ const wv=WZ_VIEW[key]||[], L=[];
+  function wzViewSwap(z,root,key,tab){ const wv=(tab||WZ_VIEW)[key]||[], L=[];   /* tab：別的表（美國兩間超市 US3.US_VIEW，src/us3d.js）；沒給＝溫州街 WZ_VIEW */
     for(const e of wv){ const tD=wzNightViewTex(e.day), tN=wzNightViewTex(e.night); if(!tD||!tN) continue; tD.userData.url=e.day; tN.userData.url=e.night; const re=new RegExp(e.mesh); let mc=null;
       root.traverse(o=>{ if(!o.isMesh||!re.test(o.name||'')) return; if(!mc){ const m0=[].concat(o.material)[0]; if(!m0) return; mc=m0.clone(); mc.userData.wvOwn=true; mc.userData.wvMap0=m0.map; mc.userData.wvEm0=m0.emissiveMap; mc.userData.ei0=m0.emissiveIntensity!=null?m0.emissiveIntensity:1; } o.material=mc; });
       if(mc) L.push({m:mc,d:tD,n:tN}); }

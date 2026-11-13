@@ -349,6 +349,14 @@ const US3=(function(){
       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
       glow=glowMats(root,/^GLOW_/); sky=glowMats(root,/^usll_(skylight|stained_glass)/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('法學院圖書館正式模型載入失敗，用程序化備用模型',e));
     return z; } };
+  /* 兩間超市的窗景卡換成白天／晚上兩張照片（SHOP-INTERIOR-VIEW-1112，LAWWW-C 11-13；店面標準 §12 第 2 點：窗景白天、晚上各一張、是那條街）：
+     原本只有一張圖照時段調色（viewTint），晚上是把白天的停車場調暗；竹葉的天空挖空，室內沒有天空＝一片灰（BB）。
+     照片是 tools/blender/env_second/wz_window_view.py --us-street 用超市街正式模型（us_market_street.glb、us_cars.glb）從店裡往外拍的（鏡頭框住整張卡；夏天）。
+     做法和溫州街 WZ_VIEW 同一套（Z3.wzViewSwap：卡的材質複製一份、晚上 hour<6 或 ≥18.8 換夜版、照片載入失敗退回模型原本那張＋照舊調暗）；換了照片的卡不再 viewTint（不然夜版會被調暗兩次）。
+     測試：node tests/us_market_view_swap_unit.js */
+  const US_VIEW={us_market:[{mesh:'^usm_outside_view$',day:'assets/models/env/views/us_market_day.webp',night:'assets/models/env/views/us_market_night.webp'}],
+    us_asian_market:[{mesh:'^usam_view',day:'assets/models/env/views/us_asian_market_day.webp',night:'assets/models/env/views/us_asian_market_night.webp'}]};
+  function usViewSwap(z,root,key){ return (Z3.wzViewSwap&&Z3.wzViewSwap(z,root,key,US_VIEW))||0; }
   // =================== 超市 us_market（草原超市 Prairie Basket；US1 抵達那天、之後的日常採買）===================
   const AISLE_ZH={cereal:'早餐穀片',snacks:'零食',drinks:'飲料',canned:'罐頭',pasta:'義大利麵、米',baking:'烘焙材料',household:'日用品',personal:'清潔、個人用品'};
   /* 草原超市的四面外牆當跟隨鏡頭的牆（US-PATROL-1021，LAWWW2 10-22 巡場景）：一進門（入口 IN 門內 2.4 m、面向北），鏡頭在南、camDist 5 m，退到正面玻璃外面，
@@ -383,8 +391,9 @@ const US3=(function(){
       root.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_lane/.test(o.name)) paintPlate(o,(/(\d+)$/.exec(o.name)||[])[1]||'','#1f4f8f','#ffffff'); });
       /* 門外的景（usm_outside_view，材質名 GLOW_usm_outside）：原本被當成燈（GLOW_）整天全亮，20:00 結帳區玻璃外的停車場還是白天（US-NIGHTVIEW-1110，BB 15:21 ②）——
          從燈裡拿出來，照時段變色（和公寓、亞洲超市的窗景同一套 viewTint）；正面玻璃、自動門玻璃跟著變暗（glassTint）*/
-      const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&q.name==='usm_outside_view') for(const m of [].concat(q.material)) vm.add(m); }); views=[...vm];
-      glow=glowMats(root,/^GLOW_/).filter(m=>!vm.has(m)); for(const m of views) m.emissiveIntensity=m.userData.usBase!=null?m.userData.usBase:1; glass=glowMats(root,/^(ck_glass|usm_door_glass)$/);
+      const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&q.name==='usm_outside_view') for(const m of [].concat(q.material)) vm.add(m); });
+      usViewSwap(z,root,'us_market'); const vm2=new Set(); root.traverse(q=>{ if(q.isMesh&&q.name==='usm_outside_view') for(const m of [].concat(q.material)) vm2.add(m); }); views=[...vm2].filter(m=>!m.userData.wvOwn);   /* 換了照片的卡（wvOwn）自己管日夜，不 viewTint */
+      glow=glowMats(root,/^GLOW_/).filter(m=>!vm.has(m)&&!vm2.has(m)); for(const m of views) m.emissiveIntensity=m.userData.usBase!=null?m.userData.usBase:1; glass=glowMats(root,/^(ck_glass|usm_door_glass)$/);
       const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('草原超市正式模型載入失敗，用程序化備用模型',e));
     return z; } };
 
@@ -402,16 +411,17 @@ const US3=(function(){
     // 備用模型：地板、矮牆、貨架、櫃子的方塊
     plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,M('#e2dccd'),0,0,0.005); const bm=M('#c9c6be'); for(const b of L.blocks){ const h=/gondola|freezers|drinks|produce/.test(b.why)?1.8:1.0; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
     const lamps=[]; for(const [x,zz] of [[-4,-2],[4,-2],[-4,3],[4,3]]){ const l=new THREE.PointLight(0xf8f6ee,3,12,2); l.position.set(x,H-0.4,zz); l.userData.on=7; l.userData.off=5; g0.add(l); lamps.push(l); }
-    let glow=[], views=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
-    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); viewTint(views,h); };   /* 燈盤、冷藏櫃、燈籠整天都亮 */
+    let glow=[], views=[], glass=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); viewTint(views,h); glassTint(glass,h); };   /* 燈盤、冷藏櫃、燈籠整天都亮 */
     const IT=E.interactables;
     for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usMarket:q.id,look:lookText(q.label+'。')});
     if(MS()){ const X=L.exits[0], X2=L.exits[1]||X; IT.push({x:(X.x+X2.x)/2,z:X.z,radius:Math.max(X.r,1.1),lv:0,label:'出門',exit:{to:'us_market_street',spawn:Object.assign({},MS().spawn_am_out)}}); }   /* US-MARKET-STREET：出門到騎樓；回大超市（過斑馬線）、搭公車都從外面走 */
     else for(const X of L.exits){ const sp=X.to==='us_market'?Object.assign({},US_MARKET_LAYOUT.spawn):Object.assign({},US_LINK); IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:X.to,spawn:sp}}); }
     z.formal=false; if(has('bldg.us_asian_market')) ASSETS.loadOne('bldg.us_asian_market').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
-      const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&/^usam_view/.test(q.name)) vm.add(q.material); }); views=[...vm]; for(const m of views){ m.transparent=false; m.alphaTest=0.5; m.depthWrite=true; m.needsUpdate=true; }
-      glass=glowMats(root,/^usa_glass$/);   /* 窗玻璃晚上跟著窗景變暗（glassTint）*/   /* 和公寓的窗外景一樣：天空挖空 */
+      usViewSwap(z,root,'us_asian_market');   /* 照片（天空是拍進去的，不透明）：alphaTest 0.5 照樣留著——照片的 alpha 全是 1、全部通過；照片載入失敗退回模型原本那張（天空透明）時照舊挖空 */
+      const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&/^usam_view/.test(q.name)) vm.add(q.material); }); for(const m of vm){ m.transparent=false; m.alphaTest=0.5; m.depthWrite=true; m.needsUpdate=true; } views=[...vm].filter(m=>!m.userData.wvOwn);
+      glass=glowMats(root,/^(ck_glass|usam_door_glass)$/);   /* 原本寫 usa_glass（公寓的名字，這個模型沒有），而且 glass 沒宣告：strict mode 丟 ReferenceError，後面的藏天花板、燈、applyTime 都沒跑 */   /* 窗玻璃晚上跟著窗景變暗（glassTint）*/   /* 和公寓的窗外景一樣：天空挖空 */
       const top=[]; root.traverse(q=>{ if(q.isMesh&&/^(usam_ceiling|usam_grid|GLOW_usam_troffers|usam_sign_wires)/.test(q.name)) top.push(q); });
       const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const cy=E2&&E2.camera?E2.camera.position.y:0; for(const q of top) q.visible=cy<=H-0.05; };
       glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('亞洲超市正式模型載入失敗，用程序化備用模型',e));
@@ -529,6 +539,6 @@ const US3=(function(){
   for(const k in SPAWN) delete SPAWN[k].note;
   /* 交換系統（LAWWW-C 的 src/exchange3d.js，比這個檔先載入）：出發、登機抵達、睡醒、凌晨走回公寓、手機「地點」都讀 EXCH.SPAWN（LAWWW-C 21:13 的介面）*/
   if(typeof EXCH!=='undefined'&&EXCH.SPAWN) Object.assign(EXCH.SPAWN,{airport_dep:Object.assign({},SPAWN.airport_dep),us_outside:Object.assign({},SPAWN.us_outside),us_apartment:Object.assign({},SPAWN.us_apartment_bed)});
-  return {usSeasonKey,usSeason,LOOK_CAMPUS,LOOK_LIB,LOOK_MS,campusLook,libLook,us_campus,us_lawlib,us_apartment,us_shared,us_outside,us_market,us_asian_market,us_market_street,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
+  return {US_VIEW,usSeasonKey,usSeason,LOOK_CAMPUS,LOOK_LIB,LOOK_MS,campusLook,libLook,us_campus,us_lawlib,us_apartment,us_shared,us_outside,us_market,us_asian_market,us_market_street,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
 })();
 Z3.ZONES.us_campus=US3.us_campus; Z3.ZONES.us_lawlib=US3.us_lawlib; Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_shared=US3.us_shared; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.us_market=US3.us_market; Z3.ZONES.us_asian_market=US3.us_asian_market; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr; if(US3.us_market_street) Z3.ZONES.us_market_street=US3.us_market_street;
