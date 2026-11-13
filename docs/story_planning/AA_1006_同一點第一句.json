@@ -2,8 +2,8 @@
  "_meta": {
   "task": "DLG-FULL-REVIEW-1110（X324）",
   "by": "AA-C 2026-11-13",
-  "what": "約會 date_lines 同一個互動點（或到達／收尾）的 first 第一句，幾位女主角一字不差：老茶行。×5、夕陽。×5、碼頭。×3、陰陽海×4、好陡×4、金磚、白沙灣、燈塔、停車休息、日式宿舍、星星、散場、草地、小路、海堤夕陽，16 組。每組留一位原句，其他人改成接得上她第二句的說法（27 列）。D31 纜車（可昕）AA_992 已改。",
-  "kept": "同一點「開頭兩三個字一樣」但後面不同的（例如「芋圓，三種顏色。」「芋圓！我要大碗」）是點名地點的寫法，不改。"
+  "what": "約會 date_lines 同一個互動點 first 第一句、幾位女主角一字不差的台詞（短句、line_lint 和 xdup 都抓不到）：每組留一位、其他改成接得上她第二句的說法。定稿 10 列：可昕、沛珊小路、星星、白沙灣、燈塔、停車休息、金磚、日式宿舍兩組、語彤陰陽海、語彤好陡以外的好陡已在 AA_972、學姊海堤夕陽。",
+  "kept": "同一點「開頭兩三個字一樣」但後面不同的（例如「芋圓，三種顏色。」「芋圓！我要大碗」）是點名地點的寫法，不改。「老茶行。」「夕陽。」「碼頭。」「散場。」「她站在草地邊。」是旁白（who＝narr），同一個地點的旁白一樣是正常的，不改。AA_972 已改的陰陽海、好陡 5 列不重複。"
  },
  "rows": [
   {
@@ -91,59 +91,9 @@
    "files": [
     "date_lines.js"
    ],
-   "old": "heroine_05\", \"text\": \"（往山上的步道）好陡。",
-   "new": "heroine_05\", \"text\": \"（往山上的步道）這段坡有點長。",
-   "speaker": "heroine_05",
-   "note": "D19.shrine first 第一句幾位女主角一字不差（短句、line_lint 和 xdup 都抓不到），留一位、其他改"
-  },
-  {
-   "doc": "AA_1006",
-   "files": [
-    "date_lines.js"
-   ],
-   "old": "classmate_peishan\", \"text\": \"（往山上的步道）好陡。",
-   "new": "classmate_peishan\", \"text\": \"（往山上的步道）哇，這麼多階。",
-   "speaker": "classmate_peishan",
-   "note": "D19.shrine first 第一句幾位女主角一字不差（短句、line_lint 和 xdup 都抓不到），留一位、其他改"
-  },
-  {
-   "doc": "AA_1006",
-   "files": [
-    "date_lines.js"
-   ],
-   "old": "kexin\", \"text\": \"（往山上的步道）好陡。",
-   "new": "kexin\", \"text\": \"（往山上的步道）你先上去。",
-   "speaker": "kexin",
-   "note": "D19.shrine first 第一句幾位女主角一字不差（短句、line_lint 和 xdup 都抓不到），留一位、其他改"
-  },
-  {
-   "doc": "AA_1006",
-   "files": [
-    "date_lines.js"
-   ],
-   "old": "heroine_02\", \"text\": \"（陰陽海）海有兩種顏色。",
-   "new": "heroine_02\", \"text\": \"（陰陽海）一邊黃，一邊藍。",
-   "speaker": "heroine_02",
-   "note": "D19.view first 第一句幾位女主角一字不差（短句、line_lint 和 xdup 都抓不到），留一位、其他改"
-  },
-  {
-   "doc": "AA_1006",
-   "files": [
-    "date_lines.js"
-   ],
    "old": "heroine_03\", \"text\": \"（陰陽海）海有兩種顏色。",
    "new": "heroine_03\", \"text\": \"（陰陽海）兩種顏色，中間有一條線。",
    "speaker": "heroine_03",
-   "note": "D19.view first 第一句幾位女主角一字不差（短句、line_lint 和 xdup 都抓不到），留一位、其他改"
-  },
-  {
-   "doc": "AA_1006",
-   "files": [
-    "date_lines.js"
-   ],
-   "old": "kexin\", \"text\": \"（陰陽海）海有兩種顏色。",
-   "new": "kexin\", \"text\": \"（陰陽海）你看那條線。",
-   "speaker": "kexin",
    "note": "D19.view first 第一句幾位女主角一字不差（短句、line_lint 和 xdup 都抓不到），留一位、其他改"
   },
   {
