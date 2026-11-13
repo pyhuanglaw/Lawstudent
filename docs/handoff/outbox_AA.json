@@ -7818,10 +7818,10 @@
     "docs/story_planning/AA_753_peishan_ladder_Y4.json",
     "docs/story_planning/AA_757_peishan_wish_hometown.json"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T13:55Z",
    "receiver": "LAWWW",
-   "ack": "BB-C 照用（BB_456）；已轉 LAWWW",
+   "ack": "BB-C 照用（BB_456）；已轉 LAWWW；LAWWW 已進 5bfd58a8ba（AA 核過）",
    "noDirectIntegrate": false,
    "next": "BB 第二眼；LAWWW 重匯約會、活動、階梯、心願",
    "unfinished": ""
@@ -7834,10 +7834,10 @@
     "docs/story_planning/AA_945_可昕約會再訪_上次_記次數.md",
     "docs/story_planning/date_system/lines/"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T14:10Z",
    "receiver": "LAWWW",
-   "ack": "BB-C 照用（BB_456）；已轉 LAWWW",
+   "ack": "BB-C 照用（BB_456）；已轉 LAWWW；LAWWW 已進 5bfd58a8ba（AA 核過）",
    "noDirectIntegrate": false,
    "next": "BB 第二眼；LAWWW 重匯約會 lines",
    "unfinished": ""
@@ -7851,10 +7851,10 @@
     "docs/story_planning/AA_812_date_pays_promises.json",
     "docs/story_planning/date_system/lines/"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "at": "2026-11-13T14:30Z",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "；LAWWW 已進 5bfd58a8ba（AA 核過）",
    "noDirectIntegrate": false,
    "next": "LAWWW 重跑 import_she_pays、確認語彤 D14 收尾那句的來源",
    "unfinished": ""
