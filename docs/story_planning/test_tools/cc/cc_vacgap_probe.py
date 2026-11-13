@@ -15,7 +15,11 @@ CASES（逗號分隔；BB_457 的項次）：
   KXY3_A／_B       9  可昕交往中；2028-06-19 21:55 → 22:00 後；7/6、7/27、8/24 20:55 → 21:00 後實習三則按第 1／第 2 個回覆鍵；8/30 21:00 讀國考那則（_B 不看 6/19）
   OTHERS          11  芷若、沛珊、阿凱、明軒、方奕廷 FAMILIAR；VACGAP_LINES.home 每人第一筆「回家」（日子寫死的照寫、flip 的用 VACGAP.flipOn 算）＋沛珊大三第一筆；h−0.1 → 過 h → 那一串
   KXY2_F／_D      12  可昕 FRIEND／交往中：2027-07-05、07-20 14:00 記 STORY.presence（在臺北＝遇得到）；07-31、08-01、08-31 17:55 → 過 18:00 → 可昕那一串（7/31 不該有「回高雄了」）
-  第 8 項考場偶遇、第 10 項七夕、第 12 項 8/7～8/8 邀約要走報名／出遊流程：第二批。
+  第二批（11-14 01:xx）：
+  EXAM_MX／EXAM_SIS_F／EXAM_SIS_D／EXAM_KAI  8  【捷徑】考試當天 07:30 用 VAC.signup 報同一場 C04（C04W@Y2 2027-01-23、C04@Y2 2027-08-28 學姊 FRIEND／交往中、C04W@Y3 2028-01-16 多益）
+                   → 等遊戲自己跳「出發：…正式考試」→ 點 → 考完的偶遇照演（選項第 1 個）；記 MX_SEEN_TOEFL／SIS_TOEFL_SAMEDAY／KAI_TOEIC_SEEN
+  QIXI_A／QIXI_B   10  可昕交往中（台灣路線）2028-08-24 20:55 → 21:00 後她那兩則 → 按第 1 個回覆鍵（好）→ OUT kx_qixi_y3 排上 →【前置】同一份進度跳 8/26 19:00 → 等「出發」→ 五拍＋回程（選項第 1／第 2 個）
+  KHINV            12  可昕交往中 2027-07-20 21:24 → 21:30 後高雄那則（y3_kh_inv）→ 按「那兩天不行。」→ 記她的回覆、KX_KH_GO／KX_TRIP_DEFERRED
 CC_02 清單 2026-11-13：1✓（日子、時間、區域照 BB_457 表；寒假、二四六、flip 日用遊戲的 HOME.breakOf／CALENDAR／VACGAP.flipOn 在遊戲裡算） 2✓（人用 charId、手機串用 data-th、事件用 G.events.done 讀） 3✓（多個人：每人一串分開開、分開截） 4✓（按之前確認互動鍵是「和○○說話」、回覆鍵在畫面上） 5✓（走到人旁邊用 bbplay.talk 那一套 target＋go_to） 6✓（等遊戲時間真的過了才看、最多 300 秒） 7✓（lint、node 驗 JS） 8n/a（只記，判定歸 BB） 9✓（遊戲畫面、手機畫面原樣截圖） 10✓（中途別的對話照字點完並記下來） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：墊完的關係階段、群組、寒假 key、阿凱在 203、明軒寒訓時段） 13n/a（只在同一區走到人旁邊）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=… ALT=0] python3 cc_vacgap_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -297,7 +301,60 @@ async def c_kxy2(pg, cdp, tag, dating):
     return {'case': tag, 'days': out}
 
 
+EXAMS = {'EXAM_MX': ('2027-01-23', 'C04W@Y2', {'classmate_mingxuan': 'FAMILIAR'}), 'EXAM_SIS_F': ('2027-08-28', 'C04@Y2', {'heroine_05': 'FRIEND'}),
+         'EXAM_SIS_D': ('2027-08-28', 'C04@Y2', {'heroine_05': 'DATING'}), 'EXAM_KAI': ('2028-01-16', 'C04W@Y3', {'kai': 'FAMILIAR'})}
+SIGNUP_JS = r"""(k=>{ const G=GAME.G, ok=VAC.signup(G,k,'yes'), I=VAC.inst(k.split('@')[0],k.split('@')[1]); const outs=(G.outings||[]).filter(q=>q&&q.vac&&q.vac.key===k).map(q=>({id:q.id,day:CALENDAR.dateOf(q.day).key,h:q.h,title:q.title,state:q.state}));
+  return {ok, reg:VAC.rec(G).reg[k]||null, enrolled:!!VAC.enrolled(G,k.split('@')[0],k.split('@')[1]), outs}; })"""
+
+
+async def go_out(pg, cdp, tag, alt=0, start_s=420):
+    """等遊戲自己跳「出發：…」→ 點 → 之後照演（play 兩輪：路上、到了以後）"""
+    a = await play(pg, cdp, tag + '_a', alt, prefer=('出發',), start_s=start_s)
+    b = await play(pg, cdp, tag + '_b', alt, prefer=('出發',), start_s=20)
+    return {'a': a, 'b': b}
+
+
+async def c_exam(pg, cdp, tag):
+    day, key, rel = EXAMS[tag]
+    seed = await fresh(pg, cdp, tag, day, 7.5, 'dorm', rel); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+    su = await P.prep(pg, cdp, R, SIGNUP_JS, key, True, '[%s] 報名 %s（VAC.signup，玩家報同一場 C04）' % (tag, key)); await P.events_on(pg)
+    ex = [o for o in su['outs'] if o['day'] == day]
+    if not R.check('FAIL_SETUP 檢查：[%s] 報上了、%s 有排出遊（正式考試）' % (tag, day), su['enrolled'] and bool(ex), J(su)): return {'case': tag, 'signup': su}
+    r = await go_out(pg, cdp, tag)
+    fl = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {MX_SEEN_TOEFL:F.MX_SEEN_TOEFL||null, SIS_TOEFL_SAMEDAY:F.SIS_TOEFL_SAMEDAY||null, KAI_TOEIC_SEEN:F.KAI_TOEIC_SEEN||null}; })()")
+    R.note('[%s] 考完旗標 %s' % (tag, J(fl)))
+    return {'case': tag, 'signup': su, 'r': r, 'flags': fl}
+
+
+async def c_qixi(pg, cdp, tag, alt):
+    seed = await fresh(pg, cdp, tag, '2028-08-24', 20 + 55 / 60, 'dorm', {'kexin': 'DATING'}); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+    await wait_h(pg, cdp, 21.1, tag); await pg.wait_for_timeout(3000)
+    t = await thread(pg, cdp, tag + '_0824', 'p:kexin')
+    lab = await answer(pg, cdp, tag + '_0824', 'p:kexin', 0)
+    q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'kx_qixi_y3'); return q?{day:CALENDAR.dateOf(q.day).key,h:q.h,state:q.state,title:q.title}:null; })()")
+    R.note('[%s] 按「%s」以後 OUT kx_qixi_y3：%s；route %s' % (tag, lab, J(q), await pg.evaluate("(()=>STORY.route?STORY.route(GAME.G):null)()")))
+    if not R.check('FAIL_SETUP 檢查：[%s] 8/26 20:00 的七夕排上了' % tag, bool(q), J(q)): return {'case': tag, 'ask': t, 'reply': lab}
+    await jump(pg, cdp, tag, '2028-08-26', 19.0, 'dorm', None)
+    r = await go_out(pg, cdp, tag + '_0826', alt)
+    fl = await pg.evaluate("(()=>({KX_QIXI_Y3:GAME.G.flags.KX_QIXI_Y3||null}))()"); R.note('[%s] %s' % (tag, J(fl)))
+    return {'case': tag, 'ask': t, 'reply': lab, 'out': q, 'r': r, 'flags': fl}
+
+
+async def c_khinv(pg, cdp, tag):
+    """第 12 項 8/7～8/8：2027-07-20 21:30 可昕約去高雄（r2y3a3d.js y3_kh_inv）→ 按「那兩天不行。」→ 她回「好。那寒假。」"""
+    seed = await fresh(pg, cdp, tag, '2027-07-20', 21.4, 'dorm', {'kexin': 'DATING'}); R.note('[%s] 墊完 %s' % (tag, J(seed)))
+    await wait_h(pg, cdp, 21.6, tag); await pg.wait_for_timeout(3000)
+    t = await thread(pg, cdp, tag + '_0720', 'p:kexin')
+    lab = await answer(pg, cdp, tag + '_0720', 'p:kexin', 1)
+    fl = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {KX_KH_GO:F.KX_KH_GO, KX_KH_DEFER:F.KX_KH_DEFER||null, KX_TRIP_DEFERRED:F.KX_TRIP_DEFERRED||null}; })()")
+    R.note('[%s] 按「%s」以後 %s' % (tag, lab, J(fl)))
+    return {'case': tag, 'ask': t, 'reply': lab, 'flags': fl}
+
+
 async def one(pg, cdp, c):
+    if c in EXAMS: return await c_exam(pg, cdp, c)
+    if c in ('QIXI_A', 'QIXI_B'): return await c_qixi(pg, cdp, c, 0 if c.endswith('A') else 1)
+    if c == 'KHINV': return await c_khinv(pg, cdp, c)
     if c in ('W203_A', 'W203_B'): return await c_w203(pg, cdp, c, 0 if c.endswith('A') else 1)
     if c == 'REPAIR': return await c_repair(pg, cdp, c, 0)
     if c == 'BACK_IN': return await c_back(pg, cdp, c, False)
