@@ -161,6 +161,7 @@ const DAYS=[]; for(let d=DK('2025-10-06');DAYS.length<3;d++) if(CALENDAR.kind(d)
 let TYPHOON=null; if(CALENDAR.typhoon) for(let d=DK('2025-09-01');d<DK('2025-09-01')+500;d++) if(CALENDAR.typhoon(d)){ TYPHOON=d; break; }
 
 /* ---------- 結果 ---------- */
+const CC0={};   /* 區域 → 每個店內模型的 cc0Of 結果（D160）*/
 const RES={};   /* RES[zone][item]={st:'PASS'|'FAIL'|'L2'|'NA',msg} */
 const set=(z,item,st,msg)=>{ (RES[z]=RES[z]||{})[item]={st,msg:msg||''}; };
 const pass=(z,i,m)=>set(z,i,'PASS',m), fail=(z,i,m)=>set(z,i,'FAIL',m), na=(z,i,m)=>set(z,i,'NA',m);
@@ -247,6 +248,8 @@ async function checkShop(z){ const nm=nameOf(z), ty=TYPE[z], L=tzLay(z), s118=l1
     for(const p of gl){ const base=COP[p]; let cur=base; if(!base||base.sha1!==sha1(p)){ const r=copScan(p); if(!r){ st='FAIL'; msg='模型 '+path.basename(p)+' 換了（或沒有基準）、這台機器不能重查（python3＋numpy）：跑 node tests/place_gate_unit.js --coplanar'; break; } cur=r; const b0=base?base.wall:0; if(r.wall>b0+0.05){ st='FAIL'; msg=path.basename(p)+' 牆的疊面 '+r.wall+' m²，比基準 '+b0+' m² 多（'+r.top+'）'; break; } }
       if(cur.wall>0.05) sus.push(path.basename(p)+' '+cur.wall+' m²'); }
     if(!gl.length) set(z,'coplanar','L2','找不到這一區的室內模型檔'); else if(st==='FAIL') fail(z,'coplanar',msg); else if(sus.length) set(z,'coplanar','L2','疑似牆面疊面 '+sus.join('、')+'（基準；連拍確認閃不閃）'); else pass(z,'coplanar'); }
+  /* CC0 素材（D160，CLAUDE.md §12 第 2 點）：狀態表「CC0 素材」那一欄；判斷在 tests/shop_cc0_unit.js（擋新店、基準表外的店）*/
+  { try{ const C=require('./shop_cc0_unit.js'); CC0[z]=glbsOf(z).filter(p=>!/_stair\.glb$/.test(p)).map(C.cc0Of); }catch(e){ CC0[z]=null; } }
   /* 質感（D159，CLAUDE.md §9 2a）：第一層只量、不判（BB 看圖判）——模型裡沒貼圖的純色零件、等大方塊零件各佔多少 */
   { const gl=glbsOf(z); let n=0, flat=0, box=0, rep=[];
     for(const p of gl){ const j=glbJson(p); if(!j) continue; const mats=j.materials||[], acc=j.accessors||[]; rep=rep.concat(glbRepeats(p));
@@ -371,6 +374,8 @@ if(ARGV.includes('--coplanar')){ const o={}; for(const z of SHOPS){ try{ enter(z
   let BBJ={}; try{ const j=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/place_gate_bb.json'),'utf8')); for(const q of j.shops||[]) BBJ[q.zone]=q; }catch(e){}
   const bbCell=k=>{ const esc=s=>String(s).replace(/\|/g,'／').replace(/\n/g,' '); const q=BBJ[k]; if(!q) return '第二層還沒拍、BB 還沒判'; const f=(q.fail||[]).join('、'), pd=(q.pending||[]).join('、');
     return '**BB '+esc(q.verdict)+'**（@'+esc(q.sha||'')+(f?'；未過：'+esc(f):'')+(pd?'；還沒判：'+esc(pd):'')+(q.note?'；'+esc(q.note):'')+'｜'+esc(q.ref||'')+'）'; };
+  const cc0Cell=r=>{ if(r.stall) return '—'; const L=CC0[r.key]; if(!L) return '量不到'; if(!L.length) return '找不到店內模型（第二層看）'; const esc=x=>String(x).replace(/\|/g,'／');
+    return L.map(q=>q.ok?'PASS（'+path.basename(q.glb)+'）':'**沒用**（'+path.basename(q.glb)+'：'+esc(q.why)+'｜SHOP-REALISM-1112）').join('<br>'); };
   const verdict=r=>{ const R=RES[r.key]||{}; const F=Object.keys(R).filter(i=>R[i].st==='FAIL'||R[i].st==='KNOWN'); return (F.length?'**未過 '+F.length+' 項**':'第一層 PASS')+(r.stall?'':'；'+bbCell(r.key)); };
   const areas=[]; for(const r of ROWS) if(!areas.includes(r.area)) areas.push(r.area);
   const byTask={}; for(const [r,item,c] of known) (byTask[c.task]=byTask[c.task]||[]).push(r.name+'（'+ITEMS[item].t+'）');
@@ -379,8 +384,8 @@ if(ARGV.includes('--coplanar')){ const o={}; for(const z of SHOPS){ try{ enter(z
     +Object.keys(byTask).sort().map(t=>'- 未過・'+t+'（'+byTask[t].length+' 項）：'+byTask[t].join('、')).join('\n')+'\n'
     +(newFail.length?'- **還沒開任務的未過**：'+newFail.map(([r,item])=>r.name+'（'+ITEMS[item].t+'）').join('、')+'\n':'')
     +'\n## 第一層判不了、要第二層（CC 瀏覽器）拍的\n\n'+[1,2,3,4].map(c=>'- 第 '+c+' 點「'+COLS[c]+'」：'+LAYER2_NOTE[c]).join('\n')+'\n- 「牆沒有疊在同一平面」第一層只擋「比基準多」；基準上已經有的疊面寫「疑似」，閃不閃要連拍。\n- 「天花板」第一層比的是房間高度和**預設**跟隨鏡頭高度（玩家自己把鏡頭抬高不算）；多樓層只比一樓。\n';
-  for(const a of areas){ const rows=ROWS.filter(r=>r.area===a); body+='\n## '+a+'\n\n| 店（區域 id） | 1 街上看 | 2 店裡面 | 3 人 | 4 做得到的事 | 5 時間 | 6 字 | 7 驗收 |\n|---|---|---|---|---|---|---|---|\n';
-    for(const r of rows) body+='| '+r.name+'<br>`'+r.key+'` | '+[1,2,3,4,5,6].map(c=>cell(r,c)).join(' | ')+' | '+verdict(r)+' |\n'; }
+  for(const a of areas){ const rows=ROWS.filter(r=>r.area===a); body+='\n## '+a+'\n\n| 店（區域 id） | 1 街上看 | 2 店裡面 | 3 人 | 4 做得到的事 | 5 時間 | 6 字 | 7 驗收 | CC0 素材（D160） |\n|---|---|---|---|---|---|---|---|---|\n';
+    for(const r of rows) body+='| '+r.name+'<br>`'+r.key+'` | '+[1,2,3,4,5,6].map(c=>cell(r,c)).join(' | ')+' | '+verdict(r)+' | '+cc0Cell(r)+' |\n'; }
   const DOC=path.join(ROOT,'docs/handoff/SHOP_STANDARD_STATUS.md');
   if(ARGV.includes('--write')){ let sha='?', date='?'; try{ sha=cp.execSync('git rev-parse --short=10 HEAD',{cwd:ROOT,encoding:'utf8'}).trim(); date=cp.execSync('git log -1 --format=%cs',{cwd:ROOT,encoding:'utf8'}).trim(); }catch(e){}
     const head='# 每一間店照店面標準七點的現況（SHOP-STANDARD-BACKFILL-1112；CLAUDE.md §12，D155）\n\n'
