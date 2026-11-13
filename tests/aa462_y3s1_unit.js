@@ -12,7 +12,7 @@
 //   6 第 8 節（企劃線 878496edb，回 LAWWW-B 施工問題）：①沛珊那一句照幾天前換字（同一天／前一天／前兩天）：大四上 12/23 她約聖誕、12/24 開車下去，學期末的飯也排在 12/24＝
 //     「學期結束了！今天就是學期末的那一頓。」（AA_464 4-2；不排出遊、聖誕那一場照演；AA_464 第 7 節：只是排了不算，等那一場演完才傳，沒去＝照平常約、18:30 的飯照排）；
 //     12/23 去台南找她（ev_hv_ps_tn）、12/25 學期末＝「……前天那一頓……」；
-//     ②兩種去台南都算、每個在台南的學期都適用；③3D 版 ev_an_admin_court「今天下午，我先去了一趟行政法院。」，不認識阿哲＝她補「刑訴那場還是禮拜五。這個是我自己想看的。」
+//     ②兩種去台南都算、每個在台南的學期都適用；③3D 版 ev_an_admin_court「下午我先去了一趟行政法院。」，不認識阿哲＝她補「刑訴那場還是禮拜五。這個是我自己想看的。」
 // 修改前（開發分支 661423a71）：1～5 每一節至少一項 FAIL；6 在 0b474c8b4 FAIL。用法：node tests/aa462_y3s1_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -59,6 +59,7 @@ const S8=(()=>{ const i=doc8.indexOf('## 8.'); return i<0?'':doc8.slice(i); })()
 const S8L=k=>{ const m=S8.match(new RegExp('^\\s*- '+k+'：(.+?)(（`[^）]*）)?\\s*$','m')); return m?m[1].trim():null; };
 const TN3=[S8L('同一天'),S8L('前一天'),S8L('前兩天')];
 const AD_OLD=(S8.match(/第二句「([^」]+)」→「([^」]+)」/)||[])[1], AD_NEW=(S8.match(/第二句「([^」]+)」→「([^」]+)」/)||[])[2], AD_SELF=(quotes(S8).find(q=>q.who==='以安')||{}).t;
+const AD_NOW=require('./aa959_map.js').map(AD_NEW,'r2y3a_events.js');   /* AA_959（AA_953）：稿上的新句「今天下午，…」遊戲再照覆寫表砍掉「今天」開頭 */
 
 (async()=>{
 const r5=k=>T5.find(r=>r.where.includes(k))||{};
@@ -167,7 +168,7 @@ await sec(5,async()=>{
   /* 沛珊的台南美術館 */
   psG(); run('2027-12-20',20.5,21.25); const M=byTag('ps_museum_Y3S1').map(m=>m.text);
   /* 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：後兩句照 tainan_museum.invite 重寫（原本 AA_462 第 5 節的「我想要一天，沒有標準答案。」「你可以說不。我只是問問看。」）；第一句照舊是 AA_462 的那一句、第二句開頭一樣不說「美術館。」 */
-  check('5. 沛珊在台南約美術館：「'+MU_NEW[0]+'」「我想找一天不用負責好笑。」「不行也沒關係，我只是問問看。」（第二句開頭不再說「美術館。」）',J(M)===J([MU_NEW[0],'我想找一天不用負責好笑。','不行也沒關係，我只是問問看。'])&&MU_NEW[0]==='你下次來台南，我們去美術館。'&&!/^美術館。/.test(M[1]),J(M));
+  check('5. 沛珊在台南約美術館：「'+MU_NEW[0]+'」「我想找一天不用負責好笑。」「不行也沒關係，我只是問問看。」（hometown_lines.js 不在 AA_959 表上，照舊；第二句開頭不再說「美術館。」）',J(M)===J([MU_NEW[0],'我想找一天不用負責好笑。','不行也沒關係，我只是問問看。'])&&MU_NEW[0]==='你下次來台南，我們去美術館。'&&!/^美術館。/.test(M[1]),J(M));
   /* 沛珊③ */
   fresh('2027-10-01',10,{}); date(PS); ROM.get(H.G,PS).sinceDay=D('2027-09-01'); at('2027-11-30',23.1); rules(); const P3=(H.G.msgs||[]).filter(m=>/^ct_classmate_peishan_ps3_/.test(m.tag||'')).map(m=>m.text);
   check('5. 沛珊③ 10、11 月都沒去台南：11/30 23:00「'+PS3_NEW.join('」「')+'」（第二句不是「我只是……」）',J(P3)===J(PS3_NEW)&&!P3.some(t=>/我只是/.test(t)),J(P3));
@@ -215,9 +216,9 @@ await sec(6,async()=>{
   const adm=async(knowZhe)=>{ fresh('2027-10-21',17.75,{MET_ZHE:knowZhe},'noodle'); H.FAMILIAR(AN); const W1=STORY.week1Start; if(!knowZhe) STORY.week1Start=()=>true; H.said=[]; H.opts=[]; H.picks=[0];
     try{ await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_an_admin_court')); } finally { STORY.week1Start=W1; } return H.said.map(x=>x.t); };
   { const S=await adm(true);
-    check('6. ③ 3D 版第二句「'+AD_NEW+'」（沒有「'+AD_OLD+'」）；認識阿哲：阿哲問、她答照舊，不補那一句',S[1]===AD_NEW&&!S.includes(AD_OLD)&&S.includes('刑訴的作業不是要去地院嗎？')&&S.includes('那個禮拜五去。今天這個是我自己想看的。')&&!S.includes(AD_SELF),J(S.slice(0,7))); }
+    check('6. ③ 3D 版第二句「'+AD_NOW+'」（沒有「'+AD_OLD+'」）；認識阿哲：阿哲問、她答照舊，不補那一句',S[1]===AD_NOW&&!S.includes(AD_OLD)&&S.includes('刑訴的作業不是要去地院嗎？')&&S.includes('那個禮拜五去。今天這個是我自己想看的。')&&!S.includes(AD_SELF),J(S.slice(0,7))); }
   { const S=await adm(false), i=S.indexOf(AD_SELF);
-    check('6. ③ 不認識阿哲（阿哲那兩句不出）：她自己補「'+AD_SELF+'」，在選項之前、收據那一句之後',S[1]===AD_NEW&&i===4&&S[3]==='他帶了一個資料夾，裡面全部是收據。區公所來了兩個人，一人一台筆電。'&&!S.includes('刑訴的作業不是要去地院嗎？')&&H.opts.length>=1,J(S.slice(0,7))); }
+    check('6. ③ 不認識阿哲（阿哲那兩句不出）：她自己補「'+AD_SELF+'」，在選項之前、收據那一句之後',S[1]===AD_NOW&&i===4&&S[3]==='他帶了一個資料夾，裡面全部是收據。區公所來了兩個人，一人一台筆電。'&&!S.includes('刑訴的作業不是要去地院嗎？')&&H.opts.length>=1,J(S.slice(0,7))); }
 });
 
 H.done();

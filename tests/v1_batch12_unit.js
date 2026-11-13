@@ -60,7 +60,7 @@ const KX={dating_kexin:true};
   const bbq=async(flags,setup,pk)=>{ fresh(SATB,15,'campus',Object.assign({},KX,{ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（那段另外測）*/ if(setup) setup(); cgs=[]; picks=pk||[]; await EVENTS.run(BBQ); return {L:lines(),cg:cgs.slice()}; };
   { const g=async(f,pk)=>{ const r=await bbq(Object.assign({ZHE_CALLS_GE:false},f||{}),null,pk); return r.L; };
     /* （CANON-NO-ECON-1112 第四批：照 AA_884 換字）來源統一成學測數學滿級分：兩個選項（原本四個）*/
-    let L=await g({},['十五']); check('CAMP-FIX-614 程式 7（AA_884 第 1 節）：中秋烤肉還沒有「哥」→ 阿哲「欸，你學測數學幾級？」→「十五。」→「……滿級分？」「（把剛烤好的那串遞給你）哥，這串給你。」、記 ZHE_CALLS_GE',L.includes('欸，你學測數學幾級？')&&L.includes('……滿級分？')&&L.includes('（把剛烤好的那串遞給你）哥，這串給你。')&&G.flags.ZHE_CALLS_GE===true);
+    let L=await g({},['十五']); check('CAMP-FIX-614 程式 7（AA_884 第 1 節）：中秋烤肉還沒有「哥」→ 阿哲「欸，你學測數學幾級？」→「十五。」→「滿級分？」「（把剛烤好的那串遞給你）哥，這串給你。」、記 ZHE_CALLS_GE',L.includes('欸，你學測數學幾級？')&&L.includes('滿級分？')&&L.includes('（把剛烤好的那串遞給你）哥，這串給你。')&&G.flags.ZHE_CALLS_GE===true);
     L=await g({},['不告訴你']); check('　選「不告訴你。」→「好喔。」、沒有 ZHE_CALLS_GE',L.includes('好喔。')&&!G.flags.ZHE_CALLS_GE);
     L=await g({ZHE_CALLS_GE:true},[]); check('　已經有「哥」的不問',!L.includes('欸，明軒說你比我們大一屆？')); }
   { let r=await bbq({KX_BBQ_COME:true},null,['我女朋友','可昕贏']);

@@ -17,6 +17,7 @@ import json, os, re, subprocess, sys, tempfile
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import overlay_rows as OV
+import aa959   # AA_959（DLG-FULL-REVIEW-1110）：覆蓋層的 new 後來又被 AA_959 表換掉的格子＝已經是新字（tools/story/aa959.py）
 
 FILE = 'src/data/invites.js'
 LEAVES = os.path.join(ROOT, 'tools', 'invite', 'js_leaves.js')
@@ -88,6 +89,9 @@ def main():
         n_old, n_new = count(text0, x['old']), count(text0, x['new'])
         if cur == x['new'] and n_old == 0:
             done.append(x); continue
+        n959 = aa959.map_str(x['new'], 'invites.js')
+        if n959 != x['new'] and cur == n959 and n_old == 0:   # AA_959 在覆蓋層之後再換一次（例：可昕 slowread「好，我過去。四十分鐘。」→「好，我下課過去。」，KX-GF-PLACES-1113）
+            print(f'{w}：已經是新字，後來又照 AA_959@{aa959.SRC_SHA} 換成「{n959}」'); done.append(x); continue
         if cur != x['old']:
             bad.append(f'{w}：at 那一格現在是 {json.dumps(cur, ensure_ascii=False)}，不是稿的 old「{x["old"]}」（對不到，不猜）'); continue
         same = [y for y in rows if y['old'] == x['old']]

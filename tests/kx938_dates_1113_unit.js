@@ -6,6 +6,7 @@
 //   4. 遊戲那 5 格＝稿的新字（D20、D31 句中「……」照 AA_694 拿掉＝game）；舊字都不在遊戲檔了
 //   5. 遊戲整份和重匯以前的開發分支（BASE）逐格比：只有這 5 格不同；un812 還原以後兩版一樣
 'use strict';
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', BASE='3cf99b0c73', R=C.KX938_1113;   /* BASE＝重匯以前的開發分支 */
@@ -17,7 +18,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOW=DL(read('src/data/date_lines.js'));
+const NOW=M959.unmapDeep(DL(read('src/data/date_lines.js')),'date_lines.js');
 const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 
 // 1

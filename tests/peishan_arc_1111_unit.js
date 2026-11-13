@@ -14,7 +14,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 const PS='classmate_peishan', SHA='9685559c84'/* 2026-11-13 STALE-SOURCES-1112 改認（四句拿掉重複開頭）；舊：6b5507f8a */, F='docs/story_planning/AA_755_peishan_arc.json', BASE='a724370bc';
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 const loadArcs=s=>{ try{ return new Function(s.replace("'use strict';",'')+';return HEROINE_ARCS;')(); }catch(e){ return null; } };
-const CUR=loadArcs(fs.readFileSync(path.join(H.ROOT,'src/data/heroine_arcs.js'),'utf8'));
+const CUR=require('./aa959_map.js').unmapDeep(loadArcs(fs.readFileSync(path.join(H.ROOT,'src/data/heroine_arcs.js'),'utf8')),'heroine_arcs.js');   /* AA_959（DLG-FULL-REVIEW-1110）：匯入最後一步照覆寫表換的字先換回來（分人）再比 */
 const raw=show(SHA,F), A0=raw?JSON.parse(raw).classmate_peishan:null;
 const ob=show(BASE,'src/data/heroine_arcs.js'), OLD=ob?loadArcs(ob):null;
 /* 2026-11-12 STALE-SOURCES-1112：AA_712 重匯到 abb9609116（上一任 AA 11-11 整理其他六位的台詞），其他人改和重匯那個 commit（224c231f3c）比；舊期望：和 BASE 一樣 */

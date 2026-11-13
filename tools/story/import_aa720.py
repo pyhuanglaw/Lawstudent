@@ -308,6 +308,11 @@ def main():
     if not ok:
         raise SystemExit(why)
     data = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110）：cfg.quotes 是拿別的檔（termend_lines.js…）的句子當鑰匙比對的——那些句子照覆寫表換了字，鑰匙跟著換（不然 aa720_3d.js 對不到，例 zqDemoHard）
+    _q = data.get('cfg', {}).get('quotes')
+    if isinstance(_q, dict):
+        for _k, _v in list(_q.items()):
+            if isinstance(_v, str): _q[_k] = _AA959.map_any(_v)
     js = ('/* 自動產生：tools/story/import_aa720.py（' + data['src'] + '）。不要手改，改企劃 AA_720 再重新匯入。\n'
           '   決定拍打開的場景、尾聲分版本（播放 src/aa720_3d.js）*/\n'
           "'use strict';\nconst AA720=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')

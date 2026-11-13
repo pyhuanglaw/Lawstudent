@@ -14,6 +14,7 @@
 // AA_759_peishan_misc2.json@987845b7c（出發前電話、畢業以後每月一格、放榜那天；24 列）：
 //  11. aa667_3d.js 9 句、psresults3d.js 3 句：每一列的 new 剛好一處、old 不在了，整個檔的字串和 BASE 比只差這幾句；pg_dates.js 沛珊 12 格照稿、其他 5 格和別人不動
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/peishan_dates_1111_unit.js
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const H=require('./pg_harness.js');
 const {check}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), os=require('os');
@@ -35,7 +36,7 @@ const texts=(x,o)=>{ if(Array.isArray(x)) x.forEach(v=>texts(v,o)); else if(x&&t
 /* 2026-11-11（AA_812@f1fab0ec6）：懸著的「下次我請」七格（date_src_sha.js 的 CELLS_812：學姊、子晴 D06.cafe remember，沛珊 D15.store、D21.street，可昕 D15 收尾，子晴 D06 第一次選項的回覆，語彤 D10.boat remember）
    是匯入工具最後一步疊上去的（改稿紀錄 date_rewrite/ 和稿的 path_rows；源稿 Dxx.json 沒有重新 apply）——這支的逐字對稿、和重匯以前比，NOW 先用 un812 把那七格還原成舊字再比
    （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
-const NOW812=DL(read('src/data/date_lines.js')), NOW=require('./date_src_sha.js').un812(NOW812);
+const NOW812=M959.unmapDeep(DL(read('src/data/date_lines.js')),'date_lines.js'), NOW=require('./date_src_sha.js').un812(NOW812);
 check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',require('./date_src_sha.js').CELLS_812.length===7&&require('./date_src_sha.js').CELLS_812.every(r=>require('./date_src_sha.js').cell812(NOW812,r)===(r.now||r.new)&&require('./date_src_sha.js').cell812(NOW,r)===r.old),JSON.stringify(require('./date_src_sha.js').CELLS_812.map(r=>require('./date_src_sha.js').cell812(NOW812,r))));   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：第六格（子晴 D06.cafe 第一次選項的回覆）AA 在 AA_846 late_fix 改回「下次我請你吃滷味。」，AA_812 path_rows 那一列被取代（import_date_lines.py SUPER812）——那一格現在認 CELLS_812 的 now。舊期望：七格都＝r.new */
 const SRC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=require('./date_src_sha.js').src248(k,JSON.parse(t));   /* 52c3ee258 起源稿有 fx：只比字（date_src_sha.js noFx）；2026-11-12（X324「好」開頭回話 AA_844@41f77eab53）：沛珊 43 格這一版換了字——遊戲那邊 un812 已經還原，源稿也用 src248 還原再比（那 43 格本身在 tests/hao_dates_1112_unit.js 逐格驗）。舊寫法：noFx(JSON.parse(t)) */ }
 const haveSrc=Object.keys(SRC).length===33;
@@ -103,7 +104,7 @@ const haveSrc=Object.keys(SRC).length===33;
   const DW=t=>JSON.parse(t.slice(t.indexOf('const DATE_WISH=')+16,t.lastIndexOf(';')));
   const lit=s=>{ const out=[]; s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/'((?:[^'\\]|\\.)*)'/g,(m,t)=>{ out.push(t); return m; }); return out; };
   const loadHT=src=>{ const vm=require('vm'), ctx=vm.createContext({console,STORY:undefined}); vm.runInContext(src.replace(/^const HOMETOWN_LINES\s*=/m,'globalThis.HOMETOWN_LINES='),ctx); return ctx.HOMETOWN_LINES; };
-  await sec(7,async()=>{ const e=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(x=>x.path===P757), W=DW(read('src/data/date_wish.js'));
+  await sec(7,async()=>{ const e=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(x=>x.path===P757), W=M959.unmapDeep(DW(read('src/data/date_wish.js')),'date_wish.js');
     check('7. 白名單一筆 AA_757_peishan_wish_hometown.json、sha '+S757+'、approved；date_wish.js 的來源寫著 AA_757@'+S757,e.length===1&&e[0].sha===S757&&e[0].status==='approved'&&W.source.includes('AA_757@'+S757),W.source.slice(-60));
     console.log(A757?'（AA_757 讀得到：逐字比對）':'（這份 checkout 讀不到 AA_757@'+S757+'：不比稿）');
     const ev=W.events[PS]; check('7. 沛珊的心願事件：id、地點 D06、記憶 PS_UNTITLED 照舊；標題「不用接話的一天」',ev.id==='wish_classmate_peishan'&&ev.loc==='D06'&&J(ev).includes('PS_UNTITLED')&&ev.title==='不用接話的一天',J([ev.id,ev.loc,ev.title]));
@@ -149,7 +150,7 @@ const haveSrc=Object.keys(SRC).length===33;
     eq('close.lines',F(M.close.lines),D.close.lines); M.close.opts.forEach((o,i)=>{ eq('close.opts['+i+'].t',o.t,D.close.opts[i].t); eq('close.opts['+i+'].say',o.say,D.close.opts[i].say); });
     for(const k of ['after','end5','end6','endDating']) eq('close.'+k,M.close[k],D.close[k]);
     check('9. 台南美術館那一段的每一句、每一個選項照稿的 tainan_museum（一字不差；旁白、act 的結構照舊）',bad.length===0,J(bad.slice(0,6)));
-    const W=DW(read('src/data/date_wish.js')).events[PS];
+    const W=M959.unmapDeep(DW(read('src/data/date_wish.js')),'date_wish.js').events[PS];
     check('9. points_note：草地第三個選項和心願事件同一句；咖啡廳第三個選項 hi＝「台中很遠喔。」「好。我叫我爸留位子。」、其他＝「我爸會出來跟你聊天，你會走不掉。」',M.points['D06.lawn'].opts[2].say[0]===W.hotspots['D06.lawn'].choices[2].reply[0].text&&M.points['D06.lawn'].opts[2].say[0]==='雲走得好慢。今天什麼都不用趕。'&&J(M.points['D06.cafe'].opts[2].say(G0,true))===J(['台中很遠喔。','好。我叫我爸留位子。'])&&J(M.points['D06.cafe'].opts[2].say(G0,false))===J(['我爸會出來跟你聊天，你會走不掉。'])); });
   /* ======================= AA_758 ======================= */
   await sec(10,async()=>{ const P758=SP+'AA_758_peishan_date_common.json', S758='bed993604', r=show(S758,P758), A=r?JSON.parse(r):null, LP=NOW.lines[PS];

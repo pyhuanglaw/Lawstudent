@@ -371,6 +371,8 @@ const INV=(function(){
      見面那段時間（開始的時段＋跨進 30 分鐘以上的下一個時段）填滿，和上課、出遊一樣（CLS.slotFillSpan）；約好的照樣能去（時段用過了也能赴約），演完上午、下午用完就跳到下一個時段：這裡只排（CLS.queueJump），等空下來（對話、劇情都結束）story3d.js 的 tick 讀 CLS._jump 再跳——
      不在這裡直接 CLS.afterSlot：演完那一刻玩家還在 busy，afterSlot 會把排好的跳轉丟掉（BB-B 11-07 判 PARTIAL：演完 17:2x 時間照常走）*/
   S.slotJump=async GM=>{ if(typeof CLS!=='undefined'&&CLS.afterSlot){ try{ await CLS.afterSlot(GM); }catch(e){ console.warn('INV.slotJump',e); } } };   /* 演完、場景結束以後馬上試一次；還在 busy（外面還有一層場景）＝CLS 留著跳轉，story3d.js tick 空下來再跳 */
+  /* ROM-PRIVATE-DATE-1110 照活動分輕重（使用者 11-13 選擇題「照活動分輕重」）：比較像約會的＝晚餐（吃飯、約 17:00 以後）、散步、看電影逛書店那一類（cats fun）＋2；日常的（念書、喝咖啡、吃午餐）＋1。信任照舊 +1、一天一次（docs/ROMANCE_ACTIVITY_TABLE.md）*/
+  S.romAloneAmt=(P,iv)=>{ if(!P) return 1; const cats=S.catsOf?S.catsOf(P):[]; if(P.kind==='walk'||cats.includes('fun')||(P.kind==='meal'&&iv&&+iv.h>=17)) return 2; return 1; };
   S.romAloneOk=id=>typeof DATE!=='undefined'&&Array.isArray(DATE.HEROINES)&&DATE.HEROINES.includes(id)&&id!=='kexin';   /* 單獨約出來加戀愛的對象（ROM-PRIVATE-DATE-1110）：可以攻略的對象；朋友（男生、Alison…）不加 */
   S.spendSlot=function(G,h0){ if(typeof CLS==='undefined'||!CLS.slotFillSpan||h0==null) return; CLS.slotFillSpan(G,h0,Math.max(G.hour,h0+0.5)); if(CLS.queueJump) CLS.queueJump(G); };
   /* 見面的兩個掛勾（AA624-YT-BACKGROUND-1103，語彤約一起念書 src/aa625_3d.js）：fn(GM,iv,who,P)，async。
@@ -425,7 +427,7 @@ const INV=(function(){
       if(HALL) MOVIES.lights(true);   /* 散場：場燈打開 */
       await hooks(S.ON_STAYED,GM,iv,who,P,'ON_STAYED');
       if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,P.sport?'sport':({cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe',slowread:'library'}[P.id]||(P.kind==='meal'?'meal':'cafe'))); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }
-      if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&S.romAloneOk(iv.who)){ const DY=G.daily||(G.daily={}), k='romAlone_'+iv.who; if(DY[k]!==G.day){ DY[k]=G.day; SOCIAL.adjust(iv.who,{npcRom:1,rom:1,trust:1}); } }   /* ROM-PRIVATE-DATE-1110（使用者 11-10：「基本上私下約就有點曖昧吧」「不應該單一約會還沒有增加戀愛」「大一上…應該也要可以培養戀愛」）：可以攻略的對象（DATE.HEROINES；可昕照舊另算）認識以上就加——原本 AA_243 第 1 節從朋友（第 3 階）起，認識、有點熟約幾次都是 0；另外信任 +1（原本約會幾乎不加信任，卡在變朋友前面）。選項對話加的另算（DATE-CHOICES-1110）*/   /* 校園單獨約出來（AA_128 1-1）：她的戀愛 +1、祐廷的戀愛 +1，同一個人一天一次；AA_243 第 1 節（BB_199 P0-1 方案 A）：從朋友（第 3 階）開始，不是第 5 階 */   /* AA_124 1-2：照地點（Café、總圖、吃飯、溫州街）；對方約的又赴約，信任 +1 */
+      if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&S.romAloneOk(iv.who)){ const DY=G.daily||(G.daily={}), k='romAlone_'+iv.who; if(DY[k]!==G.day){ DY[k]=G.day; const rr=S.romAloneAmt(P,iv); SOCIAL.adjust(iv.who,{npcRom:rr,rom:rr,trust:1}); } }   /* ROM-PRIVATE-DATE-1110（使用者 11-10：「基本上私下約就有點曖昧吧」「不應該單一約會還沒有增加戀愛」「大一上…應該也要可以培養戀愛」）：可以攻略的對象（DATE.HEROINES；可昕照舊另算）認識以上就加——原本 AA_243 第 1 節從朋友（第 3 階）起，認識、有點熟約幾次都是 0；另外信任 +1（原本約會幾乎不加信任，卡在變朋友前面）。選項對話加的另算（DATE-CHOICES-1110）*/   /* 校園單獨約出來（AA_128 1-1）：她的戀愛 +1、祐廷的戀愛 +1，同一個人一天一次；AA_243 第 1 節（BB_199 P0-1 方案 A）：從朋友（第 3 階）開始，不是第 5 階 */   /* AA_124 1-2：照地點（Café、總圖、吃飯、溫州街）；對方約的又赴約，信任 +1 */
       if(sp) S.sportAfter(G,iv.who,P);   /* 子晴、可昕：自在 +3、她的戀愛 +3（AA_126 6-3）；羽球＝打羽球的體能 */
       { const SO2=D().seatOpen, mk=SO2&&(SO2.byPlace||{})[P.id]; if(mk==='movie'&&!AX&&Array.isArray(SO2.movieEnd)&&SO2.movieEnd.length) await S.playLines(GM,who,pick(SO2.movieEnd)); }   /* 看電影：散場那一句（AA_649 第 4 節 movieEnd；INVITE-PLACES-1107）*/
       if(HALL){ n=await MOVIES.leaveHall(GM,iv,n); who.obj=n&&n.obj; }   /* 走出 1 廳回大廳，接著道別（MOVIE-REAL-1110）*/

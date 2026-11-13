@@ -6,7 +6,7 @@
   "top": "WALL_right_afr_c_green×afr_wood 1.495 m² @[5.1,0.65,0.37]"
  },
  "assets/models/env/second_ai/aa_support/aoki.glb": {
-  "sha1": "afc7cd7eb0711c5c9d66a9977c22b05a591bae3b",
+  "sha1": "c7afa73ebb4cb3a5abcd25a3904879f7e075857c",
   "wall": 1.01,
   "always": 1.99,
   "top": "WALL_back_aok_wood×aok_wood 0.466 m² @[-0.7,0.33,-3.5]"

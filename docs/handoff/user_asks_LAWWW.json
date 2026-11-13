@@ -3730,7 +3730,7 @@
    "at": "2026-11-10T01:4xZ",
    "quote": "跟芯慈晚上約會完馬上跳睡覺 跟別人下午約會就能多講一點? 至少讓我在約會中有可選選項的對話吧?（附存檔 fatiao3d_save_day51.json）",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X280",
    "task": "DATE-CHOICES-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3740,7 +3740,7 @@
    "at": "2026-11-10T01:4xZ",
    "quote": "都約這麼多次還沒有戀愛?要怎樣才有（附學姊人物頁截圖：友情條長、戀愛 0）",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X281",
    "task": "ROM-PRIVATE-DATE-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3750,7 +3750,7 @@
    "at": "2026-11-10T01:4xZ",
    "quote": "大一上只是不能告白或會失敗? 應該也要可以培養戀愛",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X281",
    "task": "ROM-PRIVATE-DATE-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3760,7 +3760,7 @@
    "at": "2026-11-10T01:4xZ",
    "quote": "你要先決定哪些活動可以增加可攻略對象的戀愛或友情",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X281",
    "task": "ROM-PRIVATE-DATE-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3770,7 +3770,7 @@
    "at": "2026-11-10T01:4xZ",
    "quote": "基本上私下約就有點曖昧吧",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X281",
    "task": "ROM-PRIVATE-DATE-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3780,7 +3780,7 @@
    "at": "2026-11-10T01:4xZ",
    "quote": "不應該單一約會還沒有增加戀愛",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X281",
    "task": "ROM-PRIVATE-DATE-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3790,7 +3790,7 @@
    "at": "2026-11-10T01:4xZ",
    "quote": "或可以選項對話 某個對話加有情 某個對話加愛情 不同選項加的也不同",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X281",
    "task": "ROM-PRIVATE-DATE-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -5271,6 +5271,35 @@
    "status": "進行中",
    "task": "CANON-NO-ECON-1112",
    "note": "帳號 C 交班後使用者對 LAWWW-C 說「繼續」：沒有別的帳號接班（duty find：值班沒有人、上一任 C），LAWWW-C 重新登記、接續下一班第一件事（CANON 第五批）。其他職位使用者沒叫，不叫醒"
+  },
+  {
+   "id": "UA-LAWWW-1113-02",
+   "at": "2026-11-13 21:4x UTC",
+   "quote": "（選擇題）晚上約會演完要怎麼做？→ 只要對話已經有選項就是會有提升友情或者戀愛就是約會中有這個選項的對話那就可以直接跳睡覺以前是因為約會當中看不出這個約會對感情有什麼影響還要留下來對話現在既然把選項放在約會當中那就可以直接跳到睡覺",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
+   "wants": "X280",
+   "task": "DATE-CHOICES-1110",
+   "note": "晚上約會演完照現在直接睡（CLS.eveSleep 不改）；約會中的選項已在遊戲裡（activity_scenes 98 場、date_lines 1,765 格 fx）。X280 這一半結案"
+  },
+  {
+   "id": "UA-LAWWW-1113-03",
+   "at": "2026-11-13 21:4x UTC",
+   "quote": "（選擇題）私下單獨約要不要照活動分輕重？→ 照活動分輕重（建議）",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
+   "wants": "X281",
+   "task": "ROM-PRIVATE-DATE-1110",
+   "note": "LAWWW 照選項說明定數字：晚餐（吃飯 17:00 以後）、散步、看電影逛書店 +2；念書、喝咖啡、吃午餐 +1；信任 +1、一天一次（invites3d.js S.romAloneAmt；docs/ROMANCE_ACTIVITY_TABLE.md）"
+  },
+  {
+   "id": "UA-LAWWW-1113-04",
+   "at": "2026-11-13 23:1x UTC",
+   "quote": "有幫手的對話四格是誰開的？那如果換帳號之後怎麼辦？他們怎麼交班他們沒有自己的交班規則",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "HELPER-HANDOFF-1113",
+   "note": "LAWWW-C 回：四個幫手是 LAWWW-C 11-13 19:4x 照 D161 開的；新增 D163 幫手交班規則（CLAUDE.md §4）"
   }
  ]
 }

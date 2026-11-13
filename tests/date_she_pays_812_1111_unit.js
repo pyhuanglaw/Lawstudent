@@ -69,6 +69,7 @@ const trip=async(who,pid,kind,k,ci,o)=>{ o=o||{}; const loc=pid.slice(0,3), P=PT
 const lastSaid=(who,pid,s,ci)=>{ let st=null; const her=(s.lines||[]).filter(x=>x.who===who).map(x=>x.text).concat(ci==null?[]:((s.choice[ci].reply||[]).filter(x=>x.who===who).map(x=>x.text)));
   for(const t of her){ if(DATE.shePays(who,pid,t)) st='pays'; else if(DATE.sheSplits(who,pid,t)) st='split'; } return st; };
 const want=(st,c)=>st==='pays'?0:st==='split'?Math.round(c/2):c;
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：date_lines.js 和 she_pays.js 寫檔前照覆寫表換了字（沛珊 D15「今天宵夜算我的…」砍「今天」）；稿上的字先照表換再比 */
 const D=SHE_PAYS_DATA, C812=D.cells812||[], PAYS=C812.filter(c=>c.kind==='pays'), SPL=C812.filter(c=>c.kind==='split');
 const A812=JSON.parse(show(SHA812,SP+'AA_812_date_pays_promises.json')||'null');   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）。舊期望：show(SHA,…)（f1fab0ec6） */
 const REC=[
@@ -99,7 +100,7 @@ const PATHS=[
 
   await sec(2,async()=>{
     for(const x of REC){ const sl=slots(NOW.loc[x.loc],x.who), her=leaves(NOW.loc[x.loc].lines[x.who],'',{});
-      check('2. 改稿紀錄 '+x.rec+'：'+nameOf(x.who)+' '+x.loc+' 第 '+x.n+' 格是新句「'+x.new+'」；她在這個地點沒有舊句「'+x.old+'」',sl[x.n-1]===x.new&&!Object.values(her).includes(x.old)&&Object.values(her).filter(v=>v===x.new).length===1,J([sl[x.n-1]]));
+      check('2. 改稿紀錄 '+x.rec+'：'+nameOf(x.who)+' '+x.loc+' 第 '+x.n+' 格是新句「'+x.new+'」；她在這個地點沒有舊句「'+x.old+'」',sl[x.n-1]===M959.map(x.new,'date_lines.js',x.who)&&!Object.values(her).includes(x.old)&&Object.values(her).filter(v=>v===M959.map(x.new,'date_lines.js',x.who)).length===1,J([sl[x.n-1]]));
       const a=show(PREV,SP+'date_rewrite/'+x.rec+'.json'), b=show(SHA,SP+'date_rewrite/'+x.rec+'.json');
       if(a&&b){ const A=JSON.parse(a)[x.loc], B=JSON.parse(b)[x.loc], d=A.map((v,i)=>v===B[i]?null:[i+1,v,B[i]]).filter(Boolean);
         check('2. 改稿紀錄 '+x.rec+'：'+PREV+' → '+SHA+' 只差第 '+x.n+' 格（舊句→新句，AA_812 這一次）；格數＝遊戲她在 '+x.loc+' 的格數',J(d)===J([[x.n,x.old,x.new]])&&B.length===sl.length,J(d)); }
@@ -113,7 +114,7 @@ const PATHS=[
     /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：SPLIT 學姊 D22.fish 多一句「好。你堅持的話。」、D30.stall 那一句拿掉＝還是 11 句、互動點 10 個。舊期望：平分 11 句（11 個互動點） */
     check('3. 稿的數量：她付全部 19 句（18 個互動點；AA_946 加可昕 D23.market，舊期望 18／17）、平分 11 句（10 個互動點：學姊 D22.fish 兩句）；cells812＝19＋11 列',PAYS.length===19&&new Set(PAYS.map(c=>c.who+' '+c.pid)).size===18&&PAYS.some(c=>c.who===KX&&c.pid==='D23.market'&&c.text==='這次飲料我買。給你一杯。'&&!c.dup)&&SPL.length===11&&new Set(SPL.map(c=>c.who+' '+c.pid)).size===10,J([PAYS.length,SPL.length,new Set(SPL.map(c=>c.who+' '+c.pid)).size]));
     if(A812){ const flat=X=>[].concat(...Object.keys(X).map(w=>[].concat(...Object.keys(X[w]).map(p=>X[w][p].map(t=>[w,p,t])))));
-      check('3. cells812 和稿 AA_812@'+SHA812+' 的 SHE_PAYS_add、SPLIT 一字不差、同樣的順序（稿已經同步新字，沒有 was）',J(PAYS.map(c=>[c.who,c.pid,c.was||c.text]))===J(flat(A812.SHE_PAYS_add))&&J(SPL.map(c=>[c.who,c.pid,c.was||c.text]))===J(flat(A812.SPLIT)));   /* 2026-11-12（X324「好」開頭回話 AA_842／AA_843@41f77eab53）：稿 AA_812 還是舊字，遊戲那三格 AA 拿掉了開頭的「好。」——cells812 的 text 是現在的字、was 是 AA_812 寫的（import_she_pays.py REWORD）。舊期望：text 和稿一字不差 */
+      check('3. cells812 和稿 AA_812@'+SHA812+' 的 SHE_PAYS_add、SPLIT 一字不差、同樣的順序（稿已經同步新字，沒有 was）',J(PAYS.map(c=>[c.who,c.pid,c.was||M959.unmap(c.text,'date_lines.js',c.who)]))===J(flat(A812.SHE_PAYS_add))&&J(SPL.map(c=>[c.who,c.pid,c.was||M959.unmap(c.text,'date_lines.js',c.who)]))===J(flat(A812.SPLIT)));   /* 2026-11-12（X324「好」開頭回話 AA_842／AA_843@41f77eab53）：稿 AA_812 還是舊字，遊戲那三格 AA 拿掉了開頭的「好。」——cells812 的 text 是現在的字、was 是 AA_812 寫的（import_she_pays.py REWORD）。舊期望：text 和稿一字不差 */
       const rw=PAYS.concat(SPL).filter(c=>c.was).map(c=>[c.kind,c.who,c.pid,c.was,c.text]);
       check('3. 換了字的（cells812 有 was）：0 句——AA 在 d7d818f8a8 把 AA_812 同步成新字，import_she_pays.py 的 REWORD 清空',J(rw)===J([]),J(rw)); }   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）。舊期望：三句有 was（語彤 D12.pier 她請「好。盡頭有一個賣咖啡的貨櫃，我請你。」、學姊 D22.fish 平分「好。飯我請，飲料你請。」「好。你堅持的話。」） */
     const bad=[];

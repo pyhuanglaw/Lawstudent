@@ -142,7 +142,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     if(a&&typeof a==='object'){ const ks=new Set(Object.keys(a).concat(Object.keys(b))); for(const k of ks){ if(!(k in a)||!(k in b)){ acc.bad.push(p+'.'+k+'：只有一邊有'); continue; } cmpTree(a[k],b[k],named,p+(Array.isArray(a)?'['+k+']':'.'+k),acc); } return acc; }
     if(a!==b) acc.bad.push(p+'：'+a+' → '+b); return acc; };
   /* 6. invite_replies.js */
-  { const NEW=ctx.INVITE_REPLIES, OLD=evalIn(gitShow('src/data/invite_replies.js'),['INVITE_REPLIES']).INVITE_REPLIES;
+  { const NEW=require('./aa959_map.js').unmapDeep(ctx.INVITE_REPLIES,'invite_replies.js')/* AA_959（DLG-FULL-REVIEW-1110）：build_replies.py 最後一步照覆寫表換的字先換回來再和舊版比 */, OLD=evalIn(gitShow('src/data/invite_replies.js'),['INVITE_REPLIES']).INVITE_REPLIES;
     const rows=o=>Object.keys(o.people).flatMap(id=>o.people[id].map(r=>[id,r]));
     const RN=rows(NEW), RO=rows(OLD).filter(([id,r])=>!['kx36','kx38'].includes(r.id)); const strs=[], wr=[], me=[];   /* 可昕 kx36、kx38（CANON-NO-ECON-1112 第三批：這一項拿掉）：BASE 那兩列不比 */
     for(const [id,r] of RN) for(const x of r.lines){ const t=typeof x==='string'?x:x&&x.me; if(typeof t!=='string') continue; strs.push(t); if(wrapped(t)) wr.push(id+' '+r.id+'：'+t); if(typeof x!=='string') me.push(t); }

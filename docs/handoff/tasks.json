@@ -50938,7 +50938,7 @@
    "id": "DATE-CHOICES-1110",
    "title": "約會中要有可以選的對話：不同選項加友情或戀愛、加的不一樣；晚上約會完不要馬上跳睡覺",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50950,7 +50950,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】選項對話在線上版（98 場）；晚上約會完直接睡覺沒改（classes3d.js:1357 S.eveSleep）——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 查現況】①約會中的選項對話：**已在線上版 v9.10.25**（AA_708 activity_scenes，98 場各有 opts、每個選項有 fx 友情／戀愛；dc3d33941 的 src/data/activity_scenes.js 就有；STUDYN.act 播）。校外約會 1,765 個選項的 fx 在開發分支（4e5a9a47c0）。②「晚上約會完馬上跳睡覺」：**沒改**——晚上那個時段用完＝CLS.eveSleep 直接回去睡（ACTION-BUDGET-1107 的設計，一個時段一件主要的事）。LAWWW-B 當時解讀成「改成演完回到自由走動」是 AI 解讀、沒問過使用者；現在約會本身有選項可以多講了，晚上演完要不要留在原地讓玩家自己決定什麼時候睡＝要問使用者（選擇題，下次使用者在的時候問）｜【11-10 01:4x LAWWW-B】使用者 X280、X281。AA 替單獨約會（activity_scenes 的 seat／mid／bye）每位、每種地點加選項對話：每個選項標 rel（fam、trust、comf、rom、npcRom），有的加友情、有的加戀愛；LAWWW 接選項；晚上約會完 S.eveSleep 直接睡的路，改成約會結尾演完、回到能自由走動，用存檔 day 51 重現。",
+   "next": "【LAWWW-C 11-13 21:4x UTC】使用者選擇題（UA-LAWWW-1113-02）：約會中有選項（會加友情或戀愛）＝晚上約會演完直接睡可以，不改 CLS.eveSleep。選項對話已在遊戲裡；剩 BB 驗收約會選項。｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】選項對話在線上版（98 場）；晚上約會完直接睡覺沒改（classes3d.js:1357 S.eveSleep）——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 查現況】①約會中的選項對話：**已在線上版 v9.10.25**（AA_708 activity_scenes，98 場各有 opts、每個選項有 fx 友情／戀愛；dc3d33941 的 src/data/activity_scenes.js 就有；STUDYN.act 播）。校外約會 1,765 個選項的 fx 在開發分支（4e5a9a47c0）。②「晚上約會完馬上跳睡覺」：**沒改**——晚上那個時段用完＝CLS.eveSleep 直接回去睡（ACTION-BUDGET-1107 的設計，一個時段一件主要的事）。LAWWW-B 當時解讀成「改成演完回到自由走動」是 AI 解讀、沒問過使用者；現在約會本身有選項可以多講了，晚上演完要不要留在原地讓玩家自己決定什麼時候睡＝要問使用者（選擇題，下次使用者在的時候問）｜【11-10 01:4x LAWWW-B】使用者 X280、X281。AA 替單獨約會（activity_scenes 的 seat／mid／bye）每位、每種地點加選項對話：每個選項標 rel（fam、trust、comf、rom、npcRom），有的加友情、有的加戀愛；LAWWW 接選項；晚上約會完 S.eveSleep 直接睡的路，改成約會結尾演完、回到能自由走動，用存檔 day 51 重現。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50967,7 +50967,7 @@
    "id": "ROM-PRIVATE-DATE-1110",
    "title": "單獨約會從「認識」起就加戀愛＋信任（可以攻略的對象）；活動對照表：哪些加戀愛、哪些加友情",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50979,7 +50979,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-12 11:5x】對照表補上了：docs/ROMANCE_ACTIVITY_TABLE.md（照開發分支程式整理：會加戀愛的七種、只加友情的十一種、和使用者原話對照）。留給使用者決定：私下約每一種都 +1 夠不夠、要不要照活動分輕重——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】加戀愛的程式在線上版；使用者要的「哪些活動加戀愛、哪些加友情」對照表沒寫過（docs/ROMANCE_ACTIVITY_TABLE.md 從來不存在，舊紀錄寫錯）——LAWWW 從 invites3d.js:370,424 產生這張表給使用者看｜【11-10 01:5x LAWWW-B】使用者 X281。invites3d 單獨約出來原本第 3 階（朋友）起才加戀愛 +1（AA_243 1 節）；改成可以攻略的對象（DATE.HEROINES，可昕照舊另算）認識以上每次單獨見面：她的戀愛 +1、祐廷的戀愛 +1、信任 +1（一天一次）。對照表寫在 docs/ROMANCE_ACTIVITY_TABLE.md，選項對話交 DATE-CHOICES-1110。",
+   "next": "【LAWWW-C 11-13 21:4x UTC】使用者選擇題「照活動分輕重」（UA-LAWWW-1113-03）：S.romAloneAmt——晚餐（17:00 以後吃飯）、散步、看電影逛書店 +2；念書、喝咖啡、吃午餐 +1；tests/rom_private_tier_1113_unit.js ALL PASS；對照表已更新。待 BB 驗。｜【LAWWW-C 11-12 11:5x】對照表補上了：docs/ROMANCE_ACTIVITY_TABLE.md（照開發分支程式整理：會加戀愛的七種、只加友情的十一種、和使用者原話對照）。留給使用者決定：私下約每一種都 +1 夠不夠、要不要照活動分輕重——等使用者在的時候用選擇題問｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】加戀愛的程式在線上版；使用者要的「哪些活動加戀愛、哪些加友情」對照表沒寫過（docs/ROMANCE_ACTIVITY_TABLE.md 從來不存在，舊紀錄寫錯）——LAWWW 從 invites3d.js:370,424 產生這張表給使用者看｜【11-10 01:5x LAWWW-B】使用者 X281。invites3d 單獨約出來原本第 3 階（朋友）起才加戀愛 +1（AA_243 1 節）；改成可以攻略的對象（DATE.HEROINES，可昕照舊另算）認識以上每次單獨見面：她的戀愛 +1、祐廷的戀愛 +1、信任 +1（一天一次）。對照表寫在 docs/ROMANCE_ACTIVITY_TABLE.md，選項對話交 DATE-CHOICES-1110。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -53084,7 +53084,8 @@
     "acceptance": "AA 定稿（D109、D137）；LAWWW 匯入；BB 測選項效果",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "note": "2026-11-13 LAWWW-C：AA_959 覆寫表（6ccf6669f8，405 列）已整合進開發分支 4f33890792（源稿不動，11 支匯入工具寫檔前最後一步照表換＋手寫檔 aa959.py --apply-hand；123 支測試跟著改，全綠）。AA 新版 1243649c23（505 列）在 claude/aa959-v505-wip（db35a9e824）由子代理改測試中，完成後合併。SKIP 10 列（說話的人對不上）已報 AA；表 _meta.count 480≠505 已請 AA 修。"
   },
   {
    "id": "MOVIE-TALK-1110",
@@ -56729,7 +56730,49 @@
     "spec": "docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md",
     "acceptance": "tests/shop_cc0_unit.js 三項同時成立＋店自己的測試＋place_gate；LAWWW2 看並排圖驗收；BB 判美術",
     "ack": "ACK（AA-C 14:23）"
-   }
+   },
+   "helpers": [
+    {
+     "name": "幫手 g1",
+     "session": "session_01S1Gk9UtryMwS25pcG4ftKG",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g1",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g1/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    },
+    {
+     "name": "幫手 g2",
+     "session": "session_01S1Gk9WD6NYVtTg6gopb8ks",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g2",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g2/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    },
+    {
+     "name": "幫手 g3",
+     "session": "session_01S1Gk9W71VVmQ9D23ZrxpdU",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g3",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g3/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    },
+    {
+     "name": "幫手 g4",
+     "session": "session_01S1Gk9VE8qcQaXSoAvHHRiJ",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g4",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g4/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    }
+   ]
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -56772,6 +56815,21 @@
    "next": "【LAWWW-C 11-13 21:2x UTC】做好：invites3d.js S.meetPref（約好、當天、時間到、人在那一區＝她）＋ game3d.js updateInteract 設成 E.prefNpc（findWho 優先）→ engine3d 原有的 1.5 m 優先；tests/inv_meet_yield_1113_unit.js ALL PASS；相關 314 支 ALL PASS。不在 76f8；發布後 CC INV_LAWLIB 驗走到可昕旁邊互動鍵是她。｜【LAWWW-C 11-13 21:1x UTC】BB-C P3（76f8 INV_LIB 按到蔡宗霖）：LAWWW 決定讓位；v9.10.26 發布後做（E.nearestInteractable 的優先順序：約會對象＞初見事件），測試 CC INV_LAWLIB。",
    "source": "BB-C 11-13 21:02（76f8 測試）",
    "authorized": "BB 交 LAWWW 決定"
+  },
+  {
+   "id": "HELPER-HANDOFF-1113",
+   "title": "D163 幫手工作階段的交班規則（誰開歸誰管、幫手交接檔、換班先收幫手、不跨帳號、loose 檢查 helpers）",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "status": "已整合待測試",
+   "source": "使用者 2026-11-13 23:1x 對 LAWWW-C：「有幫手的對話四格是誰開的？那如果換帳號之後怎麼辦？他們怎麼交班他們沒有自己的交班規則」",
+   "authorized": "使用者原話；LAWWW 改規則（§0 誰改規則）",
+   "first": {
+    "term": "流程",
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-13 23:3x】CLAUDE.md §4 D163＋換班第 4b 步；check_handoff.py loose 讀 tasks.json helpers；SHOP-CC0-HELP-1113 登記 g1～g4；四個幫手都已在自己分支寫 HANDOFF.md（g1 af156a490f、g2 cbf7a248fb、g3 dac0add489、g4 5002861fb）。下次換班照 4b 步實際收一次幫手＝驗收。",
+   "xai": []
   }
  ]
 }
