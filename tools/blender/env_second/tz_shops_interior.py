@@ -201,6 +201,7 @@ if CC0:
         'plaid': acg('tzs_curtain', 'Fabric054', tile=0.7, rough_value=0.9),
         'cloth_b': acg('tzs_doorcloth', 'Fabric036', maps=('diff',), target='#e6d6b4', tile=0.6, rough_value=0.9, res=256),
         'stripe': printed('tzs_awning', 'tz_taimi_awning', _awning, 'Fabric036', tile=1.0, rough_value=0.85),
+        'tile_w': acg('tzs_kitchen_tile', 'Tiles036', target='#e9e6de', tile=0.6, rough_value=0.3),   # v2（BB_379 末節①）：廚房後牆白磁磚
         'cushion': printed('tzs_cushion', 'tz_taimi_cushion', _cushion, 'Fabric036', size=256, tile=0.45, rough_value=0.85),
     })
     M['duct'] = M['ceil']
@@ -378,13 +379,33 @@ if SHOP == 'taimi':
     for i in range(6): ccyl(vc(), (CT['x1'] - 0.3 - i * 0.12, CT['h'], CT['z1'] - 0.15), (CT['x1'] - 0.3 - i * 0.12, CT['h'] + 0.16 + (i % 2) * 0.04, CT['z1'] - 0.15), 0.03, ('#7a2a1a', '#c9a23a', '#3a5a2a', '#e8e0c8', '#a8401a', '#5a3a22')[i], seg=8)
     # 開放式廚房：後牆不鏽鋼、爐台、層架上的鍋、排煙罩；出餐口上面的紅格紋布棚
     zk0, zk1 = KT['z0'], KT['z1']
-    mesh('steel').box(KT['x0'], KT['x1'], 0.0, 0.9, zk0 + 0.02, zk0 + 0.7); mesh('steel').box(KT['x0'], KT['x1'], 0.9, 2.2, zk0, zk0 + 0.03)
-    mesh('steel').box(KT['x0'] + 0.6, KT['x1'] - 0.8, 1.95, 2.45, zk0 + 0.05, zk0 + 0.95)                         # 排煙罩
+    if CC0:   # v2（BB_379 末節①「廚房後牆＋抽油煙機整塊灰平板」）：後牆白磁磚到頂；不鏽鋼工作台有門片、把手、檯面倒角；抽油煙機是斜的罩子＋濾網格柵＋往上的風管；層架上鍋碗
+        mesh('tile_w').box(KT['x0'], KT['x1'], 0.9, H, zk0, zk0 + 0.03)
+        mesh('steel').box(KT['x0'], KT['x1'], 0.06, 0.86, zk0 + 0.03, zk0 + 0.68); mesh('steel').rbox(KT['x0'], KT['x1'], 0.86, 0.9, zk0 + 0.02, zk0 + 0.72, r=0.008, seg=1)
+        mesh('blackmetal').box(KT['x0'], KT['x1'], 0.0, 0.06, zk0 + 0.06, zk0 + 0.64)
+        nd = 6
+        for i in range(nd + 1): xx = KT['x0'] + i * (KT['x1'] - KT['x0']) / nd; mesh('blackmetal').box(xx - 0.004, xx + 0.004, 0.1, 0.82, zk0 + 0.68, zk0 + 0.69)
+        for i in range(nd): xx = KT['x0'] + (i + 0.5) * (KT['x1'] - KT['x0']) / nd; mesh('steel').cyl((xx - 0.12, 0.74, zk0 + 0.71), (xx + 0.12, 0.74, zk0 + 0.71), 0.008, seg=6)
+        hx0, hx1 = KT['x0'] + 0.6, KT['x1'] - 0.8
+        # 斜罩：下緣 2.0 的框、上緣 2.45 往後收、兩側斜板，上面接風管到天花板
+        mesh('steel').rbox(hx0, hx1, 1.98, 2.06, zk0 + 0.05, zk0 + 0.95, r=0.01, seg=1)
+        mesh('steel').quad([(hx0, 2.06, zk0 + 0.95), (hx1, 2.06, zk0 + 0.95), (hx1 - 0.25, 2.45, zk0 + 0.4), (hx0 + 0.25, 2.45, zk0 + 0.4)])
+        mesh('steel').quad([(hx0, 2.06, zk0 + 0.95), (hx0 + 0.25, 2.45, zk0 + 0.4), (hx0 + 0.25, 2.45, zk0 + 0.05), (hx0, 2.06, zk0 + 0.05)])
+        mesh('steel').quad([(hx1, 2.06, zk0 + 0.05), (hx1 - 0.25, 2.45, zk0 + 0.05), (hx1 - 0.25, 2.45, zk0 + 0.4), (hx1, 2.06, zk0 + 0.95)])
+        mesh('steel').box(hx0 + 0.25, hx1 - 0.25, 2.45, 2.5, zk0 + 0.05, zk0 + 0.4); mesh('steel').box((hx0 + hx1) / 2 - 0.25, (hx0 + hx1) / 2 + 0.25, 2.5, H, zk0 + 0.05, zk0 + 0.4)
+        for i in range(12): xx = hx0 + 0.05 + i * (hx1 - hx0 - 0.1) / 11; mesh('blackmetal').box(xx - 0.008, xx + 0.008, 1.975, 1.982, zk0 + 0.1, zk0 + 0.9)   # 濾網格柵（從下面看）
+        for (sy_, kk) in ((1.35, 0), (1.7, 1)):
+            mesh('steel').box(KT['x0'] + 0.1, KT['x0'] + 0.55, sy_, sy_ + 0.02, zk0 + 0.03, zk0 + 0.35)
+            for j in range(3): mesh('steel').cyl((KT['x0'] + 0.18 + j * 0.13, sy_ + 0.02, zk0 + 0.18), (KT['x0'] + 0.18 + j * 0.13, sy_ + 0.08 + 0.03 * ((j + kk) % 2), zk0 + 0.18), 0.055 - 0.01 * j, seg=12)
+    else:
+        mesh('steel').box(KT['x0'], KT['x1'], 0.0, 0.9, zk0 + 0.02, zk0 + 0.7); mesh('steel').box(KT['x0'], KT['x1'], 0.9, 2.2, zk0, zk0 + 0.03)
+        mesh('steel').box(KT['x0'] + 0.6, KT['x1'] - 0.8, 1.95, 2.45, zk0 + 0.05, zk0 + 0.95)                         # 排煙罩
     for i in range(3):
         if CC0: mesh('blackmetal' if i != 1 else 'steel').cyl((KT['x0'] + 1.0 + i * 0.8, 0.9, zk0 + 0.4), (KT['x0'] + 1.0 + i * 0.8, 1.0 + (i % 2) * 0.08, zk0 + 0.4), 0.16, seg=16, r2=0.15 if i != 1 else None)
         else: ccyl(vm(), (KT['x0'] + 1.0 + i * 0.8, 0.9, zk0 + 0.4), (KT['x0'] + 1.0 + i * 0.8, 1.0 + (i % 2) * 0.08, zk0 + 0.4), 0.16, ('#3a3a3c', '#b9bdc1', '#3a3a3c')[i], seg=12)
     mesh('steel').box(KT['x1'] - 0.7, KT['x1'] - 0.05, 0.0, 1.9, zk0 + 0.05, zk0 + 0.7)                           # 冰箱
-    for y in (1.35, 1.7): mesh('steel').box(KT['x0'] + 0.1, KT['x0'] + 0.55, y, y + 0.02, zk0 + 0.03, zk0 + 0.35)
+    if CC0: mesh('blackmetal').box(KT['x1'] - 0.7, KT['x1'] - 0.05, 1.18, 1.2, zk0 + 0.7, zk0 + 0.71); mesh('steel').cyl((KT['x1'] - 0.62, 0.8, zk0 + 0.73), (KT['x1'] - 0.62, 1.1, zk0 + 0.73), 0.012, seg=6); mesh('steel').cyl((KT['x1'] - 0.62, 1.3, zk0 + 0.73), (KT['x1'] - 0.62, 1.6, zk0 + 0.73), 0.012, seg=6)
+    for y in ((1.35, 1.7) if not CC0 else ()): mesh('steel').box(KT['x0'] + 0.1, KT['x0'] + 0.55, y, y + 0.02, zk0 + 0.03, zk0 + 0.35)
     for sx in (KT['x0'], KT['x1'] - 0.08): (mesh('wall').box(sx, sx + 0.08, 0.0, H, zk1 - 0.08, zk1) if CC0 else vc().cbox(sx, sx + 0.08, 0.0, H, zk1 - 0.08, zk1, '#e9dcc0'))            # 廚房開口兩側的柱
     (mesh('wall').box(KT['x0'], KT['x1'], 2.55, H, zk1 - 0.08, zk1) if CC0 else vc().cbox(KT['x0'], KT['x1'], 2.55, H, zk1 - 0.08, zk1, '#e9dcc0'))
     if CC0:   # 布篷：一整片條紋印花（兩面），下緣一排小三角的垂邊
@@ -431,6 +452,30 @@ if SHOP == 'taimi':
         for (px, pz) in DC['plants']:
             clathe(vc(), [(0.0, 0.0), (0.16, 0.0), (0.2, 0.36), (0.0, 0.36)], px, 0.0, pz, '#e8e0d0', seg=12); ccyl(vc(), (px, 0.36, pz), (px, 1.0, pz), 0.02, '#6a5038', seg=5); fern(px, 1.0, pz, r=0.34, n=18)
     for (px, pz) in DC['pendants']: pendant(px, pz)
+    if CC0:   # v2（BB_379 末節②「牆上太空：參考圖有垂吊植物、四五幅相框、一圈木腰板」）
+        # 木腰板（深色木板＋淺色木扶手條，高 0.95）：右牆（跟著右牆淡出：WALL_Efix）、正面牆窗下（WALL_Sfix）、後面隔牆
+        def wains(m_, mr_, x0_, x1_, z0_, z1_, axis):
+            if axis == 'x': m_.box(x0_, x1_, 0.0, 0.92, z0_, z1_); mr_.rbox(x0_ - 0.01, x1_, 0.92, 0.98, z0_, z1_, r=0.006, seg=1)
+            else: m_.box(x0_, x1_, 0.0, 0.92, z0_, z1_); mr_.rbox(x0_, x1_, 0.92, 0.98, z0_, z1_ + 0.01, r=0.006, seg=1)
+        PRE = 'WALL_Efix:'
+        wains(mesh('wood_d'), mesh('wood'), W / 2 - 0.025, W / 2, -2.3, D / 2 - 0.05, 'x')
+        for k in range(int((D / 2 - 0.05 + 2.3) / 0.35)): zz_ = -2.3 + (k + 1) * 0.35; mesh('wood').box(W / 2 - 0.03, W / 2 - 0.025, 0.08, 0.86, zz_ - 0.008, zz_ + 0.008)   # 直條分隔
+        PRE = 'WALL_Sfix:'
+        segs = []; xx0 = -W / 2 + 0.6   # 正面牆窗下（避開門、左邊長卡座）
+        for (a_, b_) in sorted(FR['windows']):
+            lo, hi = max(a_, xx0), b_
+            if hi > lo: segs.append((lo, hi))
+        for (a_, b_) in segs: wains(mesh('wood_d'), mesh('wood'), a_, b_, D / 2 - 0.025, D / 2, 'z')
+        PRE = ''
+        for (a_, b_) in ((-2.3 + 0.05, -0.9 - 0.1),): wains(mesh('wood_d'), mesh('wood'), a_, b_, PT['z'], PT['z'] + 0.025, 'z')
+        # 相框四幅（Poly Haven fancy_picture_frame_01）：右牆兩幅（菜單板旁邊）、左牆一幅（圓盤和卡座盡頭之間）、隔牆一幅
+        for (fx, fy, fz, fyaw) in ((W / 2 - 0.03, 1.8, -1.6, -PI / 2), (W / 2 - 0.03, 1.8, -0.3, -PI / 2), (-W / 2 + 0.03, 1.85, -1.7, PI / 2), (-1.6, 1.7, PT['z'] + 0.03, 0.0)):   # 原型的正面＝−y（遊戲 +z）：yaw 0 朝 +z、−π/2 朝 −x、π/2 朝 +x
+            ph_put('fancy_picture_frame_01', fx, fy - 0.31, fz, fyaw, height=0.62)
+        # 垂吊盆栽三盆：藤編吊盆（三條繩子吊在天花板）＋Poly Haven 蕨類
+        for (hx, hz) in ((-3.5, 0.1), (3.55, -1.95), (2.95, 4.55)):
+            bm_ = L.lathe([(0.0, 0.0), (0.09, 0.01), (0.15, 0.08), (0.16, 0.18), (0.15, 0.19)], seg=16); mesh('wicker').add_bm(bm_, Matrix.Translation(g2b(hx, 2.25, hz))); bm_.free()
+            for k in range(3): a_ = k * 2.094; ccyl(vc(), (hx + math.cos(a_) * 0.15, 2.43, hz + math.sin(a_) * 0.15), (hx, H, hz), 0.004, '#3a2a1a', seg=4)
+            ph_put('fern_02', hx, 2.38, hz, RR.uniform(0, 6.28), s=0.2, share=False, decimate=0.25)
     # 天花板：裸露的風管、冷氣出風口、軌道燈
     if CC0:
         for xx in (-1.6, 1.2): mesh('duct').cyl((xx, H - 0.14, -D / 2 + 0.3), (xx, H - 0.14, D / 2 - 0.3), 0.07, seg=12)
@@ -1496,7 +1541,8 @@ if SHOP == 'liantong':
 
 # ---------- 完成 ----------
 for side, (m, d) in WALLS.items(): m.finish(root, props={'dir': d})
-for key, mm in MM.items(): mm.finish(root, props=({'dir': [0, 0, -1], 'at': [0.0, H / 2, D / 2]} if key.startswith('WALL_Sfix:') else None), uv=key.split(':')[-1] not in ('vc', 'vcm', 'light', 'glass'), smooth=key.split(':')[-1] in ('vc', 'vcm'))
+FIXP = {'WALL_Sfix:': {'dir': [0, 0, -1], 'at': [0.0, H / 2, D / 2]}, 'WALL_Efix:': {'dir': [-1, 0, 0], 'at': [W / 2, H / 2, 0.0]}}   # WALL_Efix：泰米 v2 右牆的木腰板（跟著右牆淡出）
+for key, mm in MM.items(): mm.finish(root, props=next((v for k, v in FIXP.items() if key.startswith(k)), None), uv=key.split(':')[-1] not in ('vc', 'vcm', 'light', 'glass'), smooth=key.split(':')[-1] in ('vc', 'vcm'))
 if SQ:
     m = Mesh('S_pics', M['pics']); lay = m.bm.loops.layers.uv.new('UVMap')
     for key, pts in SQ:

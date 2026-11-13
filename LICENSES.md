@@ -128,6 +128,7 @@
 | `painted_wooden_chair_02` | 深色梯背木椅 17 張（作者 Kirill Sannikov；顏色貼圖改成深色木頭、保留木紋磨損，加 ambientCG 皮坐墊） | 1,246 → 約 560 面；粗糙度圖拿掉、貼圖 512 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 | `fern_02` | 牆上層板的蕨類兩叢（作者 Rob Tuytel、Rico Cilliers） | 6,232 → 約 1,560 面，縮成 0.24 倍 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 | `potted_plant_01` | 落地盆栽兩盆（後角、門邊）（作者 Rico Cilliers） | 176,226 → 約 3,900 面 | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `fancy_picture_frame_01` | 牆上相框四幅（v2，BB_379 末節）（作者 Rob Tuytel, Rico Cilliers） | 938 面；高 0.62 m | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -148,6 +149,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Fabric036` | （同上） | 門上的米色布簾；布篷條紋、靠枕織紋的布料明暗（本作自己畫的圖案乘上去） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 | `Metal009` | （同上） | 廚房不鏽鋼、桌腳、收銀螢幕、軌道燈（校成不鏽鋼色／黑鐵色） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 | `Plaster001` | （同上） | 天花板、風管、冷氣（校成 #e9dcc0；牆照舊乾淨的平塗，BB 11-10） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
+| `Tiles036` | （同上） | 廚房後牆白磁磚（v2，校成 #e9e6de） | `assets/models/env/second_ai/tz_taimi_interior.glb`（汀州路泰米村食店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_shops_interior.py --shop taimi`，光照 `lightbake/bake_tz_shops.sh`） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 

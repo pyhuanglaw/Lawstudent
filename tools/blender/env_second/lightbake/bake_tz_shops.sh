@@ -23,11 +23,11 @@ taimi)
   HIDE='glass|lightpanel'
   NOLM='lightpanel|_vc|_vcm|ph_fern|ph_potted|labels'
   WARM=${LCOL:-1.0,0.84,0.64}
-  for xz in "-2.9 3.6" "-2.9 2.2" "-2.9 0.8" "-2.9 -0.6" "-2.9 -2" "2.1 3.4" "2.1 1.1" "2.1 -1.2" "1.3 -2.6"; do set -- $xz; PT="$PT;$1,2.33,$2,${PENDW:-45},$WARM,0.05"; done
+  for xz in "-2.9 3.6" "-2.9 2.2" "-2.9 0.8" "-2.9 -0.6" "-2.9 -2" "2.1 3.4" "2.1 1.1" "2.1 -1.2" "1.3 -2.6"; do set -- $xz; PT="$PT;$1,2.33,$2,${PENDW:-80},$WARM,0.05"; done
   for i in 0 1 2 3 4 5; do z=$(python3 -c "print(-2.0+$i*1.2)")
-    LIGHTS="$LIGHTS;$(python3 -c "print(f'-3.31,-3.29,{$z-0.01:.3f},{$z+0.01:.3f},3.14,1,1,${TRACKW:-12},0.08,0.08,$WARM')")"; done
-  for z in -1.5 1.0 3.5; do PT="$PT;0.4,2.9,$z,${FILLW:-10},$WARM,0.2"; done
-  SUN="180,30,0"; SKY=${SKY:-0.8}; DAYWB=${DAYWB:-1.0,0.95,0.88}; DAYL=${DAYL:-1.0}; SHELL=S ;;
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'-3.31,-3.29,{$z-0.01:.3f},{$z+0.01:.3f},3.14,1,1,${TRACKW:-20},0.08,0.08,$WARM')")"; done
+  for z in -1.5 1.0 3.5; do PT="$PT;0.4,2.9,$z,${FILLW:-28},$WARM,0.2"; done
+  SUN="180,30,0"; SKY=${SKY:-1.0}; DAYWB=${DAYWB:-1.0,0.95,0.88}; DAYL=${DAYL:-1.0}; SHELL=S ;;
 *) echo "還沒做 CC0 版的店：$SHOP（先做泰米，其他五間照 SHOP_REALISM_PLAN_TZ7.md 的順序加進來）"; exit 1 ;;
 esac
 PT=${PT#;}; LIGHTS=${LIGHTS#;}
