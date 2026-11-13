@@ -617,6 +617,14 @@ if SHOP == 'xile':
 if SHOP == 'yindehao':
     CP, PL, CT, SV, DC = J['copiers'], J['plotter'], J['counter'], J['shelves'], J['decor']
     WHITE, GREY, DARK, NAVY, STEEL = '#eceeee', '#b9bcbf', '#2f3338', '#2c3c5a', '#c4c8cb'
+    if CC0:   # SHOP-REALISM-1112（LAWWW2-C 11-13）：原本的頂點色方塊照顏色分到材質組（白塑膠、深色塑膠、藏青、不鏽鋼、紙箱、三色包裝紙、米色布簾）；vm() 一律不鏽鋼
+        _W = 'plastic_w'; _D = 'plastic_dk'; _S = 'steel'
+        ROUTE = {c: _W for c in ('#eceeee', '#f4f4f0', '#f4f1e8', '#e8eaea', '#dfe1e2', '#e2e4e4', '#f4f2ea', '#eeeadf', '#d9d2bc', '#e8eee8', '#f4f6f6')}
+        ROUTE.update({c: _D for c in ('#2f3338', '#1d1f22', '#2a2d31', '#3a3f46', '#1f2023', '#2a2f36')})
+        ROUTE.update({c: _S for c in ('#b9bcbf', '#d8dadc', '#c4c8cb', '#b9bdc1', '#6f757b', '#e6e8ea')})
+        ROUTE.update({'#2c3c5a': 'plastic_navy', '#c9a878': 'cardboard', '#c9c4b8': 'cloth_b', '#b8b2a4': 'cloth_b',
+                      '#f4b8c8': 'ream_p', '#d8c8f0': 'ream_p', '#b8d8f0': 'ream_b', '#a8d8d0': 'ream_b', '#f4e6a0': 'ream_y', '#f0c8a0': 'ream_y', '#c8e6b8': 'ream_y'})
+        _vc0 = vc; vc = lambda: _Route(_vc0(), ROUTE); vm = lambda: _AsTex(mesh('steel'))
     def copier(z0, z1, front=WHITE):
         """落地型影印機（門朝東）：下面三層紙匣、機身、上面深色掃描台和送稿器、斜的觸控面板"""
         x0, x1 = CP['x0'], CP['x1']; zc = (z0 + z1) / 2

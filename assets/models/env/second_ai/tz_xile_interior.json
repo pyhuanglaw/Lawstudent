@@ -1,13 +1,13 @@
 {
  "objects": 21,
  "unique_meshes": 21,
- "tris": 22728,
- "tris_drawn": 22728,
+ "tris": 34638,
+ "tris_drawn": 34638,
  "materials": 26,
  "out": "assets/models/env/second_ai/tz_xile_interior.glb",
- "bytes": 1549608,
+ "bytes": 2401724,
  "texres": 512,
- "tris_total": 22728,
+ "tris_total": 34638,
  "walls": [
   "E",
   "N",
