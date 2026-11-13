@@ -22,8 +22,8 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
-  const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&(e[0].approvedBy||'').includes('AA_938')&&(e[0].history||[]).some(h=>h.sha===C.KX938_1113_PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有 AA_938；'+C.KX938_1113_PREV+' 在 history',C.ALLOW_SHA==='4539b2ebaf'&&C.KX938_1113_PREV==='e622a59148'&&bad.length===0,J(bad));
+  const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&(e[0].approvedBy||'').includes('AA_938')&&(e[0].history||[]).some(h=>h.sha===C.KX938_1113_PREV)&&(e[0].history||[]).some(h=>h.sha===C.KX944_1113_PREV)); });
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、approvedBy 有 AA_938；'+C.KX938_1113_PREV+' 在 history（之後 AA_944／945／946 再換一版，KX944_1113）',C.ALLOW_SHA==='b4dcd9bf9a'&&C.KX944_1113_PREV==='4539b2ebaf'&&C.KX938_1113_PREV==='e622a59148'&&bad.length===0,J(bad));
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 2
@@ -34,11 +34,11 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
   } else console.log('（跳過第 2 項後半：讀不到 AA_938，企劃線沒 fetch）'); }
 
 // 3
-{ const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.ALLOW_SHA,SP+'date_system/lines/'+k+'.json'), u=show(C.KX938_1113_PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
+{ const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.KX944_1113_PREV,SP+'date_system/lines/'+k+'.json'), u=show(C.KX938_1113_PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
   if(Object.keys(SRC).length===33&&Object.keys(OLD).length===33){
     const diff=[]; for(const k of LOCS){ const a=leaves(OLD[k],'',{}), b=leaves(SRC[k],'',{}); for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&!p.startsWith('/_meta')) diff.push(J([k,p,a[p],b[p]])); }
     const want=R.map(r=>J([r.loc,'/lines/'+r.who+'/'+r.path,r.old,r.new]));
-    check('3. 源稿 '+C.ALLOW_SHA+' 和上一版 '+C.KX938_1113_PREV+' 逐格比：剛好 5 格不同、old／new 都照表',diff.length===5&&J(diff.sort())===J(want.sort()),J(diff.filter(x=>!want.includes(x)).slice(0,3)));
+    check('3. 源稿 '+C.KX944_1113_PREV+'（這一輪的版本；之後 AA_944／945／946 再改＝KX944_1113，逐格在 tests/kx944_dates_1113_unit.js）和上一版 '+C.KX938_1113_PREV+' 逐格比：剛好 5 格不同、old／new 都照表',diff.length===5&&J(diff.sort())===J(want.sort()),J(diff.filter(x=>!want.includes(x)).slice(0,3)));
     check('3. 源稿用 src248 還原＝上一版同樣還原',LOCS.every(k=>J(C.src248(k,SRC[k]))===J(C.src248(k,OLD[k]))),J(LOCS.filter(k=>J(C.src248(k,SRC[k]))!==J(C.src248(k,OLD[k])))));
   } else console.log('（跳過第 3 項：讀不到源稿，企劃線沒 fetch）'); }
 
@@ -52,6 +52,7 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 { const wt=show(BASE,'src/data/date_lines.js');
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
     const want=R.map(gp).sort();
+    { const K8=C.KX944_1113.filter(r=>!r.align).map(gp).filter(p=>diff.includes(p)&&!want.includes(p)), a8=diff.slice(); diff.length=0; for(const p of a8) if(!K8.includes(p)) diff.push(p); check('5. 之後收尾批（b4dcd9bf9a，AA_944 沛珊 31 格＋AA_945 可昕 23 格）也換了字（date_src_sha.js KX944_1113；逐格在 tests/kx944_dates_1113_unit.js）——這裡先拿掉再比（'+K8.length+' 格）',K8.length<=54,J(K8)); }   /* 2026-11-13（收尾批 b4dcd9bf9a）：舊期望是只差這一輪的 5 格 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 5 格不同',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 5 格重匯以前＝稿的 old',R.every(r=>a[gp(r)]===r.old));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));

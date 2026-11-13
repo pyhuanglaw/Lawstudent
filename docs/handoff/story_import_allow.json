@@ -10365,12 +10365,12 @@
   },
   {
    "path": "docs/story_planning/AA_812_date_pays_promises.json",
-   "sha": "3cb2939d0",
+   "sha": "b4dcd9bf9a",
    "status": "approved",
-   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核；633b7f7d6（AA 11-11 12:4x「AA_812 SPLIT 改好」：LAWWW 問的四點）；d7d818f8a8（AA-C 2026-11-12 10:39「AA_812 她請名單同步新字」；LAWWW 的匯入子代理代登，待值班 LAWWW 核）；3cb2939d0（AA-C 11-12 11:28 交付 3cb2939d0：AA_812 path_rows 子晴 D06.cafe 那一列刪掉；LAWWW 的匯入子代理代登，待值班 LAWWW 核）",
+   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核；633b7f7d6（AA 11-11 12:4x「AA_812 SPLIT 改好」：LAWWW 問的四點）；d7d818f8a8（AA-C 2026-11-12 10:39「AA_812 她請名單同步新字」；LAWWW 的匯入子代理代登，待值班 LAWWW 核）；3cb2939d0（AA-C 11-12 11:28 交付 3cb2939d0：AA_812 path_rows 子晴 D06.cafe 那一列刪掉；LAWWW 的匯入子代理代登，待值班 LAWWW 核）；b4dcd9bf9a（AA-C 2026-11-13 AA_946 §2：可昕 D23.market 加進 SHE_PAYS_add；LAWWW-C 交代照新 SHA 重跑 import_she_pays.py；LAWWW-C 的子代理代登，待值班 LAWWW 核）",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 約會「她請客／平分／懸著的承諾」（AA_812，企劃線 f1fab0ec6）：①SHE_PAYS_add（那個互動點她付全部）、SPLIT（她付一部分＝那個互動點祐廷那一份扣一半，AA 和 LAWWW 定）——tools/date/import_she_pays.py → src/data/she_pays.js（SHE_PAYS_DATA.pays、.split），src/date3d.js 載入時合進 S.SHE_PAYS、S.SPLIT；AA_782 同一個人同一個互動點、字已經被 AA_812 換掉的格＝被取代（superseded）；②path_rows 兩列（子晴 D06.cafe 第一次選項的回覆、語彤 D10.boat remember）——tools/date/import_date_lines.py 寫檔前最後一步照 path 換（AA_812 那一輪，排在 AA_780 後面）；③改稿紀錄 date_rewrite/ 五份（下面五筆）同一步。「不列」那一節（closing／arrive 說的請客）不做。逐格 tests/date_she_pays_812_1111_unit.js；2026-11-12 改到 d7d818f8a8（SHE_PAYS_add／SPLIT 五句跟著 X324「好」開頭回話換成新字：語彤 D12.pier、子晴 D32.stall、可昕 D31.egg、學姊 D22.fish 兩句；path_rows、其他句沒動；path_rows 第一列（子晴 D06.cafe）那一格 AA 在 AA_846 late_fix 改回「下次我請你吃滷味。」，import_date_lines.py 的 SUPER812 跳過）；2026-11-12 改到 3cb2939d0（path_rows 子晴 D06.cafe 那一列拿掉——源稿直接是「下次我請。」；path_rows 剩語彤 D10.boat 一列，SHE_PAYS_add／SPLIT 沒動；import_date_lines.py 的 SUPER812 例外拿掉）",
+   "note": "X324 約會「她請客／平分／懸著的承諾」（AA_812，企劃線 f1fab0ec6）：①SHE_PAYS_add（那個互動點她付全部）、SPLIT（她付一部分＝那個互動點祐廷那一份扣一半，AA 和 LAWWW 定）——tools/date/import_she_pays.py → src/data/she_pays.js（SHE_PAYS_DATA.pays、.split），src/date3d.js 載入時合進 S.SHE_PAYS、S.SPLIT；AA_782 同一個人同一個互動點、字已經被 AA_812 換掉的格＝被取代（superseded）；②path_rows 兩列（子晴 D06.cafe 第一次選項的回覆、語彤 D10.boat remember）——tools/date/import_date_lines.py 寫檔前最後一步照 path 換（AA_812 那一輪，排在 AA_780 後面）；③改稿紀錄 date_rewrite/ 五份（下面五筆）同一步。「不列」那一節（closing／arrive 說的請客）不做。逐格 tests/date_she_pays_812_1111_unit.js；2026-11-12 改到 d7d818f8a8（SHE_PAYS_add／SPLIT 五句跟著 X324「好」開頭回話換成新字：語彤 D12.pier、子晴 D32.stall、可昕 D31.egg、學姊 D22.fish 兩句；path_rows、其他句沒動；path_rows 第一列（子晴 D06.cafe）那一格 AA 在 AA_846 late_fix 改回「下次我請你吃滷味。」，import_date_lines.py 的 SUPER812 跳過）；2026-11-12 改到 3cb2939d0（path_rows 子晴 D06.cafe 那一列拿掉——源稿直接是「下次我請。」；path_rows 剩語彤 D10.boat 一列，SHE_PAYS_add／SPLIT 沒動；import_date_lines.py 的 SUPER812 例外拿掉）；2026-11-13 改到 b4dcd9bf9a（AA_946 §2：SHE_PAYS_add 加可昕 D23.market「這次飲料我買。給你一杯。」；同一版源稿 date_system/lines 把 AA_812 那五格對齊成遊戲的字，import_date_lines.py 的 AA_812 那一步換 0 格）",
    "history": [
     {
      "sha": "f1fab0ec6",
@@ -10383,6 +10383,10 @@
     {
      "sha": "d7d818f8a8",
      "note": "被 3cb2939d0 取代（path_rows 子晴 D06.cafe 那一列拿掉——源稿直接是「下次我請。」；path_rows 剩語彤 D10.boat 一列，SHE_PAYS_add／SPLIT 沒動）"
+    },
+    {
+     "sha": "3cb2939d0",
+     "note": "被 b4dcd9bf9a 取代（AA_946：SHE_PAYS_add 加可昕 D23.market「這次飲料我買。給你一杯。」（AA_945 新字）；path_rows、SPLIT、其他句沒動）"
     }
    ]
   },
