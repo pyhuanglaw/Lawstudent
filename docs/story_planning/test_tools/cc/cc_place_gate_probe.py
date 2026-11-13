@@ -247,7 +247,14 @@ async def do_func(pg, cdp, tag, rm, zid):
     exr = next((e for e in await pg.evaluate(D.EXITS) if e['label'] == ex['label']), None)
     tgt = await D.standable_near(pg, ex['x'], ex['z'], exr['r'] * 0.6, exr['lv']) if exr else None
     R.note('%s ⑦ 出口「%s」範圍 %s；走到範圍裡站得住的 %s' % (tag, ex['label'], J(exr), J(tgt)))
-    if not tgt: R.check('FAIL_SETUP 檢查：%s ⑦ 出口範圍裡有站得住的點' % tag, False, J(exr))
+    if not tgt:
+        R.check('FAIL_SETUP 檢查：%s ⑦ 出口範圍裡有站得住的點' % tag, False, J(exr))
+        # BB-C 11-14（L118_CAFE2_e23d 18:30）：附出口附近的俯視圖（交 LAWWW2），並記這一區所有出口（看是不是字對不上）
+        try:
+            allex = await pg.evaluate(D.EXITS); R.note('%s ⑦ 這一區的出口：%s；房間 rm.exit %s' % (tag, J(allex), J(ex)))
+            ov = await snap(pg, (ex['x'], 7.5, ex['z'] + 0.01), (ex['x'], 0.0, ex['z']), 60)
+            open(os.path.join(OUT, 'exit_top_%s_%d.png' % (zid, int(time.time()))), 'wb').write(base64.b64decode(ov['u'].split(',', 1)[1]))
+        except Exception as e: R.note('%s ⑦ 出口俯視圖拍不了：%r' % (tag, e))
     # 11-13 BB-C：出口和玩家不同層（社科院 2F「回閱覽室」出口在一樓、被二樓樓板蓋住，點不到）＝先照遊戲的 E.pathTo 走到換層那一段（樓梯），到那一層再走出口
     q0 = await D.st(pg)
     if exr and (q0.get('lv') or 0) != exr['lv']:
