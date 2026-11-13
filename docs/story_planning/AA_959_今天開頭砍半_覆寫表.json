@@ -1,9 +1,10 @@
 {
  "_meta": {
-  "doc": "AA_959 DLG-FULL-REVIEW-1110「今天」開頭砍半的覆寫表（AA_951～957 定稿，BB_465 照用）",
+  "doc": "AA_959 DLG-FULL-REVIEW-1110 台詞覆寫表：AA_951～957「今天」開頭砍半＋AA_958 語彤「……」開頭減量＋KX-GF-PLACES-1113 一句（LAWWW 11-13 21:02 選 (a)：匯入工具最後一步照本表換，源稿不動）",
   "by": "AA-C 2026-11-13",
   "how": "每一列：files＝遊戲檔（src/data/），old 一字不差換成 new；speaker 是說話的人（LAWWW 換之前照最近的人物 id 確認）；prefix:true＝old 只是那句的開頭；all:true＝同一檔裡同一句有兩處，兩處都換。建議匯入工具在最後一步照本表換（同 aa630.apply_json 的做法），沒有匯入工具的檔直接換。",
-  "count": 204
+  "count": 237,
+  "note958": "AA_958 的列：old 是遊戲檔裡整句（開頭有「……」），new 是拿掉「……」的同一句。KX-GF-PLACES-1113 那列：開發分支 invites.js 268 行現在的字就是「好，我過去。四十分鐘。」（前面沒有「……」，21:0x 對 adoring-meitner 確認過）。"
  },
  "rows": [
   {
@@ -1847,6 +1848,304 @@
    "old": "今天我想找一本跟法律有關的書。給你看的。",
    "new": "我想找一本跟法律有關的書。給你看的。",
    "speaker": "heroine_04"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "……我好像比他們還早知道。",
+   "new": "我好像比他們還早知道。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "……我就知道你會這樣說。明天帶。",
+   "new": "我就知道你會這樣說。明天帶。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "……那我十點去機場。送兩個。",
+   "new": "那我十點去機場。送兩個。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "……這張她眨眼了。",
+   "new": "這張她眨眼了。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "……她說不要。總圖是我的地方。",
+   "new": "她說不要。總圖是我的地方。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "……她簽了。簽在最後一段旁邊。很小。",
+   "new": "她簽了。簽在最後一段旁邊。很小。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "……她說你那天也要穿好一點。她要拍照。",
+   "new": "她說你那天也要穿好一點。她要拍照。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "ladder.js"
+   ],
+   "old": "……她說太甜了。可是她每天都吃一個。",
+   "new": "她說太甜了。可是她每天都吃一個。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "termend_lines.js"
+   ],
+   "old": "……一杯是你的。我幫你喝了。",
+   "new": "一杯是你的。我幫你喝了。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "termend_lines.js"
+   ],
+   "old": "……那兩個禮拜，蘇姨會一直問你我在哪。",
+   "new": "那兩個禮拜，蘇姨會一直問你我在哪。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "termend_lines.js"
+   ],
+   "old": "……二樓最裡面那個位子，我幫你占。",
+   "new": "二樓最裡面那個位子，我幫你占。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "termend_lines.js"
+   ],
+   "old": "……蘇姨說，那你可以多排幾個班。",
+   "new": "蘇姨說，那你可以多排幾個班。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "events.js"
+   ],
+   "old": "……這裡也不少。坐那邊，那排插座是好的。",
+   "new": "這裡也不少。坐那邊，那排插座是好的。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "events.js"
+   ],
+   "old": "……法服是什麼？",
+   "new": "法服是什麼？",
+   "speaker": "heroine_03",
+   "all": true
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "……傘我自己有帶",
+   "new": "傘我自己有帶",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "……茶屋十週年。蘇姨說你要來。",
+   "new": "茶屋十週年。蘇姨說你要來。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "msg_replies.js"
+   ],
+   "old": "……我想讓她看我站在吧檯後面的樣子。",
+   "new": "我想讓她看我站在吧檯後面的樣子。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "invites.js"
+   ],
+   "old": "……咖啡廳我坐不住。",
+   "new": "咖啡廳我坐不住。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "……每天都這樣嗎？我好想知道。",
+   "new": "每天都這樣嗎？我好想知道。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "……我們兩個都很沒禮貌。",
+   "new": "我們兩個都很沒禮貌。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "activity_scenes.js"
+   ],
+   "old": "……你要等的話，我會寫快一點。",
+   "new": "你要等的話，我會寫快一點。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "movie_plots.js"
+   ],
+   "old": "……我看過。還好。",
+   "new": "我看過。還好。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "movie_plots.js"
+   ],
+   "old": "……小孩都那樣唱。",
+   "new": "小孩都那樣唱。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "movie_plots.js"
+   ],
+   "old": "……有可能。她左手無名指有一圈比較白。",
+   "new": "有可能。她左手無名指有一圈比較白。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "movie_plots.js"
+   ],
+   "old": "……你想得比較遠。我只看到那個老人笑了。",
+   "new": "你想得比較遠。我只看到那個老人笑了。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "……我只聽懂 adjourned。",
+   "new": "我只聽懂 adjourned。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "……其實是因為沒人要當。",
+   "new": "其實是因為沒人要當。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "vac_activities.js"
+   ],
+   "old": "……他的火比秀琴姨的大。",
+   "new": "他的火比秀琴姨的大。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "r2y3b_events.js"
+   ],
+   "old": "……這學期週四，我去做田野。",
+   "new": "這學期週四，我去做田野。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "r2y3b_events.js"
+   ],
+   "old": "……去問人問題。",
+   "new": "去問人問題。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "r2y4a_events.js"
+   ],
+   "old": "……我說我請。",
+   "new": "我說我請。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "AA_958",
+   "files": [
+    "r2y4b_events.js"
+   ],
+   "old": "……這個詞我在社會系也學過，可是意思不一樣。你講你們的。",
+   "new": "這個詞我在社會系也學過，可是意思不一樣。你講你們的。",
+   "speaker": "heroine_03"
+  },
+  {
+   "doc": "KX-GF-PLACES-1113",
+   "files": [
+    "invites.js"
+   ],
+   "old": "好，我過去。四十分鐘。",
+   "new": "好，我下課過去。",
+   "speaker": "kexin"
   }
  ]
 }
