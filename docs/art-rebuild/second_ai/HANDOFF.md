@@ -10,6 +10,7 @@
 - HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104；下次檢查 11-19。
 
 ### 下一班第一件事（任務 ID，照順序）
+0d. **（11-13 14:3x）** **Plastic006 黑紋**：白／藍／深灰塑膠的顏色貼圖校成淺色會出現大理石黑紋（印得好 v1 試拍抓到；已整合的洗樂 30ca42cbf1 也有）。修：`acg(vary=0.05)`。印得好→聯通→東南大聯依序重烘（scratchpad bake_run3.sh，log yin/lian/dong/bake2.log）；之後 **洗樂 v3**＝新塑膠＋BB 滾筒 P2。東南大聯 CC0 改法已寫（ROUTE、CashRegister_01、plastic_crate_01／02 減面）。已通知 LAWWW-C、BB-C。
 0c. **（11-13 14:0x）** 洗樂 v2：BB 看圖 PASS（BB_379 末節 964ebe79b0），正式 PASS 等 CC 佇列⑪（泰米、洗樂四鏡頭＋效能）。**SHOP-REALISM-1112 洗樂 P2（BB 給，不擋）**：內筒往裡凹、偏暗、網孔改圓、玻璃加反光；海報、洗衣精瓶頂點色→印的貼圖——汀州路七間第一輪交完再做。印得好 v1：烘焙中（原始碼檢查點 wip/tz_yindehao_cc0_1113，99da145cc3）。聯通：腳本已改 CC0、建得出來，等印得好烘完再烘。
 0b. **（11-13 13:4x）** 泰米 v3、洗樂 v1 已整合 8880225eb1；**洗樂 v2（滾筒門玻璃＋不鏽鋼內筒、朝門口鏡頭）交 38246bb81b**（wip/tz_xile_cc0_1113/v2，patch 底 ebac31a76e，outbox 495）。**印得好 CC0 v1 進行中**：scratchpad wt_inc 的 tz_shops_interior.py（CC0 加 yindehao、共用 _AsTex／_Route：頂點色照顏色分到白塑膠／深色塑膠／藏青／不鏽鋼／紙箱／三色包裝紙；PH potted_plant_02 兩盆）＋bake_tz_shops.sh yindehao（四支日光燈＋兩點補光）＋LICENSES 7 列；烘焙在背景跑（log scratchpad/yin/bake.log）。容器重開：重做「建模→bake_tz_shops.sh yindehao→測試→fast_shots→patch」。
 0a. **（11-13 13:0x）** 泰米 v1 已整合 0eb8ce091a；v2（BB 三點）交 8383f23263（patch 疊在 0eb8ce091a，outbox 493）。SHUT_XS_across_2330：開發分支已暗，BB 初判 PASS，等 CC 確認，不用改。下一件：洗樂（工作樹 scratchpad wt_inc＝0eb8ce091a＋v2）。
