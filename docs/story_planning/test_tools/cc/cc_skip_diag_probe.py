@@ -19,7 +19,7 @@ CASES = [c for c in (os.environ.get('CASES') or 'SKIP,UP').split(',') if c]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 R = L.Run('skip_diag', OUT); SP.setup(R, OUT)
 PICK = {'SKIP': '翹這堂課', 'UP': '先起床再說'}
-CLASSY = ('直接去上課', '去上課', '進教室')
+CLASSY = ('直接去上課', '去上課', '進教室', '還是去')   # 翹課確認框〔還是去／翹〕（classes3d.js CLS.skipClass）
 SNAP = r"""(()=>{ const G=GAME.G, E=GAME.E, P=E.player, o=P.obj.position; let items=[]; try{ items=CLS.dayItems(G).map(it=>({key:it.key, name:it.c&&it.c.name, t0:it.t0, st:CLS.status?CLS.status(G,it):null})); }catch(e){ items='ERR '+e.message; }
   let outs=[]; try{ outs=(OUT.rec(G)||[]).filter(q=>q&&q.day===G.day).map(q=>({id:q.id,ev:q.ev,h:q.h,state:q.state,place:q.place})); }catch(e){}
   const ch=[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>(b.textContent||'').trim().slice(0,30));
@@ -67,6 +67,13 @@ async def one(pg, cdp, tag):
     if not R.check('FAIL_SETUP 檢查：[%s] 9/18 醒來、有「翹這堂課／先起床再說」選單' % tag, bool(wake) and sn0['key'] == '2025-09-18', J({'snap': sn0, 'wake': wake and [x['t'] for x in wake['ch']]})): return {'case': tag, 'skip': 'wake', 'snap': sn0}
     R.note('[%s] 醒來 %s；選單 %s' % (tag, J(sn0), J([x['t'] for x in wake['ch']])))
     got, opts = await pick(pg, cdp, PICK[tag]); R.note('[%s] 選了「%s」' % (tag, got))
+    if tag == 'SKIP':
+        for _ in range(8):   # 翹課會先說兩句、再出確認框〔還是去／翹〕
+            s = await P.ts(pg)
+            if s['ch']:
+                g2, o2 = await pick(pg, cdp, '翹'); R.note('[%s] 確認框 %s → %s' % (tag, J(o2), g2)); break
+            if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+            await pg.wait_for_timeout(600)
     rows = []; t0 = time.time(); n = 0
     while time.time() - t0 < 600:
         sn = await pg.evaluate(SNAP); n += 1; rows.append(sn)
