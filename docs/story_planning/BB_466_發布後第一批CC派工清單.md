@@ -72,3 +72,13 @@ v9.10.26 的遊戲檔＝rc2e（底是 76f8b639f0，11-13 18:49）。之後整合
    - WINVIEW-TREE-BLOB（afar、Daybreak 窗外的樹）
 4. 候選出來以前，先用 `git grep` 確認上面每一項的關鍵字都在候選的檔案裡（wvMirror、US_VIEW、leadRepick 的 zone 檢查…）。不在就不是那一版，不用跑。
 - place_gate_bb.json 以開發分支 7dfbd64055 為準（禮貌生財 FAIL 是 LAWWW 照 BB 的判定寫進去的）。BB 分支上那一份不要拿去蓋開發分支的。
+
+### TEST-04 併進發布前回歸（11-14 15:5x BB-C；LAWWW 11-12「沒跑＝不 GO」）
+下一版候選要在**候選 SHA** 上跑這六項，結果寫進那一版的 BB 驗收文件（TEST_RESULTS 不另外開）：
+1. 空橋：tests/flow_skybridge.py
+2. 總圖導覽：tests/flow_lib_tour.py
+3. 導覽流程：tests/guide_flow.py
+4. 閒聊階梯對話框：tests/flow_ladder_y1s2.py＋REL76_ladder_r2 那支（直向、橫向，選項在畫面內、≥44px）
+5. 載妹墊上車：Node 有 tests/bike_seat_unit.js；瀏覽器沒有現成的探針 → CC 寫 BIKE_SEAT_RIDE（她坐上後座、騎到目的地、下車）
+6. 週末回家：瀏覽器沒有現成的探針 → CC 寫 WEEKEND_HOME（週五晚上選回家、週日回宿舍、日期和地點都對、沒有錯過的必修課）
+- 5、6 兩支先請 CC 寫好，在 main 上試跑一次當基準。
