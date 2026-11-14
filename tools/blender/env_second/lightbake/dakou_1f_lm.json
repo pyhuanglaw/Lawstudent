@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1342.6,
+ "bake_seconds": 1139.9,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -42,5 +42,5 @@
   "WALL_right_plaster"
  ],
  "src": "assets/models/env/second_ai/bb_support/dakou_1f.glb",
- "src_sha256": "a8ac5e3e96fe31b40693d00fd0637801c40ea6e49f28c650ef60ccfac9a40328"
+ "src_sha256": "2946326aa835a2188a642141c714129b546488fde9a893be54c9df13bfefc321"
 }
