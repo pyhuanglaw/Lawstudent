@@ -57364,6 +57364,20 @@
     "term": "Y1S1",
     "confirmed": false
    }
+  },
+  {
+   "id": "TALK-OPEN-SCENE-WARN-1114",
+   "title": "「說話結束時還有沒結束的段落」保護網一年跳 60 次：找出是哪些互動沒有收段落",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "CC-C 11-14 11:26 T1_928690（cc-local docs/story_planning/CC/local_out/T1_928690/run.log）",
+   "note": "BUG-TALK-STUCK-1104 的保護網（warn）有接住、玩家沒卡（8/8 PASS），但 8 顆種子都有，例：2025-09-03 08:02 宿舍床底下的紙箱。照 run.log 的 warn 列表找出 sceneBegin 沒配 sceneEnd 的互動點，從根上補。不擋發布。",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "confirmed": false
+   }
   }
  ]
 }
