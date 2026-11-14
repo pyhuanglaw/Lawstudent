@@ -45529,7 +45529,7 @@
    "title": "人物設定檔刪掉和現行設定不符的字（使用者 11-04 13:4x 對 AA-C：「人物設定如果作廢的部分可以直接刪掉嗎……那就把每個人物不符合現在設定的都刪掉」「我不是叫你整個文件刪掉，我是叫你把文件裡面和現在不符合的字刪掉」；UA-AA-1104-19）",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "META",
@@ -45550,7 +45550,8 @@
     "acceptance": "列出的人物設定檔裡沒有和 00_現行設定總表不符的句子（語彤的麵店背景、舊志向等）；檔案都還在",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "note": "｜11-14 AA-C 查：AA 部分 11-04 完成（企劃線 7ff6995a9）；之後的舊序章／外校清理併入 CANON-NO-ECON-1112（v9.10.26 已上線）與 CANON-REPO-CLEAN-1114（剩下的 268 檔）。替代 ID：CANON-NO-ECON-1112、CANON-REPO-CLEAN-1114。遊戲端 characters.js＝CANON-PURGE-SRC-1104（LAWWW）。"
   },
   {
    "id": "CANON-PURGE-SRC-1104",
@@ -54340,7 +54341,8 @@
    "source": "使用者 11-12 04:0x 對 LAWWW-C",
    "authorized": "使用者直接要求",
    "evidence": "",
-   "sha": ""
+   "sha": "",
+   "note": "｜11-14 10:1x：「七個問題」的答案＝AA 11-12 回 LAWWW-C（AA_820／AA_821 @ 企劃線 7917d4289），已照改 7babce5a10（flower_class_aa820_1112_unit 74 項全過）。題目原文在子代理報告裡、沒有另存檔。"
   },
   {
    "id": "NOODLE-NAME-PURGE-1112",
@@ -57011,10 +57013,10 @@
    "id": "A6-5",
    "title": "A6-5（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
-   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。｜AA 交接檔裡的句子代號，不是任務（AA-C 11-14 查）",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -57024,10 +57026,10 @@
    "id": "P2-L5",
    "title": "P2-L5（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
-   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。｜AA 交接檔裡的句子代號，不是任務（AA-C 11-14 查）",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -57037,10 +57039,10 @@
    "id": "STALE-SOURCES",
    "title": "STALE-SOURCES（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
-   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。｜AA 交接檔裡的句子代號，不是任務（AA-C 11-14 查）；STALE-SOURCES＝STALE-SOURCES-1112 的簡寫，11-13 已收尾（LAWWW 8f93988f3e）",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -57050,10 +57052,10 @@
    "id": "Z5-L8",
    "title": "Z5-L8（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
-   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。｜AA 交接檔裡的句子代號，不是任務（AA-C 11-14 查）",
    "first": {
     "term": "Y1S1",
     "confirmed": false
