@@ -10389,7 +10389,7 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "15124fd457",
    "receiver": "LAWWW-C、幫手 g1",
    "ack": "SENT",
    "state": "已交付",
@@ -10404,6 +10404,42 @@
    "tests": "place_gate 先查後寫、shop_cc0、一盞 7 支 ALL PASS",
    "notDone": "LAWWW 整合",
    "next": "LAWWW 套 patch；整合後 COPLANAR-CREEP-1114 可結"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "042661aff6",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "WINVIEW-EDGE-STRIPE-1114",
+   "title": "視差窗景照片外面改鏡像取樣（world3d.js windowMat），公館窗外樹的條紋（BB_379）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/winview_edge_1114/winview_edge_mirror_on_2da495e693.patch"
+   ],
+   "base": "2da495e693",
+   "at": "2026-11-14T02:05Z",
+   "tests": "新測試 FAIL 2→ALL PASS；窗景／視差窗 Node 全過",
+   "notDone": "LAWWW 整合；CC 同鏡頭重拍；BB 判",
+   "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "OFFBEAT-VIEW-P3-1114",
+   "title": "日常失速前窗：溫州街 B1 西側牆開窗＋窗景重拍、最下面天空帶補地面（BB_379 兩點）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/offbeat_view_p3_1114/"
+   ],
+   "base": "2da495e693",
+   "at": "2026-11-14T02:15Z",
+   "tests": "溫州街 34 支＋wz_views、place_gate ALL PASS",
+   "notDone": "LAWWW 整合；CC 遊戲內拍；BB 判",
+   "next": "LAWWW 套 patch"
   }
  ]
 }

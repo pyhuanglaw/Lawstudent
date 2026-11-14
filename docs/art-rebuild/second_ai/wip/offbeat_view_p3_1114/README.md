@@ -14,4 +14,16 @@
 - 原因：鏡頭要把店自己的玻璃剪掉，所以設了 `--clip-start 5.6`；離鏡頭 5.6 m 以內的地面也跟著被剪掉，最下面那一條就露出天空。
 - 重拍（同一個鏡頭）以後，最下面那一條拿上面的地面往下補滿。
 
-**狀態**：檢查點。模型和測試都過了，正在重拍白天、晚上兩張。
+
+
+## 交件（11-14 02:1x UTC）
+- **patch**：`offbeat_view_p3_on_2da495e693.patch`，內容：
+  - wz_street.py
+  - wenzhou_street.glb／.json／.props.json
+  - wz_vc_pack_unit.js
+  - offbeat_view_front_day／night.webp
+- **重拍**：照 README_wz2 原本的鏡頭，眼睛 (−42.2, 1.4, −13.5) 朝 +x、19.286 mm、shift 0.0607、clip 5.6、1600×743、地面 #a3a29d，另外加上 39 台機車；晚上照小路那一套路燈光圈（lamp-k 4、exposure −0.7）。最下面被剪掉的那 60 列，用上面的地面鏡像補滿，照舊左右鏡像存（窗景卡 UV）。
+- **對照**：`offbeat_view_cmp.jpg`。二樓、三樓有窗、鐵窗，晚上窗戶亮；最下面不再是天空色。
+- **props.json**：開發分支原本那一份是舊的。SUNNY SIDE 門口的 A 字板，模型在 x 43.1，props 寫 44.3：WZ-SUNNY-DOOR-1112 重建了 GLB，但沒更新 props。這次重建順便把 props 跟模型對齊。不改 wz_street.py、直接用開發分支重建，得到的也是 43.1，所以這不是我這次的改動造成的。
+- **測試**：都 ALL PASS，包括 wz_views_1105、wz_vc_pack（數字已更新）、place_gate（不加 --write）、shop_window3d、wz_real_inside，以及溫州街相關的 34 支。
+- **還沒做**：CC 在遊戲裡拍日常失速前窗白天、晚上（BB_379 的同一個鏡頭），再請 BB 判。
