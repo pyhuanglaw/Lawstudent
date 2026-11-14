@@ -90,16 +90,16 @@
   "top": "WALL_back_back_vc×WALL_back_back_paint 5.11 m² @[0.04,0.58,-5.88]"
  },
  "assets/models/env/second_ai/bb_support/dakou_1f.glb": {
-  "sha1": "bff193dfedcb0af6551f84bcb2846c1d3d47dd24",
-  "wall": 5.13,
-  "always": 10.55,
-  "top": "WALL_front_frame×WALL_front_frame 1.153 m² @[1.76,0.47,7.94]"
+  "sha1": "7b37569a05bbdd26e6317d48c4d63a71fa658053",
+  "wall": 0.32,
+  "always": 3.71,
+  "top": "WALL_left_frame×WALL_left_frame 0.123 m² @[-5.99,0,5.93]"
  },
  "assets/models/env/second_ai/bb_support/dakou_2f.glb": {
-  "sha1": "42577b18840c5ed315bca581f1659302373cda48",
-  "wall": 1.65,
-  "always": 8.29,
-  "top": "WALL_left_frame×WALL_left_frame 0.285 m² @[-6.04,6.38,5.34]"
+  "sha1": "9c0f45a8be48a52f15c1243a39a0f492e9783de7",
+  "wall": 0.34,
+  "always": 6.3,
+  "top": "WALL_left_frame×WALL_left_frame 0.153 m² @[-5.99,3.6,5.33]"
  },
  "assets/models/env/second_ai/bb_support/haopai.glb": {
   "sha1": "2572a6de27b18a15bec307da2af2fc2d478a5c86",
