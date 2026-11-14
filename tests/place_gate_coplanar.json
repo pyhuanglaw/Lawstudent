@@ -72,7 +72,7 @@
   "top": "WALL_left_wall_wall×WALL_back_wall_wall 0.432 m² @[-5.1,2.4,-1.96]"
  },
  "assets/models/env/second_ai/bb_support/corner.glb": {
-  "sha1": "b3b547ce9142cf7aa14443a79fbe3bad61b907c4",
+  "sha1": "a3d2c9783e0177ce72312ded17066f247686ee05",
   "wall": 10.81,
   "always": 13.31,
   "top": "WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32]"
@@ -102,9 +102,9 @@
   "top": "WALL_left_frame×WALL_left_frame 0.153 m² @[-5.99,3.6,5.33]"
  },
  "assets/models/env/second_ai/bb_support/haopai.glb": {
-  "sha1": "2572a6de27b18a15bec307da2af2fc2d478a5c86",
-  "wall": 7.97,
-  "always": 11.68,
+  "sha1": "e75c32623078e0ad7065cf80b12aafa1fab79620",
+  "wall": 7.92,
+  "always": 11.62,
   "top": "WALL_right_wall_wall×WALL_right_hp_vc 2.202 m² @[2.08,1.19,2.31]"
  },
  "assets/models/env/second_ai/bb_support/lin_interior.glb": {

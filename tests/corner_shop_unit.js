@@ -75,7 +75,7 @@ let R=null; if(!L||!Z3.ZONES[ZID]) check('1 區域 corner_records 存在（配�
 else { try{ R=loadZone(ZID); }catch(e){ check('1 區域建得起來',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } }
 if(R){ const z=R.z, its=R.its;
   check(`1 區域建得起來、尺寸照配置 ${L.w}×${L.d}×${L.h}、名字「轉角唱片」、SHOP_IN.gg`,z.bounds.w===L.w&&z.bounds.d===L.d&&Z3.ZONES[ZID].name==='轉角唱片'&&z.gg===ZID&&IN.gg===true,J(z.bounds));
-  const man=ASSETS.manifest['bldg.corner_interior']; check('1 正式模型登錄 bldg.corner_interior＝配置的 glb（檔案在、building、LAWWW2-B 11-07 CORNER-CEIL／FADE＋光照＋窗景卡那一版 4,238,972 B）',!!man&&man.url===L.glb&&fs.existsSync(path.join(ROOT,L.glb))&&man.type==='building'&&fs.statSync(path.join(ROOT,L.glb)).size===4238972,J(man&&man.url));
+  const man=ASSETS.manifest['bldg.corner_interior']; check('1 正式模型登錄 bldg.corner_interior＝配置的 glb（檔案在、building、SHOP-CC0-HELP-1113 幫手 g2 11-14 CC0 v2（頂點色×材質組、Poly Haven 大盆栽、重烘光照）那一版 4875700 B）',!!man&&man.url===L.glb&&fs.existsSync(path.join(ROOT,L.glb))&&man.type==='building'&&fs.statSync(path.join(ROOT,L.glb)).size===4875700,J(man&&man.url));
   const onSeat=b=>L.seats.some(s=>Math.abs(b[0]-s.x)<0.05&&Math.abs(b[1]-s.z)<0.05), BL=L.blocks.filter(b=>!onSeat(b)), blk=BL.filter(b=>E.canStand(b[0],b[1],0.05,0));
   check(`1 配置的導航阻擋 ${BL.length} 個都擋住（中心站不住；高腳椅、沙發本身不擋）`,BL.length===27&&!blk.length,BL.length+' '+J(blk));
   const sp=z.spawn, isl=islands([sp.x,sp.z],-L.w/2,L.w/2,-L.d/2,L.d/2);
