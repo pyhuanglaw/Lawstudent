@@ -1,12 +1,3 @@
-[22:25:58] skip ART2_xg_r3_a (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip ART2_xg_r3_f (already done on f5e1ef4e8fe2e1d6e71897d891ed600967a146a2)
-[22:25:58] skip LM_cam_a (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM_cam_b (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N1 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N2 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N3 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N4 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N5 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
 [22:25:58] skip LM2_N6 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
 [22:25:58] skip LM2_N7 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
 [22:25:58] skip LM2_N8 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
@@ -1998,3 +1989,12 @@
 [10:01:54] 正在跑：L118_CAM36_a_r4（已跑 24 分／上限 60 分）、L118_CAM36_b_r4（已跑 19 分／上限 60 分）、DATE_LAYER_76f8_r4（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:06:54] 正在跑：L118_CAM36_a_r4（已跑 29 分／上限 60 分）、L118_CAM36_b_r4（已跑 24 分／上限 60 分）、DATE_LAYER_76f8_r4（已跑 6 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:09:51] [res] cpu=3% mem=44% (13.9/31.4 GB) chrome_testing=10  END L118_CAM36_a_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f9525f07e5..ba0de2dece  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:10:04] ==== END   L118_CAM36_a_r4  exit=1  1968s   ====
+[10:10:07] memory 44% before starting YIZHAN_DINE_0c49_r3 (2 running)
+[10:10:07] ==== START YIZHAN_DINE_0c49_r3  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
+[10:10:10] [res] cpu=9% mem=45% (14.0/31.4 GB) chrome_testing=10  START YIZHAN_DINE_0c49_r3
+[10:11:54] 正在跑：L118_CAM36_b_r4（已跑 29 分／上限 60 分）、DATE_LAYER_76f8_r4（已跑 11 分／上限 60 分）、YIZHAN_DINE_0c49_r3（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:13:26] [res] cpu=5% mem=45% (14.3/31.4 GB) chrome_testing=10  END DATE_LAYER_76f8_r4

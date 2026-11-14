@@ -1,0 +1,60 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_date_layer_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DATE_LAYER_76f8_r4\out
+CC DATE_LAYER（DATE-S6）：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['D01', 'D12']；WHO heroine_02；nodatelayer=False；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [[D01]] 最小存檔讀到 2026-03-28 14.50 dorm（Y1S2 第 5 週）
+  [前置／捷徑] 【捷徑】[[D01]] 墊關係、旗標：{"heroine_02": {"stage": "CLOSE_FRIEND", "dating": false}, "flags": {}}
+  [前置／捷徑] 【捷徑】[D01] DATE.book heroine_02 D01 15.00：{"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.416666666666666, "state": "planned"}}
+  [  54.9s] [D01] DATELAYER.can 記錄：True
+PASS FAIL_SETUP 檢查：[D01] 約會排上了  {"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.416666666666666, "state": "planned"}}
+  [前置／捷徑] [D01] 【捷徑】時間撥到出發（15.42）前 10 分鐘
+  [  67.3s] [D01] ① 防誤觸：圖層出現 61 ms 時真的觸控點「D01.expo」→ 圖層還開著＝True
+PASS [D01] ① 圖層出現 350 ms 內的點擊不算（沒被選走）  {"pid": "D01.expo", "tapped_ms_after_shown": 61, "layer_still_open": true}
+PASS [D01] 出的是圖層（#dateLayer），不是文字選單  layer
+  [  68.3s] [D01] ② 橫向 844x390：標記 4（停用 0）、畫面外 []、她 {'x': 243, 'y': 112, 'w': 91, 'h': 274}（被裁 False、蓋到標記 []）、標籤重疊 []、結束鍵 {'t': '就這樣回去', 'r': {'x': 368, 'y': 332, 'w': 108, 'h': 44}}、除錯字 []
+PASS [D01] ② 橫向：畫面上沒有除錯字（id、座標、PLACEHOLDER）  []
+PASS [D01] ② 每個標記的觸控範圍 ≥44×44 px（最小 44 px）  [["D01.expo", 44, 44], ["D01.market", 44, 44], ["D01.lawn", 44, 44], ["D01.wall", 44, 44]]
+  [  68.3s] [D01] ② 停用的標記：[]（其中時間不夠的 []）
+  [  68.3s] [D01] ② 這一輪沒有停用的標記（時間都夠）
+  [  69.4s] [D01] ③ 直向 390x844：可以左右滑 True（scrollLeft 0／1110）；一開始畫面外的標記 ['D01.market', 'D01.lawn', 'D01.wall']；她 {'x': 431, 'y': 346, 'w': 162, 'h': 487}（被裁 True、蓋到標記 []）；標籤重疊 []；除錯字 []
+PASS [D01] ③ 直向：底圖照高度放滿、可以左右滑（.dlScroll.pan）  {"pan": true, "scrollLeft": 0, "scrollMax": 1110}
+PASS [D01] ③ 直向：畫面上沒有除錯字  []
+  [  70.2s] [D01] ③ 滑到「週末市集　20 分」（原本畫面外＝True）：中心 {'x': 195, 'y': 469}；scrollLeft 1102
+PASS [D01] ④ 點「週末市集　20 分」（螢幕 195, 469）以後圖層收掉、接著演  {"zone": "dorm", "key": "2026-03-28", "h": 15.66, "busy": true, "depth": 1, "layer": false, "adv": true, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}
+  [ 142.1s] [D01_after] 對話（事件 None）：選項 [["「那我送妳一個小的。」", "「看看就好。」"]]；選了 ["「那我送妳一個小的。」"]；GAME.say [["林芷若", "可是我住的地方很小，買了沒地方放。上次買一個花瓶，現在拿來插筆。"], ["林芷若", "要很小的，小到放得進口袋。"]]
+  [ 143.0s] [D01] ④ 回到選點畫面：她的圖 heroine_02/H1.webp（剛做完的「週末市集　20 分」不是坐著的點）
+  [ 144.5s] [D01] ⑤ 存檔前 {"zone": "dorm", "key": "2026-03-28", "h": 16, "busy": true, "depth": 1, "layer": true, "adv": true, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}
+  [ 295.5s] [D01_reload0] 對話（事件 None）：選項 [["出發華山1914文創園區　捷運 約 25 分鐘", "改時間", "今天不去了"]]；選了 ["出發華山1914文創園區　捷運 約 25 分鐘"]；GAME.say [["", "今天 15:00，你約了林芷若去華山1914文創園區。現在要出發嗎？"], ["", "（華山1914文創園區。）"], ["林芷若", "老酒廠。牆上還留著以前的管線。"], ["林芷若", "我看過一部片在這裡拍，男主角就在那根管線下面被甩。我每次來都會看一眼。"]]
+  [ 298.8s] [D01] ⑤ 讀回來（第 1 輪）出現選點圖層 → 點「D01.expo」→ 3 秒後圖層收掉＝True
+  [ 367.3s] [D01_reload_p1] 對話（事件 None）：選項 [["「妳觀察得好細。」", "「那他找到了嗎？」"]]；選了 ["「妳觀察得好細。」"]；GAME.say [["林芷若", "我賭他在找零錢。找零錢的人都是這個姿勢，我看太多了。"], ["林芷若", "還好啦。我記錯過一次，把美式端給要拿鐵的人，他喝了一口才講，我想死。"]]
+  [ 367.5s] [D01] ⑤ 重新整理 →「繼續」（True）：讀回來 {"zone": "dorm", "key": "2026-03-28", "h": 16.01, "busy": true, "depth": 1, "layer": false, "adv": false, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}；點圖層 {"pid": "D01.expo", "closed_after_3s": true, "round": 1}；之後照演 8 句；最後 {"zone": "dorm", "key": "2026-03-28", "h": 16.51, "busy": true, "depth": 1, "layer": true, "adv": true, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}
+PASS [D01] ⑤ 讀回來 → 點一個點 → 圖層收掉、能接著演  [{"pid": "D01.expo", "closed_after_3s": true, "round": 1}, {"zone": "dorm", "key": "2026-03-28", "h": 16.51, "busy": true, "depth": 1, "layer": true, "adv": true, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}]
+  [前置／捷徑] [[D12]] 最小存檔讀到 2026-03-28 14.50 dorm（Y1S2 第 5 週）
+  [前置／捷徑] 【捷徑】[[D12]] 墊關係、旗標：{"heroine_02": {"stage": "CLOSE_FRIEND", "dating": false}, "flags": {}}
+  [前置／捷徑] 【捷徑】[D12] DATE.book heroine_02 D12 15.00：{"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.5, "state": "planned"}}
+  [ 405.8s] [D12] DATELAYER.can 記錄：True
+PASS FAIL_SETUP 檢查：[D12] 約會排上了  {"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.5, "state": "planned"}}
+  [前置／捷徑] [D12] 【捷徑】時間撥到出發（15.50）前 10 分鐘
+  [ 418.1s] [D12] ① 防誤觸：圖層出現 69 ms 時真的觸控點「D12.street」→ 圖層還開著＝True
+PASS [D12] ① 圖層出現 350 ms 內的點擊不算（沒被選走）  {"pid": "D12.street", "tapped_ms_after_shown": 69, "layer_still_open": true}
+PASS [D12] 出的是圖層（#dateLayer），不是文字選單  layer
+  [ 419.2s] [D12] ② 橫向 844x390：標記 4（停用 0）、畫面外 []、她 {'x': 293, 'y': 112, 'w': 91, 'h': 274}（被裁 False、蓋到標記 []）、標籤重疊 []、結束鍵 {'t': '就這樣回去', 'r': {'x': 368, 'y': 332, 'w': 108, 'h': 44}}、除錯字 []
+PASS [D12] ② 橫向：畫面上沒有除錯字（id、座標、PLACEHOLDER）  []
+PASS [D12] ② 每個標記的觸控範圍 ≥44×44 px（最小 44 px）  [["D12.street", 44, 44], ["D12.tea", 44, 44], ["D12.pier", 44, 44], ["D12.sunset", 44, 44]]
+  [ 419.2s] [D12] ② 停用的標記：[]（其中時間不夠的 []）
+  [ 419.2s] [D12] ② 這一輪沒有停用的標記（時間都夠）
+  [ 420.3s] [D12] ③ 直向 390x844：可以左右滑 True（scrollLeft 0／1110）；一開始畫面外的標記 ['D12.street', 'D12.pier', 'D12.sunset']；她 {'x': 521, 'y': 346, 'w': 162, 'h': 487}（被裁 True、蓋到標記 []）；標籤重疊 []；除錯字 []
+PASS [D12] ③ 直向：底圖照高度放滿、可以左右滑（.dlScroll.pan）  {"pan": true, "scrollLeft": 0, "scrollMax": 1110}
+PASS [D12] ③ 直向：畫面上沒有除錯字  []
+  [ 421.1s] [D12] ③ 滑到「迪化街　30 分」（原本畫面外＝True）：中心 {'x': 195, 'y': 269}；scrollLeft 253
+PASS [D12] ④ 點「迪化街　30 分」（螢幕 195, 269）以後圖層收掉、接著演  {"zone": "dorm", "key": "2026-03-28", "h": 15.83, "busy": true, "depth": 1, "layer": false, "adv": true, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}
+  [ 493.3s] [D12_after] 對話（事件 None）：選項 [["「那我們走慢一點。」", "「妳常來？」"]]；選了 ["「那我們走慢一點。」"]；GAME.say [["林芷若", "這條街好適合慢慢走。"], ["林芷若", "前面那間我想進去。"]]
+  [ 494.2s] [D12] ④ 回到選點畫面：她的圖 heroine_02/H1.webp（剛做完的「迪化街　30 分」不是坐著的點）
+  [ 495.7s] [D12] ⑤ 存檔前 {"zone": "dorm", "key": "2026-03-28", "h": 16.33, "busy": true, "depth": 1, "layer": true, "adv": true, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}
+  [ 646.0s] [D12_reload0] 對話（事件 None）：選項 [["出發大稻埕碼頭與迪化街　捷運 約 30 分鐘", "改時間", "今天不去了"]]；選了 ["出發大稻埕碼頭與迪化街　捷運 約 30 分鐘"]；GAME.say [["", "今天 15:00，你約了林芷若去大稻埕碼頭與迪化街。現在要出發嗎？"], ["", "（大稻埕碼頭與迪化街。）"], ["林芷若", "大稻埕我好久沒來了。"], ["林芷若", "有幾部老電影在這條街拍過，我只記得一部。"]]
+  [ 649.3s] [D12] ⑤ 讀回來（第 1 輪）出現選點圖層 → 點「D12.street」→ 3 秒後圖層收掉＝True
+  [ 717.8s] [D12_reload_p1] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [ 718.0s] [D12] ⑤ 重新整理 →「繼續」（True）：讀回來 {"zone": "dorm", "key": "2026-03-28", "h": 16.34, "busy": true, "depth": 1, "layer": false, "adv": false, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}；點圖層 {"pid": "D12.street", "closed_after_3s": true, "round": 1}；之後照演 6 句；最後 {"zone": "dorm", "key": "2026-03-28", "h": 16.84, "busy": true, "depth": 1, "layer": true, "adv": true, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}
+PASS [D12] ⑤ 讀回來 → 點一個點 → 圖層收掉、能接著演  [{"pid": "D12.street", "closed_after_3s": true, "round": 1}, {"zone": "dorm", "key": "2026-03-28", "h": 16.84, "busy": true, "depth": 1, "layer": true, "adv": true, "outs": [{"id": "date_T0001", "state": "planned", "day": "2026-03-28"}]}]
+PASS 沒有 JS 例外  []
+ALL PASS
