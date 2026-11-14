@@ -118,9 +118,9 @@ async def part_hl1(pg, cdp, sv0, res):
             np0 = await pg.evaluate(NPCPOS, {'ids': [info['who']] + comp, 'who': info['who'], 'row': rid})
             if (np0['pos'].get(info['who']) or {}).get('vis'): break
             hh_ = np0['pos'].get(info['who'])
-            if w_ == 6 and hh_:   # 6 秒還看不到：遠的人不顯示（HL1 r4b：學姊在公館邊走、走過去會卡住、她們會走出區域）——【捷徑】把玩家放到她 8 m 內、站得住的點
-                pl8 = await pg.evaluate("""((a)=>{ const E=GAME.E; for(const D of [8,7,9,6,10]) for(let k=0;k<12;k++){ const t=k*Math.PI/6, x=a.x+Math.sin(t)*D, z=a.z+Math.cos(t)*D; if(E.canStand(x,z,0.3,a.lv|0)){ const P=E.player.obj; P.position.set(x,P.position.y,z); E.player.path=null; return {x:+x.toFixed(2),z:+z.toFixed(2),d:D}; } } return null; })""", hh_)
-                R.setup('%s 【捷徑】她 6 秒還看不到，玩家放到她 %s m 內（%s）' % (tag, pl8 and pl8['d'], J(pl8)))
+            if w_ >= 6 and w_ % 3 == 0 and hh_:   # CC-B 11-14（HL1 r6：學姊和陳助教一直在走，放到 8 m 內她又走遠——遠的人不顯示 obj.visible=false，不是模型問題）：每 3 秒重放到她背後 5 m   # 6 秒還看不到：遠的人不顯示（HL1 r4b：學姊在公館邊走、走過去會卡住、她們會走出區域）——【捷徑】把玩家放到她 8 m 內、站得住的點
+                pl8 = await pg.evaluate("""((a)=>{ const E=GAME.E; let ry=null; try{ const n=HCIRCLE.npcOf(GAME,a.who); if(n&&n.obj) ry=n.obj.rotation.y; }catch(e){} if(ry!=null) for(const D of [5,6,4,7]){ const x=a.x-Math.sin(ry)*D, z=a.z-Math.cos(ry)*D; if(E.canStand(x,z,0.3,a.lv|0)){ const P=E.player.obj; P.position.set(x,P.position.y,z); E.player.path=null; return {x:+x.toFixed(2),z:+z.toFixed(2),d:D,behind:true}; } } for(const D of [8,7,9,6,10]) for(let k=0;k<12;k++){ const t=k*Math.PI/6, x=a.x+Math.sin(t)*D, z=a.z+Math.cos(t)*D; if(E.canStand(x,z,0.3,a.lv|0)){ const P=E.player.obj; P.position.set(x,P.position.y,z); E.player.path=null; return {x:+x.toFixed(2),z:+z.toFixed(2),d:D}; } } return null; })""", dict(hh_, who=info['who']))
+                R.setup('%s 【捷徑】她 %d 秒還看不到，玩家放到她 %s m 內（%s）' % (tag, w_, pl8 and pl8['d'], J(pl8)))
             await pg.wait_for_timeout(1000)
         out['pos0'] = np0; out['vis_wait_s'] = w_
         if not (np0['pos'].get(info['who']) or {}).get('vis'):   # CC-B 11-14（HL1 r5 學姊×陳助教 放到 8 m 內還是 hidden、站著不動）：看 hcircle3d.js S.modelWait——模型還在等（_hcWait）、降級模型、ASSETS 有沒有載到
@@ -227,12 +227,16 @@ async def part_hl1(pg, cdp, sv0, res):
 PREP3 = r"""((a)=>{ const G=GAME.G, H=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'];
   G.msgs=[]; G.phone=null; PHONE.rec(G); const F=G.flags=G.flags||{}; for(const k of ['dpN','dpPick','dpDay','dpLast','dpDayOf']) delete F[k];
   G.contacts=G.contacts||{}; for(const id of H){ F['met_'+id]=true; G.contacts[id]=a.d0-1; try{ SOCIAL.meet(id,'campus'); }catch(e){} const r=SOCIAL.rel(id); Object.assign(r,a.stage==='FRIEND'?{fam:45,trust:30,comf:20,rom:0,npcRom:0}:{fam:25,trust:10,comf:10,rom:0,npcRom:0}); r.seen=Math.max(r.seen||0,20); r.talked=Math.max(r.talked||0,20); delete F['dating_'+id]; }   /* 剛好 FAMILIAR（social3d.js S.stage：fam≥20、不到 FRIEND 的 fam40／trust25）——子晴 dp_zq_f1／f2 要 stage===FAMILIAR */
-  PHONE.join(G,'family_law','法律系家族'); PHONE.join(G,'guitar','吉他社');
-  return {stages:Object.fromEntries(H.map(id=>[id,SOCIAL.stage(id)])), groups:Object.keys(PHONE.rec(G).groups)}; })"""
-STEP3 = r"""((a)=>{ const G=GAME.G; let err=null; const HS=[7.5,9,12,15,17.5,19,21,22.5,23.9];
-  for(let d=a.d0; d<=a.d1; d++){ G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.weather=(a.rain&&((d-a.r0)%a.rain===0))?'rain':'clear'; for(const h of HS){ G.hour=h; try{ STORY.phoneRules(GAME); PHONE.tick(G,false); }catch(e){ if(!err) err=CALENDAR.dateOf(d).key+' '+h+'：'+String(e).slice(0,160); } } }
+  if(a.contactLate) for(const id of H) G.contacts[id]=a.contactLate;   /* 對照：聯絡方式是那一天以後才有 */
+  if(a.ex) for(const id of a.ex){ F['EX_'+id]=true; delete F['dating_'+id]; }   /* 對照：前任（ROM.exOf：EX_ 旗標）*/
+  if(!a.noGroup) PHONE.join(G,'family_law','法律系家族'); PHONE.join(G,'guitar','吉他社');
+  let ex=null; try{ ex=Object.fromEntries(H.map(id=>[id,typeof V6EX!=='undefined'&&V6EX.noContact?!!V6EX.noContact(G,id):null])); }catch(e){}
+  return {stages:Object.fromEntries(H.map(id=>[id,SOCIAL.stage(id)])), groups:Object.keys(PHONE.rec(G).groups), noContact:ex, contacts:Object.fromEntries(H.map(id=>[id,G.contacts[id]]))}; })"""
+STEP3 = r"""((a)=>{ const G=GAME.G; let err=null; const feeds=[]; const HS=[7.5,9,12,15,17.5,19,21,22.5,23.9];
+  for(let d=a.d0; d<=a.d1; d++){ G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.weather=(a.rain&&((d-a.r0)%a.rain===0))?'rain':'clear'; for(const h of HS){ G.hour=h; try{ STORY.phoneRules(GAME); PHONE.tick(G,false); }catch(e){ if(!err) err=CALENDAR.dateOf(d).key+' '+h+'：'+String(e).slice(0,160); } }
+    if(a.feed&&typeof FEED!=='undefined'){ try{ FEED.tick(G); for(const i of FEED.visible(G)) if(i.day===d) feeds.push({day:d, date:CALENDAR.dateOf(d).key, h:+(+i.h||0).toFixed(2), from:i.who, th:'feed', tag:'feed_'+i.id, text:'（動態）', feed:true}); }catch(e){ if(!err) err='FEED '+String(e).slice(0,120); } } }
   const H=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'];
-  return (G.msgs||[]).filter(m=>H.includes(m.from)).map(m=>({day:m.day, date:CALENDAR.dateOf(m.day).key, h:+(+m.h||0).toFixed(2), from:m.from, th:m.th, tag:m.tag||null, text:String(m.text||m.img||'').slice(0,120)})).concat(err?[{err}]:[]); })"""
+  return (G.msgs||[]).filter(m=>a.any?(m.from&&m.th!=='sys'):H.includes(m.from)).map(m=>({day:m.day, date:CALENDAR.dateOf(m.day).key, h:+(+m.h||0).toFixed(2), from:m.from, th:m.th, tag:m.tag||null, text:String(m.text||m.img||'').slice(0,120)})).concat(feeds).concat(err?[{err}]:[]); })"""
 HL3B_WANT = {'heroine_01': ['dp_a118_y1s1_an_row', 'dp_a118_y1s1_an_notice'], 'heroine_03': ['dp_a118_y1s1_yt_dish', 'dp_a118_y1s1_yt_rain'], 'heroine_02': ['dp_zhiruo_latte'], 'heroine_04': ['dp_zq_f1', 'dp_zq_f2', 'dp_ziqing_five']}
 
 
@@ -254,7 +258,7 @@ async def part_hl3b(pg, cdp, sv0, res):
     R.setup('%s 【捷徑：跳日子】%d → %d 每天 7:30～23:54 九個時間點叫 STORY.phoneRules＋PHONE.tick（遊戲每天的手機小事、到時間送出）；天氣【捷徑】每 5 天下雨一天、其他晴天（快轉不跑遊戲的天氣；語彤 yt_rain 要雨天）' % (tag, d0, d1))
     msgs = []; seen_k = set()
     for a in range(d0, d1 + 1, 15):
-        b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m and (m['tag'], m['text'], m['day'], m['h'], m['th']) not in seen_k and not seen_k.add((m['tag'], m['text'], m['day'], m['h'], m['th']))]   # CC-B 11-14：STEP3 每段回傳手機裡全部的訊息（G.msgs 照時間插入、最多 200 則），這裡去重——原本累加會重複算則數
+        b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0, 'feed': os.environ.get('HL3_FEED') == '1', 'any': os.environ.get('HL3_ANY') == '1'}); msgs += [m for m in part if 'err' not in m and (m['tag'], m['text'], m['day'], m['h'], m['th']) not in seen_k and not seen_k.add((m['tag'], m['text'], m['day'], m['h'], m['th']))]   # CC-B 11-14：STEP3 每段回傳手機裡全部的訊息（G.msgs 照時間插入、最多 200 則），這裡去重——原本累加會重複算則數
         for m in part:
             if 'err' in m: R.note('%s 例外：%s' % (tag, m['err']))
     out['msgs'] = msgs
@@ -296,13 +300,15 @@ async def part_hl3c(pg, cdp, sv0, res):
         if not R.check('FAIL_SETUP 檢查：%s 找得到學期起訖' % tag, bool(te), J(te)): continue
         d0, d1 = te['d0'], te['d1']
         s = await load(pg, cdp, sv0, d0, 7.0, 'dorm')
-        pr = await pg.evaluate(PREP3, {'d0': d0, 'stage': stage})
+        cl_ = os.environ.get('HL3C_CONTACT_LATE') == '1'; ex_ = [x for x in (os.environ.get('HL3C_EX') or '').split(',') if x]; ng_ = os.environ.get('HL3C_NOGROUP') == '1'
+        pr = await pg.evaluate(PREP3, {'d0': d0, 'stage': stage, 'contactLate': (d1 + 5) if cl_ else None, 'ex': ex_, 'noGroup': ng_})
+        if cl_ or ex_ or ng_: R.setup('%s 【對照組】聯絡方式到學期以後才有=%s；前任=%s；不在家族群組=%s' % (tag, cl_, ex_, ng_))
         R.setup('%s 【前置／捷徑】讀使用者存檔到 %s、清掉手機紀錄當新學期；五位認識＋聯絡方式＋關係固定 %s；加 family_law、guitar 群組：%s' % (tag, te['k0'], stage, J(pr)))
-        if not R.check('FAIL_SETUP 檢查：%s 五位都是 %s、兩個群組都在' % (tag, stage), all(v == stage for v in pr['stages'].values()) and {'family_law', 'guitar'} <= set(pr['groups']), J(pr)): continue
+        if not R.check('FAIL_SETUP 檢查：%s 五位都是 %s、群組照設定' % (tag, stage), all(v == stage for v in pr['stages'].values()) and ('family_law' in pr['groups']) != ng_, J(pr)): continue
         R.setup('%s 【捷徑：跳日子】%s～%s 每天九個時間點叫 STORY.phoneRules＋PHONE.tick；天氣每 5 天下雨一天' % (tag, te['k0'], te['k1']))
         msgs = []; seen_k = set()
         for a in range(d0, d1 + 1, 15):
-            b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m and (m['tag'], m['text'], m['day'], m['h'], m['th']) not in seen_k and not seen_k.add((m['tag'], m['text'], m['day'], m['h'], m['th']))]   # CC-B 11-14：STEP3 每段回傳手機裡全部的訊息（G.msgs 照時間插入、最多 200 則），這裡去重——原本累加會重複算則數
+            b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0, 'feed': os.environ.get('HL3_FEED') == '1', 'any': os.environ.get('HL3_ANY') == '1'}); msgs += [m for m in part if 'err' not in m and (m['tag'], m['text'], m['day'], m['h'], m['th']) not in seen_k and not seen_k.add((m['tag'], m['text'], m['day'], m['h'], m['th']))]   # CC-B 11-14：STEP3 每段回傳手機裡全部的訊息（G.msgs 照時間插入、最多 200 則），這裡去重——原本累加會重複算則數
             for m in part:
                 if 'err' in m: R.note('%s 例外：%s' % (tag, m['err']))
         outside = [m for m in msgs if not (d0 <= m['day'] <= d1)]   # CC-B 11-14（HL3c 第一輪 FRIEND）：有些訊息記的是學期以前的日子（補送、別的學期的條件），空檔只算學期內的
@@ -316,6 +322,14 @@ async def part_hl3c(pg, cdp, sv0, res):
         cnt = {k: len(v) for k, v in sorted(by.items())}
         out[term] = {'range': [te['k0'], te['k1']], 'total': len(msgs), 'count': cnt, 'gaps14': gl, 'first': {k: v[0]['date'] for k, v in by.items()}, 'msgs': msgs}
         R.note('%s %s～%s 共 %d 則；每位 %s；連續 14 天以上沒有女主角訊息：%s' % (tag, te['k0'], te['k1'], len(msgs), J(cnt), J(gl) if gl else '沒有'))
+        exp_ = await pg.evaluate("((t)=>{ try{ return (typeof SELFMSG!=='undefined'?SELFMSG.LIST:[]).filter(m=>m.term===t).map(m=>({id:m.id, who:m.who||'heroine_05', need:m.need, th:m.th, day:SELFMSG.dayOf(m), date:(SELFMSG.dayOf(m)!=null?CALENDAR.dateOf(SELFMSG.dayOf(m)).key:null), h:m.h})); }catch(e){ return 'ERR '+e.message; } })", term)
+        if isinstance(exp_, list) and exp_:   # BB-B 13:58（AA_1029～1032 補稿）：這學期該有哪幾則 self_ 訊息、收到哪幾則（逐則：日期、原文、階段、在不在家族群組）
+            for e_ in exp_:
+                got_ = [m for m in msgs if (m['tag'] or '') == 'self_' + e_['id'] or (m['tag'] or '').startswith('self_' + e_['id'] + '_')]
+                e_['got'] = bool(got_); e_['lines'] = [[m['date'], m['h'], m['from'], m['text']] for m in got_]
+                R.note('%s self_%s（%s，要 %s，排在 %s %.2f）：%s %s' % (tag, e_['id'], e_['who'], e_['need'], e_['date'], e_['h'] or 0, '收到' if got_ else '沒收到', J(e_['lines'])))
+            out[term]['self'] = exp_; out[term]['self_got'] = sum(1 for e_ in exp_ if e_['got']); out[term]['self_n'] = len(exp_)
+            R.note('%s 補稿訊息：%d／%d 則收到（階段 %s，在家族群組=%s）' % (tag, out[term]['self_got'], len(exp_), stage, not ng_))
         open(os.path.join(OUT, 'hl3c_%s.json' % stage), 'w', encoding='utf-8').write(J(out))
 
 
