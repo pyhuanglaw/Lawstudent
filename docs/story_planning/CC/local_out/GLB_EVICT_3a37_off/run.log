@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_zone_tour_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GLB_EVICT_3a37_off\out
+CC 區域巡迴（GLB_EVICT）：SHA 3a37ba48ab709f8405ab45ca09487a96e321b6f6；http://127.0.0.1:8800/index.html；ROUTE ['campus', 'gongguan', 'tingzhou', 'wenzhou', 'lane118', 'campus', 'dorm']×2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔進宿舍 2025-10-22 14.0（條件事件關掉）
+  [  41.8s] 起點 {"zone": "dorm", "tex": 56, "geom": 136, "programs": 76, "heapMB": 560.8, "lastEvict": null, "lastZoneWait": {"pending": 3, "waited": 4341, "timedOut": false}, "evictOn": false}
+PASS FAIL_SETUP 檢查：第 1 輪第 1 站到了 campus  {"zone": "campus", "secs": 11.05}
+  [  59.6s] 第 1 輪 01 campus：按下去到能走動 11.05 秒；貼圖 285、幾何 396、程式 82、heap 560.8 MB；lastZoneWait {"pending": 6, "waited": 6591, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 1 輪第 2 站到了 gongguan  {"zone": "gongguan", "secs": 9.62}
+  [  79.8s] 第 1 輪 02 gongguan：按下去到能走動 9.62 秒；貼圖 184、幾何 411、程式 102、heap 560.8 MB；lastZoneWait {"pending": 9, "waited": 12658, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 1 輪第 3 站到了 tingzhou  {"zone": "tingzhou", "secs": 1.89}
+  [  91.3s] 第 1 輪 03 tingzhou：按下去到能走動 1.89 秒；貼圖 309、幾何 356、程式 104、heap 560.8 MB；lastZoneWait {"pending": 4, "waited": 5371, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 1 輪第 4 站到了 wenzhou  {"zone": "wenzhou", "secs": 12.81}
+  [ 118.4s] 第 1 輪 04 wenzhou：按下去到能走動 12.81 秒；貼圖 293、幾何 478、程式 123、heap 560.8 MB；lastZoneWait {"pending": 9, "waited": 12187, "timedOut": true}；lastEvict null
+PASS FAIL_SETUP 檢查：第 1 輪第 5 站到了 lane118  {"zone": "lane118", "secs": 1.63}
+  [ 126.6s] 第 1 輪 05 lane118：按下去到能走動 1.63 秒；貼圖 180、幾何 235、程式 122、heap 560.8 MB；lastZoneWait {"pending": 5, "waited": 4147, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 1 輪第 6 站到了 campus  {"zone": "campus", "secs": 8.79}
+  [ 142.9s] 第 1 輪 06 campus：按下去到能走動 8.79 秒；貼圖 441、幾何 554、程式 147、heap 560.8 MB；lastZoneWait {"pending": 5, "waited": 4861, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 1 輪第 7 站到了 dorm  {"zone": "dorm", "secs": 1.32}
+  [ 150.9s] 第 1 輪 07 dorm：按下去到能走動 1.32 秒；貼圖 196、幾何 270、程式 120、heap 560.8 MB；lastZoneWait {"pending": 2, "waited": 931, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 2 輪第 1 站到了 campus  {"zone": "campus", "secs": 6.89}
+  [ 164.3s] 第 2 輪 01 campus：按下去到能走動 6.89 秒；貼圖 401、幾何 578、程式 134、heap 560.8 MB；lastZoneWait {"pending": 4, "waited": 2388, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 2 輪第 2 站到了 gongguan  {"zone": "gongguan", "secs": 4.98}
+  [ 176.7s] 第 2 輪 02 gongguan：按下去到能走動 4.98 秒；貼圖 310、幾何 405、程式 146、heap 560.8 MB；lastZoneWait {"pending": 2, "waited": 3376, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 2 輪第 3 站到了 tingzhou  {"zone": "tingzhou", "secs": 3.31}
+  [ 188.5s] 第 2 輪 03 tingzhou：按下去到能走動 3.31 秒；貼圖 476、幾何 533、程式 151、heap 560.8 MB；lastZoneWait {"pending": 3, "waited": 2403, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 2 輪第 4 站到了 wenzhou  {"zone": "wenzhou", "secs": 4.92}
+  [ 202.8s] 第 2 輪 04 wenzhou：按下去到能走動 4.92 秒；貼圖 408、幾何 496、程式 168、heap 560.8 MB；lastZoneWait {"pending": 2, "waited": 4115, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 2 輪第 5 站到了 lane118  {"zone": "lane118", "secs": 2.35}
+  [ 211.7s] 第 2 輪 05 lane118：按下去到能走動 2.35 秒；貼圖 294、幾何 351、程式 141、heap 560.8 MB；lastZoneWait {"pending": 2, "waited": 1140, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 2 輪第 6 站到了 campus  {"zone": "campus", "secs": 7.39}
+  [ 226.3s] 第 2 輪 06 campus：按下去到能走動 7.39 秒；貼圖 393、幾何 663、程式 152、heap 560.8 MB；lastZoneWait {"pending": 3, "waited": 2356, "timedOut": false}；lastEvict null
+PASS FAIL_SETUP 檢查：第 2 輪第 7 站到了 dorm  {"zone": "dorm", "secs": 1.19}
+  [ 234.1s] 第 2 輪 07 dorm：按下去到能走動 1.19 秒；貼圖 166、幾何 312、程式 128、heap 560.8 MB；lastZoneWait {"pending": 2, "waited": 890, "timedOut": false}；lastEvict null
+PASS 沒有 JS 例外  []
+ALL PASS
