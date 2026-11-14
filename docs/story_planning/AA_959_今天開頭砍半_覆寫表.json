@@ -6,7 +6,10 @@
   "count": 785,
   "note958": "AA_958 的列：old 是遊戲檔裡整句（開頭有「……」），new 是拿掉「……」的同一句。KX-GF-PLACES-1113 那列：開發分支 invites.js 268 行現在的字就是「好，我過去。四十分鐘。」（前面沒有「……」，21:0x 對 adoring-meitner 確認過）。",
   "pendingBB": [],
-  "pendingNote": "pendingBB 列出的 doc＝BB 還沒照用，LAWWW 併的時候先照 doc 濾掉；BB 同意後 AA 把它從清單拿掉。空陣列＝全部可以進。"
+  "pendingNote": "pendingBB 列出的 doc＝BB 還沒照用，LAWWW 併的時候先照 doc 濾掉；BB 同意後 AA 把它從清單拿掉。空陣列＝全部可以進。",
+  "history": [
+   "2026-11-14 AA-B：對開發分支 c109767aae 核對 785 列——387 列已是新字、382 列還是舊字（等 RC2-PORT-DEV-1114 移植）；4 列檔名或舊字寫錯已更正（第 84、85、146、147 列，列數不變 785）。"
+  ]
  },
  "rows": [
   {
@@ -773,22 +776,23 @@
   {
    "doc": "AA_953",
    "files": [
-    "r2y3a_events.js",
-    "r2y4a_events.js"
+    "r2y3a3d.js"
    ],
-   "old": "今天下午，我先去了一趟行政法院。",
+   "old": "今天下午我先去了一趟行政法院。",
    "new": "下午我先去了一趟行政法院。",
-   "speaker": "heroine_01"
+   "speaker": "heroine_01",
+   "prefix": true,
+   "note": "AA-B 11-14：開發分支 c109767aae 這句在 src/r2y3a3d.js、沒有逗號、後面還有字（prefix）"
   },
   {
    "doc": "AA_953",
    "files": [
-    "r2y3a_events.js",
     "r2y4a_events.js"
    ],
    "old": "今天下雪。很小，落地就不見了。",
    "new": "下雪了。很小，落地就不見了。",
-   "speaker": "heroine_01"
+   "speaker": "heroine_01",
+   "note": "AA-B 11-14：檔名更正（新字已經在這個檔）"
   },
   {
    "doc": "AA_954",
@@ -1336,22 +1340,22 @@
   {
    "doc": "AA_955",
    "files": [
-    "r2y3a_events.js",
-    "r2y3b_events.js"
+    "r2y3a_events.js"
    ],
    "old": "今天只做三件事。渡輪、燈塔、吃東西。",
    "new": "只做三件事。渡輪、燈塔、吃東西。",
-   "speaker": "kexin"
+   "speaker": "kexin",
+   "note": "AA-B 11-14：檔名更正（新字已經在這個檔）"
   },
   {
    "doc": "AA_955",
    "files": [
-    "r2y3a_events.js",
     "r2y3b_events.js"
    ],
    "old": "今天去一個我沒去過的地方。你也沒去過，我問過了。",
    "new": "去一個我沒去過的地方。你也沒去過，我問過了。",
-   "speaker": "kexin"
+   "speaker": "kexin",
+   "note": "AA-B 11-14：檔名更正（新字已經在這個檔）"
   },
   {
    "doc": "AA_956",
