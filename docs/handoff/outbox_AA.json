@@ -8323,6 +8323,21 @@
    "next": "RC2-PORT-DEV-1114 移植＋覆蓋檢查（HAND 加 story3d.js、holff3d.js）",
    "unfinished": "—",
    "note": "BB_465 全部照用"
+  },
+  {
+   "task": "US-MARKETS-BUY-1112",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_850_us_markets_buy.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-14",
+   "next": "LAWWW 重跑 tools/story/import_us_markets.py（白名單換這個 commit）；BB／CC 重測 SHOP_US_BUY",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "note": "BB-B 11-14 P3：錢不夠的兩句改成不管推車幾樣都通（草原超市整車放回、竹葉超市拿得起的先拿）"
   }
  ],
  "items": [
