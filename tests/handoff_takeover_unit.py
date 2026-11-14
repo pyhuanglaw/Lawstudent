@@ -27,7 +27,7 @@ def show(_, spec):
     return ''
 L, info = T.page('B', 'LAWWW2', src, show=show, userwork=lambda r: ['- X1 校門（還沒做）'])
 txt = '\n'.join(L)
-check('3. 一頁：上一任 C、第一件事原文、做到一半的、userwork、新規則 D160、接下來五步（含 --ref）', '帳號 C' in L[1] and '單車驗收' in txt and '上一任做到一半的' in txt and 'C｜正在做的' in txt and 'X1 校門' in txt and 'D160' in txt and '--ref origin/claude/rs' in txt and info['items'] == 4 and '⚠' not in L[1], txt[:400])
+check('3. 一頁：上一任 C、第一件事原文、做到一半的、userwork、新規則 D160、接下來五步（含 --ref）', '帳號 C' in L[1] and '單車驗收' in txt and '上一任做到一半的' in txt and '上一任這一班改了什麼' in txt and 'C｜正在做的' in txt and 'X1 校門' in txt and 'D160' in txt and '--ref origin/claude/rs' in txt and info['items'] == 4 and '⚠' not in L[1], txt[:400])
 L2, _ = T.page('B', 'AA', src, show=show)
 check('3. 上一任沒正式交班：第 1 行警告、交接檔找不到第一件事也警告', '⚠ 上一任沒有正式交班' in L2[1] and any('找不到' in l for l in L2))
 print('ALL PASS' if not fails else f'FAILED {fails}'); sys.exit(1 if fails else 0)

@@ -51,11 +51,14 @@ def first_items(text, limit=28):
 DOING = re.compile(r'C｜正在做|C 正在做|正在做的|做到一半')
 
 
-def doing_items(text, limit=10):
+DONE = re.compile(r'A｜本班成果|A 本班成果|本班成果')
+
+
+def doing_items(text, limit=10, pat=None):
     """交接檔最新一次交班的「C｜正在做的」（做到一半的東西）：第一個符合的那一行＋後面的條列"""
     L = text.split('\n')
     for i, l in enumerate(L):
-        if not DOING.search(l) or FIRST.search(l):
+        if not (pat or DOING).search(l) or FIRST.search(l):
             continue
         out = [l.strip()[:400]]
         for m in L[i + 1:]:
@@ -98,6 +101,11 @@ def page(account, role, src=None, show=git, userwork=None):
     dg = doing_items(text)
     out.append('   上一任做到一半的（交接檔「C｜正在做的」原文；先確認這些有沒有保存、要不要接著做）：')
     out += ['   ' + l for l in dg] or ['   ⚠ 交接檔沒有「正在做的」一段：看上一任最後幾個 commit（git log -5 origin/' + str(prev_br) + '），並告訴值班 LAWWW']
+    dn = doing_items(text, 14, DONE)
+    n = (git('rev-list', '--count', f'HEAD..origin/{prev_br}') or '?').strip() if prev_br and show is git else '?'
+    out.append(f'   上一任這一班改了什麼（交接檔「A｜本班成果」原文；你的分支落後它 {n} 個 commit）——刪掉、改掉、取代的大改動要在這裡寫得出來；'
+               '對使用者說「沒有、還沒做、還在」以前先看這一段和 docs/RELEASES.md：')
+    out += ['   ' + l for l in dn] or [f'   ⚠ 交接檔沒有「本班成果」一段：看 git log --stat HEAD..origin/{prev_br} 和 docs/RELEASES.md，並告訴值班 LAWWW']
     uw = userwork(role) if userwork else []
     out.append(f'3. 使用者交代、歸 {role}、還沒做完的（userwork；{len(uw)} 項，排在接別人的交付之前）：')
     out += ['   ' + l[:200] for l in uw[:20]] or ['   （沒有）']

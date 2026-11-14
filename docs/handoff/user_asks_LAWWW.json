@@ -5455,6 +5455,24 @@
    "status": "規則（永久）",
    "task": "HANDOFF-RULE-GAPS-1114",
    "src": "使用者對 LAWWW-B（確認 UA-LAWWW-1114-15：十四步可以刪；接班的標準＝知道上一班做到一半的、接下來做什麼）"
+  },
+  {
+   "id": "UA-LAWWW-1114-17",
+   "at": "2026-11-14T12:5xZ",
+   "quote": "可是這個規則只是讓你們知道接下來要幹嘛，但是有辦法讓你們知道上一個帳號到底改了多少嗎？像上一個帳號已經把舊序章全部刪掉，你有辦法依照現在的交班規則知道嗎？",
+   "kind": "轉述",
+   "status": "進行中",
+   "task": "HANDOFF-RULE-GAPS-1114",
+   "src": "使用者對 LAWWW-B；原話依 D158 不留字。處理：takeover.py 那一頁加「上一任這一班改了什麼」（交接檔 A｜本班成果 原文＋落後幾個 commit）"
+  },
+  {
+   "id": "UA-LAWWW-1114-18",
+   "at": "2026-11-14T12:5xZ",
+   "quote": "我沒辦法刪掉分支耶",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "BRANCH-CLEAN-1114",
+   "src": "使用者對 LAWWW-B；LAWWW-B 試 git push --delete wip/onetap-fav-1103 被平台擋（雲端工作階段只能推自己的分支）"
   }
  ]
 }
