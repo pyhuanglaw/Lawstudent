@@ -1,11 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       f7e9d32954..65e1479e78  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[00:08:34] ==== END   STUDY_FA01_r2  exit=0  398s   ====
-[00:08:39] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[00:08:39] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[00:08:39] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[00:08:39] memory 44% before starting CANON_NEWGAME_B1_r2 (2 running)
 [00:08:39] ==== START CANON_NEWGAME_B1_r2  (probe @ d21c698bdef7b3ae434112ce7175ae9945deadd8) ====
 [00:08:42] [res] cpu=2% mem=45% (14.1/31.4 GB) chrome_testing=9  START CANON_NEWGAME_B1_r2
 [00:09:15] [res] cpu=3% mem=44% (13.8/31.4 GB) chrome_testing=9  END SE06_diag
@@ -1998,3 +1990,11 @@
 [13:25:46] [res] cpu=11% mem=43% (13.6/31.4 GB) chrome_testing=9  START STUDY_fix_c_r3
 [13:26:55] 正在跑：SKIP_DIAG_0918（已跑 5 分／上限 30 分）、STUDY_fix_b_r3（已跑 2 分／上限 20 分）、STUDY_fix_c_r3（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:29:28] [res] cpu=8% mem=43% (13.7/31.4 GB) chrome_testing=10  END SKIP_DIAG_0918
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7acf3c1244..f605d140e1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:29:51] ==== END   SKIP_DIAG_0918  exit=1  505s   ====
+[13:29:55] memory 44% before starting BB403_W123 (2 running)
+[13:29:55] ==== START BB403_W123  (probe @ d587922b01345b1eae1cd207e8dd66ebc5ddc6fa) ====
+[13:29:58] [res] cpu=4% mem=44% (14.0/31.4 GB) chrome_testing=10  START BB403_W123
+[13:30:54] [res] cpu=3% mem=43% (13.8/31.4 GB) chrome_testing=9  END STUDY_fix_b_r3
