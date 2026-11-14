@@ -1,11 +1,3 @@
-[23:01:26] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[23:01:26] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[23:01:26] memory 45% before starting STUDY_SE11 (2 running)
-[23:01:26] ==== START STUDY_SE11  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
-[23:01:29] [res] cpu=0% mem=45% (14.3/31.4 GB) chrome_testing=5  START STUDY_SE11
-[23:01:52] 正在跑：SAVE_LZ_growB（已跑 35 分／上限 120 分）、STUDY_SE12（已跑 6 分／上限 20 分）、STUDY_SE11（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:06:37] [res] cpu=9% mem=43% (13.6/31.4 GB) chrome_testing=5  END STUDY_SE12
-[23:06:52] 正在跑：SAVE_LZ_growB（已跑 40 分／上限 120 分）、STUDY_SE12（已跑 11 分／上限 20 分）、STUDY_SE11（已跑 5 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
     To https://github.com/pyhuanglaw/Lawstudent.git
        3c9252ec42..b8f63a09e8  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
@@ -1998,3 +1990,11 @@
 [11:55:32] [res] cpu=9% mem=44% (13.8/31.4 GB) chrome_testing=10  START SHOP_US_v2_625f
 [11:56:55] 正在跑：TZ_SEAT_5b7c（已跑 11 分／上限 120 分）、SHOP_B5_limao_study_ce2f（已跑 3 分／上限 40 分）、SHOP_US_v2_625f（已跑 1 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:59:33] [res] cpu=16% mem=46% (14.5/31.4 GB) chrome_testing=10  END SHOP_B5_limao_study_ce2f
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       dca14192fe..89dbd0db07  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:59:48] ==== END   SHOP_B5_limao_study_ce2f  exit=1  356s   ====
+[11:59:51] memory 46% before starting SHOP_US_market_sco_625f (2 running)
+[11:59:51] ==== START SHOP_US_market_sco_625f  (probe @ 625fefcf1e40e4edcee58234fd6916b7fe89ff75) ====
+[11:59:54] [res] cpu=4% mem=46% (14.6/31.4 GB) chrome_testing=10  START SHOP_US_market_sco_625f
+[12:01:18] [res] cpu=13% mem=46% (14.4/31.4 GB) chrome_testing=10  END SHOP_US_market_sco_625f
