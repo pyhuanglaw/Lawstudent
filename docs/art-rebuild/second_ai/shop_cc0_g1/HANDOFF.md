@@ -7,17 +7,17 @@
 
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的 |
 |---|---|---|---|---|
-| 小路 komichi | v2 已整合（a1a4e29507）；v3（紋路再調淡）LAWWW2 PASS、**等 LAWWW 整合** | 58a50cc2cb | `docs/art-rebuild/second_ai/wip/shop_cc0_g1_1113/komichi_v3_cc0.patch` | 無 |
-| SUNNY SIDE sunnyside | v2 已整合（a1a4e29507）；v3 LAWWW2 PASS、**等 LAWWW 整合** | 58a50cc2cb | `…/sunnyside_v3_cc0.patch` | 無 |
-| 一盞 yizhan | LAWWW2 PASS、**等 LAWWW 整合**（開發分支 4556c4be0c 還是原版） | 58a50cc2cb | `…/yizhan_cc0.patch`（底 19399e5d39） | 無 |
-| 木曜日 mokuyobi | v2 LAWWW2 PASS（沒整合）；**v2.1 已交 LAWWW2 驗收**（取代 v2） | 見 git log | `…/mokuyobi_v21_cc0.patch`（底 4556c4be0c，完整的一份，含狀態表；舊的 mokuyobi_cc0.patch 不要用） | 無（P2 兩項都做了：矮櫃 potted_plant_02、吊盆搬到 (1.8, 3.6)） |
-| 日常失速 daily_offbeat | v2 LAWWW2 PASS（沒整合）；**v2.1 烘焙中**（P2：天花板吊盆換 fern_02，腳本已推） | 腳本 5cf6d9cc3d | v2：`…/daily_offbeat_cc0.patch`；v2.1 烘完出完整的一份取代它 | v2.1 烘焙、截圖、出 patch、交件 |
+| 小路 komichi | 已整合（v3 在開發分支 e687f2f3b6） | 58a50cc2cb | `docs/art-rebuild/second_ai/wip/shop_cc0_g1_1113/komichi_v3_cc0.patch` | 無 |
+| SUNNY SIDE sunnyside | 已整合（v3 在開發分支） | 58a50cc2cb | `…/sunnyside_v3_cc0.patch` | 無 |
+| 一盞 yizhan | 已整合（開發分支） | 58a50cc2cb | `…/yizhan_cc0.patch` | 無 |
+| 木曜日 mokuyobi | v2 已整合；**v2.1 已交 LAWWW2 驗收** | 見 git log（11-14 交件 commit） | `…/mokuyobi_v21_cc0.patch`（底 e687f2f3b6，11 個檔） | 無（P2 兩項做完） |
+| 日常失速 daily_offbeat | v2 已整合；**v2.1 已交 LAWWW2 驗收** | 見 git log（11-14 交件 commit） | `…/daily_offbeat_v21_cc0.patch`（底 e687f2f3b6，11 個檔） | 無（P2 做完：天花板 13 吊盆 → fern_02） |
 
-（11-13 23:2x 更正：先前我跟 LAWWW-C 說「五間都在開發分支」是錯的——我用 `git log --find-object` 查，它也會列出「刪掉」那個檔的 commit。直接比 blob：開發分支只有小路、SUNNY SIDE 的 d8f76fdd4d 版。）
+（11-13 23:2x 更正過一次：之前用 `git log --find-object` 判斷整合狀態是錯的，要直接比 blob。11-14 00:xx 再比一次：只差木曜日、日常失速的 v2.1。）
 
 ## 目前做到哪
-- 木曜日 v2.1 已交件。日常失速 v2.1：建模腳本改完、推上去了；烘焙在這個容器背景跑（scratchpad/bake/offbeat21，沒有遠端備份——容器沒了就照下面第 3、4 步重烘）。
-- 烘完要做：GLB／光照貼圖放進 `assets/models/env/second_ai/aa_support/`、拍同一組鏡頭（「改之前」截圖在 scratchpad，沒進 repo；並排圖已在 `wip/shop_cc0_g1_1113/` 的 v2 版裡）、跑測試、出 patch（底＝開發分支最新、附 `place_gate --write` 的 `docs/handoff/SHOP_STANDARD_STATUS.md`）、交 LAWWW2-C、副本 LAWWW-C。
+- 五間都交完。木曜日 v2.1、日常失速 v2.1 等 LAWWW2-C 驗收；兩份 patch 都帶 aa_cc0.py（內容一樣）、SHOP_STANDARD_STATUS.md、place_gate_coplanar.json，第二份套的時候這三個檔會衝突，重產狀態表和 coplanar 就好。
+- 被退回的話：照 LAWWW2 說的改建模腳本 → 重建 → 重烘（或只換貼圖用 glb_swap_images.py）→ 同一組鏡頭重拍 → 出 patch。
 
 ## 本機沒推的東西
 - 沒有沒 commit 的檔（每次推完都 `git status` 確認）。

@@ -2,6 +2,7 @@
 
 ## SHOP-CC0-HELP-1113（2026-11-13，D161 第①群幫手）：CC0 化（v3 之後）
 - 頂點色零件乘 ambientCG 紋路＋法線（顏色照舊）；吧檯木櫃門併進淺色木材質。Poly Haven：吧檯、桌遊櫃頂的白盆多肉三盆、長桌盤子上的可頌。建模腳本照舊＋現在的 aa_kit（黃金葛有藤），三角形比 v3 多約 6,900。
+- **v2.1（LAWWW2-C 11-13 P2）**：天花板 13 個吊盆的黃金葛葉片卡（0.16 m 平面葉片）換成 Poly Haven fern_02（單株 a／d 輪流、0.75～0.8 m、約 470 面）。畫出 65,431 三角形。
 - 共用的做法在 `aa_cc0.py`（`C.enable` 換頂點色材質、照顏色分材質組；`C.ph_put` 放 Poly Haven 模型）；互動點、座位、導航、店員位置都沒動。
 - 匯出：`/opt/blenv/bin/python tools/blender/env_second/aa_support/daily_offbeat_interior.py -- --out <tmp>.glb`，再 `IN=<tmp>.glb bash tools/blender/env_second/lightbake/bake_gg_new.sh aa_offbeat` 烘光照。
 
