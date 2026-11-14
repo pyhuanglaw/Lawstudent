@@ -138,9 +138,9 @@
   "top": "WALL_left_L1_xs_goods×WALL_left_L1_xs_goods 1.2 m² @[-8.2,4.67,0.23]"
  },
  "assets/models/env/second_ai/bb_support/yangyang_interior.glb": {
-  "sha1": "4dbbde0531977df2cbb1e9af409e0f7fc2840779",
-  "wall": 0.64,
-  "always": 2.25,
+  "sha1": "0f6eb198fd874d42aa5ad798a0c5bfa9aa3eefc9",
+  "wall": 0.53,
+  "always": 1.46,
   "top": "yy_steel×WALL_right_cardboard 0.19 m² @[4.6,0.32,-0.1]"
  },
  "assets/models/env/second_ai/cafe230.glb": {

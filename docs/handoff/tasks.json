@@ -56763,7 +56763,7 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g3",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g3/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 01:1x 新生運動改由 LAWWW2-C 自己接手（g3 留大口一樓、二樓、同弦）"
     },
     {
      "name": "幫手 g4",
@@ -56912,7 +56912,7 @@
    "status": "待開工",
    "priority": "P3",
    "source": "LAWWW2-C 2026-11-14 00:41 自查",
-   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。",
+   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。｜01:1x 洋洋那一半 LAWWW2 b9b69422cd 已整合：冷飲櫃踢腳板凸 3 mm、底座頂蓋從背板前開始；always 2.25→1.46、wall 0.64→0.53（低於原基準 2.13）。剩驛站 +0.04（g1 下一版）。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
