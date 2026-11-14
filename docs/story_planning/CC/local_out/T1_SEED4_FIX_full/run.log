@@ -1,0 +1,156 @@
+@@HB {"seed":4,"day":"2025-09-17","step":0,"frame":1}
+@@HB {"seed":4,"day":"2025-08-22","step":12,"frame":36}
+@@HB {"seed":4,"day":"2025-08-23","step":81,"frame":339}
+@@HB {"seed":4,"day":"2025-08-24","step":99,"frame":433}
+@@HB {"seed":4,"day":"2025-08-29","step":115,"frame":536}
+@@HB {"seed":4,"day":"2025-08-30","step":175,"frame":894}
+@@HB {"seed":4,"day":"2025-08-31","step":236,"frame":2250}
+@@HB {"seed":4,"day":"2025-09-01","step":330,"frame":4628}
+@@HB {"seed":4,"day":"2025-09-02","step":417,"frame":6146}
+@@HB {"seed":4,"day":"2025-09-03","step":580,"frame":9332}
+@@HB {"seed":4,"day":"2025-09-03","step":772,"frame":12815}
+@@HB {"seed":4,"day":"2025-09-03","step":808,"frame":14129}
+@@HB {"seed":4,"day":"2025-09-04","step":963,"frame":16071}
+@@HB {"seed":4,"day":"2025-09-04","step":1011,"frame":17279}
+@@HB {"seed":4,"day":"2025-09-04","step":1071,"frame":20243}
+@@HB {"seed":4,"day":"2025-09-04","step":1222,"frame":23435}
+@@HB {"seed":4,"day":"2025-09-05","step":1264,"frame":24052}
+@@HB {"seed":4,"day":"2025-09-06","step":1345,"frame":26876}
+@@HB {"seed":4,"day":"2025-09-06","step":1361,"frame":27493}
+@@HB {"seed":4,"day":"2025-09-07","step":1430,"frame":28800}
+@@HB {"seed":4,"day":"2025-09-07","step":1449,"frame":29329}
+@@HB {"seed":4,"day":"2025-09-08","step":1486,"frame":31091}
+@@HB {"seed":4,"day":"2025-09-09","step":1560,"frame":32082}
+@@HB {"seed":4,"day":"2025-09-10","step":1638,"frame":33947}
+@@HB {"seed":4,"day":"2025-09-10","step":1750,"frame":37020}
+@@HB {"seed":4,"day":"2025-09-11","step":1778,"frame":38155}
+@@HB {"seed":4,"day":"2025-09-11","step":1810,"frame":38626}
+@@HB {"seed":4,"day":"2025-09-11","step":1908,"frame":39933}
+@@HB {"seed":4,"day":"2025-09-11","step":1926,"frame":40245}
+@@HB {"seed":4,"day":"2025-09-12","step":1992,"frame":41822}
+@@HB {"seed":4,"day":"2025-09-12","step":2039,"frame":42602}
+@@HB {"seed":4,"day":"2025-09-13","step":2074,"frame":43729}
+@@HB {"seed":4,"day":"2025-09-13","step":2127,"frame":45271}
+@@HB {"seed":4,"day":"2025-09-14","step":2167,"frame":46654}
+@@HB {"seed":4,"day":"2025-09-15","step":2290,"frame":49100}
+@@HB {"seed":4,"day":"2025-09-16","step":2418,"frame":51309}
+@@HB {"seed":4,"day":"2025-09-17","step":2472,"frame":52300}
+@@HB {"seed":4,"day":"2025-09-18","step":2615,"frame":53964}
+@@HB {"seed":4,"day":"2025-09-18","step":2711,"frame":55736}
+@@HB {"seed":4,"day":"2025-09-18","step":2757,"frame":57108}
+@@HB {"seed":4,"day":"2025-09-19","step":2796,"frame":57459}
+@@HB {"seed":4,"day":"2025-09-20","step":2838,"frame":58174}
+@@HB {"seed":4,"day":"2025-09-20","step":2868,"frame":58360}
+@@HB {"seed":4,"day":"2025-09-21","step":3005,"frame":59723}
+@@HB {"seed":4,"day":"2025-09-22","step":3020,"frame":59896}
+@@HB {"seed":4,"day":"2025-09-23","step":3100,"frame":61874}
+@@HB {"seed":4,"day":"2025-09-24","step":3191,"frame":63534}
+@@HB {"seed":4,"day":"2025-09-24","step":3258,"frame":65228}
+@@HB {"seed":4,"day":"2025-09-25","step":3283,"frame":65998}
+@@HB {"seed":4,"day":"2025-09-25","step":3289,"frame":66226}
+@@HB {"seed":4,"day":"2025-09-26","step":3340,"frame":67638}
+@@HB {"seed":4,"day":"2025-09-27","step":3388,"frame":68522}
+@@HB {"seed":4,"day":"2025-09-28","step":3404,"frame":69194}
+@@HB {"seed":4,"day":"2025-09-29","step":3436,"frame":69561}
+@@HB {"seed":4,"day":"2025-09-30","step":3470,"frame":70064}
+@@HB {"seed":4,"day":"2025-10-01","step":3545,"frame":71331}
+@@HB {"seed":4,"day":"2025-10-02","step":3642,"frame":73402}
+@@HB {"seed":4,"day":"2025-10-02","step":3645,"frame":73471}
+@@HB {"seed":4,"day":"2025-10-02","step":3683,"frame":73795}
+@@HB {"seed":4,"day":"2025-10-03","step":3790,"frame":75512}
+@@HB {"seed":4,"day":"2025-10-04","step":3859,"frame":76606}
+@@HB {"seed":4,"day":"2025-10-04","step":3886,"frame":77226}
+@@HB {"seed":4,"day":"2025-10-04","step":3911,"frame":78448}
+@@HB {"seed":4,"day":"2025-10-05","step":3946,"frame":79572}
+@@HB {"seed":4,"day":"2025-10-05","step":4065,"frame":81321}
+@@HB {"seed":4,"day":"2025-10-06","step":4078,"frame":81549}
+@@HB {"seed":4,"day":"2025-10-06","step":4188,"frame":82840}
+@@HB {"seed":4,"day":"2025-10-07","step":4220,"frame":84603}
+@@HB {"seed":4,"day":"2025-10-07","step":4343,"frame":86424}
+@@HB {"seed":4,"day":"2025-10-08","step":4355,"frame":86514}
+@@HB {"seed":4,"day":"2025-10-08","step":4406,"frame":86839}
+@@HB {"seed":4,"day":"2025-10-09","step":4551,"frame":88540}
+@@HB {"seed":4,"day":"2025-10-10","step":4683,"frame":89852}
+@@HB {"seed":4,"day":"2025-10-11","step":4748,"frame":90656}
+@@HB {"seed":4,"day":"2025-10-12","step":4787,"frame":91318}
+@@HB {"seed":4,"day":"2025-10-12","step":4846,"frame":92405}
+@@HB {"seed":4,"day":"2025-10-12","step":4863,"frame":93886}
+@@HB {"seed":4,"day":"2025-10-12","step":4877,"frame":94398}
+@@HB {"seed":4,"day":"2025-10-13","step":4884,"frame":94921}
+@@HB {"seed":4,"day":"2025-10-13","step":4918,"frame":95498}
+@@HB {"seed":4,"day":"2025-10-13","step":4935,"frame":96189}
+@@HB {"seed":4,"day":"2025-10-13","step":4996,"frame":98138}
+@@HB {"seed":4,"day":"2025-10-13","step":5005,"frame":98882}
+@@HB {"seed":4,"day":"2025-10-14","step":5016,"frame":99762}
+@@HB {"seed":4,"day":"2025-10-14","step":5065,"frame":100553}
+@@HB {"seed":4,"day":"2025-10-14","step":5110,"frame":102179}
+@@HB {"seed":4,"day":"2025-10-15","step":5133,"frame":103514}
+@@HB {"seed":4,"day":"2025-10-15","step":5207,"frame":105842}
+@@HB {"seed":4,"day":"2025-10-16","step":5215,"frame":106013}
+@@HB {"seed":4,"day":"2025-10-17","step":5251,"frame":106724}
+@@HB {"seed":4,"day":"2025-10-17","step":5275,"frame":107348}
+@@HB {"seed":4,"day":"2025-10-17","step":5293,"frame":108039}
+@@HB {"seed":4,"day":"2025-10-17","step":5341,"frame":109841}
+@@HB {"seed":4,"day":"2025-10-18","step":5363,"frame":110236}
+@@HB {"seed":4,"day":"2025-10-18","step":5411,"frame":111646}
+@@HB {"seed":4,"day":"2025-10-19","step":5466,"frame":112602}
+@@HB {"seed":4,"day":"2025-10-19","step":5590,"frame":115654}
+@@HB {"seed":4,"day":"2025-10-20","step":5654,"frame":116364}
+@@HB {"seed":4,"day":"2025-10-20","step":5745,"frame":118409}
+@@HB {"seed":4,"day":"2025-10-21","step":5769,"frame":118694}
+@@HB {"seed":4,"day":"2025-10-22","step":5836,"frame":120756}
+@@HB {"seed":4,"day":"2025-10-23","step":5882,"frame":121189}
+@@HB {"seed":4,"day":"2025-10-23","step":5922,"frame":121758}
+@@HB {"seed":4,"day":"2025-10-23","step":5969,"frame":122638}
+@@HB {"seed":4,"day":"2025-10-23","step":5999,"frame":123100}
+@@HB {"seed":4,"day":"2025-10-23","step":6015,"frame":123371}
+@@HB {"seed":4,"day":"2025-10-24","step":6028,"frame":123541}
+@@HB {"seed":4,"day":"2025-10-24","step":6073,"frame":124284}
+@@HB {"seed":4,"day":"2025-10-25","step":6146,"frame":124990}
+@@HB {"seed":4,"day":"2025-10-25","step":6222,"frame":126718}
+@@HB {"seed":4,"day":"2025-10-26","step":6236,"frame":127502}
+@@HB {"seed":4,"day":"2025-10-27","step":6243,"frame":127639}
+@@HB {"seed":4,"day":"2025-10-28","step":6248,"frame":127848}
+@@HB {"seed":4,"day":"2025-10-29","step":6300,"frame":128906}
+@@HB {"seed":4,"day":"2025-10-29","step":6379,"frame":130234}
+@@HB {"seed":4,"day":"2025-10-30","step":6457,"frame":131414}
+@@HB {"seed":4,"day":"2025-10-31","step":6532,"frame":132391}
+@@HB {"seed":4,"day":"2025-11-01","step":6568,"frame":133081}
+@@HB {"seed":4,"day":"2025-11-02","step":6638,"frame":134746}
+@@HB {"seed":4,"day":"2025-11-03","step":6688,"frame":135222}
+@@HB {"seed":4,"day":"2025-11-03","step":6727,"frame":135545}
+@@HB {"seed":4,"day":"2025-11-03","step":6758,"frame":136450}
+@@HB {"seed":4,"day":"2025-11-04","step":6812,"frame":137476}
+@@HB {"seed":4,"day":"2025-11-05","step":6878,"frame":138799}
+@@HB {"seed":4,"day":"2025-11-06","step":6977,"frame":140357}
+@@HB {"seed":4,"day":"2025-11-06","step":7074,"frame":141921}
+@@HB {"seed":4,"day":"2025-11-07","step":7080,"frame":142025}
+@@HB {"seed":4,"day":"2025-11-08","step":7151,"frame":143870}
+@@HB {"seed":4,"day":"2025-11-09","step":7193,"frame":145344}
+@@HB {"seed":4,"day":"2025-11-10","step":7278,"frame":147234}
+@@HB {"seed":4,"day":"2025-11-10","step":7320,"frame":147723}
+@@HB {"seed":4,"day":"2025-11-10","step":7324,"frame":147999}
+@@HB {"seed":4,"day":"2025-11-11","step":7366,"frame":149565}
+@@HB {"seed":4,"day":"2025-11-12","step":7449,"frame":151057}
+
+================ 種子 4：PASS ================
+區域 build 442 次、114.7 秒；turbo 格 64474
+到 2025-11-12　步數 7449　格數 151057　虛擬時間 7.8 小時　開頁面 12 次　真實 297.8 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":59,"day":57,"date":"2025-11-12","evDone":38,"money":96575,"stage":"law","contacts":6,"invites":23,"invDone":11,"goingSeen":1,"msgs":200}
+個性：{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001}
+假引擎 E 被讀但沒有的屬性：simWalk×9、preObjs×7
+
+注意（不算 FAIL）：
+  76 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  73 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-29 22:55 lane118）
+  12 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  7 次　3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗　例：NO_NET（random_play_sim 不下載素材）（2025-09-03 15:18 gongguan）
+  7 次　3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-03 16:04 afar）
+  6 次　3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-03 20:28 cafe）
+  3 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-10-07 08:24 dorm）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.GG3_REN　例：G.flags.GG3_REN：undefined → true（2025-09-04 19:31 classroom）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772　例：G.l118.mv772：undefined → 2（2025-09-04 19:31 classroom）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-22 22:32 cvs）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-10-19 15:38 wz_offbeat）
+@@RESULT {"seed":4,"ok":true,"reached":"2025-11-12","steps":7449,"frames":151057,"vms":28022200,"pages":12,"fails":[],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":76,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":73,"ex":"unknown asset prop.bike_ride（2025-08-29 22:55 lane118）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":12,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗","n":7,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-03 15:18 gongguan）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型","n":7,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-03 16:04 afar）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型","n":6,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-03 20:28 cafe）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":3,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-10-07 08:24 dorm）","all":[{"at":"2025-10-07 08:24","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#4230 f84767 2025-10-07 08:21 dorm｜選單（2 個）：起床","#4231 f84790 2025-10-07 08:24 dorm｜走去床底下的紙箱（1.8 m）","#4232 f84802 2025-10-07 08:24 dorm｜按互動：床底下的紙箱"]},{"at":"2025-10-23 15:12","zone":"classroom","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和芯慈說話","last":["#5933 f122034 2025-10-23 13:27 classroom｜點對話：柏翰：「法源、主體、能力、宣告、法人。五段。」","#5934 f122048 2025-10-23 15:10 classroom｜走去芯慈（7.5 m）","#5935 f122096 2025-10-23 15:12 classroom｜按互動：和芯慈說話（想找 芯慈）"]},{"at":"2025-10-24 20:43","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話","last":["#6088 f124448 2025-10-24 20:43 dorm｜收起手機","#6089 f124449 2025-10-24 20:43 dorm｜走去阿凱（1.7 m）","#6090 f124455 2025-10-24 20:43 dorm｜按互動：和阿凱說話（想找 阿凱）"]}]},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.GG3_REN","n":1,"ex":"G.flags.GG3_REN：undefined → true（2025-09-04 19:31 classroom）"},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772","n":1,"ex":"G.l118.mv772：undefined → 2（2025-09-04 19:31 classroom）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-22 22:32 cvs）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-10-19 15:38 wz_offbeat）"}],"missingE":["simWalk×9","preObjs×7"],"persona":{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001},"sayStack":true,"chooseStack":true,"g":{"attended":59,"day":57,"date":"2025-11-12","evDone":38,"money":96575,"stage":"law","contacts":6,"invites":23,"invDone":11,"goingSeen":1,"msgs":200}}
+（297.8 秒）

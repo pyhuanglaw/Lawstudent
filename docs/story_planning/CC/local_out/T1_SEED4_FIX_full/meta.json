@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "T1_SEED4_FIX_full",
+  "sha": "928690d709ebda924debffc05a2f4fe6e1687d51",
+  "kind": "node",
+  "script": "docs/story_planning/test_tools/cc/random_play_sim.js",
+  "env": "XARGS=--track law --seed 4 --from 2025-08-22 --to 2025-11-11 --root . --out {out}",
+  "machine": "MSI",
+  "start": "2026-11-14T18:27:35",
+  "end": "2026-11-14T18:33:26",
+  "seconds": 351,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 15,
+    "mem": 52,
+    "used_gb": 16.4,
+    "chrome_testing": 10
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}
