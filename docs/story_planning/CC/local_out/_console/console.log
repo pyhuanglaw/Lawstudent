@@ -1,13 +1,3 @@
-[22:25:55] skip L492_invphone (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip L492_libfloors (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip L492_p0 (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip L492_reach (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip L492_zone (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip L492_mini (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip L492_classreal (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip L492_main12 (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip L492_touch (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[22:25:55] skip NOASK_faf1 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
 [22:25:55] skip WZDAY_rp_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
 [22:25:55] skip WZDAY_rp_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
 [22:25:55] skip WZDAY_ct_moku_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
@@ -1998,3 +1988,13 @@
 [08:46:54] 正在跑：FULL_b_76f8（已跑 113 分／上限 420 分）、T1_rc2（已跑 16 分／上限 120 分）、DATE_LAYER_76f8_r2（已跑 7 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:50:24] [res] cpu=21% mem=44% (13.7/31.4 GB) chrome_testing=5  END FULL_b_76f8
 [08:50:25] D158：推送前把 8 處舊序章／外校的字換成代號
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c18021279e..a6d085e2bb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:50:43] ==== END   FULL_b_76f8  exit=0  7016s   ====
+[08:50:47] memory 45% before starting GATE2_CC0_a_0c49 (2 running)
+[08:50:47] ==== START GATE2_CC0_a_0c49  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
+[08:50:50] [res] cpu=31% mem=46% (14.4/31.4 GB) chrome_testing=5  START GATE2_CC0_a_0c49
+[08:50:50] worktree add 0c49bcf64ee779dc66efce1809455f57dfe0e010: invalid reference - fetching main and the commit itself
+[08:51:54] 正在跑：T1_rc2（已跑 21 分／上限 120 分）、DATE_LAYER_76f8_r2（已跑 12 分／上限 60 分）、GATE2_CC0_a_0c49（已跑 1 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:52:47] [res] cpu=17% mem=41% (12.7/31.4 GB) chrome_testing=4  END DATE_LAYER_76f8_r2
