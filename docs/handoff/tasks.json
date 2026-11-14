@@ -56860,6 +56860,21 @@
    },
    "next": "LAWWW2 驗收空檔查",
    "xai": []
+  },
+  {
+   "id": "RC2-PORT-DEV-1114",
+   "title": "76f8 rc2／rc2b／rc2c 的可昕同校換字（AA_987 pairs 20＋rows 26＋D158 5 列＋AA_1012 兩句＋AA_1015）補進開發分支——發布樹以後開發分支會換回自己的 src，沒補＝下一版把舊句帶回來",
+   "owner": "LAWWW",
+   "priority": "P0",
+   "status": "待開工",
+   "source": "LAWWW-C 2026-11-14；X364（CANON-NO-ECON-1112）",
+   "first": {
+    "term": "Y1S1",
+    "mainline": true,
+    "confirmed": true
+   },
+   "next": "發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→110b0fd990 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
+   "xai": []
   }
  ]
 }
