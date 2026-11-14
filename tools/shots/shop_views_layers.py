@@ -16,8 +16,11 @@
 拍的是遊戲畫面（Playwright＋SwiftShader），不是照片。1024×512、水平視角 90°（垂直 53.13°）；白天 11:00、晚上 20:30；路人、玩家藏起來。
 用法（先開 http server）：python3 tools/shots/shop_views_layers.py http://127.0.0.1:8765/index.html [名稱...]"""
 import base64, io, json, os, subprocess, sys, tempfile
-import numpy as np
-from PIL import Image
+try:
+    import numpy as np          # 有 numpy 就用原本的寫法
+except ImportError:             # 使用者電腦的 Python 3.15 沒有 numpy（CC-C 11-14 WINVIEW_GG3_1939）：改用下面的純 PIL 版 _matte_pil
+    np = None
+from PIL import Image, ImageFilter
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
@@ -113,10 +116,69 @@ def edge_fade(H, W, top, side):
     return fy[:, None] * fx[None, :]
 
 
+def _fade_list(H, W, top, side):
+    """edge_fade 的純 Python 版（一維串列，H×W）"""
+    ss = lambda t: t * t * (3 - 2 * t)
+    cl = lambda t: 0.0 if t < 0 else (1.0 if t > 1 else t)
+    fy = [ss(cl((y + 0.5) / max(1, top * H))) if top > 0 else 1.0 for y in range(H)]
+    fx = [ss(cl(min(x + 0.5, W - 0.5 - x) / max(1, side * W))) if side > 0 else 1.0 for x in range(W)]
+    return [fy[y] * fx[x] for y in range(H) for x in range(W)]
+
+
+def _box(v, W, H, r):
+    """方框模糊的純 Python 版（v 是 H×W 的一維串列；邊緣照 numpy 版 mode='edge' 延伸）。先橫再直，各用一次累加和"""
+    from itertools import accumulate
+    k = 2 * r + 1; t = []
+    for y in range(H):
+        row = v[y * W:(y + 1) * W]; c = [0.0] + list(accumulate([row[0]] * r + row + [row[-1]] * r))
+        t.extend([(c[x + k] - c[x]) / k for x in range(W)])
+    out = [0.0] * (W * H)
+    for x in range(W):
+        col = t[x::W]; c = [0.0] + list(accumulate([col[0]] * r + col + [col[-1]] * r))
+        out[x::W] = [(c[y + k] - c[y]) / k for y in range(H)]
+    return out
+
+
+def _matte_pil(b, w, fade=None):
+    """matte() 不用 numpy 的版本：算法相同（alpha＝1－(白底－黑底) 平均、顏色＝黑底 ÷ alpha、透明處由近到遠填旁邊的顏色）；
+    模糊用 _box（浮點、邊緣延伸），結果和 numpy 版差 1～2 階灰（tests/shop_views_matte_unit.py 比過）"""
+    Wd, H = b.size; n = Wd * H
+    bb = [list(c.getdata()) for c in b.split()]; ww = [list(c.getdata()) for c in w.split()]
+    a = [0.0] * n; F = [[0] * n for _ in range(3)]
+    for i in range(n):
+        ai = 1.0 - ((ww[0][i] - bb[0][i]) + (ww[1][i] - bb[1][i]) + (ww[2][i] - bb[2][i])) / 765.0
+        ai = 0.0 if ai < 0.02 else (1.0 if ai > 1.0 else ai)
+        a[i] = ai
+        if ai > 1e-3:
+            for c in range(3):
+                v = bb[c][i] / max(ai, 1e-3); F[c][i] = 255 if v >= 255 else int(v + 0.5)
+    PA = [[F[c][i] * a[i] for i in range(n)] for c in range(3)]
+    fill = [F[c][:] for c in range(3)]; todo = [i for i in range(n) if a[i] <= 1e-3]
+    for r in (2, 6, 18, 54):                                           # 由近到遠一圈一圈往外填
+        if not todo: break
+        aa = _box(a, Wd, H, r); pa = [_box(PA[c], Wd, H, r) for c in range(3)]
+        left = []
+        for i in todo:
+            if aa[i] > 1e-4:
+                for c in range(3):
+                    v = pa[c][i] / aa[i]; fill[c][i] = 255 if v >= 255 else int(v + 0.5)
+            else:
+                left.append(i)
+        todo = left
+    if fade:
+        fl = _fade_list(H, Wd, *fade); a = [a[i] * fl[i] for i in range(n)]
+    out = []
+    for c in range(3):
+        im = Image.new('L', (Wd, H)); im.putdata(fill[c]); out.append(im)
+    al = Image.new('L', (Wd, H)); al.putdata([int(x * 255) for x in a]); out.append(al)
+    return Image.merge('RGBA', out), sum(a) / n
+
+
 def matte(b, w, fade=None):
     """黑底、白底兩張 → 有透明度的近景（顏色＝黑底 ÷ alpha）。
     透明的地方填上旁邊的顏色（預乘的模糊 ÷ alpha 的模糊）：遊戲取樣時雙線性插值會混到透明像素的顏色，填黑的話邊緣一圈黑邊。
     fade＝(上緣, 左右)：最後把透明度乘上 edge_fade（顏色不動）"""
+    if np is None: return _matte_pil(b, w, fade)
     B = np.asarray(b).astype(np.float32) / 255; W = np.asarray(w).astype(np.float32) / 255
     a = np.clip(1.0 - (W - B).mean(axis=2), 0.0, 1.0)
     a = np.where(a < 0.02, 0.0, a)                                     # 雜訊當成全透明
