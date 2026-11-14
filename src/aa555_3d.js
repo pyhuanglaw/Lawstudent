@@ -96,7 +96,7 @@ const AA555=(function(){
     ['y3s2_yu_breakfast',YU,wk('Y3S2'),(G,d)=>{ const x=lastDay(G,'ev_yu_alone_breakfast'); return got(G,YU,d)&&x!=null&&d-x>=2; },()=>SQ(YU,['📷（豆漿和蛋餅）','一個人吃早餐，第五天。'])],   /* 語 4 之後（第五天＝隔兩天以上）*/
     ['y3s2_yu_abroad',YU,wk('Y3S2'),(G,d)=>got(G,YU,d)&&abroad(G),()=>SQ(YU,['欸你在國外會不會一個人吃飯','會的話打給我','我陪你吃','我在吃第二頓'])],
     ['y3s2_bh_plan',BH,wk('Y3S2',10),(G,d)=>got(G,BH,d),()=>[M(BH,'讀書計畫第三版。'),M(BH,'📷（一張截圖）',1/60),M(BH,'這版沒有分數了。',2/60)]],
-    ['y3s2_bh_abroad',BH,wk('Y3S2'),(G,d)=>got(G,BH,d)&&abroad(G),()=>SQ(BH,['你在國外上的課，有考試嗎？','……我只是想知道。'])],
+    ['y3s2_bh_abroad',BH,wk('Y3S2'),(G,d)=>got(G,BH,d)&&abroad(G),()=>SQ(BH,['你在國外上的課，有考試嗎？','……想知道而已。'])],
     ['y3s2_xc_tables',XC,wk('Y3S2',14),(G,d)=>got(G,XC,d),()=>SQ(XC,['併購的期末報告，我做了十二張表。','全部對起來了。'])],   /* AA_555〔慈〕*/
     /* y3s2_an_onigiri、y3s2_an_group：以安 3/25 才出國（飯糰是日本的便利商店、Alison 代主持是她走了以後）＝大三下第 6 週（3/27 那週）起（AA-B 11-08 01:50）*/
     ['y3s2_an_onigiri',AN,wk('Y3S2',6),(G,d)=>got(G,AN,d)&&route(G)!=='JP',()=>SQ(AN,['📷（便利商店一整排飯糰）','三十種。我說每天吃一種，一個月不重複。……我已經重複了。'])],   /* 日本路線的祐廷在場景 J1 當面看到，不另傳 */

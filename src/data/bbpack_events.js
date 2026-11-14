@@ -293,7 +293,7 @@ const BBPACK_EVENTS=(function(){
       /* B 沒去 B4 */
       {label:'m'},say(AN,'大一那場你沒來。我把我的筆記給你看——你現在答得出來嗎？'),nar('（她把筆記本轉過來。最後那一句抄了兩次。）'),
       {choice:[{text:'「要讓他找得到門。」',hint:'今天聽到的',goto:'m1'},{text:'「要先問他本人。」',goto:'m2'},{text:'「答不出來。」',goto:'m3'}]},
-      {label:'m1'},say(AN,'……那是今天的。你自己的呢？'),say(AN,'好，下次再講。'),{goto:'end'},
+      {label:'m1'},say(AN,'那是今天的。你自己的呢？'),say(AN,'好，下次再講。'),{goto:'end'},
       {label:'m2'},say(AN,'嗯。大一的時候，我們桌上也有人這樣寫。'),{goto:'end'},
       {label:'m3'},say(AN,'我大一也答不出來。所以抄了兩次。'),{goto:'end'},
       /* C B4 中途離開 */
@@ -407,7 +407,7 @@ const BBPACK_EVENTS=(function(){
     dialogue:[ nar('布告欄貼著交換說明會的海報，芷若站在前面看了很久。'),
       {choice:[{text:'「要去聽嗎？」',goto:'a'},{text:'（站在旁邊一起看）',goto:'b'}]},
       {label:'a'},say(ZR,'……我只是在看海報的字體。'),nar('（她看的是日期。）'),{goto:'end'},
-      {label:'b'},nar('她過了一會兒才發現：'),say(ZR,'你也在看字體？'),me('嗯。'),say(ZR,'……騙人。'),
+      {label:'b'},nar('她過了一會兒才發現：'),say(ZR,'你也在看字體？'),me('嗯。'),say(ZR,'騙人。'),
       {label:'end'} ] });
   /* L4c 同一張長椅：大三下、台灣路線和美國路線（美國 8/2 才出發，大三下在臺灣；AA_508 0-2 第 11 點）、Z11（她回來第一次點餐，ev_zhiruo_no_sugar）以後，平日 9:00～17:00 文學院門口；人物不宣告自己的改變（AA-C 改的那句）*/
   EV.push({ id:'ev_l4c_bench', title:'', participants:[ZR], location:'campus', trigger:'auto', near:ARTS, once:true, tier:'short', building:'arts', term:['Y3S2'], weekday:[1,2,3,4,5], time:[9,17], background:'blur',

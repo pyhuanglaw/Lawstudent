@@ -214,7 +214,7 @@ const R2Y3A=(function(){
   S.an14Phone=function(G){ const F=G.flags, d=DK('2027-10-21'); if(d==null||G.day<d||G.day>d+1||F.AN14||done(G,'ev_an_admin_court')||now(G)<T(d,22)) return;
     const th=!knows('heroine_01',G)?null:grp(G)?NG:(met(G,'heroine_01','FRIEND')?'p:heroine_01':null); if(!th) return;
     /* AA_462 第 1 節：「我自己去」緊接在「我跟以安去。」後面像放你鴿子——換字；約了她週五一起去地院的（CRIMPRO_WITH 'an'）多一句 */
-    PHONE.at(G,d,atH(G,d,22),[{th,from:'heroine_01',text:'今天下午我先去了一趟行政法院。自己想看的。'},{th,from:'heroine_01',text:'是一個人告區公所。'}].concat(F.CRIMPRO_WITH==='an'?[{th,from:'heroine_01',text:'禮拜五的地院照舊。'}]:[]),'y3_an14_msg'); F.AN14='group'; remember('heroine_01','AN_ADMIN_COURT'); };
+    PHONE.at(G,d,atH(G,d,22),[{th,from:'heroine_01',text:'下午我先去了一趟行政法院。自己想看的。'},{th,from:'heroine_01',text:'是一個人告區公所。'}].concat(F.CRIMPRO_WITH==='an'?[{th,from:'heroine_01',text:'禮拜五的地院照舊。'}]:[]),'y3_an14_msg'); F.AN14='group'; remember('heroine_01','AN_ADMIN_COURT'); };
 
   /* ===================== AA_601 以安「一起去行政法院旁聽」：ev_an_admin_court 選「下次我也想去。」（AN_ADMIN_NEXT）、FRIEND 以上、不是前任（AA_600）＝10/27（三）21:00 她傳開庭表；
      「好。」＝出遊 11/3（三）13:50（不是 must；11/3 下午沒有必修）；「那天我有課。」→「好。」；不回＝不約（她不再提）。沒去＝AN_ADMIN_TOGETHER 'missed'、她不再提 ===================== */

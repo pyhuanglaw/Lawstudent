@@ -32,6 +32,7 @@ _R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file
 import aa630 as _aa630, import_guard as _ig
 _aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/solo_before.js', _R0)
 # CANON-NO-ECON-1112 收尾（AA_932 §2，企劃線 e622a59148；BB_455 照用）：可昕 D08／D09／D18／D20 的外校前提句，源稿沒改——寫完照 tools/story/canon_b5_rows.py 整句換
+import aa959 as _AA959; _AA959.layer_file('src/data/solo_before.js', strict=False)   # AA_959（RC2-PORT-DEV-1114）：先不擋地換一次；B5 之後再換一次（有的列的 old 是 B5 換完的字）
 import canon_b5_rows as _B5
 _P = _os.path.join(_R0, 'src', 'data', 'solo_before.js')
 with open(_P, encoding='utf8') as _f:
@@ -40,3 +41,4 @@ _t2 = _B5.fix('src/data/solo_before.js', _t)
 if _t2 != _t:
     with open(_P, 'w', encoding='utf8') as _f:
         _f.write(_t2)
+_AA959.layer_file('src/data/solo_before.js')

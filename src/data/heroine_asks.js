@@ -66,7 +66,7 @@ const HASK_DATA={
         {place:'teahouse',th:5,pre:{d:'sun',h:[15.5,14],line:'一盞 週日下午 挑戰模式'},dat:{d:'sun',h:[15.5,14],line:'一盞 週日下午 挑戰模式第二關'}}],
       out:[
         {loc:'D02',pre:{d:'sat',depart:14,line:'週六下午松菸有一個設計展 一起去 我要去偷看別人怎麼排版'},dat:{d:'sat',depart:14,line:'週六下午松菸 看展 看完吃東西 我請'}},
-        {loc:'D14',pre:{d:'sat',depart:18,line:'週六晚上淡水 看橋的燈 我查過了 不會下雨'},dat:{d:'sat',depart:18,line:'週六晚上淡水 我想看燈亮的那一下 你陪我'}},
+        {loc:'D14',pre:{d:'sat',depart:18,line:'週六晚上淡水 看橋的燈 天氣預報說不會下雨'},dat:{d:'sat',depart:18,line:'週六晚上淡水 我想看燈亮的那一下 你陪我'}},
         {loc:'D04',dat:{d:'sat',depart:18,line:'週六晚上西門 看電影 爆米花你負責'}}],
       vacTerm:{ summer:{place:'teahouse',v:{d:'next',h:[15.5,17.5],line:'明天下午 一盞 你來嗎',first:'這家的冷氣是我找了三家才選的。'}},   /* AA 回第 8 題：冷氣房＝一盞（換一盞那一句，明天下午）*/
         winter:{place:'noodle',th:5,v:{d:'next',h:[19,17.5],line:'好冷 明天去吃熱的 阿鳳那家',first:'我要加兩次湯。……不要看我。'}} },   /* AA 回第 8 題：火鍋＝阿鳳麵店（她 daily 沒有麵店＝寒假多一筆；門檻照一盞的 5）。訊息不加句號 */

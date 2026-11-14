@@ -195,7 +195,7 @@ const Y2B_EVENTS=(function(){
     dialogue:[ {unless:{custom:G=>Q6(G)||done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'},   /* AA_376 #4：Q8b（10/6～10/8 爸爸卡關，含三天都沒去的手機版）已經說過的不再當新消息（同閒聊階梯 Q5-L1 的判斷）*/
       {if:{custom:G=>done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'上次跟你說的那個遊戲。'},
       {speaker:'heroine_04',text:'畢業專題。我要交那隻貓。'},
-      {speaker:'heroine_04',text:'安全。好玩。一定會過。'},
+      {speaker:'heroine_04',text:'安全、好玩，一定會過。'},
       {speaker:null,text:'（她看著筆電上兩個資料夾，一個叫「cat」，一個沒有名字。）'},
       {speaker:'heroine_04',text:'……另一個還沒做完。交了會被打很爛的分數。'},
       {speaker:'heroine_04',text:'你覺得呢？不要幫我決定。你只要講你覺得。'},
@@ -248,7 +248,7 @@ const Y2B_EVENTS=(function(){
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:'heroine_02',text:'今天我一個人看了一部電影。'},
       {speaker:'heroine_02',text:'……你打來了，所以不算一個人。'},
-      {speaker:'heroine_02',text:'好了。去睡。你那邊很晚了。'} ] };
+      {speaker:'heroine_02',text:'好了，去睡。你那邊很晚了。'} ] };
 
   /* ---- 1B-11 沛珊回來（AA_296 2-3-1 ④，企劃線 3f406dbc；新寫，原本兩則私訊的兩句都在裡面）：2027-08-07 21:00 她打來（y2b3d.js S.psBackPhone 排）；沒接＝原本那兩則私訊 ---- */
   const Y2=()=>typeof Y2B!=='undefined'?Y2B:null;

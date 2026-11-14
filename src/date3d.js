@@ -363,7 +363,7 @@ const DATE=(function(){
      2026-11-11（使用者 X324 以安約會台詞重寫的後續，AA_780_an_date_followup.json@248c8e390）：以安這四格換字（enough 兩句、leaveEarly、noPair；depart 三句不動）——enough 第一句不再說「明天早上有課」
      （AA：不綁那個條件），S.LINE_IF.heroine_01.enough 認的字不在了＝寒暑假也輪到這一句（條件那一行留著、不會再擋到任何一句）*/
   S.EXTRA_LINES={
-    heroine_01:{depart:['我到了。早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。'],enough:['今天差不多了。再走下去，我會開始看錶。','排的都走完了。多走的那一段，我很喜歡。'],
+    heroine_01:{depart:['我到了，早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。'],enough:['今天差不多了。再走下去，我會開始看錶。','排的都走完了。多走的那一段，我很喜歡。'],
       leaveEarly:['這樣就回去了？好。排好的那幾個地方不會跑。'],noPair:['照片？我幫你拍。我拍得比較正。']},
     heroine_03:{depart:['我到了。','出門了。傘有帶，這次有。','快到了。你先找地方站，我看得到你。'],enough:['差不多了。秀琴姨煮了飯，我想回去吃熱的。','我走不動了。到這裡就好。'],leaveEarly:['就這樣？好。那我回去了。'],noPair:['我不用。我幫你拍，你站過去。']} };
   const inTerm=day=>typeof CALENDAR!=='undefined'&&!!CALENDAR.termOf&&!!CALENDAR.termOf(day)&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(day));
@@ -750,7 +750,7 @@ const DATE=(function(){
      約會裡每一筆扣錢（門票、互動點、請她那一份、住宿、固定段落、回程車資）都走 S.pay——錢夠＝照扣；不夠＝那一筆她付、不扣，錢不會變負的。
      這一趟第一次她付：旁白「（你的錢不夠。她先付了。）」＋她一句（七位各一句；其他人只有旁白）；同一趟後面再不夠＝只有旁白。台詞照 AA 原文，不改字 */
   S.BROKE={narr:'（你的錢不夠。她先付了。）',lines:{heroine_01:'我來。你下次記得，我會記。',heroine_02:'（她把錢放上去）……這次我。',heroine_03:'我付啦。你不要這樣看我。',
-    heroine_04:'錢包見底了喔？我來，算你欠我一次。',heroine_05:'我付。不用算。',kexin:'沒錢了齁。我來。下次你請早餐。',classmate_peishan:'你錢包在減肥喔？我來啦。'}};
+    heroine_04:'錢包見底了喔？我來，算你欠我一次。',heroine_05:'我付。不用算。',kexin:'沒錢了齁？我來。下次你請早餐。',classmate_peishan:'你錢包在減肥喔？我來啦。'}};
   S.pay=async function(GM,t,amount,label){ const G=GM&&GM.G, c=Math.max(0,Math.round(+amount||0)); if(!c||!G) return 0;
     if((G.money|0)>=c){ if(GM.money) GM.money(-c,label); return c; }
     const first=!(t&&t.brokeSaid); if(t) t.brokeSaid=true; await GM.say(null,S.BROKE.narr);
@@ -761,7 +761,7 @@ const DATE=(function(){
      做法：S.playSet 播到這一句（第 5 個參數 pid＝正在演的互動點；S.spotLine、S.playOpts 才傳）記 t.shePaid＝互動點 id；S.scene、S.dayRound 在 S.spotLine 演完的當下 S.takeShePaid 看一次、清掉，
      是那個互動點才不扣（只是那一趟行程物件上的暫時欄位，演完就拿掉，不是存檔的新欄位；S.spotLine 一開始也清一次）。沒有旁白、沒有提示；選單上的「160 元」照舊；快速約會不演台詞＝照扣；
      祐廷選請客的選項另外扣的那一份（S.isTreat／extra）照舊。測試 tests/date_she_pays_1111_unit.js */
-  S.SHE_PAYS={heroine_01:{'D06.cafe':['這家的蛋糕我記得，檸檬的那個。這次我請。'],'D13.drink':['這杯我請。不要跟我搶。'],'D18.teahouse':['這壺茶多少錢？好，不貴，這壺我請。']}};   /* 2026-11-12（AA_832@b84e779563，X324 以安續改第一批）：D18.teahouse normal 第三套那一句 AA 改了字（原本「這壺茶多少錢？好，不貴。我請。」）——同一格（AA_780 _meta.she_pays 的 D18#41）、還是她請，這裡跟著換成新句，不然茶樓那一次會照扣 */
+  S.SHE_PAYS={heroine_01:{'D06.cafe':['這家要點檸檬的蛋糕。這次我請。'],'D13.drink':['這杯我請。不要跟我搶。'],'D18.teahouse':['這壺茶多少錢？好，不貴，這壺我請。']}};   /* 2026-11-12（AA_832@b84e779563，X324 以安續改第一批）：D18.teahouse normal 第三套那一句 AA 改了字（原本「這壺茶多少錢？好，不貴。我請。」）——同一格（AA_780 _meta.she_pays 的 D18#41）、還是她請，這裡跟著換成新句，不然茶樓那一次會照扣 */
   /* AA_782（企劃線 f7a23d408；X324）：其他人的請客格——學姊七格、沛珊兩格、可昕一格——不手寫：tools/date/import_she_pays.py 從稿產生 src/data/she_pays.js（SHE_PAYS_DATA.pays，同一個格式），
      這裡合進來（index.html 在 date3d.js 前面載）；稿的每一列匯入工具已經對過 date_lines.js 那一格逐字、格號、她那個互動點底下剛好一處 */
   if(typeof SHE_PAYS_DATA!=='undefined'&&SHE_PAYS_DATA&&SHE_PAYS_DATA.pays) for(const id in SHE_PAYS_DATA.pays) for(const pid in SHE_PAYS_DATA.pays[id]){ const o=S.SHE_PAYS[id]||(S.SHE_PAYS[id]={}); o[pid]=(o[pid]||[]).concat(SHE_PAYS_DATA.pays[id][pid].filter(x=>!(o[pid]||[]).includes(x))); }

@@ -22,7 +22,7 @@ const ENCOUNTERS={
       lines:{acq:['欸，你也在這！','我們系籃的在等位子，等四十分鐘了，你說扯不扯？……很扯。'],friend:['哥！來得好，幫我們排一下，我去買飲料。','排完一起吃？吃完再走。']},src:'AA_162 1、2-4'},
     /* Alison D04 西門町（週六 17:00～20:00）拿掉：AA_661 第 30 列（AA_615 第 4 節）——週五、週六 18:00～23:00 她在南洋戲院打工，作息那一筆一起拿掉；記憶 ENC_D04_YU 和之後那一句照留（舊存檔遇過的照讀）*/
     {who:'classmate_xinci',spot:'D04',why:'她在一家賣偶像周邊的小店門口排隊。',days:[6],from:20,to:23,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D04_XC',away:'在西門町',
-      lines:{acq:['{name}？','我在排一張小卡。這是一件很重要的事。'],friend:['我在排一張小卡，排四十分鐘了。','前面還有十幾個人，你不要笑喔。']},src:'AA_162 1、2-4'},   /* friend：AA_209 附錄A §2 */
+      lines:{acq:['{name}？','我在排一張小卡。這是一件很重要的事。'],friend:['我在排一張小卡，排四十分鐘了。','前面還有十幾個人。我昨天就想來了。']},src:'AA_162 1、2-4'},   /* friend：AA_209 附錄A §2 */
     // ---- D06 臺北市立美術館 ----（沛珊大三起的美術館那一列拿掉：AA_282 第 5 節第 1 點，她在台南、不來臺北；D20 烏來、D08 大三下／大四下同，AA_342 C2）
     {who:'heroine_05',spot:'D06',why:'她站在一幅畫前面，手上拿著展覽的說明。',days:[0],from:13,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S2'],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D06_SIS',away:'在美術館',
       lines:{acq:['學弟。……你也看展？','我排了兩個小時。還剩四十分鐘。'],friend:['這一區的說明牌，我每一塊都讀完了。','你不用跟著讀。看你想看的就好。'],dating:['你來了。……我沒有約你。','我剛剛還在想，你在就好了。']},

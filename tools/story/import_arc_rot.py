@@ -118,6 +118,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_arc_rot.py（' + data['src'] + (f'；沛珊 {n755} 處照 {ps755.tag(ROOT, allow)}' if n755 else '') + '）。不要手改，改企劃 AA_717 再重新匯入。\n'
           '   輪換句跟著日期和故事走、她的生活（BB_305 第 5、6 節；播放 src/arcs3d.js ARCS.rotPick）*/\n'
           "'use strict';\nconst ARC_ROT=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（RC2-PORT-DEV-1114：785 列）：源稿不動、寫檔前照 docs/handoff/AA_959_overlay.json 換；順序 AA959.layer 先、B5.fix 後
+    js = _AA959.layer(js, os.path.basename(OUT))
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

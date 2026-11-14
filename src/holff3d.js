@@ -80,7 +80,7 @@ const HOLFF=(function(){
     {tag:'hol_y2w_an_back',day:'2027-02-21',h:18,an:['回臺北了。我媽在行李箱塞了一袋橘子。']},
     {tag:'hol_y2s_bh_home',day:'2027-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。家裡的冷氣比宿舍的好。']]},
     {tag:'hol_y2s_zhe_home',day:'2027-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','你們吃燒臘 我遠端參加']]},
-    {tag:'hol_y2s_an_home',day:'2027-07-24',h:15,anS:[['heroine_01','📷（台中家裡的書桌，疊著一疊書）'],['heroine_01','回台中了。這次帶了六本。8 號回去。']]},
+    {tag:'hol_y2s_an_home',day:'2027-07-24',h:15,anS:[['heroine_01','📷（台中家裡的書桌，疊著一疊書）'],['heroine_01','回台中了，這次帶了六本書。8 號回臺北。']]},
     {tag:'hol_y2s_an_back',day:'2027-08-08',h:21,anS:[['heroine_01','回臺北了。六本讀完四本。']]},
     {tag:'hol_y2s_zhe_back',day:'2027-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','遠端吃燒臘 一次都沒成功'],['zhe','誰要吃燒臘']]},
     {tag:'hol_y2s_bh_back',day:'2027-08-24',h:20,th:NT,ms:[['classmate_bohan','回來了。明天香港。']]},   /* AA_350 9-1 缺的字（企劃線 2e255e9a）：柏翰 2027-08-24 20:00 回臺北（S1「8/24 晚上回臺北」、香港那句「我 24 號晚上上來」）*/

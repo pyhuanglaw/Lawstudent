@@ -669,7 +669,7 @@ const L118_LUNCH_DATA={
    "lines": [
     [
      "classmate_mingxuan",
-     "昨天打球扭到，走路有點怪。你不要笑。"
+     "昨天打球扭到，走路有點怪。不是在耍帥。"
     ],
     [
      "player",
@@ -747,7 +747,7 @@ const L118_LUNCH_DATA={
     ],
     [
      "classmate_xinci",
-     "沒事。吃完我傳給你，你不要笑。"
+     "沒事。吃完我傳給你。"
     ]
    ]
   },

@@ -129,7 +129,7 @@ const SISB13_EVENTS=(function(){
         SIS('那你早點睡。我只打十分鐘。'),
         {choice:[{text:'「生日快樂。」',goto:'a'},{text:'「許了什麼願？」',goto:'b'}]},
         {label:'a'},SIS('謝謝。……這句當面聽比較好。可是這樣也可以。'),{goto:'e'},
-        {label:'b'},SIS('一個。跟論文有關。……你不要笑。'),
+        {label:'b'},SIS('一個。跟論文有關。……不能再多講了。'),
         {label:'e'},SIS('好。十分鐘到了。謝謝你接。'),
         {set:{SIS13_JP_BDAY:true}} ],
       outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.jpBdayMissed(G); } },   /* 沒接、先不接：照現有那一句（她的回覆）*/

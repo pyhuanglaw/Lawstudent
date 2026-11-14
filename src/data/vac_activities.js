@@ -185,7 +185,7 @@ const VAC_DATA=(function(){
     /* 大二暑假：方奕廷，日本的山（8/1～8/4）；7/10 21:00 私訊、週五（7/16）前回 */
     T02:{ id:'T02', title:'日本的山（方奕廷那一團）', cat:'海外旅遊', season:'summer', years:['Y2'], days:['08-01','08-04'], slot:'night', place:{kind:'abroad',name:'日本',tz:1}, cost:{payer:'family',local:'self'}, free:'partial', mates:['npc_fangyt'],   /* AA_369 H4 */
       signup:{kind:'dm', who:'npc_fangyt', min:'FAMILIAR', day:'07-10', h:21, until:'07-16', flag:'VAC_T02',
-        msgs:['八月一號到四號，去日本爬山。','登山社兩個人。你要的話，第四個位子。','機票我查過了，下禮拜會漲。'],
+        msgs:['八月一號到四號，去日本爬山。','登山社兩個人。你要的話，第四個位子。','機票下禮拜會漲，要的話這禮拜說。'],
         yes:{t:'去。',say:[{from:'npc_fangyt',text:'好。鞋子要能走八個小時的。'}],family:'機票多少？我轉給你。'},
         later:{t:'我體力不太行。',say:[{from:'npc_fangyt',text:'第二天有纜車。……我不坐，你可以坐。週五前跟我說。'}]},
         no:{t:'這次不行。',say:[{from:'npc_fangyt',text:'好。有拍到樹，再給你看。'}]} },
@@ -205,7 +205,7 @@ const VAC_DATA=(function(){
         no:{t:'這次不行。',say:[{from:'heroine_04',text:'好吧 帶東西給你'}]} },
       alt:{day:'07-05',h:21,who:'heroine_04',min:'FAMILIAR',if:G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='JP',msgs:['📷（遊戲展的入口）','你不在 好可惜']},
       trip:{ start:{day:'07-03',h:8}, end:{day:'07-07',h:18}, placeName:'曼谷', home:'auto' }, back:{},
-      hallLines:[{who:'heroine_04',text:'我在飛機上要睡覺。到了再叫我。'},{who:'kai',text:'遊戲展第一天要排隊。……我查過了，九點開門。'}],   /* 進 3D 出境大廳演一次、不用選項（AA_478 第 3 節；src/vac3d.js S.hallKeys）*/
+      hallLines:[{who:'heroine_04',text:'我在飛機上要睡覺。到了再叫我。'},{who:'kai',text:'遊戲展第一天要排隊。……九點開門，我八點就要到。'}],   /* 進 3D 出境大廳演一次、不用選項（AA_478 第 3 節；src/vac3d.js S.hallKeys）*/
       keys:[
         {day:'07-04',h:14,title:'遊戲展',bg:null,lines:[{narr:'（展場很小，攤位一個挨著一個。子晴在一個攤位前站了二十分鐘，一直玩同一關。）'},{who:'heroine_04',text:'這關設計得很爛。……可是我停不下來。'}]},
         {day:'07-05',h:20,title:'夜市',bg:'trip_th_nightmarket',lines:[{narr:'（阿凱一個人吃了三份炒河粉。）'},{who:'kai',text:'……還有一攤。'},G=>Y(G).dating_heroine_04===true?[{narr:'（回旅館的路上，阿凱走在前面。子晴的手指勾了一下你的。）'},{who:'heroine_04',text:'……他看不到。'}]:null]},   /* AA_532 6-2：和子晴交往中照朋友版演，只加這兩處 */
@@ -418,7 +418,7 @@ const VAC_DATA=(function(){
   const TRIP_MSG={
     gf:{
       heroine_01:{freq:{h:21.5},dep:['到了傳一張照片。一張就好。'],mid:['你那邊現在幾點？……吃飯了沒？'],back:['明天有空的話，一起吃飯。'],   /* AA_369 L3：不分目的地；第 7 節第 6 題：整句換（原本只換了引號裡的那段）*/
-        pool:[['讀了四十頁。你那邊天氣好嗎？'],['我把你回來那天圈在月曆上了。……不要笑。'],['我媽問你吃得習不習慣。她沒問我。'],['Alison 說你不在，宵夜沒人跟她搶。'],['📷（總圖三樓靠窗的位子）','這裡沒人坐。'],['背單字背到「おかえり」。……先存著。'],['你吃過了嗎？'],['晚安。']],rep:['好。','我也想妳。'],   /* AA_369 M3：寒暑假沒有讀書會（Alison 那句換掉）；第 7 節第 6 題：「…應該在吃早餐。」整句換；第 8 節第 6 題：「你吃過了嗎？」開頭不要刪節號 */
+        pool:[['讀了四十頁。你那邊天氣好嗎？'],['我把你回來那天圈在月曆上了。……圈了兩圈。'],['我媽問你吃得習不習慣。她沒問我。'],['Alison 說你不在，宵夜沒人跟她搶。'],['📷（總圖三樓靠窗的位子）','這裡沒人坐。'],['背單字背到「おかえり」。……先存著。'],['你吃過了嗎？'],['晚安。']],rep:['好。','我也想妳。'],   /* AA_369 M3：寒暑假沒有讀書會（Alison 那句換掉）；第 7 節第 6 題：「…應該在吃早餐。」整句換；第 8 節第 6 題：「你吃過了嗎？」開頭不要刪節號 */
         tp:{pool:[4],backNext:true},   /* AA_369 M3：總圖的照片只在她人在臺北的日子用（vac3d.js S.tripMsgs）；第 7 節第 7 題：回來那天的「明天見。……」限臺北＝隔天她在臺北才傳（隔天她在台中＝改第 2 題那句，reunionHome）*/
         dark:['今天沒有回。……你那邊還好嗎？'],darkAns:'好。……下次停電，也先跟我說。',miss:['一個人去吃了你常點的那家。……有點想你。']},
       heroine_03:{freq:{h:21.5,we:22.5}/* AA_686 第 3e 項（企劃線 1df3c189e，AA-C 定 D109）：週六、日 22:30（下班、吃完飯以後）、平日 21:30；原本 h 22.5、tt 23（週二、四 23:00「顧店晚一點」是麵店時代的）*/,dep:['落地跟我說'],mid:['📷（茶屋的茶壺）','今天也有開'],back:['回來了嗎','蘇姨說幫你留一杯'],

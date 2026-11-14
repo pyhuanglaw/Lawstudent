@@ -461,6 +461,8 @@ def main():
           '   格式說明在匯入工具的檔頭；怎麼演：src/l118_lunch3d.js */\n'
           "'use strict';\nconst L118_LUNCH_DATA=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n'
           "if(typeof module!=='undefined') module.exports=L118_LUNCH_DATA;\n")
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（RC2-PORT-DEV-1114：785 列）：源稿不動、寫檔前照 docs/handoff/AA_959_overlay.json 換；順序 AA959.layer 先、B5.fix 後
+    js = _AA959.layer(js, os.path.basename(OUT))
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

@@ -2488,7 +2488,7 @@ const STORY = (function(){
     {id:'zq_f2',h:()=>23,ok:G=>fl('heroine_04')==='FAMILIAR'&&gotBefore(G,'heroine_04'),
       items:()=>['我的貓','卡在牆裡','出不來','……不用回'].map(t=>P1('heroine_04',t))}   /* BB_175 D13：拿掉「欸不是」；玩家以為是真的貓，Q6 才知道是遊戲裡的（伏筆）*/,
     {id:'zq_r1',h:()=>22+10/60,ok:G=>fl('heroine_04')==='FRIEND'&&gotBefore(G,'heroine_04'),
-      items:G=>(G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game)?seq('heroine_04',['📎 cat_v0.9','這版貓會爬樓梯。']).concat(PHONE.inGroup(G,'guitar')?[{th:'g:guitar',from:'heroine_04',text:'新版本 要測的人報名',dt:0.5}]:[]):seq('heroine_04',['你聽過這首嗎','📎（一段吉他錄音）','我自己錄的 很爛不要笑'])}   /* BB_175 D14：看過 Q6 照留（群組那則改字）；還沒看過＝吉他錄音、群組不發 */,
+      items:G=>(G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game)?seq('heroine_04',['📎 cat_v0.9','這版貓會爬樓梯。']).concat(PHONE.inGroup(G,'guitar')?[{th:'g:guitar',from:'heroine_04',text:'新版本 要測的人報名',dt:0.5}]:[]):seq('heroine_04',['你聽過這首嗎','📎（一段吉他錄音）','我自己錄的 很爛 聽完再罵'])}   /* BB_175 D14：看過 Q6 照留（群組那則改字）；還沒看過＝吉他錄音、群組不發 */,
     {id:'zq_c1',h:()=>19+40/60,ok:G=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04'),
       items:()=>seq('heroine_04',['你今天有吃飯嗎'])}   /* BB_175 D15：「這是問句」是 Q11 的那一刻 */,
     {id:'zq_c2',h:()=>22.5,ok:(G,day)=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04')&&(CALENDAR.termOf(day)||{}).exam==='final',
@@ -3720,7 +3720,7 @@ const STORY = (function(){
     const kx=how==='call'?{name:'可昕（電話）'}:cwWho('kexin'), me={name:G.name}, r=S.routeFor(G), place=r==='JP'?'日本':'美國';
     GM.sceneBegin(); try{ const res=async()=>{ if(r==='TW') await GM.say(kx,'留下來？……好。那我們的日子不用排時差。'); else { await GM.say(me,place+'。'); await GM.say(kx,'好。那我們來排時差。'); } };
       const k=await GM.choose([{t:'「我在想要不要交換。」'},{t:'「交換的表，我已經想好了。」'}]);
-      if(k===0){ await GM.say(kx,'你問我意見，還是告訴我結果？'); await GM.say(kx,'……兩種都可以，我只是想知道是哪一種。'); const j=await GM.choose([{t:'「問妳。」'},{t:'「告訴妳結果。」'}]);
+      if(k===0){ await GM.say(kx,'你問我意見，還是告訴我結果？'); await GM.say(kx,'……兩種都可以，我想知道是哪一種。'); const j=await GM.choose([{t:'「問妳。」'},{t:'「告訴妳結果。」'}]);
         if(j===0){ await GM.say(kx,'那我的意見是：想去就去。……不用替我想。'); F.KX_EXCHANGE_ASKED=true; await GM.say(null,r==='TW'?'（你最後沒有交。）':'（你還是寫了'+place+'。）'); } else await res(); }
       else await res();
     } finally { GM.sceneEnd(); } return true; };

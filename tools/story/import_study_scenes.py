@@ -158,6 +158,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_study_scenes.py（' + data['src'] + '）。不要手改，改企劃 AA_707 再重新匯入。\n'
           '   一起念書第 1～6 次＋輪換（STUDY-DATE-PROGRESS-1107；規則 AA_706 第 1 節；播放 src/studyn3d.js）*/\n'
           "'use strict';\nconst STUDY_SCENES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（RC2-PORT-DEV-1114：785 列）：源稿不動、寫檔前照 docs/handoff/AA_959_overlay.json 換；順序 AA959.layer 先、B5.fix 後
+    js = _AA959.layer(js, os.path.basename(OUT))
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

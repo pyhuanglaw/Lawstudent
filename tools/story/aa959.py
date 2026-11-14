@@ -22,7 +22,7 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TABLE = 'docs/handoff/AA_959_overlay.json'
-SRC_SHA = '6ccf6669f8'   # 企劃線 claude/magical-albattani-bk7b4n（AA_951～967：七位女主角＋配角，405 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
+SRC_SHA = '21079b0b46'   # 企劃線 claude/cool-heisenberg-o8kuqx，785 列（RC2-PORT-DEV-1114）；前一版：企劃線 claude/magical-albattani-bk7b4n（AA_951～967：七位女主角＋配角，405 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
 
 # 說話的人對不上表上的 speaker（或不是某一個人的句子）：不換，報 AA。鍵＝(檔名, old)；表在 docs/handoff/AA_959_skip.json（tests/aa959_map.js 也讀）
 SKIPFILE = 'docs/handoff/AA_959_skip.json'
@@ -119,11 +119,16 @@ def apply(text, fname, log=None):
 
 def map_str(s, fname):
     """一句字串（不含引號）照表換完是什麼（不記 HITS）：給「覆蓋層的 new 後來又被 AA_959 換掉」的核對用。"""
-    t = "'" + s + "'"
-    for r in for_file(fname):
-        sp = _spans(t, r)
-        for a, b in reversed(sp): t = t[:a] + _new(r) + t[b:]
-    return t[1:-1]
+    for _ in range(3):   # 一句被換兩次的（AA_953 砍「今天」→ AA_1020 再換句尾）：換到不動為止；old 帶雙引號的列用雙引號包著比
+        s0 = s
+        for q in Q:
+            t = q + s + q
+            for r in for_file(fname):
+                sp = _spans(t, r)
+                for a, b in reversed(sp): t = t[:a] + _new(r) + t[b:]
+            s = t[1:-1]
+        if s == s0: break
+    return s
 
 
 def map_any(s):
@@ -146,6 +151,13 @@ def layer(text, fname, strict=True):
     return text
 
 
+def layer_file(rel, strict=True):
+    """寫完檔以後才補一層的匯入工具用（solo_before、syllabus）：讀檔、照表換、有變才寫回"""
+    p = os.path.join(ROOT, rel); t = open(p, encoding='utf8').read(); t2 = layer(t, os.path.basename(rel), strict)
+    if t2 != t:
+        with open(p, 'w', encoding='utf8') as f: f.write(t2)
+
+
 def missing(fnames):
     """fnames 這幾個檔負責的列裡，沒套到的（SKIP 不算）。"""
     bs = {os.path.basename(f) for f in fnames}
@@ -164,7 +176,9 @@ def source_tag():
 # 沒有匯入工具（或匯入工具早就不再整檔重產）的手寫檔：直接照表換
 HAND = ['events.js', 'r2y3a_events.js', 'r2y3b_events.js', 'r2y4a_events.js', 'r2y4b_events.js', 'group_events.js',
         'termend_opts.js', 'termend_lines.js', 'vac_activities.js', 'invites.js', 'multirel_lines.js', 'movie_plots.js',
-        'heroine_arcs.js', 'free_trips.js', 'bbpack_events.js'] + LINKED['msg_replies.js']
+        'heroine_arcs.js', 'free_trips.js', 'bbpack_events.js'] + LINKED['msg_replies.js'] + [
+        # RC2-PORT-DEV-1114（785 列；AA-C 11-14 分的 41 個手寫檔＋story3d.js、holff3d.js）
+        'pool_story.js', 'enc_walk.js', 'sup497_lines.js', 'pool_story_b3.js', 'kxdrift3d.js', 'an_yt_hol_events.js', 'date3d.js', 'y2b_events.js', 'shop_npc.js', 'rel_lines.js', 'dorm203_lines.js', 'adv3d.js', 'zrzq_events.js', 'wz_jobs.js', 'vacgap_lines.js', 'vacfill_events.js', 'vac3d.js', 'sis_y2y3_events.js', 'sis_qixi_events.js', 'sis_b9_events.js', 'sis_b4_events.js', 'sis_b13_events.js', 'sis_b10_events.js', 'r2y4b3d.js', 'r2y4a3d.js', 'pool_story_b4.js', 'pool_story_b2.js', 'kx_khh3d.js', 'jpprep_events.js', 'jp3d.js', 'hometown_lines.js', 'heroine_asks.js', 'feed_y3s2.js', 'feed_y1s1.js', 'family_xmas3d.js', 'encounters.js', 'cracktalk_lines.js', 'camp_y1.js', 'aa667_3d.js', 'aa519_lines.js', 'story3d.js', 'holff3d.js', 'r2y3a3d.js']
 
 
 def gpath(f):
@@ -187,7 +201,7 @@ def check():
                     p = gpath(f)
                     if p and _spans(open(p, encoding='utf8').read(), r): bad.append(f'第 {r["_i"]} 列 {f}（跟著 {src} 換）：還有舊字「{r["old"]}」')
         own = [f for f in r['files'] if (f, r['old']) not in SKIP]
-        if own and not any(_new(r) in open(gpath(f), encoding='utf8').read() for f in own if gpath(f)):
+        if own and not any(_new(r) in (t := open(gpath(f), encoding='utf8').read()) or map_str(_new(r), f) in t for f in own if gpath(f)):   # 新字後來又被別的列換掉的（AA_953 → AA_1020）也算
             bad.append(f'第 {r["_i"]} 列 {own}：找不到新字「{_new(r)}」')
     return bad
 

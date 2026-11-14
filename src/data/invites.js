@@ -97,7 +97,7 @@ const INVITE_DATA={
         if(c.year<=1) return {res:'resched',why:'plan',lines:['好。','今天不行，明天。'],alt:I.nextFree(G,'heroine_01',c.P,c.day+1,10)};   /* AA_576 第 11、12 列（AA_415@b10d0567f）：先答應、再說今天不行改到隔天；祐廷那句「沒有目的。」刪；改天的結果不動 */
         return {lines:['好。']}; } },   /* AA_255 第 4 節第 7 點、AA_259 第 4 節第 7 點 */
     heroine_03:{ walk:{noodle:['這條路我第一次走，是高三暑假去茶屋應徵那天。那家修鞋店的老闆，三十年沒換過招牌。'],wenzhou:['這間老屋以前是一個教授住的。蘇姨說他每天來喝一壺茶，二十年。'],any:[{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','SHARED_MEAL'),l:['秀琴姨說你吃東西很像在考試。很認真，又很怕吃錯。']}],rain:['（她撐傘，傘偏向你那一邊，自己的肩膀濕了一半。）','沒事啦。']},   /* walk.rain 第二句：AA_194 第 4 節 */   /* 語彤：週二、週四晚上在阿鳳麵店幫忙（作息 help），其他時間在總圖三樓（2-2；BB_121 2-2：系統沒有反邀、改地點，先當婉拒）*/
-      acc:{noodle:{A:['燒臘店？','好。']},gym_badminton:['……我不太會。','好。你不要笑。'],run_avenue:['早上九點有課。七點半以前可以。']},   /* 羽球、晨跑：AA_417 3-3 */
+      acc:{noodle:{A:['燒臘店？','好。']},gym_badminton:['……我不太會。','好。先說，我會一直撿球。'],run_avenue:['早上九點有課。七點半以前可以。']},   /* 羽球、晨跑：AA_417 3-3 */
       rule:(G,c,I)=>{ const r=c.r;
         if(r.res==='resched'&&r.why==='busy'&&r.act==='help') return c.pid==='noodle'?{res:'here',lines:['我就在店裡。你來。'],alt:null}:{res:'decline',why:'shop',lines:['麵店。','你來店裡就好。'],alt:null};
         if(r.res!=='accept') return null;
@@ -298,7 +298,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
     heroine_01:{first:['映月湖？好。我還沒有晚上去過。'],acc:['好。'],plan:['那時候我有讀書會。{zh}可以嗎？'],firstAt:['（湖面上有路燈的倒影。她站在木棧道上看了很久。）','白天我都是走過去，沒有停下來過。'],walk:['湖心亭那邊，大一的時候有人在拍婚紗。那天我趕著上課，只看了一眼。']},
     heroine_02:{first:['映月湖！我超喜歡那裡晚上的樣子，很像電影。'],acc:['好啊。你要不要我帶相機？'],plan:(G,c)=>c&&c.r&&c.r.act==='barista'?null:['那時候我有事啦。{zh}好不好？'],firstAt:['（她拿手機對著湖心亭拍了好幾張，每一張都蹲得更低。）','這個角度，可以當電影的最後一幕。'],walk:['有一部電影的告白，就是在湖邊。……我不講是哪一部，你自己猜。']},
     heroine_03:{first:['映月湖……晚上很安靜。好。'],acc:['好。我跟店裡說一聲。'],plan:['那時候不行。{zh}。'],firstAt:['（她在木棧道邊蹲下來，看水裡的魚。）','牠們不怕人。大家都會餵。'],walk:['蘇姨說，以前湖邊有一個賣豆花的。後來就不見了。']},
-    heroine_04:{first:['映月湖？晚上去？會不會有蚊子。','好啦。'],acc:['好。我帶防蚊液。這是條件。'],plan:['那時候不行。{zh}？'],firstAt:['（她看著湖心亭的燈，拿出手機開了一個空白的檔案。）','這個場景，我要做進下一關。'],walk:['湖的形狀要做成地圖的話，邊邊很難畫。']},
+    heroine_04:{first:['映月湖？晚上去？會不會有蚊子。','好啦。'],acc:['好，我帶防蚊液。這是條件。'],plan:['那時候不行。{zh}？'],firstAt:['（她看著湖心亭的燈，拿出手機開了一個空白的檔案。）','這個場景，我要做進下一關。'],walk:['湖的形狀要做成地圖的話，邊邊很難畫。']},
     heroine_05:{first:['映月湖。好。我很久沒有不念書地走路了。'],acc:['好啊。'],plan:['那時候我有安排了。{zh}，可以嗎？'],firstAt:['（她站在湖邊，手上什麼都沒拿。）','這裡比我記得的安靜。'],walk:['我大一的時候，常常繞這個湖背書。一圈背一條。']},
     classmate_peishan:{first:['映月湖！好啊，我想看湖心亭晚上有沒有開燈。'],acc:['好！走完我們去吃東西。'],plan:['啊，那時候我有事！{zh}可以嗎？'],firstAt:['（她走到湖心亭，摸了一下欄杆。）','這欄杆好舊。我們家店門口也有一個這麼舊的。'],walk:['你有沒有覺得，晚上的學校跟白天是兩個地方。']},
     kexin:{first:['映月湖？好。我每天經過，沒有好好看過。'],acc:['好。你負責晚餐。'],plan:['那時候不行。{zh}，不准再改。'],firstAt:['（她繞到湖的另一邊看了一下，又走回來。）','第一次坐下來看。以前都只有經過。'],walk:['湖邊晚上的路燈好亮。我以前都不敢一個人走這邊。']} };
@@ -559,7 +559,7 @@ INVITE_DATA.places.push({id:'yangyang',zone:'yangyang',name:'洋洋鹹酥雞',ve
    答應的那一句：七位各一句（people[人].acc.corner_records）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；可昕照現在的規則（只在她在臺北、約得到的時候）。*/
 INVITE_DATA.places.push({id:'corner_records',zone:'corner_records',name:'轉角唱片',verb:'去轉角唱片逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['fun'],hours:[13,20],times:[13,15.5,17.5,19],
   prefTable:'listen',show:G=>!!G&&!!G.visited&&!!G.visited.corner_records});   /* AA_941：原本可昕只排週末的 whoDays 拿掉 */
-(function(){ const CR={heroine_01:'好。我不太懂音樂，你不要笑。',heroine_02:'轉角唱片？好。我想找一張電影原聲帶。',heroine_03:'好。我喜歡那間的味道。舊紙的味道。',heroine_04:'好！我要找遊戲配樂的靈感。',
+(function(){ const CR={heroine_01:'好。我不太懂音樂，你要跟我講哪一首好聽。',heroine_02:'轉角唱片？好。我想找一張電影原聲帶。',heroine_03:'好。我喜歡那間的味道。舊紙的味道。',heroine_04:'好！我要找遊戲配樂的靈感。',
     heroine_05:'好。讀累了，聽一點音樂也好。',classmate_peishan:'好啊！我想找動畫的原聲帶！',kexin:'好啊。我想找一張老唱片。'};
   INVITE_DATA.cornerAcc=CR;
   for(const id in CR){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).corner_records=[CR[id]]; } })();

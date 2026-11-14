@@ -630,7 +630,7 @@ const SOLO_BEFORE={
    "D04": [
     {
      "who": "heroine_04",
-     "text": "欸不是，你一個人來看過晚場？"
+     "text": "你一個人來看過晚場？"
     },
     {
      "who": "heroine_04",
@@ -644,7 +644,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_04",
-     "text": "欸不是，你比我想的還要文青。"
+     "text": "你比我想的還要文青欸。"
     }
    ],
    "D12": [
@@ -670,7 +670,7 @@ const SOLO_BEFORE={
    "D09": [
     {
      "who": "heroine_04",
-     "text": "欸不是，你坐過了？那透明地板的車廂呢？"
+     "text": "你坐過了？那透明地板的車廂呢？"
     },
     {
      "who": "heroine_04",
@@ -768,7 +768,7 @@ const SOLO_BEFORE={
    "D17": [
     {
      "who": "heroine_04",
-     "text": "欸不是，你一個人跑來野柳？好遠。"
+     "text": "你一個人跑來野柳？好遠欸。"
     }
    ],
    "D19": [
@@ -1278,7 +1278,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "kexin",
-     "text": "……我只是想知道。從學校過去，真的很遠。"
+     "text": "……隨口問的。從學校過去，真的很遠。"
     }
    ],
    "D24": [

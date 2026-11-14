@@ -50,7 +50,7 @@ const SISB9_EVENTS=(function(){
         SIS('你幫我選。'),
         {choice:[{text:'「刑訴。」',goto:'law'},{text:'「小說。」',goto:'nov'},{text:'「兩本都帶。我幫妳寄一本。」',if:{custom:G=>!!X()&&X().canMail(G)},goto:'both'}]},
         {label:'law'},SIS('……這是我大一的課本。'),SIS('每一頁都是我那時候的字。很醜。'),N('（她翻開一頁給你看。邊邊寫滿了問號。）'),SIS('好。帶這本。到了那邊，問號多的時候可以看。'),{set:{SIS_BOOK:'law'}},{goto:'end'},
-        {label:'nov'},SIS('這本我高中就開始看。一直沒看完。'),SIS('……每次都說等考完。'),SIS('好。帶這本。在那邊看完。'),{set:{SIS_BOOK:'novel'}},{goto:'end'},
+        {label:'nov'},SIS('這本我高中就開始看。一直沒看完。'),SIS('……每次都說等考完。'),SIS('好，帶這本。在那邊看完。'),{set:{SIS_BOOK:'novel'}},{goto:'end'},
         {label:'both'},SIS('寄到美國很貴。'),SIS('……你真的會寄？'),{set:{SIS_BOOK:'both'}},
         {label:'end'},N('（十點，她把兩本書收進包包。）'),
         {if:{custom:G=>!!X()&&X().dating(G)&&G.flags.SIS_BOOK!=='both'},speaker:ID,text:'另外一本，放你那邊。……回來跟你拿。',set:{SIS_BOOK_WITH_YOU:true}},   /* SIS_BOOK_WITH_YOU：AA_470 4-2 交往版接 12/24 那一頓（termend_lines.js lastByTerm）*/

@@ -311,7 +311,7 @@ const R2Y4A=(function(){
   /* ---- 2-Y4-13 K21（沒去、沒回、美國路線沒接）---- */
   S.k21Missed=function(G){ const F=G.flags; if(F.KX_STUDY_PLAN) return; F.KX_STUDY_PLAN='missed'; const d=D('2028-09-23'); if(d==null||typeof PHONE==='undefined') return;
     if(isUS(G)){ const l=loc(G,d,23); PHONE.at(G,l.day,l.h,[K('今天我自己讀完了。你那邊現在是早上吧。……下次你也要真的讀。')],'y4_kx21_missed'); }   /* 台灣 23:00＝當地 11:00（視訊的時段過了）*/
-    else PHONE.at(G,d,16,[K('今天我自己讀完了。'),K('你沒來。我一個人讀得比較快。……騙你的。')],'y4_kx21_missed');   /* AA_921 第 3-2 節（CANON-NO-ECON-1112 第五批） */ };   /* 16:00（讀書的時段結束）*/
+    else PHONE.at(G,d,16,[K('今天我自己讀完了。'),K('你沒來。我一個人讀得比較快。……才怪。')],'y4_kx21_missed');   /* AA_921 第 3-2 節（CANON-NO-ECON-1112 第五批） */ };   /* 16:00（讀書的時段結束）*/
   /* ---- 2-Y4-14 K22（沒去、美國路線：不算沒去）---- */
   S.k22Missed=function(G){ const F=G.flags; if(F.KX_DIRECTION) return; F.KX_DIRECTION=true; const d=D('2028-11-14'); if(d!=null&&typeof PHONE!=='undefined') atTW(G,d,21.5,[K('我比較想當那個幫人講話的人。今天想清楚了。')],'y4_kx22_missed'); };   /* 讀書會結束以後（台灣 21:30）*/
   /* ---- 2-Y4-24 聖誕（沒去）---- */

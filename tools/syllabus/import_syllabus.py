@@ -208,3 +208,5 @@ import sys as _sys, os as _os
 _R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
 import aa630 as _aa630, import_guard as _ig
 _aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/syllabus.js', _R0)
+
+import aa959 as _AA959; _AA959.layer_file('src/data/syllabus.js')   # AA_959（RC2-PORT-DEV-1114）：寫完再照覆寫表換

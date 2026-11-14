@@ -118,7 +118,7 @@ const Y2R2=(function(){
     const again=((F.HV_N||{}).kexin|0)>0; if(C) await playHL(GM,(again&&C.pickAgain?C.pickAgain:C.pick).lines);   /* 接人：第一次去高雄 pick、去過 pickAgain（這一趟也算進 HV 的 first／again 輪流，AA_338 第 4 題：結尾記 HV_N）*/
     if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(bg('kh_night_market')); if(GM.caption) GM.caption('','高雄・她家附近的夜市',2400); if(GM.sleep) await GM.sleep(700);
     await GM.say(null,'（一月的高雄，傍晚還有二十度。夜市的燈從巷口一路亮到底。）');
-    await GM.say(null,'（她把手機遞給你。行程表第一頁列了六攤。）');
+    await GM.say(null,'（她站在巷口，用手指一攤一攤點過去：六攤。）');
     await GM.say(kx,'一攤只能買一樣。吃不完的你吃。');
     const bet=F.KX_GRADES_Y2S1; if(bet==='asked'||bet==='waited'){ F.KX_BET_Y2S1_PAID=true;   /* 打賭的宵夜（2-Y2-09）：就在這一天付 */
       if(bet==='asked'){ await GM.say(kx,'成績那一攤，你請。說好的。'); await GM.say(null,'（這次是你請。）'); } else { await GM.say(kx,'……成績那一攤，我請。'); await GM.say(null,'（這次是她請。）'); } }

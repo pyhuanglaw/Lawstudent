@@ -78,7 +78,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:'zhe',text:'……滿級分？厲害欸。'},
       {speaker:'zhe',text:'那我以後數學問你。——不對，法律系沒有數學。'},
       {choice:[{text:'「你可以問我別的。」',goto:'ge_a'},{text:'「那你白問了。」',goto:'ge_b'}]},
-      {label:'ge_a'},{speaker:'zhe',text:'好。那我叫你哥。有事問哥。'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，換你出牌。'},{goto:'ge_end'},
+      {label:'ge_a'},{speaker:'zhe',text:'好，那我叫你哥。有事問哥。'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，換你出牌。'},{goto:'ge_end'},
       {label:'ge_b'},{speaker:'zhe',text:'沒有白問。現在知道這一桌誰是哥了。'},{speaker:'zhe',text:'哥，換你出牌。'},
       {label:'ge_end'},{set:{ZHE_CALLS_GE:true}},
       {speaker:'classmate_xinci',text:'（看了你們一下）你們不是今天下午才認識的嗎？'},

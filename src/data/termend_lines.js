@@ -117,7 +117,7 @@ const TERMEND_LINES=(function(){
         table:G=>Q6(G)?'最近做了一個關卡，還沒給任何人玩。……你先玩。不准放水。':'最近寫了很多東西。……還沒給任何人看。' }] },
     classmate_xinci:{ src:'AA_537b 第 7 節（5ba143d2c）、8-0（86659bbc1）', place:'l118_home', placeName:'五湖四海', h:18, walkBg:null, walkPlace:'羅斯福路・往公館站', walkCaption:'羅斯福路・往公館站',   /* 沒有底圖＝深色底＋字幕（和巷口家常菜那一段一樣；BB-B 10-31 n27）*/   /* XINCI-ROMANCE-1030（使用者 X139）：發不發看 src/xcrom3d.js XCROM.heartOk（G1～G10；最早大三下期末）*/
       invite:'考完了。今天晚上有空嗎。……我沒有提前一天。', decline:'好。……那我再排一次。',
-      table:'我今天點了一道沒吃過的。……你不要笑。',   /* AA_537b 8-0（86659bbc1）：第 7 節那句和學姊 GF 太像，換這句（接 G3 想換菜）*/
+      table:'我今天點了一道沒吃過的。……平常我都點同一道。',   /* AA_537b 8-0（86659bbc1）：第 7 節那句和學姊 GF 太像，換這句（接 G3 想換菜）*/
       walk:['這學期，我有一天沒有排讀書。','……是跟你吃飯那天。'],
       walkAgain:['這學期，我每個禮拜都留了一天。','……你應該知道是哪一天。'],   /* 第二次（上次「讓我想想」）回家路上（AA_537b 8-5，AA-B 10-31）；後面照接 she2 */
       optsFrom:'confess',   /* 玩家先說：confess_lines 的三句 */

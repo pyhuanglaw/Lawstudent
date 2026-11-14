@@ -65,7 +65,7 @@ const SHOP_NPC={
     {id:'xs_haopai_bh',shop:'好拍運動',who:'classmate_bohan',zone:'xs_haopai',days:[6],from:14,to:14.5,   /* AA_705 補（2c62cdf1e，回 LAWWW-C 10:06）：週四 17:15～17:45 也永遠撞總圖（學期中週一二四五 15:20～21:00 在總圖；週四 17:00 那一筆是暑假的）→ 週六 14:00～14:30（好拍週六 12:00～21:00 有開）；15eb48dfa 那一次：週二 20:00～20:30 → 週四 17:15～17:45 */terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'sit',pose:'seat',seat:[-0.26,2.3,0],
       place:'櫃台前等穿線（sit 高腳凳）',hearAny:true,hear:{who:'classmate_bohan',t:'我高中打桌球。……念書念到受不了就去打一下。'}},   /* 大一下起；高腳凳＝配置 seats[0]「坐著等穿線」，他坐著的時候玩家的那一個按鈕照舊藏起來（有人坐）；hearAny：第一次遇到是大一下以後，聽一句照 AA_705 第三批「只一次」 */
     {id:'xs_xsports_yu',shop:'新生運動廣場',who:'yu',zone:'xs_xsports',days:[0],from:13,to:14,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'wander',pose:'stand',at:[-5.95,-1.85,-Math.PI/2,1],
-      place:'二樓運動服那一排（wander）',hearAny:true,hear:{who:'yu',t:'我參加系上的排球。……你不要笑。'}},   /* 大二起；二樓左牆衣架（x −6.88～−6.40）前面、面向衣架；「看看（系隊球衣）」(−4.4, −2.9) 離 1.8 m */
+      place:'二樓運動服那一排（wander）',hearAny:true,hear:{who:'yu',t:'我參加系上的排球。……我發球會發到隔壁場。'}},   /* 大二起；二樓左牆衣架（x −6.88～−6.40）前面、面向衣架；「看看（系隊球衣）」(−4.4, −2.9) 離 1.8 m */
     /* ---------- 溫州街 ---------- */
     {id:'wz_mokuyobi_zq',shop:'木曜日',who:'heroine_04',zone:'wz_mokuyobi',days:[0],from:20,to:21.5,act:'sit',pose:'seat',seat:[-3,-2.15,1],
       place:'角落那桌，戴耳機開筆電（sit）',hear:{who:null,t:'（子晴戴著耳機，在筆電上畫一張地圖。旁邊的拿鐵已經沒有泡了。）'}},   /* 西牆靠裡面那張兩人桌（table 4）*/
@@ -84,7 +84,7 @@ const SHOP_NPC={
   /* AA_615 第 4 節：遇到她、送爆米花（玩家自己去戲院、已經認識 Alison）*/
   alison:{
     first:[{speaker:null,text:'（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison。）'},{speaker:'yu',text:'欸！你怎麼來了？'},{speaker:'yu',text:'我禮拜五禮拜六都在這裡。……你看哪一場？'},
-      {speaker:null,text:'（她把一桶爆米花推過來。）'},{speaker:'yu',text:'剛剛多做的，不用錢。不要跟別人說。'},
+      {speaker:null,text:'（她把一桶爆米花推過來。）'},{speaker:'yu',text:'剛剛多做的，不用錢。小聲一點。'},
       {choice:[{text:'「謝啦。」',goto:'ny_thanks'},{text:'「這樣可以嗎？」',goto:'ny_ok'}]},
       {label:'ny_thanks'},{speaker:'yu',text:'好好看喔。第二部比較好看。'},{goto:'ny_end'},
       {label:'ny_ok'},{speaker:'yu',text:'多做的本來就要丟。拿去。'},

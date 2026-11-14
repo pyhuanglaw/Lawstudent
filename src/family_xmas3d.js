@@ -51,7 +51,7 @@ const FAMXMAS=(function(){
       {if:buy('pencil'),speaker:ID,text:'……鉛筆。'},{if:buy('pencil'),speaker:ID,text:'我讀判決都用鉛筆。這盒夠我用到考完。'},
       {if:buy('notebook'),speaker:ID,text:'我有很多本了。……這本我留著，考完再用。'},
       {if:buy('lemon'),speaker:ID,text:'考前喝這個。……你很懂。'},
-      {if:buy('coupon'),speaker:ID,text:'……這是什麼。'},{if:buy('coupon'),speaker:ID,text:'好。我收下。不保證會用。'},
+      {if:buy('coupon'),speaker:ID,text:'……這是什麼。'},{if:buy('coupon'),speaker:ID,text:'好，我收下。不保證會用。'},
       {if:buy('flowers'),speaker:ID,text:'……謝謝。'},{if:buy('flowers'),speaker:null,text:'（Kevin：「齁——」她把花放在腳邊，整晚沒有再看它。）'},
       {if:buy('flowers'),consequences:{rel:{[ID]:{trust:1}}}},   /* 普通 */
       {unless:buy('flowers'),consequences:{rel:{[ID]:{fam:2,npcRom:2}}}},   /* 合適 */
