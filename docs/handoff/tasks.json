@@ -48267,7 +48267,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "src": "UA-LAWWW-1105-41"
+   "src": "UA-LAWWW-1105-41",
+   "note": "｜2026-11-14 00:3x LAWWW-C：公館第三批（安泰、汀州鮮果、榮恩典）LAWWW2 5be14598a1 已整合：6 張原位窗景（校門、照遊戲位置的樹、人行道地磚紋），tz_shops_layout 三間不再借 cvs／noodle／bookstore。窗景測試 6 支＋tz_shops 相關全 PASS、place_gate ALL PASS。剩 CC 進三間往窗外拍、BB 判。已知：14:00 南側店面影子罩人行道，窗外地面比遊戲暗。"
   },
   {
    "id": "TAP-SEAT-REACH-1105",
