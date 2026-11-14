@@ -108,7 +108,8 @@ PEOPLE_JS = r"""(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const ex=new Set();
   /* BB-C 11:53（20998a0887）：店員站在櫃台後面（櫃台 2.5 m 內、那一格在導航上擋著）、坐著的客人面向窗邊吧檯——這兩種看圖都是 PASS，不再算 */
   /* BB-C 01:32（洋洋 1b TEST_BUG）：滷味展示台比櫃台寬——走道判斷放到 1.8 m */
   /* BB-C 01:11（GATE2 青木 1b TEST_BUG）：店員在櫃台後面但離「櫃台」互動點 >2.5 m（或沒抓到櫃台點）也照櫃台後面算——clerkFlag 的店員、1.2 m 內有一格站得住（＝櫃台另一側是走道），就是站在櫃台後面那一側，不算在家具裡 */
-  const nearFloor=p=>{ if(!E.canStand) return false; for(let k=0;k<16;k++){ const t=k*Math.PI/8; for(const r of [0.6,0.9,1.2,1.5,1.8]) if(E.canStand(p.x+Math.cos(t)*r,p.z+Math.sin(t)*r,0.2,0)) return true; } return false; };
+  const nearFloor=p=>{ if(!E.canStand) return false; for(let k=0;k<16;k++){ const t=k*Math.PI/8; for(const r of [0.6,0.9,1.2,1.5,1.8,2.4,3.0]) if(E.canStand(p.x+Math.cos(t)*r,p.z+Math.sin(t)*r,0.2,0)) return true; } return false; };
+  /* CC-B 11-14（BB-B 12:22，YY_GATE_r3 1b TEST_BUG）：洋洋店員 (-2.3, 4.5) 站在整排陳列檯後面的工作區，1.8 m 內找不到走道——clerkFlag 的店員走道判斷放到 3.0 m（只有店員；客人照舊）*/
   const behindCounter=p=>(!!a&&clerk.includes(p)&&Math.hypot(p.x-a.x,p.z-a.z)<2.5)||(p.clerkFlag&&nearFloor(p));
   const inFurn=P.filter(p=>!p.seat&&p.stand===false&&!behindCounter(p)), wall=cust.filter(p=>!p.seat&&p.face_m!=null&&p.face_m<0.45);
   return {total:P.length, clerk:clerk.length, customers:cust.length, clerk_in_furniture:inFurn.map(p=>[p.id,p.x,p.z]), face_wall:wall.map(p=>[p.id,p.x,p.z,p.face_m]), people:P.slice(0,12)}; })"""
