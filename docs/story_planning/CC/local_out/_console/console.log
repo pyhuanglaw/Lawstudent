@@ -1,11 +1,3 @@
-[17:45:55] skip GG_LIT_new (already done on bc559a032df71bba8d53bb766f9d547e06ee30d9)
-[17:45:55] skip GG_LIT_old (already done on 5f03f455e21a8d4fc38d2cbf07aa3eea05b79501)
-[17:45:55] skip XS_PERF_b53a_desk (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
-[17:45:55] skip TZ_PERF_b53a_desk (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
-[17:45:55] skip TZ_PERF_b53a_night (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
-[17:45:55] skip GG_PERF_b53a_desk (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
-[17:45:55] skip XS_PERF_b53a_touch (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
-[17:45:55] skip TZ_PERF_b53a_touch (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
 [17:45:55] skip GG_LIT_b53a (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
 [17:45:55] skip GG_PERF_b53a_touch (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
 [17:45:55] skip GG_LIT_b53a_close (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
@@ -1998,3 +1990,11 @@
 [20:05:38] [res] cpu=2% mem=53% (16.6/31.4 GB) chrome_testing=10  START AA_SCENES_GIFT_r2
 [20:05:55] 正在跑：DATE35_PS_ARR_r2（已跑 7 分／上限 30 分）、AA_SCENES_EV_ARC_r2（已跑 6 分／上限 30 分）、AA_SCENES_GIFT_r2（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:06:53] [res] cpu=1% mem=48% (15.1/31.4 GB) chrome_testing=9  END AA_SCENES_EV_ARC_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       61b02e7a78..9a177c09dc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:07:08] ==== END   AA_SCENES_EV_ARC_r2  exit=0  453s   ====
+[20:07:11] memory 48% before starting AA_SCENES_DATE_r2 (2 running)
+[20:07:11] ==== START AA_SCENES_DATE_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[20:07:15] [res] cpu=2% mem=48% (15.3/31.4 GB) chrome_testing=10  START AA_SCENES_DATE_r2
+[20:08:32] [res] cpu=26% mem=50% (15.9/31.4 GB) chrome_testing=9  END AA_SCENES_GIFT_r2
