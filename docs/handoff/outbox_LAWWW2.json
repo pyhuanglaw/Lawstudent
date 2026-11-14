@@ -10668,6 +10668,24 @@
    "tests": "窗景相關 12 支 ALL PASS",
    "notDone": "LAWWW 整合；CC 拍；BB 判",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a7ffa1f46c",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "—",
+   "state": "WIP",
+   "noDirectIntegrate": true,
+   "base": "846c29e2ef",
+   "at": "2026-11-14T11:20Z",
+   "task": "LIMAO-REAL-VIEW-1114",
+   "title": "禮貌生財：窗、門後面的兩張圖拿掉，玻璃後面放走進去的室內 tz_limao_interior.glb（shopInsideReal）＋重建 tingzhou_street.glb",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/limao_real_view_1114/"
+   ],
+   "tests": "limao_real_view_1114_unit 改之前 FAIL 6→ALL PASS；tz_／shop_／place_gate 等 53 支 ALL PASS；place_gate 0 新問題",
+   "notDone": "雲端截圖還在跑；截圖看過才改已交付",
+   "next": "截圖 → README 補圖 → 交 LAWWW-C"
   }
  ]
 }
