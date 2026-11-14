@@ -1,12 +1,3 @@
-[17:45:55] skip XS_NANYANG_real (already done on fcbc3aab3117c1fec2c1c833b3d44813684e18fd)
-[17:45:55] skip XS_REAL_consist_r3 (already done on fcbc3aab3117c1fec2c1c833b3d44813684e18fd)
-[17:45:55] skip XS_REAL_cal_old_r3 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip DN_GOODS_gate (already done on 68d40a513ee22e140bbabc69c294c3ce9a254fb3)
-[17:45:55] skip DN_GOODS_close (already done on 68d40a513ee22e140bbabc69c294c3ce9a254fb3)
-[17:45:55] skip DN_GOODS_fps (already done on 68d40a513ee22e140bbabc69c294c3ce9a254fb3)
-[17:45:55] skip TZ_REAL_consist (already done on 68d40a513ee22e140bbabc69c294c3ce9a254fb3)
-[17:45:55] skip TZ_REAL_case (already done on 2bfea29f1bd41b948c05b249c746cd556405212e)
-[17:45:55] skip TZ_CASE_257e (already done on 257e05a852adb29ec5851db99cebfa24b8f967cc)
 [17:45:55] skip GG_LIT_new (already done on bc559a032df71bba8d53bb766f9d547e06ee30d9)
 [17:45:55] skip GG_LIT_old (already done on 5f03f455e21a8d4fc38d2cbf07aa3eea05b79501)
 [17:45:55] skip XS_PERF_b53a_desk (already done on b53abd654bdfaba66a3c3e2f0243c4efa718c28b)
@@ -1998,3 +1989,12 @@
 [19:59:23] [res] cpu=1% mem=50% (15.9/31.4 GB) chrome_testing=10  START AA_SCENES_EV_ARC_r2
 [20:00:55] 正在跑：SKIP_DIAG_0918_r2（已跑 4 分／上限 30 分）、DATE35_PS_ARR_r2（已跑 2 分／上限 30 分）、AA_SCENES_EV_ARC_r2（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:05:25] [res] cpu=7% mem=56% (17.7/31.4 GB) chrome_testing=10  END SKIP_DIAG_0918_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       47d702cc59..61b02e7a78  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:05:32] ==== END   SKIP_DIAG_0918_r2  exit=1  514s   ====
+[20:05:35] memory 52% before starting AA_SCENES_GIFT_r2 (2 running)
+[20:05:35] ==== START AA_SCENES_GIFT_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[20:05:38] [res] cpu=2% mem=53% (16.6/31.4 GB) chrome_testing=10  START AA_SCENES_GIFT_r2
+[20:05:55] 正在跑：DATE35_PS_ARR_r2（已跑 7 分／上限 30 分）、AA_SCENES_EV_ARC_r2（已跑 6 分／上限 30 分）、AA_SCENES_GIFT_r2（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:06:53] [res] cpu=1% mem=48% (15.1/31.4 GB) chrome_testing=9  END AA_SCENES_EV_ARC_r2
