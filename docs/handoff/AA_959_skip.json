@@ -40,6 +40,11 @@
    "file": "termend_opts.js",
    "old": "我沒有很在意喔，我只是算了一下。",
    "why": "TERMEND_OPTS.KX.Y3S2 是可昕的期末飯（KX＝可昕，高雄、寫房東報告），表上寫子晴（heroine_04）——說話的人對不上"
+  },
+  {
+   "file": "aa555_3d.js",
+   "old": "……我只是想知道。",
+   "why": "表上 speaker 寫 heroine_01（M），遊戲裡這一句只有柏翰（classmate_bohan）y3s2_bh_abroad 那一則在說——說話的人對不上，不換，報 AA（LAWWW-B 11-14）"
   }
  ]
 }

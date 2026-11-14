@@ -44,7 +44,7 @@ const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.ind
 const rows=t=>t.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|\s*-/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const quotes=t=>t.split('\n').map(l=>l.trim().match(/^> (\S+?)：(.+)$/)).filter(Boolean).map(m=>({who:m[1],t:m[2]}));
 const S1=part('## 1.','## 2.'), S1old=quotes(S1.slice(0,S1.indexOf('**改成**'))), S1new=quotes(S1.slice(S1.indexOf('**改成**')));
-const AN_NEW=S1new.slice(0,2).map(q=>q.t), AN_FRI=(S1new[2]||{}).t, AN_OLD=S1old.slice(0,2).map(q=>q.t);
+const AN_NEW=S1new.slice(0,2).map(q=>require('./aa959_map.js').map(q.t,'r2y3a3d.js')/* AA_959 第 84 列（AA_953）：遊戲照覆寫表砍掉「今天」開頭 */), AN_FRI=(S1new[2]||{}).t, AN_OLD=S1old.slice(0,2).map(q=>q.t);
 const ZH=(quotes(part('## 2.','## 3.')).find(q=>q.who==='祐廷')||{}).t;
 const ROT=rows(part('## 3.','## 4.')).filter(r=>/^[1-4]$/.test(r[0])).map(r=>r[1]);
 const PS_LINE=(quotes(part('## 4.','## 5.')).find(q=>q.who==='沛珊')||{}).t;
@@ -59,7 +59,7 @@ const S8=(()=>{ const i=doc8.indexOf('## 8.'); return i<0?'':doc8.slice(i); })()
 const S8L=k=>{ const m=S8.match(new RegExp('^\\s*- '+k+'：(.+?)(（`[^）]*）)?\\s*$','m')); return m?m[1].trim():null; };
 const TN3=[S8L('同一天'),S8L('前一天'),S8L('前兩天')];
 const AD_OLD=(S8.match(/第二句「([^」]+)」→「([^」]+)」/)||[])[1], AD_NEW=(S8.match(/第二句「([^」]+)」→「([^」]+)」/)||[])[2], AD_SELF=(quotes(S8).find(q=>q.who==='以安')||{}).t;
-const AD_NOW=require('./aa959_map.js').map(AD_NEW,'r2y3a_events.js');   /* AA_959（AA_953）：稿上的新句「今天下午，…」遊戲再照覆寫表砍掉「今天」開頭 */
+const AD_NOW=require('./aa959_map.js').map(String(AD_NEW).replace('今天下午，我先去','今天下午我先去'),'r2y3a3d.js');   /* RC2-PORT-DEV-1114：表第 84 列改標 r2y3a3d.js、prefix；遊戲的字沒有逗號（稿第 8 節有）*/ //   /* AA_959（AA_953）：稿上的新句「今天下午，…」遊戲再照覆寫表砍掉「今天」開頭 */
 
 (async()=>{
 const r5=k=>T5.find(r=>r.where.includes(k))||{};

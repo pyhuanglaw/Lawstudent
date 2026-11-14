@@ -22,8 +22,8 @@ const LINKED = { 'msg_replies.js': ['aa555_3d.js', 'r2y3b3d.js', 'r3_3d.js', 'y2
    物件層的 map／unmap 看不到引號，所以把這種列拆成「引號之間不一樣的那幾段」當成一般的列（speaker＝那一列的人；narr（某人）＝某人那一格的旁白） */
 const SYN = [];
 for (const r of T.rows) {
-  const sf = r.files.filter(f => f === 'date_lines.js' || f === 'date_wish.js'); if (!code(r) || r.prefix || r.all || !sf.length) continue;
-  const a = r.old.split('"'), b = r.new.split('"'); if (a.length !== b.length) continue;
+  const sf = r.files.filter(f => !skip(f, r.old)); if (!code(r) || r.prefix || r.all || !sf.length) continue;   /* 所有檔：JSON 資料檔的雙引號、手寫 JS 的單引號都拆 */
+  const a = r.old.split(/['"]/), b = r.new.split(/['"]/); if (a.length !== b.length) continue;
   const narr = /^narr/.test(r.speaker || '');   // 幾個人那一格共用同一句舊旁白、各換成不同的新旁白：只能反過來換（新 → 舊），map 不用
   a.forEach((x, i) => { if (x !== b[i]) SYN.push({ old: x, new: b[i], speaker: narr ? 'narr' : r.speaker, files: sf, doc: r.doc, syn: true, nomap: narr }); });
 }

@@ -57747,7 +57747,7 @@
    "id": "DATE-ETA-HOTSPOT-1114",
    "title": "約會排程顯示的「約 xx:xx 回到」沒把現場點的點算進去，實際晚 40～50 分",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -57759,7 +57759,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "預估加上平均兩個點的時間。證據 AA_SCENES_DATE_r3：D01 13:33→14:19、D02 13:50→14:18。",
+   "next": "【11-14 13:11 BB-B 撤回】不成立：AA_SCENES_DATE_r4（電腦、main 6106fae2d2）三趟回到宿舍都比預估早；r3 的「晚」是探針沒認出出發鍵空等的時間。紀錄 BB_379。",
    "sha": null,
    "xai": {
     "spec": "BB-B 11-14",
