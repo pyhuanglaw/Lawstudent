@@ -1,0 +1,101 @@
+== msgs_seed1.json heroine msgs 44 {'heroine_05': 17, 'heroine_01': 9, 'None': 11, 'heroine_04': 7}
+ -- None
+    2025-09-14 p:heroine_01 heroine_01 None  | 約好了：明天 12:10，法律學院圖書館（沈以安）。
+    2025-09-15 p:heroine_01 heroine_01 None  | 和沈以安在法律學院圖書館。
+    2025-10-14 p:heroine_01 heroine_01 None  | 約好了：明天 12:10，2:30 AM（沈以安）。
+    2025-10-15 p:heroine_01 heroine_01 None  | 和沈以安在2:30 AM。
+    2025-11-24 p:heroine_01 heroine_01 None  | 約好了：明天 12:10，社科院圖書館（沈以安）。
+    2025-11-25 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 12:10，社科院圖書館（沈以安）。
+    2025-12-08 p:heroine_01 heroine_01 None  | 明天八點總圖。周老師那題我寫了反方，你來挑毛病。
+    2025-12-11 p:heroine_01 heroine_01 None  | 約好了：12/17 17:30，2:30 AM（沈以安）。
+    2025-12-17 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 17:30，2:30 AM（沈以安）。
+    2026-01-06 p:heroine_01 heroine_01 None  | 約好了：明天 12:10，法律學院圖書館（沈以安）。
+    2026-01-07 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 12:10，法律學院圖書館（沈以安）。
+ -- heroine_01
+    2025-09-10 p:heroine_01 heroine_01 dp_a118_y1s1_an_row_0_0  | 明天民總，我坐第二排。旁邊通常沒人。
+    2025-09-11 p:heroine_01 heroine_01 dp_a118_y1s1_an_notice_0_0  | 📷（宿舍公告欄）
+    2025-09-11 p:heroine_01 heroine_01 dp_a118_y1s1_an_notice_0_1 ask | 這張公告的第三行和第五行矛盾。我寫信問了。
+    2025-09-18 p:heroine_01 heroine_01 None  | 看起來很好吃。
+    2025-11-03 g:law_class None plg_pushed  | ……我不是老師。
+    2025-11-03 g:law_class None plg_pushed  | 可是可以一起讀。
+    2025-11-03 g:law_class None plg_invite  | 公法讀書會。週四晚上八點，B館研討室。想來的就來，不用報名。
+    2025-11-03 g:law_class None plg_invite  | ……可以。
+    2025-12-17 p:heroine_01 heroine_01 None  | 你在哪？
+ -- heroine_04
+    2025-11-12 g:guitar None guitar_grp1  | 新人自己報名字，不要讓我問。
+    2025-11-13 g:guitar None dp_zq_a2_0_0  | 📎 練習曲_v2.pdf
+    2025-11-13 g:guitar None dp_zq_a2_0_1  | 新的譜。
+    2025-11-16 g:guitar None dp_zq_a1_0_0  | 明天社課 19:00。B館一樓。帶琴。
+    2025-11-19 g:guitar None dp_ziqing_five_0_0  | 今天社課
+    2025-11-19 g:guitar None dp_ziqing_five_0_1  | 練 C 和弦
+    2025-11-19 g:guitar None dp_ziqing_five_0_2  | 不會的不准走喔
+ -- heroine_05
+    2025-09-02 g:law_board None sis_b_comment  | 歡迎學弟。選課或宿舍有問題，可以私訊問我。
+    2025-09-03 p:heroine_05 heroine_05 sis_b_dm  | 先不要買。第一堂課老師會說用哪一本。
+    2025-09-03 p:heroine_05 heroine_05 sis_b_dm  | 真的想先看的話，系圖有，二樓。
+    2025-09-03 p:heroine_05 heroine_05 sis_b_dm  | 不會。
+    2025-09-04 g:family_law None sis_b_fam  | 學弟好。我們留言區見過了。
+    2025-09-04 g:family_law None sis_b_fam  | 他自介我有留言。
+    2025-09-08 g:family_law None dp_kevin_video_0_1  | 收到。
+    2025-09-15 g:family_law None dp_kevin_video_1_1  | 收到。
+    2025-09-16 p:heroine_05 heroine_05 sis_fam_msg  | 上課講的先弄懂，考前多寫題目。
+    2025-09-16 p:heroine_05 heroine_05 sis_fam_msg  | 解題書我推補習班那本，題目多，解得也清楚。
+    2025-09-16 p:heroine_05 heroine_05 sis_fam_msg  | 加油。
+    2025-09-22 g:family_law None dp_kevin_video_2_1  | 收到。
+    2025-09-29 g:family_law None dp_kevin_video_3_1  | 收到。
+    2025-11-28 g:family_law None fam_dinner_invite  | 收到。
+    2025-12-15 g:family_law None famx_y1_grp  | 收到。
+    2026-01-29 g:family_law None msg_kevin_jp_photo_6  | 謝謝
+    2026-01-31 g:family_law None sisg_fam_0131  | 謝謝。睡了。
+== msgs_seed2.json heroine msgs 48 {'heroine_05': 17, 'None': 15, 'heroine_01': 16}
+ -- None
+    2025-09-08 p:heroine_01 heroine_01 None  | 約好了：明天 19:00，2:30 AM（沈以安）。
+    2025-09-09 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 19:00，2:30 AM（沈以安）。
+    2025-09-26 p:heroine_01 heroine_01 None  | 約好了：今天 15:30，社科院圖書館（沈以安）。
+    2025-09-26 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 15:30，社科院圖書館（沈以安）。
+    2025-10-17 p:heroine_02 heroine_02 None  | 約好了：明天 12:10，總圖（林芷若）。
+    2025-10-18 p:heroine_02 heroine_02 None  | 和林芷若一起去總圖的事，後來作罷了。
+    2025-11-02 p:heroine_01 heroine_01 None  | 約好了：明天 12:10，afar café（沈以安）。
+    2025-11-03 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 12:10，afar café（沈以安）。
+    2025-11-08 p:heroine_01 heroine_01 None  | 約好了：明天 13:00，轉角唱片（沈以安）。
+    2025-11-09 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 13:00，轉角唱片（沈以安）。
+    2025-11-17 p:heroine_01 heroine_01 None  | 約好了：明天 12:00，迪倫窯烤披薩（沈以安）。
+    2025-11-17 p:heroine_01 heroine_01 None  | 約好了：今天 12:10，新體育館羽球場（沈以安）。
+    2025-11-17 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 12:10，新體育館羽球場（沈以安）。
+    2025-11-18 p:heroine_01 heroine_01 None  | 你沒有赴約：今天 12:00，迪倫窯烤披薩（沈以安）。
+    2025-12-08 p:heroine_01 heroine_01 None  | 明天八點總圖。周老師那題我寫了反方，你來挑毛病。
+ -- heroine_01
+    2025-09-10 p:heroine_01 heroine_01 dp_a118_y1s1_an_row_0_0  | 明天民總，我坐第二排。旁邊通常沒人。
+    2025-09-11 p:heroine_01 heroine_01 dp_a118_y1s1_an_notice_0_0  | 📷（宿舍公告欄）
+    2025-09-11 p:heroine_01 heroine_01 dp_a118_y1s1_an_notice_0_1 ask | 這張公告的第三行和第五行矛盾。我寫信問了。
+    2025-09-19 p:heroine_01 heroine_01 None  | 還沒開始寫。
+    2025-09-25 p:heroine_01 heroine_01 an_split_table  | 📷（報告的分工表）
+    2025-11-03 p:heroine_01 heroine_01 None  | 你在哪？
+    2025-11-03 g:law_class None plg_pushed  | ……我不是老師。
+    2025-11-03 g:law_class None plg_pushed  | 可是可以一起讀。
+    2025-11-03 g:law_class None plg_invite  | 公法讀書會。週四晚上八點，B館研討室。想來的就來，不用報名。
+    2025-11-03 g:law_class None plg_invite  | ……可以。
+    2025-12-12 p:heroine_01 heroine_01 aa532_an_plan_Y1S1 ask | 寒假我先在總圖。1/20 回台中。
+    2025-12-18 p:heroine_01 heroine_01 te_Y1S1_heroine_01 ask | 考完了。要不要一起吃飯？我知道一家，八點以前人不多。
+    2026-01-01 p:heroine_01 heroine_01 nye_an_y1  | 新年快樂。
+    2026-01-20 p:heroine_01 heroine_01 an_home_y1  | 回台中了。
+    2026-01-20 p:heroine_01 heroine_01 an_home_y1 ask | 📷（車窗外的田）
+    2026-01-23 p:heroine_01 heroine_01 vac_tm_T13#2_f_heroine_01_0  | 那邊的便利商店，真的比較好吃嗎？
+ -- heroine_05
+    2025-09-02 g:law_board None sis_b_comment  | 歡迎學弟。選課或宿舍有問題，可以私訊問我。
+    2025-09-03 p:heroine_05 heroine_05 sis_b_dm  | 先不要買。第一堂課老師會說用哪一本。
+    2025-09-03 p:heroine_05 heroine_05 sis_b_dm  | 真的想先看的話，系圖有，二樓。
+    2025-09-03 p:heroine_05 heroine_05 sis_b_dm  | 不會。
+    2025-09-04 g:family_law None sis_b_fam  | 學弟好。我們留言區見過了。
+    2025-09-04 g:family_law None sis_b_fam  | 他自介我有留言。
+    2025-09-08 g:family_law None dp_kevin_video_0_1  | 收到。
+    2025-09-15 g:family_law None dp_kevin_video_1_1  | 收到。
+    2025-09-16 p:heroine_05 heroine_05 sis_fam_msg  | 上課講的先弄懂，考前多寫題目。
+    2025-09-16 p:heroine_05 heroine_05 sis_fam_msg  | 解題書我推補習班那本，題目多，解得也清楚。
+    2025-09-16 p:heroine_05 heroine_05 sis_fam_msg  | 加油。
+    2025-09-22 g:family_law None dp_kevin_video_2_1  | 收到。
+    2025-10-03 g:family_law None dp_kevin_video_3_1  | 收到。
+    2025-11-28 g:family_law None fam_dinner_invite  | 收到。
+    2025-12-16 g:family_law None famx_y1_grp  | 收到。
+    2026-01-29 g:family_law None msg_kevin_jp_photo_6  | 謝謝
+    2026-01-31 g:family_law None sisg_fam_0131  | 謝謝。睡了。
