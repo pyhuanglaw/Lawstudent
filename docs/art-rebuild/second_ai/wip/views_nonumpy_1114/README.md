@@ -16,3 +16,15 @@
 - **原因**：這支測試沒有擋 fetch。Node 18 以後自帶 fetch，書店模型的備援路徑 `bookstore_interior.glb.json` 是相對路徑，丟 ERR_INVALID_URL，沒有被接住，整支程式停掉。和頁間那包無關。
 - **改法**：只加一行，照其他單元測試（aa653_shops、ade_seats_nav…）的做法擋掉 fetch：`global.fetch=()=>Promise.reject(...)`，再加 `unhandledRejection`。檔案是 `bookstore_exit_fetchstub.patch`，底是 19314237c3。
 - **結果**：改了以後 ALL PASS（8 項），exit 0。
+
+## 第二步：電腦連 PIL 也沒有（WINVIEW-NOPIL-1114，11-14 10:4x UTC）
+- **起因**：CC-C 回報 WINVIEW_GG3_1939_r2：第 23 行 `from PIL import ...` 一樣失敗，電腦的 Python 3.15 連 Pillow 也沒有。
+- **改法**：拍照和去背拆成兩步。
+  1. **電腦上拍**（沒有 PIL）：瀏覽器回傳的 data URL 本來就是 PNG，直接把原始三張（`<名稱>_far.png`、`_nb.png`、`_nw.png`）和景深 `depth.json` 存進 `VIEWS_RAW` 資料夾。這一步不去背、不寫 webp、不改 `shop_views_layers.json`。
+  2. **在有 PIL 的機器去背**（雲端也可以）：`VIEWS_REMATTE=<那個資料夾> python3 tools/shots/shop_views_layers.py <網址> [名稱...]`。遠景轉 webp、近景去背、景深和 cover 寫進 `shop_views_layers.json`。
+  - 這一步只做影像運算，不重新算圖，所以顏色就是電腦算出來的，不會變成 SwiftShader 的顏色。
+- **測試**：
+  - 假的原始三張＋depth.json 跑 VIEWS_REMATTE：四張 webp 和景深 json 都寫出來了。
+  - 把 PIL 藏起來跑 VIEWS_REMATTE：會停下來並提示「要有 PIL 的機器」。
+  - 電腦拍照那一段（沒有 PIL）要 CC 在電腦上實際跑一次才算驗過。
+- **patch**：`views_nopil_on_<開發分支 SHA>.patch`，只改這一支工具。

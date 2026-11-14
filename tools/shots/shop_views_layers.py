@@ -20,7 +20,10 @@ try:
     import numpy as np          # 有 numpy 就用原本的寫法
 except ImportError:             # 使用者電腦的 Python 3.15 沒有 numpy（CC-C 11-14 WINVIEW_GG3_1939）：改用下面的純 PIL 版 _matte_pil
     np = None
-from PIL import Image, ImageFilter
+try:
+    from PIL import Image, ImageFilter
+except ImportError:             # 使用者電腦的 Python 3.15 連 Pillow 也沒有（CC-C 11-14 WINVIEW_GG3_1939_r2）：只拍、把原始三張 PNG 存進 VIEWS_RAW，
+    Image = None                # 去背和轉 webp 之後在有 PIL 的機器用 VIEWS_REMATTE 做（純影像運算，不重算圖，顏色就是電腦算的）
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
@@ -194,11 +197,23 @@ def matte(b, w, fade=None):
 
 REM = os.environ.get('VIEWS_REMATTE')   # 只重新去背：讀上次存下來的原始三張（<名稱>_nb.png、_nw.png），不開瀏覽器、不重拍、景深不動
 if REM:
+    if Image is None: sys.exit('VIEWS_REMATTE 要有 PIL（Pillow）的機器才能跑')
+    jpath = os.path.join(ROOT, 'tools', 'shots', 'shop_views_layers.json'); depth = json.load(open(jpath)) if os.path.exists(jpath) else {}
+    side = os.path.join(REM, 'depth.json'); side = json.load(open(side)) if os.path.exists(side) else {}   # 沒有 PIL 的那台存的景深
     for k in VIEWS:
         if ONLY and k not in ONLY: continue
         for t in TIMES:
-            name = f'{k}_{t}'; near, cover = matte(Image.open(os.path.join(REM, f'{name}_nb.png')).convert('RGB'), Image.open(os.path.join(REM, f'{name}_nw.png')).convert('RGB'), FADE.get(k))
-            near.save(os.path.join(OUTDIR, f'{k}_near_{t}.webp'), quality=88); print('rematte', name, round(cover, 3))
+            name = f'{k}_{t}'
+            if not os.path.exists(os.path.join(REM, f'{name}_nb.png')): continue
+            near, cover = matte(Image.open(os.path.join(REM, f'{name}_nb.png')).convert('RGB'), Image.open(os.path.join(REM, f'{name}_nw.png')).convert('RGB'), FADE.get(k))
+            near.save(os.path.join(OUTDIR, f'{k}_near_{t}.webp'), quality=88)
+            fp = os.path.join(REM, f'{name}_far.png')
+            if name in side and os.path.exists(fp):   # 沒有 PIL 的那台拍的：遠景也還沒轉 webp、景深還沒寫
+                Image.open(fp).convert('RGB').save(os.path.join(OUTDIR, f'{k}_{t}.webp'), quality=86)
+                d = dict(side[name]); d['cover'] = round(cover, 3); depth[name] = d
+            elif name in depth: depth[name]['cover'] = round(cover, 3)
+            print('rematte', name, round(cover, 3))
+    json.dump(depth, open(jpath, 'w'), indent=1, ensure_ascii=False)
     sys.exit(0)
 tmp = tempfile.mkdtemp(prefix='shopviews2_'); RAW = os.environ.get('VIEWS_RAW', tmp)
 shots = []
@@ -217,10 +232,16 @@ for line in r.stdout.splitlines():
     if line.startswith('shotfail'): print(line[:300]); continue
     if not line.startswith('post '): continue
     _, out, js = line.split(' ', 2); d = json.loads(js); name = os.path.basename(out)[:-4]; k, t = name.rsplit('_', 1)
-    imgs = d.pop('imgs'); far = png(imgs['far']); nb, nw = png(imgs['nb']), png(imgs['nw']); near, cover = matte(nb, nw, FADE.get(k))
+    imgs = d.pop('imgs')
+    if Image is None:   # 沒有 PIL：data URL 本來就是 PNG，直接存原始三張＋景深，之後 VIEWS_REMATTE＝這個資料夾
+        for kk in ('far', 'nb', 'nw'): open(os.path.join(RAW, f'{name}_{kk}.png'), 'wb').write(base64.b64decode(imgs[kk].split(',', 1)[1]))
+        sp = os.path.join(RAW, 'depth.json'); sd = json.load(open(sp)) if os.path.exists(sp) else {}; sd[name] = d; json.dump(sd, open(sp, 'w'), indent=1, ensure_ascii=False)
+        done += 1; print(name, 'raw', json.dumps(d, ensure_ascii=False)); continue
+    far = png(imgs['far']); nb, nw = png(imgs['nb']), png(imgs['nw']); near, cover = matte(nb, nw, FADE.get(k))
     for kk, im in (('far', far), ('nb', nb), ('nw', nw)): im.save(os.path.join(RAW, f'{name}_{kk}.png'))   # 原始的三張（重新去背用）
     far.save(os.path.join(OUTDIR, f'{k}_{t}.webp'), quality=86); near.save(os.path.join(OUTDIR, f'{k}_near_{t}.webp'), quality=88)
     d['cover'] = round(cover, 3); depth[name] = d; done += 1
     print(name, json.dumps(d, ensure_ascii=False))
-json.dump(depth, open(jpath, 'w'), indent=1, ensure_ascii=False)
+if Image is not None: json.dump(depth, open(jpath, 'w'), indent=1, ensure_ascii=False)
+else: print('沒有 PIL：原始三張和景深存在', RAW, '——在有 PIL 的機器跑 VIEWS_REMATTE=' + RAW + ' python3 tools/shots/shop_views_layers.py [名稱...]')
 print('done', done, 'of', len(shots)); print(r.stderr[-1500:] if done < len(shots) else '')
