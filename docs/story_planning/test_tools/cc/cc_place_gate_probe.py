@@ -414,10 +414,10 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
                 k2_ = next((i_ for i_, t_ in enumerate(c2_) if any(w_ in t_ for w_ in ('算了', '不用', '離開', '不買', '先不要'))), len(c2_) - 1)
                 await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k2_ + 1)); await pg.wait_for_timeout(700)
         # BB-C 10:57 ②：店員前沒有點餐的（竹葉），走到櫃台類互動點（結帳櫃台 −4.5, 4.9）按一下，看有沒有反應
-        it2_ = await pg.evaluate("(()=>{ const f=v=>+(+v).toFixed(2), lab=i=>String(typeof i.label==='function'?i.label():i.label||''); return (GAME.E.interactables||[]).filter(i=>!i.hidden&&!i.exit&&/結帳|收銀|點餐|櫃台|櫃檯|店員/.test(lab(i))).map(i=>({x:f(i.x),z:f(i.z),label:lab(i)})); })()")
+        it2_ = await pg.evaluate("(()=>{ const f=v=>+(+v).toFixed(2), lab=i=>String(typeof i.label==='function'?i.label():i.label||''); return (GAME.E.interactables||[]).filter(i=>!i.hidden&&!i.exit&&/結帳|收銀|點餐|櫃台|櫃檯|店員/.test(lab(i))).map(i=>({x:f(i.x),z:f(i.z),r:i.radius||1.8,label:lab(i)})); })()")
         R.note('%s US_DIAG 櫃台類互動點：%s' % (tag, J(it2_)))
         for k3_, c3_ in enumerate(it2_[:2]):
-            tg3_ = await D.standable_near(pg, c3_['x'], c3_['z'], 1.2, 0)
+            tg3_ = await D.standable_near(pg, c3_['x'], c3_['z'], 0.5, 0) or await D.standable_near(pg, c3_['x'], c3_['z'], min(0.9, (c3_.get('r') or 1.0) - 0.1), 0)   # 11:1x 雲端 r4b TEST_BUG：半徑 1.2 挑到離櫃台 1.24 m（範圍 r 1.0 外）的點＝互動鍵本來就不會出；改成 0.5 m 內、不行才到 r−0.1
             if tg3_: await L.go_to(pg, cdp, R, tg3_['x'], tg3_['z'], 0.3, '%s US_DIAG 走到「%s」' % (tag, c3_['label']), max_s=60, lv=0)
             await pg.wait_for_timeout(1500)
             for t_ in range(16):   # BB-C 11:04 ②：先等教學 toast 消失（最多 8 秒）
