@@ -298,3 +298,22 @@
   - 檔案裡有 daybreak 的 33 支測試 ALL PASS。
 - 並排圖：近看吧台那一張，新版看得出是一台義式機和磨豆機，原本是方盒。其他四個鏡頭沒有別的變化。
 - 門框自己疊自己的那一對（0.139 m²，在地板下面看不到）沒修：要改 aa_kit 共用的門框，所有店都會跟著變。開發分支原本就有，記著。
+
+## 大口漢堡 v2（g3 7f4f1e4d71）——驗收 PASS（11-14 11:4x UTC）
+- patch：`dakou_v2_on_4cc26d4b8d.patch`（以開發分支 4cc26d4b8d 為底；`git apply --3way` 乾淨，LICENSES 沒有衝突）。並排圖：`dakou_v2_cmp.jpg`。
+- 改了什麼：
+  - 一樓櫃檯後的層架：原本 14 個一樣大的彩色方塊，換成一疊一疊的紙杯（白杯，有橘、藍兩種杯套）、Poly Haven 的紙箱 `cardboard_box_01`（寬度、高低、角度不同）、餐巾紙包、杯蓋筒。紙箱已登記 LICENSES，CC0。
+  - 二樓：
+    - 課本有封面板、書背、往內縮的書頁。
+    - 紙袋有內摺和紙繩提把。
+    - 筆電有一顆一顆的鍵、觸控板、轉軸。
+- 驗收（在 4cc26d4b8d＋patch 上）：
+  - `place_gate_unit`（不加參數）：0 個新問題（只有狀態表過期）。
+  - `--coplanar --write`：一樓疊面 3.71 → 3.67 m²，二樓 2.29 → 2.12 m²。
+  - `--write` 以後 ALL PASS。
+  - `shop_cc0_unit` ALL PASS。
+  - 大口相關和 g3 列的 48 支 ALL PASS，含 dakou_unit、dakou_act、dakou_clerk_1107、dakou_nightcard、xs_lm、stair_tap、shop_crowd_new。
+- 並排圖：
+  - 近看層架，從色塊變成看得懂的紙杯、紙箱。
+  - 二樓長桌的紙袋、筆電、課本都有細節。
+  - 一樓櫃檯、二樓晚上其他地方沒有變化。
