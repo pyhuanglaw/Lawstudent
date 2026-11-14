@@ -1,14 +1,3 @@
-[22:25:55] skip WZDAY_rp_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[22:25:55] skip WZDAY_rp_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[22:25:55] skip WZDAY_ct_moku_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[22:25:55] skip WZDAY_ct_moku_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[22:25:55] skip WZDAY_ct_tea_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[22:25:55] skip WZDAY_ct_tea_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[22:25:55] skip USAPT204b_old (already done on 07ce887a13d3aa3b743567b857dfd7b22e44a5b8)
-[22:25:55] skip USAPT204b_new (already done on c8af31018a9ce570422ad748aa277af842f8db37)
-[22:25:55] skip WINVIEW_own2 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[22:25:55] skip WINVIEW_haopai2 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[22:25:55] skip WINVIEW_tea21 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
 [22:25:55] skip NANYANG_v4 (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
 [22:25:55] skip WINVIEW_tea195 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
 [22:25:55] skip X199_entry_new (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
@@ -1998,3 +1987,14 @@
 [08:50:50] worktree add 0c49bcf64ee779dc66efce1809455f57dfe0e010: invalid reference - fetching main and the commit itself
 [08:51:54] 正在跑：T1_rc2（已跑 21 分／上限 120 分）、DATE_LAYER_76f8_r2（已跑 12 分／上限 60 分）、GATE2_CC0_a_0c49（已跑 1 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:52:47] [res] cpu=17% mem=41% (12.7/31.4 GB) chrome_testing=4  END DATE_LAYER_76f8_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a6d085e2bb..d2b5cb6c57  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:53:17] ==== END   DATE_LAYER_76f8_r2  exit=1  775s   ====
+[08:53:20] memory 42% before starting GATE2_CC0_b_0c49 (2 running)
+[08:53:20] ==== START GATE2_CC0_b_0c49  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
+[08:53:22] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=4  START GATE2_CC0_b_0c49
+[08:56:54] 正在跑：T1_rc2（已跑 26 分／上限 120 分）、GATE2_CC0_a_0c49（已跑 6 分／上限 50 分）、GATE2_CC0_b_0c49（已跑 3 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:01:54] 正在跑：T1_rc2（已跑 31 分／上限 120 分）、GATE2_CC0_a_0c49（已跑 11 分／上限 50 分）、GATE2_CC0_b_0c49（已跑 8 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:06:54] 正在跑：T1_rc2（已跑 36 分／上限 120 分）、GATE2_CC0_a_0c49（已跑 16 分／上限 50 分）、GATE2_CC0_b_0c49（已跑 13 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:08:14] [res] cpu=20% mem=42% (13.4/31.4 GB) chrome_testing=5  END GATE2_CC0_a_0c49
