@@ -2426,6 +2426,9 @@ FN_LOOK_REACH_ccbd | ccbd520b6166ee74dd86adf8106acb3ed31eef28 | game | tests/rea
 WINVIEW_GG3_10aa | 10aa10ed3244724ed27a3de729c5b5f97fe8a039 | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 25 | ZONES=gg_antai,gg_xianguo,gg_rongendian;HOURS=14,20;SHA=10aa10ed3244724ed27a3de729c5b5f97fe8a039
 # BB-C 01:00 DATE_LAYER r2：D01、D12 ⑤ TEST_BUG（讀回來重新出發＝回到選點圖層等玩家點）→ ⑤ 改成讀回來點一個點、圖層收掉、能接著演；只重跑 D01、D12（不擋 rc2d）；D05 判 P2 交 LAWWW
 DATE_LAYER_76f8_r3 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_date_layer_probe.py | index.html | 60 | CASES=D01,D12;WHO=heroine_02;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
+# LAWWW-C 01:57（P0，使用者選 rc2e，排最前面；BB 判）：rc2e 只改 index.html 一行（#btnNew 字拿掉、按鈕留著）。標題正常、「從法律系開始」能開局、讀檔正常、沒有 pageerror＋p0 搖桿移動
+RC2E_TITLE_SMOKE | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_rc_title_smoke_probe.py | index.html | 15 | SHA=1404d5f2d4cb740d50df75741764be18ee746992
+RC2E_p0 | 1404d5f2d4cb740d50df75741764be18ee746992 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 # BB-C 01:52（BB_379，排最前面）：WINVIEW_GG3 r2 窗外是 3D 街景、樟樹樹冠上半直條紋、左右的樹橫條紋 → 在發布版 bcc99693a7 同鏡頭拍（14:00、藏玩家），加公館街上鮮果門口往那棵樟樹（圓樹台 (22,11.5)，zones3d 那一行 TREE(1.2)）；結果給 BB-C、LAWWW2-C
 WINVIEW_GG3_REL | bcc99693a7b18c4cd606dfac63124518198ca685 | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 20 | ZONES=gg_antai,gg_xianguo,gg_rongendian;HOURS=14;SHA=bcc99693a7b18c4cd606dfac63124518198ca685
 WINVIEW_GG3_REL_tree | bcc99693a7b18c4cd606dfac63124518198ca685 | probe | docs/story_planning/test_tools/cc/cc_closeup_probe.py | index.html | 15 | TAG=winview_rel_tree;ZONE=gongguan;HOURS=14;PLAIN_NAMES=1;CAMS=xianguo_door_tree@19.6,1.6,17.5>22,4.5,11.5@60/xianguo_door_crown@19.6,1.6,17.5>22,6.5,11.5@45/tree_side@27,1.6,15>22,4.5,11.5@60;SHA=bcc99693a7b18c4cd606dfac63124518198ca685
