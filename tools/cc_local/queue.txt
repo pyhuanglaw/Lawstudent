@@ -2578,8 +2578,8 @@ HL1_CIRCLE_1028_r3b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/st
 # CC-B 11-14 13:3x：r3b 學姊列 ① vis false（只等 2.5 秒）→ 另排 r4b（r4 可能已經被電腦拿走）
 HL1_CIRCLE_1028_r4 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_5_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 HL1_CIRCLE_1028_r4b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
-# CC-B 11-14 13:4x：HL1 r4 4_2 跟丟（先走到原位置，她們走出校園被收掉）→ r5 一看到就放背後 15 m 跟
-HL1_CIRCLE_1028_r5 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:4x：HL1 r4 4_2 跟丟、r4b 學姊在公館走不過去＝探針 → r5（走路的一看到就放背後 15 m；看不到就放到 8 m 內）
+HL1_CIRCLE_1028_r5 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:3x：BB_462 AA358_24_natural（不用捷徑三路）——雲端 81e5 三路 ALL PASS（A 賠十倍、B 你先看＋兩選項、C 不演），電腦正式跑
 AA358_24_natural | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 40 | PARTS=NATURAL;SHA=81e5f197fb0e017257ad3dfd359dfafffe54f95b
 # CC-B 11-14 13:4x：PC 太快，前置檢查時 meetAn 已經開演（metAn true、met_an false）＝探針 → r2（A、B）

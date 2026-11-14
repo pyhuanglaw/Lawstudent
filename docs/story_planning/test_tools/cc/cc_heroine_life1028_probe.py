@@ -118,8 +118,9 @@ async def part_hl1(pg, cdp, sv0, res):
             np0 = await pg.evaluate(NPCPOS, {'ids': [info['who']] + comp, 'who': info['who'], 'row': rid})
             if (np0['pos'].get(info['who']) or {}).get('vis'): break
             hh_ = np0['pos'].get(info['who'])
-            if w_ == 8 and hh_:   # 8 秒還看不到：可能是離太遠（遠的人不顯示），走近到 8 m 再看
-                await L.go_to(pg, cdp, R, hh_['x'], hh_['z'], 8.0, '%s 她還看不到，先走近' % tag, max_s=60, lv=hh_['lv'])
+            if w_ == 6 and hh_:   # 6 秒還看不到：遠的人不顯示（HL1 r4b：學姊在公館邊走、走過去會卡住、她們會走出區域）——【捷徑】把玩家放到她 8 m 內、站得住的點
+                pl8 = await pg.evaluate("""((a)=>{ const E=GAME.E; for(const D of [8,7,9,6,10]) for(let k=0;k<12;k++){ const t=k*Math.PI/6, x=a.x+Math.sin(t)*D, z=a.z+Math.cos(t)*D; if(E.canStand(x,z,0.3,a.lv|0)){ const P=E.player.obj; P.position.set(x,P.position.y,z); E.player.path=null; return {x:+x.toFixed(2),z:+z.toFixed(2),d:D}; } } return null; })""", hh_)
+                R.setup('%s 【捷徑】她 6 秒還看不到，玩家放到她 %s m 內（%s）' % (tag, pl8 and pl8['d'], J(pl8)))
             await pg.wait_for_timeout(1000)
         out['pos0'] = np0; out['vis_wait_s'] = w_
         h = np0['pos'].get(info['who'])
