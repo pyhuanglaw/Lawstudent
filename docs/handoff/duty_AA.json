@@ -3,8 +3,8 @@
  "account": "C",
  "session": "session_019evvieJUJD23EGf4nyLPgo",
  "branch": "claude/magical-albattani-bk7b4n",
- "since": "2026-11-14T09:42Z",
- "state": "on",
- "sinceSha": "da4ce5ce",
- "userOk": false
+ "state": "handed-off",
+ "handedOffAt": "2026-11-14T11:52Z",
+ "sha": "b62f56a1",
+ "snapshot": "14T1152Z_C_AA.json"
 }
