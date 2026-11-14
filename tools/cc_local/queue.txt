@@ -2598,6 +2598,8 @@ AA358_24_natural | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story
 AA358_24_natural_r2 | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 40 | PARTS=NATURAL;ROUTES=A,B;SHA=81e5f197fb0e017257ad3dfd359dfafffe54f95b
 # CC-B 11-14 13:4x：BB-B 13:35 ③ 禮貌生財打烊那輪（新探針 cc_limao_close_probe：打烊進不進得去、上師收攤、營業中待過 23:30 會不會被請出去）；雲端 81e5 ②③ PASS、① 門口變「看禮貌生財」（字改讀對話框）
 LIMAO_CLOSE_r1 | c81a16b9c0c6da57774e49384bc6c54cb84eed80 | probe | docs/story_planning/test_tools/cc/cc_limao_close_probe.py | index.html | 20 | CLOSE_H=23.75;STAY_H=23.35;STAY_MAX=240;SHA=c81a16b9c0c6da57774e49384bc6c54cb84eed80
+# HOLD CC-B 11-14（BB-B 13:52）：禮貌生財門口三句（還沒開／已收攤／颱風天）AA-B 已改、交 LAWWW-B——整合 SHA 來了以後排 LIMAO_CLOSE_r2（CLOSE_H 18.5 還沒開、23.75 已收攤、颱風天另想前置），重拍門口的字
+# HOLD CC-B 11-14（BB-B 13:49）：AA_1029～1032 整合 SHA 來了以後排 HL3B（大一上，量最長空檔）＋HL3C 對照（雲端）
 # CC-B 11-14 13:5x：BB-B 13:39 HL3b（BB_468）——雲端 main ALL PASS（8 個 tag 都收到；最長 25 天沒有女主角訊息 10/8～11/3），電腦正式跑＋兩張手機截圖
 HL3B_r1 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 25 | PARTS=HL3B;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:5x：HL3B_r1 兩張截圖一樣（點到「傳訊息給」的名字）→ r2 只為截圖：對話串列表＋打開以安那一串
