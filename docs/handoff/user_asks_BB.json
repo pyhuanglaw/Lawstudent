@@ -663,6 +663,15 @@
    "status": "已完成",
    "task": "CC-NOIDLE-1102",
    "note": "P0 換班口令：BB-C 停止一般開發、寫交班六類＋G、snapshot、duty handoff、關喚醒。"
+  },
+  {
+   "id": "UA-BB-1114-02",
+   "at": "2026-11-14T02:1x",
+   "quote": "現在接班／你上次交班之後沒有人接班 等於你繼續即可",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "CC-NOIDLE-1102",
+   "note": "BB-C 同一工作階段接回 BB（上一任＝自己，正常交班 f9f05028cb）；duty register 重新登記、喚醒打開、接著做 BB_00 交班紀錄 B 類。"
   }
  ]
 }
