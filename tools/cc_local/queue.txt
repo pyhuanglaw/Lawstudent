@@ -2513,7 +2513,9 @@ TZ_WENTE_v2_r2_1500 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/st
 TZ_WENTE_v2_r2_2300 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=23;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-C 11:4x：TZ_WENTE_v2_r2_1500 FAIL_SETUP＝TEST_BUG（main 的 shopInsideReal 網格保留原名；整組 shop_real_<id>、材質 shopreal_＊）→ 探針三種都認＋先等素材，r3
 TZ_WENTE_v2_r3_1500 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=15;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
-TZ_WENTE_v2_r3_2300 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=23;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# BB-C 11:45（BB_379）r3_1500 是 10/22 週三＝溫特寶邸公休（鐵捲門）＝TEST_SETUP → r4 改 10/23 週四 15:00、20:00；23:00 打烊不跑（r3_2300 拿掉）；探針加 PLACES.isOpen 前置檢查
+TZ_WENTE_v2_r4_1500 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;DAY=2025-10-23;HOUR=15;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+TZ_WENTE_v2_r4_2000 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;DAY=2025-10-23;HOUR=20;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 YY_GATE_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 50 | TAG=yy_gate_r3;ZONES=yangyang;HOURS=18,20.5;NODEBUG=1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 BLACKBG_460_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_bg5_probe.py | index.html | 60 | BATCH=9;ORIENT=land;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # LAWWW2-C 10:25（bbc9531154）：電腦也沒有 PIL → 只拍：RAW=1 存原始 PNG＋depth.json 到 OUT/raw（cc-local），去背在雲端 VIEWS_REMATTE 做（不重算圖、顏色是電腦的）

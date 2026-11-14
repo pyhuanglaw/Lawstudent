@@ -5,7 +5,7 @@
   ② 近一點正面（退 4 m、高 1.6 m）＋左右各平移 1 m
   ③ 貼近玻璃（退 1.5 m、高 1.5 m、看玻璃後 2 m）
   另記 sk_in_<店> 網格在不在、看不看得到、場景亮著的燈數。
-CC_02 清單 2026-11-13：1✓（時間由佇列給，白天 14:00） 2✓（門面位置從街道配置讀，不寫死） 3n/a（只有一間） 4n/a（不點按鈕） 5n/a（讀檔到門前，不走路：只看外觀） 6✓（讀檔後等 4 秒、每張 render 後拍） 7✓（lint、node 驗 JS） 8n/a（不判數字） 9✓（藏玩家和 HUD） 10n/a（條件事件關掉） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：配置裡有這間、sk_in 網格在場景裡） 13n/a（不走路）
+CC_02 清單 2026-11-13：1✓（時間由佇列給，白天 14:00；11-14 起 PLACES.isOpen 不是 true＝FAIL_SETUP，NEED_OPEN=0 才拍打烊） 2✓（門面位置從街道配置讀，不寫死） 3n/a（只有一間） 4n/a（不點按鈕） 5n/a（讀檔到門前，不走路：只看外觀） 6✓（讀檔後等 4 秒、每張 render 後拍） 7✓（lint、node 驗 JS） 8n/a（不判數字） 9✓（藏玩家和 HUD） 10n/a（條件事件關掉） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：配置裡有這間、sk_in 網格在場景裡） 13n/a（不走路）
 用法：LW_TESTS=<wt>/tests SHA=<sha> ZONE=tingzhou SHOP=wente [LAYOUT=TINGZHOU_LAYOUT DAY=2025-10-22 HOUR=14 DIST=9] python3 cc_layout_window_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +16,8 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''; ZONE = os.environ.get('ZONE') or 'tingzhou'; SHOP = os.environ.get('SHOP') or 'wente'
+PLACE = os.environ.get('PLACE') or ('tz_' + SHOP if ZONE == 'tingzhou' else '')   # BB-C 11:45（TZ_WENTE r3＝週三公休＝TEST_SETUP）：這間店在 PLACES 的 id；拍「營業中」以前先用 PLACES.isOpen 確認有開
+NEED_OPEN = (os.environ.get('NEED_OPEN') or '1') == '1'
 LAYOUT = os.environ.get('LAYOUT') or 'TINGZHOU_LAYOUT'; DAY = os.environ.get('DAY') or '2025-10-22'
 HOUR = float(os.environ.get('HOUR') or 14); DIST = float(os.environ.get('DIST') or 9)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -43,6 +45,10 @@ async def main():
         if not R.check('FAIL_SETUP 檢查：%s 配置裡有 %s' % (LAYOUT, SHOP), not f.get('err'), J(f)): await b.close(); sys.exit(1)
         x, z, nx = f['x'], f['z'], f['nx']
         await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=x + nx * 3, z=z, yaw=0.0, wait=8000)
+        if PLACE:
+            op = await pg.evaluate("(p=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day); let o=null; try{ o=!!PLACES.isOpen(p,(+G.hour)%24,G.day); }catch(e){ o='ERR '+e.message; } return {place:p, open:o, key:d.key, wd:d.wd, hour:+(+G.hour).toFixed(2), hours:(PLACES.hours&&PLACES.hours[p]&&PLACES.hours[p].text)||null}; })", PLACE); res['open'] = op
+            if NEED_OPEN and not R.check('FAIL_SETUP 檢查：%s 這個時間有營業（PLACES.isOpen）' % PLACE, op.get('open') is True, J(op)): await b.close(); sys.exit(1)
+            if not NEED_OPEN: R.note('營業狀態（NEED_OPEN=0，拍打烊）：%s' % J(op))
         R.setup('【前置／捷徑】讀檔到 %s %s 門面前 3 m (%.2f, %.2f) %s %.2f（條件事件關掉）' % (ZONE, f['name'], x + nx * 3, z, DAY, HOUR))
         await pg.wait_for_timeout(4000); wa = await D.wait_assets(pg); R.note('等素材載完：%s' % J(wa))   # 店內模型一間一間做（每 20 幀一間），先等素材
         m = await pg.evaluate(MESH, {'id': SHOP, 'x': f.get('x'), 'z': f.get('z'), 'r': max(6.0, (f.get('w') or 4) + 3)}); res['mesh'] = m
