@@ -1,12 +1,3 @@
-[00:43:37] memory 43% before starting CANON_NEWGAME_FULL_d21c (2 running)
-[00:43:37] ==== START CANON_NEWGAME_FULL_d21c  (probe @ d21c698bdef7b3ae434112ce7175ae9945deadd8) ====
-[00:43:40] [res] cpu=7% mem=43% (13.6/31.4 GB) chrome_testing=10  START CANON_NEWGAME_FULL_d21c
-[00:46:00] [res] cpu=0% mem=44% (13.9/31.4 GB) chrome_testing=10  END STUDY_SE11_4af4
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       1e091c994e..7ecb04081c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[00:46:35] ==== END   STUDY_SE11_4af4  exit=0  577s   ====
-[00:46:49] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [00:46:49] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
 [00:46:49] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [00:46:49] memory 42% before starting GUIDE_3ebd (2 running)
@@ -1998,3 +1989,12 @@
 [14:25:50] ==== START NAV_FLOWER_2F_tap_r5B  (probe @ 6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d) ====
 [14:25:53] [res] cpu=1% mem=42% (13.5/31.4 GB) chrome_testing=10  START NAV_FLOWER_2F_tap_r5B
 [14:26:25] [res] cpu=1% mem=41% (12.9/31.4 GB) chrome_testing=9  END WZ_FRUIT_r3_buy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8abae1e651..2894325b26  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:26:33] ==== END   WZ_FRUIT_r3_buy  exit=0  141s   ====
+[14:26:36] memory 42% before starting AA_SCENES_EV_ARC (2 running)
+[14:26:36] ==== START AA_SCENES_EV_ARC  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
+[14:26:39] [res] cpu=13% mem=43% (13.4/31.4 GB) chrome_testing=9  START AA_SCENES_EV_ARC
+[14:26:55] 正在跑：CANON_NEWGAME_A2_r2（已跑 6 分／上限 110 分）、NAV_FLOWER_2F_tap_r5B（已跑 1 分／上限 20 分）、AA_SCENES_EV_ARC（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:28:33] [res] cpu=9% mem=44% (14.2/31.4 GB) chrome_testing=10  END CANON_NEWGAME_A2_r2
