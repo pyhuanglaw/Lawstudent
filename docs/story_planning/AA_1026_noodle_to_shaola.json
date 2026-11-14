@@ -6,7 +6,8 @@
   "task": "AA-D99-BLOCKERS-1114",
   "how": "開發分支 c109767aae 的 src/**/*.js 去掉註解以後，字串裡有「麵店」的 101 處逐處看。不用改的：店的內部鍵「阿鳳麵店」（eat3d、shaola_order3d，畫面顯示公館燒臘）、舊存檔的改名表（story3d NDL_OLD_*）、retired 事件的標題、說明欄的註記（privtalk3d、characters、heroine_circle、invite_replies 的 note）、別家麵店（溫州街林家乾麵、118 巷刀削麵、美國街上的、她學校後門的、台中的）。",
   "result": "確定要換的 15 處（F4～F14、F16～F19）；Q1～Q8 LAWWW-B 已回（answers）：Q2、Q5、Q6、Q8 不動。",
-  "bb": "BB-B 11-14 看過 F10、F11：台詞照用；F11 旁白 AA 採用 BB 的保守版（停在「再擦一遍。」）。直換的那幾條 BB 請 CC 在遊戲裡看前後文。"
+  "bb": "BB-B 11-14 看過 F10、F11：台詞照用；F11 旁白 AA 採用 BB 的保守版（停在「再擦一遍。」）。直換的那幾條 BB 請 CC 在遊戲裡看前後文。",
+  "bb2": "BB-B 11-14：F16、F17、F19 OK；F18 問事實（玩家有沒有演過秀琴姨的房子要賣）——有，寫在 F18.note。定稿。"
  },
  "fixes": [
   {
@@ -91,7 +92,8 @@
    "id": "F18",
    "where": "src/data/syllabus.js B_Y2S2_admin_remedy_w13 的 recall（memory LAW_MEETS_LIFE）",
    "old": "你想起阿鳳麵店。房子賣掉也是合法的事。合法，不代表阿姨一家不用煩惱。",
-   "new": "你想起秀琴姨租的那間房子。房東把房子賣掉是合法的事。合法，不代表她不用煩惱。"
+   "new": "你想起秀琴姨租的那間房子。房東把房子賣掉是合法的事。合法，不代表她不用煩惱。",
+   "note": "BB-B 問這句會不會提到玩家沒演過的事：不會。這句只給有記憶 LAW_MEETS_LIFE 的玩家；那個記憶在 ev_yt_lease_text（y2b_events.js:31～40）才記，前提是 RENT_RUMOR——玩家已經演過「秀琴姨的房東要把房子賣了。她住了十四年。」（src/ytjob3d.js S.RENT 茶屋那一場，或 ytjob3d.js:139 在她家秀琴姨自己講的那一場）。開發分支 c109767aae 查的。"
   },
   {
    "id": "F19",
