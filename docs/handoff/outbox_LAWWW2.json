@@ -10614,6 +10614,24 @@
    "tests": "nanyang 系列等 10 支、shop_cc0、place_gate ALL PASS",
    "notDone": "LAWWW 整合；CC 拍；BB 判",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "6fe2265f29",
+   "at": "2026-11-14T10:55Z",
+   "task": "SHOP-REALISM-1112",
+   "title": "山嵐書店 v3（g2 fbb14ee0ef）驗收 PASS：最後一間，shop_cc0 待做名單清空",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/"
+   ],
+   "tests": "shanlan／xs_lm 34 支、shop_cc0、place_gate ALL PASS",
+   "notDone": "LAWWW 整合；CC 拍；BB 判",
+   "next": "LAWWW 套 patch"
   }
  ]
 }

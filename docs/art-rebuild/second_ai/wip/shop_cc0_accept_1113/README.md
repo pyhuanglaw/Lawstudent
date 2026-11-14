@@ -269,3 +269,16 @@
 - **疊面**：先跑 place_gate（不加 --write），新的問題 0；再 --coplanar --write：always 16.50 → 16.43。
 - **測試**：nanyang、nanyang_bench、nanyang_staff_1107、nanyang_tap、cinema_work_spot_1112、shop_real_inside_1112、wall_dir_inherit、xs_close、xs_lm、xs_wincard2_1110 都 ALL PASS。
 - **畫面**（`nanyang_v7_cmp.jpg`）：三點都看得出來改了，放映機最明顯。
+
+## 山嵐書店 v3（g2 fbb14ee0ef）——驗收 PASS（11-14 10:5x UTC）——**最後一間，shop_cc0 待做名單清空**
+- **patch**：`shanlan_v3_on_6fe2265f29.patch`，底＝開發分支 6fe2265f29。LICENSES 有衝突，兩邊都留（南洋的列和山嵐的列）。
+- **三項**：shop_cc0 過。baseline 的 todo 拿掉山嵐以後是空的，**所有進得去的店都過了三項**。
+- **改了什麼**：
+  - 天花板換成 Plaster001。
+  - 高的盆栽換成 Poly Haven `potted_plant_02`，小盆栽照舊是葉片卡（同頁間，記 P3）。
+  - 櫃台換成大理石檯面。
+  - 門把改成黑鐵。
+  - 面數 79,600（大店上限 80k）。
+- **疊面**：先跑 place_gate（不加 --write），新的問題 0；再 --coplanar --write：always 53.81 → 53.75。
+- **測試**：提到 shanlan、xs_lm 的 34 支 ALL PASS。
+- **畫面**（`shanlan_v3_cmp.jpg`）：陶盆大盆栽、大理石櫃台都看得出來；天花板質感變化不大。
