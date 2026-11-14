@@ -1,11 +1,3 @@
-[22:26:00] skip CLASS12_skip2_500x5 (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_const_c2 (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_skip3_73_150x10 (already done on 73faa493f90fc6c90ccc867950bd012cb3d1d72e)
-[22:26:00] skip CLASS12_skip3_73_150x20 (already done on 73faa493f90fc6c90ccc867950bd012cb3d1d72e)
-[22:26:00] skip CLASS12_skip3_73_500x5 (already done on 73faa493f90fc6c90ccc867950bd012cb3d1d72e)
-[22:26:00] skip LM_cam3_new (already done on 696cf6036f3ca9fbc7022c21ab37324b0e46e305)
-[22:26:00] skip LM_cam3_old (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:26:00] skip ANTAI_cam_new (already done on 696cf6036f3ca9fbc7022c21ab37324b0e46e305)
 [22:26:00] skip ANTAI_cam_old (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
 [22:26:00] skip SHOPS5_far_new (already done on 696cf6036f3ca9fbc7022c21ab37324b0e46e305)
 [22:26:00] skip NM_cam3_new (already done on 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511)
@@ -1998,3 +1990,11 @@
 [10:40:04] [res] cpu=12% mem=45% (14.2/31.4 GB) chrome_testing=10  START T1_76f8
 [10:41:55] 正在跑：L118_CAM36_c_r4（已跑 28 分／上限 60 分）、REL76_save_live_ctl_r3（已跑 5 分／上限 40 分）、T1_76f8（已跑 1 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:42:54] [res] cpu=23% mem=43% (13.5/31.4 GB) chrome_testing=5  END REL76_save_live_ctl_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3c19903433..1bc05a4335  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:43:01] ==== END   REL76_save_live_ctl_r3  exit=1  371s   ====
+[10:43:04] memory 43% before starting WINVIEW_GG3_1939 (2 running)
+[10:43:04] ==== START WINVIEW_GG3_1939  (game @ 19399e5d39f54b4da8e0a8caa78a72c48d98374f) ====
+[10:43:07] [res] cpu=3% mem=43% (13.6/31.4 GB) chrome_testing=5  START WINVIEW_GG3_1939
+[10:43:44] [res] cpu=5% mem=43% (13.8/31.4 GB) chrome_testing=5  END WINVIEW_GG3_1939
