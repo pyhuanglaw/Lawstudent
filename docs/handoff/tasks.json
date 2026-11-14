@@ -57178,6 +57178,45 @@
     "term": "Y1S1",
     "confirmed": false
    }
+  },
+  {
+   "id": "US-MARKET-CLERK-1114",
+   "title": "美國兩間超市沒有店員：草原（us_market）整間沒人；竹葉（us_asian_market）有客人、結帳台沒有阿姨、點餐選單沒出來",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "BB_379 c4d29eaf55（SHOP_US_v2 @625fefcf1e 13:00）；D99 ② 美國交換",
+   "note": "LAWWW-C 11-14 10:1x 查：story3d.js 251 行草原 clerk 要 sh831('us_market')；Node 算 PLACES.isOpen／SH831.staffed 在 2028-09-12、09-16、10-03、11-15 13:00 都是 true（營業時間 08–22 每天、不在颱風清單）。竹葉 252 行 clerk(-4.5,2.7,0,63) 沒條件，卻沒出現，客人（254 行）有出現＝populate 有跑、clerk() 有呼叫，但 NPC 不見——懷疑 E.addNPC 之後被別的東西拿掉／藏起來（國外的 extra 過濾？站點在碰撞裡？）。下一步：請 CC 在瀏覽器進兩間店 13:00，記 GM.E.npcs（clerk 旗標、位置、visible）、SH831.staffed('us_market',GM.G)、GM.G.hour／day，就能分辨。",
+   "first": {
+    "term": "Y4S1",
+    "confirmed": true
+   }
+  },
+  {
+   "id": "LAUNDRY-SEAT-PRIO-1114",
+   "title": "洗樂長椅 #1／#2：走到旁邊互動鍵被「兌幣機・洗衣精」「看使用說明」搶走，沒有「坐著等」",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "BB-C 11-14 10:14",
+   "note": "BB_379；照 INV-MEET-YIELD 讓座位優先。",
+   "first": {
+    "term": "Y1S2",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "ROM1016-SUBST-1114",
+   "title": "SIM_LANDLORD_352f：2026-06-02 ROM1016.S.readCard → subst 讀 replace 拿到 undefined（rom1016_3d.js 102／120），TypeError 4 次",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 11-14 10:14",
+   "note": "BB_379；模擬器註明可能是假物件不夠真——要 CC 在瀏覽器重現才判。",
+   "first": {
+    "term": "Y1S2",
+    "confirmed": false
+   }
   }
  ]
 }
