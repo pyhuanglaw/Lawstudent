@@ -1,11 +1,3 @@
-[17:45:55] skip GATE_CAL_bd86 (already done on bd8643003a363ecd3e9bb87fa59d839f6d22475a)
-[17:45:55] skip GATE_CAL_1cd2_r2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
-[17:45:55] skip GATE_CAL_bd86_r2 (already done on bd8643003a363ecd3e9bb87fa59d839f6d22475a)
-[17:45:55] skip GATE_CAL_dc3d_xs_r2 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip GATE_CAL_flk_1cd2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
-[17:45:55] skip GATE_CAL_flk_head (already done on c4e07078078a77df3fcc7cdfa5bf481992a0f8fc)
-[17:45:55] skip GATE_CAL_dc3d_xs (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip GATE_CAL_2771 (already done on 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37)
 [17:45:55] skip GATE_98EC_tz3 (already done on 98ec5b0f66120b7dcb37acfc5c362be73051f6bf)
 [17:45:55] skip G2DF5_TZ3_cust (already done on a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492)
 [17:45:55] skip G2DF5_LINVIEW (already done on a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492)
@@ -1998,3 +1990,11 @@
 [21:30:51] [res] cpu=1% mem=51% (16.2/31.4 GB) chrome_testing=10  START HL1_CIRCLE_1028_r3b
 [21:30:55] 正在跑：LIMAO_REAL_r1（已跑 10 分／上限 45 分）、HL1_CIRCLE_1028_r3（已跑 5 分／上限 40 分）、HL1_CIRCLE_1028_r3b（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:31:58] [res] cpu=12% mem=50% (15.8/31.4 GB) chrome_testing=9  END HL1_CIRCLE_1028_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       532414b381..eff133c6ab  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:32:06] ==== END   HL1_CIRCLE_1028_r3  exit=1  407s   ====
+[21:32:10] memory 51% before starting AA355_6_sports_r3 (2 running)
+[21:32:10] ==== START AA355_6_sports_r3  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:32:13] [res] cpu=7% mem=45% (16.2/31.4 GB) chrome_testing=5  START AA355_6_sports_r3
+[21:32:45] [res] cpu=0% mem=50% (15.5/31.4 GB) chrome_testing=9  END HL1_CIRCLE_1028_r3b
