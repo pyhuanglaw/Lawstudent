@@ -5527,12 +5527,12 @@ English style keywords: high-quality Japanese anime film key visual, semi-realis
 
 為了高畫質，絕對不可以把幾張合在同一張圖裡。
 
-1. 請照附圖「01_法律系館參考」裡的那棟建築畫：建築的外形、樓層數、牆面顏色和材質、窗戶的排列、入口的位置和樣子都照附圖，不要自己改設計、不要加附圖沒有的東西；附圖是 3D 遊戲畫面，請把它畫成精緻的手繪背景（材質、光影、樹葉、地面的細節畫出來），不要畫成 3D 模型的樣子。台北一所大學校園裡，這棟大樓正門前的小廣場，白天下午；鏡頭和附圖一樣，站在門前正對大門、人的眼睛高度。陽光從左邊斜照，樹影落在地上，氣氛安靜、乾淨。
+1. 請照附圖「01_法律系館參考」裡的那棟建築畫：建築的外形、樓層數、牆面顏色和材質、窗戶的排列、入口的位置和樣子都照附圖，不要自己改設計、不要加附圖沒有的東西；附圖是 3D 遊戲畫面，請把它畫成精緻的手繪背景（材質、光影、樹葉、地面的細節畫出來），不要畫成 3D 模型的樣子。台北一所大學校園裡，這棟大樓正門前的小廣場，白天下午；鏡頭的位置和角度和附圖一樣（人的眼睛高度）。建築牆上的字、立牌和布條上的字都不要畫，留空白。陽光從左邊斜照，樹影落在地上，氣氛安靜、乾淨。
 16:9 橫幅，高畫質。畫面主體放在上方三分之二，下方三分之一留給對話框（不要放重要東西）。畫面裡不要有任何文字、招牌字、數字、圓圈編號或標籤（編號只放在檔名或回覆文字）；不要像任何真實的作品、品牌或真實建築。畫面裡沒有人。
 畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
 English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
 
-2. 請照附圖「02_社科院參考」裡的那棟建築畫：建築的外形、樓層數、牆面顏色和材質、窗戶的排列、入口的位置和樣子都照附圖，不要自己改設計、不要加附圖沒有的東西；附圖是 3D 遊戲畫面，請把它畫成精緻的手繪背景（材質、光影、樹葉、地面的細節畫出來），不要畫成 3D 模型的樣子。台北一所大學校園裡，這棟大樓的入口前，白天；鏡頭和附圖一樣，站在入口前正對大門、人的眼睛高度。天空晴朗，有幾朵雲。
+2. 請照附圖「02_社科院參考」裡的那棟建築畫：建築的外形、樓層數、牆面顏色和材質、窗戶的排列、入口的位置和樣子都照附圖，不要自己改設計、不要加附圖沒有的東西；附圖是 3D 遊戲畫面，請把它畫成精緻的手繪背景（材質、光影、樹葉、地面的細節畫出來），不要畫成 3D 模型的樣子。台北一所大學校園裡，這棟大樓的入口前，白天；鏡頭的位置和角度和附圖一樣（人的眼睛高度）。建築牆上的字和公告欄上的字都不要畫，留空白。天空晴朗，有幾朵雲。
 16:9 橫幅，高畫質。畫面主體放在上方三分之二，下方三分之一留給對話框（不要放重要東西）。畫面裡不要有任何文字、招牌字、數字、圓圈編號或標籤（編號只放在檔名或回覆文字）；不要像任何真實的作品、品牌或真實建築。畫面裡沒有人。
 畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
 English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
@@ -5542,3 +5542,4 @@ English style keywords: high-quality Japanese anime film key visual, semi-realis
 畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
 English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
 ```
+- 附圖定案（BB-B 看過 CC 的 BG3D_LINZE_front、BG3D_SOC_front，main 6106fae2d2、14:00、沒人沒 UI）：1 號用斜 30° 那張（正面那張被樹擋住穿堂），2 號用正面那張；四張附圖放在 `BB_132_refs/128_retry/`。已給使用者。
