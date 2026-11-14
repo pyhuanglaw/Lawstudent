@@ -126,7 +126,7 @@
   "top": "WALL_back_vc×WALL_back_steel 1.218 m² @[1.86,0,-7.89]"
  },
  "assets/models/env/second_ai/bb_support/tongxian.glb": {
-  "sha1": "60b8224b1a149dffda51e497471864974a84981c",
+  "sha1": "30616adf1c27e5cf1145741a2108f4d7221ff375",
   "wall": 1.8,
   "always": 7.45,
   "top": "WALL_back_plaster×WALL_back_metal 0.364 m² @[-2.13,0.87,-5.26]"
