@@ -1,0 +1,63 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_bb403_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BB403_W123\out
+CC BB_403 W1～W3：SHA d587922b01345b1eae1cd207e8dd66ebc5ddc6fa；CASES ['FOLLOW', 'REFUSE']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [FOLLOW] 最小存檔讀到 2025-09-02 15:25 校園霖澤館門口 {"x": 30, "z": -107.4, "yaw": 1.5707963267948966}（MAIN_D1＝9/1、classDone good；條件事件照開）
+PASS FAIL_SETUP 檢查：[FOLLOW] mainDay 2、還沒遇到小安  {"key": "2025-09-02", "h": 15.47, "zone": "campus", "mainDay": 2, "metAn": false, "anSkipped": false, "anMissed": false, "afternoonDone": false, "plan": null, "companion": null, "cafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "split": false, "followup": false}
+  [  64.3s] [FOLLOW] 門口 {"x": 30, "z": -107.4, "yaw": 1.5707963267948966}；走到 {"x": 36.76, "z": -109.21, "d": 7}
+  [  68.9s] 到達「[FOLLOW] 走出霖澤館 7 m 外」附近（0.28 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  95.0s] [FOLLOW_W1_meet] 對話：選項 [["好啊，去咖啡廳。跟小安一起走去溫州街", "總圖比較安靜，去總圖吧。跟小安一起走去總圖", "今天有點累，改天。"]]；選了 ["好啊，去咖啡廳。跟小安一起走去溫州街"]；GAME.say [["前排的女生", "呼——你走好快。"], ["前排的女生", "我是沈以安。……大家都叫我小安。"], ["小安", "剛剛周老師點你的時候我還以為你會慘掉，結果你連八十八條都講出來。你昨天讀到幾點？"], ["小安", "老師說報告兩人一組。我還沒有組。你呢？"], ["祐廷", "那我們一組？"], ["小安", "好。"], ["小安", "LINE。"], ["小安", "我等一下要去溫州街那間咖啡廳整理今天的筆記，就是開到凌晨兩點半那間。"], ["小安", "你要不要一起？還是你比較想去總圖？那邊安靜。"], ["小安", "走吧。從新生南路那個側門出去，過馬路就是。"]]
+  [  95.1s] [FOLLOW] 小安那一段之後 {"key": "2025-09-02", "h": 15.53, "zone": "campus", "mainDay": 2, "metAn": true, "anSkipped": false, "anMissed": false, "afternoonDone": false, "plan": "cafe", "companion": "an", "cafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": true, "split": false, "followup": false}
+PASS FAIL_SETUP 檢查：[FOLLOW] 小安追上來（metAn）、選了Café  {"key": "2025-09-02", "h": 15.53, "zone": "campus", "mainDay": 2, "metAn": true, "anSkipped": false, "anMissed": false, "afternoonDone": false, "plan": "cafe", "companion": "an", "cafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": true, "split": false, "followup": false}
+  [ 102.4s] [FOLLOW_cafe] 手機「地點」沒有 cafe
+  [ 193.1s] [FOLLOW_cafe] 對話：選項 []；選了 []；GAME.say []
+  [ 193.1s] [FOLLOW] Café 之後 {"key": "2025-09-02", "h": 16.14, "zone": "campus", "mainDay": 2, "metAn": true, "anSkipped": false, "anMissed": false, "afternoonDone": false, "plan": "cafe", "companion": "an", "cafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": true, "split": false, "followup": false}
+FAIL FAIL_SETUP 檢查：[FOLLOW] Café 那一場演了、cafeView A  {"key": "2025-09-02", "h": 16.14, "zone": "campus", "mainDay": 2, "metAn": true, "anSkipped": false, "anMissed": false, "afternoonDone": false, "plan": "cafe", "companion": "an", "cafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": true, "split": false, "followup": false}
+PASS FOLLOW_W1 進店 有「進入公館燒臘」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "lv": 0, "to": "yangyang"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "lv": 0, "to": "corner_records"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "lv": 0, "to": "tingzhou"}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "lv": 0, "to": "flower_notes"}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_antai"}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "r": 2.2, "lv": 0, "to": "gg_rongendian"}]
+  [ 441.6s] FOLLOW_W1 進店 「進入公館燒臘」在 (-63, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -62.08, "z": 20.08, "d": 77.19318766423048}
+PASS FOLLOW_W1 進店 「進入公館燒臘」範圍裡有站得住的地方  {"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}
+  [ 484.5s] 到達「FOLLOW_W1 進店 進入公館燒臘」附近（0.25 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，43 秒
+PASS FOLLOW_W1 進店 走到那裡，互動按鈕是「進入公館燒臘」  {"x": -61.831, "z": 20.087, "lv": 0, "interact": "進入公館燒臘"}
+PASS FOLLOW_W1 進店 按下去到了 noodle（站得住、沒有被放到目的地）  {"zone": "noodle", "x": 0, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看櫥窗", "stand": true, "fb": 0, "hour": 18.31}
+PASS FAIL_SETUP 檢查：[FOLLOW_W1] 照玩家進了燒臘店  {"zone": "noodle", "x": 0, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看櫥窗", "stand": true, "fb": 0, "hour": 18.31}
+  [ 493.4s] [FOLLOW_W1] 座位／阿哲 {"n": 5, "zhe": null, "zheSeat": false, "it": {"x": -2.1, "z": 4.62, "r": 1, "lv": 0, "label": "坐下吃飯"}, "dZhe": null}
+FAIL FAIL_SETUP 檢查：[FOLLOW_W1] 阿哲在店裡、旁邊 2.5 m 內有座位  {"n": 5, "zhe": null, "zheSeat": false, "it": {"x": -2.1, "z": 4.62, "r": 1, "lv": 0, "label": "坐下吃飯"}, "dZhe": null}
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）12.50 時 campus；[FOLLOW] W2 隔天 12:30
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）12.55 時 campus；找小安：campus
+  [ 522.6s] [FOLLOW] campus 的小安：{"x": 34.6, "z": -99.2, "lv": 0, "beh": "follow", "pose": "idle", "hidden": false, "leaving": false, "name": "小安", "label": "和小安說話", "talk": true, "dMe": 1.34}
+PASS FAIL_SETUP 檢查：[FOLLOW] W2 隔天找得到小安  campus
+  [ 528.9s] [FOLLOW] W2 和小安說話：選項 []；選了 []；台詞 [["小安", "你"]]
+  [ 529.3s] [FOLLOW] W2 小安說：[["小安", "你走路真的很快。"]]
+  [ 529.4s] [FOLLOW] W3 ev_an_report_followup prereq：afternoonDone=False、ev_an_report_split=False、REPORT_PARTNER=True（notMemory 要 false 才演）、followup 演過=False
+  [前置／捷徑] [REFUSE] 最小存檔讀到 2025-09-02 15:25 校園霖澤館門口 {"x": 30, "z": -107.4, "yaw": 1.5707963267948966}（MAIN_D1＝9/1、classDone good；條件事件照開）
+PASS FAIL_SETUP 檢查：[REFUSE] mainDay 2、還沒遇到小安  {"key": "2025-09-02", "h": 15.47, "zone": "campus", "mainDay": 2, "metAn": false, "anSkipped": false, "anMissed": false, "afternoonDone": false, "plan": null, "companion": null, "cafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "split": false, "followup": false}
+  [ 573.6s] [REFUSE] 門口 {"x": 30, "z": -107.4, "yaw": 1.5707963267948966}；走到 {"x": 36.76, "z": -109.21, "d": 7}
+  [ 578.6s] 到達「[REFUSE] 走出霖澤館 7 m 外」附近（0.28 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [ 606.9s] [REFUSE_W1_meet] 對話：選項 [["好啊，去咖啡廳。跟小安一起走去溫州街", "總圖比較安靜，去總圖吧。跟小安一起走去總圖", "今天有點累，改天。"]]；選了 ["今天有點累，改天。"]；GAME.say [["前排的女生", "呼——你走好快。"], ["前排的女生", "我是沈以安。……大家都叫我小安。"], ["小安", "剛剛周老師點你的時候我還以為你會慘掉，結果你連八十八條都講出來。你昨天讀到幾點？"], ["小安", "老師說報告兩人一組。我還沒有組。你呢？"], ["祐廷", "那我們一組？"], ["小安", "好。"], ["小安", "LINE。"], ["小安", "我等一下要去溫州街那間咖啡廳整理今天的筆記，就是開到凌晨兩點半那間。"], ["小安", "你要不要一起？還是你比較想去總圖？那邊安靜。"], ["小安", "好。那明天見。"], ["小安", "題目出來我傳你。"], ["", "她轉身往校門走。走了幾步又回頭揮了一下手。"]]
+  [ 607.0s] [REFUSE] 小安那一段之後 {"key": "2025-09-02", "h": 15.53, "zone": "campus", "mainDay": 2, "metAn": true, "anSkipped": true, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": true, "split": false, "followup": false}
+PASS FAIL_SETUP 檢查：[REFUSE] 小安追上來（metAn）、選了不去  {"key": "2025-09-02", "h": 15.53, "zone": "campus", "mainDay": 2, "metAn": true, "anSkipped": true, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": true, "split": false, "followup": false}
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-02（Y1S1 第 1 週）18.00 時 gongguan；[REFUSE] 拒絕小安以後、傍晚到公館
+PASS REFUSE_W1 進店 有「進入公館燒臘」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "lv": 0, "to": "yangyang"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "lv": 0, "to": "corner_records"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "lv": 0, "to": "tingzhou"}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "lv": 0, "to": "flower_notes"}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_antai"}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "lv": 0, "to": "gg_xianguo"}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "r": 2.2, "lv": 0, "to": "gg_rongendian"}]
+  [ 618.7s] REFUSE_W1 進店 「進入公館燒臘」在 (-63, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -62.08, "z": 20.08, "d": 77.19318766423048}
+PASS REFUSE_W1 進店 「進入公館燒臘」範圍裡有站得住的地方  {"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}
+  [ 660.9s] 到達「REFUSE_W1 進店 進入公館燒臘」附近（0.22 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，42 秒
+PASS REFUSE_W1 進店 走到那裡，互動按鈕是「進入公館燒臘」  {"x": -61.859, "z": 20.086, "lv": 0, "interact": "進入公館燒臘"}
+PASS REFUSE_W1 進店 按下去到了 noodle（站得住、沒有被放到目的地）  {"zone": "noodle", "x": 0, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看櫥窗", "stand": true, "fb": 0, "hour": 18.36}
+PASS FAIL_SETUP 檢查：[REFUSE_W1] 照玩家進了燒臘店  {"zone": "noodle", "x": 0, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看櫥窗", "stand": true, "fb": 0, "hour": 18.36}
+  [ 668.1s] [REFUSE_W1] 座位／阿哲 {"n": 5, "zhe": [-2.1, 1.02], "zheSeat": true, "it": {"x": -2.1, "z": 1.02, "r": 1, "lv": 0, "label": "坐下吃飯"}, "dZhe": 0}
+PASS FAIL_SETUP 檢查：[REFUSE_W1] 阿哲在店裡、旁邊 2.5 m 內有座位  {"n": 5, "zhe": [-2.1, 1.02], "zheSeat": true, "it": {"x": -2.1, "z": 1.02, "r": 1, "lv": 0, "label": "坐下吃飯"}, "dZhe": 0}
+  [ 671.0s] 到達「[REFUSE_W1] 阿哲旁邊的座位」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+FAIL FAIL_SETUP 檢查：[REFUSE_W1] 互動鍵是那張座位「坐下吃飯」  {"zone": "noodle", "x": -1.38, "z": 1.44, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和阿哲打招呼", "stand": true, "fb": 0, "hour": 18.4}
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）12.50 時 campus；[REFUSE] W2 隔天 12:30
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）12.55 時 campus；找小安：campus
+  [ 721.6s] [REFUSE] campus 的小安：null
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）12.74 時 classroom；找小安：classroom
+  [ 753.9s] [REFUSE] classroom 的小安：null
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）12.93 時 library；找小安：library
+  [ 797.8s] [REFUSE] library 的小安：null
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）13.11 時 linze；找小安：linze
+  [ 829.6s] [REFUSE] linze 的小安：null
+FAIL FAIL_SETUP 檢查：[REFUSE] W2 隔天找得到小安  None
+  [ 829.6s] [REFUSE] W3 ev_an_report_followup prereq：afternoonDone=True、ev_an_report_split=False、REPORT_PARTNER=True（notMemory 要 false 才演）、followup 演過=False
+PASS 沒有 JS 例外  []
+FAILED 4: FAIL_SETUP 檢查：[FOLLOW] Café 那一場演了、cafeView A；FAIL_SETUP 檢查：[FOLLOW_W1] 阿哲在店裡、旁邊 2.5 m 內有座位；FAIL_SETUP 檢查：[REFUSE_W1] 互動鍵是那張座位「坐下吃飯」；FAIL_SETUP 檢查：[REFUSE] W2 隔天找得到小安
