@@ -1520,3 +1520,12 @@
 [17:50:16] ==== START REL76_ladder_r2_rc2e  (game @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
 [17:50:19] [res] cpu=20% mem=54% (16.9/31.4 GB) chrome_testing=9  START REL76_ladder_r2_rc2e
 [17:50:47] [res] cpu=20% mem=47% (14.7/31.4 GB) chrome_testing=8  END RC2E_p0
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2344da48e9..662450a106  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:50:53] ==== END   RC2E_p0  exit=0  292s   ====
+[17:50:55] 正在跑：ANNIV_Y2_rel_rc2e（已跑 1 分／上限 40 分）、REL76_ladder_r2_rc2e（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:50:56] memory 49% before starting ART_GYM_BG1_rel_rc2e (2 running)
+[17:50:56] ==== START ART_GYM_BG1_rel_rc2e  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
+[17:50:59] [res] cpu=19% mem=49% (15.6/31.4 GB) chrome_testing=8  START ART_GYM_BG1_rel_rc2e
+[17:52:18] [res] cpu=16% mem=53% (16.5/31.4 GB) chrome_testing=9  END ART_GYM_BG1_rel_rc2e
