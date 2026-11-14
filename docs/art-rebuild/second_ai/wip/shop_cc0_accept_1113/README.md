@@ -196,3 +196,29 @@
 - **疊面**：先跑 place_gate（不加 --write），新的問題 0；之後 --coplanar --write：always 2.07 → 2.03（回到 4556c4be0c 原本的數字），wall 1.22 沒變。
 - **測試**：都 ALL PASS，包括 shop_cc0、yizhan_place、teahouse ×2、wz_teahouse ×2、wz_real_inside、shop_window ×2。
 - COPLANAR-CREEP-1114 兩半都修完：洋洋已整合 98a1bddf63，一盞是這一包。
+
+## glb_coplanar 實例化修正（g3 edb96e33ec，工具）——驗收 PASS（11-14 09:5x UTC）
+- **patch**：`coplanar_instancing_on_6f4cf29026.patch`（底＝開發分支 6f4cf29026）。**先整合這一包，再整合同弦**。
+- **錯在哪**：`tools/glb_coplanar.py` 讀到 EXT_mesh_gpu_instancing 的網格時，只拿原型在原點的那一份來比，每一份實例都疊在一起，算出很多其實不存在的疊面。修法：每一份實例套它自己的位置、旋轉、縮放再比。
+- **LAWWW 的四個條件都做到**：工具單獨一包；前後對照表（下面）；變多的逐項列（**0 項**）；小測試 `tests/glb_coplanar_instancing_check.py`（兩份錯開的實例不算疊面、真的疊在一起的仍然抓得到）ALL PASS。
+- **基準重算**：先跑 place_gate（不加 --write）新的問題 0，再 --coplanar --write，8 個模型變少、0 個變多：
+
+| 模型 | always 前 → 後 |
+|---|---|
+| 慢輪 bike | 17.45 → 5.35 |
+| 轉角 corner | 18.63 → 13.31 |
+| 大步 dabu | 34.54 → 33.11 |
+| 大口 2F | 6.30 → 2.29 |
+| 好拍 | 35.44 → 11.68 |
+| 同弦 | 38.08 → 7.45 |
+| 新生運動廣場 | 48.06 → 6.38 |
+| 鮮果 | 13.04 → 10.19 |
+
+- 大步還有 33 m²，大多是真的疊面（g3 說真的有 5.11 m² 要在大步 v2 修），不是工具算錯。
+
+## 同弦樂器 CC0（g3 768816c33c）——驗收 PASS（11-14 09:5x UTC）
+- **patch**：`tongxian_cc0_on_coplanar_instancing.patch`，疊在上面那包之後（底＝6f4cf29026＋工具那包）。
+- **三項**：shop_cc0 過（Poly Haven 掃描模型、CC0 材質組、純色零件 19%）；`shop_cc0_baseline.json` 拿掉同弦。
+- **疊面**：用新工具跑，先不加 --write 新的問題 0，再 --coplanar --write 只有 sha1 變（always 維持 7.45）。
+- **測試**：19 支 ALL PASS，包括 tongxian_unit、tongxian_closed、xs_tongxian_view、xs_tongxian_sign、aa619_guitar ×2、xs_lm（同弦 30 份實例＋新生運動廣場 58）、seat_reach、shop_npc、shop_window3d、place_gate、shop_cc0。
+- **畫面**：`tongxian_cmp.jpg`，改動不大：工作檯上多了烏克麗麗、架上的紙箱，木頭和金屬改 CC0 材質組。
