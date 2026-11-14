@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "GATE2_YANGYANG_0c49",
+  "sha": "0c49bcf64ee779dc66efce1809455f57dfe0e010",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_place_gate_probe.py",
+  "env": "TAG=gate2_yangyang;ZONES=yangyang;HOURS=19;NODEBUG=1;SHA=0c49bcf64ee779dc66efce1809455f57dfe0e010",
+  "machine": "MSI",
+  "start": "2026-11-14T09:15:46",
+  "end": "2026-11-14T09:27:39",
+  "seconds": 713,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 54,
+    "used_gb": 17.6,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

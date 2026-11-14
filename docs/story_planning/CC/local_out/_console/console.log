@@ -1,12 +1,3 @@
-[22:25:56] skip US_ART_fix (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:56] skip SHIFT_r4_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:56] skip SHIFT_IMM_r4_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:56] skip SHIFT_IMM_r4_old (already done on 8a98ff1e06c06cfb52be41dc3402ba05305945a6)
-[22:25:56] skip SHIFT_r5_F (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:56] skip SHIFT_r6_F_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:56] skip SHIFT_r6_F_old (already done on 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed)
-[22:25:56] skip USCLS_r2 (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
-[22:25:56] skip OUTING_old (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
 [22:25:56] skip SHIFT_IMM_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
 [22:25:56] skip SHIFT_IMM_old (already done on 8a98ff1e06c06cfb52be41dc3402ba05305945a6)
 [22:25:56] skip SHIFT_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
@@ -1998,3 +1989,12 @@
 [09:18:51] [res] cpu=3% mem=45% (14.1/31.4 GB) chrome_testing=10  START GATE2_HAOPAI_0a8f
 [09:21:54] 正在跑：GATE2_CC0_c_0c49（已跑 13 分／上限 50 分）、GATE2_YANGYANG_0c49（已跑 6 分／上限 25 分）、GATE2_HAOPAI_0a8f（已跑 3 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:25:49] [res] cpu=2% mem=45% (14.3/31.4 GB) chrome_testing=10  END GATE2_HAOPAI_0a8f
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       231ee8e69a..076715110e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:26:02] ==== END   GATE2_HAOPAI_0a8f  exit=1  422s   ====
+[09:26:05] memory 46% before starting GATE2_BIKESHOP_ccbd (2 running)
+[09:26:05] ==== START GATE2_BIKESHOP_ccbd  (probe @ ccbd520b6166ee74dd86adf8106acb3ed31eef28) ====
+[09:26:08] [res] cpu=1% mem=46% (14.5/31.4 GB) chrome_testing=10  START GATE2_BIKESHOP_ccbd
+[09:26:54] 正在跑：GATE2_CC0_c_0c49（已跑 18 分／上限 50 分）、GATE2_YANGYANG_0c49（已跑 11 分／上限 25 分）、GATE2_BIKESHOP_ccbd（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:27:39] [res] cpu=0% mem=45% (14.2/31.4 GB) chrome_testing=10  END GATE2_YANGYANG_0c49
