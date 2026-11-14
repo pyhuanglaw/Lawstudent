@@ -138,8 +138,8 @@ def east_cell(xf, k, j, u0, u1, y, y1):
     books_in(xf, u0, u1, y, y1, 0.38)
 _EB = [i for i in LAY['items'] if i['kind'] == 'bookcase_east'][0]   # v3：東牆的高書櫃（參考圖左牆那座）
 ec = case(X1 - 0.19, _EB['z'], -math.pi / 2, _EB['w'], _EB['h'], 0.38, 2, [0.08, 0.48, 0.88, 1.28, 1.68, 2.02], east_cell)
-sh.plant(X1 - 0.2, _EB['z'] + 0.4, h=0.35, r=0.08, pot_col='#e8dcc0', y0=_EB['h'] + 0.05); sh.hanging_pothos('pothos', X1 - 0.2, _EB['h'] + 0.15, _EB['z'] + 0.45, n=8, drop=1.0)
-sh.plant(X1 - 0.2, _EB['z'] - 0.45, h=0.3, r=0.07, pot_col='#b0653e', y0=_EB['h'] + 0.05); sh.hanging_pothos('pothos', X1 - 0.2, _EB['h'] + 0.12, _EB['z'] - 0.4, n=6, drop=0.7)
+C.ph_put(sh, 'planter_pot_clay', X1 - 0.2, _EB['h'] + 0.05, _EB['z'] + 0.4, yaw=1.1, height=0.14, decimate=0.25); C.ph_put(sh, 'fern_02', X1 - 0.2, _EB['h'] + 0.15, _EB['z'] + 0.4, yaw=0.3, s=0.9, part=0, tag='_p0', decimate=0.6)   # mokuyobi v2.2（LAWWW2-C 11-14 P2）：書櫃頂的盆＋垂藤葉片卡 → Poly Haven 陶盆＋蕨類
+C.ph_put(sh, 'planter_pot_clay', X1 - 0.2, _EB['h'] + 0.05, _EB['z'] - 0.45, yaw=2.6, height=0.12, decimate=0.25); C.ph_put(sh, 'fern_02', X1 - 0.2, _EB['h'] + 0.13, _EB['z'] - 0.45, yaw=4.0, s=0.8, part=3, tag='_p3', decimate=0.6)
 es = Xf(X1 - 0.11, -1.0, -math.pi / 2)                                                                                 # 矮櫃上方的層板（z −1.95～−0.05、y 1.5）
 es.rbox(sh.w('right', 'walnut'), -0.95, 0.95, 1.47, 1.5, -0.11, 0.11, r=0.004)
 for u in (-0.75, 0.75): es.rbox(sh.w('right', 'vcm'), u - 0.012, u + 0.012, 1.3, 1.47, -0.11, -0.09, r=0.002, col='#2a2a2a')
