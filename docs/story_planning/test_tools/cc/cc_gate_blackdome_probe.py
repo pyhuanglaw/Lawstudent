@@ -6,6 +6,7 @@
   另外照原本那組固定相機 [-129.5,2.2,4]→[-60,5,0] fov75 拍兩張：有跑 zone.fadeWalls（同 cc_closeup_probe）／沒跑。
   每一張：找畫面裡「很黑」（亮度 < DARK_L）的最大一塊（16 px 格子連通）——記面積比例、外框、中心；從那張的相機往黑塊中心打一條 ray（Raycaster 設 camera），
   印前 6 個命中的 object.name、往上三層父物件名稱、material 名稱／type、有沒有 map、side、transparent、opacity、visible、distance。
+CC-B 11-14：GATE_REF＝校園側、公館側、走過通道（LAWWW-B GATE-REF-1114）。
 CC_02 清單 2026-11-14：1✓（時間 08:30／14:00 照 BB；日期 2025-10-22 週三同 closeup） 2✓（校門座標從 zones3d.js placeGate(-124,0,-π/2) 讀；固定相機照 BG3D_GATE_campus_r2 那一行） 3n/a（BB 指定的位置） 4n/a（只拍照、打 ray） 5✓（【捷徑】讀檔放位置＝BB 說「落點」可以；記實際位置、站不站得住） 6✓（等 ASSETS pending 0＋1.5 秒，鏡頭再等 WAIT_S） 7✓（lint；JS 在 node --check 驗過語法） 8✓（黑塊只量不判） 9✓（每張記相機位置、看的方向；圖存檔） 10n/a（讀檔時關事件和手機） 11✓（SHA 40 碼、ENV 沒有「;」「|」） 12✓（FAIL_SETUP 檢查：真的在 campus、玩家位置和朝向對、鏡頭在玩家背後） 13n/a（不走路）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [HOURS=8.5,14] [GATE_X=-124] [GATE_Z=0] python3 cc_gate_blackdome_probe.py <url> <out>"""
 import os, sys, json, math, asyncio, base64
@@ -26,6 +27,8 @@ WAIT_S = float(os.environ.get('WAIT_S') or 3)
 DARK_L = float(os.environ.get('DARK_L') or 18)
 VIEW = [int(v) for v in (os.environ.get('VIEW') or '1600x900').split('x') if v]
 FIXED = {'from': [-129.5, 2.2, 4.0], 'at': [-60.0, 5.0, 0.0], 'fov': 75.0}
+GATE_REF = (os.environ.get('GATE_REF') or '0') == '1'   # CC-B 11-14（LAWWW-B 13:47 GATE-REF-1114）：多拍 校園側（門內 6 m 面向校門＝-x）、公館區域的校門（gongguan (0,-46)，站 (0,-38) 面向 -z）；走過通道：門柱連線前後 6 m，z 偏 0／±3／±5.5 各走一次
+GG_GATE = [float(v) for v in (os.environ.get('GG_GATE') or '0,-46').split(',')]
 R = L.Run('gate_blackdome', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 
@@ -95,6 +98,33 @@ async def main():
                         r2 = await shoot(pg, 'fixed_wide_' + ('fade' if fade else 'nofade'), hh, FIXED, fade); r2['hour'] = h; res['rows'].append(r2)
                 await pg.evaluate(D.HUD + '(true)')
                 open(os.path.join(OUT, 'gate_blackdome.json'), 'w', encoding='utf-8').write(J(res))
+            if GATE_REF:
+                s = await D.load_zone(pg, cdp, 'campus', DAY, h, x=GATE_X + 6, z=GATE_Z, yaw=-math.pi / 2, wait=8000)
+                R.setup('[%s 校園側]【前置／捷徑】讀檔進 campus、站在門內 6 m（%.1f, %.1f）面向校門（-x）' % (hh, GATE_X + 6, GATE_Z))
+                await pg.evaluate(D.HUD + '(false)')
+                await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); P.rotation.y=-Math.PI/2; const C=GAME.E.cam; C.yaw=Math.PI/2; C.manualT=30; })", {'x': GATE_X + 6, 'z': GATE_Z}); await pg.wait_for_timeout(int(WAIT_S * 1000))
+                r3 = await shoot(pg, 'campus_side', hh); r3['hour'] = h; r3['caminfo'] = await pg.evaluate(CAMINFO); res['rows'].append(r3)
+                await pg.evaluate(D.HUD + '(true)')
+                if h == HOURS[0]:
+                    walks = []
+                    for zo in (0.0, 3.0, -3.0, 5.5, -5.5):
+                        await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); GAME.E.player.path=null; })", {'x': GATE_X - 6, 'z': GATE_Z + zo}); await pg.wait_for_timeout(800)
+                        st0 = await pg.evaluate("(a=>GAME.E.canStand(a.x,a.z,0.3))", {'x': GATE_X - 6, 'z': GATE_Z + zo})
+                        ok = await L.go_to(pg, cdp, R, GATE_X + 6, GATE_Z + zo, 0.8, '[%s] 走過校門通道 z%+.1f' % (hh, zo), max_s=40)
+                        p_ = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; return [+P.x.toFixed(2), +P.z.toFixed(2)]; })()")
+                        walks.append({'z_off': zo, 'start_stand': st0, 'reached': bool(ok), 'end': p_})
+                    res['walk'] = walks; R.note('[%s] 走過校門通道（門柱連線外 6 m → 內 6 m）：%s' % (hh, J(walks)))
+                    R.check('[%s] 校門通道中心 ±3 m 走得過去' % hh, all(w['reached'] for w in walks if abs(w['z_off']) <= 3), J(walks))
+                    R.note('[%s] 通道 ±5.5 m：%s（BB 判；門房前半圓花圃會擋是預期）' % (hh, J([w for w in walks if abs(w['z_off']) > 3])))
+                s = await D.load_zone(pg, cdp, 'gongguan', DAY, h, x=GG_GATE[0], z=GG_GATE[1] + 8, yaw=math.pi, wait=8000)
+                R.setup('[%s 公館側]【前置／捷徑】讀檔進 gongguan、站在校門前 8 m（%.1f, %.1f）面向校門（-z）' % (hh, GG_GATE[0], GG_GATE[1] + 8))
+                if R.check('FAIL_SETUP 檢查：[%s 公館側] 讀檔以後在 gongguan' % hh, s['zone'] == 'gongguan', s['zone']):
+                    await pg.evaluate(D.HUD + '(false)')
+                    await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); P.rotation.y=Math.PI; const C=GAME.E.cam; C.yaw=0; C.manualT=30; })", {'x': GG_GATE[0], 'z': GG_GATE[1] + 8}); await pg.wait_for_timeout(int(WAIT_S * 1000))
+                    r4 = await shoot(pg, 'gongguan_side', hh); r4['hour'] = h; r4['caminfo'] = await pg.evaluate(CAMINFO); res['rows'].append(r4)
+                    await pg.evaluate(D.HUD + '(true)')
+                open(os.path.join(OUT, 'gate_blackdome.json'), 'w', encoding='utf-8').write(J(res))
+
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)

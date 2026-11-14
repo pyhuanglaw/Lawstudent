@@ -4,7 +4,7 @@
   ② 每一間：【捷徑】把祐廷放到那間店面前 3 m（讓「走近才顯示」打開）等 3 秒 → 另一台相機拍：全景（店面前 16 m、高 5 m）、從街上往裡看（店面前 5 m、高 1.6 m、看室內中間）；遊戲鏡頭 E.cam.yaw 也轉向店面（r2：r1 的 street_game 拍到的是街）；記那間 on／built。
   ③ 每一間：【前置／捷徑】讀檔進那間（區域出生點）→ 遊戲鏡頭截圖＋另一台相機從門口往裡看（門口互動點往室內 1 m、和②同一個方向）＝「走進去同方向」。
   ④ SUNNY SIDE 的門：街上的門（wenzhou 裡 exit.to＝wz_brunch 的互動點）前 4 m 拍一張；店內的門（wz_brunch 裡 exit.to＝wenzhou）往門看 4 m 拍一張（BB-C 11:28：這版的不一致先記）。
-CC-B 11-14：STAND／GLASS_FACE／WAIT_S／MID（WZ_REAL_r5，BB-B 12:36）。
+CC-B 11-14：SPIN＝原地轉鏡頭量最長幀；STAND／GLASS_FACE／WAIT_S／MID（WZ_REAL_r5，BB-B 12:36）。
 CC_02 清單 2026-11-12：1✓（14:00 開、22:00 照 LAWWW） 2✓（店的位置、朝向從 zone.shopReal 讀，門從出口互動點讀） 3✓（每個時間、每一間重新讀檔） 4n/a（不按按鈕） 5n/a（拍照：祐廷放到店前是捷徑，走路的效能另一支 cc_xs_inside_perf_probe） 6✓（預載等 10 秒、每間等 3 秒） 7✓ 8n/a（不判，給 BB） 9✓（全景、往裡看那幾張藏路人和祐廷：要看店） 10✓（條件事件關掉） 11✓ 12✓（三間同樣欄位） 13✓（讀檔、放位置捷徑標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [DAY=2025-10-14] [HOURS=14,22] [SHOPS=wz_offbeat,wz_brunch,wz_teishoku] python3 cc_wz_real_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math
@@ -18,7 +18,13 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]; DAY = os.environ.get('DAY') or '2025-10-14'
 HOURS = [float(x) for x in (os.environ.get('HOURS') or '14,22').split(',') if x]
 SHOPS = [x for x in (os.environ.get('SHOPS') or 'wz_offbeat,wz_brunch,wz_teishoku').split(',') if x]
-STAND = float(os.environ.get('STAND') or 3)   # 祐廷站在玻璃面外幾公尺
+STAND = float(os.environ.get('STAND') or 3)
+SPIN = (os.environ.get('SPIN') or '0') == '1'
+SPIN_JS = r"""(async a=>{ const C=GAME.E.cam, y0=C.yaw, t0=performance.now(); const dts=[]; let last=t0; const before=JSON.stringify(((GAME.E.zone||{}).shopReal||{}).shops?(GAME.E.zone.shopReal.shops.filter(q=>q.built).map(q=>q.id)):[]);
+  await new Promise(res=>{ const f=now=>{ dts.push(now-last); last=now; const k=(now-t0)/a.ms; C.yaw=y0+Math.min(1,k)*Math.PI*2; C.manualT=30; if(k<1) requestAnimationFrame(f); else res(); }; requestAnimationFrame(f); });
+  C.yaw=y0; const s=dts.slice(1).sort((x,y)=>x-y), p=q=>s.length?+s[Math.min(s.length-1,Math.floor(s.length*q))].toFixed(1):null;
+  const after=JSON.stringify(((GAME.E.zone||{}).shopReal||{}).shops?(GAME.E.zone.shopReal.shops.filter(q=>q.built).map(q=>q.id)):[]);
+  return {frames:s.length, max:s.length?+s[s.length-1].toFixed(1):null, p95:p(0.95), p50:p(0.5), builtBefore:before, builtAfter:after}; })"""   # 祐廷站在玻璃面外幾公尺
 GLASS_FACE = (os.environ.get('GLASS_FACE') or '0') == '1'   # 1＝cx／cz 當玻璃面（r5 起）
 WAIT_S = float(os.environ.get('WAIT_S') or 3)
 STAND_XZ = [float(v) for v in (os.environ.get('STAND_XZ') or '').split(',') if v.strip()]   # 直接指定祐廷站的位置（x,z），r5＝44,-3.5（BB-B 12:36「門口 1～2 m」）
@@ -74,6 +80,8 @@ async def main():
                 await snap(pg, 'wz_%s_%s_lookin.jpg' % (ht, pid), [fx + nx * 5, 1.6, fz + nz * 5], [cx, 1.3, cz])
                 rec['shops'][pid] = {'shop': sh, 'near': st}
                 R.note('%s %s：【捷徑】祐廷放到玻璃面外 %.1f m（%.2f,%.2f）等 %.0f 秒 → %s；拍了全景、從街上往裡看（相機 %.2f,1.6,%.2f → 室內中心 %.2f,%.2f）' % (tag, pid, STAND, STAND_XZ[0] if STAND_XZ else fx + nx * STAND, STAND_XZ[1] if STAND_XZ else fz + nz * STAND, WAIT_S, J(st), fx + nx * 5, fz + nz * 5, cx, cz))
+                if SPIN:   # CC-B 11-14（LAWWW-B 13:47 WZ-REAL-LITE-EMPTY-1114）：原地轉鏡頭一圈（2.4 秒），量這段時間最長的一幀——lite 換建最近一間店時會不會卡
+                    sp_ = await pg.evaluate(SPIN_JS, {'ms': 2400}); R.note('%s %s：原地轉鏡頭一圈 %s' % (tag, pid, J(sp_))); res.setdefault('spin', {})['%s_%s' % (ht, pid)] = sp_
                 R.check('%s %s 走近以後室內有顯示（on、built）' % (tag, pid), bool(st.get('on')) and bool(st.get('built')), J(st))
             if MID:   # BB-B 12:36：路中間主鏡頭兩邊各一張（不藏人）
                 for side_, cy_ in (('south_sunnyside', 0.0), ('north_lin', math.pi)):
