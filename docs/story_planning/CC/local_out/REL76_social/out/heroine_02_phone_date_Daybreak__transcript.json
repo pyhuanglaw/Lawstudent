@@ -1,0 +1,506 @@
+{
+ "pid": "heroine_02",
+ "tag": "phone_date 今天最近（去 Daybreak 吃早午餐）",
+ "rec0": {
+  "day": 21,
+  "hour": 9.2991,
+  "t": 513.2991,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 12.0177,
+  "t": 516.0177,
+  "money": 30000,
+  "rel": {
+   "fam": 53,
+   "trust": 39,
+   "comf": 32,
+   "aff": 0,
+   "rom": 36,
+   "npcRom": 36
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "SHARED_MEAL"
+  ],
+  "zone": "daybreak"
+ },
+ "hours": 2.7186000000000377,
+ "say": [
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "你點什麼，我參考一下。",
+   "h": 9.772,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她最後點了跟你不一樣的。）",
+   "h": 9.772,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我們老師說，翻譯是背叛。",
+   "h": 10.147,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我不同意。我覺得翻譯是搬家。東西都要帶走，可是房間不一樣大。",
+   "h": 10.147,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "你有沒有一句話，怎麼說都說不清楚？",
+   "h": 10.147,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "祐廷",
+   "c": null,
+   "t": "有。高三跟我媽說我只填法律的那天。",
+   "h": 10.147,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "那句話後來怎麼說的？",
+   "h": 10.147,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）",
+   "h": 10.147,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "下個月光典有影展。都是很老的片，修復過的。",
+   "h": 10.522,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我每年都去。一個人。",
+   "h": 10.522,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我有一本票根本，一場貼一張。",
+   "h": 10.522,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "國中到現在，每一頁都只有一張。",
+   "h": 10.522,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "對。我很早就是這種人。不用可憐我，我很快樂。",
+   "h": 10.522,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "今天謝謝你。這間我會再來。",
+   "h": 10.522,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "林芷若",
+   "text": "你點什麼，我參考一下。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她最後點了跟你不一樣的。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我們老師",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我們老師說，翻譯是背叛。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我不同意。我覺得翻譯是搬家。東西都要帶走",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我不同意。我覺得翻譯是搬家。東西都要帶走，可是房間不一樣大。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "你有沒有一句話，怎麼說都說不清楚？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "祐廷",
+   "text": "有。高三跟我媽說我只填法律的那天。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "那句話後來怎麼說的？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你說就直接說了。她在筆記本角落寫了「直接",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "下個月光典",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "下個月光典有影展。都是很老的片，修復過的。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我每年都去。一個人。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我有一本票根本，一場貼一張。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "國中到現在，每一頁都只有一張。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "對。我很早就是這種人。不用可憐我，我很快樂。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "今天謝謝你。這間我會再來。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "daybreak",
+  "lv": 0,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 1,
+  "sameGroup": true,
+  "doorD": 6.9,
+  "spawnD": 5.5,
+  "npc": true,
+  "nD": 1,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": 2.05,
+  "nz": -2.5,
+  "p": [
+   2.05,
+   -3.5
+  ],
+  "ptable": 8,
+  "ntable": 8,
+  "others": [],
+  "othersInfo": []
+ }
+}

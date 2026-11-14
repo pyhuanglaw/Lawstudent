@@ -1,0 +1,663 @@
+{
+ "pid": "heroine_01",
+ "tag": "phone_date 念書（去總圖一起念書） 分支2-2「「我沒有想過。」」",
+ "rec0": {
+  "day": 21,
+  "hour": 11.7436,
+  "t": 515.7436,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 18.0161,
+  "t": 522.0161,
+  "money": 30000,
+  "rel": {
+   "fam": 53,
+   "trust": 40,
+   "comf": 30,
+   "aff": 0,
+   "rom": 36,
+   "npcRom": 36
+  },
+  "nmem": 3,
+  "mem": [
+   "FIRST_MET",
+   "REPORT_PARTNER",
+   "STUDIED_TOGETHER"
+  ],
+  "zone": "library_hall"
+ },
+ "hours": 6.272500000000036,
+ "say": [
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "（小聲）二樓靠窗那排比較安靜。",
+   "h": 12.017,
+   "d": 21,
+   "z": "library_hall",
+   "adv": false
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "民總的報告，老師分組那天你沒來。",
+   "h": 12.257,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我把你寫在我這組了。剩下的人裡，你最不會遲交。",
+   "h": 12.257,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "h": 12.288,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我讀我的，你讀你的。不懂再問我。",
+   "h": 12.288,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她把計時器放在桌角，按了一下。）",
+   "h": 12.288,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "你知道女舍的門禁是十二點嗎？",
+   "h": 13.038,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我昨天十一點五十九分進門。舍監看了我一眼。",
+   "h": 13.038,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我從來沒有那麼晚回去過。是讀書會拖到的。",
+   "h": 13.038,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "你呢？你上一次做規則以外的事，是什麼時候？",
+   "h": 13.038,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "祐廷",
+   "c": null,
+   "t": "有一次半夜睡不著，我騎車去河堤吹風。",
+   "h": 13.038,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "一個人？",
+   "h": 13.038,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她想了一下，好像在想那是什麼樣子。）",
+   "h": 13.038,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "憲法第八條，是本文裡最長的一條。你知道為什麼嗎？",
+   "h": 13.788,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我也是上週才開始想。",
+   "h": 13.788,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "新店有一個地方，以前是軍事法庭和看守所。現在是博物館。",
+   "h": 13.788,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我一直想去看一次。",
+   "h": 13.788,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "一個人去的話，我會一直寫筆記。所以還沒去。",
+   "h": 13.788,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她把螢光筆照顏色排回筆袋。）",
+   "h": 13.788,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "下次換你決定讀哪一科。",
+   "h": 13.788,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "沈以安",
+   "text": "（小聲）二樓靠窗",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": false
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）民總的報告，老師分組那天你沒來。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）我把你寫在我這組了。剩下的人裡，你",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的一",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）我讀我的，你讀你的。不懂再問我。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她把計時器放在桌角，按了一下。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）你",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）你知道女舍的門禁是十二點嗎？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）我昨天十一點五十九分進門。舍監看了",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）我從來沒有那麼晚回去過。是讀書會拖",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）你呢？你上一次做規則以外的事，是什",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "祐廷",
+   "text": "（小聲）有一次半夜睡不著，我騎車去河堤吹風。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）一個人？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她想了一下，好像在想那是什麼樣子。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）憲法第八條，是本文裡最長的一條。你知道為什麼嗎？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）我也是上週才開始想。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）新店有一個地方，以前是軍事法庭和看守",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）我一直想去看一次。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（小聲）一個人去的話，我會一直寫筆記。所以",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她把螢光筆照顏色排回筆袋。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "下",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "下次換你決定讀哪一科。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "library_hall",
+  "lv": 1,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 2.1,
+  "sameGroup": false,
+  "doorD": 10.98,
+  "spawnD": 10.13,
+  "npc": true,
+  "nD": 2.1,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -7.02,
+  "nz": 2.2,
+  "p": [
+   -9.13,
+   2.2
+  ],
+  "ptable": null,
+  "ntable": null,
+  "others": [],
+  "othersInfo": []
+ }
+}

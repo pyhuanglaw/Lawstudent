@@ -1,0 +1,584 @@
+{
+ "pid": "heroine_02",
+ "tag": "phone_date 念書（去總圖一起念書） X207-帶路途中讀檔",
+ "rec0": {
+  "day": 21,
+  "hour": 11.7456,
+  "t": 515.7456,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 18.0181,
+  "t": 522.0181,
+  "money": 30000,
+  "rel": {
+   "fam": 53,
+   "trust": 40,
+   "comf": 30,
+   "aff": 0,
+   "rom": 36,
+   "npcRom": 36
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "STUDIED_TOGETHER"
+  ],
+  "zone": "library_hall"
+ },
+ "hours": 6.272500000000036,
+ "say": [
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "（小聲）二樓靠窗那排比較安靜。",
+   "h": 12.016,
+   "d": 21,
+   "z": "library_hall",
+   "adv": false
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "h": 12.356,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我帶了兩支螢光筆，一支給你。",
+   "h": 12.356,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（黃的給你。她自己用藍的。）",
+   "h": 12.356,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我們老師說，翻譯是背叛。",
+   "h": 13.106,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我不同意。我覺得翻譯是搬家。東西都要帶走，可是房間不一樣大。",
+   "h": 13.106,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "你有沒有一句話，怎麼說都說不清楚？",
+   "h": 13.106,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "祐廷",
+   "c": null,
+   "t": "有。高三跟我媽說我只填法律的那天。",
+   "h": 13.106,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "那句話後來怎麼說的？",
+   "h": 13.106,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）",
+   "h": 13.106,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "下個月光典有影展。都是很老的片，修復過的。",
+   "h": 13.856,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我每年都去。一個人。",
+   "h": 13.856,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我有一本票根本，一場貼一張。",
+   "h": 13.856,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "國中到現在，每一頁都只有一張。",
+   "h": 13.856,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "對。我很早就是這種人。不用可憐我，我很快樂。",
+   "h": 13.856,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她把詩集夾進一本很厚的字典裡。）",
+   "h": 13.856,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "今天很安靜。我很喜歡。",
+   "h": 13.856,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "林芷若",
+   "text": "（小聲）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": false
+  },
+  {
+   "name": "",
+   "text": "（你們在長",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）我帶了兩支螢光筆，一支給你。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（黃的給你。她自己用藍的。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）我們老師說，翻譯是背叛。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）我不同意。我覺得翻譯是搬家。東西都要",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）我不同意。我覺得翻譯是搬家。東西都要帶走，可是房間不一樣大。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）你有沒有一句話，怎麼說都說不清楚？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "祐廷",
+   "text": "（小聲）有。高三跟我媽說我只填法律的那天。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）那句話後來怎麼說的？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你說就直接說了。她在筆記本角落寫了「直接",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）下個月光典有影展。都是很老的片，修復過的。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）我每年都去。一個人。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）我有一本票根本，一場貼一張。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）國中到現在，每一頁都只有一張。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（小聲）對。我很早就是這種人。不用可憐我，我很快樂。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她把詩集夾進一本很厚的字典裡。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "今天很安靜。我",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "library_hall",
+  "lv": 1,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 2.1,
+  "sameGroup": false,
+  "doorD": 10.98,
+  "spawnD": 10.13,
+  "npc": true,
+  "nD": 2.1,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -7.02,
+  "nz": 2.2,
+  "p": [
+   -9.13,
+   2.2
+  ],
+  "ptable": null,
+  "ntable": null,
+  "others": [],
+  "othersInfo": []
+ }
+}

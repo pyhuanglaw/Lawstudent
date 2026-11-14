@@ -1,0 +1,515 @@
+{
+ "pid": "heroine_01",
+ "tag": "phone_date 今天最近（去 Daybreak 吃早午餐）",
+ "rec0": {
+  "day": 21,
+  "hour": 9.2847,
+  "t": 513.2847,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 12.017,
+  "t": 516.017,
+  "money": 30000,
+  "rel": {
+   "fam": 53,
+   "trust": 39,
+   "comf": 32,
+   "aff": 0,
+   "rom": 36,
+   "npcRom": 36
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "SHARED_MEAL"
+  ],
+  "zone": "daybreak"
+ },
+ "hours": 2.7323000000000093,
+ "say": [
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "你先點。我想一下。",
+   "h": 9.769,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她把菜單從頭看到尾，最後點的是第一頁第一個。）",
+   "h": 9.769,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "你知道女舍的門禁是十二點嗎？",
+   "h": 10.144,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我昨天十一點五十九分進門。舍監看了我一眼。",
+   "h": 10.144,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我從來沒有那麼晚回去過。是讀書會拖到的。",
+   "h": 10.144,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "你呢？你上一次做規則以外的事，是什麼時候？",
+   "h": 10.144,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "祐廷",
+   "c": null,
+   "t": "有一次半夜睡不著，我騎車去河堤吹風。",
+   "h": 10.144,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "一個人？",
+   "h": 10.144,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她想了一下，好像在想那是什麼樣子。）",
+   "h": 10.144,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "憲法第八條，是本文裡最長的一條。你知道為什麼嗎？",
+   "h": 10.519,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "這是一半。",
+   "h": 10.519,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "新店有一個地方，以前是軍事法庭和看守所。現在是博物館。",
+   "h": 10.519,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我一直想去看一次。",
+   "h": 10.519,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "一個人去的話，我會一直寫筆記。所以還沒去。",
+   "h": 10.519,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "第一頁第一個是對的。我運氣不錯。",
+   "h": 10.519,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "沈以安",
+   "text": "你先點。我想一下。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她把菜單從頭看到尾，最後點的是第一頁",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "你知道女舍",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "你知道女舍的門禁是十二點嗎？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "我昨天十一點五十九分進門。舍監看了我一眼。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "我從來沒有那麼晚回去過。是讀書會拖到的。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "你呢？你上一次做規則以外的事，是什麼時候？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "祐廷",
+   "text": "有一次半夜睡不著，我騎車去河堤吹風。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "一個人？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她想了一下，好像在想那是什麼樣子。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "憲法第八條",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "憲法第八條，是本文裡最長的一條。你知道為什麼嗎？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "這是一半。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "新店有一個地方，以前是軍事法庭和看守所。現",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "新店有一個地方，以前是軍事法庭和看守所。現在是博物館。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "我一直想去看一次。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "一個人去的話，我會一直寫筆記。所以還沒去。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "第一頁第一個是對的。我運氣不錯。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "daybreak",
+  "lv": 0,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 1,
+  "sameGroup": true,
+  "doorD": 6.9,
+  "spawnD": 5.5,
+  "npc": true,
+  "nD": 1,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": 2.05,
+  "nz": -2.5,
+  "p": [
+   2.05,
+   -3.5
+  ],
+  "ptable": 8,
+  "ntable": 8,
+  "others": [],
+  "othersInfo": []
+ }
+}
