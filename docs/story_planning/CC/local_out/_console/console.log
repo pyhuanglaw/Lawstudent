@@ -1,11 +1,3 @@
-[00:36:24] memory 42% before starting STUDY_SE11_4af4 (2 running)
-[00:36:24] ==== START STUDY_SE11_4af4  (probe @ 4af46fd8f6d7dad3bb6161f1770eac1a1ce837b3) ====
-[00:36:27] [res] cpu=7% mem=41% (13.4/31.4 GB) chrome_testing=9  START STUDY_SE11_4af4
-[00:36:52] 正在跑：CANON_NEWGAME_B2_r2（已跑 8 分／上限 240 分）、STUDY_SE06_4af4（已跑 2 分／上限 20 分）、STUDY_SE11_4af4（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
-[00:39:48] [res] cpu=0% mem=42% (13.3/31.4 GB) chrome_testing=10  END STUDY_SE06_4af4
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       7da0c69638..79b22756f0  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [00:40:22] ==== END   STUDY_SE06_4af4  exit=1  312s   ====
 [00:40:35] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [00:40:35] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
@@ -1998,3 +1990,11 @@
 [14:20:41] [res] cpu=0% mem=30% (9.5/31.4 GB) chrome_testing=0  START WZ_ICE_r4
 [14:21:55] 正在跑：CANON_NEWGAME_A2_r2（已跑 1 分／上限 110 分）、WZ_ICE_r4（已跑 1 分／上限 10 分）、WZ_FRUIT_r3_stall（已跑 1 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:23:02] [res] cpu=6% mem=43% (13.8/31.4 GB) chrome_testing=10  END WZ_FRUIT_r3_stall
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       60fd50496b..df1d6cbb17  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:23:09] ==== END   WZ_FRUIT_r3_stall  exit=0  144s   ====
+[14:23:13] memory 44% before starting WZ_FRUIT_r3_look (2 running)
+[14:23:13] ==== START WZ_FRUIT_r3_look  (probe @ 6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d) ====
+[14:23:16] [res] cpu=1% mem=44% (13.9/31.4 GB) chrome_testing=10  START WZ_FRUIT_r3_look
+[14:23:51] [res] cpu=4% mem=40% (12.6/31.4 GB) chrome_testing=9  END WZ_ICE_r4
