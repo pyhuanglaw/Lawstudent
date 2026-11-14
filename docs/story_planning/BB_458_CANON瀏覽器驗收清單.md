@@ -168,3 +168,10 @@
   - **D05（15:20、20:20 兩次）出文字選單＝P2，不擋**：DATELAYER.can 的包裝記錄 canCalls＝[]＝**DATE.pickChoose 根本沒被呼叫**；光典臺北是看電影的地點，看完片（17:30）以後的選點走的是另一條直接用 GM.choose 的路（不是 date3d.js:632／694 的 pickChoose），所以 date_hotspots 有 D05 的資料也用不到；跟 D33（影城）一樣變成文字選單，能選、不卡、不壞存檔。發布後交 LAWWW：看完片的選點改走 pickChoose，或把 D05 標成照設計文字選單（和 D33 一樣）。BB_466 #25。
 - **X364 GO 還差：T1_rc2。**
 - **01:2x GO**：T1_rc2 8／8 PASS → X364 全部條件到齊，BB 給 GO（發布 rc2d bcc99693a7），詳見 BB_467 同時段一節。
+
+## 11-14 09:5x 交班期間跑完的（判讀第一批，和這次發布、BB_466 有關的）
+- **T1_76f8：7／8**——種子 4 在 2025-11-10 12:00 **卡住（GAME，P1）**：出房門時跳「12:10 和阿凱約在新體育館羽球場」的選單→選「自己走過去」→到宿舍大廳（dorm_hall）以後 busy=true、busyDepth 0、沒有對話也沒有選單，遊戲自己跳「畫面好像停住了。可以打開選單讀檔，或回標題。」＝玩家要讀檔才能動。T1_rc2 種子 4 走的路不同（步數 26393 vs 26113）沒碰到。重現：`node docs/story_planning/test_tools/cc/random_play_sim.js --seed 4 --from 2025-08-22 --to 2026-06-30`（76f8）。rc2e 和 76f8 程式一樣＝發布版也會有；**不是這次新加的、不擋 X364**（遊戲有提示、讀檔能救），交 LAWWW 當發布後 P1：約好的邀約選「自己走過去」以後 busy 沒放開。
+- **REL76_save_live_r3／live_ctl_r3：TEST_SETUP**——對照組（v9.10.25 f312c68cc9）也一模一樣失敗，第一條就是「這不是 v9.5（標題版本字樣）」＝探針讀到的不是 v9.5 的舊網頁（舊版伺服器沒起來或路徑錯）。76f8 的 save_live 之前已 PASS（BB_458 前段），這兩支是重跑環境壞，不算。
+- **STUDY_FA05_76f8：P2 待查（交 LAWWW）**——前置把法服旗標全拿掉、沒去社博，到大二上群組裡還是有 lawclub_study（法服讀書會）＝沒入社卻被加進法服群組？要 LAWWW 查 lawclub_study 是從哪裡加的（也可能是別的劇情合法加進去，那就改探針）。
+- **CANON458_BOOKSTORE_r4：TEST_SETUP**（約人選單沒有「看電影」那一項，探針找不到）；**ROMTIER_b1_twice：TEST_BUG**（探針讀邀約時已經 done）；ROMTIER a1／a2／b2 PASS；STUDY_SE01 PASS；DATE_PS／DATE_ZR PASS；save_v95_r5 PASS；INV_MEET_YIELD FAIL＝預期（LAWWW 還沒修）。
+- 其餘（舊 SHA 的店面、VACGAP、AA_SCENES、SAVE_COMPAT_c109 等約 70 支）下一批判。
