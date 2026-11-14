@@ -11,7 +11,7 @@
 | 花序 flower_notes_interior | 已整合（f6449442c） | 62e19bd05 | `flower_v3.patch` | 無（P2 花束：LAWWW2-C 自己接手、已交 b774ec3f17） |
 | 公館燒臘 shaola_interior | 已整合（19399e5d3） | 37a58d3de | `shaola_v8.patch` | 無 |
 | 阿德影印 ade | LAWWW2 PASS（v2.1；LAWWW2 在 626c128e54 上和南洋合成一包給 LAWWW） | cb8fabdd4 | `ade_v21.patch`（整份取代 ade_v2.patch） | 無 |
-| 南洋戲院 nanyang_lobby | v6 已整合；v7（P2 三點，使用者 11-14 選「只做南洋 P2」）已交 LAWWW2 驗收 | 見本次 commit | `nanyang_v7.patch`（底 928690d70） | 無（P2 三點都在 v7：瓶子標籤帶、紙桶分疊有條紋、入口黑方箱＝「本日放映」立牌背面改木框＋背面海報；放映機改木台＋Poly Haven） |
+| 南洋戲院 nanyang_lobby | v6 已整合；v7（P2 三點，使用者 11-14 選「只做南洋 P2」）LAWWW2 PASS（11-14 10:34，改底 07bf3613b4 交 LAWWW-C 整合） | 8034794c2 | `nanyang_v7.patch`（底 928690d70） | 無（P2 三點都在 v7：瓶子標籤帶、紙桶分疊有條紋、入口黑方箱＝「本日放映」立牌背面改木框＋背面海報；放映機改木台＋Poly Haven） |
 | 洋洋鹹酥雞 yangyang_interior | LAWWW2 PASS（v2b；LAWWW2 在 04ac5af9ed 上重出 patch 給 LAWWW） | 70a4be126 | `yangyang_v2.patch` | P2（下一版）：①牆上層架的瓶罐還是純色瓶形 ②COPLANAR-CREEP-1114：「一定會閃」疊面比原本多 0.12 m²（多半是靠右牆的紙箱貼牆），紙箱離牆 ≥2 mm |
 
 **整合狀態**：六間全部 LAWWW2 PASS；林家、花序、燒臘已進開發分支；阿德 v2.1＋南洋、洋洋由 LAWWW2 重出的 patch 交 LAWWW-C 整合（以 LAWWW2 那兩包為準，不用我的 ade_v21／nanyang_v6／yangyang_v2 patch）。
