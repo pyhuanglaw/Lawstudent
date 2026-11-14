@@ -43,10 +43,10 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   const A630=(()=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show','bb4401fd3:docs/story_planning/AA_630_語彤台詞改寫.md'],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
   const D116={'老師說我們那一段寫得很清楚。消失的那一段。':'AA-B 11-07 04:10 訊息：原句「寫得最好」違反 D116（不跟別人比），改「寫得很清楚」；AA 會在 AA_503 稿補更正'};   /* AA 直接給的更正（不在 d13ab3ab7 稿裡）*/
   const K959=t=>require('./aa959_map.js').unmap(t,'feed_y1s1.js');   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
-  const LR=require('./line_rows_expect.js'), UE=require('./user_line_edits.js'), bad=L.filter(([w,t])=>!require('./canon1112_ok.js').ok(t)/* 2026-11-12 第五批：AA_919 第 2 節 kx_rpt 兩句 */&&!(require('./kx885_expect.js').skip(w)&&require('./kx885_expect.js').has(t))/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!doc.includes(LR.toOldS(t,'src/data/feed_y1s1.js'))&&!(A630&&A630.includes(' | '+t+' | '))&&!D116[t]&&!(UE[t]&&doc.includes(UE[t]))&&!(K959(t)!==t&&(doc.includes(K959(t))||(require('./kx885_expect.js').skip(w)&&require('./kx885_expect.js').has(K959(t))))));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
+  const LR=require('./line_rows_expect.js'), UE=require('./user_line_edits.js'), bad=L.filter(([w,t])=>!['sis4','sis5'].includes(w)/* AA_1028（11-14 補的兩則，不在 AA_503；對稿在 tests/feed_fill_1114_unit.js）*/&&!require('./canon1112_ok.js').ok(t)/* 2026-11-12 第五批：AA_919 第 2 節 kx_rpt 兩句 */&&!(require('./kx885_expect.js').skip(w)&&require('./kx885_expect.js').has(t))/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!doc.includes(LR.toOldS(t,'src/data/feed_y1s1.js'))&&!(A630&&A630.includes(' | '+t+' | '))&&!D116[t]&&!(UE[t]&&doc.includes(UE[t]))&&!(K959(t)!==t&&(doc.includes(K959(t))||(require('./kx885_expect.js').skip(w)&&require('./kx885_expect.js').has(K959(t))))));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊 ps1、ps3 三句句尾「～」改掉、多一拍（AA_808 feed_y1s1 第 64、66 列）——遊戲字先換回稿上的舊句（line_rows_expect.js toOldS）再在 AA_503 找；舊稿不改。舊期望：遊戲字本身在 AA_503 */
   check('0. 每一句都在 AA_503 稿裡（'+SHA+'，一字不差；'+L.length+' 句）',doc.length>1000&&L.length>=250&&!bad.length,doc?J(bad.slice(0,8)):'git fetch origin claude/magical-albattani-bk7b4n');
-  check('0. 動態 43 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 2、可昕 8、沛珊 6）、私訊 10 則（2026-11-04：學姊 sis2「空的保溫瓶」拿掉，D127④、AA_661 第 48 列 ebdd2fb59）',FEED_Y1S1.posts.length===43&&!FEED_Y1S1.posts.some(p=>p.id==='sis2')&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
+  check('0. 動態 45 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 4——AA_1028 補 sis4、sis5、可昕 8、沛珊 6）、私訊 10 則（2026-11-04：學姊 sis2「空的保溫瓶」拿掉，D127④、AA_661 第 48 列 ebdd2fb59）',FEED_Y1S1.posts.length===45&&!FEED_Y1S1.posts.some(p=>p.id==='sis2')&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
   /* AA 更正：74916d73b 芷若的拉花比賽、語彤的訪問作業；62849944b 可昕第 5 則的予樂生日——都不放進遊戲 */
   const GONE=['比完了。','小婷贏。','我的那一杯老闆喝掉了，他說歪的比較好喝。','作業交了。','我訪問了每天來吃乾麵的那個伯伯。','他講了一個小時。他太太的事。','寫他每天點一樣的。……其他的我沒寫。那是他的。','嗯。他今天也來了。一樣不要蔥。','一杯拉花，愛心歪到右邊','兩杯拉花並排，左邊那杯明顯比較好看','一本筆記本，寫滿了字，最上面寫著「伯伯」','小婷很厲害。我教的。',
     '宿舍走廊，一個蛋糕，蠟燭被風吹斜了','予樂生日。','我幫你轉達。她說：你誰？','一個鬧鐘。她每天遲到。'];
@@ -143,7 +143,7 @@ sec('3',()=>{ const P=FEED_Y1S1.posts, add=[
   const L=[...log.values()], byDay={}; for(const i of L) byDay[i.day]=(byDay[i.day]||0)+1;
   let worst=0, wid=''; for(const i of L){ const n=L.filter(j=>j.who===i.who&&T(j.day,j.h)<=T(i.day,i.h)&&T(i.day,i.h)-T(j.day,j.h)<7*24).length; if(n>worst){ worst=n; wid=i.id; } }
   const miss=FEED_Y1S1.posts.map(p=>p.id).filter(id=>!log.has(id));
-  check('3. 大一上走一遍（七位都很熟）：43 則都出（sis2 保溫瓶拿掉）',L.length===43&&!miss.length,J({n:L.length,miss,done:miss.map(id=>R().done[id])}));
+  check('3. 大一上走一遍（七位都很熟）：45 則都出（sis2 保溫瓶拿掉；AA_1028 補兩則）',L.length===45&&!miss.length,J({n:L.length,miss,done:miss.map(id=>R().done[id])}));
   check('3. 大一上走一遍：一天不超過四則（最多 '+Math.max(0,...Object.values(byDay))+'）、每位連續七天不超過兩則（最多 '+worst+'）',Math.max(0,...Object.values(byDay))<=4&&worst<=2,wid);
   const kx3=log.get('kx3'); check('3. 可昕第 3 則：固定在第 7 週週六 12:30（CANON-NO-ECON-1112 第四批：照 AA_885 換字）',!!kx3&&kx3.day===TD(7,6)&&Math.abs(kx3.h-12.5)<0.01,J(kx3)); });
 
