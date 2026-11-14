@@ -812,6 +812,11 @@ def steel_shelf(name, xa, xb_, za, zb, face, levels=(0.08, 0.6, 1.12, 1.64, 2.12
             elif kind == 'bag': w_, h_, d_ = 0.75, 0.22, min(dep - 0.06, 0.3)
             else: w_, h_, d_ = random.uniform(0.3, 0.55), random.uniform(0.25, hmax), min(dep - 0.06, random.uniform(0.32, 0.45))
             w_ = min(w_, b_ - t); h_ = min(h_, hmax); nst = int(hmax // h_) if kind in ('ball_org', 'ttbox') else 1
+            if kind in ('kraft1', 'kraft2', 'kraft4'):   # v2（LAWWW2 11-14：貨箱不要程式拼的方塊加標籤）：Poly Haven cardboard_box_01，大小照這一格、角度偏一點
+                yaw_ = random.uniform(-0.08, 0.08); sc_ = (w_ / 0.4, d_ / 0.38, h_ / 0.3)
+                if face == '+z': K.ph_put('cardboard_box_01', t + w_ / 2, y0, zb - d_ / 2 - 0.02, yaw_, sxyz=sc_, fit=(0.4, 0.38, 0.3), decimate=0.012, tag='_shelf')
+                else: K.ph_put('cardboard_box_01', (xb_ - d_ / 2 - 0.02) if face == '+x' else (xa + d_ / 2 + 0.02), y0, t + w_ / 2, math.pi / 2 + yaw_, sxyz=sc_, fit=(0.4, 0.38, 0.3), decimate=0.012, tag='_shelf')
+                t += w_ + random.uniform(0.01, 0.04); continue
             for s in range(max(1, min(nst, 3))):
                 if face == '+z': g.box(t + w_ / 2, y0 + h_ / 2 + s * h_, zb - d_ / 2 - 0.02, w_, h_, d_, kind, front='+z')
                 else:
