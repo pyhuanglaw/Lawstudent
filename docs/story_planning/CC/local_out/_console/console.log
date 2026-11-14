@@ -1,12 +1,3 @@
-[22:26:00] skip CLASS12_skip_73_150x5 (already done on 73faa493f90fc6c90ccc867950bd012cb3d1d72e)
-[22:26:00] skip CLASS12_skip_73_150x20 (already done on 73faa493f90fc6c90ccc867950bd012cb3d1d72e)
-[22:26:00] skip CLASS12_skip_73_500x5 (already done on 73faa493f90fc6c90ccc867950bd012cb3d1d72e)
-[22:26:00] skip CLASS12_civ_b_r2 (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_const_c (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_calm (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_skip2_150x5 (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_skip2_150x10 (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_skip2_150x20 (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
 [22:26:00] skip CLASS12_skip2_500x5 (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
 [22:26:00] skip CLASS12_const_c2 (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
 [22:26:00] skip CLASS12_skip3_73_150x10 (already done on 73faa493f90fc6c90ccc867950bd012cb3d1d72e)
@@ -1998,3 +1989,12 @@
 [10:36:46] [res] cpu=6% mem=44% (13.6/31.4 GB) chrome_testing=9  START REL76_save_live_ctl_r3
 [10:36:55] 正在跑：L118_CAM36_c_r4（已跑 23 分／上限 60 分）、REL76_save_live_r3（已跑 3 分／上限 40 分）、REL76_save_live_ctl_r3（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:39:51] [res] cpu=25% mem=44% (14.1/31.4 GB) chrome_testing=9  END REL76_save_live_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       56619cf657..3c19903433  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:39:58] ==== END   REL76_save_live_r3  exit=1  368s   ====
+[10:40:01] memory 45% before starting T1_76f8 (2 running)
+[10:40:01] ==== START T1_76f8  (node @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[10:40:04] [res] cpu=12% mem=45% (14.2/31.4 GB) chrome_testing=10  START T1_76f8
+[10:41:55] 正在跑：L118_CAM36_c_r4（已跑 28 分／上限 60 分）、REL76_save_live_ctl_r3（已跑 5 分／上限 40 分）、T1_76f8（已跑 1 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:42:54] [res] cpu=23% mem=43% (13.5/31.4 GB) chrome_testing=5  END REL76_save_live_ctl_r3
