@@ -871,8 +871,8 @@ w_.rbox(sx0 - 0.02, sx1, 0.1, 0.13, sz0, sz1, r=0.005)
 rr2 = random.Random(46); z = 2.32; N_LOW = 0
 while z > 0.3:
     w2 = rr2.uniform(0.2, 0.3); h2 = rr2.uniform(0.2, 0.42)
-    g.box(sx0 + 0.18, 0.13 + h2 / 2, z - w2 / 2, 0.26, h2, w2, rr2.choice(['kraft0', 'kraft1', 'kraft3', 'pack0', 'pack2', 'pack4', 'pack6']), front='-x'); z -= w2 + rr2.uniform(0.25, 0.4); N_LOW += 1   # v2：間距加大（數量約一半）
-z = 0.2
+    g.box(sx0 + 0.18, 0.13 + h2 / 2, z - w2 / 2, 0.26, h2, w2, rr2.choice(['kraft0', 'kraft1', 'kraft3', 'pack0', 'pack2', 'pack4', 'pack6']), front='-x'); low_end = z - w2; z -= w2 + rr2.uniform(0.25, 0.4); N_LOW += 1   # v2：間距加大（數量約一半）
+z = min(0.2, low_end - 0.03)   # v2.1：上一排最後一個盒子可能伸到 0.2 以下（兩個盒子互相插進去，疊面 +0.02 m²）——從它後面接著排
 while z > sz0 + 0.25:   # 最下層靠走道那一頭：再一排小零件盒（預算：安全帽太貴，用印刷圖集的盒子）
     w2 = rr2.uniform(0.18, 0.26); h2 = rr2.uniform(0.15, 0.3)
     g.box(sx0 + 0.18, 0.13 + h2 / 2, z - w2 / 2, 0.26, h2, w2, f'pack{rr2.randrange(8)}', front='-x'); z -= w2 + 0.03; N_LOW += 1
