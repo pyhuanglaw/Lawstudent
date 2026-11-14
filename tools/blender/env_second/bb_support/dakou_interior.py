@@ -653,7 +653,29 @@ if FL == 1:
     for k in range(6): kp.cbox(-3.0 + k * 0.32, -2.8 + k * 0.32, 0.95, 0.97, Z0 + 0.3, Z0 + 0.5, '#6a3e26')   # 牛肉片
     kp.crbox(1.0, 1.7, 0.9, 1.7, Z0 + 0.1, Z0 + 0.7, '#d8dadc', r=0.02); kp.cbox(1.1, 1.6, 1.3, 1.6, Z0 + 0.7, Z0 + 0.71, '#30343a')   # 冰淇淋機
     kp.crbox(2.0, 3.2, 0.0, 2.0, Z0 + 0.05, Z0 + 0.8, '#c8ccd0', r=0.02)                         # 冰箱
-    for k in range(14): kp.cbox(kc['x0'] + 0.3 + k * 0.62, kc['x0'] + 0.62 + k * 0.62, 1.58, 1.8, Z0 + 0.1, Z0 + 0.32, ['#e8d9b8', '#c84030', '#f0f0ec', '#d8a030'][k % 4])   # 層架上的紙盒、杯子
+    # 層架上的東西（v2，LAWWW2 11-14：不要一格格一樣大的彩色方塊）：紙杯一疊一疊（白杯、深藍杯緣、橘色帶）、Poly Haven 紙箱（大小、方向不同）、餐巾紙包、杯蓋筒
+    rs_ = random.Random(1114); xk = kc['x0'] + 0.25
+    while xk < kc['x1'] - 0.4:
+        kind = rs_.choice(['cups', 'cups', 'box', 'napkin', 'lids'])
+        if kind == 'cups':
+            n_ = rs_.randint(2, 4); hh = rs_.uniform(0.14, 0.2); r0 = 0.045
+            for j in range(n_):
+                cx_ = xk + r0 + j * (2 * r0 + 0.01); f0 = set(kp.bm.faces)
+                kp.add_bm(L.lathe([(0.0, 0.0), (r0 * 0.8, 0.0), (r0, hh), (r0 + 0.003, hh), (0.0, hh)], seg=12), Matrix.Translation(g2b(cx_, 1.58, Z0 + 0.2)))
+                kp.paint([f for f in kp.bm.faces if f not in f0], '#f4f2ec')
+                f0 = set(kp.bm.faces); kp.add_bm(L.lathe([(r0 * 0.93 + 0.001, 0.0), (r0 + 0.0012, 0.0), (r0 + 0.0016, 0.03), (r0 * 0.94 + 0.001, 0.03)], seg=12), Matrix.Translation(g2b(cx_, 1.58 + hh * 0.45, Z0 + 0.2)))
+                kp.paint([f for f in kp.bm.faces if f not in f0], rs_.choice(['#e8782a', '#24345f']))
+            xk += n_ * (2 * r0 + 0.01) + 0.06
+        elif kind == 'box':
+            w_ = rs_.uniform(0.26, 0.4); h_ = rs_.uniform(0.85, 1.0); K.ph_put('cardboard_box_01', xk + w_ / 2, 1.58, Z0 + 0.2, rs_.uniform(-0.06, 0.06), sxyz=(w_ / 0.34, 1.0, h_), fit=(0.34, 0.26, 0.24), decimate=0.03); xk += w_ + 0.05   # 層架深 0.3 m
+        elif kind == 'napkin':
+            for j in range(rs_.randint(2, 3)):
+                kp.crbox(xk, xk + 0.2, 1.58 + j * 0.045, 1.58 + j * 0.045 + 0.042, Z0 + 0.12, Z0 + 0.28, '#f6f4ee', r=0.01, seg=1)
+                kp.cbox(xk + 0.07, xk + 0.13, 1.58 + j * 0.045 + 0.01, 1.58 + j * 0.045 + 0.032, Z0 + 0.28, Z0 + 0.282, '#e8782a')
+            xk += 0.26
+        else:
+            f0 = set(kp.bm.faces); kp.add_bm(L.lathe([(0.0, 0.0), (0.06, 0.0), (0.06, 0.2), (0.0, 0.2)], seg=12), Matrix.Translation(g2b(xk + 0.06, 1.58, Z0 + 0.2)))
+            kp.paint([f for f in kp.bm.faces if f not in f0], '#e9ecef'); xk += 0.17
     # 出餐保溫檯（櫃檯後面）
     ct = F['counter']
     st.box(-3.6, 1.2, 1.25, 1.28, ct['z0'] - 0.55, ct['z0'] - 0.1); st.box(-3.6, 1.2, 1.75, 1.78, ct['z0'] - 0.55, ct['z0'] - 0.1)
@@ -821,9 +843,17 @@ else:
     # 本地座標：+z＝朝向坐的人；y 0＝桌面
     def b_laptop(col):
         def f(m):
-            m.crbox(-0.16, 0.16, 0.0, 0.016, -0.11, 0.11, col, r=0.006, seg=1)                   # 底座
-            m.cbox(-0.13, 0.13, 0.016, 0.018, -0.02, 0.08, '#2a2c30')                               # 鍵盤
-            m.crbox(-0.16, 0.16, 0.016, 0.235, -0.125, -0.11, col, r=0.006, seg=1)               # 螢幕的殼（立著）
+            # v2（LAWWW2 11-14：筆電不要一塊板子；Poly Haven 只有 0.65 m 的老筆電 classic_laptop，不合）：薄機身、一顆一顆的鍵、觸控板、轉軸、薄螢幕殼
+            m.crbox(-0.16, 0.16, 0.0, 0.012, -0.11, 0.11, col, r=0.005, seg=2)                   # 底座（1.2 cm）
+            for row in range(5):
+                for k in range(13):
+                    x0 = -0.135 + k * 0.0208; z0 = -0.03 + row * 0.019
+                    if row == 4 and 3 <= k <= 9: continue
+                    m.cbox(x0 + 0.0015, x0 + 0.0193, 0.012, 0.0135, z0 + 0.0015, z0 + 0.0175, '#26282c')
+            m.cbox(-0.06 + 0.0015, 0.06 - 0.0015, 0.012, 0.0135, 0.046 + 0.0015, 0.0625, '#26282c')   # 空白鍵
+            m.cbox(-0.05, 0.05, 0.012, 0.0126, 0.068, 0.1, '#9a9ea4' if col != '#3c3e44' else '#2e3034')   # 觸控板
+            m.cbox(-0.12, 0.12, 0.009, 0.019, -0.112, -0.103, '#2a2c30')                              # 轉軸
+            m.crbox(-0.16, 0.16, 0.014, 0.235, -0.118, -0.11, col, r=0.004, seg=2)               # 螢幕的殼（0.8 cm）
         return f
     proto('laptop_s', b_laptop('#b8bcc0')); proto('laptop_d', b_laptop('#3c3e44'))
     for k in range(6):
@@ -832,9 +862,12 @@ else:
     def b_books(idx):
         def f(m):
             y = 0.0
-            for (bi, th) in idx:
-                col = BK[bi][0]; m.crbox(-0.12, 0.12, y, y + th, -0.165, 0.165, col, r=0.004, seg=1)
-                m.cbox(-0.115, 0.115, y + 0.004, y + th - 0.004, -0.17, -0.165, '#efe8d8')             # 書頁那一側
+            for (bi, th) in idx:   # v2（LAWWW2 11-14：課本不要平盒子）：上下封面板、書背、往內縮的書頁（三面看得到書口）
+                col = BK[bi][0]; c_ = 0.003
+                m.crbox(-0.12, 0.12, y, y + c_, -0.165, 0.165, col, r=0.001, seg=1); m.crbox(-0.12, 0.12, y + th - c_, y + th, -0.165, 0.165, col, r=0.001, seg=1)
+                m.crbox(-0.12, 0.12, y + 0.0005, y + th - 0.0005, 0.158, 0.165, col, r=0.003, seg=2)          # 書背（朝坐的人，貼書名）
+                m.cbox(-0.116, 0.116, y + c_, y + th - c_, -0.161, 0.158, '#efe8d8')                          # 書頁
+                for j in range(1, 4): m.cbox(-0.1165, 0.1165, y + c_ + j * (th - 2 * c_) / 4 - 0.0003, y + c_ + j * (th - 2 * c_) / 4 + 0.0003, -0.1615, 0.157, '#d8d0bc')   # 書口的頁線
                 y += th
         return f
     def b_titles(idx):
@@ -867,7 +900,18 @@ else:
         m.cbox(0.05, 0.16, 0.01, 0.022, 0.02, 0.035, '#e8e040'); m.cbox(0.02, 0.15, 0.01, 0.02, -0.06, -0.05, '#3a6ac8')
     proto('notebook', b_notebook)
     proto('pencase', lambda m: m.crbox(-0.1, 0.1, 0.0, 0.05, -0.035, 0.035, '#2c3448', r=0.02, seg=2))
-    def b_bag(m): m.crbox(-0.1, 0.1, 0.0, 0.28, -0.06, 0.06, '#d8b88a', r=0.006, seg=1); m.cbox(-0.05, 0.05, 0.12, 0.2, 0.06, 0.063, '#24345f'); m.cbox(-0.03, 0.03, 0.15, 0.18, 0.063, 0.064, '#e8782a')
+    def b_bag(m):   # v2（LAWWW2 11-14：紙袋要有提把、摺邊）：牛皮紙袋＝側面內摺（風琴）、上緣往內摺一圈、兩條紙繩提把、正面的標誌
+        K_ = '#d8b88a'; Kd = '#c4a274'
+        m.crbox(-0.1, 0.1, 0.0, 0.26, -0.06, 0.06, K_, r=0.003, seg=1)
+        for sx in (-1, 1): m.cbox(sx * 0.1 - 0.002, sx * 0.1 + 0.002, 0.02, 0.24, -0.003, 0.003, Kd)   # 側面中間的內摺線
+        m.crbox(-0.102, 0.102, 0.24, 0.27, -0.062, 0.062, '#e2c69a', r=0.002, seg=1)                     # 上緣往內摺的那一圈
+        m.cbox(-0.098, 0.098, 0.262, 0.27, -0.058, 0.058, '#7a6448')                                       # 袋口（裡面暗）
+        for sz in (-0.061, 0.061):
+            pts = [(-0.045 + 0.09 * t / 6, 0.265 + 0.07 * math.sin(math.pi * t / 6), sz) for t in range(7)]
+            for a, b in zip(pts, pts[1:]): m.paint([f for f in _cyl(m, a, b, 0.003)], '#b0906a')
+        m.cbox(-0.05, 0.05, 0.11, 0.19, 0.06, 0.063, '#24345f'); m.cbox(-0.03, 0.03, 0.14, 0.17, 0.063, 0.064, '#e8782a')
+    def _cyl(m, a, b, r):
+        f0 = set(m.bm.faces); m.cyl(a, b, r, seg=5); return [f for f in m.bm.faces if f not in f0]
     proto('bag', b_bag)
     def b_pack(col):
         def f(m):
