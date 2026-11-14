@@ -1,5 +1,8 @@
 ### AA-C 目前狀態與全部待辦（2026-11-12 03:1x UTC 接班；roles 讀這一節）
 
+- 值班登記：帳號 B｜AA（AA-B）｜session_016ACZaD4oB9tX94WqQR4dkS｜claude/cool-heisenberg-o8kuqx｜接班基準 a77f92672a（origin/claude/magical-albattani-bk7b4n，快轉）｜2026-11-14（使用者「現在接班」）
+- 上一班：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit a77f92672a｜正常交班（2026-11-14 11:52Z，快照 2026-11-14T1152Z_C_AA）
+- **AA-B 接班核對（11-14）**：RULE_SOURCE claude/adoring-meitner-mqzst8（seq 155，接班時五個職位都沒人值班）；rules_sync 0 檔不同；check 結束碼 1（都是 LAWWW 總表欄位的異常：缺 next／first，AA 不能改）；duty verify 結束碼 1（帳號 A 三條分支交班後還有 commit＝A 11-10～11-12 值班、沒交班，duty.json 已記 no-handoff；AA 這條是我接班快轉造成的）；roles 異常 1 項（K-D3 在交接檔、總表沒有，交值班 LAWWW 補）；asks OK 219 筆；userwork 10 項照上一班狀態（都已交、等整合或測試；DIALOGUE-DEPTH-1031 暫停中）；loose OK。下一班第一件事照下面 AA-C 交班 B 類：AA-D99-BLOCKERS-1114、RC2-PORT-DEV-1114、LIMAO-DOOR-HOURS-TEXT-1114，三件都要值班 LAWWW 先動。
 - 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 0c9daff873｜2026-11-13（使用者「繼續」，交班後同一帳號同一工作階段回班；duty register 重新登記）
 - **交班（帳號 C｜AA-C｜2026-11-14 11:4x UTC｜使用者：「現在交班」）**
   - **A 本班成果**（接續值班 09:4x 以後；分支 claude/magical-albattani-bk7b4n，全部已推）：
