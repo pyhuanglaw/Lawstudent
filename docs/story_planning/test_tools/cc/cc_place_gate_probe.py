@@ -61,7 +61,8 @@ DEBUGTXT_JS = r"""(()=>{ const re=/career\s*A\s*\d|\bA\d+\s+B\d+\s+C\d+\b|\bfps\
   return {url:location.search||'(沒有參數)', hits:hits.slice(0,8)}; })()"""
 R = L.Run('gate_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-DAY = '2025-10-22'
+DAY = os.environ.get('DAY') or '2025-10-22'   # BB-C 09:45（BB_379 木曜日 r3 TEST_SETUP）：10/22 是期中考週，木曜日進「考試週坐滿」模式——可以改日期
+SEAT_BARSIDE = (os.environ.get('SEAT_BARSIDE') or '0') == '1'   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
   if(N&&N.cols){ for(let j=0;j<N.rows;j++) for(let i=0;i<N.cols;i++){ const w=N.toWorld(i,j); if(E.canStand(w[0],w[1],0.3,0)){ n++; x0=Math.min(x0,w[0]); x1=Math.max(x1,w[0]); z0=Math.min(z0,w[1]); z1=Math.max(z1,w[1]); } } }
@@ -213,7 +214,7 @@ async def do_func(pg, cdp, tag, rm, zid):
             await L.go_to(pg, cdp, R, ct['x'], ct['z'], 0.8 if k == 0 else 0.5, '%s ⑦ 走到「%s」（第 %d 段）' % (tag, ct['label'], k + 1), max_s=30)
             await pg.wait_for_timeout(600)
         q = await D.st(pg); ok_reach = ok_reach or q['interact'].startswith(ct['label'][:4])
-        said = 0; picked = []; poor = None
+        said = 0; picked = []; poor = None; lines = []; menu_shot = False
         OPTS_JS = "(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>({t:b.textContent.trim(), dim:!!(b.disabled||b.classList.contains('dim')||b.getAttribute('aria-disabled')==='true')})))()"
         if ok_reach and ORDER_POOR:   # BB-C 01:45（木曜日）：錢不夠的選項要是灰的——先把錢設成 10 元打開選單記每一項灰不灰，再關掉、錢還原
             await pg.evaluate("GAME.G.money=10"); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
@@ -239,15 +240,19 @@ async def do_func(pg, cdp, tag, rm, zid):
             while time.time() - t0 < 60:
                 q = await D.st(pg)
                 if q['choices']:
+                    if not menu_shot: menu_shot = True; await pg.screenshot(path=os.path.join(OUT, '%s_order_menu.png' % tag.strip('[]').replace(' ', '_')))   # BB-C 09:45：截一張點餐選單
                     opts = q['choices']; bad = ('不用了', '算了', '離開', '返回', '不買', '下次', '先不要', '不點', '要水')   # BB-C 01:45：木曜日「不點、要水」不收錢，不能當點餐
                     k = next((i for i, t in enumerate(opts) if t.startswith('點好了') or t.startswith('結帳')), None) if picked else None
                     if k is None: k = next((i for i, t in enumerate(opts) if not any(t.startswith(b) for b in bad)), 0)
                     picked.append(opts[k]); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k + 1)); await pg.wait_for_timeout(900)
                     if len(picked) > 8: break
                     continue
-                if q['dlg']: said += 1; await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+                if q['dlg']:
+                    said += 1; lines.append(await pg.evaluate("(()=>[(document.getElementById('dlgName')||{}).textContent||'', (document.getElementById('dlgText')||{}).textContent||''])()"))   # BB-C 09:45：點餐那幾句原文
+                    await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
                 if not q['busy']: break
                 await pg.wait_for_timeout(400)
+            R.note('%s ⑦ 點餐：選了 %s；台詞原文 %s' % (tag, J(picked), J(lines)))
         m1 = await pg.evaluate("GAME.G.money|0")
         ui = await pg.evaluate(UI_JS) if ok_reach and not picked and not said else None
         # PC GATE_CAL_bd86：便利商店按「結帳」沒有出選單也沒有對話＝探針看不懂那個畫面，記下畫面上的字、判 UNKNOWN（交 BB 看圖），不當 FAIL
@@ -255,7 +260,7 @@ async def do_func(pg, cdp, tag, rm, zid):
             pricey = [o for o in poor if not any(w in o['t'] for w in ('不點', '算了', '離開', '不用', '返回', '要水'))]
             R.check('%s 錢不夠（10 元）時要花錢的選項是灰的' % tag, bool(pricey) and all(o['dim'] for o in pricey), J(poor))
         if ORDER_POOR: R.check('%s 點了第一項有扣錢' % tag, m1 < m0, J({'picked': picked, 'money': [m0, m1]}))
-        res['order'] = {'reach': ok_reach, 'picked': picked, 'said': said, 'money': [m0, m1], 'ui': ui, 'poor': poor,
+        res['order'] = {'reach': ok_reach, 'picked': picked, 'said': said, 'money': [m0, m1], 'ui': ui, 'poor': poor, 'lines': lines,
                         'verdict': 'PASS' if ok_reach and (m1 < m0 or said > 0) else ('UNKNOWN' if (not ok_reach or (not picked and not said)) else 'FAIL')}
     else:
         res['order'] = {'verdict': 'UNKNOWN', 'why': '沒有點餐／結帳類的互動點（這間可能不賣東西：交 BB 看）'}
@@ -269,8 +274,15 @@ async def do_func(pg, cdp, tag, rm, zid):
 
         async def _occ(k, s_, t_):
             o = await pg.evaluate(OCC_JS); occs.append({'seat': [s_['sx'], s_['sz']], 'occ': o}); R.note('%s 坐下鏡頭：%s' % (t_, J(o)))
-        rs = await D.sit_all(pg, cdp, tag + ' ⑦', 'gate_%s_%s_seat' % (TAG, zid), only=SEAT_ONLY or (None if ALLSEATS else [(rm['seat']['x'], rm['seat']['z'])]), on_seated=_occ if ALLSEATS else None, ap_only=SEAT_AP_ONLY)
-        res['sit'] = {'res': rs, 'verdict': 'PASS' if rs and rs[0][1] in ('ok', 'occupied') else 'FAIL'}
+        only_ = SEAT_ONLY or (None if ALLSEATS else [(rm['seat']['x'], rm['seat']['z'])])
+        if SEAT_BARSIDE:
+            bs = await pg.evaluate("(()=>{ if(typeof MOKS==='undefined'||!MOKS.barSide) return {why:'沒有 MOKS.barSide'}; const s=MOKS.barSide(GAME.E); return {seat:s?{x:s.x,z:s.z,lv:s.lv|0,taken:s.taken||null}:null, examFull:MOKS.examFull?!!MOKS.examFull(GAME.G):null, examWeek:MOKS.examWeek?!!MOKS.examWeek(GAME.G):null}; })()")
+            R.note('%s ⑦ 吧檯旁邊那一個位子：%s' % (tag, J(bs)))
+            if not R.check('FAIL_SETUP 檢查：%s 找得到「坐吧檯旁邊」那一個位子（MOKS.barSide）' % tag, bool(bs.get('seat')), J(bs)):
+                res['sit'] = {'verdict': 'UNKNOWN', 'why': 'no barSide'}; return res
+            only_ = [(bs['seat']['x'], bs['seat']['z'])]
+        rs = await D.sit_all(pg, cdp, tag + ' ⑦', 'gate_%s_%s_seat' % (TAG, zid), only=only_, on_seated=_occ if ALLSEATS else None, ap_only=SEAT_AP_ONLY)
+        res['sit'] = {'res': rs, 'verdict': 'PASS' if rs and (rs[0][1] == 'ok' if SEAT_BARSIDE else rs[0][1] in ('ok', 'occupied')) else 'FAIL'}
         if ALLSEATS:
             blk = [o for o in occs if o['occ'].get('hit')]
             res['sit_cam'] = {'n': len(occs), 'blocked': blk, 'all': occs, 'verdict': 'UNKNOWN' if blk else ('PASS' if occs else 'UNKNOWN')}
