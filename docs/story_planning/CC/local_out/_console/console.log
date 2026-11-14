@@ -1,11 +1,3 @@
-[17:45:55] skip N1_AA811 (already done on b77af3a4fe6d348ae58337a1ce708442ef9ef458)
-[17:45:55] skip N1_LEADOUT (already done on 01679bc0a7580dabd373d2fbfda8542c21e0fc20)
-[17:45:55] skip LEADOUT_old (already done on 15e7b31f83b1559d4ebfec7b322aaf956698990d)
-[17:45:55] skip CLASS_DOOR_old (already done on 7d9d7942544e37ada7ec9cb7e658332b5fd570cb)
-[17:45:55] skip MOKU_PLANT_old (already done on f312c68cc961c70c7d548fe40c2ae42483d517ba)
-[17:45:55] skip MOKU_PLANT_old_8 (already done on f312c68cc961c70c7d548fe40c2ae42483d517ba)
-[17:45:55] skip CONT_rel (already done on f312c68cc961c70c7d548fe40c2ae42483d517ba)
-[17:45:55] skip CONT_live (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
 [17:45:55] skip LIVE_main (already done on 12555291d805e80a5165a2f86382641c46c0bdea)
 [17:45:55] skip L118A_SEAT_home1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
 [17:45:55] skip L118A_SEAT_home2 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
@@ -1998,3 +1990,11 @@
 [21:50:10] [res] cpu=2% mem=44% (13.7/31.4 GB) chrome_testing=5  START WINVIEW_MIRROR_rooms
 [21:50:55] 正在跑：AA355_6_sports_r4（已跑 2 分／上限 20 分）、WINVIEW_MIRROR_gg3（已跑 0 分／上限 25 分）、WINVIEW_MIRROR_rooms（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:51:11] [res] cpu=7% mem=49% (15.3/31.4 GB) chrome_testing=8  END AA355_6_sports_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1d48ed5839..27fc47584c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:51:18] ==== END   AA355_6_sports_r4  exit=0  148s   ====
+[21:51:33] memory 49% before starting GATE_REF_r1 (2 running)
+[21:51:33] ==== START GATE_REF_r1  (probe @ aa876bf9b9ad16262c2106615619a1f4cec5f77b) ====
+[21:51:36] [res] cpu=6% mem=49% (15.6/31.4 GB) chrome_testing=8  START GATE_REF_r1
+[21:52:29] [res] cpu=16% mem=45% (14.1/31.4 GB) chrome_testing=4  END WINVIEW_MIRROR_gg3
