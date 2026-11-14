@@ -2429,6 +2429,9 @@ DATE_LAYER_76f8_r3 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/sto
 # LAWWW-C 01:57（P0，使用者選 rc2e，排最前面；BB 判）：rc2e 只改 index.html 一行（#btnNew 字拿掉、按鈕留著）。標題正常、「從法律系開始」能開局、讀檔正常、沒有 pageerror＋p0 搖桿移動
 RC2E_TITLE_SMOKE | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_rc_title_smoke_probe.py | index.html | 15 | SHA=1404d5f2d4cb740d50df75741764be18ee746992
 RC2E_p0 | 1404d5f2d4cb740d50df75741764be18ee746992 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+# BB-C 09:57（P1，給 LAWWW 重現 STUCK-WALKSELF-1114）：T1_76f8 種子 4 在 2025-11-10 12:00 dorm_hall 第 7361 步卡住 → 同一顆種子在 rc2e 跑兩次存檔。--to 含當天（雲端試過：--to 08-31 停在 09-01 開始），所以 ① 用 --to 2025-11-09＝停在 11-10 開始；② --to 2025-11-11，卡住放棄時也寫存檔
+T1_SEED4_SAVE | 1404d5f2d4cb740d50df75741764be18ee746992 | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 30 | XARGS=--track law --seed 4 --from 2025-08-22 --to 2025-11-09 --root . --out {out} --save-out {out}/seed4_pre_1110.json
+T1_SEED4_SAVE_stuck | 1404d5f2d4cb740d50df75741764be18ee746992 | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 30 | XARGS=--track law --seed 4 --from 2025-08-22 --to 2025-11-11 --root . --out {out} --save-out {out}/seed4_stuck.json
 # BB-C 09:53（BB_458 b6498a0641，TEST_BUG）：FA05 前置要一併拿掉 G.phone.groups.lawclub_study（已入社存檔的群組不會退）；看公告前先驗沒有群組
 STUDY_FA05_r2 | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=FA05;MAX_MIN=18;SHA=1404d5f2d4cb740d50df75741764be18ee746992
 # CC-C 09:4x（接班；發布還沒做、LAWWW／BB 都交班了，電腦從 08:31 UTC 空轉）：發布後清單裡不需要線上版的，先在 rc2e（使用者選的發布候選，和 bcc9 只差 index.html 一行）跑；HOLD 原行留著給正式發布用。短的在前、social_r2 每支 45 分鐘放最後
