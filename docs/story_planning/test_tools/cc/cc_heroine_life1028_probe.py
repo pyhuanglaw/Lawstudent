@@ -118,8 +118,9 @@ async def part_hl1(pg, cdp, sv0, res):
             np0 = await pg.evaluate(NPCPOS, {'ids': [info['who']] + comp, 'who': info['who'], 'row': rid})
             if (np0['pos'].get(info['who']) or {}).get('vis'): break
             hh_ = np0['pos'].get(info['who'])
-            if w_ == 8 and hh_:   # 8 秒還看不到：可能是離太遠（遠的人不顯示），走近到 8 m 再看
-                await L.go_to(pg, cdp, R, hh_['x'], hh_['z'], 8.0, '%s 她還看不到，先走近' % tag, max_s=60, lv=hh_['lv'])
+            if w_ == 6 and hh_:   # 6 秒還看不到：遠的人不顯示（HL1 r4b：學姊在公館邊走、走過去會卡住、她們會走出區域）——【捷徑】把玩家放到她 8 m 內、站得住的點
+                pl8 = await pg.evaluate("""((a)=>{ const E=GAME.E; for(const D of [8,7,9,6,10]) for(let k=0;k<12;k++){ const t=k*Math.PI/6, x=a.x+Math.sin(t)*D, z=a.z+Math.cos(t)*D; if(E.canStand(x,z,0.3,a.lv|0)){ const P=E.player.obj; P.position.set(x,P.position.y,z); E.player.path=null; return {x:+x.toFixed(2),z:+z.toFixed(2),d:D}; } } return null; })""", hh_)
+                R.setup('%s 【捷徑】她 6 秒還看不到，玩家放到她 %s m 內（%s）' % (tag, pl8 and pl8['d'], J(pl8)))
             await pg.wait_for_timeout(1000)
         out['pos0'] = np0; out['vis_wait_s'] = w_
         h = np0['pos'].get(info['who'])
@@ -136,7 +137,8 @@ async def part_hl1(pg, cdp, sv0, res):
                 if await pg.evaluate("(([x,z,lv])=>{ try{ return !!GAME.E.canStand(x,z,0.3,lv); }catch(e){ return false; } })", [x, z, h['lv']]): tgt = (x, z); break
             if tgt: break
         if not R.check('FAIL_SETUP 檢查：%s 她旁邊 5 m 內找得到站得住的點' % tag, bool(tgt), J(h)): continue
-        await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.4, '%s 走到她旁邊（%.1f m）' % (tag, math.hypot(tgt[0] - h['x'], tgt[1] - h['z'])), max_s=150, lv=h['lv'])
+        if h.get('pose') != 'walk':   # CC-B 11-14（HL1 r4：在走的人先走到原位置會跟丟——她們 18:50 前會走出校園被收掉），在走的直接跳到下面「背後 15 m」
+            await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.4, '%s 走到她旁邊（%.1f m）' % (tag, math.hypot(tgt[0] - h['x'], tgt[1] - h['z'])), max_s=150, lv=h['lv'])
         if h.get('pose') == 'walk':   # CC-B 11-14（HL1 r2 c503_4_2 兩人邊走邊講；BB-B 13:22）：【捷徑】玩家放到她背後 15 m，用正常走路（點地面，不跑、不傳送）跟上去，看聽不聽得完——聽不完＝遊戲的事（BB 報 AA／LAWWW）
             pl_ = await pg.evaluate("""((a)=>{ const E=GAME.E, n=HCIRCLE.npcOf(GAME,a.who)||(GAME.npc&&GAME.npc[a.who]); if(!n||!n.obj) return null; const o=n.obj.position, ry=n.obj.rotation.y, fx=Math.sin(ry), fz=Math.cos(ry);
               for(const D of [15,14,16,13,17,12]){ const x=o.x-fx*D, z=o.z-fz*D; if(E.canStand(x,z,0.3,n.lv|0)){ const P=E.player.obj; P.position.set(x,P.position.y,z); P.rotation.y=Math.atan2(o.x-x,o.z-z); E.player.path=null; return {x:+x.toFixed(2),z:+z.toFixed(2),d:D,run:!!(E.player.run||GAME.G.run)}; } } return null; })""", {'who': info['who']})
@@ -146,7 +148,10 @@ async def part_hl1(pg, cdp, sv0, res):
             for k_ in range(20):
                 if len(await pg.evaluate("(window.__ccCap||[])")) >= len(info['lines']) or time.time() - t0_ > 180: break
                 h2 = (await pg.evaluate(NPCPOS, {'ids': [info['who']], 'who': info['who'], 'row': rid}))['pos'].get(info['who'])
-                if not h2 or not h2.get('vis'): fol_.append('不見了'); break
+                if not h2 or not h2.get('vis'):
+                    fol_.append({'k': k_ + 1, 'gone': h2})
+                    if sum(1 for x in fol_ if isinstance(x, dict) and 'gone' in x) >= 3: break
+                    await pg.wait_for_timeout(1500); continue
                 sp_ = await pg.evaluate("(()=>{ const P=GAME.E.player; return {x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), run:!!(P.run||(GAME.G&&GAME.G.run))}; })()")
                 fol_.append({'k': k_ + 1, 'her': [h2['x'], h2['z']], 'me': [sp_['x'], sp_['z']], 'd': round(math.hypot(h2['x'] - sp_['x'], h2['z'] - sp_['z']), 1), 'run': sp_['run']})
                 dd_ = math.hypot(h2['x'] - sp_['x'], h2['z'] - sp_['z']); st_ = min(max(dd_ - 2.5, 0.5), 14.0)   # CC-B 11-14（HL1 r3：點地面超過 16 m 遊戲會自動跑，engine3d.js P.run＝距離>16）：每次只點 14 m 內＝走路
@@ -214,6 +219,63 @@ async def part_hl1(pg, cdp, sv0, res):
                 R.note('%s ④ 找她說話那時同伴已經不在 3.2 m 內 %s——這一次不判（記下選單 %s）' % (tag, J(near1), J(tm['menus'])))
 
 
+PREP3 = r"""((a)=>{ const G=GAME.G, H=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'];
+  G.msgs=[]; G.phone=null; PHONE.rec(G); const F=G.flags=G.flags||{}; for(const k of ['dpN','dpPick','dpDay','dpLast','dpDayOf']) delete F[k];
+  G.contacts=G.contacts||{}; for(const id of H){ F['met_'+id]=true; G.contacts[id]=a.d0-1; try{ SOCIAL.meet(id,'campus'); }catch(e){} const r=SOCIAL.rel(id); Object.assign(r,{fam:25,trust:10,comf:10,rom:0,npcRom:0}); r.seen=Math.max(r.seen||0,20); r.talked=Math.max(r.talked||0,20); delete F['dating_'+id]; }   /* 剛好 FAMILIAR（social3d.js S.stage：fam≥20、不到 FRIEND 的 fam40／trust25）——子晴 dp_zq_f1／f2 要 stage===FAMILIAR */
+  PHONE.join(G,'family_law','法律系家族'); PHONE.join(G,'guitar','吉他社');
+  return {stages:Object.fromEntries(H.map(id=>[id,SOCIAL.stage(id)])), groups:Object.keys(PHONE.rec(G).groups)}; })"""
+STEP3 = r"""((a)=>{ const G=GAME.G; let err=null; const HS=[7.5,9,12,15,17.5,19,21,22.5,23.9];
+  for(let d=a.d0; d<=a.d1; d++){ G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.weather=(a.rain&&((d-a.r0)%a.rain===0))?'rain':'clear'; for(const h of HS){ G.hour=h; try{ STORY.phoneRules(GAME); PHONE.tick(G,false); }catch(e){ if(!err) err=CALENDAR.dateOf(d).key+' '+h+'：'+String(e).slice(0,160); } } }
+  const H=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'];
+  return (G.msgs||[]).filter(m=>H.includes(m.from)).map(m=>({day:m.day, date:CALENDAR.dateOf(m.day).key, h:+(+m.h||0).toFixed(2), from:m.from, th:m.th, tag:m.tag||null, text:String(m.text||m.img||'').slice(0,120)})).concat(err?[{err}]:[]); })"""
+HL3B_WANT = {'heroine_01': ['dp_a118_y1s1_an_row', 'dp_a118_y1s1_an_notice'], 'heroine_03': ['dp_a118_y1s1_yt_dish', 'dp_a118_y1s1_yt_rain'], 'heroine_02': ['dp_zhiruo_latte'], 'heroine_04': ['dp_zq_f1', 'dp_zq_f2', 'dp_ziqing_five']}
+
+
+async def keyof(pg, d):
+    try: return await pg.evaluate("(d=>CALENDAR.dateOf(d).key)", d)
+    except Exception: return d
+
+
+async def part_hl3b(pg, cdp, sv0, res):
+    """BB-B 13:39（BB_468 HL3b）：五位都認識、給聯絡方式、FAMILIAR、加 family_law／guitar 群組，快轉大一上 9/1～1/15，收她們主動傳的每一則"""
+    tag = '[HL3b]'; out = res.setdefault('hl3b', {})
+    d0 = (await pg.evaluate(DAYOF, {'term': 'Y1S1', 'week': 1, 'wd': 1}) or {}).get('day')
+    d1 = await pg.evaluate("(k=>STORY.dayOfKey(k))", os.environ.get('HL3B_TO') or '2026-01-15')
+    if not R.check('FAIL_SETUP 檢查：%s 找得到 9/1（第 1 週週一）和結束日' % tag, d0 is not None and d1 is not None, J([d0, d1])): return
+    s = await load(pg, cdp, sv0, d0, 7.0, 'dorm')
+    pr = await pg.evaluate(PREP3, {'d0': d0}); out['prep'] = pr
+    R.setup('%s 【前置／捷徑】讀使用者存檔到 %s、清掉手機（訊息、群組、每日小事的紀錄）＝當成新的一學期；五位女主角認識＋給聯絡方式＋關係設成剛好 FAMILIAR（fam 25、trust 10、comf 10）；加 family_law、guitar 群組：%s' % (tag, (await keyof(pg, d0)), J(pr)))
+    if not R.check('FAIL_SETUP 檢查：%s 五位都剛好 FAMILIAR、兩個群組都在' % tag, all(v == 'FAMILIAR' for v in pr['stages'].values()) and {'family_law', 'guitar'} <= set(pr['groups']), J(pr)): return
+    R.setup('%s 【捷徑：跳日子】%d → %d 每天 7:30～23:54 九個時間點叫 STORY.phoneRules＋PHONE.tick（遊戲每天的手機小事、到時間送出）；天氣【捷徑】每 5 天下雨一天、其他晴天（快轉不跑遊戲的天氣；語彤 yt_rain 要雨天）' % (tag, d0, d1))
+    msgs = []
+    for a in range(d0, d1 + 1, 15):
+        b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m]
+        for m in part:
+            if 'err' in m: R.note('%s 例外：%s' % (tag, m['err']))
+    out['msgs'] = msgs
+    seen = {}
+    for m in msgs: seen.setdefault(m['from'], []).append(m)
+    R.note('%s 收到 %d 則：%s' % (tag, len(msgs), J({k: len(v) for k, v in seen.items()})))
+    for who, L_ in sorted(seen.items()):
+        R.note('%s %s：%s' % (tag, who, J([[m['date'], m['th'], m['tag'], m['text']] for m in L_])))
+    for who, tags in HL3B_WANT.items():
+        for t in tags:
+            got = [m for m in msgs if (m['tag'] or '').startswith(t + '_')]
+            R.check('%s %s 收到 %s（至少一次）' % (tag, who, t), bool(got), J(got[:2]))
+    R.note('%s 學姊（只記不判）：%d 則 %s' % (tag, len(seen.get('heroine_05', [])), J([[m['date'], m['tag'], m['text']] for m in seen.get('heroine_05', [])][:20])))
+    days = sorted(set(m['day'] for m in msgs)); gaps = [(days[i + 1] - days[i] - 1, days[i], days[i + 1]) for i in range(len(days) - 1)]
+    if days: gaps = [(days[0] - d0, d0 - 1, days[0])] + gaps + [(d1 - days[-1], days[-1], d1 + 1)]
+    g = max(gaps) if gaps else None
+    out['gap'] = g; out['first'] = {k: v[0]['date'] for k, v in seen.items()}
+    R.note('%s 一學期裡連續沒有任何女主角訊息最長 %s 天（%s）；每位第一則：%s' % (tag, g and g[0], g and J([(await keyof(pg, g[1])), (await keyof(pg, g[2]))]), J(out['first'])))
+    await pg.evaluate("(h=>{ GAME.G.hour=h; })", 21.0); await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+    await pg.evaluate("(()=>{ const t=[...document.querySelectorAll('#phone button, .phone button')].find(b=>/訊息/.test(b.textContent||'')); if(t) t.click(); })()"); await pg.wait_for_timeout(1000)
+    await D.shot(pg, 'hl3b_msg_list', judge_black=False)
+    await pg.evaluate("(()=>{ const t=[...document.querySelectorAll('#phone *, .phone *')].find(e=>e.children.length<3&&/沈以安|以安|小安/.test(e.textContent||'')&&e.offsetParent); if(t) t.click(); })()"); await pg.wait_for_timeout(1000)
+    await D.shot(pg, 'hl3b_thread_an', judge_black=False)
+    await close_panels(pg)
+
+
 async def part_hl2(pg, cdp, sv0, res):
     for term in TERMS:
         tag = '[HL2 %s]' % term
@@ -256,7 +318,7 @@ async def main():
         sv0 = await pg.evaluate("fetch(%s).then(r=>r.ok?r.json():null)" % J(FIX))
         if not R.check('FAIL_SETUP 檢查：讀得到使用者存檔 %s' % FIX, bool(sv0), ''): await b.close(); sys.exit(1)
         if not R.check('FAIL_SETUP 檢查：這個版本有 FEED、HCIRCLE', await pg.evaluate("typeof FEED!=='undefined'&&typeof HCIRCLE!=='undefined'"), ''): await b.close(); sys.exit(1)
-        for part, fn in (('HL1', part_hl1), ('HL2', part_hl2)):
+        for part, fn in (('HL1', part_hl1), ('HL2', part_hl2), ('HL3B', part_hl3b)):
             if part not in PARTS: continue
             try: await fn(pg, cdp, sv0, res)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
