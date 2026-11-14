@@ -2485,6 +2485,8 @@ T1_SEED4_FIX_full | 928690d709ebda924debffc05a2f4fe6e1687d51 | node | docs/story
 T1_928690 | 928690d709ebda924debffc05a2f4fe6e1687d51 | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 120 | XARGS=--track law --seeds 8 --from 2025-08-22 --to 2026-06-30 --jobs 4 --root . --json {out}/t1.json --out {out}
 # BB-C 10:22（BB_379 6735490ac4）：STUDY_fix_c leave 那條判真問題 P2（已交 LAWWW）→ 三條路都對 main 跑一次（LAWWW 修好再跑一次）
 STUDY_fix_c_r4 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=study_abandon;ABANDON=leave,timeout,close;ABANDON_FAST=1;ROSTER=0;DRAIN_OTHER=1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-C 10:3x：SHOP_US_v2_r2 18:20 開跑、早於 0.5／5／15 秒快照那次修改 → r3 只跑 US_DIAG（PARTS=1，草原、竹葉 13:00），補時間序列給 LAWWW（r2 已看到店員 clerk:true、hidden false、obj.visible false）
+SHOP_US_v2_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=shop_us_v2_r3;ZONES=us_market,us_asian_market;HOURS=13;NODEBUG=1;US_DIAG=1;PARTS=1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-C 10:2x：KOREA_ORDER_1400／XILE_FUNC TEST_BUG（cc_shop_func_probe 沒裝 bbplay helper，__BBF is not defined；功能沒驗到）→ r2 對發布版 main
 KOREA_ORDER_1400_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_shop_func_probe.py | index.html | 15 | MODE=korea;DAY=2025-10-22;HOUR=14;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 XILE_FUNC_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_shop_func_probe.py | index.html | 20 | MODE=xile;DAY=2025-10-22;HOUR=14;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
