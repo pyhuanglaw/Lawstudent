@@ -7,6 +7,7 @@
 CC_02 清單 2026-11-12：1✓（時段照遊戲自己的作息掃） 2✓（櫃台照互動點、語彤照 GAME.npc 從遊戲讀） 3✓（兩種各自讀檔） 4✓（選項照字） 5✓（go_to 走過去） 6✓（一句一句點） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：要看語彤） 10✓（條件事件關掉） 11✓ 12✓（兩種同樣欄位） 13✓（讀檔、認識語彤是捷徑）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [TERM=Y1S1] python3 cc_yizhan_take_probe.py <url> <out>"""
 import os, sys, json, asyncio
+DINE = (os.environ.get('DINE') or '') == '1'   # BB-C 01:11：內用點一次、付錢、外帶一杯、走出來（GATE2 一盞 7_func 補拍）
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
 import playlib as L
@@ -68,6 +69,16 @@ async def one(pg, cdp, case, slot, res):
     R.note('%s 互動點 %s；用「%s」當櫃台' % (tag, J(its), ct and ct['label']))
     if not R.check('%s 找得到櫃台' % tag, bool(ct), ''): return
     await L.go_to(pg, cdp, R, ct['x'], ct['z'], 0.6, ct['label'], max_s=60, lv=ct['lv']); await D.settle(pg)
+    if DINE:   # BB-C 01:11（GATE2 一盞 7_func）：先照玩家「點一次、付錢」（櫃台選單裡第一樣不是外帶、不是離開的），再外帶一杯，最後走出來
+        st = await pg.evaluate(ST); R.note('%s 櫃台互動鍵「%s」' % (tag, st['interact']))
+        d0 = await pg.evaluate("GAME.G.money|0"); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+        await pg.screenshot(path=os.path.join(OUT, 'yz_%s_dine_counter.png' % case))
+        d_lines, d_menus = await talk(pg, cdp, tag + ' 內用點一次', 'yz_%s_dine' % case, ['茶', '點'])
+        d1 = await pg.evaluate("GAME.G.money|0")
+        R.note('%s 內用點一次：錢 %s → %s' % (tag, d0, d1))
+        R.check('%s 內用點得到、付得了錢（錢有扣）' % tag, d1 < d0, J([d0, d1, d_menus[:2]]))
+        res.setdefault('dine', {})[case] = {'lines': d_lines, 'menus': d_menus, 'money': [d0, d1]}
+        await L.go_to(pg, cdp, R, ct['x'], ct['z'], 0.6, ct['label'], max_s=60, lv=ct['lv']); await D.settle(pg)
     m0 = await pg.evaluate("GAME.G.money|0"); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
     lines, menus = await talk(pg, cdp, tag + ' 買', 'yz_%s_buy' % case, ['買一份帶走送人', '冷泡'])
     m1 = await pg.evaluate("GAME.G.money|0"); carry = await pg.evaluate("GIFT.carry(GAME.G).map(c=>({n:c.n, shop:c.shop}))")
@@ -86,6 +97,13 @@ async def one(pg, cdp, case, slot, res):
         R.check('%s 當場送她＝當班那一句（lastPick.kind＝shift）' % tag, lp.get('kind') == 'shift', J(lp))
         rec['give'] = {'lines': g_lines, 'menus': g_menus, 'pick': lp}
     res[case] = rec
+    if DINE:   # 走出來：照玩家按出口
+        exs = await pg.evaluate("GAME.E.interactables.filter(i=>i.exit&&!i.hidden).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0,label:String(typeof i.label==='function'?i.label():i.label||''),to:i.exit.to}))")
+        ex = next((e for e in exs if e['to'] == 'wenzhou'), exs[0] if exs else None)
+        if R.check('%s 找得到出口' % tag, bool(ex), J(exs)):
+            s2 = await D.use_exit(pg, cdp, tag, ex['label'], ex['to'])
+            await pg.screenshot(path=os.path.join(OUT, 'yz_%s_out.png' % case))
+            R.check('%s 走得出來（到 %s）' % (tag, ex['to']), bool(s2) and s2.get('zone') == ex['to'], J(s2))
 
 
 async def main():

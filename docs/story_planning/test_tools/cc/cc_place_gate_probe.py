@@ -78,7 +78,9 @@ PEOPLE_JS = r"""(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const ex=new Set();
   const clerk=a?P.filter(p=>Math.hypot(p.x-a.x,p.z-a.z)<2||p.clerkFlag):P.filter(p=>p.clerkFlag); const cust=P.filter(p=>!clerk.includes(p));
   /* BB-C 05:26 ③：店員有沒有站進櫃檯／貨架裡（站的那一點站不住＝在家具裡；坐著的不算）；新加的客人是不是臉對空牆（頭的高度往正前方 0.45 m 內就撞到東西）*/
   /* BB-C 11:53（20998a0887）：店員站在櫃台後面（櫃台 2.5 m 內、那一格在導航上擋著）、坐著的客人面向窗邊吧檯——這兩種看圖都是 PASS，不再算 */
-  const behindCounter=p=>!!a&&clerk.includes(p)&&Math.hypot(p.x-a.x,p.z-a.z)<2.5;
+  /* BB-C 01:11（GATE2 青木 1b TEST_BUG）：店員在櫃台後面但離「櫃台」互動點 >2.5 m（或沒抓到櫃台點）也照櫃台後面算——clerkFlag 的店員、1.2 m 內有一格站得住（＝櫃台另一側是走道），就是站在櫃台後面那一側，不算在家具裡 */
+  const nearFloor=p=>{ if(!E.canStand) return false; for(let k=0;k<16;k++){ const t=k*Math.PI/8; for(const r of [0.6,0.9,1.2]) if(E.canStand(p.x+Math.cos(t)*r,p.z+Math.sin(t)*r,0.2,0)) return true; } return false; };
+  const behindCounter=p=>(!!a&&clerk.includes(p)&&Math.hypot(p.x-a.x,p.z-a.z)<2.5)||(p.clerkFlag&&nearFloor(p));
   const inFurn=P.filter(p=>!p.seat&&p.stand===false&&!behindCounter(p)), wall=cust.filter(p=>!p.seat&&p.face_m!=null&&p.face_m<0.45);
   return {total:P.length, clerk:clerk.length, customers:cust.length, clerk_in_furniture:inFurn.map(p=>[p.id,p.x,p.z]), face_wall:wall.map(p=>[p.id,p.x,p.z,p.face_m]), people:P.slice(0,12)}; })"""
 # 拍照：另一台相機（先跑 fadeWalls，同 cc_tingzhou_probe）；同時回傳窗玻璃網格投影到畫面上的框（0～1）
