@@ -2412,6 +2412,8 @@ WINVIEW_GG3_10aa | 10aa10ed3244724ed27a3de729c5b5f97fe8a039 | probe | docs/story
 DATE_LAYER_76f8_r3 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_date_layer_probe.py | index.html | 60 | CASES=D01,D12;WHO=heroine_02;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 # BB-C 01:11 GATE2 一盞 7_func 還沒驗到：一盞有賣（12～20、外帶冷泡茶 YIZHAN_TAKE）→ 補拍點一次、付錢、外帶一杯、走出來（cc_yizhan_take_probe DINE=1）
 YIZHAN_DINE_0c49 | 0c49bcf64ee779dc66efce1809455f57dfe0e010 | probe | docs/story_planning/test_tools/cc/cc_yizhan_take_probe.py | index.html | 20 | DINE=1;SHA=0c49bcf64ee779dc66efce1809455f57dfe0e010
+# 01:40 YIZHAN_DINE TEST_BUG：一盞的點茶互動點叫「喝茶」（kind tea），探針只找「點／櫃／茶單／買」→ r2；語彤當班時段大一上掃不到（照實記）
+YIZHAN_DINE_0c49_r2 | 0c49bcf64ee779dc66efce1809455f57dfe0e010 | probe | docs/story_planning/test_tools/cc/cc_yizhan_take_probe.py | index.html | 20 | DINE=1;SHA=0c49bcf64ee779dc66efce1809455f57dfe0e010
 # BB-C 01:32 GATE2 第二批補拍：① 木曜日 #1 有人（TEST_SETUP）→ 點到「有人了」換下一張；①～③ 改站二樓店內（SPAWN＝二樓 #1 走近點）補四鏡頭，⑤ 照例外；② 洋洋改 16:00（非尖峰）挑空位，展示台後店員排除（走道判斷放到 1.8 m）；③ 木曜日點餐沒扣錢先記（BB 問 LAWWW）
 GATE2_MOKUYOBI_2F_r2 | 0c49bcf64ee779dc66efce1809455f57dfe0e010 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=gate2_mokuyobi_2f;ZONES=wz_mokuyobi;HOURS=14;SPAWN=-1.46,5.42,1;NODEBUG=1;SHA=0c49bcf64ee779dc66efce1809455f57dfe0e010
 GATE2_YANGYANG_r2 | 0c49bcf64ee779dc66efce1809455f57dfe0e010 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=gate2_yangyang_r2;ZONES=yangyang;HOURS=16;NODEBUG=1;SHA=0c49bcf64ee779dc66efce1809455f57dfe0e010
