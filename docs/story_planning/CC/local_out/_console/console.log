@@ -1,11 +1,3 @@
-[01:15:17] worktree add fadf991b274be30ed67d9405bb52901c9bdc1643: invalid reference - fetching main and the commit itself
-[01:16:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 33 分／上限 600 分）、SHOP8_B3_c94f（已跑 12 分／上限 160 分）、L118_KDT_fadf（已跑 1 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
-[01:21:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 38 分／上限 600 分）、SHOP8_B3_c94f（已跑 17 分／上限 160 分）、L118_KDT_fadf（已跑 6 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
-[01:26:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 43 分／上限 600 分）、SHOP8_B3_c94f（已跑 22 分／上限 160 分）、L118_KDT_fadf（已跑 11 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
-[01:31:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 48 分／上限 600 分）、SHOP8_B3_c94f（已跑 27 分／上限 160 分）、L118_KDT_fadf（已跑 16 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
-[01:36:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 53 分／上限 600 分）、SHOP8_B3_c94f（已跑 32 分／上限 160 分）、L118_KDT_fadf（已跑 21 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
-[01:41:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 58 分／上限 600 分）、SHOP8_B3_c94f（已跑 37 分／上限 160 分）、L118_KDT_fadf（已跑 26 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
-[01:43:46] [res] cpu=1% mem=48% (15.4/31.4 GB) chrome_testing=10  END L118_KDT_fadf
     To https://github.com/pyhuanglaw/Lawstudent.git
        99900a8872..d91a42cfbf  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
@@ -1998,3 +1990,11 @@
 [15:10:56] [res] cpu=0% mem=31% (9.9/31.4 GB) chrome_testing=0  START WZ_REAL_r2
 [15:11:56] 正在跑：WZ_REAL_r2（已跑 1 分／上限 25 分）、LIN_REAL_r2（已跑 1 分／上限 40 分）、DATE35_AN（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:13:54] [res] cpu=3% mem=44% (14.0/31.4 GB) chrome_testing=9  END DATE35_AN
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3d8f6e5c19..9dcb10f3f1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:14:04] ==== END   DATE35_AN  exit=0  181s   ====
+[15:14:07] memory 45% before starting DATE35_ZQ (2 running)
+[15:14:07] ==== START DATE35_ZQ  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[15:14:10] [res] cpu=16% mem=46% (14.4/31.4 GB) chrome_testing=9  START DATE35_ZQ
+[15:16:14] [res] cpu=9% mem=48% (14.7/31.4 GB) chrome_testing=9  END DATE35_ZQ
