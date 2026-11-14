@@ -570,8 +570,10 @@
   {
    "zone": "tz_limao",
    "sha": "cd31cab639",
-   "verdict": "部分",
-   "fail": [],
+   "verdict": "FAIL",
+   "fail": [
+    "⑦a 店外立體 FAIL（BB-C 11-14 10:53，BB_379；D155 第 1 點）：從店外看進去是兩張平面窗卡 limao_win、limao_door，不是立體店內；S.REAL_DEP 沒有 limao｜LIMAO-REAL-VIEW-1114（LAWWW2：玻璃後面放立體店內，照溫特寶邸 S.REAL_VIEW＋REAL_DEP）"
+   ],
    "pending": [
     "GATE_NEW3 14:00 沒開被跳過——照營業時間重跑全項",
     "CC0 v1（LAWWW2 focused-cray cd31cab639）BB 看圖 PASS：書背有印刷、厚度不同；梯背椅取代方塊椅；水墨山水；白瓷茶具、紙燈籠、綠蘿；書房綠罩銀行燈、手稿——和概念圖從門看進去對得上",
@@ -580,8 +582,8 @@
     "CC0 第六批 v2.1（433ea3ed3b）BB 看圖：P2 牆面、玻璃櫃關——店內、書房、隔牆加 0.85 m 深色木腰板（上面照 11-10 定的平塗，tz_shops_unit 第 8 項）；玻璃櫃加瓷盤、茶杯、茶葉罐、櫃頂陶罐；整合後 CC 四鏡頭"
    ],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭；11-12 21:5x TZ_SIGN／TZ_DOOR_2330_edf2（df0db36693）：23:30 對街和門口——鐵捲門拉到地、招牌暗、看不到店內 PASS（洗樂 24 小時亮著＝對）",
-   "at": "2026-11-13T21:0xZ",
-   "ref": "BB_379 11-13 21:0x"
+   "at": "2026-11-14T10:53Z",
+   "ref": "BB_379 11-14 10:53"
   },
   {
    "zone": "us_asian_market",
