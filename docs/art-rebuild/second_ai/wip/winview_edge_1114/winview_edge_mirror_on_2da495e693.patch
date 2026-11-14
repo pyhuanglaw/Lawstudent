@@ -1,0 +1,36 @@
+diff --git a/src/world3d.js b/src/world3d.js
+index 4c62375c6a..3e98118dd4 100644
+--- a/src/world3d.js
++++ b/src/world3d.js
+@@ -179,7 +179,8 @@ const W3 = (function(){
+   function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)}, nmap:{value:null}, ndepth:{value:4}, near:{value:0}, map2:{value:null}, nmap2:{value:null}, near2:{value:0}, xf:{value:0} },
+     vertexShader:'varying vec3 vP; varying vec3 vC; varying vec2 vUv; void main(){ vP=position; vUv=uv; vC=(inverse(modelMatrix)*vec4(cameraPosition,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+     fragmentShader:'uniform sampler2D map; uniform sampler2D nmap; uniform sampler2D map2; uniform sampler2D nmap2; uniform vec3 tint; uniform float depth; uniform float ndepth; uniform float photo; uniform float near; uniform float near2; uniform float xf; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
+-      'void main(){ vec2 uv=vUv; vec4 nc=vec4(0.0); vec4 n2=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=clamp(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5),vec2(0.002),vec2(0.998));\n'+
++      'vec2 wvMirror(vec2 u){ u=1.0-abs(1.0-mod(u,2.0)); return clamp(u,vec2(0.002),vec2(0.998)); }\n'+   /* WINVIEW-EDGE-STRIPE-1114（BB_379）：照片外面原本 clamp 到邊上那一排像素（邊上有樹的時候拉成一條一條）→ 鏡像回來 */
++      'void main(){ vec2 uv=vUv; vec4 nc=vec4(0.0); vec4 n2=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=wvMirror(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5));\n'+
+       '  if(near>0.5||near2>0.5){ float tn=(ndepth+vC.z)/max(0.001,vC.z); vec2 hn=(vC.xy+d.xy*tn)*sxy; vec2 un=vec2(hn.x/(2.0*ndepth)+0.5,hn.y/ndepth+0.5); if(un.x>0.002&&un.x<0.998&&un.y>0.002&&un.y<0.998){ if(near>0.5) nc=texture2D(nmap,un); if(near2>0.5) n2=texture2D(nmap2,un); } } }\n'+
+       ' vec4 c=texture2D(map,uv); vec3 col=mix(c.rgb,nc.rgb,nc.a)*tint; if(xf>0.0){ vec4 c2=texture2D(map2,uv); col=mix(col,mix(c2.rgb,n2.rgb,n2.a),xf); } gl_FragColor=vec4(col,1.0);\n #include <colorspace_fragment>\n}',
+     toneMapped:false, fog:false }); }
+diff --git a/tests/winview_edge_mirror_1114_unit.js b/tests/winview_edge_mirror_1114_unit.js
+new file mode 100644
+index 0000000000..86a599dacf
+--- /dev/null
++++ b/tests/winview_edge_mirror_1114_unit.js
+@@ -0,0 +1,16 @@
++// WINVIEW-EDGE-STRIPE-1114（BB_379，LAWWW2-C 11-14）：視差窗景（W3.windowMat）看到照片外面時，不能把邊上那一排像素拉長成條紋。
++// 原本 uv=clamp(...)：照片邊上有樹（GG-STREET-TREES 以後的公館窗景）時，鏡頭往上、往旁邊看就變成一條一條的直紋、橫紋。
++// 改成鏡像（wvMirror）：照片外面照鏡像取樣。這支不開瀏覽器：讀 world3d.js 的 shader 字串，用 JS 照同一個公式算幾個點。
++const fs=require('fs'), path=require('path');
++const src=fs.readFileSync(path.join(__dirname,'..','src','world3d.js'),'utf8');
++let fail=0; const check=(n,ok,msg)=>{ console.log((ok?'PASS ':'FAIL ')+n+'　'+(msg||'')); if(!ok) fail++; };
++check('1 windowMat 的照片 uv 不再 clamp 到邊上', !/uv=clamp\(vec2\(h\.x\/\(2\.0\*depth\)/.test(src), '');
++check('2 有 wvMirror、照片 uv 經過它', /vec2 wvMirror\(vec2 u\)\{ u=1\.0-abs\(1\.0-mod\(u,2\.0\)\);/.test(src) && /uv=wvMirror\(vec2\(h\.x\/\(2\.0\*depth\)\+0\.5,h\.y\/depth\+0\.5\)\)/.test(src));
++// 同一個公式（GLSL mod＝x−y·floor(x/y)）
++const mod=(x,y)=>x-y*Math.floor(x/y), clamp=(x,a,b)=>Math.min(b,Math.max(a,x)), m=u=>clamp(1-Math.abs(1-mod(u,2)),0.002,0.998);
++const near=(a,b)=>Math.abs(a-b)<1e-9;
++check('3 照片裡面（0～1）照舊', near(m(0.3),0.3)&&near(m(0.75),0.75));
++check('4 超出上緣 1.1 → 0.9（鏡像，不是 0.998 那一排）', near(m(1.1),0.9), 'm(1.1)='+m(1.1));
++check('5 超出左緣 −0.2 → 0.2', near(m(-0.2),0.2), 'm(-0.2)='+m(-0.2));
++check('6 往外越多取樣點就跟著變（不會整片同一排像素）', m(1.05)!==m(1.2) && m(-0.05)!==m(-0.3));
++console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
