@@ -46,7 +46,7 @@ const sumAdj=(id,k)=>ADJ.filter(([w])=>w===id).reduce((s,[,d])=>s+(+d[k]||0),0);
     check('0. 稿的時間規格：04:00 出發、22:00 回到臺北、hours 18；2029-06-15～2029-10-31；第 N 天＝D0＋N−1、不數了＝D0＋36',/04:00 出發 → 22:00 回到臺北（hours 18）/.test(doc.hehuan.trip)&&doc.hehuan.when.includes('2029-06-15～2029-10-31')&&doc.zq_voice.when.includes('D0＋N−1')&&doc.zq_voice.when.includes('D0＋36')&&AA811.EV.hours===18&&AA811.HH.from==='2029-06-15'&&AA811.HH.to==='2029-10-31','');
   } else console.log('（跳過：讀不到 '+SHA+':'+DOC+'，企劃線沒 fetch）');
   const idx=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), iM=idx.indexOf('src/movies3d.js?v='), iL=idx.indexOf('src/data/aa811_lines.js?v='), iS=idx.indexOf('src/aa811_3d.js?v=');
-  check('0. index.html：aa811_lines.js、aa811_3d.js 在 movies3d.js 之後（同一個 ?v=）',iM>0&&iL>iM&&iS>iL&&idx.slice(iM,iS).split('?v=').length===3&&/aa811_3d\.js\?v=9\.10\.25/.test(idx),J([iM,iL,iS]));
+  check('0. index.html：aa811_lines.js、aa811_3d.js 在 movies3d.js 之後（同一個 ?v=）',iM>0&&iL>iM&&iS>iL&&idx.slice(iM,iS).split('?v=').length===3&&(m=>!!m&&idx.includes('src/aa811_3d.js?v='+m[1]+'"'))(/src\/movies3d\.js\?v=([0-9.]+)"/.exec(idx)),J([iM,iL,iS]));
   check('0. ev_sis_hehuan 登記在 STORY_EVENTS（trigger outing、hours 18）',STORY_EVENTS.some(x=>x.id==='ev_sis_hehuan'&&x.trigger==='outing'&&x.hours===18&&typeof x.beforeOuting==='function'),'');
 
   /* ---------- 1. 出不出現 ---------- */

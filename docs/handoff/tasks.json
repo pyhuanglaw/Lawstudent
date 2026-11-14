@@ -57329,13 +57329,26 @@
   {
    "id": "US-PIZZA-BG-1114",
    "title": "芝加哥深盤披薩背景圖（使用者生成）做好沒進遊戲",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "BB-C 11-14 11:12（BB_460 5ba9a5c3b2）",
-   "note": "assets/bg 有 chicago_pizza，沒有場景用到，只出現在手機照片文字。BB 問 AA 放在哪一句；AA 定了交 LAWWW 接。",
+   "note": "assets/bg 有 chicago_pizza，沒有場景用到，只出現在手機照片文字。BB 問 AA 放在哪一句；AA 定了交 LAWWW 接。｜11-14 11:2x LAWWW-C 照 AA_1023（企劃線 9e1c749e06）接：r2y4a_events.js ev_us_chicago 在「一路上，何俊朗說了好幾次…」前加 {scene:'芝加哥・深盤披薩',bg:'chicago_pizza'}＋nar（中午，何俊朗給的那家店…）；原本台詞不動。r2y4a 相關 Node 全過（aa553_grades 本來就紅，不是這次）。BB 二看中。",
    "first": {
     "term": "Y4S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "CI-RED-AA553-CANON4-1114",
+   "title": "node-unit-auto 一直紅的兩支：aa553_grades_unit 第 6 項、canon_batch4_1112_unit 第 2 項",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "LAWWW-C 11-14 11:2x 查 GHA（run 43539149053 01:37 就紅，這一班之前）",
+   "note": "aa553 第 6 項：可昕一起打開成績（大一上）高中低被當的句子；canon_batch4 第 2 項：她先說、想想、第二次。兩支都跟 D158 可昕重寫／AA_875 有關，懷疑和 RC2-PORT-DEV-1114（rc2 那 54 檔還沒合進開發分支）有關——下一班做 RC2-PORT 時一起看；合完還紅再個別修。這一班另外修了兩支新紅的：aa811 index 版本號寫死 9.10.25、singleside_streets 溫州街三角形（OFFBEAT-VIEW-P3 開窗）。",
+   "first": {
+    "term": "Y1S1",
     "confirmed": false
    }
   }
