@@ -1,12 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       6beb6174fd..0c513067c1  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[02:40:21] ==== END   CANON_NEWGAME_B2_r4  exit=1  1134s   ====
-[02:40:33] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[02:40:33] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[02:40:33] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[02:40:33] memory 48% before starting SHOP_B4_3cbd (2 running)
-[02:40:33] ==== START SHOP_B4_3cbd  (probe @ 3cbdf9ef839fcb47a7d9e8b6745a779ba31aed87) ====
 [02:40:36] [res] cpu=2% mem=48% (15.2/31.4 GB) chrome_testing=10  START SHOP_B4_3cbd
 [02:40:36] worktree add 3cbdf9ef839fcb47a7d9e8b6745a779ba31aed87: invalid reference - fetching main and the commit itself
 [02:41:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 118 分／上限 600 分）、L118_CAFE2_e23d（已跑 13 分／上限 60 分）、SHOP_B4_3cbd（已跑 1 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1989,12 @@
 [15:36:56] 正在跑：INVITE_PHONE_keju（已跑 2 分／上限 20 分）、TUTOR_BACK_r3（已跑 2 分／上限 25 分）、SUNNY_DOOR_walk_r2（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:36:56] [res] cpu=0% mem=46% (14.4/31.4 GB) chrome_testing=10  START SUNNY_DOOR_walk_r2
 [15:37:29] [res] cpu=2% mem=46% (14.4/31.4 GB) chrome_testing=9  END INVITE_PHONE_keju
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7453a2108f..c5f463b033  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:37:37] ==== END   INVITE_PHONE_keju  exit=1  205s   ====
+[15:37:40] memory 46% before starting INVITE_TZ_yue_r2 (2 running)
+[15:37:40] ==== START INVITE_TZ_yue_r2  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[15:37:43] [res] cpu=19% mem=39% (14.7/31.4 GB) chrome_testing=4  START INVITE_TZ_yue_r2
+[15:38:16] [res] cpu=4% mem=42% (13.1/31.4 GB) chrome_testing=8  END TUTOR_BACK_r3
+[15:38:17] D158：推送前把 6 處舊序章／外校的字換成代號
