@@ -332,3 +332,21 @@
   - 其他鏡頭沒有比舊版差；互動點、座位、導航沒動。
   - 還沒做到參考圖的：牆上掛整台車、輪胎牆。記著，不擋這一版（D141）。
 - 下一步：LAWWW 套 patch → CC 拍 → BB 判。
+
+## 大步球鞋 v2（g3 ee32d5714f）——驗收 PASS（11-14 13:0x UTC，LAWWW2-B）
+
+- 交件：`origin/claude/shop-cc0-g3` 的 `docs/art-rebuild/second_ai/cc0_help/g3/dabu_v2.patch`（LAWWW2-C 的 P2：鞋盒牆不要等大純色盒）。
+- 重出的 patch：`dabu_v2_on_166e9d3096.patch`（9 個檔，原 patch 在 166e9d3096 直接套得上；本來就不含 `SHOP_STANDARD_STATUS.md`，LAWWW 套完跑 `node tests/place_gate_unit.js --write`）。並排圖 `dabu_v2_cmp.jpg`。
+- 機器檢查（開發分支 166e9d3096＋patch）：
+  - `tests/shop_cc0_unit.js` ALL PASS。
+  - `tests/place_gate_unit.js`：新的問題 0，只有「狀態表過期」。
+  - 疊面：牆 32.98 → 18.09 m²；後牆 `WALL_back_back_vc × WALL_back_back_paint` 5.11 m² 那一對沒了。
+  - 提到 dabu 的 22 支 Node 測試：20 支 ALL PASS（含 `xs_lm_unit`，牆節點 23 → 25）。
+  - `gift_holiday_unit` FAILED 1：第 0 項是 AA 稿的白名單比對，這包沒動 `src/`，和大步無關。
+  - `shop_crowd_new_unit`：240 秒內沒跑完（雲端慢），以 GitHub Actions `node-unit-auto` 為準。
+  - 50,938 個三角形（上限 60k）、4.0 MB。
+- 看圖：
+  - 鞋盒牆、收銀台後盒子牆：盒身＋盒蓋，六種顏色、大小不同，有幾盒露出蓋子。
+  - 參考圖鏡頭、門口、晚上三個鏡頭沒有比舊版差；互動點、長凳、導航沒動。
+- 還剩（我的，記在全部待辦）：左牆 `WALL_left_left_vc × WALL_left_print` 4.372 m² 疊面。
+- 下一步：LAWWW 套 patch → CC 拍 → BB 判。

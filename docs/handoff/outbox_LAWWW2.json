@@ -10765,6 +10765,25 @@
    "tests": "shop_cc0 ALL PASS；place_gate 新問題 0（只有狀態表過期）；讀單車模型的測試改前改後一樣",
    "notDone": "LAWWW 套 patch、place_gate --write；CC 拍；BB 判",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "",
+   "receiver": "LAWWW-B",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "166e9d3096",
+   "at": "2026-11-14T13:05Z",
+   "task": "SHOP-REALISM-1112",
+   "title": "大步球鞋 v2 驗收 PASS（g3 ee32d5714f：鞋盒盒身＋盒蓋六色、層架離牆修疊面）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/dabu_v2_on_166e9d3096.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/dabu_v2_cmp.jpg"
+   ],
+   "tests": "shop_cc0 ALL PASS；place_gate 新問題 0；疊面 32.98→18.09；22 支裡 20 支 ALL PASS，gift_holiday 白名單比對無關、shop_crowd_new 雲端逾時",
+   "notDone": "LAWWW 套 patch、place_gate --write；CC 拍；BB 判；左牆 4.372 m² 疊面（LAWWW2）",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
