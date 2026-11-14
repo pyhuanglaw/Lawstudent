@@ -1512,3 +1512,11 @@
 [17:49:17] ==== START ANNIV_Y2_rel_rc2e  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
 [17:49:21] [res] cpu=46% mem=52% (16.3/31.4 GB) chrome_testing=10  START ANNIV_Y2_rel_rc2e
 [17:50:04] [res] cpu=21% mem=51% (16.1/31.4 GB) chrome_testing=9  END RC2E_TITLE_SMOKE
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       65efd91e3c..2344da48e9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:50:13] ==== END   RC2E_TITLE_SMOKE  exit=0  249s   ====
+[17:50:16] memory 53% before starting REL76_ladder_r2_rc2e (2 running)
+[17:50:16] ==== START REL76_ladder_r2_rc2e  (game @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
+[17:50:19] [res] cpu=20% mem=54% (16.9/31.4 GB) chrome_testing=9  START REL76_ladder_r2_rc2e
+[17:50:47] [res] cpu=20% mem=47% (14.7/31.4 GB) chrome_testing=8  END RC2E_p0
