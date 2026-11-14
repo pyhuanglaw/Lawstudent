@@ -18,6 +18,13 @@
 
 五間的建模腳本都已經改好、推上去（`tools/blender/env_second/bb_support/*_interior.py`＋共用 `cc0_kit.py`）；用腳本重建、還沒烘的原檔都過了店自己的單元測試、`shop_cc0_unit` 三項（LICENSES 列加上以後）。
 
+## 交班（2026-11-14 02:05 UTC，使用者「現在換班」）
+- 停在：大口 v2 一樓正在烘（被我停掉、沒烘完；assets 沒有被改）。好拍 v2、大步 v2 排隊中（也停了）。**v2 三間都還沒烘、沒交。**
+- 已交、等驗收／整合：同弦 tongxian（768816c33c，tongxian.patch 底 2da495e693）、glb_coplanar instancing（edb96e33ec，coplanar_instancing.patch 底 2da495e693）。兩包誰後整合，後整合的要重跑 `--coplanar`（同弦那包的基準是舊工具算的）。
+- 已整合：大步（884f09a7c3）、大口一二樓（2da495e693）、好拍（LAWWW2 b5410f8654）。新生運動 LAWWW2-C 接手。
+- 本機（scratchpad，容器重開會不見；都能重做）：v2 的還沒烘原檔（dakou/v2、haopai/v2/haopai_v2_b.glb、dabu/v2）、大口 v2 的「改之前」近景（dakou/old_v2）、各店改之前截圖、鏡頭 json。開發分支 worktree 已拿掉。
+- 接手的人：v2 從「用腳本重建」開始（腳本在分支上：dakou_interior.py、haopai_interior.py、dabu_interior.py 都是 v2 版）；好拍要做洞洞板兩步、用修正過的 bake_xs.sh 好拍段；大口二樓烘完 glb_fix_instnames 會對不上 `dakou_2f.23`（手動補 lm.json）。交件前在開發分支 worktree 跑 place_gate（不加參數）、再 --coplanar（只准變少），patch 用 `git diff --cached --summary` 看 mode。
+
 ## v2（02:2x 起；烘焙佇列：大口一樓 → 大口二樓 → 好拍 → 大步）
 - 大口 v2（83cf92994c＋2d…）：一樓層架紙杯／PH 紙箱／餐巾紙；二樓課本（封面板、書背、書口）、紙袋（提把、摺邊）、筆電（鍵、觸控板）；課本不疊、書名離書背 1.5 mm。新工具算：一樓 3.67、二樓 2.12（都比整合版少）。對照圖要加「一樓櫃檯後層架近看」「二樓長桌近看」（改之前已拍：scratchpad dakou/old_v2）。
 - 好拍 v2（bce9db7e47）：後段鐵架紙箱換 PH cardboard_box_01（大小照格子、角度偏一點）；做完照 README 洞洞板兩步；疊面 11.68→11.62。
