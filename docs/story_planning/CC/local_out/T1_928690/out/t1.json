@@ -1,0 +1,1733 @@
+{
+ "root": "C:\\Users\\USER\\Documents\\wt_cc_T1_928690",
+ "track": "law",
+ "from": "2025-08-22",
+ "to": "2026-06-30",
+ "ms": 3019057,
+ "results": [
+  {
+   "seed": 1,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 27328,
+   "frames": 530751,
+   "vms": 95386100,
+   "pages": 15,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 15,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 175,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 350,
+     "ex": "unknown asset prop.bike_ride（2025-08-30 07:47 lane118）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 5,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-03 08:02 dorm）",
+     "all": [
+      {
+       "at": "2025-09-03 08:02",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#536 f8805 2025-09-03 08:02 dorm｜走去床底下的紙箱（0.8 m）",
+        "#536 f8807 2025-09-03 08:02 dorm｜（提示）第一、二天先跟著劇情走",
+        "#537 f8810 2025-09-03 08:02 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-09-29 18:52",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#3224 f56223 2025-09-29 18:51 dorm｜選單（2 個）：自己走過去",
+        "#3225 f56234 2025-09-29 18:52 dorm｜走去阿凱（2.2 m）",
+        "#3226 f56244 2025-09-29 18:52 dorm｜按互動：和阿凱說話（想找 阿凱）"
+       ]
+      },
+      {
+       "at": "2025-10-08 20:52",
+       "zone": "cafe",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和林芷若說話",
+       "last": [
+        "#4216 f75275 2025-10-08 20:49 cafe｜（提示）走了 15 分鐘到2:30 AM",
+        "#4217 f75280 2025-10-08 20:49 cafe｜走去林芷若（10.5 m）",
+        "#4218 f75349 2025-10-08 20:52 cafe｜按互動：和林芷若說話（想找 林芷若）"
+       ]
+      },
+      {
+       "at": "2025-11-28 12:11",
+       "zone": "putong",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和沛珊說話",
+       "last": [
+        "#9175 f178911 2025-11-28 12:10 putong｜點對話：……我去買咖啡。",
+        "#9176 f178914 2025-11-28 12:10 putong｜走去沛珊（4.1 m）",
+        "#9177 f178937 2025-11-28 12:11 putong｜按互動：和沛珊說話（想找 沛珊）"
+       ]
+      },
+      {
+       "at": "2026-04-20 20:11",
+       "zone": "cafe",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和溫學姊說話",
+       "last": [
+        "#20602 f398198 2026-04-20 20:10 cafe｜收起手機",
+        "#20603 f398199 2026-04-20 20:10 cafe｜走去溫學姊（3.9 m）",
+        "#20604 f398221 2026-04-20 20:11 cafe｜按互動：和溫學姊說話（想找 溫學姊）"
+       ]
+      }
+     ]
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 19,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-04 18:45 cafe）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-04 22:26 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗",
+     "n": 34,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-05 22:04 gongguan）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 8,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-17 15:15 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型",
+     "n": 4,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-11-07 19:56 wz_offbeat）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2511a.webp",
+     "n": 2,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2511a.webp（2025-11-22 20:36 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2511b.webp",
+     "n": 2,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2511b.webp（2025-11-22 20:36 xs_nanyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-09 20:50 bookstore）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：小路 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-31 21:41 wz_teishoku）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-15 22:19 noodle）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：林家乾麵 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-29 20:04 wz_lin）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-05-09 19:08 yangyang）"
+    }
+   ],
+   "missingE": [
+    "simWalk×31",
+    "preObjs×10"
+   ],
+   "persona": {
+    "classP": 0.46377366874367,
+    "lateP": 0.21738413767889142,
+    "phoneP": 0.34350345729617404,
+    "talkP": 0.24267076239921154,
+    "reloadP": 0.002,
+    "snapP": 0.0025,
+    "midReloadP": 0.0002
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 180,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 79,
+    "money": 323750,
+    "stage": "law",
+    "contacts": 6,
+    "invites": 56,
+    "invDone": 18,
+    "goingSeen": 0,
+    "msgs": 200
+   },
+   "ms": 1369305
+  },
+  {
+   "seed": 2,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 23120,
+   "frames": 490472,
+   "vms": 91104200,
+   "pages": 38,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 38,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 203,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 209,
+     "ex": "unknown asset prop.bike_ride（2025-09-01 08:29 campus）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 2,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-03 07:54 dorm）",
+     "all": [
+      {
+       "at": "2025-09-03 07:54",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#622 f10136 2025-09-03 07:54 dorm｜（提示）第一、二天先跟著劇情走",
+        "#623 f10139 2025-09-03 07:54 dorm｜走去床底下的紙箱（1.4 m）",
+        "#624 f10148 2025-09-03 07:54 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-09-28 21:01",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#3533 f73704 2025-09-28 20:58 dorm｜等一下（5 秒）",
+        "#3534 f73720 2025-09-28 21:00 dorm｜走去阿凱（2.5 m）",
+        "#3535 f73732 2025-09-28 21:01 dorm｜按互動：和阿凱說話（想找 阿凱）"
+       ]
+      }
+     ]
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗",
+     "n": 31,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-18 20:22 gongguan）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型",
+     "n": 6,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-14 20:37 noodle）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 6,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-30 15:44 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 4,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-30 22:01 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 6,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-11-03 17:45 cafe）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型",
+     "n": 4,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-19 20:00 wz_offbeat）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-02-17 20:32 yangyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-04-19 20:36 aoki）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-05-09 21:19 bookstore）"
+    }
+   ],
+   "missingE": [
+    "preObjs×17",
+    "simWalk×15"
+   ],
+   "persona": {
+    "classP": 0.6224826826713978,
+    "lateP": 0.30833350704051554,
+    "phoneP": 0.18275897033745422,
+    "talkP": 0.27617373878601936,
+    "reloadP": 0.002,
+    "snapP": 0.0025,
+    "midReloadP": 0.001
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 175,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 55,
+    "money": 304960,
+    "stage": "law",
+    "contacts": 6,
+    "invites": 53,
+    "invDone": 15,
+    "goingSeen": 3,
+    "msgs": 200
+   },
+   "ms": 1142603
+  },
+  {
+   "seed": 3,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 25018,
+   "frames": 557912,
+   "vms": 102970000,
+   "pages": 54,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 54,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 303,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 256,
+     "ex": "unknown asset prop.bike_ride（2025-09-03 08:09 campus）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 10,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-06 20:01 dorm）",
+     "all": [
+      {
+       "at": "2025-09-06 20:01",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#954 f18512 2025-09-06 08:19 dorm｜手機：等到晚上（20:00）",
+        "#955 f18528 2025-09-06 20:00 dorm｜走去床底下的紙箱（1.8 m）",
+        "#956 f18540 2025-09-06 20:01 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-09-26 20:01",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#2681 f54255 2025-09-26 20:00 dorm｜收起手機",
+        "#2682 f54256 2025-09-26 20:00 dorm｜走去阿凱（2.7 m）",
+        "#2683 f54269 2025-09-26 20:01 dorm｜按互動：和阿凱說話（想找 阿凱）"
+       ]
+      },
+      {
+       "at": "2025-10-05 08:37",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#3493 f69604 2025-10-05 08:36 dorm｜按互動：（旁邊沒有東西）（想找 柏翰）",
+        "#3494 f69607 2025-10-05 08:36 dorm｜走去床底下的紙箱（2.9 m）",
+        "#3495 f69627 2025-10-05 08:37 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-10-22 20:34",
+       "zone": "cafe",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和店員說話",
+       "last": [
+        "#5046 f105599 2025-10-22 20:34 cafe｜收起手機",
+        "#5047 f105600 2025-10-22 20:34 cafe｜走去不認識的女生（3.3 m）",
+        "#5048 f105618 2025-10-22 20:34 cafe｜按互動：和店員說話（想找 不認識的女生）"
+       ]
+      },
+      {
+       "at": "2025-11-06 09:15",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#6274 f134076 2025-11-06 09:05 dorm｜等一下（25 秒）",
+        "#6275 f134160 2025-11-06 09:15 dorm｜走去床底下的紙箱（1.8 m）",
+        "#6276 f134172 2025-11-06 09:15 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-11-15 07:34",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#6897 f149276 2025-11-14 23:26 dorm｜等一下（5 秒）",
+        "#6898 f149364 2025-11-15 07:33 dorm｜走去床底下的紙箱（1.8 m）",
+        "#6899 f149376 2025-11-15 07:34 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-11-15 07:42",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#6903 f149393 2025-11-15 07:34 dorm｜等一下（21 秒）",
+        "#6904 f149463 2025-11-15 07:42 dorm｜走去床底下的紙箱（0.2 m）",
+        "#6905 f149464 2025-11-15 07:42 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-11-15 08:06",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#6913 f149592 2025-11-15 07:55 dorm｜等一下（28 秒）",
+        "#6914 f149686 2025-11-15 08:06 dorm｜走去床底下的紙箱（0.2 m）",
+        "#6915 f149687 2025-11-15 08:06 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2026-01-23 21:42",
+       "zone": "gongguan",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和賴宥辰說話",
+       "last": [
+        "#12064 f267786 2026-01-23 21:26 gongguan｜走去賴宥辰（138.3 m）",
+        "#12064 f267887 2026-01-23 21:30 gongguan｜（提示）手機｜溫書瑀（直屬）：今天閉館以後，可以嗎。",
+        "#12065 f268190 2026-01-23 21:42 gongguan｜按互動：和賴宥辰說話（想找 賴宥辰）"
+       ]
+      },
+      {
+       "at": "2026-05-11 20:55",
+       "zone": "wancai",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和不認識的女生說話",
+       "last": [
+        "#20542 f451892 2026-05-11 20:52 wancai｜按互動：樓梯間（往 3F 以上）",
+        "#20543 f451894 2026-05-11 20:52 wancai｜走去不認識的女生（12.1 m）",
+        "#20544 f451975 2026-05-11 20:55 wancai｜按互動：和不認識的女生說話（想找 不認識的女生）"
+       ]
+      }
+     ]
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 9,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-08 12:30 cafe）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 7,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-18 15:25 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗",
+     "n": 43,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-18 21:08 gongguan）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-19 21:02 yangyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 4,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-19 22:14 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-23 20:38 noodle）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：小路 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-01 21:52 wz_teishoku）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-09 18:21 aoki）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：一盞 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-24 14:08 wz_teahouse）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-31 21:34 wz_print）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：Daybreak 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-05-31 09:05 daybreak）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-06-10 21:25 bookstore）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：SUNNY SIDE 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-06-14 12:00 wz_brunch）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：轉角唱片 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-06-17 20:17 corner_records）"
+    }
+   ],
+   "missingE": [
+    "preObjs×27",
+    "simWalk×6"
+   ],
+   "persona": {
+    "classP": 0.6326218867674469,
+    "lateP": 0.3484894384164363,
+    "phoneP": 0.1522309526684694,
+    "talkP": 0.43800013547297567,
+    "reloadP": 0.0004,
+    "snapP": 0.0025,
+    "midReloadP": 0.001
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 178,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 65,
+    "money": 304430,
+    "stage": "law",
+    "contacts": 7,
+    "invites": 41,
+    "invDone": 17,
+    "goingSeen": 0,
+    "msgs": 200
+   },
+   "ms": 1481058
+  },
+  {
+   "seed": 4,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 28160,
+   "frames": 555033,
+   "vms": 100952800,
+   "pages": 36,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 36,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 233,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 337,
+     "ex": "unknown asset prop.bike_ride（2025-08-29 22:55 lane118）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗",
+     "n": 26,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-03 15:18 gongguan）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 9,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-03 16:04 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 14,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-03 20:28 cafe）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.GG3_REN",
+     "n": 1,
+     "ex": "G.flags.GG3_REN：undefined → true（2025-09-04 19:31 classroom）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772",
+     "n": 1,
+     "ex": "G.l118.mv772：undefined → 2（2025-09-04 19:31 classroom）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-22 22:32 cvs）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 7,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-10-07 08:24 dorm）",
+     "all": [
+      {
+       "at": "2025-10-07 08:24",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#4230 f84767 2025-10-07 08:21 dorm｜選單（2 個）：起床",
+        "#4231 f84790 2025-10-07 08:24 dorm｜走去床底下的紙箱（1.8 m）",
+        "#4232 f84802 2025-10-07 08:24 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-10-23 15:12",
+       "zone": "classroom",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和芯慈說話",
+       "last": [
+        "#5933 f122034 2025-10-23 13:27 classroom｜點對話：柏翰：「法源、主體、能力、宣告、法人。五段。」",
+        "#5934 f122048 2025-10-23 15:10 classroom｜走去芯慈（7.5 m）",
+        "#5935 f122096 2025-10-23 15:12 classroom｜按互動：和芯慈說話（想找 芯慈）"
+       ]
+      },
+      {
+       "at": "2025-10-24 20:43",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#6088 f124448 2025-10-24 20:43 dorm｜收起手機",
+        "#6089 f124449 2025-10-24 20:43 dorm｜走去阿凱（1.7 m）",
+        "#6090 f124455 2025-10-24 20:43 dorm｜按互動：和阿凱說話（想找 阿凱）"
+       ]
+      },
+      {
+       "at": "2025-12-18 15:11",
+       "zone": "classroom",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和沛珊說話",
+       "last": [
+        "#10835 f213464 2025-12-18 15:10 classroom｜選單（2 個）：「這次不行。」",
+        "#10836 f213470 2025-12-18 15:10 classroom｜走去坐下（3.5 m）",
+        "#10837 f213494 2025-12-18 15:11 classroom｜按互動：和沛珊說話"
+       ]
+      },
+      {
+       "at": "2026-03-29 20:20",
+       "zone": "campus",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和小安說話",
+       "last": [
+        "#18766 f375694 2026-03-29 20:10 campus｜（提示）走了 10 分鐘到博思教學館",
+        "#18767 f375696 2026-03-29 20:11 campus｜走去小安（79.5 m）",
+        "#18768 f375928 2026-03-29 20:20 campus｜按互動：和小安說話（想找 小安）"
+       ]
+      },
+      {
+       "at": "2026-04-23 21:51",
+       "zone": "cafe",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和林芷若說話",
+       "last": [
+        "#21046 f418374 2026-04-23 21:40 cafe｜等一下（25 秒）",
+        "#21047 f418459 2026-04-23 21:50 cafe｜走去林芷若（2.2 m）",
+        "#21048 f418469 2026-04-23 21:51 cafe｜按互動：和林芷若說話（想找 林芷若）"
+       ]
+      },
+      {
+       "at": "2026-06-08 09:22",
+       "zone": "classroom",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和明軒說話",
+       "last": [
+        "#26024 f517496 2026-06-08 09:22 classroom｜（提示）已讀取",
+        "#26025 f517498 2026-06-08 09:22 classroom｜走去教室的座位（憲法（下））（2.6 m）",
+        "#26026 f517515 2026-06-08 09:22 classroom｜按互動：和明軒說話"
+       ]
+      }
+     ]
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-19 15:38 wz_offbeat）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型",
+     "n": 6,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-13 22:07 noodle）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2511a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2511a.webp（2025-12-18 22:17 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2511b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2511b.webp（2025-12-18 22:17 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2601a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2601a.webp（2026-01-23 22:53 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2601b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2601b.webp（2026-01-23 22:53 xs_nanyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-05-13 21:52 yangyang）"
+    }
+   ],
+   "missingE": [
+    "simWalk×21",
+    "preObjs×21"
+   ],
+   "persona": {
+    "classP": 0.7381081443279982,
+    "lateP": 0.4967426680959761,
+    "phoneP": 0.3359323764801957,
+    "talkP": 0.24072168618440629,
+    "reloadP": 0.0004,
+    "snapP": 0.0025,
+    "midReloadP": 0.001
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 196,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 86,
+    "money": 303925,
+    "stage": "law",
+    "contacts": 8,
+    "invites": 51,
+    "invDone": 17,
+    "goingSeen": 2,
+    "msgs": 200
+   },
+   "ms": 1454916
+  },
+  {
+   "seed": 5,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 24018,
+   "frames": 508028,
+   "vms": 92450000,
+   "pages": 40,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 40,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 279,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 236,
+     "ex": "unknown asset prop.bike_ride（2025-08-29 16:15 campus）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.ROMANCE_HISTORY",
+     "n": 1,
+     "ex": "G.flags.ROMANCE_HISTORY：undefined → []（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.CLEANUP_DONE",
+     "n": 1,
+     "ex": "G.flags.CLEANUP_DONE：undefined → true（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.romance",
+     "n": 1,
+     "ex": "G.flags.romance：undefined → {\"kexin\":{\"status\":\"none\",\"since\":null,\"knows\":[],\"suspicion\":0,\"history\":[]}}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.knowsRel_V",
+     "n": 1,
+     "ex": "G.flags.knowsRel_V：undefined → 1（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.knowsRel",
+     "n": 1,
+     "ex": "G.flags.knowsRel：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.ytKnows",
+     "n": 1,
+     "ex": "G.flags.ytKnows：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_CONFESSED",
+     "n": 1,
+     "ex": "G.flags.YT_CONFESSED：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_PROMISED",
+     "n": 1,
+     "ex": "G.flags.YT_PROMISED：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_BROKE_PROMISE",
+     "n": 1,
+     "ex": "G.flags.YT_BROKE_PROMISE：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_LIED",
+     "n": 1,
+     "ex": "G.flags.YT_LIED：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.OPEN_OK",
+     "n": 1,
+     "ex": "G.flags.OPEN_OK：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_HONEST",
+     "n": 1,
+     "ex": "G.flags.YT_HONEST：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_DODGED",
+     "n": 1,
+     "ex": "G.flags.YT_DODGED：undefined → {}（2025-08-30 12:01 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 7,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-06 19:07 afar）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772",
+     "n": 1,
+     "ex": "G.l118.mv772：undefined → 2（2025-09-20 20:08 dorm_hall）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗",
+     "n": 25,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-22 20:43 gongguan）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 14,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-30 18:51 cafe）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 9,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-10-05 12:01 dorm）",
+     "all": [
+      {
+       "at": "2025-10-05 12:01",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#3438 f71842 2025-10-05 07:34 dorm｜手機：等到中午（12:00）",
+        "#3439 f71859 2025-10-05 12:00 dorm｜走去床底下的紙箱（1.8 m）",
+        "#3440 f71871 2025-10-05 12:01 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-10-16 20:57",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#4331 f93838 2025-10-16 20:56 dorm_hall｜按互動：回房間（203）",
+        "#4332 f93855 2025-10-16 20:56 dorm｜走去阿凱（2.5 m）",
+        "#4333 f93867 2025-10-16 20:57 dorm｜按互動：和阿凱說話（想找 阿凱）"
+       ]
+      },
+      {
+       "at": "2025-11-11 18:39",
+       "zone": "campus",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和小安說話",
+       "last": [
+        "#6701 f150436 2025-11-11 18:31 campus｜按互動：（旁邊沒有東西）",
+        "#6702 f150438 2025-11-11 18:31 campus｜走去小安（70.9 m）",
+        "#6703 f150644 2025-11-11 18:39 campus｜按互動：和小安說話（想找 小安）"
+       ]
+      },
+      {
+       "at": "2025-11-11 20:44",
+       "zone": "cafe",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和溫學姊說話",
+       "last": [
+        "#6741 f152043 2025-11-11 20:42 cafe｜收起手機",
+        "#6742 f152044 2025-11-11 20:42 cafe｜走去溫學姊（6.3 m）",
+        "#6743 f152083 2025-11-11 20:44 cafe｜按互動：和溫學姊說話（想找 溫學姊）"
+       ]
+      },
+      {
+       "at": "2026-01-02 22:17",
+       "zone": "gongguan",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和賴宥辰說話",
+       "last": [
+        "#10973 f234926 2026-01-02 22:10 gongguan｜收起手機",
+        "#10974 f234927 2026-01-02 22:10 gongguan｜走去賴宥辰（62.0 m）",
+        "#10975 f235107 2026-01-02 22:17 gongguan｜按互動：和賴宥辰說話（想找 賴宥辰）"
+       ]
+      },
+      {
+       "at": "2026-01-06 20:32",
+       "zone": "cafe",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和林芷若說話",
+       "last": [
+        "#11255 f239029 2026-01-06 20:31 cafe｜（提示）走了 30 分鐘到2:30 AM",
+        "#11256 f239035 2026-01-06 20:32 cafe｜走去林芷若（1.1 m）",
+        "#11257 f239037 2026-01-06 20:32 cafe｜按互動：和林芷若說話（想找 林芷若）"
+       ]
+      },
+      {
+       "at": "2026-03-20 21:08",
+       "zone": "cafe",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和林芷若說話",
+       "last": [
+        "#15963 f347132 2026-03-20 21:05 cafe｜收起手機",
+        "#15964 f347133 2026-03-20 21:05 cafe｜走去林芷若（10.5 m）",
+        "#15965 f347202 2026-03-20 21:07 cafe｜按互動：和林芷若說話（想找 林芷若）"
+       ]
+      },
+      {
+       "at": "2026-03-21 19:38",
+       "zone": "tz_keju",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#16028 f347883 2026-03-21 19:38 tz_keju｜點對話：（位子有點擠，你們的膝蓋碰在一起。她往旁邊挪了一點，又挪回來。）",
+        "#16029 f347888 2026-03-21 19:38 tz_keju｜點對話：好，我回去打遊戲了。",
+        "#16030 f347893 2026-03-21 19:38 tz_keju｜點對話：好，我回去打遊戲了。"
+       ]
+      },
+      {
+       "at": "2026-04-27 20:16",
+       "zone": "wancai",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和不認識的女生說話",
+       "last": [
+        "#19074 f405627 2026-04-27 20:16 wancai｜（提示）走了 15 分鐘到法律系館B（大廳）",
+        "#19075 f405631 2026-04-27 20:16 wancai｜走去不認識的女生（3.3 m）",
+        "#19076 f405649 2026-04-27 20:16 wancai｜按互動：和不認識的女生說話（想找 不認識的女生）"
+       ]
+      }
+     ]
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 8,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-31 21:19 bookstore）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-11 10:04 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：SUNNY SIDE 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-11 10:24 wz_brunch）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2601a.webp",
+     "n": 2,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2601a.webp（2026-01-31 21:54 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2601b.webp",
+     "n": 2,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2601b.webp（2026-01-31 21:54 xs_nanyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-02-16 20:09 wz_offbeat）"
+    },
+    {
+     "k": "對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）",
+     "n": 1,
+     "ex": "一句話還沒點，另一段的話蓋上來，演完會放回去（2026-03-21 19:38 tz_keju）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2605a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2605a.webp（2026-05-13 21:42 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2605b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2605b.webp（2026-05-13 21:42 xs_nanyang）"
+    }
+   ],
+   "missingE": [
+    "preObjs×22",
+    "simWalk×20"
+   ],
+   "persona": {
+    "classP": 0.8695316831115633,
+    "lateP": 0.16559403319843113,
+    "phoneP": 0.21148880475666373,
+    "talkP": 0.21510782754048707,
+    "reloadP": 0.002,
+    "snapP": 0.0025,
+    "midReloadP": 0.001
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 192,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 79,
+    "money": 301485,
+    "stage": "law",
+    "contacts": 8,
+    "invites": 42,
+    "invDone": 16,
+    "goingSeen": 1,
+    "msgs": 200
+   },
+   "ms": 1309506
+  },
+  {
+   "seed": 6,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 25670,
+   "frames": 495657,
+   "vms": 90689400,
+   "pages": 17,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 17,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 193,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 259,
+     "ex": "unknown asset prop.bike_ride（2025-08-30 20:33 lane118）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772",
+     "n": 1,
+     "ex": "G.l118.mv772：undefined → 2（2025-09-03 12:39 l118_korea）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 8,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-07 19:06 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗",
+     "n": 32,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-07 20:31 gongguan）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-07 20:36 bookstore）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型",
+     "n": 7,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-01 21:33 noodle）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 10,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-09 15:35 cafe）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 6,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話（2025-10-10 21:24 dorm）",
+     "all": [
+      {
+       "at": "2025-10-10 21:24",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#4728 f86443 2025-10-10 21:18 dorm｜等一下（15 秒）",
+        "#4729 f86494 2025-10-10 21:24 dorm｜走去阿凱（2.7 m）",
+        "#4730 f86507 2025-10-10 21:24 dorm｜按互動：和阿凱說話（想找 阿凱）"
+       ]
+      },
+      {
+       "at": "2025-10-18 08:04",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#5498 f99416 2025-10-18 07:33 dorm｜選單（6 個）：小睡 30 分鐘睡到 08:03",
+        "#5499 f99445 2025-10-18 08:04 dorm｜走去床底下的紙箱（0.6 m）",
+        "#5500 f99448 2025-10-18 08:04 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-10-29 20:31",
+       "zone": "wenzhou",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和沛珊說話",
+       "last": [
+        "#6736 f122574 2025-10-29 20:30 wenzhou｜收起手機",
+        "#6737 f122575 2025-10-29 20:30 wenzhou｜走去沛珊（1.1 m）",
+        "#6738 f122577 2025-10-29 20:31 wenzhou｜按互動：和沛珊說話（想找 沛珊）"
+       ]
+      },
+      {
+       "at": "2025-11-12 09:20",
+       "zone": "classroom",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和柏翰說話",
+       "last": [
+        "#8335 f152420 2025-11-12 09:20 classroom｜（提示）已讀取",
+        "#8336 f152422 2025-11-12 09:20 classroom｜走去柏翰（1.0 m）",
+        "#8337 f152423 2025-11-12 09:20 classroom｜按互動：和柏翰說話（想找 柏翰）"
+       ]
+      },
+      {
+       "at": "2025-11-20 21:18",
+       "zone": "wancai",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和沛珊說話",
+       "last": [
+        "#9226 f170378 2025-11-20 21:17 wancai｜收起手機",
+        "#9227 f170379 2025-11-20 21:17 wancai｜走去沛珊（3.3 m）",
+        "#9228 f170397 2025-11-20 21:18 wancai｜按互動：和沛珊說話（想找 沛珊）"
+       ]
+      },
+      {
+       "at": "2025-12-18 13:44",
+       "zone": "classroom",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和芯慈說話",
+       "last": [
+        "#11855 f218943 2025-12-18 13:22 classroom｜選單（3 個）：坐一下，看看四周時間 +20 分鐘",
+        "#11856 f218965 2025-12-18 13:42 classroom｜走去芯慈（7.8 m）",
+        "#11857 f219015 2025-12-18 13:44 classroom｜按互動：和芯慈說話（想找 芯慈）"
+       ]
+      }
+     ]
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型",
+     "n": 6,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-19 20:15 wz_offbeat）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2511a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2511a.webp（2025-12-20 20:34 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2511b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2511b.webp（2025-12-20 20:34 xs_nanyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-21 20:07 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：小路 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-30 18:17 wz_teishoku）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：林家乾麵 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-02-01 20:04 wz_lin）"
+    },
+    {
+     "k": "選單重疊：一個選單蓋在另一個還沒選的選單上",
+     "n": 1,
+     "ex": "選單蓋在另一個還沒選的選單上，選完會放回去（2026-03-17 11:31 dorm）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2603a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2603a.webp（2026-03-21 21:42 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2603b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2603b.webp（2026-03-21 21:42 xs_nanyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：SUNNY SIDE 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-04-12 12:25 wz_brunch）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：一盞 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-04-12 17:43 wz_teahouse）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2605a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2605a.webp（2026-05-28 22:47 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2605b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2605b.webp（2026-05-28 22:47 xs_nanyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-06-27 20:53 aoki）"
+    }
+   ],
+   "missingE": [
+    "simWalk×18",
+    "preObjs×14"
+   ],
+   "persona": {
+    "classP": 0.6852693229913711,
+    "lateP": 0.12079071055632085,
+    "phoneP": 0.2691934322123416,
+    "talkP": 0.344080465217121,
+    "reloadP": 0.002,
+    "snapP": 0.0025,
+    "midReloadP": 0.0002
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 188,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 76,
+    "money": 322205,
+    "stage": "law",
+    "contacts": 7,
+    "invites": 48,
+    "invDone": 18,
+    "goingSeen": 1,
+    "msgs": 200
+   },
+   "ms": 1117946
+  },
+  {
+   "seed": 7,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 29108,
+   "frames": 550194,
+   "vms": 97430600,
+   "pages": 40,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 40,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 325,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 361,
+     "ex": "unknown asset prop.bike_ride（2025-08-30 20:18 lane118）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗",
+     "n": 31,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-04 08:46 gongguan）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-04 09:24 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 16,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-10 17:35 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 14,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-20 19:20 cafe）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 12,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話（2025-09-27 20:02 dorm）",
+     "all": [
+      {
+       "at": "2025-09-27 20:02",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#3465 f64314 2025-09-27 20:01 dorm｜選單（2 個）：就這樣",
+        "#3466 f64321 2025-09-27 20:01 dorm｜走去阿凱（1.9 m）",
+        "#3467 f64329 2025-09-27 20:02 dorm｜按互動：和阿凱說話（想找 阿凱）"
+       ]
+      },
+      {
+       "at": "2025-10-15 10:05",
+       "zone": "classroom",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和柏翰說話",
+       "last": [
+        "#5123 f97868 2025-10-15 09:58 classroom｜等一下（15 秒）",
+        "#5124 f97920 2025-10-15 10:04 classroom｜走去柏翰（4.7 m）",
+        "#5125 f97948 2025-10-15 10:05 classroom｜按互動：和柏翰說話（想找 柏翰）"
+       ]
+      },
+      {
+       "at": "2025-11-24 20:36",
+       "zone": "wancai",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和不認識的女生說話",
+       "last": [
+        "#9523 f185379 2025-11-24 20:33 wancai｜按互動：法律服務中心",
+        "#9524 f185381 2025-11-24 20:33 wancai｜走去不認識的女生（10.6 m）",
+        "#9525 f185451 2025-11-24 20:35 wancai｜按互動：和不認識的女生說話（想找 不認識的女生）"
+       ]
+      },
+      {
+       "at": "2025-11-25 11:40",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#9627 f186525 2025-11-25 11:40 dorm｜（提示）提醒：12:10 和Alison約在青木茶室。",
+        "#9628 f186525 2025-11-25 11:40 dorm｜選單（2 個）：自己走過去",
+        "#9629 f186526 2025-11-25 11:40 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-12-01 12:51",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#10409 f200769 2025-12-01 12:50 dorm｜（提示）提醒：13:00 和柏翰約在Daybreak。",
+        "#10410 f200769 2025-12-01 12:50 dorm｜選單（2 個）：自己走過去",
+        "#10411 f200770 2025-12-01 12:51 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-12-08 20:22",
+       "zone": "wancai",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和高子晴說話",
+       "last": [
+        "#11127 f216404 2025-12-08 20:21 wancai｜（提示）期末考快到了。在可以讀書的座位會多一項「考前總複習」。",
+        "#11128 f216408 2025-12-08 20:21 wancai｜走去高子晴（5.6 m）",
+        "#11129 f216442 2025-12-08 20:22 wancai｜按互動：和高子晴說話（想找 高子晴）"
+       ]
+      },
+      {
+       "at": "2025-12-18 15:13",
+       "zone": "classroom",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和芯慈說話",
+       "last": [
+        "#12402 f236592 2025-12-18 15:12 classroom｜等一下（3 秒）",
+        "#12403 f236601 2025-12-18 15:13 classroom｜走去芯慈（1.7 m）",
+        "#12404 f236607 2025-12-18 15:13 classroom｜按互動：和芯慈說話（想找 芯慈）"
+       ]
+      },
+      {
+       "at": "2025-12-25 14:03",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#13090 f250086 2025-12-25 14:00 dorm｜等一下（7 秒）",
+        "#13091 f250109 2025-12-25 14:03 dorm｜走去床底下的紙箱（1.6 m）",
+        "#13092 f250119 2025-12-25 14:03 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2026-01-08 11:22",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#14256 f275790 2026-01-08 11:10 dorm｜等一下（30 秒）",
+        "#14257 f275890 2026-01-08 11:22 dorm｜走去床底下的紙箱（0.9 m）",
+        "#14258 f275896 2026-01-08 11:22 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2026-01-14 16:02",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#14452 f279341 2026-01-14 16:02 dorm｜點對話：你把這週的筆記重新整理了一遍。沒有新的東西，但腦袋清楚了一些。",
+        "#14453 f279344 2026-01-14 16:02 dorm｜走去床底下的紙箱（0.8 m）",
+        "#14454 f279349 2026-01-14 16:02 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2026-03-04 12:38",
+       "zone": "campus",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和方奕廷說話",
+       "last": [
+        "#17326 f331237 2026-03-04 12:28 campus｜收起手機",
+        "#17327 f331238 2026-03-04 12:28 campus｜走去方奕廷（81.5 m）",
+        "#17328 f331475 2026-03-04 12:38 campus｜按互動：和方奕廷說話（想找 方奕廷）"
+       ]
+      },
+      {
+       "at": "2026-04-27 20:56",
+       "zone": "wancai",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和高子晴說話",
+       "last": [
+        "#23151 f437025 2026-04-27 20:54 wancai｜收起手機",
+        "#23152 f437026 2026-04-27 20:54 wancai｜走去高子晴（5.2 m）",
+        "#23153 f437057 2026-04-27 20:56 wancai｜按互動：和高子晴說話（想找 高子晴）"
+       ]
+      }
+     ]
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-02 21:27 yangyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型",
+     "n": 7,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-09 20:43 aoki）"
+    },
+    {
+     "k": "對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）",
+     "n": 1,
+     "ex": "一句話還沒點，另一段的話蓋上來，演完會放回去（2025-10-13 20:17 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：Daybreak 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-11-25 13:35 daybreak）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2511a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2511a.webp（2025-12-28 22:04 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2511b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2511b.webp（2025-12-28 22:04 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2601a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2601a.webp（2026-01-23 23:05 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2601b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2601b.webp（2026-01-23 23:05 xs_nanyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-03-08 21:00 noodle）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2603a.webp",
+     "n": 2,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2603a.webp（2026-03-14 18:31 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2603b.webp",
+     "n": 2,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2603b.webp（2026-03-14 18:31 xs_nanyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 3,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-04-30 17:32 bookstore）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2605a.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2605a.webp（2026-06-10 20:37 xs_nanyang）"
+    },
+    {
+     "k": "console.warn：MOVIES 海報載入失敗 assets/posters/m2605b.webp",
+     "n": 1,
+     "ex": "MOVIES 海報載入失敗 assets/posters/m2605b.webp（2026-06-10 20:37 xs_nanyang）"
+    }
+   ],
+   "missingE": [
+    "preObjs×27",
+    "simWalk×21"
+   ],
+   "persona": {
+    "classP": 0.8643091817386448,
+    "lateP": 0.20729309995658696,
+    "phoneP": 0.37070994280511516,
+    "talkP": 0.43640387409832326,
+    "reloadP": 0.002,
+    "snapP": 0.0025,
+    "midReloadP": 0.001
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 185,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 86,
+    "money": 304620,
+    "stage": "law",
+    "contacts": 9,
+    "invites": 40,
+    "invDone": 18,
+    "goingSeen": 1,
+    "msgs": 200
+   },
+   "ms": 1564041
+  },
+  {
+   "seed": 8,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 27745,
+   "frames": 541313,
+   "vms": 98765800,
+   "pages": 43,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 43,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 259,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 351,
+     "ex": "unknown asset prop.bike_ride（2025-08-31 21:50 lane118）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 9,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和溫學姊說話（2025-09-04 16:36 library）",
+     "all": [
+      {
+       "at": "2025-09-04 16:36",
+       "zone": "library",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和溫學姊說話",
+       "last": [
+        "#1219 f22674 2025-09-04 16:36 library｜點對話：（她抬頭看到你，點了一下頭。）",
+        "#1220 f22678 2025-09-04 16:36 library｜走去溫學姊（0.4 m）",
+        "#1221 f22682 2025-09-04 16:36 library｜按互動：和溫學姊說話（想找 溫學姊）"
+       ]
+      },
+      {
+       "at": "2025-09-27 20:32",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話",
+       "last": [
+        "#3590 f66503 2025-09-27 20:32 dorm｜等一下（1 秒）",
+        "#3591 f66508 2025-09-27 20:32 dorm｜走去阿凱（1.8 m）",
+        "#3592 f66515 2025-09-27 20:32 dorm｜按互動：和阿凱說話（想找 阿凱）"
+       ]
+      },
+      {
+       "at": "2025-09-28 22:08",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#3734 f70432 2025-09-28 22:08 dorm｜收起手機",
+        "#3735 f70433 2025-09-28 22:08 dorm｜走去床底下的紙箱（1.4 m）",
+        "#3736 f70442 2025-09-28 22:08 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-10-06 20:00",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#4449 f80761 2025-10-06 14:01 dorm｜手機：等到晚上（20:00）",
+        "#4450 f80775 2025-10-06 20:00 dorm｜走去床底下的紙箱（1.4 m）",
+        "#4451 f80784 2025-10-06 20:00 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-10-25 08:37",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#6053 f115202 2025-10-25 08:02 dorm｜等一下（87 秒）",
+        "#6054 f115492 2025-10-25 08:37 dorm｜走去床底下的紙箱（0.8 m）",
+        "#6055 f115497 2025-10-25 08:37 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-10-25 22:05",
+       "zone": "dorm",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱",
+       "last": [
+        "#6077 f116313 2025-10-25 21:58 dorm｜等一下（17 秒）",
+        "#6078 f116371 2025-10-25 22:05 dorm｜走去床底下的紙箱（0.8 m）",
+        "#6079 f116376 2025-10-25 22:05 dorm｜按互動：床底下的紙箱"
+       ]
+      },
+      {
+       "at": "2025-11-07 09:15",
+       "zone": "putong",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和沛珊說話",
+       "last": [
+        "#7266 f140684 2025-11-07 09:03 putong｜（提示）30 分鐘後上課：09:10 經濟學原理（上）（普通教學館 101）",
+        "#7267 f140770 2025-11-07 09:13 putong｜走去教室的座位（經濟學原理（上））（16.0 m）",
+        "#7268 f140817 2025-11-07 09:15 putong｜按互動：和沛珊說話"
+       ]
+      },
+      {
+       "at": "2026-05-04 20:37",
+       "zone": "wancai",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和不認識的女生說話",
+       "last": [
+        "#22229 f431263 2026-05-04 20:29 wancai｜等一下（19 秒）",
+        "#22230 f431327 2026-05-04 20:37 wancai｜走去不認識的女生（3.3 m）",
+        "#22231 f431345 2026-05-04 20:37 wancai｜按互動：和不認識的女生說話（想找 不認識的女生）"
+       ]
+      },
+      {
+       "at": "2026-05-18 20:19",
+       "zone": "wancai",
+       "msg": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和高子晴說話",
+       "last": [
+        "#23640 f457154 2026-05-18 20:18 wancai｜收起手機",
+        "#23641 f457155 2026-05-18 20:18 wancai｜走去高子晴（2.0 m）",
+        "#23642 f457164 2026-05-18 20:19 wancai｜按互動：和高子晴說話（想找 高子晴）"
+       ]
+      }
+     ]
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772",
+     "n": 1,
+     "ex": "G.l118.mv772：undefined → 2（2025-09-05 12:21 lawlib）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗",
+     "n": 29,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-12 20:52 gongguan）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 14,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-12 21:13 bookstore）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 16,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-14 20:45 cafe）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 4,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-24 21:31 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 6,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-01 19:07 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：Daybreak 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-05 11:35 daybreak）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-19 22:14 yangyang）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：SUNNY SIDE 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-28 09:31 wz_brunch）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-02-04 21:39 noodle）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：小路 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-02-22 20:04 wz_teishoku）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-03-06 20:15 wz_offbeat）"
+    }
+   ],
+   "missingE": [
+    "preObjs×26",
+    "simWalk×22"
+   ],
+   "persona": {
+    "classP": 0.7785430487245322,
+    "lateP": 0.295277742552571,
+    "phoneP": 0.3416762416949496,
+    "talkP": 0.23650531871244312,
+    "reloadP": 0.002,
+    "snapP": 0.0025,
+    "midReloadP": 0.001
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 159,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 80,
+    "money": 331110,
+    "stage": "law",
+    "contacts": 5,
+    "invites": 38,
+    "invDone": 17,
+    "goingSeen": 1,
+    "msgs": 200
+   },
+   "ms": 1491105
+  }
+ ]
+}
