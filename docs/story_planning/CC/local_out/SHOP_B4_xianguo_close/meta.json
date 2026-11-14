@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SHOP_B4_xianguo_close",
+  "sha": "3cbdf9ef839fcb47a7d9e8b6745a779ba31aed87",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_closeup_probe.py",
+  "env": "TAG=xianguo_v1;ZONE=gg_xianguo;HOURS=14;CAMS=banana@-2.3,1.55,2.4>-3.0,0.78,3.9/banana_top@-3.0,1.95,3.1>-3.0,0.72,3.9@55;SHA=3cbdf9ef839fcb47a7d9e8b6745a779ba31aed87",
+  "machine": "MSI",
+  "start": "2026-11-14T11:42:44",
+  "end": "2026-11-14T11:45:16",
+  "seconds": 152,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 18,
+    "mem": 47,
+    "used_gb": 14.8,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
