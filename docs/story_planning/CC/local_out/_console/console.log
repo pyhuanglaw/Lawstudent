@@ -1,9 +1,3 @@
-[23:11:52] 正在跑：SAVE_LZ_growB（已跑 45 分／上限 120 分）、STUDY_SE01（已跑 3 分／上限 20 分）、W1R_A2_sleep（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:12:47] [res] cpu=1% mem=43% (13.6/31.4 GB) chrome_testing=4  END STUDY_SE01
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       13e0104301..367152458f  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:13:01] ==== END   STUDY_SE01  exit=1  280s   ====
 [23:13:04] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [23:13:04] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
 [23:13:04] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
@@ -1998,3 +1992,9 @@
 [12:07:40] ==== END   SHOP_US_v2_625f  exit=1  718s   ====
 [12:07:44] solo item DN_FPS_c94f waits: no new items start until the 2 running item(s) finish
 [12:08:32] [res] cpu=1% mem=40% (12.9/31.4 GB) chrome_testing=4  END CEIL_d785
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e768f9b906..3c819385e4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:08:41] ==== END   CEIL_d785  exit=0  211s   ====
+[12:08:45] solo item DN_FPS_c94f waits: no new items start until the 1 running item(s) finish
+[12:09:02] [res] cpu=1% mem=30% (9.7/31.4 GB) chrome_testing=0  END WINVIEW_859b
