@@ -2572,6 +2572,10 @@ AA355_6_sports_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/stor
 HL2_FEED_1028_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 30 | PARTS=HL2;TERMS=Y1S1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:2x：HL1 r2 剩 4_2（走路的兩人沒跟上）、6_2（PLACE_EXCEPT 蘇姨照設計）＝探針 → r3 只跑這兩列
 HL1_CIRCLE_1028_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_5_2,c503_6_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:2x：BB-B 13:26——BB-C 的五列漏了學姊，加 c503_8_1（學姊×陳助教，週五 18:30～20:30 公館，Y1S1）①～④ 照別列（r3 可能已經在跑，另排一項）
+HL1_CIRCLE_1028_r3b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:2x：sports r2 關了手機一鍵還是空的——r3 記按鈕上蓋著什麼，點不開就【捷徑】ONETAP.openPop，只跑 Y2
+AA355_6_sports_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 20 | PARTS=SPORTS;ROUTES=Y2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 LIMAO_DOOR_r1 | c109767aaeeb910d28d9e15b04906a82ea43b7f7 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 45 | TAG=limao_door_r1;ZONES=tz_limao;HOURS=14,23.5;NODEBUG=1;SIDE_OFF=0.8;SHA=c109767aaeeb910d28d9e15b04906a82ea43b7f7
 # BB-C 10:07（BB_462 220f577bc1 第二層派 CC，P2）：BB-TEST-AA355-358-1021 四支兩路對照，對 main；新探針 cc_aa355_358_probe（第一次跑）
 AA358_21_noodle | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 30 | PARTS=NOODLE;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
@@ -2583,6 +2587,7 @@ HL1_CIRCLE_1028 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_
 HL2_FEED_1028 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 30 | PARTS=HL2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 HL3_DMS_1028 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 90 | XARGS=--track law --seed-list 1,2 --jobs 2 --from 2025-09-01 --to 2026-01-31 --root . --out {out} --dump-msgs {out}/msgs.json
 # BB-C 11:23（LIMAO-REAL-VIEW-1114，P2，排 HEROINE-LIFE 後）禮貌生財格子窗、門後換成立體店內 @14dc6c1e02：place_gate 全項 20:00 營業、23:30 打烊（打烊進不去＝改拍店外正面 closed_front）；⑤ SIDE_OFF 0.8、7b；第一次走近最長一幀
+# CC-B 11-14 待補（BB-B 13:26）：禮貌生財下次有任何重拍（WINVIEW、23.75 那輪），順手用遊戲跟隨鏡頭在騎樓對著算命桌拍一張有上師的，補進 out/
 LIMAO_REAL_r1 | 14dc6c1e028080ae1ddc78d2853f4e577f88008f | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 45 | TAG=limao_real_r1;ZONES=tz_limao;HOURS=20,23.5;NODEBUG=1;SIDE_OFF=0.8;SHA=14dc6c1e028080ae1ddc78d2853f4e577f88008f
 FIRST_limao_r1 | 14dc6c1e028080ae1ddc78d2853f4e577f88008f | probe | docs/story_planning/test_tools/cc/cc_xs_inside_perf_probe.py | index.html | 20 | SOLO=1;DESKTOP=1;TAG=first_limao_r1;ZONE=tingzhou;HOUR=20;PAIR=tz_limao,tz_limao;FAR=45;TRIPS=1;SHA=14dc6c1e028080ae1ddc78d2853f4e577f88008f
 # CC-B 11-14 13:0x：BB-B 12:48 GATE_BLACKDOME（P2）：BG3D_GATE_campus_r2 左門柱後面黑半圓——跟隨鏡頭門柱內外 3 m 各一張＋原本固定相機（fade／不 fade）對照，黑塊打 ray 記 mesh；main、dev 各一
