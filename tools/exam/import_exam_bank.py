@@ -7,12 +7,13 @@
 AI 草稿（exam_bank_封存_AI草稿/、qbank_封存_AI草稿/）不讀。
 法條：大一～大三的 basis（之後改名 mapBasis）是 AA、BB 對週次時自己標的，不是使用者給的——兩種名字都不帶進遊戲（AA 2026-10-14 17:4x，企劃分支 ac7ecb2）；
 大四是 AI 出題、使用者授權，basis 照帶、交卷後顯示。
-用法：python3 tools/exam/import_exam_bank.py [企劃分支的 ref，預設 origin/claude/story-planning]"""
+用法：python3 tools/exam/import_exam_bank.py [企劃分支的 ref，預設＝duty.json 上 AA 現在的分支]"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 from import_guard import alison
-REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), 'handoff')); from role_ref import ref as _role_ref   # BRANCH-CLEAN-1114：企劃線的分支照 duty.json（換帳號會變），不寫死
+REF = sys.argv[1] if len(sys.argv) > 1 else _role_ref('AA')
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 show = lambda p: alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 ls = lambda d: [l for l in subprocess.check_output(['git', '-C', ROOT, 'ls-tree', '--name-only', f'{REF}:{d}'], text=True).split('\n') if l]

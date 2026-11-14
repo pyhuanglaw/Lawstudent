@@ -4,7 +4,7 @@
 週層級的 recall（例：大一下憲法二第 12 週回想 B4 演講）照匯入（v2 C15；AA-B 2026-10-16：帳號 A 的「先不匯入」是 v2 解除暫緩以前的事，作廢）。
 法律審查（AA_122 第 0a 節）：SYLLABUS.reviewed＝可以顯示 BB 內容的週（'課程代號|週次'），照 BB_115_法律審查清單.json 產生——那一週的審查項目
 全部通過（review.result 是 無誤／已修正／補充）才開；沒有審查項目的週可以開（BB 的快速抽查已經掃過，AA 2026-10-14）。其他週遊戲裡只用寫主題的一般句子（src/classes3d.js 的 S.sylReviewed）。
-用法：python3 tools/syllabus/import_syllabus.py [企劃分支的 ref，預設 origin/claude/story-planning] [檔名=ref …（個別檔案用別的 ref）]
+用法：python3 tools/syllabus/import_syllabus.py [企劃分支的 ref，預設＝duty.json 上 AA 現在的分支] [檔名=ref …（個別檔案用別的 ref）]
      ref 可以寫「分支@commit」：從那個 commit 讀、來源寫分支名（分支已經往前走、要重產同一版時用；例：claude/magical-albattani-bk7b4n@57b2a7b3）
 （2026-10-14 起企劃分支是 claude/story-planning；舊的企劃分支已經移除，不要再用那個名字——D66）
 AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）第 9 項：大一下通識第 6 週（ge_y1s2，週一 13:20）改成天文館的圓頂——宥辰那句、觀察的開頭兩處整句換掉；第 6-2 節第 3 題（bdab2f42）再換黑板「（本週在天文館）」、觀察的結果「宥辰仰著頭，一直到燈亮都沒有說話。」
@@ -17,7 +17,8 @@ import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as GUARD
-REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), 'handoff')); from role_ref import ref as _role_ref   # BRANCH-CLEAN-1114：企劃線的分支照 duty.json（換帳號會變），不寫死
+REF = sys.argv[1] if len(sys.argv) > 1 else _role_ref('AA')
 LABEL = None
 if '@' in REF: LABEL, REF = REF.split('@', 1)   # 分支@commit：讀 commit、來源寫分支名
 TERMS = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2', 'JP']

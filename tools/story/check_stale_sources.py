@@ -7,7 +7,7 @@ def git(*a):
     r = subprocess.run(['git', *a], capture_output=True, text=True)
     return r.stdout.strip() if r.returncode == 0 else None
 def main():
-    refs = [sys.argv[i + 1] for i, a in enumerate(sys.argv) if a == '--ref'] or ['origin/claude/magical-albattani-bk7b4n', 'origin/claude/story-planning']
+    refs = [sys.argv[i + 1] for i, a in enumerate(sys.argv) if a == '--ref'] or [__import__('sys').path.insert(0, __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.dirname(__import__('os').path.abspath(__file__))), 'handoff')) or __import__('role_ref').ref('AA')]   # BRANCH-CLEAN-1114：企劃線照 duty.json
     refs = [r for r in refs if git('rev-parse', '--verify', '-q', r)]
     allow = json.load(open('docs/handoff/story_import_allow.json', encoding='utf-8'))
     seen, stale, unk = set(), [], []
