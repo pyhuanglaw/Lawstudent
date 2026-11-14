@@ -65,7 +65,7 @@ async def one(pg, cdp, case, slot, res):
         s = await D.st(pg); R.note('%s 讀檔停在門口（%s），照玩家按「進去一盞」→ %s' % (tag, s.get('interact'), s['zone']))
     if not R.check('%s 進得去一盞' % tag, s['zone'] == ZONE, J(s)): return
     its = await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden&&!i.exit&&!i.seat).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0,label:String(typeof i.label==='function'?i.label():i.label||''),kind:i.kind||null}))")
-    ct = next((i for i in its if any(w in i['label'] for w in ('點', '櫃', '茶單', '買'))), None)
+    ct = next((i for i in its if i.get('kind') == 'tea' or any(w in i['label'] for w in ('喝茶', '點', '櫃', '茶單', '買'))), None)   # 11-14 YIZHAN_DINE：一盞的櫃台點叫「喝茶」（kind tea）
     R.note('%s 互動點 %s；用「%s」當櫃台' % (tag, J(its), ct and ct['label']))
     if not R.check('%s 找得到櫃台' % tag, bool(ct), ''): return
     await L.go_to(pg, cdp, R, ct['x'], ct['z'], 0.6, ct['label'], max_s=60, lv=ct['lv']); await D.settle(pg)
