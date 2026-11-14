@@ -151,3 +151,18 @@
 - LAWWW 套 `dakou_cc0_on_10aa10ed32.patch` 時 place_gate 抓到新疊面：dakou_1f 牆疊面 5.13→6.81 m²（WALL_front_frame×WALL_front_frame 1.153 m² @[1.76,0.47,7.94]）。我驗收時先跑了 `--coplanar --write`，基準被蓋掉才沒看到——**這是驗收疏失**。整包退回，g3 修前牆框、重烘一樓再交。
 - 回查今天整合的：比對 4556c4be0c → 現在開發分支的疊面基準，只有 yizhan（always 2.03→2.07）、yangyang（2.13→2.25）多一點，最大一對沒變；不退回，g1、g4 下一版一起修。
 - 流程修正：`howto_coplanar_first.patch`（SHOP_CC0_HOWTO.md 第 1 節第 3 點下面加一條）＝改了 GLB 先跑 place_gate 不加 `--write`，沒有新疊面才准 `--coplanar --write`。我之後驗收照這個順序。
+
+## 好拍運動 CC0（g3 6da531c6ee）——驗收 PASS（11-14 00:5x UTC）
+- **patch**：`haopai_cc0_on_582eb7d807.patch`（底 582eb7d807，用 `git apply --3way` 套）。
+- **改了什麼**：
+  - 球拍、羽球筒、桌球拍（instancing 原型）改用 ambientCG Plastic006，每一支各自上色。
+  - 地上兩箱封好的貨改用 Poly Haven cardboard_box_01。
+  - 洞洞板照 11-09 BACKFACE-HAOPAI 重做；bake_xs.sh 好拍那一段改回 fd585f9915 的做法：烘焙時不藏洞洞板，洞洞板也烘。
+- **驗收順序**：先跑 place_gate（不加 --write），沒有新問題、疊面沒有增加（35.44，跟基準一樣），才跑 `--write` 更新狀態表。
+- **測試**：都是 ALL PASS。
+  - shop_cc0：三項都成立，純色 12%。
+  - xsshop、xs_close、xs_lm（instancing 64→65）、xs_wincard ×2、shop／gg／wz_real_inside、shop_window3d、shop_window_rects、seat_reach、placemap、shop_npc。
+  - xs9_haopai_shanlan_check：洞洞板白天 0.452、晚上 0.439。
+- **我改的**：patch 把 bake_xs.sh 的執行權限拿掉了（100755→100644），我改回 755。
+- **畫面**：變化小，見 `haopai_cmp.jpg`。
+- **v2（P2）**：層架上的貨箱還是程式拼的方塊加標籤，改用 Poly Haven 紙箱；冷氣、櫃台下面的收納櫃。

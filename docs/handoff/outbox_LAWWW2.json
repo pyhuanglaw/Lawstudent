@@ -10267,6 +10267,25 @@
    "tests": "git apply 乾淨；canon_scan 0",
    "notDone": "LAWWW 套進開發分支",
    "next": "LAWWW 套 patch；幫手照新順序"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C、幫手 g3",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS 好拍運動 CC0（g3 6da531c6ee；三項成立、純色 12%、疊面沒增加；bake_xs.sh 好拍段照 fd585f9915）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/haopai_cc0_on_582eb7d807.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/haopai_cmp.jpg"
+   ],
+   "base": "582eb7d807",
+   "at": "2026-11-14T00:56Z",
+   "tests": "place_gate 先查後寫 ALL PASS、shop_cc0、xs 系列 13 支、xs9 check ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判；v2 層架貨箱",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
