@@ -442,6 +442,17 @@ def snapshot(args):
             return 2
         ref = 'origin/' + b
         print(f'總表從 {ref} 讀（這條分支沒有 {TASKS}）')
+    # D165／D166：交接檔沒有「下一班第一件事」「大改動：」就不給存交班快照（下一班靠 takeover.py 印這幾段；大改動沒有就寫「大改動：無」）
+    hf = {'LAWWW': 'docs/HANDOFF_GAP_MATRIX.md', 'LAWWW2': 'docs/art-rebuild/second_ai/HANDOFF.md', 'AA': 'docs/story_planning/AA_交接紀錄.md',
+          'BB': 'docs/story_planning/BB_00_協作規範與交接紀錄.md', 'CC': 'docs/story_planning/CC/CC_00_交接紀錄.md'}.get(args.role)
+    hp = os.path.join(args.root, hf) if hf else None
+    if hp and os.path.exists(hp) and args.kind == 'handoff':   # checkpoint（平時存檔）不擋
+        ht = open(hp, encoding='utf-8').read()
+        lack = [k for k, pat in (('下一班第一件事', r'下一班第一件事|下一班第一步|下一班先做'), ('大改動：', r'大改動[：:]')) if not re.search(pat, ht)]
+        if lack:
+            print(f'{hf} 少了：{"、".join(lack)}。補上再存快照——「下一班第一件事」照順序寫任務 ID 和做法在哪；「大改動：」寫這一班拿掉／取代／改掉了什麼'
+                  '（同一行也加進 docs/handoff/BIG_CHANGES.md，不是 LAWWW 就交給值班 LAWWW），沒有就寫「大改動：無」。')
+            return 1
     src = Src(args.root, ref)
     data = json.loads(src.read(TASKS))
     raw = src.read(TASKS).encode('utf-8')
