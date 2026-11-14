@@ -175,7 +175,7 @@ const haveSrc=Object.keys(SRC).length===33;
     if(!A){ console.log('（這份 checkout 讀不到 AA_759@'+S759+'：不比稿）'); return; }
     for(const f of ['src/aa667_3d.js','src/psresults3d.js']){ const rows=A.files[f], L=lit(read(f)).map(x=>M959.unmap(x,path.basename(f))), n=t=>L.filter(x=>x===t).length, bad=rows.filter(x=>n(x.new)!==1||n(x.old)!==0);
       check('11. '+f+'：'+rows.length+' 列的 new 各剛好一處、old 不在了',rows.length===(f==='src/aa667_3d.js'?9:3)&&bad.length===0,J(bad.map(x=>x.where)));
-      const ob=show(BASE,f); if(ob){ const O=lit(ob).filter(t=>!(f==='src/psresults3d.js'&&t==='econ')),   /* CANON-NO-ECON-1112：psresults3d.js 的 G.stage!=='econ' 拿掉了，BASE 多的那一個字串 'econ' 不算 */ d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(rows.map(x=>x.old+'→'+x.new));
+      const ob=show(BASE,f); if(ob){ const O=lit(ob).filter(t=>!(f==='src/psresults3d.js'&&t==='econ')),   /* CANON-NO-ECON-1112：psresults3d.js 的 G.stage!=='econ' 拿掉了，BASE 多的那一個字串 'econ' 不算 */ d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y&&!(f==='src/aa667_3d.js'&&x==='dark'&&y==='yt_home')/* BG-128-INTEG-1114：「新生南路・她家」兩場的背景從 dark 換成 yt_home，不算台詞 */), set=new Set(rows.map(x=>x.old+'→'+x.new));
         check('11. '+f+'：字串和 BASE 逐個比一樣多，不一樣的剛好是稿上這 '+rows.length+' 列（選項的字、條件、別人的句子沒動）',O.length===L.length&&d.length===rows.length&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,4))); } }
     const rows=A.files['src/data/pg_dates.js'], idx=rows.map(x=>+(/\[(\d+)\]$/.exec(x.where)||[])[1]);
     check('11. pg_dates.js：稿上 12 列（第 0、1、2、4、5、7、9、10、12、13、14、16 格）的句子一字不差',rows.length===12&&J(idx)===J([0,1,2,4,5,7,9,10,12,13,14,16])&&rows.every((x,i)=>cells[idx[i]].line===x.new),J(rows.filter((x,i)=>cells[idx[i]].line!==x.new).map(x=>x.where)));

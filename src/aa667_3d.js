@@ -328,8 +328,8 @@ const AA667=(function(){
     ev('ev_aa667_jp_zq_park','溫州街的公園',[ZQ],{scene:'溫州街的公園',bg:'wenzhou_park'},L.jzq.park,{hours:2}),
     ev('ev_aa667_jp_zq_night','公館宵夜',[ZQ],{scene:'公館宵夜',bg:'gongguan_luwei'},L.jzq.night,{hours:1}),
     ev('ev_aa667_jp_kx_video','可昕的視訊',[KX],{scene:'視訊',bg:'video'},[...L.jkx.v1,{choice:L.jkx.opts},...L.jkx.v2],{hours:0.5,outingMissed:(G,GM,q)=>S.kxMissed(G,q)}),
-    ev('ev_aa667_jp_yt_bye','去語彤家吃飯',[YT],{scene:'新生南路・她家',bg:'dark'},[...L.jyt.seen,...ytBye()],{hours:2,after:mark('YT_JP_BYE')}),   /* 7-3 已經去過她家的 */
-    ev('ev_aa667_yt_back','去語彤家吃飯',[YT],{scene:'新生南路・她家',bg:'dark'},[L.jyt.head,{choice:L.jyt.headOpts.map(o=>Object.assign({},o,o.bye?{if:G=>G.flags.YT_JP_BYE!=null}:{}))}],{hours:2}),
+    ev('ev_aa667_jp_yt_bye','去語彤家吃飯',[YT],{scene:'新生南路・她家',bg:'yt_home'},[...L.jyt.seen,...ytBye()],{hours:2,after:mark('YT_JP_BYE')}),   /* 7-3 已經去過她家的 */
+    ev('ev_aa667_yt_back','去語彤家吃飯',[YT],{scene:'新生南路・她家',bg:'yt_home'},[L.jyt.head,{choice:L.jyt.headOpts.map(o=>Object.assign({},o,o.bye?{if:G=>G.flags.YT_JP_BYE!=null}:{}))}],{hours:2}),
     ev('ev_aa667_us_an_video','以安的視訊',[AN],{scene:'視訊',bg:'video'},[...L.uan.v1,{choice:L.uan.opts},...L.uan.v2],{hours:0.5,after:mark('AN_US_BYE')}),
     ev('ev_aa667_us_zq_night','公館宵夜',[ZQ],{scene:'公館宵夜',bg:'gongguan_luwei'},[...L.uzq.s1,{choice:L.uzq.sOpts},{when:G=>S.q6(G),then:[L.uzq.q6],else:[L.uzq.noQ6]},...L.uzq.s2],{hours:1,after:mark('ZQ_US_BYE')}),
     ev('ev_aa667_us_yt_tea','一盞茶屋',[YT],{scene:'一盞茶屋・前院',bg:'wenzhou_teahouse'},[...L.uyt.s1,{choice:L.uyt.opts},...L.uyt.s2],{hours:1,after:mark('YT_US_BYE')}),

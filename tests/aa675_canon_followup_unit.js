@@ -164,7 +164,7 @@ await sec(6,()=>{
   fresh('2026-07-08',10,'dorm'); H.FRIEND(YT); H.G.flags['dating_'+YT]=true; const f={id:YT,k:'bday',y:2026,d:DK('2026-07-09'),W:{mode:'taipei'}};
   const ve=FEST.venues(H.G,f,'eve'), vn=FEST.venues(H.G,f,'noon');
   check('6. 交往中：晚上場只有「新生南路・她家」（2D、dark、18:30），中午場沒有地方',ve.length===1&&ve[0].kind==='2d'&&ve[0].place==='新生南路・她家'&&ve[0].bg==='dark'&&ve[0].h===18.5&&vn.length===0,J([ve,vn]));
-  check('6. 地點字幕和背景同 ytjob3d.js「第一次去她家」那一場',J(YTJOB.HOME_EV.dialogue[0])===J({scene:'新生南路・她家',bg:'dark'}));
+  check('6. 地點字幕和背景同 ytjob3d.js「第一次去她家」那一場',J(YTJOB.HOME_EV.dialogue[0])===J({scene:'新生南路・她家',bg:'yt_home'})/* BG-128-INTEG-1114：晚上去她家的場用 yt_home（BB-B 11-14）*/);
   delete H.G.flags['dating_'+YT]; H.G.flags.romance={}; const vs=FEST.venues(H.G,f,'eve');
   check('6. 第 6 階（還沒交往）照舊在一盞茶屋',vs.every(v=>v.kind==='inv'&&v.P.id==='teahouse'),J(vs.map(v=>v.P&&v.P.id)));
   fresh('2026-07-08',10,'dorm'); H.FRIEND(YT); H.G.flags['dating_'+YT]=true; const q=FEST.plan2D(H.G,f,{h:18.5,place:'新生南路・她家',bg:'dark'});

@@ -123,7 +123,7 @@ const YTJOB=(function(){
     OUT.plan(G,{id:'yt_home_first',ev:'ev_yt_home_first',day:G.day,h:18.5,late:0.5,place:'新生南路・她家',title:'去語彤家吃飯',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true}); };
   S.HOME_EV={ id:'ev_yt_home_first', title:'第一次去她家', participants:[YT], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     prereq:{custom:G=>!G.flags.YT_HOME_SEEN},
-    dialogue:[ {scene:'新生南路・她家',bg:'dark'},
+    dialogue:[ {scene:'新生南路・她家',bg:'yt_home'},
       {speaker:null,text:'（新生南路、學校對面的大樓。電梯到七樓。）'},
       {speaker:null,text:'（兩房一廳。客廳很大，只有一張長桌、一張沙發。另一間房間的門開著，裡面堆滿書和紙箱。廚房裡，一個阿姨在盛湯。）'},
       {speaker:'秀琴姨',text:'你就是祐廷喔？坐、坐。'},
