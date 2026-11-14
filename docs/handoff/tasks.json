@@ -56875,6 +56875,21 @@
    },
    "next": "發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→110b0fd990 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
    "xai": []
+  },
+  {
+   "id": "KX-HEARD-1014",
+   "title": "AA_1014 別人說起可昕 10 句（heard_lines talk，h1014_1～10）",
+   "owner": "LAWWW",
+   "priority": "P2",
+   "status": "已整合待測試",
+   "source": "AA-C 2026-11-13 23:51（企劃線 774afd5fcf，BB_465 照用）",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-14 00:1x】heard_lines.js 加 10 句，說話的人照稿（pool_4／pool_10／pool_1／pool_13 都在同學池 pool3d／pool_more3d 的名單，不用換備案人）；國考 2029-08-04 → 第 10 列 until 2029-08-03；aa503_others（逐句對稿＋每句時間）、aa510_511 改期望，heard 相關 45 支 ALL PASS。待 BB／CC 瀏覽器看一句（例：大一上第 3 週郁婷）",
+   "xai": []
   }
  ]
 }
