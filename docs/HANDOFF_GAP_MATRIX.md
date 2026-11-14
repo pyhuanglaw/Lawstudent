@@ -30,7 +30,7 @@
 
 **D｜決策與規則**：本班沒有新 D／HV。事實：v9.10.26 只有 76f8 的遊戲檔（FACTS.md）。
 
-**E｜跨 AI 協作**（全部交班完成、LAWWW 最後交，使用者 11:5x「你要等其他人都交班了，你才最後交班喔」UA-LAWWW-1114-05）：LAWWW2-C `39d6c6f28a`（focused-cray-c9uwvw，snapshot 1155Z）、AA-C `a77f92672a`（magical-albattani-bk7b4n，1152Z）、BB-C `748a6e4efd`（wonderful-mayer-7fm9g6，1152Z）、CC-C `d54cc82210`（cc-testing，1153Z；佇列下一項 TZ_WENTE_v2_r4_1500，後面 50 項電腦照跑；WEEKEND_HOME 探針 # HOLD）；幫手 g1 `31f05ae3a2`、g2 `e42259acb2`、g3 `ee32d5714f`、g4 `57c0df8ad`（全部 helpers closed）。duty sync 已收齊（五職位 handed-off）。LAWWW2 交代：①單車 v2.1 驗收做一半（place_gate、shop_cc0 過，剩 bike 測試＋並排圖）②大步 v2 等驗收 ③好拍第一次走近卡一下（BB P3）＝併進 SHOP-FIRST-APPROACH-1112。
+**E｜跨 AI 協作**（全部交班完成、LAWWW 最後交，使用者 11:5x「你要等其他人都交班了，你才最後交班喔」UA-LAWWW-1114-05）：LAWWW2-C `e80450eb00`（focused-cray-c9uwvw，snapshot 1156Z）、AA-C `a77f92672a`（magical-albattani-bk7b4n，1152Z）、BB-C `748a6e4efd`（wonderful-mayer-7fm9g6，1152Z）、CC-C `d54cc82210`（cc-testing，1153Z；佇列下一項 TZ_WENTE_v2_r4_1500，後面 50 項電腦照跑；WEEKEND_HOME 探針 # HOLD）；幫手 g1 `31f05ae3a2`、g2 `e42259acb2`、g3 `ee32d5714f`、g4 `57c0df8ad`（全部 helpers closed）。duty sync 已收齊（五職位 handed-off）。LAWWW2 交代：①單車 v2.1 驗收做一半（place_gate、shop_cc0 過，剩 bike 測試＋並排圖）②大步 v2 等驗收 ③好拍第一次走近卡一下（BB P3）＝併進 SHOP-FIRST-APPROACH-1112。
 
 **F｜測試與問題**：GHA 開發分支紅（只剩 aa553、canon_batch4 兩支，見 B）；其他見 B「等 BB 判」。｜**交接不完整**：`roles` 異常 8 項（表外 ID：LAWWW2 BG3D-GATE-BLACK-1114、EDGE-STRIPE、WINVIEW-AUDIT、WINVIEW-NOPIL-1114、WINVIEW-EDGE-STRIPE-1114；AA K-D3、X5-L2；BB NO-GO）、`check` 異常 303 項（多數「等使用者」沒寫原因）、`userwork` 19 項上一班交代的這一班沒動、`loose` 本機分支 aa959-v505／rc2-76f8（已在遠端 wip 分支，是 RC2-PORT 的輸入）；`incr`、`branch_audit --write` 這一班沒跑完（磁碟滿中止）——下一班接班第 7～9 步處理。
 
