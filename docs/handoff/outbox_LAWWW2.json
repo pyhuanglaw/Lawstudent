@@ -10693,7 +10693,7 @@
    "sha": "bf8b9cbcba",
    "receiver": "LAWWW-C、BB-C",
    "ack": "SENT",
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "base": "4cc26d4b8d",
    "at": "2026-11-14T11:45Z",
@@ -10704,14 +10704,15 @@
    ],
    "tests": "limao_real_view_1114_unit ⑥ 改之前 FAIL 3→ALL PASS（19 項）；87 支 ALL PASS；place_gate 0 新問題；雲端截圖 14:00 門扇收起、20:00 開著",
    "notDone": "LAWWW 套 patch；CC 拍；BB 判",
-   "next": "LAWWW 套 patch（底 4cc26d4b8d）"
+   "next": "LAWWW 套 patch（底 4cc26d4b8d）",
+   "integratedAs": "d482dd125d"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "",
    "receiver": "LAWWW-C、g2",
    "ack": "SENT",
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "base": "4cc26d4b8d",
    "at": "2026-11-14T11:38Z",
@@ -10723,14 +10724,15 @@
    ],
    "tests": "place_gate 0 新問題；疊面 1.42→1.40；shop_cc0 ALL PASS；daybreak 33 支 ALL PASS",
    "notDone": "LAWWW 套 patch；CC 拍；BB 判",
-   "next": "LAWWW 套 patch"
+   "next": "LAWWW 套 patch",
+   "integratedAs": "07f59ecae8"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "",
    "receiver": "LAWWW-C、g3",
    "ack": "SENT",
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "base": "4cc26d4b8d",
    "at": "2026-11-14T11:45Z",
@@ -10742,7 +10744,8 @@
    ],
    "tests": "place_gate 0 新問題；疊面 1F 3.71→3.67、2F 2.29→2.12；shop_cc0 ALL PASS；48 支 ALL PASS",
    "notDone": "LAWWW 套 patch；CC 拍；BB 判",
-   "next": "LAWWW 套 patch"
+   "next": "LAWWW 套 patch",
+   "integratedAs": "4cab49e0d9"
   }
  ]
 }

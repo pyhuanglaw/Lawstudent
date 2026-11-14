@@ -1146,6 +1146,15 @@
    "status": "進行中",
    "task": "SHOP-REALISM-1112",
    "note": "LAWWW2-C 交班（4ec1acd5c0）後沒人接，同一個工作階段重新登記值班、照 HANDOFF 下一班第一件事接續。"
+  },
+  {
+   "id": "UA-LAWWW2-1114-02",
+   "at": "2026-11-14T11:4x",
+   "quote": "現在交班",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "SHOP-REALISM-1112",
+   "note": "P0 換班口令：停止一般開發（單車 v2.1 驗收做到一半），寫交班六類＋G、snapshot、duty handoff、關喚醒。交班紀錄在 docs/art-rebuild/second_ai/HANDOFF.md 最上面。"
   }
  ]
 }

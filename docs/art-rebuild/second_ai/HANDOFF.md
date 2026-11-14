@@ -1,6 +1,109 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 全部待辦（2026-11-14 02:2x UTC 交班；LAWWW2-C）——以這一節為準
+## 全部待辦（2026-11-14 11:5x UTC 交班；LAWWW2-C）——以這一節為準
+
+值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜claude/focused-cray-c9uwvw｜接班基準 4ec1acd5c0｜2026-11-14 02:0x UTC
+上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 4ec1acd5c0｜正常交班（快照 2026-11-14T0202Z_C_LAWWW2）
+本班交班：使用者 11:4x「現在交班」（UA-LAWWW2-1114-02）。最後 commit 見本節最下面 G。
+
+### 暫停中
+- BADMINTON-CLIP v4（WIP 1aba3ec42）、FAIR-TENT-CAM（WIP 未交）：
+  - 誰決定：使用者（室內美術優先）。為什麼：室內美術優先。
+  - 負責人：LAWWW2。恢復條件：SHOP-REALISM-1112 剩下的店交完。下次檢查 11-19。
+- HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104。負責人 LAWWW2，下次檢查 11-19。
+- PHONE-MAP-ART-1113（LAWWW-C 開，五欄在 tasks.json）：恢復條件是 SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的。下次檢查 11-20。
+- PERF-WZ-DAY-1103：等 PC 數字（CC 的 PERF_WZ_SPLIT／FPS_WZ_ORDER）。下次檢查 11-19。
+
+### 下一班第一件事（任務 ID，照順序）
+1. **SHOP-REALISM-1112：單車 v2.1 驗收做到一半，請接著做。**
+   - 送件：g2 `claude/shop-cc0-g2` @ d8ee8b27c2，`docs/art-rebuild/second_ai/cc0_g2/bike_cc0.patch`（底 4cc26d4b8）；並排圖 `bike_cmp.jpg`（六組，有近看右牆層架）。
+   - 已做：在開發分支 be9c932a17 上 `--3way` 套好。
+     - SHOP_STANDARD_STATUS 有衝突，照流程丟掉、重產。
+     - `place_gate`（不加參數）0 個新問題。`--coplanar --write`：疊面和開發分支一樣（牆 2.91、全部 5.35），只換 sha1。`--write` 以後 ALL PASS。
+     - `shop_cc0` ALL PASS。LICENSES 加三列：tire_pump、old_tyre、Cardboard001。
+   - 還沒做：
+     - bike 相關測試，改前、改後各跑一次比失敗名單；g2 說 116 支，本來就失敗 16 支。
+     - 看 bike_cmp.jpg。
+     - 在當時最新的開發分支上重出 patch → README「單車 v2.1」一節 → outbox → 通知 LAWWW-C 和 g2。
+2. **SHOP-REALISM-1112：等 g3 交大步 v2**（重烘中；鞋盒改成一個 Cardboard001×頂點色材質）。驗收時一定要看原本那片 5.11 m² 疊面（WALL_back_back_vc × WALL_back_back_paint）有沒有修掉。
+3. **好拍第一次走近卡一下（BB-C 11:40 傳來，P3，不擋發布；BB_379 68aa8fc6e7）。**
+   - 現象：觸控 lite、畫質 medium，開發分支和 main 第一次走近時，最長一幀都是 166.7 ms；第 2、3 趟都在 33 ms 以內。
+   - 兩個版本都有，判斷是第一次載入。
+   - 改法方向：店內分批載入或提早預載。看 zones3d.js shopInsideReal：lite 模式只接最近的一間、走近才載入。
+   - 【表外】：請 LAWWW 開 ID，或併進 SHOP-FIRST-APPROACH-1112。
+4. 等 CC、BB（不用我動手，結果回來再看）：
+   - LIMAO-REAL-VIEW-1114（已整合 14dc6c1e02）、LIMAO-DOOR-CLOSE-1114（已整合 d482dd125d）：CC 拍第二層，並量第一次走近要多久才顯示；之後 BB 照 §12 判。
+   - LIMAO-DOOR-HOURS-TEXT-1114（門口營業時間的字）：LAWWW 交 AA，已有 23925adc8c。
+   - Daybreak v2.1b（已整合 07f59ecae8）、大口 v2（已整合 4cab49e0d9）：CC 拍、BB 判。
+   - CC WINVIEW_GG3_1939_r3：RAW 回來以後 VIEWS_REMATTE，內容已在開發分支 10aa10ed32，看結果就好。
+5. P3 記著（不擋）：
+   - 頁間、山嵐的小盆栽還是葉片卡。
+   - aa_cc0 霧面紋路在大片淺色零件上有雲狀斑：小路、SUNNY SIDE、一盞、木曜日、日常失速。
+   - Daybreak 門框自疊 0.139 m²：要改 aa_kit 共用門框。
+6. 照舊：L118-SEAT-FIX-1112、SHOP-FIRST-APPROACH-1112、WZ-FRUIT-CLOSED（表外）、清州刀削麵打烊湯鍋檯（表外）。用 `check_handoff.py queue --owner LAWWW2` 看狀態。
+
+### A｜本班成果（11-14 02:0x～11:5x，都在 claude/focused-cray-c9uwvw）
+- LIMAO-REAL-VIEW-1114：
+  - 交件 97379f88e0。禮貌生財玻璃後面放 tz_limao_interior.glb。
+  - wz_street.py `real`／`real_w`；tingzhou_street.glb 重建；`S.shopReal` 加 limao。
+  - 測試改之前 FAIL 6 → ALL PASS。
+  - **已整合 14dc6c1e02**。
+- LIMAO-DOOR-CLOSE-1114：
+  - 交件 bf8b9cbcba。門扇是 COPY_LIMAO_LEAF 節點，打烊時藏起來（BB_379）。
+  - 測試 ⑥ 改之前 FAIL 3 → ALL PASS。
+  - **已整合 d482dd125d**。
+- 驗收 PASS 並轉交 LAWWW-C：
+  - Daybreak v2.1b：g2 58ce364c6e → 2f4ccad37a，**已整合 07f59ecae8**。
+  - 大口 v2：g3 7f4f1e4d71 → d8789698d0，**已整合 4cab49e0d9**。
+- 更早（摘要內）：
+  - 收了 coplanar instancing、同弦、頁間 v4、一盞 v12、轉角 v2、好拍 v2、南洋 v7、山嵐 v3。
+  - 交件：L118-SEAT r5、LAUNDRY-SEAT-PRIO、WINVIEW-TREE-BLOB、NONUMPY／NOPIL。
+  - 細節在 `wip/shop_cc0_accept_1113/README.md` 和 outbox。
+- 發布：沒有（不歸我）。
+
+### B｜全部未完成
+上面「下一班第一件事」1～6 就是全部，每一條都有任務 ID 或標【表外】。沒有【下一版必須】。
+
+### C｜正在做的
+- 單車 v2.1 驗收：做到哪見第 1 點。
+  - 在 scratchpad 的 worktree `wt_limao`（底 be9c932a17）。中斷那一刻有一個 `git stash`（stash@{0}，裡面是單車 patch 套好的狀態）。
+  - 這是暫存，不用接：從 g2 的 patch 重套就好。
+
+### D｜最新決策與規則
+- BB_379（BB-C 11-14 11:20）：
+  - 禮貌生財打烊要收門 → 已做。
+  - 白天鐵捲門可以。
+  - 門口要寫營業時間 → LAWWW 交 AA。
+- 本班沒有新增 D／HV。
+
+### E｜跨 AI 協作
+- 給 LAWWW-C：LIMAO 兩件、Daybreak、大口都 DELIVERED，LAWWW 都 ACK，也都整合了。
+- 給 BB-C：LIMAO 兩件的副本 DELIVERED；BB_379 的決定已 ACK。
+- 幫手（g1～g4 是 LAWWW-C 開的，D163，換班由 LAWWW-C 收）：
+  - g2：Daybreak PASS 已回覆；單車 v2.1 送件，還沒回覆（等下一班驗收）。
+  - g3：大口 PASS 已回覆；大步 v2 製作中。
+  - g1、g4：沒有工作。
+
+### F｜測試與問題
+- 單車 v2.1：bike 相關測試還沒跑。
+- 好拍第一次走近 166.7 ms：P3，見第 3 點。
+- 雲端 SwiftShader 截圖：shopInsideReal 第一次走近要一段時間才顯示（`on:false`），只有雲端看得到，請 CC 在電腦上量。
+- 都還沒在 iPhone 實機確認。
+
+### G｜東西放在哪
+- 開發分支：沒有沒整合的成果。
+  - LIMAO 兩件、Daybreak、大口都已整合。
+  - 交件 patch 在 `docs/art-rebuild/second_ai/wip/limao_real_view_1114/`、`limao_door_close_1114/`、`shop_cc0_accept_1113/`。
+- 只在 scratchpad 的（不用保留）：
+  - worktree `wt_limao`、`wt_door`。
+  - 雲端截圖 `limao_shots/`。
+  - Poly Haven 下載的 floor_tiles_06、concrete_floor_painted（在 wt_limao 的 tools/blender/textures/，.gitignore）。
+- 重建汀州路街景要的 `textures/gen`：照 FACTS 從 `origin/claude/second-ai-env-art` 取，**不 commit**。另外 `tools/blender/textures/` 缺的 Poly Haven 材質要先下載（`lib2.fetch` 或 api.polyhaven.com）。
+- 幫手分支：
+  - `claude/shop-cc0-g2` @ d8ee8b27c2（單車 v2.1 待驗收）。
+  - `claude/shop-cc0-g3` @ 7f4f1e4d71（大口已整合；大步製作中）。
+
+## 11-14 02:2x 交班時的清單（舊；以最上面那一節為準）
 
 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜claude/focused-cray-c9uwvw｜接班基準 4ec1acd5c0｜2026-11-14 02:0x UTC（使用者「現在接班」「上次交班之後沒有人接班 等於你繼續即可」）
 上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 4ec1acd5c0｜正常交班（快照 2026-11-14T0202Z_C_LAWWW2）
