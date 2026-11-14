@@ -5319,6 +5319,15 @@
    "wants": "X364",
    "task": "CANON-REPO-CLEAN-1114",
    "note": "LAWWW-C 問：X364 原話含「GitHub 上所有檔不留那些字」；rc2d 遊戲 src 0、index.html 隱藏按鈕 4 處、tests/tools/docs 268 檔。使用者選 rc2e（1404d5f2d4，只拿掉 index.html 那 4 處）。發布範圍＝遊戲與網頁原始碼；其餘 268 檔＝CANON-REPO-CLEAN-1114（P0，下一版）。"
+  },
+  {
+   "id": "UA-LAWWW-1114-02",
+   "at": "2026-11-14 02:0x UTC",
+   "quote": "現在交班",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "HELPER-HANDOFF-1113",
+   "note": "P0 換班口令：通知 LAWWW2、AA、BB、CC、幫手 g1～g3 交班；LAWWW-C 寫快照、duty handoff、關喚醒。v9.10.26 不為交班發布，留給下一班（CANON-NO-ECON-1112）。"
   }
  ]
 }

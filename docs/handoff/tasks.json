@@ -406,6 +406,16 @@
     "match": "清州刀削麵打烊後門口湯鍋檯",
     "task": "L118-KOREA-STAND-1112",
     "why": "LAWWW2-C 11-12 22:12 交班表外，LAWWW-C 開 ID"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "OFFBEAT-VIEW-P3-1114",
+    "task": "OFFBEAT-VIEW-P3-1114"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "GG-STREET-TREES",
+    "task": "GG-STREET-TREES"
    }
   ],
   "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
@@ -56968,6 +56978,123 @@
    "priority": "P3",
    "source": "BB_379（BB-C 11-14，日常失速 21:00 PASS 附註）",
    "note": "LAWWW2：wz_street 那棟加窗、冷氣、雨遮；前窗兩張重拍（地面畫到底）。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "ZQ-C504",
+   "title": "ZQ-C504（LAWWW2 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 LAWWW2 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "A6-5",
+   "title": "A6-5（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "P2-L5",
+   "title": "P2-L5（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "STALE-SOURCES",
+   "title": "STALE-SOURCES（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "Z5-L8",
+   "title": "Z5-L8（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "FA-01",
+   "title": "FA-01（BB 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "SE-01",
+   "title": "SE-01（BB 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "SE-03",
+   "title": "SE-03（BB 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "SHOP-FIRST-APPROACH",
+   "title": "SHOP-FIRST-APPROACH（BB 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
