@@ -86,7 +86,7 @@ async function parent(o){
   RC.log('隨機玩家快轉：root='+o.root+'　track='+o.track+'　'+o.from+' → '+o.to+'　種子 '+seeds.join(',')+'　同時 '+o.jobs+' 個');
   try{ RC.log('遊戲版本：'+cp.execSync('git -C '+JSON.stringify(o.root)+' log --oneline -1',{encoding:'utf8'}).trim()); }catch(e){}
   const t0=realMs(); const results=[]; let next=0;
-  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir].concat(o.procedural?['--procedural']:[]).concat(o.oldForcing?['--old-forcing',o.oldForcing]:[]).concat(o.stayUp?['--stay-up',o.stayUp]:[]);
+  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir].concat(o.procedural?['--procedural']:[]).concat(o.oldForcing?['--old-forcing',o.oldForcing]:[]).concat(o.stayUp?['--stay-up',o.stayUp]:[]).concat(o.startSave&&seeds.length===1?['--start-save',o.startSave]:[]).concat(o.saveOut&&seeds.length===1?['--save-out',o.saveOut]:[]);   /* 11-14 CC-C：--start-save／--save-out 也傳給子程序（--seed-list 只給一個種子時）；只配單一種子 */
     const ch=cp.spawn(process.execPath,['--max-old-space-size=3072',...args],{stdio:['ignore','pipe','pipe']}); const ts=realMs(); let buf='', lastHb=realMs(), result=null, hb=null, errTail='';
     ch.stdout.on('data',d=>{ buf+=d; let k; while((k=buf.indexOf('\n'))>=0){ const line=buf.slice(0,k); buf=buf.slice(k+1); lastHb=realMs();
       if(line.startsWith('@@RESULT ')){ try{ result=JSON.parse(line.slice(9)); }catch(e){ errTail+='結果解析失敗 '; } } else if(line.startsWith('@@HB ')){ try{ hb=JSON.parse(line.slice(5)); }catch(e){} } } });
