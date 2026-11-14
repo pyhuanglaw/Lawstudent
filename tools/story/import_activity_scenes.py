@@ -104,6 +104,8 @@ def main():
     js = l118_fix772.layer_js(OUT, js, ROOT, allow)
     sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
     js = _AA959.layer(js, 'activity_scenes.js')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # D158-KX-SAMESCHOOL（76f8 rc2，BB_467）：可昕外校／通勤前提的句子，寫檔前照 tools/story/canon_b5_rows.py 整句換
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

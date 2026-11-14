@@ -184,6 +184,11 @@ const lits=(s,re)=>{ const t=noComments(s), o=[]; let m; re=re||LIT; re.lastInde
 const runProbe=m=>{ let o=''; try{ o=cp.execFileSync(process.execPath,[__filename],{env:Object.assign({},process.env,{QUOTE_B6_PROBE:m}),encoding:'utf8',maxBuffer:1<<29,stdio:['pipe','pipe','pipe']}); }catch(e){ o=String(e.stdout||''); }
   const line=o.split('\n').find(l=>l.startsWith('@@B6@@')); return line?JSON.parse(line.slice(6)):{errs:['子程序沒有結果：'+o.slice(-300)]}; };
 const O=runProbe('old'), N=runProbe('new');
+/* rc2b（D158-KX-SAMESCHOOL，AA_1012 第 2 節，BB_467）：可昕「等我到台北」兩句換過；和 BASE 比以前，現在的值裡這兩句新字先換回舊字（新舊字在 tests/d158_rc2_rows.json），另外驗新字在、舊字不見 */
+{ const R=require('./d158_rc2_lib.js').rows('invites.js'), M=new Map(R.map(r=>[r.new,r.old])); let nNew=0, nOld=0;
+  const fix=L=>{ for(const e of (L||[])) if(Array.isArray(e)&&typeof e[1]==='string'){ if(R.some(r=>r.old===e[1]&&/kexin/.test(e[0]))) nOld++; if(M.has(e[1])){ e[1]=M.get(e[1]); nNew++; } } };
+  fix((N.data||{}).inv); fix(N.inputs);
+  check('rc2b. 可昕「等我到台北」兩句：現在的資料裡新字在（'+nNew+' 格）、舊字 0 格',nNew>=2&&nOld===0,J([nNew,nOld])); }
 /* CANON-NO-ECON-1112 第四批（AA_894 第 4 節）：invites.js 拿掉的兩格（子晴問換方向、芯慈 w118_xc_10），舊資料先拿掉同一格再比（tests/canon1112_ok.js drop）；換了字的幾句照 pair 算 */
 { const C4=require('./canon1112_ok.js'); if(O.data&&O.data.inv) O.data.inv=C4.drop(O.data.inv); if(O.inputs) O.inputs=C4.drop(O.inputs); }
 

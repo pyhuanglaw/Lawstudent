@@ -822,4 +822,8 @@ with open(OUT, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
     fo.write(_AA959.layer("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n', 'ladder.js', strict=not any(a in sys.argv for a in ('--no-aa781', '--no-aa816'))))   # 不疊 AA_781／AA_816 的比較基準：AA_959 照換、對不到的列不擋
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'story'))
+import canon_b5_rows as _B5   # D158-KX-SAMESCHOOL（76f8 rc2，BB_467）：可昕外校／通勤前提的句子，寫完照 tools/story/canon_b5_rows.py 整句換
+_t = open(OUT, encoding='utf8').read(); _f = _B5.fix('ladder.js', _t)
+if _f != _t: open(OUT, 'w', encoding='utf8').write(_f)
 print('wrote', OUT, 'Y1S1', {k: len(v['steps']) for k, v in out['characters'].items()}, {t: {k: len(v['steps']) for k, v in c.items()} for t, c in out['byTerm'].items()}, 'kaiDorm', len(out['kaiDorm']))

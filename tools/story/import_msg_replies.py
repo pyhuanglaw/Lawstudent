@@ -107,6 +107,11 @@ def build(src, sha):
 # 欄位：text＝新的 text、drop＝整則不匯（「見過他們」那一版：AA_919 兩則合成一則）、thread＝{i: (舊, 新)}、opts＝{j: {'t': (舊, 新), 'say': (舊陣列, 新陣列)}}
 U = lambda s: json.loads('"' + s + '"')
 B5 = [
+    ('kexin', '第二頁，明年。', {'text': '這個隊，明年再一起排。', 'opts': {   # rc2d（AA_1015 第 5 節，企劃線 bb6a70b6ec；BB_467）：送訊息的 y2r2_3d.js 聖誕沒去那張照片換字，回覆跟著換（rel 照舊）
+        0: {'t': ['第二頁要寫什麼？', '對不起，今天沒去。'], 'say': [['還沒想好。', '……反正會有你。'], ['嗯。', '……紅豆餅我買了兩個，另一個我吃掉了。']]},
+        1: {'t': ['今天很開心。', '明年我先去排。'], 'say': [['我也是。到家了沒？'], ['你說的。我記著。']]},
+        2: {'t': ['明年換我排。', '紅豆餅好吃嗎？'], 'say': [['你排的，我會改。'], ['好吃。你沒吃到。']]}}}),
+    ('kexin', '我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？', {'text': '我們班債各老師講了一個房東的例子，講了一整節。你那班講過了嗎？'}),   # D158-KX-SAMESCHOOL（76f8 rc2，AA_987，BB_467）：送訊息的 src/story3d.js 同一句一起換
     ('kexin', '我們系有一個人，考古題有目錄。目錄有索引。', {'text': '系上有一個學長，考古題有目錄。目錄有索引。'}),
     ('kexin', U(r'詹靖') + '拍了山下那家的老闆一整天，老闆只說了一句：好。', {'drop': True}),
     ('kexin', '我那個拍片的朋友' + U(r'詹靖') + '，拍了山下那家的老闆一整天。老闆只說了一句：好。',
@@ -198,6 +203,8 @@ def main():
           "'use strict';\nconst MSG_REPLIES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
     js = _AA959.layer(js, 'msg_replies.js')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # D158-KX-SAMESCHOOL（76f8 rc2，BB_467）：可昕外校／通勤前提的句子，寫檔前照 tools/story/canon_b5_rows.py 整句換
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

@@ -41,7 +41,8 @@ const meet=async(id,pid,setup)=>{ const G=fresh('2025-10-18',12,pid); if(setup) 
 (async()=>{
 await sec(1,()=>{ let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+DOC],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
   if(!raw) console.log('SKIP 1 讀不到稿 '+SHA+'（淺層複本：git fetch origin claude/magical-albattani-bk7b4n）');
-  else { const R=JSON.parse(raw), bad=[];
+  else { const R=require('./canon_b5_expect.js').fwd(JSON.parse(raw),'tz_invite_supper.js'), bad=[];   /* 2026-11-13 76f8 rc2（D158-KX-SAMESCHOOL，AA_987 rows）：import_tz_invite_supper.py 寫檔前照 canon_b5_rows.py 的 tz_invite_supper.js#d158 整句換（可昕那一句答應），稿先照同一張表換再逐字比；新字在、舊字不見由下一行驗。舊期望：稿原字直接比 */
+    require('./d158_rc2_lib.js').check(T,'tz_invite_supper.js',check,'1. src/data/tz_invite_supper.js');
     for(const r of R.invite_places){ const p=PL(r.id); if(!p){ bad.push('少 '+r.id); continue; } for(const k of ['zone','name','verb','kind','minStage']) if(p[k]!==r[k]) bad.push(r.id+'.'+k);
       for(const f of ['accept','at_table']){ const ks=Object.keys(r[f]).sort(); if(J(Object.keys(p[f]).sort())!==J(ks)||ks.some(k=>p[f][k]!==r[f][k])) bad.push(r.id+'.'+f); } }   /* 每個人那一句一字照稿（鍵的順序不比）*/
     if(J(T.supper.scene)!==J(R.dorm_supper.scene)) bad.push('dorm_supper.scene');

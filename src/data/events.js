@@ -1434,9 +1434,9 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'smile',text:'你這一年，哪一天印象最深？'},   /* BB_167 4-3：只改問法，八段回憶和她的回應照留（AA_192 的例外）*/
       REVISIT_Y1_CHOICE('k_'),
       {label:'k_retake'},{speaker:'kexin',expression:'smile',text:'一年前你也坐在那間教室。……這次你待到最後了。'},{goto:'mine'},
-      {label:'k_bbq'},{if:{flags:['KX_MET_NOODLE_TEAM'],custom:G=>G.flags.KX_JOKE!=='zhe'},speaker:'kexin',expression:'teasing',text:'那天阿哲輸給我三個冷笑話。'},{if:{flags:['KX_MET_NOODLE_TEAM'],flagIs:{KX_JOKE:'zhe'}},speaker:'kexin',expression:'teasing',text:'那天我輸給阿哲。我回去練了。'},   /* AA_313 第 2 節第 30 列：中秋選「阿哲贏」（KX_JOKE='zhe'）的換句；可昕贏的照舊（她來過一定有 KX_JOKE）*/{unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'teasing',text:'我只看過照片。玉米還是我們系的好。'},{goto:'mine'},
+      {label:'k_bbq'},{if:{flags:['KX_MET_NOODLE_TEAM'],custom:G=>G.flags.KX_JOKE!=='zhe'},speaker:'kexin',expression:'teasing',text:'那天阿哲輸給我三個冷笑話。'},{if:{flags:['KX_MET_NOODLE_TEAM'],flagIs:{KX_JOKE:'zhe'}},speaker:'kexin',expression:'teasing',text:'那天我輸給阿哲。我回去練了。'},   /* AA_313 第 2 節第 30 列：中秋選「阿哲贏」（KX_JOKE='zhe'）的換句；可昕贏的照舊（她來過一定有 KX_JOKE）*/{unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'teasing',text:'我只看過照片。下次烤肉記得叫我，玉米留一支給我。'},{goto:'mine'},
       {label:'k_noodle'},{speaker:'kexin',expression:'smile',text:'你講了一整年的燒臘。開學帶我去。'},{goto:'mine'},
-      {label:'k_appeal'},{speaker:'kexin',expression:'smile',text:'你們系的人，連宿舍的事都寫成申訴書。……我喜歡。'},{goto:'mine'},
+      {label:'k_appeal'},{speaker:'kexin',expression:'smile',text:'我們系的人，連宿舍的事都寫成申訴書。……我喜歡。'},{goto:'mine'},
       {label:'k_rain'},{speaker:'kexin',expression:'smile',text:'那天的雨很大。你後來有沒有感冒？'},{goto:'mine'},
       {label:'k_lecture'},{speaker:'kexin',expression:'smile',text:'你說講者最後問的那一題，我也想了很久。'},{goto:'mine'},
       {label:'k_show'},{speaker:'kexin',expression:'teasing',text:'你負責拍手喔？那你有拍到手痛嗎？'},{goto:'mine'},   /* SC4 #8 */

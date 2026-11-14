@@ -1148,6 +1148,10 @@ with open(dst, 'w', encoding='utf8') as fo:
     sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
     body = _AA959.layer(body, 'date_lines.js')
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'story'))
+import canon_b5_rows as _B5   # D158-KX-SAMESCHOOL（76f8 rc2，BB_467）：可昕外校／通勤前提的句子，寫完照 tools/story/canon_b5_rows.py 整句換
+_t = open(dst, encoding='utf8').read(); _f = _B5.fix('date_lines.js', _t)
+if _f != _t: open(dst, 'w', encoding='utf8').write(_f)
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))
 print('AA_373 6-1 改句：' + '；'.join(f'「{o}」→「{n}」{c} 處' for o, n, c in FIXED))

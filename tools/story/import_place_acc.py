@@ -81,6 +81,8 @@ def main():
           "  for(const pid in INVITE_PLACE_LINES.places) for(const id in INVITE_PLACE_LINES.places[pid]){ const e=INVITE_PLACE_LINES.places[pid][id], p=P[id]||(P[id]={});\n"
           "    if(e.acc&&!(p.acc&&p.acc[pid])) (p.acc||(p.acc={}))[pid]=e.acc.slice(); if(e.firstAt&&!(p.firstAt&&p.firstAt[pid])) (p.firstAt||(p.firstAt={}))[pid]=e.firstAt.slice();\n"
           "    if(e.no){ const PL=(INVITE_DATA.places||[]).find(q=>q.id===pid); if(PL) (PL.noWho||(PL.noWho={}))[id]=e.no; } } })();\n")
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # D158-KX-SAMESCHOOL（76f8 rc2，BB_467）：可昕外校／通勤前提的句子，寫檔前照 tools/story/canon_b5_rows.py 整句換
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''
