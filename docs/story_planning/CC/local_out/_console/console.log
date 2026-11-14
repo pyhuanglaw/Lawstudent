@@ -1,11 +1,3 @@
-[22:25:56] skip SHIFT_IMM_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:56] skip SHIFT_IMM_old (already done on 8a98ff1e06c06cfb52be41dc3402ba05305945a6)
-[22:25:56] skip SHIFT_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:56] skip SHIFT_old (already done on 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed)
-[22:25:56] skip WZCAT_r2_new (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
-[22:25:56] skip WZCAT_r2_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[22:25:56] skip GGGLB_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[22:25:56] skip GGGLB_01b (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
 [22:25:56] skip US_ART_1 (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
 [22:25:56] skip US_ART_2 (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
 [22:25:56] skip US_ART_1b (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
@@ -1998,3 +1990,11 @@
 [09:26:08] [res] cpu=1% mem=46% (14.5/31.4 GB) chrome_testing=10  START GATE2_BIKESHOP_ccbd
 [09:26:54] 正在跑：GATE2_CC0_c_0c49（已跑 18 分／上限 50 分）、GATE2_YANGYANG_0c49（已跑 11 分／上限 25 分）、GATE2_BIKESHOP_ccbd（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:27:39] [res] cpu=0% mem=45% (14.2/31.4 GB) chrome_testing=10  END GATE2_YANGYANG_0c49
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       076715110e..3398839cfd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:27:48] ==== END   GATE2_YANGYANG_0c49  exit=1  713s   ====
+[09:28:03] memory 46% before starting FN_LOOK_REACH_ccbd (2 running)
+[09:28:03] ==== START FN_LOOK_REACH_ccbd  (game @ ccbd520b6166ee74dd86adf8106acb3ed31eef28) ====
+[09:28:05] [res] cpu=0% mem=46% (14.6/31.4 GB) chrome_testing=10  START FN_LOOK_REACH_ccbd
+[09:29:29] [res] cpu=0% mem=46% (14.4/31.4 GB) chrome_testing=10  END FN_LOOK_REACH_ccbd
