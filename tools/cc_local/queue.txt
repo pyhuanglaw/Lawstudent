@@ -2384,7 +2384,7 @@ DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/s
 # ⑦ 開發分支：INV_MEET_YIELD（LAWWW 修好給 <DEV>）、FN_LOOK_REACH（已排 @ccbd，改成 wenzhou＋gongguan）、DATE_LAYER_r3、YIZHAN_DINE、GATE2 剩下的、WINVIEW 兩批、好拍：都已排，沿用
 # ⑧ 美術（發布版）：ART_SWEEP_A（BB_464 B 節）——鏡頭已寫在下面（HOLD）；ART-GYM-BG1、ART-DORM-LOFT 如下；L118 r4、BOOKSTORE_r4、STUDY_FA05／SE01、save 三支、WINVIEW_GG3、DATE_PS／ZR 已排，發布時 76f8 那幾行改 <SHA>
 # HOLD LAWWW2-C 10:06（WINVIEW-EDGE-STRIPE-1114，視差窗照片夾邊→鏡像，LAWWW 整合 fc1813e4f2）：下一版發布後重拍七間窗景 14:00 給 BB 判；<NEXT>＝下一版發布 SHA
-# HOLD WINVIEW_EDGE_STRIPE_rel | <NEXT> | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 30 | ZONES=gg_antai,gg_xianguo,gg_rongendian,daybreak,afar,aoki,bookstore;HOURS=14;SHA=<NEXT>
+# （LAWWW2-C 10:11：v9.10.26＝main 6106fae2d2 已含 fc1813e4f2，不用等下一版，改到下面 10:1x 那一行）
 # HOLD ART_GYM_BG1_rel | <SHA> | probe | docs/story_planning/test_tools/cc/cc_bg_adv_probe.py | index.html | 20 | BGS=ntu_gym_ceremony;DATES=0;CC_HEADLESS=0
 # HOLD ART_DORM_LOFT_rel_shots | <SHA> | probe | docs/story_planning/test_tools/cc/cc_dorm_loft_probe.py | index.html | 20 | HOURS=14,21.5;CC_HEADLESS=0
 # HOLD ART_DORM_LOFT_rel_seats | <SHA> | game | tests/seats_on_furniture.py | index.html | 20 | XARGS={url} dorm;CC_HEADLESS=0
@@ -2472,6 +2472,10 @@ ART_SWEEP_A_wenzhou_p_rc2e | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | 
 # CC-C 10:2x：KOREA_ORDER_1400／XILE_FUNC TEST_BUG（cc_shop_func_probe 沒裝 bbplay helper，__BBF is not defined；功能沒驗到）→ r2 對發布版 main
 KOREA_ORDER_1400_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_shop_func_probe.py | index.html | 15 | MODE=korea;DAY=2025-10-22;HOUR=14;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 XILE_FUNC_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_shop_func_probe.py | index.html | 20 | MODE=xile;DAY=2025-10-22;HOUR=14;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# BB-C 10:12（BB_379 8a9cd0ad79）：禮貌生財 0 人＝SHOPLIFE.NO_CLERK 例外（探針改判 PASS）；2_window 量到店裡的玻璃展示櫃（TEST_BUG，② 只認靠牆的玻璃）；店外中／左構圖一樣 → 重拍，店外左右固定平移 0.8 m、記三個鏡頭位置；對 main
+LIMAO_PARALLAX_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=limao_parallax_r2;ZONES=tz_limao;HOURS=20;NODEBUG=1;SIDE_OFF=0.8;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# LAWWW2-C 10:11：WINVIEW-EDGE-STRIPE-1114 已在 v9.10.26（main 含 fc1813e4f2）→ 七間窗景 14:00 現在就拍，給 BB 判
+WINVIEW_EDGE_STRIPE_rel | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 30 | ZONES=gg_antai,gg_xianguo,gg_rongendian,daybreak,afar,aoki,bookstore;HOURS=14;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # BB-C 09:45（BB_379）：木曜日 r3＝TEST_SETUP（10/22 期中考週＝考試週坐滿模式）→ r4 改 10/08（三）14:00、二樓 SPAWN、四鏡頭＋座位＋ORDER_POOR＋點第一項、記點餐台詞原文＋選單截圖；另一支考試週 10/22 只驗「坐吧檯旁邊」坐得下。照 CC_02 戊5（長的不擋短的）排在 social_r2 前面
 # CC-C 10:0x：BOOKSTORE_r4 TEST_BUG——約人選單現在第一層就有「去頁間書屋逛逛」（沒有「看電影」那一類），PICKS 照新選單改
 CANON458_BOOKSTORE_r5_rc2e | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 25 | TAG=c458_bookstore;ZONE=gongguan;WHO=kexin;DAY=2026-10-14;HOUR=15;REL=45;FLAGS={"ACTN":{"bookstore":{"kexin":3}},"dating_kexin":false};PICKS=頁間書屋>今天;ROUTE=exit:bookstore;VISITED=bookstore;SHA=1404d5f2d4cb740d50df75741764be18ee746992
