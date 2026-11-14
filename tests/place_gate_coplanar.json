@@ -66,7 +66,7 @@
   "top": "WALL_back_cubby_wood×WALL_back_cubby_wood 0.489 m² @[-0.34,0.34,-4.08]"
  },
  "assets/models/env/second_ai/bb_support/bike.glb": {
-  "sha1": "7cf7eca033299fd0d6d54601c23bb0bf36dea7e5",
+  "sha1": "7c8d5e7fd1ddc103742fef3908230c9cf11c3f83",
   "wall": 10.9,
   "always": 17.45,
   "top": "bk_wheel3_0_alpha_inst×WALL_left_wheel4_0_alpha_inst 0.547 m² @[0.16,-0.22,0]"

@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 869.6,
+ "bake_seconds": 1772.9,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -41,5 +41,5 @@
   "WALL_right_wall_wall"
  ],
  "src": "assets/models/env/second_ai/bb_support/bike.glb",
- "src_sha256": "6b02e2097326db2418734f5172643513ef209934ffac8e05c0591e917199892d"
+ "src_sha256": "c67596f22834c7ef0518e11096a29f215d1c712ed20327f908e92edaa0035109"
 }
