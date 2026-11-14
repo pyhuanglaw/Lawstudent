@@ -10528,8 +10528,8 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "c74cefcfa3",
    "receiver": "LAWWW-C",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACK",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "base": "15be72634e",
    "at": "2026-11-14T10:15Z",
@@ -10539,8 +10539,9 @@
     "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/"
    ],
    "tests": "place_gate、shop_cc0、yizhan 6 支 ALL PASS",
-   "notDone": "LAWWW 整合；CC 拍；BB 判",
-   "next": "LAWWW 套 patch"
+   "notDone": "CC 拍；BB 判",
+   "next": "CC 拍、BB 判",
+   "integratedAs": "bfd9156f87"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
@@ -10558,6 +10559,42 @@
    ],
    "tests": "l118_seat_tap_picked_1114 修改前 FAILED 2→ALL PASS；tap 類 11 支 ALL PASS",
    "notDone": "LAWWW 整合；發布後 CC r5；CC 查探針射線",
+   "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "452a96aa6c",
+   "at": "2026-11-14T10:35Z",
+   "task": "SHOP-REALISM-1112",
+   "title": "轉角唱片 v2（g2 26b1f7976b）驗收 PASS：shop_cc0 三項過（原本純色 41%）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/corner_v2_on_452a96aa6c.patch"
+   ],
+   "tests": "corner 系列 5 支、shop_cc0、place_gate ALL PASS",
+   "notDone": "LAWWW 整合；CC 拍；BB 判",
+   "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "452a96aa6c",
+   "at": "2026-11-14T10:35Z",
+   "task": "SHOP-REALISM-1112",
+   "title": "好拍 v2（g3 200d3b6c66）驗收 PASS：後段鐵架紙箱換 Poly Haven",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/haopai_v2_on_452a96aa6c.patch"
+   ],
+   "tests": "shop_cc0、xs_lm、xsshop 等 9 支 ALL PASS；疊面變少",
+   "notDone": "LAWWW 整合；CC 量三角形 57k→77k；BB 判",
    "next": "LAWWW 套 patch"
   }
  ]

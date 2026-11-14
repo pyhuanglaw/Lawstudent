@@ -242,3 +242,18 @@
 - **測試**：shop_cc0 過；yizhan 相關 6 支 ALL PASS。
 - **畫面**（`yizhan_v12_cmp.jpg` 第三列）：水屋左邊壁櫥的雲狀斑沒了，其他不變。
 - 其他四間（aa_cc0 的 Plaster001 雲狀斑）照舊留 P3。
+
+## 轉角唱片 v2（g2 26b1f7976b）——驗收 PASS（11-14 10:3x UTC）
+- **patch**：`corner_v2_on_452a96aa6c.patch`，底是開發分支 452a96aa6c，套上去沒有衝突。
+- **三項**：shop_cc0 過。Poly Haven `potted_plant_02`；ambientCG Plastic006、Metal009（vc_tex）。原本是「純色 41%、沒有掃描模型」，baseline 拿掉轉角。
+- **疊面**：先跑 place_gate（不加 --write），新的問題 0；之後 --coplanar --write 只有 sha1 變（牆 10.81、全部 13.31 不變）。
+- **其他**：新工具 `glb_merge_dup_mat.py`，把烘焙時多出來的 cr_vc.001 併回去，材質數回到 12。corner_shop_unit 寫死的 GLB 大小 4,238,972 → 4,875,700 B，有寫理由。
+- **測試**：corner_shop、corner_glb、corner_ceil、corner_kexin、mokuyobi_plant_corner、shop_cc0、place_gate 都 ALL PASS。
+- **畫面**（`corner_v2_cmp.jpg`）：右邊落地的大盆栽換成掃描盆栽（白盆），比原本的葉片卡好；其他不變。
+
+## 好拍 v2（g3 200d3b6c66）——驗收 PASS（11-14 10:3x UTC）
+- **patch**：`haopai_v2_on_452a96aa6c.patch`，底是開發分支 452a96aa6c，套上去沒有衝突。
+- **改了什麼**：後段鐵架上程式拼的貨箱換成 Poly Haven `cardboard_box_01`，大小照原本的格子、角度偏 ±0.08 rad；鐵架用的原型減到約 200 面。有標籤的羽球拍箱、桌球盒、資料夾照舊。
+- **疊面**：place_gate（不加 --write）新的問題 0；--coplanar 牆 7.97 → 7.92、always 11.68 → 11.62（變少）。
+- **測試**：shop_cc0、xs_lm（instancing 65 → 66）、xsshop、xs_close、seat_reach、shop_npc、xs_wincard ×2、xs9_haopai_shanlan_check 都 ALL PASS。
+- **畫面**（`haopai_v2_cmp.jpg`）：後段鐵架的紙箱看起來像真的紙箱（有膠帶、皺折）。畫出的三角形 57k → 77k，要留意手機效能，請 CC 量。
