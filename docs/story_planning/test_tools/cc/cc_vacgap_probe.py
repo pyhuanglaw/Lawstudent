@@ -305,7 +305,13 @@ async def c_others(pg, cdp, tag):
     R.note('[%s] 2027-02-09 診斷（BB-C 10:16）：zone %s %s %s；presence %s；schedEnt %s；這一區 NPC %s' % (tag, dg['zone'], dg['key'], dg['h'], J(dg['presence']), J(dg['schedEnt']), J(dg['npcs'])))
     open(os.path.join(OUT, 'kai_0209_diag.json'), 'w', encoding='utf-8').write(J(dg))
     R.note('[%s] 2027-02-09 走回 203（%s）：%s %.2f %s；STORY.presence(kai) %s；這一區的阿凱 %s' % (tag, back, c['key'], c['h'], (await st(pg)).get('zone'), J(pr), J(w)))
-    R.check('[%s] 2027-02-09 阿凱傳完「宵夜」、回 203 他在房間（BB-C 11-14 6b1d：不在＝FAIL）' % tag, bool(back) and bool(w), J({'back': back, 'npc': w, 'presence': pr}))
+    # BB-C 10:28（BB_379 4437399131，規格錯）：大二起（2026-09-06 以後）阿凱住別棟，schedEnt 是 away「在他那棟宿舍」——不在 203 是照設計。
+    #   大一：回 203 他在房間；大二起：presence here:true、而且手機「朋友」那一欄（現在大概在＝schedEnt.away）寫在他那棟
+    if c['key'] < '2026-09-06':
+        R.check('[%s] %s（大一）阿凱傳完「宵夜」、回 203 他在房間' % (tag, c['key']), bool(back) and bool(w), J({'back': back, 'npc': w, 'presence': pr}))
+    else:
+        se = dg.get('schedEnt') if isinstance(dg.get('schedEnt'), dict) else {}
+        R.check('[%s] %s（大二起）阿凱 presence here:true、手機「朋友」那一欄寫在他那棟（schedEnt.away）' % (tag, c['key']), isinstance(pr, dict) and pr.get('here') is True and '那棟' in str(se.get('away') or ''), J({'presence': pr, 'away': se.get('away'), 'zone': se.get('zone')}))
     extra.append(dict(day='2027-02-09', who='kai', back=back, presence=pr, npc=w, **k))
     return {'case': tag, 'rows': out, 'extra': extra}
 
