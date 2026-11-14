@@ -8,7 +8,7 @@
 
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的（P2／P3） |
 |---|---|---|---|---|
-| 大步球鞋 dabu | 已整合（LAWWW-C 884f09a7c3；LAWWW2 PASS） | a3a67aef7d；v2 腳本 3b7c829a79（鞋盒、層架離牆；沒烘、沒交） | `docs/art-rebuild/second_ai/cc0_help/g3/dabu.patch` | P2（LAWWW2）：鞋盒牆、收銀台後的盒子牆改 `printed`（Cardboard001 上印品牌色塊、側標、尺碼標），大小顏色有變化、幾個開蓋歪放 → v2；六間交完再做 |
+| 大步球鞋 dabu | 已整合（LAWWW-C 884f09a7c3；LAWWW2 PASS） | a3a67aef7d；v2 已交 LAWWW2（11-14 12:0x；dabu_v2.patch：鞋盒盒身＋盒蓋、層架離牆，5.11 m² 那片修掉、wall 32.98→18.09） | `docs/art-rebuild/second_ai/cc0_help/g3/dabu.patch` | P2（LAWWW2）：鞋盒牆、收銀台後的盒子牆改 `printed`（Cardboard001 上印品牌色塊、側標、尺碼標），大小顏色有變化、幾個開蓋歪放 → v2；六間交完再做 |
 | 好拍運動 haopai | LAWWW2 PASS（00:55；LAWWW2 在 582eb7d807 上重出 patch 交 LAWWW b5410f8654） | 6da531c6ee；v2 LAWWW2 PASS（10:23，交 LAWWW 整合、底 452a96aa6c）；P3：手機效能等 CC 量（tris_drawn 57k→77k，超標就把鐵架紙箱 LOD 再降） | `docs/art-rebuild/second_ai/cc0_help/g3/haopai.patch` | v2（新生運動之後）：後段鐵架上的貨箱（程式拼的方塊＋標籤）換 Poly Haven cardboard_box_01，大小、角度有變化 |
 | 同弦樂器 tongxian | 已交 LAWWW2 驗收（01:5x） | 768816c33c | `docs/art-rebuild/second_ai/cc0_help/g3/tongxian.patch`（底 2da495e693） | P3：畫面變化小（硬盒架上 PH 紙箱、長椅上 PH 烏克麗麗、天花板 Plaster001、金屬零件 Metal009 × 顏色） |
 | glb_coplanar instancing（工具） | 已交 LAWWW2 驗收（LAWWW-C 01:43 同意；條件：單獨一包、全部前後對照、變多逐筆列、加小測——都做了） | edb96e33ec | `docs/art-rebuild/second_ai/cc0_help/g3/coplanar_instancing.patch`（底 2da495e693） | 前後對照 `cc0_help/g3/coplanar_instancing.md`：51 個模型、變少 8、變多 0 |
