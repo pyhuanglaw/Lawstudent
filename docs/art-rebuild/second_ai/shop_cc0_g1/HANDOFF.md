@@ -9,7 +9,7 @@
 |---|---|---|---|---|
 | 小路 komichi | 已整合（v3 在開發分支 e687f2f3b6） | 58a50cc2cb | `docs/art-rebuild/second_ai/wip/shop_cc0_g1_1113/komichi_v3_cc0.patch` | 無 |
 | SUNNY SIDE sunnyside | 已整合（v3 在開發分支） | 58a50cc2cb | `…/sunnyside_v3_cc0.patch` | 無 |
-| 一盞 yizhan | v1.1 LAWWW2 PASS（15124fd457，COPLANAR-CREEP-1114 已修）；**v1.2 已交 LAWWW2 驗收**（P3 霧面雲狀斑：霧面紋路 0.6→0.15 m，使用者 11-14 同意只做這一間） | 見 git log（11-14 v1.2 交件） | `…/yizhan_v12_cc0.patch`（底 1a7d7e1994，11 個檔，含狀態表） | 等驗收；其他四間的雲狀斑沒做（P3） |
+| 一盞 yizhan | v1.2 LAWWW2 PASS（P3 霧面雲狀斑；LAWWW2 改用開發分支 15be72634e 為底重出 patch 交 LAWWW） | 4ba5e16e70 | `…/yizhan_v12_cc0.patch`（我用的底 1a7d7e1994 是發布樹，LAWWW2 已重出） | 無；其他四間的雲狀斑留 P3 |
 | 木曜日 mokuyobi | v2.2 LAWWW2 PASS（LAWWW2 在 98a1bddf63 重出 patch，交 LAWWW 1d38c560b0） | dd0bc769a1 | `…/mokuyobi_v22_cc0.patch` | 無 |
 | 日常失速 daily_offbeat | v2.1 已整合；LICENSES 補登併進 LAWWW2 給 LAWWW 的木曜日 v2.2 那一包 | dd0bc769a1 | `…/daily_offbeat_v21_licenses.patch` | 無 |
 
@@ -47,3 +47,4 @@
 - 使用者問「LAWWW-C 你們要不要接班」→ LAWWW-C 回「要接，你自己繼續；只做半小時內交得出來的 P3 霧面雲狀斑一間」→ 使用者對我說 yes。
 - 做的：一盞 v1.2——`aa_cc0.enable(..., tiles={'vc': 0.15})`（只有一盞用；其他四間不動），霧面紋路 0.6 m → 0.15 m 一格。腳本已推；烘焙中（scratchpad/bake/yizhan12，沒有遠端備份）。
 - 10:0x 烘完、交件（一盞 v1.2）。
+- 10:1x 一盞 v1.2 LAWWW2 PASS；停工。教訓（LAWWW2-C）：出 patch 要用開發分支 `claude/adoring-meitner-mqzst8` 最新那一筆當底，不要用發布樹（1a7d7e1994 那種，裡面的模型比較舊）——fetch 以後先看 `git log -1` 的訊息確認。
