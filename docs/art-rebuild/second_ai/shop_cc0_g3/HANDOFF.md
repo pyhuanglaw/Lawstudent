@@ -12,8 +12,8 @@
 | 好拍運動 haopai | LAWWW2 PASS（00:55；LAWWW2 在 582eb7d807 上重出 patch 交 LAWWW b5410f8654） | 6da531c6ee | `docs/art-rebuild/second_ai/cc0_help/g3/haopai.patch` | v2（新生運動之後）：後段鐵架上的貨箱（程式拼的方塊＋標籤）換 Poly Haven cardboard_box_01，大小、角度有變化 |
 | 同弦樂器 tongxian | 烘焙中（排第 5） | 腳本 11dd2b9e42 | （還沒有） | 要挖樓梯間地板洞（`glb_floor_hole.py`，已對新原檔做好）；`xs_lm_unit` instancing 29→30；第一次烘的沒挖洞，已丟掉 |
 | 新生運動廣場 xinsheng_sports | LAWWW2-C 接手（11-14 01:10 分工調整）；交接說明 `docs/art-rebuild/second_ai/cc0_help/g3/xs_handover/README.md` | 252bc3765a（腳本） | （沒有） | 我這邊不再做 |
-| 大口漢堡一樓 dakou_1f | 已交 LAWWW2 驗收（第二次：疊面修正版，01:3x） | 本次交件 commit | `docs/art-rebuild/second_ai/cc0_help/g3/dakou.patch`（底 98a1bddf63，帶 place_gate_coplanar.json） | v2：①一樓櫃檯後層架彩色方塊改印刷包裝盒／罐子；對照圖加「一樓櫃檯後層架近看」 |
-| 大口漢堡二樓 dakou_2f | 已交 LAWWW2 驗收（和一樓同一份） | 本次交件 commit | 同上 | v2：②課本 Poly Haven book 或印刷書、紙袋有提把摺邊、筆電掃描模型；對照圖加「二樓長桌近看」 |
+| 大口漢堡一樓 dakou_1f | LAWWW2 PASS（第二次，01:34；LAWWW2 在 07bbd8564e 重驗、交 LAWWW 506e12dc9f）；v2 做了、還沒烘（83cf92994c，等 glb_coplanar instancing 的決定） | 本次交件 commit | `docs/art-rebuild/second_ai/cc0_help/g3/dakou.patch`（底 98a1bddf63，帶 place_gate_coplanar.json） | v2：①一樓櫃檯後層架彩色方塊改印刷包裝盒／罐子；對照圖加「一樓櫃檯後層架近看」 |
+| 大口漢堡二樓 dakou_2f | LAWWW2 PASS（同上）；v2 同上 | 本次交件 commit | 同上 | v2：②課本 Poly Haven book 或印刷書、紙袋有提把摺邊、筆電掃描模型；對照圖加「二樓長桌近看」 |
 
 五間的建模腳本都已經改好、推上去（`tools/blender/env_second/bb_support/*_interior.py`＋共用 `cc0_kit.py`）；用腳本重建、還沒烘的原檔都過了店自己的單元測試、`shop_cc0_unit` 三項（LICENSES 列加上以後）。
 
