@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\REL76_ladder_r2_rc2e\docs\story_planning\test_tools\cc\cc_test_patch_wrap.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\REL76_ladder_r2_rc2e\out
+CC 包裝：tests\flow_ladder_y1s2.py，PATCH=ladder_slots（2 處），參數 ['http://127.0.0.1:8800/index.html', 'C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\REL76_ladder_r2_rc2e\\out']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 橫向：遊戲載入
+  [  32.3s] 橫向：CC 找時段（schedEnt：在場、不是上班、有大一下階梯；BB-C 21:39）：[{"id": "heroine_01", "zone": "classroom", "h": 10, "wd": 1, "act": "class"}, {"id": "heroine_02", "zone": "campus", "h": 10, "wd": 2, "act": "wander"}, {"id": "heroine_03", "zone": "library", "h": 10, "wd": 1, "act": "read"}, {"id": "heroine_05", "zone": "library", "h": 10, "wd": 1, "act": "read"}, {"id": "classmate_peishan", "zone": "classroom", "h": 10, "wd": 1, "act": "class"}]
+  [前置／捷徑] 橫向：讀檔到大一下第 5 週（第 188 天）10.0 時、classroom
+  [  46.2s] classroom 10：有下一層階梯的人 [{"id": "heroine_01", "key": "heroine_01", "step": "A2-L1", "first": "我媽寒假教我煮番茄炒蛋。", "choices": 2, "chTexts": ["「學會了嗎？」", "「下次做給我吃。」"], "name": "沈以安", "moving": false, "pose": "sit", "x": 3.75, "z": 6.7}, {"id": "classmate_peishan", "key": "classmate_peishan", "step": "P2-L1", "first": "寒假我在家看了三部動畫。
+PASS 橫向：找到在場、有下一層階梯的人
+  [前置／捷徑] 橫向：heroine_01 設成見過、有點熟；玩家放到旁邊 1.2 公尺（瞬移）
+PASS 橫向：站在沈以安旁邊，互動按鈕是「和沈以安說話」（和沈以安說話）  [[[3.75, 7.800000000000001, 0.760107523773828], [4.170951775601599, 7.716267485762415, 0.38227685443550086], [3.3290482243984005, 7.716267485762415, 0.3822768544355004]], "和沈以安說話"]
+PASS 橫向：播的是那一層（A2-L1）的第一句  {"first": "我媽寒假教我煮番茄炒蛋。", "seen": ["我媽寒假教我煮番茄炒蛋。", "她說她只會這一道，我練了三天。", "第三天才沒有煎老。"]}
+PASS 橫向：對話框整個在畫面裡（看到 3 句）  [{"in": true, "h": 104}, {"in": true, "h": 104}, {"in": true, "h": 104}]
+PASS 橫向：選項按鈕都在畫面裡、至少 44px 高、有字（點了「就這樣」）  [{"t": "「學會了嗎？」", "h": 46, "in": true}, {"t": "「下次做給我吃。」", "h": 46, "in": true}, {"t": "（說點不一樣的）看你們現在多熟", "h": 63, "in": true}, {"t": "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "h": 63, "in": true}, {"t": "就這樣", "h": 46, "in": true}]
+PASS 橫向：對話結束、階梯往前一層、玩家可以動  {"lad": [0, 1], "state": {"zone": "classroom", "x": 3.75, "z": 7.8, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "第三天才沒有煎老。", "choices": 0, "interact": "和沈以安說話", "hour": 10.04, "stand": true, "camYaw": -1.046, "fallbacks": 0, "y": 1.8, "lv": 0, "frame": 426, "paused":
+PASS 橫向：沒有 JS 錯誤
+PASS 直向：遊戲載入
+  [  86.3s] 直向：CC 找時段（schedEnt：在場、不是上班、有大一下階梯；BB-C 21:39）：[{"id": "heroine_01", "zone": "classroom", "h": 10, "wd": 1, "act": "class"}, {"id": "heroine_02", "zone": "campus", "h": 10, "wd": 2, "act": "wander"}, {"id": "heroine_03", "zone": "library", "h": 10, "wd": 1, "act": "read"}, {"id": "heroine_05", "zone": "library", "h": 10, "wd": 1, "act": "read"}, {"id": "classmate_peishan", "zone": "classroom", "h": 10, "wd": 1, "act": "class"}]
+  [前置／捷徑] 直向：讀檔到大一下第 5 週（第 188 天）10.0 時、classroom
+  [  99.3s] classroom 10：有下一層階梯的人 [{"id": "heroine_01", "key": "heroine_01", "step": "A2-L1", "first": "我媽寒假教我煮番茄炒蛋。", "choices": 2, "chTexts": ["「學會了嗎？」", "「下次做給我吃。」"], "name": "沈以安", "moving": false, "pose": "sit", "x": 3.75, "z": 6.7}, {"id": "classmate_peishan", "key": "classmate_peishan", "step": "P2-L1", "first": "寒假我在家看了三部動畫。
+PASS 直向：找到在場、有下一層階梯的人
+  [前置／捷徑] 直向：heroine_01 設成見過、有點熟；玩家放到旁邊 1.2 公尺（瞬移）
+PASS 直向：站在沈以安旁邊，互動按鈕是「和沈以安說話」（和沈以安說話）  [[[3.75, 7.800000000000001, 0.760107523773828], [4.170951775601599, 7.716267485762415, 0.38227685443550086], [3.3290482243984005, 7.716267485762415, 0.3822768544355004]], "和沈以安說話"]
+PASS 直向：播的是那一層（A2-L1）的第一句  {"first": "我媽寒假教我煮番茄炒蛋。", "seen": ["我媽寒假教我煮番茄炒蛋。", "她說她只會這一道，我練了三天。", "第三天才沒有煎老。"]}
+PASS 直向：對話框整個在畫面裡（看到 3 句）  [{"in": true, "h": 104}, {"in": true, "h": 104}, {"in": true, "h": 104}]
+PASS 直向：選項按鈕都在畫面裡、至少 44px 高、有字（點了「就這樣」）  [{"t": "「學會了嗎？」", "h": 46, "in": true}, {"t": "「下次做給我吃。」", "h": 46, "in": true}, {"t": "（說點不一樣的）看你們現在多熟", "h": 63, "in": true}, {"t": "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "h": 63, "in": true}, {"t": "就這樣", "h": 46, "in": true}]
+PASS 直向：對話結束、階梯往前一層、玩家可以動  {"lad": [0, 1], "state": {"zone": "classroom", "x": 3.75, "z": 7.8, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "第三天才沒有煎老。", "choices": 0, "interact": "和沈以安說話", "hour": 10.05, "stand": true, "camYaw": -1.046, "fallbacks": 0, "y": 1.8, "lv": 0, "frame": 486, "paused":
+PASS 直向：沒有 JS 錯誤
+ALL PASS
