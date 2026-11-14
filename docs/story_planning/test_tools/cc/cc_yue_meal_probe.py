@@ -129,6 +129,21 @@ DIAG = r"""((id)=>{ const E=GAME.E, r2=v=>(typeof v==='number')?+v.toFixed(3):v;
     camera:[r2(cam.x),r2(cam.y),r2(cam.z)], player:[r2(P.x),r2(P.y),r2(P.z)], playerLv:E.player.lv|0}; })"""
 
 
+def _flat(v):
+    if isinstance(v, str): return [v]
+    if isinstance(v, (list, tuple)): return [x for i in v for x in _flat(i)]
+    if isinstance(v, dict): return [x for i in v.values() for x in _flat(i)]
+    return []
+
+
+def tmatch(t, target):
+    if not t: return None
+    def hit(v): return any(x == t or (len(t) >= 4 and (x.startswith(t) or t.startswith(x))) for x in _flat(v) if x)
+    if hit(target.get('narr')): return 'narr'
+    if hit(target.get('own')) or hit(target.get('ask')): return 'line'
+    return None
+
+
 async def one_shift(pg, cdp, sv, who, tag, dt, hit, how):
     out = {'key': hit['key']}
     r = await pg.evaluate(APPLY, sv)
@@ -148,9 +163,10 @@ async def one_shift(pg, cdp, sv, who, tag, dt, hit, how):
         s = await L.state(pg)
         t = s.get('dtext') or ''
         if t and (not seen_lines or seen_lines[-1] != t): seen_lines.append(t)
-        if t and (t == target.get('own') or t == target.get('ask') or t == target.get('narr')):
+        mk_ = tmatch(t, target)   # 11-14 BB-C（BB_379 6735490ac4 YUE_MEAL TEST_BUG）：打字還沒打完就讀到（「你在這裡。幾點下班」少了「？」）＝逐字相等對不上——改成開頭相同（≥4 字）也算
+        if mk_:
             # 11-13 LAWWW-C：旁白那一刻她還在走是預期的；diag 要在她那一句（ask／交往版 own）出來那一刻抓，旁白那一刻也留著前後比
-            kind_ = 'narr' if t == target.get('narr') else 'line'
+            kind_ = mk_
             key_ = 'diag_' + kind_
             if key_ not in out:
                 try: out[key_] = await pg.evaluate(DIAG, who)
