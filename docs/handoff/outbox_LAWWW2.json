@@ -10746,6 +10746,25 @@
    "notDone": "LAWWW 套 patch；CC 拍；BB 判",
    "next": "LAWWW 套 patch",
    "integratedAs": "4cab49e0d9"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "",
+   "receiver": "LAWWW-B",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "166e9d3096",
+   "at": "2026-11-14T12:45Z",
+   "task": "SHOP-REALISM-1112",
+   "title": "輪轉單車 v2.1 驗收 PASS（g2 d8ee8b27c2：右牆層架大小不同的紙盒、瓶罐、U 型鎖）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/bike_v21_on_166e9d3096.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/bike_v21_cmp.jpg"
+   ],
+   "tests": "shop_cc0 ALL PASS；place_gate 新問題 0（只有狀態表過期）；讀單車模型的測試改前改後一樣",
+   "notDone": "LAWWW 套 patch、place_gate --write；CC 拍；BB 判",
+   "next": "LAWWW 套 patch"
   }
  ]
 }

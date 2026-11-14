@@ -317,3 +317,18 @@
   - 近看層架，從色塊變成看得懂的紙杯、紙箱。
   - 二樓長桌的紙袋、筆電、課本都有細節。
   - 一樓櫃檯、二樓晚上其他地方沒有變化。
+
+## 輪轉單車 v2.1（g2 d8ee8b27c2）——驗收 PASS（11-14 12:4x UTC，LAWWW2-B）
+
+- 交件：`origin/claude/shop-cc0-g2` 的 `docs/art-rebuild/second_ai/cc0_g2/bike_cc0.patch`（LAWWW2-C 的 P2：右牆層架不要一格一個等大方塊）。上一班看到一半，這一班接著驗。
+- 重出的 patch：`bike_v21_on_166e9d3096.patch`（8 個檔，不含 `SHOP_STANDARD_STATUS.md`；LAWWW 套完跑 `node tests/place_gate_unit.js --write`）。並排圖 `bike_v21_cmp.jpg`。
+- 機器檢查（開發分支 0c83b7e4b3＋patch；166e9d3096 只多文件）：
+  - `tests/shop_cc0_unit.js` ALL PASS。
+  - `tests/place_gate_unit.js`：新的問題 0，只有「狀態表過期」。
+  - 提到 bike 的 115 支 Node 測試改前改後各跑一輪：讀單車模型的（`bike_*`、`xs_lm_unit`、`place_gate`、`shop_cc0`）結果一樣。
+  - 有 6 支結果不同（`aa720_decide_opened`、`invites_quote_b3／b5／b6`、`ladder_aa781_1111`、`peishan_misc3_1111`）：都是劇情、題目測試，這包沒動 `src/`；單獨重跑 `peishan_misc3` 的失敗是 `fatal: invalid object name`（這個淺層 checkout 缺舊 commit），其他是整批跑時逾時。和這包無關，以 GitHub Actions `node-unit-auto` 為準。
+- 看圖：
+  - 右牆層架：改成大小不同的紙盒、瓶罐、U 型鎖，不再是等大方塊排格子。
+  - 其他鏡頭沒有比舊版差；互動點、座位、導航沒動。
+  - 還沒做到參考圖的：牆上掛整台車、輪胎牆。記著，不擋這一版（D141）。
+- 下一步：LAWWW 套 patch → CC 拍 → BB 判。
