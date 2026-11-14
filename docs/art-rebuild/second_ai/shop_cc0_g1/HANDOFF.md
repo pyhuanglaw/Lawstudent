@@ -9,7 +9,7 @@
 |---|---|---|---|---|
 | 小路 komichi | 已整合（v3 在開發分支 e687f2f3b6） | 58a50cc2cb | `docs/art-rebuild/second_ai/wip/shop_cc0_g1_1113/komichi_v3_cc0.patch` | 無 |
 | SUNNY SIDE sunnyside | 已整合（v3 在開發分支） | 58a50cc2cb | `…/sunnyside_v3_cc0.patch` | 無 |
-| 一盞 yizhan | v1.1 LAWWW2 PASS（2da495e693 重驗，交 LAWWW 15124fd457） | 3077099179 | `…/yizhan_v11_cc0.patch` | 無 |
+| 一盞 yizhan | v1.1 LAWWW2 PASS（2da495e693 重驗，交 LAWWW 15124fd457）。**COPLANAR-CREEP-1114（疊面 +0.04 m²）已修**：電熱水壺抬高 3 mm、和紙吊燈框橫木窄 3 mm，一定會閃 2.07→2.03 m²（回到原本） | 3077099179 | `…/yizhan_v11_cc0.patch` | 無 |
 | 木曜日 mokuyobi | v2.2 LAWWW2 PASS（LAWWW2 在 98a1bddf63 重出 patch，交 LAWWW 1d38c560b0） | dd0bc769a1 | `…/mokuyobi_v22_cc0.patch` | 無 |
 | 日常失速 daily_offbeat | v2.1 已整合；LICENSES 補登併進 LAWWW2 給 LAWWW 的木曜日 v2.2 那一包 | dd0bc769a1 | `…/daily_offbeat_v21_licenses.patch` | 無 |
 
