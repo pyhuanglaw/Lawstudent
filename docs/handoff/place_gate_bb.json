@@ -591,15 +591,16 @@
    "verdict": "部分",
    "fail": [],
    "pending": [
-    "店員：GATE_NEW3「人數 0」撤回＝TEST_BUG（探針只數 obj.visible、櫃台點離店員 >2 m；LAWWW-C 雲端截圖草原 2 位、竹葉 1 位）——CC 改 PEOPLE_JS 用 n.hidden、站到結帳前面重拍確認；客人 1bdf4848cf 已加（草原白天 8、竹葉白天 2）",
+    "店員 PASS（11-14 BB_379：SHOP_US_v2_r4c／r5，走近 visible true、結帳鍵 0.55 m 出現；先前「人數 0」＝TEST_SETUP 視錐＋探針站太遠）",
     "v2（379e71f77a）BB 看圖：質感 FAIL 關——端架從近黑平板改擺促銷商品、自畫包裝圖集大小不一有空格、頂面淺色、櫃台禮盒；純色零件 19%；shop_cc0 過",
     "P2：端架同一層盒子同尺寸同色（可加高低、缺貨空格）；促銷頭板像圖示不像印刷海報（LAWWW2 已記）；POS 改真的收銀機",
     "正式判等窗景修好＋CC 四鏡頭",
-    "窗景 v2（bb83ca3ae5，不進 76f8）BB 看圖 PASS，窗景 FAIL 關：舊卡是平面卡通圖＋天空挖空露室內灰底→新版 Blender 拍 us_market_street（對面草原超市、路燈、停車場、行道樹、藍天）有層次，晚上路燈招牌亮；順帶修掉載入時 glass 未宣告的 ReferenceError。P3：冬天窗外照樣夏天的樹。發布後 CC 拍 13:00、21:00"
+    "窗景 v2（bb83ca3ae5，不進 76f8）BB 看圖 PASS，窗景 FAIL 關：舊卡是平面卡通圖＋天空挖空露室內灰底→新版 Blender 拍 us_market_street（對面草原超市、路燈、停車場、行道樹、藍天）有層次，晚上路燈招牌亮；順帶修掉載入時 glass 未宣告的 ReferenceError。P3：冬天窗外照樣夏天的樹。發布後 CC 拍 13:00、21:00",
+    "④ 做得到的事 PASS（BB-C 11-14 11:40，BB_379 68aa8fc6e7；SHOP_US_BUY 雲端 @main）：貨架拿東西進推車、結帳加買月餅共 304 元扣錢正確、進 GG3_OWN 和禮物袋、錢不夠出「先拿便宜的」"
    ],
    "note": "11-12 21:1x 對第一層 SHOP_STANDARD_STATUS 時發現不在 BB 清單；排 CC 進門四鏡頭",
-   "at": "2026-11-13T21:4xZ",
-   "ref": "BB_379 11-13 21:4x"
+   "at": "2026-11-14T11:40Z",
+   "ref": "BB_379 11-14 11:40 68aa8fc6e7"
   },
   {
    "zone": "us_market",
