@@ -1,11 +1,3 @@
-[23:28:07] [res] cpu=56% mem=43% (13.7/31.4 GB) chrome_testing=4  END W1R_E1E2_zrshow
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       a9e76680e0..37a8f6bcb9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:28:33] ==== END   W1R_E1E2_zrshow  exit=1  250s   ====
-[23:28:48] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[23:28:48] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[23:28:48] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [23:28:48] memory 45% before starting STUDY_SE06_a9b6 (2 running)
 [23:28:48] ==== START STUDY_SE06_a9b6  (probe @ a9b63d9effd5fd6299d09b2a0527db69e6931292) ====
 [23:28:51] [res] cpu=34% mem=45% (14.3/31.4 GB) chrome_testing=5  START STUDY_SE06_a9b6
@@ -1998,3 +1990,11 @@
 [12:56:29] [res] cpu=15% mem=43% (13.6/31.4 GB) chrome_testing=10  START TZ_WENTE_v2_1500
 [12:56:55] 正在跑：YY_GATE_r2（已跑 11 分／上限 50 分）、GATE_US2_131b（已跑 11 分／上限 50 分）、TZ_WENTE_v2_1500（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [12:57:52] [res] cpu=5% mem=44% (14.0/31.4 GB) chrome_testing=9  END GATE_US2_131b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ff96db5b20..fe5ca7cf76  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:58:01] ==== END   GATE_US2_131b  exit=1  751s   ====
+[12:58:04] memory 45% before starting TZ_WENTE_v2_2300 (2 running)
+[12:58:04] ==== START TZ_WENTE_v2_2300  (probe @ 5c96c6680264aa6fe56f5450f01d848d3623c9af) ====
+[12:58:07] [res] cpu=2% mem=44% (14.2/31.4 GB) chrome_testing=9  START TZ_WENTE_v2_2300
+[12:58:39] [res] cpu=10% mem=43% (13.5/31.4 GB) chrome_testing=9  END TZ_WENTE_v2_1500
