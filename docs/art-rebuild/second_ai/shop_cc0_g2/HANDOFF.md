@@ -12,8 +12,8 @@
 | 轉角唱片 corner | **自己退回、等重烘**（v2 大盆栽的盆子改 cr_vc：材質數回到 12，tests/corner_glb_unit.js 第 1 項） | 5ebe2f46c（v2 腳本） | 還沒做 | 頁間 v4 之後重烘；交件時 tests/corner_shop_unit.js 第 1 項寫死的 GLB 大小要跟著更新（說明裡寫清楚） |
 | 日和便利店 cvs | **改由 LAWWW2 做**（11-13 22:31 LAWWW2 選 ①），LAWWW2 已交 LAWWW（6ecd6495c8） | — | — | 我這邊不做 |
 
-## 目前做到哪（2026-11-14 01:3x）
-- 背景烘焙（一次一間，用進程編號串起來，不用 pgrep 比對字串——比對字串會誤殺等待中的程式，11-13 出過兩次）：Daybreak v2.1（烘焙中）→ 頁間 v4 → 唱片 v2 → 山嵐 v3；之後單車 v2。
+## 目前做到哪（2026-11-14 01:4x，容器重開後）
+- 背景烘焙（一次一間，一支腳本 `/tmp/claude-0/g2/bakeq7.sh` 依序跑，不再用互相等待的程式）：11-14 01:4x 容器重開，正在烘的 Daybreak v2.1 中斷、重來：Daybreak v2.1 → 頁間 v4 → 唱片 v2 → 山嵐 v3；單車 v2 確認截圖重拍中，看完再烘。
 - 每間交件流程（照 `docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md`）：烘完 → `fast_shots.py` 拍五格（參考鏡頭、門口、從裡面朝門口、近看吧台／櫃台、20:00）→ 自己看並排圖 → `/tmp/claude-0/g2/bin/mkpatch.py`（底＝開發分支最新；LICENSES 只加這間的列、基準表只拿掉這間、coplanar 只換這間、附 `place_gate --write` 重產的 SHOP_STANDARD_STATUS.md）→ 在乾淨副本套 patch 跑 `shop_cc0_unit`、`place_gate`、這間店相關測試 → commit＋push → 傳 LAWWW2-C（副本 LAWWW-C）。
 - 交件前（LAWWW2 11-14 新流程）：先 `node tests/place_gate_unit.js`（不加 --write），有「比基準多」就先修模型重烘；沒有才 `--coplanar --write`；不准 `--allow-grow`。套 patch 後跑這間店相關的全部測試，和沒套 patch 的開發分支逐支比（唱片、山嵐就是這樣抓到材質數、牆分組的問題）。
 - 學到的（下一個人照做）：Wood049 用在細木條、椅腳上太碎（青木 v1 退件）→ 細木件用 Poly Haven `walnut_veneer`；Poly Haven `potted_plant_04` 減到三百面以下變一團灰 → 小盆栽用原本的葉片卡、只有大盆栽用 `potted_plant_02`；不鏽鋼 Metal009 在遊戲裡要 metal≤0.25、vary 0.04，不然像水泥；Plastic006 當頂點色乘的紋理要 vary 0.015、法線 0.25，不然淺色包裝有灰黑刮痕。
