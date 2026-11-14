@@ -10449,8 +10449,8 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "13b5a28708",
    "receiver": "LAWWW-C",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACK",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "base": "6f4cf29026",
    "at": "2026-11-14T09:58Z",
@@ -10460,15 +10460,16 @@
     "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/coplanar_instancing_on_6f4cf29026.patch"
    ],
    "tests": "glb_coplanar_instancing_check、place_gate ALL PASS",
-   "notDone": "LAWWW 整合（先這包）",
-   "next": "LAWWW 套 patch，再套同弦"
+   "notDone": "CC 拍；BB 判",
+   "next": "CC 拍、BB 判",
+   "integratedAs": "c3df27e0c2"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "13b5a28708",
    "receiver": "LAWWW-C",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACK",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "base": "6f4cf29026",
    "at": "2026-11-14T09:58Z",
@@ -10479,15 +10480,16 @@
     "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/tongxian_cmp.jpg"
    ],
    "tests": "同弦相關 19 支 ALL PASS",
-   "notDone": "LAWWW 整合（工具那包之後）；CC 拍；BB 判",
-   "next": "LAWWW 套 patch"
+   "notDone": "CC 拍；BB 判",
+   "next": "CC 拍、BB 判",
+   "integratedAs": "2139f174de"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "fb1ded2238",
    "receiver": "LAWWW-C",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACK",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "base": "6f4cf29026＋coplanar_instancing",
    "at": "2026-11-14T10:05Z",
@@ -10498,8 +10500,9 @@
     "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/yejian_cmp.jpg"
    ],
    "tests": "yejian 相關 24 支、place_gate、shop_cc0 ALL PASS",
-   "notDone": "LAWWW 整合（工具那包之後）；CC 拍；BB 判；P3 小盆栽葉片卡",
-   "next": "LAWWW 套 patch"
+   "notDone": "CC 拍；BB 判",
+   "next": "CC 拍、BB 判",
+   "integratedAs": "56e023ef7b"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",

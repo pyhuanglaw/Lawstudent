@@ -1,0 +1,12 @@
+diff --git a/tests/bookstore_exit_unit.js b/tests/bookstore_exit_unit.js
+index 523576fbab..c51c11f986 100644
+--- a/tests/bookstore_exit_unit.js
++++ b/tests/bookstore_exit_unit.js
+@@ -10,6 +10,7 @@
+ const fs=require('fs'), vm=require('vm'), path=require('path');
+ const ROOT=path.resolve(__dirname,'..');
+ global.window=global; global.self=global;
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));   /* Node 18+ 自帶 fetch，相對路徑（bookstore_interior.glb.json）會丟 ERR_INVALID_URL、沒接住就整支停掉；照其他單元測試擋掉（LAWWW-C 11-14 回報）*/
+ const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
+ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
+ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};

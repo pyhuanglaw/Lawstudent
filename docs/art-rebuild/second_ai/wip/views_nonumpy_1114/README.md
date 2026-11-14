@@ -11,3 +11,8 @@
   - 把 numpy 藏起來再跑，PIL 版也 ALL PASS。
 - **patch**：`views_nonumpy_on_6f4cf29026.patch`，底是開發分支 6f4cf29026，`git apply --check` 過。
 - **CC 在電腦上先用的方法**（不用等整合）：`git show <這個 commit>:tools/shots/shop_views_layers.py > tools/shots/shop_views_layers.py`，然後照原樣重排。
+
+## 附帶：bookstore_exit_unit 在開發分支 HEAD 失敗（LAWWW-C 11-14 10:06 回報）
+- **原因**：這支測試沒有擋 fetch。Node 18 以後自帶 fetch，書店模型的備援路徑 `bookstore_interior.glb.json` 是相對路徑，丟 ERR_INVALID_URL，沒有被接住，整支程式停掉。和頁間那包無關。
+- **改法**：只加一行，照其他單元測試（aa653_shops、ade_seats_nav…）的做法擋掉 fetch：`global.fetch=()=>Promise.reject(...)`，再加 `unhandledRejection`。檔案是 `bookstore_exit_fetchstub.patch`，底是 19314237c3。
+- **結果**：改了以後 ALL PASS（8 項），exit 0。
