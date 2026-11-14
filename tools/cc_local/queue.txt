@@ -2371,6 +2371,20 @@ DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/s
 # HOLD BB-C 01:26 X364 GO（發布 rc2d bcc99693a7）：LAWWW 推 main、Pages 上線、BB 轉發布 SHA 以後拿掉 HOLD、填 <SHA>／<VER>（線上版本字樣，bcc9 index.html 目前寫 v9.10.25，以上線那份為準）；部署沒好隔 5 分鐘 RERUN，最多 3 次；放佇列最前面
 # HOLD LIVE_X364_deploy | <SHA> | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html <VER>;CC_HEADLESS=0
 # HOLD LIVE_X364_p0 | <SHA> | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
+# HOLD BB-C 01:27 BB_466 發布後清單（LIVE deploy／p0、social_r2 跑完以後照這個順序；<SHA>＝發布版，<DEV>＝LAWWW 開發分支最新 head）
+# ① BUG-SIS-LIB-LOAD-1022：直接讀檔到總圖 3F 看學姊在不在——探針待寫（CC-C）
+# ② HEROINE_LIFE463（BB_463）：原本 HOLD 那一行（2607 附近，cc_heroine_life463_probe）發布時改 <SHA> 移到這裡
+# ③ ROUTE_E4／E6／E8_r2（QA-REPRO-1020 結案）：原本 HOLD 那三行（route1a02_probe）發布時改 <SHA> 移到這裡
+# ④ ANNIV 第二年（2028-05-20）case：cc_canon458_probe 只有 ANNIV_A／C（第一年）——case 待寫（CC-C）
+# ⑤ REL76_ladder 換時段（以安 A2-L1、芷若 Z2-L1、語彤 Y2-L1、學姊 S2-L1、沛珊 P2-L1）——探針待改（CC-C）
+# ⑥ ROMTIER a1～b2：已排 @bc53f04880（GATE2 前面），沿用
+# ⑦ 開發分支：INV_MEET_YIELD（LAWWW 修好給 <DEV>）、FN_LOOK_REACH（已排 @ccbd，改成 wenzhou＋gongguan）、DATE_LAYER_r3、YIZHAN_DINE、GATE2 剩下的、WINVIEW 兩批、好拍：都已排，沿用
+# ⑧ 美術（發布版）：ART_SWEEP_A（BB_464 B 節 13 鏡頭）——規格待讀（CC-C）；ART-GYM-BG1、ART-DORM-LOFT 如下；L118 r4、BOOKSTORE_r4、STUDY_FA05／SE01、save 三支、WINVIEW_GG3、DATE_PS／ZR 已排，發布時 76f8 那幾行改 <SHA>
+# HOLD ART_GYM_BG1_rel | <SHA> | probe | docs/story_planning/test_tools/cc/cc_bg_adv_probe.py | index.html | 20 | BGS=ntu_gym_ceremony;DATES=0;CC_HEADLESS=0
+# HOLD ART_DORM_LOFT_rel_shots | <SHA> | probe | docs/story_planning/test_tools/cc/cc_dorm_loft_probe.py | index.html | 20 | HOURS=14,21.5;CC_HEADLESS=0
+# HOLD ART_DORM_LOFT_rel_seats | <SHA> | game | tests/seats_on_furniture.py | index.html | 20 | XARGS={url} dorm;CC_HEADLESS=0
+# HOLD ART_DORM_LOFT_rel_reach | <SHA> | game | tests/reachability_all.py | index.html?turbo | 20 | XARGS={url} --zones dorm;CC_HEADLESS=0
+# ⑨ BUG-WZFLICKER：要使用者在電腦錄影，跳過（BB 另外問使用者）
 # BB-C 23:28 P0：rc2＝d5a12a9a62（claude/rc2-76f8-wip，父 76f8，只換字）→ INV_LIB_r7、T1_rc2 放最前面（哪條線先空先跑），再 DATE_LAYER_76f8_r2，再 FULL
 CANON458_INV_LIB_r7 | d5a12a9a626a640470107a20413128f7c4829b3b | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 20 | TAG=c458_lib;ZONE=campus;WHO=kexin;DAY=2026-10-14;HOUR=14;REL=30;PICKS=念書>總圖>今天;ROUTE=travel:library_hall;EXPECT_SIT=總圖好大。我到現在還會走錯邊。;SEAT_R=3;SHA=d5a12a9a626a640470107a20413128f7c4829b3b;SEED_MET=pool_2;ALSO=pool_2;MEET_LEAD=1;FORBID=你們的總圖,妳們的圖書館
 T1_rc2 | d5a12a9a626a640470107a20413128f7c4829b3b | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 120 | XARGS=--track law --seeds 8 --from 2025-08-22 --to 2026-06-30 --jobs 4 --root . --json {out}/t1.json --out {out}
@@ -2388,7 +2402,7 @@ GATE2_YANGYANG_0c49 | 0c49bcf64ee779dc66efce1809455f57dfe0e010 | probe | docs/st
 GATE2_HAOPAI_0a8f | 0a8fae3f5262076da76a9723484e7b9d2cef071f | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=gate2_haopai;ZONES=xs_haopai;HOURS=19;NODEBUG=1;SHA=0a8fae3f5262076da76a9723484e7b9d2cef071f
 # LAWWW-C 00:24：ccbd520b61 新進兩項排在 GATE2 後面：慢輪單車 CC0 四鏡頭 19:00；FN-LOOK-REACH-1114（fa9fb3634f，「看門口的花」）reachability_all 溫州街重跑
 GATE2_BIKESHOP_ccbd | ccbd520b6166ee74dd86adf8106acb3ed31eef28 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=gate2_bikeshop;ZONES=bikeshop;HOURS=19;NODEBUG=1;SHA=ccbd520b6166ee74dd86adf8106acb3ed31eef28
-FN_LOOK_REACH_ccbd | ccbd520b6166ee74dd86adf8106acb3ed31eef28 | game | tests/reachability_all.py | index.html?turbo | 20 | XARGS={url} --zones wenzhou;CC_HEADLESS=0
+FN_LOOK_REACH_ccbd | ccbd520b6166ee74dd86adf8106acb3ed31eef28 | game | tests/reachability_all.py | index.html?turbo | 20 | XARGS={url} --zones wenzhou,gongguan;CC_HEADLESS=0
 # LAWWW-C 00:34（BB 判）：WINVIEW-AUDIT-1105 公館第三批 @10aa10ed32：安泰 gg_antai、汀州鮮果 gg_xianguo、榮恩典 gg_rongendian 往窗外拍 14:00、20:00，要看到新窗景（校門、樹、人行道地磚）；已知 14:00 南側店面影子罩住人行道＝窗外地面比遊戲裡暗，照實標
 WINVIEW_GG3_10aa | 10aa10ed3244724ed27a3de729c5b5f97fe8a039 | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 25 | ZONES=gg_antai,gg_xianguo,gg_rongendian;HOURS=14,20;SHA=10aa10ed3244724ed27a3de729c5b5f97fe8a039
 # BB-C 01:00 DATE_LAYER r2：D01、D12 ⑤ TEST_BUG（讀回來重新出發＝回到選點圖層等玩家點）→ ⑤ 改成讀回來點一個點、圖層收掉、能接著演；只重跑 D01、D12（不擋 rc2d）；D05 判 P2 交 LAWWW
