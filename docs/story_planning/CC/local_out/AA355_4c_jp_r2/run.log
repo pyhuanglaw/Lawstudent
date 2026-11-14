@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_aa355_358_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\AA355_4c_jp_r2\out
+CC BB-TEST-AA355-358：SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；PARTS ['JP']；ROUTES 全部；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [JP_CTRL]【前置／捷徑】最小存檔讀到 2028-06-09 20:45 jp_room：日本路線已出發（EXCHANGE_ROUTE JP、JP_DEPARTED 3/25）、認識以安、【捷徑】關係加到 FRIEND、沒有 romance 那一筆
+PASS FAIL_SETUP 檢查：[JP_CTRL] 人在日本（JP.inJapan）、FRIEND 以上、還沒收到那則、romance=無  [{"key": "2028-06-09", "h": 20.79, "zone": "jp_room", "mainDay": 1013, "metAn": true, "met_an": true, "anSkipped": false, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "choicesCafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "FRIEND", "split": false, "followup": false, "route": "JP", "jpDep": 921, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}, {"inJapan": true, "sent": false}, "FRIEND"]
+PASS FAIL_SETUP 檢查：[JP_CTRL] 遊戲時間過了 21:06（現在 21.12）
+  [  90.6s] [JP_CTRL] 21:06 以後：PHONE.sent jp_g7_dinner_ask=True；以安那一串最後幾則 [{"text": "週六晚上有空嗎。", "h": 21, "day": 997, "ask": null}, {"text": "學校後面那家小餐館，六點半。我訂了兩個人。", "h": 21, "day": 997, "ask": "jp_g7_dinner_ask"}]；FLIGHT／SAME 旗標 []
+PASS [JP_CTRL] 對照（FRIEND 以上、關係正常）：收到 jp_g7_dinner_ask「週六晚上有空嗎。」  {"sent": true, "msgs": [{"text": "週六晚上有空嗎。", "h": 21, "day": 997, "ask": null}, {"text": "學校後面那家小餐館，六點半。我訂了兩個人。", "h": 21, "day": 997, "ask": "jp_g7_dinner_ask"}]}
+  [前置／捷徑] [JP_EX]【前置／捷徑】最小存檔讀到 2028-06-09 20:45 jp_room：日本路線已出發（EXCHANGE_ROUTE JP、JP_DEPARTED 3/25）、認識以安、【捷徑】關係加到 FRIEND、romance.heroine_01.status=ex
+PASS FAIL_SETUP 檢查：[JP_EX] 人在日本（JP.inJapan）、FRIEND 以上、還沒收到那則、romance=ex  [{"key": "2028-06-09", "h": 20.79, "zone": "jp_room", "mainDay": 1013, "metAn": true, "met_an": true, "anSkipped": false, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "choicesCafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "FRIEND", "split": false, "followup": false, "route": "JP", "jpDep": 921, "jpRet": null, "rom": {"status": "ex"}, "dinner": null, "treat": false, "flightKeys": []}, {"inJapan": true, "sent": false}, "FRIEND"]
+PASS FAIL_SETUP 檢查：[JP_EX] 遊戲時間過了 21:06（現在 21.12）
+  [ 166.2s] [JP_EX] 21:06 以後：PHONE.sent jp_g7_dinner_ask=False；以安那一串最後幾則 []；FLIGHT／SAME 旗標 []
+PASS [JP_EX] ex：不能收到 jp_g7_dinner_ask  {"sent": false, "msgs": []}
+  [前置／捷徑] [JP_PAUSED]【前置／捷徑】最小存檔讀到 2028-06-09 20:45 jp_room：日本路線已出發（EXCHANGE_ROUTE JP、JP_DEPARTED 3/25）、認識以安、【捷徑】關係加到 FRIEND、romance.heroine_01.status=paused
+PASS FAIL_SETUP 檢查：[JP_PAUSED] 人在日本（JP.inJapan）、FRIEND 以上、還沒收到那則、romance=paused  [{"key": "2028-06-09", "h": 20.79, "zone": "jp_room", "mainDay": 1013, "metAn": true, "met_an": true, "anSkipped": false, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "choicesCafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "FRIEND", "split": false, "followup": false, "route": "JP", "jpDep": 921, "jpRet": null, "rom": {"status": "paused"}, "dinner": null, "treat": false, "flightKeys": []}, {"inJapan": true, "sent": false}, "FRIEND"]
+PASS FAIL_SETUP 檢查：[JP_PAUSED] 遊戲時間過了 21:06（現在 21.12）
+  [ 240.0s] [JP_PAUSED] 21:06 以後：PHONE.sent jp_g7_dinner_ask=False；以安那一串最後幾則 []；FLIGHT／SAME 旗標 []
+PASS [JP_PAUSED] paused：不能收到 jp_g7_dinner_ask  {"sent": false, "msgs": []}
+  [前置／捷徑] [JP_FAC]【前置／捷徑】最小存檔讀到 2028-06-09 20:45 jp_room：日本路線已出發（EXCHANGE_ROUTE JP、JP_DEPARTED 3/25）、認識以安、【捷徑】關係加到 FRIEND、romance.heroine_01.status=friend_after_catch
+PASS FAIL_SETUP 檢查：[JP_FAC] 人在日本（JP.inJapan）、FRIEND 以上、還沒收到那則、romance=friend_after_catch  [{"key": "2028-06-09", "h": 20.79, "zone": "jp_room", "mainDay": 1013, "metAn": true, "met_an": true, "anSkipped": false, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "choicesCafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "FRIEND", "split": false, "followup": false, "route": "JP", "jpDep": 921, "jpRet": null, "rom": {"status": "friend_after_catch"}, "dinner": null, "treat": false, "flightKeys": []}, {"inJapan": true, "sent": false}, "FRIEND"]
+PASS FAIL_SETUP 檢查：[JP_FAC] 遊戲時間過了 21:06（現在 21.12）
+  [ 314.1s] [JP_FAC] 21:06 以後：PHONE.sent jp_g7_dinner_ask=False；以安那一串最後幾則 []；FLIGHT／SAME 旗標 []
+PASS [JP_FAC] friend_after_catch：不能收到 jp_g7_dinner_ask  {"sent": false, "msgs": []}
+PASS 沒有 JS 例外  []
+ALL PASS
