@@ -183,3 +183,9 @@
 - STUDY_SE01_76f8、CANON458_DATE_PS、DATE_ZR、BG3D_GATE ×2：exit 0，照 CC 初判 PASS（BG3D_GATE 的截圖之後挑一張給 BB_132 第 128 組 6 號）。
 - WINVIEW_GG3_1939：TEST_SETUP（電腦的 Python 沒有 numpy），等 LAWWW2 回覆怎麼處理。
 - L118_CAM36 a／b／c r4：⑦點座位還是停在旁邊那一張，待 BB 看 gate_*_seat 截圖判（BB_379）。
+
+## 10:1x 更正（BB-C）：T1 種子 4 那一行寫的「rc2e 和 76f8 程式一樣」是錯的
+- 173 行寫「rc2e 和 76f8 程式一樣＝發布版也會有」，我在 09:5x 也這樣跟 LAWWW、CC 說過。實際上 `git diff --stat 76f8b639f0 1404d5f2d4 -- src` 有 **14 個檔、80+／83−**：rc2～rc2d 修的台詞和選項（activity_scenes、msg_replies、study_scenes、termend_opts、y2r2_3d 等）。邏輯幾乎沒動，但選項數目變了，隨機玩家走的路就不一樣。
+- 結果：CC 在 rc2e 跑 T1_SEED4_SAVE_stuck，種子 4 走到 2025-11-12、6706 步、0 FAIL，**沒有重現**（cc-local fcf8449bdd）。CC 已改在 76f8 原版本再跑兩支，拿卡住的存檔。
+- 判定不變：STUCK-WALKSELF-1114 是 P1 候選 bug。「約好的邀約選『自己走過去』以後 busy 沒放開」那條程式路在 rc2e 也還在，只是這次沒走到；**發布版有沒有這個 bug，等 76f8 的存檔在開發分支、發布版重現才知道**。不擋 X364（已經發布）。
+- **LIVE_X364_p0：ALL PASS**（cc-local 554d3b4de7，線上網址 9 個地點 27 項）。
