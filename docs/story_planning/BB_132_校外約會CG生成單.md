@@ -5520,3 +5520,25 @@ English style keywords: high-quality Japanese anime film key visual, semi-realis
   - 3（yt_home）、4（xinsheng_vday_night）、5（yt_building_gate_cny）：通過，存 `bg_approved/`，交 LAWWW-B。沒有字、沒有人、淺色木地板、下方三分之一是空的。
   - 1（法律系館A）、2（社科院）、6（校門）：**不採用**——和遊戲 3D 裡的建築不像。原因是 BB-B 給提示詞時沒照本組開頭寫的「1、2、6 號另附遊戲截圖」附圖，而且 1、2 號的文字是另外想的外觀（四層石材樓、紅磚三層樓），不是遊戲裡那兩棟。6 號出來是「兩根柱子＋右邊門房」，不是使用者參考圖的「中間圓弧紅磚門房」。三張留在 `BB_132_refs/128_{1_linze,2_soc,6_gate}_try1_notmatch.webp` 當紀錄。
   - **以後的做法**：校園裡、玩家在 3D 走得到的地方，提示詞一律附「遊戲 3D 同一個位置的截圖」當外觀和位置參考（CC 在電腦上拍），文字只寫時間、天氣、氣氛和「照附圖的建築畫」，不另外編外觀。1、2 號等 CC 拍好（BG3D_LINZE_front、BG3D_SOC_front）重給；6 號附 `ntu_gate_user_ref_1114.webp` 重給。
+
+- **第 128 組 1、2、6 號重給版（2026-11-14 BB-B；附圖到齊才給使用者）**：附圖 `00_畫風參考`＋`01_法律系館參考`（CC 拍 BG3D_LINZE_front）＋`02_社科院參考`（BG3D_SOC_front）＋`06_校門參考`（ntu_gate_user_ref_1114.webp）。
+```
+請照編號 1、2、6 依序生成 3 張圖片，一個編號一張，一張一張分開生成，一次給我三張。
+
+為了高畫質，絕對不可以把幾張合在同一張圖裡。
+
+1. 請照附圖「01_法律系館參考」裡的那棟建築畫：建築的外形、樓層數、牆面顏色和材質、窗戶的排列、入口的位置和樣子都照附圖，不要自己改設計、不要加附圖沒有的東西；附圖是 3D 遊戲畫面，請把它畫成精緻的手繪背景（材質、光影、樹葉、地面的細節畫出來），不要畫成 3D 模型的樣子。台北一所大學校園裡，這棟大樓正門前的小廣場，白天下午；鏡頭和附圖一樣，站在門前正對大門、人的眼睛高度。陽光從左邊斜照，樹影落在地上，氣氛安靜、乾淨。
+16:9 橫幅，高畫質。畫面主體放在上方三分之二，下方三分之一留給對話框（不要放重要東西）。畫面裡不要有任何文字、招牌字、數字、圓圈編號或標籤（編號只放在檔名或回覆文字）；不要像任何真實的作品、品牌或真實建築。畫面裡沒有人。
+畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
+English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
+
+2. 請照附圖「02_社科院參考」裡的那棟建築畫：建築的外形、樓層數、牆面顏色和材質、窗戶的排列、入口的位置和樣子都照附圖，不要自己改設計、不要加附圖沒有的東西；附圖是 3D 遊戲畫面，請把它畫成精緻的手繪背景（材質、光影、樹葉、地面的細節畫出來），不要畫成 3D 模型的樣子。台北一所大學校園裡，這棟大樓的入口前，白天；鏡頭和附圖一樣，站在入口前正對大門、人的眼睛高度。天空晴朗，有幾朵雲。
+16:9 橫幅，高畫質。畫面主體放在上方三分之二，下方三分之一留給對話框（不要放重要東西）。畫面裡不要有任何文字、招牌字、數字、圓圈編號或標籤（編號只放在檔名或回覆文字）；不要像任何真實的作品、品牌或真實建築。畫面裡沒有人。
+畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
+English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
+
+6. 請照附圖「06_校門參考」畫同一座校門，構圖、建築都照附圖：正中間是一座圓弧形的紅磚小門房，上面有一塊米白色石額（石額上不要寫字，留空白），門房前面是半圓形的花圃；左右兩邊各有一根頂上有黑色方形燈籠的米白色方石柱、黑色鐵門和鐵欄杆；門房兩側各有一條路通進校園，後面是高大的椰子樹和大樹，遠處有紅磚校舍。和附圖不同的只有這幾點：畫面裡沒有任何人；左邊的人行道邊停著一輛大型白色遊覽車（車身沒有任何字或標誌），車門打開，旁邊放著幾個行李箱。夏天的早上八點多，晴天，陽光從左側斜照。
+16:9 橫幅，高畫質。畫面主體放在上方三分之二，下方三分之一留給對話框（不要放重要東西）。畫面裡不要有任何文字、招牌字、數字、圓圈編號或標籤（編號只放在檔名或回覆文字）；不要像任何真實的作品、品牌或真實建築。畫面裡沒有人。
+畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
+English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
+```
