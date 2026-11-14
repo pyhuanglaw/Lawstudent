@@ -18,14 +18,24 @@ const nw = r => (r.prefix && r.new.endsWith('……') && !r.old.endsWith('……
 const code = r => /['"]/.test(r.old);
 /* 跟著換的送訊息程式（tools/story/aa959.py LINKED）：msg_replies.js 傳來的訊息那幾列 */
 const LINKED = { 'msg_replies.js': ['aa555_3d.js', 'r2y3b3d.js', 'r3_3d.js', 'y2b3d.js', 'y2r2_3d.js', 'aa554_3d.js', 'y1fill_events.js'] };
+/* RC2-PORT-DEV-1114（783 列）：date_lines.js 有 130 列的 old 帶了 JSON 的前後文（'heroine_01", "text": "…'、前一句＋旁白）才唯一——
+   物件層的 map／unmap 看不到引號，所以把這種列拆成「引號之間不一樣的那幾段」當成一般的列（speaker＝那一列的人；narr（某人）＝某人那一格的旁白） */
+const SYN = [];
+for (const r of T.rows) {
+  if (!code(r) || r.prefix || r.all || !r.files.includes('date_lines.js')) continue;
+  const a = r.old.split('"'), b = r.new.split('"'); if (a.length !== b.length) continue;
+  const narr = /^narr/.test(r.speaker || '');   // 幾個人那一格共用同一句舊旁白、各換成不同的新旁白：只能反過來換（新 → 舊），map 不用
+  a.forEach((x, i) => { if (x !== b[i]) SYN.push({ old: x, new: b[i], speaker: narr ? 'narr' : r.speaker, files: ['date_lines.js'], doc: r.doc, syn: true, nomap: narr }); });
+}
 function rows(file, who) {
   let b = file ? path.basename(file) : null; const w = (who && who !== '(共用)') ? who : null; const b0 = b;
   for (const [src, fs_] of Object.entries(LINKED)) if (b && fs_.includes(b)) b = src;
-  return T.rows.filter(r => !code(r) && (!w || r.speaker === w) && r.files.some(f => (!b || f === b || f === b0) && !skip(f, r.old)))   /* b0：表上直接標這個檔的列（AA_997 aa555_3d.js）也算 */.sort((a, c) => c.old.length - a.old.length);
+  return T.rows.concat(SYN).filter(r => !code(r) && (!w || r.speaker === w) && r.files.some(f => (!b || f === b || f === b0) && !skip(f, r.old)))   /* b0：表上直接標這個檔的列（AA_997 aa555_3d.js）也算 */.sort((a, c) => c.old.length - a.old.length);
 }
 function map(s, file, who) {
   if (typeof s !== 'string') return s;
   for (const r of rows(file, who)) {
+    if (r.nomap) continue;
     const n = nw(r);
     if (r.all) { if (s.includes(r.old)) s = s.split(r.old).join(n); }
     else if (r.prefix) { if (s.startsWith(r.old)) s = n + s.slice(r.old.length); }
