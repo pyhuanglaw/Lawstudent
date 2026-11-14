@@ -1,0 +1,8 @@
+tests/cvs_view_cam_1110_unit.js :: ALL PASS
+tests/l118_street_fix_1111_unit.js :: 全部 PASS（結尾印的字不同，單獨重跑 exit 0）
+tests/place_gate_unit.js :: ALL PASS（沒有新的問題；已知未過 0 項見上面）
+tests/shop_viewpanes2_1105_unit.js :: ALL PASS
+tests/shop_viewpanes_1105_unit.js :: ALL PASS
+tests/window_dusk_fade_unit.js :: ALL PASS
+tests/winview_edge_mirror_1114_unit.js :: ALL PASS
+tests/xs_tongxian_view_unit.js :: ALL PASS

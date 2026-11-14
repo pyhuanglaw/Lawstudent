@@ -1,0 +1,5 @@
+FAIL 1 不鏡像：shader 裡沒有 wvMirror、沒有 mod(u,2.0)　
+FAIL 2 照片外面：位置夾在邊上（clamp 0.002～0.998）　
+FAIL 3 照片外面取模糊的那一層：兩張照片（白天、黃昏換的夜景）都帶 bias wb　
+FAIL 4 wb 照超出多少算：wvOut×40 夾到 0～1 再 ×7　
+FAILED 4
