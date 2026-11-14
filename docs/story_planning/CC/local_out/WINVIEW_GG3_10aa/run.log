@@ -1,0 +1,33 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_window_view_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_GG3_10aa\out
+CC 窗景第二層（SHOP-INTERIOR-VIEW-1112）：SHA 10aa10ed3244724ed27a3de729c5b5f97fe8a039；ZONES gg_antai,gg_xianguo,gg_rongendian；HOURS [14.0, 20.0]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [gg_antai 1400] 【前置／捷徑】讀檔進 gg_antai 2025-10-22 14.00 時（出生點）
+  [  39.8s] [gg_antai 1400] 房間 {"n": 862, "box": [-3.8, 3.6, -3.1, 4.1], "c": [-0.1, 0.5]}；窗景卡 [{"mesh": "VIEWPANE_gg_antai", "mat": "", "visible": false, "c": [0, 1.6, 5.5], "size": [10.2, 3.2, 0], "map": null, "emissive": null}]；前院網格 0 個 []
+PASS FAIL_SETUP 檢查：[gg_antai 1400] 量得到房間、找到窗景卡  {"room": {"n": 862, "box": [-3.8, 3.6, -3.1, 4.1], "c": [-0.1, 0.5]}, "cards": 1, "yard": 0}
+  [  40.0s] [gg_antai 1400] 卡 1「VIEWPANE_gg_antai／」貼圖 None；相機 (-0.05, 1.5, 2.9) → (0, 1.6, 5.5)；畫面 {"magenta_pct": 0, "center": {"mean": 187.4, "sd": 34.7, "rgb": [206, 182, 164]}, "upper_sky_pct": 32.9}
+  [前置／捷徑] [gg_antai 2000] 【前置／捷徑】讀檔進 gg_antai 2025-10-22 20.00 時（出生點）
+  [  51.9s] [gg_antai 2000] 房間 {"n": 862, "box": [-3.8, 3.6, -3.1, 4.1], "c": [-0.1, 0.5]}；窗景卡 [{"mesh": "VIEWPANE_gg_antai", "mat": "", "visible": false, "c": [0, 1.6, 5.5], "size": [10.2, 3.2, 0], "map": null, "emissive": null}]；前院網格 0 個 []
+PASS FAIL_SETUP 檢查：[gg_antai 2000] 量得到房間、找到窗景卡  {"room": {"n": 862, "box": [-3.8, 3.6, -3.1, 4.1], "c": [-0.1, 0.5]}, "cards": 1, "yard": 0}
+  [  52.0s] [gg_antai 2000] 卡 1「VIEWPANE_gg_antai／」貼圖 None；相機 (-0.05, 1.5, 2.9) → (0, 1.6, 5.5)；畫面 {"magenta_pct": 0, "center": {"mean": 147.2, "sd": 77.6, "rgb": [172, 141, 116]}, "upper_sky_pct": 0}
+  [前置／捷徑] [gg_xianguo 1400] 【前置／捷徑】讀檔進 gg_xianguo 2025-10-22 14.00 時（出生點）
+  [  64.5s] [gg_xianguo 1400] 房間 {"n": 569, "box": [-3.3, 3.1, -2.9, 4.1], "c": [-0.1, 0.6]}；窗景卡 [{"mesh": "VIEWPANE_gg_xianguo", "mat": "", "visible": false, "c": [0, 1.6, 5.5], "size": [9.2, 3.2, 0], "map": null, "emissive": null}]；前院網格 0 個 []
+PASS FAIL_SETUP 檢查：[gg_xianguo 1400] 量得到房間、找到窗景卡  {"room": {"n": 569, "box": [-3.3, 3.1, -2.9, 4.1], "c": [-0.1, 0.6]}, "cards": 1, "yard": 0}
+  [  64.7s] [gg_xianguo 1400] 卡 1「VIEWPANE_gg_xianguo／」貼圖 None；相機 (-0.05, 1.5, 2.9) → (0, 1.6, 5.5)；畫面 {"magenta_pct": 0, "center": {"mean": 131.6, "sd": 64.1, "rgb": [126, 134, 136]}, "upper_sky_pct": 56.6}
+  [前置／捷徑] [gg_xianguo 2000] 【前置／捷徑】讀檔進 gg_xianguo 2025-10-22 20.00 時（出生點）
+  [  76.1s] [gg_xianguo 2000] 房間 {"n": 569, "box": [-3.3, 3.1, -2.9, 4.1], "c": [-0.1, 0.6]}；窗景卡 [{"mesh": "VIEWPANE_gg_xianguo", "mat": "", "visible": false, "c": [0, 1.6, 5.5], "size": [9.2, 3.2, 0], "map": null, "emissive": null}]；前院網格 0 個 []
+PASS FAIL_SETUP 檢查：[gg_xianguo 2000] 量得到房間、找到窗景卡  {"room": {"n": 569, "box": [-3.3, 3.1, -2.9, 4.1], "c": [-0.1, 0.6]}, "cards": 1, "yard": 0}
+  [  76.2s] [gg_xianguo 2000] 卡 1「VIEWPANE_gg_xianguo／」貼圖 None；相機 (-0.05, 1.5, 2.9) → (0, 1.6, 5.5)；畫面 {"magenta_pct": 0, "center": {"mean": 30.1, "sd": 25.9, "rgb": [36, 29, 24]}, "upper_sky_pct": 0}
+  [前置／捷徑] [gg_rongendian 1400] 【前置／捷徑】讀檔進 gg_rongendian 2025-10-22 14.00 時（出生點）
+  [  89.3s] [gg_rongendian 1400] 房間 {"n": 1027, "box": [-3.8, 3.6, -3.3, 4.1], "c": [-0.1, 0.4]}；窗景卡 [{"mesh": "VIEWPANE_gg_rongendian", "mat": "", "visible": false, "c": [0, 1.6, 5.5], "size": [10.2, 3.2, 0], "map": null, "emissive": null}]；前院網格 0 個 []
+PASS FAIL_SETUP 檢查：[gg_rongendian 1400] 量得到房間、找到窗景卡  {"room": {"n": 1027, "box": [-3.8, 3.6, -3.3, 4.1], "c": [-0.1, 0.4]}, "cards": 1, "yard": 0}
+  [  89.4s] [gg_rongendian 1400] 卡 1「VIEWPANE_gg_rongendian／」貼圖 None；相機 (-0.05, 1.5, 2.9) → (0, 1.6, 5.5)；畫面 {"magenta_pct": 0, "center": {"mean": 170.9, "sd": 42.9, "rgb": [163, 173, 181]}, "upper_sky_pct": 53.5}
+  [前置／捷徑] [gg_rongendian 2000] 【前置／捷徑】讀檔進 gg_rongendian 2025-10-22 20.00 時（出生點）
+  [ 100.8s] [gg_rongendian 2000] 房間 {"n": 1027, "box": [-3.8, 3.6, -3.3, 4.1], "c": [-0.1, 0.4]}；窗景卡 [{"mesh": "VIEWPANE_gg_rongendian", "mat": "", "visible": false, "c": [0, 1.6, 5.5], "size": [10.2, 3.2, 0], "map": null, "emissive": null}]；前院網格 0 個 []
+PASS FAIL_SETUP 檢查：[gg_rongendian 2000] 量得到房間、找到窗景卡  {"room": {"n": 1027, "box": [-3.8, 3.6, -3.3, 4.1], "c": [-0.1, 0.4]}, "cards": 1, "yard": 0}
+  [ 100.9s] [gg_rongendian 2000] 卡 1「VIEWPANE_gg_rongendian／」貼圖 None；相機 (-0.05, 1.5, 2.9) → (0, 1.6, 5.5)；畫面 {"magenta_pct": 0, "center": {"mean": 54.3, "sd": 49.1, "rgb": [61, 52, 47]}, "upper_sky_pct": 0}
+  [ 101.0s] [gg_antai] 白天貼圖 [null]；晚上貼圖 [null]；一樣（請 BB 看晚上那張是不是夜景）
+  [ 101.0s] [gg_xianguo] 白天貼圖 [null]；晚上貼圖 [null]；一樣（請 BB 看晚上那張是不是夜景）
+  [ 101.0s] [gg_rongendian] 白天貼圖 [null]；晚上貼圖 [null]；一樣（請 BB 看晚上那張是不是夜景）
+PASS 沒有 JS 例外  []
+ALL PASS
