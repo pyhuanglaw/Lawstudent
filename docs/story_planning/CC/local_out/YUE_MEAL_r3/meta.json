@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "YUE_MEAL_r3",
+  "sha": "6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_yue_meal_probe.py",
+  "env": "CASES=SIS,SISD;SHA=6eaf2b0efb2df3d0a25cfe8f0d813647139ed56d",
+  "machine": "MSI",
+  "start": "2026-11-14T13:31:03",
+  "end": "2026-11-14T13:34:08",
+  "seconds": 185,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 19,
+    "mem": 56,
+    "used_gb": 17.5,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
