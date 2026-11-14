@@ -217,7 +217,8 @@ const runProbe=m=>{ let o=''; try{ o=cp.execFileSync(process.execPath,[__filenam
     if(A.length!==B.length) bad.push('句數 '+A.length+' → '+B.length);
     else A.forEach((a,i)=>{ const b=B[i], ta=a[a.length-1], tb=b[b.length-1], wa=a[a.length-2], wb=b[b.length-2];
       if(J(a.slice(0,-1))!==J(b.slice(0,-1))) bad.push('說的人不一樣：'+J(a)+' → '+J(b));
-      else if(ta!==tb){ if(wrapped(ta)&&lt(unq(ta))===tb&&wb!=null) ch++; else bad.push(J(a)+' → '+J(b)); }
+      else if(ta!==tb){ const M9=require('./aa959_map.js'), tu=[tb,M9.unmap(tb),M9.unmapText(tb)];   /* RC2-PORT-DEV-1114：現在的字照 AA_959 換過的，換回舊字再比 */
+        if(wrapped(ta)&&tu.includes(lt(unq(ta)))&&wb!=null) ch++; else if(tu.includes(ta)){} else bad.push(J(a)+' → '+J(b)); }
       if(wb!=null){ named++; if(wrapped(tb)) nw.push(J(b)); } });
     check('14. '+KEYS[k]+'：'+B.length+' 句，說的人和 '+BASE+' 一樣、字只差外面的「」（拿掉 '+ch+' 句）',!!B.length&&bad.length===0&&ch>=MIN[k],sample(bad));
     check('14. '+KEYS[k]+'：有名字說的 '+named+' 句沒有一句外面還有「」',named>=MIN[k]&&nw.length===0,sample(nw)); }

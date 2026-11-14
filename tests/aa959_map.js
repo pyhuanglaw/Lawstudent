@@ -25,7 +25,8 @@ for (const r of T.rows) {
   const sf = r.files.filter(f => !skip(f, r.old)); if (!code(r) || r.prefix || r.all || !sf.length) continue;   /* 所有檔：JSON 資料檔的雙引號、手寫 JS 的單引號都拆 */
   const a = r.old.split(/['"]/), b = r.new.split(/['"]/); if (a.length !== b.length) continue;
   const narr = /^narr/.test(r.speaker || '');   // 幾個人那一格共用同一句舊旁白、各換成不同的新旁白：只能反過來換（新 → 舊），map 不用
-  a.forEach((x, i) => { if (x !== b[i]) SYN.push({ old: x, new: b[i], speaker: narr ? 'narr' : r.speaker, files: sf, doc: r.doc, syn: true, nomap: narr }); });
+  const sfx = a.length === 2 && a[1] === '' && a[0], pfx = a.length === 2 && a[0] === '' && a[1];   // old 只帶結尾（開頭）那個引號＝那一句的句尾（句首）：「我哭了。不要笑。'」
+  a.forEach((x, i) => { if (x !== b[i]) SYN.push({ old: x, new: b[i], speaker: narr ? 'narr' : r.speaker, files: sf, doc: r.doc, syn: true, nomap: narr, suffix: !!sfx, prefix: !!pfx }); });
 }
 function rows(file, who) {
   let b = file ? path.basename(file) : null; const w = (who && who !== '(共用)') ? who : null; const b0 = b;
@@ -38,6 +39,7 @@ function map(s, file, who) {
     if (r.nomap) continue;
     const n = nw(r);
     if (r.all) { if (s.includes(r.old)) s = s.split(r.old).join(n); }
+    else if (r.suffix) { if (s.endsWith(r.old)) s = s.slice(0, -r.old.length) + n; }
     else if (r.prefix) { if (s.startsWith(r.old)) s = n + s.slice(r.old.length); }
     else if (s === r.old) return n;
   }
@@ -48,6 +50,7 @@ function unmap(s, file, who) {
   for (const r of rows(file, who)) {
     const n = nw(r);
     if (r.all) { if (s.includes(n) && !s.includes(r.old)) s = s.split(n).join(r.old); }
+    else if (r.suffix) { if (s.endsWith(n) && !s.endsWith(r.old)) s = s.slice(0, -n.length) + r.old; }
     else if (r.prefix) { if (s.startsWith(n) && !s.startsWith(r.old)) s = r.old + s.slice(n.length); }
     else if (s === n) return r.old;
   }

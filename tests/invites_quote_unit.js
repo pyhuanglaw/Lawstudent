@@ -159,7 +159,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   { const ENV={window:{},location:{search:''},document:{getElementById:()=>null,addEventListener(){}}};
     const sc=evalIn(cur('src/data/characters.js'),['CHARACTERS','UNFAMILIAR_POOL','SOCIAL_GRAPH','PORTRAITS'],ENV); vm.runInContext(cur('src/social3d.js').replace(/^const SOCIAL\s*=/m,'globalThis.SOCIAL='),sc);
     const SO=sc.SOCIAL, G7={rel:{},flags:{},social:null,day:30,weekday:1,hour:15,name:'祐廷',contacts:{},invites:[],msgs:[]}; SO.bind(G7);
-    const NEW=evalIn(cur('src/data/rel_lines.js'),['REL_LINES']).REL_LINES, OLD=evalIn(require('./line_rows_expect.js').fixFile('src/data/rel_lines.js',gitShow('src/data/rel_lines.js')),['REL_LINES']).REL_LINES;   /* X324 G 區 AA_794（店長→老闆，見面旁白兩句）：BASE 先照逐行改稿換過再比（tests/line_rows_expect.js）*/
+    const NEW=require('./aa959_map.js').unmapDeep(evalIn(cur('src/data/rel_lines.js'),['REL_LINES']).REL_LINES,'rel_lines.js')/* RC2-PORT-DEV-1114：AA_959 783 列換的字先換回來再和舊版比 */, OLD=evalIn(require('./line_rows_expect.js').fixFile('src/data/rel_lines.js',gitShow('src/data/rel_lines.js')),['REL_LINES']).REL_LINES;   /* X324 G 區 AA_794（店長→老闆，見面旁白兩句）：BASE 先照逐行改稿換過再比（tests/line_rows_expect.js）*/
     /* 有名字說的格子：SOCIAL.playSteps 播的一串台詞（up 的 l、ch 的 r、bye、Café 的學姊 again／hello／tired／today.ask／opts 的 r／small 的 l、lGrad、ch 的 r）；
        沒名字的：meet（見面旁白；另外比）、cafe.note（便條，story3d.js sisCafe 用旁白說）、contact（手機聯絡人的名字）、選項字（ch／opts 的 t、tDating）*/
     const STEP=/\.(l|r|lGrad|again|ask|tired)\[\d+\]$|\.bye\.\w+\[\d+\]$|\.cafe\.hello\.\w+\[\d+\]$/;
@@ -192,7 +192,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     const hit=said.find(s=>/好，我餓了。/.test(s.t));
     check('7. 阿凱「認識」約燒臘店（INV.meet）：見面那一句是阿凱說的「好，我餓了。」（有名字、外面沒有「」）',!err&&ec.SOCIAL.friendLevel('kai')==='ACQUAINTANCE'&&!!hit&&hit.who===ec.SOCIAL.npcName('kai')&&!!hit.who&&hit.t==='好，我餓了。',err?String(err.stack).slice(0,300):JSON.stringify(said)); }
   /* 8、9. 匯入工具產生的兩個檔：誰說的（S.playLines／S.narrLine）跟改以前一樣 */
-  const genCheck=(no,f,glob,named,unnamedSample,drop,chPlus)=>{   /* chPlus：稿換版、照稿算（aa731）的那幾句原本也是拿掉「」的句子，不算進 r.ch——門檻加回來（X324 G 區 AA_715 九句） */ const NEW=evalIn(cur(f),[glob])[glob], OLD=evalIn(gitShow(f),[glob])[glob]; if(drop){ drop(OLD); drop(NEW); }
+  const genCheck=(no,f,glob,named,unnamedSample,drop,chPlus)=>{   /* chPlus：稿換版、照稿算（aa731）的那幾句原本也是拿掉「」的句子，不算進 r.ch——門檻加回來（X324 G 區 AA_715 九句） */ const NEW=require('./aa959_map.js').unmapDeep(evalIn(cur(f),[glob])[glob],path.basename(f))/* RC2-PORT-DEV-1114：同上 */, OLD=evalIn(gitShow(f),[glob])[glob]; if(drop){ drop(OLD); drop(NEW); }
     const r=cmpTree(OLD,NEW,named), strs=[]; (function w(v,p){ if(typeof v==='string'){ if(named(p)) strs.push([p,v]); return; } if(v&&typeof v==='object') for(const k of Object.keys(v)) w(v[k],p+(Array.isArray(v)?'['+k+']':'.'+k)); })(NEW,'');
     const wr=strs.filter(([p,t])=>wrapped(t)).map(([p,t])=>p+'：'+t);
     check(no+'. '+f+'：有名字說的（'+strs.length+' 句）沒有一句外面還有「」',strs.length>=50&&wr.length===0,sample(wr));
