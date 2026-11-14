@@ -13,6 +13,7 @@ PARTS：
       【捷徑：跳日子】每天 23:00 叫 FEED.tick（遊戲睡過、跳時間照原本時間補的同一套）到那天 21:00 → 記 FEED.visible(G) 全部（誰、日期、照片、一句前 30 字以上全文），打開手機動態頁截圖。
       檢查：動態的日期不晚於遊戲日期；每位女主角（heroine_01～05）那一學期至少有一則動態（到那天為止貼出來的）。「講她自己的事」的內容判斷歸 BB（全文都抄）。
   HL3 私訊：不在這支，用 random_play_sim.js --dump-msgs（種子 1、2，2025-09-01～2026-01-31）。
+CC-B 11-14：字幕掛鉤在讀檔前裝；④ 走近 1 m 再看互動鍵。
 CC_02 清單 2026-11-14：1✓（日子照遊戲自己的 HCIRCLE.on 掃、動態照 FEED.tick） 2✓（列、句子、同伴、動態全從遊戲資料讀，不寫死句子） 3✓（每一列一個日子：第一個成立的，記下來） 4✓（找她說話照互動鍵、選單照字選「就這樣」） 5✓（go_to 走到她 3 m 外，走不到記下來） 6✓（字幕等 18 秒收齊；讀檔等 6 秒） 7✓（lint） 8✓（字幕用包 GAME.caption 記，不靠輪詢） 9✓（每一列兩張、每一天手機一張） 10✓（讀檔關條件事件、認識同伴） 11✓（SHA 40 碼） 12✓（FAIL_SETUP：區域、HCIRCLE.on、她在） 13✓（走路分段：go_to，途中有對話就停）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=HL1,HL2] [ROWS=c503_4_2,...] [FIX=tests/fixtures/user_save_day51_1110.json] python3 cc_heroine_life1028_probe.py <url> <out>"""
 import os, sys, json, asyncio, math
@@ -106,11 +107,12 @@ async def part_hl1(pg, cdp, sv0, res):
         f = await pg.evaluate(FINDROW, {'id': rid, 'term': 'Y1S1', 'w0': 2}); out['find'] = f
         R.note('%s 列：%s；找日子 %s' % (tag, J({k: info[k] for k in ('who', 'with', 'alone', 'always', 'zone', 'act', 'days', 'from', 'to')}), J(f)))
         if not R.check('FAIL_SETUP 檢查：%s Y1S1 照 HCIRCLE.on 找得到成立的日子時段' % tag, bool(f and f.get('day') is not None), J(f)): continue
+        await pg.evaluate(CAPHOOK)   # CC-B 11-14（HL1_CIRCLE_1028 第一次跑 ③ 少前幾句）：讀檔等 6 秒那段她們就開始說了——掛鉤要在讀檔之前裝
         s = await load(pg, cdp, sv0, f['day'], f['h'], f['zone'])
         pr = await pg.evaluate(PREP1, {'id': rid, 'who': info['who'], 'with': info['with']}); out['prep'] = pr
         R.setup('%s 【前置／捷徑】讀使用者存檔到 %s（週%s）%.2f %s（條件事件關掉）；認識她和同伴、給她聯絡方式' % (tag, f['key'], f['wd'], f['h'], f['zone']))
         if not R.check('FAIL_SETUP 檢查：%s 讀檔以後在 %s、這一列成立（HCIRCLE.on）' % (tag, f['zone']), s['zone'] == f['zone'] and pr['on'], J([s.get('zone'), pr])): continue
-        await pg.evaluate(CAPHOOK); await pg.wait_for_timeout(2500)
+        await pg.wait_for_timeout(2500)
         comp = info['speakers'] or info['with']
         np0 = await pg.evaluate(NPCPOS, {'ids': [info['who']] + comp, 'who': info['who'], 'row': rid}); out['pos0'] = np0
         h = np0['pos'].get(info['who'])
@@ -139,6 +141,12 @@ async def part_hl1(pg, cdp, sv0, res):
         want = [l['t'] for l in info['lines']]; got = [c['t'] for c in caps]
         R.note('%s 字幕（誰｜字）%s；資料 heard 拆開 %s' % (tag, J([[c['w'], c['t']] for c in caps]), J([[l['who'] or l['label'] or '（旁白）', l['t']] for l in info['lines']])))
         R.check('%s ③ 字幕照 heard 一句一句出、字一字不差、順序一樣（%d 句）' % (tag, len(want)), got[:len(want)] == want, J({'want': want, 'got': got}))
+        nm_ = (np1['pos'].get(info['who']) or h).get('name') or h.get('name') or ''
+        for k_ in range(3):   # CC-B 11-14（同上 ④）：站 3 m 是為了「聽」；說話要走近——每輪重看她在哪，走到 1 m、互動鍵出現她的名字就停
+            h1 = (await pg.evaluate(NPCPOS, {'ids': [info['who']], 'who': info['who'], 'row': rid}))['pos'].get(info['who'])
+            if not h1 or not h1.get('vis'): break
+            await L.go_to(pg, cdp, R, h1['x'], h1['z'], 1.0, '%s 走近她說話（第 %d 輪）' % (tag, k_ + 1), max_s=60, lv=h1['lv'], stop=lambda st_, w_=nm_: bool(w_) and w_ in (st_.get('interact') or ''))
+            if nm_ and nm_ in ((await D.st(pg)).get('interact') or ''): break
         tm = await talk_menu(pg, cdp, tag, (h.get('name') or '').strip() or None)
         out['talk'] = tm; out['company_at_talk'] = np1.get('company')
         await D.shot(pg, 'hl1_%s_after_talk' % rid, judge_black=False)
