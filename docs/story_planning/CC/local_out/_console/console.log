@@ -1,11 +1,3 @@
-[22:25:59] skip PACK7_ss_front (already done on b942470ff1f83b0fb577f32d6be582ac106988d5)
-[22:25:59] skip CLASS12_const_a (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:25:59] skip CLASS12_const_b (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_crim_a (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_crim_b (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip PACK7_ss_face (already done on b942470ff1f83b0fb577f32d6be582ac106988d5)
-[22:26:00] skip CLASS12_civ_a (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
-[22:26:00] skip CLASS12_civ_b (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
 [22:26:00] skip CLASS12_oldsave (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
 [22:26:00] skip CLASS12_ref_old (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
 [22:26:00] skip CLASS12_skip_new (already done on 69374803ad5f12cebb71c4f5c259798fed4563be)
@@ -1998,3 +1990,11 @@
 [10:31:42] [res] cpu=6% mem=46% (14.8/31.4 GB) chrome_testing=9  START REL76_save_v95_r5
 [10:31:55] 正在跑：L118_CAM36_c_r4（已跑 18 分／上限 60 分）、ROMTIER_b2_zhe（已跑 1 分／上限 25 分）、REL76_save_v95_r5（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:33:33] [res] cpu=19% mem=44% (13.8/31.4 GB) chrome_testing=9  END ROMTIER_b2_zhe
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6ef92a3116..ddc34422c1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:33:41] ==== END   ROMTIER_b2_zhe  exit=0  184s   ====
+[10:33:44] memory 42% before starting REL76_save_live_r3 (2 running)
+[10:33:44] ==== START REL76_save_live_r3  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[10:33:47] [res] cpu=7% mem=42% (13.4/31.4 GB) chrome_testing=10  START REL76_save_live_r3
+[10:36:32] [res] cpu=25% mem=41% (12.9/31.4 GB) chrome_testing=9  END REL76_save_v95_r5
