@@ -8289,6 +8289,22 @@
    "next": "AA_1020 第四批 BB 看完 → 報最終列數給 LAWWW",
    "unfinished": "AA_1020 第四批待 BB",
    "note": "BB_465 逐批照用"
+  },
+  {
+   "task": "RC2-PORT-DEV-1114",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b45c888f94",
+   "files": [
+    "docs/story_planning/AA_749_termend_kx_v2.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-14T09:4xZ",
+   "receiver": "LAWWW",
+   "ack": "",
+   "noDirectIntegrate": true,
+   "next": "LAWWW 把 RC2-PORT-DEV-1114 next 的「AA_749_termend_kx_v2→110b0fd990」改成 b45c888f94（110b0fd990＝AA_1015 第一版「舍監」，錯）",
+   "unfinished": "等 LAWWW 改 tasks.json",
+   "note": "rc2d 用的是第二版；第二版大三上＝學姊租的房子，對齊 feed_y3s1 kx3e"
   }
  ],
  "items": [
