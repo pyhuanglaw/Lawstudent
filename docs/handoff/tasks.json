@@ -56740,7 +56740,7 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g1",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g1/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 日常失速 v2.1（37ee5046b9，吊盆換 Poly Haven fern_02）LAWWW2 PASS、LAWWW 已整合（7db3174dd4 patch）"
     },
     {
      "name": "幫手 g2",
@@ -56853,14 +56853,15 @@
    "title": "公館街上的行道樹從店裡看出去是一顆顆浮著的綠球",
    "owner": "LAWWW2",
    "priority": "P2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "source": "LAWWW2-C 2026-11-13 23:50（驗收空檔查）",
    "first": {
     "term": "Y1S1",
     "confirmed": false
    },
    "next": "LAWWW2 驗收空檔查",
-   "xai": []
+   "xai": [],
+   "note": "2026-11-14 00:2x LAWWW-C：LAWWW2 ee53e06709 gg_street_trees_views.patch 已整合（afar、青木、頁間、Daybreak 四間窗景日夜 8 張 webp 照遊戲 103 棵樹重拍，程式不動；窗景測試 25 支 ALL PASS）。待 BB 看圖判、CC 第二層拍窗景。"
   },
   {
    "id": "RC2-PORT-DEV-1114",

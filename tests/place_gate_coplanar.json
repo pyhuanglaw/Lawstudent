@@ -12,7 +12,7 @@
   "top": "WALL_back_aok_wood×aok_wood 0.466 m² @[-0.7,0.33,-3.5]"
  },
  "assets/models/env/second_ai/aa_support/daily_offbeat.glb": {
-  "sha1": "6b055479b861904d95466049ed0aa79444f4f8fa",
+  "sha1": "ba5dd16943dd685af0d3c9b8ee6f1ef3bd9bdc6b",
   "wall": 1.16,
   "always": 3.67,
   "top": "WALL_right_dof_wood×WALL_right_dof_print 0.704 m² @[5.47,2.13,3.02]"
