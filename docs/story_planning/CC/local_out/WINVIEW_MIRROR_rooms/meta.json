@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "WINVIEW_MIRROR_rooms",
+  "sha": "aa876bf9b9ad16262c2106615619a1f4cec5f77b",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_window_view_probe.py",
+  "env": "ZONES=classroom,dorm;HOURS=14,20;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b",
+  "machine": "MSI",
+  "start": "2026-11-14T21:50:07",
+  "end": "2026-11-14T21:52:35",
+  "seconds": 148,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 34,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
