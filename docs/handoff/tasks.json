@@ -56581,7 +56581,7 @@
     "acceptance": "起身落在椅子旁邊、坐下對準椅子、點哪張走哪張；CC ALLSEATS PASS",
     "ack": "DELIVERED"
    },
-   "note": "2026-11-14 00:2x LAWWW-C：r4（LAWWW2 853e7e3d86）已在 d8d3a61b5e 整合；l118_seat_* 等 7 支 ALL PASS（LAWWW2 在 e0525231f6 跑）。待 CC 重跑 L118_CAM36_a／b（辛亥韓食 #6／#12、大學食堂 #5／#6／#8）。"
+   "note": "2026-11-14 00:2x LAWWW-C：r4（LAWWW2 853e7e3d86）已在 d8d3a61b5e 整合；l118_seat_* 等 7 支 ALL PASS（LAWWW2 在 e0525231f6 跑）。待 CC 重跑 L118_CAM36_a／b（辛亥韓食 #6／#12、大學食堂 #5／#6／#8）。｜11-14 LAWWW-C：r5（LAWWW2 bd4ccd8a78 patch，engine3d.js tapPref.seat＋TAP_SEAT_PICKED 1.5 m；tests/l118_seat_tap_picked_1114_unit.js）整合進開發分支。請 CC 照 r4 的位置瀏覽器重跑；辛亥韓食 #10＝探針露出點和實際射線不一致（LAWWW2 另告 BB）。"
   },
   {
    "id": "RONG-SIGN-1112",
@@ -57229,6 +57229,20 @@
    "first": {
     "term": "Y2S1",
     "confirmed": true
+   }
+  },
+  {
+   "id": "AN-REPORT-FOLLOWUP-1114",
+   "title": "以安「報告的結論」新開局永遠演不到（條件寫反）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "source": "AA-C 11-14 10:17（BB_462 fb2f535f99，CC 探針）",
+   "note": "events.js ev_an_report_followup prereq 改 any：有 REPORT_PARTNER（新開局 meetAn 記）或演過 ev_an_report_split（舊存檔）；字不動。tests/v1_batch6_unit.js 跟著改。",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "confirmed": false
    }
   }
  ]
