@@ -341,9 +341,9 @@
   - `tests/shop_cc0_unit.js` ALL PASS。
   - `tests/place_gate_unit.js`：新的問題 0，只有「狀態表過期」。
   - 疊面：牆 32.98 → 18.09 m²；後牆 `WALL_back_back_vc × WALL_back_back_paint` 5.11 m² 那一對沒了。
-  - 提到 dabu 的 22 支 Node 測試：20 支 ALL PASS（含 `xs_lm_unit`，牆節點 23 → 25）。
+  - 提到 dabu 的 22 支 Node 測試：21 支通過（含 `xs_lm_unit`，牆節點 23 → 25）。
   - `gift_holiday_unit` FAILED 1：第 0 項是 AA 稿的白名單比對，這包沒動 `src/`，和大步無關。
-  - `shop_crowd_new_unit`：240 秒內沒跑完（雲端慢），以 GitHub Actions `node-unit-auto` 為準。
+  - `shop_crowd_new_unit`：全部通過（結尾印的是「全部通過」，批次腳本沒抓到；單獨重跑，有沒有套 patch 都過）。
   - 50,938 個三角形（上限 60k）、4.0 MB。
 - 看圖：
   - 鞋盒牆、收銀台後盒子牆：盒身＋盒蓋，六種顏色、大小不同，有幾盒露出蓋子。

@@ -10781,7 +10781,7 @@
     "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/dabu_v2_on_166e9d3096.patch",
     "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/dabu_v2_cmp.jpg"
    ],
-   "tests": "shop_cc0 ALL PASS；place_gate 新問題 0；疊面 32.98→18.09；22 支裡 20 支 ALL PASS，gift_holiday 白名單比對無關、shop_crowd_new 雲端逾時",
+   "tests": "shop_cc0 ALL PASS；place_gate 新問題 0；疊面 32.98→18.09；22 支裡 21 支通過，gift_holiday 是 AA 稿白名單比對、和這包無關",
    "notDone": "LAWWW 套 patch、place_gate --write；CC 拍；BB 判；左牆 4.372 m² 疊面（LAWWW2）",
    "next": "LAWWW 套 patch"
   }
