@@ -1,12 +1,3 @@
-[17:45:55] skip SHUT_XS_14 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[17:45:55] skip SHUT_XS_2330 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[17:45:55] skip SHUT_TZ_14 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[17:45:55] skip SHUT_TZ_2330 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[17:45:55] skip DN_FPS_7e40 (already done on 7e404a6220426e12d59906d50497b7eee61280c4)
-[17:45:55] skip FLK_STRIPS (already done on 1e239a985edd3a229ed5766d579afb8344d56d24)
-[17:45:55] skip G3A_COUNTER (already done on e879d9b076627591b6f42e959a4b77a821b3f774)
-[17:45:55] skip G3A_STRIPS (already done on e879d9b076627591b6f42e959a4b77a821b3f774)
-[17:45:55] skip HELP_GUIDE_a (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
 [17:45:55] skip HELP_GUIDE_b (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
 [17:45:55] skip HELP_GUIDE_b2 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
 [17:45:55] skip HELP_GUIDE_new2 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
@@ -1998,3 +1989,12 @@
 [20:08:48] [res] cpu=2% mem=47% (14.9/31.4 GB) chrome_testing=10  START CANON458_BOOKSTORE_r5_rc2e
 [20:10:55] 正在跑：DATE35_PS_ARR_r2（已跑 12 分／上限 30 分）、AA_SCENES_DATE_r2（已跑 3 分／上限 30 分）、CANON458_BOOKSTORE_r5_rc2e（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:10:56] [res] cpu=2% mem=47% (14.8/31.4 GB) chrome_testing=10  END CANON458_BOOKSTORE_r5_rc2e
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       730fca438a..f9f628cef5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:11:04] ==== END   CANON458_BOOKSTORE_r5_rc2e  exit=1  131s   ====
+[20:11:18] memory 48% before starting GATE2_MOKUYOBI_r4 (2 running)
+[20:11:18] ==== START GATE2_MOKUYOBI_r4  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
+[20:11:22] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=10  START GATE2_MOKUYOBI_r4
+[20:15:55] 正在跑：DATE35_PS_ARR_r2（已跑 17 分／上限 30 分）、AA_SCENES_DATE_r2（已跑 8 分／上限 30 分）、GATE2_MOKUYOBI_r4（已跑 4 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:19:28] [res] cpu=3% mem=49% (15.6/31.4 GB) chrome_testing=10  END GATE2_MOKUYOBI_r4
