@@ -9,7 +9,7 @@
 | 頁間書屋 yejian | **LAWWW2 PASS**（v4；LAWWW2 重出 patch 交 LAWWW-C b57169085b） | 389adca8c0 | `docs/art-rebuild/second_ai/cc0_g2/yejian_cc0.patch` | P3：小盆栽可試 potted_plant_02 縮小重用或低面數 CC0 小盆栽 |
 | 山嵐書店 shanlan | **自己退回、等重烘**（v2 小盆栽葉片卡、鏡頭換位置；v3 門把改黑鐵：店面牆分組回到 10 個，tests/xs_lm_unit.js 第 4 項） | 16dd002f4（v3 腳本） | 還沒做 | 唱片之後：`bake_xs.sh shanlan` → 拍、patch、交；7.96 萬面 |
 | 慢輪單車 bike | **LAWWW2 PASS**（v1，LAWWW2 重出 patch 給 LAWWW）；**v2 已建模、還沒烘** | a26a2b34d（v2 腳本） | v2 還沒出 | v2 層架：方盒減半→印刷包裝盒（自製圖集×Cardboard001，有傾斜、開蓋）、車燈 4→2、水壺有瓶蓋、鎖最多 3 組、Poly Haven tire_pump＋old_tyre；59,746 面。山嵐之後烘 → 拍（並排圖加「近看右牆層架」）、patch、交 |
-| 轉角唱片 corner | **v2 已交 LAWWW2 驗收**（11-14 10:2x；盆子 cr_vc、烘後重複材質用 glb_merge_dup_mat.py 併回，材質數 12） | 26b1f7976b | `docs/art-rebuild/second_ai/cc0_g2/corner_cc0.patch`（底 15be72634） | 等 LAWWW2 判；以後重烘唱片，烘完要跑 glb_merge_dup_mat.py |
+| 轉角唱片 corner | **LAWWW2 PASS（v2，已轉 LAWWW-C，底 452a96aa6c）**（11-14 10:2x；盆子 cr_vc、烘後重複材質用 glb_merge_dup_mat.py 併回，材質數 12） | 26b1f7976b | `docs/art-rebuild/second_ai/cc0_g2/corner_cc0.patch`（底 15be72634） | 等 LAWWW2 判；以後重烘唱片，烘完要跑 glb_merge_dup_mat.py |
 | 日和便利店 cvs | **改由 LAWWW2 做**（11-13 22:31 LAWWW2 選 ①），LAWWW2 已交 LAWWW（6ecd6495c8） | — | — | 我這邊不做 |
 
 ## 目前做到哪（2026-11-14 09:5x，使用者「g2 恢復開工」）
