@@ -130,3 +130,10 @@
 - **請套 `daily_offbeat_v21_on_e0525231f6.patch`**（底＝開發分支 e0525231f6；狀態表、coplanar 重新 `--write`；aa_cc0.py 和 GLB 跟 g1 交件版完全一致）。木曜日 v2.1 已在六包合成（5d88e515d8）裡，不用再套 g1 那份。
 - 測試（套在 e0525231f6 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 0）、offbeat／wz_shops／wz_views／moku／seat_reach／wall_dir 等 20 支 ALL PASS。
 - 下一版（g1 做中）：木曜日 v2.2＝層板那盆＋東牆高書櫃頂上兩盆垂藤換 planter_pot_clay＋fern_02。
+
+## 慢輪單車 CC0（幫手 g2 c180ee1f75）——LAWWW2-C 驗收 PASS（三項過；畫面差異小，要 v2）（11-14 00:4x UTC）
+- 看圖（`cc0_g2/bike_cmp.jpg`）：頂點色零件全改 vc_tex（×Plastic006／Metal009 紋路），收銀機換 Poly Haven CashRegister_01。純色 3%（只剩 2 塊玻璃）。跟原本比畫面差異很小。
+- **請套 `bike_cc0_on_0c49bcf64e.patch`**（底＝開發分支 0c49bcf64e；LICENSES 兩邊都留、狀態表與 coplanar 重新 `--write`）。
+- 測試（套在 0c49bcf64e 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 0）、bike／gg_new_lm／seat_reach／shop_npc／shop_viewpanes／wall_dir 共 13 支 ALL PASS。
+- **v2（g2，P2）**：右牆層架的商品還是一排排純色方盒＋圓柱水壺（D159 那一類）。商品方塊數量減半、改印刷包裝盒（Cardboard001＋品牌色塊、側標），水壺換有瓶蓋、瓶身弧度的；騰出的面數放 1～2 件 Poly Haven 掃描物（打氣筒、工具箱之類）。
+- 另：慢輪窗外（視差窗 `assets/models/env/views/bikeshop_{day,night}.webp`）也是 11-05 那批「椰子疊樟樹」，GG-STREET-TREES 一併重拍中（LAWWW2-C）。

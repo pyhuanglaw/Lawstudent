@@ -10171,6 +10171,25 @@
    "tests": "窗景 7 支 ALL PASS",
    "notDone": "LAWWW 整合；CC 四間靠窗拍日夜；BB 判",
    "next": "LAWWW 套 gg_street_trees_views.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、幫手 g2",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS 慢輪單車 CC0（g2 c180ee1f75；三項過、畫面差異小，v2 換層架商品）；在 0c49bcf64e 上重出 patch",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/bike_cc0_on_0c49bcf64e.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "0c49bcf64e",
+   "at": "2026-11-14T00:40Z",
+   "tests": "shop_cc0、place_gate（已知未過 0）、13 支 Node ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判；v2 層架商品",
+   "next": "LAWWW 套 bike_cc0_on_0c49bcf64e.patch"
   }
  ]
 }
