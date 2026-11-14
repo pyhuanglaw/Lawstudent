@@ -37,7 +37,7 @@ const flat=o=>typeof o==='string'?[o]:Array.isArray(o)?[].concat(...o.map(flat))
 (async()=>{
   check('0. 讀得到 AA_876（04b0a648ef）、模組載入、事件都在', !!doc&&!!X.EVS&&['ev_kx_drift_r1','ev_kx_drift_r1b','ev_kx_drift_r1c','ev_kx_drift_r2','ev_kx_drift_r3','ev_kx_drift_r4','ev_kx_drift_r5','ev_kx_drift_r5_call','ev_kx_drift_r6'].every(id=>STORY_EVENTS.filter(e=>e.id===id).length===1));
   const SYS=['（不說）','{週幾}我跟{她}去{地點}吃飯。','學校後門・湯餃店','女生宿舍樓下','公館河濱','學校','公館','溫州街'];
-  const miss=flat(X.L).filter(t=>!SYS.includes(t)&&!doc.includes(t));
+  const P959=t=>!SYS.includes(t)&&!doc.includes(t); const miss=flat(X.L).filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'kxdrift3d.js')));   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
   check('0. 每一句都在 AA_876 原文裡（一字不差；系統字只有「（不說）」和地點字幕）', !miss.length, JSON.stringify(miss));
   check('0. D0 那一句照稿「{週幾}我跟{她}去{地點}吃飯。」', doc.includes('「{週幾}我跟{她}去{地點}吃飯。」'));
 

@@ -239,7 +239,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=inJapan('2028-07-07',19,{REPAIR:{heroine_01:1}},false); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
     check('G7 7/7 挽回中、REPAIR 不到（AA_600 3-2）：「（她看了很久，把短冊還給你。）」「掛上去吧。」', has('（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）')&&has('（她看了很久，把短冊還給你。）')&&has('掛上去吧。')&&!has('……不准賴。')&&G.flags.dating_heroine_01!==true); }
   /* ===================== G8 ===================== */
-  { const G=inJapan('2028-07-16',21); phone(); const m=th('p:heroine_01').includes('明天海之日。……我想看海。電車一個小時。'); at('2028-07-17',9); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
+  { const G=inJapan('2028-07-16',21); phone(); const m=th('p:heroine_01').includes('明天海之日。……我想看海，坐電車一個小時就到。'/* RC2-PORT-DEV-1114：AA_959 第 768 列（AA_1021） */); at('2028-07-17',9); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
     check('G8 7/16 私訊、7/17 海之日（字幕「海邊」）：「比淡水的冷。」、傍晚回來', m&&caps.includes('海邊')&&has('比淡水的冷。')&&has('（回來的時候，兩個人的手臂都曬紅了。）')&&G.hour>=17); }
   { const G=inJapan('2028-07-24',18.5); const L=[]; for(const [k,h] of [['2028-07-24',18.5],['2028-07-26',18.5],['2028-07-28',18.5],['2028-08-01',18.5]]){ at(k,h); const st=S.dueStop(G,'jp'); H.said=[]; if(st) await S.playStop(GM,st,'jp'); L.push(H.said.map(s=>s.t).join()); }
     check('G8 期末週摘要日（7/24、7/26、7/28）、8/1 收行李', JSON.stringify(L)===JSON.stringify(['（日本語的期末考。聽力那一段，你聽懂了七成。）','（日本法入門交報告。你在最後一頁寫了台灣的對照表。）','（比較行政法的期末報告。你的題目是：協力，和義務。）','（你開始收行李。來的時候的那件外套，一次都沒穿過。）']), JSON.stringify(L)); }

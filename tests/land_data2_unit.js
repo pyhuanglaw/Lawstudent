@@ -56,7 +56,7 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
   // 3. 選項
   check('3. L4 三個選項都在、照順序、沒有推薦或分數', JSON.stringify(opts[0])===JSON.stringify(['「大伯，我幫你們找一個律師，先把大家約出來。」','「這個要先把繼承人找齊。我先列一張，再請代書確認。」','「大伯，你們要不要先吃一頓飯？」'])&&!JSON.stringify(EV.dialogue).match(/hint|rel:|career/), JSON.stringify(opts[0]));
   T=await play({},0); check('3. ①：lawyer、「……約得出來的話，十年前就約了。」「（他停了一下。）」「好。你找。」', G.flags.FAMILY_LAND_Y3==='lawyer'&&T.join('|').includes('大伯：……約得出來的話，十年前就約了。|（他停了一下。）|大伯：好。你找。'));
-  T=await play({},1); check('3. ②：list、「列一張？」「（他把謄本推過來。）」「好。你列。電話我給你。」', G.flags.FAMILY_LAND_Y3==='list'&&T.join('|').includes('大伯：列一張？|（他把謄本推過來。）|大伯：好。你列。電話我給你。'));
+  T=await play({},1); check('3. ②：list、「列一張？」「（他把謄本推過來。）」「好。你列。電話我給你。」', G.flags.FAMILY_LAND_Y3==='list'&&T.join('|').includes('大伯：列一張？|（他把謄本推過來。）|大伯：好，你列。電話我給你。'/* RC2-PORT-DEV-1114：AA_959 第 543 列 */));
   T=await play({},2); check('3. ③：meal、「（全桌笑。）」「這孩子念法律念到變哲學家。」「（媽媽在旁邊說：「他說得對啊。」）」', G.flags.FAMILY_LAND_Y3==='meal'&&T.join('|').includes('（全桌笑。）|大伯：這孩子念法律念到變哲學家。|（媽媽在旁邊說：「他說得對啊。」）'));
   check('3. 演完時間往後（advance 2）、記成演過', G.hour===11&&!!G.events.done.ev_family_land_y3);
   // 4. 可昕

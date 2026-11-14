@@ -88,7 +88,7 @@ const snap=()=>J({money:G.money,rel:G.social.rel,l118:G.l118,eat:G.eat,slots:G.s
     if(REAL&&ent.length){ const SHA=ent[0].sha; let has=false; try{ cp.execFileSync('git',['cat-file','-e',SHA+'^{commit}'],{cwd:ROOT,stdio:'ignore'}); has=true; }catch(e){}
       let ok=false, out=''; if(has){ try{ out=cp.execFileSync('python3',[path.join(ROOT,'tools/story/import_l118_lunch.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(err){ out=String(err.stderr||err.message).slice(0,300); } }
       check('A4. 匯入工具 --check：資料檔和企劃稿一致'+(has?'':'（這個複本沒有企劃線的 '+SHA+'，略過）'),!has||ok,out.trim().slice(0,160));
-      if(has){ const src=JSON.parse(cp.execFileSync('git',['show',SHA+':'+ent[0].path],{cwd:ROOT,encoding:'utf8'})); const strip=x=>{ const y=JSON.parse(J(x)); delete y.src; delete y.window; delete y.shopRules; for(const s of y.special||[]) delete s.when; return y; }; const a=strip(REAL), b=strip(src);
+      if(has){ const src=JSON.parse(cp.execFileSync('git',['show',SHA+':'+ent[0].path],{cwd:ROOT,encoding:'utf8'})); const strip=x=>{ const y=JSON.parse(J(x)); delete y.src; delete y.window; delete y.shopRules; for(const s of y.special||[]) delete s.when; return y; }; const a=strip(REAL), b=require('./aa959_map.js').mapDeep(strip(src),'l118_lunch.js');   /* RC2-PORT-DEV-1114：AA_959 第 759、760 列（「不要笑」留給沛珊），稿上的字照表換完再比 */
         check('A5. 一字照稿：去掉工具加的 src、window、shopRules、special.when 以後和稿完全一樣（欄位順序不算）',J(canon(a))===J(canon(b))); } }
     if(REAL){ const shops=LANE118_SHOPS.shops.map(s=>s.id), W=REAL.who, ids=Object.keys(W);
       check('A6. who 的人物都在 CHARACTERS；每個人的 prefs 至少有一間現在的資料裡能當午餐的店',ids.length>0&&ids.every(id=>CHARACTERS[id]&&Object.keys(W[id].prefs).some(s=>shops.includes(s)&&LUNCH118.lunchShop(s))));
