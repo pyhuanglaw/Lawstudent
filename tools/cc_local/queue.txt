@@ -2429,6 +2429,8 @@ DATE_LAYER_76f8_r3 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/sto
 # LAWWW-C 01:57（P0，使用者選 rc2e，排最前面；BB 判）：rc2e 只改 index.html 一行（#btnNew 字拿掉、按鈕留著）。標題正常、「從法律系開始」能開局、讀檔正常、沒有 pageerror＋p0 搖桿移動
 RC2E_TITLE_SMOKE | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_rc_title_smoke_probe.py | index.html | 15 | SHA=1404d5f2d4cb740d50df75741764be18ee746992
 RC2E_p0 | 1404d5f2d4cb740d50df75741764be18ee746992 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+# BB-C 09:53（BB_458 b6498a0641，TEST_BUG）：FA05 前置要一併拿掉 G.phone.groups.lawclub_study（已入社存檔的群組不會退）；看公告前先驗沒有群組
+STUDY_FA05_r2 | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_study_play_probe.py | index.html | 20 | PARTS=FA05;MAX_MIN=18;SHA=1404d5f2d4cb740d50df75741764be18ee746992
 # CC-C 09:4x（接班；發布還沒做、LAWWW／BB 都交班了，電腦從 08:31 UTC 空轉）：發布後清單裡不需要線上版的，先在 rc2e（使用者選的發布候選，和 bcc9 只差 index.html 一行）跑；HOLD 原行留著給正式發布用。短的在前、social_r2 每支 45 分鐘放最後
 SIS_LIB_LOAD_rel_rc2e | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_sis_lib_load_probe.py | index.html | 15 | DAYS=2025-09-05,2025-09-24;HOUR=10;SHA=1404d5f2d4cb740d50df75741764be18ee746992
 ANNIV_Y2_rel_rc2e | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 40 | CASES=ANNIV_Y2;SHA=1404d5f2d4cb740d50df75741764be18ee746992
