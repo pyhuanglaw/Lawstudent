@@ -178,7 +178,8 @@ const WISH=(function(){
     const HS=Object.keys(ev.hotspots||{});
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour, left=HS.filter(p=>!spots.includes(p)); if(!left.length) break;
       const opts=left.map(p=>{ const h=ev.hotspots[p], rw=D.spotOff?D.spotOff(G,p):(D.rainOff?D.rainOff(G,p):''); return {t:h.name,hint:(h.minutes|0)+' 分'+(h.cost?'　'+h.cost+' 元':''),dis:!!rw||now+(h.minutes|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);   /* 下雨停用的互動點（淡水長椅「椅子是濕的」，DATE.rainOff）同一般約會 */
-      const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }
+      const PO=q2=>pts.find(x=>x.id===q2)||{id:q2,name:ev.hotspots[q2].name}, o2=opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o);
+      const k=D.pickChoose?await D.pickChoose(GM,o2,{bg:D.bgKey?D.bgKey(loc):null,pts:left.map(PO),all:HS.map(PO),who:id,spots}):await GM.choose(o2); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }   /* DATE-D05-PICK-1114（BB_458／BB_466 #25）：心願約會散場後選點同一般約會走 2D 圖層（date_hotspots，D05 光典臺北有底圖和點）；圖載不到、點對不上＝DATE.pickChoose 自己退回文字選單 */
       const pid=left[k], h=ev.hotspots[pid]; spots.push(pid); await S.spot(GM,t,ev,pid,who); if(GM.advance) GM.advance((h.minutes|0)/60); if(h.cost&&GM.money) GM.money(-h.cost,h.name);
       const lk=h.like||(D.likeOf?D.likeOf(id,pid):'normal'); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&D.LIKE&&D.LIKE[lk]&&Object.keys(D.LIKE[lk]).length) SOCIAL.adjust(id,D.LIKE[lk]);
       if(spots.length===3&&HS.length>3&&D.speak) await D.speak(GM,id,'enough',t,{obj:null}); }   /* 第三個互動點之後她說一句「差不多了」（不分地點的句子，同一般約會）*/

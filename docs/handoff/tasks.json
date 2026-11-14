@@ -56960,10 +56960,10 @@
    "id": "DATE-D05-PICK-1114",
    "title": "光典臺北看完電影後的選點走 GM.choose，沒走 DATE.pickChoose（date_hotspots D05 用不到）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "BB-C 2026-11-14 01:00 DATE_LAYER r2 判讀（BB_458、BB_466 #25）",
-   "note": "不擋 v9.10.26：能選、不卡、存檔不壞，玩家看到文字選單（同 D33）。發布後決定：改走 pickChoose（用 date_hotspots D05 的圖層選點），或把 D05 標成照設計走文字選單。",
+   "note": "不擋 v9.10.26：能選、不卡、存檔不壞，玩家看到文字選單（同 D33）。發布後決定：改走 pickChoose（用 date_hotspots D05 的圖層選點），或把 D05 標成照設計走文字選單。｜11-14 10:5x LAWWW-C 決定改走 pickChoose：wish3d.js 心願約會散場後選點改 D.pickChoose（bg＝DATE.bgKey(loc)、pts 照 DATE.points／hotspots），圖載不到、點對不上照舊退回文字選單。tests/wish_pick_layer_1114_unit.js（D05 四個點都在 d05_base_dusk 上、其他有底圖的心願地點也全覆蓋）；載入 wish3d 的 13 支 ALL PASS。請 CC 在瀏覽器跑芷若 D05 心願約會（DATE_LAYER），看散場後出 2D 圖層。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
