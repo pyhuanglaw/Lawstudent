@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_DATE_PS\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['DATE_PS']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [DATE_PS] 最小存檔讀到 2026-03-28 14.50 dorm（Y1S2 第 5 週）
+  [前置／捷徑] 【捷徑】[DATE_PS] 墊關係、旗標：{"classmate_peishan": {"stage": "CLOSE_FRIEND", "dating": false}, "flags": {}}
+  [  47.6s] [DATE_PS] 墊完 {"classmate_peishan": {"stage": "CLOSE_FRIEND", "dating": false}, "flags": {}}
+  [前置／捷徑] 【捷徑】[DATE_PS 第1次] DATE.book classmate_peishan D01 15:00（同 date_scene_unit.js）：{"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.416666666666666, "place": "華山1914文創園區", "title": "和沛珊去華山1914文創園區"}}
+PASS FAIL_SETUP 檢查：[DATE_PS 第1次] 約會排上了  {"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.416666666666666, "place": "華山1914文創園區", "title": "和沛珊去華山1914文創園區"}}
+  [ 776.1s] [DATE_PS_1_a] 對話（事件 None）：選項 [["現在出發華山1914文創園區　捷運 約 25 分鐘", "到時間再說"]]；選了 ["現在出發華山1914文創園區　捷運 約 25 分鐘"]；GAME.say [["", "（華山1914文創園區。）"], ["沛珊", "這裡以前是酒廠欸，你聞，還有一點味道。"], ["沛珊", "沒有啦，我亂講的，我只是想看你會不會真的聞。"]]
+  [1096.8s] [DATE_PS_1_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+PASS [DATE_PS] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS
