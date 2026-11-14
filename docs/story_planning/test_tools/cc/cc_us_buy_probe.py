@@ -6,13 +6,14 @@
   ② 結帳：記錢（前、後、差）、每一句對話（誰＋字）、選單；買完 GG3_OWN、GIFTH.bag 有沒有多。竹葉先遇到月餅那一句（④）→ 選拿一顆 → 一起結。草原的袋子選「不用了」。
   ③ 錢不夠：重新讀檔（新的一趟＝新推車）、錢設 MONEY_LOW（預設 10 元）、草原拿香蕉（48 元）、竹葉拿豆腐（64 元）→ 結帳 → 記那一句（草原 no_money、竹葉沒有水餃＝no_money_other）、錢有沒有動、推車清了沒。
   ④ 竹葉月餅：2028-09-16（9/15～中秋 10/3 之間）結帳時那一句＋「月餅 $5.00」選項——選了以後有沒有進推車、結帳後進包包。
-CC_02 清單 2026-11-14：1✓（美國期間 2028-09-16 13:00＋美國路線旗標 EXCHANGE_ROUTE=US、US_DEPARTED、US_ARRIVED；竹葉週日公休，這天是週六） 2✓（互動點照 usMarket id 從 GAME.E.interactables 讀，貨品照 USMKT.goodsAt） 3✓（指定貨架、指定貨品，不挑第一個） 4✓（按 #interact、點 #choices 第 n 個，L.tap 觸控） 5✓（站位找互動點 0.5 m 內站得住的點，CC_02 乙5 SHOP_US_r4b） 6✓（對話一句一句點，每下等 450 ms） 7✓（lint） 8✓（錢、推車、GG3_OWN、GIFTH.bag 前後逐欄比） 9✓（每個選單、結帳完都截圖） 10✓（捷徑：讀檔、旗標、錢都寫【捷徑】） 11✓（佇列 probe、SHA 40 碼） 12✓（FAIL_SETUP：在店裡、inUS、互動點和貨品在、走到以後互動鍵是那個點） 13✓（走到互動點用 go_to，走完確認 nearestInteractable）
+CC_02 清單 2026-11-14：1✓（美國期間 2028-09-16 13:00＋美國路線旗標 EXCHANGE_ROUTE=US、US_DEPARTED、US_ARRIVED；竹葉週日公休，這天是週六） 2✓（互動點照 usMarket id 從 GAME.E.interactables 讀，貨品照 USMKT.goodsAt） 3✓（指定貨架、指定貨品，不挑第一個） 4✓（按 #interact、點 #choices 第 n 個，L.tap 觸控） 5✓（站位找互動點 0.5 m 內站得住的點，CC_02 乙5 SHOP_US_r4b；點地走不到改搖桿 joy_to、看互動鍵的字） 6✓（對話一句一句點，每下等 450 ms） 7✓（lint） 8✓（錢、推車、GG3_OWN、GIFTH.bag 前後逐欄比） 9✓（每個選單、結帳完都截圖） 10✓（捷徑：讀檔、旗標、錢都寫【捷徑】） 11✓（佇列 probe、SHA 40 碼） 12✓（FAIL_SETUP：在店裡、inUS、互動點和貨品在、走到以後互動鍵是那個點） 13✓（走到互動點用 go_to，走完確認 nearestInteractable）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [ZONES=us_market,us_asian_market] [DAY=2028-09-16] [HOUR=13] [MONEY_LOW=10] python3 cc_us_buy_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
 import playlib as L
 import cc_d141_lib as D
+import cc_fn_lib as F
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
@@ -20,7 +21,7 @@ SHA = os.environ.get('SHA') or ''
 ZONES = [z for z in (os.environ.get('ZONES') or 'us_market,us_asian_market').split(',') if z]
 DAY = os.environ.get('DAY') or '2028-09-16'; HOUR = float(os.environ.get('HOUR') or 13)
 MONEY_LOW = int(os.environ.get('MONEY_LOW') or 10)
-R = L.Run('us_buy', OUT); D.setup(R, OUT)
+R = L.Run('us_buy', OUT); D.setup(R, OUT); F.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 PLAN = {   # 區域：貨架、要拿的貨、結帳點、錢不夠那一次的貨架和貨
     'us_market': {'shelf': 'aisle_household', 'good': 'usm_tp', 'pay': 'checkout', 'low_shelf': 'produce', 'low_good': 'usm_banana'},
@@ -70,6 +71,10 @@ async def walk_to(pg, cdp, tag, uid):
     tg = await D.standable_near(pg, it['x'], it['z'], 0.5, 0) or await D.standable_near(pg, it['x'], it['z'], max(0.3, it['r'] - 0.2), 0)
     if tg: await L.go_to(pg, cdp, R, tg['x'], tg['z'], 0.25, '%s 走到「%s」' % (tag, it['label']), max_s=60, lv=0)
     await pg.wait_for_timeout(900); n = await pg.evaluate(NEAR_JS)
+    if tg and not (n['shown'] and n['it'] == uid):   # 雲端 r1：點地被貨架擋住（差 1 m、或停在半路）→ 改用搖桿朝 pathTo 推，互動鍵出現這個字就算到（CC_02 乙5）
+        jr = await F.joy_to(pg, cdp, tag, tg['x'], tg['z'], near=0.3, lv=0, max_s=90, btn=it['label'])
+        R.note('%s 點地沒走到，改推搖桿：%s' % (tag, J({k: jr.get(k) for k in ('ok', 't', 'pushes', 'by', 'why')})))
+        await pg.wait_for_timeout(700); n = await pg.evaluate(NEAR_JS)
     ok = n['shown'] and n['it'] == uid
     R.check('%s FAIL_SETUP 檢查：走到以後互動鍵是「%s」（%s）' % (tag, it['label'], uid), ok, J(n))
     return it if ok else None
