@@ -288,7 +288,7 @@ async def do_func(pg, cdp, tag, rm, zid):
         ui = await pg.evaluate(UI_JS) if ok_reach and not picked and not said else None
         # PC GATE_CAL_bd86：便利商店按「結帳」沒有出選單也沒有對話＝探針看不懂那個畫面，記下畫面上的字、判 UNKNOWN（交 BB 看圖），不當 FAIL
         if ORDER_POOR and poor is not None:
-            pricey = [o for o in poor if not any(w in o['t'] for w in ('不點', '算了', '離開', '不用', '返回', '要水'))]
+            pricey = [o for o in poor if not any(w in o['t'] for w in ('不點', '算了', '離開', '不用', '返回', '要水')) and re.search(r'\d+\s*元', o['t'])]   # CC-B 11-14（MOKUYOBI_r5）：「買一份帶走送人…」是下一層選單、本身沒有價錢，不算要花錢的
             R.check('%s 錢不夠（10 元）時要花錢的選項是灰的' % tag, bool(pricey) and all(o['dim'] for o in pricey), J(poor))
         if ORDER_POOR: R.check('%s 點了第一項有扣錢' % tag, m1 < m0, J({'picked': picked, 'money': [m0, m1]}))
         res['order'] = {'reach': ok_reach, 'picked': picked, 'said': said, 'money': [m0, m1], 'ui': ui, 'poor': poor, 'lines': lines,
