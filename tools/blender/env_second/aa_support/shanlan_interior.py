@@ -50,7 +50,7 @@ sh.M.update({
     'kraft': CK.acg(P + 'kraft', 'Cardboard004', target='#6e5a44', vary=0.12, tile=0.35, rough_value=0.8),
     'blackplastic': CK.acg(P + 'black_plastic', 'Plastic006', target='#26282a', vary=0.03, tile=0.4, rough_value=0.4),
 })
-sh.route({'#efe8d8': 'paper', '#f4efe2': 'paper', '#efe6d2': 'paper', '#3a3c3e': 'blackmetal', '#2a2a2a': 'blackmetal', '#9a9ea2': 'steel', '#b8b0a0': 'steel',
+sh.route({'#efe8d8': 'paper', '#f4efe2': 'paper', '#efe6d2': 'paper', '#3a3c3e': 'blackmetal', '#2a2a2a': 'blackmetal', '#9a9ea2': 'steel', '#b8b0a0': 'blackmetal',
           '#e8e4dc': 'ceramic', '#d8d0c0': 'ceramic_b', '#d6c4a4': 'stone', '#8a7258': 'darkwood', '#a9a49a': 'fab_grey',
           '#d9cdb2': 'canvas', '#e0d4b8': 'canvas', '#e8e2d4': 'shade_linen', '#6e5a44': 'kraft', '#2f3330': 'blackplastic', '#1c1d1e': 'blackplastic'})
 
