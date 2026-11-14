@@ -107,10 +107,10 @@ async def main():
                 await pg.evaluate(D.HUD + '(true)')
                 if h == HOURS[0]:
                     walks = []
-                    for zo in (0.0, 1.5, -1.5, 3.0, -3.0, 5.5, -5.5):   # z 0：新校門（aa876 GATE-REF）正中間是門房＋半圓花圃，本來就擋（只記）
-                        await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); GAME.E.player.path=null; })", {'x': GATE_X - 6, 'z': GATE_Z + zo}); await pg.wait_for_timeout(800)
-                        st0 = await pg.evaluate("(a=>GAME.E.canStand(a.x,a.z,0.3))", {'x': GATE_X - 6, 'z': GATE_Z + zo})
-                        ok = await L.go_to(pg, cdp, R, GATE_X + 6, GATE_Z + zo, 0.8, '[%s] 走過校門通道 z%+.1f' % (hh, zo), max_s=40)
+                    for zo in (0.0, 1.5, -1.5, 3.0, -3.0, 5.5, -5.5):   # z 是離校門中心（z 0）的絕對位置，不是離 GATE_Z（CC-B 11-14 GATE_REF_r2：原本加在 GATE_Z=3 上，「−3」其實走的是正中間）；z 0：門房＋半圓花圃，本來就擋（只記）
+                        await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); GAME.E.player.path=null; })", {'x': GATE_X - 6, 'z': zo}); await pg.wait_for_timeout(800)
+                        st0 = await pg.evaluate("(a=>GAME.E.canStand(a.x,a.z,0.3))", {'x': GATE_X - 6, 'z': zo})
+                        ok = await L.go_to(pg, cdp, R, GATE_X + 6, zo, 0.8, '[%s] 走過校門通道 z%+.1f' % (hh, zo), max_s=40)
                         p_ = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; return [+P.x.toFixed(2), +P.z.toFixed(2)]; })()")
                         walks.append({'z_off': zo, 'start_stand': st0, 'reached': bool(ok), 'end': p_})
                     res['walk'] = walks; R.note('[%s] 走過校門通道（門柱連線外 6 m → 內 6 m）：%s' % (hh, J(walks)))
