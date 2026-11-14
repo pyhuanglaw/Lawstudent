@@ -1179,9 +1179,9 @@
    "at": "2026-11-14T12:1x",
    "quote": "學校裡的校門，請依照我的參考圖改（附一張參考圖：中間紅磚警衛亭、石材匾額「首都帝國大學」、旗桿、半圓花圃、兩側車道、外側石柱＋方燈＋鐵柵門、紅磚矮牆＋鐵欄杆）",
    "kind": "原話",
-   "status": "進行中",
-   "task": "【表外】GATE-REF-1114（請 LAWWW 開 ID）",
-   "note": "campus_gate.py v2＋campus_gate.glb 已重做（WIP，未交件）；導航（campuskit3d.js GATE）patch 和測試還沒做。"
+   "status": "在開發分支",
+   "task": "GATE-REF-1114",
+   "note": "campus_gate.py v2＋campus_gate.glb 已重做（WIP，未交件）；導航（campuskit3d.js GATE）patch 和測試還沒做。｜11-14 第 1 版（模型＋導航）已整合進開發分支 aa876bf9b9，等 CC 拍、BB 判；還沒發布到線上"
   },
   {
    "id": "UA-LAWWW2-1114-06",
