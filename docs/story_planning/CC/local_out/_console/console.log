@@ -1,9 +1,3 @@
-       649fd4abdf..706682dc57  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[01:52:46] ==== END   STUDY_SE06_4af4_r3  exit=1  475s   ====
-[01:52:50] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[01:52:50] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[01:52:50] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [01:52:50] memory 47% before starting L118_KDT_e23d (2 running)
 [01:52:50] ==== START L118_KDT_e23d  (probe @ e23d56706e21b878fe045a1826b23c89ce04e39f) ====
 [01:52:53] [res] cpu=1% mem=44% (14.9/31.4 GB) chrome_testing=10  START L118_KDT_e23d
@@ -1998,3 +1992,9 @@
 [15:19:35] ==== START US_CART_ASIA_moon  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
 [15:19:38] [res] cpu=0% mem=44% (14.0/31.4 GB) chrome_testing=10  START US_CART_ASIA_moon
 [15:20:15] [res] cpu=8% mem=44% (14.0/31.4 GB) chrome_testing=9  END DATE35_PS_CLO
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6f846909c2..35ca4b06e0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:20:25] ==== END   DATE35_PS_CLO  exit=0  181s   ====
+[15:20:28] solo item WZ_PERF_f3e1_desk_r2 waits: no new items start until the 2 running item(s) finish
+[15:21:53] [res] cpu=1% mem=40% (12.5/31.4 GB) chrome_testing=5  END US_CART_ASIA_moon
