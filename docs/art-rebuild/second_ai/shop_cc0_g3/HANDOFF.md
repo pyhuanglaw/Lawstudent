@@ -9,7 +9,7 @@
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的（P2／P3） |
 |---|---|---|---|---|
 | 大步球鞋 dabu | 已整合（LAWWW-C 884f09a7c3；LAWWW2 PASS） | a3a67aef7d | `docs/art-rebuild/second_ai/cc0_help/g3/dabu.patch` | P2（LAWWW2）：鞋盒牆、收銀台後的盒子牆改 `printed`（Cardboard001 上印品牌色塊、側標、尺碼標），大小顏色有變化、幾個開蓋歪放 → v2；六間交完再做 |
-| 好拍運動 haopai | 已交 LAWWW2 驗收（00:5x） | 本次交件 commit | `docs/art-rebuild/second_ai/cc0_help/g3/haopai.patch` | P3：畫面變化小（球拍框、羽球筒、桌球拍換 CC0 材質組 × 顏色；地上兩箱 PH 紙箱）；patch 帶了修正過的 bake_xs.sh 好拍段 |
+| 好拍運動 haopai | LAWWW2 PASS（00:55；LAWWW2 在 582eb7d807 上重出 patch 交 LAWWW b5410f8654） | 6da531c6ee | `docs/art-rebuild/second_ai/cc0_help/g3/haopai.patch` | v2（新生運動之後）：後段鐵架上的貨箱（程式拼的方塊＋標籤）換 Poly Haven cardboard_box_01，大小、角度有變化 |
 | 同弦樂器 tongxian | 烘焙中（排第 5） | 腳本 11dd2b9e42 | （還沒有） | 要挖樓梯間地板洞（`glb_floor_hole.py`，已對新原檔做好）；`xs_lm_unit` instancing 29→30；第一次烘的沒挖洞，已丟掉 |
 | 新生運動廣場 xinsheng_sports | 烘焙中（排最後：第一次烘好 23:28，看截圖發現足球用到洩氣的舊球，改充飽的白球後重烘） | 腳本 252bc3765a | （還沒有） | 烘完：拍新版（鏡頭 cams.json＋cams2.json 近景）、並排圖、測試（xs_lm_unit instancing 56→57 已改）、patch |
 | 大口漢堡一樓 dakou_1f | 退回要改（00:41 LAWWW2：LAWWW 整合時 place_gate 牆疊面 5.13→6.81）→ 已修（7b0eb8a714：直框縮 2 mm、拿掉門邊重複直框；一定會閃 10.20→7.25 m²），重烘中（好拍之後），二樓也照新腳本重烘 | 69755b5546 | `docs/art-rebuild/second_ai/cc0_help/g3/dakou.patch` | v2（LAWWW2，排在好拍、同弦、新生運動之後）：①一樓櫃檯後層架的彩色方塊改印刷包裝盒／罐子，大小顏色錯開；對照圖加「一樓櫃檯後層架近看」 |
@@ -29,6 +29,10 @@
 - 還沒烘的原檔：`<店>_new.glb`（用腳本重建）、`haopai_b.glb`（＋洞洞板兩步）、`tongxian_h.glb`（＋地板洞）。重做：跑腳本 `--out`，再照 cc0_help/g3/README.md 的事後步驟。
 - 「改之前」截圖（五間，各 5～7 張）：重做＝用開發分支的 GLB 照同一份鏡頭拍（鏡頭 json 也在 scratchpad；格式見 HOWTO 第 4 節）。
 - 好拍事後處理的工具 `glb_flip_faces.py`、`glb_split_tile.py`：在 `claude/second-ai-env-art` 的 `tools/blender/env_second/lightbake/`（開發分支沒有）。
+
+## 出 patch 要注意
+- `git diff --cached --summary` 看有沒有 mode change（11-14 好拍 patch 把 bake_xs.sh 755 改成 644，LAWWW2 抓到；make_patch 已改成照底的 mode）。
+- 疊面：交件前在開發分支的 worktree 跑 `node tests/place_gate_unit.js`（不加參數）確認沒有新問題，再 `--coplanar`（只准變少）；patch 帶 `tests/place_gate_coplanar.json`。
 
 ## 下一個接手的人從哪裡開始
 
