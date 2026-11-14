@@ -1,9 +1,3 @@
-[00:09:35] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[00:09:35] memory 43% before starting EXIT_PROMPT_r2 (2 running)
-[00:09:35] ==== START EXIT_PROMPT_r2  (probe @ 5c96c6680264aa6fe56f5450f01d848d3623c9af) ====
-[00:09:38] [res] cpu=5% mem=43% (13.6/31.4 GB) chrome_testing=9  START EXIT_PROMPT_r2
-[00:11:40] [res] cpu=1% mem=43% (13.5/31.4 GB) chrome_testing=10  END EXIT_PROMPT_r2
-    To https://github.com/pyhuanglaw/Lawstudent.git
        9e5f1c1d6e..1470b6a28d  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [00:11:47] ==== END   EXIT_PROMPT_r2  exit=0  125s   ====
@@ -1998,3 +1992,9 @@
 [13:31:06] [res] cpu=1% mem=44% (13.9/31.4 GB) chrome_testing=9  START YUE_MEAL_r3
 [13:31:55] 正在跑：STUDY_fix_c_r3（已跑 6 分／上限 20 分）、BB403_W123（已跑 2 分／上限 40 分）、YUE_MEAL_r3（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:34:08] [res] cpu=4% mem=46% (14.5/31.4 GB) chrome_testing=10  END YUE_MEAL_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       55a07a1dd2..2a8e476c9f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:34:17] ==== END   YUE_MEAL_r3  exit=1  185s   ====
+[13:34:20] solo item SAVE_LZ_c109 waits: no new items start until the 2 running item(s) finish
+[13:36:27] [res] cpu=1% mem=37% (11.6/31.4 GB) chrome_testing=5  END STUDY_fix_c_r3
