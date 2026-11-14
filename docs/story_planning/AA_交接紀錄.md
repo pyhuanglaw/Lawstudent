@@ -2,6 +2,9 @@
 
 - 值班登記：帳號 B｜AA（AA-B）｜session_016ACZaD4oB9tX94WqQR4dkS｜claude/cool-heisenberg-o8kuqx｜接班基準 a77f92672a（origin/claude/magical-albattani-bk7b4n，快轉）｜2026-11-14（使用者「現在接班」）
 - 上一班：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit a77f92672a｜正常交班（2026-11-14 11:52Z，快照 2026-11-14T1152Z_C_AA）
+- **AA-B 11-14 這一班做了什麼（接班以後；全部已推）**：AA_959 覆寫表修到 783 列並核對移植（dev cc10767480：774 列乾淨、11 列有說明）；AA-D99-BLOCKERS-1114 掃完（寒暑假 12 種玩家×7 個假期＋美國學期 22 種）→ AA_1025（F1 已接 75ffe6c10f；F2、F3、F15 等 LAWWW）、AA_1026（那家店改燒臘 15 處＋Q1～Q8）、AA_850 兩句；HEROINE-LIFE-1028 補稿 AA_1027～AA_1032（動態 7 則、學姊家族群組 12 則、芷若 6 子晴 8、大一上第 6～9 週 4 則），都等 LAWWW-B 接、BB/CC 重跑 HL2／HL3／HL3b；語彤共創三批 12 題記在 AA_語彤共創紀錄.md。
+- **暫停中**：DIALOGUE-DEPTH-1031 語彤共創｜誰決定：使用者（11-14「共創先停下來，你先做你還沒做完的事情」）｜負責人 AA｜恢復條件：使用者說繼續｜下次檢查 2026-11-21。
+- 大改動：無（這一班只補字、改字；那家店＝公館燒臘是 11-13 以前的決定，AA_1026 只是把殘留的字改完）。
 - **AA-B 接班核對（11-14）**：RULE_SOURCE claude/adoring-meitner-mqzst8（seq 155，接班時五個職位都沒人值班）；rules_sync 0 檔不同；check 結束碼 1（都是 LAWWW 總表欄位的異常：缺 next／first，AA 不能改）；duty verify 結束碼 1（帳號 A 三條分支交班後還有 commit＝A 11-10～11-12 值班、沒交班，duty.json 已記 no-handoff；AA 這條是我接班快轉造成的）；roles 異常 1 項（K-D3 在交接檔、總表沒有，交值班 LAWWW 補）；asks OK 219 筆；userwork 10 項照上一班狀態（都已交、等整合或測試；DIALOGUE-DEPTH-1031 暫停中）；loose OK。下一班第一件事照下面 AA-C 交班 B 類：AA-D99-BLOCKERS-1114、RC2-PORT-DEV-1114、LIMAO-DOOR-HOURS-TEXT-1114，三件都要值班 LAWWW 先動。
 - 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 0c9daff873｜2026-11-13（使用者「繼續」，交班後同一帳號同一工作階段回班；duty register 重新登記）
 - **交班（帳號 C｜AA-C｜2026-11-14 11:4x UTC｜使用者：「現在交班」）**
