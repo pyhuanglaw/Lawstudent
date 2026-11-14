@@ -226,7 +226,7 @@ async def part_hl1(pg, cdp, sv0, res):
 
 PREP3 = r"""((a)=>{ const G=GAME.G, H=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'];
   G.msgs=[]; G.phone=null; PHONE.rec(G); const F=G.flags=G.flags||{}; for(const k of ['dpN','dpPick','dpDay','dpLast','dpDayOf']) delete F[k];
-  G.contacts=G.contacts||{}; for(const id of H){ F['met_'+id]=true; G.contacts[id]=a.d0-1; try{ SOCIAL.meet(id,'campus'); }catch(e){} const r=SOCIAL.rel(id); Object.assign(r,a.stage==='FRIEND'?{fam:45,trust:30,comf:20,rom:0,npcRom:0}:{fam:25,trust:10,comf:10,rom:0,npcRom:0}); r.seen=Math.max(r.seen||0,20); r.talked=Math.max(r.talked||0,20); delete F['dating_'+id]; }   /* 剛好 FAMILIAR（social3d.js S.stage：fam≥20、不到 FRIEND 的 fam40／trust25）——子晴 dp_zq_f1／f2 要 stage===FAMILIAR */
+  G.contacts=G.contacts||{}; for(const id of H){ F['met_'+id]=true; G.contacts[id]=a.d0-1; try{ SOCIAL.meet(id,'campus'); }catch(e){} const r=SOCIAL.rel(id); Object.assign(r,a.stage==='CLOSE_FRIEND'?{fam:65,trust:50,comf:45,rom:0,npcRom:0}:a.stage==='FRIEND'?{fam:45,trust:30,comf:20,rom:0,npcRom:0}:{fam:25,trust:10,comf:10,rom:0,npcRom:0}); r.seen=Math.max(r.seen||0,20); r.talked=Math.max(r.talked||0,20); delete F['dating_'+id]; }   /* 剛好 FAMILIAR（social3d.js S.stage：fam≥20、不到 FRIEND 的 fam40／trust25）——子晴 dp_zq_f1／f2 要 stage===FAMILIAR */
   if(a.contactLate) for(const id of H) G.contacts[id]=a.contactLate;   /* 對照：聯絡方式是那一天以後才有 */
   if(a.ex) for(const id of a.ex){ F['EX_'+id]=true; delete F['dating_'+id]; }   /* 對照：前任（ROM.exOf：EX_ 旗標）*/
   if(!a.noGroup) PHONE.join(G,'family_law','法律系家族'); PHONE.join(G,'guitar','吉他社');
@@ -322,6 +322,16 @@ async def part_hl3c(pg, cdp, sv0, res):
         cnt = {k: len(v) for k, v in sorted(by.items())}
         out[term] = {'range': [te['k0'], te['k1']], 'total': len(msgs), 'count': cnt, 'gaps14': gl, 'first': {k: v[0]['date'] for k, v in by.items()}, 'msgs': msgs}
         R.note('%s %s～%s 共 %d 則；每位 %s；連續 14 天以上沒有女主角訊息：%s' % (tag, te['k0'], te['k1'], len(msgs), J(cnt), J(gl) if gl else '沒有'))
+        fd_ = [m for m in msgs if m.get('feed')]
+        if os.environ.get('HL3_FEED') == '1':   # LAWWW-B 14:12（HL2 Y1S2 動態補七則）：第 1～12 週每週有沒有動態、學姊有沒有
+            wk_ = {}
+            for m in fd_:
+                w = (m['day'] - d0) // 7 + 1; wk_.setdefault(w, []).append(m['from'])
+            rows_ = [{'week': w, 'n': len(wk_.get(w, [])), 'who': sorted(set(wk_.get(w, []))), 'sis': 'heroine_05' in wk_.get(w, [])} for w in range(1, 13)]
+            out[term]['feed_weeks'] = rows_
+            R.note('%s 動態每週（第 1～12 週）：%s' % (tag, J([[r_['week'], r_['n'], r_['who']] for r_ in rows_])))
+            R.check('%s 第 1～12 週每週都有動態' % tag, all(r_['n'] > 0 for r_ in rows_), J([r_['week'] for r_ in rows_ if not r_['n']]))
+            R.note('%s 學姊的動態：第 %s 週' % (tag, J([r_['week'] for r_ in rows_ if r_['sis']])))
         exp_ = await pg.evaluate("((t)=>{ try{ return (typeof SELFMSG!=='undefined'?SELFMSG.LIST:[]).filter(m=>m.term===t).map(m=>({id:m.id, who:m.who||'heroine_05', need:m.need, th:m.th, day:SELFMSG.dayOf(m), date:(SELFMSG.dayOf(m)!=null?CALENDAR.dateOf(SELFMSG.dayOf(m)).key:null), h:m.h})); }catch(e){ return 'ERR '+e.message; } })", term)
         if isinstance(exp_, list) and exp_:   # BB-B 13:58（AA_1029～1032 補稿）：這學期該有哪幾則 self_ 訊息、收到哪幾則（逐則：日期、原文、階段、在不在家族群組）
             for e_ in exp_:
