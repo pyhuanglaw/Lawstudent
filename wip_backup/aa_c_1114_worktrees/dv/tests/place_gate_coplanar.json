@@ -1,0 +1,308 @@
+{
+ "assets/models/env/second_ai/aa_support/afar.glb": {
+  "sha1": "166162158baf45c64a39d8390d2dd150ecae35a1",
+  "wall": 1.76,
+  "always": 2.72,
+  "top": "WALL_right_afr_c_green×afr_wood 1.495 m² @[5.1,0.65,0.37]"
+ },
+ "assets/models/env/second_ai/aa_support/aoki.glb": {
+  "sha1": "afc7cd7eb0711c5c9d66a9977c22b05a591bae3b",
+  "wall": 1.01,
+  "always": 1.99,
+  "top": "WALL_back_aok_wood×aok_wood 0.466 m² @[-0.7,0.33,-3.5]"
+ },
+ "assets/models/env/second_ai/aa_support/daily_offbeat.glb": {
+  "sha1": "4b6bdaf7b843c878b08fc6a14f2d73b2602e0ca7",
+  "wall": 1.16,
+  "always": 3.67,
+  "top": "WALL_right_dof_wood×WALL_right_dof_print 0.704 m² @[5.47,2.13,3.02]"
+ },
+ "assets/models/env/second_ai/aa_support/daybreak.glb": {
+  "sha1": "9979cecdb8b8449b47b75d919ba0165411bf08c1",
+  "wall": 0.36,
+  "always": 1.43,
+  "top": "WALL_front_dbk_frame×WALL_front_dbk_frame 0.139 m² @[1.81,0,4.06]"
+ },
+ "assets/models/env/second_ai/aa_support/komichi.glb": {
+  "sha1": "2e854f2ea126b27c19ae5355cbf9078a80a9577d",
+  "wall": 0.75,
+  "always": 1.57,
+  "top": "WALL_front_kmc_wood×WALL_front_kmc_wood 0.235 m² @[-2.58,0,4.06]"
+ },
+ "assets/models/env/second_ai/aa_support/mokuyobi.glb": {
+  "sha1": "464c7f833e9c00daa10749fa17872784dea2d44a",
+  "wall": 2.62,
+  "always": 5.54,
+  "top": "WALL_front_mok_walnut×WALL_front_mok_wall 0.439 m² @[-2.85,0.53,7]"
+ },
+ "assets/models/env/second_ai/aa_support/shanlan.glb": {
+  "sha1": "2136813795f41b686968c3f622176522c453b9bc",
+  "wall": 11.76,
+  "always": 53.81,
+  "top": "shl_wall×L2_shl_floor2 1.646 m² @[-3.73,4.2,-2.44]"
+ },
+ "assets/models/env/second_ai/aa_support/sunnyside.glb": {
+  "sha1": "4b3396083bbea074f159160d8f647009cbc3e4d7",
+  "wall": 1.34,
+  "always": 1.54,
+  "top": "WALL_back_sns_wood×sns_vcm 0.548 m² @[-1.2,0.33,-5]"
+ },
+ "assets/models/env/second_ai/aa_support/yejian.glb": {
+  "sha1": "0a4b2b1fe0de97b636481f39e9e3ae70a19b9a3b",
+  "wall": 0.7,
+  "always": 6.88,
+  "top": "yej_wood×WALL_right_yej_wood 0.279 m² @[6,0.58,-3.33]"
+ },
+ "assets/models/env/second_ai/aa_support/yizhan.glb": {
+  "sha1": "d8b284a2c26e1e77a79fe8d9526b22de724c66ce",
+  "wall": 1.22,
+  "always": 2.03,
+  "top": "WALL_back_yzn_post×WALL_left_yzn_wall 0.144 m² @[-4.26,2.02,-5]"
+ },
+ "assets/models/env/second_ai/bb_support/ade.glb": {
+  "sha1": "59380f82190dba021a9e706d2944f0b641f667b3",
+  "wall": 3.2,
+  "always": 5.38,
+  "top": "WALL_back_cubby_wood×WALL_back_cubby_wood 0.489 m² @[-0.67,1.23,-4.48]"
+ },
+ "assets/models/env/second_ai/bb_support/bike.glb": {
+  "sha1": "7cf7eca033299fd0d6d54601c23bb0bf36dea7e5",
+  "wall": 10.9,
+  "always": 17.45,
+  "top": "bk_wheel3_0_alpha_inst×WALL_left_wheel4_0_alpha_inst 0.547 m² @[0.16,-0.22,0]"
+ },
+ "assets/models/env/second_ai/bb_support/corner.glb": {
+  "sha1": "b3b547ce9142cf7aa14443a79fbe3bad61b907c4",
+  "wall": 11.87,
+  "always": 18.63,
+  "top": "WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32]"
+ },
+ "assets/models/env/second_ai/bb_support/cvs_interior.glb": {
+  "sha1": "77ad816b3638fd3adf45947b10ff6f2a2c471b43",
+  "wall": 2.66,
+  "always": 5.6,
+  "top": "WALL_back_vc×cvs_vc 1.052 m² @[-0.08,0.07,-5.5]"
+ },
+ "assets/models/env/second_ai/bb_support/dabu.glb": {
+  "sha1": "dc3f0dc1759e1605e334075cc73f9efe4aa27b62",
+  "wall": 34.4,
+  "always": 34.54,
+  "top": "WALL_back_back_vc×WALL_back_back_paint 5.11 m² @[0.04,0.58,-5.88]"
+ },
+ "assets/models/env/second_ai/bb_support/dakou_1f.glb": {
+  "sha1": "bff193dfedcb0af6551f84bcb2846c1d3d47dd24",
+  "wall": 5.13,
+  "always": 10.55,
+  "top": "WALL_front_frame×WALL_front_frame 1.153 m² @[1.76,0.47,7.94]"
+ },
+ "assets/models/env/second_ai/bb_support/dakou_2f.glb": {
+  "sha1": "42577b18840c5ed315bca581f1659302373cda48",
+  "wall": 1.65,
+  "always": 8.29,
+  "top": "WALL_left_frame×WALL_left_frame 0.285 m² @[-6.04,6.38,5.34]"
+ },
+ "assets/models/env/second_ai/bb_support/haopai.glb": {
+  "sha1": "050a9269b9761adbaa103a809bc006ed8a0e272b",
+  "wall": 31.7,
+  "always": 35.44,
+  "top": "WALL_right_wall_wall×WALL_right_hp_vc 2.202 m² @[2.08,1.19,2.31]"
+ },
+ "assets/models/env/second_ai/bb_support/lin_interior.glb": {
+  "sha1": "9ed3a546806382f139e5bdb07fb8ad442d1e8a7c",
+  "wall": 0,
+  "always": 0.32,
+  "top": ""
+ },
+ "assets/models/env/second_ai/bb_support/nanyang_lobby.glb": {
+  "sha1": "184ec15d49c083ff40e4ddf2a24bfd2274ffe3d2",
+  "wall": 9.31,
+  "always": 16.5,
+  "top": "ny_vc_matte×WALL_left_wains 7.785 m² @[-4.5,1.65,3.54]"
+ },
+ "assets/models/env/second_ai/bb_support/shaola_interior.glb": {
+  "sha1": "134eaa1bc5e52b700a4736b53c1de9f208296c48",
+  "wall": 3.5,
+  "always": 6.79,
+  "top": "WALL_back_vc×WALL_back_steel 1.218 m² @[1.86,0,-7.89]"
+ },
+ "assets/models/env/second_ai/bb_support/tongxian.glb": {
+  "sha1": "60b8224b1a149dffda51e497471864974a84981c",
+  "wall": 32.43,
+  "always": 38.08,
+  "top": "WALL_back_plaster×WALL_back_metal 0.364 m² @[-2.13,0.87,-5.26]"
+ },
+ "assets/models/env/second_ai/bb_support/xinsheng_sports.glb": {
+  "sha1": "ec29b76884c1973d14211e645e3965489ed480aa",
+  "wall": 2.12,
+  "always": 48.06,
+  "top": "WALL_left_L1_xs_goods×WALL_left_L1_xs_goods 1.2 m² @[-8.2,4.67,0.23]"
+ },
+ "assets/models/env/second_ai/bb_support/yangyang_interior.glb": {
+  "sha1": "432874f1117eb2ca48f581273bb7d634da0350f6",
+  "wall": 0.64,
+  "always": 2.13,
+  "top": "yy_steel×WALL_right_vc 0.19 m² @[4.6,0.32,-0.1]"
+ },
+ "assets/models/env/second_ai/cafe230.glb": {
+  "sha1": "2d3ab9f73d2f0a9147377d6607642fe3716b2fbc",
+  "wall": 0.9,
+  "always": 2.47,
+  "top": "WALL_front_a23_wood×WALL_front_a23_wood 0.247 m² @[-0.58,0,6.06]"
+ },
+ "assets/models/env/second_ai/flower_notes_interior.glb": {
+  "sha1": "ef78dbd32f446cef8136d26b1e591eba3690d373",
+  "wall": 24.73,
+  "always": 122.43,
+  "top": "L0_vc×WALL_L0_N 13.5 m² @[-0.33,0.68,-7]"
+ },
+ "assets/models/env/second_ai/gg_antai_interior.glb": {
+  "sha1": "829f1547708a94dfacd7bbe2022630f3be844a50",
+  "wall": 0.04,
+  "always": 2.99,
+  "top": "WALL_Sfix_steel×WALL_Sfix_steel 0.035 m² @[3.61,0.56,5.04]"
+ },
+ "assets/models/env/second_ai/gg_rongendian_interior.glb": {
+  "sha1": "9ba4d37006f0d969281b88c9dbe6246a49d9a30d",
+  "wall": 0.04,
+  "always": 1.96,
+  "top": "WALL_Sfix_steel×WALL_Sfix_steel 0.035 m² @[3.64,0.57,5.04]"
+ },
+ "assets/models/env/second_ai/gg_xianguo_interior.glb": {
+  "sha1": "d28cb614a65222d384aa4ea3ff885571e84eb2f7",
+  "wall": 0,
+  "always": 13.04,
+  "top": ""
+ },
+ "assets/models/env/second_ai/l118_cafe2.glb": {
+  "sha1": "4f65986b5696a92032360ba37926f654db5f647d",
+  "wall": 0.27,
+  "always": 1.53,
+  "top": "WALL_N_trim_wood_d×l118_cafe2_steel 0.196 m² @[-1.18,0.3,-4.5]"
+ },
+ "assets/models/env/second_ai/l118_dian.glb": {
+  "sha1": "751d73e01ba65ee7bb65f6eb8b4479b7224b685a",
+  "wall": 2.54,
+  "always": 5.36,
+  "top": "WALL_N_ksteel_cc0×WALL_N_ksteel_cc0 1.1 m² @[0.14,2.15,-6.2]"
+ },
+ "assets/models/env/second_ai/l118_home.glb": {
+  "sha1": "d6e21982faee0b84e31831958d77034d09500968",
+  "wall": 0.44,
+  "always": 0.52,
+  "top": "l118_home_wood_d×WALL_W_trim_wood_d 0.317 m² @[-3.8,0.06,0.78]"
+ },
+ "assets/models/env/second_ai/l118_korea.glb": {
+  "sha1": "b6029fa76537c001a876bb1b16fcc46f99cb2718",
+  "wall": 1.53,
+  "always": 5.78,
+  "top": "WALL_N_ksteel_cc0×WALL_N_ksteel_cc0 0.78 m² @[1.09,2.15,-6.45]"
+ },
+ "assets/models/env/second_ai/l118_noodle2.glb": {
+  "sha1": "79795e573a35419e0164a035aa5b6d2b578281bd",
+  "wall": 1.8,
+  "always": 4.63,
+  "top": "l118_noodle2_plastic_dk×WALL_E_trim_plastic_dk 0.472 m² @[3.3,0.06,-1.37]"
+ },
+ "assets/models/env/second_ai/l118_omu.glb": {
+  "sha1": "18dcd65a6a55cc1a44a2bea110803fd86cd0f5be",
+  "wall": 0.68,
+  "always": 2.89,
+  "top": "WALL_N_stall×CEIL_l118_omu_wood_d 0.624 m² @[1.17,2.98,-2.48]"
+ },
+ "assets/models/env/second_ai/l118_pasta.glb": {
+  "sha1": "7486786c877eb99a33510715b8e6f0ae31d610d1",
+  "wall": 0.62,
+  "always": 3.33,
+  "top": "WALL_N_trim_wood_lw×l118_pasta_steel 0.471 m² @[-1.1,0.32,-4.25]"
+ },
+ "assets/models/env/second_ai/l118_self.glb": {
+  "sha1": "823ee43dbf9084de442cb2396381bb0ea4665c91",
+  "wall": 1.4,
+  "always": 5.76,
+  "top": "WALL_N_ksteel_cc0×WALL_N_ksteel_cc0 0.58 m² @[0.66,2.15,-6.7]"
+ },
+ "assets/models/env/second_ai/l118_tea.glb": {
+  "sha1": "c47c744e04b947c5cb9e7964cbc6530a0c2cb7b7",
+  "wall": 0.4,
+  "always": 3.74,
+  "top": "WALL_E_wall×l118_tea_caseglass 0.212 m² @[1.3,1.41,-0.68]"
+ },
+ "assets/models/env/second_ai/mokuyobi_stair.glb": {
+  "sha1": "e6c31084a5ac4fe50ac7598bcbbd38a1f35c4426",
+  "wall": 2.12,
+  "always": 2.12,
+  "top": "WALL_front_mks_wall×WALL_front_mks_vcm 1.31 m² @[-4.45,1.96,7.07]"
+ },
+ "assets/models/env/second_ai/tongxian_stair.glb": {
+  "sha1": "de923bbe216032d3eb5f197cb354fb271900e5f5",
+  "wall": 0.78,
+  "always": 0.81,
+  "top": "txs_wall×txs_vcm 0.6 m² @[-2.8,-2.16,-2.1]"
+ },
+ "assets/models/env/second_ai/tz_dongnan_interior.glb": {
+  "sha1": "9c3e8805f0d61853f597635f4c00a1a1c33f3703",
+  "wall": 0.43,
+  "always": 12.05,
+  "top": "WALL_E×S_vc 0.3 m² @[3.75,2.25,2.52]"
+ },
+ "assets/models/env/second_ai/tz_keju_interior.glb": {
+  "sha1": "87db1bd98f8e6d4366950978db45bb4051c3fa8a",
+  "wall": 0.7,
+  "always": 6.75,
+  "top": "WALL_W×S_vc 0.33 m² @[-2.75,1.65,-2.26]"
+ },
+ "assets/models/env/second_ai/tz_liantong_interior.glb": {
+  "sha1": "e2dd0ab347569740a80be52080d91176eca65c94",
+  "wall": 0.37,
+  "always": 3.66,
+  "top": "WALL_E×S_plastic_w 0.315 m² @[2.25,0.67,-2.19]"
+ },
+ "assets/models/env/second_ai/tz_limao_interior.glb": {
+  "sha1": "d9321a25de77eee6ed250e0dad04719b67ee7f66",
+  "wall": 0.22,
+  "always": 31.42,
+  "top": "PART_wall×PART_wood_d 0.156 m² @[-0.04,0,-1.22]"
+ },
+ "assets/models/env/second_ai/tz_taimi_interior.glb": {
+  "sha1": "22a036db6d343c06e2070d87f9a361ea37f25f7a",
+  "wall": 0.51,
+  "always": 0.91,
+  "top": "S_wall×S_wall 0.272 m² @[2.34,2.69,-3.08]"
+ },
+ "assets/models/env/second_ai/tz_xile_interior.glb": {
+  "sha1": "0d4686eddd8be0e593a7e3683b5d917f1f80f011",
+  "wall": 4.4,
+  "always": 8.18,
+  "top": "WALL_E×S_vc 3.144 m² @[3,0.73,-2.05]"
+ },
+ "assets/models/env/second_ai/tz_yindehao_interior.glb": {
+  "sha1": "dc0ec4618a6eeb5da35cb087c758fa85e36ff771",
+  "wall": 0.04,
+  "always": 1.01,
+  "top": "WALL_Sfix_steel×WALL_Sfix_steel 0.035 m² @[2.61,0.55,5.04]"
+ },
+ "assets/models/env/second_ai/tz_yuehaochi_interior.glb": {
+  "sha1": "892baea21067ddb7b29473222ea7ed1763b1b5e5",
+  "wall": 0.7,
+  "always": 5.4,
+  "top": "WALL_W×S_vc 0.33 m² @[-3,1.65,-2.26]"
+ },
+ "assets/models/env/second_ai/us_asian_market.glb": {
+  "sha1": "11219fa826dd1e282209687add412d7a70e5d057",
+  "wall": 2.78,
+  "always": 26.83,
+  "top": "usam_out_walk×WALL_S_glass 1.512 m² @[9.9,0.44,6]"
+ },
+ "assets/models/env/second_ai/us_market.glb": {
+  "sha1": "1dd272dc0d536a30214a6e4c1029f4d930fb0e6b",
+  "wall": 109.72,
+  "always": 568.22,
+  "top": "WALL_usm_walls×usm_case_frame 83.3 m² @[22,3.33,-5.08]"
+ },
+ "assets/models/env/second_ai/wz_teahouse_yard.glb": {
+  "sha1": "005b5354e64b1282852496ebae45a968b77bd05f",
+  "wall": 0,
+  "always": 1.99,
+  "top": ""
+ }
+}
