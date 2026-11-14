@@ -355,8 +355,11 @@ ST = r"""(()=>{ const D=GAME.D||{}, ch=document.getElementById('choices'), tx=do
   const B=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null):[];
   const E=window.__ZE||[]; let last=null; for(let i=E.length-1;i>=0;i--) if(E[i].k==='ch'){ last=E[i]; break; }
   const T=(GAME.G.trips||[]).slice(-1)[0]||null;
+  /* CC-B 11-14（DATE35_PS_ARR_r2 卡 30 分鐘 TEST_BUG）：6106fae2d2 起約會的互動點是 2D 圖層（DATELAYER：.dlHot 按鈕＋.dlEnd「就這樣回去」），不走 GAME.choose——當成選單 */
+  const DL=[...document.querySelectorAll('.dlHot, .dlEnd')].filter(b=>b.offsetParent!==null);
+  let dlch=null; if(DL.length&&!B.length){ dlch={i:-1, opts:DL.map(b=>b.classList.contains('dlEnd')?(b.textContent||'').trim():String(b.getAttribute('aria-label')||'').split('　')[0]), dim:DL.map(b=>!!b.disabled), layer:true}; }
   return {dlg:!!D.active, typing:!!D.typing, full:String(D.full||''), shown:(tx&&tx.textContent)||'', name:(nm&&nm.style.display!=='none'&&nm.textContent)||'',
-    nb:B.length, btn:B.map(b=>(b.textContent||'').trim().slice(0,40)), ch:last&&last.pick==null?{i:last.i,opts:last.opts,dim:last.dim}:null,
+    nb:B.length||(dlch?DL.length:0), btn:B.map(b=>(b.textContent||'').trim().slice(0,40)), ch:dlch||(last&&last.pick==null?{i:last.i,opts:last.opts,dim:last.dim}:null),
     phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), adv:!!(typeof ADV!=='undefined'&&ADV.active), zone:GAME.G.zone, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(3),
     trip:T?{id:T.trip,status:T.status,locs:T.locs,depart:T.depart,kind:T.kind,night:T.night||null,spots:T.spots||[]}:null, busy:!!(GAME.E&&GAME.E.player&&GAME.E.player.busy),
     bg:(typeof ADV!=='undefined'&&ADV.active&&ADV.bg)?String(ADV.bg.style.backgroundImage||'').replace(/^.*\//,'').replace(/["')]+$/,''):''}; })()"""
@@ -367,6 +370,10 @@ async def st(pg):
 
 
 async def tap_btn(pg, cdp, i):
+    if await pg.evaluate("(()=>!![...document.querySelectorAll('.dlHot, .dlEnd')].filter(b=>b.offsetParent!==null).length&&![...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent!==null).length)()"):   # 2D 圖層（DATELAYER）：照玩家點那個熱點
+        c = await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('.dlHot, .dlEnd')].filter(x=>x.offsetParent!==null)[i]; if(!b) return null; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })", i)
+        if not c: return False
+        await L.touch_tap(cdp, c[0], c[1]); return True
     c = await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent!==null)[i]; if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })", i)
     if not c: return False
     await L.touch_tap(cdp, c[0], c[1]); return True

@@ -152,7 +152,7 @@ async def part_gift(pg, cdp, res):
 
 DATE_PREP = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; try{ SOCIAL.meet(a.who,G.zone); }catch(e){}  if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
   try{ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(a.who,{fam:60,trust:50,comf:50,aff:30}); }catch(e){}
-  const r=DATE.book(G,{who:a.who,locs:[a.loc],day:G.day,by:'player'}); const q=(G.outings||[]).find(x=>x&&x.dateTrip===r.trip)||null;
+  const r=DATE.book(G,{who:a.who,locs:[a.loc],day:G.day,depart:+(a.depart||10),by:'player'});   /* CC-B 11-14（AA_SCENES_DATE_r2 TEST_BUG）：6106fae2d2 的 DATE.book 要 depart（遊戲的選單一定會給），沒給＝depart null、OUT.h NaN、永遠不跳出發 */ const q=(G.outings||[]).find(x=>x&&x.dateTrip===r.trip)||null;
   return {book:r.ok?{trip:r.trip, depart:r.depart, back:r.back, kind:r.kind, transport:r.transport, fare:r.fare}:r, out:q?{id:q.id, h:q.h, travelH:q.travelH, title:q.title}:null, money:G.money|0}; })"""
 
 
@@ -162,7 +162,7 @@ async def part_date(pg, cdp, res):
         await pg.goto(URL); await L.wait_loaded(pg)
         await D.load_zone(pg, cdp, 'dorm', DATE_DAY, 8.0, wait=5000)
         b = await pg.evaluate(DATE_PREP, {'who': DATE_WHO, 'loc': loc})
-        R.setup('%s 【前置／捷徑】讀檔到宿舍 %s 08:00、和她熟 →【捷徑】DATE.book：%s' % (tag, DATE_DAY, J(b)))
+        R.setup('%s 【前置／捷徑】讀檔到宿舍 %s 08:00、和她熟 →【捷徑】DATE.book（10:00 出發）：%s' % (tag, DATE_DAY, J(b)))
         if not R.check('%s 排得進約會（DATE.book ok）' % tag, bool(b.get('out')), J(b)): continue
         h0 = b['out']['h'] - (b['out']['travelH'] or 0) - 0.2
         await pg.evaluate("(h=>{ GAME.G.hour=h; })", h0); await pg.wait_for_timeout(500)
@@ -176,6 +176,17 @@ async def part_date(pg, cdp, res):
                 else: i = 0
                 picked.append([st['choices'], st['choices'][i]]); await pg.screenshot(path=os.path.join(OUT, 'date_%s_menu_%02d.png' % (loc, len(picked))))
                 await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(900); continue
+            hot = await pg.evaluate("(()=>{ const H=[...document.querySelectorAll('.dlHot')].filter(b=>b.offsetParent!==null&&!b.disabled), E=[...document.querySelectorAll('.dlEnd')].filter(b=>b.offsetParent!==null); return {h:H.map(b=>String(b.getAttribute('aria-label')||'').split('　')[0]), e:E.map(b=>(b.textContent||'').trim())}; })()")
+            if not st['choices'] and not st['dlg'] and (hot['h'] or hot['e']):   # CC-B 11-14：約會互動點是 2D 熱點圖層（DATELAYER）——點兩個熱點，再點「就這樣回去／差不多了」
+                nhot = sum(1 for p_ in picked if p_[0] == 'DL')
+                if hot['h'] and nhot < 2:
+                    picked.append(['DL', hot['h'][0]]); await pg.screenshot(path=os.path.join(OUT, 'date_%s_layer_%02d.png' % (loc, nhot + 1)))
+                    c_ = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('.dlHot')].filter(b=>b.offsetParent!==null&&!b.disabled)[0]; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+                else:
+                    picked.append(['DL', (hot['e'] or ['?'])[0]])
+                    c_ = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('.dlEnd')].filter(b=>b.offsetParent!==null)[0]; if(!b) return null; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+                if c_: await L.touch_tap(cdp, c_[0], c_[1])
+                await pg.wait_for_timeout(1200); continue
             if st['dlg']:
                 if not lines or lines[-1]['t'] != st['t']:
                     lines.append({'who': st['who'], 't': st['t'], 'cap': st['cap'], 'bg': st['bg']}); await pg.screenshot(path=os.path.join(OUT, 'date_%s_%02d.png' % (loc, len(lines))))
