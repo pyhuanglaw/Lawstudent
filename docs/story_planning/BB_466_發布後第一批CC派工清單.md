@@ -43,3 +43,6 @@
 23. FN-LOOK-REACH-1114（開發分支 fa9fb3634f）：「看門口的花」原本是溫州街也被放了一顆在房子位置（plainLook 區域沒 id 就放行）；LAWWW 改成只放在已知區。下一版 CC 重跑 reachability_all --zones wenzhou＋gongguan：溫州街 0 FAIL、公館那顆站得到。
 24. REL76_social_r2：cc_social_smoke_probe 遇到約會圖層（#dateLayer）要會點互動點（或跑 ?nodatelayer 版），七位女主角拆成每人一支（避免 120 分逾時），在發布版跑。
 25. DATE-LAYER-D05（P2，LAWWW）：光典臺北看完電影後的選點沒經過 DATE.pickChoose（canCalls 空），D05 圖層永遠不出——改走 pickChoose 後 DATE_LAYER D05 重跑要出 #dateLayer；或 LAWWW 決定 D05 照 D33 走文字選單，探針改期望。另：DATE_LAYER 探針 ⑤ 要改成「讀回來重新出發後，點一個點能接著演」（現在把等玩家點的圖層誤判成卡住）。
+26. WINVIEW-EDGE-STRIPE（開發分支 fc1813e4f2，視差窗照片外鏡像取樣）：CC 藏玩家重拍安泰、鮮果、榮恩典、Daybreak、afar、青木、頁間 14:00＋20:00，看窗邊不再有拉長條紋。
+27. OFFBEAT-VIEW-P3（64b0301754）：日常失速前窗 14:00＋21:00（對面牆有窗、鐵窗、夜亮；最下面沒有天空色帶）。一盞 v1.1 一起四鏡頭。
+28. T1 種子 4 卡住（邀約「自己走過去」→ dorm_hall busy 沒放開，P1，LAWWW 修後）：random_play_sim --seed 4 重跑要 PASS。
