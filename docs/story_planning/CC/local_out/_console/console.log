@@ -1,11 +1,3 @@
-[17:45:55] skip YY_GATE_full (already done on 856702f57aa70d5996e26fdba56fd3eda318483e)
-[17:45:55] skip DN_FPS_edf2 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[17:45:55] skip CANON_NEWGAME_A2 (already done on 8c7ed865600a085f283e1db9698ba18513cfafc8)
-[17:45:55] skip CANON_SIDE (already done on 8c7ed865600a085f283e1db9698ba18513cfafc8)
-[17:45:55] skip JPCLASS_MSGS (already done on 8c7ed865600a085f283e1db9698ba18513cfafc8)
-[17:45:55] skip CANON_NEWGAME_A1 (already done on 8c7ed865600a085f283e1db9698ba18513cfafc8)
-[17:45:55] skip SHIFT_SHOTS_nanyang_msgs (already done on 8c7ed865600a085f283e1db9698ba18513cfafc8)
-[17:45:55] skip CANON_NEWGAME_B (already done on 8c7ed865600a085f283e1db9698ba18513cfafc8)
 [17:45:55] skip CANON_NEWGAME_FULL (already done on 8c7ed865600a085f283e1db9698ba18513cfafc8)
 [17:45:55] skip DN_PROGRAMS_3414 (already done on 341436a25ed53942df4059d634d953a93e6ed988)
 [17:45:55] skip RONGENDIAN_glass (already done on 341436a25ed53942df4059d634d953a93e6ed988)
@@ -1998,3 +1990,11 @@
 [21:09:56] [res] cpu=8% mem=49% (15.7/31.4 GB) chrome_testing=9  START LIMAO_DOOR_r2
 [21:10:55] 正在跑：AA355_4c_jp_r2（已跑 4 分／上限 15 分）、AA358_22_24_cafe_r2（已跑 2 分／上限 40 分）、LIMAO_DOOR_r2（已跑 1 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:12:58] [res] cpu=0% mem=50% (15.8/31.4 GB) chrome_testing=10  END AA355_4c_jp_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0c997183ac..60f022e984  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:13:05] ==== END   AA355_4c_jp_r2  exit=0  380s   ====
+[21:13:20] memory 52% before starting HL1_CIRCLE_1028_r2 (2 running)
+[21:13:20] ==== START HL1_CIRCLE_1028_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:13:23] [res] cpu=3% mem=52% (16.4/31.4 GB) chrome_testing=10  START HL1_CIRCLE_1028_r2
+[21:14:52] [res] cpu=12% mem=49% (15.6/31.4 GB) chrome_testing=10  END AA358_22_24_cafe_r2
