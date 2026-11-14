@@ -10293,8 +10293,8 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "3e99e148e8",
    "receiver": "LAWWW-C、BB-C",
-   "ack": "DELIVERED",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "WINVIEW-AUDIT-1105",
    "title": "GG-STREET-TREES 第三份：公館五間窗景（Daybreak、afar、aoki、頁間、慢輪）加人行道地磚紋重拍",
@@ -10305,8 +10305,9 @@
    "base": "582eb7d807",
    "at": "2026-11-14T01:00Z",
    "tests": "窗景 9 支＋bike 5 支＋place_gate ALL PASS",
-   "notDone": "LAWWW 整合；CC 遊戲內同角度；BB 判",
-   "next": "LAWWW 套 patch（只有 10 張 webp）"
+   "notDone": "CC 遊戲內同角度（LAWWW 排）；BB 判",
+   "next": "LAWWW 套 patch（只有 10 張 webp）",
+   "integrated": "4a97c2a33f"
   }
  ]
 }
