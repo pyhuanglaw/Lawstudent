@@ -56798,7 +56798,7 @@
      "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA 7758962c2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     }
    ],
-   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。｜02:0x 交班時還沒整合（LAWWW2 已驗收或待驗收）：一盞 v1.1 15124fd457（PASS）；青木（g2，PASS 待整合）；頁間 v4 389adca8c0（待 LAWWW2）；同弦 768816c33c（待 LAWWW2）；glb_coplanar instancing edb96e33ec（待 LAWWW2；之後整合的店要重跑 --coplanar）。g2 唱片 v2／山嵐 v3／單車 v2／Daybreak v2.1b、g3 大口／好拍／大步 v2：腳本好了、沒烘。"
+   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。｜02:0x 交班時還沒整合（LAWWW2 已驗收或待驗收）：一盞 v1.1 15124fd457（PASS）；青木（g2，PASS 待整合）；頁間 v4 389adca8c0（待 LAWWW2）；同弦 768816c33c（待 LAWWW2）；glb_coplanar instancing edb96e33ec（待 LAWWW2；之後整合的店要重跑 --coplanar）。g2 唱片 v2／山嵐 v3／單車 v2／Daybreak v2.1b、g3 大口／好拍／大步 v2：腳本好了、沒烘。｜11-14 10:1x：同弦（2139f174de）、頁間 v4（56e023ef7b）、glb_coplanar instancing（c3df27e0c2）已整合；shop_cc0 baseline 剩山嵐、轉角唱片（g2）。"
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -56901,7 +56901,8 @@
     "confirmed": true
    },
    "next": "發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→b45c888f94（AA_1015 第二版；110b0fd990 是第一版、已被 BB 退件——AA-C 11-14 09:43 更正） 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
-   "xai": []
+   "xai": [],
+   "note": "｜11-14 10:1x：AA_959 定版改成 784 列（企劃線 53b7a59c2d，pendingBB 空；多 AA_1021 6 列、AA_1022 12 列）。aa959.py HAND 要加 story3d.js、holff3d.js。順序 AA959.layer 先、B5.fix 後（B5 已換好的會略過）。v9.10.26 已發布，可以開始。"
   },
   {
    "id": "KX-HEARD-1014",
