@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "RONG_SIGN",
+  "sha": "873d9e7105d69a8696ec4c26ea705116cb5659de",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_storefront_probe.py",
+  "env": "TAG=rong_sign;STREET=gongguan;HOUR=14;DOOR=1;CLOSE_DS=2,1;SHOPS=gg_rongendian;SHA=873d9e7105d69a8696ec4c26ea705116cb5659de",
+  "machine": "MSI",
+  "start": "2026-11-14T15:43:07",
+  "end": "2026-11-14T15:44:54",
+  "seconds": 107,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 8,
+    "mem": 50,
+    "used_gb": 15.9,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
