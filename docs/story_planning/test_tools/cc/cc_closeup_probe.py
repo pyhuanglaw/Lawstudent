@@ -19,6 +19,7 @@ SHA = os.environ.get('SHA') or ''
 ZONE = os.environ.get('ZONE') or ''
 TAG = os.environ.get('TAG') or ZONE
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '14').split(',') if h]
+SPAWN = [float(v) for v in (os.environ.get('SPAWN') or '').split(',') if v]   # BB-C 11:45（DAKOU_V2 二樓桌面）：讀檔站的位置 x,z[,lv]（同 place_gate）；二樓的近拍要人站在二樓（別層可能藏起來）
 DAY = os.environ.get('DAY') or '2025-10-22'
 VIEW = [int(v) for v in (os.environ.get('VIEW') or '').split('x') if v]   # BB-C 23:23 BG-3DSHOT：16:9（例 1600x900）
 PLAIN = (os.environ.get('PLAIN_NAMES') or '') == '1'   # 另存一份「<相機名>.png」（給使用者的參考圖要固定檔名）
@@ -61,8 +62,8 @@ async def main():
         if not R.check('FAIL_SETUP 檢查：CAMS 解析得出來（%d 組）' % len(cams), bool(cams) and bool(ZONE), os.environ.get('CAMS') or ''): await b.close(); sys.exit(1)
         for h in HOURS:
             hh = '%02d%02d' % (int(h), int(round((h % 1) * 60))); tag = '[%s %s]' % (ZONE, hh)
-            s = await D.load_zone(pg, cdp, ZONE, DAY, h, wait=8000)
-            R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f 時（出生點）' % (tag, ZONE, DAY, h))
+            s = await (D.load_zone(pg, cdp, ZONE, DAY, h, x=SPAWN[0], z=SPAWN[1], lv=int(SPAWN[2]) if len(SPAWN) > 2 else 0, wait=8000) if len(SPAWN) >= 2 else D.load_zone(pg, cdp, ZONE, DAY, h, wait=8000))
+            R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f 時（%s）' % (tag, ZONE, DAY, h, ('站在 SPAWN %s' % SPAWN) if SPAWN else '出生點'))
             await pg.evaluate(SETTLED); await pg.wait_for_timeout(1500)
             if not R.check('FAIL_SETUP 檢查：%s 讀檔以後真的在 %s' % (tag, ZONE), s['zone'] == ZONE, s['zone']):
                 rows.append({'hour': h, 'skipped': 'closed:' + s['zone']}); continue
