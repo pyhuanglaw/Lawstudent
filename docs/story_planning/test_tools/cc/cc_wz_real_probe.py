@@ -20,11 +20,12 @@ HOURS = [float(x) for x in (os.environ.get('HOURS') or '14,22').split(',') if x]
 SHOPS = [x for x in (os.environ.get('SHOPS') or 'wz_offbeat,wz_brunch,wz_teishoku').split(',') if x]
 STAND = float(os.environ.get('STAND') or 3)
 SPIN = (os.environ.get('SPIN') or '0') == '1'
-SPIN_JS = r"""(async a=>{ const C=GAME.E.cam, y0=C.yaw, t0=performance.now(); const dts=[]; let last=t0; const before=JSON.stringify(((GAME.E.zone||{}).shopReal||{}).shops?(GAME.E.zone.shopReal.shops.filter(q=>q.built).map(q=>q.id)):[]);
-  await new Promise(res=>{ const f=now=>{ dts.push(now-last); last=now; const k=(now-t0)/a.ms; C.yaw=y0+Math.min(1,k)*Math.PI*2; C.manualT=30; if(k<1) requestAnimationFrame(f); else res(); }; requestAnimationFrame(f); });
+MID_SPIN = (os.environ.get('MID_SPIN') or '0') == '1'
+SPIN_JS = r"""(async a=>{ const C=GAME.E.cam, y0=C.yaw, t0=performance.now(); const dts=[], sw=[]; let last=t0, lastB=null; const before=JSON.stringify(((GAME.E.zone||{}).shopReal||{}).shops?(GAME.E.zone.shopReal.shops.filter(q=>q.built).map(q=>q.id)):[]);
+  await new Promise(res=>{ const f=now=>{ dts.push(now-last); last=now; const k=(now-t0)/a.ms; C.yaw=y0+Math.min(1,k)*Math.PI*2; C.manualT=30; try{ const b=JSON.stringify(((GAME.E.zone||{}).shopReal||{}).shops?GAME.E.zone.shopReal.shops.filter(q=>q.built).map(q=>q.id):[]); if(b!==lastB){ sw.push({t:Math.round(now-t0), dt:+(now-last).toFixed(1), built:b}); lastB=b; } }catch(e){} if(k<1) requestAnimationFrame(f); else res(); }; requestAnimationFrame(f); });
   C.yaw=y0; const s=dts.slice(1).sort((x,y)=>x-y), p=q=>s.length?+s[Math.min(s.length-1,Math.floor(s.length*q))].toFixed(1):null;
   const after=JSON.stringify(((GAME.E.zone||{}).shopReal||{}).shops?(GAME.E.zone.shopReal.shops.filter(q=>q.built).map(q=>q.id)):[]);
-  return {frames:s.length, max:s.length?+s[s.length-1].toFixed(1):null, p95:p(0.95), p50:p(0.5), builtBefore:before, builtAfter:after}; })"""   # 祐廷站在玻璃面外幾公尺
+  return {switches:sw, frames:s.length, max:s.length?+s[s.length-1].toFixed(1):null, p95:p(0.95), p50:p(0.5), builtBefore:before, builtAfter:after}; })"""   # 祐廷站在玻璃面外幾公尺
 GLASS_FACE = (os.environ.get('GLASS_FACE') or '0') == '1'   # 1＝cx／cz 當玻璃面（r5 起）
 WAIT_S = float(os.environ.get('WAIT_S') or 3)
 STAND_XZ = [float(v) for v in (os.environ.get('STAND_XZ') or '').split(',') if v.strip()]   # 直接指定祐廷站的位置（x,z），r5＝44,-3.5（BB-B 12:36「門口 1～2 m」）
@@ -83,6 +84,13 @@ async def main():
                 if SPIN:   # CC-B 11-14（LAWWW-B 13:47 WZ-REAL-LITE-EMPTY-1114）：原地轉鏡頭一圈（2.4 秒），量這段時間最長的一幀——lite 換建最近一間店時會不會卡
                     sp_ = await pg.evaluate(SPIN_JS, {'ms': 2400}); R.note('%s %s：原地轉鏡頭一圈 %s' % (tag, pid, J(sp_))); res.setdefault('spin', {})['%s_%s' % (ht, pid)] = sp_
                 R.check('%s %s 走近以後室內有顯示（on、built）' % (tag, pid), bool(st.get('on')) and bool(st.get('built')), J(st))
+            if MID_SPIN:   # CC-B 11-14（LAWWW-B 14:03）：站路中間 (MID_X, MID_Z) 轉一圈——南北兩間在這一圈裡會換建，量換店那一下的最長幀（轉三圈取最差）
+                await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); const C=GAME.E.cam; C.yaw=0; C.manualT=30; })", {'x': MID_X, 'z': MID_Z}); await pg.wait_for_timeout(int(WAIT_S * 1000))
+                spins_ = []
+                for k_ in range(3):
+                    sp_ = await pg.evaluate(SPIN_JS, {'ms': 4000}); spins_.append(sp_)
+                R.note('%s 路中間 (%.1f, %.1f) 轉一圈（4 秒×3）：%s' % (tag, MID_X, MID_Z, J(spins_)))
+                res.setdefault('mid_spin', {})[ht] = spins_
             if MID:   # BB-B 12:36：路中間主鏡頭兩邊各一張（不藏人）
                 for side_, cy_ in (('south_sunnyside', 0.0), ('north_lin', math.pi)):
                     await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); P.rotation.y=a.cy+Math.PI; const C=GAME.E.cam; C.yaw=a.cy; C.manualT=30; })", {'x': MID_X, 'z': MID_Z, 'cy': cy_})

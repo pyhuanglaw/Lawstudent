@@ -2590,6 +2590,8 @@ GATE_REF_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_plan
 GATE_REF_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r2;GATE_Z=3;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ③WZ-REAL-LITE-EMPTY-1114：r4 原本的站位（玻璃外 3 m 舊算法）＋路中間 (44,0)；SUNNY SIDE、小路、日常失速、林家；SPIN＝原地轉一圈量最長幀
 WZ_LITE_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 30 | TAG=wz_lite_r1;SHOPS=wz_brunch,wz_teishoku,wz_offbeat,wz_lin;HOURS=14,22;MID=1;SPIN=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# CC-B 11-14 14:0x：LAWWW-B 14:03——站路中間 (44,0) 轉一圈（4 秒×3，14／22），量南北兩間換建那一下的最長幀＋換的時間點；結果副本 LAWWW2-B、BB-B
+WZ_LITE_spin_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 20 | TAG=wz_lite_spin_r1;SHOPS=wz_brunch;HOURS=14,22;MID_SPIN=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ④SHOP-REALISM-1112：單車 v2.1（bikeshop，週一公休、10～20）、大步 v2（xs_dabu）地點關卡
 SHOPREAL_BIKE_v21 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_bike_v21;ZONES=bikeshop;DAY=2025-10-22;HOURS=14,19;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 SHOPREAL_DABU_v2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_dabu_v2;ZONES=xs_dabu;HOURS=14,20.5;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
