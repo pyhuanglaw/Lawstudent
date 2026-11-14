@@ -16,3 +16,17 @@
 - 純色零件 62% → 5%（116 個裡 6 個，全是玻璃）。畫面上 103,758 三角形（原本 93,788）。
 - 並排圖 `xs_sports_cmp.jpg`（Cycles 預覽，不是遊戲截圖）：收銀機、貨架紙箱看得出來；衣服、球的材質細紋要近看才看得到。
 - 正在烘（`bake_xs.sh xsports`）。烘完先跑 place_gate（不加 --write），再出 patch。
+
+## 交件（11-14 01:5x UTC）
+- **patch**：`xs_sports_cc0_on_07bbd8564e.patch`（底 07bbd8564e），內容：
+  - GLB、json、光照貼圖日夜兩張、xinsheng_sports_lm.json
+  - xinsheng_sports_interior.py
+  - LICENSES 4 列
+  - shop_cc0_baseline 拿掉新生運動
+  - xs_lm_unit：instancing 56 → 58（足球、紙箱各一組 Poly Haven）
+  - 疊面基準只換 sha1
+  - 狀態表
+- **流程**：先跑 place_gate，不加 --write，新的問題 0。之後 --coplanar --write：牆 2.12、一定會閃 48.06，兩個數字都沒變。
+- **測試**：shop_cc0 三項都成立（純色 5%）。新生南路、新生運動、xs、shop_window、seat_reach、placemap、shop_npc 共 28 支 ALL PASS。
+- **烘焙**：白天平均 0.173、晚上平均 0.111。
+- **誰做的**：g3（252bc3765a：衣服、鞋、水壺、獎盃、足球）＋LAWWW2-C（其他頂點色零件、收銀機、紙箱）。驗收是 LAWWW2-C 自己做的，要再請 BB 判美術。
