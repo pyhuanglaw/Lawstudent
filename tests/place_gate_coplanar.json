@@ -36,9 +36,9 @@
   "top": "WALL_front_mok_walnut×WALL_front_mok_wall 0.439 m² @[-2.85,0.53,7]"
  },
  "assets/models/env/second_ai/aa_support/shanlan.glb": {
-  "sha1": "2136813795f41b686968c3f622176522c453b9bc",
+  "sha1": "b3cc0e9059f803e2ac11768512e35aa6e562162d",
   "wall": 11.76,
-  "always": 53.81,
+  "always": 53.75,
   "top": "shl_wall×L2_shl_floor2 1.646 m² @[-3.73,4.2,-2.44]"
  },
  "assets/models/env/second_ai/aa_support/sunnyside.glb": {
