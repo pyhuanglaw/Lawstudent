@@ -8338,6 +8338,21 @@
    "ack": "SENT",
    "noDirectIntegrate": false,
    "note": "BB-B 11-14 P3：錢不夠的兩句改成不管推車幾樣都通（草原超市整車放回、竹葉超市拿得起的先拿）"
+  },
+  {
+   "task": "AA-D99-BLOCKERS-1114",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_1025_vac_us_gaps_1.json"
+   ],
+   "state": "WIP",
+   "at": "2026-11-14",
+   "unfinished": "美國那一學期、交往中與住宿舍的寒暑假還沒看；空白日要不要補還沒定",
+   "next": "LAWWW 改 F1（y1fill_events.js 兩句）；AA 接著看剩下的",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false
   }
  ],
  "items": [
