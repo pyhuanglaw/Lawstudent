@@ -53,7 +53,7 @@ sh.route({'#d9b98a': 'wood', '#cfae7e': 'wood',   # 吧台直紋木條＝和吧�
           '#f0d070': 'fab_yellow', '#f4e4a0': 'fab_yellow', '#b8935e': 'doormat', '#e6e1d8': 'stone',
           '#f6f3ec': 'ceramic', '#efe9de': 'ceramic', '#e8dcc8': 'ceramic', '#9fb59c': 'tile_a', '#a6bba3': 'tile_a', '#98b096': 'tile_b', '#93ab91': 'tile_b',
           '#7e937b': 'sagepaint', '#2e2e2e': 'blackmetal', '#3a3a38': 'blackplastic', '#f4f2ec': 'beam',
-          '#e8e8e6': 'steel', '#e4e4e0': 'steel', '#d8d8d4': 'steel', '#dadad8': 'steel', '#a8a8a4': 'steel', '#cfcfcb': 'steel', '#b8b8b4': 'steel', '#f2f2ee': 'steel', '#8a8a86': 'steel'})
+          '#e8e8e6': 'steel', '#e4e4e0': 'steel', '#d8d8d4': 'steel', '#dadad8': 'steel', '#a8a8a4': 'steel', '#cfcfcb': 'steel', '#b8b8b4': 'steel', '#f2f2ee': 'steel', '#8a8a86': 'steel', '#9a9a96': 'steel'})
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 TB = {t['id']: t for t in LAY['tables']}
@@ -146,11 +146,37 @@ for k in range(40): xx = cx0 + 0.06 + k * (ct['w'] - 0.12) / 39; xf0.rbox(sh.a('
 sh.a('bulb').box(cx0 + 0.05, cx1 - 0.05, ct['h'] - 0.1, ct['h'] - 0.085, cz1 + 0.02, cz1 + 0.03)                    # 檯面下的燈條
 xf0.rbox(sh.a('vcg'), cx0 - 0.03, cx1 + 0.03, ct['h'] - 0.05, ct['h'], cz0 - 0.02, cz1 + 0.06, r=0.012, seg=1, col=STONE)
 top = ct['h']; m = sh.a('vcm')
-em = Xf(cx0 + 1.2, ct['z'] - 0.05, 0.0, top); em.rbox(sh.a('vcg'), -0.46, 0.46, 0.0, 0.5, -0.24, 0.22, r=0.03, seg=2, col='#e8e8e6'); em.rbox(sh.a('vcg'), -0.46, 0.46, 0.5, 0.55, -0.24, 0.22, r=0.01, seg=1, col='#3a3a38')   # v1b 大、亮面
-for k in range(3): em.cyl(m, (-0.28 + k * 0.28, 0.22, 0.22), (-0.28 + k * 0.28, 0.18, 0.3), 0.04, col='#2e2e2e', seg=8)
-for k in range(6): K.mug(sh, cx0 + 0.95 + (k % 3) * 0.16, ct['z'] - 0.1 + (k // 3) * 0.14, top + 0.55, col='#f6f3ec', r=0.03, h=0.06, handle=False)
-for (gx, hh) in ((cx0 + 1.85, 0.42), (cx0 + 2.6, 0.38)):                                                                 # 磨豆機兩台
-    g = Xf(gx, ct['z'] - 0.05, 0, top); g.rbox(m, -0.09, 0.09, 0.0, hh * 0.65, -0.09, 0.09, r=0.02, seg=1, col='#e4e4e0'); g.lathe(sh.a('glass'), [(0.03, hh * 0.65), (0.08, hh), (0.07, hh + 0.02)], 0, 0, 0, seg=10)
+em = Xf(cx0 + 1.2, ct['z'] - 0.05, 0.0, top + 0.003); vg = sh.a('vcg')                                                      # 雙孔義式咖啡機（v2.1，LAWWW2 11-13：原本是灰方盒＋三個黑點，BB 判 afar 同樣的機器 FAIL）
+SS, SS2, BK = '#e8e8e6', '#cfcfcb', '#2e2e2e'                                                                            # 不鏽鋼（Metal009）、拉絲深一點的、黑色電木
+for sx in (-0.36, 0.36):
+    for sz in (-0.18, 0.14): em.cyl(m, (sx, 0.0, sz), (sx, 0.05, sz), 0.022, col=BK, seg=8)                              # 四支腳
+em.rbox(vg, -0.42, 0.42, 0.05, 0.42, -0.24, 0.16, r=0.035, seg=2, col=SS)                                               # 機身（倒角）
+em.rbox(vg, -0.43, 0.43, 0.30, 0.38, 0.14, 0.17, r=0.008, seg=1, col='#3a3a38')                                         # 正面黑色飾板
+for gx_ in (-0.1, 0.1):                                                                                                  # 兩個壓力錶
+    em.cyl(m, (gx_, 0.34, 0.17), (gx_, 0.34, 0.185), 0.03, col=SS2, seg=12); em.cyl(m, (gx_, 0.34, 0.185), (gx_, 0.34, 0.188), 0.024, col='#f2f2ee', seg=12)
+em.rbox(vg, -0.40, 0.40, 0.42, 0.435, -0.22, 0.14, r=0.006, seg=1, col=SS2)                                             # 上方溫杯盤
+for sx in (-0.4, 0.4): em.cyl(m, (sx, 0.435, -0.22), (sx, 0.435, 0.14), 0.008, col=SS, seg=6)                           # 溫杯盤欄杆（左右）
+em.cyl(m, (-0.4, 0.435, -0.22), (0.4, 0.435, -0.22), 0.008, col=SS, seg=6)                                              # （後）
+for gx_ in (-0.2, 0.2):                                                                                                  # 兩個沖煮頭＋把手（往前伸出）
+    em.cyl(m, (gx_, 0.27, 0.16), (gx_, 0.27, 0.21), 0.05, col=SS, seg=14)                                                # 沖煮頭座
+    em.cyl(m, (gx_, 0.25, 0.21), (gx_, 0.21, 0.21), 0.045, col=SS2, seg=14)                                              # 濾杯把手的杯體
+    em.cyl(m, (gx_, 0.215, 0.24), (gx_, 0.20, 0.38), 0.013, col=BK, seg=8)                                              # 把手
+    em.cyl(m, (gx_, 0.12, 0.21), (gx_, 0.09, 0.21), 0.028, col='#f6f3ec', seg=10)                                        # 下面的濃縮杯
+em.rbox(vg, -0.38, 0.38, 0.05, 0.08, 0.16, 0.30, r=0.006, seg=1, col=SS2)                                               # 接水盤（格柵）
+for k in range(9): em.rbox(m, -0.36 + k * 0.09, -0.34 + k * 0.09, 0.08, 0.083, 0.17, 0.29, r=0.0, seg=1, col='#9a9a96')
+em.cyl(m, (0.36, 0.33, 0.12), (0.40, 0.33, 0.22), 0.009, col=SS, seg=6); em.cyl(m, (0.40, 0.33, 0.22), (0.39, 0.13, 0.24), 0.007, col=SS, seg=6)   # 蒸氣管
+em.cyl(m, (-0.36, 0.33, 0.12), (-0.38, 0.33, 0.2), 0.009, col=SS, seg=6); em.cyl(m, (-0.38, 0.33, 0.2), (-0.38, 0.2, 0.2), 0.008, col=SS, seg=6)  # 熱水管
+for sx in (-0.36, 0.36): em.cyl(m, (sx, 0.40, 0.12), (sx, 0.45, 0.12), 0.018, col=BK, seg=8)                            # 蒸氣、熱水旋鈕
+for k in range(6): K.mug(sh, cx0 + 0.95 + (k % 3) * 0.16, ct['z'] - 0.1 + (k // 3) * 0.12, top + 0.435, col='#f6f3ec', r=0.03, h=0.06, handle=False)   # 溫杯盤上的杯子
+for (gx, hh) in ((cx0 + 1.85, 0.42),):                                                                                   # 磨豆機（v2.1：原本第二台在 cx0＋2.6，剛好在甜點玻璃櫃 cx0＋2.25～3.05 裡面，拿掉）
+    g = Xf(gx, ct['z'] - 0.05, 0, top)                                                                                   # v2.1：底座＋直立機身＋出粉口＋深色豆倉（原本是一個方塊）
+    g.rbox(m, -0.1, 0.1, 0.0, 0.04, -0.1, 0.12, r=0.01, seg=1, col='#2e2e2e')
+    g.lathe(m, [(0.0, 0.04), (0.075, 0.04), (0.07, hh * 0.62), (0.05, hh * 0.66), (0.0, hh * 0.66)], 0, 0, -0.02, seg=14, col='#e4e4e0')
+    g.cyl(m, (0.0, hh * 0.3, 0.05), (0.0, hh * 0.26, 0.1), 0.022, col='#2e2e2e', seg=8)
+    g.rbox(m, -0.05, 0.05, 0.04, 0.05, 0.03, 0.11, r=0.004, seg=1, col='#cfcfcb')
+    g.lathe(sh.a('glass'), [(0.03, hh * 0.66), (0.085, hh), (0.08, hh + 0.02)], 0, 0, -0.02, seg=12)
+    g.lathe(sh.a('vcg'), [(0.025, hh * 0.68), (0.07, hh * 0.9), (0.0, hh * 0.9)], 0, 0, -0.02, seg=12, col='#4a3424')    # 豆倉裡的咖啡豆
+    g.lathe(m, [(0.0, hh + 0.02), (0.085, hh + 0.02), (0.08, hh + 0.04), (0.0, hh + 0.05)], 0, 0, -0.02, seg=12, col='#2e2e2e')
 for k in range(6): Xf(cx0 + 0.25 + k * 0.1, ct['z'] - 0.15, 0, top).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.04, 0.1), (0.0, 0.1)], 0, 0, 0, seg=8, col='#f6f3ec')   # 一疊外帶杯
 pc0, pc1 = cx1 - 1.75, cx1 - 0.95                                                                                        # 甜點櫃（v1b：加高、木框、三層麵包）
 xf0.rbox(sh.a('wood'), pc0, pc1, top, top + 0.06, cz0 + 0.05, cz1 - 0.05, r=0.006, seg=1)

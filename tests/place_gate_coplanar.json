@@ -18,9 +18,9 @@
   "top": "WALL_right_dof_wood×WALL_right_dof_print 0.704 m² @[5.47,2.13,3.02]"
  },
  "assets/models/env/second_ai/aa_support/daybreak.glb": {
-  "sha1": "f714797089509c232854e46d3e55106a2338eeb0",
+  "sha1": "c2e61ed15c1add7cb17f61309815239153d8dabc",
   "wall": 0.36,
-  "always": 1.42,
+  "always": 1.4,
   "top": "WALL_front_dbk_frame×WALL_front_dbk_frame 0.139 m² @[1.81,0,4.06]"
  },
  "assets/models/env/second_ai/aa_support/komichi.glb": {
