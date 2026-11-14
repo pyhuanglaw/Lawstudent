@@ -2,6 +2,30 @@
 
 - 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 0c9daff873｜2026-11-13（使用者「繼續」，交班後同一帳號同一工作階段回班；duty register 重新登記）
 - **值班登記（2026-11-14 02:1x UTC）**：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 da4ce5ceb2｜使用者「現在接班」＋「你上次交班之後沒有人接班 等於你繼續即可」→ 同一個工作階段直接接續（duty register；rules_sync 0 檔不同；RULE_SOURCE claude/adoring-meitner-mqzst8 seq 150，LAWWW-C 也已交班 a311fec378）。接著做下面交班 B 類的「下一班第一件事」。
+- **11-14 10:1x（RC2-PORT-DEV-1114，給下一班 LAWWW；LAWWW-C 問的）**：開發分支 PLAN.md（docs/handoff/rc2_port_1114/PLAN.md）那 61 個沒套到的檔，AA-C 照每個檔開頭的「自動產生：」註記分好（開發分支 a311fec378 以後）：
+  - **有匯入工具（20 個）→ 重跑 importer**（來源稿要先套 AA_959 或改源稿）：
+    - date_lines.js ← tools/date/import_date_lines.py
+    - syllabus.js ← tools/syllabus/import_syllabus.py
+    - ladder.js ← tools/ladder/import_ladder.py
+    - invite_replies.js ← tools/invite/build_replies.py
+    - solo_before.js ← tools/freetrip/import_solo_before.py
+    - gift_holiday.js ← tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@1ce262f616）
+    - activity_scenes.js ← tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@8d3bec48be）
+    - study_scenes.js ← tools/story/import_study_scenes.py（docs/story_planning/AA_707_study_scenes.json@1b8e247ec）
+    - msg_replies.js ← tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@6dbfe10d7e）
+    - l118_lunch.js ← tools/story/import_l118_lunch.py（docs/story_planning/AA_771_l118_lunch.json@bb6c5023b）
+    - tz_invite_supper.js ← tools/story/import_tz_invite_supper.py（docs/story_planning/AA_851_tz_invite_supper.json@f6aa917593）
+    - sport_invite_lines.js ← tools/story/import_sport_invites.py（docs/story_planning/AA_715_sport_gym_pool_invites.json@3f1569379）
+    - shift_treat.js ← tools/shift/import_shift_treat.py（docs/story_planning/AA_739_shift_treat.json@dc607dd90）
+    - invite_place_lines.js ← tools/story/import_place_acc.py（docs/story_planning/AA_714_invite_places_acc.json@696254f1c）
+    - greet_classday.js ← tools/story/import_greet_classday.py（docs/story_planning/AA_729_greet_classday.json@fa0bc1c9d）
+    - flower_class.js ← tools/flower/import_flower_class.py（docs/story_planning/AA_820_flower_class.json@7917d4289）
+    - date_wish.js ← tools/date/import_wish.py
+    - arc_rot.js ← tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@e622a59148）
+    - arc_invites.js ← tools/story/import_arc_invites.py（docs/story_planning/AA_716_arc_invites.json@256bcdc42）
+    - aa720.js ← tools/story/import_aa720.py（docs/story_planning/AA_720_decide_opened_scenes.json@6ada48974）
+  - **手寫（41 個）→ 加進 aa959.py 的 HAND 直接換**：pool_story.js、enc_walk.js、sup497_lines.js、pool_story_b3.js、kxdrift3d.js、an_yt_hol_events.js、date3d.js、y2b_events.js、shop_npc.js、rel_lines.js、dorm203_lines.js、adv3d.js、zrzq_events.js、wz_jobs.js、vacgap_lines.js、vacfill_events.js、vac3d.js、sis_y2y3_events.js、sis_qixi_events.js、sis_b9_events.js、sis_b4_events.js、sis_b13_events.js、sis_b10_events.js、r2y4b3d.js、r2y4a3d.js、pool_story_b4.js、pool_story_b2.js、kx_khh3d.js、jpprep_events.js、jp3d.js、hometown_lines.js、heroine_asks.js、feed_y3s2.js、feed_y1s1.js、family_xmas3d.js、encounters.js、cracktalk_lines.js、camp_y1.js、aa667_3d.js、aa519_lines.js、events.js
+  - 注意：date_lines（353 筆）、ladder（26）、syllabus（32）、invite_replies（16）的來源是企劃線 date_system/lines、ladder/ladder_*.json、syllabus 稿、invite_replies 稿——重跑 importer 前，AA_959 那幾列要嘛也套到源稿，要嘛 importer 最後一步套 AA959.layer（LAWWW 已做的那個掛勾）。
 - **11-14 09:4x～10:0x（AA-C 接續值班後）**：AA-D99-BLOCKERS-1114 讀了（LAWWW 下一班跑寒暑假＋美國完整流程再列）。RC2-PORT-DEV-1114 的 AA_749 SHA 寫成第一版 110b0fd990 → 請 LAWWW 改，已改 b45c888f94（開發分支 6d0b73c6c9）。AA_1021：美國篇 1262 句 0 違規、照 AA_340／AA_412 對照沒有缺；寒暑假 3 句、日本 2 句碎片收尾改字（BB 照用）。AA_1022：全遊戲 62,721 句（套 772 列後）line_lint——不是X是Y 57 句不改（教學／題庫／邏輯題／引用／停用事件）；當面碎片 12 列改；手機動態碎片照留；其他 25 句誤判照留；**AA-C 自己寫的郁婷（AA_1018）、靖雯（AA_1020）兩句模板回頭改**（BB 照用）。自查：AA_1012 以後 AA-C 新寫的 204 段文字＋AA_1013／1014／1017，line_lint 0、禁用模板 0、「查過了」「不要笑」沒有越界。覆寫表 784 列，pendingBB=[]。
 - **交班（帳號 C｜AA-C｜2026-11-14 01:5x UTC｜使用者：「現在交班」）**
   - **A 本班成果**（分支 claude/magical-albattani-bk7b4n，最後 SHA 見 duty handoff 那個 commit；都已推遠端）：
