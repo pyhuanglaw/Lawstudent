@@ -282,3 +282,19 @@
 - **疊面**：先跑 place_gate（不加 --write），新的問題 0；再 --coplanar --write：always 53.81 → 53.75。
 - **測試**：提到 shanlan、xs_lm 的 34 支 ALL PASS。
 - **畫面**（`shanlan_v3_cmp.jpg`）：陶盆大盆栽、大理石櫃台都看得出來；天花板質感變化不大。
+
+## Daybreak v2.1b（g2 58ce364c6e，我的 P1：義式機）——驗收 PASS（11-14 11:3x UTC）
+- patch：`daybreak_v21b_on_4cc26d4b8d.patch`（以開發分支 4cc26d4b8d 為底；`git apply --3way` 乾淨）。並排圖：`daybreak_v21b_cmp.jpg`（g2 的五組）。
+- 改了什麼：
+  - 義式機原本是一個方盒插三根圓柱，改成雙孔義式機：倒角機身、兩個壓力錶、溫杯盤、兩個沖煮頭（附把手和杯子）、接水盤格柵、蒸氣管。
+  - 磨豆機重做，只留一台。
+  - 整台機器抬高 3 mm，不再貼在吧台面上。
+  - 互動點、座位、導航、店員位置都沒動。
+- 驗收（在 4cc26d4b8d＋patch 上）：
+  - `place_gate_unit`（不加參數）：0 個新問題。
+  - `--coplanar --write`：daybreak 疊面全部 1.42 → 1.40 m²，牆 0.36 不變。
+  - `--write`：狀態表更新。
+  - `shop_cc0_unit` ALL PASS。
+  - 檔案裡有 daybreak 的 33 支測試 ALL PASS。
+- 並排圖：近看吧台那一張，新版看得出是一台義式機和磨豆機，原本是方盒。其他四個鏡頭沒有別的變化。
+- 門框自己疊自己的那一對（0.139 m²，在地板下面看不到）沒修：要改 aa_kit 共用的門框，所有店都會跟著變。開發分支原本就有，記著。
