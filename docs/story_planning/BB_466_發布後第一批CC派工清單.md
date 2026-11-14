@@ -40,3 +40,4 @@
 20. BG3D_GATE 三張（CC queue 2380、2381）：看校門有沒有在畫面裡，挑一張附進 BB_132 第 128 組 6 號。
 21. D05 約會圖層（若 r2 證實是 ctx.all 多了 D05.movie＝P2）：LAWWW 補 date_hotspots D05.movie 位置或把 movie 從 all 拿掉以後，DATE_LAYER D05 重跑，要出圖層。
 22. AA_1013 可昕圈子 16 列（LAWWW 整合後）：kxKnown 以前一個人、以後帶同學；抽 大一上#1、大二上#5（模擬法庭總圖）、大四下#15（總圖門口或裡面）三列拍＋聽到的那句逐字。
+23. FN-LOOK-REACH-1114（開發分支 fa9fb3634f）：「看門口的花」原本是溫州街也被放了一顆在房子位置（plainLook 區域沒 id 就放行）；LAWWW 改成只放在已知區。下一版 CC 重跑 reachability_all --zones wenzhou＋gongguan：溫州街 0 FAIL、公館那顆站得到。
