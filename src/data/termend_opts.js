@@ -1,11 +1,11 @@
-/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@5d48cae98f、docs/story_planning/AA_748_termend_heart_v2.json@5d48cae98f、docs/story_planning/AA_749_termend_kx_v2.json@110b0fd990、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5d48cae98f、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@5d48cae98f、docs/story_planning/AA_748_termend_heart_v2.json@5d48cae98f、docs/story_planning/AA_749_termend_kx_v2.json@b45c888f94、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5d48cae98f、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
    期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]、「她先說」的告白 HEART[人]（SHE-FIRST-1110）；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */
 'use strict';
 const TERMEND_OPTS={
  "src": {
   "gf": "docs/story_planning/AA_749_termend_gf_v2.json@5d48cae98f",
   "heart": "docs/story_planning/AA_748_termend_heart_v2.json@5d48cae98f",
-  "kx": "docs/story_planning/AA_749_termend_kx_v2.json@110b0fd990",
+  "kx": "docs/story_planning/AA_749_termend_kx_v2.json@b45c888f94",
   "friend": [
    "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5d48cae98f",
    "docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3",
@@ -6093,7 +6093,7 @@ const TERMEND_OPTS={
    "says": [
     {
      "say": [
-      "期末報告我寫宿舍可不可以不先講就進房間，老師說題目很奇怪，可是給過了。"
+      "期末報告我寫房東能不能進房客的房間，老師說題目很奇怪，可是給過了。"
      ]
     }
    ],
@@ -6101,8 +6101,8 @@ const TERMEND_OPTS={
     {
      "t": "「所以能不能？」",
      "re": [
-      "要先講！除非很急，像漏水、失火那種。",
-      "上個月舍監沒敲門就進來看冷氣，我室友在換衣服。我就是那天決定寫這個的。"
+      "不能！除非很急，像漏水、失火那種。",
+      "系上一個學姊租的房子，房東每個月都自己開門進來。我聽她講完，就決定寫這個。"
      ],
      "fx": {
       "love": 1
@@ -6113,9 +6113,9 @@ const TERMEND_OPTS={
      ]
     },
     {
-     "t": "「舍監後來呢？」",
+     "t": "「那個學姊後來呢？」",
      "re": [
-      "我把報告印一份交給宿舍辦公室。現在要進房間前，他們會先在門上貼一張紙。"
+      "她把我的報告印一份貼在門上。房東現在會先傳訊息了，還加一個貼圖。"
      ],
      "fx": {
       "love": 2
