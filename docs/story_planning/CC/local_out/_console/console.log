@@ -1,11 +1,3 @@
-[17:45:55] skip FN_REAL_c77f (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[17:45:55] skip GG_PERF_c77f_desk (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[17:45:55] skip GG_PERF_c77f_touch (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[17:45:55] skip NAV_WZ_notch (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
-[17:45:55] skip NAV_SOCLIB_notch (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
-[17:45:55] skip NAV_CAMPUS_notch (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
-[17:45:55] skip SOFA_SOCLIB2F (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
-[17:45:55] skip NAV_WZ_notch_rev (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
 [17:45:55] skip NAV_SOCLIB_notch_rev (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
 [17:45:55] skip NAV_CAMPUS_notch_rev (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
 [17:45:55] skip SOFA_SOCLIB2F_back (already done on dec3622d75d7fcc98143c5e7f960872ae41cfef0)
@@ -1998,3 +1990,11 @@
 [20:42:42] [res] cpu=8% mem=49% (15.6/31.4 GB) chrome_testing=10  START AA358_22_24_cafe
 [20:45:55] 正在跑：AA_SCENES_DATE_r3（已跑 8 分／上限 30 分）、SKIP_DIAG_0925_r1（已跑 7 分／上限 30 分）、AA358_22_24_cafe（已跑 3 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:47:05] [res] cpu=0% mem=48% (15.2/31.4 GB) chrome_testing=10  END AA358_22_24_cafe
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       af03fb13c3..88cb4b53d3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:47:12] ==== END   AA358_22_24_cafe  exit=1  266s   ====
+[20:47:27] memory 49% before starting DATE35_PS_ARR_r4 (2 running)
+[20:47:27] ==== START DATE35_PS_ARR_r4  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[20:47:30] [res] cpu=6% mem=49% (15.6/31.4 GB) chrome_testing=10  START DATE35_PS_ARR_r4
+[20:49:11] [res] cpu=19% mem=49% (15.3/31.4 GB) chrome_testing=10  END SKIP_DIAG_0925_r1
