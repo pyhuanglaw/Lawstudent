@@ -5,7 +5,7 @@
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的（P2／P3） |
 |---|---|---|---|---|
 | 青木茶室 aoki | **LAWWW2 PASS**（v2）→ 已轉 LAWWW | 077485f27e | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底 4556c4be0，不帶 cc0_kit.py） | 等 LAWWW 整合 |
-| Daybreak | **LAWWW2 PASS**（v2，已在開發分支）；**v2.1b**（P1）雙孔義式機、只留一台磨豆機；疊面已修（義式機抬 3 mm，always 1.44→1.40 ≤ 基準 1.42），單車之後烘（排好了）；門框底部自己疊的 0.139 m² 在地板下看不到、要改 aa_kit 共用門框才修得掉，這次不動 | 6f3f069af（v2.1b 腳本） | 還沒出 | 單車之後重建未烘焙 → `bake_gg_new.sh aa_daybreak` → 先跑 place_gate（不加 --write）確認沒「比基準多」→ 拍五格、patch、交 |
+| Daybreak | **LAWWW2 PASS**（v2，已在開發分支）；**v2.1b 已交 LAWWW2 驗收**（11-14 11:xx；雙孔義式機、一台磨豆機、義式機抬 3 mm，疊面 1.42→1.40） | 58ce364c6e | `docs/art-rebuild/second_ai/cc0_g2/daybreak_cc0.patch`（底 ed792633a） | 等 LAWWW2 判；門框底部自己疊的 0.139 m²（地板下看不到）要改 aa_kit 共用門框才修得掉，沒動 |
 | 頁間書屋 yejian | **LAWWW2 PASS**（v4；LAWWW2 重出 patch 交 LAWWW-C b57169085b） | 389adca8c0 | `docs/art-rebuild/second_ai/cc0_g2/yejian_cc0.patch` | P3：小盆栽可試 potted_plant_02 縮小重用或低面數 CC0 小盆栽 |
 | 山嵐書店 shanlan | **LAWWW2 PASS（v3，已轉 LAWWW-C，底 6fe2265f29）**；shop_cc0 待做名單整合後清空 | fbb14ee0ef | `docs/art-rebuild/second_ai/cc0_g2/shanlan_cc0.patch`（底 07bf3613b） | 等 LAWWW 整合 |
 | 慢輪單車 bike | **LAWWW2 PASS**（v1，已在開發分支）；**v2.1 重烘中**：v2 烘完 place_gate 抓到疊面 +0.02（右牆最下層兩排零件盒互相插進去），v2.1 修了（60d854927），排在 Daybreak 之後重烘 | 60d854927（v2.1 腳本） | 還沒出 | 重烘 → 拍六格（含「近看右牆層架」；改之前＝開發分支 v1，已拍 bike_v1_*）→ patch（LICENSES 只加 tire_pump、old_tyre、Cardboard001：`/tmp/claude-0/g2/lic_bike_v2.json`）→ 測（116 支，開發分支基準 tests_bike_base3.txt）→ 交 |
