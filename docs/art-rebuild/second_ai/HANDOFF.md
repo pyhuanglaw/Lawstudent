@@ -30,6 +30,18 @@
    - 日常失速前窗對面 B1 一樓還是平的（雨遮擋著，BB 判了再說）。
 5. 照舊：L118-SEAT-FIX-1112、SHOP-FIRST-APPROACH-1112、WZ-FRUIT-CLOSED（表外）、清州刀削麵打烊湯鍋檯（表外）。照 `check_handoff.py queue --owner LAWWW2` 看狀態。
 
+6. **交班時剛送到、還沒驗收的件（下一班照 SHOP_CC0_HOWTO 驗收）**：
+   - g3 同弦 tongxian（claude/shop-cc0-g3 @ 768816c33c，`docs/art-rebuild/second_ai/cc0_help/g3/tongxian.patch`，底 2da495e693；純色 19%）。
+   - g3 glb_coplanar 套用 instancing（edb96e33ec，`cc0_help/g3/coplanar_instancing.patch`＋`coplanar_instancing.md`）：51 個模型，8 個變少、0 個變多，附小測 `tests/glb_coplanar_instancing_check.py`。LAWWW 已同意修工具。同弦和這包誰後整合，誰的基準就要重跑一次 --coplanar。
+   - g3 附帶發現：大步原本就有真的疊面 WALL_back_back_vc×WALL_back_back_paint 5.11 m²，大步 v2 時一起修。
+   - g2 頁間 v4（claude/shop-cc0-g2 @ 389adca8c0，`docs/art-rebuild/second_ai/cc0_g2/yejian_cc0.patch`，底 2da495e69；純色 13%）。要看：小盆栽改回葉片卡，可不可以（D159）。
+   - g2：Daybreak v2.1b 門框疊面 1.42→1.44，修好才交；之後是唱片 v2、山嵐 v3、單車 v2。
+7. **042661aff6（WINVIEW-EDGE-STRIPE-1114）整合後要重拍**（BB-C 01:59 要求寫在這裡）：14:00，玩家藏起來，鏡頭同 WINVIEW_GG3_10aa_r2。
+   - 公館第三批：安泰 gg_antai、汀州鮮果 gg_xianguo、榮恩典 gg_rongendian。
+   - 有樹的窗：Daybreak、afar、aoki、夜間 yejian 的窗。
+   - CC 已在排 WINVIEW_GG3_REL @bcc99693a7（發布版對照）和 WINVIEW_GG3_1939，結果會傳給 LAWWW2。
+8. **OFFBEAT-VIEW-P3-1114（b6b30dd52c，LAWWW 已開，P3）整合後要拍**：日常失速前窗 14:00、21:00。B1 一樓要不要加東西，由下一班 BB 看實機截圖決定。
+
 ### 之前的進度紀錄（11-13～11-14 01:4x；已過時，只供查）
 0s. **（11-14 01:4x UTC）**
   - 新生運動 CC0（SHOP-REALISM-1112，從 g3 接手）
