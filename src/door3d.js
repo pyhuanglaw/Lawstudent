@@ -35,12 +35,12 @@ const DOOR=(function(){
     const u=o.userData, push=k==='push';
     const total=(push?S.T_REACH+S.T_HOLD:0.2)*1000;
     let sw=null; if(push){ try{ sw=swingSetup(E,it,P); }catch(e){ console.warn('DOOR 門板',e); sw=null; } }   /* 第二階段：找得到門板就真的轉開 */
-    const busy0=P.busy; P.busy=true; P.path=null; P.target=null;   /* 推門那 0.45 秒鎖住：搖桿、點地走不動，互動鍵藏起來；演完還原（BB-C 10-27：原本可以走開，走開了還是換區域）*/
+    const busy0=P.busy, dep=()=>GM&&typeof GM.sceneDepth==='function'?GM.sceneDepth():null, dep0=dep(); P.busy=true; P.path=null; P.target=null;   /* 推門那 0.45 秒鎖住：搖桿、點地走不動，互動鍵藏起來；演完還原（BB-C 10-27：原本可以走開，走開了還是換區域）*/
     return cur=new Promise(res=>{ const t0=now(); if(sw){ sw.t0=t0; sw.from=sw.piv.rotation.y; } const f=()=>{ const t=(now()-t0)/1000;
       if(turn) o.rotation.y=y0+d*sm(t/0.18);
       if(push&&u) u.overlay={bones:S.POSE,k:sm(t/S.T_REACH),door:true};
       if(sw) swingAt(sw);
-      if(now()-t0>=total){ P.busy=busy0; cur=null; if(push) watch(GM,sw); res(k); return; } raf(f); }; raf(f); }); };
+      if(now()-t0>=total){ const d1=dep(); P.busy=d1==null?busy0:(d1>0?true:(dep0>0?false:busy0)); cur=null;   /* STUCK-WALKSELF-1114（BB_458，T1 種子 4 2025-11-10 12:00）：推門那 0.45 秒裡，原本開著的對話／選單（INV.goPrompt「直接過去／自己走過去」）結束了→ 照舊還原成推門前的 busy=true＝沒有任何段落開著卻一直鎖住。改成照現在：還有段落開著＝鎖；推門前是段落鎖的、現在段落都收了＝放開；其他照舊還原 */ if(push) watch(GM,sw); res(k); return; } raf(f); }; raf(f); }); };
   /* ---- 第二階段（ANIM-DOOR-OPEN-1027 第二階段，LAWWW2-C 10-27）：門板真的轉開 ----
      很多室內的門板本來就是模型裡單獨的一個網格（宿舍房門 WALL_front_door、霖澤館 202／博雅 203／萬才館研討室 WALL_N_door、社科院教室 door_class_*_leaf、美國公寓 WALL_S_door…，
      0.6～1.7 m 寬、1.8～2.8 m 高、13 cm 以下厚）：推門時找出入口 2.6 m 內、大小像一片門板的網格，繞門邊（鉸鏈）往遠離玩家的方向轉 70°（跟著推門的手，0.45 秒）。

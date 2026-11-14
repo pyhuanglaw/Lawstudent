@@ -57143,10 +57143,10 @@
    "id": "STUCK-WALKSELF-1114",
    "title": "已接受的邀約選「自己走過去」後卡住：到 dorm_hall busy=true、busyDepth 0、沒有對話沒有選單（「畫面好像停住了」）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "BB-C 2026-11-14 09:47（T1_76f8 種子 4；BB_458）",
-   "note": "重現：random_play_sim.js --seed 4 --from 2025-08-22 --to 2026-06-30 @76f8。2025-11-10 12:00 出房門跳「12:10 和阿凱約在新體育館羽球場」→選「自己走過去」→ dorm_hall busy 沒放開。rc2e 同一份程式＝發布版也有；有提示、讀檔救得回來，不擋 X364。｜11-14 10:1x LAWWW-C：開發分支 f29278a926 跑 random_play_sim --seed 4 --from 2025-08-22 --to 2025-11-11：PASS（到 11-12、113 秒、0 FAIL）。不能當成已修：開發分支程式和 76f8 不同，同一個種子走的路不一樣，沒走到那一刻。下一步：76f8 上重現（要 worktree，磁碟剩約 300 MB 先不做），或在開發分支寫直接重現的小測（存檔放在 11-10 11:59、接受阿凱羽球邀約、出房門選「自己走過去」，看 dorm_hall 的 busy）。程式線索：invites3d.js S.goPrompt（k=1 只關選單、sceneBegin／sceneEnd 有成對）→ 卡住大概在出房門換區域那一段。｜11-14 10:2x：CC 在 76f8 重現（同第 7361 步）；存檔 cc-local docs/story_planning/CC/local_out/T1_SEED4_SAVE_76f8/out/seed4_pre_1110.json（停在 11-10 開始）。重現：random_play_sim.js --seed 4 --start-save <檔> --to 2025-11-11。LAWWW-C 在開發分支跑中。",
+   "note": "重現：random_play_sim.js --seed 4 --from 2025-08-22 --to 2026-06-30 @76f8。2025-11-10 12:00 出房門跳「12:10 和阿凱約在新體育館羽球場」→選「自己走過去」→ dorm_hall busy 沒放開。rc2e 同一份程式＝發布版也有；有提示、讀檔救得回來，不擋 X364。｜11-14 10:1x LAWWW-C：開發分支 f29278a926 跑 random_play_sim --seed 4 --from 2025-08-22 --to 2025-11-11：PASS（到 11-12、113 秒、0 FAIL）。不能當成已修：開發分支程式和 76f8 不同，同一個種子走的路不一樣，沒走到那一刻。下一步：76f8 上重現（要 worktree，磁碟剩約 300 MB 先不做），或在開發分支寫直接重現的小測（存檔放在 11-10 11:59、接受阿凱羽球邀約、出房門選「自己走過去」，看 dorm_hall 的 busy）。程式線索：invites3d.js S.goPrompt（k=1 只關選單、sceneBegin／sceneEnd 有成對）→ 卡住大概在出房門換區域那一段。｜11-14 10:2x：CC 在 76f8 重現（同第 7361 步）；存檔 cc-local docs/story_planning/CC/local_out/T1_SEED4_SAVE_76f8/out/seed4_pre_1110.json（停在 11-10 開始）。重現：random_play_sim.js --seed 4 --start-save <檔> --to 2025-11-11。LAWWW-C 在開發分支跑中。｜11-14 LAWWW-C：根因＝src/door3d.js 推門演完把 P.busy 還原成推門前的值；推門前 INV.goPrompt 選單開著（sceneBegin，busy=true），推門途中選「自己走過去」（sceneEnd，busy=false），演完又還原成 true＝沒段落卻永遠鎖住（CC 卡住時 sceneDepth=0、busy=true 對得上）。修：演完看 GM.sceneDepth()——還有段落＝鎖；推門前有段落、現在沒了＝放開；其他照舊。tests/door_busy_restore_1114_unit.js（舊碼 ①② FAIL、新碼全過）。請 CC 用 T1 種子 4 存檔在開發分支重跑。",
    "first": {
     "term": "Y1S1",
     "week": 11,
