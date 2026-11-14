@@ -81,7 +81,7 @@ def _face_col(f, lay):
     c = f.loops[0][lay]; return (c[0], c[1], c[2])
 
 
-def enable(sh, route=None, tol=2e-3):
+def enable(sh, route=None, tol=2e-3, tiles=None):
     """sh：aa_kit.Shop。換掉 vc／vcm／vcg 三個材質，並包好 sh.finish（finish 時照 route 分顏色、做盒狀 UV、補亮度）"""
     # route 的鍵：'#色碼'（只分霧面 vc 的零件）或 'vcg:#色碼'／'vcm:#色碼'（分亮面、金屬的零件）
     RT = {'vc': {}, 'vcg': {}, 'vcm': {}}
@@ -91,6 +91,7 @@ def enable(sh, route=None, tol=2e-3):
     for key in ('vc', 'vcm', 'vcg'):
         old = sh.M[key]; nm = old.name; old.name = nm + '_old'
         sh.M[key] = detail_mat(nm, key)
+        if tiles and key in tiles: sh.M[key]['tile'] = tiles[key]   # 這間店自己的紋路大小（P3 霧面雲狀斑：tile 改細，雲狀斑變細顆粒）
     kinds = sorted(k for k in set(route.values()) if k not in sh.M)   # 新的頂點色材質組（材質名 <前綴>vc_<種類>）；sh.M 已經有的（wood…）直接併進那個材質
     for k in kinds: sh.M[k] = detail_mat(sh.P + 'vc_' + k, k)
     orig = sh.finish

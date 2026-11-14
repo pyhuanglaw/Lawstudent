@@ -35,7 +35,7 @@ sh.M.update({
 })
 sh.M['bulb'] = sh.M['washi']
 # SHOP-CC0-HELP-1113（D161）：頂點色零件換成 CC0 材質組（顏色照舊）；坐墊用 ambientCG 布料（織紋）、深色木作併進柱子的胡桃木材質（木紋）
-C.enable(sh, route=dict({h: 'fabric' for h in ('#c0b090', '#8a7a62', '#7a6a52', '#5a4a3a')}, **{h: 'post' for h in ('#5a3e28', '#4a3222', '#3a2618', '#2e1e12')}))
+C.enable(sh, route=dict({h: 'fabric' for h in ('#c0b090', '#8a7a62', '#7a6a52', '#5a4a3a')}, **{h: 'post' for h in ('#5a3e28', '#4a3222', '#3a2618', '#2e1e12')}), tiles={'vc': 0.15})   # v1.2（P3 霧面雲狀斑，使用者 11-14 同意）：霧面紋路 0.6 m → 0.15 m 一格
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 xf0 = Xf(0, 0); R = random.Random(1106)
