@@ -231,3 +231,14 @@
 - **測試**：有提到 yejian／gongguan_book 的 24 支 ALL PASS。
 - **畫面**（`yejian_cmp.jpg`）：咖啡吧換成雙孔義式機、收銀機、大理石檯面；門口大盆換掃描盆栽，比原本的葉片卡好很多。
 - **小盆栽的判斷**：小盆栽（櫃上、桌上那幾盆）仍是葉片卡。g2 試過 Poly Haven `potted_plant_04`，減到 300 面以下會變成一團灰。這幾盆很小、在背景，不是方塊，所以這次不退件。記一筆 P3：找面數低的 CC0 小盆栽，或把 `potted_plant_02` 縮小重用。
+
+## 一盞 v1.2（g1 4ba5e16e70，霧面雲狀斑）——驗收 PASS（11-14 10:1x UTC）
+- **patch**：`yizhan_v12_on_15be72634e.patch`，底是開發分支 15be72634e。
+- **底的問題**：g1 用的底是 1a7d7e1994（v9.10.26 發布樹），那裡的 yizhan.glb 是舊的，和開發分支衝突。
+  - 腳本 yizhan_interior.py、aa_cc0.py 和開發分支一樣，模型是用 v1.1 的腳本整個重建的，所以 GLB 和兩張光照貼圖直接用 g1 的。
+  - 狀態表、疊面、shop_cc0 基準照開發分支重算。
+- **改了什麼**：霧面紋路 tile 0.6 → 0.15 m。aa_cc0.enable 多一個 tiles 參數，只有一盞用。
+- **疊面**：先跑 place_gate（不加 --write），新的問題 0；之後 --coplanar --write 只有 sha1 變（一定會閃 2.03 m² 不變）。
+- **測試**：shop_cc0 過；yizhan 相關 6 支 ALL PASS。
+- **畫面**（`yizhan_v12_cmp.jpg` 第三列）：水屋左邊壁櫥的雲狀斑沒了，其他不變。
+- 其他四間（aa_cc0 的 Plaster001 雲狀斑）照舊留 P3。

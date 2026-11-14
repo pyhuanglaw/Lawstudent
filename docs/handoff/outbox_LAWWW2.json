@@ -10523,6 +10523,24 @@
    "tests": "shop_views_matte_unit 兩版比對 ALL PASS（有／沒有 numpy）",
    "notDone": "LAWWW 整合、開任務 ID；CC 重排 WINVIEW_GG3_1939",
    "next": "CC 用 git show ddd38ce214 的檔先跑"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "19314237c3",
+   "at": "2026-11-14T10:15Z",
+   "task": "SHOP-REALISM-1112",
+   "title": "一盞 v1.2（g1 4ba5e16e70）驗收 PASS：霧面紋路 tile 0.6→0.15，壁櫥雲狀斑消失",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/"
+   ],
+   "tests": "place_gate、shop_cc0、yizhan 6 支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 拍；BB 判",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
