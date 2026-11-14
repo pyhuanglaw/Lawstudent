@@ -10650,6 +10650,24 @@
    "tests": "laundry_seat_prio_1114 修改前 FAILED 2→ALL PASS；回歸 22 支 ALL PASS",
    "notDone": "LAWWW 整合；CC 瀏覽器確認",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "e5ac3a7b57",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "b327c42df1",
+   "at": "2026-11-14T11:20Z",
+   "task": "WINVIEW-TREE-BLOB-1114",
+   "title": "afar、Daybreak 窗景 4 張重拍（--tree-min-w 0.8：矮樟樹不再縮成小球）＋wz_window_view.py",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/winview_tree_blob_1114/"
+   ],
+   "tests": "窗景相關 12 支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 拍；BB 判",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
