@@ -5,7 +5,7 @@
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的（P2／P3） |
 |---|---|---|---|---|
 | 青木茶室 aoki | **LAWWW2 PASS**（v2）→ 已轉 LAWWW | 077485f27e | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底 4556c4be0，不帶 cc0_kit.py） | 等 LAWWW 整合 |
-| Daybreak | **LAWWW2 PASS**（v2，已在開發分支）；**v2.1b 已交 LAWWW2 驗收**（11-14 11:xx；雙孔義式機、一台磨豆機、義式機抬 3 mm，疊面 1.42→1.40） | 58ce364c6e | `docs/art-rebuild/second_ai/cc0_g2/daybreak_cc0.patch`（底 ed792633a） | 等 LAWWW2 判；門框底部自己疊的 0.139 m²（地板下看不到）要改 aa_kit 共用門框才修得掉，沒動 |
+| Daybreak | **LAWWW2 PASS**（v2.1b；已轉 LAWWW-C，patch 2f4ccad37a） | 58ce364c6e | `docs/art-rebuild/second_ai/cc0_g2/daybreak_cc0.patch`（底 ed792633a） | 等 LAWWW 整合；門框底部自疊 0.139 m² 先不改（LAWWW2 記著） |
 | 頁間書屋 yejian | **LAWWW2 PASS**（v4；LAWWW2 重出 patch 交 LAWWW-C b57169085b） | 389adca8c0 | `docs/art-rebuild/second_ai/cc0_g2/yejian_cc0.patch` | P3：小盆栽可試 potted_plant_02 縮小重用或低面數 CC0 小盆栽 |
 | 山嵐書店 shanlan | **LAWWW2 PASS（v3，已轉 LAWWW-C，底 6fe2265f29）**；shop_cc0 待做名單整合後清空 | fbb14ee0ef | `docs/art-rebuild/second_ai/cc0_g2/shanlan_cc0.patch`（底 07bf3613b） | 等 LAWWW 整合 |
 | 慢輪單車 bike | **LAWWW2 PASS**（v1，已在開發分支）；**v2.1 已交 LAWWW2 驗收**（11-14；層架印刷包裝盒、tire_pump、old_tyre；零件盒互插已修，疊面和開發分支一樣） | d8ee8b27c2 | `docs/art-rebuild/second_ai/cc0_g2/bike_cc0.patch`（底 4cc26d4b8） | 等 LAWWW2 判 |
@@ -13,7 +13,7 @@
 | 日和便利店 cvs | **改由 LAWWW2 做**（11-13 22:31 LAWWW2 選 ①），LAWWW2 已交 LAWWW（6ecd6495c8） | — | — | 我這邊不做 |
 
 ## 目前做到哪（2026-11-14 11:xx）
-- LAWWW-C 排的四間全部交了：唱片 v2、山嵐 v3＝LAWWW2 PASS；Daybreak v2.1b、單車 v2.1＝等 LAWWW2 驗收。背景沒有東西在跑。
+- LAWWW-C 排的四間全部交了：唱片 v2、山嵐 v3＝LAWWW2 PASS；Daybreak v2.1b＝PASS；單車 v2.1＝等 LAWWW2 驗收（11:2x 已交 d8ee8b27c2）。背景沒有東西在跑。
 - 下一步：等 LAWWW2 的驗收結果；退件就照意見修、重烘、重交；全部 PASS 就沒有派給 g2 的工作了。
 - 每間交件流程（照 `docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md`）：烘完 → `fast_shots.py` 拍五格（參考鏡頭、門口、從裡面朝門口、近看吧台／櫃台、20:00）→ 自己看並排圖 → `/tmp/claude-0/g2/bin/mkpatch.py`（底＝開發分支最新；LICENSES 只加這間的列、基準表只拿掉這間、coplanar 只換這間、附 `place_gate --write` 重產的 SHOP_STANDARD_STATUS.md）→ 在乾淨副本套 patch 跑 `shop_cc0_unit`、`place_gate`、這間店相關測試 → commit＋push → 傳 LAWWW2-C（副本 LAWWW-C）。
 - 交件前（LAWWW2 11-14 新流程）：先 `node tests/place_gate_unit.js`（不加 --write），有「比基準多」就先修模型重烘；沒有才 `--coplanar --write`；不准 `--allow-grow`。套 patch 後跑這間店相關的全部測試，和沒套 patch 的開發分支逐支比（唱片、山嵐就是這樣抓到材質數、牆分組的問題）。
