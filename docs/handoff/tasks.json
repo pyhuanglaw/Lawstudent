@@ -57351,6 +57351,19 @@
     "term": "Y1S1",
     "confirmed": false
    }
+  },
+  {
+   "id": "LIMAO-DOOR-CLOSE-1114",
+   "title": "禮貌生財打烊時往外開的格子門還開著：門扇拆成獨立節點、打烊藏起來",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "BB-C 11-14 11:23（BB_379 59c76acebc）",
+   "note": "LIMAO-REAL-VIEW-1114 交件時 LAWWW2 留的；BB 判要收。算命桌白天在騎樓＝原本就有，不改。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
   }
  ]
 }
