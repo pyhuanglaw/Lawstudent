@@ -57393,6 +57393,19 @@
     "term": "Y1S1",
     "confirmed": false
    }
+  },
+  {
+   "id": "HANDOFF-C-1114",
+   "title": "帳號 C 11-14 交班：等所有職位（含 LAWWW2）交班、duty sync 收齊，LAWWW 最後交",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "使用者 11-14 11:5x「現在交班」＋「你要等其他人都交班了，你才最後交班喔」（UA-LAWWW-1114-05）",
+   "note": "AA、BB、CC、g1～g4 已交班；LAWWW2 還沒回。LAWWW 第一次 duty handoff（4467f823d2）跑太早，收齊以後重做 snapshot＋duty handoff。ROLE_LAWWW §交班 LAWWW 最後收尾。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": true
+   }
   }
  ]
 }
