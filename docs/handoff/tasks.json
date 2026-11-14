@@ -57253,7 +57253,7 @@
    "status": "取消／被取代",
    "priority": "P2",
    "source": "BB-C 11-14（經 LAWWW2-C 10:25）",
-   "note": "11-14 10:4x BB-C 撤回（BB_379 4f40174fbf）：照片是在換照片之前的 625fefcf1e 拍的；main 和開發分支都有 8415b48879 的白天、晚上兩張。CC 用 main 重拍確認。替代：無。",
+   "note": "11-14 10:4x BB-C 撤回（BB_379 4f40174fbf）：照片是在換照片之前的 625fefcf1e 拍的；main 和開發分支都有 8415b48879 的白天、晚上兩張。CC 用 main 重拍確認。替代：無。｜11-14 10:5x LAWWW2-C 更正：main 6106fae2d2 的 us3d.js 沒有 US_VIEW（v9.10.26 用 rc2e 的遊戲檔），BB 第一次報的現象在 main 是真的；開發分支對。維持取消（不用改程式），v9.10.26 沒有、下一版才進——列進 NEXT-RELEASE-RECHECK-1114。",
    "first": {
     "term": "Y4S1",
     "confirmed": false
@@ -57307,6 +57307,19 @@
    "priority": "P2",
    "source": "BB-C 11-14（經 LAWWW2-C 10:52）",
    "note": "wz_street.py limao 的 cards；不在汀州路 shopInsideReal 清單。照溫特寶邸做法：玻璃後面放立體店內模型（S.REAL_VIEW＋REAL_DEP）。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "NEXT-RELEASE-RECHECK-1114",
+   "title": "下一版發布前回歸：v9.10.26 只有 76f8b639f0 的遊戲檔，之後整合的修正要在新版上線上重驗",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "LAWWW2-C、BB-C 11-14 10:5x（直接看 main 檔案：us3d.js 沒 US_VIEW、world3d.js 沒 wvMirror）",
+   "note": "v9.10.26 發布樹 1a7d7e1994＝rc2e 1404d5f2d4 的遊戲檔（底 76f8b639f0，11-13 18:49）；git 歷史上開發分支 11-13 以後的 commit 雖然是祖先，程式沒進 main。判斷 main 有沒有某個修正要看 main 的檔案內容，不要用 merge-base --is-ancestor。USER_WANTS 查過：76f8 以後改成「在遊戲裡」的只有 X364（確實在 v9.10.26）。下一版發布前 BB 回歸要重拍：① SHOP_US_asian_window to_door 13:00／20:00（8415b48879 竹葉日夜窗景，WINVIEW-ASIAN-DAYNIGHT-1114）② WINVIEW-EDGE-STRIPE（fc1813e4f2 wvMirror）③ 本班整合的 STUCK-WALKSELF、STUDY-LEAVE-LEADEND、DATE-D05-PICK、LAUNDRY-SEAT-PRIO、L118-SEAT-FIX r5、CC0 各店（轉角、好拍、南洋 v7、山嵐 v3）、WINVIEW-TREE-BLOB。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
