@@ -22,7 +22,7 @@
 | 任務 ID | 狀態 | 在哪、還沒做的 |
 |---|---|---|
 | SHOP-REALISM-1112 輪轉單車 v2.1 | 驗收 PASS、已交 LAWWW-B（ACK，排 RC2-PORT-DEV-1114 之後整合） | `wip/shop_cc0_accept_1113/bike_v21_on_166e9d3096.patch`；6f351e00e7 |
-| SHOP-REALISM-1112 大步球鞋 v2 | 驗收 PASS、已交 LAWWW-B（ACK） | `wip/shop_cc0_accept_1113/dabu_v2_on_166e9d3096.patch`；07863112d4。還沒做：左牆 `WALL_left_left_vc × WALL_left_print` 4.372 m² 疊面 |
+| SHOP-REALISM-1112 大步球鞋 v2 | 驗收 PASS、已交 LAWWW-B（ACK） | `wip/shop_cc0_accept_1113/dabu_v2_on_166e9d3096.patch`；07863112d4。還沒做：左牆 `WALL_left_left_vc × WALL_left_print` 4.372 m² 疊面——11-14 13:4x 看過 `dabu_interior.py`：左牆海報 `poster3`（1.62×1.02 m）貼在白底板前只離 0.5 mm（`XI0 + 0.0605` 對底板面 `XI0 + 0.06`），其餘是層板上的價格卡離層板 2 mm；改法是把離面距離加到 4 mm 以上再重匯出、重烘（`bake_xs.sh dabu`）。等 LAWWW-B 整合大步 v2 以後在那個基準上做，免得和還沒整合的 patch 撞 |
 | GATE-REF-1114【使用者】校門照參考圖改（UA-LAWWW2-1114-05） | 第 1 版已交 LAWWW-B、BB-B（bc375ab018，DELIVERED 待 ACK）：模型＋導航 patch＋Node 測試＋疊圖 | `wip/gate_ref_1114/README.md`「第 1 版交件」。還沒做：遊戲內截圖（CC）、BB 判、第 2 版要修的（石柱粗矮、燈偏大、綠籬尖角、窗玻璃偏白）；BB-B 11-14 判現在線上的校門 FAIL P2：左門柱後一大塊黑色半圓（相機 [-129.5,2.2,4.0]→[-60,5,0]、08:30；圖在 claude/cc-local `docs/story_planning/CC/local_out/BG3D_GATE_campus_r2/out/bg3d_ntu_gate_wide.png`；BB_379），一起查 |
 | MOKU-2F-WINDOW-1114（P3） | 還沒做 | 木曜日二樓的窗晚上看不出是店；證據 cc-local `GATE2_MOKUYOBI_r5` lookup 兩張圖。排在 GATE-REF-1114 後面 |
 | WZ-REAL-LITE-EMPTY-1114（P2） | 還沒做 | BB-B 判圖；LAWWW-B 166e9d3096 開的 |
