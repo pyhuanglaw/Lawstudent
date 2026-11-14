@@ -1,0 +1,22 @@
+CC HEROINE-LIFE-1028（BB_468）：SHA bd149c9eda；PARTS HL3C；ROWS c503_4_2,c503_5_2,c503_6_2,c503_7_1,c503_4_n1；TERMS Y1S1,Y1S2,Y2S1；Windows＋GPU ≠ iPhone
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：讀得到使用者存檔 tests/fixtures/user_save_day51_1110.json
+PASS FAIL_SETUP 檢查：這個版本有 FEED、HCIRCLE
+PASS FAIL_SETUP 檢查：[HL3c Y1S1 FRIEND] 找得到學期起訖  {"d0": -15, "d1": 96, "k0": "2025-09-01", "k1": "2025-12-21"}
+  [前置／捷徑] [HL3c Y1S1 FRIEND] 【對照組】聯絡方式到學期以後才有=False；前任=[]；不在家族群組=True
+  [前置／捷徑] [HL3c Y1S1 FRIEND] 【前置／捷徑】讀使用者存檔到 2025-09-01、清掉手機紀錄當新學期；五位認識＋聯絡方式＋關係固定 FRIEND；加 family_law、guitar 群組：{"stages": {"heroine_01": "FRIEND", "heroine_02": "FRIEND", "heroine_03": "FRIEND", "heroine_04": "FRIEND", "heroine_05": "FRIEND"}, "groups": ["guitar"], "noContact": {"heroine_01": false, "heroine_02": false, "heroine_03": false, "heroine_04": false, "heroine_05": false}, "contacts": {"heroine_01": -16, "heroine_02": -16, "heroine_03": -16, "heroine_04": -16, "heroine_05": -16}}
+PASS FAIL_SETUP 檢查：[HL3c Y1S1 FRIEND] 五位都是 FRIEND、群組照設定  {"stages": {"heroine_01": "FRIEND", "heroine_02": "FRIEND", "heroine_03": "FRIEND", "heroine_04": "FRIEND", "heroine_05": "FRIEND"}, "groups": ["guitar"], "noContact": {"heroine_01": false, "heroine_02": false, "heroine_03": false, "heroine_04": false, "heroine_05": false}, "contacts": {"heroine_01": -16, "heroine_02": -16, "heroine_03": -16, "heroine_04": -16, "heroine_05": -16}}
+  [前置／捷徑] [HL3c Y1S1 FRIEND] 【捷徑：跳日子】2025-09-01～2025-12-21 每天九個時間點叫 STORY.phoneRules＋PHONE.tick；天氣每 5 天下雨一天
+  [  31.2s] [HL3c Y1S1 FRIEND] 2025-09-01～2025-12-21 共 64 則；每位 {"heroine_01": 15, "heroine_02": 23, "heroine_03": 10, "heroine_04": 13, "heroine_05": 3}；連續 14 天以上沒有女主角訊息：沒有
+  [  31.2s] [HL3c Y1S1 FRIEND] self_sis_self_y1s1_1（heroine_05，要 group，排在 2025-09-25 22.33）：沒收到 []
+  [  31.2s] [HL3c Y1S1 FRIEND] self_sis_self_y1s1_2（heroine_05，要 group，排在 2025-10-26 19.17）：沒收到 []
+  [  31.2s] [HL3c Y1S1 FRIEND] self_sis_self_y1s1_3（heroine_05，要 group，排在 2025-11-29 23.08）：沒收到 []
+  [  31.2s] [HL3c Y1S1 FRIEND] self_zr_self_y1s1_1（heroine_02，要 FAMILIAR，排在 2025-10-23 22.12）：收到 [["2025-10-23", 22.12, "heroine_02", "📷（吧檯上一排洗好的杯子，最後一個還在滴水）"], ["2025-10-23", 22.13, "heroine_02", "今天最後一桌坐到關門。"], ["2025-10-23", 22.15, "heroine_02", "他們在分手。我假裝在擦杯子，同一個擦了四次。"]]
+  [  31.2s] [HL3c Y1S1 FRIEND] self_zr_self_y1s1_2（heroine_02，要 FRIEND，排在 2025-11-30 22.12）：收到 [["2025-11-30", 22.12, "heroine_02", "📷（一張早場電影的票根）"], ["2025-11-30", 22.13, "heroine_02", "早場只有六個人。"], ["2025-11-30", 22.15, "heroine_02", "有一個阿伯從頭睡到尾，散場的時候還鼓掌。"]]
+  [  31.2s] [HL3c Y1S1 FRIEND] self_ya_self_y1s1_w6（heroine_01，要 FAMILIAR，排在 2025-10-08 21.30）：收到 [["2025-10-08", 21.3, "heroine_01", "剛從家教回來。國二，數學。"], ["2025-10-08", 21.32, "heroine_01", "他問我，法律系是不是都在背書。"], ["2025-10-08", 21.33, "heroine_01", "我說不是。然後發現我講不出來不是什麼。"]]
+  [  31.2s] [HL3c Y1S1 FRIEND] self_yt_self_y1s1_w7（heroine_03，要 FAMILIAR，排在 2025-10-18 17.58）：收到 [["2025-10-18", 17.58, "heroine_03", "蘇姨今天讓我自己泡給客人。"], ["2025-10-18", 17.6, "heroine_03", "客人說好喝。"], ["2025-10-18", 17.62, "heroine_03", "……蘇姨說是水的關係。"]]
+  [  31.2s] [HL3c Y1S1 FRIEND] self_zr_self_y1s1_w9（heroine_02，要 FAMILIAR，排在 2025-10-28 22.12）：收到 [["2025-10-28", 22.12, "heroine_02", "📷（店門口的小黑板，粉筆字寫到一半）"], ["2025-10-28", 22.13, "heroine_02", "店長叫我寫今天的推薦。"], ["2025-10-28", 22.15, "heroine_02", "我寫了我自己想喝的。賣完了，我沒喝到。"]]
+  [  31.2s] [HL3c Y1S1 FRIEND] self_zq_self_y1s1_w9（heroine_04，要 FAMILIAR，排在 2025-10-30 23.17）：收到 [["2025-10-30", 23.17, "heroine_04", "吉他社今天教封閉和弦"], ["2025-10-30", 23.18, "heroine_04", "左手食指按到沒感覺"], ["2025-10-30", 23.2, "heroine_04", "明天還要打字"], ["2025-10-30", 23.22, "heroine_04", "完了"]]
+  [  31.2s] [HL3c Y1S1 FRIEND] 補稿訊息：6／9 則收到（階段 FRIEND，在家族群組=False）
+PASS 沒有 JS 例外  []
+ALL PASS

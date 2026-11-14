@@ -1,0 +1,22 @@
+CC HEROINE-LIFE-1028（BB_468）：SHA bd149c9eda；PARTS HL3C；ROWS c503_4_2,c503_5_2,c503_6_2,c503_7_1,c503_4_n1；TERMS Y1S1,Y1S2,Y2S1；Windows＋GPU ≠ iPhone
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：讀得到使用者存檔 tests/fixtures/user_save_day51_1110.json
+PASS FAIL_SETUP 檢查：這個版本有 FEED、HCIRCLE
+PASS FAIL_SETUP 檢查：[HL3c Y1S1 FAMILIAR] 找得到學期起訖  {"d0": -15, "d1": 96, "k0": "2025-09-01", "k1": "2025-12-21"}
+  [前置／捷徑] [HL3c Y1S1 FAMILIAR] 【對照組】聯絡方式到學期以後才有=False；前任=['heroine_01']；不在家族群組=False
+  [前置／捷徑] [HL3c Y1S1 FAMILIAR] 【前置／捷徑】讀使用者存檔到 2025-09-01、清掉手機紀錄當新學期；五位認識＋聯絡方式＋關係固定 FAMILIAR；加 family_law、guitar 群組：{"stages": {"heroine_01": "FAMILIAR", "heroine_02": "FAMILIAR", "heroine_03": "FAMILIAR", "heroine_04": "FAMILIAR", "heroine_05": "FAMILIAR"}, "groups": ["family_law", "guitar"], "noContact": {"heroine_01": true, "heroine_02": false, "heroine_03": false, "heroine_04": false, "heroine_05": false}, "contacts": {"heroine_01": -16, "heroine_02": -16, "heroine_03": -16, "heroine_04": -16, "heroine_05": -16}}
+PASS FAIL_SETUP 檢查：[HL3c Y1S1 FAMILIAR] 五位都是 FAMILIAR、群組照設定  {"stages": {"heroine_01": "FAMILIAR", "heroine_02": "FAMILIAR", "heroine_03": "FAMILIAR", "heroine_04": "FAMILIAR", "heroine_05": "FAMILIAR"}, "groups": ["family_law", "guitar"], "noContact": {"heroine_01": true, "heroine_02": false, "heroine_03": false, "heroine_04": false, "heroine_05": false}, "contacts": {"heroine_01": -16, "heroine_02": -16, "heroine_03": -16, "heroine_04": -16, "heroine_05": -16}}
+  [前置／捷徑] [HL3c Y1S1 FAMILIAR] 【捷徑：跳日子】2025-09-01～2025-12-21 每天九個時間點叫 STORY.phoneRules＋PHONE.tick；天氣每 5 天下雨一天
+  [  29.3s] [HL3c Y1S1 FAMILIAR] 2025-09-01～2025-12-21 共 65 則；每位 {"heroine_01": 7, "heroine_02": 15, "heroine_03": 9, "heroine_04": 14, "heroine_05": 20}；連續 14 天以上沒有女主角訊息：[{"days": 19, "from": "2025-11-04", "to": "2025-11-22"}, {"days": 15, "from": "2025-11-30", "to": "2025-12-14"}]
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_sis_self_y1s1_1（heroine_05，要 group，排在 2025-09-25 22.33）：收到 [["2025-09-25", 22.5, "heroine_05", "📷（法律學院圖書館的座位，檯燈下一本刑法分則）"], ["2025-09-25", 22.5, "heroine_05", "讀到閉館。"], ["2025-09-25", 22.5, "heroine_05", "館員關燈的時候，我才發現外面下過雨。"], ["2025-09-25", 22.5, "heroine_05", "明天。"]]
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_sis_self_y1s1_2（heroine_05，要 group，排在 2025-10-26 19.17）：收到 [["2025-10-26", 19.17, "heroine_05", "奶奶買了一箱橘子，叫我帶去學校分。"], ["2025-10-26", 19.18, "heroine_05", "明天放在系學會門口。家族的自己拿。"], ["2025-10-26", 19.22, "heroine_05", "一人兩顆。"]]
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_sis_self_y1s1_3（heroine_05，要 group，排在 2025-11-29 23.08）：收到 [["2025-11-29", 23.08, "heroine_05", "模擬考寫完了。"], ["2025-11-29", 23.1, "heroine_05", "刑法寫到第四題，筆沒水。"], ["2025-11-29", 23.12, "heroine_05", "……備用的那支也沒水。"], ["2025-11-29", 23.15, "heroine_05", "我明天去買一盒。"]]
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_zr_self_y1s1_1（heroine_02，要 FAMILIAR，排在 2025-10-23 22.12）：收到 [["2025-10-23", 22.12, "heroine_02", "📷（吧檯上一排洗好的杯子，最後一個還在滴水）"], ["2025-10-23", 22.13, "heroine_02", "今天最後一桌坐到關門。"], ["2025-10-23", 22.15, "heroine_02", "他們在分手。我假裝在擦杯子，同一個擦了四次。"]]
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_zr_self_y1s1_2（heroine_02，要 FRIEND，排在 2025-11-30 22.12）：沒收到 []
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_ya_self_y1s1_w6（heroine_01，要 FAMILIAR，排在 2025-10-08 21.30）：沒收到 []
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_yt_self_y1s1_w7（heroine_03，要 FAMILIAR，排在 2025-10-18 17.58）：收到 [["2025-10-18", 17.58, "heroine_03", "蘇姨今天讓我自己泡給客人。"], ["2025-10-18", 17.6, "heroine_03", "客人說好喝。"], ["2025-10-18", 17.62, "heroine_03", "……蘇姨說是水的關係。"]]
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_zr_self_y1s1_w9（heroine_02，要 FAMILIAR，排在 2025-10-28 22.12）：收到 [["2025-10-28", 22.12, "heroine_02", "📷（店門口的小黑板，粉筆字寫到一半）"], ["2025-10-28", 22.13, "heroine_02", "店長叫我寫今天的推薦。"], ["2025-10-28", 22.15, "heroine_02", "我寫了我自己想喝的。賣完了，我沒喝到。"]]
+  [  29.3s] [HL3c Y1S1 FAMILIAR] self_zq_self_y1s1_w9（heroine_04，要 FAMILIAR，排在 2025-10-30 23.17）：收到 [["2025-10-30", 23.17, "heroine_04", "吉他社今天教封閉和弦"], ["2025-10-30", 23.18, "heroine_04", "左手食指按到沒感覺"], ["2025-10-30", 23.2, "heroine_04", "明天還要打字"], ["2025-10-30", 23.22, "heroine_04", "完了"]]
+  [  29.3s] [HL3c Y1S1 FAMILIAR] 補稿訊息：7／9 則收到（階段 FAMILIAR，在家族群組=True）
+PASS 沒有 JS 例外  []
+ALL PASS
