@@ -7,7 +7,7 @@
 | 青木茶室 aoki | **LAWWW2 PASS**（v2）→ 已轉 LAWWW | 077485f27e | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底 4556c4be0，不帶 cc0_kit.py） | 等 LAWWW 整合 |
 | Daybreak | **LAWWW2 PASS**（v2，已在開發分支）；**v2.1b**（P1）雙孔義式機、只留一台磨豆機；疊面已修（義式機抬 3 mm，always 1.44→1.40 ≤ 基準 1.42），單車之後烘（排好了）；門框底部自己疊的 0.139 m² 在地板下看不到、要改 aa_kit 共用門框才修得掉，這次不動 | 6f3f069af（v2.1b 腳本） | 還沒出 | 單車之後重建未烘焙 → `bake_gg_new.sh aa_daybreak` → 先跑 place_gate（不加 --write）確認沒「比基準多」→ 拍五格、patch、交 |
 | 頁間書屋 yejian | **LAWWW2 PASS**（v4；LAWWW2 重出 patch 交 LAWWW-C b57169085b） | 389adca8c0 | `docs/art-rebuild/second_ai/cc0_g2/yejian_cc0.patch` | P3：小盆栽可試 potted_plant_02 縮小重用或低面數 CC0 小盆栽 |
-| 山嵐書店 shanlan | **v3 已交 LAWWW2 驗收**（11-14 10:4x；shop_cc0 最後一間沒過的店） | fbb14ee0ef | `docs/art-rebuild/second_ai/cc0_g2/shanlan_cc0.patch`（底 07bf3613b） | 等 LAWWW2 判 |
+| 山嵐書店 shanlan | **LAWWW2 PASS（v3，已轉 LAWWW-C，底 6fe2265f29）**；shop_cc0 待做名單整合後清空 | fbb14ee0ef | `docs/art-rebuild/second_ai/cc0_g2/shanlan_cc0.patch`（底 07bf3613b） | 等 LAWWW 整合 |
 | 慢輪單車 bike | **LAWWW2 PASS**（v1，LAWWW2 重出 patch 給 LAWWW）；**v2 已建模、烘焙中（11-14 10:4x）** | a26a2b34d（v2 腳本） | v2 還沒出 | v2 層架：方盒減半→印刷包裝盒（自製圖集×Cardboard001，有傾斜、開蓋）、車燈 4→2、水壺有瓶蓋、鎖最多 3 組、Poly Haven tire_pump＋old_tyre；59,746 面。山嵐之後烘 → 拍（並排圖加「近看右牆層架」）、patch、交 |
 | 轉角唱片 corner | **LAWWW2 PASS（v2，已轉 LAWWW-C，底 452a96aa6c）**（11-14 10:2x；盆子 cr_vc、烘後重複材質用 glb_merge_dup_mat.py 併回，材質數 12） | 26b1f7976b | `docs/art-rebuild/second_ai/cc0_g2/corner_cc0.patch`（底 15be72634） | 等 LAWWW2 判；以後重烘唱片，烘完要跑 glb_merge_dup_mat.py |
 | 日和便利店 cvs | **改由 LAWWW2 做**（11-13 22:31 LAWWW2 選 ①），LAWWW2 已交 LAWWW（6ecd6495c8） | — | — | 我這邊不做 |
