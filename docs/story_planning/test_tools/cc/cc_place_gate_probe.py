@@ -52,6 +52,7 @@ WIN_LO, WIN_HI = float(os.environ.get('WIN_LO') or '40'), float(os.environ.get('
 ZF_LO, ZF_HI = float(os.environ.get('ZF_LO') or '0.3'), float(os.environ.get('ZF_HI') or '1.5')   # 只當參考（校正 r2）
 BURST_FAIL = int(os.environ.get('BURST_FAIL') or '3')
 NODEBUG = (os.environ.get('NODEBUG') or '0') == '1'
+SPAWN = [float(v) for v in (os.environ.get('SPAWN') or '').split(',') if v]   # BB-C 01:32（木曜日 2F）：讀檔站的位置 x,z[,lv]——二樓的店從樓梯間出生，①～③ 鏡頭拍不到店內，改站二樓
 CUST_HOURS = [float(x) for x in (os.environ.get('CUST_HOURS') or '').split(',') if x]; MIN_CUST = int(os.environ.get('MIN_CUST') or 1)   # BB-C 11-14：這幾個時間要看客人（0 人＝FAIL）
 DEBUGTXT_JS = r"""(()=>{ const re=/career\s*A\s*\d|\bA\d+\s+B\d+\s+C\d+\b|\bfps\s*[:=]?\s*\d|\bdraw\s*calls?\b/i, hits=[];
   for(const el of document.querySelectorAll('body *')){ if(el.children.length) continue; const t=(el.textContent||'').trim(); if(!t||!re.test(t)) continue; const c=getComputedStyle(el); if(c.display==='none'||c.visibility==='hidden'||+c.opacity<0.05) continue;
@@ -78,8 +79,9 @@ PEOPLE_JS = r"""(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const ex=new Set();
   const clerk=a?P.filter(p=>Math.hypot(p.x-a.x,p.z-a.z)<2||p.clerkFlag):P.filter(p=>p.clerkFlag); const cust=P.filter(p=>!clerk.includes(p));
   /* BB-C 05:26 ③：店員有沒有站進櫃檯／貨架裡（站的那一點站不住＝在家具裡；坐著的不算）；新加的客人是不是臉對空牆（頭的高度往正前方 0.45 m 內就撞到東西）*/
   /* BB-C 11:53（20998a0887）：店員站在櫃台後面（櫃台 2.5 m 內、那一格在導航上擋著）、坐著的客人面向窗邊吧檯——這兩種看圖都是 PASS，不再算 */
+  /* BB-C 01:32（洋洋 1b TEST_BUG）：滷味展示台比櫃台寬——走道判斷放到 1.8 m */
   /* BB-C 01:11（GATE2 青木 1b TEST_BUG）：店員在櫃台後面但離「櫃台」互動點 >2.5 m（或沒抓到櫃台點）也照櫃台後面算——clerkFlag 的店員、1.2 m 內有一格站得住（＝櫃台另一側是走道），就是站在櫃台後面那一側，不算在家具裡 */
-  const nearFloor=p=>{ if(!E.canStand) return false; for(let k=0;k<16;k++){ const t=k*Math.PI/8; for(const r of [0.6,0.9,1.2]) if(E.canStand(p.x+Math.cos(t)*r,p.z+Math.sin(t)*r,0.2,0)) return true; } return false; };
+  const nearFloor=p=>{ if(!E.canStand) return false; for(let k=0;k<16;k++){ const t=k*Math.PI/8; for(const r of [0.6,0.9,1.2,1.5,1.8]) if(E.canStand(p.x+Math.cos(t)*r,p.z+Math.sin(t)*r,0.2,0)) return true; } return false; };
   const behindCounter=p=>(!!a&&clerk.includes(p)&&Math.hypot(p.x-a.x,p.z-a.z)<2.5)||(p.clerkFlag&&nearFloor(p));
   const inFurn=P.filter(p=>!p.seat&&p.stand===false&&!behindCounter(p)), wall=cust.filter(p=>!p.seat&&p.face_m!=null&&p.face_m<0.45);
   return {total:P.length, clerk:clerk.length, customers:cust.length, clerk_in_furniture:inFurn.map(p=>[p.id,p.x,p.z]), face_wall:wall.map(p=>[p.id,p.x,p.z,p.face_m]), people:P.slice(0,12)}; })"""
@@ -320,7 +322,7 @@ async def enter_cam(pg, cdp, tag, rm, zid, h):
 
 async def gate_zone(pg, cdp, zid, h, rows, cons):
     hh = '%02d%02d' % (int(h), int(round((h % 1) * 60))); tag = '[%s %s]' % (zid, hh)
-    s = await D.load_zone(pg, cdp, zid, DAY, h, wait=8000)
+    s = await (D.load_zone(pg, cdp, zid, DAY, h, x=SPAWN[0], z=SPAWN[1], lv=int(SPAWN[2]) if len(SPAWN) > 2 else 0, wait=8000) if len(SPAWN) >= 2 else D.load_zone(pg, cdp, zid, DAY, h, wait=8000))
     R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f 時（區域的出生點）、錢補到 5000（⑦ 要買得起）' % (tag, zid, DAY, h))
     await pg.evaluate("(()=>{ if(GAME.G) GAME.G.money=Math.max(GAME.G.money|0,5000); })()")
     if GATE_FLAGS:   # BB-C 11-14 SHOP_B5：禮貌生財書房要解鎖（LM_STUDY）才進得去——墊旗標以後用遊戲自己的讀檔再讀一次，區域照旗標重建
