@@ -1,12 +1,3 @@
-[02:07:58] ==== START CANON_NEWGAME_B2_r3  (probe @ 27001bdc021143e98900cce3918de1261a446e8c) ====
-[02:08:01] [res] cpu=12% mem=48% (15.1/31.4 GB) chrome_testing=10  START CANON_NEWGAME_B2_r3
-[02:08:01] worktree add 27001bdc021143e98900cce3918de1261a446e8c: invalid reference - fetching main and the commit itself
-[02:11:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 88 分／上限 600 分）、L118_KDT_e23d（已跑 19 分／上限 100 分）、CANON_NEWGAME_B2_r3（已跑 3 分／上限 240 分）——還沒測完，請不要關 (tests still running - please do not close)
-[02:16:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 93 分／上限 600 分）、L118_KDT_e23d（已跑 24 分／上限 100 分）、CANON_NEWGAME_B2_r3（已跑 8 分／上限 240 分）——還沒測完，請不要關 (tests still running - please do not close)
-[02:20:35] [res] cpu=10% mem=47% (14.8/31.4 GB) chrome_testing=10  END L118_KDT_e23d
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       241db8ad91..9bcc1b6383  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [02:21:08] ==== END   L118_KDT_e23d  exit=1  1666s   ====
 [02:21:13] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [02:21:13] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
@@ -1998,3 +1989,12 @@
 [15:22:56] [res] cpu=0% mem=31% (9.9/31.4 GB) chrome_testing=0  START WZ_PERF_f3e1_desk_r2
 [15:26:56] 正在跑：WZ_PERF_f3e1_desk_r2（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:28:15] [res] cpu=0% mem=31% (9.8/31.4 GB) chrome_testing=0  END WZ_PERF_f3e1_desk_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       047f07a093..3bd12d77ba  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:28:34] ==== END   WZ_PERF_f3e1_desk_r2  exit=0  322s   ====
+[15:28:38] memory 32% before starting WZ_PERF_f3e1_touch_r2 (0 running)
+[15:28:38] ==== START WZ_PERF_f3e1_touch_r2  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[15:28:40] [res] cpu=1% mem=32% (10.1/31.4 GB) chrome_testing=0  START WZ_PERF_f3e1_touch_r2
+[15:31:56] 正在跑：WZ_PERF_f3e1_touch_r2（已跑 3 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:33:51] [res] cpu=7% mem=32% (10.2/31.4 GB) chrome_testing=0  END WZ_PERF_f3e1_touch_r2
