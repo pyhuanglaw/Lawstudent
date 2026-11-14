@@ -3,6 +3,7 @@
 ## SHOP-CC0-HELP-1113（2026-11-13，D161 第①群幫手）：CC0 化（v1d 之後）
 - 頂點色零件乘 ambientCG 紋路＋法線（顏色照舊）；坐墊用 ambientCG Fabric030（織紋）、深色木作併進柱子的胡桃木。Poly Haven：水屋的電熱水壺、東牆層架頂的藤籃三個（取代倒角方塊）、緣側入口的大甕（取代旋轉體）。
 - **v1.1（COPLANAR-CREEP-1114，LAWWW2-C 11-14）**：電熱水壺抬高 3 mm（壺底和水屋檯面疊在一起）、和紙吊燈框的橫木比柱子窄 3 mm（橫木外面和柱子外面同一個平面，AA 原檔就有）；一定會閃的疊面 2.07 → 2.03 m²。
+- **v1.2（P3 霧面雲狀斑，使用者 11-14 同意）**：霧面紋路 0.6 m → 0.15 m 一格（`C.enable(..., tiles={'vc': 0.15})`）；水屋左邊壁櫥那種大片淺色零件的雲狀斑變成細顆粒。
 - 共用的做法在 `aa_cc0.py`（`C.enable` 換頂點色材質、照顏色分材質組；`C.ph_put` 放 Poly Haven 模型）；互動點、座位、導航、店員位置都沒動。
 - 匯出：`/opt/blenv/bin/python tools/blender/env_second/aa_support/yizhan_interior.py -- --out <tmp>.glb`，再 `IN=<tmp>.glb bash tools/blender/env_second/lightbake/bake_gg_new.sh aa_yizhan` 烘光照。
 
