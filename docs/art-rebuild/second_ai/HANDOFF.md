@@ -11,6 +11,11 @@
 - PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
 
 ### 下一班第一件事（任務 ID，照順序）
+0p. **（11-14 00:5x UTC）交件 patch 都在本分支 `claude/focused-cray-c9uwvw`（不是 second-ai-env-art）的 `docs/art-rebuild/second_ai/wip/` 底下。**
+  - 已整合（LAWWW-C）：日常失速 v2.1、GG-STREET-TREES 四間窗景（0c49bcf64e，已整合待測試）、洋洋 v2b（d58846ba9a）、L118-SEAT-FIX-1112（總表 b4b3fa3809 改已整合待測試）。
+  - 交了等整合：慢輪單車 CC0（4fd3c0d98d，`wip/shop_cc0_accept_1113/bike_cc0_on_0c49bcf64e.patch`）。
+  - 做中：GG-STREET-TREES 第二份＝慢輪視差窗 `views/bikeshop_{day,night}.webp` 重拍（scratchpad `ggv2/run_bike.sh`，不鏡像）。
+  - 幫手：g1 木曜日 v2.2（12 處葉片卡全換）重烘；g2 唱片要交、山嵐烘、Daybreak v2.1、頁間 v4、單車 v2；g3 五間烘焙中。
 0o. **（11-14 00:3x UTC）**
   - LAWWW 已整合：南洋 v6＋阿德 v2.1（292929800d）、六包合成（5d88e515d8：knownfail、第九批＋前院 P3、ZQ-C504、花序 P2、木曜日 v2.1、Daybreak）。
   - 交了等整合：洋洋 v2b（g4，ab5129cb37）、日常失速 v2.1（g1，7db3174dd4）、**GG-STREET-TREES**（ee53e06709，公館四間窗景照遊戲 103 棵樹重拍；`wip/gg_street_trees_1114/`；任務 ID 待 LAWWW 開）。
