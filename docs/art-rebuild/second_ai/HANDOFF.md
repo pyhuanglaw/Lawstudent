@@ -11,6 +11,18 @@
 - PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
 
 ### 下一班第一件事（任務 ID，照順序）
+0s. **（11-14 01:4x UTC）**
+  - 新生運動 CC0（SHOP-REALISM-1112，從 g3 接手）
+    - 底是 g3 的 252bc3765a，我加了其餘零件的 vc_tex、收銀機、紙箱；純色 5%。
+    - 正在烘焙，scratchpad worktree 在 `xs/`。
+    - 烘完：先跑 place_gate（不加 --write），再跑 xsports_unit、xs_lm（instancing 數照重建結果改），出 patch。
+    - 檢查點：`wip/xs_sports_cc0_1114/`。
+  - 已整合：大口一二樓第二次（506e12dc9f 交）、木曜日 v2.2（07bbd8564e）、洋洋疊面（98a1bddf63）。
+  - 【表外】OFFBEAT-VIEW-P3-1114（BB_379，P3）：
+    - 日常失速前窗窗景最下面約 60 px 是天空色，地面沒延伸到底，要重拍。
+    - 對面灰泥牆太平，在 wz_street 加窗、冷氣、雨遮。
+    - 排在新生運動之後，總表還沒這一項，要交 LAWWW 開。
+  - 等 LAWWW 決定：glb_coplanar.py 沒套 instancing，原型放在原點比，會出現假疊面（g3 提出；我建議修工具、全部重算、變多的逐筆列）。
 0r. **（11-14 00:5x UTC）疊面**
   - 大口一樓退回：我先跑了 `--coplanar --write`，把基準蓋掉了。g3 已修（7b0eb8a714），一樓、二樓一起交，patch 要帶 tests/place_gate_coplanar.json。
   - HOWTO「疊面先查、後寫」已整合（582eb7d807）。工具只准基準變少（8f1b338c22）。
