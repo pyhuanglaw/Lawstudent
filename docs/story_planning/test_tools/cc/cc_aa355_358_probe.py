@@ -15,7 +15,7 @@ PARTS（逗號分隔，預設 NOODLE,CAFE,JP,SPORTS）：
     「訂同一班飛機」：jp3d.js 只有註解、找不到對應的程式，只記 G.flags 裡含 FLIGHT／SAME 的鍵，交 BB。
   SPORTS（AA_355 6，classes3d.js dayLabel、calendar.js MARK）：Y2 2026-11-20（五）08:00 宿舍 → 手機「今天」那行要有「全校運動會」、今天有課（CLS.dayItems）、一鍵「到下一堂課」上得了（出席有記）；
     對照 Y1 2025-11-21（五）08:00 → 那行是「運動會（停課）」、今天沒課。基底存檔照 cc_study_play_probe 的 FIX（使用者存檔）。
-CC-B 11-14：CAFE 補 SOCIAL.meet 捷徑、① 改找劇情的 an（椰影大道 18:30）。
+CC-B 11-14：CAFE ② 讀書區第一次點頭後再說一次；JP_CTRL 的 romance 'none' 算沒有；CAFE 補 SOCIAL.meet 捷徑、① 改找劇情的 an（椰影大道 18:30）。
 CC_02 清單 2026-11-14：1✓（日期照 BB_462 與 src：mainDay 用 STORY.mainDay 驗；阿哲的時段照 characters.js；小安的時段用 STORY.schedEnt 掃；6/9 21:00 照 jp3d.js） 2✓（字、旗標、座位、互動點都從遊戲讀：eat==='noodle'、GAME.npc.zhe、PHONE.sent、CLS） 3✓（座位挑離阿哲最近、不是他坐的那張、2.5 m 內） 4✓（按之前確認互動鍵的字；選項照字比對） 5✓（走路用 go_to／use_exit 到站得住的點） 6✓（每句對話等 650 ms；手機等遊戲時間過 21:06；上課最多等 6 分鐘） 7✓（lint、canon） 8✓（只記不判；對話用 MutationObserver＋GAME.say 兩份） 9✓（每一路、每一步截圖） 10✓（每一路先演完插進來的劇情再往下；B2 讓遊戲自己的 tick 記 anMissed） 11✓（佇列 probe、SHA 40 碼） 12✓（FAIL_SETUP：每一路先驗日期、區域、旗標真的成立，阿哲在場、小安在場才往下） 13✓（走路途中有對話就先點完）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=NOODLE,CAFE,JP,SPORTS] [ROUTES=A,B1,B2] [FIX=tests/fixtures/user_save_day51b_1110.json] python3 cc_aa355_358_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -228,6 +228,9 @@ async def part_cafe(pg, cdp):
         f2 = await pg.evaluate(FLAGS_JS); res['f2'] = f2
         if not R.check('FAIL_SETUP 檢查：[%s] ② 在總圖、ev_an_report_split 演過、沒有 REPORT_PARTNER、followup 還沒演' % tag, f2['zone'] == 'library' and f2['split'] and not f2['reportPartner'] and not f2['followup'], J(f2)): out[rt] = res; continue
         t2 = await talk_an(pg, cdp, tag + '_24'); res['t24'] = t2; f3 = await pg.evaluate(FLAGS_JS); res['f3'] = f3
+        if t2 and not f3['followup'] and '點了一下頭' in text_of(t2):   # CC-B 11-14：讀書區今天第一次遇到＝只點頭（D127 ③、libquiet3d.js LIBQ.gate），照設計；再說一次才輪到事件
+            R.note('[%s] ② 第一次只點頭（D127 讀書區，照設計）→ 再找她說一次' % tag); res['t24_nod'] = t2
+            t2 = await talk_an(pg, cdp, tag + '_24b'); res['t24'] = t2; f3 = await pg.evaluate(FLAGS_JS); res['f3'] = f3
         if t2:
             tx = text_of(t2); ops = sum(t2.get('opts') or [], []) if t2.get('opts') else []
             R.check('[%s] ② ev_an_report_followup 演了' % tag, f3['followup'], J(f3))
@@ -257,7 +260,8 @@ async def part_jp(pg, cdp):
         R.setup('[%s]【前置／捷徑】最小存檔讀到 2028-06-09 20:45 jp_room：日本路線已出發（EXCHANGE_ROUTE JP、JP_DEPARTED 3/25）、認識以安、【捷徑】關係加到 %s%s' % (tag, m, ('、romance.heroine_01.status=' + st) if st else '、沒有 romance 那一筆'))
         f0 = await pg.evaluate(FLAGS_JS); ij = await pg.evaluate("(()=>{ try{ return {inJapan:JP.inJapan(GAME.G), sent:PHONE.sent(GAME.G,'jp_g7_dinner_ask')}; }catch(e){ return 'ERR '+e.message; } })()")
         res['f0'] = f0; res['jp0'] = ij
-        if not R.check('FAIL_SETUP 檢查：[%s] 人在日本（JP.inJapan）、FRIEND 以上、還沒收到那則、romance=%s' % (tag, st or '無'), isinstance(ij, dict) and ij['inJapan'] and not ij['sent'] and m in ('FRIEND', 'CLOSE_FRIEND', 'POSSIBLE_ROMANTIC_INTEREST', 'ROMANTIC_TENSION') and ((f0['rom'] or {}).get('status') == st if st else not f0['rom']), J([f0, ij, m])): out[rt] = res; continue
+        # CC-B 11-14（AA355_4c_jp 第一次跑）：遊戲讀檔會自己補一筆 status 'none'、history 空的 romance＝沒交往過，不是有 romance
+        if not R.check('FAIL_SETUP 檢查：[%s] 人在日本（JP.inJapan）、FRIEND 以上、還沒收到那則、romance=%s' % (tag, st or '無'), isinstance(ij, dict) and ij['inJapan'] and not ij['sent'] and m in ('FRIEND', 'CLOSE_FRIEND', 'POSSIBLE_ROMANTIC_INTEREST', 'ROMANTIC_TENSION') and ((f0['rom'] or {}).get('status') == st if st else (not f0['rom'] or (f0['rom'].get('status') in (None, 'none') and not f0['rom'].get('history')))), J([f0, ij, m])): out[rt] = res; continue
         t0 = time.time()
         while time.time() - t0 < 300:
             h = await pg.evaluate("+GAME.G.hour")
