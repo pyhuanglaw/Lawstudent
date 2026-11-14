@@ -1,0 +1,202 @@
+diff --git a/docs/art-rebuild/second_ai/cc0_help/g3/coplanar_instancing.md b/docs/art-rebuild/second_ai/cc0_help/g3/coplanar_instancing.md
+new file mode 100644
+index 0000000000..f751c512e8
+--- /dev/null
++++ b/docs/art-rebuild/second_ai/cc0_help/g3/coplanar_instancing.md
+@@ -0,0 +1,23 @@
++# glb_coplanar.py：套用 EXT_mesh_gpu_instancing（第③群幫手 2026-11-14；LAWWW-C 01:43 同意，條件：單獨一包、全部前後對照、變多逐筆列、加小測）
++
++## 改了什麼
++- `tools/glb_coplanar.py`：有 `EXT_mesh_gpu_instancing` 的節點，把每一份的 TRANSLATION／ROTATION／SCALE 套上去，一份一份算三角形（物件名 `<名字>#<第幾份>`）。
++  - 以前：只拿原型放在節點的位置（通常是原點）。不同原型在原點互相比 → **假疊面**（大口二樓四疊課本、筆電原型的底面都在 y=0）；同一個原型的每一份沒有展開 → 兩份放在同一個位置的**真疊面抓不到**。
++- `tests/glb_coplanar_instancing_check.py`（新，`python3` 跑，不需要 Blender）：程式產生一顆小 GLB 驗三件事——①兩個原型各一份、相距 3 m＝0 m²；②同一個原型兩份放在同一個位置＝1 m²；③沒有 instancing 的兩個節點放在同一個位置照舊＝1 m²。舊工具 ①② FAIL（1.000／0.000），新工具 ALL PASS。
++- `tests/place_gate_coplanar.json`：用新工具 `node tests/place_gate_unit.js --coplanar`（**沒有** `--allow-grow`）重算；只准變少的檢查過了。
++
++## 全部重算的前後對照（開發分支 2da495e693，51 個模型）
++**變多：0 個。** 變少 8 個（其他 43 個沒有 instancing 或面積一樣）：
++
++| 模型 | 牆 改前 | 牆 改後 | 一定會閃 改前 | 一定會閃 改後 | 改後最大的一對 |
++|---|---|---|---|---|---|
++| `bb_support/bike.glb` | 10.9 | 2.91 | 17.45 | 5.35 | WALL_left_wall_wall×WALL_back_wall_wall 0.432 m² @[-5.1,2.4,-1.96] |
++| `bb_support/corner.glb` | 11.87 | 10.81 | 18.63 | 13.31 | WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32] |
++| `bb_support/dabu.glb` | 34.4 | 32.98 | 34.54 | 33.11 | WALL_back_back_vc×WALL_back_back_paint 5.11 m² @[0.04,0.58,-5.88] |
++| `bb_support/dakou_2f.glb` | 0.34 | 0.34 | 6.3 | 2.29 | WALL_left_frame×WALL_left_frame 0.153 m² @[-5.99,3.6,5.33] |
++| `bb_support/haopai.glb` | 31.7 | 7.97 | 35.44 | 11.68 | WALL_right_wall_wall×WALL_right_hp_vc 2.202 m² @[2.08,1.19,2.31] |
++| `bb_support/tongxian.glb` | 32.43 | 1.8 | 38.08 | 7.45 | WALL_back_plaster×WALL_back_metal 0.364 m² @[-2.13,0.87,-5.26] |
++| `bb_support/xinsheng_sports.glb` | 2.12 | 2.12 | 48.06 | 6.36 | WALL_left_L1_xs_goods×WALL_left_L1_xs_goods 1.2 m² @[-8.2,4.67,0.23] |
++| `gg_xianguo_interior.glb` | 0 | 0 | 13.04 | 10.19 |  |
++
++變少的都是 instancing 原型在原點互相比的假疊面（吉他、球拍、衣服、鞋、水果……）。改後最大的那幾對是真的（同一個網格裡的牆、木作），例如大步 `WALL_back_back_vc×WALL_back_back_paint 5.11 m²`（大步原本就有，不是這次 CC0 加的；之後可以另外修）。
+diff --git a/tests/glb_coplanar_instancing_check.py b/tests/glb_coplanar_instancing_check.py
+new file mode 100644
+index 0000000000..cab2133227
+--- /dev/null
++++ b/tests/glb_coplanar_instancing_check.py
+@@ -0,0 +1,55 @@
++"""tools/glb_coplanar.py 套用 EXT_mesh_gpu_instancing 的小測（SHOP-CC0-HELP-1113，第③群幫手 2026-11-14；LAWWW-C 01:43 同意）。不需要 Blender：
++  python3 tests/glb_coplanar_instancing_check.py
++以前工具只把 instancing 的原型放在節點的位置（多半是原點）比，兩個不同原型在原點互相比 → 假疊面（大口二樓四疊課本原型的底面都在 y=0）；
++同一個原型的每一份也沒有展開 → 兩份真的疊在一起的（同一個位置放了兩次）抓不到。這支用程式產生一顆小 GLB 驗兩件事：
++  1. 兩個原型（同一片 1×1 m 的地板方塊）各放一份、位置差 3 m → 一定會閃 0 m²（以前會算成 1 m²）。
++  2. 第三個原型放兩份在同一個位置 → 一定會閃 1 m²（以前抓不到）。
++  3. 沒有 instancing 的一般節點照舊：兩個節點放在同一個位置 → 一定會閃 1 m²。"""
++import json, os, struct, subprocess, sys, tempfile
++import numpy as np
++ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
++TOOL = os.path.join(ROOT, 'tools', 'glb_coplanar.py')
++
++
++def build(path):
++    """一顆 GLB：一片朝上的 1×1 m 方塊（兩個三角形）當網格；四個網格都用同一份頂點（不同 mesh 物件）"""
++    V = np.array([[0, 0, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1]], np.float32); I = np.array([0, 2, 1, 0, 3, 2], np.uint16)   # 法線朝 +y
++    T1 = np.array([[0, 0, 0]], np.float32); T2 = np.array([[3, 0, 0]], np.float32); T3 = np.array([[6, 0, 0], [6, 0, 0]], np.float32)
++    blobs = [V.tobytes(), I.tobytes() + b'\0\0', T1.tobytes(), T2.tobytes(), T3.tobytes()]
++    off = 0; views = []
++    for b in blobs: views.append({'buffer': 0, 'byteOffset': off, 'byteLength': len(b)}); off += len(b)
++    acc = [{'bufferView': 0, 'componentType': 5126, 'count': 4, 'type': 'VEC3', 'min': [0, 0, 0], 'max': [1, 0, 1]},
++           {'bufferView': 1, 'componentType': 5123, 'count': 6, 'type': 'SCALAR'},
++           {'bufferView': 2, 'componentType': 5126, 'count': 1, 'type': 'VEC3'}, {'bufferView': 3, 'componentType': 5126, 'count': 1, 'type': 'VEC3'},
++           {'bufferView': 4, 'componentType': 5126, 'count': 2, 'type': 'VEC3'}]
++    prim = {'attributes': {'POSITION': 0}, 'indices': 1, 'material': 0}
++    inst = lambda a: {'EXT_mesh_gpu_instancing': {'attributes': {'TRANSLATION': a}}}
++    J = {'asset': {'version': '2.0'}, 'extensionsUsed': ['EXT_mesh_gpu_instancing'], 'materials': [{'name': 'm'}],
++         'meshes': [{'name': n, 'primitives': [prim]} for n in ('protoA', 'protoB', 'protoC', 'plain')],
++         'nodes': [{'name': 'A', 'mesh': 0, 'extensions': inst(2)}, {'name': 'B', 'mesh': 1, 'extensions': inst(3)}, {'name': 'C', 'mesh': 2, 'extensions': inst(4)},
++                   {'name': 'P1', 'mesh': 3, 'translation': [10, 0, 0]}, {'name': 'P2', 'mesh': 3, 'translation': [10, 0, 0]}],
++         'scenes': [{'nodes': [0, 1, 2, 3, 4]}], 'scene': 0, 'accessors': acc, 'bufferViews': views, 'buffers': [{'byteLength': off}]}
++    js = json.dumps(J).encode(); js += b' ' * ((4 - len(js) % 4) % 4); bin_ = b''.join(blobs); bin_ += b'\0' * ((4 - len(bin_) % 4) % 4)
++    open(path, 'wb').write(struct.pack('<III', 0x46546C67, 2, 12 + 8 + len(js) + 8 + len(bin_)) + struct.pack('<II', len(js), 0x4E4F534A) + js + struct.pack('<II', len(bin_), 0x004E4942) + bin_)
++
++
++fails = 0
++def check(ok, msg):
++    global fails
++    print(('PASS ' if ok else 'FAIL ') + msg); fails += 0 if ok else 1
++
++
++with tempfile.TemporaryDirectory() as d:
++    g = os.path.join(d, 'inst.glb'); build(g); out = os.path.join(d, 'r.json')
++    subprocess.run([sys.executable, TOOL, g, '--json', out], capture_output=True, check=True)
++    r = json.load(open(out)); r = r[0] if isinstance(r, list) else r   # --json 寫的是每個檔一份的清單
++    pairs = [p for p in r['pairs'] if p['kind'] == 'always']
++    def area(pred): return round(sum(p['area'] for p in pairs if pred(p)), 3)
++    names = lambda p: json.dumps(p, ensure_ascii=False)   # 一對裡兩個物件的名字（A、B、C#0、C#1、P1、P2）
++    ab = area(lambda p: ('A' in names(p) and 'B' in names(p)) and 'C' not in names(p))
++    cc = area(lambda p: names(p).count('C#') >= 2)
++    pp = area(lambda p: 'P1' in names(p) and 'P2' in names(p))
++    check(ab == 0.0, '1 兩個不同原型（各一份、相距 3 m）不算疊面：%.3f m²（要 0）' % ab)
++    check(abs(cc - 1.0) < 0.01, '2 同一個原型兩份放在同一個位置算疊面：%.3f m²（要 1）' % cc)
++    check(abs(pp - 1.0) < 0.01, '3 一般節點（沒有 instancing）兩個放在同一個位置照舊算：%.3f m²（要 1）' % pp)
++print('ALL PASS' if not fails else 'FAILED %d' % fails); sys.exit(1 if fails else 0)
+diff --git a/tests/place_gate_coplanar.json b/tests/place_gate_coplanar.json
+index 4a9e91d029..2d2188f59f 100644
+--- a/tests/place_gate_coplanar.json
++++ b/tests/place_gate_coplanar.json
+@@ -67,14 +67,14 @@
+  },
+  "assets/models/env/second_ai/bb_support/bike.glb": {
+   "sha1": "7c8d5e7fd1ddc103742fef3908230c9cf11c3f83",
+-  "wall": 10.9,
+-  "always": 17.45,
+-  "top": "bk_wheel3_0_alpha_inst×WALL_left_wheel4_0_alpha_inst 0.547 m² @[0.16,-0.22,0]"
++  "wall": 2.91,
++  "always": 5.35,
++  "top": "WALL_left_wall_wall×WALL_back_wall_wall 0.432 m² @[-5.1,2.4,-1.96]"
+  },
+  "assets/models/env/second_ai/bb_support/corner.glb": {
+   "sha1": "b3b547ce9142cf7aa14443a79fbe3bad61b907c4",
+-  "wall": 11.87,
+-  "always": 18.63,
++  "wall": 10.81,
++  "always": 13.31,
+   "top": "WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32]"
+  },
+  "assets/models/env/second_ai/bb_support/cvs_interior.glb": {
+@@ -85,8 +85,8 @@
+  },
+  "assets/models/env/second_ai/bb_support/dabu.glb": {
+   "sha1": "d4dc2b3bd9fa57877883dd4d0835f7153b72223f",
+-  "wall": 34.4,
+-  "always": 34.54,
++  "wall": 32.98,
++  "always": 33.11,
+   "top": "WALL_back_back_vc×WALL_back_back_paint 5.11 m² @[0.04,0.58,-5.88]"
+  },
+  "assets/models/env/second_ai/bb_support/dakou_1f.glb": {
+@@ -98,13 +98,13 @@
+  "assets/models/env/second_ai/bb_support/dakou_2f.glb": {
+   "sha1": "9c0f45a8be48a52f15c1243a39a0f492e9783de7",
+   "wall": 0.34,
+-  "always": 6.3,
++  "always": 2.29,
+   "top": "WALL_left_frame×WALL_left_frame 0.153 m² @[-5.99,3.6,5.33]"
+  },
+  "assets/models/env/second_ai/bb_support/haopai.glb": {
+   "sha1": "2572a6de27b18a15bec307da2af2fc2d478a5c86",
+-  "wall": 31.7,
+-  "always": 35.44,
++  "wall": 7.97,
++  "always": 11.68,
+   "top": "WALL_right_wall_wall×WALL_right_hp_vc 2.202 m² @[2.08,1.19,2.31]"
+  },
+  "assets/models/env/second_ai/bb_support/lin_interior.glb": {
+@@ -127,14 +127,14 @@
+  },
+  "assets/models/env/second_ai/bb_support/tongxian.glb": {
+   "sha1": "60b8224b1a149dffda51e497471864974a84981c",
+-  "wall": 32.43,
+-  "always": 38.08,
++  "wall": 1.8,
++  "always": 7.45,
+   "top": "WALL_back_plaster×WALL_back_metal 0.364 m² @[-2.13,0.87,-5.26]"
+  },
+  "assets/models/env/second_ai/bb_support/xinsheng_sports.glb": {
+   "sha1": "ec29b76884c1973d14211e645e3965489ed480aa",
+   "wall": 2.12,
+-  "always": 48.06,
++  "always": 6.36,
+   "top": "WALL_left_L1_xs_goods×WALL_left_L1_xs_goods 1.2 m² @[-8.2,4.67,0.23]"
+  },
+  "assets/models/env/second_ai/bb_support/yangyang_interior.glb": {
+@@ -170,7 +170,7 @@
+  "assets/models/env/second_ai/gg_xianguo_interior.glb": {
+   "sha1": "d28cb614a65222d384aa4ea3ff885571e84eb2f7",
+   "wall": 0,
+-  "always": 13.04,
++  "always": 10.19,
+   "top": ""
+  },
+  "assets/models/env/second_ai/l118_cafe2.glb": {
+diff --git a/tools/glb_coplanar.py b/tools/glb_coplanar.py
+index f56cba2422..f7624f160b 100644
+--- a/tools/glb_coplanar.py
++++ b/tools/glb_coplanar.py
+@@ -56,12 +56,25 @@ def triangles(path):
+         nd = j['nodes'][ni]; M = P @ node_matrix(nd)
+         if 'mesh' in nd:
+             nm = nd.get('name') or j['meshes'][nd['mesh']].get('name', '?')
++            # EXT_mesh_gpu_instancing（2026-11-14 第③群幫手 SHOP-CC0-HELP-1113）：每一份的 TRS 套上去再比；
++            #   以前只拿原型放在節點的位置（多半是原點），不同原型在原點互相比，抓到假疊面（大口二樓四疊課本原型的底面都在 y=0）
++            Ms = [(M, nm)]
++            ext = (nd.get('extensions') or {}).get('EXT_mesh_gpu_instancing')
++            if ext:
++                at = ext.get('attributes', {}); n_ = None; T_ = R_ = S_ = None
++                if 'TRANSLATION' in at: T_ = acc(at['TRANSLATION']); n_ = len(T_)
++                if 'ROTATION' in at: R_ = acc(at['ROTATION']); n_ = len(R_)
++                if 'SCALE' in at: S_ = acc(at['SCALE']); n_ = len(S_)
++                if n_:
++                    Ms = [(M @ node_matrix({'translation': list(T_[k]) if T_ is not None else [0, 0, 0], 'rotation': list(R_[k]) if R_ is not None else [0, 0, 0, 1],
++                                            'scale': list(S_[k]) if S_ is not None else [1, 1, 1]}), '%s#%d' % (nm, k)) for k in range(n_)]
+             for p in j['meshes'][nd['mesh']]['primitives']:
+                 if p.get('mode', 4) != 4 or 'indices' not in p:
+                     continue
+-                V = acc(p['attributes']['POSITION']); V = (np.c_[V, np.ones(len(V))] @ M.T)[:, :3]
+-                I = acc(p['indices']).reshape(-1, 3); mi = p.get('material')
+-                out.append((nm, mats[mi] if mi is not None else '-', dbl[mi] if mi is not None else False, V[I]))
++                V0 = acc(p['attributes']['POSITION']); I = acc(p['indices']).reshape(-1, 3); mi = p.get('material')
++                for Mi, nmi in Ms:
++                    V = (np.c_[V0, np.ones(len(V0))] @ Mi.T)[:, :3]
++                    out.append((nmi, mats[mi] if mi is not None else '-', dbl[mi] if mi is not None else False, V[I]))
+         for c in nd.get('children', []):
+             walk(c, M)
+     for sc in j.get('scenes', [{'nodes': list(range(len(j['nodes'])))}]):
