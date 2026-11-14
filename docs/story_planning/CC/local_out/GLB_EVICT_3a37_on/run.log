@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_zone_tour_probe.py http://127.0.0.1:8800/index.html?glbevict C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GLB_EVICT_3a37_on\out
+CC 區域巡迴（GLB_EVICT）：SHA 3a37ba48ab709f8405ab45ca09487a96e321b6f6；http://127.0.0.1:8800/index.html?glbevict；ROUTE ['campus', 'gongguan', 'tingzhou', 'wenzhou', 'lane118', 'campus', 'dorm']×2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔進宿舍 2025-10-22 14.0（條件事件關掉）
+  [  42.1s] 起點 {"zone": "dorm", "tex": 56, "geom": 136, "programs": 74, "heapMB": 560.8, "lastEvict": {"n": 28, "tex": 0, "keep": 3, "keys": ["prop.street", "prop.trees", "bldg.us_cars", "bldg.skybridge", "bldg.lib_b1_court", "bldg.campus_moon", "bldg.campus_gymext", "bldg.campus_library", "bldg.campus_lib_lawn", "bldg.campus_gate", "bldg.campus_blackforest", "bldg.bball_court", "bldg.campus_bell", "bldg.campus_male1", "bldg.campus_lake", "bldg.campus_putong", "bldg.campus_freshman", "bldg.campus_gongguan_bd", "bldg.campus_boya", "bldg.campus_socsci", "bldg.campus_pavilion", "bldg.campus_arts", "bldg.campus_admin", "bldg.campus_hist", "bldg.campus_gongtong", "bldg.wancai_exterior", "bldg.linze_exterior", "prop.bike_ride"]}, "lastZoneWait": {"pending": 3, "waited": 4579, "timedOut": false}, "evictOn": true}
+PASS FAIL_SETUP 檢查：第 1 輪第 1 站到了 campus  {"zone": "campus", "secs": 9.7}
+  [  60.4s] 第 1 輪 01 campus：按下去到能走動 9.7 秒；貼圖 216、幾何 449、程式 73、heap 560.8 MB；lastZoneWait {"pending": 3, "waited": 4579, "timedOut": false}；lastEvict {"n": 0, "tex": 0, "keep": 36, "keys": []}
+PASS FAIL_SETUP 檢查：第 1 輪第 2 站到了 gongguan  {"zone": "gongguan", "secs": 9.35}
+  [  80.4s] 第 1 輪 02 gongguan：按下去到能走動 9.35 秒；貼圖 159、幾何 390、程式 97、heap 560.8 MB；lastZoneWait {"pending": 9, "waited": 11954, "timedOut": false}；lastEvict {"n": 0, "tex": 0, "keep": 45, "keys": []}
+PASS FAIL_SETUP 檢查：第 1 輪第 3 站到了 tingzhou  {"zone": "tingzhou", "secs": 1.88}
+  [  92.0s] 第 1 輪 03 tingzhou：按下去到能走動 1.88 秒；貼圖 284、幾何 330、程式 98、heap 560.8 MB；lastZoneWait {"pending": 6, "waited": 5583, "timedOut": false}；lastEvict {"n": 3, "tex": 1, "keep": 46, "keys": ["bldg.dorm_room4", "bldg.dorm_y1_items", "bldg.dorm_desk_items"]}
+PASS FAIL_SETUP 檢查：第 1 輪第 4 站到了 wenzhou  {"zone": "wenzhou", "secs": 11.21}
+  [ 118.0s] 第 1 輪 04 wenzhou：按下去到能走動 11.21 秒；貼圖 294、幾何 486、程式 113、heap 560.8 MB；lastZoneWait {"pending": 9, "waited": 14122, "timedOut": true}；lastEvict {"n": 25, "tex": 0, "keep": 26, "keys": ["bldg.us_cars", "bldg.skybridge", "bldg.lib_b1_court", "bldg.campus_moon", "bldg.campus_library", "bldg.campus_gymext", "bldg.campus_lib_lawn", "bldg.bball_court", "bldg.campus_blackforest", "bldg.campus_bell", "bldg.campus_male1", "bldg.campus_freshman", "bldg.campus_lake", "bldg.campus_putong", "bldg.campus_boya", "bldg.campus_pavilion", "prop.book_open", "bldg.campus_gongguan_bd", "bldg.campus_socsci", "bldg.campus_admin", "bldg.campus_arts", "bldg.campus_hist", "bldg.wancai_exterior", "bldg.campus_gongtong", "bldg.linze_exterior"]}
+PASS FAIL_SETUP 檢查：第 1 輪第 5 站到了 lane118  {"zone": "lane118", "secs": 1.73}
+  [ 126.5s] 第 1 輪 05 lane118：按下去到能走動 1.73 秒；貼圖 183、幾何 229、程式 112、heap 560.8 MB；lastZoneWait {"pending": 5, "waited": 4271, "timedOut": false}；lastEvict {"n": 6, "tex": 0, "keep": 24, "keys": ["bldg.campus_gate", "bldg.gongguan_mrt", "bldg.gg_lane_gate", "bldg.luwei_stall", "bldg.gongguan_far", "bldg.gongguan_shops"]}
+PASS FAIL_SETUP 檢查：第 1 輪第 6 站到了 campus  {"zone": "campus", "secs": 10.59}
+  [ 144.2s] 第 1 輪 06 campus：按下去到能走動 10.59 秒；貼圖 366、幾何 646、程式 133、heap 560.8 MB；lastZoneWait {"pending": 31, "waited": 6203, "timedOut": false}；lastEvict {"n": 4, "tex": 0, "keep": 47, "keys": ["bldg.tingzhou_stalls", "prop.hand_props", "bldg.tingzhou_street", "bldg.tz_yindehao_interior"]}
+PASS FAIL_SETUP 檢查：第 1 輪第 7 站到了 dorm  {"zone": "dorm", "secs": 0.79}
+  [ 152.0s] 第 1 輪 07 dorm：按下去到能走動 0.79 秒；貼圖 144、幾何 247、程式 117、heap 560.8 MB；lastZoneWait {"pending": 3, "waited": 957, "timedOut": false}；lastEvict {"n": 8, "tex": 0, "keep": 40, "keys": ["bldg.wz_cat", "bldg.wz_jphouse", "bldg.wz_props", "bldg.cafe_exterior", "bldg.season_wenzhou", "bldg.wz_park", "bldg.wenzhou_street", "bldg.wz_lin_interior_v2"]}
+PASS FAIL_SETUP 檢查：第 2 輪第 1 站到了 campus  {"zone": "campus", "secs": 8.52}
+  [ 167.2s] 第 2 輪 01 campus：按下去到能走動 8.52 秒；貼圖 391、幾何 560、程式 122、heap 560.8 MB；lastZoneWait {"pending": 4, "waited": 2869, "timedOut": false}；lastEvict {"n": 4, "tex": 0, "keep": 39, "keys": ["bldg.wz_scooter", "bldg.lane118_props", "bldg.lane118_ground", "bldg.lane118_street"]}
+PASS FAIL_SETUP 檢查：第 2 輪第 2 站到了 gongguan  {"zone": "gongguan", "secs": 3.37}
+  [ 178.5s] 第 2 輪 02 gongguan：按下去到能走動 3.37 秒；貼圖 315、幾何 564、程式 137、heap 560.8 MB；lastZoneWait {"pending": 9, "waited": 2758, "timedOut": false}；lastEvict {"n": 0, "tex": 0, "keep": 45, "keys": []}
+PASS FAIL_SETUP 檢查：第 2 輪第 3 站到了 tingzhou  {"zone": "tingzhou", "secs": 3.1}
+  [ 190.1s] 第 2 輪 03 tingzhou：按下去到能走動 3.1 秒；貼圖 472、幾何 527、程式 141、heap 560.8 MB；lastZoneWait {"pending": 4, "waited": 3485, "timedOut": false}；lastEvict {"n": 3, "tex": 1, "keep": 44, "keys": ["bldg.dorm_room4", "bldg.dorm_y1_items", "bldg.dorm_desk_items"]}
+PASS FAIL_SETUP 檢查：第 2 輪第 4 站到了 wenzhou  {"zone": "wenzhou", "secs": 3.71}
+  [ 203.2s] 第 2 輪 04 wenzhou：按下去到能走動 3.71 秒；貼圖 447、幾何 697、程式 162、heap 560.8 MB；lastZoneWait {"pending": 9, "waited": 4870, "timedOut": false}；lastEvict {"n": 27, "tex": 0, "keep": 24, "keys": ["bldg.us_cars", "prop.bag_yu", "bldg.skybridge", "bldg.lib_b1_court", "bldg.campus_moon", "bldg.campus_gymext", "bldg.campus_library", "bldg.campus_lib_lawn", "bldg.bball_court", "bldg.campus_bell", "bldg.campus_blackforest", "bldg.campus_male1", "bldg.campus_freshman", "bldg.campus_lake", "bldg.campus_putong", "bldg.campus_pavilion", "bldg.campus_gongguan_bd", "prop.book_open", "bldg.campus_boya", "bldg.campus_socsci", "bldg.campus_arts", "bldg.campus_admin", "bldg.campus_hist", "bldg.wancai_exterior", "bldg.campus_gongtong", "bldg.linze_exterior", "prop.camera_film"]}
+PASS FAIL_SETUP 檢查：第 2 輪第 5 站到了 lane118  {"zone": "lane118", "secs": 1.42}
+  [ 211.0s] 第 2 輪 05 lane118：按下去到能走動 1.42 秒；貼圖 271、幾何 328、程式 137、heap 560.8 MB；lastZoneWait {"pending": 5, "waited": 1705, "timedOut": false}；lastEvict {"n": 6, "tex": 0, "keep": 22, "keys": ["bldg.campus_gate", "bldg.gongguan_mrt", "bldg.gg_lane_gate", "bldg.luwei_stall", "bldg.gongguan_far", "bldg.gongguan_shops"]}
+PASS FAIL_SETUP 檢查：第 2 輪第 6 站到了 campus  {"zone": "campus", "secs": 8.14}
+  [ 226.3s] 第 2 輪 06 campus：按下去到能走動 8.14 秒；貼圖 443、幾何 786、程式 135、heap 560.8 MB；lastZoneWait {"pending": 29, "waited": 3661, "timedOut": false}；lastEvict {"n": 4, "tex": 0, "keep": 45, "keys": ["bldg.tingzhou_stalls", "prop.glasses_shangshi", "bldg.tingzhou_street", "bldg.tz_yindehao_interior"]}
+PASS FAIL_SETUP 檢查：第 2 輪第 7 站到了 dorm  {"zone": "dorm", "secs": 0.63}
+  [ 234.1s] 第 2 輪 07 dorm：按下去到能走動 0.63 秒；貼圖 170、幾何 307、程式 118、heap 560.8 MB；lastZoneWait {"pending": 3, "waited": 959, "timedOut": false}；lastEvict {"n": 8, "tex": 0, "keep": 38, "keys": ["bldg.wz_cat", "bldg.wz_jphouse", "bldg.cafe_exterior", "bldg.wz_props", "bldg.season_wenzhou", "bldg.wz_park", "bldg.wenzhou_street", "bldg.wz_lin_interior_v2"]}
+PASS 沒有 JS 例外  []
+ALL PASS
