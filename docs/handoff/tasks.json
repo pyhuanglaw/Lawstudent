@@ -46327,7 +46327,8 @@
     "acceptance": "lampshade_flip ALL PASS、畫面不變（Blender 同鏡頭像素差 0）",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
-   }
+   },
+   "note": "｜2026-11-14 00:2x LAWWW-C：舊的「lampshade_flip_unit.js FAIL」已過時——0c49bcf64e 起 ALL PASS（LAWWW2-C 核對五組吊燈燈罩沒有裡外相反；LAWWW 在 ccbd520b61 上重跑 ALL PASS）。"
   },
   {
    "id": "PE-IN-GYM-AA644-1103",
@@ -56862,7 +56863,7 @@
    },
    "next": "LAWWW2 驗收空檔查",
    "xai": [],
-   "note": "2026-11-14 00:2x LAWWW-C：LAWWW2 ee53e06709 gg_street_trees_views.patch 已整合（afar、青木、頁間、Daybreak 四間窗景日夜 8 張 webp 照遊戲 103 棵樹重拍，程式不動；窗景測試 25 支 ALL PASS）。待 BB 看圖判、CC 第二層拍窗景。"
+   "note": "2026-11-14 00:2x LAWWW-C：LAWWW2 ee53e06709 gg_street_trees_views.patch 已整合（afar、青木、頁間、Daybreak 四間窗景日夜 8 張 webp 照遊戲 103 棵樹重拍，程式不動；窗景測試 25 支 ALL PASS）。待 BB 看圖判、CC 第二層拍窗景。｜00:2x 第二份：慢輪單車視差窗 views/bikeshop_{day,night}.webp 重拍（LAWWW2 b358759861）已整合；窗景／單車 5 支 ALL PASS。"
   },
   {
    "id": "RC2-PORT-DEV-1114",
