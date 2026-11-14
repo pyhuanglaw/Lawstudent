@@ -94,7 +94,8 @@ async def play(pg, cdp, tag, alt=0, start_s=60, max_s=300, prefer=()):
             if len(seen) <= 40: await pg.wait_for_timeout(300); k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d.png' % (tag, k)))
         if s['ch']:
             started = True; idle = None; o = [x['t'] for x in s['ch']]; opts.append(o)
-            i = next((n for n, t in enumerate(o) for p in prefer if t.startswith(p)), min(alt, len(o) - 1))
+            ok_ = [n for n, t in enumerate(o) if not any(w in t for w in ('不點', '先不吃', '算了', '不用了', '要水', '離開'))] or list(range(len(o)))   # 點餐那種選單不選「不點／要水」（CC_02 乙10）
+            i = next((n for n, t in enumerate(o) for p in prefer if t.startswith(p)), ok_[min(alt, len(ok_) - 1)])
             picked.append(o[i]); k += 1; await pg.screenshot(path=os.path.join(OUT, '%s_%02d_choice.png' % (tag, k)))
             await P.tap_choice(pg, cdp, i); await pg.wait_for_timeout(900); continue
         if s['dlg']: started = True; idle = None; await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
@@ -305,7 +306,7 @@ async def part_sports(pg, cdp):
         R.setup('[%s]【前置】使用者存檔（%s）讀到 %s 08:00 宿舍%s' % (tag, FIX, key, '（ROOM_Y2＝2026-09-06，不補演搬房間）' if rt == 'Y2' else ''))
         c0 = await pg.evaluate(CLS_JS); res['c0'] = c0; R.note('[%s] 課表：%s' % (tag, J(c0)))
         if not R.check('FAIL_SETUP 檢查：[%s] 日期是 %s' % (tag, key), c0['key'] == key, J(c0)): out[rt] = res; continue
-        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200); await L.tap(pg, cdp, '#phoneTabs button[data-ptab="today"]'); await pg.wait_for_timeout(1000)   # 手機「今天」頁（classes3d.js todayHTML 第一行＝dayLabel）
         ph = await pg.evaluate("(()=>(document.getElementById('phoneBody')||{}).innerText||'')()"); await pg.screenshot(path=os.path.join(OUT, '%s_phone.png' % tag)); await L.close_panels(pg, cdp)
         res['phone'] = ph[:1200]; R.note('[%s] 手機首頁字：%s' % (tag, J(ph[:500])))
         if rt == 'Y2':
