@@ -191,6 +191,7 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
         # 照玩家「點椅子」（BB-C 11-05 08:40；遊戲 tapRedirect 走到 seatApproach、tapPref 讓那一張的「坐下」優先＝TAP-SEAT-REACH-1105）：先走到附近看得到椅子，再點椅子本身
         await L.go_to(pg, cdp, R, tgt[0], tgt[1], 1.3, '%s（走到椅子附近）' % t, max_s=max_walk, lv=s['slv']); await settle(pg)
         tapped = None
+        await pg.evaluate("(()=>{ window.__ccSitToast=[]; const t=document.getElementById('toast'); if(t&&!t.__ccSit){ t.__ccSit=1; new MutationObserver(()=>{ const x=(t.innerText||'').trim(); if(x) (window.__ccSitToast=window.__ccSitToast||[]).push(x); }).observe(t,{childList:true,characterData:true,subtree:true,attributes:true}); } })()")
         await pg.screenshot(path=os.path.join(OUT, '%s_tap%02d_before.png' % (shot_prefix, k + 1)))   # 11-12 LIN_REAL ⑦：點之前的畫面，配合 log 的螢幕座標看點到哪
         for _ in range(4):
             # 11-13 BB-C（L118 r3 #14 投影 None）：椅子在鏡頭後或出畫面＝先轉鏡頭再點，投影記下來
@@ -219,7 +220,7 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             except Exception as e: res_hit = {'err': repr(e)[:120]}
         if SEAT_TAP == 'visible' and not tapped: R.check('FAIL_SETUP 檢查：%s 轉了 4 次鏡頭都找不到椅面露出來的點（不點被擋住的中心）' % t, False, '')
         b = await settle(pg, ms=800, max_s=15)
-        tst = await pg.evaluate("((document.getElementById('toast')||{}).innerText||'').trim()")
+        tst = await pg.evaluate("(()=>{ const now=((document.getElementById('toast')||{}).innerText||'').trim(); const seen=(window.__ccSitToast||[]).join('／'); window.__ccSitToast=[]; return now+'／'+seen; })()")   # 11-14 MOKUYOBI_2F_r2：toast 一下就收掉，settle 完才讀會漏——點之前掛 observer 收
         if '有人' in tst:   # BB-C 01:32（木曜日 #1 TEST_SETUP）：那一張已經有客人（遊戲跳「有人了」）＝不是坐不下，記下來換下一張
             R.note('%s 點下去跳「%s」：這一張有人坐，跳過（不算 FAIL）' % (t, tst[:40])); res.append([k + 1, 'occupied_toast', s['sx'], s['sz']]); continue
         await pg.screenshot(path=os.path.join(OUT, '%s_tap%02d_stopped.png' % (shot_prefix, k + 1)))   # BB-C 21:20：停下來那一刻（大學食堂 #5、#6、#8 停的位置很怪）
