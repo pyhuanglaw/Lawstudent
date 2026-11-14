@@ -36,7 +36,7 @@
    - g3 附帶發現：大步原本就有真的疊面 WALL_back_back_vc×WALL_back_back_paint 5.11 m²，大步 v2 時一起修。
    - g2 頁間 v4（claude/shop-cc0-g2 @ 389adca8c0，`docs/art-rebuild/second_ai/cc0_g2/yejian_cc0.patch`，底 2da495e69；純色 13%）。要看：小盆栽改回葉片卡，可不可以（D159）。
    - g2：Daybreak v2.1b 門框疊面 1.42→1.44，修好才交；之後是唱片 v2、山嵐 v3、單車 v2。
-6b. **11-14 10:1x 新的**：WINVIEW-NONUMPY-1114 交件 ddd38ce214（CC-C 電腦沒有 numpy；等 LAWWW 整合、CC 重排 WINVIEW_GG3_1939）。**下一件我自己做**：L118-SEAT-FIX-1112 r5（BB_379 60408a64fd：點椅子坐到同桌隔壁 0.5～0.7 m，P3；改成坐點到的那張）。
+6b. **11-14 10:1x 新的**：WINVIEW-NONUMPY-1114 交件 ddd38ce214（CC-C 電腦沒有 numpy；等 LAWWW 整合、CC 重排 WINVIEW_GG3_1939）。L118-SEAT-FIX-1112 r5 交件 bd4ccd8a78（點到的椅子範圍多 1.5 m；辛亥韓食 #10 是探針點到隔壁椅墊＝TEST_SETUP 建議）。一盞 v1.2（g1）驗收 c74cefcfa3。**下一件**：BG3D-GATE-BLACK-1114（BB-C 10:09，P3：校門從校園那側往外看，路上方一大片黑色半圓；CC BG3D_GATE_campus bg3d_ntu_gate_wide.png）。
 7. **042661aff6（WINVIEW-EDGE-STRIPE-1114，已整合 fc1813e4f2）整合後要重拍**（BB-C 01:59 要求寫在這裡）：14:00，玩家藏起來，鏡頭同 WINVIEW_GG3_10aa_r2。
    - 公館第三批：安泰 gg_antai、汀州鮮果 gg_xianguo、榮恩典 gg_rongendian。
    - 有樹的窗：Daybreak、afar、aoki、夜間 yejian 的窗。
