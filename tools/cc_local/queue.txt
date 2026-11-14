@@ -2377,7 +2377,8 @@ DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/s
 # ② HEROINE_LIFE463（BB_463）：原本 HOLD 那一行（2607 附近，cc_heroine_life463_probe）發布時改 <SHA> 移到這裡
 # ③ ROUTE_E4／E6／E8_r2（QA-REPRO-1020 結案）：原本 HOLD 那三行（route1a02_probe）發布時改 <SHA> 移到這裡
 # ④ ANNIV 第二年（2028-05-20）case：cc_canon458_probe 只有 ANNIV_A／C（第一年）——case 待寫（CC-C）
-# ⑤ REL76_ladder 換時段（以安 A2-L1、芷若 Z2-L1、語彤 Y2-L1、學姊 S2-L1、沛珊 P2-L1）——探針待改（CC-C）
+# ⑤ REL76_ladder 換時段：cc_test_patch_wrap PATCH=ladder_slots（頁面裡用 STORY.schedEnt 找以安、芷若、語彤、學姊、沛珊大一下第 5 週在場、不上班、有階梯的時段，語彤補 YT_MET_JOB）
+# HOLD REL76_ladder_r2 | <SHA> | game | docs/story_planning/test_tools/cc/cc_test_patch_wrap.py | index.html | 30 | SCRIPT_FROM=cc;TEST=flow_ladder_y1s2.py;PATCH=ladder_slots;XARGS={url} {out};CC_HEADLESS=0
 # ⑥ ROMTIER a1～b2：已排 @bc53f04880（GATE2 前面），沿用
 # ⑦ 開發分支：INV_MEET_YIELD（LAWWW 修好給 <DEV>）、FN_LOOK_REACH（已排 @ccbd，改成 wenzhou＋gongguan）、DATE_LAYER_r3、YIZHAN_DINE、GATE2 剩下的、WINVIEW 兩批、好拍：都已排，沿用
 # ⑧ 美術（發布版）：ART_SWEEP_A（BB_464 B 節 13 鏡頭）——規格待讀（CC-C）；ART-GYM-BG1、ART-DORM-LOFT 如下；L118 r4、BOOKSTORE_r4、STUDY_FA05／SE01、save 三支、WINVIEW_GG3、DATE_PS／ZR 已排，發布時 76f8 那幾行改 <SHA>
