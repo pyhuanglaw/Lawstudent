@@ -56553,7 +56553,8 @@
     "spec": "BB_255；cc-local FIRST_*",
     "acceptance": "三條街第一次走近最長一幀 ≤ 50 ms（或 BB 定的門檻）、CC 在使用者電腦量",
     "ack": "ACTIONED"
-   }
+   },
+   "note": "｜11-14 LAWWW2 交班：好拍 v2 第一次走近卡一下（BB P3）併進這一項；好拍 v2 三角形 57k→77k，CC 在量。"
   },
   {
    "id": "L118-SEAT-FIX-1112",
@@ -57398,10 +57399,10 @@
    "id": "HANDOFF-C-1114",
    "title": "帳號 C 11-14 交班：等所有職位（含 LAWWW2）交班、duty sync 收齊，LAWWW 最後交",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "source": "使用者 11-14 11:5x「現在交班」＋「你要等其他人都交班了，你才最後交班喔」（UA-LAWWW-1114-05）",
-   "note": "AA、BB、CC、g1～g4 已交班；LAWWW2 還沒回。LAWWW 第一次 duty handoff（4467f823d2）跑太早，收齊以後重做 snapshot＋duty handoff。ROLE_LAWWW §交班 LAWWW 最後收尾。",
+   "note": "AA、BB、CC、g1～g4 已交班；LAWWW2 還沒回。LAWWW 第一次 duty handoff（4467f823d2）跑太早，收齊以後重做 snapshot＋duty handoff。ROLE_LAWWW §交班 LAWWW 最後收尾。｜11-14 11:5x：五職位全部 handed-off（duty sync 收齊）後 LAWWW 重做 snapshot＋duty handoff。",
    "first": {
     "term": "Y1S1",
     "confirmed": true
