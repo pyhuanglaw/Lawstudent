@@ -1,11 +1,3 @@
-[17:45:55] skip NAV_FLOWER_2F_tap_r3B (already done on 375e6b82ecffd41ef44190c89111b01c46f7d40d)
-[17:45:55] skip NAV_FLOWER_2F_tap_r4A (already done on 07db13d3d5a0991aea8a321cc95a0d07bd076e22)
-[17:45:55] skip L118_CAM36_a_r3 (already done on f6772d22140949c6cd01204b89bc6ddf25882f38)
-[17:45:55] skip L118_CAM36_b_r3 (already done on f6772d22140949c6cd01204b89bc6ddf25882f38)
-[17:45:55] skip L118_CLOSED_LOOK_r2 (already done on 31f8361e6d1c16b9715bb798276789f6bc9836d7)
-[17:45:55] skip WZ_TAP_28_r2 (already done on 31f8361e6d1c16b9715bb798276789f6bc9836d7)
-[17:45:55] skip FIRST_sunny_desk_r3 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[17:45:55] skip FIRST_sunny_touch_r3 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
 [17:45:55] skip YUE_MEAL_ab9a (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
 [17:45:55] skip WZ_ICE_tue (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
 [17:45:55] skip WZ_FRUIT_mon (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
@@ -1998,3 +1990,11 @@
 [21:06:38] ==== START AA355_4c_jp_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
 [21:06:41] [res] cpu=5% mem=45% (14.5/31.4 GB) chrome_testing=9  START AA355_4c_jp_r2
 [21:08:13] [res] cpu=6% mem=51% (16.0/31.4 GB) chrome_testing=9  END AA355_6_sports
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c11b60a2f5..24beaacdd2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:08:20] ==== END   AA355_6_sports  exit=1  470s   ====
+[21:08:35] memory 49% before starting AA358_22_24_cafe_r2 (2 running)
+[21:08:35] ==== START AA358_22_24_cafe_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:08:38] [res] cpu=13% mem=49% (15.4/31.4 GB) chrome_testing=10  START AA358_22_24_cafe_r2
+[21:09:26] [res] cpu=13% mem=50% (15.4/31.4 GB) chrome_testing=9  END AA_SCENES_DATE_r4
