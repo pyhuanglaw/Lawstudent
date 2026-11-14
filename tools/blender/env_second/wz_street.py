@@ -419,11 +419,14 @@ if SET == 'tingzhou':
                          ),
         # 禮貌生財（X332；使用者 11-11 的外觀圖）：巷 A 後段南側靠公館那一端，一樓退成騎樓（規格：傳統騎樓柱、騎樓下的算命桌）。深色木框格子窗（左）、深色木框的門開著（右）、
         #   深紅棕木招牌古銅金書法字（從圖裁）；算命桌是另外的節點（nm_stalls.py 的 LIMAO_TABLE_*，照時間切換）
-        'limao': dict(dep=3.0, wall_same=True, frame='#3a2416', street='limao_sign', street_fit=4.3, fw=0.07, ceilc='#e4dcc8', lamp_warm=True,
+        'limao': dict(dep=3.0, real=True, back=7.0, real_w=5.0, real_h=3.3, wall_same=True, frame='#3a2416', street='limao_sign', street_fit=4.3, fw=0.07, ceilc='#e4dcc8', lamp_warm=True,
                       # 第 2 版（BB 11-11 01:21：店面太暗太素、窗小、門洞窄、招牌下面一條黑）：牆＝這一棟的米白小方磚；格子窗加大（四直三橫）；門洞加寬、一扇格子門往外開著；騎樓天花板米白、暖黃燈；
                       #   兩盆植物（左高、右青花瓷盆）和算命桌在 nm_stalls.py 的 LIMAO_* 節點（位置在配置 limao）
                       cards=[('limao_win', -2.35, -0.1, 0.8, 2.7, 0.8, [-1.79, -1.23, -0.66], [1.43, 2.07]), ('limao_door', 0.15, 1.75, 0.0, 2.7, 0.8)], open=('limao_door',),
                       leaves=[(1.75, 0.8, 2.66, 1)]),
+        # LIMAO-REAL-VIEW-1114（LAWWW2-C；店面標準 §12 第 1 點「從店外往裡看是立體的店內」）：real＝窗、門裡面不放景深卡（limao_win／limao_door 的圖），玻璃後面由遊戲放走進去的那一顆室內
+        #   tz_limao_interior.glb（Z3.shopInsideReal，src/tingzhou3d.js 的 S.REAL_EXTRA）。室內寬 5.0（含牆）、高 3.3、深 10.4——這一棟玻璃後面只有 7 m，室內的後半（書房）伸進後面
+        #   水源市場那一排（TM_N，z 13～19）的一樓量體裡，看不到；所以 back＝7（挖到這一棟的後面）、一樓量體只留室內兩邊的牆和室內天花板上面那一段（real_w、real_h）
     }
     _WALLC = ['#e6e2d8', '#d9d4c6', '#cfd2cc', '#e2d6c0', '#d4c7b0', '#c9cfc6', '#ddd2c2', '#bfb7aa', '#e9e4da', '#cbbfae']; _WALLT = ['mosaic', 'tile', 'mosaic', 'plaster', 'tile', 'mosaic']
     SPECS = []
@@ -1060,6 +1063,9 @@ def apartment(spec):
     elif spec.get('xs', {}).get('lane'):   # 巷口（GG-G10-LANE-MOUTH-1111）：一樓牆體在通道的範圍打開（通道的側牆、樓板底、地面在 wz_shopkit.gg_front 的 lane）
         _lw = spec['xs'].get('lane_w', 4.6) / 2 + 0.22
         xf.box(wall, -W / 2, -_lw, 0, GH, -D, -rec); xf.box(wall, _lw, W / 2, 0, GH, -D, -rec); xf.box(wall, -_lw, _lw, GH - 0.33, GH, -D, -rec)
+    elif spec.get('xs', {}).get('real_w'):   # LIMAO-REAL-VIEW-1114 禮貌生財：室內比這一棟深——一樓量體只留室內兩邊（各 6 cm 縫）和室內天花板上面那一段，從玻璃到這一棟的後面
+        _hw = spec['xs']['real_w'] / 2 + 0.06; _zg = -spec['xs'].get('dep', 3.0) - 0.25; _rh = spec['xs'].get('real_h', 3.3) + 0.02
+        xf.box(wall, -W / 2, -_hw, 0, GH, -D, _zg); xf.box(wall, _hw, W / 2, 0, GH, -D, _zg); xf.box(wall, -_hw, _hw, _rh, GH, -D, _zg)
     else: xf.box(wall, -W / 2, W / 2, 0, GH, -D, -rec)                                                  # 一樓牆體（店面退縮）
     gw = acc(M['gwall'])
     if gt in ('shop', 'arcade') and not spec.get('sf') and spec.get('xs', {}).get('arcade', True) is not False:   # 日常失速的兩端是牆（xs_street_front 自己做），不加石材壁柱（同一個面會閃）
@@ -1074,6 +1080,7 @@ def apartment(spec):
         if spec.get('xs', {}).get('lane'): _lw = spec['xs'].get('lane_w', 4.6) / 2 + 0.22; gaps = [(-_lw, _lw)]   # 巷口：通道的範圍不做護牆
         xs_ = [-W / 2] + [v for g_ in gaps for v in g_] + [W / 2]
         for k in range(0, len(xs_), 2):
+            if spec.get('xs', {}).get('real_w'): break   # LIMAO-REAL-VIEW-1114：牆挖到這一棟的後面（後面是室內的書房），不做護牆
             if xs_[k + 1] - xs_[k] > 0.01: xf.box(gw, xs_[k], xs_[k + 1], 0, 0.9, -rec - 0.02, -rec + 0.04)
     xf.box(band, -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
     if gt == 'arcade' and spec.get('sf', {}).get('split'): arcade_split_v2(spec, xf, W, wall)

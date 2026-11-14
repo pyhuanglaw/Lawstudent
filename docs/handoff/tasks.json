@@ -57304,10 +57304,10 @@
    "id": "LIMAO-REAL-VIEW-1114",
    "title": "禮貌生財從店外看進去是平面窗卡，不是立體店內（D155 第 1 點）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "BB-C 11-14（經 LAWWW2-C 10:52）",
-   "note": "wz_street.py limao 的 cards；不在汀州路 shopInsideReal 清單。照溫特寶邸做法：玻璃後面放立體店內模型（S.REAL_VIEW＋REAL_DEP）。",
+   "note": "wz_street.py limao 的 cards；不在汀州路 shopInsideReal 清單。照溫特寶邸做法：玻璃後面放立體店內模型（S.REAL_VIEW＋REAL_DEP）。｜11-14 11:2x LAWWW2-C 交件（97379f88e0）：wz_street.py limao real=True＋real_w、tingzhou_street.glb 重建（貼圖 md5 同、5 網格變）、tingzhou3d.js shopReal 加 limao、鐵捲門右邊停在門軸前、SHOP_LIT_PLACE 拿掉 limao；limao_real_view_1114_unit（改前 FAIL 6）。LAWWW-C 整合，limao／shop_real_inside／place_gate／tingzhou／tz_ ALL PASS。待：CC 第二層＋第一次走近顯示時間；BB 判 ⑦a；BB 另判兩件：打烊時往外開的格子門還開著（要收＝LAWWW2 拆門扇節點）、算命桌白天在騎樓（原本就這樣）。",
    "first": {
     "term": "Y1S1",
     "confirmed": false

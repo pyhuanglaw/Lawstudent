@@ -173,7 +173,7 @@ const TZ3=(function(){
      玻璃離立面多遠（S.REAL_DEP）＝街景模型 wz_street.py TZ_ARC 的 dep：有騎樓的三間 3.0 m，沒有騎樓的四間 3.2＋0.3＝3.5 m（整棟退到店面線）。 */
   S.REAL_DEP={taimi:3.0,xile:3.0,yindehao:3.0,liantong:3.5,dongnan:3.5,keju:3.5,yuehaochi:3.5,wente:3.5};   /* TZ-SHUTTER-POS-1112（BB 11-12：這四間 23:30 的鐵捲門在騎樓外緣，蓋住招牌、機車）：沒有騎樓的四間整棟退到店面線（立面再往裡 arcade 3.2 m，wz_street.py TZ_XS 那一段的 pos），玻璃在那裡再退 0.3＝離立面 3.5 m。原本寫 0.3＝店內模型和鐵捲門都往街上多出 3.2 m */
   S.REAL_SX={wente:[-2.45,2.45,2.75],liantong:[-1.95,1.95,2.8],dongnan:[-3.45,3.45,2.62],keju:[-2.4,1.45,2.7],yuehaochi:[-2.35,1.3,2.8]};   /* 鐵捲門只蓋玻璃那一段、高到玻璃上緣（wz_street.py TZ_XS 的 glass、glass_h）：不蓋住上面的招牌板（y 2.95 起）和旁邊的照片菜單 */
-  S.SHOP_LIT_PLACE={tzxile:'tz_xile',tztai:'tz_taimi',tzlian:'tz_liantong',tzdong:'tz_dongnan',tzkeju:'tz_keju',tzyue:'tz_yuehaochi',limao:'tz_limao'};   /* 店面板 uv1 店編號 → 地點。溫特寶邸 v2（SHOP-REALISM-1112）店面換成立體櫥窗，街景模型的 xs_fronts_lit 拿掉了 tzwen 那一格；打烊由 REAL_VIEW 那一套管 */
+  S.SHOP_LIT_PLACE={tzxile:'tz_xile',tztai:'tz_taimi',tzlian:'tz_liantong',tzdong:'tz_dongnan',tzkeju:'tz_keju',tzyue:'tz_yuehaochi'};   /* 店面板 uv1 店編號 → 地點。溫特寶邸 v2（SHOP-REALISM-1112）店面換成立體櫥窗，街景模型的 xs_fronts_lit 拿掉了 tzwen 那一格；打烊由 REAL_VIEW 那一套管。禮貌生財（LIMAO-REAL-VIEW-1114）一樣：窗、門後面換成室內模型，街景模型沒有 limao 那一格了，亮暗由 shopInsideReal 管 */
   /* SHOP-WINDOW-3D-1112 v2（LAWWW2-C；使用者 11-12 19:5x 對 v1「醜到爆又沒質感 跟2d差太多了 可以停止複製貼上一樣大小的方塊嗎」）：
      只看得到、還不能進去的店（TINGZHOU-SHOPS5-1110 暫停）——玻璃後面一樣放一顆店內模型（Blender 建模＋Cycles 烘好光影的一張貼圖，tools/blender/env_second/tz_wente_interior.py），
      和走得進去的七間同一套 Z3.shopInsideReal（走近才顯示、打烊變暗＋鐵捲門）。以後開放走進去，室內就用這一顆。*/
@@ -183,6 +183,12 @@ const TZ3=(function(){
     const RV=S.REAL_VIEW||{}; for(const k in RV){ const V=RV[k]; if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&!ASSETS.manifest[V.asset]) ASSETS.manifest[V.asset]={url:V.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/tz_wente_interior.py（'+V.name+' 店內，只從街上看；烘焙光影）'}; }
     for(const q of T.shops){ const L=Z[q.id]||RV[q.id], dep=S.REAL_DEP[q.id]; if(!L||dep===undefined||!/^tz_/.test(L.zone||'')) continue; const w=q.side==='W', gx=w?T.facade.west-dep:T.facade.east+dep, cz=(q.z0+q.z1)/2;
       out.push(Object.assign({id:q.id,place:L.zone,key:L.asset,w:L.w,d:L.d,h:L.h,x:w?gx-0.02-L.d/2:gx+0.02+L.d/2,z:cz,ry:w?Math.PI/2:-Math.PI/2,cx:gx,cz,ex:0,ez:L.w/2},S.REAL_SX[q.id]?{sx:S.REAL_SX[q.id].slice(0,2),sh:S.REAL_SX[q.id][2]}:{},(S.REAL_SB||{})[q.id]?{sb:S.REAL_SB[q.id]}:{})); }
+    /* LIMAO-REAL-VIEW-1114（LAWWW2-C；店面標準 §12 第 1 點「從店外往裡看是立體的店內」）：禮貌生財不在汀州路那一排（T.shops），在巷 A 南側（TINGZHOU_LAYOUT.limao）、店面朝 −z（朝巷子）。
+       玻璃線＝limao.z＋dep（騎樓 3 m）；室內轉 π（正面 +z 轉成朝 −z），正面那一面（z＝d/2）貼在玻璃後面 2 cm——室內自己的正面牆（WALL_S、WALL_Sfix_*，dir＝[0,0,−1]）照舊藏起來，
+       看到的窗格、開著的木門是街景模型的（wz_street.py TZ_ARC limao：real＝True，不再放 limao_win／limao_door 兩張圖）。鐵捲門蓋窗＋門那一段（室內 x −2.4～1.62，加兩邊各 0.1 m 軌道＝到 1.72、高到門楣 2.75）——右邊停在往外開的那扇格子門的門軸（1.75）前面，不然軌道穿過門扇。
+       沿著店面（x 方向）量距離：ex＝寬的一半、ez＝0。 */
+    { const LM=T.limao, LL=Z.limao; if(LM&&LL&&/^tz_/.test(LL.zone||'')){ const gz=LM.z+(LM.dep||3.0), cx=(LM.x0+LM.x1)/2;
+        out.push({id:'limao',place:LL.zone,key:LL.asset,w:LL.w,d:LL.d,h:LL.h,x:cx,z:gz+0.02+LL.d/2,ry:Math.PI,cx,cz:gz,ex:LL.w/2,ez:0,sx:[-2.4,1.62],sh:2.75}); } }
     return out; };
   return S;
 })();

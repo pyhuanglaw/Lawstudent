@@ -75,9 +75,9 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
   const m1=/S\.REAL_DEP=(\{[^}]*\});/.exec(tz), m2=/S\.shopReal=function\(\)\{([\s\S]*?)return out; \};/.exec(tz);
   const m3=/S\.REAL_SX=(\{[^}]*\});/.exec(tz); const list=vm.runInContext('(function(){ const S={REAL_DEP:'+m1[1]+',REAL_SX:'+(m3?m3[1]:'{}')+'}; '+m2[1]+' return out; })()',c3);
   { const by=Object.fromEntries(list.map(q=>[q.id,q])); ok(['liantong','dongnan','keju','yuehaochi'].every(id=>Math.abs(by[id].cx-(c3.TINGZHOU_LAYOUT.facade.west-c3.TINGZHOU_LAYOUT.facade.arcade-0.3))<1e-9&&Array.isArray(by[id].sx)&&by[id].sh<=2.9)&&['taimi','xile','yindehao'].every(id=>Math.abs(Math.abs(by[id].cx)-(Math.abs(c3.TINGZHOU_LAYOUT.facade.west)+3.0))<1e-9),'㉓b TZ-SHUTTER-POS-1112：沒有騎樓的四間玻璃在店面線後 0.3 m（x '+(c3.TINGZHOU_LAYOUT.facade.west-c3.TINGZHOU_LAYOUT.facade.arcade-0.3)+'），鐵捲門只蓋玻璃那一段、不高過招牌板'); }
-  ok(list.length===7,'㉓ 汀州路 7 間：'+list.map(q=>q.id).join('、'));
+  ok(list.length===8&&list.some(q=>q.id==='limao'),'㉓ 汀州路 7 間＋巷 A 的禮貌生財（LIMAO-REAL-VIEW-1114；位置、轉向另外在 limao_real_view_1114_unit 查）：'+list.map(q=>q.id).join('、'));
   const T=c3.TINGZHOU_LAYOUT, Z=c3.TZ_SHOPS_LAYOUT;
-  for(const q of list){ const sp=T.shops.find(z=>z.id===q.id), L=Z[q.id], w=sp.side==='W';
+  for(const q of list.filter(q=>q.id!=='limao')){ const sp=T.shops.find(z=>z.id===q.id), L=Z[q.id], w=sp.side==='W';   /* 禮貌生財不在汀州路那一排（巷 A 南側、店面朝 −z），下面三項是那一排的算法 */
     ok(Math.abs(L.w-(sp.z1-sp.z0))<=0.6&&q.w===L.w&&q.d===L.d&&q.key===L.asset&&q.place===L.zone,'㉔ '+q.id+'：室內 '+L.w+'×'+L.d+' 對著街上那一間（寬 '+(sp.z1-sp.z0)+'）、模型 '+q.key);
     ok(w?(q.ry===Math.PI/2&&q.x<T.facade.west):(q.ry===-Math.PI/2&&q.x>T.facade.east),'㉕ '+q.id+'：'+(w?'西側朝東':'東側朝西')+'，放在立面後面');
     const mm=new RegExp("'"+q.id+"': dict\\((arcade=False, )?dep=([0-9.]+), real=True, back=([0-9.]+)").exec(ws); if(mm){ const noArc=!!mm[1]; mm[1]=String(+mm[2]+(noArc?T.facade.arcade:0)); mm[2]=mm[3]; }   /* TZ-SHUTTER-POS-1112：沒有騎樓的店整棟退 arcade（3.2 m）到店面線，玻璃離立面＝arcade＋dep（原本這一項只比 dep，四間都少 3.2 m 也過） */
