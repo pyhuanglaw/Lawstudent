@@ -4,6 +4,7 @@
   ② 打烊時上師收攤：同一份讀檔，LM.masterNpc 看不看得到（hidden／visible）、LM.canTalk；桌前互動點的字（應該是「看算命桌」）；用遊戲的跟隨鏡頭在騎樓對著算命桌拍一張（不藏人）。
   ③ 營業中進店待到打烊以後：【前置／捷徑】讀檔進 tz_limao STAY_H（預設 23.35）、站在出生點，照遊戲時間走（不快轉、不改時間），每 3 秒記一次 區域、位置、站不站得住、提示，
      到遊戲時間過 23.5＋0.15 或真實 STAY_MAX 秒；被請出去＝區域變成 tingzhou，記落點、站不站得住、那時的提示。
+DOOR_TEXT（BB-B 13:59 LIMAO_DOOR_TEXT_r1）：時@日期 一組一組走到門口，記鍵、點下去的整句；營業中進店再出來；DOOR_ONLY=1 只跑這段。
 CC_02 清單 2026-11-14：1✓（時間：營業 19:00～23:30 照 places.js／shop_hours_aa831.js；CLOSE_H 23.75、STAY_H 23.35） 2✓（門、桌、上師座位從 tingzhou_layout.js limao 讀，互動字從遊戲讀） 3n/a（不選座位、不選選單） 4n/a（不買東西） 5✓（【前置／捷徑】讀檔放位置；走到門口照玩家點地面） 6✓（讀檔等 8 秒＋等 ASSETS） 7✓（lint；JS 在 node --check 驗過） 8✓（只記不判，判定歸 BB） 9✓（每段截圖） 10✓（讀檔關事件） 11✓（SHA 40 碼、ENV 沒有「;」「|」） 12✓（FAIL_SETUP：讀檔以後在對的區域、時間對、找得到門／桌的互動點） 13✓（走到門口記點地面次數）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CLOSE_H=23.75] [STAY_H=23.35] [STAY_MAX=240] [DAY=2025-10-22] python3 cc_limao_close_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -19,6 +20,8 @@ DAY = os.environ.get('DAY') or '2025-10-22'
 CLOSE_H = float(os.environ.get('CLOSE_H') or 23.75)
 STAY_H = float(os.environ.get('STAY_H') or 23.35)
 STAY_MAX = float(os.environ.get('STAY_MAX') or 240)
+DOOR_TEXT = [(float(x.split('@')[0]), x.split('@')[1]) for x in (os.environ.get('DOOR_TEXT') or '').split(',') if '@' in x]   # BB-B 13:59 LIMAO_DOOR_TEXT：每一組 時@日期 各走到門口一次，記互動字、點下去的整句；營業中就進店再出來（對照）
+DOOR_ONLY = (os.environ.get('DOOR_ONLY') or '0') == '1'
 R = L.Run('limao_close', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 
@@ -34,6 +37,48 @@ STATE = r"""(()=>{ const G=GAME.G, E=GAME.E, P=E.player.obj.position, f=v=>+(+v)
     open, canTalk:ct, master:m, table:tb, door:dr, msgs:(window.__ccMsg||[]).slice(-6)}; })()"""
 
 
+async def door_once(pg, cdp, h, day, res):
+    tag = '[門口 %s %.2f]' % (day, h)
+    s = await D.load_zone(pg, cdp, 'tingzhou', day, h, x=27.3, z=1.2, yaw=0.0, wait=8000)
+    R.setup('%s 【前置／捷徑】讀檔到 tingzhou %s %.2f 時、站在禮貌生財門外 (27.3, 1.2)' % (tag, day, h))
+    await D.wait_assets(pg, 20.0, 1500); await pg.evaluate(MSGHOOK)
+    s0 = await pg.evaluate(STATE)
+    ty = await pg.evaluate("(()=>{ try{ return {typhoon:!!CALENDAR.typhoon(GAME.G.day), off:!!(GAME.E.zone&&GAME.E.zone.tzLimaoOff), weather:GAME.G.weather}; }catch(e){ return 'ERR '+e.message; } })()")
+    row = {'h': h, 'day': day, 'before': s0, 'typhoon': ty}
+    if not R.check('FAIL_SETUP 檢查：%s 在 tingzhou、找得到禮貌生財的門' % tag, s0['zone'] == 'tingzhou' and bool(s0['door']), J(s0)): res.setdefault('door', []).append(row); return
+    R.note('%s 營業中=%s；颱風假 %s；上師 %s；canTalk %s；桌前 %s；門 %s' % (tag, s0['open'], J(ty), J(s0['master']), s0['canTalk'], J(s0['table']), J(s0['door'])))
+    await pg.evaluate(D.HUD + '(false)')
+    await pg.evaluate("(()=>{ const P=GAME.E.player.obj; P.position.set(27.0,P.position.y,2.2); P.rotation.y=Math.atan2(28.9-27.0,4.3-2.2); const C=GAME.E.cam; C.yaw=Math.atan2(27.0-28.9,2.2-4.3); C.manualT=30; })()")
+    await pg.wait_for_timeout(2500); await D.shot(pg, 'door_%s_%s_table' % (day, ('%05.2f' % h).replace('.', '')), judge_black=False)
+    await pg.evaluate(D.HUD + '(true)')
+    dr = s0['door'][0]
+    await L.go_to(pg, cdp, R, dr['x'], dr['z'] - 0.6, 0.6, '%s 走到門口' % tag, max_s=60, stop=lambda q: '禮貌生財' in (q.get('interact') or ''))
+    q = await D.st(pg); row['door_label'] = q.get('interact'); seen_ = []
+    if '禮貌生財' in (q.get('interact') or ''):
+        await pg.evaluate("window.__ccMsg=[]"); await L.tap(pg, cdp, '#interact')
+        for _ in range(12):
+            await pg.wait_for_timeout(250)
+            t_ = await pg.evaluate("(()=>{ const g=id=>{ const e=document.getElementById(id); return e&&e.offsetParent!==null?(e.textContent||'').trim():''; }; return [g('dlgText'),g('caption'),g('toast')].filter(Boolean); })()")
+            for x_ in t_:
+                if x_ not in seen_: seen_.append(x_)
+    await D.shot(pg, 'door_%s_%s_after' % (day, ('%05.2f' % h).replace('.', '')), judge_black=False)
+    for _ in range(8):
+        if not (await D.st(pg)).get('dlg'): break
+        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600)
+    s1 = await pg.evaluate(STATE); row['after'] = s1; row['screen'] = seen_ + [m_['t'] for m_ in s1['msgs'] if m_['t'] not in seen_]
+    R.note('%s 門口的鍵「%s」；點下去以後畫面上的字（全文）：%s；之後在 %s' % (tag, row['door_label'], J(row['screen']), s1['zone']))
+    if s1['zone'] == 'tz_limao':
+        R.note('%s 進得去（營業中對照）；店裡 %s' % (tag, J({k: s1[k] for k in ('x', 'z', 'stand', 'door')})))
+        await D.shot(pg, 'door_%s_%s_inside' % (day, ('%05.2f' % h).replace('.', '')), judge_black=False)
+        ex = s1['door'][0] if s1['door'] else None
+        if ex:
+            await L.go_to(pg, cdp, R, ex['x'], ex['z'] - 0.5, 0.6, '%s 走到店門出去' % tag, max_s=60, stop=lambda q: '離開' in (q.get('interact') or ''))
+            if '離開' in ((await D.st(pg)).get('interact') or ''): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(4000)
+        s2 = await pg.evaluate(STATE); row['out'] = s2
+        R.check('%s 營業中：進得去、上師在桌邊（進店前看得到）、出得來' % tag, s0['master'] and isinstance(s0['master'], dict) and s0['master']['visible'] and not s0['master']['hidden'] and s2['zone'] == 'tingzhou', J({'master': s0['master'], 'outZone': s2['zone']}))
+    res.setdefault('door', []).append(row)
+
+
 async def main():
     print('CC LIMAO_CLOSE：SHA %s；%s；CLOSE_H %s；STAY_H %s；Windows＋GPU ≠ iPhone' % (SHA or '?', DAY, CLOSE_H, STAY_H), flush=True)
     res = {'sha': SHA}
@@ -41,6 +86,12 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg, 600), ''): await b.close(); sys.exit(1)
+        for h_, day_ in DOOR_TEXT:
+            await door_once(pg, cdp, h_, day_, res)
+            open(os.path.join(OUT, 'limao_close.json'), 'w', encoding='utf-8').write(J(res))
+        if DOOR_ONLY:
+            R.check('沒有 JS 例外', not errs, J(errs[:3])); await b.close()
+            print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True); sys.exit(1 if R.fails else 0)
         # ① ②
         s = await D.load_zone(pg, cdp, 'tingzhou', DAY, CLOSE_H, x=27.3, z=1.2, yaw=0.0, wait=8000)
         R.setup('【前置／捷徑】讀檔到 tingzhou %s %.2f 時、站在禮貌生財門外 (27.3, 1.2)' % (DAY, CLOSE_H))

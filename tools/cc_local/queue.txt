@@ -2586,11 +2586,15 @@ WINVIEW_MIRROR_rooms | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/s
 WINVIEW_MIRROR_rooms_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 25 | ZONES=linze,library_hall,l118_korea;HOURS=14,20;PHOTO_SHADER=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ②GATE-REF-1114：校門 門外跟隨／門內跟隨／原固定相機（黑半圓）／校園側面向校門／公館區域的校門，白天 08:30、晚上 20:00；走過通道 z 0／±3／±5.5
 GATE_REF_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r1;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# CC-B 11-14 14:0x：r1 門外／門內站點放在 z 0＝新校門正中間的門房＋花圃（玩家站在花圃裡、20:00 鏡頭在門房牆裡）＝探針；黑半圓 08:30 固定相機已經沒有。r2 站點改通道 z 3、走過通道改判門房兩側
+GATE_REF_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r2;GATE_Z=3;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ③WZ-REAL-LITE-EMPTY-1114：r4 原本的站位（玻璃外 3 m 舊算法）＋路中間 (44,0)；SUNNY SIDE、小路、日常失速、林家；SPIN＝原地轉一圈量最長幀
 WZ_LITE_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 30 | TAG=wz_lite_r1;SHOPS=wz_brunch,wz_teishoku,wz_offbeat,wz_lin;HOURS=14,22;MID=1;SPIN=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ④SHOP-REALISM-1112：單車 v2.1（bikeshop，週一公休、10～20）、大步 v2（xs_dabu）地點關卡
 SHOPREAL_BIKE_v21 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_bike_v21;ZONES=bikeshop;DAY=2025-10-22;HOURS=14,19;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 SHOPREAL_DABU_v2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_dabu_v2;ZONES=xs_dabu;HOURS=14,20.5;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# CC-B 11-14 14:0x：BB-B 13:59 LIMAO_DOOR_TEXT_r1（dev 645709cddc，LIMAO-DOOR-HOURS-TEXT-1114）：15:00 還沒開、23:40 已收攤、20:00 營業中（進店、上師、出來）、颱風假 2025-10-13 20:00（只記）
+LIMAO_DOOR_TEXT_r1 | 645709cddcffa0c77b4d7e643e2fce2e4127ffaa | probe | docs/story_planning/test_tools/cc/cc_limao_close_probe.py | index.html | 20 | DOOR_TEXT=15@2025-10-22,23.67@2025-10-22,20@2025-10-22,20@2025-10-13;DOOR_ONLY=1;SHA=645709cddcffa0c77b4d7e643e2fce2e4127ffaa
 HL1_CIRCLE_1028_r5 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:5x：r5 4_2 全過（走路跟、兩句都聽到）；8_1 學姊×陳助教 放到 8 m 內還是 hidden、站著不動 → r6 印 S.modelWait 診斷（_hcWait、降級模型、ASSETS 有沒有載到）
 HL1_CIRCLE_1028_r6 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
