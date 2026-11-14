@@ -1,0 +1,8 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_place_gate_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GATE2_YANGYANG_r2\out
+CC 地點關卡第二層：TAG gate2_yangyang_r2；SHA 0c49bcf64ee779dc66efce1809455f57dfe0e010；ZONES yangyang；HOURS [16.0]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [yangyang 1600] 【前置／捷徑】讀檔進 yangyang 2025-10-22 16.00 時（區域的出生點）、錢補到 5000（⑦ 要買得起）
+  [  49.4s] [yangyang 1600] 讀檔以後在 gongguan＝沒開／進不去，這個時間跳過（不判）
+【總表】{}
+ALL PASS

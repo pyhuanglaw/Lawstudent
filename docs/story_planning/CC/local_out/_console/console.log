@@ -1,11 +1,3 @@
-[22:25:57] skip GG3_zone_new (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:57] skip GG3_zone_old (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:57] skip GG3_reach_new (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:57] skip GG3_reach_old (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:57] skip SC3_new (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:57] skip SC3_v2 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:57] skip SC3_v1 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[22:25:57] skip SC3_new_r2 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
 [22:25:57] skip SC3_v2_r2 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
 [22:25:57] skip SC3_v1_r2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
 [22:25:57] skip SC3_new_r3 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
@@ -1998,3 +1990,11 @@
 [09:34:13] ==== START GATE2_MOKUYOBI_2F_r2  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
 [09:34:16] [res] cpu=0% mem=42% (13.5/31.4 GB) chrome_testing=10  START GATE2_MOKUYOBI_2F_r2
 [09:35:03] [res] cpu=8% mem=43% (13.4/31.4 GB) chrome_testing=9  END GATE2_BIKESHOP_ccbd
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b53321be17..c32978543f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:35:12] ==== END   GATE2_BIKESHOP_ccbd  exit=1  538s   ====
+[09:35:15] memory 44% before starting GATE2_YANGYANG_r2 (2 running)
+[09:35:15] ==== START GATE2_YANGYANG_r2  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
+[09:35:18] [res] cpu=4% mem=44% (14.0/31.4 GB) chrome_testing=9  START GATE2_YANGYANG_r2
+[09:36:43] [res] cpu=6% mem=43% (13.6/31.4 GB) chrome_testing=10  END GATE2_YANGYANG_r2
