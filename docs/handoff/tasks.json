@@ -56770,7 +56770,8 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g4",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g4/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）",
+     "closed": "2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA dddc6a19d、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開"
     }
    ]
   },
