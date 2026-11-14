@@ -2590,6 +2590,8 @@ WZ_LITE_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_plann
 SHOPREAL_BIKE_v21 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_bike_v21;ZONES=bikeshop;DAY=2025-10-22;HOURS=14,19;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 SHOPREAL_DABU_v2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_dabu_v2;ZONES=xs_dabu;HOURS=14,20.5;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 HL1_CIRCLE_1028_r5 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:5x：r5 4_2 全過（走路跟、兩句都聽到）；8_1 學姊×陳助教 放到 8 m 內還是 hidden、站著不動 → r6 印 S.modelWait 診斷（_hcWait、降級模型、ASSETS 有沒有載到）
+HL1_CIRCLE_1028_r6 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:3x：BB_462 AA358_24_natural（不用捷徑三路）——雲端 81e5 三路 ALL PASS（A 賠十倍、B 你先看＋兩選項、C 不演），電腦正式跑
 AA358_24_natural | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 40 | PARTS=NATURAL;SHA=81e5f197fb0e017257ad3dfd359dfafffe54f95b
 # CC-B 11-14 13:4x：PC 太快，前置檢查時 meetAn 已經開演（metAn true、met_an false）＝探針 → r2（A、B）

@@ -123,6 +123,11 @@ async def part_hl1(pg, cdp, sv0, res):
                 R.setup('%s 【捷徑】她 6 秒還看不到，玩家放到她 %s m 內（%s）' % (tag, pl8 and pl8['d'], J(pl8)))
             await pg.wait_for_timeout(1000)
         out['pos0'] = np0; out['vis_wait_s'] = w_
+        if not (np0['pos'].get(info['who']) or {}).get('vis'):   # CC-B 11-14（HL1 r5 學姊×陳助教 放到 8 m 內還是 hidden、站著不動）：看 hcircle3d.js S.modelWait——模型還在等（_hcWait）、降級模型、ASSETS 有沒有載到
+            dg_ = await pg.evaluate("""((ids)=>ids.map(id=>{ let n=null; try{ n=HCIRCLE.npcOf(GAME,id); }catch(e){} if(!n) n=(GAME.npc&&GAME.npc[id])||null; if(!n) return {id, npc:null};
+              const m=n.hcModel||null; let deg=null; try{ deg=CHAR.isDegraded?CHAR.isDegraded(n.obj):null; }catch(e){}
+              return {id, hidden:!!n.hidden, objVisible:n.obj?n.obj.visible:null, hcWait:!!n._hcWait, model:m, degraded:deg, assetHas:m&&ASSETS.has?ASSETS.has(m):null, loading:!!(m&&HCIRCLE._loading&&HCIRCLE._loading[m]), failed:!!(m&&HCIRCLE._failed&&HCIRCLE._failed[m]), status:m&&ASSETS.status?ASSETS.status[m]:null}; }))""", [info['who']] + comp)
+            out['hidden_diag'] = dg_; R.note('%s ① 看不到的原因（hcircle3d.js S.modelWait）：%s' % (tag, J(dg_)))
         h = np0['pos'].get(info['who'])
         await D.shot(pg, 'hl1_%s_together' % rid, judge_black=False)
         if not R.check('%s ① 她在、看得到' % tag, bool(h and h['vis']), J(np0)): continue
