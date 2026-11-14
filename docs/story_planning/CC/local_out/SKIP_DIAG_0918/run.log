@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_skip_diag_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SKIP_DIAG_0918\out
+CC SKIP_DIAG_0918：SHA fadf991b274be30ed67d9405bb52901c9bdc1643；CASES ['SKIP', 'UP']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [SKIP] 最小存檔讀到 2025-09-17 22.83 dorm（Y1S1 第 3 週）
+  [前置／捷徑] 【捷徑】[SKIP] 墊關係、旗標：{"flags": {}}
+  [  52.7s] 到達「SKIP 床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS FAIL_SETUP 檢查：[SKIP] 9/17 晚上床的選單出來
+  [  54.3s] [SKIP] 9/17 床的選單 ["睡覺明天早上醒來", "再撐一下"] → None
+FAIL FAIL_SETUP 檢查：[SKIP] 9/18 醒來、有「翹這堂課／先起床再說」選單  {"snap": {"key": "2025-09-17", "h": 22.944, "zone": "dorm", "pos": [-0.42, 1.71, 0], "busy": true, "depth": 1, "running": null, "items": [], "outs": [], "choices": ["睡覺明天早上醒來", "再撐一下"], "dlg": "", "toast": "", "goingTo": null}, "wake": null}
+  [前置／捷徑] [UP] 最小存檔讀到 2025-09-17 22.83 dorm（Y1S1 第 3 週）
+  [前置／捷徑] 【捷徑】[UP] 墊關係、旗標：{"flags": {}}
+  [ 268.5s] 到達「UP 床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS FAIL_SETUP 檢查：[UP] 9/17 晚上床的選單出來
+  [ 270.2s] [UP] 9/17 床的選單 ["睡覺明天早上醒來", "再撐一下"] → None
+FAIL FAIL_SETUP 檢查：[UP] 9/18 醒來、有「翹這堂課／先起床再說」選單  {"snap": {"key": "2025-09-17", "h": 22.945, "zone": "dorm", "pos": [-0.42, 1.71, 0], "busy": true, "depth": 1, "running": null, "items": [], "outs": [], "choices": ["睡覺明天早上醒來", "再撐一下"], "dlg": "", "toast": "", "goingTo": null}, "wake": null}
+PASS 沒有 JS 例外  []
+FAILED 2: FAIL_SETUP 檢查：[SKIP] 9/18 醒來、有「翹這堂課／先起床再說」選單；FAIL_SETUP 檢查：[UP] 9/18 醒來、有「翹這堂課／先起床再說」選單

@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SKIP_DIAG_0918",
+  "sha": "fadf991b274be30ed67d9405bb52901c9bdc1643",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_skip_diag_probe.py",
+  "env": "CASES=SKIP,UP;SHA=fadf991b274be30ed67d9405bb52901c9bdc1643",
+  "machine": "MSI",
+  "start": "2026-11-14T13:21:03",
+  "end": "2026-11-14T13:29:28",
+  "seconds": 505,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 24,
+    "mem": 52,
+    "used_gb": 16.6,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
