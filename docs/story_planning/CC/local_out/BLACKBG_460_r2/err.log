@@ -1,0 +1,9 @@
+[gpu_wrap 4.4s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+[gpu_wrap 42.5s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 42.5s] BROWSER DISCONNECTED
+[gpu_wrap 84.4s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 84.4s] BROWSER DISCONNECTED
+[gpu_wrap 131.7s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 131.7s] BROWSER DISCONNECTED
+[gpu_wrap 175.5s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 175.6s] BROWSER DISCONNECTED

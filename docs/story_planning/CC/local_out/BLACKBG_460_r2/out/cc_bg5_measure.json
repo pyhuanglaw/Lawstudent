@@ -1,0 +1,1232 @@
+{
+ "sha": "6106fae2d278ba8ac97ebbf9265ca141c5e0ab35",
+ "url": "http://127.0.0.1:8801/index.html",
+ "orient": "land",
+ "cases": {
+  "y4_bar_kxsat": {
+   "ev": "ev_bar_group_video",
+   "kind": "outing",
+   "src": "src/r2y4b3d.js:737 groupVideoRules（S.session mode kxsat：週六 10:00；2029-03-03 是週六）；r2y4b_events.js:578 isSat → bg classroom_small",
+   "batch": 9,
+   "day": {
+    "d": 1264,
+    "wd": 6,
+    "key": "2029-03-03",
+    "hol": false,
+    "term": "Y4S2",
+    "week": 2
+   },
+   "q": {
+    "id": "y4_bar_vid_1264",
+    "ev": "ev_bar_group_video",
+    "h": 10,
+    "late": 0.5,
+    "place": "法律系館・自習室",
+    "no": "今天先不讀",
+    "title": "律師讀書小組（法律系館・自習室）",
+    "travel": "走路",
+    "travelH": 0.1,
+    "day": 1264,
+    "state": "planned",
+    "ask": null
+   },
+   "load_h": 9.75,
+   "zone": "dorm",
+   "direct_mode": false,
+   "how": "prompt",
+   "started": [
+    {
+     "k": "out",
+     "t": "y4_bar_vid_1264",
+     "d": "2029-03-03",
+     "h": 9.761
+    }
+   ],
+   "menus_seen": [],
+   "lines_before": [],
+   "scene_ok": true,
+   "lines_in_event_before_bg": [],
+   "bg_now": {
+    "active": true,
+    "cls": "on image",
+    "bg": "url(\"http://127.0.0.1:8801/assets/bg/classroom_small.webp\")",
+    "target": true
+   },
+   "shots": {
+    "first": {
+     "land": {
+      "measure": {
+       "vw": 844,
+       "vh": 390,
+       "orient": "land",
+       "advCls": "on image",
+       "file": "assets/bg/classroom_small.webp",
+       "target": true,
+       "cg": false,
+       "night": false,
+       "bgSize": "cover",
+       "bgPos": "50% 50%",
+       "bgFilter": "none",
+       "advBg": [
+        0,
+        0,
+        844,
+        390
+       ],
+       "nat": [
+        1672,
+        941
+       ],
+       "boxes": [
+        {
+         "label": "dlg",
+         "rect": [
+          42,
+          272,
+          760,
+          104
+         ],
+         "view": [
+          42,
+          272,
+          802,
+          376
+         ],
+         "img": {
+          "px": [
+           83,
+           623,
+           1589,
+           829
+          ],
+          "pct": [
+           5,
+           66.2,
+           95,
+           88.1
+          ]
+         },
+         "coverPct": 24
+        },
+        {
+         "label": "caption",
+         "rect": [
+          352,
+          227,
+          140,
+          37
+         ],
+         "view": [
+          352,
+          227,
+          492,
+          264
+         ],
+         "img": {
+          "px": [
+           697,
+           534,
+           975,
+           607
+          ],
+          "pct": [
+           41.7,
+           56.7,
+           58.3,
+           64.5
+          ]
+         },
+         "coverPct": 1.6
+        },
+        {
+         "label": "advTop",
+         "rect": [
+          356,
+          8,
+          132,
+          34
+         ],
+         "view": [
+          356,
+          8,
+          488,
+          42
+         ],
+         "img": {
+          "px": [
+           705,
+           100,
+           967,
+           167
+          ],
+          "pct": [
+           42.2,
+           10.6,
+           57.8,
+           17.8
+          ]
+         },
+         "coverPct": 1.4
+        },
+        {
+         "label": "spriteR",
+         "rect": [
+          497.8,
+          6,
+          304.1,
+          506.9
+         ],
+         "view": [
+          497.8,
+          6,
+          802,
+          390
+         ],
+         "img": {
+          "px": [
+           986,
+           96,
+           1589,
+           857
+          ],
+          "pct": [
+           59,
+           10.2,
+           95,
+           91.1
+          ]
+         },
+         "coverPct": 35.5
+        }
+       ],
+       "rotate": false,
+       "dlgName": "杜可昕",
+       "dlgText": "刑總那題，你先講結論，再講理由。講完我再問。",
+       "sizeNote": "cover",
+       "cover": {
+        "s": 0.5048,
+        "dw": 844,
+        "dh": 475,
+        "ox": 0,
+        "oy": -42.5,
+        "vis": {
+         "px": [
+          0,
+          84,
+          1672,
+          857
+         ],
+         "pct": [
+          0,
+          8.9,
+          100,
+          91.1
+         ]
+        },
+        "visArea": 82.1,
+        "cut": {
+         "left": 0,
+         "right": 0,
+         "top": 8.9,
+         "bottom": 8.9
+        }
+       },
+       "coverAllPct": 52.8
+      },
+      "dlg": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\01_y4_bar_kxsat_land_first_dlg.png",
+      "bgonly": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\02_y4_bar_kxsat_land_first_bgonly.png",
+      "bgbox": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\03_y4_bar_kxsat_land_first_bgbox.png",
+      "cropmap": "PIL 不能用：ModuleNotFoundError(\"No module named 'PIL'\", name='PIL')"
+     }
+    }
+   },
+   "pageerrors": []
+  },
+  "y4_kx_bday_visit": {
+   "ev": "ev_kexin_bday_visit_y4",
+   "kind": "outing",
+   "src": "src/r2y4b3d.js:193 kxBdayPrompt 選「送一碗酸辣湯餃」（KB.d24 2029-04-24）",
+   "batch": 9,
+   "day": {
+    "d": 1316,
+    "wd": 2,
+    "key": "2029-04-24",
+    "hol": false,
+    "term": "Y4S2",
+    "week": 10
+   },
+   "q": {
+    "id": "y4_kx_bday",
+    "ev": "ev_kexin_bday_visit_y4",
+    "h": 21,
+    "late": 0.5,
+    "place": "女生宿舍樓下",
+    "title": "送湯餃",
+    "travel": "走路",
+    "travelH": 0.1,
+    "day": 1316,
+    "state": "planned",
+    "ask": null
+   },
+   "load_h": 20.75,
+   "zone": "dorm",
+   "direct_mode": false,
+   "how": "prompt",
+   "started": [
+    {
+     "k": "out",
+     "t": "y4_kx_bday",
+     "d": "2029-04-24",
+     "h": 20.762
+    }
+   ],
+   "menus_seen": [],
+   "lines_before": [],
+   "scene_ok": true,
+   "lines_in_event_before_bg": [],
+   "bg_now": {
+    "active": true,
+    "cls": "on image",
+    "bg": "url(\"http://127.0.0.1:8801/assets/bg/girls_dorm_gate.webp\")",
+    "target": true
+   },
+   "shots": {
+    "first": {
+     "land": {
+      "measure": {
+       "vw": 844,
+       "vh": 390,
+       "orient": "land",
+       "advCls": "on image",
+       "file": "assets/bg/girls_dorm_gate.webp",
+       "target": true,
+       "cg": false,
+       "night": false,
+       "bgSize": "cover",
+       "bgPos": "50% 50%",
+       "bgFilter": "none",
+       "advBg": [
+        0,
+        0,
+        844,
+        390
+       ],
+       "nat": [
+        1672,
+        941
+       ],
+       "boxes": [
+        {
+         "label": "dlg",
+         "rect": [
+          42,
+          272,
+          760,
+          104
+         ],
+         "view": [
+          42,
+          272,
+          802,
+          376
+         ],
+         "img": {
+          "px": [
+           83,
+           623,
+           1589,
+           829
+          ],
+          "pct": [
+           5,
+           66.2,
+           95,
+           88.1
+          ]
+         },
+         "coverPct": 24
+        },
+        {
+         "label": "caption",
+         "rect": [
+          366,
+          227,
+          112,
+          37
+         ],
+         "view": [
+          366,
+          227,
+          478,
+          264
+         ],
+         "img": {
+          "px": [
+           725,
+           534,
+           947,
+           607
+          ],
+          "pct": [
+           43.4,
+           56.7,
+           56.6,
+           64.5
+          ]
+         },
+         "coverPct": 1.3
+        },
+        {
+         "label": "advTop",
+         "rect": [
+          356,
+          8,
+          132,
+          34
+         ],
+         "view": [
+          356,
+          8,
+          488,
+          42
+         ],
+         "img": {
+          "px": [
+           705,
+           100,
+           967,
+           167
+          ],
+          "pct": [
+           42.2,
+           10.6,
+           57.8,
+           17.8
+          ]
+         },
+         "coverPct": 1.4
+        },
+        {
+         "label": "spriteR",
+         "rect": [
+          497.8,
+          6,
+          304.1,
+          506.9
+         ],
+         "view": [
+          497.8,
+          6,
+          802,
+          390
+         ],
+         "img": {
+          "px": [
+           986,
+           96,
+           1589,
+           857
+          ],
+          "pct": [
+           59,
+           10.2,
+           95,
+           91.1
+          ]
+         },
+         "coverPct": 35.5
+        }
+       ],
+       "rotate": false,
+       "dlgName": "杜可昕",
+       "dlgText": "……你排了多久？後門那家晚上都要排。",
+       "sizeNote": "cover",
+       "cover": {
+        "s": 0.5048,
+        "dw": 844,
+        "dh": 475,
+        "ox": 0,
+        "oy": -42.5,
+        "vis": {
+         "px": [
+          0,
+          84,
+          1672,
+          857
+         ],
+         "pct": [
+          0,
+          8.9,
+          100,
+          91.1
+         ]
+        },
+        "visArea": 82.1,
+        "cut": {
+         "left": 0,
+         "right": 0,
+         "top": 8.9,
+         "bottom": 8.9
+        }
+       },
+       "coverAllPct": 52.4
+      },
+      "dlg": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\04_y4_kx_bday_visit_land_first_dlg.png",
+      "bgonly": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\05_y4_kx_bday_visit_land_first_bgonly.png",
+      "bgbox": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\06_y4_kx_bday_visit_land_first_bgbox.png",
+      "cropmap": "PIL 不能用：ModuleNotFoundError(\"No module named 'PIL'\", name='PIL')"
+     }
+    }
+   },
+   "pageerrors": []
+  },
+  "y4_kx21_study": {
+   "ev": "ev_kexin_study_really",
+   "kind": "outing",
+   "src": "src/r2y4a3d.js:351（9/20 回「系館。」KX_K21_AT nccu → 9/23 14:00）",
+   "batch": 9,
+   "day": {
+    "d": 1103,
+    "wd": 6,
+    "key": "2028-09-23",
+    "hol": false,
+    "term": "Y4S1",
+    "week": 3
+   },
+   "q": {
+    "id": "y4_kx21",
+    "ev": "ev_kexin_study_really",
+    "h": 14,
+    "late": 0.25,
+    "place": "法律系館・自習室",
+    "title": "約讀書（可昕）",
+    "travel": "走路",
+    "travelH": 0.1,
+    "day": 1103,
+    "state": "planned",
+    "ask": null
+   },
+   "load_h": 13.75,
+   "zone": "dorm",
+   "direct_mode": false,
+   "how": "prompt",
+   "started": [
+    {
+     "k": "out",
+     "t": "y4_kx21",
+     "d": "2028-09-23",
+     "h": 13.765
+    }
+   ],
+   "menus_seen": [
+    [
+     "「準備國考。律師，可以的話司法官也考。」",
+     "「準備研究所。」",
+     "「先不考。去實習，或做別的事。」",
+     "「還沒決定。」"
+    ]
+   ],
+   "lines_before": [
+    [
+     "",
+     "（大四開學"
+    ],
+    [
+     "",
+     "（你在書桌前坐了很久。）"
+    ],
+    [
+     "",
+     "（大四，要怎麼過？）"
+    ],
+    [
+     "",
+     "（你在桌曆上，把每個禮拜二、四的晚上圈起來。）"
+    ]
+   ],
+   "scene_ok": true,
+   "lines_in_event_before_bg": [],
+   "bg_now": {
+    "active": true,
+    "cls": "on image narr",
+    "bg": "url(\"http://127.0.0.1:8801/assets/bg/classroom_small.webp\")",
+    "target": true
+   },
+   "shots": {
+    "first": {
+     "land": {
+      "measure": {
+       "vw": 844,
+       "vh": 390,
+       "orient": "land",
+       "advCls": "on image narr",
+       "file": "assets/bg/classroom_small.webp",
+       "target": true,
+       "cg": false,
+       "night": false,
+       "bgSize": "cover",
+       "bgPos": "50% 50%",
+       "bgFilter": "none",
+       "advBg": [
+        0,
+        0,
+        844,
+        390
+       ],
+       "nat": [
+        1672,
+        941
+       ],
+       "boxes": [
+        {
+         "label": "dlg",
+         "rect": [
+          42,
+          296,
+          760,
+          80
+         ],
+         "view": [
+          42,
+          296,
+          802,
+          376
+         ],
+         "img": {
+          "px": [
+           83,
+           671,
+           1589,
+           829
+          ],
+          "pct": [
+           5,
+           71.3,
+           95,
+           88.1
+          ]
+         },
+         "coverPct": 18.5
+        },
+        {
+         "label": "caption",
+         "rect": [
+          352,
+          251,
+          140,
+          37
+         ],
+         "view": [
+          352,
+          251,
+          492,
+          288
+         ],
+         "img": {
+          "px": [
+           697,
+           581,
+           975,
+           655
+          ],
+          "pct": [
+           41.7,
+           61.8,
+           58.3,
+           69.6
+          ]
+         },
+         "coverPct": 1.6
+        },
+        {
+         "label": "advTop",
+         "rect": [
+          356,
+          8,
+          132,
+          34
+         ],
+         "view": [
+          356,
+          8,
+          488,
+          42
+         ],
+         "img": {
+          "px": [
+           705,
+           100,
+           967,
+           167
+          ],
+          "pct": [
+           42.2,
+           10.6,
+           57.8,
+           17.8
+          ]
+         },
+         "coverPct": 1.4
+        }
+       ],
+       "rotate": false,
+       "dlgName": "",
+       "dlgText": "（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）",
+       "sizeNote": "cover",
+       "cover": {
+        "s": 0.5048,
+        "dw": 844,
+        "dh": 475,
+        "ox": 0,
+        "oy": -42.5,
+        "vis": {
+         "px": [
+          0,
+          84,
+          1672,
+          857
+         ],
+         "pct": [
+          0,
+          8.9,
+          100,
+          91.1
+         ]
+        },
+        "visArea": 82.1,
+        "cut": {
+         "left": 0,
+         "right": 0,
+         "top": 8.9,
+         "bottom": 8.9
+        }
+       },
+       "coverAllPct": 20.5
+      },
+      "dlg": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\07_y4_kx21_study_land_first_dlg.png",
+      "bgonly": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\08_y4_kx21_study_land_first_bgonly.png",
+      "bgbox": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\09_y4_kx21_study_land_first_bgbox.png",
+      "cropmap": "PIL 不能用：ModuleNotFoundError(\"No module named 'PIL'\", name='PIL')"
+     }
+    },
+    "spk": {
+     "land": {
+      "measure": {
+       "vw": 844,
+       "vh": 390,
+       "orient": "land",
+       "advCls": "on image narr",
+       "file": "assets/bg/classroom_small.webp",
+       "target": true,
+       "cg": false,
+       "night": false,
+       "bgSize": "cover",
+       "bgPos": "50% 50%",
+       "bgFilter": "none",
+       "advBg": [
+        0,
+        0,
+        844,
+        390
+       ],
+       "nat": [
+        1672,
+        941
+       ],
+       "boxes": [
+        {
+         "label": "dlg",
+         "rect": [
+          42,
+          296,
+          760,
+          80
+         ],
+         "view": [
+          42,
+          296,
+          802,
+          376
+         ],
+         "img": {
+          "px": [
+           83,
+           671,
+           1589,
+           829
+          ],
+          "pct": [
+           5,
+           71.3,
+           95,
+           88.1
+          ]
+         },
+         "coverPct": 18.5
+        },
+        {
+         "label": "choices",
+         "rect": [
+          14,
+          120,
+          400,
+          154
+         ],
+         "view": [
+          14,
+          120,
+          414,
+          274
+         ],
+         "img": {
+          "px": [
+           28,
+           322,
+           820,
+           627
+          ],
+          "pct": [
+           1.7,
+           34.2,
+           49.1,
+           66.6
+          ]
+         },
+         "coverPct": 18.7
+        },
+        {
+         "label": "advTop",
+         "rect": [
+          356,
+          8,
+          132,
+          34
+         ],
+         "view": [
+          356,
+          8,
+          488,
+          42
+         ],
+         "img": {
+          "px": [
+           705,
+           100,
+           967,
+           167
+          ],
+          "pct": [
+           42.2,
+           10.6,
+           57.8,
+           17.8
+          ]
+         },
+         "coverPct": 1.4
+        }
+       ],
+       "rotate": false,
+       "dlgName": "",
+       "dlgText": "（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）",
+       "sizeNote": "cover",
+       "cover": {
+        "s": 0.5048,
+        "dw": 844,
+        "dh": 475,
+        "ox": 0,
+        "oy": -42.5,
+        "vis": {
+         "px": [
+          0,
+          84,
+          1672,
+          857
+         ],
+         "pct": [
+          0,
+          8.9,
+          100,
+          91.1
+         ]
+        },
+        "visArea": 82.1,
+        "cut": {
+         "left": 0,
+         "right": 0,
+         "top": 8.9,
+         "bottom": 8.9
+        }
+       },
+       "coverAllPct": 38.1
+      },
+      "dlg": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\10_y4_kx21_study_land_spk_dlg.png",
+      "cropmap": "PIL 不能用：ModuleNotFoundError(\"No module named 'PIL'\", name='PIL')"
+     }
+    }
+   },
+   "pageerrors": []
+  },
+  "y4_kx22_two": {
+   "ev": "ev_kexin_two_directions",
+   "kind": "outing",
+   "src": "src/r2y4a3d.js:361（11/13 回「去。」KX_K22 go → 11/14 19:00）",
+   "batch": 9,
+   "day": {
+    "d": 1155,
+    "wd": 2,
+    "key": "2028-11-14",
+    "hol": false,
+    "term": "Y4S1",
+    "week": 11
+   },
+   "q": {
+    "id": "y4_kx22",
+    "ev": "ev_kexin_two_directions",
+    "h": 19,
+    "late": 0.25,
+    "place": "法律系館・自習室",
+    "title": "兩個方向的讀書會（可昕）",
+    "travel": "走路",
+    "travelH": 0.1,
+    "day": 1155,
+    "state": "planned",
+    "ask": null
+   },
+   "load_h": 18.75,
+   "zone": "dorm",
+   "direct_mode": false,
+   "how": "prompt",
+   "started": [
+    {
+     "k": "out",
+     "t": "y4_kx22",
+     "d": "2028-11-14",
+     "h": 18.763
+    }
+   ],
+   "menus_seen": [],
+   "lines_before": [],
+   "scene_ok": true,
+   "lines_in_event_before_bg": [],
+   "bg_now": {
+    "active": true,
+    "cls": "on image narr",
+    "bg": "url(\"http://127.0.0.1:8801/assets/bg/classroom_small.webp\")",
+    "target": true
+   },
+   "shots": {
+    "first": {
+     "land": {
+      "measure": {
+       "vw": 844,
+       "vh": 390,
+       "orient": "land",
+       "advCls": "on image narr",
+       "file": "assets/bg/classroom_small.webp",
+       "target": true,
+       "cg": false,
+       "night": false,
+       "bgSize": "cover",
+       "bgPos": "50% 50%",
+       "bgFilter": "none",
+       "advBg": [
+        0,
+        0,
+        844,
+        390
+       ],
+       "nat": [
+        1672,
+        941
+       ],
+       "boxes": [
+        {
+         "label": "dlg",
+         "rect": [
+          42,
+          296,
+          760,
+          80
+         ],
+         "view": [
+          42,
+          296,
+          802,
+          376
+         ],
+         "img": {
+          "px": [
+           83,
+           671,
+           1589,
+           829
+          ],
+          "pct": [
+           5,
+           71.3,
+           95,
+           88.1
+          ]
+         },
+         "coverPct": 18.5
+        },
+        {
+         "label": "caption",
+         "rect": [
+          352,
+          251,
+          140,
+          37
+         ],
+         "view": [
+          352,
+          251,
+          492,
+          288
+         ],
+         "img": {
+          "px": [
+           697,
+           581,
+           975,
+           655
+          ],
+          "pct": [
+           41.7,
+           61.8,
+           58.3,
+           69.6
+          ]
+         },
+         "coverPct": 1.6
+        },
+        {
+         "label": "advTop",
+         "rect": [
+          356,
+          8,
+          132,
+          34
+         ],
+         "view": [
+          356,
+          8,
+          488,
+          42
+         ],
+         "img": {
+          "px": [
+           705,
+           100,
+           967,
+           167
+          ],
+          "pct": [
+           42.2,
+           10.6,
+           57.8,
+           17.8
+          ]
+         },
+         "coverPct": 1.4
+        }
+       ],
+       "rotate": false,
+       "dlgName": "",
+       "dlgText": "（讀書會有一個學長，說他從大一就知道自己要當法官。）",
+       "sizeNote": "cover",
+       "cover": {
+        "s": 0.5048,
+        "dw": 844,
+        "dh": 475,
+        "ox": 0,
+        "oy": -42.5,
+        "vis": {
+         "px": [
+          0,
+          84,
+          1672,
+          857
+         ],
+         "pct": [
+          0,
+          8.9,
+          100,
+          91.1
+         ]
+        },
+        "visArea": 82.1,
+        "cut": {
+         "left": 0,
+         "right": 0,
+         "top": 8.9,
+         "bottom": 8.9
+        }
+       },
+       "coverAllPct": 20.5
+      },
+      "dlg": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\11_y4_kx22_two_land_first_dlg.png",
+      "bgonly": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\12_y4_kx22_two_land_first_bgonly.png",
+      "bgbox": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\13_y4_kx22_two_land_first_bgbox.png",
+      "cropmap": "PIL 不能用：ModuleNotFoundError(\"No module named 'PIL'\", name='PIL')"
+     }
+    },
+    "spk": {
+     "land": {
+      "measure": {
+       "vw": 844,
+       "vh": 390,
+       "orient": "land",
+       "advCls": "on image",
+       "file": "assets/bg/classroom_small.webp",
+       "target": true,
+       "cg": false,
+       "night": false,
+       "bgSize": "cover",
+       "bgPos": "50% 50%",
+       "bgFilter": "none",
+       "advBg": [
+        0,
+        0,
+        844,
+        390
+       ],
+       "nat": [
+        1672,
+        941
+       ],
+       "boxes": [
+        {
+         "label": "dlg",
+         "rect": [
+          42,
+          272,
+          760,
+          104
+         ],
+         "view": [
+          42,
+          272,
+          802,
+          376
+         ],
+         "img": {
+          "px": [
+           83,
+           623,
+           1589,
+           829
+          ],
+          "pct": [
+           5,
+           66.2,
+           95,
+           88.1
+          ]
+         },
+         "coverPct": 24
+        },
+        {
+         "label": "advTop",
+         "rect": [
+          356,
+          8,
+          132,
+          34
+         ],
+         "view": [
+          356,
+          8,
+          488,
+          42
+         ],
+         "img": {
+          "px": [
+           705,
+           100,
+           967,
+           167
+          ],
+          "pct": [
+           42.2,
+           10.6,
+           57.8,
+           17.8
+          ]
+         },
+         "coverPct": 1.4
+        },
+        {
+         "label": "spriteR",
+         "rect": [
+          497.8,
+          6,
+          304.1,
+          506.9
+         ],
+         "view": [
+          497.8,
+          6,
+          802,
+          390
+         ],
+         "img": {
+          "px": [
+           986,
+           96,
+           1589,
+           857
+          ],
+          "pct": [
+           59,
+           10.2,
+           95,
+           91.1
+          ]
+         },
+         "coverPct": 35.5
+        }
+       ],
+       "rotate": false,
+       "dlgName": "杜可昕",
+       "dlgText": "他想當那個判的人。",
+       "sizeNote": "cover",
+       "cover": {
+        "s": 0.5048,
+        "dw": 844,
+        "dh": 475,
+        "ox": 0,
+        "oy": -42.5,
+        "vis": {
+         "px": [
+          0,
+          84,
+          1672,
+          857
+         ],
+         "pct": [
+          0,
+          8.9,
+          100,
+          91.1
+         ]
+        },
+        "visArea": 82.1,
+        "cut": {
+         "left": 0,
+         "right": 0,
+         "top": 8.9,
+         "bottom": 8.9
+        }
+       },
+       "coverAllPct": 51.4
+      },
+      "dlg": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\BLACKBG_460_r2\\out\\14_y4_kx22_two_land_spk_dlg.png",
+      "cropmap": "PIL 不能用：ModuleNotFoundError(\"No module named 'PIL'\", name='PIL')"
+     }
+    }
+   },
+   "pageerrors": []
+  }
+ }
+}
