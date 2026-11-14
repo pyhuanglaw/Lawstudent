@@ -65,9 +65,9 @@ const TZ_SHOPS_LAYOUT=
     "points": [
       {"id": "wash", "x": -1.85, "z": -0.6, "r": 1.0, "label": "洗衣機", "kind": "tz_xile_wash"},
       {"id": "dry", "x": 1.8, "z": 0.8, "r": 1.0, "label": "烘衣機", "kind": "tz_xile_dry"},
-      {"id": "change", "x": -2.1, "z": 2.3, "r": 0.7, "label": "兌幣機・洗衣精", "kind": "tz_xile_change"},
+      {"id": "change", "x": -2.1, "z": 2.3, "r": 0.7, "label": "兌幣機・洗衣精", "kind": "tz_xile_change", "prio": -0.3},
       {"id": "fold", "x": 0.2, "z": -1.85, "r": 0.9, "label": "折衣桌", "kind": "tz_xile_fold"},
-      {"id": "guide", "x": -1.3, "z": 3.4, "r": 0.55, "label": "看使用說明", "kind": "tz_xile_guide"}
+      {"id": "guide", "x": -1.3, "z": 3.4, "r": 0.55, "label": "看使用說明", "kind": "tz_xile_guide", "prio": -0.3}
     ]
   },
   "yindehao": {

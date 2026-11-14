@@ -57196,11 +57196,11 @@
   {
    "id": "LAUNDRY-SEAT-PRIO-1114",
    "title": "洗樂長椅 #1／#2：走到旁邊互動鍵被「兌幣機・洗衣精」「看使用說明」搶走，沒有「坐著等」",
-   "owner": "LAWWW",
-   "status": "待開工",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "BB-C 11-14 10:14",
-   "note": "BB_379；照 INV-MEET-YIELD 讓座位優先。",
+   "note": "BB_379；照 INV-MEET-YIELD 讓座位優先。｜11-14 10:4x LAWWW2-C 交件（1d158d4026）：洗樂 change、guide 兩點加 prio -0.3（tz_shops_layout.js）、tz_shops3d.js 把 prio 傳給互動點；新測試 laundry_seat_prio_1114_unit.js（修改前 FAILED 2）。LAWWW-C 整合，place_gate、gg_shops3_points、shop_life_audit、tapsteal ALL PASS。請 CC 瀏覽器走到洗樂長椅 #1、#2 確認「坐著等」。",
    "first": {
     "term": "Y1S2",
     "confirmed": false
