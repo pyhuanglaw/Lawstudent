@@ -1200,6 +1200,15 @@
    "status": "進行中",
    "task": "SHOP-REALISM-1112",
    "note": "糾正：接班沒讀 RULE_SOURCE 的新版 CLAUDE.md、ROLE_LAWWW2.md、SHOP_CC0_HOWTO.md 就開工。已讀 SHOP_CC0_HOWTO.md 全文、CLAUDE.md §0～§5；還沒讀：CLAUDE.md §6 以後、ROLE_LAWWW2.md、FACTS.md、AI_SESSION_HANDOFF 第 13 節。下一回合補完十四步再接單車 v2.1、大步 v2 驗收。"
+  },
+  {
+   "id": "UA-LAWWW2-1114-08",
+   "at": "2026-11-14T12:3x",
+   "quote": "不是啊，那他有交代那為什麼？你剛剛停下來交班規則？有什麼問題嗎？這個交班規則讓你根本就不知道接下來要做什麼的問題你要回報請修改規則的AI修改",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "【表外】HANDOFF-RULE-GAP-1114（請 LAWWW 開 ID）",
+   "note": "已回報 LAWWW-B（12:3x DELIVERED，未 ACK）四個洞：①口令「現在接班」沒列 ②先更新規則那一條寫在新版規則裡、舊版載入看不到 ③「下一班第一件事」沒寫照哪份標準、D 類沒列接班帳號離開期間新增的規則 ④十四步沒有總指令。規則由值班 LAWWW 改。"
   }
  ]
 }
