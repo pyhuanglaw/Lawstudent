@@ -48,6 +48,12 @@
    "D27.shop": "dislike",
    "D27.tree": "like",
    "D27.rail": "like"
+  },
+  "classmate_xinci": {
+   "D27.veranda": "normal",
+   "D27.shop": "like",
+   "D27.tree": "normal",
+   "D27.rail": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   "classmate_peishan": {},
   "kexin": {
    "D27.shop": "檜木的東西好貴，我只聞就好。好，買一個小的。"
-  }
+  },
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -112,7 +119,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "今天去哪裡都可以。你決定，我不查。"
+        "text": "去哪裡都可以。我想走有樹的那一邊，比較涼。"
        }
       ]
      }
@@ -184,7 +191,7 @@
         "reply": [
          {
           "who": "heroine_01",
-          "text": "鞋子要脫嗎？我看一下。不用。"
+          "text": "鞋子要脫嗎？我看一下……不用。"
          }
         ],
         "fx": {
@@ -454,7 +461,7 @@
         "reply": [
          {
           "who": "heroine_01",
-          "text": "可以嗎？好。只坐一下。"
+          "text": "可以嗎？好，那只坐一下。"
          }
         ],
         "fx": {
@@ -612,7 +619,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "下次我想坐那班小火車上山。"
+        "text": "小火車一直在叫。我覺得它在跟我們打招呼。"
        }
       ]
      }
@@ -661,7 +668,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。地板好滑，你小心。"
+          "text": "地板好滑，你小心。"
          }
         ],
         "fx": {
@@ -794,7 +801,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "上次買的木書籤被老闆借走了，到現在還沒還。"
+        "text": "買的那個木書籤被老闆借走了，到現在還沒還。"
        }
       ]
      },
@@ -841,7 +848,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。好涼。"
+          "text": "好涼。這棵樹比冷氣厲害。"
          }
         ],
         "fx": {
@@ -919,7 +926,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。椅子是木頭的欸。"
+          "text": "椅子是木頭的欸。"
          }
         ],
         "fx": {
@@ -931,7 +938,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。你站在車廂門口。"
+          "text": "你站在車廂門口。"
          }
         ],
         "fx": {
@@ -1169,7 +1176,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次說的長板凳，蘇姨說是開店那年買的。"
+        "text": "茶屋那張長板凳，蘇姨說是開店那年買的。"
        }
       ]
      },
@@ -1259,7 +1266,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次買的那顆球還有味道。我每天聞一次，很省。"
+        "text": "那顆球還有味道。我每天聞一次，很省。"
        }
       ]
      },
@@ -1396,7 +1403,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好。我坐窗邊。"
+          "text": "我坐窗邊。"
          }
         ],
         "fx": {
@@ -1579,7 +1586,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好，這個木頭坐起來是溫的。"
+          "text": "這個木頭坐起來是溫的。"
          }
         ],
         "fx": {
@@ -1591,7 +1598,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。我想看屋頂的梁是怎麼接的。"
+          "text": "我想看屋頂的梁是怎麼接的。"
          }
         ],
         "fx": {
@@ -1849,7 +1856,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。我坐駕駛座。沒有駕駛座。好吧。"
+          "text": "我坐駕駛座。沒有駕駛座。好吧。"
          }
         ],
         "fx": {
@@ -2056,7 +2063,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。坐你旁邊。"
+          "text": "你也坐。木頭是溫的。"
          }
         ],
         "fx": {
@@ -2189,7 +2196,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "上次你挑的筆筒在我桌上。來的人都會問。"
+        "text": "你挑的筆筒在我桌上。來的人都會問。"
        }
       ]
      },
@@ -2314,7 +2321,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。排進寒假。"
+          "text": "排進寒假。"
          }
         ],
         "fx": {
@@ -2437,7 +2444,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "今天我請你吃雞肉飯。不准搶。"
+        "text": "雞肉飯我請。不准搶。"
        }
       ]
      }
@@ -2449,7 +2456,7 @@
      "lines": [
       {
        "who": "classmate_peishan",
-       "text": "今天走了好多路。"
+       "text": "走了好多路，腳比去程重兩公斤。"
       },
       {
        "who": "classmate_peishan",
@@ -2472,7 +2479,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次我想坐小火車上山，今天只看到車廂。"
+        "text": "小火車只看到車廂。車廂就很可愛了。"
        }
       ]
      }
@@ -2483,7 +2490,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次去哪裡，你想好再跟我說。我都可以。"
+        "text": "你說去哪就去哪。我很好帶吧。"
        }
       ]
      }
@@ -2564,7 +2571,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次我一直在想住這裡的人做什麼工作。今天看到牌子了，原來上次就有，是我沒看。"
+        "text": "住這裡的人做什麼工作，牌子上有寫。原來一直都在，是我沒看。"
        }
       ]
      },
@@ -2611,7 +2618,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好。小的就好。"
+          "text": "小的。小到我媽不會問這要放哪。"
          }
         ],
         "fx": {
@@ -2654,7 +2661,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次那塊砧板我媽每天都用，她說切什麼都變香了。我覺得是心理作用。"
+        "text": "那塊砧板太好看了，我捨不得切東西。"
        }
       ]
      },
@@ -2744,7 +2751,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次問它幾歲。今天看它，還是比我想的老。"
+        "text": "它到底幾歲？今天看它，還是比我想的老。"
        }
       ]
      },
@@ -2873,7 +2880,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "予樂叫我帶方塊酥。她指定口味，我背起來了。"
+        "text": "我室友叫我帶方塊酥。她指定口味，我背起來了。"
        }
       ]
      },
@@ -3064,7 +3071,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。小的。合理。"
+          "text": "買小的就好，這樣合理。"
          }
         ],
         "fx": {
@@ -3119,7 +3126,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次買的小木盒，我拿來放你給我的票根。"
+        "text": "那個小木盒，我拿來放你給我的票根了。"
        }
       ]
      },
@@ -3154,7 +3161,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好，我去看。"
+          "text": "我去看。我猜錯了，不告訴你我猜什麼。"
          }
         ],
         "fx": {
@@ -3235,16 +3242,16 @@
        },
        {
         "who": "kexin",
-        "text": "運木頭的成本，比走路低很多。這是規模經濟。"
+        "text": "以前的人就靠這麼窄的東西，把整座山的木頭運下來。很敢。"
        }
       ],
       "choice": [
        {
-        "t": "「妳又在上課。」",
+        "t": "「妳很佩服？」",
         "reply": [
          {
           "who": "kexin",
-          "text": "好。不上課。坐車廂。"
+          "text": "佩服。敢做的人我都佩服。去坐車廂。"
          }
         ],
         "fx": {
@@ -3252,11 +3259,11 @@
         }
        },
        {
-        "t": "「很有道理。」",
+        "t": "「換成妳也敢吧。」",
         "reply": [
          {
           "who": "kexin",
-          "text": "對。好，不講了。"
+          "text": "敢。可是我要坐第一節。"
          }
         ],
         "fx": {
@@ -3299,7 +3306,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那節車廂有人在裡面拍照，我們等一下。"
+        "text": "車廂有人在裡面拍照，我們等一下。"
        }
       ]
      },
@@ -3310,6 +3317,374 @@
         {
          "who": "kexin",
          "text": "（她坐在車廂裡，把你的手拉過去看錶）還有時間。再坐十分鐘。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "嘉義。高鐵加接駁車，一個半小時。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我在車上把行程看了三遍。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "檜意森活村的木頭味道比上次重。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "老樹還是那棵。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這次我沒有看行程。我想跟你走。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回程的高鐵，我想坐窗邊看田。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "手上都是檜木的味道。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "火車雞肉飯買了兩個，車上吃。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（高鐵上，她把便當的雞腿夾給你）這個給你。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D27.veranda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "木屋的緣側，可以坐著看院子。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們坐一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。木頭地板很涼。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「以前誰住這裡？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "林場的人。我在想他們下班以後也坐在這裡嗎。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "緣側有人在拍照。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "木頭地板曬得溫溫的。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她坐在緣側，把鞋子脫了放旁邊）你也坐。"
+        }
+       ]
+      }
+     ]
+    },
+    "D27.shop": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "檜木小店的東西都好香。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "我拿起來每一樣都想聞。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「買一個？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好，最小的那一個。我收著。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我送妳一個。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。……你挑的話，我就每天都聞得到。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "小店換了一批新的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "檜木的香味跟著我們走了一路。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我買了兩個檜木的小方塊。一個放你那邊。"
+        }
+       ]
+      }
+     ]
+    },
+    "D27.tree": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "院子的老樹比房子還老。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳覺得幾歲？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "說明牌寫一百年。我比它年輕八十年。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「在樹下站一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。樹下好涼。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "老樹的葉子比上次少。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人在樹下畫畫。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她靠在老樹上，把你拉過去）我們跟樹拍一張。"
+        }
+       ]
+      }
+     ]
+    },
+    "D27.rail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "舊鐵道上的小火車，以前是載木頭的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐一趟？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我想坐最後一節。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳知道它載過多少木頭嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "說明牌沒寫。我回去查。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "小火車比上次慢。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "鐵道旁邊的花開了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（小火車上，她靠著你看外面）這段路好短。"
         }
        ]
       }

@@ -48,6 +48,12 @@
    "D17.mushroom": "normal",
    "D17.platform": "like",
    "D17.trail": "normal"
+  },
+  "classmate_xinci": {
+   "D17.queen": "normal",
+   "D17.mushroom": "normal",
+   "D17.platform": "normal",
+   "D17.trail": "normal"
   }
  },
  "dislikeLine": {
@@ -61,7 +67,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -114,7 +121,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "今天不排路線。你看哪塊石頭，我就看哪塊。"
+        "text": "你看哪塊石頭，我就看哪塊。女王頭要排隊，最後再去。"
        }
       ]
      }
@@ -130,7 +137,7 @@
       },
       {
        "who": "heroine_01",
-       "text": "下次穿運動鞋。"
+       "text": "我穿錯鞋了。腳很痛，可是很值得。"
       }
      ]
     },
@@ -663,7 +670,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。一張就好。"
+          "text": "一張就好。然後陪我繞到背面。"
          }
         ],
         "fx": {
@@ -706,7 +713,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "這次也從背面看。背面沒有人排隊，很划算。"
+        "text": "我們從背面看。背面沒有人排隊，很划算。"
        }
       ]
      },
@@ -753,7 +760,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。腳拍長一點喔。"
+          "text": "腳拍長一點喔。"
          }
         ],
         "fx": {
@@ -843,7 +850,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。看三個浪。"
+          "text": "看三個浪。"
          }
         ],
         "fx": {
@@ -921,7 +928,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。我也不想走快。"
+          "text": "走慢一點。你的水分我一口。"
          }
         ],
         "fx": {
@@ -976,7 +983,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "這次我帶了兩瓶水，上次走到一半就喝光了。"
+        "text": "我帶了兩瓶水。一瓶是你的，不要再跟我分。"
        }
       ]
      },
@@ -1128,7 +1135,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好。排隊我很會，茶屋外面我每個禮拜都在看。"
+          "text": "排隊我很會，茶屋外面我每個禮拜都在看。"
          }
         ],
         "fx": {
@@ -1171,7 +1178,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那個跟女王頭說話的阿嬤，今天沒有來。"
+        "text": "那個跟女王頭說話的阿嬤，今天沒有來。"
        }
       ]
      },
@@ -1261,7 +1268,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次被踩過的那顆香菇還在，我找到了。"
+        "text": "被踩過的那顆香菇還在，我找到了。"
        }
       ]
      },
@@ -1351,7 +1358,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那隻小螃蟹沒出來。水窪也換位置了，潮水的關係。"
+        "text": "那隻小螃蟹沒出來。水窪也換位置了，潮水的關係。"
        }
       ]
      },
@@ -1398,7 +1405,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好，走到看不到女王頭的地方。"
+          "text": "走到看不到女王頭的地方。"
          }
         ],
         "fx": {
@@ -1441,7 +1448,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次走到底，我差點被風吹倒。你拉住我了。"
+        "text": "走到底風很大。你拉住過我一次。"
        }
       ]
      },
@@ -1509,7 +1516,7 @@
       "lines": [
        {
         "who": "heroine_04",
-        "text": "今天跟著你走。好啦，女王頭要看。"
+        "text": "女王頭我在地圖上標好了。先去那裡，人比較少。"
        }
       ]
      }
@@ -1593,7 +1600,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。它很強。我尊敬它。"
+          "text": "它很強。我尊敬它。"
          }
         ],
         "fx": {
@@ -1773,7 +1780,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。我看路。"
+          "text": "我看路。洞裡那個東西也在看我。"
          }
         ],
         "fx": {
@@ -1851,7 +1858,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。你寫客氣一點，我寫的會被丟掉。"
+          "text": "你寫客氣一點，我寫的會被丟掉。"
          }
         ],
         "fx": {
@@ -1863,7 +1870,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。快到盡頭。"
+          "text": "快到盡頭。"
          }
         ],
         "fx": {
@@ -2136,7 +2143,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "我知道。今天就很慢。"
+          "text": "我知道。我已經在這塊石頭前面站五分鐘了。"
          }
         ],
         "fx": {
@@ -2281,7 +2288,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "上次在這裡站了很久。回去以後，我跟學弟妹講了這裡的石頭。"
+        "text": "這裡的石頭，我回去跟學弟妹講了。"
        }
       ]
      },
@@ -2316,7 +2323,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。只走。"
+          "text": "那我只負責走。"
          }
         ],
         "fx": {
@@ -2328,7 +2335,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。你決定，我跟。"
+          "text": "你決定，我跟。"
          }
         ],
         "fx": {
@@ -2439,7 +2446,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "今天你帶路，我跟著就好。"
+        "text": "你帶路。石頭長什麼樣子，我先不看別人拍的。"
        }
       ]
      }
@@ -2474,7 +2481,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次我們早一點出門，人比較少。"
+        "text": "人好多。可是我們還是看到了，很值得。"
        }
       ]
      }
@@ -2562,7 +2569,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次問脖子斷了還算不算，我拿去問旁聽那堂的老師，他說這個問題已經被問兩千多年了。"
+        "text": "脖子斷了還算不算，我拿去問旁聽那堂的老師，他說這個問題已經被問兩千多年了。"
        }
       ]
      },
@@ -2695,7 +2702,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好。謝謝。"
+          "text": "謝謝。我剛剛已經在想鞋子濕了要怎麼回家。"
          }
         ],
         "fx": {
@@ -2781,7 +2788,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好。那你知道也不要先講。"
+          "text": "那你知道也不要先講。"
          }
         ],
         "fx": {
@@ -2863,7 +2870,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "行程表我寫到女王頭為止。後面的看你。"
+        "text": "我只想看女王頭。後面的看你。"
        }
       ]
      },
@@ -2881,7 +2888,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "予樂問我去哪。我說野柳，她說好老派。"
+        "text": "野柳我小學畢業旅行來過。那時候只記得很曬。"
        }
       ]
      }
@@ -2927,7 +2934,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "下次挑平日。假日的人把我的耐心用完了。"
+        "text": "今天人有點多。我的耐心剩一點點，留給你。"
        }
       ]
      }
@@ -2955,7 +2962,7 @@
        },
        {
         "who": "kexin",
-        "text": "用經濟學算，這四十分鐘的機會成本很高。"
+        "text": "四十分鐘。我的妝在太陽底下撐不了那麼久。"
        }
       ],
       "choice": [
@@ -3019,7 +3026,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次拍的那張，你眼睛閉著。我還是留著。"
+        "text": "女王頭好像又瘦了一點。"
        }
       ]
      },
@@ -3029,7 +3036,7 @@
        "lines": [
         {
          "who": "kexin",
-         "text": "合照。女王頭要入鏡。你蹲低一點。"
+         "text": "來合照。女王頭要入鏡，所以你蹲低一點。"
         }
        ]
       }
@@ -3109,7 +3116,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那顆像我的石頭，我找不到了。你說我看錯，我沒有。"
+        "text": "那顆像我的石頭，我找不到了。你說我看錯，我沒有。"
        }
       ]
      },
@@ -3199,7 +3206,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次說的那個判決，後來上課被點到。還好讀了三次。"
+        "text": "上次說的那個判決，後來上課被點到。還好有讀。"
        }
       ]
      },
@@ -3300,6 +3307,370 @@
         {
          "who": "kexin",
          "text": "（她牽著你的手）走到盡頭再回頭。中間不喊累，我也不喊。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "野柳。石頭都長得好奇特。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "我在照片看過，沒有想過真的那麼大。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "風一樣大。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "遊客比上次多了一倍。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了帽子。這次不會曬傷。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回去以前，我想再看一眼海。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "腿好痠。石頭路走起來很累。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "鞋子裡有沙。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她把帽子戴到你頭上）你比較需要。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "女王頭前面排好長的隊。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「看側面就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。側面也看得清楚。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「排一下吧？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。排隊的時候，我可以算一下隊伍多長。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "隊伍還是好長。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人說女王頭的脖子變細了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們看側面。拍一張剪影就好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "蕈狀岩的形狀像一朵一朵的香菇。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳覺得像什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "像沒有人收的紙杯。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們找最大那一顆。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你往左，我往右。找到了喊。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這一顆比上次看起來矮。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有人爬到石頭上面。不可以。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她站在一顆岩石旁邊）這顆跟我一樣高。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海蝕平台上都是小洞。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「洞裡有東西嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "有小螃蟹。我看到兩隻。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「小心滑。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。你走前面，我看你踩哪裡。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "海水漲上來了一點。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "平台上的水窪映著天空。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她牽著你的手跨過一個水窪）這個比較大。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "海邊步道的風好大。我抓著帽子。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我幫妳抓。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你抓帽子，我抓你。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「走到頂端嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "走到頂端。可以看到整個岬角。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "步道的木樁換新了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "從上面看，石頭像一群在排隊的人。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "走到步道最上面，看一下海就走。"
         }
        ]
       }

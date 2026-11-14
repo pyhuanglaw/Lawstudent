@@ -48,6 +48,12 @@
    "D07.cell": "normal",
    "D07.wall": "like",
    "D07.path": "normal"
+  },
+  "classmate_xinci": {
+   "D07.court": "normal",
+   "D07.cell": "normal",
+   "D07.wall": "normal",
+   "D07.path": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   },
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -115,7 +122,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "今天想安靜地走。你在旁邊就好。"
+        "text": "我想再走一次那條走廊。你在旁邊就好，不用講話。"
        }
       ]
      }
@@ -153,7 +160,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "下次來，我想看另一邊的展覽室。"
+        "text": "另一邊的展覽室沒開。我們看的這一邊，就夠我想很久了。"
        }
       ]
      }
@@ -667,7 +674,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。我跟在你後面。"
+          "text": "我跟在你後面。"
          }
         ],
         "fx": {
@@ -757,7 +764,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。我抓著你的包包。"
+          "text": "我抓著你的包包。"
          }
         ],
         "fx": {
@@ -769,7 +776,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。慢一點。"
+          "text": "嗯。我不想太快走完這一段。"
          }
         ],
         "fx": {
@@ -812,7 +819,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "這次想走完，上次我走到一半就想出去。"
+        "text": "這一條我想走完。走到一半想出去的話，你拉我。"
        }
       ]
      },
@@ -847,7 +854,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。坐一下。"
+          "text": "坐一下。那段話我還在想。"
          }
         ],
         "fx": {
@@ -902,7 +909,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "上次抄下來的那段還在我手機裡，沒有刪。"
+        "text": "抄下來的那段還在我手機裡，沒有刪。"
        }
       ]
      },
@@ -1367,7 +1374,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那封家書的名字，我記得。今天又看了一次。"
+        "text": "那封家書的名字，我記得。今天又看了一次。"
        }
       ]
      },
@@ -1402,7 +1409,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好。那張長椅有太陽。"
+          "text": "嗯。那張長椅有太陽。"
          }
         ],
         "fx": {
@@ -1525,7 +1532,7 @@
       "lines": [
        {
         "who": "heroine_04",
-        "text": "今天我不滑手機。全部用看的。"
+        "text": "這裡要用看的，拍不出來。"
        }
       ]
      }
@@ -1560,7 +1567,7 @@
       "lines": [
        {
         "who": "heroine_04",
-        "text": "下次，我想自己再來一次。"
+        "text": "這裡我想一個人再待一下。你先去外面等我好不好。"
        }
       ]
      }
@@ -1699,7 +1706,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。謝謝。"
+          "text": "嗯。出去以後，我想先看一下天空。"
          }
         ],
         "fx": {
@@ -1777,7 +1784,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。"
+          "text": "坐一下。我要想一下剛剛那件事。"
          }
         ],
         "fx": {
@@ -2165,7 +2172,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。一下就好。"
+          "text": "一下就好。"
          }
         ],
         "fx": {
@@ -2208,7 +2215,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "上次說要重新教。我把以前寫給學弟妹的那份講義改了，寄回社辦。"
+        "text": "以前寫給學弟妹的那份講義，我改了，寄回社辦了。"
        }
       ]
      },
@@ -2298,7 +2305,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "上次那個說「沒有做錯事」的人，我回去查了。查得到的很少。"
+        "text": "那個說「沒有做錯事」的人，我回去查了。查得到的很少。"
        }
       ]
      },
@@ -2487,7 +2494,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次我想帶我爸媽來。我爸一定會把每一塊說明牌都看完。"
+        "text": "我爸要是來，一定會把每一塊說明牌都看完。我只看了一半。"
        }
       ]
      }
@@ -2575,7 +2582,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次我問的那個，後來我拿去問旁聽那堂的老師，他也想了很久。"
+        "text": "我問的那個問題，我自己想到一半就卡住了。你那天的答案比較好。"
        }
       ]
      },
@@ -2622,7 +2629,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好。謝謝。"
+          "text": "嗯，謝謝。我剛剛一直在數門。"
          }
         ],
         "fx": {
@@ -2665,7 +2672,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次問你他每天在想什麼，我後來想了好多天，沒有想出來。"
+        "text": "他每天在想什麼，我後來想了好多天，沒有想出來。"
        }
       ]
      },
@@ -2751,7 +2758,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次那個想吃稀飯的人，我回家講給我爸媽聽，我爸很久沒講話。"
+        "text": "那個想吃稀飯的人，我回家講給我爸媽聽，我爸很久沒講話。"
        }
       ]
      },
@@ -2898,7 +2905,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "予樂問我去哪。我說，去一個要安靜的地方。"
+        "text": "我今天話會很少。這裡是要安靜的地方。"
        }
       ]
      }
@@ -3126,7 +3133,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那扇門，我記得編號。不說出來。"
+        "text": "那扇門，我記得編號。不說出來。"
        }
       ]
      },
@@ -3216,7 +3223,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那封「不要為我擔心」的信，我回去讀了全文。"
+        "text": "那封「不要為我擔心」的信，我回去讀了全文。"
        }
       ]
      },
@@ -3306,7 +3313,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那個沒有回答的問題，我自己想了答案。不會。"
+        "text": "那個沒有回答的問題，我自己想了答案。不會。"
        }
       ]
      },
@@ -3317,6 +3324,282 @@
         {
          "who": "kexin",
          "text": "（她靠著你的肩膀，走了一段）"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "hotspots": {
+    "D07.court": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "法庭比課本上的照片小。法官坐的地方那麼近。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐在被告席是什麼感覺？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我不要坐。站在旁聽席看，已經很難受了。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「妳爸媽來過這裡嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我媽來過。她說她在這裡站了很久，才決定當律師。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "旁聽席的木頭椅子，坐久了會痛。他們那時候坐更久。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "導覽的人講到一半停下來。大家都沒有講話。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她的手指碰到你的手背，沒有拿開）我們在這裡多站一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D07.cell": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "走廊很窄。兩個人擦肩都要側身。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳還好嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "還好。我在數門，有十二間。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「我們快點走過去。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "不要。走慢一點。這裡應該走慢一點。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "門上的小窗，大小剛好一張臉。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這裡的燈一直都這麼暗嗎。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "你走前面。我想看著你的背走過去。"
+        }
+       ]
+      }
+     ]
+    },
+    "D07.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她在牆前面停下來，一個名字一個名字看）有一個跟我同姓。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「是親戚嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "不知道。我回去問我爸。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "（陪她看完一整排）",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "你都沒有催我。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我每次來都看同一排。這次看下一排。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "牆前面有人放了一朵花。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "名字好多。我每次都看不完。你陪我看完這一排。"
+        }
+       ]
+      }
+     ]
+    },
+    "D07.path": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "出來以後，外面的太陽好大。好像剛剛那些是假的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「不是假的。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我知道。所以才要來。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「去吃點東西？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。吃點甜的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "小路兩邊的樹長高了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "走出來的時候，大家講話都比進去前小聲。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她牽住你的手，走了一段才放開）走吧。"
         }
        ]
       }

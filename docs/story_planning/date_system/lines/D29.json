@@ -48,6 +48,12 @@
    "D29.sculpture": "normal",
    "D29.harbor": "like",
    "D29.rail": "like"
+  },
+  "classmate_xinci": {
+   "D29.warehouse": "normal",
+   "D29.sculpture": "normal",
+   "D29.harbor": "normal",
+   "D29.rail": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -610,7 +617,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "下次，我想坐船去旗津。"
+        "text": "港邊的船開來開去。我想知道每一艘要去哪。"
        }
       ]
      }
@@ -659,7 +666,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。你先走，我說明牌看比較慢。"
+          "text": "你先走，我說明牌看比較慢。"
          }
         ],
         "fx": {
@@ -749,7 +756,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。你站旁邊。比例會很好笑。"
+          "text": "你站旁邊。比例會很好笑。"
          }
         ],
         "fx": {
@@ -792,7 +799,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "那張比例很好笑的照片，我還留著。"
+        "text": "那張比例很好笑的照片，我傳到群組了。大家笑了一整晚。"
        }
       ]
      },
@@ -827,7 +834,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。我可以看到忘記時間。"
+          "text": "我可以看到忘記時間。"
          }
         ],
         "fx": {
@@ -882,7 +889,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "這次船比較少，上次停得滿滿的。"
+        "text": "船好少。都出海了吧。"
        }
       ]
      },
@@ -929,7 +936,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。草有點刺。沒關係。"
+          "text": "草有點刺。沒關係。"
          }
         ],
         "fx": {
@@ -1112,7 +1119,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好，門好重，你推。"
+          "text": "門好重，你推。"
          }
         ],
         "fx": {
@@ -1167,7 +1174,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那堆椅子撤掉了，換成一堆門。"
+        "text": "那堆椅子撤掉了，換成一堆門。"
        }
       ]
      },
@@ -1214,7 +1221,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好，它的影子剛好兩個人。"
+          "text": "它的影子剛好兩個人。"
          }
         ],
         "fx": {
@@ -1304,7 +1311,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好，那個樁可以坐，我看別人坐過。"
+          "text": "那個樁可以坐，我看別人坐過。"
          }
         ],
         "fx": {
@@ -1540,7 +1547,7 @@
       "lines": [
        {
         "who": "heroine_04",
-        "text": "下次我要來看遊戲展。這裡常常有。"
+        "text": "這裡的展比我想的好玩。我拍了好多參考。"
        }
       ]
      }
@@ -1577,7 +1584,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好，可是我要先把屋頂看完。"
+          "text": "可是我要先把屋頂看完。"
          }
         ],
         "fx": {
@@ -1679,7 +1686,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好，你站在它旁邊，當作比例尺。"
+          "text": "你站在它旁邊，當作比例尺。"
          }
         ],
         "fx": {
@@ -1757,7 +1764,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好，我賭十分鐘內會吊一個。"
+          "text": "我賭十分鐘內會吊一個。"
          }
         ],
         "fx": {
@@ -1847,7 +1854,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好，你走那一條，我走這一條，看誰先掉。"
+          "text": "你走那一條，我走這一條，看誰先掉。"
          }
         ],
         "fx": {
@@ -2042,7 +2049,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。那我看顏色就好。"
+          "text": "那我看顏色就好。"
          }
         ],
         "fx": {
@@ -2054,7 +2061,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。那我們一起看不懂。"
+          "text": "那說明牌是寫給誰的。"
          }
         ],
         "fx": {
@@ -2097,7 +2104,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "上次那面看不懂的牆，換成別的作品了。"
+        "text": "那面看不懂的牆，換成別的作品了。"
        }
       ]
      },
@@ -2132,7 +2139,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "習慣。今天不算。"
+          "text": "習慣。算不出來，太大了。"
          }
         ],
         "fx": {
@@ -2144,7 +2151,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。高雄的影子很珍貴。"
+          "text": "高雄的影子很珍貴。"
          }
         ],
         "fx": {
@@ -2312,7 +2319,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。（她走得很穩）我平衡感很好。"
+          "text": "（她走得很穩）我平衡感很好。"
          }
         ],
         "fx": {
@@ -2324,7 +2331,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。草是乾的。"
+          "text": "草是乾的。坐吧。"
          }
         ],
         "fx": {
@@ -2470,7 +2477,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次我想晚上來，聽說港邊晚上燈都會亮。"
+        "text": "港邊的燈要亮了。第一盞是我先看到的，記下來。"
        }
       ]
      }
@@ -2481,7 +2488,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "今天想講的好多都忘了講，下次想到再跟你說。"
+        "text": "想講的好多都忘了講。光是在旁邊就夠了。"
        }
       ]
      }
@@ -2519,7 +2526,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好。我會看很久。"
+          "text": "我會看很久。你可以先去買飲料。"
          }
         ],
         "fx": {
@@ -2562,7 +2569,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次問以前放什麼的那間，今天換展了。"
+        "text": "以前放什麼的那間，今天換展了。"
        }
       ]
      },
@@ -2857,7 +2864,7 @@
      "lines": [
       {
        "who": "kexin",
-       "text": "回自己家還要排行程。我自己都覺得好笑。"
+       "text": "回自己家還要帶人逛。我自己都覺得好笑。"
       },
       {
        "who": "kexin",
@@ -2900,7 +2907,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "這兩天你什麼都不用查，我都排好了。"
+        "text": "這兩天你什麼都不用查。這裡是我家。"
        }
       ]
      }
@@ -2959,20 +2966,20 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "倉庫改的展間。這個再利用的效益很高。"
+        "text": "倉庫改的展間。牆壁沒有重漆，鏽都留著。"
        },
        {
         "who": "kexin",
-        "text": "好，我不講經濟了，看展。"
+        "text": "我喜歡這樣。沒有假裝自己是新的。"
        }
       ],
       "choice": [
        {
-        "t": "「妳經濟系的魂。」",
+        "t": "「妳也不假裝。」",
         "reply": [
          {
           "who": "kexin",
-          "text": "它跟著我回高雄了。"
+          "text": "假裝很累。我臉上藏不住。"
          }
         ],
         "fx": {
@@ -2980,11 +2987,11 @@
         }
        },
        {
-        "t": "「講也可以。」",
+        "t": "「鏽會沾到衣服嗎？」",
         "reply": [
          {
           "who": "kexin",
-          "text": "真的？那我講三分鐘。"
+          "text": "會。所以你站過去一點，我今天穿白的。"
          }
         ],
         "fx": {
@@ -3027,7 +3034,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "這次我不講經濟，講一點點就好。"
+        "text": "鏽好像又多了一點。很好，繼續留著。"
        }
       ]
      },
@@ -3062,7 +3069,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。你往後退，退到那棵樹。好，拍。"
+          "text": "你往後退，退到那棵樹。好，拍。"
          }
         ],
         "fx": {
@@ -3074,7 +3081,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好，高雄的影子要搶。"
+          "text": "高雄的影子要搶。"
          }
         ],
         "fx": {
@@ -3139,20 +3146,20 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "港口。我在算一艘船載多少貨。"
+        "text": "港口。我小時候不高興就會跑來這裡吹風。"
        },
        {
         "who": "kexin",
-        "text": "好，算不完。我們看船。"
+        "text": "吹一吹也沒有比較不氣。可是我還是會來。"
        }
       ],
       "choice": [
        {
-        "t": "「算到一半就好。」",
+        "t": "「今天有在氣什麼嗎？」",
         "reply": [
          {
           "who": "kexin",
-          "text": "好，只算一半。"
+          "text": "沒有。今天是帶你來看的。"
          }
         ],
         "fx": {
@@ -3164,7 +3171,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。那艘要出去了，你看它轉彎。"
+          "text": "那艘要出去了，你看它轉彎。"
          }
         ],
         "fx": {
@@ -3197,7 +3204,7 @@
        "lines": [
         {
          "who": "kexin",
-         "text": "以後我們每年來看一次港口。我已經排了。"
+         "text": "這個港我每次回來都要看一眼。沒看到會覺得沒有回來。"
         }
        ]
       }
@@ -3207,7 +3214,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那台起重機還在同一個位置。它這幾個月都在幹嘛。"
+        "text": "起重機還在同一個位置。它這幾個月都在幹嘛。"
        }
       ]
      },
@@ -3242,7 +3249,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。你在旁邊扶我，掉下去算你的。"
+          "text": "你在旁邊扶我，掉下去算你的。"
          }
         ],
         "fx": {
@@ -3254,7 +3261,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。我帶了墊子，從家裡拿的。"
+          "text": "我帶了墊子，從家裡拿的。"
          }
         ],
         "fx": {
@@ -3308,6 +3315,378 @@
         {
          "who": "kexin",
          "text": "（她在鐵軌上牽著你的手）走到底。不准放手。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "高雄。駁二的倉庫比我想的大。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "以前放的是貨，現在放的是藝術。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "港邊的風比上次大。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "倉庫外面多了幾個新的雕塑。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這兩天，你想去哪裡，我都跟。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "高雄的天黑得比較晚。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "腳好痠。駁二太大了。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "輕軌的站牌，我拍了一張。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（輕軌上，她握住你的手）我們下一站再下。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D29.warehouse": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "倉庫改的展間，天花板好高。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "聲音會跑到很遠。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳喜歡這種空間？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "喜歡。東西少，每一件都看得清楚。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們從最裡面看起。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。倒著看，比較少人。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這一檔的展比上次熱鬧。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "展間外面有人在賣咖啡。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她在一件作品前面停下來，把你拉過去）這件，你看。"
+        }
+       ]
+      }
+     ]
+    },
+    "D29.sculpture": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "戶外的雕塑好大。我站在它旁邊像一隻螞蟻。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我幫妳拍一張有比例的。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我站遠一點，你要拍到整個。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「這是什麼形狀？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "說明牌說是一個在等船的人。我看不出來。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "雕塑旁邊有小孩在爬。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "太陽照在雕塑上，影子好長。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們站在雕塑的影子裡。這裡比較涼。"
+        }
+       ]
+      }
+     ]
+    },
+    "D29.harbor": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "港邊的步道好長。船一直在進出。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳看得出是哪國的船嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "看旗子。那艘是巴拿馬的，很多船都掛巴拿馬。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們走到步道盡頭。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。走到盡頭再走回來。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "港邊有人在釣魚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "有一艘很大的貨輪要出港了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她牽著你的手，看著港裡的船）那艘要去很遠的地方。"
+        }
+       ]
+      }
+     ]
+    },
+    "D29.rail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "舊鐵道的草地，鐵軌還在。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "可是不會有火車來了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們走在鐵軌上？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我走一邊，你走另一邊。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「以前這裡載什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "糖和香蕉。倉庫的牆上有寫。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "草地上有人在野餐。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "鐵軌被曬得好燙。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她在鐵軌上張開手保持平衡，伸手給你）拉著我。"
         }
        ]
       }

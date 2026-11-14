@@ -48,6 +48,12 @@
    "D15.car": "normal",
    "D15.store": "normal",
    "D15.sky": "like"
+  },
+  "classmate_xinci": {
+   "D15.rail": "normal",
+   "D15.car": "normal",
+   "D15.store": "normal",
+   "D15.sky": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -110,7 +117,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "（她把包包留在車上）今天什麼都不帶。"
+        "text": "包包我放車上了，外套有帶。你冷的話，我分你一件。"
        }
       ]
      }
@@ -145,7 +152,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "下次早一點來。日落也想看。"
+        "text": "太陽下去得好快。我還沒準備好。"
        }
       ]
      }
@@ -284,7 +291,7 @@
         "reply": [
          {
           "who": "heroine_01",
-          "text": "好。你選。我聽聽看。"
+          "text": "好，你選，我聽聽看你平常都聽什麼。"
          }
         ],
         "fx": {
@@ -443,7 +450,7 @@
        },
        {
         "who": "heroine_01",
-        "text": "光害。可是有四顆。我數過了。"
+        "text": "有光害，可是還看得到四顆，我數過了。"
        }
       ],
       "choice": [
@@ -452,7 +459,7 @@
         "reply": [
          {
           "who": "heroine_01",
-          "text": "第五顆是飛機。我收回四顆。不，維持四顆。"
+          "text": "第五顆是飛機。那我收回……不對，還是四顆。"
          }
         ],
         "fx": {
@@ -840,7 +847,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。今天不喝咖啡。"
+          "text": "今天不喝咖啡。"
          }
         ],
         "fx": {
@@ -883,7 +890,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "這次的奶泡剛好。是這台機器進步了，還是店員換人了？"
+        "text": "店員換人了。奶泡還是剛好，所以是機器的功勞。"
        }
       ]
      },
@@ -1203,7 +1210,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好，不要有人在裡面大叫的那種。"
+          "text": "不要有人在裡面大叫的那種。"
          }
         ],
         "fx": {
@@ -1258,7 +1265,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那首歌，我後來找到了。"
+        "text": "那首歌，我後來找到了。"
        }
       ]
      },
@@ -1348,7 +1355,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那罐奶茶，我後來在山下找不到一樣的。"
+        "text": "那罐奶茶，我後來在山下找不到一樣的。"
        }
       ]
      },
@@ -1506,7 +1513,7 @@
       "lines": [
        {
         "who": "heroine_04",
-        "text": "今天的音樂我來放。好啦，一人一首。"
+        "text": "歌單我做好了，四十分鐘，剛好開到。"
        }
       ]
      }
@@ -1680,7 +1687,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。下一首是選單畫面的，很平靜。"
+          "text": "下一首是選單畫面的，很平靜。"
          }
         ],
         "fx": {
@@ -1758,7 +1765,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好，我記下來。"
+          "text": "我記下來了。"
          }
         ],
         "fx": {
@@ -2046,7 +2053,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "上次你說B館在那一片。我回去對過地圖，不是。"
+        "text": "你說B館在那一片。我回去對過地圖，不是。"
        }
       ]
      },
@@ -2100,7 +2107,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "上次那首歌，我回去加進歌單了。讀書的時候不聽。"
+        "text": "那首歌我加進歌單了。讀書的時候不聽。"
        }
       ]
      },
@@ -2276,7 +2283,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "今天我話比較少，因為我一直在看。你不要不習慣。"
+        "text": "山路彎好多。等一下我安靜是在數彎，不要擔心。"
        }
       ]
      }
@@ -2292,7 +2299,7 @@
       },
       {
        "who": "classmate_peishan",
-       "text": "下次我們再來好不好？"
+       "text": "今天好開心。你有開心嗎？"
       }
      ]
     },
@@ -2311,7 +2318,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次我想挑一天沒有雲的來，今天有一半被遮住了。"
+        "text": "有一半被雲遮住了。另一半很好看，夠了。"
        }
       ]
      }
@@ -2450,7 +2457,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好。山上的廣播聽起來好像比較遠。"
+          "text": "山上的廣播聽起來好像比較遠。"
          }
         ],
         "fx": {
@@ -2528,7 +2535,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好啊。那下山以後的宵夜算我的。"
+          "text": "那下山以後的宵夜算我的。"
          }
         ],
         "fx": {
@@ -2540,7 +2547,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好。一人一碗，湯我要加滿。"
+          "text": "一人一碗，湯我要加滿。"
          }
         ],
         "fx": {
@@ -2583,7 +2590,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次說宵夜算我的，我記得喔，今天兌現。"
+        "text": "今天宵夜算我的。上次就想請了。"
        }
       ]
      },
@@ -2645,7 +2652,7 @@
        "lines": [
         {
          "who": "classmate_peishan",
-         "text": "今天我看到三顆。你呢？"
+         "text": "我看到三顆。你呢？"
         }
        ]
       },
@@ -2741,7 +2748,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "我不排了。你開到哪裡，我們就停哪裡。"
+        "text": "不急。停哪裡都好。"
        }
       ]
      }
@@ -2753,11 +2760,11 @@
      "lines": [
       {
        "who": "kexin",
-       "text": "下山的時候，我在算油錢。"
+       "text": "下山的時候我都沒講話，你有發現嗎。"
       },
       {
        "who": "kexin",
-       "text": "算完了，一人一半，回去轉給你。"
+       "text": "我在看燈。很少有東西讓我安靜這麼久。"
       }
      ]
     },
@@ -2776,7 +2783,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "宵夜下次我請。我已經挑好了。"
+        "text": "宵夜我請。我已經挑好了，在山下。"
        }
       ]
      }
@@ -2787,7 +2794,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "下禮拜的行程我排好了，回去傳給你。"
+        "text": "回去又要讀書了。先不要講。"
        }
       ]
      }
@@ -2800,7 +2807,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "（她扶著欄杆）那一片是首都帝大吧。那一片是木柵大學。"
+        "text": "（她扶著欄杆）那一片是首都帝大吧。旁邊那一片我不認得。"
        },
        {
         "who": "kexin",
@@ -2841,7 +2848,7 @@
        "lines": [
         {
          "who": "kexin",
-         "text": "木柵大學那邊比較暗，山比較多。"
+         "text": "靠山那邊比較暗。"
         }
        ]
       },
@@ -2891,7 +2898,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "我要放予樂推薦的歌。"
+        "text": "我要放我室友推薦的歌。"
        },
        {
         "who": "kexin",
@@ -2916,7 +2923,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。我想知道你平常聽什麼。"
+          "text": "我想知道你平常聽什麼。"
          }
         ],
         "fx": {
@@ -2959,7 +2966,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那首歌，予樂問我好不好用。我說很好用。"
+        "text": "那首歌我後來一直放。聽到會想到這條山路。"
        }
       ]
      },
@@ -3006,7 +3013,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。我記在「被請」那一欄。"
+          "text": "好。那我要挑最貴的那一支。"
          }
         ],
         "fx": {
@@ -3030,7 +3037,7 @@
        "lines": [
         {
          "who": "kexin",
-         "text": "山上的東西比較貴，可以理解。"
+         "text": "這麼晚了，店員一個人顧，好辛苦。"
         }
        ]
       },
@@ -3049,7 +3056,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次被請那一筆，這次還你。"
+        "text": "又是這家。冰櫃還在同一個位置，我的冰也還在。"
        }
       ]
      },
@@ -3111,7 +3118,7 @@
        "lines": [
         {
          "who": "kexin",
-         "text": "我數到四顆。你呢？不准亂報。"
+         "text": "我數到四顆，你呢？不准為了贏我亂報。"
         }
        ]
       },
@@ -3139,7 +3146,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次數到四顆，這次也是四顆，很穩定。"
+        "text": "星星跟上次差不多。很穩定。"
        }
       ]
      },
@@ -3150,6 +3157,282 @@
         {
          "who": "kexin",
          "text": "（她拍拍身邊的草地）坐啊。站著幹嘛。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "hotspots": {
+    "D15.rail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她靠著欄杆）台北從這裡看，像一張很大的電路板。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「找得到永和嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "那邊。燈比較暗的那一塊。我家在那裡面。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「妳平常會上來嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "不會。我不會開車，也不想一個人坐公車上山。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "沒有霧。看得比較遠。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "欄杆好冰。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她把手放進你的外套口袋）你的口袋比較暖。"
+        }
+       ]
+      }
+     ]
+    },
+    "D15.car": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山路好彎。你開慢一點，我會暈。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「放點音樂？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我手機裡只有劇的片頭曲。你不要笑。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「我開慢一點。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。慢一點，我才看得到外面。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "回程我比較不會暈。下坡比較好。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這首片頭曲我聽了兩百次。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "到山下叫我。我閉一下眼睛。"
+        }
+       ]
+      }
+     ]
+    },
+    "D15.store": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "山上的便利商店，東西比山下貴五塊。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳算過？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我看標價都會算。這是職業病，雖然我還沒有職業。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我請妳喝熱的。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。熱奶茶。貴五塊的那一瓶。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "店員在看劇。我認得那部。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "關東煮只剩兩串。一人一串。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我買了你上次喝的那一瓶。"
+        }
+       ]
+      }
+     ]
+    },
+    "D15.sky": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這裡看得到星星。三顆。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳數了？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "數了。台北的天空，三顆算多了。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「多待一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我明天第一節有課，再五分鐘。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "一顆都沒有。雲太厚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "蟲好多。我們回車上。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她靠在你肩上）再一顆。數到四我們就走。"
         }
        ]
       }

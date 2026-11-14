@@ -48,6 +48,12 @@
    "D24.street": "normal",
    "D24.park": "normal",
    "D24.station": "like"
+  },
+  "classmate_xinci": {
+   "D24.footbath": "normal",
+   "D24.street": "normal",
+   "D24.park": "normal",
+   "D24.station": "normal"
   }
  },
  "dislikeLine": {
@@ -57,7 +63,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -156,7 +163,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "下次再來。{name}，你有空嗎？"
+        "text": "{name}，今天謝謝你。我很開心，我想讓你知道。"
        }
       ]
      }
@@ -194,7 +201,7 @@
         "reply": [
          {
           "who": "heroine_01",
-          "text": "不。我要泡。你都泡了。"
+          "text": "不要，我要泡。你都泡了。"
          }
         ],
         "fx": {
@@ -464,7 +471,7 @@
         "reply": [
          {
           "who": "heroine_01",
-          "text": "好。"
+          "text": "坐。這種車站我可以坐很久，沒有人趕。"
          }
         ],
         "fx": {
@@ -702,7 +709,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "這次我沒有喊燙，有進步吧。"
+        "text": "我沒有喊燙喔，你有聽到嗎。"
        }
       ]
      },
@@ -737,7 +744,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。我要最普通的那個。"
+          "text": "我要最普通的那個。"
          }
         ],
         "fx": {
@@ -792,7 +799,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "這次也要最普通的那個，我很專一。"
+        "text": "我要最普通的那個。我很專一。"
        }
       ]
      },
@@ -839,7 +846,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。眼鏡起霧了。"
+          "text": "瀏海都濕了。"
          }
         ],
         "fx": {
@@ -882,7 +889,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "這次我先把眼鏡擦好了，上次整路都是霧。"
+        "text": "眼鏡我先擦好了，不會整路都是霧。"
        }
       ]
      },
@@ -1075,7 +1082,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "下次冬天。"
+        "text": "這裡冬天應該更冷。今天剛剛好。"
        }
       ]
      }
@@ -1257,7 +1264,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次排的那家還在排，隊伍比上次長。"
+        "text": "那家還在排，隊伍比上次長。"
        }
       ]
      },
@@ -1292,7 +1299,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好。反正沒有人在等這座橋。"
+          "text": "反正沒有人在等這座橋。"
          }
         ],
         "fx": {
@@ -1382,7 +1389,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好。下一班還很久，時刻表我看過了。"
+          "text": "下一班還很久，時刻表我看過了。"
          }
         ],
         "fx": {
@@ -1437,7 +1444,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那張長椅有人坐了。我們坐隔壁，一樣看得到月台。"
+        "text": "那張長椅有人坐了。我們坐隔壁，一樣看得到月台。"
        }
       ]
      },
@@ -1505,7 +1512,7 @@
       "lines": [
        {
         "who": "heroine_04",
-        "text": "今天我帶路。好啦，你帶，我跟。"
+        "text": "這裡你比較熟，你帶。我負責找吃的。"
        }
       ]
      }
@@ -1589,7 +1596,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好，我們比賽誰撐比較久。"
+          "text": "我們比賽誰撐比較久。"
          }
         ],
         "fx": {
@@ -1679,7 +1686,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好，可是你要負責拿。"
+          "text": "可是你要負責拿。"
          }
         ],
         "fx": {
@@ -1769,7 +1776,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。橋好短，三秒就過了。"
+          "text": "橋好短，三秒就過了。"
          }
         ],
         "fx": {
@@ -1859,7 +1866,7 @@
         "reply": [
          {
           "who": "heroine_04",
-          "text": "好。長椅好硬。"
+          "text": "長椅好硬。"
          }
         ],
         "fx": {
@@ -1970,7 +1977,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "林{name}，今天只泡腳。別的不排。"
+        "text": "林{name}，毛巾我帶了兩條。你的是藍的。"
        }
       ]
      }
@@ -2005,7 +2012,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "下次早一點出門。下午才到，太趕了。"
+        "text": "下午才到，有點趕。可是溫泉沒有趕。"
        }
       ]
      }
@@ -2042,7 +2049,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。（她把腳放進去）原來這麼舒服。"
+          "text": "（她把腳放進去）原來這麼舒服。"
          }
         ],
         "fx": {
@@ -2132,7 +2139,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。今天不算熱量。"
+          "text": "好，三樣。第四樣你吃。"
          }
         ],
         "fx": {
@@ -2222,7 +2229,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。我跟你的速度。"
+          "text": "我跟你的速度。"
          }
         ],
         "fx": {
@@ -2277,7 +2284,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "上次在這裡待到天黑。"
+        "text": "這座橋，天黑以後應該比較好看。"
        }
       ]
      },
@@ -2303,7 +2310,7 @@
        },
        {
         "who": "heroine_05",
-        "text": "好，我收起來了。今天不查。"
+        "text": "（她把手機收進口袋）不查了。"
        }
       ],
       "choice": [
@@ -2312,7 +2319,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。那就搭下一班。"
+          "text": "那就搭下一班。"
          }
         ],
         "fx": {
@@ -2435,7 +2442,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "今天我話比較少，因為嘴巴都在吃。"
+        "text": "我等一下話會比較少，嘴巴都在吃。"
        }
       ]
      }
@@ -2470,7 +2477,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次我想帶我媽來泡腳。她在店裡一站就是一整天。"
+        "text": "我想到我媽。她在店裡一站就是一整天，她應該很需要這個。"
        }
       ]
      }
@@ -2481,7 +2488,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次換我排行程好不好？我會查很久，然後還是忘記。"
+        "text": "行程是你排的。我只負責吃，很稱職。"
        }
       ]
      }
@@ -2652,7 +2659,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次的蔥餅我回家講了，我爸真的去試做，做了一個禮拜。"
+        "text": "那個蔥餅我回家講了，我爸真的去試做，做了一個禮拜。"
        }
       ]
      },
@@ -2742,7 +2749,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次問這裡面有沒有魚，我今天有認真找，真的沒有。"
+        "text": "這裡面真的沒有魚。我今天有認真找。"
        }
       ]
      },
@@ -2871,7 +2878,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "行程表只有三格。泡腳、吃、回家。"
+        "text": "今天只做三件事。泡腳、吃、回家。"
        }
       ]
      },
@@ -2880,7 +2887,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "予樂說礁溪要吃蔥餅。她傳了三家給我。"
+        "text": "礁溪要吃蔥餅。我存了三家。"
        }
       ]
      },
@@ -2912,11 +2919,11 @@
      "lines": [
       {
        "who": "kexin",
-       "text": "行程表，三格都打勾了。"
+       "text": "溫泉、吃的、海，都有了。"
       },
       {
        "who": "kexin",
-       "text": "只有三格，當然打得完。"
+       "text": "我本來還想去一個地方，可是我的腳不想動了。"
       }
      ]
     },
@@ -2935,7 +2942,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "下次可以接著去外澳。我已經算好時間了。"
+        "text": "外澳我還沒去過。今天來不及，我有點不甘心。"
        }
       ]
      }
@@ -2984,7 +2991,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。二十分鐘。我設了計時。"
+          "text": "泡到皮皺掉為止。皺了也是我的腳。"
          }
         ],
         "fx": {
@@ -3017,7 +3024,7 @@
        "lines": [
         {
          "who": "kexin",
-         "text": "毛巾給我。你沒帶？好，用我的。"
+         "text": "毛巾給我。你沒帶？好啦，先用我這條。"
         }
        ]
       }
@@ -3027,7 +3034,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次計時器響了我還不想起來，這次不設了。"
+        "text": "上次泡到皮都皺了。這次還是要泡到皺。"
        }
       ]
      },
@@ -3074,7 +3081,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。被請一次。下一攤我來。"
+          "text": "這次讓你請。我吃兩個，你不要後悔。"
          }
         ],
         "fx": {
@@ -3164,7 +3171,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。走慢一點，地板濕的。"
+          "text": "走慢一點，地板濕的。"
          }
         ],
         "fx": {
@@ -3254,7 +3261,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。這十五分鐘是自由時間。"
+          "text": "這十五分鐘是自由時間。"
          }
         ],
         "fx": {
@@ -3297,7 +3304,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那個鐘還是快一分鐘。"
+        "text": "鐘還是快一分鐘。"
        }
       ]
      },
@@ -3308,6 +3315,374 @@
         {
          "who": "kexin",
          "text": "（她坐在長椅上，拍拍旁邊）坐。站著很怪。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "礁溪。坐客運過來，我睡了一路。"
+      },
+      {
+       "who": "classmate_xinci",
+       "text": "醒來就到了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "客運比上次擠。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "溫泉街的味道還是一樣。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "這次我沒睡。我在客運上看你睡。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "回台北的客運，我想坐靠窗。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "泡完腳，腿很輕。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "車站前的燈亮了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（客運上，她把耳機分一邊給你）這首聽完就到了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D24.footbath": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "湯圍溝的泡腳池是免費的。"
+       },
+       {
+        "who": "classmate_xinci",
+        "text": "人好多。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「等空位？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我們站在旁邊，有人起來就坐。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「擠一下就好。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你坐我旁邊，腳不要踢到別人。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "泡腳池的水比上次燙。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "旁邊的阿伯一直在跟我們聊天。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她把腳放進水裡，碰了一下你的腳）擠一點沒關係。"
+        }
+       ]
+      }
+     ]
+    },
+    "D24.street": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "溫泉街的小吃，價錢比台北便宜一點。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「吃什麼？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "溫泉蛋。我想知道它跟普通的蛋差多少。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「一人一樣分著吃？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我選甜的，你選鹹的。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "溫泉蛋的攤子收了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "這家的蔥油餅比上次大。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我買了兩顆溫泉蛋。一人一顆。剝給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D24.park": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "公園裡的小木橋好窄。只能一個人走。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳先走。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。你在後面，不要催我。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「木橋會晃嗎？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "會一點。我抓著欄杆走。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "公園的池子裡有鴨子。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "小木橋旁邊的樹開花了。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她走到木橋中間，回頭看你）這裡只站得下兩個人。"
+        }
+       ]
+      }
+     ]
+    },
+    "D24.station": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "車站前的廣場，很多人在等客運。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「還有時間，我們坐一下？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我看一下時刻表，下一班不用等太久。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「要不要買點東西在車上吃？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。牛舌餅。一包就好，我們分。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "廣場上有人在賣花。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "客運誤點了十分鐘。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們在廣場坐到最後一班。我不急。"
         }
        ]
       }

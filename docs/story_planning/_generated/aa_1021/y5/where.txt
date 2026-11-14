@@ -5,7 +5,7 @@
   heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
   heroine_05｜presence here｜作息 library read｜tag 法研所（財經法學組）・碩三
   classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
-  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  kexin｜presence here｜作息 —｜tag 外校法律系・四年級
   zhe｜presence here｜作息 —｜tag 法律系・四年級
   classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
   kai｜presence here｜作息 —｜tag 資工系・四年級
@@ -23,7 +23,7 @@
   heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
   heroine_05｜presence here｜作息 library read｜tag 法研所（財經法學組）・碩三
   classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
-  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  kexin｜presence here｜作息 —｜tag 外校法律系・四年級
   zhe｜presence here｜作息 —｜tag 法律系・四年級
   classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
   kai｜presence here｜作息 —｜tag 資工系・四年級
@@ -41,7 +41,7 @@
   heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
   heroine_05｜presence here｜作息 cafe read｜tag 法研所（財經法學組）・碩三
   classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
-  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  kexin｜presence here｜作息 —｜tag 外校法律系・四年級
   zhe｜presence here｜作息 noodle eat｜tag 法律系・四年級
   classmate_bohan｜presence here｜作息 library read｜tag 法律系・四年級
   kai｜presence here｜作息 dorm desk｜tag 資工系・四年級
@@ -59,7 +59,7 @@
   heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
   heroine_05｜presence here｜作息 library read｜tag 法研所（財經法學組）・碩三
   classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
-  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  kexin｜presence here｜作息 —｜tag 外校法律系・四年級
   zhe｜presence here｜作息 —｜tag 法律系・四年級
   classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
   kai｜presence here｜作息 —｜tag 資工系・四年級
@@ -77,7 +77,7 @@
   heroine_04｜presence 不在:taipei:在工作室上班｜作息 —｜tag 獨立遊戲工作室
   heroine_05｜presence here｜作息 campus wander｜tag 法研所（財經法學組）・碩三
   classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
-  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  kexin｜presence here｜作息 —｜tag 外校法律系・四年級
   zhe｜presence here｜作息 —｜tag 法律系・四年級
   classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
   kai｜presence here｜作息 —｜tag 資工系・四年級
@@ -95,7 +95,7 @@
   heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
   heroine_05｜presence here｜作息 library read｜tag 法研所（財經法學組）・碩三
   classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
-  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  kexin｜presence here｜作息 —｜tag 外校法律系・四年級
   zhe｜presence here｜作息 —｜tag 法律系・四年級
   classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
   kai｜presence here｜作息 —｜tag 資工系・四年級
@@ -113,7 +113,7 @@
   heroine_04｜presence here｜作息 campus wander｜tag 資工系・二年級
   heroine_05｜presence here｜作息 library read｜tag 法律系・四年級
   classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・一年級
-  kexin｜presence here｜作息 —｜tag 政大法律系・一年級
+  kexin｜presence here｜作息 —｜tag 外校法律系・一年級
   zhe｜presence here｜作息 —｜tag 法律系・一年級
   classmate_bohan｜presence here｜作息 —｜tag 法律系・一年級
   kai｜presence here｜作息 —｜tag 資工系・一年級
@@ -131,7 +131,7 @@
   heroine_04｜presence here｜作息 campus wander｜tag 資工系・二年級
   heroine_05｜presence here｜作息 library read｜tag 法律系・四年級
   classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・一年級
-  kexin｜presence here｜作息 —｜tag 政大法律系・一年級
+  kexin｜presence here｜作息 —｜tag 外校法律系・一年級
   zhe｜presence here｜作息 —｜tag 法律系・一年級
   classmate_bohan｜presence here｜作息 —｜tag 法律系・一年級
   kai｜presence here｜作息 —｜tag 資工系・一年級

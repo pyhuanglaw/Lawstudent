@@ -48,6 +48,12 @@
    "D08.penguin": "normal",
    "D08.giraffe": "like",
    "D08.train": "like"
+  },
+  "classmate_xinci": {
+   "D08.panda": "normal",
+   "D08.penguin": "normal",
+   "D08.giraffe": "normal",
+   "D08.train": "normal"
   }
  },
  "dislikeLine": {
@@ -59,7 +65,8 @@
   "heroine_04": {},
   "heroine_05": {},
   "classmate_peishan": {},
-  "kexin": {}
+  "kexin": {},
+  "classmate_xinci": {}
  },
  "lines": {
   "heroine_01": {
@@ -112,7 +119,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "今天不排行程。企鵝館我還是想去。"
+        "text": "先去企鵝館。我知道在最裡面，走到底再慢慢走回來。"
        }
       ]
      }
@@ -147,7 +154,7 @@
       "lines": [
        {
         "who": "heroine_01",
-        "text": "下次我想看夜行館，這次沒走到。"
+        "text": "企鵝那區我站了好久。牠們排隊的樣子很守規矩。"
        }
       ]
      }
@@ -286,7 +293,7 @@
         "reply": [
          {
           "who": "heroine_01",
-          "text": "真的。那隻插隊了。好，有例外。"
+          "text": "真的，那隻插隊了。好，有例外。"
          }
         ],
         "fx": {
@@ -612,7 +619,7 @@
       "lines": [
        {
         "who": "heroine_02",
-        "text": "下次來，我想看夜行動物館。"
+        "text": "長頸鹿那區我站最久。牠們吃東西好慢。"
        }
       ]
      }
@@ -661,7 +668,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。我很會等。"
+          "text": "我很會等。"
          }
         ],
         "fx": {
@@ -919,7 +926,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好。我坐靠外面那邊，風景歸我。"
+          "text": "我坐靠外面那邊，風景歸我。"
          }
         ],
         "fx": {
@@ -931,7 +938,7 @@
         "reply": [
          {
           "who": "heroine_02",
-          "text": "好啊，前面。司機按喇叭我會嚇到，先講。"
+          "text": "前面。司機按喇叭我會嚇到，先講。"
          }
         ],
         "fx": {
@@ -1126,7 +1133,7 @@
         "reply": [
          {
           "who": "heroine_03",
-          "text": "好，我們站後面。（她踮了一下腳）我看不到。"
+          "text": "我們站後面。（她踮了一下腳）我看不到。"
          }
         ],
         "fx": {
@@ -1169,7 +1176,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那個抱小孩的媽媽，今天換了一個爸爸。"
+        "text": "那個抱小孩的媽媽，今天換了一個爸爸。"
        }
       ]
      },
@@ -1259,7 +1266,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那隻在角落的企鵝，今天也在角落。"
+        "text": "那隻在角落的企鵝，今天也在角落。"
        }
       ]
      },
@@ -1349,7 +1356,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次那隻小長頸鹿，長大了一點。"
+        "text": "那隻小長頸鹿，長大了一點。"
        }
       ]
      },
@@ -1439,7 +1446,7 @@
       "lines": [
        {
         "who": "heroine_03",
-        "text": "上次坐到底，我差點睡著。"
+        "text": "這台車坐到底，我會睡著。先跟你說。"
        }
       ]
      },
@@ -1523,7 +1530,7 @@
       },
       {
        "who": "heroine_04",
-       "text": "下次再來。你負責排路線。"
+       "text": "動物園比我想的大。地圖做得很爛，我要給它一星。"
       }
      ]
     },
@@ -1804,7 +1811,7 @@
        "lines": [
         {
          "who": "heroine_04",
-         "text": "好啦，長頸鹿也很可愛。跟你來的話。"
+         "text": "好啦，長頸鹿也很可愛。脖子那麼長，結構上很不合理。"
         }
        ]
       }
@@ -1972,7 +1979,7 @@
       "lines": [
        {
         "who": "heroine_05",
-        "text": "林{name}，今天只聊動物。"
+        "text": "林{name}，先看企鵝。其他照你的。"
        }
       ]
      }
@@ -2044,7 +2051,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好。十二點前睡。"
+          "text": "十二點前。這是我能答應的。"
          }
         ],
         "fx": {
@@ -2146,7 +2153,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "看到了。我不管。今天不管。"
+          "text": "看到了。牠不歸我排班。"
          }
         ],
         "fx": {
@@ -2314,7 +2321,7 @@
         "reply": [
          {
           "who": "heroine_05",
-          "text": "好，我不看手機。"
+          "text": "我不看手機。你監督。"
          }
         ],
         "fx": {
@@ -2398,7 +2405,7 @@
       },
       {
        "who": "classmate_peishan",
-       "text": "今天我要搞清楚當年到底是被什麼嚇到。"
+       "text": "我要搞清楚小時候到底是被什麼嚇到。"
       }
      ]
     },
@@ -2437,7 +2444,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "今天沒帶書。好啦，帶了一本動物圖鑑，那不算書。"
+        "text": "我要先看企鵝。走路搖搖晃晃的，跟我爬樓梯一樣。"
        }
       ]
      }
@@ -2449,7 +2456,7 @@
      "lines": [
       {
        "who": "classmate_peishan",
-       "text": "今天走好多路，我腳好痠。"
+       "text": "腳好痠。可是企鵝有看我一眼，值得。"
       },
       {
        "who": "classmate_peishan",
@@ -2472,7 +2479,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次我想看夜行動物館。你陪我好不好，我一個人不敢進去。"
+        "text": "夜行動物館我沒有進去。在門口看了一下就怕了。好丟臉。"
        }
       ]
      }
@@ -2483,7 +2490,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次你約我，去哪我都好。"
+        "text": "長頸鹿一直盯著你看。我吃醋了，對一隻長頸鹿。"
        }
       ]
      }
@@ -2654,7 +2661,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次說企鵝會不會想念沒看過的地方，我後來想了好幾天，還是覺得會。"
+        "text": "企鵝會不會想念沒看過的地方，我後來想了好幾天，還是覺得會。"
        }
       ]
      },
@@ -2744,7 +2751,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "上次問你牠們看我們長什麼樣子，你的答案我記得。"
+        "text": "牠們看我們長什麼樣子，你的答案我記得。"
        }
       ]
      },
@@ -2791,7 +2798,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "好。各看各的，看到什麼要報告。"
+          "text": "各看各的，看到什麼要報告。"
          }
         ],
         "fx": {
@@ -2873,7 +2880,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "我來過十一次。門票六十，比看電影划算。"
+        "text": "我來過很多次。每次都只看牠，其他的我到現在還不知道在哪。"
        }
       ]
      },
@@ -2882,7 +2889,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "我從學校過來只要十分鐘，這裡是我的主場。"
+        "text": "你帶路。我只負責找牠。"
        }
       ]
      },
@@ -2891,7 +2898,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "予樂說我來動物園只看一種動物。她說對了。"
+        "text": "我來動物園只看一種動物。你猜是哪一種。"
        }
       ]
      }
@@ -2937,7 +2944,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "下次來要趕餵食的時間。我知道幾點，先不告訴你。"
+        "text": "長頸鹿一直不理我們。很有個性，我喜歡。"
        }
       ]
      }
@@ -3029,7 +3036,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那個外交官在吃竹子，牠加班了。"
+        "text": "外交官在吃竹子，牠加班了。"
        }
       ]
      },
@@ -3119,7 +3126,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那隻站最高的被擠下來了。"
+        "text": "站最高的那隻被擠下來了。"
        }
       ]
      },
@@ -3209,7 +3216,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那隻小長頸鹿長高了，我拍了對比照。"
+        "text": "小長頸鹿長高了，我拍了對比照。"
        }
       ]
      },
@@ -3244,7 +3251,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "什麼意思。好，我懂了。很肉麻。"
+          "text": "什麼意思？好，我懂了，你很肉麻欸。"
          }
         ],
         "fx": {
@@ -3256,7 +3263,7 @@
         "reply": [
          {
           "who": "kexin",
-          "text": "好。可是要再排隊。算了，一圈。"
+          "text": "可是要再排一次隊欸。算了，一圈就一圈。"
          }
         ],
         "fx": {
@@ -3299,7 +3306,7 @@
       "lines": [
        {
         "who": "kexin",
-        "text": "上次那個一直揮手的小孩沒來。"
+        "text": "一直揮手的那個小孩沒來。"
        }
       ]
      },
@@ -3310,6 +3317,366 @@
         {
          "who": "kexin",
          "text": "（她靠在你肩膀上）不要講話。我在看外面。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_xinci": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "動物園。上次來是國小，下雨，只看到兩隻動物。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "捷運坐到底就到了。比我想的近。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "入口的地圖換新的了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "我帶了水和防曬。你的那一份也帶了。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_xinci",
+       "text": "腿好痠。可是動物看起來都過得不錯。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "最後一班遊園列車開走了。我們用走的。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "門口的紀念品店，我每次都只看不買。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "（她把門票夾進筆記本）這張我要留著。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "貓熊在睡覺。說明牌說牠一天睡十個小時。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「比我們大學生還多。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "比我多四個小時。我有點羨慕。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「等牠醒？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我不急。牠醒來第一個看到的是我們。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "牠睡覺的樣子，跟我週末一樣。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "排隊的人比貓熊多。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "（她把手機調成靜音）牠在睡覺。我們小聲一點。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "企鵝走路的樣子，像在趕一個很重要的會。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳很喜歡企鵝？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "喜歡。牠們排隊排得很整齊。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「我們多看一下。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我想看那隻最小的走到水邊。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "那隻最小的長大了一點。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "企鵝館的冷氣好強。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "那兩隻一直走在一起。我注意很久了。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "長頸鹿比我想的高。脖子那麼長，喝水要張開腳。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好辛苦。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "每一種動物都有自己辛苦的地方。牠的比較看得到。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       },
+       {
+        "t": "「妳看得好仔細。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "我看東西都這樣。很少有人注意到。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "長頸鹿在吃樹葉。吃得很慢。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "旁邊的斑馬一直在看我們。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們跟長頸鹿拍一張。牠剛好轉過來。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_xinci",
+        "text": "遊園列車要排好久。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那用走的。」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "謝謝。走路比較看得到東西。"
+         }
+        ],
+        "fx": {
+         "love": 1
+        }
+       },
+       {
+        "t": "「坐一次看看？」",
+        "reply": [
+         {
+          "who": "classmate_xinci",
+          "text": "好。我算過，排隊二十分鐘，坐五分鐘。你說值得就值得。"
+         }
+        ],
+        "fx": {
+         "fr": 1
+        }
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "列車還是排好長。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "我們走路比列車先到。"
+        }
+       ]
+      }
+     ],
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_xinci",
+         "text": "你想坐的話，我陪你排。我帶了書。"
         }
        ]
       }

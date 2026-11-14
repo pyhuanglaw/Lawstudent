@@ -1124,12 +1124,7 @@
       "disc": {
        "qid": "DISC_04"
       },
-      "recall": [
-       {
-        "flag": "BIKE_LOOKED_UP",
-        "say": "你想起韋綸那台腳踏車。那天在總圖翻了一下午的民法，今天一張圖就畫完了。"
-       }
-      ],
+      "recall": [],
       "skip_line": {
        "who": "classmate_xinci",
        "text": "鄭教授今天畫了偷來的腳踏車，三個人，一張圖。我拍給你。例外有兩層。"

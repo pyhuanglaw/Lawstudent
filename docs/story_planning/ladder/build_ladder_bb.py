@@ -31,7 +31,7 @@ D['characters'][ZR] = {'steps': [
  {'id':'Z-L3','if':{**st(ZR,'ACQUAINTANCE'),'attended':{'course':'econ_principles_1','min':1}},'skipIf':st(ZR,'FAMILIAR'),'unlessWorking':True,
   'lines':['週五經原你是不是坐前面？我坐你後面兩排。','我是第二次修啦。第一次期中考完我就沒去了。','那學期很亂。'],
   'linesIf':[{'if':{'events':['ev_zhiruo_ge_group']},'lines':['經原我是第二次修啦。第一次期中考完我就沒去了。','那學期很亂。']}],
-  'choices':[ch('「這次我盯著妳，不讓妳翹。」','好啊，那你要記得叫我。我早上真的爬不起來。'),ch('「那學期怎麼了？」','就……很多事啦。之後再跟你講。',mem='ZR_ASKED_MESSY')],'rel':{'fam':3},
+  'choices':[ch('「這次我盯著妳，不讓妳翹。」','好啊，那你要記得叫我。我早上真的爬不起來。'),ch('「那學期怎麼了？」','就……很多事啦。那時候我開始在店裡排很多班。',mem='ZR_ASKED_MESSY')],'rel':{'fam':3},
   'note':'2026-10-16 BB-B：原本 if 要 ev_zhiruo_ge_group（Y1S1 一次性的 auto 事件，錯過就永遠卡在 Z-L3）→ 拿掉；分組過的玩家（linesIf）不說「坐你後面兩排」那句；選項改成兩種玩家都說得通。（AA_200 第 2 節第 2 項：經原第一堂 9/5，上過經原才開這層；條件寫法照 AA_200 2-1。一次都沒去經原、已經到 FAMILIAR 的玩家 skipIf 算過，不卡住）'},
  {'id':'Z-L4','if':st(ZR,'FAMILIAR'),'unlessWorking':True,
   'lines':['店裡很多熟客一進來就說「跟上次一樣」。','我滿喜歡聽到這句的，不用想要推薦什麼。'],
@@ -44,7 +44,7 @@ D['characters'][ZR] = {'steps': [
   'choices':[ch('「法律系的窗戶看出去是另一棟法律系。」','那也太慘了吧。'),ch('「妳上課都在看窗外喔？」','老師講到我聽不懂的時候才看啦。')],'rel':{'fam':2}},
  {'id':'Z-L6','if':st(ZR,'FAMILIAR'),'unlessWorking':True,
   'lines':['我家在台中開影印店，學校旁邊那種。','我小時候放學都在店裡寫功課。有時候會看到很奇怪的，像尋狗啟事一次印三百張。'],
-  'choices':[ch('「尋狗啟事？」','對啊，印了三百張，結果隔天狗自己回家了。我媽到現在還在講。'),ch('「那妳從小就看很多別人的東西。」','……你這樣講好像我在偷看。好啦，是有一點。')],'rel':{'fam':3,'trust':2},'mem':'ZR_HOMETOWN'},
+  'choices':[ch('「尋狗啟事？」','對啊，印了三百張，結果隔天狗自己回家了。我媽到現在還在講。'),ch('「那妳從小就看很多別人的東西。」','你這樣講好像我在偷看。好啦，是有一點。')],'rel':{'fam':3,'trust':2},'mem':'ZR_HOMETOWN'},
  {'id':'Z-L7','if':st(ZR,'FAMILIAR'),'location':['cafe','wenzhou'],'time':[19,24],'unlessWorking':True,
   'lines':['你有沒有那種電影，看完不太想跟別人講的？','就是很喜歡，可是不知道怎麼講，講出來好像就沒那麼好了。'],
   'extraIf':[{'if':{**st(ZQ,'ACQUAINTANCE'),**NO_DATE_ZZ},'mem':'ZR_ZQ_SETUP_FILM','lines':['……上禮拜看到一部，我第一個想到要傳給子晴。','傳完才想到，我以前都先傳給自己的備忘錄。']},
@@ -179,29 +179,9 @@ D['characters'][PS] = {'steps': [
          {'location':['library'],'t':'（小聲）嗨。你也來讀書喔？'},
          {'weekday':[5],'time':[17,24],'t':'我要去搭客運回台中了，下禮拜見！'}]}}
 
-D['characters'][KX] = {'context':'date','steps': [
- {'id':'K-L1','if':{'flags':['dating_kexin']},
-  'lines':['木柵大學那個坡真的很陡。','我每天爬上去上課，到教室都在喘。'],
-  'choices':[ch('「我們這邊只有平地。」','好好喔。不過我們這邊看得到山，你們沒有。'),ch('「下次我陪妳爬一次。」','好啊。爬到一半你就會後悔了。')]},
- {'id':'K-L2','if':{'flags':['dating_kexin']},'dateOnly':'meet',
-  'lines':['（她摸了一下耳朵上的小長頸鹿）我耳環都只戴一邊。','另一邊的耳洞以前發炎過，後來就長起來了。'],
-  'choices':[ch('「下次我幫妳挑一個。」','好啊，要奇怪一點的喔，普通的我不戴。'),ch('「今天這隻很好看。」','對吧，我也覺得。')],'mem':'KX_EARRING_STORY'},
- {'id':'K-L3','if':{'flags':['dating_kexin']},
-  'lines':['我們班第一週就分好讀書會了。','我跟予樂一組，她超會講，我負責叫她不要講太久。','還有一個叫邵鈞的，什麼都要查出處，有點煩，可是很可靠。']},
- {'id':'K-L4','if':{'flags':['dating_kexin']},'week':[4,16],
-  'lines':['我們民總老師上次問：人什麼時候開始算是人？','全班吵了一節。我站「出生」。你們呢？'],
-  'choices':[ch('（說你們老師怎麼講）','好喔，那兩邊都一樣。有點無聊欸。（她笑）'),ch('「我們還沒教到。」','那你先想，下次見面告訴我，不准查課本喔。')]},
- {'id':'K-L5','if':{'flags':['dating_kexin']},'dateOnly':'meet',
-  'lines':['（公車還要五分鐘。）','欸，你下禮拜六有空嗎？','我想說先約，不然又要喬半天。'],
-  'choices':[ch('「有，下禮拜六可以。」','好，那我先記下來。（她靠在你肩上一下）'),ch('「我要看一下那天有沒有事。」','好，那你晚上跟我講。')],'rel':{'comf':3},'mem':'KX_FIVE_MINUTES'},
- {'id':'K-L6','if':{'flags':['dating_kexin']},'week':[7,16],'dateOnly':'video',
-  'lines':['（她把手機立在書堆旁邊，只看得到她的額頭）不要講話喔，各自念。','（二十分鐘後）……你筆一直敲桌子。','你再翻那麼大聲，我就掛掉。'],'note':'視訊一起讀書；精力照一般讀書'},
- {'id':'K-L7','if':{'flags':['dating_kexin']},
-  'lines':['予樂問我你是什麼樣的人。','我想了很久，結果只說「他人很好」。她說那等於沒講。'],
-  'choices':[ch('「那妳本來想說什麼？」','……很多啊，可是講出來都怪怪的。'),ch('「那她怎麼說妳？」','她說我很會吵。好啦，她說得對。')],'rel':{'trust':2},'note':'2026-10-17 BB-C（BB_199，16 週制）：拿掉 dateOnly（BB_199 6-2 第 7 項：第 15 週以後不能只限見面／視訊；README 沒有「只限到某週」的欄位，所以整層拿掉；台詞見面、視訊都通）；這層原本就沒有週次（整學期都通），不加 [12,16] 的下限，以免變窄'},
- {'id':'K-L8','if':{'flags':['dating_kexin']},'week':[14,16],
-  'lines':['這學期快結束了欸。','不同學校，見面都要先排。……排就排。','……下學期——算了，下學期再說。'],'mem':'KX_TERM1_DONE'},
-],'greet':None,'note':'交往中不在路上遇到；短招呼用手機池（BB_107 第 7 節）。分開（dating_kexin 沒了）就停，不倒退、不刪記憶'}
+# 2026-11-12 AA-C（CANON-NO-ECON-1112）：可昕這一組整組換成同班同學版，內容在 ../AA_861_kx_ladder_Y1S1_new.json（源稿 json 已直接換）。
+_kx=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','AA_861_kx_ladder_Y1S1_new.json'),encoding='utf-8'))
+D['characters'][KX] = {'steps':_kx['steps'],'greet':_kx['greet'],'greetIf':{'flags':['KX_MET']},'note':'照 AA_861_kx_ladder_Y1S1_new'}
 
 # 室友阿凱：宿舍事件（K-D1～6，條件與結果）
 D['kaiDorm'] = [
