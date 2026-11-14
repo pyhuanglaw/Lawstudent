@@ -1,12 +1,3 @@
-[17:45:55] skip SSB_gg2 (already done on b4706662f3a882d5bfd7c72aca65c845754dde8a)
-[17:45:55] skip SSB_gg3a (already done on b4706662f3a882d5bfd7c72aca65c845754dde8a)
-[17:45:55] skip SSB_gg3b (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[17:45:55] skip SSB_gg3c (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
-[17:45:55] skip STRIP_VERIFY_dakou (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[17:45:55] skip SHUT_XS_door_14 (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[17:45:55] skip SHUT_XS_door_2330 (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[17:45:55] skip SHUT_TZ_door_14 (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[17:45:55] skip SHUT_TZ_door_2330 (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
 [17:45:55] skip SHUT_XS_door_14_r2 (already done on 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2)
 [17:45:55] skip SHUT_XS_door_2330_r2 (already done on 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2)
 [17:45:55] skip SHUT_TZ_door_14_r2 (already done on 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2)
@@ -1998,3 +1989,12 @@
 [20:22:33] ==== START CANON458_BOOKSTORE_r6_rc2e  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
 [20:22:36] [res] cpu=1% mem=51% (16.1/31.4 GB) chrome_testing=10  START CANON458_BOOKSTORE_r6_rc2e
 [20:24:41] [res] cpu=7% mem=48% (15.4/31.4 GB) chrome_testing=10  END CANON458_BOOKSTORE_r6_rc2e
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       21fe3266b1..58142b3c30  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:24:49] ==== END   CANON458_BOOKSTORE_r6_rc2e  exit=0  127s   ====
+[20:25:04] memory 49% before starting GATE2_MOKUYOBI_examseat (2 running)
+[20:25:04] ==== START GATE2_MOKUYOBI_examseat  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
+[20:25:07] [res] cpu=6% mem=49% (15.4/31.4 GB) chrome_testing=10  START GATE2_MOKUYOBI_examseat
+[20:25:55] 正在跑：DATE35_PS_ARR_r2（已跑 27 分／上限 30 分）、AA_SCENES_DATE_r2（已跑 18 分／上限 30 分）、GATE2_MOKUYOBI_examseat（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:27:38] [res] cpu=8% mem=47% (14.9/31.4 GB) chrome_testing=10  END GATE2_MOKUYOBI_examseat
