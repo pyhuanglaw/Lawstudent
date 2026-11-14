@@ -1,12 +1,3 @@
-[17:45:55] skip TUTOR_BACK (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
-[17:45:55] skip LUWEI_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
-[17:45:55] skip FN_DOOR_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
-[17:45:55] skip FN_DOORFLOWER_18a3 (already done on 18a36664526d8ad28835fb924acb5438bd2ba2da)
-[17:45:55] skip FN_LOOKS_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
-[17:45:55] skip LM_FRONT_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
-[17:45:55] skip LM_FRONT_KNOWN_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
-[17:45:55] skip GIFT_REDTEA_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
-[17:45:55] skip WZ_REAL_f3e1 (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
 [17:45:55] skip WZ_REAL_consist_f3e1 (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
 [17:45:55] skip WZ_PERF_f3e1_desk (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
 [17:45:55] skip WZ_PERF_f3e1_touch (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
@@ -1998,3 +1989,12 @@
 [20:29:57] [res] cpu=19% mem=48% (14.9/31.4 GB) chrome_testing=9  START AA358_21_noodle
 [20:30:55] 正在跑：GATE2_MOKUYOBI_r5（已跑 2 分／上限 25 分）、WZ_REAL_r4（已跑 1 分／上限 25 分）、AA358_21_noodle（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:34:21] [res] cpu=6% mem=52% (16.4/31.4 GB) chrome_testing=10  END WZ_REAL_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c27da3c230..7cdac06776  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:34:46] ==== END   WZ_REAL_r4  exit=1  316s   ====
+[20:35:04] memory 53% before starting DATE35_PS_ARR_r3 (2 running)
+[20:35:04] ==== START DATE35_PS_ARR_r3  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[20:35:07] [res] cpu=5% mem=51% (16.8/31.4 GB) chrome_testing=10  START DATE35_PS_ARR_r3
+[20:35:55] 正在跑：GATE2_MOKUYOBI_r5（已跑 7 分／上限 25 分）、AA358_21_noodle（已跑 6 分／上限 30 分）、DATE35_PS_ARR_r3（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:37:18] [res] cpu=4% mem=48% (15.2/31.4 GB) chrome_testing=10  END AA358_21_noodle
