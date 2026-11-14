@@ -47,8 +47,10 @@ haopai)
   LIGHTS=$(python3 $LB/glow_points.py "${IN:-$A/$GLB}" --only '^GLOW_tube' --drop 0.03 --no-below | area "${TW:-16}" 0.2 1.2)   # 冒煙測試（4 取樣）12 W：0.31／0.27 → 16 W
   # alpha（hp_alpha：右牆洞洞板 23.7 m²、左牆 9.6 m²、球拍卡）烘焙時藏起來（照樣原樣匯出）（11-08 BB-B XS9 雲端判 FAIL：進門右手那面牆整面深灰褐）：
   #   洞洞板離牆 9 mm、貼圖 65% 是透空的，遊戲裡看到的是後面的牆；Cycles 烘焙卻把它當實心，牆的光照 0.02（藏起來試烘 0.45，和左牆、天花板一致）
-  HIDE='glass|alpha'
-  NOLM="^(?!(hp_floor_floor|hp_ceiling|hp_soffit_wall|WALL_[a-z]+_wall_wall|WALL_front_front_wall)\$)"
+  # 11-09 BACKFACE-HAOPAI 以後：輸入要先做洞洞板那兩步（glb_flip_faces.py、glb_split_tile.py --gain 3.0；步驟 docs/art-rebuild/second_ai/cc0_help/g3/README.md），
+  #   洞洞板看得到了：烘焙時不藏、自己也烘（SHOP-CC0-HELP-1113 第③群：開發分支這一段原本還是舊的，照它烘會把洞洞板弄丟）
+  HIDE='glass'
+  NOLM="^(?!(hp_floor_floor|hp_ceiling|hp_soffit_wall|WALL_[a-z]+_wall_wall|WALL_front_front_wall|WALL_right_pegwall_alpha)\$)"
   EXTRA=(--shell S)
   ;;
 tongxian)
