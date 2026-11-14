@@ -16,3 +16,9 @@
 ## 先將就的
 - 14:00 南側整排店面的影子罩住人行道，窗外地面比遊戲裡暗（遊戲的影子比較淡）。不為這個改整套光照，BB 判。
 - 人行道上的路燈、車阻沒放（遊戲裡有幾支）；天空單一淺藍（BB P3，四間窗景同一項）。
+
+## 交件（11-14 01:0x UTC）
+- **請套 `winview_gg3.patch`**（底 0c49bcf64e；`git apply --check` 在最新開發分支 42100c21e1 上也乾淨；11 檔＝6 張 webp＋tz_shops_layout.js＋tz_shops3d.js＋wz_window_view.py＋render.sh＋trees_gg.json）。
+- 六張縮圖：`gg3_views.jpg`（白天／晚上）。安泰：校門在中線偏右、遠處椰林大道；汀州鮮果：窗前是遊戲裡 (22, 11.5) 花台上那棵樹；榮恩典：左前方 x 58 的人行道樹、右邊天橋。人行道有地磚紋。
+- 測試（在 0c49bcf64e 上）：tz_shop_views_1112（每間有自己的 1024×512 日夜照片、視差窗位置、viewDepth）、shop_viewpanes／viewpanes2、gg_views_1105／1107、wz_views、place_gate 等全部 ALL PASS。
+- 還沒做：瀏覽器沒跑（D131）。請 CC 進三間往窗外拍 14:00、20:00，BB 判。
