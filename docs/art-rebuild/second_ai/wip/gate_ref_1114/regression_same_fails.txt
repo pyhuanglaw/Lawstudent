@@ -1,0 +1,29 @@
+tests/aa653_shops_unit.js :: FAIL 8 答應的一句七人（以安、芷若、語彤、子晴、學姊、沛珊、可昕）　[["好。可以讀書嗎？可以就好。"
+tests/aa653_shops_unit.js :: FAIL 9 台詞 47 句逐字在 AA_653 裡　["好。可以讀書嗎？可以就好。","青木？好。我想看看別人家的茶怎麼泡�
+tests/aa653_shops_unit.js :: FAILED 2
+tests/bulletin_board_1110_unit.js :: FAIL 0. 讀得到 AA_701 第 3 節第 6 點的法服海報兩句（企劃線 a21a9ddc6；沒有就先 git fetch origin claude/magical-albatt
+tests/bulletin_board_1110_unit.js :: FAILED 1
+tests/corner_shop_unit.js :: FAIL 9 約去轉角唱片答應：七位各自那一句（AA_725 第 8 節）　[["heroine_01",["好。我不太懂音樂，你不要笑。"
+tests/corner_shop_unit.js :: FAIL 10 台詞逐字在 AA_725 裡（50 句：進門、翻唱片、三個選項、試聽、買、錢不夠、櫃台、看音響、坐下、�
+tests/corner_shop_unit.js :: FAILED 2
+tests/corner_shop_unit.js :: FAILED 2
+tests/flower_class_aa820_1112_unit.js :: FAIL 0. 匯入工具 --check：flower_class.js 和白名單上的稿（AA_820@7917d4289）一致　subprocess.CalledProcessError: Command '[
+tests/flower_class_aa820_1112_unit.js :: FAIL 0. 原本的 gift_holiday.js 沒有動（import_gift_holiday.py --check 照樣 OK）　subprocess.CalledProcessError: Command '['git', 
+tests/flower_class_aa820_1112_unit.js :: FAILED 2
+tests/flower_notes_aa792_1112_unit.js :: FAIL 0. 匯入工具 --check：gift_holiday.js、flower_notes_text.js 和白名單上的稿（含 AA_792@335301d353）一致　subprocess.Ca
+tests/flower_notes_aa792_1112_unit.js :: FAILED 1
+tests/gg_shops2_1104_unit.js :: FAIL 9 約去 afar 答應：七位各自那一句　[["heroine_02",["afar？好。窗邊那一排的燈很好看。"]]]
+tests/gg_shops2_1104_unit.js :: FAIL 9 約去 Daybreak 答應：七位各自那一句　["heroine_02","heroine_04"]
+tests/gg_shops2_1104_unit.js :: FAIL 10 台詞逐字在 AA_652 裡（60 句：進門、點餐、錢不夠、點完、吃完、看、坐下、打烊、木牌、答應、開�
+tests/gg_shops2_1104_unit.js :: FAILED 3
+tests/gg_shops2_1104_unit.js :: FAILED 3
+tests/gift_holiday_unit.js :: FAIL 0. gift_holiday.js 和白名單上的 AA_732（1ce262f616）、AA_733（6dbfe10d7e；2026-11-12 CANON-NO-ECON-1112 第五批：芯慈�
+tests/gift_holiday_unit.js :: FAILED 1
+tests/invite_people_unit.js :: FAIL 13. 沛珊：「剛剛路上那排機車……」「如果一條規定大家都不守，它還算數嗎？」三個選項 → 選「要
+tests/invite_people_unit.js :: FAILED: 1
+tests/msg_chat_unit.js :: FAIL F1. 回覆池每一句都在 AA_202／BB_178 原文裡（逐字）　kexin:在走去系館。 ｜ kexin:我室友在旁邊睡著了。 
+tests/msg_chat_unit.js :: FAILED: 1
+tests/yangyang_shop_unit.js :: FAIL 9 約去洋洋答應：七位各自那一句（AA_724 第 8 節）　[["heroine_01",["宵夜？好。我只吃一點。"]],["heroine_03
+tests/yangyang_shop_unit.js :: FAIL 10 台詞逐字在 AA_724 裡（43 句：進門、點餐、調味、錢不夠、等、吃完、看、坐下、鐵門、颱風、答應�
+tests/yangyang_shop_unit.js :: FAILED 2
+tests/yangyang_shop_unit.js :: FAILED 2

@@ -10784,6 +10784,30 @@
    "tests": "shop_cc0 ALL PASS；place_gate 新問題 0；疊面 32.98→18.09；22 支裡 21 支通過，gift_holiday 是 AA 稿白名單比對、和這包無關",
    "notDone": "LAWWW 套 patch、place_gate --write；CC 拍；BB 判；左牆 4.372 m² 疊面（LAWWW2）",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "",
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "b4663868c1",
+   "at": "2026-11-14T13:35Z",
+   "task": "GATE-REF-1114",
+   "title": "校門照使用者參考圖改 第 1 版：模型（切角紅磚門房、匾額、旗桿、半圓花圃、兩座石柱＋方燈、小石墩、矮牆欄杆）＋CK.gate 導航 patch＋Node 測試",
+   "files": [
+    "assets/models/env/second_ai/campus_gate.glb",
+    "assets/models/env/second_ai/campus_gate.json",
+    "tools/blender/env_second/campus_gate.py",
+    "tools/blender/env_second/textures/gen/ixora_flower.png",
+    "docs/art-rebuild/second_ai/wip/gate_ref_1114/gate_ref_nav_on_b4663868c1.patch",
+    "docs/art-rebuild/second_ai/wip/gate_ref_1114/README.md",
+    "docs/art-rebuild/second_ai/wip/gate_ref_1114/v1_overlay.jpg"
+   ],
+   "tests": "gate_ref_1114_unit 開發原樣 FAILED 5 → ALL PASS；114 支回歸 104 過，10 支沒過的和開發原樣失敗項目一樣",
+   "notDone": "遊戲內截圖（CC）；BB 判；線上校門左門柱後黑色半圓還沒查到原因；手機實機",
+   "next": "LAWWW 整合模型＋patch → CC 拍校園側、公館側 → BB 判"
   }
  ]
 }
