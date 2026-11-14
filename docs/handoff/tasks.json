@@ -57187,7 +57187,7 @@
    "status": "等待其他AI／素材",
    "priority": "P1",
    "source": "BB_379 c4d29eaf55（SHOP_US_v2 @625fefcf1e 13:00）；D99 ② 美國交換",
-   "note": "LAWWW-C 11-14 10:1x 查：story3d.js 251 行草原 clerk 要 sh831('us_market')；Node 算 PLACES.isOpen／SH831.staffed 在 2028-09-12、09-16、10-03、11-15 13:00 都是 true（營業時間 08–22 每天、不在颱風清單）。竹葉 252 行 clerk(-4.5,2.7,0,63) 沒條件，卻沒出現，客人（254 行）有出現＝populate 有跑、clerk() 有呼叫，但 NPC 不見——懷疑 E.addNPC 之後被別的東西拿掉／藏起來（國外的 extra 過濾？站點在碰撞裡？）。下一步：請 CC 在瀏覽器進兩間店 13:00，記 GM.E.npcs（clerk 旗標、位置、visible）、SH831.staffed('us_market',GM.G)、GM.G.hour／day，就能分辨。｜11-14 10:4x LAWWW-C：CC SHOP_US_v2_r2（cc-local f5b2c559f5）＝兩間店員 NPC 都在 E.npcs、hidden:false、obj.visible:false。engine3d.js 456 行 visible＝!hidden&&（近或非路人）&&主鏡頭視錐內——最可能是那一刻在鏡頭外（草原整間都看不見＝鏡頭朝外）。已請 CC r3 記鏡頭位置朝向、轉向收銀台後 visible、竹葉走近阿姨互動鍵字和點餐選單（BB「點餐選單沒出來」另一件事）。看得到＝TEST_SETUP；選單不出來＝真 bug。",
+   "note": "LAWWW-C 11-14 10:1x 查：story3d.js 251 行草原 clerk 要 sh831('us_market')；Node 算 PLACES.isOpen／SH831.staffed 在 2028-09-12、09-16、10-03、11-15 13:00 都是 true（營業時間 08–22 每天、不在颱風清單）。竹葉 252 行 clerk(-4.5,2.7,0,63) 沒條件，卻沒出現，客人（254 行）有出現＝populate 有跑、clerk() 有呼叫，但 NPC 不見——懷疑 E.addNPC 之後被別的東西拿掉／藏起來（國外的 extra 過濾？站點在碰撞裡？）。下一步：請 CC 在瀏覽器進兩間店 13:00，記 GM.E.npcs（clerk 旗標、位置、visible）、SH831.staffed('us_market',GM.G)、GM.G.hour／day，就能分辨。｜11-14 10:4x LAWWW-C：CC SHOP_US_v2_r2（cc-local f5b2c559f5）＝兩間店員 NPC 都在 E.npcs、hidden:false、obj.visible:false。engine3d.js 456 行 visible＝!hidden&&（近或非路人）&&主鏡頭視錐內——最可能是那一刻在鏡頭外（草原整間都看不見＝鏡頭朝外）。已請 CC r3 記鏡頭位置朝向、轉向收銀台後 visible、竹葉走近阿姨互動鍵字和點餐選單（BB「點餐選單沒出來」另一件事）。看得到＝TEST_SETUP；選單不出來＝真 bug。｜11-14 11:0x LAWWW-C：BB r3 說店員 visible:false、客人 true＝程式關掉。算過：草原出生點 (13.5,13.6) 面北、店員 (−7.45/−1.45,10.8) 偏 ~70°；竹葉出生 (4.5,3.9)、阿姨 (−4.5,2.7) 偏 ~82°；手機直向水平視角三十幾度＝站門口不動時店員在畫面外，engine3d.js 456 行照主鏡頭視錐設 .visible。等 CC near_clerk 快照判 TEST_SETUP／真 bug；建議 PEOPLE_JS 數 !hidden&&parent。竹葉沒有點餐：是「結帳櫃台」互動點 (−4.5,4.9)。",
    "first": {
     "term": "Y4S1",
     "confirmed": true
@@ -57293,7 +57293,7 @@
    "status": "已整合待測試",
    "priority": "P2",
    "source": "BB-C 11-14 10:22（BB_379 6735490ac4，STUDY_fix_c_r3）",
-   "note": "根因：換區域時 NPC 拆掉＝walkTo 放到目的地→leadReached 在新區域找不到椅子→leadRepick 把 iv.lead 清成 noLead→下一格記 missed（70f8f658d4 的保護看 iv.lead，已經被清掉）。修：leadWalk 的 done、leadRepick 開頭看 G.zone!==L.z＝S.leadDrop。tests/inv_sit_together_unit.js 8c（舊碼重現 missed、新碼 cancelled）。請 CC 重跑 STUDY_fix_c（r4 用開發分支）。",
+   "note": "根因：換區域時 NPC 拆掉＝walkTo 放到目的地→leadReached 在新區域找不到椅子→leadRepick 把 iv.lead 清成 noLead→下一格記 missed（70f8f658d4 的保護看 iv.lead，已經被清掉）。修：leadWalk 的 done、leadRepick 開頭看 G.zone!==L.z＝S.leadDrop。tests/inv_sit_together_unit.js 8c（舊碼重現 missed、新碼 cancelled）。請 CC 重跑 STUDY_fix_c（r4 用開發分支）。｜11-14 10:5x BB：STUDY_fix_c_r5 @936f36bfd7 ALL PASS（leave cancelled＋訊息＋toast；timeout、close 照舊）；r4 @main FAIL＝線上版有這個問題，下一版帶上（NEXT-RELEASE-RECHECK-1114）。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -57319,7 +57319,7 @@
    "status": "待開工",
    "priority": "P1",
    "source": "LAWWW2-C、BB-C 11-14 10:5x（直接看 main 檔案：us3d.js 沒 US_VIEW、world3d.js 沒 wvMirror）",
-   "note": "v9.10.26 發布樹 1a7d7e1994＝rc2e 1404d5f2d4 的遊戲檔（底 76f8b639f0，11-13 18:49）；git 歷史上開發分支 11-13 以後的 commit 雖然是祖先，程式沒進 main。判斷 main 有沒有某個修正要看 main 的檔案內容，不要用 merge-base --is-ancestor。USER_WANTS 查過：76f8 以後改成「在遊戲裡」的只有 X364（確實在 v9.10.26）。下一版發布前 BB 回歸要重拍：① SHOP_US_asian_window to_door 13:00／20:00（8415b48879 竹葉日夜窗景，WINVIEW-ASIAN-DAYNIGHT-1114）② WINVIEW-EDGE-STRIPE（fc1813e4f2 wvMirror）③ 本班整合的 STUCK-WALKSELF、STUDY-LEAVE-LEADEND、DATE-D05-PICK、LAUNDRY-SEAT-PRIO、L118-SEAT-FIX r5、CC0 各店（轉角、好拍、南洋 v7、山嵐 v3）、WINVIEW-TREE-BLOB。",
+   "note": "v9.10.26 發布樹 1a7d7e1994＝rc2e 1404d5f2d4 的遊戲檔（底 76f8b639f0，11-13 18:49）；git 歷史上開發分支 11-13 以後的 commit 雖然是祖先，程式沒進 main。判斷 main 有沒有某個修正要看 main 的檔案內容，不要用 merge-base --is-ancestor。USER_WANTS 查過：76f8 以後改成「在遊戲裡」的只有 X364（確實在 v9.10.26）。下一版發布前 BB 回歸要重拍：① SHOP_US_asian_window to_door 13:00／20:00（8415b48879 竹葉日夜窗景，WINVIEW-ASIAN-DAYNIGHT-1114）② WINVIEW-EDGE-STRIPE（fc1813e4f2 wvMirror）③ 本班整合的 STUCK-WALKSELF、STUDY-LEAVE-LEADEND、DATE-D05-PICK、LAUNDRY-SEAT-PRIO、L118-SEAT-FIX r5、CC0 各店（轉角、好拍、南洋 v7、山嵐 v3）、WINVIEW-TREE-BLOB。｜④ WINVIEW-AUDIT-1105（10aa10ed32，汀州鮮果、安泰、榮恩典自己的窗景；鮮果條紋）",
    "first": {
     "term": "Y1S1",
     "confirmed": false
