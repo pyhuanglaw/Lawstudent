@@ -4,6 +4,7 @@
   ② 每一間：【捷徑】把祐廷放到那間店面前 3 m（讓「走近才顯示」打開）等 3 秒 → 另一台相機拍：全景（店面前 16 m、高 5 m）、從街上往裡看（店面前 5 m、高 1.6 m、看室內中間）；遊戲鏡頭 E.cam.yaw 也轉向店面（r2：r1 的 street_game 拍到的是街）；記那間 on／built。
   ③ 每一間：【前置／捷徑】讀檔進那間（區域出生點）→ 遊戲鏡頭截圖＋另一台相機從門口往裡看（門口互動點往室內 1 m、和②同一個方向）＝「走進去同方向」。
   ④ SUNNY SIDE 的門：街上的門（wenzhou 裡 exit.to＝wz_brunch 的互動點）前 4 m 拍一張；店內的門（wz_brunch 裡 exit.to＝wenzhou）往門看 4 m 拍一張（BB-C 11:28：這版的不一致先記）。
+CC-B 11-14：STAND／GLASS_FACE／WAIT_S／MID（WZ_REAL_r5，BB-B 12:36）。
 CC_02 清單 2026-11-12：1✓（14:00 開、22:00 照 LAWWW） 2✓（店的位置、朝向從 zone.shopReal 讀，門從出口互動點讀） 3✓（每個時間、每一間重新讀檔） 4n/a（不按按鈕） 5n/a（拍照：祐廷放到店前是捷徑，走路的效能另一支 cc_xs_inside_perf_probe） 6✓（預載等 10 秒、每間等 3 秒） 7✓ 8n/a（不判，給 BB） 9✓（全景、往裡看那幾張藏路人和祐廷：要看店） 10✓（條件事件關掉） 11✓ 12✓（三間同樣欄位） 13✓（讀檔、放位置捷徑標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [DAY=2025-10-14] [HOURS=14,22] [SHOPS=wz_offbeat,wz_brunch,wz_teishoku] python3 cc_wz_real_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math
@@ -17,6 +18,12 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]; DAY = os.environ.get('DAY') or '2025-10-14'
 HOURS = [float(x) for x in (os.environ.get('HOURS') or '14,22').split(',') if x]
 SHOPS = [x for x in (os.environ.get('SHOPS') or 'wz_offbeat,wz_brunch,wz_teishoku').split(',') if x]
+STAND = float(os.environ.get('STAND') or 3)   # 祐廷站在玻璃面外幾公尺
+GLASS_FACE = (os.environ.get('GLASS_FACE') or '0') == '1'   # 1＝cx／cz 當玻璃面（r5 起）
+WAIT_S = float(os.environ.get('WAIT_S') or 3)
+STAND_XZ = [float(v) for v in (os.environ.get('STAND_XZ') or '').split(',') if v.strip()]   # 直接指定祐廷站的位置（x,z），r5＝44,-3.5（BB-B 12:36「門口 1～2 m」）
+MID = (os.environ.get('MID') or '0') == '1'   # BB-B 12:36：站路中間 (MID_X, MID_Z) 用主鏡頭、不藏人，各看一次兩邊（南＝SUNNY SIDE、北＝林家乾麵）
+MID_X = float(os.environ.get('MID_X') or 44); MID_Z = float(os.environ.get('MID_Z') or 0)
 R = L.Run('wz_real', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 REAL = r"""(()=>{ const z=GAME.E.zone, S=z&&z.shopReal; if(!S) return {none:true, keys:z?Object.keys(z).filter(k=>/shop/i.test(k)):[]}; const r2=v=>v==null?null:+(+v).toFixed(2);
@@ -36,6 +43,7 @@ async def snap(pg, name, frm, at, people=True):
 def front(s):
     cx = s['cx'] if s.get('cx') is not None else s['x']; cz = s['cz'] if s.get('cz') is not None else s['z']
     nx, nz = math.sin(s['ry'] or 0), math.cos(s['ry'] or 0); hd = (s['d'] or 8) / 2
+    if s.get('cx') is not None and s.get('cz') is not None and GLASS_FACE: return cx, cz, nx, nz, cx, cz   # CC-B 11-14（WZ_REAL_r4 TEST_SETUP）：cx／cz 已經是玻璃面（zones3d.js wzShopReal），不要再往外加半個深度——r4 的「前 3 m」其實離玻璃 8 m、比對街的林家還遠
     return cx, cz, nx, nz, cx + nx * hd, cz + nz * hd
 
 
@@ -58,15 +66,22 @@ async def main():
             for sh in real['shops']:
                 if sh.get('place') not in SHOPS: continue
                 cx, cz, nx, nz, fx, fz = front(sh); pid = sh['place']
-                await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); P.rotation.y=a.yaw; if(GAME.E.cam) GAME.E.cam.yaw=a.cy; })", {'x': fx + nx * 3, 'z': fz + nz * 3, 'yaw': math.atan2(-nx, -nz), 'cy': math.atan2(nx, nz)})
-                await pg.wait_for_timeout(3000)
+                await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); P.rotation.y=a.yaw; if(GAME.E.cam) GAME.E.cam.yaw=a.cy; })", {'x': STAND_XZ[0] if STAND_XZ else fx + nx * STAND, 'z': STAND_XZ[1] if STAND_XZ else fz + nz * STAND, 'yaw': math.atan2(-nx, -nz), 'cy': math.atan2(nx, nz)})
+                await pg.wait_for_timeout(int(WAIT_S * 1000))
                 st = next((q for q in (await pg.evaluate(REAL))['shops'] if q['id'] == sh['id']), {})
                 await pg.screenshot(path=os.path.join(OUT, 'wz_%s_%s_street_game.png' % (ht, pid)))
                 await snap(pg, 'wz_%s_%s_pano.jpg' % (ht, pid), [fx + nx * 16, 5.0, fz + nz * 16], [fx, 2.0, fz])
                 await snap(pg, 'wz_%s_%s_lookin.jpg' % (ht, pid), [fx + nx * 5, 1.6, fz + nz * 5], [cx, 1.3, cz])
                 rec['shops'][pid] = {'shop': sh, 'near': st}
-                R.note('%s %s：【捷徑】祐廷放到店面前 3 m（%.2f,%.2f）等 3 秒 → %s；拍了全景、從街上往裡看（相機 %.2f,1.6,%.2f → 室內中心 %.2f,%.2f）' % (tag, pid, fx + nx * 3, fz + nz * 3, J(st), fx + nx * 5, fz + nz * 5, cx, cz))
+                R.note('%s %s：【捷徑】祐廷放到玻璃面外 %.1f m（%.2f,%.2f）等 %.0f 秒 → %s；拍了全景、從街上往裡看（相機 %.2f,1.6,%.2f → 室內中心 %.2f,%.2f）' % (tag, pid, STAND, STAND_XZ[0] if STAND_XZ else fx + nx * STAND, STAND_XZ[1] if STAND_XZ else fz + nz * STAND, WAIT_S, J(st), fx + nx * 5, fz + nz * 5, cx, cz))
                 R.check('%s %s 走近以後室內有顯示（on、built）' % (tag, pid), bool(st.get('on')) and bool(st.get('built')), J(st))
+            if MID:   # BB-B 12:36：路中間主鏡頭兩邊各一張（不藏人）
+                for side_, cy_ in (('south_sunnyside', 0.0), ('north_lin', math.pi)):
+                    await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); P.rotation.y=a.cy+Math.PI; const C=GAME.E.cam; C.yaw=a.cy; C.manualT=30; })", {'x': MID_X, 'z': MID_Z, 'cy': cy_})
+                    await pg.wait_for_timeout(int(WAIT_S * 1000))
+                    st_ = await pg.evaluate(REAL)
+                    await pg.screenshot(path=os.path.join(OUT, 'wz_%s_mid_%s.png' % (ht, side_)))
+                    R.note('%s 路中間 (%.1f, %.1f) 主鏡頭看%s：wz_%s_mid_%s.png；那時 shopReal %s' % (tag, MID_X, MID_Z, '南（SUNNY SIDE）' if cy_ == 0 else '北（林家乾麵）', ht, side_, J([{k: q.get(k) for k in ('id', 'built', 'on')} for q in st_.get('shops', [])])))
             if 'wz_brunch' in SHOPS:
                 ex = await pg.evaluate(EXIT, 'wz_brunch'); bs = rec['shops'].get('wz_brunch', {}).get('shop')
                 if ex and bs:

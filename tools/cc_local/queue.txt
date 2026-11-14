@@ -2390,7 +2390,8 @@ DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/s
 # HOLD（已改成下面 LAWWW-C 10:48 那三行）L118_CAM36_b_r5 | <NEXT> | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=l118_cam36_b_r5;ZONES=l118_home,l118_cafe2,l118_pasta;HOURS=14;PARTS=7;ENTERCAM=1;ALLSEATS=1;SEAT_TAP=visible;SHA=<NEXT>
 # HOLD（已改成下面 LAWWW-C 10:48 那三行）L118_CAM36_c_r5 | <NEXT> | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=l118_cam36_c_r5;ZONES=l118_korea,l118_omu,l118_noodle2;HOURS=14;PARTS=7;ENTERCAM=1;ALLSEATS=1;SEAT_TAP=visible;SHA=<NEXT>
 # HOLD BB-C 10:53：WINVIEW-AUDIT-1105（LAWWW2 公館三間窗景）整合進開發分支以後，用新的開發分支重拍 win_gg_xianguo 等三間（cc_window_view_probe ZONES=gg_antai,gg_xianguo,gg_rongendian HOURS=14,20）；<DEV>＝整合後的 SHA
-# HOLD WINVIEW_GG3_dev | <DEV> | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 25 | ZONES=gg_antai,gg_xianguo,gg_rongendian;HOURS=14,20;SHA=<DEV>
+# CC-B 11-14 12:5x：LAWWW-B 給開發分支 c109767aae（完整 SHA），解除 HOLD
+WINVIEW_GG3_dev | c109767aaeeb910d28d9e15b04906a82ea43b7f7 | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 25 | ZONES=gg_antai,gg_xianguo,gg_rongendian;HOURS=14,20;SHA=c109767aaeeb910d28d9e15b04906a82ea43b7f7
 # HOLD ART_GYM_BG1_rel | <SHA> | probe | docs/story_planning/test_tools/cc/cc_bg_adv_probe.py | index.html | 20 | BGS=ntu_gym_ceremony;DATES=0;CC_HEADLESS=0
 # HOLD ART_DORM_LOFT_rel_shots | <SHA> | probe | docs/story_planning/test_tools/cc/cc_dorm_loft_probe.py | index.html | 20 | HOURS=14,21.5;CC_HEADLESS=0
 # HOLD ART_DORM_LOFT_rel_seats | <SHA> | game | tests/seats_on_furniture.py | index.html | 20 | XARGS={url} dorm;CC_HEADLESS=0
@@ -2552,6 +2553,10 @@ GATE2_MOKUYOBI_r4 | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/stor
 GATE2_MOKUYOBI_examseat | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 15 | TAG=gate2_mokuyobi_examseat;ZONES=wz_mokuyobi;DAY=2025-10-22;HOURS=14;SPAWN=-1.46,5.42,1;PARTS=7;SEAT_BARSIDE=1;SHA=1404d5f2d4cb740d50df75741764be18ee746992
 # BB-C 10:40（BB_379）：WZ_REAL r2／r3 SUNNY SIDE 走近室內沒建起來（可能真問題）→ main 重跑，排在 AA355-358 前面
 WZ_REAL_r4 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 25 | TAG=wz_real_r4;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 12:5x：BB-B 12:36 r4 判 TEST_SETUP（站點離玻璃 8 m、建的是對街林家）→ r5 只跑 SUNNY SIDE、站門口 (44,-3.5)、加路中間 (44,0) 主鏡頭兩邊各一張
+WZ_REAL_r5 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 25 | TAG=wz_real_r5;SHOPS=wz_brunch;HOURS=14,22;STAND_XZ=44,-3.5;WAIT_S=5;MID=1;MID_X=44;MID_Z=0;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 12:5x：LAWWW-B「用開發分支 c109767aae 排 LIMAO_DOOR_r1」：店門口開／關兩個時段（closed_front）
+LIMAO_DOOR_r1 | c109767aaeeb910d28d9e15b04906a82ea43b7f7 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 45 | TAG=limao_door_r1;ZONES=tz_limao;HOURS=14,23.5;NODEBUG=1;SIDE_OFF=0.8;SHA=c109767aaeeb910d28d9e15b04906a82ea43b7f7
 # BB-C 10:07（BB_462 220f577bc1 第二層派 CC，P2）：BB-TEST-AA355-358-1021 四支兩路對照，對 main；新探針 cc_aa355_358_probe（第一次跑）
 AA358_21_noodle | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 30 | PARTS=NOODLE;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 AA358_22_24_cafe | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 30 | PARTS=CAFE;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
