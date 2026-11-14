@@ -56899,7 +56899,7 @@
     "mainline": true,
     "confirmed": true
    },
-   "next": "發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→110b0fd990 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
+   "next": "發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→b45c888f94（AA_1015 第二版；110b0fd990 是第一版、已被 BB 退件——AA-C 11-14 09:43 更正） 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
    "xai": []
   },
   {
