@@ -326,6 +326,7 @@ async def main():
                     if not R.check('[%d] 手機「地點」快速前往 %s' % (n, arg), ok_t, J(await pg.evaluate(DLG))): break
                     continue
                 if kind != 'exit': continue
+                if await pg.evaluate("GAME.G.zone") == arg: R.note('[%d] 已經在 %s（約定時間的「直接過去」先帶進來了；CC-B 11-14 CANON458_r5 TEST_BUG，CC_02 乙6）' % (n, arg)); continue
                 exs = await pg.evaluate("(to=>GAME.E.interactables.filter(i=>i.exit&&i.exit.to===to&&!i.hidden).map(i=>i.label))", arg)
                 if not R.check('[%d] 找得到往 %s 的出口' % (n, arg), bool(exs), ''): break
                 samp = []; stop = asyncio.Event()
