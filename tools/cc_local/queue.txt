@@ -2385,6 +2385,10 @@ DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/s
 # ⑧ 美術（發布版）：ART_SWEEP_A（BB_464 B 節）——鏡頭已寫在下面（HOLD）；ART-GYM-BG1、ART-DORM-LOFT 如下；L118 r4、BOOKSTORE_r4、STUDY_FA05／SE01、save 三支、WINVIEW_GG3、DATE_PS／ZR 已排，發布時 76f8 那幾行改 <SHA>
 # HOLD LAWWW2-C 10:06（WINVIEW-EDGE-STRIPE-1114，視差窗照片夾邊→鏡像，LAWWW 整合 fc1813e4f2）：下一版發布後重拍七間窗景 14:00 給 BB 判；<NEXT>＝下一版發布 SHA
 # （LAWWW2-C 10:11：v9.10.26＝main 6106fae2d2 已含 fc1813e4f2，不用等下一版，改到下面 10:1x 那一行）
+# HOLD BB-C 10:19（BB_379 eeeaa19b29）：L118_CAM36 r5——LAWWW2 的修正 bd4ccd8a78 等 LAWWW 整合、發布後跑，用新的 SEAT_TAP=visible（排除 fallback／看不見的碰撞體，cc-testing 0ab7babf04）；<NEXT>＝下一版發布 SHA
+# HOLD L118_CAM36_a_r5 | <NEXT> | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=l118_cam36_a_r5;ZONES=l118_dian,l118_self,l118_tea;HOURS=14;PARTS=7;ENTERCAM=1;ALLSEATS=1;SEAT_TAP=visible;SHA=<NEXT>
+# HOLD L118_CAM36_b_r5 | <NEXT> | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=l118_cam36_b_r5;ZONES=l118_home,l118_cafe2,l118_pasta;HOURS=14;PARTS=7;ENTERCAM=1;ALLSEATS=1;SEAT_TAP=visible;SHA=<NEXT>
+# HOLD L118_CAM36_c_r5 | <NEXT> | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=l118_cam36_c_r5;ZONES=l118_korea,l118_omu,l118_noodle2;HOURS=14;PARTS=7;ENTERCAM=1;ALLSEATS=1;SEAT_TAP=visible;SHA=<NEXT>
 # HOLD ART_GYM_BG1_rel | <SHA> | probe | docs/story_planning/test_tools/cc/cc_bg_adv_probe.py | index.html | 20 | BGS=ntu_gym_ceremony;DATES=0;CC_HEADLESS=0
 # HOLD ART_DORM_LOFT_rel_shots | <SHA> | probe | docs/story_planning/test_tools/cc/cc_dorm_loft_probe.py | index.html | 20 | HOURS=14,21.5;CC_HEADLESS=0
 # HOLD ART_DORM_LOFT_rel_seats | <SHA> | game | tests/seats_on_furniture.py | index.html | 20 | XARGS={url} dorm;CC_HEADLESS=0
