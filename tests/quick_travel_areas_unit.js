@@ -21,11 +21,11 @@ if(ok0){
   const st=pl=>({known:!/^xs_(dabu|haopai)$/.test(pl[0])&&pl[0]!=='cafe',open:pl[0]!=='xs_tongxian'&&pl[0]!=='lawlib',here:pl[0]==='xs_dakou',mins:20,bike:false});
   const html=(open,here)=>PM.listHTML(Q,st,open,here,z=>z==='xs_shanlan'?'今天 11:00–22:00':'');
   const all=html('',null), heads=[...all.matchAll(/data-parea="([a-z0-9_]+)"[^>]*><span>([^<]+)<\/span>/g)].map(m=>[m[1],m[2]]);
-  check('1. 地區照順序：首都帝大校園、公館、溫州街、新生南路、118 巷（名字照 PLACES.names，後面是幾個地點）',J(heads.map(h=>h[0]))===J(['campus','gongguan','wenzhou','xinsheng','lane118'])&&heads.every(([id,t])=>t===PLACES.names[id]+'（'+Q.filter(pl=>PM.areaOf(pl)===id).length+'）'),J(heads));
+  check('1. 地區照順序：首都帝大校園、公館、溫州街、新生南路、118 巷（名字照 PLACES.names，後面是幾個地點）',J(heads.map(h=>h[0]))===J(['campus','gongguan','tingzhou','wenzhou','xinsheng','lane118'])   /* 汀州路：禮貌生財（區域 tz_limao）進了快速前往（SHOP-STANDARD-BACKFILL-1112）；這支測試沒載入汀州路配置，所以只有它一個 */&&heads.every(([id,t])=>t===PLACES.names[id]+'（'+Q.filter(pl=>PM.areaOf(pl)===id).length+'）'),J(heads));
   const cnt=heads.reduce((s,h)=>s+(+h[1].match(/（(\d+)）/)[1]),0); check('1. 各區的地點數加起來＝清單的地點數（每個地點只算一次）',cnt===Q.length,cnt+'/'+Q.length);
   check('1. 新生南路那一區：新生南路、山嵐書店、南洋戲院、大口漢堡、同弦樂器、大步球鞋、好拍運動、新生運動廣場；溫州街那一區沒有新生南路的店',J(Q.filter(pl=>PM.areaOf(pl)==='xinsheng').map(pl=>pl[0]).sort())===J(['xinsheng','xs_dabu','xs_dakou','xs_haopai','xs_nanyang','xs_shanlan','xs_tongxian','xs_xsports'])&&!Q.some(pl=>PM.areaOf(pl)==='wenzhou'&&/^xs_|xinsheng/.test(pl[0])));
   // 2
-  check('2. 全部收起來（\'\'）：只有地區的按鈕、沒有任何地點列；每顆按鈕至少 44 px 高、寫 aria-expanded="false"',!/data-place=/.test(all)&&(all.match(/min-height:44px/g)||[]).length===5&&(all.match(/aria-expanded="false"/g)||[]).length===5);
+  check('2. 全部收起來（\'\'）：只有地區的按鈕、沒有任何地點列；每顆按鈕至少 44 px 高、寫 aria-expanded="false"',!/data-place=/.test(all)&&(all.match(/min-height:44px/g)||[]).length===6&&(all.match(/aria-expanded="false"/g)||[]).length===6);
   const hx=html(undefined,{zone:'xs_dakou',x:0,z:6.4});
   const opened=[...hx.matchAll(/data-parea="([a-z0-9_]+)" aria-expanded="true"/g)].map(m=>m[1]);
   check('2. 預設（undefined）：人在大口漢堡＝展開新生南路、只開這一區',J(opened)===J(['xinsheng']),J(opened));

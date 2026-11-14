@@ -194,13 +194,13 @@ const rowOf=(who,spot)=>SHOP_ENC.rows.find(r=>r.who===who&&r.spot===spot);
     check('11. 都是平日（週一～週五）21:00 左右（21:00～21:30）、不在考試週',M.every(m=>{ const wd=CALENDAR.dateOf(m.day).wd%7, T=CALENDAR.termOf(m.day); return wd>=1&&wd<=5&&m.h>=21&&m.h<21.5&&T&&!T.exam; }),JSON.stringify(M.map(m=>CALENDAR.dateOf(m.day).key+' '+m.h)));
     check('11. 一天最多一則；寄件人是她、對話串名字「知寧」',new Set(M.map(m=>m.day)).size===M.length&&M.every(m=>m.from===ZN)&&PHONE.title(G,'p:'+ZN)==='知寧',PHONE.title(G,'p:'+ZN));
     check('11. 沒有山嵐書店：週六照舊在舊路書房',!!SHOPENC.znEligible(mk(STORY.termDay('Y2S1',5,6),15,{flags:G.flags}),'bookstore'));
-    global.Z3={ZONES:{shanlan:{name:'山嵐書店'}}};
+    global.Z3={ZONES:{xs_shanlan:{name:'山嵐書店'}}};   /* 區域是 xs_shanlan（資料寫的 shanlan 照 SHOPENC.ZONE_OF 對過去；AA_828 第 6 節，2026-11-12——原本這裡放的是不存在的區域 shanlan）*/
     const G2=run(), M2=G2.msgs.filter(m=>m.th==='p:'+ZN);
     check('11. 山嵐書店開了：六則照順序',JSON.stringify(M2.map(m=>m.text))===JSON.stringify(X.znMsgs),JSON.stringify(M2.map(m=>m.text)));
     const d5=(M2[4]||{}).day; const satA=(()=>{ for(let d=d5+1;d<d5+60;d++){ const T=CALENDAR.termOf(d); if(CALENDAR.dateOf(d).wd%7===6&&T&&!T.exam) return d; } })(), satB=(()=>{ for(let d=d5-1;d>d0;d--){ const T=CALENDAR.termOf(d); if(CALENDAR.dateOf(d).wd%7===6&&T&&!T.exam) return d; } })();
     const Ga=mk(satA,15,{flags:G2.flags}), Gb=mk(satB,15,{flags:G2.flags});
-    check('11. 第 5 則以後：她在山嵐書店（週六 14–17），舊路書房沒有她；之前照舊在舊路書房',d5!=null&&!!SHOPENC.znEligible(Ga,'shanlan')&&!SHOPENC.znEligible(Ga,'bookstore')&&!SHOPENC.znEligible(mk(satA,17.1,{flags:G2.flags}),'shanlan')&&!!SHOPENC.znEligible(Gb,'bookstore')&&!SHOPENC.znEligible(Gb,'shanlan')&&SHOPENC.spots().includes('shanlan'),satA+'/'+satB);
-    delete global.Z3; check('11. 山嵐書店又沒有了（舊存檔、區域拿掉）：回到舊路書房',!!SHOPENC.znEligible(mk(satA,15,{flags:G2.flags}),'bookstore')&&!SHOPENC.spots().includes('shanlan'));
+    check('11. 第 5 則以後：她在山嵐書店（週六 14–17），舊路書房沒有她；之前照舊在舊路書房',d5!=null&&!!SHOPENC.znEligible(Ga,'xs_shanlan')&&!SHOPENC.znEligible(Ga,'bookstore')&&!SHOPENC.znEligible(mk(satA,17.1,{flags:G2.flags}),'xs_shanlan')&&!!SHOPENC.znEligible(Gb,'bookstore')&&!SHOPENC.znEligible(Gb,'xs_shanlan')&&SHOPENC.spots().includes('xs_shanlan')&&!SHOPENC.spots().includes('shanlan'),satA+'/'+satB);
+    delete global.Z3; check('11. 山嵐書店又沒有了（舊存檔、區域拿掉）：回到舊路書房',!!SHOPENC.znEligible(mk(satA,15,{flags:G2.flags}),'bookstore')&&!SHOPENC.spots().includes('xs_shanlan'));
     /* 回她 */
     const Gr=mk(STORY.termDay('Y2S1',5,3),21.6,{flags:G.flags,msgs:G.msgs.filter(m=>m.day<STORY.termDay('Y2S1',5,3))});
     const o=MSG.open(Gr,ZN), tp=MSG.topics(Gr,ZN).map(q=>q.k).join();

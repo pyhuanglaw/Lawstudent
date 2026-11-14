@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 542.9,
+ "bake_seconds": 1050.7,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -44,5 +44,5 @@
   "WALL_right_kmc_wood"
  ],
  "src": "assets/models/env/second_ai/aa_support/komichi.glb",
- "src_sha256": "0bf1488b17908710308a3ea1406167490f1a68849bfcf652beaeb5e788733716"
+ "src_sha256": "c5fca9f02a4bfcaedbf92f36a50f15ae128dd6100eb76538c70b71138ca4fcf1"
 }

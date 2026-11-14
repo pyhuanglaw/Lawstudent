@@ -28,7 +28,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   const all=J(SISB8_EVENTS)+J(SISB8_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB8_LINES).flat().filter(x=>typeof x==='string'));
   /* 「債總一定要周老師那班嗎？」「不一定。可是你會想上他的課。」：AA 2026-11-02 20:26 定稿（LAWWW 轉給 aa591 子代理；企劃線還沒有稿）*/
   const A590=require('./aa590_doc.js');   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A590.has(t)&&!require('./aa593_doc.js').has(t)&&!require('./libq_out_lines.js').added(t)&&!['「債總一定要周老師那班嗎？」','不一定。可是你會想上他的課。'].includes(t)&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A590.has(t)&&!require('./aa593_doc.js').has(t)&&!require('./libq_out_lines.js').added(t)&&!['「債總一定要周老師那班嗎？」','不一定。可是你會想上他的課。'].includes(t)&&t!=='你大一修過經濟學。這張圖，我看了二十分鐘。'/* AA_901 補 8（企劃線 13b99d5da8）：學姊那張圖換開頭（CANON-NO-ECON-1112）*/&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
   check('0. 每一句台詞、選項都在稿裡（一字不差；AA_593 第 19～23 列改的五則在 AA_593 的表上，企劃線 6cbb0b4ab）',!!doc&&!notIn.length,J(notIn));
   check('0. SISY23.preTalk 包了這一層（_sisb8），前面幾層的記號還在',!!SISY23.preTalk._sisb8&&!!SISY23.preTalk._sisb4&&!!SISY23.preTalk._sisjp); });
 /* ---- 1 ---- */
@@ -56,10 +56,7 @@ await sec(2,async()=>{ fresh('2026-10-14',19,'FRIEND');
   fresh('2026-12-09',19.5,'FRIEND'); await talk('2026-12-09',19.6); const b0=!!H.G.events.done.ev_sis_adv_exch&&!H.G.events.done.ev_sis_ta_papers; const b1=await talk('2026-12-09',19.7);
   H.G.events.last.ev_sis_adv_exch=H.G.day-7; const b2=await talk('2026-12-09',19.8,'lawlib',[1]);
   check('2. 2-3 第 14 週：AA_386 1-2 還沒演＝先演 1-2（sis_b4），同一天不再演；下一次「右邊。」→「嗯。右邊寫得比較像在跟人講話。」「謝謝。……這不算洩題，你們大二早就考過了。」',b0&&b1!==true&&b2===true&&has('嗯。右邊寫得比較像在跟人講話。')&&has('謝謝。……這不算洩題，你們大二早就考過了。')&&H.G.flags.SIS_TA_PAPERS===true,J([b0,b1,b2]));
-  fresh('2027-03-10',19.5,'FRIEND',{Y0_LEFT:D('2024-10-17')}); await talk('2027-03-10',19.6,'lawlib',[0]);
-  check('2. 3-1 大二下第 3 週，經濟系念完的：兩個選項，「（講給她聽…）」→「好。我懂了。……我欠你一杯咖啡。」；SIS_ECON_GRAPH taught',H.opts[0]&&H.opts[0].length===2&&has('好。我懂了。……我欠你一杯咖啡。')&&H.G.flags.SIS_ECON_GRAPH==='taught',J(H.opts));
-  const c0=await talk('2027-03-10',20,'cafe'); const c1=await talk('2027-03-11',14,'cafe');
-  check('2. 教她的那一版：之後（不是同一天）第一次在 Café 找她說話「（桌上多一杯熱拿鐵。她說：『上次的。』）」',!c0&&c1===true&&has('（桌上多一杯熱拿鐵。她說：『上次的。』）'),J([c0,c1]));
+  /* 3-1 舊序章那一支（講給她聽→熱拿鐵）：CANON-NO-ECON-1112 第四批：這一項拿掉（AA-C 11-12 20:05 ⑤）*/
   fresh('2027-03-10',19.5,'FRIEND'); await talk('2027-03-10',19.6,'lawlib',[0]);
   check('2. 3-1 沒念過經濟系那一年：只有「我也忘得差不多了。」→「那一起看。」；together',H.opts[0]&&H.opts[0].length===1&&H.opts[0][0]==='「我也忘得差不多了。」'&&has('那一起看。')&&H.G.flags.SIS_ECON_GRAPH==='together',J(H.opts));
   fresh('2027-04-07',19.5,'FRIEND'); await talk('2027-04-07',19.6,'lawlib',[0]); const topicFirst=!!H.G.events.done.ev_sis_topic&&!H.G.events.done.ev_sis_old_notes;

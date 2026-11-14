@@ -15,7 +15,7 @@ const NAMES=/^(ROM|CHARACTERS|PORTRAIT_ONLY|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAI
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 global.CG_REGISTRY={};
-const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js','src/data/us_layouts.js','src/y34b3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/us_life_events.js','src/us_life3d.js'];
+const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js','src/data/us_layouts.js','src/y34b3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/us_life_events.js','src/us_life3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,slots:{},preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},cg(id){ return !!CG_REGISTRY[id]; },setBg(){},hide(){}}; global.CHAR={setExpr(){}};
@@ -255,7 +255,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   fresh('2028-08-17',21,'us_apartment',US({MET_LONG:true})); { const s=USL.SUM.find(x=>x.d==='2028-08-17'); check('G2. 8/17 摘要日：有 MET_LONG＝「何俊朗拿了兩盤披薩」；沒有＝「你吃了兩片披薩」', USL.sumLine(G,s)==='（國際學生的晚會。何俊朗拿了兩盤披薩，一盤給你。）'&&(G.flags.MET_LONG=false,USL.sumLine(G,s)==='（國際學生的晚會。你吃了兩片披薩，早早回公寓。）')); }
   fresh('2028-08-20',9,'us_apartment',US()); date('kexin'); rules(); { const q=OUT.get(G,'usl_qixi');
     check('G2. 8/26 可昕七夕（和可昕交往中）：當地 09:00 視訊（台灣 21:00）', !!q&&q.day===D('2028-08-26')&&q.h===9&&q.verb==='接起來'); }
-  at('2028-08-26',8.8); picks=[0]; await go('usl_qixi'); check('G2. 七夕：「七夕。你那邊是早上吧。」「……我這邊是晚上。剛好一人一半。」→「十二月二十三號。」→「我知道。我算過了。」', has('七夕。你那邊是早上吧。')&&has('牛郎織女要等一年。我們等四個月。')&&has('我知道。我算過了。'));
+  at('2028-08-26',8.8); picks=[0]; await go('usl_qixi'); check('G2. 七夕：「七夕。你那邊是早上吧。」「……我這邊是晚上。剛好一人一半。」→「十二月二十三號。」→「我知道。……你不用提醒我。」（2026-11-13 AA_926，舊期望「我知道。我算過了。」）', has('七夕。你那邊是早上吧。')&&has('牛郎織女要等一年。我們等四個月。')&&has('我知道。……你不用提醒我。'));
 
   // ======================= G3 勞動節的烤肉 =======================
   fresh('2028-09-02',15,'us_outside',US()); await interact({usClub:'door',look:'x'}); check('G3. 9/1 起會所門口的公告：「（公告上畫了一個烤肉架。下面寫：自己帶飲料。）」', caps.includes('（公告上畫了一個烤肉架。下面寫：自己帶飲料。）'));

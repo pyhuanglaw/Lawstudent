@@ -100,7 +100,7 @@ const SHA='ca08e848c', DOCF='docs/story_planning/AA_516_學姊第十四批_她�
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA516_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
 const S1=part('## 1. 修正','## 2. '), BODY=part('## 2. ','## 6. ');   /* 第 1 節（表）、第 2～5 節（台詞）*/
-const A591=require('./aa591_doc.js'), G591=s=>A591.MAP[s]||s;   /* AA_591（學姊改稿第四批，6b35748c7，使用者 11-02 確認）：稿上的句子照 AA_591 的表換成遊戲現在的字 */
+const A591=require('./aa591_doc.js'), A840=["……這樣可以嗎。","……白天打。我會醒著。","……我切一半給你看。另一半留到星期二。","……好。停一次，不算輸。","……還沒。我又要下去一次。","……那不一樣。這邊是一整片。","……好。在車上開。你開車，我拍你。","……結果一個字都沒寫。","……我寄了一片回去。應該快到了。"]/* 2026-11-12 AA_840（02264217e）：這九句遊戲拿掉句首「……」，稿 AA_516 還帶著 */, G591=s=>{ const t=A591.MAP[s]||s; return A840.includes(t)?t.slice(2):t; };   /* AA_591（學姊改稿第四批，6b35748c7，使用者 11-02 確認）：稿上的句子照 AA_591 的表換成遊戲現在的字 */
 const qtext=s=>G591(/^（/.test(s)?s:s.slice(s.indexOf('：')+1));   /* 「> 學姊：…」→ 那一句；「> （…）」→ 旁白整句 */
 const QUOTES=BODY.split('\n').map(l=>/^\s*>\s*(.+)$/.exec(l)).filter(Boolean).map(m=>qtext(m[1].trim()));
 const OPTRE=/^- (「[^」]+」|（[^）]+）)→(.*)$/;
@@ -164,10 +164,10 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const INLINE=['打了。你在忙。……群組見。','明天中午，我家。……鍋子洗好了。','好。','三顆。吃完了。','……第四顆留給你。','（你穿著那件外套。她也是。）','勞動節週末，法學院圖書館只開到下午五點。','收到。','峽谷回來以後，第一次這樣打給你。'];   /* 稿寫在說明句裡的（「」括起來）*/
   check('0. 稿寫在說明裡的句子（22:40 私訊、12/30 私訊與「好。」、07:15 兩則、初雪那一句、9/2 交換生群組與「收到。」、1-3 開頭那一句）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿 */
-  const M=mineTexts(), notIn=[...new Set(M)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!A591.has(t)&&!A591.has(unq(t)));
+  const C898=require('./canon898_1112.js')/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）*/, M=mineTexts().map(C898.back), notIn=[...new Set(M)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!A591.has(t)&&!A591.has(unq(t)));
   check('0. 遊戲 → 稿：新檔的每一句、各檔帶 aa516 的行、改字（'+new Set(M).size+' 句）都在稿裡（一字不差）',new Set(M).size>=150&&!notIn.length,J(notIn));
   /* 第 1 節：改成的字在遊戲裡、換掉的不在 */
-  const to=['1-1','1-2','1-3','1-8','1-9','1-10'].map(k=>ROW[k]&&ROW[k].to).flat().filter(Boolean);
+  const to=['1-1','1-2','1-3','1-8','1-9','1-10'].map(k=>ROW[k]&&ROW[k].to).flat().filter(Boolean).map(require('./canon898_1112.js').fwd)/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）*/;
   check('0. 第 1 節「改成」那一欄（1-1 兩句、1-2 截圖、1-3、1-8、1-9、1-10）都在遊戲裡',to.length===7&&to.every(t=>GS.has(t)),J(to.filter(t=>!GS.has(t))));
   const old=['1-1','1-8','1-9','1-10'].map(k=>ROW[k]&&ROW[k].now).flat().filter(Boolean), live=new Set(STORY_EVENTS.map(e=>evTexts(e.dialogue,()=>true)).flat().concat(Y34B.M6_QUIET,Object.values(Y34B.M6_WED).flat()));
   check('0. 第 1 節「現在」那一欄換掉的（g6 兩句、家族群組三句）不在遊戲裡',old.length===5&&old.every(t=>!live.has(t)),J(old.filter(t=>live.has(t))));
@@ -179,7 +179,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
 /* ---- 1 第 1 節 ---- */
 await sec(1,async()=>{
   /* 1-1 */
-  await vidGf('2028-12-10',5,[0]); check('1. 1-1 g6（12/10）：「二十三號晚上八點落地。」「班次，回去前傳給你。」（沒有「早上到」「傳給你了」）',J(said().slice(0,2))===J(ROW['1-1'].to)&&!has('二十三號早上到。')&&!has('機場的班次我傳給你了。'),J(said()));
+  await vidGf('2028-12-10',5,[0]); check('1. 1-1 g6（12/10）：「二十三號晚上八點落地。」「班次，回去前發給你。」（沒有「早上到」「傳給你了」）',J(said().slice(0,2))===J(ROW['1-1'].to.map(require('./canon898_1112.js').fwd))&&!has('二十三號早上到。')&&!has('機場的班次我傳給你了。'),J(said()));
   /* 1-2 */
   fresh('2028-12-20',21.1,'dating'); ph(); const dm=byTag('y4_pickup_dm').map(m=>m.text);
   check('1. 1-2 戀人版 12/20 21:00 私訊：先「📷（截圖：班機時間，桃園 20:05 抵達）」再「這週六，晚上八點。你來。」',J(dm)===J([ROW['1-2'].to[0],'這週六，晚上八點。你來。']),J(dm));

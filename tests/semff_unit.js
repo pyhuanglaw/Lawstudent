@@ -56,6 +56,8 @@ await sec(1,async()=>{ fresh('2025-09-28',22); reset(); for(const k of ['FRIEND_
 /* ---- 2 停點 ---- */
 await sec(2,async()=>{
   // 2a 有課前事件的課（大一英文 10/9 的 beforeClass）：停在課前 20 分鐘，不自動上
+  /* 原本靠 SK04 便利貼（大一英文的課前事件）；那條線 CANON-NO-ECON-1112 第三批拿掉，這裡放一個測試用的課前事件（10/9 那一堂）*/
+  const unEn=evPush({id:'ev_t_semff_en',title:'測試',participants:[],location:'any',trigger:'class',beforeClass:'english_y1',term:['Y1S1'],once:true,prereq:{custom:G=>G.day===D('2025-10-09')},dialogue:[{text:'測試：課前'}]});
   fresh('2025-10-05',22); reset(); { const r=await X().jump(GM,now()+7*24); const en=items('2025-10-09').find(it=>it.c.id==='english_y1');
     check('2a. 10/5 跳一週：停在 10/9 大一英文前 20 分鐘（有課前事件），那堂沒記',r.why==='stop'&&!!en&&Math.abs(now()-(Tm(en.day,en.t0)-1/3))<1e-6&&!CLS.rec(H.G).done[en.key]&&/大一英文/.test(r.stop.why),J({stop:r.stop,at:lbl(now())}));
     check('2a. 字卡：日期＋停下來的原因',/^10\/9（四）08:50$/.test((H.cards.slice(-1)[0]||[])[0])&&/大一英文/.test((H.cards.slice(-1)[0]||[])[1]),J(H.cards.slice(-1))); }
@@ -102,6 +104,7 @@ await sec(2,async()=>{
   // 2h 課前 20 分鐘以內、那堂有劇情：不跳
   fresh('2025-10-09',8+55/60); reset(); { const t0=now(); const r=await X().jump(GM,now()+24);
     check('2h. 10/9 08:55（09:10 英文課前 20 分鐘以內，有課前事件）：不跳（why now），時間沒動',r.why==='now'&&now()===t0&&/大一英文/.test(r.stop.why),J({why:r.why,at:lbl(now())})); }
+  unEn();
   // 2i 選單：「不用了」什麼都不做
   fresh('2025-10-05',22); reset(); { H.picks=['不用了']; const t0=now(); await X().menu(GM); check('2i. 「不用了」：時間沒動',now()===t0); }
   /* 2j（BUG-BEDFF-DOUBLETAP-1111，BB／CC 2026-11-11）：選了「過一週」以後先說會跳到哪、再確認；「算了」在前（預設）＝時間沒動；正在上的課會記成沒去要講出來 */

@@ -11,6 +11,8 @@
 //   9 台詞逐字對照企劃線 AA_653（git show 讀不到就 SKIP）；index.html 載入順序；story_import_allow.json
 // 修改前（cb1d84290）：1（沒有這些互動點）、2（門口沒有外帶）、3（青木不能讀書）、4（沒有營業時間、不擋門）、5～9（沒有 src/ggshops_sys3d.js）FAIL。
 // 用法：node tests/aa653_shops_unit.js
+/* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 照覆蓋層拿掉刪節號、換句——答應句的期望包 OE.fwd（舊期望＝裡面的字），逐字對稿時「新字的舊字在稿上」也算（OE.inDoc；tests/overlay_expect.js）*/
+const OE=require('./overlay_expect.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
@@ -102,6 +104,7 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     check('6 熱食櫃買烤地瓜：扣 45 元、店員「要加熱嗎？……那幫你裝袋。」、EAT 記「公館的便利商店」',G.money===4955&&log[1]&&log[1][0]==='店員'&&log[1][1]==='要加熱嗎？……那幫你裝袋。'&&J(ate)===J([['公館的便利商店','烤地瓜']]),J([G.money,log,ate]));
     const prices=J(M['cvs.hotfood'].items)===J([['烤地瓜',45],['茶葉蛋',13],['肉包',25],['關東煮（三樣）',60]])&&J(M['cvs.coffee'].items)===J([['美式',45],['拿鐵',60],['冰美式',45]])&&J(M['bookstore.cafe_order'].items)===J([['美式',90],['拿鐵',110],['紅茶',80],['今日蛋糕',100]])
       &&J(M['aoki.order'].items.map(x=>x[1]))===J([220,260,240,200,120,80,80]);
+    /* 2026-11-12（GG-YEJIAN-SHOP-1112）：這支只載 src/ggshops_sys3d.js、沒載 src/yejian_buy3d.js——頁間咖啡吧在這裡是 AA_653 的備用菜單（美式 90、拿鐵 110、紅茶 80、今日蛋糕 100）。遊戲裡開起來的是 AA_853 的（美式 90、拿鐵 120、當日蛋糕 110），在 tests/yejian_buy_1112_unit.js 查；這裡的期望沒有動 */
     check('6 品項、價錢照稿（熱食櫃、日和咖啡、頁間咖啡吧、青木內用）',prices);
     G.money=10; await act('cvs',{ggs:'hotfood'},15,[byName('烤地瓜')]); check('6 便利店錢不夠：「錢不夠」、不扣錢、不登記',G.money===10&&toasts[0]==='錢不夠'&&!ate.length,J([G.money,toasts]));
     G.money=5000; await act('cvs',{ggs:'coffee'},15,[byName('拿鐵')]);
@@ -144,8 +147,8 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     reset(); G.zone='bookstore'; await STORY.onSeat(GM,{x:-2.6,z:-2.7}); check('8 別的店坐下不說',!log.length);
     const P=INVITE_DATA.places.find(p=>p.id==='aoki');
     check('8 約會地點 aoki：區域 aoki、11～21、可以讀書（cats study）、兩個人坐下、去過才列',!!P&&P.zone==='aoki'&&J(P.hours)===J([11,21])&&P.cats.includes('study')&&P.seatPose==='sit'&&P.show({visited:{}})===false&&P.show({visited:{aoki:true}})===true,J(P));
-    const ACC={heroine_01:'好。可以讀書嗎？……可以就好。',heroine_02:'好。我想喝東方美人。',heroine_03:'青木？好。……我想看看別人家的茶怎麼泡。',heroine_04:'茶室？好啊，我沒去過。',heroine_05:'好。那裡的白茶不錯。',classmate_peishan:'好！他們的桂花糕很好吃。',kexin:'好啊。等我到台北。'};
-    check('8 答應的一句七人（以安、芷若、語彤、子晴、學姊、沛珊、可昕）',Object.keys(ACC).every(id=>J(INVITE_DATA.people[id].acc.aoki)===J([ACC[id]])),J(Object.keys(ACC).map(id=>(INVITE_DATA.people[id].acc||{}).aoki)));
+    const ACC={heroine_01:'好。可以讀書嗎？……可以就好。',heroine_02:'好。我想喝東方美人。',heroine_03:'青木？好。……我想看看別人家的茶怎麼泡。',heroine_04:'茶室？好啊，我沒去過。',heroine_05:'好。那裡的白茶不錯。',classmate_peishan:'好！他們的桂花糕很好吃。',kexin:'好啊。我帶課本去。'/* D158-KX-SAMESCHOOL rc2b（AA_1012 第 2 節，BB_467）：舊「好啊。等我到台北。」*/};
+    check('8 答應的一句七人（以安、芷若、語彤、子晴、學姊、沛珊、可昕）',Object.keys(ACC).every(id=>J(INVITE_DATA.people[id].acc.aoki)===J([OE.fwd('invites',id,ACC[id])])),J(Object.keys(ACC).map(id=>(INVITE_DATA.people[id].acc||{}).aoki)));
     accOut=null; const o1=INV.personal(G,'zhe',P,G.day,15); accOut={res:'accept',lines:['「x」']}; const o2=INV.personal(G,'heroine_01',P,G.day,15); accOut={res:'busy',lines:[]}; const o3=INV.personal(G,'zhe',P,G.day,15); accOut=null;
     check('8 沒列的人答應＝一般那句「好。那裡很安靜。」；有自己句子的不換；不答應不換',J(o1.lines)===J(['好。那裡很安靜。'])&&J(o2.lines)===J(['「x」'])&&!o3.lines.length,J([o1,o2,o3]));
     check('8 坐下以後的開場句（seatOpen.aoki、byPlace）',J(INVITE_DATA.seatOpen.aoki)===J([['（店員把茶壺放下，她先幫你倒了第一杯。）','……你先喝。']])&&INVITE_DATA.seatOpen.byPlace.aoki==='aoki');
@@ -157,7 +160,8 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
       for(const k in M){ for(const a of (M[k].after||[])) lines.push(a[1]); if(M[k].first) lines.push(M[k].first[1]); if(M[k].pot) lines.push(M[k].pot[1]); if(M[k].poor) lines.push(M[k].poor[1]); lines.push(...(M[k].potAfter||[])); }
       for(const a of L.parcelYes) lines.push(a[1]); lines.push(L.parcelNo[1],L.microYes,L.microNo,...Object.values(L.seat),L.doorTyphoon,L.doorClosed);
       lines.push(...Object.values(INVITE_DATA.aokiAcc),INVITE_DATA.aokiAcc0,...INVITE_DATA.seatOpen.aoki[0]);
-      const miss=lines.filter(t=>!D.includes(t)); check(`9 台詞 ${lines.length} 句逐字在 AA_653 裡`,!miss.length,J(miss));
+      const RC2B={'好啊。我帶課本去。':'好啊。等我到台北。'};   /* D158-KX-SAMESCHOOL rc2b（AA_1012 第 2 節，企劃線 59679d4ae4；BB_467）：可昕青木那句換過，稿上是舊字 */
+      const miss=lines.filter(t=>!OE.inDoc('invites',null,RC2B[t]||t,t=>D.includes(t))); check(`9 台詞 ${lines.length} 句逐字在 AA_653 裡`,!miss.length,J(miss));
       const pr=['烤地瓜 45','茶葉蛋 13','肉包 25','關東煮（三樣）60','美式 45','拿鐵 60','冰美式 45','美式 90','拿鐵 110','紅茶 80','今日蛋糕 100','桂花烏龍 220','東方美人 260','春摘白茶 240','包種 200','柚香綠茶 120','綠豆糕 80','桂花糕 80','11:00～21:00'];
       check('9 價錢、營業時間在 AA_653 裡（稿上的寫法）',pr.every(t=>D.includes(t)),J(pr.filter(t=>!D.includes(t)))); } }
  }

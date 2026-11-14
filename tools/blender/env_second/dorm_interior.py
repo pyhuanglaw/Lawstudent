@@ -283,7 +283,7 @@ add_painted(L.lathe([(0.0, 0.0), (0.035, 0.0), (0.035, 0.1), (0.03, 0.1), (0.03,
 for k in range(4): it.cbox(1.42 + k * 0.006, 1.425 + k * 0.006, Y + 0.08, Y + 0.17, -2.745, -2.74, ['#c23f35', '#2f6db0', '#202225', '#e0b95b'][k])
 it.cbox(2.0, 2.075, Y, Y + 0.008, -2.33, -2.18, '#16181b')                                         # 手機
 
-# 室友的書桌上：兩台螢幕、鍵盤、滑鼠、耳機、零食、飲料——v2（V0-ART-DORM2，LAWWW-B）：全部放進 ROOMMATE_KAI 一個節點（經濟系那一年的 412 藏起來，換阿勳的 XUN_DESK）
+# 室友的書桌上：兩台螢幕、鍵盤、滑鼠、耳機、零食、飲料——v2（V0-ART-DORM2，LAWWW-B）：全部放進 ROOMMATE_KAI 一個節點（舊序章那一段的 412 藏起來，換舊序章人物甲的 XUN_DESK）
 KAI = B.group('ROOMMATE_KAI', root, {'kind': 'roommate_items', 'who': 'kai'})
 kblk = Mesh('ROOMMATE_KAI_black', M['black']); kit = CMesh('ROOMMATE_KAI_items', M['items'])
 for (mx, mz, ry) in ((1.8, 1.27, 0.0), (1.22, 1.33, 0.3)):

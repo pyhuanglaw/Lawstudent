@@ -14,7 +14,7 @@ const FLIRT=(function(){
   const term=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return t?t.id:'x'; };
   const stage=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):1;
   S.used=(G,id)=>{ const U=R(G).used, u=U[id]||(U[id]={}), k=term(G); return u[k]||(u[k]=[]); };
-  S.left=(G,id)=>{ const T=L()[id]; if(!T) return []; const u=S.used(G,id); return T.map((e,i)=>[e,i]).filter(([,i])=>!u.includes(i)); };
+  S.left=(G,id)=>{ const T=L()[id]; if(!T) return []; const u=S.used(G,id); return T.map((e,i)=>[e,i]).filter(([e,i])=>!e.gone&&!u.includes(i)); };   /* gone：AA 拿掉的那一句（CANON-NO-ECON-1112，AA_897）——位置留著，存檔的索引不會錯開 */
   S.can=(G,id)=>!!L()[id]&&R(G).day[id]!==G.day&&S.left(G,id).length>0;
   S.text=(G,t)=>String(t).replace(/\{name\}/g,(G&&G.name)||'祐廷');
   const play=async(GM,who,lines)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t); if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };

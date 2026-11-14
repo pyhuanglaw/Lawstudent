@@ -70,7 +70,8 @@ const OFFB=(function(){
   let orderedVisit=null;
   S.eatReg=function(){ if(typeof EAT==='undefined'||!EAT.addShop) return null; if(!(EAT.SHOPS_X&&EAT.SHOPS_X['日常失速'])) EAT.addShop('日常失速',{shop:'溫州街・日常失速',staff:{who:'店員',line5:null,same:null,alt:null},first:null,door:false}); return EAT; };
   S.order=async function(GM){ const G=GM.G; orderedVisit=GM.enterN|0; const M=S.L.menu;
-    const opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:'不用了'}]); const i=await GM.choose(opts);
+    const opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:'不用了'}]); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,'日常失速'):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(opts);
+    if(gO&&i===M.length+1){ await GIFT.buy(GM,'日常失速'); return null; }
     if(i==null||i<0||i>=M.length) return null;
     const [nm,p,line]=M[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return null; }
     GM.money(-p); if(line) await GM.say(null,line); const E_=S.eatReg(); if(E_&&E_.ordered){ try{ await E_.ordered(GM,'日常失速',nm); }catch(e){ console.warn('EAT.ordered',e); } }
@@ -154,6 +155,7 @@ const OFFB=(function(){
       if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;
         if(it&&it.offOrder&&G){ GM.sceneBegin(); try{ await S.order(GM); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.offCat&&G){ GM.sceneBegin(); try{ await S.cat(GM); } finally { GM.sceneEnd(); } return true; }
+        if(it&&it.offLook==='clubs'&&G&&typeof CLUBBOARD!=='undefined'&&typeof CLUB_BOARD!=='undefined') return CLUBBOARD.look(GM,{intro:g=>S.look(g,'clubs')});   /* 東牆社團佈告欄＝AA_701 活動時間、怎麼加入（CLUB-BOARD-INFO-1105；原本 AA_648 隨機一句）*/
         if(it&&it.offLook&&G){ GM.sceneBegin(); try{ await GM.say(null,S.look(G,it.offLook)); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.offPlay&&G){ GM.sceneBegin(); try{ await S.play(GM); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.offChat&&G){ GM.sceneBegin(); try{ if(!S.chatOpen(G)) GM.toast('今天聊過了。'); else await S.chat(GM); } finally { GM.sceneEnd(); } return true; }

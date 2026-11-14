@@ -26,10 +26,10 @@ const PLACEMAP=(function(){
     {id:'gdorm',name:'女一舍',x:182,y:228,lab:'r',cx:-93,cz:56,m:[['campus','大一女舍（門口）']]},
     {id:'dorm',name:'宿舍',x:318,y:228,lab:'b',cx:47,cz:60,m:[['dorm','宿舍']]},
     {id:'gym',name:'體育館',x:190,y:59,lab:'l',cx:-75,cz:-125,m:[['gym','新體育館（大廳）']]},   /* XS-GATE-NORTH-1105（使用者 11-05「體育館…改到新月台法學院中間」）：北牆邊、望月台東邊（門口 x −75、z −125）；原本和宿舍同一顆圖釘 */   /* 新體育館（門口 x 74、z 59）在男宿東邊，圖上放不下另一顆圖釘（至少相隔 52）：和宿舍同一顆（同 博雅・普通）*/
-    {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','公館燒臘'],['bookstore','頁間書屋'],['cvs','日和便利店'],['aoki','青木茶室'],['afar','afar café'],['daybreak','Daybreak'],['yangyang','洋洋鹹酥雞'],['corner_records','轉角唱片']]},
+    {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','公館燒臘'],['bookstore','頁間書屋'],['cvs','日和便利店'],['aoki','青木茶室'],['afar','afar café'],['daybreak','Daybreak'],['yangyang','洋洋鹹酥雞'],['corner_records','轉角唱片'],['bikeshop','慢輪單車'],['gg_antai','安泰藥局'],['gg_xianguo','汀州鮮果'],['gg_rongendian','榮恩典文具社'],['flower_notes','花序 Flower Notes']]},
     {id:'wenzhou',name:'溫州街',x:66,y:82,lab:'t',m:[['wenzhou','溫州街'],['cafe','2:30 AM'],['wz_mokuyobi','木曜日'],['wz_offbeat','日常失速'],['wz_teahouse','一盞'],['wz_brunch','SUNNY SIDE'],['wz_print','阿德影印輸出'],['wz_lin','林家乾麵'],['wz_teishoku','小路'],['wenzhou','帝大紅茶'],['wenzhou','夏日冰菓室'],['wenzhou','溫州書屋']]},   /* 溫州街每一家店（WZ-QUICKTRAVEL-1110，使用者 11-10「地圖上的馬上過去要改」）*/
     /* 汀州路（TINGZHOU-SHOPS-MOVE-1110，使用者 11-10 X321「同步更新地圖標記」；「公館商圈往南新增汀州路商圈」＝圖上放在公館下面）：街＋使用者指定名字的八間店（名字照 src/data/tingzhou_layout.js，tests/tingzhou_places_1110_unit.js 對） */
-    {id:'tingzhou',name:'汀州路',x:104,y:240,lab:'l',m:[['tingzhou','汀州路'],['tingzhou','泰米村食'],['tingzhou','洗樂洗衣坊'],['tingzhou','印得好'],['tingzhou','溫特寶邸'],['tingzhou','汀州聯通'],['tingzhou','東南大聯商行'],['tingzhou','客居雲南'],['tingzhou','越好吃小館']]},
+    {id:'tingzhou',name:'汀州路',x:104,y:240,lab:'l',m:[['tingzhou','汀州路'],['tingzhou','泰米村食'],['tingzhou','洗樂洗衣坊'],['tingzhou','印得好'],['tingzhou','溫特寶邸'],['tingzhou','汀州聯通'],['tingzhou','東南大聯商行'],['tingzhou','客居雲南'],['tingzhou','越好吃小館'],['tz_limao','禮貌生財']]},
     /* 新生南路（XS-PHONEMAP-1105；XS-GATE-NORTH-1105 改）：校園北牆外西段（側門開在北牆、往北出去），往下接溫州街。地名寫在左邊 */
     {id:'xinsheng',name:'新生南路',x:138,y:44,lab:'l',m:[['xinsheng','新生南路'],['xs_shanlan','山嵐書店'],['xs_nanyang','南洋戲院'],['xs_dakou','大口漢堡'],['xs_tongxian','同弦樂器'],['xs_dabu','大步球鞋'],['xs_haopai','好拍運動'],['xs_xsports','新生運動廣場']]}];
   /* 區域的底：校園、公館（羅斯福路那一條）、溫州街 */
@@ -44,6 +44,7 @@ const PLACEMAP=(function(){
   /* 玩家在哪個圖釘：校園照座標找最近的；其他區域＝那一區的圖釘；不在圖上＝null */
   S.ZONE_PIN={linze:'linze',classroom:'linze',wancai:'wancai',lawlib:'wancai',library_hall:'library',library:'library',library_b1:'library',library_carrels:'library',library_stacks:'library',soclib:'soclib',soclib_2f:'soclib',dorm:'dorm',dorm_hall:'dorm',lane118:'lane118',gym:'gym',gym_b1:'gym',gym_arena:'gym',
     gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',yangyang:'gongguan',corner_records:'gongguan',cvs:'gongguan',cafe:'wenzhou',wz_mokuyobi:'wenzhou',wz_offbeat:'wenzhou',wz_teahouse:'wenzhou',wz_brunch:'wenzhou',wz_print:'wenzhou',wz_lin:'wenzhou',wz_teishoku:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong',
+    gg_antai:'gongguan',gg_xianguo:'gongguan',gg_rongendian:'gongguan',flower_notes:'gongguan',tz_limao:'tingzhou',
     tingzhou:'tingzhou',xinsheng:'xinsheng',xs_shanlan:'xinsheng',xs_nanyang:'xinsheng',xs_nanyang_hall:'xinsheng',xs_dakou:'xinsheng',xs_tongxian:'xinsheng',xs_dabu:'xinsheng',xs_haopai:'xinsheng',xs_xsports:'xinsheng'};
   S.hereId=function(zone,x,z){ if(zone==='campus'&&x!=null){ let b=null, bd=1e9; for(const p of S.PINS){ if(p.cx==null) continue; const d=Math.hypot(p.cx-x,p.cz-z); if(d<bd){ bd=d; b=p.id; } } return b; }
     return S.ZONE_PIN[zone]||(typeof PLACES!=='undefined'&&PLACES.base?S.ZONE_PIN[PLACES.base(zone)]:null)||null; };   /* 沒寫的店、樓層：照那一棟、那一條街（PLACES.base：wz_→溫州街、xs_→新生南路）*/

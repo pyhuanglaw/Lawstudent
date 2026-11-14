@@ -1,4 +1,4 @@
-"""出遊 2D 背景驗收截圖（政大校門、山下的小吃街；LAWWW2-B 825c038）：手機直向、橫向的實際 ADV 畫面。
+"""出遊 2D 背景驗收截圖（外校校門、山下的小吃街；LAWWW2-B 825c038）：手機直向、橫向的實際 ADV 畫面。
 [前置／捷徑] 讀檔到宿舍；直接演 ev_kexin_tour_nccu（OUT 的出遊流程會先轉場，這裡跳過轉場），每到一個 {scene,bg} 換景就截圖。Playwright 手機模擬＋SwiftShader，不是 iPhone 實機。
 檢查：畫面上的背景圖片網址是 assets/bg/nccu_gate.webp、nccu_food.webp。
 用法：python3 tools/shots/outing_bg_check.py URL 輸出資料夾"""

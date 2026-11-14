@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_sport_invites.py（docs/story_planning/AA_715_sport_gym_pool_invites.json@2205d6058）。不要手改，改企劃 AA_715 再重新匯入。
+/* 自動產生：tools/story/import_sport_invites.py（docs/story_planning/AA_715_sport_gym_pool_invites.json@3f1569379）。不要手改，改企劃 AA_715 再重新匯入。
    約她去健身房、游泳池的台詞（GYM-FIT-1107）：載入時併進 INVITE_DATA（要在 src/data/invites.js 後面載入）。
    people 裡有名字說的台詞外面不加「」（AA-B 2026-11-08，稿上有；（…）是旁白）；shared 是兩個人一起的旁白*/
 'use strict';
 const SPORT_INVITE_LINES={
- "src": "docs/story_planning/AA_715_sport_gym_pool_invites.json@2205d6058",
+ "src": "docs/story_planning/AA_715_sport_gym_pool_invites.json@3f1569379",
  "shared": {
   "gym_fitness": {
    "during": [
@@ -29,7 +29,7 @@ const SPORT_INVITE_LINES={
      "健身房？好。我先查一下要帶什麼。"
     ],
     "gym_pool": [
-     "游泳？……好。我只會蛙式。"
+     "游泳？好，可是我只會蛙式。"
     ]
    },
    "firstAt": {
@@ -76,10 +76,10 @@ const SPORT_INVITE_LINES={
   "heroine_02": {
    "acc": {
     "gym_fitness": [
-     "健身房？……我站一整晚的班，算不算運動？好，我去看看。"
+     "我站一整晚的班，算不算運動？好啦，我去看看。"
     ],
     "gym_pool": [
-     "游泳？好。……我很久沒游了。"
+     "好。我很久沒游了。"
     ]
    },
    "firstAt": {
@@ -119,7 +119,7 @@ const SPORT_INVITE_LINES={
       ]
      ],
      "end": [
-      "頭髮濕的去上班，店長會念我。"
+      "頭髮濕的去上班，老闆會念我。"
      ]
     }
    }
@@ -127,10 +127,10 @@ const SPORT_INVITE_LINES={
   "heroine_03": {
    "acc": {
     "gym_fitness": [
-     "健身房……我沒去過。你帶我。"
+     "我沒去過健身房。你帶我。"
     ],
     "gym_pool": [
-     "游泳？……好。我小時候學過。"
+     "好啊，我小時候學過。"
     ]
    },
    "firstAt": {
@@ -178,7 +178,7 @@ const SPORT_INVITE_LINES={
    "acc": {
     "gym_fitness": {
      "A": [
-      "健身房？……我會很遜。你先說好，不會看我。"
+      "我會很遜喔。你先說好，不會看我。"
      ],
      "R": [
       "好。你練你的，我騎腳踏車。……不要看我。"
@@ -233,7 +233,7 @@ const SPORT_INVITE_LINES={
   "heroine_05": {
    "acc": {
     "gym_fitness": [
-     "健身房？……好。我坐太久了，該動一動。"
+     "好。我坐太久了，該動一動。"
     ],
     "gym_pool": [
      "好。我早上都在游。晚上的池子，我還沒看過。"
@@ -283,7 +283,7 @@ const SPORT_INVITE_LINES={
     "gym_pool": {
      "until": "2026-06-15",
      "decline": [
-      "游泳……我不會游。",
+      "我不會游泳耶。",
       "換一個地方，好嗎？"
      ]
     }
@@ -341,7 +341,7 @@ const SPORT_INVITE_LINES={
   "kexin": {
    "acc": {
     "gym_fitness": [
-     "你們學校的健身房，外校的進得去嗎？……可以的話，我去。"
+     "學校的健身房？好，我去。"
     ],
     "gym_pool": [
      "游泳？好。高雄長大的，不會游泳很丟臉。"
@@ -349,8 +349,8 @@ const SPORT_INVITE_LINES={
    },
    "firstAt": {
     "gym_fitness": [
-     "（櫃台阿姨看了她的證件，收了校外的價錢。）",
-     "……下次換你來木柵爬樓梯。免費的。"
+     "（櫃台阿姨看了她的學生證，刷了一下。）",
+     "器材比我想的新。"
     ],
     "gym_pool": [
      "（她游了一趟自由式，游得很快，上來甩了一下頭髮。）"

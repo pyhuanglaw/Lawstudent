@@ -27,7 +27,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.find(s=>s.id===id),L.steps.findIndex(s=>s.id===id)]; };
 (async()=>{
-  check('0. ladder.js 來自匯入白名單（2026-10-17 一次匯入 AA 25e89f6e；2026-10-20 AA-C 定稿 14 檔改 49ed7e6a；2026-11-02 以安 8 檔照 AA_580 改 759e5c000）',/白名單/.test(LADDER.source)&&LADDER.source.includes('759e5c000')&&LADDER.source.includes('03af79d17'),LADDER.source);   /* 2026-11-02 19:29 AA 照 AA_584 改 BB 那 10 檔→03af79d17（49ed7e6a 移到白名單 history）*/
+  check('0. ladder.js 來自匯入白名單（2026-10-17 一次匯入 AA 25e89f6e；2026-10-20 AA-C 定稿 14 檔改 49ed7e6a；2026-11-02 以安 8 檔照 AA_580 改 759e5c000；2026-11-12 可昕換 AA_861～868）',/白名單/.test(LADDER.source)&&LADDER.source.includes('759e5c000')&&(LADDER.source.includes('152f8fe16f')||LADDER.source.includes('6dbfe10d7e')/* CANON-NO-ECON-1112 第五批：AA_921／AA_923（可昕期中招呼）換 6dbfe10d7e */),LADDER.source);   /* 2026-11-02 19:29 AA 照 AA_584 改 BB 那 10 檔→03af79d17；CANON-NO-ECON-1112 第三批：BB 那 8 檔換新 sha（03af79d17 移到白名單 history）*/
   { const st=LADDER.byTerm.Y1S2.heroine_01.steps.find(x=>x.id==='A2-L1'), y3=LADDER.byTerm.Y1S2.heroine_03.steps.find(x=>x.id==='Y2-L3');
     check('0b. ROM-1017 交往版：A2-L1 選項②回覆「等我多練幾次，現在煎得還不好看。」、交往中多一句（extraIf dating_heroine_01）；Y2-L3 交往中多一句（dating_heroine_03）',st&&st.choices[1].reply==='等我多練幾次，現在煎得還不好看。'&&(st.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_01'))&&y3&&(y3.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_03')),JSON.stringify([st&&st.choices[1],y3&&y3.extraIf])); }
   // A-L11（大一上以安；AA_238 5-5 讀書會改到大一上，「我可以去嗎？」從 A2-L6 搬來）去過公法讀書會的不出現
@@ -40,14 +40,11 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   check('2. A3-L3 沒看過讀書會規則：「三條是哪三條？」在',STORY.ladChoices(st).map(c=>c.t).includes('「三條是哪三條？」'));
   G.flags.PLG_RULES_SEEN=true;
   check('2. A3-L3 看過規則（PLG_RULES_SEEN）：「三條是哪三條？」不出現',!STORY.ladChoices(st).map(c=>c.t).includes('「三條是哪三條？」')&&STORY.ladChoices(st).length===1);
-  // K3-L7（大二上可昕）選項①回覆依電影夜
-  fresh(termDay('Y2S1',15,2),12,'campus',{dating_kexin:true}); [st]=stepOf('Y2S1','kexin','K3-L7'); const c1=st.choices.find(c=>c.t==='「我看電影很認真。」');
-  check('3. K3-L7 選項①沒去電影夜：「真的嗎？那下次我坐你旁邊看。」',STORY.ladReply(st,c1)==='真的嗎？那下次我坐你旁邊看。',STORY.ladReply(st,c1));
-  G.events.done.ev_kexin_film_night=1;
-  check('3. K3-L7 選項①去過電影夜：原本的回覆（「我知道。你哭的時候也很認真。」）',STORY.ladReply(st,c1)===c1.reply&&/哭的時候/.test(c1.reply),STORY.ladReply(st,c1));
-  const c2=st.choices.find(c=>c.t!=='「我看電影很認真。」'); check('3. K3-L7 選項②不受影響',STORY.ladReply(st,c2)===c2.reply);
+  // K3-L7（大二上可昕）選項①回覆依電影夜：可昕閒聊整組換 AA_863、電影夜那一場拿掉
+  check('3. K3-L7 依電影夜換回覆（CANON-NO-ECON-1112 第三批：這一項拿掉）',!(STORY.LADDER_REPLY_IF||{})['K3-L7']&&!STORY_EVENTS.some(e=>e.id==='ev_kexin_film_night'));
   // A4-L5、A4-L7（大二下以安）和她交往中的回覆（ROM-1017，AA-C b39f0bb9 的 note）
-  for(const [id,ct,def,dat] of [['A4-L5','「妳跟我講話好像也是。」','真的？我自己沒發現。','真的？……跟你講話本來就不用敬語啊。'],['A4-L7','「讀書會可以先交給 Alison。」','嗯。家教比較難。教一年多了，突然換人，學生會不習慣。','嗯。……還有你，半年見不到。']]){   /* AA_255 改稿（25e89f6e）*/
+  /* 2026-11-11（X324，AA 回 LAWWW 原話指定）：A4-L5 交往版拿掉刪節號（src/story3d.js LADDER_REPLY_IF）——舊期望「真的？……跟你講話本來就不用敬語啊。」；A4-L7 照留 */
+  for(const [id,ct,def,dat] of [['A4-L5','「妳跟我講話好像也是。」','真的？我自己沒發現。','真的？跟你講話本來就不用敬語啊。'],['A4-L7','「讀書會可以先交給 Alison。」','嗯。家教比較難。教一年多了，突然換人，學生會不習慣。','嗯。……還有你，半年見不到。']]){   /* AA_255 改稿（25e89f6e）*/
     fresh(termDay('Y2S2',6,2),12,'campus',{}); const [s4]=stepOf('Y2S2','heroine_01',id); const ch=s4.choices.find(c=>c.t===ct);
     check('3b. '+id+' '+ct+'：沒交往＝原本的回覆',STORY.ladReply(s4,ch)===def,STORY.ladReply(s4,ch));
     G.flags.dating_heroine_01=true; check('3b. '+id+' '+ct+'：和以安交往中＝交往版「……還有你。」',STORY.ladReply(s4,ch)===dat,STORY.ladReply(s4,ch));
@@ -72,6 +69,6 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
     check(`6. ${id} 交往中（${flag}）多兩句；沒交往不出現`,base===s2.lines.length&&L2.length===base+ex.length&&ex.every(x=>L2.map(y=>typeof y==='string'?y:y.t).includes(x)),JSON.stringify(L2).slice(0,200));
   }
   { const W=JSON.parse(require('fs').readFileSync(require('path').join(__dirname,'..','docs/handoff/story_import_allow.json'),'utf8')).files.find(f=>f.path==='docs/story_planning/ladder/ladder_bb_y1s2.json');
-    check('6. 白名單：BB 的大一下（ladder_bb_y1s2）現在是 03af79d17（AA 2026-11-02 照 AA_584 改源稿），49ed7e6a（AA-C 2026-10-20 定稿）留在 history',LADDER.source.includes('03af79d17')&&!!W&&W.sha==='03af79d17'&&(W.history||[]).some(h=>h.sha==='49ed7e6a'),LADDER.source); }
+    check('6. 白名單：BB 的大一下（ladder_bb_y1s2）現在是 3f6c7d3bb9（CANON-NO-ECON-1112 第四批：沛珊 note 照 AA_899），152f8fe16f（可昕換 AA_862：第三批）、03af79d17（AA 照 AA_584 改源稿）、49ed7e6a（AA-C 2026-10-20 定稿）留在 history',LADDER.source.includes(W&&W.sha)&&!!W&&(W.sha==='3f6c7d3bb9'||W.sha==='6dbfe10d7e'&&(W.history||[]).some(h=>h.sha==='3f6c7d3bb9'))/* CANON-NO-ECON-1112 第五批：AA_921／AA_923（可昕期中招呼）換 6dbfe10d7e */&&(W.history||[]).some(h=>h.sha==='152f8fe16f')&&(W.history||[]).some(h=>h.sha==='03af79d17')&&(W.history||[]).some(h=>h.sha==='49ed7e6a'),LADDER.source); }
   console.log(fails?`\nFAILED ${fails}`:'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

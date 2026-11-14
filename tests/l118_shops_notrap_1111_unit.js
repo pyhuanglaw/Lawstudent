@@ -33,7 +33,7 @@ for(const id of IDS){ const L=L118_SHOP_LAYOUTS[id], z=loadZone('l118_'+id), nav
   check(id+' '+L.name+'：站得到的 '+pts.length+' 個點（每 '+STEP+' m）都走得回「'+ex.label+'」的半徑裡（走路、30 fps 和 10 fps）',pts.length>30&&!bad.length,bad.length+' 個出不來：'+JSON.stringify(bad.slice(0,6)));
   const near=(x,zz,r)=>pts.some(p=>Math.hypot(p[0]-x,p[1]-zz)<=r);
   if(REDO.includes(id)){
-    const far=L.seats.filter(s=>!near(s.x,s.z,s.r||0.7)).map(s=>s.x+','+s.z);
+    const far=L.seats.filter(s=>!near(s.i?s.i[0]:s.x,s.i?s.i[1]:s.z,s.r||0.7)).map(s=>s.x+','+s.z);   /* L118-IT-REACH-1111 收尾（11-12）：配置寫了按鈕位置 i 的，半徑從按鈕量（不是從椅子）*/
     check(id+' '+L.name+'：'+L.seats.length+' 個座位在互動半徑（配置的 r，沒有就 0.7 m）裡都有站得到的點',L.seats.length>0&&!far.length,far.join(' '));
     const o=L.order, lk=(L.interact||[]).filter(i=>!near(i.x,i.z,i.r)).map(i=>i.id);
     check(id+' '+L.name+'：點餐、看東西的互動點都走得到；店員站的位置在客人走不到的地方（櫃台後面）',!!o&&near(o.x,o.z,o.r)&&!lk.length&&!!L.clerk&&!near(L.clerk.x,L.clerk.z,0.2),JSON.stringify([o,lk,L.clerk])); } }

@@ -1,20 +1,20 @@
 /* 開學前迎新宿營 2025/8/22（五）～8/24（日），三天兩夜（CAMP-L1；新遊戲的第一段）。
    規格：AA_205（AA 分支 37e34086／c0d12275／d3de3c88：入口、骨架、旗標、AA 台詞、6-13 補字）、BB_177 第五版（BB 分支 eee886d8＋e627d747：Kevin（臥底）、沛珊、明軒、小隊輔、關主）。
-   使用者 2026-10-16 23:1x～23:5x：開學前三天兩夜、強制參加（沒有報名、費用、沒去的分支）、所有玩家（含經濟系路線）都完整演；每天至少兩個活動；第一天 6～7 人小隊破冰；
+   使用者 2026-10-16 23:1x～23:5x：開學前三天兩夜、強制參加（沒有報名、費用、沒去的分支）、所有玩家（含舊序章的路線）都完整演；每天至少兩個活動；第一天 6～7 人小隊破冰；
    大二學長（Kevin）假裝大一混在小隊、營火晚會揭曉；第二天晚上烤肉；不新增有名字的人物（小隊輔、關主、主持的學長都是背景）。
    一段一個事件（trigger:'camp'），由 story3d.js 的 S.campY1 依時間順序跑（設定日子、時間、背景）；句子只照上面兩份規格，LAWWW 不自己寫（D79）。每段開頭的註解寫來源節。
-   旗標：CAMP_Y1（演完）、CAMP_MOLE_CLUE（Kevin 的破綻看過幾個，0～4）、CAMP_MOLE_GUESSED、CAMP_MOLE_REVEALED、CAMP_SEEN（陣列，現在只有 yu）、MX_CAMP_PAIR、MET_ZHE、ZHE_CALLS_GE、ECON_PAST_SHARED；
+   旗標：CAMP_Y1（演完）、CAMP_MOLE_CLUE（Kevin 的破綻看過幾個，0～4）、CAMP_MOLE_GUESSED、CAMP_MOLE_REVEALED、CAMP_SEEN（陣列，現在只有 yu）、MX_CAMP_PAIR、MET_ZHE、ZHE_CALLS_GE；
    小隊六個人 FIRST_MET（note 'camp'）。Kevin 不是 CHARACTERS 的人物（手機、事件用名字），記 CAMP_KEVIN。
    2026-11-03 AA_608 第 10 節（＋10-1～10-4；使用者「宿營活動蠻無聊的，可以只留認識過程嗎？」「宿營認識阿哲、沛珊、慈昕就好」）：三天兩夜照舊，畫面上只演認識人的段落，
    宿營只認識芯慈（破冰，第七小隊）、阿哲（撕名牌，隔壁第八小隊、不同寢室）、沛珊（第二天晚上營火才到；交換聯絡方式）。明軒、Alison 只有一句印象旁白（不寫名字、不記認識、不設 CAMP_SEEN）；柏翰、Kevin 不出場（不再有臥底）。
-   第一天＝遊覽車（坐窗邊，CAMP_BUS 'win'）、破冰、撕名牌、自由時間（大老二）；第二天＝一句旁白、營火（沛珊）；第三天＝早餐、結業。學測／哥／為什麼重考在第一天自由時間打牌的最後（10-5，阿哲不同寢室）。
-   迎新晚會、夜遊、法律闖關、水大地、夜談 retired（定義留給舊存檔）。新局不再設：CAMP_MOLE_*、CAMP_CLUE*、CAMP_F*、CAMP_KEVIN、CAMP_SEEN、MX_CAMP_PAIR；舊存檔照舊。 */
+   第一天＝遊覽車（坐窗邊，CAMP_BUS 'win'）、破冰、撕名牌、自由時間（大老二）；第二天＝一句旁白、營火（沛珊）；第三天＝早餐、結業。學測、「哥」在第一天自由時間打牌的最後（10-5，阿哲不同寢室；CANON-1112：照 AA_859 改，見 ev_camp_d1_free）。
+   迎新晚會、夜遊、法律闖關、水大地 retired（定義留給舊存檔）；夜談的定義已拿掉（CANON-1112，AA_859）。新局不再設：CAMP_MOLE_*、CAMP_CLUE*、CAMP_F*、CAMP_KEVIN、CAMP_SEEN、MX_CAMP_PAIR；舊存檔照舊。 */
 /* 2026-11-11（使用者 X327 沛珊重寫）：ev_camp_d2_fire 沛珊的四句照 AA_762_peishan_events_2.json@1fc9a6658 換（行程、條件、別人的句子不動）。逐字對稿：tests/peishan_events_1111_unit.js */
 /* Kevin 的立繪（使用者 2026-10-18 15:5x「營地差在Kevin沒有立繪」→ 選「潮流大哥型」；KEVIN-PORTRAIT-1018）：他不是 CHARACTERS 的人物，只登記立繪；
    台詞用 speaker:'npc_kevin'＋name（揭曉前「凱文」、揭曉後「Kevin」）。圖放進 assets/portraits/npc_kevin/campus/<表情>.webp、跑 build.py（或 tools/gen_portrait_manifest.py）就出現；沒放＝照舊沒有立繪 */
 if(typeof PORTRAITS!=='undefined'&&!PORTRAITS.npc_kevin){ const o={campus:{}}; for(const ex of ['neutral','smile','laugh','surprised']) o.campus[ex]='assets/portraits/npc_kevin/campus/'+ex+'.webp'; PORTRAITS.npc_kevin={characterId:'npc_kevin',displayName:'Kevin',tier:2,defaultOutfit:'campus',defaultPortrait:'assets/portraits/npc_kevin/campus/neutral.webp',outfits:o,silhouette:'m'}; }
 const CAMP_Y1_EVENTS=[
-  /* 8/22 08:30 校門集合、遊覽車（AA_205 2-2 開頭旁白；AA_608 第 10 節第 1 點：不給選項、坐窗邊（CAMP_BUS 固定 'win'）；10-1 明軒的印象一句（不寫名字、不記認識）；AA_195 4-10 經濟系玩家到營地那句）*/
+  /* 8/22 08:30 校門集合、遊覽車（AA_205 2-2 開頭旁白；AA_608 第 10 節第 1 點：不給選項、坐窗邊（CAMP_BUS 固定 'win'）；10-1 明軒的印象一句（不寫名字、不記認識）；AA_195 4-10 舊序章的玩家到營地那句）*/
   { id:'ev_camp_d1_bus', stage:'any', title:'迎新宿營：遊覽車', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'首都帝大校門口',bg:'dark'},
       {speaker:null,text:'放榜以後，系學會建了一個新生群組。宿營的通知是一個禮拜前貼的，新生都要去。'},
@@ -23,8 +23,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:null,text:'（早上八點半，遊覽車從校門口出發。你坐在靠窗的位子，一路看著窗外。）'},
       {speaker:null,text:'（後面一排有個戴帽子的男生，一上車就靠著窗睡著，到營地才醒。）'},
       {set:{CAMP_BUS:'win'}},
-      {scene:'山上的青年活動中心',bg:'econ_camp'},
-      {if:{flags:['PLAYED_Y0']},speaker:null,text:'（這個營地你去年來過，經濟系的宿營。）'}   /* AA-C 07:52 Q5：經濟系宿營改 2024-08-23～25（AA_218），拿掉「十一月，比較冷」*/ ] },
+      {scene:'山上的青年活動中心',bg:'econ_camp'} ] },   /* CANON-1112（AA_859「一起拿掉的」）：「這個營地你去年來過」那一句拿掉 */
 
   /* 8/22 10:30 小隊時間：破冰（AA_608 第 10 節第 2 點、10-1（Alison 的印象一句，不寫名字、不設 CAMP_SEEN）、10-3（第七小隊：芯慈、沛珊；你只記住了芯慈））。
      祐廷報自己的那段照原本（AA_205 6-12）；只認識芯慈（沛珊第二天晚上才到、阿哲在第八小隊）*/
@@ -58,9 +57,10 @@ const CAMP_Y1_EVENTS=[
       {speaker:null,text:'（他轉身就跑。下一秒，他背後的名牌被芯慈撕掉了。）'},
       {set:{MET_ZHE:true},meet:[{id:'zhe',where:'camp'}]} ] },
 
-  /* 8/22 19:30 自由時間：芯慈找你打牌（AA_608 第 10 節第 4 點、10-4 阿哲那句、10-5：原本夜談的學測／哥／為什麼重考移到打牌最後，阿哲在這一桌；10-6 學測那段的流程）。
-     分支 old／econ／said／same 與旗標照 10-2：ZHE_CALLS_GE、ECON_PAST_SHARED 'full'、「為什麼重考？」（AA_224 2-c、6-8；只問一次 WHY_RETAKE_ASKED，這裡沒說的，迎新選「念過經濟系」時 Alison 補問，events.js ev_welcome_y1s1）。
-     10-6（使用者「說滿分，他說厲害，我再說我第二次考了」）：學測那段固定照這個流程——十五級分 → 滿級分？→ 考第二次 → 你重考的喔？；拿掉「不想講」，三條（old／econ／said）都記 ZHE_CALLS_GE。結尾熟悉 +1（芯慈、阿哲）*/
+  /* 8/22 19:30 自由時間：芯慈找你打牌（AA_608 第 10 節第 4 點、10-4 阿哲那句、10-5：學測那段在打牌最後，阿哲在這一桌）。
+     CANON-1112（企劃線 AA_859@077a6e501d 定稿，逐字照稿：tests/canon_opening_1112_unit.js）：祐廷沒有舊序章——「你數學幾級分？」之後照 AA_859：
+     十五級分 → 滿級分？厲害欸。→ 那我以後數學問你 → 兩個選項都走到 ZHE_CALLS_GE（「哥」的原因＝數學滿級分）→ 結尾芯慈、阿哲各一句；熟悉 +1（芯慈、阿哲）照舊。
+     原本 old／econ／said／why_h 四個分支和它們讀寫的旗標在這裡不再用 */
   { id:'ev_camp_d1_free', stage:'any', title:'迎新宿營：自由時間', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'寢室外面的走廊',bg:'econ_camp_room'},
       {speaker:null,text:'（晚餐後是自由時間。你坐在寢室外面的走廊，芯慈拿著一副撲克牌走過來。）'},
@@ -76,23 +76,13 @@ const CAMP_Y1_EVENTS=[
       {speaker:'zhe',text:'今年運氣都很差。學測數學也是，難到我想哭。你數學幾級分？'},
       {speaker:'player',text:'十五級分。'},
       {speaker:'zhe',text:'……滿級分？厲害欸。'},
-      {speaker:'player',text:'我考第二次了。第一次沒有。'},
-      {speaker:'zhe',text:'第二次？你重考的喔？'},
-      {choice:[
-        {text:'「嗯。」',goto:'old'},
-        {text:'「我念過一個多月經濟系，才重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'econ'},
-        {text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'said'}]},
-      {label:'old'},{speaker:'zhe',text:'那你比我們大一屆欸。……那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，換你出牌。'},{set:{ZHE_CALLS_GE:true}},{goto:'senior'},
-      {label:'econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},
-      {if:{flags:['WHY_RETAKE_ASKED']},goto:'senior'},
-      {speaker:'zhe',text:'為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
-      {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},
-      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{speaker:'zhe',text:'好，懂了。'},{goto:'senior'},
-      {label:'why_h'},{speaker:'player',text:'第一次社會考壞了，差四分。先去念了一個多月的經濟。'},{speaker:'zhe',text:'差四分喔……那真的很煩。'},{goto:'senior'},
-      {label:'said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},
-      {label:'senior'},
-      {speaker:'classmate_xinci',text:'（看了你一下）……那你算學長？'},
-      {speaker:'zhe',text:'是哥。'},
+      {speaker:'zhe',text:'那我以後數學問你。——不對，法律系沒有數學。'},
+      {choice:[{text:'「你可以問我別的。」',goto:'ge_a'},{text:'「那你白問了。」',goto:'ge_b'}]},
+      {label:'ge_a'},{speaker:'zhe',text:'好。那我叫你哥。有事問哥。'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，換你出牌。'},{goto:'ge_end'},
+      {label:'ge_b'},{speaker:'zhe',text:'沒有白問。現在知道這一桌誰是哥了。'},{speaker:'zhe',text:'哥，換你出牌。'},
+      {label:'ge_end'},{set:{ZHE_CALLS_GE:true}},
+      {speaker:'classmate_xinci',text:'（看了你們一下）你們不是今天下午才認識的嗎？'},
+      {speaker:'zhe',text:'一個下午夠了。'},
       {rel:{classmate_xinci:{fam:1},zhe:{fam:1}}} ] },
 
   /* ↓ 以下四段 retired（AA_608 第 1 節：迎新晚會、夜遊、法律闖關不演；水大地併進第二天的一句旁白（第 10 節第 5 點）；定義留給舊存檔的 events.done，S.campY1 跳過）*/
@@ -186,40 +176,16 @@ const CAMP_Y1_EVENTS=[
       {speaker:null,text:'（你把她拉進小隊的群組。她傳了一個貼圖。）'},
       {meet:[{id:'classmate_peishan',where:'camp'}],consequences:{contact:'classmate_peishan'},set:{CAMP_PS_P0:true}} ] },
 
-  /* AA_608 10-5：寢室照小隊分，阿哲不同寢室——夜談 retired（定義留給舊存檔；學測、哥、為什麼重考移到第一天的自由時間打牌）。下面是 10-2 的版本，不再演 */
-  /* 8/23 22:30 夜談（AA_608 10-2：不問年次，改成聊學測；10-3／10-4 開頭；說話的人是阿哲（第八小隊，同一間寢室）。分支 old／econ／said／same 與旗標照舊：
-     ZHE_CALLS_GE、ECON_PAST_SHARED 'full'、「為什麼重考？」（AA_224 2-c、6-8；只問一次 WHY_RETAKE_ASKED，夜談沒說的，迎新選「念過經濟系」時 Alison 補問，events.js ev_welcome_y1s1））*/
-  { id:'ev_camp_d2_talk', retired:true, stage:'any', title:'迎新宿營：夜談', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
-    dialogue:[ {scene:'八人寢室',bg:'econ_camp_room'},
-      {speaker:null,text:'（燈關了。睡你隔壁床的，剛好是下午撕掉你名牌的阿哲。）'},
-      {speaker:'zhe',text:'欸，你學測數學幾級分？今年數學難到我想哭。'},
-      {choice:[{text:'「今年還好，去年比較難。」',goto:'last'},{text:'「不想講。」',goto:'same'}]},
-      {label:'last'},{speaker:'zhe',text:'……去年？你去年也考過？'},
-      {choice:[
-        {text:'「嗯，我重考的。」',goto:'old'},
-        {text:'「我念過一個多月經濟系，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'econ'},
-        {text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'said'}]},
-      {label:'old'},{speaker:'zhe',text:'那你比我們大一屆欸。……那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，晚安。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
-      {label:'econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},
-      {if:{flags:['WHY_RETAKE_ASKED']},goto:'after'},
-      {speaker:'zhe',text:'為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
-      {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},
-      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{speaker:'zhe',text:'好，懂了。'},{goto:'after'},
-      {label:'why_h'},{speaker:'player',text:'第一次社會考壞了，差四分。先去念了一個多月的經濟。'},{speaker:'zhe',text:'差四分喔……那真的很煩。'},{goto:'after'},
-      {label:'said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
-      {label:'same'},{speaker:'zhe',text:'好啦，不逼你。……晚安。'},
-      {label:'after'},
-      {speaker:'zhe',text:'欸你們明天幾點起來？'},
-      {speaker:null,text:'（沒有人回答。）'} ] },
+  /* 夜談（8/23 22:30）原本 retired、定義留給舊存檔——CANON-1112（AA_859「一起拿掉的」）：整段定義拿掉（舊存檔不留）。story3d.js 的 S.CAMP_SEQ_V1 只用它的 id 換算時間，不讀定義 */
 
-  /* 8/24 07:30 早餐（AA_608 第 6 節：只留餐廳那一段（AA_205 6-3），拿掉金頭腦；第 10 節第 8 點拿掉明軒那句；10-2 阿哲的解釋「他重考的，大我們一屆。」；10-5「哥？」改由沛珊問）*/
+  /* 8/24 07:30 早餐（AA_608 第 6 節：只留餐廳那一段（AA_205 6-3），拿掉金頭腦；第 10 節第 8 點拿掉明軒那句；10-5「哥？」改由沛珊問）。
+     CANON-1112：阿哲回答沛珊的那兩句原本在講舊序章；CANON-NO-ECON-1112 第四批換成 AA_895 第 1 節③的一句（數學滿級分），接芯慈那一句旁白 */
   { id:'ev_camp_d3_quiz', stage:'any', title:'迎新宿營：早餐', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地・餐廳',bg:'camp_dining'},
       {unless:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（第三天早上，大家都很睏，餐廳裡沒什麼人講話。）'},   /* AA_205 6-14④ */
       {if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'（隔著桌子）哥，你的蛋。'},
       {if:{flags:['ZHE_CALLS_GE']},speaker:'classmate_peishan',text:'哥？'},   /* AA_608 10-5：芯慈打牌時已經知道了，改成第二天才到的沛珊問 */
-      {if:{custom:G=>G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED==='full'},speaker:'zhe',text:'他念過經濟系。'},
-      {if:{custom:G=>G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED!=='full'},speaker:'zhe',text:'他重考的，大我們一屆。'},
+      {if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'昨天打牌說好的。數學滿級分，叫哥。'},   /* AA_895 第 1 節③（企劃線 a425c0dcb）*/
       {if:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（芯慈「喔」了一聲，繼續吃。）'} ] },
 
   /* 8/24 10:30 結業式、上車（AA_205 6-13⑤）、12:30 回到校門（AA_205 6-4）*/

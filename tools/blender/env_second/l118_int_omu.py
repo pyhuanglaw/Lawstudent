@@ -281,7 +281,14 @@ def begin(sid, spec, regions, atlas):
     c = LS.Shop(sid); c.extra = {}; c.REG = regions
     c.M['ceilvc'] = L.vc_material(f'l118_{sid}_ceilvc', rough=0.6)
     c.M['ceilwarm'] = L.flat(f'GLOW_l118_{sid}_ceilwarm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a'))
-    c.cf = CMesh('CEIL_fix', c.M['ceilvc']); c.cw = Mesh('CEIL_bulbs', c.M['ceilwarm'])
+    c.cf = CMesh('CEIL_fix', c.M['ceilvc']); c.cw = Mesh('CEIL_bulbs', c.M['ceilwarm']); c._cf0 = c.cf
+    if sid in LS.CC0_INT:   # SHOP-CC0-HELP-1113（D161）：CC0 材質組＋Poly Haven 模型（lane118_shops.cc0_setup，九間同一套）；天花板上的零件（軌道燈、冷氣）照顏色分到 CEIL_ 開頭的材質組網格
+        LS.cc0_setup(c); import cc0_kit as CK; R = LS.CC0_ROUTE[sid]
+        def cm_(k, n=None):
+            n = f'CEIL_l118_{sid}_{k}'
+            if n not in c.cc0m: c.cc0m[n] = Mesh(n, c.MX[k])
+            return c.cc0m[n]
+        c.cf = CK.Route(c.cf, {col: (lambda k=k: cm_(k)) for col, k in R.items()})
     return c
 
 
@@ -333,7 +340,8 @@ def ascii_map(lay):
 
 def end(c, src):
     """CEIL_* 收尾 → LS.finish（WALL_* 分組、合併、匯出、配置、導航檢查）→ 配置補上出處、縫的檢查"""
-    for m in (c.cf, c.cw): m.finish(c.root, uv=False)
+    if getattr(c, 'cc0m', None) is not None: LS.cc0_post(c)
+    for m in (c._cf0, c.cw): m.finish(c.root, uv=False)
     prob = LS.finish(c)
     p = os.path.join(LS.OUTDIR, f'l118_{c.sid}.layout.json'); lay = json.load(open(p, encoding='utf-8'))
     lay['src'] = src; bad = trap_check(lay)
@@ -358,10 +366,53 @@ def preview(sid, views, points, samples=40, exposure=0.0, extra=()):
 
 
 # ================= 殼（LS.shell 的複本＋門窗框顏色、每面牆的材質）=================
+def street_back(c, key, sx, sy, sw, sdoor, step=0.0):
+    """窗上海報的背面放在哪裡：照街上那一張（wz_shopkit.py SHOPS[店]['photos']：中心 x sx、下緣 y sy、寬 sw；街上的門 x sdoor）換算——
+    離門的距離一樣、方向相反（從外面看和從店裡看左右相反；奈良咖哩原本的兩張就是這樣放的），高＝寬×參考圖裁下來那一塊的高寬比，下緣扣掉門口的台階 step。
+    回傳 shell2 的 backs 一項 (x0, x1, y0, y1, key)"""
+    import l118_signs_tex as ST
+    _sid, box, _w = ST.REF_POSTERS[key]; h = sw * (box[3] - box[1]) / (box[2] - box[0]); xc = c.S['door_x'] + (sdoor - sx); y0 = sy - step
+    return (round(xc - sw / 2, 3), round(xc + sw / 2, 3), round(y0, 3), round(y0 + h, 3), key)
+
+
+def poster_backs(c, backs):
+    """窗上海報的背面（從店裡往外看；LAWWW 11-11 09:41：原本是一整片米白方塊）：米白的紙＋從外面透進來、左右相反的淡淡圖案（白天外面亮，
+    印的東西會從紙背透出來；圖案就是街上那一張，l118_signs_tex.py 從使用者參考圖裁的那一塊）＋四個角的透明膠帶（海報從店裡貼在玻璃上）。
+    一間店一張貼圖 l118_<店>_pback.png（一張海報一格，橫著排）；放在南牆 WALL_S_pback（和牆一起淡出）"""
+    import l118_signs_tex as ST
+    from PIL import ImageChops, ImageOps
+    Z1 = c.Z1; TW, PAD = 256, 4; PAPER = (240, 235, 222); tiles = []
+    for i, b in enumerate(backs):
+        xa, xb, ya, yb = b[:4]; key = b[4] if len(b) > 4 else None
+        th = round(TW * (yb - ya) / (xb - xa)); rng = random.Random(41 + i); t = Image.new('RGB', (TW, th), PAPER); d = ImageDraw.Draw(t)
+        for _ in range(TW * th // 60):                                                                            # 紙的纖維：一點一點深淺
+            x, y, g = rng.randrange(TW), rng.randrange(th), rng.randint(-8, 5); d.point((x, y), fill=tuple(max(0, min(255, v + g)) for v in PAPER))
+        if key:
+            sid_, box, _w = ST.REF_POSTERS[key]
+            if ST.has_ref(sid_):
+                im = ImageOps.mirror(ST.ref_crop(sid_, box).resize((TW, th), Image.LANCZOS)).filter(ImageFilter.GaussianBlur(2.4))
+                im = Image.blend(ImageOps.grayscale(im).convert('RGB'), im, 0.4)                                      # 透過紙的顏色淡、偏灰
+                t = ImageChops.multiply(t, im.point(lambda v: int(176 + 79 * v / 255)))                               # 深的地方暗約三成
+        ov = Image.new('RGBA', (TW, th), (0, 0, 0, 0)); od = ImageDraw.Draw(ov); L_ = round(TW * 0.1 / (xb - xa)); W_ = max(6, L_ // 3)
+        for (cx, cy, sx_, sy_) in ((0, 0, 1, 1), (TW, 0, -1, 1), (0, th, 1, -1), (TW, th, -1, -1)):                # 四個角斜貼的透明膠帶（偏黃、邊上一條亮線）
+            ux, uy = sx_ * 0.7071, sy_ * 0.7071; px, py = -uy, ux; a = (cx - ux * L_ * 0.35, cy - uy * L_ * 0.35); b_ = (cx + ux * L_ * 0.75, cy + uy * L_ * 0.75)
+            poly = [(a[0] + px * W_ / 2, a[1] + py * W_ / 2), (b_[0] + px * W_ / 2, b_[1] + py * W_ / 2), (b_[0] - px * W_ / 2, b_[1] - py * W_ / 2), (a[0] - px * W_ / 2, a[1] - py * W_ / 2)]
+            od.polygon(poly, fill=(236, 226, 186, 92)); od.line(poly[:2], fill=(255, 252, 236, 120), width=1)
+        t = Image.alpha_composite(t.convert('RGBA'), ov).convert('RGB'); ImageDraw.Draw(t).rectangle([0, 0, TW - 1, th - 1], outline=(214, 208, 194), width=1)   # 紙邊
+        tiles.append(t)
+    Hh = max(t.height for t in tiles); Ww = (TW + PAD) * len(tiles); img = Image.new('RGB', (Ww, Hh), PAPER); rects = []
+    for i, t in enumerate(tiles):
+        x0 = i * (TW + PAD); img.paste(t, (x0, Hh - t.height)); rects.append(((x0 + 0.5) / Ww, 0.5 / Hh, (x0 + TW - 0.5) / Ww, (t.height - 0.5) / Hh))   # 貼在下面：v 從 0 開始
+    fn = f'l118_{c.sid}_pback.png'; img.save(os.path.join(LS.GEN, fn))
+    pm = c.wg('S', 'pback', LS.img_mat(f'l118_{c.sid}_pback', fn, rough=0.85))
+    for b, r in zip(backs, rects):
+        xa, xb, ya, yb = b[:4]; uvquad(pm, [(xb, ya, Z1 - 0.032), (xa, ya, Z1 - 0.032), (xa, yb, Z1 - 0.032), (xb, yb, Z1 - 0.032)], r)
+
+
 def shell2(c, frame='#8f969b', doorc=None, sillc=None, wallmat=None, wainmat=None, base='#3a3530', handle='#c9ccce', backs=(), rail=True, grid=False):
     """地板、牆、腰牆、踢腳板、天花板、店面玻璃＋門、門外的巷子、兩側鄰居店面卡。出處：lane118_shops.py shell()（LAWWW2-C 2026-10-20）；
     不一樣的地方：frame／doorc＝店面窗框、門框的顏色（原本固定鋁色）；wallmat／wainmat＝{'W': 材質…}（那一面牆、腰牆用別的材質）；
-    backs＝貼在玻璃上的海報的背面 [(x0, x1, y0, y1)]（從店裡看是白紙）；rail＝腰牆上緣的壓條要不要；grid＝店面是鐵件格子窗（直條密一點＋兩道橫條）"""
+    backs＝貼在玻璃上的海報的背面 [(x0, x1, y0, y1, 街上那一張的鍵)]（poster_backs：紙的背面＋透過來的圖案＋膠帶；街上的位置換算用 street_back）；rail＝腰牆上緣的壓條要不要；grid＝店面是鐵件格子窗（直條密一點＋兩道橫條）"""
     s = c.S; X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; M = c.M; wh = s['wainH']; doorc = doorc or frame; wallmat = wallmat or {}; wainmat = wainmat or {}
     fl = Mesh(f'l118_{c.sid}_floorm', M['floor'], tile=s['floor'][2]); fl.box(X0, X1, -0.05, 0.0, Z0, Z1); fl.finish(c.root)
     dx, dw = s['door_x'], 1.0; tc = s.get('trim', '#6b4a30')
@@ -401,7 +452,7 @@ def shell2(c, frame='#8f969b', doorc=None, sillc=None, wallmat=None, wainmat=Non
     gl.quad([(d1 - 0.04, 2.16, Z1 - 0.025), (d0 + 0.04, 2.16, Z1 - 0.025), (d0 + 0.04, gy1, Z1 - 0.025), (d1 - 0.04, gy1, Z1 - 0.025)])
     fr.cbox(d1 - 0.2, d1 - 0.17, 0.85, 1.35, Z1 - 0.1, Z1 - 0.07, handle)
     tr = c.wg('S', 'trim', M['vc'], cm=True)
-    for (xa, xb, ya, yb) in backs: tr.poly([(xb, ya, Z1 - 0.032), (xa, ya, Z1 - 0.032), (xa, yb, Z1 - 0.032), (xb, yb, Z1 - 0.032)], '#f1ece0')
+    if backs: poster_backs(c, backs)
     vz = Z1 + 2.4; vw = (X1 - X0) * 1.9; vh = vw * 0.5; vy0 = 1.6 - vh / 2
     vm = c.wg('S', 'view', M['view'] if 'view' in M else L.flat(f'l118_{c.sid}_viewflat', '#c9cbc6', rough=0.9))
     uvquad(vm, [(vw / 2, vy0, vz), (-vw / 2, vy0, vz), (-vw / 2, vy0 + vh, vz), (vw / 2, vy0 + vh, vz)], (0.0, 0.0, 1.0, 1.0))
@@ -511,6 +562,10 @@ def leaf(m, x, y, z, s, a, tilt, col, k=1.0):
 
 def vine(c, m, x, y, z, length, seed, n=None, spread=0.08, col='#5f9a3c', out=(0.0, 0.0)):
     """垂下來的黃金葛：一條細莖＋一片片葉子；out＝往室內偏的方向（單位向量）"""
+    if getattr(c, 'ph', None):   # CC0 的店（BB 11-13：頂點色的垂藤 FAIL）：Poly Haven 蕨類（葉子往下垂），同一個地方 0.35 m 內只放一叢
+        ferns = c.__dict__.setdefault('_ferns', [])
+        if any(abs(x - fx) + abs(z - fz) < 0.35 and abs(y - fy) < 0.3 for (fx, fy, fz) in ferns): return
+        ferns.append((x, y, z)); c.ph.put('fern_02', x + out[0] * 0.12, y - 0.05, z + out[1] * 0.12, random.Random(seed).uniform(0, 6.283), s=0.28 + 0.12 * min(length, 1.5), share=True, decimate=0.12, texres=256); return
     rr = random.Random(seed); n = n or int(length / 0.075)
     ccyl(m, (x, y, z), (x + out[0] * 0.03, y - length, z + out[1] * 0.03), 0.004, '#4a6a2c', seg=3, caps=False)
     for k in range(n):
@@ -521,6 +576,9 @@ def vine(c, m, x, y, z, length, seed, n=None, spread=0.08, col='#5f9a3c', out=(0
 
 def pot_plant(c, x, z, y=0.0, h=0.5, pot='#b9623a', col='#4f8f37', seed=1, r=0.13, m=None, n=16):
     """盆栽（陶盆＋一叢葉子）：m＝放進哪一個頂點色網格（預設 c.vc）"""
+    if getattr(c, 'ph', None):   # CC0 的店：Poly Haven 掃描盆栽（小的 potted_plant_02、落地的大盆 pachira_aquatica_01）
+        hh = h * 1.6 if h >= 0.55 else max(0.25, h * 1.1)   # 落地的也用有陶盆的 potted_plant_02 放大（pachira 沒有盆子：LAWWW2-C 11-13 退件「像從地磚長出來」）
+        c.ph.put('potted_plant_02', x, y, z, random.Random(seed).uniform(0, 6.283), s=hh / 0.6, share=True, height=0.6, part_faces=400, texres=256); return   # share：同一種盆栽共用一份網格（GLB 只存一次）；這幾間不烘光照。減面：每間店 GLB 1.5 倍、6 萬三角形以內（tests/l118_int_home_cafe2_1111_unit.js 第 5 項）
     m = m or c.vc; rr = random.Random(seed)
     clathe(m, [(0.0, 0.0), (r * 0.72, 0.0), (r, r * 1.5), (r * 1.06, r * 1.6), (0.0, r * 1.6)], x, y, z, pot, seg=10)
     for k in range(n):
@@ -631,7 +689,7 @@ def build_omu():
                 trim='#4a2e1c', ceil='#ecdfbf', noren='#7a3d24', kpass=True)   # 地板：中等偏淺的暖木色（D112：不准深色木地板；參考圖也是這個深淺）
     c = begin(sid, spec, OMU_REG, omu_atlas(hours)); X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; v = c.vc; DW = '#4b2e1c'
     dd_x = c.S['door_x']
-    shell2(c, frame='#4a2e1c', doorc='#4a2e1c', handle='#b08a4a', backs=[(-0.32, 0.45, 1.0, 1.9), (0.85, 1.62, 1.0, 1.9)])
+    shell2(c, frame='#4a2e1c', doorc='#4a2e1c', handle='#b08a4a', backs=[street_back(c, 'omu_p1', -2.35, 1.25, 0.8, 1.2, step=0.06), street_back(c, 'omu_p2', -1.05, 1.25, 0.8, 1.2, step=0.06)])   # 海報的背面：照街上那兩張（wz_shopkit.py SHOPS['omu'] photos；原本 x −0.32～0.45、0.85～1.62，y 1.0～1.9 的米白方塊）
     LS.kitchen(c, -1.0, 2.2, depth=1.6, win=(1.02, 1.95), door=(-2.7, -1.9))
     # ---- 最裡面：木造出餐檯（檯面、開放層架：盤子、藤籃）＋攤架（兩支柱子、橫木、黃色短門簾、木匾）----
     cx0, cx1, cz0, cz1, ch = -1.3, 2.5, Z0 + 0.95, Z0 + 1.5, 1.0

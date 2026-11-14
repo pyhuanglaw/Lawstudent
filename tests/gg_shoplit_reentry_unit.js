@@ -27,7 +27,7 @@ const cnt=(s,re)=>(s.match(re)||[]).length;
 // three.js 真的 MeshStandardMaterial 著色器（ShaderLib.standard）：和瀏覽器裡 onBeforeCompile 拿到的是同一份原始碼（還沒展開 #include）
 const LIB=THREE.ShaderLib.standard||THREE.ShaderLib.physical;
 const compile=(m)=>{ const sh={uniforms:THREE.UniformsUtils.clone(LIB.uniforms),vertexShader:LIB.vertexShader,fragmentShader:LIB.fragmentShader}; m.onBeforeCompile(sh,null); return sh; };
-const decl=sh=>({uShop:cnt(sh.fragmentShader,/uniform float uShopLit\[9\]/g), vIdxV:cnt(sh.vertexShader,/varying float vShopIdx/g), vIdxF:cnt(sh.fragmentShader,/varying float vShopIdx/g), uv1:cnt(sh.vertexShader,/attribute vec2 uv1/g), mul:cnt(sh.fragmentShader,/totalEmissiveRadiance\*=k/g)});
+const decl=sh=>({uShop:cnt(sh.fragmentShader,/uniform float uShopLit\[17\]/g), vIdxV:cnt(sh.vertexShader,/varying float vShopIdx/g), vIdxF:cnt(sh.fragmentShader,/varying float vShopIdx/g), uv1:cnt(sh.vertexShader,/attribute vec2 uv1/g), mul:cnt(sh.fragmentShader,/totalEmissiveRadiance\*=k/g)});
 const once=d=>d.uShop===1&&d.vIdxV===1&&d.vIdxF===1&&d.uv1<=1&&d.mul===1;
 const J=JSON.stringify;
 // 快取的 GLB：每次進區域 c.scene.clone(true)——網格、幾何是新的，材質是同一個（MAT）

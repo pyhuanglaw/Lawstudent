@@ -25,7 +25,7 @@ const goOut=async(G,key,picks)=>{ const q=OUT.get(G,'arcinv_'+key.replace(':','_
 (async()=>{
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_arc_invites.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     check('0. src/data/arc_invites.js 和 AA_716@026a2dd34 一致（import_arc_invites.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
-    check('0. 7 個約都有 outing 事件',ok2&&ARC_INV.list.length===7&&ARC_INV.list.every(e=>STORY_EVENTS.some(x=>x.id===ARCINV.evId(e.key)&&x.trigger==='outing')),J(ok1&&ARC_INV.list.map(e=>e.key))); }
+    check('0. 6 個約都有 outing 事件（可昕 kexin:4：CANON-NO-ECON-1112 第三批：這一項拿掉）',ok2&&ARC_INV.list.length===6&&!ARC_INV.list.some(e=>e.key==='kexin:4')&&ARC_INV.list.every(e=>STORY_EVENTS.some(x=>x.id===ARCINV.evId(e.key)&&x.trigger==='outing')),J(ok1&&ARC_INV.list.map(e=>e.key))); }
   { const ids=[]; for(const e of ARC_INV.list){ if(e.bg[1]) ids.push(e.bg[1]); for(const x of e.bgAt) if(x[2]) ids.push(x[2]); } const miss=ids.filter(id=>!(OUT.BG[id]&&OUT.BG[id].image&&fs.existsSync(path.join(H.ROOT,OUT.BG[id].image))));
     check('0. 每一場的背景（含中途換的）都在 OUT.BG、圖檔存在；子晴健身房＝gym_b1_fitness（LAWWW2 AA716-GYM-BG）',!miss.length&&ARC_INV.list.find(e=>e.key==='heroine_04:3').bg[1]==='gym_b1_fitness',J(miss)); }
   if(!ok2){ H.done(); return; }
@@ -52,7 +52,7 @@ const goOut=async(G,key,picks)=>{ const q=OUT.get(G,'arcinv_'+key.replace(':','_
   /* 3b 過去式的 skip（UX-WEEKEND-ASK-EXPIRE-1108，AA-B 11-08 09:39）：沛珊 6、可昕 4、可昕 6 沒回＝那個約好的日子（sc.this）的那個時間才傳，文字不動；以前不在手機裡 */
   { const D_=ARCINV.data?ARCINV.data():null; const E_=k=>(typeof ARC_INVITES!=='undefined'?(ARC_INVITES.list||ARC_INVITES):[]).find?((ARC_INVITES.list||ARC_INVITES).find(e=>e.key===k)):null;
     const bad=[];
-    for(const [who,n,k,h] of [['classmate_peishan',6,'classmate_peishan:6',7.5],['kexin',4,'kexin:4',18],['kexin',6,'kexin:6',17.5]]){
+    for(const [who,n,k,h] of [['classmate_peishan',6,'classmate_peishan:6',7.5],['kexin',6,'kexin:6',17.5]]   /* 可昕 4：CANON-NO-ECON-1112 第三批：這一項拿掉 */){
       const G=fresh('2026-04-13',15,'cafe'); const bd=G.day; beat(G,who,n,bd); at(G,bd+2,21.1); const r=ARCINV.rec(G)[k]; if(!r||r.st!=='offer'){ bad.push(k+' 沒有邀約 '+J(r&&r.st)); continue; }
       const U=r.until, th=r.sc.this, e=ARCINV.get(k), first=e.skip[0]; at(G,Math.floor(U/24),U%24+0.1); const has=()=>(G.msgs||[]).some(x=>x.text===first);
       const before=has(); if(th.d*24+h>U+0.2){ at(G,th.d,h-0.2); } const before2=has(); at(G,th.d,h+0.1); const after=has(); const m=(G.msgs||[]).find(x=>x.text===first);
@@ -69,9 +69,8 @@ const goOut=async(G,key,picks)=>{ const q=OUT.get(G,'arcinv_'+key.replace(':','_
     const G3=fresh('2026-11-20',15,'cafe'); beat(G3,PS,6,G3.day); ARCINV.tick(G3); const r3=ARCINV.rec(G3)[K];
     check('4. 寒假在她消失期裡（2026-11-20 演完）：改成最近的週六（12/18 以前）',r3&&r3.sc&&r3.sc.this.d<dk('2026-12-18')&&wd(r3.sc.this.d)===6&&r3.sc.offer.d===G3.day+1,J(r3&&r3.sc)); }
   /* 5 可昕 */
-  { const KX='kexin', K='kexin:4'; const run=async fit=>{ const G=fresh('2026-04-13',15,'cafe'); G.daily=G.daily||{}; G.daily.gym={fit,seen:[]}; beat(G,KX,4,G.day); at(G,G.day+2,21.1); PHONE.answer(G,msgOf(G,K).ask.id,0); await goOut(G,K); return H.said.map(s=>s.t); };
-    const a=await run(60), b=await run(10);
-    check('5. 可昕木柵：體能結實＝「你一口氣爬到頂。」；普通＝「爬到一半你開始喘。」',a.some(t=>t.indexOf('一口氣爬到頂')>=0)&&!a.some(t=>t.indexOf('開始喘')>=0)&&b.some(t=>t.indexOf('開始喘')>=0)&&!b.some(t=>t.indexOf('一口氣')>=0),J({a:a.length,b:b.length}));
+  { const KX='kexin';
+    check('5. 可昕第 4 拍的約（CANON-NO-ECON-1112 第三批：這一項拿掉）',!ARCINV.get('kexin:4'));
     const G=fresh('2026-04-13',15,'cafe'); G.money=2000; beat(G,KX,6,G.day); at(G,G.day,21.1); PHONE.answer(G,msgOf(G,'kexin:6').ask.id,0); await goOut(G,'kexin:6');
     check('5. 可昕外套：錢夠＝扣襯衫 590 元、記 KX_ARC_COAT',G.money===1410&&G.flags.KX_ARC_COAT!=null,J({m:G.money})); }
   /* 6 學姊騎車 */

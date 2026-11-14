@@ -137,7 +137,7 @@ async def main():
             await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
             await pg.wait_for_timeout(1000)
         await pg.evaluate("GAME.autosave()")
-        sv = await pg.evaluate("JSON.parse(localStorage.getItem('fatiao3d_auto'))")
+        sv = await pg.evaluate("GAME.readSave('fatiao3d_auto')")
         run.check('新版存檔：有 courses、v 是新版、v9.5 的欄位都還在', bool(sv) and 'courses' in sv and all(k in sv for k in a0.keys()), ','.join(sorted(set(a0.keys()) - set(sv.keys()))) if sv else '無')
         await pg.reload(); await L.wait_loaded(pg); await pg.wait_for_timeout(1500)
         await L.tap(pg, cdp, '#btnContinue'); await pg.wait_for_timeout(6000)

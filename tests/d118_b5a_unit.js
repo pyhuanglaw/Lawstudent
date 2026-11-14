@@ -74,7 +74,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     G=old({lawclub:true,FAFU_SHIFT_N:3}); STORY.fafuMigrate(G); check('c6. 公告進來但大二起值過班（FAFU_SHIFT_N）＝照舊算社員（D118_PLAN 第 8 節第 6 點）',G.flags.lawclub===true&&!G.flags.LAWCLUB_NOTICE&&STORY.fafuMember(G));
     G=fresh(S1,8,'dorm',MEM); delete G.flags.FAFU_PURE; G.outings=[GO(S1)]; STORY.fafuMigrate(G); check('c7. 固定場次那天（10/24）早上讀進來：那天的選單照留（就是那一場的出發選單）',st('fafu_'+S1)==='planned');
     const g3=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
-    check('c8. game3d.js：migrate 叫 STORY.fafuMigrate；新遊戲 defaults 有 FAFU_PURE:1、FAFU_STORY_SEEN:0',/function migrate\(s\)[\s\S]*STORY\.fafuMigrate\(s\)[\s\S]*s\.v=SAVE_VER; return s; \}/.test(g3)&&/flags:\{dating_kexin:true,[^}]*FAFU_PURE:1[^}]*FAFU_STORY_SEEN:0[^}]*\}/.test(g3));
+    check('c8. game3d.js：migrate 叫 STORY.fafuMigrate；新遊戲 defaults 有 FAFU_PURE:1、FAFU_STORY_SEEN:0',/function migrate\(s\)[\s\S]*STORY\.fafuMigrate\(s\)[\s\S]*s\.v=SAVE_VER; return s; \}/.test(g3)&&/flags:\{dating_kexin:false,[^}]*FAFU_PURE:1[^}]*FAFU_STORY_SEEN:0[^}]*\}/.test(g3));   /* CANON-1112：舊序章拿掉／可昕開局不認識：defaults 的 dating_kexin 改 false（原本這個正則寫 true）*/
     G=fresh(sat,8,'dorm',{}); G.flags.FAFU_PURE=1; G.flags.lawclub=true; STORY.fafuMigrate(G); check('c9. 遷移只做一次（FAFU_PURE 以後不再動）',G.flags.lawclub===true); });
   // ---------- (d) ----------
   await sec('d',async()=>{ const d=D('2027-05-22'); fresh(d,7,'dorm',MEM); H.FRIEND('heroine_03'); H.FRIEND('classmate_bohan'); rules(); const q=OUT.get(H.G,'fafu_'+d);

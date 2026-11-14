@@ -117,7 +117,7 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('2-1. 陳助教稿寫「公館」的五句都加 notZone（h506～h510_ta_sis）；沒寫公館的（h503、h504、h505）照舊',J(NZ)===J(['h506_ta_sis','h507_ta_sis','h508_ta_sis','h509_ta_sis','h510_ta_sis']),J(NZ));
     /* 麵店長桌（noodle）：阿哲說語彤 */
     const ndl=HEARD_LINES.noodle.Y1; check('2-1. 麵店長桌那兩則（阿哲說語彤）加 about（她本人在旁邊就不說）',ndl.every(x=>x.about==='heroine_03'));
-    const w9=NDt('Y1S2',10,0); fresh(w9,18,'noodle');   /* 大一下第 9 週是期中週（麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起 */ fam('zhe'); fam('heroine_03'); const k=STORY.ndlTalkPick(H.G); npcAt('heroine_03',1,1); const k2=STORY.ndlTalkPick(H.G);
+    const w9=NDt('Y1S2',10,0); fresh(w9,18,'noodle');   /* 大一下第 9 週是期中週（桌遊團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起 */ fam('zhe'); fam('heroine_03'); const k=STORY.ndlTalkPick(H.G); npcAt('heroine_03',1,1); const k2=STORY.ndlTalkPick(H.G);
     check('2-1. 麵店：阿哲那一則（h504_zhe_hand，阿姨扭到手）AA_624 retired＝第 10 週也不挑、語彤在不在旁邊都不說',ndl.some(x=>x.once==='h504_zhe_hand'&&x.retired===true)&&!(k&&k.e.once==='h504_zhe_hand')&&!(k2&&k2.e.once==='h504_zhe_hand'),J([k&&k.e.once,k2&&k2.e.once])); });
 
   await sec('2-2',()=>{ const sp=G=>J((HCIRCLE.specOf('hc_ayi',G).props||[]).map(p=>typeof p==='object'?p.name:p)), w=(t,k)=>{ fresh(TD(t,k,2),18,'noodle'); return H.G; };
@@ -133,9 +133,9 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('2-3. 第 3 列在稿（AA_497 3-6）',inDoc('AA_497','指導老師陪我們對了一次帳')); });
 
   await sec('2-4',()=>{ check('2-4. 阿哲的群組訊息「這週燒臘店沒開」不加句號（口氣表 2-1）',AA519_LINES.cafe&&J(AA519_LINES).indexOf("這週燒臘店沒開。")<0&&J(AA519_LINES).indexOf('["zhe","這週燒臘店沒開"]')>=0);
-    const g=D('2026-11-09'); fresh(g,12,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','麵店團'); ruleAt(g,21.1);
+    const g=D('2026-11-09'); fresh(g,12,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','桌遊團'); ruleAt(g,21.1);
     const z=thread('g:noodle_team').filter(m=>m.from==='zhe').map(m=>m.text), y=thread('g:law_class').map(m=>m.text);
-    check('2-4. 麵店團阿哲再貼一次＝「（轉貼宥辰）週六晚上八點。公館。地下室。不用買票，有捐款箱。」（原文的句號照留）；班級群組宥辰照原文',z.includes('（轉貼宥辰）週六晚上八點。公館。地下室。不用買票，有捐款箱。')&&y.includes('週六晚上八點。公館。地下室。不用買票，有捐款箱。'),J([z,y])); });
+    check('2-4. 桌遊團阿哲再貼一次＝「（轉貼宥辰）週六晚上八點。公館。地下室。不用買票，有捐款箱。」（原文的句號照留）；班級群組宥辰照原文',z.includes('（轉貼宥辰）週六晚上八點。公館。地下室。不用買票，有捐款箱。')&&y.includes('週六晚上八點。公館。地下室。不用買票，有捐款箱。'),J([z,y])); });
 
   await sec('2-5',()=>{ const row=id=>HCIRCLE.row(id);
     check('2-5. 沛珊「總圖二樓」三列（c504_6_1、c505_6_1、c505_6_2）＝總圖大廳二樓自習區（library_hall）',['c504_6_1','c505_6_1','c505_6_2'].every(id=>row(id)&&row(id).zone==='library_hall'));
@@ -149,8 +149,9 @@ const docRe=(n,re)=>re.test(docOf(n));
     const g=[on('2028-03-17'),on('2028-06-09'),on('2028-06-16'),on('2028-06-23'),on('2028-06-30'),on('2028-07-28'),on('2028-08-04')].map(a=>a.includes('c508_5_2')?'Y':(a.includes('c519_2_3')?'O':'-'));
     check('2-5. 學姊＋陳助教週五 18:30（c508_5_2）：演到 7/28；6/16 是口試那一列、6/23 不演、8/4 不演',J(g)===J(['Y','Y','O','-','Y','Y','-']),J(g));
     check('2-5. 晨希大四下的錄音：2029-05-12（六）22:00（成發那天）',SRC('pool_more3d.js').indexOf("DK('2029-05-12'),22,[L[CX].recY4b]")>=0&&SRC('pool_more3d.js').indexOf('2029-05-13')<0&&inDoc('AA_514','2029-05-12（六）22:00'));
-    const kx=KX_MOOT3_LINES.opts?J(KX_MOOT3_LINES):J(KX_MOOT3_LINES), t='（山下小吃街的麵店。她吃得很快，一句話都沒說，吃完才抬頭。）';
-    check('2-5. 可昕模擬法庭後去吃：旁白「（山下小吃街的麵店。……）」（對齊字幕）；底圖的判斷跟著換',kx.indexOf(t)>=0&&kx.indexOf('政大後門')<0&&KXMOOT3.FOOD_RE.test(t)&&inDoc('AA_514',t));
+    const kx=KX_MOOT3_LINES.opts?J(KX_MOOT3_LINES):J(KX_MOOT3_LINES), t='（後門那家湯餃。她吃得很快，一句話都沒說，吃完才抬頭。）';   /* （CANON-NO-ECON-1112 第四批：照 AA_885、AA_897 換字）*/
+    let d885=''; try{ d885=require('child_process').execSync('git show 2df00329ab:"docs/story_planning/AA_885_可昕動態牆_照列換字.md"',{cwd:require('path').resolve(__dirname,'..'),encoding:'utf8',maxBuffer:1<<24}); }catch(e){}
+    check('2-5. 可昕模擬法庭後去吃：旁白「（後門那家湯餃。……）」（AA_885 附錄換字；對齊字幕）；底圖的判斷跟著換',kx.indexOf(t)>=0&&KXMOOT3.FOOD_RE.test(t)&&d885.indexOf(t)>=0);   /* （CANON-NO-ECON-1112 第四批：照 AA_885、AA_897 換字）*/
     const R=row('c504_1_1'), tm=k=>{ fresh(k,18.3,'campus'); return HCIRCLE.timeOk(R,H.G); };
     check('2-5. 以安＋Alison（c504_1_1）：5/11、5/13（第 12 週、還沒吵架）照稿成立；5/18 不成立（一個人那一列）',tm('2026-05-11')&&tm('2026-05-13')&&!tm('2026-05-18')&&tm('2026-04-29'),J([tm('2026-05-11'),tm('2026-05-13'),tm('2026-05-18')])); });
 
@@ -258,7 +259,8 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('AA_528 第 3 節：晨希的人物頁「背吉他袋的學姊」',CHARACTERS.pool_11.cardBefore==='背吉他袋的學姊'&&inDoc('AA_498','「背吉他袋的學姊」'),CHARACTERS.pool_11.cardBefore); });
 
   await sec('528-3-1',async()=>{ const LQ='pool_16', L=POOL_STORY_B2.LINES[LQ], one='其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。', nt='刑法那幾條比較好押韻。……不要問我押什麼。';
-    check('AA_528 3-1：立群秘密那一場一句說完；閒聊「說過秘密以後」那一格換新句',L.secret.length===1&&L.secret[0].text===one&&L.talk.some(x=>x.when==='secret'&&x.t===nt)&&inDoc('AA_499','詹立群：'+one)&&inDoc('AA_499',nt.replace(/^「|」$/g,'')));
+  /* AA_799（X324 G 區，5f34638b5）：遊戲裡立群那一句「其實……」換成「跟你講一個秘密。…」；AA_499 稿上照舊是舊句（inDoc 照 one 查）*/
+    check('AA_528 3-1：立群秘密那一場一句說完；閒聊「說過秘密以後」那一格換新句',L.secret.length===1&&L.secret[0].text===(((require('./aa799_expect.js').rows||[]).find(r=>r.old===one)||{}).new||one)&&L.talk.some(x=>x.when==='secret'&&x.t===nt)&&inDoc('AA_499','詹立群：'+one)&&inDoc('AA_499',nt.replace(/^「|」$/g,'')));
     fresh(TD('Y1S1',11,5),20,'gongguan'); fam(LQ); H.said=[]; H.picks=[0]; const ok=await POOL.FLOW[LQ][0](GM,{name:'詹立群'}); const s=H.said.map(x=>x.t);
     check('AA_528 3-1：秘密那一場只聽到一次「我背法條是配節奏的」，新的閒聊句不在同一場',ok&&s.filter(t=>/我背法條是配節奏的/.test(t)).length===1&&!s.includes(nt)&&SOCIAL.has(LQ,'SHARED_SECRET'),J(s)); });
 

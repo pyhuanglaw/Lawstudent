@@ -326,9 +326,10 @@ const cmpLegal=(A,B)=>{ const r={bad:[],n:0,dot:0}; A=A||[]; B=B||[];
     if(diff.length!==1) { bad.push(p+' 在場改了 '+diff.length+' 句：'+J(diff)); continue; }
     const [[wa,ta],[wb,tb]]=diff[0]; if(ta!==st||tb!==unq(st)||wa!==wb||!wb||wb!==Ni.profName) bad.push(p+' 在場：'+J(diff[0])); }
   console.log('（43. 上課演到的教授：'+done.join('、')+'；'+done.map(p=>p+(PN['cls_'+p+'_in']||{}).branch).length+' 位）');
-  check('43. 上課沒有 syllabus（走 STYLE）的那一堂，教授不在場：和 BASE 一字不差（「周老師：「今天講…」」對話框沒有名字、照留）',done.length>=11&&!bad.some(b=>/不在場/.test(b)),sample(bad));
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（黃教授（prof_huang）唯一的課是經濟系大一下的法學緒論，拿掉以後演到的教授 11 位→10 位）
+  check('43. 上課沒有 syllabus（走 STYLE）的那一堂，教授不在場：和 BASE 一字不差（「周老師：「今天講…」」對話框沒有名字、照留）',done.length>=10&&!bad.some(b=>/不在場/.test(b)),sample(bad));
   check('43. 教授在場：說的人是教授（對話框＝'+done.filter(p=>p!=='prof_zheng').map(p=>(PN['cls_'+p+'_in']||{}).profName).join('、')+'），只有開場那一句只差外面那一對「」，其他一字不差；鄭教授那一句（不是整句一對）一字不差',
-    done.length>=11&&done.includes('prof_zheng')&&bad.length===0,sample(bad)); }
+    done.length>=10&&done.includes('prof_zheng')&&bad.length===0,sample(bad)); }
 
 /* ---------- 44. 存檔 ---------- */
 { const so=O.save||{}, sn=N.save||{}, ks=Object.keys(sn), bad=ks.filter(k=>!so[k]||so[k].md5!==sn[k].md5);

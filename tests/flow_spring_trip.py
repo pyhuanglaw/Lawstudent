@@ -1,6 +1,6 @@
-"""真實玩家流程：交接包 v2 C9 春假麵店團兩天一夜（出遊系統「出發／晚一點／不去了」＋STORY.travelOvernight）。不用 ?turbo。
-[前置／捷徑] 讀檔：大一下春假第一天（4/3）07:54，宿舍房間；補「認識以安、Alison」、加入麵店團群組，
-用 STORY.springChoose 記下「和麵店團去」（等於第 5 週在手機上選了它；silent＝不重發選完的訊息）。
+"""真實玩家流程：交接包 v2 C9 春假桌遊團兩天一夜（出遊系統「出發／晚一點／不去了」＋STORY.travelOvernight）。不用 ?turbo。
+[前置／捷徑] 讀檔：大一下春假第一天（4/3）07:54，宿舍房間；補「認識以安、Alison」、加入桌遊團群組，
+用 STORY.springChoose 記下「和桌遊團去」（等於第 5 週在手機上選了它；silent＝不重發選完的訊息）。
 之後都走真的介面：08:00 跳出「出發：春假・小旅行」→ 點「出發」→ 過場 → 2D 畫面的旁白與台詞（點對話）→ 回到台北。
 檢查：提示的三個選項；AA 的六句（認識以安、Alison 的版本）；回來是 4/4（第二天）17:00、天氣晴、人還在宿舍、不在劇情裡；
 回來以後走得動；沒有 JS 例外。
@@ -47,9 +47,9 @@ async def main():
         run.check('遊戲載入', await L.wait_loaded(pg))
         d0 = await pg.evaluate("STORY.springDays().d0")
         wd = await pg.evaluate("(d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; })(%d)" % d0)
-        run.setup(f'讀檔：春假第一天（第 {d0} 天，4/3）07:54，宿舍房間；認識以安、Alison；麵店團群組；STORY.springChoose 選「和麵店團去」')
+        run.setup(f'讀檔：春假第一天（第 {d0} 天，4/3）07:54，宿舍房間；認識以安、Alison；桌遊團群組；STORY.springChoose 選「和桌遊團去」')
         await L.load_state(pg, {'zone': 'dorm', 'hour': 7.9, 'day': d0, 'weekday': wd, 'weather': 'rain', 'flags': BASE_FLAGS})
-        await pg.evaluate("SOCIAL.remember('heroine_01','FIRST_MET','');SOCIAL.remember('yu','FIRST_MET','');PHONE.join(GAME.G,'noodle_team','麵店團');STORY.springChoose(GAME,'noodle',{silent:true})")
+        await pg.evaluate("SOCIAL.remember('heroine_01','FIRST_MET','');SOCIAL.remember('yu','FIRST_MET','');PHONE.join(GAME.G,'noodle_team','桌遊團');STORY.springChoose(GAME,'noodle',{silent:true})")
         q = await pg.evaluate("OUT.get(GAME.G,'ndl_trip_y1s2')")
         run.note('排好的出遊：' + json.dumps(q, ensure_ascii=False))
         # 1. 08:00 提示

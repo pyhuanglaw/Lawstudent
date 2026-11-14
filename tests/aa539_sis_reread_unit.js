@@ -24,7 +24,7 @@ GM.caption=()=>{}; GM.toast=()=>{}; GM.studySession=async()=>{};
 GM.spawnCharacter=(id,x,z,o)=>{ const n={id,charId:id,obj:{position:{x,y:0,z},rotation:{y:0}},seat:(o&&o.seat)||null,pose:(o&&o.pose)||'idle'}; GM.npc[id]=n; return n; }; GM.removeNPC=id=>{ delete GM.npc[id]; };
 GM.sitAt=(P,s)=>{ P.seat=s; }; GM.standUp=P=>{ P.seat=null; };
 /* index.html 的順序（同 tests/aa454_us_unit.js、aa490_sis_b12_fix_unit.js 用到的那幾支）；sis_b12（12-1 學生證）給 7/20 見面演；新的兩支 src/data/sis_aa539_lines.js、src/sis_aa539_3d.js */
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/exchange3d.js','src/data/us_layouts.js','src/us3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/exchange3d.js','src/data/us_layouts.js','src/us3d.js',
   'src/holff3d.js','src/noodle_closed3d.js','src/group3d.js','src/y34b3d.js','src/sis_grad3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js',
   'src/data/us_life_events.js','src/us_life3d.js','src/us208_3d.js','src/data/us_blank_lines.js','src/us_blank3d.js',
   'src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/data/sis_b4_events.js','src/sis_b4_3d.js','src/data/sis_qixi_events.js','src/sis_qixi3d.js','src/data/sis_jp_events.js','src/sis_jp3d.js',

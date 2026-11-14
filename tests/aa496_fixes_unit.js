@@ -2,8 +2,8 @@
 //   1 斷線：a BH4_DONE（翰 4 演完設；推甄面試「我是真的想知道」、尾聲 bh4）；b XC1_STICKY（大二拆箱拿出芯慈的便利貼）；
 //          c XC5_RECONCILE（慈 5 演完，近、遠兩版都算）；d ZHE4_FINAL（哲 4 選了哪一個就記哪一個；尾聲照現在讀的值）
 //   2 尾聲：阿哲、Alison 都在桌上＝情侶那組照演，之後各自的回收句各一句（阿哲的筆記／陪念／哲 4、Alison 的 YU4_ALONE），沒有回收句的不加、不疊預設句
-//   3 麵店團群組的補救：大一上錯過哲 1（ev_zhe_long_table）的人，大一下第 2 週起第一次在麵店遇到阿哲，或和阿哲說話（有點熟以上）：
-//     阿哲當面「欸，你還沒進群組？我拉你。」（逐字對稿）→ 照長桌那一場的做法加進麵店團（記 noodleTableDay；系統訊息寫「把你加進了」，不是「建立了」）；只一次
+//   3 桌遊團群組的補救：大一上錯過哲 1（ev_zhe_long_table）的人，大一下第 2 週起第一次在麵店遇到阿哲，或和阿哲說話（有點熟以上）：
+//     阿哲當面「欸，你還沒進群組？我拉你。」（逐字對稿）→ 照長桌那一場的做法加進桌遊團（記 noodleTableDay；系統訊息寫「把你加進了」，不是「建立了」）；只一次
 //   4 宥辰的出席：12:00 以前的必修只在第 1 週、期中考前一週與考試週（第 7～9 週）、期末考前兩週與考試週（最後三週）；12:00 以後照常；
 //     他的 6 句課堂發言照舊，他不在的那一週那一句的說話人改「同學」
 //   6 「社長」標籤寫全名：「法服的社長」「吉他社社長」「即興劇社社長」（逐字對稿）
@@ -18,7 +18,7 @@ const {check,GM,E}=H, J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const loadErr=[];
 const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有這個檔'); return false; } try{ let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+e.message); return false; } };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js',
   'src/data/bbpack_events.js','src/bbpack3d.js']) L3(f);   /* index.html 的順序（照 aa462_y3s1_unit.js、bbpack_r2_unit.js 載的檔）*/
 GM.toast=()=>{}; GM.caption=()=>{}; GM.studySession=async()=>{}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null;
@@ -130,7 +130,7 @@ const BOSS_FAFU=BOSS.find(s=>/法服/.test(s)), BOSS_GT=BOSS.find(s=>/吉他/.te
     if(!L||!T) return;
     const W2=TD('Y1S2',2,2), W1=TD('Y1S2',1,2), Y1S1=TD('Y1S1',10,2), Y3=TD('Y3S1',5,2);
     const noodle=(d,flags)=>{ fresh(d,18,'noodle',flags); return EVENTS.check(L); };
-    const r={w2:noodle(W2),w1:noodle(W1),y1s1:noodle(Y1S1),y3:noodle(Y3),longTable:noodle(W2,{noodleTableDay:TD('Y1S1',4,4)}),inGroup:(fresh(W2,18,'noodle'),PHONE.join(H.G,'noodle_team','麵店團'),EVENTS.check(L)),campus:(fresh(W2,18,'campus'),EVENTS.check(L))};
+    const r={w2:noodle(W2),w1:noodle(W1),y1s1:noodle(Y1S1),y3:noodle(Y3),longTable:noodle(W2,{noodleTableDay:TD('Y1S1',4,4)}),inGroup:(fresh(W2,18,'noodle'),PHONE.join(H.G,'noodle_team','桌遊團'),EVENTS.check(L)),campus:(fresh(W2,18,'campus'),EVENTS.check(L))};
     check('3. 麵店那個入口：大一下第 2 週起（之後的學期也算）在麵店＝有；大一下第 1 週、大一上、做過哲 1（noodleTableDay）、已經在群組、不在麵店＝沒有',r.w2&&r.y3&&!r.w1&&!r.y1s1&&!r.longTable&&!r.inGroup&&!r.campus,J(r));
     fresh(W2,18,'noodle'); npc(MX,8,0); EVENTS.tick(0.1); await wait(); const far=H.said.length;
     GM.npc[MX].obj.position.x=1.5; H.said=[]; EVENTS.tick(0.1); await wait(); await wait();
@@ -173,7 +173,10 @@ const BOSS_FAFU=BOSS.find(s=>/法服/.test(s)), BOSS_GT=BOSS.find(s=>/吉他/.te
     for(const [cid,w] of SIX){ const c=COURSES.list.find(x=>x.id===cid), sy=(SYLLABUS.courses[c.redo||c.id]||[]).find(q=>q.w===w), r0=(sy&&sy.react||[]).find(r=>r.who==='classmate_youchen');
       const it=itemOf(cid,w); if(!r0){ res.push([cid,w,'稿裡沒有這一句']); continue; } at(it.day,it.t0+0.2);
       const away=!presentWeek(c.term,w,it.t0), want=(away?'同學':NM)+'：「'+r0.text+'」';
-      res.push([cid,w,away?'不在':'在',CLS.content(it).react===want,CLS.content(it).react].concat(it.built?['（颱風假，自己組的一堂）']:[])); }
+      /* 2026-11-11（STUDY-EXAM-STORY-1102，AA 課堂內容補寫 b05a68786）：那幾週的 react 補到兩三位，遊戲照週次輪流挑一位（classes3d.js pickReact／S.rot）——輪到別人的那一週畫面上不是宥辰那句。
+         改成：宥辰那句經 CLS.reactAs／reactLine 的結果＝want（不在＝「同學」、在＝他的名字），而且畫面上那一句是照遊戲規則算出來的那一位。舊期望：畫面上那一句一定是宥辰那句 */
+      const okR=(sy.react||[]).map(r=>CLS.reactAs(r,it)), mine=CLS.reactLine(CLS.reactAs(r0,it)), shown=CLS.content(it).react, cand=okR.map(r=>CLS.reactLine(r));
+      res.push([cid,w,away?'不在':'在',mine===want&&cand.includes(shown),shown].concat(it.built?['（颱風假，自己組的一堂）']:[])); }
     check('4. 他的 6 句照舊；不在的那一週（債各第 10 週、民訴第 13 週、公司法第 6 週：上午、不是考試前後）說話人改「同學」，在的那三句照舊是他',res.length===6&&res.every(x=>x[3]===true)&&res.filter(x=>x[2]==='不在').length===3,J(res));
     /* 討論課的同學回應（現在的課表裡沒有他的回應句；之後有也照同一個規則）*/
     const disc=async it=>{ at(it.day,it.t0+0.2); H.said=[]; H.picks=[0]; await CLS.discuss(GM,it,{obs:{prompt:'（測試）',options:[{text:'甲'},{text:'先聽'}],replies:[{who:'classmate_youchen',text:'測試的回應。'}]}},null); return H.said.map(s=>s.t); };
@@ -188,10 +191,7 @@ const BOSS_FAFU=BOSS.find(s=>/法服/.test(s)), BOSS_GT=BOSS.find(s=>/吉他/.te
     check('6. 法服週六（大一）帶的人：標籤「法服的社長」（第一次來的那兩句也是他說）',lead===BOSS_FAFU&&said(BOSS_FAFU,'第一次來？站這邊聽就好。'),J([lead,H.said.filter(s=>s.who).map(s=>s.who+'：'+s.t)]));
     fresh(TD('Y1S2',7,6),10,'wancai',{KAI_KB_ASK:'fafu'}); await play('ev_kai_keyboard_fafu');
     check('6. 阿凱的鍵盤（法服）：「三件事。」…「……三分鐘。」都是「法服的社長」',said(BOSS_FAFU,'三件事。')&&said(BOSS_FAFU,'……三分鐘。')&&!H.said.some(s=>s.who==='社長'),J(H.said.filter(s=>s.who).map(s=>s.who)));
-    fresh(D('2024-10-10'),19,'dorm'); H.G.stage='econ'; await play('ev_y0_c1',[0]);
-    check('6. 即興劇社（經濟系那一年的舊事件，留給演過的舊存檔）：「即興劇社社長」',said(BOSS_IMP,'熱身。規則只有一個：對方說什麼，你都說「對，而且——」。')&&!H.said.some(s=>s.who==='社長'));
-    fresh(D('2024-11-04'),19,'wancai'); H.G.stage='econ'; await play('ev_y0_c2_guitar',[0]);
-    check('6. 吉他社（同上）：「吉他社社長」',said(BOSS_GT,'今天只教一個和弦。C。三根手指，按到聲音乾淨為止。')&&!H.said.some(s=>s.who==='社長'));
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 6 節即興劇社、吉他社社長（ev_y0_c1、ev_y0_c2_guitar））
     const src=['src/story3d.js','src/data/events.js','src/data/bbpack_events.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8')).join('\n');
     const bare=(src.match(/speaker:'社長'|say\('社長'|name:'社長'|\?'社長':/g)||[]).length, pres=[...src.matchAll(/from:'npc_lawclub_pres',name:'([^']+)'/g)].map(m=>m[1]);
     check('6. 程式裡沒有只寫「社長」的說話人標籤；法服群組裡社長的訊息都是「法服的社長」',bare===0&&pres.length>=3&&pres.every(n=>n===BOSS_FAFU),J({bare,pres}));

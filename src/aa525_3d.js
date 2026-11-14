@@ -3,7 +3,7 @@
    這個檔只放「沒有現成的檔可以放」的三件（其他都改在各自的檔，註解寫 AA_525 x-x）：
    - 閒聊階梯選了哪一個（STORY.ladReply 包一層，同 sis_b14_3d.js、sis_b16_3d.js；src/data/ladder.js 只經 tools/ladder/import_ladder.py 重產，不手改）：
        子晴 Q2-L4「我會注意到。」→ ZQ_SAW_THIRD（2026-06-27 zq_play 多兩句，termend_lines.js C15）；
-       可昕 K4-L5「下次換我挑。」→ KX_CAKE_YOU（2028-04-23 21:00 私訊多一句，r2y3b3d.js）；可昕 K2-L6「明年我們一起看。」→ KX_TASSEL_PROMISE（2027-04-24 生日到政大的版本開頭一句，y2r2_3d.js）。
+       可昕 K4-L5「下次換我挑。」→ KX_CAKE_YOU（2028-04-23 21:00 私訊多一句，r2y3b3d.js）；可昕 K2-L6「明年我們一起看。」→ KX_TASSEL_PROMISE（2027-04-24 生日到外校的版本開頭一句，y2r2_3d.js）。
    - 2-3 沛珊「她們有做卡片給你。我先收著。」（wzlines3d.js wz_p4_cards）：之後第一次和她說話（STORY.PRE_TALK），旁邊有她的人＝等她一個人（PRIVTALK 清單 ps_cards，保底 7 天、開頭一句旁白）。
        給過記 PS_CARDS_GIVEN（稿沒有寫旗標名：「之後第一次」要記下來才不會每次都給）。
    - 3-6 可昕 K-7「第一天下班，我打給妳。」（y2r2_3d.js KX_SUMMER 'call'）：2027-07-05（她實習第一天）還交往中＝18:00 手機一則系統字「今天是可昕實習第一天。」，
@@ -23,9 +23,7 @@ const AA525=(function(){
   const privLead=async(GM,k,x,sub)=>{ if(typeof PRIVTALK!=='undefined'&&PRIVTALK.lead) await PRIVTALK.lead(GM,k,x,sub); };
 
   /* ---------------- 閒聊階梯選了哪一個 ---------------- */
-  S.LAD=[{who:'heroine_04',step:'Q2-L4',t:'「我會注意到。」',f:'ZQ_SAW_THIRD'},
-    {who:'kexin',step:'K4-L5',t:'「下次換我挑。」',f:'KX_CAKE_YOU'},
-    {who:'kexin',step:'K2-L6',t:'「明年我們一起看。」',f:'KX_TASSEL_PROMISE'}];
+  S.LAD=[{who:'heroine_04',step:'Q2-L4',t:'「我會注意到。」',f:'ZQ_SAW_THIRD'}];   /* 可昕 K4-L5、K2-L6 那兩條：CANON-NO-ECON-1112 第三批可昕閒聊整組換新稿，選項字不在了，拿掉 */
   S.onLad=function(G,st,ch,id){ if(!G||!G.flags||!st||!ch) return false; const x=S.LAD.find(r=>r.who===id&&r.step===st.id&&r.t===ch.t); if(!x) return false; if(G.flags[x.f]==null) G.flags[x.f]=G.day; return true; };
   if(typeof STORY.ladReply==='function'&&!STORY._aa525Lad){ const r0=STORY.ladReply;
     STORY.ladReply=function(st,ch,G,id){ try{ S.onLad(G,st,ch,id); }catch(e){ console.warn('AA525 lad',e); } return r0.apply(this,arguments); }; STORY._aa525Lad=true; }

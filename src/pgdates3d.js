@@ -13,7 +13,7 @@
      - 過了的格子不補：可昕從現在之後的下一格開始（AA_366 第 3 節）；六位從現在這個月開始，那個月的週六過了就往後找同月的下一個週六（AA_367 第 0 節「從讀檔那個月開始排，不補過去的月份」）。
      - 可昕開頭那一則：PG.MSGS（21:00 她私訊兩則），那一段的第一週內才傳（win，到第 7 天 24:00），過了不補（AA_366 第 3 節）。
    AA_366（可昕）：法律系、交往中、KX_OUR_DAY 有值、畢業後篇；P1 一試前（隔週日 19:00）、P2 一試後（隔週日 19:00）、P3 二試後（照 KX_OUR_DAY.day 那一週：週五 19:00／週六、週日 14:00）、
-     P4 職前訓練（隔週六 21:00 電話，祐廷打給她）、P5 實習以後（每月第一個週日 19:00）。日子照稿（第 1、2 節）；地點：見面照「公館、河濱、政大小吃街」輪流，P4＝電話。
+     P4 職前訓練（隔週六 21:00 電話，祐廷打給她）、P5 實習以後（每月第一個週日 19:00）。日子照稿（第 1、2 節）；地點：見面照「公館、河濱、外校小吃街」輪流，P4＝電話。
      不排：讀書小組有她的＝P1（開頭那一則也不傳）；P5 那個月已經有一對一接觸（第 1 節四種）。和 AA_351 接：只和她一位交往的時候，準時到 KX_CRACK −1（最低 0）、遲到超過 15 分鐘 ＋1、
      說了「晚一點」最後沒到 ＋1、「不去了」不算（第 3 節；「答應了」＝說了晚一點，見回報給 AA 的問題）。
    AA_367（以安、芷若、語彤、子晴、學姊、沛珊）：交往中、畢業後篇、2029-06-03～2030-12-13；每月第一個週六（各人的時間、地點、方式照第 1～6 節）；
@@ -41,10 +41,10 @@ const PGDATE=(function(){
   /* ---------- 可昕（AA_366）---------- */
   S.KX_DAY={fri:4,sat:5,sun:6};   /* P3：那一週（稿上寫週一）往後幾天＝KX_OUR_DAY.day */
   S.WD_NAME={fri:'週五',sat:'週六',sun:'週日'};   /* P3 開頭那一則的 {星期}（AA_354 第 2 節：{星期}＝週五／週六／週日）*/
-  /* 見面的地點（AA_366 第 1 節「地點照 AA_354（公館、河濱、政大小吃街輪流）」）：字幕、背景、車程照大一下那一段（story3d.js K5 之後每週），政大照畢業後篇（6/9、K26：開車約 40 分鐘）*/
+  /* 見面的地點（AA_366 第 1 節「地點照 AA_354（公館、河濱、外校小吃街輪流）」）：字幕、背景、車程照大一下那一段（story3d.js K5 之後每週），外校照畢業後篇（6/9、K26：開車約 40 分鐘）*/
   S.KX_PLACES=[{place:'公館',bg:'gongguan',title:'我們的日子：約在公館',travel:'騎車約 10 分鐘',travelH:1/6},
     {place:'河濱',bg:'riverside',title:'我們的日子：河濱',travel:'騎車約 15 分鐘',travelH:0.25},
-    {place:'木柵大學・山下的小吃街',bg:'nccu_food',title:'我們的日子：開車去木柵大學',travel:'開車約 40 分鐘',travelH:2/3}];
+    {place:'溫州街',bg:'wenzhou',title:'我們的日子：溫州街',travel:'走路約 10 分鐘',travelH:1/6}];   /* AA_922 ②（CANON-NO-ECON-1112）：第三個地點從外校山下換溫州街 */
   S.KX_CALL={place:'電話',bg:null,title:'我們的日子：電話',travel:'',travelH:0};   /* P4（受訓：「隔週六晚上。你打給我。」）：地點字幕寫「電話」*/
   let kxDefs=null;
   S.kxDefs=function(){ if(kxDefs) return kxDefs; const K=D()&&D().kexin; if(!K) return []; let n=0;
@@ -58,8 +58,7 @@ const PGDATE=(function(){
   /* P5 那個月已經有她的一對一接觸＝那個月不排（第 1 節；群組訊息不算）*/
   S.kxMonthOff=function(G,s){ if(s.seg!=='p5') return false; const F=G.flags||{}, ym=s.key.slice(0,7);
     if(ym==='2030-03') return PG.delayed(G)&&(F.GRAD_EXAM_2030===true||F.GRAD_EXAM_RESULT!=null);   /* 延畢、研究所筆試有結果的（3/15 私訊，r2y4a3d.js y5_kx_grad）*/
-    if(ym==='2030-08') return PG.retaker(G);   /* 重考的（8/2 私訊，r2y4b3d.js y5_kx_0802）*/
-    if(ym==='2030-10') return !!F.KX_SHELF;   /* 有 KX_SHELF 的（10/1 私訊，y6_kx_shelf）*/
+    if(ym==='2030-08') return PG.retaker(G);   /* 再考的（8/2 私訊，r2y4b3d.js y5_kx_0802）*/
     if(ym==='2030-12') return PG.sits(G,2030)&&!(PG.failed&&PG.failed(G,2030));   /* 2030 年考的（12/13 燒臘店，她最後到）；一試沒過的沒有那一場（A4 取消保底以後）*/
     return false; };
   S.kxWhen=function(G,s){ const K=D().kexin, seg=K.segs[s.seg], d0=DK(s.key); if(d0==null) return null;
@@ -112,10 +111,10 @@ const PGDATE=(function(){
     if(who==='heroine_03'){
       if(yt&&ym>='2029-06'&&ym<='2029-08') return true;   /* 有讀書小組的玩家：2029-06～08 照小組 */
       if(ym==='2029-12'&&yt&&pass29) return true;   /* 2029 年上榜、有讀書小組的（放榜那天那一場；AA_688 第 2 節照現在）*/
-      if((ym==='2030-07'||(ym==='2030-12'&&!(PG.failed&&PG.failed(G,2030))))&&yt&&PG.sits(G,2030)) return true; }   /* 2030 年考、讀書小組有她的（7/11 總圖 B1 她帶菜來陪、12/13 那一場她帶紅紙來：那兩場會演就不排；AA_688 第 2 節照現在）——重考的，和交換延畢 2030 第一次考的（AA_367 第 10 節 A4，企劃線 e6d4a198）*/
+      if((ym==='2030-07'||(ym==='2030-12'&&!(PG.failed&&PG.failed(G,2030))))&&yt&&PG.sits(G,2030)) return true; }   /* 2030 年考、讀書小組有她的（7/11 總圖 B1 她帶菜來陪、12/13 那一場她帶紅紙來：那兩場會演就不排；AA_688 第 2 節照現在）——再考的，和交換延畢 2030 第一次考的（AA_367 第 10 節 A4，企劃線 e6d4a198）*/
     if(who==='heroine_05'){
       if(ym==='2029-08'&&PG.sits(G,2029)) return true;   /* 2029 年報國考的台灣路線（8/4 考場門口當面給便條）*/
-      if(ym==='2029-09'&&F.BAR_SIT_2029===true&&PG.stage(G,2029)==='none') return true;   /* 2029 年沒考上、要重考的（9/7 私訊）*/
+      if(ym==='2029-09'&&F.BAR_SIT_2029===true&&PG.stage(G,2029)==='none') return true;   /* 2029 年沒考上、要再考的（9/7 私訊）*/
       if(ym==='2029-12'&&pass29) return true;   /* 2029 年上榜的（12/14 私訊）*/
       if((ym==='2030-08'||(ym==='2030-12'&&!(PG.failed&&PG.failed(G,2030))))&&PG.sits(G,2030)) return true; }   /* 2030 年才考的（12/13 那則私訊要考上才有）（8/3 考場門口、12/13 私訊）*/
     return false; };

@@ -5,7 +5,7 @@
      她在那間店（站在 at、坐 seat、坐在地上）。**跟原本的作息撞到，原本的優先**（AA_705 開頭）：她這個時間原本有作息（上課、社課、打工、讀書會、回老家、約好的事、
      在 Café／總圖讀書、在外面……，含別的模組加的）＝這一次不出現，不另外挪；只有作息表裡單純「在某一區走走」（wander／walk、沒有劇情標記）不算撞到（S.soft）。
      撞到的次數 tests/shop_npc_unit.js 會列出來（AA 要那張表）。
-     經濟系那一年沒有（AA_705 是法律系大一上）。人不在臺北、國外、休學照 presence（schedFor 先看）。語彤認識以前（YT_MET_JOB）不在（STORY.schedEnt 的規則）。
+     舊序章那一年沒有（AA_705 是法律系大一上）。人不在臺北、國外、離校照 presence（schedFor 先看）。語彤認識以前（YT_MET_JOB）不在（STORY.schedEnt 的規則）。
    - 學姊一週最多一次（AA_596 第八節；AA_705「給 LAWWW」）：山嵐（雙數週週六）那一週的週三青木那一次有出現＝山嵐那一次不出現（只留青木）。
    - Alison（南洋戲院）：她原本的作息「在南洋戲院打工」（週五、週六 18:00～23:00，AA_661 第 30 列、AA_615 第 4 節）＝人在戲院大廳櫃檯後面（NY3.CLERK）。
      遇到她、送爆米花（AA_615 第 4 節）：玩家走到櫃檯前（她 2.6 m 內）、認識 Alison＝第一次那一段（選項兩個、拿到一桶爆米花＝G.flags.NY_POPCORN）；
@@ -38,7 +38,6 @@ const SHOPNPC=(function(){
   const termOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null;
   const wdOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).wd%7:null;
   const hr=G=>(+G.hour||0)%24;
-  const econ=G=>!!G&&((G.stage||'law')==='econ'||(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G)));
   const hash=s=>{ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; };
   const isOpen=(z,h,d)=>typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(z,h,d);
   S.rows=()=>D().rows||[];
@@ -53,7 +52,7 @@ const SHOPNPC=(function(){
   /* 這一列的日曆條件（不看原本的作息）：星期、時段、學期、週次、考試週、店開著 */
   /* 過午夜（AA_621 第 2 節：阿哲 00:00～02:00、芯慈週日 22:00～01:00）：G.hour 24 以上＝還沒睡（G.day 是前一天）＝日曆上是隔天的 (G.hour−24) 點；
      to>24 的列（芯慈週日 22:00～01:00）00:00～(to−24) 算前一天晚上那一列（星期、學期、考試週都看前一天）。其他列照舊（from／to 都在 24 以內）*/
-  S.calOk=function(G,row,day,h){ if(econ(G)) return false; const raw=+G.hour||0; if(day==null) day=(G.day|0)+(raw>=24?Math.floor(raw/24):0); if(h==null) h=hr(G);
+  S.calOk=function(G,row,day,h){ const raw=+G.hour||0; if(day==null) day=(G.day|0)+(raw>=24?Math.floor(raw/24):0); if(h==null) h=hr(G);
     const open=isOpen(row.zone,h,day);   /* 店開著：看日曆上的那一天、那一點 */
     if(row.to>24&&h<row.to-24){ day-=1; h+=24; }   /* 跨午夜的列：00:00～(to−24) 算前一天晚上 */
     const wd=wdOf(day); if(!row.days.includes(wd)||h<row.from||h>=row.to) return false;
@@ -116,7 +115,7 @@ const SHOPNPC=(function(){
     else { key=[row.id,G.day|0].join('|'); mk=()=>({days:[wd],from:row.from,to:row.to,zone:row.zone,act:'linger',at:row.at.slice(),noPair:true,shopNpc:row.id,note:'AA_705 '+row.shop}); }
     let e=entMemo.get(key); if(!e){ if(entMemo.size>200) entMemo.clear(); e=mk(); entMemo.set(key,e); } return e; };
   /* Alison：原本的作息是「在南洋戲院打工」＝人在大廳櫃檯後面 */
-  S.alisonEnt=function(c,G){ const row=S.rows().find(r=>r.hearBy==='alison'); if(!row||econ(G)) return null; const b=S.base(c,G); if(!b||b.away!==S.ALISON_AWAY||b.zone!=null) return null;
+  S.alisonEnt=function(c,G){ const row=S.rows().find(r=>r.hearBy==='alison'); if(!row) return null; const b=S.base(c,G); if(!b||b.away!==S.ALISON_AWAY||b.zone!=null) return null;
     if(!isOpen(row.zone,hr(G),G.day|0)) return null;
     const key='alison|'+(G.day|0)+'|'+b.from+'|'+b.to; let e=entMemo.get(key); if(!e){ e=Object.assign({},b,{zone:row.zone,act:'linger',at:row.at.slice(),away:undefined,noPair:true,shopNpc:row.id,note:'AA_705 南洋戲院（她原本的打工作息，AA_661 第 30 列）'}); delete e.away; entMemo.set(key,e); } return e; };
   S.sched=function(c,G){ if(guard||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;
@@ -155,7 +154,7 @@ const SHOPNPC=(function(){
   const sceneFree=GM=>{ const E=GM.E, pl=E&&E.player; if(!pl||!pl.obj||pl.busy) return false; if(GM.D&&(GM.D.active||(GM.D.busyDepth|0)>0)) return false; if(typeof ADV!=='undefined'&&ADV.active) return false; if(typeof EVENTS!=='undefined'&&EVENTS.running) return false; return true; };
   const near=(GM,n,r)=>{ const pl=GM.E.player, p=pl.obj.position, q=n&&!n.hidden&&n.obj&&n.obj.visible!==false&&n.obj.position; return !!q&&(n.lv|0)===(pl.lv|0)&&Math.hypot(q.x-p.x,q.z-p.z)<=r; };
   /* 現在可以聽的那一列：{row,n} */
-  S.hearDue=function(GM){ const G=GM&&GM.G; if(!G||!GM.E||!GM.E.player||econ(G)) return null;
+  S.hearDue=function(GM){ const G=GM&&GM.G; if(!G||!GM.E||!GM.E.player) return null;
     for(const row of S.rows()){ if(row.zone!==G.zone||!row.hear) continue; if(S.heard(G,row.who)||!knows(row.who,G)) continue; const hf=S.hearFor(G,row); if(!hf) continue; const r=S.rowNow(G,row.who); if(r!==row) continue;
       const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(row.who):null; if(!n||n.leaving||!near(GM,n,S.HEAR_R)) continue; return {row,n,hear:hf.hear,once:hf.once}; }
     return null; };
@@ -169,18 +168,22 @@ const SHOPNPC=(function(){
   S.YU='yu';
   S.ny=G=>{ const F=F_(G); let r=F.NY_ALISON; if(!r||typeof r!=='object') r=F.NY_ALISON={first:null,terms:{},sis:{}}; if(!r.terms) r.terms={}; if(!r.sis) r.sis={}; return r; };
   S.popcorn=G=>!!G&&!!G.flags&&G.flags.NY_POPCORN===(G.day|0);
-  S.alisonDue=function(GM){ const G=GM&&GM.G; if(!G||G.zone!=='xs_nanyang'||econ(G)||!knows(S.YU,G)) return false; const T=termOf(G.day); if(!T) return false;
-    const r=(G.flags||{}).NY_ALISON; if(r&&r.terms&&r.terms[T.id]!=null) return false;
+  S.alisonDue=function(GM){ const G=GM&&GM.G; if(!G||G.zone!=='xs_nanyang'||!knows(S.YU,G)) return false; const T=termOf(G.day); if(!T) return false;
+    const r=(G.flags||{}).NY_ALISON; if(r&&r.terms&&r.terms[T.id]!=null&&!S.alisonCo(G)) return false;   /* 自己也在這裡打工以後那一句（AA_828）：這學期遇過了也說（一次）*/
     const e=typeof CHARACTERS!=='undefined'&&CHARACTERS.yu&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(CHARACTERS.yu,G):null; if(!e||e.zone!=='xs_nanyang') return false;
     const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(S.YU):null; return !!n&&!n.leaving&&near(GM,n,S.ALISON_R); };
   /* 這一次演哪一段：'first'｜'sis'｜第幾句（0～2）*/
-  S.alisonPick=function(G){ const r=(G.flags||{}).NY_ALISON, T=termOf(G.day); if(!r||r.first==null) return 'first';
+  /* AA_828 第 2 節（SHOP-JOBS-1112）：祐廷自己也在南洋戲院打工以後，她上班遇到他改說一句（一次；字和記錄在 JOBS.alisonCo／alisonCoDone）——取代送爆米花那一段（之後照「之後再遇到」那幾句）*/
+  S.alisonCo=G=>{ try{ return typeof JOBS!=='undefined'&&JOBS.alisonCo?JOBS.alisonCo(G):null; }catch(e){ return null; } };
+  S.alisonPick=function(G){ if(S.alisonCo(G)) return 'co'; const r=(G.flags||{}).NY_ALISON, T=termOf(G.day); if(!r||r.first==null) return 'first';
     const F=G.flags||{}; if(F.KNOWS_SIS_ALISON&&T&&!(r.sis&&r.sis[T.id]!=null)&&hash('nysis|'+G.day)%2===0) return 'sis';
     return hash('nyagain|'+G.day)%(D().alison.again||[1]).length; };
-  S.alisonLines=function(G,pick){ const A=D().alison||{}; if(pick==='first') return A.first.map(l=>Object.assign({},l)); if(pick==='sis') return [{speaker:S.YU,text:A.sis}]; const nr=A.againNarr&&A.againNarr[pick]; return (nr?[{speaker:null,text:nr}]:[]).concat([{speaker:S.YU,text:A.again[pick]}]); };
+  S.alisonLines=function(G,pick){ const A=D().alison||{}; if(pick==='co') return [{speaker:S.YU,text:S.alisonCo(G)}]; if(pick==='first') return A.first.map(l=>Object.assign({},l)); if(pick==='sis') return [{speaker:S.YU,text:A.sis}]; const nr=A.againNarr&&A.againNarr[pick]; return (nr?[{speaker:null,text:nr}]:[]).concat([{speaker:S.YU,text:A.again[pick]}]); };
   S.alison=async function(GM){ const G=GM.G, T=termOf(G.day), r=S.ny(G), pick=S.alisonPick(G);
+    const lines=S.alisonLines(G,pick);
     r.terms[T.id]=G.day|0; if(pick==='first') r.first=G.day|0; if(pick==='sis') r.sis[T.id]=G.day|0;
-    GM.sceneBegin({adv:{charId:S.YU,expression:'neutral'}}); try{ await EVENTS.runLines(S.alisonLines(G,pick),{id:'shopnpc_alison',participants:[S.YU]}); } finally { GM.sceneEnd(); }
+    if(pick==='co'){ if(r.first==null) r.first=G.day|0; JOBS.alisonCoDone(G); }   /* 爆米花不請了：第一次那一段不再演 */
+    GM.sceneBegin({adv:{charId:S.YU,expression:'neutral'}}); try{ await EVENTS.runLines(lines,{id:'shopnpc_alison',participants:[S.YU]}); } finally { GM.sceneEnd(); }
     if(pick==='first') F_(G).NY_POPCORN=G.day|0;
     if(GM.autosave) GM.autosave(); return true; };
 

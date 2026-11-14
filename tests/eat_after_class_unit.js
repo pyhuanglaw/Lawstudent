@@ -25,7 +25,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const advCalls=[]; ADV.begin=o=>{ advCalls.push(o); ADV.active=true; }; ADV.end=()=>{ ADV.active=false; };
 (async()=>{
   const day=STORY.termDay('Y1S1',4,2);
-  for(const [meal,img,price] of [['公館燒臘','noodle_table',100],['便利商店','cvs_table_day',75],['小松',null,90]]){
+  /* 2026-11-12（AA_853@f6aa917593 lawww_1112 燒臘第 4 點）：2D 下課吃飯「一盤叉燒飯加一顆滷蛋」改扣 105（叉燒飯 90＋加滷蛋 15）。舊期望：公館燒臘 100 */
+  for(const [meal,img,price] of [['公館燒臘','noodle_table',105],['便利商店','cvs_table_day',75],['小松',null,90]]){
     fresh(day,12,'classroom',{}); advCalls.length=0; const m0=G.money, h0=G.hour; picks=[meal];
     const r=await CLS.lunchBreak(GM,meal); const bg=advCalls[0]&&advCalls[0].background;
     check(meal+'：吃飯那一段開了 ADV（換到店裡，不是停在教室的 3D）',r===true&&advCalls.length===1,JSON.stringify(advCalls));

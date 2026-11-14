@@ -64,7 +64,7 @@ const W8='2025-10-20', W10='2025-11-03', W13='2025-11-24', W14='2025-12-01', Y1S
     check('0. 游泳週＝稿上地點寫「B1 游泳池」的週（大一上第 10～16 週；大一下、大二上都在球場）',J(swim)===J([10,11,12,13,14,15,16])&&J((CLS.PE_SWIM||{}).pe_y1s1)===J(swim)&&!others.length&&Object.keys(CLS.PE_SWIM||{}).length===1,J(swim));
     const m=/「(（今天在球場[^」]+）)」/.exec(doc); check('0. B1 沒開那一句和稿一樣',!!m&&CLS.PE_SWIM_CLOSED===m[1],m&&m[1]);
     const ex=/「阿哲跑在最前面」改成「(有人)跑在最前面」/.exec(doc); check('0. 朋友不在的版本照稿第 3 節的例子：名字換成「'+(ex?ex[1]:'?')+'」',!!ex);
-    check('0. 經濟系的名字（稿：阿勳、韋綸）',/名字改成經濟系的同學（阿勳、韋綸）/.test(doc)&&!!CLS.PE_Y0&&J(Object.values(CLS.PE_Y0.rename).sort())===J(['阿勳','韋綸'].sort()));
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 0 項 經濟系的名字（CLS.PE_Y0））
     check('0. 有修這堂的朋友（稿：阿哲、柏翰、明軒、Alison、芯慈、宥辰）',/阿哲、柏翰、明軒、Alison、芯慈、宥辰/.test(doc)&&J(CLS.PE_FRIENDS)===J(['zhe','classmate_bohan','classmate_mingxuan','yu','classmate_xinci','classmate_youchen']));
     const nm=CLS.PE_NAME||{}; check('0. 旁白裡出現的名字每一個都對到人物（阿哲、柏翰、明軒、Alison、芯慈）',Object.values(N).flat().every(t=>!/阿哲|柏翰|明軒|Alison|芯慈|宥辰/.test(t)||Object.keys(nm).some(k=>t.indexOf(k)>=0))&&Object.values(nm).every(id=>!!CHARACTERS[id])); }
   if(!CLS.peNarr||!CLS.pePlace){ done(); return; }
@@ -131,16 +131,7 @@ const W8='2025-10-20', W10='2025-11-03', W13='2025-11-24', W14='2025-12-01', Y1S
     check('3. 游泳週：朋友坐上池邊的長椅（離玩家最近的位子），長椅上的人數不變（6）',cs.length===3&&cs.every(n=>n.seat&&n.pose==='sit')&&role('pe_swim').filter(n=>n.seat).length===3,cs.map(n=>n.charId+(n.seat?'坐':'站')).join(' '));
     HERE.clear(); KNOW.clear(); }
 
-  /* ========== 4 經濟系 ========== */
-  { const G=mkG(Y0_W2,15.6), it=peIt(G); HERE.clear(); KNOW.clear();
-    check('4. 經濟系大一上第 2 週（2024-09-11 週三）有體育課（pe_y0s1）',!!it&&it.c.id==='pe_y0s1'&&it.week===2,it&&it.c.id+' w'+(it&&it.week));
-    const T=CLS.peTable(it.c), y1=CLS.PE_NARR.pe_y1s1; const exp=y1.slice(0,8).map(t=>t.split('阿哲').join('韋綸').split('柏翰').join('阿勳'));
-    check('4. 用大一上第 1～8 週的旁白、阿哲→韋綸、柏翰→阿勳；沒有法律系的朋友',!!T&&J(T.lines)===J(exp)&&T.lines.every(t=>!/阿哲|柏翰|明軒|Alison|芯慈/.test(t))&&J(T.friends)===J(['econ_weilun','econ_zhengxun']),T&&T.lines[1]+T.lines[5]);
-    const it4=Object.assign({},it,{week:4}); check('4. 韋綸不在場：「有人跑在最前面」；在、認識：「韋綸跑在最前面」（§5 第 4 週）',CLS.peNarr(G,it4)==='（折返跑。有人跑在最前面，回頭喊你們快一點。）'&&(HERE.add('econ_weilun'),KNOW.add('econ_weilun'),CLS.peNarr(G,it4)==='（折返跑。韋綸跑在最前面，回頭喊你們快一點。）'),CLS.peNarr(G,it4));
-    HERE.add('zhe'); KNOW.add('zhe'); check('4. 經濟系那一年站進半圈的只有經濟系的同學',J(CLS.peFriends(G,it))===J(['econ_weilun']));
-    check('4. 第 9 週以後稿上沒有：照舊用台詞池',CLS.peNarr(G,Object.assign({},it,{week:9}))===null);
-    check('4. 大一下（pe_y0s2）是休學期間：沒有旁白（課表照舊不排，CLS.enrolled）',CLS.peNarr(G,{c:COURSES.list.find(c=>c.id==='pe_y0s2'),week:2})===null&&!CLS.enrolled({flags:{Y0_LEFT:true}},COURSES.list.find(c=>c.id==='pe_y0s2')));
-    HERE.clear(); KNOW.clear(); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 4 項 經濟系那一年的體育課（pe_y0s1、pe_y0s2））
 
   /* ========== 5 實際上課 ========== */
   { HERE.add('zhe'); KNOW.add('zhe');

@@ -83,7 +83,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     G=pg('2029-02-22'); rules(); check('1. 過年爸爸在家（2029 他待到元宵 2/26；2/22 是學期中）：不發，也不發問句版',HOME.pgHome(G)&&!!CALENDAR.termOf(G.day)&&!homeGrp(G.day).length&&!tagged('home_ask_'+G.day).length);
     G=pg('2029-03-01'); setT('2029-02-27',20.05); rules(); check('1. 學期中住家裡、不是週四：只加入家人群組（同原本），不發',PHONE.inGroup(G,'home')&&!(G.msgs||[]).some(m=>m.th==='g:home'));
     G=jpG('2028-08-10',20.05,{flags:{JP_DEPARTED:D('2028-03-25'),JP_RETURNED:D('2028-08-05')}}); rules(); check('1. 日本路線回來以後住家裡（8/5～9/3，暑假）的週四：AA_466 第 5 節改成照發住家裡版（原本 AA_443 第 3 節不發；tests/aa466_jp_unit.js 1-b）、沒有問句版',JP.homeOn(G)&&homeGrp(G.day).length>0&&homeGrp(G.day).every(m=>m.tag==='home_live_'+G.day&&!m.ask)&&!tagged('home_ask_'+G.day).length);
-    G=lawG('2025-03-06',20.05,{home:true}); G.stage='econ'; G.flags.Y0_MOVED_OUT=true; rules(); check('1. 經濟系休學在家：照舊不發（那一年 STORY.mainDay 是負的，home3d.js 原本就整則不發；只換、不新增）',HOME.baseMode(G)&&!homeGrp(G.day).length);
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 1 節「經濟系休學在家：照舊不發」那一項）
+    
   });
 
   /* ======================= 2 日本路線出發前 ======================= */
@@ -108,7 +109,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     G=jpG('2028-03-04',22.05); rules(); rep=answer('jpp_0304',1); check('2-1 「不要動我的桌子。」→ 宜蓁「我只動書」',J(rep)===J(['sister:我只動書']));
     /* 3/5 */
     G=jpG('2028-03-05',20.05,{know:['yu','classmate_xinci']}); rules(); const g05=brs(cell(S21,'3/5')).filter(x=>SP[x.sp]).map(x=>SP[x.sp]+':'+x.text);
-    check('2-1 3/5（日）20:00 麵店團：Alison、芯慈、阿哲、以安（都認識）',J(pairs('jpp_0305'))===J(g05)&&g05.length===4,J(pairs('jpp_0305')));
+    check('2-1 3/5（日）20:00 桌遊團：Alison、芯慈、阿哲、以安（都認識）',J(pairs('jpp_0305'))===J(g05)&&g05.length===4,J(pairs('jpp_0305')));
     G=jpG('2028-03-05',20.05,{know:['yu']}); rules(); check('2-1 3/5 不認識芯慈：她那一句不出現（照 STORY.knows）',J(pairs('jpp_0305'))===J(g05.filter(p=>!/^classmate_xinci:/.test(p))));
     /* 3/8、3/10、3/12、3/14 */
     G=jpG('2028-03-08',14); st=await stop(); check('2-1 3/8（三）14:00 旁白一段：（簽證要的照片。…你就沒有笑。）',st&&st.k==='jpp_0308'&&J(said())===J(want('3/8')),J(said()));

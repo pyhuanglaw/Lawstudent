@@ -103,7 +103,7 @@ sec(2,()=>{ const bad=[], out=[]; let shown=0, tot=0;
     const d1=ds.find(d=>T(d).week===1); if(d1!=null&&at(d1,(r.from+r.to)/2)) off.push(r.id+' 第 1 週');
     if((r.terms||SHOPNPC.TERMS).includes('Y1S2')!==(r.id!=='xs_tongxian_zq')) off.push(r.id+' 大一下的學期設定');   /* 第二批：子晴同弦以外都延到大一下（第 7 節）*/
     { const dS2=daysOf(r,'Y1S2').find(d=>T(d).week>=2); if(r.id==='xs_tongxian_zq'&&dS2!=null&&at(dS2,(r.from+r.to)/2)) off.push(r.id+' 大一下'); }
-    { const G=fresh(dOk,(r.from+r.to)/2); G.stage='econ'; if(SHOPNPC.sched(c,G)) off.push(r.id+' 經濟系'); }
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 2 項裡「經濟系那一年不在」那一格）
     { const iso=PLACES.isOpen; PLACES.isOpen=(z,h,d)=>z===r.zone?false:iso.call(PLACES,z,h,d); try{ if(at(dOk,(r.from+r.to)/2)) off.push(r.id+' 店沒開'); } finally { PLACES.isOpen=iso; } } }
   check('2. 不在：時段前後、第 1 週、經濟系那一年、店沒開（颱風天、店休）；子晴同弦大一下不在（其他列大一下起照排，第 7 節）',!off.length,off.slice(0,6).join('｜'));
   { const r=row('xs_dakou_bh'); const de=daysOf(r).find(d=>CALENDAR.termOf(d).exam); const G=de!=null?fresh(de,22.5):null; check('2. 柏翰：考試那兩週不在大口漢堡',de!=null&&!SHOPNPC.calOk(G,r)&&!(STORY.schedEnt(CHARACTERS.classmate_bohan,G)||{}).shopNpc,de!=null?keyOf(de):'沒有考試週'); }
@@ -211,10 +211,11 @@ sec(7,()=>{ const s2=(DOC.split('## 第二批')[1]||''); const bad=[];
       res.push(tid+' '+inX+'/'+ex.length+(inN?' 平常週 '+inN:'')+(late?' 時段外 '+late:'')+(normalInExam?' 考試週22:10 '+normalInExam:'')); if(inN||late||normalInExam||!inX) bad.push(tid); }
     check('7. 柏翰大口：考試那兩週 02:30～05:00 在（AA_621 第 2 節），02:30 以前、05:00 以後、平常週不在這一列；考試那兩週 22:10 那一列不在（照舊）',res.every(x=>!/平常週|時段外|考試週22/.test(x))&&res.every(x=>!/ 0\//.test(x)),res.join('；')); }
   /* 可昕 */
-  { const r=row('bookstore_kx'), c=CHARACTERS.kexin; const sat=LATER.map(t=>daysOf(r,t).find(d=>CALENDAR.termOf(d).week%2===0&&SHOPNPC.on(fresh(d,14.5),r))); const d0=sat[0];
+  { const r=row('bookstore_kx'), c=CHARACTERS.kexin; const sat=LATER.filter(t=>t!=='Y4S2'/* （CANON-NO-ECON-1112 第四批：照 AA_895 第 4 節）大四下國考前她週一～六 9:00～21:30 在總圖，週六的書店撞到、照總圖 */).map(t=>daysOf(r,t).find(d=>CALENDAR.termOf(d).week%2===0&&SHOPNPC.on(fresh(d,14.5),r))); const d0=sat[0];
     const inS=(d,h,f,pre)=>{ const G=fresh(d,h,f); if(pre) pre(G); SHOPNPC._reset(); const e=STORY.schedEnt(c,G); return !!(e&&e.shopNpc==='bookstore_kx'&&e.zone==='bookstore'&&e.act==='linger'); };
     const odd=daysOf(r,'Y1S2').find(d=>CALENDAR.termOf(d).week%2===1&&CALENDAR.termOf(d).week>1), y1=daysOf(r,'Y1S1').filter(d=>CALENDAR.termOf(d).week%2===0);
-    const o={every:sat.every(d=>d!=null),in:inS(d0,14.5),before:inS(d0,13.9),after:inS(d0,15.6),odd:inS(odd,14.5),y1:y1.some(d=>inS(d,14.5)),econ:(()=>{ const G=fresh(d0,14.5); G.stage='econ'; return !!SHOPNPC.sched(c,G); })(),
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 7 項可昕頁間書屋「經濟系那一年不在」那一格）
+    const o={every:sat.every(d=>d!=null),in:inS(d0,14.5),before:inS(d0,13.9),after:inS(d0,15.6),odd:inS(odd,14.5),y1:y1.some(d=>inS(d,14.5)),
       dating:inS(d0,14.5,{dating_kexin:true}),ex:inS(d0,14.5,{dating_kexin:false,EX_kexin:true}),
       inv:inS(d0,14.5,null,G=>{ G.invites=[{id:'iv1',who:'kexin',day:d0,h:19,place:'cafe',state:'accepted'}]; }),
       invOther:inS(d0,14.5,null,G=>{ G.invites=[{id:'iv1',who:'heroine_01',day:d0,h:19,place:'cafe',state:'accepted'}]; }),
@@ -223,7 +224,7 @@ sec(7,()=>{ const s2=(DOC.split('## 第二批')[1]||''); const bad=[];
       tripYday:inS(d0,14.5,null,G=>{ G.trips=[{trip:1,who:'kexin',day:d0-1,depart:9,back:20,kind:'day',status:'done'}]; }),
       outing:inS(d0,14.5,null,G=>{ G.outings=[{id:'hv_kexin_'+d0,ev:'ev_hv_kx',day:d0,h:18,state:'planned'}]; }),
       pres:(()=>{ const ds=[]; for(const t of LATER) for(const d of daysOf(r,t)) if(SHOPNPC.calOk(fresh(d,14.5),r)&&STORY.presence('kexin',fresh(d,14.5)).here===false) ds.push(d); return ds.length?ds.every(d=>!inS(d,14.5)):'none'; })()};
-    check('7. 可昕頁間書屋：大一下～大四下雙數週週六 14:00～15:30 在法律書那一櫃前面（站著）；時段外、單數週、大一上、經濟系那一年不在',o.every&&o.in&&!o.before&&!o.after&&!o.odd&&!o.y1&&!o.econ,J(o));
+    check('7. 可昕頁間書屋：大一下～大四下雙數週週六 14:00～15:30 在法律書那一櫃前面（站著）；時段外、單數週、大一上、經濟系那一年不在',o.every&&o.in&&!o.before&&!o.after&&!o.odd&&!o.y1,J(o));
     { const D4=git('15eb48dfa','AA_705_新店面裡遇得到的人_第一批作息.md')||''; const okDoc=/\*\*改\*\*：交往中也會在頁間遇到，只有那一天跟你有約才不出。/.test(D4);
       const datInv=inS(d0,14.5,{dating_kexin:true},G=>{ G.invites=[{id:'iv1',who:'kexin',day:d0,h:19,place:'cafe',state:'accepted'}]; });
       check('7. 可昕（AA_705 補 4f71f7719）：和她交往中（dating_kexin）也照排（SHOPNPC.KX_DATING_OFF=false）；交往中那一天跟你有約＝不出；分開以後（EX_kexin）照排',okDoc&&SHOPNPC.KX_DATING_OFF===false&&o.dating&&!datInv&&o.ex,J({okDoc,datInv,o})); }

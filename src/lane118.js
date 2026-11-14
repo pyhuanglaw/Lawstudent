@@ -4,7 +4,7 @@
      那間店門口有常客（見過面的）＝一起吃：招呼換資料裡的 groupGreet（src/data/lane118_shops.js，現在是「幾位？……那邊那張可以坐。」）、吃完換那個人的一句（照 AA_280 第 3 節）。扣錢；吃飯約 40 分鐘、飲料 5 分鐘。
    - 常客：平日中午照 AA_280 第 3 節站在他那間店門口（寒暑假、第 16 週不出現；人在國外、老家、消失期照 STORY.presence）。
    - 阿哲週一 12:00 揪人（AA_280 第 4 節）：第一次 Y1S1 第 2 週；之後每學期第 2～15 週每週一，店照 noodle2 → dian → korea → self 輪（AA_480 第 4 節：AA_280 的 home 那一週改好家，S.LUNCH_FIX；AA_311 H4 選過的那一間排第一：S.rotation）；
-     「走。」＝12:15 在那間店門口（出遊 goto，阿哲、Alison 在那裡等）；「今天不行。」＝阿哲「好喔 下次」。不在麵店團群組、和阿哲 FAMILIAR 以上＝私訊（只有阿哲的句子）。
+     「走。」＝12:15 在那間店門口（出遊 goto，阿哲、Alison 在那裡等）；「今天不行。」＝阿哲「好喔 下次」。不在桌遊團群組、和阿哲 FAMILIAR 以上＝私訊（只有阿哲的句子）。
    - AA_311（118 巷每間店的故事，企劃線 580ed6302；第 5 節的改法優先：改名 Alison（使用者 10-21）、以安不說「理由：」、大四下考試週第 15 週、沛珊交往中照演）：
      H1 一一八茶飲 × 學姊（S.h1Due／S.playH1，記 SIS_TEA_ORDER）；第 2 節熟客三段招呼＋考試週（S.stage，一個人來）；第 1 節店員的稱呼（S.STAFF）；
      H2～H9（S.H2…S.H9：和人一起來的招呼 S.withScene＝H3／H5／H7／H9，吃完的 H4／H6／H7，店員多說的 H2／H8；H4 記 ZHE_118_RANK，阿哲揪午餐的輪流照它排）。H2b 作廢（AA_334 第 2 節），不做。
@@ -35,7 +35,7 @@ const L118=(function(){
   /* 店門口（人行道上，和 zones3d.js 的互動點同一個位置）；side W 的店門朝東（+x） */
   S.door=function(id){ const L=LAY(), s=L&&L.shops.find(q=>q.id===id); if(!s) return null; return {x:s.side==='W'?L.facade.west+0.9:L.facade.east-0.9, z:(s.z0+s.z1)/2, side:s.side, yaw:s.side==='W'?Math.PI/2:-Math.PI/2}; };
   const wdOf=G=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:G.weekday%7;
-  S.isOpen=function(id,G){ const s=S.shop(id); if(!s) return false; if(typeof SIDEQ!=='undefined'&&SIDEQ.closedNote&&SIDEQ.closedNote(G,id)) return false;   /* 六張犁麵舖老闆開刀公休（AA_397 SQ05）*/ const h=G.hour%24; if(s.hours.closed.includes(wdOf(G))) return false; return s.hours.open.some(([a,b])=>h>=a&&h<b); };
+  S.isOpen=function(id,G){ const s=S.shop(id); if(!s) return false; if(typeof PLACES!=='undefined'&&PLACES.typhoonClosed&&PLACES.typhoonClosed('l118_'+id,G.day)) return false;   /* 颱風假不開（店面標準 §12 第 5 點；PLACES.typhoonShops）*/ if(typeof SIDEQ!=='undefined'&&SIDEQ.closedNote&&SIDEQ.closedNote(G,id)) return false;   /* 六張犁麵舖老闆開刀公休（AA_397 SQ05）*/ const h=G.hour%24; if(s.hours.closed.includes(wdOf(G))) return false; return s.hours.open.some(([a,b])=>h>=a&&h<b); };
   /* 這學期第幾週（寒暑假＝null）*/
   const termNow=G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return T&&T.week>=1?T:null; };
   S.regActive=function(r,G){ if(!G||(G.stage||'law')!=='law') return false; const T=termNow(G); if(!T||T.week>15) return false;
@@ -215,10 +215,12 @@ const L118=(function(){
         if(st.usual!=null){ const [un,up]=s.menu[st.usual]; if(await GM.choose([{t:S.USUAL_OPTS[0],hint:un,dim:(G.money|0)<up},{t:S.USUAL_OPTS[1]}])===0){ k=st.usual; if(typeof EAT!=='undefined'&&EAT.atNow) EAT.atNow(G,s.name); } } }   /* 「好」＝直接點上次那一樣（不出選單；點餐那一刻照樣記給「一起吃」用）*/
       else await GM.say(clerk,s.greet.text);
       const names=s.menu.map(m=>m[0]), prices=s.menu.map(m=>m[1]), opts=s.menu.map(([n,p])=>({t:n+'　'+p+' 元',dim:(G.money|0)<p})).concat([{t:'不用了'}]);
+      const gO=s.drink&&typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,s.name):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-L118-DRINK-1112，src/gift3d.js）：放在「不用了」後面，原本的選項位置不動 */
       /* 選單的「老樣子」（src/eat3d.js，AA_329 第 3 節）：118 巷九間照 AA_480 第 2 節合併——不說 AA_329 第 5 次那一句（第 3 次起已經認得你）；
          第 5 次起照樣有「老樣子」、選了店員回 AA_329 最右欄那句（說話的人照 S.STAFF）；店員這一次已經主動問過（第 8 次起的「老樣子」那句）＝選單不另外出 */
       const asked=!!(st&&st.usual!=null);
       if(k<0) k=typeof EAT!=='undefined'?await EAT.choose(GM,s.name,opts,names,prices,{who:clerk.name,line5:false,usual:!asked}):await GM.choose(opts);
+      if(gO&&k===s.menu.length+1){ await GIFT.buy(GM,s.name); return true; }
       if(k>=s.menu.length) return true; const [item,price]=s.menu[k];
       if((G.money|0)<price){ GM.toast('錢不夠'); return true; }
       GM.money(-price,'餐費'); await GM.say(null,Dd.orderLine.replace('{品名}',item)); S.visit(G,shopId,item);   /* 熟客的次數、上次點的（AA_311 第 2 節）*/

@@ -3,7 +3,7 @@
 //   以安：寒暑假 talkAn 的備用句、日語課 C03 要認識她、C05 日本五天同一天兩則、an_admin（另見 aa374_y2s1_unit）、貓空 D09 大四下、career_goal、告白白板 {name}；
 //   語彤：總圖門口（旁白、點頭就走不算認識）、雨天最後一句、ev_yutong_thanks 的選項、雙主修筆試 6/18 18:00＋期末飯、邀約選單、大三跨年 00:01 的電話。
 //   聖誕交換 12/17、大二頂樓「還在捷運上」的條件見 v3_d12_unit。
-// AA_313 第 5 節（麵店團，AA313-S5-1020）：兩版的字不一樣照逐場表（AA_389 第 6 點），「小語」寫 Alison。
+// AA_313 第 5 節（桌遊團，AA313-S5-1020）：兩版的字不一樣照逐場表（AA_389 第 6 點），「小語」寫 Alison。
 //   阿哲叫「哥」照 ZHE_CALLS_GE（大二初一、迎新）、迎新還不認識的說話人；大一的晚餐、練球、宵夜只在大一（練球每學期一次、宵夜「來了。」補旁白）；
 //   語 3 改 Alison 打來的電話；聖誕「阿哲先到」、抽到阿哲的保溫杯；升階的問句接回答、阿哲 FAMILIAR 分學期；312 颱風夜的室友；zhe_notes、xc_contract 的週次；
 //   阿哲、Alison 舊的閒聊句照學期；柏翰值班分大二、大三起，大二第一次值班開場一句；柏翰聽到分開以後第一次說話；大三跨年以安、芯慈要認識；芯慈松菸的旁白；
@@ -77,8 +77,8 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const X=ev('ev_library_door_phone'), go=async k=>{ fresh(10,18,'campus',{}); said=[]; picks=[k]; await EVENTS.run(X); return lines(); };
     let L=await go(2);
     check('4-4. 語彤總圖門口：「你看了一下手機，告訴她時間。」是旁白（不是祐廷說）',L.includes('你看了一下手機，告訴她時間。')&&!L.some(t=>/^祐廷：/.test(t)),J(L));
-    check('4-4. 選「（點個頭就走）」：直接結束、沒有自我介紹、不記 FIRST_MET（之後還能在別的地方第一次認識她）',!L.some(t=>/陳語彤。……你是法律系的吧/.test(t))&&!SOCIAL.has('heroine_03','FIRST_MET'),J(L));
-    L=await go(0); check('4-4. 選「要不要先進去等？」：她自我介紹、記 FIRST_MET',L.some(t=>/陳語彤。……你是法律系的吧。你們系的人走路都很快。/.test(t))&&SOCIAL.has('heroine_03','FIRST_MET'),J(L)); }
+    check('4-4. 選「（點個頭就走）」：直接結束、沒有自我介紹、不記 FIRST_MET（之後還能在別的地方第一次認識她）',!L.some(t=>/陳語彤。你是法律系的吧/.test(t))&&!SOCIAL.has('heroine_03','FIRST_MET'),J(L));
+    L=await go(0); check('4-4. 選「要不要先進去等？」：她自我介紹、記 FIRST_MET',L.some(t=>/陳語彤。你是法律系的吧。你們系的人走路都很快。/.test(t))&&SOCIAL.has('heroine_03','FIRST_MET'),J(L)); }
   check('4-4. 雨天總圖門口：最後一行旁白「（她會記得今天。）」刪掉',!evTexts('ev_rain_library_door').includes('（她會記得今天。）'));
   check('4-4. ev_yutong_thanks 的選項「妳可以講。講完就算了。」（不是「我不會跟別人說」）',choiceTexts('ev_yutong_thanks').includes('「妳可以講。講完就算了。」')&&!choiceTexts('ev_yutong_thanks').some(t=>/我不會跟別人說/.test(t)),J(choiceTexts('ev_yutong_thanks')));
   // 雙主修筆試（4-4）：va11_exam_yt 改 6/18 18:00；收過的人期末飯她只說成績單那句
@@ -94,12 +94,12 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     said=[]; await EVENTS.run(ev('ev_yt_nye_call_y3')); const L=lines();
     check('4-1 第 13 點. 電話照稿：「（電話。她那邊很安靜。）」「……新年快樂。」「茶屋今天提早收。蘇姨說跨年沒有人喝茶。」「你那邊好吵。……好，你去看。我掛了。」',J(L)===J(['（電話。她那邊很安靜。）','陳語彤：……新年快樂。','陳語彤：茶屋今天提早收。蘇姨說跨年沒有人喝茶。','陳語彤：你那邊好吵。……好，你去看。我掛了。'])&&G.flags.YT_NYE_CALL_Y3===true,J(L));
     fresh(nye,22.8,'dorm',{}); R('heroine_03','FAM'); run(22.8,23.2); check('4-1 第 13 點. 沒交往：不打電話（照舊 00:07 私訊）',!OUT.get(G,'yt_nye_call_y3')); }
-  // ===================== 第 5 節：麵店團 =====================
+  // ===================== 第 5 節：桌遊團 =====================
   const K0=STORY.knows, onlyKnow=ids=>{ STORY.knows=id=>ids.includes(id); }, knowReset=()=>{ STORY.knows=K0; };
   { const gt=(ev('ev_y2_club_expo').dialogue||[]).find(l=>l&&l.speaker==='yu');
     check('5-4. 社團博覽會吉他社 Alison：「欸{name}你負責發傳單！對了你會彈哪首？……三個和弦也行啦。」（不寫死「祐廷」、沒有「……好啦我知道」）',!!gt&&gt.text==='欸{name}你負責發傳單！對了你會彈哪首？……三個和弦也行啦。',gt&&gt.text); }
   // 大二初一：阿哲的「哥」照 ZHE_CALLS_GE（5-1 第 2 點）
-  { const ny=D('2027-02-06'), NG='g:noodle_team', cny=(flags,k)=>{ fresh(ny,10.9,'home',flags); R('heroine_01','FAM'); R('yu','FAM'); PHONE.join(G,'noodle_team','麵店團'); run(10.9,11.2); PHONE.answer(G,'cny_noodle_y2_reply',k); return txt(NG).filter(t=>/太多菜|懂我/.test(t)); };
+  { const ny=D('2027-02-06'), NG='g:noodle_team', cny=(flags,k)=>{ fresh(ny,10.9,'home',flags); R('heroine_01','FAM'); R('yu','FAM'); PHONE.join(G,'noodle_team','桌遊團'); run(10.9,11.2); PHONE.answer(G,'cny_noodle_y2_reply',k); return txt(NG).filter(t=>/太多菜|懂我/.test(t)); };
     check('5-1 第 2 點. 大二初一：有 ZHE_CALLS_GE「哥，你家也太多菜！」「哥懂我」；沒有的「你家也太多菜！」「懂我」',J(cny({ZHE_CALLS_GE:true},0))===J(['哥，你家也太多菜！'])&&J(cny({ZHE_CALLS_GE:true},1))===J(['哥懂我'])&&J(cny({},0))===J(['你家也太多菜！'])&&J(cny({},1))===J(['懂我']),J([cny({ZHE_CALLS_GE:true},0),cny({},1)])); }
   // 大一的晚餐、練球、宵夜（5-1 第 3 點、5-3）
   { const zd=ev('ev_zhe_dinner'), zb=ev('ev_zhe_ball'), ms=ev('ev_midnight_snack');
@@ -110,10 +110,10 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     fresh(STORY.termDay('Y1S1',7,2),22.5,'dorm'); said=[]; picks=[0]; await EVENTS.run(ms); const La=lines(); fresh(STORY.termDay('Y1S1',7,2),22.5,'dorm'); said=[]; picks=[1]; await EVENTS.run(ms); const Lb=lines();
     check('5-1 第 3 點. 宵夜選「來了。」補一句旁白「（你們在夜市口站著吃完鹹酥雞，十二點才回宿舍。）」；選「下次」沒有',La.includes('（你們在夜市口站著吃完鹹酥雞，十二點才回宿舍。）')&&!Lb.includes('（你們在夜市口站著吃完鹹酥雞，十二點才回宿舍。）'),J([La,Lb])); }
   // 語 3（5-1 第 4 點）：排了電話又去了麵店＝不打；沒接＝阿哲的照片
-  { const d19=D('2026-12-19'); fresh(d19,21.4,'dorm',{met_yu:true}); PHONE.join(G,'noodle_team','麵店團'); run(21.4,21.6); const q=OUT.get(G,'y2_yu_call'); G.events.done.ev_yu_together=1; run(21.65,21.7);
+  { const d19=D('2026-12-19'); fresh(d19,21.4,'dorm',{met_yu:true}); PHONE.join(G,'noodle_team','桌遊團'); run(21.4,21.6); const q=OUT.get(G,'y2_yu_call'); G.events.done.ev_yu_together=1; run(21.65,21.7);
     check('5-1 第 4 點. 語 3 的電話排好以後又在麵店聽她當面講了：電話取消',!!q&&q.state==='cancelled',J(q));
-    fresh(d19,21.4,'dorm',{met_yu:true}); PHONE.join(G,'noodle_team','麵店團'); run(21.4,21.6); const q2=OUT.get(G,'y2_yu_call'); if(q2){ q2.state='missed'; OUT.onMissed(GM,q2); } G.hour=22.3; PHONE.tick(G);
-    check('5-1 第 4 點. 電話沒接：麵店團群組阿哲的照片（YU_ZHE_TOLD＝photo；之後聖誕禮物那則照常）',txt('g:noodle_team').includes('📷（燒臘店的長桌。Alison 比了一個 YA。）')&&G.flags.YU_ZHE_TOLD==='photo'&&!txt('p:yu').length,J([txt('g:noodle_team'),G.flags.YU_ZHE_TOLD])); }
+    fresh(d19,21.4,'dorm',{met_yu:true}); PHONE.join(G,'noodle_team','桌遊團'); run(21.4,21.6); const q2=OUT.get(G,'y2_yu_call'); if(q2){ q2.state='missed'; OUT.onMissed(GM,q2); } G.hour=22.3; PHONE.tick(G);
+    check('5-1 第 4 點. 電話沒接：桌遊團群組阿哲的照片（YU_ZHE_TOLD＝photo；之後聖誕禮物那則照常）',txt('g:noodle_team').includes('📷（燒臘店的長桌。Alison 比了一個 YA。）')&&G.flags.YU_ZHE_TOLD==='photo'&&!txt('p:yu').length,J([txt('g:noodle_team'),G.flags.YU_ZHE_TOLD])); }
   // 聖誕交換（5-3；12/17 他們還沒在一起）
   { const X=ev('ev_y2_xmas'); fresh(D('2026-12-17'),12.4,'campus'); onlyKnow(['zhe','yu']); G.flags.Y2_XMAS_FROM=null; said=[]; try{ await EVENTS.run(X); } finally { knowReset(); } const L=lines();
     check('5-3. 聖誕交換：「（阿哲先到。五分鐘後 Alison 也到了。）」；抽到阿哲的「你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。」',L.includes('（阿哲先到。五分鐘後 Alison 也到了。）')&&!L.includes('（阿哲和 Alison 一起來。）')&&L.includes('你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。'),J(L)); }
@@ -131,7 +131,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-6. xc_contract 和 Alison 的 yu_overtime 不同學期：xc_contract 搬到大二下第 8～10 週（大二上第 11 週不發）',!x1.includes('xc_contract')&&xs.term==='Y2S2'&&J(xs.w)===J([8,10])&&yo.term==='Y2S1',J([x1,xs.term,xs.w])); }
   // 阿哲、Alison 舊的閒聊三句（5-3、5-4）
   if(!STORY._talkOld) check('5-3、5-4. 阿哲、Alison 舊的閒聊三句（STORY._talkOld）',false); else { const say=async(who,key,seed,flags)=>{ fresh(D(key),15,'campus',Object.assign({met_yu:true,companion:'x'},flags||{})); R(who,'FAM'); if(SOCIAL.markUp) SOCIAL.markUp(who,SOCIAL.friendLevel(who)); const n={id:who,charId:who,name:who,obj:{position:{x:1,y:0,z:1}},seat:null,lv:0}; const r0=Math.random; Math.random=()=>seed; said=[]; try{ await STORY._talkOld[who](GM,n); } finally { Math.random=r0; } return said.map(s=>s.t); };
-    const NDL={noodleTableDay:STORY.termDay('Y1S1',4,4)};   /* 已經在麵店團（做過哲 1）：沒有的話＝錯過長桌，找阿哲說話先演麵店團的補救（AA_496 第 9 節第 3 點，ev_zhe_group_late_talk），這裡要看的是平常的閒聊 */
+    const NDL={noodleTableDay:STORY.termDay('Y1S1',4,4)};   /* 已經在桌遊團（做過哲 1）：沒有的話＝錯過長桌，找阿哲說話先演桌遊團的補救（AA_496 第 9 節第 3 點，ev_zhe_group_late_talk），這裡要看的是平常的閒聊 */
     const z2=await say('zhe','2027-04-14',0.01,NDL), z3=await say('zhe','2027-10-13',0.01,NDL);
     check('5-3. 阿哲的閒聊：系籃那句到大二下為止；大三起「這季我是隊長。週五你來記分。」',z2.includes('系籃週五練球，要來就來，不會打也可以來坐。')&&z3.includes('這季我是隊長。週五你來記分。')&&!z3.some(t=>/系籃週五練球/.test(t)),J([z2,z3]));
     const y21=await say('yu','2026-10-14',0.4), y22=await say('yu','2027-03-17',0.4);
@@ -142,16 +142,15 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   // 迎新（5-3、5-4）：說了「哥」記 ZHE_CALLS_GE；還不認識阿哲、Alison 的說話人
   { const W=ev('ev_welcome_y1s1'), go=async(k,known)=>{ fresh(D('2025-08-31'),9,'campus',{}); onlyKnow(known); said=[]; picks=[k,0]; try{ await EVENTS.run(W); } finally { knowReset(); } return lines(); };
     let L=await go(1,[]); const g1=!!G.flags.ZHE_CALLS_GE;
-    check('5-3. 迎新選「我比大家大一歲。」：記 ZHE_CALLS_GE；還不認識阿哲＝「旁邊一個男生：那我們叫你哥？」',g1&&L.includes('旁邊一個男生：那我們叫你哥？')&&!L.some(t=>/^阿哲：/.test(t)),J(L));
-    L=await go(2,[]); const g2=!!G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED==='full';
-    check('5-3、5-4. 迎新選「念過經濟系」：記 ZHE_CALLS_GE、ECON_PAST_SHARED；不認識的「旁邊一個男生：哥！」「前面一個女生：欸，為什麼重考？」',g2&&L.includes('旁邊一個男生：哥！')&&L.includes('前面一個女生：欸，為什麼重考？')&&!L.some(t=>/^(阿哲|Alison)：/.test(t)),J(L));
-    L=await go(2,['zhe','yu']); check('5-3、5-4. 都認識：照舊是阿哲、Alison',L.includes('阿哲：哥！')&&L.includes('Alison：欸，為什麼重考？'),J(L)); }
+    check('5-3. 迎新選「我叫{name}。從小就想念這裡。」：不設旗標；沒有「哥」＝「旁邊一個男生：（小聲）好認真。」',!g1&&L.includes('旁邊一個男生：（小聲）好認真。')&&!L.some(t=>/^阿哲：/.test(t)),J(L));   /* （CANON-NO-ECON-1112 第四批：照 AA_883 換字） */
+    /* CANON-1112：舊序章拿掉／可昕開局不認識（AA_859「一起拿掉的」）：迎新第三個選項和它後面那一支（「哥！」、補問那一句）拿掉了——原本兩項（不認識的說話人、都認識的說話人）改成確認選單只剩兩個 */
+    { const ch=(W.dialogue.find(l=>l.choice)||{choice:[]}).choice; check('5-3、5-4. 迎新自我介紹三個選項照 AA_883、沒有 older／econ／why_h 那幾支',J(ch.map(c=>c.text))===J(['「我叫{name}，臺北人。」','「我叫{name}。從小就想念這裡。」','「我叫{name}。……就這樣。」'])&&!W.dialogue.some(l=>['older','econ','why_h'].includes(l.label)),J(ch.map(c=>c.text))); } }   /* （CANON-NO-ECON-1112 第四批：照 AA_883 換字） */
   // 柏翰（5-1 第 13 點、5-5）：值班分大二、大三起；大二第一次值班的開場；聽到分開以後第一次說話
   { const MEM={lawclub:true,CLUB_lawclub_study:true}, shift=async(term,w,flags)=>{ fresh(STORY.termDay(term,w,6),9,'wancai',Object.assign({},MEM,flags||{})); G.stage='law'; R('classmate_bohan','FAM'); R('heroine_05','FAM'); picks=['從頭講','先走']; said=[]; await STORY.fafuShift(GM); return lines().filter(t=>/柏翰：/.test(t)); };
     const a=await shift('Y2S1',11), b=await shift('Y2S1',13,{FAFU_BH_HELLO:1}), c=await shift('Y3S1',3,{FAFU_BH_HELLO:1});   /* D118-B5b（2026-11-04）：大二上第 7 週六 10/24 是 AA_604 法服固定場次第 1 場（坐圓桌＝那一場），一般值班改用第 11、13 週 */
     check('5-5. 大二第一次值班（他當社長以後）：柏翰開場「這學期起我排班。有事找我。」，那一次不再說班表那句',a.length===1&&a[0].endsWith('：這學期起我排班。有事找我。'),J(a));
     check('5-1 第 13 點. 之後的大二值班：照舊班表那兩句；大三起「我交接了。現在只排我自己的班。」「學弟排錯一格。我沒說。」（不說「我以為社長只要排班」）',b.length===1&&STORY.FAFU_BH.some(t=>b[0].endsWith('：'+t))&&c.length===1&&(STORY.FAFU_BH_Y3||[]).some(t=>c[0].endsWith('：'+t))&&!c.some(t=>/社長只要排班/.test(t)),J([b,c]));
-    const f6=STORY.termDay('Y2S1',6,5); fresh(f6,20.9,'dorm',{}); PHONE.join(G,'noodle_team','麵店團'); R('classmate_bohan','FRI'); R('classmate_peishan','FAM'); run(20.9,21.1); const sent=PHONE.sent(G,'ps_split_group');
+    const f6=STORY.termDay('Y2S1',6,5); fresh(f6,20.9,'dorm',{}); PHONE.join(G,'noodle_team','桌遊團'); R('classmate_bohan','FRI'); R('classmate_peishan','FAM'); run(20.9,21.1); const sent=PHONE.sent(G,'ps_split_group');
     G.day=f6+1; G.weekday=wdOf(G.day); G.hour=15; G.zone='campus'; if(SOCIAL.markUp) SOCIAL.markUp('classmate_bohan',SOCIAL.friendLevel('classmate_bohan')); const n={id:'classmate_bohan',name:'柏翰',obj:{position:{x:1,y:0,z:1}},seat:null,lv:0};
     said=[]; picks=[]; await STORY.talkCharacter('classmate_bohan',n); const t1=said.map(s=>s.t); said=[]; await STORY.talkCharacter('classmate_bohan',n); const t2=said.map(s=>s.t);
     check('5-5. 沛珊在群組說分開、沒當面聽過：下一次和柏翰說話他先說「沛珊在群組說了。」「……嗯。這週我想多念一點。」，只一次',sent&&t1[0]==='「沛珊在群組說了。」'&&t1[1]==='「……嗯。這週我想多念一點。」'&&!t2.some(t=>/沛珊在群組說了/.test(t)),J([sent,t1,t2])); }

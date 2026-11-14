@@ -1,5 +1,5 @@
 // 大二過年（V3-D13；AA_143 2-1 新的字，AA-B 9035ede0）——不需要瀏覽器。
-// 檢查：初一 2027-02-06 11:00 麵店團群組：阿哲三則、以安三則、Alison 兩則、阿哲、Alison；三個回覆；不在麵店團沒有；大一的原句不重用；大一的拜年照舊只在大一。用法：node tests/v3_d13_unit.js
+// 檢查：初一 2027-02-06 11:00 桌遊團群組：阿哲三則、以安三則、Alison 兩則、阿哲、Alison；三個回覆；不在桌遊團沒有；大一的原句不重用；大一的拜年照舊只在大一。用法：node tests/v3_d13_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -35,7 +35,7 @@ GM.money=function(n){ G.money+=n; };
 
 (async()=>{
   const NG='g:noodle_team', ny=D('2027-02-06');
-  const setup=(day,h)=>{ fresh(day,h,'home'); meet('heroine_01'); meet('yu'); PHONE.join(G,'noodle_team','麵店團'); };
+  const setup=(day,h)=>{ fresh(day,h,'home'); meet('heroine_01'); meet('yu'); PHONE.join(G,'noodle_team','桌遊團'); };
   setup(ny,10.5); run(10.5,10.95);
   check('1. 初一 10:57 還沒有',!PHONE.sent(G,'cny_noodle_y2'));
   run(11,11.2); const t=txt(NG);
@@ -51,7 +51,7 @@ GM.money=function(n){ G.money+=n; };
   setup(ny,10.9); run(10.9,11.2); PHONE.answer(G,'cny_noodle_y2_reply',2);
   check('2. 貼圖 → 阿哲回一樣的貼圖',txt(NG).slice(-2).join('｜')==='player:（貼圖：新年快樂）｜zhe:（貼圖：新年快樂）');
   fresh(ny,10.9,'home'); run(10.9,11.5);
-  check('3. 不在麵店團：沒有',!PHONE.sent(G,'cny_noodle_y2'));
+  check('3. 不在桌遊團：沒有',!PHONE.sent(G,'cny_noodle_y2'));
   setup(ny+2,10); run(10,10.2);
   check('3. 初三才讀檔：補在初一 11:00',PHONE.sent(G,'cny_noodle_y2'));
   setup(ny,10.9); run(10.9,11.5);

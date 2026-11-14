@@ -2,7 +2,7 @@
 // 使用者 11-07「肌肉線條更明顯」：平常的長袖毛衣只看得到輪廓；B1 健身中心、體育課換短袖運動服，露出手臂、小腿，體態 fit 形狀看得到。
 // 模型：vroid_yuting.vrm 的 GYM_TOP、GYM_SHORTS（tools/gym_wear.py，從身體皮膚切出來、往外推、平滑；同一副骨架；一樣有 fit morph）。
 // 檢查（第二版 11-07：CC 遊戲內截圖的領口灰色、衣襬黑點、深色襪子加 ⑥⑦）：① VRM 有兩塊運動服、和身體同一副骨架、有 fit、材質是 _CLOTH；manifest 先藏
-//       ② CHAR.setGymWear：穿上＝運動服顯示、毛衣褲子藏、系外套藏（就算 u.jacket）、後背包拿下；脫下＝照原樣；穿著時 setJacket(true) 外套也不出來；CHAR.upgrade 帶過去
+//       ② CHAR.setGymWear：穿上＝運動服顯示、毛衣褲子藏、舊的外套網格一直藏著、後背包拿下；脫下＝照原樣；CHAR.upgrade 帶過去
 //       ③ fit 形狀：運動服跟著身體一起撐（u.fitBody＝1 時 morph 開）
 //       ④ 不穿模：站、跑、坐 × 體態普通、經常鍛鍊——上臂、軀幹、大腿的皮膚跑到運動服外面的頂點 ≤ 1%（和同一根骨頭、同一段、同一個角度的衣服比離軸距離）
 //       ⑤ 什麼時候穿：FIT.gymWearOn——B1（gym_b1）、上體育課（CLS.peWear）穿，其他地方不穿；FIT.sync 照這個換；體育課 attend 設 CLS.peWear、下課清掉
@@ -30,19 +30,17 @@ const glb=f=>{ const b=fs.readFileSync(path.join(ROOT,f)), jl=b.readUInt32LE(12)
   if(u.driver!=='vrm'){ check('（前提）祐廷的 VRM 載得到',false,u.driver); console.log('FAILED '+fails); process.exit(1); }
   const meshes=(re)=>{ const a=[]; h.traverse(o=>{ if(!o.isMesh) return; const mn=((Array.isArray(o.material)?o.material[0]:o.material)||{}).name||''; if(re.test(o.name)||re.test(mn)) a.push(o); }); return a; };
   const vis=o=>{ for(let p=o;p;p=p.parent) if(p.visible===false) return false; return true; };
-  const G=meshes(/^GYM_(TOP|SHORTS)$/), TB=meshes(/_(Tops|Bottoms)_\d+_CLOTH/).filter(o=>o.parent&&o.parent.name==='Body'), SK=meshes(/Body_00_SKIN|Shoes_01/), JK=meshes(/^JACKET_ECON$/), bp=u.props&&u.props.backpack;
+  const G=meshes(/^GYM_(TOP|SHORTS)$/), TB=meshes(/_(Tops|Bottoms)_\d+_CLOTH/).filter(o=>o.parent&&o.parent.name==='Body'), SK=meshes(/Body_00_SKIN|Shoes_01/), bp=u.props&&u.props.backpack;
   check('② 剛建好：運動服藏著、毛衣褲子在',G.length===2&&G.every(o=>!vis(o))&&TB.length===2&&TB.every(vis),'運動服 '+G.length+'、毛衣褲子 '+TB.length);
   const can=typeof CHAR.setGymWear==='function';
   check('② 有 CHAR.setGymWear',can);
   if(can){
-    CHAR.setJacket(h,true); const jkOn=JK.every(vis);
     CHAR.setGymWear(h,true);
     check('② 穿上：運動服顯示、毛衣褲子藏、皮膚鞋子照舊',G.every(vis)&&TB.every(o=>!vis(o))&&SK.every(vis));
-    check('② 穿上：系外套藏（u.jacket 還是 true）、後背包拿下',jkOn&&JK.every(o=>!vis(o))&&u.jacket===true&&(!bp||!bp.visible),'背包 '+(bp?bp.visible:'無'));
-    CHAR.setJacket(h,true); check('② 穿著運動服時 setJacket(true)：外套不出來',JK.every(o=>!vis(o)));
+    check('② 穿上：後背包拿下（CANON-NO-ECON-1112：舊外套網格已從模型拿掉）',(!bp||!bp.visible),'背包 '+(bp?bp.visible:'無'));
     CHAR.setGymWear(h,false);
-    check('② 脫下：毛衣褲子、外套（照 u.jacket）、後背包回來，運動服藏',G.every(o=>!vis(o))&&TB.every(vis)&&JK.every(vis)&&(!bp||bp.visible));
-    CHAR.setJacket(h,false); CHAR.setProp(h,'backpack',false); CHAR.setGymWear(h,true); CHAR.setGymWear(h,false);
+    check('② 脫下：毛衣褲子、後背包回來，運動服藏（CANON-NO-ECON-1112：舊外套網格已從模型拿掉）',G.every(o=>!vis(o))&&TB.every(vis)&&(!bp||bp.visible));
+    CHAR.setProp(h,'backpack',false); CHAR.setGymWear(h,true); CHAR.setGymWear(h,false);
     check('② 原本沒背後背包：脫下運動服後也不背',!bp||!bp.visible); CHAR.setProp(h,'backpack',true);
   }
   const src=fs.readFileSync(path.join(ROOT,'src/character3d.js'),'utf8');

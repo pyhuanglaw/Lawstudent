@@ -10,7 +10,7 @@
 'use strict';
 const TWFILL_LINES={
   /* ---------- 2-1 大二上（2026）---------- */
-  /* 第 4 週 9/28（一）教師節 21:00 麵店團群組 */
+  /* 第 4 週 9/28（一）教師節 21:00 桌遊團群組 */
   teachersY2:[['classmate_xinci','今天教師節。我傳訊息給高中的導師。'],['classmate_xinci','她回我：妳是誰。'],['zhe','哈哈哈哈']],
   /* 第 5 週 10/7（三）服務學習（二）：那天的旁白換掉 */
   /* 第 5 週 10/9（五）國慶補假：前一晚 10/8 21:00 群組 */
@@ -60,11 +60,11 @@ const TWFILL_LINES={
 const TWFILL_EVENTS=(function(){
   const D=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const law=G=>!!G&&(G.stage||'law')==='law';
-  const ndl=G=>law(G)&&typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,'noodle_team');   /* 麵店團（AA_342 檔首的「典型玩家」；同 y2r2_3d.js 的週四麵店）*/
+  const ndl=G=>law(G)&&typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,'noodle_team');   /* 桌遊團（AA_342 檔首的「典型玩家」；同 y2r2_3d.js 的週四麵店）*/
   const knows=id=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,'FIRST_MET');
   const L=TWFILL_LINES;
   return [
-    /* ---------- 2-1 第 14 週：12/10（四）期末前的週四進麵店（麵店團的時段，只演一次）---------- */
+    /* ---------- 2-1 第 14 週：12/10（四）期末前的週四進麵店（桌遊團的時段，只演一次）---------- */
     { id:'ev_y2s1_noodle_1210', title:'', participants:[], location:'noodle', trigger:'enter', once:true, term:['Y2S1'], weekday:[4], time:[17.5,21], background:'blur',
       prereq:{custom:G=>G.day===D('2026-12-10')&&ndl(G)},
       dialogue:[ {speaker:null,text:L.noodle1210} ] },

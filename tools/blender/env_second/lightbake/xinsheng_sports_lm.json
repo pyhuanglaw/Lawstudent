@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1254.5,
+ "bake_seconds": 749.9,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -49,5 +49,5 @@
   "WALL_right_L1_wall_wall"
  ],
  "src": "assets/models/env/second_ai/bb_support/xinsheng_sports.glb",
- "src_sha256": "a06b2cd617f0cbfa38a96f7ed84b525dabd369c82c970078dd12a81b85ab52ea"
+ "src_sha256": "e3b251d31e5b933cc575a439d45ec1ff31483306dfffe2f02405a5f64b29964e"
 }

@@ -5,7 +5,7 @@
    S1  美國的學期日曆：開學 8/21、勞動節 9/4、秋假 10/9～10/13、感恩節 11/23～11/24、最後一堂 12/8、期末週 12/11～12/15、12/16 離開。台灣的節日提示不跳（CLS.dayLabel、todayLine、goalFor）。
    S2  一鍵上課（AA_291 1-1）：週一、三 10:00～11:15 Introduction、週二、四 13:00～14:15 Comparative、週五 09:00～11:50 Legal Writing；3D Room 120（us_classroom，AA_740；沒有 3D 教室才用 2D us_classroom），句子輪流；
        10/26 期中報告、12/8 最後一堂換旁白；出席不影響結果。入口：起床選單（CLS.wakeMenu）、公寓平台「去上課」、社區「搭公車（去學校）」、校園「進教室」。
-   S3  快轉（照經濟系休學在家那一套）：床的「快轉」、到下一件有事的時候／過三天／過一週；停在 AA_340 第 1 節的事件、出遊、要回的訊息、交往中週末的 208、特別的課；
+   S3  快轉（照舊序章在家那一套）：床的「快轉」、到下一件有事的時候／過三天／過一週；停在 AA_340 第 1 節的事件、出遊、要回的訊息、交往中週末的 208、特別的課；
        日期卡寫「公寓」；摘要日（G1、G2、G6、AA_291 1-2）跳過時出在日期卡下面，沒跳過的那天到時間出一次。
    S4  學姊的作息（AA_340 4-1）：平日 09～12 法學院圖書館（3D us_lawlib）、週三 14:00～16:50 研討課、平日 18～21 C 棟 208（10 月起週二、四 19～21 會所自習室）、週末 14～21 C 棟 208；
        3D 裡照這份作息出現（us_lawlib、us_shared），「現在大概在」照同一份；SU 階梯從 8/3 起算（4-5）。
@@ -385,6 +385,7 @@ const USL=(function(){
     if(label==='窗外'){ const K={snow:'2028-12-02',bare:'2028-11-01',autumn:'2028-10-01',summer:'2028-08-02'}, sk=typeof US3!=='undefined'&&US3.usSeasonKey?US3.usSeasonKey():null;   /* 窗外那句跟窗景圖同一個季節（us3d.js usSeasonKey：秋天 10/9 起；BB-B 10-24：10/1～10/8 字黃圖綠）*/
       const w=sk&&K[sk]?R.win.find(q=>q[0]===K[sk]):R.win.find(q=>G.day>=D(q[0])); if(!w) return null; return G.visited&&G.visited.linze_5f?[w[1],R.winLab]:[w[1]]; } return null; };
   S.interact=async function(it,GM){ const G=GM.G; if(!it||!G||!S.here(G)) return false;
+    if(it.exit&&it.exit.to==='us_market'&&typeof SH831!=='undefined'&&await SH831.door(GM,'us_market')) return true;   /* 草原超市 08:00～22:00（AA_831；src/shop_hours831_3d.js）：關著＝門口一句旁白＋開放時間；劇情帶進去的不經過這裡 */
     if(it.exit&&it.exit.to==='us_asian_market'&&typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('us_asian_market',hh(G),G.day)){ GM.toast(PLACES.closedText('us_asian_market',hh(G),G.day),4500); return true; }   /* AA_370 L9：竹葉亞洲超市照台詞（「亞洲超市九點關。」「週日公休」）09:00～21:00、週日公休（src/data/places.js）；US1 抵達那晚是劇情帶進去的，不經過這裡 */
     if(it.uslClass){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
     if(it.uslLake){ await S.lake(GM); return true; }
@@ -692,7 +693,7 @@ const USL=(function(){
         if(!dt&&F.MET_LONG&&G.day===d&&past(G,d,17)&&now(G)<T(d,20)&&!PHONE.sent(G,'usl_long_1123r')) PHONE.at(G,d,17,M.long1123r.map(PL),'usl_long_1123r');
         if(!dt&&F.MET_LONG&&PHONE.sent(G,'usl_long_1123r')) plan(G,{id:'usl_thanks_long',ev:'ev_usl_thanks_long',day:d,h:19,late:1,place:'會所',title:'感恩節'}); } }
     /* G7 12/6 21:00 學姊（交往中）*/
-    { const d=D('2028-12-06'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&!PHONE.sent(G,'usl_sis_1206')) PHONE.at(G,d,21,M.sis1206.map(P5),'usl_sis_1206'); }
+    { const d=D('2028-12-06'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&!PHONE.sent(G,'usl_sis_1206')) PHONE.at(G,d,21,M.sis1206.map((t,i,L)=>i<L.length-1?P5(t):Object.assign(P5(t),{ask:{id:'usl_sis_1206',until:T(d+1,21),opts:[{t:'舊金山？',say:[P5('……好。我也想那裡。')]},{t:'有海的地方。',say:[P5('那就舊金山。……剩下的，你排。')]}]}})),'usl_sis_1206'); }   /* AA_814 3-6（企劃線 91c6aaf9f）：「你先想」之後讓玩家回（12/7 21:00 以前）；沒回＝照舊，目的地照 r2y4a3d.js 定舊金山 */
     /* AA_291 4-1：每個星期天 台灣 21:00（＝當地 09:00，11/5 以後 08:00），媽媽一則（8/6 起）。AA_450 1-4：照日期那一則（X.mom 的 d；每一則只發一次，原本四句輪流）*/
     /* 旅行（大峽谷 10/7～10/14、舊金山那一週）字卡一天跳一天、跳過星期天的，回來照原本的時間補（BB 逐日劇本 trx_nolong3：10/8、12/17 沒發）；
        「太舊的不補」改成：第一次跑這條規則（抵達，或舊存檔讀進來）的前一天以前的不補（USL_MOM_FROM）*/

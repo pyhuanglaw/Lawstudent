@@ -9,8 +9,8 @@
      出遊地點寫「麵店」的那一天，店休的鐵門照 noodle_closed3d.js 的 storyDue 照常開。
    - 1-1 開車去台中：照 date3d.js 的算法——地點表 D26（臺中）開車單程；從宿舍出發先回家取車 30 分（AA_128 4-1），寒暑假住家裡就不用（DATE.fromHomeOn，DATE-C7）；油錢＋過路費＝D26 開車的來回（出發的時候付，同 hometown3d.js）。
    - 1-4 2029-02-14 21:00 她打電話來（演出來的電話，AA_296；同 SISB4 3-6：OUT 的電話，接起來／先不接；21:15 以前沒接＝21:30、21:31 兩則）。
-   - 2-5 中秋（2026-09-25、2027-09-15、2028-10-03）：前一天 21:00 約，15:00～17:30 麵店門口（接 18:00 麵店團的烤肉，現有事件）；旗標 YT_MOON_<年>。
-   - 第 3 節：2027-02-14 21:00 麵店團群組四則（在群組的玩家，一次；和交不交往無關）。
+   - 2-5 中秋（2026-09-25、2027-09-15、2028-10-03）：前一天 21:00 約，15:00～17:30 麵店門口（接 18:00 桌遊團的烤肉，現有事件）；旗標 YT_MOON_<年>。
+   - 第 3 節：2027-02-14 21:00 桌遊團群組四則（在群組的玩家，一次；和交不交往無關）。
    - 時段（DEC-SLOTS-1018）：出遊、電話都是 OUT.go，到了那裡起的時段自動算一件主要的事，這裡不另外做。同一天兩位（多段感情）照現有規則：一個時段一件，另一場過了時間＝沒到。
    測試：node tests/aa414_hol_unit.js */
 'use strict';
@@ -86,7 +86,7 @@ const ANYTHOL=(function(){
       out:{id:'anyt_yt_vday_y4',ev:'ev_yt_vday_y4',day:'2029-02-14',h:19,late:0.25,place:'新生南路・她家樓下',title:'情人節',travel:'走路約 15 分鐘',travelH:0.25},
       outOf:G=>dating(G,YT)?{place:'新生南路・她家',title:'情人節（她家）'}:{},
       miss:{day:'2029-02-14',at:[[19.5,L.yt4Miss1],[19.5+1/60,L.yt4Miss2]]}} ];
-  /* 2-5 中秋（AA_127 4-2 的時段，和麵店團的中秋烤肉同一天）*/
+  /* 2-5 中秋（AA_127 4-2 的時段，和桌遊團的中秋烤肉同一天）*/
   S.MOON=[[2026,'2026-09-24','2026-09-25'],[2027,'2027-09-14','2027-09-15'],[2028,'2028-10-02','2028-10-03']];
   for(const [y,ask,day] of S.MOON) S.HOL.push({k:'yt_moon_'+y,who:YT,ask,h:21,lines:L.moonAsk,flag:'YT_MOON_'+y,go:'YT_MOON_'+y+'_GO',moon:y,
     opts:[o(L.moonYesT,L.moonYes),o(L.moonNoT,L.moonNo,{no:true})],
@@ -134,7 +134,7 @@ const ANYTHOL=(function(){
   /* 情人節（交往中）：這學期的裂縫計數 -1（AA_126 好感表；已經是 0 就不動，同 SISB4.crackDown）*/
   S.crackDown=function(G,id){ const k=(typeof ROM!=='undefined'&&ROM.CRACK&&ROM.CRACK[id])||null; if(!k||!G||!G.flags||!((+G.flags[k]||0)>0)) return 0;
     if(ROM.crack) ROM.crack(G,id,-1); else G.flags[k]=(+G.flags[k]||0)-1; return -1; };
-  /* 第 3 節：2027-02-14（日）21:00 麵店團群組（在群組的玩家都看得到，一次）*/
+  /* 第 3 節：2027-02-14（日）21:00 桌遊團群組（在群組的玩家都看得到，一次）*/
   S.GRP={day:'2027-02-14',h:21,tag:'anyt_grp_vday_y2'};
   S.group=function(G){ const d=D(S.GRP.day); if(d==null||G.day<d||G.day>d+1||now(G)<T(d,S.GRP.h)||sent(G,S.GRP.tag)||!PHONE.inGroup||!PHONE.inGroup(G,'noodle_team')||!Array.isArray(L.grp)) return;
     PHONE.at(G,d,S.GRP.h,L.grp.map(([f,t])=>({th:'g:noodle_team',from:f,text:t})),S.GRP.tag); };

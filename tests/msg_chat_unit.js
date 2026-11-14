@@ -16,7 +16,7 @@ global.document={ getElementById:()=>null, addEventListener(){} }; global.naviga
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|ROM|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|HOME)$/.test(n)?'global.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 const REAL=fs.existsSync(path.join(ROOT,'src/data/msg_pool.js'));
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/home3d.js','src/romance3d.js'].concat(REAL?['src/data/msg_pool.js']:[]).concat(fs.existsSync(path.join(ROOT,'src/data/msg2_pool.js'))?['src/data/msg2_pool.js']:[]).concat(['src/data/msg_kx_y0.js']).concat(['src/msg3d.js'])) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/home3d.js','src/romance3d.js'].concat(REAL?['src/data/msg_pool.js']:[]).concat(fs.existsSync(path.join(ROOT,'src/data/msg2_pool.js'))?['src/data/msg2_pool.js']:[]).concat(['src/msg3d.js'])) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 let G=null; const STAGE={};
@@ -110,7 +110,13 @@ if(REAL){ global.MSG_POOL=realPool; const P=realPool.people||{}; let src=''; try
   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊三則回覆（在幹嘛 R、分享吃的 A、放假在台中 A）換成新稿的句子（產生器 tools/msg/to_js.py 疊稿、那幾則多一格 ps755＝新稿的來源）——
      有 ps755 的那幾則改比 AA_755（不在 BB_178 裡）；其他照舊逐字比 AA_202／BB_178 */
   let src755=''; try{ src755=cp.execSync('git -c core.quotepath=false show c5094495d:docs/story_planning/AA_755_peishan_feed_misc.json',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
-  if(!src) console.log('（略過 F：沒有企劃原文的歷史）'); else { const miss=[]; for(const id in P) for(const e of P[id].replies||[]) for(const t of e.msgs.concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[]))) if((e.ps755?(src755||JSON.stringify(t)).indexOf(JSON.stringify(t)):src.indexOf(t))<0) miss.push(id+':'+t);
+  /* 2026-11-11（X324 D 區，AA_785_msg_pools.json）：覆蓋層換過的那幾格（那一則多一格 ov）改比稿：這一格的字＝AA_785 那一列的 new、而且 old 在原文裡（tests/overlay_expect.js）；其他照舊逐字比 */
+  /* CANON-NO-ECON-1112 第四批：照 AA_892 第 3 節換字、改層的那幾則（多一格 c892＝稿的來源 AA_892@sha）改比 AA_892 原文；其他照舊逐字比 */
+  const c892src={}; const c892=(e,t)=>{ const k=e.c892; if(c892src[k]==null){ c892src[k]=''; try{ const m=/^AA_892@(\w+)$/.exec(k); if(m) c892src[k]=cp.execSync('git -c core.quotepath=false show '+m[1]+':"docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(err){} } return c892src[k].indexOf(t)>=0||src.indexOf(t)>=0; };
+  /* （CANON-NO-ECON-1112 第四批：照 AA_901 換字）可昕「深夜」那一則（多一格 c901＝AA_901@sha）改比 AA_901 原文 */
+  const c901src={}; const c901=(e,t)=>{ const k=e.c901; if(c901src[k]==null){ c901src[k]=''; try{ const m=/^AA_901@(\w+)$/.exec(k); if(m) c901src[k]=cp.execSync('git -c core.quotepath=false show '+m[1]+':"docs/story_planning/AA_901_第四批二留下的十一件.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(err){} } return c901src[k].indexOf(t)>=0||src.indexOf(t)>=0; };
+  const OE=require('./overlay_expect.js'), OVM=OE.rows('msg_pool'), ovOk=(id,t)=>OVM.some(r=>r.who===id&&r.new===t&&(src.indexOf(r.old)>=0||(!!src755&&src755.indexOf(JSON.stringify(r.old))>=0)));
+  if(!src) console.log('（略過 F：沒有企劃原文的歷史）'); else { const miss=[]; for(const id in P) for(const e of P[id].replies||[]) for(const t of e.msgs.concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[]))) if((e.ov&&ovOk(id,t))||(e.c892&&c892(e,t))||(e.c901&&c901(e,t))?false:(e.ps755?(src755||JSON.stringify(t)).indexOf(JSON.stringify(t)):src.indexOf(t))<0) miss.push(id+':'+t);
     check('F1. 回覆池每一句都在 AA_202／BB_178 原文裡（逐字）',!miss.length,miss.slice(0,8).join(' ｜ ')+(miss.length>8?' …共 '+miss.length:'')); }
   const n=Object.values(P).reduce((a,p)=>a+(p.replies||[]).length,0); check('F2. 十五位都有回覆池',Object.keys(P).length>=15&&n>200,Object.keys(P).length+' 人、'+n+' 則'); }
 else console.log('（略過 F：src/data/msg_pool.js 還沒有）');
@@ -154,9 +160,10 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
   const reply=()=>{ const q=PHONE.rec(G).q; return q.length?q[q.length-1].items.map(x=>x.text):[]; };
   { let src=''; try{ for(const [f,k] of [['AA_202_玩家主動傳訊息_規格.md','AA_202'],['AA_257_MSG2_BB九位回覆池.md','AA_257'],['AA_389_回AA313剩下九點.md','AA_389']]) src+=cp.execSync('git show '+MSG2_POOL.source[k]+':"docs/story_planning/'+f+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(x){ src=''; }
     if(src&&MSG2_POOL.source.AA_531){ try{ src+=cp.execSync('git -c core.quotepath=false show '+MSG2_POOL.source.AA_531+':"docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(x){} }   /* AA_531 8-3（企劃線 41ec9a6ac）：語彤生日、還好嗎 L 的國外版 */
+    const OE2=require('./overlay_expect.js').rows('msg2_pool');
     const PS763=new Set(['謝謝。今天收到的生日快樂裡，你這則我看了最多次。','新年快樂。新的一年第一件事：你今年想做什麼？我要聽認真的。']);
     const SUBST={'heroine_02:十點，店門口。':'九點，店門口。'};   /* AA 裁定的改字（原文找改字前的那句）：AA_373 第 6 節第 9 題（企劃線 bdab2f42）「九點」改「十點」——芷若生日 L 回問，只在 2025、2026 開 */
-    if(!src) console.log('（略過 H1：沒有企劃原文的歷史）'); else { const miss=[]; let n=0; for(const id in P2) for(const e of P2[id].replies) for(const t of (e.msgs||[]).concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[])).concat(e.ask?[e.ask.q]:[])){ n++; if(e.aaReply&&id==='classmate_peishan'&&['好無聊的答案。我記下來了，年底驗收。','那我過幾天再問一次。你躲不掉。'].includes(t)) continue;   /* 2026-11-11（X327 沛珊重寫；AA 回覆 LAWWW）：沛珊新年快樂回問兩個選項的回覆換字（tools/msg/to_js2.py 的 PS_NEWYEAR_ASK，那一則多一格 aaReply），不在 AA_257——逐字在 tests/peishan_leftover2_1111_unit.js 第 6 節 */ if(e.ps763&&PS763.has(t)) continue;   /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：沛珊生日快樂、新年快樂那兩句換字（tools/msg/to_js2.py 疊的，那一則多一格 ps763），不在 AA_257——對 AA_763（tests/peishan_misc3_1111_unit.js） */ const t0=SUBST[id+':'+t]||t; if(src.indexOf(t0.replace(/\*\*/g,''))<0) miss.push(id+':'+t); }
+    if(!src) console.log('（略過 H1：沒有企劃原文的歷史）'); else { const miss=[]; let n=0; for(const id in P2) for(const e of P2[id].replies) if(id!=='kexin'/* （CANON-NO-ECON-1112 第四批：照 AA_881 換字）可昕整組換成 AA_881，逐字在 tests/kx_line_873_unit.js */) for(const t of (e.msgs||[]).concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[])).concat(e.ask?[e.ask.q]:[])){ n++; if(e.aaReply&&id==='classmate_peishan'&&['好無聊的答案。我記下來了，年底驗收。','那我過幾天再問一次。你躲不掉。'].includes(t)) continue;   /* 2026-11-11（X327 沛珊重寫；AA 回覆 LAWWW）：沛珊新年快樂回問兩個選項的回覆換字（tools/msg/to_js2.py 的 PS_NEWYEAR_ASK，那一則多一格 aaReply），不在 AA_257——逐字在 tests/peishan_leftover2_1111_unit.js 第 6 節 */ if(e.ps763&&PS763.has(t)) continue; if(e.ov&&OE2.some(r=>r.who===id&&r.new===t&&src.indexOf(r.old.replace(/\*\*/g,''))>=0)) continue;   /* 2026-11-11（X324 D 區，AA_785）：覆蓋層換過的格子（那一則有 ov）＝稿的新字、old 在原文裡 */   /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：沛珊生日快樂、新年快樂那兩句換字（tools/msg/to_js2.py 疊的，那一則多一格 ps763），不在 AA_257——對 AA_763（tests/peishan_misc3_1111_unit.js） */ const t0=SUBST[id+':'+t]||t; if(src.indexOf(t0.replace(/\*\*/g,''))<0) miss.push(id+':'+t); }
       for(const id in P2) for(const k in (P2[id].calls||{})) for(const t of (P2[id].calls[k].lines||[])){ n++; if(src.indexOf(t)<0) miss.push(id+':calls.'+k+':'+t); }   /* 回問帶的電話（AA_531 8-5：語彤國外版「打給我」）*/
       check('H1. MSG-2 每一句（含回問）都在 AA_202 第 7 節／AA_257／AA_389／AA_531 8-3、8-5 原文裡（含電話台詞；逐字；AA 裁定的改字照 SUBST 找原句）',!miss.length&&n>150,miss.slice(0,6).join(' ｜ ')+' 共 '+n+' 句'); } }
   { mk('heroine_01',1,K('2025-09-14'),15); const a=tk('heroine_01').includes('bday'); G.day=K('2025-09-15'); G.weekday=wdOf(G.day); const b=tk('heroine_01').includes('bday');
@@ -165,7 +172,7 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
     check('H3. 新年快樂：1/1、除夕（2026-02-16）、初三（02-19）有；除夕前一日（02-15）、初四（02-20）、1/2 沒有',ny('2026-01-01')&&ny('2026-02-16')&&ny('2026-02-19')&&!ny('2026-02-15')&&!ny('2026-02-20')&&!ny('2026-01-02')); }
   { const d0=STORY.termDay('Y1S2',12,4); const okAt=dd=>{ mk('heroine_01',3,dd,15); G.events.done.ev_an_yu_argument=1; G.events.last.ev_an_yu_argument=d0; return tk('heroine_01').includes('ok'); };
     check('H4. 以安「還好嗎」：和 Alison 吵架那天起 3 天內有，第 4 天以後、還沒吵架的沒有',okAt(d0)&&okAt(d0+3)&&!okAt(d0+4)&&(mk('heroine_01',3,d0,15),!tk('heroine_01').includes('ok')));
-    okAt(d0+1); MSG.send(G,'heroine_01','ok'); check('H4. 回 R「還好。……想一下就好了。」',reply().join('/')==='還好。……想一下就好了。',JSON.stringify(reply())); }
+    okAt(d0+1); MSG.send(G,'heroine_01','ok'); check('H4. 回 R「'+require('./overlay_expect.js').fwd('msg2_pool','heroine_01','還好。……想一下就好了。')+'」（X324 D 區 AA_785 拿掉刪節號；舊期望「還好。……想一下就好了。」）',reply().join('/')===require('./overlay_expect.js').fwd('msg2_pool','heroine_01','還好。……想一下就好了。'),JSON.stringify(reply())); }
   { mk('zhe',3,K('2025-11-03'),15); check('H5. 阿哲「還好嗎」（系籃輸球那天）：遊戲裡還沒有那一場，不開',!tk('zhe').includes('ok')&&!MSG.conds2(G,'zhe','ok').length); }
   { const d=STORY.termDay('Y1S1',5,3); mk('heroine_01',3,d,15); const R=MSG.rec(G); const a=tk('heroine_01').includes('thanks');
     global.MSG_POOL=FAKE; MSG.send(G,'heroine_01','course'); global.MSG_POOL=REAL?realPool:FAKE; const h=R.help.heroine_01;
@@ -204,7 +211,7 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
      2028 日本路線用 y2028_japan；2029 沒有生日事件：不問，回 AA_389 那一句 */
   { const kx=(d,f)=>{ fresh(K(d),15,Object.assign({dating_kexin:true},f||{})); INV.addContact(G,'kexin'); STAGE.kexin=6; const p=MSG.pick2(G,'kexin','bday',true); return p?p.e:null; };
     const a=kx('2026-04-24'), b=kx('2027-04-24'), c=kx('2028-04-24',{EXCHANGE_ROUTE:'TW'}), j=kx('2028-04-24',{EXCHANGE_ROUTE:'JP'}), z=kx('2029-04-24',{EXCHANGE_ROUTE:'TW'});
-    check('H16. 可昕生日 2026、2027、2028 臺灣路線：L 照問「你晚上要上山來，還是我下山」',[a,b,c].every(e=>e&&!!e.ask&&/上山來/.test(e.ask.q)),[a,b,c].map(e=>e&&e.msgs.join('/')).join(' ｜ '));
+    check('H16. 可昕生日 2026、2027、2028 臺灣路線：L「謝謝」「（長頸鹿貼圖）」「晚上我室友幫我過，過完我下樓找你」、不帶回問（CANON-NO-ECON-1112 第四批：照 AA_881 第 3 節換字；舊期望：回問「你晚上要上山來，還是我下山」）',[a,b,c].every(e=>e&&!e.ask&&e.msgs.join('/')==='謝謝/（長頸鹿貼圖）/晚上我室友幫我過，過完我下樓找你'),[a,b,c].map(e=>e&&e.msgs.join('/')).join(' ｜ '));
     check('H16. 2028 日本路線（人在日本）：不問上山下山，用 y2028_japan',!!j&&!j.ask&&j.cond==='y2028_japan',j&&j.msgs.join('/'));
     check('H16. 2029：沒有生日事件，不問；回「今天在圖書館過 國考的書比蛋糕還厚」',!!z&&!z.ask&&z.msgs.join('/')==='謝謝！！/（長頸鹿貼圖）/今天在圖書館過 國考的書比蛋糕還厚',z&&z.msgs.join('/')); }
   /* AA_202@65239add 第 257 行（AA_313 第 5 節）：Alison 營隊結束那天的「還好嗎」R 層收在「明天見面再說」（不好的事當面講）；產生器 build_msg2.py 原本寫死「可是會好的」 */
@@ -212,25 +219,8 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
     check('H17. Alison 營隊結束那天「還好嗎」R：「還好啦」「……其實沒有很好」「明天見面再說」',!!m&&/明天見面再說/.test(m[1])&&!/可是會好的/.test(m[1]),m&&m[1]); } }
 else console.log('（略過 H：src/data/msg2_pool.js 還沒有）');
 // 方奕廷暑假上山（BB_171 第 1 節）：沒訊號，下山那天 15:00 才回；回台中過年的期間照平常
-{ fresh(STORY.dayOfKey('2026-07-10'),20); const at=MSG.replyAt(G,'npc_fangyt'), back=STORY.dayOfKey('2026-07-20');
-  check('I1. 方奕廷 7/10 上山：7/20（下山那天）15:00 才回',at.day===back&&at.h===15&&at.late===true,JSON.stringify(at));
+{ fresh(STORY.dayOfKey('2026-07-10'),20); const at=MSG.replyAt(G,'npc_fangyt'), back=STORY.dayOfKey('2026-07-19');
+  check('I1. 方奕廷 7/10 上山：7/19（下山那天，AA-C 11-13 (a)）15:00 才回',at.day===back&&at.h===15&&at.late===true,JSON.stringify(at));
   fresh(STORY.dayOfKey('2026-07-25'),20); const a2=MSG.replyAt(G,'npc_fangyt'); check('I1. 下山以後照平常',!(a2.day===back&&a2.h===15)&&a2.day<=G.day+1,JSON.stringify(a2)); }
-{ const K=k=>STORY.dayOfKey(k); const eg=(key,h,f)=>{ fresh(K(key),h,Object.assign({dating_kexin:true},f||{})); G.stage='econ'; G.contacts={kexin:0}; return G; };
-  eg('2024-11-20',20); const o1=MSG.open(G,'kexin'), t1=MSG.topics(G,'kexin').map(q=>q.k), p1=MSG.pick(G,'kexin','chat');
-  check('Y0. 經濟系那一年交往以後（11/20）：可以傳給可昕（AA_301）；話題在幹嘛、分享；回覆是「經濟系學期中」那一版',o1.ok&&o1.mode==='y0'&&t1.includes('chat')&&t1.includes('share')&&!t1.includes('course')&&p1&&p1.variant==='經濟系學期中',JSON.stringify([o1,t1,p1&&p1.msgs]));
-  eg('2024-12-17',20); const p2=MSG.pick(G,'kexin','chat'), p2n=MSG.pick(G,'kexin','share','notes'); check('Y0. AA_368 H5＋AA_371 第 2 題：期末是 12/14～12/20（16 週制 12/20 考完；原本 1/6～1/13）——12/17 在幹嘛用期末那一版；學期中延到 12/20（和期末重疊、期末優先），期末沒有的話題（講義）照學期中（AA_301 第 1 節；AA_368 原本學期中到 12/13，期末那週只剩兩則在幹嘛）',p2&&p2.variant==='經濟系期末'&&!!p2n&&p2n.variant==='經濟系學期中',JSON.stringify([p2&&p2.variant,p2n&&p2n.variant]));
-  eg('2024-12-13',20); check('Y0. AA_368 H5：12/13 還是學期中',MSG.pick(G,'kexin','chat').variant==='經濟系學期中');
-  { const seen=new Set(), bad=[]; for(const [k,h] of [['2024-12-21',14],['2024-12-25',23],['2025-01-03',15],['2025-01-08',20],['2025-01-13',22.5]]){ eg(k,h); for(const tp of ['chat','share','night']) for(let i=0;i<6;i++){ const p=tp==='share'?MSG.pick(G,'kexin','share','food'):MSG.pick(G,'kexin',tp); if(!p) continue; if(p.variant!=='寒假在臺北') bad.push(k+' '+tp+' '+p.variant); for(const t of p.msgs){ seen.add(t); if(/剛下課|明天八點的課|期末考|國文|休學/.test(t)) bad.push(k+'：'+t); } } }
-    check('Y0. AA_368 H5：寒假在臺北（12/21～1/13，她過年前才回高雄）用新分期「寒假在臺北」——不會回「剛下課」「明天八點的課」「期末考」，也不提國文、休學',!bad.length&&seen.has('在宿舍。品妤回家了，整間都是我的。')&&seen.has('晚安。明天不用早起。……好爽。')&&seen.has('公館那家燒臘店放假也開。阿姨認得我了。'),bad.slice(0,4).join(' | ')); }
-  { const R=(MSG_KX_Y0.replies||[]).filter(e=>e.variant==='寒假在臺北'), V=MSG_KX_Y0.variants.find(v=>v.variant==='寒假在臺北');
-    check('Y0. AA_368 第 4 節：「寒假在臺北」12/21～1/13 五則（在幹嘛三則、分享吃的一則、晚安一則），句子照 AA_368（第三則照 AA_371 第 3 題改字、不限時段）',!!V&&V.from==='2024-12-21'&&V.to==='2025-01-13'&&R.length===5&&JSON.stringify(R.map(e=>[e.topic,e.msgs]))===JSON.stringify([['chat',['在宿舍。品妤回家了，整間都是我的。']],['chat',['在總圖。放假了還是很多人。……我不是在讀書，我只是不想待在宿舍。']],['chat',['剛起床。……不要問我現在幾點。']],['share_food',['公館那家燒臘店放假也開。阿姨認得我了。']],['night',['晚安。明天不用早起。……好爽。']]]),JSON.stringify(R.map(e=>e.msgs))); }
-  { const A=(MSG_KX_Y0.replies||[]).find(e=>e.variant==='經濟系學期中'&&e.affection);
-    check('Y0. AA_368 M5：學期中帶感情的那一句「今天你沒來。旁邊的位子品妤坐了。」「……她上課一直講話。」（日期卡寫 10/18～11/20 他照樣陪她上課；tags、affection 不改）',!!A&&JSON.stringify(A.msgs)===JSON.stringify(['今天你沒來。旁邊的位子品妤坐了。','……她上課一直講話。'])&&JSON.stringify(A.tags)===JSON.stringify(['帶感情的那一句'])&&!(MSG_KX_Y0.replies||[]).some(e=>e.msgs.some(t=>/旁邊的位子空著|習慣放包包/.test(t))),JSON.stringify(A&&A.msgs)); }
-  eg('2025-01-14',20); check('Y0. 寒假在高雄 1/14 起（不變）',MSG.pick(G,'kexin','chat').variant==='寒假在高雄');
-  check('Y0. AA_368 L8：「高雄冬天還可以穿短袖。」（分期到 2/13；原本「一月」）',(MSG_KX_Y0.replies||[]).some(e=>e.variant==='寒假在高雄'&&e.msgs[0]==='高雄冬天還可以穿短袖。'&&e.msgs[1]==='你那邊幾度？')&&!(MSG_KX_Y0.replies||[]).some(e=>e.msgs.includes('高雄一月還可以穿短袖。')));
-  eg('2025-01-20',20); check('Y0. 寒假在高雄（1/20）：沒有講義那一則就不出',MSG.pick(G,'kexin','share','notes')===null&&MSG.pick(G,'kexin','chat').variant==='寒假在高雄');
-  eg('2025-03-10',20); const o4=MSG.open(G,'kexin'); check('Y0. 2/14～7/11 住在一起：不開，顯示「她就在家裡。直接去講。」',!o4.ok&&o4.show&&o4.why==='她就在家裡。直接去講。');
-  eg('2024-11-20',20,{dating_kexin:false}); check('Y0. 沒交往：不開；其他人經濟系那一年照舊不開',!MSG.open(G,'kexin').ok&&(G.flags.dating_kexin=true,!MSG.open(G,'econ_pinyu').ok));
-  eg('2024-11-20',20); { let r=null, err=null; try{ r=MSG.send(G,'kexin','chat'); }catch(e){ err=e.message; } check('Y0. 經濟系那一年真的傳得出去（MSG.send 不出錯、已送達）',!err&&r&&r.ok,err||JSON.stringify(r)); }
-  eg('2025-08-20',23); check('Y0. 放榜以後（8/20 23:00）：晚安有',MSG.topics(G,'kexin').some(q=>q.k==='night')&&MSG.pick(G,'kexin','night').variant==='放榜以後'); }
+// CANON-NO-ECON-1112：經濟系那一年拿掉（Y0 經濟系那一年傳訊息給可昕（MSG_KX_Y0，AA_301／AA_368））
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

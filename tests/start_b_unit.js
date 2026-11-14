@@ -76,14 +76,9 @@ GM.money=function(n){ G.money+=n; };
     check('14. 選 1：8/31 開學典禮中（約 14:40）加進班群，之前沒有（AA-B 7b2d057f）',!before&&after);
     fresh(1,20,'dorm',{}); G.stage='law'; run(20,20.9); const o1=PHONE.inGroup(G,'law_class'); run(21,21.2);
     check('14. 舊局：照舊第 1 天 21:00 加進班群',!o1&&PHONE.inGroup(G,'law_class')); }
-  { fresh(D('2025-08-29'),7,'dorm',{}); G.stage='econ'; global.location={search:'?start1'}; const recaps=[]; STORY.recap=async(gm,lines)=>{ recaps.push(lines.slice()); }; GM.backupNow=()=>{}; GM.autosave=()=>{}; cards=[]; said=[];
-    const due=STORY.toLawDue(G); G.day=D('2025-08-28'); const notYet=!STORY.toLawDue(G); G.day=D('2025-08-29');
-    await STORY.toLaw(GM);
-    check('15. 經濟系（?start1）8/29 早上就轉（8/28 還沒）（AA-B 21:09）',due&&notYet);
-    check('15. 轉過去：8/29 16:05 搬進宿舍（日期卡「8 月 29 日（五）16:05 · 男生宿舍」，AA_195 4-2）、LAW_START_DAY −18、MAIN_D1 −13；只有日期卡（沒有「2025 年 9 月 臺大法律系 大一」）；經濟系版旁白',G.stage==='law'&&G.day===-18&&G.flags.LAW_START_DAY===-18&&G.flags.MAIN_D1===-13&&G.flags.KAI_MOVEIN===true&&G.zone==='dorm'&&!cards.some(c=>/臺大法律系/.test(c[0]))&&cards.some(c=>c[0]==='8 月 29 日（五）'&&c[1]==='16:05 · 男生宿舍')&&said.some(x=>x.t==='你去年也搬過一次宿舍，這次只有一個行李箱。'),JSON.stringify({d:G.day,h:G.hour,f:[G.flags.LAW_START_DAY,G.flags.MAIN_D1],z:G.zone,cards,said:said.map(x=>x.t)}));
-    check('15. 暑假摘要只留前兩句（拿掉「八月底，你搬進法律系的宿舍」「經濟學原理還沒收起來」）',recaps[0]&&recaps[0].length===2&&!recaps.some(r=>r.some(t=>/搬進法律系的宿舍|經濟學原理還沒收起來/.test(t))),JSON.stringify(recaps));
-    check('15. 新局的開頭摘要最後一句：「八月底，你回到同一個校園，換了一個系。」',STORY.LAW_START_RECAP_W1.slice(-1)[0]==='八月底，你回到同一個校園，換了一個系。'&&STORY.LAW_START_RECAP_W1.length===STORY.LAW_START_RECAP.length);
-    global.location={search:'?start0'}; fresh(D('2025-08-29'),7,'dorm',{}); G.stage='econ'; check('15. ?start0（舊開局）：照舊 8/31 才轉',!STORY.toLawDue(G)); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 15 項 經濟系 8/29 早上轉進法律系（toLaw、toLawDue））
+    check('15. 新局的開頭摘要：兩版一樣長、只有最後一句不同（CANON-1112：舊序章拿掉／可昕開局不認識：字照 AA_858 換了，逐字對稿在 tests/canon_opening_1112_unit.js；原本期望最後一句是舊序章那一版）',STORY.LAW_START_RECAP_W1.length===STORY.LAW_START_RECAP.length&&STORY.LAW_START_RECAP_W1.slice(0,-1).join('|')===STORY.LAW_START_RECAP.slice(0,-1).join('|')&&STORY.LAW_START_RECAP_W1.slice(-1)[0]!==STORY.LAW_START_RECAP.slice(-1)[0]);
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 15 項 ?start0 照舊 8/31 才轉）
   { const play=async(day,hour,flags)=>{ fresh(day,hour,'dorm',flags); G.stage='law'; cards=[]; GM.sceneBegin=()=>{}; GM.letterbox=()=>{}; try{ await STORY.onEnter('dorm',GM); }catch(e){ said.push({t:'例外 '+e.message}); } return {lines:said.map(x=>x.t),cards:cards.slice()}; };
     const w1=await play(D('2025-09-03'),21,{LAW_START_DAY:-18,MAIN_D1:-13});
     check('16. 選 1：9/3 晚上回宿舍演宿舍那一晚：日期卡「9 月 3 日（三）」、AA_195 4-1 的三句、沒有「開學第三週」「老師上週說」、沒有 DAY1_NARR',

@@ -3,7 +3,7 @@
    場景（LAWWW2，不改它的檔）：街上 src/tingzhou3d.js（zone.tzLimao＝{open, masterAway, table, door}、zone.tzLimaoOff／tzLimaoAway；配置 TINGZHOU_LAYOUT.limao）、
      室內 src/tz_shops3d.js（區域 tz_limao；書房 zone.setStudy、TZS3.studyOpen；配置 TZ_SHOPS_LAYOUT.limao）。這支只包它們的 build（和 night_market3d.js 同一個做法）。
    做的事：
-   1 桌前的互動點（配置 limao.table.at；按鈕 S.LABEL）：店開著、上師在、祐廷是法律系的時候是「算命桌」（聊天）；收攤、上師不在＝按鈕變「看算命桌」、念稿 closed 的一句旁白（AA 93f731790）；經濟系那一年整個藏起來。
+   1 桌前的互動點（配置 limao.table.at；按鈕 S.LABEL）：店開著、上師在、祐廷是法律系的時候是「算命桌」（聊天）；收攤、上師不在＝按鈕變「看算命桌」、念稿 closed 的一句旁白（AA 93f731790）；舊序章那一年整個藏起來。
      第一次＝first（記 LM_MET＝那一天）；之後＝選單（稿的四類＋離開）→ 那一類抽一組演完就結束；每聊一次時間過 15 分鐘（S.HRS）。一天幾次稿沒寫＝不限。全部免費，不加好感、不動成績。
      抽法（S.pick）：條件成立的組裡，先挑還沒講過的；全部講過再輪（不連續抽到剛講過的那一組）。講過哪幾組只記在記憶體，不進存檔。
      serious 的兩組（剛分手 lv4、落榜 lf5）：條件成立、還沒演過＝不管選哪一類先演這一組一次（記在 LM_SER），之後不再出、也不進一般的抽組。
@@ -15,7 +15,7 @@
      看過任何一個（LM_HINT）＝算命桌的選單最上面多一項（稿 reveal.talk 的第一句）→ talk（選了那一項＝那一句已經說了，從第二句演）→ 記 LM_KNOWN、LM_STUDY。
    5 書房：LM_STUDY＝TZS3.studyOpen 回傳 true（區域 tz_limao 建的時候就開著；旗標是在街上的算命桌立的，下一次走進店裡門就開了）。書房裡的互動點照稿 study_room 只有旁白：
      看書櫃／看書桌／看牆上的合照＝配置的三個點；「學生來信」配置沒有點＝這支在東牆矮櫃前補一個（S.LETTERS；配置之後有 id study_letters 的點就用配置的）。
-   6 哪幾天不開：規格、稿都沒寫固定公休＝每天開（配置 19:00～23:30）；颱風假不開（zone.tzLimaoOff，和夜市同一個 CALENDAR.typhoon）。上師不在（tzLimaoAway）現在沒有任何事件設。
+   6 哪幾天不開：AA_831 第二版（SHOP-STANDARD-BACKFILL-1112）＝照原本 19:00～23:30、每天（places.js 的 PLACES.hours.tz_limao；原本照配置 19:00～23:30、每天開）；颱風假不開（zone.tzLimaoOff，和夜市同一個 CALENDAR.typhoon）。上師不在（tzLimaoAway）現在沒有任何事件設。
    7 上師的 3D 人物（2026-11-11 接上）：街上坐在算命桌後面（S.placeMaster，配置 limao.table.seatMaster），店開著、他在的時候才看得到；說話的人帶他的 obj（S.who）。
      店裡（區域 tz_limao 的 zone.shopClerk）還沒放人。對話照舊用 ADV 的模糊背景＋名字 S.MASTER（沒有立繪＝compact）。
    存檔：只有 G.flags 的 LM_MET（第幾天認識的）、LM_PROF、LM_KNOWN、LM_STUDY（稿的四個）＋LM_HINT（看過哪個入口 'A'／'B'）、LM_SER（{組 id: 第幾天}）；舊存檔沒有＝都還沒發生，不用遷移。
@@ -42,8 +42,8 @@ const LM=(function(){
 
   /* ---------- 狀態 ---------- */
   S.hour=G=>(((+G.hour||0)%24)+24)%24;
-  /* 祐廷現在的學期（法律系）：{y,s,id}；經濟系那一年、不知道＝null。寒暑假算剛過完的那個學期（STORY.termAt） */
-  S.term=function(G){ if(!G||G.stage==='econ') return null; let id=null;
+  /* 祐廷現在的學期（法律系）：{y,s,id}；舊序章那一年、不知道＝null。寒暑假算剛過完的那個學期（STORY.termAt） */
+  S.term=function(G){ if(!G) return null; let id=null;
     try{ if(typeof STORY!=='undefined'&&STORY.termAt) id=STORY.termAt(G.day); else { const t=CAL()&&CAL().termOf?CAL().termOf(G.day):null; id=t?t.id:null; } }catch(e){ id=null; }
     const m=/^Y([1-5])S([12])/.exec(id||''); return m?{y:+m[1],s:+m[2],id}:null; };
   S.year=G=>{ const t=S.term(G); return t?t.y:0; };
@@ -97,9 +97,11 @@ const LM=(function(){
 
   /* ---------- 營業 ---------- */
   S.typhoon=G=>{ try{ return !!(CAL()&&CAL().typhoon&&CAL().typhoon(G.day)); }catch(e){ return false; } };
-  S.openAt=function(G){ const L=LAY(); if(!L||!G) return false; const h=S.hour(G); return h>=L.from&&h<L.to&&!S.typhoon(G); };
+  S.openAt=function(G){ const L=LAY(); if(!L||!G) return false; const h=S.hour(G);
+    if(typeof PLACES!=='undefined'&&PLACES.isOpen&&PLACES.hours&&PLACES.hours.tz_limao) return PLACES.isOpen('tz_limao',h,G.day);   /* AA_831 第二版：19:00～23:30、每天（places.js；颱風假也在裡面）；和街上的模型（tingzhou3d.js S.limaoOpen）同一份 */
+    return h>=L.from&&h<L.to&&!S.typhoon(G); };
   S.sync=function(zone,G){ if(zone&&G) zone.tzLimaoOff=S.typhoon(G); };
-  /* 現在能不能在桌前找他：店開著、他在、祐廷是法律系學生（稿的句子都是法律系的；經濟系那一年沒有稿）*/
+  /* 現在能不能在桌前找他：店開著、他在、祐廷是法律系學生（稿的句子都是法律系的；舊序章那一年沒有稿）*/
   S.canTalk=function(G,zone){ if(!D()||!G||!S.term(G)) return false; if(zone&&(zone.tzLimaoOff||zone.tzLimaoAway)) return false; return S.openAt(G); };
   S.masterSeat=()=>{ const L=LAY(); return L&&L.table&&L.table.seatMaster?Object.assign({},L.table.seatMaster):null; };
 
@@ -125,7 +127,7 @@ const LM=(function(){
   /* ---------- 算命桌 ---------- */
   S.table=async function(GM,zone){ const G=GM.G, d=D(); if(!d||!G) return null; S.sync(zone,G);
     if(zone&&zone.applyTimeOutdoor){ try{ zone.applyTimeOutdoor(S.hour(G),null); }catch(e){ console.warn('LM.table',e); } }   /* 模型的開收和這裡看同一個鐘點 */
-    if(!S.canTalk(G,zone)){ const c=d.closed, lm=zone&&zone.tzLimao;   /* 收攤、店開著他不在：稿 closed 的一句旁白（AA 93f731790）；經濟系那一年不出（互動點藏著）*/
+    if(!S.canTalk(G,zone)){ const c=d.closed, lm=zone&&zone.tzLimao;   /* 收攤、店開著他不在：稿 closed 的一句旁白（AA 93f731790）；舊序章那一年不出（互動點藏著）*/
       if(c&&S.term(G)) await S.narr(GM,[lm&&lm.open&&zone.tzLimaoAway?c.away:c.shut]); return 'closed'; }
     const F=F_(G); S.begin(GM);
     try{
@@ -138,6 +140,10 @@ const LM=(function(){
     } finally { S.end(GM); } };
 
   /* ---------- 店裡：書房的門、書房裡的東西 ---------- */
+  /* 前半命理館三個互動點（AA_750 front_room，2026-11-12）：配置的點 books／cabinet／scroll；平常念 narr，有 LM_KNOWN 以後念 known；只有旁白 */
+  S.FRONT_AT={books:'書櫃',cabinet:'玻璃櫃',scroll:'掛畫'};
+  S.frontNarr=function(G,at){ const d=D(), e=d&&d.front_room&&d.front_room.look.find(q=>q.at===at); if(!e) return null; return G&&G.flags&&G.flags.LM_KNOWN?e.known:e.narr; };
+  S.frontLook=async function(GM,it,at){ const t=S.frontNarr(GM.G,at); if(!t) return null; await S.narr(GM,[t]); return at; };
   S.lookNarr=function(at){ const d=D(), e=d&&d.study_room.look.find(q=>q.at===at); return e?e.narr:null; };
   S.narr=async function(GM,texts){ if(GM.sceneBegin) GM.sceneBegin(); try{ for(const t of texts) await GM.say(null,t); } finally { if(GM.sceneEnd) GM.sceneEnd(); } };
   S.studyDoor=async function(GM,zone,it){ const G=GM.G, d=D();
@@ -148,6 +154,7 @@ const LM=(function(){
   S.decorate=function(E,zone){ if(!E||!zone||!D()) return 0; const IT=E.interactables||[]; let n=0;
     for(const it of IT){ if(!it||it._lm) continue; const id=it.tzPoint;
       if(id==='study_door'){ it._lm=true; it.onInteract=()=>{ const GM=GMof(); return GM?S.studyDoor(GM,zone,it):null; }; n++; }
+      else if(S.FRONT_AT[id]&&S.frontNarr(null,S.FRONT_AT[id])){ const at=S.FRONT_AT[id]; it._lm=true; it.onInteract=()=>{ const GM=GMof(); return GM?S.frontLook(GM,it,at):null; }; n++; }
       else if(S.LOOK_AT[id]&&S.lookNarr(S.LOOK_AT[id])){ const at=S.LOOK_AT[id]; it._lm=true; it.onInteract=()=>{ const GM=GMof(); return GM?S.studyLook(GM,it,at):null; }; n++; } }
     const has=IT.some(q=>q&&q.tzPoint===S.LETTERS.id);
     if(zone.studyOpen&&!has&&S.lookNarr(S.LOOK_AT[S.LETTERS.id])){ const P=S.LETTERS, at=S.LOOK_AT[P.id], it={x:P.x,z:P.z,radius:P.r,label:'看'+at,tzPoint:P.id,lmAdded:true,_lm:true}; it.onInteract=()=>{ const GM=GMof(); return GM?S.studyLook(GM,it,at):null; }; IT.push(it); n++; }

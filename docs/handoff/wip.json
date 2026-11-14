@@ -65,8 +65,8 @@
     "src/data/events.js"
    ],
    "state": "已整合",
-   "remaining": "經濟系路線宿營",
-   "next": "程式 8：經濟系路線宿營；整套瀏覽器回歸（QA-HANDOFF-B1）",
+   "remaining": "舊序章路線宿營",
+   "next": "程式 8：舊序章路線宿營；整套瀏覽器回歸（QA-HANDOFF-B1）",
    "noDirectIntegrate": false,
    "source": "WIP_INVENTORY_2026-10-17",
    "closedBy": "259a4c4f"
@@ -433,7 +433,7 @@
    ],
    "state": "已整合",
    "remaining": "",
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】經濟系三位立繪改 id econ_*（b82b9eaf），blob 和 8fbe1e1a 相同 ｜ 舊：等 v0 人物 id（AA-REQ-06）和表情",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】舊序章三位立繪改 id econ_*（b82b9eaf），blob 和 8fbe1e1a 相同 ｜ 舊：等 v0 人物 id（AA-REQ-06）和表情",
    "noDirectIntegrate": false,
    "source": "WIP_INVENTORY_2026-10-17",
    "closedBy": "b82b9eaf"
@@ -1015,7 +1015,7 @@
     "src/data/feed_y1s1.js"
    ],
    "state": "已整合",
-   "remaining": "AA_504（62849944b）、AA_505（e05e87992）的動態和私訊、兩份第 0 節和手機有關的先修、AA_503～505 的「別人說起她」（Kevin 12/15 群組、予樂私訊、203 阿凱那一句；pool 同學那幾句等 AA_498）；3D 圈子不在這一輪",
+   "remaining": "AA_504（62849944b）、AA_505（e05e87992）的動態和私訊、兩份第 0 節和手機有關的先修、AA_503～505 的「別人說起她」（Kevin 12/15 群組、外校室友私訊、203 阿凱那一句；pool 同學那幾句等 AA_498）；3D 圈子不在這一輪",
    "next": "bundle 03:4x 更新到 d32d33183（AA_504／505 資料、別人說起她、新測試）；每 15～20 分鐘更新（D113）；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
    "source": "使用者 10-28 01:2x（X122★）",
@@ -1224,7 +1224,7 @@
    "files": [
     "wip_backup/kxmoot3_1028.bundle"
    ],
-   "todo": "AA_514（964d01175）可昕最後一場模擬法庭（KX_WATCH：11/28 約 → 12/4 14:00 政大 → came／missed）＋AA_505 7-3 嘉義予樂家動態（1/29）",
+   "todo": "AA_514（964d01175）可昕最後一場模擬法庭（KX_WATCH：11/28 約 → 12/4 14:00 外校 → came／missed）＋AA_505 7-3 嘉義外校室友家動態（1/29）",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28（AA_514）；使用者 X122★",
@@ -1422,7 +1422,7 @@
    "files": [
     "wip_backup/yule520_1028.bundle"
    ],
-   "todo": "AA_520 予樂自己的線：白名單、實作、tests/aa520 做中（做中）",
+   "todo": "AA_520 外校室友自己的線：白名單、實作、tests/aa520 做中（做中）",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 12:33（AA_520 481dd8238，DL-AA-520）",
@@ -1476,7 +1476,7 @@
    "files": [
     "wip_backup/econ521_1028.bundle"
    ],
-   "todo": "AA_520 第 10 節（c884a12ca）做了；AA_521 經濟系的朋友＋何俊朗＋日文班做中",
+   "todo": "AA_520 第 10 節（c884a12ca）做了；AA_521 舊序章的朋友＋舊序章人物己＋日文班做中",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 12:39／13:19（AA_521 0f4b48f20、AA_520 c884a12ca，DL-AA-521、520B）",
@@ -1834,10 +1834,10 @@
    "files": [
     "wip_backup/econsoclib_1030.bundle"
    ],
-   "todo": "經濟系同學社科圖（AA_536）（LAWWW-B 10-30 子代理）",
+   "todo": "舊序章同學社科圖（AA_536）（LAWWW-B 10-30 子代理）",
    "next": "已合進開發分支（v9.10.14 發布後：postrel-1030 合併 b576263b6、改名 ba315523b）；bundle 留在 wip_backup 當歷史",
    "noDirectIntegrate": true,
-   "source": "經濟系同學社科圖（AA_536）；LAWWW-B 10-30 派子代理",
+   "source": "舊序章同學社科圖（AA_536）；LAWWW-B 10-30 派子代理",
    "closedBy": "b576263b6",
    "branchSha": "f96898e47",
    "note": "【11-01 交班 LAWWW-B】sha 改成加入 bundle 的開發分支 commit（原本記的是子代理分支的 commit，放在 branchSha；incr 找不到檔案）"

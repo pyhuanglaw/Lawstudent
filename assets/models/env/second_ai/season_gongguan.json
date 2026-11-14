@@ -1,11 +1,11 @@
 {
- "objects": 19,
- "unique_meshes": 19,
- "tris": 8556,
- "tris_drawn": 8556,
+ "objects": 45,
+ "unique_meshes": 45,
+ "tris": 28382,
+ "tris_drawn": 28382,
  "materials": 3,
  "out": "assets/models/env/second_ai/season_gongguan.glb",
- "bytes": 560484,
+ "bytes": 1905960,
  "texres": 1024,
  "set": "gongguan",
  "doors": 11,
@@ -53,7 +53,142 @@
   "EXAM": {
    "doors": 0,
    "tris": 0
+  },
+  "FNSPRING": {
+   "doors": 1,
+   "tris": 3300
+  },
+  "FNMAY": {
+   "doors": 1,
+   "tris": 4020
+  },
+  "FNJUNE": {
+   "doors": 1,
+   "tris": 3660
+  },
+  "FNXMAS": {
+   "doors": 1,
+   "tris": 2100
+  },
+  "MOONBBQ": {
+   "doors": 1,
+   "tris": 832
+  },
+  "YAM": {
+   "doors": 1,
+   "tris": 744
+  },
+  "MOONCAKE": {
+   "doors": 1,
+   "tris": 370
+  },
+  "COUPLET": {
+   "doors": 1,
+   "tris": 258
+  },
+  "BOUQUET": {
+   "doors": 1,
+   "tris": 1030
+  },
+  "RAIN": {
+   "doors": 8,
+   "tris": 1768
   }
  },
+ "foot": {
+  "MOONBBQ": [
+   [
+    26.04,
+    26.96,
+    21.06,
+    21.49
+   ]
+  ],
+  "YAM": [
+   [
+    -61.0,
+    -59.8,
+    17.65,
+    18.3
+   ]
+  ],
+  "MOONCAKE": [
+   [
+    -33.6,
+    -32.2,
+    18.15,
+    18.75
+   ]
+  ],
+  "COUPLET": [
+   [
+    -38.6,
+    -36.4,
+    16.2,
+    16.72
+   ]
+  ],
+  "BOUQUET": [
+   [
+    7.85,
+    9.15,
+    -43.95,
+    -43.3
+   ]
+  ],
+  "RAIN": [
+   [
+    -55.03,
+    -54.77,
+    21.57,
+    21.83
+   ],
+   [
+    -37.38,
+    -37.12,
+    21.57,
+    21.83
+   ],
+   [
+    -30.59,
+    -30.33,
+    21.57,
+    21.83
+   ],
+   [
+    -11.78,
+    -11.52,
+    21.57,
+    21.83
+   ],
+   [
+    6.72,
+    6.98,
+    21.57,
+    21.83
+   ],
+   [
+    54.93,
+    55.19,
+    21.57,
+    21.83
+   ],
+   [
+    69.94,
+    70.2,
+    21.57,
+    21.83
+   ]
+  ]
+ },
+ "rain_stands": [
+  "G01",
+  "G02",
+  "G03",
+  "G05",
+  "G07",
+  "G12",
+  "G14"
+ ],
  "note": "LIFE-DETAILS-SEASONAL-1110 第一、二批：SEASON_<代號>_on（CNY 過年、XMAS 聖誕、DRAGON 端午、VDAY 情人節、HALLOWEEN 萬聖節、CVSWINTER／CVSSUMMER 便利店海報、DRINKSUMMER／DRINKWINTER 飲料店布條、LAUNDRY 洗衣店換季、EXAM 期末考週影印店）；日期表 src/data/season_deco.js"
 }

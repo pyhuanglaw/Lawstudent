@@ -1,4 +1,11 @@
 # 一盞茶屋 室內（溫州街日式宿舍改的茶屋；AA 2026-11-04 v1b，READY_FOR_REVIEW）
+
+## SHOP-CC0-HELP-1113（2026-11-13，D161 第①群幫手）：CC0 化（v1d 之後）
+- 頂點色零件乘 ambientCG 紋路＋法線（顏色照舊）；坐墊用 ambientCG Fabric030（織紋）、深色木作併進柱子的胡桃木。Poly Haven：水屋的電熱水壺、東牆層架頂的藤籃三個（取代倒角方塊）、緣側入口的大甕（取代旋轉體）。
+- **v1.1（COPLANAR-CREEP-1114，LAWWW2-C 11-14）**：電熱水壺抬高 3 mm（壺底和水屋檯面疊在一起）、和紙吊燈框的橫木比柱子窄 3 mm（橫木外面和柱子外面同一個平面，AA 原檔就有）；一定會閃的疊面 2.07 → 2.03 m²。
+- 共用的做法在 `aa_cc0.py`（`C.enable` 換頂點色材質、照顏色分材質組；`C.ph_put` 放 Poly Haven 模型）；互動點、座位、導航、店員位置都沒動。
+- 匯出：`/opt/blenv/bin/python tools/blender/env_second/aa_support/yizhan_interior.py -- --out <tmp>.glb`，再 `IN=<tmp>.glb bash tools/blender/env_second/lightbake/bake_gg_new.sh aa_yizhan` 烘光照。
+
 - **v1c**（BB_257 §9 MODEL_READY 後的小修）：門口東側柱腳兩條黑帶＝腰板和長押跟柱面同一個平面，改成貼在柱子外面 2 cm；鞋子從出生點往旁邊挪；坐墊鼓起的部分改 20 段（不再看得出八角形）。18,624 三角形、1.05 MB；圖 `model_renders/yizhan_v1c_genkan.png`。
 - **v1b**（BB_257 §4 退件，照 G、H、§9-7）：
   1. 「一盞」木牌：移到東牆 z 3.1，在兩根柱子（2.2、4.0）中間。字面改用朝室內的圖面，木紋淡一點。v1 的字面黑是因為圖面和背板同一個平面，又被柱子穿過去。

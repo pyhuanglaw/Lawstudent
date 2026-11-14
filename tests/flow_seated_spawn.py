@@ -93,7 +93,7 @@ async def main():
         await L.tap(pg, cdp, '.tabs button[data-tab="save"]'); await pg.wait_for_timeout(1200)
         c = await pg.evaluate("(()=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>x.textContent.includes('欄位 1')); const e=it&&[...it.querySelectorAll('button')].find(x=>x.textContent==='存檔'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
-        saved = await pg.evaluate("(()=>{ const t=localStorage.getItem('fatiao3d_slot_1'); if(!t) return null; const s=JSON.parse(t); return {zone:s.zone,hour:s.hour,pos:s.pos}; })()")
+        saved = await pg.evaluate("(()=>{ const s=GAME.readSave('fatiao3d_slot_1'); if(!s) return null; return {zone:s.zone,hour:s.hour,pos:s.pos}; })()")
         run.check('C 用選單存檔（欄位 1）：在博思、演講時段', bool(saved) and saved['zone'] == 'boya', json.dumps(saved, ensure_ascii=False))
         await pg.evaluate(RESET)
         c = await pg.evaluate("(()=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>x.textContent.includes('欄位 1')); const e=it&&[...it.querySelectorAll('button')].find(x=>x.textContent==='讀取'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")

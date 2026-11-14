@@ -67,7 +67,9 @@ check('7. 學姊大一約散步：不會因為「有伴侶」婉拒（使用者 
 const SAT3=Y3(6), MON3=Y3(1); W8=false; fresh(SAT,9); rel('heroine_05',65,50,45); r=ask('heroine_05','wenzhou',SAT,15.5);
 check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我考完。」「週三晚上我在法圖。要讀書的話，可以一起。」（AA_284 1-3；婉拒，不給改天）',r.res==='decline'&&r.why==='exam'&&L(r)==='散步的話，等我考完。｜週三晚上我在法圖。要讀書的話，可以一起。'&&!r.alt,r.res+' '+L(r));
 { const EX=STORY.dayOfKey('2026-02-02'); let d=EX+1; while(wdOf(d)!==6) d++; fresh(d,9); rel('heroine_05',65,50,45); r=ask('heroine_05','wenzhou',d,15.5); check('7. 筆試以後的週六（不看 W8）：答應',r.res==='accept',r.res+' '+L(r)); }
-r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊大三下的週六（W8 旗標沒有也一樣）：「散步。好。……溫州街我只有路過，沒有真的走過。」',r.res==='accept'&&L(r)==='散步。好。……溫州街我只有路過，沒有真的走過。',r.res+' '+L(r));
+/* 2026-11-11（X324 D 區，AA_783 invites.js people.heroine_05.acc.wenzhou[0]）：拿掉刪節號——舊期望「散步。好。……溫州街我只有路過，沒有真的走過。」（tests/overlay_expect.js 換成稿上的新字）*/
+const OE=require('./overlay_expect.js'), SIS_W=OE.fwd('invites','heroine_05','散步。好。……溫州街我只有路過，沒有真的走過。'), ZQ_W=OE.fwd('invites','heroine_04','……好啦。但要有目的地。');
+r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊大三下的週六（W8 旗標沒有也一樣）：「'+SIS_W+'」',r.res==='accept'&&L(r)===SIS_W,r.res+' '+L(r));
 fresh(MON,9); rel('heroine_05',65,50,45); r=ask('heroine_05','cafe',MON,12+10/60); check('7. 學姊平日中午（在總圖）約 Café：「五點以後好不好？我要先把這段寫完。」→ 17:00 以後',r.res==='resched'&&L(r)==='五點以後好不好？我要先把這段寫完。'&&r.alt&&r.alt.h>=17,r.res+' '+JSON.stringify(r.alt));
 r=ask('heroine_05','library',MON,12+10/60); check('7. 學姊平日約總圖：「好啊，我在總圖三樓。到了跟我說。」（AA_579 第 15 列）',r.res==='here'&&L(r)==='好啊，我在總圖三樓。到了跟我說。',r.res+' '+L(r));
 r=ask('heroine_05','cafe',MON,19); check('7. 學姊 W8 以後、朋友以上約 Café（晚上）：「今天不看筆記。」',r.res==='accept'&&L(r)==='今天不看筆記。',r.res+' '+L(r));
@@ -95,7 +97,8 @@ async function await0(){}
   if(!before&&CHARACTERS.classmate_youchen){ await INV.flow(gm,'classmate_youchen',null,false); check('10. 沒有個性資料的人照舊：「某某答應了。約好 …」（旁白）',gm.out.some(t=>/^旁白：.*答應了。約好/.test(t)),gm.out.join('｜')); }
   // 11 第一次散步
   fresh(MON,10); rel('heroine_04',45,30,10); r=ask('heroine_04','wenzhou',MON,15.5);
-  check('11. 子晴第一次約散步：「散步？散步是什麼？」（你解釋了一下。）「……好啦。但要有目的地。」',r.res==='accept'&&L(r)==='散步？散步是什麼？｜（你解釋了一下。）｜……好啦。但要有目的地。',L(r));
+  /* 2026-11-11（X324 D 區，AA_783 invites.js people.heroine_04.first.wenzhou[2]）：拿掉刪節號——舊期望「……好啦。但要有目的地。」*/
+  check('11. 子晴第一次約散步：「散步？散步是什麼？」（你解釋了一下。）「'+ZQ_W+'」',r.res==='accept'&&L(r)==='散步？散步是什麼？｜（你解釋了一下。）｜'+ZQ_W,L(r));
   G.invites.push({id:'x',who:'heroine_04',place:'wenzhou',zone:'wenzhou',day:MON-3,h:15,state:'done'}); r=ask('heroine_04','wenzhou',MON,15.5);
   check('11. 散步過一次以後：沒有「第一次」的那幾句',r.res==='accept'&&!/散步是什麼/.test(L(r)),L(r));
   // 12 一起走過去的路上聊一句
@@ -135,18 +138,12 @@ async function await0(){}
     const pk=INV.walkPick(G,who,pid); if(pk&&pk.ask){ pk.next(); iv.ask=pk.ask; }
     const gmM={G,E:{player:{obj:{position:{x:0,z:0}}}},npc:{},sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push((w?(w.name||w):'旁白')+'：'+t); },choose:async o=>{ opts.push(o.map(x=>x.t).join('/')); return pick; },fade:async()=>{},advance(){},caption(){},sleep:async()=>{},autosave(){},toast(){},updateHUD(){}};
     await INV.meet(gmM,iv,{obj:npcObj}); return {said,opts,ask:pk&&pk.ask}; };
-  fresh(MON,10); rel('heroine_04',25); G.flags.walkChatN={walk:0}; G.flags.walkChatN.heroine_04=2;   /* 輪到 any 的第二個（前面：去公館的兩句、松鼠）*/
-  { let pk=null; for(let n=0;n<6&&!(pk&&pk.ask);n++){ G.flags.walkChatN.heroine_04=n; pk=INV.walkPick(G,'heroine_04','cafe'); }
-    check('13. 子晴有點熟、去 Café 的路上：輪得到「欸，阿凱說你之前念經濟？那你怎麼會換來法律？」（選項句；BB_172 Q7）',!!pk&&pk.ask==='ZQ_CHANGE_ASK',pk&&JSON.stringify(pk)); }
-  { G.flags.walkChatN.heroine_04=0; let r=null; for(let n=0;n<6;n++){ G.flags.walkChatN.heroine_04=n; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask){ r=await meetAsk('heroine_04','cafe',0); break; } }
-    check('13. 子晴：「（說換方向的事）」→ 你說換方向、她問家裡、（她走了好幾步沒說話。）→「……好。知道了。」（AA_335 T6）→ 記憶 TOLD_HER_CHANGE',!!r&&r.opts[0]==='（說換方向的事）/下次再講。'&&r.said[0]==='高子晴：欸，阿凱說你之前念經濟？那你怎麼會換來法律？'&&r.said[1]==='祐廷：念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。'&&r.said.includes('旁白：（她走了好幾步沒說話。）')&&r.said.includes('高子晴：……好。知道了。')&&!r.said.some(t=>/我記住了/.test(t))&&SOCIAL.has('heroine_04','TOLD_HER_CHANGE'),r&&r.said.slice(0,8).join('｜'));
-    let again=false; for(let n=0;n<6;n++){ G.flags.walkChatN.heroine_04=n; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask) again=true; } check('13. 子晴：說過以後不再問',!again); }
-  fresh(MON,10); rel('heroine_04',25); { let r=null; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask){ r=await meetAsk('heroine_04','cafe',1); break; } }
-    check('13. 子晴：「下次再講。」→「好喔，那你欠我一次。」（BB_172 Q7）、不記 TOLD_HER_CHANGE、這句不再問（一次）',!!r&&r.said[1]==='高子晴：好喔，那你欠我一次。'&&!SOCIAL.has('heroine_04','TOLD_HER_CHANGE')&&G.flags.ZQ_CHANGE_ASK===true,r&&r.said.slice(0,3).join('｜')); }
+  fresh(MON,10); rel('heroine_04',25); { let any=false; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask==='ZQ_CHANGE_ASK') any=true; }
+    check('13. 子晴有點熟、去 Café 的路上：「你為什麼換來法律」那一段整段拿掉、不記 TOLD_HER_CHANGE（CANON-NO-ECON-1112 第四批：照 AA_894 第 4 節）',!any&&!JSON.stringify(INVITE_DATA.people.heroine_04).includes('ZQ_CHANGE_ASK')); }
   fresh(MON,10); rel('heroine_04',10); { let any=false; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask) any=true; } check('13. 子晴只是「認識」：不問',!any); }
   /* 沛珊「大家都不遵守的法律」（BB_70 6-5、BB 2fdef19）：三個選項都是學生的看法；最後一句大一上問讀書會、大一下起問課輔班 */
   fresh(MON,10); rel('classmate_peishan',25); { const r=await meetAsk('classmate_peishan','cafe',2);
-    check('13. 沛珊：「剛剛路上那排機車……」「如果一條規定大家都不守，它還算數嗎？」三個選項 → 選「要看大家為什麼不守。」→「……也是。有的人是不想守，有的人是沒辦法守。」→ 大一上「…問讀書會的人…」（BB_172 P2）',r.ask==='PS_LAW_ASK'&&r.opts[0]==='還是法律，只是沒人守。/那它可能該改了。/要看大家為什麼不守。'&&r.said[0]==='沛珊：剛剛路上那排機車，全都停在紅線上。'&&r.said[1]==='沛珊：如果一條規定大家都不守，它還算數嗎？'&&r.said[2]==='沛珊：……也是。有的人是不想守，有的人是沒辦法守。'&&r.said[3]==='沛珊：好。我要拿這題去問讀書會的人，看看他們怎麼說。',r.said.slice(0,4).join('｜')); }
+    check('13. 沛珊：「剛剛路上那排機車……」「如果一條規定大家都不守，它還算數嗎？」三個選項 → 選「要看大家為什麼不守。」→「……也是。有的人是不想守，有的人是沒辦法守。」→ 大一上「…問讀書會的人…」（BB_172 P2）',r.ask==='PS_LAW_ASK'&&r.opts[0]==='還是法律，只是沒人守。/那它可能該改了。/要看大家為什麼不守。'&&r.said[0]==='沛珊：剛剛路上那排機車，全都停在紅線上。'&&r.said[1]==='沛珊：如果一條規定大家都不守，它還算數嗎？'&&r.said[2]==='沛珊：'+OE.fwd('invites','classmate_peishan','……也是。有的人是不想守，有的人是沒辦法守。')   /* 2026-11-11（X324 D 區，AA_784）：拿掉刪節號——舊期望＝fwd 裡面的字 */&&r.said[3]==='沛珊：好。我要拿這題去問讀書會的人，看看他們怎麼說。',r.said.slice(0,4).join('｜')); }
   { const y1s2=(()=>{ for(let d=100;d<500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S2') return d; } return null; })(); fresh(y1s2,10); rel('classmate_peishan',25); const r=await meetAsk('classmate_peishan','cafe',0);
     check('13. 沛珊大一下起：選「還是法律，只是沒人守。」→ 兩句 →「好。我要拿這題去問課輔班的小孩，看看他們怎麼說。」',r.said[2]==='沛珊：所以寫下來就算數喔？'&&r.said[3]==='沛珊：那寫的人壓力好大。'&&r.said[4]==='沛珊：好。我要拿這題去問課輔班的小孩，看看他們怎麼說。',r.said.slice(0,4).join('｜')); }
   { const iv={id:'z',who:'heroine_02',ask:'NOPE'}; const r=await INV.walkAsk({G,say:async()=>{},choose:async()=>0},iv,{name:'x'}); check('13. 找不到的選項句（資料改過）：不演、不出錯',r===false&&iv.ask===null); }

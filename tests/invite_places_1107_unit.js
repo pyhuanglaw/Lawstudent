@@ -19,7 +19,7 @@ const fresh=(key,h,zone)=>{ const G=H.fresh(key,h,zone); G.invites=[]; G.stats=G
     check('2. 還沒自己去過：新的地點不列',['soclib','wz_lin','wz_teishoku','xs_dakou','xs_nanyang','bookstore','xs_shanlan'].every(k=>!sh(k)));
     G.visited={soclib:1,xs_nanyang:1}; check('2. 去過以後列',sh('soclib')&&sh('xs_nanyang')&&!sh('xs_shanlan')); }
   { const G=fresh('2025-10-15',10,'campus'); const d=G.day; const wd=CALENDAR.dateOf(d).wd;
-    check('3. 林家乾麵（週三）：12:00 可以、15:00 不行（中間休息）、18:00 可以（晚上那一段）',wd!==1&&INV.slotOpen(G,P('wz_lin'),d,12)&&!INV.slotOpen(G,P('wz_lin'),d,15)&&INV.slotOpen(G,P('wz_lin'),d,18),J([wd,INV.slotOpen(G,P('wz_lin'),d,12),INV.slotOpen(G,P('wz_lin'),d,15),INV.slotOpen(G,P('wz_lin'),d,18)]));
+    check('3. 林家乾麵（週三）：12:00、15:00、18:00 都可以（2026-11-12 改期望：營業時間併成一段 11:00–21:00；舊期望 15:00 中間休息不行）、22:00 不行',wd!==1&&INV.slotOpen(G,P('wz_lin'),d,12)&&INV.slotOpen(G,P('wz_lin'),d,15)&&INV.slotOpen(G,P('wz_lin'),d,18)&&!INV.slotOpen(G,P('wz_lin'),d,22),J([wd,INV.slotOpen(G,P('wz_lin'),d,12),INV.slotOpen(G,P('wz_lin'),d,15),INV.slotOpen(G,P('wz_lin'),d,18)]));
     check('3. 小路：19:00 可以、12:00 不行',INV.slotOpen(G,P('wz_teishoku'),d,19)&&!INV.slotOpen(G,P('wz_teishoku'),d,12));
     check('3. 南洋早場 09:50 可以（AA_707 芷若第 6 場）',INV.slotOpen(G,P('xs_nanyang'),d,9.83)&&P('xs_nanyang').times.includes(9.83)); }
   { const G=fresh('2025-10-18',10,'cafe'), id='heroine_01'; H.FRIEND(id); H.said=[];

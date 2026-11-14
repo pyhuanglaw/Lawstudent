@@ -53,7 +53,8 @@ const SEMFF=(function(){
       if(c.kind==='service') return false;
       const ct=CLS.content?CLS.content(it):null;
       if(ct&&CLS.recallText&&(ct.recall||[]).some(r=>(!r.after||r.after==='line')&&CLS.recallText(G,r,it))) return 'recall';
-      if((CLS.IN_CLASS||[]).some(f=>typeof f.due==='function'&&f.due(G,it,ct))) return 'inclass';   /* 掛進 CLS.IN_CLASS 的劇情段：函式上掛 due(G,it,ct)＝這一堂會演 */
+      if((CLS.IN_CLASS||[]).some(f=>typeof f.due==='function'&&f.due(G,it,ct))) return 'inclass';
+      if(typeof STORY!=='undefined'&&STORY.kxMeetDue&&STORY.kxMeetDue(G,it)) return 'inclass';   /* 可昕第一次見面那一堂（CANON-1112）：不自動上 */   /* 掛進 CLS.IN_CLASS 的劇情段：函式上掛 due(G,it,ct)＝這一堂會演 */
       return false; }); };
   S.actEventful=function(G,a,day){ const club=a.kind==='club';
     return at(G,day,a.t0,a.zone,()=>{ if(club&&G.flags['CLUB_'+a.id]&&CLS.clubEvent&&CLS.clubEvent(G,a)) return 'club';

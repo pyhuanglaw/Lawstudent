@@ -68,28 +68,13 @@ GM.money=function(n){ G.money+=n; };
     const M=(G.msgs||[]).filter(m=>m.th==='p:kexin'), K=M.map(m=>m.text); const ic=M.findIndex(m=>m.tag==='kx_kn_call'), ik=M.findIndex(m=>m.tag==='kx_kn_y1');
     check('⑫ 交往中（KX_CAR camp 也一樣）：22:00 以前先接電話「新年快樂。」，再收 KN；沒有「今年不開玩笑了」',ic>=0&&ik>ic&&K[ic+1]==='新年快樂。'&&!K.includes('今年不開玩笑了。新年快樂。'),JSON.stringify(K)); }
   // ⑬ K6 之後第一次換一天＝照 K6_RESPONSE；再下一次＝「好，這週換一天。」
-  { const wk=EV('ev_kexin_our_day_wk'); fresh(termDay('Y1S2',10,5),19.5,'campus',{dating_kexin:true,K6_RESPONSE:'understand'}); G.stage='law';
-    const mk=(day,id)=>{ OUT.plan(G,{id,ev:'ev_kexin_our_day_wk',day,h:19,place:'公館',title:'x'}); OUT.plan(G,{id:'other_'+day,ev:'ev_x',day,h:18,place:'公館',title:'y'}); OUT.get(G,'other_'+day).state='done'; const q=OUT.get(G,id); q.state='missed'; G.day=day; G.hour=20; wk.outingMissed(G,GM,q); PHONE.tick(G); };
-    mk(termDay('Y1S2',10,5),'kx_od_a'); mk(termDay('Y1S2',11,5),'kx_od_b'); const K=(G.msgs||[]).filter(m=>m.th==='p:kexin').map(m=>m.text);
-    check('⑬ 理解→「上次是我改期，這次換你。好，改天。」（AA_209；只一次）→ 下一次「好，這週換一天。」',K[0]==='上次是我改期，這次換你。好，改天。'&&K[1]==='好，這週換一天。',JSON.stringify(K)); }
+  { check('⑬ 「我們的日子」換一天（CANON-NO-ECON-1112 第三批：這一項拿掉）',!EV('ev_kexin_our_day_wk')); }
   // ⑭ 她自己的事件那一週不排固定格
-  { const d2=termDay('Y1S2',2,5); fresh(d2,22,'campus',{dating_kexin:true,KX_OUR_DAY:{day:'fri',mode:'ntu'}}); G.stage='law'; OUT.plan(G,{id:'kx_our_day1',ev:'ev_kexin_our_day',day:d2,h:19,place:'x',title:'x'}); OUT.get(G,'kx_our_day1').state='done';
-    OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D('2026-04-03'),h:8,place:'x',title:'x'});
-    const weeks=[]; for(let w=3;w<=12;w++){ G.day=termDay('Y1S2',w,1); G.hour=9; STORY.phoneRules(GM); for(const q of OUT.rec(G)) if(/^kx_od_/.test(q.id)&&q.state==='planned'){ weeks.push(CALENDAR.termOf(q.day).week); q.state='done'; } }
-    check('⑭ 選週五：第 6（春假旅行）、8（K6）、9（生日）週不排；其他照排（K7 週年改到 10/17，第 4 週照排）',JSON.stringify(weeks)==='[3,4,5,7,10,11,12]',JSON.stringify(weeks)); }
+  { check('⑭ 大一下每週的「我們的日子」（CANON-NO-ECON-1112 第三批：這一項拿掉）',!EV('ev_kexin_our_day')&&!EV('ev_kexin_our_day_wk')); }
   // ⑮⑯ 生日：豆花那兩句在山下那一家；老闆那句數實際吃過的次數
-  { const b=EV('ev_kexin_birthday_y1s2').dialogue, is=b.findIndex(l=>l.bg==='nccu_food'), id=b.findIndex(l=>l.text==='你第一次跟我單獨吃的，是豆花。');
-    check('⑮ 豆花那兩句在換到山下那一家的背景以後',is>0&&id>is);
-    const boss=b.find(l=>l.speaker==='老闆'); fresh(30,19,'campus',{K1_ORDER:'let_her',NCCU_FOOD_N:3}); check('⑯ 老闆那句：K1 讓她點＋實際吃過 3 次以上（含今天）',EVENTS.cond(boss.if));
-    G.flags.NCCU_FOOD_N=2; check('⑯ 2 次＝沒有',!EVENTS.cond(boss.if));
-    fresh(30,19,'campus',{}); G.events.done.ev_kexin_yule_pass=1; G.events.done.ev_kexin_birthday_y1=1; await EVENTS.runLines([{scene:'木柵大學・山下的小吃街',bg:'nccu_food'},{scene:'木柵大學・山下的小吃街',bg:'nccu_food'}],{id:'t'});
-    check('⑯ 舊存檔：照完成的事件補算，同一個事件只算一次（予樂、12/3＋這次＝3）',G.flags.NCCU_FOOD_N===3,String(G.flags.NCCU_FOOD_N)); }
-  // ⑱ SK03：P4d 沒發生的玩家，第 8 週以後第一次去重修的週五＝走廊直接遇到阿勳（完整自我介紹 → 小福邀約）
-  { const e=EV('ev_sk03_lunch'), f9=termDay('Y1S2',9,5); fresh(f9,12,'putong',{}); G.stage='law'; const ok9=EVENTS.check(e); G.day=termDay('Y1S2',5,5); G.weekday=5; const ok5=EVENTS.check(e);
-    G.day=f9; G.events.done.ev_econ_hallway=1; const okDone=EVENTS.check(e); delete G.events.done.ev_econ_hallway;
-    check('⑱ 第 9 週週五、沒有 P4d＝開 SK03；第 5 週（P4d 的窗口內）不開；演過 P4d 的照舊',ok9&&!ok5&&!okDone,JSON.stringify([ok9,ok5,okDone]));
-    picks=['今天不行']; said=[]; await EVENTS.run(e); const L=lines(); check('⑱ 開頭＝「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」→「週五中午，我們在學活。你要來就來。」；記 MET_XUN',L[0]==='阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'&&L[1]==='阿勳：週五中午，我們在學活。你要來就來。'&&!!G.flags.MET_XUN,JSON.stringify(L.slice(0,2)));
-    G.day=f9+7; G.flags.SK03_ASKED=null; said=[]; picks=['今天不行']; await EVENTS.run(e); check('⑱ 下一週：「學活。走不走？」（不再自我介紹）',lines()[0]==='阿勳：學活。走不走？',JSON.stringify(lines().slice(0,1))); }
+  { const b=EV('ev_kexin_birthday_y1s2').dialogue; check('⑮⑯ 生日那一場換成映月湖（CANON-NO-ECON-1112 第四批：照 AA_874 B 版換字；山下那一家、豆花、老闆那句拿掉）',!b.some(l=>l.bg==='nccu_food'||l.speaker==='老闆'||/豆花/.test(l.text||'')));
+    fresh(30,19,'campus',{}); check('⑯ 舊存檔照完成的事件補算的那幾場（CANON-NO-ECON-1112 第三批：這一項拿掉）',STORY.nccuFoodLegacy(G)===0); }
+  /* ⑱ SK03（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   // 第 3 節：法律審查標記
   { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('第 3 節：B4、B5、以安和 Alison 吵架的 LEGAL_REVIEW_REQUIRED 拿掉（BB_115 L482、L483）',!/比例原則的方向，不給結論（BB_105 4-3）——LEGAL_REVIEW_REQUIRED/.test(src)&&!/法律同 B4：LEGAL_REVIEW_REQUIRED/.test(src)&&!EV('ev_an_yu_argument').legal_review); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

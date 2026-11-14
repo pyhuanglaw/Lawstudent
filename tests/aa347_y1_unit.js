@@ -37,7 +37,7 @@ const fresh=(key,hour,zone,flags)=>{ const day=typeof key==='number'?key:D(key);
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); if(has('ROM')) ROM.rec(G); said=[]; opts=[]; picks=[]; caps=[]; bgs=[]; cards=[]; phoneCalls=[]; GM.npc={}; E.npcs.length=0; E.interactables=[]; E.player.busy=false; E.zone={roomAt:()=>null,seats:[]}; ADV.active=false; EVENTS.running=null; if(has('Y1FILL')&&Y1FILL.reset) Y1FILL.reset(); if(STORY._fy) STORY._fy.reset(); return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
-const noodle=()=>{ PHONE.join(G,'noodle_team','麵店團'); for(const id of ['zhe','yu','classmate_bohan','heroine_03']) SOCIAL.remember(id,'FIRST_MET',''); };
+const noodle=()=>{ PHONE.join(G,'noodle_team','桌遊團'); for(const id of ['zhe','yu','classmate_bohan','heroine_03']) SOCIAL.remember(id,'FIRST_MET',''); };
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=th=>(G.msgs||[]).filter(m=>m.th===th);
 const msgOf=tag=>(G.msgs||[]).filter(m=>m.tag===tag).map(m=>(m.from||'')+':'+m.text);
@@ -93,7 +93,7 @@ const J=x=>JSON.stringify(x);
   fresh(r20,8,'dorm'); noodle(); runTo(r20,8.25);
   chk('2. 那天一開始就排好（每天的手機小事看得到今天有劇情訊息），21:00 才出現',()=>PHONE.sent(G,'y1_relay_ask')&&!msgOf('y1_relay_ask').length);
   runTo(r20,21.25);
-  chk('2. 11/20 21:00 麵店團群組：阿哲「明天運動會」「系上大隊接力 我跑第三棒」「來看」＋「去。」「不去。」（到 11/21 10:00）',()=>{ const m=PHONE.byAsk(G,'y1_relay_ask'); return [J(msgOf('y1_relay_ask'))===J(['zhe:明天運動會','zhe:系上大隊接力 我跑第三棒','zhe:來看'])&&TH('g:noodle_team').some(x=>x.text==='來看')&&near(atOf('y1_relay_ask'),Tm(r20,21))&&J(askOpts('y1_relay_ask'))===J(['去。','不去。'])&&m.ask.until===Tm(r21,10),J(msgOf('y1_relay_ask'))+' '+J(askOpts('y1_relay_ask'))]; });
+  chk('2. 11/20 21:00 桌遊團群組：阿哲「明天運動會」「系上大隊接力 我跑第三棒」「來看」＋「去。」「不去。」（到 11/21 10:00）',()=>{ const m=PHONE.byAsk(G,'y1_relay_ask'); return [J(msgOf('y1_relay_ask'))===J(['zhe:明天運動會','zhe:系上大隊接力 我跑第三棒','zhe:來看'])&&TH('g:noodle_team').some(x=>x.text==='來看')&&near(atOf('y1_relay_ask'),Tm(r20,21))&&J(askOpts('y1_relay_ask'))===J(['去。','不去。'])&&m.ask.until===Tm(r21,10),J(msgOf('y1_relay_ask'))+' '+J(askOpts('y1_relay_ask'))]; });
   chk('2. 回「去。」＝排出遊 11/21 10:00 田徑場',()=>{ ans('y1_relay_ask',0); STORY.phoneRules(GM); const q=OUT.get(G,'y1_relay'); return [G.flags.Y1_RELAY==='go'&&!!q&&q.day===r21&&q.h===10&&q.place==='田徑場'&&q.ev==='ev_y1_relay'&&q.state==='planned',J(q)]; });
   await achk('2. Y1-C 11/21 田徑場：字幕「田徑場」、校園的背景；大隊接力第五名、阿哲「第五名耶！」、舉著獎狀',async()=>{ G.day=r21; G.hour=10; const T=await play('ev_y1_relay'); return [J(T)===J(['（大隊接力。阿哲接棒的時候掉了一次，撿起來，還是追過了一個人。法律系第五名。）',NAME('zhe')+'：第五名耶！','（他舉著獎狀跑過來，比拿第一名的人還開心。）'])&&caps.includes('田徑場')&&bgs.some(b=>b&&b.image&&/ntu_avenue/.test(b.image))&&G.flags.Y1_RELAY==='went',J(T)+' '+J(caps)]; });
   chk('2. 去了的：11:40 沒有獎狀照片',()=>{ G.day=r21; G.hour=12; runTo(r21,13); return !PHONE.sent(G,'y1_relay_photo'); });
@@ -106,11 +106,11 @@ const J=x=>JSON.stringify(x);
     fresh(r20,20,'dorm'); noodle(); G.contacts=G.contacts||{}; G.contacts.zhe=r20-30; runTo(r20,21.25); ans('y1_relay_ask',0); G.flags.Y1_RELAY='went'; runTo(r21,12.5);
     chk('2. AA_350 O4：去了的沒有那則私訊',()=>!PHONE.sent(G,'y1_relay_miss')); }
   chk('2. 回「不去。」：不排出遊',()=>{ fresh(r20,20,'dorm'); noodle(); runTo(r20,21.25); ans('y1_relay_ask',1); runTo(r20,22); return !OUT.get(G,'y1_relay')&&G.flags.Y1_RELAY==='no'; });
-  chk('2. 不在麵店團群組：沒有',()=>{ fresh(r20,20,'dorm'); runTo(r21,12); return !PHONE.sent(G,'y1_relay_ask')&&!PHONE.sent(G,'y1_relay_photo'); });
+  chk('2. 不在桌遊團群組：沒有',()=>{ fresh(r20,20,'dorm'); runTo(r21,12); return !PHONE.sent(G,'y1_relay_ask')&&!PHONE.sent(G,'y1_relay_photo'); });
 
   // ===== 3. 1-3 期末範圍 =====
   const f26=D('2025-11-26');
-  chk('3. 11/26（三）22:10 麵店團群組：Alison 兩則（不打句號）、柏翰「第九講。投影片最後一頁有寫。」、Alison「……謝謝柏翰」、阿哲的貼圖',()=>{ fresh(f26,9,'dorm'); noodle(); runTo(f26,22); const early=msgOf('y1_final_scope').length; runTo(f26,22.25);
+  chk('3. 11/26（三）22:10 桌遊團群組：Alison 兩則（不打句號）、柏翰「第九講。投影片最後一頁有寫。」、Alison「……謝謝柏翰」、阿哲的貼圖',()=>{ fresh(f26,9,'dorm'); noodle(); runTo(f26,22); const early=msgOf('y1_final_scope').length; runTo(f26,22.25);
     return [!early&&CALENDAR.dateOf(f26).wd===3&&J(msgOf('y1_final_scope'))===J(['yu:期末範圍公布了','yu:憲法考到第八講','classmate_bohan:第九講。投影片最後一頁有寫。','yu:……謝謝柏翰','zhe:（貼圖：一隻趴在桌上的狗）'])&&near(atOf('y1_final_scope'),Tm(f26,22+10/60)),J(msgOf('y1_final_scope'))]; });
 
   // ===== 4. 2-1 寒假第 7 週 =====
@@ -118,15 +118,15 @@ const J=x=>JSON.stringify(x);
   chk('4. 2/5 摘要日（快轉停在 18:30）：日期卡下面那一行換成「（寒假第七週。你把大一上的筆記裝進一個紙箱，箱子外面寫「大一上」。比你想的重。）」',()=>{ fresh(w5-1,10,'dorm'); const l=has('HOLFF')?HOLFF.cardLine(G,Tm(w5,18.5)):null; return [l==='（寒假第七週。你把大一上的筆記裝進一個紙箱，箱子外面寫「大一上」。比你想的重。）'&&HOME.breakNext(G)===Tm(w5,18.5),l]; });
   await achk('4. 從 2/2 在宿舍快轉「到下一個有事的日子」：停在 2/5 18:30，日期卡寫那一句',async()=>{ fresh('2026-02-02',10,'dorm'); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const c=cards[0]||[]; return [G.day===w5&&Math.abs(G.hour-18.5)<1e-6&&c[1]==='（寒假第七週。你把大一上的筆記裝進一個紙箱，箱子外面寫「大一上」。比你想的重。）',J(cards)]; });
   fresh(w6,10,'dorm'); noodle(); runTo(w6,21.25);
-  chk('4. 2/6（五）21:00 麵店團群組：語彤「下禮拜二開始店休，到初三。」「要吃的這個週末來。」＋「去。」「不去。」',()=>[J(msgOf('y1w_noodle_last_ask'))===J(['heroine_03:下禮拜二開始店休，到初三。','heroine_03:要吃的這個週末來。'])&&near(atOf('y1w_noodle_last_ask'),Tm(w6,21))&&J(askOpts('y1w_noodle_last_ask'))===J(['去。','不去。']),J(msgOf('y1w_noodle_last_ask'))]);
+  chk('4. 2/6（五）21:00 桌遊團群組：語彤「下禮拜二開始店休，到初三。」「要吃的這個週末來。」＋「去。」「不去。」',()=>[J(msgOf('y1w_noodle_last_ask'))===J(['heroine_03:下禮拜二開始店休，到初三。','heroine_03:要吃的這個週末來。'])&&near(atOf('y1w_noodle_last_ask'),Tm(w6,21))&&J(askOpts('y1w_noodle_last_ask'))===J(['去。','不去。']),J(msgOf('y1w_noodle_last_ask'))]);
   chk('4. 回「去。」＝排出遊 2/7（六）18:00 麵店',()=>{ ans('y1w_noodle_last_ask',0); STORY.phoneRules(GM); const q=OUT.get(G,'y1w_noodle_last'); return [!!q&&q.day===w7&&q.h===18&&q.ev==='ev_y1w_noodle_last'&&CALENDAR.dateOf(w7).wd===6,J(q)]; });
   await achk('4. 2/7 日常失速（AA_630 Z-059、Z-060：語彤寒假最後一次搬到日常失速・靠窗的位子）：AA_549 3-3 那一句旁白換成語彤的場景（第一句「（寒假的日常失速，客人只有兩桌。語彤坐在靠窗的位子，圍裙還塞在背包裡。）」；原本的旁白不再出現）',async()=>{ G.day=w7; G.hour=18; const T=await play('ev_y1w_noodle_last'); return [T[0]==='（寒假的日常失速，客人只有兩桌。語彤坐在靠窗的位子，圍裙還塞在背包裡。）'&&!T.some(t=>/過年前最後一個週末/.test(t))&&caps.includes('日常失速・靠窗的位子'),J(T)]; });   /* 場景的台詞照 AA_549：tests/aa549_vacgap_unit.js 3-3 */
   chk('4. 回「不去。」或沒回：沒有後續',()=>{ fresh(w6,20,'dorm'); noodle(); runTo(w6,21.25); ans('y1w_noodle_last_ask',1); runTo(w7,20); const a=!OUT.get(G,'y1w_noodle_last'); fresh(w6,20,'dorm'); noodle(); runTo(w7,20); return a&&!OUT.get(G,'y1w_noodle_last'); });
-  await achk('4. 寒假在宿舍快轉：2/6 21:00 收到要回的訊息就停下來、打開手機',async()=>{ fresh(w5,19,'dorm'); noodle(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.th==='g:noodle_team'); return [!!c&&c.day===w6&&Math.abs(c.hour-21)<0.3,J(phoneCalls)]; });   /* AA_532 第 4 節：留宿舍的寒假週四也有家人群組（2/5 20:00、22:00 爸爸「？」先停，X58）——找麵店團那一次 */
+  await achk('4. 寒假在宿舍快轉：2/6 21:00 收到要回的訊息就停下來、打開手機',async()=>{ fresh(w5,19,'dorm'); noodle(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.th==='g:noodle_team'); return [!!c&&c.day===w6&&Math.abs(c.hour-21)<0.3,J(phoneCalls)]; });   /* AA_532 第 4 節：留宿舍的寒假週四也有家人群組（2/5 20:00、22:00 爸爸「？」先停，X58）——找桌遊團那一次 */
 
   // ===== 5. 3-1 期中考完 =====
   const m24=D('2026-04-24');
-  chk('5. 4/24（五，大一下第 9 週）21:30 麵店團群組：Alison「報告寫完的人 舉手」阿哲「🙋」柏翰「我還有一份。」Alison「柏翰 那你為什麼在這裡」柏翰「……我去寫了。」',()=>{ fresh(m24,9,'dorm'); noodle(); runTo(m24,21.75); const t=CALENDAR.termOf(m24);
+  chk('5. 4/24（五，大一下第 9 週）21:30 桌遊團群組：Alison「報告寫完的人 舉手」阿哲「🙋」柏翰「我還有一份。」Alison「柏翰 那你為什麼在這裡」柏翰「……我去寫了。」',()=>{ fresh(m24,9,'dorm'); noodle(); runTo(m24,21.75); const t=CALENDAR.termOf(m24);
     return [t&&t.id==='Y1S2'&&t.week===9&&J(msgOf('y1s2_mid_done'))===J(['yu:報告寫完的人 舉手','zhe:🙋','classmate_bohan:我還有一份。','yu:柏翰 那你為什麼在這裡','classmate_bohan:……我去寫了。'])&&near(atOf('y1s2_mid_done'),Tm(m24,21.5)),J(msgOf('y1s2_mid_done'))]; });
 
   // ===== 6. 3-2 大一下的手機小事八則 =====
@@ -140,8 +140,8 @@ const J=x=>JSON.stringify(x);
   const P=th=>TH(th).map(m=>m.text);
   /* 2026-10-28 改：AA_497 5-4（企劃線 7a38216ca）Kevin 的動物影片保留前 2 則，第 5 則（鸚鵡）照原本的日期換成「考古題資料夾我整理了一個晚上 ……已刪除」，跟著影片的學姊「七八五十六。」拿掉（tests/aa497_supporting_unit.js 5-4）*/
   chk('6. 家族群組 21:18：Kevin「考古題資料夾我整理了一個晚上 發現有一份是我大一自己寫錯的答案 已刪除」（AA_497 5-4；原本的鸚鵡影片＋學姊「七八五十六。」換掉）',()=>{ const L=TH('g:family_law'), i=L.findIndex(m=>m.text==='考古題資料夾我整理了一個晚上 發現有一份是我大一自己寫錯的答案 已刪除'); return [i>=0&&L[i].name==='Kevin'&&!L.some(m=>m.text==='七八五十六。'||/鸚鵡/.test(m.text))&&near(L[i].h,21.3),J(L.map(m=>m.text))]; });
-  chk('6. 麵店團 12:30 Alison 的咖哩飯「這個比例是違憲的」、柏翰「比例原則不是這樣用的。」、Alison「我知道 我在用」',()=>{ const L=TH('g:noodle_team'), i=L.findIndex(m=>m.text==='📷（學生餐廳的咖哩飯，飯比咖哩多很多）'); return [i>=0&&J(L.slice(i,i+4).map(m=>m.from+':'+m.text))===J(['yu:📷（學生餐廳的咖哩飯，飯比咖哩多很多）','yu:這個比例是違憲的','classmate_bohan:比例原則不是這樣用的。','yu:我知道 我在用'])&&near(L[i].h,12.5),J(L.slice(i,i+4).map(m=>m.text))]; });
-  chk('6. 麵店團 22:40 阿哲「系籃練習 今天投進三顆」「三十顆裡面」、Alison「進步了」；22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」（AA_373 #19：原本 23:10「總圖今天十一點關。」）',()=>{ const L=TH('g:noodle_team'), a=L.findIndex(m=>m.text==='系籃練習 今天投進三顆'), b=L.findIndex(m=>m.text==='總圖十點關。');
+  chk('6. 桌遊團 12:30 Alison 的咖哩飯「這個比例是違憲的」、柏翰「比例原則不是這樣用的。」、Alison「我知道 我在用」',()=>{ const L=TH('g:noodle_team'), i=L.findIndex(m=>m.text==='📷（學生餐廳的咖哩飯，飯比咖哩多很多）'); return [i>=0&&J(L.slice(i,i+4).map(m=>m.from+':'+m.text))===J(['yu:📷（學生餐廳的咖哩飯，飯比咖哩多很多）','yu:這個比例是違憲的','classmate_bohan:比例原則不是這樣用的。','yu:我知道 我在用'])&&near(L[i].h,12.5),J(L.slice(i,i+4).map(m=>m.text))]; });
+  chk('6. 桌遊團 22:40 阿哲「系籃練習 今天投進三顆」「三十顆裡面」、Alison「進步了」；22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」（AA_373 #19：原本 23:10「總圖今天十一點關。」）',()=>{ const L=TH('g:noodle_team'), a=L.findIndex(m=>m.text==='系籃練習 今天投進三顆'), b=L.findIndex(m=>m.text==='總圖十點關。');
     return [a>=0&&b>=0&&J(L.slice(a,a+3).map(m=>m.from+':'+m.text))===J(['zhe:系籃練習 今天投進三顆','zhe:三十顆裡面','yu:進步了'])&&J(L.slice(b,b+3).map(m=>m.from+':'+m.text))===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧'])&&near(L[a].h,22+40/60)&&near(L[b].h,22+10/60)]; });
   chk('6. 私訊：以安 15:20「總圖三樓的冷氣壞了。」「我換到二樓。……二樓的也壞了。」；語彤 17:40 黑板照片、「蘇姨說不要改。客人看得懂。」；芯慈 23:30《檔案室的燈》三則',()=>[J(P('p:heroine_01').slice(-2))===J(['總圖三樓的冷氣壞了。','我換到二樓。……二樓的也壞了。'])&&near(TH('p:heroine_01').slice(-2)[0].h,15+20/60)
     &&J(P('p:heroine_03').slice(-2))===J(['📷（茶屋門口的黑板，今天的茶點寫錯一個字）','蘇姨說不要改。客人看得懂。'])&&near(TH('p:heroine_03').slice(-2)[0].h,17+40/60)
@@ -162,7 +162,7 @@ const J=x=>JSON.stringify(x);
     return [stop&&a==='（七月底。宿舍的走廊只開一半的燈。）'&&b==='（七月底。你陪媽媽去了一趟大賣場，推車是你推的。）',stop+' '+a+' '+b]; });
   await achk('7. 從 7/27 在家快轉（選了「暑假回家住」）：停在 7/29 18:30，日期卡寫回家住那一句',async()=>{ fresh(s29-2,10,'dorm'); const H=HOME.rec(G); H.stay={Y1S:'home'}; H.at=true; H.day=G.day; const B=HOME.lawBreak(G); H.lbreak=B.key; H.brk=B.key; H.bskip={key:B.key,n:0,last:-1};
     picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'home'); const c=cards[cards.length-1]||[]; return [G.day===s29&&Math.abs(G.hour-18.5)<1e-6&&c[1]==='（七月底。你陪媽媽去了一趟大賣場，推車是你推的。）',J(cards)]; });   /* X58（10-27）：途中收到訊息會先停一次（那張卡在前面），看最後一張 */
-  chk('7. 8/18（二）21:00 麵店團群組：Alison「暑假還在臺北的 舉手」柏翰「新竹。」Alison「你那個不叫舉手」',()=>{ fresh(s18,9,'dorm'); noodle(); runTo(s18,21.25); return [CALENDAR.dateOf(s18).wd===2&&J(msgOf('y1s_still_taipei'))===J(['yu:暑假還在臺北的 舉手','classmate_bohan:新竹。','yu:你那個不叫舉手'])&&near(atOf('y1s_still_taipei'),Tm(s18,21)),J(msgOf('y1s_still_taipei'))]; });
+  chk('7. 8/18（二）21:00 桌遊團群組：Alison「暑假還在臺北的 舉手」柏翰「新竹。」Alison「你那個不叫舉手」',()=>{ fresh(s18,9,'dorm'); noodle(); runTo(s18,21.25); return [CALENDAR.dateOf(s18).wd===2&&J(msgOf('y1s_still_taipei'))===J(['yu:暑假還在臺北的 舉手','classmate_bohan:新竹。','yu:你那個不叫舉手'])&&near(atOf('y1s_still_taipei'),Tm(s18,21)),J(msgOf('y1s_still_taipei'))]; });
   chk('7. 8/25 摘要日：「（暑假剩兩個禮拜。你先把大二上的兩本課本買了。比大一的厚。）」（AA_369 L6）',()=>{ fresh(s25-1,10,'dorm'); const l=has('HOLFF')?HOLFF.cardLine(G,Tm(s25,18.5)):null; return [l==='（暑假剩兩個禮拜。你先把大二上的兩本課本買了。比大一的厚。）',l]; });
   chk('7. 那天出國（例：8/25 報名的假期活動）：照 HOME.sumSkip 不停、不出',()=>{ fresh(s25-1,10,'dorm'); OUT.plan(G,{id:'t_vac',ev:'ev_x',day:s25,h:10,place:'x',title:'x',vac:{key:'T@Y1',k:0}}); return has('HOLFF')&&HOLFF.cardLine(G,Tm(s25,18.5))==null; });
 

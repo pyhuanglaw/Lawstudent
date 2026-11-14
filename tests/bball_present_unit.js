@@ -89,6 +89,7 @@ const KEEP=[[3.3,-112.7,1.5,'活動點']].concat(ZHE?[[ZHE.at[0],ZHE.at[1],1.4,'
 { const G=mkG(FRI,17.45), GM=enter(G); const n0=court().length; for(let i=0;i<4;i++){ G.hour+=0.02; CROWD.tick(GM,1.5); } const L=court();
   check('2. 17:30 開始、玩家在球場邊看得到：從南邊的路走進來（不是憑空出現在場上）',n0===0&&L.length>=8&&L.every(n=>n.obj.position.z>-102),n0+' → '+L.length+' 人，'+L.slice(0,3).map(n=>n.obj.position.x.toFixed(1)+','+n.obj.position.z.toFixed(1)).join(' ')); }
 // ---------- 3、4. 非練球日、國定假日：沒有人、有提示 ----------
+const J_=JSON.stringify;
 const spots=(key,h)=>{ const G=mkG(key,h), its=[]; CLS.addActSpots({E:{interactables:its},G},'campus'); const hs=[]; if(CLS.addActHints) CLS.addActHints({E:{interactables:hs},G},'campus'); return {G,act:its.filter(i=>i.actSpot==='dept_basketball'),hint:hs.filter(i=>i.actHint==='dept_basketball')}; };
 { enter(mkG(THU,17.75)); const n=court().length; const s=spots(THU,17.75), h=s.hint[0];
   check('3. 非練球日（10/16 週四 17:45，使用者的存檔）：球場沒有人、沒有「系籃練球」的參加點',n===0&&s.act.length===0,n+' 人、參加點 '+s.act.length);
@@ -96,8 +97,11 @@ const spots=(key,h)=>{ const G=mkG(key,h), its=[]; CLS.addActSpots({E:{interacta
   const t=h?h.look:''; check('3. 按了寫時間地點、今天沒有、下一次是 10/17（五）',/每週五 17:30–19:00/.test(t)&&/籃球場/.test(t)&&/今天沒有系籃練球/.test(t)&&/下一次：10\/17（五）17:30/.test(t),t); }
 { enter(mkG(FRI,17.75)); const s=spots(FRI,17.75); const h=s.hint[0];
   check('3. 練球日：參加點照舊（「系籃練球」），提示藏起來（hidden）或沒有',s.act.length===1&&s.act[0].label==='系籃練球'&&(!h||h.hidden===true),'參加點 '+s.act.length+'、提示 '+(h?'hidden='+h.hidden:'沒有')); }
-{ const s=spots(Y1S2FRI,17.75), w16=spots(W16,17.75);
-  check('3. 大一下（沒有系籃練球）：沒有提示；第 16 週：提示寫「這學期的系籃練球結束了」',s.hint.length===0&&w16.hint.length===1&&/這學期的系籃練球結束了/.test(w16.hint[0].look),w16.hint[0]&&w16.hint[0].look); }
+/* 2026-11-12 改期望（CLUB-LATER-TERMS-1112，AA_852@b039356f5：系籃延到大二下，大三起不排）。
+   舊期望：大一下（2026-03-06，沒有系籃練球）沒有提示。現在大一下有練球（第 5 週起）：2026-03-06 是大一下第 2 週＝還沒開始練，和大一上第 4 週一樣有只看不參加的提示、沒有參加點；
+   「沒有系籃練球的學期沒有提示」改用大三上（2027-10-15，第 6 週的週五）驗 */
+{ const s=spots(Y1S2FRI,17.75), w16=spots(W16,17.75), y3=spots('2027-10-15',17.75), t3=CALENDAR.termOf(dayOf('2027-10-15'));
+  check('3. 大一下第 2 週（還沒開始練）：有提示、沒有參加點；大三上（沒有系籃練球）：沒有提示、沒有參加點；第 16 週：提示寫「這學期的系籃練球結束了」',s.hint.length===1&&s.act.length===0&&!!t3&&t3.id==='Y3S1'&&y3.hint.length===0&&y3.act.length===0&&w16.hint.length===1&&/這學期的系籃練球結束了/.test(w16.hint[0].look),J_([s.hint.length,s.act.length,t3&&t3.id,y3.hint.length,w16.hint[0]&&w16.hint[0].look])); }
 { const A=ACTIVITIES.list.find(a=>a.id==='dept_basketball'), d=dayOf(HOL); enter(mkG(HOL,17.75)); const n=court().length, s=spots(HOL,17.75), h=s.hint[0];
   check('4. 國定假日（10/10 週五國慶，第 6 週）：ACTIVITIES.on 照規則不算練球 → 球場沒有人、沒有參加點',CALENDAR.holiday(d)&&!ACTIVITIES.on(A,d,{flags:{}})&&n===0&&s.act.length===0,'holiday='+CALENDAR.holiday(d)+'、'+n+' 人、參加點 '+s.act.length);
   check('4. 國定假日的提示：「今天國慶日，系籃練球停一次」、下一次 10/17',!!h&&/今天國慶日，系籃練球停一次/.test(h.look)&&/下一次：10\/17（五）/.test(h.look),h&&h.look); }

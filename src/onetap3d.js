@@ -5,7 +5,7 @@
      1. 回去睡覺：住的地方照 STORY.forceHome（凌晨 2:30 強制回去睡）那幾段——日本（JP.bedFromRoom：回據點，據點的選單照舊睡）、住家裡（HOME.go，回到家的選單直接選「睡覺」）、
         美國（公寓）、公館套房、其他＝宿舍 203（GM.enter dorm）；到了以後 STORY.bedScene(GM,{auto:true})：床前面的劇情優先（除夕回家、典禮、8/30 電話、第一天讀案例）照舊，
         床的選單不問、直接選第一個睡覺（kind sleep；今晚還有鬧鐘＝「睡一下（幾點叫醒你）」）；爬上床、熄燈、睡覺的演出照舊（goToBed、sleepNow）。
-        晚上（17:30 以後、過半夜）才能按；白天寫原因（白天回去用床可以小睡）。經濟系事件模式、畢業後「睡覺＝到下一件事」的時候白天也可以（床本來就是到下一件事）。
+        晚上（17:30 以後、過半夜）才能按；白天寫原因（白天回去用床可以小睡）。舊序章事件模式、畢業後「睡覺＝到下一件事」的時候白天也可以（床本來就是到下一件事）。
      2. 到下一堂課的教室：CLS.goClass（手機「今天」的「直接去上課」同一個）；時間還早＝照跳過時間的規則等到出門時間（中途有約、劇情會先停）；到了以後直接坐老位子（沒有就中間的位子）。
      3. 到下一個約會地點：今天約好的出遊、校外約會（OUT，OUT.go＝「出發」）、當面約（INV.goNow＝「前往」）最早的一個；
         還早（離出發超過 15 分鐘）＝先照跳過時間的規則等到出發時間（CLS.skipTo，中途有事會先停），再出發；約會本身的劇情照舊演。
@@ -32,10 +32,10 @@ const ONETAP=(function(){
   const nowLine=G=>'現在：'+WEEK[((G.weekday|0)%7+7)%7]+' '+hm(G.hour);
   /* ---------- 1. 回去睡覺 ---------- */
   S.where=function(G){ if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)) return {k:'jp',name:'日本的宿舍'};
-    if(typeof HOME!=='undefined'&&((HOME.breakMode&&HOME.breakMode(G))||(HOME.baseMode&&HOME.baseMode(G))||(HOME.pgHome&&HOME.pgHome(G))||(typeof JP!=='undefined'&&JP.homeOn&&JP.homeOn(G)))) return {k:'home',name:'家'};   /* 放假住家裡、經濟系休學住家裡、畢業後住家裡、日本路線出發前後住家裡（forceHome＋jp3d.js 包的那一段）*/
+    if(typeof HOME!=='undefined'&&((HOME.breakMode&&HOME.breakMode(G))||(HOME.pgHome&&HOME.pgHome(G))||(typeof JP!=='undefined'&&JP.homeOn&&JP.homeOn(G)))) return {k:'home',name:'家'};   /* 放假住家裡、舊序章住家裡、畢業後住家裡、日本路線出發前後住家裡（forceHome＋jp3d.js 包的那一段）*/
     if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)) return {k:'us',name:'公寓',zone:'us_apartment'};
     if(typeof HOME!=='undefined'&&HOME.suite&&HOME.suite(G)) return {k:'suite',name:'公館的套房',zone:'gongguan'};
-    const no=typeof DM3!=='undefined'&&DM3.homeOf?DM3.homeOf(G).plate:'203'; return {k:'dorm',name:'宿舍 '+no,zone:'dorm'}; };   /* 房號照現在住的（經濟系 412、大二 312、大三 507、大四 409；DM3.homeOf）——原本寫死 203（BB-B 11-07 BUG-ONETAP-DORM203-1107）*/
+    const no=typeof DM3!=='undefined'&&DM3.homeOf?DM3.homeOf(G).plate:'203'; return {k:'dorm',name:'宿舍 '+no,zone:'dorm'}; };   /* 房號照現在住的（舊序章 412、大二 312、大三 507、大四 409；DM3.homeOf）——原本寫死 203（BB-B 11-07 BUG-ONETAP-DORM203-1107）*/
   const trav=(G,E,zone)=>{ if(G.zone===zone) return 0; const pos=E&&E.player&&E.player.obj?E.player.obj.position:null; return typeof CLS!=='undefined'&&CLS.travelMinutes?CLS.travelMinutes(G,G.zone,zone,pos,null):15; };
   S.sleepPlan=function(GM){ const G=GM.G, E=GM.E, why=S.busyWhy(GM); if(why) return {k:'sleep',ok:false,why};
     const w=S.where(G), jump=typeof STORY!=='undefined'&&STORY.sleepJumpMode&&STORY.sleepJumpMode(G), hh=((G.hour%24)+24)%24, night=G.hour>=24||hh>=17.5||hh<5;

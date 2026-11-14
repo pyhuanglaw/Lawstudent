@@ -93,13 +93,13 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
     const w26=[11.5,13,19.5,21].map(h=>shift('2026-08-26',h)), w27=shift('2026-08-27',19.5), w28=[shift('2026-08-28',11.5),shift('2026-08-28',19.5)];
     check('A4. 作息：2026-08-26（三）回臺北那天沒有 Café 的班（早班、晚班都沒有）；8/27（四）19:00 晚班、8/28（五）早班晚班照常',w26.every(x=>x!=='cafe/barista')&&w27==='cafe/barista'&&w28.every(x=>x==='cafe/barista'),J({w26,w27,w28}));
     setup('2026-07-24',17.9,{flags:{dating_heroine_02:true}}); SOCIAL.remember(ZR,'FIRST_MET',''); VAC.rec(H.G).reg['C08@Y1']='done'; runPhone(17.9,21.2);
-    check('A4. 7/24 回國當天：「回來了？……我 26 號回臺北。」，還沒約',txt('p:'+ZR).includes('回來了？……我 26 號回臺北。')&&!OUT.get(H.G,'vac_C08@Y1_re_heroine_02'));
+    check('A4. 7/24 回國當天：「回來了？我 26 號才回臺北。」，還沒約',txt('p:'+ZR).includes('回來了？我 26 號才回臺北。')&&!OUT.get(H.G,'vac_C08@Y1_re_heroine_02'));
     at('2026-08-25',20.9); runPhone(20.9,21.2); const q1=OUT.get(H.G,'vac_C08@Y1_re_heroine_02');
     check('A4. 8/25 21:00 不約（她還在台中）',!q1&&!txt('p:'+ZR).includes('明天我十點下班。'),J(q1));
     at('2026-08-26',20.9); runPhone(20.9,21.2); const q2=OUT.get(H.G,'vac_C08@Y1_re_heroine_02');
     check('A4. 8/26 21:00「明天我十點下班。」「……你來的話，我晚一點關燈。」→ 8/27 22:00 2:30 AM 重逢',txt('p:'+ZR).includes('明天我十點下班。')&&txt('p:'+ZR).includes('……你來的話，我晚一點關燈。')&&!!q2&&q2.day===D('2026-08-27')&&q2.h===22&&q2.place==='2:30 AM',J(q2));
     const R=VAC_DATA.TRIP_MSG.reunion[ZR];
-    check('A4. 重逢的台詞照原本（倒扣椅子、「回來了。」「……第一杯，我還是做給你。坐。」、沒去的那句）',J(R.lines.map(l=>l.text||l.narr))===J(['（她把最後一張椅子倒扣在桌上。）','回來了。','……第一杯，我還是做給你。坐。'])&&J(R.miss)===J(['昨天的那杯，我自己喝了。']));
+    check('A4. 重逢的台詞照原本（倒扣椅子、「回來了。」「第一杯，我還是做給你。坐。」、沒去的那句）',J(R.lines.map(l=>l.text||l.narr))===J(['（她把最後一張椅子倒扣在桌上。）','回來了。','第一杯，我還是做給你。坐。'])&&J(R.miss)===J(['昨天的那杯，我自己喝了。']));
   });
 
   /* ======================= A5 大一下期末飯 ======================= */
@@ -114,28 +114,14 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
   await sec('C',async()=>{
     const hasImg=k=>!!(OUT.BG[k]&&OUT.BG[k].image&&fs.existsSync(path.join(H.ROOT,OUT.BG[k].image)));
     const bgOf=id=>{ const e=ev(id); return e?img(e.background):null; };
-    for(const [id,k] of [['ev_y0_e26','home_entry_night'],['ev_y0_kh_bus','coach_night'],['ev_y0_kh_bus_h','coach_night']])   /* 11-02 起客運版用夜班客運車廂 coach_night（BB_132 第 100 組第 1 張；原本借 bus_night）*/
-      check('C. '+id+' 開頭（稿沒有地點字幕）的底圖＝'+k+'（OUT.BG 有圖）',hasImg(k)&&bgOf(id)===k,J(bgOf(id)));
-    check('C. ev_y0_e36r（不在家那一版）＝blur 模糊的 3D（11-01 LAWWW-B 回 BB：人不在家，不用家裡房間）',ev('ev_y0_e36r').background==='blur',J(ev('ev_y0_e36r').background));
-    check('C. 在家看榜 ev_y0_e36rh 照舊 home_room（BB_216 B）',J((ev('ev_y0_e36rh').dialogue||[])[0])===J({scene:'家',bg:'home_room'}));
-    /* 實際演：ADV.begin 拿到的背景 */
-    { H.fresh('2025-08-13',10,'campus',{}); H.bgs=[]; H.said=[]; await EVENTS.run(ev('ev_y0_e36r')); const b=H.bgs.map(img);
-      check('C. 演 ev_y0_e36r（8/13 10:00 不在家）：ADV 開場的背景是 blur、兩句旁白照舊',b[0]==='blur'&&said()[0]==='（八月十三日，早上十點。榜單公布了。）',J({b,L:said()})); }
-    /* ev_y0_rp：那一句的目的地 */
-    { const E=ev('ev_y0_rp'), out={};
-      for(let i=0;i<STORY.RP.length;i++){ H.fresh('2025-06-05',10,'dorm',{RP_LAST:i,RP_TXT:STORY.RP[i][2]}); H.bgs=[]; H.said=[]; await EVENTS.runLines(E.dialogue,{id:'t',participants:['kexin']}); out[i]={bg:H.bgs.map(img),L:said()}; }
-      check('C. ev_y0_rp：公館的二輪戲院＝gongguan_cinema、淡水看海＝d13_base_sunset（淡水），旁白那一句照舊',hasImg('gongguan_cinema')&&hasImg('d13_base_sunset')&&J(out[0].bg)===J(['gongguan_cinema'])&&J(out[3].bg)===J(['d13_base_sunset'])&&out[0].L[0]===STORY.RP[0][2]&&out[3].L[0]===STORY.RP[3][2],J([out[0],out[3]]));
-      check('C. ev_y0_rp（11-01 LAWWW-B 回 BB；11-02 第 102 組到了）：溫州街＝blur、公館的咖啡店＝cafe（借 2:30 AM）、映月湖白天＝zuiyue_day、芒果冰＝mango_ice',J(out[1].bg)===J(['blur'])&&J(out[4].bg)===J(['cafe'])&&hasImg('cafe')&&J(out[2].bg)===J(['zuiyue_day'])&&J(out[5].bg)===J(['mango_ice'])&&hasImg('zuiyue_day')&&hasImg('mango_ice')&&[1,2,4,5].every(i=>out[i].L[0]===STORY.RP[i][2]),J([1,2,4,5].map(i=>out[i].bg))); }
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（C 經濟系五段開頭的底圖（ev_y0_e26、ev_y0_kh_bus／_h、ev_y0_e36r／rh、ev_y0_rp））
     /* 左營站傍晚 */
     const block=(f,id)=>{ const t=fs.readFileSync(path.join(H.ROOT,f),'utf8'), i=t.indexOf("id:'"+id+"'"); if(i<0) return ''; const j=t.indexOf("id:'",i+5); return t.slice(i,j<0?t.length:j); };   /* 這兩個事件包 pg_harness 沒有載入：讀原始檔那一段 */
     { const b=block('src/data/r2y4a_events.js','ev_kexin_trip_winter_y4'), n=(b.match(/\{scene:'高雄・左營站',bg:'kh_station'\}/g)||[]).length;
       check('C. ev_kexin_trip_winter_y4：左營站兩段（開頭、傍晚）都是 kh_station',n===2&&!/\{scene:'高雄・左營站',bg:'dark'\}/.test(b)&&hasImg('kh_station'),String(n)); }
     /* BB 列的另外兩個代號遊戲裡沒有：不改 */
     check('C. 11-02 第 102 組 bus_day、第三批 town_market 有圖了：公車上（ev_sis_vday_y3）＝bus_day、小鎮的市場（ev_spring_y2_noodle）＝town_market；沒有 market 這個代號',!!(OUT.BG.bus_day&&OUT.BG.bus_day.image)&&!!(OUT.BG.town_market&&OUT.BG.town_market.image)&&!OUT.BG.market&&block('src/data/sis_b4_events.js','ev_sis_vday_y3').includes("{scene:'公車上',bg:'bus_day'}")&&block('src/data/group_events.js','ev_spring_y2_noodle').includes("{scene:'小鎮的市場',bg:'town_market'}"));
-    /* 盤點工具：經濟系沒有深色底了 */
-    { let out=''; try{ out=cp.execSync('node tools/story/black_bg_audit.js --stage econ',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ out=String(e.stdout||''); }
-      const rows=(out.split('## 2.')[1]||'').split('## 3.')[0].split('\n').filter(l=>/^\| ev_/.test(l)), wrong=(out.split('## 3.')[1]||'').split('## 4.')[0].split('\n').filter(l=>/^\| ev_y0/.test(l));
-      check('C. tools/story/black_bg_audit.js --stage econ：經濟系 0 段深色底；ev_y0_e26 不被當成「3D 模糊底」',!!out&&rows.length===0&&wrong.length===0,J({rows,wrong})); }
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（C 盤點工具 --stage econ）
   });
   /* AA-B 11-01：8/26 她沒上班，「下班」「客人」那類訊息、邀約句照 STORY.zrNoShift 一起擋 */
   { const D=k=>STORY.dayOfKey(k), G0={day:D('2026-08-26')};

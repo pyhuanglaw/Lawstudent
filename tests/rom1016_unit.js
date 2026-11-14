@@ -15,7 +15,7 @@ const load=f=>{ const p=path.join(ROOT,f); if(!fs.existsSync(p)) return false; l
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 global.CG_REGISTRY={};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js',
-  'src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/hometown3d.js',
+  'src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/hometown3d.js',
   'src/data/r2y3b_events.js','src/r2y3b3d.js']) load(f);
 const okFiles=load('src/data/rom1016_events.js')&&load('src/rom1016_3d.js');
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
@@ -125,13 +125,13 @@ const R13=()=>{ const F=G.flags; F.CAFE_VISITS=6; F.zhiruoFirstOrder='拿鐵'; F
   fresh('2025-10-20',22,'dorm',{KX_ANNIV:{1:'wheel'}}); date(KX);
   { const L=STORY.roomItemList(G), it=L.find(r=>r[0]==='她的週年卡片'); picks=[0]; said=[];
     if(it&&typeof it[2]==='function') await it[2](GM); const S=lines();
-    check('4. 房間物件「她的週年卡片」：第一頁照舊，「翻後面幾頁」→ 2024.8.23、2024.10.17、2025.2.13、2025.7.25（在家查的版本）、最後一頁「假設明年的今天，你還在——」下面空白；記 KX_CARD_READ',!!it&&typeof it[2]==='function'&&S[0]==='那天在最高的地方，你說在一起吧。我說好。'&&J(opts[0])===J(['翻後面幾頁','不看了'])&&S.includes('2024.8.23　遊覽車。你睡了一個小時。我手上那張名單，其實早就背好了。')&&S.includes('2025.7.25　掛掉電話以後，那幾句我打了又刪，刪到十點半。')&&S[S.length-2]==='假設明年的今天，你還在——'&&S[S.length-1]==='（下面空白。）'&&G.flags.KX_CARD_READ===true,J(S)); }
+    check('4. 房間物件「她的週年卡片」：第一頁照舊，「翻後面幾頁」→ 2024.8.23、2024.10.17、2025.2.13、2025.7.25（在家查的版本）、最後一頁「假設明年的今天，你還在——」下面空白；記 KX_CARD_READ',!!it&&typeof it[2]==='function'&&S[0]==='那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。'&&J(opts[0])===J(['翻後面幾頁','不看了'])&&S.includes('2024.8.23　遊覽車。你睡了一個小時。我手上那張名單，其實早就背好了。')&&S.includes('2025.7.25　掛掉電話以後，那幾句我打了又刪，刪到十點半。')&&S[S.length-2]==='假設明年的今天，你還在——'&&S[S.length-1]==='（下面空白。）'&&G.flags.KX_CARD_READ===true,J(S)); }   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
   fresh('2025-10-20',22,'dorm',{KX_ANNIV:{1:'wheel'},KH_GO:'bus'}); date(KX);
   { const it=STORY.roomItemList(G).find(r=>r[0]==='她的週年卡片'); picks=[0]; said=[]; await it[2](GM);
     check('4. 7/24 選了搭客運去高雄（KH_GO bus）：第 5 頁是客運版「我說我先回家。其實我在客運站對面坐了一個下午，六點半才傳給你。」',lines().includes('2025.7.25　我說我先回家。其實我在客運站對面坐了一個下午，六點半才傳給你。')&&!lines().includes('2025.7.25　掛掉電話以後，那幾句我打了又刪，刪到十點半。'),J(lines())); }
   fresh('2025-10-20',22,'dorm',{KX_ANNIV:{1:'wheel'}}); date(KX);
   { const it=STORY.roomItemList(G).find(r=>r[0]==='她的週年卡片'); picks=[1]; said=[]; await it[2](GM);
-    check('4. 「不看了」：只看第一頁，不記 KX_CARD_READ',J(lines())===J(['那天在最高的地方，你說在一起吧。我說好。'])&&!G.flags.KX_CARD_READ,J(lines())); }
+    check('4. 「不看了」：只看第一頁，不記 KX_CARD_READ',J(lines())===J(['那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。'])&&!G.flags.KX_CARD_READ,J(lines())); }   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
   fresh('2025-10-20',22,'dorm',{KX_ANNIV:{1:'missed'}}); date(KX);
   check('4. 週年沒去（missed）：當面給以前沒有這個房間物件（當晚她自己帶回去，AA_313 2-3 A）',!STORY.roomItemList(G).some(r=>r[0]==='她的週年卡片'));
   { const c=[]; c.push(ROM1016.cardDue(G)===1); G.day=D('2025-10-17'); c.push(ROM1016.cardDue(G)===0); G.day=D('2025-10-20');

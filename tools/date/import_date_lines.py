@@ -47,6 +47,9 @@
     AA_780（白名單上的 commit，企劃線 248c8e390；以安匯入以後 AA 的後續改稿）：不分地點的短句九列裡 date_lines.js 的五列照 path 換——以安 flaked 兩則、子晴 flaked[0]（AA_775 那一列）、
     語彤 flaked[0][0]（AA_767）、芷若 flaked[0][1]（AA_773）；和 AA_767～AA_777 同一步、排在最後（old＝那幾層疊完以後的字，對不上就停下來）。另外四列是 src/date3d.js 手寫的
     （S.EXTRA_LINES.heroine_01 的 enough 兩句、leaveEarly、noPair）。同一版源稿 248c8e390 以安另外改 14 格（改稿紀錄 an_Dxx.json 的 _meta.fix_lawww_an_1111），照源稿匯。
+    AA_812（白名單上的 commit，企劃線 f1fab0ec6；懸著的「下次我請」七格）：AA 改了改稿紀錄 date_rewrite/ 五份（白名單逐檔列）、源稿 Dxx.json 沒有重新 apply——
+    拿紀錄在源稿那一版和白名單這一版逐格比，改了的格照格號換在遊戲那一格；稿的 path_rows 兩列照 path 換。寫檔前最後一步、排在 AA_780 後面（apply812；old 對不上就停下來）。
+    同一份稿的 SHE_PAYS_add、SPLIT（她請客、平分）在 tools/date/import_she_pays.py。
     換源稿 SHA 重跑：tools/date/bump_lines_sha.py（白名單 33 筆）→ tests/date_src_sha.js 的 ALLOW_SHA → 這支；這支裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_lines.js）]"""
 import json, os, re, subprocess, sys
@@ -876,6 +879,142 @@ if A780:
     FILES['fix780'] = P780
 
 
+# AA_812（DLG-FULL-REVIEW-1110 小項，使用者 X324；白名單上的 commit，企劃線 f1fab0ec6）：懸著的「下次我請」——七格，寫檔前最後一步、排在 AA_780 後面（old＝那幾層疊完以後的字）：
+# ① 改稿紀錄 date_rewrite/<人>_<地點>.json（白名單逐檔列的才讀；這一次五份：沛珊 D15、D21，學姊 D06，子晴 D06，可昕 D15）：AA 改了紀錄、源稿 date_system/lines/Dxx.json 沒有重新 apply
+#    （白名單 33 筆還是 248c8e390，f1fab0ec6 的 Dxx.json 和它一樣）——拿同一份紀錄在源稿那一版（白名單 33 筆的 sha）和白名單這一版逐格比，不一樣的格＝這一次改的，
+#    照格號（date_rewrite.py list 的順序＝下面 slot_refs）換在遊戲那一格：現在是舊字＝換；已經是新字＝跳過（源稿之後 apply 了、33 筆換版）；都不是＝停下來。格數對不上也停。
+# ② 稿的 path_rows 兩列（原句沒進改稿紀錄、是 null 格：子晴 D06.cafe 第一次選項的回覆、語彤 D10.boat remember）：照 path 換（path 可以寫 ['D06.cafe']；指到一句 {who,text}＝換 text），做法同 AA_767。
+# 稿的 SHE_PAYS_add、SPLIT 在 tools/date/import_she_pays.py（她請客、平分）；「不列」那一節（closing／arrive 說的請客）不做。白名單沒有 AA_812＝不疊（改稿紀錄也不讀）
+# 2026-11-12 X324 第三次重匯（SHA 見 tests/date_src_sha.js 的 ALLOW_SHA 那一列）：path_rows 第一列（子晴 D06.cafe 第一次選項的回話「好。下次我請你吃滷味。」→「好。下次我請。」）被 AA 後來的決定取代——
+# AA_846 那一格改成「下次我請你吃滷味。」（AA_846 _meta.late_fix「11-12 10:4x：D06.cafe 改回「下次我請你吃滷味。」（AA_812 再訪有兌現）」，源稿已經是這一句），AA_812 的 path_rows 還沒跟著改。
+# 只認這一列、而且遊戲那一格剛好是下面寫的字才跳過（別的字照舊停下來）；AA 把 AA_812 path_rows 改掉以後這一筆就用不到、可以拿掉。
+# 2026-11-12 X324 第四次重匯（SHA 見 tests/date_src_sha.js 的 ALLOW_SHA 那一列）：AA 把 AA_812 path_rows 的那一列刪掉了（_meta.aa_c_1112；源稿那一格直接是「下次我請。」），上面那一筆例外拿掉——
+# 現在是空的（格式：path → (path_rows 的 old, 遊戲那一格現在的字, 哪一份稿)），機制留著給下一次用。
+SUPER812 = {}
+SKIP812 = []
+A812 = G.approved_files(ALLOW, SP + 'AA_812_')
+R812, REC812 = [], []
+if A812:
+    P812, S812 = next(iter(A812.items()))
+    ok, why = G.allowed(P812, S812, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d812 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S812}:{P812}'], text=True)))
+    R812 = d812.get('path_rows') or []
+    if len(R812) != 1 or any(r.get('file') != 'src/data/date_lines.js' or not all(isinstance(r.get(k), str) and r.get(k) for k in ('path', 'old', 'new')) for r in R812):
+        sys.exit(f'AA_812@{S812} 的 path_rows 應該是一列（語彤 D10.boat remember；子晴 D06.cafe 那一列 AA 第四次重匯那一版刪掉了；file 都是 src/data/date_lines.js、path／old／new 都有字），讀到 {len(R812)} 列')
+    FILES['fix812'] = P812
+    # 改稿紀錄的「舊的那一版」：AA_812 比的是約會台詞源稿 248c8e390 那一版（D01～D33 那時候的白名單）。2026-11-11 19:1x 源稿換 52c3ee258（AA 只加選項 fx、拿掉 fx 和 248c8e390 逐檔相同），
+    # 那一版的企劃線已經包含 AA_812 改過的紀錄＝拿它當舊版會比出 0 格（工具停下來）——舊版固定用 248c8e390，不跟著源稿換
+    BASE812 = '248c8e390'
+    SRC812 = sorted({APPROVED[p] for p in APPROVED if re.match(SP + r'date_system/lines/D\d\d\.json$', p)})
+    if len(SRC812) != 1:
+        sys.exit(f'AA_812：白名單 date_system/lines/D01～D33 應該是同一個 sha，讀到 {SRC812}')
+    for p, s in sorted(G.approved_files(ALLOW, SP + 'date_rewrite/').items()):
+        ok, why = G.allowed(p, s, ALLOW)
+        if not ok:
+            sys.exit('拒絕匯入：' + why)
+        new_r = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{s}:{p}'], text=True)))
+        try:
+            old_r = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{BASE812}:{p}'], text=True, stderr=subprocess.DEVNULL)))
+        except subprocess.CalledProcessError:
+            sys.exit(f'AA_812：改稿紀錄 {p} 在源稿那一版 {BASE812} 沒有（不知道舊字是什麼，不猜）')
+        who = new_r.get('who')
+        if not who or old_r.get('who') != who:
+            sys.exit(f'AA_812：改稿紀錄 {p} 的 who 兩版不一樣或沒寫（{old_r.get("who")}／{who}）')
+        for loc in sorted(k for k in new_r if re.fullmatch(r'D\d\d', k)):
+            a, b = old_r.get(loc), new_r[loc]
+            if not isinstance(a, list) or not isinstance(b, list) or len(a) != len(b):
+                sys.exit(f'AA_812：改稿紀錄 {p} 的 {loc} 兩版格數不一樣（{len(a) if isinstance(a, list) else a}／{len(b)}）')
+            for i, (x, y) in enumerate(zip(a, b)):
+                if x == y:
+                    continue
+                if not isinstance(x, str) or not isinstance(y, str):
+                    sys.exit(f'AA_812：改稿紀錄 {p} {loc} 第 {i + 1} 格兩版不是都有字（{x!r} → {y!r}），不知道遊戲那一格原本是什麼，不猜')
+                REC812.append({'rec': p, 'who': who, 'loc': loc, 'n': i + 1, 'cells': len(b), 'old': x, 'new': y})
+        FILES['rec812:' + p] = p
+    if len(REC812) != 5:
+        sys.exit(f'AA_812：改稿紀錄這一次應該改五格（沛珊 D15、D21，學姊 D06，子晴 D06，可昕 D15 各一格），讀到 {len(REC812)} 格：' + json.dumps([(r['rec'], r['n']) for r in REC812], ensure_ascii=False))
+
+
+def slot_refs(d, who):
+    """date_rewrite.py list 的格（同 tools/date/import_she_pays.py 的 slots()，但回傳 (容器, key) 才換得到）：到達、收尾各 first／normal／dating，
+    互動點 first／normal／remember／dating 再來是其他，最後是不喜歡那一句"""
+    out, L, K4 = [], d['lines'][who], ('first', 'normal', 'remember', 'dating')
+
+    def block(b):
+        if isinstance(b, list):
+            for x in b:
+                block(x)
+        elif isinstance(b, dict) and 'lines' in b:
+            for x in b['lines']:
+                out.append((x, 'text'))
+            for c in b.get('choice') or []:
+                out.append((c, 't'))
+                for r in c.get('reply') or []:
+                    out.append((r, 'text'))
+    for part in ('arrive', 'closing'):
+        for kind in ('first', 'normal', 'dating'):
+            if L.get(part) and kind in L[part]:
+                block(L[part][kind])
+    for hs, X in (L.get('hotspots') or {}).items():
+        for kind in K4:
+            if kind in X:
+                block(X[kind])
+        for k in X:
+            if k not in K4:
+                block(X[k])
+    dl = (d.get('dislikeLine') or {}).get(who) or {}
+    for hs in dl:
+        out.append((dl, hs))
+    return out
+
+
+def apply812(body):
+    """寫檔前最後一步（AA_780 後面）：AA_812 改稿紀錄五格（照格號）＋path_rows 兩列（照 path）。回傳新的 JSON 字、換了幾格"""
+    o = json.loads(body); n = 0
+    for r in REC812:
+        tag = f'AA_812（改稿紀錄 {r["rec"]} {r["loc"]} 第 {r["n"]} 格）'
+        D = (o.get('loc') or {}).get(r['loc']) or {}
+        if r['who'] not in (D.get('lines') or {}):
+            sys.exit(f'{tag}：date_lines.js 的 {r["loc"]} 沒有 {r["who"]}')
+        S = slot_refs(D, r['who'])
+        if len(S) != r['cells']:
+            sys.exit(f'{tag}：遊戲 {len(S)} 格、改稿紀錄 {r["cells"]} 格，格子對不上')
+        c, k = S[r['n'] - 1]
+        if c[k] == r['new']: continue
+        if c[k] != r['old'] and c[k] != N(r['old']):
+            sys.exit(f'{tag}：遊戲那一格現在是「{c[k]}」，不是舊字「{r["old"]}」')
+        if N(r['new']) != r['new']:
+            sys.exit(f'{tag}：新句照 AA_694 的規則會被改掉「……」（{r["new"]}），先問 AA')
+        c[k] = r['new']; n += 1
+    for r in R812:
+        toks = re.findall(r"\['([^']*)'\]|\[(\d+)\]|([^.\[\]]+)", r['path'])
+        if ''.join(f"['{q}']" if q else (f'[{i}]' if i else ('.' + k)) for q, i, k in toks).lstrip('.') != r['path']:
+            sys.exit(f'AA_812：路徑 {r["path"]} 拆不出來')
+        cur, par, key = o, None, None
+        for q, i, k in toks:
+            kk = q if q else (int(i) if i else k)
+            try:
+                par, key, cur = cur, kk, cur[kk]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_812：路徑 {r["path"]} 找不到（在 {kk}）')
+        if isinstance(cur, dict) and isinstance(cur.get('text'), str):
+            par, key, cur = cur, 'text', cur['text']
+        if not isinstance(cur, str):
+            sys.exit(f'AA_812：{r["path"]} 不是一句台詞')
+        if cur == r['new']: continue
+        sp = SUPER812.get(r['path'])
+        if sp and r['old'] == sp[0] and cur == sp[1]:   # 這一格 AA 後來在源稿改了字（見 SUPER812）：不換
+            SKIP812.append((r['path'], r['old'], r['new'], cur, sp[2])); continue
+        if cur != r['old'] and cur != N(r['old']):
+            sys.exit(f'AA_812：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
+        if N(r['new']) != r['new']:
+            sys.exit(f'AA_812：{r["path"]} 的新句照 AA_694 的規則會被改掉「……」（{r["new"]}），先問 AA')
+        par[key] = r['new']; n += 1
+    return json.dumps(o, ensure_ascii=False), n
+
+
 def apply767(body, rows=None, tag='AA_767'):
     """寫檔前最後一步：AA_767 六列（或 rows＝AA_769 七列）照 path 換在整份 JSON 上（回傳新的 JSON 字、換了幾列）"""
     o = json.loads(body); n = 0
@@ -905,6 +1044,13 @@ if ZQ_STALE:   # X324 子晴重寫：同下（芷若那一條）
     sys.exit(f'子晴重寫（DLG-FULL-REVIEW-1110）：疊在上面的改句有 {len(ZQ_STALE)} 列原句還在源稿裡、和改成不一樣（源稿沒對齊，沒寫檔）：\n' + '\n'.join(f'  {l} {loc}「{o}」→「{n}」' for l, loc, o, n in ZQ_STALE))
 if ZR_STALE:   # X324 芷若重寫：原句還在源稿裡的列——源稿沒對齊成遊戲現在的字，不猜（要問 AA：是漏了寫回、還是那一格不重寫要照舊疊）
     sys.exit(f'芷若重寫（DLG-FULL-REVIEW-1110）：疊在上面的改句有 {len(ZR_STALE)} 列原句還在源稿裡、和改成不一樣（源稿沒對齊，沒寫檔）：\n' + '\n'.join(f'  {l} {loc}「{o}」→「{n}」' for l, loc, o, n in ZR_STALE))
+# CANON-NO-ECON-1112 第四批（AA_899 表最後一列，企劃線 22f572ef08 定稿、BB_433 採用）：可昕取消約會的第二句「好。我去找（室友的名字）吃宵夜。」→「好。我去找我室友吃宵夜。」
+# （室友沒有名字，照總表 ★ 節）。源稿那一格還是舊字＝寫檔前照換；已經是新字＝不動；兩個都不是＝停下來（不猜）
+_K899 = (L.get('kexin') or {}).get('cancel')
+if isinstance(_K899, list) and len(_K899) > 1 and _K899[1] != '好。我去找我室友吃宵夜。':
+    if not (_K899[1].startswith('好。我去找') and _K899[1].endswith('吃宵夜。') and len(_K899[1]) == len('好。我去找') + 2 + len('吃宵夜。')):
+        sys.exit(f'AA_899：可昕 cancel[1] 現在是 {_K899[1]!r}，不是稿上的舊句（不猜）')
+    _K899[1] = '好。我去找我室友吃宵夜。'
 out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p]}' for p in FILES.values()), 'lines': L, 'prefs': prefs, 'loc': LOC}
 dst = os.path.join(ROOT, 'src', 'data', 'date_lines.js')
 if '--out' in sys.argv:   # 另存比對用（tests/peishan_dates_1111_unit.js：重匯的結果要和現在的檔一樣）
@@ -977,6 +1123,30 @@ with open(dst, 'w', encoding='utf8') as fo:
     if R780:
         body, n780 = apply767(body, R780, 'AA_780')
         print(f'AA_780@{S780}：以安、子晴、語彤、芷若「第二次當天取消」那一句 5 列（照 path），換了 {n780} 列')
+    if A812:
+        body, n812 = apply812(body)
+        print(f'AA_812@{S812}：懸著的「下次我請」——改稿紀錄 {len(REC812)} 格（照格號：' + '、'.join(f'{os.path.basename(r["rec"])} 第 {r["n"]} 格' for r in REC812) + f'）＋path_rows {len(R812)} 列（照 path），換了 {n812} 格'
+              + ''.join(f'；path_rows 跳過 1 列：{p}「{o}」→「{n}」（那一格源稿後來改成「{c}」，{w}）' for p, o, n, c, w in SKIP812))
+    # CANON-NO-ECON-1112 第五批（AA_921 §3-1＋§4 放鴿子那一組，企劃線 96c3a668eb，AA-C 11-12 定稿、BB_448 採用）：可昕不排行程表、不記帳、不數次數——不分地點的短句七格照 path 換，
+    # 取代 AA_769 那幾列的 new（move3、flaked、leaveEarly）和 BB_128 3-6 的預約句（accept、acceptDating）。排在 AA_812 後面、寫檔前最後一步（old＝那幾層疊完以後的字；對不上＝停下來）。
+    # move3、leaveEarly 的新句照 AA_694 拿掉「？」後面的「……」（稿：「又改？……再改，我就自己去。」「來了就走？……好吧。」）。date3d.js 的 S.MORNING.kexin（同一張表最後一列）直接改在那個檔。
+    R921 = [
+        {'path': 'lines.kexin.accept[0]', 'old': '好。我記到行程表上了。', 'new': '好。那天空給你。'},
+        {'path': 'lines.kexin.accept[1]', 'old': '好啊。幾點，我排一下。', 'new': '好啊。幾點？'},
+        {'path': 'lines.kexin.acceptDating[0]', 'old': '好。那天我什麼都不排。', 'new': '好。那天不給別人。'},
+        {'path': 'lines.kexin.move3[0]', 'old': '第三次了。再改，我就自己去。', 'new': E694.strip('又改？……再改，我就自己去。')},
+        {'path': 'lines.kexin.flaked[0][0]', 'old': '我等了四十分鐘。', 'new': '我等了很久。'},
+        {'path': 'lines.kexin.flaked[0][1]', 'old': '你欠我一個解釋，還有一頓飯。', 'new': '你要給我一個解釋。'},
+        {'path': 'lines.kexin.leaveEarly[0]', 'old': '來了就走？好吧。你欠我一次。', 'new': E694.strip('來了就走？……好吧。')},
+    ]
+    body, n921 = apply767(body, R921, 'AA_921')
+    print(f'AA_921@96c3a668eb：可昕不分地點的短句 {len(R921)} 列（照 path），換了 {n921} 列')
+    # AA_915（企劃線 96c3a668eb，AA-C 11-12 定稿、BB_440 採用）：芯慈約會第一次的收尾（D02 華山，AA_537b 第 3 節那一格；企劃線沒有 JSON 源稿）——說了不會發生的「下次」換掉。同一步照 path 換
+    R915 = [{'path': 'loc.D02.lines.classmate_xinci.closing.first.lines[0].text', 'old': '下次你挑地方。我想看你會挑哪裡。', 'new': '我原本以為一個小時就夠了。結果待了三個小時。'}]
+    body, n915 = apply767(body, R915, 'AA_915')
+    print(f'AA_915@96c3a668eb：芯慈 D02 第一次收尾 {len(R915)} 列（照 path），換了 {n915} 列')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    body = _AA959.layer(body, 'date_lines.js')
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))

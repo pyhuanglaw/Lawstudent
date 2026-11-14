@@ -1,3 +1,4 @@
+// （2026-11-12 LAWWW-C：AA-C 改冰菓室營業時間＝全年、週二公休、5～10 月 12～22、11～4 月 12～20；用到週二的日期往後挪一天、D 照新時間）
 // 溫州街其他四家店（AA_364：d7708ebe 第 1～4 節＋d56da150 第 5 節＋5ae04087 第 5 節第 5 點，WZ-SHOP-AA364-SYS；LAWWW 的第 4 節 #2、#3）——不需要瀏覽器。
 //   林家乾麵（wz_lin）、巷子裡定食（wz_teishoku）內用；巷口茶飲、夏日冰菓室是溫州街 B5 騎樓的外帶窗口（src/wzshops3d.js 的 WZS.AA364／order364）。
 //   A. 菜單、價錢照第 2 節＋第 5 節第 2 點（林家多貢丸湯 30）；店員句、「五月見」照第 3 節；第 5 節第 3、4 點：林家熟客句照上次點的、老樣子的回答、第一次的旁白、吃完的旁白
@@ -43,11 +44,11 @@ if(process.argv.includes('--zones')){
   check('J. 有 WZS.windowItems、WZS.WINDOW（src/wzshops3d.js 載得進來）',typeof WZS!=='undefined'&&typeof WZS.windowItems==='function'&&!!WZS.WINDOW);
   if(fails){ console.log('（J 區域那一段：FAILED '+fails+'）'); process.exit(1); }
   const lane=[20,-4.3];   /* 主巷靠 B5 那一側的人行道 */
-  for(const [ds,mon] of [['2026-07-14','7 月'],['2025-10-15','10 月']]){ global.GAME={G:{day:dayOf(ds),hour:15}};
+  for(const [ds,mon] of [['2026-07-15','7 月'],['2025-12-17','12 月']]){ global.GAME={G:{day:dayOf(ds),hour:15}};
     loadZone('wenzhou'); const it=lb=>E.interactables.find(i=>i.label===lb);
     const tea=it('買一杯飲料'), ice=it('買一碗冰'), sh=it('看夏日冰菓室'), W=WZS.WINDOW;
-    check('J. 溫州街（'+mon+'）：三個窗口按鈕在 LAWWW2 給的座標（茶飲 (17.4,−7.35)、冰菓室 (24.4,−7.4)、鐵捲門 (26.5,−7.4)）；點餐的帶 wzShop／kind，「看」是 look（五月見）',!!tea&&!!ice&&!!sh&&tea.x===17.4&&tea.z===-7.35&&ice.x===24.4&&ice.z===-7.4&&sh.x===26.5&&sh.z===-7.4&&tea.wzShop==='tea'&&tea.kind==='window'&&ice.wzShop==='ice'&&ice.kind==='window'&&sh.look==='（鐵捲門拉著。上面貼了一張紙：「五月見」。）'&&!sh.wzShop&&W.tea.x===17.4&&W.ice.shutter.x===26.5);
-    const summer=mon==='7 月';
+    check('J. 溫州街（'+mon+'）：三個窗口按鈕在 LAWWW2 給的座標（茶飲 (17.4,−7.35)、冰菓室 (24.4,−7.4)、鐵捲門 (26.5,−7.4)）；點餐的帶 wzShop／kind，「看」是 look（AA_924：公休／打烊兩句）',!!tea&&!!ice&&!!sh&&tea.x===17.4&&tea.z===-7.35&&ice.x===24.4&&ice.z===-7.4&&sh.x===26.5&&sh.z===-7.4&&tea.wzShop==='tea'&&tea.kind==='window'&&ice.wzShop==='ice'&&ice.kind==='window'&&[WZS.AA364.ice.shutter,WZS.AA364.ice.shutterNight].includes(sh.look)&&!sh.wzShop&&W.tea.x===17.4&&W.ice.shutter.x===26.5);
+    const summer=true;   /* 11-12 起冰菓室全年營業（AA-C）：兩個月都是窗口開著、「看」藏著 */
     check('J. 溫州街（'+mon+'）：'+(summer?'「買一碗冰」出現、「看夏日冰菓室」藏起來':'「買一碗冰」藏起來、「看夏日冰菓室」出現')+'；「買一杯飲料」一直在',!!tea&&!tea.hidden&&!!ice&&!!sh&&(summer?(!ice.hidden&&sh.hidden):(ice.hidden&&!sh.hidden)));
     for(const b of [tea,summer?ice:sh]) if(b) check('J. 溫州街（'+mon+'）：「'+b.label+'」站得住、從主巷走得到、站在那裡最近的是它',E.canStand(b.x,b.z,0.32,0)&&shows(b,lane),'('+b.x+','+b.z+')');
     check('J. 溫州街（'+mon+'）：騎樓中間的「看手搖飲菜單」拿掉（菜單寫「綠茶 30」，AA_364 是「青茶 30」）',!it('看手搖飲菜單'));
@@ -106,7 +107,7 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   check('A. 選「老樣子」的回答（第 5 節第 4 點）：老闆「好。一樣。」、小路的老闆「好，跟上次一樣。」（AA_655）、店員「好，一樣的。」、老闆娘「好。一樣的。」',J(K4.map(k=>A[k].same))===J(['好。一樣。','好，跟上次一樣。','好，一樣的。','好。一樣的。']),J(K4.map(k=>A[k].same)));
   check('A. 第一次的旁白（第 5 節第 4 點）',J(K4.map(k=>A[k].firstLine))===J(['（攤子前面只有三張小桌子。老闆煮麵的時候，沒有抬頭。）','（店裡很暗，只有吧台上方的燈是亮的。木札菜單一張一張掛在橫樑上，烤爐冒著煙。）','（價目牌只有三樣茶，每樣分中杯、大杯。你點完，後面已經排了兩個人。）','（價目表是手寫的。芒果冰那一行旁邊，用紅筆寫著「六到八月」。）']),J(K4.map(k=>A[k].firstLine)));
   check('A. 吃完（一個人）的旁白（第 5 節第 4 點）',J(K4.map(k=>A[k].done))===J(['（你吃完的時候，老闆已經在煮下一碗了。）','（老闆把最後一串烤好的雞肉放在你面前。「這串招待。」）','（你拿著飲料，沿著溫州街走回去。）','（冰化得比你吃得快。最後幾口，你是用喝的。）']),J(K4.map(k=>A[k].done)));
-  check('A. 冰菓室 10～4 月「看」的旁白：（鐵捲門拉著。上面貼了一張紙：「五月見」。）',A.ice.shutter==='（鐵捲門拉著。上面貼了一張紙：「五月見」。）');
+  check('A. 冰菓室「看」的旁白（AA_924 第 2 節，BB_450）：公休「（鐵捲門拉著。上面貼了一張紙：「星期二休息」，字寫得很圓。）」、打烊「（鐵捲門拉下來了。裡面的燈關了，冰櫃還在嗡嗡響。）」',A.ice.shutter==='（鐵捲門拉著。上面貼了一張紙：「星期二休息」，字寫得很圓。）'&&A.ice.shutterNight==='（鐵捲門拉下來了。裡面的燈關了，冰櫃還在嗡嗡響。）');
   const T=x=>J(said.map(s=>s.t))===J(x);
   // ---------- B. 點餐 ----------
   fresh('2025-10-15',12,'wz_lin'); inShop('lin'); const m0=G.money, h0=G.hour; await order('lin',0);
@@ -120,8 +121,8 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   { const m2=G.money; G.hour=18.8; await order('teishoku',3); check('B. 小路第二次：玉子燒扣 80；第一次的旁白不再說、吃完那句照說',G.money===m2-80&&T(['歡迎光臨。……吧台可以嗎？',OL('玉子燒'),A.teishoku.done])&&!toasts.includes('錢不夠'),J(said)); }
   fresh('2025-10-15',15,'wenzhou'); const m3=G.money, h3=G.hour; await order('tea',2);
   check('B. 帝大紅茶（外帶）：店員「甜度冰塊？」→ 六樣（AA_658 第 4 節）；奶茶（中）扣 45、5 分鐘、不坐下；點餐那句（外帶也用，第 5 節第 1 點）→ 第一次 → 吃完的旁白',said[0]&&said[0].who==='店員'&&J(opts[0])===J(['紅茶（中）　30 元','紅茶（大）　35 元','奶茶（中）　45 元','奶茶（大）　55 元','檸檬紅茶（中）　45 元','檸檬紅茶（大）　55 元','不用了'])&&G.money===m3-45&&near(G.hour-h3,5/60)&&T(['甜度冰塊？',OL('奶茶（中）'),A.tea.firstLine,A.tea.done])&&!sat.length,J(said));
-  fresh('2026-07-14',15,'wenzhou'); const m4=G.money, h4=G.hour; await order('ice',0);
-  check('B. 冰菓室（7 月週二，外帶）：老闆娘「冰要大碗小碗？」→ 芒果冰 140／紅豆牛奶冰 70／綜合剉冰 60；芒果冰扣 140、10 分鐘、不坐下；點餐那句 → 第一次 → 吃完的旁白',said[0]&&said[0].who==='老闆娘'&&J(opts[0])===J(['芒果冰　140 元','紅豆牛奶冰　70 元','綜合剉冰　60 元','不用了'])&&G.money===m4-140&&near(G.hour-h4,10/60)&&T(['冰要大碗小碗？',OL('芒果冰'),A.ice.firstLine,A.ice.done])&&!sat.length,J(said));
+  fresh('2026-07-15',15,'wenzhou'); const m4=G.money, h4=G.hour; await order('ice',0);
+  check('B. 冰菓室（7 月週三，外帶；11-12 起週二公休）：老闆娘「冰要大碗小碗？」→ 芒果冰 140／紅豆牛奶冰 70／綜合剉冰 60；芒果冰扣 140、10 分鐘、不坐下；點餐那句 → 第一次 → 吃完的旁白',said[0]&&said[0].who==='老闆娘'&&J(opts[0])===J(['芒果冰　140 元','紅豆牛奶冰　70 元','綜合剉冰　60 元','不用了'])&&G.money===m4-140&&near(G.hour-h4,10/60)&&T(['冰要大碗小碗？',OL('芒果冰'),A.ice.firstLine,A.ice.done])&&!sat.length,J(said));
   { fresh('2025-10-15',15,'wenzhou'); const m=G.money, h=G.hour; await order('tea',null); const a=G.money===m&&G.hour===h&&T(['甜度冰塊？'])&&!(G.eat&&G.eat.first&&G.eat.first['巷口茶飲']!=null);
     fresh('2025-10-15',19,'wz_teishoku'); inShop('teishoku'); G.money=100; await order('teishoku',0);
     check('B. 「不用了」不扣錢、不花時間、不算第一次；錢不夠（100 元）：烤雞串（120）灰掉、選了也不扣（「錢不夠」）',a&&G.money===100&&toasts.includes('錢不夠')&&opts[0].length===10&&!sat.length,J(opts)); }
@@ -140,10 +141,10 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
     fresh('2025-10-15',15,'wenzhou'); G.eat={n:{'巷口茶飲':4},last:{'巷口茶飲':'青茶'},first:{'巷口茶飲':1}}; await order('tea','老樣子'); const c=J(said.map(s=>[s.who,s.t]))===J([['店員','半糖少冰？'],['店員','好，一樣的。'],[null,OL('紅茶（中）')],[null,A.tea.done]]);   /* 舊存檔上次點的「青茶」＝新菜單的紅茶（中）（AA_658 第 4 節）*/
     check('C. 小路第 5 次（19:00）「今天的雞皮串剛烤好。」、老樣子（玉子燒）老闆回「好，跟上次一樣。」；茶飲第 4 次照舊「甜度冰塊？」、第 5 次「半糖少冰？」、老樣子（舊存檔的青茶＝紅茶（中））店員回「好，一樣的。」',a&&b&&c,sa+' / '+J(said)); }
   { const ice=async ds=>{ fresh(ds,15,'wenzhou'); G.eat={n:{'夏日冰菓室':4},last:{'夏日冰菓室':'綜合剉冰'},first:{'夏日冰菓室':1}}; await order('ice',null); return said[0]&&said[0].t; };
-    const r=[await ice('2026-06-09'),await ice('2026-07-14'),await ice('2026-08-11'),await ice('2026-05-12'),await ice('2026-09-15')];
+    const r=[await ice('2026-06-10'),await ice('2026-07-15'),await ice('2026-08-12'),await ice('2026-05-13'),await ice('2026-09-16')];
     check('C. 冰菓室第 5 次：6～8 月老闆娘「又來了啊。今天芒果很甜。」；5 月、9 月「又來了啊。」',J(r)===J(['又來了啊。今天芒果很甜。','又來了啊。今天芒果很甜。','又來了啊。今天芒果很甜。','又來了啊。','又來了啊。']),J(r)); }
   { const mango=async ds=>{ fresh(ds,15,'wenzhou'); G.eat={n:{'夏日冰菓室':4},last:{'夏日冰菓室':'芒果冰'},first:{'夏日冰菓室':1}}; await order('ice','老樣子'); return {menu:opts[0]||[],said:said.map(s=>[s.who,s.t]),spent:5000-G.money}; };
-    const jul=await mango('2026-07-14'), sep=await mango('2026-09-15'), may=await mango('2026-05-12');
+    const jul=await mango('2026-07-15'), sep=await mango('2026-09-16'), may=await mango('2026-05-13');
     check('C. 冰菓室上次點芒果冰：7 月有「老樣子」（扣 140、老闆娘回「好。一樣的。」）；9 月、5 月（不是 6～8 月）選單不出現「老樣子」（第 5 節第 4 點：買不到的不列）',jul.menu.includes('老樣子')&&J(jul.said.slice(0,2))===J([['老闆娘','又來了啊。今天芒果很甜。'],['老闆娘','好。一樣的。']])&&jul.spent===140&&J(sep.menu)===J(['紅豆牛奶冰　70 元','綜合剉冰　60 元','不用了'])&&J(may.menu)===J(sep.menu)&&sep.spent===0,J({jul,sep:sep.menu})); }
   { const eatSrc=fs.readFileSync(path.join(ROOT,'src/eat3d.js'),'utf8');
     check('C. EAT_LINES（AA_329、AA_336 匯入的檔）沒有手改：四家不在 EAT_LINES.staff／first；四家用 EAT.addShop 登記（WZS.eatReg）：staffOn＝第 5 節的老樣子回答、第 5 次那一句 null；第一次的旁白、吃過的店名「溫州街・…」；eat3d.js 裡沒有 AA_364 的店名、台詞',
@@ -151,16 +152,20 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   // ---------- D. 營業時間 ----------
   const P=PLACES, open=(z,h,ds)=>P.isOpen(z,h,D(ds));
   let MON=null; for(let d=D('2025-10-14');d<D('2025-11-30')&&MON==null;d++) if(wdOf(d)===1&&!CALENDAR.typhoon(d)) MON=d;   /* 週一（不是颱風假）*/
-  check('D. 林家：週一公休；週二 11:00 開、13:59 開、14:00 關、16:59 關、17:00 開、20:59 開、21:00 關、10:59 關',!!MON&&!P.isOpen('wz_lin',12,MON)&&!P.isOpen('wz_lin',18,MON)&&open('wz_lin',11,'2025-10-14')&&open('wz_lin',13.98,'2025-10-14')&&!open('wz_lin',14,'2025-10-14')&&!open('wz_lin',16.98,'2025-10-14')&&open('wz_lin',17,'2025-10-14')&&open('wz_lin',20.98,'2025-10-14')&&!open('wz_lin',21,'2025-10-14')&&!open('wz_lin',10.98,'2025-10-14'));
+  /* 2026-11-12（SHOP-LIFE-AUDIT-1112）改期望——舊期望：林家乾麵一天兩段 11:00–14:00、17:00–21:00（14:00 關、17:00 再開）。使用者 11-12 改成一段 11:00–21:00（places.js）。
+     現在遊戲裡沒有一天兩段的店了；「一天兩段」那一套（關門的說明、windowOf、跳過時間停在午休前）還在 places.js／classes3d.js，下面三項暫時把林家換回兩段來驗（LIN2，驗完換回來），以後有兩段營業的店不會壞。*/
+  const LIN1=P.hours.wz_lin.rules, LIN2={week:[[[11,14],[17,21]],null,[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]]]}, two=on=>{ P.hours.wz_lin.rules=on?LIN2:LIN1; };
+  check('D. 林家：週一公休；週二 11:00 開、14:00 開、16:59 開（沒有中午休息）、20:59 開、21:00 關、10:59 關',!!MON&&!P.isOpen('wz_lin',12,MON)&&!P.isOpen('wz_lin',18,MON)&&open('wz_lin',11,'2025-10-14')&&open('wz_lin',13.98,'2025-10-14')&&open('wz_lin',14,'2025-10-14')&&open('wz_lin',16.98,'2025-10-14')&&open('wz_lin',17,'2025-10-14')&&open('wz_lin',20.98,'2025-10-14')&&!open('wz_lin',21,'2025-10-14')&&!open('wz_lin',10.98,'2025-10-14'));
   check('D. 小路（AA_655、使用者 11-04 04:5x）：週二公休；週三 11:30、13:00、17:59 關、18:00 開、20:30 開、01:59（G.hour 25.98）開、02:00 關',!open('wz_teishoku',12,'2025-10-14')&&!open('wz_teishoku',19,'2025-10-14')&&!open('wz_teishoku',11.5,'2025-10-15')&&!open('wz_teishoku',13,'2025-10-15')&&!open('wz_teishoku',17.98,'2025-10-15')&&open('wz_teishoku',18,'2025-10-15')&&open('wz_teishoku',20.5,'2025-10-15')&&open('wz_teishoku',25.98,'2025-10-15')&&!open('wz_teishoku',26,'2025-10-15'));
   { let ok=true; for(let d=D('2025-10-14');d<D('2025-10-21');d++){ if(CALENDAR.typhoon(d)) continue; if(!(P.isOpen('wz_tea',10,d)&&!P.isOpen('wz_tea',9.98,d)&&P.isOpen('wz_tea',21.98,d)&&!P.isOpen('wz_tea',22,d))) ok=false; }
     check('D. 茶飲：每天（不休）10:00～22:00（09:59 關、21:59 開、22:00 關）',ok); }
-  check('D. 冰菓室：7 月週二 12:00～21:00（11:59、21:00 關）、7 月週一公休；10 月、4/30 不開；5/1 開；9/30 開、10/1 不開',open('wz_ice',12,'2026-07-14')&&!open('wz_ice',11.98,'2026-07-14')&&open('wz_ice',20.98,'2026-07-14')&&!open('wz_ice',21,'2026-07-14')&&!open('wz_ice',15,'2026-07-13')&&!open('wz_ice',15,'2025-10-15')&&!open('wz_ice',15,'2026-04-30')&&open('wz_ice',15,'2026-05-01')&&open('wz_ice',15,'2026-09-30')&&!open('wz_ice',15,'2026-10-01'));
-  { const t1=P.closedText('wz_lin',15,D('2025-10-14')), t2=P.closedText('wz_lin',12,MON), t3=P.closedText('wz_teishoku',12,D('2025-10-15')), t4=P.closedText('wz_teishoku',12,D('2025-10-14')), t5=P.closedText('wz_ice',15,D('2026-07-13'));
-    check('D. 關門的說明（一天兩段）：「林家乾麵 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。」',t1==='林家乾麵 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。',t1);
+  check('D. 冰菓室（AA-C 11-12 改：全年、週二公休；5～10 月 12～22、11～4 月 12～20）：7 月週三 12:00 開、11:59 不開、21:59 開、22:00 關；7 月週二公休；10 月週三 21:00 開；12 月週三 19:59 開、20:00 關；4/30 開到 20、5/1 開到 22',open('wz_ice',12,'2026-07-15')&&!open('wz_ice',11.98,'2026-07-15')&&open('wz_ice',21.98,'2026-07-15')&&!open('wz_ice',22,'2026-07-15')&&!open('wz_ice',15,'2026-07-14')&&open('wz_ice',21,'2025-10-15')&&open('wz_ice',19.98,'2025-12-17')&&!open('wz_ice',20,'2025-12-17')&&!open('wz_ice',20.5,'2026-04-30')&&open('wz_ice',20.5,'2026-05-01'));
+  { two(true); const t1=P.closedText('wz_lin',15,D('2025-10-14')); two(false); const t1b=P.closedText('wz_lin',22,D('2025-10-14')), t2=P.closedText('wz_lin',12,MON), t3=P.closedText('wz_teishoku',12,D('2025-10-15')), t4=P.closedText('wz_teishoku',12,D('2025-10-14')), t5=P.closedText('wz_ice',15,D('2026-07-14'));
+    check('D. 關門的說明（一天兩段的店；暫時換回兩段驗）：「林家乾麵 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。」',t1==='林家乾麵 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。',t1);
+    check('D. 林家現在的說明（一段）：22:00「林家乾麵 現在沒有開（今天 11:00–21:00）。下次開門：明天 11:00。」',t1b==='林家乾麵 現在沒有開（今天 11:00–21:00）。下次開門：明天 11:00。',t1b);
     check('D. 「林家乾麵 今天公休。下次開門：明天 11:00。」「小路 現在沒有開（今天 18:00–02:00）。下次開門：今天 18:00。」「小路 今天公休。下次開門：明天 18:00。」「夏日冰菓室 今天公休。下次開門：明天 12:00。」',
       t2==='林家乾麵 今天公休。下次開門：明天 11:00。'&&t3==='小路 現在沒有開（今天 18:00–02:00）。下次開門：今天 18:00。'&&t4==='小路 今天公休。下次開門：明天 18:00。'&&t5==='夏日冰菓室 今天公休。下次開門：明天 12:00。',J([t2,t3,t4,t5])); }
-  { const w=(h)=>J(P.windowOf('wz_lin',D('2025-10-14'),h)); check('D. windowOf（一天兩段）：10:00＝第一段、12:00＝午餐、15:00＝剛關的午餐、18:00＝晚餐；windowsOf 兩段；單一段的店照舊',w(10)==='[11,14]'&&w(12)==='[11,14]'&&w(15)==='[11,14]'&&w(18)==='[17,21]'&&J(P.windowsOf('wz_lin',D('2025-10-14')))==='[[11,14],[17,21]]'&&J(P.windowOf('wz_brunch',D('2025-10-14')))==='[8,15]'&&J(P.windowsOf('wz_brunch',D('2025-10-14')))==='[[8,15]]'); }
+  { check('D. 林家現在 windowsOf 是一段 [[11,21]]',J(P.windowsOf('wz_lin',D('2025-10-14')))==='[[11,21]]'); two(true); const w=(h)=>J(P.windowOf('wz_lin',D('2025-10-14'),h)); check('D. windowOf（一天兩段的店；暫時換回兩段驗）：10:00＝第一段、12:00＝午餐、15:00＝剛關的午餐、18:00＝晚餐；windowsOf 兩段；單一段的店照舊',w(10)==='[11,14]'&&w(12)==='[11,14]'&&w(15)==='[11,14]'&&w(18)==='[17,21]'&&J(P.windowsOf('wz_lin',D('2025-10-14')))==='[[11,14],[17,21]]'&&J(P.windowOf('wz_brunch',D('2025-10-14')))==='[8,15]'&&J(P.windowsOf('wz_brunch',D('2025-10-14')))==='[[8,15]]'); two(false); }
   { fresh('2025-10-15',12.5,'wenzhou'); const r1=await STORY.interact({exit:{to:'wz_teishoku',spawn:{x:-2,z:3,yaw:Math.PI}}},GM), t1=said.map(s=>s.t);
     fresh('2025-10-15',18,'wenzhou'); const r2=await STORY.interact({exit:{to:'wz_teishoku',spawn:{x:-2,z:3,yaw:Math.PI}}},GM);
     fresh(MON,12,'wenzhou'); const r3=await STORY.interact({exit:{to:'wz_lin',spawn:{x:1,z:3,yaw:Math.PI}}},GM), t3=toasts.slice();
@@ -168,34 +173,33 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   { fresh('2025-10-15',26.2,'wz_teishoku'); inShop('teishoku'); const m=G.money; await order('teishoku',0);
     check('D. 人還在小路裡、過了 02:00：點不到（寫關門的說明）、不扣錢、沒有選單',G.money===m&&!opts.length&&toasts[0]===P.closedText('wz_teishoku',26.2,D('2025-10-15')),J(toasts));
     fresh('2025-10-15',22.5,'wenzhou'); await order('tea',0); const a=toasts[0]===P.closedText('wz_tea',22.5,D('2025-10-15'))&&!opts.length;
-    fresh('2026-07-13',15,'wenzhou'); await order('ice',0); const b=toasts[0]==='夏日冰菓室 今天公休。下次開門：明天 12:00。'&&!opts.length;
-    check('D. 茶飲 22:30、冰菓室 7 月週一：窗口點不到（關門的說明）',a&&b,J(toasts)); }
-  { fresh('2025-10-15',13,'wz_lin'); const st=CLS.skipStops(GM,15).map(s=>s.why+'@'+s.h.toFixed(3)); G.hour=15; const cb=CLS.closingBlock(G,16); G.hour=18; const st2=CLS.skipStops(GM,21.5).map(s=>s.why+'@'+s.h.toFixed(3)); G.hour=12; const cb2=CLS.closingBlock(G,13.5);
-    check('D. 跳過時間（人在林家）：13:00 跳到 15:00 停在 13:50「林家乾麵快關門了」；15:00（兩段中間）不能跳過（已經閉館了 14:00）；18:00 跳到 21:30 停在 20:50；12:00 跳到 13:30 照常',st.includes('林家乾麵快關門了@'+(14-1/6).toFixed(3))&&/已經閉館了（14:00）/.test(cb)&&st2.includes('林家乾麵快關門了@'+(21-1/6).toFixed(3))&&cb2==='',J({st,cb,st2,cb2})); }
+    fresh('2026-07-14',15,'wenzhou'); await order('ice',0); const b=toasts[0]==='夏日冰菓室 今天公休。下次開門：明天 12:00。'&&!opts.length;
+    check('D. 茶飲 22:30、冰菓室 7 月週二（11-12 起週二公休）：窗口點不到（關門的說明）',a&&b,J(toasts)); }
+  { two(true); fresh('2025-10-15',13,'wz_lin'); const st=CLS.skipStops(GM,15).map(s=>s.why+'@'+s.h.toFixed(3)); G.hour=15; const cb=CLS.closingBlock(G,16); G.hour=18; const st2=CLS.skipStops(GM,21.5).map(s=>s.why+'@'+s.h.toFixed(3)); G.hour=12; const cb2=CLS.closingBlock(G,13.5);
+    two(false); fresh('2025-10-15',13,'wz_lin'); const st3=CLS.skipStops(GM,15).map(s=>s.why+'@'+s.h.toFixed(3)); check('D. 林家現在（一段）：13:00 跳到 15:00 不會停在 13:50',!st3.some(x=>/林家乾麵快關門了/.test(x)),J(st3));
+    check('D. 跳過時間（一天兩段的店；暫時換回兩段驗）：13:00 跳到 15:00 停在 13:50「林家乾麵快關門了」；15:00（兩段中間）不能跳過（已經閉館了 14:00）；18:00 跳到 21:30 停在 20:50；12:00 跳到 13:30 照常',st.includes('林家乾麵快關門了@'+(14-1/6).toFixed(3))&&/已經閉館了（14:00）/.test(cb)&&st2.includes('林家乾麵快關門了@'+(21-1/6).toFixed(3))&&cb2==='',J({st,cb,st2,cb2})); }
   { fresh('2025-10-13',15,'wenzhou'); await order('tea',0); const a=toasts[0]==='帝大紅茶：颱風假，今天沒開。';
     check('D. 颱風假（2025-10-13）四家都不開：typhoonShops 有 wz_lin、wz_teishoku、wz_tea、wz_ice；茶飲窗口「帝大紅茶：颱風假，今天沒開。」（AA_658 改名）',CALENDAR.typhoon(D('2025-10-13'))&&['wz_lin','wz_teishoku','wz_tea','wz_ice'].every(z=>P.typhoonShops.includes(z)&&!P.isOpen(z,15,D('2025-10-13')))&&a,J(toasts)); }
-  // ---------- E. 冰菓室的季節 ----------
+  // ---------- E. 冰菓室的季節（11-12 起 AA-C：全年營業、冬天不休；菜單照舊：芒果冰只有 6～8 月）----------
   { const items=ds=>{ fresh(ds,15,'wenzhou'); const it=WZS.windowItems(); const f=lb=>it.find(i=>i.label===lb); return {buy:f('買一碗冰'),look:f('看夏日冰菓室'),tea:f('買一杯飲料')}; };
-    const oct=items('2025-10-15'); check('E. 10 月：「買一碗冰」藏起來、「看夏日冰菓室」出現；「買一杯飲料」照常',!!oct.buy&&oct.buy.hidden&&!!oct.look&&!oct.look.hidden&&!!oct.tea&&!oct.tea.hidden);
-    const m=G.money, h=G.hour; said=[]; opts=[]; const r=await STORY.interact(oct.look,GM);
-    check('E. 10 月按「看」＝（鐵捲門拉著。上面貼了一張紙：「五月見」。）（和溫州街其他「看」一樣是 look 的字幕：STORY.interact 不接、game3d.js 顯示這一句；不扣錢、不花時間、沒有選單）',oct.look.look==='（鐵捲門拉著。上面貼了一張紙：「五月見」。）'&&r===false&&!said.length&&G.money===m&&G.hour===h&&!opts.length,J([oct.look.look,r,said]));
-    said=[]; opts=[]; await WZS.interact(GM,oct.buy); check('E. 10 月就算按到窗口（保險）：也是那一句、不點餐',said.length===1&&said[0].t==='（鐵捲門拉著。上面貼了一張紙：「五月見」。）'&&!opts.length);
-    const jun=items('2026-06-09'); await order('ice',null);
+    const dec=items('2025-12-17'); check('E. 12 月（週三）：「買一碗冰」出現、「看夏日冰菓室」藏起來；「買一杯飲料」照常（修改前：10～4 月鐵捲門）',!!dec.buy&&!dec.buy.hidden&&!!dec.look&&dec.look.hidden&&!!dec.tea&&!dec.tea.hidden);
+    await order('ice',null); check('E. 12 月選單：紅豆牛奶冰 70、綜合剉冰 60（沒有芒果冰）',J(opts[0])===J(['紅豆牛奶冰　70 元','綜合剉冰　60 元','不用了']),J(opts));
+    const jun=items('2026-06-10'); await order('ice',null);
     check('E. 6 月：「買一碗冰」出現、「看」藏起來；選單有芒果冰 140',!jun.buy.hidden&&jun.look.hidden&&opts[0]&&opts[0][0]==='芒果冰　140 元',J(opts));
     const mm=async ds=>{ fresh(ds,15,'wenzhou'); await order('ice',null); return J(opts[0]); };
-    const may=await mm('2026-05-12'), sep=await mm('2026-09-15'), aug=await mm('2026-08-11');
+    const may=await mm('2026-05-13'), sep=await mm('2026-09-16'), aug=await mm('2026-08-12');
     check('E. 5 月、9 月沒有芒果冰（紅豆牛奶冰 70、綜合剉冰 60）；8 月有',may===J(['紅豆牛奶冰　70 元','綜合剉冰　60 元','不用了'])&&sep===may&&JSON.parse(aug)[0]==='芒果冰　140 元',may+' '+sep+' '+aug);
-    const vis=ds=>{ const x=items(ds); return [!x.buy.hidden,!x.look.hidden]; };   /* hidden 是照現在的遊戲日（GAME.G）算的：當場讀 */
+    const vis=ds=>{ const x=items(ds); return [!x.buy.hidden,!x.look.hidden]; };
     const apr=vis('2026-04-30'), may1=vis('2026-05-01'), sep30=vis('2026-09-30'), oct1=vis('2026-10-01');
-    check('E. 4/30 還是鐵捲門、5/1 窗口打開；9/30 開著、10/1 鐵捲門',J([apr,may1,sep30,oct1])===J([[false,true],[true,false],[true,false],[false,true]]),J([apr,may1,sep30,oct1])); }
+    check('E. 4/30、5/1、9/30、10/1 窗口都開著（全年）',J([apr,may1,sep30,oct1])===J([[true,false],[true,false],[true,false],[true,false]]),J([apr,may1,sep30,oct1])); }
   // ---------- F. 店員站的位置 ----------
   { const pop=(zone,ds,hh)=>{ fresh(ds,hh,zone); E.npcs=[]; E.zone={seats:[],spots:{},roomAt:()=>null}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null; GM.spawnExtra=()=>{}; GM.spawnRider=()=>{}; GM.removeNPC=()=>{};
       try{ STORY.populate(zone,GM); }catch(e){ return 'ERR:'+e.message; } finally { E.zone={roomAt:()=>null,seats:[]}; } return E.npcs.filter(n=>n.clerk).map(n=>[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),+n.obj.rotation.y.toFixed(2)]); };
     const L=WZ_SHOPS_LAYOUT, cl=k=>[L[k].clerk.x,L[k].clerk.z,L[k].clerk.yaw], lin=pop('wz_lin','2025-10-15',12), tei=pop('wz_teishoku','2025-10-15',12);
     check('F. 林家乾麵、巷子裡定食：店員站在室內配置的 clerk（林家 (−1.7,2.55)、定食 (−0.6,−2.75)）',J(lin)===J([cl('lin')])&&J(tei)===J([cl('teishoku')]),J([lin,tei]));
     const W=WZS.WINDOW, TW=[W.tea.clerk.x,W.tea.clerk.z,W.tea.clerk.yaw], I=[W.ice.clerk.x,W.ice.clerk.z,W.ice.clerk.yaw];
-    const jul=pop('wenzhou','2026-07-14',15), oct=pop('wenzhou','2025-10-15',15), night=pop('wenzhou','2026-07-14',22.5), mon=pop('wenzhou','2026-07-13',15);
-    check('F. 溫州街的窗口：7 月 15:00 茶飲、冰菓室都有店員（README 的位置，面向騎樓）；10 月只有茶飲；22:30 都沒有；7 月週一只有茶飲',J(jul)===J([TW,I])&&J(oct)===J([TW])&&J(night)===J([])&&J(mon)===J([TW]),J({jul,oct,night,mon})); }
+    const jul=pop('wenzhou','2026-07-15',15), oct=pop('wenzhou','2025-12-17',15), night=pop('wenzhou','2026-07-15',22.5), mon=pop('wenzhou','2026-07-14',15);
+    check('F. 溫州街的窗口：7 月 15:00 茶飲、冰菓室都有店員（README 的位置，面向騎樓）；12 月也兩個都有（11-12 起全年）；22:30 都沒有；7 月週二只有茶飲',J(jul)===J([TW,I])&&J(oct)===J([TW,I])&&J(night)===J([])&&J(mon)===J([TW]),J({jul,oct,night,mon})); }
   // ---------- G. 一起吃 ----------
   { const eh=EAT.eatingHere; EAT.eatingHere=(gm,id)=>id==='heroine_01';
     fresh('2025-10-15',12,'wz_lin'); inShop('lin'); SOCIAL.remember('heroine_01','FIRST_MET',''); { const r=SOCIAL.rel('heroine_01'); r.fam=25; r.trust=10; r.comf=10; } const an={id:'heroine_01',charId:'heroine_01',name:'以安',obj:mkObj()}; GM.npc.heroine_01=an; E.npcs.push(an);

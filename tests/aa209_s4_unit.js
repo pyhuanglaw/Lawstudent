@@ -31,12 +31,12 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
   fresh(termDay('Y1S2',5,6),20,'campus',{});
   const Z={name:'阿哲',charId:'zhe'}, A={name:'沈以安',charId:'heroine_01'};
   check('1. 沒有 ZHE_CALLS_GE：「哥！來得好，…」→「來得好，…」',ENC.zheGe(G,Z,'哥！來得好，幫我們排一下。')==='來得好，幫我們排一下。');
-  check('1. 沒有 ZHE_CALLS_GE：「哥，上次西門那家…」→ 拿掉「哥，」',ENC.zheGe(G,Z,'哥，上次西門那家，下次麵店團一起去。')==='上次西門那家，下次麵店團一起去。');
+  check('1. 沒有 ZHE_CALLS_GE：「哥，上次西門那家…」→ 拿掉「哥，」',ENC.zheGe(G,Z,'哥，上次西門那家，下次桌遊團一起去。')==='上次西門那家，下次桌遊團一起去。');
   check('1. 沒有：句中「。哥，」也拿掉',ENC.zheGe(G,Z,'系籃的在叫我了。哥，下週練球，你來。')==='系籃的在叫我了。下週練球，你來。');
   check('1. 沒有：「哥你看…」→「你看…」',ENC.zheGe(G,Z,'哥你看，那個人在噴火。')==='你看，那個人在噴火。');
   check('1. 別人說的話不動',ENC.zheGe(G,A,'哥，你好。')==='哥，你好。');
   G.flags.ZHE_CALLS_GE=true;
-  check('1. 有 ZHE_CALLS_GE：照原句叫「哥」',ENC.zheGe(G,Z,'哥，上次西門那家，下次麵店團一起去。')==='哥，上次西門那家，下次麵店團一起去。');
+  check('1. 有 ZHE_CALLS_GE：照原句叫「哥」',ENC.zheGe(G,Z,'哥，上次西門那家，下次桌遊團一起去。')==='哥，上次西門那家，下次桌遊團一起去。');
   // 期中宵夜：四人房旁白
   const sup=ev('ev_midterm_supper_y1s2'); const nar=sup.dialogue.find(l=>l.text==='（你想起柏翰這幾週都比較晚回 203。）');
   check('2. 考完的晚餐有四人房旁白、條件 DORM_FOUR、在 ps 段開頭（柏翰幫沛珊切滷蛋那一段 AA_588 第 1 節搬回 4/15 傍晚麵店 ev_psbh_public_0415，第一句就是滷蛋；第一格是麵店背景 UX-PSBH-BG）',!!nar&&nar.if&&nar.if.flags[0]==='DORM_FOUR'&&sup.dialogue.indexOf(nar)===sup.dialogue.findIndex(l=>l.label==='ps')+1&&sup.dialogue.findIndex(l=>l.text==='柏翰幫沛珊把滷蛋切成兩半。')<0&&!!ev('ev_psbh_public_0415')&&ev('ev_psbh_public_0415').dialogue.find(l=>l.text).text==='柏翰幫沛珊把滷蛋切成兩半。');

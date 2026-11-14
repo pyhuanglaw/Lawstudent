@@ -117,7 +117,7 @@ await sec('A',async()=>{ const G=fresh('2026-10-08',20); H.CLOSE(AN); breakup(AN
     ROM.get(G2,AN).status='friend_after_catch'; check('A5. friend_after_catch 也擋',STORY.an15On(G2)===false); }
   check('A6. 麵店長桌最後「你不用為了這個說什麼。」刪（AN15_EX.close 只剩旁白）',J(STORY.AN15_EX.close)===J([[null,'（她把志願表收回去，看了你一眼。）']]),J(STORY.AN15_EX&&STORY.AN15_EX.close));
   check('A7. 登機證私訊 y3_an_sendoff_miss：前任不送',/if\(!exAny\(G,'heroine_01'\)\) at\(G,d25,11\+40\/60,L,'y3_an_sendoff_miss'\)/.test(RAW('src/y34b3d.js')));
-  check('A8. ev_an_her_choice 走廊那場前任不演（an18Due 擋 exAny）；22:00 阿哲在麵店團：「以安說她要考首都帝大法研所 商法組」（不打句號）',/fam\('heroine_01'\)\|\|exAny\(G,'heroine_01'\)\) return false/.test(RAW('src/y34b3d.js'))&&RAW('src/y34b3d.js').includes("from:'zhe',text:'以安說她要考首都帝大法研所 商法組'"));
+  check('A8. ev_an_her_choice 走廊那場前任不演（an18Due 擋 exAny）；22:00 阿哲在桌遊團：「以安說她要考首都帝大法研所 商法組」（不打句號）',/fam\('heroine_01'\)\|\|exAny\(G,'heroine_01'\)\) return false/.test(RAW('src/y34b3d.js'))&&RAW('src/y34b3d.js').includes("from:'zhe',text:'以安說她要考首都帝大法研所 商法組'"));
   check('A9. 杜鵑花「第三張。」私訊那一支擋前任（群組照留）',guards('src/r2y3b3d.js','S.azaleaPhone=function',600));
   { const G3=fresh('2028-08-10',19); H.FRIEND(AN); breakup(AN); const x=(typeof R2Y3B!=='undefined'&&R2Y3B.SUMMER_SCENES)?null:null; check('A10. 大三暑假 study 第 3 場：前任只有旁白「（隔天開始，她也來了，坐在最角落。你們沒有說話。）」',RAW('src/r2y3b3d.js').includes("ROM.exOf(G,'heroine_01')?{lines:[{narr:'（隔天開始，她也來了，坐在最角落。你們沒有說話。）'}]}")); }
   check('A13. 尾聲 Café 前任：前面加旁白「（她經過你們那桌。你先打了招呼。）」，她的句子照留',(()=>{ const L=PG.exLines?PG.exLines(H.G,AN,false):null; return !!L&&L[0]==='（她經過你們那桌。你先打了招呼。）'&&J(L).includes('好久不見。'); })());
@@ -175,7 +175,7 @@ await sec('R',async()=>{
     const G2=fresh('2028-07-07',19); G2.flags.REPAIR={heroine_01:1}; const L2=await play('ev_jp_tanabata_repair');
     check('R2. REPAIR 不夠：「（她看了很久，把短冊還給你。）」「掛上去吧。」＝hung',!!L2&&L2.includes('（她看了很久，把短冊還給你。）')&&L2.includes('掛上去吧。')&&!L2.includes('……不准賴。')&&G2.flags.AN_TANABATA_JP_REPAIR==='hung',J(L2)); }
   { const G=fresh('2028-09-13',19); const L=await play('ev_us2_repair',[0,0]);
-    check('R3. 美國 C 棟廚房：她點頭、祐廷問「報告怎麼了？」她才說；「我陪妳吃完再走。」＝US2_STAYED、「……隨你。」；「你吃過了嗎？」不在',!!L&&L.includes('（她看了你一眼，點了一下頭，又回去看鍋子。吧台上放著一份報告，第一頁有教授的紅字。）')&&L.includes('……被退了。教授說：「妳的論點很清楚，但我讀不到妳。」')&&L.includes('……隨你。')&&!L.includes('你吃過了嗎？')&&G.flags.US2_STAYED===true&&G.flags.US2==='repair',J(L));
+    check('R3. 美國 C 棟廚房：她點頭、祐廷問「報告怎麼了？」她才說；「我陪妳吃完再走。」＝US2_STAYED、「隨你。」；「你吃過了嗎？」不在',!!L&&L.includes('（她看了你一眼，點了一下頭，又回去看鍋子。吧台上放著一份報告，第一頁有教授的紅字。）')&&L.includes('……被退了。教授說：「妳的論點很清楚，但我讀不到妳。」')&&L.includes('隨你。')&&!L.includes('你吃過了嗎？')&&G.flags.US2_STAYED===true&&G.flags.US2==='repair',J(L));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……隨你。」 */
     const G2=fresh('2028-09-13',19); const L2=await play('ev_us2_repair',[1]); check('R3. 放好就走：「（你走的時候，她沒有回頭。）」、沒有 US2_STAYED',!!L2&&L2.includes('（你走的時候，她沒有回頭。）')&&!G2.flags.US2_STAYED,J(L2)); }
   { const G=fresh('2028-11-23',9); const L=await play('ev_us3_lake',[0]);
     check('R4. 感恩節湖邊（挽回中）：你放慢腳步走到她旁邊、祐廷先說「分手那天，我沒有解釋。」；她說的「分手那天，你沒有解釋。」不在',!!L&&L.some(t=>/你放慢腳步，走到她旁邊。她沒有看你。/.test(t))&&L.includes('分手那天，我沒有解釋。')&&L.includes('（她走了好幾步才開口。）')&&!L.includes('分手那天，你沒有解釋。'),J(L)); }
@@ -188,7 +188,7 @@ await sec('N',async()=>{
   check('N2. 除夕 y29：照片只在開頭一次，最後只留「厲害吧。」',RAW('src/data/sis_b10_events.js').includes("{label:'e29'},SIS('厲害吧。')")&&(RAW('src/data/sis_b10_events.js').match(/一盤水餃/g)||[]).length===1);
   { const G=fresh('2028-03-01',20); G.flags.SIS_REBUILD=D('2028-01-01'); H.CLOSE(SIS); at('2027-12-01',12); date(SIS); at('2027-12-20',12); ROM.end(G,SIS,'apart_talk'); at('2028-03-01',20); date(SIS);
     const y=CONFESS_LINES.heroine_05.yes(G); check('N4. 重新開始的答應（restartYes）放回：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」',J(y)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']),J(y)); }
-  check('N5. multirel 學姊 Byes「我還是喜歡你。這個我不想騙自己。」放回',/Byes:\[ '我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前傳一句給我就好。' \]/.test(RAW('src/data/multirel_lines.js')));
+  check('N5. multirel 學姊 Byes「我還是喜歡你。這個我不想騙自己。」放回',/Byes:\[ '我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前發一句給我就好。' \]/.test(RAW('src/data/multirel_lines.js')));
   { const h=TERMEND.heart(SIS,'Y2S2'), inv=x=>typeof x==='function'?x(H.G):x; check('N6. termend 學姊 yes2＝yes、invite2＝第一次的邀約（不提上次）',!!h&&J(h.yes2)===J(h.yes)&&inv(h.invite2)===inv(h.invite)&&!/上次|同一家/.test(inv(h.invite2)),J({y2:h&&h.yes2,i2:h&&inv(h.invite2)})); }
   check('N7. 大峽谷「十二月二十三號，晚上八點落地。你來接我。」照留',RAW('src/data/r2y4b_events.js').includes("text:'十二月二十三號，晚上八點落地。你來接我。'"));
   { const G=fresh('2028-03-01',20); H.CLOSE(SIS); date(SIS); G.name='祐廷'; const m=PHONE.post(G,{th:'p:'+SIS,from:SIS,text:'{name}，到了嗎。'}); ROM.end(G,SIS,'apart_talk');

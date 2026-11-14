@@ -14,7 +14,7 @@ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z
 global.CHAR={setExpr(){},build:()=>mkObj()};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,700):'')); if(!ok) fails++; };
 const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/sis_grad3d.js',
   'src/data/dorm_room_layout.js','src/story3d.js','src/classes3d.js','src/slowread3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -52,13 +52,15 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
   const R772=require('./l118_redo772_expect.js');
   spec=R772.doc(spec)+'\n'+R772.corpus(); spec579=R772.doc(spec579); spec580=R772.doc(spec580); spec4=R772.doc(spec4);
-  const inSpecSR=t=>inSpec(t)||(!!spec4&&spec4.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,'')));
+  /* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 照覆蓋層拿掉刪節號——t 是覆蓋層換上去的新字、它的舊字在稿上也算（tests/overlay_expect.js 的 inDoc）。舊期望：t 本身在稿上 */
+  const OE=require('./overlay_expect.js');
+  const inSpecSR=t=>OE.inDoc('invites',null,t,t=>inSpec(t)||(!!spec4&&spec4.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''))));
   { const SR=INVITE_DATA.slowreadLines||{}, all=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; const L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L) all.push(typeof x==='string'?x:[].concat(x.l||[]).join('')); }
-    const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpecSR(t)) bad.push(id+'.'+k+':'+t); } }
+    const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpecSR(t)&&!require('./canon1112_ok.js').ok(t)) bad.push(id+'.'+k+':'+t);   /* （CANON 第五批：AA_916 換字）*/ } }
     check('0. 七位的慢讀台詞（first／acc／plan／here／firstAt／walk）每一句都在稿上（一字照稿；語彤的 walk 照 AA_535b 4-1 更正）',Object.keys(SR).length===7&&bad.length===0&&all.length>50,J(bad));
     /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：沛珊一起念書的旁白 F 換了字（原本「她把一個問題寫在便利貼上，貼到你的書上。」）——這一句對 AA_763（tests/peishan_misc3_1111_unit.js），不在 AA_535 */
     const PS763_F='她在便利貼上畫了一隻打瞌睡的貓，貼到你的書上。';
-    const M=[]; for(const id of Object.keys(SR)){ const m=((REL_LINES[id]||{}).meet||{}).slowread||{}; for(const k of ['A','F','R']) if(!m[k]||!(inSpec(m[k])||(id==='classmate_peishan'&&k==='F'&&m[k]===PS763_F))) M.push(id+'.'+k); }
+    const M=[]; for(const id of Object.keys(SR)){ const m=((REL_LINES[id]||{}).meet||{}).slowread||{}; for(const k of ['A','F','R']) if(!m[k]||!(inSpec(m[k])||inSpec(require('./line_rows_expect.js').toOld(m[k]))/* X324 G 區 AA_794 店長→老闆：換回舊句在稿裡 */||(id==='classmate_peishan'&&k==='F'&&m[k]===PS763_F))) M.push(id+'.'+k); }
     check('0. 見面旁白 meet.slowread（A／F／R）七位都有、照稿',M.length===0,J(M));
     const sg=[SISG.STUDY_YES].concat(SISG.DECLINE_OFF,SISG.STUDY_OPTS,SLOWREAD.NARR||[],SLOWREAD.REGULARS.map(r=>r.hi)).filter(t=>!inSpec(t));
     check('0. 學姊兩句婉拒、那一起念書、答應句、慢讀旁白四句、常客招呼照稿',sg.length===0,J(sg)); }

@@ -15,7 +15,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 /* 美國那一學期（USL：人在美國、快轉）、可昕的七夕（R2Y3A）照 index.html 的順序先載入 */
-const okDeps=['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/data/hometown_lines.js','src/data/needed_msgs.js','src/exchange3d.js','src/data/us_layouts.js','src/y34b3d.js',
+const okDeps=['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/hometown_lines.js','src/data/needed_msgs.js','src/exchange3d.js','src/data/us_layouts.js','src/y34b3d.js',
   'src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/us_life_events.js','src/us_life3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/data/sis_b4_events.js','src/sis_b4_3d.js'].map(load).every(x=>x);
 const ok1=load('src/data/sis_qixi_events.js'), ok2=load('src/sis_qixi3d.js');
 const PATH='docs/story_planning/AA_388_學姊第五批_七夕.md';
@@ -173,9 +173,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('5. 交往過、現在分開了：三年都沒有',r.every(x=>x),J(r)); }
   { const r=runYears(()=>{ dateSis(); H.G.flags.met_sis=false; });
     check('5. 還沒認識她（met_sis 沒有）：三年都沒有',r.every(x=>x),J(r)); }
-  { setup('2026-08-12',12,'dorm','CLOSE'); H.G.flags.dating_kexin=true; ROM.get(H.G,'kexin').status='dating'; R2Y3A.qixiPhone(H.G); at('2026-08-17',21.05); rules(); const kx=OUT.get(H.G,'kx_qixi_2026'), sis=none();
+  { setup('2026-08-12',12,'dorm','CLOSE'); H.G.flags.dating_kexin=true; ROM.get(H.G,'kexin').status='dating'; at('2026-08-17',21.05); rules(); const kx=OUT.get(H.G,'kx_qixi_2026'), sis=none();
     setup('2026-08-17',21.05,'dorm','CLOSE'); H.G.flags.dating_kexin=true; ROM.get(H.G,'kexin').status='dating'; dateSis(); rules(); const both=none();
-    check('5. 和可昕交往中：只有可昕的七夕（2026-08-19 21:00 她的視訊），沒有學姊的；同時也在和學姊交往一樣只有可昕的',!!kx&&kx.h===21&&sis&&both,J({kx,sis,both})); }
+    check('5. 和可昕交往中：沒有學姊的七夕；同時也在和學姊交往一樣（可昕 21:00 的視訊：CANON-NO-ECON-1112 第三批：這一項拿掉）',!kx&&sis&&both,J({kx,sis,both})); }
   { setup('2026-08-17',21.05,'dorm','CLOSE'); dateSis(); H.G.contacts[ID]=H.G.day; rules();
     check('5. 她的聯絡方式是當天才拿到的（前一天以前沒有）：不傳（同 SISB4；開場的聯絡方式 contacts0 本來就有她）',!dms().length); }
   });

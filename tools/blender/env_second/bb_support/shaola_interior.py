@@ -9,6 +9,8 @@ docs/story_planning/bb_models/shaola/README.md（23 項）。配置照 src/data/
   配置之外多的導航阻擋（給 LAWWW2 補）寫在 EXTRA_BLOCKS，也存進 GLB 根節點的 props。
 做法：牆、地、天花板用 PIL＋numpy 自己畫的貼圖（shaola_tex.py：發黃的舊灰泥＋水漬、暗沉方格天花板、髒的小方磚地＋粗糙度圖、刷紋不鏽鋼＋凹痕）；
   小東西的字和花紋在一張印刷圖集；燒臘、圓凳、調味罐是頂點色（燒鴨、油雞照高度做焦糖色漸層，粗糙度 0.2）；材質 12 個。
+v8（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；幫手 g4 11-13）：頂點色零件照顏色分族到 ambientCG 材質組（cc0kit.std_route：白／灰／黑塑膠、紙箱、金屬、紅色塑膠凳和籃子），
+  燒臘、醬料這些飽和的小東西照舊頂點色；收銀機、冰箱上的紅籃和紙箱換 Poly Haven 掃描模型。位置、座位、導航阻擋都沒動。
 D77：店名是遊戲裡的替代名（使用者給的圖照用）、沒有真實品牌；D112：地板是淺色小方磚；金屬度 ≤ 0.45（遊戲沒有環境貼圖）。"""
 import json, math, os, random, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +18,7 @@ sys.path.insert(0, os.path.dirname(HERE)); sys.path.insert(0, HERE)
 import lib2 as L   # noqa: E402
 from lib2 import B, Mesh, CMesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
 import shaola_tex as TX   # noqa: E402
+import cc0kit as KK   # noqa: E402
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/env/second_ai/bb_support/shaola_interior.glb')
@@ -75,7 +78,20 @@ M = dict(
     screen=img_mat('GLOW_sl_screen', P['screen'], rough=0.15, emit=1.2),
 )
 M['steel']['tile'] = 0.7
-MS = {k: (CMesh if k in ('vc', 'gloss', 'vm') else Mesh)(f'sl_{k}', M[k]) for k in ('vc', 'gloss', 'vm', 'steel', 'glass', 'tube', 'warm')}
+K = KK.Kit(root, 'sl'); KK.std_mats(K, M)
+M.update(plastic_red=K.acg('plastic_red', 'Plastic006', vary=0.05, target='#c4302a', tile=0.4, rough_value=0.32),
+         plastic_blue=K.acg('plastic_blue', 'Plastic006', vary=0.05, maps=('diff',), target='#2a5aa8', tile=0.4, rough_value=0.35, res=256),
+         sack=K.acg('sack', 'Fabric036', maps=('diff',), target='#e6e0cf', tile=0.25, rough_value=0.9, res=256))
+for k_, nm_, col_, em_ in (('tube', 'GLOW_sl_tube', '#ffffff', tuple(v * 8.0 for v in B.srgb('#eef2ff'))), ('warm', 'GLOW_sl_warm', '#ffe2b0', tuple(v * 5.0 for v in B.srgb('#ffb85c')))):
+    bpy.data.materials.remove(M[k_]); M[k_] = K.glow(nm_, col_, em_)   # v8：燈管、暖燈也用乳白塑膠的紋路（同名，烘焙照名字找燈）
+EXT = {'#c8342c': 'plastic_red', '#c42e26': 'plastic_red', '#2a5aa8': 'plastic_blue', '#e8e2d0': 'sack'}
+RV, RM = KK.std_route(False, EXT), KK.std_route(True)
+TM = {}
+def tm(k):
+    if k == 'steel': return ST
+    if k not in TM: TM[k] = Mesh(f'sl_cc_{k}', M[k])
+    return TM[k]
+MS = {k: (KK.RCMesh(f'sl_{k}', M[k], RM if k == 'vm' else RV, tm) if k in ('vc', 'gloss', 'vm') else Mesh(f'sl_{k}', M[k])) for k in ('vc', 'gloss', 'vm', 'steel', 'glass', 'tube', 'warm')}
 VC, GL, VM, ST = MS['vc'], MS['gloss'], MS['vm'], MS['steel']
 PR = Mesh('sl_prints', M['print']); SCR = Mesh('sl_screens', M['screen'])
 WG = {}   # (side, key) → mesh（會淡出的牆分組）
@@ -84,7 +100,7 @@ WG = {}   # (side, key) → mesh（會淡出的牆分組）
 def wg(side, key):
     k = (side, key)
     if k not in WG:
-        m = M[key]; WG[k] = (CMesh if key in ('vc', 'gloss', 'vm') else Mesh)(f'WALL_{side}_{key}', m)
+        m = M[key]; WG[k] = (KK.RCMesh(f'WALL_{side}_{key}', m, RM if key == 'vm' else RV, lambda k_, s_=side: wg(s_, k_)) if key in ('vc', 'gloss', 'vm') else Mesh(f'WALL_{side}_{key}', m))
     return WG[k]
 
 
@@ -412,7 +428,8 @@ mx = (fx0 + fx1) / 2
 VM.cbox(mx - 0.004, mx + 0.004, 0.1, 1.98, fz1, fz1 + 0.004, '#6a6e72')
 for s in (-1, 1): VM.cbox(mx + s * 0.05 - 0.012, mx + s * 0.05 + 0.012, 0.9, 1.5, fz1 + 0.004, fz1 + 0.04, '#d0d4d8')
 VC.cbox(fx0 + 0.1, fx0 + 0.32, 1.6, 1.75, fz1 + 0.002, fz1 + 0.004, '#f2ecd8')   # 冰箱上貼的紙
-VC.crbox(fx0 + 0.02, fx0 + 0.52, 2.0, 2.3, fz0 + 0.05, fz1 - 0.05, '#c8342c', r=0.015, seg=1); VC.crbox(fx0 + 0.55, fx1 - 0.02, 2.0, 2.24, fz0 + 0.08, fz1 - 0.1, '#b89a6a', r=0.006, seg=1)
+K.ph_put('plastic_crate_02', fx0 + 0.27, 2.0, (fz0 + fz1) / 2, 0.04, height=0.28, decimate=0.1, recolor=('#6a1410', '#d8483a'), tag='_r')   # v8：冰箱上的紅籃、紙箱（Poly Haven）
+K.ph_put('cardboard_box_01', fx0 + 0.72, 2.0, (fz0 + fz1) / 2, PI / 2 + 0.06, height=0.24, decimate=0.035)
 VC.crbox(fr['x0'] + 0.01, fx0 - 0.01, 0.0, 0.28, fz0 + 0.1, fz1 - 0.05, '#c8342c', r=0.012, seg=1)   # 冰箱旁地上的紅籃
 
 # ================= 右邊：櫃台三段 =================
@@ -478,8 +495,7 @@ f0 = set(VC.bm.faces)   # 白抹布掛在檯邊（紅線）：用印刷
 uvq(PR, [(c['x0'] - 0.04, c['h'] - 0.38, 0.75), (c['x0'] - 0.04, c['h'] - 0.38, 0.38), (c['x0'] - 0.04, c['h'] + 0.005, 0.38), (c['x0'] - 0.04, c['h'] + 0.005, 0.75)], C['towel'])
 uvq(PR, [(c['x0'] - 0.04, c['h'] + 0.006, 0.75), (c['x0'] - 0.04, c['h'] + 0.006, 0.38), (c['x0'] + 0.2, c['h'] + 0.006, 0.38), (c['x0'] + 0.2, c['h'] + 0.006, 0.75)], sub(C['towel'], 0, 0.6, 1, 1))
 # 收銀機（z −0.75，面向走道）
-VC.crbox(1.2, 1.62, c['h'], c['h'] + 0.12, -0.9, -0.5, '#3c3e40', r=0.01, seg=1); VC.crbox(1.38, 1.6, c['h'] + 0.12, c['h'] + 0.26, -0.85, -0.55, '#3c3e40', r=0.01, seg=1)
-uvq(PR, [(1.199, c['h'] + 0.02, -0.5), (1.199, c['h'] + 0.02, -0.9), (1.199, c['h'] + 0.11, -0.9), (1.199, c['h'] + 0.11, -0.5)], sub(C['panel'], 0, 0, 1, 1))
+K.ph_put('CashRegister_01', 1.41, c['h'], -0.7, -PI / 2, height=0.3, decimate=0.08)   # v8：收銀機（Poly Haven）
 VC.crbox(1.12, 1.3, c['h'], c['h'] + 0.1, -0.35, -0.15, '#d8c8a0', r=0.004, seg=1)    # 筷子、湯匙籃
 # 砧板檯後面（老闆那一側）的小東西：辣椒罐、塑膠袋一捲
 for k in range(4): clathe(GL, [(0.0, 0.0), (0.04, 0.0), (0.04, 0.1), (0.0, 0.1)], 1.8, c['h'], -0.3 + k * 0.2, ['#a8200e', '#e8d8a8', '#2a140a', '#e8e0c8'][k], seg=8)
@@ -596,23 +612,30 @@ for k in range(3): bird(RAIL_X, kz0 + 2.42 + k * 0.27, 'chicken')
 for k, kind in enumerate(('cs', 'sy', 'ck', 'dk')):
     tz = kz0 + 0.42 + k * 0.78
     VM.crbox(1.1, 1.8, c['h'], c['h'] + 0.05, tz - 0.36, tz + 0.36, '#b8bcc0', r=0.012, seg=1)
-    for j in range(36):
-        lay = j // 18; jj = j % 18
-        sx, sz = 1.14 + (jj % 6) * 0.105 + R.uniform(-0.015, 0.015), tz - 0.32 + (jj // 6) * 0.215 + R.uniform(-0.02, 0.02); y0 = c['h'] + 0.04 + lay * 0.035
-        if lay: sx += 0.05; sz += 0.08
-        if kind == 'cs':
-            fs = GL.crbox(sx, sx + 0.1, y0, y0 + 0.035, sz, sz + 0.15, '#8e2016', r=0.01, seg=1)
-            paint_fn(GL, fs, lambda px, py, pz, sx=sx: mix('#3a0e08', '#c04a30', min(1.0, 4 * min(px - sx, sx + 0.1 - px) / 0.1)))
-        elif kind == 'sy':
-            fs = GL.crbox(sx, sx + 0.1, y0, y0 + 0.05, sz, sz + 0.12, '#e8d8c0', r=0.006, seg=1)
-            paint_fn(GL, fs, lambda px, py, pz, y0=y0: lin('#b8681e') if py > y0 + 0.042 else (lin('#f2e6d4') if py > y0 + 0.03 else lin('#c89080')))
-        elif kind == 'ck':
-            fs = GL.crbox(sx, sx + 0.1, y0, y0 + 0.045, sz, sz + 0.15, '#e8b850', r=0.012, seg=1)
-            paint_fn(GL, fs, lambda px, py, pz, y0=y0: lin('#e8b048') if py > y0 + 0.032 else lin('#f4e8d0'))
-        else:
-            fs = GL.crbox(sx, sx + 0.1, y0, y0 + 0.045, sz, sz + 0.15, '#7a2e10', r=0.012, seg=1)
-            paint_fn(GL, fs, lambda px, py, pz, y0=y0: lin('#6a240c') if py > y0 + 0.032 else lin('#e8c8b0'))
-        gloss_pass(GL, fs, 0.3, 4)
+    # v8（D159：不准一樣大小的方塊排格子）：切好的肉一片一片疊成魚鱗狀（每片長、寬、厚、角度都不同，往盤子中間堆高，邊上有幾片斜靠）
+    rr = random.Random(611 + k); n_ = 0
+    for row in range(5):
+        zc = tz - 0.27 + row * 0.135 + rr.uniform(-0.02, 0.02); ncol = rr.randint(4, 6); xs_ = sorted(rr.uniform(1.17, 1.72) for _ in range(ncol))
+        for col_, xc in enumerate(xs_):
+            for lay in range(1 + (1 if 1.3 < xc < 1.6 and rr.random() < 0.6 else 0)):
+                L_ = rr.uniform(0.09, 0.15); W_ = rr.uniform(0.05, 0.085); T_ = rr.uniform(0.016, 0.03) if kind in ('cs', 'sy') else rr.uniform(0.025, 0.045)
+                cx_, cz_ = xc + rr.uniform(-0.02, 0.02), zc + rr.uniform(-0.02, 0.02); y0 = c['h'] + 0.04 + lay * 0.022 + rr.uniform(0.0, 0.006)
+                sx, sz = cx_ - W_ / 2, cz_ - L_ / 2
+                if kind == 'cs':
+                    fs = GL.crbox(sx, sx + W_, y0, y0 + T_, sz, sz + L_, '#8e2016', r=0.006, seg=1)
+                    paint_fn(GL, fs, lambda px, py, pz, sx=sx, W_=W_: mix('#3a0e08', '#c04a30', min(1.0, 4 * min(px - sx, sx + W_ - px) / W_)))
+                elif kind == 'sy':
+                    fs = GL.crbox(sx, sx + W_, y0, y0 + T_ + 0.015, sz, sz + L_, '#e8d8c0', r=0.005, seg=1)
+                    paint_fn(GL, fs, lambda px, py, pz, y0=y0, T_=T_: lin('#b8681e') if py > y0 + T_ + 0.008 else (lin('#f2e6d4') if py > y0 + T_ * 0.6 else lin('#c89080')))
+                elif kind == 'ck':
+                    fs = GL.crbox(sx, sx + W_, y0, y0 + T_, sz, sz + L_, '#e8b850', r=0.01, seg=1)
+                    paint_fn(GL, fs, lambda px, py, pz, y0=y0, T_=T_: lin('#e8b048') if py > y0 + T_ * 0.7 else lin('#f4e8d0'))
+                else:
+                    fs = GL.crbox(sx, sx + W_, y0, y0 + T_, sz, sz + L_, '#7a2e10', r=0.01, seg=1)
+                    paint_fn(GL, fs, lambda px, py, pz, y0=y0, T_=T_: lin('#6a240c') if py > y0 + T_ * 0.7 else lin('#e8c8b0'))
+                vs_ = list({v for f in fs for v in f.verts}); tilt = rr.uniform(-0.25, 0.25) if lay or rr.random() < 0.3 else rr.uniform(-0.06, 0.06)
+                bmesh.ops.rotate(GL.bm, verts=vs_, cent=g2b(cx_, y0, cz_), matrix=(Matrix.Rotation(rr.uniform(-0.5, 0.5), 3, 'Z') @ Matrix.Rotation(tilt, 3, 'Y')))
+                gloss_pass(GL, fs, 0.3, 4); n_ += 1
 # 櫃子裡的暖色燈泡：一排 5 盞，直接照在肉上
 for z in [kz0 + 0.3 + k * 0.65 for k in range(5)]:
     clathe(VM, [(0.0, 0.0), (0.03, 0.0), (0.09, -0.08), (0.095, -0.1), (0.0, -0.1)], 1.3, top - 0.01, z, '#b8863e', seg=14)
@@ -717,8 +740,13 @@ for k in range(2): clathe(VC, [(0.0, 0.0), (0.07, 0.0), (0.08, 0.28), (0.0, 0.28
 for k in range(5): VC.crbox(1.62, 1.85, c['h'] + k * 0.012, c['h'] + 0.01 + k * 0.012, 0.0, 0.3, '#c8a878', r=0.002, seg=1)   # 一疊外帶紙袋
 # ================= 收尾：牆分組、合併、匯出 =================
 for k, m in list(WG.items()):
-    side, key = k; m.finish(G[side], uv=(key in ('steel', 'vc', 'vm', 'gloss', 'tube', 'glass') and key != 'print' and key != 'wall'),
+    if isinstance(m, KK.RCMesh): m.flush()
+for k, m in list(WG.items()):
+    side, key = k; m.finish(G[side], uv=(key in ('steel', 'vc', 'vm', 'gloss', 'tube', 'glass') or key in M and key not in ('print', 'wall', 'floor', 'ceil', 'screen')),
                             props={'glass': 1} if key == 'glass' else None, smooth=key in ('gloss', 'vm'))
+for k in ('vc', 'gloss', 'vm'): MS[k].flush()
+for m in TM.values(): m.finish(root, uv=True, smooth=True)
+K.remove_protos()
 for k in ('vc', 'gloss', 'vm', 'steel', 'glass', 'tube', 'warm'):
     MS[k].finish(root, props={'glass': 1} if k == 'glass' else None, smooth=k in ('gloss', 'vm'), uv=k not in ('vc', 'gloss', 'vm'))
 PR.finish(root, uv=False); SCR.finish(root, uv=False)
@@ -727,5 +755,6 @@ for ob in list(root.children_recursive):
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')
 root['extraBlocks'] = json.dumps(EXTRA_BLOCKS, ensure_ascii=False)
 st = L.export(OUT)
+print('CC0_USED', K.used())
 mats = sorted({ms.material.name for ob in bpy.data.objects if ob.type == 'MESH' for ms in ob.material_slots if ms.material})
 print('OK', OUT, 'materials', len(mats), mats, 'extraBlocks', EXTRA_BLOCKS)

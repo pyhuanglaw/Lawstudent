@@ -32,7 +32,7 @@ const fresh=(key,hour,zone,flags)=>{ const day=D(key); G={v:3,stage:'law',day,ho
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const FAM=id=>{ meet(id); R(id,30,10,10); };
-const noodle=()=>{ PHONE.join(G,'noodle_team','麵店團'); for(const id of ['zhe','yu','classmate_bohan','classmate_xinci']) meet(id); };
+const noodle=()=>{ PHONE.join(G,'noodle_team','桌遊團'); for(const id of ['zhe','yu','classmate_bohan','classmate_xinci']) meet(id); };
 const atHome=()=>{ const H=HOME.rec(G); H.at=true; H.day=G.day; const B=HOME.lawBreak(G); H.lbreak=B.key; H.brk=B.key; H.bskip={key:B.key,n:0,last:-1}; };
 /* 照時間跑手機規則（每 step 小時一次，跨日）*/
 const runTo=(key,h,step)=>{ step=step||0.25; const t1=Tm(D(key),h); let t=now(); while(t<t1-1e-9){ t=Math.min(t1,t+step); G.day=Math.floor(t/24); G.weekday=wdOf(G.day); G.hour=t-G.day*24; STORY.phoneRules(GM); PHONE.tick(G); } };
@@ -57,11 +57,11 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   fresh('2026-07-15',12,'dorm'); meet('kai');
   { onPhone=async()=>{ PHONE.answer(G,'vac_ask_C05@Y1',0); }; picks=['過一週']; await HOME.ffMenu(GM,'dorm');
     check('H2-2. 停下來回了「去。」＝報名（VAC reg yes）、阿凱「好 我拉你進群」、排了 8/24 出發；之後接著跳到 7/20 18:30',VAC.state(G,'C05@Y1')==='yes'&&msg('vac_ask_C05@Y1').length>0&&(G.msgs||[]).some(m=>m.from==='kai'&&m.text==='好 我拉你進群')&&!!OUT.rec(G).find(q=>q.vac&&q.vac.key==='C05@Y1'&&q.day===D('2026-08-24'))&&G.day===D('2026-07-20')&&Math.abs(G.hour-18.5)<1e-6,lbl(now())); }
-  // H2-3 VA10 香港（大二暑假 7/20 21:00 麵店團群組）：7/20 18:30 摘要日之後「過三天」
+  // H2-3 VA10 香港（大二暑假 7/20 21:00 桌遊團群組）：7/20 18:30 摘要日之後「過三天」
   fresh('2027-07-20',18.5,'dorm'); noodle(); meet('heroine_01'); meet('heroine_03');
   { picks=['過三天']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.pend.includes('va10_ask'));   /* X58：找第一次看得到邀約的那一次 */
     check('H2-3. VA10：7/20 21 點多停下來打開手機，看得到「我也去。」的邀約',!!c&&c.day===D('2027-07-20')&&c.hour>=21&&c.hour<22.01,JSON.stringify(phoneCalls)); }
-  // H2-4 C01 海邊（大二寒假第一次去：揪人那天 21:05 起麵店團群組，問到海邊那天早上）
+  // H2-4 C01 海邊（大二寒假第一次去：揪人那天 21:05 起桌遊團群組，問到海邊那天早上）
   { const d=VAC.c01Day('Y2'), da=VAC.c01Ask(d); fresh('2026-12-28',10,'dorm'); noodle(); G.day=da-1; G.weekday=wdOf(G.day); G.hour=10;
     picks=['過三天']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls[0];
     check('H2-4. C01：揪人那天 21 點多停下來（海邊在 '+CALENDAR.dateOf(d).key.slice(5)+'），看得到「我去／我那天不行」',!!c&&c.day===da&&c.hour>=21&&c.hour<22.75&&c.pend.includes('vac_c01first_Y2'),JSON.stringify(phoneCalls)); }
@@ -119,12 +119,12 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   /* ================= H3：朋友回老家、回臺北 ================= */
   // 大二寒假：柏翰 1/9 17:00、以安 2/1 15:00（FAMILIAR＝私訊）、柏翰 2/19 20:00、阿哲 2/20 19:00、以安 2/21 18:00
   fresh('2027-01-08',10,'dorm'); noodle(); FAM('heroine_01'); runTo('2027-02-21',23,1);
-  check('H3-1. 大二寒假（AA_446 第 1 節換字）：柏翰 1/9 17:00「我今天回新竹。債總帶回去了，2/19 回來。」、2/19 20:00「回來了。開學前我先去總圖占位子。」（麵店團）',JSON.stringify(msg('hol_y2w_bh_home'))===JSON.stringify(['g:noodle_team|classmate_bohan:我今天回新竹。債總帶回去了，2/19 回來。'])&&at('hol_y2w_bh_home')==='01-09 17'&&JSON.stringify(msg('hol_y2w_bh_back'))===JSON.stringify(['g:noodle_team|classmate_bohan:回來了。開學前我先去總圖占位子。'])&&at('hol_y2w_bh_back')==='02-19 20',at('hol_y2w_bh_home')+' / '+at('hol_y2w_bh_back'));
+  check('H3-1. 大二寒假（AA_446 第 1 節換字）：柏翰 1/9 17:00「我今天回新竹。債總帶回去了，2/19 回來。」、2/19 20:00「回來了。開學前我先去總圖占位子。」（桌遊團）',JSON.stringify(msg('hol_y2w_bh_home'))===JSON.stringify(['g:noodle_team|classmate_bohan:我今天回新竹。債總帶回去了，2/19 回來。'])&&at('hol_y2w_bh_home')==='01-09 17'&&JSON.stringify(msg('hol_y2w_bh_back'))===JSON.stringify(['g:noodle_team|classmate_bohan:回來了。開學前我先去總圖占位子。'])&&at('hol_y2w_bh_back')==='02-19 20',at('hol_y2w_bh_home')+' / '+at('hol_y2w_bh_back'));
   check('H3-1. 大二寒假：阿哲 2/20 19:00「我回來了！這次帶了烏魚子 我阿嬤做的」「開學那天拿去燒臘店」',JSON.stringify(msg('hol_y2w_zhe_back'))===JSON.stringify(['g:noodle_team|zhe:我回來了！這次帶了烏魚子 我阿嬤做的','g:noodle_team|zhe:開學那天拿去燒臘店'])&&at('hol_y2w_zhe_back')==='02-20 19');
   check('H3-1. 大二寒假：以安（FAMILIAR）私訊 2/1 15:00「回台中了。」「我媽來車站接我。她說我瘦了。……沒有。」、2/21 18:00「回臺北了。我媽在行李箱塞了一袋橘子。」',JSON.stringify(msg('hol_y2w_an_home'))===JSON.stringify(['p:heroine_01|heroine_01:回台中了。','p:heroine_01|heroine_01:我媽來車站接我。她說我瘦了。……沒有。'])&&at('hol_y2w_an_home')==='02-01 15'&&JSON.stringify(msg('hol_y2w_an_back'))===JSON.stringify(['p:heroine_01|heroine_01:回臺北了。我媽在行李箱塞了一袋橘子。'])&&at('hol_y2w_an_back')==='02-21 18',JSON.stringify([msg('hol_y2w_an_home'),at('hol_y2w_an_home')]));
   fresh('2027-01-31',10,'dorm'); noodle(); meet('heroine_01'); runTo('2027-02-02',10,1);
-  check('H3-2. 以安只是認識、在麵店團：群組只有第一句「回台中了。」（大一寒假的寫法）',JSON.stringify(msg('hol_y2w_an_home'))===JSON.stringify(['g:noodle_team|heroine_01:回台中了。']));
-  fresh('2027-01-08',10,'dorm'); runTo('2027-01-10',10,1); check('H3-2. 不在麵店團：群組的那幾則不收',msg('hol_y2w_bh_home').length===0);
+  check('H3-2. 以安只是認識、在桌遊團：群組只有第一句「回台中了。」（大一寒假的寫法）',JSON.stringify(msg('hol_y2w_an_home'))===JSON.stringify(['g:noodle_team|heroine_01:回台中了。']));
+  fresh('2027-01-08',10,'dorm'); runTo('2027-01-10',10,1); check('H3-2. 不在桌遊團：群組的那幾則不收',msg('hol_y2w_bh_home').length===0);
   // 大二暑假
   fresh('2027-06-26',10,'dorm'); noodle(); FAM('heroine_01'); runTo('2027-08-22',10,1);
   check('H3-3. 大二暑假：柏翰 6/27 20:00「我回新竹了。」（AA_345 H7：大二以後沒有「週四在總圖三樓」）、阿哲 6/30 22:00 兩則、8/21 19:00 兩則；以安 7/24 15:00「📷（高鐵窗外的田）」「回台中了。8 號回去。」、8/8 21:00「回臺北了。六本讀完四本。」（AA_446 第 2 節換字）',
@@ -134,7 +134,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   // 大三寒假
   { const d=VAC.c01Day('Y3'); fresh('2027-12-28',10,'dorm'); noodle(); FAM('heroine_01'); runTo('2028-02-20',23,1);
     check('H3-4. 大三寒假：阿哲在海邊那天（'+CALENDAR.dateOf(d).key.slice(5)+'）21:00「明天回高雄 我阿嬤問你們今年要不要來」（AA_456 1-4 換字）',JSON.stringify(msg('hol_y3w_zhe_home'))===JSON.stringify(['g:noodle_team|zhe:明天回高雄 我阿嬤問你們今年要不要來'])&&at('hol_y3w_zhe_home')===CALENDAR.dateOf(d).key.slice(5)+' 21',at('hol_y3w_zhe_home'));
-    check('H3-4. 大三寒假：以安 1/24 15:00 回台中、1/29 18:00 回臺北（AA_275 第 12 節）；柏翰只回去過年（AA_350 S2）：1/24 17:00「我明天回新竹過年。初三回來。」、1/28 20:00「回來了。民法讀到物權了。」（麵店團）',at('hol_y3w_an_home')==='01-24 15'&&at('hol_y3w_an_back')==='01-29 18'&&at('hol_y3w_bh_home')==='01-24 17'&&at('hol_y3w_bh_back')==='01-28 20'
+    check('H3-4. 大三寒假：以安 1/24 15:00 回台中、1/29 18:00 回臺北（AA_275 第 12 節）；柏翰只回去過年（AA_350 S2）：1/24 17:00「我明天回新竹過年。初三回來。」、1/28 20:00「回來了。民法讀到物權了。」（桌遊團）',at('hol_y3w_an_home')==='01-24 15'&&at('hol_y3w_an_back')==='01-29 18'&&at('hol_y3w_bh_home')==='01-24 17'&&at('hol_y3w_bh_back')==='01-28 20'
       &&JSON.stringify(msg('hol_y3w_bh_home'))===JSON.stringify(['g:noodle_team|classmate_bohan:我明天回新竹過年。初三回來。'])&&JSON.stringify(msg('hol_y3w_bh_back'))===JSON.stringify(['g:noodle_team|classmate_bohan:回來了。民法讀到物權了。']),JSON.stringify([at('hol_y3w_bh_home'),msg('hol_y3w_bh_home'),at('hol_y3w_bh_back'),msg('hol_y3w_bh_back')]));
     check('H3-4. 大三寒假：阿哲 2/18 21:00「禮拜天回台北」「開學前最後一頓 禮拜天六點 燒臘店」、2/20 17:30「我回來了 高雄帶了吃的 等一下拿去燒臘店」（AA_345 H1、H2；沒有大一那句「開學那天拿去給你們」）',JSON.stringify(msg('hol63_y3w_zhe'))===JSON.stringify(['g:noodle_team|zhe:禮拜天回台北','g:noodle_team|zhe:開學前最後一頓 禮拜天六點 燒臘店'])&&at('hol63_y3w_zhe')==='02-18 21'&&JSON.stringify(msg('hol_y3w_zhe_back'))===JSON.stringify(['g:noodle_team|zhe:我回來了 高雄帶了吃的 等一下拿去燒臘店'])&&at('hol_y3w_zhe_back')==='02-20 17.5'&&!(G.msgs||[]).some(m=>m.day>=D('2028-01-20')&&m.from==='zhe'&&/開學那天拿去給你們/.test(m.text)),JSON.stringify([msg('hol63_y3w_zhe'),at('hol63_y3w_zhe'),msg('hol_y3w_zhe_back'),at('hol_y3w_zhe_back')])); }
   // 大三暑假：以安在日本
@@ -144,7 +144,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   // 大四寒假
   { const d=VAC.c01Day('Y4'); fresh('2028-12-26',10,'dorm'); noodle(); FAM('heroine_01'); runTo('2029-02-18',23,1);
     check('H3-6. 大四寒假：阿哲海邊那天（'+CALENDAR.dateOf(d).key.slice(5)+'）21:00「我明天回高雄」；以安 2/9 15:00、2/18 18:00',at('hol_y4w_zhe_home')===CALENDAR.dateOf(d).key.slice(5)+' 21'&&at('hol_y4w_an_home')==='02-09 15'&&at('hol_y4w_an_back')==='02-18 18',JSON.stringify([at('hol_y4w_zhe_home'),at('hol_y4w_an_home'),at('hol_y4w_an_back')]));
-    check('H3-6. 大四寒假（AA_345 H2）：柏翰 2/11 17:00「我明天回新竹。初三回來。」、2/15 20:00「回來了。總圖見。」；阿哲 2/17 19:00「我回來了！高雄帶了吃的」「禮拜一開學 拿去給你們」（麵店團）',JSON.stringify(msg('hol_y4w_bh_home'))===JSON.stringify(['g:noodle_team|classmate_bohan:我明天回新竹。初三回來。'])&&at('hol_y4w_bh_home')==='02-11 17'&&JSON.stringify(msg('hol_y4w_bh_back'))===JSON.stringify(['g:noodle_team|classmate_bohan:回來了。總圖見。'])&&at('hol_y4w_bh_back')==='02-15 20'&&JSON.stringify(msg('hol_y4w_zhe_back'))===JSON.stringify(['g:noodle_team|zhe:我回來了！高雄帶了吃的','g:noodle_team|zhe:禮拜一開學 拿去給你們'])&&at('hol_y4w_zhe_back')==='02-17 19',JSON.stringify([at('hol_y4w_bh_home'),at('hol_y4w_bh_back'),at('hol_y4w_zhe_back')])); }
+    check('H3-6. 大四寒假（AA_345 H2）：柏翰 2/11 17:00「我明天回新竹。初三回來。」、2/15 20:00「回來了。總圖見。」；阿哲 2/17 19:00「我回來了！高雄帶了吃的」「禮拜一開學 拿去給你們」（桌遊團）',JSON.stringify(msg('hol_y4w_bh_home'))===JSON.stringify(['g:noodle_team|classmate_bohan:我明天回新竹。初三回來。'])&&at('hol_y4w_bh_home')==='02-11 17'&&JSON.stringify(msg('hol_y4w_bh_back'))===JSON.stringify(['g:noodle_team|classmate_bohan:回來了。總圖見。'])&&at('hol_y4w_bh_back')==='02-15 20'&&JSON.stringify(msg('hol_y4w_zhe_back'))===JSON.stringify(['g:noodle_team|zhe:我回來了！高雄帶了吃的','g:noodle_team|zhe:禮拜一開學 拿去給你們'])&&at('hol_y4w_zhe_back')==='02-17 19',JSON.stringify([at('hol_y4w_bh_home'),at('hol_y4w_bh_back'),at('hol_y4w_zhe_back')])); }
 
   /* ================= 6-3：摘要日的旁白、群組訊息 ================= */
   // 大一寒假：1/12 在宿舍「到下一個有事的日子」＝1/14 18:30，日期卡下面那一行是旁白；1/15 21:00 阿哲（要回的＝H2 停）
@@ -152,7 +152,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   { picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm');
     check('6-3-1. 大一寒假：1/12 快轉停在 1/14 18:30，日期卡下面「（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）」（X58：中間停在訊息的卡在前面，看最後一張；這一句只出一次）',G.day===D('2026-01-14')&&Math.abs(G.hour-18.5)<1e-6&&cards[cards.length-1][1]==='（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）'&&cards.filter(x=>x[1]==='（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）').length===1,JSON.stringify(cards));
     let r1=null; onPhone=async()=>{ r1=r1||PHONE.answer(G,'hol63_y1w_zhe',0); };   /* AA_532 第 4 節：1/15（四）20:00 家人群組、22:00 爸爸「？」也會停——回到的那一次留著 */ picks=['到下一個有事的日子']; cards=[]; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.pend.includes('hol63_y1w_zhe')), m=PHONE.byAsk(G,'hol63_y1w_zhe');   /* X58：找看得到阿哲那則的那一次 */
-    check('6-3-2. 1/15 21:00 麵店團，阿哲「高雄今天二十六度」「台北的人在幹嘛」＋「讀書。」「睡覺。」；快轉停在那一刻打開手機',JSON.stringify(msg('hol63_y1w_zhe'))===JSON.stringify(['g:noodle_team|zhe:高雄今天二十六度','g:noodle_team|zhe:台北的人在幹嘛'])&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['讀書。','睡覺。'])&&!!c&&c.day===D('2026-01-15')&&c.hour>=21,JSON.stringify([msg('hol63_y1w_zhe'),phoneCalls]));
+    check('6-3-2. 1/15 21:00 桌遊團，阿哲「高雄今天二十六度」「台北的人在幹嘛」＋「讀書。」「睡覺。」；快轉停在那一刻打開手機',JSON.stringify(msg('hol63_y1w_zhe'))===JSON.stringify(['g:noodle_team|zhe:高雄今天二十六度','g:noodle_team|zhe:台北的人在幹嘛'])&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['讀書。','睡覺。'])&&!!c&&c.day===D('2026-01-15')&&c.hour>=21,JSON.stringify([msg('hol63_y1w_zhe'),phoneCalls]));
     check('6-3-2. 停下來的時候回「讀書。」→ 阿哲「騙人」',!!r1&&r1.out.map(x=>x.from+':'+x.text).join('|')==='player:讀書。|zhe:騙人',JSON.stringify(r1&&r1.out.map(x=>x.text))); }
   fresh('2026-01-15',21.5,'dorm'); noodle(); runTo('2026-01-15',21.75); { const r=PHONE.answer(G,'hol63_y1w_zhe',1); check('6-3-2. 回「睡覺。」→ 阿哲「這才對」',!!r&&r.out.map(x=>x.text).join('|')==='睡覺。|這才對'); }
   // 大二寒假開學前一週：2/16 摘要日；2/19 21:00 讀書會群組
@@ -184,7 +184,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
     check('6-3-6. AA_345 H5：推甄上了「（寒假。推甄上了，你還是每天去總圖，先讀研究所要修的書。）」／實習（先不考）「（寒假。你不用考試。事務所寄來一份實習前要先讀的資料。）」／日本、美國路線（交換延畢）「（寒假。你的考試還要再一年。每天還是到總圖坐一下。）」蓋過上面',
       v['grad/pass']==='1/17 18:30 （寒假。推甄上了，你還是每天去總圖，先讀研究所要修的書。）'&&v.other==='1/17 18:30 （寒假。你不用考試。事務所寄來一份實習前要先讀的資料。）'&&v.JP==='1/17 18:30 （寒假。你的考試還要再一年。每天還是到總圖坐一下。）'&&v.US==='1/17 18:30 （寒假。你的考試還要再一年。每天還是到總圖坐一下。）',JSON.stringify(v)); }
   fresh('2029-01-22',10,'dorm',{Y4_PATH:'bar',EXCHANGE_ROUTE:'JP'}); { picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); check('6-3-6. 1/24 18:30「（寒假第五週。總圖的人比期末考的時候還多。）」（交換延畢的日本路線也一樣）',cards[0][0]==='1/24（三）18:30'&&cards[0][1]==='（寒假第五週。總圖的人比期末考的時候還多。）',JSON.stringify(cards)); }
-  fresh('2029-01-31',20,'dorm'); noodle(); runTo('2029-01-31',21.25); check('6-3-6. 1/31 21:00 麵店團，Alison「考試的人 加油」「沒考試的人 不要吵他們」',JSON.stringify(msg('hol63_y4w_yu'))===JSON.stringify(['g:noodle_team|yu:考試的人 加油','g:noodle_team|yu:沒考試的人 不要吵他們']));
+  fresh('2029-01-31',20,'dorm'); noodle(); runTo('2029-01-31',21.25); check('6-3-6. 1/31 21:00 桌遊團，Alison「考試的人 加油」「沒考試的人 不要吵他們」',JSON.stringify(msg('hol63_y4w_yu'))===JSON.stringify(['g:noodle_team|yu:考試的人 加油','g:noodle_team|yu:沒考試的人 不要吵他們']));
   // 暑假：大一 8/12、大二 8/15、大三 7/18（宿舍／家裡兩版；日本路線在國外不停）
   { const r=[]; for(const [k,h0,want] of [['2026-08-10',10,'（暑假過了一半。你把大二上的課表排了三次。）'],['2027-08-12',10,'（八月中。你把大三的課表印出來，貼在書桌前面。）'],['2028-07-16',10,'（暑假的宿舍很安靜。走廊只聽得到冷氣的聲音。）']]){ fresh(k,h0,'dorm'); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const cz=cards[cards.length-1]; r.push([lbl(now()),cz[1],cz[1]===want]); }   /* X58：最後一張（停在訊息的卡在前面）*/
     fresh('2028-07-16',10,'dorm'); atHome(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'home'); { const cz=cards[cards.length-1]; r.push([lbl(now()),cz[1],cz[1]==='（你在家裡的書桌讀書。媽媽每兩個小時進來問一次要不要吃水果。）']); }

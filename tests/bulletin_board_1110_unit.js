@@ -1,5 +1,6 @@
 // BULLETIN-BOARD-1110（USER_WANTS X295；使用者 11-10「公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?」）——不需要瀏覽器（D131）。
 // AA 定稿：企劃線 3630810aa 的 docs/story_planning/AA_737_bulletin_board.json（D109，照稿接、不改字）。這支測試用 git show 讀那個 commit，逐字比對。
+//   2026-11-12：法服那一張招生海報改照 AA_701 第 3 節第 6 點（企劃線 a21a9ddc6；遊戲 7e404a6220 改的，這支從那一筆起紅到這一次改期望）——見下面 LAW701。
 //   0. 台詞、文字逐字對 AA_737：本週公告標題、empty、五張招生海報（text／textLater）、lateJoin 五句＋系籃兩處換字＋第 6 週那句、四個特殊活動（標題、說明、旁白、地點名稱、時間、海報天數、按鈕的字、捐血那句、吉他社社員那句）。
 //   1. 本週公告分三區：副標「m/d（週）～m/d（週）」；社課一行「{社團}　每週{星期們} {t0}–{t1}　{地點}」（同一社團一週好幾天合成一行；系籃加「（下雨改新體育館一樓走廊）」）；
 //      演講・活動一行「{今天／明天／m/d（週）} {t0}–{t1}　{標題}　{地點}」；這週沒有的那一區整區不顯示；三區都沒有＝「這週沒有新的公告。」（原本的「目前沒有公告的演講或活動。」不再出現）。
@@ -26,6 +27,17 @@ let AA=null; try{ AA=JSON.parse(cp.execSync('git show 3630810aa:docs/story_plann
 check('0. 讀得到 AA_737（企劃線 3630810aa；沒有就先 git fetch origin claude/story-planning）',!!AA);
 if(!AA){ console.log('FAILED '+fails); process.exit(1); }
 const q=(s,re)=>{ const m=String(s).match(re); return m?m[1]:null; };
+/* 2026-11-12：法服那一張招生海報不再照 AA_737。AA_701 第 3 節第 6 點（企劃線 a21a9ddc6，AA-C 回 LAWWW-C：「`activities.js` 法服海報完整新句」——法服不是隔週，是有民眾預約的週六）給了 text、textLater 兩句完整新句，
+   遊戲 7e404a6220（2026-11-12 10:22 UTC）照它改了 src/data/activities.js 的 RECRUIT.posters（lawclub_study）；AA_737 那一份 JSON（3630810aa）沒有跟著改，還是「隔週週六上午…」。
+   所以這裡的期望＝AA_737 的五張，法服那一張換成 AA_701@a21a9ddc6 第 3 節第 6 點的兩句（git show 逐字讀，不在測試裡另外寫一份）。其他四張照舊逐字對 AA_737。
+   舊期望（到 7e404a6220 以前）：五張全部照 AA_737（法服「法律服務社（法服）招新｜隔週週六上午在法律系館B一樓接民眾諮詢，大一跟著學長姊做接待。報名：…」）。*/
+const AA701_SHA='a21a9ddc6', AA701_DOC='docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md';
+let LAW701=null; try{ const doc=cp.execSync('git show '+AA701_SHA+':'+AA701_DOC,{cwd:REPO,encoding:'utf8',stdio:['ignore','pipe','ignore']}), i=doc.indexOf('6. `activities.js` 法服海報完整新句'), sec=i>=0?doc.slice(i):'';
+  const t=q(sec,/^\s*- text：(.+)$/m), tl=q(sec,/^\s*- textLater：(.+)$/m); if(t&&tl) LAW701={text:t.trim(),textLater:tl.trim()}; }catch(e){ LAW701=null; }
+check('0. 讀得到 AA_701 第 3 節第 6 點的法服海報兩句（企劃線 '+AA701_SHA+'；沒有就先 git fetch origin claude/magical-albattani-bk7b4n）',!!LAW701);
+if(!LAW701){ console.log('FAILED '+fails); process.exit(1); }
+const POSTERS=AA.recruit.posters.map(p=>p.club==='lawclub_study'?Object.assign({},p,LAW701):p);   /* 這支測試拿來比的五張 */
+check('0. AA_737 的五張裡法服是最後一張、舊句寫「隔週」；AA_701 的新句不寫「隔週」、兩句只差報名的地方（其他四張 AA_701 沒有動）',AA.recruit.posters.length===5&&AA.recruit.posters[4].club==='lawclub_study'&&/隔週/.test(AA.recruit.posters[4].text)&&!/隔週/.test(LAW701.text+LAW701.textLater)&&LAW701.text.startsWith('法律服務社（法服）招新｜')&&LAW701.text.split('報名：')[0]===LAW701.textLater.split('報名：')[0]);
 
 // ---------- 載入（真的 story3d、classes3d、clubfair3d）----------
 global.window=global; global.self=global; global.P3={CAST:{}}; global.THREE={Vector3:function(){}};
@@ -39,7 +51,7 @@ const gB=(k,h,o)=>Object.assign({day:dayOf(k),hour:h==null?9:h,flags:{},stage:'l
 
 // ---------- 0. 逐字 ----------
 { const B=ACTIVITIES.BOARD||{}; check('0. 本週公告：標題「'+AA.board.title+'」、三區區名、empty「'+AA.board.empty+'」',B.title===AA.board.title&&B.empty===AA.board.empty&&!!B.heads&&J([B.heads.clubs,B.heads.events,B.heads.recruit])===J(AA.board.sections.map(s=>s.head)),J(B));
-  const R=ACTIVITIES.RECRUIT||{posters:[]}; check('0. 招生海報五張（text、textLater）逐字、順序同 AA_737',J((R.posters||[]).map(p=>[p.club,p.text,p.textLater]))===J(AA.recruit.posters.map(p=>[p.club,p.text,p.textLater])));
+  const R=ACTIVITIES.RECRUIT||{posters:[]}; check('0. 招生海報五張（text、textLater）逐字、順序同 AA_737；法服那一張照 AA_701 第 3 節第 6 點（'+AA701_SHA+'）（舊期望：五張全照 AA_737）',J((R.posters||[]).map(p=>[p.club,p.text,p.textLater]))===J(POSTERS.map(p=>[p.club,p.text,p.textLater])),J((R.posters||[]).map(p=>p.text).filter((t,i)=>t!==(POSTERS[i]||{}).text)));
   const L=ACTIVITIES.LATE_JOIN||{}, LL=AA.recruit.lateJoin.lines, note=AA.recruit.lateJoin.note;
   check('0. lateJoin 五句逐字（旁白、社長、選項「填／先不要」、填了、先不要）',L.narr===LL[0].text&&L.who===LL[1].who&&L.ask===LL[1].text&&J(L.opts)===J(LL[2].choice)&&L.yes===LL[3].text&&L.no===LL[4].text,J(L));
   const ballYes=LL[3].text.replace('社費下次再收',q(note,/「社費下次再收」系籃改「(.+?)」/));
@@ -72,9 +84,9 @@ const gB=(k,h,o)=>Object.assign({day:dayOf(k),hour:h==null?9:h,flags:{},stage:'l
 // ---------- 2. 招生海報 ----------
 { const has=(G,z)=>pages(G,z).some(p=>p.includes('吉他社招新｜')), full=t=>t.includes('第 5 週開始');
   const wk=['2025-09-01','2025-09-08','2025-09-15','2025-09-22','2025-09-29','2025-10-06'].map(k=>pages(gB(k)));
-  check('2. 大一上第 1～6 週（9/1～10/6 的週一）：五張招生海報都貼、照大一上的全文（有「第 5 週開始」）',wk.every(P=>{ const i=P.findIndex(p=>p.startsWith('【社團招生】')); return i>0&&P.slice(i).length===5&&P[i]==='【社團招生】'+AA.recruit.posters[0].text&&P.slice(i+1).every((p,j)=>p===AA.recruit.posters[j+1].text); }),J(wk[0].slice(-5)));
+  check('2. 大一上第 1～6 週（9/1～10/6 的週一）：五張招生海報都貼、照大一上的全文（有「第 5 週開始」）',wk.every(P=>{ const i=P.findIndex(p=>p.startsWith('【社團招生】')); return i>0&&P.slice(i).length===5&&P[i]==='【社團招生】'+POSTERS[0].text&&P.slice(i+1).every((p,j)=>p===POSTERS[j+1].text); }),J(wk[0].slice(-5)));   /* 2026-11-12：法服那一張照 AA_701（POSTERS）；舊期望 AA.recruit.posters */
   check('2. 第 7 週（10/13）、第 7 週週日（10/19）：海報撤了',!has(gB('2025-10-13'))&&!has(gB('2025-10-19')));
-  const y2=pages(gB('2026-09-21')); check('2. 大二上第 3 週（9/21）：貼 textLater（沒有「第 5 週開始」）',y2.some(p=>p.endsWith(AA.recruit.posters[0].textLater))&&!y2.some(full),J(y2.slice(-5)));
+  const y2=pages(gB('2026-09-21')); check('2. 大二上第 3 週（9/21）：貼 textLater（沒有「第 5 週開始」）；法服那一張是 AA_701 的 textLater（報名只剩法服桌）',y2.some(p=>p.endsWith(AA.recruit.posters[0].textLater))&&!y2.some(full)&&y2.some(p=>p===LAW701.textLater)&&!y2.some(p=>p===LAW701.text),J(y2.slice(-5)));
   check('2. 大一下第 2 週（3/2）沒有招生海報；經濟系那一年（2024-09-09）沒有',!has(gB('2026-03-02'))&&!has(gB('2024-09-09',9,{stage:'econ'})));
   const scr=pages(gB('2025-09-29'),'boya').join('｜'); check('2. 博思的講座資訊螢幕（zone＝boya）：不貼招生、社課只列博思的（辯論社），不列別棟的吉他社',!scr.includes('招新｜')&&scr.includes('辯論社　每週二')&&!scr.includes('吉他社　'),scr); }
 

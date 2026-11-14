@@ -30,7 +30,9 @@ for(const [f,n] of [['src/data/feed_y1s1.js',['FEED_Y1S1']],['src/data/feed_y1s2
                     ['src/data/kx_moot3_lines.js',['KX_MOOT3_LINES']],['src/kx_moot3_3d.js',['KXMOOT3']]]){
   try{ if(fs.existsSync(path.join(H.ROOT,f))) loadG(f,n); else errs.push('沒有 '+f); }catch(e){ errs.push(f+'：'+(e&&e.message||e)); } }
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
-const doc=show(SHA,SPEC), inDoc=t=>doc.indexOf(t)>=0;
+/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）AA_514 的地點（外校）、吃東西那段、室友的名字照 AA_885 附錄和開頭的換法換——讀稿以後先換成新字再比 */
+const K885_514=[["禮拜六下午兩點。木柵大學，模擬法庭。", "禮拜六下午兩點。系館地下室，模擬法庭。"], ["木柵大學・模擬法庭教室", "法律系館・模擬法庭教室"], ["（木柵大學的模擬法庭教室。法官席坐著三個學長姊，旁聽席坐了一半。你坐最後一排。）", "（系館地下室的模擬法庭教室。法官席坐著三個學長姊，旁聽席坐了一半。你坐最後一排。）"], ["（山下小吃街的麵店。她吃得很快，一句話都沒說，吃完才抬頭。）", "（後門那家湯餃。她吃得很快，一句話都沒說，吃完才抬頭。）"], ["予樂家？", "室友家？"], ["雞肉飯。我吃了兩碗。予樂說我很不客氣。", "雞肉飯。我吃了兩碗。她說我很不客氣。"], ["木柵大學・山下的小吃街", "學校後門・湯餃店"], ["可昕的模擬法庭（木柵大學）", "可昕的模擬法庭（法律系館）"]];
+const doc=K885_514.reduce((x,[a,b])=>x.split(a).join(b),show(SHA,SPEC)), inDoc=t=>doc.indexOf(t)>=0;
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外，中斷這一節）',false,String(e&&e.stack||e).slice(0,300)); } };
 const L=()=>typeof KX_MOOT3_LINES!=='undefined'?KX_MOOT3_LINES:null, X=()=>typeof KXMOOT3!=='undefined'?KXMOOT3:null;
@@ -58,16 +60,16 @@ const said=()=>H.said.map(s=>s.t);
 const seq=(got,want)=>{ for(let i=0;i+want.length<=got.length;i++) if(want.every((w,k)=>got[i+k]===w)) return true; return false; };
 const herAfter=n=>(H.G.msgs||[]).slice(n).filter(m=>m.from===KX).map(m=>m.text);
 /* 台詞（照 AA_514 原文抄；比對遊戲實際傳出來、說出來的）*/
-const ASK3=['禮拜六下午兩點。木柵大學，模擬法庭。','你說過要來看。','最後一排。'];
-const NAR=['（木柵大學的模擬法庭教室。法官席坐著三個學長姊，旁聽席坐了一半。你坐最後一排。）','（她穿著法袍走進來，沒有往後看。）','（輪到她。講到第二個爭點，她抬頭看了旁聽席一眼，停了半秒，才接著講。）',
+const ASK3=['禮拜六下午兩點。系館地下室，模擬法庭。','你說過要來看。','最後一排。'];   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
+const NAR=['（系館地下室的模擬法庭教室。法官席坐著三個學長姊，旁聽席坐了一半。你坐最後一排。）','（她穿著法袍走進來，沒有往後看。）','（輪到她。講到第二個爭點，她抬頭看了旁聽席一眼，停了半秒，才接著講。）',   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
   '（宣判的時候，她們那一組贏了。她只點了一下頭。）','（散場以後，她在教室門口等。法袍已經脫了，掛在手上。）'];
 const SAW=['我看到你了。最後一排，左邊數來第三個。','講到第二個爭點的時候。……差點忘詞。'];
 const OPTS=['「妳講得很好。」','「我有坐最後一排。」','「要不要去吃東西？」'];
-const OPT_R=[['我知道。……第二個爭點那裡，不要再提了。'],['最後一排沒用。你太好認了。'],['要。我餓死了。','（山下小吃街的麵店。她吃得很快，一句話都沒說，吃完才抬頭。）']];
+const OPT_R=[['我知道。……第二個爭點那裡，不要再提了。'],['最後一排沒用。你太好認了。'],['要。我餓死了。','（後門那家湯餃。她吃得很快，一句話都沒說，吃完才抬頭。）']];   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
 const CLOSE=['大四不比了。這是最後一場。','……你有來。好。'];
 const MISSED=['贏了。','大四不比了。這是最後一場。'], NOSHOW='你說要來的。';
 const MEM_LABEL='她最後一場模擬法庭，你坐最後一排';
-const P4B={id:'kx4bc',who:KX,t:'2027-01-29 19:30',st:'認識',pic:'一張圓桌，滿滿的菜，桌腳旁邊趴著一隻很老的黃狗',say:'嘉義。',cm:['予樂家？','嗯。她媽一直夾。'],dm:['好吃嗎？','雞肉飯。我吃了兩碗。予樂說我很不客氣。']};
+const P4B={id:'kx4bc',who:KX,t:'2027-01-29 19:30',st:'認識',pic:'一張圓桌，滿滿的菜，桌腳旁邊趴著一隻很老的黃狗',say:'嘉義。',cm:['室友家？','嗯。她媽一直夾。'],dm:['好吃嗎？','雞肉飯。我吃了兩碗。她說我很不客氣。']};   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
 /* 11/28 的邀約：fresh 在 11/28 20:00、20:59 跑一次（還沒有）、21:00 跑一次 */
 const invite=(lv,flags,o)=>{ o=o||{}; fresh(DA,20,flags); if(lv) rel(KX,lv); if(o.dating) H.date(KX); if(o.pre) o.pre(H.G); go(DA,20.98); const early=!!askMsg(); go(DA,21); return {early,m:askMsg()}; };
 
@@ -81,7 +83,7 @@ await sec('0',async()=>{
   check('0. 劇情匯入白名單：AA_514 @ '+SHA+'、approved、approvedBy AA-C、任務 KX-MOOT3-1028',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&/AA-C/.test(A[0].approvedBy||'')&&A[0].task==='KX-MOOT3-1028',J(A));
   check('0. 人物頁記憶 KX_MOOT3_CAME「'+MEM_LABEL+'」（稿 1-2）',(SOCIAL.MEMORY_LABEL||{}).KX_MOOT3_CAME===MEM_LABEL&&inDoc('人物頁「'+MEM_LABEL+'」'));
   /* ① 遊戲 → 稿 */
-  const CAP_OK={'木柵大學・山下的小吃街':'AA_514 第 4 節第 2 點：麵店那段換 nccu_food；地點字幕照 kxdrift3d.js OD_SCENE.nccu（稿沒寫字幕）'};
+  const CAP_OK={'學校後門・湯餃店':'AA_514 第 4 節第 2 點：麵店那段換 nccu_food；地點字幕照 kxdrift3d.js OD_SCENE.nccu（稿沒寫字幕）'};   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
   const bad=[], Lx=L(), T_=t=>{ if(typeof t==='string'&&t!==''&&!inDoc(t)) bad.push(t); };
   if(!Lx||!ev(EV)) bad.push('沒有 KX_MOOT3_LINES／ev_kexin_moot3');
   else { for(const k in Lx){ const v=Lx[k]; if(Array.isArray(v)) v.forEach(x=>{ if(x&&typeof x==='object'){ T_(x.t); (x.r||[]).forEach(T_); } else T_(x); }); else T_(v); }
@@ -89,8 +91,8 @@ await sec('0',async()=>{
   const P=typeof FEED_Y2S1!=='undefined'?FEED_Y2S1.posts.find(p=>p.id==='kx4bc'):null;
   if(!P) bad.push('沒有 kx4bc'); else [P.pic,P.say].concat(P.cm||[],P.dm||[]).forEach(T_);
   check('0. ① 遊戲裡每一句（私訊、回覆鍵、旁白、她的話、選項、地點字幕、人物頁、第 4b 則）都在稿裡（'+SHA+'，一字不差）',!bad.length,J(bad));
-  { const e=ev(EV), d=e?e.dialogue:[], i=d.findIndex(l=>l&&typeof l.text==='string'&&/^（山下小吃街的麵店/.test(l.text)), pre=i>0?d[i-1]:null, bgs=d.slice(0,i).filter(l=>l&&l.bg).map(l=>l.bg);
-    check('0. 第 4 節第 2 點：選「要不要去吃東西？」以後的麵店那段換底圖 nccu_food（那一句前面一行換）；教室那段照舊 classroom_small',i>0&&!!pre&&pre.bg==='nccu_food'&&bgs[0]==='classroom_small',J({i,pre,bgs})); }
+  { const e=ev(EV), d=e?e.dialogue:[], i=d.findIndex(l=>l&&typeof l.text==='string'&&/^（後門那家湯餃/.test(l.text)), pre=i>0?d[i-1]:null,/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/ bgs=d.slice(0,i).filter(l=>l&&l.bg).map(l=>l.bg);
+    check('0. 第 4 節第 2 點：選「要不要去吃東西？」以後的麵店那段換底圖 nccu_food（那一句前面一行換）；教室那段照舊 classroom_small',i>0&&!!pre&&pre.bg==='dark'&&pre.scene==='學校後門・湯餃店'&&bgs[0]==='classroom_small',J({i,pre,bgs})); }   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
   /* ② 稿 → 遊戲：第 1 節 */
   const s1=doc.slice(doc.indexOf('## 1. '),doc.indexOf('## 2. ')); const lines=[], nars=[], opts=[];
   for(const l of s1.split('\n')){ let m; if((m=/^\s*> 可昕：(.+)$/.exec(l))) lines.push(m[1].trim()); else if((m=/^\s*> (（.+）)\s*$/.exec(l))) nars.push(m[1]); else if((m=/^\s*- 「([^」]+)」→/.exec(l))) opts.push(m[1]); }
@@ -102,7 +104,7 @@ await sec('0',async()=>{
   const missL=lines.filter(t=>!gameKx.has(t)), missN=nars.filter(t=>!gameNar.has(t)), missO=opts.filter(t=>!phoneOpts.has(t)&&!evOpts.has('「'+t+'」'));
   check('0. ② 稿第 1 節「可昕：」'+lines.length+' 句、旁白 '+nars.length+' 句、選項 '+opts.length+' 個都在遊戲裡（私訊的回覆鍵＝原字，2D 的選項加「」）',lines.length===15&&nars.length===6&&opts.length===5&&!missL.length&&!missN.length&&!missO.length,J({n:[lines.length,nars.length,opts.length],missL,missN,missO}));
   check('0. 這個測試抄的台詞也都在稿裡（下面逐句比對用）',ASK3.concat(NAR,SAW,OPTS,...OPT_R,CLOSE,MISSED,[NOSHOW,'好。不要遲到。']).every(inDoc),J(ASK3.concat(NAR,SAW,OPTS,...OPT_R,CLOSE,MISSED,[NOSHOW]).filter(t=>!inDoc(t))));
-  check('0. 稿 1-2：地點字幕「木柵大學・模擬法庭教室」、底圖先用 classroom_small（事件的第一個場景）',!!ev(EV)&&J(ev(EV).dialogue[0])===J({scene:'木柵大學・模擬法庭教室',bg:'classroom_small'})&&inDoc('底圖先用 `classroom_small`，地點字幕「木柵大學・模擬法庭教室」'));
+  check('0. 稿 1-2：地點字幕「木柵大學・模擬法庭教室」、底圖先用 classroom_small（事件的第一個場景）',!!ev(EV)&&J(ev(EV).dialogue[0])===J({scene:'法律系館・模擬法庭教室',bg:'classroom_small'})&&inDoc('底圖先用 `classroom_small`，地點字幕「法律系館・模擬法庭教室」'));   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
   /* ② 稿 → 遊戲：第 2 節的表（第 4b 列）*/
   const s2=doc.slice(doc.indexOf('## 2. '),doc.indexOf('## 3. ')), row=s2.split('\n').find(l=>/^\|\s*4b\s*\|/.test(l));
   const c=row?row.trim().replace(/^\||\|$/g,'').split('|').map(x=>x.trim()):[], qs=s=>[...String(s||'').matchAll(/「([^」]*)」/g)].map(m=>m[1]);
@@ -151,14 +153,14 @@ await sec('3',async()=>{
   for(const k of [0,1,2]){
     invite('FRIEND',{KX_WATCH:true}); const n=(H.G.msgs||[]).length; const a=PHONE.answer(H.G,ASK,0); const reply=herAfter(n); rules(); const q=q0();
     if(k===0){ check('3. 回「去。」→她回「好。不要遲到。」（KX_MOOT3_GO true）',!!a&&J(reply)===J(['好。不要遲到。'])&&H.G.flags.KX_MOOT3_GO===true,J(reply));
-      check('3. 排 12/4（六）14:00 的出遊：木柵大學、開車約 40 分鐘、晚 30 分鐘以內還能出發、2.5 小時、alarm、事件 ev_kexin_moot3',!!q&&q.ev===EV&&q.day===DM&&q.h===14&&q.late===0.5&&q.place==='木柵大學'&&q.travel==='開車約 40 分鐘'&&Math.abs(q.travelH-2/3)<1e-9&&q.hours===2.5&&q.alarm===true&&q.state==='planned',J(q));
-      go(DM,13); const d0=OUT.due(H.G); go(DM,13+10/60); const d1=OUT.due(H.G);
+      check('3. 排 12/4（六）14:00 的出遊：木柵大學、開車約 40 分鐘、晚 30 分鐘以內還能出發、2.5 小時、alarm、事件 ev_kexin_moot3',!!q&&q.ev===EV&&q.day===DM&&q.h===14&&q.late===0.5&&q.place==='法律系館・模擬法庭教室'&&q.travel==='走路'&&Math.abs(q.travelH-0.1)<1e-9/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/&&q.hours===2.5&&q.alarm===true&&q.state==='planned',J(q));
+      go(DM,13); const d0=OUT.due(H.G); go(DM,13+45/60); const d1=OUT.due(H.G);   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*//* 走路過去：13:45 才該出發（舊：開車 40 分鐘＝13:10）*/
       check('3. 13:00 還不用出發、13:10 該出發了（OUT.due）',!d0&&!!d1&&d1.id===OUT_ID,J([d0&&d0.id,d1&&d1.id])); }
     at(DM,13+10/60); const caps=[], c0=GM.caption; GM.caption=(a,b)=>{ caps.push(b); }; H.said=[]; H.opts=[]; H.picks=[k]; H.bgs=[]; H.cards=[];
     try{ if(q) await OUT.go(GM,q); } finally { GM.caption=c0; }
     const got=said(), want=NAR.concat(SAW,OPT_R[k],CLOSE);
     check('3. 選第 '+(k+1)+' 個（'+OPTS[k]+'）：旁白五句、她的兩句、三選一、'+(k===2?'「要。我餓死了。」＋麵店的旁白':'她回的那一句')+'、接著兩句（一字照稿、照順序）',!!q&&seq(got,want)&&H.opts.some(o=>J(o)===J(OPTS)),J(got.slice(0,14)));
-    if(k===0){ check('3. 字卡「可昕的模擬法庭（木柵大學）／開車約 40 分鐘」、底圖 classroom_small、地點字幕「木柵大學・模擬法庭教室」',H.cards.some(c=>J(c)===J(['可昕的模擬法庭（木柵大學）','開車約 40 分鐘']))&&H.bgs.some(b=>b&&b.image==='assets/bg/classroom_small.webp')&&caps.includes('木柵大學・模擬法庭教室'),J({cards:H.cards,bgs:H.bgs,caps}));
+    if(k===0){ check('3. 字卡「可昕的模擬法庭（木柵大學）／開車約 40 分鐘」、底圖 classroom_small、地點字幕「木柵大學・模擬法庭教室」',H.cards.some(c=>J(c)===J(['可昕的模擬法庭（法律系館）','走路']))&&H.bgs.some(b=>b&&b.image==='assets/bg/classroom_small.webp')&&caps.includes('法律系館・模擬法庭教室'),J({cards:H.cards,bgs:H.bgs,caps}));   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
       check('3. 14:00 到、16:30 回來（演 2.5 小時）',H.G.day===DM&&Math.abs(H.G.hour-16.5)<0.02,J([H.G.day,H.G.hour])); }
     check('3. 演完（第 '+(k+1)+' 個）：KX_MOOT3＝came、人物頁 KX_MOOT3_CAME、出遊 done',H.G.flags.KX_MOOT3==='came'&&SOCIAL.has(KX,'KX_MOOT3_CAME')&&!!q&&q.state==='done',J([H.G.flags.KX_MOOT3,q&&q.state]));
     go(DM,21.6); check('3. 有來的（第 '+(k+1)+' 個）：21:30 沒有私訊',!tagged(MISS).length&&H.G.flags.KX_MOOT3==='came'); } });
@@ -192,9 +194,9 @@ await sec('5',async()=>{
   fresh(DK('2027-01-17'),8); rel(KX,'ACQ'); walkF(DK('2027-01-29'),19.48); const before=FEED.rec(H.G).items.some(i=>i.id==='kx4bc'); walkF(DK('2027-01-29'),19.5); const it=FEED.rec(H.G).items.find(i=>i.id==='kx4bc');
   check('5. 只認識：1/29 19:29 還沒有、19:30 有；動態頁看得到照片和「嘉義。」',!before&&!!it&&it.day===DK('2027-01-29')&&Math.abs(it.h-19.5)<0.01&&FEED.html(H.G).includes('（照片：'+P4B.pic+'）')&&FEED.html(H.G).includes('<div>嘉義。</div>'),J(it));
   const n=(H.G.msgs||[]).length; FEED.respond(H.G,'kx4bc','cm'); const c=(H.G.msgs||[]).slice(n).map(m=>m.text);
-  check('5. 留言「予樂家？」→「嗯。她媽一直夾。」',J(c)===J(['予樂家？','嗯。她媽一直夾。']),J(c));
+  check('5. 留言「予樂家？」→「嗯。她媽一直夾。」',J(c)===J(['室友家？','嗯。她媽一直夾。']),J(c));   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
   fresh(DK('2027-01-29'),18); rel(KX,'ACQ'); walkF(DK('2027-01-29'),20); const n2=(H.G.msgs||[]).length; FEED.respond(H.G,'kx4bc','dm'); const d=(H.G.msgs||[]).slice(n2).map(m=>m.text);
-  check('5. 私訊問「好吃嗎？」→「雞肉飯。我吃了兩碗。予樂說我很不客氣。」',J(d)===J(['好吃嗎？','雞肉飯。我吃了兩碗。予樂說我很不客氣。']),J(d));
+  check('5. 私訊問「好吃嗎？」→「雞肉飯。我吃了兩碗。予樂說我很不客氣。」',J(d)===J(['好吃嗎？','雞肉飯。我吃了兩碗。她說我很不客氣。']),J(d));   /* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
   fresh(DK('2027-01-14'),8); rel(KX,'FRIEND'); const log=new Map(); for(let t=T(DK('2027-01-14'),8);t<=T(DK('2027-02-12'),0);t+=0.5){ const dd=Math.floor(t/24); at(dd,t-dd*24); tickF(); for(const i of FEED.rec(H.G).items) if(!log.has(i.id)) log.set(i.id,i); }
   const kx=[...log.values()].filter(i=>i.who===KX).sort((a,b)=>T(a.day,a.h)-T(b.day,b.h)); let worst=0; for(const i of kx){ const c2=kx.filter(j=>T(j.day,j.h)<=T(i.day,i.h)&&T(i.day,i.h)-T(j.day,j.h)<7*24).length; worst=Math.max(worst,c2); }
   check('5. 朋友走 1/14～2/11：可昕 1/18、1/29、2/10 三則都出（各在不同週、七天內不超過兩則；第 5 則要朋友）',J(kx.map(i=>i.id))===J(['kx4c','kx4bc','kx5c'])&&worst<=2&&J(kx.map(i=>CALENDAR.dateOf(i.day).key))===J(['2027-01-18','2027-01-29','2027-02-10']),J(kx.map(i=>[i.id,FEED.rec(H.G).done[i.id]]))); });

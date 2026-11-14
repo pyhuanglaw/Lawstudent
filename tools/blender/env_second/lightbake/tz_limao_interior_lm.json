@@ -1,0 +1,63 @@
+{
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 96.8,
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 256,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  180.0,
+  30.0,
+  0.0
+ ],
+ "sky": 0.8,
+ "nightsky": 0.03,
+ "shell": "S",
+ "daylights": 1.0,
+ "knee": null,
+ "dayscale": null,
+ "lights": null,
+ "points": "-0.45,2.2,1.5,55,1.0,0.8,0.55,0.18;0.9,2.3,3.4,55,1.0,0.8,0.55,0.15;0.3,2.35,-3.0,45,1.0,0.8,0.55,0.15;-0.25,1.04,-3.25,10,1.0,0.85,0.6,0.04;2.16,2.18,-4.55,12,1.0,0.8,0.55,0.06;0.0,3.0,-3.5,14,1.0,0.8,0.55,0.3;0.0,3.0,0.5,14,1.0,0.8,0.55,0.3;0.0,3.0,3.0,14,1.0,0.8,0.55,0.3",
+ "dayfill": null,
+ "wb": {
+  "day": [
+   1.0,
+   0.94,
+   0.86
+  ],
+  "night": null
+ },
+ "skytint": null,
+ "objects": [
+  "CEIL_ceil",
+  "PART_packs",
+  "PART_wall",
+  "PART_wood_d",
+  "S_floor",
+  "S_leather",
+  "S_packs",
+  "S_paper",
+  "S_steel",
+  "S_wood_d",
+  "STUDY_DOOR_steel",
+  "STUDY_DOOR_wood_d",
+  "STUDY_leather",
+  "STUDY_LID_wood_d",
+  "STUDY_packs",
+  "STUDY_paper",
+  "STUDY_plastic_grn",
+  "STUDY_steel",
+  "STUDY_wood",
+  "STUDY_wood_d",
+  "tz_limao_interior_inst",
+  "WALL_E",
+  "WALL_N",
+  "WALL_S",
+  "WALL_Sfix_wood",
+  "WALL_Sfix_wood_d",
+  "WALL_W"
+ ]
+}

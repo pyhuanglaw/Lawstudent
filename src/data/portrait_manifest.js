@@ -48,31 +48,6 @@ const PORTRAIT_FILES={
    "smile"
   ]
  },
- "econ_jiahao": {
-  "campus": [
-   "neutral"
-  ]
- },
- "econ_pinyu": {
-  "campus": [
-   "neutral"
-  ]
- },
- "econ_tangrui": {
-  "campus": [
-   "neutral"
-  ]
- },
- "econ_weilun": {
-  "campus": [
-   "neutral"
-  ]
- },
- "econ_zhengxun": {
-  "campus": [
-   "neutral"
-  ]
- },
  "heroine_01": {
   "campus": [
    "annoyed",
@@ -287,13 +262,6 @@ const PORTRAIT_FILES={
    "laugh",
    "neutral",
    "serious",
-   "smile",
-   "surprised"
-  ]
- },
- "yule": {
-  "campus": [
-   "neutral",
    "smile",
    "surprised"
   ]

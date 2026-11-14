@@ -5,7 +5,7 @@
 //   （AA_478 的其他項目：tests/e08_hall_unit.js）
 //   E2 一小時以後自動登機；E3 人不在大廳了＝直接登機；E4 在大廳存檔、讀檔（JSON）以後照樣登機；舊存檔沒有 AIR_DEP＝「登機」照舊只是告示
 //   E5 放假住家裡從家裡「出發」：家裡的選單收起來、到大廳；演完回家（字卡「回家」）
-//   E6 一起出發的人：C13 和誰去、C05 阿凱、VA10 麵店團；C11、C12 的以安（到了才遇到）不算；跟著走、不能搭話
+//   E6 一起出發的人：C13 和誰去、C05 阿凱、VA10 桌遊團；C11、C12 的以安（到了才遇到）不算；跟著走、不能搭話
 //   E7 日本路線 3/25：出境大廳演報到櫃台那一段（地點字幕、不換 2D 背景）→「登機」→ 登機口（2D＋CG-22）→ 飛往日本 → 抵達、進據點；當天紀錄一筆
 //   E8 沒有 3D 機場＝照原本（2D 一口氣演完）
 // 修改前（7dacc9463）：E1～E7 FAIL（沒有 EXCH.airGo；OUT.go 直接演整趟、departJP 直接飛）。用法：node tests/e08_airport_unit.js
@@ -76,18 +76,18 @@ const atDue=q=>{ H.G.day=q.day; H.G.weekday=CALENDAR.dateOf(q.day).wd%7; H.G.hou
     check('E6. C13 和阿凱去：大廳裡阿凱跟著你（follow、不能搭話、不揮手）',JSON.stringify(A.with)===JSON.stringify(['kai'])&&!!n&&n.beh==='follow'&&n.talk===null&&n.talkLabel===null&&n.greet===false,JSON.stringify([A.with,n&&{beh:n.beh,talk:n.talk,greet:n.greet}])); }
   { H.fresh('2026-07-20',10,'dorm'); H.FAMILIAR('kai'); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); H.FAMILIAR('classmate_bohan');
     const w=(key,k)=>VAC.airWith?VAC.airWith(H.G,{vac:{key,k}}):[];
-    check('E6. 一起出發的人：C05 阿凱、VA10 麵店團（阿哲、Alison、柏翰）；C11、C12 大二的以安是到了才遇到（不算）；C08 首爾（系上的團）沒有',
+    check('E6. 一起出發的人：C05 阿凱、VA10 桌遊團（阿哲、Alison、柏翰）；C11、C12 大二的以安是到了才遇到（不算）；C08 首爾（系上的團）沒有',
       JSON.stringify(w('C05@Y1','trip'))===JSON.stringify(['kai'])&&JSON.stringify(w('VA10','va10'))===JSON.stringify(['zhe','yu','classmate_bohan'])&&w('C12@Y2','trip').length===0&&w('C11@Y2','trip').length===0&&w('C08@Y1','trip').length===0,
       JSON.stringify([w('C05@Y1','trip'),w('VA10','va10'),w('C12@Y2','trip'),w('C08@Y1','trip')]));
     check('E6. 哪幾趟走出境大廳：出國活動（C05、C08、C10…）、C13、VA10；營隊、上班日、海邊、出國活動的前置不走',!!VAC.abroadTrip&&VAC.abroadTrip({vac:{key:'C05@Y1',k:'trip'}})&&VAC.abroadTrip({vac:{key:'C08@Y1',k:'trip'}})&&VAC.abroadTrip({vac:{key:'T13#1',k:'trip'}})&&VAC.abroadTrip({vac:{key:'VA10',k:'va10'}})
       &&!VAC.abroadTrip({vac:{key:'C02@Y1',k:'trip'}})&&!VAC.abroadTrip({vac:{key:'C16@Y2',k:'w'}})&&!VAC.abroadTrip({vac:{key:'C01#Y2',k:'c01'}})&&!VAC.abroadTrip({vac:{key:'C08@Y1',k:'pre0'}})&&!VAC.abroadTrip({id:'x'})); }
 
   /* ===================== E7 日本路線 3/25 一起出發 ===================== */
-  { H.fresh('2028-03-25',8,'dorm',{EXCHANGE_ROUTE:'JP',EXCH_RULE:1,X1_JP:D('2028-02-20')}); H.G.acts={att:{}}; H.G.outings=[]; H.G.visited={}; GM.npc={}; HOME.rec(H.G).at=true; H.FAMILIAR('heroine_01'); H.date('heroine_01'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團');
+  { H.fresh('2028-03-25',8,'dorm',{EXCHANGE_ROUTE:'JP',EXCH_RULE:1,X1_JP:D('2028-02-20')}); H.G.acts={att:{}}; H.G.outings=[]; H.G.visited={}; GM.npc={}; HOME.rec(H.G).at=true; H.FAMILIAR('heroine_01'); H.date('heroine_01'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','桌遊團');
     H.said=[]; H.cgs=[]; H.cards=[]; H.bgs=[]; H.entered=[]; caps.length=0; H.G.memo=[];
     const r=await Y34B.departJP(GM); const A=H.G.flags.AIR_DEP||null, img=b=>b&&typeof b==='object'&&/airport_departure/.test(b.image||'');
     check('E7. 出發：字卡「出發｜桃園機場第二航廈」→ 進 3D 出境大廳（還沒飛、還沒進日本）；離開家；以安跟著',r===true&&H.entered.join()==='airport_dep'&&H.G.zone==='airport_dep'&&H.cards.some(c=>c[1]==='出發｜桃園機場第二航廈')&&H.G.flags.JP_DEPARTED==null&&!HOME.at(H.G)&&!!A&&A.k==='jp'&&JSON.stringify(A.with)===JSON.stringify(['heroine_01'])&&H.G.flags.AN_SENDOFF==='together',JSON.stringify([H.entered,A]));
-    check('E7. 大廳那一段（台詞照舊）：「行李我量過了，二十二公斤。……你的呢？」、麵店團、「好。走吧。」；地點字幕「桃園機場・出境大廳」但不換 2D 機場圖（背景是模糊的 3D 大廳）；登機口那一段還沒演',
+    check('E7. 大廳那一段（台詞照舊）：「行李我量過了，二十二公斤。……你的呢？」、桌遊團、「好。走吧。」；地點字幕「桃園機場・出境大廳」但不換 2D 機場圖（背景是模糊的 3D 大廳）；登機口那一段還沒演',
       H.has('行李我量過了，二十二公斤。……你的呢？')&&H.has('兩個人都要傳照片')&&H.has('好。走吧。')&&caps.includes('桃園機場・出境大廳')&&H.bgs.includes('blur')&&!H.bgs.some(img)&&!H.has('（她靠著窗，把手帳翻到四月那一頁。）')&&!H.cgs.length,JSON.stringify([H.bgs,caps]));
     check('E7. 等登機：不能回家、不會再出發一次',!HOME.canGo(H.G)&&!Y34B.sendoffJPDue(H.G));
     hall(); H.entered=[]; await board();

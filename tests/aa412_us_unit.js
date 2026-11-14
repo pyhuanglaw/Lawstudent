@@ -1,6 +1,6 @@
 // AA_412 美國篇的四個缺口（AA-B 2026-10-23 18:1x）——不需要瀏覽器。照 AA_412 第 6 節「測試（BB）」的情境寫，每一項至少一個檢查：
 //   F  第 2 節 主線 8「遠方」美國版 ev_far_call_us（src/data/r2y3b_events.js、src/r2y3b3d.js 的 S.farPhoneUS）：
-//      9/20 美國 09:00 阿哲私訊、兩個回覆；9/21 07:30 視訊（標 alarm，睡覺 07:00 醒）；在場的人照條件；何俊朗只在有 MET_LONG；「明天不行。」不演；沒接＝07:45 照片；不在麵店團、和阿哲熟的版本
+//      9/20 美國 09:00 阿哲私訊、兩個回覆；9/21 07:30 視訊（標 alarm，睡覺 07:00 醒）；在場的人照條件；何俊朗只在有 MET_LONG；「明天不行。」不演；沒接＝07:45 照片；不在桌遊團、和阿哲熟的版本
 //   W  第 3 節「208 的週末」七場（src/us208_3d.js）：交往中、US2 以後的週末進 208 照順序演；一個週末一場；過了範圍跳過；3-5 只有 11/5；3-3、3-7 多一句旁白有條件；
 //      挽回中、平日、芝加哥不演；記憶（第 3-8 節）＋面板名稱；演完不吃掉當天的閒聊階梯
 //   C  第 4 節 美國的課每門八句輪流（src/data/us_life_events.js classLines）：第 5 次上那門課起出現新的句子
@@ -63,7 +63,7 @@ const txt=th=>(H.G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const run=async(id,o)=>{ H.said=[]; H.opts=[]; await EVENTS.run(ev(id),o); };
 const L=()=>H.lines();
-const grp=()=>PHONE.join(H.G,'noodle_team','麵店團');
+const grp=()=>PHONE.join(H.G,'noodle_team','桌遊團');
 
 (async()=>{
 /* ======================= 0 載入、接線 ======================= */
@@ -93,7 +93,7 @@ await sec('F0',()=>{ const G=farSetup('2028-09-20',8.9);
 await sec('F1',async()=>{ const G=farSetup('2028-09-21',7.5,{ppl:['yu','classmate_bohan','classmate_xinci','heroine_03'],flags:{MET_LONG:true}});
   ACTIVITIES.rec(G).att['public_law_group@'+D('2028-03-02')]={h:20,end:'full'};
   await run('ev_far_call_us');
-  check('F1. 在麵店團、都認識、參加過讀書會、見過何俊朗：台詞逐字、順序照 AA_412 第 2 節（【美】的麥片、柏翰、何俊朗、割草）；FAR_CALL us',J(H.said.map(s=>s.t))===J(FAR_ALL)&&G.flags.FAR_CALL==='us',J(L()));
+  check('F1. 在桌遊團、都認識、參加過讀書會、見過何俊朗：台詞逐字、順序照 AA_412 第 2 節（【美】的麥片、柏翰、何俊朗、割草）；FAR_CALL us',J(H.said.map(s=>s.t))===J(FAR_ALL)&&G.flags.FAR_CALL==='us',J(L()));
   check('F1. 說話的人：阿哲、Alison、柏翰、芯慈；「燒臘店阿姨（畫面外）」（AA_642 第 5 節）；何俊朗',H.said.some(s=>s.who==='燒臘店阿姨（畫面外）'&&s.t==='滷蛋要不要！隔著螢幕也要問！')&&H.said.some(s=>s.who==='何俊朗'&&s.t==='Hello，台灣！')&&H.said.filter(s=>s.t==='就這樣？').every(s=>s.who&&s.who!=='何俊朗'),J(L()));
   check('F1. 美國版沒有以安那一則、沒有日本版的柏翰「筆記拍給我」、沒有便利商店飯糰',!H.said.some(s=>/他吃飯糰|筆記拍給我|飯糰/.test(s.t)));
   check('F1. 背景：視訊（同日本版 bg video）',H.bgs.some(b=>J(b)===J(OUT.bg('video'))),J(H.bgs)); });
@@ -104,11 +104,11 @@ await sec('F2',async()=>{ const G=farSetup('2028-09-21',7.5,{ppl:['yu','classmat
   check('F2. MET_LONG 是記憶（舊存檔 R3 版迎新記的，AA_370 M3 兩邊互相認）也算：何俊朗出現',H.has('Hello，台灣！')&&H.has(FAR_ALL[9]));
   check('F2. 不認識 Alison、柏翰、語彤：她們的句子不出（照日本版的條件）',!H.has('你瘦了！……不對，是鏡頭。')&&!H.has('強制執行法的筆記，我留了一份。你大五補修用得到。')&&!H.has('（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）')&&H.has('滷蛋要不要！隔著螢幕也要問！')); });
 await sec('F3',async()=>{ const G=farSetup('2028-09-20',9.1,{grp:false,zhe:'FAM',flags:{MET_LONG:true}}); rules();
-  check('F3. 不在麵店團、和阿哲 FAMILIAR：一樣收到私訊',txt('p:zhe').includes('zhe:明天你那邊早上七點半 視訊 給我起床'));
+  check('F3. 不在桌遊團、和阿哲 FAMILIAR：一樣收到私訊',txt('p:zhe').includes('zhe:明天你那邊早上七點半 視訊 給我起床'));
   at('2028-09-21',7.5); await run('ev_far_call_us');
   check('F3. 阿哲一個人打來：只留阿哲的三句、麥片的旁白、最後一句旁白（群組那幾行、何俊朗都不出）',J(H.said.map(s=>s.t))===J(FAR_SOLO),J(L()));
   fresh('2028-09-20',9.1,'us_apartment',US()); SOCIAL.rel('zhe').fam=5; SOCIAL.remember('zhe','FIRST_MET',''); rules();
-  check('F3. 不在麵店團、和阿哲不熟：沒有私訊',!PHONE.sent(H.G,'us_far_call')); });
+  check('F3. 不在桌遊團、和阿哲不熟：沒有私訊',!PHONE.sent(H.G,'us_far_call')); });
 await sec('F4',async()=>{ let G=farSetup('2028-09-20',9.1); rules(); PHONE.answer(G,'us_far_call',1); rules();
   const q=OUT.get(G,'us_far_call');
   check('F4. 「明天不行。」→「好啦 那下次」、記 FAR_CALL_NO、不排視訊',txt('p:zhe').includes('zhe:好啦 那下次')&&G.flags.FAR_CALL_NO===true&&(!q||q.state==='cancelled'));
@@ -120,7 +120,7 @@ await sec('F4',async()=>{ let G=farSetup('2028-09-20',9.1); rules(); PHONE.answe
   const q2=OUT.get(G,'us_far_call'), ph=(G.msgs||[]).find(m=>/長桌上空著一個位子/.test(m.text||''));
   check('F4. 答應了、15 分鐘沒接：沒接（missed）、美國 07:45（臺灣 19:45）群組一張照片「（照片：長桌上空著一個位子，前面放了一盤飯）」',q2.state==='missed'&&!!ph&&ph.th==='g:noodle_team'&&ph.from==='zhe'&&ph.text==='（照片：長桌上空著一個位子，前面放了一盤飯）'&&ph.day===D('2028-09-21')&&ph.h>=7.75&&ph.h<7.77,J([q2&&q2.state,ph]));
   G=farSetup('2028-09-20',9.1,{grp:false,zhe:'FAM'}); rules(); PHONE.answer(G,'us_far_call',0); rules(); at('2028-09-21',7.5); H.picks=[2]; await OUT.prompt(GM,OUT.get(G,'us_far_call')); at('2028-09-21',7.8); PHONE.tick(G);
-  check('F4. 「先不接」（不在麵店團）：照片傳到阿哲私訊',OUT.get(G,'us_far_call').state==='missed'&&txt('p:zhe').includes('zhe:（照片：長桌上空著一個位子，前面放了一盤飯）'),J(txt('p:zhe')));
+  check('F4. 「先不接」（不在桌遊團）：照片傳到阿哲私訊',OUT.get(G,'us_far_call').state==='missed'&&txt('p:zhe').includes('zhe:（照片：長桌上空著一個位子，前面放了一盤飯）'),J(txt('p:zhe')));
   G=farSetup('2028-09-20',9.1); rules(); PHONE.answer(G,'us_far_call',0); rules(); at('2028-09-21',7.5); H.picks=[0]; H.said=[]; await OUT.prompt(GM,OUT.get(G,'us_far_call'));
   check('F4. 「接起來」：演 ev_far_call_us、FAR_CALL us、沒有照片',G.flags.FAR_CALL==='us'&&H.has('就這樣？')&&!(G.msgs||[]).some(m=>/長桌上空著一個位子/.test(m.text||''))); });
 await sec('F5',()=>{ fresh('2028-09-20',21.1,'dorm',{EXCHANGE_ROUTE:'TW',EXCH_RULE:1}); grp(); R('zhe','FRI'); rules();

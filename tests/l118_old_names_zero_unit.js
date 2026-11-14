@@ -16,6 +16,7 @@ const KEEP_COMPAT={
   'src/data/l118_shop_layouts.js':{why:'LAWWW2 的室內配置（layout.json 產生，不手改）：配置當時的店名、給開發組的說明；遊戲裡的區域名稱、「點餐（○○）」「離開○○」由 src/l118_shops3d.js 換成店家資料的店名。LAWWW2 重做室內以後這一格拿掉',words:NAMES.concat(ITEMS)} };
 const AA='AA 判不改（AA_772 checked_against ②／not_changed）：';
 const KEEP_AA={
+  'src/data/events.js':{why:'AA_874（企劃線 0050081594，CANON-NO-ECON-1112 第四批）：可昕大一下生日沒交往那一版，她自己點的飲料「紅茶拿鐵，半糖。」（照稿；不是 118 巷的店）',words:['紅茶拿鐵']},
   'src/lane118.js':{why:AA+'學姊的「無糖綠茶，去冰」（H1 店員那一句，台詞不變）',words:['無糖綠茶']},
   'src/data/gift_lines.js':{why:AA+'送禮的品項「無糖綠茶」顯示的字照舊',words:['無糖綠茶']},
   'src/gift3d.js':{why:AA+'送禮的品項「無糖綠茶」',words:['無糖綠茶']},
@@ -29,7 +30,12 @@ const KEEP_AA={
   'src/data/date_lines.js':{why:AA+'販賣機的無糖綠茶',words:['無糖綠茶']},
   'src/data/ladder.js':{why:AA+'以安媽媽的番茄炒蛋',words:['番茄炒蛋']},
   'src/social3d.js':{why:AA+'以安媽媽的番茄炒蛋（記憶的名稱）',words:['番茄炒蛋']},
-  'src/ggshops_sys3d.js':{why:AA+'公館的今日蛋糕',words:['今日蛋糕']} };
+  'src/ggshops_sys3d.js':{why:AA+'公館的今日蛋糕',words:['今日蛋糕']},
+  'src/data/syllabus.js':{why:'LAWWW 判（11-11，held 整合）：大二下通識 ge_y2s2 第 7 週「家的味道」同學說「我媽的番茄炒蛋」——家裡的菜，不是 118 巷的菜名（AA 課堂稿、BB 審過）',words:['番茄炒蛋']},
+  /* 撞字（GG-SHOPS3-STORY-1110，11-11）：汀州路泰米村食的菜單是使用者 X320 指定的七道（AA_742，企劃線 75f5de658），裡面有打拋豬肉飯、泰式椒麻雞飯——別間店的菜，不是 118 巷的舊菜名 */
+  'src/data/gg3_shops_lines.js':{why:'撞字：泰米村食的菜單（AA_742 使用者指定七道；tools/shops/import_gg3_shops.py 產生）',words:['椒麻雞','打拋豬']},
+  'src/gg3shops3d.js':{why:'撞字：泰米村食點餐（照點的菜挑句子的對照表 TAIMI_KEY）',words:['椒麻雞','打拋豬']},
+  'src/story3d.js':{why:'撞字：明軒「公館一百元以內」第三名泰米村食的午間打拋豬肉飯（AA_742 第 ③ 節）',words:['打拋豬']} };
 /* 把註解拿掉（玩家看不到）：字串裡的 // 不當註解 */
 function strip(text){ let out='', i=0; const n=text.length;
   while(i<n){ const c=text[i];

@@ -39,7 +39,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(mon3,19,'wancai',{}); G.stage='law'; meet('heroine_04'); R('heroine_04',...LV.FAM);
   let e=CLS.clubEvent(G,GA); check('1. 第 3 週社課、有點熟：先演 Q7',!!e&&e.id==='ev_ziqing_lab_letter',e&&e.id);
   picks=['接妳爸']; said=[]; await EVENTS.run(e); let L=norm(lines());
-  check('1. 逐字＋「接妳爸的電話。」→「不要。」旁白「她把手機調成靜音。」「……改天講給你聽。」、LAB_LETTER',L[0]==='（把手機蓋在桌上）教授寄信。叫我進他的實驗室。'&&L[4]==='……好，這題我不會。你是法律系的，你幫我判。'&&L[5]==='不要。'&&L[6]==='她把手機調成靜音。'&&L[7]==='……改天講給你聽。'&&SOCIAL.has('heroine_04','LAB_LETTER')&&G.flags.LAB_LETTER_DAD,JSON.stringify(L));
+  check('1. 逐字＋「接妳爸的電話。」→「不要。」旁白「她把手機調成靜音。」「……改天講給你聽。」、LAB_LETTER',L[0]==='（把手機蓋在桌上）教授寄信。叫我進他的實驗室。'&&L[4]==='好，這題我不會。你是法律系的，你幫我判。'&&L[5]==='不要。'&&L[6]==='她把手機調成靜音。'&&L[7]==='……改天講給你聽。'&&SOCIAL.has('heroine_04','LAB_LETTER')&&G.flags.LAB_LETTER_DAD,JSON.stringify(L));
   fresh(mon3,19,'wancai',{}); G.stage='law'; meet('heroine_04'); R('heroine_04',...LV.ACQ); check('1. 只是認識不演',!CLS.clubEvent(G,GA));
   fresh(termDay('Y2S1',4,1),19,'wancai',{}); G.stage='law'; meet('heroine_04'); R('heroine_04',...LV.FAM); check('1. 第 4 週不演',!CLS.clubEvent(G,GA));
   // P3
@@ -48,13 +48,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.events.done.ev_peishan_syllogism=1; SOCIAL.remember('classmate_peishan','NOT_FOR_ME',''); G.flags.SIS_ANSWERED_WHY=true; G.flags.ECON_PAST_SHARED='full';
   check('2. 沒交往：不演（AA_281 第 4 節 B-5：她什麼都不說，只有交往中的知道）',!tick());
   G.flags.dating_classmate_peishan=true;
-  picks=['我也重考過']; tick(); await wait(); L=norm(lines());
-  check('2. 霖澤館 12:00～13:00：NOT_FOR_ME 開頭＋SIS_ANSWERED_WHY 那句＋三句；重考的選項（已經說過的玩家）「你說過你重考過。那你要教我。」、MIRROR_PEISHAN（SIS_ANSWERED_WHY 那句照 BB_167 SC4 #23「學姊那時候說她還在想。……我好像想好了。」，AB65-3）',L[0]==='你記得我說過框的事嗎？……我想了一年。'&&L[1]==='學姊那時候說她還在想。……我好像想好了。'&&L[2]==='我決定了。我要重考。去念教育。'&&L[L.length-1]==='你說過你重考過。那你要教我。'&&SOCIAL.has('classmate_peishan','MIRROR_PEISHAN')&&G.flags.PEISHAN_RETAKE,JSON.stringify(L));
+  picks=['我陪妳念']/* （CANON-NO-ECON-1112 第四批：照 AA_886 換字）*/; tick(); await wait(); L=norm(lines());
+  check('2. 霖澤館 12:00～13:00：NOT_FOR_ME 開頭＋SIS_ANSWERED_WHY 那句＋三句；第三個選項「要考的話，我陪妳念。」→「好。那你先把你的念完。」（AA_886 第 2 節）、MIRROR_PEISHAN（SIS_ANSWERED_WHY 那句照 BB_167 SC4 #23「學姊那時候說她還在想。……我好像想好了。」，AB65-3）',L[0]==='你記得我說過框的事嗎？……我想了一年。'&&L[1]==='學姊那時候說她還在想。……我好像想好了。'&&L[2]==='我決定了。我要重考。去念教育。'&&L[L.length-1]==='好。那你先把你的念完。'&&!SOCIAL.has('classmate_peishan','MIRROR_PEISHAN')/* （CANON-NO-ECON-1112 第四批：照 AA_901 第 10 項）不再記 MIRROR_PEISHAN；舊期望 has */&&G.flags.PEISHAN_RETAKE,JSON.stringify(L));
   fresh(tue5,12.2,'campus',{dating_classmate_peishan:true}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',...LV.FAM); G.events.done.ev_peishan_doubt=1; at(80,0); check('2. 校園遠處不演',!tick());
   at(34,-95); picks=['妳想去就去']; tick(); await wait(); L=norm(lines());
   check('2. 備案：霖澤館前 25 m 內；沒有 NOT_FOR_ME 的開頭（AB65-3：AA_211 附錄 B E5「我想了很久，到底要不要繼續念法律。」）；「妳想去就去。」',L[0]==='我想了很久，到底要不要繼續念法律。'&&L[1]==='我決定了。我要重考。去念教育。'&&L[L.length-1]==='難的是回家，跟我爸媽講。',JSON.stringify(L));
-  fresh(tue5,12.2,'linze',{dating_classmate_peishan:true}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',...LV.FAM); G.events.done.ev_peishan_doubt=1; at(0,0); picks=['我也重考過']; tick(); await wait(); L=norm(lines());
-  check('2. 還沒說過經濟系的玩家：「……你重考過？」→ 旁白 →「那你要教我。」',L.slice(-3).join('|')==='……你重考過？|她眼睛亮起來。|那你要教我。',JSON.stringify(L));
+  fresh(tue5,12.2,'linze',{dating_classmate_peishan:true}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',...LV.FAM); G.events.done.ev_peishan_doubt=1; at(0,0); picks=['我陪妳念']/* （CANON-NO-ECON-1112 第四批：照 AA_886 換字）*/; tick(); await wait(); L=norm(lines());
+  check('2. 第三個選項的回覆只有一版（AA_886 第 2 節：不分玩家說過什麼）：「……你自己的書念完了嗎？」→（她笑了。）→「好。那你先把你的念完。」',L.slice(-3).join('|')==='……你自己的書念完了嗎？|（她笑了。）|好。那你先把你的念完。',JSON.stringify(L));
   fresh(tue5,14,'linze',{dating_classmate_peishan:true}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',...LV.FAM); G.events.done.ev_peishan_doubt=1; at(0,0); check('2. 13:00 以後不演',!tick());
   // W7
   const w6=termDay('Y2S1',6,3); fresh(w6,15.5,'linze',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',...LV.ACQ); at(0,0); check('3. 學姊只是認識不演',!tick());

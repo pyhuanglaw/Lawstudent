@@ -35,7 +35,7 @@ const settle=async()=>{ for(let i=0;i<50&&US_BLANK.isBusy&&US_BLANK.isBusy();i++
 const LG='npc_long|何俊朗|', ISA='us_isa|國際學生會|';
 
 
-const BUS=['（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）','臺灣來的？我聽你們講話聽出來的。','香港。何俊朗。叫我 Long 就好。','祐廷。','（學姊點了一下頭，報了自己的名字。他轉回去以前，把手機上一家披薩店的地址給你們看。）'];
+const BUS=['（巴士上，坐在前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）','臺灣來的？你手機上的字是繁體。',   /* AA_814 3-5（91c6aaf9f）：原 AA_451 1-1「坐在你們前面的」「我聽你們講話聽出來的」*/'香港。何俊朗。叫我 Long 就好。','祐廷。','（學姊點了一下頭，報了自己的名字。他轉回去以前，把手機上一家披薩店的地址給你們看。）'];
 (async()=>{
 await sec(0,()=>{
   check('0. 美國篇的檔案都載得到',!loadErr.length,loadErr.join('；'));
@@ -43,7 +43,9 @@ await sec(0,()=>{
 
 /* ======================= 1-1 芝加哥：沒見過的，在巴士上認識他 ======================= */
 await sec('1-1',async()=>{
-  for(const t of [BUS[0],BUS[1],BUS[2],BUS[4],'……還好？你學我。']) check('1-1. 稿裡有「'+t+'」',inDoc(t.replace(/^（|）$/g,'')));
+  { let d814=''; try{ d814=require('child_process').execFileSync('git',['-C',require('path').join(__dirname,'..'),'show','91c6aaf9f:docs/story_planning/AA_814_三個優先項目劇情斷點對帳.md'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}   /* AA_814 3-5 取代 AA_451 1-1 的前兩句：前兩句對 AA_814（讀不到＝企劃線沒 fetch，跳過那兩句）*/
+    for(const t of [BUS[0],BUS[1]]) if(d814) check('1-1. 稿裡有「'+t+'」（AA_814 3-5）',d814.indexOf(t.replace(/^（|）$/g,''))>=0); }
+  for(const t of [BUS[2],BUS[4],'……還好？你學我。']) check('1-1. 稿裡有「'+t+'」',inDoc(t.replace(/^（|）$/g,'')));
   let G=fresh('2028-11-11',7,'us_outside'); dateSis(); H.G.name=H.G.name||'祐廷'; let L=await play('ev_us_chicago');
   check('1-1. 沒見過何俊朗：芝加哥最前面巴士上五句（他、他、你報名字、旁白），之後「一路上，何俊朗說了好幾次『還好』」',J(L.slice(0,5).map((t,i)=>i===3?t.replace(H.G.name,'祐廷'):t))===J(BUS)&&L.some(t=>t.indexOf('一路上，何俊朗說了好幾次')>=0)&&!L.some(t=>t.indexOf('同行的人說了好幾次')>=0),J(L.slice(0,7)));
   check('1-1. 記 MET_LONG＋LONG_CHI',G.flags.MET_LONG===true&&G.flags.LONG_CHI===true,J({m:G.flags.MET_LONG,c:G.flags.LONG_CHI}));

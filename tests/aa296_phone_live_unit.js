@@ -18,7 +18,7 @@ const {check,GM,E}=H;
 const NAMES=/^(EXCH|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|NEEDED_MSGS|HOMETOWN_LINES|Y2B|Y2B_EVENTS|Y34B|R2Y3B|R2Y3B_EVENTS)$/;
 const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.CG_REGISTRY={};
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/y34b3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js']) if(fs.existsSync(path.join(H.ROOT,f))) load(f);
 const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };   /* 地點字幕（{scene}：「電話」「視訊」）*/
 const J=JSON.stringify, D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h;
@@ -46,7 +46,9 @@ const said=()=>H.said.map(s=>({who:s.who,t:s.t}));
 const same=(got,exp)=>!!exp&&got.length===exp.length&&exp.every((x,i)=>!!x&&got[i].t===x.t&&((got[i].who==null)===(x.who==null))&&(x.who==null||String(got[i].who||'').includes(x.who)));
 const I1=ITEM('①'), I2=ITEM('②'), I3=ITEM('③'), I4=ITEM('④'), I5=ITEM('⑤');
 const P1=parse(blocks(I1)[0]), P2a=parse(blocks(I2)[0]), P2b=parse(blocks(I2)[1]), P3=parse(blocks(I3)[0]), P4=parse(blocks(I4)[0]), P5=parse(blocks(I5)[0]);
-{ const AN=require('./an_rev_doc.js'); for(const x of P1.intro.concat(P1.after)) if(x&&x.t) x.t=AN.rev(x.t); }   /* ① 是以安 AN18 視訊：AA_589 第 42、45、46 列改過的句子照改成欄比（逐列核對在 tests/aa589_an_b4_unit.js）*/
+{ const AN=require('./an_rev_doc.js'); for(const x of P1.intro.concat(P1.after)) if(x&&x.t) x.t=AN.rev(x.t); }
+/* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：② 回貼紙那一通（r2y3b_events.js EXE_CALL）第 579、582 列拿掉句首「……」——稿（ed0daea9）上的句子照 AA_801 那兩列 old→new 換過再比（tests/line_rows_expect.js；只換 r2y3b_events.js 的列）。舊期望：「……你回貼紙喔。」「……好啦。」 */
+{ const LR=require('./line_rows_expect.js'); for(const x of P2a.intro.concat(P2a.after)) if(x&&x.t) x.t=LR.fwd(x.t,'src/data/r2y3b_events.js'); }   /* ① 是以安 AN18 視訊：AA_589 第 42、45、46 列改過的句子照改成欄比（逐列核對在 tests/aa589_an_b4_unit.js）*/
 const nowDm=s=>q((String(s).split('\n').find(l=>/^- 現在/.test(l))||''));   /* 「現在只有兩則私訊：「…」「…」」那一行 */
 const DM1=nowDm(I1), DM3=nowDm(I3), DM4=nowDm(I4);
 const EXE_OPTS=q((I2.split('\n').find(l=>/直接在場面裡給兩個選項/.test(l))||'').replace(/^[^：]*：/,'')).slice(0,2);
@@ -101,9 +103,9 @@ const memNote=(id,tag)=>{ const L=(H.G.social&&H.G.social.mem&&H.G.social.mem[id
     G=usAn(11); rules(); PHONE.tick(G);
     check('① 那一段沒跑到規則（11:00 才進遊戲）＝不排視訊、照兩則私訊',!OUT.get(G,V)&&J(th('p:heroine_01'))===J(DM1)&&G.flags.AN_CHOICE==='dm');
     /* 沒交往＝照舊（群組）；臺灣路線＝照舊 */
-    G=fresh('2028-10-19',8,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('heroine_01'); PHONE.join(G,'noodle_team','麵店團'); rules(); at('2028-10-19',10.1); rules();
-    check('① 美國路線、沒交往：不打視訊，照舊麵店團群組一則（AN_CHOICE group）',!OUT.get(G,V)&&th('g:noodle_team').includes('我決定了。考首都帝大法研所，商法組。')&&G.flags.AN_CHOICE==='group');
-    G=fresh('2028-10-19',20,'dorm'); H.FAMILIAR('heroine_01'); date('heroine_01'); PHONE.join(G,'noodle_team','麵店團'); rules(); at('2028-10-19',22.1); rules();
+    G=fresh('2028-10-19',8,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('heroine_01'); PHONE.join(G,'noodle_team','桌遊團'); rules(); at('2028-10-19',10.1); rules();
+    check('① 美國路線、沒交往：不打視訊，照舊桌遊團群組一則（AN_CHOICE group）',!OUT.get(G,V)&&th('g:noodle_team').includes('我決定了。考首都帝大法研所，商法組。')&&G.flags.AN_CHOICE==='group');
+    G=fresh('2028-10-19',20,'dorm'); H.FAMILIAR('heroine_01'); date('heroine_01'); PHONE.join(G,'noodle_team','桌遊團'); rules(); at('2028-10-19',22.1); rules();
     check('① 臺灣路線、交往中、不在萬才館：照舊群組（不打視訊）',!OUT.get(G,V)&&G.flags.AN_CHOICE==='group');
     G=usAn(8); rules(); G.flags.dating_heroine_01=false; ROM.get(G,'heroine_01').status='ex'; at('2028-10-19',9.8); rules(); const qc=OUT.get(G,V);
     check('① 排好視訊以後不再交往：視訊取消（不打來）',!!qc&&qc.state==='cancelled'&&!OUT.due(G),J(qc&&qc.state));

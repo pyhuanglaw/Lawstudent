@@ -18,8 +18,8 @@ const SUNNYSIDE_LAYOUT = {
   seeThru: ['wzs_pendant', 'wzs_bulb', 'sns_vc', 'sns_vc_metal', 'sns_vc_gloss', 'sns_walnut_rt', 'sns_print', 'sns_leaf_pothos'],   /* WZ-SEAT-CAMS-1104（LAWWW2 帳號 A 11-10；BB-C 11-04 BB_255 吧台座位鏡頭被吊架擋）：AA 12ae10d3e 加過 sns_vc_metal，v1e 配置蓋掉了；這次重加，再加家具（sns_vc）、光亮的小東西（sns_vc_gloss）、出餐檯的胡桃木框與層架（sns_walnut_rt）、出餐檯上方的菜單板（sns_print）、吊著的黃金葛（sns_leaf_pothos）；左牆（卡座那一面）、後牆當鏡頭碰撞（右牆是整面落地窗、前面是門窗，照舊淡出）。tests/wz_seat_cams_1104_unit.js */
   camWalls: [[-3.2, 0, 0.12, 10], [0, -5.0, 6.4, 0.12]],
   seeThruNote: '吊燈照舊叫 wzs_pendant（燈罩）、wzs_bulb（燈泡）的材質名稱沒有沿用；新版的吊燈是 GLOW_pendant_*，兩盞在中間桌子上方 2.3 m。LAWWW2 拍鏡頭遮擋時再定要不要透空。',
-  exit: {at: {x: 0.4, z: 4.45}, label: '離開 SUNNY SIDE', to: 'wenzhou', spawn: {x: 42.0, z: -4.1, yaw: 0}},
-  enterAt: {x: 42.0, z: -4.6, label: '進去 SUNNY SIDE', note: '照舊（B7 店門）'},
+  exit: {at: {x: 0.4, z: 4.45}, label: '離開 SUNNY SIDE', to: 'wenzhou', spawn: {x: 45.0, z: -4.1, yaw: 0}},
+  enterAt: {x: 45.0, z: -4.6, label: '進去 SUNNY SIDE', note: 'WZ-SUNNY-DOOR-1112：42 → 45（店外的門移到和室內的門同一個位置）'},
   items: [
     {kind: 'kitchen_line', x: -0.5, z: -4.65, w: 5.0, d: 0.7, note: '照舊位置：後牆料理台（煎台、爐子、水槽、盤子架）；上面銅鍋吊桿、不鏽鋼層架、排油煙罩'},
     {kind: 'fridge', x: 2.65, z: -4.6, w: 0.8, d: 0.75, h: 1.9},

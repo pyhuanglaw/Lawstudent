@@ -67,7 +67,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('0. index.html：fest_events.js、fest3d.js 接在 an_yt_hol3d.js 後面（?v= 照舊）',/src\/an_yt_hol3d\.js\?v=([^"]+)"><\/script>\n<script src="src\/data\/fest_events\.js\?v=\1"><\/script>\n<script src="src\/fest3d\.js\?v=\1"><\/script>/.test(html)); }
   check('0. STORY.PHONE_RULES、STORY.TICKS、OUT.BEFORE（校外約會）、OUT.AFTER（子晴跨年）都接了',STORY.PHONE_RULES.length>0&&STORY.TICKS.length>0&&OUT.BEFORE.length>0&&OUT.AFTER.length>0);
   { const ML=SOCIAL.MEMORY_LABEL||{}; check('0. 人物頁記憶 HOL_<節日>_<年>（1-7：「<年> 的情人節，和她一起過」照節日換字）',ML.HOL_VDAY_2027==='2027 的情人節，和她一起過'&&ML.HOL_WHITE_2026==='2026 的白色情人節，和她一起過'&&ML.HOL_QIXI_2028==='2028 的七夕，和她一起過'&&ML.HOL_BDAY_2026==='2026 的生日，和她一起過'&&ML.HOL_XMAS_2025==='2025 的聖誕節，和她一起過'&&ML.HOL_NYE_2026==='2026 的跨年，和她一起過'&&inDoc('「<年> 的情人節，和她一起過」')); }
-  { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0||ANREV.has(t)) return; if(!d&&require('./aa593_doc.js').has(t)) return;   /* AA_593 第 99 列（企劃線 6cbb0b4ab）：學姊 2028 生日那一句 */ if(!d&&doc661&&(doc661.indexOf(t)>=0||doc661.indexOf(norm(t))>=0)) return;   /* AA_661 第 78～83 列改的語彤節日句（企劃線 5df89d95a，AA 定稿）：AA_416 白名單那一版還是舊句 */ if(!d&&doc755&&doc755.indexOf(t)>=0) return;   /* 沛珊（AA_755，見上）*/ if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
+  { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0||ANREV.has(t)) return; if(require('./canon1112_ok.js').ok(t)) return;   /* CANON-NO-ECON-1112：照 AA 的 src 對照表換過的句子（AA_932 §2 可昕 2025 聖誕等）改比對照表 */ { const o=require('./line_rows_expect.js').toOld(t); if(o!==t&&(d||doc).indexOf(o)>=0) return; }   /* X324 G 區逐行改稿（AA_794 店長→老闆；tests/line_rows_expect.js）：換回舊句在稿裡就算對 */ if(!d&&require('./aa593_doc.js').has(t)) return;   /* AA_593 第 99 列（企劃線 6cbb0b4ab）：學姊 2028 生日那一句 */ if(!d&&doc661&&(doc661.indexOf(t)>=0||doc661.indexOf(norm(t))>=0)) return;   /* AA_661 第 78～83 列改的語彤節日句（企劃線 5df89d95a，AA 定稿）：AA_416 白名單那一版還是舊句 */ if(!d&&doc755&&doc755.indexOf(t)>=0) return;   /* 沛珊（AA_755，見上）*/ if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
     const T523=t=>{ const q=(/「[^」]+」/.exec(t)||[''])[0]; if(!(q&&row614.includes(q)&&doc.indexOf(t.replace(q,'「明年也要。」'))>=0)) bad.push('（AA_523 6-14）'+t); };
     const lines=(L,d)=>{ for(const l of (L||[])){ if(l.aa523){ T523(l.text); continue; } if(l.aa550){ if(sec550.indexOf('> 芷若：'+l.text)<0) bad.push('（AA_550 第 4 節）'+l.text); continue; } if(l.text!==undefined) T(l.text,d); if(l.scene!==undefined) T(l.scene,d); for(const c of (l.choice||[])) T(c.text,d); } };
     for(const id of ALL){ const P=FEST_DATA.PEOPLE[id];
@@ -160,7 +160,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     at('2027-08-08',20.95); const r0=relOf(AN); const g=await goOut(q.id);
     check('3. 電話：「七夕。我記得。」「明天我就在京都了。……那邊的七夕，是七月過的。」；視訊版 +2／+3／+3',J(g.L)===J(['七夕。我記得。','明天我就在京都了。……那邊的七夕，是七月過的。'])&&dRel(AN,r0)===J({fam:2,comf:3,npcRom:3}),J(g.L)); }
   { setup('2027-09-14',10,{lv:{[AN]:'dt'}}); const a=await ask(AN,[]); const m=await play({id:AN,k:'bday',y:2027,mode:'meet'},[4]);
-    check('3. 2027 生日（中秋，晚上麵店團）：只排中午場；交往中「晚上大家要幫我過。……中午這一頓，只有你知道。」',J(a.O[0])===J(['中午場（11:30～14:30）','算了'])&&m.L[0]==='晚上大家要幫我過。……中午這一頓，只有你知道。',J({O:a.O,L:m.L})); }
+    check('3. 2027 生日（中秋，晚上桌遊團）：只排中午場；交往中「晚上大家要幫我過。……中午這一頓，只有你知道。」',J(a.O[0])===J(['中午場（11:30～14:30）','算了'])&&m.L[0]==='晚上大家要幫我過。……中午這一頓，只有你知道。',J({O:a.O,L:m.L})); }
   { setup('2028-09-14',10,{lv:{[AN]:6},flags:{EXCHANGE_ROUTE:'US'}}); const a=await ask(AN,[0]); const q=a.r;
     check('3. 2028 生日美國路線：視訊（臺灣 21:00＝美國 09:00，手機上是 09:00）',!!q&&q.fest.mode==='video'&&q.h===9&&J(a.O[0])===J(['視訊（09:00）','算了']),J({q,O:a.O}));
     at('2028-09-15',8.9); const g=await goOut(q.id); check('3. 「你那邊是早上吧。我這邊快睡了。」「……生日還剩三個小時。你剛好趕上。」（視訊沒有禮物）',J(g.L)===J(['你那邊是早上吧。我這邊快睡了。','……生日還剩三個小時。你剛好趕上。'])&&!H.opts.length,J(g.L)); }
@@ -209,7 +209,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     setup('2028-07-08',10,{lv:{[YT]:'dt'},flags:{EXCHANGE_ROUTE:'JP'}}); const b=await ask(YT,[0]); const q=b.r; at('2028-07-09',21.9); const g=q?await goOut(q.id):{L:[]};
     check('5. 2028 生日日本路線：視訊（臺灣 21:00＝日本 22:00）「我剛洗完杯子回到家。」「……你那邊幾點？」（AA_661 第 79 列）',!!q&&q.h===22&&J(g.L)===J(['我剛洗完杯子回到家。','……你那邊幾點？']),J({q,L:g.L})); }
   { setup('2026-12-24',10,{lv:{[YT]:'dt'}}); const a=await play({id:YT,k:'xmas',y:2026,mode:'meet'},[4]); setup('2027-12-24',10,{lv:{[YT]:'dt'}}); const b=await play({id:YT,k:'xmas',y:2027,mode:'meet'},[4]);
-    check('5. 聖誕交往中：「今天打烊早。蘇姨說，聖誕節要給年輕人。」（AA_661 第 80 列）；麵店團交換禮物的年份（2026）多「交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。」、2027 沒有',J(a.L.slice(0,2))===J(['今天打烊早。蘇姨說，聖誕節要給年輕人。','交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'])&&b.L[0]==='今天打烊早。蘇姨說，聖誕節要給年輕人。'&&!b.L.includes('交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'),J({a:a.L,b:b.L})); }
+    check('5. 聖誕交往中：「今天打烊早。蘇姨說，聖誕節要給年輕人。」（AA_661 第 80 列）；桌遊團交換禮物的年份（2026）多「交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。」、2027 沒有',J(a.L.slice(0,2))===J(['今天打烊早。蘇姨說，聖誕節要給年輕人。','交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'])&&b.L[0]==='今天打烊早。蘇姨說，聖誕節要給年輕人。'&&!b.L.includes('交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'),J({a:a.L,b:b.L})); }
   });
 
   /* ======================= 6 子晴 ======================= */
@@ -295,7 +295,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
       check('9b. r2y3a3d.js 有那一年的七夕視訊（2026、2028）＝FEST 不另外打（一天只有一通 21:00 視訊）',!q&&x.dedicated(H.G,KX,'qixi',2026)&&x.dedicated(H.G,KX,'qixi',2028),J(q)); }
     finally{ if(R0===undefined) delete globalThis.R2Y3A; else globalThis.R2Y3A=R0; } }
   { setup('2025-12-24',10,{lv:{[KX]:'dt'}}); const m=await play({id:KX,k:'xmas',y:2025,mode:'meet'});
-    check('9. 2025 聖誕：「聖誕節。……我從山上下來了。你要請客。」（沒有禮物：照現有）',J(m.L)===J(['聖誕節。……我從山上下來了。你要請客。'])&&!m.O.length,J(m)); }
+    check('9. 2025 聖誕：「聖誕節。……我到公館了。你要請客。」（2026-11-13 照 AA_932 §2，舊期望「我從山上下來了」；沒有禮物：照現有）',J(m.L)===J(['聖誕節。……我到公館了。你要請客。'])&&!m.O.length,J(m)); }
   { setup('2026-03-13',21.05,{lv:{[KX]:6}}); rules(); check('9. 沒交往（分開以後只能當朋友）：不約、不演',!dms(KX).length&&!x.flowOpt(H.G,KX,null,false)); }
   });
 
@@ -360,7 +360,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   /* AA_445 1-2（企劃線 fd200c2c6）：芷若、語彤、子晴、學姊、可昕的節日邀約照節日換整組，逐字對稿裡的表 */
   { const d445=git('fd200c2c6','AA_445_寒暑假讀過一遍_麵店開兩次_五位節日邀約分節日.md'), NM={'芷若':ZR,'語彤':YT,'子晴':ZQ,'學姊':SIS,'可昕':KX}, KS=['vday','white','qixi','bday','xmas'];
     const bad=[]; let n=0; for(const line of d445.split('\n')){ const m=/^\|\s*(芷若|語彤|子晴|學姊|可昕)\s*\|(.+)\|\s*$/.exec(line); if(!m) continue; const cells=m[2].split('|').map(c=>c.trim().split('<br>'));
-      KS.forEach((k,i)=>{ n++; const got=X().herLines(NM[m[1]],k,false); if(J(got)!==J(cells[i])) bad.push(m[1]+' '+k+'：'+J(got)+' ≠ '+J(cells[i])); }); }
+      KS.forEach((k,i)=>{ n++; const got=X().herLines(NM[m[1]],k,false).map(t=>require('./line_rows_expect.js').toOld(t))/* X324 G 區 AA_794 芷若店長→老闆：換回舊句再對稿 */; if(J(got)!==J(cells[i])) bad.push(m[1]+' '+k+'：'+J(got)+' ≠ '+J(cells[i])); }); }
     check('AA_445 1-2. 五位 × 五個節日的邀約和稿一字不差（25 組）',n===25&&!bad.length,bad.slice(0,3).join('；')||n);
     check('AA_445 1-2. 以安、沛珊照舊（第一句換節日名）',X().herLines(AN,'xmas',false)[0]==='明天是聖誕節。'&&X().herLines(PS,'vday',false)[0]==='明天是情人節！！'); }
 

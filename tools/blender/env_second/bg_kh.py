@@ -1,4 +1,4 @@
-"""ART-KH-BUS：經濟系 7/25 成績公布那天的三張 2D 背景（AA_272 第 4 節 4-2、4-3；LAWWW-C 派工 2026-10-17）。LAWWW2-C。
+"""ART-KH-BUS：舊序章 7/25 成績公布那天的三張 2D 背景（AA_272 第 4 節 4-2、4-3；LAWWW-C 派工 2026-10-17）。LAWWW2-C。
 Blender 5.2（bpy，無介面）＋Cycles（CPU）→ PNG → bg_paint.py（繪畫感）→ assets/bg/*.webp（1672×941，和 bus_night、cram_class 同規格）。畫面上沒有人（人物用 ADV 立繪疊上去，中間留空）。
   /opt/blenv/bin/python tools/blender/env_second/bg_kh.py -- <bus|station|store> <輸出.png> [--res 1672x941] [--samples 64]
 - bus：客運車廂（白天，國道上）。4-2「國道上。你已經坐了一個多小時。」「窗外是一片一片的田。」7 月上午十一點、往南開：

@@ -39,8 +39,7 @@ for(const [id,key,o] of [
   ['ev_jpb_lastschool','jp_intl_office',{name:'最後一次去學校・國際學生辦公室',day:'2028-08-02',h:10,flags:JP}],
   ['ev_jpb_r_sea','jp_beach',{name:'海之日・海邊',day:'2028-07-17',h:9,flags:JP}],
   ['ev_moot_6','noodle_table',{name:'阿鳳麵店（停用的事件）',h:19}],
-  ['ev_y0_e19','gongguan',{name:'公館的聚餐（停用的事件）',day:'2025-01-02',h:19,econ:true}],
-  ['ev_y0_e24b2','ntu_linze',{name:'偷偷旁聽・法律系館A（停用的事件）',day:'2025-02-26',h:8,econ:true}],
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（ev_y0_e19、ev_y0_e24b2 兩列）
   ['ev_sq06_club','wancai_seminar',{name:'吉他社社課・法律系館B 多功能教室'}] ]){
   const want='assets/bg/'+key+'.webp', r=await play(id,o);
   check('1. '+id+'（'+o.name+'）：'+key+' 有登錄、檔案在，演出時用這張',!!OUT.BG[key]&&OUT.BG[key].image===want&&fs.existsSync(path.join(H.ROOT,want))&&!!r.e&&r.got.includes(want),J({found:!!r.e,got:r.got,err:r.err})); }
@@ -48,8 +47,6 @@ for(const [id,key,o] of [
 /* 第 109 組（BB 07:50）補了對得上的圖：煙火、五月上午的宿舍門口、以安的房間（打包好）——不再借用白天櫻花／七夕／你的房間 */
 for(const [id,scene,bg] of [['ev_jpb_w_fire','河堤','jp_riverbank_fireworks'],['ev_jpb_r_fire','河堤','jp_riverbank_fireworks'],['ev_jpb_w_chain','宿舍門口','jp_dorm_gate_morning'],['ev_jpb_clean','她的房間','jp_an_room_packed'],['ev_jpb_w_light','她的房間門口','jp_an_room_door']]){ const e=ev(id), l=e&&e.dialogue.find(x=>x&&x.scene!==undefined);
   check('2. '+id+'（'+scene+'）：第 109 組的 '+bg+'（不借用對不上的圖）',!!l&&l.scene===scene&&l.bg===bg&&!!OUT.bg(bg),J(l)); }
-/* ---- 3 家 ---- */
-for(const [id,day,h] of [['ev_vf_y0_0713','2025-07-13',10],['ev_vf_y0_0719_sis','2025-07-19',12],['ev_vf_y0_0726_sis','2025-07-26',12]]){ const r=await play(id,{day,h,zone:'home',econ:true,home:true});
-  check('3. '+id+'（家 '+h+':00，在家）：沒給 bg 也是家裡的背景 home_dining_day（HOME.bgNow），不是深色底',!!r.e&&r.got.includes('assets/bg/home_dining_day.webp'),J({found:!!r.e,got:r.got,err:r.err})); }
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 3 項 經濟系暑假「家」三場）
 H.done();
 })();

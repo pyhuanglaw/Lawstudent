@@ -25,7 +25,6 @@ const SISB8=(function(){
   const dm=t=>({th:'p:'+ID,from:ID,text:t});
   const plan=(G,o)=>{ if(typeof OUT==='undefined'||!OUT.plan||OUT.get(G,o.id)) return null; return OUT.plan(G,Object.assign({alarm:true},o)); };
   S.ok=G=>law(G)&&!!G.flags.met_sis&&!isEx(G)&&(S.dating(G)||stageOk('FAMILIAR'))&&here(G)&&!abroad(G);
-  S.econFull=G=>{ const F=G.flags||{}; return F.Y0_LEFT!=null||F.ECON_PAST_SHARED==='full'||F.ECON_PAST_SHARED==='half'; };   /* 3-1 第一個選項：經濟系那一年念完的（休學那天 Y0_LEFT）、或同學知道他念過經濟 */
 
   /* ---------------- 有約的三場 ---------------- */
   S.ASKS=[
@@ -55,7 +54,6 @@ const SISB8=(function(){
   S.LIST=[{id:'ev_sis_db_taught',term:'Y2S1',w:[5,6],h:19.5},{id:'ev_sis_ta_papers',term:'Y2S1',w:[14,15],h:19.5,need:'ev_sis_adv_exch'},
     {id:'ev_sis_econ_graph',term:'Y2S2',w:[3,3],h:19.5},{id:'ev_sis_old_notes',term:'Y2S2',w:[7,9],h:19.5},{id:'ev_sis_hot_water_back',term:'Y2S2',w:[14,14],h:21.5}];
   S.preTalkEv=function(G){ if(!G||!law(G)||!S.ok(G)||preToday(G)) return null;
-    if(G.zone==='cafe'&&G.flags.SIS_ECON_GRAPH==='taught'&&!done(G,'ev_sis_econ_latte')&&(G.events.last||{}).ev_sis_econ_graph!==G.day) return 'ev_sis_econ_latte';
     if(G.zone!=='lawlib') return null; const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!t) return null;
     const wd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).wd:null; if(wd!==3) return null;
     for(const s of S.LIST){ if(done(G,s.id)||t.id!==s.term||t.week<s.w[0]||t.week>s.w[1]||hh(G)<s.h) continue; if(s.need&&!done(G,s.need)) continue; return s.id; }

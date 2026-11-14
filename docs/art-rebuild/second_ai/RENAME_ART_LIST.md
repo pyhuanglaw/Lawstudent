@@ -22,13 +22,13 @@
 | `tools/blender/linze_notice_tex.py` → 霖澤館一樓公布欄的貼圖 | 霖澤館一樓公布欄 | 「椰林大道　下週三起三天」 | 「椰影大道　下週三起三天」 | **已改**（glb_patch 換 `linze_notice`） |
 | 同上 | 同上 | 「每週四中午　霖澤館 201」 | 「每週四中午　法律系館A 201」 | **已改** |
 | `tools/blender/env_second/aa_support/wz6_items.py` → `assets/models/env/second_ai/aa_support/wz6_items.glb` | 子晴的吉他社成發海報（`WZ6_poster`） | 「萬才館大廳｜免費入場」 | 「法律系館B大廳｜免費入場」 | **已改**（只是支援素材，遊戲沒有載入這個 GLB） |
-| `tools/blender/env_second/bg_nccu.py` → 政大的 2D 背景 | 招牌 | 「政大」 | 「木柵大學」（英文 Muzha University／MZU）；檔名、背景 id 照舊 | **腳本已改；背景圖不用重算**：公車站牌在 `nccu_gate.webp` 的鏡頭外面（畫面裡沒有任何「政大」字樣），三張政大背景都沒有校名 |
+| `tools/blender/env_second/bg_nccu.py` → 外校的 2D 背景 | 招牌 | 「外校」 | 「外校」（英文 Muzha University／MZU）；檔名、背景 id 照舊 | **腳本已改；背景圖不用重算**：公車站牌在 `nccu_gate.webp` 的鏡頭外面（畫面裡沒有任何「外校」字樣），三張外校背景都沒有校名 |
 
 - 原本以為要重新匯出、重烘光照；實際用 `glb_patch.py` 只換貼圖，光照貼圖、UV、網格都沒動。
 - 另外加的兩項（派工清單上的）：
   - 博思 203 門口的小海報「博雅 203」→「博思 203」（`boya_203.glb` 的 `boya_203_print`）。
   - 牌子（遊戲照 GLB 節點的 extras 用 canvas 畫字）：校門 `PLATE_FACE_GATE_OUT`「國立臺灣大學」→「首都帝國大學」、晨思鐘 `PLATE_FACE_BELL`「傅鐘」→「晨思鐘」、博思教學館 `PLATE_FACE_BOYA`「博雅教學館」→「博思教學館」。
-  - 所有 GLB 節點 extras 掃過一遍：剩下 `campus_admin.glb` 的「行政大樓」（含「政大」兩個字，但不是校名，不改）。
+  - 所有 GLB 節點 extras 掃過一遍：剩下 `campus_admin.glb` 的「行政大樓」（含「外校」兩個字，但不是校名，不改）。
 
 - 宿舍房間牆上的海報（`dorm_wz_items.py` → `dorm_wz_items.glb` 的 `ITEM_wz_poster`）：字是「成果發表會」「DEMO DAY」，沒有校名、館名，不用改。
 
@@ -53,7 +53,7 @@
 
 ## 三、還沒查的（要開圖看）
 
-- **2D 背景**（`assets/bg/*.webp`）、**CG**：有沒有烘進去的台大、政大、館名、椰林大道等字樣。
+- **2D 背景**（`assets/bg/*.webp`）、**CG**：有沒有烘進去的台大、外校、館名、椰林大道等字樣。
 - **企劃線 `docs/story_planning/signs_approved/`**：使用者批准的招牌圖，沒有文字可以搜。
-- **校徽、可識別圖形**：我做的 Blender 美術沒有用到台大、政大的校徽。上面兩項逐張看完前，狀態都是「未查」。
+- **校徽、可識別圖形**：我做的 Blender 美術沒有用到台大、外校的校徽。上面兩項逐張看完前，狀態都是「未查」。
 - 校門石牌、建築匾額：正式 GLB 的字放在節點 extras（遊戲用 canvas 畫），10-30 已經改了（見第一節）；程序化套件的預設字 LAWWW-B 已經在 `campuskit3d.js` 改了。

@@ -4,7 +4,7 @@
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
   "origin/claude/magical-albattani-bk7b4n": "1b8160a1",
-  "origin/claude/funny-albattani-iawshm": "edd6fa8a",
+  "origin/claude/funny-albattani-iawshm": "49f2fe92",
   "origin/claude/elegant-brown-fcos7n": "ad1ee0aa"
  },
  "deliveries": [
@@ -14,7 +14,7 @@
    "from": "LAWWW2-B",
    "branch": "claude/funny-albattani-iawshm",
    "sha": "d3659349",
-   "what": "政大 2D 背景 nccu_gate",
+   "what": "外校 2D 背景 nccu_gate",
    "task": "DONE-B11",
    "msg": "ACK",
    "integration": "已驗收",
@@ -26,7 +26,7 @@
    "from": "LAWWW2-B",
    "branch": "claude/funny-albattani-iawshm",
    "sha": "825c0383",
-   "what": "政大 2D 背景 nccu_food",
+   "what": "外校 2D 背景 nccu_food",
    "task": "DONE-B11",
    "msg": "ACK",
    "integration": "已驗收",
@@ -110,7 +110,7 @@
    "from": "LAWWW2-B",
    "branch": "claude/funny-albattani-iawshm",
    "sha": "8fbe1e1a",
-   "what": "對話立繪第一版 25 位（含 6 張經濟系人物）",
+   "what": "對話立繪第一版 25 位（含 6 張舊序章人物）",
    "task": "ART-09",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -119,7 +119,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "assets/portraits/<id>/campus/neutral.webp 25 位都在（經濟系改 id：econ_jiahao／econ_pinyu／econ_tangrui／econ_weilun／econ_zhengxun，b82b9eaf；品妤修正版 1d4c3caf）；src/data/portrait_manifest.js",
+     "evidence": "assets/portraits/<id>/campus/neutral.webp 25 位都在（舊序章改 id：econ_jiahao／econ_pinyu／econ_tangrui／econ_weilun／econ_zhengxun，b82b9eaf；舊序章人物丁修正版 1d4c3caf）；src/data/portrait_manifest.js",
      "note": "任務 ART-09；25 位第一版立繪都進遊戲，表情差分另照 BB_131"
     }
    ]
@@ -146,7 +146,7 @@
    "task": "ART-17",
    "msg": "ACK",
    "integration": "參考用",
-   "note": "稽核 2026-10-16 03:5x 讀完、回答：BG-04 label 改「政大・宿舍樓下」；BG-09、10 白天或黃昏問 AA-B；拆成 ART-BG02～BG20"
+   "note": "稽核 2026-10-16 03:5x 讀完、回答：BG-04 label 改「外校・宿舍樓下」；BG-09、10 白天或黃昏問 AA-B；拆成 ART-BG02～BG20"
   },
   {
    "id": "DLV-1016-12",
@@ -421,9 +421,9 @@
    "sha": "07d45c98",
    "what": "第 13 組通過：CG-24 以安西洋情人節、CG-25 語彤中秋",
    "task": "ART-15",
-   "msg": "DELIVERED",
-   "integration": "部分整合",
-   "note": "",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "BB-C 11-12 判 ART-15 已驗收（CG_REGISTRY 90 張檔案全在，224c231f3c 讀碼）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -460,7 +460,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "945e940a／29fe4afe／073c399b",
-   "what": "BB_134 BB 人物事件企劃與遊戲對照清查（大一上 29/35、大一下缺可昕 9 項與經濟系朋友 5 項）",
+   "what": "BB_134 BB 人物事件企劃與遊戲對照清查（大一上 29/35、大一下缺可昕 9 項與舊序章朋友 5 項）",
    "task": "V2-B9、V2-B10、V2-CHR",
    "msg": "ACTIONED",
    "integration": "參考用",
@@ -472,11 +472,11 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "d63a43ae",
-   "what": "AA_140 3-5、3-6：BB_134 十四條矛盾的裁定（6 階段對照表、政大替代場景、分手後重新開始、阿勳第一次露面照遊戲 P4d）",
+   "what": "AA_140 3-5、3-6：BB_134 十四條矛盾的裁定（6 階段對照表、外校替代場景、分手後重新開始、舊序章人物甲第一次露面照遊戲 P4d）",
    "task": "SCN-KX-01、SYS-01、V2-B10",
    "msg": "ACTIONED",
    "integration": "參考用",
-   "note": "政大替代場景可能解決 SCN-KX-01，要讀"
+   "note": "外校替代場景可能解決 SCN-KX-01，要讀"
   },
   {
    "id": "DLV-1016-31",
@@ -484,7 +484,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "ea004808",
-   "what": "開發分支五份規則檔副本放進企劃線 _開發分支規則副本/、交接板「接班先讀」固定區塊；香港朋友定名何俊朗（Long）",
+   "what": "開發分支五份規則檔副本放進企劃線 _開發分支規則副本/、交接板「接班先讀」固定區塊；香港朋友定名舊序章人物己（Long）",
    "task": "SYS-16、SCN-US-CH",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -528,7 +528,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "442b98cb",
-   "what": "AA_112 政大場景對應（可昕線）",
+   "what": "AA_112 外校場景對應（可昕線）",
    "task": "SCN-KX-01",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -537,7 +537,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "src/data/events.js:661-682（政大・宿舍樓下 nccu_dorm、政大・校園裡的路 nccu_campus，AA_137 7-1）；src/y2r2_3d.js:238；大家的河堤用 riverside（src/data/termend_lines.js:217）",
+     "evidence": "src/data/events.js:661-682（外校・宿舍樓下 nccu_dorm、外校・校園裡的路 nccu_campus，AA_137 7-1）；src/y2r2_3d.js:238；大家的河堤用 riverside（src/data/termend_lines.js:217）",
      "note": "任務 SCN-KX-01（總表仍寫待開工，程式已照對應改字幕）"
     }
    ]
@@ -560,7 +560,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "（訊息）",
-   "what": "經濟系立繪 D59 驗收：韋綸、阿勳、唐睿、家豪通過；品妤要重切",
+   "what": "舊序章立繪 D59 驗收：舊序章人物乙、舊序章人物甲、舊序章人物丙、舊序章人物戊通過；舊序章人物丁要重切",
    "task": "ART-09",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -569,7 +569,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "韋綸、阿勳、唐睿、家豪立繪在 assets/portraits/econ_*；品妤修正版已換（1d4c3caf「品妤立繪修正版」）",
+     "evidence": "舊序章人物乙、舊序章人物甲、舊序章人物丙、舊序章人物戊立繪在 assets/portraits/econ_*；舊序章人物丁修正版已換（1d4c3caf「舊序章人物丁立繪修正版」）",
      "note": "任務 ART-09；D59 驗收結果已照做"
     }
    ]
@@ -620,7 +620,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "e7dbb1df",
-   "what": "v0 交付清單：E36 休學後住臺北的家、編號對照 G43",
+   "what": "v0 交付清單：E36 舊序章離校後住臺北的家、編號對照 G43",
    "task": "V0-A5、V0-B3",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -629,7 +629,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "休學後住臺北的家：src/home3d.js、src/data/retake_home.js（重考期在家）、tests/v0_a3_move_unit.js、tests/v0_retake_unit.js；E36 放榜 tests/v0_e36_unit.js",
+     "evidence": "舊序章離校後住臺北的家：src/home3d.js、src/data/retake_home.js（舊序章考試期在家）、tests/v0_a3_move_unit.js、tests/v0_retake_unit.js；E36 放榜 tests/v0_e36_unit.js",
      "note": "任務 V0-A5、V0-B3；日期後來照 AA_305（退宿 10/31）改"
     }
    ]
@@ -810,7 +810,7 @@
    "from": "AA-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "ef96df49",
-   "what": "H 可昕大二～大四的政大地點字幕對照",
+   "what": "H 可昕大二～大四的外校地點字幕對照",
    "task": "SCN-KX-01",
    "msg": "DELIVERED",
    "integration": "已整合待測試",
@@ -819,7 +819,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "同 DLV-1016-34：src/data/events.js:661-682、src/y2r2_3d.js:185-238（政大・宿舍樓下／校園裡的路／校門口）；大家的河堤用 riverside",
+     "evidence": "同 DLV-1016-34：src/data/events.js:661-682、src/y2r2_3d.js:185-238（外校・宿舍樓下／校園裡的路／校門口）；大家的河堤用 riverside",
      "note": "任務 SCN-KX-01（總表待開工，程式已照 AA_140 H）"
     }
    ]
@@ -862,7 +862,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "4a135c36",
-   "what": "AA_147：20 張背景的用途、時段、站位；K8 祐廷開車、視訊書桌一角、Z5 碰面那一拍；K2 品妤",
+   "what": "AA_147：20 張背景的用途、時段、站位；K8 祐廷開車、視訊書桌一角、Z5 碰面那一拍；K2 舊序章人物丁",
    "task": "ART-17、V2-K8D、V2-Z5M、V1-K2P",
    "msg": "ACK",
    "integration": "部分整合",
@@ -871,7 +871,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "partial",
-     "evidence": "20 個背景 id 中 17 個有圖（assets/bg：nccu_*、ntu_*、video、soymilk_shop、yongkang_curry…；car 由 src/outings3d.js:35-38 照時段換 car_morning／night／rain）；K8 開車 src/story3d.js:2352、tests/v2_c9_unit.js；Z5 碰面 ev_zhiruo_early_show（events.js:3956）；K2 品妤 {leave:'品妤'} events.js:1688",
+     "evidence": "20 個背景 id 中 17 個有圖（assets/bg：nccu_*、ntu_*、video、soymilk_shop、yongkang_curry…；car 由 src/outings3d.js:35-38 照時段換 car_morning／night／rain）；K8 開車 src/story3d.js:2352、tests/v2_c9_unit.js；Z5 碰面 ev_zhiruo_early_show（events.js:3956）；K2 舊序章人物丁 {leave:'舊序章人物丁'} events.js:1688",
      "note": "任務 ART-17、V2-K8D、V2-Z5M、V1-K2P；三張出遊背景還是黑底"
     }
    ],
@@ -1064,11 +1064,11 @@
    "from": "LAWWW2-B",
    "branch": "claude/funny-albattani-iawshm",
    "sha": "97af63cf",
-   "what": "背景追蹤表照 AA_147（20 張時段與用途）、美國篇照 BB_98、曾品妤立繪清掉漂浮碎片",
+   "what": "背景追蹤表照 AA_147（20 張時段與用途）、美國篇照 BB_98、曾舊序章人物丁立繪清掉漂浮碎片",
    "task": "ART-09、ART-17、SCN-US-01",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
-   "note": "品妤立繪已換（本批）；追蹤表是 LAWWW2-B 自己的文件"
+   "note": "舊序章人物丁立繪已換（本批）；追蹤表是 LAWWW2-B 自己的文件"
   },
   {
    "id": "DLV-1016-66",
@@ -1260,7 +1260,7 @@
    "from": "BB-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "308da467",
-   "what": "G41／G43／G11：v0 休學後住臺北的家、E28 第 6 週、T3 開學第一週、E02 2024-09-02、y0s1 編註拿掉",
+   "what": "G41／G43／G11：v0 舊序章離校後住臺北的家、E28 第 6 週、T3 開學第一週、E02 2024-09-02、y0s1 編註拿掉",
    "task": "V0-B1、V0-B3、V3-G11",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -1269,7 +1269,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "休學後住臺北的家（src/home3d.js、retake_home.js）；E02 2024-09-02（ev_y0_e02、tests/v0_e02_unit.js）；y0s1 編註拿掉（syllabus.js econ_principles_y0 等）；方奕廷 F3（r3_3d.js:71）",
+     "evidence": "舊序章離校後住臺北的家（src/home3d.js、retake_home.js）；E02 2024-09-02（ev_y0_e02、tests/v0_e02_unit.js）；y0s1 編註拿掉（syllabus.js econ_principles_y0 等）；方奕廷 F3（r3_3d.js:71）",
      "note": "任務 V0-B1、V0-B3、V3-G11；E28、T3 現場版後來被 AA_224 群組版取代（AA_269 段 D）"
     }
    ]
@@ -1388,7 +1388,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "d49c7606",
-   "what": "BB_135 經濟系朋友大一下（V2-B10）定稿台詞",
+   "what": "BB_135 舊序章朋友大一下（V2-B10）定稿台詞",
    "task": "V2-B10",
    "msg": "ACK",
    "integration": "已驗收",
@@ -1458,7 +1458,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "阿凱 K3 週日宵夜（V3-B01）；可昕大二春假那一趟 ev_kexin_trip_spring_y2（src/data/group_events.js:44、src/group3d.js:58）；予樂的老街綽號 src/y2r2_3d.js:221-223",
+     "evidence": "阿凱 K3 週日宵夜（V3-B01）；可昕大二春假那一趟 ev_kexin_trip_spring_y2（src/data/group_events.js:44、src/group3d.js:58）；外校室友的老街綽號 src/y2r2_3d.js:221-223",
      "note": "任務 V3-B134"
     }
    ]
@@ -1659,7 +1659,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "325aa8fc",
-   "what": "AA_155 阿勳、品妤的作息（AA-REQ-02）",
+   "what": "AA_155 舊序章人物甲、舊序章人物丁的作息（AA-REQ-02）",
    "task": "V2-B10、V2-CHR",
    "msg": "ACK",
    "integration": "已驗收",
@@ -1668,7 +1668,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "src/data/characters.js:75「阿勳的作息照 AA_155」、econ_pinyu schedule",
+     "evidence": "src/data/characters.js:75「舊序章人物甲的作息照 AA_155」、econ_pinyu schedule",
      "note": "任務 V2-B10、V2-CHR"
     }
    ]
@@ -1840,7 +1840,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "ed10d39f",
-   "what": "AA_157 經濟系群組「走啦」econ_friends、v0 全班群組；大一下暑假第一天 6/29 一起看成績",
+   "what": "AA_157 舊序章群組「走啦」econ_friends、v0 全班群組；大一下暑假第一天 6/29 一起看成績",
    "task": "V2-B9、V0-B3",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -1849,7 +1849,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "src/story3d.js:1334-1341 econ_class「經濟系 大一（全班）」、econ_friends「走啦」（韋綸建）；6/29 一起看成績 story3d.js:1872-1881",
+     "evidence": "src/story3d.js:1334-1341 econ_class「舊序章 大一（全班）」、econ_friends「走啦」（舊序章人物乙建）；6/29 一起看成績 story3d.js:1872-1881",
      "note": "任務 V2-B9、V0-B3"
     }
    ]
@@ -1860,7 +1860,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "39e8c06f",
-   "what": "第 26 組 home_balcony、home_room 通過；第 27 組 ferris_wheel、予樂立繪提示詞",
+   "what": "第 26 組 home_balcony、home_room 通過；第 27 組 ferris_wheel、外校室友立繪提示詞",
    "task": "ART-18",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -1932,7 +1932,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "db3164c9",
-   "what": "AA_159 經濟系四人＋家豪、魏教授的 characters.js 欄位",
+   "what": "AA_159 舊序章四人＋舊序章人物戊、舊序章的教授的 characters.js 欄位",
    "task": "V0-B3、V0-G40",
    "msg": "ACK",
    "integration": "參考用",
@@ -1993,11 +1993,11 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "c383df3b",
-   "what": "第 27 組：ferris_wheel、予樂立繪（D59）通過",
+   "what": "第 27 組：ferris_wheel、外校室友立繪（D59）通過",
    "task": "ART-18、ART-09",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "ferris_wheel 放進 assets/bg（本批）；予樂立繪等 LAWWW2-B 切圖"
+   "note": "ferris_wheel 放進 assets/bg（本批）；外校室友立繪等 LAWWW2-B 切圖"
   },
   {
    "id": "DLV-1016-121",
@@ -2025,7 +2025,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "35a6e252",
-   "what": "AB-10、AB-12：BB_139 經濟系四人個性一句、魏教授外觀；大一下暑假第一天 together／best_one",
+   "what": "AB-10、AB-12：BB_139 舊序章四人個性一句、舊序章的教授外觀；大一下暑假第一天 together／best_one",
    "task": "V0-B3、V2-B9",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -2034,7 +2034,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "經濟系四人個性 src/data/characters.js:84-96（personality／note）；魏教授正式模型 25519e3f；暑假第一天 together／best_one src/story3d.js:1872-1876",
+     "evidence": "舊序章四人個性 src/data/characters.js:84-96（personality／note）；舊序章的教授正式模型 25519e3f；暑假第一天 together／best_one src/story3d.js:1872-1876",
      "note": "任務 V0-B3、V2-B9"
     }
    ]
@@ -2097,7 +2097,7 @@
    "from": "LAWWW2-B",
    "branch": "claude/funny-albattani-iawshm",
    "sha": "5ad7a862",
-   "what": "ART-09 予樂對話立繪＋3 表情（neutral 全身去背、smile、surprised）",
+   "what": "ART-09 外校室友對話立繪＋3 表情（neutral 全身去背、smile、surprised）",
    "task": "ART-09",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
@@ -2295,7 +2295,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "e8e49415",
-   "what": "LAWWW-B 04:25 分工回覆；予樂立繪驗收通過（D59）；第 31 組提示詞",
+   "what": "LAWWW-B 04:25 分工回覆；外校室友立繪驗收通過（D59）；第 31 組提示詞",
    "task": "ART-09",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -2704,7 +2704,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "obsolete",
-     "evidence": "被 AA_224 取代（AA_269 段 D：E24c 改 2/13 23:00 阿勳私訊、E30 照 AA_224）；現行 ev_y0_e24c、ev_y0_e30（tests/v0_e30_unit.js）",
+     "evidence": "被 AA_224 取代（AA_269 段 D：E24c 改 2/13 23:00 舊序章人物甲私訊、E30 照 AA_224）；現行 ev_y0_e24c、ev_y0_e30（tests/v0_e30_unit.js）",
      "note": "任務 V0-A7"
     }
    ]
@@ -2929,7 +2929,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "社科院門口一句 src/zones3d.js:419（經濟系 stage 的社會科學院門）；學姊兩個提醒 src/story3d.js:1627、1632（DL-04B）",
+     "evidence": "社科院門口一句 src/zones3d.js:419（舊序章 stage 的社會科學院門）；學姊兩個提醒 src/story3d.js:1627、1632（DL-04B）",
      "note": "任務 V0-A6"
     }
    ]
@@ -2980,7 +2980,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "3f2bcaf2",
-   "what": "V0-ART-DORM 經濟系宿舍道具（交 LAWWW2-B 驗收）",
+   "what": "V0-ART-DORM 舊序章宿舍道具（交 LAWWW2-B 驗收）",
    "task": "V0-ART-DORM",
    "msg": "DELIVERED",
    "integration": "已整合待測試",
@@ -3012,7 +3012,7 @@
    "from": "LAWWW2-B",
    "branch": "claude/funny-albattani-iawshm",
    "sha": "f2bebf72",
-   "what": "V0-ART-DORM 經濟系宿舍道具（AA-B 做）＋ART-GYM-P1 健身器材（BB-B 做）驗收通過、merge",
+   "what": "V0-ART-DORM 舊序章宿舍道具（AA-B 做）＋ART-GYM-P1 健身器材（BB-B 做）驗收通過、merge",
    "task": "V0-ART-DORM",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
@@ -3141,7 +3141,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "40a204f6",
-   "what": "v0 休學要先辦退宿：AA-B 定 (b) 3/27 辦休學、同一週退宿、3/29 搬回臺北的家",
+   "what": "v0 舊序章離校要先辦退宿：AA-B 定 (b) 3/27 辦舊序章離校、同一週退宿、3/29 搬回臺北的家",
    "task": "V0-B3",
    "msg": "ACK",
    "integration": "不整合",
@@ -3150,7 +3150,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "obsolete",
-     "evidence": "3/27 休學、3/29 搬家被新時間線取代：休學 10/17（AA_218 第 11 節），退宿 src/story3d.js:2819 S.Y0_MOVE_DAY='2024-10-31'（AA_305 第 7 節）",
+     "evidence": "3/27 舊序章離校、3/29 搬家被新時間線取代：舊序章離校 10/17（AA_218 第 11 節），退宿 src/story3d.js:2819 S.Y0_MOVE_DAY='2024-10-31'（AA_305 第 7 節）",
      "note": "任務 V0-B3"
     }
    ]
@@ -3181,7 +3181,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "7d247c30",
-   "what": "AA_154：A3 搬家那一列移到 3/28 R1 後面、R3 杜鵑花改 3/30～4/1、R7 前一晚阿勳在群組問便利貼",
+   "what": "AA_154：A3 搬家那一列移到 3/28 R1 後面、R3 杜鵑花改 3/30～4/1、R7 前一晚舊序章人物甲在群組問便利貼",
    "task": "V0-B3",
    "msg": "ACK",
    "integration": "不整合",
@@ -3463,7 +3463,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "obsolete",
-     "evidence": "被 AA_224 取代（AA_269 段 D：E24c 改 2/13 23:00 阿勳私訊、E30 照 AA_224）；現行 ev_y0_e24c、ev_y0_e30",
+     "evidence": "被 AA_224 取代（AA_269 段 D：E24c 改 2/13 23:00 舊序章人物甲私訊、E30 照 AA_224）；現行 ev_y0_e24c、ev_y0_e30",
      "note": "任務 V0-B1"
     }
    ]
@@ -3498,7 +3498,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "e0e7a359",
-   "what": "BB_95 9-2 K1b 予樂及格三處旁白與接句（第①級）；BB_104 8b-7 E15 宿營邀約",
+   "what": "BB_95 9-2 K1b 外校室友及格三處旁白與接句（第①級）；BB_104 8b-7 E15 宿營邀約",
    "task": "TXT-1016B",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -3589,7 +3589,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "6d59df01",
-   "what": "AB-35 P2b 揪人 4 句＋跟去 5 句；AB-36 E26／E35／E37 邀約；E19 開頭定稿；8/13 照片加阿勳",
+   "what": "AB-35 P2b 揪人 4 句＋跟去 5 句；AB-36 E26／E35／E37 邀約；E19 開頭定稿；8/13 照片加舊序章人物甲",
    "task": "V0-B4",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -3601,7 +3601,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "2e9477d2",
-   "what": "C2 吉他社／羽球社群組句、唐睿私訊兩個選項；E15 合併邀約",
+   "what": "C2 吉他社／羽球社群組句、舊序章人物丙私訊兩個選項；E15 合併邀約",
    "task": "V0-B4",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -3613,7 +3613,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "20945f09",
-   "what": "AA_154 2-5b 韋綸的腳踏車：祐廷三句、沒去版、11/21；BB-B 法律審查 7cf231c3 通過",
+   "what": "AA_154 2-5b 舊序章人物乙的腳踏車：祐廷三句、沒去版、11/21；BB-B 法律審查 7cf231c3 通過",
    "task": "V0-B3",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -3758,7 +3758,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "7cf231c3",
-   "what": "AB-37 韋綸的腳踏車法律審查通過",
+   "what": "AB-37 舊序章人物乙的腳踏車法律審查通過",
    "task": "V0-B3",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -3870,7 +3870,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "4380b0eb",
-   "what": "AB-38 BB_112 4-1 重考期 R 系列缺的台詞（R1 憲法第七條三個按鈕＋法律審查、R3、R4 E32_COMFORT、R6、R7、玩樂日旁白 P1～P6、讀書日開場 S1～S5）",
+   "what": "AB-38 BB_112 4-1 舊序章考試期 R 系列缺的台詞（R1 憲法第七條三個按鈕＋法律審查、R3、R4 E32_COMFORT、R6、R7、玩樂日旁白 P1～P6、讀書日開場 S1～S5）",
    "task": "V0-B3",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -3894,7 +3894,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "372821e4",
-   "what": "AA_154 A45 重考期 R 系列缺的台詞的結構（互助板 AB-38）",
+   "what": "AA_154 A45 舊序章考試期 R 系列缺的台詞的結構（互助板 AB-38）",
    "task": "V0-B3",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -3906,7 +3906,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "a94e2856",
-   "what": "AA_169 邊界 3：3/27 起不排經濟系的課，門口那句旁白不用做",
+   "what": "AA_169 邊界 3：3/27 起不排舊序章的課，門口那句旁白不用做",
    "task": "V0-B1",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -4256,7 +4256,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "6227de53",
-   "what": "BB_146 第 3 節 經濟系階梯的記憶名稱表（80 個）",
+   "what": "BB_146 第 3 節 舊序章階梯的記憶名稱表（80 個）",
    "task": "V0-LADDER",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
@@ -4584,7 +4584,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "66cf3ed4",
-   "what": "BB_106 SK02 兩句：房間「經濟系的系外套」三版、第 8 週櫃台旁白；「先回宿舍」不傳送",
+   "what": "BB_106 SK02 兩句：房間「舊序章的系外套」三版、第 8 週櫃台旁白；「先回宿舍」不傳送",
    "task": "V0-SK",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
@@ -4938,7 +4938,7 @@
    "task": "V0-B1",
    "msg": "ACTIONED",
    "integration": "已驗收",
-   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 舊序章考試期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -4946,11 +4946,11 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "14af045d",
-   "what": "AA_154 A50：BB_113 經濟系手機小事定稿、重考期 DAILY 到 7/10",
+   "what": "AA_154 A50：BB_113 舊序章手機小事定稿、舊序章考試期 DAILY 到 7/10",
    "task": "V0-B1",
    "msg": "ACTIONED",
    "integration": "已驗收",
-   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 舊序章考試期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -4962,7 +4962,7 @@
    "task": "V0-B1",
    "msg": "ACTIONED",
    "integration": "已驗收",
-   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 舊序章考試期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -5469,7 +5469,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "063ab633",
-   "what": "BB_161 ⑱ SK03 定案（AA-B 16:22 確認：P4d 沒發生的玩家第一次去重修的週五走廊遇到阿勳）",
+   "what": "BB_161 ⑱ SK03 定案（AA-B 16:22 確認：P4d 沒發生的玩家第一次去重修的週五走廊遇到舊序章人物甲）",
    "task": "V2-BB161",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -5678,7 +5678,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "a3a54213",
-   "what": "BB-B AB-51～58 併進企劃線（BB_97/98/99/124/164、14 個約會座標檔）；K23 定 10/20（五）19:00 政大",
+   "what": "BB-B AB-51～58 併進企劃線（BB_97/98/99/124/164、14 個約會座標檔）；K23 定 10/20（五）19:00 外校",
    "task": "AA185-Y3",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -5688,7 +5688,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "K23 10/20 19:00 政大：src/y34b3d.js:271（kx23:'2028-10-20'）；芝加哥 src/data/r2y4a_events.js:92-93",
+     "evidence": "K23 10/20 19:00 外校：src/y34b3d.js:271（kx23:'2028-10-20'）；芝加哥 src/data/r2y4a_events.js:92-93",
      "note": "任務 AA185-Y3"
     }
    ]
@@ -5710,7 +5710,7 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "72ea87f5",
-   "what": "閒聊階梯 BB 十個學期全部改過（約 190 處沒有上下文的指代；909d506d、d864629f、f84ba38a、72ea87f5）；保溫瓶 linesIf、學姊 week [7,18]、經濟系 week、P3-L3 選項",
+   "what": "閒聊階梯 BB 十個學期全部改過（約 190 處沒有上下文的指代；909d506d、d864629f、f84ba38a、72ea87f5）；保溫瓶 linesIf、學姊 week [7,18]、舊序章 week、P3-L3 選項",
    "task": "V3-L2",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
@@ -5850,7 +5850,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "2dbf91a1",
-   "what": "AB-51～53（AA_185）大三：芝加哥邀約第三版（已認識何俊朗）、「回來」新店員兩句（BB_99 3-2）；子晴 2/10、沛珊 3/15 的 2028 國外版（BB_124）；G10 立衡列進 ",
+   "what": "AB-51～53（AA_185）大三：芝加哥邀約第三版（已認識舊序章人物己）、「回來」新店員兩句（BB_99 3-2）；子晴 2/10、沛珊 3/15 的 2028 國外版（BB_124）；G10 立衡列進 ",
    "task": "AA185-Y3",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -6279,7 +6279,7 @@
    "from": "AA-B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "c7f4ada8",
-   "what": "小福時間標記（AA_186 4-4）：小福樓 2025/12/31 停業、2026/1/10 拆除；AA 文件大一下以後的小福改活大（SK03 週五午餐、還債、經濟系朋友作息、G4b、吃飯選單、小語大四",
+   "what": "小福時間標記（AA_186 4-4）：小福樓 2025/12/31 停業、2026/1/10 拆除；AA 文件大一下以後的小福改活大（SK03 週五午餐、還債、舊序章朋友作息、G4b、吃飯選單、小語大四",
    "task": "AA186-FIX",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -6639,7 +6639,7 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx + claude/elegant-brown-fcos7n",
    "sha": "37e34086",
-   "what": "CAMP-L1 正式交付：開學前迎新宿營 8/22～24（強制參加、新遊戲從 8/22 開始、經濟系也強制）、每天兩個以上活動、臥底＝Kevin（凱文，四個破綻，CAMP_MOLE_CLUE 計數）、小隊七人 FIRST_MET where:'camp'、小語 CAMP_SEEN、以安不在；茶會（AA_195 4-5＋BB_168 第 7 節、6-3）；9/1 阿哲宿營版（AA_205 6-2）；拿掉舊 9/8 報名、9/26 名單、9/27～28 camp、9/28 阿哲私訊；沒去宿營的舊版本只當開發起點防呆",
+   "what": "CAMP-L1 正式交付：開學前迎新宿營 8/22～24（強制參加、新遊戲從 8/22 開始、舊序章也強制）、每天兩個以上活動、臥底＝Kevin（凱文，四個破綻，CAMP_MOLE_CLUE 計數）、小隊七人 FIRST_MET where:'camp'、小語 CAMP_SEEN、以安不在；茶會（AA_195 4-5＋BB_168 第 7 節、6-3）；9/1 阿哲宿營版（AA_205 6-2）；拿掉舊 9/8 報名、9/26 名單、9/27～28 camp、9/28 阿哲私訊；沒去宿營的舊版本只當開發起點防呆",
    "task": "CAMP-L1",
    "msg": "ACK",
    "integration": "已驗收",
@@ -6727,7 +6727,7 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "4473a62a",
-   "what": "經濟系前傳（v0）口語改稿整包：AA_203 第 6 節清單；BB_179（BB 分支 9ebf6663：主檔＋附錄五段、ladder_bb_y0s1/y0s2、syllabus y0s1 JSON、第 4 節程式事項、第 8 節四人房）；AA_203 第 3 節 30 處；AA_206（E26、E37）；AA_200 7-2／7-3／7-4；E15 CG 帶過；AA_198 日期住宿；AA_208 第 3、6 節",
+   "what": "舊序章（v0）口語改稿整包：AA_203 第 6 節清單；BB_179（BB 分支 9ebf6663：主檔＋附錄五段、ladder_bb_y0s1/y0s2、syllabus y0s1 JSON、第 4 節程式事項、第 8 節四人房）；AA_203 第 3 節 30 處；AA_206（E26、E37）；AA_200 7-2／7-3／7-4；E15 CG 帶過；AA_198 日期住宿；AA_208 第 3、6 節",
    "task": "V0-REWRITE-L",
    "msg": "ACK",
    "integration": "已驗收",
@@ -6811,7 +6811,7 @@
    "account": "B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "ddae6f9c",
-   "what": "cg_econ_camp 經濟系宿營合照（BCG-47，七個人自己拍；使用者統一光線版 1672×941；ART_APPROVED）",
+   "what": "cg_econ_camp 舊序章宿營合照（BCG-47，七個人自己拍；使用者統一光線版 1672×941；ART_APPROVED）",
    "task": "ART-CG-ECONCAMP",
    "msg": "ACK",
    "integration": "已驗收",
@@ -6837,7 +6837,7 @@
    "account": "B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "d3c61b5e",
-   "what": "背景 nccu_dorm（政大自強十舍樓下長椅，晚上；可昕 K1b 第 5 步）",
+   "what": "背景 nccu_dorm（外校自強十舍樓下長椅，晚上；可昕 K1b 第 5 步）",
    "task": "ART-10",
    "msg": "DELIVERED",
    "integration": "已整合待測試",
@@ -6894,7 +6894,7 @@
    "task": "ART-17",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。ae8eddaf 接上經濟系 E22、E21a（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。ae8eddaf 接上舊序章 E22、E21a（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
   },
   {
    "id": "DL-BB-BG-HOTELTWIN",
@@ -7011,7 +7011,7 @@
    "account": "B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "9ebf6663",
-   "what": "BB_179 經濟系前傳改稿寫回（AB-66）",
+   "what": "BB_179 舊序章改稿寫回（AB-66）",
    "task": "AB-66",
    "msg": "ACK",
    "integration": "已驗收",
@@ -7032,7 +7032,7 @@
    "account": "B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "030bbce4",
-   "what": "AB-67 四人房 BB 句子（阿凱 8/29、經濟系 412）",
+   "what": "AB-67 四人房 BB 句子（阿凱 8/29、舊序章 412）",
    "task": "AA208-L",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -7041,7 +7041,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "8/29 阿凱、經濟系 412 的 BB 句子已做（總表 AA208-L：f642fddc、a943ea1d；src/zones3d.js:1463 412 sets）",
+     "evidence": "8/29 阿凱、舊序章 412 的 BB 句子已做（總表 AA208-L：f642fddc、a943ea1d；src/zones3d.js:1463 412 sets）",
      "note": "任務 AA208-L；AA208-L 其餘（返鄉旁白、兩句旁白等 AA 定字）另列"
     }
    ]
@@ -7181,7 +7181,7 @@
    "task": "CAMP-FIX-614",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "整合：已整合待測試（程式 8 經濟系路線宿營未做）｜證據：總表 CAMP-FIX-614 引用 dc490ec7，LAWWW dbb4d86e、038c0d0e、884d47d6、e39749d9、259a4c4f；src/story3d.js:103「我在高鐵上了」17:30、src/data/camp_y1.js:127「晚會七點，在草地。」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+   "note": "整合：已整合待測試（程式 8 舊序章路線宿營未做）｜證據：總表 CAMP-FIX-614 引用 dc490ec7，LAWWW dbb4d86e、038c0d0e、884d47d6、e39749d9、259a4c4f；src/story3d.js:103「我在高鐵上了」17:30、src/data/camp_y1.js:127「晚會七點，在草地。」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
   },
   {
    "id": "DL-AA-262ff7dc",
@@ -7224,7 +7224,7 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "4516159b",
-   "what": "AA_198 第 2 節改定：經濟系寒假 12/23 放假、住宿舍到 1/5、1/6 才回家；A2 留 1/5 只換成日期",
+   "what": "AA_198 第 2 節改定：舊序章寒假 12/23 放假、住宿舍到 1/5、1/6 才回家；A2 留 1/5 只換成日期",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
    "integration": "已驗收",
@@ -7366,7 +7366,7 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "21d7f681",
-   "what": "AA_154 1-1：經濟系那年照 16 週制（12/25、1/1 在寒假、E20 改寒假聚會、平行世界說明作廢、校定假日加 113～115 學年運動會停課、寒假 12/23 起）",
+   "what": "AA_154 1-1：舊序章那一段照 16 週制（12/25、1/1 在寒假、E20 改寒假聚會、平行世界說明作廢、校定假日加 113～115 學年運動會停課、寒假 12/23 起）",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
    "integration": "已驗收",
@@ -7481,7 +7481,7 @@
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "整合：未整合｜證據：src/data/events.js ev_nye_roof／ev_nye_river 沒有信義區、管制線（events.js:2276 的信義區是經濟系 E21a）；V1-BB171 T2～T5 等 16 週（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
+   "note": "整合：未整合｜證據：src/data/events.js ev_nye_roof／ev_nye_river 沒有信義區、管制線（events.js:2276 的信義區是舊序章 E21a）；V1-BB171 T2～T5 等 16 週（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7630,7 +7630,7 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "cae26a6a",
-   "what": "AA_197 1-6 逐學期日期表（113 經濟系、114～117 法律系；116、117 推測；成績＝放假後第 3 個週一；換房間日、成績日；要改的五件）",
+   "what": "AA_197 1-6 逐學期日期表（113 舊序章、114～117 法律系；116、117 推測；成績＝放假後第 3 個週一；換房間日、成績日；要改的五件）",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
    "integration": "已驗收",
@@ -7685,11 +7685,11 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "ea6b2919",
-   "what": "AA_195 4-7 D：經濟系轉場也改 8/29、Y0_SUMMER 留兩句、字卡與回顧句",
+   "what": "AA_195 4-7 D：舊序章轉場也改 8/29、Y0_SUMMER 留兩句、字卡與回顧句",
    "task": "START-WEEK",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "整合：已整合待測試｜證據：docs/handoff/W1_AUDIT_2026-10-17.md「2-0 #2／D 經濟系玩家也是 8/29 搬、暑假兩行、回顧最後一句」；story3d.js:86 經濟系版旁白（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+   "note": "整合：已整合待測試｜證據：docs/handoff/W1_AUDIT_2026-10-17.md「2-0 #2／D 舊序章玩家也是 8/29 搬、暑假兩行、回顧最後一句」；story3d.js:86 舊序章版旁白（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
   },
   {
    "id": "DL-AA-a119fceb",
@@ -7848,7 +7848,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "not_done",
-     "evidence": "src/data/characters.js 阿勳、品妤 terms:['Y1S2'] 的 away 仍是「在小福吃午餐」（小福 2026 春已拆，AA_186 4-4）",
+     "evidence": "src/data/characters.js 舊序章人物甲、舊序章人物丁 terms:['Y1S2'] 的 away 仍是「在小福吃午餐」（小福 2026 春已拆，AA_186 4-4）",
      "note": "任務 AA186-FIX；一行字的小修"
     }
    ],
@@ -7865,7 +7865,7 @@
    "task": "AA186-FIX",
    "msg": "ACK",
    "integration": "不整合",
-   "note": "整合：未整合（企劃原檔改字，照 D81 做到各事件時用新版）｜證據：AA186-FIX 的 next 只列 AA 的不改字修正；經濟系 BB_104／112 的部分可能已隨 BB_179（V0-REWRITE-L）進 v0，沒有逐句核對（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜稽核 A 2026-10-21：作廢／被取代（任務 AA186-FIX；文件層修正，已由後來的定稿吸收）",
+   "note": "整合：未整合（企劃原檔改字，照 D81 做到各事件時用新版）｜證據：AA186-FIX 的 next 只列 AA 的不改字修正；舊序章 BB_104／112 的部分可能已隨 BB_179（V0-REWRITE-L）進 v0，沒有逐句核對（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜稽核 A 2026-10-21：作廢／被取代（任務 AA186-FIX；文件層修正，已由後來的定稿吸收）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -8019,7 +8019,7 @@
    "account": "B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "8985d243",
-   "what": "BB_153 E20 經濟系聖誕交換禮物改寒假版（12/25 放寒假第三天）",
+   "what": "BB_153 E20 舊序章聖誕交換禮物改寒假版（12/25 放寒假第三天）",
    "task": "V0-B1",
    "msg": "ACK",
    "integration": "已驗收",
@@ -8619,11 +8619,11 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "9fe25037",
-   "what": "經濟系人物 VRM：韋綸 v7、唐睿 v6、家豪 v5、魏教授 v2＋截圖、README",
+   "what": "舊序章人物 VRM：舊序章人物乙 v7、舊序章人物丙 v6、舊序章人物戊 v5、舊序章的教授 v2＋截圖、README",
    "task": "V0-ECON-CHARS",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "等 BB-C D59 驗收；連同阿勳 v6（4bf1ae20）、品妤 v5（e1b9133a）一起接；BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582）"
+   "note": "等 BB-C D59 驗收；連同舊序章人物甲 v6（4bf1ae20）、舊序章人物丁 v5（e1b9133a）一起接；BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582）"
   },
   {
    "id": "DL-LW2-NPC-B4",
@@ -8733,7 +8733,7 @@
    "task": "BB203-CONFESS-1017",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "麵店團群體聚會不佔名額（大一下 6/12 等 BB 確認）",
+   "note": "桌遊團群體聚會不佔名額（大一下 6/12 等 BB 確認）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -8894,7 +8894,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "71b184ba",
-   "what": "AA_256 VA-09 芯慈大二暑假事務所 4 則訊息＋可選午餐；VA-10 麵店團香港 2027-08-25～28",
+   "what": "AA_256 VA-09 芯慈大二暑假事務所 4 則訊息＋可選午餐；VA-10 桌遊團香港 2027-08-25～28",
    "task": "VAC-C08-12",
    "msg": "ACK",
    "integration": "已驗收",
@@ -8903,7 +8903,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "VA-09 芯慈事務所、VA-10 麵店團香港 2027-08-25～28：src/data/vac_activities.js:327 等、src/vac3d.js",
+     "evidence": "VA-09 芯慈事務所、VA-10 桌遊團香港 2027-08-25～28：src/data/vac_activities.js:327 等、src/vac3d.js",
      "note": "任務 VAC-C08-12"
     }
    ]
@@ -9368,11 +9368,11 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "ad0552ff",
-   "what": "沛珊第十六版 VRM（頭髮 BB-C 通過、上衣驗收中）＋glasses_peishan.json；經濟系三人臉分開、魏教授第四版（等 BB-C 驗收）",
+   "what": "沛珊第十六版 VRM（頭髮 BB-C 通過、上衣驗收中）＋glasses_peishan.json；舊序章三人臉分開、舊序章的教授第四版（等 BB-C 驗收）",
    "task": "ART-05",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "只先換沛珊的 VRM（同檔名）；經濟系三人、魏教授等 V0-ECON-CHARS 的 BB-C D59 驗收後再接；上衣通過後 LAWWW 拍遊戲截圖（眼鏡、白天、晚上）給 BB-C 標 ART_APPROVED"
+   "note": "只先換沛珊的 VRM（同檔名）；舊序章三人、舊序章的教授等 V0-ECON-CHARS 的 BB-C D59 驗收後再接；上衣通過後 LAWWW 拍遊戲截圖（眼鏡、白天、晚上）給 BB-C 標 ART_APPROVED"
   },
   {
    "id": "DL-BB-54ae1a94",
@@ -9420,7 +9420,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "fe4382d7",
-   "what": "AA_269 經濟系舊清單對帳（作廢／已涵蓋／還要做）＋15 點驗收短清單；第 8 節手機小事重排 1fb2e4cf",
+   "what": "AA_269 舊序章舊清單對帳（作廢／已涵蓋／還要做）＋15 點驗收短清單；第 8 節手機小事重排 1fb2e4cf",
    "task": "V0-REWRITE-L",
    "msg": "ACK",
    "integration": "已驗收",
@@ -9429,7 +9429,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "AA_269 對帳的「還要做」都已施工（總表 V0-REWRITE-L：E37、A3、E21a、F1、E20 開頭、口語列）；手機小事重排 src/story3d.js:2490-2506（y0_xu_lamp 2024-10-20 等）；BB 分支 BB_218 第 5 節經濟系三段瀏覽器實測 ALL PASS",
+     "evidence": "AA_269 對帳的「還要做」都已施工（總表 V0-REWRITE-L：E37、A3、E21a、F1、E20 開頭、口語列）；手機小事重排 src/story3d.js:2490-2506（y0_xu_lamp 2024-10-20 等）；BB 分支 BB_218 第 5 節舊序章三段瀏覽器實測 ALL PASS",
      "note": "任務 V0-REWRITE-L；驗收單已由 AA_274 取代，之後 AA_303～309 改過的部分 BB 要再跑一次"
     }
    ]
@@ -9441,11 +9441,11 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "03179efb",
-   "what": "經濟系第四輪：韋綸 v12（＋安全帽 helmet_bike.glb 3bb9b276）、家豪 v10、魏教授 v6（＋眼鏡 glasses_wei.glb 680c0f32）、唐睿 v11；BB-C 驗收：前三位通過、唐睿不通過",
+   "what": "舊序章第四輪：舊序章人物乙 v12（＋安全帽 helmet_bike.glb 3bb9b276）、舊序章人物戊 v10、舊序章的教授 v6（＋眼鏡 glasses_wei.glb 680c0f32）、舊序章人物丙 v11；BB-C 驗收：前三位通過、舊序章人物丙不通過",
    "task": "V0-ECON-CHARS",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "LAWWW-C 25519e3f 接進遊戲（唐睿不接，等新版）；遊戲內截圖給 BB-C 待拍；BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582）"
+   "note": "LAWWW-C 25519e3f 接進遊戲（舊序章人物丙不接，等新版）；遊戲內截圖給 BB-C 待拍；BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582）"
   },
   {
    "id": "DL-BB-a816234a",
@@ -9467,7 +9467,7 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "60dc7908",
-   "what": "唐睿 v20（BB-C：polo、頭髮 v19 通過，v20 髮色必修）、韋綸 v13（只改髮色）；BG-14 bg_curry.py 是 WIP",
+   "what": "舊序章人物丙 v20（BB-C：polo、頭髮 v19 通過，v20 髮色必修）、舊序章人物乙 v13（只改髮色）；BG-14 bg_curry.py 是 WIP",
    "task": "V0-ECON-CHARS",
    "msg": "ACK",
    "integration": "已驗收",
@@ -9636,7 +9636,7 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "0621bea6",
-   "what": "宋家豪「公館美食地圖」筆記本 notebook_foodmap.glb（274 三角形、42 KB）＋props 片段 PROPS.DEF.foodmap（左手）＋manifest prop.notebook_foodmap；CHARACTERS.econ_jiahao.char3d.props 加 foodmap",
+   "what": "宋舊序章人物戊「公館美食地圖」筆記本 notebook_foodmap.glb（274 三角形、42 KB）＋props 片段 PROPS.DEF.foodmap（左手）＋manifest prop.notebook_foodmap；CHARACTERS.econ_jiahao.char3d.props 加 foodmap",
    "task": "ART-JIAHAO-FOODMAP",
    "msg": "ACK",
    "integration": "不整合",
@@ -9658,7 +9658,7 @@
    "msg": "ACK",
    "id": "DL-LAWWW2-0e191286",
    "sha": "0e191286",
-   "what": "家豪美食地圖筆記本第二版（A6、手寫標籤；掛左前臂 leftLowerArm，GLB 載入時對手骨頭定位）＋props_foodmap_jiahao.js；取代 0621bea6",
+   "what": "舊序章人物戊美食地圖筆記本第二版（A6、手寫標籤；掛左前臂 leftLowerArm，GLB 載入時對手骨頭定位）＋props_foodmap_jiahao.js；取代 0621bea6",
    "task": "ART-JIAHAO-FOODMAP",
    "integration": "已驗收",
    "note": "BB-C 20:01 配件這一關通過（BB_201 13-1、5d3983e3）；接好要給 BB-C 白天站著、走路的遊戲內截圖再標 ART_APPROVED；2026-10-17 20:3x LAWWW-C 接進 props3d（foodmap，左前臂）＋MODEL_PROPS；截圖待拍"
@@ -9671,7 +9671,7 @@
    "msg": "ACK",
    "id": "DL-LAWWW2-91ca1bca",
    "sha": "91ca1bca",
-   "what": "品妤工程計算機 calc_engineering.glb、黑色保溫瓶 thermos_black.glb＋props_pinyu.js（保溫瓶第二版 2ef1ca4b）",
+   "what": "舊序章人物丁工程計算機 calc_engineering.glb、黑色保溫瓶 thermos_black.glb＋props_pinyu.js（保溫瓶第二版 2ef1ca4b）",
    "task": "ART-PINYU-PROPS",
    "integration": "已驗收",
    "note": "BB-C f331e153 配件通過（保溫瓶第二版 2ef1ca4b）；LAWWW-C 接進 props3d（thermos 右前臂、calc 左前臂留給事件），平常只拿 thermos；截圖待拍"
@@ -9705,7 +9705,7 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "05c57da1",
-   "what": "曾品妤第六版 bl_econ_pinyu.vrm（袖子蓋到手背，BB-C ed0d36bc 第 3 點）",
+   "what": "曾舊序章人物丁第六版 bl_econ_pinyu.vrm（袖子蓋到手背，BB-C ed0d36bc 第 3 點）",
    "task": "ART-PINYU-PROPS",
    "msg": "ACK",
    "integration": "已驗收",
@@ -9731,7 +9731,7 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "4580d0c5",
-   "what": "阿勳（盧正勳 econ_zhengxun）3D 人物第八版 bl_econ_zhengxun.vrm（outbox 598e0744）",
+   "what": "舊序章人物甲（盧舊序章人物甲 econ_zhengxun）3D 人物第八版 bl_econ_zhengxun.vrm（outbox 598e0744）",
    "task": "ART-CH-XUN",
    "msg": "ACK",
    "integration": "已驗收",
@@ -9855,7 +9855,7 @@
    "account": "C",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "a46637d3",
-   "what": "BB_132 第 79 組經濟系四張 2D 背景（bg_approved/y0_dumpling、y0_home_street_night、gongguan、library_gate_night；BB_216 A 節前四處）",
+   "what": "BB_132 第 79 組舊序章四張 2D 背景（bg_approved/y0_dumpling、y0_home_street_night、gongguan、library_gate_night；BB_216 A 節前四處）",
    "task": "ART-17",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -9868,7 +9868,7 @@
    "account": "C",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "0430e636",
-   "what": "BB_132 第 80 組經濟系四張 2D 背景（admin_office、trip_sea〔下雨的海邊，浮水印已補〕、cram_street、hotpot_door；BB_216 A 節後四處）",
+   "what": "BB_132 第 80 組舊序章四張 2D 背景（admin_office、trip_sea〔下雨的海邊，浮水印已補〕、cram_street、hotpot_door；BB_216 A 節後四處）",
    "task": "ART-17",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -10220,7 +10220,7 @@
    "task": "AA293-KX-BRIDGE-1018",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 06:2x ACK，經濟系第一優先"
+   "note": "LAWWW-C 06:2x ACK，舊序章第一優先"
   },
   {
    "id": "DL-AA-b3ec8820",
@@ -10255,7 +10255,7 @@
    "task": "ART-YU-3D-1018",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 06:3x ACK；排在經濟系 P0 後面整合、遊戲內截圖驗收（D100a）。沒做到：背後帽子、走路右手穿包、坐姿沒截圖"
+   "note": "LAWWW-C 06:3x ACK；排在舊序章 P0 後面整合、遊戲內截圖驗收（D100a）。沒做到：背後帽子、走路右手穿包、坐姿沒截圖"
   },
   {
    "id": "DL-AA-9fecc202",
@@ -10302,7 +10302,7 @@
    "task": "ART-EXT-TEACH",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 06:4x 收到；排在經濟系 P0 後面整合；LAWWW2 自測 teach_class、boya_lecture、desk_furniture、seated_figures、nav_buildings 過，沒測 reachability_all"
+   "note": "LAWWW-C 06:4x 收到；排在舊序章 P0 後面整合；LAWWW2 自測 teach_class、boya_lecture、desk_furniture、seated_figures、nav_buildings 過，沒測 reachability_all"
   },
   {
    "id": "DL-AA-4b3391db",
@@ -10311,7 +10311,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "4b3391db",
-   "what": "AA_297 重考期在家的日常：retake_home_v1.json（short 30、long 12）、AA_292 第 5 節改演這個池",
+   "what": "AA_297 舊序章考試期在家的日常：retake_home_v1.json（short 30、long 12）、AA_292 第 5 節改演這個池",
    "task": "RT-TOGETHER-1018",
    "msg": "ACK",
    "integration": "已驗收",
@@ -10337,7 +10337,7 @@
    "account": "C",
    "branch": "claude/adoring-meitner-mqzst8",
    "sha": "dfd0e26a",
-   "what": "E27 水餃店加她當面講休學原因三句",
+   "what": "E27 水餃店加她當面講舊序章離校原因三句",
    "task": "Q-E27-WHY-1018",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -10363,7 +10363,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "ae68d325",
-   "what": "AA_293 第 8 節：除夕第三選項改「妳想休學的事，跟家裡說了嗎？」",
+   "what": "AA_293 第 8 節：除夕第三選項改「妳想舊序章離校的事，跟家裡說了嗎？」",
    "task": "Q-E21-TOLD-1018",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -10402,11 +10402,11 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "8ec9ae99",
-   "what": "AA_298：衝刺班 6/9～7/9 每天、只停有戲的日子（retake_home 加 RH-C0～C5、cram_cards、bg、after）；模擬考 R4 拿掉；R3 改大安森林公園；E34 拿掉；媽媽問宿舍（住家裡過濾）；為什麼重考的回答改短",
+   "what": "AA_298：衝刺班 6/9～7/9 每天、只停有戲的日子（retake_home 加 RH-C0～C5、cram_cards、bg、after）；模擬考 R4 拿掉；R3 改大安森林公園；E34 拿掉；媽媽問宿舍（住家裡過濾）；為什麼舊序章考試的回答改短",
    "task": "AA298-RETAKE-FIX-1018",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "AA 已推 523dd2f4（home_lines 早上第 3 句）、1bf69043（阿勳私訊老實選項）；a9446ebb、74e3889b 整合"
+   "note": "AA 已推 523dd2f4（home_lines 早上第 3 句）、1bf69043（舊序章人物甲私訊老實選項）；a9446ebb、74e3889b 整合"
   },
   {
    "id": "DL-AA-e79002de",
@@ -10480,7 +10480,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "b289fe65",
-   "what": "AA_300 經濟系縮到約 30 分鐘：保留 29 場、日期卡 22 句、新遊戲可以選、手機跳過",
+   "what": "AA_300 舊序章縮到約 30 分鐘：保留 29 場、日期卡 22 句、新遊戲可以選、手機跳過",
    "task": "AA300-ECON30-1018",
    "msg": "ACK",
    "integration": "已驗收",
@@ -10506,7 +10506,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "06cc756e",
-   "what": "AA_301 經濟系那一年主動傳訊息給可昕的回覆 25 則（MSG_KX_Y0）",
+   "what": "AA_301 舊序章那一段主動傳訊息給可昕的回覆 25 則（MSG_KX_Y0）",
    "task": "MSG-KX-Y0-1018",
    "msg": "ACK",
    "integration": "已驗收",
@@ -10558,7 +10558,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "d781b840",
-   "what": "AA_298 第 10 節：放榜電話——祐廷問要不要回台大、她想自己從大一開始；「政大的山比較多……比你強壯」與 E36_REPLY 拿掉（使用者：她沒有在跟我比）",
+   "what": "AA_298 第 10 節：放榜電話——祐廷問要不要回台大、她想自己從大一開始；「外校的山比較多……比你強壯」與 E36_REPLY 拿掉（使用者：她沒有在跟我比）",
    "task": "Q-E36-CALL-1018",
    "msg": "ACK",
    "integration": "已驗收",
@@ -10691,7 +10691,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "1ab0a39f",
-   "what": "AA_305 其他人物逐場確認（經濟系那一年）＋階梯 y0s1／y0s2（阿勳不講冷笑話）",
+   "what": "AA_305 其他人物逐場確認（舊序章那一段）＋階梯 y0s1／y0s2（舊序章人物甲不講冷笑話）",
    "task": "AA305-OTHERS-1018",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -10730,7 +10730,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "1be8842d",
-   "what": "AA_306 可昕經濟系階梯逐層確認（Y0S1 13 層、Y0S2 4 層）",
+   "what": "AA_306 可昕舊序章階梯逐層確認（Y0S1 13 層、Y0S2 4 層）",
    "task": "AA306-KX-LADDER-1018",
    "msg": "ACK",
    "integration": "已驗收",
@@ -10769,7 +10769,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "6b01c841",
-   "what": "AA_306 經濟系大一上五個人階梯問完（13／6／4／6／7 層）＋AA_305 第 9 節更正",
+   "what": "AA_306 舊序章大一上五個人階梯問完（13／6／4／6／7 層）＋AA_305 第 9 節更正",
    "task": "AA306-KX-LADDER-1018",
    "msg": "ACK",
    "integration": "已驗收",
@@ -10822,7 +10822,7 @@
    "account": "C",
    "branch": "claude/adoring-meitner-mqzst8",
    "sha": "e362b41a",
-   "what": "台詞小修（12/31 唐睿、8/30 往山上、法律系阿勳兩句、10/16 日期卡）",
+   "what": "台詞小修（12/31 舊序章人物丙、8/30 往山上、法律系舊序章人物甲兩句、10/16 日期卡）",
    "task": "AA305-OTHERS-1018",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -10848,7 +10848,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "e544b4f4",
-   "what": "AA_308：重考鋪陳（12/13 補習班、1/8 麵店）、高雄三天分場＋新景點、10/17 跟媽媽說、衝刺班請假演兩次再笑、7/25 落點見面後、學期結束日期卡、一層樓、拿掉可昕 Lx2",
+   "what": "AA_308：舊序章考試鋪陳（12/13 補習班、1/8 麵店）、高雄三天分場＋新景點、10/17 跟媽媽說、衝刺班請假演兩次再笑、7/25 落點見面後、學期結束日期卡、一層樓、拿掉可昕 Lx2",
    "task": "CRAM-DEC-SCENE-1018",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -10890,7 +10890,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "50f2142c",
-   "what": "AA_309（QA 劇本 v2 沒蓋到的 4 列）：①10/29 小福「上完大一國文」（AA 已推開發分支 a6d1e65b）②10/17 車上告白交通算在 17:40 以前 ③可昕不在場的場景後面不接她的階梯 ④9/13 保齡球品妤第一句；＋AA_308 第 10 節 7/12 對答案",
+   "what": "AA_309（QA 劇本 v2 沒蓋到的 4 列）：①10/29 小福「上完大一國文」（AA 已推開發分支 a6d1e65b）②10/17 車上告白交通算在 17:40 以前 ③可昕不在場的場景後面不接她的階梯 ④9/13 保齡球舊序章人物丁第一句；＋AA_308 第 10 節 7/12 對答案",
    "task": "CRAM-DEC-SCENE-1018",
    "msg": "ACTIONED",
    "integration": "已驗收",
@@ -10899,7 +10899,7 @@
     {
      "by": "BACKLOG-SWEEP-1021 A",
      "verdict": "done",
-     "evidence": "③可昕不在場不接階梯 src/outings3d.js:94 kxAway（events.js:2220-2221、2599）；④保齡球品妤第一句 events.js:2781；7/12 對答案 src/econff3d.js:111-117；①小福 a6d1e65b",
+     "evidence": "③可昕不在場不接階梯 src/outings3d.js:94 kxAway（events.js:2220-2221、2599）；④保齡球舊序章人物丁第一句 events.js:2781；7/12 對答案 src/econff3d.js:111-117；①小福 a6d1e65b",
      "note": "任務 CRAM-DEC-SCENE-1018"
     }
    ]
@@ -11184,7 +11184,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "c4978283",
-   "what": "AA_313 第 5 節：麵店團法律系四年逐場（102 個事件＋課堂；16 點裁定、逐場表、測試寫死表）",
+   "what": "AA_313 第 5 節：桌遊團法律系四年逐場（102 個事件＋課堂；16 點裁定、逐場表、測試寫死表）",
    "task": "AA313-S5-1020",
    "msg": "ACK",
    "integration": "部分整合",
@@ -11206,7 +11206,7 @@
    "account": "C",
    "branch": "claude/adoring-meitner-mqzst8",
    "sha": "2e53f6d4",
-   "what": "麵店團台詞 40 句（D100e，AA 直接推開發分支）",
+   "what": "桌遊團台詞 40 句（D100e，AA 直接推開發分支）",
    "task": "AA313-S5-1020",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -11643,11 +11643,11 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "49ed7e6a",
-   "what": "閒聊階梯 14 個檔已審版本（AA：ladder_aa_y2s1、y3s2、y4s1、y4s2；BB：ladder_bb、bb_y0s1、y0s2、y1s2、y2s1、y2s2、y3s1、y3s2、y4s1、y4s2）：AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8）、第 4、6 節芷若子晴學姊沛珊、AA_306 經濟系那一年；AA_151／152 記憶名稱表（AN7_COMMERCIAL、AN8_ELECTIVE、AN8_NEXT_SEPT）",
+   "what": "閒聊階梯 14 個檔已審版本（AA：ladder_aa_y2s1、y3s2、y4s1、y4s2；BB：ladder_bb、bb_y0s1、y0s2、y1s2、y2s1、y2s2、y3s1、y3s2、y4s1、y4s2）：AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8）、第 4、6 節芷若子晴學姊沛珊、AA_306 舊序章那一段；AA_151／152 記憶名稱表（AN7_COMMERCIAL、AN8_ELECTIVE、AN8_NEXT_SEPT）",
    "task": "AA313-S6-1020",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 2026-10-20 17:3x UTC：story_import_allow.json 14 檔改 49ed7e6a（舊 SHA 進 history）、labelsRef 前面加 49ed7e6a、import_ladder.py 重匯 src/data/ladder.js；ladder_y1s2_y2s1_unit 第 0、6 項白名單 SHA 斷言照 AA 說的一起改。也涵蓋 AA313-S4-1020 的「以安大四階梯重匯」、AA306-KX-LADDER-1018 的經濟系層。AA 說這則不用回。"
+   "note": "LAWWW-C 2026-10-20 17:3x UTC：story_import_allow.json 14 檔改 49ed7e6a（舊 SHA 進 history）、labelsRef 前面加 49ed7e6a、import_ladder.py 重匯 src/data/ladder.js；ladder_y1s2_y2s1_unit 第 0、6 項白名單 SHA 斷言照 AA 說的一起改。也涵蓋 AA313-S4-1020 的「以安大四階梯重匯」、AA306-KX-LADDER-1018 的舊序章層。AA 說這則不用回。"
   },
   {
    "id": "DL-AA-bcb678e0",
@@ -11862,7 +11862,7 @@
    "account": "C",
    "branch": "claude/adoring-meitner-mqzst8",
    "sha": "f4c545fd",
-   "what": "D100e 直接改開發分支字串：拿掉口氣表 0-3 禁用句型（予樂收尾、學姊麵店、辯論計時、系服、最後一排、法服插座、y0 柏翰筆記、Kevin 生日、可昕生日）",
+   "what": "D100e 直接改開發分支字串：拿掉口氣表 0-3 禁用句型（外校室友收尾、學姊麵店、辯論計時、系服、最後一排、法服插座、y0 柏翰筆記、Kevin 生日、可昕生日）",
    "task": "MSG-2",
    "msg": "ACK",
    "integration": "已驗收",
@@ -12138,7 +12138,7 @@
    "account": "C",
    "branch": "claude/adoring-meitner-mqzst8",
    "sha": "315242df",
-   "what": "AA_348：經濟系兩則手機小事和 AA_305 衝突改台詞（y0_xu_seat、y0_py_notes；只改引號裡的字）",
+   "what": "AA_348：舊序章兩則手機小事和 AA_305 衝突改台詞（y0_xu_seat、y0_py_notes；只改引號裡的字）",
    "task": "AA305-OTHERS-1018",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -12476,11 +12476,11 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "236edded",
-   "what": "BG-19 公館二輪戲院大廳第五版精修 assets/bg/gongguan_cinema.webp（同檔名：海報插圖、售票亭裡的東西、天花板水漬、牆上舊痕跡）＋bg_cinema_curry/README 前後對照；同 commit 另有 bg_curry.py（咖哩店廚房／街景，圖在 01fee6a1）、pinyu_ears.py（品妤第七版耳朵 WIP）",
+   "what": "BG-19 公館二輪戲院大廳第五版精修 assets/bg/gongguan_cinema.webp（同檔名：海報插圖、售票亭裡的東西、天花板水漬、牆上舊痕跡）＋bg_cinema_curry/README 前後對照；同 commit 另有 bg_curry.py（咖哩店廚房／街景，圖在 01fee6a1）、pinyu_ears.py（舊序章人物丁第七版耳朵 WIP）",
    "task": "ART-BG19",
    "msg": "ACK",
    "integration": "不整合",
-   "note": "【LAWWW-C 2026-10-21 13:4x UTC 讀過】不換：D99 夠用素材凍結，遊戲裡的第四版能用、玩家看得到的差別是細節；第五版留在 LAWWW2 分支，BB 畫面驗收第四版有退件再換 ｜ 開發分支的 gongguan_cinema.webp 還是 0100994c 的第四版（74a655e8 接的，blob e931b857）。LAWWW2 交接檔：售票亭電風扇、椅背腳本改了但圖沒重算，「第五版的圖照用」。這張在 D99（10-17 21:0x 夠用素材凍結）之前做的，要不要換由 LAWWW-C 決定；ART-BG-AA185 next 也記了「戲院與咖哩店第五版保留在 LAWWW2 分支」。pinyu_ears.py 不是這筆的成果（使用者 20:5x 停人物細修，品妤 v7 沒交）。LAWWW-C 讀過就把 msg 改 ACK"
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC 讀過】不換：D99 夠用素材凍結，遊戲裡的第四版能用、玩家看得到的差別是細節；第五版留在 LAWWW2 分支，BB 畫面驗收第四版有退件再換 ｜ 開發分支的 gongguan_cinema.webp 還是 0100994c 的第四版（74a655e8 接的，blob e931b857）。LAWWW2 交接檔：售票亭電風扇、椅背腳本改了但圖沒重算，「第五版的圖照用」。這張在 D99（10-17 21:0x 夠用素材凍結）之前做的，要不要換由 LAWWW-C 決定；ART-BG-AA185 next 也記了「戲院與咖哩店第五版保留在 LAWWW2 分支」。pinyu_ears.py 不是這筆的成果（使用者 20:5x 停人物細修，舊序章人物丁 v7 沒交）。LAWWW-C 讀過就把 msg 改 ACK"
   },
   {
    "id": "DL-LAWWW2-01fee6a1",
@@ -12632,7 +12632,7 @@
    "account": "C",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "e10b683a",
-   "what": "bg_approved 第 94 組九張：intl_sg_hawker、intl_sg_campus、intl_sg_court、law_firm_office、law_firm_meeting、court_gallery（C16～C18）、tour_bus（宿營遊覽車）、phone_street_night、boardgame_gg（經濟系黑畫面第一批剩的兩張）；BB 柔化車牌、像連鎖品牌的招牌條、小字樣",
+   "what": "bg_approved 第 94 組九張：intl_sg_hawker、intl_sg_campus、intl_sg_court、law_firm_office、law_firm_meeting、court_gallery（C16～C18）、tour_bus（宿營遊覽車）、phone_street_night、boardgame_gg（舊序章黑畫面第一批剩的兩張）；BB 柔化車牌、像連鎖品牌的招牌條、小字樣",
    "task": "BG-VAC-C16-C18-1021",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -12671,7 +12671,7 @@
    "account": "C",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "856cece9",
-   "what": "v9.10.3 判定（BB_218 最後一節）：可以發布。候選 f72a2a21，Playwright 手機模擬：①使用者 9/25 存檔讀取→熬夜跨午夜→宵夜→9/27 存讀 PASS ②大三寒假除夕回家／旁白／成績單 PASS ③新遊戲法律系開局→宿營→8/29 可昕→8/30 E37→8/31 PASS ④新遊戲經濟系開局快轉到 8/30 14:00 E37 PASS（15 停點、沒卡住；8/30 以後到 9/2 還在跑）。沒測：Y1W 完整重跑。P3 四件給下一版",
+   "what": "v9.10.3 判定（BB_218 最後一節）：可以發布。候選 f72a2a21，Playwright 手機模擬：①使用者 9/25 存檔讀取→熬夜跨午夜→宵夜→9/27 存讀 PASS ②大三寒假除夕回家／旁白／成績單 PASS ③新遊戲法律系開局→宿營→8/29 可昕→8/30 E37→8/31 PASS ④新遊戲舊序章開局快轉到 8/30 14:00 E37 PASS（15 停點、沒卡住；8/30 以後到 9/2 還在跑）。沒測：Y1W 完整重跑。P3 四件給下一版",
    "task": "RELEASE-9103",
    "msg": "ACK",
    "integration": "參考用",
@@ -12684,7 +12684,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "2e255e9a",
-   "what": "AA_350 第 9 節：回 AA-Q-1021-SR 九題（T1 回來那天算臺北、T6a 以安 C08 重逢改 7/25 11:00 臺北車站＋「……我一點的車。」、T7a 她在臺中時只列 D26＋答應句、T7b 出國期間擋＋四種婉拒句、T8 阿哲暑假 2027／2028-07-02～08-20、T9a 跳一次「先去吃飯？」、T9b 便當照片 13:00、T9c 沒見過阿勳的走廊版自我介紹）＋缺字三句＋S3 閒聊階梯「八月底回來」",
+   "what": "AA_350 第 9 節：回 AA-Q-1021-SR 九題（T1 回來那天算臺北、T6a 以安 C08 重逢改 7/25 11:00 臺北車站＋「……我一點的車。」、T7a 她在臺中時只列 D26＋答應句、T7b 出國期間擋＋四種婉拒句、T8 阿哲暑假 2027／2028-07-02～08-20、T9a 跳一次「先去吃飯？」、T9b 便當照片 13:00、T9c 沒見過舊序章人物甲的走廊版自我介紹）＋缺字三句＋S3 閒聊階梯「八月底回來」",
    "task": "AA-Q-1021-SR",
    "msg": "ACK",
    "integration": "部分整合",
@@ -12736,7 +12736,7 @@
    "account": "C",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "145d6a74",
-   "what": "v9.10.3 補完：經濟系新遊戲那一輪跑完 ALL PASS（96 分鐘、到 8/31 09:24、E37 演完、沒卡住、沒用卡住保險、沒有 JS 例外、自動畫面檢查 136 次）；判定不變：可以發布。P3 兩件：⑤快轉到 11/11 時訊息列表還掛著 9/1 媽媽、8/25 第三小隊兩則未讀紅點 ⑥8/25 宿營回家「回到家，你倒在床上」那段右上角日期還是 8/23 週五 09:00（只這一次）",
+   "what": "v9.10.3 補完：舊序章新遊戲那一輪跑完 ALL PASS（96 分鐘、到 8/31 09:24、E37 演完、沒卡住、沒用卡住保險、沒有 JS 例外、自動畫面檢查 136 次）；判定不變：可以發布。P3 兩件：⑤快轉到 11/11 時訊息列表還掛著 9/1 媽媽、8/25 第三小隊兩則未讀紅點 ⑥8/25 宿營回家「回到家，你倒在床上」那段右上角日期還是 8/23 週五 09:00（只這一次）",
    "task": "RELEASE-9103",
    "msg": "ACK",
    "integration": "參考用",
@@ -14158,7 +14158,7 @@
    "task": "ART-ECON-3D-GAP-1021",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 10:0x 整合；博雅長窗橫紋排在經濟系路線截圖之後"
+   "note": "LAWWW-B 10-24 10:0x 整合；博雅長窗橫紋排在舊序章路線截圖之後"
   },
   {
    "id": "DL-LW2-BOYA-VIEWS",
@@ -14271,7 +14271,7 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "e3f697c0e",
-   "what": "AA_449 經濟系那一年讀過一遍：五處（情人節、旁白主詞、鬧鐘條件、新車、2/2 高雄版）",
+   "what": "AA_449 舊序章那一段讀過一遍：五處（情人節、旁白主詞、鬧鐘條件、新車、2/2 高雄版）",
    "task": "ECON-READ-1024",
    "msg": "ACK",
    "integration": "已驗收",
@@ -14401,7 +14401,7 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "14ee5d2a7",
-   "what": "AA_451 美國交換讀後（交往中、沒見過何俊朗）：芝加哥巴士上認識他、沒見過版換字、媽媽 12/17",
+   "what": "AA_451 美國交換讀後（交往中、沒見過舊序章人物己）：芝加哥巴士上認識他、沒見過版換字、媽媽 12/17",
    "task": "US-READ-NOLONG-1025",
    "msg": "ACK",
    "integration": "已驗收",
@@ -14518,11 +14518,11 @@
    "account": "B",
    "branch": "claude/funny-albattani-iawshm",
    "sha": "bf120462d",
-   "what": "經濟系路線效能 ①②③⑤：教學館室內殼與自習家具單面、自習椅 10 m 外 lod1、博雅燈 3 盞跟著玩家、校園外圍柏油不重疊",
+   "what": "舊序章路線效能 ①②③⑤：教學館室內殼與自習家具單面、自習椅 10 m 外 lod1、博雅燈 3 盞跟著玩家、校園外圍柏油不重疊",
    "task": "PERF-PATROL-ECON-1025",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "LAWWW-B 10-25 08:4x 整合；v9.10.10 發布（b9044511）BB 經濟系 fps 快或持平"
+   "note": "LAWWW-B 10-25 08:4x 整合；v9.10.10 發布（b9044511）BB 舊序章 fps 快或持平"
   },
   {
    "id": "DL-LW2-PERF-ECON-6",
@@ -14535,7 +14535,7 @@
    "task": "PERF-PATROL-ECON-1025",
    "msg": "ACK",
    "integration": "已驗收",
-   "note": "LAWWW-B 10-25 09:0x 整合；v9.10.10 發布（b9044511）BB 經濟系 fps 快或持平"
+   "note": "LAWWW-B 10-25 09:0x 整合；v9.10.10 發布（b9044511）BB 舊序章 fps 快或持平"
   },
   {
    "id": "DL-AA-457",
@@ -14856,7 +14856,7 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "497253c6",
-   "what": "X79 校園白天卡：Z3.warmup（淡入以後背景每 0.25 秒一小批把還沒編的 shader 編好、路人底模、遠距離版本、陰影深度；換區域就停；?nowarmup 關）＋game3d.js enter 一行＋新 tests/zone_warmup_unit.js；同一條經濟系路線第一次走：路上新 shader 30→0、>1 秒的格子 9→3、多出來的時間 9.5→3.9 秒、p99 1.60→0.98 秒（SwiftShader）；代價：等待挪到剛進場（SwiftShader 61 秒背景，真機沒量），電腦先傳 467 張貼圖；outbox 6626f68c",
+   "what": "X79 校園白天卡：Z3.warmup（淡入以後背景每 0.25 秒一小批把還沒編的 shader 編好、路人底模、遠距離版本、陰影深度；換區域就停；?nowarmup 關）＋game3d.js enter 一行＋新 tests/zone_warmup_unit.js；同一條舊序章路線第一次走：路上新 shader 30→0、>1 秒的格子 9→3、多出來的時間 9.5→3.9 秒、p99 1.60→0.98 秒（SwiftShader）；代價：等待挪到剛進場（SwiftShader 61 秒背景，真機沒量），電腦先傳 467 張貼圖；outbox 6626f68c",
    "task": "PERF-CAMPUS-DAY-1027",
    "msg": "ACK",
    "integration": "已整合待測試",
@@ -14973,7 +14973,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "cd824bf41",
-   "what": "AA_486 麵店團在故事裡做什麼（給使用者的說明 1-1）、群組建好後阿哲兩句、長桌閒聊大一八則、語彤中秋烤肉三行",
+   "what": "AA_486 桌遊團在故事裡做什麼（給使用者的說明 1-1）、群組建好後阿哲兩句、長桌閒聊大一八則、語彤中秋烤肉三行",
    "task": "NOODLE-TEAM-WHY-1027",
    "msg": "ACK",
    "integration": "已驗收",
@@ -14986,7 +14986,7 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "b830dd5eb",
-   "what": "AA_487 麵店團長桌閒聊大二～大四各六則",
+   "what": "AA_487 桌遊團長桌閒聊大二～大四各六則",
    "task": "NOODLE-TEAM-WHY-1027",
    "msg": "ACK",
    "integration": "已驗收",
@@ -15286,7 +15286,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "dea54d89e",
    "msg": "ACK",
-   "what": "AA_496 法律系 NPC 盤點（文件寫了 vs 玩得到、分類、斷線清單）；第 9 節先修：BH4_DONE、XC1_STICKY、XC5_RECONCILE、ZHE4_FINAL 斷線、尾聲阿哲與 Alison 各自回收句、麵店團群組補救（阿哲「欸，你還沒進群組？我拉你。」）、宥辰出席表、「社長」標籤全名；改名表等 AA_498",
+   "what": "AA_496 法律系 NPC 盤點（文件寫了 vs 玩得到、分類、斷線清單）；第 9 節先修：BH4_DONE、XC1_STICKY、XC5_RECONCILE、ZHE4_FINAL 斷線、尾聲阿哲與 Alison 各自回收句、桌遊團群組補救（阿哲「欸，你還沒進群組？我拉你。」）、宥辰出席表、「社長」標籤全名；改名表等 AA_498",
    "task": "NPC-STORY-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；第 9 節第 1～4、6 點派子代理（worktree，D113 檢查點）；第 5 點等 AA_498｜【LAWWW-C 02:2x】第 9 節第 1～4、6 點合進 bfe8dfad6（子代理 838d78c29；tests/aa496_fixes_unit.js 修改前 22 項 FAIL）；第 5 點改名表照 AA_498 另外接"
@@ -15429,10 +15429,10 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "bf50e9825／ef783aa61",
    "msg": "ACK",
-   "what": "AA_504 女主角自己的生活（大一下＋暑假）：七位的圈子、她的事、動態、私訊、別人說起她；第 0 節先修四件（可昕 kx2_late／kx2_azalea 改動態第 1、2 則、沛珊—柏翰交往期同框、課輔班營隊 6/22～6/26）；予樂老家（第一次寫）：AA 02:4x 定嘉義、D30「予樂說花蓮一定要買麻糬。她要三盒。」不動（ef783aa61 第 7 節第 6、7 則私訊的回答改了）",
+   "what": "AA_504 女主角自己的生活（大一下＋暑假）：七位的圈子、她的事、動態、私訊、別人說起她；第 0 節先修四件（可昕 kx2_late／kx2_azalea 改動態第 1、2 則、沛珊—柏翰交往期同框、課輔班營隊 6/22～6/26）；外校室友老家（第一次寫）：AA 02:4x 定嘉義、D30「外校室友說花蓮一定要買麻糬。她要三盒。」不動（ef783aa61 第 7 節第 6、7 則私訊的回答改了）",
    "task": "HEROINE-LIFE-1028",
    "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 02:4x UTC】等 AA_503 手機子代理合進來以後用同一套接；AA_503 更正 74916d73b 已轉子代理｜【LAWWW-C 2026-10-28 02:4x UTC】AA 定予樂老家改嘉義（ef783aa61，outbox 64e675764），接的時候用 ef783aa61"
+   "note": "【LAWWW-C 2026-10-28 02:4x UTC】等 AA_503 手機子代理合進來以後用同一套接；AA_503 更正 74916d73b 已轉子代理｜【LAWWW-C 2026-10-28 02:4x UTC】AA 定外校室友老家改嘉義（ef783aa61，outbox 64e675764），接的時候用 ef783aa61"
   },
   {
    "id": "DL-LW2-SHRINE-TRAP",
@@ -15455,7 +15455,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "62849944b",
    "msg": "ACK",
-   "what": "AA_505 女主角自己的生活（大二上＋寒假）；第 0 節先修五件（芷若 Z4 前提、沛珊書店班只排在臺北的週六與柏翰同框到第 6 週、語彤雙主修週四民總 3D 排課、子晴關數、needed_msgs 順序）；AA_503／504 更正三處（小婷只排週五晚上、子晴暑假多在家寫、可昕「予樂生日」改「予樂寫的期末倒數」）；新標籤「新來的工讀生」「大一的學妹」",
+   "what": "AA_505 女主角自己的生活（大二上＋寒假）；第 0 節先修五件（芷若 Z4 前提、沛珊書店班只排在臺北的週六與柏翰同框到第 6 週、語彤雙主修週四民總 3D 排課、子晴關數、needed_msgs 順序）；AA_503／504 更正三處（小婷只排週五晚上、子晴暑假多在家寫、可昕「外校室友生日」改「外校室友寫的期末倒數」）；新標籤「新來的工讀生」「大一的學妹」",
    "task": "HEROINE-LIFE-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 02:5x UTC】AA_503 那一處更正已轉手機子代理（用 62849944b）；AA_504、505 等手機子代理合進來以後同一套接"
@@ -15650,7 +15650,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "964d01175",
    "msg": "ACK",
-   "what": "AA_514 可昕兩件沒有下文的補上：①最後一場模擬法庭（大三上 2027-12-04 週六 14:00～16:30 政大；AA_505／506 7-2 選「下次我去看。」要記 KX_WATCH；11/28 21:00 私訊約、回「去。」／「那天不行。」到 12/4 12:00；2D classroom_small「政大・模擬法庭教室」三選一 KX_MOOT3='came'；沒來 21:30 兩則 'missed'）②嘉義予樂家：AA_505 7-3 第 4、5 則中間加 1/29（五）19:30 動態；outbox 3621b61ad",
+   "what": "AA_514 可昕兩件沒有下文的補上：①最後一場模擬法庭（大三上 2027-12-04 週六 14:00～16:30 外校；AA_505／506 7-2 選「下次我去看。」要記 KX_WATCH；11/28 21:00 私訊約、回「去。」／「那天不行。」到 12/4 12:00；2D classroom_small「外校・模擬法庭教室」三選一 KX_MOOT3='came'；沒來 21:30 兩則 'missed'）②嘉義外校室友家：AA_505 7-3 第 4、5 則中間加 1/29（五）19:30 動態；outbox 3621b61ad",
    "task": "HEROINE-LIFE-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 07:2x UTC】收到；排進下一個空出的子代理（KX-MOOT3-1028）"
@@ -16014,7 +16014,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "481dd8238",
    "msg": "ACK",
-   "what": "AA_520 予樂自己的線：原有八則 p:yule 保留（h503 加兩句）、新增十四則（跑步、活動長、家事事件法、家事法、和可昕準備考試）、大三上演講那一晚出遊 ev_yule_lecture（霖澤館 201／阿鳳麵店）、h509_yule 加三個選項、可昕 2028-09-16 兩句；收件條件加和可昕沒有鬧翻（outbox c4fa995c2）",
+   "what": "AA_520 外校室友自己的線：原有八則 p:yule 保留（h503 加兩句）、新增十四則（跑步、活動長、家事事件法、家事法、和可昕準備考試）、大三上演講那一晚出遊 ev_yule_lecture（霖澤館 201／阿鳳麵店）、h509_yule 加三個選項、可昕 2028-09-16 兩句；收件條件加和可昕沒有鬧翻（outbox c4fa995c2）",
    "task": "NPC-STORY2-1028",
    "integration": "已驗收",
    "note": "【LAWWW-C 12:3x】派子代理（開發分支 38594a3d8 為底；不碰麵店店員，和 AA_519 分開做）｜【LAWWW-C 13:1x】合進開發分支 d38992889"
@@ -16027,7 +16027,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "0f4b48f20",
    "msg": "ACK",
-   "what": "AA_521 經濟系的朋友（法律系那三年）＋何俊朗＋日文班：D2 照學期換句（韋綸、唐睿、阿勳每學期兩句、品妤新增 ev_b106d2_pinyu 週五 12:05 普通教學館、S.b106d2Key 照學期取鍵）、「走啦」群組五則（最後 2028-06-03 畢業）、何俊朗 longGreet 加日期範圍六句、日文班三則（采蓁、宇恆；4-3 日本路線有回覆和後續）（outbox 3999a7598）",
+   "what": "AA_521 舊序章的朋友（法律系那三年）＋舊序章人物己＋日文班：D2 照學期換句（舊序章人物乙、舊序章人物丙、舊序章人物甲每學期兩句、舊序章人物丁新增 ev_b106d2_pinyu 週五 12:05 普通教學館、S.b106d2Key 照學期取鍵）、「走啦」群組五則（最後 2028-06-03 畢業）、舊序章人物己 longGreet 加日期範圍六句、日文班三則（采蓁、宇恆；4-3 日本路線有回覆和後續）（outbox 3999a7598）",
    "task": "NPC-STORY2-1028",
    "integration": "已驗收",
    "note": "【LAWWW-C 12:3x】排在 AA_520 子代理交件後（同一個子代理接著做，訊息、群組同一類）｜【LAWWW-C 13:5x】合進開發分支 66a3401f4"
@@ -16053,7 +16053,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "d75cd0228",
    "msg": "ACTIONED",
-   "what": "AA_519 第 8 節（回 LAWWW-C 12:41 麵店四件）：語彤顧店時段阿姨一定在（過年店休、2029-04-19～25 出國例外）；一個人吃麵旁白換句（阿姨在／不在兩版）；25 個麵店 2D 事件那天阿姨 3D 一定在；出國那一週語彤在總圖、不排新的麵店出遊邀約、麵店團那週不排、4/23 21:00 群組四則",
+   "what": "AA_519 第 8 節（回 LAWWW-C 12:41 麵店四件）：語彤顧店時段阿姨一定在（過年店休、2029-04-19～25 出國例外）；一個人吃麵旁白換句（阿姨在／不在兩版）；25 個麵店 2D 事件那天阿姨 3D 一定在；出國那一週語彤在總圖、不排新的麵店出遊邀約、桌遊團那週不排、4/23 21:00 群組四則",
    "task": "PRIV-AUNT-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 12:4x】轉給 AA_519 子代理一起做（白名單 AA_519 用 d75cd0228）；【LAWWW-C 14:4x】合進開發分支 7d63a0aa4（子代理 cf503ee42，aa519_support2 95 項 ALL PASS），下一版 v9.10.14 給 BB"
@@ -16326,7 +16326,7 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "30e7b0311",
    "msg": "ACK",
-   "what": "AA_543 第 6 節：經濟系那一年的人物頁句子（阿勳、韋綸、唐睿、品妤，現在式；條件 E01_DONE／E412_MOVEIN／ECON_CAMP_DONE／econ_friends／Y0_MOVED_OUT；轉法律系照第 2 節）",
+   "what": "AA_543 第 6 節：舊序章那一段的人物頁句子（舊序章人物甲、舊序章人物乙、舊序章人物丙、舊序章人物丁，現在式；條件 E01_DONE／E412_MOVEIN／ECON_CAMP_DONE／econ_friends／Y0_MOVED_OUT；轉法律系照第 2 節）",
    "task": "BUG-WHOIS-ECONYEAR-1030",
    "integration": "已驗收",
    "note": "LAWWW-B 1d4e7d897 照稿接；whois_unit ALL PASS；BB n21_whois_econ4；BB-B n21_whois_econ6 ALL PASS（BB_218 332743f1e）"
@@ -17041,7 +17041,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "f24d63b5c",
    "msg": "SENT",
-   "what": "AA_682 台詞第十四批 3 處（r2y3b_events.js:128 阿勳、:557 芷若 Z13 table、r2y4a_events.js:571 可昕）；outbox 49f56b860",
+   "what": "AA_682 台詞第十四批 3 處（r2y3b_events.js:128 舊序章人物甲、:557 芷若 Z13 table、r2y4a_events.js:571 可昕）；outbox 49f56b860",
    "task": "AA682-LINES-1104",
    "integration": "未整合",
    "note": "LAWWW-C 17:5x 登記；和 AA674／676／677／678／681 同一批"
@@ -17121,8 +17121,9 @@
    "msg": "ACTIONED",
    "what": "SEATFIG-LOD1-HAIR-1104（BB-C P3；CC SITAMB_CLOUD_1104 ⑧）：坐著的替身遠處版（_lod1）頭頂不再是一塊方的——脖子以上照 LOD0 不減，400→800 面；網格名字不變，遊戲程式不用改",
    "task": "SEATFIG-LOD1-HAIR-1104",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 18:4x 換檔（seated_figures.glb／.json／seated_figures.py＋README）；seated_figures、seated_figures_lod、desk_furniture ALL PASS；CC 用 ⑧ 同一個鏡頭重拍"
+   "integration": "已驗收",
+   "note": "LAWWW-C 18:4x 換檔（seated_figures.glb／.json／seated_figures.py＋README）；seated_figures、seated_figures_lod、desk_furniture ALL PASS；CC 用 ⑧ 同一個鏡頭重拍",
+   "integrationNote": "LAWWW-C 11-12 稽核：對應任務已驗收（證據在 tasks.json 那一張的 evidence）"
   },
   {
    "id": "DL-LAWWW2-69e953668",
@@ -17615,8 +17616,9 @@
    "msg": "ACTIONED",
    "what": "穿裙子的路人坐下不穿模（8 個 VRM＋lod 加 skirt_sit morph、character3d.js 4 行）",
    "task": "SKIRT-BENCH-CLIP-1105",
-   "integration": "已整合待測試",
-   "note": "資產 123a5c464；LAWWW-B 05:2x 接進開發"
+   "integration": "已驗收",
+   "note": "資產 123a5c464；LAWWW-B 05:2x 接進開發",
+   "integrationNote": "LAWWW-C 11-12 稽核：對應任務已驗收（證據在 tasks.json 那一張的 evidence）"
   },
   {
    "id": "DL-LAWWW2-33bc9fe48",
@@ -17626,10 +17628,11 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "33bc9fe48",
    "msg": "ACK",
-   "what": "有名字角色的裙子坐下不穿模（沛珊、芯慈、予樂、秀琴、秀琴圍裙）",
+   "what": "有名字角色的裙子坐下不穿模（沛珊、芯慈、外校室友、秀琴、秀琴圍裙）",
    "task": "SKIRT-BENCH-CLIP-1105",
-   "integration": "已整合待測試",
-   "note": "未整合的兩包會動 gym3d.js、fit3d.js、character3d.js，等 GYM-FIT 器材子代理交件再一起合"
+   "integration": "已驗收",
+   "note": "未整合的兩包會動 gym3d.js、fit3d.js、character3d.js，等 GYM-FIT 器材子代理交件再一起合",
+   "integrationNote": "LAWWW-C 11-12 稽核：對應任務已驗收（證據在 tasks.json 那一張的 evidence）"
   },
   {
    "id": "DL-LAWWW2-e92e8c517",
@@ -17951,9 +17954,10 @@
    "msg": "ACK",
    "what": "新生南路往北那一段",
    "task": "XS-NORTH-ROAD-1107",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "fa79dd7bc；BB 功能 PASS、兩點 P3 交 LAWWW2",
-   "ack": "ACK"
+   "ack": "ACK",
+   "integrationNote": "LAWWW-C 11-12 稽核：對應任務已驗收（證據在 tasks.json 那一張的 evidence）"
   },
   {
    "id": "DLV-1107-LAWWW2-HAIRA",
@@ -18285,7 +18289,7 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "8255634fb",
    "msg": "ACK",
-   "what": "AA_726 經濟系序章跳日子字卡＋E05 之後三句",
+   "what": "AA_726 舊序章序章跳日子字卡＋E05 之後三句",
    "task": "BUG-Y0-DAYSKIP-CARD-1107",
    "integration": "已驗收",
    "note": "3b942474b＋43f878419；BB-B 瀏覽器 FIXED（BB_255 e0d8a714a）",
@@ -19826,7 +19830,7 @@
   {
    "sha": "84b2f40a",
    "branch": "origin/claude/elegant-brown-fcos7n",
-   "why": "BB_131 阿勳、品妤 3D 驗收重點：給 LAWWW2-B 做模型時對照"
+   "why": "BB_131 舊序章人物甲、舊序章人物丁 3D 驗收重點：給 LAWWW2-B 做模型時對照"
   },
   {
    "sha": "589054ae",
@@ -19896,7 +19900,7 @@
   {
    "sha": "414cb4db",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
-   "why": "企劃組的進度（A39，重考期，待開工）"
+   "why": "企劃組的進度（A39，舊序章考試期，待開工）"
   },
   {
    "sha": "2f776461",
@@ -20246,7 +20250,7 @@
   {
    "sha": "fe4a5350",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
-   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L｜整合：未整合（段 B～E）｜AA_200 7-3＋附錄 D：BB_179 附錄逐句互審（BB 必須改 18、建議 13、AA 自己改 7）；E19 品妤改群組「我今天請假。」"
+   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L｜整合：未整合（段 B～E）｜AA_200 7-3＋附錄 D：BB_179 附錄逐句互審（BB 必須改 18、建議 13、AA 自己改 7）；E19 舊序章人物丁改群組「我今天請假。」"
   },
   {
    "sha": "98dce335",
@@ -20266,12 +20270,12 @@
   {
    "sha": "c0d12275",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
-   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1、DL-AA-V0-REWRITE｜CAMP-L1（兼 V0-REWRITE-L）｜整合：部分：A54 已整合待測試；經濟系路線的法律系宿營（2-3）未做｜使用者 23:4x 更正：法律系宿營所有玩家完整參加（AA_205 2-3 恢復）；AA_154 A54 經濟系那年 E15 宿營改 CG＋三句旁白"
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1、DL-AA-V0-REWRITE｜CAMP-L1（兼 V0-REWRITE-L）｜整合：部分：A54 已整合待測試；舊序章路線的法律系宿營（2-3）未做｜使用者 23:4x 更正：法律系宿營所有玩家完整參加（AA_205 2-3 恢復）；AA_154 A54 舊序章那一段 E15 宿營改 CG＋三句旁白"
   },
   {
    "sha": "37e34086",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
-   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試（經濟系路線宿營未做）｜AA_200 6-2 BB_177 第五版通過；AA_205 任務表 CAMP-R1 完成、CAMP-L1 交付（DL-AA-CAMPL1 的 sha 欄寫的就是這筆，工具比對不到是因為那欄是文字）"
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試（舊序章路線宿營未做）｜AA_200 6-2 BB_177 第五版通過；AA_205 任務表 CAMP-R1 完成、CAMP-L1 交付（DL-AA-CAMPL1 的 sha 欄寫的就是這筆，工具比對不到是因為那欄是文字）"
   },
   {
    "sha": "92fdf140",
@@ -20311,7 +20315,7 @@
   {
    "sha": "358405b7",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
-   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L｜整合：部分：2-1 E02 已整合待測試；第 3 節 30 處大多未做｜AA_203 初版：經濟系前傳自然口語檢查——結構層六點、AA 改稿 30 處、BB 單句清單、BB_167 未進程式的處理"
+   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L｜整合：部分：2-1 E02 已整合待測試；第 3 節 30 處大多未做｜AA_203 初版：舊序章自然口語檢查——結構層六點、AA 改稿 30 處、BB 單句清單、BB_167 未進程式的處理"
   },
   {
    "sha": "7ae9e0f2",
@@ -20451,7 +20455,7 @@
   {
    "sha": "6b0a23b4",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
-   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1（只涵蓋 4-5 茶會）｜START-WEEK｜整合：已整合待測試｜AA_195 4-2～4-5：8/29 搬宿舍（DAY1_NARR 移到這天、經濟系版本）、8/30 新手教學＋家族群組 W0、8/31 開學典禮＋班群公告茶會、9/2 新生茶會＋直屬見面"
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1（只涵蓋 4-5 茶會）｜START-WEEK｜整合：已整合待測試｜AA_195 4-2～4-5：8/29 搬宿舍（DAY1_NARR 移到這天、舊序章版本）、8/30 新手教學＋家族群組 W0、8/31 開學典禮＋班群公告茶會、9/2 新生茶會＋直屬見面"
   },
   {
    "sha": "c9533025",
@@ -20531,7 +20535,7 @@
   {
    "sha": "5871d068",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
-   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC（大一上 BB_169）、DL-AA-AB652（AA_207 用 SC3、SC4）、DL-BB-BB179／DL-AA-V0-REWRITE（經濟系 SC1）、DL-BB172（SC5）；大一下在 AB65-3-Y1S2-L（總表有任務，deliveries 沒有對應筆）｜AB-65｜整合：參考用（拆進各學期改稿包）｜BB_167 自然口語對照表（BB 人物）完成：代表性 85 列＋附錄 SC1～SC5 共 188 列；檔頭「請使用者確認的事」四點（使用者 20:3x 已決定，7b9cd06a 記入）"
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC（大一上 BB_169）、DL-AA-AB652（AA_207 用 SC3、SC4）、DL-BB-BB179／DL-AA-V0-REWRITE（舊序章 SC1）、DL-BB172（SC5）；大一下在 AB65-3-Y1S2-L（總表有任務，deliveries 沒有對應筆）｜AB-65｜整合：參考用（拆進各學期改稿包）｜BB_167 自然口語對照表（BB 人物）完成：代表性 85 列＋附錄 SC1～SC5 共 188 列；檔頭「請使用者確認的事」四點（使用者 20:3x 已決定，7b9cd06a 記入）"
   },
   {
    "sha": "ccac458a",
@@ -20556,7 +20560,7 @@
   {
    "sha": "ca8e33bd",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
-   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179（y0s1 部分）｜V0-REWRITE-L（y0s1）／AB65-3-Y1S2-L（y1s2）｜整合：y0s1 已整合待測試（整句已被 BB_179 9ebf6663 重寫並匯入）；y1s2 未整合｜閒聊階梯兩處內容錯（第①級）：品妤「沉沒成本」→「機會成本」（ladder_bb_y0s1）；可昕「記帳是我的興趣」→「我就是會記這種東西」（ladder_bb_y1s2）"
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179（y0s1 部分）｜V0-REWRITE-L（y0s1）／AB65-3-Y1S2-L（y1s2）｜整合：y0s1 已整合待測試（整句已被 BB_179 9ebf6663 重寫並匯入）；y1s2 未整合｜閒聊階梯兩處內容錯（第①級）：舊序章人物丁「沉沒成本」→「機會成本」（ladder_bb_y0s1）；可昕「記帳是我的興趣」→「我就是會記這種東西」（ladder_bb_y1s2）"
   },
   {
    "sha": "d0703a31",
@@ -20756,7 +20760,7 @@
   {
    "sha": "845bdf99",
    "branch": "origin/claude/elegant-brown-fcos7n",
-   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66（V0-REWRITE-L）｜整合：部分整合｜BB_179：E19 日期改 12/19（四）；記 AA-B 對第 2、3 節的決定（AA_200 7-2：經原第 1 週邊際效用、C1 社長交代、E19 品妤九點下班）"
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66（V0-REWRITE-L）｜整合：部分整合｜BB_179：E19 日期改 12/19（四）；記 AA-B 對第 2、3 節的決定（AA_200 7-2：經原第 1 週邊際效用、C1 社長交代、E19 舊序章人物丁九點下班）"
   },
   {
    "sha": "67a10218",
@@ -20766,7 +20770,7 @@
   {
    "sha": "5def44c5",
    "branch": "origin/claude/elegant-brown-fcos7n",
-   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179、DL-AA-V0-REWRITE｜AB-66（V0-REWRITE-L）｜整合：部分整合｜BB_179 經濟系前傳口語改稿交付包（主檔＋附錄五段逐句對照 A65／B78／C68／D76／E185＋42）"
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179、DL-AA-V0-REWRITE｜AB-66（V0-REWRITE-L）｜整合：部分整合｜BB_179 舊序章口語改稿交付包（主檔＋附錄五段逐句對照 A65／B78／C68／D76／E185＋42）"
   },
   {
    "sha": "1fc104a2",
@@ -20936,7 +20940,7 @@
   {
    "sha": "d514be45",
    "branch": "origin/claude/elegant-brown-fcos7n",
-   "why": "交付（已涵蓋，不另登記）：DL-BB171（d8857e69 互審後版）｜VAC-B1／V1-BB171｜整合：未整合｜BB_171 BB 人物假期所在地與跨年（BB 九位＋經濟系四位、矛盾 C1～C7、2025 跨年、16 週修正 T1～T5）"
+   "why": "交付（已涵蓋，不另登記）：DL-BB171（d8857e69 互審後版）｜VAC-B1／V1-BB171｜整合：未整合｜BB_171 BB 人物假期所在地與跨年（BB 九位＋舊序章四位、矛盾 C1～C7、2025 跨年、16 週修正 T1～T5）"
   },
   {
    "sha": "1eeece1c",
@@ -21312,35 +21316,35 @@
    "sha": "98ffd82f",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "經濟系第四輪、魏教授第六版的腳本，成品是 03179efb",
+   "reason": "舊序章第四輪、舊序章的教授第六版的腳本，成品是 03179efb",
    "coveredBy": "DL-LAWWW2-03179efb"
   },
   {
    "sha": "680c0f32",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "魏教授眼鏡 glasses_wei.glb，03179efb 那一批一起整合",
+   "reason": "舊序章的教授眼鏡 glasses_wei.glb，03179efb 那一批一起整合",
    "coveredBy": "DL-LAWWW2-03179efb"
   },
   {
    "sha": "3bb9b276",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "韋綸安全帽 helmet_bike.glb，03179efb 那一批一起整合",
+   "reason": "舊序章人物乙安全帽 helmet_bike.glb，03179efb 那一批一起整合",
    "coveredBy": "DL-LAWWW2-03179efb"
   },
   {
    "sha": "631b8f6a",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "魏教授第五版（被第六版取代）",
+   "reason": "舊序章的教授第五版（被第六版取代）",
    "coveredBy": "DL-LAWWW2-03179efb"
   },
   {
    "sha": "c50a726b",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "經濟系三人衣服第一輪（被第四輪取代）",
+   "reason": "舊序章三人衣服第一輪（被第四輪取代）",
    "coveredBy": "DL-LAWWW2-03179efb"
   },
   {
@@ -21386,21 +21390,21 @@
    "sha": "b17e72a2",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "wip",
-   "reason": "唐睿第十二版腳本（第十一版沒通過；還沒交 BB）",
+   "reason": "舊序章人物丙第十二版腳本（第十一版沒通過；還沒交 BB）",
    "task": "ART-CH-TANGRUI"
   },
   {
    "sha": "fbe25a92",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "wip",
-   "reason": "唐睿第十三版＋沛珊第二十一版腳本（還沒交 BB）",
+   "reason": "舊序章人物丙第十三版＋沛珊第二十一版腳本（還沒交 BB）",
    "task": "ART-CH-TANGRUI"
   },
   {
    "sha": "2d17e325",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "唐睿 v20、韋綸 v13 腳本（成品 60dc7908）；bg_cinema.py 是 BG-19 WIP",
+   "reason": "舊序章人物丙 v20、舊序章人物乙 v13 腳本（成品 60dc7908）；bg_cinema.py 是 BG-19 WIP",
    "coveredBy": "DL-LAWWW2-60dc7908"
   },
   {
@@ -21413,42 +21417,42 @@
    "sha": "a79b88cd",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "唐睿 v19 交 BB-C（被 v20 取代）",
+   "reason": "舊序章人物丙 v19 交 BB-C（被 v20 取代）",
    "coveredBy": "DL-LAWWW2-60dc7908"
   },
   {
    "sha": "225a4f26",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "唐睿 v19 腳本",
+   "reason": "舊序章人物丙 v19 腳本",
    "coveredBy": "DL-LAWWW2-60dc7908"
   },
   {
    "sha": "69cb020e",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "唐睿 v18 腳本",
+   "reason": "舊序章人物丙 v18 腳本",
    "coveredBy": "DL-LAWWW2-60dc7908"
   },
   {
    "sha": "927e6753",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "唐睿 v17 腳本",
+   "reason": "舊序章人物丙 v17 腳本",
    "coveredBy": "DL-LAWWW2-60dc7908"
   },
   {
    "sha": "8e2a61a4",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "唐睿 v16 腳本",
+   "reason": "舊序章人物丙 v16 腳本",
    "coveredBy": "DL-LAWWW2-60dc7908"
   },
   {
    "sha": "0f19bcb7",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "唐睿 v15 交 BB-C（被 v20 取代）",
+   "reason": "舊序章人物丙 v15 交 BB-C（被 v20 取代）",
    "coveredBy": "DL-LAWWW2-60dc7908"
   },
   {
@@ -21469,14 +21473,14 @@
    "sha": "9aff0d24",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "沛珊第二十四版、唐睿第十五版腳本",
+   "reason": "沛珊第二十四版、舊序章人物丙第十五版腳本",
    "coveredBy": "DL-LAWWW2-552185d9"
   },
   {
    "sha": "e2f396c9",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
-   "reason": "唐睿第十四版、沛珊第二十三版腳本",
+   "reason": "舊序章人物丙第十四版、沛珊第二十三版腳本",
    "coveredBy": "DL-LAWWW2-552185d9"
   },
   {
@@ -21596,14 +21600,14 @@
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
    "coveredBy": "DL-LAWWW2-91ca1bca",
-   "reason": "品妤保溫瓶第二版（props_pinyu.js＋截圖）；DL-LAWWW2-91ca1bca 的 what／note 已寫「保溫瓶第二版 2ef1ca4b」、BB-C f331e153 通過"
+   "reason": "舊序章人物丁保溫瓶第二版（props_pinyu.js＋截圖）；DL-LAWWW2-91ca1bca 的 what／note 已寫「保溫瓶第二版 2ef1ca4b」、BB-C f331e153 通過"
   },
   {
    "sha": "977deaf7",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
    "coveredBy": "DL-LAWWW2-91ca1bca",
-   "reason": "品妤計算機、保溫瓶改掛前臂（props_pinyu.js），是 2ef1ca4b 第二版的前一步；LAWWW-C 依 DL-LAWWW2-91ca1bca 接成右前臂／左前臂"
+   "reason": "舊序章人物丁計算機、保溫瓶改掛前臂（props_pinyu.js），是 2ef1ca4b 第二版的前一步；LAWWW-C 依 DL-LAWWW2-91ca1bca 接成右前臂／左前臂"
   },
   {
    "sha": "c69cbfd2",
@@ -21631,7 +21635,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
    "coveredBy": "DL-LAWWW2-ad0552ff",
-   "reason": "經濟系三人臉分開＋待機臉（三個 VRM、char_review）；DL-LAWWW2-ad0552ff 寫「經濟系三人臉分開」"
+   "reason": "舊序章三人臉分開＋待機臉（三個 VRM、char_review）；DL-LAWWW2-ad0552ff 寫「舊序章三人臉分開」"
   },
   {
    "sha": "a02c51f8",
@@ -21659,7 +21663,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
    "coveredBy": "DL-LAWWW2-ad0552ff",
-   "reason": "vrm_finish2.py 加 VRM_REST（經濟系待機臉，BB_201）；d67a9f10 的三人臉用它，交付在 ad0552ff"
+   "reason": "vrm_finish2.py 加 VRM_REST（舊序章待機臉，BB_201）；d67a9f10 的三人臉用它，交付在 ad0552ff"
   },
   {
    "sha": "fe8d4ee0",
@@ -21834,14 +21838,14 @@
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
    "coveredBy": "DL-LW2-ECON-CH",
-   "reason": "唐睿 v6 頭髮（tangrui_hair.py）、魏教授第二版頭髮（npc.py）→ 9fe25037 經濟系人物交付（唐睿 v6、魏教授 v2）；同 commit 的公館機車行 2D 背景腳本 bg_scooter_shop.py（WIP）出的圖在 9442e59b，後來 89c856f8 依 AA_252 刪除"
+   "reason": "舊序章人物丙 v6 頭髮（tangrui_hair.py）、舊序章的教授第二版頭髮（npc.py）→ 9fe25037 舊序章人物交付（舊序章人物丙 v6、舊序章的教授 v2）；同 commit 的公館機車行 2D 背景腳本 bg_scooter_shop.py（WIP）出的圖在 9442e59b，後來 89c856f8 依 AA_252 刪除"
   },
   {
    "sha": "bd6eb212",
    "branch": "claude/focused-cray-c9uwvw",
    "kind": "covered",
    "coveredBy": "DL-LW2-ECON-CH",
-   "reason": "魏教授第一版腳本（npc.py 的 pwei＋wei_clothes.py）；9fe25037 加入 bl_prof_wei.vrm（魏教授 v2），wei_clothes.py 之後沒再改"
+   "reason": "舊序章的教授第一版腳本（npc.py 的 pwei＋wei_clothes.py）；9fe25037 加入 bl_prof_wei.vrm（舊序章的教授 v2），wei_clothes.py 之後沒再改"
   },
   {
    "sha": "28f2f649",
@@ -21910,7 +21914,7 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "kind": "covered",
    "coveredBy": "DL-AA-49ed7e6a",
-   "reason": "AA_306 經濟系大一下階梯問完：韋綸 WL0b-L5～L8 拿掉（build_ladder_bb_y0s2.py＋ladder_bb_y0s2.json）；49ed7e6a 是後代且這兩個檔沒再改，白名單 ladder_bb_y0s2.json@49ed7e6a、開發分支 1c98fbbf 已重匯（DL-AA-49ed7e6a note：「也涵蓋 AA306-KX-LADDER-1018 的經濟系層」）。同 commit 的 AA_308 第 10 節（7/12 對答案）已記在 DL-AA-50f2142c、開發分支 events.js 已改"
+   "reason": "AA_306 舊序章大一下階梯問完：舊序章人物乙 WL0b-L5～L8 拿掉（build_ladder_bb_y0s2.py＋ladder_bb_y0s2.json）；49ed7e6a 是後代且這兩個檔沒再改，白名單 ladder_bb_y0s2.json@49ed7e6a、開發分支 1c98fbbf 已重匯（DL-AA-49ed7e6a note：「也涵蓋 AA306-KX-LADDER-1018 的舊序章層」）。同 commit 的 AA_308 第 10 節（7/12 對答案）已記在 DL-AA-50f2142c、開發分支 events.js 已改"
   },
   {
    "sha": "65531f21",
@@ -22577,7 +22581,7 @@
    "branch": "origin/claude/funny-albattani-iawshm",
    "kind": "covered",
    "coveredBy": "ENGINE-SEASON-DUSK-1024",
-   "reason": "路線巡查③經濟系那一年報告（31 張截圖、沒有 patch）；建議的傍晚天色開成 ENGINE-SEASON-DUSK-1024；LAWWW-B 10-24 15:5x 分類"
+   "reason": "路線巡查③舊序章那一段報告（31 張截圖、沒有 patch）；建議的傍晚天色開成 ENGINE-SEASON-DUSK-1024；LAWWW-B 10-24 15:5x 分類"
   },
   {
    "sha": "b8640cf15",
@@ -24298,6 +24302,13 @@
    "branch": "claude/funny-albattani-iawshm",
    "coveredBy": "DLV-1110-L2-WALLBASE3",
    "reason": "#204 第三批 WIP 那一步；同一批由交件 134c01b93 交、faf1b75a4 整合；LAWWW-B 11-10 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "b711530d",
+   "kind": "not_delivery",
+   "role": "BB",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "reason": "BB-C 把自己分支上別人檔案的舊副本同步成負責分支最新版、清掉舊名；不是交付，沒有要整合的東西；LAWWW-C 11-12 incr 分類（D94）"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"

@@ -36,8 +36,15 @@ const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早�
   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 invites.js 四處五句（firstAt.brunch 兩句、acc.brunch.A／R、acc.run_avenue）和 invite_replies.js 同句的 ps5、ps9 換了字——和 BASE 比的時候這五句照新稿算（逐字比對 tests/peishan_feed_misc_1111_unit.js） */
   ["她翻蛋的時候手腕都不動耶。我媽也是。", "你看她翻蛋，手腕都不動欸。"], ["我到現在還學不會。", "我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。"], ["早餐店的女兒，去吃別人的早午餐。……好，我去研究。", "早午餐！好啊，那種不用太早起的我最可以。"], ["好。我想看他們的蛋怎麼翻。", "好啊。我想坐吧台，可以看他們做。"], ["好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。", "好啊！可是你要打給我，我鬧鐘要響三次才起得來。"]];
 A731.push(...require('./peishan_rewrite_1111.js').PAIRS);   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS）：事件、零散檔案裡她的句子換了字，和 BASE 比的時候照新稿算 */
-const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; if(!A731._772){ A731._772=true; A731.push(...require('./l118_redo772_expect.js').rows); }   /* 2026-11-11：AA_772 的 fix 列（白名單上的版本）照新稿算 */ const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
+/* 2026-11-11（X324 D 區）：覆蓋層（白名單 overlay:true 的稿：AA_783 invites／invite_replies、AA_784 invites；tests/overlay_expect.js 讀，不手抄）換的字，和 BASE 比的時候照稿算。逐列對稿在 tests/invite_overlay_1111_unit.js */
+A731.push(...['invites','invite_replies'].flatMap(f=>require('./overlay_expect.js').rows(f).map(r=>[r.old,r.new])));
+/* 同一格先被前面的稿（AA_731、AA_772 fix）換過、再被覆蓋層換一次（例：子晴 daybreak「早上？……十點以後可以。」→ AA_731「Daybreak？……好。我會起來。」→ AA_784「Daybreak？好。我會起來。」）：OVS＝把覆蓋層的舊字整句換成新字，接在前面那一步後面 */
+const OVR=['invites','invite_replies'].flatMap(f=>require('./overlay_expect.js').rows(f)).sort((x,y)=>y.old.length-x.old.length), OVS=t=>typeof t==='string'?OVR.reduce((x,r)=>x.split(r.old).join(r.new),t):t;
+const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; if(require('./kx_rewrite_1112.js').pair(a,b)||require('./canon1112_ok.js').pair(a,b)) return true;   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：invites.js 可昕羽球答應句、第一次到總圖那一句（在函式原始碼裡）、bbpack_events.js 一句照新稿算。舊期望：這三句和 BASE 一字不差 */ if(!A731._772){ A731._772=true; A731.push(...require('./l118_redo772_expect.js').rows); }   /* 2026-11-11：AA_772 的 fix 列（白名單上的版本）照新稿算 */ const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&(s(b)===n||OVS(n)===s(b))||(a.includes(o)&&(a.split(o).join(n)===b||OVS(a.split(o).join(n))===b)))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
 const CHANGED=['src/data/invites.js','src/invites3d.js','src/libquiet3d.js','src/y2r2_3d.js','src/data/bbpack_events.js','src/data/zrzq_events.js','src/data/encounters.js','src/legal3d.js'];
+/* CANON-NO-ECON-1112 第四批：照 AA_889～AA_897、AA_873～AA_885 換字的場次不比（逐字對稿在各自的測試）*/
+const CHG4=['ev_kexin_good_class','ev_kexin_quiz_y2','ev_kexin_xmas_y2','ev_kexin_birthday_y2','ev_kexin_birthday_y2_call','ev_kexin_summer_plan','ev_kexin_summer_plan_call','ev_kexin_presentation','ev_kexin_own_paths','ev_kexin_bus_home','ev_kexin_bad_exam','ev_kexin_call_helper','ev_kexin_tutor_practice','ev_kexin_k20','ev_kx_s1_deposit','ev_kx_s1_heard','ev_kx_s6_same','ev_kexin_birthday_y1s2','ev_kexin_birthday_y1s2_drink','ev_kexin_birthday_y1s2_late','ev_kexin_birthday_y1s2_next','ev_bar_group_start','ev_bar_group_night','ev_bar_group_out','ev_bar_group_video','ev_bar_group_three','ev_kexin_grades_open','ev_kexin_grades_open_y1s2','ev_nye_river','ev_kexin_trip_spring_y1','ev_kexin_valentine_y1','ev_kexin_vday_makeup_y1','ev_kx_nye_river_y2','ev_kx_nye_river_y3','ev_kx_nye_river_y4','ev_kexin_trip_spring_y2','ev_kexin_trip_summer_y2','ev_kexin_qixi_y2','ev_kexin_xmas_y3','ev_kexin_valentine_y3','ev_kexin_k18','ev_kexin_birthday_y3','ev_kexin_trip_spring_y4','ev_kexin_bday_visit_y4','ev_kexin_anniversary_y1','ev_kexin_anniversary_yn','ev_k7_gift_prep','ev_k7_gift_prep_n','ev_kexin_anniversary_video','ev_kx_souvenir','ev_kexin_moot3'];
+const GONE_EV=['ev_kexin_tour_nccu','ev_kexin_yule_pass','ev_kexin_video_study','ev_kexin_birthday_y1','ev_kexin_our_day','ev_kexin_our_day_wk','ev_kexin_nye_missed_call','ev_kexin_anniv_missed_call','ev_kexin_reschedule','ev_kx_nye_video_y2','ev_kx_nye_video_y3','ev_kx_nye_video_y4','ev_kexin_kh_missed_call','ev_kexin_qixi_video','ev_kexin_30min','ev_kexin_lecture_ntu','ev_kexin_lecture_table','ev_kexin_juniors_video','ev_kexin_kn_call_y3','ev_kexin_last_study_night','ev_kexin_two_circles','ev_kexin_call_helper2','ev_kexin_k18_call','ev_kexin_k20_call','ev_kexin_juniors_dinner','ev_kexin_film_night','ev_kexin_quiz_y2_video','ev_econ_night_y2','ev_kexin_video_report'].concat(Array.from({length:9},(_,i)=>'ev_kx_drift_r'+['1','1b','2','3','4','5','5_call','6','7'][i]));   /* CANON-NO-ECON-1112 第三批拿掉的事件：BASE、現在兩邊都不比（這一項拿掉）*/
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 /* 同第五批的尺 */
@@ -126,7 +133,7 @@ if(process.env.QUOTE_B6_PROBE) (async()=>{
       if(typeof o==='function'){ acc.push([p,'fn:'+String(o)]); return acc; } if(seen.has(o)){ acc.push([p,'(seen)']); return acc; } seen.add(o); for(const k of Object.keys(o)) dump(o[k],p+'.'+k,acc,seen); return acc; };
     const J0=x=>JSON.stringify(x);
     out.data={inv:dump(INVITE_DATA,'INVITE_DATA',[]),enc:dump(ENCOUNTERS,'ENCOUNTERS',[]),zrzq:dump(ZRZQ_LINES,'ZRZQ_LINES',[]),
-      ev:dump((typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[]).map(e=>({id:e.id,dialogue:e.dialogue})),'STORY_EVENTS',[]).filter(x=>!/^fn:/.test(x[1]))}; }
+      ev:dump((typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[]).filter(e=>!GONE_EV.includes(e.id)).map(e=>({id:e.id,dialogue:e.dialogue})),'STORY_EVENTS',[]).filter(x=>!/^fn:/.test(x[1]))}; }
   /* ---------- 31a 沛珊第一次去法圖（讀書區：INV.meet、LIBQ.scope；同 tests/libq_out_1102_unit.js 第 2 節）---------- */
   await sec('meet',async()=>{ const PS='classmate_peishan';
     H.fresh('2026-10-07',15,'lawlib'); H.FRIEND(PS); at('lawlib',1,0,0); LIBQ.reset(); if(typeof STUDYN!=='undefined') STUDYN.of(H.G,PS).last=H.G.day;
@@ -175,6 +182,13 @@ const lits=(s,re)=>{ const t=noComments(s), o=[]; let m; re=re||LIT; re.lastInde
 const runProbe=m=>{ let o=''; try{ o=cp.execFileSync(process.execPath,[__filename],{env:Object.assign({},process.env,{QUOTE_B6_PROBE:m}),encoding:'utf8',maxBuffer:1<<29,stdio:['pipe','pipe','pipe']}); }catch(e){ o=String(e.stdout||''); }
   const line=o.split('\n').find(l=>l.startsWith('@@B6@@')); return line?JSON.parse(line.slice(6)):{errs:['子程序沒有結果：'+o.slice(-300)]}; };
 const O=runProbe('old'), N=runProbe('new');
+/* rc2b（D158-KX-SAMESCHOOL，AA_1012 第 2 節，BB_467）：可昕「等我到台北」兩句換過；和 BASE 比以前，現在的值裡這兩句新字先換回舊字（新舊字在 tests/d158_rc2_rows.json），另外驗新字在、舊字不見 */
+{ const R=require('./d158_rc2_lib.js').rows('invites.js'), M=new Map(R.map(r=>[r.new,r.old])); let nNew=0, nOld=0;
+  const fix=L=>{ for(const e of (L||[])) if(Array.isArray(e)&&typeof e[1]==='string'){ if(R.some(r=>r.old===e[1]&&/kexin/.test(e[0]))) nOld++; if(M.has(e[1])){ e[1]=M.get(e[1]); nNew++; } } };
+  fix((N.data||{}).inv); fix(N.inputs);
+  check('rc2b. 可昕「等我到台北」兩句：現在的資料裡新字在（'+nNew+' 格）、舊字 0 格',nNew>=2&&nOld===0,J([nNew,nOld])); }
+/* CANON-NO-ECON-1112 第四批（AA_894 第 4 節）：invites.js 拿掉的兩格（子晴問換方向、芯慈 w118_xc_10），舊資料先拿掉同一格再比（tests/canon1112_ok.js drop）；換了字的幾句照 pair 算 */
+{ const C4=require('./canon1112_ok.js'); if(O.data&&O.data.inv) O.data.inv=C4.drop(O.data.inv); if(O.inputs) O.inputs=C4.drop(O.inputs); }
 
 /* ---------- 27. 分類 ---------- */
 { const nine=N.nine||[], nineO=O.nine||[];
@@ -191,9 +205,12 @@ const O=runProbe('old'), N=runProbe('new');
   const KEEP={
     'src/crowd3d.js':['nameless',['（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……沒有電梯啦，我爬上來的。五樓。」','（提著兩袋宵夜的人）「鹹酥雞到了，誰下來拿？」','（在門口講電話）「沒有啦，我只是想打給你。」','（抱著一疊書的人）「總圖還有位子嗎？……那我去社科圖。」']],
     'src/data/crowd_depts.js':['split',['（他邊走邊講電話）「板子放在你桌上了。……那顆電容是新的，這次不要再燒掉。」','（他盯著手機）「又錯一筆測資。……到底是哪一筆。」','（她講電話）「阿嬤那邊我禮拜四再去一次。她上次說要教我摺紙鶴。」','（她在柱子上貼傳單：「徵求受試者，心理系實驗」。）「……膠帶又用完了。」','（他對著一棵樹念台詞）「……你為什麼不早說？——不對，這一句要更小聲。」']],
-    'src/data/events.js':['choice',['「謝謝學姊。」（拿了書狀就走）','（替她答）「她想知道法律外面還有什麼。」','（繼續演品妤）「你想說什麼？」']],
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（照留清單裡經濟系那一年的兩句拿掉（events.js 選項一句、retake_home.js 一句），econff3d.js 的那一格跟著拿掉）
+    'src/data/events.js':['choice',['「謝謝學姊。」（拿了書狀就走）','（替她答）「她想知道法律外面還有什麼。」']],
     'src/data/r2y4a_events.js':['choice',['（再問一次）「妳還好嗎？」','（指著法律系館B）「先記得這棟就好。」','（收下）「謝謝阿嬤。」']],
-    'src/y2r2_3d.js':['choice',['（裝不知道）「恭喜！」']] };
+    'src/y2r2_3d.js':['choice',['（裝不知道）「恭喜！」']],
+    /* （CANON-NO-ECON-1112 第四批：AA_876 D3 的選項字（祐廷的選項，動作＋說的話；選項照留那一類）一個）*/
+    'src/kxdrift3d.js':['choice',['（把書蓋起來）「我在聽，妳講。」']] };
   const KEEP2={
     'src/data/ladder.js':['choice',['（喝掉，說）「我也太兇了。」']],'src/data/date_lines.js':['choice',['「一起拍？」（第 6 階以上）']],
     /* 2026-11-11（L118-LUNCH-INVITE-1111／L118-SHOPS-REDO-1111；AA_771 最終版 @1669b3ae0）：午餐邀約多一個選項 options.skip「好，走。」（直接到吃完）——選項字（GM.choose 的 t），照既有選項的慣例留「」（同一個檔的 accept、decline 也是帶「」的選項）；舊期望：沒有這一格 */
@@ -203,9 +220,11 @@ const O=runProbe('old'), N=runProbe('new');
     'src/data/invite_replies.js':['record',['「好。」（她把吧檯又擦了一遍，才回你。）','「嗯。」（她只回一個字，可是三秒就回了。）','「好。我會去。」（她回得很快，然後很久沒有下一則。）']],
     'src/data/library_3f_layout.js':['record',['「看桌上的紙條」（守誠那張桌子；pool_more3d.js 的 POP）','「看期刊架」（語彤的系刊；r2y4a3d.js 的 shelfPlace）']],
     'src/data/shop_enc.js':['nameless',['（她翻了十分鐘，把書遞給你。）「第三章的筆記最好看。」','（她把手機遞過來。）「加一下吧。看到好書跟你說。」','（他把印好的講義對齊，用長尾夾夾好。）「拿去。考好一點。」']],
-    'src/data/retake_home.js':['nameless',['（媽媽把你推出廚房。）「你去讀你的書。」']],
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（retake_home.js 那一句沒名字的）
     /* 2026-11-10 改期望：AA_745 電影散場的選項字（祐廷的選項，動作＋說的話；選項照留那一類）三個 */
     'src/data/movie_plots.js':['choice',['（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」','（小聲）「也幫我印一張。」','（小聲）「妳真的去了喔。」']],
+    /* 2026-11-11（AA_811@fb1256280，DLG-FULL-REVIEW-1110）：子晴語音第九則的回覆選項（祐廷的選項，動作＋說的話；選項照留那一類）；舊期望：沒有這一格 */
+    'src/data/aa811_lines.js':['choice',['（回語音）「恭喜。開門那個聲音我聽到了。」']],
     /* 2026-11-10 改期望（TERMEND-OPTS-1110）：AA_748／AA_749 期末飯的選項字（祐廷的選項，動作＋說的話；選項照留那一類）三個 */
     'src/data/termend_opts.js':['choice',['（兩手捧著杯子。）「謝謝。」','（從頭看到尾。）「沒有傘。」','（把自己的手機遞過去。）「我的也是。」',
       /* 2026-11-10 改期望：朋友版七學期（AA_749 @5ffd725b8）多兩個選項字，同一類 */
@@ -217,17 +236,17 @@ const O=runProbe('old'), N=runProbe('new');
   const s1=scan(LIT), want1=flat(KEEP);
   check('27. 單引號的字串（第五批第 21 項那一套掃描）：剩下 '+s1.length+' 個＝照留的 '+want1.length+' 個（路人沒名字 4、分科系拆開播 5、選項 7），一個不多一個不少',J(s1)===J(want1),sample(s1.filter(x=>!want1.includes(x)).concat(want1.filter(x=>!s1.includes(x)).map(x=>'少了 '+x))));
   const s2=scan(LIT2), want2=flat(Object.assign({},KEEP,KEEP2));
-  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋午餐邀約選項 1＋一起活動選項 13＋電影選項 3＋期末飯選項 6、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
+  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋午餐邀約選項 1＋一起活動選項 13＋電影選項 3＋子晴語音選項 1＋期末飯選項 6、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
   /* 照留的理由：選項＝choice 的 text；沒名字＝播的程式看開頭的（給 null；拆開播＝deptSteps；紀錄＝不播的欄位 */
   const opt=st.opt||[];
   check('27. 選項（events.js 三個、r2y4a_events.js 三個、y2r2_3d.js 一個）都是事件 choice 的 text（GM.choose，不是誰說的）',KEEP['src/data/events.js'][1].concat(KEEP['src/data/r2y4a_events.js'][1],KEEP['src/y2r2_3d.js'][1]).every(t=>opt.some(s=>s.text===t&&s.choice)&&!opt.some(s=>s.text===t&&!s.choice)),J(opt.map(s=>[s.ev,s.choice,s.text])));
   const LD=cur('src/data/ladder.js'), DL=cur('src/data/date_lines.js'), IR=cur('src/data/invite_replies.js'), L3=cur('src/data/library_3f_layout.js');
   check('27. 雙引號的選項、紀錄：ladder.js、date_lines.js 是 choices 的 "t"；invite_replies.js 是 "say"（表上原文，播的是 lines）；library_3f_layout.js 是 "what"（說明）',
     LD.includes('{"t": "（喝掉，說）「我也太兇了。」"')&&DL.includes('{"t": "「一起拍？」（第 6 階以上）"')&&KEEP2['src/data/invite_replies.js'][1].every(t=>IR.includes('"say":"'+t+'"'))&&KEEP2['src/data/library_3f_layout.js'][1].every(t=>L3.includes('"what": "'+t+'"')));
-  const SE=noComments(cur('src/shopenc3d.js')), WZ=noComments(cur('src/wzshops3d.js')), EF=noComments(cur('src/econff3d.js')), CR=noComments(cur('src/crowd3d.js'));
+  const SE=noComments(cur('src/shopenc3d.js')), WZ=noComments(cur('src/wzshops3d.js')), CR=noComments(cur('src/crowd3d.js'));
   check('27. 沒名字的：shop_enc.js 三句（shopenc3d.js 知寧選項的回覆、加聯絡人那句、wzshops3d.js 阿德）、retake_home.js 一句（econff3d.js）播的時候看開頭的（ ＝沒有名字；大一女舍門口（crowd3d.js S.overhear）字串＝沒有名字',
     /for\(const t of L\) await GM\.say\(\/\^（\/\.test\(t\)\?null:she,t\);/.test(SE)&&/await GM\.say\(\/\^（\/\.test\(P\.contact\.line\)\?null:zn,P\.contact\.line\);/.test(SE)&&/for\(const t of q\.lines\) await GM\.say\(\/\^（\/\.test\(t\)\?null:\{name:q\.name\},t\);/.test(WZ)
-    &&/\/\^（\/\.test\(t\)\?\{speaker:null,text:t\}/.test(EF)&&/S\.overhear=async function\(GM,n,script\)\{[^\n]*map\(x=>typeof x==='string'\?\{t:x\}:x\)/.test(CR)&&/GM\.say\(x\.who\?\{name:x\.who,obj:n&&n\.obj\}:null,x\.t\)/.test(CR));
+    &&/S\.overhear=async function\(GM,n,script\)\{[^\n]*map\(x=>typeof x==='string'\?\{t:x\}:x\)/.test(CR)&&/GM\.say\(x\.who\?\{name:x\.who,obj:n&&n\.obj\}:null,x\.t\)/.test(CR));
   const fd=N.fdorm||[];
   check('27. 演出來：大一女舍門口（CROWD.giveLines → 點了聽一句；（動作）「…」四句＋整句「…」一句）都是沒名字的對話框、字照留、和 BASE 一樣',fd.length===5&&fd.filter(r=>actQ(r[1])).length===4&&fd.every(r=>r[2]===null&&r[3]===r[1])&&J(fd)===J(O.fdorm),J(fd));
   const dp=N.dept||[];
@@ -262,6 +281,9 @@ function cmp772(A0,B0,same){ const A=rekey772(A0), B=rekey772(B0), mA=new Map(),
   if(!(/wz_mokuyobi/.test(sm)&&/「木曜日」/.test(sm)&&/「去木曜日念書」/.test(sm)&&/\[13,22\]/.test(sm)&&/平日 15:30、19:00/.test(sm)&&/週末 14:00、15:30、19:00/.test(sm)&&/verbStudy 拿掉/.test(sm))) bad.push('E3／E4：AA_772 slowread_to_mokuyobi.place 的字和這支測試認得的不一樣（稿改了，這裡要跟著看）');
   const plLine=(pid,p)=>{ const m=/^INVITE_DATA\.people\.([^.]+)\.(acc|firstAt)\.(l118_[a-z0-9_]+)(?:\.([A-Z]))?\.(\d+)$/.exec(p)||null; return m; };
   const explained=(p,a,b)=>{ const q=placeOf(p);
+    if(/^INVITE_DATA\.people\.kexin\.rule(\(\)#\d+)?$/.test(p)&&b===undefined) return true;
+    if(/^INVITE_DATA\.places\[(yangyang|corner_records)\]\.who(Last|Days)\.kexin(\.\d+)?$/.test(p)&&b===undefined) return true;   /* AA_941：可昕的 whoLast（洋洋）、whoDays（轉角唱片）拿掉 */   /* AA_940（11-13）：可昕法圖改約慢讀那條 rule 拿掉 */
+    if(/^INVITE_DATA\.people\.kexin\.acc\.lawlib/.test(p)&&a===undefined) return b==='好。我常坐的那一排，靠窗。';   /* AA_940：補 acc.lawlib */
     if(q){ const [id,suf]=q; if(NEW.includes(id)){ if(suf==='.name') return b===IPN[id].name; if(suf==='.verb') return b===IPN[id].verb; if(/^\.(windows|off|days)\./.test(suf)) return hoursOk(id,suf,b); return true; }   /* 新地點的其他欄位：下面 E1 另外逐值驗 */
       if(IPN[id]){ if(suf==='.name') return b===IPN[id].name; if(suf==='.verb') return b===IPN[id].verb; if(/^\.(windows|off|days)\./.test(suf)) return b===undefined?true:hoursOk(id,suf,b);
         if(id==='l118_tea'&&!IPN[id].walk){ const d=valB('INVITE_DATA.places[l118_dian]'+suf); return b===d||(typeof b==='string'&&typeof d==='string'&&b.split('l118_tea').join('l118_dian')===d)||(a!==undefined&&b===undefined&&d===undefined); } }
@@ -273,8 +295,8 @@ function cmp772(A0,B0,same){ const A=rekey772(A0), B=rekey772(B0), mA=new Map(),
     m=/^INVITE_DATA\.places\[(l118_[a-z0-9_]+)\]\.noWho\.([^.]+)$/.exec(p); if(m){ if(b===undefined) return true; return (((PL772.places[m[1]]||{})[m[2]]||{}).no||'').replace(/^「|」$/g,'')===String(b).replace(/^「|」$/g,''); }
     m=/^INVITE_DATA\.seatOpen\.byPlace\.(l118_[a-z0-9_]+)$/.exec(p); if(m) return a===undefined&&b==='meal'&&!!IPN[m[1]]&&!IPN[m[1]].walk;
     /* E6 */
-    if(/^INVITE_DATA\.people\.heroine_04\.first\.slowread\.2$/.test(p)||/^INVITE_DATA\.slowreadLines\.heroine_04\.first\.2$/.test(p)) return b===(R772.d.fix.find(r=>/第三句：/.test(r.old))||{}).new;
-    if(typeof a==='string'&&typeof b==='string'){ const na=R772.fix(strip772(a)), nb=strip772(b); if(na===nb) return true;
+    if(/^INVITE_DATA\.people\.heroine_04\.first\.slowread\.2$/.test(p)||/^INVITE_DATA\.slowreadLines\.heroine_04\.first\.2$/.test(p)) { const n3=(R772.d.fix.find(r=>/第三句：/.test(r.old))||{}).new; return b===n3||b===OVS(n3); }   /* 2026-11-11：X324 覆蓋層（AA_784）再拿掉刪節號（OVS）*/
+    if(typeof a==='string'&&typeof b==='string'){ const na=R772.fix(strip772(a)), nb=strip772(b); if(na===nb||OVS(na)===nb) return true;   /* 2026-11-11：AA_772 換過以後再被 X324 覆蓋層換一次（OVS）*/
       if(/classmate_peishan/.test(p)&&na.split(",10)) alt={day:d,h:10};").join(",19)) alt={day:d,h:19};")===nb) return true; }
     return false; };
   for(const [p,ea] of mA){ const eb=mB.get(p); if(!eb){ if(!explained(p,ea[1],undefined)) bad.push('現在沒有了：'+p+'：'+String(ea[1]).slice(0,80)); continue; } if(ea[1]===eb[1]||same(ea,eb,p)){ pairs.push([ea,eb]); continue; } if(explained(p,ea[1],eb[1])){ pairs.push([ea,eb,true]); continue; } bad.push('不一樣：'+p+'：'+String(ea[1]).slice(0,80)+' → '+String(eb[1]).slice(0,80)); }
@@ -295,15 +317,19 @@ if(process.env.L118_B6_DEBUG){ const r=cmp772((O.data||{}).inv||[],(N.data||{}).
   check('28b. 比法本身：沒改＝0 個不一樣；故意改別的地點的動詞、新地點的店名、118 巷地點的動詞、slowread 的區域、拿掉一句、改慢讀那一組的一句、改新地點的答應句——每一種都抓得到',base===0&&ids.cafe!=null&&ids.l118_cafe2!=null&&r.every(n=>n>=1),J([base,r])); }
 /* ---------- 28. 資料和 BASE 逐句比 ---------- */
 { for(const [k,nm,want] of [['inv','INVITE_DATA（invites.js 和推進來的）',[NINE[0]]],['enc','ENCOUNTERS（偶遇）',[NINE[4]]],['zrzq','ZRZQ_LINES（子晴芷若）',[NINE[3]]],['ev','STORY_EVENTS（全部載入以後，每一場的 dialogue；子晴那一場是 ZRZQ_EVENTS 推進來的預設版）',[NINE[1],NINE[2],NINE[3]]]]){
-    const A=(O.data||{})[k]||[], B=(N.data||{})[k]||[], bad=[], hit=[], hit7=[];
+    let A=(O.data||{})[k]||[], B=(N.data||{})[k]||[]; const bad=[], hit=[], hit7=[];
+    /* CANON-NO-ECON-1112 第三批：整場拿掉的事件（舊序章人物）、拿掉幾列的三場不比——路徑換成事件 id，只比其他還在的 */
+    if(k==='ev'){ const reId=L=>{ const id={}; for(const [p,v] of L){ const m=/^STORY_EVENTS\.(\d+)\.id$/.exec(p); if(m) id[m[1]]=v; } return L.map(([p,v])=>[p.replace(/^STORY_EVENTS\.(\d+)/,(z,i)=>'STORY_EVENTS.'+id[i]),v]); };
+      const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table'].concat(CHG4));   /* 這三場裡拿掉了讀舊序章旗標、人物的幾列 */
+      B=reId(B).filter(x=>!CHG.has(x[0].split('.')[1])); const have=new Set(B.map(x=>x[0].split('.')[1])); A=reId(A).filter(x=>have.has(x[0].split('.')[1])); }
     if(k==='inv'){ const isWant=(a,b)=>kindOf(a,b)==='act'&&want.some(x=>x[1]===a&&x[2]===b); const r=cmp772(A,B,(a,b)=>aa731(a[1],b[1])||isWant(a[1],b[1])); bad.push(...r.bad); for(const [a,b] of r.pairs) if(a[1]!==b[1]&&isWant(a[1],b[1])) hit.push(b[0]); }   /* 2026-11-11：INVITE_DATA 改用地點 id 對、照 AA_772／AA_721 逐格驗（上面 cmp772）*/
     else if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
-    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
+    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(k==='enc'&&(require('./canon1112_ok.js').a787(a[1],b[1])||require('./canon1112_ok.js').ok(b[1])||(/\.datingAfter\.who$/.test(a[0])&&b[1]==='null'))) return;   /* （CANON-NO-ECON-1112 第四批：照 AA_787／AA_893 換字）偶遇那幾格 */ if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
       else if(k==='ev'&&wrapped(a[1])&&unq(a[1])===b[1]&&SEVEN.includes(a[1])) hit7.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
     /* 第七批（tests/invites_quote_b7_unit.js）：STORY_EVENTS 有名字、整句「…」的拿掉外面那一對——這裡看得到的是上面 SEVEN 那 6 句，只認這 6 句、只差外面那一對、一句一次；其他資料（inv、enc、zrzq）沒有 */
     const w7=k==='ev'?SEVEN:[];
     check('28. '+nm+' 和 '+BASE+' 比（'+B.length+' 個值，含函式原始碼）：只改了 '+hit.length+' 個（'+want.map(x=>x[2]).join('、')+'），只差裡面那一對「」'+(w7.length?'；加上第七批的 '+hit7.length+' 句（只差外面那一對「」）':'')+'，其他一字不差',
-      A.length>100&&bad.length===0&&hit.length===want.length&&J(hit7.slice().sort())===J(w7.slice().sort()),sample(bad)+'｜'+sample(hit)+'｜'+sample(hit7)); } }
+      A.length>100&&bad.length===0&&hit.length===want.length-(k==='ev'?1:0)/* ev：「（便利貼）四年了。」在 ev_b10_table，那一場不比（CANON-NO-ECON-1112 第三批）*/&&J(hit7.slice().sort())===J(w7.slice().sort()),sample(bad)+'｜'+sample(hit)+'｜'+sample(hit7)); } }
 
 /* ---------- 29. 原始碼逐行比（這一個 commit 本身）---------- */
 const findC6=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format=%H %s','-F','--grep='+TITLE],{encoding:'utf8',maxBuffer:1<<26}).split('\n'); const x=L.find(l=>l.slice(41).startsWith(TITLE)); return x?x.slice(0,40):null; }catch(e){ return null; } };
@@ -336,7 +362,7 @@ const findC6=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format
      AA_772／AA_721 換了字的句子和新地點的句子另外驗：現在的 S.narrLine 對它們的分法＝新的寫法（整句一對（）才是旁白）*/
   { const r=cmp772(IO,IN,(a,b)=>(a[1]===OUTL.old&&b[1]===OUTL.now)||aa731(a[1],b[1])); bad.push(...r.bad);
     const whole=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0) return i===t.length-1; } } return false; };
-    for(const [a,b,ch0] of r.pairs){ const changed=ch0||(a[1]!==b[1]&&typeof a[1]==='string'&&R772.fix(a[1],1)===b[1]);   /* AA_772 換過字的（例：前面加（小聲））*/ if(changed){ if(b[2]!==whole(b[1])) bad.push('分法不對（換過字的句子）：'+b[0]+'：'+b[1]); continue; } if(a[2]!==b[2]) bad.push('分法不一樣：'+b[0]+'：'+b[1]); if(a[3]!==b[3]||a[4]!==b[4]) lq.push(b[0]+'：'+b[1]); }
+    for(const [a,b,ch0] of r.pairs){ const changed=ch0||(a[1]!==b[1]&&typeof a[1]==='string'&&(R772.fix(a[1],1)===b[1]||OVS(R772.fix(a[1],1))===b[1]||OVS(a[1])===b[1]));   /* 2026-11-11：AA_772 換過、再被 X324 覆蓋層換（OVS）的也算換過字 */   /* AA_772 換過字的（例：前面加（小聲））*/ if(changed){ if(b[2]!==whole(b[1])) bad.push('分法不對（換過字的句子）：'+b[0]+'：'+b[1]); continue; } if(a[2]!==b[2]) bad.push('分法不一樣：'+b[0]+'：'+b[1]); if(a[3]!==b[3]||a[4]!==b[4]) lq.push(b[0]+'：'+b[1]); }
     for(const b of r.onlyB) if(b[2]!==whole(b[1])) bad.push('分法不對（新地點的句子）：'+b[0]+'：'+b[1]); }
   const nNarr=IN.filter(x=>x[2]).length, nParen=IN.filter(x=>typeof x[1]==='string'&&x[1][0]==='（').length;
   check('30. S.narrLine 的輸入（INVITE_DATA、INVITE_REPLIES、改時間的回覆、ACC0、學姊婉拒、一起走路：'+IN.length+' 句，（ 開頭 '+nParen+'、旁白 '+nNarr+'）：BASE 的程式拿 BASE 的字、現在的程式拿現在的字，每一句分法一樣；字只差這一句',

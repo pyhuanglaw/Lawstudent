@@ -7,7 +7,7 @@
    - 一鍵上課：今日頁的「直接去上課」（game3d.js data-y5go）→ 2D 的一堂課（字卡、教授一句：CLS.content 照大四上那一門那一週，未審查的週照一般句子）→ 時間到下課；人在哪裡就回到哪裡。
      出席不影響任何結果（只記 G.y5.cls）。
    - 1-2 9/3 選「接家教」：每週 +1,200 元（STORY.PHONE_RULES，跳日期的時候也跑）。3-3 最後一次實習（12/18 10:00，PG.STEPS）。
-   - 3-1 2029 中秋（畢業後篇所有玩家、麵店團）：9/20 21:00 群組（PG.MSGS）→「去。」＝9/22 18:00 河濱（OUT、ev_pg_moon29）；沒去＝22:00 群組照片。
+   - 3-1 2029 中秋（畢業後篇所有玩家、桌遊團）：9/20 21:00 群組（PG.MSGS）→「去。」＝9/22 18:00 河濱（OUT、ev_pg_moon29）；沒去＝22:00 群組照片。
    台詞照 AA 稿；AA 稿沒有的字只有介面用字（按鈕、標題），見 AA_357 回報。存檔：G.y5＝{cls:{日:課:1}}（舊存檔沒有＝空）；旗標 Y5_PAY_WEEKS、MOON29_GO、MIDAUTUMN_2029、Y5_INTERN 的 4。
    測試：node tests/y5_delay_unit.js */
 'use strict';
@@ -106,7 +106,7 @@ const Y5=(function(){
     const L=Array.isArray(G.flags.Y5_INTERN)?G.flags.Y5_INTERN:(G.flags.Y5_INTERN=[]); if(!L.includes(4)) L.push(4); return true; };
 
   /* ======================= 3-1 2029 中秋：還在臺北的人（畢業後篇所有玩家，AA_357 3-1）======================= */
-  /* 9/20（四）21:00 麵店團群組（阿哲三則）：「去。」＝9/22（六）18:00 河濱（riverside）1.5 小時；「這次不行。」、沒回、沒去＝9/22 22:00 群組一張照片。
+  /* 9/20（四）21:00 桌遊團群組（阿哲三則）：「去。」＝9/22（六）18:00 河濱（riverside）1.5 小時；「這次不行。」、沒回、沒去＝9/22 22:00 群組一張照片。
      旗標 MIDAUTUMN_2029：'went'｜'no'（MOON29_GO＝回了「去。」）；mem 不新增。沒見過的人那一句不出；明軒不熟（FAMILIAR 以下）：視訊那兩句改成「（阿哲對著手機講了一下話。）」。
      美國、日本路線 2029 都已經回臺灣，都可以去 */
   const DKy=k=>typeof PG!=='undefined'&&PG.DK?PG.DK(k):(STORY.dayOfKey?STORY.dayOfKey(k):null);

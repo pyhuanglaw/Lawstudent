@@ -65,7 +65,7 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
   check('4. 第 10 週回來上班：「這是我自己選的。」；沒聽過家裡的補一句、記 YT_FAMILY_HEARD、YT_PARENTS_KNOW',said.some(s=>/這是我自己選的/.test(s))&&said.some(s=>/我媽在淡水開牙醫診所/.test(s))&&G.flags.YT_PARENTS_KNOW===true&&G.flags.YT_FAMILY_HEARD===true,said.slice(-4).join(' | '));
   /* 6 房東來過了（AA_625 第 6 節，在茶屋聽她說）：10' 之後的下一個週末班打烊；記 RENT_RUMOR、ev_yutong_landlord 演過；一次 */
   G.day=tdOf('Y1S2',10,7); said=[]; await shift(14); const R6=YTJOB.RENT.map(x=>x[1]);
-  check('6. 第 10 週週日（10\' 的下一班）打烊：「……嗯。昨天秀琴姨煮完飯，沒有馬上走。」…祐廷「我上課有聽過…」→「嗯。你查到再跟我說。」；記 RENT_RUMOR、ev_yutong_landlord',R6.every(t=>said.some(x=>x.endsWith(t)))&&R6.every(t=>DOC.includes(t))&&SOCIAL.has('heroine_03','RENT_RUMOR')&&G.events.done.ev_yutong_landlord===G.day&&!!(STORY_EVENTS.find(e=>e.id==='ev_yutong_landlord')||{}).retired,JSON.stringify(said));
+  check('6. 第 10 週週日（10\' 的下一班）打烊：「……嗯。昨天秀琴姨煮完飯，沒有馬上走。」…祐廷「我上課有聽過…」→「嗯。你查到再跟我說。」；記 RENT_RUMOR、ev_yutong_landlord',R6.every(t=>said.some(x=>x.endsWith(t)))&&R6.every(t=>DOC.includes(t))&&SOCIAL.has('heroine_03','RENT_RUMOR')&&G.events.done.ev_yutong_landlord===1&&G.events.last.ev_yutong_landlord===G.day&&G.flags.YT_LANDLORD_DAY===G.day&&!!(STORY_EVENTS.find(e=>e.id==='ev_yutong_landlord')||{}).retired,JSON.stringify(said));
   G.day=tdOf('Y1S2',11,6); said=[]; await shift(15); check('6. 下一班不再說',!said.some(x=>/秀琴姨煮完飯/.test(x)),JSON.stringify(said));
   /* 11 想幫秀琴姨（AA_625 第 11 節；開頭 AA_643 第 1 節）：大二下第 15 週以後的週末班打烊、要 RENT_CONSULTATION；記 YT_HELP_OFFERED；選①＝YT_FIGHT，兩週後的週末班道歉＝APOLOGIZED */
   fresh(); G.flags.YT_MET_JOB=true; G.flags.TEA_SHIFTS=40; G.flags.YT_FIRST_PAY=true; G.flags.YT_CATS_NO=true; G.flags.YT_MOM_BACK=1; G.events.done.ev_yutong_landlord=1;

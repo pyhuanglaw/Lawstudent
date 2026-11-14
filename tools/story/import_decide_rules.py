@@ -47,9 +47,10 @@ def build(src, sha):
     for v in src['keys']:
         w = f'AA_719 {v.get("id")}'
         who, n = v['who'], int(v['beat'])
-        if who not in A or not (1 <= n <= len(A[who]['beats'])):
+        B = [b for b in (A.get(who) or {}).get('beats', []) if b.get('n') == n]   # 照 n 找（CANON-NO-ECON-1112 第三批：可昕第 4、5 拍整拍拿掉，n 不重排）
+        if not B:
             raise SystemExit(f'{w}：AA_712 沒有 {who} 第 {n} 拍')
-        nopt = len(A[who]['beats'][n - 1]['opts'])
+        nopt = len(B[0]['opts'])
         if v.get('style') not in STYLES:
             raise SystemExit(f'{w}.style「{v.get("style")}」：不認得')
         vals = set((v.get('values') or {}).keys())
@@ -121,6 +122,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_decide_rules.py（' + data['src'] + '）。不要手改，改企劃 AA_719 再重新匯入。\n'
           '   決定拍的規則：她有自己的想法（播放 src/decide3d.js）*/\n'
           "'use strict';\nconst DECIDE_RULES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # CANON-NO-ECON-1112 第五批：AA_920／921／923 的 src 對照表在寫檔前照整句換（tools/story/canon_b5_rows.py）
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

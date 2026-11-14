@@ -67,7 +67,7 @@ await tsec(3,async()=>{ const S3=sec(3);
     check('3. 卡片那一段：不出「（她把卡片推過來）」、不出第二～五年的卡片句、不出「後面幾頁，她說：『回去再看。』」、沒有選項',!T.includes('（她把卡片推過來）')&&!T.some(t=>/把卡片翻到第一頁/.test(t))&&!T.includes('後面幾頁，她說：『回去再看。』')&&!r.O.length&&T[T.length-1]===CARD[4][1],J([T.slice(-3),r.O]));
     check('3. 數值、旗標照第二～五年：KX_ANNIV {6:地點}、暫存旗標清掉',r.G.flags.KX_ANNIV[6]==='river'&&r.G.flags._kxAY==null&&r.G.flags.K7_GIFT_6==='none'); }
   { const r=await play({KX_ANNIV5_WHAT:true}), T=r.L.map(x=>x[1]); check('3. 第五年選了「寫什麼？」的：地點之後「'+OPEN2+'」',T.includes(OPEN2)&&!T.includes(OPEN),J(T.slice(0,3))); }
-  { const r=await play({},'ticket'), T=r.L.map(x=>x[1]); check('3. 禮物照第二～五年那一組（票根：她的反應照現在）、接卡片那一段',T.includes('（她把票根翻到背面，看了那個日期很久。）')&&T.indexOf('（她把票根翻到背面，看了那個日期很久。）')<T.indexOf(CARD[0][1]),J(T)); }
+  { const r=await play({},'ticket'), T=r.L.map(x=>x[1]); check('3. 禮物照第二～五年那一組（票根：她的反應照現在）、接卡片那一段',T.includes('（她把發票翻到背面，看了那個日期很久。）')&&T.indexOf('（她把發票翻到背面，看了那個日期很久。）')<T.indexOf(CARD[0][1]),J(T)); }   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）票根→發票 */
   /* 第五年選了「寫什麼？」才記 KX_ANNIV5_WHAT（第六年地點之後那一句用）*/
   for(const [k,want] of [[1,true],[0,false],[2,false]]){ const G=grad('2029-10-17',18,{KX_ANNIV:{4:'shop'},KX_ANNIV_PLACE_5:'river'}); H.FRIEND('kexin'); H.date('kexin');
     OUT.plan(G,{id:'kx_anniv5',ev:'ev_kexin_anniversary_yn',day:D('2029-10-17'),h:18.5,year:5,ap:'river',place:'河堤',title:'週年：河堤',travel:'騎車約 15 分鐘',travelH:0.25}); H.said=[]; H.picks=[k]; await OUT.go(GM,OUT.get(G,'kx_anniv5'));
@@ -120,7 +120,8 @@ await tsec(6,async()=>{ const NEW='說好的，運河一圈。……下學期就
   const NEW759='說好的，運河一圈。下學期就大四了，我開始寫教檢的考古題，寫到懷疑人生。';
   check('6. pg_dates.js（重新匯入）與那一格的事件：2030-06「說好的，運河一圈。……」（X327 重寫後半）、台南',!!row&&row.line===NEW759&&row.line.startsWith('說好的，運河一圈。')&&row.note==='台南'&&!!ln&&ln.text===NEW759,J([row,ln&&ln.text]));
   check('6. 2030-04 視訊那一句照舊（「下次你來，我們走一圈好不好？」）',((PG_DATES.six.classmate_peishan||[]).find(x=>x.ym==='2030-04')||{}).line==='運河那邊晚上很漂亮！下次你來，我們走一圈好不好？');
-  check('6. 匯入來源：AA_367 白名單同一版（1ebcf530 起；AA_688 以後是 8dce2f94c；AA_593 學姊①b 以後是 9aa8ec40c，history 留 1ebcf530、8dce2f94c；沛珊那一格不變）',/AA_367.*@9aa8ec40c/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='9aa8ec40c'&&e.status==='approved'&&(e.history||[]).some(x=>x.sha==='1ebcf530')&&(e.history||[]).some(x=>x.sha==='8dce2f94c'))&&git('9aa8ec40c','docs/story_planning/AA_367_畢業以後的交往節奏_六位.md').includes('| 2030-06 | 「'+NEW+'」（台南） |')); });
+  /* 2026-11-11（X324 G 區，AA_367@4adf447e5）：白名單換版（芷若四句店長→老闆、沛珊 2029-08、2030-01、2030-08 三列補回），9aa8ec40c 進 history；沛珊 2030-06 那一格不變。舊期望：PG_DATES.source 和白名單 9aa8ec40c */
+  check('6. 匯入來源：AA_367 白名單同一版（1ebcf530 起；AA_688 以後是 8dce2f94c；AA_593 學姊①b 以後是 9aa8ec40c；X324 G 區以後是 4adf447e5，history 留 1ebcf530、8dce2f94c、9aa8ec40c；沛珊那一格不變）',/AA_367.*@4adf447e5/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='4adf447e5'&&e.status==='approved'&&(e.history||[]).some(x=>x.sha==='1ebcf530')&&(e.history||[]).some(x=>x.sha==='8dce2f94c')&&(e.history||[]).some(x=>x.sha==='9aa8ec40c'))&&git('4adf447e5','docs/story_planning/AA_367_畢業以後的交往節奏_六位.md').includes('| 2030-06 | 「'+NEW+'」（台南） |')); });
 
 H.done();
 })();

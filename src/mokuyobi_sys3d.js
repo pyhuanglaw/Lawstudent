@@ -64,7 +64,7 @@ const MOKS=(function(){
     heroine_03:{first:'（小聲）蘇姨說這間的焙茶不錯。……我來偷學。',order:'焙茶拿鐵',line:'（小聲）比我們的苦一點。……我們的比較好喝。'},
     heroine_04:{first:'（小聲）好安靜。……我手會想打拍子。',order:'焦糖布丁',line:'（小聲）那台唱片機是真的耶。我想看他換面。'},
     classmate_peishan:{first:'（小聲）課輔班的備課我都在這裡寫。',order:'焦糖布丁',line:'（小聲）課輔班的小朋友說我寫的講義太多字。……他們說得對。'}   /* AA-B 11-07 23:40：「國中生」→「課輔班的小朋友」（國小課輔班，不寫年級）*/,
-    kexin:{first:'（小聲）台北的咖啡廳都好小。……可是這間我喜歡。',order:'巴斯克乳酪蛋糕',line:'（小聲）我們學校附近沒有這種店。只有早餐店。'} };
+    kexin:{first:'（小聲）台北的咖啡廳都好小。……可是這間我喜歡。',order:'巴斯克乳酪蛋糕',line:'（小聲）這種店我以前都不知道有。'} };
   S.FRIEND={zhe:'（小聲）這裡我講話會被瞪吧。',classmate_bohan:'（小聲）好，讀書。',classmate_mingxuan:'（小聲）我只坐一個小時。',classmate_xinci:'（小聲）我把兩份報告都帶來了。',yu:'（小聲）好安靜……我不太習慣。……但很舒服。'};
   S.RAIN={heroine_01:'……再等一下。不急。',heroine_05:'以前我在這裡等雨，都一個人。',heroine_02:'這種雨，英文有一個字。……我想不起來。不想了。',heroine_03:'我們等它小一點。……你冷嗎？',
     heroine_04:'這個聲音可以錄起來。……算了，聽就好。',classmate_peishan:'我很喜歡下雨天。大家都會慢下來。',kexin:'台北的雨好多。……今天不討厭。'};
@@ -104,7 +104,8 @@ const MOKS=(function(){
   let orderedVisit=null;
   S.eatReg=function(){ if(typeof EAT==='undefined'||!EAT.addShop) return null; if(!(EAT.SHOPS_X&&EAT.SHOPS_X['木曜日'])) EAT.addShop('木曜日',{shop:'溫州街・木曜日',staff:{who:'老闆',line5:null,same:null,alt:null},first:null,door:false}); return EAT; };
   S.order=async function(GM){ const G=GM.G; orderedVisit=GM.enterN|0; const M=S.L.menu;
-    const opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:S.L.none}]); const i=await GM.choose(opts);
+    const opts=M.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:S.L.none}]); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,'木曜日'):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(opts);
+    if(gO&&i===M.length+1){ await GIFT.buy(GM,'木曜日'); return null; }
     if(i==null||i<0) return null;
     if(i>=M.length){ await GM.say({name:G.name},S.L.water); await GM.say(BOSS,S.L.waterOk); await S.chat(GM); return 'water'; }
     const [nm,p,line]=M[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return null; }

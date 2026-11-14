@@ -63,10 +63,13 @@ for(const ln of A580.split('\n')){ const c=ln.split('|').map(x=>x.trim()); if(c.
 if(!A580) UNMATCHED.push('AA_580 讀不到（git fetch 企劃線 759e5c000）');
 /* AA_592 以安改稿①b 第 52 列（企劃線 4162d22e1；AA_589 第 9 節第 8 點：媽媽那一句統一）：w118_an_10 的 AA_580 改成→AA_592 改成（逐列核對在 tests/aa592_an_1b_unit.js）*/
 for(const r of require('./an_rev_doc.js').ROWS.filter(r=>/AA_592_/.test(r.doc)&&/^invites\.js/.test(r.where))){ const x=(EXP.heroine_01||[]).find(e=>e.text===r.old); if(x) x.text=r.nw; else UNMATCHED.push('AA592 '+r.n); }
+/* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 的同行聊天照覆蓋層拿掉刪節號（阿哲、Alison、柏翰、芯慈、語彤、以安）——照稿算出來的句子再照覆蓋層換（tests/overlay_expect.js 的 fwdText：那個人稿上換掉的舊字整句換成新字）；舊期望＝換之前的 EXP */
+{ const OE=require('./overlay_expect.js'); for(const id in EXP) for(const r of EXP[id]) r.text=OE.fwdText('invites',id,r.text); }
 const uq=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;   /* invites.js 一起走路的句子不加外面的「」（AA-B 2026-11-08 00:21）：稿上的「…」拿掉再比；「…」「…」好幾段的照留 */
 const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return (m?[m[2],m[3]]:[t]).map(uq); };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
 check('0. 稿讀得到（AA_118、AA_555、AA_185 @56c11668d）；模組都載得到',A118.length>10000&&A555.length>4000&&!!AN185&&!loadErr.length,loadErr.join('　')||'git fetch 企劃線（56c11668d）');
 check('0. 同行聊天：AA_118 六人各 24 句、AA_555 的改稿每一列都對到原句（芯慈 1-4 整張 24 列）',Object.keys(W118).length===6&&Object.values(W118).every(L=>L.length===24)&&!UNMATCHED.length&&EXP.classmate_xinci&&EXP.classmate_xinci.length===24,J({n:Object.fromEntries(Object.entries(W118).map(([k,v])=>[k,v.length])),UNMATCHED}));
+/* （CANON-NO-ECON-1112 第四批：照 AA_894 第 4 節拿掉）芯慈 w118_xc_10 那一列（讀 SK10_DONE、提到舊序章那位）整列拿掉：之後的檢查不算那一列（23 句）*/ { const n0=EXP.classmate_xinci.length; EXP.classmate_xinci=EXP.classmate_xinci.filter(r=>!/\u963f\u52f3/.test(r.text)); check('0. 芯慈拿掉的那一列剛好一列',n0-EXP.classmate_xinci.length===1); }
 const WALK=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.walk118)||null;
 
 /* ================= 1 同行聊天：逐字 ================= */
@@ -78,7 +81,7 @@ sec('1',()=>{
     const norm=a=>a.slice().sort().join('｜'), es=exp.map(norm).sort(), gs=got.map(norm).sort();
     check('1. '+id+'：24 句（一句一個 one；有版本的算一句）逐字＝稿',J(es)===J(gs),J({少:es.filter(x=>!gs.includes(x)),多:gs.filter(x=>!es.includes(x))}));
     const inWalk=Object.values((INVITE_DATA.people[id]||{}).walk||{}).flatMap(v=>[].concat(v)).filter(e=>e&&e.one);
-    check('1. '+id+'：每一句都真的放進 people.'+id+'.walk（目的地或 any）',inWalk.length===((WALK||{})[id]||[]).length&&inWalk.length>=24,J(inWalk.length)); }
+    check('1. '+id+'：每一句都真的放進 people.'+id+'.walk（目的地或 any）',inWalk.length===((WALK||{})[id]||[]).length&&inWalk.length>=(id==='classmate_xinci'?23:24)/* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）芯慈拿掉一列 */,J(inWalk.length)); }
   const all=CH.flatMap(id=>Object.values(gameText(id)).flat());
   check('1. AA_555 刪掉的原句（芯慈 8 句＋各人換掉的）都不在：「我最怕例外」「以安又是第一」「第一名」「恭喜，妳本來就可以」「雙主修改成輔系了」、模擬法庭、三件事、芷若說英國、阿嬤又來問那棵樹',
     !all.some(t=>/我最怕例外|以安又是第一|第一名|妳本來就可以|雙主修改成輔系|模擬法庭|三件事|芷若說英國|芷若那邊下雨|那棵樹|平均七十一|法服第一次值班|我不能接阿姨的案子/.test(t))&&DEL555.length>=7&&DEL555.every(q=>!all.some(t=>t.includes(q))),J(all.filter(t=>/最怕例外|第一名|模擬法庭|三件事/.test(t))));
@@ -134,7 +137,8 @@ sec('3',()=>{ if(!WALK){ check('3. 沒有 walk118',false); return; }
   check('3. 目的地：「法律系館A → 麵店」那句只在去麵店的路上，去 Café 不說',L.includes('哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。')&&!Lc.includes('哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。'),J(Lc.slice(0,5)));
   const G3=H.fresh('2025-10-01',9,'campus',{}); SOCIAL.remember('yu','BREAKFAST_YU',''); let y=null; for(let i=0;i<20&&!y;i++){ const p=INV.walkPick(G3,'yu','library'); if(!p) break; if(p.lines.some(t=>/晨思鐘到底/.test(t))) y=p.lines; p.next(); }
   const G4=H.fresh('2025-10-01',9,'campus',{}); let y2=null; for(let i=0;i<20&&!y2;i++){ const p=INV.walkPick(G4,'yu','library'); if(!p) break; if(p.lines.some(t=>/晨思鐘到底/.test(t))) y2=p.lines; p.next(); }
-  check('3. Alison 大一早上：有 BREAKFAST_YU 先說「欸，今天也經過！」（AA_118 稿上那一句）；沒有就只說主句；兩個版本算同一句',J(y)===J(['欸，今天也經過！','晨思鐘到底幾點會敲？……不要查，我想先聽你猜。'])&&J(y2)===J(['晨思鐘到底幾點會敲？……不要查，我想先聽你猜。'])&&A118.includes('欸，今天也經過！'),J([y,y2]));
+  const YU1=require('./overlay_expect.js').fwd('invites','yu','晨思鐘到底幾點會敲？……不要查，我想先聽你猜。');   /* 2026-11-11（X324 D 區，AA_784）：兩個版本同一句拿掉刪節號——舊期望＝fwd 裡面的字 */
+  check('3. Alison 大一早上：有 BREAKFAST_YU 先說「欸，今天也經過！」（AA_118 稿上那一句）；沒有就只說主句；兩個版本算同一句',J(y)===J(['欸，今天也經過！',YU1])&&J(y2)===J([YU1])&&A118.includes('欸，今天也經過！'),J([y,y2]));
   const G5=H.fresh('2025-10-01',21,'campus',{}); delete G5.flags.walkSaid; const ok5=!!INV.walkPick(G5,'classmate_bohan','library');
   const G6=H.fresh('2024-10-08',21,'campus',{}); G6.stage='econ'; const L6=[]; for(let i=0;i<10;i++){ const p=INV.walkPick(G6,'zhe','noodle'); if(!p) break; L6.push(p.lines.join('')); p.next(); }
   check('3. 舊存檔（沒有 walkSaid）照常；經濟系那一年（學年 0）沒有 AA_118 的句子；柏翰原本沒有 walk，現在有',ok5&&!L6.some(t=>WALK.zhe.some(e=>e.l.join('')===t)),J(L6)); });

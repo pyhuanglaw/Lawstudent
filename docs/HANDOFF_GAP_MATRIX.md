@@ -6,25 +6,43 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 B → 下一個帳號｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-10 04:1x UTC 交班（使用者 04:1x「現在交班」）
+### 帳號 C → 下一個帳號｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-14 02:0x UTC 交班（使用者：「現在交班」）
 
-**本班情況：使用者 11-10 01:5x「剩下的使用量只夠你 其他AI不會工作 電腦測試繼續跑」——帳號 B 只有 LAWWW-B 值班（SOLO-LAWWW-B-1110）；使用者選擇題：電腦測試 LAWWW 排、LAWWW 代判；新台詞等 AA；先修使用者回報的；不發布（「先不要」）。開發分支 `claude/modest-rubin-2lyp7g` 最後 `e73888074`，main 沒動。**
-- **A｜本班成果（11-10 01:54～04:1x，都在開發分支、都還沒發布）**：
-  - 一鍵前往約會跳到約好的時間、還沒開門也能前往（INV-GO-JUMP-1110，ed75c456a）；一起過去的目標列（INV-NOW-GOAL-1110，be7ae2215＋33cdc069e）；出席一門一行（ATTEND-TIDY-1110，39b316018）；讀檔後照樣提醒直接過去（BUG-INV-GOASK-PERSIST-1110，ec38870a8）；她約改天可以選日子（HER-ASK-LATER-DAY-1110，2f4f9e58f）。
-  - 她主動約：見面後 3 天、曖昧（第 5 階）以上隨時（HER-ASK-MORE-1110，9f3133b99＋8ef32cb82）；有女朋友時好朋友以上可以單獨吃飯（PARTNER-CLOSE-OK-1110）；戀愛條三段＋出去玩說明（ROM-STAGE-TEXT-1110）；可昕「操。」四句換掉（KX-NO-SWEAR-1110，tests/user_line_edits.js）；回憶不印代號（MEM-LABEL-RAW-1110）；咖啡買錯拿掉（WRONG-COFFEE-OFF-1110）；朋友名單交往中排最上面（FRIENDS-PARTNER-TOP-1110）——都在 8ef32cb82。
-  - 總圖：樓層簡介只留一塊（LIB-BOARD-FLOAT-1110，7a019726d）；外拱廊柱頂不閃（LIB-ARCADE-FLICKER-1110，223a9378d：campus_library.py 換 LAWWW2 v3.2＋修疊面、重新匯出 GLB）；B1 入口改到總圖北側露天下沉中庭（LIB-B1-OUTSIDE-1110 第一階段 701aeb256＋98e81fe06＋e73888074，程序化 BLOCKOUT）；B1 洗手間東邊空房放長期寄物櫃、大廳門上字改（LIB-B1-NOOK-1110，056820edd）。
-  - 測試：tests/flow_inv_go_jump.py（新）、flow_invite_phone.py 改成現在的流程；電腦佇列改短版由 LAWWW 排（cc-testing cba181cf4、46ee73788）＋探針 lawww_b1court_shot_probe.py（cc-testing 76b2c073d）。
-- **B｜全部未完成**（`queue --owner LAWWW`）：
-  - LIB-B1-OUTSIDE-1110 第二階段：中庭換 Blender 模型（現在是程序化方塊）；**LAWWW2 的 library_b1.py 下次重新產生配置時，stairs.up 要改 campus（不然蓋回大廳）、長期寄物櫃收進去（現在在 library_b1_3d.js）**。
-  - FRIENDS-PARTNER-TOP-1110：使用者說可昕不在朋友名單——程式上在（可能在最下面），等使用者確認，還沒有就要存檔。
-  - 還沒做（不用新台詞）：X285 椰影大道遠景都是補習班、X289 一盞飲料飄在半空、X294 法服徵人攤位位置、X283 校園地磚 patch（CAMPUS-FLOOR-STRIP-1110，LAWWW2 wip）、HELP-GUIDE-1110 說明頁（字要 AA）、BUG-YEJIAN-NO-VISUAL-1110、BUG-MOKU-EXAM-SEATS-1110。
-  - 等 AA：SHIFT-TREAT-1110（她打工時招待、開心你來，暫停）、BULLETIN-BOARD-1110、DATE-CHOICES-1110、HER-ASK-MORE 的「有點熟」那幾則（th 2）、AA_539 句子不夠所以日常邀約還是隔 14 天；AA 回來要看：tests/user_line_edits.js 四句、PROG_HINT 新三句（UA-LAWWW-1110-63 AI 解讀未確認＝asks 1 項異常）、PARTNER 規則改了 AA 10-14 的 ②。
-  - 待匯入（AA 已交）：DLG-NO-ECON-REPEAT-1110、svc 拿掉、GIFT-HOLIDAY-1110、MOVIE-REAL-1110（同上一份快照）。
-- **C｜正在做的**：沒有（交班停了）。GHA node-unit-auto 在跑 e73888074（98e81fe06 那一輪被新的 push 取消）；電腦佇列 L98E_*（98e81fe06）跑到一半（b1court PASS）。
-- **D｜決策與規則（使用者 11-10 選擇題，都在 user_asks_LAWWW.json UA-LAWWW-1110-40～66）**：電腦測試 LAWWW 排、代判；新台詞等 AA；先修回報的；不發布；好朋友以上可以單獨吃飯；戀愛條三段；咖啡買錯拿掉；可昕不罵髒話；B1 入口在北側；柱子閃＝花紋跳動。
-- **E｜跨 AI**：本班其他職位都休班，沒有傳訊息（D75）。要給下一班的：上面 B 的 AA、LAWWW2 項目；BB／CC：佇列被 LAWWW 改成短版（舊整份在 cc-testing 31d4ce230）、L98E 結果要判、L492 已代判（invphone＝TEST_BUG 已改）。
-- **交接檢查**：check 剩 5 項＝原本就在等使用者的（BUG-02／TEST-05 iPhone 實機、BG-CRAM-1018、CINEMA-CG-1107、BG-AA720-1108）；roles OK；asks 1 項＝UA-LAWWW-1110-63（AI 解讀未確認）；incr 2 項＝AA outbox 第 392、394 筆 WIP 沒寫 remaining（AA 分支，AA 接班補）——**這一班水位線都沒前進**（上一次 b25ea971f），下一班 incr 會多看本班的 commit。
-- **F｜測試與問題**：GHA 223a9378d 全過；GHA 492ef334a 抓到的 2 支已修；e73888074 那一輪等結果。電腦 L492：invgo、p0、libfloors、zone、mini、reach、classreal、main12 PASS，touch 未知；L98E_b1court PASS（白天、晚上、走進 B1）。雲端：flow_inv_go_jump、flow_invite_phone ALL PASS。
+**下一班第一件事（任務 ID）**：CANON-NO-ECON-1112（v9.10.26 發布：rc2e 收 BB GO → 已驗收 → releasegate → mk_release_tree → main → Pages → deploy_check）→ RC2-PORT-DEV-1114 → CANON-REPO-CLEAN-1114 → DATE-D05-PICK-1114 → PLACEGATE-WALL-NAME-1114
+
+**A｜本班成果**（開發分支 `claude/adoring-meitner-mqzst8`，最後 SHA 見第 12 節；全部已 push）
+- 發布候選 rc2 系列（X364／CANON-NO-ECON-1112）：rc2d `bcc99693a7` BB GO（BB_467：靜態、AA 逐字、GHA 897、INV_LIB_r7、T1_rc2 8/8、FULL_a／b、REL76）。使用者選擇題 UA-LAWWW-1114-01：改發 **rc2e `1404d5f2d4`**（rc2d＋index.html 藏起來的舊開局按鈕字拿掉；canon_scan index.html＋src 0）。**還沒發布**：交班不為交班發布。
+- 店面整合（全部 LAWWW2 驗收 PASS、shop_cc0／place_gate ALL PASS）：洋洋 v2b、日常失速 v2.1、單車、好拍、大口一樓＋二樓（疊面真修：1F 牆 5.13→0.32）、新生運動（純色 62%→5%）、木曜日 v2.2、洋洋疊面修（COPLANAR-CREEP 一半）、LICENSES 去重。
+- 窗景：GG-STREET-TREES 三份（樹位、慢輪視差窗、人行道地磚）、WINVIEW-AUDIT-1105 公館第三批（安泰、鮮果、榮恩典原位拍）。
+- 工具：place_gate `--coplanar` 基準只准變少（`--allow-grow` 才放寬，8f1b338c22）；SHOP_CC0_HOWTO「疊面先查、後寫」。
+- 修正：FN-LOOK-REACH-1114（「看門口的花」只放公館，溫州街不再放進房子；CC reachability PASS）。
+- D163（幫手交班）、KX-HEARD-1014、ROM tier、CAMP-GATE-BG 等見第 11 節之前的 commit。
+
+**B｜全部未完成**（每條都在 tasks.json）
+- 【下一版必須】CANON-NO-ECON-1112（P0）：rc2e 等 BB 靜態檢查＋GHA＋CC LIVE p0 開新遊戲煙霧測試 → GO 後照 CLAUDE.md／ROLE_LAWWW 發布流程（`export CLAUDE_SESSION_URL=…`；`bash tools/handoff/mk_release_tree.sh 1404d5f2d4cb740d50df75741764be18ee746992 9.10.26 <日期>`；PR→main；Pages 驗證；給 BB「發布 SHA＋線上版本字樣」；RELEASES.md）。
+- CANON-REPO-CLEAN-1114（P0，下一版前）：tests 250、tools 16、docs 2 檔的 D158 字（使用者選擇題拆出來的）。
+- RC2-PORT-DEV-1114（P0，發布後）：計畫在 scratchpad 已寫進本節 C；AA_959 定版 6bc12e2fc9（766 列）＋D13.json 重匯；aa959.py HAND 加 story3d.js。
+- DATE-D05-PICK-1114（P2）、PLACEGATE-WALL-NAME-1114（P3）、COPLANAR-CREEP-1114（驛站 +0.04，g1）、OFFBEAT-VIEW-P3-1114（LAWWW2）、GG 街樹貼圖條紋（BB 查中，發布版有沒有待 CC 拍）。
+- SHOP-CC0-HELP-1113：剩 g2（山嵐、頁間 v4、唱片、Daybreak v2.1）、g3（同弦、glb_coplanar instancing 修正——LAWWW-C 已同意，條件：工具＋基準單獨一包、全部重算前後表、變多逐筆列、加小測）。
+- 9 個 roles 補進來的「待查」任務：ZQ-C504、A6-5、P2-L5、STALE-SOURCES、Z5-L8、FA-01、SE-01、SE-03、SHOP-FIRST-APPROACH（和各職位核對）。
+- check 異常 131 項（多數是「等使用者」這一班沒問／沒寫原因，例 BUG-02、TEST-05、CINEMA-CG-1107、BG-AA720-1108）：下一班逐項問或寫原因。
+
+**C｜正在做的**
+- 發布：rc2e 在 `origin/claude/rc2-76f8-wip`（1404d5f2d4）。本機分支 rc2-76f8 指在 rc2d（已 push 到 wip 分支，沒有別的內容）。
+- RC2-PORT-DEV-1114 計畫：merge-tree 試算 5 衝突（3 個 importer 兩個掛勾都留：**AA959.layer 先、B5.fix 後**；date_lines.js、ladder.js 重跑 importer）。B5 48 列中 28 列和 AA959 表 old／new 完全相同，B5 遇到已換好的會跳過。測試修正的底 claude/aa959-v505-wip fb54bfb668。
+- 背景（02:1x 結果）：`branch_audit.py --write` 跑超過 200 秒被 timeout 中止、沒寫檔 → 下一班不設 timeout 重跑；`check_handoff.py incr` 異常 62 項（多數是 outbox 某幾筆的任務不在總表，例 AA 第 520 筆 DLG-FULL-REVIEW-1110／可昕 3D 覆蓋），水位線沒前進 → 下一班照 ROLE_LAWWW §3 逐筆分類再 `--advance`。
+
+**D｜決策與規則**：D163（幫手交班，HV-43）＋第 4 點（使用者不用開幫手對話）；使用者選擇題 UA-LAWWW-1114-01（發 rc2e；268 檔拆 P0）。
+
+**E｜跨 AI 協作**（02:0x 全部 ACK、都已交班）：LAWWW2-C `4ec1acd5c0`（focused-cray-c9uwvw）、AA-C `da4ce5ceb2`（magical-albattani-bk7b4n）、BB-C `f9f05028cb`（wonderful-mayer-7fm9g6）、CC-C `4f8135503a`（cc-testing）；幫手 g1 `bbd34c9afc`、g2 `f58cf983e2`、g3 `12b0fd3def`、g4 `7758962c2`（closed）。
+- **rc2e 的 GO 還沒有**：BB-C 靜態 PASS（BB_467 3b90a50dd8）；GHA run 926 交班時還在跑；**LIVE p0 煙霧測試沒排進 CC 佇列**（CC 收到時已交班）→ 下一班 BB 確認 926 綠、叫 CC 在 cc-testing tools/cc_local/queue.txt 最前面照 LIVE_X364_p0 那行加 rc2e（1404d5f2d4cb740d50df75741764be18ee746992、拿掉 HOLD）→ BB GO → LAWWW 發布。
+- 交班時才到、還沒整合：一盞 v1.1 15124fd457（COPLANAR-CREEP 結案）、WINVIEW-EDGE-STRIPE-1114 042661aff6（條紋原因＝視差窗 clamp）、OFFBEAT-VIEW-P3-1114 b6b30dd52c；待 LAWWW2 驗收：同弦 768816c33c、glb_coplanar instancing edb96e33ec、頁間 v4 389adca8c0。
+- AA 問 D99 擋住的劇情：回覆寫在任務 AA-D99-BLOCKERS-1114（這一班沒碰寒暑假／美國交換流程，下一班跑一次再列給 AA）。
+
+**F｜測試與問題**：rc2e 煙霧測試未跑；GATE2 補拍（木曜日二樓、洋洋座位、一盞）；街樹貼圖條紋待查；REL76_social 逾時（不擋）；D05 文字選單（不擋）。
+
+**G｜東西放在哪**：rc2 系列 `origin/claude/rc2-76f8-wip`；本機分支 aa959-v505（= origin/claude/aa959-v505-wip，已 push）；幫手分支 origin/claude/shop-cc0-g1／g2／g3（各自 HANDOFF.md）；LAWWW2 patch 在 `claude/focused-cray-c9uwvw` 的 docs/art-rebuild/second_ai/wip/；cc-local 結果很大，查進度用 GitHub list_commits（本機磁碟只剩約 1.4G）。
+
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -48,7 +66,7 @@
 | TEST-01 | 考試的真實上課→交卷流程，直向、橫向截圖進 repo | LAWWW 交班第 2 點 | 進行中 | tools/shots/exam_real_flow.py 10-15 在本機跑過、通過，但截圖和結果不在 GitHub；要重跑、截圖 commit、連 BUG-08 一起看 | P1 |
 | TEST-02 | 瀏覽器回歸 evtest、main_day12、first_meet、playtest_fixes | LAWWW 交班第 3 點 | 進行中 | 10-16：evtest 260 個 0 錯、flow_main_day12 ALL PASS、flow_first_meet ALL PASS、flow_playtest_fixes 2 項失敗 → BUG-06 修好、run8 重跑 | P0 |
 | TEST-03 | flow_classes A 段、flow_course_choice（大四上） | LAWWW 交班第 3 點 | 已驗收 | 10-15 LAWWW-B 跑過 ALL PASS（scratchpad；改寫 3fbaca94、8166f17b） | — |
-| TEST-04 | 今天新功能的瀏覽器驗證：空橋 flow_skybridge、政大背景 outing_bg_check、載妹墊上車、週末回家、閒聊階梯對話框直／橫、總圖導覽 flow_lib_tour、公館回歸 | 10-16 新功能 | 進行中 | run4～run8 排隊中 | P1 |
+| TEST-04 | 今天新功能的瀏覽器驗證：空橋 flow_skybridge、外校背景 outing_bg_check、載妹墊上車、週末回家、閒聊階梯對話框直／橫、總圖導覽 flow_lib_tour、公館回歸 | 10-16 新功能 | 進行中 | run4～run8 排隊中 | P1 |
 | TEST-05 | iPhone 實機（全部） | CLAUDE.md | 等待其他AI／素材 | 要使用者實測 | P1 |
 | TEST-06 ★ | tests/romance_unit.js、ladder_unit、home_unit、kai_dorm_unit、bike_seat_unit 沒有進 tests/release_suite.sh | v6 稽核 | 待開工 | 加進發布前測試 | P2 |
 
@@ -65,8 +83,8 @@
 | ART-07 ★ | 便利商店商品第二版 | LAWWW2-B a41c52e7 | 是 | 是 | 已整合待測試 | 第 2 級 run13 通過；美術等使用者看截圖 | P3 |
 | ART-08 ★ | 女舍門廊吸頂燈加大＋門口的光（fe8d016d） | LAWWW2-B 6f982441、fe8d016d | 是 | 是 | 已整合待測試 | 第 2 級 run13 通過（光暈＋光圈 6 樣晚上都亮）；美術等使用者看截圖 | P3 |
 | ART-09 ★ | 6 張新立繪 jiahao、pinyu、tangrui、weilun、xun、yule | LAWWW2-B 8fbe1e1a | 否 | 否（沒有角色 id） | 等待其他AI／素材 | 等 V0／V2 的人物資料（BB-B） | P2 |
-| ART-10 | 自強十舍（政大宿舍樓下長椅）nccu_dorm | LAWWW2-B 佇列 | — | 位置已留（outings3d S.BG） | 等待其他AI／素材 | 等使用者照片 | P2 |
-| ART-11 | 政大・校園裡的路 nccu_campus | LAWWW2-B 佇列 | — | 位置已留 | 進行中 | LAWWW2-B 在算（夜晚主圖，AA_147） | P2 |
+| ART-10 | 自強十舍（外校宿舍樓下長椅）nccu_dorm | LAWWW2-B 佇列 | — | 位置已留（outings3d S.BG） | 等待其他AI／素材 | 等使用者照片 | P2 |
+| ART-11 | 外校・校園裡的路 nccu_campus | LAWWW2-B 佇列 | — | 位置已留 | 進行中 | LAWWW2-B 在算（夜晚主圖，AA_147） | P2 |
 | ART-12 | 台北的家 2D：home_living、home_balcony | LAWWW2-B 佇列 | — | home3d／events 已讀這兩個 key | 進行中 | 腳本完成，算正式圖 | P2 |
 | ART-13 | 明軒、小語模型（第一次出現大一上第 7 週） | ae6e4dfa、0205552d（WIP 腳本） | 否 | — | 待開工 | LAWWW2-B 接 A 的 WIP 腳本、BB-B D59（D84 稽核：原本誤標「等待」） | P2 |
 | ART-14 | 約會底圖（32 處只有 9 處）、以安／語彤的約會人物圖 | BB_132；企劃線 art/ | 部分 | 否 | 等待其他AI／素材 | BB-B／使用者生成 | P2 |
@@ -86,9 +104,9 @@
 | ART-BG09、BG10 | 海邊（D25）、老街（D18） | 大一下春假 | LAWWW2 | 等待其他AI／素材 | AA-B 回答白天或黃昏 | P2 |
 | ART-BG12 | 海邊的小鎮（D13） | 大一下春假 | LAWWW | 待開工 | D13 有圖就接 | P2 |
 | ART-BG14、BG19、BG20 | 永康街咖哩店、公館二輪戲院、豆漿店 | 大一下 | LAWWW2 | 待開工 | 查證、店名照 D77 | P2 |
-| ART-CH-XUN | 阿勳 3D（VRM） | 大一下 10-3、SK05；v0 整年 | LAWWW2 | 待開工 | BB-B D59 | P1 |
-| ART-CH-PINYU | 品妤 3D（VRM） | 大一下 K2；v0 整年 | LAWWW2 | 待開工 | BB-B D59 | P2 |
-| V0-ARTPLAN | v0 美術盤點 → 建 v0 的美術任務 | 經濟系開學 | LAWWW＋AA-B | 待開工 | v0 程式開工前完成 | P1 |
+| ART-CH-XUN | 舊序章人物甲 3D（VRM） | 大一下 10-3、SK05；v0 整年 | LAWWW2 | 待開工 | BB-B D59 | P1 |
+| ART-CH-PINYU | 舊序章人物丁 3D（VRM） | 大一下 K2；v0 整年 | LAWWW2 | 待開工 | BB-B D59 | P2 |
+| V0-ARTPLAN | v0 美術盤點 → 建 v0 的美術任務 | 舊序章開學 | LAWWW＋AA-B | 待開工 | v0 程式開工前完成 | P1 |
 
 
 ## 5. 舊帳號留下的半成品（WIP）
@@ -102,21 +120,21 @@
 
 ## 6. 學年內容
 
-### 6.0 v0 經濟系大一（交接包_v0_經濟系大一_交付清單、BB_104／105／110／112）——授權 D79；企劃 ✅；**遊戲裡沒有可以玩的經濟系那一年**
+### 6.0 v0 舊序章大一（交接包_v0_舊序章大一_交付清單、BB_104／105／110／112）——授權 D79；企劃 ✅；**遊戲裡沒有可以玩的舊序章那一段**
 
 | ID | 項目 | 程式 | 狀態 | 證據／缺什麼 | 優先 |
 |---|---|---|---|---|---|
 | V0-A1 | Y0 日曆 | ◐ | 進行中 | calendar.js Y0S1、Y0S2；校定活動沒有 | P2 |
 | V0-A2 ★ | Y0 課表 | ✗ | 待開工 | courses 沒有 Y0；syllabus 只有資料 | P2 |
-| V0-A3 ★ | 存檔分經濟系／法律系階段、開局選擇 | ✗ | 待開工 | newGame 一律從法律系第一天 | P2 |
-| V0-A4 ★ | 經濟系存檔帶到法律系 | ◐ | 待開工 | 現在用預設值代替（dating_kexin、ROOM_ITEMS） | P2 |
-| V0-A5 ★ | 休學後改成重考準備 | ✗ | 待開工 | — | P2 |
-| V0-A6 ★ | 經濟系開學典禮、系館 | ◐ | 待開工 | 建築有、場景與事件沒有 | P2 |
+| V0-A3 ★ | 存檔分舊序章／法律系階段、開局選擇 | ✗ | 待開工 | newGame 一律從法律系第一天 | P2 |
+| V0-A4 ★ | 舊序章存檔帶到法律系 | ◐ | 待開工 | 現在用預設值代替（dating_kexin、ROOM_ITEMS） | P2 |
+| V0-A5 ★ | 舊序章離校後改成舊序章考試準備 | ✗ | 待開工 | — | P2 |
+| V0-A6 ★ | 舊序章開學典禮、系館 | ◐ | 待開工 | 建築有、場景與事件沒有 | P2 |
 | V0-A7 ★ | E22b、E23、E24b、E24c 走向法律（E24C_REASON） | ✗ | 待開工 | — | P2 |
 | V0-A8 | 法律系第一天旁白＋可昕訊息 | ✅ | 已驗收 | story3d.js:480、487；v1_batch2 | — |
 | V0-B1 ★ | BB_104 E01～E37 | ✗ | 待開工 | 台詞 0 筆 | P2 |
 | V0-B2 ★ | BB_105 P1、B1、B2、D2 | ✗ | 待開工 | — | P2 |
-| V0-B3 ★ | BB_112 阿勳 A1～A3、唐睿／品妤 T1～T3、韋綸的腳踏車、重考日常 R1～R8 | ✗ | 待開工 | 經濟系四人＋家豪學長沒有角色資料（ART-09 立繪已有） | P2 |
+| V0-B3 ★ | BB_112 舊序章人物甲 A1～A3、舊序章人物丙／舊序章人物丁 T1～T3、舊序章人物乙的腳踏車、舊序章考試日常 R1～R8 | ✗ | 待開工 | 舊序章四人＋舊序章人物戊學長沒有角色資料（ART-09 立繪已有） | P2 |
 | V0-B4 ★ | BB_110 F1、T0a、T0b、C1、C2、L5a、L5b | ✗ | 待開工 | — | P2 |
 | V0-B5 | BB_102 Y0 課堂內容 | ◐ | 待開工 | 只有資料 | P2 |
 | V0-E1 ★ | 回聲 P4（經原第 3 週 full／half／none）、P4b、P4c、P4e、D1 | ✗ | 待開工 | courses.js:52 | P2 |
@@ -141,18 +159,18 @@
 
 | ID | 項目 | 程式 | 狀態 | 阻礙／下一步 | 優先 |
 |---|---|---|---|---|---|
-| V2-C13 | 可玩切片：缺 ④共同教學館的阿勳、交往中可昕週四「演講怎樣？」、①憲法課回想（＝C15）、③「欠的，還了。」 | ◐ | 等待其他AI／素材 | 阿勳人物資料（BB-B）；「欠的，還了。」群組（V2-B37） | P1 |
+| V2-C13 | 可玩切片：缺 ④共同教學館的舊序章人物甲、交往中可昕週四「演講怎樣？」、①憲法課回想（＝C15）、③「欠的，還了。」 | ◐ | 等待其他AI／素材 | 舊序章人物甲人物資料（BB-B）；「欠的，還了。」群組（V2-B37） | P1 |
 | V2-C15 ★ | 演講後回到課堂（syllabus const_2 w12 的 recall） | ✗ | 等待其他AI／素材 | 帳號 A 的 AA 說大一下 recall 先不匯入 → 10-16 問 AA-B；要的話改 importer＋A 類課堂顯示 | P1 |
 | V2-B32 ★ | 明軒 F-M4（JOB_TUTOR）＋手機小事明軒那則 | ✗ | 等待其他AI／素材 | 缺打工系統（AA_72 §3）→ 10-16 問 AA-B 要不要先做最小版 | P2 |
 | V2-B37 | 沛珊那張表期末「欠的，還了。」＋法律系一年級班級群組 | ✗ | 等待其他AI／素材 | 10-16 問 AA-B（群組系統）、BB-B（人物與時間） | P1 |
-| V2-B10 | BB 第 10 節經濟系的朋友：缺 SK03、10-3 阿勳、10-4 小福的還債、SK05、P4e（只有 10-1 P4d） | ◐ | 等待其他AI／素材 | 阿勳資料、小福 2D 出遊確認（BB-B）；P4e 和 V2-B9 綁 | P2 |
+| V2-B10 | BB 第 10 節舊序章的朋友：缺 SK03、10-3 舊序章人物甲、10-4 小福的還債、SK05、P4e（只有 10-1 P4d） | ◐ | 等待其他AI／素材 | 舊序章人物甲資料、小福 2D 出遊確認（BB-B）；P4e 和 V2-B9 綁 | P2 |
 | V2-B9 | 可昕的大一下：9-1 情人節、K5、K7、K6、K6b、生日、手機小事、大一下期末成績（有 9-2 除夕、9-5 K8、9-10 重訪日） | ◐ | 待開工 | 企劃已交（交接板 10-15）；照 BB_96 第 9 節最新版直接做；WIP-01 舊 patch 不用 | P1 |
 | V2-L2 | 大一下閒聊階梯（以安 A2-L1～8、語彤 Y2-L1～8，ladder_aa_y1s2.json；AA_139） | ✗ | 待開工 | 匯入工具支援多學期、進度按學期分開；`ev_an_study_group` 換成遊戲裡的事件 id；其他五位 BB-B 寫 | P1 |
 | V2-K6 | 重訪日 1 可昕那句永遠走「假設題」（K6 沒做） | ◐ | 待開工 | 跟 V2-B9 一起 | P2 |
 
 ### 6.3 v3 法律系大二（交接包_v3、BB_97）——授權 D79；企劃 ✅（AA、BB 審完）；程式 ✗（全部「待開工」，除另註）
 
-共同前置：SYS-05 每年重複的活動、SYS-06 第二個房間、SYS-07 每週訊息、SYS-08 精華日／摘要日、SYS-09 模擬法庭、ART-15 CG、ART-16 立繪、2D 背景（河堤夜景、山屋與步道、研究室門口、政大小教室、老街＋回程公車、社科院一樓、畢業典禮人潮）。
+共同前置：SYS-05 每年重複的活動、SYS-06 第二個房間、SYS-07 每週訊息、SYS-08 精華日／摘要日、SYS-09 模擬法庭、ART-15 CG、ART-16 立繪、2D 背景（河堤夜景、山屋與步道、研究室門口、外校小教室、老街＋回程公車、社科院一樓、畢業典禮人潮）。
 
 | ID | 項目 | 週 | ID | 項目 | 週 |
 |---|---|---|---|---|---|
@@ -209,7 +227,7 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | V6-S5 | 裂縫計數 → 談話事件 | ✗ | 待開工 | — | P2 |
 | V6-S6 | 戀愛 CG 開關＋CG 圖鑑 | ✗ | 待開工 | 沒有圖鑑 | P2 |
 | V6-S7 | 存檔 | ✅ | 已整合待測試 | 568e1feb；romance_unit 9 項（沒進 release_suite，TEST-06） | P2 |
-| V6-A1～A8 ★ | 以安、語彤：告白條件、分開路線、前任版、16b 面對面、麵店團反應、CG-18～21 | ✗ | 待開工 | 跟著 v3～v5 事件接 | P2 |
+| V6-A1～A8 ★ | 以安、語彤：告白條件、分開路線、前任版、16b 面對面、桌遊團反應、CG-18～21 | ✗ | 待開工 | 跟著 v3～v5 事件接 | P2 |
 | V6-B1～B7 ★ | 沛珊戀愛線三件、芷若 BCG-25、子晴 BCG-26、分開路線、晚一點的告白窗口、前任版通則、BCG-19～26 | ✗ | 待開工 | 同上 | P2 |
 
 ## 7. 32 處校外約會＋告白（交接包_校外約會、AA_128、date_locations.json、lines/ D01～D32、BB_132）——授權 D79；台詞 32 處全部交付（企劃線 cf959b8f）；程式 ✗
@@ -277,7 +295,7 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | DONE-B08 | 總圖導覽（AA_134 §2） | 已整合待測試 | eeab8b36 | flow_lib_tour 排隊（run8） |
 | DONE-B09 | 約好同行（AA_137 §7） | 已整合待測試 | cae43fb2 | invites_unit |
 | DONE-B10 | 閒聊階梯大一上（七位）＋linesIf／extraIf／skipIf＋EVENTS.cond any | 已整合待測試 | 6b7b24a3、00179902、944d706a、17383f2d | ladder_unit 18 項；對話框直／橫待拍 |
-| DONE-B11 | 政大背景（校門、小吃街）＋AA_137 7-1 場景對應 | 已整合待測試 | 00179902 | v1_batch7；outing_bg_check 排隊 |
+| DONE-B11 | 外校背景（校門、小吃街）＋AA_137 7-1 場景對應 | 已整合待測試 | 00179902 | v1_batch7；outing_bg_check 排隊 |
 | DONE-B12 | 空橋走得過去 | 已整合待測試 | 944d706a、c81ad68f | nav_teach_unit；flow_skybridge 排隊 |
 | DONE-B13 | 載妹墊（D78：開局就有、學姊也坐） | 已整合待測試 | fc56ccde、305052b2 | bike_seat_unit、bike_unit；上車動畫待瀏覽器 |
 | DONE-B14 | 阿凱宿舍事件 K-D1～6 | 已整合待測試 | b4a138ae | kai_dorm_unit |
@@ -300,26 +318,34 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史（只留上一則：`check_handoff.py userwork` 讀最上面那一則；更早的看 `docs/handoff/snapshots/` 和 git 歷史）
+### 帳號 C → 下一個帳號｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-12 22:2x UTC 交班（使用者 22:1x：「現在交班 等其他AI交班你就交班」）
 
-### 帳號 B → 下一個帳號｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-10 02:1x UTC 交班（使用者 02:0x「我已經通知其他AI交班 他們交班完之後你也交班」；HANDOFF-B-1110）
+**下一班第一件事（任務 ID）**：CANON-NO-ECON-1112（第五批，照 `docs/handoff/canon_b5_1112/README.md` 從第 1 步做）→ MIDTERM-LINES-1112（併在第五批）→ 全部 Node → BB 瀏覽器 → 發布（CANON 是【下一版必須】）；SHOP-REALISM-1112（收 LAWWW2 溫特寶邸 v2 patch＋並排圖、接 tests/shop_cc0_unit.js）；SHOP-STANDARD-BACKFILL-1112（WZ_ICE_r3 結果、阿忠鮮果收攤節點）。
 
-**下一班第一件事：使用者 11-10 試玩回報 X268～X295 還有很多沒做（見 B）；開發分支 `claude/modest-rubin-2lyp7g` 比 main 多很多遊戲改動（都還沒發布、沒有使用者同意不合併 main）；最新含遊戲檔的 GHA 是 33ebe5eba（交班時跑中）。**
-- **A｜本班成果（11-09 16:10～11-10 02:1x）**：
-  - BUG-Y0-E08-MISSED-AFTER-GOING-1109（系烤，已驗收，fc879e47b）、BUG-OUT-ALARM-SKIP-1109（約好的出遊預設停，已驗收，87f52f2f3）。
-  - LAWWW2 接回：牆一次畫完 6bbfca043（畫面 PASS、PC 效能持平）；#204 外牆腳第一批 a5ec91a36（四人房、萬才 ART_APPROVED；大口、茶屋撤回）、第二批 1827999fb、第三批 faf1b75a4（落地櫃子底下、一盞改補 yizhan）；CAM-TEAYARD 兩輪 b6685c824、4f888cf3c；CAM-VIEWPANE-SIDE b8cffd669。
-  - 使用者 11-10 試玩回報（都在開發分支、待 BB 測）：SEAT-NO-ASK 1afc519eb（上課不問坐哪）、LUNCH-NO-ASK 42fff6105（下課吃飯不問哪家）、WAKE-STALE df4674cb2（起床選單只在醒來的地方）、BUG-GREET-NOCLASS-1110 968bd311f（週末不問有沒有課；AA_729 匯入）、BUG-INV-ACC-TIME-1110 a1c0c2bc5／bc9c1408c（答應句不寫時間；AA_731）、人物頁 BOOKSTORE_TOGETHER 補字 4cefe226b、ROM-PRIVATE-DATE d7e722c90＋6c7e3918f（可以攻略的對象一開始就能培養戀愛、約會加戀愛＋信任、戀愛條朋友以下也顯示、選完說出祐廷那一句）、SERVICE2-LEGAL a883f36de（服務學習（二）法律服務中心，AA_735）、BGN-AFTER-HOME 063592f18（出遊演完時段用完＝回宿舍睡）；舊規則的測試照新規則改 be7c2c374。
-- **B｜全部未完成**（`queue --owner LAWWW`；本班新的）：
-  - 使用者試玩回報待做：HELP-GUIDE-1110（說明頁＋第一次提示）、BUG-YEJIAN-NO-VISUAL-1110（頁間書屋人物動作）、BUG-MOKU-EXAM-SEATS-1110（木曜日考試週座位，存檔 tests/fixtures/user_save_day47_1110.json）、INV-GO-JUMP-1110（一鍵前往要跳到約好的時間）、INV-NOW-GOAL-1110（現在一起過去寫在目標列）、HER-ASK-LATER-DAY-1110（改天選日子）、HER-ASK-MORE-1110（她主動約太少；**WIP 沒驗證：wip_backup/HER-ASK-MORE-1110_wip.patch**，資料每則 th 3／5 要請 AA 改幾則成 2）、ATTEND-TIDY-1110（出席紀錄）、BULLETIN-BOARD-1110（公告欄，等 AA 的公告字）、DATE-CHOICES-1110（約會選項對話，等 AA；晚上約會完直接睡）。
-  - AA 已交、待 LAWWW 匯入：DLG-NO-ECON-REPEAT（企劃線 256bcdc42，重跑 import_arcs、import_arc_invites、import_activity_scenes，白名單更新）；AA_342 svc 兩句拿掉（4470f4908：src/twfill3d.js 的 S.SVC 刪掉、Y2_SVC_CHESS 不記）；GIFT-HOLIDAY-1110 三批（AA_732 fc9ff6d3d、AA_733 1edb14888、AA_734 246ef6735；含物品欄 X291、她送你的禮物、山嵐文具區學姊四場）；MOVIE-REAL-1110（片單 AA_730 8a246c40f＋AA_708 一句；BB-B 海報第一批 10 張 claude/elegant-brown-fcos7n e4eea1c780 docs/story_planning/bg_approved/posters/，圖上沒字、片名要遊戲寫；進 1 廳坐下關燈再演）。
-  - BB-B 找的：BUG-INV-GOASK-PERSIST-1110（P2，讀檔後約好的見面 missed：goAsked 跟著存檔）。
-  - LAWWW2 手上：CAMPUS-FLOOR-STRIP-1110、AVENUE-FAR-SIGNS-1110、YIZHAN-FLOAT-CUPS-1110、LAWCLUB-BOOTH-MOVE-1110、SIS-STATIONERY-1110（WIP）、SERVICE2 接待桌模型（P3）。
-  - 其餘照總表（v0～v5、D99）。
-- **C｜正在做**：沒有（HER-ASK-MORE 那一份存成 patch，沒進遊戲）。沒有只在本機的東西。
-- **D｜規則**：本班沒有新的 D／HV。使用者決定（USER_WANTS X268～X295）：說明頁＋第一次提示；上課直接坐、占位子之後再加；送禮只給可以攻略的對象、節日（聖誕、七夕、2/14、生日）不扣時段、同一節最多兩人、好感夠她也回送；學姊很喜歡文具（人物設定）；單獨約會、選項一開始就能培養戀愛（LAWWW 依使用者「你要先決定哪些活動」定）；服務學習只有兩學期（圖書館、法律服務）；公法讀書會照現在（大一上第 10 週起，使用者沒選改）。
-- **E｜各職位**：BB-B、CC-B、AA-B 已交班（duty_*.json handed-off）；LAWWW2-B 交班中（duty sync 收）。
-- **F｜測試**：本機全套 1164 支（ROM 改完以後）8 支舊規則已改；GHA 33ebe5eba 跑中（之前 4f888cf3c、1827999fb、a5ec91a36、fc879e47b success）。使用者 PC（cc-local）20:07Z 以後沒推，功能類改在 CC 雲端跑；**沒測 iPhone 實機**。
-
-
+- **A｜本班成果**（開發分支 `claude/adoring-meitner-mqzst8`，最後 SHA 見第 12 節；全部已 push；**沒有發布**，main 照舊）：
+  - CANON-NO-ECON-1112 第四批四份全部合併：四號 7a25fe5de6（約會重匯到 dce2f8c08b、AA_901 ⑤～⑩、AA_893、AA_787、AA_905）、三號 11371b62b7（AA_900、AA_873～885、AA_896 §2、AA_897、AA_876 可昕同系慢慢分開 src/kxdrift3d.js）、合併後六支測試修綠 4f5ad69b97（子代理：當時全部 Node 1293/1293）。
+  - 第五批已進開發分支的：AA_906／910 直接改 7 句 b236632dda、AA_916 invites 5 句 1cca1d9605、flirt 重匯＋gone c400353851、AA_919 §1 偶遇改旁白 7b0ead2629、AA_922 兩處（我們的日子第三個地點溫州街、邀約字幕拿掉舊序章同學）、AA_789／788 測試跟上 15dbfc5cdf、可昕一起吃 AA_329 20d1023d20 重匯 42a4b22b8f。
+  - D160／HV-40（使用者 21:5x 對 LAWWW2：「早就該這麼做了 這些素材早就跟你講了 一定要寫進規則 每間店做好的也要檢查 用這些素材更貼近2D圖篇」）寫進 CLAUDE.md §12 第 2 點、ROLE_LAWWW2 12.2（f742748135）。
+  - 地點關卡：質感量測（★純色／方塊、◆貨品同尺寸重複）be7a689fe3→5c1cf73ca4；BB 的 place_gate_bb.json 同步到 8d5158b182 版。
+  - canon_scan 加「前提警告」層 bd06699dd0。溫州街冰菓室全年營業＋公休／打烊拉鐵捲門 7f2c6bd31f；阿忠鮮果打烊提示照 places.js。
+  - 全部 Node：交班前那一輪（4f5ad69b97 以後、含 AA_922／冰菓室修正前後）**1293／1293 全部 exit 0**。
+- **B｜全部未完成**：
+  - CANON-NO-ECON-1112【下一版必須】P0：第五批（README 第 1～5 步：約會 D01–D33 換 6dbfe10d7e＋KX921 表、wish 卡在 AA_757／AA_770 層、R921 短句層、白名單只換列出的幾份、AA_919 §2§4／AA_920／AA_921 §3／AA_915／AA_923 手改、6/9 畢業併 6/2＋刪 cg_two_graduations、可昕 FRIEND 偶遇打招呼、外澳「手機關掉的一天」手機延後）→ 全部 Node → AA 再掃（AA_922 說剩下的都在對照表）→ BB 瀏覽器 → 發布。world_names.py／WN_COMMON 舊序章條目要重匯掃一次（第四批四留下）。
+  - MIDTERM-LINES-1112（AA，P1）：AA_923 定稿 96c3a668eb，併在第五批。
+  - KX-DRIFT-SAMEDEPT-1112：已整合待測試，等 BB 瀏覽器（D1／D1c／D2／D3／D4、D5 長椅、21:00 電話、第 61 天午餐）。
+  - SHOP-REALISM-1112（D159／D160）：溫特寶邸 v2 等 LAWWW2 patch＋並排圖，LAWWW 先看再整合；tests/shop_cc0_unit.js（LAWWW2 寫）接 node-unit-auto；SHOP_STANDARD_STATUS 加「CC0 素材」欄。
+  - SHOP-STANDARD-BACKFILL-1112：WZ_ICE_r3（CC 佇列，要 7f2c6bd31f 以後）；WZ-FRUIT-CLOSED-1112（LAWWW2 收攤節點 → LAWWW 接 PLACES.isOpen('wz_fruit')）；L118-KOREA-STAND-1112（清州刀削麵打烊湯鍋檯，P3，LAWWW2）。
+  - 溫特寶邸 v2（SHOP-REALISM-1112）是 LAWWW2 的 WIP、沒交件：`docs/art-rebuild/second_ai/wip/tz_wente_win3d_1112/wip_v2/`（LAWWW2 分支 claude/focused-cray-c9uwvw 5b317a192f；patch 底 21773bf35b、GLB 寬 4.96）。
+  - L118 座位（LAWWW2，P2）：辛亥韓食 #6／#12、大學食堂 #5。
+  - BUG-RUN-STUTTER-1112／FIRST r7：第一次走近卡 0.18～0.2 秒，原因在整條街（LAWWW2 查）。
+  - PLACE-GATE-TOOL-1112：「層架上才算」沒做；程式拼的道具量不到。
+  - YUE_MEAL 學姊 vis:false（BB_379 照舊未過）。
+  - 分支唯讀稽核過期（branch_audit.py --write，上次 11-09；交班時跑了 6 分鐘還沒跑完（磁碟慢），中止了——下一班接班後背景跑）。
+- **C｜正在做的**：第五批子代理只研究、沒有改 repo（筆記 docs/handoff/canon_b5_1112/）；沒有其他未完成的本機改動。
+- **D｜本班決策與規則**：D160／HV-40（上面）。D159／HV-39（店內道具不准塑膠方塊）上一段已寫。
+- **E｜跨 AI**：AA_906～923 全部 ACK；AA 待補：AA_920 新句已 BB 照用（在 96c3a668eb）；第五批合併後 AA 會再掃一次。BB：KX-DRIFT 等瀏覽器清單已傳（三號／四號各列）。LAWWW2：D160、鮮果收攤節點、L118 座位、FIRST r7 都已傳。CC：WZ_ICE_r3 用 7f2c6bd31f。
+- **F｜測試與問題**：全部 Node 1293／1293 綠；`incr` 異常 10 項沒處理（AA outbox 第 466～473 筆 ack 欄寫成句子不是 ACK 等狀態字、LAWWW2 outbox 第 487 筆缺 ack——都在它們自己的分支，已交班不能改；水位線沒前進，下一班請對應職位改 ack 欄後再 `incr --advance`）；第五批之後還沒任何瀏覽器測；沒有 iPhone 實機確認。
+- **G｜東西放在哪**：第五批研究筆記 `docs/handoff/canon_b5_1112/`（README、約會 118 格逐格表、比對腳本）；scratchpad 只剩比對用暫存檔，都不需要；沒有 worktree、沒有未推的 commit。
 
 ## 14. v0～v5 全學年場景施工表（SCN；使用者 2026-10-16 P1 正式指示「美國交換篇與各學年場景立即排入施工」）
 
@@ -332,10 +358,10 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 
 | ID | 場景 | 學年／事件 | 類型 | 負責 | 依賴 | 優先 | 下一個可驗收成果 | 狀態 |
 |---|---|---|---|---|---|---|---|---|
-| SCN-V0-01 | 經濟系系館（社科院；3D 已有社科院外觀與社科圖） | v0 開學、SK 日常 | 3D（現有＋ART-01 新外觀） | LAWWW-B 整合；AA-B 確認用途 | ART-01、V0-A3 | P2 | 新外觀接線（ART-01） | 待開工 |
-| SCN-V0-02 | 經濟系開學典禮、小福、重考生活（補習班／家）、摩天輪、保齡球 | v0 E 事件、BB_112 | 2D（待 AA-B 確認，可能部分 3D） | AA-B／BB-B／使用者 | V0-A3 | P2 | AA-B 的場景清單 | 等待其他AI／素材 |
+| SCN-V0-01 | 舊序章系館（社科院；3D 已有社科院外觀與社科圖） | v0 開學、SK 日常 | 3D（現有＋ART-01 新外觀） | LAWWW-B 整合；AA-B 確認用途 | ART-01、V0-A3 | P2 | 新外觀接線（ART-01） | 待開工 |
+| SCN-V0-02 | 舊序章開學典禮、小福、舊序章考試生活（補習班／家）、摩天輪、保齡球 | v0 E 事件、BB_112 | 2D（待 AA-B 確認，可能部分 3D） | AA-B／BB-B／使用者 | V0-A3 | P2 | AA-B 的場景清單 | 等待其他AI／素材 |
 | SCN-V3-01 | 第二個房間（主線 3） | v3 D1 | 2D＋物件清單（AA-B 同意） | LAWWW-B；圖 BB-B／使用者 | SYS-06 | P2 | 物件清單＋2D 房間場景流程 | 待開工 |
-| SCN-V3-02 | 河堤夜景、山屋與步道、研究室門口、政大小教室、老街＋回程公車、畢業典禮人潮 | v3 各事件 | 2D | AA-B／BB-B／使用者 | — | P2 | BB-B 清單 | 等待其他AI／素材 |
+| SCN-V3-02 | 河堤夜景、山屋與步道、研究室門口、外校小教室、老街＋回程公車、畢業典禮人潮 | v3 各事件 | 2D | AA-B／BB-B／使用者 | — | P2 | BB-B 清單 | 等待其他AI／素材 |
 | SCN-V3-03 | 模擬法庭（霖澤館 201 擺成法庭） | v3 D16 模 1～6 | 3D 改佈置 | 配置 LAWWW-B；道具 LAWWW2-B | SYS-09 | P2 | 201 法庭佈置的配置 | 待開工 |
 
 ### 14.2 v4、v5（臺灣路線、大三其他場景、大四、畢業後）

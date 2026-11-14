@@ -28,6 +28,7 @@ check('3. 寫法照 AA_380 第 1 節（Node、Python 一樣）',ex.every(([a,b],
 /* 4 */
 const tools=fs.readdirSync(path.join(ROOT,'tools')).flatMap(d=>{ const p=path.join(ROOT,'tools',d); return fs.statSync(p).isDirectory()?fs.readdirSync(p).filter(f=>/^import_.*\.py$/.test(f)).map(f=>'tools/'+d+'/'+f):[]; });
 const bad=tools.filter(f=>{ const s=fs.readFileSync(path.join(ROOT,f),'utf8'); return s.split('\n').some(l=>/'show'/.test(l)&&/check_output|subprocess\.run/.test(l)&&!/alison\(|read_fix\(/.test(l)); });   /* WORLD-RENAME-1030：讀稿改走 import_guard.read_fix（＝alison＋world 換校名），read_fix 一定先 alison */
-const rf=/def read_fix\(s\):[\s\S]*?return (ndl542\()?(aa655\()?world\(alison\(s\)\)/.test(fs.readFileSync(path.join(ROOT,'tools/story/import_guard.py'),'utf8'));
+const rf=/def read_fix\(s\):[\s\S]*?return (canon897\()?(ndl542\()?(aa655\()?world\(alison\(s\)\)/.test(fs.readFileSync(path.join(ROOT,'tools/story/import_guard.py'),'utf8'));
+/* CANON-NO-ECON-1112 第四批：read_fix 最外層多一步 canon897()（AA_897 第 2 節整句換），裡面照舊先 alison */
 check('4. 匯入工具（'+tools.length+' 支）讀 git show 的地方都先換 Alison（alison 或 read_fix）',tools.length>=10&&!bad.length&&rf,JSON.stringify(bad)+(rf?'':' read_fix 沒有先 alison'));
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

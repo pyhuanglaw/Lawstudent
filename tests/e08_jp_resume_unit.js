@@ -21,7 +21,7 @@ const board=()=>STORY.interact({x:0,z:-13.8,radius:2.5,label:'登機',airportBoa
 const J=x=>JSON.stringify(x);
 const due=G=>typeof Y34B.departResumeDue==='function'?Y34B.departResumeDue(G):false;
 const stuck=s=>{ const F=JSON.parse(s).flags||{}; return F.AN_SENDOFF==='together'&&F.JP_DEPARTED==null&&!F.AIR_DEP; };
-const jpFresh=(h,dating)=>{ H.fresh('2028-03-25',h,'dorm',{EXCHANGE_ROUTE:'JP',EXCH_RULE:1,X1_JP:D('2028-02-20')}); H.G.acts={att:{}}; H.G.outings=[]; H.G.visited={}; GM.npc={}; HOME.rec(H.G).at=true; H.FAMILIAR('heroine_01'); if(dating) H.date('heroine_01'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團'); H.G.memo=[]; saves=[]; };
+const jpFresh=(h,dating)=>{ H.fresh('2028-03-25',h,'dorm',{EXCHANGE_ROUTE:'JP',EXCH_RULE:1,X1_JP:D('2028-02-20')}); H.G.acts={att:{}}; H.G.outings=[]; H.G.visited={}; GM.npc={}; HOME.rec(H.G).at=true; H.FAMILIAR('heroine_01'); if(dating) H.date('heroine_01'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','桌遊團'); H.G.memo=[]; saves=[]; };
 const reload=s=>{ H.G=JSON.parse(s); SOCIAL.bind(H.G); EVENTS.bind(GM); GM.npc={}; H.said=[]; H.cards=[]; H.cgs=[]; H.entered=[]; hall(); };
 (async()=>{
   check('0. 接線：Y34B.departResume／departResumeDue、EXCH.AIR.jp.resume',typeof Y34B.departResume==='function'&&typeof Y34B.departResumeDue==='function'&&!!(EXCH.AIR&&EXCH.AIR.jp&&typeof EXCH.AIR.jp.resume==='function'));

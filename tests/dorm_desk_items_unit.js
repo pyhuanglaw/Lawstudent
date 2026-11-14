@@ -38,7 +38,7 @@ const keysOf=()=>STORY.roomItemKeys(G), labels=()=>STORY.roomItemList(G).map(r=>
 (async()=>{
   const d1=termDay('Y1S1',3,2);
   fresh(d1,20,'dorm'); let K=keysOf();
-  check('1. 大一：選單的五件都有 key（舊《民法》、經濟學原理、寫滿的筆記本、桌墊下的票根、手機相簿）',['civil','econ','notebook','ferris','phone'].every(k=>K.includes(k)),JSON.stringify(K));
+  check('1. 大一：選單的四件都有 key（舊《民法》、高中的課本、學測前的筆記本、手機相簿；票根拿掉）',['civil','econ','notebook','phone'].every(k=>K.includes(k))&&!K.includes('ferris')/* （CANON-NO-ECON-1112 第四批：照 AA_887 換字） */,JSON.stringify(K));
   check('2. 沒有聖誕節的螢光筆時，三色螢光筆不顯示',!K.includes('highlighters'),JSON.stringify(K));
   fresh(d1,20,'dorm',{XMAS_HL3:true}); K=keysOf(); check('3. XMAS_HL3 → 桌上的三色螢光筆',K.includes('highlighters')&&labels().includes('桌上的三色螢光筆'),JSON.stringify(K));
   fresh(d1,20,'dorm',{KX_TRIP:{Y1S2:'oldtown'}}); K=keysOf(); check('4. 旅行的照片照 KX_TRIP.Y1S2（老街）→ trip_oldtown',K.includes('trip_oldtown')&&!K.includes('trip_sea'),JSON.stringify(K));
@@ -46,10 +46,10 @@ const keysOf=()=>STORY.roomItemKeys(G), labels=()=>STORY.roomItemList(G).map(r=>
   fresh(d1,20,'dorm',{KX_ANNIV:[0,'missed']}); K=keysOf(); check('6. 沒去週年（missed）→ 沒有卡片',!K.includes('anniv'),JSON.stringify(K));
   fresh(d1,20,'dorm'); SOCIAL.remember('heroine_02','WATCHED_FILM',''); K=keysOf(); check('7. 和芷若看過電影 → 一張票根 film1',K.includes('film1')&&!K.includes('film3'),JSON.stringify(K));
   fresh(d1,20,'dorm'); SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); K=keysOf(); check('8. 三個人一起看 → 三張連號 film3',K.includes('film3')&&!K.includes('film1'),JSON.stringify(K));
-  fresh(d1,20,'dorm',{ECON_JACKET:'wear'}); K=keysOf(); check('9. 系外套照舊在選單上（key jacket，3D 由 dorm_room4 的 JACKET_ 管）',K.includes('jacket'),JSON.stringify(K));
+  fresh(d1,20,'dorm',{ECON_JACKET:'wear'}); K=keysOf(); check('9. 舊存檔有 ECON_JACKET 也不再有那件外套（CANON-NO-ECON-1112 第三批：這一項拿掉）',!K.includes('jacket'),JSON.stringify(K));
   { fresh(d1,20,'dorm'); const kai=STORY.kaiRoommate&&STORY.kaiRoommate(G); K=keysOf(); check('10. 阿凱同房 → 阿凱的泡麵評鑑表（選單有＝key 有）',K.includes('kai_sheet')===labels().includes('阿凱的泡麵評鑑表'),JSON.stringify({kai,K})); }
   // 每一個標籤（有 3D 的）都換成 key：選單上看得到、房間裡卻沒有的情形
-  { const MAP=['書架上的舊《民法》','經濟學原理','寫滿的筆記本','摩天輪的票根（夾在桌墊下）','手機相簿的一張照片','桌上的三色螢光筆','阿凱的泡麵評鑑表','三張連號的票根','電影票根','她的週年卡片','經濟系的系外套','旅行的照片'];
+  { const MAP=['書架上的舊《民法》','高中的課本','學測前的筆記本','手機相簿的一張照片',/* （CANON-NO-ECON-1112 第四批：照 AA_887 換字） */'桌上的三色螢光筆','阿凱的泡麵評鑑表','三張連號的票根','電影票根','她的週年卡片','經濟系的系外套','旅行的照片'];
     fresh(d1,20,'dorm',{XMAS_HL3:true,KX_TRIP:{Y1S2:'sea'},KX_ANNIV:[0,'went'],ECON_JACKET:'wear'}); SOCIAL.remember('heroine_02','WATCHED_FILM','');
     const Ls=labels().filter(l=>MAP.includes(l)); K=keysOf(); check('11. 全開的存檔：每一個有 3D 的選單標籤都有一個 key（標籤 '+Ls.length+'、key '+K.length+'）',Ls.length===K.length,JSON.stringify({Ls,K}));
     const miss=K.filter(k=>k!=='jacket'&&!NODES.includes('ITEM_desk_'+k)); check('12. 每一個 key 在 dorm_desk_items.glb 都有 ITEM_desk_<key>（jacket 例外）',!miss.length,JSON.stringify(miss)); }
@@ -67,9 +67,9 @@ const keysOf=()=>STORY.roomItemKeys(G), labels=()=>STORY.roomItemList(G).map(r=>
     let got=null; const par={visible:true,parent:null,updateMatrixWorld(){},localToWorld:v=>({x:v.x+10,y:v.y,z:v.z})};
     const node={visible:true,parent:par,userData:{eye:[1,2,3],look:[4,5,6]}};
     const GMf={G:{flags:{}},E:{scene:{getObjectByName:n=>n==='ITEM_desk_notebook'?node:null},cinematic:(p,l,v)=>{ got=[p,l,v]; }}};
-    const r1=STORY.roomItemFocus(GMf,'寫滿的筆記本');
-    check('18. roomItemFocus：選「寫滿的筆記本」→ E.cinematic（GLB 根節點座標換成世界座標）',r1===true&&got&&got[0].x===11&&got[1].x===14&&got[1].z===6,JSON.stringify(got));
-    got=null; node.visible=false; const r2=STORY.roomItemFocus(GMf,'寫滿的筆記本');
+    const r1=STORY.roomItemFocus(GMf,'學測前的筆記本');
+    check('18. roomItemFocus：選「學測前的筆記本」（（CANON-NO-ECON-1112 第四批：照 AA_887 換字））→ E.cinematic（GLB 根節點座標換成世界座標）',r1===true&&got&&got[0].x===11&&got[1].x===14&&got[1].z===6,JSON.stringify(got));
+    got=null; node.visible=false; const r2=STORY.roomItemFocus(GMf,'學測前的筆記本');
     check('19. 那件東西沒顯示（別的年份）就不轉鏡頭',r2===false&&got===null);
     got=null; const r3=STORY.roomItemFocus(GMf,'經濟系的系外套');
     check('20. 沒有鏡頭資料的（系外套、沒有節點）不轉鏡頭',r3===false&&got===null);
@@ -83,7 +83,7 @@ const keysOf=()=>STORY.roomItemKeys(G), labels=()=>STORY.roomItemList(G).map(r=>
     // 鏡頭轉過去的路線（P3 (b)：會穿過梯子、床欄）：先到走道上的 via（x ≥ −0.65：祐廷那組的床板、床欄、梯子在 x −2.0～−0.9），和 eye 同高同 z，再平移到 eye
     const noVia=Object.keys(ex).filter(k=>ex[k].eye&&!(Array.isArray(ex[k].via)&&ex[k].via[0]>=-0.65&&Math.abs(ex[k].via[1]-ex[k].eye[1])<1e-6&&Math.abs(ex[k].via[2]-ex[k].eye[2])<1e-6));
     check('23. 每一件有鏡頭的都有 via（走道 x ≥ −0.65、和 eye 同高同 z）',!noVia.length,JSON.stringify(noVia));
-    node.visible=true; node.userData.via=[7,2,3]; got=null; STORY.roomItemFocus(GMf,'寫滿的筆記本');
+    node.visible=true; node.userData.via=[7,2,3]; got=null; STORY.roomItemFocus(GMf,'學測前的筆記本');
     check('24. roomItemFocus 把 via（換成世界座標）交給 E.cinematic 第三個參數',!!got&&!!got[2]&&got[2].x===17&&got[2].z===3,JSON.stringify(got&&got[2]));
     const esrc=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
     check('25. engine3d.js：E.cinematic(pos,look,via)，鏡頭先往 via、到了（15 cm 內）再往 pos',/E\.cinematic=function\(pos,look,via\)/.test(esrc)&&/camera\.position\.lerp\(s\.via\|\|s\.pos/.test(esrc)&&/s\.via=null/.test(esrc)); }

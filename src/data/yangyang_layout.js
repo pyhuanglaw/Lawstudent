@@ -62,6 +62,10 @@ const YANGYANG_LAYOUT = (function () {
     ...S.tables2.map(t => [
       {x: t.x, z: r2(t.z - 0.55), yaw: 0, kind: 'eat', table: t.n, label: '坐下吃'},
       {x: t.x, z: r2(t.z + 0.55), yaw: Math.PI, kind: 'eat', table: t.n, label: '坐下吃'}]));
+  /* BB-C 11-12（BB_255 245f1e5174）：(0.92, 2.3) 那張點地 44 次都停在 0.2 m 外、互動鍵是「看炸物櫃」——炸物櫃和四人桌之間只剩約 0.74 m。
+     BB 裁定：挪桌讓出 0.9 m 或從座位拿掉（§12 第 4 點：坐不下就別擺成座位）→ 先拿掉（椅子模型和擋格照舊，只是不當座位：玩家、客人都不坐）。*/
+  S.seatsDropped = [{x: 0.92, z: 2.3}];
+  S.seats = S.seats.filter(q => !S.seatsDropped.some(d => Math.abs(q.x - d.x) < 0.01 && Math.abs(q.z - d.z) < 0.01));
   S.spots = {order: S.interact[1], table_1: S.seats.find(s => s.table === 1)};
   return {version: 3, shop: S};
 })();

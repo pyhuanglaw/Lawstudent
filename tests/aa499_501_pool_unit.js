@@ -97,10 +97,11 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   const AA528_9=new Set(['（法服值班桌底下，一個女生蹲著，拉著一條很長的延長線。延長線的另一頭繞到柱子後面。）','同學，可以幫我拉一下嗎？插座在那根柱子後面，我一個人拉不到。','（你幫她拉過去，插好。桌上的檯燈亮了一下。）','（照片：值班桌旁邊那根柱子，底下一個插座）']);
   /* TEXT-QUOTE-UNIFY-1108 第五批（AA-B 2026-11-08 11:05）：之後的招呼（greet）「說的話」（動作）拿掉說的話那一對＝說的話（動作）；稿上是「說的話」（動作）——
      只限 greet 裡本人說的（不是整句旁白）、結尾一對（動作）的那幾句：加回那一對再找（tests/invites_quote_b5_unit.js 第 21、22 項逐句查）*/
+  const A799=require('./aa799_expect.js');
   const greet5=b=>{ const S=new Set(); for(const id in (b.LINES||{})) for(const g of (b.LINES[id].greet||[])) if(typeof g==='string'&&g[0]!=='（'&&/（[^（）]*）$/.test(g)) S.add(g); return S; };
   const q5=t=>{ const m=/^([^（「」]+)(（[^（）]*）)$/.exec(t); return m?'「'+m[1]+'」'+m[2]:null; };
   for(const k of ['B2','B3','B4']){ if(!B[k]){ check('0. '+DOCS[k][0]+'：資料檔不存在',false); continue; } const G=[...new Set(strs(B[k]))], d=DOC[k], G5=greet5(B[k]);
-    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0)&&!(k==='B2'&&AA528_9.has(t))&&!(G5.has(t)&&q5(t)&&d.indexOf(q5(t))>=0));
+    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0)&&!(k==='B2'&&AA528_9.has(t))&&!(G5.has(t)&&q5(t)&&d.indexOf(q5(t))>=0)&&!(A799.toOld(t)!==t&&d.indexOf(A799.toOld(t))>=0));   /* AA_799（tests/aa799_expect.js）：「其實……」那 12 句換成新的，換回舊句在稿裡就算對 */
     check('0. 遊戲 → 稿：'+DOCS[k][0]+' 的每一句台詞、旁白、選項、手機訊息、人物頁一行'+(k==='B4'?'、personality':'')+'都在稿裡（一字不差；例外：房間物品兩句，寫在 DERIVED）',G.length>150&&!bad.length,G.length+' 句；不在稿裡：'+J(bad)); }
   /* 稿 → 遊戲：抽出稿上的每一句 */
   const NOTE=/（(?:原句[^）]*|後[一兩]句是原句|接原句[^）]*|認識[^）]{1,12}|有 `[^）]*|沒有[^）]*)）\s*$/;
@@ -130,6 +131,8 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   for(const k of ['B2','B3','B4']){ if(!B[k]) continue; const G=strs(B[k]), all=G.concat(MORE).join('\n'), S1=new Set(G), SN=new Set(G.map(norm)); const U=units(DOC[k]); const miss=[], used=new Set();
     for(const u of U){ let ok;
       if(EXC[u.t]){ used.add(u.t); continue; }
+      { const r7=(require('./aa799_expect.js').rows||[]).find(r=>r.old===u.t); if(r7){ if(!S1.has(r7.new)) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_799 換成 '+r7.new+'）'); continue; } }   /* AA_799（X324 G 區）：稿上的舊句換成新的 */
+      { const r923=(A799.rows||[]).find(r=>r.old===String(u.t).replace(/^「|」$/g,'')&&/好問題/.test(r.old)); if(r923){ if(!S1.has(r923.new)) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_923 換成 '+r923.new+'）'); continue; } }   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：AA_923 第 3 節換掉的「好問題」兩句 */
       if(AA519R[u.t]){ if(!S1.has(AA519R[u.t])) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_519 換成 '+AA519R[u.t]+'）'); continue; }   /* AA_519 2-1：換成新的字 */
       if(u.k==='q') ok=all.indexOf(u.t)>=0||SRCALL.indexOf(u.t)>=0;   /* 段落裡「」引的：遊戲裡哪裡都可以（人物頁、房間物品、引別的事件的題目）*/
       else if(u.k==='opt'||u.k==='greet'||u.k==='rowq') ok=S1.has(u.t)||SN.has(norm(u.t));   /* 選項：手機的回覆沒有引號 */
@@ -248,7 +251,7 @@ await sec('4 詹立群',async()=>{ const d=TD('Y1S1',4,5); fresh(d,21,'gongguan'
   fresh(TD('Y2S1',4,5),21,'gongguan'); check('4. 詹立群：稿沒有說年級＝大二在公館遇到也是這一場',P().meetVersion(H.G,LQ)==='meet');
   fresh(TD('Y1S1',9,5),21,'gongguan'); meet(LQ); rel(LQ,25,3); spawn(LQ); await talk(LQ,[]); const w9=SOCIAL.has(LQ,'SHARED_SECRET');
   await again(LQ,['我也想學'],TD('Y1S1',10,5),21,'gongguan');
-  check('4. 詹立群 秘密（大一上第 10 週起、有點熟；第 9 週還沒有）：「其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。」一句說完（AA_528 3-1：不再接閒聊那一句）、再三個選項；「我也想學。」→ LQ_SONG',!w9&&has('其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。')&&!has('我背法條是配節奏的。……你不要叫我唱，我會害羞。')&&!has('刑法那幾條比較好押韻。……不要問我押什麼。')&&has('真的？那我寫一首給你。……你不能笑。')&&H.G.flags.LQ_SONG===true&&SOCIAL.has(LQ,'SHARED_SECRET'),J(said()));
+  check('4. 詹立群 秘密（大一上第 10 週起、有點熟；第 9 週還沒有）：「其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。」一句說完（AA_528 3-1：不再接閒聊那一句）、再三個選項；「我也想學。」→ LQ_SONG',!w9&&has('跟你講一個秘密。我背法條是配節奏的。……你不要叫我唱，我會害羞。')&&!has('我背法條是配節奏的。……你不要叫我唱，我會害羞。')&&!has('刑法那幾條比較好押韻。……不要問我押什麼。')&&has('真的？那我寫一首給你。……你不能笑。')&&H.G.flags.LQ_SONG===true&&SOCIAL.has(LQ,'SHARED_SECRET'),J(said()));
   await again(LQ,['我來'],TD('Y1S2',11,5),21,'gongguan'); const r=quest('PQ_LQ'), q=outing('ev_pool_lq_teach');
   check('4. 詹立群 3-3 試教（大一下第 11～13 週、有點熟）：開口三句；「我來。」＝交換聯絡方式、掛事、排下週四 19:00 普通教學館的空教室',hasL(L(LQ).ask[2])&&r.state==='open'&&INV.hasContact(H.G,LQ)&&!!q&&q.h===19&&wdOf(q.day)===4&&q.day>H.G.day,J([r,q&&keyOf(q.day)]));
   await go('ev_pool_lq_teach',['假裝睡覺']);
@@ -313,7 +316,7 @@ await sec('6 馬佳蓉',async()=>{ fresh(TD('Y1S1',1,1),10,'campus'); const a=AC
   check('6. 馬佳蓉「我等一下有事。」→ 她找柏翰；之後柏翰多一句閒聊「影印機二十七公斤。…」（大一下，一次）',no&&has(L(M).bhCopier),J(said()));
   /* 5-4 交接（大二下第 15 週，法服的）：「讓靖雯接吧。」→ 曾靖雯那一句閒聊（AA_499 第 6 節第 5 點）*/
   const hs=TD('Y2S2',15,6); fresh(hs,10,'wancai',{lawclub:true}); meet(M); rel(M,25,3); meet(ZJW); spawn(M); await talk(M,['讓靖雯接']);
-  check('6. 馬佳蓉 5-4 交接（大二下第 15 週，祐廷是法服的，值班的週六）：「其實……當幹部是抽籤抽到的。…」（秘密）；認識曾靖雯多一個選項，選「讓靖雯接吧。」',STORY.fafuDuty(H.G)&&has('其實……當幹部是抽籤抽到的。可是我現在不想交出去了。')&&(H.opts[0]||[]).length===3&&has('靖雯……好。她倒水倒得很好，拉線應該也可以。')&&H.G.flags.JR_TO_ZJW===true&&SOCIAL.has(M,'SHARED_SECRET'),J([H.opts,said()]));
+  check('6. 馬佳蓉 5-4 交接（大二下第 15 週，祐廷是法服的，值班的週六）：「其實……當幹部是抽籤抽到的。…」（秘密）；認識曾靖雯多一個選項，選「讓靖雯接吧。」',STORY.fafuDuty(H.G)&&has('當幹部是抽籤抽到的，你知道嗎。可是我現在不想交出去了。')&&(H.opts[0]||[]).length===3&&has('靖雯……好。她倒水倒得很好，拉線應該也可以。')&&H.G.flags.JR_TO_ZJW===true&&SOCIAL.has(M,'SHARED_SECRET'),J([H.opts,said()]));
   set(TD('Y3S1',4,2),6.75,'campus'); rel(ZJW,25,3); SOCIAL.remember(ZJW,'SHARED_SECRET',''); markTalk(ZJW,'zjwHand'); GM.npc={}; spawn(ZJW); await talk(ZJW,[]);
   check('6. 馬佳蓉「讓靖雯接吧。」＝曾靖雯多一句閒聊「佳蓉學姊把器材組交給我了。延長線比我資深。」',has(L(M).zjwHand),J(said()));
   /* 「我接。」：房間物品、值班的旁白 */
@@ -335,7 +338,7 @@ await sec('7 蔡宗霖',async()=>{ const d=TD('Y1S1',4,3); fresh(d,11,'library_h
   fresh(TD('Y2S1',4,3),11,'library_hall'); check('7. 蔡宗霖：「學弟，你是大一的？」＝大二起也照演這一場（AA_528 1-1）；大二下他在日本＝不在、不能認識（AA_528 2-1）',P().meetVersion(H.G,TZ)==='meet'&&(fresh(D('2027-04-14'),11,'library_hall'),P().meetVersion(H.G,TZ)===null));
   fresh(TD('Y1S2',3,3),11,'library_hall'); meet(TZ); rel(TZ,25,3); spawn(TZ); await talk(TZ,[]); const w3=SOCIAL.has(TZ,'SHARED_SECRET');
   await again(TZ,['為什麼是日本'],TD('Y1S2',4,3),11,'library_hall');
-  check('7. 蔡宗霖 秘密（大一下第 4 週起、有點熟；第 3 週還沒有）：「其實……我想去日本交換。」選「為什麼是日本？」→ TZL_WHY',!w3&&has('其實……我想去日本交換。')&&has('高中的時候看過一部日劇，裡面有一間很小的事務所。我一直想去看看。')&&H.G.flags.TZL_WHY===true,J(said()));
+  check('7. 蔡宗霖 秘密（大一下第 4 週起、有點熟；第 3 週還沒有）：「其實……我想去日本交換。」選「為什麼是日本？」→ TZL_WHY',!w3&&has('我想去日本交換。還沒跟別人講。')&&has('高中的時候看過一部日劇，裡面有一間很小的事務所。我一直想去看看。')&&H.G.flags.TZL_WHY===true,J(said()));
   INV.addContact(H.G,TZ); phAt(D('2027-03-20'),21.1);
   check('7. 蔡宗霖 大二下他在日本（3 月）：照片＋「找到了。…」；秘密選「為什麼是日本」多一句（AA_500 第 7 節第 5 點）',J(msgs(TZ))===J(L(TZ).jp1.concat([L(TZ).jp1Why])),J(msgs(TZ)));
   /* 1-3 二手書（大二上第 12～15 週，錄取交換以後）*/
@@ -387,7 +390,7 @@ await sec('9 楊書豪',async()=>{ const d=TD('Y1S1',4,2); fresh(d,12.3,'campus'
   check('9. 楊書豪 3-1 認識：「學弟，現在幾點？…」→ 說名字、「下次辯論賽我當計時。…」',has('學弟，現在幾點？……十二點十四。好，我還有六分鐘。')&&whoOf('楊書豪，大二，辯論社。我去占位子，下午的比賽我計時。')==='楊書豪'&&has('下次辯論賽我當計時。……對，我每次都當計時。'),J(said()));
   const d2=TD('Y1S2',9,2); fresh(d2,12.3,'campus'); meet(SH); rel(SH,25,3); meet('yu'); H.G.flags.met_yu=true; spawn(SH); await talk(SH,['我去']);
   const r=quest('PQ_YSH'), q=outing('ev_pool_ysh_debate');
-  check('9. 楊書豪 3-3 第一次上台（大一下第 8～12 週，椰影大道，有點熟）：二辯感冒、秘密在這裡說；「我去。」＝排這個週六 14:00 博思 201',has('其實……我很怕上台。所以我一直當計時。')&&SOCIAL.has(SH,'SHARED_SECRET')&&r.state==='open'&&!!q&&wdOf(q.day)===6&&q.h===14&&!INV.hasContact(H.G,SH),J([r,q&&keyOf(q.day)]));
+  check('9. 楊書豪 3-3 第一次上台（大一下第 8～12 週，椰影大道，有點熟）：二辯感冒、秘密在這裡說；「我去。」＝排這個週六 14:00 博思 201',has('我很怕上台。所以我一直當計時。')&&SOCIAL.has(SH,'SHARED_SECRET')&&r.state==='open'&&!!q&&wdOf(q.day)===6&&q.h===14&&!INV.hasContact(H.G,SH),J([r,q&&keyOf(q.day)]));
   await go('ev_pool_ysh_debate',['慢一點']);
   check('9. 楊書豪 社內賽（2D，博思 201；11-02 第八批有圖）：選「（比一個「慢一點」的手勢）」→ YSH_UP slow；下台以後那兩句；交換聯絡方式、人物頁「看過他第一次上台」',has('（他放慢了。三分鐘講完，剛好。計時器響的時候，他已經坐下了。）')&&has('可是我講完了。')&&H.G.flags.YSH_UP==='slow'&&INV.hasContact(H.G,SH)&&deeds(SH).includes('看過他第一次上台')&&r.state==='done'&&OUT.bg('boya_201').image==='assets/bg/boya_201.webp',J(said()));
   phAt(TD('Y2S1',2,1),21.1); const ch=msgs(SH).includes(L(SH).chair);
@@ -406,7 +409,7 @@ await sec('10 葉晨希',async()=>{ const d=TD('Y1S1',4,1); fresh(d,19.5,'campus
   /* 秘密「我幫妳打拍子。」→ 接 4-3；三個晚上 → YCX_BEAT → 兩次成發（AA_500 第 7 節第 5 點）*/
   fresh(TD('Y1S2',3,1),19.5,'campus'); meet(CX); rel(CX,25,3); spawn(CX); await talk(CX,['我幫妳打拍子','好']);
   const r=quest('PQ_YCX');
-  check('10. 葉晨希 秘密「其實……我到現在還不會換和弦。」選「我幫妳打拍子。」→ 接 4-3 打拍子：「好。」＝掛事（週一、三 21:00 以後萬才館旁邊，三次）',has('其實……我到現在還不會換和弦。')&&hasL(L(CX).ask[1])&&r.state==='open'&&SOCIAL.has(CX,'SHARED_SECRET'),J(said()));
+  check('10. 葉晨希 秘密「其實……我到現在還不會換和弦。」選「我幫妳打拍子。」→ 接 4-3 打拍子：「好。」＝掛事（週一、三 21:00 以後萬才館旁邊，三次）',has('我跟你說，我到現在還不會換和弦。')&&hasL(L(CX).ask[1])&&r.state==='open'&&SOCIAL.has(CX,'SHARED_SECRET'),J(said()));
   const nights=[]; let x=TD('Y1S2',3,3); for(let k=0;k<6&&nights.length<3;k++,x+=(wdOf(x)===1?2:5)){ set(x,21.2,'campus'); GM.npc={}; const e=P().ent(H.G,CX); spawn(CX); await talk(CX,[]); if(H.said.some(s=>L(CX).beats.some(b=>b.some(l=>T(l)===s.t)))) nights.push([keyOf(x),!!e]); }
   check('10. 葉晨希 打拍子三個晚上（她在萬才館旁邊等）：第一次交換聯絡方式；三次做完＝YCX_BEAT、人物頁「幫她打過拍子」',nights.length===3&&nights.every(n=>n[1])&&INV.hasContact(H.G,CX)&&H.G.flags.YCX_BEAT===true&&r.state==='done'&&deeds(CX).includes('幫她打過拍子'),J(nights));
   const s1=STORY_EVENTS.find(e=>e.id==='ev_ziqing_show'), s2=STORY_EVENTS.find(e=>e.id==='ev_ziqing_show2');
@@ -432,7 +435,7 @@ await sec('11 游振宇',async()=>{ const d=TD('Y1S1',4,2); fresh(d,10,'campus')
   await go('ev_pool_yzy_river',[]);
   check('11. 游振宇 夜騎（2D，河濱）：「他沒有先走。…等最後一個人。」；YZY_RIDE、人物頁「跟腳踏車社騎過一次河堤」',has('（他沒有先走。他騎到橋頭，停下來，等最後一個人。）')&&H.G.flags.YZY_RIDE===true&&deeds(ZY).includes('跟腳踏車社騎過一次河堤'),J(said()));
   rel(ZY,25,3); await again(ZY,['我問你，你答'],TD('Y1S2',6,2),10,'campus');
-  check('11. 游振宇 秘密（大一下第 6 週起）：「其實……我讀書很快，可是都記不住。」選「我問你，你答。」',has('其實……我讀書很快，可是都記不住。')&&H.G.flags.YZY_ASKME===true,J(said()));
+  check('11. 游振宇 秘密（大一下第 6 週起）：「其實……我讀書很快，可是都記不住。」選「我問你，你答。」',has('我讀書很快，可是都記不住。讀完就像沒讀。')&&H.G.flags.YZY_ASKME===true,J(said()));
   await again(ZY,['好'],TD('Y2S1',15,2),10,'campus'); const r=quest('PQ_YZY');
   check('11. 游振宇 5-4 問我問題（大二上期末前一週；選過「我問你，你答」在校園也開口）：「好。」→ 一個小時、「我會記得一輩子」；YZY_QUIZ；當場做完',has('……你剛剛問的那幾題，我會記得一輩子。')&&H.G.flags.YZY_QUIZ===true&&r.state==='done',J(said()));
   phAt(TD('Y2S1',15,3),21.1);
@@ -518,8 +521,8 @@ await sec('14 施孟儒',async()=>{ const d=TD('Y1S1',4,5); fresh(d,17.5,'campus
   set(TD('Y2S2',16,5),17.5,'campus'); GM.npc={}; spawn(MR); await talk(MR,['我拿']); const items=STORY.roomItemList(H.G).map(x=>x[0]), gl=has('經理的東西，總要交給一個人。')&&has('（把記分板放在你手上）少一個「7」。你自己想辦法。');
   const y4=STORY_EVENTS.find(e=>e.id==='ev_last_game_y4'); const si=y4.dialogue.findIndex(l=>l&&l.label==='s'); H.said=[]; H.picks=[]; await EVENTS.runLines(y4.dialogue.slice(si),y4);
   check('14. 施孟儒 2-5 畢業（2027-06 那一週的週五，球場）：「經理的東西，總要交給一個人。」選「我拿。」→ SMR_BOARD、房間物品「系籃的記分板」；大四下那一場「記分」的旁白換成「（你翻出那塊記分板。7 還是貼著紙。）」',gl&&H.G.flags.SMR_BOARD===true&&items.includes('系籃的記分板')&&has(L(MR).boardGame)&&y4.dialogue.some(l=>l&&l.text===L(MR).gameY4),J([items,said()]));
-  set(D('2027-12-10'),22); PHONE.join(H.G,'noodle_team','麵店團'); meet('zhe'); phAt(D('2027-12-11'),21.1); const g=tagged('pool_smr_grp');
-  check('14. 施孟儒 2027-12 麵店團群組：阿哲轉貼孟儒學長的照片（三則）',g.length===3&&g.every(m=>m.from==='zhe'&&m.th==='g:noodle_team')&&g[1].text===L(MR).grp[1],J(g.map(m=>m.text)));
+  set(D('2027-12-10'),22); PHONE.join(H.G,'noodle_team','桌遊團'); meet('zhe'); phAt(D('2027-12-11'),21.1); const g=tagged('pool_smr_grp');
+  check('14. 施孟儒 2027-12 桌遊團群組：阿哲轉貼孟儒學長的照片（三則）',g.length===3&&g.every(m=>m.from==='zhe'&&m.th==='g:noodle_team')&&g[1].text===L(MR).grp[1],J(g.map(m=>m.text)));
   const cap=STORY_EVENTS.find(e=>e.id==='ev_zhe_captain'); fresh(D('2027-09-10'),18,'campus'); H.G.flags.SMR_TO='zhe'; H.said=[]; H.picks=[0]; await EVENTS.runLines(cap.dialogue,cap);
   check('14. 施孟儒 畢業選「交給阿哲吧。」＝哲 3（2027-09-10 當上隊長）阿哲多一句',has(L(MR).zheCaptain),J(said().slice(0,6))); });
 
@@ -531,7 +534,7 @@ await sec('15 廖芸萱',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14,'campus')
   await talk(YX,['看是什麼問題']);
   check('15. 廖芸萱 沒有沛珊的：「學弟。那如果……」→「法律系的回答。」',has('學弟。那如果……我問你一個問題，你會先回答，還是先問我為什麼問？')&&has('法律系的回答。')&&!has('……啊，祐廷。這是芸萱學姊，我們同一堂哲學課。')&&P().rec(H.G).mv[YX]==='meetAlone',J(said()));
   rel(YX,25,3); await again(YX,['那就轉啊'],TD('Y1S2',10,2),14,'campus');
-  check('15. 廖芸萱 秘密（大一下第 10 週起，文學院）：「其實……我想過要轉去哲學系。」選「那就轉啊。」→ LYX_GO',has('其實……我想過要轉去哲學系。')&&H.G.flags.LYX_GO===true,J(said()));
+  check('15. 廖芸萱 秘密（大一下第 10 週起，文學院）：「其實……我想過要轉去哲學系。」選「那就轉啊。」→ LYX_GO',has('我想過要轉去哲學系。認真想過。')&&H.G.flags.LYX_GO===true,J(said()));
   await again(YX,['我去'],TD('Y1S2',12,2),14,'campus'); const q=outing('ev_pool_lyx_cafe');
   check('15. 廖芸萱 3-3 哲學咖啡館（大一下第 12～15 週，沒有聯絡方式＝文學院當面）：三句、「我去。」＝週四 19:00 文學院的教室',has('這週的題目是：如果規定本身錯了，你還要遵守嗎？')&&!!q&&wdOf(q.day)===4&&q.h===19,J([said(),q&&keyOf(q.day)]));
   meet(PS); await go('ev_pool_lyx_cafe',['要遵守']);
@@ -551,7 +554,7 @@ await sec('16 嚴守誠',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14,'library'
   await again(YS,['我去'],TD('Y1S1',14,2),14,'library'); const q=outing('ev_pool_ysc_night');
   check('16. 嚴守誠 4-3 半夜的刑法讀書會（大一上第 14～16 週；沒有聯絡方式＝總圖當面）：「我去。」＝今天 23:00 總圖 B1',has('我今天晚上十一點在 B1 講刑法。不收錢。想來就來')&&!!q&&q.day===TD('Y1S1',14,2)&&q.h===23,J([said(),q&&q.h]));
   await go('ev_pool_ysc_night',['對乙未遂','誰講給你聽']);
-  check('16. 嚴守誠 讀書會（2D，B1）：咖啡下藥那一題；講到凌晨一點、秘密在這裡說；選「那你考試那天，誰講給你聽？」→ YSC_RETURN；交換聯絡方式、人物頁',has('……好。你會。')&&has('其實……大家說我刑法很強。可是我每次考前都怕得要命。')&&SOCIAL.has(YS,'SHARED_SECRET')&&H.G.flags.YSC_RETURN===true&&INV.hasContact(H.G,YS)&&deeds(YS).includes('去過他半夜的刑法讀書會'),J(said()));
+  check('16. 嚴守誠 讀書會（2D，B1）：咖啡下藥那一題；講到凌晨一點、秘密在這裡說；選「那你考試那天，誰講給你聽？」→ YSC_RETURN；交換聯絡方式、人物頁',has('……好。你會。')&&has('大家說我刑法很強。可是我每次考前都怕得要命。')&&SOCIAL.has(YS,'SHARED_SECRET')&&H.G.flags.YSC_RETURN===true&&INV.hasContact(H.G,YS)&&deeds(YS).includes('去過他半夜的刑法讀書會'),J(said()));
   const eve=TD('Y1S2',16,1)-1; phAt(eve,23.1); const m=tagged('pool_ysc_ret').find(x=>x.ask);
   check('16. 嚴守誠 4-4 大一下期末前一晚 23:00：「明天考刑法分則」「學弟，你來 B1 聽我講一次」',J(msgs(YS).slice(-2))===J(L(YS).ret)&&!!m,J(msgs(YS)));
   ans('pool_ysc_ret',0); await go('ev_pool_ysc_listen',[]);

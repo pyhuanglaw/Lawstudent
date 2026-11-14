@@ -146,10 +146,10 @@ const SISG=(function(){
         {label:'c'},{speaker:ID,expression:'smile',text:'……好。這個我真的需要。'},
         {label:'end'} ],
       consequences:{flags:{SIS_NEW_PLANNER:true},rel:{[ID]:{trust:3,comf:3,rom:2}},memo:'新的計畫本'} },
-    /* 2-9 上榜聚餐（舊的大二版 ev_sis_results_dinner 不用）：3/23 21:00 Kevin 在家族群組邀、回「去。」＝3/27（五）19:00 公館的日日定食（虛構店名；2D gongguan＋字幕）*/
+    /* 2-9 上榜聚餐（舊的大二版 ev_sis_results_dinner 不用）：3/23 21:00 Kevin 在家族群組邀、回「去。」＝3/27（五）19:00 汀州路的泰米村食（AA_742 第 ③ 節，企劃線 75f5de658：原本的日日定食改成泰米村食；2D gongguan＋字幕照舊，之後換泰米村食的室內）*/
     { id:'ev_sis_results_dinner_y1', title:'上榜聚餐', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'公館・日日定食',bg:'gongguan'},
-        {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。'},{unless:{flags:['SIS_W1']},speaker:ID,expression:'neutral',text:'……我知道。家聚你都沒來，今天來了就好。'},   /* AA_470 5-1（表上寫 ev_sis_results_dinner＝大一下 3/27 這一場）：還沒認識她的兩句，點菜之前（沒有開場旁白：接在場景後面）；3/20 演過就不會到這裡；演完記 met_sis、SIS_W1 */
+      dialogue:[ {scene:'汀州路・泰米村食',bg:'gongguan'},
+        {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。'},{unless:{flags:['SIS_W1']},speaker:ID,expression:'neutral',text:'我知道。家聚你都沒來，今天來了就好。'},   /* AA_470 5-1（表上寫 ev_sis_results_dinner＝大一下 3/27 這一場）：還沒認識她的兩句，點菜之前（沒有開場旁白：接在場景後面）；3/20 演過就不會到這裡；演完記 met_sis、SIS_W1 */
         {speaker:ID,expression:'neutral',text:'你們真的不用請我。'},
         {speaker:'Kevin',text:'學姊，坐好。今天妳只負責吃。'},
         {speaker:ID,expression:'neutral',text:'……好。'},
@@ -222,10 +222,10 @@ const SISG=(function(){
     if(now>=T(d,20)&&!evDone(G,'ev_sis_results')) done(G,'ev_sis_results');   /* 3/23 20:00 起，對所有玩家算演過（閒聊階梯 S2-L3 的 skipIf、S2-L5 的 linesIf 讀它）*/
     if(inFam(G)&&now>=T(d,20)&&now<T(d+2,0)&&!sent(G,'sisg_rank_fam')) PHONE.at(G,d,20,[K('各位！！學姊上榜了！！！'),W('收到。'),K('學姊妳可以多講兩個字'),W('謝謝。')],'sisg_rank_fam');   /* 所有在家族群組的玩家（錄取固定）*/
     if(inFam(G)&&now>=T(d,21)&&now<T(d27,18.5)&&!sent(G,'sisg_rank_dinner'))
-      PHONE.at(G,d,21,[Object.assign(K('學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊'),{ask:{id:'sisg_rank_dinner_q',until:T(d27,18.5),opts:[{t:'去。',set:{SISG_DINNER_GO:true}}]}})].concat(sent(G,'fam_dinner_inv')?[K('上禮拜罰她，這禮拜請她。')]:[]),'sisg_rank_dinner');   /* AA_459 2-3：收過咖哩那一則（story3d.js fam_dinner_inv，3/20 罰學姊）的，Kevin 多一句 */
-    if(F.SISG_DINNER_GO===true){ F.SISG_DINNER_GO='planned'; if(typeof OUT!=='undefined'&&now<T(d27,19.25)) OUT.plan(G,{id:'sisg_rank_dinner',ev:'ev_sis_results_dinner_y1',day:d27,h:19,late:0.25,place:'公館・日日定食',title:'學姊上榜聚餐（公館・日日定食）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true}); }
+      PHONE.at(G,d,21,[Object.assign(K('學姊上榜聚餐！這週五七點，汀州路的泰米村食。這次我們請學姊'),{ask:{id:'sisg_rank_dinner_q',until:T(d27,18.5),opts:[{t:'去。',set:{SISG_DINNER_GO:true}}]}})].concat(sent(G,'fam_dinner_inv')?[K('上禮拜罰她，這禮拜請她。')]:[]),'sisg_rank_dinner');   /* AA_459 2-3：收過咖哩那一則（story3d.js fam_dinner_inv，3/20 罰學姊）的，Kevin 多一句 */
+    if(F.SISG_DINNER_GO===true){ F.SISG_DINNER_GO='planned'; if(typeof OUT!=='undefined'&&now<T(d27,19.25)) OUT.plan(G,{id:'sisg_rank_dinner',ev:'ev_sis_results_dinner_y1',day:d27,h:19,late:0.25,place:'汀州路・泰米村食',title:'學姊上榜聚餐（汀州路・泰米村食）',travel:'走過去約 20 分鐘',travelH:1/3,alarm:true}); }
     if(inFam(G)&&sent(G,'sisg_rank_dinner')&&now>=T(d27,21.5)&&now<T(d27+2,0)&&!evDone(G,'ev_sis_results_dinner_y1')&&!sent(G,'sisg_rank_dinner_photo'))   /* 沒去的玩家：21:30 Kevin 貼合照 */
-      PHONE.at(G,d27,21.5,[K('📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）'),K('沒來的人錯過請學姊吃飯。千載難逢')],'sisg_rank_dinner_photo'); };   /* 合照的說明：AA_339 第 2 題 */
+      PHONE.at(G,d27,21.5,[K('📷（泰米村食併起來的兩張四人桌，學姊坐中間，面前是全桌最貴的那一份）'),K('沒來的人錯過請學姊吃飯。千載難逢')],'sisg_rank_dinner_photo'); };   /* 合照的說明：AA_339 第 2 題；2026-11-11 AA 回 LAWWW 七格 e（泰米只有兩人桌、四人桌，沒有長桌）*/
   /* 2-12：6/6（六）早上她的私訊（有點熟以上）→ 11:00 霖澤館（出遊）。11:00 以後才起床的不補 */
   S.gradRule=function(G,now){ const d=D('grad'); if(d==null||now<T(d,8)||now>=T(d,11)||sent(G,'sisg_grad_msg')||!atLeast(ID,'FAMILIAR')) return;
     PHONE.at(G,d,8,[P5('今天十一點，A館。不用帶花。')],'sisg_grad_msg');   /* AA_459 第 5 節：學姊的私訊用句號收尾 */

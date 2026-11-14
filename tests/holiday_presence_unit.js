@@ -22,7 +22,7 @@ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z
 global.CHAR={setExpr(){},build:()=>mkObj()};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js',
   'src/data/dorm_room_layout.js','src/story3d.js','src/classes3d.js','src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/data/enc_walk.js','src/encounter3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -43,9 +43,9 @@ const SEG=[
   ['zhe','2026-01-02','2026-02-20','高雄'],['zhe','2026-07-01','2026-08-21','高雄'],['zhe','2027-01-05','2027-02-20','高雄'],['zhe','2027-07-01','2027-08-21','高雄'],['zhe','2028-01-04','2028-02-20','高雄'],['zhe','2028-07-01','2028-08-21','高雄'],['zhe','2029-01-03','2029-02-17','高雄'],
   ['classmate_bohan','2026-01-09','2026-02-19','新竹',[4]],['classmate_bohan','2026-06-27','2026-09-07','新竹',[4]],['classmate_bohan','2027-01-09','2027-02-19','新竹'],['classmate_bohan','2027-06-27','2027-08-24','新竹'],['classmate_bohan','2028-01-25','2028-01-28','新竹'],['classmate_bohan','2028-06-27','2028-07-02','新竹'],   /* AA_350 T1（2026-11-01 照改）：離開那天起算新竹、回來那天算臺北（原本 06-28～08-25、01-25～01-29、06-28～07-03）*/
   ['classmate_bohan','2029-02-12','2029-02-15','新竹'],   /* AA_350 S1、S2：大二以後沒有週四總圖；大二暑假、大三寒假只回去過年、大三暑假 */
-  ['classmate_mingxuan','2027-02-03','2027-02-10','彰化'],['classmate_mingxuan','2027-08-16','2027-08-23','彰化'],['classmate_mingxuan','2028-01-22','2028-01-29','彰化'],['classmate_mingxuan','2028-08-07','2028-08-14','彰化'],['classmate_mingxuan','2029-02-10','2029-02-17','彰化'],['classmate_mingxuan','2029-08-10','2029-08-17','彰化'],   /* AA_350 S4：照 BB_198（N8 只留 2029 暑假）*/
+  ['classmate_mingxuan','2027-02-03','2027-02-09','彰化'],['classmate_mingxuan','2027-08-16','2027-08-22','彰化'],['classmate_mingxuan','2028-01-22','2028-01-28','彰化'],['classmate_mingxuan','2028-08-07','2028-08-13','彰化'],['classmate_mingxuan','2029-02-10','2029-02-16','彰化'],['classmate_mingxuan','2029-08-10','2029-08-17','彰化'],   /* AA_350 S4：照 BB_198（N8 只留 2029 暑假）；迄日＝發「回來了」那天（AA-C 11-13 VACGAP 第 11 項 (a)）*/
   ['heroine_02','2026-01-26','2026-02-19','台中'],['heroine_02','2026-07-01','2026-08-26','台中'],['heroine_02','2027-01-17','2027-02-18','台中'],   /* AA_369 M1：1/16 晚上 C15 放映她還在臺北 */['heroine_02','2028-07-01','2028-08-01','台中'],   /* AA_350 S4（BB_198）；前後接英國的兩段（2027-08-21～09-02、2028-02-12～02-18）在 tests/aa350_s_unit.js */
-  ['kai','2026-02-13','2026-02-21','宜蘭'],['kai','2027-02-02','2027-02-10','宜蘭'],['kai','2028-01-22','2028-01-30','宜蘭'],['kai','2029-02-09','2029-02-17','宜蘭']];   /* AA_350 S4；日本、曼谷（kind trip）在 tests/aa350_s_unit.js */
+  ['kai','2026-02-13','2026-02-21','宜蘭'],['kai','2027-02-02','2027-02-09','宜蘭'],['kai','2028-01-22','2028-01-29','宜蘭'],['kai','2029-02-09','2029-02-16','宜蘭']];   /* AA_350 S4；日本、曼谷（kind trip）在 tests/aa350_s_unit.js */
 const exempt=(s,d)=>!!s[4]&&s[4].includes(wdOf(d));
 const firstIn=s=>{ let d=D(s[1]); while(exempt(s,d)) d++; return d; }, lastIn=s=>{ let d=D(s[2])-1; while(exempt(s,d)) d--; return d; };
 const home=(p,city)=>p.here===false&&p.kind==='home'&&p.home===city;

@@ -62,8 +62,9 @@ for(const id of ids){ const L=ALL[id], N=L.name;
   if(Y){ const PS=Y.paperStack; check('印得好 11. trapFix 那一塊在模型有一疊影印紙箱和垃圾桶（配置 paperStack，四個角都在 blocks 裡；模型腳本讀同一個範圍）',!!PS&&[[PS.x0,PS.z0],[PS.x1,PS.z0],[PS.x0,PS.z1],[PS.x1,PS.z1]].every(c=>inBlk(Y,c[0],c[1]))&&/J\.get\('paperStack'\)/.test(py),JSON.stringify(PS)); }
   const i8=st.indexOf("'G08': dict("), j8=st.indexOf("'G13': dict(",i8), g8=i8>=0&&j8>i8?st.slice(i8,j8):'', nf=(g8.match(/\('fruit', '/g)||[]).length; let fp=[]; try{ fp=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gongguan_shops.props.json'),'utf8')); }catch(e){}
   const fpl=(Array.isArray(fp)?fp:(fp.props||fp.list||[])).filter(q=>/ggfruit/.test(q.tag||''));
-  check('汀州鮮果外觀 第 3 版（BB 11-11 01:47）：照片卡退到店面線後 2.3 m、一樓牆體跟著退（back）、開口到照片中間至少 12 箱真的水果（橘子、蘋果、芭樂、番茄＋原本的鳳梨、香蕉、西瓜）；水果箱在店面線裡面、不寫腳印（騎樓的導航不變）',
-    /back=2\.35/.test(g8)&&/\('ggfruit_shop', -3\.65, 3\.65, 0\.0, 3\.0, 2\.3\)/.test(g8)&&nf>=12&&/kind in \('orange', 'apple', 'guava', 'tomato'\)/.test(kit)&&fpl.length===0,'箱 '+nf+' 腳印 '+fpl.length); }
+  { const z3=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');   /* SHOP-REAL-INSIDE 公館第一批（LAWWW2-C 11-12；使用者：店外看到的要和走進去的室內一樣、不要 2D 圖貼在外面）：第 3 版的照片卡＋前排水果箱換成「開口後面放走進去的那一顆室內模型」 */
+  check('汀州鮮果外觀 第 4 版（11-12）：不放照片卡和街景模型自己的水果箱（real），一樓牆體退到室內深度後面（back 10.1），遊戲在開口後面放 gg_xianguo 的室內模型（GG_SHOP_REAL）；騎樓不寫腳印',
+    /real=True, back=10\.1/.test(g8)&&nf===0&&/mk\('G08','gg_xianguo','bldg\.gg_xianguo_interior',19\.6,8,10,3\.3[,)]/.test(z3)&&/shopInsideReal\(E,g,zone,GG_SHOP_REAL\)/.test(z3)&&fpl.length===0,'箱 '+nf+' 腳印 '+fpl.length); } }
 /* 禮貌生財的書房（X332）：平常鎖著、解鎖以後走得進去 */
 if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,L.spawn.z,0], in0=[-0.6,SD.z1-0.8,0];
   const dIt=E.interactables.find(i=>i.kind===SD.door.kind), n0=E.interactables.length;
@@ -77,8 +78,8 @@ if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,
   { const PZ=L.partition.z, v=(x,y,zz)=>({x,y,z:zz}), front=v(-0.8,0,-0.2), back=v(0.3,0,-3.0), camBack=v(-0.8,2.6,PZ-2.8), camFront=v(-0.8,2.6,3.5), src=fs.readFileSync(path.join(ROOT,'src/tz_shops3d.js'),'utf8');
     const a1=z.partCutOf&&z.partCutOf(camBack,front), a2=z.partCutOf&&z.partCutOf(camFront,front), a3=z.partCutOf&&z.partCutOf(camFront,back), a4=z.partCutOf&&z.partCutOf(camBack,back);
     z.fadeWalls({position:camBack},front); const c1=z.partCut; z.fadeWalls({position:camFront},front); const c2=z.partCut;
-    check('禮貌生財 10. 隔牆的鏡頭（BB 11-11 01:47：玩家站在掛畫前、鏡頭退到隔牆後面的書房，整個畫面是隔牆背面）：鏡頭和玩家在隔牆兩邊 → 隔牆整組藏（partCut）、同一邊不藏；模型有 PART_wall、PART_vc（隔牆、門框、掛畫）；遊戲照 partCut 藏 PART_* 和關著的門',
-      a1===true&&a2===false&&a3===true&&a4===false&&c1===true&&c2===false&&names.includes('PART_wall')&&names.includes('PART_vc')&&/indexOf\('PART_'\)===0\) o\.visible=!z\.partCut/.test(src)&&/indexOf\('STUDY_DOOR'\)===0\) o\.visible=!z\.studyOpen&&!z\.partCut/.test(src),[a1,a2,a3,a4,c1,c2].join(',')+' '+names.filter(n=>/^PART/.test(n)).join(' ')); }
+    check('禮貌生財 10. 隔牆的鏡頭（BB 11-11 01:47：玩家站在掛畫前、鏡頭退到隔牆後面的書房，整個畫面是隔牆背面）：鏡頭和玩家在隔牆兩邊 → 隔牆整組藏（partCut）、同一邊不藏；模型有 PART_wall、PART_vc 或 PART_wood_d（隔牆、門框、掛畫；CC0 版門框是木頭材質組）；遊戲照 partCut 藏 PART_* 和關著的門',
+      a1===true&&a2===false&&a3===true&&a4===false&&c1===true&&c2===false&&names.includes('PART_wall')&&names.some(n=>/^PART_(vc|wood_d)$/.test(n))&&/indexOf\('PART_'\)===0\) o\.visible=!z\.partCut/.test(src)&&/indexOf\('STUDY_DOOR'\)===0\) o\.visible=!z\.studyOpen&&!z\.partCut/.test(src),[a1,a2,a3,a4,c1,c2].join(',')+' '+names.filter(n=>/^PART/.test(n)).join(' ')); }
   check('禮貌生財 7. 配置的旗標名是 LAWWW 實際用的 LM_STUDY；書房有「學生來信」的點（study_letters，東牆矮櫃前）',SD.flag==='LM_STUDY'&&SD.points.some(p=>p.id==='study_letters'&&p.kind==='tz_limao_study_letters')); }
 /* 天花板（TZS-CEIL-1111，LAWWW／BB 11-11 03:15）：禮貌生財玩家走到房間後半，跟隨鏡頭全距離時 y 3.21、天花板 3.0——鏡頭在天花板上面，看到的是天花板的上表面（整個畫面一片米色）。
    每一間室內的模型：天花板是 CEIL_ceil 節點（Z3.attachRoomGLB 的 ceilHide：鏡頭高過天花板時整組藏）、只有朝下的那一面（每個頂點的法線朝下、高度＝配置的 h）、材質單面；沒有舊的 S_ceil（六個面的板子）。
@@ -105,4 +106,11 @@ if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,
     const below=at(Lc.h-0.5), above=at(Math.max(cam.y,Lc.h+0.2)), again=at(Lc.h-0.5);
     rows.push(id+' h'+Lc.h+' 鏡頭'+cam.y.toFixed(2)+(cam.y>Lc.h?'（高過）':'')); if(!(below===true&&above===false&&again===true&&Math.abs(z.ceilTop-(Lc.h-0.02))<0.011)) bad.push(id+JSON.stringify([below,above,again,z.ceilTop])); }
   check('天花板 13. 七間：鏡頭在天花板下面看得到天花板和吸頂燈；高過天花板整組藏（Z3.attachRoomGLB 的 ceilHide，門檻＝天花板高度 −2 cm）；降回來又看得到',rows.length>=7&&!bad.length,bad.join(' ')||rows.join('、')); }
+/* 座位 14. 走近點 seat.ap 一律陣列 [x,z]（game3d.js seatApproach、crowd3d.js 讀 ap[0]／ap[1]）；站在走近點上，最近的「坐下」是這一張
+   （BB 11-13 P2：泰米點長椅 t1b (−3.62,3.6) 坐到 1.4 m 外的 t1c——配置的 {x,z} 原本整個傳過去，走近點讀到 NaN 被跳過）*/
+{ const bad=[]; let n=0;
+  for(const id of ids){ const L=ALL[id]; if(!(L.seats||[]).some(q=>q.ap)) continue; loadZone(L.zone); const its=E.interactables.filter(i=>i.seat&&i.tzSeat);
+    for(const it of its){ const ap=it.seat.ap; if(!ap) continue; n++; if(!Array.isArray(ap)||!isFinite(ap[0])||!isFinite(ap[1])){ bad.push(id+'.'+it.tzSeat+' ap='+JSON.stringify(ap)); continue; }
+      if(!stand(ap[0],ap[1],it.lv|0,0.3)) bad.push(id+'.'+it.tzSeat+' 走近點站不住（起身會被推遠：game3d.js standUp 先站回走近點）'); const near=its.filter(q=>q!==it).find(q=>Math.hypot(q.x-ap[0],q.z-ap[1])<Math.hypot(it.x-ap[0],it.z-ap[1])-1e-6); if(near) bad.push(id+'.'+it.tzSeat+' 走近點離 '+near.tzSeat+' 比較近'); } }
+  check('座位 14. 有走近點的座位（'+n+' 張）：seat.ap 是 [x,z] 陣列、站在走近點上最近的「坐下」是這一張、走近點站得住（起身站回這裡）',n>0&&!bad.length,bad.slice(0,6).join('；')); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -67,7 +67,7 @@ const DORMY24=(function(){
   const out=(F,d)=>F.MOVED_OUT!=null&&F.MOVED_OUT!==false&&!(d!=null&&typeof F.MOVED_OUT==='number'&&F.MOVED_OUT>d);   /* 1A-15 宿舍期滿搬走（同 home3d.js HOME.movedOut）。MOVED_OUT＝搬走那一天：
      d＝問的是第幾天（G.day），那一天還沒搬（第 5 節：搬走以後才問 409 最後一晚 6/27 那時候的事，例如畢業後篇跳時間 6/28 才跑到手機規則）*/
   const ROOM_TERM={r312:'Y2',r507:'Y3',r409:'Y4'};
-  /* 現在住哪一間（dorm3d.js homeOf 的順序）：409（ROOM_Y4）、507（ROOM_Y3）、312（ROOM_Y2）；還在 203、經濟系、搬出宿舍、交換退宿到返台（STORY.movedOut）、日本路線退宿到搬進 409（JP.movedOut）＝null */
+  /* 現在住哪一間（dorm3d.js homeOf 的順序）：409（ROOM_Y4）、507（ROOM_Y3）、312（ROOM_Y2）；還在 203、舊序章、搬出宿舍、交換退宿到返台（STORY.movedOut）、日本路線退宿到搬進 409（JP.movedOut）＝null */
   S.room=function(G){ if(!law(G)) return null; const F=G.flags; if(out(F,G.day)) return null;
     if((STORY.movedOut&&STORY.movedOut(G))||(typeof JP!=='undefined'&&JP.movedOut&&JP.movedOut(G))) return null;
     return F.ROOM_Y4?'r409':F.ROOM_Y3?'r507':F.ROOM_Y2?'r312':null; };
@@ -106,7 +106,7 @@ const DORMY24=(function(){
   /* ---- 柏翰和沛珊分開以後（第 5 節第 2 點：不看玩家知不知道）---- */
   const PS='classmate_peishan', psDating=G=>!!(G&&G.flags&&G.flags['dating_'+PS]);
   S.splitDay=()=>TD('Y2S1',6,1);   /* 分開那一週（大二上第 6 週）的週一＝2026-10-12（events.js ev_peishan_split、characters.js partner untilWeek 都是這一週）*/
-  /* ROM 的 S.when 字串 → 第幾天：'Y2S1W6'＝那一週的週一；'D123'＝寒暑假的那一天；'Y0'＝經濟系那一年（可昕）；認不得＝null */
+  /* ROM 的 S.when 字串 → 第幾天：'Y2S1W6'＝那一週的週一；'D123'＝寒暑假的那一天；'Y0'＝舊序章那一年（可昕）；認不得＝null */
   const whenDay=s=>{ if(typeof s!=='string') return null; if(s==='Y0') return -Infinity; let m=s.match(/^D(-?\d+)$/); if(m) return +m[1]; m=s.match(/^(Y\dS\d)W(\d+)$/); return m?TD(m[1],+m[2],1):null; };
   /* 第 x 天（那天 00:00）祐廷在和沛珊交往嗎：ROMANCE_HISTORY（romance3d.js，每一段 {id, from, to}；from、to 到週）有一段在 x 那一週以前開始、x 那一週或以後才結束。
      還沒結束（to 空的）又不是現在交往中（舊存檔、資料不齊）＝不知道什麼時候結束的，不算。沒有 ROMANCE_HISTORY＝null（不知道）*/

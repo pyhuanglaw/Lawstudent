@@ -21,5 +21,5 @@ if(m){
   check('5. 點的位置不在任何範圍裡（點了很遠的地方又停在這裡）：照舊紙箱',pick(stop[0],stop[1],{x:3,z:3,lv:0,zone:'dorm'})==='床底下的紙箱');
   check('5. 點床、但人走到只在紙箱範圍、不在床範圍的地方：紙箱（點的那一個不在人的範圍裡就不算）',pick(-1.55,0.2,{x:-1.55,z:1.3,lv:0,zone:'dorm'})==='床底下的紙箱');
 }
-check('6. 推搖桿（E.cam.ctl）會清掉點的位置；點地面 moveTo 以後記下點的位置（原始碼）',/if\(!E\.cam\.ctl\) E\.cam\.swingAcc=0; else P\.tapPref=null;/.test(eng)&&/E\.moveTo\(P,tx,tz,null,tlv\); P\.tapPref=\{x:pref\?pref\.x:hit\.x,z:pref\?pref\.z:hit\.z,/.test(eng));   /* 2026-11-11（BB TAPSEAT）：照椅子高度判到的椅子＝tapPref 用椅子的位置（pref）；舊期望 {x:hit.x,z:hit.z} */
+check('6. 推搖桿（E.cam.ctl）會清掉點的位置；點地面 moveTo 以後記下點的位置（原始碼）',/if\(!E\.cam\.ctl\) E\.cam\.swingAcc=0; else P\.tapPref=null;/.test(eng)&&/E\.moveTo\(P,tx,tz,null,tlv\)[\s\S]{0,1500}?P\.tapPref=\{x:pref\?pref\.x:hit\.x,z:pref\?pref\.z:hit\.z,/.test(eng));   /* 2026-11-12（WZ-SUNNY-TAPNAV-1112）：moveTo 找不到路時中間多一段改走最近走得到的地方，tapPref 照舊記 */   /* 2026-11-11（BB TAPSEAT）：照椅子高度判到的椅子＝tapPref 用椅子的位置（pref）；舊期望 {x:hit.x,z:hit.z} */
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

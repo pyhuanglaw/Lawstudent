@@ -17,8 +17,8 @@
 | `bl_kexin.vrm`（可昕） | K01_HairCard_HAIR |
 | `bl_npc_nf1`～`nf4.vrm`、`bl_npc_nm1`～`nm4.vrm`（路人） | NF1～NF4、NM1～NM4_HairCard_HAIR |
 
-- 沈沛珊、吳芯慈、品妤、阿勳的頭髮材質本來就沒有 MatCap，沒有改。
-- 韋綸：開發分支上那一版有 MatCap；新的第七版在 Blender 端已經關掉，跟著第七版一起交。
+- 沈沛珊、吳芯慈、舊序章人物丁、舊序章人物甲的頭髮材質本來就沒有 MatCap，沒有改。
+- 舊序章人物乙：開發分支上那一版有 MatCap；新的第七版在 Blender 端已經關掉，跟著第七版一起交。
 
 ## 前後近拍（遊戲的渲染器 `test_charlook.html`，同一個燈光；上排修改前、下排修改後）
 - 要看的是髮梢邊緣：修改前有一圈白色亮邊，修改後沒有。

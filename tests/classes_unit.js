@@ -16,7 +16,8 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
 const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
 // ---------- 資料 ----------
-{ const L=COURSES.list, terms=['Y0S1','Y0S2','Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];   /* Y0＝經濟系那一年（AA_106、D56）*/
+// CANON-NO-ECON-1112：經濟系那一年拿掉（Y0S1、Y0S2 的課拿掉了，學期清單從 Y1S1 起）
+{ const L=COURSES.list, terms=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];   /* Y0＝經濟系那一年（AA_106、D56）*/
   const bad=[]; for(const c of L){ if(!terms.includes(c.term)) bad.push(c.id+' 學期'); if(!COURSES.rooms[c.room]) bad.push(c.id+' 地點 '+c.room); if(c.prof&&!CHARACTERS[c.prof]) bad.push(c.id+' 教授 '+c.prof); if(c.prof&&!COURSES.profs[c.prof]) bad.push(c.id+' 教授名字');
     for(const s of c.slots){ if(!(s.wd>=1&&s.wd<=5)) bad.push(c.id+' 星期'); if(!COURSES.blocks[s.block]) bad.push(c.id+' 時段'); } if(c.kind!=='service'&&(!c.topics||!c.topics.length)) bad.push(c.id+' 進度'); }   /* 服務學習沒有進度（只記次數，AA_110 6-1）*/
   check('每一門課的學期、星期、時段、地點、教授、進度都對得上（教授在 characters.js）',!bad.length,bad.slice(0,5).join(', '));
@@ -32,7 +33,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   G.courses={electives:{Y1S2_ls:'none'}}; const ex2=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('舊的選修紀錄 Y1S2_ls 還在也不影響：課表沒有法律與社會（下），經濟學原理（下）還在',!ex2.includes('法律與社會（下）')&&ex2.includes('經濟學原理（下）'),ex2.join('、'));
   const jp=CLS.termCourses(G,'Y2S1').find(c=>c.id==='japanese_1'), jp2=CLS.termCourses(G,'Y2S2').find(c=>c.id==='japanese_2');
   check('日文上、下：大二上、下週一下午一，共同教學館（使用者 2026-10-13 遊戲安排）',jp&&jp2&&jp.slots[0].wd===1&&jp.slots[0].block==='pm1'&&CLS.roomName(jp).startsWith('共同教學館')&&CLS.roomName(jp2).startsWith('共同教學館'));
-  const ep=['econ_principles_1','econ_principles_2'].map(id=>COURSES.list.find(c=>c.id===id)); check('重修經濟學原理（上下）：必修、retake、週五上午',ep.every(c=>c&&c.kind==='required'&&c.retake&&c.slots[0].wd===5&&c.slots[0].block==='am'));
+  const ep=['econ_principles_1','econ_principles_2'].map(id=>COURSES.list.find(c=>c.id===id)); check('經濟學原理（上下）：必修、週五上午；不是重修（retake 拿掉，CANON-NO-ECON-1112 第三批）',ep.every(c=>c&&c.kind==='required'&&!c.retake&&c.slots[0].wd===5&&c.slots[0].block==='am'));
   const sem=CLS.termCourses(G,'Y4S1').filter(c=>c.choice&&c.choice.group==='Y4S1_sem').map(c=>c.id); check('大四上判決研討二選一：預設刑事',sem.length===1&&sem[0]==='crim_judgment_sem',sem.join(',')); }
 // ---------- 日曆上的課 ----------
 { const names=(day)=>CLS.dayItems(mkG(day,8)).map(it=>CLS.hhmm(it.t0)+' '+it.c.name).join('、');
@@ -141,5 +142,5 @@ function finish(){
   const before=JSON.stringify(R); CLS.rec(G); check('轉換只做一次（再讀一次不變）',JSON.stringify(CLS.rec(G))===before); }
 // 五年日曆（D56）：經濟系那一年的日期標示（畫面只寫學年、學期、日期、星期，不寫西元年份）
 { const lab=CLS.dayLabel(mkG(1,8),dayOf('2024-09-18')), lab2=CLS.dayLabel(mkG(1,8),dayOf('2025-07-15'));
-  check('經濟系那一年：「9/18 週三・經濟系大一上 第 3 週」；重考的暑假寫「暑假」；都不寫西元年份',lab==='9/18 週三・經濟系大一上 第 3 週'&&lab2.endsWith('・暑假')&&!/20\d\d/.test(lab+lab2),lab+'｜'+lab2); }
+  check('經濟系那一年：「9/18 週三・經濟系大一上 第 3 週」；重考的暑假寫「暑假」；都不寫西元年份',lab==='9/18 週三・Y0S1 第 3 週'/* 2026-11-12（CANON-NO-ECON-1112 第五批，AA_919 第 4-3 節）：學期名稱表拿掉 Y0S1／Y0S2（舊序章那一年不再有名字，舊存檔照代號顯示） */&&lab2.endsWith('・暑假')&&!/20\d\d/.test(lab+lab2),lab+'｜'+lab2); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); }

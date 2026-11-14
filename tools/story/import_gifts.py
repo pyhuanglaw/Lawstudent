@@ -17,6 +17,14 @@ AA_728（955ea3a03，AA-B 11-08 08:24）：
   sec：稿寫在另一種那一格的那一樣，記在她的 sec（對她算那一種）；現在沒有，留著。六位都要有 breakfast（notes 沒有「沒寫 breakfast 的人照 drink」）。
 - people：朋友六位（drink.yes／breakfast.yes 輪流、no 一天第二次送同一種）；rel 照 notes「yes 每次 fam+1、comf+1（一天最多算一次）」→ GIFT_LINES.friends。
 - 學姊送到第 3 次起「學弟」換成 {name}、子晴「冰你一下」不配熱的：AA_728 沒列，照舊在下面 BOUND（沒對到稿裡的句子就停下來）。
+STALE-SOURCES-1112（AA_710 86619c1195，X350「所有飲料店賣的飲料都可以買一份帶走送人」；AA_728 bb3bdad7df）：
+- opinion 的品名也可以是「某一間可以買來送人的店菜單上的飲料」（檸檬綠茶、珍珠奶茶、冬瓜茶…；不在 S.ITEMS）：菜單不抄，問 tools/story/gift_shop_menus.js
+  （載入各店的資料檔和點餐程式，問 GIFT.menu——和遊戲賣的同一份）。有店讀不到菜單、有檔載不進來＝停下來，不默默放行。
+  品名兩邊都對不到的：整份看完，一次列出來再停（交給 AA；不硬匯、不改品名）。
+- 「<店名>的茶（任何一樣）」＝在那間店買的任何一樣飲料 → {item, shopAny:店名}（gift3d.js 照 G.carry 記的店名比）。店名要是可以買來送人的店（G.carry 記的名字）；
+  下面 SHOP_PENDING 列的是「遊戲裡有這間店、但現在還不能買來送人」的：照匯、印出來提醒（那一格現在送不到），不在表上的店名＝停下來。
+- YIZHAN-TAKEOUT-1112（AA_710 _meta.lawww_1112b「一盞茶屋外帶」）：外帶的品名、價錢、店員句、語彤當班的旁白、她當班時收到的那一句 → GIFT_LINES.takeout（下面 takeout()）。
+- AA_728 people 裡寫 unused 的人（_meta.status：使用者 11-08「送飲料只需要給可攻略的對象」，台詞留在稿當紀錄、不匯入）跳過；有人寫 unused 而 _meta.status 沒有那一句＝停下來。
 用法：python3 tools/story/import_gifts.py [--ref <AA_710 commit>] [--ref2 <AA_728 commit>] [--check]"""
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -32,6 +40,56 @@ CATS = ('drink', 'breakfast')
 REL = ('fam', 'trust', 'comf', 'npcRom', 'rom')
 CTX = {'drink': ('again', 'exam', 'winterCold', 'summerHot'), 'breakfast': ('again', 'exam', 'night')}   # 晚上＝送早餐；冬冰夏熱＝飲料
 SHOP_Q = {'便利商店': '便利商店'}          # 名字後面的（店名）→ gift3d.js 的店名 key（story3d.js counter）
+MENUS_JS = 'tools/story/gift_shop_menus.js'
+SHOP_ANY = re.compile(r'^(.+)的茶（任何一樣）$')   # 「<店名>的茶（任何一樣）」
+PAREN = re.compile(r'^(.*)（([^（）]+)）$')
+# 遊戲裡有這間店、但現在不能「買一份帶走送人」的（稿的店名 → 為什麼）。這幾間的 shopAny 照匯（那一格現在送不到，印出來提醒）；
+#   哪一天 gift3d.js 的 S.SHOPS 加了這間（記在 G.carry 的 name 要用稿的店名），這裡那一列就可以拿掉。
+# AA_710 _meta.lawww_1112b「學姊的紅茶」：任何一家的紅茶都算（帝大紅茶的「紅茶（中）」「紅茶（大）」也算）——品名有「紅茶」、不是奶茶／鮮奶茶／水果紅茶
+BROAD = {('heroine_05', '紅茶'): {'has': '紅茶', 'not': ('奶', '檸檬', '百香', '葡萄柚', '柳橙', '蘋果', '水蜜桃', '芒果', '莓', '果')}}
+SHOP_PENDING = {
+    # 2026-11-12（YIZHAN-TAKEOUT-1112）：一盞茶屋拿掉了——AA_710 _meta.lawww_1112b「一盞茶屋外帶」定了外帶只賣冷泡茶兩樣，下面 takeout() 匯進資料檔，gift3d.js S.SHOPS 有這間
+}
+# 外帶的菜單寫在稿上的店（AA_710 _meta.lawww_1112b 的「<店名>外帶」）：品名、價錢、店員句、語彤當班的旁白和收禮句從稿匯進 GIFT_LINES.takeout（gift3d.js 照它賣、照它演；src 不手打）
+TAKEOUT_KEY = re.compile(r'^(.+)外帶$')
+TAKEOUT_FIELDS = {'decide', 'items', 'where', 'line_staff', 'line_yt_on_shift', 'note'}
+# 2026-11-12（AA_710＠f6aa917593）：note 多一句「冷泡茶算冰的（冬天送的反應照冰飲那一套）。」→ 那間店外帶裡品名是「冷泡…」的＝temp cold（gift3d.js 的冷熱照它；一樣都對不到＝停下來）
+TAKEOUT_COLD = re.compile(r'(冷泡)茶算冰的（冬天送的反應照冰飲那一套）')
+TAKEOUT_GIVE = re.compile(r'語彤自己當班的時候買來送她，她收：「([^「」]+)」（只在她當班、而且是送她的時候換這一句，其他時候照她原本的收禮句。）')
+
+
+def takeout(meta):
+    """AA_710 _meta.lawww_1112b 裡「<店名>外帶」的每一格 → {店名: {items:[[品名, 價錢]…], temp:{品名: 'cold'}（稿說算冰的那幾樣；沒有＝{}）, staffLine, onShift:{who, buy, give:[句]}, where, decide, note}}"""
+    out = {}
+    for k, v in (meta.get('lawww_1112b') or {}).items():
+        m = TAKEOUT_KEY.match(k)
+        if not m:
+            continue
+        shop, w = m.group(1), f'{PATH} _meta.lawww_1112b.{k}'
+        if not isinstance(v, dict) or set(v) != TAKEOUT_FIELDS:
+            raise SystemExit(f'{w}：欄位改了（{sorted(v) if isinstance(v, dict) else v}），先改 import_gifts.py 的 takeout 和 src/gift3d.js')
+        its = v['items']
+        if not isinstance(its, list) or not its or not all(isinstance(x, list) and len(x) == 2 and isinstance(x[0], str) and x[0] and isinstance(x[1], int) and not isinstance(x[1], bool) and x[1] > 0 for x in its):
+            raise SystemExit(f'{w}.items：要是 [[品名, 正整數價錢]…]')
+        names = [IG.read_fix(x[0]) for x in its]
+        if len(set(names)) != len(names):
+            raise SystemExit(f'{w}.items：品名重複')
+        g = TAKEOUT_GIVE.search(v['note'])
+        if not g:
+            raise SystemExit(f'{w}.note：讀不到「語彤自己當班的時候買來送她，她收：「…」（只在她當班、而且是送她的時候換這一句，其他時候照她原本的收禮句。）」（稿改了要重看 takeout）')
+        if f'「{shop}的茶（任何一樣）」' not in v['note']:
+            raise SystemExit(f'{w}.note：沒有提到「{shop}的茶（任何一樣）」那一格（店名要和 opinion 的 shopAny 一樣）')
+        temp = {}
+        c = TAKEOUT_COLD.search(v['note'])
+        if c:
+            temp = {n: 'cold' for n in names if n.startswith(c.group(1))}
+            if not temp:
+                raise SystemExit(f'{w}.note：寫了「{c.group(0)}」，可是外帶的品名沒有一樣是「{c.group(1)}…」（{names}）')
+        out[shop] = {'items': [[n, x[1]] for n, x in zip(names, its)], 'temp': temp,
+                     'staffLine': lines([v['line_staff']], f'{w}.line_staff')[0],
+                     'onShift': {'who': 'heroine_03', 'buy': lines([v['line_yt_on_shift']], f'{w}.line_yt_on_shift')[0], 'give': lines([g.group(1)], f'{w}.note（收禮句）')},
+                     'where': v['where'], 'decide': v['decide'], 'note': v['note']}
+    return out
 LATE = 99                                 # hour 的上限（G.hour 過了午夜是 24 以上）
 
 # AA_728 _meta.itemOnly.list 的 item（人寫的字）→ 遊戲的品項：n＝就是這幾樣、base＝這幾個名字的每一種（冰的、熱的…）；
@@ -87,6 +145,22 @@ def game_items():
     return out
 
 
+def shop_menus(first_ok=()):
+    """可以買來送人的店 → {G.carry 記的店名: [菜單上的飲料…]}（node tools/story/gift_shop_menus.js）。讀不到的店、載不進來的檔＝停下來。"""
+    try:
+        raw = subprocess.check_output(['node', os.path.join(ROOT, MENUS_JS)], cwd=ROOT, stderr=subprocess.PIPE).decode('utf-8')
+        d = json.loads(raw.strip().splitlines()[-1])
+    except Exception as e:   # noqa
+        raise SystemExit(f'{MENUS_JS}：跑不起來（{str(e)[:200]}）——各店的菜單讀不到，不能核對品名')
+    # first_ok：外帶菜單寫在稿上的店（takeout）——資料檔還沒匯過那一次，遊戲問到的是空的；只放過這幾間，菜單照稿（main 補）
+    d['unreadable'] = [u for u in (d.get('unreadable') or []) if u.split('（')[0] not in first_ok]
+    if d.get('loadErr') or d.get('unreadable'):
+        raise SystemExit(f'{MENUS_JS}：有店的菜單讀不到，不能核對品名（不放行）：載不進來的檔 {d.get("loadErr")}；菜單是空的店 {d.get("unreadable")}')
+    if len(d.get('shops') or {}) < 15:
+        raise SystemExit(f'{MENUS_JS}：只讀到 {len(d.get("shops") or {})} 間店')
+    return d['shops']
+
+
 def char_ids():
     src = open(os.path.join(ROOT, CHARS_JS), encoding='utf-8').read()
     ids = set(re.findall(r"^\s*(\w+):\{ id:'(\w+)'", src, re.M))
@@ -107,10 +181,46 @@ def sugar_rule(meta2, items):
     return {base + '（有加糖）': ns}
 
 
-def item(v, cat, items, where, sugar):
-    """稿的品項字 → {item（稿的寫法）, n（遊戲品項名）, ns?（算數的每一樣）, shop?, sec?（這一樣本來是另一種，稿寫在這一格）}"""
+def item(v, cat, items, where, sugar, menus=None, miss=None, pend=None):
+    """稿的品項字 → {item（稿的寫法）, n（遊戲品項名）, ns?（算數的每一樣）, shop?, sec?（這一樣本來是另一種，稿寫在這一格）}
+    menus（各店菜單）有給的時候：S.ITEMS 沒有、但某一間店的菜單上有的飲料 → {item, n}；「<店名>的茶（任何一樣）」→ {item, shopAny}。
+    miss 有給＝對不到的不當場停，記進 miss（整份看完一次列）；回傳 None。"""
     if not isinstance(v, str) or not v:
         raise SystemExit(f'{where}.item：要寫品項名')
+    q0 = PAREN.match(v)
+    known = v in sugar or v in items or bool(q0 and q0.group(2) in SHOP_Q and q0.group(1) in items)   # 原本就認得的寫法：照舊走下面
+    if menus is not None and not known:
+        m = SHOP_ANY.match(v)
+        if m:
+            shop = m.group(1)
+            if cat != 'drink':
+                raise SystemExit(f'{where}.item「{v}」：整間店的寫法只能寫在 drink')
+            if shop not in menus:
+                if shop not in SHOP_PENDING:
+                    msg = f'{where}.item「{v}」：沒有「{shop}」這間可以買來送人的店（{"、".join(menus)}）'
+                    if miss is None:
+                        raise SystemExit(msg)
+                    miss.append(msg)
+                    return None
+                if pend is not None:
+                    pend.append(f'{where}.item「{v}」：{shop} 現在不能買來送人，這一格送不到——{SHOP_PENDING[shop]}')
+            return {'item': v, 'shopAny': shop}
+        at = [s for s, ns in menus.items() if v in ns]
+        if at:
+            if cat != 'drink':
+                raise SystemExit(f'{where}.item「{v}」：{"、".join(at)}菜單上的飲料，不能寫在 {cat}')
+            b = BROAD.get((where.split('.')[0], v))
+            if b:   # 這一格不只認品名一字不差的（AA_710 _meta.lawww_1112b）
+                ns = sorted({n for names in menus.values() for n in names if b['has'] in n and not any(x in n for x in b['not'])})
+                if v not in ns:
+                    raise SystemExit(f'{where}.item「{v}」：BROAD 的規則把它自己排掉了（{ns}）')
+                return {'item': v, 'n': v, 'ns': ns}
+            return {'item': v, 'n': v}
+        msg = f'{where}.item「{v}」：遊戲沒有這個品項（src/gift3d.js S.ITEMS：{"、".join(items)}；可以買來送人的 {len(menus)} 間店菜單上也沒有）'
+        if miss is None:
+            raise SystemExit(msg)
+        miss.append(msg)
+        return None
     ns = sugar.get(v)
     n, shop = (ns[0] if ns else v), None
     q = re.match(r'^(.*)（([^（）]+)）$', n)
@@ -256,8 +366,9 @@ def item_only(meta2, people, src_cells, items):
     return done
 
 
-def build(src, sha, items, meta2):
+def build(src, sha, items, meta2, menus=None, pend=None):
     sugar = sugar_rule(meta2, items)
+    miss = [] if menus is not None else None
     people, src_cells = {}, {}
     for hid, v in src.items():
         if hid.startswith('_'):
@@ -283,7 +394,10 @@ def build(src, sha, items, meta2):
                 op = []
                 for i, o in enumerate(s['opinion']):
                     ww = f'{w}.opinion[{i}]'
-                    op.append(dict(item(o.get('item'), c, items, ww, sugar), pool=groups(o.get('pool') or o.get('lines'), ww), rel=rel(o.get('rel'), ww)))
+                    it = item(o.get('item'), c, items, ww, sugar, menus, miss, pend)
+                    if it is None:
+                        continue
+                    op.append(dict(it, pool=groups(o.get('pool') or o.get('lines'), ww), rel=rel(o.get('rel'), ww)))
                 e['opinion'] = op
                 named += op
             for x in named:   # 本來是另一種、稿寫在這一格的（以安的豆漿、沛珊的米漿寫在飲料）：對她算這一種
@@ -300,6 +414,11 @@ def build(src, sha, items, meta2):
             P[c] = e
         if not P:
             raise SystemExit(f'{hid}：沒有 drink／breakfast')
+        for c in CATS:   # 同一格同一樣寫兩次＝後面那一筆永遠輪不到
+            seen = [(x.get('n'), x.get('shop'), x.get('shopAny')) for x in P.get(c, {}).get('opinion', [])]
+            dup = sorted({str(k) for k in seen if seen.count(k) > 1})
+            if dup:
+                raise SystemExit(f'{hid}.{c}.opinion：同一樣寫了兩次 {dup}')
         for n, c in sec.items():
             nat = items[n]['cat']
             if any(x.get('n') == n or n in (x.get('ns') or []) for x in ([P.get(nat, {}).get('fav')] + P.get(nat, {}).get('opinion', [])) if x):
@@ -308,6 +427,8 @@ def build(src, sha, items, meta2):
             P['sec'] = dict(sorted(sec.items()))
         people[hid] = P
         src_cells[hid] = SC
+    if miss:
+        raise SystemExit(f'{PATH}@{sha}：有 {len(miss)} 個品名對不到遊戲賣的東西（交給 AA；不硬匯、不改品名）：\n  ' + '\n  '.join(miss))
     only_done = item_only(meta2, people, src_cells, items)
     # AA_728 沒列的（學姊「學弟」、子晴「冰你一下」）：加條件；稿裡找不到那句就停下來（稿改了，要重看 BOUND）
     for hid, c, word, cond in BOUND(items):
@@ -325,7 +446,7 @@ def build(src, sha, items, meta2):
     return {'src': f'{PATH}@{sha}', 'people': people}, only_done
 
 
-def build_friends(src, sha, items):
+def build_friends(src, sha, items, skipped=None):
     """AA_728 people → {src, rel, people:{id:{drink:{pool}, breakfast?:{pool}, no:[組]}}}"""
     meta = src.get('_meta')
     if not isinstance(meta, dict):
@@ -348,8 +469,17 @@ def build_friends(src, sha, items):
     if not isinstance(people, dict) or not people:
         raise SystemExit(f'{PATH2}：沒有 people')
     out = {}
+    unused = [pid for pid, v in people.items() if isinstance(v, dict) and 'unused' in v]
+    if unused and not re.search(r'不用[^；。]*（台詞留在這份當紀錄，不匯入）', meta.get('status') or ''):
+        raise SystemExit(f'{PATH2}：{unused} 寫了 unused，但 _meta.status 沒有「…不用（台詞留在這份當紀錄，不匯入）」（稿改了要重看 build_friends）')
     for pid, v in people.items():
         w = f'{PATH2} people.{pid}'
+        if pid in unused:   # 使用者 11-08「送飲料只需要給可攻略的對象」：台詞留在稿當紀錄，不匯入
+            if pid not in ids:
+                raise SystemExit(f'{w}：{CHARS_JS} 沒有這個人')
+            if skipped is not None:
+                skipped.append(pid)
+            continue
         if pid not in ids:
             raise SystemExit(f'{w}：{CHARS_JS} 沒有這個人')
         bad = [k for k in v if k not in CATS + ('no',)]
@@ -369,6 +499,8 @@ def build_friends(src, sha, items):
             raise SystemExit(f'{w}：沒有 breakfast（notes 沒寫「沒寫 breakfast 的人照 drink」）')
         P['no'] = groups(v.get('no'), f'{w}.no')
         out[pid] = P
+    if not out:
+        raise SystemExit(f'{PATH2}：people 每一位都是 unused，沒有人可以匯')
     return {'src': f'{PATH2}@{sha}', 'rel': R, 'people': out}
 
 
@@ -391,29 +523,50 @@ def main():
     sha2, why2 = src_sha(allow, PATH2, ref2)
     items = game_items()
     s2 = json.loads(git('show', f'{sha2}:{PATH2}'))
-    data, only_done = build(json.loads(git('show', f'{sha}:{PATH}')), sha, items, s2.get('_meta') or {})
-    data['friends'] = build_friends(s2, sha2, items)
+    s1 = json.loads(git('show', f'{sha}:{PATH}'))
+    tk = takeout(s1.get('_meta') or {})
+    menus, pend, skipped = shop_menus(tuple(tk)), [], []
+    for shop, t in tk.items():   # 外帶的菜單是這支工具自己匯進資料檔的（第一次匯以前遊戲還問不到）：照稿算進「可以買來送人的店」；遊戲已經問得到的要和稿一樣
+        names = [x[0] for x in t['items']]
+        if shop in menus and sorted(menus[shop]) != sorted(names):
+            raise SystemExit(f'{shop}：遊戲現在賣的外帶（{menus[shop]}）和稿（{names}）不一樣——先重新匯入再看；還是不一樣＝src/gift3d.js S.SHOPS 那一列沒有照 GIFT_LINES.takeout')
+        menus[shop] = names
+    data, only_done = build(s1, sha, items, s2.get('_meta') or {}, menus, pend)
+    if tk:
+        data['takeout'] = tk
+    data['friends'] = build_friends(s2, sha2, items, skipped)
     # AA_766（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；白名單上的 commit）：沛珊最愛的米漿第二句（原本講她家早餐店）照稿換——AA_710 的源稿沒改，組好資料以後疊（tools/story/ps766.py；白名單沒有＝不疊）
     import ps766
     n766 = ps766.apply_gift(data, ROOT, allow); t766 = ps766.tag(ROOT, allow)
     js = ('/* 自動產生：tools/story/import_gifts.py（' + data['src'] + '、' + data['friends']['src'] + '）。不要手改，改企劃 AA_710／AA_728 再重新匯入。\n'
           + (f'   沛珊最愛的米漿第二句照 {t766}（X327；tools/story/ps766.py 疊的）。\n' if t766 else '') +
-          '   送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友六位（AA_728）*/\n'
+          '   送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友（AA_728；稿寫 unused 的不匯入）*/\n'
           "'use strict';\nconst GIFT_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     import l118_fix772   # 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 給這個檔的幾列 old→new 疊在組好的文字上（tools/story/l118_fix772.py；白名單沒有那份稿＝不疊）
     js = l118_fix772.layer_js(OUT, js, ROOT, allow)
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # CANON-NO-ECON-1112 第五批：AA_920／921／923 的 src 對照表在寫檔前照整句換（tools/story/canon_b5_rows.py）
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''
         if cur != js:
             raise SystemExit(f'{OUT} 和 {data["src"]}、{data["friends"]["src"]} 不一樣：重新匯入')
         print('OK', why, why2)
+        for t in pend:
+            print(' [提醒] ' + t)
         return
     open(p, 'w', encoding='utf-8').write(js)
     print('寫入', OUT, why, why2)
     print(' 女主角：', {k: sorted(v) for k, v in data['people'].items()})
     print(' itemOnly：', only_done)
     print(' 朋友：', {k: sorted(v) for k, v in data['friends']['people'].items()})
+    print(' 朋友（稿寫 unused，不匯入）：', skipped)
+    ops = [(h, o) for h, P in data['people'].items() for o in P.get('drink', {}).get('opinion', [])]
+    print(' 照各店菜單對到的品名：', [(h, o['item'], [s for s, ns in menus.items() if o['n'] in ns]) for h, o in ops if not o.get('shopAny') and o.get('n') not in items])
+    print(' 照店（任何一樣）：', [(h, o['item'], o['shopAny']) for h, o in ops if o.get('shopAny')])
+    print(' 外帶（稿定的菜單）：', {s: t['items'] for s, t in data.get('takeout', {}).items()})
+    for t in pend:
+        print(' [提醒] ' + t)
 
 
 if __name__ == '__main__':

@@ -1,10 +1,10 @@
-/* 自動產生：tools/story/import_place_acc.py（docs/story_planning/AA_714_invite_places_acc.json@696254f1c、docs/story_planning/AA_721_l118_invite_acc.json@ef7280917）。不要手改，改企劃 AA_714／AA_721 再重新匯入。
+/* 自動產生：tools/story/import_place_acc.py（docs/story_planning/AA_714_invite_places_acc.json@696254f1c、docs/story_planning/AA_721_l118_invite_acc.json@72ab8199aa）。不要手改，改企劃 AA_714／AA_721 再重新匯入。
    新約會地點的答應句、第一次一起去的那一句（INVITE-PLACES-1107）：載入時併進 INVITE_DATA.people（要在 src/data/invites.js 後面載入）。
    acc、firstAt 有名字說的台詞外面不加「」（AA-B 2026-11-08，稿上有；（…）是旁白）；no（灰掉的說明，沒有名字）照稿*/
 'use strict';
 const INVITE_PLACE_LINES={
  "src": "docs/story_planning/AA_714_invite_places_acc.json@696254f1c",
- "src2": "docs/story_planning/AA_721_l118_invite_acc.json@ef7280917",
+ "src2": "docs/story_planning/AA_721_l118_invite_acc.json@72ab8199aa",
  "places": {
   "soclib": {
    "heroine_01": {
@@ -59,11 +59,11 @@ const INVITE_PLACE_LINES={
    },
    "kexin": {
     "acc": [
-     "我又不是你們學校的。進得去嗎？……好，你帶我。"
+     "社科圖？我還沒去過。……好，你帶我。"
     ],
     "firstAt": [
-     "（她在門口換了臨時證，拿在手上看了一下。）",
-     "你們學校的證件好醜。"
+     "（她在門口刷了學生證，嗶了兩次才過。）",
+     "這台機器跟我有仇。"
     ]
    }
   },
@@ -360,7 +360,7 @@ const INVITE_PLACE_LINES={
     ],
     "firstAt": [
      "（她挑了一本很薄的小說，翻了兩頁。）",
-     "這個長度，剛好木柵到公館。"
+     "這個長度，剛好宿舍到公館。"
     ]
    }
   },
@@ -476,11 +476,11 @@ const INVITE_PLACE_LINES={
    },
    "kexin": {
     "acc": [
-     "牛排？你們學校附近的店，我都還沒吃完。好。"
+     "牛排？學校附近的店，我都還沒吃完。好。"
     ],
     "firstAt": [
      "（她點了雙拼，吃得一點都不剩。）",
-     "……木柵沒有這種的。"
+     "……高雄沒有這種的。"
     ]
    }
   },
@@ -662,7 +662,7 @@ const INVITE_PLACE_LINES={
    },
    "kexin": {
     "acc": [
-     "刀削麵？好。……你們這邊的牛肉麵，我要評分。"
+     "刀削麵？好。……我要拿高雄的牛肉麵跟它比。"
     ],
     "firstAt": [
      "（她吃完，認真想了一下。）",
@@ -782,7 +782,13 @@ const INVITE_PLACE_LINES={
     ]
    },
    "kexin": {
-    "no": "「平日我在木柵上課。……週末那間又沒開。」"
+    "acc": [
+     "好。我今天沒吃早餐。"
+    ],
+    "firstAt": [
+     "（她只夾了三樣，每樣都夾很多。）",
+     "這三樣就夠了。"
+    ]
    }
   },
   "l118_self": {

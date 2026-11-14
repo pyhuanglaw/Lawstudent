@@ -1000,6 +1000,10 @@ def loose(args):
     for ln in git('for-each-ref', '--format=%(refname:short)', 'refs/heads').split():
         if ln in (head, 'main'):
             continue
+        # 別人分支的本機副本（例：CC 抓下來看結果的 claude/cc-local）：遠端同名分支已經有它全部的 commit＝不是沒收進來的成果（CC-C 11-12）
+        if git('rev-parse', '--verify', '--quiet', 'refs/remotes/origin/' + ln).strip() and subprocess.run(['git', 'merge-base', '--is-ancestor', ln, 'origin/' + ln], cwd=str(ROOT)).returncode == 0:
+            print('[資訊] 本機分支 %s 是 origin/%s 的副本（遠端都有），不算' % (ln, ln))
+            continue
         n = git('rev-list', '--count', head + '..' + ln).strip() or '0'
         if n != '0':
             files = [f for f in git('diff', '--name-only', head + '...' + ln).split('\n') if f][:6]
@@ -1019,13 +1023,31 @@ def loose(args):
             bad.append('有 %s 個 commit 還沒 push 到 %s' % (n, up))
     else:
         bad.append('目前分支沒有設定遠端（沒 push 過）')
-    try:
-        tasks = json.load(open(os.path.join(ROOT, 'docs/handoff/tasks.json'), encoding='utf-8'))['tasks']
+    try:   # 總表：--ref 給了就照它讀；沒給、這條分支也沒有總表（LAWWW2／AA／BB／CC）＝自動從 RULE_SOURCE 讀（BB-C 11-12：非 LAWWW 分支永遠報「讀不到 tasks.json」）
+        ref = getattr(args, 'ref', None)
+        if not ref and not os.path.exists(os.path.join(ROOT, TASKS)):
+            code, b = duty_state.find(args, quiet=True)
+            if not code and b:
+                ref = 'origin/' + b
+        tasks = json.loads(Src(getattr(args, 'root', ROOT), ref).read(TASKS))['tasks']
     except Exception as e:
         tasks = []; bad.append('讀不到 tasks.json：%s' % e)
     for t in tasks:
         if t.get('status') in ('進行中', '待開工') and re.search(r'子代理(在做|實作|正在)', str(t.get('next') or '')):
             bad.append('任務 %s 寫「%s」、next 說子代理在做——子代理做完了嗎？成果合進來了嗎？（%s）' % (t['id'], t['status'], str(t.get('next'))[:60]))
+    # D163（使用者 2026-11-13：「他們怎麼交班他們沒有自己的交班規則」）：任務的 helpers＝別的職位開的幫手工作階段；
+    # 幫手分支上還有不在開發分支的 commit＝還沒收進來（交班前叫幫手交班、接班第 9 步逐條處理）；closed（寫原因）的不算
+    for t in tasks:
+        for h in t.get('helpers') or []:
+            br = h.get('branch')
+            if not br or h.get('closed'):
+                continue
+            if not git('rev-parse', '--verify', '--quiet', 'refs/remotes/origin/' + br).strip():
+                bad.append('任務 %s 的幫手 %s：遠端沒有分支 %s（沒推過？）' % (t['id'], h.get('name') or h.get('session'), br)); continue
+            n = git('rev-list', '--count', head + '..origin/' + br).strip() or '0'
+            if n != '0':
+                bad.append('任務 %s 的幫手 %s（%s）：origin/%s 有 %s 個 commit 不在 %s——看它的交接檔 %s，整合／交新幫手接手／寫 closed 原因（D163）' % (
+                    t['id'], h.get('name') or '', h.get('session') or '', br, n, head, h.get('handoff') or 'HANDOFF.md'))
     for b in bad:
         print('[異常] ' + b)
     print('結果：' + ('異常 %d 項——有做好的東西還沒收進開發分支，不得宣稱交接完整' % len(bad) if bad else 'OK（沒有散落在外面的成果）'))

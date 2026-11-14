@@ -47,13 +47,13 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     r=await invite('看過了',true); check('劇透那一條（交往中）：算答應、沒有 aff',G.flags.zhiruo_film_date===true&&G.flags.zhiruoFilmDay===FRI&&r.d.aff===0,JSON.stringify(r.d));
     await invite('幾點'); run(20,20.2); const q=OUT.get(G,'zr_early_show'); check('答應：排出遊——隔天週六 09:40 戲院門口碰面、10:00 開演（AA_147 #3；ev_zhiruo_early_show）',!!q&&q.day===FRI+1&&Math.abs(q.h-(9+40/60))<0.01&&/10:00 開演/.test(q.title)&&q.ev==='ev_zhiruo_early_show',JSON.stringify(q)); }
   /* 早場 */
-  let meet=[]; const MEET=['九點四十，巷子裡的二輪戲院。她已經到了。',nm+'：（把兩張票舉到臉旁邊）早。……票我先買了。',nm+'：早場的人比較少。我喜歡。'], MEET3=[nm+'：（看了一下手錶）方奕廷已經進去了。……他坐倒數第三排。我教的。'];
+  let meet=[]; const MEET=['九點四十，巷子裡的二輪戲院。她已經到了。',nm+'：（把兩張票舉到臉旁邊）早。票我先買了。',nm+'：早場的人比較少。我喜歡。'], MEET3=[nm+'：（看了一下手錶）方奕廷已經進去了。他坐倒數第三排。我教的。'];
   const go=async(pick,dating)=>{ fresh(FRI+1,10,'dorm',dating?{dating_kexin:true}:{}); SOCIAL.meet('heroine_02','cafe'); picks=[pick]; await EVENTS.run(show); const L=lines(); const k=dating?1:3; meet=L.slice(0,k); return L.slice(k); };   /* 戲院門口碰面那一拍（BB-B c86cd8cf）另外檢查；其他照原本的位置比 */
   { let L=await go('妳挑'); check('戲院門口碰面（雙方單身，BB_96 3-5 BB-B c86cd8cf）：「九點四十，巷子裡的二輪戲院。她已經到了。」＋兩句；BCG-21 疊在這一拍',JSON.stringify(meet)===JSON.stringify(MEET)&&show.dialogue.some(l=>l.cg==='cg_two_tickets_heroine02'),JSON.stringify(meet));
     const base=[nm+'：我每次看都在想，那個媽媽進城看小孩，大家都很忙。',nm+'：最後對她最好的，是一個不是她小孩的人。',nm+'：……我在想，我媽會不會也是這樣。',nm+'：我在台北，對每個客人都很好。',nm+'：（喝豆漿）好了，太沉重了。',nm+'：你覺得那個老闆，像不像演爸爸的那個演員？'];
     check('早場台詞照原文',JSON.stringify(L.slice(0,6))===JSON.stringify(base),JSON.stringify(L.slice(0,6)));
-    check('單身：祐廷「誰？」→「……沒事。下次帶你看別部。」；三個選項照原文；「下次妳挑。」→「好。我列一張表給你。很長。」；WATCHED_FILM；Z5_NEXT hers',/誰？$/.test(L[6])&&L[7]===nm+'：……沒事。下次帶你看別部。'&&JSON.stringify(opts[0])==='["「下次妳挑。」","「下次我挑。」","「我下次帶我室友來。」"]'&&L[8]===nm+'：好。我列一張表給你。很長。'&&SOCIAL.has('heroine_02','WATCHED_FILM')&&!SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&G.flags.Z5_NEXT==='hers',JSON.stringify(L.slice(6)));
-    L=await go('我挑'); check('「下次我挑。」→「你？你看過幾部電影？」（她笑。）「……好，你挑。我不笑你。大概。」',JSON.stringify(L.slice(8))===JSON.stringify([nm+'：你？你看過幾部電影？','她笑。',nm+'：……好，你挑。我不笑你。大概。']),JSON.stringify(L.slice(8)));
+    check('單身：祐廷「誰？」→「沒事。下次帶你看別部。」；三個選項照原文；「下次妳挑。」→「好。我列一張表給你。很長。」；WATCHED_FILM；Z5_NEXT hers',/誰？$/.test(L[6])&&L[7]===nm+'：沒事。下次帶你看別部。'&&JSON.stringify(opts[0])==='["「下次妳挑。」","「下次我挑。」","「我下次帶我室友來。」"]'&&L[8]===nm+'：好。我列一張表給你。很長。'&&SOCIAL.has('heroine_02','WATCHED_FILM')&&!SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&G.flags.Z5_NEXT==='hers',JSON.stringify(L.slice(6)));
+    L=await go('我挑'); check('「下次我挑。」→「你？你看過幾部電影？」（她笑。）「好，你挑。我不笑你。大概。」',JSON.stringify(L.slice(8))===JSON.stringify([nm+'：你？你看過幾部電影？','她笑。',nm+'：好，你挑。我不笑你。大概。']),JSON.stringify(L.slice(8)));
     L=await go('室友'); check('「我下次帶我室友來。」→「……好。」（不扣分，只是錯過）',JSON.stringify(L.slice(8))===JSON.stringify([nm+'：……好。']),JSON.stringify(L.slice(8)));
     L=await go('妳挑',true); check('交往中（三個人、不出 CG）：門口一句「（看了一下手錶）方奕廷已經進去了。…」',JSON.stringify(meet)===JSON.stringify(MEET3),JSON.stringify(meet)); check('交往中：三個人——問「哪一個爸爸？」的是方奕廷；記 WATCHED_FILM_GROUP（不是 WATCHED_FILM）',L[6]===CHARACTERS.npc_fangyt.name+'：哪一個爸爸？'&&SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&!SOCIAL.has('heroine_02','WATCHED_FILM'),JSON.stringify(L.slice(6,8))); }
   /* 回聲 */
@@ -83,7 +83,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     PHONE.answer(G,'zr_matinee',0); run(9.65,9.7); const q=OUT.get(G,'zr_matinee');
     check('午場：「起得來。」→「好。戲院門口見。午場也是會開演的。」＋11:40 出遊',TH('p:heroine_02').some(m=>m.text==='好。戲院門口見。午場也是會開演的。')&&!!q&&Math.abs(q.h-(11+40/60))<1e-6&&q.ev==='ev_zhiruo_matinee');
     const a0=SOCIAL.rel('heroine_02').aff|0; G.hour=11.7; said=[]; picks=['下午要做什麼']; await EVENTS.run(mat); const L=lines(), nm=CHARACTERS.heroine_02.name;
-    check('午場：散場「散場的時候，外面還是白天。」→ 三句 →「那下午要做什麼？」→ 溫州街 →「今天這部，叫《父親的午後》。……」',L[0]==='散場的時候，外面還是白天。'&&L.includes(nm+'：……可是也有好處。看完，還有一整個下午。')&&L.includes(nm+'：我兩點要去溫州街。……還有半小時。你決定。')&&L.includes('你們沿著新生南路慢慢走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。')&&L[L.length-1]===nm+'：今天這部，叫《父親的午後》。你不用記片名。記得是午場就好。',JSON.stringify(L));
+    check('午場：散場「散場的時候，外面還是白天。」→ 三句 →「那下午要做什麼？」→ 溫州街 →「今天這部，叫《父親的午後》。……」',L[0]==='散場的時候，外面還是白天。'&&L.includes(nm+'：可是也有好處。看完，還有一整個下午。')&&L.includes(nm+'：我兩點要去溫州街。……還有半小時。你決定。')&&L.includes('你們沿著新生南路慢慢走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。')&&L[L.length-1]===nm+'：今天這部，叫《父親的午後》。你不用記片名。記得是午場就好。',JSON.stringify(L));
     check('午場：單身＝WATCHED_FILM、aff +3；票根是《父親的午後》那張',SOCIAL.has('heroine_02','WATCHED_FILM')&&(SOCIAL.rel('heroine_02').aff|0)>=a0+3&&STORY.roomItemList(G).some(r=>r[0]==='電影票根'&&r[1][0]==='二輪戲院的票根。《父親的午後》，午場 11:40。'));
     G=JSON.parse(s2); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; PHONE.answer(G,'zr_matinee',1); run(9.65,12);
     check('午場：「今天不行。」→「好。……那我自己去。我本來就是自己去的。」、沒有出遊、不扣分',TH('p:heroine_02').some(m=>m.text==='好。……那我自己去。我本來就是自己去的。')&&!OUT.get(G,'zr_matinee'));

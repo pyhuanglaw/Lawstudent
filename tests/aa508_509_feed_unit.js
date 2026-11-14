@@ -16,7 +16,7 @@
 //   5  稿的測試建議（AA_508 第 8 節、AA_509 第 8 節裡手機的部分）：交往中的臺灣、美國路線以安每週日 T1（r2y3b3d.js）、沒有 T1 的週日照她的動態；以安第 4、7 則日本路線；
 //      芷若 9/2 認識以上；子晴第 3 則兩個版本；以安 9/21 以後 12/3；芷若 12/10「房東」、子晴 12/26 的貓與 12/27 那則私訊；學姊美國路線三張照片；沛珊代課再回早餐店；可昕第 2 則在 10/20 以後
 //   6  別人說起她（AA_508、AA_509 每位那一節最後）：稿上每一句不是在遊戲裡、就是在「沒做」的清單（pool_*、新來的工讀生、讀書會的學弟、阿凱）；閒聊前一句的 from／until、
-//      手機的時間、群組、條件（麵店團群組、子晴的私訊要認識芷若、家族群組、予樂、「走啦」群組）
+//      手機的時間、群組、條件（桌遊團群組、子晴的私訊要認識芷若、家族群組、予樂、「走啦」群組）
 //   7  出遊途中貼的（AA_506 第 9 節）：C12 京都語言課（8/9～8/27）途中以安「京都：祐廷」那一則——途中時鐘是當地時間、記是哪一趟；回來那一刻起再留七天、可以回；
 //      不是途中貼的照七天；卡住的那一趟最多留 60 天；舊存檔
 //   8  舊存檔：YT6_WITH 是這一版才記的——之前就選過的沒有那則私訊（回報）；第三輪的存檔（items 沒有 tr）照七天
@@ -51,6 +51,8 @@ const SET={Y3S2:typeof FEED_Y3S2!=='undefined'?FEED_Y3S2:null,Y4S1:typeof FEED_Y
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' | ').slice(0,240)); } };
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
+/* CANON-NO-ECON-1112 第三批拿掉的手機列（外校室友、舊序章人物；條件 yule／econGroup）的句子：從拿掉以前的開發分支讀，稿上那幾句不算漏 */
+const GONE=(()=>{ const s=show('cfc0fd04bf','src/data/heard_lines.js'), o=new Set(); for(const l of s.split('\n')) if(/cond:'(yule|econGroup)'/.test(l)) for(const m of l.matchAll(/'((?:[^'\\]|\\.)*)'/g)) o.add(m[1]); return o; })();
 const NDL=require('./alison.js').ndl;   /* AA_546（NO-COMPARE-1030，D116）後來改的句子照 tools/story/nocmp_fix.json 換（第三批第 8 節：可昕 kx3g「他講得很好。我抄了兩頁筆記。」）*/
 const doc={Y3S2:NDL(show(SHA508,DOC.Y3S2.spec)),Y4S1:NDL(show(SHA,DOC.Y4S1.spec))}, mid508=show(SHA,DOC.Y3S2.spec), old={Y3S2:show(OLD508,DOC.Y3S2.spec),Y4S1:show(OLD509,DOC.Y4S1.spec)};
 /* YT-REWRITE-1103：稿上語彤那一節（### 3-）照 AA_630 第 3 節（F 列）、AA_627 表 A 換成新句再比（tests/aa630_expect.js；只換位置是那一個 feed 檔的列）*/
@@ -139,23 +141,25 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   /* 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4f 留言回「他說要三匙。我沒給。」（對齊陳助教那一句）*/
   const AA518_T=new Set(['他說要三匙。我沒給。']), AA518_ROW={sis4f:e=>{ e.cm=[e.cm[0],'他說要三匙。我沒給。']; }};
   /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：大四上 ps4g 的留言回覆換字（原本「兩週！然後回早餐店～」）——稿（AA_509）那一列的第二則留言是舊句才換成新句再比；逐字對稿在 tests/peishan_misc3_1111_unit.js */
-  AA518_T.add('兩週！然後回我們家店裡站櫃檯～'); AA518_ROW.ps4g=e=>{ if(e.cm[1]==='兩週！然後回早餐店～') e.cm=[e.cm[0],'兩週！然後回我們家店裡站櫃檯～']; };
+  /* 2026-11-13（STALE-SOURCES-1112）：AA_755_peishan_feed_misc.json@24bd0e59e9 再換一次（「回家顧店」是舊設定）；逐字對稿在 tests/peishan_feed_misc_1111_unit.js。舊期望：換成「兩週！然後回我們家店裡站櫃檯～」 */
+  AA518_T.add('兩週！代完就放假，回家給我媽養～'); AA518_ROW.ps4g=e=>{ if(e.cm[1]==='兩週！然後回早餐店～') e.cm=[e.cm[0],'兩週！代完就放假，回家給我媽養～']; };
   const PSRW=require('./peishan_rewrite_1111.js');   /* 2026-11-11（X327 沛珊重寫）：大三下 ps4f 照 AA_755 整則重寫了，不在 AA_508 稿裡——①② 都跳過這一則，逐字比對在 tests/peishan_feed_misc_1111_unit.js */
   for(const term of ['Y3S2','Y4S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!PSRW.feedSkip(term,p.id))}), md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!AA518_T.has(t));
+    const LR=require('./line_rows_expect.js'), FF='src/data/feed_'+term.toLowerCase()+'.js';   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊大三下 ps1f～ps5f、大四上 ps1g～ps3g 句尾「～」改掉、多一拍（AA_808 feed_y3s2 第 60～64 列、feed_y4s1 第 47～49 列）——①遊戲字先換回稿上的舊句（toOldS）再在稿裡找；②稿那一列往前換成新句（fwdDeep）再和遊戲比；舊稿不改。舊期望：遊戲字本身在稿裡、稿那一列原樣和遊戲比 */
+    const L=strs(S), bad=L.filter(t=>!require('./kx885_expect.js').has(t)/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!md.includes(LR.toOldS(t,FF))&&!AA518_T.has(t));
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+(term==='Y3S2'?SHA508:SHA)+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y3S2'?200:160)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列（表下面才寫的另一版：比一般的那一版）*/
-    const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[], went={};
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
+    const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)&&!require('./kx885_expect.js').skip(expectRow(term,r).id)), wrong=[], wd=[], went={};
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); for(const k of ['pic','say','cm','dm']) e[k]=LR.fwdDeep(e[k],FF);   /* AA_808 往前換（見上）*/ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(p&&p.went) went[p.id]=p.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null, nw=p&&NOTE_WENT[p.id];
       const same=!!p&&p.who===e.who&&p.st===e.st&&C(nw?base(p.pic):p.pic)===C(e.pic)&&(nw?base(p.say):p.say)===e.say&&C(nw?base(p.cm):p.cm)===C(e.cm)&&C(nw?base(p.dm):p.dm)===C(e.dm)
         &&(nw?p.went===nw:p.went===e.went)&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;
       if(!same) wrong.push(e.id+(p?'':'（沒有）')); }
     const wantW=term==='Y3S2'?{an4f:'anJP',an7f:'anJP',yt7f:'ytAunt',zq3f:'zqNamed'}:{sis1g:'sisUS',sis2g:'sisUS',sis3g:'sisUS'};
-    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；兩個版本的列：'+J(went)+'）',rows.length===S.posts.length&&!wrong.length&&C(went)===C(wantW),J(wrong.slice(0,10)));
+    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；兩個版本的列：'+J(went)+'）',rows.length===S.posts.filter(p=>!require('./kx885_expect.js').skip(p.id)).length&&!wrong.length&&C(went)===C(wantW),J(wrong.slice(0,10)));
     check('0. '+term+' 稿上的日期和星期對得上（'+rows.length+' 列）',!wd.length,J(wd));
     /* ② 稿 → 遊戲：私訊、2D 短場的旁白 */
     const Q=dmQuotes(md), all=new Set(L), optT=new Set(); for(const q of S.dms) if(q.ask) for(const o of q.ask.opts) optT.add(o.t);
@@ -177,7 +181,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   const src=['src/data/feed_y3s2.js','src/data/feed_y4s1.js','src/data/heard_lines.js'].map(f=>fs.existsSync(path.join(H.ROOT,f))?fs.readFileSync(path.join(H.ROOT,f),'utf8'):'').join('\n');
   const GONE9=['不知道。我叫牠所長。','新住處門口，兩雙鞋','搬到山下了。','不用爬山了？','不用。予樂開心到哭。','子晴學姊上班以後，社課一次都沒來。可是她每個月寄一條新的導線給社團。'];
   check('0. AA_510 0-1 改的三處（28f981438）：芷若第 3 則「我叫牠房東。……」、可昕第 1 則「第四年。」宿舍窗外的山；'+OLD509+' 的舊句子（所長、搬到山下、晨希那句）不在遊戲裡',
-    !!P('zr3g').dm&&P('zr3g').dm[1]==='不知道。我叫牠房東。牠坐在長椅上的樣子，像長椅是牠的。'&&P('kx1g').say==='第四年。'&&P('kx1g').pic==='宿舍窗外的山，和大一那張同一個角度'
+    !!P('zr3g').dm&&P('zr3g').dm[1]==='不知道。我叫牠房東。牠坐在長椅上的樣子，像長椅是牠的。'&&P('kx1g').say==='第四年。'&&P('kx1g').pic==='宿舍窗外，和大一那張同一個角度'/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）*/
     &&(old.Y4S1||'').length>2000&&GONE9.every(t=>old.Y4S1.includes(t)&&!m9.includes(t)&&!src.includes(t)),J(GONE9.filter(t=>src.includes(t)||!(old.Y4S1||'').includes(t))));
   /* AA_509 0-1 改 AA_508 的四處：4c3dc1491 就改好了（28f981438 的 AA_508 和 4c3dc1491 一字不差）*/
   const four=['宿舍的書桌，一個日本帶回來的便當盒','還沒。想留到開學，大家都在的時候。',Yf('（阿姨先說「沒什麼好講的」。然後一直講到很晚。）'),'……不能說。她說十週年那天再說。','謝謝。……公園那隻貓，幫我看一下。'];
@@ -269,9 +273,9 @@ await sec('3',async()=>{ if(!HAS2()){ check('3. 時差',false,'沒有資料'); r
   fresh(D914,20,{}); who('heroine_05','FRIEND'); walk(D914,21.2); check('3. 臺灣路線：學姊第 1 則照臺灣 21:10、一般那張照片',!!item('sis1g')&&Math.abs(item('sis1g').h-(21+10/60))<0.01&&item('sis1g').v==='no'&&HT().includes('美國學校的室內游泳池，很長')&&!HT().includes('是你的'),J(item('sis1g')));
   /* 別人說起她的手機訊息也照時差 */
   /* PHONE.tick：晚 15 分鐘以內送到的照「現在」標時間，所以看「22:18 還沒有、22:24 有」*/
-  const D45=DK('2028-04-05'); fresh(D45,21,{EXCHANGE_ROUTE:'JP'}); PHONE.join(H.G,'noodle_team','麵店團'); walk(D45,22.3,{heard:true,step:0.1}); const a0=(H.G.msgs||[]).filter(m=>m.tag==='heard_h508_yu_an').length; walk(D45,22.4,{heard:true,step:0.1});
+  const D45=DK('2028-04-05'); fresh(D45,21,{EXCHANGE_ROUTE:'JP'}); PHONE.join(H.G,'noodle_team','桌遊團'); walk(D45,22.3,{heard:true,step:0.1}); const a0=(H.G.msgs||[]).filter(m=>m.tag==='heard_h508_yu_an').length; walk(D45,22.4,{heard:true,step:0.1});
   const am=(H.G.msgs||[]).find(m=>m.tag==='heard_h508_yu_an');
-  check('3. 別人說起她：Alison 4/5 21:20（臺灣）的麵店團群組，日本路線人在日本＝當地 22:20 才收到（22:18 還沒有）',a0===0&&!!am&&am.day===D45&&am.h>=22+20/60-1e-6&&am.h<=22.41,J(am&&[am.day,am.h])); });
+  check('3. 別人說起她：Alison 4/5 21:20（臺灣）的桌遊團群組，日本路線人在日本＝當地 22:20 才收到（22:18 還沒有）',a0===0&&!!am&&am.day===D45&&am.h>=22+20/60-1e-6&&am.h<=22.41,J(am&&[am.day,am.h])); });
 
 /* ---------- 4 語彤 8/21 私訊、8/22 的 2D 短場 ---------- */
 await sec('4',async()=>{ if(!HAS2()){ check('4. 私訊',false,'沒有資料'); return; }
@@ -279,7 +283,7 @@ await sec('4',async()=>{ if(!HAS2()){ check('4. 私訊',false,'沒有資料'); r
   const st=((((LADDER.byTerm||{}).Y3S2||{}).heroine_03||{}).steps||[]).find(s=>s.id==='Y6-L8');
   const lad=async(pick)=>{ fresh(DK('2028-05-29'),17); who('heroine_03','FRIEND'); H.said=[]; H.picks=[pick]; await STORY.ladPlay(GM,{name:'語彤',charId:'heroine_03'},'heroine_03',st); return {f:H.G.flags.YT6_WITH,said:H.said.map(s=>s.t),mem:SOCIAL.has('heroine_03','YT6_ASK_AUNT')}; };
   const l1=await lad('我可以陪妳問'), l2=await lad('這次她會說');
-  check('4. 閒聊 Y6-L8 選「我可以陪妳問。」→ YT6_WITH；選「這次她會說。」不記；兩個都照原本說完（她的回覆、這一層的記憶 YT6_ASK_AUNT）',!!st&&l1.f===true&&l1.said.includes('……嗯。你坐旁邊就好。不要說話。蘇姨看到你會想泡茶給你喝。')&&l1.mem&&l2.f===undefined&&l2.said.includes('……不知道。可是這次我會等她說完。')&&l2.mem,J({l1,l2}));
+  check('4. 閒聊 Y6-L8 選「我可以陪妳問。」→ YT6_WITH；選「這次她會說。」不記；兩個都照原本說完（她的回覆、這一層的記憶 YT6_ASK_AUNT）',!!st&&l1.f===true&&l1.said.includes('嗯。你坐旁邊就好。不要說話。蘇姨看到你會想泡茶給你喝。')/* 2026-11-11（X324，AA_781_yt_ladder_Y3S2.json@8e027fc7f rows Y6-L8）：拿掉刪節號——舊期望「……嗯。你坐旁邊就好。…」*/&&l1.mem&&l2.f===undefined&&l2.said.includes('……不知道。可是這次我會等她說完。')&&l2.mem,J({l1,l2}));
   fresh(DK('2028-05-29'),17); who('heroine_03','FRIEND'); const st7=(LADDER.byTerm.Y3S2.heroine_03.steps||[]).find(s=>s.id!=='Y6-L8'&&s.choices&&s.choices.length); H.picks=[0]; const ok7=await STORY.ladPlay(GM,{name:'語彤',charId:'heroine_03'},'heroine_03',st7);
   check('4. 別的層照舊（不經過記號）',ok7===true&&H.G.flags.YT6_WITH===undefined);
   const D821=DK('2028-08-21'), D822=D821+1;
@@ -359,7 +363,8 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 稿的測試建議',false,'沒�
   check('5. 學姊美國路線交往中：第 2 則「多一個碗——是你的」、第 3 則「對面多一台筆電——是你的」；美國路線沒交往（AA_516 1-4）、臺灣路線一般那張',s2u.v==='yes'&&s2u.h.includes('多一個碗——是你的')&&s3u.v==='yes'&&s3u.h.includes('對面多一台筆電——是你的')&&s3t.v==='no'&&!s3t.h.includes('是你的')&&s3t.h.includes('標題「第四章」')&&s2r.v==='no'&&s3r.v==='no'&&!s2r.h.includes('是你的')&&!s3r.h.includes('是你的'),J({s2u:s2u.v,s3u:s3u.v,s3t:s3t.v,s2r:s2r.v,s3r:s3r.v}));
   /* 沛珊寒假代課再回早餐店；可昕第 2 則在 10/20 以後 */
   fresh(DK('2029-01-14'),20); who('classmate_peishan','FRIEND'); walk(DK('2029-01-14'),21.1); FEED.respond(H.G,'ps4g','cm'); const ps4=th('classmate_peishan').slice(-2).map(x=>x.text);
-  check('5. 沛珊 1/14（台中）「代課第二週～」：留言「代課？」→「兩週！然後回我們家店裡站櫃檯～」',J(ps4)===J(['代課？','兩週！然後回我們家店裡站櫃檯～']),J(ps4));
+  /* 舊期望（AA_763 那一版）：「兩週！然後回我們家店裡站櫃檯～」；2026-11-13 照 AA_755@24bd0e59e9 */
+  check('5. 沛珊 1/14（台中）「代課第二週～」：留言「代課？」→「兩週！代完就放假，回家給我媽養～」',J(ps4)===J(['代課？','兩週！代完就放假，回家給我媽養～']),J(ps4));
   check('5. 可昕第 2 則「國考」（11/5）在 10/20（交往中的先聽她說）以後；第 1 則 9/16「第四年。」',twOf('kx2g').day===DK('2028-11-05')&&twOf('kx2g').day>DK('2028-10-20')&&twOf('kx1g').day===DK('2028-09-16')); });
 
 /* ---------- 6 別人說起她（AA_508、AA_509）---------- */
@@ -368,7 +373,8 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
   /* AA_523 6-3（0d7b5388b）：h509_ta_sis 的字改照 AA_523 第 6 節 6-3 那一列（src 'AA_523 6-3'）*/
   const row63=(show('0d7b5388b','docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md').split('\n').find(l=>l.startsWith('| 6-3 |'))||'');
   const mine=all.filter(x=>x[0]==='AA_508'||x[0]==='AA_509'||(x[0]==='AA_523'&&x[2]==='h509_ta_sis')), DOCS={AA_508:doc.Y3S2,AA_509:doc.Y4S1,AA_523:row63};
-  check('6. 第四輪的句子（'+mine.length+' 句；第五輪補了曾靖雯 AA_508 那一句；陳助教 1 月那一句照 AA_523 6-3 改字）都在它那一份稿裡（28f981438／AA_523 0d7b5388b 第 6 節 6-3 那一列，一字不差）；HEARD_LINES.src 記 AA_508／AA_509＝28f981438、AA_523＝0d7b5388b',mine.length===23&&mine.every(([s,t])=>DOCS[s]&&DOCS[s].includes(t))&&HL.src.AA_508===SHA&&HL.src.AA_509===SHA&&HL.src.AA_523==='0d7b5388b',J(mine.filter(([s,t])=>!(DOCS[s]&&DOCS[s].includes(t)))));
+  /* 句數 23→17：外校室友、舊序章人物的手機列拿掉（CANON-NO-ECON-1112 第三批：這一項拿掉） */
+  check('6. 第四輪的句子（'+mine.length+' 句；第五輪補了曾靖雯 AA_508 那一句；陳助教 1 月那一句照 AA_523 6-3 改字）都在它那一份稿裡（28f981438／AA_523 0d7b5388b 第 6 節 6-3 那一列，一字不差）；HEARD_LINES.src 記 AA_508／AA_509＝28f981438、AA_523＝0d7b5388b',mine.length===17&&mine.every(([s,t])=>DOCS[s]&&DOCS[s].includes(t))&&HL.src.AA_508===SHA&&HL.src.AA_509===SHA&&HL.src.AA_523==='0d7b5388b',J(mine.filter(([s,t])=>!(DOCS[s]&&DOCS[s].includes(t)))));
   const got=new Set(all.map(x=>x[1])), heard=[];
   for(const k of ['AA_508','AA_509']){ let on=false, last=''; for(const l of (DOCS[k]||'').split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
       if((m=/^\s*- (.+?)：「([^」]*)」/.exec(l))){ last=m[1]; heard.push([k,m[1],m[2]]); }
@@ -381,7 +387,7 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
     '以安學姊交棒的時候，把規則本每一條都念了一次。念到『遲到的人請大家喝飲料』，Alison 學姊站起來去買飲料。':'讀書會的學弟（新的 3D 標籤人物）','學姊在英國也每個月問公園的貓。……這次她有問我。':'新來的工讀生（小禾）：AA_519 3-3 接上（同上）',
     '子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。':'改私訊，AA_513 第 1 節','子晴學姊上班以後，社課只來過兩次。兩次都待到最後，幫忙收導線。':'改錄音私訊，AA_514 第 4 節第 4 點（2028-11-15 22:00，src/pool_more3d.js）',
     '書瑀回來第一個週五就來吃飯。她說美國的麵都太軟。':'改字（12/29、1/5 她在家），AA_523 第 6 節 6-3：h509_ta_sis「書瑀回來休息了兩個禮拜，才來吃飯。……」、2029-01-13 起'};
-  const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
+  const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]&&!GONE.has(t)), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
   check('6. 稿上「別人說起她」'+heard.length+' 句（AA_508 13、AA_509 17）：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、新來的工讀生、讀書會的學弟；阿凱兩句改私訊，AA_513 第 1 節；陳助教 1 月那句改字，AA_523 6-3），沒有漏掉',
     heard.filter(x=>x[0]==='AA_508').length===13&&heard.filter(x=>x[0]==='AA_509').length===17&&!miss.length&&!extra.length,J({miss,extra}));
   /* AA_513 第 1 節（AA-C 2026-10-28，a2e4bf196）：「改私訊」的那兩句——AA_508 4-4＝1-3（5/20 發表會，src/y34b3d.js S.zqKaiPhone 兩組照片後面；這支測試不載 y34b3d.js，查原始碼，送到、到場不加在 tests/aa513_unit.js）、
@@ -413,10 +419,10 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
   /* 手機 */
   const run=(d,h)=>{ at(d,h); HEARD.phone(H.G); PHONE.tick(H.G); };
   const msgs=tag=>(H.G.msgs||[]).filter(m=>m.tag==='heard_'+tag);
-  const D45=DK('2028-04-05'); fresh(D45,21,{}); PHONE.join(H.G,'noodle_team','麵店團'); run(D45,21.3); const y0=msgs('h508_yu_an').length; run(D45,21.4);
-  check('6. AA_508 1-4：Alison 4/5 21:20 麵店團群組「以安傳在群組的日本照片，每一張都有說明。像在寫報告。」',y0===0&&J(msgs('h508_yu_an').map(m=>[m.th,m.from,m.name,m.text]))===J([['g:noodle_team','yu','Alison','以安傳在群組的日本照片，每一張都有說明。像在寫報告。']]),J(msgs('h508_yu_an')));
-  fresh(D45,21,{}); run(D45,21.4); check('6. 不在麵店團群組：沒有（x:noodleGroup）',!msgs('h508_yu_an').length&&HEARD.rec(H.G).ph.h508_yu_an==='x:noodleGroup');
-  const D727=DK('2028-07-27'); fresh(D727,21,{}); PHONE.join(H.G,'noodle_team','麵店團'); run(D727,21.4);
+  const D45=DK('2028-04-05'); fresh(D45,21,{}); PHONE.join(H.G,'noodle_team','桌遊團'); run(D45,21.3); const y0=msgs('h508_yu_an').length; run(D45,21.4);
+  check('6. AA_508 1-4：Alison 4/5 21:20 桌遊團群組「以安傳在群組的日本照片，每一張都有說明。像在寫報告。」',y0===0&&J(msgs('h508_yu_an').map(m=>[m.th,m.from,m.name,m.text]))===J([['g:noodle_team','yu','Alison','以安傳在群組的日本照片，每一張都有說明。像在寫報告。']]),J(msgs('h508_yu_an')));
+  fresh(D45,21,{}); run(D45,21.4); check('6. 不在桌遊團群組：沒有（x:noodleGroup）',!msgs('h508_yu_an').length&&HEARD.rec(H.G).ph.h508_yu_an==='x:noodleGroup');
+  const D727=DK('2028-07-27'); fresh(D727,21,{}); PHONE.join(H.G,'noodle_team','桌遊團'); run(D727,21.4);
   check('6. AA_508 3-4：Alison 7/27 21:20（語彤 7/24～8/6 在宜蘭）「語彤去宜蘭兩個禮拜。……她沒有。」',J(msgs('h508_yu_yt').map(m=>m.text))===J(['語彤去宜蘭兩個禮拜。蘇姨每天問我們，她有沒有在群組講話。……她沒有。']));
   const D95=DK('2028-09-05'); fresh(D95,23,{}); who('heroine_04','ACQ'); meet('heroine_02'); run(D95,23.6);
   check('6. AA_508 2-4：子晴 9/5 23:30 私訊「芷若走了。這次一年。她把那把很醜的傘留給我了。」（有子晴的聯絡方式、認識芷若）',J(msgs('h508_zq_zr').map(m=>[m.th,m.from,m.text]))===J([['p:heroine_04','heroine_04','芷若走了。這次一年。她把那把很醜的傘留給我了。']]),J(msgs('h508_zq_zr')));
@@ -426,18 +432,11 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
   check('6. AA_509 2-4：子晴 12/27 23:30 私訊「我把公園的貓帶回家了。芷若知道以後，叫我每天傳一張照片給她。」',J(msgs('h509_zq_zr').map(m=>m.text))===J(['我把公園的貓帶回家了。芷若知道以後，叫我每天傳一張照片給她。']));
   const D1224=DK('2028-12-24'); fresh(D1224,20,{}); PHONE.join(H.G,'family_law','法律系家族'); run(D1224,20.4); const k0=msgs('h509_kevin').length; run(D1224,20.6);
   check('6. AA_509 5-4：Kevin 12/24 家族群組三則＋學姊「我知道。」',k0===0&&J(msgs('h509_kevin').map(m=>[m.name,m.text]))===J([['Kevin','學姊回來了'],['Kevin','她帶了一盒美國的餅乾給家族 說很甜 叫我們不要一次吃完'],['Kevin','我一次吃完了'],['溫學姊','我知道。']]),J(msgs('h509_kevin').map(m=>m.text)));
-  const D614=DK('2028-06-14'), D117=DK('2028-11-07'); fresh(D614,23,{}); run(D614,23.6); const yu0=msgs('h508_yule').length; fresh(D614,23,{yulePassDay:1}); run(D614,23.6); const yu1=msgs('h508_yule').map(m=>[m.th,m.text]);
-  fresh(D117,23,{yulePassDay:1}); run(D117,23.6); const yu2=msgs('h509_yule').map(m=>m.text);
-  check('6. 予樂（見過她才有）：6/14 23:30「可昕要寫文章了……」兩則、11/7 23:30「可昕把國考貼在牆上……」兩則',yu0===0&&J(yu1)===J([['p:yule','可昕要寫文章了 每天晚上寫一頁 寫完念給我聽'],['p:yule','我每次都聽到睡著 她說這樣代表文章很平靜']])&&J(yu2)===J(['可昕把國考貼在牆上 我把我的期末報告貼在旁邊','她說不要比 我說我沒有要比 我只是想被看到']),J({yu1,yu2}));
-  const D87=DK('2028-08-07'), D217=DK('2029-02-17'); fresh(D87,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(D87,21.4); const p1=msgs('h508_pinyu').map(m=>[m.th,m.name,m.text]);
-  fresh(D217,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(D217,21.4); const p2=msgs('h509_pinyu').map(m=>m.text); fresh(D217,21,{}); run(D217,21.4); const p3=msgs('h509_pinyu').length;
-  check('6. 品妤在「走啦」群組 8/7 21:20「可昕說予樂去她家住了三天。……」、2/17 21:20「可昕說她過年只休兩天。……」；不在群組沒有',
-    J(p1)===J([['g:econ_friends','品妤','可昕說予樂去她家住了三天。她媽媽到現在還在問予樂什麼時候再來。']])&&J(p2)===J(['可昕說她過年只休兩天。她媽媽說休三天，她說好，結果還是兩天。'])&&p3===0,J({p1,p2,p3}));
-  const D28=DK('2029-02-08'); fresh(D28,21,{}); PHONE.join(H.G,'noodle_team','麵店團'); run(D28,21.4);
+  /* 6. 外校室友、舊序章人物那幾則（CANON-NO-ECON-1112 第三批：這一項拿掉） */
+  const D28=DK('2029-02-08'); fresh(D28,21,{}); PHONE.join(H.G,'noodle_team','桌遊團'); run(D28,21.4);
   check('6. AA_509 1-4：Alison 2/8 21:20（以安 2/6 看海以後）「以安考完試一個人去看海。回來帶了一顆石頭給我。……我不知道要放哪。」',J(msgs('h509_yu_an').map(m=>m.text))===J(['以安考完試一個人去看海。回來帶了一顆石頭給我。……我不知道要放哪。']));
-  fresh(D87+4,12,{}); PHONE.join(H.G,'econ_friends','走啦'); run(D87+4,12); check('6. 晚三天以上不補（同前幾輪）',!msgs('h508_pinyu').length&&HEARD.rec(H.G).ph.h508_pinyu==='x:late');
-  const D87u=DK('2028-08-07'); fresh(D87u,9,{EXCHANGE_ROUTE:'US'}); PHONE.join(H.G,'econ_friends','走啦'); run(D87u,9.2); const pu0=msgs('h508_pinyu').length; run(D87u,9.4);
-  check('6. 美國路線人在美國：品妤 8/7 21:20（臺灣）＝當地 09:20 收到（09:12 還沒有、09:24 有）',pu0===0&&msgs('h508_pinyu').length===1&&msgs('h508_pinyu')[0].day===D87u&&msgs('h508_pinyu')[0].h>=9+20/60-1e-6&&msgs('h508_pinyu')[0].h<=9.41,J(msgs('h508_pinyu').map(m=>[m.day,m.h]))); });
+  /* 6. 晚三天以上不補（原本用舊序章人物那一則測）（CANON-NO-ECON-1112 第三批：這一項拿掉） */
+  /* 6. 美國路線那一則（舊序章人物）（CANON-NO-ECON-1112 第三批：這一項拿掉） */ });
 
 /* ---------- 7 出遊途中貼的（AA_506 第 9 節）---------- */
 await sec('7',async()=>{ if(!HAS()){ check('7. 出遊途中',false,'沒有 FEED'); return; }

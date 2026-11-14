@@ -18,8 +18,8 @@ const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:
 /* 一份稿：檔名、只認的 SHA、學期 → [招呼模式, 要拿掉的 when] */
 const FILES=[
   {f:'AA_753_peishan_ladder_Y1S2_Y2S1.json',sha:'b59a8f9de',terms:{Y1S2:['full',['我在客運上背了一路，才背到第三章。']],Y2S1:['full',['我背到第三章，還有四章。']]}},
-  {f:'AA_753_peishan_ladder_Y3.json',sha:'188061108',terms:{Y3S1:['base',['你吃早餐了嗎？……我家開早餐店，習慣問。']],Y3S2:['base',['期中。我的考卷上，畫了一個笑臉。……我自己畫的。','你吃早餐了嗎？']]}},
-  {f:'AA_753_peishan_ladder_Y4.json',sha:'465382f83',terms:{Y4S1:['base',[]],Y4S2:['base',[]]},skipIf:{'P8-L2':{events:['ev_peishan_open_class']}}},
+  {f:'AA_753_peishan_ladder_Y3.json',sha:'3f6c7d3bb9'/* （CANON-NO-ECON-1112 第四批：照 AA_899 換字）*/,terms:{Y3S1:['base',['你吃早餐了嗎？……我家開早餐店，習慣問。']],Y3S2:['base',['期中。我的考卷上，畫了一個笑臉。……我自己畫的。','你吃早餐了嗎？']]}},
+  {f:'AA_753_peishan_ladder_Y4.json',sha:'8d3bec48be'/* 2026-11-13（AA_944 第 3 節，BB_456 照用）：大四上招呼「今天上特教…」換字。舊：3f6c7d3bb9 */,terms:{Y4S1:['base',[]],Y4S2:['base',[]]},skipIf:{'P8-L2':{events:['ev_peishan_open_class']}}},
 ];
 const LINESIF=['P2-L3','P3-L3','P3-L4','P3-L6','P3-L8'];
 const X_CROSS='（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！', X_BACK='我剛從課輔班回來。你看我的手，都是紅筆。';
@@ -30,7 +30,7 @@ const AA763={Y3S1:{'期中。我們系要考試。……我現在知道出題的
     '早。我八點的課，七點就到了。':'早。八點的課我還是修了，不要問我為什麼。'}};   /* 2026-11-11（X327 沛珊重寫；AA 回覆 LAWWW）：大四下那一則同字的早上招呼也換字（AA_763 只列了大四上那一則；字是 AA 給的，tools/ladder/import_ladder.py 的 PS_Y4S2_GREET）——只換字、條件不動 */
 /* 2026-11-11（X327 沛珊重寫，AA 補稿 b59a8f9de）：AA_753_peishan_ladder_Y1S2_Y2S1.json 改認 b59a8f9de（和 c5094495d 只差 P2-L3 主句第一句「一個禮拜兩天。」→「每個禮拜三。」）；
    五套 linesIf 照 AA_753_peishan_ladder_linesIf.json@b59a8f9de（原本第 4 節驗的是「舊的兩句照舊留著、帶重寫以前的選項」，AA 補稿以後改成逐字對稿）*/
-const LI_F='AA_753_peishan_ladder_linesIf.json', LI_SHA='b59a8f9de', LI=(()=>{ const raw=show(LI_SHA,'docs/story_planning/'+LI_F); return raw?JSON.parse(raw):null; })();
+const LI_F='AA_753_peishan_ladder_linesIf.json', LI_SHA='3f6c7d3bb9'/* （CANON-NO-ECON-1112 第四批：照 AA_899 換字）*/, LI=(()=>{ const raw=show(LI_SHA,'docs/story_planning/'+LI_F); return raw?JSON.parse(raw):null; })();
 const str=x=>typeof x==='string'?x:(x&&x.narr)||null;
 const cond=q=>{ const o={}; for(const k in q) if(k!=='t'&&k!=='note') o[k]=q[k]; return o; };
 for(const F of FILES){ const raw=show(F.sha,'docs/story_planning/'+F.f); F.A=raw?JSON.parse(raw):null; }
@@ -123,8 +123,9 @@ const play=async(sid,pick,setup)=>{ const G=H.fresh('2026-10-20',14,'campus',nul
   await sec(9,async()=>{ const A=FILES[2].A, src=fs.readFileSync(path.join(H.ROOT,'src/data/r2y4b_events.js'),'utf8'), adv=fs.readFileSync(path.join(H.ROOT,'src/adv3d.js'),'utf8');
     const i0=src.indexOf("id:'ev_peishan_open_class'"), ev=src.slice(i0,src.indexOf("consequences:",i0));
     if(A){ const R=A.event_open_class.replace, miss=R.filter(r=>ev.split("text:'"+r.new+"'").length!==2), left=R.filter(r=>r.old!==r.new&&ev.includes(r.old));
-      check('9. ev_peishan_open_class：稿上五列的 new 各剛好一句（媽媽出場的旁白＋她的四句），old 都不在了',R.length===5&&miss.length===0&&left.length===0,J([miss.map(r=>r.new),left.map(r=>r.old)])); }
-    check('9. ev_peishan_open_class：沒有「早餐店」「榜單」；沛珊的句子和選項照舊（「你真的來了！！」、兩個選項、送到高鐵站）',i0>0&&!/早餐店|榜單/.test(ev.replace(/\/\*[\s\S]*?\*\//g,''))&&ev.includes("text:'你真的來了！！'")&&ev.includes("{text:'「沒有。」',goto:'a'},{text:'「妳媽媽坐最後一排。」',goto:'b'}")&&ev.includes('謝謝你來看我上課！到臺北傳給我喔。'));
+      /* 2026-11-11（AA_810@333cd2863，公開課媽媽定在門外）：選項、沛珊回的那句、沒去那晚的私訊換新句。舊期望：「妳媽媽坐最後一排。」「……我知道。我一進教室就看到了。」「媽媽來了。她坐最後一排。……就是我叫你坐的那個位子。」 */
+    check('9. ev_peishan_open_class：稿上五列的 new 各剛好一句（媽媽出場的旁白＋她的四句），old 都不在了',R.length===5&&miss.length===0&&left.length===0,J([miss.map(r=>r.new),left.map(r=>r.old)])); }
+    check('9. ev_peishan_open_class：沒有「早餐店」「榜單」；沛珊的句子和選項照舊（「你真的來了！！」、兩個選項、送到高鐵站）',i0>0&&!/早餐店|榜單/.test(ev.replace(/\/\*[\s\S]*?\*\//g,''))&&ev.includes("text:'你真的來了！！'")&&ev.includes("{text:'「沒有。」',goto:'a'},{text:'「妳媽媽在門外面。」',goto:'b'}")&&ev.includes('謝謝你來看我上課！到臺北傳給我喔。'));
     const m=/^const CG_REGISTRY=(\{.*\});$/m.exec(adv), REG=m?eval('('+m[1]+')'):null, h=/^const CG_HELD=(\{.*\});$/m.exec(adv), HELD=h?eval('('+h[1]+')'):null;
     check('9. BCG-05（cg_whiteboard_why_peishan）：新圖到以前不放——不在 CG_REGISTRY（事件那一行 hasCG 守門照留＝不顯示）、資料留在 CG_HELD、圖檔沒有刪',!!REG&&!REG.cg_whiteboard_why_peishan&&!!HELD&&!!HELD.cg_whiteboard_why_peishan&&fs.existsSync(path.join(H.ROOT,HELD.cg_whiteboard_why_peishan.file))&&ev.includes("{if:{custom:()=>hasCG('cg_whiteboard_why_peishan')},cg:'cg_whiteboard_why_peishan'}"));
     const s=stepOf('P8-L2'); const next=(done)=>{ const G=H.fresh('2029-03-05',14,'campus',null); H.rel(PS,65,50,45); if(done){ G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done.ev_peishan_open_class=true; } const D=STORY.ladData(G,PS); if(D) (G.social.ladder||(G.social.ladder={}))[D.key]=1; const nx=STORY.ladNext?STORY.ladNext(G,PS,'date'):null; return [D&&D.key,nx&&nx.id]; };   /* 大四她在台南：context date＝私下約的那天才推進（mode 'date'）*/

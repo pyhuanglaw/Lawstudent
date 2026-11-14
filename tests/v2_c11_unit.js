@@ -41,7 +41,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 刑總二期末考在第 16 週週三（6/10），不是大一下最後一科（晚餐不順延）',midDay===termDay('Y1S2',16,3)&&!!lastY1S2&&lastY1S2.day>midDay,JSON.stringify({midDay,want:termDay('Y1S2',16,3),date:midDay&&CALENDAR.dateOf(midDay),last:lastY1S2}));
   if(!midDay){ console.log('FAILED '+fails); process.exit(1); }
   /* G1 */
-  const runG1=async(group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',{}); for(const id of ['zhe','yu','classmate_peishan','classmate_bohan']) meet(id); if(group) PHONE.join(G,'noodle_team','麵店團'); picks=[0,0,0,0,0].concat(pk||[]);   /* D118：期末考五題選擇先答完 */ await CLS.attend(GM,midIt); return lines(); };
+  const runG1=async(group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',{}); for(const id of ['zhe','yu','classmate_peishan','classmate_bohan']) meet(id); if(group) PHONE.join(G,'noodle_team','桌遊團'); picks=[0,0,0,0,0].concat(pk||[]);   /* D118：期末考五題選擇先答完 */ await CLS.attend(GM,midIt); return lines(); };
   let L=await runG1(true);
   const i0=L.indexOf('走廊上一群人。有人在翻課本，有人已經在滑手機。');
   check('3. G1 大一下版：旁白沿用大一上＋阿哲「刑總二比上學期難好多，第三題我整題亂寫。」（AA_209）',i0>=0&&L[i0+1]==='阿哲：刑總二比上學期難好多，第三題我整題亂寫。',JSON.stringify(L.slice(Math.max(0,i0),i0+3)));
@@ -52,7 +52,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('4. 回「去。」＝排 19:00 公館燒臘（考完的晚餐）',!!o1&&o1.day===midDay&&o1.h===19&&o1.place==='公館燒臘'&&o1.ev==='ev_midterm_supper_y1s2',JSON.stringify(o1));
   await runG1(false,['「這次不行。」']); run(G.hour,G.hour+0.1); check('4. 回「這次不行。」＝不排',!OUT.get(G,'supper_mid2'));
   /* 群組揪人 */
-  fresh(midDay,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,midIt.t1-0.05,0.05); const before=G.msgs.filter(m=>m.tag==='zhe_supper_mid2').length; run(midIt.t1,midIt.t1+0.3,0.05);
+  fresh(midDay,8,'campus'); PHONE.join(G,'noodle_team','桌遊團'); run(8,midIt.t1-0.05,0.05); const before=G.msgs.filter(m=>m.tag==='zhe_supper_mid2').length; run(midIt.t1,midIt.t1+0.3,0.05);
   const gm=G.msgs.filter(m=>m.tag==='zhe_supper_mid2'), o2=OUT.get(G,'supper_mid2');
   check('4. 有群組：考完以後阿哲在群組「刑總考完了 今天燒臘店，七點，長桌」（考完以前沒有），排 19:00',before===0&&gm.length===1&&gm[0].th==='g:noodle_team'&&gm[0].from==='zhe'&&gm[0].text==='刑總考完了 今天燒臘店，七點，長桌'&&!!o2&&o2.h===19,JSON.stringify({gm:gm.map(m=>[m.h,m.text]),o2}));
   { /* 大一上的宵夜不受影響：大一下沒有 supper_mid1 */ check('4. 大一下不排大一上的公館滷味（supper_mid1）',!OUT.get(G,'supper_mid1')); }
@@ -70,7 +70,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('7. 4/15 傍晚麵店：滷蛋、「……喔。」、安靜三秒、沛珊「對，我們在一起了。你們吃你們的。」、柏翰「上禮拜的事。」（他把另一半滷蛋推回她碗裡。）（AA_209，字照舊）',P.length===6&&P[0]==='柏翰幫沛珊把滷蛋切成兩半。'&&P[1]==='阿哲：……喔。'&&P[2]==='全桌安靜三秒。'&&P[3].endsWith('：對，我們在一起了。你們吃你們的。')&&P[4].endsWith('：上禮拜的事。')&&P[5]==='（他把另一半滷蛋推回她碗裡。）',JSON.stringify(P)); }
   L=await dinner(null); check('7. 不認識沛珊：沒有那一段',!L.some(l=>l.includes('滷蛋')),JSON.stringify(L));
   /* 沒去 */
-  const miss=async(group,knowPs)=>{ fresh(midDay,18,'campus',{}); if(group) PHONE.join(G,'noodle_team','麵店團'); if(knowPs) meet('classmate_peishan'); const r0=JSON.stringify(G.social.rel), e0=G.energy, m0=G.money;
+  const miss=async(group,knowPs)=>{ fresh(midDay,18,'campus',{}); if(group) PHONE.join(G,'noodle_team','桌遊團'); if(knowPs) meet('classmate_peishan'); const r0=JSON.stringify(G.social.rel), e0=G.energy, m0=G.money;
     OUT.plan(G,{id:'supper_mid2',ev:'ev_midterm_supper_y1s2',day:midDay,h:19,place:'公館燒臘',title:'考完的晚餐',travelH:1/6}); G.hour=20; OUT.tick(GM); run(20,21,0.1);
     return {o:OUT.get(G,'supper_mid2'),msgs:G.msgs.filter(m=>m.tag==='zhe_supper_mid2_egg'),same:JSON.stringify(G.social.rel)===r0&&G.energy===e0&&G.money===m0}; };
   let r=await miss(true,true);

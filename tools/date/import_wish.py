@@ -53,6 +53,18 @@ def deep(o, f):
 WAA = deep(json.loads(show(FILES['waa'])), G.alison)
 WBB = deep(json.loads(show(FILES['wbb'])), G.alison)
 MD = {'aa': show(FILES['aa']), 'bb': show(FILES['bb'])}
+# CANON-NO-ECON-1112 第五批（AA_921 第 2 節，企劃線 6a15d2a078，BB_448 採用）：可昕外澳心願換主題「手機關掉的一天」，wish_bb.json 直接改（BB_128 原稿沒跟著改）——
+# 「逐句對原稿」那一步，可昕那一段和上一版（WBB921_PREV＝白名單換版以前的 wish_bb.json）不一樣的句子，改對這一版 wish_bb.json 本身（AA 的新字，不是 BB_128 的）。
+WBB921_PREV = '9aa8ec40c'
+FIX921 = set()
+if APPROVED[FILES['wbb']] != WBB921_PREV:
+    def _strs(x, o):
+        if isinstance(x, str): o.add(x)
+        elif isinstance(x, list): [_strs(v, o) for v in x]
+        elif isinstance(x, dict): [_strs(v, o) for v in x.values()]
+        return o
+    _old = _strs(deep(json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{WBB921_PREV}:{FILES["wbb"]}'], text=True)))['events']['kexin'], G.alison), set())
+    FIX921 = _strs(WBB['events']['kexin'], set()) - _old
 EV = {}
 for src, W in (('aa', WAA), ('bb', WBB)):
     for k, e in W['events'].items():
@@ -210,6 +222,13 @@ if A594:
 #      只換字（text、t、title、wish、note、costNote）：id、loc、條件（if）、旗標、記憶、相簿、時間、花費、選項數都不動——路徑不是這幾種欄位、對不上＝停下來，不猜 ----
 A757 = G.approved_files(ALLOW, SP + 'AA_757_')
 FIX757 = set()
+# CANON-NO-ECON-1112 第五批（wish_bb.json 換到 6dbfe10d7e）：AA-C 5cec9caf4e 在源稿把沛珊「重考」的幾處換說法（「再考一次」「準備再考」），其中兩格台詞 AA_757 本來就整句換掉了（沛珊重寫）——
+# 遊戲照舊用 AA_757 的字（源稿這兩格的新字沒有用到；同一批白名單 AA_899 那一列的 note 也這樣寫）。只認下面這兩格、而且源稿那一格剛好是這個字（別的對不上照舊停下來）。
+# 說明欄（note、rule）四格 AA_757 沒有換：照源稿的新字，換完和稿的 wish_event 比的時候這四格不算。
+SRC757 = {'wish_classmate_peishan.hotspots.D06.lawn.lines[0].text': '（看天空）準備再考的那段時間，我每天只看到書桌上面的燈。',
+          'wish_classmate_peishan.closing.lines[2].text': '我一直在找標準答案。再考一次也是，選科系也是。'}
+SRC757_NOTE = {('closing', 'after', 0, 'note'), ('closing', 'after', 1, 'note'), ('herInvite', 'linesIf', 0, 'note'), ('rule',)}
+LOG757 = []
 PS = 'classmate_peishan'
 if A757:
     P757, S757 = next(iter(A757.items()))
@@ -239,10 +258,20 @@ if A757:
             sys.exit(f'AA_757 wish_rows：{r["path"]} 不是字的欄位（只換 text、t、title、wish、note、costNote）')
         if cur == r['new']:
             FIX757.add(r['new']); continue
-        if cur != r['old']:
+        if cur != r['old'] and SRC757.get(r['path']) == cur:   # 源稿後來清字的那兩格：照舊換成 AA_757 的字（見上面 SRC757）
+            LOG757.append(r['path'])
+        elif cur != r['old']:
             sys.exit(f'AA_757 wish_rows：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
         par[key] = r['new']; FIX757.add(r['new']); n757 += 1
-    if json.dumps(EV[PS], ensure_ascii=False, sort_keys=True) != json.dumps(d757.get('wish_event'), ensure_ascii=False, sort_keys=True):
+    _we = json.loads(json.dumps(d757.get('wish_event')))
+    for _p in SRC757_NOTE:   # 說明欄四格照源稿的新字（AA_757 沒換這四格）：比之前先把稿的 wish_event 那四格換成源稿現在的字（那一格稿上要剛好是舊說法才換）
+        _a, _b = _we, EV[PS]
+        for _k in _p[:-1]: _a, _b = _a[_k], _b[_k]
+        if _a[_p[-1]] != _b[_p[-1]]:
+            if '\u91cd\u8003' not in _a[_p[-1]]:   # 舊說法（字照 canon_scan 用跳脫寫）
+                sys.exit(f'AA_757：wish_event 的 {_p} 和源稿不一樣、也不是舊說法（{_a[_p[-1]]}）')
+            _a[_p[-1]] = _b[_p[-1]]
+    if json.dumps(EV[PS], ensure_ascii=False, sort_keys=True) != json.dumps(_we, ensure_ascii=False, sort_keys=True):
         sys.exit('AA_757：69 列換完以後和稿的 wish_event 不一樣（稿的兩份對不起來，或源稿 wish_bb.json 沛珊那一段變了）')
     SRC525 += f'＋{os.path.basename(P757)[:6]}@{S757}（沛珊 D06 心願 69 列，換了 {n757} 列）'
 
@@ -334,6 +363,10 @@ if A768:
 #      做法同 1h：稿只有 rows＝23 列 old→new，path 是 events.kexin 底下的位置；照 path 換，那一格現在的字要剛好是 old（已經是 new＝跳過），兩個都不是＝停下來。只換台詞的字 ----
 A770 = G.approved_files(ALLOW, SP + 'AA_770_')
 FIX770 = set()
+# CANON-NO-ECON-1112 第五批（wish_bb.json 換到 6dbfe10d7e，AA_921 第 2 節：外澳心願換主題「手機關掉的一天」）：AA_770 的 23 列裡有 4 格源稿已經重寫成新主題的字——
+# 那 4 格跳過、用源稿的新字（AA 比較新的字；不再套 AA_770）。只認這 4 格（別的對不上照舊停下來）。
+SKIP770 = {'hotspots["D25.surf"].choices[1].reply[0]', 'hotspots["D25.station"].choices[1].reply[0]', 'closing.choices[0].reply[0]', 'closing.ending[1].lines[1]'}
+LOG770 = []
 KX = 'kexin'
 if A770:
     P770, S770 = next(iter(A770.items()))
@@ -361,10 +394,14 @@ if A770:
             sys.exit(f'AA_770 rows：{r["path"]} 的新句有佔位符（只有 herInvite.accept[1] 的 {{出發時間}} 有接）')
         if cur == r['new']:
             FIX770.add(r['new']); continue
+        if cur != r['old'] and r['path'] in SKIP770:   # 源稿已經重寫成新主題的那 4 格：跳過（照源稿）
+            LOG770.append((r['path'], cur)); FIX770.add(cur); continue
         if cur != r['old']:
             sys.exit(f'AA_770 rows：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
         par[key] = r['new']; FIX770.add(r['new']); n770 += 1
-    SRC525 += f'＋{os.path.basename(P770)[:6]}@{S770}（可昕 D25 心願 23 列，換了 {n770} 列）'
+    if len(LOG770) != len(SKIP770):
+        sys.exit(f'AA_770：源稿重寫的格子應該剛好是 {len(SKIP770)} 格，跳過了 {len(LOG770)} 格')
+    SRC525 += f'＋{os.path.basename(P770)[:6]}@{S770}（可昕 D25 心願 23 列，換了 {n770} 列；源稿重寫成新主題跳過 {len(LOG770)} 列）'
 
 # ---- 1j. AA_774（DLG-FULL-REVIEW-1110，使用者 X324 芷若約會台詞重寫；白名單上的 commit）：芷若 D05 光典的心願事件「這次留兩張票」——事件和現行設定一致，內容不動、只收字
 #      （刪節號 30 處留 3 處、「嗯。」開頭兩處拿掉、對祐廷下命令或嫌他的三句改掉）。做法同 1h、1i：稿只有 rows＝27 列 old→new，path 是 events.heroine_02 底下的位置（hotspots.D05.cafe 這種 key 本身有點）；
@@ -541,6 +578,9 @@ for k, e in EV.items():
         if t0 in FIX774 and k == ZR:   # AA_774 換上去的句子（上面 1j 已照 path 對過 AA_774 的 rows）
             if free and path.startswith(free): extra.append(f'{path}：{t0}')
             continue
+        if t0 in FIX921 and k == KX and t0 not in FIX770:   # AA_921 第 2 節源稿新寫的句子（上面 FIX921）
+            if free and path.startswith(free): extra.append(f'{path}：{t0}')
+            continue
         if t0 in FIX770 and k == KX:   # AA_770 換上去的句子（上面 1i 已照 path 對過 AA_770 的 rows）
             if free and path.startswith(free): extra.append(f'{path}：{t0}')
             continue
@@ -576,6 +616,9 @@ out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p][
 js = ('/* 校外約會的心願事件（DATE-C4、DATE-C5；AA_127 第 1、2 節、BB_128 第 3 節；date_system/wish/）。產生器：tools/date/import_wish.py（不要手改）。'
       '來源：' + out['source'] + '。hold＝和現行人物設定衝突、先不播的人（衝突的句子在 hold[id].lines，給 AA 改）。接線：src/wish3d.js */\n'
       "'use strict';\nconst DATE_WISH=" + json.dumps(out, ensure_ascii=False) + ';\n')
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+js = _AA959.layer(js, 'date_wish.js')
 DST = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else os.path.join(ROOT, 'src', 'data', 'date_wish.js')   # --out：另存比對用（tests/peishan_dates_1111_unit.js）
 open(DST, 'w', encoding='utf-8').write(js)
 print('寫入 src/data/date_wish.js：', len(EV), '位；原稿對不到', len(miss), '句（另有「你來過一次」', len(extra), '句：AA_271、BB_213 加的）；hold', ', '.join(f'{k}（{len(v["lines"])} 句）' for k, v in hold.items()) or '無')

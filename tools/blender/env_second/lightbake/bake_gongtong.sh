@@ -1,5 +1,5 @@
 #!/bin/bash
-# 共同教學館室內（ART-ECON-3D-GAP-1021 A；經濟系那一年在共同上課；LAWWW2-B 2026-10-30；照 bake_boya.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
+# 共同教學館室內（ART-ECON-3D-GAP-1021 A；舊序章那一段在共同上課；LAWWW2-B 2026-10-30；照 bake_boya.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 #   bash tools/blender/env_second/lightbake/bake_gongtong.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 # 輸出：gongtong_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ gongtong_interior_lm_day.webp、_night.webp。
 #   遊戲：teach3d.js 照 ASSETS 'bldg.gongtong_interior' 接正式模型（B3.attachFormal），看到 extras.lightmap 就接（Z3.roomLightmap）；看到 SEATPANS 就藏起備用的方塊桌椅（博思那一包已整合）。

@@ -101,16 +101,23 @@ await sec('0',async()=>{
     for(const r of rows(seg)){ if(/^[1-6]$/.test(r[0])) w.say[+r[0]-1]=r[1]; else if(r[0]==='又來') w.again=r[1]; }
     if(!w.say.length&&/say:''/.test(seg)&&/「又來」也一樣/.test(seg)){ w.say=['','','','','','']; w.again=''; }   /* 語彤：她的一句都空著（「又來」也一樣）*/
     SP.who[id]=w; }
+  const shape0=w=>({say:w.say,again:w.again,cm:w.cm,dm:w.dm});
+  /* 2026-11-13（CANON-NO-ECON-1112 收尾，AA_926 feed_dates 那幾列，BB_451 照用）：可昕拿掉排表和評分句——稿（AA_515）的舊字照 AA_926 換成新字再比；舊字要剛好在稿上（換不到＝紅） */
+  { const K926=[['say',0,'我排的。','今天去的地方。'],['say',1,'沒有遲到。很好。','腳好痠。'],['say',2,'腳好痠。','風很大。頭髮全毀。'],['say',3,'風很大。頭髮全毀。','今天沒有吵架。'],['say',4,'今天沒有吵架。','拍得還可以。'],['say',5,'下一個我也排好了。','想再來一次。']], w=SP.who.kexin;
+    const ok926=!!w&&K926.every(([k,i,o])=>w[k][i]===o)&&w.again==='第二次。這次換我拿地圖。'&&J(w.cm[0])===J(['妳排得很好。','我知道。'])&&J(w.dm[1])===J(['下次換我排？','你排的話，我要先看。']);
+    check('0. AA_926：稿上可昕那幾格還是舊字（say 6 句、又來、留言第 1 組、私訊第 2 組），照 AA_926 換成新字再比',ok926,J(w&&shape0(w)));
+    if(ok926){ for(const [k,i,,n] of K926) w[k][i]=n; w.again='又來了。這次換我拿地圖。'; w.cm[0]=['妳拍得很好。','我知道。']; w.dm[1]=['下次去哪？','你決定。我要先聽。']; } }
   const eq=(a,b)=>J(Object.keys(a).sort())===J(Object.keys(b).sort())&&Object.keys(a).every(k=>J(a[k])===J(b[k]));
   check('0. 稿 → 遊戲：第 1 節時間表 7 列一樣（以安 21:30、芷若 22:07、語彤 23:00、子晴 00:30、學姊 22:00、可昕 23:30、沛珊 23:10）',Object.keys(SP.at).length===7&&eq(SP.at,D.at),J([SP.at,D.at]));
   const dk=Object.keys(SP.pic);
   check('0. 稿 → 遊戲：第 2 節照片 32 列一樣（D01～D32；D07「（不貼）」＝null）',dk.length===32&&dk.every((k,i)=>k==='D'+String(i+1).padStart(2,'0'))&&SP.pic.D07===null&&eq(SP.pic,D.pic),J(dk.filter(k=>SP.pic[k]!==D.pic[k])));
-  const shape=w=>({say:w.say,again:w.again,cm:w.cm,dm:w.dm});
+  const shape=shape0;
   const bad=ALL.filter(id=>!SP.who[id]||!D.who[id]||J(shape(SP.who[id]))!==J(shape(D.who[id])));
   check('0. 稿 → 遊戲：第 3 節七位各 6 句＋又來、留言兩組、私訊兩組一樣',Object.keys(SP.who).length===7&&Object.keys(D.who).length===7&&!bad.length&&ALL.every(id=>SP.who[id].say.length===6&&SP.who[id].cm.length===2&&SP.who[id].dm.length===2),J(bad.map(id=>[id,SP.who[id]&&shape(SP.who[id]),D.who[id]&&shape(D.who[id])])).slice(0,600));
   /* ---- 遊戲 → 稿（第一個方向）：每一句都在稿裡 ---- */
   const L=[]; for(const k in D.pic) if(D.pic[k]) L.push(D.pic[k]); for(const id in D.who){ const w=D.who[id]; for(const x of w.say) if(x) L.push(x); if(w.again) L.push(w.again); for(const g of w.cm.concat(w.dm)) for(const x of g) L.push(x); }
-  check('0. 遊戲 → 稿：每一句都在 AA_515 裡（一字不差；'+L.length+' 句）',L.length===133&&L.every(t=>docAN.includes(t)),J(L.filter(t=>!docAN.includes(t))));
+  const inAN=t=>docAN.includes(t)||require('./canon1112_ok.js').NEW.AA_926.includes(t);   /* AA_926 換過的可昕那幾句對 AA_926（tests/canon1112_ok.js）*/
+  check('0. 遊戲 → 稿：每一句都在 AA_515 裡（一字不差；AA_926 換過的對 AA_926；'+L.length+' 句）',L.length===133&&L.every(inAN),J(L.filter(t=>!inAN(t))));
   check('0. id 前綴照其他動態（dt_an、dt_zr、dt_yt、dt_zq、dt_sis、dt_kx、dt_ps）',J(ALL.map(id=>D.who[id].pre))===J(['an','zr','yt','zq','sis','kx','ps']));
   check('0. 語彤：6 句、又來都空著（say:\'\'，只有照片）',D.who[YT].say.length===6&&D.who[YT].say.every(x=>x==='')&&D.who[YT].again==='');
   const zq=D.who[ZQ], zqHer=zq.say.concat([zq.again]).concat(zq.cm.flatMap(g=>g.slice(1))).concat(zq.dm.flatMap(g=>g.slice(1)));
@@ -223,7 +230,7 @@ await sec('7',async()=>{ need(); setup('2025-10-04',8,[KX,AN]); const d=H.G.day;
   tickAt(d,23.5);
   check('7. 第一天晚上（23:30）不貼',!dts().length);
   const x=postAt(expect(KX,d+1,r.end),'dt_kx_1');
-  check('7. 回到臺北那一晚貼一則：照片「雲海，觀景台的欄杆上是你的手」',!x.before&&!!x.it&&P('dt_kx_1').pic===FD().pic.D32&&P('dt_kx_1').say==='我排的。',J([x.it,P('dt_kx_1')]));
+  check('7. 回到臺北那一晚貼一則：照片「雲海，觀景台的欄杆上是你的手」',!x.before&&!!x.it&&P('dt_kx_1').pic===FD().pic.D32&&P('dt_kx_1').say==='今天去的地方。'/* AA_926：舊期望「我排的。」*/,J([x.it,P('dt_kx_1')]));
   check('7. 一趟只有一則（R.dtTrip 記那一趟＝dt_kx_1）；同一趟再叫 FEED.dateDone 不再排',dts().filter(i=>i.who===KX).length===1&&R().dtTrip[r.trip]==='dt_kx_1'&&FEED.dateDone(H.G,r.t,r.end)===null&&!R().dq.length,J(R().dtTrip));
   const r2=await goDate(AN,['D26'],d+4,9,{kind:'overnight'}), e2=dq(r2.trip);
   check('7. 以安兩天一夜 D26：回到臺北那一天、照片 D26',!!e2&&e2.loc==='D26'&&e2.day===d+5,J(e2));

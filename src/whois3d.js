@@ -5,7 +5,7 @@
    - 一個人最多 8 行（第 5 節 5-1，企劃線 f726507f7；原本 6 行）：①②、叫你「哥」、任何「在一起了／在一起過」那一行（keep）永遠不擠掉，其他超過的從最舊的拿掉（ord：預設＝表上的順序）。
    - 合併（5-1）：宿營＋遊覽車一行（阿哲、明軒）、阿哲室友＋大三搬走一行、阿哲系籃＋17 號＋隊長一行。
    - 字一字照稿；群組名照 AA_542（STORY.ndlGroupName，法一吃飯……）。
-   名單：法律系 阿哲、Alison、柏翰、芯慈、明軒、宥辰、阿凱；經濟系那年 阿勳、品妤、韋綸、唐睿；其他 方奕廷、黃筱涵（七位女主角、宋家豪、Kevin 不做，第 0 節）。
+   名單：法律系 阿哲、Alison、柏翰、芯慈、明軒、宥辰、阿凱；（舊序章那年的四位：AA_893 第 3 節拿掉）；其他 方奕廷、黃筱涵（七位女主角、舊序章的人、Kevin 不做，第 0 節）。
    個性那一行（characters.js personality）8 人改字在 characters.js；Alison 照進度換段在 S.desc（1-2）。 */
 'use strict';
 const WHOIS=(()=>{
@@ -42,7 +42,7 @@ const WHOIS=(()=>{
     {c:2,id:'camp',if:G=>camp(G,'zhe'),t:'宿營撕名牌，撕掉你名牌的那個。'},   /* AA 11-03：阿哲在第八小隊、撕名牌認識；遊覽車那一行拿掉（CAMP_BUS 固定 'win'）*/
     {c:2,id:'w1',if:G=>done(G,'ev_zhe_w1_meet')&&!camp(G,'zhe'),t:'開學第一堂課，他從後面戳你肩膀，問附近中午吃什麼。'},
     {c:2,id:'room',if:G=>{ const r=rm(G); return r.four||r.y2; },t:G=>{ const r=rm(G); return (r.y2?(r.four?'室友：大一 203、大二 312。':'大二同住 312。'):'大一同住 203。')+((r.y3||r.y4)&&y(G,3)?'大三起他搬去別間。':''); }},   /* 5-1：室友＋大三搬走一行 */
-    {c:3,id:'ge',keep:true,if:f('ZHE_CALLS_GE'),t:'知道你比大家大一歲以後，他都叫你「哥」。'},
+    {c:3,id:'ge',keep:true,if:f('ZHE_CALLS_GE'),t:'知道你學測數學滿級分以後，他都叫你「哥」。'/* AA_884 第 2 節 */},
     {c:3,id:'grp',if:G=>{ const d=F(G).noodleTableDay; return !F(G).BGN_JOIN&&d!=null&&(G.day>d||inGrp(G,'noodle_team')); },t:G=>'常揪大家吃飯。群組「'+grp(G)+'」是他建的。'},   /* 群組那天 21:00 才建好 */
     {c:3,id:'ball',t:G=>(done(G,'ev_zhe_game_y2')?'打系籃，17 號。':'打系籃。')+(F(G).ZHE3?'大三當上隊長。':''),ord:G=>F(G).ZHE3?R.zhe.findIndex(r=>r.id==='fin')-0.5:(done(G,'ev_zhe_game_y2')?R.zhe.findIndex(r=>r.id==='yu')-0.5:R.zhe.findIndex(r=>r.id==='ball'))},   /* 5-1：系籃一行（演過 ev_zhe_game_y2＝17 號、ZHE3＝隊長）；擠的順序照最後一次換說法的時候 */
     {c:3,id:'ballyou',if:G=>!!(F(G).CLUB_dept_basketball||F(G).ball_invite),t:'你也在系籃，幫忙記分。'},
@@ -118,7 +118,7 @@ const WHOIS=(()=>{
     {c:1,id:'name0',if:mxOld,t:'江明軒。法律系，跟你同班。阿哲的系籃隊友。'},   /* 舊開局（演過 ev_mingxuan_ball）*/
     {c:1,id:'dorm',if:f('DORM_FOUR'),t:'也住宿舍，在別棟。'},
     {c:1,id:'home',if:G=>F(G).MX_3ON3==='went'||done(G,'ev_mx_3on3'),t:'彰化人。'},
-    {c:2,id:'list',if:f('FRIEND_CARD_classmate_mingxuan'),t:'開學第 3 週，給你一張公館便宜好吃的清單。'},   /* AA 11-03 10:07（AA_606 3-4）：原本「宿營夜談，是他問你為什麼重考」——現在問的是阿哲 */
+    {c:2,id:'list',if:f('FRIEND_CARD_classmate_mingxuan'),t:'開學第 3 週，給你一張公館便宜好吃的清單。'},   /* AA 11-03 10:07（AA_606 3-4）：原本「宿營夜談，是他問你為什麼舊序章」——現在問的是阿哲 */
     {c:3,id:'ball',if:G=>!mxOld(G),t:'打系籃，是阿哲的隊友。'},   /* 舊開局的第一行已經寫了，不重複 */
     {c:3,id:'study',if:G=>mem(G,MX,'SAW_HIM_STUDY'),t:'他看起來都沒念書。你撞見過他偷偷念。'},
     {c:3,id:'tutor',if:f('JOB_TUTOR'),t:'你的家教是他介紹的。'},
@@ -151,52 +151,6 @@ const WHOIS=(()=>{
     {c:3,id:'fight',if:G=>mem(G,'kai','KAI_ROOM_RULES'),t:'為了鍵盤吵過一次，後來和好了。'},   /* KAI_FIGHT 只在吵架那四天；和好時記 KAI_ROOM_RULES */
     {c:3,id:'supper',if:G=>mem(G,'kai','SUNDAY_SUPPER'),t:'搬走以後，週日還是會一起吃宵夜。'} ];
 
-  /* ---------------- 2 經濟系那年（玩過 PLAYED_Y0／從法律系開始：那一年發生在遊戲開始以前，人照樣記得你）、其他 ---------------- */
-  /* 經濟系那一年本身（stage econ，從開局到轉法律系）：下面「那年的室友、住了兩個月」「回到法律系以後」都是回頭看的寫法，那一年還沒過完就先不顯示（AA_543 第 0 節「沒發生的不先寫」；
-     BB-B 10-30 BUG-WHOIS-ECONYEAR-1030：經濟系那年原本走 noY0 那幾列）。經濟系當下的寫法＝AA_543 第 6 節（企劃線 30e7b0311，「_e」那幾列）；轉進法律系那天（stage law，PLAYED_Y0 也在那時記）起照第 2 節 */
-  const econNow=G=>!!G&&G.stage==='econ';
-  const econF=k=>G=>econNow(G)&&!!F(G)[k];
-  const zoula=G=>econNow(G)&&typeof PHONE!=='undefined'&&!!PHONE.inGroup&&!!PHONE.inGroup(G,'econ_friends');   /* 「走啦」群組：10/15 聚會以後（Y0_ZOULA gather／load）*/
-  const ROOM_E2={c:2,id:'room_e2',if:econF('Y0_MOVED_OUT'),t:'男宿 412 的室友，住了兩個月。',rep:['room_e']};   /* 10/19 退宿以後換掉上一行 */
-  const y0=G=>!econNow(G)&&f('PLAYED_Y0')(G), noY0=G=>!econNow(G)&&!f('PLAYED_Y0')(G);
-  R.econ_zhengxun=[
-    {c:1,id:'name',if:G=>!econNow(G),t:'盧正勳，大家叫他阿勳。經濟系。'},
-    {c:1,id:'name_e',if:econNow,t:'盧正勳，大家叫他阿勳。經濟系，跟你同班。'},
-    {c:2,id:'room',if:y0,t:'你經濟系那年的室友，男宿 412，住了兩個月。'},
-    {c:2,id:'camp',if:G=>(y0(G)||econNow(G))&&!!F(G).ECON_CAMP_DONE,t:'經濟系宿營同一小隊。'},
-    {c:2,id:'room_e',if:econF('E01_DONE'),t:'男宿 412 的室友。'},ROOM_E2,
-    {c:2,id:'room0',if:noY0,t:'你經濟系那年的室友。回到法律系以後，他傳訊息來：「是我，阿勳。」'},
-    {c:3,id:'treat',if:G=>F(G).A3_TREAT===true,t:'你退宿那天，他幫你封箱。'},
-    {c:3,id:'why',if:f('E24C_REASON'),t:'他問過你，為什麼要重考。'},
-    {c:3,id:'day',if:f('XUN_DAY'),t:'法律系大一下，在共同教學館聊到很晚。'} ];
-  R.econ_pinyu=[
-    {c:1,id:'name',if:G=>!econNow(G),t:'曾品妤。經濟系，可昕大一的室友。'},
-    {c:1,id:'name_e',if:econNow,t:'曾品妤。經濟系，跟你同班。'},
-    {c:2,id:'kx_e',if:G=>econNow(G)&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('kexin',G),t:'可昕的室友。'},
-    {c:2,id:'zoula_e',if:zoula,t:'「走啦」群組裡也有她。'},
-    {c:2,id:'cls',if:y0,t:'經濟系同班，「走啦」群組裡也有她。'},
-    {c:2,id:'cls0',if:noY0,t:'回到法律系以後才說上話。'},
-    {c:3,id:'worry',if:f('PINYU_WORRY'),t:'想當精算師。精算要一科一科考。'},
-    {c:3,id:'act',if:G=>got(G,'r3_py_actuary'),t:'大四上，精算第一科過了。'},
-    {c:3,id:'tr',keep:true,if:G=>got(G,'b106_42_photo'),t:'她和唐睿在一起了。'} ];
-  R.econ_weilun=[
-    {c:1,id:'name',if:G=>!econNow(G),t:'邱韋綸。經濟系，口頭禪「走啦！」'},
-    {c:1,id:'name_e',if:econNow,t:'邱韋綸。經濟系，跟你同班。口頭禪「走啦！」'},
-    {c:2,id:'camp_e',if:econF('ECON_CAMP_DONE'),t:'經濟系宿營同一小隊。'},
-    {c:2,id:'room_e',if:econF('E412_MOVEIN'),t:'男宿 412 的室友，九月二號搬進來的。'},ROOM_E2,
-    {c:2,id:'zoula_e',if:zoula,t:'「走啦」群組是他建的。'},
-    {c:2,id:'room',if:y0,t:'你經濟系那年的室友（412），宿營同一小隊。「走啦」群組是他建的。'},
-    {c:2,id:'room0',if:noY0,t:'你經濟系那年的室友。回到法律系以後，在法學院廣場遇到他。'},
-    {c:3,id:'game',if:f('WL_GAME'),t:'大四下，跟他去看了一場球賽。'} ];
-  R.econ_tangrui=[
-    {c:1,id:'name',if:G=>!econNow(G),t:'唐睿。經濟系。'},
-    {c:1,id:'name_e',if:econNow,t:'唐睿。經濟系，跟你同班。'},
-    {c:1,id:'improv',if:G=>done(G,'ev_sk07_improv')||f('IMPROV_WORD')(G),t:'在即興劇社。'},
-    {c:2,id:'room',if:y0,t:'你經濟系那年的室友（412）。'},
-    {c:2,id:'room_e',if:econF('E412_MOVEIN'),t:'男宿 412 的室友，九月二號搬進來的。'},ROOM_E2,
-    {c:2,id:'sticky',if:G=>noY0(G)&&!!F(G).STICKY_NOTES,t:'大一上，你桌上一直出現便利貼，後來才知道是他。'},
-    {c:3,id:'night',if:G=>done(G,'ev_econ_night_y2')||mem(G,'econ_tangrui','ECON_NIGHT')||mem(G,'econ_pinyu','ECON_NIGHT'),t:'經濟系之夜是他主持的。'},   /* 記憶 ECON_NIGHT 記在品妤（ev_econ_night_y2）*/
-    {c:3,id:'py',keep:true,if:G=>got(G,'b106_42_photo'),t:'他和品妤在一起了。'} ];
   R.npc_fangyt=[
     {c:1,id:'name',t:'方奕廷。森林系。'},
     {c:1,id:'zr',if:G=>mem(G,'npc_fangyt','FANG_HINT'),t:'跟芷若高中同校。'},

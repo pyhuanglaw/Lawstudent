@@ -26,7 +26,7 @@ const B=(id,n)=>HEROINE_ARCS.people[id].beats[n-1];
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_arcs.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     check('0. src/data/heroine_arcs.js 和 AA_712@026a2dd34 一致（import_arcs.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
     const P=ok1?HEROINE_ARCS.people:{}; const ids=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
-    check('0. 七位各 8 拍、每拍有 lines／ask、至少 2 個選項（講自己的事 tell 不是每拍都有：AA_736 256bcdc42 經濟系、重考少提，拿掉一部分）',ids.every(id=>P[id]&&P[id].beats.length===8&&P[id].beats.every(b=>b.lines.length&&b.ask.length&&b.opts.length>=2)),J(ids.map(id=>P[id]&&P[id].beats.filter(b=>!b.opts.some(o=>o.tell)).map(b=>b.n)))); }
+    check('0. 七位各 8 拍、每拍有 lines／ask、至少 2 個選項（講自己的事 tell 不是每拍都有：AA_736 256bcdc42 經濟系、重考少提，拿掉一部分）',ids.every(id=>P[id]&&P[id].beats.length===(id==='kexin'?6:8)/* 可昕第 4、5 拍（CANON-NO-ECON-1112 第三批：這一項拿掉）*/&&(id!=='kexin'||J(P[id].beats.map(b=>b.n))===J([1,2,3,6,7,8]))&&P[id].beats.every(b=>b.lines.length&&b.ask.length&&b.opts.length>=2)),J(ids.map(id=>P[id]&&P[id].beats.filter(b=>!b.opts.some(o=>o.tell)).map(b=>b.n)))); }
   if(!ok2){ H.done(); return; }
   const AN='heroine_01', who={name:'沈以安',charId:AN};
   /* 1 一天一拍 */

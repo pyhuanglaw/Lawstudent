@@ -6,7 +6,7 @@
 
    ---- 什麼時候判（S.afterClass；classes3d.js 的 CLS.afterMenu 一開頭叫，＝課後事件演完、下課選單出來以前）----
    十二點前後下課（下課時間落在資料檔 window 11:30～12:30；十點下課的不算，AA_771 v2 規則）、在法律系館A／B 上的課（S.lawAm：教室那一棟 rm.via／zone 是 linze、wancai——和 classes3d.js destOf 算路程用的同一欄；
-   共同、普通、博思、體育館、服務學習、校外實習不算）、那一堂上過了（遲到記缺席、聽後半堂的也算）、不是期末考那一堂、法律系那幾年（經濟系那一年不邀）。
+   共同、普通、博思、體育館、服務學習、校外實習不算）、那一堂上過了（遲到記缺席、聽後半堂的也算）、不是期末考那一堂、法律系那幾年（舊序章那一年不邀）。
    那一堂下課演了課後劇情（afterClass 事件）＝這一天不邀（S.CFG.skipAfterEvent：剛演完一段劇情，不接一句制式的邀約）。
    每天只判一次（G.l118.inv.day）：不管有沒有中都記；亂數是「G.day＋固定的鹽」算出來的（S.rnd），同一天存讀檔、重進結果一樣。
    阿哲週一手機揪午餐那天已經答應（G.flags.L118_LUNCH／L118_PICK 是今天）＝不當面邀；他今天傳過訊息（還沒回、回了不行）＝其他人照常判定，阿哲自己不再當面約、也不同行。
@@ -71,7 +71,7 @@ const LUNCH118=(function(){
   /* 資料夠不夠開：兩個選項的字、至少一個人有邀約的句子、至少一組午餐對話 */
   S.dataOk=function(){ const d=D(); return !!(d&&d.options&&d.options.accept&&d.options.decline&&d.who&&d.invite&&Array.isArray(d.lunch)&&d.lunch.some(g=>g&&Array.isArray(g.lines)&&g.lines.length)
     &&Object.keys(d.invite).some(id=>d.who[id]&&d.invite[id]&&Array.isArray(d.invite[id].lines)&&d.invite[id].lines.length)); };
-  S.on=G=>!!G&&(G.stage||'law')==='law'&&!(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G))&&typeof L118!=='undefined'&&typeof CLS!=='undefined'&&S.dataOk();
+  S.on=G=>!!G&&(G.stage||'law')==='law'&&typeof L118!=='undefined'&&typeof CLS!=='undefined'&&S.dataOk();
   S.rec=function(G){ const R=L118.rec(G); let I=R.inv; if(!I||typeof I!=='object'||Array.isArray(I)) I=R.inv={}; for(const k of ['decl','dn','lg','sp','wk']) if(!I[k]||typeof I[k]!=='object'||Array.isArray(I[k])) I[k]={}; if(typeof I.seen!=='number') I.seen=0; if(typeof I.n!=='number') I.n=0; return I; };
   S.doneToday=G=>{ const I=G&&G.l118&&G.l118.inv; return !!I&&typeof I==='object'&&I.done===G.day; };
   /* 決定性亂數：只看哪一天＋用途（鹽），0 ≤ r < 1。不用 Math.random：同一天存讀檔、重進不會重抽 */

@@ -1,6 +1,6 @@
 /* ===== 1C 群戲的事件（AA_324，AA-C 2026-10-20 定稿 c41f4305；AA_314 第 1 輪的最後一組）：台詞照 AA_324 不改字 =====
    邀約、出發（OUT）、沒去的群組照片、春假三選一的選單、旗標在 src/group3d.js。群戲共通：只有認識的人在場、不熟的人的句子跳過（AA_324 開頭）。
-   1C-01 ev_spring_y2_noodle（4/4 麵店團：車上 → 小鎮的市場 → 海邊 → 回程）、ev_kexin_trip_spring_y2（和可昕：BB_97 9-12，沒有假設題）、ev_spring_dorm_empty_y2（留宿舍）；
+   1C-01 ev_spring_y2_noodle（4/4 桌遊團：車上 → 小鎮的市場 → 海邊 → 回程）、ev_kexin_trip_spring_y2（和可昕：BB_97 9-12，沒有假設題）、ev_spring_dorm_empty_y2（留宿舍）；
    1C-02 ev_midautumn_y3（9/15 河濱，以安的生日）；1C-03 ev_xmas_y3_box（12/26 麵店，寄到英國的那一箱）；
    1C-04 ev_zhe_said_it（4/28 23:00 哲 4：宿舍樓下的便利商店外（在宿舍＝十分鐘後；在臺北的外面＝二十分鐘回宿舍，AA_336 C10）／視訊）、ev_final_game_y3（4/29 冠軍賽＋賽後麵店）、ev_mx_egg_y3（隔週在麵店遇到明軒，補一顆滷蛋）；
    1C-05 ev_zq_zr_graduation（6/3 上午椰林大道）、ev_zhiruo_graduation_cafe（6/3 14:00 以後第一次進 Café，Z12）；1C-06 ev_last_term_first_dinner（2029-02-22 19:00 麵店）。
@@ -18,9 +18,9 @@ const GROUP_EVENTS=(function(){
   const kxNot=d=>({custom:G=>!kxSeen(G).includes(d)}), kxAll={custom:G=>['sea','oldtown','stars'].every(d=>kxSeen(G).includes(d))};
   const kxStarsBefore={custom:G=>((G.flags.KX_TRIP&&G.flags.KX_TRIP.Y1S2)||G.flags.KX_TRIP_Y1S2)==='stars'};
   const G1=()=>typeof GROUP!=='undefined'?GROUP:null;
-  const inCar=(G,id)=>{ const g=G1(); return !!g&&!!g.springInCar&&g.springInCar(G,id); }, car=id=>({custom:G=>inCar(G,id)});   /* 春假麵店團那一趟車上的三個人（group3d.js S.springInCar；AA_375 第 5 項）*/
+  const inCar=(G,id)=>{ const g=G1(); return !!g&&!!g.springInCar&&g.springInCar(G,id); }, car=id=>({custom:G=>inCar(G,id)});   /* 春假桌遊團那一趟車上的三個人（group3d.js S.springInCar；AA_375 第 5 項）*/
   return [
-  /* ---------- 1C-01 春假（大二版）：麵店團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多 Alison 那一段 ---------- */
+  /* ---------- 1C-01 春假（大二版）：桌遊團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多 Alison 那一段 ---------- */
   { id:'ev_spring_y2_noodle', title:'春假・市場和海邊', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
     beforeOuting:G=>{ const g=G1(); if(g&&g.springSeat) g.springSeat(G); },   /* 車上的三個人（AA_375 第 5 項，照熟悉度）*/
     dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（後座擠了三個人。）'}   /* AA_599 補（BB 11-03、AA 定字）：不寫取車過程 */,
@@ -45,7 +45,7 @@ const GROUP_EVENTS=(function(){
     outingMissed:G=>{ const g=G1(); if(g) g.springPhoto(G); } },
   /* 和可昕的那一趟（BB_97 9-12；AA_324 第 2 節：到了的假設題拿掉，換成她到了以後的一句）。出發、回程照大一那一趟（BB_96 9-5 的流程）。記 KX_TRIP.Y2S2 */
   { id:'ev_kexin_trip_spring_y2', title:'春假：開車旅行（大二）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
-    dialogue:[ {scene:'木柵大學・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
+    dialogue:[ {scene:'女生宿舍樓下',bg:'dark'},{scene:'車上',bg:'car'},   /* CANON-NO-ECON-1112 第四批（AA_878 #25）*/
       {if:kxAll,goto:'lost'},
       {speaker:'kexin',expression:'smile',text:'我管音樂。你管方向。'},   /* 車上開場、回程：大二版（AA_336 C8），不沿用大一 */
       {speaker:'kexin',expression:'teasing',text:'……目的地，現在決定。'},
@@ -56,15 +56,16 @@ const GROUP_EVENTS=(function(){
       {label:'back'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'今年我真的不睡。'},{speaker:null,text:'（過了收費站，她又睡著了。音樂還是她選的。）'},{goto:'fin'},
       /* 三個都去過：迷路到的地方（BB_97 9-12，BB-C 10-17 已拿掉假設題；2D 鄉間小路）*/
       {label:'lost'},{set:{KX_TRIP_Y2S2:'lost'}},
-      {speaker:'kexin',expression:'teasing',text:'這次我不出行程表。你帶路，不要看地圖。'},{speaker:'kexin',expression:'embarrassed',text:'……我會忍住不看。大概。'},
+      {speaker:'kexin',expression:'teasing',text:'這次你帶路，不要看地圖。'},{speaker:'kexin',expression:'embarrassed',text:'我會忍住不講話。大概。'},   /* CANON-NO-ECON-1112 第四批：照 AA_878 #25 換字 */
       {scene:'迷路到的地方',bg:'country_road'},
       {speaker:null,text:'（開了一個多小時，轉錯三次彎。路的盡頭是一片田，一間沒有招牌的雜貨店，門口一台舊的投幣販賣機。）'},
       {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'……我們到底在哪。'},
       {choice:[{text:'「買兩罐汽水。」',goto:'l1'},{text:'「下次再來？」',goto:'l2'},{text:'（坐在店門口的長椅）',goto:'l3'}]},
-      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。我要記在行程表上。'},{goto:'lb'},
+      /* AA_921 第 3-3 節（CANON-NO-ECON-1112 第五批）：販賣機、回程兩句她不記行程表 */
+      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。它今天吃得比我飽。'},{goto:'lb'},
       {label:'l2'},{speaker:'kexin',expression:'laugh',text:'你記得路嗎？我完全不知道我們在哪。'},{goto:'lb'},
       {label:'l3'},{speaker:null,text:'（田裡的風吹過來。她拍了一張照片，照片裡只有路。）'},
-      {label:'lb'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'行程表我回去再補。寫『迷路』，一行就好。'},
+      {label:'lb'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'今天最好玩的，是迷路。'},
       {label:'fin'} ],
     after:G=>{ const k=G.flags.KX_TRIP_Y2S2; if(k){ const T=(G.flags.KX_TRIP&&typeof G.flags.KX_TRIP==='object')?G.flags.KX_TRIP:{}; T.Y2S2=k; G.flags.KX_TRIP=T; } } },
   /* 留在宿舍：照大一的 ev_spring_dorm_empty_y1，旁白換成 AA_324 那一句（春假第一天 4/3 白天走進宿舍時一次）*/

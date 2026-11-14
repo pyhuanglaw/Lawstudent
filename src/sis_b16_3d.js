@@ -204,7 +204,8 @@ const SISB16=(function(){
   if(typeof STORY!=='undefined'&&STORY.LADDER_GREET_IF&&L.greetUS&&L.greetBack){ const back=()=>D('2028-12-23'), repair=G=>route(G)==='US'&&!S.dating(G);
     STORY.LADDER_GREET_IF[L.greetUS]={test:G=>{ const b=back(); return (b==null||G.day<b)&&!repair(G); }};
     if(L.greetUSRepair) STORY.LADDER_GREET_IF[L.greetUSRepair]={test:G=>{ const b=back(); return (b==null||G.day<b)&&repair(G); }};
-    STORY.LADDER_GREET_IF[L.greetBack]={test:G=>{ const b=back(); return b!=null&&G.day>=b; }}; }
+    STORY.LADDER_GREET_IF[L.greetBack]={test:G=>{ const b=back(); return b!=null&&G.day>=b; }};
+    if(L.greetBack781) STORY.LADDER_GREET_IF[L.greetBack781]=STORY.LADDER_GREET_IF[L.greetBack]; }   /* 2026-11-11（X324，AA_781）：ladder.js 的那一句拿掉刪節號（greetBack781），條件一樣 */
   /* 2D 背景：新體育館游泳池沒有圖＝深色底＋地點字幕（BB 跟使用者要圖）*/
   if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.gym_pool) OUT.BG.gym_pool={label:'新體育館・游泳池',image:null};
   return S;

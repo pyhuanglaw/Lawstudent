@@ -141,8 +141,7 @@ const ticked=()=>{ let got=null; const r0=EVENTS.run; EVENTS.run=async ev=>{ got
     G=fresh(KEYS3[4],12.5,'dorm'); PHONE.join(G,'law_class','法律系（全班）'); const ab0=STORY.abroad, tz0=STORY.tzOffset; STORY.abroad=()=>true; STORY.tzOffset=()=>-12;
     try{ rules(G); } finally { STORY.abroad=ab0; STORY.tzOffset=tz0; } const qa=OUT.get(G,'l123_l3_4'), ma=(G.msgs||[]).find(x=>x.text===CL123.INV);
     check('3. 人在國外（美國路線大四上）：班群照樣收到（當地時間）、不排出發',!!ma&&ma.h===0&&!qa,J([ma,qa]));
-    G=fresh(KEYS3[1],12.5,'dorm'); PHONE.join(G,'law_class','法律系（全班）'); G.stage='econ'; rules(G); G.hour=18; rules(G); G.zone='campus'; G.hour=16; atPav(); const ec=here3(EV3(1));
-    check('3. 經濟系（stage econ）：不約、不演、沒有照片',!(G.msgs||[]).length&&!OUT.get(G,'l123_l3_1')&&!ec);
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 3 項 經濟系（stage econ）不約、不演）
     /* 出發：帶到圓窗館前（15:55 到），到了就演 */
     G=fresh(KEYS3[1],12,'dorm'); PHONE.join(G,'law_class','法律系（全班）'); rules(G); G.hour=15.6; const due=OUT.due(G); H.entered=[];
     if(due) await OUT.go(GM,due); const arr=G.hour; E.player.obj.position.x=CL123.L3_GOTO.x; E.player.obj.position.z=CL123.L3_GOTO.z;

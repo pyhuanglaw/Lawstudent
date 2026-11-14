@@ -115,10 +115,10 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     const q0=await pub(false), q1=await pub(true), s1=await sup(true);
     check('11. 大一下 4/15 傍晚麵店：沒交往＝照舊公開（「對，我們在一起了。你們吃你們的。」）；和沛珊交往中＝不演，考完的晚餐也沒有柏翰那一段（滷蛋、公開、「上禮拜的事。」、比較晚回 203）',
       q0.on&&q0.L.some(t=>/對，我們在一起了/.test(t))&&q0.L.includes('柏翰幫沛珊把滷蛋切成兩半。')&&!q1.on&&!s1.some(t=>/對，我們在一起了|滷蛋切成兩半|上禮拜的事|比較晚回 203/.test(t)),J([q0,q1,s1]));
-    const miss=dating=>{ fresh(termDay('Y1S2',8,3),20,'dorm',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G); G.hour=21; PHONE.tick(G); return PHONE.sent(G,'zhe_supper_mid2_egg'); };
+    const miss=dating=>{ fresh(termDay('Y1S2',8,3),20,'dorm',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); PHONE.join(G,'noodle_team','桌遊團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G); G.hour=21; PHONE.tick(G); return PHONE.sent(G,'zhe_supper_mid2_egg'); };
     check('11. 4/15 傍晚沒到麵店：沒交往＝阿哲的滷蛋照片；交往中＝沒有',miss(false)&&!miss(true));
     const sp=dating=>{ fresh(termDay('Y2S1',6,1),12.3,'linze',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); return EVENTS.check(ev('ev_peishan_split')); };
-    const grp=dating=>{ fresh(termDay('Y2S1',6,5),20,'campus',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); return txt('g:noodle_team').filter(t=>/分開了/.test(t)); };
+    const grp=dating=>{ fresh(termDay('Y2S1',6,5),20,'campus',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); PHONE.join(G,'noodle_team','桌遊團'); run(20,21.2); return txt('g:noodle_team').filter(t=>/分開了/.test(t)); };
     check('11. 大一上期末就和沛珊交往的存檔：大二上第 6 週沒有「我和柏翰分開了」（走廊那一件不演、週五群組不發；BB 測試）',sp(false)&&!sp(true)&&grp(false).length===1&&grp(true).length===0,J([sp(false),sp(true),grp(false),grp(true)]));
     fresh(termDay('Y2S1',7,1),12,'campus',{dating_classmate_peishan:true}); const k1=STORY.LADDER_SKIP['P2-L4']&&STORY.LADDER_SKIP['P2-L4'](G), k2=STORY.LADDER_SKIP['P3-L5']&&STORY.LADDER_SKIP['P3-L5'](G); delete G.flags.dating_classmate_peishan; const k3=STORY.LADDER_SKIP['P3-L5']&&STORY.LADDER_SKIP['P3-L5'](G);
     check('11. 閒聊階梯講柏翰×沛珊的兩層（P2-L4「大家都知道我跟柏翰在一起了」、P3-L5「我們不在一起了」）：交往中的玩家跳過；沒交往照常',k1===true&&k2===true&&!k3,J([k1,k2,k3])); }
@@ -127,7 +127,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('13. 許教授「颱風那天來討論的同學，今天坐前面。」：期中考那天（11/2）不出；期中考後第一堂（11/9）出；11/16 不出',!tf('2026-11-02')&&tf('2026-11-09')&&!tf('2026-11-16')&&!tf('2026-10-26'),J([tf('2026-10-26'),tf('2026-11-02'),tf('2026-11-09'),tf('2026-11-16')])); }
   // ===== 第 14 項：可昕 K3-L4 =====
   { const st=((LADDER.byTerm.Y2S1||{}).kexin||{steps:[]}).steps.find(s=>s.id==='K3-L4')||{}; const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_374_/.test(e.path));
-    check('14. 可昕 K3-L4「下禮拜互考，我題目出得比較難。」週次 [6,6]（互考 10/23 只有一次）；第 6 週沒聊到就跳過（skipAfterWeek 6，不卡住後面的層）',J(st.week)===J([6,6])&&st.skipAfterWeek===6&&st.lines&&st.lines[0]==='下禮拜互考，我題目出得比較難。',J([st.week,st.skipAfterWeek]));
+    check('14. 可昕 K3-L4 換成 AA_863 新稿，互考那一句不在了（CANON-NO-ECON-1112 第三批：這一項拿掉）',!!st.id&&!(st.lines||[]).includes('下禮拜互考，我題目出得比較難。'));
     check('14. 匯入白名單有 AA_374@6fc64130（approved、AA374-Y2S1-FIX-1021），ladder.js 的來源寫著它',allow.length===1&&allow[0].sha==='6fc64130'&&allow[0].status==='approved'&&allow[0].task==='AA374-Y2S1-FIX-1021'&&/AA_374@6fc64130/.test(LADDER.source),J(allow.map(e=>e.sha))+' '+String(LADDER.source).slice(-40)); }
   // ===== 第 15、16 項 =====
   check('15. 聖誕交換禮物抽到阿哲：「你抽到阿哲的：一個保溫杯。」（不認識 Alison 的也聽得懂）',evText('ev_y2_xmas').includes('你抽到阿哲的：一個保溫杯。')&&!evText('ev_y2_xmas').some(t=>/阿哲、Alison 的/.test(t)));
@@ -151,7 +151,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('18. 對照：看過 P3、有點熟以上照原本兩句「我們上週分開了。我自己說的。」「柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。」',J(a.L)===J(['我們上週分開了。我自己說的。','柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。'])&&a.F.HEARD_PS_SPLIT===true,J(a.L));
     check('18. 沒看過 P3、或還不熟：「跟你說一下，我跟柏翰分開了。」「我們都還好，讀書會照常。」',J(b.L)===J(['跟你說一下，我跟柏翰分開了。','我們都還好，讀書會照常。'])&&J(c.L)===J(b.L),J([b.L,c.L]));
     check('18. 合併的那一件也記原本 ev_peishan_bohan_split 的後果（PEISHAN_BOHAN_SPLIT）',a.F.PEISHAN_BOHAN_SPLIT===true);
-    const grp=(done)=>{ fresh(termDay('Y2S1',6,5),20,'campus',{}); R('classmate_peishan','FRI'); if(done) G.events.done[done]=1; PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); return TH('g:noodle_team').map(m=>m.from+':'+m.text); };
+    const grp=(done)=>{ fresh(termDay('Y2S1',6,5),20,'campus',{}); R('classmate_peishan','FRI'); if(done) G.events.done[done]=1; PHONE.join(G,'noodle_team','桌遊團'); run(20,21.2); return TH('g:noodle_team').map(m=>m.from+':'+m.text); };
     const g0=grp(), g1=grp('ev_peishan_bohan_split'), g2=grp('ev_peishan_split');
     check('18. 沒遇到的玩家：週五 21:00 群組照 BB_97 版「說一件事，說完就好。」「我和柏翰分開了。是我說的。我們都好。」「……大家照常吃飯，不用特別安慰我。」、阿哲「……收到」；沒有「你們吃你們的」',
       J(g0)===J(['classmate_peishan:說一件事，說完就好。','classmate_peishan:我和柏翰分開了。是我說的。我們都好。','classmate_peishan:……大家照常吃飯，不用特別安慰我。','zhe:……收到']),J(g0));

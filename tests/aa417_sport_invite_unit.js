@@ -24,8 +24,11 @@ const P=pid=>INV.place(pid);
 const ask=(id,pid,h,day)=>{ const G=H.G; day=day==null?G.day:day; const d=INV.decide(G,id,pid,day,h); return INV.personal(G,id,P(pid),day,h,d); };
 const meet=async(id,pid,h)=>{ const G=H.G; const iv=INV.accept(G,id,pid,G.day,h==null?G.hour%24:h,{by:'player'}); H.said=[]; await INV.meet(GM,iv,null); return H.said.map(s=>s.t); };
 const SPEC='docs/story_planning/AA_417_健身定稿_升階一句_注意到_羽球晨跑.md';
+/* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 照覆蓋層拿掉刪節號（以安、芷若、語彤、子晴、學姊、可昕的羽球、晨跑句）——對稿時「新字的舊字在稿上」也算（OE.inDoc），
+   下面的期望值包 FT（OE.fwdText：稿上換掉的舊字換成新字）；舊期望＝FT 裡面的字。逐列對稿在 tests/invite_overlay_1111_unit.js */
+const OE=require('./overlay_expect.js'), FT=(who,s)=>OE.fwdText('invites',who,s);
 const IP=()=>INVITE_DATA.people;
-const ZQ_B=[['那球出界了。……好啦，是我沒接到。'],['剛剛那一球，你有看到吧。我接到了。'],['你不要一直幫我撿球。……謝謝。']];
+const ZQ_B=[['那球出界了。……好啦，是我沒接到。'],['剛剛那一球，你有看到吧。我接到了。'],['你不要一直幫我撿球。……謝謝。']].map(L=>L.map(t=>require('./overlay_expect.js').fwdText('invites','heroine_04',t)));   /* 2026-11-11（X324 D 區，AA_784）：子晴羽球「一起的時候」照覆蓋層拿掉刪節號——舊期望＝裡面的字 */
 const KX_R=[['跑到晨思鐘不要停。跑回來才算。'],['我不喘。……我在講話，所以我不喘。'],['早上的首都帝大好安靜。山上的鳥比較吵。']];
 
 (async()=>{
@@ -54,7 +57,7 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show ab9d7
   const z123=(md630.split('\n').find(l=>l.startsWith('| Z-123 |'))||'').split('|').map(x=>x.trim())[4]||'';
   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊晨跑的答應句（acc.run_avenue）換成新稿的句子（原本「好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。」），不在 AA_417 裡 */
   const PS755_RUN='好啊！可是你要打給我，我鬧鐘要響三次才起得來。';
-  const bad=all.filter(([w,t])=>!s3.includes(t)&&!(w==='heroine_01'&&md580.includes('| 34 |')&&md580.includes(t))&&!(w==='heroine_03'&&z123==="'"+t+"'")&&!(w==='classmate_peishan'&&t===PS755_RUN));
+  const bad=all.filter(([w,t])=>!OE.inDoc('invites',w,t,t=>s3.includes(t)||(w==='heroine_01'&&md580.includes('| 34 |')&&md580.includes(t))||(w==='heroine_03'&&z123==="'"+t+"'")||(w==='classmate_peishan'&&t===PS755_RUN)||(w==='kexin'&&require('./canon1112_ok.js').ok(t))||(w==='kexin'&&require('./kx_rewrite_1112.js').news('src/data/invites.js').includes(t))));   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：可昕羽球的答應句換字（原本「好。我從山上下來。拍子你負責借。」），不在 AA_417 裡 */
   check('1. §3 的 '+all.length+' 句都在 AA_417 第 3 節裡一字不差',all.length===45&&!bad.length,all.length+' '+J(bad.slice(0,4)));
   check('1. 男生朋友沒有自己的句子＝旁白「（他答應了。）」（AA_417 原文）',s3.includes('旁白「（他答應了。）」')&&J(INVITE_DATA.sportPlain)===J(['zhe','classmate_bohan','kai','classmate_mingxuan','npc_fangyt']));
   const of=w=>all.filter(x=>x[0]===w).map(x=>x[1]).join('');
@@ -84,25 +87,25 @@ await sec(2,()=>{ fresh('2026-03-11','heroine_04',1); const w1=INV.placeWhy(H.G,
   check('2. 沒下雨：照約，06:15 起她在椰影大道晨思鐘前等（作息 linger、meetAt）',iv2.state==='accepted'&&!!en&&en.zone==='campus'&&en.act==='linger'&&J(en.at)===J(P('run_avenue').meetAt),J(en)); });
 
 await sec(3,()=>{ fresh('2026-03-11','heroine_04',2); const a=ask('heroine_04','gym_badminton',15.5);
-  check('3. 子晴有點熟約羽球：A「羽球？……我很爛喔。先說好。」',txt(a.lines)==='羽球？……我很爛喔。先說好。',txt(a.lines));
+  check('3. 子晴有點熟約羽球：A「羽球？……我很爛喔。先說好。」',txt(a.lines)===FT('heroine_04','羽球？……我很爛喔。先說好。'),txt(a.lines));
   fresh('2026-03-11','heroine_04',3); const b=ask('heroine_04','gym_badminton',15.5), b2=ask('heroine_04','gym_badminton',17.5), c=ask('heroine_04','run_avenue',6.5,H.G.day+1);
-  check('3. 子晴朋友：羽球 R「好。我很爛。你不要教我，讓我自己爛。」（再約一次也是這句，§3 優先於 AA_415）；晨跑 R「早上我在睡。……好啦，一次。」',txt(b.lines)==='好。我很爛。你不要教我，讓我自己爛。'&&txt(b2.lines)===txt(b.lines)&&txt(c.lines)==='早上我在睡。……好啦，一次。',[txt(b.lines),txt(b2.lines),txt(c.lines)].join(' / '));
+  check('3. 子晴朋友：羽球 R「好。我很爛。你不要教我，讓我自己爛。」（再約一次也是這句，§3 優先於 AA_415）；晨跑 R「早上我在睡。……好啦，一次。」',txt(b.lines)==='好。我很爛。你不要教我，讓我自己爛。'&&txt(b2.lines)===txt(b.lines)&&txt(c.lines)===FT('heroine_04','早上我在睡。……好啦，一次。'),[txt(b.lines),txt(b2.lines),txt(c.lines)].join(' / '));
   check('3. AA_415 的表沒有被拿來用（這幾句不在 INVITE_REPLIES）',!INVITE_REPLIES.people.heroine_04.some(r=>INV.lineKey(r.lines)===INV.lineKey(b.lines)||INV.lineKey(r.lines)===INV.lineKey(c.lines)));
   fresh('2026-03-11','kexin','d'); const k1=ask('kexin','gym_badminton',15.5), k2=ask('kexin','run_avenue',6.5,H.G.day+1);
-  check('3. 可昕交往中（木柵大學那幾年）：羽球「好。我從山上下來。拍子你負責借。」、晨跑「椰影大道？從木柵大學過去要四十分鐘。」「……好。你敢遲到試試看。」',txt(k1.lines)==='好。我從山上下來。拍子你負責借。'&&txt(k2.lines)==='椰影大道？從木柵大學過去要四十分鐘。……好。你敢遲到試試看。',txt(k1.lines)+' / '+txt(k2.lines));
+  check('3. 可昕交往中：羽球「好。拍子你負責借，我只出人。」（CANON-NO-ECON-1112 第五批：AA_916，AA_827@6dbfe10d7e；舊期望「好，我從山上下來，拍子你負責借。」）、晨跑「椰影大道？好，早上六點半。」「……好。你敢遲到試試看。」（CANON-NO-ECON-1112 第四批：照 AA_894 換字）',txt(k1.lines)==='好。拍子你負責借，我只出人。'&&txt(k2.lines)===FT('kexin','椰影大道？好，早上六點半。……好。你敢遲到試試看。'),txt(k1.lines)+' / '+txt(k2.lines));   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，invites.js:229）：舊期望「好。我從山上下來。拍子你負責借。」 */
   fresh('2025-03-12','kexin',2,{econ:true}); const k3=INV.personal(H.G,'kexin',P('gym_badminton'),H.G.day,15.5,{res:'accept'});
   check('3. 可昕經濟系那一年：不說木柵大學那幾年的句子',!/木柵大學|首都帝大的球場|山上/.test(txt(k3.lines)),txt(k3.lines));
   const W={heroine_01:['羽球？好。我國中是校隊。……替補。','六點半？……好。我設兩個鬧鐘。'],heroine_03:['……我不太會。好。你不要笑。','早上九點有課。……七點半以前可以。'   /* AA_630 Z-123 */],
     heroine_02:['羽球！好啊，我手腕很好。拉花練的。','早上？……我昨天上到兩點。……好啦。我去。'],heroine_05:['羽球。好。……我只會發球。','晨跑。好。跑完我直接去研究室。'],classmate_peishan:['好啊！！我要問你，你為什麼會打。','好啊！可是你要打給我，我鬧鐘要響三次才起得來。'   /* 2026-11-11 改期望：X327 新稿（AA_755）的晨跑答應句 */]};
   for(const id in W){ fresh('2026-03-11',id,3); const x=ask(id,'gym_badminton',15.5), y=ask(id,'run_avenue',6.5,H.G.day+1);
-    check('3. '+id+'：羽球、晨跑照 §3-3',txt(x.lines)===W[id][0]&&txt(y.lines)===W[id][1],x.res+' '+txt(x.lines)+' / '+y.res+' '+txt(y.lines)); }
+    check('3. '+id+'：羽球、晨跑照 §3-3',txt(x.lines)===FT(id,W[id][0])&&txt(y.lines)===FT(id,W[id][1]),x.res+' '+txt(x.lines)+' / '+y.res+' '+txt(y.lines)); }
   for(const id of ['zhe','kai','classmate_mingxuan','npc_fangyt']){ fresh('2026-03-11',id,3); const x=ask(id,'gym_badminton',15.5), y=ask(id,'run_avenue',6.5,H.G.day+1);
     check('3. '+id+'：羽球、晨跑＝旁白「（他答應了。）」',x.res==='accept'&&txt(x.lines)==='（他答應了。）'&&y.res==='accept'&&txt(y.lines)==='（他答應了。）',x.res+' '+txt(x.lines)+' / '+y.res+' '+txt(y.lines)); }
   fresh('2026-03-11','classmate_bohan',3); const bh=ask('classmate_bohan','gym_badminton',15.5);
   check('3. 柏翰：個人規則照舊先跑（「我要念書。」）',/我要念書/.test(txt(bh.lines)),bh.res+' '+txt(bh.lines)); });
 
 await sec(4,async()=>{ fresh('2026-03-11','heroine_04',3); const m1=await meet('heroine_04','gym_badminton',15.5), m2=await meet('heroine_04','gym_badminton',16.5), m3=await meet('heroine_04','gym_badminton',17.5), m4=await meet('heroine_04','gym_badminton',18.5);
-  const FA=['（她借了一支拍子，握的方向是反的。）','這樣握比較帥。……不是嗎？'], END='下次我會進步。……我不想輸給一顆球。';
+  const FA=['（她借了一支拍子，握的方向是反的。）','這樣握比較帥。……不是嗎？'].map(t=>FT('heroine_04',t)), END=FT('heroine_04','下次我會進步。……我不想輸給一顆球。');   /* X324 D 區（AA_784）：舊期望＝FT 裡面的字 */
   const i0=m1.indexOf(FA[0]);
   check('4. 子晴第一次打羽球：先說 first（借拍子、握反）、再「一起的時候」①、最後一句是「結束」',i0>=0&&m1[i0+1]===FA[1]&&m1.indexOf(ZQ_B[0][0])>i0&&m1[m1.length-1]===END,J(m1));
   check('4. 第二、三、四次：沒有 first；一起的時候 ② → ③ → ①（輪流、不連續重複）',!m2.includes(FA[0])&&!m3.includes(FA[0])&&!m4.includes(FA[0])&&m2.includes(ZQ_B[1][0])&&m3.includes(ZQ_B[2][0])&&m4.includes(ZQ_B[0][0])&&m2[m2.length-1]===END,J([m2,m3,m4].map(m=>m.filter(t=>/^「/.test(t)))));
@@ -131,13 +134,13 @@ await sec(5,async()=>{ const run=async(id,s)=>{ fresh('2026-03-11',id,s); const 
 await sec(6,()=>{ fresh('2025-12-10','heroine_05',3); const s1=ask('heroine_05','gym_badminton',15.5), s2=ask('heroine_05','run_avenue',6.5,H.G.day+1);
   const DL=SISG.DECLINE.concat(SISG.DECLINE_OFF||[]);   /* AA_535 1-3：第 14 週～筆試換兩句（S.DECLINE_OFF）＋「那一起念書。」*/
   check('6. 學姊筆試前（上限的那幾週；12/10＝第 14 週以後）：羽球、晨跑照現有 rule 的婉拒',s1.res==='decline'&&s1.why==='exam'&&DL.includes(txt(s1.lines))&&s2.res==='decline'&&DL.includes(txt(s2.lines)),txt(s1.lines)+' / '+txt(s2.lines));
-  fresh('2026-03-11','heroine_05',3); const s3=ask('heroine_05','gym_badminton',15.5); check('6. 筆試以後：照 §3-3 答應',txt(s3.lines)==='羽球。好。……我只會發球。',txt(s3.lines));
+  fresh('2026-03-11','heroine_05',3); const s3=ask('heroine_05','gym_badminton',15.5); check('6. 筆試以後：照 §3-3 答應',txt(s3.lines)===FT('heroine_05','羽球。好。……我只會發球。'),txt(s3.lines));
   fresh('2027-03-10','classmate_peishan',3); const p1=ask('classmate_peishan','gym_badminton',15.5);
   check('6. 沛珊大二下（重考、聯絡不到）：照舊約不到',p1.res==='decline'&&p1.why==='away',p1.res+'/'+p1.why); });
 
 await sec(7,async()=>{ fresh('2026-03-11','heroine_04',3); H.said=[]; H.opts=[]; H.picks=['運動','去椰影大道晨跑','明天 06:30'];   /* INVITE-MENU-1030：清單分層，晨跑在「運動…」裡；時間多「其他日子…」*/
   const iv=await INV.flow(GM,'heroine_04',null,false); const said=H.said.map(s=>s.t);
-  check('7. 手機約子晴晨跑：時間只列「明天 06:30」（＋其他日子…）、念 §3 的答應句、約在明天 06:30',!!iv&&iv.place==='run_avenue'&&iv.h===6.5&&iv.day===H.G.day+1&&J(H.opts[2])===J(['明天 06:30','其他日子…','算了'])&&said.includes('早上我在睡。……好啦，一次。'),J(H.opts)+' '+J(said));
+  check('7. 手機約子晴晨跑：時間只列「明天 06:30」（＋其他日子…）、念 §3 的答應句、約在明天 06:30',!!iv&&iv.place==='run_avenue'&&iv.h===6.5&&iv.day===H.G.day+1&&J(H.opts[2])===J(['明天 06:30','其他日子…','算了'])&&said.includes(FT('heroine_04','早上我在睡。……好啦，一次。')),J(H.opts)+' '+J(said));
   fresh('2026-03-11','kexin','d'); H.said=[]; H.opts=[]; H.picks=['運動','返回','算了']; await INV.flow(GM,'kexin',null,false);
   check('7. 可昕交往中（手機）：「運動…」有羽球、晨跑（她下山來）；首都帝大的其他地點照現有台詞也開了（INVITE-MENU-1030 D，tests/invite_menu_unit.js）',J(H.opts[1])===J(['去新體育館打羽球','去椰影大道晨跑','返回'])&&(H.opts[0]||[]).includes('喝咖啡、喝茶…'),J(H.opts.slice(0,2))); });   /* AA_535 第 2 節的分類名稱 */
 

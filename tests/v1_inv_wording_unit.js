@@ -16,6 +16,9 @@ let ok=true, err=''; try{ load('src/data/invite_replies.js'); }catch(e){ ok=fals
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const txt=ls=>(ls||[]).map(x=>typeof x==='string'?x:x.me).join('');
 const D=INVITE_DATA, P=D.people, EX=D.exchange;
+/* 2026-11-11（X324 D 區）：invites.js 照覆蓋層換了字（tools/invite/apply_overlay.py；白名單 overlay:true 的稿 AA_783、AA_784）——下面拿 P.<人>.… 和字面值比的地方，期望值包一層 FI（tests/overlay_expect.js：稿上換掉的舊字＝換成新字，其他照舊）；
+   舊期望＝FI 裡面的字。逐列對稿在 tests/invite_overlay_1111_unit.js */
+const OE=require('./overlay_expect.js'), FI=(who,x)=>OE.fwdDeep('invites',who,x);
 const fresh=(key,id,fam,trust,o)=>{ H.fresh(key,(o&&o.hour!=null)?o.hour:9,'campus'); if(id){ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; SOCIAL.remember(id,'FIRST_MET',''); } return H.G; };
 const ask=(id,pid,h,day,face)=>{ const G=H.G; day=day==null?G.day:day; const d=INV.decide(G,id,pid,day,h); if(face) d.face=true; return INV.personal(G,id,INV.place(pid),day,h,d); };
 const doneIv=(id,pid,day)=>{ const G=H.G; INV.rec(G); G.invSeq=(G.invSeq|0)+1; G.invites.push({id:'iv'+G.invSeq,who:id,place:pid,zone:INV.place(pid).zone,day,h:15.5,state:'done',accepted:true,by:'player'}); };
@@ -28,7 +31,7 @@ const NEW=[['A','「好。」'],['A','（她把手機遞過來，自己先掃了
   ['A','「你寫題目都先想要件，還是先想結論？我都先想結論，最近在改。」'],['A','「沒事啦。」'],['A','「好啊！那家的叉燒飯我可以吃兩盤。」'],['A','「我要念書，{zh}可以。」'],['A','「好，我記一下。」'],['A','「今天的我都排好了，{zh}可以嗎？」'],
   ['B','「我們那層的洗衣機又壞了，我衣服已經堆三天了。」'],['B','「欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？」'],['B','「喔，所以告跟叫警察不一樣。好，我學到了。」'],['B','「沒有啦，我只是想知道我能不能。」'],['B','「好，你吃。」'],['B','（過了十秒）'],['B','「……吃完了嗎？」'],
   ['B','「茶屋要脫鞋嗎？……好，我襪子有洞。」'],['B','「那裡有插座嗎 我要帶電腦」'],['B','「那裡有插座嗎？我要帶電腦。」'],['B','「走 我剛好還沒吃」'],['B','「走，我剛好還沒吃。」'],['B','「散步要幹嘛？」'],['B','「好。」'],['B','「早上不行，我在睡覺。」'],['B','「總圖我會睡著。」'],['B','「考前一週我會去，真的。」'],
-  ['B','「好。二四六晚上我在家教，九點以後才會回。」'],['B','「我家教那個學生問我，念法律是不是要背很多東西。」'],['B','「我跟他說，要背，背完還要會用。」'],['B','「我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。」'],['B','「他在看我們比賽的直播。……到現在還是看不懂。」'],['B','「這條路我每個禮拜都走好幾次，去家教都走這邊。」'],
+  ['B','「好。二四六晚上我在家教，九點以後才會回。」'],['B','「我家教那個學生問我，念法律是不是要背很多東西。」'],['B','「我跟他說，要背，背完還要會用。」'],['B','「我爸之前發訊息問我『籃球的三分線是畫在哪裡』。」'],['B','「他在看我們比賽的直播。……到現在還是看不懂。」'],['B','「這條路我每個禮拜都走好幾次，去家教都走這邊。」'],
   ['B','「早午餐？CP 值不高喔。你請的話，我就去。」'],['B','「一盞？我很少喝茶，我爸才喝。……好啊。」'],['B','「走啊，阿鳳便宜又大碗。」'],['B','「可以啊。走一走也好，我最近都坐著。」'],['B','「那時候我在家教 九點以後可以」'],['B','「那時候我在家教，九點以後可以。」'],
   ['B','「我七點要家教 {zh}可以嗎」'],['B','「我七點要家教，{zh}可以嗎？」'],['B','「家教完 {zh} 吃便宜的那家」'],['B','「家教完，{zh}，吃便宜的那家。」'],['B','「那天我要家教 {zh}可以嗎」'],['B','「那天我要家教，{zh}可以嗎？」'],
   ['B','（他的大頭貼是一棵樹。）'],['B','「椰影大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。」'],['B','「走那邊我都走中間。」'],['B','「這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。」'],['B','「芷若高中就這樣，下課都是她在講。」'],
@@ -37,8 +40,8 @@ const NEW=[['A','「好。」'],['A','（她把手機遞過來，自己先掃了
 (async()=>{
 await sec(0,()=>{ const a=show('f7b96efb8',AA194), b=show('968473469',BB172); const a4=a.slice(a.indexOf('## 4.'));
   check('0. 讀得到企劃線 AA_194（f7b96efb8）第 4 節、BB_172（968473469）第 10 節',a4.includes('| rule 芯慈 |')&&b.includes('## 10. AA-B 互審'));
-  const bad=NEW.filter(([s,t])=>!(s==='A'?a4:b).includes(t)); check('0. 換上去的 '+NEW.length+' 句都在企劃原文裡一字不差（阿凱半熟那句 11-10 AA_731 改成「早午餐？…」，不在 BB_172 原文、拿掉）',NEW.length===55&&!bad.length,J(bad));
-  const src=fs.readFileSync(path.join(H.ROOT,'src/data/invites.js'),'utf8'); const gone=NEW.filter(([s,t])=>!src.includes(t.replace(/^「|」$/g,'')));
+  const bad=NEW.filter(([s,t])=>!(s==='A'?a4:b).includes(require('./canon898_1112.js').back(t)))/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）稿上是舊句 */; check('0. 換上去的 '+NEW.length+' 句都在企劃原文裡一字不差（阿凱半熟那句 11-10 AA_731 改成「早午餐？…」，不在 BB_172 原文、拿掉）',NEW.length===55&&!bad.length,J(bad));
+  const src=fs.readFileSync(path.join(H.ROOT,'src/data/invites.js'),'utf8'); const gone=NEW.filter(([s,t])=>!src.includes(OE.fwdText('invites',null,t.replace(/^「|」$/g,''))));   /* 2026-11-11（X324 D 區）：覆蓋層換過的照新字找（舊期望：舊字本身）*/
   check('0. 每一句都在 src/data/invites.js',!gone.length,J(gone)); });
 
 await sec(1,()=>{ check('1. 以安交換聯絡方式：「好。」（她把手機遞過來，自己先掃了你的。）「加了。」（AA_194）',J(EX.heroine_01)===J([{say:'好。'},{narr:'（她把手機遞過來，自己先掃了你的。）'},{say:'加了。'}]));
@@ -56,9 +59,10 @@ await sec(2,()=>{ fresh('2025-10-15','heroine_01',45,30); let pk=INV.walkPick(H.
   check('2. 阿凱大一（不是去吃飯）：「我們那層的洗衣機又壞了，我衣服已經堆三天了。」（K1）',!!pk&&txt(pk.lines)==='我們那層的洗衣機又壞了，我衣服已經堆三天了。',pk&&txt(pk.lines));
   const e=INV.walkEntry('kai','KAI_SCOOTER_ASK');
   check('2. 阿凱 K2：問句＋三個回答（③「好，你吃。」（過了十秒）「……吃完了嗎？」）；選項照舊',!!e&&e.l[0]==='欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？'&&J(e.ch.map(c=>c.t))===J(['不一定是告，可以請警察來看','你想告誰','先讓我吃完'])
-    &&J(e.ch[0].r)===J(['喔，所以告跟叫警察不一樣。好，我學到了。'])&&J(e.ch[1].r)===J(['沒有啦，我只是想知道我能不能。'])&&J(e.ch[2].r)===J(['好，你吃。','（過了十秒）','……吃完了嗎？']),J(e));
-  check('2. 明軒三句（M2 10-1 第 16 點、M3 10-1 第 7 點、M4）',J(P.classmate_mingxuan.walk.any)===J([['我家教那個學生問我，念法律是不是要背很多東西。','我跟他說，要背，背完還要會用。'],['我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。','他在看我們比賽的直播。……到現在還是看不懂。'],['這條路我每個禮拜都走好幾次，去家教都走這邊。']]));
-  const F=P.npc_fangyt.walk.any; check('2. 方奕廷 F2、F3',J(F[0])===J(['椰影大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。','走那邊我都走中間。'])&&J(F[1])===J(['這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。']));
+    &&J(e.ch[0].r)===J(['喔，所以告跟叫警察不一樣。好，我學到了。'])&&J(e.ch[1].r)===J(['沒有啦，我只是想知道我能不能。'])&&J(e.ch[2].r)===J(FI('kai',['好，你吃。','（過了十秒）','……吃完了嗎？'])),J(e));
+  /* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）明軒「我爸之前發訊息…」*/
+  check('2. 明軒三句（M2 10-1 第 16 點、M3 10-1 第 7 點、M4）',J(P.classmate_mingxuan.walk.any)===J(FI('classmate_mingxuan',[['我家教那個學生問我，念法律是不是要背很多東西。','我跟他說，要背，背完還要會用。'],['我爸之前發訊息問我『籃球的三分線是畫在哪裡』。','他在看我們比賽的直播。……到現在還是看不懂。'],['這條路我每個禮拜都走好幾次，去家教都走這邊。']])));
+  const F=P.npc_fangyt.walk.any; check('2. 方奕廷 F2、F3',J(F[0])===J(FI('npc_fangyt',['椰影大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。','走那邊我都走中間。']))&&J(F[1])===J(FI('npc_fangyt',['這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。'])));
   fresh('2025-10-15','npc_fangyt',45,30); SOCIAL.remember('heroine_02','FIRST_MET',''); const seen=[]; for(let i=0;i<6;i++){ const q=INV.walkPick(H.G,'npc_fangyt','cafe'); seen.push(txt(q.lines)); q.next(); }
   check('2. 方奕廷 F4：認識芷若、還沒看過 Z6（FANG_HINT）不說芷若那句（10-1 第 9 點改條件）',!seen.some(t=>/芷若/.test(t)),J(seen));
   SOCIAL.remember('npc_fangyt','FANG_HINT',''); const seen2=[]; for(let i=0;i<3;i++){ const q=INV.walkPick(H.G,'npc_fangyt','cafe'); seen2.push(txt(q.lines)); q.next(); }
@@ -75,11 +79,11 @@ await sec(3,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'zhe',30,10);
   check('3. 阿凱第一次約溫州街：手機照留、當面「散步要幹嘛？」（你說那裡有貓。）「好。」（K7）',txt(ask('kai','wenzhou',15.5).lines)==='散步要幹嘛（你說那裡有貓。）好'&&txt(ask('kai','wenzhou',15.5,null,true).lines)==='散步要幹嘛？（你說那裡有貓。）好。');
   fresh(key(SAT),'classmate_mingxuan',45,30);
   check('3. 明軒約半熟、一盞：手機照留、當面版（M5、M6）',txt(ask('classmate_mingxuan','brunch',12+10/60).lines)==='早午餐？哈哈 CP 值不高喔 你請的話就可以'&&txt(ask('classmate_mingxuan','brunch',12+10/60,null,true).lines)==='早午餐？CP 值不高喔。你請的話，我就去。'
-    &&txt(ask('classmate_mingxuan','teahouse',14,null,true).lines)==='一盞？我很少喝茶，我爸才喝。……好啊。');
+    &&txt(ask('classmate_mingxuan','teahouse',14,null,true).lines)===OE.fwdText('invites','classmate_mingxuan','一盞？我很少喝茶，我爸才喝。……好啊。'));
   fresh(key(MON),'classmate_mingxuan',45,30);
   check('3. 明軒約吃飯「走啊，阿鳳便宜又大碗。」、散步「可以啊。走一走也好，我最近都坐著。」（M8、M9）',txt(ask('classmate_mingxuan','noodle',12+10/60).lines)==='走啊，阿鳳便宜又大碗。'&&txt(ask('classmate_mingxuan','wenzhou',15.5).lines)==='可以啊。走一走也好，我最近都坐著。');
-  check('3. 明軒認識約 Café 照留「好。但我只能待一小時。」（M7）',J(P.classmate_mingxuan.acc.cafe)===J({A:['好。但我只能待一小時。']}));
-  check('3. 方奕廷 F6～F8（10-2 第 1 點）；F5、F9 照留',J(P.npc_fangyt.acc)===J({brunch:['好。早上我本來就起得早。'],teahouse:['好。聽說那邊院子有一棵很老的樟樹，我想去看看。'],cafe:['好。順便看一下 Café 窗台那盆植物。'],library:['好。我在總圖門口等你。'],wenzhou:['溫州街有一棵很老的榕樹。我帶你去。']})); });
+  check('3. 明軒認識約 Café 照留「好。但我只能待一小時。」（M7）',J(P.classmate_mingxuan.acc.cafe)===J(FI('classmate_mingxuan',{A:['好。但我只能待一小時。']})));
+  check('3. 方奕廷 F6～F8（10-2 第 1 點）；F5、F9 照留',J(P.npc_fangyt.acc)===J(FI('npc_fangyt',{brunch:['好。早上我本來就起得早。'],teahouse:['好。聽說那邊院子有一棵很老的樟樹，我想去看看。'],cafe:['好。順便看一下 Café 窗台那盆植物。'],library:['好。我在總圖門口等你。'],wenzhou:['溫州街有一棵很老的榕樹。我帶你去。']}))); });
 
 await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30); const a=ask('heroine_01','wenzhou',15.5);
   check('4. 以安大一第一次約散步：「好。」「……今天不行，明天。」、改到隔天（AA_576 第 11、12 列）',a.res==='resched'&&a.lines[0]==='好。'&&a.lines[1]==='……今天不行，明天。'&&a.alt&&a.alt.day===H.G.day+1,a.res+' '+txt(a.lines)+' '+J(a.alt));
@@ -107,8 +111,8 @@ await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30
   check('4. 那天 21:30 你已經有約：改到別天＝「那天我要家教 {zh}可以嗎」／當面「那天我要家教，{zh}可以嗎？」（M12 不同天）',m4.res==='resched'&&m4.alt&&m4.alt.day!==H.G.day&&txt(m4.lines)==='那天我要家教 {zh}可以嗎'&&txt(m4f.lines)==='那天我要家教，{zh}可以嗎？',J([txt(m4.lines),m4.alt])); });
 
 await sec(5,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'heroine_01',25,8);
-  check('5. 以安的 acc、here、plan 照 AA_415（10-23 較新；AA_576 改稿第一批 b10d0567f）：「好啊。我本來就想去。」等不改成 AA_194 的稿',J(P.heroine_01.acc.cafe)===J({A:['好啊。我本來就想去。']})&&J(P.heroine_01.here.library)===J(['我本來就在總圖。二樓靠窗。'])&&J(P.heroine_01.plan.cafe)===J(['今天排滿了。……這個時間可以嗎？']));
-  check('5. 語彤的 acc 照 AA_415＋AA_630 Z-082（她和燒臘店不是親戚：「……燒臘店？」「好。」）；可昕的半熟、一盞照 AA_415（AA_255 T5）',J(P.heroine_03.acc.noodle)===J({A:['……燒臘店？','好。']})&&J(P.kexin.acc.brunch)===J({A:['SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。'],R:['好啊，我先查一下菜單。']}));
+  check('5. 以安的 acc、here、plan 照 AA_415（10-23 較新；AA_576 改稿第一批 b10d0567f）：「好啊。我本來就想去。」等不改成 AA_194 的稿',J(P.heroine_01.acc.cafe)===J(FI('heroine_01',{A:['好啊。我本來就想去。']}))&&J(P.heroine_01.here.library)===J(FI('heroine_01',['我本來就在總圖。二樓靠窗。']))&&J(P.heroine_01.plan.cafe)===J(FI('heroine_01',['今天排滿了。……這個時間可以嗎？'])));
+  check('5. 語彤的 acc 照 AA_415＋AA_630 Z-082（她和燒臘店不是親戚：「……燒臘店？」「好。」）；可昕的半熟、一盞照 AA_415（AA_255 T5）',J(P.heroine_03.acc.noodle)===J(FI('heroine_03',{A:['……燒臘店？','好。']}))&&J(P.kexin.acc.brunch)===J(FI('kexin',{A:[require('./canon891_1112.js').BRUNCH/* （CANON-NO-ECON-1112 第四批：照 AA_891／AA_894 換字）*/],R:['好啊，我先查一下菜單。']})));
   let out='', rc=0; try{ out=cp.execSync('python3 "'+path.join(H.ROOT,'tools/invite/build_replies.py')+'"',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||e); }
   const same=cp.execSync('git -C "'+H.ROOT+'" status --porcelain -- src/data/invite_replies.js',{encoding:'utf8'}).trim()==='';
   check('5. build_replies.py 照樣通過（AA_415 的「現有」都對得上），重新產生的檔案沒有變',rc===0&&/heroine_01 39 列/.test(out)&&same,out.slice(0,160)); });

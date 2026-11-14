@@ -1,5 +1,5 @@
 /* ===== 社會科學院 辜先生紀念圖書館：一樓開架閱覽室（D56 社科院第①步；2026-10-13）=====
-   使用者 D46：法律系學生念書也會去「新社科院的辜先生紀念圖書館」；D56：社科院在霖澤館對面，經濟系大一那年就在。
+   使用者 D46：法律系學生念書也會去「新社科院的辜先生紀念圖書館」；D56：社科院在霖澤館對面，舊序章那年就在。
    配置：src/data/soclib_layout.js（LAWWW2 的 tools/blender/env_second/soclib_layout_gen.py 產生；Blender 正式模型 soclib_interior.py 讀同一份，兩邊的位置一定一致）。
    座標：x 往東、z 往南（+z＝南牆：入口、服務台）；一層，地板 y=0。室內本身的座標照舊；校園上的社科院 X75（2026-10-20）搬到霖澤館西南、整組轉 180°
          （校園 x −13～17、z −65～−43，src/data/socsci_layout.js）：室內的「北牆、西牆」玻璃帷幕＝校園上圖書館朝南、朝東的玻璃，入口（室內南牆）＝校園上圖書館的北牆（中庭那一面）。
@@ -132,4 +132,5 @@ const SL3=(function(){
     return z; } };
   return {soclib,DOOR,CAMPUS,buildNav,seatsOf,groves};
 })();
+{ const b=SL3.soclib.build; SL3.soclib.build=function(E){ const z=b.call(this,E); return Z3.navNotch?Z3.navNotch(z,'soclib'):z; }; }   /* 導航的小縫（ECON-NAV-TRAPS-1111；資料在 zones3d.js 的 NAV_NOTCHES）*/
 Z3.ZONES.soclib=SL3.soclib;

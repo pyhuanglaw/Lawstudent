@@ -1,10 +1,10 @@
 // BB-B 2026-10-23：LAWWW-B 清單 BB_SIS_B6_1023.md 第 61 項「美國交換從頭走到尾」的第一步——每一天有什麼可以做（Node，不需要瀏覽器）。
 //   瀏覽器在沙盒每秒 0.1～0.4 格，140 天照真實流程走不完；先用遊戲自己的函式（tests/pg_harness.js＋美國篇的檔案，同 tests/aa412_us_unit.js 的載法）
 //   一天一天列出：課（USL.items）、會停下來的事（USL.nextStop：AA_340 的固定事件、出遊、交往中週末的 208）、摘要日（USL.SUM）、
-//   手機（STORY.phoneRules＋PHONE.tick，07:00～23:45 每 15 分鐘）、學姊在哪（USL.sisAt 12:00、20:00）、何俊朗在不在會所（USL.longHere 20:00）。
+//   手機（STORY.phoneRules＋PHONE.tick，07:00～23:45 每 15 分鐘）、學姊在哪（USL.sisAt 12:00、20:00）、舊序章人物己在不在會所（USL.longHere 20:00）。
 //   沒有課、沒有會停的事、沒有摘要、沒有新訊息＝「空白日」（給 AA 看要不要補）。
 //   限制（照實寫進報告）：事件不真的演（只看排了什麼）；所以「演過才解鎖」的訊息會少算。這不是玩家實測，只是找空白的日子；瀏覽器另外抽幾段走。
-// 用法：LW=<開發分支工作樹> node us_sweep61.js [輸出.json]   （三種存檔：交往中、挽回中＋見過何俊朗、挽回中沒見過何俊朗）
+// 用法：LW=<開發分支工作樹> node us_sweep61.js [輸出.json]   （三種存檔：交往中、挽回中＋見過舊序章人物己、挽回中沒見過舊序章人物己）
 'use strict';
 const fs = require('fs'), vm = require('vm'), path = require('path');
 const LW = process.env.LW; if (!LW) { console.error('要 LW=<工作樹>'); process.exit(2); }
@@ -27,8 +27,8 @@ const MODE = process.env.MODE || 'strict';   // strict＝BB 原本的判準（�
 const PROFILES = {
   dating_canyon: { label: '交往中＋去了大峽谷（US_CANYON；10/7～10/14 整趟是出遊）', flags: US({ US2: 'dating', US_CANYON: true }), dating: true, long: true, canyon: true },
   dating: { label: '交往中（US1 一起去、CALLED_SHUYU）', flags: US({ US2: 'dating' }), dating: true, long: true },
-  repair_long: { label: '挽回中＋見過何俊朗（MET_LONG）', flags: US({ US2: 'repair', MET_LONG: true }), dating: false, long: true },
-  repair: { label: '挽回中、沒見過何俊朗', flags: US({ US2: 'repair' }), dating: false, long: false },
+  repair_long: { label: '挽回中＋見過舊序章人物己（MET_LONG）', flags: US({ US2: 'repair', MET_LONG: true }), dating: false, long: true },
+  repair: { label: '挽回中、沒見過舊序章人物己', flags: US({ US2: 'repair' }), dating: false, long: false },
 };
 function sweep(pk) {
   const P = PROFILES[pk], d0 = D('2028-08-02'), d1 = D('2028-12-23');
@@ -36,8 +36,8 @@ function sweep(pk) {
   ROM.rec(G); SOCIAL.rel(S5).fam = 70; SOCIAL.rel(S5).trust = 60; SOCIAL.remember(S5, 'FIRST_MET', '');
   if (P.dating) { G.flags.dating_heroine_05 = true; G.flags.CALLED_SHUYU = true; const r = ROM.get(G, S5); r.status = 'dating'; }
   if (P.long) G.flags.MET_LONG = true;
-  // 大四的存檔一般都在這幾個群組（大一起加的）；阿哲那幾位認識、朋友（9/20 美國版的「遠方」要麵店團＋朋友）
-  for (const [g, n] of [['noodle_team', '麵店團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會']]) { try { PHONE.join(G, g, n); } catch (e) {} }
+  // 大四的存檔一般都在這幾個群組（大一起加的）；阿哲那幾位認識、朋友（9/20 美國版的「遠方」要桌遊團＋朋友）
+  for (const [g, n] of [['noodle_team', '桌遊團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會']]) { try { PHONE.join(G, g, n); } catch (e) {} }
   for (const id of ['zhe', 'kai', 'heroine_01', 'heroine_03', 'heroine_02', 'heroine_04', 'classmate_peishan']) { try { const r = SOCIAL.rel(id); r.fam = 45; r.trust = 30; r.comf = 10; SOCIAL.remember(id, 'FIRST_MET', ''); } catch (e) {} }
   const days = [], errs = [];
   for (let d = d0; d < d1; d++) {

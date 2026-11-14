@@ -1,4 +1,4 @@
-"""禮貌生財上師的眼鏡（X332；人物圖：圓框細金屬眼鏡）→ GLB。從何俊朗的圓框眼鏡腳本複製：框線更細（半徑 0.8 mm）、古銅金屬色。
+"""禮貌生財上師的眼鏡（X332；人物圖：圓框細金屬眼鏡）→ GLB。從舊序章人物己的圓框眼鏡腳本複製：框線更細（半徑 0.8 mm）、古銅金屬色。
   /opt/blenv/bin/python tools/blender/char_second/glasses_shangshi.py
 接法：C.MODEL_PROPS 給 {name:'glasses', glb:'prop.glasses_shangshi'}。"""
 import math, os, sys

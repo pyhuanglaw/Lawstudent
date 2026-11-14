@@ -17,7 +17,7 @@ const CLUB_FAIR={
   /* 十五攤（AA_485 3-3）。club＝能加入（填表＝加入：CLUB_<club>）；who＝顧攤的人（說話人顯示「顧攤的學長」「顧攤的學姊」；稿上沒寫的照句子裡的他／她、其餘 LAWWW 排的，回報給 AA）；
      say＝顧攤的人說的（能加入的五攤）；look＝只能看看的十攤：[['say'|'narr', 句子]]，每一攤演一次，之後再點只出招牌名；after＝法服：學姊那一段演過以後再看 */
   BOOTHS:[
-    {id:'lawclub',sign:'法律服務社',club:'lawclub_study',who:'學長',event:'ev_sis_club_expo',after:['隔週週六九點，B館一樓。第一次站旁邊聽就好。']},
+    {id:'lawclub',sign:'法律服務社',club:'lawclub_study',who:'學長',event:'ev_sis_club_expo',after:['有民眾預約才開，前一天晚上群組會講。第一次站旁邊聽就好。']},
     {id:'guitar',sign:'吉他社',club:'club_guitar',who:'學長',say:['會不會彈都沒關係，我們從 C 和弦教起。','社課週一、週三晚上，B館。第五週開始。']},
     {id:'debate',sign:'辯論社',club:'club_debate',who:'學姊',say:['題目我們出，立場用抽的。抽到哪邊就幫哪邊講。','社課週二晚上，博思。第五週開始。']},
     {id:'hiking',sign:'登山社',club:'club_hiking',who:'學長',say:['第一次出隊走郊山，鞋子好走就好。','行前會週四晚上，普通教室。第五週開始。']},

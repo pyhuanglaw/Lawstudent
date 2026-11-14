@@ -55,11 +55,11 @@ await sec('A2',()=>{
     J(L.a)===J(WANT.a)&&J(L.d)===J(WANT.d)&&inDoc('2026「阿姨說 今天每盤送一顆滷蛋」')&&inDoc('2029「每盤送滷蛋 今年也是」')&&inDoc('換成**阿哲**傳'),J({a:L.a,d:L.d}));
   check('A2. 沒有一則有句號、沒有「第一碗」（麵店的說法）',![].concat(...Object.values(L.a),...Object.values(L.d)).some(t=>/。|第一碗/.test(t)));
   const got={};
-  for(const y of ['2026','2027','2028','2029']){ const W=NOODLE_CLOSED.window(DK(NOODLE_CLOSED.CNY[y])); fresh(W.from,20.9,'dorm'); PHONE.join(H.G,'noodle_team','麵店團'); run(20.9,21.2);
+  for(const y of ['2026','2027','2028','2029']){ const W=NOODLE_CLOSED.window(DK(NOODLE_CLOSED.CNY[y])); fresh(W.from,20.9,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); run(20.9,21.2);
     at(W.open,11.9); run(11.9,12.2); const M=byTag('noodle_closed_a_'+y).concat(byTag('noodle_closed_d_'+y)); got[y]=M.map(m=>m.from+':'+m.text); }
   const ok=Object.keys(got).every(y=>J(got[y])===J(WANT.a[y].concat(WANT.d[y]).map(t=>'zhe:'+t)));
   check('A2. 實際演：四年的店休第一天 21:00、初四 12:00，群組裡是阿哲傳的那兩則（不是語彤）',ok,J(got));
-  { const W=NOODLE_CLOSED.window(DK(NOODLE_CLOSED.CNY['2027'])); fresh(W.from,21.2,'dorm'); PHONE.join(H.G,'noodle_team','麵店團');
+  { const W=NOODLE_CLOSED.window(DK(NOODLE_CLOSED.CNY['2027'])); fresh(W.from,21.2,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團');
     (H.G.msgs=H.G.msgs||[]).push({th:'g:noodle_team',from:'heroine_03',text:'店休，到初三。',day:W.from,h:21,tag:'noodle_closed_a_2027'}); PHONE.sent(H.G,'noodle_closed_a_2027'); (PHONE.rec(H.G).sent||(PHONE.rec(H.G).sent={}))['noodle_closed_a_2027']=true; run(21.2,21.5);
     check('A2. 舊存檔：2027 店休那一則已經收過（語彤傳的舊字）＝不重發',byTag('noodle_closed_a_2027').length===1&&byTag('noodle_closed_a_2027')[0].from==='heroine_03',J(byTag('noodle_closed_a_2027'))); }
 });
@@ -75,7 +75,7 @@ await sec('A3',async()=>{
       J(H.opts.map(o=>[...o]))===J([['「冷嗎？」']])&&L.includes('……有一點。')&&L.includes('（她把手縮進袖子。你們又走了一段。）')&&!L.includes('下次店休是明年。')&&(fl.YT_CLOSED_OUT?H.G.flags.YT_CLOSED_OUT===true:!('YT_CLOSED_OUT' in H.G.flags)),J({o:H.opts,L})); }
   const users=ORDER.concat(['src/data/an_yt_hol_events.js']).filter(f=>fs.existsSync(path.join(H.ROOT,f))&&strip(src(f)).includes('YT_CLOSED_OUT'));
   check('A3. 程式裡沒有人讀或寫 YT_CLOSED_OUT（只剩註解）＝舊存檔裡的旗標讀得進來、不影響任何事',!users.length,J(users));
-  fresh('2027-02-01',11,'dorm',{YT_CLOSED_OUT:true}); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','麵店團'); H.said=[]; H.opts=[]; const r=await NOODLE_CLOSED.door(GM);
+  fresh('2027-02-01',11,'dorm',{YT_CLOSED_OUT:true}); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','桌遊團'); H.said=[]; H.opts=[]; const r=await NOODLE_CLOSED.door(GM);
   check('A3. 舊存檔有 YT_CLOSED_OUT、2027 店休去按門：只有鐵門的旁白',r===true&&J(H.said.map(s=>s.t))===J([NOODLE_CLOSED.L.door])&&!H.opts.length);
 });
 
@@ -95,16 +95,16 @@ await sec('A4',()=>{
 await sec('A6-4',()=>{
   const P=P3();
   check('A6-4. 池子 [0]、[1]、[3]、回覆換成茶屋（稿逐字）；[2]、[4]～[7]、miss、dark、back 照留',
-    J(P.pool)===J([['今天店裡很忙','蘇姨問你什麼時候回來'],['📷（一壺泡好的烏龍，旁邊兩個杯子）','不是你的 是客人的'],['今天店裡來了一個修鞋的阿伯','他講了四十分鐘'],['你不在 前院的貓碗都是我在洗'],['收店了','好累'],['今天下雨 沒什麼客人'],['你那邊在吃什麼'],['……晚安']])
-    &&J(P.rep)===J(['辛苦了。','想喝茶。'])&&J(P.back)===J(['回來了嗎','蘇姨說幫你留一杯'])&&J(P.miss)===J(['今天收店的時候 我把你的位子擦了兩次'])&&J(P.dark)===J(['你今天怎麼沒回','……沒事就好'])
+    J(P.pool)===J([['今天店裡很忙','蘇姨問你什麼時候回來'],['📷（一壺泡好的烏龍，旁邊兩個杯子）','不是你的 是客人的'],['今天店裡來了一個修鞋的阿伯','他講了四十分鐘'],['你不在 前院的貓碗都是我在洗'],['收店了','好累'],['今天下雨 沒什麼客人'],['你那邊在吃什麼'],['晚安']])
+    &&J(P.rep)===J(['辛苦了。','想喝茶。'])&&J(P.back)===J(['回來了嗎','蘇姨說幫你留一杯'])&&J(P.miss)===J(['今天收店的時候 我把你的位子擦了兩次'])&&J(P.dark)===J(['你今天怎麼沒回','沒事就好'])
     &&['今天店裡很忙／蘇姨問你什麼時候回來','📷（一壺泡好的烏龍，旁邊兩個杯子）／不是你的 是客人的','你不在 前院的貓碗都是我在洗','辛苦了。／想喝茶。'].every(inDoc),J({pool:P.pool,rep:P.rep}));
   check('A6-4. shopOpen：講店裡的那幾則（中間那則、池子 0～5、回來那天）只在週六、日（wd [6,0]）',J(P.shopOpen)===J({mid:true,pool:[0,1,2,3,4,5],back:true,wd:[6,0]})&&inDoc('**只在週六、日傳**'));
   /* 2026-07-13（一）出發、07-24（五）回來：中間 7/18（六）是 mid；7/19（日）池子第 1 則；平日只有不講店裡的那幾則；回來那天是平日＝那一則不傳
      AA_686 第 3b、3c 項（企劃線 1df3c189e，AA-C 定 D109）：平日輪流的多三則（今天在淡水、診所門口的盆栽、秀琴姨，排在前面），玩家能回的平日換「淡水冷嗎？」「好好休息。」——下面兩項照新的規則（本身的測試在 tests/aa686_fix3_unit.js）*/
-  const L=ytTrip('2026-07-13','2026-07-24'), D=byDayTxt(L.filter(x=>/_p\d+$|_mid$|_back$/.test(x.tag||''))), NEU=['你那邊在吃什麼','……晚安'], WKP=[].concat(...((P.offWd||{}).pool||[])).concat(NEU);
+  const L=ytTrip('2026-07-13','2026-07-24'), D=byDayTxt(L.filter(x=>/_p\d+$|_mid$|_back$/.test(x.tag||''))), NEU=['你那邊在吃什麼','晚安'], WKP=[].concat(...((P.offWd||{}).pool||[])).concat(NEU);
   const shopIdx=new Set([0,1,2,3,4,5]), SHOP=[].concat(...[...shopIdx].map(i=>P.pool[i])).concat(P.mid,P.back.slice(1));
   const wk=Object.keys(D).filter(k=>![0,6].includes(WD(DK(k))));
-  check('A6-4. 平日（7/14～7/17、7/20～7/23）：只傳不講店裡的那幾則輪流（AA_686 第 3b 項：先「今天在淡水」那三則，再「你那邊在吃什麼」「……晚安」）',wk.length===8&&wk.every(k=>D[k].every(t=>WKP.includes(t)))&&D['2026-07-14'][0]==='今天在淡水'&&D['2026-07-17'][0]==='你那邊在吃什麼'&&D['2026-07-20'][0]==='……晚安',J(wk.map(k=>[k,D[k]])));
+  check('A6-4. 平日（7/14～7/17、7/20～7/23）：只傳不講店裡的那幾則輪流（AA_686 第 3b 項：先「今天在淡水」那三則，再「你那邊在吃什麼」「晚安」）',wk.length===8&&wk.every(k=>D[k].every(t=>WKP.includes(t)))&&D['2026-07-14'][0]==='今天在淡水'&&D['2026-07-17'][0]==='你那邊在吃什麼'&&D['2026-07-20'][0]==='晚安',J(wk.map(k=>[k,D[k]])));
   check('A6-4. 週六 7/18（中間那則）「📷（茶屋的茶壺）」「今天也有開」；週日 7/19 池子第 1 則「今天店裡很忙」「蘇姨問你什麼時候回來」',J(D['2026-07-18'])===J(['📷（茶屋的茶壺）','今天也有開'])&&J(D['2026-07-19'])===J(['今天店裡很忙','蘇姨問你什麼時候回來']),J([D['2026-07-18'],D['2026-07-19']]));
   check('A6-4. 回來那天（7/24 週五）：「蘇姨說幫你留一杯」那一則不傳；平日沒有任何講店裡的句子',!L.some(x=>x.tag==='vac_tm_T685_heroine_03_back')&&!wk.some(k=>D[k].some(t=>SHOP.includes(t))),J(D['2026-07-24']||null));
   const L2=ytTrip('2026-07-13','2026-07-25'); const bk=L2.filter(x=>x.tag==='vac_tm_T685_heroine_03_back').map(x=>x.t);

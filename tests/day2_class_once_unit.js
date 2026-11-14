@@ -5,8 +5,9 @@
 const fs=require('fs'), path=require('path'); const src=fs.readFileSync(path.join(__dirname,'..','src/story3d.js'),'utf8');
 let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
 check('1. 進 201 演 classScene：要 mainDay===2',/zoneId==='classroom'&&isThu\(G\)&&S\.mainDay\(G\)===2&&!F\.classDone&&h\(G\)>=12\.5&&h\(G\)<15\.2\)\{ await classScene\(GM\)/.test(src));
-check('1. 201 的周老師（inClass）、霖澤館的提示、校園的阿哲：mainDay===2',/inClass=!S\.isEcon\(G\)&&\(\(isThu\(G\)&&S\.mainDay\(G\)===2&&!F\.classDone/.test(src)&&/zoneId==='linze'&&isThu\(G\)&&S\.mainDay\(G\)===2&&!F\.classDone/.test(src)&&/isThu\(G\)&&S\.mainDay\(G\)===2&&!F\.classDone&&hr>=12\.5&&hr<13\.4\)\{ GM\.spawnNPC\('zhe'/.test(src));
+// CANON-NO-ECON-1112：經濟系那一年拿掉（程式裡 !S.isEcon(G)&& 拿掉了，比對的字跟著拿掉）
+check('1. 201 的周老師（inClass）、霖澤館的提示、校園的阿哲：mainDay===2',/inClass=\(\(isThu\(G\)&&S\.mainDay\(G\)===2&&!F\.classDone/.test(src)&&/zoneId==='linze'&&isThu\(G\)&&S\.mainDay\(G\)===2&&!F\.classDone/.test(src)&&/isThu\(G\)&&S\.mainDay\(G\)===2&&!F\.classDone&&hr>=12\.5&&hr<13\.4\)\{ GM\.spawnNPC\('zhe'/.test(src));
 check('1. 沒有別的「週四、!classDone」不看 mainDay 就演 classScene',(src.match(/await classScene\(GM\)/g)||[]).length===1);
 const t=src.slice(src.indexOf('S.tick=function(GM,dt)'));
-check('2. tick：法律系過了第 2 天還沒上＝classDone、classAnswer absent（不覆蓋已經有的答案）',/if\(!S\.isEcon\(G\)&&!F\.classDone&&S\.mainDay\(G\)>2\)\{ F\.classDone=true; if\(F\.classAnswer==null\) F\.classAnswer='absent'; \}/.test(t.slice(0,60000)));
+check('2. tick：法律系過了第 2 天還沒上＝classDone、classAnswer absent（不覆蓋已經有的答案）',/if\(!F\.classDone&&S\.mainDay\(G\)>2\)\{ F\.classDone=true; if\(F\.classAnswer==null\) F\.classAnswer='absent'; \}/.test(t.slice(0,60000)));
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

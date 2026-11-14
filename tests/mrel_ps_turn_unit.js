@@ -1,8 +1,8 @@
 // 多線交往第三批施工（不需要瀏覽器）：src/multirel3d.js、src/data/multirel_lines.js、src/hometown3d.js、src/data/events.js（考完的晚餐那一行）
-//   1 沛珊和宥辰的三次互動（AA_228 3-4；AA_425 第 1 節刪「別給阿哲聽。」）：大一下麵店長桌（ev_midterm_supper_y1s2）、大二上第 8 週麵店團群組＋宥辰私下傳的那一句、大三去台南找她
+//   1 沛珊和宥辰的三次互動（AA_228 3-4；AA_425 第 1 節刪「別給阿哲聽。」）：大一下麵店長桌（ev_midterm_supper_y1s2）、大二上第 8 週桌遊團群組＋宥辰私下傳的那一句、大三去台南找她
 //   2 《換我講一件事》（AA_228 3-4 原文；AA_422 7-3）：去台南找她的那一次；那學期沒去＝第 12 週以後她打電話；PS_CONFESSED；第四個選項 → 3-3（交往那一版、還沒交往「我也喜歡另一個女生。」那一版）
 //   3 台南那幾年：祐廷先坦白在去找她的那一次、視訊裡（AA_425 第 1 節）；挽回在去找她的那一次，那學期沒去才打電話（AA_423 6-1）
-//   4 麵店團說溜嘴的群聚：K12（ev_kexin_two_circles）、二十三週年（ev_noodle_23rd）、大二／大四中秋
+//   4 桌遊團說溜嘴的群聚：K12（ev_kexin_two_circles）、二十三週年（ev_noodle_23rd）、大二／大四中秋
 //   5 BB194-YTFLAGS（BB_194 §24 @1769c7ce）：劇本照實的那一句記 YT_HONEST；學姊「說我也喜歡妳。」、以安「還有誰？」（照實說）＝honest；可昕「沒有，那是誤會。」＝claimEnded（比事實＝YT_LIED.kexin[Y]）
 //   6 接受同時交往照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；使用者 10-27 回答 C：七位都打開，AA_474；關著的那一格把那一位改回 false 測）；YT_INTENT、AN_TALKED／SIS_TALKED／KX_TALKED
 //   7 舊存檔
@@ -46,21 +46,21 @@ await sec(1,async()=>{
   check('1. 不認識宥辰＝不演（只有認識的人說話）',!H.has('記得。可是我會假裝不記得。')&&!(H.G.flags.PS_YC||{}).n1);
 
   const d=STORY.termDay('Y2S1',8,3);
-  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','麵店團'); H.FRIEND(PS); H.FRIEND(YC); p3(STORY.termDay('Y2S1',5,2));
+  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','桌遊團'); H.FRIEND(PS); H.FRIEND(YC); p3(STORY.termDay('Y2S1',5,2));
   X().ycPhone(H.G); PHONE.tick(H.G);
   const g=msgs('g:noodle_team').filter(m=>m.text==='有沒有人知道一首聽了會想讀書的歌');
-  check('1. 第二次：大二上第 8 週週三 23:10 麵店團群組沛珊「有沒有人知道一首聽了會想讀書的歌」（沒有句號）',g.length===1&&g[0].from===PS,J(msgs('g:noodle_team')));
+  check('1. 第二次：大二上第 8 週週三 23:10 桌遊團群組沛珊「有沒有人知道一首聽了會想讀書的歌」（沒有句號）',g.length===1&&g[0].from===PS,J(msgs('g:noodle_team')));
   const a=X().dueAuto(H.G); check('1. 23:15 以後切過去（宥辰私下傳她的）',a&&a.k==='yc_cut'&&a.cap==='沛珊的手機');
   clr(); await play(a);
   check('1. （宥辰私下傳她一份歌單。）「六點那首是我自己混的。」（AA_425：沒有「別給阿哲聽。」）＝PS_YC.n2',J(T())===J(['（宥辰私下傳她一份歌單。）','六點那首是我自己混的。'])&&H.said[1].who==='賴宥辰（手機）'&&H.G.flags.PS_YC.n2===d&&!msgs('p:'+YC).length,J(H.lines()));
   check('1. 宥辰那一句不進祐廷的手機',!msgs().some(m=>m.text==='六點那首是我自己混的。'));
   fresh('2026-10-01',12); setD(d,23.3); H.FRIEND(PS); H.FRIEND(YC); p3(STORY.termDay('Y2S1',5,2)); X().ycPhone(H.G); PHONE.tick(H.G);
-  check('1. 不在麵店團群組＝沒有這一次',!msgs().some(m=>m.text==='有沒有人知道一首聽了會想讀書的歌')&&!X().ycCutDue(H.G));
-  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','麵店團'); H.FRIEND(PS); p3(STORY.termDay('Y2S1',5,2)); X().ycPhone(H.G); PHONE.tick(H.G);
+  check('1. 不在桌遊團群組＝沒有這一次',!msgs().some(m=>m.text==='有沒有人知道一首聽了會想讀書的歌')&&!X().ycCutDue(H.G));
+  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','桌遊團'); H.FRIEND(PS); p3(STORY.termDay('Y2S1',5,2)); X().ycPhone(H.G); PHONE.tick(H.G);
   check('1. 不認識宥辰：群組那句有，沒有切過去',msgs('g:noodle_team').some(m=>m.text==='有沒有人知道一首聽了會想讀書的歌')&&!X().ycCutDue(H.G));
   setD(d+1,22.5); X().ycPhone(H.G); check('1. 隔天 22:00 以後：群組那句在了，也算發生過（n2）',H.G.flags.PS_YC.n2===d);
   /* AA_432：沛珊 P3 ev_peishan_decision 要演過 */
-  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','麵店團'); H.FRIEND(PS); H.FRIEND(YC); X().ycPhone(H.G); PHONE.tick(H.G);
+  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','桌遊團'); H.FRIEND(PS); H.FRIEND(YC); X().ycPhone(H.G); PHONE.tick(H.G);
   check('1. P3「我要重考」沒演過＝第 8 週不傳、沒有 n2（AA_432）',!msgs().some(m=>m.text==='有沒有人知道一首聽了會想讀書的歌')&&X().ycSongDay(H.G)==null);
   const d10=STORY.termDay('Y2S1',10,2); p3(d10); const w10=STORY.termDay('Y2S1',10,3);
   check('1. P3 第 10 週週二才演＝那之後的第一個週三（第 10 週週三）',X().ycSongDay(H.G)===w10);
@@ -154,13 +154,13 @@ await sec(3,async()=>{
 
 /* ---------------- 4. 說溜嘴的群聚 ---------------- */
 await sec(4,async()=>{
-  const S=X().SLIP_EVENTS; check('4. K12、二十三週年、大二／大四中秋都在名單',!!S.ev_kexin_two_circles&&!!S.ev_noodle_23rd&&!!S.ev_y2_midautumn&&!!S.ev_y4_midautumn);
+  const S=X().SLIP_EVENTS; check('4. 二十三週年、大二／大四中秋都在名單；K12 不在（CANON-NO-ECON-1112 第三批：這一項拿掉）',!S.ev_kexin_two_circles&&!!S.ev_noodle_23rd&&!!S.ev_y2_midautumn&&!!S.ev_y4_midautumn);
   fresh('2028-12-14',19,'noodle',{dating_kexin:true,KX_MET_NOODLE_TEAM:true}); H.CLOSE(A1); ROM.start(H.G,A1); ROM.learn(H.G,'zhe',A1,'test');
   const ev={id:'ev_noodle_23rd',participants:['heroine_03']};
-  check('4. 二十三週年、可昕認識麵店團、阿哲知道以安＝阿哲說溜嘴',J(X().slipFor(H.G,ev))===J({y:A1,who:'zhe'}));
+  check('4. 二十三週年、可昕認識桌遊團、阿哲知道以安＝阿哲說溜嘴',J(X().slipFor(H.G,ev))===J({y:A1,who:'zhe'}));
   clr(); await X().afterEvent(GM,ev); check('4. 演完：「{name}最近很忙吧，又要顧妳又要顧以安。」＝可昕知道以安',H.has('祐廷最近很忙吧，又要顧妳又要顧以安。')&&ROM.knowsOf(H.G,KX,A1));
   H.G.flags.KX_MET_NOODLE_TEAM=false; X().rec(H.G).once={}; ROM.relRec(H.G)[KX]={};
-  check('4. 可昕沒見過麵店團＝她不在場、不說溜嘴',!X().slipFor(H.G,ev));
+  check('4. 可昕沒見過桌遊團＝她不在場、不說溜嘴',!X().slipFor(H.G,ev));
 });
 
 /* ---------------- 5. BB194-YTFLAGS ---------------- */
@@ -191,7 +191,7 @@ await sec(6,async()=>{
     const st=X().startStrain(H.G,SIS,KX,{ver:'base'}); st.phase='talked'; st.intent='both'; st.meets=2; st.lies0=0;
     const a=X().FLOW.heroine_05.meet(H.G,st,'talk'); clr(); await a.run(GM); };
   await sisB();
-  check('6. 學姊：還想兩個都要、戀愛 90、沒說謊＝接受（BB_194 4-6；第三句 AA_474 第 5 節改；「我還是喜歡你。這個我不想騙自己。」第 11 節第 13 點拿掉後，AA_591 整合九件第 5 件放回，企劃線 43d27cd80）＝OPEN_OK',H.has('我還是喜歡你。這個我不想騙自己。')&&H.has('我想過了。')&&H.has('……你去見她那天，出門前傳一句給我就好。')&&H.G.flags.dating_heroine_05===true&&!!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
+  check('6. 學姊：還想兩個都要、戀愛 90、沒說謊＝接受（BB_194 4-6；第三句 AA_474 第 5 節改；「我還是喜歡你。這個我不想騙自己。」第 11 節第 13 點拿掉後，AA_591 整合九件第 5 件放回，企劃線 43d27cd80）＝OPEN_OK',H.has('我還是喜歡你。這個我不想騙自己。')&&H.has('我想過了。')&&H.has('……你去見她那天，出門前發一句給我就好。')&&H.G.flags.dating_heroine_05===true&&!!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
   ROM.PARAMS.acceptsOpen[SIS]=false; await sisB(); ROM.PARAMS.acceptsOpen[SIS]=true;
   check('6. 學姊的開關改回 false（AA_474 第 0 節：使用者之後想讓某一位永遠不接受）＝「不接受」那一格（Bno＝BB_194 13-4 的 D：分開）',H.has('我沒辦法。我會一直在想你現在在哪裡。')&&!H.has('我還是喜歡你。這個我不想騙自己。')&&!H.G.flags.dating_heroine_05&&!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
   const psA=async()=>{ fresh('2027-03-01',12); datePS(); H.G.flags.dating_kexin=true; const s2=X().startStrain(H.G,PS,KX,{ver:'base'}); s2.phase='psA'; s2.aDay=H.G.day-8; s2.talkAt=H.G.day;

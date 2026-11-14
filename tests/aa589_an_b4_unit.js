@@ -54,8 +54,8 @@ check('3-1 第 10 列：攤牌「（站起來，把椅子推回去）我知道�
 check('3-2 第 27 列：町公所 c「我問過宿舍的管理員阿姨。她說大家照做，是因為隔壁也照做。」→「（停一下）她沒有提到町公所。」；「抄進手帳」不在',
   /\{label:'c'\},\{speaker:'heroine_01',text:'我問過宿舍的管理員阿姨。她說大家照做，是因為隔壁也照做。'\},\{speaker:'heroine_01',text:'（停一下）她沒有提到町公所。'\}/.test(B)&&!inCode('那我想研究的，就是這兩個中間的線。').length);
 { const s=stripC(B), i=s.indexOf("id:'ev_an_town_notice_repair'"), r=s.slice(i,s.indexOf('};',i));
-  check('3-3 第 28 列：挽回中那一場她不先開口——旁白「（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）」→ 祐廷「要幫忙嗎？」→「（她停了一下，把通知推過來，指著一個字。）」→ 祐廷翻譯 →「……謝謝。」',
-    /\{speaker:null,text:'（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）'\},\s*\{speaker:'player',text:'要幫忙嗎？'\},\s*\{speaker:null,text:'（她停了一下，把通知推過來，指著一個字。）'\},\s*\{speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'\},\s*\{speaker:'heroine_01',text:'……謝謝。'\},/.test(r)&&!r.includes('……你看得懂這個字嗎？'),r.slice(0,300));
+  check('3-3 第 28 列：挽回中那一場她不先開口——旁白「（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）」→ 祐廷「要幫忙嗎？」→「（她停了一下，把通知推過來，指著一個字。）」→ 祐廷翻譯 →「謝謝。」（AA_833，原本「……謝謝。」）',
+    /\{speaker:null,text:'（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）'\},\s*\{speaker:'player',text:'要幫忙嗎？'\},\s*\{speaker:null,text:'（她停了一下，把通知推過來，指著一個字。）'\},\s*\{speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'\},\s*\{speaker:'heroine_01',text:'謝謝。'\},/.test(r)&&!r.includes('……你看得懂這個字嗎？'),r.slice(0,300));
   check('3-4 第 29 列：「我不是在跟你和好。」刪掉；選項「（不再多說）」→（她把通知折好，收進包包。）「晚安。」＝AN_NOTICE_REPAIR_OK；「那我們可以談一下嗎？」→「……我只是看不懂這個字。」（她拿起字典走了。）；b 原句「我說了，我只是看不懂。」刪掉；REPAIR 條件照舊（after 讀 AN_NOTICE_REPAIR_OK）',
     !r.includes('我不是在跟你和好')&&!r.includes('我說了，我只是看不懂。')&&/\{choice:\[\{text:'（不再多說）',goto:'a'\},\{text:'「那我們可以談一下嗎？」',goto:'b'\}\]\}/.test(r)&&/\{label:'a'\},\{speaker:null,text:'（她把通知折好，收進包包。）'\},\{speaker:'heroine_01',text:'晚安。'\},\{set:\{AN_NOTICE_REPAIR_OK:true\}\}/.test(r)&&/\{label:'b'\},\{speaker:'heroine_01',text:'……我只是看不懂這個字。'\},\{speaker:null,text:'（她拿起字典走了。）'\}/.test(r)&&/after:G=>\{ const x=X\(\); if\(x&&G\.flags\.AN_NOTICE_REPAIR_OK\) x\.repairAdd\(G,'heroine_01'\); \}/.test(s)); }
 // ---------- 4 第 10 節「想去的店」 ----------
@@ -95,7 +95,7 @@ function rest(){
   check('5-5 舊句子不在：「司法官上了。」「二試過了。一月面試。」「嗯。……三月還有一個結果。」「……先不要問。」',!inCode("'司法官上了。'").length&&!inCode('二試過了。一月面試。').length&&!inCode('三月還有一個結果').length&&!inCode('美國的。……先不要問。').length); }
 // ---------- 6 CG-23 ----------
 { const s=stripC(B), i=s.indexOf("id:'ev_an_sakura_riverbank'"), r=s.slice(i,s.indexOf('};',i));
-  check('6-1 河堤（第 81、82 列）：CG-23 之後她直接說「櫻花只開一個禮拜。」；說話人「手帳」那一行、「（在手帳寫一行…）」都不在',/cg\('cg_sakura_riverbank_heroine01'\),\s*\{speaker:'heroine_01',text:'櫻花只開一個禮拜。'\},\s*\{speaker:'heroine_01',text:'……所以這週的讀書會，改在這裡。'\}/.test(r)&&!/speaker:'手帳'|在手帳寫一行/.test(r),r.slice(0,300)); }
+  check('6-1 河堤（第 81、82 列）：CG-23 之後她直接說「櫻花只開一個禮拜。」；說話人「手帳」那一行、「（在手帳寫一行…）」都不在',/cg\('cg_sakura_riverbank_heroine01'\),\s*\{speaker:'heroine_01',text:'櫻花只開一個禮拜。'\},\s*\{speaker:'heroine_01',text:'所以這週的讀書會，改在這裡。'\}/.test(r)&&!/speaker:'手帳'|在手帳寫一行/.test(r),r.slice(0,300)); }   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 第 226 列拿掉句首「……」。舊期望：「……所以這週的讀書會，改在這裡。」 */
 { const want=gshow('62395d7da','docs/story_planning/cg_approved/cg_sakura_riverbank_heroine01.webp','buffer'), have=fs.readFileSync(path.join(ROOT,'assets/cg/heroine_01/cg_sakura_riverbank.webp'));
   const md=b=>crypto.createHash('md5').update(b).digest('hex');
   check('6-2 CG-23 換圖：assets/cg/heroine_01/cg_sakura_riverbank.webp＝企劃線 62395d7da 的新圖',want.length>1000&&md(want)===md(have),md(have));

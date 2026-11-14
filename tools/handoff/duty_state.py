@@ -325,6 +325,18 @@ def _write(root, path, obj):
 
 def register(args):
     src = Src(args.root)
+    # D157（2026-11-12）：規則包比 RULE_SOURCE 舊就不給登記——工作階段啟動時載入的是自己分支的 CLAUDE.md，舊的等於沒讀到新規則
+    try:
+        import subprocess as _sp, os as _os
+        _rs = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'rules_sync.py')
+        if _os.path.exists(_rs) and not _os.environ.get('RULES_SYNC_SKIP'):
+            _r = _sp.run([sys.executable, _rs, '--check'], capture_output=True, text=True, cwd=args.root or None)
+            if _r.returncode == 1:
+                print(_r.stdout.strip())
+                print('[致命] 規則包是舊的，先跑 python3 tools/handoff/rules_sync.py --apply、commit＋push，再登記（D157）')
+                return 1
+    except Exception as _e:
+        print(f'[資訊] 規則包沒檢查到（{_e}）')
     ref, err = _role_ref(args)
     if err:
         print(f'[致命] {err}——沒有值班狀態不能登記；回報使用者')

@@ -25,7 +25,8 @@ global.GAME={get G(){ return G; }, enterN:0};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const look=()=>{ HOME.backdrop(G); const bgs=body.style.background||''; const m=bgs.match(/url\(([^)]*)\)/); return {hidden:canvas.style.visibility==='hidden', img:m?m[1]:null, raw:bgs}; };
 const isHome=img=>!!img&&/\/home_/.test(img);
-const econ=(at)=>{ G={stage:'econ',day:330,hour:9,flags:{Y0_MOVED_OUT:true},home:{at:!!at}}; };
+// CANON-NO-ECON-1112：經濟系那一年拿掉（「住在家裡」原本用經濟系休學退宿（Y0_MOVED_OUT）模擬，改用還在的那一條：畢業後退宿住家裡（MOVED_OUT，HOME.pgHome））
+const econ=(at)=>{ G={stage:'law',day:330,hour:9,flags:{MOVED_OUT:1},home:{at:!!at}}; };
 
 econ(true); ADV.active=false; ADV.bgMode=null; OUT.fromHome=false;
 let r=look(); check('1 在家、2D 沒開：3D 藏起來、鋪家裡', r.hidden&&isHome(r.img), JSON.stringify(r));

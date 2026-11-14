@@ -20,8 +20,14 @@
    - 新認識的人宋知寧（npc_songzn，中文系二年級；朋友、不能攻略、不接閒聊階梯）：舊路書房週六 14～17（大一、大二）。3D 用通用的女學生路人、站在書架前。
      第一次（「看二手書架」）兩個選項都會認識，記 SHOP_ZN_MET；之後三句輪流（G.flags.SHOP_ZN_N）；第二次以後她說加聯絡人那一句、記 SHOP_ZN_CONTACT。
      加了聯絡人以後的訊息（AA_641 第 2 節，aa641.znMsgs 六則；S.znPhone 在 STORY.PHONE_RULES）：照順序、一天一則、每學期最多兩則、學期中的平日（週一～五）21:00～21:20（PHONE.at）；考試週、寒暑假、國定假日不發；
-       上一則以後至少 S.ZN_GAP 天、加聯絡人以後至少 3 天；哪一天照種子（S.ZN_P）。第 5 則（她要去山嵐書店打工）：山嵐書店（zone shanlan）還沒進遊戲就先跳過、改發第 6 則（之後開了再補第 5 則）；
-       發了以後，她在店裡的出現改到山嵐書店（aa641.znMove：週六 14–17；台詞照舊三句輪流）。記在 G.flags.SHOP_ZN_BK＝{c0 加聯絡人那天, sent:[第幾則], terms:{學期:幾則}, last, ev 今天決定過, moved 第 5 則那天}（舊存檔沒有＝沒發過）。
+       上一則以後至少 S.ZN_GAP 天、加聯絡人以後至少 3 天；哪一天照種子（S.ZN_P）。第 5 則（她要去山嵐書店打工）：山嵐書店還沒進遊戲就先跳過、改發第 6 則（之後開了再補第 5 則）；
+       發了以後，她在店裡的出現改到山嵐書店（aa641.znMove：週六 14–17；台詞照舊三句輪流）。
+       2026-11-12（AA_828 第 6 節，企劃線 1d6055568c）：AA_641 的 znMove 寫的 spot「shanlan」是 AA_634 暫定的名字，實際的區域是 xs_shanlan——這個檔原本直接拿它當區域 id，
+         S.shanlanOpen() 永遠是 false＝第 5 則一直被跳過、她從來沒搬。現在照 S.ZONE_OF 對到區域（資料檔是匯入的，不改）。AA 定：①第 5 則發了以後週六 14～17 在山嵐（頁間書屋那個時段不再有她）
+         ②週日 14～18 也在山嵐（多一班；時間在 SHOP_JOBS_AA828.jobs.shanlan.co.at，匯入）——沒在山嵐打工的玩家週六、週日走進山嵐二樓都看得到她，照店內偶遇這一套 ③第 5 則以前她不在山嵐
+         ④舊存檔已經跳過第 5 則、收到第 6 則的＝補發第 5 則（S.znNext 照順序找還沒發的：第 5 則排在下一則，照一樣的節奏發；sent 變成 […,5,4]，不會重發第 6 則），補發以後才搬。
+         她站二樓：CROWD 的山嵐二樓四個站的點（crowd3d.js standUnits 的 lv 1；S.STAND_LV）；那一層沒有站得住的點＝照舊「沒有站的地方」取消，不另外編座標。
+       記在 G.flags.SHOP_ZN_BK＝{c0 加聯絡人那天, sent:[第幾則], terms:{學期:幾則}, last, ev 今天決定過, moved 第 5 則那天}（舊存檔沒有＝沒發過）。
        玩家傳訊息給她（MSG.EXTRA：在幹嘛、分享）：她只回一句（AA 11-03 15:05 定）：分享「哈哈。」、在幹嘛「在書房。」（到山嵐以後「在山嵐顧二樓。」）、謝謝「不客氣。」、生日快樂「謝謝。」、還好嗎「還好。」、新年快樂「新年快樂。」、其他「好。」，5～30 分鐘後（00:30～08:00 傳的 08:00 以後）。
    - 阿德（影印店老闆，AA_633 shopkeepers）：「印東西」時隨機一句（每次最多一句；期中、期末那兩週機率高）。
    - 店裡客人的路人句（SHOP-DINERS-1103、AA_640）：點了聽一句（按鈕最後才算 yieldIt）——吃飯的店兩人一桌（A／B 照 pair）、Café 與慢讀咖啡（第 2～5、7 句）、
@@ -43,15 +49,25 @@ const SHOPENC=(function(){
   if(typeof SOCIAL!=='undefined'&&SOCIAL.ACT&&!SOCIAL.ACT.shopHi) SOCIAL.ACT.shopHi={fam:1};
   S.WINDOW={wz_tea:'tea',wz_ice:'ice'};   /* 溫州街的外帶窗口（不是區域；wzshops3d.js 的 order364）*/
   S.EXAM_SPOTS=['cafe','cvs'];   /* 考試週只有讀書、宵夜的地方（AA_632 第 3 節）*/
-  S.STAND_SPOTS=['bookstore','cvs','wz_print','shanlan'];   /* 站著的店：書架、貨架、櫃台前面（山嵐書店：宋知寧打工的二樓，AA_641）*/
+  S.ZONE_OF={shanlan:'xs_shanlan'};   /* 資料寫的店（AA_634／AA_641 暫定的名字）→ 實際的區域 id */
+  S.zoneOf=spot=>(spot&&Object.prototype.hasOwnProperty.call(S.ZONE_OF,spot))?S.ZONE_OF[spot]:spot;
+  S.STAND_SPOTS=['bookstore','cvs','wz_print','xs_shanlan'];   /* 站著的店：書架、貨架、櫃台前面（山嵐書店：宋知寧打工的二樓，AA_641）*/
+  S.STAND_LV={xs_shanlan:1};   /* 站在哪一層（兩層的店；沒寫＝不分層，照舊）*/
   S.ZN='npc_songzn';
   const X41=()=>D().aa641||{};
   S.rows=spot=>(D().rows||[]).filter(r=>!spot||r.spot===spot);
-  /* 山嵐書店（AA_634 的暫定 zone id shanlan）進遊戲了沒 */
-  S.shanlanOpen=()=>typeof Z3!=='undefined'&&!!Z3.ZONES&&!!Z3.ZONES[(X41().znMove||{}).spot||'shanlan'];
-  S.spots=()=>{ const o={}; for(const r of D().rows||[]) o[r.spot]=1; for(const p of D().newPeople||[]) o[p.intro_spot]=1; const mv=X41().znMove; if(mv&&S.shanlanOpen()) o[mv.spot]=1; return Object.keys(o); };
-  /* 新認識的人現在在哪一間、什麼時間（宋知寧：第 5 則訊息發了以後、山嵐書店開了＝山嵐書店週六 14–17）*/
-  S.npAt=function(G,P){ const mv=X41().znMove, R=G&&G.flags&&G.flags.SHOP_ZN_BK; if(P&&P.id===S.ZN&&mv&&R&&R.moved!=null&&G.day>R.moved&&S.shanlanOpen()) return Object.assign({},P,{intro_spot:mv.spot,days:mv.days,from:mv.from,to:mv.to}); return P; };
+  /* 山嵐書店（資料寫 shanlan，區域 xs_shanlan）進遊戲了沒 */
+  S.shanlanZone=()=>S.zoneOf((X41().znMove||{}).spot||'shanlan');
+  S.shanlanOpen=()=>typeof Z3!=='undefined'&&!!Z3.ZONES&&!!Z3.ZONES[S.shanlanZone()];
+  S.spots=()=>{ const o={}; for(const r of D().rows||[]) o[r.spot]=1; for(const p of D().newPeople||[]) o[p.intro_spot]=1; const mv=X41().znMove; if(mv&&S.shanlanOpen()) o[S.shanlanZone()]=1; return Object.keys(o); };
+  /* 她在山嵐的時間：[{wd（0＝週日…6＝週六，同 G.weekday）, from, to}]——AA_641 znMove（週六 14–17）＋AA_828 第 6 節多的那一班（週日 14–18；SHOP_JOBS_AA828.jobs.shanlan.co.at，匯入）。沒有 AA_828 的資料＝只有 znMove */
+  S.znShanSlots=function(){ const mv=X41().znMove; if(!mv) return []; const out=(mv.days||[]).map(wd=>({wd:wd%7,from:mv.from,to:mv.to}));
+    const J=typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.jobs&&SHOP_JOBS_AA828.jobs.shanlan, A=J&&J.co&&Array.isArray(J.co.at)?J.co.at:[];
+    for(const q of A){ if(!q||typeof q.wd!=='number'||typeof q.t0!=='number'||typeof q.t1!=='number') continue; const wd=q.wd%7; if(!out.some(o=>o.wd===wd)) out.push({wd,from:q.t0,to:q.t1}); } return out; };
+  /* 她搬到山嵐了沒：第 5 則訊息發了的隔天起（SHOP_ZN_BK.moved＝發的那一天）、山嵐書店在遊戲裡 */
+  S.znMoved=function(G){ const mv=X41().znMove, R=G&&G.flags&&G.flags.SHOP_ZN_BK; return !!(mv&&R&&typeof R==='object'&&R.moved!=null&&G.day>R.moved&&S.shanlanOpen()); };
+  /* 新認識的人現在在哪一間、什麼時間（宋知寧：搬了以後＝山嵐書店週六 14–17、週日 14–18；今天是哪一天就給那一天的時間）*/
+  S.npAt=function(G,P){ if(P&&P.id===S.ZN&&S.znMoved(G)){ const L=S.znShanSlots(), q=L.find(o=>o.wd===G.weekday)||L[0]; if(q) return Object.assign({},P,{intro_spot:S.shanlanZone(),days:L.map(o=>o.wd),from:q.from,to:q.to}); } return P; };
   S.npOf=(G,id)=>{ const P=(D().newPeople||[]).find(p=>p.id===id); return P?S.npAt(G,P):null; };
   S.rec=function(G){ const d=G.daily||(G.daily={}); let r=d.shopEnc; if(!r||r.day!==G.day) r=d.shopEnc={day:G.day,dec:{},who:{},met:[]}; if(!d.shopEncWk||typeof d.shopEncWk!=='object') d.shopEncWk={}; return r; };
   const weekKey=G=>{ const T=term(G); return T?T.id+'W'+T.week:'D'+Math.floor(G.day/7); };
@@ -80,10 +96,9 @@ const SHOPENC=(function(){
   S.calm=function(G,zone){ const F=G.flags||{}; if(F.companion) return true; return (G.invites||[]).some(iv=>iv&&iv.day===G.day&&iv.accepted&&!iv.done&&(iv.zone===zone)); };
   /* 這一列現在成立嗎：{row,tier} 或 null（why 給測試看）*/
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
-    if(G.stage==='econ') return no('econ');
     if(!timeOk(G,row.days,row.from,row.to)) return no('時段'); if(calOk(G,row,no)!==true) return null;
     if(row.flags&&!row.flags.every(f=>G.flags&&G.flags[f])) return no('旗標'); if(row.needFlags&&!row.needFlags.every(f=>G.flags&&G.flags[f])) return no('needFlags');
-    if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei') return no('不在（'+(pr.away||pr.kind)+'）'); }   /* 國外、休學、回老家 */
+    if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei') return no('不在（'+(pr.away||pr.kind)+'）'); }   /* 國外、離校、回老家 */
     const tr=tierOf(G,row.who); if(tr.t==='stranger') return no('還不認識');
     if(row.stageMin&&tr.t!=='dating'&&tr.t!=='ex'&&tr.t!=='catch'&&ST().indexOf(tr.st)<ST().indexOf(row.stageMin)) return no('還不夠熟');
     if(metToday(G,row.who)) return no('今天遇過了');
@@ -97,7 +112,7 @@ const SHOPENC=(function(){
     return {row,tier:tr,here:!!b}; };   /* here：作息本來就在這間店（以安週末下午在兩點半）＝照作息坐她的位子，偶遇只是走過去的那一段 */
   /* 新認識的人（宋知寧）：只看時間、學期、考試週、今天遇過沒（她不在任何人的作息裡）*/
   S.znEligible=function(G,spot,why){ const P=(D().newPeople||[]).map(p=>S.npAt(G,p)).find(p=>p.intro_spot===spot); if(!P) return null; const no=w=>{ if(why) why.push(P.id+'@'+spot+':'+w); return null; };
-    if(G.stage==='econ') return no('econ'); if(!timeOk(G,P.days,P.from,P.to)) return no('時段'); if(calOk(G,Object.assign({spot},P),no)!==true) return null; if(metToday(G,P.id)) return no('今天遇過了');
+    if(!timeOk(G,P.days,P.from,P.to)) return no('時段'); if(calOk(G,Object.assign({spot},P),no)!==true) return null; if(metToday(G,P.id)) return no('今天遇過了');
     return {row:{who:P.id,spot,np:P},tier:{t:'new'}}; };
   S.candidates=function(G,spot,why){ const C=S.rows(spot).map(r=>S.eligible(G,r,why)).filter(Boolean); const z=S.znEligible(G,spot,why); if(z) C.push(z); return C; };
   /* 演出中（劇情、對話、有人跟著你）不排 */
@@ -114,11 +129,11 @@ const SHOPENC=(function(){
   S.sched=function(c,G){ if(guard||!c||!c.id||!G||!G.daily||!G.daily.shopEnc) return null; const a=S.active(G,c.id); if(!a||a.row.np) return null; { const b=S.baseSched(c,G); if(b&&!S.soft(c,b)) return null; }
     const row=a.row, P=a.dec.place||{}, base={days:[G.weekday],from:row.from,to:row.to,away:row.away,label:row.away,shopEnc:a.key,note:'店內偶遇（'+row.src+'）'};
     if(S.WINDOW[row.spot]||!P.seat&&!P.stand) return Object.assign(base,{zone:null,act:'out'});   /* 外帶窗口：她在溫州街（沒有 3D） */
-    if(P.stand) return Object.assign(base,{zone:row.spot,act:'linger',at:[P.stand[0],P.stand[1],P.stand[2]||0,0],noPair:true});
+    if(P.stand) return Object.assign(base,{zone:row.spot,act:'linger',at:[P.stand[0],P.stand[1],P.stand[2]||0,P.stand[3]|0],noPair:true});
     return Object.assign(base,{zone:row.spot,act:'read',seatAt:[P.seat.x,P.seat.z],noPair:true}); };   /* 坐著（populateSchedule：read＝坐著看書、喝東西、吃）*/
   /* 站的地方：CROWD 的架子、櫃台前面（排隊結帳那一格不算），照種子挑一個沒人站的 */
-  S.standPick=function(GM,spot,k){ const C=typeof CROWD!=='undefined'?CROWD:null, def=C&&C.SHOP_ZONES&&C.SHOP_ZONES[spot]; if(!def) return null; const E=GM.E;
-    const pts=def.units.filter(u=>u.stand&&u.kind!=='pay').map(u=>u.stand).filter(p=>!(E.interactables||[]).some(i=>!i.seat&&!i.hidden&&Math.hypot(i.x-p[0],i.z-p[1])<(i.exit?1.0:0.45))&&(!E.canStand||E.canStand(p[0],p[1],0.3,0)));
+  S.standPick=function(GM,spot,k,lv){ const C=typeof CROWD!=='undefined'?CROWD:null, def=C&&C.SHOP_ZONES&&C.SHOP_ZONES[spot]; if(!def) return null; const E=GM.E, L0=lv==null?0:lv|0;   /* lv（S.STAND_LV）：只挑那一層的點，回傳 [x,z,yaw,lv] */
+    const pts=def.units.filter(u=>u.stand&&u.kind!=='pay'&&(lv==null||(u.lv|0)===L0)).map(u=>lv==null?u.stand:[u.stand[0],u.stand[1],u.stand[2],L0]).filter(p=>!(E.interactables||[]).some(i=>!i.seat&&!i.hidden&&(lv==null||(i.lv|0)===L0)&&Math.hypot(i.x-p[0],i.z-p[1])<(i.exit?1.0:0.45))&&(!E.canStand||E.canStand(p[0],p[1],0.3,L0)));
     if(!pts.length) return null; const taken=(C.shopStandRes&&C.shopStandRes[spot])||{}; const free=pts.filter(p=>!taken[p[0].toFixed(2)+','+p[1].toFixed(2)]); const L=free.length?free:pts;
     return L[hash(k)%L.length]; };
   /* row.tag（WZ-SHOPS1-1104）：偶遇資料寫了 tag＝只挑那一種位子（座位的 tag：2:30 AM 的 sofa、bar、booth…；以安「她坐在沙發那一區」＝sofa）；沒有空的那一種＝沒有位子（句子寫的是那一區，不坐別的地方）。
@@ -134,7 +149,7 @@ const SHOPENC=(function(){
     const row=S.rowOf(d.who,zoneId,G), to=row.np?row.np.to:row.to, C=typeof CROWD!=='undefined'?CROWD:null;
     if(G.hour>=to) return d;
     if(!row.np&&typeof CHARACTERS!=='undefined'&&CHARACTERS[d.who]){ const b=S.baseSched(CHARACTERS[d.who],G); if(b&&b.zone===zoneId&&!S.soft(CHARACTERS[d.who],b)){ d.place={sched:true}; return d; } }   /* 作息本來就在這間店：populateSchedule 照作息生、坐她自己的位子 */
-    if(S.STAND_SPOTS.includes(zoneId)){ const p=(d.place&&d.place.stand)||S.standPick(GM,zoneId,k); if(!p){ d.cancel='沒有站的地方'; return d; } d.place={stand:[p[0],p[1],p[2]]}; if(C&&C.shopStandTake) C.shopStandTake(zoneId,p,{day:G.day,until:to,whoId:d.who}); return d; }
+    if(S.STAND_SPOTS.includes(zoneId)){ const p=(d.place&&d.place.stand)||S.standPick(GM,zoneId,k,S.STAND_LV[zoneId]); if(!p){ d.cancel='沒有站的地方'; return d; } d.place={stand:p[3]?[p[0],p[1],p[2],p[3]|0]:[p[0],p[1],p[2]]}; if(C&&C.shopStandTake) C.shopStandTake(zoneId,p,{day:G.day,until:to,whoId:d.who}); return d; }
     let st=null; if(d.place&&d.place.seat){ st=(GM.E.zone.seats||[]).find(q=>Math.hypot(q.x-d.place.seat.x,q.z-d.place.seat.z)<0.12)||null; if(st&&C&&C.seatBusy&&C.seatBusy(GM.E,st)&&!(C.shopReserved&&C.shopReserved(zoneId,st,G))) st=null; }
     if(!st) st=S.seatPick(GM,zoneId,row); if(!st){ d.cancel='沒有位子'; if(d.who) delete R.who[d.who]; return d; }
     d.place={seat:{x:st.x,z:st.z,lv:st.lv|0}}; if(C&&C.shopSeatTake) C.shopSeatTake(zoneId,st,{G,day:G.day,until:to,whoId:d.who,instant:true}); return d; };
@@ -142,7 +157,7 @@ const SHOPENC=(function(){
   S.after=function(GM,zoneId){ const G=GM.G, E=GM.E; if(!G||!S.spots().includes(zoneId)) return; const R=S.rec(G), d=R.dec[S.key(G,zoneId)]; if(!d||!d.who||d.cancel||R.met.includes(d.who)) return;
     if(d.who===S.ZN){ const P=d.place&&d.place.stand; if(!P||(E.npcs||[]).some(n=>n&&n.shopZn)) return; const P0=S.npOf(G,S.ZN); if(!P0||G.hour>=P0.to) return;
       const spec=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(998):{}; const o=CHAR.build(spec); o.position.set(P[0],0,P[1]); o.rotation.y=P[2]||0;
-      const met=!!(G.flags&&G.flags.SHOP_ZN_MET); const n=E.addNPC({obj:o,name:met?P0.name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,shopZn:true,lv:0});
+      const met=!!(G.flags&&G.flags.SHOP_ZN_MET); const n=E.addNPC({obj:o,name:met?P0.name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,shopZn:true,lv:P[3]|0});   /* 山嵐：二樓（E.addNPC 照那一層的地板放）*/
       if(n){ n.until=P0.to; n.talkLabel=met?'和'+P0.name+'說話':'看二手書架'; n.talk=()=>S.znTalk(GM,n); } return n; }
     const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(d.who):null; if(n&&(G.zone===zoneId)){ n.shopEnc=true; n.talkLabel='和'+nameOf(d.who)+'打招呼'; } return n; };
   S.pending=function(G,id){ const a=S.active(G,id); return !!a&&!a.row.np&&a.spot===G.zone&&!S.rec(G).met.includes(id); };
@@ -239,8 +254,10 @@ const SHOPENC=(function(){
   S.ZN_GAP=14; S.ZN_P=0.3; S.ZN_TAG='shop_zn_bk_';
   S.znBk=function(G){ const F=G.flags||(G.flags={}); let R=F.SHOP_ZN_BK; if(!R||typeof R!=='object') R=F.SHOP_ZN_BK={};
     if(!Array.isArray(R.sent)) R.sent=[]; if(!R.terms||typeof R.terms!=='object') R.terms={}; return R; };
+  /* 第 5 則（「我下個月開始在山嵐書店打工了……有空來坐。」）只在她還會在店裡的學期發（newPeople 的 terms：到大二下）——大三以後才輪到／才補發的話她已經不出現了，那一句會變成空話：跳過（LAWWW 的保守做法，問 AA 中）*/
+  S.znTermOk=function(G){ const P=(D().newPeople||[]).find(p=>p.id===S.ZN), T=term(G); return !P||!Array.isArray(P.terms)||!T||P.terms.includes(T.id); };
   /* 下一則（照順序；第 5 則：山嵐書店還沒開＝先跳過）：第幾則（0 起）或 -1 */
-  S.znNext=function(G){ const L=X41().znMsgs||[], mv=X41().znMove, R=S.znBk(G); for(let i=0;i<L.length;i++){ if(R.sent.includes(i)) continue; if(mv&&i===mv.after-1&&!S.shanlanOpen()) continue; return i; } return -1; };
+  S.znNext=function(G){ const L=X41().znMsgs||[], mv=X41().znMove, R=S.znBk(G); for(let i=0;i<L.length;i++){ if(R.sent.includes(i)) continue; if(mv&&i===mv.after-1&&(!S.shanlanOpen()||!S.znTermOk(G))) continue; return i; } return -1; };   /* 舊存檔（第 5 則被跳過、已經收到第 6 則）：第 5 則是最前面還沒發的＝下一則就補它（AA_828 第 6 節第 4 點）*/
   /* STORY.PHONE_RULES：一天決定一次（21:00 以前）——今天發不發、發哪一則（PHONE.at 排在 21:00～21:20）*/
   S.znPhone=function(G){ if(!G||(G.stage||'law')!=='law'||typeof PHONE==='undefined'||typeof CALENDAR==='undefined') return false; const F=G.flags||{}; if(!F.SHOP_ZN_CONTACT) return false;
     const R=S.znBk(G); if(R.c0==null) R.c0=G.day; if(R.ev===G.day) return false; if(G.hour>=21) return false; R.ev=G.day;

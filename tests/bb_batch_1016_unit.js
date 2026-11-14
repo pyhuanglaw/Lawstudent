@@ -1,5 +1,5 @@
 // BB-B 2026-10-16 這一批（BB_97 4-4、4-7、第 5 節；20c81473、a3b9d427）＋ART-BG-COURT——不需要瀏覽器。
-// 檢查：明軒系籃兩處；上榜聚餐 Kevin 一則（永康街／公館的日日定食）；P4b 小組每週五揪（三句輪流）；手機小事（子晴那封信、學姊 M2 之後、沛珊 42 頁）；ntu_court_night 背景有圖。用法：node tests/bb_batch_1016_unit.js
+// 檢查：明軒系籃兩處；上榜聚餐 Kevin 一則（永康街／汀州路的泰米村食，2026-11-11 AA_742 第 ③ 節：原本公館的日日定食）；P4b 小組每週五揪（三句輪流）；手機小事（子晴那封信、學姊 M2 之後、沛珊 42 頁）；ntu_court_night 背景有圖。用法：node tests/bb_batch_1016_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};

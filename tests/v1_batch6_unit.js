@@ -1,7 +1,7 @@
 // 交接包 v1（大一上）第 6 批：AA 的新事件 A9～A12——不需要瀏覽器。
-// 檢查（修改前都會失敗：事件、迎新活動、下課後的事件、麵店團群組都不存在）：
+// 檢查（修改前都會失敗：事件、迎新活動、下課後的事件、桌遊團群組都不存在）：
 //   A9 哲 1（AA_40）：第 4 週週四起、週二週四 17:30–20:30 在麵店、阿哲在旁邊才觸發（第 4 週週二、週一、16:00、宿舍都不會）；錯過週四的順延到下一次；只一次；
-//     台詞照原文（「（對祐廷）」改成「（對你）」）；之後加入「麵店團」群組（一則系統訊息）；上一個麵店日沒來，下一個麵店日 17:30 阿哲在群組揪（四句輪流，AA 2026-10-14；
+//     台詞照原文（「（對祐廷）」改成「（對你）」）；之後加入「桌遊團」群組（一則系統訊息）；上一個麵店日沒來，下一個麵店日 17:30 阿哲在群組揪（四句輪流，AA 2026-10-14；
 //     哲 1 那天、週一三五、放假不揪；一天一次；一直有來＝安靜，第 9 批 v1_batch9_unit 有更多情況）；這個例行訊息不擋每天的手機小事。
 //   A10 語 1（AA_40）：第 3～5 週早上在校園、認識 Alison 之後的另一天（自我介紹那天不會、第 6 週不會、下午不會）；三個選項的反應照原文；
 //     「坐下來一起吃」記憶 BREAKFAST_YU；只一次；第一次說話（talkYu）記下 metYuDay。
@@ -54,7 +54,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A9 台詞（AA_542 1-2「第一次併桌」；原本 AA_40 哲 1「規矩很簡單：週二週四，麵店。不用約，來就有人。」收回）；AA_606 3-3：大一上還不認識 Alison＝開頭 Alison 跟著來（預設第一個選項）',JSON.stringify(L)===JSON.stringify(['（燒臘店。阿哲旁邊多了一個女生，已經在看菜單。）','Alison。宿營跟我同一隊，也是法律系。','嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。','他說你轉身撞到他，他差點跌倒。','好了啦，點菜。','（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃燒臘的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃飯就來，遇到就一起坐。']),JSON.stringify(L));
     { const k=said.findIndex(x=>x.t==='你們？法律系的？'); check('A9 阿姨的台詞名字是「阿姨」',k>=0&&said[k].who==='阿姨',JSON.stringify(said[k])); }
     check('A9 只一次；不再記 noodleTableDay（AA_623：群組改在第一次桌遊夜由明軒建立，長桌不加群組）',G.flags.noodleTableDay==null&&!EVENTS.check(e));
-    /* 麵店團群組 */
+    /* 桌遊團群組 */
     run(18.2,20); const gm=G.msgs.filter(m=>m.th==='g:noodle_team');
     check('A9 之後：不加入群組、沒有「阿哲建立了群組」（AA_623：群組是「桌遊團」，第一次桌遊夜明軒建立，見 tests/aa623_boardgame_unit.js），沒有揪',!PHONE.inGroup(G,'noodle_team')&&gm.length===0,JSON.stringify(gm.map(m=>m.text)));
     const pings=[]; let day=W4THU+1;
@@ -103,16 +103,17 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { const a=ACTIVITIES.list.find(x=>x.id==='welcome_y1s1'), e=ev('ev_welcome_y1s1'), D831=STORY.dayOfKey('2025-08-31');   /* AA_310（使用者 10-20「迎新在9/27不合理阿 應該在開學前」）：8/31（日）09:30～12:00，下午開學典禮 */
     check('A11 活動：法律系迎新，開學前 8/31（日）09:30–12:00，校園晨思鐘前的集合點，參加就演 ev_welcome_y1s1、去一次就好；9/27 沒有',!!a&&!!e&&a.zone==='campus'&&a.spot&&ACTIVITIES.on(a,D831)&&!ACTIVITIES.on(a,D831+1)&&!ACTIVITIES.on(a,W4SAT)&&a.t0===9.5&&a.t1===12&&a.once&&a.event==='ev_welcome_y1s1'&&e.trigger==='activity');
     const attend=async(flags,setup,pk)=>{ fresh(D831,9.5,'campus',flags||{}); if(setup) setup(); picks=pk||[]; const ok=await CLS.attendActivity(GM,a); return ok; };
-    const ok=await attend({},()=>{ meet('heroine_01'); },['大一歲','還在找']); const L=lines();
-    check('A11 參加：演迎新（開場「星期天上午……下午就是開學典禮」→輪到你→阿哲「那我們叫你哥？」→你「不要。」→大地遊戲→沛珊→「好。那我們兩個都還在找。」）、演完到 12:00',ok&&L[0]==='星期天上午，晨思鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。'&&L.includes('輪到你。')&&L.includes('那我們叫你哥？')&&L.includes('不要。')&&L.includes('我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？')&&L.includes('好。那我們兩個都還在找。')&&Math.abs(G.hour-12)<0.01,JSON.stringify({L,h:G.hour}));
-    check('A11 自我介紹三個選項（AA_71 2-1）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，臺北人。」','「我比大家大一歲。」','「我二十歲。念過經濟系，一個多月。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
+    const ok=await attend({},()=>{ meet('heroine_01'); },['就這樣','還在找']); const L=lines();   /* （CANON-NO-ECON-1112 第四批：照 AA_883 換字）選第三個選項（原本「大一歲」）*/
+    check('A11 參加：演迎新（開場「星期天上午……下午就是開學典禮」→輪到你→「我叫祐廷。……就這樣。」→（全場安靜了一秒…）→學長「好，很有效率。下一個。」→大地遊戲→沛珊→「好。那我們兩個都還在找。」）、演完到 12:00',ok&&L[0]==='星期天上午，晨思鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。'&&L.includes('輪到你。')&&L.includes('（全場安靜了一秒，有人笑出來。）')&&L.includes('好，很有效率。下一個。')&&!L.includes('那我們叫你哥？')&&L.includes('一句話？……學長，你自己答得出來嗎？','（關主愣了一下。）')&&L.includes('好。那我們兩個都還在找。')&&Math.abs(G.hour-12)<0.01,JSON.stringify({L,h:G.hour}));   /* AA_950 ③（BB_459）：沛珊舊口頭禪換掉、加旁白。舊期望：那句口頭禪 */
+    check('A11 自我介紹三個選項（AA_883；CANON-NO-ECON-1112 第四批：照 AA_883 換字）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，臺北人。」','「我叫祐廷。從小就想念這裡。」','「我叫祐廷。……就這樣。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
     check('A11 「大一歲」不設 ECON_PAST_SHARED、以安不記 KNOWS_ECON_YEAR',G.flags.ECON_PAST_SHARED===undefined&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     check('A11 沛珊：FIRST_MET、拿到她的聯絡方式；只一次（活動去過、事件演過）',SOCIAL.has('classmate_peishan','FIRST_MET')&&INV.hasContact(G,'classmate_peishan')&&!EVENTS.check(e,{chain:true})&&ACTIVITIES.onceDone(G,a));
     check('A11 沒見過 Alison、柏翰：兩句都跳過（只有認識的人在場）',!L.some(t=>/Alison 自我介紹|她剛剛講了四個/.test(t)));
     await attend({},()=>{ meet('heroine_01'); },['念過經濟系','替她答']); const L2=lines();
-    check('A11 「念過一年經濟」：全場「喔——」、阿哲「哥！」、ECON_PAST_SHARED=full、以安（見過）記 KNOWS_ECON_YEAR',L2.includes('全場「喔——」。')&&L2.includes('哥！')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'),JSON.stringify(L2));
+    /* CANON-1112：舊序章拿掉／可昕開局不認識：原本這一項（選第三個選項：全場「喔——」、「哥！」、記 full、以安記得）拿掉——那一支不在了；L2 現在走第一個選項 */
+    check('A11 第三個選項那一支不在了：沒有全場「喔——」、不記 ECON_PAST_SHARED',!L2.includes('全場「喔——」。')&&G.flags.ECON_PAST_SHARED===undefined&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'),JSON.stringify(L2));
     check('A11 替她答：「她看了你一眼。」「……你怎麼知道。」「關主讓你們過了。」',L2.includes('她看了你一眼。')&&L2.includes('……你怎麼知道。')&&L2.includes('關主讓你們過了。'));
-    await attend({},null,['念過經濟系']); check('A11 以安沒見過（不在場）：不記 KNOWS_ECON_YEAR，但同學知道（full）',G.flags.ECON_PAST_SHARED==='full'&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
+    await attend({},null,['念過經濟系']); check('A11 以安沒見過（不在場）：不記 KNOWS_ECON_YEAR（CANON-1112：舊序章拿掉／可昕開局不認識：原本還期望同學知道＝full，那一支拿掉了）',G.flags.ECON_PAST_SHARED===undefined&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     await attend({ECON_PAST_SHARED:'half'},null,['臺北人']); const h1=G.flags.ECON_PAST_SHARED; await attend({ECON_PAST_SHARED:'full'},null,['大一歲']); const f1=G.flags.ECON_PAST_SHARED;
     check('A11 說過的事不會變成沒說過：重修經原說過 half 的照舊 half、full 照舊 full',h1==='half'&&f1==='full',JSON.stringify({h1,f1}));
     await attend({met_yu:true},null,['臺北人']); const L3=lines(); await attend({met_yu:true},()=>meet('classmate_bohan'),['臺北人']); const L4=lines();

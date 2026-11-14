@@ -21,7 +21,7 @@ const {check,GM,E}=H, J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const loadErr=[];
 const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有這個檔'); return false; } try{ let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+e.message); return false; } };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/zr_uk3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/exchange3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/r3_events.js','src/r3_3d.js',
   'src/data/fest_events.js','src/fest3d.js','src/data/cracktalk_lines.js','src/cracktalk3d.js']) L3(f);   /* index.html 的順序（照 r2y3a_events_unit.js、r3_events_unit.js、v6_crack_unit.js、aa416_fest_unit.js、peishan_tainan_unit.js 載的檔）*/
 GM.toast=()=>{}; GM.caption=()=>{}; GM.studySession=async()=>{};
@@ -72,12 +72,12 @@ await sec(0,()=>{
 });
 
 /* ---- 1 以安的行政法院 ---- */
-const crAsk=(pick)=>{ fresh('2027-10-19',20,{}); PHONE.join(H.G,'noodle_team','麵店團'); for(const id of [AN,'classmate_bohan','zhe','yu']) H.FAMILIAR(id); run('2027-10-19',20.75,21.25);
+const crAsk=(pick)=>{ fresh('2027-10-19',20,{}); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of [AN,'classmate_bohan','zhe','yu']) H.FAMILIAR(id); run('2027-10-19',20.75,21.25);
   const m=PHONE.byAsk(H.G,'y3_cr_grp'), k=m?m.ask.opts.findIndex(o=>o.t===pick):-1; if(k>=0) PHONE.answer(H.G,'y3_cr_grp',k); return {m,k}; };
 const an14=()=>byTag('y3_an14_msg').map(m=>m.text);
 await sec(1,()=>{
   { const {m,k}=crAsk('我跟以安去。'); run('2027-10-20',9,9.5); run('2027-10-21',21.75,22.25); const L=byTag('y3_an14_msg');
-    check('1. 10/19 群組回「我跟以安去。」（CRIMPRO_WITH an）→ 10/21 22:00 麵店團：「'+AN_NEW.join('」「')+'」＋「'+AN_FRI+'」（第 1 節）',!!m&&k>=0&&H.G.flags.CRIMPRO_WITH==='an'&&J(an14())===J(AN_NEW.concat([AN_FRI]))&&L.every(x=>x.th===NG&&x.from===AN)&&Math.abs(L[0].h-22)<0.26,J(an14()));
+    check('1. 10/19 群組回「我跟以安去。」（CRIMPRO_WITH an）→ 10/21 22:00 桌遊團：「'+AN_NEW.join('」「')+'」＋「'+AN_FRI+'」（第 1 節）',!!m&&k>=0&&H.G.flags.CRIMPRO_WITH==='an'&&J(an14())===J(AN_NEW.concat([AN_FRI]))&&L.every(x=>x.th===NG&&x.from===AN)&&Math.abs(L[0].h-22)<0.26,J(an14()));
     check('1. 沒有「我自己去行政法院旁聽了」；AN14 group、記 AN_ADMIN_COURT（照舊）',!TH(NG).some(x=>x.text===AN_OLD[0])&&H.G.flags.AN14==='group'&&SOCIAL.has(AN,'AN_ADMIN_COURT')); }
   { crAsk('我自己找一天。'); run('2027-10-21',21.75,22.25);
     check('1. 回「我自己找一天。」：兩句（沒有「禮拜五的地院照舊。」）',H.G.flags.CRIMPRO_WITH==='self'&&J(an14())===J(AN_NEW),J(an14())); }
@@ -171,12 +171,13 @@ await sec(5,async()=>{
   /* 沛珊③ */
   fresh('2027-10-01',10,{}); date(PS); ROM.get(H.G,PS).sinceDay=D('2027-09-01'); at('2027-11-30',23.1); rules(); const P3=(H.G.msgs||[]).filter(m=>/^ct_classmate_peishan_ps3_/.test(m.tag||'')).map(m=>m.text);
   check('5. 沛珊③ 10、11 月都沒去台南：11/30 23:00「'+PS3_NEW.join('」「')+'」（第二句不是「我只是……」）',J(P3)===J(PS3_NEW)&&!P3.some(t=>/我只是/.test(t)),J(P3));
-  /* 可昕聖誕 */
+  /* 可昕聖誕（CANON-NO-ECON-1112 11-13：AA_878 #38＋AA_920 ① 改當面——人在臺灣＝「陪我去系館」「系館」；AA_462 的視訊版只剩祐廷那年在國外時用）*/
+  const KX_FACE_TE=['明天吃完飯，陪我去系館。','我報告還沒寫完。'], KX_FACE=['明天晚上九點，系館。','我報告還沒寫完。'];
   fresh('2027-12-23',19,{}); date(KX); run('2027-12-23',19,23.5,0.5); run('2027-12-24',8,21.25,0.25); const te=OUT.get(H.G,'te_kx_Y3S1'), X=byTag('y3_kx_xmas').map(m=>m.text);
-  check('5. 可昕：學期末的飯排在 12/25（'+(te?keyOf(te.day)+' '+te.h:'沒有')+'）＝12/24 21:00「'+KX_NEW.join('」「')+'」',!!te&&te.day===D('2027-12-25')&&J(X)===J(KX_NEW),J(X));
+  check('5. 可昕：學期末的飯排在 12/25（'+(te?keyOf(te.day)+' '+te.h:'沒有')+'）＝12/24 21:00「'+KX_FACE_TE.join('」「')+'」（當面版；AA_462 視訊版「'+KX_NEW.join('」「')+'」只在國外）',!!te&&te.day===D('2027-12-25')&&J(X)===J(KX_FACE_TE),J(X));
   fresh('2027-12-23',19,{}); date(KX); OUT.plan(H.G,{id:'x_1225_eve',ev:'ev_zhe_game_y2',day:D('2027-12-25'),h:19,place:'別的約',title:'[前置] 12/25 晚上別的約',travelH:0.25}); run('2027-12-23',19,23.5,0.5); run('2027-12-24',8,21.25,0.25);
   const te2=OUT.get(H.G,'te_kx_Y3S1'), X2=byTag('y3_kx_xmas').map(m=>m.text);
-  check('5. 可昕：12/25 晚上已經有別的約、學期末的飯排到別天（'+(te2?keyOf(te2.day):'沒有')+'）＝照舊「'+KX_OLD.join('」「')+'」',!!te2&&te2.day!==D('2027-12-25')&&J(X2)===J(KX_OLD),J({te2:te2&&keyOf(te2.day),X2}));
+  check('5. 可昕：12/25 晚上已經有別的約、學期末的飯排到別天（'+(te2?keyOf(te2.day):'沒有')+'）＝「'+KX_FACE.join('」「')+'」（當面版）',!!te2&&te2.day!==D('2027-12-25')&&J(X2)===J(KX_FACE),J({te2:te2&&keyOf(te2.day),X2}));
   check('5. 可昕那一則的選項、回覆照舊（「好。」「明天不行。」）',J((PHONE.byAsk(H.G,'y3_kx_xmas')||{ask:{opts:[]}}).ask.opts.map(o=>o.t))===J(['好。','明天不行。']));
 });
 

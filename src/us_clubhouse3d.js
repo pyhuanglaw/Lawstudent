@@ -35,6 +35,9 @@ const US_CLUBHOUSE=(function(){
       else if(t==='longTables') rect(f.navX0,f.navX1,f.z-f.d/2,f.z+f.d/2);
       else if(t==='studyTable') rect(f.x-f.w/2,f.x+f.w/2,f.z-f.d/2,f.z+f.d/2);
       else if(t==='xmasTree'||t==='plant') nav.blockCircle(f.x,f.z,f.r); }
+    /* US-NAV-TRAPS-1111（LAWWW2 美國區擋玩巡檢）：門廳和自習室中間那道牆（x 3，0.2 m 只有一格厚）在櫃台東頭 (3.1, 0.2～0.5) 被「站得住」的四點檢查跨過去，
+       成了一條人站得住的小縫：跑步斜著進去，16 個方向推 3 秒都出不來（Node：跑 30 fps 5 次進去、2 次出不來）。只擋導航那一小塊，模型不動 */
+    band(3.0,3.2,0.15,0.55);
     nav._cm=null; return nav; }
   /* 跟隨鏡頭的牆（美國公寓同一套：engine3d.js 的 followCam 查 zone.camCols）：牆扣掉人走得過去的開口（門口、自習室的門）；窗、玻璃門、櫃台窗口照樣擋（窗口上下的牆也擋）*/
   function camCols(L,g,H){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[], T=0.24;

@@ -45,10 +45,10 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
   await sec('1',async()=>{
     let G=fresh('2026-09-28',20.9); rules(); check('1. 9/28 21:00 以前沒有',!grp(NG,'tw_y2_teachers').length);
     setT('2026-09-28',21.05); rules();
-    check('1. 9/28（一）教師節 21:00 麵店團：芯慈「今天教師節。我傳訊息給高中的導師。」「她回我：妳是誰。」、阿哲「哈哈哈哈」',J(grp(NG,'tw_y2_teachers'))===J([XC+':今天教師節。我傳訊息給高中的導師。',XC+':她回我：妳是誰。','zhe:哈哈哈哈']),J(grp(NG,'tw_y2_teachers')));
+    check('1. 9/28（一）教師節 21:00 桌遊團：芯慈「今天教師節。我傳訊息給高中的導師。」「她回我：妳是誰。」、阿哲「哈哈哈哈」',J(grp(NG,'tw_y2_teachers'))===J([XC+':今天教師節。我傳訊息給高中的導師。',XC+':她回我：妳是誰。','zhe:哈哈哈哈']),J(grp(NG,'tw_y2_teachers')));
     G=fresh('2026-10-08',21.05); rules(); check('1. 10/8（四）21:00 連假前一晚：阿哲「連假 去哪」、Alison「睡覺」、柏翰「圖書館。」',J(grp(NG,'tw_y2_long_weekend'))===J(['zhe:連假 去哪','yu:睡覺',BH+':圖書館。']),J(grp(NG,'tw_y2_long_weekend')));
     G=fresh('2026-10-11',21.05); rules(); check('1. 晚兩天以上才讀到的不補（同 y3fill3d.js）',!grp(NG,'tw_y2_long_weekend').length);
-    G=fresh('2026-10-08',21.05,'dorm',{},{groups:[]}); rules(); check('1. 不在麵店團群組：沒有',!msgs(NG).length);
+    G=fresh('2026-10-08',21.05,'dorm',{},{groups:[]}); rules(); check('1. 不在桌遊團群組：沒有',!msgs(NG).length);
     const SVC2_LINES=(CLS.byId('service_2').serviceLines||[]).slice();   /* AA_735（11-10）：服務學習（二）改法律服務中心、有自己的九句；10/7 那一堂換完要換回這九句 */
     const svc=async(k,flags)=>{ const G=fresh(k,15.3,'campus',flags||{}); const it=CLS.dayItems(G).find(i=>i.c.id==='service_2'); H.said=[]; await CLS.attend(GM,it,{door:true}); return {L:H.said.map(s=>s.t),G}; };
     let r=await svc('2026-10-07');
@@ -58,7 +58,7 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     r=await svc('2026-10-14'); check('1. 其他週照一般的句子',r.L.length===1&&!/阿公/.test(r.L[0]),J(r.L));
     const N=ev('ev_y2s1_noodle_1210');
     G=fresh('2026-12-10',18,'noodle'); EVENTS.zoneChanged&&EVENTS.zoneChanged(); const a=EVENTS.check(N); setT('2026-12-03',18); const b=EVENTS.check(N); G=fresh('2026-12-10',18,'noodle',{},{groups:[]}); const c=EVENTS.check(N);
-    check('1. 12/10（四）進麵店（麵店團的時段）：「（期末前的週四。阿姨在每一碗裡多加了一顆蛋，說是考試加持。）」；12/3 不演、不在麵店團不演；只演一次',a&&!b&&!c&&N.once&&J(N.dialogue.map(l=>l.text))===J([L().noodle1210]));
+    check('1. 12/10（四）進麵店（桌遊團的時段）：「（期末前的週四。阿姨在每一碗裡多加了一顆蛋，說是考試加持。）」；12/3 不演、不在桌遊團不演；只演一次',a&&!b&&!c&&N.once&&J(N.dialogue.map(l=>l.text))===J([L().noodle1210]));
   });
 
   /* ===== 2 大三下 ===== */

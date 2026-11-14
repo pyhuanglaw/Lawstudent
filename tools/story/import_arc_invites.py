@@ -25,11 +25,11 @@ CFG = {
                      'bg': ['公館', 'gongguan'], 'bgAt': [['河堤', '河濱', 'riverside']]},
     'classmate_peishan:6': {'offer': 'break', 'day': 'break', 'hours': 6, 'travelH': 2, 'end': {'home': True},
                             'bg': ['宜蘭・外澳', 'trip_sea'], 'bgAt': []},
-    'kexin:4': {'offer': {'dd': 2, 'h': 21}, 'day': 'sat', 'hours': 3, 'travelH': 50 / 60, 'end': {'home': True},
-                'bg': ['木柵大學・校門口', 'nccu_gate'], 'bgAt': [['山上的風', '木柵大學・校園裡的路', 'nccu_campus']]},
     'kexin:6': {'offer': {'dd': 0, 'h': 21}, 'day': 'satsun', 'hours': 2, 'travelH': 10 / 60, 'cost': 590, 'end': {'spot': '公館商圈', 'back': '公館。'},
                 'bg': ['公館', 'gongguan'], 'bgAt': []},
 }
+# CANON-NO-ECON-1112 第三批（AA_892 第 1 節：可昕第 4 拍「兩間學校」整拍＋邀約拿掉）：稿裡還在，這裡不匯
+DROP = {'kexin:4'}
 MARK = re.compile(r'^@(early|late|fit|unfit)')
 
 
@@ -53,6 +53,8 @@ def build(src, sha):
         for x in (v if isinstance(v, list) else [v]):
             key = f'{hid}:{x["beat"]}'
             w = f'AA_716 {key}'
+            if key in DROP:
+                continue
             if key not in CFG:
                 raise SystemExit(f'{w}：CFG 沒有這一項（新加的約要在 import_arc_invites.py 寫訊息時間、日期規則）')
             seen.add(key)

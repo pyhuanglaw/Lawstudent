@@ -9,7 +9,7 @@
    各節的接法：
    1 宥辰  1-3 認識＝CLS.IN_CLASS（課堂那一句後面）＋下課事件（afterClass 函式）；那一堂他晚十分鐘到（STORY.classmateClass 讀 S.ycLate）
            1-4 週五的歌＝STORY.PHONE_RULES（那個月第一個週五 23:30；開學前、考試週往後延一週）；回覆 PHONE.ON_ANSWER
-           1-5 電梯＝SIDEQ 的順手的事（YQ_ELEV；手機「今天」那一格、期限那一週的週五）；1-6 地下室＝OUT 出遊（11/9 班級群組貼、麵店團阿哲再貼）
+           1-5 電梯＝SIDEQ 的順手的事（YQ_ELEV；手機「今天」那一格、期限那一週的週五）；1-6 地下室＝OUT 出遊（11/9 班級群組貼、桌遊團阿哲再貼）
            1-7 被當一科、叫起床；1-8 合約（公館，週五 20:30～21:00）；1-9 明軒路口；1-10 閒聊（events.js SMALLTALK＋STORY.SMALL_AFTER）；1-11 DJ（events.js）
    2 芯慈  2-1 開學那天＝課前事件（beforeClass 函式）；2-2 影印機（總圖一樓）；2-3 慈 3 的 B1、提示、補救（INV 約 Café，iv.ev＝白天版）；2-4 她爸爸；
            2-5 慈 6（r2y3b_events.js）＋沒演到的私訊；2-6 她約（INV.offer）；2-7 讀書會（INV 約 B1 討論室）；2-8 挑一本筆記（房間物品）；2-9 閒聊
@@ -164,10 +164,10 @@ const SUP497=(function(){
     if(!SIDEQ.hint._sup){ const h0=SIDEQ.hint; SIDEQ.hint=Object.assign((id,r)=>id===S.QID?S.elevHint(r):h0(id,r),{_sup:true}); } return true; };
   S.elevHint=r=>{ const d=r&&r.by!=null?dateOf(r.by):null; return '平日 12:10～12:20 到法律系館A一樓的樓梯口幫宥辰擋人'+(d?'（到 '+d.m+'/'+d.d+' 週五）':''); };   /* 介面的字 */
 
-  /* 1-6 地下室的第一場（BB_70 7b，AA 定稿；2026-11-14（六）20:00）：11/9（一）21:00 班級群組宥辰貼、麵店團阿哲再貼一次（看到的人排進行程；「出發」才去）*/
+  /* 1-6 地下室的第一場（BB_70 7b，AA 定稿；2026-11-14（六）20:00）：11/9（一）21:00 班級群組宥辰貼、桌遊團阿哲再貼一次（看到的人排進行程；「出發」才去）*/
   S.GIG='2026-11-14'; S.GIG_ASK='2026-11-09';
   S.gigPhone=function(G){ const d=DK(S.GIG_ASK), g=DK(S.GIG); if(d==null||g==null||!law(G)) return;
-    if(G.day>=d-1&&now(G)<T(g,20.5)&&!sent(G,'yc_gig_ask')&&(inGrp(G,'law_class')||inGrp(G,'noodle_team'))){ const it=[];   /* 班級群組（同班的人都看得到）＋阿哲在麵店團再貼一次（11/14 開場以後才進群組的不補）*/
+    if(G.day>=d-1&&now(G)<T(g,20.5)&&!sent(G,'yc_gig_ask')&&(inGrp(G,'law_class')||inGrp(G,'noodle_team'))){ const it=[];   /* 班級群組（同班的人都看得到）＋阿哲在桌遊團再貼一次（11/14 開場以後才進群組的不補）*/
       if(inGrp(G,'law_class')) it.push(gm('law_class',YC,'宥辰',L.yc.gig.invite)); if(inGrp(G,'noodle_team')) it.push({th:'g:noodle_team',from:ZHE,text:(L.yc.gig.zheRepost||'')+L.yc.gig.invite});
       if(PHONE.at(G,d,21,it,'yc_gig_ask')) G.flags.YC_GIG_INV=true; }
     if(G.flags.YC_GIG_INV&&now(G)>=T(d,21)&&now(G)<T(g,20.5)) plan(G,{id:'yc_gig',ev:'ev_yc_gig',day:g,h:20,late:0.5,place:'公館・地下室',title:'宥辰的第一場（公館的地下室 20:00）',travel:'走過去約 15 分鐘',travelH:0.25,hours:2.5,back:'散場了。'}); };   /* 看到的人排進行程；時間到「出發」才去（不去＝沒去的那一版）*/
@@ -184,7 +184,7 @@ const SUP497=(function(){
       ...L.yc.gig.rep.map((r,k)=>[{label:'g'+(k+1)},ln(r[0],r[1]),{goto:'end'}]),[{label:'end'},{set:{YC_GIG:true}}]),
     after:G=>{ if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,YC); },   /* 1-4：地下室那場去了＝有聯絡方式 */
     outingMissed:(G,GM,q)=>S.gigMissed(G,q) };
-  /* 沒去：當天晚上 22:30 群組一段 30 秒的錄影，阿哲那一句（麵店團；不在麵店團＝班級群組）*/
+  /* 沒去：當天晚上 22:30 群組一段 30 秒的錄影，阿哲那一句（桌遊團；不在桌遊團＝班級群組）*/
   S.gigMissed=function(G){ const g=DK(S.GIG); if(g==null||G.flags.YC_GIG) return false; const grp=inGrp(G,'noodle_team')?'noodle_team':(inGrp(G,'law_class')?'law_class':null); if(!grp) return false;
     return PHONE.at(G,g,22.5,[{th:'g:'+grp,from:ZHE,text:L.yc.gig.video},{th:'g:'+grp,from:ZHE,text:L.yc.gig.missed}],'yc_gig_missed'); };
 
@@ -331,7 +331,7 @@ const SUP497=(function(){
     return { id:'ev_mingxuan_notes_b1', title:'B1 的筆記', participants:[MX], location:'library_b1', trigger:'interact', priority:6, weekday:[2,4], time:[22,23.5], term:['Y1S1','Y1S2'], once:true,
       prereq:{stage:{npc:MX,min:'ACQUAINTANCE'},custom:G=>{ const t=termOf(G.day); if(!t) return false; if(done(G,'ev_mingxuan_notes')) return false; return t.id==='Y1S2'?t.week<=16:t.week>=7; }}, background:'blur',
       dialogue:D, consequences:Object.assign(JSON.parse(JSON.stringify(base.consequences||{})),{memo:'在總圖 B1 的自習室遇到明軒'}) }; };   /* 記憶、聯絡方式、MX_M1_DAY（那晚 23:00 的清單）照 M1 */
-  S.mxHint=function(G){ const d=termDay('Y1S1',9,2); if(d==null||!inGrp(G,'noodle_team')||has(MX,'SAW_HIM_STUDY')) return; S.at(G,ZHE,d,23.5,L.mx.hint.map(t=>gm('noodle_team',ZHE,null,t)).map(x=>{ delete x.name; return x; }),'mx_b1_hint',{noContact:true}); };   /* 大一上第 9 週週二 23:30 麵店團 */
+  S.mxHint=function(G){ const d=termDay('Y1S1',9,2); if(d==null||!inGrp(G,'noodle_team')||has(MX,'SAW_HIM_STUDY')) return; S.at(G,ZHE,d,23.5,L.mx.hint.map(t=>gm('noodle_team',ZHE,null,t)).map(x=>{ delete x.name; return x; }),'mx_b1_hint',{noContact:true}); };   /* 大一上第 9 週週二 23:30 桌遊團 */
   /* 4-2 (a) 傘：大一下第 6～10 週、下雨的平日；必修課下課 15 分鐘內（霖澤館 201 的課：12:10、15:10 下課）；祐廷在霖澤館的穿堂。一次 */
   S.UMB={ id:'ev_mx_umbrella', title:'折疊傘', participants:[AN], noMeet:[AN], location:'campus', trigger:'auto', once:true, term:['Y1S2'], weeks:[6,7,8,9,10], weekday:[1,2,3,4,5], weather:'rain', background:'blur', near:{x:33,z:-110,r:7},
     prereq:{custom:G=>law(G)&&met(G,AN)&&has(MX,'FIRST_MET')&&S.afterL201(G,0.25)},

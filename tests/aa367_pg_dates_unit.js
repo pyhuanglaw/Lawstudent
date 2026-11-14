@@ -30,7 +30,7 @@ const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };
 let paid=[]; GM.money=(n,why)=>{ paid.push([n,why]); };
 const D=k=>PG.DK(k), T=(d,h)=>d*24+h, lab=(d,h)=>PG.dateLabel(d,h);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' / ')); } };
-const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='9aa8ec40c';   /* AA_593 學姊①b（企劃線 9aa8ec40c，AA-B 11-08 05:53；使用者 11-02 第 10 節）：學姊 2029-09 整列刪掉（講上司那句）＝101 句，第 37、39～44 列改字、決4 2030-01 換句；白名單改成 9aa8ec40c（原本 8dce2f94c）*/   /* AA_688 第 2 節：語彤第 3 節整段換，白名單改成 8dce2f94c（原本 1ebcf530）*/   /* AA_472 第 6 節：沛珊 2030-06 前面加「說好的，運河一圈。」，白名單改成 1ebcf530（原本 e6d4a198）*/   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
+const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='4adf447e5';   /* 2026-11-11（X324 G 區，AA_367@4adf447e5）：白名單換版——芷若 2029-12、2030-05、2030-08、2030-11 四句「店長」→「老闆」（2030-05、08 的「她」→「他」）、沛珊 2029-08、2030-01、2030-08 三列照 AA_759 補回。舊期望：9aa8ec40c */   /* AA_593 學姊①b（企劃線 9aa8ec40c，AA-B 11-08 05:53；使用者 11-02 第 10 節）：學姊 2029-09 整列刪掉（講上司那句）＝101 句，第 37、39～44 列改字、決4 2030-01 換句；白名單改成 9aa8ec40c（原本 8dce2f94c）*/   /* AA_688 第 2 節：語彤第 3 節整段換，白名單改成 8dce2f94c（原本 1ebcf530）*/   /* AA_472 第 6 節：沛珊 2030-06 前面加「說好的，運河一圈。」，白名單改成 1ebcf530（原本 e6d4a198）*/   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
 const SIX=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan'];
 check('0. 載入 pg_dates.js、pgdates3d.js；101 個事件（每一格一個；AA_593 學姊 2029-09 刪掉）、PG.stops／PG.RULES 有掛',ok0&&STORY_EVENTS.filter(e=>/^ev_pg_date_/.test(e.id)).length===101&&PG.stops.includes(PGDATE.stopFn)&&Array.isArray(PG.RULES)&&PG.RULES.includes(PGDATE.rulesFn));
 /* ---------- 稿（從 git 讀；測試自己的讀法）---------- */
@@ -43,8 +43,9 @@ const R65={}; { const row=doc523.split('\n').find(l=>l.startsWith('| 6-5 |'))||'
   R65.ok=!!m&&/2029-06/.test(c[3]||'')&&!!cell&&cell.line.startsWith('論文送進圖書館了。'); R65.old=cell&&cell.line; if(R65.ok){ R65.line=m[1]; cell.line=m[1]; } }
 /* 2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c）：沛珊每月一格 17 句裡的 12 句照 AA_759 的 old→new 換（import_pg_dates.py 疊的）——稿（AA_367）那 12 格整句等於 old 才換成 new 再比；讀不到 AA_759＝這 12 格會對不上（FAIL），不放寬 */
 let doc759=null; try{ doc759=JSON.parse(cp.execFileSync('git',['-C',process.env.PG_DOC_REPO||H.ROOT,'show','987845b7c:docs/story_planning/AA_759_peishan_misc2.json'],{encoding:'utf8'})); }catch(e){ doc759=null; }
-const R759={n:0,rows:(doc759&&doc759.files['src/data/pg_dates.js'])||[]}; for(const r of R759.rows){ const i=+(/\[(\d+)\]$/.exec(r.where)||[])[1], cell=(DOC.classmate_peishan||[])[i]; if(cell&&cell.line===r.old){ cell.line=r.new; R759.n++; } }
-check('0. AA_759@987845b7c：沛珊每月一格 12 列的 old 都對得到 AA_367 那一格（換成 new 再逐字比）',R759.rows.length===12&&R759.n===12,R759.rows.length+' 列、對到 '+R759.n);
+const R759={n:0,already:[],rows:(doc759&&doc759.files['src/data/pg_dates.js'])||[]}; for(const r of R759.rows){ const i=+(/\[(\d+)\]$/.exec(r.where)||[])[1], cell=(DOC.classmate_peishan||[])[i]; if(cell&&cell.line===r.old){ cell.line=r.new; R759.n++; } else if(cell&&cell.line===r.new) R759.already.push(cell.ym); }
+/* 2026-11-11（X324 G 區，AA_367@4adf447e5）：稿上沛珊 2029-08、2030-01、2030-08 三列 AA 補回時直接寫 AA_759 的 new（「11-11 補回」那一條）＝這三格本來就是 new、不用換；其他 9 格照 old→new 換。舊期望：12 列都是 old、換了 12 */
+check('0. AA_759@987845b7c：沛珊每月一格 12 列的 old 都對得到 AA_367 那一格（換成 new 再逐字比；AA_367@4adf447e5 補回的 2029-08、2030-01、2030-08 三格稿上已經是 new）',R759.rows.length===12&&R759.n===9&&R759.already.join()==='2029-08,2030-01,2030-08',R759.rows.length+' 列、換了 '+R759.n+'、已經是 new '+R759.already.join());
 const docLine=(id,ym)=>((DOC[id]||[]).find(r=>r.ym===ym)||{}).line;
 /* ---------- 存檔 ---------- */
 const fresh=(key,h,flags,who)=>{ const G=H.fresh(key,h,'dorm',Object.assign({MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',PACKED_Y4:D('2029-06-01'),ROOM_Y2:true,ROOM_Y3:true,ROOM_Y4:true},flags||{}));
@@ -96,8 +97,7 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
       PG.STEPS.push({id:'t_step_1006',at:G=>T(D('2029-10-06'),12),until:G=>T(D('2029-10-07'),0),cond:G=>false,run:async()=>{}}); const c=(plan(G).heroine_01||{})['2029-10']; PG.STEPS.pop();
       check('3. 那一天有別的出遊（7/7）→ 7/14；那一天有 PG 的場景（10/6）→ 10/13；場景的條件不成立＝不算',a==='7/14（六）15:00'&&b==='10/13（六）15:00'&&c==='10/6（六）15:00',JSON.stringify([a,b,c])); }
     { const P=plan(fresh('2029-06-03',10,{},['heroine_02','kexin'])).heroine_02||{}, P2=plan(fresh('2029-06-03',10,{KX_OUR_DAY:{day:'sun',mode:'mid'}},['heroine_02','kexin'])).heroine_02||{}, P3=plan(fresh('2029-06-03',10,{},'heroine_02')).heroine_02||{};
-      check('3. 同時和可昕交往：芷若單月的週日撞到可昕的格子（2030-03-03、05-05、07-07、11-03）→ 往後一週；可昕 P3 週日 11/4 → 芷若 11 月 11/11；沒和可昕交往的照原本',
-        P['2030-03']==='3/10（日）10:00'&&P['2030-05']==='5/12（日）10:00'&&P['2030-07']==='7/14（日）10:00'&&P['2030-11']==='11/10（日）10:00'&&P['2029-11']==='11/4（日）10:00'&&P2['2029-11']==='11/11（日）10:00'&&P3['2030-03']==='3/3（日）10:00'&&P3['2029-11']==='11/4（日）10:00',JSON.stringify([P,P2['2029-11'],P3])); }
+      check('3. 同時和可昕交往：可昕畢業以後的格子拿掉，芷若照原本的日子（CANON-NO-ECON-1112 第三批：這一項拿掉）',P['2030-03']==='3/3（日）10:00'&&P['2030-05']===P3['2030-05']&&P['2029-11']==='11/4（日）10:00'&&P2['2029-11']==='11/4（日）10:00'&&P3['2030-03']==='3/3（日）10:00',JSON.stringify([P,P2['2029-11'],P3])); }
     { const P=plan(fresh('2029-06-03',10,{},['heroine_01','heroine_05'])), A=P.heroine_01||{}, B=P.heroine_05||{};
       check('3. 同時和以安、學姊交往：同一天撞到兩位＝第二位（學姊）往後找下一個週六（6/9→6/16）；12 月只剩 12/7：以安在紐約是 12/8 視訊、學姊排 12/7',A['2029-06']==='6/9（六）15:00'&&B['2029-06']==='6/16（六）18:30'&&B['2030-12']==='12/7（六）18:30'&&A['2030-12']==='12/8（日）08:00',JSON.stringify([A['2029-06'],B['2029-06'],B['2030-12'],A['2030-12']])); }
     { const P=plan(fresh('2029-06-03',10,{},['heroine_02','heroine_03'])), Z=P.heroine_02||{}, Y=P.heroine_03||{};
@@ -135,7 +135,7 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
     { const G=fresh('2030-09-08',7.8,{},'heroine_01'); H.tick(); const q=OUT.due(G); H.picks=[0]; H.opts=[]; H.said=[]; caps.length=0; if(q) await OUT.tick(GM);
       check('5. 以安在紐約：臺灣週日 07:45 問「接起來」、地點字幕「視訊（紐約）」、那一句（這邊晚上八點，你那邊早上八點……）、視訊結束',!!q&&(H.opts[0]||[])[0]==='接起來：和'+SOCIAL.displayName('heroine_01')+'：視訊（紐約）'&&caps.includes('視訊（紐約）')&&H.said.length===1&&H.said[0].t===docLine('heroine_01','2030-09')&&caps.includes('視訊結束。'),JSON.stringify([H.opts[0],caps,H.said])); }
     /* 一路跳：以安、芷若、沛珊同時交往，沒報國考 */
-    { const W=['heroine_01','heroine_02','classmate_peishan'], G=fresh('2029-06-03',10,{MULTI_Y5:'none'},W); PHONE.join(G,'noodle_team','麵店團');   /* [前置] 2030-05-25 多段感情的那一題當作選了「（不選）」：三位都還在交往（選了一位的另見第 6 項）*/
+    { const W=['heroine_01','heroine_02','classmate_peishan'], G=fresh('2029-06-03',10,{MULTI_Y5:'none'},W); PHONE.join(G,'noodle_team','桌遊團');   /* [前置] 2030-05-25 多段感情的那一題當作選了「（不選）」：三位都還在交往（選了一位的另見第 6 項）*/
       const seen={}, bad=[], warns=[], ow=console.warn; let it=0, err=null; const end=T(D('2030-12-13'),24); console.warn=(...a)=>{ warns.push(a.map(x=>x&&x.stack?x.stack.split('\n')[0]:String(x)).join(' ')); };
       try{ for(it=0;it<600&&G.day*24+G.hour<end;it++){ const before=G.day*24+G.hour;
           const y=await y4(GM); if(y) continue;

@@ -16,7 +16,7 @@ global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.
 global.CG_REGISTRY={};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
   'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
-  'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js',
+  'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y34b3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/jp_events.js','src/jp3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 /* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110）：芷若、沛珊心意邀約的台詞搬到 src/data/termend_opts.js 的 TERMEND_OPTS.HEART（沒載＝這兩位沒有邀約句、不發）——這支測試只載那一份的 HEART、LINES，
    其他人的期末飯選項（GF／TABLE／CONFESS／KX／FRIEND）照舊不載（這支測的是沒有選項的原本流程；選項在 tests/termend_opts_1110_unit.js、「她先說」在 tests/te_shefirst_1110_unit.js）*/
@@ -80,7 +80,7 @@ const inMD=t=>MD.indexOf(t)>=0;
     const on=w=>{ const d=wkThu(w); G.day=d; G.weekday=4; return ACTIVITIES.on(PL,d,G); };
     check('3. 大三下第 1～7、10～15 週開，第 8、9（期中）、16 週不開（原本只開到第 5 週）',[1,5,6,7,10,15].every(on)&&![8,9,16].some(on),J([1,5,6,7,8,9,10,15,16].map(w=>[w,on(w)])));
     const xc=ev('ev_far_call_jp').dialogue.find(n=>n.text==='讀書會你的位子，我們沒有人坐。');
-    fresh('2028-04-13',20.5,'jp_hub',{EXCHANGE_ROUTE:'JP',JP_DEPARTED:D('2028-03-25')}); PHONE.join(G,'noodle_team','麵店團'); R('classmate_xinci','FRI'); const a=EVENTS.cond(xc.if);
+    fresh('2028-04-13',20.5,'jp_hub',{EXCHANGE_ROUTE:'JP',JP_DEPARTED:D('2028-03-25')}); PHONE.join(G,'noodle_team','桌遊團'); R('classmate_xinci','FRI'); const a=EVENTS.cond(xc.if);
     ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'}; const b=EVENTS.cond(xc.if);
     check('3. 芯慈「讀書會你的位子，我們沒有人坐。」只給參加過讀書會的',!!xc&&a===false&&b===true,J({a,b}));
     fresh('2028-04-16',20,'dorm'); const c=R2Y3B.AB_WHEN.t2[2](G,G.day); ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'}; const d=R2Y3B.AB_WHEN.t2[2](G,G.day);
@@ -118,7 +118,9 @@ const inMD=t=>MD.indexOf(t)>=0;
     const st=LADDER.byTerm.Y3S2.heroine_03.steps.find(s=>s.id==='Y6-L3');
     const play6=(az,dt)=>{ fresh('2028-03-23',17,'noodle'); R('heroine_03','FAM'); R('heroine_01','FRI'); if(dt) date('heroine_01'); if(az) SOCIAL.remember('heroine_01','AN3_AZALEA',''); return {L:STORY.ladLines(st,G,'heroine_03'),C:STORY.ladChoices(st).map(c=>c.t)}; };
     const a=play6(true,false), b=play6(true,true), c=play6(false,true), d=play6(false,false);
-    check('6. 沒和以安交往＋祐廷拍的：只剩一句；選項「為什麼是同一棵？」「（給她看手機裡的另一張）」',J(a.L)===J([ONE])&&J(a.C)===J(['「為什麼是同一棵？」','（給她看手機裡的另一張）']),J(a));
+    /* 2026-11-11（X324，AA_781_yt_ladder_Y3S2.json@8e027fc7f rows Y6-L3）：那一句拿掉刪節號——舊期望 [ONE]（AA_377 稿的字，上面讀稿照舊用 ONE）；選項的字（LADDER_CHOICE_IF）照比 */
+    const ONE781='以安傳在群組那張杜鵑花，是你拍的吧。拍得很好。';
+    check('6. 沒和以安交往＋祐廷拍的：只剩一句（AA_781 拿掉刪節號）；選項「為什麼是同一棵？」「（給她看手機裡的另一張）」',J(a.L)===J([ONE781])&&J(a.C)===J(['「為什麼是同一棵？」','（給她看手機裡的另一張）']),J(a));
     check('6. 交往中＋祐廷拍的：交往中那一套（「你們去拍的那張」）；選項同上',J(b.L)===J(DL)&&J(b.C)===J(['「為什麼是同一棵？」','（給她看手機裡的另一張）']),J(b));
     check('6. 交往中、沒有祐廷拍的：原本那一套（語彤陪以安去），選項照舊',J(c.L)===J(ORG)&&J(c.C)===J(['「為什麼是同一棵？」','「妳也有拍嗎？」']),J(c));
     check('6. 都沒有：照原本',J(d.L)===J(ORG)&&J(d.C)===J(['「為什麼是同一棵？」','「妳也有拍嗎？」']),J(d));
@@ -143,9 +145,9 @@ const inMD=t=>MD.indexOf(t)>=0;
     fresh('2028-03-24',19,'noodle',{EXCHANGE_ROUTE:'JP'}); ['zhe','heroine_01'].forEach(id=>R(id,'FRI')); date('heroine_01'); L=await play('ev_an_farewell_dinner',[0]);
     check('7. 對照：交往中照舊「……你顧你自己的。」',L.includes('……你顧你自己的。')&&!L.includes('（以安點了一下頭，沒有說話。）'),J(L));
     fresh('2028-02-28',13,'riverside'); ['yu','zhe','heroine_01'].forEach(id=>R(id,'FRI')); ex('heroine_01'); L=await play('ev_y3s2_228',['坐到以安旁邊']);
-    check('7. 228（挽回中）坐到以安旁邊：旁白「（以安看了你一眼，又低頭寫。）」，她不接話、不轉手帳',L.includes('（以安看了你一眼，又低頭寫。）')&&!L.includes('……你也要算嗎？')&&!L.some(t=>/手帳轉過來/.test(t)),J(L));
+    check('7. 228（挽回中）坐到以安旁邊：旁白「（以安看了你一眼，又低頭寫。）」，她不接話、不轉手帳',L.includes('（以安看了你一眼，又低頭寫。）')&&!L.includes('你也要算嗎？')/* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 第 59 列拿掉句首「……」。舊期望：「……你也要算嗎？」 */&&!L.some(t=>/手帳轉過來/.test(t)),J(L));
     fresh('2028-02-28',13,'riverside'); ['yu','zhe','heroine_01'].forEach(id=>R(id,'FRI')); L=await play('ev_y3s2_228',['坐到以安旁邊']);
-    check('7. 對照：沒有分手照舊「……你也要算嗎？」',L.includes('……你也要算嗎？')&&!L.includes('（以安看了你一眼，又低頭寫。）'),J(L)); });
+    check('7. 對照：沒有分手照舊「你也要算嗎？」',L.includes('你也要算嗎？')/* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 第 59 列拿掉句首「……」。舊期望：「……你也要算嗎？」 */&&!L.includes('（以安看了你一眼，又低頭寫。）'),J(L)); });
   /* ---- 8 芷若大三下的班 ---- */
   await sec('8',async()=>{
     check('8. 讀稿：作息、兩句邀約在稿裡',inMD('**週三、四 19:00～22:00**')&&inMD('「這禮拜四我十點下班。……」')&&inMD('「考完了嗎？禮拜四我下班以後，吃個東西？」'));
@@ -167,7 +169,7 @@ const inMD=t=>MD.indexOf(t)>=0;
     try{ TERMEND.window=()=>({id:'Y3S2'}); a=[].concat(TERMEND_LINES.HEART.heroine_04.invite(G)); b=TERMEND_LINES.GF.heroine_04.invite(G);
       TERMEND.window=()=>({id:'Y2S2'}); c=[].concat(TERMEND_LINES.HEART.heroine_04.invite(G)); d=TERMEND_LINES.GF.heroine_04.invite(G); } finally { TERMEND.window=w0; }
     check('10. 子晴大三下（她 6/3 畢業了）：心意「欸 你考完了吧 宵夜」、交往中「你考完了吧 宵夜 我想吃兩份」；大二下照舊',a[0]==='欸 你考完了吧 宵夜'&&a[1]==='只有我們兩個 不要找阿凱'&&b==='你考完了吧 宵夜 我想吃兩份'&&c[0]==='欸 考完了 宵夜'&&d==='考完了 宵夜 我想吃兩份',J({a,b,c,d}));
-    check('11. 芷若交往中的飯桌（大三下）：「……六月的週五，你先全部給我。」',TERMEND_LINES.GF.heroine_02.tableByTerm.Y3S2[1]==='……六月的週五，你先全部給我。');
+    check('11. 芷若交往中的飯桌（大三下）：「六月的週五，你先全部給我。」',TERMEND_LINES.GF.heroine_02.tableByTerm.Y3S2[1]==='六月的週五，你先全部給我。');
     check('11. 芷若 Z12：「我七月先回台中，去影印店幫忙一個月。」',ev('ev_zhiruo_graduation_cafe').dialogue[0].text==='我七月先回台中，去影印店幫忙一個月。'); });
   /* ---- 12、13、14 ---- */
   await sec('12',async()=>{
@@ -177,14 +179,15 @@ const inMD=t=>MD.indexOf(t)>=0;
     check('13. 日本路線 5/3（沒收到「坐最後一排」的邀約）：「報告講完了。……好累。」，不說最後一排',m.includes('報告講完了。……好累。')&&!m.some(t=>/最後一排/.test(t)),J(m));
     fresh('2028-05-03',17.2,'dorm',{EXCHANGE_ROUTE:'TW'}); date('kexin'); G.contacts.kexin=1; Y34B.kx19Phone(G); PHONE.tick(G); const n=txt('p:kexin');
     check('13. 對照：臺灣路線照舊「期末報告講完了。最後一排空著。」',n.includes('期末報告講完了。最後一排空著。'),J(n));
-    fresh('2028-04-13',20.5,'jp_hub',{EXCHANGE_ROUTE:'JP',JP_DEPARTED:D('2028-03-25')}); PHONE.join(G,'noodle_team','麵店團'); ['zhe','classmate_bohan'].forEach(id=>R(id,'FRI')); const L=await play('ev_far_call_jp');
+    fresh('2028-04-13',20.5,'jp_hub',{EXCHANGE_ROUTE:'JP',JP_DEPARTED:D('2028-03-25')}); PHONE.join(G,'noodle_team','桌遊團'); ['zhe','classmate_bohan'].forEach(id=>R(id,'FRI')); const L=await play('ev_far_call_jp');
     check('14. 日本路線 4/13 視訊：柏翰「你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。」',L.includes('你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。')&&!L.includes('這週的筆記我留了。回來再給你。'),J(L)); });
   /* ---- 15、16 語彤的階梯 ---- */
   await sec('15',async()=>{
     check('15、16. 讀稿',inMD('「週四我還是五點就出門。……只是現在是去田野。」')&&inMD('「巷子裡有個修鞋的老闆，我又去找他聊了一次。」'));
     const st=id=>LADDER.byTerm.Y3S2.heroine_03.steps.find(s=>s.id===id);
     fresh('2028-03-09',18,'campus',{YT_T1:true}); const a=STORY.ladLines(st('Y6-L1'),G,'heroine_03'); fresh('2028-03-09',18,'campus'); const b=STORY.ladLines(st('Y6-L1'),G,'heroine_03');
-    check('15. Y6-L1：一起做過田野（YT_T1）＝「週四我還是五點就出門。……只是現在是去田野。」；沒有的照原句',J(a)===J(['週四我還是五點就出門。……只是現在是去田野。'])&&b[0]==='週四開始做田野以後，我五點半就出門。',J({a,b}));
+    /* 2026-11-11（X324，AA_781_yt_ladder_Y3S2.json@8e027fc7f rows Y6-L1）：拿掉刪節號——舊期望「週四我還是五點就出門。……只是現在是去田野。」*/
+    check('15. Y6-L1：一起做過田野（YT_T1）＝「週四我還是五點就出門。只是現在是去田野。」（AA_781）；沒有的照原句',J(a)===J(['週四我還是五點就出門。只是現在是去田野。'])&&b[0]==='週四開始做田野以後，我五點半就出門。',J({a,b}));
     fresh('2028-04-06',18,'campus'); const c=STORY.ladLines(st('Y6-L4'),G,'heroine_03'); fresh('2028-04-06',18,'campus',{FIELD_FINDING:true}); const d=STORY.ladLines(st('Y6-L4'),G,'heroine_03');
     check('16. Y6-L4：沒有田野的發現＝「巷子裡有個修鞋的老闆，我又去找他聊了一次。」（第二句照舊）；有的照原句',c[0]==='巷子裡有個修鞋的老闆，我又去找他聊了一次。'&&c[1]==='他記得每一雙送來修的鞋，客人的臉反而記不住。'&&d[0]==='修鞋店那個老闆，我又去找他聊了一次。',J({c,d})); });
   /* ---- 17、18、19 ---- */

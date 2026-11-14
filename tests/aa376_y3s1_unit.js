@@ -72,8 +72,9 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     const S342=L?flat(L).filter(t=>!/^(zhe|yu|classmate_bohan)$/.test(t)).map(t=>t.replace(/^「(.*)」$/,'$1')):[];
     const A600=require('./aa600_doc.js'), in342x=t=>in342(t)||A600.has(t);   /* AA_600 A22（企劃線 031414cad）：前任那一句旁白「（她把下週的題目寫在白板上。）」在 AA_600 的稿裡 */
     check('0. AA_342 3-1 的每一句都在稿上（逐字；AA_600 新寫的在 AA_600）',!!L&&S342.length>=14&&S342.every(in342x),S342.filter(t=>!in342x(t)).join('｜'));
-    const NEW376=['明天第一次上台。我要講二十分鐘。','……上次跟你說的那個遊戲。','民總讀書會，我先講一次給你聽。','（看了一下錶）讀書會八點。……我們先走。','我們那棟停電了。你們這棟還有電。','那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。','那天晚上，我看了手機好幾次。','他高中的時候也來這裡吃過麵。','刑訴老師昨天點了後面三排。','我七點要回學校。','……我下週期中，二十六號考第一科。','你兩天沒出門了吧。……我猜的。','那我們在日本找一家燒臘店。','我們同一班。','……那我十點去機場。送兩個。','嗯。大四還沒開始，我想在這裡過。','（你想，大四還沒開始。你想在這裡過。）'];
-    check('0. AA_376 的「改成」都在稿上（測試用的句子對過稿）',NEW376.every(in376),NEW376.filter(t=>!in376(t)).join('｜'));
+    const NEW376=['明天第一次上台。我要講二十分鐘。','……上次跟你說的那個遊戲。','民總讀書會，我先講一次給你聽。','（看了一下錶）讀書會八點。……我們先走。','我們那棟停電了。你們這棟還有電。','那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。','那天晚上，我看了手機好幾次。','他高中的時候也來這裡吃過麵。','刑訴老師昨天點了後面三排。','我七點要回學校。','……我下週要交報告。','你兩天沒出門了吧。……我猜的。','那我們在日本找一家燒臘店。','我們同一班。','……那我十點去機場。送兩個。','嗯。大四還沒開始，我想在這裡過。','（你想，大四還沒開始。你想在這裡過。）'];
+    const A923=['……我下週要交報告。'];   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：AA_923 第 2 節再換的句子（舊：AA_376 的期中考那句），不在 AA_376 稿上 */
+    check('0. AA_376 的「改成」都在稿上（測試用的句子對過稿；AA_923 再換的除外）',NEW376.every(t=>in376(t)||A923.includes(t)),NEW376.filter(t=>!in376(t)&&!A923.includes(t)).join('｜'));
   });
   // ===== 1. 語彤週四 =====
   await sec('1',async()=>{
@@ -101,25 +102,21 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     fresh('2027-11-09',19.5,'cafe'); R(Q,'FRI'); G.events.done.ev_ziqing_dad_stuck=1; await play('ev_ziqing_capstone'); const b=all().slice(0,2);
     fresh('2027-11-09',19.5,'cafe'); R(Q,'FRI'); SOCIAL.remember(Q,'PLAYTESTED',''); await play('ev_ziqing_capstone'); const c=all().slice(0,1);
     check('4. 沒演過 Q8b、沒看過 Q6：「……你應該不知道。我在做遊戲…」',a[0]==='……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'&&a[1]==='畢業專題。我要交那隻貓。',J(a));
-    check('4. 演過 Q8b（ev_ziqing_dad_stuck）：第一句換「……上次跟你說的那個遊戲。」，後面照接',b[0]==='……上次跟你說的那個遊戲。'&&b[1]==='畢業專題。我要交那隻貓。',J(b));
+    check('4. 演過 Q8b（ev_ziqing_dad_stuck）：第一句換「上次跟你說的那個遊戲。」（AA_800 拿掉句首「……」），後面照接',b[0]==='上次跟你說的那個遊戲。'/* AA_800（X324 G 區 e7dfbbe61）拿掉句首「……」；AA_376 稿上照舊（NEW376）*/&&b[1]==='畢業專題。我要交那隻貓。',J(b));
     check('4. 對照：看過 Q6、沒演過 Q8b：照舊沒有開頭那一句',c[0]==='畢業專題。我要交那隻貓。',J(c));
   });
   // ===== 5. K5-L3／K17 =====
   await sec('5',async()=>{
-    const KX='kexin', w14=STORY.termDay('Y3S1',14,5); fresh(w14,21,'dorm'); date(KX); ladAt(KX,'Y3S1','K5-L3');
-    const s0=STORY.ladNext(G,KX,'video'); G.events.done.ev_kexin_tutor_practice=1; ladAt(KX,'Y3S1','K5-L3'); const s1=STORY.ladNext(G,KX,'video');
-    check('5. K17 還沒演：視訊推進 K5-L3；K17（12/9）演過以後 K5-L3 直接算過（不再宣布一次）',!!s0&&s0.id==='K5-L3'&&(!s1||s1.id!=='K5-L3')&&ladKey(KX,'Y3S1')>idxOf(KX,'Y3S1','K5-L3'),J([s0&&s0.id,s1&&s1.id,ladKey(KX,'Y3S1')]));
+    const KX='kexin'; check('5. K5-L3 演過 K17 就算過的條件（CANON-NO-ECON-1112 第三批：這一項拿掉）',!(Y3FILL.LAD&&Y3FILL.LAD.skip&&Y3FILL.LAD.skip['K5-L3']));
     fresh('2027-12-09',21.75,'dorm'); date(KX); SOCIAL.remember(KX,'KX5_HYPO_SENIOR','K5-L3'); await play('ev_kexin_tutor_practice'); const a=all();
     fresh('2027-12-09',21.75,'dorm'); date(KX); await play('ev_kexin_tutor_practice'); const b=all();
-    check('5. 聽過 K5-L3（KX5_HYPO_SENIOR）：K17 第一句「民總讀書會，我先講一次給你聽。」，那通視訊只宣布一次（BB 第 4 點）',a[0]==='民總讀書會，我先講一次給你聽。'&&!a.some(t=>/我開始帶大一的民總讀書會了/.test(t))&&a.filter(t=>/民總讀書會/.test(t)).length===1,J(a.slice(0,2)));
-    check('5. 對照：沒聽過 K5-L3 的照原句',b[0]==='我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。',J(b.slice(0,1)));
+    const OPEN='（系館一樓的討論桌。可昕對面坐著三個大一的，桌上是攤開的課本。你經過，她抬頭看到你，用下巴指了一下旁邊的空位。）';   /* （CANON-NO-ECON-1112 第四批：照 AA_873 ③ 換字）舊期望：「我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。」*/
+    check('5. 聽過舊 K5-L3（KX5_HYPO_SENIOR）的那一句（CANON-NO-ECON-1112 第三批：這一項拿掉）',a[0]===OPEN&&!a.includes('民總讀書會，我先講一次給你聽。'));
+    check('5. 對照：沒聽過 K5-L3 的一樣（AA_873 ③ 開頭）',b[0]===OPEN,J(b.slice(0,1)));
   });
   // ===== 6. K5-L2 要 KX_SHORT_MEET =====
   await sec('6',async()=>{
-    const KX='kexin'; fresh('2027-09-29',19,'any'); date(KX); ladAt(KX,'Y3S1','K5-L2'); const s0=STORY.ladNext(G,KX,'meet'), k0=ladKey(KX,'Y3S1');
-    fresh('2027-09-29',19,'any'); date(KX); G.flags.KX_SHORT_MEET=true; ladAt(KX,'Y3S1','K5-L2'); const s1=STORY.ladNext(G,KX,'meet');
-    fresh('2027-09-20',19,'any'); date(KX); ladAt(KX,'Y3S1','K5-L2'); STORY.ladNext(G,KX,'meet'); const k2=ladKey(KX,'Y3S1');
-    check('6. K15 沒有三十分鐘的見面（沒有 KX_SHORT_MEET）：K5-L2「三十分鐘的見面…」算過；有的照播；9/22 以前還不判斷',(!s0||s0.id!=='K5-L2')&&k0>idxOf(KX,'Y3S1','K5-L2')&&!!s1&&s1.id==='K5-L2'&&k2===idxOf(KX,'Y3S1','K5-L2'),J([s0&&s0.id,k0,s1&&s1.id,k2]));
+    check('6. K5-L2 要 KX_SHORT_MEET 的條件（CANON-NO-ECON-1112 第三批：這一項拿掉）',!(Y3FILL.LAD&&Y3FILL.LAD.skip&&Y3FILL.LAD.skip['K5-L2']));
   });
   // ===== 7. 開學第一頓 =====
   await sec('7',async()=>{
@@ -136,8 +133,9 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
   // ===== 9. 以安 A5-L2 =====
   await sec('9',async()=>{
     const s=stepOf('heroine_01','Y3S1','A5-L2'), li=s&&(s.linesIf||[]).find(x=>x.if&&x.if.memory), ex=s&&(s.extraIf||[])[0], ch=s&&s.choices[1];
-    check('9. 在場的：「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」（照中秋那場）',!!li&&li.lines[1]==='那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。',J(li));
-    check('9. 選項②「柚子好吃嗎？」：引號裡那一句換掉（「很甜。」照舊）',!!ch&&ch.t==='「柚子好吃嗎？」'&&ch.reply==='很甜。那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。',J(ch));
+    /* 2026-11-11（X324，AA_781_an_ladder_Y3S1.json@1e48c1f20 rows A5-L2）：這兩句拿掉刪節號——舊期望「…阿哲剝完就沒人吃。……我帶回去了…」；AA_376 第 9 項的字（照中秋那場）照比 */
+    check('9. 在場的：「那天的柚子，阿哲剝完就沒人吃。我帶回去了，我室友說太酸。」（照中秋那場；AA_781 拿掉刪節號）',!!li&&li.lines[1]==='那天的柚子，阿哲剝完就沒人吃。我帶回去了，我室友說太酸。',J(li));
+    check('9. 選項②「柚子好吃嗎？」：引號裡那一句換掉（「很甜。」照舊）',!!ch&&ch.t==='「柚子好吃嗎？」'&&ch.reply==='很甜。那天的柚子，阿哲剝完就沒人吃。我帶回去了，我室友說太酸。',J(ch));   /* AA_781 拿掉刪節號（舊期望有「……」）*/
     check('9. 交往中：「那天晚上，我看了手機好幾次。」',!!ex&&J(ex.lines)===J(['那天晚上，我看了手機好幾次。']),J(ex));
     /* AA_580 第 7 節第 10 點（企劃線 759e5c000）：送過柚子的（AN_BDAY_POMELO，linesIf 已經說過那一句）選②只回「很甜。」，不說兩次；沒送過的照上面 */
     fresh(STORY.termDay('Y3S1',4,1),15,'campus'); const r0=STORY.ladReply(s,ch,G,'heroine_01'); SOCIAL.remember('heroine_01','AN_BDAY_POMELO'); const r1=STORY.ladReply(s,ch,G,'heroine_01');
@@ -166,15 +164,12 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
   });
   // ===== 12、13. K15 =====
   await sec('12',async()=>{
-    fresh('2027-09-22',18,'gongguan'); date('kexin'); await play('ev_kexin_30min',[0,0]);
-    check('12. K15 選項「刑訴老師昨天點了後面三排。」（刑訴在週二、五）',(opts[1]||[]).includes('「刑訴老師昨天點了後面三排。」')&&!(opts[1]||[]).includes('「刑訴老師點了後面三排。」'),J(opts));
-    fresh('2027-09-22',16.9,'dorm'); date('kexin'); runPhone('2027-09-22',16.9,17.1,0.1);
-    check('13. K15 手機「我七點要回學校。六點公館，吃三十分鐘，夠嗎？」',txt('p:kexin').includes('kexin:我七點要回學校。六點公館，吃三十分鐘，夠嗎？'),J(txt('p:kexin')));
+    check('12、13. K15 三十分鐘的晚餐（事件、手機）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY_EVENTS.some(e=>e.id==='ev_kexin_30min'));
   });
   // ===== 14、17. 感冒週 =====
   await sec('14',async()=>{
     fresh('2027-10-23',8,'dorm'); date('kexin'); picks=['跟可昕']; await STORY.coldWeekSneeze(GM);
-    check('14. 可昕「……我下週期中，二十六號考第一科。」（10/23 週六）',txt('p:kexin').includes('kexin:……我下週期中，二十六號考第一科。')&&!txt('p:kexin').some(t=>/這週也期中/.test(t)),J(txt('p:kexin')));
+    check('14. 可昕「……我下週要交報告。」（10/23 週六；2026-11-12 CANON-NO-ECON-1112 第五批 AA_923：舊句是期中考）',txt('p:kexin').includes('kexin:……我下週要交報告。')&&!txt('p:kexin').some(t=>/這週也期中/.test(t)),J(txt('p:kexin')));
     fresh('2027-10-24',21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); date('heroine_05'); const A=STORY.coldWeekLines(G,'heroine_05');
     fresh('2027-10-24',21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); date('heroine_05'); R('heroine_03','CLO'); const C=STORY.coldWeekCast(G), B=STORY.coldWeekLines(G,'heroine_05',C);
     check('17. 學姊交往中、沒被告知：語彤沒來（不知道）＝「你兩天沒出門了吧。……我猜的。」；語彤有來（送湯那一條的條件）＝「語彤說你兩天沒出門。」',J(A[0])===J(['heroine_05','你兩天沒出門了吧。……我猜的。'])&&C.visitors.includes('heroine_03')&&J(B[0])===J(['heroine_05','語彤說你兩天沒出門。']),J([A[0],B[0]]));

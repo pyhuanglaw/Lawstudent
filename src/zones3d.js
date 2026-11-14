@@ -266,7 +266,7 @@ const Z3 = (function(){
     // 兩側草地小徑與長椅、腳踏車
     for(let x0=-100;x0<=(LIBF?25:50);x0+=25){ for(const s of [-1,1]){ const x=(x0===25&&s<0)?17:x0;   /* 南側 x=25 那張貼著小椰林道的椰子樹（24.2,-14，樹幹在椅背後 1.3 m）：移到 x=17（使用者 2026-10-16：這張椅子位子有夠奇怪）*/ const b=BENCH(); place(g,b,x,s*13,s>0?Math.PI:0); nav.blockRect(x,s*13,1.4,0.7,0); seats.push({x,z:s*13+(s>0?-0.06:0.06),yaw:s>0?Math.PI:0,label:'坐在椰影大道的長椅上'}); } }
     for(let x=-90;x<=40;x+=32){ const r=parkedRack(7); place(g,r,x+8,-16,0); nav.blockRect(x+8,-16,5,1.4,0); }
-    for(let x=-105;x<=(LIBF?27:55);x+=22){ for(const s of [-1,1]) for(const lx of (s>0&&x===-39)?[-46.25,-31.25]:[x]){ const l=W3.lampPost(); place(g,l,lx,s*11,s>0?Math.PI:0); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(lx,s*11,0.5); } }   /* 傅鐘那一側：原本 (-39, 11) 那一盞正好擋在鐘亭正前方（巡場景 P3）——改成鐘亭兩側各一盞（都在兩棵椰子中間、鐘亭前廣場的範圍裡，那一段本來就不放植栽）*/   /* 燈臂朝大道（2026-10-21 LAWWW2：原本背對大道，晚上 12 m 寬的路面完全照不到、整條是黑的——經濟系、法律系晚上都走這條；燈頭位置照 W3.lampPost 的約定，只是轉向）*/
+    for(let x=-105;x<=(LIBF?27:55);x+=22){ for(const s of [-1,1]) for(const lx of (s>0&&x===-39)?[-46.25,-31.25]:[x]){ const l=W3.lampPost(); place(g,l,lx,s*11,s>0?Math.PI:0); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(lx,s*11,0.5); } }   /* 傅鐘那一側：原本 (-39, 11) 那一盞正好擋在鐘亭正前方（巡場景 P3）——改成鐘亭兩側各一盞（都在兩棵椰子中間、鐘亭前廣場的範圍裡，那一段本來就不放植栽）*/   /* 燈臂朝大道（2026-10-21 LAWWW2：原本背對大道，晚上 12 m 寬的路面完全照不到、整條是黑的——舊序章、法律系晚上都走這條；燈頭位置照 W3.lampPost 的約定，只是轉向）*/
     // ---- 傅鐘（大道南側小廣場，行政大樓正前方）----
     const plaza=ground(g,28,12,pavingTex(),[28/3,4],-38,17,0.015); const bell=CK.bell(); place(g,bell,-38,16.5,Math.PI); placeBlocks(nav,bell,-38,16.5,Math.PI);   /* v9.3 第十六批：校園套件的鐘亭，石碑朝北對著大道 */
     const bellGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_bell']; bell.userData.ckTag='bell'; if(bellGLB) bell.userData.dyn=true;   /* 傅鐘的 Blender 正式模型（第二個 AI：campus_bell.py → bldg.campus_bell）：和總圖同一套接法；導航阻擋照舊是套件的（placeBlocks） */ for(const [x,z] of [[-51,21.5],[-25,21.5]]){ const b=TREE(1.3); place(g,b,x,z,0); nav.blockCircle(x,z,0.9); }
@@ -461,7 +461,7 @@ const Z3 = (function(){
     // 社團博覽會的公告欄（AA_110 6-8 (b)，AA 暫定：用現有的公告欄，不另做攤位）：平常是一塊公告欄；9/30、10/1 11:00–17:00 前面是「社團博覽會」的集合點
     // （activities.js 的 club_expo_y1s1，spot (-13.5,13.6)；classes3d.js 的 fairMenu）。LAWWW2 的攤位做好以後原地換掉，位置不變
     if(!fairDay){ const bb=W3.bulletin(); place(g,bb,-13.5,14.6,Math.PI); nav.blockRect(-13.5,14.6,2.6,0.4,0); }
-    const fairGLB=fairDay?(isExpoDay()&&typeof CLUB_FAIR_EXPO!=='undefined'?clubFairExpo(E,g,nav):clubFair(E,g,nav)):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載。社博那天（大一、大二）＝椰林大道兩邊 36 頂＋舞台（clubFairExpo）；校慶、經濟系那一年＝九頂那一排 */
+    const fairGLB=fairDay?(isExpoDay()&&typeof CLUB_FAIR_EXPO!=='undefined'?clubFairExpo(E,g,nav):clubFair(E,g,nav)):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載。社博那天（大一、大二）＝椰林大道兩邊 36 頂＋舞台（clubFairExpo）；校慶、舊序章那一年＝九頂那一排 */
     // 路旁散置腳踏車
     for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=parkedBike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3],x*7+z,null,1.7); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
     // ---- v9.3 第十八批：校園加密 ----
@@ -723,7 +723,6 @@ const Z3 = (function(){
     /* 社科院圖書館（D56 社科院第①步）：門在現在的社科院正面中間（src/soclib3d.js 的 SL3.DOOR）；一樓才有（萬才館陽台那一層不算）*/
     if(typeof SL3!=='undefined'&&typeof SOCLIB_LAYOUT!=='undefined') exits.push({x:SL3.DOOR.x,z:SL3.DOOR.z,r:SL3.DOOR.r,to:'soclib',spawn:Object.assign({},SOCLIB_LAYOUT.entrance.spawn),label:'進入社科院圖書館',door:true,lv:0,y:0});
     // 總圖：門在一樓拱廊裡面，互動範圍從門廊前緣涵蓋到門口；霖澤館（第十九批）：入口比地面高、前面是大台階（不能走），互動點在台階下面；萬才館（第二十四批）：互動點在陽台下面的一樓入口（半徑 1.6；出來的出生點離互動點 2.2 m，不會一出來就跳出按鈕）
-    if(typeof GAME!=='undefined'&&GAME.G&&GAME.G.stage==='econ') E.interactables.push({x:SOCX?SOCX.mainDoor.x:97.9,z:SOCX?SOCX.mainDoor.z:-63.5,radius:1.4,lv:0,label:'社會科學院',look:'經濟系的系辦在這棟。今天沒有要來的事。'});   /* V0-A6（AA_173 第 1 節，第 1 級）：經濟系那一年，社科院門口平常的一句；法律系的那幾年照舊（SK 事件照 BB_106），不讓玩家以為可以進去逛 */
     const G0x=typeof GAME!=='undefined'?GAME.G:null, dormGone=!!G0x&&(G0x.stage||'law')==='law'&&!!G0x.flags&&G0x.flags.MOVED_OUT!=null&&G0x.flags.MOVED_OUT!==false;   /* 畢業後宿舍期滿退宿（1A-15 MOVED_OUT，同 home3d.js HOME.movedOut）*/
     for(const ex of exits){ if(dormGone&&(ex.to==='dorm_hall'||ex.to==='dorm')){ E.interactables.push({x:ex.x,z:ex.z,radius:ex.r,lv:ex.lv,y:ex.y,label:'看宿舍門口',look:'（宿舍門口。門禁卡已經還了。）'}); continue; }   /* AA_363 T7-3：退宿以後宿舍門口進不去，只能看 */
       E.interactables.push({x:ex.x,z:ex.z,radius:ex.r,label:ex.label,exit:ex,lv:ex.lv,y:ex.y}); }   /* 萬才館一樓入口在陽台正下方：只在地面那一層（站在陽台上不會跳出「進入萬才館」）*/
@@ -774,20 +773,20 @@ const Z3 = (function(){
   const FAIR_Z=15.1, FAIR=[['booth_hiking',-21.3],['booth_lawclub',-17.8],['booth_info',-13.5],['booth_guitar',-9.7],['booth_debate',-5.9],['booth_basketball',3.4],['booth_bg1',7.2],['booth_bg2',11.0],['booth_bg3',14.8]];
   /* 校園擺帳篷的日子（同一排帳篷）：大一的社團博覽會（activities.js club_expo_y1s1 的日子）、大一校慶 2025-11-15（BB_95 3-7，法服的法律問答攤）；
      大二的社團博覽會 9/12（AA_170，祐廷站在攤位後面；AA_485 3-2 從 9/16～9/17 搬到開學第一週的週六）、各年校慶：大二 2026-11-14、大三 2027-11-13、大四 2028-11-11（AA_177 第 7、10 節；「每年 11/15」只留給大一）；
-     經濟系那一年的社團博覽會 9/18～9/20（BB_104 E07、AA_154）、校慶園遊會 11/9（E17）*/
-  const FAIR_DAYS=['2025-11-15','2026-09-12','2026-11-14','2027-11-13','2028-11-11'], FAIR_DAYS_ECON=['2024-09-18','2024-09-19','2024-09-20','2024-11-09'];   /* 大二的社團博覽會 2026-09-12（六）一天（CLUBFAIR-REAL-1027，AA_485 3-2：原本 9/16、9/17）*/
-  function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||EXPO_DAYS.includes(key)||(!!econ&&FAIR_DAYS_ECON.includes(key))||(expo||[]).includes(key); }
+     舊序章那一年的社團博覽會 9/18～9/20（BB_104 E07、AA_154）、校慶園遊會 11/9（E17）*/
+  const FAIR_DAYS=['2025-11-15','2026-09-12','2026-11-14','2027-11-13','2028-11-11'];   /* 大二的社團博覽會 2026-09-12（六）一天（CLUBFAIR-REAL-1027，AA_485 3-2：原本 9/16、9/17）*/
+  function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||EXPO_DAYS.includes(key)||(expo||[]).includes(key); }
   function isFairDay(){ try{ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'); const G=typeof GAME!=='undefined'&&GAME.G; if(!A||!G||typeof CALENDAR==='undefined') return false;
-    return fairDayKey(CALENDAR.dateOf(G.day).key,typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G),ACTIVITIES.on(A,G.day,G)?[CALENDAR.dateOf(G.day).key]:[]); }catch(e){ console.warn('isFairDay',e); return false; } }   /* 大一的社博照 ACTIVITIES.on（新局 9/6、舊局 9/30～10/1：CLUBFAIR-REAL-1027）*/
+    return fairDayKey(CALENDAR.dateOf(G.day).key,false,ACTIVITIES.on(A,G.day,G)?[CALENDAR.dateOf(G.day).key]:[]); }catch(e){ console.warn('isFairDay',e); return false; } }   /* 大一的社博照 ACTIVITIES.on（新局 9/6、舊局 9/30～10/1：CLUBFAIR-REAL-1027）*/
   /* ---- 社團博覽會（大一 2025-09-06、大二 2026-09-12）：椰林大道兩邊 36 頂帳篷＋舞台（CLUBFAIR-REAL-1027，AA_485 第 3 節；LAWWW2-C 2026-10-27）----
      使用者 X109「社團博覽會攤會也太少 都沒人顧」「要參考實際的吧」：照臺大的社團聯展，椰林大道兩邊一路排帳篷、大道中段一個舞台。
      配置 src/data/club_fair_expo_layout.js（CLUB_FAIR_EXPO；Blender tools/blender/env_second/club_fair_expo.py 讀同一份）；正式模型 bldg.club_fair_expo
      （36 頂＋舞台烘成一個網格、一個材質＝一個 draw call，約 2.7 萬三角形；整組放在 (0,0,0)）。博覽會那天（activities.js club_expo_y1s1 的日子、大二 EXPO_DAYS）用這一組；
-     校慶、經濟系那一年照舊用下面九頂那一排（clubFair）。每頂帳篷 3×3 m 擋起來；舞台台面、前面兩邊的台階、兩邊的喇叭擋起來；
+     校慶、舊序章那一年照舊用下面九頂那一排（clubFair）。每頂帳篷 3×3 m 擋起來；舞台台面、前面兩邊的台階、兩邊的喇叭擋起來；
      大道中間（z ±3.4 以內）、人行道（z ±7）照舊走得到。Z3.fairExpoFront(id)＝站在攤位前的位置（互動點、顧攤的人的對面）。
      正式模型載入前／失敗：簡單的帳篷、台子（D38 分類 ③）*/
   const EXPO_DAYS=['2026-09-12'];   /* 大二的社博（AA_485 3-2）；大一的日子在 activities.js 的 club_expo_y1s1.dates */
-  function isExpoDay(){ try{ const G=typeof GAME!=='undefined'&&GAME.G; if(!G||typeof CALENDAR==='undefined') return false; if(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G)) return false;
+  function isExpoDay(){ try{ const G=typeof GAME!=='undefined'&&GAME.G; if(!G||typeof CALENDAR==='undefined') return false;
     const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'), key=CALENDAR.dateOf(G.day).key; return EXPO_DAYS.includes(key)||!!(A&&ACTIVITIES.on&&ACTIVITIES.on(A,G.day,G)); }catch(e){ console.warn('isExpoDay',e); return false; } }   /* 大一照 ACTIVITIES.on：新局 9/6、舊局 9/30～10/1 也是 36 頂（攤位的互動點照 36 頂的位置，src/data/club_fair.js）*/
   function fairExpoFront(id){ const L=typeof CLUB_FAIR_EXPO!=='undefined'?CLUB_FAIR_EXPO:null; if(!L) return null; if(id==='stage') return L.stage.front.slice();
     const t=L.tents.find(q=>q.id===id); if(!t) return null; const d=L.tent.front; return [+(t.x+Math.sin(t.ry)*d).toFixed(2),+(t.z+Math.cos(t.ry)*d).toFixed(2)]; }
@@ -1098,7 +1097,7 @@ const Z3 = (function(){
        導航不動：巷口那一塊照舊是上面的 blockRect、門後面本來就在 blockOutside 外面。載入失敗＝只有盆栽（和原本一樣）。測試：node tests/gg_lane_close_unit.js */
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_lane_gate']){
       ASSETS.loadOne('bldg.gg_lane_gate').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggLaneGate','gg_lane_gate_glb'); r.userData.dyn=true; }).catch(e=>console.warn('公館巷口鐵門載入失敗（照舊只有盆栽）',e)); }
-    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
+    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); shopInsideLit(r,zone,GG_IN_PLACE); shopInsideReal(E,g,zone,GG_SHOP_REAL); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone,GG_SHOP_REAL); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
     if(ggScGLB){ P3.mergeStatic(ggScG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,ggScG,ggScList,c.scene,'gg_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車');
       g.traverse(o=>{ if(o.isLOD&&/^scooters_A\d+$/.test(o.name)) o.addLevel(new THREE.Object3D(),40); });   /* 騎樓前那一排（ART-GG-STREETLIFE-1023）：40 m 外不畫（一台 600 個三角形、40 多台；從廣場一端看過去多 3 萬多個三角形，那麼遠只看得到一個小點）*/ }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     return zone; } };
@@ -1300,7 +1299,7 @@ const Z3 = (function(){
     { const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(zone,dt,E2); copyTick(); mktTick(); if(typeof WZCAT!=='undefined') WZCAT.update(dt,E2); }; } copyTick(); mktTick();   /* WZCAT：公園的貓走動（src/wzcat3d.js，J13）*/
     // 兩點半 Café 的 Blender 正式模型（第二個 AI：tools/blender/env_second/cafe_exterior.py）：載入後接到套件建築上；失敗或 ?nobldg 時維持套件外觀
     // 主巷兩側公寓的 Blender 正式模型（第二個 AI：tools/blender/env_second/wz_street.py）：載入後藏起套件外觀；失敗或 ?nobldg 時維持套件
-    if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); propBlocks(nav,WZ_PROP_BLOCKS); propReStand(E,nav); wzParkSeason(root); root.traverse(o=>{ if(/^COPY_(CORNER_SHUT|CORNER_OPEN|A1_SHUT|A1_RENEW)$/.test(o.name)) copyNodes.push(o); }); copyKey=null; copyTick(); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
+    if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); shopInsideLit(root,zone,{B7:'wz_brunch',B3:'wz_teishoku'}); { const wr=wzShopReal(); shopInsideReal(E,g,zone,wr); shopRealGlow(g,'wenzhou_street_glb',zone,wr.concat(WZ_GLOW_ONLY)); } propBlocks(nav,WZ_PROP_BLOCKS); propReStand(E,nav); wzParkSeason(root); root.traverse(o=>{ if(/^COPY_(CORNER_SHUT|CORNER_OPEN|A1_SHUT|A1_RENEW)$/.test(o.name)) copyNodes.push(o); }); copyKey=null; copyTick(); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
     if(scGLB){ P3.mergeStatic(scG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,scG,scList,c.scene); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     if(pkGLB) ASSETS.loadOne('bldg.wz_park').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzPark','wz_park_glb'); wzParkSeason(root); for(const o of g.children) if(o.userData.wzParkFb) o.visible=false; }).catch(e=>console.warn('小公園正式模型載入失敗，用套件的外觀',e));
     if(prGLB) ASSETS.loadOne('bldg.wz_props').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'wzProp','wz_props_glb'); }).catch(e=>console.warn('溫州街街道細節正式模型載入失敗，用套件的外觀',e));
@@ -1535,7 +1534,9 @@ const Z3 = (function(){
   /* 季節節點（LAWWW2-B）：SEASON_AZALEA_on／_off（3 月杜鵑開）、SEASON_SWEETGUM_on_*／_off_*（12～1 月楓香紅葉）；那個季節顯示 _on、藏 _off，其他月份相反。月份照遊戲日期（進區域時決定） */
   /* ICECLOSED（溫州街 v5 的夏日冰菓室）：AA_164 1-2「只在 5～9 月拉開鐵門」——10～4 月顯示 _on（鐵捲門、冬天休息）*/
   function wzParkSeason(root){ let m=6; try{ const G=typeof GAME!=='undefined'&&GAME.G; if(G&&typeof CALENDAR!=='undefined') m=CALENDAR.dateOf(G.day).m; }catch(e){}
-    root.traverse(o=>{ const k=/^SEASON_([A-Z]+)_(on|off)/.exec(o.name||''); if(!k) return; const on=k[1]==='AZALEA'?m===3:(k[1]==='SWEETGUM'?(m===12||m===1):(k[1]==='ICECLOSED'?!(m>=5&&m<=9):false)); o.visible=(k[2]==='on')===on; }); return m; }
+    /* 冰菓室改全年營業（AA-C 11-12；places.js wz_ice）：鐵捲門照 PLACES.inSeason，不再寫死 5～9 月（BB_379 WZ_ICE_tue FAIL）*/
+    let iceShut=!(m>=5&&m<=9); try{ const G=typeof GAME!=='undefined'&&GAME.G; if(typeof PLACES!=='undefined'&&PLACES.inSeason) iceShut=!PLACES.inSeason('wz_ice',G&&G.day)||!!(G&&G.hour!=null&&PLACES.isOpen&&!PLACES.isOpen('wz_ice',((G.hour%24)+24)%24,G.day)); }catch(e){}   /* 公休日、打烊也拉鐵捲門（BB_379 WZ_ICE_r2：週二公休櫃台照擺）；進區域時決定 */
+    root.traverse(o=>{ const k=/^SEASON_([A-Z]+)_(on|off)/.exec(o.name||''); if(!k) return; const on=k[1]==='AZALEA'?m===3:(k[1]==='SWEETGUM'?(m===12||m===1):(k[1]==='ICECLOSED'?iceShut:false)); o.visible=(k[2]==='on')===on; }); return m; }
   /* 阿德影印的狀態（WZ_COPY_SHOP，wz_events.js 1-5／wzlines3d.js）：'moved'｜'stay'｜''（還沒決定）；節點顯示的規則；店門在哪裡 */
   function wzCopyState(G){ const v=G&&G.flags&&G.flags.WZ_COPY_SHOP; return v==='moved'||v==='stay'?v:''; }
   function wzCopyVis(name,st){ return name==='COPY_CORNER_OPEN'||name==='COPY_A1_SHUT'?st==='moved':(name==='COPY_A1_RENEW'?st==='stay':st!=='moved'); }
@@ -1547,10 +1548,177 @@ const Z3 = (function(){
     const m=new THREE.Mesh(new THREE.PlaneGeometry(L,Wd),new THREE.MeshStandardMaterial({map:st,transparent:true,roughness:0.9,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2})); m.rotation.x=-Math.PI/2; m.receiveShadow=true; m.name='zebra'; return m; }
   /* 公館窗卡 v5（LAWWW2 1d4675069）：亮窗網格 NOSHADOW_xs_fronts_lit 的第二組 UV（uv1.x）＝店編號（1～8，0＝永遠亮；對照在 node extras.xsShops），
      打烊的店乘 0.18（BB 11-04「打烊的店窗還亮」FAIL）；照 PLACES.isOpen 每 30 幀更新一次 uniform，不多 draw call。洋洋 17:00～01:00、轉角唱片 12:00～21:00（AA_650 §4，BB 11-04） */
-  const GG_LIT_ZONE={ggtea:'aoki',ggbook:'bookstore',ggcvs:'cvs',ggyy:'yangyang',ggbike:'bikeshop',ggafar:'afar',ggcorner:'corner_records',ggdb:'daybreak'};   /* 洋洋、轉角唱片：AA_650 §4 的營業時間（places.js；洋洋 YANGYANG-IN-1107、轉角唱片 CORNER-IN-1107 進得去了）*/
+  const GG_LIT_ZONE={ggtea:'aoki',ggbook:'bookstore',ggcvs:'cvs',ggyy:'yangyang',ggbike:'bikeshop',ggafar:'afar',ggcorner:'corner_records',ggdb:'daybreak',ggantai:'gg_antai',ggfruit:'gg_xianguo',ggfn:'flower_notes',ggrong:'gg_rongendian'};   /* GG-LIT-12-1112（LAWWW2-C）：公館街景模型的亮窗現在有 12 間（extras.xsShops），原本只處理前 8 間、對照表也只有 8 筆——花序、轉角唱片、榮恩典、Daybreak（第 9～12 間）打烊不會暗，安泰、汀州鮮果沒有對到營業時間。陣列放大到 16 間 */
+  const GG_LIT_N=16;   /* 洋洋、轉角唱片：AA_650 §4 的營業時間（places.js；洋洋 YANGYANG-IN-1107、轉角唱片 CORNER-IN-1107 進得去了）*/
+  /* SHOP-WINDOW-3D-1112（LAWWW2-C；使用者 11-12：新生南路、汀州路、公館的店從外面看要像 118 巷一樣是立體的）：街景模型裡「玻璃後面的立體店內」是一間一個網格 sk_in_<店>
+     （不受場景光的頂點色材質 wz_in_shop，整條街共用一個材質）。打烊的店要看得出來關了（L118-CLOSED-LOOKS-OPEN）：這裡把每一間的材質各複製一份，
+     照 PLACES.isOpen 把顏色乘數設成 1（營業）或 0.07（打烊：店裡關燈，只看得到輪廓）；颱風停業也算打烊。map＝{模型裡的店 id: 地點 id}；沒列的店不動（一直亮著）。
+     每 30 幀看一次（和 ggShopLit 一樣掛在 zone.update）。回傳 {items:[{id,place,mesh,mat,k}],upd}，也記在 zone.shopInLit（測試、CC 在瀏覽器看）。 */
+  function shopInsideLit(root,zone,map){ const items=[]; if(!root||!zone||!map) return null;
+    root.traverse(o=>{ if(!o.isMesh||!o.material||Array.isArray(o.material)) return; let id=null; for(let q=o;q&&!id;q=q.parent){ const m=/^sk_in_(.+)$/.exec(q.name||''); if(m){ const k=m[1].replace(/_\d+$/,'').replace(/_wz_in_shop$/,'').replace(/_\d+$/,''); id=map[m[1]]?m[1]:(map[k]?k:null); if(!id) return; }   /* 模型裡的名字：sk_in_<店>_wz_in_shop（合併後帶材質名）、GLTFLoader 可能再加 _1 */ if(q===root) break; }
+      if(!id) return; const mat=o.material.clone(); mat.name=(o.material.name||'wz_in_shop'); mat.userData=Object.assign({},o.material.userData,{shopIn:id}); o.material=mat; items.push({id,place:map[id],mesh:o,mat,k:1}); });
+    if(!items.length) return null;
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; const P=typeof PLACES!=='undefined'?PLACES:null;
+      for(const it of items){ let open=true; if(G&&P&&P.isOpen){ open=!!P.isOpen(it.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(it.place,G.day)); } const k=open?1:0.07; if(k!==it.k||it.mat.color.r!==k){ it.k=k; it.mat.color.setRGB(k,k,k); } } };
+    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0) upd(); }; upd();
+    const R={items,upd}; zone.shopInLit=R; return R; }
+  /* SHOP-REAL-INSIDE-1112（LAWWW2-C；使用者 11-12 對 BB：「大步球鞋店外面看進去牆壁是灰色，可是人在店裡面居然牆壁是木頭的」→ §12 第 1 點「從店外看到的牆、地板、擺設、燈色要和走進去的室內一樣」）：
+     玻璃後面直接放**那一間店走進去的室內模型**（同一顆 GLB、同一批貼圖），不另外做一套——擺設、材質一定一樣。
+     list＝[{id, place 地點（營業時間）, key 室內模型的 ASSETS 鍵, x,z 室內原點在這一區的位置, ry 轉向（室內的正面 +z 轉到朝街）, w,d,h 室內的寬、深、高, near／far 幾公尺內接上／超過就拿掉}]。
+     · 只接玩家附近的店（near 內才載入、far 外拿掉並釋放材質）：一間室內十幾個材質，整條街全接手機吃不消。
+     · 室內模型自己的正面牆（WALL_front*：街景模型已經有店面的玻璃和框）、陽光斑、窗景卡、光暈不放；範圍外的零件（夜景板之類）不放。
+     · 材質換成不受場景光的（MeshBasicMaterial，貼圖／頂點色照舊）：街上的太陽照不進店裡，店是被自己的燈照亮的；亮度 0.86，打烊（PLACES.isOpen 假、颱風停業）0.07。
+     · 接上以後把街景模型裡那一間的簡化店內（sk_in_<店>，載入前的備用）藏起來；拿掉就放回來。
+     回傳 {shops, tick, lite}，也記在 zone.shopReal（測試、CC 在瀏覽器看：shops[i].built 做好了沒、on 顯示中、meshes 幾個零件、k 亮度）。 */
+  function shopInsideReal(E,g,zone,list,opt){ if(!E||!g||!zone||!Array.isArray(list)||!list.length) return null;
+    const HIDE=/(^|\/)(WALL_front|GLOW_)|(^|\/|_)sun(_|\/|$)|sunpatch|sunlight|VIEW_|_view(_|$)/i,   /* 11-12：原本寫 /sun/，SUNNY SIDE 的根節點 sunnyside_interior 整間被當成陽光斑藏掉 */ _hideNote=0, B=new THREE.Box3(), C=new THREE.Vector3(), LIT=0.86;
+    const shops=list.map(q=>Object.assign({near:26,far:40,on:false,built:false,loading:false,grp:null,mats:[],meshes:0,k:-1},q));
+    /* 兩種接法（CC 11-12 在使用者電腦量：兩間同時接 60 fps 沒掉，但第一次走近最長一幀 233 ms——那一下在載入、上傳貼圖、編譯材質）：
+       · 一般（電腦）：進這一區就一間一間先做好（每 20 幀做一間：載入、換材質、貼圖先上傳、材質先編譯），掛在場景裡但不顯示；走近只是打開顯示，走遠關掉，不釋放。
+       · 省資源 lite（畫質 low／medium 或觸控裝置；opt.lite 可以指定）：只接最近的一間，走近才載入、其他的拿掉並釋放。 */
+    /* 11-12 第 2 版（CC 在使用者電腦量：進區域 10 秒每一間還是 built:false＝預載沒生效——遊戲預設畫質是 medium，第 1 版把 medium 也算成省資源）：省資源只有畫質 low 或觸控裝置。 */
+    const lite=opt&&opt.lite!==undefined?!!opt.lite:(!!(E.q&&E.q.level==='low')||(typeof window!=='undefined'&&('ontouchstart' in window||(window.navigator&&window.navigator.maxTouchPoints>0))));
+    /* 打烊拉下鐵捲門（11-12 第 2 版；BB FAIL：汀州鮮果 23:30 打烊後水果攤還擺在門口、沒有鐵門——§12 第 1 點「打烊看得出來關了（燈暗、鐵門或門關上）」）：
+       每一間在店面玻璃外 6 cm 放一片鐵捲門（橫條浪板，整條街共用一張貼圖、一個材質），營業中藏起來、打烊（PLACES.isOpen 假、颱風停業）才顯示；一直掛著，不跟室內模型一起載入。
+       寬＝s.sx 那一段（門窗的範圍，室內座標）或 s.sw（都沒給＝室內寬 −0.3）、高＝s.sh（沒給 3.0）；朝街的方向＝室內正面轉 ry。opt.shutter===false 不做。 */
+    const isOpen=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; return !(G&&P&&P.isOpen&&s.place)||(!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day))); };
+    if(!(opt&&opt.shutter===false)&&typeof document!=='undefined'&&THREE.CanvasTexture&&THREE.PlaneGeometry){ let mat=null;
+      try{ const c=document.createElement('canvas'); c.width=64; c.height=256; const x=c.getContext('2d'); for(let i=0;i<16;i++){ const y=i*16, gr=x.createLinearGradient(0,y,0,y+16); gr.addColorStop(0,'#9a9c9e'); gr.addColorStop(0.45,'#c9cbcc'); gr.addColorStop(0.8,'#a9abad'); gr.addColorStop(1,'#6f7173'); x.fillStyle=gr; x.fillRect(0,y,64,16); }
+        const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; if(THREE.SRGBColorSpace) t.colorSpace=THREE.SRGBColorSpace; mat=new THREE.MeshLambertMaterial({map:t,side:THREE.DoubleSide}); mat.name='shopreal_shutter'; }catch(e){ mat=null; }
+      if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, nx=Math.sin(s.ry||0), nz=Math.cos(s.ry||0),   /* 朝街的方向＝室內的正面（+z）轉 ry。原本用「室內中心 → 玻璃面中心」：室內不在這一棟正中間的（SUNNY SIDE 偏東 0.62 m）鐵捲門會斜 7°、一頭縮到玻璃後面 */ sr=Array.isArray(s.sx)?s.sx:null, sw=sr?(sr[1]-sr[0]+0.2):(s.sw||(s.w-0.3)), sh=s.sh||3.0, sb=Math.max(0,Math.min(sh-0.4,s.sb||0)), hh=sh-sb, lx=sr?(sr[0]+sr[1])/2:0, ry=s.ry||0, ox=lx*Math.cos(ry), oz=-lx*Math.sin(ry);   /* sx＝[室內 x0, x1]：只蓋門窗那一段（沒給＝整間寬）*/
+        const geo=new THREE.PlaneGeometry(sw,hh); const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*sw/0.8,uv.getY(i)*hh/2.0); const m=new THREE.Mesh(geo,mat); m.name='shop_shutter_'+s.id; m.userData.dyn=true;
+        m.position.set(cx+ox+nx*0.06,(s.y||0)+sb+hh/2,cz+oz+nz*0.06);   /* s.sb（SHOP-WINDOW-3D-1112 v2，AA_902 溫特寶邸打烊「鐵捲門拉一半」）：門片下緣離地 sb 公尺，軌道照舊到地 */ m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s);
+        /* SHUTTER-DEPTH-1112（LAWWW2-C；BB：鐵捲門一片平的）：上面的捲箱、底下的底條、兩邊的軌道——掛在那一片下面（一起顯示／藏），整條街共用一個素色金屬材質；捲箱往街上凸 0.2 m、有影子面 */
+        if(THREE.BoxGeometry){ if(!mat.userData.frame){ mat.userData.frame=new THREE.MeshLambertMaterial({color:0x8d9092}); mat.userData.frame.name='shopreal_shutter_frame'; mat.userData.dark=new THREE.MeshLambertMaterial({color:0x5d6062}); mat.userData.dark.name='shopreal_shutter_dark'; }
+          const part=(n,w,h,d,x,y,z,mm)=>{ const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mm); q.name='shop_shutter_'+n+'_'+s.id; q.position.set(x,y,z); q.userData.dyn=true; m.add(q); return q; };
+          part('box',sw+0.16,0.3,0.24,0,hh/2-0.15,0.1,mat.userData.frame); part('bar',sw-0.04,0.09,0.07,0,-hh/2+0.045,0.03,mat.userData.dark); part('railL',0.08,sh-0.28,0.08,-sw/2+0.02,-0.14-sb/2,0.03,mat.userData.dark); part('railR',0.08,sh-0.28,0.08,sw/2-0.02,-0.14-sb/2,0.03,mat.userData.dark); }
+        g.add(m); s.shutter=m; } }
+    const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
+    /* SHOP-REALISM-1112（LAWWW2-C 11-13）：店內模型有烘好的光照貼圖（GLB extras.lightmap＝白天／晚上兩張，和走進去用的同一份；改用 CC0 素材的店：泰米村食起）——
+       從街上看進去也乘上同一張光照貼圖（MeshBasic 的 lightMap 走第二套 UV：顏色×光照×強度/π，和店裡的間接光同一個算法），外面看、裡面看一樣亮、一樣有影子（CLAUDE.md §12 第 1 點）；
+       白天／晚上照時段換那一張（lmMixAt 過半就換）；營業中不再乘 LIT（光照貼圖本身就是店裡的亮度）、打烊照舊壓暗。沒有第二套 UV 的零件（小東西、植物）照舊。 */
+    const lmOf=(o,s)=>s.lm&&o.geometry&&o.geometry.attributes.uv1?s.lm:null;
+    const basic=(m,s,cache,lm)=>{ if(!m) return m; const ck=lm?(cache.lmc||(cache.lmc=new Map())):cache; let b=ck.get(m); if(b) return b; cache=ck; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
+      if(!map){ if(m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&!m.vertexColors) col.copy(m.emissive); else if(m.color) col.copy(m.color); } else if(m.map&&m.color) col.copy(m.color);
+      b=new THREE.MeshBasicMaterial({map,vertexColors:!!m.vertexColors,transparent:!!m.transparent,opacity:m.opacity===undefined?1:m.opacity,alphaTest:m.alphaTest||0,side:m.side,depthWrite:m.depthWrite!==false});
+      if(lm){ b.lightMap=lm.day; b.lightMapIntensity=lm.intensity; b.userData.lm=true; }
+      if(m.vertexColors&&m.metalness>0.2) col.multiplyScalar(2.2);   /* 金屬的頂點色零件（南洋戲院大廳的老放映機）不受光以後是純黑的剪影：提亮一點 */
+      b.name='shopreal_'+(m.name||''); b.userData.base=col; b.color.copy(col); cache.set(m,b); s.mats.push(b); return b; };
+    const light=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; let open=true;
+      if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07;
+      const lt=s.lm?(G&&lmMixAt(+G.hour)>0.5?s.lm.night:s.lm.day):null; if(k===s.k&&lt===s.lmCur) return; s.k=k; s.lmCur=lt;
+      for(const b of s.mats){ if(b.userData.lm){ b.lightMap=lt; b.color.copy(b.userData.base).multiplyScalar(open?1:0.07); } else b.color.copy(b.userData.base).multiplyScalar(k); } };
+    /* 先上傳貼圖、先編譯材質，而且分幀：一幀只上傳一張貼圖（一次全部上傳本身就是一頓），全部上傳完再編譯，然後才算「可以顯示」（s.ready）。 */
+    /* SHOP-FIRST-APPROACH r7（LAWWW2-C 11-12；BB_379 r6：最長一幀前 30 ms 沒有任何記錄到的事件＝卡在 GPU 端第一次畫這一間（貼圖上傳、program link、頂點上傳）或 GC）：
+       零件都打開以後，在畫面外先「真的畫一次」整間：同一個鏡頭、只畫 1×1 像素（viewport＋scissor 都設 1×1，畫在畫布左下角那一點；這一幀的正式畫面接著整張清掉重畫，看不到），
+       用一個暫時的場景（同一個霧——霧會改著色器，不一樣的話正式畫的時候又要編一次）。材質都是不受光的 MeshBasic，跟燈沒有關係。不用 1×1 的 render target：畫到 render target 時 three.js 用不同的輸出色彩空間／色調映射，編的是另一個著色器。
+       ?noshoppre 關掉（CC 對照用）。量測：prof.step.pre。*/
+    /* r8（LAWWW2-C 11-13；CC r7 0b32cab5cc：整間一次先畫，pre 自己就是那一頓——公館 G03 153 ms、新生南路 shanlan 115 ms；compile 只剩 2 ms，剩下的是頂點上傳＋第一次用到的光照貼圖上傳）：
+       分幀先畫——一幀只畫 PRE_V 個頂點以內的幾個零件（其他零件這一下藏起來），光照貼圖（白天／晚上兩張）排在貼圖上傳那一段先傳。 */
+    const PRE=!(typeof location!=='undefined'&&/[?&]noshoppre\b/.test(location.search||'')), PRE_V=12000;
+    const preDraw=(s,part)=>{ const Rn=E.renderer; if(!Rn||!s.grp||!E.camera||!THREE.Scene||!THREE.Vector4) return; const par=s.grp.parent, vis=s.grp.visible, vp=new THREE.Vector4(), sc=new THREE.Vector4(), st=Rn.getScissorTest?Rn.getScissorTest():false;
+      const keep=part?s.list.map(o=>o.visible):null; if(part) for(const o of s.list) o.visible=part.has(o);
+      const tmp=new THREE.Scene(); tmp.fog=E.scene&&E.scene.fog||null; try{ Rn.getViewport(vp); Rn.getScissor(sc); tmp.add(s.grp); s.grp.visible=true; s.grp.updateMatrixWorld(true);
+        Rn.setViewport(0,0,1,1); Rn.setScissor(0,0,1,1); Rn.setScissorTest(true); Rn.render(tmp,E.camera); }catch(e){}
+      try{ Rn.setViewport(vp); Rn.setScissor(sc); Rn.setScissorTest(st); }catch(e){} if(par) par.add(s.grp); s.grp.visible=vis; if(keep) s.list.forEach((o,i)=>{ o.visible=keep[i]; }); };
+    const preParts=s=>{ const out=[]; let cur=null, v=0; for(const o of s.list){ const a=o.geometry&&o.geometry.attributes&&o.geometry.attributes.position, n=a?a.count:0; if(!cur||(v+n>PRE_V&&cur.size)){ cur=new Set(); v=0; out.push(cur); } cur.add(o); v+=n; } return out; };
+    const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set();
+      /* SHOP-FIRST-APPROACH-1112（LAWWW2-C；BB FIRST_gg_desk_r3：公館燒臘 233 ms、新生南路 150 ms、SUNNY 333 ms，都是第一次走近建店內那一幀）：材質第一次畫時 WebGL 在主執行緒同步編譯、連結著色器——
+         一開始就用 compileAsync 把這一間全部的材質送去編（有 KHR_parallel_shader_compile 的話不卡主執行緒；照場景的燈編，之後畫的時候直接用同一個程式），編好以前零件先不打開（warmRun 看 s.compiling）。
+         compile 只走看得到的物件：暫時打開、呼叫完馬上藏回去（compile 是同步收集材質的） */
+      /* 第 2 版（BB／CC FIRST_*_r4：整間一次 compileAsync 時，那一間的著色器還是擠在同一幀——公館 G06、新生南路大步約 200 ms）：改成一幀只編一個材質
+         （Rn.compile(那個網格, 鏡頭, 整個場景)，同一組材質只編一次），全部送出以後再 compileAsync 整間等 isReady（材質都準備過了，這一步不再編）。排在貼圖上傳後面、零件打開前面。 */
+      const cj=[]; { const Rn=E.renderer; if(Rn&&Rn.compile&&E.camera&&E.scene&&s.grp&&s.list&&s.list.length){ const keys=new Set();
+          for(const o of s.list) (o.traverse?o.traverse.bind(o):(f=>f(o)))(m=>{ if(!m.material) return; const ms=Array.isArray(m.material)?m.material:[m.material]; const k=ms.map(x=>x.uuid||x.id||'').join('|'); if(keys.has(k)) return; keys.add(k); cj.push({s,c:m}); });
+          if(cj.length){ s.compiling=true; s.ct0=now(); cj.push({s,cwait:true}); } } } for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } if(s.lm) for(const t of [s.lm.day,s.lm.night]) if(t&&t.image&&!seen.has(t)){ seen.add(t); warmQ.push({s,t}); }   /* r8：光照貼圖也先傳（不然第一次畫才傳）*/ for(const q of cj) warmQ.push(q); for(const o of s.list) warmQ.push({s,m:o}); if(PRE) for(const p of preParts(s)) warmQ.push({s,pre:p});   /* r8：分幀先畫 */ warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
+    const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(j.stage){ stage(j); return; } if(!j.s.built) return;
+      if(j.pre){ preDraw(j.s,j.pre===true?null:j.pre); return; }
+      if(j.c){ try{ Rn.compile(j.c,E.camera,E.scene); }catch(e){} return; } if(j.cwait){ const s=j.s; const fin=()=>{ if(!s.compiling) return; s.compiling=false; rec(prof.step,'compileWait',now()-s.ct0,s.id); }; try{ const pr=Rn&&Rn.compileAsync?Rn.compileAsync(s.grp,E.camera,E.scene):null; if(pr&&pr.then){ pr.then(fin,fin); if(typeof setTimeout==='function') setTimeout(fin,2500); } else fin(); }catch(e){ fin(); } return; }   /* 2.5 秒保險：等不到 isReady 也照常一幀一個打開 */
+      try{ if(j.m){ if(!j.s.grp.visible){ j.s.grp.visible=true; j.s.k=-1; light(j.s); if(j.s.want) fallback(j.s,false); } j.m.visible=true; j.m.frustumCulled=false; } else if(j.t&&Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
+      if(j.done){ for(const o of j.s.list) o.frustumCulled=true; j.s.ready=true; show(j.s,!!j.s.want); } };
+    const show=(s,v)=>{ if(!s.grp) return; s.grp.visible=v; s.on=v; fallback(s,!v); if(v){ s.k=-1; light(s); } };
+    /* 第 3 版（LAWWW 11-12：省資源模式第一次走近那一下——載入完的那一幀 clone＋逐零件換材質＋掛上場景一次做完）：拆成分幀，和貼圖上傳、零件打開排同一條佇列（warmQ，一幀一件）：
+       載入完 → 一幀 clone → 每幀處理 PREP 個零件（藏正面牆／範圍外的、算範圍、換材質）→ 掛上場景 → 貼圖一幀一張 → 零件一幀一個 → 可以顯示。 */
+    const PREP=3;
+    const build=(s,vis)=>{ if(s.built||s.loading||s.building||typeof ASSETS==='undefined'||!ASSETS.manifest[s.key]) return; s.loading=true;
+      ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.built||s.building) return; s.building=true; s.want=!!vis; s.src=c.scene; warmQ.push({s,stage:'clone'}); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
+    const stage=j=>{ const s=j.s; if(!s.building) return;
+      if(j.stage==='clone'){ const r=s.src.clone(true); s.src=null; r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true); s.tmp=r; s.cache=new Map(); s.list=[]; s.pend=[];
+        r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(o.isMesh&&o.geometry) s.pend.push(o); });
+        { const L=r.userData&&r.userData.lightmap; s.lm=L&&L.day&&L.night?{day:lmLoad(L.day),night:lmLoad(L.night),intensity:L.intensity||Math.PI*2}:null; }   /* 店內模型烘好的光照貼圖（上面 lmOf 的註解）*/
+        warmQ.push({s,stage:'prep'}); return; }
+      const r=s.tmp;
+      for(let k=0;k<PREP&&s.pend.length;k++){ const o=s.pend.shift(); let nm=''; for(let q=o;q&&q!==r;q=q.parent) nm=(q.name||'')+'/'+nm;
+        if(HIDE.test(nm)){ o.visible=false; continue; } { let dv=null; for(let q=o;q&&q!==r&&!dv;q=q.parent) dv=q.userData&&q.userData.dir; if(Array.isArray(dv)&&dv[2]<-0.9&&Math.abs(dv[0])<0.1){ o.visible=false; continue; } }   /* 正面牆：模型自訂屬性 dir＝[0,0,−1]（牆淡出用的「這面牆朝室內的方向」；汀州路的店叫 WALL_S、WALL_Sfix_*，名字對不上 WALL_front）*/
+        if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
+        if(Math.abs(C.x)>s.w/2+0.4||Math.abs(C.z)>s.d/2+0.4||C.y>s.h+0.6||C.y<-0.5){ o.visible=false; continue; }
+        o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,s.cache,lmOf(o,s))):basic(o.material,s,s.cache,lmOf(o,s)); o.visible=false; s.list.push(o); }
+      if(s.pend.length){ warmQ.push({s,stage:'prep'}); return; }
+      r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; if(s.kx&&s.kx!==1) r.scale.x=s.kx;   /* kx：室內的寬度方向縮一點（公館：室內和那一棟一樣寬、牆又往外厚 14～20 cm，會伸進隔壁店裡，從隔壁的窗看到一片牆的背面）*/ r.visible=false; g.add(r); s.grp=r; s.tmp=null; s.cache=null; s.pend=null; s.building=false; s.built=true; s.meshes=s.list.length; warm(s); };
+    const detach=s=>{ if(s.building){ s.building=false; s.tmp=null; s.pend=null; s.cache=null; s.src=null; for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); return; } if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); fallback(s,true); };
+    const dist=(s,p)=>Math.hypot(Math.max(0,Math.abs(p.x-(s.cx===undefined?s.x:s.cx))-(s.ex||0)),Math.max(0,Math.abs(p.z-(s.cz===undefined?s.z:s.cz))-(s.ez||0)));
+    const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return; for(const s of shops) s.dd=dist(s,p); const by=shops.slice().sort((a,b)=>a.dd-b.dd);
+      if(lite){ const n0=by[0]; for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if((s.built||s.building)&&(s!==n0||s.dd>s.far)) detach(s); } }
+      else{ for(const s of shops){ if(s.built){ if(s.dd<s.near){ s.want=true; if(s.ready&&!s.on) show(s,true); } else if(s.dd>s.far){ s.want=false; if(s.on) show(s,false); } } }
+        /* 走到店前的那一間優先（BB 11-12 FAIL：第一次從街上走到 SUNNY SIDE 前 3 m，B7 built:false，看到空的玻璃盒——溫州街四間排隊預載，B7 離進場點最遠、排最後，一間要五十幾幀）：
+           人已經在某一間的 near 裡、它還沒開始建，而正在建的是另一間遠的 → 先放掉那一間（之後再排），馬上建眼前這一間 */
+        { const need=typeof ASSETS!=='undefined'?by.find(s=>!s.built&&!s.building&&!s.loading&&s.dd<s.near&&ASSETS.manifest[s.key]):null, busy=shops.find(s=>s.building); if(need&&busy&&busy!==need&&busy.dd>busy.near) detach(busy); }
+        if(!shops.some(s=>s.loading||s.building)){ const nx=typeof ASSETS!=='undefined'?by.find(s=>!s.built&&ASSETS.manifest[s.key]):null; if(nx) build(nx,nx.dd<nx.near); } }
+      for(const s of shops){ if(s.on) light(s); if(s.shutter) s.shutter.visible=!isOpen(s); } };
+    let f=0; const up0=zone.update; /* 眼前那一間還沒好（人在 near 裡、正在建或正在暖機）＝一幀做 4 件（原本 1 件；等一幀、收尾、clone 那幾步照舊各佔一幀），而且每 5 幀看一次距離；沒有人在等的預載照舊一幀 1 件、20 幀看一次 */
+    const urgent=()=>shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready&&(s.building||s.built||s.loading));
+    /* 量哪一步慢（BB 11-12：第一次走近店面的長幀 150～167 ms，都在建店內那一刻——要知道是哪一步）。CC 在瀏覽器看 GAME.E.zone.shopReal.prof：
+       step＝這支函式自己每一種工作花的時間（clone／prep／tex 上傳貼圖／mesh 打開零件／show 顯示／tick）；frame＝做那一種工作的那一幀「整幀」多長（含畫面：編譯材質、上傳頂點都在畫的時候發生）；
+       load＝模型載入完成的那一幀整幀多長（解析 GLB 在主執行緒）。每一格 {n 次數, max 最長 ms, sum 合計 ms, who 最長那一次是哪一間}。只記數字，不影響行為。 */
+    const now=()=>(typeof performance!=='undefined'&&performance.now?performance.now():0), prof={step:{},frame:{},reset(){ this.step={}; this.frame={}; }}, rec=(t,k,ms,id)=>{ const o=t[k]||(t[k]={n:0,max:0,sum:0,who:''}); o.n++; o.sum=Math.round((o.sum+ms)*10)/10; if(ms>o.max){ o.max=Math.round(ms*10)/10; o.who=id||''; } };
+    let lastT=0, lastK=null, lastId='';
+    const kindOf=j=>j.stage?j.stage:(j.pre?'pre':j.c?'compile':(j.cwait?'cwait':(j.t?'tex':(j.m?'mesh':(j.hold?'hold':'done')))));
+    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ if(warmQ[0].s&&warmQ[0].s.compiling&&(warmQ[0].m||warmQ[0].pre||warmQ[0].hold||warmQ[0].done)){ const k=warmQ.findIndex(q=>!(q.s&&q.s.compiling&&(q.m||q.pre||q.hold||q.done))); if(k<0) break; warmQ.unshift(warmQ.splice(k,1)[0]); }   /* 還在編著色器的那一間：先做別的（別間的貼圖、clone、prep），都沒有就這一幀不做 */
+      const j=warmQ[0], stop=!!(j.hold||j.done||j.c||j.pre||j.stage==='clone'), k=kindOf(j), id=j.s&&j.s.id, t0=now(); warmStep(); rec(prof.step,k,now()-t0,id); lastK=k; lastId=id; if(stop) break; } };
+    zone.update=function(dt,E2){ const t=now(); if(lastT&&lastK){ rec(prof.frame,lastK,t-lastT,lastId); lastK=null; } lastT=t; if(up0) up0.call(this,dt,E2);
+      const ld=shops.find(s=>s.loading), on0=shops.filter(s=>s.on).length; warmRun(); f++;
+      if(f%20===1||(f%5===1&&shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready))){ const t1=now(); tick(); rec(prof.step,'tick',now()-t1,''); }
+      if(!lastK){ const sh=shops.find(s=>s.on&&!s._seen); if(sh||shops.filter(s=>s.on).length!==on0){ lastK='show'; lastId=sh?sh.id:''; } else if(ld&&!ld.loading){ lastK='load'; lastId=ld.id; } } for(const s of shops) s._seen=s.on; }; tick();
+    const R={shops,tick,detach,lite,warmQ,prof}; zone.shopReal=R; return R; }
+  /* 只有鐵捲門、沒有室內模型可以放的店面（同弦樂器：店在二樓，一樓櫥窗和樓梯口是街景模型自己的；BB 11-12 FAIL：新生南路 23:30 同一條街大步、好拍、山嵐、新運動都有鐵門，同弦沒有）。
+     和 shopInsideReal 同一套鐵捲門（同一張浪板、營業中藏、打烊／颱風停業顯示、每 20 幀看一次），只是不接室內：list＝[{id, place, cx,cz 玻璃面中心, ry 朝街的方向, sw 寬, sh 高}]。
+     不動 zone.shopReal（那是有室內模型的店，CC 在瀏覽器看 built／on）；結果記在 zone.shopShut（shops[i].shutter.visible）。 */
+  function shopShutters(E,g,zone,list){ if(!E||!g||!zone||!Array.isArray(list)||!list.length) return null; const keep=zone.shopReal;
+    const R=shopInsideReal(E,g,zone,list.map(q=>Object.assign({w:q.sw||1,d:1,h:q.sh||3,x:q.cx,z:q.cz,ex:0,ez:(q.sw||1)/2},q,{key:null}))); zone.shopReal=keep; zone.shopShut=R; return R; }
+  /* SHOP-REAL-INSIDE 溫州街（LAWWW2-C 11-12 自查 shop_out_in_audit_1112：日常失速店外是一份烘光的店內、顏色偏粉，和走進去的黃牆、綠白方格地板不一樣）：
+     日常失速（W2，正面朝東的橫巷 +x、玻璃面 x −37.5；室內 11×10×3.4，室內 x → 溫州街 z＝−13.5−x）放走進去的那一顆（bldg.wz_offbeat_interior，載入時已登錄）。室內原點＝街景腳本的 (−42.2,−13.5)（wz_street.py W2：本地 z＝室內 z−5、立面在 x −37.2；玻璃退 0.3 m 在室內前緣裡面）。北側的窗沒有鐵捲門（只做正面） */
+  /* WZ-CLOSED-SIGN-1112（LAWWW2-C；店面標準 §12 第 1 點）：溫州街不是「真的店內」的店（櫥窗是街景模型自己的），打烊時招牌、店內、門口的光暈也要熄——只給 Z3.shopRealGlow 用的範圍表（不放室內模型）。
+     位置照 wz_street.py 各棟的 x 範圍：A 側（z ≥ 5.9）阿德 A1 −12～−4、溫州書屋 A2 10～18.5、日和 A5 40～48、一盞 −24.7～−16.3；B 側（z ≤ −5.9）木曜日的招牌燈 5～9、巷口茶飲 B5 西半 16～23、夏日冰菓室 B5 東半 23～30（騎樓退 3.4 m）。
+     常在洗衣（24 小時）不列；阿忠鮮果 B6 30～40（AA 定的營業時間 wz_fruit，LAWWW ec4e20f59c）*/
+  const WZ_GLOW_ONLY=(()=>{ const mk=(place,x0,x1,side,dep)=>{ const w=x1-x0, d=8, cx=(x0+x1)/2, f=side*(5.9+(dep||0)); return {place,w,d,x:cx,z:f+side*d/2,ry:0,cx,cz:f,ex:w/2,ez:0,glowOnly:true}; };
+    return [mk('wz_print',-12,-4,1),mk('wz_books',10,18.5,1),mk('cvs',40,48,1),mk('wz_teahouse',-24.7,-16.3,1),mk('wz_mokuyobi',5,9,-1),mk('wz_tea',16,23,-1,3.4),mk('wz_ice',23,30,-1,3.4),mk('wz_fruit',30,40,-1)]; })();
+  const wzShopReal=()=>{ const out=[{id:'W2',place:'wz_offbeat',key:'bldg.wz_offbeat_interior',w:11,d:10,h:3.4,x:-42.2,z:-13.5,ry:Math.PI/2,cx:-37.5,cz:-13.5,ex:0,ez:5.5,sx:[-4.55,5.25],sh:3.15}];
+    /* SUNNY SIDE（B7，x 40～48、朝南 +z、玻璃面 z −5.9；室內 6.4×10×3.2，右牆貼著東側的落地窗：室內中心在這一棟中心往東 0.65−0.03）、小路（B3，x −9.6～4；室內 8×8×2.9 在這一棟正中間）：
+       街景模型的簡化店內（暗褐色的牆／窗後一整面碗盤架）和走進去的不一樣（自查 11-12）。鍵用 wzGlbKey（和進店用的同一顆）；sx＝店面玻璃的範圍（以 cx 為準），鐵捲門蓋整面玻璃 */
+    const Ly=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT:null, add=(id,k,place,cx,dx,sx)=>{ const L=Ly&&Ly[k]; if(!L||!L.glb||!L.w||!L.d) return; out.push({id,place,key:wzGlbKey(k,L),w:L.w,d:L.d,h:L.h||3,x:cx+dx,z:-5.92-L.d/2,ry:0,cx,cz:-5.9,ex:L.w/2,ez:0,sx,sh:2.7}); };
+    add('B7','brunch','wz_brunch',44,0.62,[-3.7,3.7]); add('B3','teishoku','wz_teishoku',-2.8,0,[-6.5,6.5]);
+    /* 林家乾麵（A4，x 32～40、朝北 −z、店面 z 5.9；室內 6.4×8×3 正面 +z 轉成朝 −z）：整面開著的店，原本街景模型裡是另外做的一套簡化店內（第三批 11-12）。門在室內本地 x +1 → 世界 x 35，和進店點一樣 */
+    { const L=Ly&&Ly.lin; if(L&&L.glb&&L.w&&L.d) out.push({id:'A4',place:'wz_lin',key:wzGlbKey('lin',L),w:L.w,d:L.d,h:L.h||3,x:36,z:5.92+L.d/2,ry:Math.PI,cx:36,cz:5.9,ex:L.w/2,ez:0,sx:[-3.3,3.3],sh:2.7}); }
+    return out; };
+  const GG_SHOP_REAL=(()=>{ const WB={G00:11.2,G01:9.2,G02:13.2,G03:11.2,G04:9.2,G05:9.2,G06:10.2,G07:10.2,G08:8,G11:10,G12:8,G13:9,G14:9};   /* 各棟的寬（wz_street.py）*/
+    const mk=(id,place,key,cx,w,d,h,sx)=>({id,place,key,w,d,h,x:cx,z:22.02+d/2,ry:Math.PI,cx,cz:22,ex:w/2,ez:0,sx,sh:2.95,kx:Math.floor(Math.min(1,(WB[id]/2)/(w/2+0.2))*1000)/1000});   /* sx＝門窗的範圍（鐵捲門只蓋這一段；照 wz_street.py GG_XS 的 cards＋door）*/ return [mk('G04','gg_antai','bldg.gg_antai_interior',-18.6,9,10,3.3,[-4.15,4.15]),mk('G08','gg_xianguo','bldg.gg_xianguo_interior',19.6,8,10,3.3,[-3.65,3.65]),mk('G13','gg_rongendian','bldg.gg_rongendian_interior',64.1,9,10,3.3,[-4.15,4.15]),
+      /* 第二批（11-12）：青木茶室、頁間書屋、日和便利店、洋洋鹹酥雞、慢輪單車、Afar、轉角唱片、Daybreak——室內配置的門窗本來就照這一排外觀做的（各店 layout 的 front），寬深高照各自的配置檔 */
+      mk('G01','aoki','bldg.aoki_interior',-52.2,9.2,7,3.6,[-1.93,4.24]),mk('G02','bookstore','bldg.yejian_interior',-41.0,12,10,3.8,[-5.15,5.6]),mk('G03','cvs','bldg.cvs_interior_v2',-28.8,11.2,11,3.3,[-5.3,2.93]),mk('G05','yangyang','bldg.yangyang_interior',-9.4,9.2,11,3.3,[-4.3,3.5]),
+      mk('G06','bikeshop','bldg.bikeshop_interior',0.3,10.2,12,3.6,[-4.4,4.1]),mk('G07','afar','bldg.afar_interior',10.5,10.2,8,3.7,[-3.9,3.35]),mk('G12','corner_records','bldg.corner_interior',55.6,8,11.5,3.3,[-3.39,2.42]),mk('G14','daybreak','bldg.daybreak_interior',73.1,9,8,3.7,[-3.31,3.07]),
+      mk('G00','noodle','bldg.shaola_interior',-62.4,6,13,3.2,[-3,3]),
+      mk('G11','flower_notes','bldg.flower_notes_interior',46.6,10,14,7.6,[-4.3,4.3])]; })();   /* 花序（第四批）：兩層樓的室內整顆放（前半是挑高），街上只開一樓的窗；二樓的窗照舊是照片 */   /* 公館燒臘（第三批）：店面照室內配置重開門窗（wz_street.py GG_XS G00）；模型鍵在載入時登錄（ggReg） */   /* SHOP-REAL-INSIDE 公館第一批（LAWWW2-C 11-12 自查 docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112）：安泰藥局、汀州鮮果、榮恩典文具社——店外原本是照片卡（榮恩典暖色塞滿、店內白而疏；鮮果深色背景、店內白牆），改成玻璃後面放走進去的那一顆室內模型。店面玻璃在 z 22（立面 19＋騎樓 3），室內正面 +z 轉到朝 −z（ry π）；中心 x＝wz_street.py 那一棟的中心 */
+  const GG_IN_PLACE={G00:'noodle'};   /* 公館街景模型裡立體的店內（sk_in_<棟>）→ 地點：G00＝燒臘店（區域 noodle，每天 11:00～23:00，AA_831）。Z3.shopInsideLit 打烊調暗（LAWWW 11-12：燒臘有營業時間了，打烊時從街上看窗不會變暗）*/
+  /* OPEN-ONLY-1113（LAWWW2-C；BB_379 v4：溫特寶邸打烊門口立式衣架還擺在騎樓）：街景模型裡名字開頭 OPENONLY__<地點> 的物件只在營業時顯示、CLOSEDONLY__<地點> 只在打烊時顯示
+     （地點＝PLACES 的 id，例 OPENONLY__tz_wente__rack；颱風停業算打烊）。掛在 zone.update 每 30 幀看一次（同 ggShopLit）。水果攤收攤（FRUIT 蓋布）也用這一套。回傳／記在 zone.openOnly＝{items,upd} */
+  function openOnly(root,zone){ const items=[]; root.traverse(o=>{ const m=/^(OPENONLY|CLOSEDONLY)__([a-z0-9]+(?:_[a-z0-9]+)*)/.exec(o.name||''); if(m) items.push({o,open:m[1]==='OPENONLY',place:m[2]}); }); if(!items.length) return null;
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(const it of items){ const op=!!PLACES.isOpen(it.place,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(it.place,G.day)); it.o.visible=it.open?op:!op; } };
+    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0) upd(); }; upd(); zone.openOnly={items,upd}; return zone.openOnly; }
   const ggLitWired=new WeakMap();   /* 接過窗卡打烊調暗的材質 → {lit, U, mine, compiled, rewrap, entries}（第二次進公館沿用，見 ggShopLit 裡的註解）*/
-  function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
+  function ggShopLit(root,zone,a3,opt){ const real=Array.isArray(a3)?a3:null, LZ=(!real&&a3)||GG_LIT_ZONE; let mesh=null;   /* 第三個參數：陣列＝真的店內清單（公館 GG_SHOP_REAL，各佔一格、光暈照那一棟的寬分）；物件＝{模型裡的店 id: 地點}（別條街的窗卡用：新生南路 xs_fronts_lit——運動廣場、同弦、山嵐、南洋、大口；BB 11-12：同弦 23:30 二樓櫥窗還亮著）；不給＝公館那一張。opt.glow===false＝光暈不跟著熄 */ root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
     let ex=null; root.traverse(o=>{ if(!ex&&o.userData&&o.userData.xsShops) ex=o.userData.xsShops; }); const ids=String(ex||'ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb').split(',');
+    /* GG-CLOSED-SIGN-1112（LAWWW2-C；店面標準 §12 第 1 點「打烊看得出來關了」）：十三間店的櫥窗改成真的店內以後沒有窗卡，招牌、店內、門口的光暈找不到是哪一間 → 打烊了招牌還亮。
+       真的店內那幾間（GG_SHOP_REAL）也各佔一格（窗卡已經有那個地點的就共用同一格），光暈照那一棟的寬分 */
+    const realBox={}; for(const q of (real||[])){ let k=ids.findIndex(id=>(GG_LIT_ZONE[id]||(id.indexOf('real:')===0?id.slice(5):null))===q.place); if(k<0){ if(ids.length>=GG_LIT_N) continue; ids.push('real:'+q.place); k=ids.length-1; } realBox[k+1]={x0:q.cx-q.w/2,x1:q.cx+q.w/2,z0:q.cz-3,z1:q.cz}; }
     const m=mesh.material;   /* 不複製材質：夜間亮度（TK.addNight 登記在原本的材質上）要照舊跟著走（CC 11-04 GG_night：複製以後 22:00／14:00 亮度比 ≈1）*/
     /* 第二次進公館（GG-NIGHT-CARDS-1104：CC-C r8c 11-04 12:52、BB-C 讀碼）：快取的 GLB 每次進區域是 c.scene.clone(true)，材質是同一個——原本每次都再包一層 onBeforeCompile（新的 mine.prev＝上一次的 mine），
        shader 被 patch 兩次（uv1、vShopIdx、uShopLit 重複宣告）→ 程式連結失敗、整張窗卡不畫（營業中的店也一樣，只看到後面的磚牆；r8b 設黑、打烊乘數改多少都沒差就是這個）。
@@ -1558,21 +1726,21 @@ const Z3 = (function(){
        uniform 物件也沿用：材質沒有被丟掉的話 three.js 用快取的程式、不會再呼叫 onBeforeCompile，綁著的是第一次的 uniform——新的 upd 要寫同一個 lit 陣列才有用。
        patch 本身也先看原始碼有沒有 uShopLit：有就只接 uniform、不改原始碼（別的程式串接時被叫兩次也不會重複宣告）；包裝函式防遞迴（guard 接回去時兩個包裝互相串）*/
     let W=ggLitWired.get(m);
-    if(!W){ const lit=new Array(9).fill(1), U={value:lit};
+    if(!W){ const lit=new Array(GG_LIT_N+1).fill(1), U={value:lit};
       const patch=sh=>{ sh.uniforms.uShopLit=U;
         if(sh.vertexShader.indexOf('vShopIdx')<0) sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\n#ifndef USE_UV1\nattribute vec2 uv1;\n#endif\nvarying float vShopIdx;').replace('#include <begin_vertex>','#include <begin_vertex>\nvShopIdx=uv1.x;');
-        if(sh.fragmentShader.indexOf('uShopLit')<0) sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=k; }'); };
+        if(sh.fragmentShader.indexOf('uShopLit')<0) sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[17];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<17;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=k; }'); };
       let busy=false; const mine=function(sh,r){ if(busy) return; busy=true; try{ if(mine.prev&&mine.prev!==mine) mine.prev.call(this,sh,r); patch(sh); W.compiled++; } finally{ busy=false; } };
       const prev0=m.onBeforeCompile; mine.prev=prev0&&prev0!==THREE.Material.prototype.onBeforeCompile?prev0:null;
       W={lit,U,mine,compiled:0,rewrap:0,entries:0}; ggLitWired.set(m,W);
       m.onBeforeCompile=mine; m.customProgramCacheKey=()=>'ggShopLit'; m.needsUpdate=true; }
     W.entries++; const lit=W.lit, U=W.U, mine=W.mine;
-    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<8;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.03):1; } };
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<GG_LIT_N;i++){ const zk=ids[i].indexOf('real:')===0?ids[i].slice(5):LZ[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.03):1; } };
     let f=0;
     /* 別的程式（夜間、透視、調色）後來換掉 onBeforeCompile 的話：每次更新時接回去（串在它後面），重新編譯 */
     const guard=()=>{ if(m.onBeforeCompile!==mine){ mine.prev=m.onBeforeCompile; m.onBeforeCompile=mine; m.needsUpdate=true; W.rewrap++; } };
     const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0){ guard(); upd(); } }; upd();
-    const glow=ggShopGlow(root,mesh,U);   /* 打烊的店：店內、招牌、店門口自己的燈的光暈一起熄（LAWWW 11-04 06:58；CC GG_night：窗卡調暗了，但亮的主要是前面的光暈）*/
+    const glow=opt&&opt.glow===false?null:ggShopGlow(root,mesh,U,realBox); if(real) shopSignLit(root,zone,real);   /* 打烊的店：店內、招牌、店門口自己的燈的光暈一起熄（LAWWW 11-04 06:58；CC GG_night：窗卡調暗了，但亮的主要是前面的光暈）*/
     const R={mesh,lit,ids,upd,glow}; zone.ggLit={glow:glow&&glow.info,name:mesh.name,mat:m.name,uv1:!!mesh.geometry.attributes.uv1,inScene:()=>{ let o=mesh; while(o.parent) o=o.parent; return o.isScene===true; },compiled:()=>W.compiled,rewrap:()=>W.rewrap,entries:()=>W.entries,lit};   /* 除錯：CC 在瀏覽器看 GAME.E.zone.ggLit（GG_night 沒暗的原因）；entries＝這個材質接過幾次（第幾次進公館）、compiled＝patch 跑了幾次（每個新程式一次）*/
     return R; }
   /* 公館打烊調暗的光暈那一半（LAWWW2 11-04，LAWWW 06:58 P1）：wzGlowBatch 合成的光暈網格加一個每頂點的店編號 aShop（和窗卡 uv1.x 同一套 1～8、xsShops 同順序，0＝不屬於哪一間），
@@ -1580,18 +1748,90 @@ const Z3 = (function(){
      只收店自己的燈——GLOW_gg_xs_in（新店店內）、GLOW_shopin（店內）、GLOW_signbox／GLOW_vsign（招牌）、GLOW_gg_xs_lamp（新店門口的燈）；騎樓燈 GLOW_arcadelamp 是整排騎樓的、不熄。
      回傳 info（除錯：GAME.E.zone.ggLit.glow）：每一間分到幾個光暈 */
   const GG_GLOW_SHOP=/^GLOW_(gg_xs_in|shopin|signbox|vsign|gg_xs_lamp)(_|$)/;
-  function ggShopGlow(root,lit,U){ const g=root.parent; if(!g) return null; const gm=g.children.find(o=>o.isMesh&&o.userData&&o.userData.glowBatch&&o.name===root.name+'_glows'); if(!gm) return null;
+  function ggShopGlow(root,lit,U,realBox){ const g=root.parent; if(!g) return null; const gm=g.children.find(o=>o.isMesh&&o.userData&&o.userData.glowBatch&&o.name===root.name+'_glows'); if(!gm) return null;
     const P=lit.geometry.attributes.position, S=lit.geometry.attributes.uv1, v=new THREE.Vector3(), box={}; lit.updateMatrixWorld(true);
-    for(let i=0;i<P.count;i++){ const s=Math.round(S.getX(i)); if(s<1||s>8) continue; v.fromBufferAttribute(P,i); lit.localToWorld(v); g.worldToLocal(v); const b=box[s]||(box[s]={x0:1e9,x1:-1e9,z0:1e9,z1:-1e9}); b.x0=Math.min(b.x0,v.x); b.x1=Math.max(b.x1,v.x); b.z0=Math.min(b.z0,v.z); b.z1=Math.max(b.z1,v.z); }
+    for(let i=0;i<P.count;i++){ const s=Math.round(S.getX(i)); if(s<1||s>GG_LIT_N) continue; v.fromBufferAttribute(P,i); lit.localToWorld(v); g.worldToLocal(v); const b=box[s]||(box[s]={x0:1e9,x1:-1e9,z0:1e9,z1:-1e9}); b.x0=Math.min(b.x0,v.x); b.x1=Math.max(b.x1,v.x); b.z0=Math.min(b.z0,v.z); b.z1=Math.max(b.z1,v.z); }
+    if(realBox) for(const s in realBox){ const r=realBox[s], b=box[s]; box[s]=b?{x0:Math.min(b.x0,r.x0),x1:Math.max(b.x1,r.x1),z0:Math.min(b.z0,r.z0),z1:Math.max(b.z1,r.z1)}:r; }   /* 真的店內那幾間：那一棟的寬 */
     const items=gm.userData.glowBatch.items, A=new Float32Array(items.length*4), info={}; let k=0;
     items.forEach((it,i)=>{ if(!GG_GLOW_SHOP.test(it.n||'')) return; let best=0, bd=1e9; const mg=/^GLOW_(signbox|vsign)/.test(it.n)?0:0.8;
       for(const s in box){ const b=box[s]; if(it.x<b.x0-mg||it.x>b.x1+mg||it.z<b.z0-5||it.z>b.z1+5) continue; const d=Math.abs(it.x-(b.x0+b.x1)/2); if(d<bd){ bd=d; best=+s; } }
       if(best){ A.fill(best,i*4,i*4+4); info[best]=(info[best]||0)+1; k++; } });
     gm.geometry.setAttribute('aShop',new THREE.BufferAttribute(A,1)); const m=gm.material, prev=m.onBeforeCompile;
     m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uShopLit=U;
-      sh.vertexShader='attribute float aShop;\nuniform float uShopLit[9];\nfloat ggShopK(float s){ int si=int(s+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } return k>0.99?1.0:0.0; }\n'+sh.vertexShader.replace('vGlowOp = mix( aOp.x, aOp.y, uNightK )','vGlowOp = ggShopK( aShop ) * mix( aOp.x, aOp.y, uNightK )'); };
+      sh.vertexShader='attribute float aShop;\nuniform float uShopLit[17];\nfloat ggShopK(float s){ int si=int(s+0.5); float k=1.0; for(int i=1;i<17;i++){ if(i==si) k=uShopLit[i]; } return k>0.99?1.0:0.0; }\n'+sh.vertexShader.replace('vGlowOp = mix( aOp.x, aOp.y, uNightK )','vGlowOp = ggShopK( aShop ) * mix( aOp.x, aOp.y, uNightK )'); };
     m.customProgramCacheKey=()=>'wzGlowBatch1_ggShop'; m.needsUpdate=true;
     return {mesh:gm,info,n:k}; }
+  /* SHOP-CLOSED-SIGN-1112（LAWWW2-C；店面標準 §12 第 1 點「打烊看得出來關了」）：公館以外的街（溫州街、汀州路、新生南路）沒有「照店熄光暈」，打烊了招牌、店內、門口的燈還亮。
+     Z3.shopRealGlow(g,模型名,zone,真的店內清單)：街景模型合成的光暈網格（<模型名>_glows）每個光暈照位置分給那一間（那一間室內的範圍＋店門前後 4 m；最近的那一間），
+     那一間沒開（PLACES.isOpen、颱風）就不畫。只收店自己的燈（店內、招牌、招牌燈、門口的燈、菜單燈箱）；騎樓燈、住家門燈、壁燈、路燈不動。最多 32 間。回傳 {mesh,lit,ids,upd,info} */
+  /* SHOP-SIGN-LIT-1112（LAWWW2-C；BB 17:4x 公館燒臘 23:30 鐵門拉了招牌還亮；店面標準 §12 第 1 點）：街景模型的招牌面（SIGN_FACE_／VSIGN_FACE_）全部合成一張 wz_signs_atlas、
+     晚上整片一起亮（TK.addNight），不分哪一間——所有街打烊的店招牌都還亮。每一塊板面（aItem）先看名稱有沒有那一棟的編號（q.id），沒有再照中心位置分給那一間（店面寬＋左右 0.4 m、店面前後 6 m；最近的那一間），
+     那一間沒開＝那一塊不發光（字照樣看得到，只是不亮）。list 和 shopRealGlow／GG_SHOP_REAL 同一種表。回傳 {mesh,ids,slot,upd,info} */
+  function shopSignLit(root,zone,list){ if(!root||!zone||!Array.isArray(list)||!list.length) return null; let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&o.name==='wz_signs_atlas') mesh=o; });
+    if(!mesh||!mesh.geometry.attributes.aItem||!mesh.userData.atlas||mesh.geometry.attributes.aShopS) return null; mesh.updateMatrixWorld(true);
+    const N=32, ids=[], box=[]; for(const q of list){ if(!q||!q.place) continue; const c=Math.abs(Math.cos(q.ry||0)), sn=Math.abs(Math.sin(q.ry||0)), along=c>=sn, cx=q.cx===undefined?q.x:q.cx, cz=q.cz===undefined?q.z:q.cz, hw=(along?(q.ex||q.w/2):(q.ez||q.w/2))+0.4;
+      const b=along?{x0:cx-hw,x1:cx+hw,z0:cz-6,z1:cz+6}:{x0:cx-6,x1:cx+6,z0:cz-hw,z1:cz+hw}; b.mx=cx; b.mz=cz; if(q.id) b.re=new RegExp('^V?SIGN_FACE_(.*[_T])?'+String(q.id).replace(/[^A-Za-z0-9]/g,'')+'(_|$)'); let k=ids.indexOf(q.place); if(k<0){ if(ids.length>=N) continue; ids.push(q.place); box.push([b]); } else box[k].push(b); }
+    const items=mesh.userData.atlas.items, slot=new Array(items.length).fill(0), info={}, v=new THREE.Vector3();
+    const TENANT=/(_t(_[ab])?|_2F)$|_t_[ab]$/;   /* 樓上住戶、二樓別家的招牌（wz_street.py 的 vtenant＝VSIGN_FACE_<棟>_t_a／_b、SIGN_FACE_<棟>_2F：套房出租、按摩、桌遊、鋼琴教室、美髮）——不是一樓這間店的，照自己的時間亮，不跟著這間關 */
+    items.forEach((it,i)=>{ if(!it.c||TENANT.test(it.name||'')) return; v.set(it.c[0],it.c[1],it.c[2]).applyMatrix4(mesh.matrixWorld); let best=0, bd=1e9; for(let k=0;k<box.length&&!best;k++) for(const b of box[k]) if(b.re&&b.re.test(it.name||'')) best=k+1;   /* 板面名稱帶那一棟的編號（SIGN_FACE_G00、VSIGN_FACE_Tdongnan_t_a）＝那一間；直立招牌掛在樓房邊上，照位置會落在店面範圍外 */
+      if(!best) for(let k=0;k<box.length;k++) for(const b of box[k]){ if(v.x<b.x0||v.x>b.x1||v.z<b.z0||v.z>b.z1) continue; const d=Math.hypot(v.x-b.mx,v.z-b.mz); if(d<bd){ bd=d; best=k+1; } } slot[i]=best; if(best) info[ids[best-1]]=(info[ids[best-1]]||0)+1; });
+    const AI=mesh.geometry.attributes.aItem, A=new Float32Array(AI.count); for(let i=0;i<AI.count;i++) A[i]=slot[Math.round(AI.getX(i))]||0; mesh.geometry.setAttribute('aShopS',new THREE.BufferAttribute(A,1));
+    const lit=new Array(N+1).fill(1), U={value:lit}, m=mesh.material, prev=m.onBeforeCompile;
+    m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uSignLit=U;
+      sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nattribute float aShopS;\nvarying float vShopS;').replace('#include <begin_vertex>','#include <begin_vertex>\nvShopS=aShopS;');
+      sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uSignLit[33];\nvarying float vShopS;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopS+0.5); float k=1.0; for(int i=1;i<33;i++){ if(i==si) k=uSignLit[i]; } totalEmissiveRadiance*=k; }'); };
+    m.customProgramCacheKey=()=>'shopSignLit'; m.needsUpdate=true;
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null, op=zone.placeOpen; if(!G||(!op&&(typeof PLACES==='undefined'||!PLACES.isOpen))) return; for(let i=0;i<ids.length;i++) lit[i+1]=(op?op(ids[i],G):PLACES.isOpen(ids[i],(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(ids[i],G.day)))?1:0; };   /* zone.placeOpen(地點, G)：這條街自己的開店判斷（118 巷照 L118.isOpen，PLACES 沒有它的營業時間）*/
+    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0) upd(); }; upd();
+    const R={mesh,ids,slot,lit,upd,info}; zone.signLit=R; return R; }
+  const SHOP_GLOW_OWN=/^GLOW_(gg_xs_in|shopin|shoplamp|signbox|vsign|gg_xs_lamp|signspot|menubox|offbeat_in|offbeat_lamp|xs_sign|mok_signlamp)(_|$)/;
+  /* L118-CLOSED-LOOKS-OPEN-1112（LAWWW2-C；使用者截圖：水上便當沒開的時候燈亮、沒有鐵門，按了才說「鐵門拉下來一半」）：118 巷的店沒開（公休日、打烊後、颱風、L118.isOpen 假）——
+     ①店裡的燈、招牌照 shopRealGlow／shopSignLit 一樣調暗（光暈網格 lane118_street_glb_glows 照位置分給各店）
+     ②鐵捲門拉下來一半：掛在模型本來就有的捲門箱下面（wz_shopkit.shopfront_v2：箱在玻璃前 0.06～0.36 m、底 ih+0.2；一樓高 3.6 → ih 2.7），
+       底到 1.25 m（和沒開時那一句「鐵門拉下來一半」一樣），寬＝店面開口（店寬 − 0.6）。每秒看一次開不開。 */
+  function l118ClosedLook(E,g,zone,L,fw,fe){ if(!g||!zone||!L||!Array.isArray(L.shops)||!THREE.PlaneGeometry) return null;
+    const isOpen=id=>{ try{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G) return true; if(typeof L118!=='undefined'&&L118.isOpen) return !!L118.isOpen(id,G); return typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen('l118_'+id,G.hour,G.day); }catch(e){ return true; } };
+    const GH=L.groundH||3.6, ih=GH-0.9, yTop=ih+0.2, yBot=0.02, sh=yTop-yBot, list=[], doors=[];   /* L118-SHUTTER-FULL-1112（BB_379：只拉到一半，下半截露出暗玻璃和櫃台）：拉到地（離地 2 cm，不和地面疊面）*/
+    for(const q of L.shops){ const W=q.z1-q.z0, sx=q.side==='W'?-1:1, fx=q.side==='W'?fw:fe, z=(q.z0+q.z1)/2;
+      list.push({place:'l118_'+q.id,x:fx+sx*4,z,w:W,d:8,ry:Math.PI/2,cx:fx+sx*4,cz:z});
+      const R=/^drink/.test(q.id)?0.3:0.9, iw=W-0.6, x=fx+sx*(R-0.2); doors.push({id:q.id,x,z,iw,sx}); }
+    zone.placeOpen=place=>isOpen(String(place).replace(/^l118_/,''));   /* 光暈、招牌照 L118.isOpen（PLACES 沒有 118 巷的營業時間，一律算開著）*/
+    let glow=null; try{ glow=shopRealGlow(g,'lane118_street_glb',zone,list); }catch(e){ console.warn('l118ClosedLook glow',e); }
+    let mat=null; try{ const c=document.createElement('canvas'); c.width=64; c.height=256; const x=c.getContext('2d'); for(let i=0;i<16;i++){ const y=i*16, gr=x.createLinearGradient(0,y,0,y+16); gr.addColorStop(0,'#9a9c9e'); gr.addColorStop(0.45,'#c9cbcc'); gr.addColorStop(0.8,'#a9abad'); gr.addColorStop(1,'#6f7173'); x.fillStyle=gr; x.fillRect(0,y,64,16); }
+      const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; if(THREE.SRGBColorSpace) t.colorSpace=THREE.SRGBColorSpace; mat=new THREE.MeshLambertMaterial({map:t,side:THREE.DoubleSide}); mat.name='l118_shutter'; }catch(e){ mat=null; }
+    const shut=[]; if(mat){ const dark=new THREE.MeshLambertMaterial({color:0x5d6062}); dark.name='l118_shutter_bar';
+      for(const d of doors){ const geo=new THREE.PlaneGeometry(d.iw,sh), uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*d.iw/0.8,uv.getY(i)*sh/2.0);
+        const m=new THREE.Mesh(geo,mat); m.name='l118_shutter_'+d.id; m.userData.dyn=true; m.position.set(d.x,yBot+sh/2,d.z); m.rotation.y=-d.sx*Math.PI/2;
+        if(THREE.BoxGeometry){ const b=new THREE.Mesh(new THREE.BoxGeometry(d.iw-0.04,0.09,0.07),dark); b.name='l118_shutter_bar_'+d.id; b.position.set(0,-sh/2+0.045,0.03); b.userData.dyn=true; m.add(b); }
+        m.visible=!isOpen(d.id); g.add(m); shut.push([d.id,m]); } }
+    /* ③玻璃後面的淺店內（wz_in_*：整條街合成一個網格）沒開的店調暗：每個頂點照世界座標落在哪一間店的範圍（店面往裡 6 m、往外 0.5 m），乘那一間的亮度（開 1、沒開 0.12）。
+       材質是快取共用的（再進來一次同一個材質）：uniform 掛在材質上只建一次，之後只改值。 */
+    const NB=L.shops.length, inMats=[]; const rt=g.getObjectByName('lane118_street_glb');
+    if(rt&&THREE.Vector4) rt.traverse(o=>{ if(!o.isMesh||!o.material||Array.isArray(o.material)) return; const m=o.material; if(!/^(wz_in_|sk_in_)/.test(m.name||'')||inMats.indexOf(m)>=0) return; inMats.push(m);
+      if(!m.userData.l118In){ const U={box:{value:L.shops.map(()=>new THREE.Vector4(0,0,0,0))},lit:{value:new Array(NB).fill(1)}}; m.userData.l118In=U; const prev=m.onBeforeCompile;
+        m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uL118Box=U.box; sh.uniforms.uL118Lit=U.lit;
+          sh.vertexShader='uniform vec4 uL118Box['+NB+'];\nuniform float uL118Lit['+NB+'];\nvarying float vL118K;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n{ vec4 l118W=modelMatrix*vec4(transformed,1.0); vL118K=1.0; for(int i=0;i<'+NB+';i++){ vec4 b=uL118Box[i]; if(l118W.x>=b.x&&l118W.x<=b.y&&l118W.z>=b.z&&l118W.z<=b.w) vL118K=uL118Lit[i]; } }');
+          sh.fragmentShader='varying float vL118K;\n'+sh.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb*=vL118K;'); };
+        const ck=m.customProgramCacheKey?m.customProgramCacheKey.bind(m):null; m.customProgramCacheKey=()=>(ck?ck():'')+'|l118In'; m.needsUpdate=true; }
+      const U=m.userData.l118In; L.shops.forEach((q,i)=>{ const sx=q.side==='W'?-1:1, fx=q.side==='W'?fw:fe, a=fx+sx*6, b2=fx-sx*0.5; U.box.value[i].set(Math.min(a,b2),Math.max(a,b2),q.z0,q.z1); }); });
+    const updIn=()=>{ for(const m of inMats){ const U=m.userData.l118In; if(U) L.shops.forEach((q,i)=>{ U.lit.value[i]=isOpen(q.id)?1:0.12; }); } }; updIn();
+    let t=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); t+=dt||0; if(t<1) return; t=0; for(const [id,m] of shut) m.visible=!isOpen(id); updIn(); };
+    zone.l118Closed={glow,shutters:shut.map(x=>x[1]),inMats,isOpen};
+    return zone.l118Closed; }
+  function shopRealGlow(g,name,zone,list){ if(!g||!zone||!Array.isArray(list)||!list.length) return null; { const rt=g.getObjectByName(name); if(rt) shopSignLit(rt,zone,list); } const gm=g.children.find(o=>o.isMesh&&o.userData&&o.userData.glowBatch&&o.name===name+'_glows'); if(!gm||gm.geometry.attributes.aShop) return null;
+    const N=32, ids=[], box=[]; for(const q of list){ if(!q||!q.place||ids.length>=N) continue; let k=ids.indexOf(q.place); const c=Math.abs(Math.cos(q.ry||0)), sn=Math.abs(Math.sin(q.ry||0)), hx=c*q.w/2+sn*q.d/2, hz=sn*q.w/2+c*q.d/2, along=c>=sn;   /* along＝店面沿 x */
+      const b={x0:Math.min(q.x-hx,q.cx-(q.ex||0)),x1:Math.max(q.x+hx,q.cx+(q.ex||0)),z0:Math.min(q.z-hz,q.cz-(q.ez||0)),z1:Math.max(q.z+hz,q.cz+(q.ez||0))}; if(along){ b.z0-=4; b.z1+=4; } else { b.x0-=4; b.x1+=4; } b.mx=(b.x0+b.x1)/2; b.mz=(b.z0+b.z1)/2;
+      if(k<0){ ids.push(q.place); box.push([b]); } else box[k].push(b); }
+    const items=gm.userData.glowBatch.items, A=new Float32Array(items.length*4), info={}; let n=0;
+    items.forEach((it,i)=>{ if(!SHOP_GLOW_OWN.test(it.n||'')) return; let best=0, bd=1e9; for(let k=0;k<box.length;k++) for(const b of box[k]){ if(it.x<b.x0||it.x>b.x1||it.z<b.z0||it.z>b.z1) continue; const d=Math.hypot(it.x-b.mx,it.z-b.mz); if(d<bd){ bd=d; best=k+1; } }
+      if(best){ A.fill(best,i*4,i*4+4); info[ids[best-1]]=(info[ids[best-1]]||0)+1; n++; } });
+    gm.geometry.setAttribute('aShop',new THREE.BufferAttribute(A,1)); const lit=new Array(N+1).fill(1), U={value:lit}, m=gm.material, prev=m.onBeforeCompile;
+    m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uShopLit=U;
+      sh.vertexShader='attribute float aShop;\nuniform float uShopLit[33];\nfloat ggShopK(float s){ int si=int(s+0.5); float k=1.0; for(int i=1;i<33;i++){ if(i==si) k=uShopLit[i]; } return k>0.99?1.0:0.0; }\n'+sh.vertexShader.replace('vGlowOp = mix( aOp.x, aOp.y, uNightK )','vGlowOp = ggShopK( aShop ) * mix( aOp.x, aOp.y, uNightK )'); };
+    m.customProgramCacheKey=()=>'wzGlowBatch1_shopReal'; m.needsUpdate=true;
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null, op=zone.placeOpen; if(!G||(!op&&(typeof PLACES==='undefined'||!PLACES.isOpen))) return; for(let i=0;i<ids.length;i++) lit[i+1]=(op?op(ids[i],G):PLACES.isOpen(ids[i],(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(ids[i],G.day)))?1:0.03; };   /* zone.placeOpen(地點, G)：這條街自己的開店判斷（118 巷照 L118.isOpen，PLACES 沒有它的營業時間）*/
+    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0) upd(); }; upd();
+    const R={mesh:gm,lit,ids,upd,info,n}; zone.shopGlow=R; return R; }
   /* PUTONG101-WINDOW-1102 第 2 版 B（LAWWW2 帳號 A 11-10；BB PARTIAL：博思一樓玻璃大廳白天 RGB 只從 [35,31,22] 到 [42,38,28]，從普通 101 北窗看還是黑洞）：
      那片帷幕退在樓板下面、照不到光，ck_glass 白天又不發光——頂點色調亮看不出來。真的玻璃白天會反射對面的天空和普通的白牆。
      做法：campus_teach.py 把那片帷幕的範圍（玻璃網格自己的座標）寫進 by_glass 的 extras.skyBox；這裡給那個材質加一段 shader：範圍內的像素白天加一層灰藍（輸出色空間直接加，
@@ -1721,11 +1961,11 @@ const Z3 = (function(){
       cx.fillStyle=n?'rgb('+Math.round(r/n)+','+Math.round(g/n)+','+Math.round(b/n)+')':'#808080'; cx.fillRect(0,0,AW,AH); }
     for(const it of cells){ const k=it.k; it.dw=it.w*k; it.dh=it.h*k; if(!it.rot){ cx.drawImage(it.c,it.x-P,it.y-P,it.dw+P*2,it.dh+P*2); cx.drawImage(it.c,it.x,it.y,it.dw,it.dh); continue; } cx.save(); cx.translate(it.x+it.dh,it.y); cx.rotate(Math.PI/2); cx.drawImage(it.c,-P,-P,it.dw+P*2,it.dh+P*2); cx.drawImage(it.c,0,0,it.dw,it.dh); cx.restore(); }   /* 轉 90°：canvas 的 (cx,cy) → atlas (x+h−cy, y+cx)（h、w 是縮放後的大小）*/
     const tex=new THREE.CanvasTexture(cv); tex.colorSpace=THREE.SRGBColorSpace; tex.flipY=false; tex.anisotropy=8;
-    const geos=items.map(it=>{ const g=it.o.geometry.clone(); for(const k of Object.keys(g.attributes)) if(!['position','normal','uv'].includes(k)) g.deleteAttribute(k); it.o.updateMatrixWorld(true); g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv,it.o.matrixWorld));
+    const geos=items.map((it,ii)=>{ const g=it.o.geometry.clone(); for(const k of Object.keys(g.attributes)) if(!['position','normal','uv'].includes(k)) g.deleteAttribute(k); it.o.updateMatrixWorld(true); g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv,it.o.matrixWorld)); g.setAttribute('aItem',new THREE.BufferAttribute(new Float32Array(g.attributes.position.count).fill(ii),1)); g.computeBoundingBox(); it.c3=g.boundingBox.getCenter(new THREE.Vector3());   /* aItem＝第幾塊板面、c3＝那一塊的中心（root 座標）：打烊的店招牌不亮（shopSignLit，SHOP-SIGN-LIT-1112）*/
       const s=it.src, uv=g.attributes.uv; for(let i=0;i<uv.count;i++){ const u=uv.getX(i), v=uv.getY(i); if(s.rot) uv.setXY(i,(s.x+s.dh*(1-v))/AW,(s.y+u*s.dw)/AH); else uv.setXY(i,(s.x+u*s.dw)/AW,(s.y+v*s.dh)/AH); } return g; });
     const merged=THREE_JSM.BufferGeometryUtils.mergeGeometries(geos,false); if(!merged) return null; for(const g of geos) g.dispose();
     const m=faces[0].material.clone(); m.map=tex; m.emissiveMap=tex; if(nightI!=null) TK.addNight(m,nightI,dayI||0); else m.emissiveIntensity=0; m.needsUpdate=true;
-    const mesh=new THREE.Mesh(merged,m); mesh.name=name; mesh.castShadow=false; mesh.receiveShadow=true; mesh.userData.atlas={w:AW,h:AH,cells:cells.length,items:items.map(it=>({name:it.o.name,x:it.src.x,y:it.src.y,w:+it.src.dw.toFixed(1),h:+it.src.dh.toFixed(1),rot:it.src.rot,board:+it.board.toFixed(3)}))};
+    const mesh=new THREE.Mesh(merged,m); mesh.name=name; mesh.castShadow=false; mesh.receiveShadow=true; mesh.userData.atlas={w:AW,h:AH,cells:cells.length,items:items.map(it=>({name:it.o.name,c:[+it.c3.x.toFixed(2),+it.c3.y.toFixed(2),+it.c3.z.toFixed(2)],x:it.src.x,y:it.src.y,w:+it.src.dw.toFixed(1),h:+it.src.dh.toFixed(1),rot:it.src.rot,board:+it.board.toFixed(3)}))};
     for(const it of items){ it.o.parent.remove(it.o); it.o.material.map.dispose(); it.o.material.dispose(); }
     root.add(mesh); return mesh; }
   const wenzhou={ id:'wenzhou', name:'溫州街', indoor:false, cityLight:0.85, size:[110,60], camDist:5.2, build(E){ return buildWenzhou(E); } };
@@ -2040,6 +2280,10 @@ const Z3 = (function(){
       const mv=L230&&(L230.added||[]).find(q=>q.kind==='plant_moved'&&q.from&&q.from[0]===-6.35&&q.from[1]===0.4), P1=mv?mv.to:[-6.35,0.4];   /* 2:30 AM（cafe230_layout.js v2）：西牆中間那盆搬到拱門北邊 (−6.35, 1.95)，讓出拱門卡座 */
       for(const [px,pz] of [P1,[6.35,-0.5],[-6.3,-2.6]]){ const pt=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.22,0.45,14),pm); pt.position.set(px,0.225,pz); g.add(pt); nav.blockCircle(px,pz,0.3); } }
     if(L230) cafe230Add(E,z,g,nav,L230);
+    /* CAFE-BAR-CAM-1111（LAWWW2 11-11）：天花板下面那一層（水泥大梁深 0.42、風管底 H−0.62：2.78～3.4 m，tools/blender/env_second/aa_support/cafe230_interior.py）當「樓板」給 engine3d.js slabClip——
+       跟隨鏡頭拉高（坐吧檯的人高 0.27，俯角 0.38 就到 3.46 m）穿進這一層時沿著視線拉近，停在梁下面（原本鏡頭在梁旁邊 0.44 m，整個畫面是梁）。
+       站著、預設俯角 0.22 的鏡頭在 2.57 m，碰不到（slabClip 外加 0.15 m：2.63 m 以下照舊）。沒有 levelGroups：這一塊一直有效 */
+    z.slabs=[{lv:0,x0:-7,x1:7,z0:-6,z1:6,y:3.4,t:0.62}];
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(L230){ cafe230Reg(L230); if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe230_interior']) ASSETS.loadOne('bldg.cafe230_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafe230(E,z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型',e)); }
     else if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe_interior']) ASSETS.loadOne('bldg.cafe_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafeInterior(z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型載入失敗，用程序化備用模型',e));
@@ -2065,9 +2309,15 @@ const Z3 = (function(){
     nav._cm=null; }
   /* 正式模型（attachRoomGLB 之後）：GLOW_* 光暈合成一個網格（照開燈切白天／晚上，和 AA 的公館店一樣 ggAAattach）；窗外的畫（WALL_*_VIEW_*）晚上調暗；
      正面那張畫（z 8.5）不參加牆面淡出、改成窗的零件——溫州街的 3D 街景（cafeStreetLive）載入以後藏起來（不然會蓋住窗外真的街）；牆面淡出時整面藏起來（細木框的殘影，和舊 Café 一樣）*/
+  /* CAFE-BAR-CAM-1111（LAWWW2 11-11；BB 11:2x：吧檯高腳椅坐下以後鏡頭整片是牆，線上 779 就有）：坐吧檯（高腳椅，人高 0.27 m）鏡頭往上調一點（俯角 0.38 左右）就到 3.4 m 以上，
+     天花板的水泥大梁（深 0.42、底在 3.2 m 左右，a23_vc）離鏡頭 0.2～0.6 m、擋住整個畫面；其他方向（鏡頭轉到吧台那一邊、店的後牆外面）還有吧台後面的胡桃木層架（a23_walnut）、
+     風管（a23_vc_metal）、亮面小東西（a23_vc_gloss）、燈泡（a23_bulb）、黃金葛（a23_leaf_pothos）。
+     鏡頭停在梁下面（上面 cafe 的 z.slabs）；剩下擋住的（鏡頭轉到吧台那一邊時的吊燈、層架…）照溫州街 SUNNY SIDE、小路座位鏡頭的做法（WZ-SEAT-CAMS-1104：家具、管線、植物、胡桃木的材質網點透空）：這幾個材質擋在鏡頭和人中間、或離鏡頭 1.7 m 內時網點透空
+     （engine3d.js updateSeeThrough；區域本來就 seeThru:true；比人遠的照常畫——人面前的吧台不會透）。牆（WALL_，本來就淡出）、地板、天花板不動。測試：node tests/cafe_bar_cam_1111_unit.js */
+  const CAFE230_SEETHRU=['a23_vc','a23_vc_metal','a23_vc_gloss','a23_walnut','a23_bulb','a23_leaf_pothos'];
   function attachCafe230(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'cafe230_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
-    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&/^seethru_/.test(nm)&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
+    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&(/^seethru_/.test(nm)||CAFE230_SEETHRU.includes(nm))&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
     const vm=[]; let front=null; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)){ if(/^WALL_front/.test(o.name)) front=o; for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } } });
     /* 窗景卡 a23_window_view（AA v1f 30c2d5998：上半正面溫州街、下半右窗毛玻璃）：晚上換夜版圖、不調暗（和 SUNNY SIDE 一樣，WZ_AA_NIGHTVIEW）；夜版圖載不到或其他窗景卡：照舊調暗 */
     const nv=CAFE230_NIGHTVIEW, nt=wzNightViewTex(nv.url), nvm=nt?vm.filter(m=>m.name===nv.mat):[]; for(const m of nvm){ m.userData.mapDay=m.map; m.userData.emDay=m.emissiveMap; } z.cafe230NightView=nvm.length;
@@ -2272,6 +2522,7 @@ const Z3 = (function(){
     reg('bldg.yejian_interior',GG_L.bookstore(),'本作 Blender 腳本 tools/blender/env_second/aa_support/yejian_interior.py（公館「頁間書屋」室內 v2，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning d593be119（v3b），配置 src/data/yejian_layout.js v3）');
     reg('bldg.aoki_interior',GG_L.aoki(),'本作 Blender 腳本 tools/blender/env_second/aa_support/aoki_interior.py（公館「青木茶室」室內 v2b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 697ed69cf（v2c），配置 src/data/aoki_layout.js v3）');
     reg('bldg.afar_interior',GG_L.afar(),'本作 Blender（tools/blender/env_second/aa_support/README_afar.md；公館「afar café」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8a0bd80f2，配置 src/data/afar_layout.js）');
+    reg('bldg.shaola_interior',typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop?SHAOLA_LAYOUT.shop:null,'本作 Blender 腳本 tools/blender/env_second/bb_support/shaola_interior.py（公館燒臘室內 v7，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 65c2a43c5，配置 src/data/shaola_layout.js v1）','本作；貼圖本作程式產生（shaola_tex.py）');   /* 從街上看也要用（Z3.shopInsideReal）：載入時就登錄，不等進店 */
     reg('bldg.yangyang_interior',GG_L.yangyang(),'本作 Blender 腳本 tools/blender/env_second/bb_support/yangyang_interior.py、yangyang_tex.py（公館「洋洋鹹酥雞」室內 v1c，BB〔帳號 A〕製作、LAWWW2 驗收 ART_APPROVED；claude/cool-heisenberg-o8kuqx e5e9351e0，配置 src/data/yangyang_layout.js v3）','本作；貼圖本作程式產生（yangyang_tex.py）');
     reg('bldg.corner_interior',GG_L.corner_records(),'本作 Blender 腳本 tools/blender/env_second/bb_support/corner_interior.py、corner_tex.py（公館「轉角唱片」室內 v1c，CC〔帳號 A〕製作 cc-testing 4fc38d513、LAWWW2-B 改原型分組 38f4021e1、驗收 MODEL_READY；配置 src/data/corner_layout.js v1）','本作；貼圖 Poly Haven CC0＋本作程式產生（corner_tex.py）');
     reg('bldg.daybreak_interior',GG_L.daybreak(),'本作 Blender（tools/blender/env_second/aa_support/README_daybreak.md；公館「Daybreak」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8094770c7，配置 src/data/daybreak_layout.js）'); }
@@ -2316,6 +2567,7 @@ const Z3 = (function(){
     const law=L.interact.find(q=>q.kind==='shelf_law');
     E.interactables.push({x:law.x,z:law.z,radius:1.0,label:law.label,shop:'book'});   /* 買教科書（story3d.js bookshop，照舊）*/
     ggLooks(E,L,'bookstore');   /* 看看書牆、看新書、點咖啡（AA_653 第 2 節）*/
+    if(typeof YJBUY!=='undefined'&&YJBUY.extraPoints) for(const q of YJBUY.extraPoints(L)) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:q.label,ggs:q.kind});   /* 雜誌、明信片（GG-YEJIAN-SHOP-1112，AA_853）：位置照配置 interact 的 magazines、postcards（LAWWW2 11-12 補的；配置沒有＝不放），按鈕的字在 src/yejian_buy3d.js（「看」＋稿的點名）。買東西的選單、招呼也在那一支 */
     return z; }
   const aoki={ id:'aoki', name:'青木茶室', indoor:true, camDist:3.8, build(E){ const L=GG_L.aoki();
     const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',study:true,ap:s=>s.x<-4?[-3.6,1.3]:null});   /* v2c（AA 697ed69cf，LAWWW2 驗收）：吧台西端縮 0.5 m，最裡面四人桌北側兩張走得進去了（原本 noSit 只給路人坐，拿掉）；
@@ -2332,9 +2584,14 @@ const Z3 = (function(){
      · case：店內炸物櫃前面、點餐和看菜單中間（x 0.2 那條走道：炸物櫃 z 1.0～4.7）；kitchen：隔間（白磁磚腰牆＋玻璃，z −2.5～1.0）前面、四人桌二和三中間的走道 */
   const GG2_KIND={yangyang:{order_street:null,drink:'fridge',selfserve:'self'}}, GG2_LABEL={yangyang:{fridge:'看冷飲櫃'}};
   const GG2_ADD={yangyang:[{kind:'case',x:0.2,z:2.5,label:'看炸物櫃'},{kind:'kitchen',x:0.2,z:-0.5,label:'看廚房'}]};
+  /* 洋洋：沿著店內炸物櫃那一條走道（x 0.2）的三個「看」（炸物櫃、菜單、廚房）就在四人桌一、二西側那三張椅子的旁邊（0.75 m）——
+     玩家站在椅子旁邊（坐下前走到的那一點 x 0.37）離「看」0.26～0.53 m、離椅子 0.55 m，按鈕永遠是「看炸物櫃／看菜單／看廚房」，不是「坐下吃」
+     （BB 2026-11-12 FAIL：(0.92, 2.3) 那張旁邊的互動鍵是「看炸物櫃」）。點椅子走過去的有 tapPref 照椅子算；推搖桿走過去的沒有。
+     改：這三個「看」讓 0.4 m（engine3d.js nearestInteractable 的 prio：比遠近時當成遠 0.4 m）——站在椅子旁邊是「坐下吃」，貼著炸物櫃、菜單那一點站才是「看」。點餐（order）、自助區、冷飲櫃不動。 */
+  const GG2_PRIO={yangyang:{case:-0.4,menu:-0.4,kitchen:-0.4}};
   function gg2Items(E,k,L){ const KM=GG2_KIND[k]||{}, LB=GG2_LABEL[k]||{};
     for(const q of (L.interact||[]).concat(GG2_ADD[k]||[])){ const kind=Object.prototype.hasOwnProperty.call(KM,q.kind)?KM[q.kind]:q.kind; if(!kind||q.outside) continue; const mv=(GG2_MOVE[k]||{})[kind]||q;
-      E.interactables.push(Object.assign({x:mv.x,z:mv.z,radius:0.9,label:LB[kind]||q.label,gg2:k,kind:kind},q.genre?{genre:q.genre}:{})); } }   /* genre：轉角唱片翻的是哪一箱（corner_browse）*/
+      E.interactables.push(Object.assign({x:mv.x,z:mv.z,radius:0.9,label:LB[kind]||q.label,gg2:k,kind:kind},q.genre?{genre:q.genre}:{},(GG2_PRIO[k]||{})[kind]!=null?{prio:GG2_PRIO[k][kind]}:{})); } }   /* genre：轉角唱片翻的是哪一箱（corner_browse）*/
   const afar={ id:'afar', name:'afar café', indoor:true, camDist:3.8, build(E){ const L=GG_L.afar();
     const z=ggRoom(E,'afar',L,{label:L.exit.label,warm:true,floor:'#d6d4cf',glb:'bldg.afar_interior',attach:ggAAattach,study:true,shop:'afar',noSit:s=>s.seatH===0.45});   /* 卡座（西牆，table 4、5 的 seatH 0.45 兩張）：卡座前緣（x −4.6）到小圓桌（x −4.46）只有 0.14 m、南北兩頭是牆和隔牆，人走不到——這一版玩家不能坐（路人照坐），配置要 LAWWW2／AA 調 */ gg2Items(E,'afar',L); z.nav.blockRect(-2.8,2.15,0.4,0.5,0,0); z.nav._cm=null; return z; } };   /* ISLAND-SWEEP-1105（LAWWW2-C，LAWWW-C 06:26 要擋）：靠窗長凳西端、吧台南端、西牆層架中間的小縫（x −2.9～−2.7、z 2.0～2.3）站得住 9 點、四周都站不住，跑步一步 0.4 m 跳得進去——擋起來（AA 的配置不動）*/
   const daybreak={ id:'daybreak', name:'Daybreak', indoor:true, camDist:3.8, build(E){ const L=GG_L.daybreak();
@@ -2392,7 +2649,7 @@ const Z3 = (function(){
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     const kitchen=new THREE.Mesh(new THREE.BoxGeometry(6,1.0,1.2),M('#8f9399',{rough:0.4})); kitchen.position.set(-1,0.5,-3.8); g.add(kitchen); nav.blockRect(-1,-3.8,6,1.2,0,0.15); const pot=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,0.5,14),M('#3a3f46',{rough:0.4})); pot.position.set(-2,1.25,-3.8); g.add(pot); z.seats=[]; for(let i=0;i<3;i++){ const x=-3+i*3; desk(g,nav,x,0.5,0,1.4,0.9,'#d9cbb0'); for(const s of [-1,1]){ chair(g,x,0.5+s*0.8,s>0?Math.PI:0,'#c9463d'); z.seats.push({x,z:0.5+s*0.8,yaw:s>0?Math.PI:0}); } E.interactables.push({x,z:1.3,radius:1.1,label:'坐下吃飯',seat:{x,z:1.3,yaw:Math.PI},pairSeat:{x,z:-0.3,yaw:0},eat:'noodle'}); }
     for(let i=0;i<3;i++){ const x=-3+i*3; PROP(g,'prop.bowl',x-0.2,0.77,0.5+0.25); PROP(g,'prop.chopstick',x+0.15,0.78,0.45,0.3); if(i===1) PROP(g,'prop.bowl',x+0.25,0.77,0.5-0.25,2.4); } PROP(g,'prop.bowl',-1.5,1.02,-3.8); PROP(g,'prop.bowl',-0.9,1.02,-3.7,1.2);
-    const mp=W3.signPlane('叉燒飯 100 ・ 燒鴨飯 110 ・ 三寶飯 130 ・ 滷蛋 15',3,0.6,{color:'#3b2a1e',size:44}); mp.position.set(0,2.4,-4.35); g.add(mp); E.interactables.push({x:0,z:4.2,radius:1.5,label:'離開公館燒臘',exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:Math.PI}}});
+    { const bt=typeof SHAOLA!=='undefined'&&SHAOLA.boardText?SHAOLA.boardText():''; if(bt){ const mp=W3.signPlane(bt,6,0.6,{color:'#3b2a1e',size:36}); mp.position.set(0,2.4,-4.35); g.add(mp); } }   /* 價目板從資料排（src/data/yejian_shaola_buy.js，AA_853；GG-SHAOLA-FIX-1112）：原本寫死「叉燒飯 100 ・ 燒鴨飯 110 ・ 三寶飯 130 ・ 滷蛋 15」和稿的價錢不一樣。這是配置沒載入時的備用房間，平常看到的是 shaola_interior.glb 貼圖上的菜單（LAWWW2）*/ E.interactables.push({x:0,z:4.2,radius:1.5,label:'離開公館燒臘',exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:Math.PI}}});
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.noodle_interior']) ASSETS.loadOne('bldg.noodle_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachNoodleInterior(z,g0,root); }).catch(e=>console.warn('麵店室內正式模型載入失敗，用程序化備用模型',e));
     return z; } };
@@ -2418,6 +2675,7 @@ const Z3 = (function(){
     z.seats=L.seats.map(s=>({x:s.x,z:s.z,yaw:s.yaw,table:s.table,kind:'shop'}));
     for(const t of L.tables){ const s=L.seats.find(q=>q.table===t.n&&q.z>t.z), p=L.seats.find(q=>q.table===t.n&&q.z<t.z); if(!s||!p) continue;
       E.interactables.push({x:s.x,z:s.z,radius:1.0,label:s.label||'坐下吃飯',seat:{x:s.x,z:s.z,yaw:s.yaw},pairSeat:{x:p.x,z:p.z,yaw:p.yaw},eat:'noodle'}); }   /* 面向店裡那一張（背對店門）；noodleScene 走到 (x, z+0.5)＝椅子後面 */
+    if(typeof SHAOLA!=='undefined'&&SHAOLA.on&&SHAOLA.on()) for(const q of (L.interact||[])) if(SHAOLA.LOOK[q.kind]) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:q.label,shaola:q.kind});   /* 「看菜單」「看櫥窗」（GG-SHAOLA-FIX-1112；字＝AA_853 的 menu_look、window_look，src/shaola_order3d.js）：位置、按鈕的字照配置 interact。配置的「點餐」不放——點餐掛在每一桌的「坐下吃飯」*/
     E.interactables.push({x:L.exit.at.x,z:+(L.d/2-0.6).toFixed(2),radius:0.9,label:L.exit.label,exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:P}}});
     nav._cm=null; P3.mergeStatic(fb);
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.shaola_interior']) ASSETS.loadOne('bldg.shaola_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root); shopViewPane(z,g0,{kind:'noodle',x:0,y:2.1,z:+(L.d/2+0.8).toFixed(2),w:7.0,h:4.4,ry:Math.PI,depth:24});   /* 燒臘的正面玻璃（x −3～3、y 0.14～2.56、z 6.47～7.19）外面 0.1 m 一片視差窗：照片是舊麵店同一個店面（公館 G00）在遊戲裡拍的 noodle_{day,night}（地平線 2.1 m＝舊麵店的窗中心）；WINVIEW-AUDIT-1105 */
@@ -2460,14 +2718,14 @@ const Z3 = (function(){
     return root; }
   // ---------- 宿舍房間 ----------
   /* 宿舍房間＝台大四人房（DORM-LOFT-L；LAWWW2-B a09ebf4d，使用者 2026-10-17 01:0x 照片、01:3x「宿舍ok」）：上舖床、下面書桌四組（左右各兩組）、進門右邊洗手間、窗在後牆中間。
-     配置全部讀 DORM_ROOM（src/data/dorm_room_layout.js，和 dorm_room4.glb 同一份）；玩家是 L2（左邊靠門那組）。203（法律系）＝祐廷、阿凱 R2、柏翰 R1、阿哲 L1；412（經濟系）＝祐廷、阿勳 R2、唐睿 R1、韋綸 L1（AA_208）。
-     年份切換 z.dormSet(key)：'203'、'203_movein'（8/29 阿哲還沒到）、'412'、'412_first_night'（韋綸、唐睿 9/2 才搬進來）。窗景：法律系 203＝dorm_room、經濟系 412＝dorm_room412（四樓、往東偏，ART-V0-DORM）。備用模型（GLB 載入失敗）是簡單的床桌方塊（D38 ③）。*/
+     配置全部讀 DORM_ROOM（src/data/dorm_room_layout.js，和 dorm_room4.glb 同一份）；玩家是 L2（左邊靠門那組）。203（法律系）＝祐廷、阿凱 R2、柏翰 R1、阿哲 L1；412（舊序章）＝祐廷、舊序章的人 R2、舊序章的人 R1、舊序章的人 L1（AA_208）。
+     年份切換 z.dormSet(key)：'203'、'203_movein'（8/29 阿哲還沒到）、'412'、'412_first_night'（舊序章的人 9/2 才搬進來）。窗景：法律系 203＝dorm_room、舊序章 412＝dorm_room412（四樓、往東偏，ART-V0-DORM）。備用模型（GLB 載入失敗）是簡單的床桌方塊（D38 ③）。*/
   /* 大二～大四（LAWWW2-C 2026-10-17，AA_208 第 7、8 節；dorm_room4.glb 的 Y312_／Y507_／Y409_ 各組）：312＝祐廷、阿哲、柏翰、大一學弟；507＝祐廷、柏翰、大二學弟、別系的同屆；409＝祐廷、柏翰、大二學弟、大一學弟。
      舊的四組也要藏這三年的東西（GLB 和這段要一起換）*/
-  const DORM_SETS={ '203':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_)/}, '203_movein':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_|Y203_ZHE$|BEDDING_L1$)/}, '412':{hide:/^(Y203_|Y312_|Y507_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '412_first_night':{hide:/^(Y203_|Y312_|Y507_|Y409_|ROOMMATE_KAI$|Y412_TANGRUI$|Y412_WEILUN$|BEDDING_R1$|BEDDING_L1$)/},
+  const DORM_SETS={ '203':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_)/}, '203_movein':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_|Y203_ZHE$|BEDDING_L1$)/}, 
     '312':{hide:/^(Y203_|Y412_|Y507_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '507':{hide:/^(Y203_|Y412_|Y312_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '409':{hide:/^(Y203_|Y412_|Y312_|Y507_|ROOMMATE_KAI$|NAMETAG_)/} };
-  function dormSetKey(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return F.E412_MOVEIN?'412':'412_first_night'; if(F.ROOM_Y4||F.ROOM_Y4_MOVING) return '409'; if(F.ROOM_Y3||F.ROOM_Y3_MOVING) return '507'; if(F.ROOM_Y2||F.ROOM_Y2_MOVING) return '312';   /* ROOM_Y2_MOVING：搬進 312 那一刻（拆箱前，story3d.js roomY2InDorm、home3d.js roomY2FromHome）*/ return (F.LAW_MOVEIN_DAY!=null&&G.day===F.LAW_MOVEIN_DAY&&!F.KAI_MOVEIN)?'203_movein':'203'; }
-  /* 每年的窗景（AA_208 第 7、8 節；LAWWW2-C 4fa4a1e2，tools/shots/window_views.py）：經濟系 412、大一 203（朝舟山路）；大二 312（三樓）、大三 507（五樓）、大四 409（四樓）都朝宿舍背面的樟樹。
+  function dormSetKey(G){ const F=(G&&G.flags)||{}; if(F.ROOM_Y4||F.ROOM_Y4_MOVING) return '409'; if(F.ROOM_Y3||F.ROOM_Y3_MOVING) return '507'; if(F.ROOM_Y2||F.ROOM_Y2_MOVING) return '312';   /* ROOM_Y2_MOVING：搬進 312 那一刻（拆箱前，story3d.js roomY2InDorm、home3d.js roomY2FromHome）*/ return (F.LAW_MOVEIN_DAY!=null&&G.day===F.LAW_MOVEIN_DAY&&!F.KAI_MOVEIN)?'203_movein':'203'; }
+  /* 每年的窗景（AA_208 第 7、8 節；LAWWW2-C 4fa4a1e2，tools/shots/window_views.py）：舊序章 412、大一 203（朝舟山路）；大二 312（三樓）、大三 507（五樓）、大四 409（四樓）都朝宿舍背面的樟樹。
      312／507／409 的照片 2026-10-20 起是 Blender 渲染的（tools/blender/env_second/dorm_back_view.py：樟樹、巷子、對面的老公寓與一片屋頂；鏡頭往上抬 9°，窗裡看到的大約是平視的那一段——三樓在樹冠裡、四樓平樹梢、五樓看得到樹梢底下和遠一點的屋頂；SCN-V4-01／SCN-V5-01）。
      393eda85 的 112／218／105（照較舊的 AA_183）作廢、照片已刪。ROOM_Y2／ROOM_Y3／ROOM_Y4 是 dorm3d.js homeOf 用的旗標名，搬房間事件做的時候照這三個設 */
   /* 跟隨鏡頭的碰撞（BUG-CAM-203-R2-1021，BB_218 artrev3 01／04／05／08：站在 R2 書桌旁 (1.0, 0.25)，鏡頭在東被 R2 的上鋪擋住整個畫面、在南被洗手間的磁磚牆擋住）——
@@ -2480,17 +2738,17 @@ const Z3 = (function(){
     const hb=R.bath.block; box(hb.x[0],hb.x[1],hb.z[0],hb.z[1],0,H,false);
     for(const u of R.units){ const b=u.block, top=u.bed_top_y||1.76; box(b.x[0],b.x[1],b.z[0],b.z[1],top-0.2,top+0.26,true); }   /* 床板底～床欄頂（DORM-LOFT-SCALE-1102：床桌組加高以後照配置的床面高度算；以前寫死 1.56～2.02）*/
     return all; }
-  function dormView(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return 'dorm_room412'; return (F.ROOM_Y4||F.ROOM_Y4_MOVING)?'dorm_room409':(F.ROOM_Y3||F.ROOM_Y3_MOVING)?'dorm_room507':(F.ROOM_Y2||F.ROOM_Y2_MOVING)?'dorm_room312':'dorm_room'; }   /* AA_208：312 三樓、507 五樓、409 四樓，都朝宿舍的背面（203 朝舟山路）——LAWWW2-C 2026-10-17 */
-  const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null, econ=!!G0&&G0.stage==='econ'; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
+  function dormView(G){ const F=(G&&G.flags)||{}; return (F.ROOM_Y4||F.ROOM_Y4_MOVING)?'dorm_room409':(F.ROOM_Y3||F.ROOM_Y3_MOVING)?'dorm_room507':(F.ROOM_Y2||F.ROOM_Y2_MOVING)?'dorm_room312':'dorm_room'; }   /* AA_208：312 三樓、507 五樓、409 四樓，都朝宿舍的背面（203 朝舟山路）——LAWWW2-C 2026-10-17 */
+  const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
     const z=room(E,{w:RM.w,d:RM.d,h:RM.h,cell:0.2,view:dormView(G0),viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
     z.seeThru=true;   /* 上舖床板、被子擋住鏡頭時網點透空：engine3d.js 的 updateSeeThrough 看的是區域實體（E.zone.seeThru），只寫在上面的定義裡，室內透空從來沒開過 */
-    { const ax=Math.min(...R.units.map(u=>Math.min(Math.abs(u.block.x[0]),Math.abs(u.block.x[1]))))-0.1; z.camBox={x:[-ax,ax]}; }   /* 運鏡只在中間走道（DORM-LOFT-SCALE-1102：房間 6→4.2 m 寬，照床桌組阻擋的內緣算；以前寫死 ±1.6）*/   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和阿勳的對話只看到「天花板」）*/
+    { const ax=Math.min(...R.units.map(u=>Math.min(Math.abs(u.block.x[0]),Math.abs(u.block.x[1]))))-0.1; z.camBox={x:[-ax,ax]}; }   /* 運鏡只在中間走道（DORM-LOFT-SCALE-1102：房間 6→4.2 m 寬，照床桌組阻擋的內緣算；以前寫死 ±1.6）*/   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和舊序章的人的對話只看到「天花板」）*/
     { const camAll=dormCamCols(R,RM.h,g0), L0=camAll.slice(); z.camCols=[L0];   /* 鏡頭碰撞（BUG-CAM-203-R2-1021）：站在哪一組上鋪底下，那一組就不算 */
       const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const P=E2&&E2.player; if(!P) return; const p=P.obj.position; L0.length=0; for(const m of camAll){ const u=m.userData.under; if(u&&p.x>u.x0&&p.x<u.x1&&p.z>u.z0&&p.z<u.z1) continue; L0.push(m); } }; }
     // 程序化的畫面全部放在 g（備用模型）：正式模型（ASSETS 'bldg.dorm_room4'）載入後整組藏起來；導航、睡覺、書桌座位、離開都不受影響。月曆、社團傳單、z.deskItems 掛在 g0
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     for(const b of R.blocks) nav.blockRect((b.x[0]+b.x[1])/2,(b.z[0]+b.z[1])/2,b.x[1]-b.x[0],b.z[1]-b.z[0],0,0);   /* 四組床桌、鞋櫃、垃圾桶、曬衣架、洗手間 */
-    const y2Room=!econ&&['312','507','409'].includes(dormSetKey(G0));   /* 1A-03：大三 507 照舊擺大二拆出來的東西（同一組家具）＋大三拆出來的（dorm_y3_items.glb）；1A-09、1A-11：大四 409 再加大四的 */ if(y2Room) nav.blockRect((Y2_BOX[0]+Y2_BOX[1])/2,(Y2_BOX[2]+Y2_BOX[3])/2,Y2_BOX[1]-Y2_BOX[0],Y2_BOX[3]-Y2_BOX[2],0,0);   /* 大二 312：書桌旁走道邊的紙箱（拆箱前封好、拆完壓平，dorm_y2_items.glb 的 nav_block）*/
+    const y2Room=['312','507','409'].includes(dormSetKey(G0));   /* 1A-03：大三 507 照舊擺大二拆出來的東西（同一組家具）＋大三拆出來的（dorm_y3_items.glb）；1A-09、1A-11：大四 409 再加大四的 */ if(y2Room) nav.blockRect((Y2_BOX[0]+Y2_BOX[1])/2,(Y2_BOX[2]+Y2_BOX[3])/2,Y2_BOX[1]-Y2_BOX[0],Y2_BOX[3]-Y2_BOX[2],0,0);   /* 大二 312：書桌旁走道邊的紙箱（拆箱前封好、拆完壓平，dorm_y2_items.glb 的 nav_block）*/
     { const bb=new TK.Bin(), wood=M('#c9a57a',{rough:0.7}), frame=M('#e8e6e0',{rough:0.6}), sheet=M('#efe9dd',{rough:0.9}), bath=M('#dcd8cf',{rough:0.8});
       for(const u of R.units){ const b=u.block, cx=(b.x[0]+b.x[1])/2, cz=(b.z[0]+b.z[1])/2, w=b.x[1]-b.x[0], d=b.z[1]-b.z[0], top=u.bed_top_y||1.76;
         bb.add(frame,new THREE.BoxGeometry(w,0.1,d),cx,top-0.25,cz); bb.add(sheet,new THREE.BoxGeometry(w-0.1,0.15,d-0.1),cx,top-0.12,cz);
@@ -2509,37 +2767,24 @@ const Z3 = (function(){
     /* 宿舍走廊（D44）：房門出去是二樓走廊、自己的房門前（src/dorm3d.js）；沒有載入 dorm3d 時照舊直接回校園 */ if(typeof DM3!=='undefined') E.interactables.push({x:RM.exit[0],z:RM.exit[1],radius:1.4,label:'走出房間',exit:{to:'dorm_hall',spawn:Object.assign({},DM3.homeOf?DM3.homeOf(typeof GAME!=='undefined'&&GAME.G).spawn:DORM_LAYOUT.home.spawn)}}); else E.interactables.push({x:RM.exit[0],z:RM.exit[1],radius:1.4,label:'離開宿舍',exit:{to:'campus',spawn:{x:20,z:54,yaw:Math.PI}}});
     E.interactables.push({x:z.spots.roomItems[0],z:z.spots.roomItems[1],radius:0.6,label:'看看房間裡的東西',roomItems:true});   /* 交接包 v1 第 1 節「房間物件」（玩家書桌前；story3d.js 的 roomItems）*/
     P3.mergeStatic(g);
-    z.dormSetKey=dormSetKey(G0); z.dormRoot=null; z.dormSet=key=>{ z.dormSetKey=key; const S=DORM_SETS[key]||DORM_SETS['203']; if(z.dormRoot) z.dormRoot.traverse(o=>{ if(/^(Y203_|Y412_|Y312_|Y507_|Y409_|NAMETAG_|ROOMMATE_KAI|BEDDING_)/.test(o.name)&&!/_(duvet|pillow|card|black|bulb|items|screen|metal)$/.test(o.name)) o.visible=!S.hide.test(o.name); }); z.setJacketChair(z.jacketChair); };
-    /* 祐廷椅背上的經濟系系外套（X140；GLB 節點 JACKET_CHAIR，L2 書桌椅，每一年同一張）：預設藏，劇情呼叫 z.setJacketChair(true)；模型還沒載完也先記住 */
-    z.jacketChair=false; z.setJacketChair=on=>{ z.jacketChair=!!on; const o=z.dormRoot&&z.dormRoot.getObjectByName('JACKET_CHAIR'); if(o) o.visible=z.jacketChair; };
+    z.dormSetKey=dormSetKey(G0); z.dormRoot=null; z.dormSet=key=>{ z.dormSetKey=key; const S=DORM_SETS[key]||DORM_SETS['203']; if(z.dormRoot) z.dormRoot.traverse(o=>{ if(/^(Y203_|Y412_|Y312_|Y507_|Y409_|NAMETAG_|ROOMMATE_KAI|BEDDING_)/.test(o.name)&&!/_(duvet|pillow|card|black|bulb|items|screen|metal)$/.test(o.name)) o.visible=!S.hide.test(o.name); }); };
     if(y2Room) roomItemState(z,G0);   /* 拆箱事件一進房間就呼叫 z.setY2Items：模型還沒載完也先記住 */
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(!econ&&z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); if(!econ) loadWzItems(z,g0,E); if(!econ) loadDeskItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
-    /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
-       開場三箱疊在祐廷的書桌上 → 22:00 兩箱在書桌旁邊的地上 → 先睡＝隔天還在地上（隔天晚上拆完）／拆完＝不見 */
-    z.setV0Box=()=>{};
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); loadWzItems(z,g0,E); loadDeskItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
     /* ART-04 黃金葛（方奕廷送的，POTHOS）：法律系 203 祐廷書桌上（GLB 根節點 place：L2 書桌 +z 端前緣）；四種大小照澆水次數（S.pothosSize）。只在拿到以後載入 */
     z.pothosState=null; z.setPothos=(on,n)=>{ const k=on?'S'+pothosSize(n):null; if(z.pothosState===k) return; z.pothosState=k; if(!on){ const o=g0.getObjectByName('dorm_pothos'); if(o) o.visible=false; return; }
       const show=pg=>{ pg.visible=true; pg.traverse(o=>{ if(/^POTHOS_S\d$/.test(o.name)) o.visible=o.name==='POTHOS_'+k; }); };
       let pg=g0.getObjectByName('dorm_pothos'); if(pg){ show(pg); return; }
-      if(econ||typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.pothos']) return;
+      if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.pothos']) return;
       pg=new THREE.Group(); pg.name='dorm_pothos'; pg.userData.dyn=true; g0.add(pg);
       ASSETS.loadOne('bldg.pothos').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); let P=null; root.traverse(o=>{ if(!P&&o.userData&&o.userData.place) P=o.userData.place; });
         P=P||{x:-2.39,y:0.76,z:0.145,ry:Math.PI/2}; root.position.set(P.x,P.y,P.z); root.rotation.set(0,P.ry||0,0);
         root.traverse(m=>{ if(m.isMesh){ m.castShadow=true; m.receiveShadow=true; if(m.material) TK.bounce(m.material,0.3,0.4); } }); pg.add(root); show(pg); }).catch(e=>console.warn('黃金葛載入失敗',e)); };
-    if(econ&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.v0_dorm_props']){ const vg=new THREE.Group(); vg.name='v0_dorm_props'; vg.userData.dyn=true; g0.add(vg); const VP=R.v0_props;
-      z.v0Box=v0BoxFromFlags(GAME.G.flags||{}); z.setV0Box=s=>{ z.v0Box=s; for(const [k,n] of [['onbed','BOXES_ONBED'],['bed','BOXES_BED'],['foot','BOXES_FOOT']]){ const o=vg.getObjectByName(n); if(o) o.visible=s===k; } };
-      ASSETS.loadOne('bldg.v0_dorm_props').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
-        const put=(n,p,dx,dz,ry)=>{ const o=root.getObjectByName(n); if(!o||!p) return; o.position.set(p.x+(dx||0),p.y||0,p.z+(dz||0)); o.rotation.set(0,ry!=null?ry:(p.ry||0),0); o.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=true; } }); vg.add(o); };
-        put('BOXES_ONBED',VP.BOXES_DESK,0,0,Math.PI/2); put('BOXES_BED',VP.BOXES_FLOOR,0,0,0.3); put('BOXES_FOOT',VP.BOXES_FLOOR,0,0,0.1);   /* 「書桌上」「書桌旁邊的地上」（AA_208 第 6 節）*/
-        put('BOOK_ECON',{x:me.desk_center[0],y:me.desk_top_y,z:me.desk_u[1]-0.25},0,0,Math.PI/2+0.2); put('XUN_DESK',VP.XUN_DESK); put('XUN_BOWLING',VP.XUN_BOWLING);
-        z.setV0Box(z.v0Box); }).catch(e=>console.warn('經濟系宿舍的小物件載入失敗',e)); }
     return z; } };
   /* 黃金葛的大小（ART-04；json 寫「LAWWW 定規則」）：每週最多澆一次（story3d.js pothosScene），沒澆不長大。0～5 次＝S1 剛送來、6～19＝S2、20～39＝S3（一年多）、40 以上＝S4 */
   function pothosSize(n){ n=n|0; return n>=40?4:n>=20?3:n>=6?2:1; }
-  function v0BoxFromFlags(F){ if(!F.E01_NIGHT) return 'onbed'; if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES) return 'foot'; return 'none'; }
   /* 宿舍房間的正式模型（第二個 AI：tools/blender/env_second/dorm_interior.py）：日光燈管、檯燈燈泡、筆電與螢幕一直亮；
      牆、地板、木家具有燈光感（TK.bounce）；書、雜物的顏色在頂點色（自發光也照頂點色加一點） */
-  const DORM_BOUNCE={dorm_wall:[0.4,0.5],dorm_floor:[0.32,0.42],dorm_wood:[0.3,0.4],dorm_wood_dark:[0.25,0.35],dorm_door:[0.25,0.35],dorm_sheet:[0.3,0.4],dorm_duvet:[0.25,0.35],dorm_pillow:[0.3,0.4],dorm_curtain:[0.3,0.4],dorm_ac:[0.3,0.4],dorm_bath_tile:[0.4,0.5],dorm_bath_floor:[0.32,0.42]};   /* 洗手間的牆磚、地磚原本沒有補光：剖面視角看進洗手間是一整片暗灰色（經濟系 412 每天早上第一個畫面右邊四成；LAWWW2 2026-10-21），和房間的牆、地板同一級 */
+  const DORM_BOUNCE={dorm_wall:[0.4,0.5],dorm_floor:[0.32,0.42],dorm_wood:[0.3,0.4],dorm_wood_dark:[0.25,0.35],dorm_door:[0.25,0.35],dorm_sheet:[0.3,0.4],dorm_duvet:[0.25,0.35],dorm_pillow:[0.3,0.4],dorm_curtain:[0.3,0.4],dorm_ac:[0.3,0.4],dorm_bath_tile:[0.4,0.5],dorm_bath_floor:[0.32,0.42]};   /* 洗手間的牆磚、地磚原本沒有補光：剖面視角看進洗手間是一整片暗灰色（舊序章 412 每天早上第一個畫面右邊四成；LAWWW2 2026-10-21），和房間的牆、地板同一級 */
   function attachDormInterior(z,g0,root){
     root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(!mt||mt.userData.dormReg) return; mt.userData.dormReg=true;
       if(nm==='dorm_tube'){ mt.emissive=new THREE.Color(0xfff7ea); mt.emissiveIntensity=1.3; }
@@ -2571,7 +2816,7 @@ const Z3 = (function(){
     ASSETS.loadOne('bldg.dorm_y1_items').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.traverse(m=>{ if(m.isMesh){ m.castShadow=/^Y1_BOX_/.test(m.parent&&m.parent.name||''); m.receiveShadow=true; if(m.material) TK.bounce(m.material,0.3,0.4); } });   /* 紙箱有接地的影子；膠帶貼在地上不投影 */
       grp.add(root); key=''; z.setY1Items(typeof GAME!=='undefined'?GAME.G:null); }).catch(e=>console.warn('大一房間的紙箱、膠帶載入失敗',e)); }
   const Y2_BOX=[-0.90,-0.22,-0.705,-0.185];   /* DORM-LOFT-SCALE-1102：房間變窄、床桌組往門口挪（dorm_y2_items.py 的 NAV；以前 [-1.80,-1.12,-0.88,-0.36]）*/
-  const Y2_NODE=id=>id==='y1_3'?'ITEM_y1_ferris':(id==='y1_4'?'ITEM_y1_album':'ITEM_'+id);
+  const Y2_NODE=id=>(id==='y1_3'||id==='y1_4')?'ITEM_y1_album':'ITEM_'+id;   /* CANON-NO-ECON-1112 第四批（AA_887）：大一的票根拿掉，y1_3 現在是相簿；舊存檔的 y1_4（原本的相簿）照舊是相簿 */
   const itemRoot=o=>/^ITEM_/.test(o.name)&&!(o.parent&&/^ITEM_/.test(o.parent.name));   /* 每一件的根節點；底下的網格叫 ITEM_<id>_<部位>，不能一起判斷（2026-10-20 以前大二那組的網格全被藏起來，房間裡看不到）*/
   const stampOn=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null, r=typeof STORY!=='undefined'&&STORY.route?STORY.route(G):((G&&G.flags)||{}).EXCHANGE_ROUTE; return r==='JP'||r==='US'; };   /* ROOM_Y4_TEXT.form：日本、美國路線是蓋了章的影本 */
   function y2State(G){ const F=(G&&G.flags)||{}; if(F.ROOM_Y3_MOVING) return {shown:[],boxes:'closed'};   /* 1A-03 搬進 507、還沒拆箱 */ if(F.ROOM_Y4_MOVING||F.PACKED_Y4) return {shown:[],boxes:'closed'};   /* 1A-09 搬進 409、還沒拆箱；1A-11 收拾好了（畢業前一晚起）*/ const y34=[].concat(F.ROOM_Y3&&Array.isArray(F.ROOM_Y3_ITEMS)?F.ROOM_Y3_ITEMS:[],F.ROOM_Y4&&Array.isArray(F.ROOM_Y4_ITEMS)?F.ROOM_Y4_ITEMS:[]);   /* 大三、大四拆出來的（舊存檔沒有＝沒有）*/ const shown=(Array.isArray(F.ROOM_Y2_ITEMS)?F.ROOM_Y2_ITEMS:(F.ROOM_Y2&&typeof STORY!=='undefined'&&STORY.roomY2Items?STORY.roomY2Items(G).map(r=>r[0]):[])).concat(y34).filter(id=>id!==F.ROOM_Y3_DISCARD).filter(id=>id!==F.BOX_KEPT_Y4);   /* 大三丟掉的那一件不再出現；大四留在紙箱裡的那一件也不拿出來 */ return {shown,boxes:F.ROOM_Y2&&!F.ROOM_Y2_MOVING?'open':'closed'}; }
@@ -2603,7 +2848,7 @@ const Z3 = (function(){
      ITEM_desk_<key>＝STORY.roomItemKeys(G)（和選單同一份）。節點的 room='203'（書背、筆記本的字、桌墊下的票根、大一的軟木板和釘在上面的東西）只在大一 203；
      on='board'（釘在軟木板上）要軟木板也顯示（軟木板＝大一才有；大二起換成 dorm_y2_items 那一塊）。手機、三色螢光筆每一年都在。搬家、收拾那幾天全部收起來。
      牆上的網格叫 WALL_left_desk_*：跟左牆一起淡出（同溫州街那幾件）。旗標在房間裡變了每一幀比一次（只比一個字串）*/
-  function deskItemKeys(G,room){ const F=(G&&G.flags)||{}; if(F.ROOM_Y2_MOVING||F.ROOM_Y3_MOVING||F.ROOM_Y4_MOVING||F.PACKED_Y4||(G&&G.stage==='econ')) return []; const K=typeof STORY!=='undefined'&&STORY.roomItemKeys?STORY.roomItemKeys(G):[]; if(room==='203') K.push('board'); if(['203','312','507','409'].includes(room)) K.push('liufa_'+room); return K; }   /* liufa_<房間>：書桌上的六法（厚書，蓋住 dorm_room4 的紅色方塊；BB 11-03 16:16 P3）*/
+  function deskItemKeys(G,room){ const F=(G&&G.flags)||{}; if(F.ROOM_Y2_MOVING||F.ROOM_Y3_MOVING||F.ROOM_Y4_MOVING||F.PACKED_Y4) return []; const K=typeof STORY!=='undefined'&&STORY.roomItemKeys?STORY.roomItemKeys(G):[]; if(room==='203') K.push('board'); if(['203','312','507','409'].includes(room)) K.push('liufa_'+room); return K; }   /* liufa_<房間>：書桌上的六法（厚書，蓋住 dorm_room4 的紅色方塊；BB 11-03 16:16 P3）*/
   function loadDeskItems(z,g0,E){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.dorm_desk_items']) return; let grp=null, key=null, loading=false;
     const apply=K=>{ if(!grp) return; const room=z.dormSetKey, board=K.includes('board')&&room==='203';
       grp.traverse(o=>{ if(!/^ITEM_desk_/.test(o.name)) return; const u=o.userData||{}; o.visible=K.includes(o.name.slice(10))&&(!u.room||u.room===room)&&(u.on!=='board'||board); }); };
@@ -2626,7 +2871,8 @@ const Z3 = (function(){
      一盞的前面沒有牆：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（layout 的 block 擋住，看得到、走不到）——room() 以原點為中心，建好後整個往 +z 移 2.3（導航格的原點一起移）。
      這一版：走得進去、選位子坐下、離開；點餐、印東西、喝茶的文字照 AA_172（src/wzshops3d.js；AA_355 第 3 節），打工是 DL-10。測試：node tests/wz_shops_unit.js */
   const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#c9b08c',mosaic:'#a7aeaa'};   /* 淺色木地板（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）*/   /* wood_dark 原本 #7d5c40；溫州街店家的配置已改成 wood_light，這個鍵留著相容 */
-  function wzShop(key){ return { id:'wz_'+key, name:(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[key])?WZ_SHOPS_LAYOUT[key].name:key, indoor:true, camDist:4.0, build(E){ const L=WZ_SHOPS_LAYOUT[key], tea=!!(L.front&&L.front.openFront);
+  const WZ_CAMDIST={print:3.2,lin:3.2,teishoku:3.2};   /* SHOP-INTERIOR-VIEW-1112（LAWWW-C 11-13）：天花板 3.0／3.0／2.9 m，鏡頭距離 4.0 時跟隨鏡頭 3.134 m 高過天花板（天花板不畫、抬頭看到背景色）；3.2 m＝鏡頭 2.86 m（118 巷 BB 定 3.6 的同一個做法）。一盞 2.6 m 要 ≤2.43 m 太擠，交 LAWWW2 */
+  function wzShop(key){ return { id:'wz_'+key, name:(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[key])?WZ_SHOPS_LAYOUT[key].name:key, indoor:true, camDist:WZ_CAMDIST[key]||4.0, build(E){ const L=WZ_SHOPS_LAYOUT[key], tea=!!(L.front&&L.front.openFront);
       const winXs=(L.front&&(L.front.views||L.front.windows)||[]).map(w=>-(w[0]+w[1])/2);   /* views：窗外街景的照片平面（林家、定食店整面一片）；沒有的照建築的窗 */   /* 店面那一面的窗（room() 的 front：沿牆位置 t＝−x）*/
       const sp=Object.assign({},L.spawn); if(!tea) sp.z=Math.min(sp.z,L.d/2-0.95);   /* room() 的牆內 0.4 m 不能站（阿德影印的出生點 3.9 太靠門）*/
       const z=room(E,{w:L.w,d:L.d,h:L.h,cell:wzAANew(key,L)&&key==='teishoku'?0.2:undefined/* 小路（AA 新室內）：導航格 0.2 m（和公館 AA 的店 ggRoom 一樣；0.4 m 的格子量不到 0.1 m 厚的玻璃隔板，人會穿過去）。SUNNY SIDE、一盞照舊 0.4（0.2 會在卡座和桌子中間量出孤島、店員的站位貼牆站不住）*/,warm:key!=='print',cool:key==='print',wallColor:L.wallColor,floorTex:W3.stoneTex(WZ_FLOOR[L.floor]||'#d9cbb0'),spawn:sp,windows:tea||!winXs.length?false:undefined,winWall:'front',winXs,winW:L.front&&L.front.viewW,winH:L.front&&L.front.viewH,winY:L.front&&L.front.viewY,view:L.front&&L.front.view,viewDepth:L.front&&L.front.viewDepth})   /* 阿德影印是日光燈：warm:false（LAWWW2-B 10-16 建議，截圖 wz_shops_ingame/print_entry_night.webp）*/;
@@ -2853,9 +3099,17 @@ const Z3 = (function(){
         if(/^GLOW_l118/.test(nm)&&!mt.userData.l118n){ mt.userData.l118n=true; mt.emissive=new THREE.Color(0xffe2a8); TK.addNight(mt,1.8,0.05); }   /* 門柱上的燈籠：晚上亮 */
         if(/leaf/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
       g.add(r); for(const o of tmpGround) o.visible=false; }).catch(e=>console.warn('118 巷地面正式模型載入失敗，用套件暫代',e));
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); l118ClosedLook(E,g,zone,L,fw,fe); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
     return zone; }
   const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
+  /* 導航的小縫（ECON-NAV-TRAPS-1111，LAWWW2；和 US-NAV-TRAPS-1111、MOKU-PLANT-CORNER-1111 同一類）：「站得住」只看人的前後左右四點，斜放的東西在 0.5 m 的格子上變成一階一階，
+     每一階的內角剩一小塊四點都站得住、周圍站不住的地方——走得進去（走路斜著推就進去），16 個方向推都出不來。
+     Node 掃（引擎真的 canStand＋stepEntity）：校園法學院那一帶兩處（斜的那一排 13 塊、(91.25,−113) 兩塊）、溫州街 (20.75,5.75)、社科院圖書館 (10.2,−7.0)。
+     只擋那幾格（格子裡沒有大區站得住的點，擋了不會切斷路），模型不動。測試：node tests/econ_nav_traps_1111_unit.js */
+  const NAV_NOTCHES={ campus:{lv:0,cell:0.5,pts:[[91.25,-113.25],[91.25,-112.75],[96.25,-108.75],[96.25,-108.25],[93.75,-79.25],[93.75,-78.75],[94.25,-78.75],[94.25,-78.25],[94.75,-78.25],[94.75,-77.75],[95.25,-77.75],[95.25,-77.25],[95.75,-77.25],[95.75,-76.75],[96.25,-76.75]]},
+    wenzhou:{lv:0,cell:0.5,pts:[[20.75,5.75]]}, soclib:{lv:0,cell:0.4,pts:[[10.2,-7.0]]} };
+  function navNotch(z,id){ const N=NAV_NOTCHES[id]; if(!N||!z) return z; const n=(z.levels&&z.levels[N.lv|0])||z.nav; if(!n||!n.blockRect) return z; for(const [x,zz] of N.pts) n.blockRect(x,zz,N.cell*0.9,N.cell*0.9,0,0); n._cm=null; return z; }
+  for(const [id,def] of [['campus',campus],['wenzhou',wenzhou]]){ const b=def.build; def.build=function(E){ return navNotch(b.call(this,E),id); }; }
   const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku}; if(wz_offbeat) ZONES.wz_offbeat=wz_offbeat; if(GG_L.aoki()) ZONES.aoki=aoki; if(GG_L.afar()) ZONES.afar=afar; if(GG_L.daybreak()) ZONES.daybreak=daybreak;   /* afar café、Daybreak（GG-SHOPS2-1104）：配置檔有載入才有 */ if(GG_L.yangyang()) ZONES.yangyang=yangyang;   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：配置檔有載入才有 */ if(GG_L.corner_records()) ZONES.corner_records=corner_records;   /* 轉角唱片（CORNER-IN-1107）：配置檔有載入才有 */   /* 青木茶室（GG-SHOPS-REDO-1104）：配置檔有載入才有 */   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
   /* 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）：GAME.enter 在畫面全黑、淡入之前呼叫。
      原本：區域建好、第一格畫完，已經載過的正式模型才接上（ASSETS.loadOne().then 是 microtask，在 await fade(false) 才跑）；
@@ -2866,21 +3120,35 @@ const Z3 = (function(){
      compileAsync 本身會走到藏起來的物件：先把它們的 material 暫時拿掉，編完馬上放回去——溫州街有三個藏起來的套件零件 material 是 TK 的 paint 描述（不是 THREE.Material），編下去會丟例外。
      等的時候主迴圈照樣每一格 E.render：畫面是黑的，先不畫（E.renderSkip 暫時回 true，做完還原），不然那一格會停下來等還沒編好的 shader，平行編譯就白做了。
      只在電腦上做（使用者回報的是電腦；ASSETS.texCap 是空的＝不是手機）。*/
+  /* 只是「這一刻的鏡頭看不到」才藏起來的東西（BUG-RUN-STUTTER-1112，使用者「跑步會頓」；CC 在使用者電腦量：東南大聯店內一開跑，renderer 的 programs 多 16 支——
+     路人 VRM 的材質（眼睛、臉、毛衣、裙子＋外框）＋VIEWPANE（窗景片）＋店內牆 tzs_vc；站著、走路沒有超過 50 ms 的幀）：
+       · 路人、同學：引擎每一格照鏡頭的視錐設 obj.visible（engine3d.js updateNPC），進店那一刻在鏡頭外的人＝false；
+       · 淡出的牆（鏡頭和房間中間的那一面：E.hideFaded 設 visible=false）、跟著那面牆藏的窗景片和窗框（zone.winParts：fadeWalls 設 visible）；
+       · 先生好、還沒進場的客人（crowd3d.js 的 E.preObjs，掛在場景裡不顯示）。
+     prewarm、warmup 原本都只編「看得到的」——這些一個都沒編到，鏡頭一轉（開跑）第一次畫到才編 shader、傳貼圖＝那一頓。
+     這裡列出來，prewarm 在黑畫面裡一起編、一起傳貼圖，warmup 之後每一輪掃到也編（之後才走進來、還在鏡頭外的人）。
+     n.hidden（故意藏的人：收攤的老闆、還沒出發的課輔班）、被正式模型取代的備用模型不在這裡：照舊不編。 */
+  function revealList(E){ const out=[], z=E&&E.zone; if(!E) return out;
+    for(const n of E.npcs||[]) if(n&&n.obj&&!n.hidden&&n.obj.visible===false) out.push(n.obj);
+    for(const o of E.preObjs||[]) if(o&&o.parent&&o.visible===false) out.push(o);
+    if(z){ for(const w of z.walls||[]) if(w&&w.isObject3D&&w.visible===false) out.push(w); for(const wp of z.winParts||[]) if(wp&&wp.obj&&wp.obj.visible===false) out.push(wp.obj); }
+    return out; }
   async function prewarm(E,opts){ opts=opts||{}; const R=E.renderer; if(!R||!R.compileAsync||!E.scene||!E.camera) return null;
     const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]noprewarm\b/.test(q)||(typeof ASSETS!=='undefined'&&ASSETS.texCap&&!/[?&]prewarm\b/.test(q))) return null;   /* 只在電腦上做（同 prefetchNext）：手機照原本的做法——SwiftShader 手機模擬量到一次黑畫面拉長到 13.6 秒（淡入的計時器被很長的格子擠到後面）；沒有真機數字以前手機不動。?prewarm 手機模擬也做（量測用）、?noprewarm 關掉 */
     const qc=+((q.match(/[?&]prewarmcap=(\d+)/)||[])[1]||0); if(qc) opts=Object.assign({},opts,{cap:qc});   /* 量測用：?prewarmcap=毫秒 改黑畫面最多等多久 */
     const skip0=E.renderSkip; E.renderSkip=()=>true; try{ return await prewarmRun(E,R,opts); } finally{ E.renderSkip=skip0; } }
   async function prewarmRun(E,R,opts){
     const t0=performance.now(), cap=opts.cap||2000, left=()=>cap-(performance.now()-t0), tick=()=>new Promise(r=>setTimeout(r,0));
-    const out={ms:0,attachMs:0,compileMs:0,texMs:0,textures:0,mpix:0,skipped:0,timedOut:false};
+    const out={ms:0,attachMs:0,compileMs:0,texMs:0,textures:0,mpix:0,skipped:0,revealed:0,timedOut:false};
     await tick(); out.attachMs=performance.now()-t0;
-    const shown=new Set(); E.scene.traverseVisible(o=>{ if(o.material) shown.add(o); });
+    const shown=new Set(), rev=revealList(E); for(const o of rev) o.visible=true;   /* 鏡頭外的人、淡出的牆、窗景片、先生好的客人：算看得到的（上面 revealList）*/
+    try{ E.scene.traverseVisible(o=>{ if(o.material) shown.add(o); }); } finally { for(const o of rev) o.visible=false; }
     const isMat=m=>Array.isArray(m)?m.every(x=>x&&x.isMaterial):!!(m&&m.isMaterial), off=[];
     const tc=performance.now(); let job;
     try{ E.scene.traverse(o=>{ if(o.material&&(!shown.has(o)||!isMat(o.material))){ off.push([o,o.material]); o.material=null; } }); job=R.compileAsync(E.scene,E.camera); }
     catch(e){ console.warn('prewarm compile',e); job=Promise.resolve(); }
     finally{ for(const [o,m] of off) o.material=m; }
-    out.skipped=off.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
+    out.skipped=off.length; out.revealed=rev.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
     out.compileMs=performance.now()-tc; if(!ok) out.timedOut=true;
     /* 編譯結果先讀一次（X14，LAWWW2-C 2026-10-27）：沒有平行編譯時 isReady() 一律是 true，compileAsync 馬上就好，真正的等待留到淡入第一格（three.js 第一次畫到時讀編譯結果：onFirstUse）——
        SwiftShader 電腦模式量到公館→溫州街第一次淡入那一格 10.3 秒，其中 3.9 秒在等編譯結果。黑畫面時在 cap 之內先讀（program.getUniforms）；讀不完的照舊第一格讀 */
@@ -2926,12 +3194,12 @@ const Z3 = (function(){
     const out={zone:zone&&zone.def&&zone.def.id,objects:0,programs:0,textures:0,mpix:0,depth:false,depthPrograms:0,ticks:0,parallel:par,done:false,ms:0}; E.lastWarmup=out;
     const t0=performance.now(), gap=opts.gap||250, budget=opts.budget||12, maxProg=opts.maxProg||(par?8:1), idleScans=opts.idleScans||8;
     const nprog=()=>(R.info.programs||[]).length, mats=o=>Array.isArray(o.material)?o.material:[o.material], isMat=m=>!!(m&&m.isMaterial);
-    const tried=new WeakSet(), need=m=>!tried.has(m)&&!R.properties.get(m).currentProgram, shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };   /* tried：試過的材質不再排（編不起來的不會一直重排）*/
+    let rv=new Set(); const tried=new WeakSet(), need=m=>!tried.has(m)&&!R.properties.get(m).currentProgram, shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible&&!rv.has(p)) return false; return true; };   /* rv＝這一刻鏡頭看不到才藏起來的（revealList：鏡頭外的人、淡出的牆、窗景片、先生好的客人）：照樣編（BUG-RUN-STUTTER-1112）；R.compile 不看 visible */   /* tried：試過的材質不再排（編不起來的不會一直重排）*/
     let queue=[], idle=0; const loose=new WeakSet(), settled=new WeakSet();
     const settle=()=>{ let n=0; for(const pg of (R.info.programs||[])){ if(settled.has(pg)) continue; if(par&&pg.isReady&&!pg.isReady()) continue;
         try{ pg.getUniforms(); }catch(e){ console.warn('warmup settle',e); } settled.add(pg); n++; if(n>=maxProg) break; } out.settled=(out.settled|0)+n; return n; };
     const unsettled=()=>(R.info.programs||[]).some(pg=>!settled.has(pg));   /* 不在場景裡的（路人底模、遠距離版本）：沒有 parent 也要編 */
-    const scan=()=>{ queue=[]; E.scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; const ms=mats(o); if(!ms.every(isMat)||!ms.some(need)) return;
+    const scan=()=>{ queue=[]; rv=new Set(revealList(E)); out.revealed=rv.size; E.scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; const ms=mats(o); if(!ms.every(isMat)||!ms.some(need)) return;
       if(o.name==='npc_far'?!shown(o.parent):!shown(o)) return; let lit=false; o.traverse(c=>{ if(c.isLight) lit=true; }); if(!lit) queue.push(o); }); queue.push(...extras()); };   /* 子樹裡有燈的不編：compile 會把那盞燈多算一次，編出來的 key 對不上 */
     const extras=()=>{ const out_=[], A=typeof ASSETS!=='undefined'&&ASSETS.cache; if(!A) return out_;
       for(const k in A){ const c=A[k]; if(!c||!c.tpl||!c.tpl.vrm) continue; const sc=c.tpl.vrm.scene;
@@ -2954,5 +3222,14 @@ const Z3 = (function(){
         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  /* 每間店的櫥窗四角（PLACE-GATE-WINDOW-RECT-1112，BB-C 2026-11-12）：地點關卡第二層要比「店外看到的」和「走進去的」——整條街的玻璃是同一塊網格，探針分不出每間店自己的那一段。
+     這裡照 Z3.shopInsideReal 那張表（玻璃面中心 cx,cz、半寬 ex,ez、室內高 h、室內模型中心 x,z）算：
+     回傳 [{id,place,corners:[[x,y,z]×4]（左下、右下、右上、左上，從街上看）,center:[x,y,z],normal:[nx,0,nz]（朝街上）,w,h}]。沒有 shopReal 的區域＝[]。*/
+  function shopWindowRects(zone){ const R=zone&&zone.shopReal; if(!R||!Array.isArray(R.shops)) return []; const out=[];
+    for(const q of R.shops){ if(!q||typeof q.cx!=='number'||typeof q.cz!=='number') continue; const ex=+q.ex||0, ez=+q.ez||0, h=+q.h||3; let nx=q.cx-(+q.x||0), nz=q.cz-(+q.z||0); const nl=Math.hypot(nx,nz)||1; nx/=nl; nz/=nl;
+      /* 從街上看的左右：站在玻璃外面往店裡看，右手邊＝(−nz, nx) 的反方向 */ const tx=nz, tz=-nx, hw=Math.hypot(ex,ez), sx=tx*hw, sz=tz*hw;
+      out.push({id:q.id,place:q.place,w:+(hw*2).toFixed(3),h,center:[q.cx,h/2,q.cz],normal:[+nx.toFixed(4),0,+nz.toFixed(4)],
+        corners:[[q.cx-sx,0,q.cz-sz],[q.cx+sx,0,q.cz+sz],[q.cx+sx,h,q.cz+sz],[q.cx-sx,h,q.cz-sz]].map(c=>c.map(v=>+v.toFixed(3)))}); }
+    return out; }
+  return {B1C,wzViewSwap,GG_VIEW,WZ_VIEW,WZ_AA_NIGHTVIEW,ggViewPanes,shopViewPane,ggShopLit,openOnly,shopInsideLit,shopInsideReal,shopRealGlow,shopSignLit,l118ClosedLook,wzShopReal,WZ_GLOW_ONLY,shopWindowRects,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks,navNotch,NAV_NOTCHES,shopShutters,revealList};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();

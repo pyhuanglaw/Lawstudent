@@ -11,7 +11,7 @@ const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js','src/y34b3d.js','src/sis_grad3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js']) load(f);
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/exchange3d.js','src/y34b3d.js','src/sis_grad3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js']) load(f);
 let doc=''; try{ doc=cp.execSync('git show d037c668:"docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 let doc377=''; { try{ const f=cp.execSync('git -c core.quotepath=false ls-tree -r --name-only d037c668 docs/story_planning',{cwd:H.ROOT,encoding:'utf8'}).split('\n').find(x=>/AA_377_/.test(x)); if(f) doc377=cp.execSync('git show d037c668:"'+f+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){} }
 const inDoc=t=>doc.indexOf(t)>=0;
@@ -71,5 +71,5 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
     check('5. 訪談沒去：這幾句都不出',!s.includes('致謝裡有你。')&&!s.includes('第四章那一句，是你記的。')&&s.includes('好。我請大家喝飲料。販賣機的。'),J(s)); }
   /* ---- 6 AA_377 第 7 節 ---- */
   { const g=TERMEND.gf('heroine_02','Y3S2'), g2=TERMEND.gf('heroine_02','Y2S1');
-    check('6. 芷若大三下交往中的期末約會：「禮拜四十點，等我下班。」週四 22:00（稿 AA_377 第 7 節）；飯桌那句照留；別的學期照舊（大二上的邀約句 AA_456 1-5 換成「禮拜五十點。最後一個客人走了，我傳給你。」）',/禮拜四十點，等我下班。/.test(doc377)&&!!g&&g.invite==='禮拜四十點，等我下班。'&&g.wd===4&&g.h===22&&TERMEND_LINES.GF.heroine_02.tableByTerm.Y3S2[1]==='……六月的週五，你先全部給我。'&&!!g2&&g2.invite==='禮拜五十點。最後一個客人走了，我傳給你。',J({g,g2})); }
+    check('6. 芷若大三下交往中的期末約會：「禮拜四十點，等我下班。」週四 22:00（稿 AA_377 第 7 節）；飯桌那句照留；別的學期照舊（大二上的邀約句 AA_456 1-5 換成「禮拜五十點。最後一個客人走了，我傳給你。」）',/禮拜四十點，等我下班。/.test(doc377)&&!!g&&g.invite==='禮拜四十點，等我下班。'&&g.wd===4&&g.h===22&&TERMEND_LINES.GF.heroine_02.tableByTerm.Y3S2[1]==='六月的週五，你先全部給我。'&&!!g2&&g2.invite==='禮拜五十點。最後一個客人走了，我傳給你。',J({g,g2})); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

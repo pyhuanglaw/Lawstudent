@@ -19,7 +19,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA|L118|LANE118_SHOPS|L118_REDO|LANE118_LAYOUT|WZS|EAT|EAT_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js','src/wzshops3d.js','src/data/eat_lines.js'].concat(NO_EAT?[]:['src/eat3d.js']);
+const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/data/yejian_shaola_buy.js','src/shaola_order3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js','src/wzshops3d.js','src/data/eat_lines.js'].concat(NO_EAT?[]:['src/eat3d.js']);
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){},narrate(){}}; global.CHAR={setExpr(){}};
@@ -43,7 +43,7 @@ const has=t=>said.some(s=>s.t===t), idx=t=>said.findIndex(s=>s.t===t);
 const EL=typeof EAT_LINES!=='undefined'?EAT_LINES:{together:{},first:{},staff:{},doorShops:[]};
 const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
 (async()=>{
-  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 企劃 759e5c000＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 759e5c000）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
+  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 企劃 20d1023d20＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 20d1023d20）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
   // ---------- E1 ----------
   /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版；AA_772）改期望——測的行為不變，場景的店換成新資料（店 id、店名、品名、價錢都從 LANE118_SHOPS、作息表讀，不寫死）：
      舊期望：E1／E8 在滇香小館（l118_dian；以安週二中午的作息）、E3 在好家自助餐（l118_self；學姊週二傍晚）、E4 好家自助餐、E6／A1／A2 六張犁麵舖（牛肉麵 150）和蛋包飯研究所。
@@ -99,7 +99,7 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝第 5 次那一句不會換她說（staffYutong 走不到），一律是阿姨那句 */
   { const e=STORY.schedEnt(CHARACTERS.heroine_03,G); check('E7 前置：週二 18:00 語彤不在燒臘店（不是 noodle／help）', !(e&&e.zone==='noodle'), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
   picks=['老樣子']; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); const Y=EL.staffYutong||[], T7=EL.staff['阿鳳麵店']||{};
-  check('E7 第 5 次（原本語彤顧店的時段）：阿姨那一句、不是語彤那句；老樣子＝舊存檔的乾麵照新菜單認（叉燒飯）；阿姨在＝「叉燒飯剛上桌。阿姨多切了兩片叉燒。」', !said.some(s=>s.who===SOCIAL.displayName('heroine_03'))&&has(T7.line5)&&has(T7.same)&&has('叉燒飯剛上桌。阿姨多切了兩片叉燒。')&&G.eat.last['阿鳳麵店']==='叉燒飯', said.map(s=>(s.who||'')+':'+s.t).join('｜'));
+  check('E7 第 5 次（原本語彤顧店的時段）：阿姨那一句、不是語彤那句；老樣子＝舊存檔的乾麵照新菜單認（叉燒飯）；阿姨在＝不再說「叉燒飯剛上桌。阿姨多切了兩片叉燒。」（2026-11-12（AA_853@f6aa917593 lawww_1112 燒臘第 2 點）：那一句拿掉；舊期望：has 那一句）', !said.some(s=>s.who===SOCIAL.displayName('heroine_03'))&&has(T7.line5)&&has(T7.same)&&!has('叉燒飯剛上桌。阿姨多切了兩片叉燒。')&&G.eat.last['阿鳳麵店']==='叉燒飯', said.map(s=>(s.who||'')+':'+s.t).join('｜'));
   fresh(tueY,13,'noodle'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}}; picks=[1]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM);
   check('E7 語彤不在：阿姨那一句', has(T7.line5)&&said.some(s=>s.who===T7.who&&s.t===T7.line5));
   // ---------- E8 ----------
@@ -149,7 +149,7 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   fresh(td('Y1S1',7,6),10,'wenzhou'); picks=[0]; await WZS.interact(GM,{wzShop:'brunch',kind:'cashier'}); const fb=EL.first['溫州街・半熟'];
   check('溫州街半熟第一次：第一次的旁白在吃的旁白之前', !!fb&&idx(fb)>=0&&idx(fb)<idx(WZS.BRUNCH[0][2]), said.map(s=>s.t).join('｜'));
   // ---------- 接線 ----------
-  { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), l=fs.readFileSync(path.join(ROOT,'src/lane118.js'),'utf8'), w=fs.readFileSync(path.join(ROOT,'src/wzshops3d.js'),'utf8'), g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
-    check('接線：lane118.js、story3d.js（Café、便利商店、麵店）、wzshops3d.js、筆記本、index.html 載入 eat_lines.js 和 eat3d.js', /EAT\.choose\(GM,s\.name/.test(l)&&/EAT\.together\(GM,s\.name\)/.test(l)&&/EAT\.choose\(GM,ek,opts/.test(s)&&/EAT\.choose\(GM,'阿鳳麵店'/.test(s)&&/EAT\.together\(GM,'阿鳳麵店'\)/.test(s)&&/EAT\.after\(GM,key,it\[0\]\)/.test(w)&&/EAT\.notesHTML\(G,dayLab\)/.test(g)&&h.indexOf('src/data/eat_lines.js')>0&&h.indexOf('src/eat3d.js')>h.indexOf('src/data/eat_lines.js')&&h.indexOf('src/eat3d.js')>h.indexOf('src/story3d.js')); }
+  { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), sh=fs.readFileSync(path.join(ROOT,'src/shaola_order3d.js'),'utf8'), l=fs.readFileSync(path.join(ROOT,'src/lane118.js'),'utf8'), w=fs.readFileSync(path.join(ROOT,'src/wzshops3d.js'),'utf8'), g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+    check('接線：lane118.js、story3d.js（Café、便利商店、麵店）、wzshops3d.js、筆記本、index.html 載入 eat_lines.js 和 eat3d.js', /EAT\.choose\(GM,s\.name/.test(l)&&/EAT\.together\(GM,s\.name\)/.test(l)&&/EAT\.choose\(GM,ek,opts/.test(s)&&/SH\.order\(GM\)/.test(s)&&/S\.KEY='阿鳳麵店'/.test(sh)&&/e\.choose\(GM,S\.KEY,opts,names,prices\)/.test(sh)&&   /* 2026-11-12 改期望（GG-SHAOLA-FIX-1112）：原本＝story3d.js 直接叫 EAT.choose(GM,'阿鳳麵店',…)；燒臘店的點餐搬到 src/shaola_order3d.js（SHAOLA.order，店名鍵照舊），story3d.js 的 noodleScene 叫它 */ /EAT\.together\(GM,'阿鳳麵店'\)/.test(s)&&/EAT\.after\(GM,key,it\[0\]\)/.test(w)&&/EAT\.notesHTML\(G,dayLab\)/.test(g)&&h.indexOf('src/data/eat_lines.js')>0&&h.indexOf('src/eat3d.js')>h.indexOf('src/data/eat_lines.js')&&h.indexOf('src/eat3d.js')>h.indexOf('src/story3d.js')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

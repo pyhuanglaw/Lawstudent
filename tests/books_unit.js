@@ -15,8 +15,7 @@ let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info
 const DK=k=>STORY.dayOfKey(k);
 const mkG=(key,stage,flags)=>({day:DK(key),hour:14,stage,flags:Object.assign({},flags||{}),money:5000,zone:'bookstore'});
 if(typeof CLS.bookList!=='function'){ check('1. 有 CLS.bookList',false); console.log('FAILED '+fails); process.exit(1); }
-{ const t=CLS.bookList(mkG('2024-09-10','econ')).map(b=>b.title);
-  check('1. 經濟系那一年（2024-09-10）：書店賣經濟學原理、初等會計學、微積分，不賣《民法總則》',['經濟學原理','初等會計學','微積分'].every(x=>t.includes(x))&&!t.includes('民法總則'),t.join('、')); }
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 1 項 經濟系那一年的書店）
 { const t=CLS.bookList(mkG('2025-09-15','law')).map(b=>b.title);
   check('2. 法律系大一上：憲法、刑法總則、民法總則、經濟學原理都有；國文、英文、體育、通識、服務學習沒有',['憲法','刑法總則','民法總則','經濟學原理'].every(x=>t.includes(x))&&!t.some(x=>/國文|英文|體育|通識|服務學習/.test(x)),t.join('、')); }
 { const g=mkG('2026-03-02','law',{books:{'刑法總則':true}}), c2=COURSES.list.find(c=>c.id==='crim_gen2'), g2=mkG('2025-09-15','law',{textbook:true}), cv=COURSES.list.find(c=>c.id==='civ_general');

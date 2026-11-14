@@ -47,7 +47,8 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
   await sec(0,()=>{ check('0. 拿得到稿（git show 30e7b0311＝d483ecbbf＋第 5 節實作確認＋芯慈兩行拿掉（D116）＋第 6 節經濟系那一年；有第 1、2、3、4、5 節）＋AA_547（e9504c889，有 2-6）',X547.indexOf('### 2-6')>0&&DOC.length>3000&&DOC.indexOf('## 1. 法律系')>0&&DOC.indexOf('## 3. 個性那一行')>0&&DOC.indexOf('## 4. 測試')>0&&DOC.indexOf('### 5-1')>0,'長度 '+DOC.length);
     if(!DOC||!W()) return;
     /* 遊戲 → 稿：每一行（字串）都在稿的表格裡；函式的幾種結果另外列 */
-    const COMPOSED=new Set(['隔週五在日常失速辦桌遊。',   /* 明軒：AA_618 第 2-4 節第 3 點（企劃線 ace533a43「去過三次以上，明軒的人物頁多一行」；AA_623 桌遊團），不在這份稿裡 */
+    const COMPOSED=new Set(['知道你學測數學滿級分以後，他都叫你「哥」。',   /* （CANON-NO-ECON-1112 第四批：照 AA_884 換字）阿哲叫哥那一行照 AA_884 第 2 節（企劃線 db44bb9ab），不在這份稿裡 */
+      '隔週五在日常失速辦桌遊。',   /* 明軒：AA_618 第 2-4 節第 3 點（企劃線 ace533a43「去過三次以上，明軒的人物頁多一行」；AA_623 桌遊團），不在這份稿裡 */
       '打工：南洋戲院（週五、週六晚上）',
       '打工：新生南路的兒童程式教室（助教）','打工：溫州街的國小課輔班（助教）',   /* 阿凱、沛珊：AA_614 接線時補的（企劃線 73ee9256d；tests/aa614_jobs_unit.js 對 AA_614 的稿），不在這份稿裡 */   /* Alison：AA_615 第 4 節（企劃線 ba26f7f7d，第一次在櫃檯遇到以後；tests/aa614_jobs_unit.js 對 AA_615 的稿），不在這份稿裡 */
       '學姊的妹妹。',   /* Alison：AA_611 第 1 節第 8 列（企劃線 3f85566f4，KNOWS_SIS_ALISON 才有；tests/aa611_sisters_unit.js 對 AA_611 的稿），不在這份稿裡 */
@@ -64,27 +65,29 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     /* 稿 → 遊戲：第 1、2 節表格「顯示」那一欄（括號開頭的說明、群組名那一句除外）都在遊戲裡 */
     const all=new Set(); for(const id of Object.keys(W().R)) for(const r of W().R[id]) for(const t of (typeof r.t==='function'?((FN[id]||{})[r.id]||[]):[r.t])) all.add(t);
     const SUPERSEDED=new Set(['大三當上系籃隊長。','雙主修經濟。她說是家裡要的。','原本雙主修經濟，大三下改成輔系。',
-      '宿營同一小隊，第一天就認識了。','去程的遊覽車上，他坐你旁邊。','宿營時隔壁小隊帶隊呼的那個女生，開學以後才說上話。','宿營夜談，是他問你為什麼重考。']);   /* AA 11-03 宿營改稿表：阿哲換成撕名牌那一行、遊覽車兩行（CAMP_BUS 固定 'win'）、Alison 宿營那一行、明軒宿營那一行拿掉 */   /* 5-1：單獨的隊長那一行不要了（併進系籃那一行）；AA_547 2-6：芯慈雙主修那一行換、改輔系那一行拿掉 */
+      '宿營同一小隊，第一天就認識了。','去程的遊覽車上，他坐你旁邊。','宿營時隔壁小隊帶隊呼的那個女生，開學以後才說上話。','宿營夜談，是他問你為什麼重考。','知道你比大家大一歲以後，他都叫你「哥」。']);   /* （CANON-NO-ECON-1112 第四批）阿哲叫哥那一行換成 AA_884 第 2 節 */   /* AA 11-03 宿營改稿表：阿哲換成撕名牌那一行、遊覽車兩行（CAMP_BUS 固定 'win'）、Alison 宿營那一行、明軒宿營那一行拿掉 */   /* 5-1：單獨的隊長那一行不要了（併進系籃那一行）；AA_547 2-6：芯慈雙主修那一行換、改輔系那一行拿掉 */
+    /* 舊序章人物那幾列（拿掉以前的 whois3d.js R.econ_* 的字）（CANON-NO-ECON-1112 第三批：這一項拿掉） */
+    const GONE=new Set(); { let o=''; try{ o=cp.execSync('git show cfc0fd04bf:src/whois3d.js',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){} for(const m of o.matchAll(/R\.econ_\w+=\[([\s\S]*?)\];/g)) for(const t of m[1].matchAll(/t:'((?:[^'\\]|\\.)*)'/g)) GONE.add(t[1]); }
     const miss=[]; const s12=DOC.slice(DOC.indexOf('## 1. 法律系'),DOC.indexOf('## 3. 個性那一行'));
     for(const ln of s12.split('\n')){ const m=ln.match(/^\| [^|]+ \| (.+) \|$/); if(!m) continue; let c=m[1].trim(); if(c==='顯示'||/^-+$/.test(c)) continue;
       c=c.replace(/^（把上一行換成）/,''); if(/<br>/.test(c)){ for(const x of c.split('<br>')){ const q=x.match(/「(.+?)」$/); if(q&&!all.has(q[1])) miss.push(q[1]); } continue; }
       c=c.replace(/（沒有 `DORM_FOUR` 的寫「(.+?)」）$/,(z,b)=>{ if(!all.has(b)) miss.push(b); return ''; }).trim();
-      if(!all.has(c)&&!SUPERSEDED.has(c)&&![...all].some(t=>t.includes(c))) miss.push(c); }   /* 合併成一行的（5-1）：那一句在合併的那一行裡 */
+      if(!all.has(c)&&!SUPERSEDED.has(c)&&!GONE.has(c)&&![...all].some(t=>t.includes(c))) miss.push(c); }   /* 合併成一行的（5-1）：那一句在合併的那一行裡 */
     check('0. 稿 → 遊戲：第 1、2 節每一列都做了（5-1 拿掉的「大三當上系籃隊長。」除外）',miss.length===0,miss.join('｜'));
     check('0. 稿 → 遊戲：5-1 合併的三行照稿（宿營＋遊覽車那一行 AA 11-03 拿掉，剩兩行）',!all.has('宿營同一小隊，第一天就認識了。去程的遊覽車上，他坐你旁邊。')&&all.has('室友：大一 203、大二 312。大三起他搬去別間。')&&all.has('打系籃，17 號。大三當上隊長。')&&DOC.indexOf('室友：大一 203、大二 312。大三起他搬去別間。')>0&&DOC.indexOf('打系籃，17 號。大三當上隊長。')>0); });
 
   await sec(0,()=>{ const P=id=>CHARACTERS[id].personality;
     const want={zhe:'總是笑著、講義氣；吃過一次的店都記得',classmate_xinci:'筆記做得像印刷；雙主修財金；穿得俐落、跟大人說話不怯場；私下追劇追到凌晨',   /* 芯慈照 AA_547 2-6 */classmate_youchen:'考前才出現；晚上在公館當 DJ；對法條的記憶力出奇好',kai:'不是打遊戲就是寫程式；對法律的理解停留在「所以可以告嗎」',
-      econ_pinyu:'可昕大一的室友。最毒舌、不帶表情、會算；打工是補習班櫃台',npc_fangyt:'愛爬山、講植物講不停',npc_huangxh:'問問題很直接'};
+      /* 品妤（CANON-NO-ECON-1112 第三批：這一項拿掉） */npc_fangyt:'愛爬山、講植物講不停',npc_huangxh:'問問題很直接'};
     const bad=Object.keys(want).filter(id=>P(id)!==want[id]);
     check('0. 第 3 節個性那一行（characters.js）：阿哲、芯慈（AA_547 2-6）、宥辰、阿凱、品妤、方奕廷、筱涵照稿；Alison 平常那段「精力旺盛；吉他社、辯論社、系學會都有她」',bad.length===0&&P('yu')==='精力旺盛；吉他社、辯論社、系學會都有她',J(bad.map(id=>[id,P(id)])));
-    check('0. 第 3 節：柏翰、明軒、阿勳、韋綸、唐睿的個性照舊',P('classmate_bohan').length>0&&P('classmate_mingxuan').length>0&&P('econ_zhengxun').length>0&&P('econ_weilun').length>0&&P('econ_tangrui').length>0); });
+    check('0. 第 3 節：柏翰、明軒的個性照舊（另外三位（CANON-NO-ECON-1112 第三批：這一項拿掉））',P('classmate_bohan').length>0&&P('classmate_mingxuan').length>0); });
 
   /* ===== 第 1 節：新遊戲大一上第 1 週，阿哲那一頁 ===== */
   await sec(1,()=>{ save('2025-09-03',{DORM_FOUR:true,CAMP_BUS:'zhe',PLAYED_Y0:true},['zhe']); const z=L('zhe');
     check('1. 宿營認識、大一上第 1 週：「張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。」「宿營撕名牌，撕掉你名牌的那個。」（AA 11-03；遊覽車那句拿掉）「大一同住 203。」「打系籃。」',
       J(z)===J(['張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。','宿營撕名牌，撕掉你名牌的那個。','大一同住 203。','打系籃。']),J(z));
-    H.G.flags.ZHE_CALLS_GE=true; check('1. 叫哥的：有「知道你比大家大一歲以後，他都叫你「哥」。」',has('zhe','知道你比大家大一歲以後，他都叫你「哥」。'),J(L('zhe')));
+    H.G.flags.ZHE_CALLS_GE=true; check('1. 叫哥的：有「知道你學測數學滿級分以後，他都叫你「哥」。」（AA_884）',has('zhe','知道你學測數學滿級分以後，他都叫你「哥」。'),J(L('zhe')));
     save('2025-09-03',{DORM_FOUR:true}); done('ev_zhe_w1_meet');
     check('1. 沒有宿營、演過開學第一堂（ev_zhe_w1_meet）：全名那一行＋「開學第一堂課，他從後面戳你肩膀……」，沒有宿營那兩行',J(L('zhe').slice(0,2))===J(['張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。','開學第一堂課，他從後面戳你肩膀，問附近中午吃什麼。'])&&!has('zhe','宿營撕名牌，撕掉你名牌的那個。'),J(L('zhe')));
     save('2025-09-03',{}); check('1. 舊開局、從來沒講過全名：「阿哲。法律系，跟你同班。」（沒有 DORM_FOUR＝沒有 203）',J(L('zhe'))===J(['阿哲。法律系，跟你同班。','打系籃。']),J(L('zhe'))); });
@@ -110,41 +113,22 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     save('2027-02-25',{met_yu:true}); H.G.needed={shown:{yu_clubs:D('2027-02-21')}}; check('3. 舊存檔收過舊的 yu_clubs：也算退了辯論社',W().desc(H.G,'yu','')==='精力旺盛；吉他社、系學會都有她'); });
 
   /* ===== 第 4 節：從法律系開始的局（沒有 PLAYED_Y0）===== */
-  await sec(4,()=>{ save('2025-10-20',{}); const x=L('econ_zhengxun');
-    check('4. 從法律系開始：阿勳「你經濟系那年的室友。回到法律系以後，他傳訊息來：「是我，阿勳。」」，沒有「412，住了兩個月」',has('econ_zhengxun','你經濟系那年的室友。回到法律系以後，他傳訊息來：「是我，阿勳。」')&&!x.some(t=>/住了兩個月/.test(t)),J(x));
-    check('4. 從法律系開始：品妤「回到法律系以後才說上話。」、韋綸「……在法學院廣場遇到他。」',has('econ_pinyu','回到法律系以後才說上話。')&&has('econ_weilun','你經濟系那年的室友。回到法律系以後，在法學院廣場遇到他。'));
-    save('2025-10-20',{PLAYED_Y0:true,ECON_CAMP_DONE:true});
-    check('4. 玩過經濟系那一年：阿勳「你經濟系那年的室友，男宿 412，住了兩個月。」「經濟系宿營同一小隊。」，沒有「是我，阿勳」',has('econ_zhengxun','你經濟系那年的室友，男宿 412，住了兩個月。')&&has('econ_zhengxun','經濟系宿營同一小隊。')&&!L('econ_zhengxun').some(t=>/是我，阿勳/.test(t)),J(L('econ_zhengxun'))); });
+  /* 第 4 節：舊序章人物那幾行（CANON-NO-ECON-1112 第三批：這一項拿掉） */
 
   /* ===== 第 5 節：經濟系開局，9/2 韋綸、唐睿搬進 412 ===== */
-  await sec(5,()=>{ const d1=STORY.y0Day1(); const G=H.fresh(CALENDAR.dateOf(d1+1).key,18,'dorm',{E01_DONE:true,E01_NIGHT:'unpack',E01_MORNING:true}); G.stage='econ'; SOCIAL.bind(G);
-    const before=['econ_weilun','econ_tangrui'].map(id=>SOCIAL.has(id,'FIRST_MET')); const r=STORY.y0Tick(GM);
-    check('5. 9/2 17:00 以後回 412（E412_MOVEIN）：韋綸、唐睿記 FIRST_MET（note dorm）；朋友清單的條件（SOCIAL.has FIRST_MET）成立',r===true&&!!G.flags.E412_MOVEIN&&J(before)===J([false,false])&&SOCIAL.has('econ_weilun','FIRST_MET')&&SOCIAL.has('econ_tangrui','FIRST_MET')&&!!G.flags.met_econ_weilun&&!!G.flags.met_econ_tangrui,J([r,before]));
-    { const xs=['econ_zhengxun','econ_weilun','econ_tangrui','econ_pinyu'].map(id=>[id,WHOIS.lines(G,id)]);
-      check('5. 經濟系那一年本身（stage econ，BB-B BUG-WHOIS-ECONYEAR-1030）：沒有「回到法律系以後」「那年的室友」「住了兩個月」「宿營同一小隊」（宿營還沒去）這些回頭看的列',xs.every(([id,a])=>!a.some(t=>/回到法律系以後|那年的室友|住了兩個月|宿營同一小隊|走啦」群組/.test(t))),J(xs));
-      const W6=id=>WHOIS.lines(G,id);
-      check('5. AA_543 第 6 節：9/2 搬進 412 以後（現在式）：阿勳「…經濟系，跟你同班。」「男宿 412 的室友。」；韋綸、唐睿「男宿 412 的室友，九月二號搬進來的。」；品妤「曾品妤。經濟系，跟你同班。」',
-        J(W6('econ_zhengxun'))===J(['盧正勳，大家叫他阿勳。經濟系，跟你同班。','男宿 412 的室友。'])&&J(W6('econ_weilun'))===J(['邱韋綸。經濟系，跟你同班。口頭禪「走啦！」','男宿 412 的室友，九月二號搬進來的。'])&&J(W6('econ_tangrui'))===J(['唐睿。經濟系，跟你同班。','男宿 412 的室友，九月二號搬進來的。'])&&W6('econ_pinyu')[0]==='曾品妤。經濟系，跟你同班。',J(xs));
-      G.flags.ECON_CAMP_DONE=true;
-      check('5. 經濟系宿營過了：阿勳、韋綸「經濟系宿營同一小隊。」（在室友那一行前面，照表）',J(W6('econ_zhengxun'))===J(['盧正勳，大家叫他阿勳。經濟系，跟你同班。','經濟系宿營同一小隊。','男宿 412 的室友。'])&&J(W6('econ_weilun').slice(0,3))===J(['邱韋綸。經濟系，跟你同班。口頭禪「走啦！」','經濟系宿營同一小隊。','男宿 412 的室友，九月二號搬進來的。']),J([W6('econ_zhengxun'),W6('econ_weilun')]));
-      PHONE.join(G,'econ_friends','走啦');
-      check('5. 在「走啦」群組：韋綸「「走啦」群組是他建的。」、品妤「「走啦」群組裡也有她。」',W6('econ_weilun').includes('「走啦」群組是他建的。')&&W6('econ_pinyu').includes('「走啦」群組裡也有她。'),J([W6('econ_weilun'),W6('econ_pinyu')]));
-      G.flags.Y0_MOVED_OUT=true;
-      check('5. 退宿以後（Y0_MOVED_OUT）：三個人都換成「男宿 412 的室友，住了兩個月。」，原本那一行拿掉',['econ_zhengxun','econ_weilun','econ_tangrui'].every(id=>W6(id).includes('男宿 412 的室友，住了兩個月。')&&!W6(id).some(t=>/^男宿 412 的室友(。|，九月)/.test(t))),J(['econ_zhengxun','econ_weilun','econ_tangrui'].map(W6)));
-      G.stage='law'; G.flags.PLAYED_Y0=true;
-      check('5. 轉進法律系以後（stage law）：照第 2 節（「你經濟系那年的室友，男宿 412，住了兩個月。」、名字那一行「經濟系。」），沒有「_e」那幾列',J(W6('econ_zhengxun').slice(0,3))===J(['盧正勳，大家叫他阿勳。經濟系。','你經濟系那年的室友，男宿 412，住了兩個月。','經濟系宿營同一小隊。'])&&!['econ_zhengxun','econ_weilun','econ_tangrui','econ_pinyu'].some(id=>W6(id).some(t=>/跟你同班。|九月二號搬進來|^男宿 412 的室友/.test(t))),J(['econ_zhengxun','econ_weilun','econ_tangrui','econ_pinyu'].map(W6)));
-      G.stage='econ'; for(const k of ['ECON_CAMP_DONE','Y0_MOVED_OUT','PLAYED_Y0']) delete G.flags[k]; }
+  await sec(5,()=>{ 
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 5 項 經濟系那一年本身（stage econ）的寫法（「_e」那幾列）和轉進法律系）
     const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); check('5. knownIds 認 FIRST_MET（朋友清單）',/function knownIds\(\)\{[^\n]*SOCIAL\.has\(id,'FIRST_MET'\)/.test(g)); });
 
   /* ===== 第 6 節：最多 8 行、不擠掉的、換說法 ===== */
   await sec(6,()=>{ save('2028-06-10',{DORM_FOUR:true,ROOM_Y2:D('2026-09-06'),ROOM_Y3:D('2027-09-05'),CAMP_BUS:'zhe',ZHE_CALLS_GE:true,noodleTableDay:D('2025-09-11'),ZHE2:'study',YU_ZHE_TOLD:'here',ZHE3:true,FINAL_GAME_Y3:'went',CLUB_dept_basketball:true},['zhe']); done('ev_zhe_game_y2');
     const z=L('zhe');
     check('6. 阿哲到大三下什麼都發生了（5-1）：8 行＝全名、宿營（撕名牌）、室友（含大三搬走）、哥、系籃（17 號、隊長）、陪念、和 Alison 在一起、冠軍賽；最舊的「群組是他建的」「你也在系籃」被擠掉',
-      z.length===8&&J(z)===J(['張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。','宿營撕名牌，撕掉你名牌的那個。','室友：大一 203、大二 312。大三起他搬去別間。','知道你比大家大一歲以後，他都叫你「哥」。','打系籃，17 號。大三當上隊長。','大二上他民法差點被當，你陪他念了四個禮拜。','大二上學期末，他和 Alison 在一起了。','大三下的冠軍賽贏了。你在場邊。']),J(z));
+      z.length===8&&J(z)===J(['張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。','宿營撕名牌，撕掉你名牌的那個。','室友：大一 203、大二 312。大三起他搬去別間。','知道你學測數學滿級分以後，他都叫你「哥」。','打系籃，17 號。大三當上隊長。','大二上他民法差點被當，你陪他念了四個禮拜。','大二上學期末，他和 Alison 在一起了。','大三下的冠軍賽贏了。你在場邊。']),J(z));
     W().MAX=99; const all=L('zhe'); W().MAX=8;
-    check('6. 不限行數時的順序（照稿）：…室友 → 哥 → 群組（AA_623：名字一律「桌遊團」，原本照當學年）→ 系籃 → 你也在系籃 → 陪念 → Alison → 冠軍賽；沒有單獨的「大三當上系籃隊長。」',J(all.slice(3))===J(['知道你比大家大一歲以後，他都叫你「哥」。','常揪大家吃飯。群組「桌遊團」是他建的。','打系籃，17 號。大三當上隊長。','你也在系籃，幫忙記分。','大二上他民法差點被當，你陪他念了四個禮拜。','大二上學期末，他和 Alison 在一起了。','大三下的冠軍賽贏了。你在場邊。'])&&!all.includes('大三當上系籃隊長。'),J(all));
+    check('6. 不限行數時的順序（照稿）：…室友 → 哥 → 群組（AA_623：名字一律「桌遊團」，原本照當學年）→ 系籃 → 你也在系籃 → 陪念 → Alison → 冠軍賽；沒有單獨的「大三當上系籃隊長。」',J(all.slice(3))===J(['知道你學測數學滿級分以後，他都叫你「哥」。','常揪大家吃飯。群組「桌遊團」是他建的。','打系籃，17 號。大三當上隊長。','你也在系籃，幫忙記分。','大二上他民法差點被當，你陪他念了四個禮拜。','大二上學期末，他和 Alison 在一起了。','大三下的冠軍賽贏了。你在場邊。'])&&!all.includes('大三當上系籃隊長。'),J(all));
     W().MAX=3; const k3=L('zhe'); W().MAX=8;
-    check('6. 永遠不擠掉（5-1）：上限再小，①②、哥、在一起那一行都還在（能擠的擠完就全部顯示）',J(k3)===J(['張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。','宿營撕名牌，撕掉你名牌的那個。','室友：大一 203、大二 312。大三起他搬去別間。','知道你比大家大一歲以後，他都叫你「哥」。','大二上學期末，他和 Alison 在一起了。']),J(k3));
+    check('6. 永遠不擠掉（5-1）：上限再小，①②、哥、在一起那一行都還在（能擠的擠完就全部顯示）',J(k3)===J(['張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。','宿營撕名牌，撕掉你名牌的那個。','室友：大一 203、大二 312。大三起他搬去別間。','知道你學測數學滿級分以後，他都叫你「哥」。','大二上學期末，他和 Alison 在一起了。']),J(k3));
     save('2027-03-10',{ZHE3:false},['zhe']); done('ev_zhe_game_y2'); check('6. 演過 ev_zhe_game_y2、還沒當隊長：「打系籃，17 號。」',has('zhe','打系籃，17 號。'),J(L('zhe')));
     save('2025-09-11',{noodleTableDay:D('2025-09-11')}); H.G.hour=19; check('6. 群組那天 21:00 以前還沒建：沒有群組那一行',!L('zhe').some(t=>/群組/.test(t)),J(L('zhe')));
     save('2026-10-20',{PEISHAN_BOHAN_SPLIT:true},['classmate_bohan']); check('6. 柏翰：沛珊分開以後只有「大一下他和沛珊在一起過，大二上分開了。」',has('classmate_bohan','大一下他和沛珊在一起過，大二上分開了。')&&!has('classmate_bohan','大一下，他和沛珊在一起了。'),J(L('classmate_bohan')));
@@ -172,7 +156,7 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     H.G.termend={Y2S2:{done:{who:'zhe',kind:'friend',day:H.G.day}}}; check('7. 對照：大二下期末飯和別人吃＝沒有「宜蘭人。」',!has('kai','宜蘭人。'));
     save('2025-10-20',{}); H.G.flags.AA519={talk:{npc_huangxh:{said:{y1_1:H.G.day}}}}; check('7. 筱涵：聽過「我跟語彤高中同班。」（AA519 閒聊大一第 2 句）＝「跟語彤高中同班。」',J(L('npc_huangxh'))===J(['黃筱涵。心理系。','大一上通識「電影與敘事」同一班。','跟語彤高中同班。']),J(L('npc_huangxh')));
     save('2025-10-20',{}); const f1=has('npc_fangyt','大二他搬出宿舍了。'); save('2026-10-20',{}); check('7. 方奕廷：大一沒有、大二起「大二他搬出宿舍了。」',!f1&&has('npc_fangyt','大二他搬出宿舍了。'));
-    save('2028-06-10',{}); H.G.msgs=[{tag:'b106_42_photo',th:'g:econ',text:'x',day:H.G.day,h:21}]; check('7. 品妤、唐睿：收過畢業照那則（b106_42_photo）＝「她和唐睿在一起了。」「他和品妤在一起了。」',has('econ_pinyu','她和唐睿在一起了。')&&has('econ_tangrui','他和品妤在一起了。')); });
+    /* 7. 舊序章人物的畢業照那一行（CANON-NO-ECON-1112 第三批：這一項拿掉） */ });
 
   H.done();
 })();

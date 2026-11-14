@@ -55,8 +55,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     check('慈 2（none）：「自學過一點。」→「自學的人，第三章懂嗎？」「懂一半。」「一半也好。」→ half',L.includes('芯慈：自學的人，第三章懂嗎？')&&L.includes('祐廷：懂一半。')&&G.flags.ECON_PAST_SHARED==='half',JSON.stringify(L));
     L=await go({},[3,2]);
     check('慈 2：「第三章我也還在念。」→「……好，不說也行。」→ 不變（還是沒有）、也對經濟題',L.includes('芯慈：……好，不說也行。')&&G.flags.ECON_PAST_SHARED===undefined&&SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L));
-    L=await go({P4B_SEEN:true},[3,2]);
-    check('慈 2：有 P4B_SEEN 的玩家：「上次問你，你只笑。這次是第三章，你總要說了吧。」（不問「你怎麼這麼熟」）',L.includes('芯慈：上次問你，你只笑。這次是第三章，你總要說了吧。')&&!L.some(t=>/你怎麼這麼熟/.test(t)),JSON.stringify(L));
+    /* 慈 2：有 P4B_SEEN 的玩家（設它的事件拿掉）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
     L=await go({},[2]);
     check('慈 2：原本的三個選項照舊（「妳為什麼要雙主修？」→ AA_547 兩句「我喜歡財金。……」「……我爸媽都是律師。……」→ 謝謝）、沒有 ECON_TOGETHER',L.includes('芯慈：我喜歡財金。看財報比看小說好看。')&&L.includes('芯慈：……我爸媽都是律師。他們說，念我喜歡的就好。')&&!L.some(t=>/會計師|會餓死/.test(t))&&L[L.length-1]==='芯慈：謝謝。我要繼續讀了。'&&!SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L)); }
   /* ---------- 語彤 6 房東來過了（C12；AA_11 事件 6）---------- */
@@ -82,7 +81,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       let L=await play(0);
       check('學姊 W4：旁白兩句（AA_261：「她在寫考古題」）；三個選項（原文）',L[0]==='她在寫考古題，左手拿著保溫瓶，喝了一口。又喝了一口。'&&L[1]==='保溫瓶是空的。她已經對著空瓶喝了三次。'&&JSON.stringify(opts[0])==='["「學姊，妳的保溫瓶是空的。」","（去 Café 買一杯黑咖啡，放在她桌上）","（什麼都不說）"]',JSON.stringify([L.slice(0,2),opts[0]]));
       check('學姊 W4 選 1：「……喔。」「我早上九點裝的。我以為我還沒喝完。」（她笑出來。）「這件事很蠢。你看到了，就算了。」、NOTICED_HER',L.some(t=>/……喔。$/.test(t))&&L.some(t=>/我早上九點裝的。我以為我還沒喝完。$/.test(t))&&L.includes('（她笑出來。）')&&L.some(t=>/這件事很蠢。你看到了，就算了。$/.test(t))&&SOCIAL.has('heroine_05','NOTICED_HER')&&!L.some(t=>/不要跟/.test(t)),JSON.stringify(L.slice(2)));
-      L=await play(1); check('學姊 W4 選 2：「……你翹課？」你「下課了。」「……好。」（她把咖啡倒進保溫瓶。）、HELPED',L.some(t=>/……你翹課？$/.test(t))&&L.includes('祐廷：下課了。')&&L.includes('（她把咖啡倒進保溫瓶。）')&&SOCIAL.has('heroine_05','HELPED'),JSON.stringify(L.slice(2)));
+      L=await play(1); check('學姊 W4 選 2：「你翹課？」你「下課了。」「……好。」（她把咖啡倒進保溫瓶。）、HELPED',L.some(t=>/你翹課？$/.test(t))&&L.includes('祐廷：下課了。')&&L.includes('（她把咖啡倒進保溫瓶。）')&&SOCIAL.has('heroine_05','HELPED'),JSON.stringify(L.slice(2)));
       L=await play(2); check('學姊 W4 選 3：她自己發現去裝水；「你看到了吧。」你「……沒有。」「說謊的時候，不要看別的地方。」、NOTICED_HER',L.includes('（她自己發現，起身去裝水。）')&&L.some(t=>/你看到了吧。$/.test(t))&&L.includes('祐廷：……沒有。')&&L.some(t=>/說謊的時候，不要看別的地方。$/.test(t))&&SOCIAL.has('heroine_05','NOTICED_HER'),JSON.stringify(L.slice(2)));
       check('學姊 W4：只一次',!EVENTS.check(e)); } }
   /* ---------- 子晴 Q4 比賽那天（BB_96 4-1 改寫）---------- */
@@ -94,9 +93,9 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       let L=await play(0);
       check('子晴 Q4：旁白「（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）」＋三句（第三罐咖啡）；三個選項（原文）',L[0]==='（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'&&/……今天是那個比賽。系上的人現在都在會場。$/.test(L[1])&&/我在這裡喝第三罐咖啡。$/.test(L[2])&&/你說，我是不是很爛。$/.test(L[3])&&JSON.stringify(opts[0])==='["「妳不想去，就不是爛。」","「現在去還來得及嗎？」","（陪她喝第四罐）"]',JSON.stringify([L.slice(0,4),opts[0]]));
       const m=SOCIAL.memories('heroine_04').find(x=>x.tag==='CONTEST_DAY');
-      check('子晴 Q4 選 1：「……你這樣講，好像我很勇敢。」（她笑。）「我只是怕輸。」→「……第四罐。你請。」、CONTEST_DAY（比賽那天，公館騎樓）',L.some(t=>/……你這樣講，好像我很勇敢。$/.test(t))&&L.includes('（她笑。）')&&L.some(t=>/我只是怕輸。$/.test(t))&&/……第四罐。你請。$/.test(L[L.length-1])&&!!m&&m.note==='比賽那天，公館騎樓'&&!L.some(t=>/來不及|你也喝/.test(t)),JSON.stringify(L.slice(4)));
-      L=await play(1); check('子晴 Q4 選 2：「來不及了。第一輪已經結束了。」（她把手機蓋在長椅上。）「……好爽。好爛。兩個都有。」→ 第四罐、CONTEST_DAY',L.some(t=>/來不及了。第一輪已經結束了。$/.test(t))&&L.includes('（她把手機蓋在長椅上。）')&&L.some(t=>/……好爽。好爛。兩個都有。$/.test(t))&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|你也喝/.test(t)),JSON.stringify(L.slice(4)));
-      L=await play(2); check('子晴 Q4 選 3：「欸不是，你也喝？」你「嗯。」「……你很奇怪。」（她第一次沒有吐槽下去。）→ 第四罐、CONTEST_DAY',L.some(t=>/欸不是，你也喝？$/.test(t))&&L.includes('祐廷：嗯。')&&L.some(t=>/……你很奇怪。$/.test(t))&&L.includes('（她第一次沒有吐槽下去。）')&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|來不及/.test(t)),JSON.stringify(L.slice(4)));
+      check('子晴 Q4 選 1：「……你這樣講，好像我很勇敢。」（她笑。）「我只是怕輸。」→「第四罐。你請。」、CONTEST_DAY（比賽那天，公館騎樓）',L.some(t=>/……你這樣講，好像我很勇敢。$/.test(t))&&L.includes('（她笑。）')&&L.some(t=>/我只是怕輸。$/.test(t))&&/第四罐。你請。$/.test(L[L.length-1])&&!!m&&m.note==='比賽那天，公館騎樓'&&!L.some(t=>/來不及|你也喝/.test(t)),JSON.stringify(L.slice(4)));
+      L=await play(1); check('子晴 Q4 選 2：「來不及了。第一輪已經結束了。」（她把手機蓋在長椅上。）「……好爽。好爛。兩個都有。」→ 第四罐、CONTEST_DAY',L.some(t=>/來不及了。第一輪已經結束了。$/.test(t))&&L.includes('（她把手機蓋在長椅上。）')&&L.some(t=>/……好爽。好爛。兩個都有。$/.test(t))&&/第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|你也喝/.test(t)),JSON.stringify(L.slice(4)));
+      L=await play(2); check('子晴 Q4 選 3：「欸不是，你也喝？」你「嗯。」「你很奇怪。」（她第一次沒有吐槽下去。）→ 第四罐、CONTEST_DAY',L.some(t=>/欸不是，你也喝？$/.test(t))&&L.includes('祐廷：嗯。')&&L.some(t=>/你很奇怪。$/.test(t))&&L.includes('（她第一次沒有吐槽下去。）')&&/第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|來不及/.test(t)),JSON.stringify(L.slice(4)));
       const T=JSON.stringify(e.dialogue);
       check('子晴 Q4：舊版刪掉的選項「有一點。但明年還有。」與舊的 IMPORTANT_CONVERSATION 備註都不在；錢：罐裝咖啡 −35，「陪她喝第四罐」再 −35（BB 382e9e2）',!/有一點。但明年還有。/.test(T)&&!/IMPORTANT_CONVERSATION/.test(T)&&e.consequences&&e.consequences.money===-35&&e.dialogue.find(l=>l.choice).choice.find(c=>c.text==='（陪她喝第四罐）').consequences.money===-35&&!e.dialogue.find(l=>l.choice).choice[0].consequences.money);
       check('子晴 Q4：只一次',!EVENTS.check(e));
@@ -113,10 +112,10 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       check('子晴 Q6：三句（AA_209 附錄B §2）；知道比賽的玩家三個選項是「貓為什麼要找插座？」「這比比賽有用多了。」「總圖二樓靠窗那排的插座是壞的。」',/（把筆電轉過來）欸，你幫我玩一下，現在。$/.test(L[0])&&/一隻在校園裡找插座的貓，我做半年了。$/.test(L[1])&&/還沒給別人玩過。阿凱看過，可是他是工程師，不算。$/.test(L[2])&&JSON.stringify(opts[0])==='["「貓為什麼要找插座？」","「這比比賽有用多了。」","「總圖二樓靠窗那排的插座是壞的。」"]',JSON.stringify([L.slice(0,3),opts[0]]));
       check('子晴 Q6：三句之後是找插座的三句旁白（BB b395706）、然後才選',L[3]==='（你接過筆電。一隻灰白色的小貓，脖子掛著一支沒電的手機。）'&&L[4]==='（你點了三個地方：文學院的走廊、法律系館A的穿堂、總圖二樓靠窗那排。）'&&L[5]==='（最後一個插座，貓坐下來，手機上的電池滿了。剛好三十秒。）',JSON.stringify(L.slice(3,6)));
       check('子晴 Q6 選 1：「因為牠的手機沒電了。」（她說得很認真，然後自己笑到趴在桌上。）、PLAYTESTED、沒有 FIRST_BUG',L.some(t=>/因為牠的手機沒電了。$/.test(t))&&L.includes('（她說得很認真，然後自己笑到趴在桌上。）')&&SOCIAL.has('heroine_04','PLAYTESTED')&&!G.flags.FIRST_BUG,JSON.stringify(L.slice(3)));
-      L=await play(1,{flags:{}}); check('子晴 Q6 選 2（單身）：「……真的？那第二關做好，你再幫我玩。」（BB_167 SC3 #15（AB65-3：AA_211 附錄 B 第 5 節）；原本「你不要突然講這種話，我會當真。」；AA_525 1-2 再改，原「……真的？那你下禮拜再來，幫我玩第二關。」）',L.some(t=>/……真的？那第二關做好，你再幫我玩。$/.test(t))&&!L.some(t=>/我會當真/.test(t))&&!L.some(t=>/把它做完/.test(t))&&SOCIAL.has('heroine_04','PLAYTESTED'),JSON.stringify(L.slice(3)));
+      L=await play(1,{flags:{}}); check('子晴 Q6 選 2（單身）：「真的？那第二關做好，你再幫我玩。」（BB_167 SC3 #15（AB65-3：AA_211 附錄 B 第 5 節）；原本「你不要突然講這種話，我會當真。」；AA_525 1-2 再改，原「……真的？那你下禮拜再來，幫我玩第二關。」）',L.some(t=>/真的？那第二關做好，你再幫我玩。$/.test(t))&&!L.some(t=>/我會當真/.test(t))&&!L.some(t=>/把它做完/.test(t))&&SOCIAL.has('heroine_04','PLAYTESTED'),JSON.stringify(L.slice(3)));
       L=await play(1,{flags:{dating_kexin:true}}); check('子晴 Q6 選 2（交往中，AA_112 8-1）：「好，那我把它做完。做完你再玩一次。」（BB_167 SC3 #15（AB65-3：AA_211 附錄 B 第 5 節）；原本「你不要突然講這種話。我會真的把它做完。」）',L.some(t=>/好，那我把它做完。做完你再玩一次。$/.test(t))&&!L.some(t=>/第二關做好，你再幫我玩/.test(t)),JSON.stringify(L.slice(3)));
-      L=await play(2,{flags:{}}); check('子晴 Q6 選 3：（她愣住，打開程式碼。）「……真的假的。我加進去。」、FIRST_BUG（祐廷的第一個貢獻）、PLAYTESTED',L.includes('（她愣住，打開程式碼。）')&&L.some(t=>/……真的假的。我加進去。$/.test(t))&&G.flags.FIRST_BUG===true&&SOCIAL.has('heroine_04','PLAYTESTED'),JSON.stringify(L.slice(3)));
-      L=await play(1,{flags:{},mem:['CLAPPED']}); check('子晴 Q6：不知道比賽的玩家（只有 CLAPPED）第二個選項換成「這比我想的好玩。」',JSON.stringify(opts[0])==='["「貓為什麼要找插座？」","「這比我想的好玩。」","「總圖二樓靠窗那排的插座是壞的。」"]'&&L.some(t=>/……真的？那第二關做好，你再幫我玩。$/.test(t))/* BB_167 SC3 #15（AB65-3：AA_211 附錄 B 第 5 節）；AA_525 1-2 改句 */,JSON.stringify(opts[0]));
+      L=await play(2,{flags:{}}); check('子晴 Q6 選 3：（她愣住，打開程式碼。）「真的假的。我加進去。」、FIRST_BUG（祐廷的第一個貢獻）、PLAYTESTED',L.includes('（她愣住，打開程式碼。）')&&L.some(t=>/真的假的。我加進去。$/.test(t))&&G.flags.FIRST_BUG===true&&SOCIAL.has('heroine_04','PLAYTESTED'),JSON.stringify(L.slice(3)));
+      L=await play(1,{flags:{},mem:['CLAPPED']}); check('子晴 Q6：不知道比賽的玩家（只有 CLAPPED）第二個選項換成「這比我想的好玩。」',JSON.stringify(opts[0])==='["「貓為什麼要找插座？」","「這比我想的好玩。」","「總圖二樓靠窗那排的插座是壞的。」"]'&&L.some(t=>/真的？那第二關做好，你再幫我玩。$/.test(t))/* BB_167 SC3 #15（AB65-3：AA_211 附錄 B 第 5 節）；AA_525 1-2 改句 */,JSON.stringify(opts[0]));
       check('子晴 Q6：表情沒有 embarrassed（第一次留給 Q5）、沒有舊台詞「不准笑」「交出去」',!JSON.stringify(e.dialogue).includes("'embarrassed'")&&!/embarrassed/.test(JSON.stringify(e.dialogue))&&!/不准笑|交出去/.test(JSON.stringify(e.dialogue)));
       check('子晴 Q6：只一次',!EVENTS.check(e)); } }
   /* ---------- 阿凱 K2 工程師也是人（BB_96 4-3）---------- */
@@ -176,6 +175,6 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     const miss=[...used].filter(t=>!SOCIAL.MEMORY_LABEL[t]&&!(t.endsWith('_')&&Object.keys(SOCIAL.MEMORY_LABEL).some(k=>k.startsWith(t)&&SOCIAL.MEMORY_LABEL[k])));
     check('人物面板：遊戲裡用到的 '+used.size+' 種記憶都有中文名稱（ADJUST 不顯示）',used.size>30&&!miss.length,miss.join(' '));
     /* AA_344 第 3 節 ③④（2026-10-21）：KX7_LAST_TERM 換新名稱（social3d.js 優先於 ladder.js 匯入的舊名稱）；以安不延畢以後沒人用的 AN8_RETAKE、AN8_DIPLOMA 刪掉 */
-    check('人物面板：KX7_LAST_TERM＝「她怕畢業以後約吃飯要排半個月」（AA_344 ③）；AN8_RETAKE、AN8_DIPLOMA 已刪、遊戲裡也沒人記（AA_344 ④）',SOCIAL.MEMORY_LABEL.KX7_LAST_TERM==='她怕畢業以後約吃飯要排半個月'&&!('AN8_RETAKE' in SOCIAL.MEMORY_LABEL)&&!('AN8_DIPLOMA' in SOCIAL.MEMORY_LABEL)&&!used.has('AN8_RETAKE')&&!used.has('AN8_DIPLOMA'),JSON.stringify([SOCIAL.MEMORY_LABEL.KX7_LAST_TERM,SOCIAL.MEMORY_LABEL.AN8_RETAKE,SOCIAL.MEMORY_LABEL.AN8_DIPLOMA])); }
+    check('人物面板：KX7_LAST_TERM（可昕閒聊整組換新稿，拿掉）；AN8_RETAKE、AN8_DIPLOMA 已刪（CANON-NO-ECON-1112 第三批：這一項拿掉）',!('KX7_LAST_TERM' in SOCIAL.MEMORY_LABEL)&&!('AN8_RETAKE' in SOCIAL.MEMORY_LABEL)&&!('AN8_DIPLOMA' in SOCIAL.MEMORY_LABEL)&&!used.has('AN8_RETAKE')&&!used.has('AN8_DIPLOMA')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

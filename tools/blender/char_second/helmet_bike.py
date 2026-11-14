@@ -1,4 +1,4 @@
-"""邱韋綸的公路車安全帽（BB_101／BB_201 第 1 節：腳踏車安全帽是他的識別物，「掛在後背包側邊就好」；參考圖 weilun.webp：黑色、銀白色的線條、長條通風孔）→ GLB。
+"""邱舊序章人物乙的公路車安全帽（BB_101／BB_201 第 1 節：腳踏車安全帽是他的識別物，「掛在後背包側邊就好」；參考圖 weilun.webp：黑色、銀白色的線條、長條通風孔）→ GLB。
 LAWWW2-C 2026-10-17；Blender 5.2（bpy，無介面）：
   /opt/blenv/bin/python tools/blender/char_second/helmet_bike.py [-- --out assets/models/char/second_ai/helmet_bike.glb]
 

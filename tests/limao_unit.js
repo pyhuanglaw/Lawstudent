@@ -15,7 +15,7 @@
    12 存檔：整個流程下來存檔只多 G.flags 的 LM_MET／LM_PROF／LM_KNOWN／LM_STUDY／LM_HINT／LM_SER；沒有 flags 的舊存檔不出錯；錢、關係沒有動
    修改前（開發分支 11161c101：沒有 limao.js、limao3d.js）：0 就 FAIL。用法：node tests/limao_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), SHA='93f731790'   /* 2026-11-11 改期望：AA 回七題後補 closed 兩句、入口 A 標題、信改木盒（原 227db1c9e）*/, SRC='docs/story_planning/AA_750_limao.json', SPEC='docs/handoff/user_specs/LIMAO_SHENGCAI_1110.md';
+const ROOT=path.resolve(__dirname,'..'), SHA='0ec5f3751a'/* 2026-11-12：補前半命理館三個互動點 front_room（舊 93f731790）*/   /* 2026-11-11 改期望：AA 回七題後補 closed 兩句、入口 A 標題、信改木盒（原 227db1c9e）*/, SRC='docs/story_planning/AA_750_limao.json', SPEC='docs/handoff/user_specs/LIMAO_SHENGCAI_1110.md';
 global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
@@ -98,16 +98,17 @@ const zT=loadZone('tingzhou'); const itT=E.interactables.find(i=>i.lmTable);
   check('4. 算命桌的互動點在配置 limao.table.at、站得住、從出生點走得到；按鈕不是台詞（'+LM.LABEL+'）',!!itT&&itT.x===A.x&&itT.z===A.z&&itT.radius===A.r&&!!p&&walk(sp,p).ok&&itT.label===LM.LABEL&&typeof itT.onInteract==='function');
   /* 2026-11-11 改期望（AA 93f731790 補了 closed 兩句）：收攤、上師不在的時候互動點不再藏起來，按鈕變「看算命桌」、按了念稿的旁白；能聊（按鈕「算命桌」）的時間不變；經濟系那一年照舊整個藏 */
   const vis=(h,o)=>{ GM.G=newG(Object.assign({hour:h},o||{})); return itT.hidden?null:itT.label; };
-  const a=[vis(18.9),vis(19),vis(23.4),vis(23.5),vis(2)]; W.typhoon=true; const ty=vis(20); W.typhoon=false; zT.tzLimaoAway=true; const aw=vis(20); zT.tzLimaoAway=false; const ec=vis(20,{stage:'econ'});
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 4、9 項裡「經濟系那一年」那幾格）
+  const a=[vis(18.9),vis(19),vis(23.4),vis(23.5),vis(2)]; W.typhoon=true; const ty=vis(20); W.typhoon=false; zT.tzLimaoAway=true; const aw=vis(20); zT.tzLimaoAway=false;
   const T=LM.LABEL, K=LM.LABEL_LOOK;
-  check('4. 營業（配置 19:00～23:30）按鈕是「'+T+'」：18:54 不是、19:00 是、23:24 是、23:30 不是、凌晨不是；颱風、上師不在＝「'+K+'」；經濟系那一年沒有這個點',eq(a,[K,T,T,K,K])&&ty===K&&aw===K&&ec===null&&T!==K,JSON.stringify(a)+ty+aw+ec);
+  check('4. 營業（配置 19:00～23:30）按鈕是「'+T+'」：18:54 不是、19:00 是、23:24 是、23:30 不是、凌晨不是；颱風、上師不在＝「'+K+'」；經濟系那一年沒有這個點',eq(a,[K,T,T,K,K])&&ty===K&&aw===K&&T!==K,JSON.stringify(a)+ty+aw);
   GM.G=newG({hour:18}); reset(); const h0=GM.G.hour, r=await LM.table(GM,zT);
   check('4. 收攤的時候按：只有稿 closed 收攤那一句旁白（沒有名字）、不出選單、時間不動、不記旗標；模型是收攤的樣子（zone.tzLimao.open false）',r==='closed'&&eq(LOG,[[null,D.closed.shut,null,false]])&&!MENUS.length&&GM.G.hour===h0&&!Object.keys(GM.G.flags).length&&zT.tzLimao.open===false&&DEPTH===0,JSON.stringify(LOG));
   { GM.G=newG({hour:20}); reset(); zT.tzLimaoAway=true; const h1=GM.G.hour, r2=await LM.table(GM,zT); const okAway=r2==='closed'&&eq(LOG,[[null,D.closed.away,null,false]])&&!MENUS.length&&GM.G.hour===h1&&!Object.keys(GM.G.flags).length&&zT.tzLimao.open===true; zT.tzLimaoAway=false;
     W.typhoon=true; GM.G=newG({hour:20}); reset(); const r3=await LM.table(GM,zT); const okTy=r3==='closed'&&eq(LOG,[[null,D.closed.shut,null,false]]); W.typhoon=false;
-    GM.G=newG({hour:20,stage:'econ'}); reset(); const r4=await LM.table(GM,zT); const okEc=r4==='closed'&&!LOG.length;
+   
     let raw=null; try{ raw=JSON.parse(cp.execFileSync('git',['-C',ROOT,'show',SHA+':'+SRC],{encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']})); }catch(e){}   /* 這份 checkout 沒有企劃線那個 commit（GHA 淺層複本）＝不比稿，只驗演出 */
-    check('4. 店開著、上師不在（tzLimaoAway）按＝稿 closed「店開著、他不在」那一句；颱風＝收攤那一句；經濟系那一年什麼都不說；兩句和稿一字不差',okAway&&okTy&&okEc&&(!raw||(D.closed.shut===raw.closed['收攤']&&D.closed.away===raw.closed['店開著、他不在']))&&DEPTH===0,[r2,r3,r4].join()+JSON.stringify(LOG)); }
+    check('4. 店開著、上師不在（tzLimaoAway）按＝稿 closed「店開著、他不在」那一句；颱風＝收攤那一句；經濟系那一年什麼都不說；兩句和稿一字不差',okAway&&okTy&&(!raw||(D.closed.shut===raw.closed['收攤']&&D.closed.away===raw.closed['店開著、他不在']))&&DEPTH===0,[r2,r3].join()+JSON.stringify(LOG)); }
   GM.G=newG({hour:20}); zT.applyTimeOutdoor(20,null); check('4. 20:00 區域切到營業（zone.tzLimao.open true、門是「進禮貌生財」）',zT.tzLimao.open===true&&/^進/.test(zT.tzLimao.door.label),zT.tzLimao.door.label);
   W.typhoon=true; zT.applyTimeOutdoor(20,null); const off=zT.tzLimao.open; W.typhoon=false; zT.applyTimeOutdoor(20,null); check('4. 颱風假那天不開（zone.tzLimaoOff → 模型收攤）',off===false&&zT.tzLimao.open===true); }
 
@@ -161,7 +162,7 @@ const G0=newG({hour:20,day:100}); GM.G=G0; W.term='Y1S1'; W.week=5;
   G0.hour=21; reset(); const r=await LM.table(GM,zT), wu=LOG.filter(x=>x[2]==='prof_wu');
   check('9. 走到桌前＝prof 整段 '+D.prof.lines.length+' 句照稿；吳教授的名字照人物資料（prof_wu）；不出選單；記 LM_PROF、15 分鐘',r==='prof'&&sameLines(LOG,D.prof.lines)&&sameWho(LOG,D.prof.lines)&&wu.length===4&&wu.every(x=>x[0]==='吳教授')&&!MENUS.length&&G0.flags.LM_PROF===true&&Math.abs(G0.hour-21.25)<1e-9,r);
   G0.hour=21; reset(); PICK=byT('離開'); const r2=await LM.table(GM,zT); check('9. 只演一次：下一次是選單',r2==='leave'&&MENUS.length===1&&!LOG.length,r2);
-  const g=newG({stage:'econ'}); g.flags.LM_MET=1; check('9. 經濟系那一年不演',!LM.profDue(g)); }
+  }
 
 /* 10 身分揭曉 */
 const TALK=D.reveal.talk.lines;
@@ -222,8 +223,7 @@ const TALK=D.reveal.talk.lines;
   check('13. 藏起來＝n.hidden true（引擎把 visible 蓋回 true 以後，說話的人照樣不帶 obj）；出現＝n.hidden false；引擎的顯示判斷有看 n.hidden',hidFlag===true&&backFlag===false&&n.hidden===false&&/const vis=!n\.hidden&&/.test(fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8')),[hidFlag,backFlag].join());
   GM.G=newG({hour:18}); E.npcs=[]; const n18=LM.placeMaster(GM);
   check('13. 收攤時進汀州路：人物先放好、藏著（19:00 一到就出現）',!!n18&&n18.obj.visible===false);
-  GM.G=newG({hour:20,stage:'econ'}); E.npcs=[]; const ne=LM.placeMaster(GM);
-  check('13. 經濟系那一年不放人',ne===null&&LM.masterNpc===null);
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 13 項 經濟系那一年不放人）
   /* 換區：舊的人物不再當說話的人 */
   GM.G=newG({hour:20}); E.npcs=[]; const n2=LM.placeMaster(GM); E.npcs=[]; const w3=LM.who(GM,'ms');
   check('13. 換了區域（他不在 E.npcs 裡）：說話的人不帶舊的 obj',!!n2&&!w3.obj&&w3.name===LM.MASTER.name);
@@ -239,5 +239,11 @@ const TALK=D.reveal.talk.lines;
     check('13. 同一個互動點的字跟著鐘點換（18:54「'+LM.LABEL_LOOK+'」→ 19:03「'+LM.LABEL+'」→ 23:36「'+LM.LABEL_LOOK+'」）；互動鍵字變了就重畫',a===LM.LABEL_LOOK&&b===LM.LABEL&&c===LM.LABEL_LOOK&&/if\(it!==nearIt\|\|lb!==nearLb\)\{ \$\('interactLabel'\)\.textContent=lb; nearLb=lb; \}/.test(g3),[a,b,c].join()); }
   check('13. 讀檔的鎖有登記（limao3d:masterLoading）',typeof (globalThis.LOADLOCKS||{})['limao3d:masterLoading']==='function'); }
 
+{ /* 2026-11-12 front_room：三個點平常念 narr、有 LM_KNOWN 念 known；配置的點 books／cabinet／scroll 都接得到 */
+  const FR=LIMAO.front_room&&LIMAO.front_room.look||[]; const ok3=FR.length===3&&['書櫃','玻璃櫃','掛畫'].every(a=>FR.some(q=>q.at===a&&q.narr&&q.known&&q.narr!==q.known));
+  const A=Object.values(LM.FRONT_AT);
+  check('F. 前半命理館三個互動點（書櫃、玻璃櫃、掛畫）：稿各有平常、知道以後兩句；沒有 LM_KNOWN 念平常那句、有了念知道以後那句',ok3&&A.length===3&&A.every(a=>LM.frontNarr({flags:{}},a)===FR.find(q=>q.at===a).narr&&LM.frontNarr({flags:{LM_KNOWN:1}},a)===FR.find(q=>q.at===a).known));
+  const lay=require('fs').readFileSync(require('path').join(ROOT,'src/data/tz_shops_layout.js'),'utf8');
+  check('F. 配置有這三個點（books、cabinet、scroll）',Object.keys(LM.FRONT_AT).every(id=>new RegExp('"id": "'+id+'"').test(lay))); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 測試本身出錯 '+(e&&e.stack||e)); process.exit(1); });

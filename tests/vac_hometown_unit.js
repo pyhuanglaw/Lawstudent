@@ -44,7 +44,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('1 例外. 沛珊 6/20、7/5 還在臺北（C02 營隊），7/6 回台中',b.kind!=='home'&&c.kind!=='home'&&d.kind==='home'&&d.home==='台中',J([b.kind,c.kind,d.kind]));
     check('1 例外. 只限那個暑假：寒假 2025-12-22 沛珊照舊在台中；可昕 6/20 在高雄',pr('classmate_peishan','2025-12-22').kind==='home'&&pr('kexin','2026-06-20').kind==='home'); }
   check('1. 學期中 2026-03-10：都在臺北',pr('kexin','2026-03-10').here===true&&pr('classmate_peishan','2026-03-10').here===true);
-  check('1. 經濟系那年的寒假（2025-01-20）不算（照 AA_272）',pr('kexin','2025-01-20','econ').here===true&&STORY.homeAway({day:DK('2025-01-20')})===false);
+  check('1. 大一上開學以前（2025-01-20）不算寒假回老家（CANON-1112：舊序章拿掉／可昕開局不認識——她大一上才到學校，那一天是「還沒到學校」不是「在高雄老家」；原本期望那一天她在臺北）',pr('kexin','2025-01-20').kind!=='home'&&STORY.homeAway({day:DK('2025-01-20')})===false);
   check('1. 其他人不受影響：以安 2026-07-10 照舊',pr('heroine_01','2026-07-10').kind!=='home');
   // 2. 作息：放假在臺北不會出現
   { const g=law('2026-07-10',15); const e=STORY.schedEnt?STORY.schedEnt(CHARACTERS.kexin,g):null; check('2. 暑假的作息：可昕不在臺北的任何區域（schedEnt 沒有 zone）',!e||!e.zone,J(e)); }
@@ -118,9 +118,9 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2027-07-14',20,{C14_VISITED:DK('2026-12-30')}); R(xc,30,20,20); SOCIAL.remember(xc,'FIRST_MET'); G.contacts[xc]=G.day-300; step('2027-07-05',18.5); step('2027-07-14',22);
     check('8. 去過 C14 的玩家：第二句換「就像你在我家事務所看到的白板。現在是我排的。」（AA_549 2-1）',txt('p:'+xc).includes(xc+':就像你在我家事務所看到的白板。現在是我排的。'));
     law('2027-07-05',17); step('2027-07-05',18.5); check('8. 不熟（沒有 FAMILIAR）：收不到',!txt('p:'+xc).length); }
-  // 9. VA-10 麵店團出國：香港（AA_256 第 2 節）：7/20 21:00 群組揪 → 我也去 → 8/25 出發的行程；三場（以安交往中最後一晚多一句）；8/28 21:00 群組四則。沒去：阿哲一句、地鐵門外 Alison 的照片、最後「欠一次」
+  // 9. VA-10 桌遊團出國：香港（AA_256 第 2 節）：7/20 21:00 群組揪 → 我也去 → 8/25 出發的行程；三場（以安交往中最後一晚多一句）；8/28 21:00 群組四則。沒去：阿哲一句、地鐵門外 Alison 的照片、最後「欠一次」
   { const step=(k,h)=>{ G.day=DK(k); G.weekday=wdOf(G.day); G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); }, g='g:noodle_team';
-    law('2027-07-20',20,{dating_heroine_01:true}); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2);
+    law('2027-07-20',20,{dating_heroine_01:true}); PHONE.join(G,'noodle_team','桌遊團'); step('2027-07-20',21.2);
     const L=TH(g).filter(m=>!/^dorm_lottery/.test(m.tag||'')), last=L.slice(-1)[0]; check('9. 7/20 21:00 群組十則（阿哲揪…語彤「你們拍蛋塔給我看」（AA_678 第 5 列）），最後一則可以回「我也去。／我那幾天不行。」',L.length===10&&/拍蛋塔給我看/.test(last.text)&&last.ask&&last.ask.opts.map(o=>o.t).join('|')==='我也去。|我那幾天不行。',J(L.map(m=>m.text)));
     /* AA_369 H1：以安 8/9～8/27 在京都，不去香港——她「我那幾天在京都。你們去，拍照給我。」；排行程的兩句改柏翰（沒有「可以。」）*/
     const who=t=>(L.find(m=>m.text===t)||{}).from;
@@ -133,11 +133,11 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const AN=TH('p:heroine_01').find(m=>m.tag==='va10_dm_heroine_01');
     check('9. AA_369 H1：和以安交往中，8/27 21:00 她私訊「📷（京都車站的月台）」「明天回去。……香港好玩嗎？」',!!AN&&AN.day===DK('2027-08-27')&&AN.h===21&&J(TH('p:heroine_01').filter(m=>m.tag==='va10_dm_heroine_01').map(m=>m.text))===J(['📷（京都車站的月台）','明天回去。……香港好玩嗎？']),J(TH('p:heroine_01').map(m=>[m.day,m.h,m.text,m.tag])));
     q.state='done'; step('2027-08-28',21.5); const B=TH(g).map(m=>m.text); check('9. 8/28 晚上群組四則（兩盒蛋塔…語彤「茶點用得比較少」，AA_627 A-314），去了的沒有「欠一次」',B.some(t=>/兩盒蛋塔/.test(t))&&B.some(t=>/茶點用得比較少/.test(t))&&!B.some(t=>/欠一次/.test(t)),J(B.slice(-4)));
-    law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); PHONE.answer(G,'va10_ask',1);
+    law('2027-07-20',20); PHONE.join(G,'noodle_team','桌遊團'); step('2027-07-20',21.2); PHONE.answer(G,'va10_ask',1);
     check('9. 回「我那幾天不行。」→ 阿哲「靠 好啦 下次」、沒有行程',txt(g).includes('zhe:靠 好啦 下次')&&!OUT.get(G,'vac_va10'));
     step('2027-08-25',16.5); step('2027-08-28',21.5); const B2=txt(g);
     check('9. 沒去：8/25 阿哲傳 Alison 在月台上的照片＋「第一天就丟一個」、Alison「是門自己關的！！」（AA_256@247198e8）；8/28 四則最後阿哲「下次你一定要來 欠一次」',B2.some(t=>/隔著地鐵的車門玻璃/.test(t))&&B2.includes('zhe:第一天就丟一個')&&B2.includes('yu:是門自己關的！！')&&B2[B2.length-1]==='zhe:下次你一定要來 欠一次',J(B2.slice(-3)));
-    law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); step('2027-08-01',20.5); const N=txt('p:zhe');
+    law('2027-07-20',20); PHONE.join(G,'noodle_team','桌遊團'); step('2027-07-20',21.2); step('2027-08-01',20.5); const N=txt('p:zhe');
     step('2027-08-04',10); check('9. 不回：8/1 阿哲私訊「香港 你到底要不要」；8/3 以後還沒回＝不去',N.includes('zhe:香港 你到底要不要')&&G.flags.VA10==='no'&&!OUT.get(G,'vac_va10'),J([N,G.flags.VA10])); }
   // 10. AA_275 第 1 節：快轉跳過的日子裡，第二次以後、只有一行的活動不停（C03 日語課第二年），跳過的旁白換成 AA_264 那一句；第一次參加的照常停
   { law('2027-07-05',10); const V=VAC.rec(G); V.reg['C03@Y1']='done'; VAC.signup(G,'C03@Y2','yes'); const qs=OUT.rec(G).filter(q=>q.vac&&q.vac.key==='C03@Y2');

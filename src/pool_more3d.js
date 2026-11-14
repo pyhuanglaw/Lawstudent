@@ -10,7 +10,7 @@
    ■ 邀你（不是順手的事）：廣播社錄音、河堤夜騎、哲學咖啡館、半夜的刑法讀書會（兩場）＝有聯絡方式私訊、沒有＝當面；答應＝出遊。
    ■ 手機（STORY.PHONE_RULES）：各人表上的那幾則都是劇情的（不算上限）；晨希偶爾的錄音是閒聊型（二十位加起來一週一則、同一人一個月一則、考試週不送）。沒交換聯絡方式不送。
    ■ 加在別人那裡的：吉他社兩次成發（晏如、晨希）、系籃比賽三場（孟儒）＋大四下那一場、哲 3 阿哲一句、柏翰推甄面試之後宇軒那一場、柏翰一句閒聊（影印機）、
-     曾靖雯一句閒聊（器材組）、法服值班的旁白（影印機、延長線）、大四下法律實習每週那一句之後（維倫，三次）、麵店團群組（阿哲轉貼孟儒的照片）、班級群組（立群的錄音、沛珊回）。
+     曾靖雯一句閒聊（器材組）、法服值班的旁白（影印機、延長線）、大四下法律實習每週那一句之後（維倫，三次）、桌遊團群組（阿哲轉貼孟儒的照片）、班級群組（立群的錄音、沛珊回）。
    ■ 畢業：大三的四位＝大二下第 16 週、大二的六位＝大三下第 16 週（同第一批邱家齊「大二下第 16 週（他畢業那一週）」）；日本路線那一週在日本＝改私訊。
    AA 9f2e2506e「實作時定的」（POOL-AAFIX-1028）：立群「我也想學。」、書豪「那天我有事。」當場交換聯絡方式（已經有的不說、不換）；維倫 4-1「一起去旁聽」補一場 2D（S.AUDIT_EV）；
      維倫 4-5 說明會那一句不做、改成實習第四句（認識曾靖雯、有她的聯絡方式）；晏如 2-3「我也怕蟑螂」以後晨希第一句（LYR_CX，FLOW[CX] 第一個，一次）。
@@ -468,7 +468,7 @@ const POOL_MORE=(function(){
       story(G,PY,DK('2027-12-09'),25,[L[PY].uk].concat(zr?L[PY].ukZr:[]),'pool_hpy_uk',{ask:askOf('pool_hpy_uk',opts)}); segSent(G,PY,'uk','pool_hpy_uk'); }   /* 2027-12（英國下午五點＝臺灣凌晨一點，照時差）*/
     /* 施孟儒 */
     { const r=P.qRec(G,'PQ_SMR'); if(r&&r.state==='done'&&r.day0!=null&&G.day>=r.day0) story(G,MR,r.day0,12,L[MR].courtMsg,'pool_smr_msg'); }   /* 考完那天中午（分三則）*/
-    { const d=DK('2027-12-11'); if(d!=null&&PHONE.inGroup(G,'noodle_team')&&knows(G,'zhe')&&P.met(G,MR)) atTW(G,d,21,L[MR].grp.map(t=>({th:'g:noodle_team',from:'zhe',text:t})),'pool_smr_grp'); }   /* 2027-12 麵店團，阿哲轉貼 */
+    { const d=DK('2027-12-11'); if(d!=null&&PHONE.inGroup(G,'noodle_team')&&knows(G,'zhe')&&P.met(G,MR)) atTW(G,d,21,L[MR].grp.map(t=>({th:'g:noodle_team',from:'zhe',text:t})),'pool_smr_grp'); }   /* 2027-12 桌遊團，阿哲轉貼 */
     /* 廖芸萱 */
     { if(inTerm(G,'Y1S2')&&week(G)>=12&&week(G)<=15&&dateOf(G.day).wd===3&&fam(YX)&&contact(G,YX)&&!P.did(G,'lyxInvite'))   /* 3-3 週三 21:00 私訊 */
         if(story(G,YX,G.day,21,L[YX].invite,'pool_lyx_invite',{ask:askOf('pool_lyx_invite',[{t:L[YX].inviteOpts[0]},{t:L[YX].inviteOpts[1],say:[{from:YX,text:L[YX].inviteNo}]}],{until:(G.day+1)*24+18.5})})) P.mark(G,'lyxInvite'); }

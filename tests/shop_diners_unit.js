@@ -4,7 +4,7 @@
 //   2. 人數照時段：吃飯的店下午、晚上（尖峰以外）比尖峰少、不到兩成五；打烊（公休日、兩段中間、颱風假、麵店過年店休）一個人都沒有。
 //   3. 同一天同一時段出去再進來：同一批人、同一些位子（D55）；換一天換人。
 //   4. 玩家的位子：沒坐下時至少兩個空位，有兩人座的店至少留一組面對面的兩人座整天空著；玩家先坐了的位子沒有客人坐上去；
-//      劇情的位子：阿鳳麵店中間那張桌（玩家、阿哲、麵店團）不排；麵店團常客的日子 17:30～19:00 麵店不排。
+//      劇情的位子：阿鳳麵店中間那張桌（玩家、阿哲、桌遊團）不排；桌遊團常客的日子 17:30～19:00 麵店不排。
 //   5. 一間店同時最多 10 位（書店、便利商店 6、影印店 2、一一八茶飲 3）；兩個客人不坐同一個位子。
 //   6. 坐著的：坐在區域真正的座位上、方向照座位、旁邊站得起來；站著的：站得住、面向架子或櫃台（前面 0.75 m 是架子）、不站在出口、點餐這些按鈕上。
 //   7. 有名字的人後來走進來、空位不夠時：一桌客人吃完先走（S.shopTrim），空位回到兩個以上。
@@ -74,7 +74,7 @@ const lunchH=z=>{ const d=defOf(z), W=d?CROWD.shopWindows(d,mkG(DAYS[0],12.5)):[
 { const bad=[], info=[]; for(const z of MEAL){ const pk=Math.max(stat(z,12.5).occ,stat(z,18.5).occ); for(const h of [15.5,20.25,10.25]){ const s=stat(z,h); if(!s.nOpen) continue; info.push(z+'@'+h+'='+s.occ.toFixed(2)); if(!(s.occ<pk&&s.occ<=0.25)) bad.push(z+'@'+h+' '+s.occ.toFixed(2)+'（尖峰 '+pk.toFixed(2)+'）'); } }
   check('2. 吃飯的店尖峰以外（下午、晚上、早上開門時）比尖峰少、不到兩成五',!bad.length,bad.length?bad.join('、'):info.slice(0,6).join(' ')); }
 { const cases=[['wz_teishoku','2025-10-14',18.5,'週二公休'],['wz_teishoku','2025-10-15',15.5,'兩段中間'],['wz_teishoku','2025-10-16',3,'打烊（02:00 以後；2026-11-04 改期望：原本 21:00，小路 AA_655 改 18:00～02:00，21:00 開著）'],['wz_lin','2025-10-13',12.5,'週一公休'],['l118_pasta','2025-10-13',12.5,'週一公休（2026-11-11：義大麵屋公休改週一，舊期望 2025-10-15 週三）'],
-    ['l118_dian','2025-10-15',15.5,'兩段中間'],['l118_cafe2','2025-10-15',19.5,'19:00 關（2026-11-11：大學食堂 17:00～19:00，舊期望 慢讀咖啡 18:00 關）'],['l118_cafe2','2025-10-18',12.5,'週六不開'],['wz_brunch','2025-10-15',16,'15:00 關'],['wz_teahouse','2025-10-14',15,'週二公休'],['bookstore','2025-10-15',22.5,'書店晚上'],['noodle','2025-10-15',15.5,'麵店下午'],['wz_print','2025-10-19',12.5,'週日公休']];
+    ['l118_dian','2025-10-15',22,'打烊以後（2026-11-12 SHOP-LIFE-AUDIT-1112 改期望：118牛排改版後是一段 11:30～21:30，沒有兩段中間了；舊期望 15:30 兩段中間沒有人）'],['l118_cafe2','2025-10-15',19.5,'19:00 關（2026-11-11：大學食堂 17:00～19:00，舊期望 慢讀咖啡 18:00 關）'],['l118_cafe2','2025-10-18',12.5,'週六不開'],['wz_brunch','2025-10-15',16,'15:00 關'],['wz_teahouse','2025-10-14',15,'週二公休'],['bookstore','2025-10-15',22.5,'書店晚上'],['noodle','2025-10-15',15.5,'麵店下午'],['wz_print','2025-10-19',12.5,'週日公休']];
   const ty=(()=>{ for(let d=1;d<1500;d++) if(CALENDAR.typhoon&&CALENDAR.typhoon(d)) return d; return null; })();
   if(ty!=null){ cases.push(['wz_teishoku',ty,18.5,'颱風假']); cases.push(['l118_korea',ty,12.5,'颱風假']); }
   const cny=dayOf('2026-02-17')-3; cases.push(['noodle',cny,12.5,'麵店過年店休']);
@@ -114,8 +114,8 @@ const KCAP={bookstore:6,cvs:6,wz_print:2};   /* 2026-11-11：l118_tea 不再是�
   check('4. 玩家先坐了的位子沒有客人坐上去',!bad.length,bad.slice(0,4).join('、')); }
 { let mid=0, any=0; for(const d of SCAN_DAYS) for(const h of [11.5,12,12.5,13,13.5,17.2,18,18.5,19.5,20.5]){ enter('noodle',mkG(d,h)); any+=ppl().length; mid+=ppl().filter(n=>n.seat&&Math.abs(n.seat.x)<0.5).length; }
   NDL=()=>true; let reg=0, ok=0; for(const d of DAYS) for(const h of [17.6,18,18.5,18.9]){ enter('noodle',mkG(d,h)); reg+=ppl().length; } for(const d of DAYS){ enter('noodle',mkG(d,12.5)); ok+=ppl().length; } NDL=()=>false;
-  check('4. 阿鳳麵店中間那張桌（玩家、阿哲、麵店團）不排客人',any>0&&mid===0,'客人 '+any+' 人次、中間那張 '+mid);
-  check('4. 麵店團常客的日子 17:30～19:00 麵店不排（他們自己的固定客人）；中午照排',reg===0&&ok>0,'17:30～19:00 '+reg+' 人次、中午 '+ok); }
+  check('4. 阿鳳麵店中間那張桌（玩家、阿哲、桌遊團）不排客人',any>0&&mid===0,'客人 '+any+' 人次、中間那張 '+mid);
+  check('4. 桌遊團常客的日子 17:30～19:00 麵店不排（他們自己的固定客人）；中午照排',reg===0&&ok>0,'17:30～19:00 '+reg+' 人次、中午 '+ok); }
 // ---------- 7. 有名字的人走進來、空位不夠：一桌客人先走 ----------
 { const G=mkG('2025-10-16',18.5), zz=enter('wz_teishoku',G), before=ppl().length; let added=0;
   for(const st of zz.seats){ if(seatBusy(E,st)) continue; if(shopFree(E)<=1) break; const o=new THREE.Group(); o.position.set(st.x,0,st.z); E.addNPC({obj:o,name:'同學',charId:'x'+added,seat:st,pose:'sit'}); added++; }   /* 照作息來的同學坐掉空位，剩一個 */

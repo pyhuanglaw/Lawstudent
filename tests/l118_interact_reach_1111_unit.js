@@ -71,7 +71,10 @@ Object.assign(FIX,saved); DEF.seatR=r0;
     for(const k of Object.keys(F.seats||{})) if(!L.seats.some(s=>s.x+','+s.z===k)) stale.push(id+' 座位 '+k);
     for(const k of Object.keys(F.interact||{})) if(!(L.interact||[]).some(q=>q.id===k)) stale.push(id+' 看的東西 '+k);
     if(F.order&&!L.order) stale.push(id+' 點餐'); }
-  check('0. 覆寫表（l118_shops3d.js L118_IT_FIX）每一格都對得到配置的座位座標、看的東西 id',Object.keys(FIX).length>0&&!stale.length,stale.join('、')); }
+  check('0. 覆寫表（l118_shops3d.js L118_IT_FIX）每一格都對得到配置的座位座標、看的東西 id（11-12 起表是空的也可以：值搬回配置了）',!stale.length,stale.join('、'));
+  const nI=IDS.reduce((n,id)=>n+L118_SHOP_LAYOUTS[id].seats.filter(q=>Array.isArray(q.i)).length,0), T=L118_SHOP_LAYOUTS.tea, H=L118_SHOP_LAYOUTS.home;
+  check('0b. L118-IT-REACH-1111 收尾：配置自己帶按鈕位置（seats[].i 共 '+nI+' 張）、辛亥韓食小菜櫃 prio 0.2、五湖四海點餐 (0.65,−2.15) r 0.75、大鍋 prio 0.3；遊戲程式的覆寫表是空的',
+    nI===56&&Object.keys(FIX).length===0&&T.interact.find(q=>q.id==='banchan').prio===0.2&&T.order.prio===0.3&&H.order.z===-2.15&&H.order.r===0.75&&H.interact.find(q=>q.id==='dumpling_pot').prio===0.3&&require('child_process').spawnSync('python3',[require('path').join(__dirname,'..','tools/lane118/it_fix.py'),'--check']).status===0); }
 const tot={seats:0,cands:0,b:0,a:0};
 for(const id of IDS){ const a=audit(id), b=before[id]; tot.seats+=a.seats; tot.cands+=a.cands; tot.b+=b.noSeat.length+b.gameAp.length; tot.a+=a.noSeat.length;
   console.log('— '+id+' '+a.name+'：'+a.seats+' 張椅子、'+a.cands+' 個站得住的站位；拿掉覆寫表時 '+b.noSeat.length+' 張搖桿坐不到'+(b.noSeat.length?'（'+b.noSeat.map(s=>s.split(' ')[0]).join(' ')+'）':'')+'、'+b.gameAp.length+' 張遊戲帶去的站位按鈕不是它、'+b.stolen.length+' 個站位被點餐／看的東西搶走；'+a.items.join('；'));

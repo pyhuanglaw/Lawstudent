@@ -37,7 +37,10 @@ def build(src, sha):
             w = f'{hid}[{i}]'
             if not e.get('t') or not 1 <= int(e.get('need', 0)) <= 6:
                 raise SystemExit(f'{w}：要有 t、need 1～6')
-            L.append({'need': int(e['need']), 't': IG.read_fix(e['t']), 'ok': part(e.get('ok'), w + '.ok'), 'early': part(e.get('early'), w + '.early')})
+            row = {'need': int(e['need']), 't': IG.read_fix(e['t']), 'ok': part(e.get('ok'), w + '.ok'), 'early': part(e.get('early'), w + '.early')}
+            if e['t'].startswith('（CANON-NO-ECON-1112：這一句拿掉'):   # AA 在稿上把那一句換成這個標記（AA_897）：留位置（存檔用索引記「用過了」），不給玩家選
+                row['gone'] = True
+            L.append(row)
         if not L:
             raise SystemExit(f'{hid}：沒有句子')
         people[hid] = L

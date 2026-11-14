@@ -47,6 +47,7 @@ const said=()=>H.said.map(s=>s.t);
   /* 每一句都在稿裡 */
   { const nm={[YT]:'語彤','蘇姨':'蘇姨'};
     const yt=t=>doc.includes('語彤：「'+t+'」'), nar=t=>/^（.*）$/.test(t)&&doc.includes(t);
+    const LR=require('./line_rows_expect.js'), o808=t=>LR.toOldS(t,'src/aa625_3d.js');   /* 2026-11-11（X327 漏改，AA_808@0806059b7）：見「來的朋友各一句」*/
     check('0. 第一次三句：「語彤：「…」」照稿、順序照稿',L.first.every(yt)&&doc.indexOf(L.first[0])<doc.indexOf(L.first[1])&&doc.indexOf(L.first[1])<doc.indexOf(L.first[2]),J(L.first.filter(t=>!yt(t))));
     check('0. 選項「好。」／「這週不行。」、「嗯。下次。」、她多一句照稿',doc.includes('  - 「'+L.firstOpts[0]+'」→ 那天 14:00 木曜日')&&doc.includes('  - 「'+L.firstOpts[1]+'」→ 語彤：「'+L.firstNo+'」')&&doc.includes('她多一句：「'+L.firstExtra+'」'));
     check('0. 之後的約四則照稿（刑總那一則標「考試週」）',L.next.length===4&&L.next.every(t=>doc.includes('  - 「'+t+'」'))&&doc.includes('「'+L.next[2]+'」（考試週）'),J(L.next.filter(t=>!doc.includes(t))));
@@ -55,13 +56,14 @@ const said=()=>H.said.map(s=>s.t);
     const tl=L.tea10.map(([w,t])=>w==null?t:(nm[w]||w)+'：'+t.replace('{name}','祐廷'));
     check('0. 十週年四句＋開頭旁白：照稿、順序照稿（「還有你（祐廷）」的祐廷＝{name}）',tl.every(t=>doc.includes(t+'\n'))&&tl.every((t,i)=>i===0||doc.indexOf(t)>doc.indexOf(tl[i-1]))&&L.tea10[4][1].includes('（{name}）'),J(tl.filter(t=>!doc.includes(t))));
     check('0. 雨天的回聲「這次我有帶兩把。」照稿；沒看過事件 1 的雨天＝「下雨了。……我多帶了一把。」（接線時補的第 2 點）',doc.includes('語彤遞給你一把傘：「'+L.rain+'」')&&doc.includes('「這次我有帶兩把。」**要先看過事件 1 的雨天**（SHARED_UMBRELLA）；沒看過的換：語彤「'+L.rainNo+'」'));
-    { const NM={zhe:'阿哲',yu:'Alison',heroine_01:'以安',classmate_peishan:'沛珊（重聚以後才算）'}, row=([id,ls])=>'     - '+NM[id]+'：'+ls.map(([w,t])=>w===null?t:'「'+t+'」').join('')+'\n';
+    /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：十週年沛珊那一句「好想在台南也找到一間這樣的店。找到了我就搬到樓上。」（AA_808 aa625_3d 第 67 列）——遊戲字先換回 AA_808 的舊句（line_rows_expect.js toOldS）再在 AA_625 找；「沒有自己寫的句子」那一項也一樣。舊期望：遊戲字本身在 AA_625 */
+    { const NM={zhe:'阿哲',yu:'Alison',heroine_01:'以安',classmate_peishan:'沛珊（重聚以後才算）'}, row=([id,ls])=>'     - '+NM[id]+'：'+ls.map(([w,t])=>w===null?t:'「'+o808(t)+'」').join('')+'\n';
       check('0. 來的朋友各一句：阿哲、Alison、以安、沛珊照稿（說的人、旁白的位置、順序照稿）',L.friends.length===4&&L.friends.every(r=>doc.includes(row(r)))&&L.friends.every((r,i)=>i===0||doc.indexOf(row(r))>doc.indexOf(row(L.friends[i-1])))&&L.friends.every(([id,ls])=>ls.every(([w])=>w===id||w===null)),J(L.friends.filter(r=>!doc.includes(row(r))).map(row)));
       check('0. 和可昕交往、她沒見過大家：祐廷的照片、可昕三句照稿',doc.includes('祐廷（自動）傳一張照片「'+L.kxPhoto+'」，可昕回：'+L.kxReply.map(t=>'「'+t+'」').join('')+'\n'));
       check('0. 美國路線的照片、「這杯是你的。」照稿',doc.includes('「'+L.usPhoto+'」，語彤：「'+L.usLine+'」'));
       check('0. 第一則：民總 → 刑總（3248430b3）',L.first[0]==='……嗯。你刑總讀到哪了？'&&L.first[1]==='我這學期也有修你們的刑總。我想申請雙主修。'&&!doc.includes('語彤：「'+L.first[0].replace('刑總','民總')+'」')); }
     check('0. AA_11 事件 15：和別人交往中「兩把。你們自己分。」、交往版旁白＋兩句照稿',doc11.includes('：「'+L11.other+'」')&&doc11.includes('  > '+L11.rainOpen+'\n')&&L11.dt.every(t=>doc11.includes('  > 語彤：'+t+'\n')));
-    check('0. 模組裡語彤說的、旁白、蘇姨說的都在這兩份稿裡（沒有自己寫的句子）',(()=>{ const all=[...L.first,...L.firstOpts,L.firstNo,L.firstExtra,...L.next,...dl.flat().map(x=>x[1]),...L.tea10.map(x=>x[1].replace('{name}','祐廷')),L.rain,L.rainNo,L11.other,L11.rainOpen,...L11.dt,...L.friends.map(r=>r[1].map(x=>x[1])).flat(),L.kxPhoto,...L.kxReply,L.usPhoto,L.usLine]; return all.every(t=>doc.includes(t)||doc11.includes(t)); })()); }
+    check('0. 模組裡語彤說的、旁白、蘇姨說的都在這兩份稿裡（沒有自己寫的句子）',(()=>{ const all=[...L.first,...L.firstOpts,L.firstNo,L.firstExtra,...L.next,...dl.flat().map(x=>x[1]),...L.tea10.map(x=>x[1].replace('{name}','祐廷')),L.rain,L.rainNo,L11.other,L11.rainOpen,...L11.dt,...L.friends.map(r=>r[1].map(x=>x[1])).flat(),L.kxPhoto,...L.kxReply,L.usPhoto,L.usLine]; return all.every(t=>doc.includes(o808(t))||doc11.includes(t)); })()); }   /* o808：AA_808 換回舊句（舊期望：doc.includes(t)）*/
 
   const w3=TD('Y1S2',3,3), tue3=w3-1, mon3=w3-2;
   /* ================= 1 第一次 ================= */

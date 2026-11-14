@@ -149,7 +149,7 @@ async def main():
         await L.tap(pg, cdp, '.tabs button[data-tab="save"]'); await pg.wait_for_timeout(1200)
         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='存檔'); const e=b[b.length-1]; if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
-        saved = await pg.evaluate("(()=>{ for(const k of ['fatiao3d_slot_3','fatiao3d_slot_2','fatiao3d_slot_1']){ const t=localStorage.getItem(k); if(t){ const s=JSON.parse(t); if(s.zone==='library_hall'&&s.pos&&s.pos.lv===1) return {k,pos:s.pos}; } } return null; })()")
+        saved = await pg.evaluate("(()=>{ for(const k of ['fatiao3d_slot_3','fatiao3d_slot_2','fatiao3d_slot_1']){ const s=GAME.readSave(k); if(s){ if(s.zone==='library_hall'&&s.pos&&s.pos.lv===1) return {k,pos:s.pos}; } } return null; })()")
         run.check('在總圖大廳二樓存檔：存檔記錄區域、樓層（lv=1）、位置與高度', bool(saved) and abs(saved['pos'].get('y', 0) - Y1) < 0.1, json.dumps(saved, ensure_ascii=False))
         await L.tap(pg, cdp, '#btnClose') if await L.center_of(pg, '#btnClose') else None
         await pg.reload(); run.check('重新整理', await L.wait_loaded(pg))

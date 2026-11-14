@@ -12,7 +12,7 @@
      8-2 一個人吃麵的旁白：story3d.js noodleScene（阿姨在＝「乾麵很燙。阿姨多給了一匙肉燥。」、不在＝「乾麵很燙。」）。
      8-3 麵店的 2D 事件（阿姨在場或說話：S.auntEvs，載入後掃 STORY_EVENTS 在麵店、台詞提到阿姨的）那一天，圈子表阿姨那幾列一定成立（HCIRCLE.roll 包一層：擲骰當成功）。
      8-4 2029-04-19～25 阿姨出國：門口那張紙 r2y4b3d.js；（語彤那一週在總圖：AA_679 第 9 列拿掉）；那一週不排新的麵店出遊（OUT.plan 包一層）、邀約（INVITE_DATA 的 noodle 加 avail）；
-         麵店團那一週沒有麵店日（STORY.noodleDay 包一層：阿哲不揪、長桌不演），4/23（一）21:00 群組四則（那一週本來有麵店日才發）。
+         桌遊團那一週沒有麵店日（STORY.noodleDay 包一層：阿哲不揪、長桌不演），4/23（一）21:00 群組四則（那一週本來有麵店日才發）。
    ■ 第 9 節（169130daf）：
      9-1 颱風夜：大二換一袋滷味（src/data/events.js ev_y2_typhoon_kai）、大三換兩杯熱豆漿（src/data/r2y3a_events.js ev_typhoon_y3_noodle、src/r2y3a3d.js 19:30 那則）。
      9-2 日本路線挽回中的腳踏車 4/8（六）（src/jp_blank3d.js jpb_1_2r、立衡那則），4/1 摘要改走路、還沒買腳踏車輪到騎腳踏車那一句換走路（src/data/jp_blank_lines.js）。
@@ -95,7 +95,7 @@ const SUP519=(function(){
     if(GM.sceneBegin) GM.sceneBegin();
     try{ if(GM.face&&n&&P&&P.obj) GM.face(n,P.obj.position.x,P.obj.position.z); if(GM.cine&&n&&P&&P.obj) GM.cine('talk',P.obj,n.obj);
       if(S.auntNameDue(GM)){ G.flags.AUNT_NAME=G.day; const st=S.talkRec(G,'aunt'); st.nd=G.day; await S.playLines(GM,AY.nameScene||[],n,'阿姨'); return true; }   /* 店名由來算今天那一句 */
-      const o=S.daily(G,'aunt',law(G)?S.AUNT_ROWS:[],AY.shorts); if(o&&o.t) await GM.say(sayAs(GM,n,'阿姨'),o.t); return true; }   /* 經濟系那一年：只有短句 */
+      const o=S.daily(G,'aunt',law(G)?S.AUNT_ROWS:[],AY.shorts); if(o&&o.t) await GM.say(sayAs(GM,n,'阿姨'),o.t); return true; }   /* 舊序章那一年：只有短句 */
     finally{ if(n&&n.obj&&n.obj.rotation&&y0!=null&&n.frozen) n.obj.rotation.y=y0; if(GM.sceneEnd) GM.sceneEnd(); } };   /* 說完轉回去顧鍋子 */
 
   /* ---------- 1-1 店員的外觀、說話（3-1：Café 芷若不在班時櫃台是老闆）---------- */
@@ -255,7 +255,7 @@ const SUP519=(function(){
   S.SCHED_YT=[];
   S.applySched=function(){ if(S._sched||typeof CHARACTERS==='undefined'||!CHARACTERS.heroine_03) return 0; const L0=CHARACTERS.heroine_03.daily_schedule||(CHARACTERS.heroine_03.daily_schedule=[]);
     for(let i=S.SCHED_YT.length-1;i>=0;i--) L0.unshift(Object.assign({},S.SCHED_YT[i],{dates:S.SCHED_YT[i].dates.map(x=>x.slice()),aa519:true})); S._sched=true; return S.SCHED_YT.length; };
-  /* 麵店團：那一週本來有麵店日（STORY.noodleDay 原本的判斷）＝4/23（一）21:00 群組四則 */
+  /* 桌遊團：那一週本來有麵店日（STORY.noodleDay 原本的判斷）＝4/23（一）21:00 群組四則 */
   S.TRIP_MSG='2029-04-23';
   S.tripHadNoodleDay=function(){ const nd=S._nd0||(typeof STORY!=='undefined'&&STORY.noodleDay); if(!nd) return false; const a=DK(S.TRIP[0]), b=DK(S.TRIP[1]); if(a==null) return false; for(let d=a;d<=b;d++) if(nd.call(STORY,d)) return true; return false; };
   S.tripPhone=function(G){ if(!law(G)||!inGrp(G,'noodle_team')) return; const d=DK(S.TRIP_MSG); if(d==null||!S.tripHadNoodleDay()) return;
@@ -276,7 +276,7 @@ const SUP519=(function(){
           try{ const ids=G?[S.CLERK_LABEL[G.zone]].concat(G.zone==='cafe'&&after(G,NP_FROM)?['hc_xt']:[]):[]; for(const cid of ids){ const p=cid&&HCIRCLE.PEOPLE&&HCIRCLE.PEOPLE[cid]; if(p&&p.model) out.add(p.model); } }catch(e){} return out; }; }   /* 店員的底模不給無名路人（店裡不會有第二個阿姨）；第 9 節第 3 點：2027-06-04 起 Café 的店員可能是小婷，兩位都留 */
         HCIRCLE._aa519=true; } }
     if(typeof STORY!=='undefined'){
-      if(STORY.noodleDay&&!S._nd0){ S._nd0=STORY.noodleDay; STORY.noodleDay=function(day){ if(S.tripDay(day)) return false; return S._nd0.apply(this,arguments); }; }   /* 8-4：那一週麵店團不排 */
+      if(STORY.noodleDay&&!S._nd0){ S._nd0=STORY.noodleDay; STORY.noodleDay=function(day){ if(S.tripDay(day)) return false; return S._nd0.apply(this,arguments); }; }   /* 8-4：那一週桌遊團不排 */
       if(STORY.SMALL_DAILY){ STORY.SMALL_DAILY.npc_ta_chen=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.TA_ROWS); STORY.SMALL_DAILY.npc_huangxh=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.HXH_ROWS);   /* 2-2、4-1 */
         STORY.SMALL_DAILY.kai=(G,id,r,nm)=>S.kaiTalk(G,id,r,nm); }   /* 5-1：週五資工系館前那一個小時 */
       if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ try{ S.phone(G); }catch(e){ console.warn('SUP519.phone',e); } });

@@ -90,7 +90,7 @@ const GY3=(function(){
       let cand=JOIN.filter(l=>!r.seen.includes(l)); if(!cand.length){ r.seen=[]; cand=JOIN.slice(); } const l=cand[Math.floor(Math.random()*cand.length)]; r.seen.push(l); await GM.say(null,l);
       if((r.fit|0)>=50){ r.strongN=((r.strongN|0)+1)%3; if(r.strongN===0) await GM.say(null,'以前追不到的球，你現在追得到了。'); } await upNote(GM); }   /* 結實以上：三次裡一次 */
     else if(i===1){ GM.advance(1/3); r.sportDay=G.day; r.serveN=((r.serveN|0)+1)%SERVE.length; await GM.say(null,SERVE[r.serveN]); } }
-  async function vending(GM){ const G=GM.G, r=rec(G), sport=r.sportDay===G.day; const i=await GM.choose(VEND.map(v=>({t:v[0]+'　'+v[1]+' 元',dim:G.money<v[1]})).concat([{t:'不用了'}]));
+  async function vending(GM){ const G=GM.G, r=rec(G), sport=r.sportDay===G.day; const vo=VEND.map(v=>({t:v[0]+'　'+v[1]+' 元',dim:G.money<v[1]})).concat([{t:'不用了'}]), gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,'體育館販賣機'):null; if(gO) vo.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(vo); if(gO&&i===VEND.length+1){ await GIFT.buy(GM,'體育館販賣機'); return; }
     if(i>=VEND.length) return; const v=VEND[i]; if(G.money<v[1]){ GM.toast('錢不夠'); return; } GM.money(-v[1]); await GM.say(null,i===0&&sport?'運動完的那一罐，總是喝得特別快。':v[2]); }   /* 只是一句旁白，不放進背包 */
   async function fountain(GM){ const G=GM.G, r=rec(G); if(r.drinkDay===G.day) return; r.drinkDay=G.day; await GM.say(null,r.sportDay===G.day?'你喝了很久。後面排隊的人在等你。':'你按下按鈕，彎腰喝了幾口。'); }   /* 一天第二次以後不再說話 */
   async function scene(GM,f){ GM.sceneBegin(); try{ await f(GM); } finally { GM.sceneEnd(); } }
@@ -236,6 +236,28 @@ const GY3=(function(){
       else { const R=u&&u.rawGym; if(n&&g&&R&&R.hips){ it.m.updateWorldMatrix(true,false); const hz=it.m.worldToLocal(R.hips.getWorldPosition(MV[0])).z;
           it.seat.position.z=Math.max(MOV.Z0,Math.min(MOV.Z1,hz-MOV.SEAT_BACK))-MOV.SEAT0; }
         it.handle.visible=!(n&&u&&u.gymPropOn); } } }
+  /* 游泳池的水面（POOL-SWIM-LOOK-1110，LAWWW2 帳號 A 11-11；LAWWW 角色驗收泳客 PARTIAL：「水太透明、沒有水面，近看像趴在水上；腿的膚色偏灰白、和手臂不一樣」）。
+     原因：gym_b1.glb 的 b1_water 是一片單色淺藍、透明度 0.42、沒有任何起伏，看不出是水面；水裡的腿被淺藍蓋成灰白（拿掉水面，腿和手臂的膚色一樣——不是人物模型的問題）。
+     這裡把那一片的材質換掉（幾何、高度 y −0.14 不動，泳客趴的高度 C.GYM.swim.water 照舊）：
+     - 藍綠色、透明度 0.62：水面下的身體、池底被水蓋住；露出水面的頭、手臂照原色。
+     - 兩層波紋（pool_ripple_nor.webp，tools/blender/env_second/pool_water_tex.py）：大小不同、往不同方向慢慢捲動，疊起來看不出重複；兩層在 shader 裡相加（normal_fragment_maps）。
+     - 反射體育館的全景（pool_env.webp：Blender 用 gym_b1.glb 從池中央拍的，tools/blender/env_second/pool_env_render.py）：水面有會晃的天花板燈、牆的倒影，斜看反光比較強。
+     兩張貼圖都載好才換（沒載好、載不到就照原本的材質）。測試：node tests/pool_water_unit.js */
+  const POOL_WATER={color:0x1f93b4, opacity:0.62, rough:0.07, env:2.2, nscale:0.38, rep:[[4.2,2.94],[9.5,6.65]], flow:[[0.010,0.006],[-0.007,0.011]], tex:['assets/models/env/second_ai/pool_ripple_nor.webp','assets/models/env/second_ai/pool_env.webp']};
+  function poolWater(E,z,root){ let w=null; root.traverse(o=>{ if(!w&&o.isMesh&&/(^|_)water$/.test(o.name||'')) w=o; }); if(!w||typeof THREE==='undefined') return null; const W=POOL_WATER, TL=new THREE.TextureLoader();
+    const ld=u=>new Promise(r=>{ TL.load(u,t=>r(t),undefined,()=>r(null)); });
+    return Promise.all(W.tex.map(ld)).then(([nor,env])=>{ if(!nor||!env||E.zone!==z) return null;
+      nor.wrapS=nor.wrapT=THREE.RepeatWrapping; nor.repeat.set(W.rep[0][0],W.rep[0][1]); env.mapping=THREE.EquirectangularReflectionMapping; env.colorSpace=THREE.SRGBColorSpace;
+      const g=w.geometry; if(!g.attributes.uv){ g.computeBoundingBox(); const bb=g.boundingBox, P=g.attributes.position, uv=new Float32Array(P.count*2);   /* gym_b1.py 的水面沒有 UV：照 x、z 鋪（0～1 對到整個池子；repeat 決定一格多大）*/
+        for(let i=0;i<P.count;i++){ uv[i*2]=(P.getX(i)-bb.min.x)/Math.max(1e-6,bb.max.x-bb.min.x); uv[i*2+1]=(P.getZ(i)-bb.min.z)/Math.max(1e-6,bb.max.z-bb.min.z); } g.setAttribute('uv',new THREE.BufferAttribute(uv,2)); }
+      const U={n2Off:{value:new THREE.Vector2()},n2Rep:{value:new THREE.Vector2(W.rep[1][0]/W.rep[0][0],W.rep[1][1]/W.rep[0][1])}};
+      const m=new THREE.MeshStandardMaterial({color:W.color,transparent:true,opacity:W.opacity,depthWrite:false,roughness:W.rough,metalness:0,normalMap:nor,normalScale:new THREE.Vector2(W.nscale,W.nscale),envMap:env,envMapIntensity:W.env});
+      m.name='b1_water_v2'; m.userData.poolWater=true;
+      m.onBeforeCompile=sh=>{ Object.assign(sh.uniforms,U); sh.fragmentShader='uniform vec2 n2Off; uniform vec2 n2Rep;\n'+sh.fragmentShader.replace('vec3 mapN = texture2D( normalMap, vNormalMapUv ).xyz * 2.0 - 1.0;',
+        'vec3 mapN = ( texture2D( normalMap, vNormalMapUv ).xyz * 2.0 - 1.0 ) + ( texture2D( normalMap, vNormalMapUv * n2Rep + n2Off ).xyz * 2.0 - 1.0 ) * vec3( 0.7, 0.7, 1.0 ); mapN.z = max( mapN.z, 0.4 );'); };
+      const old=w.material; w.material=m; w.renderOrder=Math.max(w.renderOrder||0,1); z.poolWater={mesh:w,mat:m,old,U};
+      const up0=z.update; let t=0; z.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); t+=Math.min(dt||0,0.1); nor.offset.set((t*W.flow[0][0])%1,(t*W.flow[0][1])%1); U.n2Off.value.set((t*W.flow[1][0])%1,(t*W.flow[1][1])%1); };
+      return m; }); }
   const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, windowless:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/
     const z=Z3.room(E,{w:48,d:38,h:B.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#3a3d40'),spawn:Object.assign({},B.spawn)}); const g0=z.group, nav=z.nav;
     g0.position.z+=cz; nav.oz+=cz; for(const w of z.walls) w.userData.center=new THREE.Vector3(w.position.x,w.position.y,w.position.z+cz);
@@ -257,7 +279,7 @@ const GY3=(function(){
     { const P=typeof CLS!=='undefined'&&CLS.PE_POOL; if(P) IT.push({x:17.4,z:-3.2,radius:1.2,lv:0,label:'體育課集合（池邊）',mark:true,peSwim:true,visIf:p=>p.z<B.pool.z1&&(()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; return !!G&&CLS.dayItems(G).some(it=>it.room&&it.room.door==='gym'&&CLS.peSwim(G,it)); })(),onInteract:()=>peClass(GAME)}); }
     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,visIf:p=>p.z>B.pool.z1,onInteract:()=>scene(GAME,workout)});   /* visIf：人在游泳池（牆的北邊）看不到走廊的名牌（使用者 11-03 截圖）*/ else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
     equipIts(E,B,IT);   /* 器材一台一台用（GYM-FIT-1107）*/
-    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); b1Plates(root,B); gymMoving(E,z,g0,root,B,cz); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
+    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); b1Plates(root,B); gymMoving(E,z,g0,root,B,cz); poolWater(E,z,root); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
   /* ---------- 3F 主球場（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb（LAWWW2-B 3effc0e0、f1e732f8、f1d23fd4））----------
      從 1F 大廳西側的樓梯上來＝南看台中間的入口通道（vomitory）。場地整片能走；三面看台走中間的走道（樓梯）上去：導航是連續的斜面（碰撞、找路），
@@ -333,6 +355,6 @@ const GY3=(function(){
       const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=!!z.ceremonyOn&&(o.name==='SET_STAGE'||o.name==='SET_CEREMONY');   /* 典禮那天打開舞台＋典禮（SET-CEREMONY-1023）*/   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
       Z3.attachRoomGLB(z,g0,fb,root); { const hp=root.getObjectByName('SET_HOOPS'); if(hp) hp.visible=!z.ceremonyOn; }   /* 籃架（ART-ARENA-HOOPS-1105，LAWWW2-B 11-07：屋頂吊下來、放下來的樣子，平常一直在）：典禮那天北端有舞台，籃架在舞台前緣上方——收起來 */ glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
-  return {gymMoving,gymMovingStep,MOV,b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday,fitOpen,fitPay,fitDone,useEquip,eqLine,eqFree,eqOn,EQ_LABEL,stageIx,using:()=>eqUse};
+  return {poolWater,POOL_WATER,gymMoving,gymMovingStep,MOV,b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday,fitOpen,fitPay,fitDone,useEquip,eqLine,eqFree,eqOn,EQ_LABEL,stageIx,using:()=>eqUse};
 })();
 Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;

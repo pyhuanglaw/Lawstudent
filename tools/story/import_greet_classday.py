@@ -9,12 +9,15 @@
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_guard as IG
+import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110）：tools/story/aa959.py
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_729_greet_classday.json'
 OUT = 'src/data/greet_classday.js'
 LADDER = 'src/data/ladder.js'
 TAGS = ('classDay', 'playerNoClass', 'nextClassDay')
+# 遊戲裡已經拿掉的人（CANON-NO-ECON-1112 第三批：舊序章人物）：稿上他們的招呼略過；AA 從 AA_729 拿掉以後這裡可以清空
+GONE_WHO = {'econ_zhengxun', 'econ_pinyu', 'econ_weilun', 'econ_jiahao', 'econ_tangrui'}
 KINDS = ('weekend', 'offDay')
 # 2026-11-11（X327 沛珊重寫，AA_753 第三、四份）：她大三、大四招呼 base 的句子換了字（同一格、同一件事），AA_729 上寫的還是舊句——
 # 舊句在 ladder.js 對不到、而且下面對到的新句在＝「只在上課日說」的條件跟著新句子走（不然假日也會說「今天上班級經營…」）。AA_729 自己改成新句以後這張表就用不到。
@@ -29,7 +32,12 @@ RENAMED = {('classmate_peishan', '今天課好多，我到現在都還沒吃東�
            # 2026-11-11（AA 回覆 LAWWW）：「早。我八點的課，七點就到了。」大四下那一則同字的也換了字（tools/ladder/import_ladder.py 的 PS_Y4S2_GREET）——同一句舊句在兩個學期換成兩句不同的新句，
            # 兩句都只在上課日說（一個舊句對好幾句新句的寫成 tuple；在 ladder.js 的才列）
            ('classmate_peishan', '早。……老師要比學生早到，我在練習。'): '早。老師要比學生早到，我在練習，目前成功率一半。',
-           ('classmate_peishan', '早。我八點的課，七點就到了。'): ('早。我八點的課，今天居然趕上了。', '早。八點的課我還是修了，不要問我為什麼。')}
+           ('classmate_peishan', '早。我八點的課，七點就到了。'): ('早。我八點的課，今天居然趕上了。', '早。八點的課我還是修了，不要問我為什麼。'),
+           # 2026-11-11（X324，AA_781_an_ladder_Y1S1.json@bc4f3f367 rows greet.base[4]：沒人記的承諾「你要的話晚上傳給你」換掉）：以安大一上招呼 base 第 5 句換了字，
+           # 「只在上課日說」跟著新句子走（tools/ladder/import_ladder.py 的 AA781 通用層會檢查這裡有沒有寫）
+           ('heroine_01', '今天的進度我抄完了。你要的話晚上傳給你。'): '今天的進度我抄完了。字有點醜，你不要笑。',
+           # 2026-11-11（X324，AA_781_sis_ladder_Y4S1.json@a5e537856 rows greet.when[4]：拿掉刪節號）：學姊大四上「隔天是上課日」那一句
+           ('heroine_05', '這麼晚了。……明天還有課。'): '這麼晚了。明天還有課。'}
 
 
 def git(*a):
@@ -71,8 +79,12 @@ def main():
     for tag in TAGS:
         for e in src.get(tag, []):
             who, t = e['who'], e['t']
+            if who in GONE_WHO or who not in have:   # 舊序章人物（第三批 B）／在 ladder.js 已經沒有招呼的（第三批 A）＝不匯
+                continue
             rn = RENAMED.get((who, t)) or ()
-            rn = [x for x in ((rn,) if isinstance(rn, str) else rn) if x in have.get(who, set())]   # 換了字的新句（在 ladder.js 的才算；一句舊句可以對好幾句）
+            rn = (rn,) if isinstance(rn, str) else tuple(rn)
+            rn = tuple(dict.fromkeys(rn + tuple(_AA959.map_str(x, 'ladder.js') for x in (t,) + rn)))   # AA_959：ladder.js 寫檔前最後一步照覆寫表換了字（「今天」開頭砍半、「……」開頭減量），「只在上課日說」跟著新句子走
+            rn = [x for x in rn if x != t and x in have.get(who, set())]   # 換了字的新句（在 ladder.js 的才算；一句舊句可以對好幾句）
             if t in have.get(who, set()):   # 舊句（別的學期還在用）還在：舊句、新句都只在上課日說
                 out[tag].setdefault(who, []).append(t)
                 out[tag][who] += rn
@@ -83,6 +95,8 @@ def main():
                 out[tag].setdefault(who, []).append(t)
     add = {}
     for e in src.get('add', []):
+        if e.get('who') in GONE_WHO:
+            continue
         if e.get('kind') not in KINDS:
             bad.append(f'add {e.get("who")}：kind {e.get("kind")} 不是 {KINDS}')
             continue

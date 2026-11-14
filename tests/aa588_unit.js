@@ -1,7 +1,7 @@
 // AA_588（企劃線 1edea905f；AA 2026-11-02 定稿 D109；任務 AA588-AA581-TAIL-1102）AA_581 收尾＋交換延畢又被當（K1）——不需要瀏覽器。
 //   0  讀稿：AA_588 的句子（4/15 群組兩則、記憶標籤、K1 七句＋新卡）一字不差在稿裡
 //   1  沛珊和柏翰公開搬回 4/15 傍晚麵店（ev_psbh_public_0415；AA_581 第 11 節第 2 點）：只演 PS_BH 那幾行、只在 4/15 17:00～20:30 的麵店、交往中不演；
-//      17:00 麵店團群組柏翰「今天晚上燒臘店，有空的來。」沛珊「我會到。」；沒到＝20:30 阿哲滷蛋照片（聽說）；到過＝沒有照片；隔天才回到遊戲的補；期末那頓（考完的晚餐）沒有公開、沒去也沒有照片
+//      17:00 桌遊團群組柏翰「今天晚上燒臘店，有空的來。」沛珊「我會到。」；沒到＝20:30 阿哲滷蛋照片（聽說）；到過＝沒有照片；隔天才回到遊戲的補；期末那頓（考完的晚餐）沒有公開、沒去也沒有照片
 //   2  記憶標籤 AN_L8_MIDTERM＝「和她聊過期中週讀書的進度」（id 不動）
 //   3  課堂內容照 AA 改過的源稿重匯（claude/story-planning@1edea905f）：第 7 週黑板三門、柏翰缺課訊息兩門；經濟系會計學那句不動；AA_389 第 9 點勞動法那句一起進來；白名單
 //   4  home_lines：import_home_lines.py 讀的是 AA_138；晚餐第 8 題換成 AA_588 的三句（週次 8～10 不動）
@@ -53,22 +53,22 @@ await sec(1,async()=>{ const e=ev('ev_psbh_public_0415'), sup=ev('ev_midterm_sup
   check('1. 期末那頓（考完的晚餐）拿掉公開那一段、沒有 outingMissed（照片搬走）',!JSON.stringify(sup.dialogue.map(l=>l.text||'')).match(/滷蛋切成兩半|對，我們在一起了|上禮拜的事/)&&typeof sup.outingMissed!=='function');
   /* 群組 17:00 */
   const day=CALENDAR.dateOf(D415), key=day.y+'-'+String(day.m).padStart(2,'0')+'-'+String(day.d).padStart(2,'0');
-  const ph=(o)=>{ H.fresh(key,15,'dorm',{}); psKnow(!!o.dating); if(o.group!==false) PHONE.join(H.G,'noodle_team','麵店團'); tickAt(16); tickAt(16.9); const before=grp().length; tickAt(17); const at17=grp().map(m=>[m.from,m.text,m.h]); return {before,at17}; };
+  const ph=(o)=>{ H.fresh(key,15,'dorm',{}); psKnow(!!o.dating); if(o.group!==false) PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(16); tickAt(16.9); const before=grp().length; tickAt(17); const at17=grp().map(m=>[m.from,m.text,m.h]); return {before,at17}; };
   const a=ph({}), b=ph({group:false}), c=ph({dating:true});
-  check('1. 17:00 麵店團群組：柏翰「今天晚上燒臘店，有空的來。」、沛珊「我會到。」（17:00 以前沒有）',a.before===0&&J(a.at17.map(x=>[x[0],x[1]]))===J([['classmate_bohan',ASK[0]],['classmate_peishan',ASK[1]]])&&a.at17.every(x=>x[2]===17),J(a));
+  check('1. 17:00 桌遊團群組：柏翰「今天晚上燒臘店，有空的來。」、沛珊「我會到。」（17:00 以前沒有）',a.before===0&&J(a.at17.map(x=>[x[0],x[1]]))===J([['classmate_bohan',ASK[0]],['classmate_peishan',ASK[1]]])&&a.at17.every(x=>x[2]===17),J(a));
   check('1. 不在群組、和沛珊交往中＝沒有那兩則',b.at17.length===0&&c.at17.length===0,J([b,c]));
   /* 20:30 照片 */
   const eggOf=()=>grp().filter(m=>m.tag==='zhe_supper_mid2_egg').map(m=>m.text);
-  H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','麵店團'); tickAt(17); tickAt(20.4); const e0=eggOf().length; tickAt(20.5); tickAt(20.6);
+  H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(17); tickAt(20.4); const e0=eggOf().length; tickAt(20.5); tickAt(20.6);
   check('1. 沒到麵店：20:30 阿哲的滷蛋照片三則（照舊）、記聽說；20:30 以前沒有',e0===0&&J(eggOf())===J(EGG)&&SOCIAL.has('classmate_peishan','HEARD_ABOUT'),J(eggOf()));
-  H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','麵店團'); tickAt(17); H.G.events.done.ev_psbh_public_0415=true; H.G.events.last.ev_psbh_public_0415=D415; tickAt(20.5); tickAt(21);
+  H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(17); H.G.events.done.ev_psbh_public_0415=true; H.G.events.last.ev_psbh_public_0415=D415; tickAt(20.5); tickAt(21);
   check('1. 到過麵店（演過）：沒有照片、沒有聽說',eggOf().length===0&&!SOCIAL.has('classmate_peishan','HEARD_ABOUT'));
-  H.fresh(key,15,'dorm',{dating_classmate_peishan:true}); psKnow(true); PHONE.join(H.G,'noodle_team','麵店團'); tickAt(21);
+  H.fresh(key,15,'dorm',{dating_classmate_peishan:true}); psKnow(true); PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(21);
   check('1. 和沛珊交往中：沒有照片',eggOf().length===0);
-  { const n=CALENDAR.dateOf(D415+1), k2=n.y+'-'+String(n.m).padStart(2,'0')+'-'+String(n.d).padStart(2,'0'); H.fresh(k2,9,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','麵店團'); tickAt(9); tickAt(9.1);
+  { const n=CALENDAR.dateOf(D415+1), k2=n.y+'-'+String(n.m).padStart(2,'0')+'-'+String(n.d).padStart(2,'0'); H.fresh(k2,9,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','桌遊團'); tickAt(9); tickAt(9.1);
     check('1. 4/15 晚上沒在玩、隔天才回到遊戲：照片補上（沒有約的那兩則）',J(eggOf())===J(EGG)&&!grp().some(m=>m.tag==='psbh_0415_ask'),J(grp().map(m=>m.text))); }
   /* 期末那頓沒去：沒有照片 */
-  { H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','麵店團'); const fin=termDay('Y1S2',16,3); H.G.events.done.ev_psbh_public_0415=true; H.G.day=fin; H.G.hour=18; H.G.weekday=3;
+  { H.fresh(key,15,'dorm',{}); psKnow(false); PHONE.join(H.G,'noodle_team','桌遊團'); const fin=termDay('Y1S2',16,3); H.G.events.done.ev_psbh_public_0415=true; H.G.day=fin; H.G.hour=18; H.G.weekday=3;
     OUT.plan(H.G,{id:'supper_mid2',ev:'ev_midterm_supper_y1s2',day:fin,h:19,place:'阿鳳麵店',title:'考完的晚餐',travelH:1/6}); H.G.hour=20; OUT.tick(GM); tickAt(21);
     check('1. 期末那頓（考完的晚餐）沒去：沒有滷蛋照片',eggOf().length===0,J(grp().map(m=>m.text))); }
   /* 誰是誰：4/15 演過＝那一句（沛珊×柏翰） */
@@ -81,11 +81,11 @@ await sec(2,()=>{ check('2. AN_L8_MIDTERM＝「和她聊過期中週讀書的進
 await sec(3,()=>{ const C=SYLLABUS.courses, w=(c,n)=>(C[c]||[]).find(x=>x.w===n)||{};
   check('3. 第 7 週黑板第三行（民總、刑法分則、債總二）＝「下週、下下週：前七週整理＋案例作業」',['civ_general','crim_spec','oblig_gen2'].every(c=>(w(c,7).board||[])[2]==='下週、下下週：前七週整理＋案例作業'));
   check('3. 柏翰缺課訊息（行政法、債各）＝「（群組）柏翰：期末考範圍表更新了。」',['admin_law','oblig_spec'].every(c=>(SYLLABUS.skip[c]||[]).includes('（群組）柏翰：期末考範圍表更新了。')),J([SYLLABUS.skip.admin_law,SYLLABUS.skip.oblig_spec]));
-  check('3. 經濟系會計學那句不動（經濟系那一年保留期中考，AA_578 第 3 節第 4 條）',(w('acct_y0',7).line||'').includes('期中考就是你們的結帳')&&(w('acct_y0',7).board||[])[2]==='下週、下下週：期中考');
+  /* 3. 舊序章那一年的會計學那句（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   check('3. AA_389 第 9 點（企劃線 b30766683）勞動法阿哲翹課訊息一起進來',(SYLLABUS.skip.labor_law||[]).includes('（群組）阿哲：老師今天講加班費，舉了超商店員的例子。全班都在算自己以前打工被扣多少。')&&!JSON.stringify(SYLLABUS.skip).includes('聽起來好像我打工的店'));
-  check('3. source＝claude/story-planning d501078a3（2026-11-11 刑總第 13 週 more 兩句搬第 7 週重匯，BB_333 追加段；舊期望 d3a22505b、1edea905f）',/^claude\/story-planning d501078a3/.test(SYLLABUS.source),SYLLABUS.source.slice(0,60));
-  const T=['Y1S1','Y2S1','Y2S2','Y3S2'].filter(t=>!allow('docs/story_planning/syllabus/'+t+'.json',t==='Y1S1'?'d501078a3':'1edea905f'));   /* Y1S1：2026-11-11 06:5x 起 d501078a3（刑總第 7／13 週換句）；之前 d3a22505b（大一上三科課堂內容補寫，BB_332～334）；history 仍記 1edea905f、57b2a7b39 */
-  check('3. 白名單：syllabus/Y1S1、Y2S1、Y2S2、Y3S2.json @1edea905f approved（history 記舊基準 57b2a7b39）',T.length===0&&ALLOW.filter(e=>/syllabus\/Y\dS\d\.json$/.test(e.path)).every(e=>(e.history||[]).some(h=>h.sha==='57b2a7b39')),J(T)); });
+  check('3. source＝claude/story-planning 80ed4ea06（2026-11-11 16:3x 沒有期中考的四句換字：Y1S1、Y1S2、Y4S2、JP 白名單 80ed4ea06；之前 ba322d6ae 大四下兩科＋日文上下，BB_372～374。舊期望 ba322d6ae、96eb06e4f、50e653270、d501078a3、d3a22505b、1edea905f）（CANON-NO-ECON-1112 第四批：照 AA_888／AA_891 重匯，source＝claude/magical-albattani-bk7b4n 3f6c7d3bb9）',/^claude\/magical-albattani-bk7b4n (3f6c7d3bb9|6dbfe10d7e)/.test(SYLLABUS.source)/* 2026-11-12 CANON-NO-ECON-1112 第五批：Y1S2 芯慈那一句（AA_920）換 6dbfe10d7e，整批讀同一版（其他學期檔內容一樣） */,SYLLABUS.source.slice(0,60));
+  const T=['Y1S1','Y2S1','Y2S2','Y3S2'].filter(t=>!allow('docs/story_planning/syllabus/'+t+'.json',(t==='Y1S1'||t==='Y2S1')?'3f6c7d3bb9'/* （CANON-NO-ECON-1112 第四批：照 AA_888／AA_891）*/:(t==='Y2S2'||t==='Y3S2')?'96eb06e4f':'1edea905f'));   /* 2026-11-11 13:1x：Y2S1 換 96eb06e4f（大二上法律四科課堂內容，BB_348～351）；舊期望 1edea905f */   /* Y1S1：2026-11-11 06:5x 起 d501078a3（刑總第 7／13 週換句）；之前 d3a22505b（大一上三科課堂內容補寫，BB_332～334）；history 仍記 1edea905f、57b2a7b39 */
+  check('3. 白名單：syllabus/Y1S1、Y2S1、Y2S2、Y3S2.json @1edea905f approved（history 記舊基準 57b2a7b39）',T.length===0&&ALLOW.filter(e=>/syllabus\/Y\dS\d\.json$/.test(e.path)&&!/Y1S2\.json$|Y3S1\.json$|Y4S1\.json$|Y4S2\.json$/.test(e.path)).every(e=>(e.history||[]).some(h=>h.sha==='57b2a7b39'))&&allow('docs/story_planning/syllabus/Y1S2.json','6dbfe10d7e')/* 2026-11-12 第五批（舊 3f6c7d3bb9） */,J(T)); });   /* Y1S2：96eb06e4f → 80ed4ea06（2026-11-11 16:3x 國文「期中」改「期末」）*/   /* 2026-11-11（STUDY-EXAM-STORY-1102）：Y1S2 白名單是 11-11 新加的（大一下五科，50e653270），沒有 57b2a7b39 那段歷史——另外檢查 @50e653270 approved。舊期望：所有學期檔都有 57b2a7b39 */
 
 /* ---------- 4 ---------- */
 await sec(4,()=>{ const src=fs.readFileSync(path.join(H.ROOT,'tools/home/import_home_lines.py'),'utf8');

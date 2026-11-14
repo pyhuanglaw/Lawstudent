@@ -73,12 +73,7 @@ await sec('1',async()=>{
   await runOut('1-B44 ev_vf_y3_0214','ev_vf_y3_0214','lawlib',1,[1],'（借完書出來，在法圖門口。）',{date:'2028-02-14',h:19,nBefore:0});
   const r45=await runOut('1-B45 ev_an_sis_meet_lawlib','ev_an_sis_meet_lawlib','lawlib',1,[],'（閉館以後，你們在法圖門口又遇到。）',{date:'2027-11-10',h:20,nBefore:2});
   check('1-B45：借六法改便利貼「（便利貼：六法借我一下。）」',!!r45&&r45.S.some(s=>!s.who&&s.t==='（便利貼：六法借我一下。）')&&!r45.S.some(s=>s.t.includes('可以借一下六法嗎')),r45&&J(r45.lines));
-  const r46=await runOut('1-B46 ev_sk01_soc','ev_sk01_soc','soclib',0,[0],'（社科圖門口。）',{date:'2025-09-18',h:12.5,nBefore:0});
-  check('1-B46：「（他把統計課本拿起來，用下巴指了指位子。）」之後、對話之前',!!r46&&(r46.S[r46.k-1]||{}).t==='（他把統計課本拿起來，用下巴指了指位子。）'&&(r46.S[r46.k+1]||{}).t==='坐。課本是佔位用的，我沒在讀。',r46&&J(r46.lines));
-  const r47=await runOut('1-B47 ev_sk12_soclib_table（陪她讀到閉館）','ev_sk12_soclib_table','soclib',0,[0],'（你們讀到十點。閉館的音樂響起來的時候，她出了一題機率題考你。你算錯了。）',{date:'2027-12-20',h:19.5,nBefore:6});
-  check('1-B47：開頭「（她沒抬頭，用筆指了指對面的位子。）」',!!r47&&(r47.S[1]||{}).t==='（她沒抬頭，用筆指了指對面的位子。）',r47&&J(r47.lines));
-  H.fresh('2027-12-20',19.5,'soclib'); at('soclib',0,0,0); LIBQ.reset(); H.said=[]; H.picks=[1]; await EVENTS.run(ev('ev_sk12_soclib_table'));
-  check('1-B47：沒有陪到閉館的那幾支（沒走出去）：整場照加（小聲）',spoken(H.said).length>0&&spoken(H.said).every(s=>isQuiet(s.t)||isAct(s.t))&&balanced(),J(H.lines()));
+  /* 1-B46（SK01）、1-B47（SK12）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   await runOut('1-B51 ev_yt_thursday_free','ev_yt_thursday_free','library',0,[0],'（她看到你，闔上書，指了指外面。）',{date:'2027-12-16',h:18.5,friends:['heroine_03'],nBefore:0});
   await runOut('1-B52 ev_yt_share_time','ev_yt_share_time','library',0,[0],'（讀完，你們走出總圖。）',{date:'2028-12-21',h:17.5,friends:['heroine_03'],nBefore:1});   /* AA_625 第 16 節：她在三樓先小聲問「我可以給你看一個東西嗎。」（一句加（小聲）），讀完才走出去 */
   /* 1-B55：B1 版前兩句改便條；選「我什麼都沒看到」走出總圖以後不加；#where／#sit 沒走出去，整場照加 */

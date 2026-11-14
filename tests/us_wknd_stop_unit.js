@@ -148,7 +148,7 @@ await sec(7,async()=>{
   for(const v of ['there','missed']){ w208('2028-10-16',12,'us_apartment',{US2:v}); doneUpTo('3-1','3-2');
     check('7. 交往中、US2＝'+v+'：10/16 21:00 是停點',in16(),J(stopsIn(T(d16,12),T(d16,23)).map(lab)));
     const seen=await ff(), m=byTag('us2_grade');
-    check('7. 交往中、US2＝'+v+'：一路快轉停在 10/16 21:00，她傳「'+A+'」',seen.includes('2028-10-16 21')&&m.length===1&&m[0].text===A&&m[0].day===d16&&m[0].h===21,J({seen,m:m.map(x=>x.text)})); }
+    check('7. 交往中、US2＝'+v+'：一路快轉停在 10/16 21:00，她傳「'+A+'」',(seen.includes('2028-10-16 21')||seen.includes('2028-10-16 21（訊息）'))&&m.length===1/* AA_814 3-4（91c6aaf9f）：這一則改成要回的，快轉停在這裡算「訊息」停點 */&&m[0].text===A&&m[0].day===d16&&m[0].h===21,J({seen,m:m.map(x=>x.text)})); }
   /* 不該停的不停 */
   fresh('2028-10-16',12,'us_apartment',{US2:'there'});
   check('7. 挽回中（沒在交往）、US2＝there：10/16 21:00 不停',!in16(),J(stopsIn(T(d16,12),T(d16,23)).map(lab)));

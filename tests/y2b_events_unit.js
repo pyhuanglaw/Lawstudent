@@ -14,7 +14,7 @@ global.document={ getElementById:()=>null, addEventListener(){} }; global.naviga
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(ROM|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|CG_REGISTRY|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|NEEDED_MSGS|HOMETOWN_LINES|HV|Y2B|Y2B_EVENTS)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 global.CG_REGISTRY={};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/data/y2b_events.js','src/y2b3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/data/y2b_events.js','src/y2b3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 let cgs=[]; global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},cg(id){ if(!CG_REGISTRY[id]) return false; cgs.push(id); return true; },setBg(){},hide(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -40,27 +40,21 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const run=async id=>{ said=[]; opts=[]; await EVENTS.run(ev(id)); };
 const answer=(id,k)=>PHONE.answer(G,id,k);
 (async()=>{
-  check('0. 事件都在、程式掛上去了', ['ev_kexin_bad_exam','ev_yt_lease_text','ev_yt_aunt_retell','ev_an_mother_map','ev_ziqing_dad_visit','ev_ziqing_dad_sorry','ev_zhiruo_last_shift','ev_kexin_two_circles','ev_yt_ta_news','ev_yt_ta_news_lib','ev_yt_umbrella_y3','ev_ziqing_capstone','ev_zhiruo_xmas_video'].every(id=>!!ev(id))&&typeof Y2B!=='undefined'&&STORY.TICKS.length>0&&STORY.PHONE_RULES.length>0&&CLS.IN_CLASS.length>0&&!!MSG._y2b&&!!STORY._y2bFafu);
+  check('0. 事件都在、程式掛上去了', ['ev_kexin_bad_exam','ev_yt_lease_text','ev_yt_aunt_retell','ev_an_mother_map','ev_ziqing_dad_visit','ev_ziqing_dad_sorry','ev_zhiruo_last_shift','ev_yt_ta_news','ev_yt_ta_news_lib','ev_yt_umbrella_y3','ev_ziqing_capstone','ev_zhiruo_xmas_video'].every(id=>!!ev(id))&&typeof Y2B!=='undefined'&&STORY.TICKS.length>0&&STORY.PHONE_RULES.length>0&&CLS.IN_CLASS.length>0&&!!MSG._y2b&&!!STORY._y2bFafu);   /* K12 兩邊的朋友（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   if(fails){ console.log('FAILED '+fails); process.exit(1); }
 
-  // ---------- 1B-01 可昕 K10c ----------
   const mine=(th,first)=>{ const L=txt(th), i=L.indexOf(first); return i<0?[]:L.slice(i); };   /* 只看這一批的訊息（同一天別的規則也會傳）*/
-  fresh('2026-11-18',20.9,'dorm'); date('kexin'); rules(); check('K0. 11/18 20:54 還沒傳', !PHONE.sent(G,'y2_kx_bad_exam'));
-  at('2026-11-18',21.05); rules(); check('K1. 11/18 21:00 三則（物權。我考壞了。……不要安慰我。）、有兩個回覆', JSON.stringify(mine('p:kexin','kexin:物權。').slice(0,3))===JSON.stringify(['kexin:物權。','kexin:我考壞了。','kexin:……不要安慰我。'])&&PHONE.byAsk(G,'y2_kx_bad_exam').ask.opts.length===2, JSON.stringify(txt('p:kexin')));
-  answer('y2_kx_bad_exam',0); rules(); const q1=OUT.get(G,'y2_kx_bad_exam');
-  check('K1. 「明天晚上我過去。不安慰。」→「……好。八點半，樓下。」、排出遊 11/19 20:30（開車 40 分鐘＝19:50 出發）', txt('p:kexin').includes('kexin:……好。八點半，樓下。')&&!!q1&&q1.day===D('2026-11-19')&&q1.h===20.5&&Math.abs(q1.travelH-2/3)<1e-6&&q1.ev==='ev_kexin_bad_exam');
-  picks=[2]; await run('ev_kexin_bad_exam');
-  check('K1. 長椅：三選一；選不動產那句 →「……好。我收下。」；收尾三句；HELPED', opts[0].length===3&&/不動產/.test(opts[0][2])&&has('……好。我收下。')&&has('……今天這樣剛好。')&&G.flags.KX_BAD_EXAM==='joke'&&SOCIAL.has('kexin','HELPED'), JSON.stringify(opts[0]));
-  at('2026-12-02',21.1); rules(); check('K1. 12/2 21:00 讀書會那則（不動產那句）', txt('p:kexin').includes('kexin:你那句不動產，我在讀書會講了。')&&txt('p:kexin').includes('kexin:只有予樂笑。'));
-  at('2026-12-05',21.1); rules(); check('B4. 12/5 21:06 還沒有那則（AA_336 B4：21:10）', !txt('p:kexin').includes('kexin:物權考壞的那一章，我講給予樂聽，講到她懂。'));
-  at('2026-12-05',21.2); rules(); check('K1. 12/5 21:10 那則（三種都有）', txt('p:kexin').includes('kexin:物權考壞的那一章，我講給予樂聽，講到她懂。'));
-  fresh('2026-11-18',21.1,'dorm'); date('kexin'); rules(); at('2026-11-19',20); rules();
-  check('K2. 不回：19:50 以後記 self、沒有出遊', G.flags.KX_BAD_EXAM==='self'&&!OUT.get(G,'y2_kx_bad_exam'));
-  at('2026-11-22',22.1); rules(); at('2026-12-05',21.2); rules();
-  check('K2. 11/22「解決了。不用安慰我。」；12/5 那則照樣有；沒有 12/2 那則', txt('p:kexin').includes('kexin:解決了。不用安慰我。')&&txt('p:kexin').includes('kexin:物權考壞的那一章，我講給予樂聽，講到她懂。')&&!PHONE.sent(G,'y2_kx_bad_1202'));
-  fresh('2026-11-18',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_bad_exam',0); rules(); at('2026-11-19',21); OUT.onMissed(GM,OUT.get(G,'y2_kx_bad_exam')); PHONE.tick(G);
-  check('K3. 答應了但沒到：20:50「……你沒來。」「沒關係。我自己讀。」；記 self；沒有長椅', txt('p:kexin').includes('kexin:……你沒來。')&&txt('p:kexin').includes('kexin:沒關係。我自己讀。')&&G.flags.KX_BAD_EXAM==='self'&&!G.events.done.ev_kexin_bad_exam);
-  fresh('2026-11-18',21.1,'dorm'); rules(); check('K. 沒交往：不發生', txt('p:kexin').length===0);
+  // ---------- 1B-01 可昕「寫不出來」（CANON-NO-ECON-1112 第四批：照 AA_873 ② 整場換字——大二上第 11 週在系館遇到、熟悉以上就有（不分交往）；邀約、出遊、三種回答、11/22 和 12/2 那兩則拿掉）----------
+  { const e=ev('ev_kexin_bad_exam'); check('K1. 大二上第 11 週起（順延到第 15 週）、法律系館、走進去就演', e.trigger==='enter'&&e.location==='linze'&&JSON.stringify(e.term)===JSON.stringify(['Y2S1'])&&JSON.stringify(e.weeks)===JSON.stringify([11])&&e.carryTo===15); }
+  fresh('2026-11-17',14,'linze',{KX_MET:true}); R('kexin','FAM'); check('K1. 熟悉、在臺北、第 11 週：條件成立（沒在交往也有）', EVENTS.checkAt(ev('ev_kexin_bad_exam')));
+  fresh('2026-11-17',14,'linze',{KX_MET:true}); check('K1. 還不熟：沒有', !EVENTS.checkAt(ev('ev_kexin_bad_exam')));
+  fresh('2026-11-17',14,'linze',{KX_MET:true}); R('kexin','FAM'); picks=[1]; await run('ev_kexin_bad_exam');
+  check('K1. 照 AA_873 ② 逐字：考卷對摺、「理由？」、選「要不要我問妳？」那一段、收尾；記 KX_S2、KX_S2_ASKED', JSON.stringify(opts[0])===JSON.stringify(['「妳上課都講得出來。」','「要不要我問妳？」'])&&has('（民法債編總論的作業發回來。可昕把她那一份對摺，再對摺，塞進包包最底下。）')&&has('……我每一題都知道在問什麼。老師在旁邊寫了三次「理由？」。')&&has('……剛剛那一段，我作業上一個字都沒有寫。')&&has('結果只有一半。另一半是沒有人問的時候，我自己要問自己。')&&has('這張我要留著。很醜，可是我要留著。')&&G.flags.KX_S2===true&&G.flags.KX_S2_ASKED===true, JSON.stringify(said.map(x=>x.t)));
+  fresh('2026-11-18',20.9,'dorm'); date('kexin'); at('2026-11-18',21.05); rules(); check('K2. 11/18 的邀約拿掉', !PHONE.sent(G,'y2_kx_bad_exam'));
+  G.events.done.ev_kexin_bad_exam=1; G.events.last.ev_kexin_bad_exam=D('2026-11-17'); at('2026-12-02',21.1); rules(); check('K2. 12/2 那則拿掉', !PHONE.sent(G,'y2_kx_bad_1202'));
+  at('2026-12-05',21.1); rules(); check('B4. 12/5 21:06 還沒有那則（AA_336 B4：21:10）', !txt('p:kexin').includes('kexin:物權考壞的那一章，我講給我室友聽，講到她懂。'));
+  at('2026-12-05',21.2); rules(); check('K2. 交往中、那一場演過：12/5 21:10 那則照留（AA_897 換字）', txt('p:kexin').includes('kexin:物權考壞的那一章，我講給我室友聽，講到她懂。'));
+  fresh('2026-12-05',21.2,'dorm'); date('kexin'); rules(); check('K2. 沒演過那一場：12/5 沒有', !PHONE.sent(G,'y2_kx_bad_1205'));
   { const L=JSON.stringify(ev('ev_kexin_bad_exam').dialogue); check('K4. 她沒有出假設題、沒有拿祐廷比較（沒有「如果」「比你」）', !/如果|比你/.test(L)); }
 
   // ---------- 1B-02 語彤事件 8 ----------
@@ -148,23 +142,8 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('Z4c. 沒去、和別人（可昕）交往中：9/2 一疊票根那一版', txt('p:heroine_02').join('|')==='heroine_02:今天出發去英國了。|heroine_02:櫃台有一疊電影票根，常客一人一張，跟老闆拿。|heroine_02:看完寫一句話，寄到店裡。我會回。', JSON.stringify(txt('p:heroine_02')));
 
   // ---------- 1B-07 可昕 K12 ----------
-  fresh('2027-03-21',21.1,'dorm',{KX_INTRO:'gf',KX_MET_NOODLE_TEAM:true,YL_IMPRESSION:'funny'}); date('kexin'); SOCIAL.remember('yu','FIRST_MET',''); rules();
-  check('T1. 3/21 21:00 三則、兩個回覆', mine('p:kexin','kexin:兩邊的朋友該見面了。').slice(0,3).join('|')==='kexin:兩邊的朋友該見面了。|kexin:週四晚上六點，你們的燒臘店。|kexin:我負責予樂，你負責阿哲。'&&PHONE.byAsk(G,'y2_kx_circles').ask.opts.length===2, JSON.stringify(txt('p:kexin')));
-  answer('y2_kx_circles',0); rules(); const q7=OUT.get(G,'y2_kx_circles');
-  check('T1. 「好。」→ 予樂要穿得像面試；排出遊 3/25 18:00 麵店', txt('p:kexin').includes('kexin:好。我先跟予樂說，她會穿得很像要去面試。')&&q7&&q7.day===D('2027-03-25')&&q7.h===18&&q7.ev==='ev_kexin_two_circles');
-  at('2027-03-25',18); picks=[2]; await run('ev_kexin_two_circles');
-  check('T1. 見過麵店團、K3 說了女朋友：「上次是烤肉，這次是燒臘。」、沒有介紹選項；予樂「司機你們都認識了。……今天換他當客人。」（AA_519 第 6 節，不再說「這是很好笑的司機。」）；綽號三選一；「麵店分店」群組', has('上次是烤肉，這次是燒臘。')&&opts.length===1&&opts[0].length===3&&has('司機你們都認識了。……今天換他當客人。')&&!has('這是很好笑的司機。')&&has('「公館燒臘分店」。不准改。')&&PHONE.inGroup(G,'noodle_branch')&&G.flags.KX_CIRCLES_MET===true, JSON.stringify(opts));
-  fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',0); rules(); at('2027-03-25',18); picks=[1,0]; await run('ev_kexin_two_circles');
-  check('T2. K3 沒去、介紹「木柵大學法律」：「你們就是麵店團？」；阿哲、Alison 不知道她是女友；記 KX_MET_NOODLE_TEAM；沒有 YL_IMPRESSION＝可昕「這是我的司機。」', has('你們就是他一直講的那群人？我聽了一年半。')&&!ROM.knowsGF(G,'zhe')&&!ROM.knowsGF(G,'yu')&&G.flags.KX_MET_NOODLE_TEAM===true&&has('這是我的司機。'));
-  check('B3. 介紹「木柵大學法律」：旁白「（可昕看了你一眼，沒說什麼。）」（不是可昕說話）', said.some(s=>s.who===null&&s.t==='（可昕看了你一眼，沒說什麼。）'));
-  fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',0); rules(); at('2027-03-25',18); picks=[0,0]; await run('ev_kexin_two_circles');
-  check('T2b. 介紹「我女朋友」：阿哲「……喔。」、在場的人知道', has('……喔。')&&ROM.knowsGF(G,'zhe')&&!has('你都不講！'));
-  fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',1); rules();
-  check('T3. 婉拒：「……好。那下次。」、不排出遊、KX_MET_NOODLE_TEAM 不記', txt('p:kexin').includes('kexin:……好。那下次。')&&!OUT.get(G,'y2_kx_circles')&&!G.flags.KX_MET_NOODLE_TEAM);
-  fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); at('2027-03-23',21.1); rules();
-  check('T3b. 不回：3/23 21:00「週四。六點。你還沒回。」', txt('p:kexin').includes('kexin:週四。六點。你還沒回。'));
-  fresh('2027-03-25',18,'dorm'); date('kexin'); SOCIAL.remember('heroine_01','FIRST_MET',''); picks=[1,2]; await run('ev_kexin_two_circles');
-  check('T4. 認識以安：19:40「我們八點讀書會。……很高興認識妳。」（AA_375 第 15 項）→ 可昕「嗯。下次見。」；八點半結尾', has('我們八點讀書會。……很高興認識妳。')&&has('嗯。下次見。')&&has('（八點半。予樂說要開一個群組，名字她來取。）'));
+  fresh('2027-03-21',21.1,'dorm',{KX_INTRO:'gf',KX_MET_NOODLE_TEAM:true}); date('kexin'); rules(); at('2027-03-23',21.1); rules();
+  check('T1～T4. 兩邊的朋友（3/21 的邀約、3/23 的提醒、3/25 那一場）（CANON-NO-ECON-1112 第三批：這一項拿掉）', !PHONE.sent(G,'y2_kx_circles')&&!PHONE.sent(G,'y2_kx_circles2')&&!ev('ev_kexin_two_circles'));
 
   // ---------- 1B-08 語彤 13b、事件 12 ----------
   fresh('2027-09-07',18,'noodle'); R('heroine_03','FRI'); check('13b. 大三上第 1 週週二 18:00 麵店：可以演', EVENTS.check(ev('ev_yt_ta_news')));
@@ -193,10 +172,10 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('Q10-0. 11/8 21:00 兩則＋出發提醒（11/9 19:30 兩點半）', txt('p:heroine_04').join('|')==='heroine_04:我有兩個專題，只能交一個。|heroine_04:明天晚上七點半，兩點半。你來幫我看一下。'&&q10&&q10.goto&&q10.goto.zone==='cafe'&&q10.h===19.5);
   at('2027-11-09',19.4); G.zone='cafe'; check('Q10-1. 19:15～20:00 在 Café：可以演', EVENTS.check(cp));
   picks=[3]; await run('ev_ziqing_capstone');
-  check('Q10-1. 沒看過 Q6：開頭「……你應該不知道。我在做遊戲」；選④第一次：「我念過一個多月經濟」、記 TOLD_HER_CHANGE、nameless', said[0].t==='……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'&&opts[0].length===4&&/一個多月經濟/.test(opts[0][3])&&SOCIAL.has('heroine_04','TOLD_HER_CHANGE')&&G.flags.ZQ_Q10==='nameless'&&has('（她把沒有名字的那個資料夾拖到桌面正中間。）'));
+  check('Q10-1. 沒看過 Q6：開頭「……你應該不知道。我在做遊戲」；選④「做選擇的時候，我也很怕。」→ q5、不記 TOLD_HER_CHANGE、nameless（CANON-NO-ECON-1112 第四批：照 AA_896 第 2 節）', said[0].t==='……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'&&opts[0].length===4&&opts[0][3]==='「做選擇的時候，我也很怕。」'&&!SOCIAL.has('heroine_04','TOLD_HER_CHANGE')&&G.flags.ZQ_Q10==='nameless'&&has('……你這樣講，我比較不怕了。'));
   check('Q10-4. 配樂那段：「把說好的事寫下來」，沒有法律結論（沒有「條」「違法」「合法」）', has('那妳們先把說好的事寫下來。誰做什麼、做完歸誰、可不可以放在別的地方。')&&!said.some(s=>/第.+條|違法|合法|著作權法/.test(s.t))&&G.flags.ZQ_MUSIC_CREDIT===true);
   fresh('2027-11-09',19.4,'cafe'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','PLAYTESTED','Q6'); SOCIAL.remember('heroine_04','TOLD_HER_CHANGE',''); picks=[3]; await run('ev_ziqing_capstone');
-  check('Q10-2. 看過 Q6：沒有開頭那句；已經說過換方向＝選④換「我上次說換跑道的事」', said[0].t==='畢業專題。我要交那隻貓。'&&/換跑道/.test(opts[0][3])&&has('……你這樣講，我比較不怕了。'));
+  check('Q10-2. 看過 Q6：沒有開頭那句；選④照樣是「做選擇的時候，我也很怕。」（CANON-NO-ECON-1112 第四批：照 AA_896 第 2 節）', said[0].t==='畢業專題。我要交那隻貓。'&&opts[0][3]==='「做選擇的時候，我也很怕。」'&&has('……你這樣講，我比較不怕了。'));
   fresh('2027-11-08',21.1,'dorm'); R('heroine_04','FRI'); ct('heroine_04'); rules(); at('2027-11-09',20.05); rules(); at('2027-11-09',21.05); PHONE.tick(G);
   check('Q10-3. 沒去：21:00「我自己選了。……」；ZQ_Q10 self、配樂照樣有', txt('p:heroine_04').includes('heroine_04:我自己選了。……其實本來就差不多決定了。')&&G.flags.ZQ_Q10==='self'&&G.flags.ZQ_MUSIC_CREDIT===true);
 

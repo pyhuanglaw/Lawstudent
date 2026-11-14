@@ -82,7 +82,7 @@ await sec(3,async()=>{ const rnd=Math.random; const play=async(o)=>{ const P=PAR
 
 await sec(4,async()=>{ const busy0=INV.busyAt, reach0=STORY.reachable; INV.busyAt=()=>null;
   try{
-  const setup=(k,h,flags)=>{ fresh(k,h,'dorm',Object.assign({NOODLE_SAW_APRON:true},flags||{})); PHONE.join(H.G,'noodle_team','麵店團'); for(const id of ['zhe','yu','classmate_bohan','classmate_xinci']) H.rel(id,30,10,10); H.G.flags.MET_ZHE=true; };
+  const setup=(k,h,flags)=>{ fresh(k,h,'dorm',Object.assign({NOODLE_SAW_APRON:true},flags||{})); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','yu','classmate_bohan','classmate_xinci']) H.rel(id,30,10,10); H.G.flags.MET_ZHE=true; };
   const thu=TD('Y2S1',4,4), sat=thu+2; const A=PHONE.GROUP_ACTS.find(a=>a.id==='wz_grpb');
   setup(key(thu),20); check('4. 群組裡的「約」：週四 20:00、有 NOODLE_SAW_APRON＝看得到',!!A&&A.th===TH&&A.label==='約'&&A.show(H.G));
   at(thu,18.5); check('4. 18:30 還沒',!A.show(H.G)); at(thu-1,20); check('4. 週三沒有',!A.show(H.G)); at(thu,20); H.G.flags.NOODLE_SAW_APRON=false; check('4. 沒有 NOODLE_SAW_APRON 沒有',!A.show(H.G));

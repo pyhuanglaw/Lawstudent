@@ -10,15 +10,15 @@
   - 洗手間：進門右邊（+x）x 0.65..2.9、z 1.83..3.4（11-02 以前 1.45），門開向入口走道（x=0.65 那一面）。
   - 床桌組：右牆兩組（R1 後、R2 前）、左牆兩組（L1 後、L2 前），每組沿牆 2.57 m、離牆 1.05 m；階梯在每組靠門那一端（寬 0.52、五階 32 cm）；床板 1.66～1.70、床欄頂 2.12、床墊 2.0×1.0 m。
     11-02 DORM-LOFT-SCALE-1102 使用者「宿舍的床跟人的比例太奇怪了，床太小，階梯太小」：以前每組 2.4 m、離牆 0.95、階梯寬 0.40 四階、床板 1.56～1.60、床墊 1.95 m；洗手間 z 1.45 → 1.83。
-    誰用哪一組照 AA_208 第 4 節：203＝R1 柏翰（靠窗、先到）、R2 阿凱、L1 阿哲、L2 祐廷（門口那組）；412（經濟系那年，同一個模型換東西）＝R1 唐睿、R2 阿勳、L1 韋綸、L2 祐廷。
+    誰用哪一組照 AA_208 第 4 節：203＝R1 柏翰（靠窗、先到）、R2 阿凱、L1 阿哲、L2 祐廷（門口那組）；412（舊序章那一段，同一個模型換東西）＝R1 舊序章人物丙、R2 舊序章人物甲、L1 舊序章人物乙、L2 祐廷。
   - 窗移到後牆中間（x −1.1..1.1、y 0.95..2.4），冷氣在窗的右上方。
   - 階梯兩側都有扶手（DORM-LADDER-HEAD-GRIP-1102 ②，LAWWW2-C 11-05：以前只有門那一側）：靠床那一側照門那一側的下半段鏡像，斜上到床尾板的邊（1.84 m）彎進床尾板。
     sleep_scene 多 grips（每一階爬上／爬下兩手抓的點，給 LAWWW 的 climbIK）、rails（扶手、床尾板頂、上下床扶手的中心線）。
 - 節點：WALL_<front|back|left|right|bath_n|bath_w>_*（會淡出的牆，dir＝往室內）；LOFT_<組>_TOP（床板、床欄、床墊、吊桿、扶手上段：材質 seethru_*）＋子節點 BEDDING_<組>（被子、枕頭）；
-  每個人的東西一組一個節點（可以整組藏起來）：Y203_YUTING、ROOMMATE_KAI、Y203_ZHE、Y203_BOHAN、Y412_YUTING、Y412_TANGRUI、Y412_WEILUN；經濟系第一晚的名牌 NAMETAG_TANGRUI／NAMETAG_WEILUN。
+  每個人的東西一組一個節點（可以整組藏起來）：Y203_YUTING、ROOMMATE_KAI、Y203_ZHE、Y203_BOHAN、Y412_YUTING、Y412_TANGRUI、Y412_WEILUN；舊序章第一晚的名牌 NAMETAG_TANGRUI／NAMETAG_WEILUN。
   大二～大四（LAWWW2-C 2026-10-17，AA_208 第 7、8 節；SCN-V3-01／V4-01／V5-01）：Y312_YUTING／Y312_ZHE／Y312_BOHAN／Y312_FRESH、Y507_YUTING／Y507_BOHAN／Y507_SOPH／Y507_PEER、
   Y409_YUTING／Y409_BOHAN／Y409_SOPH／Y409_FRESH（遊戲端：zones3d.js 的 DORM_SETS 要多 312／507／409 三組，舊的 203、412 也要藏 Y312_／Y507_／Y409_——GLB 和 patch 要一起換）。
-  阿勳的書桌、保齡球袋、E01 紙箱照舊用 v0_dorm_props（位置在 layout 的 v0_props）。其他照材質合併。
+  舊序章人物甲的書桌、保齡球袋、E01 紙箱照舊用 v0_dorm_props（位置在 layout 的 v0_props）。其他照材質合併。
 """
 import json, math, os, sys, random
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -282,7 +282,7 @@ for a, b_ in zip(rows, rows[1:]):
     for k in range(n): shc.bm.faces.new((a[k], a[k + 1], b_[k + 1], b_[k]))
 fin(shc, uv=False)
 
-# ======================================================================= 標示：洗手間門牌、經濟系第一晚的床位名牌（一張貼圖、PIL 寫字）
+# ======================================================================= 標示：洗手間門牌、舊序章第一晚的床位名牌（一張貼圖、PIL 寫字）
 def make_labels(path):
     from PIL import Image as PI, ImageDraw as PD, ImageFont as PF
     font = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
@@ -294,7 +294,7 @@ def make_labels(path):
         else: d.polygon([(cx, 50), (cx - 24, 104), (cx + 24, 104)], fill=col)
     d.line([104, 22, 104, 104], fill=(140, 140, 140), width=3)
     d.text((182, 28), '洗手間', fill=(60, 62, 66), font=PF.truetype(font, 62))
-    for x0, name in ((0, '唐睿'), (256, '韋綸')):                                                            # 名牌（下半，各 256×128）
+    for x0, name in ((0, '舊序章人物丙'), (256, '舊序章人物乙')):                                                            # 名牌（下半，各 256×128）
         d.rectangle([x0 + 6, 134, x0 + 249, 249], fill=(250, 250, 246), outline=(70, 110, 170), width=6)
         d.text((x0 + 22, 140), '412', fill=(70, 110, 170), font=PF.truetype(font, 28))
         d.text((x0 + 58, 170), name, fill=(40, 40, 44), font=PF.truetype(font, 66))
@@ -356,7 +356,7 @@ LAYOUT = {'version': 'loft4-v2',
                    'look_point': [round(xo - 0.45, 3), round((d0 + d1) / 2, 3)], 'label': '洗手間（門關著）'},
           'calendar_spot': {'x': 1.25, 'y': 1.75, 'z': round(bz0 - bt / 2 - 0.006, 3), 'ry': math.pi, 'note': '洗手間北面隔間朝房間那一面（空牆），面向 −z'},
           'units': [], 'blocks': [],
-          'sets': {'203': '藏 Y412_*、NAMETAG_*；其他照常', '412': '藏 Y203_*、ROOMMATE_KAI；阿勳的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）',
+          'sets': {'203': '藏 Y412_*、NAMETAG_*；其他照常', '412': '藏 Y203_*、ROOMMATE_KAI；舊序章人物甲的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）',
                    '412_first_night': '412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）',
                    '312': '大二（AA_208 第 7 節）：只顯示 Y312_*；藏 Y203_*、ROOMMATE_KAI、Y412_*、Y507_*、Y409_*、NAMETAG_*',
                    '507': '大三（第 8 節）：只顯示 Y507_*；其他年份的都藏', '409': '大四（第 8 節）：只顯示 Y409_*；其他年份的都藏',
@@ -373,87 +373,6 @@ def plastic_chair(side, u, v):
     for du, dv in ((-0.18, -0.16), (0.18, -0.16), (-0.18, 0.17), (0.18, 0.17)):
         met.cyl(W3(side, u + du, 0.42, v + dv), W3(side, u + du * 1.12, 0.0, v + dv * 1.15), 0.011, seg=6)
     for du in (-0.16, 0.16): met.cyl(W3(side, u + du, 0.44, v + 0.2), W3(side, u + du * 0.9, 0.6, v + 0.235), 0.009, seg=5)
-
-
-def make_jacket_tex(path):
-    """椅背外套的貼圖（X140 SK02-LINE-JACKET-1030）：左半＝外套身體（衣領 → 背後 → 下襬，1024 px／m），右半＝兩隻袖子。
-    和祐廷 VRM 的 JACKET_ECON 同一件（tools/jacket_econ.py）：深藍、羅紋＋兩條米白細線、背後「CIU」「ECON」（不能有臺大、NTU、真實校徽）。"""
-    from PIL import Image as PI, ImageDraw as PD, ImageFont as PF
-    S = 1024; im = PI.new('RGB', (S, S), JK_NAVY); d = PD.Draw(im); R = random.Random(140)
-    for _ in range(9000):                                                          # 布紋：很淡的雜點
-        x, y = R.randrange(S), R.randrange(S); c = R.choice((-6, -4, 4, 6)); d.point((x, y), fill=tuple(max(0, min(255, k + c)) for k in JK_NAVY))
-    def rib(x0, x1, y0, y1, lines):
-        d.rectangle([x0, y0, x1, y1], fill=JK_RIB)
-        for x in range(x0, x1, 4): d.line([x, y0, x, y1], fill=tuple(k - 6 for k in JK_RIB))
-        for ly in lines: d.rectangle([x0, ly - 2, x1, ly + 2], fill=JK_LINE)
-    L_ = JK_PATH_LEN
-    rib(0, 511, 0, int(0.05 * S), [])                                              # 衣領（座位那一側往下摺的那一段）
-    rib(0, 511, int((L_ - 0.05) * S), int(L_ * S), [int((L_ - 0.022) * S), int((L_ - 0.030) * S)])   # 下襬
-    for xs in (512, 768): rib(xs, xs + 255, int((JK_SLEEVE_LEN - 0.05) * S), int(JK_SLEEVE_LEN * S), [int((JK_SLEEVE_LEN - 0.022) * S), int((JK_SLEEVE_LEN - 0.030) * S)])   # 袖口
-    serif = '/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf'
-    for s, px, cy in (('CIU', 34, JK_TEXT_T - 0.035), ('ECON', 60, JK_TEXT_T + 0.025)):   # 背後的字（從背後看：u 往右）
-        f = PF.truetype(serif, px); x0, y0, x1, y1 = f.getbbox(s); d.text((256 - (x1 - x0) / 2 - x0, cy * S - (y1 - y0) / 2 - y0), s, fill=JK_TEXT, font=f)
-    os.makedirs(os.path.dirname(path), exist_ok=True); im.save(path)
-    return path
-
-
-JK_NAVY, JK_RIB, JK_LINE, JK_TEXT = (46, 58, 88), (35, 44, 68), (232, 227, 214), (236, 232, 220)
-JK_PATH_LEN, JK_SLEEVE_LEN, JK_TEXT_T = 0.74, 0.5, 0.25   # 外套身體沿著垂掛路線的長度（m）、袖子長、背後的字中心離衣領多遠
-
-
-def jacket_chair(side, cu, v, parent):
-    """椅背上的系外套 JACKET_CHAIR（X140；AA 定：回宿舍掛椅背、大二起一直掛）：衣領跨過椅背上緣往座位那一側摺下來一點，
-    背面（印「CIU ECON」）朝走道垂到椅背下面，兩隻袖子從肩膀垂在背面兩側。遊戲預設藏起來（zones3d 照劇情顯示）；烘焙時不算（--hide ^JACKET_）。"""
-    mat = img_mat('dorm_jacket_chair', make_jacket_tex(os.path.join(TEXGEN, 'dorm_jacket_chair.png')), rough=0.9); mat.use_backface_culling = False
-    g = B.group('JACKET_CHAIR', parent, {'kind': 'jacket_chair', 'unit': 'L2', 'note': '祐廷的經濟系系外套（掛在椅背）'})
-    sgn = 1 if side == 'L' else -1                                                   # v（離牆）往走道 → 世界 x 的方向
-    # 椅背（plastic_chair 匯出後量的）：0.024 厚的板子，下緣 0.585 m、上緣 0.925 m；中心 v＝v+0.29（下）→ v+0.249（上）——往座位那邊斜
-    yb0, yt = 0.585, 0.925
-    vout = lambda h: v + 0.302 - (h - yb0) * 0.1206                                  # 椅背朝走道那一面
-    vin = lambda h: vout(h) - 0.024
-    # 垂掛路線（v＝離牆、h＝高度），從座位那一側的衣領 → 跨過上緣 → 沿椅背背面 → 椅背下面垂直掛著
-    path = [(vin(yt) - 0.025, yt - 0.075), (vin(yt) - 0.022, yt - 0.03), (vin(yt) - 0.012, yt + 0.01), ((vin(yt) + vout(yt)) / 2, yt + 0.02),
-            (vout(yt) + 0.012, yt + 0.01), (vout(yt) + 0.022, yt - 0.025)]
-    for k in range(1, 7):
-        h = yt - 0.025 - (yt - 0.025 - yb0) * k / 6; path.append((vout(h) + 0.022, h))
-    for h in (0.5, 0.42, 0.35): path.append((path[-1][0] + 0.004, h))
-    tl = [0.0]
-    for a, b in zip(path, path[1:]): tl.append(tl[-1] + math.hypot(b[0] - a[0], b[1] - a[1]))
-    sc = JK_PATH_LEN / tl[-1]
-    bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap'); NA = 14; rows = []
-    for (d0, h0), t in zip(path, tl):
-        row = []
-        for i in range(NA + 1):
-            s = i / NA; a = (s - 0.5) * (0.5 if h0 > yt - 0.06 else 0.52)
-            sag = max(0.0, abs(a) - 0.2) * 0.55 if h0 > yt - 0.1 else 0.0          # 肩膀超出椅背寬度的地方往下垂
-            wav = 0.006 * math.sin(a * 31 + h0 * 7) * (1 if h0 < yb0 + 0.05 else 0.4)   # 下面那段有皺褶
-            dd = d0 + wav + (0.012 if abs(a) > 0.2 else 0.0)
-            row.append((bm.verts.new(g2b(*W3(side, cu + a, h0 - sag, dd))), s, t * sc))
-        rows.append(row)
-    for r0, r1 in zip(rows, rows[1:]):
-        for i in range(NA):
-            f = bm.faces.new((r0[i][0], r0[i + 1][0], r1[i + 1][0], r1[i][0]))
-            for lp, (_, s, t) in zip(f.loops, (r0[i], r0[i + 1], r1[i + 1], r1[i])): lp[uvl].uv = (0.5 - s * 0.5 if sgn > 0 else s * 0.5, 1 - t)   # 從走道看背面：L 側看的人的右手邊是 −u
-    # 袖子：肩膀（背面、比上緣低 6 cm）垂到 0.40 m，扁的管子（貼著背面那一層）
-    for k, sa in enumerate((-1, 1)):
-        N_, M_ = 8, 10; ring = []
-        for j in range(M_ + 1):
-            q = j / M_; h = (yt - 0.06) * (1 - q) + 0.40 * q; a = sa * (0.225 + 0.03 * q - 0.02 * math.sin(math.pi * q))
-            dd = vout(max(h, yb0)) + 0.022 + 0.035 + 0.01 * q; r = 0.052 - 0.01 * q
-            rr = []
-            for i in range(N_ + 1):
-                ph = 2 * math.pi * i / N_
-                rr.append((bm.verts.new(g2b(*W3(side, cu + a + r * math.cos(ph), h, dd + 0.45 * r * math.sin(ph)))), i / N_, q * JK_SLEEVE_LEN))
-            ring.append(rr)
-        for r0, r1 in zip(ring, ring[1:]):
-            for i in range(N_):
-                f = bm.faces.new((r0[i][0], r0[i + 1][0], r1[i + 1][0], r1[i][0]))
-                for lp, (_, s, t) in zip(f.loops, (r0[i], r0[i + 1], r1[i + 1], r1[i])): lp[uvl].uv = (0.5 + 0.25 * k + 0.25 * s, 1 - t)
-    bm.normal_update()
-    ob = B.mesh_obj('JACKET_CHAIR_cloth', bm, mat, g); L.smooth_mesh(ob, angle=1.2)
-    c = W3(side, cu, (yt + 0.35) / 2, vout(0.64))
-    LAYOUT['jacket_chair'] = {'node': 'JACKET_CHAIR', 'unit': 'L2', 'x': round(c[0], 3), 'y': round(c[1], 3), 'z': round(c[2], 3),
-                              'note': '祐廷（L2）書桌椅的椅背；每一年都是 L2 同一張椅子。遊戲預設藏起來，劇情決定顯示（X140；AA：回宿舍掛椅背、大二起一直掛）'}
 
 
 def laptop(G, side, lu, Y, vb=0.17):
@@ -517,7 +436,7 @@ def grip_samples(pts, tag, keep=lambda p: True, step=0.01):
 def loft(uid, side, ua, ub, sets):
     ust = ub - STW
     TOPG = B.group(f'LOFT_{uid}_TOP', root, {'kind': 'loft_top', 'unit': uid})          # 1.5 m 以上：鏡頭擋到時遊戲可以整組淡出
-    BED = B.group(f'BEDDING_{uid}', TOPG, {'kind': 'bedding', 'unit': uid})              # 被子、枕頭（經濟系第一晚空床時藏起來）
+    BED = B.group(f'BEDDING_{uid}', TOPG, {'kind': 'bedding', 'unit': uid})              # 被子、枕頭（舊序章第一晚空床時藏起來）
     tf = Mesh(f'LOFT_{uid}_frame', M['tframe']); tr = Mesh(f'LOFT_{uid}_rod', M['trod']); ts = Mesh(f'LOFT_{uid}_sheet', M['tsheet'])
     tdv = Mesh(f'BEDDING_{uid}_duvet', L.flat(f'seethru_dorm_duvet_{uid}', DUVET[uid], rough=0.95)); tpw = Mesh(f'BEDDING_{uid}_pillow', M['tpillow'])
     # ---- 床板、床欄、吊桿、上下床的扶手、床墊
@@ -576,7 +495,6 @@ def loft(uid, side, ua, ub, sets):
     tf.cyl(W3(side, ust + 0.006, yb, vb), W3(side, ust, yb, vb), 0.028, seg=12)   # 法蘭（鎖在床尾板上）
     cu_ = (k0 + 0.45 + k1) / 2
     plastic_chair(side, cu_, 0.86)
-    if uid == 'L2' and not ONLY: jacket_chair(side, cu_, 0.86, root)   # 祐廷的椅子：系外套（預設藏）
     lbox(it, side, ust + 0.03, ub - 0.03, 0.0, 0.12, VD - dd + 0.03, VD - 0.02, fn='cbox', hexcol='#e8e2d4')                      # 最下面一格：鞋盒
     for j in range(2): lbox(it, side, ub - 0.38 + j * 0.13, ub - 0.27 + j * 0.13, 0.0, 0.03, VD + 0.1, VD + 0.36, fn='cbox', hexcol={'R1': '#5a5f66', 'R2': '#202225', 'L1': '#3e5a48', 'L2': '#2f4f6b'}[uid])   # 拖鞋
     for m in (tf, tr, ts):
@@ -588,7 +506,7 @@ def loft(uid, side, ua, ub, sets):
     for year, who in sets.items():
         fn = ITEMS.get((year, who))
         if fn: fn(**ctx)
-    if sets.get('412') in ('tangrui', 'weilun'):                                                       # 經濟系第一晚：床欄上的名牌
+    if sets.get('412') in ('tangrui', 'weilun'):                                                       # 舊序章第一晚：床欄上的名牌
         nm = sets['412']; g = B.group(f'NAMETAG_{nm.upper()}', root, {'kind': 'nametag', 'unit': uid}); uc = (ua + ust) / 2; xg = wx(side, VD + 0.003)
         a, b = (uc - 0.11, uc + 0.11) if side == 'R' else (uc + 0.11, uc - 0.11)
         label_quad(f'NAMETAG_{nm.upper()}_card', g, [(xg, DECK1 + 0.08, a), (xg, DECK1 + 0.08, b), (xg, DECK1 + 0.19, b), (xg, DECK1 + 0.19, a)], (0.0, 0.0, 0.5, 0.5) if nm == 'tangrui' else (0.5, 0.0, 1.0, 0.5))
@@ -896,14 +814,14 @@ def peer_y(year):
 
 
 ITEMS = {('203', 'yuting'): yuting203, ('412', 'yuting'): yuting412, ('203', 'kai'): kai203, ('203', 'zhe'): zhe203, ('203', 'bohan'): bohan203,
-         ('412', 'tangrui'): tangrui412, ('412', 'weilun'): weilun412,   # 阿勳（412、R2）：遊戲的 v0_dorm_props（XUN_DESK、XUN_BOWLING）
+         ('412', 'tangrui'): tangrui412, ('412', 'weilun'): weilun412,   # 舊序章人物甲（412、R2）：遊戲的 v0_dorm_props（XUN_DESK、XUN_BOWLING）
          ('312', 'yuting'): yuting_y('312'), ('312', 'zhe'): zhe312, ('312', 'bohan'): bohan_y('312'), ('312', 'fresh'): fresh_y('312'),
          ('507', 'yuting'): yuting_y('507'), ('507', 'bohan'): bohan_y('507'), ('507', 'soph'): soph_y('507'), ('507', 'peer'): peer507,
          ('409', 'yuting'): yuting_y('409'), ('409', 'bohan'): bohan_y('409'), ('409', 'soph'): soph_y('409'), ('409', 'fresh'): fresh_y('409'),
          ('205', 'fang'): fang205, ('205', 'fresh'): fresh_y('205'), ('205', 'soph'): soph_y('205'), ('205', 'peer'): peer_y('205')}   # 205 只在 --only 205
 for uid, side, ua, ub, sets in UNITS: loft(uid, side, ua, ub, {k: v for k, v in sets.items() if (k == ONLY if ONLY else k not in EXTRA_SETS)})
 r2 = next(u for u in LAYOUT['units'] if u['id'] == 'R2'); l2 = next(u for u in LAYOUT['units'] if u['id'] == 'L2')
-LAYOUT['v0_props'] = {'XUN_DESK': {'x': r2['desk_center'][0], 'y': 0.76, 'z': r2['desk_center'][1], 'ry': math.pi / 2, 'note': '阿勳的書桌（R2）'},
+LAYOUT['v0_props'] = {'XUN_DESK': {'x': r2['desk_center'][0], 'y': 0.76, 'z': r2['desk_center'][1], 'ry': math.pi / 2, 'note': '舊序章人物甲的書桌（R2）'},
                       'XUN_BOWLING': {'x': r2['floor_under_bed_spot'][0], 'y': 0.0, 'z': r2['floor_under_bed_spot'][1], 'ry': 0.0, 'note': '書桌下靠衣櫃那一端的地上'},
                       'BOXES_DESK': {'x': round(wx('L', 0.47), 3), 'y': 0.76, 'z': l2['desk_center'][1], 'note': 'E01 紙箱疊在祐廷的書桌上（AA_208 第 6 節）；箱子深 0.36 m、中心離牆 0.47 m：整疊在層架（深 0.27 m）前面——10-30 以前放在書桌正中間，穿過層架和床板（使用者「書桌上東西不要重疊」）'},
                       'BOXES_FLOOR': {'x': round(l2['seat_approach'][0] + 0.1, 3), 'y': 0.0, 'z': round(l2['desk_u'][0] + 0.35, 3), 'note': '隔天剩的箱子在書桌旁邊的地上'}}
@@ -923,7 +841,7 @@ for x_ in (RX0, RX1):
     met.cyl((x_, 0.0, RZ - 0.27), (x_, 1.1, RZ), 0.008, seg=5); met.cyl((x_, 0.0, RZ + 0.27), (x_, 1.1, RZ), 0.008, seg=5)
 for (y_, dz) in ((1.1, 0.0), (0.85, -0.1), (0.85, 0.1)): met.cyl((RX0, y_, RZ + dz), (RX1, y_, RZ + dz), 0.006, seg=5)
 it.cbox(-1.4, -1.1, 0.62, 1.1, RZ - 0.015, RZ + 0.015, '#e6e0d2'); it.cbox(-1.05, -0.9, 0.7, 1.1, RZ - 0.115, RZ - 0.085, '#4a6c8c')
-# 大家共用的東西（DORM203-LM-1030；四個年級、經濟系那年都一樣）：洗手間門口的吸水腳踏墊（走道上、平的，不擋路）；門左邊角落靠牆的掃把和畚箕
+# 大家共用的東西（DORM203-LM-1030；四個年級、舊序章那一段都一樣）：洗手間門口的吸水腳踏墊（走道上、平的，不擋路）；門左邊角落靠牆的掃把和畚箕
 bmat = Mesh('dorm_bathmat', L.flat('dorm_bathmat', '#7f8b92', rough=0.97)); soft_box(bmat, 0.1, 0.58, 0.0, 0.012, 2.35, 2.9, r=0.005, seg=1); fin(bmat, uv=False, props={'lm': 0.6})
 met.cyl((-1.89, 0.06, 3.12), (-1.94, 1.22, 3.27), 0.011, seg=6)                                                                      # 掃把：鋁管＋塑膠頭＋刷毛
 it.cbox(-1.96, -1.82, 0.02, 0.1, 3.05, 3.19, '#2f6f8f'); it.cbox(-1.95, -1.83, 0.0, 0.03, 3.06, 3.18, '#c9b98a')
@@ -959,7 +877,7 @@ for side, ms in walls.items():
 def keep(ob):
     p = ob
     while p is not None:
-        if p.name.startswith(('ROOMMATE_', 'LOFT_', 'BEDDING_', 'Y203_', 'Y412_', 'Y312_', 'Y507_', 'Y409_', 'Y205_', 'NAMETAG_', 'JACKET_')) or p.name == 'WALL_bath_w_sign': return True
+        if p.name.startswith(('ROOMMATE_', 'LOFT_', 'BEDDING_', 'Y203_', 'Y412_', 'Y312_', 'Y507_', 'Y409_', 'Y205_', 'NAMETAG_')) or p.name == 'WALL_bath_w_sign': return True
         p = p.parent
     return False
 

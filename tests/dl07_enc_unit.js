@@ -56,7 +56,7 @@ const whoAt=(G,spot)=>ENC.candidates(G,spot).map(c=>c.row.who+(c.tier.t==='acq'?
   G=mk(SAT,19.5); G.flags.dating_kexin=false; check('3. 沒有交往、也沒分開的可昕不出現',!/kexin/.test(whoAt(G,'D04')));
   G=mk(SAT,19.5); OUT.rec(G).push({id:'kx_tour',day:SAT,h:14,state:'planned'}); check('3. 今天和可昕有約（去政大）：偶遇表沒有她',!/kexin/.test(whoAt(G,'D04')));
   G=mk(SAT,19.5); ENC.rec(G).encMet.who.push('zhe'); check('3. 今天已經遇過阿哲：不再遇到',!/zhe/.test(whoAt(G,'D04')));
-  G=mk(SAT,19.5,{stage:'econ'}); check('3. 經濟系那一年（v0）先不排',whoAt(G,'D04')==='');
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 3 項 經濟系那一年先不排）
   { const c=CHARACTERS.zhe, keep=c.daily_schedule; c.daily_schedule=keep.filter(e=>!e.enc); G=mk(SAT,19.5); const why=[]; ENC.candidates(G,'D04',why); check('3. 作息上沒有那一筆（例：劇情把他排在別的地方）：不出現',!/zhe/.test(whoAt(G,'D04'))&&why.includes('zhe@D04:作息不在這裡'),why.join(' ')); c.daily_schedule=keep; }
   G=mk(SAT,19.5); G.flags.afternoonDone=true; const w=STORY.whereIs({G},'zhe'); check('3. 朋友頁的位置照 away：阿哲「在西門町」',JSON.stringify(w).indexOf('在西門町')>=0,JSON.stringify(w)); }
 // 4. 擲一次就固定
@@ -93,9 +93,9 @@ const findDay=(spot,h,m,o)=>{ for(let k=0;k<4;k++) for(let wk=1;wk<=16;wk++){ co
     const G2=mk(SUN,10.5); G2.flags.EX_heroine_01=true; G2.flags.ROMANCE_HISTORY=[{id:'heroine_01',to:'Y1S1W4',how:'apart_talk'}]; const gm2=mkGM(G2,['打招呼']); await ENC.meet(gm2,row,ENC.tier(G2,'heroine_01'));
     check('8. 沒有寫到的分開方式：點頭的旁白（BB_144 第 2 節），不另外編台詞',gm2.L.says.join()===row.why+','+ENCOUNTERS.NOD,JSON.stringify(gm2.L.says));
     const G3=mk(SUN,17); G3.flags.dating_kexin=false; G3.flags.EX_kexin=true; G3.flags.ROMANCE_HISTORY=[{id:'kexin',to:'Y1S1W4',how:'kx_b'}]; const krow=ENCOUNTERS.rows.find(r=>r.who==='kexin'&&r.spot==='D13'); const gm3=mkGM(G3,['打招呼']); await ENC.meet(gm3,krow,ENC.tier(G3,'kexin'));
-    check('8. 可昕走向 B：「……今天就當沒遇到，好不好。」（AA_295）＋旁白她跟予樂走了',gm3.L.says.includes('杜可昕：……今天就當沒遇到，好不好。')&&gm3.L.says.includes('（她笑了一下，跟予樂走了。）'),JSON.stringify(gm3.L.says));
+    check('8. 可昕走向 B：「……今天就當沒遇到，好不好。」（AA_295）＋旁白她跟室友走了',gm3.L.says.includes('杜可昕：……今天就當沒遇到，好不好。')&&gm3.L.says.includes('（她笑了一下，跟室友走了。）')/* （CANON-NO-ECON-1112 第四批：照 AA_893 換字）*/,JSON.stringify(gm3.L.says));
     const G4=mk(SUN,17); const gm4=mkGM(G4,['打招呼']); await ENC.meet(gm4,krow,ENC.tier(G4,'kexin'));
-    check('8. 可昕交往中（淡水）：兩句＋予樂那句；留 ENC_D13_KX',gm4.L.says.includes('予樂：我們什麼都沒看到。邵鈞，走。')&&SOCIAL.has('kexin','ENC_D13_KX'),JSON.stringify(gm4.L.says)); }
+    check('8. 可昕交往中（淡水）：兩句＋她室友走開的旁白；留 ENC_D13_KX',gm4.L.says.includes('（她室友揮揮手，自己往捷運站走了。）')/* （CANON-NO-ECON-1112 第四批：照 AA_893 換字）*/&&SOCIAL.has('kexin','ENC_D13_KX'),JSON.stringify(gm4.L.says)); }
   // 9. 之後在學校、手機
   { const G=mk(SUN,12,{zone:'campus'}); SOCIAL.remember('heroine_01','ENC_D06_AN'); check('9. 遇到的那一天：不說',ENC.schoolLine(G,'heroine_01')===null);
     G.day=SUN+1; G.weekday=1; const q=ENC.schoolLine(G,'heroine_01'); check('9. 隔天以後聊天：以安「上次在美術館。……你後來有看完那一區嗎？」',q&&q.lines[0]==='上次在美術館。……你後來有看完那一區嗎？');

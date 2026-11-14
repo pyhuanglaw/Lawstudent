@@ -48,14 +48,14 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   fresh(d23,8,'dorm'); date('kexin'); check('0. 和可昕交往：一般版（可昕也算）', STORY.coldWeekGeneral(G)===true);
   fresh(d23,8,'dorm'); R('kai','CLO'); check('0. 阿凱好朋友以上、沒有 SUNDAY_SUPPER：不算', STORY.coldWeekGeneral(G)===false);
   SOCIAL.remember('kai','SUNDAY_SUPPER',''); check('0. 阿凱好朋友以上＋SUNDAY_SUPPER：一般版', STORY.coldWeekGeneral(G)===true);
-  fresh(d23,8,'dorm'); R('yu','CLO'); check('0. Alison 好朋友以上、不在麵店團：不算', STORY.coldWeekGeneral(G)===false);
-  PHONE.join(G,'noodle_team','麵店團'); check('0. Alison 好朋友以上＋在麵店團：一般版', STORY.coldWeekGeneral(G)===true);
+  fresh(d23,8,'dorm'); R('yu','CLO'); check('0. Alison 好朋友以上、不在桌遊團：不算', STORY.coldWeekGeneral(G)===false);
+  PHONE.join(G,'noodle_team','桌遊團'); check('0. Alison 好朋友以上＋在桌遊團：一般版', STORY.coldWeekGeneral(G)===true);
   fresh(d23,8,'dorm'); R('heroine_03','FRI'); check('0. 語彤只是朋友（FRIEND）：不算', STORY.coldWeekGeneral(G)===false);
 
   // 1. C1
-  fresh(d23,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); for(const id of ['zhe','yu','classmate_bohan']) R(id,'CLO'); R('zhe','CLO',20); R('heroine_03','CLO');
+  fresh(d23,8,'dorm'); PHONE.join(G,'noodle_team','桌遊團'); for(const id of ['zhe','yu','classmate_bohan']) R(id,'CLO'); R('zhe','CLO',20); R('heroine_03','CLO');
   check('1. C1 10/23 早上在房間：打噴嚏到期（起床選單之前，S.tick）', STORY.coldSneezeDue(G)===true);
-  picks=['在麵店團群組']; await STORY.coldWeekSneeze(GM);
+  picks=['在桌遊團群組']; await STORY.coldWeekSneeze(GM);
   check('1. C1 打噴嚏兩句（逐字）、選項（群組、誰都不說）', said[0]&&said[0].t==='（起床的時候，你打了三個噴嚏。）'&&said[1]&&said[1].t==='（頭有點重。）'&&opts[0].join('|')==='（在群組說一聲。）|（誰都不說。睡一下就好了。）', JSON.stringify(opts[0]));
   check('1. C1 群組：你傳「我好像感冒了。」、阿哲「收到」Alison「多喝水。」柏翰「刑訴筆記我有。」', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['player:我好像感冒了。','zhe:收到','yu:多喝水。','classmate_bohan:刑訴筆記我有。'])&&G.flags.COLD_WEEK==='night'&&G.flags.COLD_WEEK_TOLD==='group', JSON.stringify(txt('g:noodle_team')));
   { const C=STORY.coldWeekCast(G); check('1. C1 名單：語彤、阿哲、Alison、柏翰（3-2 的順序）；CG；最熟的人問（阿哲）', JSON.stringify(C.visitors)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&C.cg===true&&C.asker==='zhe'&&!C.partner, JSON.stringify(C)); }
@@ -71,13 +71,13 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
 
   // 2. C2
   fresh(d23,8,'dorm'); date('kexin'); picks=['跟可昕']; await STORY.coldWeekSneeze(GM);
-  check('2. C2 選項有「（傳訊息跟可昕說：我好像感冒了。）」、可昕三則回覆（逐字；第三則照 AA_376 第 14 項「下週」）', opts[0][0]==='（傳訊息跟可昕說：我好像感冒了。）'&&JSON.stringify(txt('p:kexin').slice(-4))===JSON.stringify(['player:我好像感冒了。','kexin:幾度？','kexin:量了再跟我說。','kexin:……我下週期中，二十六號考第一科。'])&&G.flags.KX_COLD_WEEK==='told', JSON.stringify(txt('p:kexin')));
+  check('2. C2 選項有「（傳訊息跟可昕說：我好像感冒了。）」、可昕三則回覆（逐字；第三則照 AA_376 第 14 項「下週」）', opts[0][0]==='（傳訊息跟可昕說：我好像感冒了。）'&&JSON.stringify(txt('p:kexin').slice(-4))===JSON.stringify(['player:我好像感冒了。','kexin:幾度？','kexin:量了再跟我說。','kexin:……我下週要交報告。'])&&G.flags.KX_COLD_WEEK==='told', JSON.stringify(txt('p:kexin')));
   check('2. C2 10/24 21:00 沒有要打電話的人（被告知的可昕不打）', STORY.coldCallList(Object.assign({},G,{day:d24}))&&STORY.coldCallList(G).length===0);
   await night(); const L2=lines();
   check('2. C2 21:30 外送粥＋「我考完就過去。你先活著。」（手機）', L2.includes('（外送的粥送到宿舍門口。）')&&L2.includes('可昕（手機）：我考完就過去。你先活著。'), JSON.stringify(L2.slice(0,4)));
   check('2. C2 沒有人來：3-5「（沒有人敲門。你吃了一顆退燒藥，睡到隔天中午。）」→ 睡到 10/25 12:00', L2.includes('（沒有人敲門。你吃了一顆退燒藥，睡到隔天中午。）')&&G.day===d25&&Math.abs(G.hour-12)<0.01&&!entered.includes('dorm_hall'), G.day+' '+G.hour);
   G.day=d26; G.hour=18.5; G.zone='dorm'; check('2. C2 10/26 18:30 在宿舍：可昕來（直接演）', STORY.coldKexinDue(G)); said=[]; opts=[]; picks=[0]; await STORY.coldWeekKexin(GM); const L2b=lines();
-  check('2. C2 10/26 逐字、10/24 沒人問＝她問（3-4 的兩句）、回答後「好。那你先把粥吃完。」', L2b[0]==='杜可昕：我考完了。你還活著，很好。'&&L2b[1]==='杜可昕：（把一袋橘子放在交誼廳的矮桌上）予樂說感冒要吃橘子。我不知道有沒有根據。'&&L2b[2]==='杜可昕：你每次都在幫別人查。'&&L2b[3]==='杜可昕：你自己呢？你想用法律做什麼？'&&L2b.includes('杜可昕：好。那你先把粥吃完。')&&G.flags.COLD_WEEK_ASKER==='kexin'&&G.zone==='dorm_hall', JSON.stringify(L2b));
+  /* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）橘子那一句「我室友說…」*/ check('2. C2 10/26 逐字、10/24 沒人問＝她問（3-4 的兩句）、回答後「好。那你先把粥吃完。」', L2b[0]==='杜可昕：我考完了。你還活著，很好。'&&L2b[1]==='杜可昕：（把一袋橘子放在交誼廳的矮桌上）我室友說感冒要吃橘子。我不知道有沒有根據。'&&L2b[2]==='杜可昕：你每次都在幫別人查。'&&L2b[3]==='杜可昕：你自己呢？你想用法律做什麼？'&&L2b.includes('杜可昕：好。那你先把粥吃完。')&&G.flags.COLD_WEEK_ASKER==='kexin'&&G.zone==='dorm_hall', JSON.stringify(L2b));
   check('2. C2 可昕問過了：麵店版不演', !STORY.coldNoodleOn(G));
   // 在外面：出遊 must 帶回宿舍
   fresh(d26,18,'campus',{COLD_WEEK:'night',COLD_WEEK_TOLD:'kexin',KX_COLD_WEEK:'told',COLD_WEEK_NIGHT:d24}); date('kexin'); STORY.coldWeekTick(GM); const qk=OUT.get(G,'y3_cold_kexin');

@@ -97,7 +97,8 @@ const GIFTH=(function(){
   /* AA_416 1-8 舊的送禮（G.fest.gifts）：同名的那一樣算送過了；以安 2028 情人節的鋼筆（AN_VDAY_GIFT pen，AA_733 reuse）*/
   const oldGiven=(G,pid,gid)=>{ const it=S.item(gid); if(!it) return false; if(pid==='heroine_01'&&gid==='g_fountain'&&G.flags&&G.flags.AN_VDAY_GIFT==='pen') return true;
     const ids=((G.fest&&G.fest.gifts)||{})[pid]||[]; if(!ids.length) return false; const P=(FD().PEOPLE||{})[pid]||{}; return (P.gifts||[]).some(g=>ids.includes(g.id)&&g.name===it.name); };
-  S.givenTo=(G,pid,gid)=>(F(G).given[pid]||[]).includes(gid)||oldGiven(G,pid,gid);
+  /* made（FLOWER-CLASS-1112，AA_820）：花藝課自己做的成品——可以重複上課、重複送（稿：「之後再送照 give 的三句」），不套「同一樣同一個人一輩子一次」*/
+  S.givenTo=(G,pid,gid)=>!(S.item(gid)||{}).made&&((F(G).given[pid]||[]).includes(gid)||oldGiven(G,pid,gid));
   /* special 兩樣（不用買、不佔包包）：子晴的測試報告（玩過她的測試版 ZQ_TB_PLAYED）、學姊的「今天先不改了」券（W8 以後 STORY.sisW8）*/
   S.SPECIAL_ON={g_test_report:G=>!!(G.flags&&G.flags.ZQ_TB_PLAYED!=null),g_no_edit:G=>typeof STORY!=='undefined'&&STORY.sisW8?!!STORY.sisW8(G):false};
   S.specials=G=>Object.keys(S.SPECIAL_ON).filter(gid=>S.item(gid)&&S.SPECIAL_ON[gid](G));
@@ -113,15 +114,18 @@ const GIFTH=(function(){
   S.sells=(G,key)=>{ const s=X()&&X().shops[key]; if(!s) return []; const m=(ymd(G.day)||{}).m||0; return s.items.filter(gid=>!S.SEASON[gid]||S.SEASON[gid](m)); };
   S.shopOpt=function(G,key){ if(!G||!S.sells(G,key).length) return null; const full=S.full(G);
     return {t:S.SHOP_LABEL[key]||S.LABEL,hint:full?'包包已經放了 '+S.MAX+' 樣':'節日、生日的時候送她（包包 '+S.bag(G).length+'/'+S.MAX+'）',dim:full,giftH:key}; };
-  S.buy=async function(GM,key){ const G=GM.G, L=S.sells(G,key); if(!L.length) return null; if(S.full(G)){ GM.toast&&GM.toast('包包已經放了 '+S.MAX+' 樣了'); return null; }
+  /* o.bought(gid)：付了錢、放進包包以後，「你買了…」以前演的（花序的花藝師包花那幾句，src/flower_notes_sys3d.js）*/
+  S.buy=async function(GM,key,o){ const G=GM.G, L=S.sells(G,key); if(!L.length) return null; if(S.full(G)){ GM.toast&&GM.toast('包包已經放了 '+S.MAX+' 樣了'); return null; }
     const opts=L.map(gid=>{ const it=S.item(gid); return {t:it.name+'　'+it.price+' 元',hint:it.line,dim:(G.money|0)<it.price}; }); opts.push({t:'算了'});
     const i=await GM.choose(opts); const gid=L[i]; if(!gid) return null; const it=S.item(gid);
     if((G.money|0)<it.price){ GM.toast&&GM.toast('錢不夠'); return 'poor'; }
     if(GM.money) GM.money(-it.price,'禮物'); else G.money=(G.money|0)-it.price;
-    F(G).bag.push({id:gid,day:G.day,shop:key}); await GM.say(null,'你買了'+it.name+'，放進包包。'); if(GM.autosave) GM.autosave(); return gid; };
+    F(G).bag.push({id:gid,day:G.day,shop:key}); if(o&&o.bought) await o.bought(gid); await GM.say(null,'你買了'+it.name+'，放進包包。'); if(GM.autosave) GM.autosave(); return gid; };
   /* 店家選單接一行：opts 裡有 S.shopOpt 的那一項被選到 → 買 */
   /* 公館站口花攤「晨露花舖」（GG-FLOWER-STALL-1110，LAWWW2 9356eeb39；AA_732 gg_flower）：09:00～21:00 開著，按「看看花攤」就是買花清單；沒開照舊是看（zones3d 的 look）*/
-  S.flowerOpen=G=>{ const h=+G.hour||0; return h>=9&&h<21; };
+  /* 2026-11-12（FLOWER-NOTES-1110）：花攤升級成花序 Flower Notes——買花、營業時間（AA_792：10:00～21:00）、花藝師的句子在 src/flower_notes_sys3d.js（FNS，包在這一支的外面先接）；
+     FNS 沒載入（只載這一支的測試）才走下面原本的 09:00～21:00 */
+  S.flowerOpen=G=>{ if(typeof FNS!=='undefined'&&FNS.on&&FNS.on()) return FNS.open(G); const h=+G.hour||0; return h>=9&&h<21; };
   S.pick=async function(GM,o){ if(!o||!o.giftH) return false; if(o.dim){ GM.toast&&GM.toast(o.hint); return true; } await S.buy(GM,o.giftH); return true; };
 
   /* ---------------- 這個節日、她 ---------------- */
@@ -157,13 +161,19 @@ const GIFTH=(function(){
   /* 交出去：記錄、演反應、好感、記憶。o.date＝節日約會裡（不演 open）*/
   S.hand=async function(GM,who,pid,gid,h,o){ const G=GM.G, R=F(G), it=S.item(gid); if(!it) return null; o=o||{};
     if(it.shop!=='special'){ const k=R.bag.findIndex(b=>b&&b.id===gid); if(k>=0) R.bag.splice(k,1); }
-    (R.given[pid]||(R.given[pid]=[])).push(gid); R.sent[hkey(pid,h.k,h.y)]=gid;
-    if(h.k!=='bday'){ const L=R.fest[h.k+'|'+h.y]||(R.fest[h.k+'|'+h.y]=[]); if(!L.includes(pid)) L.push(pid); }
+    (R.given[pid]||(R.given[pid]=[])).push(gid); if(h) R.sent[hkey(pid,h.k,h.y)]=gid;   /* h＝null：不是節日（只有 made 的成品，src/flower_class3d.js）*/
+    if(h&&h.k!=='bday'){ const L=R.fest[h.k+'|'+h.y]||(R.fest[h.k+'|'+h.y]=[]); if(!L.includes(pid)) L.push(pid); }
     const T=X().react[pid], band=S.band(G,pid), cat=S.cat(pid,gid);
-    await GM.say(null,'你把'+it.name+'遞給'+(who&&who.name||nm(pid))+'。');
     const q=o.quiet?{first:true}:null;   /* ② 讀書區：她的第一句前面加「（小聲）」*/
+    /* made 的成品（AA_820 花藝課）：反應照那份稿（S.MADE，src/flower_class3d.js 掛上來）——不演 item／love-ok-no 那幾格、不加一般送禮的好感（稿沒有寫的不加）；節日的 open 照演 */
+    if(it.made&&typeof S.MADE==='function'){ await S.MADE(GM,who,pid,gid,{q,hand:()=>GM.say(null,'你把'+it.name+'遞給'+(who&&who.name||nm(pid))+'。'),open:()=>(h&&!o.date)?play(GM,who,T.open[h.k][band],q):null});
+      if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(pid,'GIFT_GIVEN_'+pid,it.name); if(GM.autosave) GM.autosave(); return 'made'; }
+    await GM.say(null,'你把'+it.name+'遞給'+(who&&who.name||nm(pid))+'。');
     if(!o.date) await play(GM,who,T.open[h.k][band],q);
-    const ic=T.item[gid]; await play(GM,who,ic?(ic[band]||ic['*']):T[cat][band],q);
+    /* 花序的八樣新花（g_fn_*，love、no 都空）：稿另外寫了各人收到花的那一句（AA_792 give_ok_flower → GIFT_HOLIDAY.flowerOk），取代通用的 ok 句（「我會用的」配花不合）；
+       稿沒寫到的人（芯慈）、舊資料沒有 flowerOk＝照舊 ok */
+    const ic=T.item[gid], FO=X().flowerOk, fo=!ic&&cat==='ok'&&FO&&Array.isArray(FO.items)&&FO.items.includes(gid)&&FO.lines?FO.lines[pid]:null;
+    await play(GM,who,ic?(ic[band]||ic['*']):(fo?[fo]:T[cat][band]),q);
     S.adjust(G,pid,cat);
     if(typeof SOCIAL!=='undefined'&&SOCIAL.remember){ if(cat==='love') SOCIAL.remember(pid,'GIFT_LOVE_'+pid,it.name); SOCIAL.remember(pid,'GIFT_GIVEN_'+pid,it.name); }
     if(pid==='heroine_02'&&gid==='g_old_poster'&&G.flags) G.flags.ZR_POSTER=true;   /* AA_416 1-8 的老電影海報（AA_524 Z8，src/aa524_3d.js）：送到的一樣記 */
@@ -319,7 +329,7 @@ const GIFTH=(function(){
   /* 選單「物品」分頁（X291）：包包裡的禮物（品名、哪裡買、說明）＋她送的；今天帶在身上的飲料、早餐（gift3d.js）也列 */
   S.bagHTML=function(G){ let h='<div class="item"><b>包包裡的禮物（'+S.bag(G).length+'/'+S.MAX+'）</b><div class="muted">節日、她的生日當面見到她，說話的時候可以送。不會過期。</div></div>';
     const B=S.bag(G); if(!B.length) h+='<div class="item muted">還沒有買。各家店的「'+S.LABEL+'」可以買。</div>';
-    for(const b of B){ const it=S.item(b.id); h+='<div class="item"><b>'+esc(it.name)+'</b><div class="muted">'+esc(S.shopName(b.shop))+'・'+it.price+' 元</div><div>'+esc(it.line)+'</div></div>'; }
+    for(const b of B){ const it=S.item(b.id); h+='<div class="item"><b>'+esc(it.name)+'</b><div class="muted">'+esc(S.shopName(b.shop))+(it.price!=null?'・'+it.price+' 元':'')+'</div><div>'+esc(it.line)+'</div></div>'; }
     for(const gid of S.specials(G)){ const it=S.item(gid); if(!(it.only||[]).some(p=>!S.givenTo(G,p,gid))) continue; h+='<div class="item"><b>'+esc(it.name)+'</b><div class="muted">'+esc(it.how||'')+'</div></div>'; }
     if(Array.isArray(G.carry)&&typeof GIFT!=='undefined'&&GIFT.carry){ const C=GIFT.carry(G); if(C.length) h+='<div class="item"><b>今天帶在身上的</b>'+C.map(c=>'<div>· '+esc(c.n)+'</div>').join('')+'<div class="muted">飲料、早餐放不到明天。</div></div>'; }
     const RV=S.recvList(G); h+='<div class="item"><b>她送的</b></div>'; if(!RV.length) h+='<div class="item muted">還沒有。</div>';

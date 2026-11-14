@@ -70,6 +70,6 @@ const RW=r=>ENCOUNTERS.rows.find(q=>q.who===r[0]&&q.spot===r[1]);
     ENC.markSaid(Gc,q.tag); const q2=ENC.schoolLine(Gc,'heroine_02'); check('15. 第二次聊天：另一句',!!q2&&q2.tag!==q.tag&&(q2.lines[0]==='那部老片下週重映。週六早場。'||q.lines[0]==='那部老片下週重映。週六早場。'),JSON.stringify(q2)); delete STAGE.heroine_02; }
   // 可昕同行：予樂的一句
   { const G=mk(SAT,19); force(G,'D04','kexin',0); G.hour=18.75; const gm=mkGM(G,[0,'一起走一段','回去','回公館']); await TRIP.menu(gm);
-    check('16. 可昕（交往中）在西門町一起走：予樂「我去買東西。……很久。」',gm.L.says.includes('予樂：我去買東西。……很久。'),JSON.stringify(gm.L.says.slice(0,6))); }
+    check('16. 可昕（交往中）在西門町一起走：旁白「（她室友說要去買東西，會買很久。）」'/* （CANON-NO-ECON-1112 第五批：照 AA_919 第 1 節，室友不上畫面、改旁白）*/,gm.L.says.some(t=>t.endsWith('（她室友說要去買東西，會買很久。）'))&&!gm.L.says.some(t=>/^予樂：/.test(t)),JSON.stringify(gm.L.says.slice(0,6))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

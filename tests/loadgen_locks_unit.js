@@ -258,7 +258,7 @@ await sec(2,async()=>{
 
 /* ======================= 5 每一個登記的放開都跑得動、真的放開 ======================= */
 await sec(5,async()=>{
-  const more=['src/data/free_trips.js','src/freetrip3d.js','src/econff3d.js','src/data/retake_home.js','src/fit3d.js','src/data/group_events.js','src/group3d.js','src/data/wz_jobs.js','src/jobs3d.js','src/data/jp_events.js','src/jp3d.js','src/kxdrift3d.js','src/lab5f3d.js','src/multirel3d.js',
+  const more=['src/data/free_trips.js','src/freetrip3d.js','src/fit3d.js','src/data/group_events.js','src/group3d.js','src/data/wz_jobs.js','src/jobs3d.js','src/data/jp_events.js','src/jp3d.js','src/kxdrift3d.js','src/lab5f3d.js','src/multirel3d.js',
     'src/psresults3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/rom1016_3d.js','src/sis_b9_3d.js','src/sis_b10_3d.js','src/sis_b11_3d.js','src/sis_grad3d.js','src/twfill3d.js','src/us208_3d.js','src/data/us_life_events.js','src/us_life3d.js','src/data/us_blank_lines.js','src/us_blank3d.js',
     'src/data/v6ex_lines.js','src/v6ex3d.js','src/data/vacfill_events.js','src/vacfill3d.js','src/wzcat3d.js','src/wzlines3d.js','src/y1fill3d.js','src/y2b3d.js','src/y2r2_3d.js','src/y34b3d.js','src/y3fill3d.js','src/zq_testbuild3d.js','src/zrzq3d.js','src/data/cracktalk_lines.js','src/cracktalk3d.js','src/fest3d.js','src/bbpack3d.js','src/b1story3d.js','src/badminton_clip3d.js','src/feed3d.js'];
   const cw=console.warn; console.warn=()=>{}; for(const f of more){ if(loadErr[f]) continue; try{ L3(f); }catch(e){ loadErr[f]=String(e).slice(0,120); } } console.warn=cw;

@@ -1,5 +1,5 @@
 // AA_623 麵店團改成桌遊團（＋AA_618 2-4 第 1、3 點）、AA_612 麵店改燒臘店（A、C 表，語彤以外）——不需要瀏覽器。
-//   1  燒臘店的名字：招牌、區域名、地點、互動按鈕、點餐（叉燒飯 100／燒鴨飯 110）、吃過的店名；比對新舊都認（舊存檔的「阿鳳麵店」）
+//   1  燒臘店的名字：招牌、區域名、地點、互動按鈕、點餐（2026-11-12 起照 AA_853：六樣，叉燒飯 90／燒鴨飯 100…；原本寫死叉燒飯 100／燒鴨飯 110）、吃過的店名；比對新舊都認（舊存檔的「阿鳳麵店」）
 //   2  桌遊夜的日子：大一上第 5、7、10、12、14 週週五（其他學期第 2 週起隔週），考試週、國定假日、大五停；作息 20:00～23:30 明軒、阿哲、芯慈、柏翰在日常失速（麵店日長桌的作息拿掉）
 //   3  明軒的約：當天 12:00；不在群組＝私訊兩句（第一次）、「好。」才排 20:00 出遊、「這次不行。」明軒回一句；在群組＝群組一句＋大家的回覆（Alison、阿哲、柏翰第一次、芯慈、沛珊那一晚有來）
 //   4  群組：名字一直是「桌遊團」（不再每年改名）；舊存檔的「麵店團」「法X吃飯」改「桌遊團」、規矩兩句改「隔週五 桌遊」「沒空不用講」、「最後一學期」照舊
@@ -39,9 +39,13 @@ await sec(0,()=>{ check('0. src/bgnight3d.js 在 index.html、載得到（BGN）
 /* ---------- 1 燒臘店 ---------- */
 await sec(1,()=>{ const Z=strip(src('src/zones3d.js'));
   check('1. 公館的招牌「公館燒臘」、副標「叉燒・燒鴨・油雞」；互動「進入公館燒臘」「離開公館燒臘」「坐下吃飯」',/n:'公館燒臘',c:'#c9463d',w:10,type:'noodle',it:'noodle',sub:'叉燒・燒鴨・油雞',v:'公館燒臘'/.test(Z)&&Z.includes('進入公館燒臘')&&Z.includes('離開公館燒臘')&&Z.includes('坐下吃飯')&&!Z.includes("'阿鳳麵店'"));
-  check('1. 店裡的價目板：叉燒飯 100 ・ 燒鴨飯 110 ・ 三寶飯 130 ・ 滷蛋 15',Z.includes('叉燒飯 100 ・ 燒鴨飯 110 ・ 三寶飯 130 ・ 滷蛋 15'));
+  /* 2026-11-12 改期望（GG-SHAOLA-FIX-1112）：原本＝zones3d.js 寫死「叉燒飯 100 ・ 燒鴨飯 110 ・ 三寶飯 130 ・ 滷蛋 15」（AA_612 那時候的兩樣價錢）。
+     AA_853（企劃線 7f7394acc，AA 定稿）菜單是六樣：叉燒飯 90、油雞飯 90、燒鴨飯 100、雙拼飯 110、三寶飯 130、例湯 20、加滷蛋 15——價目板改成從資料排（SHAOLA.boardText），不再寫死在 zones3d.js */
+  check('1. 店裡的價目板從資料排（AA_853 的六樣＋加滷蛋；zones3d.js 不再寫死舊價錢）',!Z.includes('叉燒飯 100')&&/SHAOLA\.boardText\(\)/.test(Z)&&typeof SHAOLA!=='undefined'&&SHAOLA.boardText()==='叉燒飯 90 ・ 油雞飯 90 ・ 燒鴨飯 100 ・ 雙拼飯 110 ・ 三寶飯 130 ・ 例湯 20 ・ 加滷蛋 15',typeof SHAOLA!=='undefined'?SHAOLA.boardText():'沒有 SHAOLA');
   const S=strip(src('src/story3d.js'));
-  check('1. 點餐：「叉燒飯　100 元」「燒鴨飯　110 元」，扣 100／110',S.includes("{t:'叉燒飯　100 元',dim:G.money<100},{t:'燒鴨飯　110 元',dim:G.money<110}")&&S.includes('const cost=i===0?100:110;'));
+  /* 2026-11-12 改期望（GG-SHAOLA-FIX-1112）：原本＝story3d.js 寫死「叉燒飯　100 元」「燒鴨飯　110 元」、扣 100／110。照 AA_853 改成六樣、價錢從資料來（src/shaola_order3d.js 排選單、扣錢；逐項在 tests/shaola_order_1112_unit.js）*/
+  { const M=typeof YEJIAN_SHAOLA_BUY!=='undefined'?YEJIAN_SHAOLA_BUY.noodle.menu:[], pr=n=>(M.find(m=>m.n===n)||{}).p;
+    check('1. 點餐：菜單、價錢從資料來（AA_853：叉燒飯 90、燒鴨飯 100）；story3d.js 不再寫死「100 元」「110 元」',!/叉燒飯　100 元|燒鴨飯　110 元|cost=i===0\?100:110/.test(S)&&/SH\.order\(GM\)/.test(S)&&pr('叉燒飯')===90&&pr('燒鴨飯')===100&&M.length===6,JSON.stringify(M)); }
   check('1. 吃過的店名（EAT.FIRST_KEY）＝公館燒臘；店名鍵照舊',typeof EAT!=='undefined'&&EAT.FIRST_KEY['阿鳳麵店']==='公館燒臘');
   check('1. 邀約地點 noodle 的名字＝公館燒臘',INVITE_DATA.places.find(p=>p.id==='noodle').name==='公館燒臘');
   check('1. 導航：句子提到「燒臘」也帶去 noodle',/\[\/麵店\|燒臘\/, \{zone:'noodle',name:'公館燒臘'\}\]/.test(src('src/guide3d.js')));
@@ -104,7 +108,7 @@ await sec(4,()=>{
   STORY.ndlGroupFix(H.G); const g=PHONE.rec(H.G).groups.noodle_team, T=msgs('g:noodle_team').map(m=>m.text);
   check('4. 舊存檔「法二吃飯」→「桌遊團」',g.name==='桌遊團');
   check('4. 規矩兩句換成「隔週五 桌遊」「沒空不用講」；建立那則的名字換「桌遊團」；改名訊息照留',T.includes('隔週五 桌遊')&&T.includes('沒空不用講')&&T.includes('阿哲建立了群組「桌遊團」，把你加了進來。')&&T.includes('（阿哲把群組名稱改成「法二吃飯」。）'),J(T));
-  H.fresh('2026-09-14',13,'dorm',{noodleTableDay:5}); PHONE.join(H.G,'noodle_team','麵店團'); STORY.ndlGroupFix(H.G);
+  H.fresh('2026-09-14',13,'dorm',{noodleTableDay:5}); PHONE.join(H.G,'noodle_team','桌遊團'); STORY.ndlGroupFix(H.G);
   check('4. 舊存檔「麵店團」→「桌遊團」',PHONE.rec(H.G).groups.noodle_team.name==='桌遊團');
   H.fresh('2026-09-14',13,'dorm',{noodleTableDay:5}); PHONE.join(H.G,'noodle_team','最後一學期'); STORY.ndlGroupFix(H.G);
   check('4. 「最後一學期」照舊',PHONE.rec(H.G).groups.noodle_team.name==='最後一學期');

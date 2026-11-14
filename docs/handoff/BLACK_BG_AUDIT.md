@@ -1,6 +1,6 @@
 # 黑畫面盤點（tools/story/black_bg_audit.js 自動產生）
 
-> 產生：2026-10-21T12:23Z；範圍：全部的 STORY_EVENTS＋重考期在家。玩家看到深色底（沒有圖）的段落 111 段、共 676 句。
+> 產生：2026-10-21T12:23Z；範圍：全部的 STORY_EVENTS＋舊序章考試期在家。玩家看到深色底（沒有圖）的段落 111 段、共 676 句。
 > 依「背景代號」分組：同一個代號補一張圖，就補好那一組的全部段落。電話（「電話」場景）深色底可能是故意的，BB 和使用者決定要不要補。
 
 ## 1. 要補的圖（依影響句數排）
@@ -8,7 +8,7 @@
 | 背景代號 | 原因 | 地點 | 用到的事件 | 句數 |
 |---|---|---|---|---|
 | `phone_street_night` | 沒有圖（image:null） | 電話 | ev_y0_fight、ev_y0_kh_call、ev_y0_kh_madeup、ev_y0_e36、ev_kexin_kh_missed_call、ev_kexin_call_helper、ev_kexin_call_helper2、ev_kexin_kn_call_y3、ev_kexin_k18_call、ev_yu_alone_call、ev_kexin_k20_call、ev_fangyt_tickets、ev_kexin_intern_result、ev_kexin_lunar_eve_y4_call | 119 |
-| `dark` | 背景代號不存在 | 小鎮的市場、新體育館・球場、高雄・港邊的山上、博雅教學館、地方法院、萬才館二樓、政大山下・咖啡店、高雄・左營站、考場、宜蘭・民宿、台南車站、萬才館大廳、兩點半 Café（打烊以後）、亞利桑那、峽谷、鳳凰城的機場、會所・自習室 | ev_spring_y2_noodle、ev_final_game_y3、ev_kexin_qixi_y2、ev_kexin_lecture_ntu、ev_crimpro_court_visit、ev_push_interview、ev_kexin_xmas_y4、ev_kexin_trip_winter_y4、ev_grad_exam、ev_spring_y4、ev_peishan_open_class、ev_last_game_y4、ev_concert_y4、ev_zhiruo_back_cafe、ev_us_canyon、ev_sis_canyon、ev_sis_plan_us、ev_long_bbq | 115 |
+| `dark` | 背景代號不存在 | 小鎮的市場、新體育館・球場、高雄・港邊的山上、博雅教學館、地方法院、萬才館二樓、外校山下・咖啡店、高雄・左營站、考場、宜蘭・民宿、台南車站、萬才館大廳、兩點半 Café（打烊以後）、亞利桑那、峽谷、鳳凰城的機場、會所・自習室 | ev_spring_y2_noodle、ev_final_game_y3、ev_kexin_qixi_y2、ev_kexin_lecture_ntu、ev_crimpro_court_visit、ev_push_interview、ev_kexin_xmas_y4、ev_kexin_trip_winter_y4、ev_grad_exam、ev_spring_y4、ev_peishan_open_class、ev_last_game_y4、ev_concert_y4、ev_zhiruo_back_cafe、ev_us_canyon、ev_sis_canyon、ev_sis_plan_us、ev_long_bbq | 115 |
 | `undefined` | 換場景但沒有給背景（沒有 bg） | 公館・巷子裡的簡餐店、溫學姊的房間、資工系館・走廊、高雄・客運站附近的早餐店、公館、新體育館、霖澤館一樓、國際學生辦公室、宿舍・共用廚房、河邊、宿舍門口、海邊、便利商店、桃園機場・入境大廳 | ev_sis_fam_dinner、ev_sis_c2_room、ev_zq_ask_kai、ev_y0_kh_bus、ev_sis_results_dinner、ev_zhe_game_y2、ev_y2_xmas、ev_jp_suitcase、ev_jp_office、ev_jp_kitchen、ev_jp_goldenweek、ev_jp_repair_river、ev_jp_tanabata、ev_jp_tanabata_repair、ev_jp_sea、ev_jp_lastnight、ev_jp_lastnight_alone、ev_jp_return_hall | 109 |
 | `dark` | 事件底色 dark、還沒換背景 | （事件開頭） | ev_va09_lunch、ev_yt_nye_call_y1、ev_y0_e21o、ev_y0_e26、ev_y0_rp、ev_y0_e36r、ev_kx_nye_video_y2、ev_kx_nye_video_y3、ev_kx_nye_video_y4、ev_an_sis_meet_lawlib、ev_yt_nye_call_y4、ev_zr_nye_video_y3、ev_zr_nye_video_y4、ev_yt_nye_call_y2、ev_kexin_qixi_y2、ev_typhoon_y3_family | 83 |
 | `cram_counter` | 沒有圖（image:null） | 以前的補習班 | ev_y0_e27b | 24 |
@@ -57,14 +57,14 @@
 | ev_y0_kh3 | 高雄三天兩夜 | econ | econff | 高雄・駁二、大港橋 | `kh_pier2` | 沒有圖（image:null） | 5 | （駁二。舊倉庫改的展場，一間一間逛過去。） |
 | ev_y0_kh3 | 高雄三天兩夜 | econ | econff | 高雄・西子灣 | `kh_sizihwan` | 沒有圖（image:null） | 3 | （傍晚，西子灣。你們坐在堤防上等夕陽。） |
 | ev_y0_e27b | 一起去問補習班 | econ | outing | 以前的補習班 | `cram_counter` | 沒有圖（image:null） | 24 | （同一個櫃台。上次那個工作人員認得你。） |
-| ev_y0_e30 | 辦休學的那天 | econ | Y0S1 auto | 電話 | `mrt_night` | 沒有圖（image:null） | 12 | （捷運上。你撥給她。響了兩聲。） |
+| ev_y0_e30 | 辦舊序章離校的那天 | econ | Y0S1 auto | 電話 | `mrt_night` | 沒有圖（image:null） | 12 | （捷運上。你撥給她。響了兩聲。） |
 | ev_y0_rp | 和可昕出門 | econ | outing | （事件開頭） | `dark` | 事件底色 dark、還沒換背景 | 1 | {flag:RP_TXT} |
 | ev_y0_kh_bus | 成績公布 | econ | auto | 高雄・客運站附近的早餐店 | `undefined` | 換場景但沒有給背景（沒有 bg） | 16 | （早餐店。她點了兩份蛋餅，說今天要慶祝，先吃再說。） |
 | ev_y0_kh_call | 電話 | econ | auto | 電話 | `phone_street_night` | 沒有圖（image:null） | 9 | （電話接通。她那邊很安靜。） |
 | ev_y0_kh_madeup | 電話 | econ | auto | 電話 | `phone_street_night` | 沒有圖（image:null） | 6 | （十點半。手機響了。是她。） |
 | ev_y0_e36r | 八月放榜 | econ | auto | （事件開頭） | `dark` | 事件底色 dark、還沒換背景 | 3 | （八月十三日，早上十點。榜單公布了。） |
 | ev_y0_e36 | 放榜的電話 | econ | auto | 電話 | `phone_street_night` | 沒有圖（image:null） | 22 | 這半年，你幾乎每天都在念書。 |
-| ev_y0_gather | 經濟系的聚會 | econ | outing | 公館・桌遊店 | `boardgame_gg` | 沒有圖（image:null） | 9 | （六個人擠進一家桌遊店。一個人一小時五十元。） |
+| ev_y0_gather | 舊序章的聚會 | econ | outing | 公館・桌遊店 | `boardgame_gg` | 沒有圖（image:null） | 9 | （六個人擠進一家桌遊店。一個人一小時五十元。） |
 | ev_sis_results_dinner | 學姊上榜聚餐 | law | outing | 公館 | `undefined` | 換場景但沒有給背景（沒有 bg） | 3 | 一，謝謝大家。二，這次的題目，是我自己選的。三…… |
 | ev_zhe_game_y2 | 系籃比賽（大二） | law | outing | 新體育館 | `undefined` | 換場景但沒有給背景（沒有 bg） | 14 | （系籃比賽。阿哲、明軒上場。） |
 | ev_y2_xmas | 聖誕交換禮物（大二） | law | outing | 霖澤館一樓 | `undefined` | 換場景但沒有給背景（沒有 bg） | 10 | （阿哲和小語一起來。） |
@@ -123,7 +123,7 @@
 | ev_sf_photo21 | 舊金山 | law | manual | 舊金山 | `false` | 換場景但沒有給背景（bg:false） | 2 | 📷（郵筒前，她手上一張明信片（字看不到）） |
 | ev_push_interview | 推甄面試 | law | manual | 萬才館二樓 | `dark` | 背景代號不存在 | 1 | （十五分鐘。最後一題是：你為什麼想研究這個？） |
 | ev_kexin_intern_result | 放榜那一天 | law | outing | 電話 | `phone_street_night` | 沒有圖（image:null） | 10 | 結果出來了吧。你先說。 |
-| ev_kexin_xmas_y4 | 聖誕，讀到打烊 | law | outing | 政大山下・咖啡店 | `dark` | 背景代號不存在 | 2 | 你的時差還沒調回來吧。……那今天讀到打烊，剛好。 |
+| ev_kexin_xmas_y4 | 聖誕，讀到打烊 | law | outing | 外校山下・咖啡店 | `dark` | 背景代號不存在 | 2 | 你的時差還沒調回來吧。……那今天讀到打烊，剛好。 |
 | ev_kexin_trip_winter_y4 | 最後一個寒假的旅行 | law | outing | 高雄・左營站 | `dark` | 背景代號不存在 | 2 | （她靠在一台舊舊的家用車旁邊。） |
 | ev_kexin_trip_winter_y4 | 最後一個寒假的旅行 | law | outing | 高雄・海邊 | `trip_sea` | 沒有圖（image:null） | 5 | 到了。今天你說要做什麼，就做什麼。 |
 | ev_kexin_trip_winter_y4 | 最後一個寒假的旅行 | law | outing | 高雄・左營站 | `dark` | 背景代號不存在 | 1 | 回去讀書。……二月十四號，視訊。 |
@@ -150,7 +150,7 @@
 | ev_usl_long3 | 會所自習室 | law | outing | 會所自習室 | `us_club_study` | 背景代號不存在 | 14 | （公布欄貼著一張單子：週五晚上，國際學生會的秋假前聚餐。） |
 | ev_usl_bbq | 勞動節 | law | manual | 會所 | `us_club_lawn` | 背景代號不存在 | 9 | （會所後面的草地，兩台烤肉架。美國人排隊拿漢堡，每個人都說了一次「Hap |
 | ev_usl_thanks | 感恩節的晚餐 | law | outing | C 棟 208 | `us_shared_kitchen` | 背景代號不存在 | 7 | （C 棟 208 的廚房只開了一盞燈。她用帶來的小鍋子煮了一鍋湯，旁邊是 |
-| ev_usl_thanks_long | 感恩節 | law | outing | 會所 | `us_club_lounge` | 背景代號不存在 | 2 | （會所的自動販賣機只剩熱可可。何俊朗按了兩次，一杯推給你。） |
+| ev_usl_thanks_long | 感恩節 | law | outing | 會所 | `us_club_lounge` | 背景代號不存在 | 2 | （會所的自動販賣機只剩熱可可。舊序章人物己按了兩次，一杯推給你。） |
 
 ## 3. 不是黑畫面、但地點不對（出遊事件開頭用 3D 模糊底：看到的是玩家出發的地方）
 
@@ -162,5 +162,5 @@
 
 | 回報 | 事件 | 現在的背景 | 要補的圖 |
 |---|---|---|---|
-| 2026-10-18 14:2x「桌遊也沒畫面」 | ev_y0_gather（10/15 經濟系的聚會：桌遊 19:00～22:00 → 夜市） | `gongguan`（公館街景）整段共用 | 公館的桌遊店室內（六個人一桌、桌上有牌）；之後夜市那段要不要另一張，問使用者 |
+| 2026-10-18 14:2x「桌遊也沒畫面」 | ev_y0_gather（10/15 舊序章的聚會：桌遊 19:00～22:00 → 夜市） | `gongguan`（公館街景）整段共用 | 公館的桌遊店室內（六個人一桌、桌上有牌）；之後夜市那段要不要另一張，問使用者 |
 | 2026-10-18 14:1x「烤肉沒接到cg」 | ev_y0_e08（9/21 中秋系烤） | `riverside`＋沒有 CG | CG-ECON-BBQ-1018（提示詞已給使用者） |

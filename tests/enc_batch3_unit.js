@@ -110,11 +110,17 @@ const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); 
     const L=[], menus=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>{ menus.push(o.map(x=>x.t)); return 0; }};
     await (ENC.meet(gm,rowOf('classmate_peishan','D08'),ENC.tier(G,'classmate_peishan')));
     check('8. 沛珊（前任）：選單是打招呼／不打擾（沒有點頭、沒有一起走），說認識的那兩句',!!menus[0]&&menus[0].join()==='打招呼,不打擾'&&L.some(t=>t.includes('我們課輔班來校外教學')),JSON.stringify({menus,L})); }
+  // 可昕朋友層（AA_893 第 4 節、AA_920 ④；CANON-NO-ECON-1112）：朋友以上遇得到、打招呼用 kx_b 第一句、沒有「一起走一段」
+  { STAGE.kexin='FRIEND'; G=mk(STORY.termDay('Y1S1',10,7),17); G.trip={};
+    const okAt=at(G,'D10')==='kexin'; const L=[], menus=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>{ menus.push(o.map(x=>x.t)); return 0; }};
+    await (ENC.meet(gm,rowOf('kexin','D10'),ENC.tier(G,'kexin')));
+    check('8. 可昕（朋友、沒交往）D10：遇得到；選單打招呼／不打擾（沒有一起走）；說 kx_b 第一句「嗨。我們在吃玉米。」',okAt&&!!menus[0]&&menus[0].join()==='打招呼,不打擾'&&L.some(t=>t.endsWith('：嗨。我們在吃玉米。')),JSON.stringify({okAt,menus,L}));
+    STAGE.kexin='ACQUAINTANCE'; G=mk(STORY.termDay('Y1S1',10,7),17); check('8. 可昕（只是認識）：還是遇不到',at(G,'D10')===''); delete STAGE.kexin; }
   // 可昕一起走：予樂的讓位句（intro batch:3）
   { G=mk(STORY.termDay('Y1S1',10,7),17,{flags:{dating_kexin:true}}); G.trip={};
     const L=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>o.findIndex(x=>x.t==='一起走一段')};
     await (ENC.meet(gm,rowOf('kexin','D10'),ENC.tier(G,'kexin')));
-    check('8. 可昕（交往中）在碧潭一起走：予樂「我先回去了。可昕，玉米你自己吃完。」',L.includes('予樂：我先回去了。可昕，玉米你自己吃完。'),JSON.stringify(L)); } }
+    check('8. 可昕（交往中）在碧潭一起走：旁白「（她室友先回去了，走之前把玉米塞給她。）」'/* （CANON-NO-ECON-1112 第五批：照 AA_919 第 1 節，室友不上畫面、改旁白）*/,L.some(t=>t.endsWith('（她室友先回去了，走之前把玉米塞給她。）'))&&!L.some(t=>/^予樂：/.test(t)),JSON.stringify(L)); } }
 // 9. 第二批景點（AA_162 第 8 節＋BB_150，aca122d2）＋共用的規則
 { const bad=[];
   for(const r of ENCOUNTERS.rows){ if(r.kexin) continue; const e=(CHARACTERS[r.who].daily_schedule||[]).find(q=>q.enc===r.spot&&q.from===r.from&&q.to===r.to);
@@ -140,7 +146,7 @@ const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); 
   G.social.mem.classmate_bohan.push({tag:'ENC_D06_BH',day:G.day-30}); G.daily={}; const q2=ENC.schoolLine(G,'classmate_bohan');
   check('9. 柏翰貓空之後的一句（AA_389 第 3 點，企劃線 345234b3：兩句合成一句、不分美術館那句）：「貓空那天回來，我腿痠了兩天。……下次找不用爬的地方。」',!!q1&&q1.lines[0]==='貓空那天回來，我腿痠了兩天。……下次找不用爬的地方。'&&!!q2&&(q2.tag==='ENC_D06_BH'||q2.lines[0]===q1.lines[0]),JSON.stringify([q1,q2]));
   G=mk(STORY.termDay('Y1S1',7,7),16,{flags:{dating_kexin:true}}); G.trip={}; const L3=[]; await ENC.meet({G,say:async(w,t)=>L3.push((w?(w.name||w)+'：':'')+t),choose:async o=>o.findIndex(x=>x.t==='一起走一段')},rowOf('kexin','D09'),ENC.tier(G,'kexin'));
-  const yl=ENC_WALK.intro.find(q=>q.who==='kexin'&&q.spot==='D09'); check('9. 可昕 D09 一起走：予樂先帶邵鈞走（intro 第二批）',!!yl&&L3.includes('予樂：'+yl.line),JSON.stringify(L3)); }
+  const yl=ENC_WALK.intro.find(q=>q.who==='kexin'&&q.spot==='D09'); check('9. 可昕 D09 一起走：旁白「她室友先走」（intro 第二批）'/* （CANON-NO-ECON-1112 第五批：照 AA_919 第 1 節，室友不上畫面、改旁白）*/,!!yl&&yl.speaker===null&&L3.some(t=>t.endsWith(yl.line))&&!L3.some(t=>/^予樂：/.test(t)),JSON.stringify(L3)); }
 // 7. 修改前
 { let old=null; try{ old=require('child_process').execSync('git show 9264002f:src/data/encounters.js',{cwd:ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   if(!old) console.log('（略過第 7 項：沒有 9264002f 的歷史）'); else check('7. 修改前（9264002f）：沒有第三批景點的偶遇',!/spot:'D26'|spot:'D29'|spot:'D11'/.test(old)); }

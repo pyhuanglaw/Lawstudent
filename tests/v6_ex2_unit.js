@@ -66,7 +66,7 @@ await sec('N',async()=>{
   /* AA_600 A3（企劃線 031414cad）：前任插句「……你也來了。坐原來的位子。」刪（她不先開口）——不再插；原本 N1、N2 的期望照 AA_600 換 */
   check('N1. ev_plg_rules_after（AA_600 A3）：沒有前任插句「……你也來了。坐原來的位子。」；CG-2 照舊',i<0&&c>=0&&!e.v6exPatched&&V6EX.AN_PLG8_OFF===true,J([i,c]));
   H.fresh('2026-10-17',14,'wancai'); H.FRIEND(AN); ex(AN); clear(); await EVENTS.run(e);
-  const s=said(); check('N2. 前任（AA_600 A3）：沒有她看到你那一句，「……好。開始。每人十分鐘。」照常',s.indexOf('……你也來了。坐原來的位子。')<0&&s.indexOf('（回頭看長桌，白板上三行字）……好。開始。每人十分鐘。')>=0&&H.cgs.includes('cg_plg_rules'),J(s));
+  const s=said(); check('N2. 前任（AA_600 A3）：沒有她看到你那一句，「……好。開始。每人十分鐘。」照常',s.indexOf('……你也來了。坐原來的位子。')<0&&s.indexOf('（回頭看長桌，白板上三行字）好。開始。每人十分鐘。')>=0&&H.cgs.includes('cg_plg_rules'),J(s));
   H.fresh('2026-10-17',14,'wancai'); H.FRIEND(AN); clear(); await EVENTS.run(e);
   check('N3. 沒分開過：沒有那一句',!H.has('……你也來了。坐原來的位子。')&&H.has('人回來了。八個人。'));
 });

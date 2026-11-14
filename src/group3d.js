@@ -1,7 +1,7 @@
 /* ===== 1C 群戲（AA_324，AA-C 2026-10-20 定稿 c41f4305；AA_314 第 1 輪的最後一組）：邀約、出發、沒去的群組照片、旗標 =====
    台詞在 data/group_events.js（GROUP_EVENTS，照 AA_324 不改字）。掛在 STORY.PHONE_RULES（手機規則：每一輪）、STORY.TICKS（春假三選一的選單）。
-   1C-01 春假（大二版）2027-03-30 21:00 麵店團群組（Alison、語彤、阿哲、柏翰）＋交往中 21:30 可昕（大二版的兩則，AA_336 C8；流程照大一 kx_spring_y1）→ 兩則都到了才問三選一（期限 4/1）：
-         麵店團（4/4 一天，回家取車）／和可昕（4/3，BB_97 9-12）／留在宿舍；4/1 以前沒回＝'none'。沒去麵店團的群組成員 4/4 21:30 群組照片。記 SPRING_Y2
+   1C-01 春假（大二版）2027-03-30 21:00 桌遊團群組（Alison、語彤、阿哲、柏翰）＋交往中 21:30 可昕（大二版的兩則，AA_336 C8；流程照大一 kx_spring_y1）→ 兩則都到了才問三選一（期限 4/1）：
+         桌遊團（4/4 一天，回家取車）／和可昕（4/3，BB_97 9-12）／留在宿舍；4/1 以前沒回＝'none'。沒去桌遊團的群組成員 4/4 21:30 群組照片。記 SPRING_Y2
    1C-02 中秋＝以安的生日：2027-09-14 21:00 阿哲在群組、9/15 18:00 公館的河濱；沒去＝以安的照片兩則
    1C-03 寄到英國的那一箱：2027-12-25 21:00 阿哲在群組（兩則）、12/26 18:30 麵店；沒去＝22:00 群組照片、XMAS_Y3_BOX 'missed'；
          這學期接了阿哲的期末飯（TERMEND）＝這一場就算那一頓（AA_180）
@@ -10,7 +10,7 @@
          4/29 19:00 冠軍賽（日本路線＝直播 FINAL_GAME_Y3 'stream'＋一句旁白（AA_336 C11），賽後明軒傳訊息）；沒去＝21:30 群組照片
    1C-05 2028-06-02 21:00 子晴私訊（台灣、美國路線；和她 FRIEND 以上；交往中四句）；回「去。」＝6/3 09:00～11:00 椰林大道；沒去上午＝12:30 自拍三則；
          芷若 Z12＝6/3 14:00 以後第一次進 Café（和她 FAMILIAR 以上）；日本路線只有照片。記 GRAD_ZQ_ZR
-   1C-06 2029-02-22 17:00 阿哲把麵店團改名「最後一學期」＋揪、19:00 麵店；2/25 21:00 改回「麵店團」；沒去＝21:30 群組照片。記 LAST_TERM_DINNER
+   1C-06 2029-02-22 17:00 阿哲把桌遊團改名「最後一學期」＋揪、19:00 麵店；2/25 21:00 改回「桌遊團」；沒去＝21:30 群組照片。記 LAST_TERM_DINNER
    群組照片的傳送人照大二群戲（story3d.js 的 v3）：邀約的人。測試：node tests/group_events_unit.js */
 'use strict';
 const GROUP=(function(){
@@ -39,37 +39,37 @@ const GROUP=(function(){
   /* ---------- 1C-01 春假（大二版）---------- */
   const SP={inv:'2027-03-30',dl:'2027-04-01',d0:'2027-04-03',trip:'2027-04-04'};
   S.springDays=()=>({inv:DK(SP.inv),dl:DK(SP.dl),d0:DK(SP.d0),trip:DK(SP.trip)});
-  /* 該問了：收到的邀約都到了（麵店團群組的、交往中可昕的）、還沒選、沒過 4/1、「晚一點再決定」的時間到了（照大一 S.springPending）*/
+  /* 該問了：收到的邀約都到了（桌遊團群組的、交往中可昕的）、還沒選、沒過 4/1、「晚一點再決定」的時間到了（照大一 S.springPending）*/
   S.springPending=function(G){ const F=G.flags||{}, D=S.springDays(); if(F.SPRING_Y2!=null||D.inv==null||G.day<D.inv||G.day>D.dl) return false;
     const g=grp(G), kx=!!F.dating_kexin; if(!g&&!kx) return false; if(g&&!msgIn(G,'y2s2_spring_grp')) return false; if(kx&&!msgIn(G,'y2s2_spring_kx')) return false;
     return F.spring2AskAt==null||T(G.day,G.hour)>=F.spring2AskAt; };
-  /* 選單（介面文字，照大一的寫法）：跟麵店團出去（在群組才有）／和可昕開車旅行（交往中才有）／留在宿舍／晚一點再決定（隔天同一時間再問）*/
+  /* 選單（介面文字，照大一的寫法）：跟桌遊團出去（在群組才有）／和可昕開車旅行（交往中才有）／留在宿舍／晚一點再決定（隔天同一時間再問）*/
   S.springPrompt=async function(GM){ const G=GM.G, F=G.flags, O=[];
     if(grp(G)) O.push({t:'春假：跟阿哲他們出去',hint:'4/4，一天來回（你開車）',k:'noodle'});
     if(F.dating_kexin) O.push({t:'春假：和可昕開車旅行',hint:'4/3，一天來回',k:'kexin'});
     O.push({t:'春假：留在宿舍',k:'dorm'},{t:'晚一點再決定',hint:'明天再問',k:'later'});
     let i=O.length-1; GM.sceneBegin(); try{ i=await GM.choose(O.map(o=>({t:o.t,hint:o.hint}))); } finally { GM.sceneEnd(); }
     const k=(O[i]||O[O.length-1]).k; if(k==='later'){ F.spring2AskAt=T(G.day+1,G.hour); return k; } S.springChoose(GM,k); return k; };
-  /* 選了以後：出遊（麵店團 4/4 回家取車；可昕 4/3 照大一那一趟）、可昕的回覆與照片（BB_97 9-12：選麵店團或宿舍＝「好。那暑假再去。」、春假一張她和予樂在讀書會的照片＋一句，AA_336 C13）、
-     沒去麵店團的群組照片。silent：4/1 以前沒回（'none'，可昕不回）*/
+  /* 選了以後：出遊（桌遊團 4/4 回家取車；可昕 4/3 照大一那一趟）、可昕的回覆與照片（BB_97 9-12：選桌遊團或宿舍＝「好。那暑假再去。」、春假一張她和室友在讀書會的照片＋一句，AA_336 C13）、
+     沒去桌遊團的群組照片。silent：4/1 以前沒回（'none'，可昕不回）*/
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G, F=G.flags, D=S.springDays(), kx=!!F.dating_kexin, g=grp(G); F.SPRING_Y2=k;
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);
     if(k==='noodle') plan(G,{id:'ndl_trip_y2s2',ev:'ev_spring_y2_noodle',day:D.trip,h:8,place:'家',title:'春假：開車載阿哲他們',travel:'開車載阿哲他們出發',travelH:0.5,back:'回到台北。'});
-    if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'木柵大學校門口',title:'春假：開車旅行',travel:'開車到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});
-    if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和予樂在讀書會的長桌，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
+    if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'女生宿舍樓下',title:'春假：開車旅行',travel:'開車到宿舍樓下接她',travelH:40/60,back:'送她回宿舍，再把車開回家。'});   /* CANON-NO-ECON-1112 第四批（AA_878 #25；移動的字照 AA_901 第 11 項「開車到宿舍樓下接她」，AA_599 不回家拿車）*/
+    if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和室友在宿舍交誼廳，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
     S.springPick(G,k,o);
     if(k!=='noodle'&&g) S.springPhoto(G); };
   /* 群組 @ 了你兩次「誰開車」（3/23、3/30），選完祐廷在群組回一句、有人回（AA_461 第 1 節；句子跟大一下的 spring_pick_msg 不一樣）；
      4/1 以前沒回（'none'）＝4/2 21:00 柏翰一句（接得上 4/4 的海邊照片）。只給在群組裡、收到 3/30 那則的玩家 */
   S.SPRING_PICK={noodle:[['player','我開。'],['zhe','司機有了！']],kexin:[['player','春假我有約了。'],['classmate_bohan','那我租車。']],dorm:[['player','這次我不去。'],['classmate_bohan','那我租車。']]};
   /* 選可昕：私訊回她（AA_461 第 6 節④：大一下有「好。我們去。」，大二下補；她問的是 y2s2_spring_kx「春假。今年也開車？」；群組那一句照上表一起傳）*/
-  S.SPRING_PICK_KX=[['player','好。今年也開。'],['kexin','嗯。七點四十，校門口。']];
+  S.SPRING_PICK_KX=[['player','好。今年也開。'],['kexin','嗯。七點四十，宿舍樓下。']];
   S.springPick=function(G,k,o){ if(typeof PHONE==='undefined') return;
     if(k==='kexin'&&!o.silent&&PHONE.sent(G,'y2s2_spring_kx')) PHONE.at(G,G.day,G.hour+0.05,S.SPRING_PICK_KX.map(([from,text])=>from==='player'?{th:'p:kexin',from,who:null,text}:{th:'p:kexin',from,text}),'y2s2_spring_kx_pick');
     if(!grp(G)||!PHONE.sent(G,'y2s2_spring_grp')) return;
     const L=!o.silent&&S.SPRING_PICK[k]; if(L) PHONE.at(G,G.day,G.hour+0.05,L.map(([from,text])=>from==='player'?{th:NG,from,who:null,text}:{th:NG,from,text}),'y2s2_spring_pick');
     const d2=DK('2027-04-02'); if(k==='none'&&o.silent&&d2!=null) PHONE.at(G,d2,21,[{th:NG,from:'classmate_bohan',text:(G.name||'祐廷')+'沒回。我租車了。'}],'y2s2_spring_none'); };
-  /* 麵店團那一趟（4/4）誰去（AA_375 第 5、14 項）：祐廷去＝認識的那幾個（事件照「認識沒」）；祐廷沒去、在群組裡（邀約那則傳了）＝麵店團六個人照樣去（S.springPhoto）；沒有邀約＝沒有這一趟 */
+  /* 桌遊團那一趟（4/4）誰去（AA_375 第 5、14 項）：祐廷去＝認識的那幾個（事件照「認識沒」）；祐廷沒去、在群組裡（邀約那則傳了）＝桌遊團六個人照樣去（S.springPhoto）；沒有邀約＝沒有這一趟 */
   S.SPRING_TEAM=['heroine_03','zhe','heroine_01','yu','classmate_bohan','classmate_xinci'];
   S.springRiders=G=>S.SPRING_TEAM.filter(id=>knows(id,G));   /* 祐廷去的那一趟：認識的那幾個（ev_spring_y2_noodle 的「只有認識的人在場」）*/
   S.springGoers=function(G){ const F=(G&&G.flags)||{}; if(!G||(G.stage||'law')!=='law') return []; if(F.SPRING_Y2==='noodle') return S.springRiders(G);
@@ -80,14 +80,14 @@ const GROUP=(function(){
   S.springSeat=G=>{ G.flags.SPRING_Y2_CAR=S.springCarOf(G); return G.flags.SPRING_Y2_CAR; };
   S.springInCar=(G,id)=>{ const C=Array.isArray(G.flags&&G.flags.SPRING_Y2_CAR)?G.flags.SPRING_Y2_CAR:S.springCarOf(G); return C.includes(id); };
   S.springTrain=G=>S.springRiders(G).length>3;
-  /* 麵店團出遊那天，去的人作息停掉（AA_375 第 14 項；story3d.js 的 schedEnt 先問這裡）：4/4 07:30～20:00（08:00 出發、一天來回）。柏翰的北投、以安的美術館那天不排 */
+  /* 桌遊團出遊那天，去的人作息停掉（AA_375 第 14 項；story3d.js 的 schedEnt 先問這裡）：4/4 07:30～20:00（08:00 出發、一天來回）。柏翰的北投、以安的美術館那天不排 */
   S.tripAway=function(G,id){ const D=S.springDays(); if(!G||D.trip==null||G.day!==D.trip||!S.SPRING_TEAM.includes(id)) return null; const hh=((G.hour%24)+24)%24; if(hh<7.5||hh>=20) return null;
     if(!S.springGoers(G).includes(id)) return null; return {zone:null,act:'out',away:'和阿哲他們去市場和海邊',days:[G.weekday],from:7.5,to:20,spring:true}; };
   S.springPhoto=G=>{ const D=S.springDays(); if(D.trip!=null&&grp(G)) PHONE.at(G,D.trip,21.5,[{th:NG,from:'yu',text:'📷（海邊。一排人站在堤防上，阿哲在最後面，還是最高。）'}],'y2s2_spring_photo'); };
   S.springPhone=function(G,GM){ const F=G.flags, D=S.springDays(); if(D.inv==null||G.day<D.inv||G.day>D.trip+1) return; const now=T(G.day,G.hour);
     if(grp(G)&&G.day<=D.dl&&now>=T(D.inv,21)){ const Y=msg(NG,'yu'), W=msg(NG,'heroine_03'), B=msg(NG,'classmate_bohan');
       PHONE.at(G,D.inv,atH(G,D.inv,21),[Y('春假那個'),Y('語彤說行程她排'),W('第一站是市場。'),Z('市場？'),W('……田野課的。我想自己去看一次。'),B('誰開車？'),Z('@'+(G.name||'祐廷'))],'y2s2_spring_grp'); }
-    if(F.dating_kexin&&G.day<=D.dl&&now>=T(D.inv,21.5)) PHONE.at(G,D.inv,atH(G,D.inv,21.5),[{th:'p:kexin',from:'kexin',text:'春假。今年也開車？'},{th:'p:kexin',from:'kexin',text:'行程表做好了。……這次吃的只有一頁。'}],'y2s2_spring_kx');   /* 大二版的邀約（AA_336 C8，不沿用大一的句子）；流程照大一 kx_spring_y1 */
+    if(F.dating_kexin&&G.day<=D.dl&&now>=T(D.inv,21.5)) PHONE.at(G,D.inv,atH(G,D.inv,21.5),[{th:'p:kexin',from:'kexin',text:'春假。今年也開車？'},{th:'p:kexin',from:'kexin',text:'這次我只想吃。其他的你決定。'}],'y2s2_spring_kx');   /* AA_921 第 3-2 節（CANON-NO-ECON-1112 第五批）：她不排表 */   /* 大二版的邀約（AA_336 C8，不沿用大一的句子）；流程照大一 kx_spring_y1 */
     if(G.day>D.dl&&F.SPRING_Y2==null&&(PHONE.sent(G,'y2s2_spring_grp')||PHONE.sent(G,'y2s2_spring_kx'))) S.springChoose(GM,'none',{silent:true}); };
 
   /* ---------- 1C-02 中秋＝以安的生日 ---------- */

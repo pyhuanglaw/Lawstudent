@@ -1,7 +1,7 @@
 /* ===== 自由出行的偶遇（DL-07，AA_160 第 5 節；人物表 src/data/encounters.js＝BB_144＋AA_162）=====
    - 誰會在：照作息（characters.js 掛了 enc:'D04' 的 away 那一筆；STORY.schedEnt 說她現在在那裡才算，所以不會「人在總圖，又在淡水遇到」）＋這一列的條件
      （星期、時段、學期、單雙週、多熟、旗標）。可昕不在台大的作息表，只看這一列的時間。
-   - 都不在的時候：期末考週（第 16 週）、下雨的戶外景點（D12、D13）、她和祐廷約會的那一天、還不認識（第一次見面只在原本的劇情事件）、經濟系那一年（v0 先不排）。
+   - 都不在的時候：期末考週（第 16 週）、下雨的戶外景點（D12、D13）、她和祐廷約會的那一天、還不認識（第一次見面只在原本的劇情事件）、舊序章那一年（v0 先不排）。
    - 擲一次就固定（防刷，5-1、5-6）：種子＝「日期＋地點＋時段」；有符合條件的人時 60% 遇到；依權重選一位（一般 1、前任 0.5）；在哪一刻遇到（到達、第一次散步後、第二次散步後）三選一。
      結果存在 G.daily.enc['日:地點:時段']，同一天同一個時段進出幾次都一樣。一趟最多一個人；同一個人一天最多被偶遇一次（全部景點合起來，G.daily.encMet）。
    - 第一批只有：打招呼、不打擾（不打擾沒有任何後果、不留記錄）；她在忙（busy:'yes'）只揮手。前任：點頭、走過去、打招呼，不加任何關係數值。
@@ -39,7 +39,6 @@ const ENC=(function(){
   S.atHome=(pr,spot)=>!!(pr&&(pr.kind==='home'||pr.kind==='trip')&&pr.home&&spot&&spot.area)&&cityOf(spot.area)===cityOf(pr.home);   /* trip 帶 home：週末回老家（以安大一上第 4、8、12 週，AA_372 第 6 節第 8 題）——那個城市的偶遇照排 */
   /* 這一列現在成立嗎：回傳 {row,tier} 或 null（why 給測試看）*/
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
-    if(G.stage==='econ') return no('econ');
     const T=term(G), h=G.hour;
     if(T&&T.exam==='final') return no('期末考週');   /* 16 週制：第 16 週 */
     const spot=typeof TRIP!=='undefined'&&TRIP.spot?TRIP.spot(row.spot):null; if(spot&&spot.weather==='outdoor'&&G.weather==='rain'&&!row.rainOk) return no('下雨');   /* rainOk：戶外景點但有遮（BB_213 可昕 D10 河邊的台階）*/
@@ -52,7 +51,7 @@ const ENC=(function(){
     if(row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence('kexin',G); if(pr&&pr.here===false&&pr.kind==='home') return no('可昕：寒暑假在'+(pr.home||'老家')); }   /* 寒暑假她在高雄，西門町、淡水不會遇到（AA_278 第 2 節第 2 點）*/
     if(!row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei'&&!S.atHome(pr,spot)) return no('不在（'+(pr.away||pr.kind)+'）'); }   /* atHome：回老家（kind home）的日子，在她／他老家那個城市的偶遇照常（以安 D26 臺中、阿哲 D29 高雄，AA_271；HOLIDAY-PRESENCE-1021）*/   /* 交換、出國的日子（以安 2028-03-25～08-05 在日本）不出現；在臺北不在台大的照常（AA_271 第 0 節）*/
     const tr=S.tier(G,row.who);
-    if(row.kexin){ if(tr.t!=='dating'&&tr.t!=='ex') return no('可昕：交往中或分開了才有'); if(tr.t==='ex'){ const k=kxRoute(tr.how); if(!(row.ex&&row.ex[k])) return no('可昕：這個走向在這裡沒有台詞'); } }
+    if(row.kexin){ if(tr.t!=='dating'&&tr.t!=='ex'&&tr.t!=='friend') return no('可昕：朋友以上、交往中或分開了才有');   /* AA_893 第 4 節（AA_920 ④，CANON-NO-ECON-1112）：她從同班同學開始，朋友以上也遇得到、打招呼（不一起走：join 規則照舊只給交往中）*/ if(tr.t==='ex'){ const k=kxRoute(tr.how); if(!(row.ex&&row.ex[k])) return no('可昕：這個走向在這裡沒有台詞'); } }
     else { if(tr.t==='stranger') return no('還不認識'); if((tr.t==='ex'||tr.t==='catch')&&row.noEx) return no('前任不來這裡');
       if(row.stageMin&&tr.t!=='dating'&&tr.t!=='ex'&&tr.t!=='catch'&&ST().indexOf(tr.st)<ST().indexOf(row.stageMin)) return no('還不夠熟'); }
     if(row.flags&&!row.flags.every(f=>G.flags&&G.flags[f])) return no('旗標');
@@ -75,8 +74,8 @@ const ENC=(function(){
   S.atArrive=(GM,s)=>S.check(GM,s.id,0);
   S.afterWalk=(GM,s)=>S.check(GM,s.id,Math.min(2,(GM.G.trip&&GM.G.trip.walk)|0));
   const nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
-  /* 旁邊的人說的一句（同行的 intro 寫 speaker:'yule'、淡水的 datingAfter 寫 who:'予樂'）：寫 id 或稱呼都對到人物 id，ADV 才有她的立繪。
-     原本只給名字 {name:'予樂'}：game3d.js 的 say 沒有 charId＝ADV.speaker('player')，台上的可昕變暗、予樂沒有立繪（不會變成祐廷的立繪：祐廷沒有立繪檔、'player' 不佔立繪框）。
+  /* 旁邊的人說的一句（同行的 intro 的 speaker、datingAfter 的 who）：寫 id 或稱呼都對到人物 id，ADV 才有那個人的立繪。
+     只給名字 {name}：game3d.js 的 say 沒有 charId＝ADV.speaker('player')，台上的人變暗、說話的人沒有立繪（不會變成祐廷的立繪：祐廷沒有立繪檔、'player' 不佔立繪框）。
      只有立繪的人物見 characters.js 的 PORTRAIT_ONLY。對話框的名字：寫稱呼的照原文、寫 id 的用登錄的名字。對不到的（溫媽媽、綁馬尾的小女生）照舊只有名字 */
   const PO=()=>typeof PORTRAIT_ONLY!=='undefined'?PORTRAIT_ONLY:{};
   S.sayer=function(sp){ if(!sp) return null; const C=typeof CHARACTERS!=='undefined'?CHARACTERS:{}, po=PO(), own=k=>Object.prototype.hasOwnProperty.call(po,k);
@@ -85,7 +84,7 @@ const ENC=(function(){
     if(C[id]) return {name:id!==sp?sp:nameOf(id),charId:id};
     if(own(id)) return {name:id!==sp?sp:(po[id].name||sp),charId:id};
     return {name:sp}; };
-  S.linesFor=function(row,t){ const L=row.lines||{}; if(L.all) return L.all; if(t==='dating') return L.dating||L.friend||L.acq||[]; if(t==='friend') return L.friend||L.acq||[]; return L.acq||L.friend||[]; };
+  S.linesFor=function(row,t){ const L=row.lines||{}; if(L.all) return L.all; if(t==='dating') return L.dating||L.friend||L.acq||[]; if(t==='friend') return L.friend||L.acq||(row.kexin&&row.ex&&row.ex.kx_b&&row.ex.kx_b.length?[row.ex.kx_b[0]]:[]);   /* 可昕朋友層：沒有 friend 句就用 kx_b 第一句（AA_893 第 4 節）*/ return L.acq||L.friend||[]; };
   S.meet=async function(GM,row,tr){ const G=GM.G, R=S.rec(G); R.encMet.who.push(row.who); if(G.trip) G.trip.enc=row.who;
     const who={name:nameOf(row.who),charId:row.who};
     const exAcq=(tr.t==='ex'||tr.t==='catch')&&!!row.exAsAcq; if(exAcq) tr={t:'acq',st:'ACQUAINTANCE'};   /* exAsAcq：沒有前任版，照「認識」那兩句、不一起走（BB_213 沛珊 D08：課輔班在）*/
@@ -100,7 +99,7 @@ const ENC=(function(){
     const i=await GM.choose(ops); if(i===1||i<0||i>=ops.length) return 'pass';   /* 不打擾：一定可以、沒有任何後果、不留記錄 */
     for(const t of S.linesFor(row,tr.t)){ if(t&&typeof t==='object'){ if(t.ifFlag&&!(G.flags&&G.flags[t.ifFlag])) continue; if(t.narr){ await ESAY(GM,null,t.narr); continue; } if(t.who){ await ESAY(GM,S.sayer(t.who)||{name:t.who},t.t); continue; } } await ESAY(GM,who,t); }   /* {narr:'（…）'}＝旁白（AA_313 5-6 芯慈松菸）；{who,t}＝旁邊的人說的（立繪照 S.sayer；AA_675 2-4 礁溪的 Alison）；ifFlag＝有那個旗標才有這一句 */
     if(row.setFlag&&G.flags) G.flags[row.setFlag]=true;   /* 演完記的旗標（AA_675 2-4：礁溪 KNOWS_SIS_ALISON）*/
-    if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await ESAY(GM,S.sayer(a.who)||{name:a.who},a.text); }
+    if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await ESAY(GM,a.who?(S.sayer(a.who)||{name:a.who}):null,a.text); }   /* who:null＝旁白（CANON-NO-ECON-1112 第四批：AA_893 淡水那一句改成旁白）*/
     if(row.extra&&((G.flags&&G.flags[row.extra.if])||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(row.who,row.extra.if)))) await ESAY(GM,{name:row.extra.name},row.extra.text);   /* extra：有那個旗標或記憶才多一句（BB_213：沛珊有 WZ_PS_KIDS 的話，綁馬尾的小女生也在）*/
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.activity) SOCIAL.activity(row.who,'chat');
       if(row.memo&&(!row.memoIf||row.memoIf===tr.t)&&SOCIAL.has&&!SOCIAL.has(row.who,row.memo)&&SOCIAL.remember) SOCIAL.remember(row.who,row.memo,S.memoNote(row));
@@ -108,7 +107,7 @@ const ENC=(function(){
     R.encLog.push({day:G.day,h:+(G.hour%24).toFixed(2),spot:row.spot,who:row.who,tier:tr.t}); if(R.encLog.length>30) R.encLog.splice(0,R.encLog.length-30);
     { const wk=weekKey(G), k=row.who+'@'+row.spot, W8=R.encWeeks||(R.encWeeks={}); const L=W8[k]||(W8[k]=[]); if(!L.includes(wk)) L.push(wk); (R.encLast||(R.encLast={}))[k]=G.day; }   /* 不同週遇到幾次（小支線）、最後一次在這裡打招呼（重訪）*/
     await S.side(GM,row,tr,who);
-    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot) await ESAY(GM,S.sayer(q.speaker)||{name:q.speaker},q.line);
+    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot) await ESAY(GM,q.speaker?(S.sayer(q.speaker)||{name:q.speaker}):null,q.line);   /* speaker null＝旁白（AA_919 第 1 節：室友不上畫面）*/
       if(G.trip) G.trip.with={who:row.who,tier:tr.t}; return 'join'; }
     return 'greet'; };
   /* ---------- 第三批（DL-08，AA_160 第 6 節定案；台詞 src/data/enc_walk.js＝aa_walk_v1＋bb_walk_v1）----------

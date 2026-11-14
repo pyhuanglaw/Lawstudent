@@ -64,7 +64,7 @@ const AA625=(function(){
     rain:'這次我有帶兩把。', rainNo:'下雨了。……我多帶了一把。',   /* 「這次我有帶兩把。」要看過事件 1 的雨天（SHARED_UMBRELLA）；沒看過＝rainNo（接線時補的第 2 點）*/
     /* 接線時補的第 4 點：來的朋友各一句（有來才說，最多三句；照這個順序）、和可昕交往而她沒見過大家＝散場後的照片、美國路線的照片 */
     friends:[ ['zhe',[['zhe','十年欸。……我第一次來是被語彤拉來的。']]], ['yu',[['yu','蘇姨！我也要拍！'],[null,'（她拿手機擠到最前面。）']]],
-      ['heroine_01',[[null,'（她把一個小紙袋放在櫃台上，是給蘇姨的茶點。）'],['heroine_01','……週年快樂。']]], ['classmate_peishan',[['classmate_peishan','好想在台南也找到一間這樣的店～']]] ],
+      ['heroine_01',[[null,'（她把一個小紙袋放在櫃台上，是給蘇姨的茶點。）'],['heroine_01','……週年快樂。']]], ['classmate_peishan',[['classmate_peishan','好想在台南也找到一間這樣的店。找到了我就搬到樓上。']]] ],
     kxPhoto:'📷（茶屋裡擠滿了人，蘇姨站在中間舉著茶杯）', kxReply:['好多人。','……中間那個就是蘇姨？','下次帶我去。'],
     usPhoto:'📷（茶屋裡擠滿了人。蘇姨站在中間舉著茶杯。最旁邊的位子空著，桌上放了一杯茶。）', usLine:'這杯是你的。'
   };
@@ -184,7 +184,7 @@ const AA625=(function(){
   S.tea10Day=()=>DK(S.TEA10_DAY);
   const tzH=(G,d,h)=>h+(typeof STORY!=='undefined'&&STORY.tzOffset?STORY.tzOffset(G,d):0);   /* 臺灣時間 → 手機的當地時間 */
   S.awayOn=(G,d)=>typeof STORY!=='undefined'&&!!STORY.abroad&&!!STORY.abroad(Object.assign({},G,{day:d}));
-  /* 和可昕交往、她沒見過大家：可昕不在場；散場後祐廷自動傳照片（KX_MET_NOODLE_TEAM＝見過麵店團那群人，AA_11 的 KX_MET_GANG）*/
+  /* 和可昕交往、她沒見過大家：可昕不在場；散場後祐廷自動傳照片（KX_MET_NOODLE_TEAM＝見過桌遊團那群人，AA_11 的 KX_MET_GANG）*/
   S.kxAway=G=>dating(G,'kexin')&&!(G.flags&&G.flags.KX_MET_NOODLE_TEAM);
   S.KX_H=21;
   S.kxPhone=function(G,d){ if(G.flags.YT_TEA10!=='there'||!S.kxAway(G)||NOW(G)<T(d,S.KX_H)||G.day>d+1||typeof PHONE==='undefined') return;

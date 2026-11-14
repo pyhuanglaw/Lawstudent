@@ -10,7 +10,7 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
 const ids=COURSES.list.filter(c=>c.kind!=='service').map(c=>c.id);   /* 服務學習沒有課堂內容（每次一句，在 courses.js 的 serviceLines；AA_110 6-1）*/ const has=id=>{ const c=COURSES.list.find(x=>x.id===id), k=(c&&c.redo)||id; return !!(SYLLABUS.courses[k]||SYLLABUS.pools[k]); };   /* 補修（redo，AA_144 X4）＝重播原本那一門的內容 */
 check('每一門課（'+ids.length+' 門）都有普通課堂內容（BB 的 syllabus 或台詞池）',ids.every(has),ids.filter(i=>!has(i)).join(','));
-const extra=[...Object.keys(SYLLABUS.courses),...Object.keys(SYLLABUS.pools)].filter(i=>!ids.includes(i)&&!(SYLLABUS.y0||[]).includes(i)); check('內容的課程代號都對得上 courses.js（AA_103 第 8 節；經濟系那一年 y0 的課遊戲裡還沒有，先不算）',!extra.length,extra.join(','));
+const extra=[...Object.keys(SYLLABUS.courses),...Object.keys(SYLLABUS.pools)].filter(i=>!ids.includes(i)&&!(SYLLABUS.y0||[]).includes(i)&&i!=='law_intro'); check('內容的課程代號都對得上 courses.js（AA_103 第 8 節；舊序章那一年的課 CANON-NO-ECON-1112 第三批拿掉，SYLLABUS.y0 跟著拿掉；law_intro 照 AA_891 第 3 節留著（只拿掉三句），courses.js 沒有它，先不算）',!extra.length,extra.join(','));
 { const long=[]; const caseNo=[]; const re=/(台上|憲判|釋字|台再|消上)\s*\d|\d+\s*(台上|憲判)/;
   /* AA_585（第 8、9 週，AA 定稿、字不能改）：黑板照 AA_585 第 0 節量寬度——半形字算半格（教室黑板是 1024 px 畫布，第二三行 30 px），上限照舊 30；其他週照舊一字一格 */
   const A585=['civ_general','crim_gen1','const_1','const_2','crim_gen2','oblig_gen1','admin_law','crim_spec','property','oblig_gen2','oblig_spec','family_law','admin_remedy','legal_english','civpro_1','crimpro','company_law','securities','civpro_2','insurance','negotiable','labor_law','enforcement','legal_ethics','ip_law','labor_social','tax_law','crim_judgment_sem','public_judgment_sem','maritime'];
@@ -57,8 +57,5 @@ const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid
 // 特殊課堂的週次：courses.js 的 specials 和 BB 的課堂內容（syllabus 的 special）一致（BB 2026-10-13：「週次以課堂內容所在的週為準」）
 { const bad=[]; for(const c of COURSES.list){ const a=(c.specials||[]).map(s=>s.w).sort((x,y)=>x-y), ws=(SYLLABUS.courses[c.id]||[]).filter(w=>w.special).map(w=>w.w).sort((x,y)=>x-y); if(JSON.stringify(a)!==JSON.stringify(ws)) bad.push(c.id+' '+JSON.stringify(a)+'≠'+JSON.stringify(ws)); }
   check('每一門課的特殊課堂週次＝BB 課堂內容標 special 的週次（經原第 3 週第一次走進這門課、第 4 週分組、法理學第 6 週、國際公法第 15 週、智財第 5 週、專題研究第 10 週）',!bad.length,bad.join(' | ')); }
-// 經濟系那一年（G.day 是負的）：每一堂的老師一句、同學反應都要是字串（BB_218：2024-09-04 微積分、體育顯示「老師：undefined」——輪流序號 (day+week)%n 變負的）
-{ const d0=dayOf('2024-09-01'), d1=dayOf('2025-06-30'), bad=[]; let n=0;
-  for(let d=d0; d<=d1; d++) for(const it of CLS.dayItems({day:d,hour:8,flags:{},stage:'econ'})){ if(it.exam) continue; const ct=CLS.content(it); n++; if(typeof ct.line!=='string'||!ct.line||ct.react==null||String(ct.react).includes('undefined')) bad.push(d+' '+it.c.id+' W'+it.week+' '+String(ct.line)); }
-  check('經濟系那一年 '+n+' 堂：老師一句都是字串、沒有 undefined',n>0&&!bad.length,bad.slice(0,4).join(' | ')); }
+// CANON-NO-ECON-1112：經濟系那一年拿掉（經濟系那一年每一堂老師一句都是字串）
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

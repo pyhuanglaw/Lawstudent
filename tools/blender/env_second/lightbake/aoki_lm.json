@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1103.8,
+ "bake_seconds": 1156.2,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -44,5 +44,5 @@
   "WALL_right_aok_wood"
  ],
  "src": "assets/models/env/second_ai/aa_support/aoki.glb",
- "src_sha256": "24d15993559753ac6efcf7dc4152ecbdd4118124ce762f0422eca3c6f10337f9"
+ "src_sha256": "348abe3a4a3fa416f2f8cd072e12f6d0d49084191db6d6d91712ee907cc19c87"
 }

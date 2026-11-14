@@ -64,18 +64,27 @@ const BGN=(function(){
     if(hr<S.H0||hr>=S.H1||!S.here(G,c.id)) return null;
     if(typeof STORY!=='undefined'&&STORY.presence){ const p=STORY.presence(c.id,G); if(p&&p.here===false) return null; }
     return {days:[5],from:S.H0,to:S.H1,zone:null,act:'out',away:L.away,note:'AA_623 桌遊夜'}; };
+  /* 那一晚玩家沒空（AA_828 第 3 節＋第 4 節第 1、2 點，SHOP-JOBS-1112）：那一晚有打工的班和桌遊夜重疊（JOBS.bgnBusy：南洋戲院週五晚場、便利商店週五夜班……所有打工都一樣）——
+     明軒照樣約、群組的回覆照舊；**不用玩家回**（沒有可以回的選項），系統自動當沒空、不排出遊；先答應了才排到班的（答應以後才應徵）＝那一晚的出遊取消，不要兩個都演。
+     2026-11-12 以前：玩家只有「這次不行。」可以回（明軒回「好，兩個禮拜後還有。」）——AA 第 4 節第 1 點改成不用回。
+     AA_828 第 5 節第 4 點（d8afcca6ed）：系統自動當沒空時，祐廷自動回一句「這次不行，我有班。」、明軒照舊回「好，兩個禮拜後還有。」（字在 SHOP_JOBS_AA828.bgnBusy，匯入）——玩家不用操作。
+     排在那一串的最後（大家的回覆之後）；還沒進群組的那一次（明軒私訊約）一樣回在私訊裡（AA_828 第 7 節第 1 點，企劃線 1d6055568c：「私訊約的桌遊夜撞到班：一樣自動回」——資料 bgnBusy.dm；原本是 LAWWW 比照的） */
+  S.busyReply=()=>{ const B=typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.bgnBusy; return B&&B.me&&B.re?B:null; };
+  S.busy=(G,d)=>{ try{ return typeof JOBS!=='undefined'&&!!JOBS.bgnBusy&&!!JOBS.bgnBusy(G,d); }catch(e){ return false; } };
   /* 手機：當天 12:00 明軒約 */
-  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined'||!hasCal()) return; const F=G.flags, d=G.day;
+  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined'||!hasCal()) return; const F=G.flags, d=G.day, busy=S.isNight(d)&&S.busy(G,d);
+    if(busy&&F.BGN_GO===d){ F.BGN_GO=null; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'bgn_'+d):null; if(q&&q.state==='planned') q.state='cancelled'; }
     if(S.isNight(d)&&G.hour>=12&&G.hour<S.H0&&knows(MX,G)&&!PHONE.sent(G,'bgn_inv_'+d)){
       const grp=inGrp(G), th=grp?NG:PM, n=F.BGN_INV_N|0, h=Math.max(12,G.hour), opts=[{t:'好。',set:{BGN_GO:d}},{t:'這次不行。',say:[{from:MX,text:L.no}]}];
       const items=(!grp&&n===0?L.first.map(t=>({th,from:MX,text:t})):[{th,from:MX,text:L.group[n%L.group.length]}]);
-      items[items.length-1].ask={until:d*24+S.H0,opts};
+      if(!busy) items[items.length-1].ask={until:d*24+S.H0,opts};   /* 沒空的那一晚：不問 */
       if(grp){ const R=(id,t)=>({th,from:id,text:t,dt:2/60});
         if(knows('yu',G)) items.push(R('yu',L.yu));
         if(knows('zhe',G)) items.push(R('zhe',L.zhe));
         if(knows('classmate_bohan',G)&&!F.BGN_BH){ items.push(R('classmate_bohan',L.bh),R(MX,L.bhMx)); F.BGN_BH=d; }
         if(knows('classmate_xinci',G)) items.push(R('classmate_xinci',L.xc[n%L.xc.length]));
         if(knows('classmate_peishan',G)&&S.psOn(d)) items.push(R('classmate_peishan',L.ps),R(MX,L.psMx)); }
+      if(busy){ const B=S.busyReply(); if(B) items.push({th,from:'player',who:null,text:B.me,dt:2/60},{th,from:MX,text:B.re,dt:2/60}); }   /* 有班：祐廷自動回、明軒照舊回 */
       F.BGN_INV_N=n+1; PHONE.at(G,d,h,items,'bgn_inv_'+d); }
     if(F.BGN_GO===d&&typeof OUT!=='undefined'&&!OUT.get(G,'bgn_'+d)&&G.day*24+G.hour<d*24+S.H0+0.5)
       OUT.plan(G,{id:'bgn_'+d,ev:S.EV,day:d,h:S.H0,late:0.5,place:S.PLACE,title:'桌遊夜（日常失速）',travel:'走過去約 15 分鐘',travelH:0.25}); };

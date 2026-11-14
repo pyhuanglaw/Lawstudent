@@ -34,7 +34,7 @@ const HV=(function(){
   /* 這一段老家以前她在不在那個城市待過（AA_369 第 7 節第 11 題：2027 暑假尾是她第一次去台南的學校＝「去台南」，之後＝「回台南」）：往回找到這一段老家的第一天，看前一天在哪 */
   S.beenIn=function(G,id,city){ for(let d=G.day;d>G.day-400;d--){ const p=pres(G,id,d-1); if(p&&p.here===false&&(p.kind==='home'||p.kind==='trip')) continue; return !!(p&&p.here===false&&p.city===city); } return false; };   /* backTo、beenIn 都跳過老家（home）和出去幾天（trip：沛珊暑假山上的營隊 2028-07-17～30、2029-07-23～27，AA_508 0-2 第 5 點）——營隊不是她「待過的城市」*/
   S.planned=(G,id)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.hv&&q.hv.id===id&&q.state==='planned');
-  /* 可以去的日子：明天起七天內她還在老家的（重考消失期：同一個月沒去過），最多三個；城市要和今天一樣（skipDays＝那幾天本身是別的事件，例：台南 BB_165 5-1／5-2）*/
+  /* 可以去的日子：明天起七天內她還在老家的（沛珊的重考消失期：同一個月沒去過），最多三個；城市要和今天一樣（skipDays＝那幾天本身是別的事件，例：台南 BB_165 5-1／5-2）*/
   S.days=function(G,id,anyDate){ const out=[]; const p0=pres(G,id), k0=S.key(G,id), C=L(k0)||{}, skip=(C.skipDays||[]).map(k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null);
     for(let d=G.day+1; d<=G.day+7&&out.length<3; d++){ const p=pres(G,id,d); if(!away(G,id,p,d)||S.key(G,id,d)!==k0||skip.includes(d)) continue; if(p0.keep&&(G.flags.HV_KEEP_M||{})[ym(d)]) continue;
       if(!anyDate&&typeof DATE!=='undefined'&&DATE.tripOn&&DATE.tripOn(G,d)) continue;   /* 那一天已經約了校外約會（兩天一夜佔兩天，BUG-DATE-OVERLAP-1021）：和 skipDays 一樣跳過 */ out.push(d); } return out; };

@@ -23,6 +23,9 @@
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm'), crypto=require('crypto');
 const ROOT=path.resolve(__dirname,'..'), BASE='0e2690b0b', TITLE='有名字說的台詞拿掉外面的「」第七批';
 const CHANGED=['src/data/events.js','src/y2r2_3d.js','src/friends2_3d.js','src/data/bbpack_events.js','src/legal3d.js'];
+/* CANON-NO-ECON-1112 第四批：照 AA_889～AA_897、AA_873～AA_885 換字的場次不比（逐字對稿在各自的測試）*/
+const CHG4=['ev_kexin_good_class','ev_kexin_quiz_y2','ev_kexin_xmas_y2','ev_kexin_birthday_y2','ev_kexin_birthday_y2_call','ev_kexin_summer_plan','ev_kexin_summer_plan_call','ev_kexin_presentation','ev_kexin_own_paths','ev_kexin_bus_home','ev_kexin_bad_exam','ev_kexin_call_helper','ev_kexin_tutor_practice','ev_kexin_k20','ev_kx_s1_deposit','ev_kx_s1_heard','ev_kx_s6_same','ev_kexin_birthday_y1s2','ev_kexin_birthday_y1s2_drink','ev_kexin_birthday_y1s2_late','ev_kexin_birthday_y1s2_next','ev_bar_group_start','ev_bar_group_night','ev_bar_group_out','ev_bar_group_video','ev_bar_group_three','ev_kexin_grades_open','ev_kexin_grades_open_y1s2','ev_nye_river','ev_kexin_trip_spring_y1','ev_kexin_valentine_y1','ev_kexin_vday_makeup_y1','ev_kx_nye_river_y2','ev_kx_nye_river_y3','ev_kx_nye_river_y4','ev_kexin_trip_spring_y2','ev_kexin_trip_summer_y2','ev_kexin_qixi_y2','ev_kexin_xmas_y3','ev_kexin_valentine_y3','ev_kexin_k18','ev_kexin_birthday_y3','ev_kexin_trip_spring_y4','ev_kexin_bday_visit_y4','ev_kexin_anniversary_y1','ev_kexin_anniversary_yn','ev_k7_gift_prep','ev_k7_gift_prep_n','ev_kexin_anniversary_video','ev_kx_souvenir','ev_kexin_moot3'];
+const GONE_EV=['ev_kexin_tour_nccu','ev_kexin_yule_pass','ev_kexin_video_study','ev_kexin_birthday_y1','ev_kexin_our_day','ev_kexin_our_day_wk','ev_kexin_nye_missed_call','ev_kexin_anniv_missed_call','ev_kexin_reschedule','ev_kx_nye_video_y2','ev_kx_nye_video_y3','ev_kx_nye_video_y4','ev_kexin_kh_missed_call','ev_kexin_qixi_video','ev_kexin_30min','ev_kexin_lecture_ntu','ev_kexin_lecture_table','ev_kexin_juniors_video','ev_kexin_kn_call_y3','ev_kexin_last_study_night','ev_kexin_two_circles','ev_kexin_call_helper2','ev_kexin_k18_call','ev_kexin_k20_call','ev_kexin_juniors_dinner','ev_kexin_film_night','ev_kexin_quiz_y2_video','ev_econ_night_y2','ev_kexin_video_report'].concat(Array.from({length:9},(_,i)=>'ev_kx_drift_r'+['1','1b','2','3','4','5','5_call','6','7'][i]));   /* CANON-NO-ECON-1112 第三批拿掉的事件：BASE、現在兩邊都不比（這一項拿掉）*/
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 /* 演出來的「現在」那一邊：legal3d.js、classes3d.js 讀第八批那一個 commit 的版本（用標題找）——之後 BUG-LEGAL-PROF-TONE-1108（AA-B 11-08 13:38：教授出題不用 MATE_*、鄭教授開場拆三段）
@@ -76,6 +79,12 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
   const mode=process.env.QUOTE_B7_PROBE;
   if(mode==='old'){ const OLD={}; for(const f of CHANGED) OLD[path.join(ROOT,f)]=gitShow(BASE,f); const real=fs.readFileSync;
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(OLD[k]!=null) return OLD[k]; } return real.apply(fs,arguments); }; }
+  /* 2026-11-11 之後故意改的劇情（不是第七批的範圍，各自有逐句對稿的測試）：這幾個檔用改之前那一版（9d45ef8b3，這支測試在那裡全過）比——
+     AA_814（企劃線 91c6aaf9f，tests/aa814_prio_gap_1111_unit.js）：events.js 1/8 j8a 補一句、2/14 E27b 加五格；r2y4a_events.js 美國交換三處；
+     AA_742 第 ③ 節（tests/gg_shops3_story_1111_unit.js）：sis_grad3d.js 場景名「公館・日日定食」→「汀州路・泰米村食」 */
+  const LATER_PIN='9d45ef8b3', LATER_FILES=['src/data/events.js','src/data/r2y4a_events.js','src/sis_grad3d.js'];
+  { const PL={}; for(const f of LATER_FILES) if(mode==='new'||!CHANGED.includes(f)) PL[path.join(ROOT,f)]=gitShow(LATER_PIN,f); const real=fs.readFileSync;   /* 兩邊都釘（old＝BASE 的 CHANGED 照舊從 BASE 讀，其他檔原本讀現在的）*/
+    fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(PL[k]!=null) return PL[k]; } return real.apply(fs,arguments); }; }
   if(mode==='new'&&pinC8){ const PN={}; for(const f of PIN_FILES) PN[path.join(ROOT,f)]=gitShow(pinC8,f); const real=fs.readFileSync;
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(PN[k]!=null) return PN[k]; } return real.apply(fs,arguments); }; }
   const out={errs:[]};
@@ -110,7 +119,7 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
   const run=async(k,id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); asked.length=0; const e=ev(id); if(!e){ out.play[k]={lines:[['（沒有事件）',id]],asked:[]}; return; } await EVENTS.run(e); out.play[k]={lines:rec(),asked:asked.slice()}; out.save[k]=saveOf(); };
   /* ---------- 33／34 掃描：STORY_EVENTS 每一步的 text（包含巢狀）、說的人（照 events3d.js runBody）---------- */
   await sec('scan',async()=>{ fresh('2026-10-07',10,'campus'); const L=[];
-    for(const e of STORY_EVENTS){ const seen=new Set(); (function w(a,p){ if(Array.isArray(a)) a.forEach((x,i)=>w(x,p+'['+i+']')); else if(a&&typeof a==='object'&&!seen.has(a)){ seen.add(a);
+    for(const e of STORY_EVENTS.filter(e=>!GONE_EV.includes(e.id))){ const seen=new Set(); (function w(a,p){ if(Array.isArray(a)) a.forEach((x,i)=>w(x,p+'['+i+']')); else if(a&&typeof a==='object'&&!seen.has(a)){ seen.add(a);
       if(typeof a.text==='string'&&(wrapped(a.text)||NEW23.includes(a.text))){ const choice=/\.choice\[\d+\]$/.test(p); let kind, name=null;
         if(choice) kind='choice'; else if(a.phone||a.phoneMe) kind='phone'; else if(a.speaker&&a.speaker!=='player'&&a.speaker!=='narrator'){ const sid=EVENTS.speakerId(a.speaker); name=a.name||(sid!==a.speaker?a.speaker:(SOCIAL.npcName?SOCIAL.npcName(a.speaker):SOCIAL.displayName(a.speaker))); kind=name?'named':'nameless'; }
         else if(a.speaker==='player'){ kind='named'; name=H.G.name; } else kind='nameless';
@@ -120,7 +129,7 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
   /* ---------- 34 資料：STORY_EVENTS 的字串（全部載入以後，同第六批）---------- */
   { const J0=x=>JSON.stringify(x); const dump=(o,p,acc,seen)=>{ seen=seen||new Set(); if(o==null){ acc.push([p,String(o)]); return acc; } if(typeof o==='string'||typeof o==='number'||typeof o==='boolean'){ acc.push([p,typeof o==='string'?o:J0(o)]); return acc; }
       if(typeof o==='function'){ acc.push([p,'fn:'+String(o)]); return acc; } if(seen.has(o)){ acc.push([p,'(seen)']); return acc; } seen.add(o); for(const k of Object.keys(o)) dump(o[k],p+'.'+k,acc,seen); return acc; };
-    out.data=dump(STORY_EVENTS.map(e=>({id:e.id,dialogue:e.dialogue})),'STORY_EVENTS',[]).filter(x=>!/^fn:/.test(x[1])); }
+    out.data=dump(STORY_EVENTS.filter(e=>!GONE_EV.includes(e.id)).map(e=>({id:e.id,dialogue:e.dialogue})),'STORY_EVENTS',[]).filter(x=>!/^fn:/.test(x[1])); }
   /* ---------- 36 讀書區：LIBQ.quiet 的加法（BASE、現在的字各加一次）---------- */
   { const QB=QBANK, st=q=>q.q.replace(/。$/,''), op=q=>['A','B','C','D'].map(k=>k+'、'+q.options[k]).join('；'), forms=[];
     for(const q of QB){ if(q.type==='tf') forms.push(st(q)+'——這句話對不對？祐廷，你說。'); else forms.push(q.q,op(q)+'。祐廷，你選哪個？',op(q)); }
@@ -178,7 +187,8 @@ const B8=(()=>{ const T=['CLASS_INTRO','CLASS_OK','CLASS_BAD','CLASS_UNSURE','MA
 
 /* ---------- 33. 分類 ---------- */
 check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html 全部載入、沒有例外）',!(O.errs||[]).length&&!(N.errs||[]).length,sample((O.errs||[]).concat(N.errs||[])));
-{ const so=O.scan||[], sn=N.scan||[];
+{ const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table'].concat(CHG4)), haveEv=new Set((N.scan||[]).map(s=>s.ev));   /* CANON-NO-ECON-1112 第三批：整場拿掉的事件、拿掉幾列的三場不比 */
+  const so=(O.scan||[]).filter(s=>haveEv.has(s.ev)&&!CHG.has(s.ev)), sn=(N.scan||[]).filter(s=>!CHG.has(s.ev));
   const named=L=>L.filter(s=>s.kind==='named'&&s.wrapped);
   const no=named(so), nn=named(sn);
   check('33. BASE：STORY_EVENTS 有名字、整句「…」的＝這 23 句（事件、說的人、字一句一句對）',no.length===23&&TW.every(([f,e,t,sp])=>no.filter(s=>s.ev===e&&s.text===t&&s.speaker===sp).length===1),sample(no.map(s=>s.ev+'：'+s.text)));
@@ -209,9 +219,10 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
     wlo.length===40&&tab.length===36&&J(wl)===J(OPT4)&&B8.n===36&&tab.every(t=>litN.filter(x=>x===unq(t)).length===1)); }
 
 /* ---------- 34. 資料和 BASE 逐句比 ---------- */
-{ const A=O.data||[], B=N.data||[], bad=[], hit=[];
+{ const reId=L=>{ const id={}; for(const [p,v] of L){ const m=/^STORY_EVENTS\.(\d+)\.id$/.exec(p); if(m) id[m[1]]=v; } return L.map(([p,v])=>[p.replace(/^STORY_EVENTS\.(\d+)/,(z,i)=>'STORY_EVENTS.'+id[i]),v]); };   /* CANON-NO-ECON-1112 第三批：路徑換成事件 id，整場拿掉的事件、拿掉幾列的三場不比 */
+  const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table'].concat(CHG4)), B=reId(N.data||[]).filter(x=>!CHG.has(x[0].split('.')[1])), have=new Set(B.map(x=>x[0].split('.')[1])), A=reId(O.data||[]).filter(x=>have.has(x[0].split('.')[1])), bad=[], hit=[];
   if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
-  else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(require('./peishan_rewrite_1111.js').pair(a[1],b[1])) return;   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS） */ if(wrapped(a[1])&&unq(a[1])===b[1]&&OLD23.includes(a[1])) hit.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
+  else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(require('./peishan_rewrite_1111.js').pair(a[1],b[1])) return; if(require('./kx_rewrite_1112.js').pair(a[1],b[1])) return;   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：bbpack_events.js「我來找品妤，順便找你。順序不要問。」照新稿算。舊期望：這一句和 BASE 一字不差 */   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS） */ if(wrapped(a[1])&&unq(a[1])===b[1]&&OLD23.includes(a[1])) hit.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
   check('34. STORY_EVENTS（全部載入以後，每一場的 dialogue，'+B.length+' 個值）和 '+BASE+' 比：只改了這 23 句（一句一次）、只差外面那一對「」，其他一字不差',A.length>30000&&bad.length===0&&J(hit.slice().sort())===J(OLD23.slice().sort()),sample(bad)+'｜'+hit.length); }
 
 /* ---------- 35. 原始碼逐行比（這一個 commit 本身）---------- */

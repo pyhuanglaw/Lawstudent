@@ -5,7 +5,7 @@
 //     不在群組（只和可昕交往）：群組什麼都沒有；大一下已經傳過 spring_pick_msg 不影響；舊存檔（已經選過 SPRING_Y2）不補發
 //   2 Kevin 的「今天溫學姊生日🎂」（sis_y2y3_3d.js）：2026 照舊；2027 換第 2 節那一句；舊存檔已經收過 2027 那一則（舊句）不重發
 //   3 芷若的試譯稿費（r3_3d.js ZR_FEE_SHOTS）：兩張截圖第二張換第 3 節那一句（第一張照舊）
-//   4 第 6 節④（企劃線 878496edb，回 LAWWW-B 施工問題）：大二下選可昕＝私訊祐廷「好。今年也開。」→ 可昕「嗯。七點四十，校門口。」（group3d.js S.springPick；群組那一句照第 1 節一起傳）；
+//   4 第 6 節④（企劃線 878496edb，回 LAWWW-B 施工問題）：大二下選可昕＝私訊祐廷「好。今年也開。」→ 可昕「嗯。七點四十，宿舍樓下（AA-C 11-13 BB_458 #4：地點是女生宿舍樓下）。」（group3d.js S.springPick；群組那一句照第 1 節一起傳）；
 //     選別的、沒選（none）都不傳；不在群組也傳
 //   5 AA_465 第 3 節＋AA_461 第 6 節④ 大四下（r2y4b3d.js S.springPick）：3/25 以安在群組排最後一個春假，選完祐廷在群組一句、以安回（表三列）；
 //     選可昕另外私訊「好。我開車。」→「嗯。到時候見。」；沒選（none）不補（4/3 月台照片照舊）；不在群組只有私訊
@@ -17,7 +17,7 @@ const {check,GM,E}=H, J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const loadErr=[];
 const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有這個檔'); return false; } try{ let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+e.message); return false; } };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js',
   'src/data/r3_events.js','src/r3_3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js']) L3(f);   /* index.html 的順序（照 group_events_unit.js、r3_events_unit.js、aa379_sis_y2y3_unit.js 載的檔）*/
 GM.toast=()=>{}; GM.caption=()=>{};
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
@@ -47,6 +47,7 @@ const gitShow=(c,f)=>{ try{ return cp.execSync('git show '+c+':"docs/story_plann
 const doc6=gitShow('878496edb','AA_461_法律系大二下讀一遍_春假群組沒人回_Kevin的生日貼文.md'), doc465=gitShow('878496edb','AA_465_法律系大四下讀一遍_畢業那一週的家人群組_子晴的貓_八學期總清單.md');
 const cut=(d,a,b)=>{ const i=d.indexOf(a); if(i<0) return ''; const j=b?d.indexOf(b,i+1):-1; return d.slice(i,j<0?d.length:j); };
 const Q6=quotes(cut(doc6,'## 6.')), Q6y2=Q6.slice(0,2), Q6y4=Q6.slice(2,4);
+if(Q6y2[1]&&Q6y2[1].t==='嗯。七點四十，校門口。') Q6y2[1]=Object.assign({},Q6y2[1],{t:'嗯。七點四十，宿舍樓下。'});   /* AA-C 11-13（BB_458 #4）：地點是女生宿舍樓下，AA_461 舊字「校門口」改成「宿舍樓下」 */
 const T465={}; for(const r of rows(cut(doc465,'## 3.','## 4.'))) if(KMAP[r[0]]){ const [w,t]=r[2].split('：'); T465[KMAP[r[0]]]={me:r[1],who:w==='以安'?'heroine_01':w,t}; }
 
 (async()=>{
@@ -131,7 +132,7 @@ await sec(4,async()=>{
   toAsk(true); await choose('和可昕開車旅行'); const P=byTag('y2s2_spring_kx_pick');
   check('4. 交往中選「和可昕開車旅行」：私訊祐廷「'+(Q6y2[0]||{}).t+'」→ 可昕「'+(Q6y2[1]||{}).t+'」（第 6 節④；祐廷那一則是玩家傳的）',P.length===2&&J(kxPick('y2s2_spring_kx_pick'))===J(wantQ(Q6y2))&&P.every(m=>m.th==='p:kexin')&&P[0].who===null,J(kxPick('y2s2_spring_kx_pick')));
   check('4. 群組那一句（「'+T1.kexin.me+'」→ 柏翰）照第 1 節一起傳',J(grpPick())===J(want('kexin')),J(grpPick()));
-  check('4. 七點四十：那一趟出遊照舊 07:40 木柵大學校門口',(()=>{ const q=OUT.get(H.G,'kx_trip_y2s2'); return !!q&&Math.abs(q.h-(7+40/60))<1e-6&&/木柵大學校門口/.test(q.place); })());
+  check('4. 七點四十：那一趟出遊照舊 07:40，女生宿舍樓下（CANON-NO-ECON-1112 第四批：照 AA_878 #25 換字）',(()=>{ const q=OUT.get(H.G,'kx_trip_y2s2'); return !!q&&Math.abs(q.h-(7+40/60))<1e-6&&q.place==='女生宿舍樓下'; })());
   fresh(SP.inv,20,{}); H.FRIEND('kexin'); H.date('kexin'); H.G.flags.dating_kexin=true; run(SP.inv,20.5,21.75); await choose('和可昕開車旅行');
   check('4. 不在群組（只和可昕交往）：私訊照傳、群組沒有',byTag('y2s2_spring_kx_pick').length===2&&J(kxPick('y2s2_spring_kx_pick'))===J(wantQ(Q6y2))&&!byTag('y2s2_spring_pick').length);
   toAsk(true); await choose('跟麵店團出去');

@@ -123,7 +123,7 @@ const SIDEQ=(function(){
       thanks:'（兩個禮拜後，一個很瘦的男生來店裡道謝。他是國考生，那天胃出血被送急診，住院兩週。筆電裡是他三年的筆記。）',after:'（他每天來同一個窗邊的位子讀書，老闆幫他留。）',
       card:'（窗邊那個位子的桌上，多了一張手寫的小卡「謝謝」。）',pass:'（牆上多了一張剪報大小的紙：「榜單影本」。）',lapse:'那台筆電，我送去派出所了。'},
     SQ05:{open:['膝蓋要開刀。要休兩個禮拜。','……公休的紙，你幫我寫，寫得好看一點。'],notes:['老闆去修膝蓋，兩週後見。','本店公休至○月○日。','休息一下，大碗等你。'],
-      zheCard:[['zhe','刀削麵的老闆要去開膝蓋！'],['zhe','我買了一張卡片，明天中午A館一樓，大家來簽'],['yu','我帶彩色筆']],sign:'（你下課經過法律系館A一樓，阿哲把卡片塞給你。）',   /* AA_408 2：答應那天 21:00 麵店團群組 */
+      zheCard:[['zhe','刀削麵的老闆要去開膝蓋！'],['zhe','我買了一張卡片，明天中午A館一樓，大家來簽'],['yu','我帶彩色筆']],sign:'（你下課經過法律系館A一樓，阿哲把卡片塞給你。）',   /* AA_408 2：答應那天 21:00 桌遊團群組 */
       photo:[['zhe','（照片：病床旁的小桌，卡片立著，旁邊一碗醫院的稀飯）'],['zhe','老闆說，這個沒有他煮的好吃']],reopen:'大碗。……今天不收錢。',card:'（卡片貼在煮麵台旁邊的牆上。）',lapse:'公休的紙我自己寫了。『休息兩週』。……四個字。'},
     SQ06:{open:['我孫子國二，數學不及格。','你們有沒有同學在當家教？'],askTutor:{[MX]:['國二數學，可以。週幾？','我本來就在那附近教，順路。這個 CP 值很高。'],[AN]:['國二數學。好。週四以外都可以。']},   /* AA_408 2（明軒的「CP 值」這一場算一次）*/
       report:'他上課一直在桌子底下彈手指。',selfReport:['（第一次上課。他的數學課本很新，手指一直在桌子底下彈。）','（你看了一下：他彈的是吉他的和弦。）'],
@@ -242,7 +242,7 @@ const SIDEQ=(function(){
       accept:async(GM,r)=>{ const G=GM.G; r.closeFrom=G.day+1; r.closeTo=G.day+14; r.reopen=G.day+15; const c=dateOf(r.closeTo);
         const N=L.SQ05.notes.map(t=>t.replace('○月○日',c.m+'月'+c.d+'日')); const k=await GM.choose(N.map(t=>({t:q2(t)}))); r.note=N[k]||N[0];
         r.zhe=!!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&met('zhe')); setWait(r,'closed',r.reopen);
-        if(r.zhe){ const M=L.SQ05.zheCard.map(x=>({th:'g:noodle_team',from:x[0],text:x[1]})); M[M.length-1].ask={id:'sq05_sign',until:(G.day+1)*24+12,opts:[{t:'我去。'}]}; PHONE.at(G,G.day,21,M,'sq05_card'); } },   /* 答應那天 21:00 阿哲在麵店團群組揪簽卡片；回不回都照樣簽到（隔天霖澤館一樓那一行旁白）*/
+        if(r.zhe){ const M=L.SQ05.zheCard.map(x=>({th:'g:noodle_team',from:x[0],text:x[1]})); M[M.length-1].ask={id:'sq05_sign',until:(G.day+1)*24+12,opts:[{t:'我去。'}]}; PHONE.at(G,G.day,21,M,'sq05_card'); } },   /* 答應那天 21:00 阿哲在桌遊團群組揪簽卡片；回不回都照樣簽到（隔天霖澤館一樓那一行旁白）*/
       visit:async(GM,r,o)=>{ if(r.step!=='closed'||GM.G.day<r.reopen) return false; await say(GM,'老闆',L.SQ05.reopen); refund(GM,o); r.free=o&&o.price||0; S.finish(GM,'SQ05',r); return true; },
       trace:async(GM,r)=>{ if(r.state!=='done'||!r.zhe||r.t1||GM.G.day<=r.doneDay) return false; r.t1=GM.G.day; await say(GM,null,L.SQ05.card); return true; }},
     SQ06:{shop:'好家自助餐',title:'大學食堂：阿姨的孫子',avail:G=>ti(G)>=2,

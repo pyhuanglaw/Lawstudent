@@ -3,7 +3,7 @@
 //   1 第一次出席那天用第 1 週那一句（不管哪一週）；去過 C16（INTERN_LEGALAID）換另一句
 //   2 平常的週二各一句；3/13 照舊是 twfill 的那句
 //   3 租屋的大姊：3/20 記 LP_RENT_SEEN；3/27、5/8 照旗標分 A／B（3/27 B 也記）
-//   4 4/24 21:00 麵店團：阿哲、柏翰照認不認識；兩位都不認識不發
+//   4 4/24 21:00 桌遊團：阿哲、柏翰照認不認識；兩位都不認識不發
 // 修改前（434dcfd16）：沒有 src/practice3d.js——全部 FAIL。用法：node tests/aa441_practice_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -36,6 +36,6 @@ const goOn=async(key,flags,attend)=>{ const G=H.fresh(key,8,'dorm'); G.stage='la
   /* 4 群組 */
   const grp=(knowZhe,knowBo)=>{ const G=H.fresh('2029-04-24',21.2,'dorm'); G.stage='law'; PHONE.join(G,'noodle_team','noodle_team'); if(knowZhe) H.FRIEND('zhe'); if(knowBo) H.FRIEND('classmate_bohan'); PRACTICE.phone(G); PHONE.tick(G); return H.msgs('g:noodle_team'); };
   { const a=grp(true,true), b=grp(true,false), c=grp(false,false);
-    check('4. 4/24 21:00 麵店團：兩位都認識兩句、只認識阿哲一句、都不認識不發',J(a)===J(['今天影印了三百頁 手好痠','我的書狀改到第三版了。'])&&J(b)===J(['今天影印了三百頁 手好痠'])&&c.length===0,J([a,b,c])); }
+    check('4. 4/24 21:00 桌遊團：兩位都認識兩句、只認識阿哲一句、都不認識不發',J(a)===J(['今天影印了三百頁 手好痠','我的書狀改到第三版了。'])&&J(b)===J(['今天影印了三百頁 手好痠'])&&c.length===0,J([a,b,c])); }
   H.done();
 })();

@@ -11,7 +11,9 @@ AA_518（學姊第十五批）第 4 節 4-2、4-15：學姊 S4-L7 一句＋註�
 AA_525（說了沒發生（二））：子晴 Q2-L5、沛珊 P3-L3／P5-L2、可昕 K2-L8／K3-L5／K6-L6 的選項（字、回覆）整句相同才換（_swap，大一下～大三下各學期）；選了哪一個要記的旗標在 src/aa525_3d.js。
 AA_523（學姊第十六批）第 6 節 6-1、6-2：學姊 S7-L3 週次、S7-L8 選項②的回覆用 _fix 疊在大四下的階梯上（byTerm.Y4S2）；6-10：大四上招呼的 base 加一句（_fix_greet_base，byTerm.Y4S1）。
 AA_524（說了沒發生（一））：以安 A2-L5、A4-L6 選項②的回覆、A3-L8 extraIf，芷若 Z3-L4 選項②的回覆、Z5-L5 extraIf 用 _fix 疊上去（旗標 AN_COOK_PROMISE、ZR_LUROU_HALF 在 src/aa524_3d.js 記）。
-用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref] [--out 檔名]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔；--out：寫到那個檔、不改 src/data/ladder.js，tests/ladder_reimport_unit.js 用）"""
+AA_781（閒聊階梯全部重看，X324）：通用覆蓋層（任何人、任何學期），格式寫在檔案後面 AA781 那一段的註解；白名單加一筆就匯。稿對錯人的列列在 AA781_ROW_SKIP（不換、印出來）。
+用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref] [--out 檔名] [--no-aa781] [--aa781-log 檔名]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔；--out：寫到那個檔、不改 src/data/ladder.js，tests/ladder_reimport_unit.js 用；
+--no-aa816：不疊 AA_816 選項 fx 層；--no-aa781：不疊 AA_781 通用層（tests/ladder_aa781_1111_unit.js 比零差異用）；--aa781-log：AA_781 每一列換到哪裡、每人每學期刪節號前後，寫成 JSON）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -90,6 +92,8 @@ out['labels'] = {m: lab[m] for c in out['byTerm'].values() for m in mems(c) if m
 for m, v in ((OLD.get('labels') or {}).items()):
     if m not in out['labels'] and any(m in set(mems(out['byTerm'][t])) for t in kept): out['labels'][m] = v
 if skipped: print('先不匯入新版（記憶沒有中文名稱，請企劃在階梯文件補「| `代號` | 名稱 |」表）：', skipped, '；保留上一次匯入的：', kept)
+# CANON-NO-ECON-1112 第三批（AA_861～868）：可昕八個學期整組換新稿（企劃線源稿直接換好）——以前疊在她舊稿上的修正層（AA_373、AA_374、AA_375、AA_525…）對的是舊字，一律不疊
+SKIP_WHO = {'kexin'}
 def _walk(o, old, new=None):   # 數（new 是 None）或換掉整句相同的字串，回傳幾句（AA_373 疊句用）
     n = 0
     items = o.items() if isinstance(o, dict) else (enumerate(o) if isinstance(o, list) else [])
@@ -118,6 +122,7 @@ if A373:
                                        ('第 25 項', 'kexin', '騙人。……你記幾次？不准說。我會比。', '騙人。……你記幾次？算了，不准說。', '「騙人。……你記幾次？算了，不准說。」'),
                                        ('第 6-2 節第 4 題', 'heroine_05', '期中那個空的保溫瓶，你看到了。', '上學期期中那個空的保溫瓶，你看到了。', '「上學期期中那個空的保溫瓶，你看到了。」')]:   # 第 6 節（bdab2f42）：看過空保溫瓶那一套（linesIf ev_sis_empty_flask）也是上學期的事
         if quote not in md373: sys.exit(f'AA_373@{S373} 裡找不到{item}的「改成」：{quote}')
+        if cid in SKIP_WHO: continue
         if cid == 'heroine_05' and not _s2l6: continue
         ch = y1s2.get(cid) or {}
         n = _walk(ch, old, new)
@@ -133,6 +138,7 @@ def _approved_md(prefix):   # 白名單上的修正稿（AA_376、AA_377）：(�
 def _swap(tag, md, chars, rows):   # 整句相同才換（同 AA_372、AA_373）：rows＝[(第幾項, 人物, 舊句, 新句, 稿裡的「改成」)]
     for item, cid, old, new, quote in _rf(rows):
         if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
+        if cid in SKIP_WHO: continue
         ch = chars.get(cid) or {}
         n = _walk(ch, old, new)
         if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'{tag} {item}：{cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
@@ -209,6 +215,7 @@ def _fix(prefix, label, patches):
     md = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True))
     for item, term, cid, sid, field, old, new, quote in _rf(patches):
         if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
+        if cid in SKIP_WHO: continue
         st = next((x for x in (((out['byTerm'].get(term) or {}).get(cid) or {}).get('steps') or []) if x.get('id') == sid), None)
         if st is None: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 沒有 {sid}')
         cur = st.get(field)
@@ -466,8 +473,8 @@ if A753:
 #        同一個 commit（b59a8f9de）AA_753_peishan_ladder_Y1S2_Y2S1.json 更正一句：P2-L3 主句第一句「一個禮拜兩天。」→「每個禮拜三。」（課輔班是每週三 18:00～21:00，AA_614）——和 c5094495d 只差這一句。
 #      - P8-L2（要排公開課，我舉手了）：稿的 event_open_class.ladder——4/14 那一場（ev_peishan_open_class）演過就跳過這一層（skipIf；原本的 skipAfterWeek 8 照留）。
 PS753_MORE = [('AA_753_peishan_ladder_Y1S2_Y2S1.json', 'b59a8f9de', {'Y1S2': ('full', ['我在客運上背了一路，才背到第三章。']), 'Y2S1': ('full', ['我背到第三章，還有四章。'])}),
-              ('AA_753_peishan_ladder_Y3.json', '188061108', {'Y3S1': ('base', ['你吃早餐了嗎？……我家開早餐店，習慣問。']), 'Y3S2': ('base', ['期中。我的考卷上，畫了一個笑臉。……我自己畫的。', '你吃早餐了嗎？'])}),
-              ('AA_753_peishan_ladder_Y4.json', '465382f83', {'Y4S1': ('base', []), 'Y4S2': ('base', [])})]
+              ('AA_753_peishan_ladder_Y3.json', '3f6c7d3bb9', {'Y3S1': ('base', ['你吃早餐了嗎？……我家開早餐店，習慣問。']), 'Y3S2': ('base', ['期中。我的考卷上，畫了一個笑臉。……我自己畫的。', '你吃早餐了嗎？'])}),
+              ('AA_753_peishan_ladder_Y4.json', '8d3bec48be', {'Y4S1': ('base', []), 'Y4S2': ('base', [])})]   # 2026-11-13 AA_944 第 3 節（BB_456 照用）：大四上「今天上特教…」→「特教課我筆記寫到手痠。」（原本 3f6c7d3bb9）
 PS753_LINESIF = {'P2-L3', 'P3-L3', 'P3-L4', 'P3-L6', 'P3-L8'}; PS753_EXTRAIF = {'P5-L6'}
 PS753_SKIPIF = {'P8-L2': {'events': ['ev_peishan_open_class']}}
 def _ps753_re(x, w):
@@ -529,7 +536,7 @@ for F753, SHA753, TERMS753 in PS753_MORE:
     out['source'] += f'＋{F753[:-5]}@{S}（沛珊 {"、".join(TERMS753)} 八層＋招呼重寫）'
 #      AA_753 補（2026-11-11，X327）：沛珊五套 linesIf——P2-L3（記得 SAW_HER_TEACH）、P3-L3／L4／L6／L8（演過 ev_peishan_decision）。稿每一層給 term、if、lines（兩句）、choices（{t, re, fx}）：
 #      現在的階梯那一層要剛好一套 linesIf、條件（if）和稿的一模一樣（不一樣就停）；那一套的 lines、choices 換成稿上的（上面留著的舊兩句、舊選項被取代），其他欄位不動。**只認 PS753_LINESIF_FILE 的那一版**。
-PS753_LINESIF_FILE = ('AA_753_peishan_ladder_linesIf.json', 'b59a8f9de')
+PS753_LINESIF_FILE = ('AA_753_peishan_ladder_linesIf.json', '3f6c7d3bb9')   # CANON-NO-ECON-1112 第四批（AA 8a7de39f0c，讀 3f6c7d3bb9）：沛珊三句跟 AA_899 同一個說法；大三那一份同（原本 b59a8f9de、188061108）
 PATH753L = 'docs/story_planning/' + PS753_LINESIF_FILE[0]
 A753L = G.approved_files(ALLOW, PATH753L)
 if A753L:
@@ -609,8 +616,210 @@ if A326:
         if 'note' in when[idx[0]]: e['note'] = when[idx[0]]['note']
         when[idx[0]] = e; n326 += 1
     out['source'] += f'＋BB_326@{S}（第 4 節：沛珊課輔班兩句招呼的出現條件，改了 {n326} 則）'
+#      AA_781（DLG-FULL-REVIEW-1110，使用者 X324：閒聊階梯全部重看；AA 2026-11-11 交稿，BB 看過）：**通用覆蓋層**——任何人、任何學期都走這一段，不用再為一個人寫一段。
+#      白名單上 docs/story_planning/AA_781_<人>_ladder_<學期>.json 一檔一筆（path＋sha）＝匯；加白名單就好，不用改這支工具。稿的格式（LAWWW 和 AA 2026-11-11 07:4x 定）：
+#      - 最上層只認 who（人物 id）、term（例 "Y1S1"；陣列＝同一份疊在好幾個學期）、_meta（說明，不匯）、steps、rows；別的欄位＝停。同一人同一學期只能一個檔。
+#      - steps：[{id, lines, choices[, mem, rel, note]}]——那一層整層換 lines 和 choices（選項 {t, re, fx[, rel, mem]}，re 每一行是字串或 {narr: "（…）"}）；
+#        id、if、week、location、順序、整層的 rel、mem、note 都不動（稿有寫 mem／rel 就要和現在的一樣）。選項至少兩個、fx 只認 {fr, love} 整數。
+#        現在那一層的選項有 rel／mem、稿沒照抄（或稿多了）＝停；現在那一層有 linesIf／extraIf（稿沒寫那一套怎麼辦；要換就用 rows 一句一句換）＝停；
+#        選項的字被程式認的層（AA781_CHOICE_KEYED＋掃 src 的 LADDER_CHOICE_IF／LADDER_REPLY_IF／S.LAD.choice／privtalk choiceIf）選項的 t 要一字不差。
+#      - rows：[{at, old, new[, note, path]}]——at＝層的 id：old 在那一層（lines、選項的 t／回話、linesIf、extraIf）整句相同剛好一處；at＝greet.base[i]／greet.when[i]：那一格的字＝old。
+#        對不到、不只一處＝停（不猜）。path 有寫就要和實際換到的位置一樣。換到選項的 t、而那一層在上面那張表＝停。
+#      - 先 steps 再 rows；這一段放在所有修正層後面（稿對的是遊戲現在的字）。讀稿照 read_fix，換名換出來和稿不一樣＝停（稿要寫遊戲現在的字）。
+#      - 被換掉的字如果 src 裡有程式寫死（例：STORY.LADDER_GREET_IF 用招呼的字認條件）：同一個檔也要有新字（程式跟著改了）、或列在 AA781_CODE_OK，不然停；
+#        「只在上課日說」（src/data/greet_classday.js，tools/story/import_greet_classday.py 產生）的招呼：RENAMED 要有這一句的新字，不然停。
+#      測試：tests/ladder_aa781_1111_unit.js（每個檔每一列都換到、其他人其他學期零差異、選項被程式認的層字不變、rel／mem 沒掉）
+AA781_PREFIX = 'docs/story_planning/AA_781_'
+AA781_CHOICE_KEYED = {'A7-L5', 'Y6-L3', 'Y4-L6', 'A5-L1', 'A5-L8', 'K5-L2', 'Y5-L1', 'Y5-L6', 'Y5-L7', 'Y5-L8'}   # LAWWW 2026-11-11 列的（另外掃 src 補）
+AA781_CODE_OK = {   # {(舊字, 'src/…js'): '為什麼程式裡那一句不用跟著換'}（只是剛好同一句，不是程式用字認階梯）
+    ('……嗯。你也是。', 'src/data/jp_blank_lines.js'): '日本篇空白日立衡的台詞（AA_435），和學姊大三下 S6-L4 剛好同一句；不是用字認階梯，不跟著換'}
+AA781_ROW_SKIP = {}   # {(檔名不含 .json, at, old): 為什麼這一列不換}——稿對錯人的列：不換、印出來、紀錄裡記 skip（其他列照換）；AA 改稿以後從這裡拿掉。
+A781 = {} if '--no-aa781' in sys.argv else {p: s for p, s in G.approved_files(ALLOW, AA781_PREFIX).items() if re.match(r'^docs/story_planning/AA_781_[A-Za-z0-9]+_ladder_[A-Za-z0-9_]+\.json$', p)}   # --no-aa781：不疊這一層（測試比「其他人、其他學期零差異」用，配 --out）
+AA781_LOG = []
+if A781:
+    _keyed781 = set(AA781_CHOICE_KEYED)
+    for _fn in ('story3d.js', 'privtalk3d.js', 'y3fill3d.js'):
+        _s = open(os.path.join(ROOT, 'src', _fn), encoding='utf8').read()
+        _keyed781 |= set(re.findall(r"'([A-Za-z0-9]+-L\w+)'\]?\s*[:=]\s*\{\s*'", _s)) | set(re.findall(r"step:'([A-Za-z0-9]+-L\w+)',\s*choice:'", _s))
+    _lits781 = {}   # src 裡的字串常數 → 檔（ladder.js、greet_classday.js 是產生出來的，另外看）
+    for _dp, _dn, _fns in os.walk(os.path.join(ROOT, 'src')):
+        for _f in _fns:
+            _p = os.path.relpath(os.path.join(_dp, _f), ROOT).replace(os.sep, '/')
+            if not _f.endswith('.js') or _p in ('src/data/ladder.js', 'src/data/greet_classday.js'): continue
+            for _m in re.finditer(r"'((?:[^'\\\n]|\\.)*)'|\"((?:[^\"\\\n]|\\.)*)\"", open(os.path.join(_dp, _f), encoding='utf8').read()):
+                _lits781.setdefault(_m.group(1) if _m.group(1) is not None else _m.group(2), set()).add(_p)
+    try:
+        _gc = open(os.path.join(ROOT, 'src', 'data', 'greet_classday.js'), encoding='utf8').read(); _gc781 = json.loads(_gc[_gc.index('{'):_gc.rindex('}') + 1])
+    except (OSError, ValueError): _gc781 = {}
+    import import_greet_classday as _GCI
+    TEXT781 = ('lines', 'choices', 'linesIf', 'extraIf', 't', 'reply', 're')
+    def _txt781(o):   # 一層裡所有台詞字串：(值, 位置 [key/index…])
+        if isinstance(o, str): yield o, []
+        elif isinstance(o, list):
+            for i, v in enumerate(o):
+                for x, p in _txt781(v): yield x, [i] + p
+        elif isinstance(o, dict):
+            for k in TEXT781:
+                if k in o:
+                    for x, p in _txt781(o[k]): yield x, [k] + p
+    def _pstr781(keys):
+        return ''.join(f'[{k}]' if isinstance(k, int) else f'.{k}' for k in keys)
+    def _code781(tag, who, old, new):   # 程式寫死舊字＝新字也要在同一個檔（或 AA781_CODE_OK）；new 是 None（steps 整層換掉的字）＝程式裡不能有舊字
+        for p in sorted(_lits781.get(old, ())):
+            if (old, p) in AA781_CODE_OK: continue
+            if new is None or p not in _lits781.get(new, ()): sys.exit(f'{tag}：「{old}」在 {p} 裡是寫死的字（程式用字認），那個檔沒有新字「{new}」——先改程式（或列 AA781_CODE_OK）')
+        for k, v in _gc781.items():
+            if isinstance(v, dict) and old in (v.get(who) or []):
+                if new is None: sys.exit(f'{tag}：「{old}」是只在上課日說的招呼（src/data/greet_classday.js {k}），steps 不能換招呼')
+                rn = _GCI.RENAMED.get((who, old)); rn = (rn,) if isinstance(rn, str) else (rn or ())
+                if new not in rn: sys.exit(f'{tag}：「{old}」是只在上課日說的招呼（src/data/greet_classday.js {k}），tools/story/import_greet_classday.py 的 RENAMED 要加 ({who!r}, {old!r}) → {new!r}')
+    def _re781(x, w):
+        if isinstance(x, str) and x.strip(): return x
+        if isinstance(x, dict) and set(x) == {'narr'} and re.fullmatch(r'（[^（）]+）', x['narr'] or ''): return x['narr']
+        sys.exit(f'{w}：re 的每一行要是字串或 {{narr: （…）}}')
+    def _rm781(cs):   # 選項的 rel／mem（不看字）：要和現在的一樣
+        return sorted(json.dumps([c.get('rel') or None, c.get('mem') or None], sort_keys=True, ensure_ascii=False) for c in cs if c.get('rel') or c.get('mem'))
+    seen781 = {}
+    for P781 in sorted(A781):
+        S781 = A781[P781]
+        ok, why = G.allowed(P781, S781, ALLOW)
+        if not ok: sys.exit('拒絕匯入：' + why)
+        raw = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S781}:{P781}'], text=True); fx = G.read_fix(raw)   # 讀稿照 read_fix（同一行，tests/alison_unit.js 第 4 項掃得到）
+        d0, d = json.loads(raw), json.loads(fx)
+        tag = f'{os.path.basename(P781)[:-5]}@{S781}'
+        if {k: v for k, v in d0.items() if k != '_meta'} != {k: v for k, v in d.items() if k != '_meta'}: sys.exit(f'{tag}：讀稿換名（read_fix）以後字變了——稿要寫遊戲現在的字，請 AA 改稿')
+        if set(d) - {'who', 'term', '_meta', 'steps', 'rows'}: sys.exit(f'{tag}：不認得的欄位 {sorted(set(d) - {"who", "term", "_meta", "steps", "rows"})}')
+        who = d.get('who'); terms = d.get('term'); terms = [terms] if isinstance(terms, str) else terms
+        if not isinstance(who, str) or not isinstance(terms, list) or not terms or not all(isinstance(t, str) and re.match(r'^Y\d+S[12]$', t) for t in terms): sys.exit(f'{tag}：who／term 不對（{who!r}、{d.get("term")!r}）')
+        steps, rows = d.get('steps') or [], d.get('rows') or []
+        if not isinstance(steps, list) or not isinstance(rows, list) or not (steps or rows): sys.exit(f'{tag}：steps、rows 要是陣列，至少一個有東西')
+        for term in terms:
+            if (who, term) in seen781: sys.exit(f'{tag}：{term} {who} 已經有 {seen781[(who, term)]}（同一人同一學期只能一個檔）')
+            seen781[(who, term)] = tag
+            chars = y1 if term == 'Y1S1' else out['byTerm'].get(term)   # 大一上在 characters（上面 y1，和 out['characters'] 同一份）
+            ch = (chars or {}).get(who)
+            if not isinstance(ch, dict): sys.exit(f'{tag}：現在的階梯 {term} 沒有 {who}')
+            base = f'characters.{who}' if term == 'Y1S1' else f'byTerm.{term}.{who}'
+            ell0 = sum(x.count('……') for x, _ in _txt781({'lines': [s for s in ch.get('steps') or []] + list(ch.get('dating') or [])})) + sum(x.count('……') for x in ((ch.get('greet') or {}).get('base') or [])) + sum((w.get('t') or '').count('……') for w in ((ch.get('greet') or {}).get('when') or []))
+            def _layer(sid, w):
+                L = [x for x in list(ch.get('steps') or []) + list(ch.get('dating') or []) if x.get('id') == sid]
+                if len(L) != 1: sys.exit(f'{w}：{term} {who} 的階梯找到 {len(L)} 個 {sid}（要剛好一個）')
+                return L[0], ('steps' if L[0] in (ch.get('steps') or []) else 'dating')
+            n_steps = n_rows = 0
+            for s in steps:
+                w = f'{tag} {term} steps {s.get("id")}'
+                if not isinstance(s, dict) or set(s) - {'id', 'lines', 'choices', 'mem', 'rel', 'note'}: sys.exit(f'{w}：不認得的欄位 {sorted(set(s) - {"id", "lines", "choices", "mem", "rel", "note"}) if isinstance(s, dict) else s}')
+                t, _ = _layer(s.get('id'), w)
+                for k in ('mem', 'rel'):
+                    if k in s and s[k] != t.get(k): sys.exit(f'{w}：整層的 {k} 要和現在的一樣（稿 {s[k]!r}、現在 {t.get(k)!r}）')
+                for k in ('linesIf', 'extraIf'):
+                    if t.get(k): sys.exit(f'{w}：現在的階梯這一層有 {k}（稿沒有寫那一套怎麼處理），先問 AA（要換那一套的字用 rows）')
+                if not (isinstance(s.get('lines'), list) and s['lines'] and all(isinstance(l, str) and l.strip() for l in s['lines'])): sys.exit(f'{w}：lines 要是字串陣列')
+                chs = []
+                for i, c in enumerate(s.get('choices') or []):
+                    wi = f'{w} 選項 {i + 1}'
+                    if not isinstance(c, dict) or set(c) - {'t', 're', 'fx', 'rel', 'mem'} or not isinstance(c.get('t'), str) or not c['t'].strip() or not isinstance(c.get('re'), list) or not c['re']: sys.exit(f'{wi}：只認得 {{t, re, fx, rel, mem}}（t 字串、re 陣列）')
+                    fx = c.get('fx') or {}
+                    if not isinstance(fx, dict) or set(fx) - {'fr', 'love'} or not all(type(v) is int for v in fx.values()): sys.exit(f'{wi}：fx 只能是 {{fr, love}} 整數')
+                    if 'rel' in c and not (isinstance(c['rel'], dict) and c['rel'] and all(type(v) is int for v in c['rel'].values())): sys.exit(f'{wi}：rel 要是 {{名稱: 整數}}')
+                    if 'mem' in c and not (isinstance(c['mem'], str) and has(c['mem'])): sys.exit(f'{wi}：mem {c.get("mem")!r} 沒有中文名稱（src/social3d.js 補）')
+                    o = {'t': c['t'], 're': [_re781(x, wi) for x in c['re']]}
+                    if fx: o['fx'] = dict(fx)
+                    if c.get('rel'): o['rel'] = dict(c['rel'])
+                    if c.get('mem'): o['mem'] = c['mem']
+                    chs.append(o)
+                if len(chs) < 2: sys.exit(f'{w}：選項至少兩個')
+                cur = t.get('choices') or []
+                if _rm781(cur) != _rm781(chs): sys.exit(f'{w}：選項的 rel／mem 和現在的不一樣（現在 {_rm781(cur)}、稿 {_rm781(chs)}）——原本有的要照抄，不默默掉、不多加')
+                if s['id'] in _keyed781 and [c.get('t') for c in cur] != [c['t'] for c in chs]: sys.exit(f'{w}：這一層的選項字被程式認（LADDER_CHOICE_IF 之類），t 要一字不差（現在 {[c.get("t") for c in cur]}）')
+                keep = {x for x, _ in _txt781({'lines': s['lines'], 'choices': chs})}
+                for x, _ in _txt781({'lines': t.get('lines') or [], 'choices': cur}):   # 整層換掉、新稿沒有的字（舊句、舊選項、舊回話）：程式裡不能寫死
+                    if x not in keep: _code781(w, who, x, None)
+                t['lines'] = list(s['lines']); t['choices'] = chs; n_steps += 1
+            for r in rows:
+                w = f'{tag} {term} rows {r.get("at") if isinstance(r, dict) else r}'
+                if not isinstance(r, dict) or set(r) - {'at', 'old', 'new', 'note', 'path'}: sys.exit(f'{w}：不認得的欄位')
+                at, old, new = r.get('at'), r.get('old'), r.get('new')
+                if not all(isinstance(x, str) and x.strip() for x in (at, old, new)) or old == new: sys.exit(f'{w}：at、old、new 要是字串、old ≠ new')
+                _sk = AA781_ROW_SKIP.get((os.path.basename(P781)[:-5], at, old))
+                if _sk:
+                    print(f'{w}：「{old}」這一列不換——{_sk}'); AA781_LOG.append({'file': tag, 'term': term, 'who': who, 'at': at, 'skip': _sk}); continue
+                m = re.fullmatch(r'greet\.(base|when)\[(\d+)\]', at)
+                if m:
+                    g = ch.get('greet') or {}; arr = g.get(m.group(1)) or []; i = int(m.group(2))
+                    if i >= len(arr): sys.exit(f'{w}：{term} {who} 的招呼沒有 {at}')
+                    cur = arr[i] if m.group(1) == 'base' else (arr[i] or {}).get('t')
+                    if cur != old: sys.exit(f'{w}：{at} 現在是「{cur}」，不是稿的 old「{old}」（對不到，不猜）')
+                    hit = f'{base}.greet.{m.group(1)}[{i}]' + ('.t' if m.group(1) == 'when' else '')
+                    if m.group(1) == 'base': arr[i] = new
+                    else: arr[i]['t'] = new
+                    kind = 'greet'
+                else:
+                    t, where = _layer(at, w)
+                    hits = [p for x, p in _txt781(t) if x == old]
+                    if len(hits) != 1: sys.exit(f'{w}：「{old}」在 {term} {who} {at} 整句相同的有 {len(hits)} 處（要剛好一處；對不到不猜）')
+                    p = hits[0]; o = t
+                    for k in p[:-1]: o = o[k]
+                    o[p[-1]] = new
+                    is_t = len(p) >= 3 and p[-1] == 't' and p[-3] == 'choices'
+                    if is_t and at in _keyed781: sys.exit(f'{w}：{at} 的選項字被程式認（LADDER_CHOICE_IF 之類），不能用 rows 換選項的 t')
+                    kind = 'choice.t' if is_t else ('line' if p[0] == 'lines' else ('reply' if p[-1] in ('reply', 're') or (len(p) >= 2 and p[-2] in ('reply', 're')) else p[0]))
+                    hit = f'{base}.{where}[{at}]' + _pstr781(p)
+                if r.get('path') is not None:
+                    alias = {r['path'], r['path'].replace('byTerm.Y1S1.', 'characters.', 1)}
+                    if hit not in alias and not (hit.endswith('.t') and hit[:-2] in alias): sys.exit(f'{w}：path 寫的是 {r["path"]}，實際換到的是 {hit}')
+                _code781(w, who, old, new)
+                AA781_LOG.append({'file': tag, 'term': term, 'who': who, 'at': at, 'kind': kind, 'hit': hit}); n_rows += 1
+            ell1 = sum(x.count('……') for x, _ in _txt781({'lines': [s for s in ch.get('steps') or []] + list(ch.get('dating') or [])})) + sum(x.count('……') for x in ((ch.get('greet') or {}).get('base') or [])) + sum((w.get('t') or '').count('……') for w in ((ch.get('greet') or {}).get('when') or []))
+            AA781_LOG.append({'file': tag, 'term': term, 'who': who, 'steps': n_steps, 'rows': n_rows, 'ellipsis': [ell0, ell1]})
+            bad = [x for x in mems({who: ch}) if not has(x)]
+            if bad: sys.exit(f'{tag}：記憶沒有中文名稱 {bad}（src/social3d.js 補）')
+    _sum781 = [x for x in AA781_LOG if 'steps' in x]
+    out['source'] += f'＋AA_781 通用層 {len(A781)} 檔（{"、".join(sorted({x["term"] for x in _sum781}))}；steps {sum(x["steps"] for x in _sum781)} 層、rows {sum(x["rows"] for x in _sum781)} 列）'
+    if '--aa781-log' in sys.argv:
+        with open(sys.argv[sys.argv.index('--aa781-log') + 1], 'w', encoding='utf8') as fo: json.dump(AA781_LOG, fo, ensure_ascii=False, indent=1)
+# ---- AA_816（X324 最後一塊，AA 11-11 20:56 提格式、LAWWW 同意）：閒聊階梯選項「只加 fx」的覆蓋層（不重抄台詞）——最後一層（AA_781 之後）。
+#      docs/story_planning/AA_816_ladder_fx.json＝{"<學期>":{"<人>":{"<層 id>":{"<選項 t 一字不差>":{"fr":0,"love":1}}}}}（"_" 開頭的鍵＝註解）。
+#      學期 Y0S1～Y4S2（Y1S1＝characters）；層 id 找 steps 和 dating；選項字照「遊戲裡現在的字」（疊過 AA_781、_swap、_fix 以後）。已經有 fx 的照稿覆蓋；
+#      對不到（學期、人、層、選項字）＝停、列出哪一格；fx 只收 fr／love 整數。--no-aa816：不疊（測試比「拿掉 fx 一字不差」用）
+P816 = 'docs/story_planning/AA_816_ladder_fx.json'
+AA816_SKIP_WHO = SKIP_WHO   # CANON-NO-ECON-1112 第三批（AA_861～868）：可昕八個學期整組換新稿（源稿直接換、沒有 fx），AA_816 對的是舊選項字＝整個人不疊；她的 Y0S1、Y0S2 也跟著不疊
+S816 = None if '--no-aa816' in sys.argv else G.approved_files(ALLOW, P816).get(P816)
+if S816:
+    _ok, _why = G.allowed(P816, S816, ALLOW)
+    if not _ok: sys.exit('拒絕匯入：' + _why)
+    raw = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S816}:{P816}'], text=True); fx816 = json.loads(G.read_fix(raw))   # 讀稿照 read_fix（同一行）
+    n816, miss816 = 0, []
+    for term, people in fx816.items():
+        if term.startswith('_'): continue
+        if not [w for w in people if not w.startswith('_') and w not in AA816_SKIP_WHO]: continue   # 那個學期只有不疊的人（可昕的 Y0S1、Y0S2：舊序章那一年已經拿掉）
+        chars = y1 if term == 'Y1S1' else out['byTerm'].get(term)
+        if not isinstance(chars, dict): miss816.append(f'{term}（沒有這個學期）'); continue
+        for who, layers in people.items():
+            if who.startswith('_'): continue
+            if who in AA816_SKIP_WHO: continue
+            ch = chars.get(who)
+            if not ch: miss816.append(f'{term}/{who}（這學期沒有這個人）'); continue
+            idx = {}
+            for st in list(ch.get('steps') or []) + list(ch.get('dating') or []):
+                idx.setdefault(st.get('id'), []).append(st)
+            for sid, opts in layers.items():
+                if sid.startswith('_'): continue
+                sts = idx.get(sid) or []
+                if len(sts) != 1: miss816.append(f'{term}/{who}/{sid}（{len(sts)} 層對到）'); continue
+                cs = sts[0].get('choices') or []
+                for t, fx in opts.items():
+                    if t.startswith('_'): continue
+                    if not isinstance(fx, dict) or not fx or any(k not in ('fr', 'love') or not isinstance(v, int) or isinstance(v, bool) for k, v in fx.items()):
+                        sys.exit(f'AA_816 {term}/{who}/{sid}/「{t}」：fx 只能是 fr／love（整數）——讀到 {fx!r}')
+                    hit = [c for c in cs if c.get('t') == t]
+                    if len(hit) != 1: miss816.append(f'{term}/{who}/{sid}/「{t}」（{len(hit)} 個選項對到；這一層的選項：{[c.get("t") for c in cs]}）'); continue
+                    hit[0]['fx'] = dict(fx); n816 += 1
+    if miss816: sys.exit('AA_816：對不到 ' + str(len(miss816)) + ' 格（選項字照 src/data/ladder.js 現在的字）：\n' + '\n'.join(miss816[:40]))
+    out['source'] += f'＋AA_816@{S816}（選項 fx {n816} 個）'
 if R630: out['source'] += f'＋AA_630@{R630["sha"]}（語彤 {sum(int(re.search(r"(\d+) 列", x).group(1)) for x in LOG630)} 列）'
 with open(OUT, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
-    fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+    fo.write(_AA959.layer("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n', 'ladder.js', strict=not any(a in sys.argv for a in ('--no-aa781', '--no-aa816'))))   # 不疊 AA_781／AA_816 的比較基準：AA_959 照換、對不到的列不擋
 print('wrote', OUT, 'Y1S1', {k: len(v['steps']) for k, v in out['characters'].items()}, {t: {k: len(v['steps']) for k, v in c.items()} for t, c in out['byTerm'].items()}, 'kaiDorm', len(out['kaiDorm']))

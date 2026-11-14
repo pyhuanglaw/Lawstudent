@@ -1,0 +1,63 @@
+{
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 194.3,
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 256,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  0.0,
+  30.0,
+  0.0
+ ],
+ "sky": 1.0,
+ "nightsky": 0.03,
+ "shell": "S",
+ "daylights": 1.0,
+ "knee": null,
+ "dayscale": null,
+ "lights": "-0.510,-0.490,-3.010,-2.990,3.2,1,1,32,1.44,0.07,0.96,0.98,1.0;-0.510,-0.490,-0.610,-0.590,3.2,1,1,32,1.44,0.07,0.96,0.98,1.0;-0.510,-0.490,1.790,1.810,3.2,1,1,32,1.44,0.07,0.96,0.98,1.0;-0.510,-0.490,3.890,3.910,3.2,1,1,32,1.44,0.07,0.96,0.98,1.0",
+ "points": "1.9,2.7,-2.0,14,0.96,0.98,1.0,0.3;1.9,2.7,1.0,14,0.96,0.98,1.0,0.3",
+ "dayfill": null,
+ "wb": {
+  "day": [
+   0.97,
+   0.98,
+   1.0
+  ],
+  "night": null
+ },
+ "skytint": null,
+ "objects": [
+  "CEIL_ceil",
+  "CEIL_plastic_w",
+  "S_cardboard",
+  "S_cloth_b",
+  "S_floor",
+  "S_packs",
+  "S_ph_vintage_stapler_0",
+  "S_pics",
+  "S_plastic_dk",
+  "S_plastic_navy",
+  "S_plastic_w",
+  "S_ream_b",
+  "S_ream_p",
+  "S_ream_w",
+  "S_ream_w2",
+  "S_ream_w3",
+  "S_ream_y",
+  "S_screen",
+  "S_steel",
+  "S_wood",
+  "tz_yindehao_interior_inst",
+  "tz_yindehao_interior_inst.001",
+  "WALL_E",
+  "WALL_N",
+  "WALL_S",
+  "WALL_Sfix_steel",
+  "WALL_W"
+ ]
+}

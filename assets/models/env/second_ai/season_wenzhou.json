@@ -1,11 +1,11 @@
 {
- "objects": 14,
- "unique_meshes": 14,
- "tris": 3468,
- "tris_drawn": 3468,
+ "objects": 38,
+ "unique_meshes": 38,
+ "tris": 14174,
+ "tris_drawn": 14174,
  "materials": 3,
  "out": "assets/models/env/second_ai/season_wenzhou.glb",
- "bytes": 340064,
+ "bytes": 971276,
  "texres": 1024,
  "set": "wenzhou",
  "doors": 13,
@@ -53,7 +53,119 @@
   "EXAM": {
    "doors": 1,
    "tris": 20
+  },
+  "FRUITSPRING": {
+   "doors": 1,
+   "tris": 962
+  },
+  "FRUITSUMMER": {
+   "doors": 1,
+   "tris": 994
+  },
+  "FRUITAUTUMN": {
+   "doors": 1,
+   "tris": 1106
+  },
+  "FRUITWINTER": {
+   "doors": 1,
+   "tris": 1884
+  },
+  "MOON": {
+   "doors": 1,
+   "tris": 1410
+  },
+  "LANTERN": {
+   "doors": 1,
+   "tris": 2224
+  },
+  "AIYU": {
+   "doors": 1,
+   "tris": 620
+  },
+  "TEXTBOOK": {
+   "doors": 1,
+   "tris": 698
+  },
+  "RAIN": {
+   "doors": 7,
+   "tris": 522
   }
  },
+ "foot": {
+  "FRUITSPRING": [
+   [
+    32.95,
+    33.45,
+    -5.8,
+    -5.2
+   ]
+  ],
+  "FRUITSUMMER": [
+   [
+    32.95,
+    33.45,
+    -5.8,
+    -5.2
+   ]
+  ],
+  "FRUITAUTUMN": [
+   [
+    32.95,
+    33.45,
+    -5.8,
+    -5.2
+   ]
+  ],
+  "FRUITWINTER": [
+   [
+    32.95,
+    33.45,
+    -5.8,
+    -5.2
+   ]
+  ],
+  "MOON": [
+   [
+    36.82,
+    37.25,
+    -5.8,
+    -5.15
+   ]
+  ],
+  "AIYU": [
+   [
+    30.05,
+    31.15,
+    3.95,
+    4.55
+   ]
+  ],
+  "TEXTBOOK": [
+   [
+    14.3,
+    15.5,
+    5.12,
+    5.5
+   ]
+  ],
+  "RAIN": [
+   [
+    43.77,
+    44.03,
+    5.47,
+    5.73
+   ],
+   [
+    -18.93,
+    -18.67,
+    -5.73,
+    -5.47
+   ]
+  ]
+ },
+ "rain_stands": [
+  "A5",
+  "B2"
+ ],
  "note": "LIFE-DETAILS-SEASONAL-1110 第一、二批：SEASON_<代號>_on（CNY 過年、XMAS 聖誕、DRAGON 端午、VDAY 情人節、HALLOWEEN 萬聖節、CVSWINTER／CVSSUMMER 便利店海報、DRINKSUMMER／DRINKWINTER 飲料店布條、LAUNDRY 洗衣店換季、EXAM 期末考週影印店）；日期表 src/data/season_deco.js"
 }

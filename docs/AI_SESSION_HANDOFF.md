@@ -5,7 +5,9 @@
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：A 值班中（2026-11-10 08:1x UTC 起；LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`；上一任帳號 B；RULE_SOURCE＝`claude/confident-ritchie-8rwh7t`；duty.json seq 126）**
+**現在：C 值班中（2026-11-12 03:1x UTC 起；使用者「上一個帳號來不及交班使用量就到了上限，你現在接班，我也會通知其他AI」＝帳號 A 未交班、no-handoff；LAWWW-C `session_01Me1thu8Zn934H58kWKNfuF`，`claude/adoring-meitner-mqzst8`；上一任帳號 A；RULE_SOURCE＝`claude/adoring-meitner-mqzst8`；duty.json seq 129；AA-C、BB-C、LAWWW2-C 已登記，CC-C 還沒）**
+
+（以下是上一筆紀錄）**現在：A 值班中（2026-11-10 08:1x UTC 起；LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`；上一任帳號 B；RULE_SOURCE＝`claude/confident-ritchie-8rwh7t`；duty.json seq 126）**
 
 （以下是上一筆紀錄）**現在：B 值班中（2026-11-09 16:0x UTC 起；使用者「現在交班 你上次交班後沒有人接班 我會通知其他AI上線」＝選擇題確認「對，接班」；LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6` 先登記，其他職位上線後各自 duty register；RULE_SOURCE＝`claude/modest-rubin-2lyp7g`）**
 
@@ -17,6 +19,8 @@
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-11-12 22:2x | **帳號 C 交班**（LAWWW2／AA／BB／CC 22:08～22:12 先交，LAWWW 最後）→ 下一個帳號 | 全部職位 | `d8268b3e`（`claude/adoring-meitner-mqzst8`＝RULE_SOURCE 不改） | 使用者 22:1x「現在交班 等其他AI交班你就交班」；全部 Node 1293／1293 綠；沒有發布（main 照舊）；下一班第一件事 CANON-NO-ECON-1112 第五批（docs/handoff/canon_b5_1112/README.md）；快照 2026-11-12T2223Z_C_LAWWW.json；五個職位喚醒都已停用 |
+| 2026-11-12 03:1x | 帳號 A（未交班，用量到上限）→ **帳號 C** | LAWWW（AA、BB、LAWWW2 同時登記；CC 還沒） | `4e248bb55e`（`claude/confident-ritchie-8rwh7t`，快轉 1427 個 commit） | 使用者 11-12 明確指示接班（register --user-ok）；帳號 A 沒有交班快照，最後的狀態照使用者傳的對話截圖＋commit 紀錄（HANDOFF_GAP_MATRIX 第 1 節最上面） |
 | 2026-11-09 16:0x | 帳號 B 11-08 20:5x 交班（沒有人接）→ **帳號 B 重新接班**（LAWWW-B 先登記；其他職位上線後 register） | LAWWW | `d56e4f051`（`claude/modest-rubin-2lyp7g`） | 使用者「現在交班 你上次交班後沒有人接班 我會通知其他AI上線」→ 選擇題「對，接班」；duty verify 的 AA／BB 快照路徑格式修正後 OK；check、roles、asks OK |
 | 2026-11-08 20:5x | **帳號 B 交班**（CC-B 20:44、BB-B 20:47、AA-B 20:48、LAWWW2-B 20:50、LAWWW-B 最後）→ 下一個帳號 | 五職位 | `claude/modest-rubin-2lyp7g`（交班 commit 見 duty.json） | 使用者 20:4x「現在交班 等其他AI做好你才交班」；v9.10.23 已上線（main `3a34dbaa5`，BB 線上驗收 PASS）；incr 水位線全部前進；roles、check、asks OK；HANDOFF-B-1108 |
 | 2026-11-04 12:1x | 帳號 A（五職位 11-04 09:19 交班）→ **帳號 B 接班**（LAWWW-B 12:17、AA-B 12:11；LAWWW2-B、BB-B、CC-B 接班中） | LAWWW | `e52a77030`（`claude/confident-ritchie-8rwh7t`，快轉進 `claude/modest-rubin-2lyp7g`，登記 `9f4d237e2`） | 使用者「現在接班 請同步 GitHub 最新進度，接續工作 接班之後跟其他AI試著傳訊息」；check OK、roles OK、asks OK（522 筆）、duty verify 只有 AA-B 快轉的那一項（sync 後解決）；incr 918 項沒處理（帳號 A 交班就有，B6） |
@@ -52,6 +56,16 @@
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-43** | 2026-11-13 | **D163 幫手工作階段也要交班**：誰開歸誰管（tasks.json helpers）、幫手在自己分支寫 HANDOFF.md（全部待辦）、換班第 4b 步先收幫手、幫手不跨帳號、loose 檢查 helpers | 使用者 2026-11-13 23:1x 對 LAWWW-C | CLAUDE.md §4、tools/handoff/check_handoff.py loose | （本 commit） |
+| **HV-39** | 2026-11-12 | **D159 店內、店面道具不准是塑膠方塊**：能用 CC0 掃描模型的一律用；自己做的要倒角、完整貼圖組、同類有變化；布料模擬或布料材質；Cycles 烘光影；交件附同鏡頭並排圖，LAWWW 看圖才整合；全部店面重做＝SHOP-REALISM-1112（D141 版本上限不擋，使用者自己說的） | 使用者 11-12 20:2x 對 LAWWW2-C（UA-LAWWW2-1112-06）、19:5x 溫特寶邸 v1 | CLAUDE.md §9 第 2a 點；§12 第 2 點「質感」、ROLE_BB 2.6 第一層質感警示＋第三層加「質感」（BB-C 20:18 提） | cb803e569e＋下一個 commit |
+| **HV-41** | 2026-11-13 | **D161 店面 CC0 驗收三項同時成立、做不完派其他 AI（LAWWW2 先驗收）**（CLAUDE.md §12 第 2 點） | 使用者 11-13 14:1x 對 LAWWW2-C（UA-LAWWW2-1113-01～03，原話）；LAWWW-C 寫入 |
+| **HV-42** | 2026-11-13 | **D162 同帳號的職位停住要自己傳訊息叫它開工；D75 只限休班帳號**（CLAUDE.md §3 第 10 點、§4；ROLE_BB §4 第 9 點；ROLE_CC 第 32 點） | 使用者 11-13 15:2x 對 BB-C（UA-BB-1113-01，BB 83032a90f5）：「你說你在等c c結果他停下來你也不跟他講你要訊息叫他開始做啊我不知道為什麼他突然停下來」 |
+| **HV-40** | 2026-11-12 | **D160 店內、店面一律用 Poly Haven／ambientCG 的 CC0 掃描模型和材質組**（使用者 21:5x 對 LAWWW2-C：「早就該這麼做了 這些素材早就跟你講了 一定要寫進規則 每間店做好的也要檢查 用這些素材更貼近2D圖篇」）：燈光烘進貼圖、交件附 CC0 清單＋2D 並排；以前做好的每一間都查，沒用的進 SHOP-REALISM-1112；狀態表加「CC0 素材」欄；機器檢查 tests/shop_cc0_unit.js（LAWWW2） | CLAUDE.md §12 第 2 點、ROLE_LAWWW2 12.2 |
+| **HV-34** | 2026-11-12 | **D152 等的時候不閒著，機器會擋**：Stop hook `tools/handoff/idle_guard.py`（`.claude/settings.json`）——回合結束時最後一則回覆寫了「等測試／等 GHA／等回覆／幾分鐘後回來看」卻沒寫正在做哪個任務 ID，擋一次、叫它先開工；排 send_later 回來看不算在做事 | 使用者 11-12 對 LAWWW-C：「你再等一個東西的時候要做其他可以做的事情不是嗎不要再做這種事 我還要一個一個盯著 明明就寫過了」（LAWWW-C 接班後兩次回報「等全套測試」，被問了兩次才開工；D125 早就有） | CLAUDE.md §5 第 3 點；各職位合併 RULE_SOURCE 後生效（開著的工作階段要重開或開 /hooks） |
+| **HV-35** | 2026-11-12 | **D154 地點關卡**：進得去的每一個地點在 `ART_APPROVED`、已驗收、發布以前要過三層機器檢查（Node 資料檢查 → 瀏覽器機器人固定四個鏡頭 → BB 看圖判七項）；規則在 `ROLE_BB.md` 2.6，`CLAUDE.md` §8 第 7 點、ROLE_LAWWW 6.1、ROLE_LAWWW2 場景規則 7、ROLE_CC 2.3 各一行指過去。使用者 11-12：「這要寫進測試規則！！……電腦讓你跑測試就是我不想要連很基本的東西都要自己跟你講」。工具任務 PLACE-GATE-TOOL-1112 | LAWWW-C |
+| **HV-36** | 2026-11-12 | **D155 店面標準**（`CLAUDE.md` §12）：每一間進得去的店七點（街上看、店裡面、人、做得到的事、時間、字、驗收），新增、修改、以前建好的都要符合；攤販只要有人顧、買得到。以前的店全部補查（SHOP-STANDARD-BACKFILL-1112 → `docs/handoff/SHOP_STANDARD_STATUS.md`）。接班第 9b 步加跑 place_gate。使用者 11-12：「要有一個規則而且要確保這個規則不會在交班之後別的帳號的AI根本就不知道有這件事情」 | LAWWW-C |
+| **HV-38** | 2026-11-12 | **D158 舊序章、外校不留字**（CLAUDE.md §7 第 10 點）：祐廷應屆進法律系、遊戲從迎新宿營開始；舊序章和外校的內容、人物全部拿掉，GitHub 上任何檔都不寫那些字（要提就寫代號）；杜可昕＝法律系同屆同學、開局不是女朋友、之後可以追；國考落榜再考留著。機器檢查 `tools/handoff/canon_scan.py`。**D99 改成兩個優先項目**（寒暑假、美國交換；§6 第 1 點）、D81 的順序從 v1 大一上開始。Git 歷史不重寫，公開前換新倉庫。 | 使用者 2026-11-12 12:1x～12:5x 對 LAWWW-C（四則指示＋五題選擇題；UA-LAWWW-1112-32～38） |
+| **HV-37** | 2026-11-12 | **D156 使用者的電腦不能空轉**（CLAUDE.md §8 第 5a 點、ROLE_CC 2.4）＋**D157 規則包同步**：工作階段啟動載入的是自己分支的 CLAUDE.md 和 hook——查到 AA、BB、LAWWW2、CC 四條分支都是舊版、完全沒有 hook。`tools/handoff/rules_sync.py --apply` 把 CLAUDE.md、docs/rules、hook、tools/handoff、FACTS.md 換成 RULE_SOURCE 的；UserPromptSubmit hook 每則訊息比一次；`duty register` 遇到舊規則包不給登記。使用者對 CC-C：「我有一種感覺是每次換帳號，我就要重新說一次，到底有沒有寫進去每個帳號每個角色都會看到規則」 | LAWWW-C |
 | **HV-33** | 2026-11-11 | **D150 稱呼使用者用「你」，不用「妳」** | 使用者 11-11 00:26 對 LAWWW2「我不是妳 我是你」 | CLAUDE.md §10 1a | （本 commit） |
 | **HV-32** | 2026-11-10 | **D148 做過的不能不見（FACTS.md、`check_handoff.py loose`、交班 G 類）＋D147 新店名由使用者給＋D149 規格裡「先給我看／未經核准不得發布」的照分工決定、不用問使用者** | 使用者 11-10「我需要的是一個交班規則…」「以後都我決定」「所有說要先給我看的 都依照你們的分工決定 不用問我」 | CLAUDE.md §1、§4、§9；docs/handoff/FACTS.md | c27e10a76 |
 | **HV-31** | 2026-11-10 | **規則重整（RULES-CONSOLIDATE-1110）**：一份短的共同規則 `CLAUDE.md`＋每個職位一頁 `docs/rules/ROLE_<LAWWW|LAWWW2|AA|BB|CC>.md`，每條規則只放一個地方；已被取代的舊規則直接刪（git 歷史留著）；本檔只留紀錄（第 1、12～14 節）；刪 PROJECT_DECISIONS、USER_INSTRUCTION_LOG 等舊文件；D 編號留作標籤，下一個是 D147 | 使用者 2026-11-10 選擇題：①被取代的直接刪 ②一份共同＋每職位一頁；17:2x 過時的直接刪；19:0x 發布照舊由 LAWWW 決定（「都給你」） | CLAUDE.md、docs/rules/、計畫 docs/handoff/RULES_INVENTORY_1110.md | 本次 |
@@ -104,6 +118,8 @@
 
 | 時間（UTC） | 職位 | 帳號 | 規則版本／RULE_SOURCE commit | 已讀 D90 | 沒處理的使用者指示 | 正在跑的長工作 | turn_check | 來源 |
 |---|---|---|---|---|---|---|---|---|
+| 2026-11-12 03:1x | AA | C | HV-33／RULE_SOURCE `claude/adoring-meitner-mqzst8`（接班時是 confident-ritchie seq 126） | 是（CLAUDE.md 共同規則＋ROLE_AA＋00_台詞寫作規則） | 無（今天的都登記在 user_asks_AA UA-AA-1112-01～11） | 無 | — | AA-C 11-12 04:55 訊息，LAWWW-C 代登 |
+| 2026-11-12 03:1x | LAWWW | C | HV-34／RULE_SOURCE 改為 `claude/adoring-meitner-mqzst8` | 是（含 D152、D153） | 有：使用者 11-12 連續回報 X352～X358（都在 tasks.json，進行中） | 子代理（SHOP-LIFE-AUDIT-1112、汀州聯通接字）在背景 | 這一班有超過 10 分鐘的回合（使用者連續插話＋合併子代理；改法：合併、登記拆成各自的短回合） | LAWWW-C |
 | 2026-11-04 12:1x | LAWWW | B | HV-24／`e52a77030`→`9f4d237e2`（RULE_SOURCE 改為 `claude/modest-rubin-2lyp7g`） | 是（含 D118～D133、HV-22～HV-24） | 有一件正在做：使用者要接班後跟其他 AI 試著傳訊息（12:18 對 AA-B、BB-B、LAWWW2-B、CC-B 各傳一則，都 DELIVERED，等 ACK） | 沒有 | 沒跑（接班中） | LAWWW-B 自己登記；每小時保險喚醒 trig_017NNfTyMTM1X5Bv9sFBGmBv 已建（D129） |
 | 2026-11-02 03:3x | LAWWW | A | HV-21／`02898d56c`（RULE_SOURCE 改為 `claude/confident-ritchie-8rwh7t`） | 是（含 D111～D117、HV-19～HV-21） | 有一件正在做：使用者要先測通訊、整理其他職位留下沒做的事和每個階段每個任務的預估時間 | 沒有 | 沒跑（接班中） | LAWWW 自己登記 |
 | 2026-10-23 06:5x | LAWWW | B（LAWWW-B） | HV-18／`719cca3bc`（RULE_SOURCE `claude/confident-ritchie-8rwh7t`，接班後改為 `claude/modest-rubin-2lyp7g`） | 是（含 D92、D94～D96、D99～D101、HV-17、HV-18；duty register seq 24） | 沒有（使用者這次只要求同步、接續、確認通訊） | 沒有 | 252 回合、34 個超過上限（多數是 10-16～10-17 的舊回合） | 本工作階段 |

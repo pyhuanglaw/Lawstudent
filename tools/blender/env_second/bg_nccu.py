@@ -1,7 +1,7 @@
-"""2D 背景：政大（outings3d.js 的 OUT.BG.nccu_gate「政大・校門口」、nccu_food「政大・山下的小吃街」）。
-LAWWW2-B 2026-10-15；使用者試玩 v9.7 回報第 11 項「去政大找可昕完全沒有畫面」（現在 image:null＝深色底）。LAWWW-B 23:34Z 分派 B。
+"""2D 背景：外校（outings3d.js 的 OUT.BG.nccu_gate「外校・校門口」、nccu_food「外校・山下的小吃街」）。
+LAWWW2-B 2026-10-15；使用者試玩 v9.7 回報第 11 項「去外校找可昕完全沒有畫面」（現在 image:null＝深色底）。LAWWW-B 23:34Z 分派 B。
 Blender 5.2（bpy，無介面）＋Cycles（CPU），1920×1080，畫面上沒有人（人物用 ADV 立繪疊上去），做法照 bg_noodle_table.py。
-**政大是真實的學校**：這兩張是「參考政大山下生活圈」的原創場景——不放校徽、校名、真實店名；小吃店名全部虛構（wz_street.py 的 NCCU_FOOD）。
+**外校是真實的學校**：這兩張是「參考外校山下生活圈」的原創場景——不放校徽、校名、真實店名；小吃店名全部虛構（wz_street.py 的 NCCU_FOOD）。
   校門口：指南路（雙向、斑馬線）對面的校門——低矮的石材牆、兩根門柱、中間寬的入口、門後的大樹與系館，後面是山（「法學院。山。也是山。」）。
   山下的小吃街：兩側老公寓、一樓小吃店（招牌亮著、店裡暖色的燈），停滿機車的窄巷，巷底看得到山。
 時間：傍晚（天空還有一點亮、店和路燈已經亮了）——事件有下午出發（K1 導遊）也有晚上 19:30（K1b），一張圖兩種都說得通。
@@ -9,7 +9,7 @@ Blender 5.2（bpy，無介面）＋Cycles（CPU），1920×1080，畫面上沒�
   /opt/blenv/bin/python tools/blender/env_second/wz_street.py -- --set nccu_food --out <暫存>/nccu_food_street.glb
   /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- food <暫存>/nccu_food_street.glb <輸出.png> [--res 1920x1080] [--samples 64]
   /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- gate - <輸出.png> [--res …] [--samples …]
-  /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- campus - <輸出.png> [--res …] [--samples …]（政大・校園裡的路：醉夢溪畔的步道）
+  /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- campus - <輸出.png> [--res …] [--samples …]（外校・校園裡的路：醉夢溪畔的步道）
 座標＝遊戲座標（x 東、y 上、z 南），g2b 轉成 Blender。"""
 import math, os, random, sys
 import bpy, bmesh
@@ -347,7 +347,7 @@ RED = mat_flat('stool_red', srgb('#c9463d'), rough=0.45)
 # ================================================================ 山下（指南路二段 57～67 號那一段）
 if SCENE == 'food':
     # 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：店在路的西側（x=-4.6 的立面、朝東），窄人行道（約 1.2 m），
-    # 指南路雙向約 12 m（x -3.4～8.6），對面是政大（矮牆、樹、側門「麥側」），再過去是指南山。
+    # 指南路雙向約 12 m（x -3.4～8.6），對面是外校（矮牆、樹、側門「麥側」），再過去是指南山。
     bpy.ops.import_scene.gltf(filepath=os.path.abspath(GLB))
     paint_faces()
     for m in bpy.data.materials:
@@ -362,7 +362,7 @@ if SCENE == 'food':
     for x in (-3.15, 8.35): quad('edge', (x - 0.06, 0.004, 30), (x + 0.06, 0.004, 30), (x + 0.06, 0.004, -90), (x - 0.06, 0.004, -90), WHITE_PAINT)
     box('walk_w', -4.6, -3.4, 0, 0.15, -90, 30, CONC); box('curb_w', -3.5, -3.4, 0, 0.16, -90, 30, STONE)
     box('walk_e', 8.6, 10.2, 0, 0.15, -90, 30, CONC); box('curb_e', 8.6, 8.7, 0, 0.16, -90, 30, STONE)
-    for z0, z1 in ((-90, -12.0), (-4.0, 30)):                            # 政大的矮牆；中間（麥當勞斜對面）是側門
+    for z0, z1 in ((-90, -12.0), (-4.0, 30)):                            # 外校的矮牆；中間（麥當勞斜對面）是側門
         box('cwall', 10.2, 10.6, 0.15, 1.3, z0, z1, BRICK); box('cwall_cap', 10.15, 10.65, 1.3, 1.42, z0, z1, STONE)
     quad('campus', (10.6, 0.12, 30), (90, 0.12, 30), (90, 0.12, -90), (10.6, 0.12, -90), GRASS)
     hills(-58, 300, [(0, 30, (0.07, 0.15, 0.06), 1.3), (60, 55, (0.12, 0.19, 0.15), 2.7), (160, 85, (0.26, 0.32, 0.36), 4.1)])
@@ -382,7 +382,7 @@ if SCENE == 'food':
     sky(1.5, 205, 0.45)
     sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 0.25; sun.color = (1.0, 0.72, 0.52); so = bpy.data.objects.new('sun', sun)
     so.rotation_euler = (math.radians(86), 0, math.radians(205)); sc.collection.objects.link(so)
-    camera((8.2, 1.6, 6.0), (-4.6, 3.4, -16.0), float(opt('--lens', '24')))   # 從政大這一側的人行道（側門附近）斜看對街那一排：敏忠、迷客夏、50嵐、四川飯館、麥當勞、摩斯
+    camera((8.2, 1.6, 6.0), (-4.6, 3.4, -16.0), float(opt('--lens', '24')))   # 從外校這一側的人行道（側門附近）斜看對街那一排：敏忠、迷客夏、50嵐、四川飯館、麥當勞、摩斯
 
 # ================================================================ 圖書館（達賢圖書館，傍晚從景觀湖看）
 elif SCENE == 'lib':
@@ -443,8 +443,8 @@ elif SCENE == 'lib':
 
 # ================================================================ 校門口
 elif SCENE == 'campus':
-    # 「政大・校園裡的路」（LAWWW-B 01:0x 佇列：AA_137 7-1，K1b 散步；使用者 2026-10-16：政大只做主要校園＋宿舍）。
-    # 照查證（docs/art-rebuild/second_ai/research/nccu_campus_path.md）：醉夢溪（指南溪流進校園的那一段）沿岸的濱溪步道，政大人叫「情人道」；
+    # 「外校・校園裡的路」（LAWWW-B 01:0x 佇列：AA_137 7-1，K1b 散步；使用者 2026-10-16：外校只做主要校園＋宿舍）。
+    # 照查證（docs/art-rebuild/second_ai/research/nccu_campus_path.md）：醉夢溪（指南溪流進校園的那一段）沿岸的濱溪步道，外校人叫「情人道」；
     # 溪上有好幾座橋（濟賢橋、渡賢橋…）、溪岸種楓香、近自然工法的護岸（石塊）、校園在指南山麓（山很近、很高）。
     # **沒有看到照片：路寬、護岸與欄杆的樣子、橋的造型、建築量體都是推估**；不放校名校徽、不寫橋名。時間：傍晚（K1b 19:30 也說得通：路燈已經亮了）。
     # AA_147：K1b 是十月平日晚上 21:30 走在校園的路上（主圖＝夜晚）；傍晚是變體。--time night|dusk
@@ -620,12 +620,12 @@ else:
     building(-11, 11, -82, -62, 14.0)            # 四維堂（方正）
     building(-38, -18, -62, -44, 30.0, fh=3.4); building(-34, -22, -60, -46, 37.0, fh=3.4)    # 照片：校門左後方很高的白色大樓（上面退縮一段）
     building(16, 36, -50, -30, 13.0)
-    # 公車站牌（查證：真實站名「政大」「政大一」，遊戲寫「木柵大學」；路線 236、237、282、295、530、611、1503、小10…）——鏡頭這一側的人行道
+    # 公車站牌（查證：真實站名「外校」「外校一」，遊戲寫「外校」；路線 236、237、282、295、530、611、1503、小10…）——鏡頭這一側的人行道
     sign = Image.new('RGB', (360, 520), '#1f4e8c'); dd = ImageDraw.Draw(sign); fbig = ImageFont.truetype(FONT, 110); fsm = ImageFont.truetype(FONT, 46)
-    # D115（2026-10-30）：政大改虛構的「木柵大學」（docs/WORLD_NAMING.md）。四個字放不下 110 px：縮到站牌寬度以內。
+    # D115（2026-10-30）：外校改虛構的「外校」（docs/WORLD_NAMING.md）。四個字放不下 110 px：縮到站牌寬度以內。
     # 註：nccu_gate.webp 的鏡頭看不到這塊站牌（在畫面左邊外面），現有的背景圖不用重算。
-    while fbig.size > 40 and dd.textlength('木柵大學', font=fbig) > 330: fbig = ImageFont.truetype(FONT, fbig.size - 4)
-    dd.rectangle([0, 0, 360, 150], fill='#ffffff'); dd.text((180, 78), '木柵大學', fill='#1f4e8c', font=fbig, anchor='mm')
+    while fbig.size > 40 and dd.textlength('外校', font=fbig) > 330: fbig = ImageFont.truetype(FONT, fbig.size - 4)
+    dd.rectangle([0, 0, 360, 150], fill='#ffffff'); dd.text((180, 78), '外校', fill='#1f4e8c', font=fbig, anchor='mm')
     for k, rt in enumerate(('236', '237', '282', '295', '530', '611', '1503', '小10')): dd.text((90 + (k % 2) * 180, 200 + (k // 2) * 78), rt, fill='#ffffff', font=fsm, anchor='mm')
     sp = os.path.join(TMP, 'bus_sign.png'); sign.save(sp)
     box('bus_pole', -6.05, -5.95, 0.15, 3.2, 6.55, 6.65, METAL)

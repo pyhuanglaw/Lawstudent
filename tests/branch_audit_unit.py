@@ -69,7 +69,8 @@ duty = {'ruleSource': {'branch': 'active'}, 'roles': {'LAWWW': {'account': 'C', 
 wip = {'items': [{'id': 'WIP-1', 'branch': 'wipb（wip_backup/x.bundle）', 'state': 'WIP'}, {'id': 'WIP-2', 'branch': 'wip-done', 'state': '已整合'}]}
 put('docs/handoff/duty.json', json.dumps(duty, ensure_ascii=False)); put('docs/handoff/wip.json', json.dumps(wip, ensure_ascii=False))
 commit('records')
-for b in ['main', 'old-merged', 'picked', 'squashed', 'unmerged', 'superseded', 'active', 'active-merged', 'wipb', 'wip-done', 'in-active']:
+sh(w, 'git', 'checkout', '-q', '--orphan', 'results'); sh(w, 'git', 'rm', '-rq', '--cached', '.'); put('result.json', '{}'); sh(w, 'git', 'add', 'result.json'); sh(w, 'git', 'commit', '-qm', 'probe result'); sh(w, 'git', 'checkout', '-qf', 'main')   # BRANCH-AUDIT-ORPHAN-1105：和 main 沒有共同歷史的結果分支（claude/gha-results、cc-local 那種）
+for b in ['main', 'old-merged', 'picked', 'squashed', 'unmerged', 'superseded', 'active', 'active-merged', 'wipb', 'wip-done', 'in-active', 'results']:
     sh(w, 'git', 'push', '-q', 'origin', f'{b}:{b}')
 sh(w, 'git', 'fetch', '-q', 'origin')
 before = sh(w, 'git', 'for-each-ref', '--format=%(refname) %(objectname)', 'refs/remotes/origin')
@@ -77,6 +78,7 @@ before = sh(w, 'git', 'for-each-ref', '--format=%(refname) %(objectname)', 'refs
 res = BA.audit(w, fetch=True)
 K = {r['branch']: r['kind'] for r in res['branches']}
 check('1. 崗位在用、RULE_SOURCE：保留（整條在 main 的 active-merged 也保留）', K.get('active') == '保留｜崗位在用' and K.get('active-merged') == '保留｜崗位在用', K)
+check('8. 孤兒分支（和 main 沒有共同歷史，例如測試結果分支）：不讓稽核整個停、標保留、不當清理候選', (K.get('results') or '').startswith('保留') and len(res['branches']) >= 12, K.get('results'))
 check('2. WIP 沒整合完（wip.json WIP，分支名後面接括號也認得）：保留', K.get('wipb') == '保留｜WIP 沒整合完', K.get('wipb'))
 check('2. WIP 已整合：照內容判斷（整條在 main＝清理候選）', K.get('wip-done') == '清理候選', K.get('wip-done'))
 check('3. 清理候選：整條是 main 的祖先（休班帳號交班過的也算，寫誰的）', K.get('old-merged') == '清理候選' and 'BB-B（交班過）' in next(r['who'] for r in res['branches'] if r['branch'] == 'old-merged'), K.get('old-merged'))

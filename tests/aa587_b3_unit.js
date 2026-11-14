@@ -12,7 +12,8 @@ const ROOT=path.resolve(process.env.AA587_ROOT||path.join(__dirname,'..'));
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(ok||info===undefined?'':'　'+info)); if(!ok) fails++; };
 const J=JSON.stringify, R=p=>fs.readFileSync(path.join(ROOT,p),'utf8');
 const SHA='1cf992d66', SPEC='docs/story_planning/AA_587_以安改稿_第三批_大一大二事件.md';
-const DOC=(()=>{ try{ return cp.execSync('git show '+SHA+':"'+SPEC+'"',{cwd:path.join(__dirname,'..'),encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } })();
+const {fwd:FWD789}=require('./aa789_fwd.js');   /* AA_789／788 換過的句子：稿換成新字再比 */
+const DOC=(()=>{ try{ return FWD789(cp.execSync('git show '+SHA+':"'+SPEC+'"',{cwd:path.join(__dirname,'..'),encoding:'utf8',maxBuffer:1<<24})); }catch(e){ return ''; } })();
 const SRC={}; (function walk(d){ for(const f of fs.readdirSync(path.join(ROOT,d))){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()) walk(p); else if(/\.js$/.test(f)&&!/chars3d/.test(f)) SRC[p]=R(p); } })('src');
 const stripC=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/mg,'');   /* 註解裡引用原句不算 */
 const CODE={}; for(const p in SRC) CODE[p]=stripC(SRC[p]);
@@ -44,7 +45,7 @@ check('2. 刪掉的列＝第 46～49、51～55 列（S4）；一句變多句＝�
 const EV=SRC['src/data/events.js'];
 check('3-1 跨年隔天（第 19、20 列、保61）：「明天大家都會睡很晚。……午餐一起吃？」→ 祐廷選項「幾點？」→「中午。睡飽再說。」；舊的「跑步」「六點？」「七點。元旦」都不在',
   /明天大家都會睡很晚。……午餐一起吃？'[\s\S]{0,400}「幾點？」[\s\S]{0,300}text:'中午。睡飽再說。'/.test(EV)&&!inCode('明天早上我要去跑步').length&&!/「六點？」/.test(EV)&&!inCode('七點。元旦，晚一點。').length&&row('保61').nw==='中午。睡飽再說。');
-check('3-2 交換禮物：卡片「字比我想的整齊。……謝謝。」（第 18 列）、咖啡豆照原句「我在 Café 都點茶。……開學以後會用到。謝謝。」（第 17 列）',EV.includes("'字比我想的整齊。……謝謝。'")&&EV.includes('我在 Café 都點茶。……開學以後會用到。謝謝。')&&!inCode('字很工整。我收著。').length&&!inCode('我室友每天喝兩杯').length);
+check('3-2 交換禮物：卡片「字比我想的整齊。……謝謝。」（第 18 列）、咖啡豆照原句「我在 Café 都點茶。開學以後會用到。謝謝。」（第 17 列）',EV.includes("'字比我想的整齊。……謝謝。'")&&EV.includes('我在 Café 都點茶。開學以後會用到。謝謝。')&&!inCode('字很工整。我收著。').length&&!inCode('我室友每天喝兩杯').length);
 check('3-3 地圖（第 40 列）：「嗯。我畫了三次。」；BB 版「我怕畫錯」、原句「畫錯一條路」都不在',SRC['src/data/y2b_events.js'].includes('嗯。我畫了三次。')&&!inCode('畫錯一條路，人家就走錯。').length&&!inCode('我怕畫錯，人家會走錯路。').length);
 { const V=SRC['src/data/vac_activities.js']; const q=stripC(V).slice(stripC(V).indexOf("title:'小考',bg:'classroom_small'"),stripC(V).indexOf("title:'最後一堂',bg:'classroom_small'"));
   check('3-4 日文小考（第 29 列＋第 14 節第 5 點）：寫反ツ和シ的是祐廷（旁白），她不說「九十二。片假名寫錯一個。」「ツ跟シ。我每次都分不清楚。」；她回「嗯。多寫幾次就分得出來。」；十遍是祐廷寫（「（你在筆記本上…」）',

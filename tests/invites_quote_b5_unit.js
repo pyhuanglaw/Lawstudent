@@ -109,37 +109,25 @@ if(process.env.QUOTE_B5_PROBE) (async()=>{
     for(const [k,id,d,pid,h,tea] of SC){ const G=H.fresh(keyOf(d),10,'dorm',{}); prep(G); H.FRIEND(id); G.contacts[id]=1; const P0=INV.place(pid);
       const m0=AA614.meTea; if(tea) AA614.meTea=()=>true; let r; try{ r=INV.personal(G,id,P0,d,h,INV.decide(G,id,pid,d,h)); }finally{ AA614.meTea=m0; }
       H.said=[]; if(r&&r.lines) await INV.playLines(GM,who(id),r.lines,r); P('inv',rec().map(x=>[k,r&&r.res,r&&r.why||null].concat(x))); } });
-  /* ---------- 24d 經濟系同學在社科圖（STORY.talkCharacter → ECONSL.talk；同 tests/econ_soclib_1030_unit.js 的 talkNow）---------- */
-  const talkNow=async id=>{ const n={obj:mkObj(),id,charId:id,beh:'idle',pose:'read',seat:{x:0,z:0,yaw:0},lv:0,name:id}; GM.npc[id]=n; H.said=[]; H.opts=[]; H.picks=['就這樣','就這樣','就這樣'];
-    await STORY.talkCharacter(id,n); await settle(); return rec(); };
-  const econFresh=(d,h,zone,flags)=>{ const G=H.fresh(keyOf(d),h,zone,Object.assign({EXCHANGE_ROUTE:'TW',EXCH_RULE:1,introDone:true,afternoonDone:true,classDone:true},flags||{})); prep(G); return G; };
-  const ECON_DAYS=()=>{ const L=[], x=DK('2028-03-22'); for(const t of ['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2']) for(let k=0;k<18;k++){ const d=TD(t,3,1); if(d!=null&&d+k<x) L.push([t,d+k]); } return L; };   /* 社科圖到 3/21（阿勳 3/22 以後那一句留給在別處說）*/
-  await sec('econ',async()=>{ for(const [v,fl] of [['noY0',{}],['y0',{PLAYED_Y0:true,MET_XUN:true,MET_PINYU:true,KNOWS_TANG:true}]]){
-      econFresh(TD('Y1S2',3,1),19.5,'soclib',fl);
-      for(const [t,d] of ECON_DAYS()){ for(const id of ECON_IDS){ setDay(H.G,d,19.5,'soclib'); P('econ',(await talkNow(id)).map(x=>[v,t,keyOf(d),id].concat(x))); } }
-      /* 阿勳 3/22 以後在別處（校園）：那一句在別處也說 */
-      for(const k of ['2028-03-27','2028-03-28']){ setDay(H.G,DK(k),15,'campus'); P('econ',(await talkNow('econ_zhengxun')).map(x=>[v,'away',k,'econ_zhengxun'].concat(x))); } } });
+  /* ---------- 24d 經濟系同學在社科圖（CANON-NO-ECON-1112 第三批：這一項拿掉） ---------- */
   /* ---------- 25 舊存檔：old＝BASE 的程式先聊、存起來、再一路聊下去；new＝讀那個存檔（換記號／不換）接著聊 ---------- */
   const MIG={
-    econ:{start:()=>econFresh(TD('Y2S1',3,1),19.5,'soclib'),days:()=>{ const d0=TD('Y2S1',3,1), L=[]; for(let k=0;k<70;k++) L.push(d0+k*3); return L; },cut:5,
-      run:async d=>{ const L=[]; for(const id of ECON_IDS){ setDay(H.G,d,19.5,'soclib'); L.push(...(await talkNow(id)).map(x=>[keyOf(d),id].concat(x))); } return L; }},
+    /* econ（CANON-NO-ECON-1112 第三批：這一項拿掉） */
     ex:{start:()=>us('2028-10-02',10,'ex'),days:()=>weekdays('2028-10-02',8),cut:2,run:async d=>{ setDay(H.G,d,10,'us_lawlib'); return small(S5).map(x=>[keyOf(d)].concat(x)); }},
     dating:{start:()=>us('2028-09-11',10,'dating'),days:()=>weekdays('2028-09-11',12),cut:3,run:async d=>{ setDay(H.G,d,10,'us_lawlib'); return small(S5).map(x=>[keyOf(d)].concat(x)); }} };
   await sec('mig',async()=>{ out.mig={};
     for(const k of Object.keys(MIG)){ const M=MIG[k], days=M.days(), R={};
       if(mode==='old'){ seed(11); M.start(); for(const d of days.slice(0,M.cut)) await M.run(d); R.snap=JSON.stringify(H.G); seed(13); R.next=[]; for(const d of days.slice(M.cut)) R.next.push(...(await M.run(d))); }
       else if(IN.mig&&IN.mig[k]){ for(const doMig of [true,false]){ H.G=JSON.parse(IN.mig[k]); bindAll(); prep(H.G); let n=null; if(doMig) n=STORY.smallQuoteMigrate?STORY.smallQuoteMigrate(H.G):null;
-          seed(13); const L=[]; for(const d of days.slice(M.cut)) L.push(...(await M.run(d))); if(doMig){ R.n=n; R.next=L; R.small=H.G.social&&H.G.social.small&&H.G.social.small[S5]||null; R.econ=H.G.flags.ECON_SL||null; } else R.noFix=L; } }
+          seed(13); const L=[]; for(const d of days.slice(M.cut)) L.push(...(await M.run(d))); if(doMig){ R.n=n; R.next=L; R.small=H.G.social&&H.G.social.small&&H.G.social.small[S5]||null; } else R.noFix=L; } }
       out.mig[k]=R; } });
   /* ---------- 25 換記號的規則（只有 new）---------- */
   if(mode==='new') await sec('unit',async()=>{ const S=()=>({social:{small:{[S5]:{day:3,
         used:['（她點了一下頭。）「早。」','（她小聲）「三明治店十二點人很多。你先去占位子。」','__greet','（她小聲）「不在表上的句子。」','「A」「B」'],
         last:'（她指了一下桌上的紙杯）「圖書館的咖啡機又壞了。這杯是外面買的。」',
-        once:{'（她點了一下頭。）「早。」':true,'「這邊的咖啡很淡。我開始喝茶了。」':true,'（她點了一下頭。）早。':true}}}},
-      flags:{ECON_SL:{econ_pinyu:{day:5,once:{'「法律系的跑來社科圖？……總圖沒位子喔。」':3,'「不在表上的句子。」':4,'「保齡球那一場，我還記著。」':6},g:1},
-        econ_zhengxun:{day:null,once:{'「保齡球那一場，我還記著。」':7},g:2},econ_bogus:{once:{'「法律系的跑來社科圖？……總圖沒位子喔。」':1}},econ_weilun:null,econ_tangrui:{once:['x']}}}});
+        once:{'（她點了一下頭。）「早。」':true,'「這邊的咖啡很淡。我開始喝茶了。」':true,'（她點了一下頭。）早。':true}}}}});   /* flags.ECON_SL（CANON-NO-ECON-1112 第三批：這一項拿掉） */
     const s=S(), n1=STORY.smallQuoteMigrate(s), j1=JSON.stringify(s), n2=STORY.smallQuoteMigrate(s), j2=JSON.stringify(s);
-    const s2={social:{},flags:{ECON_SL:{econ_weilun:{day:1,once:{'「我只有考試週會出現。平常我在球場。」':2},g:0}}}}, n3=STORY.smallQuoteMigrate(s2);
+    const s2={social:{},flags:{}}, n3=STORY.smallQuoteMigrate(s2);   /* ECON_SL（CANON-NO-ECON-1112 第三批：這一項拿掉） */
     let thrown=[]; for(const x of [null,undefined,{},{social:null},{social:{small:null},flags:null},{flags:{ECON_SL:[]}},{flags:{ECON_SL:'x'}}]){ try{ STORY.smallQuoteMigrate(x); }catch(e){ thrown.push(String(e)); } }
     out.unit={n1,n2,s:JSON.parse(j1),same:j1===j2,n3,s2,thrown}; });
   process.stdout.write('@@B5@@'+JSON.stringify(out)+'\n',()=>process.exit(0));
@@ -156,7 +144,7 @@ const rdBase=f=>gitShow(BASE,f);
 const POOL_FILES=['src/data/pool_story.js','src/data/pool_story_b2.js','src/data/pool_story_b3.js','src/data/pool_story_b4.js'], PSK=['POOL_STORY','POOL_STORY_B2','POOL_STORY_B3','POOL_STORY_B4'];
 const PSN=/^(POOL_STORY|POOL_STORY_B2|POOL_STORY_B3|POOL_STORY_B4)$/;
 const PS={old:loadData(POOL_FILES,PSN,rdBase),now:loadData(POOL_FILES,PSN,cur)};
-const EC={old:loadData(['src/data/econfr_soclib.js'],/^ECONFR_SOCLIB$/,rdBase).ECONFR_SOCLIB,now:loadData(['src/data/econfr_soclib.js'],/^ECONFR_SOCLIB$/,cur).ECONFR_SOCLIB};
+/* EC（econfr_soclib.js）（CANON-NO-ECON-1112 第三批：這一項拿掉） */
 const arr=(src,re)=>{ const m=re.exec(noComments(src)); return m?vm.runInNewContext('('+m[1]+')'):null; };
 const LIB={old:arr(rdBase('src/data/us_life_events.js'),/libTalk:(\[[^\]]*\])/),now:arr(cur('src/data/us_life_events.js'),/libTalk:(\[[^\]]*\])/)};
 const INVL={old:arr(rdBase('src/aa614_3d.js'),/\binv:(\{[^}]*\})/),now:arr(cur('src/aa614_3d.js'),/\binv:(\{[^}]*\})/)};
@@ -165,7 +153,7 @@ const REPAIR={old:arr(rdBase('src/data/sis_b13_events.js'),/repairGreet:(\[[^\]]
 const greetTexts=(src,L)=>{ const s=noComments(src), q=/const smallQ=t=>\{[^\n]*\};/.exec(s), g=/S\.greetTexts=\(\)=>([^\n;]*);/.exec(s); if(!g) return null; return vm.runInNewContext('(function(L){ '+(q?q[0]:'')+' return ('+g[1]+'); })')({repairGreet:L}); };
 const GT={old:greetTexts(rdBase('src/sis_b13_3d.js'),REPAIR.old),now:greetTexts(cur('src/sis_b13_3d.js'),REPAIR.now)};
 const poolGreets=C=>{ const o=[]; for(const k of PSK){ const LN=(C[k]||{}).LINES||{}; for(const id of Object.keys(LN)) for(const g of (LN[id].greet||[])) o.push([k,id,g]); } return o; };
-const econNamed=P=>[P.intro].concat((P.talk||[]).map(e=>e.t),(P.greet||[]).filter(g=>!isNarr(g)));
+/* econNamed（CANON-NO-ECON-1112 第三批：這一項拿掉） */
 
 /* ---------- 演出來（BASE、現在各跑一次）---------- */
 const runProbe=(m,input)=>{ let o=''; try{ o=cp.execFileSync(process.execPath,[__filename],{env:Object.assign({},process.env,{QUOTE_B5_PROBE:m}),encoding:'utf8',maxBuffer:1<<29,input:input||'',stdio:['pipe','pipe','pipe']}); }catch(e){ o=String(e.stdout||''); }
@@ -190,9 +178,7 @@ const N=runProbe('new',J({mig:migIn}));
     FOUR.every(t=>sp.some(x=>x[2]===t))&&FOUR.every(t=>NW.some(x=>x[1]===t&&x[2]===false))&&NW.length===pg.length&&NW.every(x=>x[2]===isNarr(x[1])),J(NW.filter(x=>FOUR.includes(x[1]))));
   const iv=INVL.now||{}, ik=Object.keys(iv);
   check('21. aa614_3d.js S.L.inv（改時間的回覆，'+ik.length+' 句：'+ik.join('、')+'）沒有外面的「」',J(ik)===J(['mx','ps','kai','ytBoth','ytOff','yu','yuSat'])&&ik.every(k=>typeof iv[k]==='string'&&!quoted(iv[k])&&!/^[「」]|[「」]$/.test(iv[k])),J(iv));
-  const en=[], ea=[]; for(const id of ECON_IDS){ const P=(EC.now.people||{})[id]||{}; en.push(...econNamed(P)); ea.push(...(P.greet||[]).filter(isNarr)); }
-  check('21. 經濟系同學在社科圖：有名字說的 '+en.length+' 句（自我介紹 4、閒聊 23、本人說的招呼 2）沒有外面的「」；旁白（narr、greetAll、整句在（）裡的招呼 '+ea.length+' 句）照留',
-    en.length===29&&en.every(t=>typeof t==='string'&&!quoted(t))&&ea.length===8&&isNarr(EC.now.narr)&&isNarr(EC.now.greetAll),sample(en.filter(t=>quoted(t))));
+  /* 經濟系同學在社科圖那一項（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   /* 第四批碰過的那幾套、這一批的檔：字串常值沒有剩下（動作）「…」、「…」（動作）這兩種寫法 */
   const SYS=['src/data/pool_story.js','src/data/pool_story_b2.js','src/data/pool_story_b3.js','src/data/pool_story_b4.js','src/data/econfr_soclib.js','src/aa614_3d.js','src/sis_b13_3d.js','src/data/sis_b13_events.js',
     'src/data/us_life_events.js','src/mokuyobi_sys3d.js','src/offbeat_sys3d.js','src/ggshops_sys3d.js','src/gg2shops3d.js','src/sup519_3d.js','src/data/aa519_lines.js'];
@@ -202,7 +188,10 @@ const N=runProbe('new',J({mig:migIn}));
      剩下的就是照留的這 16 個：大一女舍門口四句（沒名字：S.overhear＝GM.say(null,…)）、路人分科系五句（CROWD.deptSteps 拆開播，說的話本來就不帶「」）、選項七個（choice 的 text）*/
   const KNOWN_LEFT=['crowd3d.js：（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……沒有電梯啦，我爬上來的。五樓。」','crowd3d.js：（提著兩袋宵夜的人）「鹹酥雞到了，誰下來拿？」','crowd3d.js：（在門口講電話）「沒有啦，我只是想打給你。」','crowd3d.js：（抱著一疊書的人）「總圖還有位子嗎？……那我去社科圖。」',
     'data/crowd_depts.js：（他邊走邊講電話）「板子放在你桌上了。……那顆電容是新的，這次不要再燒掉。」','data/crowd_depts.js：（他盯著手機）「又錯一筆測資。……到底是哪一筆。」','data/crowd_depts.js：（她講電話）「阿嬤那邊我禮拜四再去一次。她上次說要教我摺紙鶴。」','data/crowd_depts.js：（她在柱子上貼傳單：「徵求受試者，心理系實驗」。）「……膠帶又用完了。」','data/crowd_depts.js：（他對著一棵樹念台詞）「……你為什麼不早說？——不對，這一句要更小聲。」',
-    'data/events.js：「謝謝學姊。」（拿了書狀就走）','data/events.js：（替她答）「她想知道法律外面還有什麼。」','data/events.js：（繼續演品妤）「你想說什麼？」','data/r2y4a_events.js：（再問一次）「妳還好嗎？」','data/r2y4a_events.js：（指著法律系館B）「先記得這棟就好。」','data/r2y4a_events.js：（收下）「謝謝阿嬤。」','y2r2_3d.js：（裝不知道）「恭喜！」'];
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（照留清單裡「（繼續演品妤）「你想說什麼？」」是經濟系那一年事件的選項，拿掉（清單 16→15））
+    'data/events.js：「謝謝學姊。」（拿了書狀就走）','data/events.js：（替她答）「她想知道法律外面還有什麼。」','data/r2y4a_events.js：（再問一次）「妳還好嗎？」','data/r2y4a_events.js：（指著法律系館B）「先記得這棟就好。」','data/r2y4a_events.js：（收下）「謝謝阿嬤。」','y2r2_3d.js：（裝不知道）「恭喜！」',
+    /* （CANON-NO-ECON-1112 第四批：AA_876 D3 的選項字（祐廷的選項，動作＋說的話；選項照留那一類）一個）*/
+    'kxdrift3d.js：（把書蓋起來）「我在聽，妳講。」'];
   const others=[]; (function walk(d){ for(const f of fs.readdirSync(path.join(ROOT,d))){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()) walk(p); else if(/\.js$/.test(f)&&!SYS.includes(p)) for(const t of lits(cur(p))) if(actQ(t)||sayQ(t)) others.push(p+'：'+t); } })('src');
   console.log('（21. 不在這一批、還有（動作）「…」或「…」（動作）的字串 '+others.length+' 個：'+others.map(x=>x.replace(/^src\//,'')).join('／')+'）');
   const OL=others.map(x=>x.replace(/^src\//,'')).sort(), KL=KNOWN_LEFT.slice().sort();
@@ -216,7 +205,7 @@ const N=runProbe('new',J({mig:migIn}));
   check('22. 學姊挽回中的短招呼（S.greetTexts）和 '+BASE+' 比：第一句「（她點了一下頭。）「早。」」→「（她點了一下頭。）早。」，另外兩句一樣（第四批已經拿掉）；稿 repairGreet 一字不差',
     r.n===1&&!r.bad.length&&!!GT.old&&GT.old[0]==='（她點了一下頭。）「早。」'&&GT.old[1]===GT.now[1]&&GT.old[2]===GT.now[2]&&J(REPAIR.old)===J(REPAIR.now),J([GT.old,GT.now]));
   /* pool：整份資料比，改到的只能是 greet 裡「「…」（…）」→「…（…）」 */
-  const bad=[], hit=[]; const walk=(a,b,p)=>{ if(typeof a==='string'||typeof b==='string'){ if(a===b) return; if(typeof a==='string'&&typeof b==='string'&&kindOf(a,b)==='say'&&/\.greet\.\d+$/.test(p)) hit.push(p+'：'+b); else bad.push(p+'：'+J(a)+' → '+J(b)); return; }
+  const bad=[], hit=[], A799=require('./aa799_expect.js'); const walk=(a,b,p)=>{ if(typeof a==='string'||typeof b==='string'){ if(a===b||A799.isAA799(a,b)) return;   /* AA_799（X324 G 區）pool secret「其實……」12 句照稿換了 */ if(typeof a==='string'&&typeof b==='string'&&kindOf(a,b)==='say'&&/\.greet\.\d+$/.test(p)) hit.push(p+'：'+b); else bad.push(p+'：'+J(a)+' → '+J(b)); return; }
     if(typeof a==='function'||typeof b==='function'){ if(String(a)!==String(b)) bad.push(p+'：函式不同'); return; }
     if(a===null||b===null||typeof a!=='object'||typeof b!=='object'){ if(a!==b) bad.push(p+'：'+J(a)+' → '+J(b)); return; }
     const ka=Object.keys(a), kb=Object.keys(b); if(J(ka)!==J(kb)){ bad.push(p+'：欄位不同'); return; } for(const k of ka) walk(a[k],b[k],p+'.'+k); };
@@ -224,12 +213,7 @@ const N=runProbe('new',J({mig:migIn}));
   check('22. pool 的資料（四個檔）和 '+BASE+' 比：只改了 '+hit.length+' 句之後的招呼（「說的話」（動作）→說的話（動作）），其他（閒聊、旁白、選項、場景、條件）一字不差',hit.length===4&&!bad.length,sample(bad)+'｜'+sample(hit));
   const io=INVL.old||{}, inw=INVL.now||{}, ib=[]; let ni=0; for(const k of Object.keys(io)){ const t=kindOf(io[k],inw[k]); if(t==='unq') ni++; else ib.push(k+'：'+io[k]+' → '+inw[k]); }
   check('22. aa614_3d.js S.L.inv 和 '+BASE+' 比：七句都只拿掉外面的「」（欄位一樣）',ni===7&&!ib.length&&J(Object.keys(io))===J(Object.keys(inw)),sample(ib));
-  const eb=[], eh=[]; const ew=(a,b,p)=>{ if(typeof a==='string'||typeof b==='string'){ if(a===b) return; if(kindOf(a,b)==='unq'&&/^people\.\w+\.(intro|talk\.\d+\.t|greet\.\d+)$/.test(p)) eh.push(p); else eb.push(p+'：'+J(a)+' → '+J(b)); return; }
-    if(a===null||b===null||typeof a!=='object'||typeof b!=='object'){ if(a!==b) eb.push(p+'：'+J(a)+' → '+J(b)); return; }
-    const ka=Object.keys(a), kb=Object.keys(b); if(J(ka)!==J(kb)){ eb.push(p+'：欄位不同'); return; } for(const k of ka) ew(a[k],b[k],p?p+'.'+k:k); };
-  ew(EC.old,EC.now,'');
-  check('22. econfr_soclib.js 和 '+BASE+' 比：'+eh.length+' 句只拿掉外面的「」（自我介紹、閒聊的 t、本人說的招呼），其他（when、elsewhere、旁白、館員那一句、src）一字不差',
-    eh.length===29&&!eb.length&&eh.filter(p=>/intro$/.test(p)).length===4&&eh.filter(p=>/talk/.test(p)).length===23&&eh.filter(p=>/greet/.test(p)).length===2,sample(eb));
+  /* econfr_soclib.js 和 BASE 比（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   /* SMALLTALK（index.html 全部載入以後）和 BASE 比 */
   const so=O.st||{}, sn=N.st||{}, sb=[], sh=[]; for(const id of Object.keys(sn)){ const a=so[id]||[], b=sn[id]; if(a.length!==b.length){ sb.push(id+'：句數 '+a.length+' → '+b.length); continue; } a.forEach((x,i)=>{ const k=kindOf(x,b[i]); if(k==='same') return; if(k==='act') sh.push(id+'：'+b[i]); else sb.push(id+'：'+x+' → '+b[i]); }); }
   check('22. SMALLTALK（全部載入以後）和 '+BASE+' 比：只改了學姊的 '+sh.length+' 句（（動作）「…」→（動作）…：挽回中的短招呼一句、libTalk 三句），其他一字不差、順序一樣',
@@ -272,10 +256,10 @@ const cmp=(A,B,kinds)=>{ const bad=[], nw=[], hit=new Set(); let ch=0, named=0; 
   if(A.length!==B.length) bad.push('句數 '+A.length+' → '+B.length);
   else A.forEach((a,i)=>{ const b=B[i], ta=a[a.length-1], tb=b[b.length-1];
     if(J(a.slice(0,-1))!==J(b.slice(0,-1))) bad.push('說的人不一樣：'+J(a)+' → '+J(b));
-    else if(ta!==tb){ const k=kindOf(ta,tb); if(k&&k!=='same'&&kinds.includes(k)&&b[b.length-2]!=null){ ch++; hit.add(tb); } else bad.push(J(a)+' → '+J(b)); }
+    else if(ta!==tb){ const k=kindOf(ta,tb); if(k&&k!=='same'&&kinds.includes(k)&&b[b.length-2]!=null){ ch++; hit.add(tb); } else if(!require('./aa799_expect.js').isAA799(ta,tb)) bad.push(J(a)+' → '+J(b)); }   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：AA_923「好問題」兩句照稿換了字（aa799_expect.js） */
     if(b[b.length-2]!=null){ named++; if(quoted(tb)) nw.push(J(b)); } });
   return {bad,nw,ch,named,hit}; };
-{ const KEYS={us:['學姊在美國法學院圖書館（挽回中的短招呼、交往中的 libTalk；SMALLTALK）',['act'],4],pool:['法律系同學的閒聊、之後的招呼（pool3d.js）',['say'],4],inv:['改時間的回覆七句（aa614 S.invRule → INV.playLines）',['unq'],7],econ:['經濟系同學在社科圖（沒玩前傳、玩過前傳、阿勳在別處）',['unq'],25]};
+{ const KEYS={us:['學姊在美國法學院圖書館（挽回中的短招呼、交往中的 libTalk；SMALLTALK）',['act'],4],pool:['法律系同學的閒聊、之後的招呼（pool3d.js）',['say'],4],inv:['改時間的回覆七句（aa614 S.invRule → INV.playLines）',['unq'],7]};   /* econ（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   for(const k of Object.keys(KEYS)){ const r=cmp(O[k],N[k],KEYS[k][1]);
     check('24. '+KEYS[k][0]+'：'+(N[k]||[]).length+' 句，說的人和 '+BASE+' 一樣、字只差這一批的那一對「」（拿掉 '+r.ch+' 次、'+r.hit.size+' 種句子）',(N[k]||[]).length>0&&r.bad.length===0&&r.hit.size>=KEYS[k][2],sample(r.bad));
     check('24. '+KEYS[k][0]+'：有名字說的 '+r.named+' 句沒有一句還被「」包著',r.named>0&&r.nw.length===0,sample(r.nw)); }
@@ -285,38 +269,31 @@ const cmp=(A,B,kinds)=>{ const bad=[], nw=[], hit=new Set(); let ch=0, named=0; 
   const iv=INVL.now||{}, IK=['mx','ps','kai','ytOff','ytBoth','yu','yuSat'];
   check('24. 改時間的回覆：七種情境都是改時間（resched）、各說一句、說的人＝被約的那個人（明軒、沛珊、阿凱、語彤兩種、Alison 兩種），字＝S.L.inv',
     IK.every(k=>{ const L=(N.inv||[]).filter(r=>r[0]===k); return L.length===1&&L[0][1]==='resched'&&!!W(L[0])&&T(L[0])===iv[k]; }),J(N.inv));
-  const en=(N.econ||[]), narrE=en.filter(r=>W(r)==null).map(T);
-  check('24. 經濟系同學：旁白（「（在社科圖講話要很小聲。）」、館員那一句、整句在（）裡的招呼）照舊是旁白、字一樣；本人說的「小聲一點。……你走路很大聲。」「你也來。」是本人說的',
-    narrE.length>0&&narrE.every(isNarr)&&narrE.includes(EC.now.narr)&&narrE.includes(EC.now.greetAll)&&has('econ',r=>T(r)==='小聲一點。……你走路很大聲。'&&W(r))&&has('econ',r=>T(r)==='你也來。'&&W(r)));
-  check('24. 經濟系同學：自我介紹（沒玩前傳）、玩過前傳那一句、阿勳 3/22 以後在別處那一句都演到，沒有「」',
-    ECON_IDS.every(id=>has('econ',r=>r[0]==='noY0'&&T(r)===EC.now.people[id].intro&&W(r)))&&has('econ',r=>r[0]==='y0'&&T(r)==='可昕以前也在這張桌子念過。念二十分鐘，就跑出去講電話。')&&has('econ',r=>r[1]==='away'&&T(r)==='發表完了。沒有人問問題。……我不知道這樣是好還是不好。'&&W(r))); }
+  /* 經濟系同學兩項（CANON-NO-ECON-1112 第三批：這一項拿掉） */ }
 
 /* ---------- 25. 舊存檔 ---------- */
 { const MO=O.mig||{}, MN=N.mig||{};
-  for(const [k,nm] of [['econ','經濟系同學在社科圖（大二上起，五天存檔、之後六十五天）'],['ex','學姊挽回中的短招呼（兩天存檔）'],['dating','法學院圖書館的閒聊（三天存檔）']]){ const o=MO[k]||{}, n=MN[k]||{};
+  for(const [k,nm] of [/* econ（CANON-NO-ECON-1112 第三批：這一項拿掉） */['ex','學姊挽回中的短招呼（兩天存檔）'],['dating','法學院圖書館的閒聊（三天存檔）']]){ const o=MO[k]||{}, n=MN[k]||{};
     const r=cmp(o.next,n.next,['unq','act']), r0=cmp(o.next,n.noFix,['unq','act']);
     check('25. 舊存檔：'+nm+'——'+BASE+' 的程式聊了存起來、現在的程式讀檔（smallQuoteMigrate 換了 '+n.n+' 個記號）接著聊：'+(n.next||[]).length+' 句和 BASE 一路聊下去一樣',
       (n.n|0)>=1&&(n.next||[]).length>0&&r.bad.length===0&&r.nw.length===0,sample(r.bad.concat(r.nw)));
     check('25. 舊存檔：'+nm+'——不換記號的話會不一樣（'+r0.bad.length+' 處：說過的又說、輪流亂掉）——確定上面那一項真的有在比',r0.bad.length>0); }
-  const U=N.unit||{}, s=U.s||{}, h=(((s.social||{}).small||{}).heroine_05)||{}, E=((s.flags||{}).ECON_SL)||{};
+  const U=N.unit||{}, s=U.s||{}, h=(((s.social||{}).small||{}).heroine_05)||{};
   check('25. 換記號（SMALLTALK）：「（她點了一下頭。）「早。」」→「（她點了一下頭。）早。」、libTalk 的（動作）「…」→（動作）…、「這邊的咖啡很淡。…」拿掉外面的「」；對不到的（「（她小聲）「不在表上的句子。」」、「A」「B」、__greet）照留；新舊都有的留新的那一個',
     J(h.used)===J(['（她點了一下頭。）早。','（她小聲）三明治店十二點人很多。你先去占位子。','__greet','（她小聲）「不在表上的句子。」','「A」「B」'])&&h.last==='（她指了一下桌上的紙杯）圖書館的咖啡機又壞了。這杯是外面買的。'&&
     J(Object.keys(h.once||{}).sort())===J(['（她點了一下頭。）早。','這邊的咖啡很淡。我開始喝茶了。'].sort()),J(h));
-  check('25. 換記號（經濟系同學 flags.ECON_SL[id].once）：這個人 talk 表上的換成現在的字、值（第幾天）不變；對不到的、別人的句子（品妤那一份的「保齡球那一場」是阿勳的）、不認得的人、壞掉的照留',
-    J(E.econ_pinyu)===J({day:5,once:{'法律系的跑來社科圖？……總圖沒位子喔。':3,'「不在表上的句子。」':4,'「保齡球那一場，我還記著。」':6},g:1})&&J(E.econ_zhengxun)===J({day:null,once:{'保齡球那一場，我還記著。':7},g:2})&&
-    J(E.econ_bogus)===J({once:{'「法律系的跑來社科圖？……總圖沒位子喔。」':1}})&&E.econ_weilun===null&&J(E.econ_tangrui)===J({once:['x']}),J(E));
-  check('25. 換記號：一共換了 '+U.n1+' 個；再換一次＝0 個、存檔一模一樣；沒有 social.small 的存檔照樣換 ECON_SL（'+U.n3+' 個）；null、空的、壞掉的不丟例外',
-    U.n1===7&&U.n2===0&&U.same===true&&U.n3===1&&J(U.s2&&U.s2.flags.ECON_SL.econ_weilun.once)===J({'我只有考試週會出現。平常我在球場。':2})&&J(U.thrown)===J([]),J({n1:U.n1,n2:U.n2,n3:U.n3,thrown:U.thrown}));
+  /* 換記號（flags.ECON_SL）（CANON-NO-ECON-1112 第三批：這一項拿掉） */
+  check('25. 換記號：一共換了 '+U.n1+' 個；再換一次＝0 個、存檔一模一樣；只有 flags 的存檔沒有東西可換（'+U.n3+' 個；ECON_SL（CANON-NO-ECON-1112 第三批：這一項拿掉））；null、空的、壞掉的不丟例外',
+    U.n1===5&&U.n2===0&&U.same===true&&U.n3===0&&J(U.thrown)===J([]),J({n1:U.n1,n2:U.n2,n3:U.n3,thrown:U.thrown}));
   check('25. game3d.js 讀檔（migrate）照舊叫 STORY.smallQuoteMigrate（在 POOL.migrate 後面）',/POOL\.migrate\(s\);[^\n]*\n[^\n]*STORY\.smallQuoteMigrate\(s\)/.test(cur('src/game3d.js'))); }
 
 /* ---------- 26. 讀這些句子的程式沒動 ---------- */
-{ const st=noComments(cur('src/story3d.js')), ec=noComments(cur('src/econsl3d.js'));
+{ const st=noComments(cur('src/story3d.js'));
   const C5=findC5(), i5=C5?gitShow(C5,'src/invites3d.js'):cur('src/invites3d.js'), i5p=C5?gitShow(C5+'^','src/invites3d.js'):gitShow(BASE,'src/invites3d.js');   /* 第六批（TEXT-QUOTE-UNIFY-1108 最後一批）換了 S.narrLine：看第五批那一個 commit 本身 */
   check('26. pool3d.js 和 '+BASE+' 一字不差（之後的招呼 sayAny 看 S.narrWhole）；invites3d.js 第五批沒動（'+(C5?C5.slice(0,9)+'^ → '+C5.slice(0,9):'commit 以前：'+BASE+' → 現在的檔')+' 一字不差、＝'+BASE+'；改時間的回覆 S.playLines(GM,who,…)、S.narrLine——第六批以後 S.narrLine 看整句一對（），tests/invites_quote_b6_unit.js）',
     cur('src/pool3d.js')===gitShow(BASE,'src/pool3d.js')&&i5===i5p&&i5p===gitShow(BASE,'src/invites3d.js')&&/if\(S\.narrLine\(t\)\) await GM\.say\(null,t\); else await GM\.say\(who,t\);/.test(noComments(cur('src/invites3d.js'))));
-  check('26. story3d.js：閒聊 GM.say(who,L.say)、旁白 GM.say(null,L.narr)；經濟系同學 ECONSL.talk 兩個掛勾照舊',/const L=S\.smallTalk\(G,id\); if\(L\.say\) await GM\.say\(who,L\.say,\{expr:'smile'\}\); else await GM\.say\(null,L\.narr\);/.test(st)&&(st.match(/ECONSL\.talk\(GM,who,id,n,(true|false)\)/g)||[]).length===2);
-  check('26. econsl3d.js：閒聊 GM.say(who,e.t)、自我介紹 GM.say(who,P.intro)、旁白 GM.say(null,L.narr)、招呼 sayAny（開頭（＝旁白）照舊',/await GM\.say\(who,e\.t\);/.test(ec)&&/await GM\.say\(who,P\.intro\);/.test(ec)&&/await GM\.say\(null,L\.narr\);/.test(ec)&&/const sayAny=async\(GM,who,t\)=>\{ if\(\/\^（\/\.test\(t\)\) await GM\.say\(null,t\); else await GM\.say\(who,t\); \};/.test(ec));
-  check('26. 經濟系同學本人說的招呼拿掉「」以後開頭不是（（econsl3d.js sayAny 照舊當本人說的）；整句旁白的開頭是（',ECON_IDS.every(id=>(EC.now.people[id].greet||[]).every(g=>isNarr(g)===/^（/.test(g)))); }
+  check('26. story3d.js：閒聊 GM.say(who,L.say)、旁白 GM.say(null,L.narr)；經濟系同學 ECONSL.talk 兩個掛勾（CANON-NO-ECON-1112 第三批：這一項拿掉）',/const L=S\.smallTalk\(G,id\); if\(L\.say\) await GM\.say\(who,L\.say,\{expr:'smile'\}\); else await GM\.say\(null,L\.narr\);/.test(st)&&!/ECONSL/.test(st));
+  /* econsl3d.js 兩項（CANON-NO-ECON-1112 第三批：這一項拿掉） */ }
 
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 }

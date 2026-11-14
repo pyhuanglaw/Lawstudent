@@ -31,18 +31,10 @@ const Y2B=(function(){
 
   /* ===================== 手機（STORY.PHONE_RULES：每 0.5 秒）===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; const F=G.flags;
-    /* ---- 1B-01 可昕 K10c：11/18 21:00 → 答應＝11/19 20:30 出遊（19:50 出發）；沒去、婉拒、沒回＝11/22 22:00；去了的 12/2 21:00；三種都有的 12/5 ---- */
-    { const d18=D('2026-11-18'), d19=D('2026-11-19'), d22=D('2026-11-22'), d02=D('2026-12-02'), d05=D('2026-12-05');
-      if(d18!=null&&G.day>=d18&&G.day<=d05+2){ const until=T(d19,19+50/60);
-        if(dating(G,'kexin')&&past(G,'2026-11-18',21)&&now(G)<until&&!PHONE.sent(G,'y2_kx_bad_exam'))
-          PHONE.at(G,d18,21,[K('物權。'),K('我考壞了。'),Object.assign(K('……不要安慰我。'),{ask:{id:'y2_kx_bad_exam',until,opts:[{t:'明天晚上我過去。不安慰。',say:[K('……好。八點半，樓下。')],set:{KX_BAD_EXAM_GO:true}},{t:'好。不安慰。',say:[K('嗯。')],set:{KX_BAD_EXAM:'self'}}]}})],'y2_kx_bad_exam');
-        if(F.KX_BAD_EXAM_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'y2_kx_bad_exam')) OUT.plan(G,{id:'y2_kx_bad_exam',ev:'ev_kexin_bad_exam',day:d19,h:20.5,late:0.25,place:'木柵大學・宿舍樓下',title:'木柵大學・宿舍樓下 20:30',travel:'開車 約 40 分鐘',travelH:2/3});
-        { const m=PHONE.byAsk(G,'y2_kx_bad_exam'); if(m&&m.ans==null&&now(G)>until&&!F.KX_BAD_EXAM) F.KX_BAD_EXAM='self'; }   /* 不回 */
-        if(F.KX_BAD_EXAM==='self'&&dating(G,'kexin')&&!PHONE.sent(G,'y2_kx_bad_self')) PHONE.at(G,d22,22,[K('解決了。不用安慰我。')],'y2_kx_bad_self');
-        if(dating(G,'kexin')&&past(G,'2026-12-02',21)&&!PHONE.sent(G,'y2_kx_bad_1202')){ const v=F.KX_BAD_EXAM;
-          const L=v==='quiz'?[K('你上次出的太簡單。下次我出。')]:v==='study'?[K('（照片：那一章畫滿重點）'),K('這一章現在是我的。')]:v==='joke'?[K('你那句不動產，我在讀書會講了。'),K('只有予樂笑。')]:null;   /* 照片圖沒有：先用文字（AA_316 第 5 節）*/
-          if(L) PHONE.at(G,d02,21,L,'y2_kx_bad_1202'); }
-        if(F.KX_BAD_EXAM&&dating(G,'kexin')&&past(G,'2026-12-05',21+10/60)&&!PHONE.sent(G,'y2_kx_bad_1205')) PHONE.at(G,d05,21+10/60,[K('物權考壞的那一章，我講給予樂聽，講到她懂。')],'y2_kx_bad_1205'); } }   /* 12/5 摘要日 21:10（可昕手機小事的慣例時間，AA_336 B4）*/
+    /* ---- 1B-01 可昕 K10c：邀約、出遊、11/22 和 12/2 那兩則私訊 CANON-NO-ECON-1112 第四批拿掉（AA_873 ② 改成大二上第 11 週在系館遇到，events.js；選項換了，原本三種回答不會再有）。
+       12/5 21:10 那一則照留（AA_897 換字）：交往中、那一場 12/5 以前演過 ---- */
+    { const d05=D('2026-12-05'); if(d05!=null&&G.day>=d05&&G.day<=d05+2&&dating(G,'kexin')&&G.events&&G.events.last&&G.events.last.ev_kexin_bad_exam!=null&&G.events.last.ev_kexin_bad_exam<=d05&&past(G,'2026-12-05',21+10/60)&&!PHONE.sent(G,'y2_kx_bad_1205'))
+        PHONE.at(G,d05,21+10/60,[K('物權考壞的那一章，我講給我室友聽，講到她懂。')],'y2_kx_bad_1205'); }   /* 12/5 摘要日 21:10（可昕手機小事的慣例時間，AA_336 B4）*/
     /* ---- 1B-02 語彤事件 8：傳了訊息的那天 21:30 ---- */
     /* 21:30「我拿給阿姨看了」那兩則：AA_625 第 8 節換成當下「我明天跟她說。」，拿掉（YT-REWRITE-1103）*/
     /* ---- 1B-03 語彤事件 9 在場版（D118-B5a）：法服值班的出發選單拿掉了，5/22 單獨排一次（社員、認識語彤、還沒演；AA 經 LAWWW 確認仍有效，BB_251 DONE-B04）。
@@ -67,13 +59,7 @@ const Y2B=(function(){
           :dating(G,'heroine_02')?[R('今天出發了。'),R('櫃台有一張票根，你的，跟老闆拿。'),R('星期天晚上十點。不要忘記。')]   /* BB_189 2-4 錯過最後一班、和她交往中（AA_554 第 2 節：9/2 沒去送機的三則照用、早上傳＝照原本 10:00）；去了送機的在 src/aa554_3d.js */
           :[R('今天出發去英國了。'),R('櫃台有一張電影票根，給你的，跟老闆拿。'),R('我不在的時候，去看一部電影。看完寫一句話給我。')];   /* 一疊票根那一版只給和別人交往中的（AA_338 第 0 節）；單身＝給你的那一張 */
         PHONE.at(G,d,10,L,'y2_zr_depart'); F.ZR_LAST_SHIFT='missed'; if(SOCIAL.remember) SOCIAL.remember('heroine_02','TICKET_STUB','她出發那天，櫃台的電影票根'); } }
-    /* ---- 1B-07 可昕 K12：3/21（日）21:00 邀約；不回＝3/23（二）21:00 再一則；答應＝3/25（四）18:00 麵店（出遊）---- */
-    { const d21=D('2027-03-21'), d23=D('2027-03-23'), d25=D('2027-03-25');
-      if(d21!=null&&G.day>=d21&&G.day<=d25){ const until=T(d25,17.75);
-        if(dating(G,'kexin')&&past(G,'2027-03-21',21)&&now(G)<until&&!PHONE.sent(G,'y2_kx_circles'))
-          PHONE.at(G,d21,21,[K('兩邊的朋友該見面了。'),K('週四晚上六點，你們的燒臘店。'),Object.assign(K('我負責予樂，你負責阿哲。'),{ask:{id:'y2_kx_circles',until,opts:[{t:'好。',say:[K('好。我先跟予樂說，她會穿得很像要去面試。')],set:{KX_CIRCLES_GO:true}},{t:'那天不行。',say:[K('……好。那下次。')],set:{KX_CIRCLES_GO:false}}]}})],'y2_kx_circles');
-        { const m=PHONE.byAsk(G,'y2_kx_circles'); if(m&&m.ans==null&&past(G,'2027-03-23',21)&&now(G)<until&&!PHONE.sent(G,'y2_kx_circles2')) PHONE.at(G,d23,21,[K('週四。六點。你還沒回。')],'y2_kx_circles2'); }
-        if(F.KX_CIRCLES_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'y2_kx_circles')) OUT.plan(G,{id:'y2_kx_circles',ev:'ev_kexin_two_circles',day:d25,h:18,late:0.25,place:'公館燒臘',title:'公館燒臘 18:00',travel:'走過去 約 10 分鐘',travelH:1/6}); } }
+    /* ---- 1B-07 可昕 K12（外校朋友和祐廷的朋友一起吃飯）：CANON-NO-ECON-1112 第三批拿掉 ---- */
     /* ---- 1B-08 語彤事件 12：9/14（二）12:10 她私訊（FRIEND 以上）；18:30 以前沒到總圖門口＝20:00 兩則 ---- */
     { const d=D('2027-09-14'); if(d!=null&&(G.day===d||G.day===d+1)){
         if(G.day===d&&stageAt('heroine_03','FRIEND')&&contact(G,'heroine_03')&&past(G,'2027-09-14',12+10/60)&&hh(G)<17.5&&!PHONE.sent(G,'y3_yt_umb_noon'))

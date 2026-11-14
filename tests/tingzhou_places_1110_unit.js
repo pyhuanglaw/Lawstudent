@@ -46,7 +46,7 @@ for(const p of TZ.slice(1)){ const s=p[2], q=L.shops.find(x=>x.name===p[1]), it=
 check('3. 手機「地點」：九筆都在汀州路那一區；地區的順序公館後面就是汀州路',TZ.every(p=>PLACEMAP.areaOf(p)==='tingzhou')&&PLACEMAP.GROUPS.indexOf('tingzhou')===PLACEMAP.GROUPS.indexOf('gongguan')+1,J(TZ.map(p=>PLACEMAP.areaOf(p))));
 check('3. 地區的名字＝汀州路；人在汀州路（或以後 tz_ 的店裡）＝那一區',PLACEMAP.areaName('tingzhou')==='汀州路'&&PLACEMAP.hereArea({zone:'tingzhou'})==='tingzhou'&&PLACEMAP.hereArea({zone:'tz_taimi'})==='tingzhou'&&PLACEMAP.hereArea({zone:'gongguan'})==='gongguan');
 { const pin=PLACEMAP.PINS.find(p=>p.id==='tingzhou'), ds=pin?PLACEMAP.PINS.filter(p=>p!==pin).map(p=>Math.hypot(p.x-pin.x,p.y-pin.y)):[0], VB=PLACEMAP.VB;
-  check('3. 大地圖有汀州路的圖釘：在圖裡、和其他圖釘至少相隔 52、九個地點都在這一顆',!!pin&&Math.min(...ds)>=52&&pin.x>10&&pin.x<VB[2]-10&&pin.y>10&&pin.y<VB[3]-10&&TZ.every(p=>PLACEMAP.pinOf(p)===pin)&&pin.m.length===TZ.length,pin?Math.min(...ds).toFixed(1):'沒有');
+  check('3. 大地圖有汀州路的圖釘：在圖裡、和其他圖釘至少相隔 52、九個地點都在這一顆',!!pin&&Math.min(...ds)>=52&&pin.x>10&&pin.x<VB[2]-10&&pin.y>10&&pin.y<VB[3]-10&&TZ.every(p=>PLACEMAP.pinOf(p)===pin)&&pin.m.length===TZ.length+1,   /* ＋1＝禮貌生財（區域 tz_limao，SHOP-STANDARD-BACKFILL-1112）*/ pin?Math.min(...ds).toFixed(1):'沒有');
   const st=()=>({known:true,open:true,here:false,mins:5,bike:false}), hx=PLACEMAP.listHTML(Q,st,'tingzhou',null,()=>'');
   check('3. 展開汀州路：每一間一列（data-place＝tingzhou|店名）',USER.concat(['汀州路']).every(n=>hx.includes('data-place="tingzhou|'+n+'"')),''); }
 // 4

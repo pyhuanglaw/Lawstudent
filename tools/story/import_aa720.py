@@ -15,6 +15,7 @@
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_guard as IG
+IG.use_canon897()   # CANON-NO-ECON-1112 第四批：讀稿再照 AA_897 第 2 節換整句（tools/story/canon897_fix.json）
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_720_decide_opened_scenes.json'
@@ -307,9 +308,16 @@ def main():
     if not ok:
         raise SystemExit(why)
     data = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110）：cfg.quotes 是拿別的檔（termend_lines.js…）的句子當鑰匙比對的——那些句子照覆寫表換了字，鑰匙跟著換（不然 aa720_3d.js 對不到，例 zqDemoHard）
+    _q = data.get('cfg', {}).get('quotes')
+    if isinstance(_q, dict):
+        for _k, _v in list(_q.items()):
+            if isinstance(_v, str): _q[_k] = _AA959.map_any(_v)
     js = ('/* 自動產生：tools/story/import_aa720.py（' + data['src'] + '）。不要手改，改企劃 AA_720 再重新匯入。\n'
           '   決定拍打開的場景、尾聲分版本（播放 src/aa720_3d.js）*/\n'
           "'use strict';\nconst AA720=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story')); import canon_b5_rows as _B5   # CANON-NO-ECON-1112 第五批：AA_920／921／923 的 src 對照表在寫檔前照整句換（tools/story/canon_b5_rows.py）
+    js = _B5.fix(OUT, js)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

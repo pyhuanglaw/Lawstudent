@@ -51,7 +51,7 @@ const ARCINV=(function(){
     const d=Math.floor(t0/24); PHONE.at(G,d,t0-d*24,M,'arcinv_'+e.key); r.st='offer'; return true; };
   /* 沒回、過了期限的那一句（skip）什麼時候傳：一般＝過期那時；下面三則是過去式（「我一個人去了喔！」「週六我在校門口等了一下。」「我自己去買了。」），
      改成約好的那一天（sc.this）的這個時間才傳，文字不動（UX-WEEKEND-ASK-EXPIRE-1108，AA-B 11-08 09:39：約好的時間＋1～2 小時）。已經過了那個時間＝現在傳 */
-  S.SKIP_AT={'classmate_peishan:6':7.5,'kexin:4':18,'kexin:6':17.5};
+  S.SKIP_AT={'classmate_peishan:6':7.5,'kexin:6':17.5};   /* kexin:4：CANON-NO-ECON-1112 第三批拿掉 */
   S.skipAt=(G,e,r)=>{ const h=S.SKIP_AT[e.key], th=r&&r.sc&&r.sc.this; if(h==null||!th) return {d:G.day,h:G.hour}; const t=Math.max(T(th.d,h),now(G)), d=Math.floor(t/24); return {d,h:t-d*24}; };
   /* 每次 STORY.phoneRules：拍演完的排訊息；回覆期限過了沒回＝skip */
   S.tick=function(G){ if(!G||!G.flags) return false; const R=S.rec(G); let did=false;
@@ -91,7 +91,7 @@ const ARCINV=(function(){
     if(e.dateLoc&&typeof DATE!=='undefined'&&DATE.countVisit){ const w=DATE.wishOf?DATE.wishOf(e.who):null; const c=DATE.countVisit(G,e.who,e.place,{wish:w===e.dateLoc}); if(c&&c.counted){ const L=DATE.log(G,e.who); L.byLoc[e.dateLoc]=(L.byLoc[e.dateLoc]|0)+1; } }
     if(e.cost&&(G.money|0)>=e.cost){ G.money=(G.money|0)-e.cost; r.paid=e.cost; if(GM&&GM.toast) GM.toast('買了襯衫（－'+e.cost+' 元）'); }   /* 可昕塞給你的那件襯衫：錢夠就買 */
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(e.who,'walk'); };   /* 一起出去一整段：和一起散步同一級（social3d.js ACT）*/
-  /* 演完把人放到那一場最後的地方：校園、公館、體育館（PLACES.quickList 的落點，tests/quick_travel_unit.js 驗過站得住）；遠的（淡水、外澳、木柵）＝回家／回宿舍 */
+  /* 演完把人放到那一場最後的地方：校園、公館、體育館（PLACES.quickList 的落點，tests/quick_travel_unit.js 驗過站得住）；遠的（淡水、外澳、外校）＝回家／回宿舍 */
   S.enterSpot=async function(GM,label){ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], p=L.find(q=>q[1]===label); if(!p||!GM.enter) return false; await GM.fade(true); await GM.enter(p[0],p[2]||undefined); await GM.fade(false); return true; };
   S.placeAfter=async function(GM,e){ const G=GM&&GM.G, E=e&&e.end; if(!G||!E||!GM.enter) return false;
     if(E.home){ if(typeof HOME!=='undefined'&&HOME.livesHome&&HOME.livesHome(G)&&HOME.arriveQuiet){ await HOME.arriveQuiet(GM); return true; } return S.enterSpot(GM,'宿舍'); }

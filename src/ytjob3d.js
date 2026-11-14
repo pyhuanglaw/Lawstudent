@@ -67,7 +67,8 @@ const YTJOB=(function(){
   S.RENT=[[YT,'……嗯。昨天秀琴姨煮完飯，沒有馬上走。'],[YT,'她說她的房東要把房子賣了。她住了十四年。'],[YT,'賣了她要住哪裡。……她問我，我也不知道。'],['player','我上課有聽過，房子賣了租約不一定就沒了。我再查。'],[YT,'嗯。你查到再跟我說。']];
   S.rentOpen=G=>afterW(G,'Y1S2',10)&&!afterW(G,'Y2S2',6);   /* AA 11-03 回 LAWWW：事件 6 兩版都在大二下第 5 週結束前（事件 8 在第 6 週）；過了還沒聽過＝沒有事件 6 */
   S.rentDue=G=>{ const F=G.flags; return S.rentOpen(G)&&!!F.YT_MOM_BACK&&F.YT_MOM_BACK!==G.day&&!(G.events&&G.events.done&&G.events.done.ev_yutong_landlord)&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(YT,'RENT_RUMOR')); };
-  S.rent=async function(GM){ const G=GM.G; await JOBS.play(GM,S.RENT); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(YT,'RENT_RUMOR','秀琴姨的房東要把房子賣了'); (G.events.done=G.events.done||{}).ev_yutong_landlord=G.day; return true; };
+  S.markLandlord=function(G){ const E=G.events||(G.events={done:{},last:{},count:0}); E.done=E.done||{}; E.last=E.last||{}; E.done.ev_yutong_landlord=(E.done.ev_yutong_landlord|0)+1; E.last.ev_yutong_landlord=G.day; G.flags.YT_LANDLORD_DAY=G.day; };   /* events.done＝演過幾次（全遊戲一樣）；哪一天記在 events.last 和 flags.YT_LANDLORD_DAY（SAVE_LZ_growB CC-C 11-13：原本把日子寫進 done，檢查器讀成「演了 242 次」）*/
+  S.rent=async function(GM){ const G=GM.G; await JOBS.play(GM,S.RENT); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(YT,'RENT_RUMOR','秀琴姨的房東要把房子賣了'); S.markLandlord(G); return true; };
   /* AA_625 第 11 節「想幫秀琴姨」（開頭照 AA_643 第 1 節：蘇姨先走了）：大二下第 15 週以後的週末班打烊、要 RENT_CONSULTATION；取代 y2r2_3d.js 的 ev_yt_help_dishes（AA_643 第 7 節），演完記 YT_HELP_OFFERED。
      選①吵架（記 YT_FIGHT）→ 兩週後的週末班她道歉（記 APOLOGIZED）；②不吵、不記 APOLOGIZED；③她笑了一下 */
   S.HELP={ open:[[null,'（打烊。蘇姨先走了。語彤在數今天的零錢，數到一半停下來。）'],[YT,'我想幫秀琴姨付新房子的押金。萬一到期真的要搬。'],[YT,'我跟她說了，她不收。']],
@@ -145,7 +146,7 @@ const YTJOB=(function(){
       {label:'b'},{speaker:YT,text:'嗯。比茶屋的點心好吃。……蘇姨聽到會難過。'},
       {label:'e'},{call:async(G,GM)=>{ if(typeof AA667!=='undefined'&&AA667.ytHomeTail) await AA667.ytHomeTail(GM); }},   /* AA_667 2-2：日本路線出發前那一週答應的那一次＝最後接稿上那一段（滷肉的做法、護照；YT_JP_BYE）*/
       {set:{YT_HOME_SEEN:true}} ],
-    after:G=>{ G.flags.YT_HOME_SEEN=true; if(G.flags.YT_RENT_AT_HOME&&G.events&&G.events.done) G.events.done.ev_yutong_landlord=G.day; } };
+    after:G=>{ G.flags.YT_HOME_SEEN=true; if(G.flags.YT_RENT_AT_HOME&&G.events&&G.events.done) S.markLandlord(G); } };
   S.homeInstall=function(){ if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e&&e.id===S.HOME_EV.id)) STORY_EVENTS.push(S.HOME_EV);
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!S._homeRule){ S._homeRule=true; STORY.PHONE_RULES.push(G=>{ try{ S.homePhone(G); S.homePlan(G); }catch(e){ console.warn('YTJOB home',e); } }); } };
   /* ===== AA_643 第 10 節：15b〈溫州街的時間〉當面的一句——系刊出刊（2028-10-16）以後她第一次的茶屋班，打烊收杯子時講、只講一次（讀過＝期刊架那一場的 YT_ESSAY）===== */
@@ -156,7 +157,12 @@ const YTJOB=(function(){
   const ytItem=it=>!!it&&(it.from===YT||it.th==='p:'+YT);
   S.gatePhone=function(){ if(typeof PHONE==='undefined'||PHONE._ytjob) return; PHONE._ytjob=true; const at0=PHONE.at, post0=PHONE.post;
     PHONE.at=function(G,day,h,items,tag){ if(!S.met(G)&&Array.isArray(items)&&items.some(ytItem)){ const rest=items.filter(it=>!ytItem(it));
-        if(!rest.length){ if(tag&&!PHONE.sent(G,tag)){ const P=PHONE.rec(G); (P.cut=P.cut||[]).push(tag); } return false; } items=rest; }
+        if(!rest.length){ if(tag&&!PHONE.sent(G,tag)){ const P=PHONE.rec(G); (P.cut=P.cut||[]).push(tag); } return false; }
+        /* 群組裡回覆選項（ask）掛在她那一則（例：VA10 桌遊團揪香港，最後一則是語彤）：她那則拿掉、ask 跟著不見＝群組沒得回（CC 11-11 20:48 AA_814 H23b）。
+           同一個對話串裡還有別人的話：ask 移到留下來的最後一則（系統字、旁白不算）；她自己的私訊串（沒有別人）照舊整則不送 */
+        const lost=items.find(it=>ytItem(it)&&it.ask);
+        if(lost&&!rest.some(it=>it&&it.ask)){ for(let i=rest.length-1;i>=0;i--){ const it=rest[i]; if(it&&it.th===lost.th&&it.th!=='sys'&&!it.narr&&it.from&&it.from!=='player'){ rest[i]=Object.assign({},it,{ask:lost.ask}); break; } } }
+        items=rest; }
       return at0.call(this,G,day,h,items,tag); };
     PHONE.post=function(G,m){ if(!S.met(G)&&ytItem(m)) return null; return post0.apply(this,arguments); }; };
   S.install=function(){ S.gatePhone(); S.homeInstall(); if(typeof JOBS!=='undefined'&&Array.isArray(JOBS.SHIFT_EV)&&!JOBS._ytjob){ JOBS._ytjob=true; JOBS.SHIFT_EV.unshift(async(GM,k)=>{ if(!(await S.closeShift(GM,k))) await S.closeExtra(GM,k); else { S.sync(GM.G); GM.G.flags.TEA_SHIFTS=(+GM.G.flags.TEA_SHIFTS||0)+1; } }); }

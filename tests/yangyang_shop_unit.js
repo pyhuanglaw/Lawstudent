@@ -15,6 +15,8 @@
 //   10 台詞逐字對照 AA_724（git show bf5c3e6c6；讀不到就 SKIP）、選單價錢對照 AA_650 第 4 節
 // 修改前（開發分支 6e8ff8d83）：沒有 yangyang 區域、門口沒有按鈕、GG2 沒有洋洋、沒有約會地點——第 1～10 節都 FAIL。
 // 用法：node tests/yangyang_shop_unit.js
+/* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 照覆蓋層拿掉刪節號、換句——答應句的期望包 OE.fwd（舊期望＝裡面的字），逐字對稿時「新字的舊字在稿上」也算（OE.inDoc；tests/overlay_expect.js）*/
+const OE=require('./overlay_expect.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 const rd=p=>fs.readFileSync(path.join(ROOT,p),'utf8'), J=x=>JSON.stringify(x), r2=v=>+(+v).toFixed(2);
@@ -78,7 +80,7 @@ if(R){ const z=R.z, its=R.its;
   check(`1 區域建得起來、尺寸照配置 ${L.w}×${L.d}×${L.h}、名字「洋洋鹹酥雞」、SHOP_IN.gg`,z.bounds.w===L.w&&z.bounds.d===L.d&&Z3.ZONES.yangyang.name==='洋洋鹹酥雞'&&z.gg==='yangyang'&&IN.gg===true,J(z.bounds));
   const man=ASSETS.manifest['bldg.yangyang_interior']; check('1 正式模型登錄 bldg.yangyang_interior＝配置的 glb（檔案在、building、v1c＋LAWWW2-B 11-07 光照＋窗景卡 3,690,084 B）',!!man&&man.url===L.glb&&fs.existsSync(path.join(ROOT,L.glb))&&man.type==='building'&&fs.statSync(path.join(ROOT,L.glb)).size===3690084,J(man&&man.url));
   const onSeat=b=>L.seats.some(s=>Math.abs(b[0]-s.x)<0.05&&Math.abs(b[1]-s.z)<0.05), BL=L.blocks.filter(b=>!onSeat(b)), blk=BL.filter(b=>E.canStand(b[0],b[1],0.05,0));
-  check(`1 配置的導航阻擋 ${BL.length} 個都擋住（中心站不住；椅子本身不擋）`,BL.length===12&&!blk.length,BL.length+' '+J(blk));
+  check(`1 配置的導航阻擋 ${BL.length} 個都擋住（中心站不住；椅子本身不擋）`,BL.length===13&&!blk.length,BL.length+' '+J(blk));
   const sp=z.spawn, isl=islands([sp.x,sp.z],-L.w/2,L.w/2,-L.d/2,L.d/2);
   check('1 沒有走進去出不來的小孤島（0.1 m 取樣、半徑 0.32）',isl.lost===0&&isl.tot>2000,'站得住 '+isl.tot+' 點、連不到 '+isl.lost+' 點 '+J(isl.pts));
   const ex=its.find(q=>q.exit&&q.exit.to==='gongguan');
@@ -88,9 +90,9 @@ if(R){ const z=R.z, its=R.its;
   if(ex){ const tp=touchable(ex,[sp.x,sp.z]); check('3 出口按得到、從進門的地方走得到',!!tp,J(tp));
     const out=ex.exit.spawn; check(`3 出來回公館 (${out.x}, ${out.z}) 站得住、不在公館任何出口的範圍（＋0.2 m）裡、就在店門前`,gNav.clear(out.x,out.z,0.3)&&!inExit(gIts,out,0.2).length&&Math.abs(out.x+10.6)<0.02&&ex.exit.to==='gongguan',J([out,inExit(gIts,out,0.2)])); }
   const seats=its.filter(q=>q.seat), npc=(z.seats||[]).filter(q=>q.npcOnly).map(q=>[q.x,q.z]);
-  check('4 座位 22 張（照配置：四人桌 4、兩人桌 3）；四人桌四南側兩張（−3.18／−2.62, −4.9）只給路人坐、不出「坐下」',z.seats.length===22&&L.seats.length===22&&seats.length===20&&J(npc)===J([[-3.18,-4.9],[-2.62,-4.9]]),seats.length+'／'+z.seats.length+' '+J(npc));
+  check('4 座位 21 張（照配置：四人桌 4、兩人桌 3；(0.92, 2.3) 11-12 BB 裁定拿掉）；四人桌四南側兩張（−3.18／−2.62, −4.9）只給路人坐、不出「坐下」',z.seats.length===21&&L.seats.length===21&&seats.length===19&&J(npc)===J([[-3.18,-4.9],[-2.62,-4.9]]),seats.length+'／'+z.seats.length+' '+J(npc));
   const bad=[]; for(const it of seats){ if(!touchable(it,[sp.x,sp.z])) bad.push([it.seat.x,it.seat.z]); }
-  check('4 玩家坐得到的 20 張每一張都按得到、從進門的地方走得到',!bad.length,J(bad));
+  check('4 玩家坐得到的 19 張每一張都按得到、從進門的地方走得到',!bad.length,J(bad));
   /* 坐下前走到的點（game3d.js seatApproach 的八個候選：前 0.5、後 0.6、兩側 0.55、後 0.7／0.75、前 0.8、後 0.9）：至少一個站得住（半徑 0.3）、在「坐下」的範圍裡、從進門的地方找得到路
      （DAYBREAK-SEAT-AP-1105：八個都站不住＝走到站不住的備用點）*/
   const noAp=[]; for(const it of seats){ const s=it.seat, fx=Math.sin(s.yaw||0), fz=Math.cos(s.yaw||0), reach=(it.radius||1.8)-0.05;
@@ -107,7 +109,7 @@ if(R){ const z=R.z, its=R.its;
   const lay=k=>L.interact.find(q=>q.kind===k), ord=gi.find(q=>q.kind==='order'), fr=gi.find(q=>q.kind==='fridge'), sf=gi.find(q=>q.kind==='self');
   check('5 點炸物、看菜單、冷飲櫃、自助區的位置照配置（店內炸物櫃前、冷飲櫃前、右牆自助區）',!!ord&&ord.x===lay('order').x&&ord.z===lay('order').z&&!!fr&&fr.x===lay('drink').x&&fr.z===lay('drink').z&&!!sf&&sf.x===lay('selfserve').x&&sf.z===lay('selfserve').z);
   for(const [k,c] of [['clerk',IN.clerk],['clerk2',IN.clerk2]]) check(`6 ${k==='clerk'?'老闆':'第二個店員'}站的地方（SHOP_IN.${k} ${J(c)}＝配置）在店裡、櫃台後面（站不住）`,!!c&&c.x===L[k].x&&c.z===L[k].z&&Math.abs(c.x)<L.w/2&&Math.abs(c.z)<L.d/2&&!E.canStand(c.x,c.z,0.3,0));
-  const def=CROWD.SHOP_ZONES.yangyang; check('6 路人（CROWD）坐配置的 22 個座位（吃飯的店；時段照宵夜 snack）',!!def&&def.kind==='meal'&&[].concat(...def.units.map(u=>u.seats||[])).length===22&&def.units.every(u=>u.sk==='snack')&&!!CROWD.SHOP_KIND.snack,J(def&&[def.kind,def.units.length]));
+  const def=CROWD.SHOP_ZONES.yangyang; check('6 路人（CROWD）坐配置的 21 個座位（吃飯的店；時段照宵夜 snack）',!!def&&def.kind==='meal'&&[].concat(...def.units.map(u=>u.seats||[])).length===21&&def.units.every(u=>u.sk==='snack')&&!!CROWD.SHOP_KIND.snack,J(def&&[def.kind,def.units.length]));
   if(def){ const wins=CROWD.shopWindows(def,{day:30,hour:19}); check('6 路人只在營業時間（17:00 起；跨午夜那一段只排到 24:00）',J(wins)===J([[17,24]]),J(wins)); }
 }
 // ---- 6 其他接線 ----
@@ -214,26 +216,26 @@ const run=async()=>{
     check('8 看的東西五種（AA_724 第 5 節的 id）：case 2、menu 2、self 2、fridge 1、kitchen 1',J(Object.keys(Y.look).sort())===J(['case','fridge','kitchen','menu','self'])&&J(['case','menu','self','fridge','kitchen'].map(k=>Y.look[k].length))===J([2,2,2,1,1]));
     for(const k of ['fridge','kitchen','menu','self']){ H.said=[]; await GG2.interact(GM,{gg2:'yangyang',kind:k}); check(`8 按「${k}」：說稿上那一句（旁白）`,H.said.length===1&&Y.look[k].includes(H.said[0].t)&&H.said[0].who===null,J(said())); }
     const c={}; for(const s of YANGYANG_LAYOUT.shop.seats){ const t=GG2.seatKind('yangyang',s)||'none'; c[t]=(c[t]|0)+1; }
-    check('8 坐下句照位子：四人桌 16、兩人桌 6',J(c)===J({four:16,two:6}),J(c));
-    H.G.zone='yangyang'; H.said=[]; await STORY.onSeat(GM,{x:0.92,z:2.3,yaw:0}); check('8 在四人桌坐下（STORY.onSeat）：四人桌那一句',J(said())===J([Y.seat.four]),J(said()));
+    check('8 坐下句照位子：四人桌 15、兩人桌 6（(0.92, 2.3) 11-12 拿掉）',J(c)===J({four:15,two:6}),J(c));
+    H.G.zone='yangyang'; H.said=[]; await STORY.onSeat(GM,{x:0.92,z:1.2,yaw:0}); check('8 在四人桌坐下（STORY.onSeat）：四人桌那一句',J(said())===J([Y.seat.four]),J(said()));
     H.said=[]; await STORY.onSeat(GM,{x:3.5,z:-1.15,yaw:0}); check('8 在兩人桌坐下：兩人桌那一句',J(said())===J([Y.seat.two]),J(said()));
-    H.G.zone='afar'; H.said=[]; await STORY.onSeat(GM,{x:0.92,z:2.3,yaw:0}); check('8 別的店坐下：不說洋洋的句子',!H.has(Y.seat.four)&&!H.has(Y.seat.two)); }
+    H.G.zone='afar'; H.said=[]; await STORY.onSeat(GM,{x:0.92,z:1.2,yaw:0}); check('8 別的店坐下：不說洋洋的句子',!H.has(Y.seat.four)&&!H.has(Y.seat.two)); }
   // ---- 9 約會地點 ----
   { const G=fresh('2025-10-15',12,'campus'), P=INV.place('yangyang'), DB=INV.place('daybreak'), d=G.day;
     check('9 約會地點 yangyang（吃飯那一類、有點熟以上、去洋洋鹹酥雞）',!!P&&P.zone==='yangyang'&&P.kind==='meal'&&P.minStage==='FAMILIAR'&&J(INV.catsOf(P))===J(['meal'])&&P.name==='洋洋鹹酥雞',J(P&&[P.kind,P.minStage,INV.catsOf(P)]));
     if(P){ const ok=h=>INV.slotOpen(G,P,d,h);
       check('9 19:00～23:00（19:00、22:00 可以；22:30（吃到 23:15）、18:30、23:00 不行：23:00 以後不排約會）',ok(19)&&ok(20)&&ok(21)&&ok(22)&&!ok(22.5)&&!ok(18.5)&&!ok(23),J([19,20,21,22,22.5,18.5,23].map(ok)));
       G.hour=12; const T=INV.timeOptions(G,false,P); check('9 時間選項：今天、明天的 19:00、20:00、21:00、22:00',J(T.map(q=>[q.day-d,q.h]))===J([[0,19],[0,20],[0,21],[0,22],[1,19],[1,20],[1,21],[1,22]]),J(T.map(q=>[q.day-d,q.h])));
-      check('9 可昕只排到 21:00（whoLast；其他人照常）',INV.lastOk(P,'kexin',21)&&!INV.lastOk(P,'kexin',22)&&INV.lastOk(P,'heroine_01',22)&&P.whoLast.kexin===21);
+      check('9 可昕和大家一樣排到 22:00（AA_941：whoLast 拿掉；舊期望：可昕只排到 21:00）',INV.lastOk(P,'kexin',22)&&INV.lastOk(P,'heroine_01',22)&&!(P.whoLast&&P.whoLast.kexin!=null));
       H.FAMILIAR('kexin'); const k22=INV.decide(G,'kexin','yangyang',d+1,22), k21=INV.decide(G,'kexin','yangyang',d+1,21);
-      check('9 約可昕 22:00：改天、改的時間在 21:00 以前（她 21:00 那一格不會因為這條規則被擋）',(k22.why==='closed'||k22.res==='resched')&&(!k22.alt||((k22.alt.h%24)<=21+1e-6))&&k21.why!=='closed',J([k22,k21]));
+      check('9 約可昕 22:00：不會因為時間被擋（AA_941；舊期望：改天到 21:00 以前）',k22.why!=='closed'&&k21.why!=='closed',J([k22,k21]));
       /* 芷若：作息有班（2:30 AM barista）的時間約不到 */
       H.FAMILIAR('heroine_02'); const zr=CHARACTERS.heroine_02, wd=dd=>{ const w=CALENDAR.dateOf(dd).wd; return w===7?0:w; };
       let sh=null; for(let dd=d+1;dd<d+8&&!sh;dd++) for(const h of [19,20,21]){ const e=STORY.schedEnt(zr,{day:dd,hour:h+0.2,weekday:wd(dd),flags:G.flags,noInvite:true}); if(e&&e.act==='barista'){ sh={day:dd,h}; break; } }
       if(!sh) check('9 找得到芷若有班的晚上（一週內）',false);
       else { const r=INV.decide(G,'heroine_02','yangyang',sh.day,sh.h); check(`9 芷若有班（第 ${sh.day-d} 天 ${sh.h}:00 在 2:30 AM 上班）：約洋洋＝改天（busy、barista）`,r.res==='resched'&&r.why==='busy'&&r.act==='barista',J(r)); }
-      const ACC={heroine_01:'……宵夜？好。我只吃一點。',heroine_02:'好。我下班剛好餓。',heroine_03:'鹹酥雞？……好。我沒有在店裡吃過。',heroine_04:'好！！我要雞皮。很多雞皮。',heroine_05:'好。讀完書，剛好。',classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回木柵。'};
-      const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,20,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
+      const ACC={heroine_01:'……宵夜？好。我只吃一點。',heroine_02:'好。我下班剛好餓。',heroine_03:'鹹酥雞？……好。我沒有在店裡吃過。',heroine_04:'好！！我要雞皮。很多雞皮。',heroine_05:'好。讀完書，剛好。',classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回去念書。'};   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*/
+      const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,20,{res:'accept'}); return !(o&&J(o.lines)===J([OE.fwd('invites',id,ACC[id])])); });
       check('9 約去洋洋答應：七位各自那一句（AA_724 第 8 節）',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,P,d+1,20,{res:'accept'})||{}).lines])));
       const o=INV.personal(G,'zhe',P,d+1,20,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「好啊。宵夜？我可以。」',o&&J(o.lines)===J(['好啊。宵夜？我可以。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
       const no=INV.personal(G,'zhe',P,d+1,20,{res:'decline',why:'rel'}); check('9 不答應：不套答應句',!(no&&no.lines&&['好啊。宵夜？我可以。','「好啊。宵夜？我可以。」'].includes(no.lines[0])));
@@ -251,7 +253,7 @@ const run=async()=>{
       Y.door.forEach(T); T(Y.ask); T(Y.short); T(Y.basil[0]); Y.basil[1].forEach(T); T(Y.spicy[0]); Y.spicy[1].forEach(T); T(Y.spicyBig); Y.wait.forEach(w=>T(w[1])); Y.eat.forEach(e=>T(e[0]));
       Object.values(Y.look).forEach(a=>a.forEach(T)); Object.values(Y.seat).forEach(T); T(Y.sign); T(Y.typhoon); T(GG2.ACC0.yangyang);
       Object.values(INVITE_DATA.yangyangAcc||{}).forEach(T); [].concat(...INVITE_DATA.seatOpen.yangyang).forEach(T);
-      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>doc.indexOf(t)<0&&doc.indexOf(strip(t))<0);
+      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>!OE.inDoc('invites',null,t,t=>doc.indexOf(t)>=0||doc.indexOf(strip(t))>=0)&&!require('./canon1112_ok.js').ok(t));   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*/
       check('10 台詞逐字在 AA_724 裡（'+out.length+' 句：進門、點餐、調味、錢不夠、等、吃完、看、坐下、鐵門、颱風、答應、開場句；打烊是 AA_700 那一句）',!bad.length&&out.length>=43,J(bad));
       check('10 說話的人：稿上「老闆：」開頭的那幾句都是老闆說',['夾好給我。……內用還外帶？','九層塔、蒜要不要？','辣嗎？','大辣喔？……好，你說的。','這樣不夠喔。……拿掉一樣？','十分鐘。號碼牌拿好。'].every(t=>doc.indexOf('老闆：「'+t+'」')>=0||doc.indexOf('老闆多一句：「'+t+'」')>=0));
       check('10 打烊照稿（bf5c3e6c6）：「老闆：我們今天要打烊了。」、不另外出旁白（舊的「要收了喔」、走出去的旁白拿掉了）',doc.indexOf('老闆：我們今天要打烊了。')>=0&&doc.indexOf('要收了喔')<0&&!/要收了喔|你走出洋洋鹹酥雞/.test(rd('src/gg2shops3d.js'))); }

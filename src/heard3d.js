@@ -9,8 +9,7 @@
      大四下（Y4S2）後面沒有學期：'Y4S2:end'＝6/3（這一學期最後一天），要到暑假結束的寫日期（AA_510 那幾句寫 2029-09-02）。
    ■ AA_513（AA-C 2026-10-28，a2e4bf196）：阿凱說子晴那四句改成他的私訊（phone，條件 kaiZq；5/20 那一句在 src/y34b3d.js S.zqKaiPhone）；
      pass → STORY.TICKS：以安和媽媽在公館窗邊的路過字幕（S.pass；店門口的位置 S.GG_DOORS）。存檔：G.flags.AN_MOM_SEEN＝{學期:那一天}。
-   ■ AA_520（AA-C 2026-10-28，481dd8238，予樂自己的線）：phone 的 ask（最後一則可以回：h509_yule 的三個選項，S.askOf）、COND.yuleOwn（yule＋和可昕沒有鬧翻）；
-     h503_yule 後面兩句照原本的條件。予樂自己的事（十四則、演講那一晚、23:55、1/12、可昕 9/16）在 src/yule3d.js（tests/aa520_yule_unit.js）。
+   ■ phone 的 ask（最後一則可以回，S.askOf）：通用；原本只有 AA_520 那一則用（CANON-NO-ECON-1112 第三批拿掉以後目前沒有列在用）。
    ■ AA_660 G2-3（AA-C 2026-11-04，企劃線 090981ebe）：phone 的 alt（條件成立整份換：h509_kevin 美國路線第一句「學姊跟學弟都回來了」，S.altItems）、COND.usRoute（tests/aa660_vac_gap_unit.js）。
    測試：node tests/aa503_others_unit.js、node tests/aa508_509_feed_unit.js（第 6 段：AA_508、AA_509 的別人說起她）、node tests/aa510_511_feed_unit.js（AA_510 的別人說起她、第五輪補的曾靖雯、阿凱）、
      node tests/aa513_unit.js（阿凱的私訊、窗邊字幕） */
@@ -47,17 +46,12 @@ const HEARD=(function(){
     bhAfterSplit:G=>{ const F=G.flags||{}; if(F.dating_classmate_peishan) return false; const D=(G.events&&G.events.done)||{};
       if(typeof PHONE!=='undefined'&&PHONE.sent(G,'ps_split_group')&&!D.ev_peishan_split&&!D.ev_peishan_bohan_split&&F.BH_SPLIT_TALKED==null) return false; return F.BH_SPLIT_TALKED!==G.day; },
     famGroup:G=>inGrp(G,'family_law'),
-    econGroup:G=>inGrp(G,'econ_friends')&&hasContact(G,'kexin'),
-    /* 予樂（只有立繪的人物，沒有 contacts 那一筆）：手機裡已經有她（kxdrift3d.js 的 yuleContact 同一個認法），或去過予樂的宵夜（見過她：ev_kexin_yule_pass）*/
-    yule:G=>{ const F=G.flags||{}, D=(G.events&&G.events.done)||{}; return F.yulePassDay!=null||!!D.ev_kexin_yule_pass||(typeof INV!=='undefined'&&!!INV.hasContact&&INV.hasContact(G,'yule'))||(G.msgs||[]).some(m=>m&&m.th==='p:yule'); },
-    /* 予樂自己的事（AA_520 第 1 節）：yule＋和可昕沒有鬧翻（src/yule3d.js YULE.kxOk）；h509_yule 的選項用這個（沒有 YULE＝沒有選項，照原本兩則）*/
-    yuleOwn:G=>S.COND.yule(G)&&typeof YULE!=='undefined'&&!!YULE.kxOk&&YULE.kxOk(G),
     /* 沒報 C12 京都語言課（AA_506 1-4 Alison 那句「7 月，沒報 C12 的玩家」）：VAC 的報名不是 yes／done */
     noC12:G=>{ const st=typeof VAC!=='undefined'&&VAC.state?VAC.state(G,'C12@Y2'):null; return !(st==='yes'||st==='done'); },
     /* 芯慈和以安和好以後（AA_507 1-4「第 13 週以後，和好以後」）：慈 5「對答案」演過（近、遠兩版都記 XC5_RECONCILE，r2y3a_events.js），
        或第 13 週已經過了（她們那一週在總圖三樓和好，玩家不在場也一樣）*/
     xcMade:G=>{ if(G.flags&&G.flags.XC5_RECONCILE) return true; const w=S.when('Y3S1:W14一'); return !!w&&G.day>=w.day; },
-    /* 麵店團群組（AA_508、AA_509 的 Alison「麵店團群組或麵店」：照品妤「群組或偶遇」的做法放群組）*/
+    /* 桌遊團群組（AA_508、AA_509 的 Alison「桌遊團群組或麵店」：照舊序章的人「群組或偶遇」的做法放群組）*/
     noodleGroup:G=>inGrp(G,'noodle_team'),
     /* 子晴的私訊說芷若（AA_508、AA_509 2-4「私訊或公館」：放私訊）：有子晴的聯絡方式、認識芷若 */
     zqZr:G=>hasContact(G,'heroine_04')&&knows('heroine_02'),

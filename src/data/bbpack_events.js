@@ -1,10 +1,10 @@
-/* ===== BB 事件包：BB_105 法律系時期還沒做的幾件、BB_106 SK08～SK10／SK14、BB_110 L4、BB_106 第 389 行（可昕和品妤在社科院門口）=====
-   任務：V3-B105-P5、V3-B105-G2、V3-B105-B2、V3-B105（AA_153 的十五件）、V3-SK08、V3-SK09、V3-SK10、V5-SK14、V3-B110-L4、BB106-L389-1022。
+/* ===== BB 事件包：BB_105 法律系時期還沒做的幾件、BB_110 L4（BB_106 那幾件舊序章人物的事件 CANON-NO-ECON-1112 第三批拿掉）=====
+   任務：V3-B105-G2、V3-B105-B2、V3-B105（AA_153 的十五件）、V3-B110-L4。
    台詞一字照稿（企劃線 origin/claude/cool-heisenberg-o8kuqx）：
-     BB_105 @3954f9b62（白名單 68a8479e；兩版只差 AA_383 第 1～3 點的「念過一個多月」和阿勳、品妤的重新介紹，這裡用遊戲已經在用的那兩句）；
+     BB_105 @3954f9b62（白名單 68a8479e；兩版只差 AA_383 第 1～3 點）；
      BB_137 @a047e5feb（白名單同一版）；AA_153 @c7f4ada86（AB-05 完成後最後一次審過的版本；之後的 09ecee83a 是沒審的 WIP，只把 18 週制的週次改成 16 週制，這裡照 16 週制排）；
      AA_430 @7525db6a5（白名單 2eb3041f0：B6b、B12 的台詞，AA 補 BB 稿沒有的字）；
-     BB_106 @3954f9b62（白名單 71b3e6c3，SK08～SK10、SK14、第 389 行兩版相同）；BB_110 @3a26e94af；AA_383 第 7 節 @bc8a1f5d4；AA_289 第 5-4 節 @3a26e94af（沛珊的四件改依附以安的公法讀書會／還筆記）。
+     BB_110 @3a26e94af；AA_383 第 7 節 @bc8a1f5d4；AA_289 第 5-4 節 @3a26e94af（沛珊的四件改依附以安的公法讀書會／還筆記）。
    時間、條件、手機訊息在 src/bbpack3d.js（BBPACK）；這裡只放事件。日文班三個人（采蓁、立衡、宇恆）在 characters.js（jp_caizhen、jp_liheng、jp_yuheng）；台詞用稱呼說話（和日本路線的 ev_liheng_japan 一樣）。
    測試：node tests/bbpack_unit.js */
 /* 2026-11-11（使用者 X327 沛珊重寫）：讀書會旁白、女舍門口沛珊的兩句照 AA_763_peishan_misc3.json@62460ea75 換（2 列，只換字）。逐字對稿：tests/peishan_misc3_1111_unit.js */
@@ -18,7 +18,7 @@ const BBPACK_EVENTS=(function(){
   const exSis=G=>typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_05');   /* AA_600 的「分手後」*/
   const IF=(c,l)=>Object.assign({if:c},l), UN=(c,l)=>Object.assign({unless:c},l);
   const PS='classmate_peishan', AN='heroine_01', YT='heroine_03', ZR='heroine_02', SIS='heroine_05', XC='classmate_xinci', BH='classmate_bohan', MX='classmate_mingxuan';
-  /* 校園上的門口（near）：大一女舍門口的長椅（同 ev_b106_d1_bench）、社科院大樓正門（同 SK06）、普通／博雅／共同教學館的正門（classes3d.js DOORS；出館的落點也在範圍內）、文學院的門廊 */
+  /* 校園上的門口（near）：大一女舍門口的長椅、社科院大樓正門、普通／博雅／共同教學館的正門（classes3d.js DOORS；出館的落點也在範圍內）、文學院的門廊 */
   const FDORM={x:-93,z:54.26,r:3.5}, SOC={x:16,z:-85,r:3.5}, PUTONG={x:-38,z:-48.4,r:4}, BOYA_DOOR={x:-38,z:-71.7,r:4}, GONGTONG={x:2,z:21.7,r:4}, ARTS={x:-38,z:-21.5,r:4};
   const EV=[];
 
@@ -163,36 +163,16 @@ const BBPACK_EVENTS=(function(){
   /* ================= 博雅教學館（BB_105 4-2、4-4；BB_137 第 2 節；AA_153 第 2 節）=================
      講座用 3D 現有的大教室（博雅 101，坐下選「聽演講」＝坐到下一段，AA_115 第 3 節；和 B4、交換說明會同一間）——活動清單（ACTIVITIES）在檔尾。
      AA_399 第 10 節（10-23）寫 B6、B7、B10b、B12「實作的時候用 103」：103 現在是關著的房間，開了以後把活動的 room 改成 '103' 就好 */
-  /* B6 跨領域講座「經濟和法律，在同一張桌子上」：大二上第 6 週週二 18:30～20:00。前一個週六芯慈私訊（BBPACK.phone）；沒收到訊息、認識阿勳的玩家：週二傍晚在博雅門口遇到阿勳 */
-  const knowXun=C((b,G)=>b.knowXun(G));
-  EV.push({ id:'ev_b6_xun_door', title:'', participants:[], location:'campus', trigger:'auto', near:BOYA_DOOR, once:true, term:['Y2S1'], weeks:[6], weekday:[2], time:[18,18.5], background:'blur',
-    prereq:{custom:G=>{ const b=B(); return !!b&&b.knowXun(G)&&!(typeof PHONE!=='undefined'&&PHONE.sent(G,'bb_b6_dm')); }},
-    dialogue:[ UN({flags:['MET_XUN']},say('阿勳','盧正勳。你經濟系那年的室友。……你該不會連我都忘了。')),
-      say('阿勳','你也來聽？……芯慈約的吧。她約了全世界。'),{set:{MET_XUN:true}} ] });
+  /* B6 跨領域講座「經濟和法律，在同一張桌子上」：大二上第 6 週週二 18:30～20:00。前一個週六芯慈私訊（BBPACK.phone）。（舊序章人物在門口、講座裡的那幾列 CANON-NO-ECON-1112 第三批拿掉）*/
   EV.push({ id:'ev_b6_lecture', title:'經濟和法律，在同一張桌子上', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
-    dialogue:[ IF({any:[knowXun,KN(XC)]},nar('（芯慈占了一整排，阿勳和品妤坐在旁邊。）')),
-      IF(knowXun,UN({flags:['MET_PINYU']},say('品妤','曾品妤。經濟系，可昕以前的室友。'))),
-      IF(knowXun,say('品妤','我是陪他來的。我只聽前半場。')),IF(knowXun,say('阿勳','她每次都這樣說，每次都聽完。')),
-      UN(knowXun,IF(KN(XC),say(XC,'這是阿勳，統計課的。這是品妤。'))),
-      IF({any:[knowXun,KN(XC)]},{set:{MET_XUN:true,MET_PINYU:true}}),
+    dialogue:[ IF(KN(XC),nar('（芯慈占了一整排，把旁邊那個位子上的包包拿起來，示意你坐。）')),   /* CANON-NO-ECON-1112 第四批：照 AA_890 換字 */
       nar('講者說，同一份契約，經濟學問怎樣最有效率，法律問誰信任了誰。'),
-      IF({any:[knowXun,KN(XC)]},nar('你發現，左邊的芯慈和右邊的阿勳，在同一句話寫下了不一樣的筆記。')) ],
+      IF(KN(XC),nar('（你發現，芯慈在同一句話旁邊寫了兩行筆記：一行寫「效率」，一行寫「誰信任了誰」，中間畫了一個問號。）')) ],
     consequences:{memo:'博思 101 聽講座：「經濟和法律，在同一張桌子上」'} });
-  /* SK09 兩個系的同一題（BB_106）：B6 聽完（attended，中途離開不算）、散場（justEnded）、兩個朋友圈接上了（ECON_LAW_BRIDGE）。講座結束就接著演（afterActivity；坐到結束沒選「聽演講」的，散場 20 分鐘內在博雅裡也會演）。
-     走廊 → 活大（2D，底圖沿用小福）；吵的題目、轉頭看你是稿上的說明，改成旁白。記 TRANSLATOR（SK10 讀）*/
-  EV.push({ id:'ev_sk09', title:'兩個系的同一題', participants:[], location:'boya', trigger:'auto', activity:'B6', activityPhase:'justEnded', afterActivity:'B6', once:true, background:'blur',
-    prereq:{attended:['B6'],flags:['ECON_LAW_BRIDGE']},
-    dialogue:[ nar('（走廊上，阿勳和芯慈在吵：違約的人只要賠錢就好嗎？阿勳講效率，芯慈講信賴。）'),
-      nar('（兩個人同時轉頭看你。）'),say('芯慈、阿勳','你說。'),
-      {choice:[{text:'翻給阿勳聽：「她說的是，約定本身就有價值，不只是那筆錢。」',set:{SK09_CHOICE:'xun'}},{text:'翻給芯慈聽：「他說的是，如果賠得夠，大家都不會比較差。」',set:{SK09_CHOICE:'xinci'}},{text:'兩邊都翻，最後補一句：「你們只是在吵要賠多少。」',set:{SK09_CHOICE:'both'}}]},
-      {scene:'學活',bg:'xiaofu'},
-      say('品妤','學活的吸管太細了。'),say('芯慈、阿勳','……這倒是。'),
-      {set:{TRANSLATOR:true,MET_XUN:true,MET_PINYU:true}},{advance:0.5} ],
-    consequences:{memo:'博思的走廊：芯慈和阿勳吵同一題，你替兩邊翻譯'} });
   /* B6b 公共政策的講座「一條法律是怎麼被寫出來的」（BB_105 4-1b 第 3 場、4-2；台詞 AA_430 第 1 節 @7525db6a5）：大二上第 10 週（期中考第 8～9 週以後）週三 19:00～20:30，博雅 102（AA_430「週三晚上七點，博雅 102」）。
-     前兩天（週一）21:00 以安在麵店團群組、柏翰回（BBPACK.phone；稿：玩家的回覆不影響能不能去——稿沒有回覆的字，這裡不給回覆選項）；沒去（missed）＝那天 21:30 柏翰在群組一句。
+     前兩天（週一）21:00 以安在桌遊團群組、柏翰回（BBPACK.phone；稿：玩家的回覆不影響能不能去——稿沒有回覆的字，這裡不給回覆選項）；沒去（missed）＝那天 21:30 柏翰在群組一句。
      講座：坐下選「聽演講」＝這一段（中途離開的玩家照 B4 的做法沒有這一段，也就沒有最後兩句）；（時間往前跳。）＝前四句之後時鐘往前 45 分鐘（晚到的不跳）。
-     散場（聽完、認識以安）：講座一結束就接著演（afterActivity，和 SK09、B12 一樣）；稿的「走到以安旁邊 npcNear」沒有做（她的作息沒有排進博雅）。
+     散場（聽完、認識以安）：講座一結束就接著演（afterActivity，和 B12 一樣）；稿的「走到以安旁邊 npcNear」沒有做（她的作息沒有排進博雅）。
      以安熟悉 +1；第二個選項的「公司法」＝她商事法興趣的第一個線索（AA_285，玩家不用知道），選了什麼記 B6B_PICK */
   EV.push({ id:'ev_b6b_lecture', title:'一條法律是怎麼被寫出來的', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
     dialogue:[ nar('講者以前在立法機關當過很多年的助理。投影片很少，大部分時間他在講故事。'),
@@ -215,7 +195,7 @@ const BBPACK_EVENTS=(function(){
       {label:'end'},say(AN,'好，我講完了。我回宿舍讀書。'),{rel:{[AN]:{fam:1}}} ],
     consequences:{memo:'博思的走廊：以安想知道「得」改成「應」的那一群人是誰'} });
   /* B7 土地、財產權與城市的講座（4-1b 第 4 場「老房子、租屋與城市」）：大二下第 6 週週三 19:00～20:30（語彤週二、四晚上在麵店幫忙，週三 17:40 在 118 巷吃晚餐）；
-     語彤週一 21:00 在麵店團群組轉了一張海報（BBPACK.phone）。提問時間在後段：講座開頭時鐘往前跳到 20:10（同 B4 的寫法）。認識語彤才有她的那一段 */
+     語彤週一 21:00 在桌遊團群組轉了一張海報（BBPACK.phone）。提問時間在後段：講座開頭時鐘往前跳到 20:10（同 B4 的寫法）。認識語彤才有她的那一段 */
   EV.push({ id:'ev_b7_lecture', title:'老房子、租屋與城市', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
     prereq:KN(YT),
     dialogue:[ {if:{custom:G=>(G.hour%24)<20+10/60},advance:G=>20+10/60-(G.hour%24)},
@@ -234,22 +214,21 @@ const BBPACK_EVENTS=(function(){
       Object.assign(nar('（她看到你，點了一下頭。）'),{if:{custom:G=>exSis(G)}}),   /* AA_600 B29（企劃線 031414cad）：前任＝她的句子刪，改這一句旁白 */
       {set:{B8_SEEN:true}} ] });
   /* B10 大四的小桌子（AA 寫，AA_153 第 6 節）：大四上、大四下平日 19:00～22:00 走進博雅自習區，一天擲一次三成；可重複（一天一次），懷舊那個選項只一次。
-     開場三組輪流（只輪認識的人）；推甄放榜（大四上第 12 週）以後柏翰換那一句。有 SK10 匯率紀錄的玩家，第一次多一句旁白（BBPACK.rateLine，照實際紀錄組句）*/
+     開場三組輪流（只輪認識的人）；推甄放榜（大四上第 12 週）以後柏翰換那一句。（原本讀 SK10 紀錄的那一句旁白 CANON-NO-ECON-1112 第三批拿掉）*/
   const B10O=n=>FI('B10_OPEN',n);
   EV.push({ id:'ev_b10_table', title:'', participants:[], location:'boya', room:'study', trigger:'auto', tier:'short', building:'boya', cooldown_days:1, term:['Y4S1','Y4S2'], weekday:[1,2,3,4,5], time:[19,22], background:'blur',
     prereq:{any:[KN('zhe'),KN('yu'),KN(BH)],custom:G=>{ const b=B(); return !!b&&b.roll(G,'b10')<0.3; }},
-    dialogue:[ {call:G=>{ const b=B(); G.flags.B10_OPEN=b?b.b10Open(G):null; G.flags.B10_RATE_TEXT=b&&!G.flags.B10_RATE_SAID?b.rateLine(G):null; }},
+    dialogue:[ {call:G=>{ const b=B(); G.flags.B10_OPEN=b?b.b10Open(G):null; }},
       IF(B10O('zhe'),say('zhe','坐。這桌是國考桌。Alison 說不能講話，所以我們用寫的。')),
       IF(B10O('yu'),say('yu','（推一包餅乾過來，便利貼上寫「吃。不要出聲。」）')),
       IF(B10O('bohan'),UN(C((b,G)=>b.bohanIn(G)),say(BH,'我在讀研究所要用的書。……提早讀，比較不怕。'))),
       IF(B10O('bohan'),IF(C((b,G)=>b.bohanIn(G)),say(BH,'我上了。我來陪考。……順便讀我自己的。'))),
-      IF({custom:G=>!!G.flags.B10_RATE_TEXT},nar('{flag:B10_RATE_TEXT}')),IF({custom:G=>!!G.flags.B10_RATE_TEXT},{set:{B10_RATE_SAID:true}}),
       {choice:[{text:'（坐下讀一點）',goto:'r'},{text:'「聊兩句就走。」',goto:'t'},{text:'「大一民總那一題……」',unless:{flags:['B10_NOSTALGIA']},set:{B10_NOSTALGIA:true},goto:'n'}]},
       {label:'r'},IF(KN('yu'),nar('Alison 在便利貼上寫：「加油。不用回。」')),{goto:'end'},
       {label:'t'},IF(KN('zhe'),say('zhe','你走了，這桌又剩我們三個。……很安靜，很好。')),{goto:'end'},
       {label:'n'},IF(KN('zhe'),say('zhe','網拍標錯價那題，我現在會答了。')),IF(KN(BH),say(BH,'說說看。')),IF(KN('zhe'),say('zhe','……先讓我翻一下。')),IF(KN('yu'),say('yu','（便利貼）四年了。')),
       {label:'end'} ],
-    after:G=>{ G.flags.B10_N=(G.flags.B10_N|0)+1; delete G.flags.B10_OPEN; delete G.flags.B10_RATE_TEXT; } });
+    after:G=>{ G.flags.B10_N=(G.flags.B10_N|0)+1; delete G.flags.B10_OPEN; } });
   /* B10b 文學的講座「小說裡的審判」：大二下第 11 週週二 18:30～20:00；前一週起博雅的公告欄（活動清單的海報 7 天）。講座一句旁白、時鐘往前到 19:50，散場：明軒、Alison（AA 寫）；
      和芷若 FAMILIAR 以上她才在（兩句＋兩個選項）。去了＝到場紀錄 attended:'B10b'（活動系統記）*/
   EV.push({ id:'ev_b10b_lecture', title:'小說裡的審判', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
@@ -266,7 +245,7 @@ const BBPACK_EVENTS=(function(){
       {label:'end'} ],
     consequences:{memo:'博思 101 聽講座：「小說裡的審判」'} });
   /* B12 同一個議題，再聽一次（BB_105 4-2；台詞 AA_430 第 2 節 @7525db6a5）：大三上第 10 週週四 19:00～20:30，博雅 101（同一位講者；AA_430「週四晚上七點，博雅 101」）；
-     前三天（週一）21:00 以安在麵店團群組、Alison、阿哲回（BBPACK.phone）；這一場沒去或中途離開＝那天 21:30 Alison 在群組一句。
+     前三天（週一）21:00 以安在桌遊團群組、Alison、阿哲回（BBPACK.phone）；這一場沒去或中途離開＝那天 21:30 Alison 在群組一句。
      講座（ev_b12_lecture，坐下選「聽演講」）：以安先舉手；玩家可以舉手（三選一＋不舉手，記 B12_ASK）——「上次最後那一題」只給聽完 B4、或沒去但在群組看過轉述（b4_missed）的玩家；
      B4 中途離開的玩家換成「多久算暫時」。散場（聽完 B12）：講座一結束就接著演（afterActivity）；和以安 FAMILIAR 以上＝以安的小桌（照 B4 的三種：聽完、沒去、中途離開），
      不到 FAMILIAR、認識 Alison＝Alison 版（沒有筆記本、便利貼，不記以安熟悉）。稿的「npcNear 才開始」沒有做（以安的作息沒有排進博雅的小桌）*/
@@ -409,101 +388,6 @@ const BBPACK_EVENTS=(function(){
       {label:'b'},nar('你走過去的時候，她已經把手機收起來，往公館的方向走了。'),
       {label:'end'} ],
     after:G=>{ G.flags.D8_N=(G.flags.D8_N|0)+1; delete G.flags.D8_OPEN; } });
-
-  /* ================= 普通教學館前：經濟系的舊同學（BB_105 P5；程式 id ev_putong_oldmate，避開沛珊的 P5）=================
-     法律系大二、大三，一學期一次；平日 12:00～17:30 經過普通教學館門口、那一天擲一次三成（他們照作息不在學校的不出現）。每次換一個人（韋綸、品妤、阿勳、唐睿），所以每個人的第一句只說一次。
-     經濟系的朋友在法律系時期第一次出現先加一句重新介紹（2-1 通則；用遊戲已經在用的那幾句）。選項「站著聊兩句／一起去吃飯／約整群人」是稿上的動作；一起去吃飯＝時間 +1 小時。
-     韋綸那一段稿上沒有選項（只有三句）：照三句演。「走啦」和日常 D2 共用 WL_SAID_LAW：第一次「欸！……喔你現在是法律系的。」＋「那也走啦！我們剛好要去吃飯。」，之後只有「走啦！」；
-     「已讀不回」只給經濟系那年小年夜選了已讀不回的玩家（Y0_F1_SEEN），其他人換成「品妤說好久沒看到你了。」*/
-  const P5W=w=>FI('P5_WHO',w);
-  const p5opts=(id,a,b,c)=>[{choice:[{text:'（站著聊兩句）',goto:id+'_a'},{text:'（一起去吃飯）',goto:id+'_b'},{text:'（約整群人）',goto:id+'_c'}]},
-    {label:id+'_a'},...a,{goto:'end'},{label:id+'_b'},...b,{advance:1},{goto:'end'},{label:id+'_c'},...c,{goto:'end'}];
-  EV.push({ id:'ev_putong_oldmate', title:'', participants:[], location:'campus', trigger:'auto', near:PUTONG, tier:'short', building:'putong', term:['Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,2,3,4,5], time:[12,17.5], background:'blur',
-    prereq:{custom:G=>{ const b=B(); return !!b&&b.p5Due(G); }},
-    dialogue:[ {call:G=>{ G.flags.P5_WHO=B().p5Pick(G); }},
-      IF(P5W('wl'),{goto:'wl'}),IF(P5W('py'),{goto:'py'}),IF(P5W('xun'),{goto:'xun'}),IF(P5W('tr'),{goto:'tr'}),{goto:'end'},
-      {label:'wl'},IF({custom:G=>typeof STORY!=='undefined'&&!!STORY.wlIntro&&STORY.wlIntro(G)},say('韋綸','韋綸！騎車的！')),{set:{MET_WEILUN:true}},
-        IF({flags:['WL_SAID_LAW']},say('韋綸','走啦！')),
-        UN({flags:['WL_SAID_LAW']},say('韋綸','欸！……喔你現在是法律系的。')),UN({flags:['WL_SAID_LAW']},say('韋綸','那也走啦！我們剛好要去吃飯。')),{set:{WL_SAID_LAW:true}},
-        IF({flags:['Y0_F1_SEEN']},say('韋綸','品妤說你上次在群組已讀不回。她記帳了。')),UN({flags:['Y0_F1_SEEN']},say('韋綸','品妤說好久沒看到你了。')),{goto:'end'},
-      {label:'py'},UN({flags:['MET_PINYU']},say('品妤','曾品妤。經濟系，可昕以前的室友。')),{set:{MET_PINYU:true}},
-        say('品妤','喔，法律系的。我們今天上計量。你們上什麼？'),say('品妤','……聽起來比較貴。'),
-        ...p5opts('py',[say('品妤','好，我去打工了。這次的時間，記你一筆。')],[say('品妤','各付各的。不要跟我搶付。')],[say('品妤','我在群組發。你這次要回。')]),
-      {label:'xun'},UN({flags:['MET_XUN']},say('阿勳','盧正勳。你經濟系那年的室友。……你該不會連我都忘了。')),{set:{MET_XUN:true}},
-        say('阿勳','（點頭）{name}。統計剛下課。……你們有統計嗎？'),say('阿勳','沒有。好。你們比較幸福。'),
-        ...p5opts('xun',[IF(C((b,G)=>b.bowled(G)),say('阿勳','保齡球再一場。上次的全倒，我要再有一次證人。')),UN(C((b,G)=>b.bowled(G)),say('阿勳','保齡球還欠一場。'))],[say('阿勳','學活。這次我請。')],[say('阿勳','我問韋綸。他一定說走啦。')]),
-      {label:'tr'},IF({custom:G=>typeof STORY!=='undefined'&&!!STORY.tangIntro&&STORY.tangIntro(G)},say('唐睿','唐睿。全系最會講話的那個。')),{set:{MET_TANG:true}},
-        IF({flags:['SOC_ROAD_PERSON']},say('唐睿','法律系的路人！我剛在課上講了十分鐘，教授叫我坐下。')),UN({flags:['SOC_ROAD_PERSON']},say('唐睿','{name}！我剛在課上講了十分鐘，教授叫我坐下。')),
-        ...p5opts('tr',[say('唐睿','你們上課可以講話嗎？……不行？好可憐。')],[say('唐睿','品妤也要來。……還有其他人啦。')],[say('唐睿','我負責講話，你負責安靜。')]),
-      {label:'end'} ],
-    after:G=>{ const b=B(); if(b) b.p5Done(G,G.flags.P5_WHO); delete G.flags.P5_WHO; } });
-
-  /* ================= 社科院（BB_106）================= */
-  /* SK08 學長，用一個經濟學名詞介紹自己：大二上第 1 週週三（經濟系開學典禮那天的下午；週一下午是日文上）12:00 阿勳私訊，13:00～17:00 走到社科院門口＝2D 系上的教室（E02 的同一間）。
-     第 4 個選項只給玩過經濟系大一、E02 散場挑過詞的玩家（E02_WORD）。記 SOC_GUEST_SENIOR；唐睿介紹他時說「法律系的路人」（有 SOC_ROAD_PERSON）。沒去＝當晚 21:00 阿勳的大合照（BBPACK.phone）*/
-  EV.push({ id:'ev_sk08_guest', title:'學長，用一個經濟學名詞介紹自己', participants:[], location:'campus', trigger:'auto', near:SOC, once:true, term:['Y2S1'], weeks:[1], weekday:[3], time:[13,17], background:'dark',
-    prereq:{custom:G=>typeof PHONE!=='undefined'&&PHONE.sent(G,'bb_sk08_dm')},
-    dialogue:[ {call:G=>{ G.flags.SK08_WORD_TEXT=({externality:'外部性',equilibrium:'均衡',invisible_hand:'看不見的手'})[G.flags.E02_WORD]||null; }},
-      {scene:'社科院・系上的教室｜迎新',bg:'soc_classroom'},
-      UN({flags:['MET_XUN']},say('阿勳','盧正勳。你經濟系那年的室友。……你該不會連我都忘了。')),
-      IF({custom:G=>typeof STORY!=='undefined'&&!!STORY.tangIntro&&STORY.tangIntro(G)},say('唐睿','唐睿。全系最會講話的那個。')),
-      IF({flags:['SOC_ROAD_PERSON']},say('唐睿','法律系的路人。')),
-      say('阿勳','我們那年有一個人這樣介紹自己，我一直記得。今年改成每個人都要。'),
-      {choice:[{text:'「我是『沉沒成本』。……不對，我不後悔。」',set:{SK08_WORD:'sunk'},goto:'w'},{text:'「我是『比較利益』：我去了法律系，大家都比較好。」',set:{SK08_WORD:'comparative'},goto:'w'},
-        {text:'「我是『善意第三人』。」',set:{SK08_WORD:'third'},goto:'t'},{text:'「我是『{flag:SK08_WORD_TEXT}』。」',if:{custom:G=>!!G.flags.PLAYED_Y0&&!!G.flags.SK08_WORD_TEXT},set:{SK08_WORD:'e02'},goto:'e'}]},
-      {label:'t'},say('唐睿','那不是經濟學。'),me('是我現在的身分。'),{goto:'w'},
-      {label:'e'},say('阿勳','這個詞，可昕說過是你挑的。……犯規。'),nar('（新生大笑。）'),
-      {label:'w'},say('新生','學長，經濟系可以轉法律系嗎？'),
-      {choice:[{text:'「我是重考進來的。那一年很累。」',goto:'end'},{text:'「可以。記得帶六法，很重。」',goto:'end'},{text:'「你為什麼想轉？」',goto:'q'}]},
-      {label:'q'},say('新生','……其實沒有。我只是想聽故事。'),
-      {label:'end'},{set:{SOC_GUEST_SENIOR:true,MET_XUN:true,MET_TANG:true}},{advance:1} ],
-    after:G=>{ delete G.flags.SK08_WORD_TEXT; },
-    consequences:{memo:'社科院：經濟系迎新的神秘嘉賓'} });
-  /* SK10 一題民法換一題微積分：大二上～大三下，每學期第 6 週（期中前）、第 15 週（期末前）的週三 19:00～21:00，博雅自習區（芯慈週一 21:00 在「一題換一題」小群組貼時間地點，BBPACK.phone）。
-     前提 ECON_LAW_BRIDGE；那一學期第一次去＝匯率談判（記 STUDY_EXCHANGE_RATE，B10 讀）；同一學期第二次沒有談判（稿只寫了便利貼、翻譯官、民法貶值那幾句：有才演）。
-     上一場沒去，下一次見面唐睿一句。大二下起品妤也來（台詞沒有她）*/
-  EV.push({ id:'ev_sk10_swap', title:'一題民法換一題微積分', participants:[], location:'boya', room:'study', trigger:'auto', term:['Y2S1','Y2S2','Y3S1','Y3S2'], weeks:[6,15], weekday:[3], time:[19,21], background:'blur',
-    prereq:{flags:['ECON_LAW_BRIDGE'],custom:G=>{ const b=B(); return !!b&&b.sk10Due(G); }},
-    dialogue:[ {call:G=>{ G.flags.SK10_NEG=B().sk10Neg(G)?1:0; }},
-      IF({flags:['SK10_MISSED']},say('唐睿','你不在的時候，民法貶值了。')),
-      IF({flags:['STICKY_NOTES']},nar('桌上一張唐睿的便利貼。')),IF({flags:['STICKY_NOTES']},say('便利貼','民法一題＝？')),
-      IF({flags:['TRANSLATOR']},nar('（芯慈和阿勳一吵起來，兩個人就先看你。）')),IF({flags:['TRANSLATOR']},say('芯慈、阿勳','……翻譯官，你說。')),
-      IF(FI('SK10_NEG',1),say('唐睿','一題民法換兩題微積分。因為民法比較難懂。這是市場決定的。')),
-      IF(FI('SK10_NEG',1),{choice:[{text:'（接受唐睿的價）',set:{SK10_RATE:'two'},goto:'end'},{text:'「公平。」',set:{SK10_RATE:'one'},goto:'one'},{text:'「我免費教，但你們請宵夜。」',set:{SK10_RATE:'snack'},goto:'snack'}]}),
-      {goto:'end'},
-      {label:'one'},say(XC,'同意。我記帳。'),{goto:'end'},
-      {label:'snack'},nar('（匯率改成「宵夜本位」。）'),
-      {label:'end'},{set:{SK10_MISSED:false,MET_XUN:true,MET_TANG:true}} ],
-    after:G=>{ const b=B(); if(b) b.sk10Done(G); delete G.flags.SK10_NEG; } });
-  /* SK14 新生的自我介紹：大四上第 1 週，平日 9:00～17:00 走到社科院門口（你來還一本書）＝2D 社科院一樓。美國路線那時在美國：沒有這一場。
-     玩過經濟系大一、聽過 E02 那一句（E02 演過）＝台下有人笑那句；沒玩經濟系大一＝「你自己也玩過這個」。和可昕交往中多一個選項「拍下來傳給可昕」；分開了＝拿出手機又放回去。
-     收尾系辦助理：有 SK02 的 SOC_WRONG_BUILDING 那一句，沒有＝「轉去法律的」（她記錯了，祐廷不糾正）。「站著看一會兒／直接去還書」是稿上的動作 */
-  EV.push({ id:'ev_sk14_freshmen', title:'新生的自我介紹', participants:[], location:'campus', trigger:'auto', near:SOC, once:true, term:['Y4S1'], weeks:[1], weekday:[1,2,3,4,5], time:[9,17], background:'dark',
-    prereq:{custom:G=>!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))},
-    dialogue:[ {scene:'社科院・一樓',bg:'soc_hall'},
-      nar('你來還一本書。'),
-      nar('（經濟系的迎新。新生在玩「用一個經濟學名詞介紹自己」。）'),
-      say('新生','我是邊際效用遞減。'),
-      IF({custom:G=>!!G.flags.PLAYED_Y0&&!!(G.events&&G.events.done&&G.events.done.ev_y0_e02)},nar('（台下有人笑。你在門口站了一下，才往裡面走。）')),
-      UN({flags:['PLAYED_Y0']},nar('你自己也玩過這個。')),
-      UN({flags:['dating_kexin']},nar('你拿出手機，又放回口袋。')),
-      {choice:[{text:'（站著看一會兒）',goto:'end'},{text:'（直接去還書）',goto:'end'},{text:'拍下來傳給可昕',if:{flags:['dating_kexin']},goto:'kx'}]},
-      {label:'kx'},{phone:'kexin',text:'有人用我的名詞。'},{phone:'kexin',text:'我那時候說，我會越來越好玩。……你覺得我做到了嗎？'},
-        {choice:[{text:'「做到了。」',goto:'k1'},{text:'「還差一點。」',goto:'k2'}]},
-        {label:'k1'},{phone:'kexin',text:'好。那我繼續。'},{goto:'end'},
-        {label:'k2'},{phone:'kexin',text:'……記下來了。今年追上。'},
-      {label:'end'},
-      IF({flags:['SOC_WRONG_BUILDING']},say('系辦助理','你不是那個……來領系外套的？又走錯棟了？')),
-      UN({flags:['SOC_WRONG_BUILDING']},say('系辦助理','你不是那個轉去法律的？')),
-      {set:{SK14_SEEN:true}} ],
-    consequences:{memo:'社科院一樓：經濟系的新生在自我介紹'} });
-  /* 可昕和品妤在社科院門口（BB_106 第 389 行；AA_383 第 7 節）：和可昕交往中、「我們的日子」排的是她來台大（社科院門口）的那一天，約好的時間前 60～15 分鐘走到社科院門口；
-     到經濟系那群畢業（2028-06）；品妤那天不在學校就不演、留到下一個來台大的日子；整個遊戲一次。演完照常在約好的時間見面（這兩句不算見面）*/
-  EV.push({ id:'ev_kx_pinyu_soc', title:'', participants:['kexin'], location:'campus', trigger:'auto', near:SOC, once:true, background:'blur',
-    prereq:{flags:['dating_kexin'],custom:G=>{ const b=B(); return !!b&&b.l389Due(G); }},
-    dialogue:[ say('kexin','我來找品妤。……順便找你。順序不要問。'),
-      UN({flags:['MET_PINYU']},say('品妤','曾品妤。經濟系，可昕以前的室友。')),{set:{MET_PINYU:true}},
-      say('品妤','她先找我的。我有證人。') ] });
 
   /* ================= 文學院門口的長椅（BB_110 L4；芷若的系，文學院只有外觀）================= */
   /* L4a 鉛筆的翻譯：大一上第 6 週起，週二、四上午，和她 ACQUAINTANCE 以上，一次。稿沒有寫三個翻譯版本的字：選項是「第一個／第二個／第三個」（記 L4A_SAT，L4c 讀）*/

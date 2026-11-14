@@ -196,6 +196,14 @@ def sections(md):
 
 
 DATA = invite_data()
+# 2026-11-11（X324 D 區）：invites.js 已經照覆蓋層換過字（tools/invite/apply_overlay.py；AA_783、AA_784 file invites 的列）——「現有」的比對照 AA_415 稿上的舊字，
+# 那幾格先換回 old 再比（表上的字＝old；invite_replies.js 的字最後一步照 AA_783 file invite_replies 的列換成新字，見檔案最後 overlay_replies）
+import overlay_rows as OV
+OV_INV = OV.rows(ROOT, 'invites', ALLOW)
+for _x in OV_INV:
+    _t = OV.parse(_x['at'])
+    if _t[0] == 'people' and OV.get(DATA, _t[1:]) == _x['new']:
+        OV.put(DATA, _t[1:], _x['old'])
 import ps755 as PS755   # tools/story/ps755.py（AA_755_peishan_feed_misc.json；白名單沒有那份稿＝空表、不換）
 PS755_MAP = PS755.sentence_map(PS755.load(ROOT, ALLOW), 'invites.js')
 
@@ -206,6 +214,15 @@ unq = GD.unq   # 外面整句一對「」拿掉（「A」「B」這種好幾段�
 def same(a, b):
     """兩組台詞一樣（不看外面的「」）"""
     return isinstance(a, list) and isinstance(b, list) and [unq(x) for x in a] == [unq(x) for x in b]
+
+
+# CANON-NO-ECON-1112 第四批（AA_891 第 2 節，企劃線 c51906860）：可昕那幾列的新字（canon891 用；invites.js 那一格已經照 AA_894 換成同一句新字的「現有」列，find_existing 也認）
+CANON891_NEW = {'kx1': '總圖？好。上課你都坐我後面，這次換你坐前面。', 'kx3': '吃飯？人多一點的話，好。', 'kx7': '好。我帶民總，你帶刑總。交換痛苦。',
+                'kx8': '九點前。我答應室友一起吃宵夜。', 'kx12': '只有我們兩個？……好。我室友問的話，我說實話。', 'kx17': '我下午有選修，四點下課。',
+                'kx18': '報告還沒寫完。明天？', 'kx19': '今天陪我室友。明天？', 'kx20': '好。幾點？我先把這一章念完。', 'kx21': 'Café？好。我要坐你平常坐的那張。',
+                'kx22': '總圖？好。我睡著的話，叫醒我。', 'kx23': '公館燒臘？好。我要點你每次都點的那盤。', 'kx25': 'SUNNY SIDE？好。那家要排，我早一點出門。',
+                'kx30': '好。這次不要再遲到。', 'kx32': '好。我室友問我為什麼答應。我說，因為是 Café。', 'kx34': '好。不要問我為什麼又答應。',
+                'kx35': '好。九點我要回宿舍。……九點半。'}
 
 
 def find_existing(who, pid_tags, lines, via, raw):
@@ -230,11 +247,17 @@ def find_existing(who, pid_tags, lines, via, raw):
         for b in ('A', 'R'):
             if same(acc.get(b), flat):
                 return 'acc', b
+    if who == 'kexin' and isinstance(acc, dict) and len(flat) == 1:   # AA_891 kx25／AA_894：invites.js 可昕那一格已經是新字（AA_415 表上是舊字），最後 canon891 換成同一句
+        for b in ('A', 'R'):
+            v = acc.get(b)
+            if isinstance(v, list) and len(v) == 1 and v[0] in CANON891_NEW.values():
+                return 'acc', b
     die(f'{who}：現有的 {flat} 在 INVITE_DATA.people.{who} 的 acc／first（{pid}）找不到')
 
 
 rows_out = {}
 counts = {}
+DROP_IDS = {'kx36', 'kx38'}
 for who, sec, cells in sections(MD):
     if len(cells) != 4:
         die(f'{who}：表格欄數不是 4：{cells}')
@@ -303,6 +326,8 @@ for who, sec, cells in sections(MD):
             if k != 'resched':
                 die(f'{who}：AT 只給改天的句子：{first}')
             row['at'] = AT.pop(first)
+        if row['id'] in DROP_IDS:   # CANON-NO-ECON-1112 第三批（AA_891 第 2 節：可昕 kx36、kx38 拿掉，和 kx17、kx19 重複）
+            continue
         rows_out.setdefault(who, []).append(row)
 if WHEN or AT:
     die('WHEN／AT 有對不到的句子：' + json.dumps(list(WHEN) + list(AT), ensure_ascii=False))
@@ -349,7 +374,116 @@ def strip_quotes(path, text):
     return '\n'.join(out)
 
 
+def overlay_replies(path, text):
+    """X324 D 區覆蓋層（白名單 overlay:true 的稿裡 file 是 invite_replies 的列；AA_783…；tools/story/overlay_rows.py）——放在最後
+    （AA_627／AA_630、PS755、拿掉「」以後；稿的 old＝遊戲現在的字）：at＝<列 id>.lines[i]，那一列要是 who 的、那一格（她說的字串或 {me}）要剛好等於 old 才換，對不到就停。
+    換過的列多一格 ov＝稿的來源（[path@sha]；tests/invites_quote_unit.js 這些列改比稿）；say（表上原文）不動。
+    換完：同一個人的 lines 不能再有這幾句舊句；invites.js 那邊換了的句子（file invites 的列），這個人的 lines 也不能再有舊句（兩邊同句都要換到）。
+    同一句別人也說（例：第 5 階「……只有我們？」語彤照留）＝不在稿上，照留、印出來。"""
+    R = OV.rows(ROOT, 'invite_replies', ALLOW)
+    if not R and not OV_INV:
+        return text
+    L = text.split('\n')
+    idx, who = {}, None
+    for i, ln in enumerate(L):
+        m = re.match(r'^ "(\w+)":\[$', ln)
+        if m:
+            who = m.group(1); continue
+        m = re.match(r'^  (\{.*\})(,?)$', ln)
+        if m:
+            r = json.loads(m.group(1))
+            if r['id'] in idx:
+                die(f'invite_replies.js 有兩列 id {r["id"]}')
+            idx[r['id']] = [i, r, who, m.group(2)]
+    txt = lambda x: x if isinstance(x, str) else (x.get('me') if isinstance(x, dict) else None)
+    for x in R:
+        w = f'{x["src"]} {x["who"]} {x["at"]}'
+        ms = re.fullmatch(r'(\w+)\.say', x['at'])   # 2026-11-11（AA_783@60c08798a，AA_794 搬來）：表上原文 say 也可以換（整格等於 old 才換）
+        if ms:
+            if ms.group(1) not in idx:
+                die(f'{w}：invite_replies.js 沒有 {ms.group(1)} 這一列')
+            i, r, w2, comma = idx[ms.group(1)]
+            if w2 != x['who']:
+                die(f'{w}：{ms.group(1)} 是 {w2} 的列，不是 {x["who"]}')
+            if r.get('say') != x['old']:
+                die(f'{w}：say 現在是 {json.dumps(r.get("say"), ensure_ascii=False)}，不是稿的 old「{x["old"]}」（對不到，不猜）')
+            r['say'] = x['new']
+            if x['src'] not in r.setdefault('ov', []):
+                r['ov'].append(x['src'])
+            continue
+        m = re.fullmatch(r'(\w+)\.lines\[(\d+)\]', x['at'])
+        if not m:
+            die(f'{w}：at 要寫 <列 id>.lines[i] 或 <列 id>.say')
+        if m.group(1) not in idx:
+            die(f'{w}：invite_replies.js 沒有 {m.group(1)} 這一列')
+        i, r, w2, comma = idx[m.group(1)]
+        k = int(m.group(2))
+        if w2 != x['who']:
+            die(f'{w}：{m.group(1)} 是 {w2} 的列，不是 {x["who"]}')
+        if k >= len(r['lines']) or txt(r['lines'][k]) != x['old']:
+            die(f'{w}：那一格現在是 {json.dumps(r["lines"][k] if k < len(r["lines"]) else None, ensure_ascii=False)}，不是稿的 old「{x["old"]}」（對不到，不猜）')
+        if isinstance(r['lines'][k], str):
+            r['lines'][k] = x['new']
+        else:
+            r['lines'][k] = dict(r['lines'][k], me=x['new'])
+        if x['src'] not in r.setdefault('ov', []):
+            r['ov'].append(x['src'])
+    left = []
+    for x in R + OV_INV:
+        mine = [(rid, k) for rid, (i, r, w2, c) in idx.items() if w2 == x['who'] for k, t in enumerate(r['lines']) if txt(t) == x['old']]
+        if mine:
+            left.append(f'{x["who"]}：「{x["old"]}」還在 {mine}（{x["src"]} {x["at"]}）')
+        other = [(w2, rid) for rid, (i, r, w2, c) in idx.items() if w2 != x['who'] and any(txt(t) == x['old'] for t in r['lines'])]
+        if other and x in R:
+            print(f'同一句別人也說（不在稿上，照留）：「{x["old"]}」{other}')
+    if left:
+        die('覆蓋層換完，同一個人還有舊句（invites.js 換了、invite_replies.js 沒換，或同一句兩列只換一列）：\n' + '\n'.join(left))
+    for rid, (i, r, w2, comma) in idx.items():
+        L[i] = '  ' + json.dumps(r, ensure_ascii=False, separators=(',', ':')) + comma
+    if R:
+        print(f'{path}：覆蓋層 {len(R)} 格（{"、".join(OV.sources(ROOT, "invite_replies", ALLOW))}）')
+    return '\n'.join(L)
+
+
+def canon891(path, text):
+    """CANON-NO-ECON-1112 第四批（AA_891 第 2 節，企劃線 c51906860 定稿 BB_426）：可昕的邀約回覆——kx1～kx19 從 y0 搬進 law（她現在從認識開始，階段 1～6），
+    表上那幾列的字照換（lines 只有一句的列整句換；say 跟著換成「」包起來的同一句）；kx25b 只換 say。放在覆蓋層之後（舊的覆蓋層是 AA_783，不再重匯）。"""
+    NEW = CANON891_NEW
+    SAY_ONLY = {'kx25b': '「好啊，我先查一下菜單。」'}
+    MOVE = {'kx%d' % i for i in range(1, 20)}
+    L = text.split('\n'); who = None; seen = set()
+    for i, ln in enumerate(L):
+        m = re.match(r'^ "(\w+)":\[$', ln)
+        if m:
+            who = m.group(1); continue
+        m = re.match(r'^  (\{.*\})(,?)$', ln)
+        if not m or who != 'kexin':
+            continue
+        r = json.loads(m.group(1)); rid = r['id']
+        if rid in NEW:
+            if len(r['lines']) != 1 or not isinstance(r['lines'][0], str):
+                die(f'AA_891：{rid} 不是只有一句（{r["lines"]}），不猜')
+            r['lines'] = [NEW[rid]]; r['say'] = '「' + NEW[rid] + '」'; seen.add(rid)
+        if rid in SAY_ONLY:
+            r['say'] = SAY_ONLY[rid]; seen.add(rid)
+        if rid in MOVE:
+            if r.get('sec') != 'y0':
+                die(f'AA_891：{rid} 的 sec 不是 y0（{r.get("sec")}）')
+            r['sec'] = 'law'; seen.add(rid)
+        L[i] = '  ' + json.dumps(r, ensure_ascii=False, separators=(',', ':')) + m.group(2)
+    miss = (set(NEW) | set(SAY_ONLY) | MOVE) - seen
+    if miss:
+        die('AA_891：對不到的列 ' + '、'.join(sorted(miss)))
+    print(f'{path}：AA_891 可昕 {len(NEW)} 列換字、kx1～kx19 搬進 law')
+    return '\n'.join(L)
+
+
 _TEXT = strip_quotes(OUT, _TEXT)
+_TEXT = overlay_replies(OUT, _TEXT)
+_TEXT = canon891(OUT, _TEXT)
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+import aa959 as _AA959   # AA_959（DLG-FULL-REVIEW-1110，LAWWW 11-13 選 (a)）：「今天」開頭砍半＋「……」開頭減量，源稿不動、寫檔前最後一步照 docs/handoff/AA_959_overlay.json 換（tools/story/aa959.py）
+_TEXT = _AA959.layer(_TEXT, 'invite_replies.js')
 _p = os.path.join(ROOT, OUT)
 if not os.path.exists(_p) or open(_p, encoding='utf-8').read() != _TEXT:
     _tmp = _p + '.tmp%d' % os.getpid()

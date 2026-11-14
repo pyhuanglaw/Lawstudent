@@ -7,7 +7,7 @@
 const TZ_SHOPS_LAYOUT=
 {
   "taimi": {
-    "id": "taimi", "zone": "tz_taimi", "name": "泰米村食", "asset": "bldg.tz_taimi_interior", "glb": "assets/models/env/second_ai/tz_taimi_interior.glb",
+    "id": "taimi", "viewDepth": 16, "zone": "tz_taimi", "name": "泰米村食", "asset": "bldg.tz_taimi_interior", "glb": "assets/models/env/second_ai/tz_taimi_interior.glb",
     "w": 8.0, "d": 10.0, "h": 3.4, "warm": true, "wallColor": "#f1e4c8", "floor": "#8f8b84",
     "note": "參考圖 int_taimi：暖黃光、藤編吊燈、裸露的天花板管線和軌道燈；左牆皮面長卡座＋一排兩人木桌，右邊三張四人木桌、右牆大幅菜色照片板；正後方木櫃台（底下燈條）、後面開放式廚房（不鏽鋼排煙罩、紅格紋布棚），左後方格紋布簾的門；灰色石紋地磚。22 個座位（和 AA_743 一樣多）。",
     "front": {"door": [-0.4, 0.7, 2.75], "windows": [[-3.6, -0.5], [0.85, 3.55]], "sill": 0.95, "head": 2.7, "note": "照外觀（wz_street.py 的 TZ_ARC taimi）：中間米色布簾的門、兩側深木框窗"},
@@ -46,8 +46,8 @@ const TZ_SHOPS_LAYOUT=
               "plants": [[-3.5, -2.55], [3.6, 4.5]]}
   },
   "xile": {
-    "id": "xile", "zone": "tz_xile", "name": "洗樂洗衣坊", "asset": "bldg.tz_xile_interior", "glb": "assets/models/env/second_ai/tz_xile_interior.glb",
-    "w": 6.0, "d": 9.0, "h": 3.2, "warm": false, "wallColor": "#f4f5f4", "floor": "#c9cbcc",
+    "id": "xile", "viewDepth": 16, "zone": "tz_xile", "name": "洗樂洗衣坊", "asset": "bldg.tz_xile_interior", "glb": "assets/models/env/second_ai/tz_xile_interior.glb",
+    "w": 6.0, "d": 9.0, "h": 3.3, "warm": false, "wallColor": "#f4f5f4", "floor": "#c9cbcc",
     "note": "參考圖 int_xile：白牆＋淺天藍腰帶、淺灰地磚、日光燈；左牆從門口往裡：三連座淺藍塑膠椅、兌幣機和洗衣精販賣機、一排七台滾筒洗衣機；右牆四組上下疊的大烘衣機；後方中間木折衣桌和洗衣籃、後牆置物架、門、水槽；牆上使用說明海報、層板上的黃金葛、壁扇、冷氣、監視器。沒有店員（投幣式）。",
     "front": {"door": [0.3, 1.4, 2.6], "windows": [[-2.65, 0.2], [1.5, 2.65]], "sill": 0.12, "head": 2.7, "note": "照外觀（TZ_ARC xile）：鋁框大玻璃、單扇玻璃門"},
     "spawn": {"x": 0.85, "z": 2.8, "yaw": 3.1416},
@@ -60,18 +60,19 @@ const TZ_SHOPS_LAYOUT=
     "foldTable": {"x": 0.2, "z": -2.7, "w": 1.8, "d": 0.9},
     "blocks": [[-2.65, -0.65, 0.7, 4.9], [2.62, 0.75, 0.76, 4.8], [-2.8, 2.3, 0.4, 0.8], [-2.72, 3.35, 0.55, 1.2], [0.2, -2.7, 1.8, 0.9], [1.3, -4.25, 1.3, 0.45], [2.6, -3.7, 0.8, 1.2]],
     "seats": [
-      {"id": "c1", "table": 1, "x": -2.72, "z": 2.95, "yaw": 1.5708, "ap": {"x": -2.0, "z": 2.95}}, {"id": "c2", "table": 1, "x": -2.72, "z": 3.35, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.35}}, {"id": "c3", "table": 1, "x": -2.72, "z": 3.75, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.75}}
+      {"id": "c1", "table": 1, "x": -2.72, "z": 2.95, "yaw": 1.5708, "ap": {"x": -2.0, "z": 2.95}, "label": "坐著等"}, {"id": "c2", "table": 1, "x": -2.72, "z": 3.35, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.35}, "label": "坐著等"}, {"id": "c3", "table": 1, "x": -2.72, "z": 3.75, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.75}, "label": "坐著等"}
     ],
     "points": [
       {"id": "wash", "x": -1.85, "z": -0.6, "r": 1.0, "label": "洗衣機", "kind": "tz_xile_wash"},
       {"id": "dry", "x": 1.8, "z": 0.8, "r": 1.0, "label": "烘衣機", "kind": "tz_xile_dry"},
       {"id": "change", "x": -2.1, "z": 2.3, "r": 0.7, "label": "兌幣機・洗衣精", "kind": "tz_xile_change"},
-      {"id": "fold", "x": 0.2, "z": -1.85, "r": 0.9, "label": "折衣桌", "kind": "tz_xile_fold"}
+      {"id": "fold", "x": 0.2, "z": -1.85, "r": 0.9, "label": "折衣桌", "kind": "tz_xile_fold"},
+      {"id": "guide", "x": -1.3, "z": 3.4, "r": 0.55, "label": "看使用說明", "kind": "tz_xile_guide"}
     ]
   },
   "yindehao": {
-    "id": "yindehao", "zone": "tz_yindehao", "name": "印得好", "asset": "bldg.tz_yindehao_interior", "glb": "assets/models/env/second_ai/tz_yindehao_interior.glb",
-    "w": 6.5, "d": 10.0, "h": 3.2, "warm": false, "wallColor": "#f1f1ee", "floor": "#9c9d9c",
+    "id": "yindehao", "viewDepth": 16, "zone": "tz_yindehao", "name": "印得好", "asset": "bldg.tz_yindehao_interior", "glb": "assets/models/env/second_ai/tz_yindehao_interior.glb",
+    "w": 6.5, "d": 10.0, "h": 3.3, "warm": false, "wallColor": "#f1f1ee", "floor": "#9c9d9c",
     "note": "參考圖 int_yindehao：實用、機器多、有點擠。左邊一排大型影印機、裁紙機、膠裝機，最裡面大圖輸出機；左牆價目表、裝訂樣品、海報樣張；右邊一條長櫃台（白檯面、木邊）：電腦、標籤機、裝訂樣本架、一疊疊講義、盆栽；櫃台後面右牆整面鐵層架放彩色紙；灰色地磚、日光燈、裸露管線、後牆冷氣和布簾。",
     "front": {"door": [-0.7, 0.75, 2.7], "windows": [[-2.95, -0.8], [0.85, 2.95]], "sill": 0.12, "head": 2.7, "note": "照外觀（TZ_ARC yindehao）：中間玻璃雙開門、兩側鋁框玻璃"},
     "spawn": {"x": 0.0, "z": 3.0, "yaw": 3.1416},
@@ -86,7 +87,7 @@ const TZ_SHOPS_LAYOUT=
     "paperStack": {"x0": 0.78, "x1": 1.32, "z0": -4.38, "z1": -3.52, "note": "LAWWW2 11-11：trapFix 那一塊（blocks 最後一塊）在模型放一疊疊影印紙箱和垃圾桶——看得出為什麼過不去"},
     "blocks": [[-2.87, 0.85, 0.75, 4.9], [-2.25, -4.37, 1.7, 0.75], [1.45, -0.25, 0.7, 6.5], [3.02, -0.65, 0.45, 7.9], [2.3, 3.15, 1.2, 0.45], [2.3, -3.8, 1.2, 0.6], [0.2, -4.65, 1.3, 0.7], [-0.13, -4.03, 0.4, 0.4], [0.53, -4.03, 0.4, 0.4], [1.05, -3.95, 0.6, 0.9]],
     "trapFix": "LAWWW 2026-11-11（tests/tz_shops_notrap_1111_unit.js 掃出來）：客用電腦桌東邊那張凳子和長櫃台北端之間有一小塊站得進去、走不出來的角落（x 0.75～1.35、z −4.4～−3.5），blocks 最後一塊擋起來（也是通往櫃台後面的縫，客人本來就不該進去）",
-    "seats": [],
+    "seats": [{"id": "pc1", "table": 1, "x": -0.13, "z": -4.03, "yaw": 3.1416, "ap": {"x": -0.13, "z": -3.45}, "label": "用電腦"}, {"id": "pc2", "table": 1, "x": 0.53, "z": -4.03, "yaw": 3.1416, "ap": {"x": 0.5, "z": -3.35}, "label": "用電腦"}],
     "points": [
       {"id": "copy", "x": -1.9, "z": 1.0, "r": 1.0, "label": "自助影印", "kind": "tz_yin_copy"},
       {"id": "counter", "x": 0.6, "z": 0.6, "r": 1.0, "label": "櫃台（列印・裝訂）", "kind": "tz_yin_counter"},
@@ -96,8 +97,8 @@ const TZ_SHOPS_LAYOUT=
     "decor": {"priceBoard": {"z0": 1.2, "z1": 3.6, "y0": 1.5, "y1": 2.9}, "samplePoster": {"z0": 0.0, "z1": 1.0, "y0": 1.5, "y1": 2.5}, "campusPoster": {"z0": -1.0, "z1": -0.2, "y0": 1.5, "y1": 2.4}}
   },
   "antai": {
-    "id": "antai", "zone": "gg_antai", "name": "安泰藥局", "asset": "bldg.gg_antai_interior", "glb": "assets/models/env/second_ai/gg_antai_interior.glb",
-    "w": 9.0, "d": 10.0, "h": 3.1, "warm": false, "wallColor": "#f4f4f0", "floor": "#d6d8d6",
+    "id": "antai", "viewDepth": 36, "view": "cvs", "zone": "gg_antai", "name": "安泰藥局", "asset": "bldg.gg_antai_interior", "glb": "assets/models/env/second_ai/gg_antai_interior.glb",
+    "w": 9.0, "d": 10.0, "h": 3.3, "warm": false, "wallColor": "#f4f4f0", "floor": "#d6d8d6",
     "note": "參考圖 int_antai：白色日光燈格柵天花板、淺色磁磚地板；中間走道兩邊各一排白色貨架（口罩、OK 繃、保健食品、乳液）；正後方藥師櫃台（白色、深綠踢腳）＋後牆整面藥品櫃、上面白底綠字招牌（規格：不用十字，用藥罐圖示）；左牆玻璃櫃和掛鉤商品、壁扇、時鐘；右牆衛教海報、書報架、血壓計桌和黑色圓凳。開業多年的社區藥局。",
     "front": {"door": [-0.75, 0.75, 2.6], "windows": [[-4.15, -0.9], [0.9, 4.15]], "sill": 0.12, "head": 2.8, "note": "照外觀（GG_XS G04）：鋁框玻璃自動門、兩側整面玻璃"},
     "spawn": {"x": 0.0, "z": 3.1, "yaw": 3.1416},
@@ -115,11 +116,12 @@ const TZ_SHOPS_LAYOUT=
     "points": [
       {"id": "counter", "x": 0.0, "z": -2.1, "r": 1.1, "label": "藥師櫃台", "kind": "gg_antai_counter"},
       {"id": "shelf", "x": 0.0, "z": 0.6, "r": 1.0, "label": "看貨架", "kind": "gg_antai_shelf"},
-      {"id": "bp", "x": 3.3, "z": 1.3, "r": 0.7, "label": "量血壓", "kind": "gg_antai_bp"}
+      {"id": "bp", "x": 3.3, "z": 1.3, "r": 0.7, "label": "量血壓", "kind": "gg_antai_bp"},
+      {"id": "cabinet", "x": 1.5, "z": -2.35, "r": 0.6, "label": "看藥品櫃", "kind": "gg_antai_cabinet"}
     ]
   },
   "xianguo": {
-    "id": "xianguo", "zone": "gg_xianguo", "name": "汀州鮮果", "asset": "bldg.gg_xianguo_interior", "glb": "assets/models/env/second_ai/gg_xianguo_interior.glb",
+    "id": "xianguo", "viewDepth": 36, "view": "noodle", "zone": "gg_xianguo", "name": "汀州鮮果", "asset": "bldg.gg_xianguo_interior", "glb": "assets/models/env/second_ai/gg_xianguo_interior.glb",
     "w": 8.0, "d": 10.0, "h": 3.3, "warm": true, "wallColor": "#efece2", "floor": "#b9b5ab",
     "note": "參考圖 int_tingzhou_xianguo：整面開著的傳統水果行。左邊階梯式木架和綠色塑膠籃（鳳梨、西瓜、蘋果、芭樂、葡萄、柳丁），最前面一桌香蕉；牆上水果壁畫、黃色吊燈；中間木工作桌（電子秤、切好的水果盒、砧板上的鳳梨、粉紅條紋塑膠袋）；右邊不鏽鋼冷藏展示櫃（切好的水果盒），門口右邊一籃橘子；後面紙箱堆、立扇、水槽層架；舊白磁磚牆、淺色地磚、日光燈。",
     "front": {"door": [-3.65, 3.65, 3.0], "windows": [], "sill": 0.0, "head": 3.0, "open": true, "note": "照外觀（GG_XS G08）：整面開著，沒有玻璃"},
@@ -141,12 +143,13 @@ const TZ_SHOPS_LAYOUT=
     "points": [
       {"id": "pick", "x": -1.9, "z": 0.8, "r": 1.0, "label": "挑水果", "kind": "gg_fruit_pick"},
       {"id": "counter", "x": 1.1, "z": 2.3, "r": 0.9, "label": "秤重結帳", "kind": "gg_fruit_counter"},
-      {"id": "box", "x": 2.55, "z": 0.6, "r": 0.8, "label": "切好的水果盒", "kind": "gg_fruit_box"}
+      {"id": "box", "x": 2.55, "z": 0.6, "r": 0.8, "label": "切好的水果盒", "kind": "gg_fruit_box"},
+      {"id": "boxes", "x": -0.8, "z": -0.05, "r": 0.6, "label": "看紙箱", "kind": "gg_fruit_boxes"}
     ]
   },
   "rongendian": {
-    "id": "rongendian", "zone": "gg_rongendian", "name": "榮恩典文具社", "asset": "bldg.gg_rongendian_interior", "glb": "assets/models/env/second_ai/gg_rongendian_interior.glb",
-    "w": 9.0, "d": 10.0, "h": 3.2, "warm": true, "wallColor": "#f3ecd8", "floor": "#c9c6bd",
+    "id": "rongendian", "viewDepth": 36, "view": "bookstore", "zone": "gg_rongendian", "name": "榮恩典文具社", "asset": "bldg.gg_rongendian_interior", "glb": "assets/models/env/second_ai/gg_rongendian_interior.glb",
+    "w": 9.0, "d": 10.0, "h": 3.3, "warm": true, "wallColor": "#f3ecd8", "floor": "#c9c6bd",
     "note": "參考圖 int_rongendian：四十年老文具行，貨架密、商品滿。左牆整面筆（壓克力格，一格一格彩色的筆）；中間兩座木層架（筆記本、筆袋、膠帶、資料夾）；右牆畫材（畫筆、顏料瓶、調色盤、素描本）、靠牆的畫布和木畫架；正後方木櫃台（收銀機、檯燈），後牆層架、一個小十字架和植物；門口左邊特價推車；格柵天花板、日光燈、吊扇、淺灰地磚。",
     "front": {"door": [-0.6, 0.9, 2.7], "windows": [[-4.15, -0.75], [1.05, 4.15]], "sill": 0.12, "head": 2.85, "note": "照外觀（GG_XS G13）：鋁框玻璃、中間開著的門"},
     "spawn": {"x": 0.15, "z": 3.1, "yaw": 3.1416},
@@ -167,12 +170,13 @@ const TZ_SHOPS_LAYOUT=
       {"id": "art", "x": 3.3, "z": -0.4, "r": 0.9, "label": "看畫材", "kind": "gg_rong_art"},
       {"id": "notes", "x": 1.0, "z": 2.3, "r": 0.9, "label": "看筆記本", "kind": "gg_rong_notes"},
       {"id": "counter", "x": -0.3, "z": -2.3, "r": 1.0, "label": "結帳", "kind": "gg_rong_counter"},
-      {"id": "cart", "x": -2.3, "z": 3.3, "r": 0.8, "label": "特價推車", "kind": "gg_rong_cart"}
+      {"id": "cart", "x": -2.3, "z": 3.3, "r": 0.8, "label": "特價推車", "kind": "gg_rong_cart"},
+      {"id": "easel", "x": 2.25, "z": 3.15, "r": 0.6, "label": "看畫架", "kind": "gg_rong_easel"}
     ]
   },
   "limao": {
-    "id": "limao", "zone": "tz_limao", "name": "禮貌生財", "asset": "bldg.tz_limao_interior", "glb": "assets/models/env/second_ai/tz_limao_interior.glb",
-    "w": 4.6, "d": 10.0, "h": 3.0, "warm": true, "wallColor": "#e9dfc6", "floor": "#b9b2a2",
+    "id": "limao", "viewDepth": 9, "zone": "tz_limao", "name": "禮貌生財", "asset": "bldg.tz_limao_interior", "glb": "assets/models/env/second_ai/tz_limao_interior.glb",
+    "w": 4.6, "d": 10.0, "h": 3.3, "warm": true, "wallColor": "#e9dfc6", "floor": "#b9b2a2",
     "note": "禮貌生財（X332，使用者 11-10 規格第三節；外觀圖從門看進去的樣子當前半的參考：深色木書櫃、玻璃門櫃、紙燈籠、山水掛畫、圓茶桌和木椅、盆栽、灰米色舊磁磚）。狹長一間：前半命理館（z −1.2～5）＋一道到天花板的隔牆和一扇普通的深色木門＋後半私人書房（z −5～−1.2：整面深色木書櫃、刑法和德文書、舊講義手稿、老木書桌、鋼筆眼鏡便條紙、學術合照、學生來信）。書房平常鎖著：導航擋住、模型的 STUDY_* 節點不顯示、上面蓋 STUDY_LID（從上面看是深色的屋頂）、門是 STUDY_DOOR（關著）；解鎖＝TZS3.studyOpen(L) 回傳 true（LAWWW 的 limao3d.js 接：存檔旗標 LM_STUDY）或呼叫 zone.setStudy(true)。不是宮廟、不是道場、不是豪華命理館（規格）",
     "front": {"door": [0.3, 1.5, 2.6], "windows": [[-2.15, -0.2]], "sill": 0.85, "head": 2.6, "open": true, "note": "照外觀（wz_street.py 的 TZ_ARC limao）：左邊深色木框格子窗、右邊開著的木門"},
     "spawn": {"x": 0.9, "z": 3.3, "yaw": 3.1416}, "exit": {"x": 0.9, "z": 4.6, "r": 0.8, "label": "離開禮貌生財"}, "outZone": "tingzhou", "out": {"x": 27.4, "z": 3.3, "yaw": 3.1416},
@@ -194,5 +198,9 @@ const TZ_SHOPS_LAYOUT=
       {"id": "cabinet", "x": 1.4, "z": 1.6, "r": 0.8, "label": "看玻璃櫃", "kind": "tz_limao_cabinet"},
       {"id": "scroll", "x": -0.8, "z": -0.6, "r": 0.8, "label": "看掛畫", "kind": "tz_limao_scroll"}
     ]
-  }
+  },
+  "yuehaochi": {"id": "yuehaochi", "viewDepth": 14, "zone": "tz_yuehaochi", "name": "越好吃小館", "asset": "bldg.tz_yuehaochi_interior", "glb": "assets/models/env/second_ai/tz_yuehaochi_interior.glb", "w": 6.0, "d": 9.0, "h": 3.3, "warm": true, "wallColor": "#f0e6cf", "floor": "#a89c8a", "note": "TINGZHOU-SHOPS5-1110（LAWWW2-C 11-12）。使用者只給了外觀概念圖（ref/tingzhou_1110/concept/shop_yuehaochi.webp：深木框玻璃、藤編吊燈、木桌椅、右邊照片菜單、大盆栽），沒有室內圖；室內照外觀看進去的樣子自己設計（越南河粉小館）：左牆三張四人木桌、右牆兩張兩人桌、後方木櫃台＋開放式廚房（大湯鍋）、右後自助香草檯（九層塔、豆芽、檸檬、辣椒）、左牆一排斗笠、會安燈籠、右牆照片菜單（概念圖裁的）。16 個座位。", "front": {"door": [-0.1, 1.6, 2.6], "windows": [[-2.75, -0.25]], "sill": 0.5, "head": 2.7, "note": "照外觀：左邊深木框大玻璃、中間偏右雙開玻璃門、最右邊是實牆（外面貼照片菜單）"}, "spawn": {"x": 0.75, "z": 2.9, "yaw": 3.1416}, "exit": {"x": 0.75, "z": 4.05, "r": 0.8, "label": "離開越好吃小館"}, "outZone": "tingzhou", "out": {"x": -5.4, "z": 29.0, "yaw": 1.5708}, "kitchen": {"x0": -1.0, "x1": 3.0, "z0": -4.5, "z1": -2.95, "note": "開放式廚房（不能進去）：兩口大湯鍋、燙麵爐、排煙罩、後牆白磁磚"}, "partition": {"x0": -3.0, "x1": -1.0, "z": -2.95, "door": [-2.5, -1.6], "note": "左後方的隔牆和藍染布簾的門（後面是洗手間、倉庫，不能進去）"}, "counter": {"x0": -0.8, "x1": 2.6, "z0": -2.9, "z1": -2.35, "h": 1.08, "note": "木櫃台：收銀螢幕、外帶袋、招財的小盆竹子；櫃台正面竹編"}, "clerk": {"x": 1.0, "z": -3.4, "yaw": 0.0}, "tables": [{"id": 1, "kind": "four", "x": -2.3, "z": 2.9, "w": 1.2, "d": 0.8}, {"id": 2, "kind": "four", "x": -2.3, "z": 0.6, "w": 1.2, "d": 0.8}, {"id": 3, "kind": "four", "x": -2.3, "z": -1.6, "w": 1.2, "d": 0.8}, {"id": 4, "kind": "two", "x": 2.45, "z": 2.7, "w": 0.7, "d": 0.7}, {"id": 5, "kind": "two", "x": 2.45, "z": 0.3, "w": 0.7, "d": 0.7}], "seats": [{"id": "t1a", "table": 1, "x": -2.6, "z": 2.25, "yaw": 0.0, "ap": {"x": -1.4, "z": 2.25}}, {"id": "t1b", "table": 1, "x": -2.0, "z": 2.25, "yaw": 0.0}, {"id": "t1c", "table": 1, "x": -2.6, "z": 3.55, "yaw": 3.1416, "ap": {"x": -1.4, "z": 3.55}}, {"id": "t1d", "table": 1, "x": -2.0, "z": 3.55, "yaw": 3.1416}, {"id": "t2a", "table": 2, "x": -2.6, "z": -0.05, "yaw": 0.0, "ap": {"x": -1.4, "z": -0.05}}, {"id": "t2b", "table": 2, "x": -2.0, "z": -0.05, "yaw": 0.0}, {"id": "t2c", "table": 2, "x": -2.6, "z": 1.25, "yaw": 3.1416, "ap": {"x": -1.4, "z": 1.25}}, {"id": "t2d", "table": 2, "x": -2.0, "z": 1.25, "yaw": 3.1416}, {"id": "t3a", "table": 3, "x": -2.6, "z": -2.25, "yaw": 0.0, "ap": {"x": -1.4, "z": -2.25}}, {"id": "t3b", "table": 3, "x": -2.0, "z": -2.25, "yaw": 0.0}, {"id": "t3c", "table": 3, "x": -2.6, "z": -0.95, "yaw": 3.1416, "ap": {"x": -1.4, "z": -0.95}}, {"id": "t3d", "table": 3, "x": -2.0, "z": -0.95, "yaw": 3.1416}, {"id": "t4a", "table": 4, "x": 2.45, "z": 2.08, "yaw": 0.0}, {"id": "t4b", "table": 4, "x": 2.45, "z": 3.32, "yaw": 3.1416}, {"id": "t5a", "table": 5, "x": 2.45, "z": -0.32, "yaw": 0.0}, {"id": "t5b", "table": 5, "x": 2.45, "z": 0.92, "yaw": 3.1416}], "blocks": [[2.62, -1.5, 0.76, 1.1], [2.62, 4.08, 0.76, 0.74]], "herbBar": {"x0": 2.24, "x1": 3.0, "z0": -2.05, "z1": -0.95, "h": 0.9, "note": "自助香草檯：九層塔、豆芽、檸檬角、辣椒、魚露、是拉差"}, "fridge": {"x0": 2.24, "x1": 3.0, "z0": 3.71, "z1": 4.45, "h": 1.95, "note": "玻璃門飲料冰箱（越南咖啡、椰子水、汽水）"}, "points": [{"id": "order", "x": 1.0, "z": -1.75, "r": 1.0, "label": "點餐", "kind": "tz_yue_order"}, {"id": "menu", "x": 1.75, "z": 1.5, "r": 0.75, "label": "看菜單", "kind": "tz_yue_menu"}, {"id": "herbs", "x": 1.85, "z": -0.75, "r": 0.6, "label": "自助香草檯", "kind": "tz_yue_herbs"}, {"id": "kitchen", "x": -0.5, "z": -1.8, "r": 0.7, "label": "看廚房", "kind": "tz_yue_kitchen"}, {"id": "hats", "x": -1.2, "z": 1.75, "r": 0.6, "label": "看牆上的斗笠", "kind": "tz_yue_hats"}], "decor": {"pendants": [[-2.3, 2.9], [-2.3, 0.6], [-2.3, -1.6], [2.45, 2.7], [2.45, 0.3], [1.0, -2.6]], "menuBoard": {"wall": "E", "z0": 0.75, "z1": 2.25, "y0": 1.05, "y1": 2.75}, "hats": [{"z": 3.6, "y": 2.05}, {"z": 1.75, "y": 2.2}, {"z": -0.5, "y": 2.05}], "lanterns": [[-0.9, 3.2, 2.35, "#d9483a"], [-1.05, 1.7, 2.5, "#e8b23a"], [-0.9, 0.0, 2.3, "#3a8a8a"], [-1.05, -1.9, 2.45, "#d9783a"], [1.9, 3.45, 2.45, "#b8405a"]], "plants": [[-2.65, 4.1]]}},
+  "keju": {"id": "keju", "viewDepth": 14, "zone": "tz_keju", "name": "客居雲南", "asset": "bldg.tz_keju_interior", "glb": "assets/models/env/second_ai/tz_keju_interior.glb", "w": 5.5, "d": 9.0, "h": 3.3, "warm": true, "wallColor": "#f2e8d2", "floor": "#b3a48c", "note": "TINGZHOU-SHOPS5-1110（LAWWW2-C 11-12）。使用者只給外觀概念圖（concept/shop_kejuyunnan.webp：酒紅雨棚、木桌圓凳、藤編吊燈、右邊酒紅牆上的照片菜單、後面櫃台和廚師）；室內照外觀看進去的樣子設計（雲南米線小館）：左牆三張四人木桌＋圓木凳、右牆兩張兩人桌、後方木櫃台（砂鍋）＋開放式廚房、右牆普洱茶餅櫃、左牆大理扎染布、天花板三把油紙傘、右牆酒紅色牆面＋照片菜單（概念圖裁的）。16 個座位。", "front": {"door": [0.2, 1.8, 2.6], "windows": [[-2.5, -0.05]], "sill": 0.45, "head": 2.7, "note": "照外觀：左邊大玻璃、中間偏右玻璃門、最右邊酒紅色實牆（外面貼照片菜單）"}, "spawn": {"x": 1.0, "z": 2.9, "yaw": 3.1416}, "exit": {"x": 1.0, "z": 4.05, "r": 0.8, "label": "離開客居雲南"}, "outZone": "tingzhou", "out": {"x": -5.4, "z": 23.25, "yaw": 1.5708}, "kitchen": {"x0": -0.6, "x1": 2.75, "z0": -4.5, "z1": -2.95, "note": "開放式廚房（不能進去）：一排小砂鍋爐、大湯桶、排煙罩"}, "partition": {"x0": -2.75, "x1": -0.6, "z": -2.95, "door": [-2.2, -1.3], "note": "左後方的隔牆和扎染布簾的門（後面不能進去）"}, "counter": {"x0": -0.4, "x1": 2.35, "z0": -2.9, "z1": -2.35, "h": 1.08, "note": "木櫃台：收銀螢幕、疊著的砂鍋、一罐罐配料（酸菜、韭菜、豆皮）"}, "clerk": {"x": 1.0, "z": -3.4, "yaw": 0.0}, "tables": [{"id": 1, "kind": "four", "x": -1.95, "z": 2.8, "w": 1.2, "d": 0.8}, {"id": 2, "kind": "four", "x": -1.95, "z": 0.6, "w": 1.2, "d": 0.8}, {"id": 3, "kind": "four", "x": -1.95, "z": -1.5, "w": 1.2, "d": 0.8}, {"id": 4, "kind": "two", "x": 2.2, "z": 2.5, "w": 0.7, "d": 0.7}, {"id": 5, "kind": "two", "x": 2.2, "z": 0.4, "w": 0.7, "d": 0.7}], "seats": [{"id": "t1a", "table": 1, "x": -2.25, "z": 2.15, "yaw": 0.0, "ap": {"x": -1.0, "z": 2.15}}, {"id": "t1b", "table": 1, "x": -1.65, "z": 2.15, "yaw": 0.0}, {"id": "t1c", "table": 1, "x": -2.25, "z": 3.45, "yaw": 3.1416, "ap": {"x": -1.0, "z": 3.45}}, {"id": "t1d", "table": 1, "x": -1.65, "z": 3.45, "yaw": 3.1416}, {"id": "t2a", "table": 2, "x": -2.25, "z": -0.05, "yaw": 0.0, "ap": {"x": -1.0, "z": -0.05}}, {"id": "t2b", "table": 2, "x": -1.65, "z": -0.05, "yaw": 0.0}, {"id": "t2c", "table": 2, "x": -2.25, "z": 1.25, "yaw": 3.1416, "ap": {"x": -1.0, "z": 1.25}}, {"id": "t2d", "table": 2, "x": -1.65, "z": 1.25, "yaw": 3.1416}, {"id": "t3a", "table": 3, "x": -2.25, "z": -2.15, "yaw": 0.0, "ap": {"x": -1.0, "z": -2.15}}, {"id": "t3b", "table": 3, "x": -1.65, "z": -2.15, "yaw": 0.0}, {"id": "t3c", "table": 3, "x": -2.25, "z": -0.85, "yaw": 3.1416, "ap": {"x": -1.0, "z": -0.85}}, {"id": "t3d", "table": 3, "x": -1.65, "z": -0.85, "yaw": 3.1416}, {"id": "t4a", "table": 4, "x": 2.2, "z": 1.88, "yaw": 0.0}, {"id": "t4b", "table": 4, "x": 2.2, "z": 3.12, "yaw": 3.1416}, {"id": "t5a", "table": 5, "x": 2.2, "z": -0.22, "yaw": 0.0}, {"id": "t5b", "table": 5, "x": 2.2, "z": 1.02, "yaw": 3.1416}], "blocks": [[2.43, -1.35, 0.64, 1.2]], "teaShelf": {"x0": 2.15, "x1": 2.75, "z0": -1.9, "z1": -0.8, "h": 1.9, "note": "木格櫃：普洱茶餅（圓餅、紙包）、茶罐、小陶壺"}, "points": [{"id": "order", "x": 1.2, "z": -1.75, "r": 0.9, "label": "點餐", "kind": "tz_keju_order"}, {"id": "menu", "x": 1.45, "z": 1.45, "r": 0.7, "label": "看菜單", "kind": "tz_keju_menu"}, {"id": "tea", "x": 1.6, "z": -0.75, "r": 0.6, "label": "看茶餅櫃", "kind": "tz_keju_tea"}, {"id": "kitchen", "x": -0.25, "z": -1.85, "r": 0.6, "label": "看廚房", "kind": "tz_keju_kitchen"}, {"id": "batik", "x": -0.85, "z": 1.7, "r": 0.6, "label": "看牆上的扎染布", "kind": "tz_keju_batik"}], "decor": {"pendants": [[-1.95, 2.8], [-1.95, 0.6], [-1.95, -1.5], [2.2, 2.5], [2.2, 0.4], [1.0, -2.6]], "menuBoard": {"wall": "E", "z0": 0.85, "z1": 2.05, "y0": 1.05, "y1": 2.8}, "batiks": [{"z0": 2.2, "z1": 3.4, "y0": 1.3, "y1": 2.5}, {"z0": 0.0, "z1": 1.2, "y0": 1.3, "y1": 2.5}, {"z0": -2.1, "z1": -0.9, "y0": 1.3, "y1": 2.5}], "umbrellas": [[0.1, 2.6, 2.75, "#b8402a"], [-0.1, 0.4, 2.8, "#d9a23a"], [0.15, -1.5, 2.75, "#2f5f8a"]], "plants": [[-2.35, 4.1]]}},
+  "dongnan": {"id": "dongnan", "viewDepth": 14, "zone": "tz_dongnan", "name": "東南大聯商行", "asset": "bldg.tz_dongnan_interior", "glb": "assets/models/env/second_ai/tz_dongnan_interior.glb", "w": 7.5, "d": 9.0, "h": 3.3, "warm": false, "wallColor": "#f1efe6", "floor": "#cfcabd", "note": "TINGZHOU-SHOPS5-1110（LAWWW2-C 11-12）。使用者只給外觀概念圖（concept/shop_dongnan_dalian.webp：黃底紅字招牌、墨綠雨棚、整面玻璃看得到塞滿的貨架、門口鐵網架的泡麵零食、紅藍塑膠籃、掛著的藤編燈罩和斗笠）；室內照外觀看進去的樣子設計（東南亞食品雜貨店）：左牆整面貨架（泡麵、零食）、後牆整面貨架（醬料、罐頭、香料）＋上面黃底紅字店名、中間兩排雙面貨架、右牆飲料冰箱和乾貨貨架、右後角一疊米袋、右前方收銀台（上面掛一串串零食）、左前窗邊紅藍塑膠籃、天花板日光燈。沒有座位。", "front": {"door": [-0.9, 0.9, 2.6], "windows": [[-3.5, -1.05], [1.05, 3.5]], "sill": 0.35, "head": 2.7, "note": "照外觀：中間敞開的門、兩邊整面玻璃"}, "spawn": {"x": 0.0, "z": 2.9, "yaw": 3.1416}, "exit": {"x": 0.0, "z": 4.05, "r": 0.8, "label": "離開東南大聯商行"}, "outZone": "tingzhou", "out": {"x": -5.4, "z": 16.75, "yaw": 1.5708}, "wallShelf": {"x0": -3.75, "x1": -3.33, "z0": -4.1, "z1": 3.2, "h": 2.1, "note": "左牆整面貨架：泡麵、零食"}, "backShelf": {"x0": -3.75, "x1": 2.3, "z0": -4.5, "z1": -4.1, "h": 2.1, "note": "後牆整面貨架：魚露、醬油、辣醬、罐頭、椰奶"}, "rightShelf": {"x0": 3.33, "x1": 3.75, "z0": -3.0, "z1": -1.4, "h": 2.1, "note": "右牆乾貨貨架：河粉、米紙、香料包"}, "fridge": {"x0": 3.1, "x1": 3.75, "z0": -1.2, "z1": 1.3, "h": 2.0, "note": "玻璃門飲料冰箱（三門）"}, "rice": {"x0": 2.4, "x1": 3.75, "z0": -4.5, "z1": -3.2, "note": "一疊疊的米袋（泰國香米）"}, "gondolas": [{"x0": -1.9, "x1": -1.0, "z0": -2.6, "z1": 1.6, "h": 1.6}, {"x0": 0.6, "x1": 1.5, "z0": -2.6, "z1": 1.0, "h": 1.6}], "counter": {"x0": 1.6, "x1": 3.1, "z0": 2.1, "z1": 2.7, "h": 0.95, "note": "收銀台：收銀機、秤、一盒盒糖果；上面掛一串串零食"}, "backroom": {"x0": 1.6, "x1": 3.75, "z0": 2.7, "z1": 4.5, "note": "收銀台後面（店員站的地方，客人不能進去）"}, "clerk": {"x": 2.5, "z": 3.3, "yaw": 3.1416}, "baskets": {"x0": -3.4, "x1": -2.1, "z0": 3.55, "z1": 4.3, "note": "窗邊一疊疊紅藍塑膠籃、一箱箱飲料"}, "blocks": [[-3.54, -0.45, 0.42, 7.3], [-0.725, -4.3, 6.05, 0.4], [3.54, -2.2, 0.42, 1.6], [3.425, 0.05, 0.65, 2.5], [3.075, -3.85, 1.35, 1.3], [-1.45, -0.5, 0.9, 4.2], [1.05, -0.8, 0.9, 3.6], [-2.75, 3.925, 1.3, 0.75]], "seats": [], "points": [{"id": "counter", "x": 2.3, "z": 1.55, "r": 0.8, "label": "結帳", "kind": "tz_dongnan_counter"}, {"id": "noodle", "x": -2.65, "z": 0.2, "r": 0.8, "label": "看泡麵和零食", "kind": "tz_dongnan_noodle"}, {"id": "sauce", "x": -0.2, "z": -3.4, "r": 0.8, "label": "看醬料和罐頭", "kind": "tz_dongnan_sauce"}, {"id": "drink", "x": 2.45, "z": 0.0, "r": 0.7, "label": "飲料冰箱", "kind": "tz_dongnan_drink"}, {"id": "rice", "x": 2.3, "z": -2.4, "r": 0.7, "label": "看米和乾貨", "kind": "tz_dongnan_rice"}]},
+  "liantong": {"id": "liantong", "viewDepth": 14, "zone": "tz_liantong", "name": "汀州聯通", "asset": "bldg.tz_liantong_interior", "glb": "assets/models/env/second_ai/tz_liantong_interior.glb", "w": 4.5, "d": 7.0, "h": 3.3, "warm": false, "wallColor": "#f4f5f6", "floor": "#d9dbdc", "note": "TINGZHOU-SHOPS5-1110（LAWWW2-C 11-12）。使用者只給外觀概念圖（concept/shop_tingzhou_liantong.webp：藍白招牌「手機・通訊・維修」、整面玻璃、窗邊玻璃展示櫃的手機、牆上一排排手機殼、後面白色櫃台＋螢幕＋兩張黑色圓凳、後牆層架的盒子）；室內照外觀看進去的樣子設計（手機通訊行）：窗邊玻璃展示櫃、左牆整面手機殼掛牆、右牆配件展示櫃和資費海報、後方白色服務櫃台（螢幕、刷卡機、維修墊）＋兩張黑色圓凳、櫃台後面一牆手機盒和維修工作台、上面藍底白字店名。2 個座位（坐著等）。", "front": {"door": [0.55, 1.75, 2.5], "windows": [[-2.0, 0.35]], "sill": 0.35, "head": 2.6, "note": "照外觀：左邊整面玻璃（裡面是展示櫃）、右邊玻璃門"}, "spawn": {"x": 1.15, "z": 1.85, "yaw": 3.1416}, "exit": {"x": 1.15, "z": 3.05, "r": 0.8, "label": "離開汀州聯通"}, "outZone": "tingzhou", "out": {"x": -5.4, "z": 10.75, "yaw": 1.5708}, "showcase": {"x0": -2.05, "x1": 0.2, "z0": 2.55, "z1": 3.2, "h": 1.05, "note": "窗邊的玻璃展示櫃：兩層手機和盒子"}, "pegWall": {"x0": -2.25, "x1": -2.07, "z0": -1.35, "z1": 2.35, "h": 2.15, "note": "左牆整面掛牆：一排排手機殼、保護貼；下面白色抽屜櫃"}, "cabinet": {"x0": 1.85, "x1": 2.25, "z0": -1.2, "z1": 1.3, "h": 2.1, "note": "右牆配件展示櫃：耳機、充電線、行動電源"}, "counter": {"x0": -1.2, "x1": 2.25, "z0": -2.0, "z1": -1.45, "h": 1.0, "note": "白色服務櫃台（正面一條藍）：螢幕、刷卡機、維修墊和拆開的手機"}, "backroom": {"x0": -2.25, "x1": 2.25, "z0": -3.5, "z1": -1.45, "note": "櫃台後面：一牆手機盒、維修工作台（客人不能進去）"}, "clerk": {"x": 0.8, "z": -2.5, "yaw": 0.0}, "blocks": [[-2.16, 0.5, 0.3, 3.7], [2.05, 0.05, 0.4, 2.5], [-0.925, 2.875, 2.25, 0.65]], "seats": [{"id": "s1", "table": 1, "x": 0.3, "z": -0.95, "yaw": 3.1416, "label": "坐著等"}, {"id": "s2", "table": 1, "x": 1.3, "z": -0.95, "yaw": 3.1416, "label": "坐著等"}], "points": [{"id": "counter", "x": 0.8, "z": -0.55, "r": 0.7, "label": "櫃台（手機・門號・維修）", "kind": "tz_liantong_counter"}, {"id": "cases", "x": -1.5, "z": 0.3, "r": 0.7, "label": "看手機殼", "kind": "tz_liantong_cases"}, {"id": "phones", "x": -0.9, "z": 2.0, "r": 0.6, "label": "看展示櫃的手機", "kind": "tz_liantong_phones"}, {"id": "acc", "x": 1.3, "z": 0.2, "r": 0.6, "label": "看配件", "kind": "tz_liantong_acc"}, {"id": "plan", "x": 1.55, "z": 2.0, "r": 0.55, "label": "看資費方案", "kind": "tz_liantong_plan"}]}
 };

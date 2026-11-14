@@ -11,7 +11,7 @@
 **▶ 線上遊玩：https://pyhuanglaw.github.io/Lawstudent/**
 - 手機、電腦的瀏覽器都可以玩，不用安裝。
 <!-- VERSION:START（自動產生，不要手改這一段：python3 tools/release/sync_version.py；來源是 index.html 標題畫面的版本字樣） -->
-- 目前線上的發布版本：**v9.10.25（2026-11-11）**。標題畫面最下面有同一行版本字樣。
+- 目前線上的發布版本：**v9.10.26（2026-11-14）**。標題畫面最下面有同一行版本字樣。
 <!-- VERSION:END -->
 - 每一版改了什麼、怎麼測的：[`docs/RELEASES.md`](docs/RELEASES.md)。
 

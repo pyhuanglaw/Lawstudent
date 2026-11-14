@@ -11,7 +11,7 @@ permissions:
   contents: read
 concurrency:
   group: node-unit-auto-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false   # 2026-11-12 LAWWW-C：原本 true，幾分鐘推一次就永遠跑不完（下午連 7 輪 cancelled，兩支紅的沒人發現）。false＝正在跑的那一輪跑完；排隊的只留最新一筆
 jobs:
   sweep:
     runs-on: ubuntu-latest

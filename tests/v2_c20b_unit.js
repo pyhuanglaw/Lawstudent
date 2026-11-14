@@ -1,5 +1,5 @@
 // 重訪日 1（交接包 v2 C20）——2026-10-17 使用者取消：檢查停用（AA_249）。用法：node tests/v2_c20b_unit.js
-// 修改前沒有 ev_revisit_y1_noodle（第 1 項失敗）。檢查：誰走哪個版本（交往中＝可昕版、麵店團＝併桌、其他＝最親近的人）；17:00 群組揪人；併桌的回應與他們各說一件；
+// 修改前沒有 ev_revisit_y1_noodle（第 1 項失敗）。檢查：誰走哪個版本（交往中＝可昕版、桌遊團＝併桌、其他＝最親近的人）；17:00 群組揪人；併桌的回應與他們各說一件；
 //   最親近的人（先看階段再看熟悉、至少有點熟；學姊、沛珊有伴侶不算；女生要有聯絡方式）；男生四人的台詞與阿凱好朋友前後；女生 18:00 的訊息（芷若、子晴的條件）；
 //   都不到有點熟＝筆記本；記 REVISIT_Y1
 // 用法：node tests/v2_c20b_unit.js
@@ -36,10 +36,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const RD=STORY.revisitDay(), ids=['ev_revisit_y1_kexin','ev_revisit_y1_noodle','ev_revisit_y1_single'];
   check('1. 重訪日 1 的三個事件留著但停用（retired）',ids.every(id=>{ const e=STORY_EVENTS.find(x=>x.id===id); return e&&!!e.retired; }));
   check('2. STORY.REVISIT_OFF',STORY.REVISIT_OFF===true);
-  for(const fl of [{dating_kexin:true},{}]){ fresh(RD,9,'dorm',fl); PHONE.join(G,'noodle_team','麵店團'); let goal=''; GM.setGoal=t=>{ goal=t; }; run(9,22);
+  for(const fl of [{dating_kexin:true},{}]){ fresh(RD,9,'dorm',fl); PHONE.join(G,'noodle_team','桌遊團'); let goal=''; GM.setGoal=t=>{ goal=t; }; run(9,22);
     const bad=(G.msgs||[]).filter(m=>/revisit/.test(String(m.tag||'')));
     check('3. 6/12（'+(fl.dating_kexin?'交往中':'單身')+'）：沒有重訪日的訊息、沒有目標提醒',!bad.length&&!/兩點半|阿鳳麵店/.test(goal),JSON.stringify([bad.map(m=>m.text),goal])); }
-  for(const [zone,fl] of [['cafe',{dating_kexin:true}],['noodle',{}]]){ fresh(RD,18.05,zone,fl); PHONE.join(G,'noodle_team','麵店團');
+  for(const [zone,fl] of [['cafe',{dating_kexin:true}],['noodle',{}]]){ fresh(RD,18.05,zone,fl); PHONE.join(G,'noodle_team','桌遊團');
     check('4. 6/12 18:00 在'+zone+'：重訪日事件都不開始',ids.every(id=>!EVENTS.check(STORY_EVENTS.find(x=>x.id===id))),zone); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

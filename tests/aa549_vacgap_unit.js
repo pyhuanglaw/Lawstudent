@@ -160,7 +160,7 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     r=await plan('2027-07-07','韓國','3 天','自己去',F);
     check('2-6. 2027-07-10～12（7/12 起 Alison 在營隊；芯慈 7/12 平日實習）：清單沒有 Alison、芯慈',!whoM(r).includes(nm('yu'))&&!whoM(r).includes(nm('classmate_xinci'))&&whoM(r).includes(nm('kai')),J(whoM(r)));
     r=await plan('2027-08-20','日本','3 天','自己去',F);
-    check('2-6. 2027-08-23～25（阿哲 8/21 回臺北，8/25 起麵店團去香港＝有活動卡）：清單沒有阿哲、Alison、柏翰（VA10 同行）',!whoM(r).includes(nm('zhe'))&&!whoM(r).includes(nm('yu'))&&!whoM(r).includes(nm('classmate_bohan')),J(whoM(r)));
+    check('2-6. 2027-08-23～25（阿哲 8/21 回臺北，8/25 起桌遊團去香港＝有活動卡）：清單沒有阿哲、Alison、柏翰（VA10 同行）',!whoM(r).includes(nm('zhe'))&&!whoM(r).includes(nm('yu'))&&!whoM(r).includes(nm('classmate_bohan')),J(whoM(r)));
     r=await plan('2026-08-20','日本','5 天','自己去',F);
     check('2-6. 2026-08-23～27（阿凱 8/24 起 C05 日本）：清單沒有阿凱',!whoM(r).includes(nm('kai')),J(whoM(r)));
     { fresh('2026-07-01',10); H.FAMILIAR('zhe'); const no=VAC.friendNo(H.G,'zhe',H.G.day+3,H.G.day+7);
@@ -237,9 +237,21 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
       at(x?x.day:H.G.day,19); H.G.zone='campus'; H.said=[]; const PT=HK&&HK.preTalk?HK.preTalk:null, a=PT?await PT(GM,who,'heroine_03'):false;
       H.G.zone='noodle'; const b=PT?await PT(GM,who,'heroine_03'):false, L=H.lines(); const c2=PT?await PT(GM,who,'heroine_03'):false;
       check('3-6. 語彤：她約你的地方不是燒臘店（AA_610／AA_624）；在燒臘店跟她說話不會先說「阿姨說夏天要吃涼麵。我做的。」',!!x&&x.place!=='noodle'&&!L.some(t=>/涼麵/.test(t))&&STORY.PRE_TALK.length>0&&!!STORY._haskPreTalk,J([x,L])); }
+    /* AA_939 第 4 節（企劃線 bfe0185431）：語彤的假期版換成一盞（她週六、日 13:00～17:00 在一盞上班，寒暑假也是＝here）、週六 15:00；週五晚上傳 */
+    c=cands('2026-07-17',13,'heroine_03');
+    check('3-6. 語彤暑假（AA_939 第 4 節）：週五傳、週六 15:00 一盞「週末我在一盞。你要來就來。」（here）',at1(c,'teahouse').length===1&&at1(c,'teahouse')[0].v.line==='週末我在一盞。你要來就來。'&&at1(c,'teahouse')[0].vs==='summer'&&at1(c,'teahouse')[0].h===15&&at1(c,'teahouse')[0].e.here===true&&CALENDAR.dateOf(at1(c,'teahouse')[0].day).wd%7===6,J(sum(c)));
+    c=cands('2026-01-16',13,'heroine_03');
+    check('3-6. 語彤寒假（AA_939 第 4 節）：週六 15:00 一盞「天冷，一盞這禮拜有桂圓紅棗茶。週末來喝。」（here）',at1(c,'teahouse').length===1&&at1(c,'teahouse')[0].v.line==='天冷，一盞這禮拜有桂圓紅棗茶。週末來喝。'&&at1(c,'teahouse')[0].vs==='winter'&&at1(c,'teahouse')[0].h===15&&at1(c,'teahouse')[0].e.here===true,J(sum(c)));
+    { fresh('2026-07-17',9); friend('heroine_03'); at(H.G.day,12); if(HK) HK.phone(H.G); at(H.G.day,23.98); if(HK) HK.phone(H.G); const x=HK?HK.rec(H.G).sent.find(q=>q.id==='heroine_03'&&q.place==='teahouse'):null;
+      if(x&&x.ask) PHONE.answer(H.G,x.ask,0); const last=(H.G.msgs||[]).filter(q=>PHONE.th(q)==='p:heroine_03').slice(-1)[0], who={name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'};
+      const en=x?INV.entAt(H.G,'heroine_03',x.day,15):null;
+      at(x?x.day:H.G.day,15); H.G.zone='campus'; H.said=[]; const PT=HK&&HK.preTalk?HK.preTalk:null, a=PT?await PT(GM,who,'heroine_03'):false;
+      H.G.zone='wz_teahouse'; const b=PT?await PT(GM,who,'heroine_03'):false, L=H.lines(); const c2=PT?await PT(GM,who,'heroine_03'):false;
+      check('3-6. 語彤暑假真的傳出去（週五 21:40、約週六 15:00 一盞、here 只問一聲）；答應她回「好。……我跟蘇姨說。」；那天 15:00 照作息她在一盞（wz_teahouse）',!!x&&x.vs==='summer'&&x.here===true&&x.h===15&&!!last&&last.text==='好。……我跟蘇姨說。'&&!!en&&(en.zone||en.z)==='wz_teahouse',J({x,last,en}));
+      check('3-6. 語彤：週六 15:00 在一盞跟她說話＝先說「蘇姨說夏天要喝冷泡。我泡的。」一次（在校園不說）',!a&&b===true&&L.length===1&&H.said.length===1&&H.said[0].t==='蘇姨說夏天要喝冷泡。我泡的。'&&H.said[0].who===who.name&&!c2,J([a,b,L,c2])); }
     const all=Object.values(HASK_DATA.people).reduce((A,p)=>{ for(const k in (p.vacTerm||{})){ const e=p.vacTerm[k]; A.push(e.v.line,e.v.first); } return A; },[]);
-    const bad=all.filter(t=>!inDoc(t)&&!AA_REPLY.includes(t)&&!require('./aa593_doc.js').has(t));   /* AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 61、62 列：學姊暑假那一句、寒假見面第一句 */
-    check('3-6. 假期版的句子（她傳、見面第一句；共 '+all.length+' 句）都在 AA_549 稿或 AA 回覆裡（學姊兩句照 AA_593 的表）',all.length===20&&!bad.length,J(bad)); }
+    const bad=all.filter(t=>!inDoc(t)&&!AA_REPLY.includes(t)&&!require('./aa593_doc.js').has(t)&&!require('./aa939_doc.js').has(t));   /* AA_939 第 4 節（bfe0185431）：語彤暑假、寒假換成一盞的四句 */   /* AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 61、62 列：學姊暑假那一句、寒假見面第一句 */
+    check('3-6. 假期版的句子（她傳、見面第一句；共 '+all.length+' 句）都在 AA_549 稿或 AA 回覆裡（學姊兩句照 AA_593 的表；語彤四句照 AA_939）',all.length===20&&!bad.length,J(bad)); }
 
   H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

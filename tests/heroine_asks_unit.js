@@ -10,7 +10,7 @@
 //   7  心願地點從來不出現在她的邀約裡
 //   8  連續兩次「不了」以後暫停（交往前 4 週）；「改天」＝3 天後同一個地點再約一次（只再一次），不打開自己選時間
 //   10 經濟系那一年（G.stage econ）不約（AA_529 第 1 點，企劃線 881029f98）：HASK.block＝'econ'
-//   9  個人：子晴週末兩點以前不約；芷若沒班 20:00 傳、上班 22:40 傳；語彤的麵店＝問一聲（here），答應回「好。……我跟阿姨說。」
+//   9  個人：子晴週末兩點以前不約；芷若沒班 20:00 傳、上班 22:40 傳；語彤的一盞（AA_939 第 4 節；原本是麵店）＝問一聲（here）、週六 15:00 她真的在一盞，答應回「好。……我跟蘇姨說。」
 // 修改前（開發分支 f534dcc4a）：沒有 src/heroine_asks3d.js——第 0 項 FAIL、結束碼 1。用法：node tests/heroine_asks_unit.js
 require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
@@ -23,9 +23,9 @@ check('0. 載得到；index.html：data/heroine_asks.js → heroine_asks3d.js（
 if(!ok){ H.done(); }
 let doc=''; try{ doc=cp.execSync('git show b3ecc563c:"docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 { const [d]=require('./an_rev_doc.js').overlay(doc,/^heroine_asks\.js/); doc=d; }   /* 以安改稿④b（AA_594 第 15～18 列：她主動約你的溫州街兩句、回覆兩句）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
-{ const bad=[], A593=require('./aa593_doc.js'); let n=0;   /* 學姊：AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 50～63 列換過的句子在 AA_593 的表上 */
-  for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)&&!(id==='heroine_05'&&A593.has(t))) bad.push(id+'：'+t); } }
-  check('0. 每一句都在 AA_494 稿裡（一字不差；'+n+' 句；學姊 AA_593 換過的在 AA_593 的表上）',doc.length>1000&&!bad.length&&n>=100,doc?J(bad):'git fetch origin claude/magical-albattani-bk7b4n'); }
+{ const bad=[], A593=require('./aa593_doc.js'), A939=require('./aa939_doc.js'); let n=0;   /* 學姊：AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 50～63 列換過的句子在 AA_593 的表上；可昕、沛珊、以安、語彤：AA_939（bfe0185431）換過的在 AA_939 稿上（逐列在 tests/aa939_hask_unit.js）*/
+  for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)&&!(id==='heroine_05'&&A593.has(t))&&!A939.has(t)) bad.push(id+'：'+t); } }
+  check('0. 每一句都在 AA_494 稿裡（一字不差；'+n+' 句；學姊 AA_593 換過的在 AA_593 的表上；AA_939 換過的在 AA_939 稿上）',doc.length>1000&&A939.text.length>1000&&!bad.length&&n>=100,doc?J(bad):'git fetch origin claude/magical-albattani-bk7b4n'); }
 { const W=DATE.HEROINES.filter(h=>!(DATE.WISH_X&&DATE.WISH_X[h])).map(h=>DATE.wishOf(h)).filter(Boolean), hit=[];   /* 2026-10-30 芯慈的 D04（DATE.WISH_X，XINCI-ROMANCE-1030）不算：她的心願是午夜場這件事，芷若、子晴的西門 D04 照舊（AA-B 16:31；heroine_asks3d.js wishLocs 同）*/ for(const [id,p] of Object.entries(HASK_DATA.people)) for(const e of p.out) if(W.includes(e.loc)) hit.push(id+' '+e.loc);
   check('0. 心願地點（七位的）不在任何一位的校外表裡',W.length>=5&&!hit.length,J({W,hit})); }
 
@@ -112,10 +112,18 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
   check('9. 子晴：週六 13:00 不約（在睡覺）、15:30 可以',HASK.dailyOk(G,'heroine_04',e,v,sat,13)===false&&HASK.dailyOk(G,'heroine_04',e,v,sat,15.5)===true); }
 { const G=fresh('2025-09-22',9); friend('heroine_02'); let wk=null, off=null; const d0=G.day; for(let d=d0;d<d0+7;d++){ at(d,9); if(HASK.works(G,'heroine_02',d)) wk=wk==null?d:wk; else off=off==null?d:off; }
   check('9. 芷若：上班的日子 22:40 傳、沒班 20:00 傳',wk!=null&&off!=null&&Math.abs(HASK.sendH(G,'heroine_02',wk)-(22+40/60))<1e-9&&HASK.sendH(G,'heroine_02',off)===20,J({wk,off})); }
-{ const G=fresh('2025-09-22',9); friend('heroine_03'); const d0=G.day; let x=null; for(let d=d0;d<d0+28&&!x;d++){ day(d); x=sent().find(q=>q.id==='heroine_03'&&q.place==='noodle'); }
-  /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店（作息拿掉）＝她不會約你去燒臘店（here 那一則不送）；四週內照樣會約別的地方 */
-  { const e=HASK_DATA.people.heroine_03.daily.find(q=>q.place==='noodle'); let okd=false; for(let d=d0+1;d<d0+28&&!okd;d++){ at(d-1,12); for(const h of e.pre.h) if(HASK.dailyOk(G,'heroine_03',e,e.pre,d,h)) okd=true; }
-    check('9. 語彤的麵店（here）：四週內一次都不約在燒臘店（她不在店裡＝dailyOk 都不成立）；會約別的地方',!x&&!okd&&sent().some(q=>q.id==='heroine_03'),J({okd,sent:sent().map(q=>[q.id,q.place])})); } }
-{ const st0=H.G.stage; H.G.stage='econ'; const b=HASK.block(H.G,'kexin',H.G.day); H.G.stage=st0; const b2=HASK.block(H.G,'kexin',H.G.day);
-  check('10. 經濟系那一年（stage econ）可昕不主動約：block＝econ；法律系照舊不是 econ（AA_529 第 1 點）',b==='econ'&&b2!=='econ',J({b,b2})); }
+{ const G=fresh('2025-09-26',9); friend('heroine_03'); const d0=G.day; let x=null, nd=null; for(let d=d0;d<d0+56&&!x;d++){   /* 從週五開始：週六那一格只有週五晚上傳得出去（日常一則隔 14 天，從週一開始就一直輪到週一能約的那幾格）*/ day(d); x=sent().find(q=>q.id==='heroine_03'&&q.place==='teahouse'); if(!nd) nd=sent().find(q=>q.id==='heroine_03'&&q.place==='noodle'); }
+  /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店（作息拿掉）；AA_939 第 4 節（企劃線 bfe0185431）：燒臘店那一格換成一盞（她週六、日 13:00～17:00 在一盞上班＝here）、週六 15:00。
+     舊期望：daily 有 noodle、四週內一次都不約在燒臘店（dailyOk 都不成立） */
+  const P3=HASK_DATA.people.heroine_03, e=P3.daily.find(q=>q.place==='teahouse');
+  check('9. 語彤：daily 沒有燒臘店；一盞那一格 here、週六 15:00（AA_939 第 4 節）；yesBy 是一盞「好。……我跟蘇姨說。」',!P3.daily.some(q=>q.place==='noodle')&&!!e&&e===P3.daily[0]&&e.here===true&&e.th===3&&e.pre.d==='sat'&&J(e.pre.h)==='[15]'&&e.dat.d==='sat'&&J(e.dat.h)==='[15]'&&J(P3.yesBy)===J({teahouse:'好。……我跟蘇姨說。'}),J(e));
+  let satOk=0, wkOk=0, satN=0; for(let d=d0+1;d<d0+28;d++){ at(d-1,12); const w=CALENDAR.dateOf(d).wd%7; if(w===6){ satN++; if(HASK.dailyOk(G,'heroine_03',e,e.pre,d,15)) satOk++; } else if(w>=1&&w<=5&&HASK.dailyOk(G,'heroine_03',e,e.pre,d,15)) wkOk++; }
+  check('9. 語彤的一盞（here）：週六 15:00 她真的在一盞（作息 13:00～17:00，INV.entAt＝wz_teahouse）＝dailyOk 成立；平日 15:00 不在＝不成立',satN>=3&&satOk===satN&&wkOk===0,J({satN,satOk,wkOk}));
+  check('9. 週五起八週內她傳了一則一盞的（週六 15:00，here 只問一聲）；從來不約燒臘店',!!x&&x.here===true&&x.h===15&&CALENDAR.dateOf(x.day).wd%7===6&&!nd,J({x,nd}));
+  if(x){ const en=INV.entAt(G,'heroine_03',x.day,15); check('9. 約的那一天 15:00 照作息她在一盞（wz_teahouse）',!!en&&(en.zone||en.z)==='wz_teahouse',J(en));
+    const m=(G.msgs||[]).filter(q=>PHONE.th(q)==='p:heroine_03').map(q=>q.text);
+    check('9. 她傳的那一句照 AA_939（交往前）',m.includes('週六下午我在一盞上班。你來的話，我泡給你。'),J(m));
+    at(x.send.day,22); if(x.ask) PHONE.answer(G,x.ask,0); const last=thread('heroine_03').slice(-1)[0];   /* 上面逐日看 dailyOk 把時間往後撥了：回到她傳的那天晚上再回 */
+    check('9. 答應：她回「好。……我跟蘇姨說。」',!!x.ask&&!!last&&last.text==='好。……我跟蘇姨說。'&&last.from==='heroine_03',J(last)); } }
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 10 項 經濟系那一年可昕不主動約）
 H.done();

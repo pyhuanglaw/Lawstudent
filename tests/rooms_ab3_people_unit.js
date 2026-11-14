@@ -170,7 +170,7 @@ await sec(5,async()=>{
   check('5. pre0：換到系辦櫃台前（spots.player），演完回到霖澤館',entered.map(e=>e.z).join('>')==='linze_office>linze'&&near({x:entered[0].x,z:entered[0].z_},sp.player)&&G.zone==='linze',J(entered));
   check('5. 系辦助理站在櫃台後面（午休也在：排好的時間演）',extras.some(e=>e.id==='rab3_office_clerk'&&near(e,sp.counter)));
   check('5. 畫面：blur（classroom_small 的圖換成 blur）',bg3.includes('blur')&&!bg3.some(isImg),J(bg3));
-  check('5. 台詞照原文；C10_CREDIT_FILED',J(L3d)===J(['系辦助理：要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。','系辦助理：……國外的課不一定都抵得掉。先問清楚比較好。'])&&G.flags.C10_CREDIT_FILED===true,J(L3d));
+  check('5. 台詞照原文；C10_CREDIT_FILED',J(L3d)===J(['系辦助理：要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。','系辦助理：國外的課不一定都抵得掉。先問清楚比較好。'])&&G.flags.C10_CREDIT_FILED===true,J(L3d));
   G=fresh('2027-04-27',12.2,'linze'); H.said=[]; await without('linze_office',()=>OUT.go(GM,q('pre0')));
   check('5. 房間不在：照原本 2D（不換區域、classroom_small 的圖），台詞一樣',!entered.length&&H.bgs.some(isImg)&&J(lines())===J(L3d),J(H.bgs));
   G=fresh('2027-09-13',12.2,'linze'); H.said=[]; await OUT.go(GM,q('post')); const P3d=lines();
@@ -199,7 +199,7 @@ await sec(7,async()=>{
   check('7. 考試本身用考場的圖（走上去以後 ADV 用 grad_exam_room；原本黑底，11-02 BB 交 bg_approved/grad_exam_room）',bg3.some(b=>isImg(b)&&/grad_exam_room/.test(J(b))),J(bg3));
   check('7. 以安 FAMILIAR：考完帶回教學館門口演「考完了」',entered.map(e=>e.z).join('>')==='gongtong_3f>campus'&&G.zone==='campus'&&L3d[L3d.length-1]===NM('heroine_01')+'：考完了。……先吃飯。'&&G.flags.GRAD_EXAM_2029===true&&G.events.done.ev_grad_exam===1,J(entered.map(e=>e.z)));
   check('7. D118-B6：考場裡作答 10 題（GRAD_SCORE_2029）',H.said.filter(x=>/^\d+／10　/.test(x.t)).length===10&&typeof G.flags.GRAD_SCORE_2029==='number');
-  check('7. 台詞照原文（門口三句、考場兩句〔AA_582 補充二，作答前〕、兩節、考完）',J(L3d)===J(['（教學館門口，以安在看考場的配置圖。）',NM('heroine_01')+'：你在三樓。我在二樓。',NM('heroine_01')+'：……考完，門口。'].concat(POSTGRAD_LINES.GRAD_EXAM.hall,['（兩節。第二節最後一題，你寫到鐘響。）',NM('heroine_01')+'：考完了。……先吃飯。'])),J(L3d));
+  check('7. 台詞照原文（門口三句、考場兩句〔AA_582 補充二，作答前〕、兩節、考完）',J(L3d)===J(['（教學館門口，以安在看考場的配置圖。）',NM('heroine_01')+'：你在三樓。我在二樓。',NM('heroine_01')+'：考完，門口。'].concat(POSTGRAD_LINES.GRAD_EXAM.hall,['（兩節。第二節最後一題，你寫到鐘響。）',NM('heroine_01')+'：考完了。……先吃飯。'])),J(L3d));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……考完，門口。」 */
   G=ex(true); await without('gongtong_3f',()=>R2Y4A.exam(GM)); check('7. 房間不在：照原本 2D（不換區域），台詞一樣',!entered.length&&J(lines())===J(L3d),J(lines()));
   G=ex(false); await R2Y4A.exam(GM); check('7. 沒認識以安：考場兩句＋兩節那一句；考完在 3F 站起來，人留在考場',J(lines())===J(POSTGRAD_LINES.GRAD_EXAM.hall.concat(['（兩節。第二節最後一題，你寫到鐘響。）']))&&entered.map(e=>e.z).join('>')==='gongtong_3f'&&G.zone==='gongtong_3f'&&!P.seat&&stands>=1,J({l:lines(),e:entered.map(e=>e.z)}));
   G=ex(false); G.zone='gongtong_3f'; E.zone=zoneOf('gongtong_3f',G); await R2Y4A.exam(GM); check('7. 人已經在 3F（被帶到門口以後）：不再換一次以外的區域',entered.map(e=>e.z).join('>')==='campus>gongtong_3f',J(entered.map(e=>e.z)));
@@ -245,20 +245,7 @@ await sec(12,async()=>{
   { fresh('2026-05-27',18.6,'boya'); await GM.enter('boya_203',Object.assign({},L.spawn)); const mem=extras.filter(e=>/rab3_b203_member/.test(e.id)), aud=extras.filter(e=>/rab3_b203_aud/.test(e.id));
     check('12. 那一晚走進 203：社員兩位站在 spots.member、觀眾 8 位（畫質中＝11 的四分之三）坐 spots.audience；第一排品妤、祐廷、阿哲的位子空著',mem.length===2&&mem.every(e=>sp.member.some(p=>near(p,e))&&!e.o.seat)&&aud.length===8&&aud.every(e=>sp.audience.some(p=>near(p,e))&&!!e.o.seat)&&!extras.some(e=>near(e,sp.me)||near(e,sp.pinyu)||near(e,sp.zhe)),J({mem:mem.length,aud:aud.length}));
     fresh('2026-05-27',17,'boya'); await GM.enter('boya_203',Object.assign({},L.spawn)); check('12. 17:00（還沒開）：沒有人',!extras.length); }
-  const q=()=>({id:'sk07_improv',ev:'ev_sk07_improv',day:H.G.day,h:19,late:0.25,place:'博思教學館',title:'唐睿的即興劇',travel:'走過去約 10 分鐘',travelH:1/6,state:'planned'});
-  const run=async(zone,noRoom)=>{ const G=fresh('2026-05-27',18.8,zone); H.said=[]; H.picks=[0]; let sat=null; const s0=GM.sitAt; GM.sitAt=(ent,st)=>{ if(ent===P&&!sat) sat=st; s0(ent,st); };
-    try{ if(noRoom) await without('boya_203',()=>OUT.go(GM,q())); else await OUT.go(GM,q()); } finally { GM.sitAt=s0; } return {G,sat,L:lines(),bg:H.bgs.slice(),sp:spawned.slice(),ex:extras.slice(),en:entered.map(e=>e.z),rm:removed.slice()}; };
-  const a=await run('boya');
-  check('12. 換到博思 203 演，演完回到原本的地方（博思 2F）',J(a.en)===J(['boya_203','boya'])&&a.G.zone==='boya',J(a.en));
-  check('12. 唐睿站在舞台中間（spots.tang）、品妤坐第一排正中間（pinyu）、阿哲坐 zhe',a.sp.some(s=>s.id==='econ_tangrui'&&near(s,sp.tang)&&!(s.o&&s.o.seat))&&a.sp.some(s=>s.id==='econ_pinyu'&&near(s,sp.pinyu)&&s.o.seat)&&a.sp.some(s=>s.id==='zhe'&&near(s,sp.zhe)&&s.o.seat),J(a.sp.map(s=>[s.id,s.x,s.z])));
-  check('12. 祐廷坐品妤旁邊（spots.me）；社員、觀眾在',!!a.sat&&near(a.sat,sp.me)&&a.ex.filter(e=>/rab3_b203_member/.test(e.id)).length===2&&a.ex.filter(e=>/rab3_b203_aud/.test(e.id)).length===8,J(a.sat));
-  check('12. 畫面：blur（場景那一步的 classroom_small 換成 blur）',a.bg.includes('blur')&&!a.bg.some(isImg)&&C.staged===null,J(a.bg));
-  check('12. 台詞照原文；IMPROV_WORD、演一次',a.L.includes('即興劇社借了博思的教室，辦期末的小演出。品妤坐在第一排，沒有表情。阿哲是被你拉來的。')&&a.L[a.L.length-1]==='品妤：他說是為了練膽量。我覺得是為了社辦的冷氣。'&&a.G.flags.IMPROV_WORD==='善意第三人'&&a.G.events.done.ev_sk07_improv===1,J(a.L));
-  const b=await run('boya',true);
-  check('12. 房間不在：照原本 2D（不換區域、classroom_small 的圖），台詞一樣',!b.en.length&&b.bg.some(isImg)&&J(b.L)===J(a.L),J(b.bg));
-  const c=await run('boya_203');
-  check('12. 人已經在 203：不換區域、照樣坐 me；散場唐睿、品妤、阿哲、觀眾離開；台詞一樣',!c.en.length&&!!c.sat&&near(c.sat,sp.me)&&['econ_tangrui','econ_pinyu','zhe'].every(id=>c.rm.includes(id))&&!Object.keys(GM.npc).some(k=>/rab3_b203_/.test(k))&&J(c.L)===J(a.L),J({en:c.en,rm:c.rm}));
-  { const G=fresh('2026-05-28',18.8,'boya'); H.said=[]; H.picks=[0]; await OUT.go(GM,Object.assign(q(),{day:G.day})); check('12. 別的日子（房間沒開）：照原本 2D',!entered.length&&H.bgs.some(isImg)); }
+  /* 12. SK07 唐睿的即興劇在 203 演（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 });
 
 /* ======================= 13. 宿舍：洗衣間的阿凱、205 的方奕廷 ======================= */

@@ -2,7 +2,7 @@
    - 第一次出席那天用第 1 週那一句（出席前 R.attend.legal_practice 是 0）；暑假去過 C16（INTERN_LEGALAID）換另一句。
    - 租屋的大姊：第 5 週（3/20）記 LP_RENT_SEEN；第 6 週（3/27）、第 12 週（5/8）照有沒有這個旗標分 A／B（第 6 週 B 也記）。
    - 3/13 那一句照舊（twfill3d.js 的 TWFILL_LINES.practice0313，AA_342 4-2）。BB_102 的隨機句池（legal_practice.lines）不用。
-   - 4/24 21:00 麵店團：阿哲、柏翰各一句（照認不認識；兩位都不認識不發；沒有選項）。
+   - 4/24 21:00 桌遊團：阿哲、柏翰各一句（照認不認識；兩位都不認識不發；沒有選項）。
    交換延畢的玩家在大五上實習（r2y4b3d.js S.INTERN），不在這裡。測試：node tests/aa441_practice_unit.js */
 const PRACTICE=(function(){
   const S={};

@@ -11,7 +11,7 @@ const NAMES=/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|ST
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js',
-  'src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js','src/sis_grad3d.js'])
+  'src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js','src/sis_grad3d.js'])
   if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const sec=async(name,f)=>{ try{ await f(); }catch(e){ check(name+'（執行出錯）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ')); } };
@@ -230,14 +230,14 @@ const DECL=['這學期我在準備研究所，晚上大多在圖書館。……�
   await sec('2-9',async()=>{
     const d=K('2026-03-23'), d27=K('2026-03-27');
     fresh(d,20.5,'dorm',{SIS_W1:true}); FAM(); joinFam(); span(Tm(d,20.9),Tm(d,21.1)); const g=fam().filter(x=>x.tag==='sisg_rank_dinner');
-    check('2-9. 3/23 21:00 Kevin「學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊」；只有「去。」',g.length===1&&g[0].from==='kevin'&&g[0].text==='學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊'&&g[0].ask.opts.map(o=>o.t).join('|')==='去。',JSON.stringify(g.map(x=>x.text)));
+    check('2-9. 3/23 21:00 Kevin「學姊上榜聚餐！這週五七點，汀州路的泰米村食。這次我們請學姊」；只有「去。」（2026-11-11 改期望：AA_742 第 ③ 節，企劃線 75f5de658，日日定食改成汀州路的泰米村食；GG-SHOPS3-STORY-1110）',g.length===1&&g[0].from==='kevin'&&g[0].text==='學姊上榜聚餐！這週五七點，汀州路的泰米村食。這次我們請學姊'&&g[0].ask.opts.map(o=>o.t).join('|')==='去。',JSON.stringify(g.map(x=>x.text)));
     answer(g[0].ask.id,0); span(Tm(d,21.1),Tm(d,21.2)); const q=OUT.get(G,'sisg_rank_dinner'); check('2-9. 回「去。」→ 3/27（五）19:00 出遊',!!q&&q.day===d27&&q.h===19&&q.ev==='ev_sis_results_dinner_y1',JSON.stringify(q));
     const e=ev('ev_sis_results_dinner_y1'); const play=async fl=>{ fresh(d27,19,'gongguan',Object.assign({SIS_W1:true,met_sis:true},fl)); FAM(); await EVENTS.run(e); return txts(); };   /* 已經認識她（SIS_W1）：還沒認識的開頭多兩句自我介紹（AA_470 5-1），驗在 tests/aa470_sis_b12_unit.js */
     const head=['你們真的不用請我。','學姊，坐好。今天妳只負責吃。','……好。','（她點了最貴的那一份，然後看了 Kevin 一眼。Kevin 假裝沒看到。）'];
     const a=await play({SIS_RESULT_TOLD:true,SIS_NEW_PLANNER:true}), b=await play({SIS_NEW_PLANNER:true}), c=await play({});
     check('2-9. 聚餐台詞；有 SIS_RESULT_TOLD：「那天你傳的時候，我還在睡。」；沒有、但有 SIS_NEW_PLANNER：「這幾天，我每天都睡到七點。」',JSON.stringify(a)===JSON.stringify(head.concat(['（她小聲對你說。）','那天你傳的時候，我還在睡。']))&&JSON.stringify(b)===JSON.stringify(head.concat(['這幾天，我每天都睡到七點。']))&&JSON.stringify(c)===JSON.stringify(head),JSON.stringify([a,b,c]));
     { fresh(d,20.5,'dorm',{}); FAM(); joinFam(); span(Tm(d,20.9),Tm(d,21.1)); span(Tm(d27,21.4),Tm(d27,21.6)); const p=fam().filter(x=>x.tag==='sisg_rank_dinner_photo');
-      check('2-9. 沒去的：3/27 21:30 Kevin 貼合照（AA_339 第 2 題「📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）」）「沒來的人錯過請學姊吃飯。千載難逢」',p.length===2&&p[0].from==='kevin'&&p[0].text==='📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）'&&p[1].text==='沒來的人錯過請學姊吃飯。千載難逢'&&Math.abs(p[0].h-21.5)<0.05,JSON.stringify(p.map(x=>x.text))); }
+      check('2-9. 沒去的：3/27 21:30 Kevin 貼合照（AA_339 第 2 題；2026-11-11 AA 改「📷（泰米村食併起來的兩張四人桌，學姊坐中間，面前是全桌最貴的那一份）」）「沒來的人錯過請學姊吃飯。千載難逢」',p.length===2&&p[0].from==='kevin'&&p[0].text==='📷（泰米村食併起來的兩張四人桌，學姊坐中間，面前是全桌最貴的那一份）'&&p[1].text==='沒來的人錯過請學姊吃飯。千載難逢'&&Math.abs(p[0].h-21.5)<0.05,JSON.stringify(p.map(x=>x.text))); }
   });
   /* ---------- 2-10 舊教科書 ---------- */
   await sec('2-10',async()=>{

@@ -60,22 +60,22 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 「不了。」→「好。想來再跟我說。」；沒有劃掉名字',L.slice(-1)[0]==='好。想來再跟我說。'&&!L.some(t=>/劃掉/.test(t))&&G.flags.BOHAN_GROUP==='no',JSON.stringify(L));
   GM.npc={}; E.npcs=[];
   // 阿哲轉述
-  const NDL=termDay('Y1S1',4,4);   /* 已經在麵店團（做過哲 1）：沒有的話＝錯過長桌，麵店遇到阿哲先演麵店團的補救（AA_496 第 9 節第 3 點，ev_zhe_group_late），這裡要看的是阿哲轉述那一句 */
+  const NDL=termDay('Y1S1',4,4);   /* 已經在桌遊團（做過哲 1）：沒有的話＝錯過長桌，麵店遇到阿哲先演桌遊團的補救（AA_496 第 9 節第 3 點，ev_zhe_group_late），這裡要看的是阿哲轉述那一句 */
   const zh={obj:{position:{x:1,y:0,z:0}},lv:0}; fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_GROUP:'no',noodleTableDay:NDL}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); tick(); await wait(); L=norm(lines());
   check('3. 沒去小組：第 7 週麵店阿哲「柏翰組了一個考古題小組。我去了一次。……他講第三題講了四十分鐘。」（AA_546 1-3；原本「菁英小組。我沒被邀。」）',L[0]==='柏翰組了一個考古題小組。我去了一次。……他講第三題講了四十分鐘。',JSON.stringify(L));
   fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_GROUP:'yes',noodleTableDay:NDL}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); check('3. 有去小組的不聽這句',!tick()); GM.npc={}; E.npcs=[];
   // 4. 以安新 8
   const PA=ACTIVITIES.list.find(a=>a.id==='public_law_group'), thu7=termDay('Y2S1',7,4);
   check('4. 公法讀書會大二上第 7 週週四有',ACTIVITIES.on(PA,thu7));
-  fresh(thu7,20,'wancai',{CLUB_public_law_group:true,met_yu:true}); G.stage='law'; meet('heroine_01'); PHONE.join(G,'noodle_team','麵店團');
+  fresh(thu7,20,'wancai',{CLUB_public_law_group:true,met_yu:true}); G.stage='law'; meet('heroine_01'); PHONE.join(G,'noodle_team','桌遊團');
   const e=CLS.clubEvent(G,PA); check('4. 第 7 週週四讀書會：先演新 8',!!e&&e.id==='ev_plg_rules',e&&e.id);
   picks=['留三條']; said=[]; await EVENTS.run(e); L=norm(lines());
   check('4. 旁白＋Alison＋以安＋選「留三條就好。」（逐字）',L[0]==='研討室的白板旁邊貼著一張 A4：〈公法讀書會規則〉，十二條。'&&L[1]==='三週前十個人，今天三個。'&&L[3]==='（把下半張撕下來）那就留講得完的那一半。'&&L[4]==='以安想了一下，在白板寫：「一、每人十分鐘。二、離題可以，要拉回來。三、不准賴。」'&&L[6]==='一定。',JSON.stringify(L));
   run(21.5,22.1); check('4. 週四 22:00 以安在群組「週六下午補讀一次。規則三條。」＋出發選單週六 14:00',txt('g:noodle_team').includes('heroine_01:週六下午補讀一次。規則三條。')&&OUT.get(G,'plg_sat').day===termDay('Y2S1',7,6)&&OUT.get(G,'plg_sat').h===14);
   said=[]; await EVENTS.run(ev('ev_plg_rules_after')); L=norm(lines());
   check('4. 後半：人回來了、以安「……好。開始。每人十分鐘。」、Alison「這張我要裱框。」、PLG_RULES',L[0]==='人回來了。八個人。'&&L.some(t=>/好。開始。每人十分鐘。$/.test(t))&&/這張我要裱框。$/.test(L[L.length-1])&&G.flags.PLG_RULES,JSON.stringify(L));
-  fresh(thu7,21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); run(21,22.1);
-  check('5. 沒加入讀書會、在麵店團：週四 22:00 Alison「我把以安的規則撕掉一半了。」以安「週六下午補讀，規則剩三條。」（聽說；AB65-3：AA_211 附錄 A 以安一列，原本「……剩下的那一半是對的。」）',txt('g:noodle_team').includes('yu:我把以安的規則撕掉一半了。')&&txt('g:noodle_team').includes('heroine_01:週六下午補讀，規則剩三條。')&&SOCIAL.has('heroine_01','HEARD_ABOUT'));
+  fresh(thu7,21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','桌遊團'); run(21,22.1);
+  check('5. 沒加入讀書會、在桌遊團：週四 22:00 Alison「我把以安的規則撕掉一半了。」以安「週六下午補讀，規則剩三條。」（聽說；AB65-3：AA_211 附錄 A 以安一列，原本「……剩下的那一半是對的。」）',txt('g:noodle_team').includes('yu:我把以安的規則撕掉一半了。')&&txt('g:noodle_team').includes('heroine_01:週六下午補讀，規則剩三條。')&&SOCIAL.has('heroine_01','HEARD_ABOUT'));
   check('5. 沒加入的沒有週六補讀的邀約',!OUT.get(G,'plg_sat'));
   fresh(termDay('Y2S1',8,4),20,'wancai',{CLUB_public_law_group:true}); G.stage='law'; check('5. 第 8 週不演新 8',!(CLS.clubEvent(G,PA)&&CLS.clubEvent(G,PA).id==='ev_plg_rules'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

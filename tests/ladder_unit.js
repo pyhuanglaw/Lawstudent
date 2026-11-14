@@ -83,37 +83,15 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('10. 芷若上班中：說上班的短招呼',said.length===1&&(wl.length===0||wl.includes(said[0].t)),said[0]&&said[0].t);
     let off=null; for(let h=8;h<23;h+=0.5){ G.hour=h; if(!STORY.ladWorking(G,ZR)){ off=h; break; } }
     if(off!=null){ G.hour=off; G.social.ladderDay={}; G.zone='campus'; check('10. 芷若下班、在校園（Z-L1 不在 Café 推進：baa5c577 的 location，BB-B AA_200 第 2 節第 1 項）：可以推進',STORY.ladNext(G,ZR)===LADDER.characters[ZR].steps[0]); G.zone='cafe'; } }
-  // 可昕只在見面／視訊推進
+  // 可昕（AA_861 新稿：同班同學，第一次見面 KX_MET 以後才開；不再只在見面／視訊推進）
   const KX='kexin', LK=LADDER.characters[KX];
-  fresh(D0,20,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true});
-  check('11. 可昕：路上（沒有 mode）不推進',STORY.ladNext(G,KX)===null);
-  check('11. 可昕：見面時推進 K-L1',STORY.ladNext(G,KX,'meet')===LK.steps[0]);
-  const vi=LK.steps.findIndex(s=>s.dateOnly==='video'), mi=LK.steps.findIndex(s=>s.dateOnly==='meet');
-  if(vi>=0){ G.social.ladder[KX]=vi; const vw=LK.steps[vi].week; if(vw){ G.day=termDay('Y1S1',vw[0],3); G.weekday=wdOf(G.day); }   /* K-L6 只在第 7～9 週 */
-    check('11. dateOnly:video 那一層：見面不推進、視訊推進',STORY.ladNext(G,KX,'meet')===null&&STORY.ladNext(G,KX,'video')===LK.steps[vi]); }
-  if(mi>=0){ G.social.ladder[KX]=mi; check('11. dateOnly:meet 那一層：視訊不推進、見面推進',STORY.ladNext(G,KX,'video')===null&&STORY.ladNext(G,KX,'meet')===LK.steps[mi]); }
-  G.flags.dating_kexin=false; G.social.ladder[KX]=0; check('11. 沒有 dating_kexin：不推進',STORY.ladNext(G,KX,'meet')===null);
-  // 出遊之後接一層（outings3d.js）
-  fresh(D0,13,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); picks=[0,0,0,0,0,0];
-  const q={id:'t_k1',ev:'ev_kexin_tour_nccu',day:D0,h:14,place:'政大',title:'導遊',travel:'',travelH:0.5,state:'planned'};
-  await OUT.go(GM,q); const tk=lines().join('｜');
-  check('12. 和可昕出遊（見面）演完：接著聊 K-L1',tk.includes(LK.steps[0].lines[0])&&G.social.ladder[KX]===1,tk.slice(-120));
-  // AA_313 第 2 節第 54 列：K4 一起讀書的視訊（ev_kexin_video_study）那晚不接 K-L6（同一個讀書時的聲音）；別的視訊照接
-  { const i6=LK.steps.findIndex(s=>s.id==='K-L6'); if(i6>=0){ const w6=(LK.steps[i6].week||[7])[0], d6=termDay('Y1S1',w6,3);
-    const run=async ev=>{ fresh(d6,21,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); G.social.ladder=G.social.ladder||{}; G.social.ladder[KX]=i6; picks=[0,0,0,0,0,0]; said=[];
-      await OUT.go(GM,{id:'t_k6'+ev,ev,day:d6,h:21,place:'視訊',verb:'接起來',title:'視訊',travel:'',travelH:0,state:'planned'}); return {t:lines().join('｜'),n:G.social.ladder[KX]}; };
-    const a=await run('ev_kexin_video_study');
-    check('12c. K4 視訊讀書那晚：不接 K-L6（階梯停在原地）',!a.t.includes(LK.steps[i6].lines[0])&&a.n===i6,a.t.slice(-80)); }
-    else check('12c. 有 K-L6',false); }
-  // AA_304 第 10 列：休學在家那一年（經濟系、退宿以後），出遊演完不直接接階梯（講的是家裡的事）：白天不接；傍晚以後先「（晚上，回到家。）」
-  { const LB=LADDER.byTerm.Y0S2&&LADDER.byTerm.Y0S2[KX]; if(LB){ const w0=(LB.steps[0].week||[6])[0], dd=termDay('Y0S2',w0,4), f0={introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,Y0_MOVED_OUT:true};
-    fresh(dd,13,'home',f0); G.stage='econ'; picks=[0,0,0,0,0,0]; const k0=((G.social.ladder||{})[KX+'@Y0S2']|0);
-    await OUT.go(GM,{id:'t_b1',ev:'ev_y0_e18b',day:dd,h:13,place:'豆花店',title:'生日',travel:'',travelH:0,state:'planned'}); const t1=lines().join('｜');
-    check('12b. 休學在家那一年：白天的出遊演完，不接她的階梯（不推進）',!t1.includes('（晚上，回到家。）')&&((G.social.ladder||{})[KX+'@Y0S2']|0)===k0,t1.slice(-80));
-    fresh(dd,18,'home',f0); G.stage='econ'; picks=[0,0,0,0,0,0]; said=[];
-    await OUT.go(GM,{id:'t_b2',ev:'ev_y0_e18b',day:dd,h:18,place:'豆花店',title:'生日',travel:'',travelH:0,state:'planned'}); const L2=lines(), i=L2.indexOf('（晚上，回到家。）');
-    check('12b. 傍晚以後的出遊演完：先「（晚上，回到家。）」再接階梯一層',i>0&&i<L2.length-1&&((G.social.ladder||{})[KX+'@Y0S2']|0)===k0+1,L2.slice(-4).join('｜')); }
-    else check('12b. 有 Y0S2 可昕的階梯',false); }
+  fresh(D0,20,'dorm',{introDone:true,classDone:true,afternoonDone:true});
+  check('11. 可昕：還沒見過（沒有 KX_MET）不推進（CANON-NO-ECON-1112 第三批：這一項拿掉）',STORY.ladNext(G,KX)===null&&STORY.ladNext(G,KX,'meet')===null);
+  G.flags.KX_MET=true; check('11. 可昕：見過以後（KX_MET）推進 K-L1（CANON-NO-ECON-1112 第三批：這一項拿掉）',STORY.ladNext(G,KX)===LK.steps[0]);
+  check('11、12、12c. 舊的 dateOnly 層、導遊、視訊讀書那兩場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!LK.steps.some(s=>s.dateOnly)&&!STORY_EVENTS.some(e=>e.id==='ev_kexin_video_study'||e.id==='ev_kexin_tour_nccu'));
+  { fresh(D0,12,'campus',{introDone:true,classDone:true,afternoonDone:true}); const g0=STORY.ladGreet(G,KX); G.flags.KX_MET=true; const g1=STORY.ladGreet(G,KX);
+    check('11g. 可昕的短招呼（greetIf：KX_MET）：第一次見面以前沒有、見過以後有（CANON-NO-ECON-1112 第三批）',!!LK.greetIf&&g0===null&&typeof g1==='string'&&g1.length>0,JSON.stringify([LK.greetIf,g0,g1])); }
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（12b 休學在家那一年出遊演完接不接階梯）
   // 學期外：不走階梯（交給舊的閒聊）
   fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(PS); R(PS,12); said=[];
   { const L2=LADDER.byTerm.Y1S2[PS], y1=((G.social.ladder||{})[PS])|0; said=[];

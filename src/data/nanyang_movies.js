@@ -1,9 +1,9 @@
-/* 自動產生：tools/movie/import_nanyang_movies.py（docs/story_planning/AA_730_nanyang_movies.json@7c2de85b6）。不要手改，改企劃 AA_730 再重新匯入。
+/* 自動產生：tools/movie/import_nanyang_movies.py（docs/story_planning/AA_730_nanyang_movies.json@a9465983f0）。不要手改，改企劃 AA_730 再重新匯入。
    南洋戲院片單（MOVIE-REAL-1110）：periods＝每兩個月一段、一段兩部（slot 1 第一部、2 第二部；id＝海報檔名 assets/posters/<id>.webp）；
    sceneFilm＝AA_708 電影第幾場要挑哪一種片；nowBoard＝大廳黑板、dimTitle＝燈暗那一句、solo＝一個人看的三句。選片、播放在 src/movies3d.js */
 'use strict';
 const NANYANG_MOVIES={
- "src": "docs/story_planning/AA_730_nanyang_movies.json@7c2de85b6",
+ "src": "docs/story_planning/AA_730_nanyang_movies.json@a9465983f0",
  "nowBoard": "今日放映　①《{big}》②《{small}》　一張票兩部 150 元",
  "dimTitle": "（燈暗下來，《{title}》開始了。）",
  "solo": [
@@ -124,7 +124,7 @@ const NANYANG_MOVIES={
   {
    "from": "2024-09",
    "to": "2024-10",
-   "term": "經濟系大一上",
+   "term": "舊序章那一年（一）",
    "bill": [
     {
      "id": "m2409a",
@@ -161,7 +161,7 @@ const NANYANG_MOVIES={
   {
    "from": "2024-11",
    "to": "2024-12",
-   "term": "經濟系（10/17 休學以後）",
+   "term": "舊序章那一年（二）",
    "bill": [
     {
      "id": "m2411a",
@@ -198,7 +198,7 @@ const NANYANG_MOVIES={
   {
    "from": "2025-01",
    "to": "2025-02",
-   "term": "休學在家・重考準備",
+   "term": "舊序章那一年（三）",
    "bill": [
     {
      "id": "m2501a",
@@ -234,7 +234,7 @@ const NANYANG_MOVIES={
   {
    "from": "2025-03",
    "to": "2025-04",
-   "term": "重考準備",
+   "term": "舊序章那一年（四）",
    "bill": [
     {
      "id": "m2503a",
@@ -269,7 +269,7 @@ const NANYANG_MOVIES={
   {
    "from": "2025-05",
    "to": "2025-06",
-   "term": "重考準備・考試",
+   "term": "舊序章那一年（五）",
    "bill": [
     {
      "id": "m2505a",
@@ -292,7 +292,7 @@ const NANYANG_MOVIES={
      "slot": 2,
      "title": "最後一題",
      "genre": "青春",
-     "line": "重考生每天在圖書館讀到閉館。考試那天寫到最後一題，筆沒水了。",
+     "line": "第二次考試的考生每天在圖書館讀到閉館。考試那天寫到最後一題，筆沒水了。",
      "tags": [
       "drama",
       "library"

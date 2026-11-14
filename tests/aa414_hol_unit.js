@@ -1,4 +1,4 @@
-// AA_414（企劃線 b1fc4bf30；AA-B 2026-10-23）：以安、語彤交往中的節日・第一批——四年情人節（八場）、語彤的中秋（三年）、2027-02-14 麵店團群組。不需要瀏覽器。
+// AA_414（企劃線 b1fc4bf30；AA-B 2026-10-23）：以安、語彤交往中的節日・第一批——四年情人節（八場）、語彤的中秋（三年）、2027-02-14 桌遊團群組。不需要瀏覽器。
 // 台詞一字照稿（D109）。做法照學姊的 S.HOL（src/sis_b4_3d.js）：前一天 21:00 她私訊約 → 回覆 → 出遊（OUT）→ 那一場 → 答應了沒到＝她再傳。
 // 檢查：0 讀稿（每一句台詞、選項、地點字幕、私訊都在稿裡）、index.html 接線、人物頁記憶 10 個、noodle_table_window 背景
 //   1 以安 1-1 2026 開車去台中（寒假從家出發不用取車、學期中從宿舍要先回家取車（DATE-C7）、油錢有扣；背景 car_morning → tc_park → car_night；回「在臺北。」20:00 照片；答應了沒到 15:00、17:00；沒回）
@@ -168,14 +168,14 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
   { setup('2027-02-13',21.05,YT); rules();
     check('2-2. 交往中：2/13 21:00「明天我五點下班。」「秀琴姨放假。……我煮。你要不要來吃。」；回覆三個',J(dms(YT))===J(['明天我五點下班。','秀琴姨放假。……我煮。你要不要來吃。'])&&J(optsOf('anyt_yt_y2_ask'))===J(['好。','不去別的地方？','明天不行。']),J(dms(YT)));
     PHONE.answer(H.G,'anyt_yt_y2_ask',1); rules(); const r=dms(YT).slice(-1)[0], q=OUT.get(H.G,'anyt_yt_vday_y2');
-    check('2-2. 「不去別的地方？」→「……家裡就好。今天外面人多，我會累。」；出遊 17:30、late 0.5、她家',r==='……家裡就好。今天外面人多，我會累。'&&!!q&&q.h===17.5&&q.late===0.5&&q.place==='新生南路・她家'&&q.title==='情人節（她家）',J(q));
+    check('2-2. 「不去別的地方？」→「家裡就好。今天外面人多，我會累。」；出遊 17:30、late 0.5、她家',r==='家裡就好。今天外面人多，我會累。'&&!!q&&q.h===17.5&&q.late===0.5&&q.place==='新生南路・她家'&&q.title==='情人節（她家）',J(q));   /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7）：an_yt_hol_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……家裡就好。今天外面人多，我會累。」 */
     at('2027-02-14',17.1); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y2',[0]);
     check('2-2. 交往中、還沒去過她家：開頭「（新生南路、學校對面的大樓。電梯到七樓。兩房一廳。）」、記 YT_HOME_SEEN；「謝謝。」→「先喝再謝。」；蘇姨問她去哪',L[0]==='（新生南路、學校對面的大樓。電梯到七樓。兩房一廳。）'&&H.G.flags.YT_HOME_SEEN===true&&L.includes('先喝再謝。')&&L.includes('……我說回家煮飯。她笑了很久。'),J(L));
     check('2-2. YT_VDAY_Y2 went、記憶 YT_VDAY_SHOP、+3／+6／+5',H.G.flags.YT_VDAY_Y2==='went'&&SOCIAL.has(YT,'YT_VDAY_SHOP')&&dRel(YT,a)===VDAY,dRel(YT,a)); }
   { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',0); rules(); at('2027-02-14',17.9); expire(); rules(); const n=dms(YT).length; at('2027-02-14',18.05); rules();
     check('2-2. 答應了沒到（交往中）：18:00「（照片：桌上兩副碗筷，一鍋湯）」、18:01「湯我留著。」',H.G.flags.YT_VDAY_Y2==='missed'&&J(dms(YT).slice(n))===J(['（照片：桌上兩副碗筷，一鍋湯）','湯我留著。']),J(dms(YT))); }
   { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',2); const r=dms(YT).slice(-1)[0]; rules(); check('2-2. 「明天不行。」→「嗯。」、YT_VDAY_Y2 no',r==='嗯。'&&H.G.flags.YT_VDAY_Y2==='no'); }
-  { const G=setup('2027-02-14',20,null); PHONE.join(G,'noodle_team','麵店團'); rules(); const pre=H.msgs('g:noodle_team').length; at('2027-02-14',21.05); rules(); const M=(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
+  { const G=setup('2027-02-14',20,null); PHONE.join(G,'noodle_team','桌遊團'); rules(); const pre=H.msgs('g:noodle_team').length; at('2027-02-14',21.05); rules(); const M=(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
     check('第 3 節. 2027-02-14（日）21:00 群組：阿哲「今天情人節 我在高雄」…（沒交往也看得到，一次）',pre===0&&M.length===4&&M[0]==='zhe:今天情人節 我在高雄',J(M)); }
   });
   await sec('7',async()=>{
@@ -202,12 +202,12 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     PHONE.answer(H.G,'anyt_yt_moon_'+y+'_ask',(o&&o.ans)||0); rules(); const q=OUT.get(H.G,'anyt_yt_moon_'+y); if(!q) return {d,op,q};
     at(dayKey,16.1); const a=relOf(YT); const r=await goOut('anyt_yt_moon_'+y,picks); return {d,op,q,L:r.L,a,cgs:H.cgs.slice(),said:H.said.slice()}; };
   { const r=await moon(2026,'2026-09-24','2026-09-25',{},[0],{cg:1});
-    check('2-5. 2026-09-24 21:00「明天烤肉 明軒叫我先去河濱占位子」「……你要不要一起」（AA_630 H-014）',J(r.d)===J(['明天烤肉 明軒叫我先去河濱占位子','……你要不要一起'])&&J(r.op)===J(['好。','明天不行。']),J(r.d));
+    check('2-5. 2026-09-24 21:00「明天烤肉 明軒叫我先去河濱占位子」「你要不要一起」（AA_630 H-014）',J(r.d)===J(['明天烤肉 明軒叫我先去河濱占位子','你要不要一起'])&&J(r.op)===J(['好。','明天不行。']),J(r.d));   /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7）：an_yt_hol_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……你要不要一起」 */
     check('2-5. 出遊 9/25 16:30、河濱、標題「中秋（河濱）」；背景 riverside',!!r.q&&r.q.h===16.5&&r.q.place==='河濱'&&r.q.title==='中秋（河濱）'&&img(H.bgs[0])==='riverside',J(r.q));
     check('2-5. 第一次：河濱占位子、剝柚子、「月亮。」放 CG、「明軒他們到了。……走吧。」',r.L[0]==='（河濱的草地，烤肉的人還沒到。語彤鋪了一塊野餐墊，說明軒叫她先來占位子。）'&&J(r.cgs)===J([CG])&&r.L.includes('明軒他們到了。……走吧。'),J(r.L));
     check('2-5. YT_MOON_2026 went、記憶 YT_MOON',H.G.flags.YT_MOON_2026==='went'&&SOCIAL.has(YT,'YT_MOON')&&dRel(YT,r.a)===MOON,dRel(YT,r.a)); }
   { const r=await moon(2028,'2028-10-02','2028-10-03',{EXCHANGE_ROUTE:'TW',YT_MOON_2026:'went'},[0],{cg:1}); const w=r.said.find(s=>s.t==='明年你們還來不來占位子？');
-    check('2-5. 2028：明軒（提著烤肉架走過來）「明年你們還來不來占位子？」、語彤「……來啊。」；沒有 CG',!!w&&r.L.includes('……來啊。')&&!r.cgs.length,J(r.said.slice(0,12))); }
+    check('2-5. 2028：明軒（提著烤肉架走過來）「明年你們還來不來占位子？」、語彤「來啊。」；沒有 CG',!!w&&r.L.includes('來啊。')&&!r.cgs.length,J(r.said.slice(0,12))); }   /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7）：an_yt_hol_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……來啊。」 */
   delete global.CG_REGISTRY;
   });
 

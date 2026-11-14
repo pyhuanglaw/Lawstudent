@@ -52,18 +52,18 @@ const sceneOf=J=>{ const objs=J.nodes.map(n=>{ const o=n.mesh!=null?new THREE.Me
   const Y2=['civ','noodle','pothos','y1_3'], base={ROOM_Y2:300,ROOM_Y2_ITEMS:Y2.slice()};
   let z=await build({stage:'law',day:400,flags:Object.assign({},base)});
   check('2. 大二 312：只載 dorm_y2_items（不載大三那組）',loaded.includes('bldg.dorm_y2_items')&&!loaded.includes('bldg.dorm_y3_items')&&(z.itemGroups||[]).map(g=>g.name).join()==='dorm_y2_items',loaded.join());
-  check('2. 312：大二拆出來的真的看得到（網格；民總課本、泡麵、摩天輪票根）＋壓平的紙箱',JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_noodle','ITEM_y1_ferris'])&&shown(z).has('Y2_BOXES_OPEN')&&!shown(z).has('Y2_BOXES_CLOSED'),JSON.stringify([...shown(z)]));
+  /* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）大一的票根拿掉，舊存檔的 y1_3 現在是相簿 */ check('2. 312：大二拆出來的真的看得到（網格；民總課本、泡麵、大一的相簿）＋壓平的紙箱',JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_noodle','ITEM_y1_album'])&&shown(z).has('Y2_BOXES_OPEN')&&!shown(z).has('Y2_BOXES_CLOSED'),JSON.stringify([...shown(z)]));
   const f507=Object.assign({},base,{ROOM_Y3:700,ROOM_Y3_ITEMS:['notes_y2','vac_C08','vac_C09','welcome_badge'],ROOM_Y3_DISCARD:'noodle',EXCHANGE_ROUTE:'JP'});
   z=await build({stage:'law',day:720,flags:f507});
   check('2. 大三 507：兩組都載（dorm_y2_items、dorm_y3_items）',loaded.includes('bldg.dorm_y2_items')&&loaded.includes('bldg.dorm_y3_items')&&z.dormSetKey==='507'&&(z.itemGroups||[]).length===2&&!z.itemsLoading,loaded.join()+' '+z.itemsLoading);
-  check('2. 507：大二的（扣掉丟掉的泡麵）＋大三拆出來的四件；大四的都沒有',JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_notes_y2','ITEM_vac_C08','ITEM_vac_C09','ITEM_welcome_badge','ITEM_y1_ferris']),JSON.stringify(items(z)));
+  check('2. 507：大二的（扣掉丟掉的泡麵）＋大三拆出來的四件；大四的都沒有',JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_notes_y2','ITEM_vac_C08','ITEM_vac_C09','ITEM_welcome_badge','ITEM_y1_album']),JSON.stringify(items(z)));
   z.setY2Items({shown:['article','credits']}); check('2. setY2Items：給什麼就只顯示什麼（兩組一起；大四的製作名單也可以）',JSON.stringify(items(z))===JSON.stringify(['ITEM_article','ITEM_credits']),JSON.stringify(items(z)));
   z.setY2Items({shown:[],boxes:'closed'}); check('2. setY2Items 全部收起來＋紙箱封好',items(z).length===0&&shown(z).has('Y2_BOXES_CLOSED')&&!shown(z).has('Y2_BOXES_OPEN'));
   z=await build({stage:'law',day:720,flags:Object.assign({},f507,{ROOM_Y3_MOVING:true})},zz=>{ zz.setY2Items({shown:[],boxes:'closed'}); zz.setY2Items({shown:['civ','zq_usb']}); });
   check('2. 拆箱事件在模型載完前就呼叫：載完照最後一次的狀態（民總課本、隨身碟）',JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_zq_usb'])&&shown(z).has('Y2_BOXES_CLOSED'),JSON.stringify([...shown(z)]));
   const f409=Object.assign({},f507,{ROOM_Y4:1060,ROOM_Y4_ITEMS:['form','jp_key','cold'],BOX_KEPT_Y4:'vac_C08'});
   z=await build({stage:'law',day:1080,flags:f409});
-  check('2. 大四 409（日本）：三年的都在、留在紙箱的交通卡不出來；志願表上有章',z.dormSetKey==='409'&&JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_cold','ITEM_form','ITEM_jp_key','ITEM_notes_y2','ITEM_vac_C09','ITEM_welcome_badge','ITEM_y1_ferris'])&&shown(z).has('FORM_STAMP'),JSON.stringify([...shown(z)]));
+  check('2. 大四 409（日本）：三年的都在、留在紙箱的交通卡不出來；志願表上有章',z.dormSetKey==='409'&&JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_cold','ITEM_form','ITEM_jp_key','ITEM_notes_y2','ITEM_vac_C09','ITEM_welcome_badge','ITEM_y1_album'])&&shown(z).has('FORM_STAMP'),JSON.stringify([...shown(z)]));
   z=await build({stage:'law',day:1080,flags:Object.assign({},f409,{EXCHANGE_ROUTE:'TW'})});
   check('2. 409（台灣）：志願表是空白的那一張（沒有章）',items(z).includes('ITEM_form')&&!shown(z).has('FORM_STAMP'));
   z=await build({stage:'law',day:1080,flags:Object.assign({},f409,{EXCHANGE_ROUTE:'US'})}); check('2. 409（美國）：有章',shown(z).has('FORM_STAMP'));
@@ -72,9 +72,9 @@ const sceneOf=J=>{ const objs=J.nodes.map(n=>{ const o=n.mesh!=null?new THREE.Me
   z=await build({stage:'law',day:1300,flags:Object.assign({},f409,{PACKED_Y4:1300})}); check('2. 收拾好了（PACKED_Y4）：全部收起來',items(z).length===0&&shown(z).has('Y2_BOXES_CLOSED'));
   // 3. 舊存檔
   let err=null; try{ z=await build({stage:'law',day:720,flags:Object.assign({},base,{ROOM_Y3:700})}); }catch(e){ err=e; }
-  check('3. 舊存檔：有 ROOM_Y3 沒有 ROOM_Y3_ITEMS＝不出錯、只有大二那組',!err&&JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_noodle','ITEM_y1_ferris']),err?String(err):JSON.stringify(items(z)));
+  check('3. 舊存檔：有 ROOM_Y3 沒有 ROOM_Y3_ITEMS＝不出錯、只有大二那組',!err&&JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_noodle','ITEM_y1_album']),err?String(err):JSON.stringify(items(z)));
   err=null; try{ z=await build({stage:'law',day:1080,flags:Object.assign({},base,{ROOM_Y3:700,ROOM_Y4:1060})}); }catch(e){ err=e; }
-  check('3. 舊存檔：有 ROOM_Y4 沒有 ROOM_Y4_ITEMS、BOX_KEPT_Y4＝不出錯',!err&&z.dormSetKey==='409'&&JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_noodle','ITEM_y1_ferris']),err?String(err):JSON.stringify(items(z)));
+  check('3. 舊存檔：有 ROOM_Y4 沒有 ROOM_Y4_ITEMS、BOX_KEPT_Y4＝不出錯',!err&&z.dormSetKey==='409'&&JSON.stringify(items(z))===JSON.stringify(['ITEM_civ','ITEM_noodle','ITEM_y1_album']),err?String(err):JSON.stringify(items(z)));
   z=await build({stage:'law',day:300,flags:{}}); check('3. 大一 203：不載這兩組、沒有 setY2Items',!loaded.some(k=>/dorm_y[23]_items/.test(k))&&!z.setY2Items);
   delete global.GAME;
   // 4. 拆箱、收拾的 3D（story3d.js；行為測試在 tests/room_y3_unit.js、tests/room_y4_unit.js）

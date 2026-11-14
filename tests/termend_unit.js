@@ -84,7 +84,7 @@ GM.money=function(n){ G.money+=n; };
     PHONE.answer(G,'te_Y1S1_heroine_04',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S1');
     said=[]; picks=[3,1]; await TERMEND.dinner(GM,q); const L=lines();
     check('6. 飯桌一句：沒看過 Q6＝「我這學期寫了很多東西。……」',L.some(t=>t.includes('我這學期寫了很多東西。……還沒給任何人看。'))&&!L.some(t=>t.includes('關卡')));
-    check('6. 先不說＝她說（「我喜歡你。講完了。」）→ 讓我想想（「想太久我會跑掉喔。」）；沒有交往、記讓我想想',L.some(t=>t.includes('我喜歡你。講完了。'))&&L.some(t=>t.includes('……好啦。那你想。想太久我會跑掉喔。'))&&!G.flags.dating_heroine_04&&G.termend.think.heroine_04==='Y1S1'); }
+    check('6. 先不說＝她說（「我喜歡你。講完了。」）→ 讓我想想（「想太久我會跑掉喔。」）；沒有交往、記讓我想想',L.some(t=>t.includes('我喜歡你。講完了。'))&&L.some(t=>t.includes('好啦。那你想。想太久我會跑掉喔。'))&&!G.flags.dating_heroine_04&&G.termend.think.heroine_04==='Y1S1'); }
   G.day=D('2026-06-11'); G.weekday=wdOf(G.day); G.hour=20; G.msgs=(G.msgs||[]).filter(m=>!/^te_/.test(m.tag||''));
   { run(20,21); const a=(G.msgs||[]).filter(m=>m.tag==='te_Y1S2_heroine_04'||(m.th==='p:heroine_04'&&m.day===D('2026-06-11'))).map(m=>m.text);
     check('6. 下學期：第二次的邀約「考完了吧 宵夜」「上次那個 你想好沒」',a.includes('考完了吧 宵夜')&&a.includes('上次那個 你想好沒'),JSON.stringify(a));
@@ -150,8 +150,8 @@ GM.money=function(n){ G.money+=n; };
     said=[]; picks=[0]; await TERMEND.dinner(GM,q); const L=lines();
     check('9e. 河堤開場 → BB_167 4-3「（坐下）一年了欸。」→ 收尾「（她站在你的車門邊。『到家傳訊息。』）」；記 KX_TERMEND',L.includes('（河堤的步道，她走在靠水的那一邊。）')&&L.some(t=>t.includes('一年了欸。'))&&L.includes('（她站在你的車門邊。『到家傳訊息。』）')&&G.flags.KX_TERMEND&&G.flags.KX_TERMEND.Y1S2,JSON.stringify(L.slice(0,4)));
     fresh(D('2026-12-24'),20.9,'dorm',{dating_kexin:true}); G.stage='law'; run(20.9,21); const q2=OUT.get(G,'te_kx_Y2S1');
-    check('9e. 大二上：木柵大學正門 18:00、時段第三天（12/26）',!!q2&&q2.h===18&&q2.day===D('2026-12-26')&&q2.place==='木柵大學正門',JSON.stringify(q2));
-    said=[]; await TERMEND.dinner(GM,q2); const L2=lines(); check('9e. 大二上飯桌「我們期末考完，你寒假來高雄。」（AA_313 第 38 列、AA_325 2-Y2-10）',L2.some(t=>t.includes('我們期末考完，你寒假來高雄。'))&&L2.some(t=>t.includes('我家附近那個夜市，你還沒去過。'))&&L2.includes('（她送你到停車場，站著等你倒車出去。）'));
+    check('9e. 大二上：學校後門・湯餃店 18:00、時段第三天（12/26）、走路',!!q2&&q2.h===18&&q2.day===D('2026-12-26')&&q2.place==='學校後門・湯餃店'&&q2.travel==='走路約 10 分鐘',JSON.stringify(q2));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
+    said=[]; await TERMEND.dinner(GM,q2); const L2=lines(); check('9e. 大二上飯桌「我們期末考完，你寒假來高雄。」（AA_313 第 38 列、AA_325 2-Y2-10）',L2.some(t=>t.includes('我們期末考完，你寒假來高雄。'))&&L2.some(t=>t.includes('我家附近那個夜市，你還沒去過。'))&&L2.includes('（她陪你走回宿舍區，在路口停下來。）'));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
     TERMEND.missed(GM,q2); PHONE.tick(G); G.hour=23; PHONE.tick(G); check('9e. 沒去：「我在正門等了一下」「你還好嗎」',txt('p:kexin').includes('kexin:我在正門等了一下')&&txt('p:kexin').includes('kexin:你還好嗎'));
     fresh(D('2026-06-11'),20.9,'dorm',{dating_kexin:true}); G.stage='law'; G.events.done.ev_revisit_y1_kexin=1; run(20.9,21); check('9e. 舊存檔演過重訪日＝大一下不再約',!OUT.get(G,'te_kx_Y1S2')); }
   // 9g. BUG-SIS-Y4S1-DATEINV-1021：交往中的學姊，大四上女朋友的學期末約會也是 12/24 起才約（原本 12/21 20:15 她還在美國就約）
@@ -298,7 +298,7 @@ GM.money=function(n){ G.money+=n; };
     const s5=await gfDin('heroine_05','Y4S1',T('2029-01-12'));
     check('15. 學姊大四上（12/23 才回國）「時差還沒調好。我現在很想睡。」「……可是這頓我不想錯過。」（AA_363 第 4 節，原本「回來三個禮拜……」）；沒有「今天我沒帶計畫本出門。」',has(s5,['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'])&&!s5.includes('回來三個禮拜，時差還沒調好。')&&!s5.includes('今天我沒帶計畫本出門。'),JSON.stringify(s5));
     const z=await gfDin('heroine_02','Y3S2',T('2028-06-15'));
-    check('15. 芷若大三下「九月又要走，這次一年。」「……六月的週五，你先全部給我。」（AA_377 第 11 項：她 7/1～8/1 在台中）',has(z,['九月又要走，這次一年。','……六月的週五，你先全部給我。'])&&!z.includes('店長最近都讓我早一點下班。她什麼都沒問。'),JSON.stringify(z));
+    check('15. 芷若大三下「九月又要走，這次一年。」「六月的週五，你先全部給我。」（AA_377 第 11 項：她 7/1～8/1 在台中）',has(z,['九月又要走，這次一年。','六月的週五，你先全部給我。'])&&!z.includes('老闆最近都讓我早一點下班。他什麼都沒問。'),JSON.stringify(z));
     const c=await gfDin('heroine_04','Y3S1',T('2028-01-13'));
     check('15. 子晴大三上「期末專題，我挑了一個可能做不完的題目。」「……做不完也沒關係吧。」',has(c,['期末專題，我挑了一個可能做不完的題目。','……做不完也沒關係吧。']),JSON.stringify(c));
     const ps=await gfDin('classmate_peishan','Y3S2',T('2028-06-15')), ps0=await gfDin('classmate_peishan','Y1S2',T('2026-06-15'));

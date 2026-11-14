@@ -24,6 +24,7 @@
 - 汀州路：五間（越好吃小館、客居雲南、東南大聯商行、汀州聯通、溫特寶邸）照概念圖、泰米村食／洗樂洗衣坊／印得好照外觀參考圖（開發分支）。
 
 ## 4. 使用者已經決定、容易被再問一次的
+- 麵店團（noodle_team）11-03 已改名桌遊團（X182）；程式內部代號照舊叫 noodle_team，寫文件、回使用者一律說桌遊團。（11-12 使用者：「麵店團不是已經改成桌遊團了嗎」——全 repo 舊名已清，`python3 tools/handoff/ndl_purge.py --list` 看留下來的是哪幾行）
 - 新的店、店名一律她給（D147）；發布由 LAWWW 決定（D85，11-10 再確認），但花序、汀州路、夜市、禮貌生財那幾份規格書寫了「發布前先問」的照規格書。
 - 選擇題要她看的稿寫在本文或選項說明（X329）；生圖提示詞格式照 ROLE_BB（D97）。
 - 沛珊：有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳（X327）。上師＝退休的刑法教授、全部免費（X326／X332，付費那句待她最後確認）。
@@ -67,3 +68,12 @@
 - （11-11 12:4x）約會地點的台詞，遊戲讀的是企劃線 `docs/story_planning/date_system/lines/Dxx.json`（`tools/date/import_date_lines.py`，白名單逐檔）；`date_rewrite/` 只是改稿紀錄、沒有工具讀。AA 以後改約會字直接改 `date_system/lines/`。AA_812 那五格是 `import_date_lines.py` 的 apply812 層照 date_rewrite 的差換（held 預先合併分支 852bf5d85）。
 - （11-11 12:5x）AA 的「她傳來的訊息」回覆選項（AA_709 → `src/data/msg_replies.js`）用**私訊原文逐字**對（`src/msgreply3d.js` S.find）。改任何私訊的字，要一起改 AA_709 那一格的 text，不然玩家收到那則就沒有回覆選項；`python3 tools/story/import_msg_replies.py --check` 會擋。
 - （11-11 12:5x）AA 的逐行改稿 {file,line,old,new} 用 `tools/story/apply_line_rows.py <稿>@<sha> [--apply] [--skip-generated]` 套（held 預先合併分支）；檔頭寫「自動產生」的檔不套，要改源稿重匯。比舊稿的測試用 `tests/line_rows_expect.js`（toOld／fwd／fixFile／toOldS／fwdS／fwdDeep）。
+- 店裡買的雜貨（不是禮物）記在 `G.flags.GG3_OWN={區域:{東西 id:份數}}`，選單「物品」分頁用 `GG3.ownHTML` 顯示（東南大聯商行 11-12 起；之後的雜貨、配件店照這個接，不要另開欄位）。
+- **店面標準**在 `CLAUDE.md` §12（D155）：店員、客人、窗景、天花板、立體櫥窗、買東西、打烊、字……新增、修改、以前建好的店都要符合；驗收照 `docs/rules/ROLE_BB.md` 2.6 地點關卡；每間店的現況在 `docs/handoff/SHOP_STANDARD_STATUS.md`。
+- （11-12 08:0x LAWWW-C）**雲端容器的磁碟只有幾 GB 可用**（`df` 的 Avail 看起來很小就是真的）：①`tools/handoff/branch_audit.py --write` 會一次 fetch 所有分支，這台裝不下——先看 `df -h /home/user`，不到 6 GB 就不要跑（交給下一個新容器）。②被中斷的 fetch 會在 `.git/objects/pack/` 留 `tmp_pack_*`（今天兩個共 4.4 GB）；`git count-objects -vH` 的 garbage 那一行看得到，確認沒有 fetch 在跑（`pgrep -af "git fetch"`）就可以刪。③子代理的 worktree 一個約 1.4 GB，同時最多開兩個；合併完當回合 `git worktree remove`。④scratchpad 裡幾週前的舊目錄可以刪。
+- （11-12 08:0x LAWWW-C）**GitHub Actions 的 `node-unit-auto` 每次 push 會取消上一輪**（全套要跑好幾分鐘）：幾分鐘推一次＝全套永遠跑不完（11-12 下午連續 7 輪 cancelled，兩支紅的測試半小時沒人發現）。要拿全套結果：推完**等那一輪跑完**再推下一筆（`mcp__github__actions_list` list_workflow_runs 看 conclusion），小改動先存本機、併成一批推。
+- （11-12 LAWWW-C）BB 第三層（看圖）判定放 `docs/handoff/place_gate_bb.json`（BB 在自己分支更新 → 告訴 LAWWW SHA → LAWWW 合進開發分支、跑 `node tests/place_gate_unit.js --write`）；`SHOP_STANDARD_STATUS.md` 第 7 欄讀它。
+- （11-13 LAWWW-C）**整合室內模型（GLB 換了）以後，`node tests/place_gate_unit.js --coplanar` 和 `--write` 都要跑、`tests/place_gate_coplanar.json` 一起 commit**：GitHub Actions 的機器沒有 python3＋numpy，模型的 sha1 和基準對不上就判 FAIL（11-13 node-unit-auto 3cbdf9ef83 那一輪 17 間紅，本機全綠看不出來；17565f19fe 補）。
+- （11-13 LAWWW-C）**等發布候選的 GHA 結果時，候選那一輪還在「排隊」（pending／queued）就不要 push 會觸發 node-unit-auto 的改動**（`src/** tests/** lib/** assets/** index.html`）：workflow 的 concurrency 是 `cancel-in-progress: false`——**已經在跑（in_progress）的那一輪不會被取消**，但排隊中的只留最新一筆，新 push 會把排隊的候選那一輪換掉（11-13 run 779＝候選 17565f19fe 排在 778 後面，被 15710903ed 的 780 換掉）。先用 GitHub 工具看候選那一輪是 in_progress 才放心推。
+- （11-13 19:4x LAWWW-C）**店面 CC0 化（D161）剩下 24 家在 4 個幫手工作階段做**，交件在各自分支 `claude/shop-cc0-g1`～`g4`（①komichi、sunnyside、yizhan、mokuyobi、daily_offbeat ②aoki、daybreak、yejian、shanlan、corner、bike、cvs ③dabu、haopai、dakou_1f/2f、tongxian、xinsheng_sports ④ade、lin、shaola、yangyang、nanyang_lobby、flower_notes）；LAWWW2 驗收過才整合。接班要 fetch 這四條、看 `tests/shop_cc0_baseline.json` 還剩哪些。店面要烘焙：同一台機器一次只能跑一個烘焙，所以多家店同時做要開不同容器。
+- （11-13 23:3x LAWWW-C）幫手 g1～g4 的交接檔：各自分支 `docs/art-rebuild/second_ai/shop_cc0_g<N>/HANDOFF.md`；登記在 tasks.json `SHOP-CC0-HELP-1113.helpers`；交班規則 D163（CLAUDE.md §4）。

@@ -2,7 +2,7 @@
 //   第 2 項（沛珊「讀書會週三，萬才館。」）在 AA_369 第 4 節做了，這裡不測。這裡測第 1、3～19、23～26 項＋第 5 節 BB 的五項：
 //   1 可昕「我們的日子」每週固定格只排到第 16 週（6/15 起她在高雄）、家教同樣；STORY.termDayIn 超過學期不回傳日子；舊存檔排在學期以後的拿掉
 //   3 沛珊的伴侶期間 2026-04-06（第 7 週週一）起：第 1～6 週約吃飯、約會選單不出現「兩個人單獨去吃飯不太好…」「她現在有交往的對象」
-//   4 芯慈那段「我們當過室友。」　5 Alison 烏來改 4/18（4/4 她在麵店團的春假旅行：作息、手機朋友頁、偶遇）
+//   4 芯慈那段「我們當過室友。」　5 Alison 烏來改 4/18（4/4 她在桌遊團的春假旅行：作息、手機朋友頁、偶遇）
 //   6 沛珊第 5～15 週週二、四 16～18 在溫州街課輔班（週一、五照舊總圖）、「一週兩天。」（事件、閒聊階梯）　7 語彤大一下期末邀約「禮拜五」（一般、心意）
 //   8 學姊 S2-L6「上學期期中的時候…」「那杯黑咖啡，謝謝。」　9 通識第 6 週天文館的圓頂（旁白、宥辰、圓頂裡很暗）
 //   10 3/2「這個週末我已經空下來了」、2/14「開學第二個週末」、第一次「我們的日子」在第 2 週的週末　11 春假車上「第三頁寫的，今天不算」、看星星「你們這禮拜上了什麼課？」
@@ -55,20 +55,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   { const ok=typeof STORY.termDayIn==='function';
     check('1. STORY.termDayIn：大一下第 16 週週六＝6/13；第 17、18 週（已經放假）不回傳日子',ok&&K(STORY.termDayIn('Y1S2',16,6))==='2026-06-13'&&STORY.termDayIn('Y1S2',17,6)===null&&STORY.termDayIn('Y1S2',18,1)===null,ok?J([STORY.termDayIn('Y1S2',17,6),STORY.termDayIn('Y1S2',18,1)]):'沒有 STORY.termDayIn');
     check('1. 對照：STORY.termDay 照舊往後推（第 17 週週六＝6/20；舊存檔只有週次的紀錄還在用）',K(termDay('Y1S2',17,6))==='2026-06-20');
-    /* 從第 2 週的第一次（已經去過）一路走到 6/30：每天 9:00、15:00、20:00 跑手機規則，過了的固定格當作去過 */
-    const sim=(dayKey,mode)=>{ const wd={fri:5,sat:6,sun:7}[dayKey], hh={fri:19,sat:14,sun:14}[dayKey], d1=termDay('Y1S2',2,wd);
-      fresh(d1,hh+3,'dorm',{dating_kexin:true,KX_OUR_DAY:{day:dayKey,mode}}); OUT.plan(G,{id:'kx_our_day1',ev:'ev_kexin_our_day',day:d1,h:hh,place:'公館',title:'我們的日子'}); OUT.get(G,'kx_our_day1').state='done';
-      for(let d=d1;d<=D('2026-06-30');d++){ G.day=d; G.weekday=wdOf(d); for(const h of [9,15,20.5]){ G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); for(const q of kxOD()) if(q.state==='planned'&&(q.day<d||(q.day===d&&q.h<=h))) q.state='done'; } }
-      return kxOD().map(q=>K(q.day)).sort(); };
-    const a=sim('sat','mid'), b=sim('fri','nccu');
-    check('1／BB-1. 交往中、選「週六／約在中間」：「我們的日子」排到 6/13（第 16 週）為止，6/15 以後一格都沒有（原本還有 6/20、6/27）',a.length>0&&a[a.length-1]==='2026-06-13'&&a.every(k=>k<='2026-06-14'),J(a.slice(-3)));
-    check('1／BB-1. 選「週五晚上／我開車去木柵大學」：最後一格 6/12（第 16 週週五），6/15 以後沒有',b.length>0&&b[b.length-1]==='2026-06-12'&&b.every(k=>k<='2026-06-14'),J(b.slice(-3)));
-    check('1. 對照：學期中每週照排（第 3 週週六 3/14、第 5 週週六 3/28 都有；她自己的第 8、9 週不排）',a.includes('2026-03-14')&&a.includes('2026-03-28')&&!a.includes('2026-04-18')&&!a.includes('2026-04-25'),J(a.slice(0,8)));
-    /* 舊存檔：第 16 週週六 15:00 已經排好了 6/20 那一格 */
-    fresh(D('2026-06-13'),15,'dorm',{dating_kexin:true,KX_OUR_DAY:{day:'sat',mode:'mid'}}); OUT.plan(G,{id:'kx_our_day1',ev:'ev_kexin_our_day',day:termDay('Y1S2',2,6),h:14,place:'公館',title:'我們的日子'}); OUT.get(G,'kx_our_day1').state='done';
-    OUT.plan(G,{id:'kx_od_'+D('2026-06-20'),ev:'ev_kexin_our_day_wk',day:D('2026-06-20'),h:14,place:'溫州街',title:'我們的日子：溫州街',odPlace:'wenzhou'}); STORY.phoneRules(GM);
-    const old=OUT.get(G,'kx_od_'+D('2026-06-20'));
-    check('1. 舊存檔已經排在 6/20 的「我們的日子」：不再是 planned（出發選單不會出現）；也不再排新的',!!old&&old.state!=='planned'&&!kxOD().some(q=>q.state==='planned'&&q.day>LAST),J(kxOD().map(q=>[K(q.day),q.state])));
+    check('1. 「我們的日子」（CANON-NO-ECON-1112 第三批：這一項拿掉）',!ev('ev_kexin_our_day')&&!ev('ev_kexin_our_day_wk'));
     /* 家教：週二 */
     const tut=(k,h,extra)=>{ fresh(D(k),h,'dorm',{JOB_TUTOR:true,TUTOR_WD:2,tutorFromDay:termDay('Y1S2',3,1)}); if(extra) extra(); STORY.phoneRules(GM); return OUT.rec(G).filter(q=>/^tutor_/.test(q.id)).map(q=>[K(q.day),q.state]); };
     const t15=tut('2026-06-02',20), t16=tut('2026-06-09',20);
@@ -89,12 +76,11 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('3／BB-2. 第 1～6 週約會選單：不出現「她現在有交往的對象」',W.every(x=>x.date.why!=='她現在有交往的對象'&&x.will.why!=='partner'),J(W.map(x=>x.date.why||'ok')));
     check('3. 對照：第 8 週（4/15 期中晚餐公開以後）照舊兩個都出現',w8.meal===MEAL&&w8.date.why==='她現在有交往的對象'&&w8.will.why==='partner',J([w8.meal,w8.date,w8.will])); }
   // ===== 第 4 項：芯慈那段 =====
-  { const T=evText('ev_sk03_lunch');
-    check('4. SK03 芯慈「你們認識？」的選項：「我們當過室友。」（沒有「我們一起住過一年。」）',T.includes('「我們當過室友。」')&&!T.some(t=>/住過一年/.test(t)),J(T.filter(t=>/室友|住過/.test(t)))); }
+  /* 4. SK03 芯慈那段（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   // ===== 第 5 項：Alison 烏來 4/18 =====
   { const at=(k,h)=>{ fresh(D(k),h,'gongguan',{}); R('yu','FAM'); return {e:STORY.schedEnt(CHARACTERS.yu,G),w:STORY.whereIs(GM,'yu')}; };
     const a=at('2026-04-04',12), b=at('2026-04-18',12), c=at(K(termDay('Y1S1',6,6)),12), d=at(K(termDay('Y2S1',6,6)),12);
-    check('5／BB-3. 4/4（六）12:00 Alison 在麵店團的春假旅行：作息不是「和社團在烏來」，手機朋友頁不寫烏來',!(a.e&&a.e.enc==='D20')&&!(a.w&&/烏來/.test(a.w.away||'')),J([a.e&&(a.e.away||a.e.zone),a.w]));
+    check('5／BB-3. 4/4（六）12:00 Alison 在桌遊團的春假旅行：作息不是「和社團在烏來」，手機朋友頁不寫烏來',!(a.e&&a.e.enc==='D20')&&!(a.w&&/烏來/.test(a.w.away||'')),J([a.e&&(a.e.away||a.e.zone),a.w]));
     check('5. 4/18（六，期中考完那個週六）12:00：「和社團在烏來」',!!b.e&&b.e.enc==='D20'&&!!b.w&&b.w.away==='和社團在烏來',J([b.e&&b.e.away,b.w]));
     check('5. 對照：大一上、大二上第 6 週週六照舊在烏來',!!c.e&&c.e.enc==='D20'&&!!d.e&&d.e.enc==='D20');
     const row=ENCOUNTERS.rows.find(r=>r.who==='yu'&&r.spot==='D20'); const enc=k=>{ fresh(D(k),12,'gongguan',{}); R('yu','FAM'); const why=[]; return {ok:!!ENC.eligible(G,row,why),why}; };
@@ -132,7 +118,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     // AA_584 第 11 節第 6 點（使用者 2026-11-02 18:0x：空保溫瓶這條線整個拿掉）：學姊 S2-L6 整層刪，第 8 項那兩句跟著沒了（import_ladder.py 的 AA_373 疊句遇到 S2-L6 不在就跳過）
     check('8. 學姊 S2-L6（AA_373 第 8 項的兩句所在）已經整層刪（AA_584 第 11 節第 6 點）',!S,S&&S.lines[0]);
     const A=(LADDER.byTerm.Y1S2.heroine_01.greet.when||[]).find(x=>J(x.week)===J([10,15]));
-    check('14. 以安第 10～15 週的招呼：「日文課下禮拜小考。……片假名我還是會看錯。」（交換是大三的伏筆）',!!A&&A.t==='日文課下禮拜小考。……片假名我還是會看錯。',A&&A.t);
+    /* 2026-11-11（X324，AA_781_an_ladder_Y1S2.json@15241f32e rows greet.when[3]）：拿掉刪節號——舊期望「日文課下禮拜小考。……片假名我還是會看錯。」，AA_373 第 14 項要的「片假名我還是會看錯」照在 */
+    check('14. 以安第 10～15 週的招呼：「日文課下禮拜小考。片假名我還是會看錯。」（交換是大三的伏筆；AA_781 拿掉刪節號）',!!A&&A.t==='日文課下禮拜小考。片假名我還是會看錯。',A&&A.t);
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_373_/.test(e.path));
     check('6／8／9／14／25. 匯入白名單有一筆 AA_373（approved、AA373-Y1S2-FIX-1021；a48fe1b7 → bdab2f42（加第 6 節）→ e75d1cce（6-1 那一列兩欄改整句），舊的記在 history）；ladder.js、syllabus.js 的來源寫著同一個版本',allow.length===1&&['bdab2f42','e75d1cce'].includes(allow[0].sha)&&(allow[0].history||[]).some(h=>h.sha==='a48fe1b7')&&allow[0].status==='approved'&&allow[0].task==='AA373-Y1S2-FIX-1021'&&LADDER.source.includes('AA_373@'+allow[0].sha)&&SYLLABUS.source.includes('AA_373@'+allow[0].sha),J(allow.map(e=>e.sha))); }
   // ===== 第 9 項：通識第 6 週天文館的圓頂 =====
@@ -141,16 +128,14 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('9. 宥辰「關了燈的課，我最清醒。」；「圓頂裡很暗。你……」',rc.includes('classmate_youchen:關了燈的課，我最清醒。')&&!rc.some(t=>/晚上的課/.test(t))&&!!w6.obs&&w6.obs.prompt==='圓頂裡很暗。你……',J([rc,w6.obs&&w6.obs.prompt]));
     check('9. 對照：老師那句「先讓眼睛習慣黑暗。至少十分鐘。」不改；「連假的時候，我要去山上看星星。」照留（春假看星星靠這一堂）',w6.line==='先讓眼睛習慣黑暗。至少十分鐘。'&&rc.includes('class:連假的時候，我要去山上看星星。')); }
   // ===== 第 10 項：3/2、2/14、第一次「我們的日子」=====
-  { const m2=termDay('Y1S2',2,1); fresh(m2,20.9,'dorm',{dating_kexin:true,KX_VDAY_SEE:true}); run(20.9,21.1); const L=txt('p:kexin');
-    check('10. 3/2 21:00（情人節說想見她的）：「你情人節說想見我。這個週末我已經空下來了。」',L.includes('你情人節說想見我。這個週末我已經空下來了。')&&!L.some(t=>/開學第一個週末/.test(t)),J(L));
-    const V=evText('ev_kexin_valentine_y1'); check('10. 2/14 視訊選「我不知道。我想見妳。」：「開學第二個週末。我寫進行事曆了。」',V.includes('開學第二個週末。我寫進行事曆了。')&&!V.some(t=>/開學第一個週末/.test(t)));
-    const first=(dk)=>{ fresh(m2,21.3,'dorm',{dating_kexin:true,KX_VDAY_SEE:true}); run(21,21.1); G.flags._kxOD=dk; G.flags._kxOM='mid'; run(21.2,21.3); const q=OUT.get(G,'kx_our_day1'); return q?K(q.day):null; };
-    const f=['sat','sun','fri'].map(first);
-    check('10. 對照：第一次「我們的日子」在第 2 週（3/2 回覆：週六 3/7、週日 3/8；週五晚上 3/6）',J(f)===J(['2026-03-07','2026-03-08','2026-03-06']),J(f)); }
+  { const m2=termDay('Y1S2',2,1); fresh(m2,20.9,'dorm',{dating_kexin:true,KX_VDAY_SEE:true}); run(20.9,21.1);
+    check('10. 3/2「我們的日子」那一則（CANON-NO-ECON-1112 第三批：這一項拿掉）',!PHONE.sent(G,'kx_our_day')&&!ev('ev_kexin_our_day'));
+    const V=evText('ev_kexin_valentine_y1'); check('10. 2/14 視訊選「我不知道。我想見妳。」：「開學第二個週末。我寫進行事曆了。」',V.includes('開學第一天，下課不要先走。')&&!V.some(t=>/開學第一個週末/.test(t)));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
+  }
   // ===== 第 11 項：春假 =====
   { const T=evText('ev_kexin_trip_spring_y1');
-    check('11. 春假車上：「誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。」',T.includes('誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。')&&!T.includes('誰都不能管對方的。……目的地，現在決定。'));
-    check('11. 選看星星：「看星星？……你們這禮拜上了什麼課？好，我們去驗證。」（沒人告訴過她通識課的事）',T.includes('看星星？……你們這禮拜上了什麼課？好，我們去驗證。')&&!T.some(t=>/你們通識課的人說的/.test(t))); }
+    check('11. 春假車上：「誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。」',T.includes('誰都不能管對方的。目的地，現在決定。')&&!T.includes('誰都不能管對方的。……目的地，現在決定。'));   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
+    check('11. 選看星星：「看星星？……你們這禮拜上了什麼課？好，我們去驗證。」（沒人告訴過她通識課的事）',T.includes('看星星？臺北根本看不到幾顆。好，我們去看山上有沒有比較多。')&&!T.some(t=>/你們通識課的人說的/.test(t))); }   /* （CANON-NO-ECON-1112 第四批：照 AA_877／878／880 換字）*/
   // ===== 第 12 項：方奕廷 =====
   { const one=term=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('npc_fangyt','FAM'); TERMEND.rec(G,term).plan={back:w.from,heart:[],friend:['npc_fangyt'],fallback:null,gf:[],nope:{},kx:false};
       G.hour=20.6; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_npc_fangyt'); return m?m.text:null; };
@@ -165,9 +150,9 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const a=await sup(false), b=await sup(true);
     check('15. 考完的晚餐，還沒認識語彤：「（今天端麵的是一個沒見過的女生。）」拿掉（AA_679 第 1 列：她不在燒臘店端麵），也沒有語彤、護腕',!a.some(t=>/端麵|語彤|護腕/.test(t)),J(a.slice(0,2)));
     check('15. 對照：認識語彤的「（阿姨的手好了，今天端麵的還是語彤。）」也拿掉（AA_679 第 1 列）——兩種玩家開頭一樣',!b.some(t=>/端麵|沒見過的女生|護腕/.test(t))&&J(a.slice(0,2))===J(b.slice(0,2)),J(b.slice(0,2)));
-    fresh(D('2026-04-15'),21,'dorm',{}); R('classmate_peishan','FAM'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G);   /* AA_588 第 1 節：滷蛋照片跟著公開搬到 4/15 傍晚麵店（原本考完的晚餐的 outingMissed）*/
+    fresh(D('2026-04-15'),21,'dorm',{}); R('classmate_peishan','FAM'); PHONE.join(G,'noodle_team','桌遊團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G);   /* AA_588 第 1 節：滷蛋照片跟著公開搬到 4/15 傍晚麵店（原本考完的晚餐的 outingMissed）*/
     const M=TH('g:noodle_team').filter(m=>m.tag==='zhe_supper_mid2_egg').map(m=>m.from+':'+m.text);
-    check('16. 4/15 傍晚沒到麵店（認識沛珊；AA_588 第 1 節）：麵店團群組阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（不再只有「……喔。」）',J(M)===J(['zhe:📷（一顆切成兩半的滷蛋）','zhe:柏翰幫沛珊切的','zhe:……他們在一起了']),J(M)); }
+    check('16. 4/15 傍晚沒到麵店（認識沛珊；AA_588 第 1 節）：桌遊團群組阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（不再只有「……喔。」）',J(M)===J(['zhe:📷（一顆切成兩半的滷蛋）','zhe:柏翰幫沛珊切的','zhe:……他們在一起了']),J(M)); }
   // ===== 第 17 項：「那場演講。」=====
   { const thu=termDay('Y1S2',11,4);
     const b4=ans=>{ fresh(thu,21.9,'dorm',{dating_kexin:true}); G.acts={att:{['B4@'+thu]:{end:'full'}}}; run(22,22.1); const m=(G.msgs||[]).find(x=>x.tag==='kx_b4_ask'&&x.ask); if(m&&ans!=null) PHONE.answer(G,m.ask.id,ans);
@@ -183,41 +168,25 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('18. 大一上也一樣（AA_373 第 6 節第 9 題「統一」，企劃線 bdab2f42）：「這禮拜五我十點下班。要不要吃宵夜？」22:00',!!b&&b[1]===22&&TERMEND_LINES.FRIEND.heroine_02.y1s1==='這禮拜五我十點下班。要不要吃宵夜？',J(b)); }
   // ===== 第 19 項：總圖十點關 =====
   { const dp=(STORY.DAILY_PHONE||[]).find(x=>x.id==='y1s2_bohan_closed'), T=dp?dp.items(G).map(x=>x.from+':'+x.text):[];
-    check('19. 麵店團手機小事：22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」',!!dp&&Math.abs(dp.h()-(22+10/60))<1e-9&&J(T)===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧']),J([dp&&dp.h(),T])); }
+    check('19. 桌遊團手機小事：22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」',!!dp&&Math.abs(dp.h()-(22+10/60))<1e-9&&J(T)===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧']),J([dp&&dp.h(),T])); }
   // ===== 第 23 項：活大 =====
-  { fresh(termDay('Y1S2',5,5),12.75,'campus',{}); const z=STORY.schedEnt(CHARACTERS.econ_zhengxun,G), p=STORY.schedEnt(CHARACTERS.econ_pinyu,G);
-    check('23. 阿勳、品妤大一下週五中午：人物線索「在學活吃午餐」（小松已拆）',!!z&&z.away==='在學活吃午餐'&&!!p&&p.away==='在學活吃午餐',J([z&&z.away,p&&p.away])); }
+  /* 23. 舊序章人物大一下週五中午的作息（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   // ===== 第 24 項：沛珊 P2「這半年」=====
   { const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines(); };
     const a=await dbt(termDay('Y1S1',8,3)), b=await dbt(termDay('Y1S2',3,3));
     check('24. 大一下才演的 P2：「我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這半年都自在。」',b.includes('我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這半年都自在。')&&!b.some(t=>/一個多月/.test(t)),J(b.filter(t=>/A館/.test(t))));
     check('24. 對照：大一上照原句「…比坐在A館這一個多月都自在。」',a.includes('我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這一個多月都自在。')&&!a.some(t=>/這半年/.test(t)),J(a.filter(t=>/A館/.test(t)))); }
   // ===== 第 25、26 項＋BB-4：可昕不比輸贏 =====
-  { const w7=termDay('Y1S2',7,3); fresh(w7,20.9,'dorm',{dating_kexin:true}); run(21,21.1); const L=txt('p:kexin');
-    check('25、26／BB-4. 4/8 21:00：「考完去吃山下那攤，我請。下週六下午可以嗎？」（沒有「輸的請」；下週六＝4/18）',L.includes('考完去吃山下那攤，我請。下週六下午可以嗎？')&&!L.some(t=>/輸的請/.test(t)),J(L));
-    const quiz=async(mode,pick)=>{ fresh(termDay('Y1S2',8,7),14,'gongguan',{dating_kexin:true,KX_QUIZ_MODE:mode}); picks=[pick]; said=[]; await EVENTS.run(ev('ev_kexin_reschedule')); return lines(); };
-    const m=await quiz('meet','中等'), h=await quiz('meet','冷門'), v=await quiz('video','中等');
-    const bad=t=>/你贏|你請|她判你輸|輸的請|我會比/.test(t);
-    check('25／BB-4. 4/19 互考選「中等的」：「……一半。回去我再讀一次。」「走，山下那攤。」（沒有「你贏」「我請」）',m.includes('……一半。回去我再讀一次。')&&m.includes('走，山下那攤。')&&!m.some(bad)&&!m.includes('……好，你贏。我請。'),J(m));
-    check('25／BB-4. 選「冷門的」：「犯規。冷門學說是犯規。」「（她把那一題劃掉。）」「……下一題。」（沒有「她判你輸。」「你請。」）',J(h.slice(-3))===J(['犯規。冷門學說是犯規。','（她把那一題劃掉。）','……下一題。'])&&!h.some(bad),J(h));
-    check('25／第 6-2 節第 8 題. 視訊互考選「中等的」：沒有「走，山下那攤。」（人不在木柵大學），換成「……下次見面，山下那攤。」',v.includes('……一半。回去我再讀一次。')&&!v.includes('走，山下那攤。')&&v.includes('……下次見面，山下那攤。'),J(v));
-    const K2=LADDER.byTerm.Y1S2.kexin.steps.find(s=>s.id==='K2-L1'), r=K2&&K2.choices.find(c=>/我也有記/.test(c.t));
-    check('25. K2-L1 選「我也有記。」：「騙人。……你記幾次？算了，不准說。」（沒有「我會比」）',!!r&&r.reply==='騙人。……你記幾次？算了，不准說。',r&&r.reply);
-    check('25. 對照：互考照留（4/8 的邀約、4/19 的事件、KX_QUIZ 照記）',!!ev('ev_kexin_reschedule')&&L.includes('期中前，兩校互考。')&&(()=>{ const Q=G.flags.KX_QUIZ; return !!Q&&(Q.win|0)+(Q.lose|0)+(Q.draw|0)===1; })(),J(G.flags.KX_QUIZ)); }
+  { const w7=termDay('Y1S2',7,3); fresh(w7,20.9,'dorm',{dating_kexin:true}); run(21,21.1); check('25、26. 4/8 互考的邀約、4/19 那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!PHONE.sent(G,'kx_quiz_ask')&&!ev('ev_kexin_reschedule')); }
   // ===== 第 6 節（企劃線 bdab2f42；AA 22:0x 答 LAWWW 21:44 的比輸贏清單＋十二題）=====
-  { const quiz=async(mode,pick)=>{ fresh(termDay('Y1S2',8,7),14,'gongguan',{dating_kexin:true,KX_QUIZ_MODE:mode}); picks=[pick]; said=[]; await EVENTS.run(ev('ev_kexin_reschedule')); return lines(); };
-    const e=await quiz('meet','簡單'), ev2=await quiz('video','簡單');
-    check('第 6-1 節. 互考選「簡單的」：「兩個都對。……走，山下那攤。」（不是「平手。各付各的。」）',e.includes('兩個都對。……走，山下那攤。')&&!e.some(t=>/平手|各付各的/.test(t)),J(e));
-    check('第 6-1 節／第 6-2 節第 8 題. 視訊互考選「簡單的」：「兩個都對。……下次見面，山下那攤。」（人不在木柵大學）',ev2.includes('兩個都對。……下次見面，山下那攤。')&&!ev2.includes('兩個都對。……走，山下那攤。')&&!ev2.some(t=>/平手/.test(t)),J(ev2));
+  { check('第 6-1 節. 互考那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!ev('ev_kexin_reschedule'));
     const sum1=CALENDAR.gradeDay('Y1S2'); fresh(sum1,20.9,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'best_one'}); run(20.9,21.1);
     const m=(G.msgs||[]).find(x=>x.tag==='kx_best_one'&&x.ask), k=m?m.ask.opts.findIndex(o=>o.set&&o.set.KX_BEST_ONE_Y1S2!=='econ_principles_2'):-1; if(m&&k>=0) PHONE.answer(G,m.ask.id,k); const last=txt('p:kexin').slice(-1)[0]||'';
     check('第 6-1 節. 6/29 各說一科（kx_best_one）：「「…」。好，我記下來了。……明年再各說一科。」（不是「明年再比一次」）',!!m&&/。好，我記下來了。……明年再各說一科。$/.test(last)&&!txt('p:kexin').some(t=>/再比一次/.test(t)),last);
-    const r7=evText('ev_y0_r7'), p2b=evText('ev_y0_p2b');
-    check('第 6-1 節. 經濟系 ev_y0_r7：「宵夜你請。……上次是我請的。」（不比分數）',r7.includes('宵夜你請。……上次是我請的。')&&!r7.some(t=>/分數比較低/.test(t)),J(r7.filter(t=>/宵夜/.test(t))));
-    check('第 6-1 節. 經濟系 ev_y0_p2b：「那是我的第一次，不是你的。……好，聽你的。」（不是「算你贏」）',p2b.includes('那是我的第一次，不是你的。……好，聽你的。')&&!p2b.some(t=>/算你贏/.test(t)),J(p2b.filter(t=>/第一次，不是你的/.test(t))));
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（第 6-1 節 ev_y0_r7、ev_y0_p2b）
     const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('第 6-1 節. 對照（照留）：大二成績打賭「你輸了。」「我輸了。」「上次你請。這次你也會請。」「成績那一攤，你請。說好的。」；休學在家比早起；「那今天宵夜誰請？」；可昕 K1b「好，那下週換你請。」AA_525 3-11 改「好。」（2026-10-30 AA_525 改稿，企劃線 6081f725f：tests/aa525_promises_unit.js）',
-      ['你輸了。','我輸了。','上次你請。這次你也會請。','成績那一攤，你請。說好的。'].every(t=>src('src/y2r2_3d.js').includes(t))&&/今天算你贏/.test(src('src/data/retake_home.js'))&&src('src/data/r2y4a_events.js').includes('那今天宵夜誰請？')&&src('src/story3d.js').includes("{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好。')]}")); }
+      ['你輸了。','我輸了。','上次你請。這次你也會請。','成績那一攤，你請。說好的。'].every(t=>src('src/y2r2_3d.js').includes(t))&&src('src/data/r2y4a_events.js').includes('那今天宵夜誰請？')); }   /* 可昕 K1b 那一則（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   { const w6=(SYLLABUS.courses.ge_y1s2||[]).find(w=>w.w===6)||{}, ob=((w6.obs||{}).options||[]).find(o=>o.text==='看旁邊的人'), pre=(CLS.SPECIAL_PRE||{})['ge_y1s2|6']||[];
     check('第 6-2 節第 3 題. 通識第 6 週：黑板「（本週在天文館）」（不是「（本週晚上在操場）」）；觀察「看旁邊的人」＝「宥辰仰著頭，一直到燈亮都沒有說話。」；開頭旁白「（這堂課移到天文館。）」',
       (w6.board||[])[1]==='（本週在天文館）'&&!(w6.board||[]).some(t=>/操場/.test(t))&&!!ob&&ob.result==='宥辰仰著頭，一直到燈亮都沒有說話。'&&!!pre[0]&&pre[0][1]==='（這堂課移到天文館。）',J([w6.board,ob,pre]));

@@ -54,11 +54,14 @@ const NM3=(function(){
     if(bg){ await GM.say(null,open?bg.look:bg.closed); return open?'look':'closed'; }
     const st=d.stalls[key]; if(!st) return null;
     if(!open){ await GM.say(null,st.closed); return 'closed'; }
-    const m=S.month(G), who=S.owner(key); if(GM.sceneBegin) GM.sceneBegin();
+    const m=S.month(G); return S.serve(GM,q.id,st,S.owner(key),()=>S.lookLines(key,m),S.greetPool(key,m)); };
+  /* 營業中的一攤（夜市十攤、季節攤販 src/season_stalls3d.js 共用）：今天第一次先念 looks()，greets 有句子就說一句，再出選單、買。greets 空的（沒有攤販）＝不說 */
+  S.serve=async function(GM,id,st,who,looks,greets){ const G=GM.G; if(GM.sceneBegin) GM.sceneBegin();
     try{
-      if(S._seen[q.id]!==G.day){ S._seen[q.id]=G.day; for(const t of S.lookLines(key,m)) await GM.say(null,t); }
-      { const P=S.greetPool(key,m), pool=P.map((t,i)=>i).filter(i=>P.length<2||i!==S._prev[q.id]), i=pool[Math.min(pool.length-1,Math.floor(S.rand()*pool.length))]; S._prev[q.id]=i; await GM.say(who,P[i]); }
-      const i=await GM.choose(S.menu(G,st)); if(i==null||i<0||i>=st.items.length) return 'no';
+      if(S._seen[id]!==G.day){ S._seen[id]=G.day; for(const t of looks()) await GM.say(null,t); }
+      if(greets.length){ const P=greets, pool=P.map((t,i)=>i).filter(i=>P.length<2||i!==S._prev[id]), i=pool[Math.min(pool.length-1,Math.floor(S.rand()*pool.length))]; S._prev[id]=i; await GM.say(who,P[i]); }
+      const mo=S.menu(G,st), gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,st.name):null; if(gO) mo.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
+      const i=await GM.choose(mo); if(gO&&i===st.items.length+1){ await GIFT.buy(GM,st.name); return 'gift'; } if(i==null||i<0||i>=st.items.length) return 'no';
       const it=st.items[i]; if((G.money|0)<it.price){ if(GM.toast) GM.toast('錢不夠'); return 'poor'; }
       GM.money(-it.price); if(GM.advance) GM.advance(S.HRS);
       for(const t of it.buy) await GM.say(S.isNarr(t)?null:who,t);

@@ -31,7 +31,7 @@ const MSG=(function(){
     heroine_02:{free:[5,30],sleep:1,wake:9,wakeLine:['昨天太晚看到了。']},   /* 上班時間由作息判斷；祐廷交往中改 15:10 回（replyAt 另外處理）*/
     heroine_04:{free:[1,10],sleep:3,wake:14,wakeLine:['早','剛看到'],fastFrom:22,fastTo:24},   /* 22～24 點最活躍、下午兩點才醒 */
     heroine_05:{slots:[12+10/60,17+5/60,22.5],wakeLine:['抱歉，昨天十點半就睡了。']},   /* 很準時：12:10、17:05、22:30；22:30 以後隔天 12:10 */
-    kai:{free:[1,10],sleep:5,wake:13,wakeLine:['剛醒']},   /* 凌晨兩點到四點最活躍；一點以前傳的，一點才回 */
+    kai:{free:[1,10],sleep:5,wake:13,wakeLine:['剛醒']},   /* 凌晨兩點到四點最活躍；一點以前發的，一點才回 */
     classmate_mingxuan:{free:[1,10],sleep:1.5,wake:9,wakeLine:['昨天睡死 哈哈'],win:[{days:[2,4,6],from:19,to:21+5/60}]},   /* 二四六 19～21 家教，21:05 一次回 */
     npc_fangyt:{free:[10,60]}, kevin:{free:[1,5]}
   };
@@ -47,6 +47,7 @@ const MSG=(function(){
   const herPartner=(G,id)=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return !!(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))); };   /* partnerOn 看 fromWeek／untilWeek／startEvent／endEvent（inTerms 只看學期：Alison 開局、沛珊分手後都被當成有伴侶，BUG-INTERMS-PARTNER-1021）；同 date3d、invites3d、termend3d */
   /* 層：L＝交往中，或第 5 階以上而且兩人都單身（AA_202 6 的格式註、AA_215／AA_216 R8）；R＝朋友、好朋友；A＝認識、有點熟 */
   S.tier=function(G,id){ const F=G.flags||{}; if(F['dating_'+id]===true) return 'L'; const n=stageNum(id);
+    if(id==='kexin'&&typeof STORY!=='undefined'&&STORY.kxEx&&STORY.kxEx(G)) return 'R';   /* AA_892 第 3 節、AA_881：分開以後照 R */
     if(ROMANTIC.includes(id)&&id!=='kexin'&&n>=5&&!S.takenFor(G,id)&&!Object.keys(F).some(k=>k.indexOf('dating_')===0&&F[k])&&!herPartner(G,id)) return 'L';
     return n>=3?'R':'A'; };
   const met=(G,id)=>id==='kevin'?true:(typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage(id)!=='STRANGER':true);
@@ -113,19 +114,15 @@ const MSG=(function(){
   /* 子晴「芷若在英國」那一句（BB_178 第 2 節）：她在英國的那一段只播一次（段＝第幾次去英國：大三上、大四）*/
   S.zrUkKey=G=>{ const k=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).key:''; return k<'2028-06-01'?'Y3':'Y4'; };
   /* 什麼時候有「傳訊息」：回傳 {ok, why, mode}（mode：'business'＝學姊的事務版；'silent'＝沛珊重考消失期，只顯示已送達）。BB_178 0-1、AA_202 第 4 節 */
-  /* 經濟系那一年交往以後的可昕（AA_301 MSG_KX_Y0；使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）：10/17～2/13、7/12～8/29 開；2/14～7/11 住在一起不開（D103 重要的事當面講）*/
-  const Y0=()=>typeof MSG_KX_Y0!=='undefined'?MSG_KX_Y0:null, DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):0;
-  const y0In=(G,a,b)=>inDates(G,a,b);
-  S.y0Pool=function(G){ const Y=Y0(); if(!Y) return []; const V=Y.variants.filter(v=>y0In(G,v.from,v.to)).sort((a,b)=>(DK(a.to)-DK(a.from))-(DK(b.to)-DK(b.from))).map(v=>v.variant);   /* 範圍短的（期末）先 */
-    const out=[]; for(const t of ['chat','share_cat','share_food','share_notes','night']){ for(const v of V){ const L=Y.replies.filter(e=>e.topic===t&&e.variant===v); if(L.length){ out.push(...L); break; } } } return out; };   /* 同一個話題：這個時期最具體的那一版；都沒有就不出（AA_301 第 1 節）*/
-  S.open=function(G,id){ if((G.stage||'law')==='econ'&&id==='kexin'&&G.flags&&G.flags.dating_kexin===true&&Y0()){ const c=Y0().closed; if(c&&y0In(G,c.from,c.to)) return {ok:false,why:c.why,show:true}; return S.y0Pool(G).length?{ok:true,mode:'y0'}:{ok:false,why:'經濟系那一年還沒有',quiet:true}; }
-    if((G.stage||'law')!=='law') return {ok:false,why:'經濟系那一年還沒有',quiet:true};   /* quiet：手機畫面不寫這一句（經濟系那一年還沒有這個功能，不是她的原因；game3d.js threadHTML）*/
+  /* 舊序章那一年交往以後的可昕（AA_301 MSG_KX_Y0；使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）：10/17～2/13、7/12～8/29 開；2/14～7/11 住在一起不開（D103 重要的事當面講）*/
+  const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):0;
+  S.open=function(G,id){
     if(S.EXTRA[id]&&S.EXTRA[id].open) return S.EXTRA[id].open(G);   /* 宋知寧（S.EXTRA）*/
     const sisAdded=id==='heroine_05'&&!!(G.flags&&G.flags.SIS_CONTACTED)&&hasContact(G,id);   /* MSG-SIS-EARLY-1027（AA_485 第 4 節）：學姊加了好友（9/3 她接受交友邀請＝SIS_CONTACTED）起就開，還沒在現實見過也一樣 */
     if(!sisAdded&&!hasContact(G,id)) return {ok:false,why:S.noContactWhy(G,id),noContact:true};   /* 原因照約人那一句（INVITE_DATA.why：再熟一點／可以當面問，PHONE-UNIFY-1030）*/
     if(!sisAdded&&!met(G,id)) return {ok:false,why:'還沒見過面'};
     const pr=presence(G,id); if(pr&&pr.here===false&&pr.kind==='after') return {ok:false,why:'聯絡不上'};   /* PHONE-LIST-CLEAN-1103（使用者 11-03「朋友『聯絡不上』不對」）：開學前（presence before＝還沒到學校）見過、有聯絡方式的朋友照樣傳得了訊息；原本開學前一律「聯絡不上」*/
-    if(id==='kexin') return G.flags&&G.flags.dating_kexin===true?{ok:true}:{ok:false,why:'分開以後不開'};
+    if(id==='kexin'){ if(G.flags&&G.flags.dating_kexin===true) return {ok:true}; if(typeof STORY!=='undefined'&&STORY.kxNew&&STORY.kxNew(G)) return {ok:true}; return {ok:false,why:'分開以後不開'}; }   /* CANON-NO-ECON-1112 第四批（AA_892 第 3 節）：互加手機（KX_MET）起就開，A／R／L 照 S.tier；分開以後照 R（AA_881；下學期開學起 60 天內的三句短回覆是 AA_876 D6 那一包）。舊存檔（沒有 KX_MET、沒在交往）照舊不開 */   /* CANON-1112：同班同學、還沒交往（mate）＝在聯絡人裡，但現在沒有可以傳的話題（她的話題都是交往中寫的，AA 換字以前 S.topics 回空的）*/
     if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); return row==='none'?{ok:false,why:'她在英國，只寄明信片'}:{ok:true,mode:'uk',uk:row}; }   /* 大三上交換、大四英國念研究所：照交情（AA_276 第 2 節、BB_178 1-E；原本一律只寄明信片）。回台中（presence home）照常傳 */
     /* 子晴：原本要演過 Q6（ev_ziqing_secret_game）才開——2026-10-30 使用者「很多女生腳色都不能在訊息頁面傳訊息!!!!!!講很多次了 請統一」：七位女生見過、有聯絡方式就開（PHONE-UNIFY-1030）。
        Q6 以前不出講到她的遊戲的句子（S.zqSpoil：還不知道她在做遊戲）*/
@@ -157,7 +154,7 @@ const MSG=(function(){
     if(o.mode==='uk'&&o.uk==='friend') return '她在英國，一週回一兩次（臺灣時間週三、週日晚上）。'; return ''; };
   /* 聯絡人清單：七位女生在最前面，再來是其他認識、有聯絡方式的人（ids＝手機「朋友」的 knownIds，照那個順序）。
      有聯絡方式＝列出、點得開（傳不了的寫原因：分開以後、只寄明信片…）；七位女生見過、還沒有聯絡方式＝灰著、寫怎麼拿到；沒見過、也傳不到的不列（還不認識）。
-     經濟系那一年只列傳得到的（交往中的可昕）。沒有回覆池的人（同學二十位、打工的老闆…：MSG_POOL／MSG2_POOL 沒有她／他）傳了也沒有話題，不列（對話串照舊在下面）。
+     舊序章那一年只列傳得到的（交往中的可昕）。沒有回覆池的人（同學二十位、打工的老闆…：MSG_POOL／MSG2_POOL 沒有她／他）傳了也沒有話題，不列（對話串照舊在下面）。
      回傳 [{id, th, has, ok, sent, why, gray}] */
   S.pooled=id=>!!((POOL().people||{})[id]||(POOL2().people||{})[id]);
   S.contactRows=function(G,ids){ ids=Array.isArray(ids)?ids:[]; const law=(G.stage||'law')==='law', out=[], seen=new Set();
@@ -173,8 +170,7 @@ const MSG=(function(){
   S.EXTRA={};
   S.REPLY_OVERRIDE=[];   /* (G,id,topic)→她回的那一句（有＝整個回覆只有這一句，照 replyAt 的時間）；null＝照原本（S.send）*/
   /* 這個人現在有哪些話題 */
-  S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; if(S.EXTRA[id]&&S.EXTRA[id].topics) return S.EXTRA[id].topics(G); const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
-    if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
+  S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok||o.mate) return []; if(S.EXTRA[id]&&S.EXTRA[id].topics) return S.EXTRA[id].topics(G); const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
     if(o.mode==='uk'){ for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&((h<21.5&&h>=5)||S.takenFor(G,id))) continue; if(S.ukHas(G,id,q.k)) out.push(q); } return out.concat(S.ukTopics2?S.ukTopics2(G,id,o):[]); }   /* 芷若在英國：只有「在英國」那一組有的話題（朋友沒有晚安）；第二批只開生日（9/28）、新年（1/1）兩個，句子和回覆在 src/zr_uk3d.js（AA_419 第 3 節，MSG.ukTopics2）；謝謝、還好嗎照舊不開。每月／每週的視訊也在那裡 */
     for(const q of TOPICS){
       if(q.k==='course'){ const c=COURSE[id]; if(!c||!t) continue; if(c==='senior'){ const pr=presence(G,id); if(pr&&pr.here===false) continue; } else if(c!=='all'&&!c.includes(t.id)) continue;
@@ -188,7 +184,7 @@ const MSG=(function(){
      問社博：加了好友～社博結束（activities.js club_expo_y1s1 那一天 t1；社博不在週六的舊局沒有：句子寫「禮拜六的社博」）。問了的玩家社博那天照 ev_sis_club_expo 的「見過」那一條（SIS_MSG_EXPO）。
      問法服：社博以後、大一上（稿上沒寫到什麼時候，先放到大一上結束）；加入了法服（SIS_CLUB_EXPO／lawclub／CLUB_lawclub_study）＝第一版，沒加入＝第二版 */
   S.SIS_T={ sis_expo:{t:'問社博',say:'學姊，禮拜六的社博，法律系的大多參加什麼？',r:['看你想做什麼。想練法律的，法服。想動的，系籃。','我那天在法服顧攤。十點到四點。'],set:'SIS_MSG_EXPO'},
-    sis_fafu_in:{t:'問法服',say:'法服第一次去要準備什麼？',r:['不用準備。站旁邊聽，做紀錄。','隔週週六九點，B館一樓。不要遲到。']},
+    sis_fafu_in:{t:'問法服',say:'法服第一次去要準備什麼？',r:['不用準備。站旁邊聽，做紀錄。','有人預約的週六九點，B館一樓。前一天我會在群組講。'/* AA_701 第 3 節第 4 點（943f66532）：法服不是隔週 */]},
     sis_fafu_out:{t:'問法服',say:'法服現在還能報名嗎？',r:['可以。週六上午去B館一樓，找值班的學長姊。']} };
   S.sisExpoDay=function(G){ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list?ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'):null; if(!A||typeof CALENDAR==='undefined'||typeof STORY==='undefined'||!STORY.dayOfKey) return null;
     const ks=(A.datesW1&&STORY.week1Start&&STORY.week1Start(G))?A.datesW1:(A.datesOld&&STORY.week1Start&&!STORY.week1Start(G)?A.datesOld:A.dates); const ds=(ks||[]).map(k=>STORY.dayOfKey(k)).filter(d=>d!=null).sort((a,b)=>a-b);
@@ -305,7 +301,6 @@ const MSG=(function(){
   const zrShiftLine=(G,id,e)=>id==='heroine_02'&&zrOff(G)&&/下班|客人|吧檯/.test((e.msgs||[]).join('／'));
   const usable=(G,id,e,ctx)=>!zrShiftLine(G,id,e)&&!S.zqSpoil(G,id,e)&&!e.disabled&&!(e.geFlag&&!(G.flags&&G.flags[e.geFlag]))&&!(e.immediateOnly&&!ctx.immediate)&&!(e.note&&/填|照日曆算/.test(e.note))&&!e.thenGeneral&&(e.tags||[]).every(g=>S.tagOk(G,id,g))&&versionOk(e,ctx.mode);
   S.pick=function(G,id,topic,sub,ctx){ ctx=Object.assign({},ctx||{}); const R=S.rec(G), o=S.open(G,id); ctx.mode=o.mode; const tier=S.tier(G,id);
-    if(o.mode==='y0'){ const c=S.y0Pool(G).filter(e=>topicKeys(topic,sub).includes(e.topic)); return c.length?rot(R,id,'y0:'+topic+(sub||'')+'|'+c[0].variant,c):null; }   /* 經濟系那一年的可昕（AA_301）*/
     const all=((POOL().people[id]||{}).replies||[]).filter(e=>topicKeys(topic,sub).includes(e.topic));
     if(o.mode==='uk'){ const U=all.filter(e=>e.variant===UK&&tierFits(e,tier)&&usable(G,id,e,ctx)); return U.length?rot(R,id,'uk:'+topic+(sub||''),U):null; }   /* 芷若在英國：只用「在英國」那一組（朋友那一組好朋友、交往中也用：tierMin）*/
     if(topic==='chat'){ const ov=S.ownTrip(G,id); if(ov){ const c=all.filter(e=>e.variant===ov&&usable(G,id,e,ctx)); if(c.length) return rot(R,id,'own:'+topic+'|'+ov,c); }   /* Alison 營隊、方奕廷上山：自己那一版（AA_369 第 8 節第 1 題）*/
@@ -402,9 +397,9 @@ const MSG=(function(){
       out.push({key:c.key,day:d}); }
     return out.sort((a,b)=>b.day-a.day); };
   /* 生日的分年份列：y2026_2027＝那幾年；y2028_japan＝那一年而且祐廷在日本；route_c（可昕走向 C）還沒有這條路線＝不用 */
-  const bdayRowOk=(G,key)=>{ if(key==null) return true; const m=String(key).match(/^y(\d{4}(?:_\d{4})*)/); if(!m||!m[1].split('_').map(Number).includes(calY(G))) return false;
+  const bdayRowOk=(G,key,id)=>{ if(key==null) return true; const m=String(key).match(/^y(\d{4}(?:_\d{4})*)/); if(!m||!m[1].split('_').map(Number).includes(calY(G))) return false;
     if(/_japan$/.test(key)) return typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='JP'&&!!STORY.abroad&&STORY.abroad(G);
-    if(/_(not)?us$/.test(key)){ const us=typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'; return /_notus$/.test(key)?!us:us; }   /* 方奕廷 2028 生日：「你那邊應該還是昨天」只給美國路線（AA_369 L8）*/
+    if(/_(not)?us$/.test(key)){ const us=typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'&&(id!=='kexin'||(!!STORY.abroad&&STORY.abroad(G))); return /_notus$/.test(key)?!us:us; }   /* 可昕 y2028_us（AA_881）：祐廷人在美國那一天才算（她的 4/24 他還在臺灣＝不出）*/   /* 方奕廷 2028 生日：「你那邊應該還是昨天」只給美國路線（AA_369 L8）*/
     return true; };
   /* 第二批的標籤（AA_257 寫在句子後面括號裡的） */
   const TAG2=[[/^過年(；初三 15:00 以後才回)?$/,G=>S.lunarNY(G)],[/^1\/1，大一、大二$/,G=>isMD(G,1,1)&&yearNow(G)>=1&&yearNow(G)<=2],
@@ -416,7 +411,7 @@ const MSG=(function(){
   S.pick2=function(G,id,topic,peek){ const P=POOL2().people[id]; if(!P) return null; const o=S.open(G,id), tier=o.mode==='business'?'A':S.tier(G,id), R=S.rec(G);   /* 學姊閒聊條件不成立：四個話題都用 A（事務版；BB_178 10-6）*/
     let all=(P.replies||[]).filter(e=>e.topic===topic), act=null;
     if(topic==='thanks'||topic==='ok'){ act=S.conds2(G,id,topic)[0]; if(!act) return null; all=all.filter(e=>e.cond==null||e.cond===act.key); }
-    if(topic==='bday') all=all.filter(e=>bdayRowOk(G,e.cond));
+    if(topic==='bday') all=all.filter(e=>bdayRowOk(G,e.cond,id));
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inT=all.filter(e=>e.tier===tr); if(!inT.length) continue;
       const spec=inT.filter(e=>e.cond!=null), ok=(spec.length?spec:inT).filter(e=>usable2(G,id,e));

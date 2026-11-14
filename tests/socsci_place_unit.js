@@ -76,11 +76,8 @@ const cx=(all.x0+all.x1)/2, cz=(all.z0+all.z1)/2;
   check('4. 備用量體用 layout 的鏡頭碰撞盒子（跟著搬）', /SOCX\.cams\.forEach\(\(\[x0,y0,z0,x1,y1,z1\],i\)=>fb\(x0,y0,z0,x1,y1,z1,/.test(zsrc)&&!/fb\(95,0,-92,125,6\.15,-70/.test(zsrc)); }
 // 5. 其他寫死的位置
 { const ev=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'), inC=(x,z)=>x>all.x0&&x<all.x1&&z>tower.z1&&z<lib.z0;
-  const sk=ev.match(/id:'ev_sk02_jacket'[^\n]*?near:\{x:(-?[\d.]+),z:(-?[\d.]+),r:([\d.]+)\}/), sd=ev.match(/id:'ev_y0_soc_door'[^\n]*?near:\{x:(-?[\d.]+),z:(-?[\d.]+),r:([\d.]+)\}/);
-  check('5. SK02 系外套：在大樓正門的柱廊（離 mainDoor ≤ 1 m）', !!sk&&Math.hypot(+sk[1]-SX.mainDoor.x,+sk[2]-SX.mainDoor.z)<=1, sk?sk.slice(1).join(','):'找不到');
-  check('5. 休學以後第一次到社科院門口：範圍包含圖書館的門、中心在中庭', !!sd&&Math.hypot(+sd[1]-SX.libDoor.x,+sd[2]-SX.libDoor.z)<+sd[3]&&inC(+sd[1],+sd[2]), sd?sd.slice(1).join(','):'找不到');
-  const en=[...ev.matchAll(/GM\.enter\('campus',\{x:(-?[\d.]+),z:(-?[\d.]+),yaw:([^}]+)\}\)/g)].filter(m=>Math.hypot(+m[1]-cx,+m[2]-cz)<40||Math.hypot(+m[1]-110,+m[2]+67)<40);
-  check('5. 經濟系那一年事件後回到社科院中庭（兩處）：位置在新的中庭裡、面向小椰林道（東）', en.length===2&&en.every(m=>inC(+m[1],+m[2])&&m[3]==='Math.PI/2'), en.map(m=>m.slice(1).join(',')).join(' | '));
+  /* 5. SK02 系外套的位置（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（第 5 項 休學以後第一次到社科院門口（ev_y0_soc_door）、經濟系那一年事件後回到中庭（兩處））
   const lm=PLACES.landmarks.campus, ls=lm.find(q=>q[0]==='社會科學院'), ll=lm.find(q=>q[0]==='社科院圖書館');
   check('5. 大地圖的地名：「社會科學院」在大樓、「社科院圖書館」在圖書館', !!ls&&!!ll&&ls[1]>tower.x0&&ls[1]<tower.x1&&ls[2]>tower.z0&&ls[2]<tower.z1&&ll[1]>lib.x0&&ll[1]<lib.x1&&ll[2]>lib.z0&&ll[2]<lib.z1, JSON.stringify([ls,ll]));
   check('5. 社科院圖書館的門（soclib3d.js 的 DOOR、出來的位置 CAMPUS）照 layout', SL3.DOOR.x===SX.libDoor.x&&SL3.DOOR.z===SX.libDoor.z&&SL3.CAMPUS.x===SX.libOut.x&&SL3.CAMPUS.z===SX.libOut.z); }

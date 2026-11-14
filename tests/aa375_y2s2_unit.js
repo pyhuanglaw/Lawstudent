@@ -3,7 +3,7 @@
 //   2 錄取那一場 6/3 那個班以前、「五個多月」（AA_554 第 2 節改「五個月」）　3 子晴爸爸那則第 12 週（5/16）　4 阿哲外澳大二下只在 6/5　5 春假一台車最多三個人
 //   6 期末邀約從最後一科考完的隔天　7 語彤 Y4-L7　8 考完試走出教室在最後一科、Alison「租賃」　9 「上次我陪阿姨去法服。」　10 明軒說明會那則 3/15 21:00
 //   11 可昕 K4-L2 第 5 週起、只給 3/25 去了的　12 芷若 Z4-L4 第 11 週以後跳過　13 子晴說演唱會 5/17 以後（演唱會 5/15）　14 春假出遊那天去的人作息停掉
-//   15 可昕見麵店團「我們八點讀書會」、Alison 拉著柏翰、群組不算他們　16 語彤第 8～9 週不在麵店　17 以安「上次那份公文」　18 可昕「你們講過了嗎？」
+//   15 可昕見桌遊團「我們八點讀書會」、Alison 拉著柏翰、群組不算他們　16 語彤第 8～9 週不在麵店　17 以安「上次那份公文」　18 可昕「你們講過了嗎？」
 //   19 語彤的債各　20 許教授那句只在大一　21 語彤事件 11 補演和期末飯互斥　22 阿哲期末一起讀第 14～15 週　23 讀了幾頁
 //   第 4 節提醒：AA_342 第 2-2 節七則、AA_255 說明會散場三句、6/4 子晴四則版、AA_255 第 2 節第 5 點（以安讀書會招呼避開第 8、9、16 週）
 //   LAWWW 補充（AA_373 第 6 節第 9 題，企劃線 bdab2f42）：6/3 以前芷若「九點」改「十點」、邀約 22:00（含 MSG-2 生日回問「十點，店門口。」）
@@ -132,13 +132,13 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('4. 阿哲外澳大二下避開 5/29（系籃比賽），在 6/5（第 15 週）；偶遇那一列一樣',!(a&&a.away==='和系籃在外澳')&&!!b&&b.away==='和系籃在外澳'&&!!row&&J(row.termWeeks&&row.termWeeks.Y2S2)===J([15]),J([a&&a.away,b&&b.away,row&&row.termWeeks]));
     fresh('2028-05-27',15,'dorm'); const c=sched('zhe'); check('4. 對照：大三下第 14 週（5/27）照舊在外澳',!!c&&c.away==='和系籃在外澳',J(c&&c.away)); }
   // ===== 第 5 項：春假一台車 =====
-  { const SD=GROUP.springDays(); fresh(SD.trip,8,'dorm',{SPRING_Y2:'noodle'}); PHONE.join(G,'noodle_team','麵店團'); for(const id of ['zhe','yu','heroine_01','heroine_03','classmate_bohan','classmate_xinci']) R(id,'FAM'); R('heroine_03','FRI'); R('classmate_bohan','FRI');
+  { const SD=GROUP.springDays(); fresh(SD.trip,8,'dorm',{SPRING_Y2:'noodle'}); PHONE.join(G,'noodle_team','桌遊團'); for(const id of ['zhe','yu','heroine_01','heroine_03','classmate_bohan','classmate_xinci']) R(id,'FAM'); R('heroine_03','FRI'); R('classmate_bohan','FRI');
     const e=ev('ev_spring_y2_noodle'); if(e&&e.beforeOuting) e.beforeOuting(G,GM,{}); const car=G.flags.SPRING_Y2_CAR; const L=await play('ev_spring_y2_noodle',[0]);
     check('5. 4/4 春假出遊：車上最多三個人（照熟悉度；BB 測試）',Array.isArray(car)&&car.length===3&&car.includes('heroine_03')&&car.includes('classmate_bohan'),J(car));
     check('5. 認識的超過三個：「（車子坐不下。剩下的人搭火車，下午在那邊會合。）」接在開車那句後面',L[0]==='（後座擠了三個人。）'&&L[1]==='（車子坐不下。剩下的人搭火車，下午在那邊會合。）',J(L.slice(0,2)));
     const mk=L.slice(0,L.indexOf('（第二站是海邊。四月的風還有點冷。）'));
     check('5. 市場（早上）只有車上的人說話：語彤在、以安不在（搭火車）；會合以後海邊照樣有 Alison、芯慈的句子；回程「後座三個人都睡著了」照留',mk.includes('這個市場，我田野課看過資料。……想自己來看一次。')&&!mk.includes('這裡選得好。早上來是對的。')&&L.includes('我說要去海邊，真的來了。')&&L.includes('我們拍一張。……阿哲你站後面，你太高。')&&L[L.length-1]==='（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）',J(L));
-    fresh(SD.trip,8,'dorm',{SPRING_Y2:'noodle'}); PHONE.join(G,'noodle_team','麵店團'); R('zhe','FAM'); R('heroine_03','FAM'); const L2=await play('ev_spring_y2_noodle',[0]);
+    fresh(SD.trip,8,'dorm',{SPRING_Y2:'noodle'}); PHONE.join(G,'noodle_team','桌遊團'); R('zhe','FAM'); R('heroine_03','FAM'); const L2=await play('ev_spring_y2_noodle',[0]);
     check('5. 對照：只認識兩個＝沒有搭火車那一句',!L2.includes('（車子坐不下。剩下的人搭火車，下午在那邊會合。）'),J(L2.slice(0,3))); }
   // ===== 第 6 項：期末邀約從最後一科考完的隔天 =====
   { fresh('2027-06-10',9,'dorm'); const w=TERMEND.windowOf('Y2S2'), ex=CLS.examList(G,'Y2S2').filter(x=>x.kind==='final'), last=Math.max(...ex.map(x=>x.day));
@@ -153,7 +153,10 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   // ===== 第 7 項：語彤 Y4-L7 =====
   { const s=lad('Y2S2','heroine_03','Y4-L7');
     const said7=J([s&&s.lines,s&&s.choices]);
-    check('7. 語彤 Y4-L7（大二下）：「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」；助教、「她說每週要改二十份作業」拿掉',!!s&&J(s.lines)===J(['下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。'])&&!said7.includes('助教')&&!said7.includes('二十份'),said7);
+    /* 2026-11-11（X324，AA_781_yt_ladder_Y2S2.json@d898cded5 steps Y4-L7；BB 08:1x 看過）：AA 補兩個選項、lines 拿掉刪節號和沒人記的「確定再跟你講」。
+       舊期望：lines＝「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」、整層沒有「助教」。新稿選項①的回話是「訪談課的助教。老師問我要不要。」——
+       老師問、還沒答應（AA_375 第 7 項要拿掉的是「已經確定當助教」那兩句和兩個選項；確定是大三上 1B-08，下面對照照比）。「二十份」（確定以後的工作量）照樣不能有 */
+    check('7. 語彤 Y4-L7（大二下）：「下學期系上可能會找我做一點事。還沒確定。」；助教只說「老師問我要不要」（還沒確定）、「她說每週要改二十份作業」拿掉',!!s&&J(s.lines)===J(['下學期系上可能會找我做一點事。還沒確定。'])&&!/當助教|我要當|確定再跟你講/.test(said7)&&said7.includes('老師問我要不要')&&!said7.includes('二十份'),said7);
     const ta=fs.readFileSync(path.join(ROOT,'src/data/y2b_events.js'),'utf8');
     check('7. 對照：大三上 1B-08「系上老師叫我當助教。質性研究方法。」「他說我訪談的時候……」照現在（老師「他」）',ta.includes("text:'系上老師叫我當助教。質性研究方法。'")&&ta.includes("text:'他說我訪談的時候，受訪者會多講十分鐘。……我不知道那是什麼意思。'")); }
   { const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, a=allow.filter(e=>/AA_375_/.test(e.path)), b=allow.filter(e=>/AA_342_/.test(e.path));
@@ -173,11 +176,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     to('2027-03-15',20.9); STORY.neededRules(GM); PHONE.tick(G); const s0=N.shown.mx_seat; to('2027-03-15',21.05); STORY.neededRules(GM); PHONE.tick(G);
     const m=TH('p:classmate_mingxuan'); check('10. 3/15（一）21:00 發（學校信 3/15 09:00 才公告）：「交換說明會週四中午 ……」，回得了',s0==null&&N.shown.mx_seat===D('2027-03-15')&&m.length>0&&/交換說明會週四中午/.test(m[0].text)&&!!m[m.length-1].ask,J(m.map(x=>x.text))); }
   // ===== 第 11 項：可昕 K4-L2 =====
-  { const s=lad('Y2S2','kexin','K4-L2'); check('11. 可昕 K4-L2 週次第 5 週起 [5,16]',!!s&&J(s.week)===J([5,16]),J(s&&s.week));
-    fresh('2027-03-23',21,'dorm'); dateWith('kexin'); const H=STORY.LADDER_HOLD['K4-L2'], SK=STORY.LADDER_SKIP['K4-L2'];
-    const a=[!!H&&H(G),!!SK&&SK(G)]; G.flags.KX_CIRCLES_GO=true; const b=[H&&H(G),SK&&SK(G)]; to('2027-03-27',12); const c=[H&&H(G),SK&&SK(G)]; G.events.done.ev_kexin_two_circles=1; const d=[H&&H(G),SK&&SK(G)];
-    fresh('2027-03-23',21,'dorm'); dateWith('kexin'); G.flags.KX_CIRCLES_GO=false; const e=[H&&H(G),SK&&SK(G)];
-    check('11. 只給 3/25 那場去了的玩家：還沒回＝先不說；答應＝說；3/25 過了沒去＝跳過；去了＝說；回了「那天不行」＝跳過',!!H&&!!SK&&J(a)===J([false,false])&&J(b)===J([true,false])&&c[1]===true&&J(d)===J([true,false])&&e[1]===true,J([a,b,c,d,e])); }
+  { check('11. 可昕 K4-L2 的週次、3/25 那一場的條件（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY.LADDER_HOLD['K4-L2']&&!STORY.LADDER_SKIP['K4-L2']); }
   // ===== 第 12 項：芷若 Z4-L4 =====
   { const s=lad('Y2S2','heroine_02','Z4-L4'); check('12. 芷若 Z4-L4 第 11 週以後跳過（同子晴 Q4-L4：週次 [3,11]、skipAfterWeek 11）',!!s&&J(s.week)===J([3,11])&&s.skipAfterWeek===11,J(s&&[s.week,s.skipAfterWeek])); }
   // ===== 第 13 項：子晴說演唱會 =====
@@ -186,14 +185,11 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     fresh('2027-05-15',20,'dorm'); const s=sched('heroine_02'); check('13. 演唱會是 5/15（六）晚上：那晚芷若不在西門町',!!s&&s.zone==null&&s.away!=='在西門町看電影',J(s&&s.away)); }
   // ===== 第 14 項：春假出遊那天，去的人作息停掉 =====
   { const SD=GROUP.springDays(); fresh(SD.trip,11,'dorm',{SPRING_Y2:'noodle'}); R('classmate_bohan','FAM'); R('heroine_01','FAM'); const a=sched('classmate_bohan'), b=sched('heroine_01');
-    check('14. 4/4 跟麵店團出去：柏翰不「在北投讀書」、以安不「在美術館」',!!a&&a.away!=='在北投讀書'&&!!b&&b.away!=='在美術館',J([a&&a.away,b&&b.away]));
+    check('14. 4/4 跟桌遊團出去：柏翰不「在北投讀書」、以安不「在美術館」',!!a&&a.away!=='在北投讀書'&&!!b&&b.away!=='在美術館',J([a&&a.away,b&&b.away]));
     fresh(SD.trip,11,'dorm'); R('classmate_bohan','FAM'); R('heroine_01','FAM'); const c=sched('classmate_bohan'), d=sched('heroine_01');
-    check('14. 對照：沒有這一趟（沒收到麵店團的邀約）照原本的作息',!!c&&c.away==='在北投讀書'&&!!d&&d.away==='在美術館',J([c&&c.away,d&&d.away])); }
-  // ===== 第 15 項：可昕見麵店團 =====
-  { fresh('2027-03-25',18,'noodle'); dateWith('kexin'); for(const id of ['zhe','yu','classmate_bohan','heroine_01']) R(id,'FAM'); const L=await play('ev_kexin_two_circles',[0,0]);
-    const i=L.indexOf('我們八點讀書會。……很高興認識妳。'), j=L.indexOf('（拉著柏翰站起來）可昕下次見！');
-    check('15. 以安「我們八點讀書會。……很高興認識妳。」接 Alison「（拉著柏翰站起來）可昕下次見！」',i>=0&&j===i+1&&!L.includes('我八點讀書會。……很高興認識妳。'),J(L.slice(-6)));
-    check('15. 20:30 群組「麵店分店」不算 Alison、柏翰',J(G.flags.NOODLE_BRANCH_MEMBERS)===J(['kexin','yule','zhe']),J(G.flags.NOODLE_BRANCH_MEMBERS)); }
+    check('14. 對照：沒有這一趟（沒收到桌遊團的邀約）照原本的作息',!!c&&c.away==='在北投讀書'&&!!d&&d.away==='在美術館',J([c&&c.away,d&&d.away])); }
+  // ===== 第 15 項：可昕見桌遊團 =====
+  { check('15. 可昕見桌遊團（兩邊的朋友）那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY_EVENTS.some(e=>e.id==='ev_kexin_two_circles')); }
   // ===== 第 16 項：語彤第 8～9 週 =====
   { fresh('2027-04-13',18,'dorm'); const a=sched('heroine_03'); to('2027-04-20',18); const b=sched('heroine_03'); to('2027-03-30',18); const c=sched('heroine_03');
     to('2027-04-17',14); const w8=sched('heroine_03'); to('2027-04-25',14); const w9=sched('heroine_03'); to('2027-04-10',14); const w7=sched('heroine_03');
@@ -207,7 +203,8 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('17. 對照：沒聽過＝原本那句',L2[0]==='我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。',J(L2.slice(0,2))); }
   // ===== 第 18 項 =====
   { const it=STORY.DAILY_PHONE.find(x=>x.id==='y2_kx_landlord'); fresh('2027-03-20',21,'dorm'); const m=it?it.items(G):[];
-    check('18. 可昕房東小訊息「我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？」',!!m.length&&m[0].text==='我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？',J(m.map(x=>x.text))); }
+    /* 2026-11-13 76f8 rc2（D158-KX-SAMESCHOOL，AA_987 rows；tests/d158_rc2_rows.json）：可昕同校同屆、只是不同班——「我們債各老師……你們講過了嗎？」換成「我們班債各老師……你那班講過了嗎？」；舊期望是舊字 */
+    check('18. 可昕房東小訊息「我們班債各老師講了一個房東的例子，講了一整節。你那班講過了嗎？」（舊字不再出現）',!!m.length&&m[0].text==='我們班債各老師講了一個房東的例子，講了一整節。你那班講過了嗎？'&&!m.some(x=>x.text==='我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？'),J(m.map(x=>x.text))); }
   // ===== 第 19 項：語彤的債各 =====
   { fresh('2027-03-08',10,'dorm'); const a=sched('heroine_03'); to('2026-10-05',10); const b=sched('heroine_03');   /* 3/1 是和平紀念日的補假（停課），用第 3 週 3/8 */
     check('19. 語彤雙主修的法律課：大二下週一上午債各在霖澤館 201',!!a&&a.zone==='classroom'&&a.act==='class',J(a&&[a.zone,a.act]));
@@ -230,7 +227,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('23. 祐廷接的版本：柏翰在全班群組貼「（照片：白板上每個人這週要讀到哪裡）」',m.includes('（照片：白板上每個人這週要讀到哪裡）')&&!m.some(t=>/分數分布圖/.test(t)),J(m)); }
   // ===== 第 4 節：AA_342 第 2-2 節（大二下的七則補稿）=====
   { const a=ev('ev_y2s2_thu_noodle_first'), b=ev('ev_y2s2_thu_noodle_spring');
-    const okIn=(e,k,h)=>{ fresh(k,h,'noodle'); PHONE.join(G,'noodle_team','麵店團'); return !!e&&EVENTS.check(e); };
+    const okIn=(e,k,h)=>{ fresh(k,h,'noodle'); PHONE.join(G,'noodle_team','桌遊團'); return !!e&&EVENTS.check(e); };
     const nd1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-15');d++) if(STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; return null; })(), nn1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-01');d++){ const w=CALENDAR.dateOf(d).wd; if(w>=1&&w<=5&&!STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; })();   /* AA_542 第 5 節：麵店日每週不固定兩天 */
     check('AA_342. 大二下第一個麵店日（'+nd1+'）：「（大二下第一次在燒臘店遇到大家。阿姨說，過年胖了的人自己知道。）」；不是麵店日（'+nn1+'）不演',!!a&&J(evTexts(a))===J(['（大二下第一次在燒臘店遇到大家。阿姨說，過年胖了的人自己知道。）'])&&!!nd1&&okIn(a,nd1,18)&&!!nn1&&!okIn(a,nn1,18));
     { const SP1='（春假回來以後，第一次在燒臘店遇到大家。每個人都在講自己這幾天去了哪裡。）', SP10='（期中週過了，第一次在燒臘店遇到大家。春假去了哪裡，到現在還有人在講。）';
@@ -244,7 +241,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     fresh('2027-03-12',20.5,'dorm'); R('classmate_bohan','FAM'); run(20.9,21.2); const bh=TH('p:classmate_bohan');
     check('AA_342. 3/12（五）21:00 柏翰私訊「債各第一章的筆記，我做了表格。」「要的話傳給你。」（要。／我自己整理。）',J(bh.map(m=>m.text))===J(['債各第一章的筆記，我做了表格。','要的話傳給你。'])&&!!bh[1].ask&&J(bh[1].ask.opts.map(o=>o.t))===J(['要。','我自己整理。'])&&bh[1].ask.opts[0].say[0].text==='（照片：一張表格，欄位比內容多）',J(bh.map(m=>m.text)));
     fresh('2027-03-12',20.5,'dorm'); R('classmate_bohan','ACQ'); run(20.9,21.2); check('AA_342. 對照：和柏翰不到 FAMILIAR 不傳',TH('p:classmate_bohan').length===0);
-    fresh('2027-04-21',21.5,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('yu','FAM'); run(21.9,22.2); const g=TH('g:noodle_team').map(m=>m.from+':'+m.text);
+    fresh('2027-04-21',21.5,'dorm'); PHONE.join(G,'noodle_team','桌遊團'); R('yu','FAM'); run(21.9,22.2); const g=TH('g:noodle_team').map(m=>m.from+':'+m.text);
     check('AA_342. 4/21（三）22:00 群組：Alison「這週的報告交完了」「我要吃三個便當」、阿哲「我請一個」（AA_612 A-437 備註）',J(g)===J(['yu:這週的報告交完了','yu:我要吃三個便當','zhe:我請一個']),J(g));
     fresh('2027-05-21',21.5,'dorm'); R('kai','FAM'); run(21.9,22.2); const k=TH('p:kai');
     check('AA_342. 5/21（五）22:00 阿凱私訊「暑假你回家還是留宿舍」（還沒想。／回家吧。）',k.length===1&&k[0].text==='暑假你回家還是留宿舍'&&J(k[0].ask.opts.map(o=>[o.t,o.say[0].text]))===J([['還沒想。','我也是。'],['回家吧。','那我一個人吃宵夜']]),J(k.map(m=>m.text))); }

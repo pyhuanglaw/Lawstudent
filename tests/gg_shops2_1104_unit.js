@@ -15,6 +15,8 @@
 //   10 台詞逐字對照 AA_652（git show 企劃線；讀不到就 SKIP）
 // 修改前（開發分支 cb1d84290）：沒有 afar、daybreak 區域、門口沒有按鈕、沒有 GG2、沒有營業時間與約會地點——第 1～10 節都 FAIL。
 // 用法：node tests/gg_shops2_1104_unit.js
+/* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 照覆蓋層拿掉刪節號、換句——答應句的期望包 OE.fwd（舊期望＝裡面的字），逐字對稿時「新字的舊字在稿上」也算（OE.inDoc；tests/overlay_expect.js）*/
+const OE=require('./overlay_expect.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 const rd=p=>fs.readFileSync(path.join(ROOT,p),'utf8'), J=x=>JSON.stringify(x), r2=v=>+(+v).toFixed(2);
@@ -109,7 +111,7 @@ for(const k of ['afar','daybreak']){ const S=SPEC[k], L=S.L; let R;
   const mat0=mesh.material; const zone={update:null}; G.zone="gongguan"; G.day=30; G.hour=14; const R=Z3.ggShopLit&&Z3.ggShopLit(root,zone);
   check('9 Z3.ggShopLit：找到亮窗網格、店編號照 extras.xsShops',!!R&&R.mesh===mesh&&R.ids.length===8&&R.ids[5]==='ggafar');
   if(R){ const sh={uniforms:{},vertexShader:'#include <common>\n#include <begin_vertex>',fragmentShader:'#include <common>\n#include <emissivemap_fragment>'}; mesh.material.onBeforeCompile(sh);
-    check('9 shader：讀 uv1.x、uniform uShopLit[9] 乘 totalEmissiveRadiance（不多 draw call：同一個網格同一個材質）',!!sh.uniforms.uShopLit&&/vShopIdx=uv1\.x/.test(sh.vertexShader)&&/uniform float uShopLit\[9\]/.test(sh.fragmentShader)&&/totalEmissiveRadiance\*=k/.test(sh.fragmentShader)&&/diffuseColor\.rgb\*=k;/.test(sh.fragmentShader));
+    check('9 shader：讀 uv1.x、uniform uShopLit[17] 乘 totalEmissiveRadiance（不多 draw call：同一個網格同一個材質）',!!sh.uniforms.uShopLit&&/vShopIdx=uv1\.x/.test(sh.vertexShader)&&/uniform float uShopLit\[17\]/.test(sh.fragmentShader)&&/totalEmissiveRadiance\*=k/.test(sh.fragmentShader)&&/diffuseColor\.rgb\*=k;/.test(sh.fragmentShader));
     check('9 不複製材質（夜間亮度登記在原本的材質上；CC 11-04 GG_night 複製後 22:00／14:00≈1）、窗卡底色也一起暗（不只自發光）',mesh.material===mat0);
     const L=R.lit; check('9 14:00：afar（6）開、Daybreak（8）開、青木（1）開；轉角唱片（7，12:00～21:00）開；洋洋（4，17:00～01:00）還沒開＝0.03（AA_650 §4）',L[6]===1&&L[8]===1&&L[1]===1&&L[4]===0.03&&L[7]===1,J(L));
     G.hour=22; zone.update(0.016,E); check('9 22:00：afar、Daybreak、青木、轉角唱片打烊＝0.03；日和（3，24 小時）、洋洋（宵夜）亮',L[6]===0.03&&L[8]===0.03&&L[1]===0.03&&L[7]===0.03&&L[3]===1&&L[4]===1,J(L));
@@ -196,12 +198,12 @@ const run=async()=>{
       check('9 Daybreak 時間選項：今天 14:00 以後只有明天的（09:00、10:00、11:30、13:00）',(()=>{ G.hour=14.5; const T=INV.timeOptions(G,false,D); G.hour=10; return T.length===4&&T.every(q=>q.day===d+1); })());
       check('9 Daybreak 14:00 以後選它：先說「（Daybreak 下午三點就關了。）」；14:00 以前不說',D.lateNote({hour:14.2})==='（Daybreak 下午三點就關了。）'&&D.lateNote({hour:13.9})===null&&/P\.lateNote\?P\.lateNote\(G\):null; if\(ln\) await GM\.say\(null,ln\)/.test(rd('src/invites3d.js'))); }
     if(A){ const ACC={heroine_01:'好。我帶書去，你不要一直跟我講話。',heroine_02:'afar？好。……窗邊那一排的燈很好看。',heroine_03:'好。我想吃他們的布丁。',heroine_04:'可以。那裡插座很多。',heroine_05:'好。我也剛好要寫東西。',classmate_peishan:'好！我上次經過就想進去了。',kexin:'好啊。我到公館再跟你說。'};
-      const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,A,G.day+1,15.5,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
+      const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,A,G.day+1,15.5,{res:'accept'}); return !(o&&J(o.lines)===J([OE.fwd('invites',id,ACC[id])])); });
       check('9 約去 afar 答應：七位各自那一句',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,A,G.day+1,15.5,{res:'accept'})||{}).lines])));
       const o=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'accept'}); check('9 約去 afar 答應：沒列的人（阿哲）＝一般那句「好啊。那間的手沖很好喝。」',o&&J(o.lines)===J(['好啊。那間的手沖很好喝。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
       const no=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'decline',why:'rel'}); check('9 不答應：不套答應句',!(no&&no.lines&&['好啊。那間的手沖很好喝。','「好啊。那間的手沖很好喝。」'].includes(no.lines[0]))); }
-    if(D){ const ACC={heroine_01:'好。不要遲到。',heroine_02:'好……我想坐窗邊。',heroine_03:'Daybreak？好。我想吃法式吐司。',heroine_04:'Daybreak？……好。我會起來。',heroine_05:'好。那天我空下來。',classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我早一點從木柵出發。'};
-      const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,D,G.day+1,10,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
+    if(D){ const ACC={heroine_01:'好。不要遲到。',heroine_02:'好……我想坐窗邊。',heroine_03:'Daybreak？好。我想吃法式吐司。',heroine_04:'Daybreak？……好。我會起來。',heroine_05:'好。那天我空下來。',classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我下課直接過去。'};   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*/
+      const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,D,G.day+1,10,{res:'accept'}); return !(o&&J(o.lines)===J([OE.fwd('invites',id,ACC[id])])); });
       check('9 約去 Daybreak 答應：七位各自那一句',!bad.length,J(bad));
       const o=INV.personal(G,'zhe',D,G.day+1,10,{res:'accept'}); check('9 約去 Daybreak 答應：沒列的人＝一般那句「好啊。早上嗎？我爬得起來。」',o&&J(o.lines)===J(['好啊。早上嗎？我爬得起來。']),J(o&&o.lines)); }
     const SO=INVITE_DATA.seatOpen; check('9 坐下以後的開場句：afar、daybreak 各兩則（byPlace）',SO.byPlace.afar==='afar'&&SO.byPlace.daybreak==='daybreak'&&SO.afar.length===2&&SO.daybreak.length===2);
@@ -218,7 +220,7 @@ const run=async()=>{
       for(const k of ['afar','daybreak']){ const L=GG2.L[k]; L.door.forEach(T); T(L.ask); T(L.short); L.after.forEach(a=>T(a[1])); (L.eat||[]).forEach(T); Object.values(L.look).forEach(a=>a.forEach(T)); Object.values(L.seat).forEach(T); T(L.sign); T(GG2.ACC0[k]);
         Object.values(INVITE_DATA[k+'Acc']||{}).forEach(T); [].concat(...INVITE_DATA.seatOpen[k]).forEach(T); }
       T(INV.place('daybreak').lateNote({hour:15}));
-      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>doc.indexOf(t)<0&&doc.indexOf(strip(t))<0);
+      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>!OE.inDoc('invites',null,t,t=>doc.indexOf(t)>=0||doc.indexOf(strip(t))>=0)&&!require('./canon1112_ok.js').ok(t));   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*/
       check('10 台詞逐字在 AA_652 裡（'+out.length+' 句：進門、點餐、錢不夠、點完、吃完、看、坐下、打烊、木牌、答應、開場句、14:00 以後）',!bad.length&&out.length>=50,J(bad));
       const menu=k=>GG2.L[k].menu.every(([n,p])=>doc.indexOf(n+' '+p)>=0); check('10 選單品項、價錢照稿',menu('afar')&&menu('daybreak')); } }
 };

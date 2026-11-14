@@ -6,7 +6,7 @@
    3. 期末前的夜（AA_97）：期末考前兩週（第 W-2、W-1 週）22:00～02:00，柏翰坐在 24 小時自習室中間那排（spot study_night）。
       23:30～24:00 祐廷在自習室裡、他在座位上：「十一點四十。你還有二十分鐘可以決定要不要回宿舍。」一學期一次。宿舍門禁照現有的（24:00）。
    4. 24 小時自習室晚上進得去：總圖大廳 22:00 關門以後，校園的總圖門口多一個「從側門下 B1（24 小時自習室，刷學生證）」；
-      人在 B1、大廳已經關了，樓梯間的出口改成走側門出去（回到校園的總圖門口）。休學的那一年沒有學生證，不能刷。
+      人在 B1、大廳已經關了，樓梯間的出口改成走側門出去（回到校園的總圖門口）。舊序章的那一年沒有學生證，不能刷。
    5. 自助借還書機、還書口（AA_399 第 3 節「B1 自助借還機也可以還」）：借還照 loans3d.js（服務台那幾句館員的話只在服務台）；還書口只能還。
    這裡的字只有選單、提示（UI）；台詞照 AA 的稿一字不改（D100、D109）。 */
 const B1S=(function(){
@@ -15,7 +15,7 @@ const B1S=(function(){
   const sp=k=>{ const l=L(); return (l&&l.spots&&l.spots[k])||null; };
   const met=id=>typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(id,'FIRST_MET');
   const name=id=>typeof SOCIAL!=='undefined'?(SOCIAL.npcName?SOCIAL.npcName(id):SOCIAL.displayName(id)):id;
-  const law=G=>!!G&&G.stage!=='econ';
+  const law=G=>!!G;
   const CAMPUS={x:80,z:0,yaw:-Math.PI/2};   /* 從總圖出去：門廊前面（library3d.js 的 CAMPUS）*/
   S.LINE='十一點四十。你還有二十分鐘可以決定要不要回宿舍。';   /* AA_399 第 2 節（AA_97）*/
 
@@ -79,7 +79,7 @@ const B1S=(function(){
 
   /* ---------- 晚上進出 24 小時自習室 ---------- */
   const hallOpen=G=>typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen('library_hall',G.hour%24,G.day);
-  S.card=G=>!(G.stage==='econ'&&G.flags&&G.flags.Y0_LEFT);   /* 休學（Y0_LEFT）沒有學生證 */
+  S.card=G=>true;   /* 舊序章（Y0_LEFT）沒有學生證 */
   S.nightDoor=async function(GM,it){ const G=GM.G, l=L(); if(!l) return false;
     let k=1; GM.sceneBegin(); try{ if(GM.caption&&typeof PLACES!=='undefined'&&PLACES.closedText) GM.caption('',PLACES.closedText('library_hall',G.hour%24),3600);
       k=await GM.choose(S.card(G)?[{t:'從側門下 B1',hint:'24 小時自習室，刷學生證'},{t:'先不要'}]:[{t:'（沒有學生證，刷不進去）'}]); } finally { GM.sceneEnd(); }

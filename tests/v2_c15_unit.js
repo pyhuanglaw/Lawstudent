@@ -30,7 +30,9 @@ check('1. 憲法二第 12 週有回想（activity B4、在教授那一句之後�
     G.day=b4day; G.hour=19; ACTIVITIES.markAttended(G,{id:'B4'}); G.flags.B4_ATTENDED=true;
     G.day=it2.day; G.hour=it2.t0; said.length=0; await CLS.attend(GM,it2,{door:true});
     const iLine=said.findIndex(t=>t.includes(W.line)), iRec=said.indexOf(REC);
-    check('3b. 聽過 B4：教授那一句之後多一句回想（在同學反應之前）',iLine>=0&&iRec===iLine+1,said.slice(0,4).join('｜'));
+    /* 2026-11-11（STUDY-EXAM-STORY-1102，AA 大一下課堂內容 50e653270）：憲法（下）每週多了 more（教授接著講的句子，classes3d.js 361 行在 line 之後播），回想（363 行）照舊排在教授講完以後、同學反應以前。舊期望：回想緊接在 line 下一句（iRec===iLine+1） */
+    const between=iLine>=0&&iRec>iLine?said.slice(iLine+1,iRec):null;
+    check('3b. 聽過 B4：教授講完（那一句＋接著講的 more）之後多一句回想（在同學反應之前）',iLine>=0&&iRec>iLine&&between.every(t=>/^張老師：/.test(t))&&between.length===(Array.isArray(W.more)?W.more.length:0),said.slice(0,iRec+2).join('｜'));
     // 中途離開 B4（交接包_v2 L200：中途離開、沒去的玩家沒有這一句；AA-B 10-16 full:true）
     fresh(); const it3=itemOf('Y1S2',12,'const_2'); G.day=b4day; G.hour=19; ACTIVITIES.rec(G).att['B4@'+b4day]={h:19,end:'left',lh:19.5};
     G.day=it3.day; G.hour=it3.t0; said.length=0; await CLS.attend(GM,it3,{door:true});

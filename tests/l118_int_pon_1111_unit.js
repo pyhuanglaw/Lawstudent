@@ -47,7 +47,7 @@ for(const id of ONLY){ const W=WANT[id], L=L118_SHOP_LAYOUTS[id], tag=W.name+'�
   check(tag+'：A 「看東西」只有一個：'+W.look[0]+'，note＝AA_772 look_lines 那一句',L.interact.length===1&&L.interact[0].id===W.look[0]&&L.interact[0].note===W.look[1]&&L118S.lookText(id,L.interact[0])===W.look[1],JSON.stringify(L.interact.map(q=>[q.id,q.note])));
   const lj=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/l118_'+id+'.layout.json'),'utf8'));
   check(tag+'：A 匯出時的導航檢查沒有問題（navcheck.problems 空的、有做縫的檢查）',lj.navcheck&&Array.isArray(lj.navcheck.problems)&&lj.navcheck.problems.length===0&&!!lj.navcheck.trap_check,JSON.stringify(lj.navcheck&&lj.navcheck.problems));
-  const farBad=L.seats.filter(s=>s.r&&(!s.ap||Math.hypot(s.ap[0]-s.x,s.ap[1]-s.z)>s.r-0.05)); check(tag+'：A 離走道遠的座位（寫了 r）：走近點 ap 在互動半徑裡',farBad.length===0,JSON.stringify(farBad.map(s=>[s.x,s.z,s.r,s.ap])));
+  const farBad=L.seats.filter(s=>s.r&&!(s.i&&!s.ap)&&(!s.ap||Math.hypot(s.ap[0]-(s.i?s.i[0]:s.x),s.ap[1]-(s.i?s.i[1]:s.z))>s.r-0.05));   /* L118-IT-REACH-1111 收尾（11-12）：配置寫了按鈕位置 i 的，半徑從按鈕量（不是從椅子）*/   /* 有 i 沒有 ap＝外側那張：按鈕就在走道上，走近點照遊戲預設 */ check(tag+'：A 離走道遠的座位（寫了 r）：走近點 ap 在互動半徑裡',farBad.length===0,JSON.stringify(farBad.map(s=>[s.x,s.z,s.r,s.ap])));
   const lifts=L.seats.filter(s=>s.lift); check(tag+'：A 吧台高腳椅的 lift 都是 0.29（座面 0.76 − 0.47）',lifts.every(s=>Math.abs(s.lift-0.29)<1e-6),lifts.length+' 個');
   // B
   const G=glb('assets/models/env/second_ai/l118_'+id+'.glb'), mats=G.j.materials, nodes=G.j.nodes.map(n=>n.name||'');

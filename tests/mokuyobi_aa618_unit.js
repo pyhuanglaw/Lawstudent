@@ -18,7 +18,7 @@ const MSRC=fs.readFileSync(path.join(ROOT,'src/mokuyobi3d.js'),'utf8');
 global.MOK3={OUT:{x:7.4,z:-2.85,yaw:0},IN:{x:-3.75,z:5.4,yaw:Math.PI,lv:0},zone:{id:'wz_mokuyobi',build(E){ return {seats:[]}; }}};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,600):'')); if(!ok) fails++; };
 const FILES=['src/data/mokuyobi_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/sis_grad3d.js',
   'src/data/dorm_room_layout.js','src/libquiet3d.js','src/story3d.js','src/classes3d.js','src/data/eat_lines.js','src/eat3d.js','src/slowread3d.js','src/mokuyobi_sys3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -46,7 +46,7 @@ const T=()=>said.map(s=>s.t);
   const s1=spec.slice(spec.indexOf('## 1.'),spec.indexOf('## 2.'));
   check('0. 讀得到稿 AA_618@'+SPEC_SHA+' 第 1 節',!!s1&&/木曜日/.test(s1),spec.slice(0,40));
   const AA_DIRECT={'（小聲）課輔班的小朋友說我寫的講義太多字。……他們說得對。':'AA-B 11-07 23:40 回 LAWWW-B（原稿「國中生說我寫的講義太多字。」；沛珊是國小課輔班，AA_614 32a5f7e12 說法統一）'};   /* 稿外、AA 直接給的句子 */
-  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,''); return s1.includes(x)||!!AA_DIRECT[t]; };
+  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,''); return s1.includes(x)||!!AA_DIRECT[t]||require('./canon1112_ok.js').ok(t); };   /* CANON-NO-ECON-1112：照 AA 的 src 對照表換過的句子（AA_932 §2 可昕木曜日那一句）改比對照表 */
   check('0. 稿外的那一句：沛珊木曜日「課輔班的小朋友」（原稿「國中生」那句不在程式裡）',MOKS.DATE.classmate_peishan.line==='（小聲）課輔班的小朋友說我寫的講義太多字。……他們說得對。'&&!J(MOKS.DATE).includes('國中生'));
   { const L0=MOKS.L, all=[]; for(const [,t] of L0.first) all.push(t); for(const m of L0.menu) all.push(m[2]); all.push(L0.water,L0.waterOk,L0.old,L0.oldYes,L0.oldNo,L0.oldNoBoss,L0.waterNarr,L0.waterBoss,L0.exam,L0.bhAsk,L0.bhGo,L0.bhHome,L0.bhBye,L0.meet);
     for(const t of L0.narr.concat(L0.chat,L0.rain)) all.push(t); for(const [,t] of L0.bh.concat(L0.mx)) all.push(t); for(const o of L0.rainOpts){ all.push(o.t,o.narr); }
@@ -168,7 +168,7 @@ const T=()=>said.map(s=>s.t);
   let s645=''; try{ s645=cp.execSync('git -c core.quotepath=off show 350c90382:"docs/story_planning/AA_645_木曜日補台詞_回LAWWW.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   const in645=t=>s645.includes(String(t).replace(/^「|」$/g,''));
   { const L0=MOKS.L, all=[].concat(L0.look.bookcase,L0.look.record,L0.look.poster,L0.xc.map(x=>x[1]),[L0.meetFmt,MOKS.ACC0],Object.values(INVITE_DATA.mokuyobiAcc||{}));
-    const bad=all.filter(t=>!in645(t)); check('15. 讀得到 AA_645@350c90382；AA_645 的每一句（'+all.length+' 句）都在稿上',!!s645&&all.length===22&&!bad.length&&!L0.close,J(bad));
+    /* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 的答應句照覆蓋層拿掉刪節號、換句——對稿時「新字的舊字在稿上」也算（tests/overlay_expect.js 的 inDoc）。舊期望：字本身在稿上 */ const bad=all.filter(t=>!require('./overlay_expect.js').inDoc('invites',null,t,in645)); check('15. 讀得到 AA_645@350c90382；AA_645 的每一句（'+all.length+' 句）都在稿上',!!s645&&all.length===22&&!bad.length&&!L0.close,J(bad));
     check('15. 書櫃三句、唱片機三句、海報三句（第 6 節第 3 點補第三句）；答應十人各一句',L0.look.bookcase.length===3&&L0.look.record.length===3&&L0.look.poster.length===3&&Object.keys(INVITE_DATA.mokuyobiAcc).length===10);
     check('15.「靠書櫃那桌」「窗邊那桌」都在稿上',s645.includes('窗邊那桌」改「靠書櫃那桌」')); }
   { fresh(wed,15); E.interactables=[]; MOK3.zone.build(E); const lk=k=>E.interactables.find(q=>q.mokLook===k);

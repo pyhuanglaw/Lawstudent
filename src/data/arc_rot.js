@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@033b5150a；沛珊 2 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d）。不要手改，改企劃 AA_717 再重新匯入。
+/* 自動產生：tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@e622a59148；沛珊 2 處照 docs/story_planning/AA_755_peishan_feed_misc.json@24bd0e59e9）。不要手改，改企劃 AA_717 再重新匯入。
    輪換句跟著日期和故事走、她的生活（BB_305 第 5、6 節；播放 src/arcs3d.js ARCS.rotPick）*/
 'use strict';
 const ARC_ROT={
- "src": "docs/story_planning/AA_717_rot_life.json@033b5150a",
+ "src": "docs/story_planning/AA_717_rot_life.json@e622a59148",
  "rot": {
   "heroine_01": [
    {
@@ -824,8 +824,8 @@ const ARC_ROT={
   "kexin": [
    {
     "lines": [
-     "期末週，我們的圖書館位子要搶。",
-     "我搭第一班公車上山。"
+     "期末週，總圖的位子要搶。",
+     "我七點就去排了。"
     ],
     "when": "final"
    },
@@ -838,7 +838,7 @@ const ARC_ROT={
    },
    {
     "lines": [
-     "颱風天，山上的公車停駛。",
+     "颱風天，學校停課。",
      "我在宿舍讀了一整天。很好，沒人吵。"
     ],
     "when": "typhoon"
@@ -853,8 +853,8 @@ const ARC_ROT={
    },
    {
     "lines": [
-     "新學期，我們系的教室又換了。",
-     "在山上，換來換去都要爬。"
+     "新學期，系館的教室又換了。",
+     "我每次都走錯樓層。"
     ],
     "when": "week1"
    },
@@ -891,8 +891,8 @@ const ARC_ROT={
    },
    {
     "lines": [
-     "今天下山的時候，有一隻狗一直跟著公車跑。",
-     "……我差點下車。"
+     "今天回宿舍的路上，有一隻狗一直跟著我走。",
+     "……我差點帶牠回去。"
     ]
    },
    {
@@ -903,8 +903,8 @@ const ARC_ROT={
    },
    {
     "lines": [
-     "山上的宿舍好冷。",
-     "予樂說，冬天會更冷。"
+     "宿舍好冷。",
+     "我室友說，冬天會更冷。"
     ],
     "life": 1,
     "lifeMax": 2
@@ -920,7 +920,7 @@ const ARC_ROT={
    {
     "lines": [
      "暑假在早午餐店當外場。",
-     "我在存錢買新筆電。"
+     "我想買一台新筆電。"
     ],
     "life": 4,
     "lifeMax": 4
@@ -944,8 +944,8 @@ const ARC_ROT={
    },
    {
     "lines": [
-     "暑假在高雄的事務所實習。",
-     "我寫的書狀，最後只被改了兩個地方。"
+     "暑假在臺北的事務所打雜。",
+     "我幫忙寫的書狀，最後只被改了兩個地方。"
     ],
     "life": 7,
     "lifeMax": 7
@@ -953,7 +953,7 @@ const ARC_ROT={
    {
     "lines": [
      "我在帶大一的民總讀書會。",
-     "他們問的問題，跟我們重考那年問的一樣。"
+     "他們問的問題，跟我們大一的時候問的一樣。"
     ],
     "life": 8,
     "lifeMax": 9
@@ -1320,7 +1320,7 @@ const ARC_ROT={
    {
     "s": 1,
     "from": "2025-09-01",
-    "state": "木柵大學法律大一，山上宿舍，室友予樂"
+    "state": "首都帝大法律大一，學校宿舍，室友很吵"
    },
    {
     "s": 2,
@@ -1360,7 +1360,7 @@ const ARC_ROT={
    {
     "s": 9,
     "from": "2028-03-05",
-    "state": "和予樂把房間漆成淡黃"
+    "state": "和室友在書桌前的牆貼了淡黃色的紙"
    },
    {
     "s": 10,

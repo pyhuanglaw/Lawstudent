@@ -89,8 +89,9 @@ await sec('2',async()=>{
   check('2. src 全部沒有「臺北的家」「台北的家」（含「回臺北的家」「搬回臺北的家」「收拾背包回臺北的家」）',hit.length===0,J(hit));
   const all=SRC.map(p=>fs.readFileSync(path.join(H.ROOT,p),'utf8')).join('\n');
   check('2. 手機「地點」、校門口、宿舍房間：「回家」「收拾背包回家」',/<span>回家<\/span>/.test(all)&&/label:'回家',home:true/.test(all)&&/label:'收拾背包回家',home:true/.test(all));
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（字卡「搬回家」是經濟系休學退宿那一場）
   check('2. AA_595 第 4 節的旁白：「你回家，帶了一袋要洗的衣服」「車開回家。你的房間」；字卡「回家」「搬回家」；提示「手機「地點」→ 回家」',
-    all.includes('（教師節連假。你回家，帶了一袋要洗的衣服。）')&&all.includes('（車開回家。你的房間，媽媽又打掃過了。）')&&/titleCard\('回家'/.test(all)&&/titleCard\('搬回家'/.test(all)&&all.includes('手機「地點」→ 回家（或走到校門口）'));
+    all.includes('（車開回家。你的房間，媽媽又打掃過了。）')&&/titleCard\('回家'/.test(all)&&all.includes('手機「地點」→ 回家（或走到校門口）'));
   const A=LADDER.characters.heroine_01.steps.find(s=>s.id==='A-L10');
   check('2. 以安 A-L10：「寒假你會回家住嗎？」（ladder.js 由 import_ladder.py 疊 AA_595）',!!A&&A.lines[0]==='寒假你會回家住嗎？'&&LADDER.source.includes('AA_595@'),J(A&&A.lines));
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), e=(allow.files||allow.entries||allow.allow||[]).find(x=>/AA_595_/.test(x.path||''))||JSON.stringify(allow).includes('AA_595_');

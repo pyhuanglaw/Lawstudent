@@ -57,7 +57,8 @@ await sec(0,()=>{
   check('0. STORY.PS_KEEP_SHORT＝2-2 的四句短句、PS_KEEP_SUN＝「'+SUN+'」、PS_EXAM＝'+EXAM.join('、'),J(STORY.PS_KEEP_SHORT)===J(SHORT)&&STORY.PS_KEEP_SUN===SUN&&J(STORY.PS_EXAM)===J(EXAM));
   check('0. 第 9 節讀得到：4-3 沛珊在臺北「當作沒有」、4-2 以安「生日」那一列當作沒有、其他四列照表',/4-3 沛珊在臺北的節日邀約：當作沒有/.test(P9)&&/4-2 以安「生日」那一列也當作沒有/.test(P9)&&/其他四列照表/.test(P9),P9.slice(0,120));
   check('0. fest_events：以安 ask.by＝4-2 扣掉生日那一列（四個節日）、沛珊沒有 ask.by（第 9 節）',J((FEST_DATA.PEOPLE[AN].ask||{}).by)===J(AN_BY4)&&Object.keys(AN_BY4).length===4&&(FEST_DATA.PEOPLE[PS].ask||{}).by===undefined,J([(FEST_DATA.PEOPLE[AN].ask||{}).by,(FEST_DATA.PEOPLE[PS].ask||{}).by]));
-  const bad=Object.keys(KXT).filter(t=>{ const L=TERMEND_LINES.KX[t].invite, [now,to]=KXT[t]; return to.startsWith('照舊')?!L.includes(now):!(L.includes(to)&&!L.includes(now)); });
+  const C897={'這次換山上 {哪天} 木柵大學正門六點':'{哪天} 後門那家 六點','{哪天} 木柵大學 六點':'{哪天} 後門那家 六點'};   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
+  const bad=Object.keys(KXT).filter(t=>{ const L=TERMEND_LINES.KX[t].invite, now=KXT[t][0], to=C897[KXT[t][1]]||KXT[t][1]; return to.startsWith('照舊')?!L.includes(now):!(L.includes(to)&&!L.includes(now)); });
   check('0. termend_lines 可昕 KX[學期].invite＝第 5 節（大二上～大五上那一句加 {哪天}；大一下照舊）',!bad.length,J(bad.map(t=>[t,TERMEND_LINES.KX[t].invite])));
 });
 
@@ -146,9 +147,9 @@ await sec(4,()=>{
 
 /* ---- 5 可昕的學期末邀約：寫哪一天 ---- */
 await sec(5,()=>{
-  check('5. TERMEND.dayWord：同一天「今天」、隔天「明天」、其他「禮拜幾」；fillDay 排不到日子＝拿掉 {哪天}',!!TERMEND.dayWord&&TERMEND.dayWord(100,100)==='今天'&&TERMEND.dayWord(100,101)==='明天'&&TERMEND.dayWord(D('2026-12-24'),D('2026-12-26'))==='禮拜六'&&TERMEND.dayWord(D('2026-12-24'),D('2026-12-27'))==='禮拜日'&&TERMEND.fillDay('{哪天} 河堤 五點半','')==='河堤 五點半'&&TERMEND.fillDay('這次換山上 {哪天} 木柵大學正門六點','明天')==='這次換山上 明天 木柵大學正門六點');
+  check('5. TERMEND.dayWord：同一天「今天」、隔天「明天」、其他「禮拜幾」；fillDay 排不到日子＝拿掉 {哪天}',!!TERMEND.dayWord&&TERMEND.dayWord(100,100)==='今天'&&TERMEND.dayWord(100,101)==='明天'&&TERMEND.dayWord(D('2026-12-24'),D('2026-12-26'))==='禮拜六'&&TERMEND.dayWord(D('2026-12-24'),D('2026-12-27'))==='禮拜日'&&TERMEND.fillDay('{哪天} 河堤 五點半','')==='河堤 五點半'&&TERMEND.fillDay('{哪天} 後門那家 六點','明天')==='明天 後門那家 六點');   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   fresh(D('2026-12-24'),20.9,{dating_kexin:true}); run(20.9,21); const q=OUT.get(H.G,'te_kx_Y2S1'), m=byTag('te_kx_Y2S1').map(x=>x.text), want=TERMEND_LINES.KX.Y2S1.invite.map(t=>t.replace('{哪天}','禮拜六'));
-  check('5. 大二上：12/24 20:45 可昕「'+want.join('」「')+'」（約會 12/26 週六木柵大學正門 18:00；原本「這次換山上 木柵大學正門六點」讀起來像今天）',!!q&&q.day===D('2026-12-26')&&q.h===18&&J(m)===J(want)&&m[1]==='這次換山上 禮拜六 木柵大學正門六點',J([m,q&&keyOf(q.day)]));
+  check('5. 大二上：12/24 20:45 可昕「'+want.join('」「')+'」（約會 12/26 週六後門那家 18:00）',!!q&&q.day===D('2026-12-26')&&q.h===18&&J(m)===J(want)&&m[1]==='禮拜六 後門那家 六點',J([m,q&&keyOf(q.day)]));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   fresh(D('2026-06-11'),20.5,{dating_kexin:true}); run(20.5,21); const m1=byTag('te_kx_Y1S2').map(x=>x.text);
   check('5. 大一下照舊：「期末考完了吧」「禮拜五 河堤 五點半」「我帶你去吃那家」',J(m1)===J(TERMEND_LINES.KX.Y1S2.invite),J(m1));
   const bad=[]; for(const t of ['Y2S2','Y3S1','Y3S2','Y4S1']){ const w=TERMEND.windowOf(t); if(!w){ bad.push(t+' 沒有時段'); continue; } fresh(w.from,20.5,{dating_kexin:true,EXCHANGE_ROUTE:'TW'}); for(let d=w.from;d<=w.from+4;d++){ at(d,20.5); run(20.5,21); }   /* 傳的那天＝時段第一天或玩家考完回來那天（P.back）*/ const ms=byTag('te_kx_'+t), qq=OUT.get(H.G,'te_kx_'+t);
@@ -167,7 +168,7 @@ await sec(6,()=>{
     check('6. AA_460 第 6 節的兩句「改成」就是 AA_774 那兩列的原句（稿沒有變）',T6.length>=2&&!!Z774[T6[0][2]]&&!!Z774[T6[1][2]],J(T6.map(r=>r[2]))); for(const r of T6) if(Z774[r[2]]) r[2]=Z774[r[2]]; }
   check('6. 邀約第三句「'+T6[0][2]+'」（原本「'+T6[0][1]+'」）',(I.lines||[]).some(x=>x.text===T6[0][2])&&!all.includes(T6[0][1]),J((I.lines||[]).map(x=>x.text)));
   check('6. 回「好」之後「'+T6[1][2]+'」（原本「'+T6[1][1]+'」）',(I.accept||[]).some(x=>x.text===T6[1][2])&&!all.includes(T6[1][1]),J((I.accept||[]).map(x=>x.text)));
-  check('6. 兩句已經改進原稿（AA_460 第 9 節，wish_bb.json@cb5caad65；10-27 AA_475 換到 ab9d70fe0；11-08 AA_593 學姊 decline 換到 9aa8ec40c）：DATE_WISH 來源是 9aa8ec40、沒有暫代換字、原稿對不到 0 句',/wish_bb\.json@9aa8ec40/.test(DATE_WISH.source)&&!(DATE_WISH.verify.replaced||[]).length&&(DATE_WISH.verify.miss||[]).length===0,J([DATE_WISH.source,DATE_WISH.verify.replaced]));
+  check('6. 兩句已經改進原稿（AA_460 第 9 節，wish_bb.json@cb5caad65；10-27 AA_475 換到 ab9d70fe0；11-08 AA_593 學姊 decline 換到 9aa8ec40c；11-12 CANON-NO-ECON-1112 第五批 AA_921 換到 6dbfe10d7e）：DATE_WISH 來源是 6dbfe10d、沒有暫代換字、原稿對不到 0 句',/wish_bb\.json@6dbfe10d/.test(DATE_WISH.source)&&!(DATE_WISH.verify.replaced||[]).length&&(DATE_WISH.verify.miss||[]).length===0,J([DATE_WISH.source,DATE_WISH.verify.replaced]));
 });
 H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

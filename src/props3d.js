@@ -92,7 +92,7 @@ const PROPS = (function(){
 
   function shadeHex(hex,f){ const c=new THREE.Color(hex); c.multiplyScalar(f); return '#'+c.getHexString(); }
   // 掛到哪根骨頭、位置（模型檔空間、相對骨頭）
-  // ---- 腳踏車安全帽（邱韋綸，掛在後背包右側；BB_201 第 1 節）：正式模型 LAWWW2-C tools/blender/char_second/helmet_bike.py → ASSETS 'prop.helmet_bike'（原點在下緣中心、前方 −z、上方 +y）----
+  // ---- 腳踏車安全帽（舊序章的人，掛在後背包右側；BB_201 第 1 節）：正式模型 LAWWW2-C tools/blender/char_second/helmet_bike.py → ASSETS 'prop.helmet_bike'（原點在下緣中心、前方 −z、上方 +y）----
   // o.hang：'side'＝後背包右側（預設，手往後擺可能碰到手肘）、'back'＝背包外面（不會碰到手）；位置是相對 upperChest 的公尺數（helmet_bike.json 的 hang）
   const HELMET_HANG={side:{pos:[0.178,-0.09,0.15],rot:[0,0,-Math.PI/2]}, back:{pos:[0,-0.10,0.29],rot:[Math.PI/2,0,0]}};
   function helmet(o){ o=o||{}; const out=new THREE.Group(), g=new THREE.Group(); out.add(g); const h=HELMET_HANG[o.hang||'side']||HELMET_HANG.side; g.position.set(h.pos[0],h.pos[1],h.pos[2]); g.rotation.set(h.rot[0],h.rot[1],h.rot[2]);
@@ -100,7 +100,7 @@ const PROPS = (function(){
       m.traverse(x=>{ if(!x.isMesh) return; x.material=mat('helmet','#'+x.material.color.getHexString(),null); x.castShadow=true; x.frustumCulled=false; });   // 和人物一樣的卡通明暗（遊戲沒有環境貼圖，PBR 會變暗）
       g.add(m); }).catch(e=>console.warn('helmet glb',e));
     return out; }
-  // ---- 手上拿的東西（GLB）：掛在前臂、不是手——掛在手上時走路動畫手腕一轉，東西就跟著變成水平（家豪筆記本 BB-C 18819b79 退件）。
+  // ---- 手上拿的東西（GLB）：掛在前臂、不是手——掛在手上時走路動畫手腕一轉，東西就跟著變成水平（舊序章的人筆記本 BB-C 18819b79 退件）。
   //      位置在 GLB 載入時算：前臂骨頭底下找手的骨頭，從手腕往指尖 palm 公尺、往掌心那一側（T 字姿勢掌心朝下＝−y）side 公尺；rot 轉模型、tilt 轉整個（LAWWW2-C patches，2026-10-17）----
   function heldGlb(key,name,palm,side,rot,tilt){ return function(o){ const g=new THREE.Group(); g.name=name;
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest[key]) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene) return; const n=c.scene.clone(true);
@@ -109,9 +109,9 @@ const PROPS = (function(){
       n.traverse(m=>{ if(!m.isMesh) return; const s=m.material; m.material=new THREE.MeshToonMaterial({color:s.color.clone(), map:s.map||null, vertexColors:!!s.vertexColors, side:s.side}); m.castShadow=true; m.frustumCulled=false; });   // 和人物一樣的卡通明暗（遊戲沒有環境貼圖）
       g.add(n); }).catch(e=>console.warn(name+' glb',e));
     return g; }; }
-  // 宋家豪的「公館美食地圖」筆記本（BB_109 識別物、BB_201；LAWWW2-C 0e191286，BB-C 配件通過 5d3983e3）：左前臂，手掌中間
+  // 舊序章的人的「公館美食地圖」筆記本（BB_109 識別物、BB_201；LAWWW2-C 0e191286，BB-C 配件通過 5d3983e3）：左前臂，手掌中間
   const foodmap=heldGlb('prop.notebook_foodmap','notebook_foodmap',0.055,-0.027);
-  // 曾品妤（BB_131「手上常拿工程計算機、黑色保溫瓶」；LAWWW2-C 2ef1ca4b，BB-C f331e153）：計算機長邊沿著前臂、螢幕朝外（事件用）；保溫瓶提環勾在手指上、瓶蓋朝上（平常拿）
+  // 舊序章的人（BB_131「手上常拿工程計算機、黑色保溫瓶」；LAWWW2-C 2ef1ca4b，BB-C f331e153）：計算機長邊沿著前臂、螢幕朝外（事件用）；保溫瓶提環勾在手指上、瓶蓋朝上（平常拿）
   const calc=heldGlb('prop.calc_engineering','calc_engineering',0.055,-0.024,[0,Math.PI/2,0]);
   const thermos=heldGlb('prop.thermos_black','thermos_black',0.21,-0.022,[0,0,Math.PI/2]);
   // ---- 掛在骨頭上的整組 GLB（模型檔的座標＝那根骨頭底下：x 人物右邊、y 上、z 後面；LAWWW2-C 2026-10-18）----

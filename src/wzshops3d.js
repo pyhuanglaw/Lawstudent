@@ -124,7 +124,7 @@ const WZS=(()=>{
       oldItems:{'紅茶':'紅茶（中）','青茶':'紅茶（中）','珍珠奶茶':'奶茶（中）','冬瓜檸檬':'檸檬紅茶（中）'},
       same:'好，一樣的。',firstLine:'（價目牌只有三樣茶，每樣分中杯、大杯。你點完，後面已經排了兩個人。）',done:'（你拿著飲料，沿著溫州街走回去。）'},
     ice:{zone:'wz_ice',key:'夏日冰菓室',who:'老闆娘',first:'冰要大碗小碗？',known:G=>M68(G)?'又來了啊。今天芒果很甜。':'又來了啊。',dine:false,h:10/60,
-      menu:[['芒果冰',140,M68],['紅豆牛奶冰',70],['綜合剉冰',60]],shutter:'（鐵捲門拉著。上面貼了一張紙：「五月見」。）',
+      menu:[['芒果冰',140,M68],['紅豆牛奶冰',70],['綜合剉冰',60]],shutter:'（鐵捲門拉著。上面貼了一張紙：「星期二休息」，字寫得很圓。）',shutterNight:'（鐵捲門拉下來了。裡面的燈關了，冰櫃還在嗡嗡響。）',   /* AA_924 第 2 節（BB_450）：公休／打烊兩句（「五月見」是只開 5～9 月的舊設定）*/
       same:'好。一樣的。',firstLine:'（價目表是手寫的。芒果冰那一行旁邊，用紅筆寫著「六到八月」。）',done:'（冰化得比你吃得快。最後幾口，你是用喝的。）'}
   };
   /* 登記到 src/eat3d.js（EAT.addShop）：吃過的店名「溫州街・<店名>」、店員（第 5 次那一句不說：熟客的招呼這裡自己演；老樣子的回答）、第一次的旁白、
@@ -167,25 +167,29 @@ const WZS=(()=>{
     const last=E_.rec?(E_.rec(G).last[D.key]||null):null; return typeof D.known==='function'?D.known(G,last):D.known; };
   /* 溫州街騎樓的按鈕（zones3d.js 建溫州街時加）：茶飲「買一杯飲料」；冰菓室 5～9 月「買一碗冰」、10～4 月「看夏日冰菓室」（hidden 照現在的遊戲月份）。
      「看」和溫州街其他「看櫥窗」一樣是 look（game3d.js 的字幕；騎著腳踏車不用下車）*/
-  S.windowItems=function(){ const W=S.WINDOW, ice=()=>{ const G=typeof GAME!=='undefined'&&GAME.G; return !G||S.inSeason('ice',G); };
+  /* 公休（今天整天不開）／打烊（開過、現在收了）：AA_924 照 PLACES.windowsOf 分 */
+  S.restDay=(zone,G)=>!!G&&typeof PLACES!=='undefined'&&!!PLACES.windowsOf&&PLACES.windowsOf(zone,G.day)===null;
+  S.iceShutterLine=G=>S.restDay('wz_ice',G)?S.AA364.ice.shutter:S.AA364.ice.shutterNight;
+  S.fruitLook=G=>!G||S.fruitOpen(G)?S.AA413.fruit.look:(S.restDay('wz_fruit',G)?S.AA413.fruit.lookRest:S.AA413.fruit.lookClosed);
+  S.windowItems=function(){ const W=S.WINDOW, ice=()=>{ const G=typeof GAME!=='undefined'&&GAME.G; return !G||(S.inSeason('ice',G)&&S.isOpen364('ice',G)); };   /* 公休、打烊＝「看夏日冰菓室」（鐵捲門那一句），營業中＝「買一碗冰」*/
     return [{x:W.tea.x,z:W.tea.z,radius:1.4,label:'買一杯飲料',wzShop:'tea',kind:'window'},
       {x:W.ice.x,z:W.ice.z,radius:1.4,label:'買一碗冰',wzShop:'ice',kind:'window',get hidden(){ return !ice(); }},
-      {x:W.ice.shutter.x,z:W.ice.shutter.z,radius:1.4,label:'看夏日冰菓室',look:S.AA364.ice.shutter,get hidden(){ return ice(); }},
+      {x:W.ice.shutter.x,z:W.ice.shutter.z,radius:1.4,label:'看夏日冰菓室',get look(){ const G=typeof GAME!=='undefined'&&GAME.G; return S.iceShutterLine(G); },get hidden(){ return ice(); }},
       {x:W.ice.x+1.0,z:W.ice.z,radius:1.0,label:'看價目板',wzShop:'ice',kind:'board',get hidden(){ const G=typeof GAME!=='undefined'&&GAME.G; return !(G&&typeof SIDEQ!=='undefined'&&SIDEQ.boardOpen&&SIDEQ.boardOpen(G)); }}].concat(S.items413?S.items413():[]); };   /* AA_413 的三家 */   /* 順手的事 SQ03（AA_397）：掛著那一則的時候才有 */
   /* 店員要不要站在窗口（story3d.js 進溫州街時放）：開門的時候才在（冰菓室 10～4 月鐵捲門拉著） */
   S.windowClerk=(k,G)=>S.inSeason(k,G)&&S.isOpen364(k,G);
   /* 點餐：關門＝和其他店一樣寫開放時間、下次開門（toast）→ 店員招呼 → 選單（老樣子）→ 扣錢 →「（你點了{品名}。）」→ 時間 → 吃過的＋第一次的旁白
      → 內用有認識的人在吃＝問一起吃 → 吃完的旁白（一起吃了就不說）*/
   S.order364=async function(GM,k){ const G=GM.G, D=S.AA364[k]; if(!D) return false; S.eatReg();
-    if(D.shutter&&!S.inSeason(k,G)){ await GM.say(null,D.shutter); return false; }   /* 冰菓室 10～4 月（按鈕已經換成「看」；保險）*/
+    if(D.shutter&&!S.inSeason(k,G)){ await GM.say(null,k==='ice'?S.iceShutterLine(G):D.shutter); return false; }   /* 不在季節（現在全年＝不會發生；保險）；公休／打烊照下面的關門說明 */   /* 冰菓室 10～4 月（按鈕已經換成「看」；保險）*/
     if(!S.isOpen364(k,G)){ GM.toast(PLACES.closedText(D.zone,hr(G),G.day),4500); return false; }
     const E_=typeof EAT!=='undefined'?EAT:null, who={name:D.who};
     if(D.oldItems&&E_&&E_.rec){ const R=E_.rec(G), l=R.last[D.key]; if(l&&Object.prototype.hasOwnProperty.call(D.oldItems,l)) R.last[D.key]=D.oldItems[l]; }   /* 舊存檔上一次點的是舊菜單的品項：「老樣子」對到新品項（AA_658 第 4 節）*/
     if(!D.dine&&typeof SHOPENC!=='undefined'&&SHOPENC.window){ try{ await SHOPENC.window(GM,D.zone); }catch(e){ console.warn('SHOPENC.window',e); } }   /* 店內偶遇（SHOP-ENCOUNTER-1103）：巷口茶飲、冰菓室的窗口前遇到朋友（沛珊、Alison；AA_632、AA_633），遇完照常點 */
     const sqG=typeof SIDEQ!=='undefined'&&SIDEQ.greet?SIDEQ.greet(G,D.key):null;   /* 順手的事 SQ01 做完以後，林家老闆的招呼一次（AA_397）*/
     await GM.say(who,sqG||S.greet364(k,G));
-    const items=S.menu364(k,G), opts=items.map(m=>({t:m[0]+'　'+(m[1]?m[1]+' 元':'免費'),dim:(G.money|0)<m[1]})); opts.push({t:'不用了'});
-    const i=E_?await E_.choose(GM,D.key,opts,items.map(m=>m[0]),items.map(m=>m[1])):await GM.choose(opts);   /* 第 5 次起多「老樣子」（src/eat3d.js）*/
+    const items=S.menu364(k,G), opts=items.map(m=>({t:m[0]+'　'+(m[1]?m[1]+' 元':'免費'),dim:(G.money|0)<m[1]})); opts.push({t:'不用了'}); const gN=D.name||D.key, gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,gN):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
+    const i=E_?await E_.choose(GM,D.key,opts,items.map(m=>m[0]),items.map(m=>m[1])):await GM.choose(opts); if(gO&&i===items.length+1){ await GIFT.buy(GM,gN); return false; }   /* 第 5 次起多「老樣子」（src/eat3d.js）*/
     if(i==null||i>=items.length) return false; const [nm,p]=items[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return false; }
     if(p) GM.money(-p);
     const ol=typeof LANE118_SHOPS!=='undefined'&&LANE118_SHOPS.orderLine;
@@ -209,6 +213,7 @@ const WZS=(()=>{
       opts:[{t:'「自己吃。」',say:[['水果攤老闆','那挑熟一點的。今天就吃。']]},{t:'「送人。」',say:[['水果攤老闆','那我幫你挑漂亮的。'],[null,'（他把袋子裡的一顆換掉了。）']]}],
       known:G=>{ const m=month(G); return m>=6&&m<=8?'今天的芒果很甜，要不要？':'學生仔，今天的芭樂很脆。'; },
       look:'（騎樓下排著一箱一箱的水果。紙板上用麥克筆寫著價錢，每一張的字都不一樣大。）',
+      lookRest:'（攤子蓋著一塊藍色的帆布，四個角用曬衣夾夾住。紙板翻過來，背面寫著：「星期一去批貨，休息」。）',lookClosed:'（帆布蓋起來了。地上掃得很乾淨，只剩一片香蕉葉。）',   /* AA_924 第 1 節（BB_450）：週一公休／打烊 */
       menu:[['芭樂（一袋三顆）',60],['香蕉（一串）',50],['切盤（西瓜）',50,m=>m>=5&&m<=9],['切盤（鳳梨）',50,m=>m>=4&&m<=7],['芒果（一盒）',150,m=>m>=6&&m<=8],['柳丁（一袋）',80,m=>m>=11||m<=2],['草莓（一盒）',180,m=>m===12||m<=3],['現打木瓜牛奶',55]],
       open:[9,22],at:{x:35.3,z:-3.9},lookAt:{x:33.6,z:-3.9},owner:{x:34.9,z:-6.15,yaw:0}},   /* LAWWW2-B 10-23：攤子在 B6 門廊前緣（x 33.6–36.2；wz_shopkit p_fruitstall），前面的機車留空 x 32.8–36.2（zones3d.js scRow 的 gap）；老闆站在攤子後面、面向街（owner）*/
     laundry:{look:'（投幣式洗衣機轉著，裡面沒有人。長椅上放著一本沒有封面的雜誌。）',
@@ -220,25 +225,27 @@ const WZS=(()=>{
         7:'（社區通知：颱風天請收好陽台的衣服。）',8:'（社區通知：颱風天請收好陽台的衣服。）'},
       at:{x:-18.6,z:-3.8},boardAt:{x:-16.65,z:-3.8}} };   /* 布告欄：B2 門右邊的玻璃上（wz_shopkit cork_board，世界 x −17.1～−16.2）*/
   S.fruitMenu=G=>{ const m=month(G); return S.AA413.fruit.menu.filter(x=>!x[2]||x[2](m)); };
-  S.fruitOpen=G=>{ const h=((hr(G)%24)+24)%24, o=S.AA413.fruit.open; return h>=o[0]&&h<o[1]; };
+  S.fruitOpen=G=>{ const h=((hr(G)%24)+24)%24; if(typeof PLACES!=='undefined'&&PLACES.hours&&PLACES.hours.wz_fruit&&PLACES.isOpen) return PLACES.isOpen('wz_fruit',h,G&&G.day);   /* AA-C 11-12：10:00–21:00、週一公休、颱風天不開（places.js wz_fruit）*/
+    const o=S.AA413.fruit.open; return h>=o[0]&&h<o[1]; };
   S.boardLine=G=>S.AA413.laundry.board[month(G)]||'';
   S.items413=function(){ const A=S.AA413; return [
     {x:A.cvs.enter.x,z:A.cvs.enter.z,radius:1.2,label:'進入日和便利店',wzShop:'cvs413',kind:'enter'},
-    {x:A.fruit.at.x,z:A.fruit.at.z,radius:1.4,label:'買水果',wzShop:'fruit',kind:'window'},
-    {x:A.fruit.lookAt.x,z:A.fruit.lookAt.z,radius:1.0,label:'看阿忠鮮果',look:A.fruit.look},
+    {x:A.fruit.at.x,z:A.fruit.at.z,radius:1.4,label:'買水果',wzShop:'fruit',kind:'window',get hidden(){ const G=typeof GAME!=='undefined'&&GAME.G; return !!G&&!S.fruitOpen(G); }},
+    {x:A.fruit.at.x,z:A.fruit.at.z,radius:1.4,label:'看水果攤',get look(){ const G=typeof GAME!=='undefined'&&GAME.G; return S.fruitLook(G); },get hidden(){ const G=typeof GAME!=='undefined'&&GAME.G; return !G||S.fruitOpen(G); }},   /* AA_924：不開的時候「買水果」換「看水果攤」，只出那一句 */
+    {x:A.fruit.lookAt.x,z:A.fruit.lookAt.z,radius:1.0,label:'看阿忠鮮果',get look(){ const G=typeof GAME!=='undefined'&&GAME.G; return S.fruitLook(G); }},
     {x:A.laundry.at.x,z:A.laundry.at.z,radius:1.2,label:'看常在洗衣',look:A.laundry.look},
     {x:A.laundry.boardAt.x,z:A.laundry.boardAt.z,radius:1.0,label:'看布告欄',wzShop:'laundry',kind:'board'} ]; };
   /* 日日便利的店員：從溫州街進來的時候，結帳以前一句（兩段時間）、結帳以後考試週那一句 */
   S.cvsHere=G=>!!G&&G.zone==='cvs'&&G.flags.CVS_FROM==='wenzhou';
   S.cvsGreet=G=>{ const C=S.AA413.cvs, h=((hr(G)%24)+24)%24, P=h>=6&&h<22?C.day:C.night; return (G.flags.WZ_CVS_N|0)>=4?P.known:P.first; };
   S.cvsExamLine=G=>{ const t=T_(G), h=((hr(G)%24)+24)%24; return !!t&&!!t.exam&&h>=21&&G.flags.WZ_CVS_EXAM!==G.day; };
-  S.fruit=async function(GM){ const G=GM.G, A=S.AA413.fruit; if(!S.fruitOpen(G)){ GM.toast('阿忠鮮果：09:00～22:00',4000); return false; }
+  S.fruit=async function(GM){ const G=GM.G, A=S.AA413.fruit; if(!S.fruitOpen(G)){ const t=typeof PLACES!=='undefined'&&PLACES.hours&&PLACES.hours.wz_fruit&&PLACES.hours.wz_fruit.text; GM.toast('阿忠鮮果：'+(t||'09:00～22:00'),4000); return false; }   /* 營業時間照 places.js（AA-C 11-12：10:00–21:00、週一公休）*/
     if(typeof EAT!=='undefined'&&EAT.addShop&&!(EAT.SHOPS_X&&EAT.SHOPS_X[A.key])) EAT.addShop(A.key,{shop:'溫州街・'+A.key,show:'溫州街・'+A.name,staff:{who:A.who,line5:null,same:null,alt:null},first:null,door:false});
     const who={name:A.who}, kn=typeof EAT!=='undefined'&&EAT.count?EAT.count(G,A.key)>=4:false;
     if(kn) await GM.say(who,A.known(G));
     else { await GM.say(who,A.first); const k=await GM.choose(A.opts.map(o=>({t:o.t}))); for(const [w,t] of (A.opts[k]||A.opts[0]).say) await GM.say(w?{name:w}:null,t); }
-    const items=S.fruitMenu(G), opts=items.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})); opts.push({t:'不用了'});
-    const i=typeof EAT!=='undefined'&&EAT.choose?await EAT.choose(GM,A.key,opts,items.map(m=>m[0]),items.map(m=>m[1])):await GM.choose(opts);
+    const items=S.fruitMenu(G), opts=items.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})); opts.push({t:'不用了'}); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,A.name):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
+    const i=typeof EAT!=='undefined'&&EAT.choose?await EAT.choose(GM,A.key,opts,items.map(m=>m[0]),items.map(m=>m[1])):await GM.choose(opts); if(gO&&i===items.length+1){ await GIFT.buy(GM,A.name); return false; }
     if(i==null||i>=items.length) return false; const [nm,p]=items[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return false; }
     GM.money(-p); GM.advance(5/60); if(typeof EAT!=='undefined'&&EAT.ordered) await EAT.ordered(GM,A.key,nm);
     if(GM.autosave) GM.autosave(); return true; };
@@ -250,8 +257,8 @@ const WZS=(()=>{
     if(!best){ await fn(); return; } await GM.fade(true); GM.sitAt(P,best); await GM.fade(false);
     try{ await fn(); } finally { if(GM.standUp) GM.standUp(P); } }
   S._seated=seated;
-  async function buy(GM,items,h,after,sit,key){ const G=GM.G; const opts=items.map(it=>({t:it[0]+'　'+it[1]+' 元',dim:G.money<it[1]})); opts.push({t:'不用了'});
-    const i=key&&typeof EAT!=='undefined'?await EAT.choose(GM,key,opts,items.map(x=>x[0]),items.map(x=>x[1])):await GM.choose(opts);   /* key：店員認得你、老樣子、吃過的、一起吃（src/eat3d.js，AA_329）*/ if(i>=items.length) return null; const it=items[i]; if(G.money<it[1]){ GM.toast('錢不夠'); return null; }
+  async function buy(GM,items,h,after,sit,key){ const G=GM.G; const opts=items.map(it=>({t:it[0]+'　'+it[1]+' 元',dim:G.money<it[1]})); opts.push({t:'不用了'}); const gO=key&&typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,key):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
+    const i=key&&typeof EAT!=='undefined'?await EAT.choose(GM,key,opts,items.map(x=>x[0]),items.map(x=>x[1])):await GM.choose(opts); if(gO&&i===items.length+1){ await GIFT.buy(GM,key); return null; }   /* key：店員認得你、老樣子、吃過的、一起吃（src/eat3d.js，AA_329）*/ if(i>=items.length) return null; const it=items[i]; if(G.money<it[1]){ GM.toast('錢不夠'); return null; }
     const treat=key==='溫州街・一盞'&&typeof FEED!=='undefined'&&!!FEED.ytTreatDue&&FEED.ytTreatDue(G)&&!(typeof EAT!=='undefined'&&EAT.staffAway&&EAT.staffAway(GM,key));   /* AA_679 第 3 列（AA_504 3-2）：語彤雙主修上了（7/3 她私訊「蘇姨說要請你喝茶。」）以後第一次在一盞點東西：蘇姨一句、這一杯不用錢（src/feed3d.js；原本接在燒臘店的點餐）；蘇姨不在店裡（EAT.staffAway）＝照常付錢、等下一次 */
     if(treat){ const T=FEED.ytTreatOf(); FEED.ytTreatDone(G); await GM.say({name:'蘇姨'},T.line); } else if(!(key==='溫州街・一盞'&&typeof SHIFTT!=='undefined'&&SHIFTT.freeTake&&SHIFTT.freeTake(G,'wz_teahouse'))) GM.money(-it[1]);   /* 語彤先端來一壺那一次（AA_739 T3，src/shifttreat3d.js）：今天點的這一樣不扣錢 */ const hh=typeof h==='function'?h(it):h; const run=async()=>{ if(hh) GM.advance(hh); const tg=key&&typeof EAT!=='undefined'?await EAT.after(GM,key,it[0]):false; if(after&&!tg) await after(it); };   /* 一起吃了＝結尾換一起吃的那一句 */
     if(sit) await seated(GM,run); else await run(); return it; }

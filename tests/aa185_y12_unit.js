@@ -1,5 +1,5 @@
 // AA_185 第 3 節（大一、大二的缺口補完，AA-B d85c1309）——不需要瀏覽器。
-// 檢查：3-2 沛珊說分開（大二上第 6 週中午霖澤館二樓、沒遇到＝週五 21:00 麵店團群組、HEARD_PS_SPLIT、伴侶期間的 endEvent）；3-3 大二下 3/23 麵店團排春假（沒人 @ 沛珊）；3-4 可昕的三件物件分開以後；3-8 期中晚餐的旁白；3-11 慈 2 不需要慈 1。用法：node tests/aa185_y12_unit.js
+// 檢查：3-2 沛珊說分開（大二上第 6 週中午霖澤館二樓、沒遇到＝週五 21:00 桌遊團群組、HEARD_PS_SPLIT、伴侶期間的 endEvent）；3-3 大二下 3/23 桌遊團排春假（沒人 @ 沛珊）；3-4 可昕的三件物件分開以後；3-8 期中晚餐的旁白；3-11 慈 2 不需要慈 1。用法：node tests/aa185_y12_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -43,16 +43,15 @@ GM.money=function(n){ G.money+=n; };
   { fresh(mon,12.3,'linze'); meet('classmate_peishan'); said=[]; await EVENTS.run(P); const L=L0();
     check('3-2. 只認識她（沒看過 P3、還不熟）：AA_374 第 18 項的短的兩句（「跟你說一下，我跟柏翰分開了。」「我們都還好，讀書會照常。」）、沒有選項、記 HEARD_PS_SPLIT',JSON.stringify(L)===JSON.stringify(['沛珊：跟你說一下，我跟柏翰分開了。','沛珊：我們都還好，讀書會照常。'])&&G.flags.HEARD_PS_SPLIT===true&&!P.dialogue.some(l=>l.choice),JSON.stringify(L));
     check('3-2. 伴侶期間的 endEvent＝ev_peishan_split（演過就結束）',CHARACTERS.classmate_peishan.partner.endEvent==='ev_peishan_split'&&!STORY.partnerOn(G,CHARACTERS.classmate_peishan.partner)); }
-  { fresh(fri,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); const T=txt('g:noodle_team');
-    check('3-2. 沒遇到：週五 21:00 麵店團群組（AA_374 第 18 項：BB_97 版）「說一件事，說完就好。」「我和柏翰分開了。是我說的。我們都好。」「……大家照常吃飯，不用特別安慰我。」阿哲「……收到」；HEARD_PS_SPLIT',T.includes('classmate_peishan:說一件事，說完就好。')&&T.includes('classmate_peishan:我和柏翰分開了。是我說的。我們都好。')&&T.includes('classmate_peishan:……大家照常吃飯，不用特別安慰我。')&&T.includes('zhe:……收到')&&G.flags.HEARD_PS_SPLIT===true,JSON.stringify(T)); }
-  { fresh(fri,20,'campus'); G.events.done.ev_peishan_split=1; PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); check('3-2. 遇到過：群組沒有那兩則',!txt('g:noodle_team').some(t=>/分開了/.test(t))); }
+  { fresh(fri,20,'campus'); PHONE.join(G,'noodle_team','桌遊團'); run(20,21.2); const T=txt('g:noodle_team');
+    check('3-2. 沒遇到：週五 21:00 桌遊團群組（AA_374 第 18 項：BB_97 版）「說一件事，說完就好。」「我和柏翰分開了。是我說的。我們都好。」「……大家照常吃飯，不用特別安慰我。」阿哲「……收到」；HEARD_PS_SPLIT',T.includes('classmate_peishan:說一件事，說完就好。')&&T.includes('classmate_peishan:我和柏翰分開了。是我說的。我們都好。')&&T.includes('classmate_peishan:……大家照常吃飯，不用特別安慰我。')&&T.includes('zhe:……收到')&&G.flags.HEARD_PS_SPLIT===true,JSON.stringify(T)); }
+  { fresh(fri,20,'campus'); G.events.done.ev_peishan_split=1; PHONE.join(G,'noodle_team','桌遊團'); run(20,21.2); check('3-2. 遇到過：群組沒有那兩則',!txt('g:noodle_team').some(t=>/分開了/.test(t))); }
   // 3-3
-  { const d=D('2027-03-23'); fresh(d,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.3); const T=txt('g:noodle_team');
-    check('3-3. 大二下 3/23 21:00 麵店團排春假：七則（句子照 AA_255 附錄 A 群組列，芯慈已讀沒回），阿哲 @祐廷、Alison @語彤，沒有人 @ 沛珊、沛珊沒有回',T.length===7&&T[0]==='zhe:春假四天，要不要去哪'&&T.includes('zhe:@祐廷')&&T.includes('yu:@語彤 妳可以嗎')&&!T.some(t=>/沛珊/.test(t))&&!T.some(t=>/^classmate_peishan:/.test(t))&&T[6]==='zhe:好啦那下週再排',JSON.stringify(T)); }   /* 寫死的句子跟著 AA_255 第 4 節第 3 點換（AA255-Y2S2；原本八則、第一句「春假四天！要不要去哪裡？」）*/
+  { const d=D('2027-03-23'); fresh(d,20,'campus'); PHONE.join(G,'noodle_team','桌遊團'); run(20,21.3); const T=txt('g:noodle_team');
+    check('3-3. 大二下 3/23 21:00 桌遊團排春假：七則（句子照 AA_255 附錄 A 群組列，芯慈已讀沒回），阿哲 @祐廷、Alison @語彤，沒有人 @ 沛珊、沛珊沒有回',T.length===7&&T[0]==='zhe:春假四天，要不要去哪'&&T.includes('zhe:@祐廷')&&T.includes('yu:@語彤 妳可以嗎')&&!T.some(t=>/沛珊/.test(t))&&!T.some(t=>/^classmate_peishan:/.test(t))&&T[6]==='zhe:好啦那下週再排',JSON.stringify(T)); }   /* 寫死的句子跟著 AA_255 第 4 節第 3 點換（AA255-Y2S2；原本八則、第一句「春假四天！要不要去哪裡？」）*/
   // 3-4
-  { fresh(400,10,'dorm',{EX_kexin:true,dating_kexin:false}); const L=STORY.roomItemList(G); const f=n=>L.find(x=>x[0].startsWith(n));
-    check('3-4. 和可昕分開以後：票根「票根的日期，還是那一天。」、筆記「她在第一頁寫的那一句，你沒有擦掉。」、相簿「你翻到一半，又闔上了。……照片裡的河，還是一樣寬。」',f('摩天輪')[1]==='票根的日期，還是那一天。'&&f('寫滿的筆記本')[1]==='她在第一頁寫的那一句，你沒有擦掉。'&&JSON.stringify(f('手機相簿')[1])===JSON.stringify(['你翻到一半，又闔上了。','……照片裡的河，還是一樣寬。']));
-    fresh(400,10,'dorm',{dating_kexin:true}); const L2=STORY.roomItemList(G); check('3-4. 還在交往：照原本',L2.find(x=>x[0].startsWith('摩天輪'))[1]==='摩天輪的票根。兩個人開始交往的那一天。'); }
+  { fresh(400,10,'dorm',{EX_kexin:true,dating_kexin:false}); const L=STORY.roomItemList(G); fresh(400,10,'dorm',{dating_kexin:true}); const L2=STORY.roomItemList(G);   /* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）大一房間物件換成祐廷自己的四件、票根拿掉；分開以後那三句跟著拿掉 */
+    check('3-4. 和可昕分開以後：大一房間的四件和交往中一樣（AA_887：分開以後的三句拿掉；沒有票根）',JSON.stringify(L.slice(0,4))===JSON.stringify(L2.slice(0,4))&&!L.some(x=>/票根（夾在桌墊下）|寫滿的筆記本/.test(x[0]))&&L[2][0]==='學測前的筆記本'&&L[3][1]==='宿營那天的合照。203 的四個人擠在最前面。',JSON.stringify(L.slice(0,4))); }
   // 3-8
   { const S8=ev('ev_midterm_supper_y1s2'); check('3-8. 大一下考完的晚餐：「（阿姨的手好了，今天端麵的還是語彤。）」「（今天端麵的是一個沒見過的女生。）」兩句拿掉（AA_679 第 1 列：她不在燒臘店端麵），場景之後接 Alison「今天不講考試。誰講誰請。」',!S8.dialogue.some(l=>l&&/端麵/.test(String(l.text||'')))&&S8.dialogue[1].text==='今天不講考試。誰講誰請。'); }
   // 3-11

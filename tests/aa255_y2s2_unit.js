@@ -1,5 +1,5 @@
 // AA_255（企劃線 52900eb23；AA-C 定稿：檔首「AA 人物：照附錄 A 的改法定稿」）大二下審稿第 4 節給 LAWWW 的程式清單——收尾（任務 AA255-Y2S2）。不需要瀏覽器。
-//   1 春假群組 y2_spring_plan（第 4 節第 3 點：照附錄 A 群組列，芯慈已讀不回、拿掉 P5 註解）：3/23 21:00 麵店團七則
+//   1 春假群組 y2_spring_plan（第 4 節第 3 點：照附錄 A 群組列，芯慈已讀不回、拿掉 P5 註解）：3/23 21:00 桌遊團七則
 //   2 課堂 admin_remedy 第 7 週以安（第 4 節第 7 點：「如果……」不用「假設」開頭；附錄 A 以安表）
 //   3 課堂 family_law 第 11 週阿哲（第 4 節第 7 點：刪後半；附錄 A 阿哲表）
 //   2、3 由 tools/syllabus/import_syllabus.py 疊在 BB_102 的 JSON 上匯入（白名單 AA_255 附錄@52900eb23）；1 照字手動放進 story3d.js
@@ -23,9 +23,9 @@ const spring=(name,inGroup)=>{ const d=STORY.dayOfKey('2027-03-23'); H.fresh('20
   for(let h=20;h<=21.3+1e-9;h+=0.05){ H.G.hour=+h.toFixed(3); STORY.phoneRules(H.GM); PHONE.tick(H.G); }
   return {d,T:(H.G.msgs||[]).filter(m=>m.tag==='y2_spring_plan').map(m=>[m.from,m.text,m.th])}; };
 { const {T}=spring();
-  check('1-1. 3/23 21:00 麵店團七則，照附錄 A 群組列一字不差（說話的人、順序）',J(T.map(x=>[x[0],x[1]]))===J(SPRING),J(T));
+  check('1-1. 3/23 21:00 桌遊團七則，照附錄 A 群組列一字不差（說話的人、順序）',J(T.map(x=>[x[0],x[1]]))===J(SPRING),J(T));
   check('1-2. 芯慈已讀不回：群組裡沒有她的句子（原本「住哪裡要先決定。」）',!T.some(x=>x[0]==='classmate_xinci'),J(T));
-  check('1-3. 對照：沒有人 @ 沛珊、沛珊沒有回；全部在麵店團群組',!T.some(x=>/沛珊/.test(x[1])||x[0]==='classmate_peishan')&&T.every(x=>x[2]==='g:noodle_team'),J(T)); }
+  check('1-3. 對照：沒有人 @ 沛珊、沛珊沒有回；全部在桌遊團群組',!T.some(x=>/沛珊/.test(x[1])||x[0]==='classmate_peishan')&&T.every(x=>x[2]==='g:noodle_team'),J(T)); }
 { const {T}=spring('小明'); check('1-4. 七則的第 4 則 @ 的是玩家取的名字',T.length===7&&T[3][1]==='@小明',J(T)); }
 { const {T}=spring('祐廷',false); check('1-5. 對照：不在群組＝不發',T.length===0,J(T)); }
 { const src=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'); check('1-6. P5 的註解拿掉（story3d.js 不再寫「P5 的鋪陳」）',!src.includes('P5 的鋪陳'));}

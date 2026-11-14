@@ -34,10 +34,10 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   const RD=STORY.revisitDay(), ids=['ev_revisit_y1_kexin','ev_revisit_y1_noodle','ev_revisit_y1_single'];
   check('1. 重訪日 1 的三個事件留著但停用（retired）',ids.every(id=>{ const e=STORY_EVENTS.find(x=>x.id===id); return e&&!!e.retired; }));
   check('2. STORY.REVISIT_OFF',STORY.REVISIT_OFF===true);
-  for(const fl of [{dating_kexin:true},{}]){ fresh(RD,9,'dorm',fl); PHONE.join(G,'noodle_team','麵店團'); let goal=''; GM.setGoal=t=>{ goal=t; }; run(9,22);
+  for(const fl of [{dating_kexin:true},{}]){ fresh(RD,9,'dorm',fl); PHONE.join(G,'noodle_team','桌遊團'); let goal=''; GM.setGoal=t=>{ goal=t; }; run(9,22);
     const bad=(G.msgs||[]).filter(m=>/revisit/.test(String(m.tag||'')));
     check('3. 6/12（'+(fl.dating_kexin?'交往中':'單身')+'）：沒有重訪日的訊息、沒有目標提醒',!bad.length&&!/兩點半|阿鳳麵店/.test(goal),JSON.stringify([bad.map(m=>m.text),goal])); }
-  for(const [zone,fl] of [['cafe',{dating_kexin:true}],['noodle',{}]]){ fresh(RD,18.05,zone,fl); PHONE.join(G,'noodle_team','麵店團');
+  for(const [zone,fl] of [['cafe',{dating_kexin:true}],['noodle',{}]]){ fresh(RD,18.05,zone,fl); PHONE.join(G,'noodle_team','桌遊團');
     check('4. 6/12 18:00 在'+zone+'：重訪日事件都不開始',ids.every(id=>!EVENTS.check(STORY_EVENTS.find(x=>x.id===id))),zone); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

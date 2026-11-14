@@ -4,7 +4,7 @@
 //      AA_367@8dce2f94c 第 3 節＝AA_688 第 2 節；白名單 AA_367 換到 8dce2f94c（history 留 1ebcf530）；照白名單重跑 import_pg_dates.py＝現在的 pg_dates.js（沒有手改）；
 //      其他五位、可昕的格子和開發分支 3666310f8 一樣
 //   2  第 2 節方式：週六 17:30 一盞茶屋（地點字幕、出遊標題「一盞茶屋」）；6/9 17:00 問出發 → 字幕＋她 2029-06 那一句
-//   3  第 3 節：「一試過了。」2029-09-07 15:10、「上了。」「蘇姨已經在寫紅紙了。」2029-12-14 15:10（麵店團，排在阿哲「放榜了」那幾則後面）；2030-09-06、2030-12-13 沒有她那兩則；
+//   3  第 3 節：「一試過了。」2029-09-07 15:10、「上了。」「蘇姨已經在寫紅紙了。」2029-12-14 15:10（桌遊團，排在阿哲「放榜了」那幾則後面）；2030-09-06、2030-12-13 沒有她那兩則；
 //      R2_2030.yt 紅紙兩句（阿哲那一句照接）、FIRST.friends 語彤（2030-10-01 那一場真的傳）、B1_2030.yt 照留
 //   4  第 4 節：多段感情《今天不用幫忙》REPAIR.heroine_03 六處；舊字都不在 MULTIREL_LINES；talk1、ask、結果 B、D 真的演
 //   5  第 6 節：R2_2030.base 旁白「（燒臘店的長桌。…）」；2030 放榜那一頓的出遊卡片「出發：公館燒臘・長桌」（place、title 照 2029 那一頓）、演出來是新旁白
@@ -49,8 +49,8 @@ const freshPG=(key,h,flags,who)=>{ const G=H.fresh(key,h,'dorm',Object.assign({M
   G.acts={att:{}}; G.outings=[]; G.flags.GRADUATED=PG.gradDay(); G.flags.GRAD_DONE=true; PG.rec(G).done.grad=1; for(const e of ['ev_grad_family','ev_grad_lunch','ev_grad_envelope','ev_y4_path','ev_move_out_y4']) G.events.done[e]=1;
   for(const id of [].concat(who||[])){ H.FRIEND(id); H.date(id); } caps.length=0; return G; };   /* 同 tests/aa367_pg_dates_unit.js 的 fresh */
 const plan=G=>{ const busy=PGDATE.busyDays(G,G.day,D('2030-12-14')), out={}; for(const ym of PGDATE.MONTHS){ const M=PGDATE.sixMonth(G,ym,busy); for(const id in M) (out[id]||(out[id]={}))[ym]=lab(M[id].day,M[id].h); } return out; };
-/* 麵店團裡的存檔（認識語彤、畢業了）*/
-const grpSave=(key,h,flags)=>{ const G=H.fresh(key,h,'dorm',Object.assign({},flags||{})); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FAMILIAR(YT); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); return G; };
+/* 桌遊團裡的存檔（認識語彤、畢業了）*/
+const grpSave=(key,h,flags)=>{ const G=H.fresh(key,h,'dorm',Object.assign({},flags||{})); graduated(G); PHONE.join(G,'noodle_team','桌遊團'); H.FAMILIAR(YT); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); return G; };
 const ytG=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from===YT);   /* 語彤在群組的訊息 */
 const grpOn=(G,key)=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.day===D(key));
 const MSG=tag=>(PG.MSGS||[]).find(m=>m.tag===tag);
@@ -82,7 +82,11 @@ const Y1=sl(row(S3,'Y2030.yt1')[1]), Y2=sl(row(S3,'Y2030.yt2')[1]);
     check('1. 照白名單重跑 tools/story/import_pg_dates.py 的結果＝現在的 src/data/pg_dates.js（自動產生、沒有手改）',r.status===0&&r.stdout.trim()==='SAME',(r.stdout||'').trim()+(r.stderr||'').split('\n').slice(-3).join(' '));
     let B=null; try{ B=new Function(git(BASE,'src/data/pg_dates.js').replace(/^'use strict';/m,'')+';return PG_DATES;')(); }catch(e){ B=null; }
     const others=['heroine_01','heroine_02','heroine_04'];   /* 學姊後來 AA_593①b（9aa8ec40c）改了，那一節在 aa367_pg_dates_unit 對稿；沛珊 2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c） 改了 12 格（ym、note、格數不動，下一條），逐字對稿在 aa367_pg_dates_unit、peishan_dates_1111_unit */
-    check('1. 其他五位（AA_688 第 6 節：對過、沒有要改的）、可昕的格子和開發分支 '+BASE+' 一樣（pg_dates.js 只改了語彤）',!!B&&others.every(id=>J(PG_DATES.six[id])===J(B.six[id]))&&J(PG_DATES.kexin)===J(B.kexin),others.filter(id=>!B||J(PG_DATES.six[id])!==J(B.six[id])).join(','));
+    /* 2026-11-11（X324 G 區，AA_367@4adf447e5）：源稿換版重匯——芷若 2029-12、2030-05、2030-08、2030-11 四格「店長」→「老闆」（2030-05、08 的「她」→「他」）。BASE 的格子先照 AA_367 9aa8ec40c→4adf447e5 那幾格換（BASE 那一格＝舊稿那一格才換）再比；芷若剛好換 4 格。舊期望：三位和 BASE 一字不差 */
+    const cell367=sha=>{ const o={}; let who=null; for(const l of git(sha,P367).split('\n')){ const m=l.match(/^## (\d)\. .*（(\w+)）\s*$/); if(m){ who=m[2]; continue; } if(l.startsWith('## ')){ who=null; continue; } const r=l.match(/^\| (20\d\d-\d\d) \| 「(.*)」(（[^）]*）)? \|$/); if(r&&who) (o[who]||(o[who]={}))[r[1]]=r[2]; } return o; };
+    const C0=cell367('9aa8ec40c'), C1=cell367('4adf447e5'), fix367=(id,a)=>(a||[]).map(x=>{ const o=(C0[id]||{})[x.ym], n=(C1[id]||{})[x.ym]; return o&&n&&o!==n&&x.line===o?Object.assign({},x,{line:n}):x; });
+    const nZR=B?fix367('heroine_02',B.six.heroine_02).filter((x,i)=>x.line!==B.six.heroine_02[i].line).map(x=>x.ym):[];
+    check('1. 其他五位（AA_688 第 6 節：對過、沒有要改的）、可昕的格子和開發分支 '+BASE+' 一樣（pg_dates.js 只改了語彤；X324 G 區 AA_367@4adf447e5 芷若四格店長→老闆照稿換過再比）',!!B&&others.every(id=>J(PG_DATES.six[id])===J(fix367(id,B.six[id])))&&J(nZR)===J(['2029-12','2030-05','2030-08','2030-11'])&&J(PG_DATES.kexin)===J({segs:{},slots:[]})/* 可昕畢業以後的格子（AA_366）：CANON-NO-ECON-1112 第三批拿掉 */,others.filter(id=>!B||J(PG_DATES.six[id])!==J(fix367(id,B.six[id]))).join(',')+' '+J(nZR));
     { const a=PG_DATES.six.classmate_peishan, b=B&&B.six.classmate_peishan||[]; check('1. 沛珊的格子（X327 重寫）：17 格、月份和註（視訊／台南）和 '+BASE+' 一樣，只有 12 格的句子不同',a.length===17&&b.length===17&&a.every((x,i)=>x.ym===b[i].ym&&x.note===b[i].note)&&a.filter((x,i)=>x.line!==b[i].line).length===12,J(a.filter((x,i)=>!b[i]||x.line!==b[i].line).map(x=>x.ym))); } });
   /* ---------------- 2. 第 2 節：方式 ---------------- */
   await sec(2,async()=>{
@@ -101,10 +105,10 @@ const Y1=sl(row(S3,'Y2030.yt1')[1]), Y2=sl(row(S3,'Y2030.yt2')[1]);
       &&/搬到 2029-09-07/.test(row(S3,'Y2030.yt1')[2])&&/搬到 2029-12-14/.test(row(S3,'Y2030.yt2')[2])&&J(r1.at)===J(['2029-09-07',15+10/60])&&J(r2.at)===J(['2029-12-14',15+10/60]),J([L().Y2030.yt1,L().Y2030.yt2,r1.at,r2.at]));
     { const G=grpSave('2029-09-07',14.6,{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer'}); PG.rules(GM); H.at('2029-09-07',15.3); H.tick();
       const M=grpOn(G,'2029-09-07'), iy=M.findIndex(m=>m.from===YT&&m.text===Y1[0]), iz=M.findIndex(m=>m.from==='zhe'&&m.text==='宵夜');
-      check('3. 2029-09-07（一試放榜）：麵店團 15:10 語彤「一試過了。」，在 15:00 那幾則（Alison「一試放榜了。」…阿哲「宵夜」）後面',iy>=0&&iz>=0&&iz<iy&&M[iy].h>15.16&&M[iy].h<15.31&&ytG(G).length===1,J(M.map(m=>[m.from||m.who,m.text,m.h]))); }
+      check('3. 2029-09-07（一試放榜）：桌遊團 15:10 語彤「一試過了。」，在 15:00 那幾則（Alison「一試放榜了。」…阿哲「宵夜」）後面',iy>=0&&iz>=0&&iz<iy&&M[iy].h>15.16&&M[iy].h<15.31&&ytG(G).length===1,J(M.map(m=>[m.from||m.who,m.text,m.h]))); }
     { const G=grpSave('2029-12-14',14.6,{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer'}); PG.rules(GM); H.at('2029-12-14',15.3); H.tick();
       const M=grpOn(G,'2029-12-14'), iy=M.findIndex(m=>m.from===YT&&m.text===Y2[0]), iz=M.findIndex(m=>m.from==='zhe'&&m.text==='放榜了');
-      check('3. 2029-12-14（二試放榜）：麵店團 15:10 語彤「上了。」「蘇姨已經在寫紅紙了。」，排在阿哲「放榜了」那幾則後面',iy>0&&iz>=0&&iz<iy&&(M[iy+1]||{}).text===Y2[1]&&(M[iy+1]||{}).from===YT&&J(ytG(G).map(m=>m.text))===J(Y2)&&M.slice(iy+2).every(m=>m.from!=='zhe'||!/放榜/.test(m.text)),J(M.map(m=>[m.from||m.who,m.text,m.h]))); }
+      check('3. 2029-12-14（二試放榜）：桌遊團 15:10 語彤「上了。」「蘇姨已經在寫紅紙了。」，排在阿哲「放榜了」那幾則後面',iy>0&&iz>=0&&iz<iy&&(M[iy+1]||{}).text===Y2[1]&&(M[iy+1]||{}).from===YT&&J(ytG(G).map(m=>m.text))===J(Y2)&&M.slice(iy+2).every(m=>m.from!=='zhe'||!/放榜/.test(m.text)),J(M.map(m=>[m.from||m.who,m.text,m.h]))); }
     { const G=grpSave('2029-12-14',14.6,{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer',BAR_STUDY_GROUP:['kexin','yutong']}); PG.rules(GM); H.at('2029-12-14',15.3); H.tick();
       check('3. 同一天有讀書小組那一場（三個人）：群組那兩則照樣傳（群組不算見面）',J(ytG(G).map(m=>m.text))===J(Y2)); }
     { const G=grpSave('2030-09-06',14.6,{EXCHANGE_ROUTE:'JP',BAR_REG_2030:true}); PG.rules(GM); H.at('2030-09-06',15.4); H.tick(); H.at('2030-09-07',12); H.tick();
@@ -145,7 +149,7 @@ const Y1=sl(row(S3,'Y2030.yt1')[1]), Y2=sl(row(S3,'Y2030.yt2')[1]);
   await sec(5,async()=>{
     const r=row(S6,'R2_2030.base'), base=L().R2_2030.base;
     check('5. R2_2030.base 旁白「'+r[2]+'」（原本「（麵店的長桌。…）」），阿哲那一句照舊',J(base)===J([[null,r[2]],['zhe','（舉起碗）去年沒吃到的，今年一起吃。']])&&r[1]!==r[2]&&!J(L()).includes(r[1]),J(base));
-    const G=H.fresh('2030-12-13',14.6,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:10,BAR_STAGE_2029:'none'}); graduated(G); PHONE.join(G,'noodle_team','麵店團');
+    const G=H.fresh('2030-12-13',14.6,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:10,BAR_STAGE_2029:'none'}); graduated(G); PHONE.join(G,'noodle_team','桌遊團');
     G.flags.BAR_SIT_2030=true; G.flags.BAR_SCORE_2030=8; G.flags.BAR_STAGE_2030='lawyer'; for(const k of ['exam_2030','r1_2030','e2a_2030','e2b_2030']) PG.rec(G).done[k]=1;   /* [前置] 同 tests/bar_exam_unit.js 第 12 組：2030 一試過了 */
     PG.rules(GM); H.at('2030-12-13',15.1); await H.run('r2_2030'); const q=OUT.get(G,'pg_bar_noodle_2030');
     check('5. 2030-12-13 放榜那一頓（出遊）：place「公館燒臘」、title「公館燒臘・長桌」（同 2029 那一頓；稿：出遊卡片上的地點「公館燒臘」）',/公館燒臘/.test(row(S6,'postgrad3d.js')[2])&&!!q&&q.place==='公館燒臘'&&q.title==='公館燒臘・長桌'&&q.h===18,J(q));

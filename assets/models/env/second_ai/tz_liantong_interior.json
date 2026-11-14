@@ -1,0 +1,18 @@
+{
+ "objects": 25,
+ "unique_meshes": 24,
+ "tris": 19794,
+ "tris_drawn": 21752,
+ "materials": 36,
+ "out": "assets/models/env/second_ai/tz_liantong_interior.glb",
+ "bytes": 1521984,
+ "texres": 512,
+ "tris_total": 21752,
+ "walls": [
+  "E",
+  "N",
+  "S",
+  "W"
+ ],
+ "note": "GG-SHOPS3-ART-1110 汀州聯通 室內"
+}

@@ -246,6 +246,7 @@ const US3=(function(){
     for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.5),Math.max(b.z1-b.z0,0.5),0,0);
     const OWN=c=>typeof US_TRAFFIC!=='undefined'&&US_TRAFFIC.owns&&US_TRAFFIC.owns(L,c);   /* 超市街馬路上等紅燈的車歸 src/us_traffic3d.js 開（US-MARKET-CROWD-1021，LAWWW）：這裡不畫、不擋導航 */
     for(const c of (L.cars||[])){ if(OWN(c)) continue; const d=CAR_DIMS[c.kind]||[4.8,1.9]; nav.blockRect(c.x,c.z,d[1]+0.1,d[0]+0.1,-c.yaw,0); }
+    if(o.navFix) o.navFix(nav,L);   /* 區域自己補的導航阻擋（只有導航，模型不動）：例 超市街停車場的小縫（US-NAV-TRAPS-1111）*/
     nav._cm=null;
     const bld=L.blocks.filter(b=>/^building/.test(b.why));
     for(const b of bld){ const m=new THREE.Mesh(new THREE.BoxGeometry(b.x1-b.x0,6.0,b.z1-b.z0),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((b.x0+b.x1)/2,3.0,(b.z0+b.z1)/2); g.add(m); E.colliders.push(m); }
@@ -423,6 +424,9 @@ const US3=(function(){
      公車：usBus＝交換系統可以攔下來換成自己的字卡、時間（社區、校園的公車同一個做法）*/
   const LOOK_MS={lease:'空的店面。玻璃上貼著招租的紙，一個電話號碼。旁邊還看得到舊招牌的膠痕，以前是一家洗衣店。'};   /* AA_412 5-3「看招租的告示」*/
   const us_market_street=MS()?outdoorZone({ id:'us_market_street', name:'超市街（美國）', size:[84,76], glb:'bldg.us_market_street', layout:MS, spawn:L=>L.spawn_bus,
+    /* US-NAV-TRAPS-1111（LAWWW2 美國區擋玩巡檢，LAWWW 11-11 19:37 派）：停車場東邊那支燈桿 (27,−3.5) 的底座和兩台車（SUV (29.16,−6.28)、轎車 (29.07,−0.75)）的車頭中間，
+       剩一條 0.2 m 寬、人站得住的小縫（x 27.8～27.9、z −4.0～−3.6）——從北邊斜著走得進去、出不來（Node：走／跑 30 fps 推 5 次，4 次進去出不來）。只擋導航那一格（0.5 m），模型不動 */
+    navFix:(nav,L)=>{ if((L.poles||[]).some(p=>Math.abs(p.x-27)<0.01&&Math.abs(p.z+3.5)<0.01)) nav.blockRect(27.75,-3.75,0.5,0.5,0,0); },
     /* 燈頭位置照 us_market_street.py：停車場燈桿每支兩個燈頭（桿子前後 1.1 m、冷白光）；眼鏡蛇頭路燈的燈頭在桿子往馬路 2.75 m */
     lampPools:L=>[].concat(...(L.poles||[]).map(p=>[-1.1,1.1].map(d=>({x:p.x,z:p.z+d,r:7.5,op:0.24,color:0xeef2ff}))),
       (L.props||[]).filter(t=>t.type==='street_lamp').map(t=>({x:t.x+Math.sin(t.yaw)*2.75,z:t.z+Math.cos(t.yaw)*2.75,r:6.0,op:0.3}))),

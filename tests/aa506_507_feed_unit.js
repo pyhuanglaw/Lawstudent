@@ -9,7 +9,7 @@
 //      沛珊大三上一個月最多一則（四則在四個月；同一個月多一則＝x:month，拿掉 capMonth 就會出）
 //   3  英國時差：芷若 9/3～2/11 在英國的七則，換成倫敦當地時間都是 22:07（Intl Europe/London；臺灣時間 10/31 以前 05:07、以後 06:07，倫敦是前一天）；2/15 回台中 22:07
 //   4  私訊：可昕 4/10 22:30 三個選項各一次（KX_WIN_DM）、交往中也有、只認識的沒有（只看到動態）；學姊 2/7 10:00 交往中兩則不用回、沒交往的沒有；
-//      語彤 2027-07-09 生日：麵店團群組 Alison／不在群組 FAMILIAR 以上系統字／只認識沒有、12:00 以前沒有、睡過整天沒有，「傳一句生日快樂」→ 她回、YT_BDAY_Y2，21:00 動態第 5 則
+//      語彤 2027-07-09 生日：桌遊團群組 Alison／不在群組 FAMILIAR 以上系統字／只認識沒有、12:00 以前沒有、睡過整天沒有，「傳一句生日快樂」→ 她回、YT_BDAY_Y2，21:00 動態第 5 則
 //   5  稿的測試建議（AA_506 第 8 節、AA_507 第 8 節裡手機的部分）：以安大二下第 7 則（報了 C12 同班＝「京都：玩家的名字」、沒報、報了沒去＝「京都：一個人」）；
 //      子晴大二下第 6 則（回過 zq_name「『存檔點』。」＝「名字定了？」、沒回＝「這是什麼？」，舊存檔看訊息）；以安大三上第 7 則日本路線；
 //      子晴大三上第 3 則「老高」、第 7 則「名字呢？」→「還沒」；可昕沒有交往（朋友）看得到大三上四則
@@ -121,16 +121,17 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i3=sc('src/data/feed_
   for(const term of ['Y2S2','Y3S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!PSRW.feedSkip(term,p.id))}), md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+SHA+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!AA518_T.has(t)&&!(term==='Y3S1'&&Object.keys(AA512_SAY).some(id=>AA512_SAY[id][1]===t&&AA512_OK(id)))), vp=S.posts.filter(p=>typeof p.pic==='object').map(p=>p.id);   /* AA_512 改的那一句在 AA_512 裡 */
+    const LR=require('./line_rows_expect.js'), FF='src/data/feed_'+term.toLowerCase()+'.js';   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊大二下 ps1d「嗯！開學以後在台南。」、大三上 ps1e～ps3e 六句句尾「～」改掉、多一拍（AA_808 feed_y2s2 第 56 列、feed_y3s1 第 53～55 列）——①遊戲字先換回稿上的舊句（toOldS）再在稿裡找；②稿那一列往前換成新句（fwdDeep）再和遊戲比；舊稿不改。舊期望：遊戲字本身在稿裡、稿那一列原樣和遊戲比 */
+    const L=strs(S), bad=L.filter(t=>!require('./kx885_expect.js').has(t)/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!md.includes(LR.toOldS(t,FF))&&!AA518_T.has(t)&&!(term==='Y3S1'&&Object.keys(AA512_SAY).some(id=>AA512_SAY[id][1]===t&&AA512_OK(id)))), vp=S.posts.filter(p=>typeof p.pic==='object').map(p=>p.id);   /* AA_512 改的那一句在 AA_512 裡 */
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+SHA+'，一字不差；'+L.length+' 句；兩個版本的照片 '+(vp.join('、')||'沒有')+' 在 ② 對）',L.length>=(term==='Y2S2'?200:190)&&!bad.length&&J(vp)===J(term==='Y2S2'?['an7d']:[]),J({bad:bad.slice(0,8),vp}));
     /* ② 稿 → 遊戲：動態表每一列 */
-    const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[], went={};
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA512_SAY[e.id]&&e.say===AA512_SAY[e.id][0]&&AA512_OK(e.id)) e.say=AA512_SAY[e.id][1];   /* AA_512 改字 */ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
+    const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)&&!require('./kx885_expect.js').skip(expectRow(term,r).id)), wrong=[], wd=[], went={};
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); for(const k of ['pic','say','cm','dm']) e[k]=LR.fwdDeep(e[k],FF);   /* AA_808 往前換（見上）*/ if(AA512_SAY[e.id]&&e.say===AA512_SAY[e.id][0]&&AA512_OK(e.id)) e.say=AA512_SAY[e.id][1];   /* AA_512 改字 */ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(e.went) went[e.id]=e.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;
       const same=!!p&&p.who===e.who&&p.st===e.st&&C(p.pic)===C(e.pic)&&p.say===e.say&&C(p.cm)===C(e.cm)&&C(p.dm)===C(e.dm)&&p.went===e.went&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;
       if(!same) wrong.push(e.id+(p?'':'（沒有）')); }
-    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；兩個版本的列：'+(J(went)||'')+'）',rows.length===S.posts.length&&!wrong.length&&J(went)===J(term==='Y2S2'?{an7d:'anC12',zq6d:'zqNamed',sis4d:'sisS4Lx'}:{an7e:'anJP'}),J(wrong.slice(0,10)));
+    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；兩個版本的列：'+(J(went)||'')+'）',rows.length===S.posts.filter(p=>!require('./kx885_expect.js').skip(p.id)).length&&!wrong.length&&J(went)===J(term==='Y2S2'?{an7d:'anC12',zq6d:'zqNamed',sis4d:'sisS4Lx'}:{an7e:'anJP'}),J(wrong.slice(0,10)));
     check('0. '+term+' 稿上的日期和星期對得上（'+rows.length+' 列）',!wd.length,J(wd));
     /* ② 稿 → 遊戲：私訊 */
     const Q=dmQuotes(md), all=new Set(L), optT=new Set(); for(const q of S.dms) if(q.ask) for(const o of q.ask.opts) optT.add(o.t);
@@ -227,16 +228,16 @@ sec('4',()=>{ if(!HAS()||!SET.Y2S2||!SET.Y3S1){ check('4. 私訊',false,'沒有�
   fresh(D27,9); who('heroine_05','CLOSE'); walk(D27,11); check('4. 學姊很熟、沒有交往：沒有那兩則（x:stage）',!tagged('sis_rest').length&&R().dm.sis_rest==='x:stage',J(R().dm.sis_rest));
   /* 語彤 2027-07-09 生日 */
   const D79=DK('2027-07-09'), bmsg=()=>(H.G.msgs||[]).filter(m=>m.tag==='yt_bday_y2');
-  fresh(D79,11); who('heroine_03','FRIEND'); PHONE.join(H.G,'noodle_team','麵店團'); walk(D79,11.9); const g0=bmsg().length; walk(D79,12.1); const g=bmsg();
+  fresh(D79,11); who('heroine_03','FRIEND'); PHONE.join(H.G,'noodle_team','桌遊團'); walk(D79,11.9); const g0=bmsg().length; walk(D79,12.1); const g=bmsg();
   const n=(H.G.msgs||[]).length; PHONE.answer(H.G,'yt_bday_y2',0); const gr=(H.G.msgs||[]).slice(n).map(m=>[m.th,m.from,m.text]);
-  check('4. 語彤 7/9 12:00（在麵店團群組）：Alison「今天語彤生日！」→「傳一句生日快樂」→ 你「生日快樂。」、她在群組回「……謝謝。今天第一次去田野。……」、YT_BDAY_Y2',
+  check('4. 語彤 7/9 12:00（在桌遊團群組）：Alison「今天語彤生日！」→「傳一句生日快樂」→ 你「生日快樂。」、她在群組回「……謝謝。今天第一次去田野。……」、YT_BDAY_Y2',
     g0===0&&g.length===1&&g[0].th==='g:noodle_team'&&g[0].from==='yu'&&g[0].text==='今天語彤生日！'&&J(g[0].ask.opts.map(o=>o.t))===J(['傳一句生日快樂'])
     &&J(gr)===J([['g:noodle_team','player','生日快樂。'],['g:noodle_team','heroine_03','……謝謝。今天第一次去田野。常來的那個阿伯說，生日還出來工作，很乖。']])&&H.G.flags.YT_BDAY_Y2===true,J({g:g.map(m=>[m.th,m.from,m.text]),gr}));
   walk(D79,21.1); check('4. 同一天 21:00 動態第 5 則（錄音筆、乾麵；留言「生日快樂！」→「謝謝。」）',!!item('yt5d')&&HT().includes('生日快樂！'));
   fresh(D79,11); who('heroine_03','FAM'); walk(D79,12.1); const s=bmsg();
   check('4. 不在群組、和語彤有點熟：她的私訊放系統字「今天是語彤的生日。」，同一個按鈕',s.length===1&&s[0].th==='p:heroine_03'&&!s[0].from&&s[0].text==='今天是語彤的生日。'&&J(s[0].ask.opts.map(o=>o.t))===J(['傳一句生日快樂']),J(s.map(m=>[m.th,m.from,m.text])));
   fresh(D79,11); who('heroine_03','ACQ'); walk(D79,13); check('4. 不在群組、只認識語彤：沒有',!bmsg().length);
-  fresh(D79-1,23); who('heroine_03','FRIEND'); PHONE.join(H.G,'noodle_team','麵店團'); tickF(); jump(D79+1,8); check('4. 睡過整天（7/8 23:00 → 7/10 08:00）：不補（同 2026、2028 那兩則）',!bmsg().length);
+  fresh(D79-1,23); who('heroine_03','FRIEND'); PHONE.join(H.G,'noodle_team','桌遊團'); tickF(); jump(D79+1,8); check('4. 睡過整天（7/8 23:00 → 7/10 08:00）：不補（同 2026、2028 那兩則）',!bmsg().length);
   check('4. 2026、2028 的生日照舊在 home3d.js（yt_bday_y1）、r2y3b3d.js（yt_bday_y3）：這一則用自己的 tag（yt_bday_y2）',SET.Y2S2.ytBday.tag==='yt_bday_y2'&&SET.Y2S2.ytBday.flag==='YT_BDAY_Y2'); });
 
 /* ---------- 5 稿的測試建議 ---------- */

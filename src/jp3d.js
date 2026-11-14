@@ -197,7 +197,7 @@ const JP=(function(){
   S.anAt=G=>{ const w=S.anWhere(G); return w==='宿舍（你那邊）'?'kitchen':(w==='河邊'?'river':null); };
   S.G9=['學校。剛下課。','房間。日文作業，第三頁。','河邊。今天風很大，書一直被翻過去。','投幣洗衣機前面。還有十二分鐘。'];   /* 問「在哪？」的回覆（輪流；挽回中只回前兩句）*/
   /* ---------------- 手機（STORY.PHONE_RULES）：以安的私訊（G0、G3、G4、G6、G8）、旗標 ---------------- */
-  /* F.abroad（J-S14：麵店團阿哲的「麵店 我揪了」看這個，原本從來沒有設）＝STORY.abroad；AN_JP_DEPARTED（J-S17：階梯的 skipIf 讀這個）＝以安 3/25 出發了（所有路線）*/
+  /* F.abroad（J-S14：桌遊團阿哲的「麵店 我揪了」看這個，原本從來沒有設）＝STORY.abroad；AN_JP_DEPARTED（J-S17：階梯的 skipIf 讀這個）＝以安 3/25 出發了（所有路線）*/
   S.flagSync=function(G){ const F=G.flags; if(!F) return; const ab=!!(STORY.abroad&&STORY.abroad(G)); if(!!F.abroad!==ab) F.abroad=ab;
     const dep=D('dep'); if(dep!=null&&G.day>=dep&&F.AN_JP_DEPARTED==null) F.AN_JP_DEPARTED=F.JP_DEPARTED!=null?F.JP_DEPARTED:dep; };
   /* 2/20 那天沒有回宿舍、退宿那一場沒演到的（舊存檔）：2/21 以後直接記（不演），之後照住家裡 */
@@ -258,7 +258,7 @@ const JP=(function(){
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24+1e-9); if(d>G.day){ G.day=d; G.weekday=wdOf(d); if(G.flags) G.flags.companion=null; G.weather=Math.random()<0.7?'clear':'cloudy'; } G.hour=tt-d*24; if(E) E.hour=G.hour; };   /* 同 home3d.js 的快轉 */
   /* 跳到 t（where＝'jp'：日本的據點；'home'：家）：每 15 分鐘看要不要停；整點跑手機規則、生活費。
      X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻（回傳 'msg'）——
-     呼叫的人打開手機（S.ffPhone，「跳過」）、關掉以後接著跳（S.ff 快轉、S.sleep 睡覺）；跳完不再說「收到 N 則」（同 home3d.js 的 breakJump、經濟系 y0Jump）*/
+     呼叫的人打開手機（S.ffPhone，「跳過」）、關掉以後接著跳（S.ff 快轉、S.sleep 睡覺）；跳完不再說「收到 N 則」（同 home3d.js 的 breakJump、舊序章 y0Jump）*/
   const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player'&&!m.quiet).length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
   S.FF_MAX=200;   /* 一次快轉、睡覺最多停幾次（每一次都要玩家按「跳過」；只是防呆）*/
   S.jump=async function(GM,t,where,o){ o=o||{}; const G=GM.G, E=GM.E, P=P_(); await GM.fade(true); let n=0, mo=null, why=null, tt=NOW(G); const t0=tt, d0=G.day, w0=o.ff?S.waitSnap(G):null;   /* o.ff：玩家選的快轉（要回的訊息也停）*/

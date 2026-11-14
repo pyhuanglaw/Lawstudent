@@ -93,7 +93,7 @@ def group(e, where, ids):
 
 
 def build(d):
-    keys(d, '最上層', ('_meta', 'menu', 'first', 'pool', 'prof', 'reveal', 'study_room'), ('closed',))
+    keys(d, '最上層', ('_meta', 'menu', 'first', 'pool', 'prof', 'reveal', 'study_room'), ('closed', 'front_room'))
     if not isinstance(d['menu'], list) or set(d['menu']) != set(MENU_POOL) or len(d['menu']) != len(MENU_POOL) or d['menu'][-1] != '離開':
         die(f'menu 改了（{d["menu"]}）：先改這支工具的 MENU_POOL 和 src/limao3d.js')
     menu = []
@@ -153,6 +153,14 @@ def build(d):
     out.update({'prof': prof, 'reveal': reveal, 'study_room': {'when': txt(SR['when'], 'study_room.when'), 'look': look}})
     if 'note' in SR:
         out['study_room']['note'] = SR['note']
+    if 'front_room' in d:   # 前半命理館三個互動點（AA 2026-11-12，SHOP-STANDARD-BACKFILL-1112）：每點 narr（平常）＋known（有 LM_KNOWN 以後）
+        FR = d['front_room']
+        keys(FR, 'front_room', ('when', 'look'), ('note',))
+        fl = []
+        for i, e in enumerate(FR['look']):
+            keys(e, f'front_room.look[{i}]', ('at', 'narr', 'known'))
+            fl.append({k: txt(e[k], f'front_room.look[{i}].{k}') for k in ('at', 'narr', 'known')})
+        out['front_room'] = {'look': fl}
     if closed:
         out['closed'] = closed
     out['rules'] = list(d['_meta'].get('rules', []))
@@ -170,6 +178,8 @@ def main():
         die(why)
     data = {'src': f'{PATH}@{sha}'}
     data.update(build(json.loads(git('show', f'{sha}:{PATH}'))))
+    # CANON-NO-ECON-1112 收尾（D158；AA_922 說明文字）：rules 說明裡那個系名換代號（舊字用 \u 跳脫寫，canon_scan 不數）
+    data['rules'] = [r.replace('\u7d93\u6fdf\u7cfb\u90a3\u4e00\u5e74', '舊序章那一年') if isinstance(r, str) else r for r in data.get('rules', [])]
     js = ('/* 自動產生：tools/story/import_limao.py（' + data['src'] + '）。不要手改，改企劃稿再重新匯入。\n'
           '   禮貌生財上師的話（LIMAO-SHOP-1110，使用者 X332）：台詞一字照 AA_750；w＝說話的人（yt 祐廷、ms 上師、wu 吳教授、narr 旁白），o:true＝使用者原句。\n'
           '   when 是稿的字（條件怎麼判斷、怎麼演：src/limao3d.js） */\n'

@@ -41,7 +41,9 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('0. 十一間店、10 列常客、店 id 和配置 lane118_layout.js 一樣',LANE118_SHOPS.shops.length===11&&LANE118_SHOPS.regulars.length===10&&LANE118_SHOPS.shops.every(s=>LANE118_LAYOUT.shops.some(q=>q.id===s.id))); }
   // 1. 營業時間
   { law('2025-09-08',12.5); check('1. 週一 12:30：刀削麵開、奈良咖哩（週一休）沒開、義大麵屋（週一休）沒開、喝不喝咖啡開',L118.isOpen('korea',G)&&!L118.isOpen('omu',G)&&!L118.isOpen('pasta',G)&&L118.isOpen('drink_a',G));
-    G.hour=15; check('1. 週一 15:00：刀削麵午休沒開、大學食堂午休沒開、飲料店開',!L118.isOpen('korea',G)&&!L118.isOpen('cafe2',G)&&L118.isOpen('drink_b',G));
+    /* 2026-11-12（L118-HOURS-1112，使用者：「我下午3點去幾乎每一家店都沒有開」「他們的營業時間至少是從中午開始到晚上吧」）：118 巷的店不午休，開門到打烊連著開。舊期望：週一 15:00 刀削麵、大學食堂午休沒開 */
+    G.hour=15; check('1. 週一 15:00：刀削麵、大學食堂、飲料店都開（不午休）；公休日照舊（義大麵屋週一休）',L118.isOpen('korea',G)&&L118.isOpen('cafe2',G)&&L118.isOpen('drink_b',G)&&!L118.isOpen('pasta',G));
+    { const SH=LANE118_SHOPS.shops, mid=SH.filter(s=>!s.hours.open.some(([a,b])=>a<=12&&b>=19)); check('1. 每一間店都至少從中午 12:00 開到晚上 19:00、中間不休息',mid.length===0&&SH.every(s=>s.hours.open.length===1),mid.map(s=>s.name+' '+s.hours.text).join('｜')); }
     G.hour=12.5; said=[]; await L118.order(GM,'omu'); check('1. 沒開的店：「（鐵門拉下來一半。門上貼著營業時間。）」、沒扣錢',J(lines())===J(['（鐵門拉下來一半。門上貼著營業時間。）'])&&G.money===5000,J(lines())); }
   // 2. 一個人點餐
   { law('2025-09-08',12.5); let paid=0; const m0=GM.money; GM.money=d=>{ paid+=d; G.money+=d; }; picks=[0]; said=[]; await L118.order(GM,'korea'); GM.money=m0;
@@ -71,8 +73,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     picks=[0]; said=[]; await L118.order(GM,'cafe2');
     check('4. 柏翰沒見過：一個人吃（大學食堂的阿姨「自己夾，夾好拿過來秤。」）',lines()[0]==='阿姨：自己夾，夾好拿過來秤。'&&lines().slice(-1)[0]==='（你把餐盤放到回收台，順手拿了一張餐巾紙。）',J(lines())); }
   // 5. 阿哲週一 12:00 揪人
-  { law('2025-09-08',11.9); PHONE.join(G,'noodle_team','麵店團'); SOCIAL.remember('zhe','FIRST_MET',''); SOCIAL.remember('yu','FIRST_MET',''); run(11.95,12.1);
-    check('5. 第一次（Y1S1 第 2 週週一 12:00）：麵店團群組「欸 我找到了」「後門出去 過辛亥路那條巷子」「118 巷 整條都是吃的」、Alison「我要去！！」',J(txt('g:noodle_team').slice(-4))===J(['zhe:欸 我找到了','zhe:後門出去 過辛亥路那條巷子','zhe:118 巷 整條都是吃的','yu:我要去！！']),J(txt('g:noodle_team')));
+  { law('2025-09-08',11.9); PHONE.join(G,'noodle_team','桌遊團'); SOCIAL.remember('zhe','FIRST_MET',''); SOCIAL.remember('yu','FIRST_MET',''); run(11.95,12.1);
+    check('5. 第一次（Y1S1 第 2 週週一 12:00）：桌遊團群組「欸 我找到了」「後門出去 過辛亥路那條巷子」「118 巷 整條都是吃的」、Alison「我要去！！」',J(txt('g:noodle_team').slice(-4))===J(['zhe:欸 我找到了','zhe:後門出去 過辛亥路那條巷子','zhe:118 巷 整條都是吃的','yu:我要去！！']),J(txt('g:noodle_team')));
     const r=PHONE.answer(G,'l118_lunch_'+G.day,0); STORY.phoneRules(GM); const q=OUT.get(G,'l118_lunch_'+G.day);
     check('5. 「走。」→ 阿哲「後門見」；12:15 出遊到 118 巷清州刀削麵門口（goto；資料的 lunch.firstShop）；阿哲、Alison 一起',!!r&&r.out.some(m=>m.text==='後門見')&&!!q&&Math.abs(q.h-12.25)<1e-6&&q.goto&&q.goto.zone==='lane118'&&J(G.flags.L118_LUNCH.with)===J(['zhe','yu'])&&G.flags.L118_LUNCH.shop==='korea'&&LANE118_SHOPS.lunch.firstShop==='korea',J(q)+J(G.flags.L118_LUNCH));
     G.hour=12.3; G.zone='lane118'; GM.npc={}; L118.populate(GM); picks=[2]; said=[]; await L118.order(GM,'korea');
@@ -85,14 +87,14 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
       said=[]; picks=[2]; await L118.order(GM,'korea');
       check('6. 在店裡點餐：一起吃的那段照演（阿哲、Alison 各一句）', lines().some(t=>t.startsWith('阿哲：這間我給八十分'))&&lines().some(t=>t.startsWith('Alison：')), J(lines()));
       E.zone.seats=seats0; G.zone='lane118'; GM.npc={}; E.npcs=[]; }
-    law('2025-09-15',11.9); PHONE.join(G,'noodle_team','麵店團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); const w3=txt('g:noodle_team').slice(-1)[0];
-    law('2025-09-22',11.9); PHONE.join(G,'noodle_team','麵店團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); const w4=txt('g:noodle_team').slice(-1)[0];
+    law('2025-09-15',11.9); PHONE.join(G,'noodle_team','桌遊團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); const w3=txt('g:noodle_team').slice(-1)[0];
+    law('2025-09-22',11.9); PHONE.join(G,'noodle_team','桌遊團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); const w4=txt('g:noodle_team').slice(-1)[0];
     check('5. 之後照 korea → dian → tea → home 輪：第 3 週「今天換一間 我想吃牛排」、第 4 週「中午走不走 Alison 說要韓式」',w3==='zhe:今天換一間 我想吃牛排'&&w4==='zhe:中午走不走 Alison 說要韓式',J([w3,w4]));
     law('2025-09-08',11.9); SOCIAL.remember('zhe','FIRST_MET',''); R('zhe',...LV.FAM); run(11.95,12.1);
     check('5. 不在群組、和阿哲有點熟：私訊（只有阿哲的三句，沒有 Alison）',J(txt('p:zhe'))===J(['zhe:欸 我找到了','zhe:後門出去 過辛亥路那條巷子','zhe:118 巷 整條都是吃的']),J(txt('p:zhe')));
     law('2025-09-08',11.9); run(11.95,12.1); check('5. 不在群組、和阿哲不熟：沒有',!(G.msgs||[]).some(m=>/118/.test(m.text||'')));
-    law('2025-12-15',11.9); PHONE.join(G,'noodle_team','麵店團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); check('5. 第 16 週沒有',!(G.msgs||[]).some(m=>(m.tag||'').startsWith('l118_')));
-    law('2027-03-01',11.9); PHONE.join(G,'noodle_team','麵店團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); check('5. 2027-03-01（大二下、阿哲 Alison 交往以後）：多 Alison「我們在巷口等你」',txt('g:noodle_team').includes('yu:我們在巷口等你'),J(txt('g:noodle_team'))); }
+    law('2025-12-15',11.9); PHONE.join(G,'noodle_team','桌遊團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); check('5. 第 16 週沒有',!(G.msgs||[]).some(m=>(m.tag||'').startsWith('l118_')));
+    law('2027-03-01',11.9); PHONE.join(G,'noodle_team','桌遊團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); check('5. 2027-03-01（大二下、阿哲 Alison 交往以後）：多 Alison「我們在巷口等你」',txt('g:noodle_team').includes('yu:我們在巷口等你'),J(txt('g:noodle_team'))); }
   // 6. AA_311 H1（AA_772：搬到喝不喝咖啡 drink_a，外帶窗口；台詞不變）：飲料店 × 學姊「她的老樣子」——記 SIS_TEA_ORDER（學姊備考那一年「一起念書的日常」⑤ 才排得到）
   { const H1L=['剛剛那個學姊，你認識喔？','她每天這個時間來。無糖綠茶，去冰。從來沒換過。'], R1='對啊。我都在她走到窗口以前就做好了。', R2='（店員笑了一下，沒有再說。）';
     const tea=async(day,h,o)=>{ o=o||{}; fresh(day,h,'lane118',Object.assign({},o.flags||{})); G.stage='law'; if(o.met!==false) SOCIAL.remember('heroine_05','FIRST_MET',''); picks=(o.picks||[1,0]).slice(); said=[]; opts=[]; await L118.order(GM,o.shop||'drink_a'); return said.map(x=>x.t); };

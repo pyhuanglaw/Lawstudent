@@ -15,7 +15,7 @@ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z
 global.CHAR={setExpr(){},build:()=>mkObj()};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,700):'')); if(!ok) fails++; };
 const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/sis_grad3d.js',
   'src/data/dorm_room_layout.js','src/story3d.js','src/classes3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -116,9 +116,9 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     check('D1. 手機約可昕：第一層有念書、吃飯、喝咖啡喝茶、散步、運動、出去玩（原本只有羽球、晨跑、去校外）',J(a.opts[0])===J(CATS.concat(['出去玩…','算了'])),J(a.opts[0])+(a.err||''));
     const b=await ask('kexin',['喝咖啡','2:30 AM','其他日子',/（週六）$/,'15:30']);
     const iv=(G.invites||[]).slice(-1)[0]||{};
-    check('D2. 約可昕週六去 Café：照原本的流程（accepted、by player）、答應句是 AA_415 kx21',iv.who==='kexin'&&iv.place==='cafe'&&iv.state==='accepted'&&iv.by==='player'&&wdOf(iv.day)===6&&b.L.some(t=>t.includes('首都帝大的 Café？好。我要坐你平常坐的那張。')),J([iv,b.L]));
+    check('D2. 約可昕週六去 Café：照原本的流程（accepted、by player）、答應句是 AA_415 kx21',iv.who==='kexin'&&iv.place==='cafe'&&iv.state==='accepted'&&iv.by==='player'&&wdOf(iv.day)===6&&b.L.some(t=>t.includes('Café？好。我要坐你平常坐的那張。'))/* （CANON-NO-ECON-1112 第四批：照 AA_891 換字）kx21 */,J([iv,b.L]));
     fresh(mon,10,{}); know('kexin',S6);
-    check('D3. 沒交往的可昕照舊：手機約不到（她在木柵大學，不用這個清單約）',INV.canInvite(G,'kexin')===false);
+    check('D3. 沒交往、認識了的可昕：手機約得到（和其他女主角同一層）',INV.canInvite(G,'kexin')===true);   /* （CANON-NO-ECON-1112 第四批：照 AA_895 換字）原本「沒交往的可昕照舊：手機約不到」——她改成法律系同學、social_layer 'D' */
   }
   // ===== E. 沛珊在台南：校內地點不列 =====
   { const d=nextWd(D('2027-10-04'),1); fresh(d,10,{PS_RECONNECT:true}); know('classmate_peishan',S5);

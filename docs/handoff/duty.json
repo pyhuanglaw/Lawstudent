@@ -3,9 +3,9 @@
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
  "ruleVersion": "HV-20",
  "ruleSource": {
-  "branch": "claude/confident-ritchie-8rwh7t",
-  "sha": "702ff44e",
-  "updated": "2026-11-10T08:17Z"
+  "branch": "claude/adoring-meitner-mqzst8",
+  "sha": "90e4f76b",
+  "updated": "2026-11-14T09:46Z"
  },
  "accounts": [
   "A",
@@ -13,86 +13,86 @@
   "C",
   "D"
  ],
- "onDuty": "A",
- "previous": "B",
+ "onDuty": "C",
+ "previous": "C",
  "accountState": {
-  "A": "on",
+  "A": "off",
   "B": "off",
-  "C": "off",
+  "C": "on",
   "D": "unused"
  },
  "roles": {
   "LAWWW": {
-   "account": "A",
-   "session": "session_01Eds6msqpsuzNEw98sdw8JX",
-   "branch": "claude/confident-ritchie-8rwh7t",
-   "sha": "702ff44e",
-   "sinceSha": "702ff44e",
-   "since": "2026-11-10T08:17Z",
+   "account": "C",
+   "session": "session_01Me1thu8Zn934H58kWKNfuF",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "90e4f76b",
+   "sinceSha": "90e4f76b",
+   "since": "2026-11-14T09:46Z",
    "state": "on",
    "prev": {
-    "account": "B",
-    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
-    "branch": "claude/modest-rubin-2lyp7g",
-    "sha": "71b135c1"
+    "account": "C",
+    "session": "session_01Me1thu8Zn934H58kWKNfuF",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "sha": "84d21836"
    }
   },
   "LAWWW2": {
-   "account": "A",
-   "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
-   "branch": "claude/second-ai-env-art",
-   "sha": "8f4382b7",
-   "since": "2026-11-10T08:11Z",
+   "account": "C",
+   "session": "session_015BuNi47yLUt5PviELapMNj",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "f65756d9",
+   "since": "2026-11-14T09:44Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": "9b3c9b62",
-   "handedOffAt": "2026-11-10T01:40Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-10T0140Z_B_LAWWW2.json"
+   "sinceSha": "4ec1acd5",
+   "handedOffAt": "2026-11-14T02:02Z",
+   "handoffSnapshot": "2026-11-14T0202Z_C_LAWWW2.json"
   },
   "AA": {
-   "account": "A",
-   "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
-   "branch": "claude/story-planning",
-   "sha": "f50eb9f0",
-   "since": "2026-11-10T08:10Z",
+   "account": "C",
+   "session": "session_019evvieJUJD23EGf4nyLPgo",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e68c6674",
+   "since": "2026-11-14T09:42Z",
    "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "1cc9d07a",
-   "handedOffAt": "2026-11-10T01:34Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-10T0134Z_B_AA.json"
+   "sinceSha": "da4ce5ce",
+   "handedOffAt": "2026-11-14T02:00Z",
+   "handoffSnapshot": "2026-11-14T0200Z_C_AA.json"
   },
   "BB": {
-   "account": "A",
-   "session": "session_01XVHYLaK9Vcnae3U1aAJoZv",
-   "branch": "claude/story-planning",
-   "sha": "f50eb9f0",
-   "since": "2026-11-10T08:10Z",
+   "account": "C",
+   "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "2b15ae78",
+   "since": "2026-11-14T09:41Z",
    "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "fb9e47c4",
-   "handedOffAt": "2026-11-10T01:34Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-10T0134Z_B_BB.json"
+   "sinceSha": "f9f05028",
+   "handedOffAt": "2026-11-14T01:58Z",
+   "handoffSnapshot": "docs/handoff/snapshots/2026-11-14T0158Z_C_BB.json"
   },
   "CC": {
-   "account": "A",
-   "session": "session_01TdESzxBpdGoPhdkPD2ENce",
+   "account": "C",
+   "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
    "branch": "claude/cc-testing",
-   "sha": "31da440c",
-   "since": "2026-11-10T08:18Z",
+   "sha": "a1e10faf",
+   "since": "2026-11-14T09:39Z",
    "state": "on",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": "8d9218ea",
-   "handedOffAt": "2026-11-10T01:34Z",
-   "handoffSnapshot": null,
+   "sinceSha": "9fbaa509",
+   "handedOffAt": "2026-11-14T01:59Z",
+   "handoffSnapshot": "2026-11-14T0159Z_C_CC.json",
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
   }
  },
  "lastHandoff": {
-  "from": "B",
-  "at": "2026-11-10T04:10Z",
+  "from": "C",
+  "at": "2026-11-14T02:06Z",
   "kind": "handoff",
   "snapshots": {
-   "LAWWW": "2026-11-10T0410Z_B_LAWWW.json"
+   "LAWWW": "2026-11-14T0206Z_C_LAWWW.json"
   },
   "closed": true
  },
@@ -765,6 +765,77 @@
     }
    },
    "until": "2026-11-10T08:19Z"
+  },
+  {
+   "account": "A",
+   "role": "LAWWW",
+   "roles": {
+    "LAWWW": {
+     "session": "session_01Eds6msqpsuzNEw98sdw8JX",
+     "branch": "claude/confident-ritchie-8rwh7t",
+     "sha": "702ff44e",
+     "since": "2026-11-10T08:17Z",
+     "handedOffAt": null,
+     "state": "on"
+    }
+   },
+   "until": "2026-11-12T03:13Z"
+  },
+  {
+   "account": "A",
+   "role": "AA",
+   "roles": {
+    "AA": {
+     "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
+     "branch": "claude/story-planning",
+     "sha": "f50eb9f0",
+     "state": "on",
+     "handedOffAt": "2026-11-10T01:34Z"
+    }
+   },
+   "until": "2026-11-12T03:14Z"
+  },
+  {
+   "account": "A",
+   "role": "BB",
+   "roles": {
+    "BB": {
+     "session": "session_01XVHYLaK9Vcnae3U1aAJoZv",
+     "branch": "claude/story-planning",
+     "sha": "f50eb9f0",
+     "state": "on",
+     "handedOffAt": "2026-11-10T01:34Z"
+    }
+   },
+   "until": "2026-11-12T03:14Z"
+  },
+  {
+   "account": "A",
+   "role": "LAWWW2",
+   "roles": {
+    "LAWWW2": {
+     "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
+     "branch": "claude/second-ai-env-art",
+     "sha": "8f4382b7",
+     "state": "on",
+     "handedOffAt": "2026-11-10T01:40Z"
+    }
+   },
+   "until": "2026-11-12T03:18Z"
+  },
+  {
+   "account": "A",
+   "role": "CC",
+   "roles": {
+    "CC": {
+     "session": "session_01TdESzxBpdGoPhdkPD2ENce",
+     "branch": "claude/cc-testing",
+     "sha": "31da440c",
+     "state": "on",
+     "handedOffAt": "2026-11-10T01:34Z"
+    }
+   },
+   "until": "2026-11-12T04:45Z"
   }
  ],
  "anomalies": [
@@ -1136,9 +1207,18 @@
    "reviewedThrough": "f1d31b2f0",
    "at": "2026-11-07T03:4xZ",
    "note": "LAWWW-B 11-07 03:4x 查核：交班 commit 7a675d98c 以後 3 個（d4e797c6d、56f47b4be、f1d31b2f0）都是 BB-C 11-05 16:11～16:15 自己的重新接班與再交班紀錄，比帳號 B 11-07 03:3x 接班早；已快轉進 BB-B 的 elegant-brown。不是兩個帳號同時寫"
+  },
+  {
+   "kind": "no-handoff",
+   "role": "LAWWW",
+   "from": "A",
+   "to": "C",
+   "at": "2026-11-12T03:13Z",
+   "note": "LAWWW 上一任 A 沒有正式交班，使用者指示接班；以遠端最後 push 的狀態為準",
+   "resolved": false
   }
  ],
- "seq": 126,
+ "seq": 152,
  "chain": [
   {
    "seq": 1,
@@ -2019,6 +2099,188 @@
    "seq": 126,
    "at": "2026-11-10T08:19Z",
    "account": "A",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 127,
+   "at": "2026-11-12T03:13Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "register-user-ok"
+  },
+  {
+   "seq": 128,
+   "at": "2026-11-12T03:14Z",
+   "account": "C",
+   "role": "AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 129,
+   "at": "2026-11-12T03:18Z",
+   "account": "C",
+   "role": "LAWWW2",
+   "event": "sync"
+  },
+  {
+   "seq": 130,
+   "at": "2026-11-12T03:27Z",
+   "account": "C",
+   "role": "LAWWW2,AA",
+   "event": "sync"
+  },
+  {
+   "seq": 131,
+   "at": "2026-11-12T04:41Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 132,
+   "at": "2026-11-12T04:45Z",
+   "account": "C",
+   "role": "AA,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 133,
+   "at": "2026-11-12T05:43Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 134,
+   "at": "2026-11-12T06:43Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 135,
+   "at": "2026-11-12T07:44Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 136,
+   "at": "2026-11-12T10:44Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 137,
+   "at": "2026-11-12T11:43Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 138,
+   "at": "2026-11-12T13:43Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 139,
+   "at": "2026-11-12T14:43Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 140,
+   "at": "2026-11-12T19:42Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 141,
+   "at": "2026-11-12T20:42Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 142,
+   "at": "2026-11-12T22:12Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 143,
+   "at": "2026-11-12T22:14Z",
+   "account": "C",
+   "role": "LAWWW2",
+   "event": "sync"
+  },
+  {
+   "seq": 144,
+   "at": "2026-11-12T22:23Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "handoff"
+  },
+  {
+   "seq": 145,
+   "at": "2026-11-13T08:50Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "register"
+  },
+  {
+   "seq": 146,
+   "at": "2026-11-13T08:57Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 147,
+   "at": "2026-11-13T09:13Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 148,
+   "at": "2026-11-13T15:13Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 149,
+   "at": "2026-11-14T02:06Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "handoff"
+  },
+  {
+   "seq": 150,
+   "at": "2026-11-14T02:08Z",
+   "account": "-",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 151,
+   "at": "2026-11-14T09:46Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "register"
+  },
+  {
+   "seq": 152,
+   "at": "2026-11-14T09:46Z",
+   "account": "C",
    "role": "LAWWW2,AA,BB,CC",
    "event": "sync"
   }

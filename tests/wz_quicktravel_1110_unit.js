@@ -63,7 +63,7 @@ const idx=OLD.map(o=>Q.findIndex(p=>p[0]===o[0]&&p[1]===o[1]));
 check('4. 原本溫州街一帶的地點：名字、落點、順序都沒變',idx.every(i=>i>=0)&&idx.every((v,i)=>!i||v>idx[i-1])&&OLD.every((o,i)=>J(Q[idx[i]].slice(0,3))===J(o)),J(idx));
 check('4. 溫州街的第一筆照舊是「溫州街」（INV.goTarget、手機「朋友」直接過去照 zone 找第一筆）',Q.find(p=>p[0]==='wenzhou')[1]==='溫州街');
 check('4. 其他地區（公館、新生南路、宿舍）照舊',['公館商圈','捷運公館站','公館燒臘','日和便利店','頁間書屋','新生南路','宿舍'].every(n=>Q.some(p=>p[1]===n))&&Q[Q.length-1][1]==='宿舍');
-check('4. 只有騎樓窗口、櫥窗那三筆有第 4 格',Q.filter(p=>p.length>3).map(p=>p[3]).sort().join(',')==='wz_books,wz_ice,wz_tea');
+check('4. 只有騎樓窗口、櫥窗那三筆有第 4 格',Q.filter(p=>p[3]!=null).map(p=>p[3])   /* 第 4 格＝營業時間的 key；第 5 格（走進去過才出現）是另一回事，有第 5 格的列第 4 格是 undefined（2026-11-12：六間店補進快速前往以後這裡用 length 判會誤判）*/ .sort().join(',')==='wz_books,wz_ice,wz_tea');
 // 5
 const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('5. game3d.js placeState：開不開照第 4 格那一家；溫州街好幾個落點（和校園、公館一樣照距離算「你在這裡」）',/function placeState\(pl\)\{ const \[z,,sp,hz0\]=pl, hz=hz0\|\|z;[^\n]*PLACES\.isOpen\(hz,G\.hour,G\.day\)[^\n]*z!=='campus'&&z!=='gongguan'&&z!=='wenzhou'/.test(g));
@@ -71,7 +71,7 @@ check('5. quickGo 關著的說明照那一家（PLACES.closedText(st.hz…)）�
 const pm=fs.readFileSync(path.join(ROOT,'src/placemap3d.js'),'utf8'); check('5. placemap3d.js 的營業時間（圖釘下面、分區清單）照第 4 格',(pm.match(/hours\(pl\[3\]\|\|pl\[0\]\)/g)||[]).length===3);
 { const day=d=>{ for(let k=1;k<400;k++){ const x=CALENDAR.dateOf(k); if(d(x)) return k; } return null; };
   const winter=day(x=>x.m===12&&x.wd===3), summer=day(x=>x.m===7&&x.wd===3), mon=day(x=>x.m===10&&x.wd===1&&!CALENDAR.holiday(x));
-  check('5. 營業時間：冰菓室 12 月週三 13:00 不開、7 月週三 13:00 開；溫州書屋週一不開、週三 13:00 開；帝大紅茶 09:00 不開（說明照那一家）',winter&&summer&&mon&&!PLACES.isOpen('wz_ice',13,winter)&&PLACES.isOpen('wz_ice',13,summer)&&!PLACES.isOpen('wz_books',13,mon)&&PLACES.isOpen('wz_books',13,summer)&&!PLACES.isOpen('wz_tea',9,summer)&&/^帝大紅茶/.test(PLACES.closedText('wz_tea',9,summer)),J([winter,summer,mon,PLACES.closedText('wz_tea',9,summer)])); }
+  check('5. 營業時間：冰菓室 12 月週三 20:00 不開（冬天 12～20，AA-C 11-12）、7 月週三 13:00 開；溫州書屋週一不開、週三 13:00 開；帝大紅茶 09:00 不開（說明照那一家）',winter&&summer&&mon&&!PLACES.isOpen('wz_ice',20,winter)&&PLACES.isOpen('wz_ice',13,winter)&&PLACES.isOpen('wz_ice',13,summer)&&!PLACES.isOpen('wz_books',13,mon)&&PLACES.isOpen('wz_books',13,summer)&&!PLACES.isOpen('wz_tea',9,summer)&&/^帝大紅茶/.test(PLACES.closedText('wz_tea',9,summer)),J([winter,summer,mon,PLACES.closedText('wz_tea',9,summer)])); }
 { const G={day:3,hour:10,zone:'wenzhou'}, T=(a,b)=>CLS.travelMinutes(G,'wenzhou','wenzhou',a,b), wz=Q.find(p=>p[1]==='溫州街')[2], tea=entryOf('wz_tea')[2], bk=entryOf('wz_books')[2];
   const a=T({x:-37,z:-9},wz), b=T({x:19,z:-2},wz), c=T({x:17,z:-6},tea), d=T({x:-30,z:0},bk), e=CLS.travelMinutes(G,'wenzhou','wenzhou',null,null), f=CLS.travelMinutes(G,'dorm','wenzhou',null,tea);
   check('5. 溫州街裡照距離：西邊轉角到「溫州街」要幾分鐘、站在旁邊＝0（你在這裡）；窗口前＝0；沒有位置＝0（照舊）；從宿舍照溫州街算（5～30 分鐘）',a>=5&&b===0&&c===0&&d>=5&&e===0&&f>=5&&f<=30,J([a,b,c,d,e,f])); }

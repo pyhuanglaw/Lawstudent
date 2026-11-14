@@ -132,7 +132,7 @@
 | `TIMELINE_COMPAT_AUDIT.md` | **DELETE** | 10-18 一次性評估 |
 | `WAKEUP_REPORT_2026-10-10.md` | **DELETE** | 一次性報告 |
 | `proposals/`（PHONE_INVITE、SCHEDULE） | **DELETE** | 10-11／10-13 草案，都已實作或被取代 |
-| `qa/`（四份經濟系逐字稿 10-18） | **DELETE** | 一次性 QA 紀錄 |
+| `qa/`（四份舊序章逐字稿 10-18） | **DELETE** | 一次性 QA 紀錄 |
 | `test-reports/`（v9.3-25） | **DELETE** | 10-10 發布前報告 |
 | `perf/`（x79 兩份 json） | **DELETE** | 10-20 量測結果，沒人讀 |
 | `campus/` | KEEP-AS-DATA | `src/zones3d.js`、`teach3d.js`、`data/*_layout.js`、`tests/campus_public_unit.js`、`tools/blender/env_second/*` 引用 |
@@ -176,7 +176,7 @@
 | 1–5 | 檔頭「永久啟動與回班規則」（HV-17） | CURRENT | 收到「我回來了…」自己 fetch、`duty find`、讀 RULE_SOURCE 的 CLAUDE.md＋自己職位頁、照接班步驟登記再開工；不假設上一任 → **CLAUDE.md §4** |
 | 6–19 | P0 使用者要過的東西不能停在半路（D101、HV-18） | CURRENT | ①USER_WANTS 一列一件、當天加 ②暫停寫五欄、當下告訴使用者 ③接班／發布前跑 check_orphans ⑥任何職位收到使用者交代當下寫進自己的 `user_asks_<職位>.json`、通知值班 LAWWW ⑦hook＋asks 檢查 → **CLAUDE.md §2**；④換分工逐條重派、⑤發布前跑 check_orphans／check_lines、跑 asks → **ROLE_LAWWW** |
 | 20–89 | ⚠ 任何帳號回來接班先讀（D135～D143＋D75～D134 一行表） | **HISTORY-ONLY（刪）** | 整張表是 PROJECT_DECISIONS 的重複索引；每列的規則照第 4.3 節搬家 |
-| 90–102 | D99 三個優先項目 | CURRENT | 經濟系完整流程 → 寒暑假 → 美國交換；驗收看玩家實際玩到什麼；不插隊、夠用凍結；優先於 D81 一般排序和「主動找工作」→ **CLAUDE.md §6**；第 5 點 LAWWW 把關 → **ROLE_LAWWW** |
+| 90–102 | D99 三個優先項目 | CURRENT | 舊序章完整流程 → 寒暑假 → 美國交換；驗收看玩家實際玩到什麼；不插隊、夠用凍結；優先於 D81 一般排序和「主動找工作」→ **CLAUDE.md §6**；第 5 點 LAWWW 把關 → **ROLE_LAWWW** |
 | 103–111 | D118 法律學習、考試、職涯 | CURRENT | 不是讀書打卡、沒有隱藏每日懲罰、考前一鍵總複習、成績看答題、落榜可重考／可當律師、法服純劇情 → **CLAUDE.md §7**；第 4 點分工 → 各職位頁 |
 | 112–135 | D100 四職位新分工（含 2a CC） | CURRENT（部分 SUPERSEDED） | 一張職責表 → **CLAUDE.md §1**；細節 → 各職位頁。已過時：第 6 點「建築場景只有使用者」（D120／D128）、2a「CC 只和 BB 聯絡」（D134）、第 4 點「下一版 v9.10 的標準」（HISTORY）→ 刪 |
 | 136–167 | D86 派工協作／D79 新增劇情先問 AA／D84 平行開發 | CURRENT | 「手上沒工作找誰」→ **CLAUDE.md §5**；D79 全部 → **ROLE_LAWWW**（AA 那一側一行 → ROLE_AA）；D84 第 1～6 點 → **ROLE_LAWWW**，第 2 點 LAWWW2 自領 → **ROLE_LAWWW2**；D84 第 7、8 點重複 → 刪 |

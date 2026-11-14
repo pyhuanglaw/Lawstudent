@@ -64,6 +64,14 @@ M = {
     'goods': img_mat(P + 'goods', 'haopai_goods.png', rough=0.55),
     'sign': img_mat(P + 'sign', 'haopai_sign.png', rough=0.6),
 }
+# CC0 化（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；第③群幫手 2026-11-13）：工具 cc0_kit.py（tz_shops_interior.py 同一套）。
+#   球拍框、羽球筒、桌球拍（instancing 的原型）：ambientCG Plastic006 × 每一支自己的顏色（vc_tex：頂點色乘上材質組的細紋、法線）；
+#   地上剛到的兩箱貨、後段鐵架上的紙箱：Poly Haven cardboard_box_01；鐵網桶、鐵件：ambientCG Metal009。
+sys.path.insert(0, HERE)
+import cc0_kit   # noqa: E402
+K = cc0_kit.Kit(root, P)
+M['vct'] = K.vc_tex(P + 'vc_plastic', 'Plastic006', vary=0.05, tile=0.25, rough_value=0.45)
+VCT_PARTS = re.compile(r'^(bad\d+|badf\d+|ten\d+|tube_[ab]|tt_[rb]b)_0$')   # 這些原型的頂點色零件改用 vct
 G3 = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))   # 遊戲 → Blender 的旋轉
 
 
@@ -132,14 +140,15 @@ class Part:
     def __getitem__(self, key):
         if key not in self.m:
             nm = (f'WALL_{self.side}_' if self.side else P) + f'{self.name}_{key}'
-            self.m[key] = L.CMesh(nm, M[key]) if key in ('vc', 'vcm') else (UM(nm, M[key]) if key in UVK else Mesh(nm, M[key]))
+            if key == 'vc' and VCT_PARTS.match(self.name): self.m[key] = L.CMesh(nm, M['vct']); self.m[key].vct = True
+            else: self.m[key] = L.CMesh(nm, M[key]) if key in ('vc', 'vcm') else (UM(nm, M[key]) if key in UVK else Mesh(nm, M[key]))
         return self.m[key]
 
     def done(self):
         obs = []
         for key, m in self.m.items():
             if isinstance(m, UM): ob = m.finish(root)
-            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=False)
+            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=getattr(m, 'vct', False))
             else: ob = m.finish(root, uv=True)
             if ob is None: continue
             if self.T is not None: ob.matrix_basis = self.T
@@ -585,8 +594,10 @@ def ball_bin(x, z):
 def floor_boxes(x, z):
     """地上兩箱剛到的貨（一箱開著、上面一疊羽球筒）"""
     p = Part('floor_boxes', T=fm((x, 0, z), rot('Y', 0.15))); g = p['goods']
-    g.box(0.0, 0.2, 0.0, 0.5, 0.4, 0.42, 'kraft1', front='+x', cells={'+z': 'kraft2', '+y': 'kraft2'})
-    g.box(0.02, 0.4 + 0.15, -0.02, 0.42, 0.3, 0.36, 'kraft4', front='+x', cells={'+z': 'kraft2', '+y': 'kraft2'})
+    # 封好的兩箱：Poly Haven cardboard_box_01（掃描的紙箱，膠帶、壓痕、摺角都在）；大小照原本的（0.5×0.4×0.42、0.42×0.3×0.36）
+    a_ = 0.15; ca_, sa_ = math.cos(a_), math.sin(a_); wp = lambda lx, lz: (x + lx * ca_ + lz * sa_, z - lx * sa_ + lz * ca_)
+    px_, pz_ = wp(0.0, 0.0); K.ph_put('cardboard_box_01', px_, 0.0, pz_, a_ + math.pi / 2, fit=(0.42, 0.5, 0.4), decimate=0.03)
+    px_, pz_ = wp(0.02, -0.02); K.ph_put('cardboard_box_01', px_, 0.4, pz_, a_ + math.pi / 2 + 0.12, sxyz=(0.36 / 0.42, 0.42 / 0.5, 0.75), fit=(0.42, 0.5, 0.4), decimate=0.03)
     g.box(-0.05, 0.16, -0.46, 0.44, 0.32, 0.36, 'kraft3', front='+x', skip=('-y', '+y'), cells={'+z': 'kraft2'})   # 開著的那一箱（沒有蓋）
     c = p['vc']
     for k in range(3): crb(c, -0.27 + k * 0.01, -0.26 + k * 0.01, 0.32 - k * 0.04, 0.34 - k * 0.04, -0.64, -0.28, '#b08a5c', r=0.0)   # 翻開的紙箱蓋
@@ -875,6 +886,7 @@ L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WA
 for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
 ss = None if os.environ.get('HP_NOSS') else L.single_side(root, keep=r'glass', nodup=r'hp_(plaster|wood|floor_tile|ceiling|goods|sign|emit|alpha)')
+K.report()
 info = L.export(OUT, gpu_instances=True)
 
 

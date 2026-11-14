@@ -14,8 +14,8 @@ const glb=f=>{ const b=fs.readFileSync(path.join(ROOT,f)), jl=b.readUInt32LE(12)
 (async()=>{
   // ① VRM
   for(const f of ['assets/models/char/vroid_yuting.vrm','assets/models/char/bl_yuting.vrm']){ const J=glb(f), has={}; J.meshes.forEach(m=>{ has[m.name]=((m.extras||{}).targetNames||[]).includes('fit'); });
-    const body=Object.keys(has).filter(n=>/Body|Clothes|JACKET/.test(n)), face=Object.keys(has).filter(n=>/Face|Hair/.test(n));
-    check('① '+path.basename(f)+'：身體、衣服'+(/vroid/.test(f)?'、系外套':'')+'有 morph fit，臉、頭髮沒有',body.length>=2&&body.every(n=>has[n])&&face.every(n=>!has[n])&&(!/vroid/.test(f)||has.JACKET_ECON),JSON.stringify(has)); }
+    const body=Object.keys(has).filter(n=>/Body|Clothes|GYM_/.test(n)), face=Object.keys(has).filter(n=>/Face|Hair/.test(n));
+    check('① '+path.basename(f)+'：身體、衣服有 morph fit，臉、頭髮沒有；舊外套網格已從模型拿掉（D158）',body.length>=2&&body.every(n=>has[n])&&face.every(n=>!has[n])&&!Object.keys(has).some(n=>/^JACKET/.test(n)),JSON.stringify(has)); }
   // ② FIT
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/fit3d.js'),'utf8').replace(/^const FIT\s*=/m,'globalThis.FIT='),{filename:'src/fit3d.js'});
   check('② FIT.BODY 四階 0～1、越來越大',Array.isArray(FIT.BODY)&&FIT.BODY.length===4&&FIT.BODY[0]===0&&FIT.BODY[3]===1&&FIT.BODY[1]<FIT.BODY[2]&&FIT.BODY[2]<FIT.BODY[3],JSON.stringify(FIT.BODY));

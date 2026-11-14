@@ -73,7 +73,8 @@ const T=(G)=>G.day*24+G.hour;
   { const gm=mkGM({day:6,hour:22,zone:'campus'}); let eve=0; global.HOME={eveDue:()=>true,eveGo:async()=>{ eve++; },at:()=>false}; ONETAP.confirmUI=yes; const d0=gm.G.day; await ONETAP.run(gm,'sleep');
     check('D3 劇情優先：除夕要回家（HOME.eveDue）＝到了床邊先演回家那一段（HOME.eveGo），不睡',eve===1&&gm.G.day===d0,JSON.stringify({eve,day:gm.G.day-d0})); delete global.HOME; }
   { const gm=mkGM({day:6,hour:22,zone:'campus'}); let picked=null, picked2=null; ONETAP.confirmUI=yes;
-    global.HOME={at:()=>false,baseMode:()=>true,canGo:()=>true,livesHome:()=>true,go:async GM=>{ const O=[{t:'吃晚餐',k:'eat'},{t:'存檔',k:'save'},{t:'睡覺',k:'sleep'},{t:'回宿舍',k:'back'}]; picked=O[await GAME.choose(O,{menu:true})]; return true; }};
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（D4「住家裡」原本用 HOME.baseMode（經濟系休學在家）當假 HOME，改用還在的 HOME.pgHome（畢業後退宿住家裡））
+    global.HOME={at:()=>false,pgHome:()=>true,canGo:()=>true,livesHome:()=>true,go:async GM=>{ const O=[{t:'吃晚餐',k:'eat'},{t:'存檔',k:'save'},{t:'睡覺',k:'sleep'},{t:'回宿舍',k:'back'}]; picked=O[await GAME.choose(O,{menu:true})]; return true; }};
     const pg=GAME; GAME.G=gm.G; GAME.E=gm.E; const p=ONETAP.plan(GAME,'sleep');
     check('D4a 住家裡（HOME.baseMode）：確認框寫回家、路程 30 分鐘、回到家直接選「睡覺」',p.ok&&/家/.test(p.lines[0])&&p.lines.includes('路程：約 30 分鐘')&&p.lines.some(l=>/直接選「睡覺」/.test(l)),JSON.stringify(p.lines));
     await ONETAP.run(GAME,'sleep'); check('D4b 按確定：HOME.go，家裡的選單直接選「睡覺」（不問）',picked&&picked.k==='sleep'&&ONETAP._autoSleep===false,JSON.stringify(picked));

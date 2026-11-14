@@ -196,6 +196,18 @@ const SL2=(function(){
         nav.blockRect(f.x,f.z,f.w,f.d,-ry,0.05); IT.push({x:f.x+fx*0.8,z:f.z+fz*0.8,radius:0.8,lv:f.lv,label:'自助服務機',look:LOOK.kiosk2}); }   /* 自助服務機 */
       else if(f.type==='coffeeTable'){ b.add(MAT.wood(),TK.boxG(f.w,0.42,f.d),f.x,y+0.21,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); } }
     b0.build(fb0); b1.build(fb1);
+    /* 沙發的走近點（ECON-NAV-TRAPS-1111，LAWWW2）：沙發前面是矮桌，中間只有 0.4 m（人要 0.64 m）站不進去；GAME.seatApproach 的前、左、右都落在沙發或矮桌上，
+       退回沙發後面（離「坐在沙發上」按鈕 1.5 m：點沙發走到背後、按鈕不出來）。走近點（seat.ap）改成按鈕旁邊、站得住的地方（沙發側邊）。
+       兩側哪一邊：挑「最寬」的（周圍 0.5 m 內站得住的點最多；一樣寬挑離按鈕近的）——西側貼牆那一條只有 0.2 m 寬、走到入口就卡住（Node：stuck@(−3.48,−3.03)），東側對著自習區是開的 */
+    /* SOCLIB2F-PLANT-TRAP-1112（LAWWW2-C；BB_255 P0、CC SOFA_SOCLIB2F：一樓走到木格柵牆和沙發之間，人被夾住，搖桿、點地都動不了）：
+       木格柵牆（x −3.9）和兩張沙發的西端（x −3.2）之間只剩 0.7 m，照玩家半徑算只有一條 0.1 m 寬、4 m 長的縫（x −3.4、z −3.3～0.5，中間還岔進沙發和矮桌之間）；
+       盆栽（−3.4,−5.6）和格柵牆南端之間另有一格 0.1 m 的小口袋。兩處都不是路（沙發從東側坐，seat.ap），直接擋掉 */
+    nav0.blockRect(-3.2,-1.4,0.7,4.0,0,0); nav0.blockRect(-3.5,-5.05,0.9,0.4,0,0); nav0._cm=null;
+    for(const it of IT){ if(it.label!=='坐在沙發上'||!it.seat||it.seat.ap) continue; const nav=(it.lv|0)===1?nav1:nav0; nav._cm=null; let best=null, bw=-1, bR=1e9;
+      for(let R=0.3;R<=(it.radius||1.1)-0.15+1e-6;R+=0.05) for(let a=0;a<48;a++){ const x=it.x+Math.cos(a*Math.PI/24)*R, z=it.z+Math.sin(a*Math.PI/24)*R; if(!nav.clear(x,z,0.32)) continue;
+        let w=0; for(let i=-5;i<=5;i++) for(let j=-5;j<=5;j++){ if(i*i+j*j>25) continue; if(nav.clear(x+i*0.1,z+j*0.1,0.32)) w++; }   /* 寬不寬＝周圍 0.5 m 內站得住的點數（四點檢查跨得過窄縫，單看 clear 的半徑會高估）*/
+        if(w>bw||(w===bw&&R<bR-1e-6)){ bw=w; bR=R; best=[+x.toFixed(2),+z.toFixed(2)]; } }
+      if(best) it.seat.ap=best; }
     // 座位（每一個都標樓層；椅子是備用模型的一部分，正式模型有自己的椅子）
     const seats=zone.seats=[]; for(const s of L.seats){ const seat={x:s.x,z:s.z,yaw:s.yaw,lv:s.lv,kind:s.kind,table:s.table}; if(s.old) seat.old=true; seats.push(seat);
       const ch=Z3.chair(s.lv===1?fb1:fb0,s.x,s.z,s.yaw,s.kind==='discuss'?'#5f6b75':'#c9b48e'); if(ch&&s.lv===1) ch.position.y=Y1;

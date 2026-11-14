@@ -15,7 +15,7 @@ global.CHAR={setExpr(){},build:()=>mkObj()};
 global.Z3={ZONES:{wz_offbeat:{id:'wz_offbeat',build(E){ return {seats:[]}; }}}};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,600):'')); if(!ok) fails++; };
 const FILES=['src/data/daily_offbeat_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/exam_bank.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/sis_grad3d.js',
   'src/data/dorm_room_layout.js','src/libquiet3d.js','src/story3d.js','src/classes3d.js','src/data/eat_lines.js','src/eat3d.js','src/slowread3d.js','src/bgnight3d.js','src/offbeat_sys3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -129,7 +129,7 @@ const T=()=>said.map(s=>s.t);
   const in648=t=>s648.includes(String(t).replace(/^「|」$/g,''));
   { const L0=OFFB.L, all=[].concat(L0.look.board,L0.look.clubs,L0.look.shelf,L0.game.end,[L0.game.none,L0.game.start,L0.menu[0][2],OFFB.ACC0],L0.game.names,L0.chat,
       L0.zheOpts.map(o=>o.t),...L0.zheOpts.map(o=>o.say.map(x=>x[1])),Object.values(INVITE_DATA.offbeatAcc||{}));
-    const bad=all.filter(t=>!in648(t)); check('13. 讀得到 AA_648@1ebf7a590；AA_648 的每一句（'+all.length+' 句）都在稿上',!!s648&&all.length===41&&!bad.length&&!L0.close,J(bad));
+    /* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 的答應句照覆蓋層拿掉刪節號、換句——對稿時「新字的舊字在稿上」也算（tests/overlay_expect.js 的 inDoc）。舊期望：字本身在稿上 */ const RC2B=new Map(require('./d158_rc2_lib.js').rows('invites.js').map(r=>[r.new,r.old]));   /* rc2b（D158-KX-SAMESCHOOL，AA_1012 第 2 節）：可昕「等我到台北」換過，稿上是舊字 */ const bad=all.filter(t=>!require('./overlay_expect.js').inDoc('invites',null,RC2B.get(t)||t,in648)); check('13. 讀得到 AA_648@1ebf7a590；AA_648 的每一句（'+all.length+' 句）都在稿上',!!s648&&all.length===41&&!bad.length&&!L0.close,J(bad));
     check('13. 公告板、佈告欄、桌遊櫃各三句；遊戲四款、結束三句；聊天四句；答應十二人＋一般',L0.look.board.length===3&&L0.look.clubs.length===3&&L0.look.shelf.length===3&&L0.game.names.length===4&&L0.game.end.length===3&&L0.chat.length===4&&Object.keys(INVITE_DATA.offbeatAcc).length===12);
     const f=[].concat(...Object.values(L0.finalAsk).map(x=>[x[1]]),L0.finalNarr); check('13. 期末聚餐的揪人句、三句旁白照 AA_618 2-4 第 2 點',f.every(t=>s2.includes(t)),J(f.filter(t=>!s2.includes(t)))); }
   { fresh(wed,15); E.interactables=[]; Z3.ZONES.wz_offbeat.build(E); const by=k=>E.interactables.filter(q=>q.offLook===k);

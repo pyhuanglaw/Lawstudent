@@ -126,7 +126,7 @@ const isNarr=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; f
 
 /* ---------- 15. 分類 ---------- */
 { const all=[]; for(const id of Object.keys(ST.now)) for(const e of ST.now[id]) all.push(typeof e==='string'?e:e.t);
-  check('15. events.js SMALLTALK：'+all.length+' 句（閒聊，GM.say(who,…)）沒有一句外面還有「」',all.length===149&&all.every(t=>!wrapped(t)),sample(all.filter(wrapped)));
+  check('15. events.js SMALLTALK：'+all.length+' 句（閒聊，GM.say(who,…)）沒有一句外面還有「」',all.length===147/* （CANON-NO-ECON-1112 第四批：照 AA_886）*/&&all.every(t=>!wrapped(t)),sample(all.filter(wrapped)));
   const B=[], narr=[], room=[];
   const poolOpts=C=>{ const o=[]; for(const k of PSK){ const LN=(C[k]||{}).LINES||{}; for(const id of Object.keys(LN)) (function w(v,p){ if(v==null||typeof v==='function') return; if(typeof v==='string'){ if(/(Opts\.\d+$|\.choice\.\d+\.text$)/.test(p)) o.push(v); return; } if(typeof v==='object') for(const kk of Object.keys(v)) w(v[kk],p+'.'+kk); })(LN[id],id); } return o; };
   const opts=poolOpts(PS.now), optsW=opts.filter(wrapped);
@@ -152,27 +152,29 @@ const isNarr=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; f
   const GS=cur('src/ggshops_sys3d.js'), gw=wrappedLits(GS);
   check('15. ggshops_sys3d.js：沒有整句「」的字串了（店員說的七句都拿掉；旁白裡的「剛出爐」「三十秒就好……」照留）',gw.length===0&&/店員說：「三十秒就好，不要泡太久。」/.test(GS)&&/寫著「剛出爐」/.test(GS),sample(gw.map(x=>x.t)));
   /* 2026-11-10 改期望（GIFT-HOLIDAY-1110 d4ea487b7：afar 的「選物…」、轉角唱片的「買禮物…」在 gg2shops3d.js 加了 GIFTH 兩段）：舊期望「和 BASE 一字不差」→ 新期望「拿掉含 GIFTH 的行以後和 BASE 一字不差」，沒有整句「」的字串照舊 */
-  const noGH=t=>t.split('\n').filter(l=>!/GIFTH|\bhO\b|const opts=D\.menu\.map|const gs=S\.CR_GENRES, k=await/.test(l)).join('\n');   /* 送禮那幾行（GIFTH、hO，和被改成接 hO 的兩行選單 opts／gs）；其他行照舊要一字不差 */
+  const noGH=t=>t.split('\n').filter(l=>!/GIFTH|\bhO\b|\bgO\b|const opts=D\.menu\.map|const gs=S\.CR_GENRES, k=await/.test(l)).join('\n');   /* 送禮那幾行（GIFTH、hO，和被改成接 hO 的兩行選單 opts／gs；2026-11-12 GIFT-ALL-DRINK-SHOPS-1112 加 gO＝「買一份帶走送人…」那幾行，舊期望沒有 gO）；其他行照舊要一字不差 */
   check('15. gg2shops3d.js 除了送禮（GIFTH、hO）那幾行，和 '+BASE+' 一字不差（第三批做完 ACC0 以後沒有整句「」的字串）',noGH(cur('src/gg2shops3d.js'))===noGH(gitShow(BASE,'src/gg2shops3d.js'))&&wrappedLits(cur('src/gg2shops3d.js')).length===0);
   const libOf=t=>{ const m=/libTalk:(\[[^\]]*\])/.exec(noComments(t)); return m?vm.runInNewContext('('+m[1]+')'):null; }, lib=libOf(cur('src/data/us_life_events.js')), lib0=libOf(gitShow(BASE,'src/data/us_life_events.js')), sb=noComments(cur('src/sis_b13_3d.js'));
   check('15. 動作在前面的（…）「…」：第四批照留（不是整句外面的一對）；第五批拿掉說的話那一對——us_life_events.js libTalk＝BASE 的三句拿掉那一對；sis_b13 不再包（沒有 smallQ，S.greetTexts＝稿上的字）',
     !!lib&&!!lib0&&lib0.length===3&&lib0.every(t=>B5.has(t))&&J(lib)===J(lib0.map(b5))&&!/const smallQ=/.test(sb)&&/S\.greetTexts=\(\)=>\(L\.repairGreet\|\|\[\]\)\.slice\(\);/.test(sb),J([lib0,lib])); }
 
 /* ---------- 16. 資料和 BASE 逐句比 ---------- */
-const B5HIT=[];   /* 第五批改的（B5 那八句）：另外記，不算第四批的 */
-const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a===b) return 0; if(wrapped(a)&&unq(a)===b) return 1; if(isB5(a,b)){ B5HIT.push(p); return 0; } bad.push(p+'：'+a+' → '+b); return 0; }
+const B5HIT=[]; const A799=require('./aa799_expect.js');   /* AA_799（X324 G 區）：pool secret「其實……」12 句換了字——那幾格照稿算對（原本外面有「」的照樣算一句拿掉「」）*/   /* 第五批改的（B5 那八句）：另外記，不算第四批的 */
+const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a===b) return 0; if(wrapped(a)&&unq(a)===b) return 1; if(A799.isAA799(a,b)) return wrapped(a)?1:0; if(isB5(a,b)){ B5HIT.push(p); return 0; } bad.push(p+'：'+a+' → '+b); return 0; }
   if(typeof a==='function'||typeof b==='function'){ if(String(a)!==String(b)) bad.push(p+'：函式不同'); return 0; }
   if(a===null||b===null||typeof a!=='object'||typeof b!=='object'){ if(a!==b) bad.push(p+'：'+J(a)+' → '+J(b)); return 0; }
   const ka=Object.keys(a), kb=Object.keys(b); if(J(ka)!==J(kb)){ bad.push(p+'：欄位不同'); return 0; } let n=0; for(const k of ka) n+=deepSame(a[k],b[k],bad,p+'.'+k); return n; };
-{ const bad=[]; const n=deepSame(ST.old,ST.now,bad,'SMALLTALK');
-  check('16. SMALLTALK 和 '+BASE+' 逐句比：'+n+' 句只差外面的「」，條件（if、term、week、location、once、prio…）一字不差',n===149&&bad.length===0,sample(bad));
+{ const bad=[]; /* （CANON-NO-ECON-1112 第四批：照 AA_886 換字）芯慈雙主修三個版本只留第一句、拿掉條件——BASE 那兩句不比、第一句的 unless 拿掉；句數 149→147 */
+  { const X=ST.old.classmate_xinci; if(Array.isArray(X)){ ST.old.classmate_xinci=X.filter(e=>!(e&&typeof e==='object'&&/自學過一點|我只問一件事/.test(e.t))).map(e=>{ if(e&&typeof e==='object'&&/^「?雙主修要多修好多學分/.test(e.t)&&e.unless){ const o=Object.assign({},e); delete o.unless; return o; } return e; }); } }
+  const n=deepSame(ST.old,ST.now,bad,'SMALLTALK');
+  check('16. SMALLTALK 和 '+BASE+' 逐句比：'+n+' 句只差外面的「」，條件（if、term、week、location、once、prio…）一字不差',n===147&&bad.length===0,sample(bad));
   for(const k of PSK){ const b2=[]; const m=deepSame(PS.old[k],PS.now[k],b2,k); const W={POOL_STORY:49,POOL_STORY_B2:52,POOL_STORY_B3:46,POOL_STORY_B4:33}[k], W5={POOL_STORY:0,POOL_STORY_B2:1,POOL_STORY_B3:3,POOL_STORY_B4:0}[k], h5=B5HIT.filter(p=>p.startsWith(k+'.'));
     check('16. '+k+' 和 '+BASE+' 逐句比：'+m+' 句只差外面的「」（talk、greet、zjwHand、bhCopier）'+(W5?'、'+h5.length+' 句是第五批的「說的話」（動作）→說的話（動作）（greet）':'')+'，其他（旁白、選項、場景、條件）一字不差',
       m===W&&b2.length===0&&h5.length===W5&&h5.every(p=>/\.greet\.\d+$/.test(p)),sample(b2.concat(h5))); }
   /* 拿掉的都是說的話：BASE 那一句在 talk／greet（說的話）／zjwHand／bhCopier */
   const ok=[], ok5=[], miss=[]; for(const k of PSK){ const LO=(PS.old[k]||{}).LINES||{}, LN=(PS.now[k]||{}).LINES||{}; for(const id of Object.keys(LO)){ const A=LO[id], Bn=LN[id];
-      (function w(a,b,p){ if(typeof a==='string'){ if(a!==b){ if(isB5(a,b)){ if(/^greet\.\d+$/.test(p)) ok5.push(p); else miss.push(id+'.'+p); } else if(/^(talk\.\d+\.(t|old)|greet\.\d+|zjwHand|bhCopier)$/.test(p)) ok.push(p); else miss.push(id+'.'+p); } return; } if(a&&typeof a==='object'&&typeof a!=='function') for(const kk of Object.keys(a)) w(a[kk],b&&b[kk],p?p+'.'+kk:kk); })(A,Bn,''); } }
-  check('16. pool 改到的 '+ok.length+' 句都在 talk（t、old）、greet、zjwHand、bhCopier（選項、旁白、場景、房間物品沒有一句動）；第五批另外改了 greet 的 '+ok5.length+' 句',ok.length===180&&ok5.length===4&&miss.length===0,sample(miss));
+      (function w(a,b,p){ if(typeof a==='string'){ if(a!==b&&!A799.isAA799(a,b)){ if(isB5(a,b)){ if(/^greet\.\d+$/.test(p)) ok5.push(p); else miss.push(id+'.'+p); } else if(/^(talk\.\d+\.(t|old)|greet\.\d+|zjwHand|bhCopier)$/.test(p)) ok.push(p); else miss.push(id+'.'+p); } return; } if(a&&typeof a==='object'&&typeof a!=='function') for(const kk of Object.keys(a)) w(a[kk],b&&b[kk],p?p+'.'+kk:kk); })(A,Bn,''); } }
+  check('16. pool 改到的 '+ok.length+' 句都在 talk（t、old）、greet、zjwHand、bhCopier（選項、旁白、場景、房間物品沒有一句動）；第五批另外改了 greet 的 '+ok5.length+' 句',ok.length===178/* 2026-11-12（CANON-NO-ECON-1112 第五批 AA_923）：「好問題」兩句改算 isAA799（舊期望 180） */&&ok5.length===4&&miss.length===0,sample(miss));
   /* S.greetTexts 照原始碼那幾行算（BASE：smallQ 包「」；第五批以後沒有 smallQ＝稿上的字）*/
   const sg=t=>{ t=noComments(t); const m=/const smallQ=t=>\{[^\n]*\};/.exec(t), g=/S\.greetTexts=\(\)=>([^\n;]*);/.exec(t); const L=vm.runInNewContext('('+/repairGreet:(\[[^\]]*\])/.exec(noComments(cur('src/data/sis_b13_events.js')))[1]+')');
     return g?vm.runInNewContext('(function(L){ '+(m?m[0]:'')+' return ('+g[1]+'); })')({repairGreet:L}):null; };
@@ -230,7 +232,7 @@ const cmp=(A,B,cut)=>{ const bad=[], nw=[]; let ch=0, named=0; A=A||[]; B=B||[];
   if(A.length!==B.length) bad.push('句數 '+A.length+' → '+B.length);
   else A.forEach((a,i)=>{ const b=B[i], ta=a[a.length-1], tb=b[b.length-1];
     if(J(a.slice(0,-1))!==J(b.slice(0,-1))) bad.push('說的人不一樣：'+J(a)+' → '+J(b));
-    else if(ta!==tb){ if((wrapped(ta)&&unq(ta)===tb||isB5(ta,tb))&&b[b.length-2]!=null) ch++; else bad.push(J(a)+' → '+J(b)); }   /* isB5：第五批的八句 */
+    else if(ta!==tb){ if((wrapped(ta)&&unq(ta)===tb||isB5(ta,tb)||A799.isAA799(ta,tb))&&b[b.length-2]!=null) ch++; else bad.push(J(a)+' → '+J(b)); }   /* isB5：第五批的八句；isAA799：AA_799、AA_923（CANON-NO-ECON-1112 第五批「好問題」兩句）照稿換了字 */
     if(b[b.length-2]!=null){ named++; if(wrapped(tb)) nw.push(J(b)); } });
   return {bad,nw,ch,named}; };
 { const KEYS={story:['閒聊（story3d.js S.smallTalk；SMALL_DAILY；不熟同學的短招呼）',150],pool:['法律系同學的閒聊、之後的招呼、短招呼（pool3d.js）',150],shops:['木曜日雨天、日常失速、公館三間店員',25]};

@@ -211,7 +211,9 @@ const E3 = (function(){
      原本只釋放幾何，材質和貼圖（例如校園每一條步道都複製一張路面貼圖）留在顯示記憶體裡，每換一次區域就多一批；iOS Safari 記憶體到上限會把整個網頁重新載入）。
      之後再用到同一個材質／貼圖（快取的正式模型、共用的材質），three.js 會自動重新上傳——只是第一次出現時慢一點。標了 userData.shared 的不釋放 */
   function disposeGroup(g){ const mats=new Set(), texs=new Set(), sprites=new Set(); g.traverse(o=>{ if(o.isSprite) sprites.add(o); if(o.geometry&&!o.geometry.userData.shared) o.geometry.dispose();
-    const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m||!m.isMaterial||(m.userData&&m.userData.shared)) continue; mats.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!(v.userData&&v.userData.shared)) texs.add(v); } } });
+    const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m||!m.isMaterial||(m.userData&&m.userData.shared)) continue; mats.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!(v.userData&&v.userData.shared)) texs.add(v); }
+      /* ShaderMaterial 的貼圖在 uniforms 裡（視差窗景 W3.windowMat 等）：原本只看材質自己的欄位，窗景照片每進一次區域就多留一份在顯示卡上（BUG-RUN-STUTTER-1112，CC-C 11-12：換區域 18 次貼圖 414→821）*/
+      if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k], v=u&&u.value; const add=t=>{ if(t&&t.isTexture&&!(t.userData&&t.userData.shared)) texs.add(t); }; if(Array.isArray(v)) v.forEach(add); else add(v); } } });
     for(const m of mats) m.dispose(); for(const t of texs) t.dispose(); if(typeof TK!=='undefined'&&TK.forget) TK.forget(mats,sprites);   /* 夜間材質、光暈的清單也拿掉這一區的（不然舊區域整套材質、canvas 都留著）*/ E.lastDispose={materials:mats.size,textures:texs.size}; }
   E.disposeGroup=disposeGroup;   /* 測試用 */
   // ---------- 實體 ----------
@@ -237,9 +239,30 @@ const E3 = (function(){
   E.screenToGround=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(E.groundPlane,hit)) return hit; return null; };
   // 點地面（v9.4）：多樓層／有高度的區域，先打「看得到的地板」（zone.walkMeshes，userData.walkLv＝第幾層）；打不到就用玩家那一層的基本地板高度的平面
   E.screenToFloor=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); E.ray.near=0; E.ray.far=Infinity; const P=E.player; const wm=E.zone&&E.zone.walkMeshes;
-    if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
+    if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=E.tapThroughEdge(hits,vis)||hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
     const lv=P?P.lv|0:0, n=navOf(lv); const fy=n?n.y0:0; const pl=new THREE.Plane(UP,-fy); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(pl,hit)) return {x:hit.x,z:hit.z,y:fy,lv}; return null; };
+  /* FLOWER-2F-TAPNAV-1112（LAWWW2-C；CC SSB_gg2_r2：花序二樓起身後點一樓門口「離開花序」，點 13～16 次人都停在二樓欄杆前 (−0.76,−0.07)）：
+     從二樓往挑高看下去，射線先打到二樓樓板最外緣那一條，找路只能走到欄杆前、永遠下不了樓（樓板邊緣後面就是一樓）。
+     第一個打到的點離樓板邊緣不到 0.5 m（沿射線再往前 0.5 m 就沒有那一層的地板）、射線後面打到別層的地板、而且那一點正上方沒有那一層的樓板＝改用後面那一點。
+     二樓點桌子、靠牆（往前 0.5 m 還是二樓地板）照舊是二樓，不會被送下樓；樓梯照舊（stairEnds）*/
+  const _upRay=new THREE.Raycaster(), _down=new THREE.Vector3(0,-1,0);
+  const _covered=(ms,x,z,y)=>{ _upRay.set(new THREE.Vector3(x,y+1.5,z),_down); _upRay.near=0; _upRay.far=2.0; return _upRay.intersectObjects(ms,false).length>0; };
+  E.tapThroughEdge=function(hits,vis){ const h=hits[0]; if(!E.canStand||hits.length<2||!h||h.object.userData.stairEnds) return null; const lv0=h.object.userData.walkLv|0;
+    const same=vis.filter(m=>(m.userData.walkLv|0)===lv0&&!m.userData.stairEnds), dx=hits[1].point.x-h.point.x, dz=hits[1].point.z-h.point.z, dl=Math.hypot(dx,dz);   /* 射線的水平方向（後面那一點減第一點）*/ if(dl<1e-3) return null;
+    if(_covered(same,h.point.x+dx/dl*0.5,h.point.z+dz/dl*0.5,h.point.y)) return null;   /* 往前 0.5 m 還是這一層的地板＝不是樓板邊緣 */
+    for(let i=1;i<hits.length;i++){ const q=hits[i], lv=q.object.userData.walkLv|0; if(q.object.userData.stairEnds) return null; if(lv===lv0) continue;   /* 中間先打到樓梯（樓梯井旁邊）＝照舊，不穿過樓梯 */   /* 那一點本身站不住（門口觸發點）也可以：找路會走到最近站得住的地方 */
+      if(_covered(same,q.point.x,q.point.z,h.point.y)) continue; return q; }
+    return null; };
   E.screenRay=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); return E.ray; };
+  /* 畫面上那一點射線第一個打到的東西（TAP-RAY-SEAT-1111，LAWWW2 11-11；game3d.js tapToSeat 判「點到哪張椅子」用）：只打區域的模型（E.zone.group，人不算），
+     不算：自己或上層 visible=false 的（淡出的牆 hideFaded、藏起來的備用模型、別層）、材質不畫的（visible=false、colorWrite=false）、半透明的（玻璃：opacity<0.5）、userData.noTapHit。
+     ray：THREE.Ray；far：只看比這個距離近的（地板那一點的距離）。回傳 three 的 intersection（point、distance、object）或 null */
+  const _tapRC=new THREE.Raycaster();
+  E.rayFirstHit=function(ray,far){ const g=E.zone&&E.zone.group; if(!g||!ray) return null; _tapRC.ray.copy(ray); _tapRC.near=0; _tapRC.far=far>0?far:Infinity; _tapRC.camera=camera||null;
+    const hs=_tapRC.intersectObject(g,true);
+    for(const h of hs){ const o=h.object; if(!o||!o.isMesh) continue; let vis=true; for(let q=o;q;q=q.parent){ if(!q.visible){ vis=false; break; } } if(!vis) continue;
+      const m=Array.isArray(o.material)?o.material[(h.face&&h.face.materialIndex)|0]:o.material; if(!m||m.visible===false||m.colorWrite===false||(m.transparent&&m.opacity<0.5)) continue; if(o.userData&&o.userData.noTapHit) continue; return h; }
+    return null; };
   // ---------- 更新 ----------
   E.onTapGround=null; E.onInteractNear=null; E.frame=0;
   /* 玩家沿路線走一步（點地面、劇情 walkTo 都走這裡）；回傳這一幀有沒有在走。
@@ -259,8 +282,13 @@ const E3 = (function(){
         /* 室內的樓梯（任務 #42）：點在一跑樓梯上＝走完這一跑（點的地方比腳高就走到上面那一端、比較低就走到下面那一端）。
            原本只走到點的那一點：從一樓看不到二樓的地板，只點得到前面幾階，上一層樓要點十幾次（萬才館 14 次、霖澤館 16 次）*/
         const se=hit.obj&&hit.obj.userData.stairEnds; if(se){ const e2=se[hit.y>=P.obj.position.y-0.05?1:0]; tx=e2.x; tz=e2.z; tlv=e2.lv; }
-        let pref=null; if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv,{ray:E.ray.ray,fy:hit.y}); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; if(r[3]) pref=r[3]; } }   /* r[3]＝點到的那張椅子（照椅子的高度判的，見 game3d.js tapToSeat）：tapPref 用椅子的位置，不用射線落在地板的那一點（BB 11-11：俯角淺時點椅面，地板落點在椅子後面 1.3 m，按鈕變「點餐」）*/   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
-        E.moveTo(P,tx,tz,null,tlv); P.tapPref={x:pref?pref.x:hit.x,z:pref?pref.z:hit.z,lv:tlv==null?(P.lv|0):tlv,zone:E.zone&&E.zone.id};   /* 點的那個位置：走到以後，範圍重疊的互動以離點的位置最近的為準（nearestInteractable；BB-C 10-28 main_day12：點床走過去，停在床底下紙箱那一側，按鈕是紙箱不是睡覺）*/ P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
+        let pref=null; if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv,{ray:E.ray.ray,fy:hit.y,hit:{x:hit.x,y:hit.y,z:hit.z}}); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; if(r[3]) pref=r[3]; } }   /* r[3]＝點到的那張椅子（畫面上那一點實際打到的椅子，見 game3d.js tapToSeat；hit＝地板那一點：比它近才算打到椅子，TAP-RAY-SEAT-1111）：tapPref 用椅子的位置，不用射線落在地板的那一點（BB 11-11：俯角淺時點椅面，地板落點在椅子後面 1.3 m，按鈕變「點餐」）*/   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
+        if(!E.moveTo(P,tx,tz,null,tlv)){   /* WZ-SUNNY-TAPNAV-1112（LAWWW2-C；CC WZ_TAP_28：點了遠處，找不到路，人完全不動也沒提示）：找不到路時改走到這條線上最近走得到的地方（從點的位置往回、每 0.5 m 試一次），還是不行就提示 */
+          const x0=P.obj.position.x, z0=P.obj.position.z, L=Math.hypot(tx-x0,tz-z0); let got=false; E.tapNoPath=(E.tapNoPath||0)+1;
+          for(let d=0.5;d<L-0.3&&!got;d+=0.5){ const k=(L-d)/L; got=E.moveTo(P,x0+(tx-x0)*k,z0+(tz-z0)*k,null,tlv); }
+          if(!got&&E.toast&&E.TAP_NOPATH_TEXT) E.toast(E.TAP_NOPATH_TEXT);   /* 提示字等 AA 給（D79／D137：程式不自己編字）；空字串＝不提示 */
+        }
+        P.tapPref={x:pref?pref.x:hit.x,z:pref?pref.z:hit.z,lv:tlv==null?(P.lv|0):tlv,zone:E.zone&&E.zone.id};   /* 點的那個位置：走到以後，範圍重疊的互動以離點的位置最近的為準（nearestInteractable；BB-C 10-28 main_day12：點床走過去，停在床底下紙箱那一側，按鈕是紙箱不是睡覺）*/ P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
     // 直接操控
     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
     const spdWalk=E.SPD.walk, spdRun=E.SPD.run; let moving=false;
@@ -285,14 +313,33 @@ const E3 = (function(){
       /* 半步（STAIR-LEVEL-AUDIT-1111，LAWWW2 11-11）：低幀率跑步一步 0.6 m 以上，整步跨過頭（例：大口二樓樓梯頂右側直接接牆，整步落在牆裡、兩層都站不住）就整個停住、差半步上不去——
          整步、換層、沿牆滑都不行時，試走一半（這一層站得住，或換到另一層站得住）。只在一步超過 0.2 m 時試（高幀率照舊）*/
       const half=()=>{ if(Math.hypot(dx*sp*dt,dz*sp*dt)<=0.2) return false; const hx=o.position.x+dx*sp*dt/2, hz=o.position.z+dz*sp*dt/2; if(cs(hx,hz)||(E.levels&&switchLevel(ent,hx,hz,r))){ o.position.x=hx; o.position.z=hz; ent.blockedAt={x:nx,z:nz,slide:'half'}; return true; } return false; };
-      if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(half()) { /* 走了半步 */ } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
+      /* cornerSlip 讓開中（見下面）：推的方向沒變就先走完讓開的那一段，走到了或推的方向變了就恢復平常的走法 */
+      const slipGo=()=>{ const F=ent._slip; if(!F) return false; if(F.dx*dx+F.dz*dz<0.8){ ent._slip=null; return false; } const ddx=F.x-o.position.x, ddz=F.z-o.position.z, dd=Math.hypot(ddx,ddz);
+        if(dd<1e-3){ ent._slip=null; return false; } const stp=Math.min(dd,sp*dt), qx=o.position.x+ddx/dd*stp, qz=o.position.z+ddz/dd*stp; if(!cs(qx,qz)){ ent._slip=null; return false; }
+        o.position.x=qx; o.position.z=qz; ent.blockedAt={x:nx,z:nz,slide:'slip'}; if(dd-stp<1e-3){ ent._slip=null; ent._slipPref={ax:F.ax,dx:F.dx,dz:F.dz}; } return true; };
+      /* 讓開以後先沿著讓出來的那一軸走（不然下一步「只走 x／只走 z」會先試往角裡那一軸、又滑回角裡）；整步走得通、推的方向變了、那一軸也擋了就恢復平常 */
+      const slipPref=()=>{ const P=ent._slipPref; if(!P) return false; if(P.dx*dx+P.dz*dz<0.8){ ent._slipPref=null; return false; }
+        if(P.ax==='z'&&mz&&cs(o.position.x,nz)){ o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; return true; } if(P.ax==='x'&&mx&&cs(nx,o.position.z)){ o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; return true; }
+        ent._slipPref=null; return false; };
+      if(ent._slip&&slipGo()) { /* 讓開中 */ }
+      else if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; ent._slipPref=null; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(ent._slipPref&&slipPref()) { /* 讓開以後沿著那一軸 */ } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(half()) { /* 走了半步 */ } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
         // 擦到家具或格子的角：前進方向再往左或右偏一點（最多 0.48 m，導航格是 0.5 m）就過得去時，往空的那一側讓開（正面撞平的牆時偏移也過不去，不會亂滑）
         const px=-dz, pz=dx; let side=0; for(const e of [0.08,0.16,0.24,0.32,0.4,0.48]){ if(cs(nx+px*e,nz+pz*e)){ side=1; break; } if(cs(nx-px*e,nz-pz*e)){ side=-1; break; } }
         if(side){ const lat=Math.min(0.18,sp*dt*0.8), lx=o.position.x+px*side*lat, lz=o.position.z+pz*side*lat; if(cs(lx,lz)){ o.position.x=lx; o.position.z=lz; ent.blockedAt.slide='corner'; } }
         // 還是過不去（v9.3 #31：宿舍書桌後面的窄縫，玩家沿牆滑進去之後，往哪個正方向推都過不去，永久卡住）：前進方向往左右各偏 30°／50°／70° 試一步，
         // 站得住就走。每個方向都還有往前的分量；正面頂著平的牆或在牆角時這些方向都過不去，所以不會亂滑；只移到站得住的位置，不穿牆。
         // 目前位置本身站不住（卡在阻擋格裡）時不用這個，交給 escapeOK（否則可能從阻擋格被帶進另一個小空隙）
-        else if(!stuckIn(ent)){ const st=Math.hypot(nx-o.position.x,nz-o.position.z); for(const a of [0.52,-0.52,0.87,-0.87,1.22,-1.22]){ const c=Math.cos(a), sn=Math.sin(a), rx=dx*c-dz*sn, rz=dx*sn+dz*c, tx=o.position.x+rx*st, tz=o.position.z+rz*st; if(cs(tx,tz)){ o.position.x=tx; o.position.z=tz; ent.blockedAt.slide='turn'; break; } } } } } else { o.position.x=nx; o.position.z=nz; }
+        else if(!stuckIn(ent)){ const st=Math.hypot(nx-o.position.x,nz-o.position.z); for(const a of [0.52,-0.52,0.87,-0.87,1.22,-1.22]){ const c=Math.cos(a), sn=Math.sin(a), rx=dx*c-dz*sn, rz=dx*sn+dz*c, tx=o.position.x+rx*st, tz=o.position.z+rz*st; if(cs(tx,tz)){ o.position.x=tx; o.position.z=tz; ent.blockedAt.slide='turn'; break; } } }
+          /* 繞過家具的外角（MOKU-PLANT-CORNER-1111，LAWWW2 11-11；只在區域開了 cornerSlip、只有玩家）：站得住只看人的前後左右四點（NavGrid.clear），所以家具的外角斜對面有一小塊站得進去；
+             站在那裡斜著往角推（木曜日：植物東南角往樓梯推），整步、只走 x、只走 z、往左右偏都還碰到家具＝一步都不動。
+             這時往旁邊讓開（另一軸、和推的方向相反那一邊——離開家具）：讓開 0.34／0.45／0.55 m 以後那一軸走得通 0.6 m（外角）才讓，讓到那裡為止（下面 slipGo 接著走，
+             中途不再試往角裡滑，不然會一步往外一步往裡來回）；牆角（內角）讓開以後還是擋著，不讓（不會被推著亂跑）。先試讓開以後走推的方向比較大的那一軸，不行再試另一軸 */
+          if(ent.blockedAt.slide==='none'&&ent===E.player&&E.zone&&E.zone.cornerSlip){ const px0=o.position.x, pz0=o.position.z, mv=Math.max(Math.hypot(nx-px0,nz-pz0),0.1); let fs=null;
+            for(const [ax,dS,dT] of Math.abs(dx)>=Math.abs(dz)?[['z',dz,dx],['x',dx,dz]]:[['x',dx,dz],['z',dz,dx]]){ if(fs) break; if(Math.abs(dS)<1e-3||Math.abs(dT)<1e-3) continue; const sg=dS>0?-1:1;
+              for(const off of [0.34,0.45,0.55]){ const tx=ax==='x'?px0+sg*off:px0, tz=ax==='z'?pz0+sg*off:pz0, ux=ax==='z'?Math.sign(dT):0, uz=ax==='x'?Math.sign(dT):0; if(!cs(tx,tz)) continue;
+                let free=true; for(let k=1;k<=6&&free;k++) free=cs(tx+ux*0.1*k,tz+uz*0.1*k);   /* 讓開以後那一軸要走得通 0.6 m（外角：沿著家具的邊一路過去）；牆角讓開以後走不了幾步又撞牆＝不讓 */
+                if(free){ fs={x:tx,z:tz,dx,dz,ax:ax==='z'?'x':'z'}; break; } } }
+            if(fs){ ent._slip=fs; slipGo(); } } } } else { o.position.x=nx; o.position.z=nz; }
     settleY(ent,dt);
     flatYaw(o); const targetYaw=Math.atan2(dx,dz); let d=targetYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*12); }
   /* 人物只轉 y：rotation 變成 (±π, y, ±π)（四元數換回 Euler、超過 ±90° 的朝向）時改回 (0, π−y, 0)——看起來的方向一樣，之後改 rotation.y 才是真的轉向（2026-10-18 路人往後走）。騎車的側傾（z 小角度）不動 */
@@ -334,6 +381,7 @@ const E3 = (function(){
   // 把人物放到某一層的 (x,z)，高度照地板（劇情、讀檔、坐下、電梯用）
   E.placeAt=function(ent,x,z,lv){ if(lv!==undefined&&lv!==null) setLv(ent,lv|0); const o=ent.obj.position; o.x=x; o.z=z; const n=navOf(ent.lv|0); o.y=n?n.heightAt(x,z):0; };
   // 找路（多層區域用各層一起找；單層照舊）
+  E.TAP_NOPATH_TEXT='那邊過不去。';   /* WZ-SUNNY-TAPNAV-1112：點地找不到路、也走不到附近時的提示字（AA-C 11-12 20:55 給；系統短字，不加括號、不寫說話人）*/
   E.pathTo=function(x0,z0,l0,x1,z1,l1){ if(E.levels) return gridPath(E.levels,x0,z0,l0|0,x1,z1,l1|0); return E.nav?E.nav.path(x0,z0,x1,z1):[[x1,z1]]; };
   // 測試用（tests/reachability_all.py）：用和玩家完全一樣的找路（nav.path）＋移動碰撞（stepEntity）模擬從 (x0,z0) 走到 (x1,z1)；
   // 不畫面、不動到真正的玩家。連續 4 秒（模擬時間）沒有前進 0.25 m 就算卡住，回傳卡住的位置
@@ -518,7 +566,7 @@ const E3 = (function(){
       const ol=(typeof CHAR!=='undefined'&&CHAR.shadowPassBegin)?CHAR.shadowPassBegin():null;   /* 人物的描邊不進影子那一輪（和本體同一份深度，白畫；PERF-WZ-DC-1107）*/
       try{ return smr.apply(SM,arguments); } finally{ for(const g of hid) g.visible=true; if(ol) CHAR.shadowPassEnd(ol); } }; }
   E.cinematic=function(pos,look,via){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone(),via:via?via.clone():null,back:via?via.clone():null}; };
-  /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識阿勳的時候轉回來玩的視角也很暈，隔天起來也是」）：
+  /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識舊序章的人的時候轉回來玩的視角也很暈，隔天起來也是」）：
      原本看的點瞬間跳回玩家、位置 0.3 秒內拉回背後（還會繞半圈）。改成：跟隨鏡頭的方向接在劇情鏡頭現在的方位（不繞），1.1 秒內慢慢拉回距離、看的點慢慢移過去 */
   E.endCinematic=function(){ const C=E.cam; if(C.mode==='cinematic'&&C.cine&&C.cine.back&&!C.cine.ending&&camera.position.distanceTo(C.cine.back)>0.15){ C.cine={pos:C.cine.back,look:C.cine.look.clone(),via:null,back:null,ending:true}; return; }   /* 有 via 的運鏡（宿舍書桌）：先退回走道上的 via，再拉回跟隨鏡頭（不從床板下面直接往上拉）*/
     if(C.mode==='cinematic'&&E.player){ const p=E.player.obj.position, dx=camera.position.x-p.x, dz=camera.position.z-p.z;
@@ -543,7 +591,7 @@ const E3 = (function(){
     talkRay.set(_tkO,_tkD); talkRay.near=E.TALK_NEAR; talkRay.far=d-E.TALK_SELF;
     for(const s of sets){ if(talkRay.intersectObjects(s,false).length) return true; } return false; };
   E.TAP_SEAT_REACH=0.5; E.TAP_SEAT_CLEAR=0.6;   /* 點的位置 0.6 m 內有非座位的互動點（吧檯點餐、看班表…）就不多 0.5 m（TAPSTEAL-1105）*/
-  E.nearestInteractable=function(){ const P=E.player; if(!P) return null; let best=null, bd=1e9; const occupied=(st)=>E.npcs.some(n=>n.seat&&(n.seat.lv|0)===(st.lv|0)&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.4)||(!st.label&&E.npcs.some(n=>n.seatTarget&&Math.hypot(n.seatTarget.x-st.x,n.seatTarget.z-st.z)<0.4));   /* BUG-DAYBREAK-SEAT2-1107（BB-B 11-07 電腦重現：窗邊 #2 有人正走過去，按鈕還是「坐窗邊」，按了才說「有人坐了。」）：和 game3d.js freeSeat 用同一個判斷——0.4 m、正在走過去的人不管她現在是不是還坐在別的位子上（原本要 !n.seat、0.35 m，兩邊對不上就出了按鈕卻坐不下）*/   /* DAYBREAK-BOOTH21-1105（BB-C 10:38：卡座 #21 按兩次「坐卡座」沒坐下）：有人正走過去要坐的那一張（seatTarget）game3d.js freeSeat 會說「有人坐了」、不讓坐——按鈕也不出；長椅（label）照舊（freeSeat 會挪到旁邊半張）*/ const plv=P.lv|0, py=P.obj.position.y; const tp=P.tapPref&&P.tapPref.zone===(E.zone&&E.zone.id)&&(P.tapPref.lv|0)===plv?P.tapPref:null; let tpIt=null, tpd=1e9, tpBd=1e9; let nsd=1e9; if(tp) for(const it of E.interactables){ if(it.hidden||it.seat) continue; if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; if(it.y!==undefined&&Math.abs(it.y-py)>1.4) continue; nsd=Math.min(nsd,Math.hypot(it.x-tp.x,it.z-tp.z)); }   /* TAPSTEAL-1105（BB-C BB_255：點吧檯點餐、看班表旁邊 0.3 m 會變成坐下）：點的位置 E.TAP_SEAT_CLEAR 內有非座位的互動點，座位就不多 0.5 m（點在吧檯、班表旁邊照舊是那一個） */ for(const it of E.interactables){ if(it.hidden) continue; if(it.seat&&(occupied(it.seat)||it.seat.taken)) continue; /* 有人坐的位子（taken：替身坐的，classes3d.js）不能再坐，也不能擋住和那個人說話 */ if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; if(it.y!==undefined&&Math.abs(it.y-py)>1.4) continue; /* 多樓層：別層的東西（正上方、正下方）不算 */ const d=Math.hypot(it.x-P.obj.position.x,it.z-P.obj.position.z); const R=(it.radius||1.8)+(tp&&it.seat&&Math.hypot(it.seat.x-tp.x,it.seat.z-tp.z)<0.45&&nsd>E.TAP_SEAT_CLEAR?E.TAP_SEAT_REACH:0); if(d<R&&d-(it.prio||0)<bd){ bd=d-(it.prio||0); best=it; } if(tp&&d<R){ const tq=it.seat||it, dt=Math.hypot(tq.x-tp.x,tq.z-tp.z); if(dt<R&&dt<tpd){ tpd=dt; tpIt=it; tpBd=d-(it.prio||0); } }   /* tq：座位照椅子本身離點的位置多遠（L118-IT-REACH-1111：118 巷兩張並排的椅子，按鈕挪到各自的站位上，不在椅子上——點靠牆那張偏 0.15 m，照按鈕位置算會挑到外側那張；和 game3d.js tapToSeat 挑「離點的位置最近的椅子」同一個標準）*/ }   /* TAP-SEAT-REACH-1105（BB-C 08:28 SEATSCAN：山嵐靠窗長椅走近點 0.80 m、按鈕 0.75 m；電腦 GPU 點地常停偏 0.2 m）：點的是椅子（tapPref 離那張座位 0.45 m 內）＝那張的「坐下」範圍多 E.TAP_SEAT_REACH；推搖桿以後 tapPref 清掉＝照舊 */ if(tpIt&&tpIt!==best){ best=tpIt; bd=tpBd; }   /* 點地面走過來的：人站的地方在好幾個互動範圍裡時，取離「點的位置」最近、點的位置也在它範圍裡的那一個（點床＝睡覺，不是床底下的紙箱）；推搖桿以後照舊取離人最近的 */   /* prio：兩個範圍重疊時優先（宿舍的回家背包離床 0.8 m，站在背包旁邊卻出「睡覺」，flow_law_break）*/
+  E.nearestInteractable=function(){ const P=E.player; if(!P) return null; let best=null, bd=1e9; const occupied=(st)=>E.npcs.some(n=>n.seat&&(n.seat.lv|0)===(st.lv|0)&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.4)||(!st.label&&E.npcs.some(n=>n.seatTarget&&Math.hypot(n.seatTarget.x-st.x,n.seatTarget.z-st.z)<0.4));   /* BUG-DAYBREAK-SEAT2-1107（BB-B 11-07 電腦重現：窗邊 #2 有人正走過去，按鈕還是「坐窗邊」，按了才說「有人坐了。」）：和 game3d.js freeSeat 用同一個判斷——0.4 m、正在走過去的人不管她現在是不是還坐在別的位子上（原本要 !n.seat、0.35 m，兩邊對不上就出了按鈕卻坐不下）*/   /* DAYBREAK-BOOTH21-1105（BB-C 10:38：卡座 #21 按兩次「坐卡座」沒坐下）：有人正走過去要坐的那一張（seatTarget）game3d.js freeSeat 會說「有人坐了」、不讓坐——按鈕也不出；長椅（label）照舊（freeSeat 會挪到旁邊半張）*/ const plv=P.lv|0, py=P.obj.position.y; const tp=P.tapPref&&P.tapPref.zone===(E.zone&&E.zone.id)&&(P.tapPref.lv|0)===plv?P.tapPref:null; let tpIt=null, tpd=1e9, tpBd=1e9; let nsd=1e9; if(tp) for(const it of E.interactables){ if(it.hidden||it.seat) continue; if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; if(it.y!==undefined&&Math.abs(it.y-py)>1.4) continue; nsd=Math.min(nsd,Math.hypot(it.x-tp.x,it.z-tp.z)); }   /* TAPSTEAL-1105（BB-C BB_255：點吧檯點餐、看班表旁邊 0.3 m 會變成坐下）：點的位置 E.TAP_SEAT_CLEAR 內有非座位的互動點，座位就不多 0.5 m（點在吧檯、班表旁邊照舊是那一個） */ for(const it of E.interactables){ if(it.hidden) continue; if(it.seat&&(occupied(it.seat)||it.seat.taken)) continue; /* 有人坐的位子（taken：替身坐的，classes3d.js）不能再坐，也不能擋住和那個人說話 */ if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; if(it.y!==undefined&&Math.abs(it.y-py)>1.4) continue; /* 多樓層：別層的東西（正上方、正下方）不算 */ const d=Math.hypot(it.x-P.obj.position.x,it.z-P.obj.position.z); const R=(it.radius||1.8)+(tp&&it.seat&&Math.hypot(it.seat.x-tp.x,it.seat.z-tp.z)<0.45&&nsd>E.TAP_SEAT_CLEAR?E.TAP_SEAT_REACH:0); if(d<R&&d-(it.prio||0)<bd){ bd=d-(it.prio||0); best=it; } if(tp&&d<R){ const tq=it.seat||it, dt=Math.hypot(tq.x-tp.x,tq.z-tp.z), dtp=dt-Math.min(0,it.prio||0); if(dt<R&&dtp<tpd){ tpd=dtp; tpIt=it; tpBd=d-(it.prio||0); } }   /* dtp：讓位的互動點（prio 負的：「看…」這種）比「離點的位置多近」時也照樣讓——洋洋鹹酥雞點椅子旁邊的地板走過去，按鈕是「看廚房」不是「坐下吃」（BB 11-12；點的那一點離「看」0.43 m、離椅子 0.45 m）。prio 正的照舊不算進來 */   /* tq：座位照椅子本身離點的位置多遠（L118-IT-REACH-1111：118 巷兩張並排的椅子，按鈕挪到各自的站位上，不在椅子上——點靠牆那張偏 0.15 m，照按鈕位置算會挑到外側那張；和 game3d.js tapToSeat 挑「離點的位置最近的椅子」同一個標準）*/ }   /* TAP-SEAT-REACH-1105（BB-C 08:28 SEATSCAN：山嵐靠窗長椅走近點 0.80 m、按鈕 0.75 m；電腦 GPU 點地常停偏 0.2 m）：點的是椅子（tapPref 離那張座位 0.45 m 內）＝那張的「坐下」範圍多 E.TAP_SEAT_REACH；推搖桿以後 tapPref 清掉＝照舊 */ if(tpIt&&tpIt!==best){ best=tpIt; bd=tpBd; }   /* 點地面走過來的：人站的地方在好幾個互動範圍裡時，取離「點的位置」最近、點的位置也在它範圍裡的那一個（點床＝睡覺，不是床底下的紙箱）；推搖桿以後照舊取離人最近的 */   /* prio：兩個範圍重疊時優先（宿舍的回家背包離床 0.8 m，站在背包旁邊卻出「睡覺」，flow_law_break）*/
     /* 人和互動點比遠近：人只優先於旁邊的椅子（差 0.5 m 以內算人）；門口、出口、公告欄照實際距離。2026-10-13 v9.6 回歸 flow_class_real：
        走路的人玩家走近就停下來（a77f1f9），下課時同學停在後門旁邊，「離開教室」被「和郭沛珊說話」蓋掉（原本人對所有互動點都先讓 0.5 m）*/
     let yb=null, ybd=1e9;   /* 路人（AA_495 各系的學生：crowd3d.js deptOne 的 yieldIt）最後才算：旁邊有互動點（出口、座位、公告欄）或別的人（有名字的同學）時不擋——路上的人很多，不能讓「進入○○」「和小安說話」變成「聽一句」*/

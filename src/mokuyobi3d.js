@@ -36,6 +36,13 @@ const MOK3=(function(){
     nav1.blockRect(S.x1+0.05,(S.z0-0.1+dz0)/2,0.1,dz0-S.z0+0.1,0);                                            // 東邊隔間牆（門洞以北那一小段）
     nav1.blockRect((S.x0+S.x1+0.1)/2,S.z0-0.05,S.x1-S.x0+0.1,0.12,0);                                         // 北邊隔間牆（平台的北緣）
     L.blocks.forEach((b,i)=>{ if(i===0) return; nav1.blockRect(b[0],b[1],b[2],b[3],0,0.05); });               // 家具（第 0 筆是樓梯開口：上面已經接成樓梯）
+    /* MOKU-PLANT-CORNER-1111（LAWWW2 11-11；BB V25_STAIR_run10、線上 779 也卡）：店門南邊的衣帽架 (−2.7,2.75)、落地植物 (−2.15,3.75)、樓梯間東邊隔間牆 (x −2.9)、
+       隔間牆前的書櫃 (z 4.1～6.5) 圍出兩條比人窄的縫（植物北邊 0.45 m、植物西邊 0.4 m；人要 0.64 m）：導航格是空的、人站不進去，
+       只有兩條縫接角那一格 (−2.54,3.33) 剛好站得住＝小孤島（滑進去以後往哪個方向推都出不來，40 秒）；縫口 (−2.49,3.04) 往樓梯推也卡。
+       兩條縫補成阻擋（只有導航，模型不動）：A 植物北邊（x −2.9～−1.9、z 2.95～3.5）、B 植物西邊（x −2.9～−2.4、z 3.45～4.1）。
+       同一次掃出來的另一個（nav_islands 的掃法）：西牆書櫃和 table 3（−3, 0.6）之間、樓梯間北牆前 (−3.75, 1.0) 一小塊（z 0.95～1.1；北邊被桌子、南邊被牆夾住，跑步一步大時跳得進去）——一起擋起來 C。
+       測試：node tests/mokuyobi_plant_corner_1111_unit.js */
+    for(const [x0,x1,z0,z1] of [[-2.9,-1.9,2.95,3.5],[-2.9,-2.4,3.45,4.1],[-4.0,-3.4,0.95,1.1]]) nav1.blockRect((x0+x1)/2,(z0+z1)/2,x1-x0,z1-z0,0);
     nav0._cm=null; nav1._cm=null; return {nav0,st}; }
 
   // ---- 樓梯的備用模型（正式模型載入前、失敗時）：一階一階的色塊＋兩側的牆 ----
@@ -60,8 +67,10 @@ const MOK3=(function(){
     // 一樓：樓梯間
     const g0=new THREE.Group(); g0.name='L0'; g0.userData.dyn=true; const fb0=new THREE.Group(); fb0.name='fallback0'; fb0.userData.dyn=true; g0.add(fb0); stairFallback(L,fb0);
     const root=new THREE.Group(); root.add(g0); root.add(g1); z.group=root;
+    if(Z3.roomBackdrop){ const bd=Z3.roomBackdrop(root,L.w,L.d,Y1+L.h,7,0,0); if(bd) bd.name='mok_backdrop'; }   /* MOKU-STAIR-VOID-1112（LAWWW2 自查 11-12）：一樓樓梯間只有 1.2 m 寬，跟隨鏡頭一定在牆外——兩邊露出牆外面米白的空底和一截天空。兩層樓外面包一圈暗色的殼（和 202、多功能教室一樣；二樓臨街窗有窗景板 mok_window_view，在殼裡面）*/
     const {nav0,st}=buildNav(L,z.nav);
     z.levels=[nav0,z.nav]; z.levelGroups=[{group:g0,y:0},{group:g1,y:Y1}]; z.nav=nav0; z.spawn=Object.assign({},IN); z.bounds={w:L.w,d:L.d}; z.camMaxY=L.h-0.15;
+    z.cornerSlip=true;   /* MOKU-PLANT-CORNER-1111：玩家推進家具外角（植物東南角往樓梯斜推）時往旁邊讓開、繞過去（engine3d.js stepEntity 的 cornerSlip；只有開了的區域）*/
     z.slabs=[{lv:1,x0:S.x1,x1:L.w/2,z0:-L.d/2,z1:L.d/2,y:Y1,t:0.2},{lv:1,x0:-L.w/2,x1:S.x1,z0:-L.d/2,z1:S.top,y:Y1,t:0.2}];   /* 二樓地板（樓梯開口以外）：人在樓梯上時鏡頭不穿過樓板（engine3d.js slabClip）*/
     // 樓梯可以點的面（點地面移動；點在樓梯上＝走到那裡）
     { const len=Math.hypot(st.z1-st.z0,st.ya-st.yb), m=new THREE.Mesh(new THREE.PlaneGeometry(st.x1-st.x0,len),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));

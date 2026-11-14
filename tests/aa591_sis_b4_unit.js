@@ -60,7 +60,11 @@ await sec(1,()=>{
   /* 「改成」在遊戲裡：選項帶「」（表上的選項也帶「」）；heard（第 heroine_circle 的整條字串）、地點字幕、人物近況是字串的一部分 */
   /* AA_600（企劃線 031414cad）再改過的兩列：第 68 列初雪「回去吧，會冷。」→ AA_600 3-5 的「……回去吧，會冷。」；第 171 列總圖門口的回覆＝AA_600 B6 整場只剩旁白 */
   const SUP600=new Set(['68','171']);
-  const miss=keep.filter(r=>!SUP600.has(r.n)).filter(r=>!(inGame(r.nw)||(OPT.has(r.n)&&inAny("'"+r.nw+"'"))||(/／/.test(r.nw)?r.nw.split('／').every(p=>inAny(p.trim())):false)||(/heroine_circle|social3d|loc30|APART|TELL/.test(r.where)&&inAny(r.nw)))).map(r=>'#'+r.n+' '+r.nw);
+  /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7 等逐行改稿）：「改成」那一句後來又被逐行改稿換過（第 7 列「……下次還坐這一班。」→ sis_b4_events.js 拿掉句首「……」）＝稿的 new 在遊戲裡也算（tests/line_rows_expect.js fwd）。舊期望：r.nw 本身在遊戲裡 */
+  const LR=require('./line_rows_expect.js');
+  /* 2026-11-13（AA_943，BB 照用；開發分支 77ccc5a838）：第 26 列下雨那場「計畫本上有寫「帶傘」。」AA_943 換成「早上我有看天氣。」「看的是明天的。」（tests/canon1112_ok.js AA_943）——那一列改認 AA_943 的兩句都在遊戲裡。舊期望：r.nw 本身在遊戲裡 */
+  const SUP943={'26':require('./canon1112_ok.js').NEW.AA_943};
+  const miss=keep.filter(r=>!SUP600.has(r.n)).filter(r=>!(SUP943[r.n]&&SUP943[r.n].length===2&&SUP943[r.n].every(t=>inGame(t))&&!inGame(r.nw))).filter(r=>!(inGame(r.nw)||(LR.fwd(r.nw)!==r.nw&&inGame(LR.fwd(r.nw)))||(OPT.has(r.n)&&inAny("'"+r.nw+"'"))||(/／/.test(r.nw)?r.nw.split('／').every(p=>inAny(p.trim())):false)||(/heroine_circle|social3d|loc30|APART|TELL/.test(r.where)&&inAny(r.nw)))).map(r=>'#'+r.n+' '+r.nw);
   check('1. 每一列「改成」一字不差在遊戲裡',!miss.length,J(miss));
   /* 換掉的原句不在遊戲裡：原句是別人的句子、到處都有的短句（「……好。」「好。」「過了。」「……謝謝。」等）、原句是改成的一部分、retired 的定義留著的除外 */
   /* 194～198、222～225：AA_609（使用者 2026-11-03）改成她奶奶恢復，原句（不含爸的那幾句）回到遊戲 */
@@ -75,7 +79,7 @@ await sec(1,()=>{
   check('1. 第 52、53 列送機兩版「回到家，傳訊息給我。」、第 103 列接機兩版「剛好。」、第 117 列空白的一月兩處、第 142 列地點兩處：舊句都不在',
     !RAW['src/y34b3d.js'].includes("'……回到家，傳訊息給我。'")&&(RAW['src/y34b3d.js'].match(/'回到家，傳訊息給我。'/g)||[]).length===2&&!RAW['src/data/r2y4a_events.js'].includes("sis('……剛好。')")&&!inAny('回來以後開始看。……還沒看完。')&&!inAny('她上班的研究單位樓下'));
   check('1. 第 172 列人物近況「大學研究中心（助理）」、第 154 列事件標題「研究中心的回信」',RAW['src/social3d.js'].includes("heroine_05:[['2029-09-01','大學研究中心（助理）']]")&&ev('ev_sis16_job').title==='研究中心的回信');
-  check('1. 保71（使用者 11-02）：情人節「沒照計畫走。……可是這樣很好。」，「我記一下。明年不要再這樣排。」不在；第 7 列「……下次還坐這一班。」',row('保71').nw==='沒照計畫走。……可是這樣很好。'&&inGame('沒照計畫走。……可是這樣很好。')&&!inAny('我記一下。明年不要再這樣排。')&&inGame('……下次還坐這一班。'));
+  check('1. 保71（使用者 11-02）：情人節「沒照計畫走。……可是這樣很好。」，「我記一下。明年不要再這樣排。」不在；第 7 列「……下次還坐這一班。」',row('保71').nw==='沒照計畫走。……可是這樣很好。'&&inGame('沒照計畫走。……可是這樣很好。')&&!inAny('我記一下。明年不要再這樣排。')&&inGame('下次還坐這一班。')&&!inGame('……下次還坐這一班。'));   /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7）：sis_b4_events.js 第 179 列拿掉句首「……」。舊期望：inGame('……下次還坐這一班。') */
   check('1. 第 108 列接機（使用者「討親親」）：「……還有。（她轉過頭看著你。）親一下。」只有戀人版；「……還有，我想你。」不在',/IF\(PV\('lover'\),sis\('……還有。（她轉過頭看著你。）親一下。'\)\)/.test(RAW['src/data/r2y4a_events.js'])&&!inAny('……還有，我想你。'));
   check('1. 第 115 列除夕（使用者：拍照說「厲害吧」；AA 11-02 21:25 九件第 2 件：照片開頭已經有，只留「厲害吧。」）：「厲害吧。」在、「（她傳來一張照片：一盤水餃。）厲害吧。」不在；「明年，你來包一顆。」不在',inAny("SIS('厲害吧。')")&&!inAny('（她傳來一張照片：一盤水餃。）厲害吧。')&&!inAny('明年，你來包一顆。'));
   check('1. 第 183 列 Café 改報告（使用者選原句）：「單位裡來了一個新人。他的報告我在改。」照舊',row(183).nw==='單位裡來了一個新人。他的報告我在改。'&&inGame('單位裡來了一個新人。他的報告我在改。'));
@@ -148,8 +152,8 @@ await sec(4,async()=>{
     check('4. 大峽谷祐廷不說話：她不先說（下一句直接是回程的機場），SIS_CANYON silent、canyonAfter 以後不交往',i>=0&&L[i+1]==='十二月二十三號，晚上八點落地。你來接我。'&&H.G.flags.SIS_CANYON==='silent'&&!H.G.flags.dating_heroine_05&&!(H.G.flags.romance&&H.G.flags.romance[ID]&&H.G.flags.romance[ID].status==='dating'),J({L:L.slice(i,i+3),c:H.G.flags.SIS_CANYON})); }
   { const rs=SISB4.restartYes; SISB4.restartYes=()=>true; let a=null; try{ a=CONFESS_LINES[ID].yes({flags:{}}); } finally { SISB4.restartYes=rs; }
     check('4. 重新開始那一版（restartYes，AA 九件第 4 件放回）：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」',J(a)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']),J(a)); }
-  { const W=['我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前傳一句給我就好。'];
-    check('4. 多段感情 Byes（AA 九件第 5 件放回）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「……你去見她那天，出門前傳一句給我就好。」',J(MULTIREL_LINES.heroine_05&&MULTIREL_LINES.heroine_05.result.Byes||(MULTIREL_LINES.REL||{}))===J(W)||J(Object.values(MULTIREL_LINES).map(v=>v&&v.heroine_05&&v.heroine_05.result&&v.heroine_05.result.Byes).filter(Boolean))===J([W])); }
+  { const W=['我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前發一句給我就好。'];
+    check('4. 多段感情 Byes（AA 九件第 5 件放回）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「……你去見她那天，出門前發一句給我就好。」',J(MULTIREL_LINES.heroine_05&&MULTIREL_LINES.heroine_05.result.Byes||(MULTIREL_LINES.REL||{}))===J(W)||J(Object.values(MULTIREL_LINES).map(v=>v&&v.heroine_05&&v.heroine_05.result&&v.heroine_05.result.Byes).filter(Boolean))===J([W])); }
 });
 
 /* ---------- 5 林{name} ---------- */

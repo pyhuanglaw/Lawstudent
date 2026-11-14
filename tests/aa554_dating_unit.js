@@ -45,7 +45,8 @@ const DP=id=>STORY.DAILY_PHONE.find(x=>x.id===id);
 const dpRun=(id,day)=>{ const d=DP(id); if(!d) return null; const t=STORY.dpTerm(Object.assign({},H.G,{day})); return {term:!!(t&&d.term(t)),ok:!!d.ok(H.G,day),h:d.h(H.G),items:d.items(H.G,0).map(x=>x.text),dt:d.items(H.G,0).map(x=>+(x.dt||0).toFixed(3))}; };
 
 /* ---- 讀稿 ---- */
-const show=f=>{ try{ return cp.execSync('git show origin/claude/story-planning:"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
+const {fwd:FWD789}=require('./aa789_fwd.js');   /* AA_789／788 換過的句子：稿換成新字再比 */
+const show=f=>{ try{ return FWD789(cp.execSync('git show origin/claude/story-planning:"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(e){ return ''; } };
 const B7=show('BB_187_大一下交往中_芷若子晴.md'), B9=show('BB_189_大二交往中_芷若子晴.md'), A554=show('AA_554_芷若子晴和她交往中的版本_現行稿確認與時間線修正.md'), A419=show('AA_419_芷若在英國_約好的視訊與按鈕句.md');
 const bare=t=>t.replace(/^（|）$/g,'').replace(/^「|」$/g,'');
 const inD=(doc,t)=>!!doc&&doc.indexOf(bare(t))>=0;
@@ -54,19 +55,19 @@ const allIn=(doc,L)=>L.filter(t=>!inD(doc,t));
 const Z3x=['……我答應你那天，本來想寫這個。','寫一寫覺得太丟臉，就改寫座位了。'];
 const Z4inv='明天下午我在溫州街。……有一件事，我想當面講。';
 const Z4want='我本來想先問你。結果你先問了。', Z4do=['你們法律系都這樣講話嗎？','……交了以後，你要陪我等。'], Z4fam=['……我以為你會叫我去。','也好。我也這樣跟自己說了兩個月。'];
-const Z5inv=['明天我沒班。我要去看《進城的那一週》的重映，早場。','……一起去吧。很早喔。'], Z5opt='「下次我早一點到，買票。」', Z5r='好。……我今天其實八點就到了。';
+const Z5inv=['明天我沒班。我要去看《進城的那一週》的重映，早場。','一起去吧。很早喔。'], Z5opt='「下次我早一點到，買票。」', Z5r='好。……我今天其實八點就到了。';
 const FYm=['我去 Café。她今天笑了三次。','……你的關係吧。黃金葛記得澆。'];
 const COCOA=['今天有人點熱可可加濃縮。不是你。','……害我嚇一跳。'], ART='今天的拉花。……老闆說及格。你說呢。', TC=['我媽問我今天為什麼一直看手機。','我說，在看天氣。'];
-const Q4m=['我在公館騎樓。不要問為什麼。','……好啦，你要來就來。'], Q4brave=['……你是我男朋友，你當然這樣講。','她把頭靠在你肩上一秒。','……可是我想聽。我只是怕輸。'],
-  Q4late=['來不及了。第一輪結束了。','她把手機蓋在長椅上。','……好爽。好爛。兩個都有。你都看到了。'], Q4drink=['欸不是，你也喝？','嗯。','……你很奇怪。','我喜歡奇怪的。'], Q4miss=['第四罐我自己喝了。','……沒事。真的。'];
+const Q4m=['我在公館騎樓。不要問為什麼。','……好啦，你要來就來。'], Q4brave=['你是我男朋友，你當然這樣講。','她把頭靠在你肩上一秒。','……可是我想聽。我只是怕輸。'],
+  Q4late=['來不及了。第一輪結束了。','她把手機蓋在長椅上。','……好爽。好爛。兩個都有。你都看到了。'], Q4drink=['欸不是，你也喝？','嗯。','你很奇怪。','我喜歡奇怪的。'], Q4miss=['第四罐我自己喝了。','……沒事。真的。'];
 const Q6x=['沒有人知道。……除了阿凱。他是工程師，不算。','還有你。你現在都知道了，也不算客人了。'], Q6b='你不要突然講這種話。……我會為了你把它做完。不對，為了它。為了它啦。';
-const Q5a='……你坐第三排。我剛剛看到了。不要換位子。', Q5b=['你拍超大聲欸。整個大廳都聽到了。','……好啦。我很高興。'];
+const Q5a='你坐第三排，我剛剛看到了。不要換位子。', Q5b=['你拍超大聲欸。整個大廳都聽到了。','……好啦。我很高興。'];
 const CD='你也不能請假喔', CAT='這版有兩隻貓。', BUG=['我修好一個 bug。','你睡了吧。','……那早上再說一次。早安。預約的。'];
 const Z7call=['你在幹嘛。','……等妳打來。','我在看著那個送出鍵。……你不用講話。我只是想要有人在。','電話那頭很安靜。只有她店裡冰箱的聲音。','……按了。','十一點五十九分。手在抖。你聽得出來嗎？'];
 const Z7c=[['「聽得出來。」','……好丟臉。'],['「明天我去店裡。」','好。早一點來，比較不忙。'],['（不講話，等她）','……謝謝你沒有掛。']];
-const Z7cafe=['（看到你，放下手上的杯子）那天晚上……電話講到幾點，你記得嗎？','如果沒錄取，就永遠不用跟我媽說。……很膽小吧。'], Z7no='……你每次都這樣講。好啦，謝謝。';
+const Z7cafe=['（看到你，放下手上的杯子）那天晚上……電話講到幾點，你記得嗎？','如果沒錄取，就永遠不用跟我媽說。……很膽小吧。'], Z7no='你每次都這樣講。好啦，謝謝。';
 const Z7mom='她還問，你是不是也要去。我說不是。……她說，那你要常常打電話。', Z7sem='……如果錄取，明年九月我就不在了。一學期。';
-const Z7s=[['「一學期而已。」',['嗯。……一學期而已。','她重複了一次，像是在練習。']],['「我會寫信給妳。」',['真的信？要貼郵票的那種？','對。','……好。那我回明信片。']],['「那這學期我多來店裡。」',['你已經每天來了。','那就每天來兩次。','……老闆會以為你是股東。']]];
+const Z7s=[['「一學期而已。」',['嗯。……一學期而已。','她重複了一次，像是在練習。']],['「我會寫信給妳。」',['真的信？要貼郵票的那種？','對。','好。那我回明信片。']],['「那這學期我多來店裡。」',['你已經每天來了。','那就每天來兩次。','老闆會以為你是股東。']]];
 const Z7b='……好。五月我應該會很煩，先跟你說。';
 const Z8zq=['……她是不是已經跟你說了。','可惡。我以為我是第一個。……好啦，你是男朋友，你先。'], Z8five=['九月我就走了。五個月。','「五個月很快。」','五個月欸。……好啦，你這樣講我比較安心。'];
 const Z9=['我不在的時候，你去看一部電影。看完傳一句話給我。','還有，每個星期天晚上十點我打給你。台灣時間。我媽那邊，我改早上打。'], Z9miss=['今天出發了。','櫃台有一張票根，你的，跟老闆拿。','星期天晚上十點。不要忘記。'];
@@ -162,7 +163,7 @@ await sec('2-Q4',async()=>{ const sat=STORY.termDay('Y1S2',8,6), q4=ev('ev_ziqin
   const sx=STORY.schedEnt(CHARACTERS[ZQ],H.G); H.G.zone='gongguan'; at(sat,14); const c14=EVENTS.check(q4);
   check('2. Q4：13:30～15:00 她在公館（作息）、14:00 在公館跟她說話就演',!!sx&&sx.zone==='gongguan'&&c14,J([sx,c14]));
   const pr=async(pick)=>{ prep({dh:ZQ}); run(12,13.6); at(sat,14.2); H.G.zone='gongguan'; return play('ev_ziqing_contest_day',[pick]); };
-  let L=await pr('不想去'); check('2. Q4「妳不想去，就不是爛。」（和她交往中）：「'+Q4brave.join('」「')+'」→「……第四罐。你請。」',has(L,Q4brave.map(t=>t==='她把頭靠在你肩上一秒。'?'（她把頭靠在你肩上一秒。）':t).concat(['……第四罐。你請。'])),J(L.slice(-4)));
+  let L=await pr('不想去'); check('2. Q4「妳不想去，就不是爛。」（和她交往中）：「'+Q4brave.join('」「')+'」→「第四罐。你請。」',has(L,Q4brave.map(t=>t==='她把頭靠在你肩上一秒。'?'（她把頭靠在你肩上一秒。）':t).concat(['第四罐。你請。'])),J(L.slice(-4)));
   L=await pr('來得及'); check('2. Q4「現在去還來得及嗎？」：「'+Q4late.join('」「')+'」',has(L,Q4late.map(t=>t==='她把手機蓋在長椅上。'?'（她把手機蓋在長椅上。）':t)),J(L.slice(-4)));
   L=await pr('第四罐'); check('2. Q4「陪她喝第四罐」：「'+Q4drink.join('」「')+'」（「她第一次沒有吐槽下去」換成「我喜歡奇怪的。」）',has(L,Q4drink)&&!L.includes('（她第一次沒有吐槽下去。）'),J(L.slice(-5)));
   prep({dh:ZQ}); run(12,17.9); const mm=thread(ZQ).filter(x=>x.tag==='aa554_q4_miss'); H.G.zone='gongguan'; at(sat,17.9); const late=EVENTS.check(q4);
@@ -175,7 +176,7 @@ await sec('2-Q6',async()=>{ const d=STORY.termDay('Y1S2',11,1);
   setup(d,19.5,'wancai',{dh:ZQ}); SOCIAL.remember(ZQ,'CONTEST_DAY',''); const L=await play('ev_ziqing_secret_game',['比比賽有用']);
   check('2. Q6 和她交往中：第三句換「'+Q6x.join('」「')+'」；第二個選項「'+Q6b+'」',has(L,Q6x)&&!L.includes('還沒給別人玩過。阿凱看過，可是他是工程師，不算。')&&L.includes(Q6b),J(L));
   setup(d,19.5,'wancai',{}); SOCIAL.remember(ZQ,'CONTEST_DAY',''); const L2=await play('ev_ziqing_secret_game',['比比賽有用']);
-  check('2. Q6 單身照原本',L2.includes('還沒給別人玩過。阿凱看過，可是他是工程師，不算。')&&L2.includes('……真的？那第二關做好，你再幫我玩。')&&!L2.includes(Q6b));
+  check('2. Q6 單身照原本',L2.includes('還沒給別人玩過。阿凱看過，可是他是工程師，不算。')&&L2.includes('真的？那第二關做好，你再幫我玩。')&&!L2.includes(Q6b));
 });
 await sec('2-Q5',async()=>{ const d=STORY.termDay('Y1S2',14,3);
   setup(d,19.5,'wancai',{dh:ZQ}); const L=await play('ev_ziqing_show',['拍手']);
@@ -269,7 +270,7 @@ await sec('3-視訊',async()=>{ const s1=D('2027-09-05'), s2=D('2028-02-06');
   check('3. 每週視訊（第一次交換）：開頭→話題 W1、W2、W3→收尾「你那邊很晚了吧。」；「早點睡。」連三次都不算裂縫（ZR_CRACK 不動）',L1.includes('上課有個同學每次都坐同一排。他問我臺灣的冬天冷不冷。')&&L2.includes('室友煮了一鍋湯，叫我喝。很鹹。')&&L3.includes('學校旁邊有一家咖啡店，店員記得我點什麼了。')&&L1.includes('你那邊很晚了吧。')&&(+H.G.flags.ZR_CRACK||0)===crack0&&ZRUK.rec(H.G).w.sleep===0,J([L1,H.G.flags.ZR_CRACK]));
   const used=ZRUK.rec(H.G).w.used.slice(); const L4=await P(D('2028-09-10'),'讀書'), L5=await P(D('2028-09-17'),'早點睡');
   check('3. 話題和第二次在英國共用（同一個紀錄）：2028-09 接著往下——開頭第 4 句「今天換你先講。」接 W11、下一週 W4（不從 W1 重來）；第二次「早點睡。」連兩次＝ZR_CRACK +1（照原本）',
-    J(used)===J(['W1','W2','W3'])&&L4[0]==='今天換你先講。'&&L4.includes('你那邊呢？這週有什麼？')&&L5.includes('店長傳照片給我，吧檯換了新的燈。')&&!L5.includes('上課有個同學每次都坐同一排。他問我臺灣的冬天冷不冷。')&&(+H.G.flags.ZR_CRACK||0)===crack0+1,J([used,L4.slice(0,2),L5.slice(0,2),H.G.flags.ZR_CRACK]));
+    J(used)===J(['W1','W2','W3'])&&L4[0]==='今天換你先講。'&&L4.includes('你那邊呢？這週有什麼？')&&L5.includes('老闆傳照片給我，吧檯換了新的燈。')&&!L5.includes('上課有個同學每次都坐同一排。他問我臺灣的冬天冷不冷。')&&(+H.G.flags.ZR_CRACK||0)===crack0+1,J([used,L4.slice(0,2),L5.slice(0,2),H.G.flags.ZR_CRACK]));
   check('3. W13（2029-03 以後的機票）不在第一次交換的話題裡',!ZRUK.W.W13||D(ZRUK.W.W13.from)>s2);
 });
 await sec('3-摘要日',async()=>{ const d=D('2026-12-15');
@@ -289,7 +290,7 @@ async function part4(){
 await sec('4-Q7',async()=>{ const d=STORY.termDay('Y2S1',3,1);
   const pr=async(pick,o)=>{ setup(d,19.5,'wancai',Object.assign({dh:ZQ},o)); return play('ev_ziqing_lab_letter',[pick]); };
   let L=await pr('想進實驗室');
-  check('4. Q7 和她交往中：第五句之後多「'+Q7x+'」',has(L,['……好，這題我不會。你是法律系的，你幫我判。',Q7x]),J(L.slice(0,6)));
+  check('4. Q7 和她交往中：第五句之後多「'+Q7x+'」',has(L,['好，這題我不會。你是法律系的，你幫我判。',Q7x]),J(L.slice(0,6)));
   check('4. Q7「妳想進實驗室嗎？」：「……不想。」「她想了很久。」「'+Q7a.join('」「')+'」',has(L,['……不想。','她想了很久。'].concat(Q7a))&&SOCIAL.has(ZQ,'LAB_LETTER'),J(L.slice(-4)));
   L=await pr('都很強'); check('4. Q7「不管是哪一個，妳都很強。」：「'+Q7b.join('」「')+'」（「打完還是很強。」照表當祐廷說的，已列給 AA）',has(L,Q7b)&&H.said.find(s=>s.t==='打完還是很強。').who===H.G.name,J(L.slice(-4)));
   L=await pr('接妳爸'); at(d,23); run(23,23.3); const m=thread(ZQ).filter(x=>x.tag==='aa554_q7_dad').map(x=>x.text);

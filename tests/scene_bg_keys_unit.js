@@ -13,7 +13,6 @@ const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3
   /* AA_499～501 第 6／7／5 節「新的 2D 場景（沒有背景圖＝深色底）」：src/pool_more3d.js 執行時登記 image:null（NPC-STORY-1028）*/
 
 
-  /* AA_520 4-2（NPC-STORY2-1028）：予樂那一場演講，霖澤館 201 的階梯教室（晚上，坐了一半）；src/yule3d.js 執行時登記 image:null */
   /* AA_619（企劃線 bf0efded8）的三個新場景：src/guitar3d.js 執行時登記 image:null（深色底＋地點字幕）；BB 照 D127 跟使用者要 */
   pssil_lin:'AA723-CONFESS-PS-1107：12/29 林家乾麵重聚（src/ps_silence3d.js）——在 3D 的 wz_lin 演＝blur，進不去退回 2D＝深色底；退回用的 2D 背景 BB 照 wz_lin 截圖要（AA-B 11-07 14:36）',
  };
