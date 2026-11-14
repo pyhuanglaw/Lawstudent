@@ -1,19 +1,56 @@
 {
- "objects": 33,
- "unique_meshes": 33,
- "tris": 82836,
- "tris_drawn": 82836,
- "materials": 18,
+ "objects": 60,
+ "unique_meshes": 60,
+ "tris": 79600,
+ "tris_drawn": 79600,
+ "materials": 33,
  "out": "assets/models/env/second_ai/aa_support/shanlan.glb",
- "bytes": 5440896,
+ "bytes": 6398364,
  "texres": 512,
  "layout": 2,
  "seats": 16,
  "floorSit": 10,
+ "cc0": [
+  [
+   "ambientCG",
+   "Plaster001"
+  ],
+  [
+   "ambientCG",
+   "Paper001"
+  ],
+  [
+   "ambientCG",
+   "Metal009"
+  ],
+  [
+   "ambientCG",
+   "Plastic006"
+  ],
+  [
+   "ambientCG",
+   "Marble012"
+  ],
+  [
+   "ambientCG",
+   "Wood066"
+  ],
+  [
+   "ambientCG",
+   "Fabric030"
+  ],
+  [
+   "ambientCG",
+   "Cardboard004"
+  ],
+  [
+   "Poly Haven",
+   "potted_plant_02"
+  ]
+ ],
  "tris_by_level": {
-  "L1": 55450,
-  "L2": 25756,
+  "L1": 49974,
+  "L2": 27996,
   "walls": 1630
- },
- "version": "v5.1"
+ }
 }
