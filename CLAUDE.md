@@ -83,15 +83,15 @@
 
 **唯一的值班狀態：`docs/handoff/duty.json`**（RULE_SOURCE 上，只有值班 LAWWW 寫）：誰值班（`onDuty`）、上一任（`previous`）、各職位的工作階段、分支、SHA、帳號狀態、RULE_SOURCE、登記鏈（`seq`＋`chain`）。各職位在自己分支另有 `docs/handoff/duty_<職位>.json`。**RULE_SOURCE＝值班 LAWWW 的開發分支＝`duty.json` 的 `ruleSource.branch`**；`main` 和休班帳號的分支上的 CLAUDE.md 可能是舊的。兩條登記鏈互不包含（分岔）、同一職位兩個帳號都在寫：**不猜、不覆寫，回報使用者**。
 
-**各職位的檔**（工具照路徑讀，**不改名、不刪**；交接檔要有「全部待辦」一節）：
+**各職位的檔**（工具照路徑讀，**不改名、不刪**；交接檔要有「全部待辦」一節）。**各職位現在用哪一條分支只看 `duty.json` 的 `roles.<職位>.branch`**（換帳號會變；「企劃線」＝AA 現在的分支，`python3 tools/handoff/role_ref.py AA` 印得出來）——工具、文件不要寫死分支名（BRANCH-CLEAN-1114）：
 
 | 職位 | 交接檔（自己的分支） | 自己分支上的登記 |
 |---|---|---|
 | LAWWW | `docs/HANDOFF_GAP_MATRIX.md` 第 1 節（交班快照）＋`docs/handoff/tasks.json` | `duty.json`、`user_asks_LAWWW.json` |
-| LAWWW2 | `docs/art-rebuild/second_ai/HANDOFF.md`（`claude/second-ai-env-art`） | `duty_LAWWW2.json`、`user_asks_LAWWW2.json`、`outbox_LAWWW2.json` |
-| AA | `docs/story_planning/AA_交接紀錄.md`（企劃線 `claude/story-planning`） | `duty_AA.json`、`user_asks_AA.json`、`outbox_AA.json` |
+| LAWWW2 | `docs/art-rebuild/second_ai/HANDOFF.md` | `duty_LAWWW2.json`、`user_asks_LAWWW2.json`、`outbox_LAWWW2.json` |
+| AA | `docs/story_planning/AA_交接紀錄.md`（企劃線） | `duty_AA.json`、`user_asks_AA.json`、`outbox_AA.json` |
 | BB | `docs/story_planning/BB_00_協作規範與交接紀錄.md`（企劃線） | `duty_BB.json`、`user_asks_BB.json`、`outbox_BB.json` |
-| CC | `docs/story_planning/CC/CC_00_交接紀錄.md`（`claude/cc-testing`） | `duty_CC.json`、`user_asks_CC.json`、`outbox_CC.json` |
+| CC | `docs/story_planning/CC/CC_00_交接紀錄.md`（`claude/cc-testing`，四個帳號共用） | `duty_CC.json`、`user_asks_CC.json`、`outbox_CC.json` |
 
 讀別人分支上的檔：`git log --all -1 --format='%H %ci %D' -- <檔>` → `git branch -r --contains <commit>`；淺層複本先 `git fetch --deepen=300 origin <分支>`；git 不能用就用 GitHub 工具讀 `pyhuanglaw/Lawstudent`。LAWWW 以外的職位不合併開發分支的程式，規則檔用 `git show origin/<RULE_SOURCE>:<檔>` 讀，工具加 `--ref origin/<RULE_SOURCE>`。
 
