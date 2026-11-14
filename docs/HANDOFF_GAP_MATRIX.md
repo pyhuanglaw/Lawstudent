@@ -30,7 +30,7 @@
 **C｜正在做的**
 - 發布：rc2e 在 `origin/claude/rc2-76f8-wip`（1404d5f2d4）。本機分支 rc2-76f8 指在 rc2d（已 push 到 wip 分支，沒有別的內容）。
 - RC2-PORT-DEV-1114 計畫：merge-tree 試算 5 衝突（3 個 importer 兩個掛勾都留：**AA959.layer 先、B5.fix 後**；date_lines.js、ladder.js 重跑 importer）。B5 48 列中 28 列和 AA959 表 old／new 完全相同，B5 遇到已換好的會跳過。測試修正的底 claude/aa959-v505-wip fb54bfb668。
-- 背景：branch_audit／incr 交班時在跑（結果沒進這份快照的話下一班重跑）。
+- 背景（02:1x 結果）：`branch_audit.py --write` 跑超過 200 秒被 timeout 中止、沒寫檔 → 下一班不設 timeout 重跑；`check_handoff.py incr` 異常 62 項（多數是 outbox 某幾筆的任務不在總表，例 AA 第 520 筆 DLG-FULL-REVIEW-1110／可昕 3D 覆蓋），水位線沒前進 → 下一班照 ROLE_LAWWW §3 逐筆分類再 `--advance`。
 
 **D｜決策與規則**：D163（幫手交班，HV-43）＋第 4 點（使用者不用開幫手對話）；使用者選擇題 UA-LAWWW-1114-01（發 rc2e；268 檔拆 P0）。
 
