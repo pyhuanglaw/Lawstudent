@@ -15,6 +15,7 @@ PARTS（逗號分隔，預設 NOODLE,CAFE,JP,SPORTS）：
     「訂同一班飛機」：jp3d.js 只有註解、找不到對應的程式，只記 G.flags 裡含 FLIGHT／SAME 的鍵，交 BB。
   SPORTS（AA_355 6，classes3d.js dayLabel、calendar.js MARK）：Y2 2026-11-20（五）08:00 宿舍 → 手機「今天」那行要有「全校運動會」、今天有課（CLS.dayItems）、一鍵「到下一堂課」上得了（出席有記）；
     對照 Y1 2025-11-21（五）08:00 → 那行是「運動會（停課）」、今天沒課。基底存檔照 cc_study_play_probe 的 FIX（使用者存檔）。
+CC-B 11-14：CAFE 補 SOCIAL.meet 捷徑、① 改找劇情的 an（椰影大道 18:30）。
 CC_02 清單 2026-11-14：1✓（日期照 BB_462 與 src：mainDay 用 STORY.mainDay 驗；阿哲的時段照 characters.js；小安的時段用 STORY.schedEnt 掃；6/9 21:00 照 jp3d.js） 2✓（字、旗標、座位、互動點都從遊戲讀：eat==='noodle'、GAME.npc.zhe、PHONE.sent、CLS） 3✓（座位挑離阿哲最近、不是他坐的那張、2.5 m 內） 4✓（按之前確認互動鍵的字；選項照字比對） 5✓（走路用 go_to／use_exit 到站得住的點） 6✓（每句對話等 650 ms；手機等遊戲時間過 21:06；上課最多等 6 分鐘） 7✓（lint、canon） 8✓（只記不判；對話用 MutationObserver＋GAME.say 兩份） 9✓（每一路、每一步截圖） 10✓（每一路先演完插進來的劇情再往下；B2 讓遊戲自己的 tick 記 anMissed） 11✓（佇列 probe、SHA 40 碼） 12✓（FAIL_SETUP：每一路先驗日期、區域、旗標真的成立，阿哲在場、小安在場才往下） 13✓（走路途中有對話就先點完）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=NOODLE,CAFE,JP,SPORTS] [ROUTES=A,B1,B2] [FIX=tests/fixtures/user_save_day51b_1110.json] python3 cc_aa355_358_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -182,11 +183,11 @@ async def an_slot(pg, key, zone=None):
     return await pg.evaluate(AN_SCAN, {'d0': d['d'], 'days': 21, 'h0': 9.0, 'h1': 21.0, 'zone': zone, 'not': ['library', 'library_hall', 'noodle'], 'ok': ['campus', 'classroom', 'linze', 'wancai', 'cafe', 'gongguan']})
 
 
-async def talk_an(pg, cdp, tag):
-    w = await P.wait_present(pg, 'heroine_01', 25)
+async def talk_an(pg, cdp, tag, cid='heroine_01'):
+    w = await P.wait_present(pg, cid, 25)
     if not R.check('FAIL_SETUP 檢查：[%s] 小安在場、看得到' % tag, bool(w) and not w.get('hidden'), J(w)): return None
     n0 = await P.say_hook(pg); m0 = await dlg_mark(pg)
-    r = await P.talk_to(pg, cdp, R, 'heroine_01', '[%s] 和小安說話' % tag, picks=('「妳寫得出來', '「妳寫得出來的。」'))
+    r = await P.talk_to(pg, cdp, R, cid, '[%s] 和小安說話（%s）' % (tag, cid), picks=('「妳寫得出來', '「妳寫得出來的。」'))
     said = await P.said(pg, n0); obs = await dlg_since(pg, m0)
     await pg.screenshot(path=os.path.join(OUT, '%s_after.png' % tag))
     R.note('[%s] 小安：GAME.say %s；observer %s；talk_to %s' % (tag, J(said), J([[x['who'], x['t']] for x in obs]), J(r)[:600]))
@@ -202,12 +203,15 @@ async def part_cafe(pg, cdp):
         s0 = await mini(pg, '2025-09-03', 9.0, 'dorm', base)
         if rt == 'A': s0['choices'] = {'cafeView': 'A'}
         await P.init(pg); await P.load(pg, cdp, s0, True)
-        sl = await an_slot(pg, '2025-09-03'); res['slot1'] = sl; R.note('[%s] ① 小安不在總圖、在場的時段 %s' % (tag, J(sl)))
-        if not R.check('FAIL_SETUP 檢查：[%s] ① 掃得到小安在場（非總圖）的時段' % tag, bool(sl), ''): out[rt] = res; continue
+        # CC-B 11-14（AA358_22_24_cafe 第一次跑 TEST_SETUP）：最小存檔只設旗標、沒走 meetAn——meetAn 會 SOCIAL.meet('heroine_01','campus')（story3d.js 3777 起），少了它作息裡的以安是「沒見過的女主角」，說話只有「她低頭在忙自己的事」
+        mt = await pg.evaluate("(()=>{ try{ SOCIAL.meet('heroine_01','campus'); }catch(e){ return 'ERR '+e.message; } return {has:SOCIAL.has('heroine_01','FIRST_MET'), stage:SOCIAL.stage('heroine_01')}; })()")
+        R.setup('[%s]【捷徑】補 meetAn 會做的 SOCIAL.meet(heroine_01, campus)：%s' % (tag, J(mt)))
+        # ① anAfter 只在 talkAn（劇情的 an）裡（story3d.js 3864）；作息的 heroine_01 走 talkCharacter、不會說這句。劇情的 an：afternoonDone 以後 18:00～20:30 在椰影大道散步（story3d.js 294）
+        sl = {'key': '2025-09-03', 'h': 18.5, 'zone': 'campus'}; res['slot1'] = sl; R.note('[%s] ① 劇情的小安（an）：%s 18:30 椰影大道散步' % (tag, sl['key']))
         await P.jump(pg, cdp, R, sl['key'], sl['h'], sl['zone'], None, True, note='[%s] ① 2-2 talkAn anAfter（第一次在下午那段之後跟她說話）' % tag); await P.events_on(pg)
         f0 = await pg.evaluate(FLAGS_JS); res['f0'] = f0
         if not R.check('FAIL_SETUP 檢查：[%s] ① afternoonDone、anAfter 還沒說過、cafeView=%s' % (tag, 'A' if rt == 'A' else '無'), f0['afternoonDone'] and not f0['anAfter'] and ((f0['cafeView'] == 'A' and f0['choicesCafeView'] == 'A') if rt == 'A' else (not f0['cafeView'] and not f0['choicesCafeView'])), J(f0)): out[rt] = res; continue
-        t1 = await talk_an(pg, cdp, tag + '_22'); res['t22'] = t1
+        t1 = await talk_an(pg, cdp, tag + '_22', 'an'); res['t22'] = t1
         if t1:
             tx = text_of(t1); f1 = await pg.evaluate(FLAGS_JS); res['f1'] = f1
             R.check('[%s] ① 那一句演了（anAfter 記上）' % tag, f1['anAfter'], J(f1))
