@@ -10500,6 +10500,26 @@
    "tests": "yejian 相關 24 支、place_gate、shop_cc0 ALL PASS",
    "notDone": "LAWWW 整合（工具那包之後）；CC 拍；BB 判；P3 小盆栽葉片卡",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ddd38ce214",
+   "receiver": "LAWWW-C、CC-C",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "6f4cf29026",
+   "at": "2026-11-14T10:15Z",
+   "task": "WINVIEW-AUDIT-1105",
+   "title": "WINVIEW-NONUMPY-1114：shop_views_layers.py 沒有 numpy 時改用純 PIL 去背（使用者電腦 Python 3.15）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/views_nonumpy_1114/",
+    "tools/shots/shop_views_layers.py",
+    "tests/shop_views_matte_unit.py"
+   ],
+   "tests": "shop_views_matte_unit 兩版比對 ALL PASS（有／沒有 numpy）",
+   "notDone": "LAWWW 整合、開任務 ID；CC 重排 WINVIEW_GG3_1939",
+   "next": "CC 用 git show ddd38ce214 的檔先跑"
   }
  ]
 }
