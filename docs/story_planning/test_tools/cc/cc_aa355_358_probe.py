@@ -360,6 +360,13 @@ async def part_natural(pg, cdp):
 async def onetap_cls(pg, cdp):
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(500)   # CC-B 11-14（AA355_6_sports 第一次跑：goPop 是空的）：前一步讀手機首頁字、手機還開著，點 #btnGo 點到手機上；先關面板
     await L.tap(pg, cdp, '#btnGo'); await pg.wait_for_timeout(900)
+    dg = await pg.evaluate("""(()=>{ const b=document.getElementById('btnGo'), pop=document.getElementById('goPop'); if(!b) return {btn:null}; const r=b.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, top=document.elementFromPoint(cx,cy);
+      const vis=e=>{ for(let x=e;x&&x!==document.body;x=x.parentElement){ const cs=getComputedStyle(x); if(cs.display==='none'||cs.visibility==='hidden') return false; } return true; };
+      return {rect:[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)], btnVisible:vis(b), top:top?(top.id||top.className||top.tagName):null, topIsBtn:!!top&&(top===b||b.contains(top)), popHide:pop?pop.classList.contains('hide'):null, popN:pop?pop.children.length:null, bound:!!b._bound, busy:!!(GAME.busy||GAME.D&&GAME.D.active)}; })()""")
+    R.note('一鍵按鈕診斷：%s' % J(dg))
+    if dg.get('popN') == 0:   # CC-B 11-14（AA355_6_sports r2：關了手機一樣是空的）：點了沒打開——記下按鈕位置上蓋著什麼，再【捷徑】用 ONETAP.openPop 打開（之後點「到下一堂課」照玩家點）
+        R.setup('【捷徑】點 #btnGo 沒打開一鍵選單（按鈕位置最上面是 %s），改呼叫 ONETAP.openPop(GAME)' % dg.get('top'))
+        await pg.evaluate("(()=>{ try{ ONETAP.openPop(GAME); }catch(e){} })()"); await pg.wait_for_timeout(700)
     ok = await pg.evaluate("""(()=>{ const pop=document.getElementById('goPop'); if(!pop) return 'no-pop'; const e=pop.querySelector('[data-gok="cls"]'); if(!e) return 'none: '+(pop.textContent||'').slice(0,200);
       const t=(e.textContent||'').trim(); if(e.classList.contains('dim')){ e.click(); return 'dim: '+t; } e.click(); return 'ok: '+t; })()""")
     if ok.startswith('ok'): await pg.wait_for_timeout(700); ok += '｜確定=%s' % await L.tap(pg, cdp, '#goCfYes'); await pg.wait_for_timeout(1500)   # onetap3d.js 防誤觸確認框
