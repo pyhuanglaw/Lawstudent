@@ -1,0 +1,23 @@
+CC HEROINE-LIFE-1028（BB_468）：SHA 6106fae2d2；PARTS HL3C；ROWS c503_4_2,c503_5_2,c503_6_2,c503_7_1,c503_4_n1；TERMS Y1S1,Y1S2,Y2S1；Windows＋GPU ≠ iPhone
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：讀得到使用者存檔 tests/fixtures/user_save_day51_1110.json
+PASS FAIL_SETUP 檢查：這個版本有 FEED、HCIRCLE
+PASS FAIL_SETUP 檢查：[HL3c Y1S2 FAMILIAR] 找得到學期起訖  {"d0": 160, "d1": 271, "k0": "2026-02-23", "k1": "2026-06-14"}
+  [前置／捷徑] [HL3c Y1S2 FAMILIAR] 【前置／捷徑】讀使用者存檔到 2026-02-23、清掉手機紀錄當新學期；五位認識＋聯絡方式＋關係固定 FAMILIAR；加 family_law、guitar 群組：{"stages": {"heroine_01": "FAMILIAR", "heroine_02": "FAMILIAR", "heroine_03": "FAMILIAR", "heroine_04": "FAMILIAR", "heroine_05": "FAMILIAR"}, "groups": ["family_law", "guitar"]}
+PASS FAIL_SETUP 檢查：[HL3c Y1S2 FAMILIAR] 五位都是 FAMILIAR、兩個群組都在  {"stages": {"heroine_01": "FAMILIAR", "heroine_02": "FAMILIAR", "heroine_03": "FAMILIAR", "heroine_04": "FAMILIAR", "heroine_05": "FAMILIAR"}, "groups": ["family_law", "guitar"]}
+  [前置／捷徑] [HL3c Y1S2 FAMILIAR] 【捷徑：跳日子】2026-02-23～2026-06-14 每天九個時間點叫 STORY.phoneRules＋PHONE.tick；天氣每 5 天下雨一天
+  [  30.9s] [HL3c Y1S2 FAMILIAR] 學期外日期的訊息 1 則（不算進空檔和則數）：[["2026-02-21", "heroine_01", "an_back_y1", "回臺北了。"]]
+  [  30.9s] [HL3c Y1S2 FAMILIAR] 2026-02-23～2026-06-14 共 34 則；每位 {"heroine_01": 9, "heroine_02": 5, "heroine_03": 8, "heroine_04": 7, "heroine_05": 5}；連續 14 天以上沒有女主角訊息：[{"days": 14, "from": "2026-02-24", "to": "2026-03-09"}, {"days": 26, "from": "2026-04-09", "to": "2026-05-04"}]
+PASS FAIL_SETUP 檢查：[HL3c Y2S1 FAMILIAR] 找得到學期起訖  {"d0": 356, "d1": 467, "k0": "2026-09-07", "k1": "2026-12-27"}
+  [前置／捷徑] [HL3c Y2S1 FAMILIAR] 【前置／捷徑】讀使用者存檔到 2026-09-07、清掉手機紀錄當新學期；五位認識＋聯絡方式＋關係固定 FAMILIAR；加 family_law、guitar 群組：{"stages": {"heroine_01": "FAMILIAR", "heroine_02": "FAMILIAR", "heroine_03": "FAMILIAR", "heroine_04": "FAMILIAR", "heroine_05": "FAMILIAR"}, "groups": ["family_law", "guitar"]}
+PASS FAIL_SETUP 檢查：[HL3c Y2S1 FAMILIAR] 五位都是 FAMILIAR、兩個群組都在  {"stages": {"heroine_01": "FAMILIAR", "heroine_02": "FAMILIAR", "heroine_03": "FAMILIAR", "heroine_04": "FAMILIAR", "heroine_05": "FAMILIAR"}, "groups": ["family_law", "guitar"]}
+  [前置／捷徑] [HL3c Y2S1 FAMILIAR] 【捷徑：跳日子】2026-09-07～2026-12-27 每天九個時間點叫 STORY.phoneRules＋PHONE.tick；天氣每 5 天下雨一天
+  [  45.0s] [HL3c Y2S1 FAMILIAR] 2026-09-07～2026-12-27 共 39 則；每位 {"heroine_01": 5, "heroine_02": 8, "heroine_03": 9, "heroine_04": 3, "heroine_05": 14}；連續 14 天以上沒有女主角訊息：[{"days": 15, "from": "2026-09-26", "to": "2026-10-10"}]
+PASS FAIL_SETUP 檢查：[HL3c Y2S2 FAMILIAR] 找得到學期起訖  {"d0": 524, "d1": 635, "k0": "2027-02-22", "k1": "2027-06-13"}
+  [前置／捷徑] [HL3c Y2S2 FAMILIAR] 【前置／捷徑】讀使用者存檔到 2027-02-22、清掉手機紀錄當新學期；五位認識＋聯絡方式＋關係固定 FAMILIAR；加 family_law、guitar 群組：{"stages": {"heroine_01": "FAMILIAR", "heroine_02": "FAMILIAR", "heroine_03": "FAMILIAR", "heroine_04": "FAMILIAR", "heroine_05": "FAMILIAR"}, "groups": ["family_law", "guitar"]}
+PASS FAIL_SETUP 檢查：[HL3c Y2S2 FAMILIAR] 五位都是 FAMILIAR、兩個群組都在  {"stages": {"heroine_01": "FAMILIAR", "heroine_02": "FAMILIAR", "heroine_03": "FAMILIAR", "heroine_04": "FAMILIAR", "heroine_05": "FAMILIAR"}, "groups": ["family_law", "guitar"]}
+  [前置／捷徑] [HL3c Y2S2 FAMILIAR] 【捷徑：跳日子】2027-02-22～2027-06-13 每天九個時間點叫 STORY.phoneRules＋PHONE.tick；天氣每 5 天下雨一天
+  [  63.7s] [HL3c Y2S2 FAMILIAR] 學期外日期的訊息 1 則（不算進空檔和則數）：[["2027-02-21", "heroine_01", "hol_y2w_an_back", "回臺北了。我媽在行李箱塞了一袋橘子。"]]
+  [  63.7s] [HL3c Y2S2 FAMILIAR] 2027-02-22～2027-06-13 共 35 則；每位 {"heroine_01": 12, "heroine_02": 6, "heroine_03": 10, "heroine_04": 3, "heroine_05": 4}；連續 14 天以上沒有女主角訊息：[{"days": 35, "from": "2027-04-01", "to": "2027-05-05"}, {"days": 17, "from": "2027-05-18", "to": "2027-06-03"}]
+PASS 沒有 JS 例外  []
+ALL PASS

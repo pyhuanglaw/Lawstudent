@@ -252,9 +252,9 @@ async def part_hl3b(pg, cdp, sv0, res):
     R.setup('%s 【前置／捷徑】讀使用者存檔到 %s、清掉手機（訊息、群組、每日小事的紀錄）＝當成新的一學期；五位女主角認識＋給聯絡方式＋關係設成剛好 FAMILIAR（fam 25、trust 10、comf 10）；加 family_law、guitar 群組：%s' % (tag, (await keyof(pg, d0)), J(pr)))
     if not R.check('FAIL_SETUP 檢查：%s 五位都剛好 FAMILIAR、兩個群組都在' % tag, all(v == 'FAMILIAR' for v in pr['stages'].values()) and {'family_law', 'guitar'} <= set(pr['groups']), J(pr)): return
     R.setup('%s 【捷徑：跳日子】%d → %d 每天 7:30～23:54 九個時間點叫 STORY.phoneRules＋PHONE.tick（遊戲每天的手機小事、到時間送出）；天氣【捷徑】每 5 天下雨一天、其他晴天（快轉不跑遊戲的天氣；語彤 yt_rain 要雨天）' % (tag, d0, d1))
-    msgs = []
+    msgs = []; seen_k = set()
     for a in range(d0, d1 + 1, 15):
-        b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m]
+        b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m and (m['tag'], m['text'], m['day'], m['h'], m['th']) not in seen_k and not seen_k.add((m['tag'], m['text'], m['day'], m['h'], m['th']))]   # CC-B 11-14：STEP3 每段回傳手機裡全部的訊息（G.msgs 照時間插入、最多 200 則），這裡去重——原本累加會重複算則數
         for m in part:
             if 'err' in m: R.note('%s 例外：%s' % (tag, m['err']))
     out['msgs'] = msgs
@@ -300,11 +300,14 @@ async def part_hl3c(pg, cdp, sv0, res):
         R.setup('%s 【前置／捷徑】讀使用者存檔到 %s、清掉手機紀錄當新學期；五位認識＋聯絡方式＋關係固定 %s；加 family_law、guitar 群組：%s' % (tag, te['k0'], stage, J(pr)))
         if not R.check('FAIL_SETUP 檢查：%s 五位都是 %s、兩個群組都在' % (tag, stage), all(v == stage for v in pr['stages'].values()) and {'family_law', 'guitar'} <= set(pr['groups']), J(pr)): continue
         R.setup('%s 【捷徑：跳日子】%s～%s 每天九個時間點叫 STORY.phoneRules＋PHONE.tick；天氣每 5 天下雨一天' % (tag, te['k0'], te['k1']))
-        msgs = []
+        msgs = []; seen_k = set()
         for a in range(d0, d1 + 1, 15):
-            b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m]
+            b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m and (m['tag'], m['text'], m['day'], m['h'], m['th']) not in seen_k and not seen_k.add((m['tag'], m['text'], m['day'], m['h'], m['th']))]   # CC-B 11-14：STEP3 每段回傳手機裡全部的訊息（G.msgs 照時間插入、最多 200 則），這裡去重——原本累加會重複算則數
             for m in part:
                 if 'err' in m: R.note('%s 例外：%s' % (tag, m['err']))
+        outside = [m for m in msgs if not (d0 <= m['day'] <= d1)]   # CC-B 11-14（HL3c 第一輪 FRIEND）：有些訊息記的是學期以前的日子（補送、別的學期的條件），空檔只算學期內的
+        if outside: R.note('%s 學期外日期的訊息 %d 則（不算進空檔和則數）：%s' % (tag, len(outside), J([[m['date'], m['from'], m['tag'], m['text'][:30]] for m in outside[:12]])))
+        msgs = [m for m in msgs if d0 <= m['day'] <= d1]
         by = {}
         for m in msgs: by.setdefault(m['from'], []).append(m)
         days = sorted(set(m['day'] for m in msgs)); pts = [d0 - 1] + days + [d1 + 1]
