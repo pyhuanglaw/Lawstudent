@@ -5474,7 +5474,7 @@
 - 來源：ART-BG16 ntu_linze FAIL、ART-BG15 ntu_soc D136 FAIL（BB_464）、語彤情人節三張（BB_432 第 1 點、BLACK-BG-AUDIT-1018）。
 - 附圖：`00_畫風參考.webp`（art_reference/from06/style_07_cafe_dusk.webp）；1、2、6 號另附遊戲截圖當位置參考（只參考位置，外觀照文字）。
 - 6 號（23:3x 加）：`ntu_gate`，迎新宿營開頭與回到校門（camp_y1.js 兩處 bg:dark，BB_460 23:3x；LAWWW 先用 ntu_avenue 代）；位置截圖＝遊戲 3D 校門（CK.gate），給提示詞時由 CC 拍一張附上。BG-3DSHOT-1021。
-- 6 號位置截圖（11-14 10:1x BB-C 選）：`docs/story_planning/BB_132_refs/128_6_ntu_gate_3d.webp`（CC BG3D_GATE_gongguan，從公館那一側看校門：紅磚門房＋名牌、石柱燈籠、鐵欄杆、腳踏車）。同時改了 6 號的文字：①照 3D 加上紅磚門房、柱頂燈籠、鐵欄杆，讓 2D 和 3D 對得上（使用者在意店外和店內不一致，校門同理）；②原本寫「車旁有十幾個新生」，但最後一句又寫「畫面裡沒有人」，兩句互相矛盾；這組是純場景，所以拿掉新生，改成放行李箱表示集合。另外 BG3D_GATE_campus 的廣角圖（bg3d_ntu_gate_wide）路的上方有一大片黑色半圓，看起來是沒貼到圖的東西，P3 交 LAWWW2 看。
+- 6 號位置截圖（11-14 10:1x BB-C 選）：`docs/story_planning/BB_132_refs/128_6_ntu_gate_3d.webp`（CC BG3D_GATE_gongguan，從公館那一側看校門：紅磚門房＋名牌、石柱燈籠、鐵欄杆、腳踏車）。同時改了 6 號的文字：①照 3D 加上紅磚門房、柱頂燈籠、鐵欄杆，讓 2D 和 3D 對得上（使用者在意店外和店內不一致，校門同理）；②原本寫「車旁有十幾個新生」，但最後一句又寫「畫面裡沒有人」，兩句互相矛盾；這組是純場景，所以拿掉新生，改成放行李箱表示集合。另外 BG3D_GATE_campus 的廣角圖（bg3d_ntu_gate_wide）路的上方有一大片黑色半圓，看起來是沒貼到圖的東西，P3 交 LAWWW2 看。**（11:3x 更正）**：LAWWW2 用同一個鏡頭、等資源載完再拍，沒有黑半圓（並排圖 focused-cray 42a45240b9 docs/art-rebuild/second_ai/wip/bg3d_gate_black_1114/gate_cmp.jpg），所以是 CC 拍的時候樹還沒載完，判 TEST_SETUP。
 ```
 請照編號 1 到 6 依序生成 6 張圖片，一個編號一張，一張一張分開生成，一次給我六張。
 
