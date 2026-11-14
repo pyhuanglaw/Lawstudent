@@ -5511,3 +5511,8 @@ English style keywords: high-quality Japanese anime film key visual, semi-realis
 English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
 ```
 - 對照（不給使用者）：1＝法律系館A前（ntu_linze，換掉現在的遊戲截圖；11 處對話用）；2＝社科院門口（ntu_soc，換掉現在照抄真實建築的那張；4 個事件用）；3＝語彤家（yt_home，情人節兩場：餐桌、廚房）；4＝新生南路情人節夜（xinsheng_vday_night）；5＝語彤家大樓樓下・過年（yt_building_gate_cny）
+- **第 128 組 6 號改參考圖（2026-11-14 12:4x BB-B）**：使用者說「首都帝國大學參考圖要用這張」，並傳了一張校門圖。
+  - 圖存在 `BB_132_refs/ntu_gate_user_ref_1114.webp`。
+  - 6 號改成照這張畫：中間是圓弧形的紅磚門房和石額，兩側是石柱、燈籠、鐵門，後面是椰子樹大道。
+  - 原本的 3D 截圖 128_6_ntu_gate_3d.webp 不再附。
+  - 1～5 號 12:2x 已經給使用者；6 號的新提示詞 12:4x 給。
