@@ -2587,7 +2587,8 @@ WINVIEW_MIRROR_rooms_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | doc
 # ②GATE-REF-1114：校門 門外跟隨／門內跟隨／原固定相機（黑半圓）／校園側面向校門／公館區域的校門，白天 08:30、晚上 20:00；走過通道 z 0／±3／±5.5
 GATE_REF_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r1;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # CC-B 11-14 14:0x：r1 門外／門內站點放在 z 0＝新校門正中間的門房＋花圃（玩家站在花圃裡、20:00 鏡頭在門房牆裡）＝探針；黑半圓 08:30 固定相機已經沒有。r2 站點改通道 z 3、走過通道改判門房兩側
-GATE_REF_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r2;GATE_Z=3;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# CC-B 11-14 14:0x：BB-B 14:06——r2 等 LAWWW2-B 修好門額字再排，只要公館側 08:30＋20:00（探針的 z 0、站點兩處已改好）
+# HOLD GATE_REF_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r2;GATE_Z=3;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ③WZ-REAL-LITE-EMPTY-1114：r4 原本的站位（玻璃外 3 m 舊算法）＋路中間 (44,0)；SUNNY SIDE、小路、日常失速、林家；SPIN＝原地轉一圈量最長幀
 WZ_LITE_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 30 | TAG=wz_lite_r1;SHOPS=wz_brunch,wz_teishoku,wz_offbeat,wz_lin;HOURS=14,22;MID=1;SPIN=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # CC-B 11-14 14:0x：LAWWW-B 14:03——站路中間 (44,0) 轉一圈（4 秒×3，14／22），量南北兩間換建那一下的最長幀＋換的時間點；結果副本 LAWWW2-B、BB-B
