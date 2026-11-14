@@ -56060,7 +56060,7 @@
     "ack": "SENT",
     "acceptance": "BB 瀏覽器判：新遊戲直接從法律系迎新宿營開始、遊戲裡找不到舊序章和外校的任何內容、可昕在法律系出現且不是女朋友；canon_scan.py 結束碼 0"
    },
-   "note": "｜2026-11-14 01:5x 使用者選擇題（UA-LAWWW-1114-01）：發布 rc2e 1404d5f2d4（遊戲＋網頁原始碼全乾淨）；tests／tools／docs 268 檔拆到 CANON-REPO-CLEAN-1114（P0，下一版）。BB GO（BB_467：rc2d 全部依據＋rc2e 靜態）後改已驗收。｜11-14 09:56 BB GO（rc2e）→ 已驗收；發布 v9.10.26。tests／tools／docs 268 檔＝CANON-REPO-CLEAN-1114。",
+   "note": "｜2026-11-14 01:5x 使用者選擇題（UA-LAWWW-1114-01）：發布 rc2e 1404d5f2d4（遊戲＋網頁原始碼全乾淨）；tests／tools／docs 268 檔拆到 CANON-REPO-CLEAN-1114（P0，下一版）。BB GO（BB_467：rc2d 全部依據＋rc2e 靜態）後改已驗收。｜11-14 09:56 BB GO（rc2e）→ 已驗收；發布 v9.10.26。tests／tools／docs 268 檔＝CANON-REPO-CLEAN-1114。｜11-14 09:59 v9.10.26 發布（main 6106fae2d2、PR #38、發布樹 1a7d7e1994）。",
    "evidence": "BB_467 bb62cdd5b3（BB-C 2026-11-14 09:56 GO：rc2e 1404d5f2d4；RC2E_TITLE_SMOKE cc-local 2344da48e9、RC2E_p0 662450a106 ALL PASS；靜態 458 檔 canon 0；GHA 926 success；rc2d 的 T1_rc2 8/8、FULL_a／b、INV_LIB_r7、REL76 沿用）"
   },
   {
@@ -56974,7 +56974,7 @@
    "priority": "P0",
    "source": "使用者選擇題 2026-11-14 01:5x（UA-LAWWW-1114-01）",
    "wants": "X366",
-   "note": "rc2 樹 canon_scan（暫時 git 倉庫）：tests 250 檔 971 處、tools 16 檔 64 處、docs 2 檔 36 處（story_import_allow.json 35、release_9103 log 1）。開發分支另有同類。跟 RC2-PORT-DEV-1114 一起做：測試裡的禁字改成編碼／代號，story_import_allow 的說明欄改寫。做完 canon_scan 全倉 0 才算。下一版發布前必須完成。",
+   "note": "rc2 樹 canon_scan（暫時 git 倉庫）：tests 250 檔 971 處、tools 16 檔 64 處、docs 2 檔 36 處（story_import_allow.json 35、release_9103 log 1）。開發分支另有同類。跟 RC2-PORT-DEV-1114 一起做：測試裡的禁字改成編碼／代號，story_import_allow 的說明欄改寫。做完 canon_scan 全倉 0 才算。下一版發布前必須完成。｜v9.10.26 已發布，X366 標【下一版必須】。",
    "first": {
     "term": "Y1S1",
     "confirmed": true

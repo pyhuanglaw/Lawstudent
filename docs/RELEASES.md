@@ -61,7 +61,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.26（**草稿：還沒發布**；候選 `76f8b639f0`，等 BB GO。LAWWW-C 2026-11-13 19:1x UTC 起草，GO 以後補 commit、PR、Pages）
+## v9.10.26（2026-11-14 09:59 UTC 合併 `6106fae2d2`，PR [pyhuanglaw/Lawstudent#38](https://github.com/pyhuanglaw/Lawstudent/pull/38)；發布樹 `1a7d7e1994`＝候選 rc2e `1404d5f2d4`＋版本字樣；回復目標＝v9.10.25 `dc3d33941`）
 
 **為什麼發這一版**：CANON-NO-ECON-1112【下一版必須】（X364）——遊戲從大一開學前的迎新宿營開始，舊序章、外校全部拿掉（D158）；可昕是首都帝大法律系同屆同學。releasegate 6 項裡 5 項已驗收，等這一項。
 
@@ -72,9 +72,10 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 寒暑假：阿凱、明軒、方奕廷傳「回來了」那天就回到臺北（VACGAP 第 11 項）；語彤宜蘭田野私訊會回。
 - 修正：泰米點長椅坐錯張、越好吃角落座位起身被推遠、溫州街三間抬頭看到天花板外、存檔壓縮（舊存檔照讀，`?nolzsave` 關）。
 
-**測試**（待填）：BB GO 條件＝B2_r5、CANON458 19 行、DATE_LAYER、FULL_a（8/22～12/20）＋FULL_b（到 2026-02-23）在 `76f8b639f0` 全過＋GHA node-unit-auto 綠（候選那一輪被 15710903ed 取消；兩者 src／lib／index.html 相同、tests 只差 coplanar 基準，看 run 780）＋releasegate 結束碼 0。
+**測試**（BB GO：BB_467 bb62cdd5b3）：候選從 `76f8b639f0` 換成 rc2 系列（rc2→rc2b→rc2c→rc2d `bcc99693a7`→rc2e `1404d5f2d4`，只換字：可昕外校前提的句子、AA_987／AA_1015、index.html 藏起來的舊開局按鈕字拿掉）。rc2e：靜態 458 檔 canon 0、GHA run 926 success、使用者電腦 RC2E_TITLE_SMOKE＋RC2E_p0 ALL PASS；rc2d 沿用：T1_rc2 8/8、FULL_a／FULL_b、INV_LIB_r7、REL76、DATE_LAYER r2（D05 P2 不擋）。Pages 部署：run 43583124434（CC LIVE deploy_check 確認線上字樣）。
 
 **這版沒做完（不擋，寫給使用者看）**：
+- GitHub 上 tests／tools／docs 還有 268 個檔留著舊序章、外校的字（玩家看不到；使用者選擇題 UA-LAWWW-1114-01：先發 rc2e，這些另開 P0＝USER_WANTS X366，下一版清）。
 - 美國兩間超市的窗外是一片灰（白天晚上兩張在做，SHOP-INTERIOR-VIEW-1112）；一盞天花板（LAWWW2 下一批藏天花板）。
 - 第六批店面小修（量血壓機、推車、玻璃櫃、葡萄，15710903ed）在開發分支，下一版。
 - 竹葉促銷頭板、POS、端架同尺寸（P2）；榮恩典、清州刀削麵 14:00 點餐沒跳畫面（CC 補拍分辨中）。
