@@ -2390,15 +2390,15 @@ L118_CAM36_b_r4 | d8d3a61b5e69123c69f06705a136f8442bed877a | probe | docs/story_
 L118_CAM36_c_r4 | d8d3a61b5e69123c69f06705a136f8442bed877a | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=l118_cam36_c_r4;ZONES=l118_korea,l118_omu,l118_noodle2;HOURS=14;PARTS=7;ENTERCAM=1;ALLSEATS=1;SEAT_TAP=visible;SHA=d8d3a61b5e69123c69f06705a136f8442bed877a
 FULL_a_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 200 | CANON=1;KX_PICK=「會;EXPECT_HOW=class;PICK_HAS=臺北人;CANON_SCAN=1;SAVE_CHECK=0;SHOT_EVERY=7;UNTIL=2025-12-20;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 FULL_b_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 420 | CANON=1;KX_PICK=「會;EXPECT_HOW=class;PICK_HAS=臺北人;CANON_SCAN=1;SAVE_CHECK=0;SHOT_EVERY=7;UNTIL=2026-02-23;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
-# HOLD BB-C 00:27（BB_466 #24，發布後）：REL76_social 120 分鐘逾時、以安 #115「STUCK」是約會圖層正常出現（探針只會按文字選單）＝TEST_BUG → r2 每人一支、用 ?nodatelayer（不擋 rc2d）；發布 SHA 定了填 <SHA> 再開
-# HOLD REL76_social_r2_heroine_01 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html?nodatelayer | 45 | TAG=social_r2_heroine_01;CASES=heroine_01;SHA=<SHA>
-# HOLD REL76_social_r2_heroine_02 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html?nodatelayer | 45 | TAG=social_r2_heroine_02;CASES=heroine_02;SHA=<SHA>
-# HOLD REL76_social_r2_heroine_03 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html?nodatelayer | 45 | TAG=social_r2_heroine_03;CASES=heroine_03;SHA=<SHA>
-# HOLD REL76_social_r2_heroine_04 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html?nodatelayer | 45 | TAG=social_r2_heroine_04;CASES=heroine_04;SHA=<SHA>
-# HOLD REL76_social_r2_heroine_05 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html?nodatelayer | 45 | TAG=social_r2_heroine_05;CASES=heroine_05;SHA=<SHA>
-# HOLD REL76_social_r2_classmate_peishan | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html?nodatelayer | 45 | TAG=social_r2_classmate_peishan;CASES=classmate_peishan;SHA=<SHA>
-# HOLD REL76_social_r2_kexin | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html?nodatelayer | 45 | TAG=social_r2_kexin;CASES=kexin;SHA=<SHA>
-# HOLD REL76_social_r2_classmate_xinci | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html?nodatelayer | 45 | TAG=social_r2_classmate_xinci;CASES=classmate_xinci;SHA=<SHA>
+# HOLD BB-C 00:27（BB_466 #24，發布後）：REL76_social 120 分鐘逾時、以安 #115「STUCK」是約會圖層正常出現（探針只會按文字選單）＝TEST_BUG → r2 每人一支、走真的約會圖層（BB-C 00:28：遇到 #dateLayer 等 350ms 點一個沒灰的 .dlHot，之後按「就這樣回去」；文字選單路線 DATE_LAYER_NODL 已驗）（不擋 rc2d）；發布 SHA 定了填 <SHA> 再開
+# HOLD REL76_social_r2_heroine_01 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_heroine_01;CASES=heroine_01;SHA=<SHA>
+# HOLD REL76_social_r2_heroine_02 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_heroine_02;CASES=heroine_02;SHA=<SHA>
+# HOLD REL76_social_r2_heroine_03 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_heroine_03;CASES=heroine_03;SHA=<SHA>
+# HOLD REL76_social_r2_heroine_04 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_heroine_04;CASES=heroine_04;SHA=<SHA>
+# HOLD REL76_social_r2_heroine_05 | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_heroine_05;CASES=heroine_05;SHA=<SHA>
+# HOLD REL76_social_r2_classmate_peishan | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_classmate_peishan;CASES=classmate_peishan;SHA=<SHA>
+# HOLD REL76_social_r2_kexin | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_kexin;CASES=kexin;SHA=<SHA>
+# HOLD REL76_social_r2_classmate_xinci | <SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_classmate_xinci;CASES=classmate_xinci;SHA=<SHA>
 # BB-C 23:03：rc2（76f8＋只換字＋「看門口的花」放大或挪到人行道）SHA 到了，這三支一起拿掉 HOLD、填 <SHA>，排在 FULL_a／b 後面第一優先（reach_rc2 只跑溫州街：--zones wenzhou，看 (44,20.8) 那一點）
 # 取消 BB-C 23:15（LAWWW：看門口的花發布後才修，rc2 只換字）REL76_reach_rc2 | <SHA> | game | tests/reachability_all.py | index.html?turbo | 20 | XARGS={url} --zones wenzhou;CC_HEADLESS=0
 # BB-C 23:23 BG-3DSHOT-1021（P3，BB_132 第 128 組 6 號，給使用者生校門口 2D 背景的位置參考）：76f8 校門（CK.gate）外人行道朝椰林大道，早上 8:30，16:9、不開 HUD，檔名 bg3d_ntu_gate.png。校園區的校門在 x −124（朝 +x 是大道）；公館區看進校門的那一座在 z −46（另拍一張當備選）

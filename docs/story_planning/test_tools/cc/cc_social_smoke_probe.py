@@ -117,6 +117,12 @@ STUCK_S = float(os.environ.get('STUCK_S') or 15)
 DRAIN_OTHER = (os.environ.get('DRAIN_OTHER') or '0') == '1'   # BB-C 11-14：收尾後插進來的別的事件先照字點完再量
 DATE_WAIT_H = float(os.environ.get('DATE_WAIT_H') or 0.4)
 PLAY_S = int(os.environ.get('PLAY_S') or 900)
+DL_PICKS = int(os.environ.get('DL_PICKS') or 1)   # BB-C 00:28：約會圖層（#dateLayer）照玩家點——每一次圖層點幾個沒灰掉的互動點，之後按「就這樣回去」
+DL_JS = r"""(()=>{ const root=document.getElementById('dateLayer'); if(!root) return null; const c=(typeof DATELAYER!=='undefined'&&DATELAYER._cur)?DATELAYER._cur():null;
+  const ctr=b=>{ b.scrollIntoView({inline:'center',block:'nearest'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; };
+  const hots=[...root.querySelectorAll('.dlHot')].filter(b=>!(b.classList.contains('dim')||b.disabled)); const end=root.querySelector('.dlEnd');
+  return {n:root.querySelectorAll('.dlHot').length, live:hots.map(b=>b.getAttribute('data-pid')), first:hots[0]?{pid:hots[0].getAttribute('data-pid'), xy:ctr(hots[0])}:null,
+    end:end?{t:(end.textContent||'').trim(), xy:ctr(end)}:null, ago:c&&c.shownAt?Math.round(performance.now()-c.shownAt):null}; })()"""
 PHONE_AUTO = (os.environ.get('PHONE_AUTO') or '0') == '1'
 QUICK = (os.environ.get('QUICK') or '0') == '1'
 DATE_BRANCH_MAX = int(os.environ.get('DATE_BRANCH_MAX') or MENU_MAX)   # 一場約會換選項重跑最多幾次
@@ -564,6 +570,7 @@ class Person:
 
     async def drive(self, plan, tag, max_s=None, stop=None):
         pg = self.pg; t0 = time.time(); last_key = None; last_t = time.time(); free_since = None; menus = []; lines = []; s = None
+        self._dl_n = 0   # 每一段 drive 從頭算：點 DL_PICKS 個互動點以後，再出現的圖層就按「就這樣回去」
         while time.time() - t0 < (max_s or PLAY_S):
             s = await self.st()
             if stop and stop(s): return True, s, menus, lines
@@ -582,6 +589,18 @@ class Person:
                 self.R.info('%s：手機自己打開（遊戲暫停），按「收起來」' % tag); await L.tap(pg, self.cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800); continue
             if s['menu'] or s['bigmap']:
                 await L.close_panels(pg, self.cdp); continue
+            dl = await pg.evaluate(DL_JS)
+            if dl:   # BB-C 00:28：約會圖層＝玩家實際看到的，照玩家點（等 350 ms 防誤觸過了再點）
+                if dl['ago'] is not None and dl['ago'] < 400: await pg.wait_for_timeout(420 - dl['ago']); continue
+                self._dl_n = getattr(self, '_dl_n', 0)
+                if self._dl_n < DL_PICKS and dl['first']:
+                    self._dl_n += 1; self.R.note('%s 約會圖層（%d 點，可點 %s）→ 點「%s」' % (tag, dl['n'], J(dl['live']), dl['first']['pid']))
+                    await pg.screenshot(path=os.path.join(OUT, '%s_dl_%d.png' % (re.sub(r'\W+', '_', tag)[:40], self._dl_n)))
+                    await L.touch_tap(self.cdp, dl['first']['xy'][0], dl['first']['xy'][1]); await pg.wait_for_timeout(900); last_t = time.time(); continue
+                if dl['end']:
+                    self.R.note('%s 約會圖層：已點 %d 個 → 按「%s」' % (tag, self._dl_n, dl['end']['t'])); self._dl_n = 0
+                    await L.touch_tap(self.cdp, dl['end']['xy'][0], dl['end']['xy'][1]); await pg.wait_for_timeout(900); last_t = time.time(); continue
+
             if s['ch']:
                 if MONEYSHOT and 'MONEY' in tag.upper().replace('錢不夠', 'MONEY') and any(o['dim'] for o in s['ch']) and not getattr(self, '_mshot', {}).get(tuple(o['t'] for o in s['ch'])):
                     self._mshot = getattr(self, '_mshot', {}); self._mshot[tuple(o['t'] for o in s['ch'])] = 1; nshot = len(self._mshot)
