@@ -57134,6 +57134,33 @@
     "term": "Y1S1",
     "confirmed": false
    }
+  },
+  {
+   "id": "STUCK-WALKSELF-1114",
+   "title": "已接受的邀約選「自己走過去」後卡住：到 dorm_hall busy=true、busyDepth 0、沒有對話沒有選單（「畫面好像停住了」）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "BB-C 2026-11-14 09:47（T1_76f8 種子 4；BB_458）",
+   "note": "重現：random_play_sim.js --seed 4 --from 2025-08-22 --to 2026-06-30 @76f8。2025-11-10 12:00 出房門跳「12:10 和阿凱約在新體育館羽球場」→選「自己走過去」→ dorm_hall busy 沒放開。rc2e 同一份程式＝發布版也有；有提示、讀檔救得回來，不擋 X364。",
+   "first": {
+    "term": "Y1S1",
+    "week": 11,
+    "confirmed": true
+   }
+  },
+  {
+   "id": "LAWCLUB-GROUP-1114",
+   "title": "法服旗標全部拿掉、也沒去社博，大二上群組裡還是有 lawclub_study——查是哪裡加進來的",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 2026-11-14 09:47（STUDY_FA05；BB_458）",
+   "note": "是正常劇情就請 BB 改探針；不是就是 bug。",
+   "first": {
+    "term": "Y2S1",
+    "confirmed": false
+   }
   }
  ]
 }
