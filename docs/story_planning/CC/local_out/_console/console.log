@@ -1,11 +1,3 @@
-[17:45:55] skip L118A_SEAT_pasta3 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip STAIR_old_walk (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip STAIR_old_run (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip STAIR_old_walk10 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip STAIR_old_run10 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip STAIR_new_walk (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip STAIR_new_run (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip STAIR_new_walk10 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
 [17:45:55] skip TSR_LIB_0d (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
 [17:45:55] skip TSR_DORM_0d (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
 [17:45:55] skip TSR_CAFE_0d (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
@@ -1998,3 +1990,11 @@
 [21:53:07] [res] cpu=3% mem=47% (14.4/31.4 GB) chrome_testing=4  START SHOPREAL_BIKE_v21
 [21:55:55] 正在跑：GATE_REF_r1（已跑 4 分／上限 30 分）、WZ_LITE_r1（已跑 2 分／上限 30 分）、SHOPREAL_BIKE_v21（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:57:05] [res] cpu=1% mem=48% (15.3/31.4 GB) chrome_testing=9  END GATE_REF_r1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       18c88602ab..0d9f8dd182  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:57:18] ==== END   GATE_REF_r1  exit=1  333s   ====
+[21:57:33] memory 51% before starting WINVIEW_MIRROR_rooms_r2 (2 running)
+[21:57:33] ==== START WINVIEW_MIRROR_rooms_r2  (probe @ aa876bf9b9ad16262c2106615619a1f4cec5f77b) ====
+[21:57:36] [res] cpu=13% mem=51% (16.1/31.4 GB) chrome_testing=9  START WINVIEW_MIRROR_rooms_r2
+[21:59:51] [res] cpu=1% mem=50% (15.6/31.4 GB) chrome_testing=9  END WZ_LITE_r1
