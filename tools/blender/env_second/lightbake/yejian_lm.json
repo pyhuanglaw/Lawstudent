@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 2064.3,
+ "bake_seconds": 970.3,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -39,5 +39,5 @@
   "yej_floor"
  ],
  "src": "assets/models/env/second_ai/aa_support/yejian.glb",
- "src_sha256": "f8914c87264ce86a3c5eb291b586289df85b68776f17185e9309d299e49e023f"
+ "src_sha256": "baca499bd935f5432bab569e60f8d613ea356a6dc83427884b310ad7fb8e0396"
 }
