@@ -81,7 +81,7 @@ async def run_dialog(pg, cdp, tag, prefer=(), avoid=NO, max_s=90):
 
 async def korea(pg, cdp):
     tag = '[刀削麵 %s %.0f:00]' % (DAY, HOUR)
-    s = await D.load_zone(pg, cdp, 'l118_korea', DAY, HOUR, wait=8000); await pg.evaluate(SETTLED); await pg.evaluate(TOASTLOG)
+    s = await D.load_zone(pg, cdp, 'l118_korea', DAY, HOUR, wait=8000); await pg.evaluate(SETTLED); await pg.evaluate(TOASTLOG); await P.init(pg)   # 11-14 KOREA_ORDER_1400／XILE_FUNC TEST_BUG：沒裝 bbplay helper（__BBF is not defined）
     R.setup('%s 【前置／捷徑】讀檔進清州刀削麵 l118_korea（出生點）' % tag)
     st = await pg.evaluate(STATE)
     if not R.check('FAIL_SETUP 檢查：%s 在店裡、有開（L118.isOpen）、不是週日' % tag, s['zone'] == 'l118_korea' and st['open'] is not False, J(st)): return {}
@@ -103,7 +103,7 @@ async def korea(pg, cdp):
 
 async def xile(pg, cdp):
     tag = '[洗樂 %s %.0f:00]' % (DAY, HOUR); out = {}
-    s = await D.load_zone(pg, cdp, 'tz_xile', DAY, HOUR, wait=8000); await pg.evaluate(SETTLED); await pg.evaluate(TOASTLOG)
+    s = await D.load_zone(pg, cdp, 'tz_xile', DAY, HOUR, wait=8000); await pg.evaluate(SETTLED); await pg.evaluate(TOASTLOG); await P.init(pg)   # 11-14 KOREA_ORDER_1400／XILE_FUNC TEST_BUG：沒裝 bbplay helper（__BBF is not defined）
     R.setup('%s 【前置／捷徑】讀檔進洗樂洗衣坊 tz_xile（出生點）' % tag)
     if not R.check('FAIL_SETUP 檢查：%s 在店裡' % tag, s['zone'] == 'tz_xile', J(s)): return out
     # ① 洗衣機：只洗 → 先去別的地方
