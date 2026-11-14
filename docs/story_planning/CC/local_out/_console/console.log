@@ -1,12 +1,3 @@
-[22:26:01] ==== START SAVE_LZ_growB  (node @ ed70b6d3589dc2731171347afa6d623f2b0339ca) ====
-[22:26:04] [res] cpu=43% mem=55% (17.3/31.4 GB) chrome_testing=10  START SAVE_LZ_growB
-[22:26:38] [res] cpu=7% mem=50% (15.8/31.4 GB) chrome_testing=5  END C1112_TZYUE
-[22:26:52] 正在跑：C1112_TZYUE（已跑 16 分／上限 40 分）、C1112_SEASON3（已跑 8 分／上限 40 分）、SAVE_LZ_growB（已跑 0 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       1ea19d4a00..ea26b4bebd  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:27:00] ==== END   C1112_TZYUE  exit=0  990s   ====
-[22:27:04] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [22:27:04] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
 [22:27:04] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [22:27:04] memory 49% before starting STUDY_fix_a (2 running)
@@ -1998,3 +1989,12 @@
 [11:16:28] [res] cpu=4% mem=41% (13.0/31.4 GB) chrome_testing=5  START STUDY_FA05_76f8
 [11:16:55] 正在跑：T1_76f8（已跑 36 分／上限 120 分）、CANON458_DATE_ZR（已跑 13 分／上限 45 分）、STUDY_FA05_76f8（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:20:13] [res] cpu=6% mem=39% (12.4/31.4 GB) chrome_testing=5  END STUDY_FA05_76f8
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       706685a465..72094f1980  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:20:19] ==== END   STUDY_FA05_76f8  exit=1  229s   ====
+[11:20:22] memory 39% before starting STUDY_SE01_76f8 (2 running)
+[11:20:22] ==== START STUDY_SE01_76f8  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[11:20:25] [res] cpu=3% mem=40% (12.5/31.4 GB) chrome_testing=5  START STUDY_SE01_76f8
+[11:21:55] 正在跑：T1_76f8（已跑 41 分／上限 120 分）、CANON458_DATE_ZR（已跑 18 分／上限 45 分）、STUDY_SE01_76f8（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:24:58] [res] cpu=1% mem=40% (13.1/31.4 GB) chrome_testing=5  END STUDY_SE01_76f8
