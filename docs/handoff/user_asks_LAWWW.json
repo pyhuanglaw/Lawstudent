@@ -5309,6 +5309,16 @@
    "status": "規則（永久）",
    "task": "HELPER-HANDOFF-1113",
    "note": "LAWWW-C 回：對，使用者不用開；下一班 LAWWW 照幫手 HANDOFF.md 自己用 create_session 開、登記。寫進 D163 第 4 點"
+  },
+  {
+   "id": "UA-LAWWW-1114-01",
+   "at": "2026-11-14 01:5x UTC",
+   "quote": "Release rc2e (Recommended)（選擇題：遊戲＋網頁原始碼全乾淨的 rc2e 先發；tests 250、tools 16、docs 2 檔另開 P0 下一版清）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X364",
+   "task": "CANON-REPO-CLEAN-1114",
+   "note": "LAWWW-C 問：X364 原話含「GitHub 上所有檔不留那些字」；rc2d 遊戲 src 0、index.html 隱藏按鈕 4 處、tests/tools/docs 268 檔。使用者選 rc2e（1404d5f2d4，只拿掉 index.html 那 4 處）。發布範圍＝遊戲與網頁原始碼；其餘 268 檔＝CANON-REPO-CLEAN-1114（P0，下一版）。"
   }
  ]
 }
