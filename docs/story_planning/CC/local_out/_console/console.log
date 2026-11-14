@@ -1776,3 +1776,11 @@
 [18:20:30] [res] cpu=13% mem=41% (12.7/31.4 GB) chrome_testing=4  START SHOP_US_v2_r2
 [18:20:35] [res] cpu=1% mem=43% (13.3/31.4 GB) chrome_testing=4  END KOREA_ORDER_1400_r2
 [18:20:55] 正在跑：KOREA_ORDER_1400_r2（已跑 2 分／上限 15 分）、VACGAP_C_r2（已跑 1 分／上限 60 分）、SHOP_US_v2_r2（已跑 0 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c313495637..340de8c5e9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:21:05] ==== END   KOREA_ORDER_1400_r2  exit=0  118s   ====
+[18:21:08] memory 46% before starting XILE_FUNC_r2 (2 running)
+[18:21:08] ==== START XILE_FUNC_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[18:21:11] [res] cpu=7% mem=47% (14.6/31.4 GB) chrome_testing=8  START XILE_FUNC_r2
+[18:23:59] [res] cpu=7% mem=46% (14.7/31.4 GB) chrome_testing=10  END XILE_FUNC_r2
