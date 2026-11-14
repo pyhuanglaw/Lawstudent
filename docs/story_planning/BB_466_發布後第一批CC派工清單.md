@@ -57,3 +57,18 @@
 - （10:1x，rc2e）ART_SWEEP_A_putong_l／p_rc2e：PASS（普通教室 101 後排、講台兩個鏡頭：淺色地板、天花板、黑板、窗都正常）。ART_SWEEP_A_gongguan_l／p_rc2e：PASS（公館街三段、捷運出口、校門斜看、招牌都正常；招牌只寫種類，照 D147）。記兩件 P3、不擋：①gg_row_east 直向那張鏡頭放在攤位棚子底下，前景是一大片網點半透明的棚頂（遮擋物淡出），這是鏡頭位置的問題，不是場景問題，CC 下次改鏡頭位置；②sign_G05 近拍時招牌字有點糊（貼圖解析度），正常距離看得清楚。
 - （10:5x，rc2e）ART_SWEEP_A_lane118_l／p_rc2e、ART_SWEEP_A_wenzhou_l／p_rc2e：PASS。118 巷南北兩頭街景、11 間店門面都是立體店內、招牌清楚；溫州街公園步道、遊樂場、機車格正常。**P3 一件**：118 巷「喝不喝咖啡」招牌字重複，寫成「喝不喝咖啡喝不喝咖啡」，後半截被切掉（l118_noodle2 那張），像是招牌字排了兩次，交 LAWWW2。
 - **11:3x 更正（BB-C）**：上面那個「喝不喝咖啡招牌字重複」P3 **撤回**。看原圖（l118_noodle2.png 1280×720）那塊招牌只有一組「喝不喝咖啡」，右半截是被畫面邊緣切掉的。我把兩張縮圖並排拼在一起看，旁邊那張的招牌剛好接在後面，才看成重複。LAWWW2 也查過貼圖，只有一組。以後判字和招牌，一律看原圖，不看拼圖。
+
+## 下一版（v9.10.27）發布前回歸必加：NEXT-RELEASE-RECHECK-1114（P1，LAWWW 11-14 13:1x 開；FACTS.md 846c29e2ef）
+v9.10.26 的遊戲檔＝rc2e（底是 76f8b639f0，11-13 18:49）。之後整合的都不在線上，下一版的候選要逐項在**候選 SHA** 上驗：
+1. 竹葉窗景：SHOP_US_asian_window to_door／to_window，13:00、20:00（白天亮的街景、晚上暗的街景加對面亮著的大超市）。
+2. WINVIEW-EDGE-STRIPE（wvMirror）：七間 14:00（afar、青木、頁間、日和、安泰、鮮果、榮恩典）。鮮果、安泰、榮恩典如果 WINVIEW-AUDIT-1105 也進了，要用它們自己的窗景。
+3. 這一班整合的：
+   - STUCK-WALKSELF（T1 種子 4 從頭跑＋8 顆種子一整年）
+   - STUDY-LEAVE-LEADEND（STUDY_fix_c 三條路）
+   - DATE-D05-PICK（DATE_LAYER_D05）
+   - LAUNDRY 長椅
+   - L118 r5（新的點座位探針）
+   - 轉角、好拍、南洋 v7、山嵐 v3 的地點關卡
+   - WINVIEW-TREE-BLOB（afar、Daybreak 窗外的樹）
+4. 候選出來以前，先用 `git grep` 確認上面每一項的關鍵字都在候選的檔案裡（wvMirror、US_VIEW、leadRepick 的 zone 檢查…）。不在就不是那一版，不用跑。
+- place_gate_bb.json 以開發分支 7dfbd64055 為準（禮貌生財 FAIL 是 LAWWW 照 BB 的判定寫進去的）。BB 分支上那一份不要拿去蓋開發分支的。
