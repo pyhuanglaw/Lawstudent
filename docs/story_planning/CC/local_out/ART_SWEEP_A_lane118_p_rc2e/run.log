@@ -1,0 +1,20 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_closeup_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_SWEEP_A_lane118_p_rc2e\out
+CC 店內近照：TAG art_sweep_a_lane118_p；SHA 1404d5f2d4cb740d50df75741764be18ee746992；ZONE lane118；HOURS [14.0]；CAMS [{"name": "l118_along_south", "from": [0.0, 1.6, 32.0], "at": [0.0, 2.5, -10.0], "fov": 55.0}, {"name": "l118_along_north", "from": [0.0, 1.6, -40.0], "at": [0.0, 2.5, 0.0], "fov": 55.0}, {"name": "l118_dian", "from": [2.0, 1.6, 25.0], "at": [-5.2, 2.4, 25.0], "fov": 60.0}, {"name": "l118_self", "from": [2.0, 1.6, 17.5], "at": [-5.2, 2.4, 17.5], "fov": 60.0}, {"name": "l118_tea", "from": [2.0, 1.6, 11.5], "at": [-5.2, 2.4, 11.5], "fov": 60.0}, {"name": "l118_home", "from": [2.0, 1.6, -2.0], "at": [-5.2, 2.4, -2.0], "fov": 60.0}, {"name": "l118_cafe2", "from": [2.0, 1.6, -12.5], "at": [-5.2, 2.4, -12.5], "fov": 60.0}, {"name": "l118_pasta", "from": [-2.0, 1.6, 24.0], "at": [5.2, 2.4, 24.0], "fov": 60.0}, {"name": "l118_korea", "from": [-2.0, 1.6, 15.5], "at": [5.2, 2.4, 15.5], "fov": 60.0}, {"name": "l118_omu", "from": [-2.0, 1.6, 1.5], "at": [5.2, 2.4, 1.5], "fov": 60.0}, {"name": "l118_noodle2", "from": [-2.0, 1.6, -10.5], "at": [5.2, 2.4, -10.5], "fov": 60.0}]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：CAMS 解析得出來（11 組）  l118_along_south@0,1.6,32>0,2.5,-10@55/l118_along_north@0,1.6,-40>0,2.5,0@55/l118_dian@2,1.6,25>-5.2,2.4,25@60/l118_self@2,1.6,17.5>-5.2,2.4,17.5@60/l118_tea@2,1.6,11.5>-5.2,2.4,11.5@60/l118_home@2,1.6,-2>-5.2,2.4,-2@60/l118_cafe2@2,1.6,-12.5>-5.2,2.4,-12.5@60/l118_pasta@-2,1.6,24>5.2,2.4,24@60/l118_korea@-2,1.6,15.5>5.2,2.4,15.5@60/l118_omu@-2,1.6,1.5>5.2,2.4,1.5@60/l118_noodle2@-2,1.6,-10.5>5.2,2.4,-10.5@60
+  [前置／捷徑] [lane118 1400] 【前置／捷徑】讀檔進 lane118 2025-10-22 14.00 時（出生點）
+PASS FAIL_SETUP 檢查：[lane118 1400] 讀檔以後真的在 lane118  lane118
+  [  48.4s] [lane118 1400] 近照「l118_along_south」相機 [0.0, 1.6, 32.0] → [0.0, 2.5, -10.0]（fov 55.0）：{"magenta_pct": 0, "center_mean": 82.3, "center_sd": 69.5}
+  [  48.6s] [lane118 1400] 近照「l118_along_north」相機 [0.0, 1.6, -40.0] → [0.0, 2.5, 0.0]（fov 55.0）：{"magenta_pct": 0, "center_mean": 132.6, "center_sd": 50.1}
+  [  48.8s] [lane118 1400] 近照「l118_dian」相機 [2.0, 1.6, 25.0] → [-5.2, 2.4, 25.0]（fov 60.0）：{"magenta_pct": 0, "center_mean": 71.5, "center_sd": 35.7}
+  [  49.0s] [lane118 1400] 近照「l118_self」相機 [2.0, 1.6, 17.5] → [-5.2, 2.4, 17.5]（fov 60.0）：{"magenta_pct": 0, "center_mean": 89.8, "center_sd": 40.4}
+  [  49.2s] [lane118 1400] 近照「l118_tea」相機 [2.0, 1.6, 11.5] → [-5.2, 2.4, 11.5]（fov 60.0）：{"magenta_pct": 0, "center_mean": 53.5, "center_sd": 31}
+  [  49.3s] [lane118 1400] 近照「l118_home」相機 [2.0, 1.6, -2.0] → [-5.2, 2.4, -2.0]（fov 60.0）：{"magenta_pct": 0, "center_mean": 65.7, "center_sd": 32.5}
+  [  49.5s] [lane118 1400] 近照「l118_cafe2」相機 [2.0, 1.6, -12.5] → [-5.2, 2.4, -12.5]（fov 60.0）：{"magenta_pct": 0, "center_mean": 103.7, "center_sd": 41.6}
+  [  49.7s] [lane118 1400] 近照「l118_pasta」相機 [-2.0, 1.6, 24.0] → [5.2, 2.4, 24.0]（fov 60.0）：{"magenta_pct": 0, "center_mean": 93.3, "center_sd": 32.9}
+  [  49.9s] [lane118 1400] 近照「l118_korea」相機 [-2.0, 1.6, 15.5] → [5.2, 2.4, 15.5]（fov 60.0）：{"magenta_pct": 0, "center_mean": 110.9, "center_sd": 55}
+  [  50.0s] [lane118 1400] 近照「l118_omu」相機 [-2.0, 1.6, 1.5] → [5.2, 2.4, 1.5]（fov 60.0）：{"magenta_pct": 0, "center_mean": 76.9, "center_sd": 45.6}
+  [  50.2s] [lane118 1400] 近照「l118_noodle2」相機 [-2.0, 1.6, -10.5] → [5.2, 2.4, -10.5]（fov 60.0）：{"magenta_pct": 0, "center_mean": 64.4, "center_sd": 39}
+PASS 沒有 JS 例外  []
+ALL PASS

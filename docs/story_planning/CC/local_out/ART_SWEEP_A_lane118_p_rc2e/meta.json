@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "ART_SWEEP_A_lane118_p_rc2e",
+  "sha": "1404d5f2d4cb740d50df75741764be18ee746992",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_closeup_probe.py",
+  "env": "TAG=art_sweep_a_lane118_p;ZONE=lane118;HOURS=14;VIEW=390x844;PLAIN_NAMES=1;CAMS=l118_along_south@0,1.6,32>0,2.5,-10@55/l118_along_north@0,1.6,-40>0,2.5,0@55/l118_dian@2,1.6,25>-5.2,2.4,25@60/l118_self@2,1.6,17.5>-5.2,2.4,17.5@60/l118_tea@2,1.6,11.5>-5.2,2.4,11.5@60/l118_home@2,1.6,-2>-5.2,2.4,-2@60/l118_cafe2@2,1.6,-12.5>-5.2,2.4,-12.5@60/l118_pasta@-2,1.6,24>5.2,2.4,24@60/l118_korea@-2,1.6,15.5>5.2,2.4,15.5@60/l118_omu@-2,1.6,1.5>5.2,2.4,1.5@60/l118_noodle2@-2,1.6,-10.5>5.2,2.4,-10.5@60;SHA=1404d5f2d4cb740d50df75741764be18ee746992",
+  "machine": "MSI",
+  "start": "2026-11-14T18:15:44",
+  "end": "2026-11-14T18:17:25",
+  "seconds": 101,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 53,
+    "used_gb": 16.6,
+    "chrome_testing": 8
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
