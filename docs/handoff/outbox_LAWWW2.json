@@ -10674,7 +10674,7 @@
    "sha": "a7ffa1f46c",
    "receiver": "LAWWW-C、BB-C",
    "ack": "SENT",
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "base": "846c29e2ef",
    "at": "2026-11-14T11:22Z",
@@ -10685,7 +10685,26 @@
    ],
    "tests": "limao_real_view_1114_unit 改之前 FAIL 6→ALL PASS（16 項）；tz_／shop_／place_gate 等 53 支 ALL PASS；place_gate 0 新問題；雲端截圖 20:00 室內、14:00 鐵捲門",
    "notDone": "LAWWW 套 patch；CC 在使用者電腦拍第二層＋量第一次走近多久顯示；BB 判（含打烊門扇開著要不要收）",
-   "next": "LAWWW 套 patch（base 846c29e2ef，ed792633a7 上 apply --check 乾淨）"
+   "next": "LAWWW 套 patch（base 846c29e2ef，ed792633a7 上 apply --check 乾淨）",
+   "integratedAs": "14dc6c1e02"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "4cc26d4b8d",
+   "at": "2026-11-14T11:45Z",
+   "task": "LIMAO-DOOR-CLOSE-1114",
+   "title": "禮貌生財打烊收起往外開的格子門（門扇＝街景模型的 COPY_LIMAO_LEAF 節點，和算命桌同一個營業開關）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/limao_door_close_1114/"
+   ],
+   "tests": "limao_real_view_1114_unit ⑥ 改之前 FAIL 3→ALL PASS（19 項）；87 支 ALL PASS；place_gate 0 新問題；雲端截圖 14:00 門扇收起、20:00 開著",
+   "notDone": "LAWWW 套 patch；CC 拍；BB 判",
+   "next": "LAWWW 套 patch（底 4cc26d4b8d）"
   }
  ]
 }
