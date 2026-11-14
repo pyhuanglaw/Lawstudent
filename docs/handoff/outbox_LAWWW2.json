@@ -10308,6 +10308,24 @@
    "notDone": "CC 遊戲內同角度（LAWWW 排）；BB 判",
    "next": "LAWWW 套 patch（只有 10 張 webp）",
    "integrated": "4a97c2a33f"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "COPLANAR-CREEP-1114",
+   "title": "洋洋鹹酥雞疊面修正：冷飲櫃踢腳板＋底座頂蓋錯開，重建重烘（always 2.25→1.46、wall 0.64→0.53）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/coplanar_creep_1114/yangyang_coplanar_on_920bf1bcfd.patch"
+   ],
+   "base": "920bf1bcfd",
+   "at": "2026-11-14T01:15Z",
+   "tests": "place_gate 先查後寫 ALL PASS；yangyang、shop_cc0、gg 系列 15 支 ALL PASS",
+   "notDone": "LAWWW 整合；yizhan 那半（g1 下一版）",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
