@@ -1,11 +1,3 @@
-[01:44:13] [res] cpu=1% mem=49% (15.7/31.4 GB) chrome_testing=10  START STUDY_SE06_4af4_r3
-[01:46:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 63 分／上限 600 分）、SHOP8_B3_c94f（已跑 42 分／上限 160 分）、STUDY_SE06_4af4_r3（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
-[01:47:45] [res] cpu=13% mem=47% (15.0/31.4 GB) chrome_testing=10  END SHOP8_B3_c94f
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d91a42cfbf..649fd4abdf  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[01:48:04] ==== END   SHOP8_B3_c94f  exit=1  2594s   ====
-[01:48:07] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [01:48:07] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
 [01:48:07] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [01:48:07] memory 45% before starting CANON_NEWGAME_B2_r3 (2 running)
@@ -1998,3 +1990,11 @@
 [15:16:28] [res] cpu=15% mem=47% (14.6/31.4 GB) chrome_testing=9  START DATE35_PS_ARR
 [15:16:56] 正在跑：WZ_REAL_r2（已跑 6 分／上限 25 分）、LIN_REAL_r2（已跑 6 分／上限 40 分）、DATE35_PS_ARR（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:17:03] [res] cpu=7% mem=41% (13.1/31.4 GB) chrome_testing=9  END WZ_REAL_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6e8d9bddea..532300ab84  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:17:11] ==== END   WZ_REAL_r2  exit=1  371s   ====
+[15:17:15] memory 43% before starting DATE35_PS_CLO (2 running)
+[15:17:15] ==== START DATE35_PS_CLO  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[15:17:18] [res] cpu=9% mem=44% (13.6/31.4 GB) chrome_testing=9  START DATE35_PS_CLO
+[15:19:22] [res] cpu=0% mem=44% (13.9/31.4 GB) chrome_testing=10  END DATE35_PS_ARR
