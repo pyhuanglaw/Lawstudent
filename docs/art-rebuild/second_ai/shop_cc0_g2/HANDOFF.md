@@ -4,16 +4,16 @@
 
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的（P2／P3） |
 |---|---|---|---|---|
-| 青木茶室 aoki | **LAWWW2 PASS**（v2，11-13 21:54）→ 已轉 LAWWW | （見下一個 commit） | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（11-13 23:4x 重做：底 4556c4be0、不再帶 cc0_kit.py——開發分支的 cc0_kit 有新的 part_faces，舊 patch 會把它蓋掉） | 等 LAWWW 整合 |
-| Daybreak | **已交 LAWWW2 驗收**（v2：椅子、直木條 walnut_veneer） | （見下一個 commit） | `docs/art-rebuild/second_ai/cc0_g2/daybreak_cc0.patch`（底 4556c4be0） | 等驗收 |
-| 頁間書屋 yejian | **退回自己改、等重烘**（v2：椅子改 walnut_veneer；v3：小盆栽改回葉片卡） | 4e0f33cbb（腳本） | 還沒做 | 佇列最後重烘 → 拍、交 |
-| 山嵐書店 shanlan | **等重烘**（小盆栽改回葉片卡；「從裡面朝門口」鏡頭換位置，改之前那張已重拍） | a09e6811c（腳本） | 還沒做 | 重烘 → 拍、交；7.96 萬面（大店上限 8 萬） |
-| 慢輪單車 bike | **等烘焙**（vc_tex＋收銀機掃描） | 3b7618671（腳本） | 還沒做 | 烘 → 拍、交；開發分支 cc0_kit 已有 vc_tex（LAWWW2 11-13）就不帶 cc0_kit.py |
-| 轉角唱片 corner | **等烘焙**（vc_tex＋大盆栽掃描） | 3b7618671（腳本） | 還沒做 | 同上 |
+| 青木茶室 aoki | **LAWWW2 PASS**（v2）→ 已轉 LAWWW | 077485f27e | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底 4556c4be0，不帶 cc0_kit.py） | 等 LAWWW 整合 |
+| Daybreak | **LAWWW2 PASS**（v2）→ 已併進 LAWWW2 給 LAWWW 的合包；**v2.1（P1）烘焙排隊中**：雙孔義式機、磨豆機 | b37f2a7c4（v2.1 腳本） | v2.1 還沒出 | 烘完：拍五格、並排圖、patch（底用開發分支最新） |
+| 頁間書屋 yejian | **自己退回、等重烘**（v3 小盆栽葉片卡、椅子 walnut_veneer；v4 咖啡機改雙孔義式機） | 3be30ee2d（v4 腳本） | 還沒做 | Daybreak v2.1 烘完接著烘 → 拍、交 |
+| 山嵐書店 shanlan | **等重烘**（小盆栽改回葉片卡；「從裡面朝門口」鏡頭換位置，改之前那張已重拍） | a09e6811c（腳本） | 還沒做 | 唱片之後重烘 → 拍、交；7.96 萬面 |
+| 慢輪單車 bike | **已交 LAWWW2 驗收** | c180ee1f75 | `docs/art-rebuild/second_ai/cc0_g2/bike_cc0.patch`（底 04ac5af9e） | 畫面差異小（三角形已到上限），等 LAWWW2 判要不要再加 |
+| 轉角唱片 corner | **烘焙中** | 3b7618671（腳本） | 還沒做 | 烘完 → 拍、交 |
 | 日和便利店 cvs | **改由 LAWWW2 做**（11-13 22:31 LAWWW2 選 ①），LAWWW2 已交 LAWWW（6ecd6495c8） | — | — | 我這邊不做 |
 
-## 目前做到哪（2026-11-13 23:2x）
-- 背景烘焙佇列（`/tmp/claude-0/g2/bakeq5.sh`，一次一間）：Daybreak（快烘完）→ 單車 → 唱片 → 山嵐 → 頁間。每間約 25～35 分鐘。輸入是 `/tmp/claude-0/g2/unbaked/<店>.glb`（用分支上的腳本重建得出來），輸出寫回 `assets/models/env/second_ai/{aa,bb}_support/<店>.glb`＋`_lm_day/night.webp`。
+## 目前做到哪（2026-11-14 00:4x）
+- 背景烘焙（一次一間）：唱片（烘焙中）→ 山嵐 → Daybreak v2.1 → 頁間 v4。每間約 25～35 分鐘。輸入是 `/tmp/claude-0/g2/unbaked/<店>.glb`（用分支上的腳本重建得出來），輸出寫回 `assets/models/env/second_ai/{aa,bb}_support/<店>.glb`＋`_lm_day/night.webp`。
 - 每間交件流程（照 `docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md`）：烘完 → `fast_shots.py` 拍五格（參考鏡頭、門口、從裡面朝門口、近看吧台／櫃台、20:00）→ 自己看並排圖 → `/tmp/claude-0/g2/bin/mkpatch.py`（底＝開發分支最新；LICENSES 只加這間的列、基準表只拿掉這間、coplanar 只換這間、附 `place_gate --write` 重產的 SHOP_STANDARD_STATUS.md）→ 在乾淨副本套 patch 跑 `shop_cc0_unit`、`place_gate`、這間店相關測試 → commit＋push → 傳 LAWWW2-C（副本 LAWWW-C）。
 - 學到的（下一個人照做）：Wood049 用在細木條、椅腳上太碎（青木 v1 退件）→ 細木件用 Poly Haven `walnut_veneer`；Poly Haven `potted_plant_04` 減到三百面以下變一團灰 → 小盆栽用原本的葉片卡、只有大盆栽用 `potted_plant_02`；不鏽鋼 Metal009 在遊戲裡要 metal≤0.25、vary 0.04，不然像水泥；Plastic006 當頂點色乘的紋理要 vary 0.015、法線 0.25，不然淺色包裝有灰黑刮痕。
 
