@@ -1,13 +1,3 @@
-[22:25:58] skip FN_int_a_r3 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:58] skip FN_int_b_r3 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:58] skip FN_shots_b_new_r3 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:58] skip XG_fix_tap (already done on 8e33a0df8dfbb5330b1391d9c59164985dc264eb)
-[22:25:58] skip XG_fix_joy (already done on 8e33a0df8dfbb5330b1391d9c59164985dc264eb)
-[22:25:58] skip XG_old_joy (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip YDH_fix (already done on 8e33a0df8dfbb5330b1391d9c59164985dc264eb)
-[22:25:58] skip YDH_old (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip FAR5_a (already done on 8e33a0df8dfbb5330b1391d9c59164985dc264eb)
-[22:25:58] skip FAR5_lm (already done on 8e33a0df8dfbb5330b1391d9c59164985dc264eb)
 [22:25:58] skip ART2_xg_r3_a (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
 [22:25:58] skip ART2_xg_r3_f (already done on f5e1ef4e8fe2e1d6e71897d891ed600967a146a2)
 [22:25:58] skip LM_cam_a (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
@@ -1998,3 +1988,13 @@
 [09:58:50] ==== START WINVIEW_GG3_REL_tree  (probe @ bcc99693a7b18c4cd606dfac63124518198ca685) ====
 [09:58:52] [res] cpu=0% mem=42% (13.4/31.4 GB) chrome_testing=10  START WINVIEW_GG3_REL_tree
 [10:00:17] [res] cpu=4% mem=45% (14.1/31.4 GB) chrome_testing=10  END WINVIEW_GG3_REL_tree
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       daa9e60fdc..f9525f07e5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:00:24] ==== END   WINVIEW_GG3_REL_tree  exit=0  87s   ====
+[10:00:37] memory 42% before starting DATE_LAYER_76f8_r4 (2 running)
+[10:00:37] ==== START DATE_LAYER_76f8_r4  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[10:00:40] [res] cpu=2% mem=42% (13.4/31.4 GB) chrome_testing=10  START DATE_LAYER_76f8_r4
+[10:01:54] 正在跑：L118_CAM36_a_r4（已跑 24 分／上限 60 分）、L118_CAM36_b_r4（已跑 19 分／上限 60 分）、DATE_LAYER_76f8_r4（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:06:54] 正在跑：L118_CAM36_a_r4（已跑 29 分／上限 60 分）、L118_CAM36_b_r4（已跑 24 分／上限 60 分）、DATE_LAYER_76f8_r4（已跑 6 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:09:51] [res] cpu=3% mem=44% (13.9/31.4 GB) chrome_testing=10  END L118_CAM36_a_r4
