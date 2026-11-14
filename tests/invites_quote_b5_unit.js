@@ -205,7 +205,7 @@ const N=runProbe('new',J({mig:migIn}));
   check('22. 學姊挽回中的短招呼（S.greetTexts）和 '+BASE+' 比：第一句「（她點了一下頭。）「早。」」→「（她點了一下頭。）早。」，另外兩句一樣（第四批已經拿掉）；稿 repairGreet 一字不差',
     r.n===1&&!r.bad.length&&!!GT.old&&GT.old[0]==='（她點了一下頭。）「早。」'&&GT.old[1]===GT.now[1]&&GT.old[2]===GT.now[2]&&J(REPAIR.old)===J(REPAIR.now),J([GT.old,GT.now]));
   /* pool：整份資料比，改到的只能是 greet 裡「「…」（…）」→「…（…）」 */
-  const bad=[], hit=[], A799=require('./aa799_expect.js'); const walk=(a,b,p)=>{ if(typeof a==='string'||typeof b==='string'){ if(a===b||A799.isAA799(a,b)) return;   /* AA_799（X324 G 區）pool secret「其實……」12 句照稿換了 */ if(typeof a==='string'&&typeof b==='string'&&kindOf(a,b)==='say'&&/\.greet\.\d+$/.test(p)) hit.push(p+'：'+b); else bad.push(p+'：'+J(a)+' → '+J(b)); return; }
+  const bad=[], hit=[], A799=require('./aa799_expect.js'); const walk=(a,b,p)=>{ if(typeof a==='string'||typeof b==='string'){ if(a===b||A799.isAA799(a,b)||require('./aa959_map.js').is959(a,b)/* RC2-PORT-DEV-1114：AA_959 783 列換過的字（pool 第 681～688、761～763、775 列）*/) return;   /* AA_799（X324 G 區）pool secret「其實……」12 句照稿換了 */ if(typeof a==='string'&&typeof b==='string'&&kindOf(a,b)==='say'&&/\.greet\.\d+$/.test(p)) hit.push(p+'：'+b); else bad.push(p+'：'+J(a)+' → '+J(b)); return; }
     if(typeof a==='function'||typeof b==='function'){ if(String(a)!==String(b)) bad.push(p+'：函式不同'); return; }
     if(a===null||b===null||typeof a!=='object'||typeof b!=='object'){ if(a!==b) bad.push(p+'：'+J(a)+' → '+J(b)); return; }
     const ka=Object.keys(a), kb=Object.keys(b); if(J(ka)!==J(kb)){ bad.push(p+'：欄位不同'); return; } for(const k of ka) walk(a[k],b[k],p+'.'+k); };
