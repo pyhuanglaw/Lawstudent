@@ -30,7 +30,7 @@
   "top": "WALL_front_kmc_wood×WALL_front_kmc_wood 0.235 m² @[-2.58,0,4.06]"
  },
  "assets/models/env/second_ai/aa_support/mokuyobi.glb": {
-  "sha1": "116bbce8468fde157161bff744279156e519d045",
+  "sha1": "536b5fc2363a02427640888cc9fe1249d8bb23f0",
   "wall": 2.62,
   "always": 5.54,
   "top": "WALL_front_mok_walnut×WALL_front_mok_wall 0.439 m² @[-2.85,0.53,7]"
@@ -126,7 +126,7 @@
   "top": "WALL_back_vc×WALL_back_steel 1.218 m² @[1.86,0,-7.89]"
  },
  "assets/models/env/second_ai/bb_support/tongxian.glb": {
-  "sha1": "60b8224b1a149dffda51e497471864974a84981c",
+  "sha1": "30616adf1c27e5cf1145741a2108f4d7221ff375",
   "wall": 32.43,
   "always": 38.08,
   "top": "WALL_back_plaster×WALL_back_metal 0.364 m² @[-2.13,0.87,-5.26]"

@@ -10,7 +10,7 @@
 |---|---|---|---|---|
 | 大步球鞋 dabu | 已整合（LAWWW-C 884f09a7c3；LAWWW2 PASS） | a3a67aef7d | `docs/art-rebuild/second_ai/cc0_help/g3/dabu.patch` | P2（LAWWW2）：鞋盒牆、收銀台後的盒子牆改 `printed`（Cardboard001 上印品牌色塊、側標、尺碼標），大小顏色有變化、幾個開蓋歪放 → v2；六間交完再做 |
 | 好拍運動 haopai | LAWWW2 PASS（00:55；LAWWW2 在 582eb7d807 上重出 patch 交 LAWWW b5410f8654） | 6da531c6ee | `docs/art-rebuild/second_ai/cc0_help/g3/haopai.patch` | v2（新生運動之後）：後段鐵架上的貨箱（程式拼的方塊＋標籤）換 Poly Haven cardboard_box_01，大小、角度有變化 |
-| 同弦樂器 tongxian | 烘焙中（排第 5） | 腳本 11dd2b9e42 | （還沒有） | 要挖樓梯間地板洞（`glb_floor_hole.py`，已對新原檔做好）；`xs_lm_unit` instancing 29→30；第一次烘的沒挖洞，已丟掉 |
+| 同弦樂器 tongxian | 已交 LAWWW2 驗收（01:5x） | 本次交件 commit | `docs/art-rebuild/second_ai/cc0_help/g3/tongxian.patch`（底 2da495e693） | P3：畫面變化小（硬盒架上 PH 紙箱、長椅上 PH 烏克麗麗、天花板 Plaster001、金屬零件 Metal009 × 顏色） |
 | 新生運動廣場 xinsheng_sports | LAWWW2-C 接手（11-14 01:10 分工調整）；交接說明 `docs/art-rebuild/second_ai/cc0_help/g3/xs_handover/README.md` | 252bc3765a（腳本） | （沒有） | 我這邊不再做 |
 | 大口漢堡一樓 dakou_1f | LAWWW2 PASS（第二次，01:34；LAWWW2 在 07bbd8564e 重驗、交 LAWWW 506e12dc9f）；v2 做了、還沒烘（83cf92994c，等 glb_coplanar instancing 的決定） | 本次交件 commit | `docs/art-rebuild/second_ai/cc0_help/g3/dakou.patch`（底 98a1bddf63，帶 place_gate_coplanar.json） | v2：①一樓櫃檯後層架彩色方塊改印刷包裝盒／罐子；對照圖加「一樓櫃檯後層架近看」 |
 | 大口漢堡二樓 dakou_2f | LAWWW2 PASS（同上）；v2 同上 | 本次交件 commit | 同上 | v2：②課本 Poly Haven book 或印刷書、紙袋有提把摺邊、筆電掃描模型；對照圖加「二樓長桌近看」 |

@@ -1,8 +1,8 @@
 {
- "objects": 179,
- "unique_meshes": 62,
- "tris": 41783,
- "tris_drawn": 56641,
+ "objects": 185,
+ "unique_meshes": 64,
+ "tris": 45323,
+ "tris_drawn": 64237,
  "materials": [
   "tx_ceiling",
   "tx_floor_oak",
@@ -11,6 +11,8 @@
   "tx_lamp",
   "tx_leaf_pothos",
   "tx_metal",
+  "tx_ph_Ukulele_01",
+  "tx_ph_cardboard_box_01",
   "tx_plaster",
   "tx_props",
   "tx_slatwall",
@@ -18,11 +20,11 @@
   "tx_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/tongxian.glb",
- "bytes": 2997640,
+ "bytes": 3385992,
  "texres": 512,
  "shop": "tongxian",
  "layout": 4,
- "drawn_tris": 56641,
+ "drawn_tris": 64237,
  "guitars": {
   "electric_wall": 22,
   "acoustic_wall": 20,
@@ -226,15 +228,5 @@
     1.4199999570846558
    ]
   ]
- ],
- "post": [
-  {
-   "by": "LAWWW2-C",
-   "date": "2026-11-05",
-   "tool": "tools/blender/env_second/glb_floor_hole.py",
-   "args": "tx_floor -3.2,-1.14,1.0,5.2",
-   "why": "樓梯間（門外的平台、樓梯口）整塊挖掉：那裡是 tongxian_stair.glb 的磨石子"
-  }
- ],
- "version": "v4f（LAWWW2-C 11-05，TONGXIAN-REF-1105；BB-C 03:21 R2 判定的一處）：v4e＋吊盆挪到 (−1.44, −0.8)（從 camRef 看不再擋住吊燈）、冷氣的配管壓條改沿窗頂走到窗右邊再往下（原本穿過窗玻璃）。v4e：CC v4d 的 tongxian_interior.py＋木地板 #d6bc96（D112）、書架搬到西牆（ry）、camRef 重選"
+ ]
 }

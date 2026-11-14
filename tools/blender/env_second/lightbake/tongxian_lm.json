@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1985.3,
+ "bake_seconds": 1734.8,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -40,5 +40,5 @@
   "WALL_right_plaster"
  ],
  "src": "assets/models/env/second_ai/bb_support/tongxian.glb",
- "src_sha256": "210de13276f7c7dd6504c40f4640b1c479dd99b8d54f6dba55552ee543696a6b"
+ "src_sha256": "9495126ad758830e33f88170c615431f52b4303f19152a1dbcc9e408e82469bc"
 }
