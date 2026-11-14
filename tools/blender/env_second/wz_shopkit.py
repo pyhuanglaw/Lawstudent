@@ -1308,15 +1308,21 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
         for mx in mull: xf.box(fr, mx - 0.025, mx + 0.025, y0, y1, gz - 0.03, gz + 0.04)
         for t_ in (tr if isinstance(tr, (list, tuple)) else ([tr] if tr else [])): xf.box(fr, x0, x1, t_ - 0.025, t_ + 0.025, gz - 0.03, gz + 0.04)   # 橫框可以好幾條（禮貌生財的格子窗）
         if c.get('lit', True): CL.glow(root, 'gg_xs_in', *xf.p((x0 + x1) / 2, (y0 + y1) / 2, zc + 0.3), color='rgba(255,236,200,1)', size=min(3.5, x1 - x0), day=0.0, night=0.5)
-    for lf in c.get('leaves', []):   # 往外開的門扇（禮貌生財：深色木框格子玻璃門，垂直店面往騎樓開著）：(門軸 x, 門寬, 高, 往哪一邊偏 ±1)
-        hx, lw_, lh, sd = lf; t = 0.045; z0_, z1_ = gz + 0.02, gz + 0.02 + lw_; xa, xb = (hx, hx + t) if sd > 0 else (hx - t, hx)
-        for (y0_, y1_) in ((0.0, 0.12), (0.86, 0.94), (lh - 0.1, lh)): xf.box(fr, xa, xb, y0_, y1_, z0_, z1_)
-        for zz in (z0_, z1_ - 0.08): xf.box(fr, xa, xb, 0.0, lh, zz, zz + 0.08)
-        xf.box(fr, xa + 0.008, xb - 0.008, 0.12, 0.86, z0_ + 0.08, z1_ - 0.08)                                   # 下半實木板
-        for k in (1, 2): yy = 0.94 + k * (lh - 1.04) / 3; xf.box(fr, xa, xb, yy - 0.018, yy + 0.018, z0_ + 0.08, z1_ - 0.08)
-        zm_ = (z0_ + z1_) / 2; xf.box(fr, xa, xb, 0.94, lh - 0.1, zm_ - 0.018, zm_ + 0.018)
-        xm_ = (xa + xb) / 2; xf.quad(acc(M['glass']), [(xm_, 0.94, z0_ + 0.08), (xm_, 0.94, z1_ - 0.08), (xm_, lh - 0.1, z1_ - 0.08), (xm_, lh - 0.1, z0_ + 0.08)])
-        xf.box(acc(SK['alu2']), xa - 0.02 * sd, xa, 1.0, 1.06, z1_ - 0.16, z1_ - 0.1)                              # 門把
+    _frm = SK['alu2'] if c.get('frame') == 'alu' else frame_mat(c['frame'] if str(c.get('frame', '')).startswith('#') else GG_WOOD)
+    def _leaves():
+        fr = acc(_frm)   # 在 _copy_group 裡面 _acc 是空的：材質要重新取，門扇才會收進那個節點
+        for lf in c.get('leaves', []):   # 往外開的門扇（禮貌生財：深色木框格子玻璃門，垂直店面往騎樓開著）：(門軸 x, 門寬, 高, 往哪一邊偏 ±1)
+            hx, lw_, lh, sd = lf; t = 0.045; z0_, z1_ = gz + 0.02, gz + 0.02 + lw_; xa, xb = (hx, hx + t) if sd > 0 else (hx - t, hx)
+            for (y0_, y1_) in ((0.0, 0.12), (0.86, 0.94), (lh - 0.1, lh)): xf.box(fr, xa, xb, y0_, y1_, z0_, z1_)
+            for zz in (z0_, z1_ - 0.08): xf.box(fr, xa, xb, 0.0, lh, zz, zz + 0.08)
+            xf.box(fr, xa + 0.008, xb - 0.008, 0.12, 0.86, z0_ + 0.08, z1_ - 0.08)                                   # 下半實木板
+            for k in (1, 2): yy = 0.94 + k * (lh - 1.04) / 3; xf.box(fr, xa, xb, yy - 0.018, yy + 0.018, z0_ + 0.08, z1_ - 0.08)
+            zm_ = (z0_ + z1_) / 2; xf.box(fr, xa, xb, 0.94, lh - 0.1, zm_ - 0.018, zm_ + 0.018)
+            xm_ = (xa + xb) / 2; xf.quad(acc(M['glass']), [(xm_, 0.94, z0_ + 0.08), (xm_, 0.94, z1_ - 0.08), (xm_, lh - 0.1, z1_ - 0.08), (xm_, lh - 0.1, z0_ + 0.08)])
+            xf.box(acc(SK['alu2']), xa - 0.02 * sd, xa, 1.0, 1.06, z1_ - 0.16, z1_ - 0.1)                              # 門把
+    if c.get('leaf_node') and c.get('leaves'):   # LIMAO-DOOR-CLOSED-1114（BB_379：打烊了鐵捲門前面還有一扇開著的格子門，看起來像還在營業）：門扇收進自己的節點（COPY_ 開頭＝不參加合併），遊戲打烊時藏起來
+        _copy_group(c['leaf_node'], {'kind': 'shop_leaf', 'show': '營業中（打烊藏起來，src/tingzhou3d.js）'}, _leaves)
+    else: _leaves()
     # 門
     if dr:
         x0, x1, y1, st = dr['x0'], dr['x1'], dr['y1'], dr.get('style', 'wood'); _df = dr.get('frame', c.get('frame')); dfr = acc(SK['alu2'] if _df == 'alu' else frame_mat(_df if str(_df or '').startswith('#') else GG_WOOD))

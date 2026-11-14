@@ -57356,10 +57356,10 @@
    "id": "LIMAO-DOOR-CLOSE-1114",
    "title": "禮貌生財打烊時往外開的格子門還開著：門扇拆成獨立節點、打烊藏起來",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "BB-C 11-14 11:23（BB_379 59c76acebc）",
-   "note": "LIMAO-REAL-VIEW-1114 交件時 LAWWW2 留的；BB 判要收。算命桌白天在騎樓＝原本就有，不改。",
+   "note": "LIMAO-REAL-VIEW-1114 交件時 LAWWW2 留的；BB 判要收。算命桌白天在騎樓＝原本就有，不改。｜11-14 11:3x LAWWW2-C 交件（bf8b9cbcba）：門扇收進 COPY_LIMAO_LEAF 節點、tingzhou3d.js 跟算命桌同一個 S.limaoOpen（營業顯示、打烊藏）；limao_real_view ⑥（改前 FAIL 3）。LAWWW-C 整合，limao／shop_real_inside／place_gate／tingzhou ALL PASS。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -57376,6 +57376,19 @@
    "first": {
     "term": "Y1S1",
     "week": 1,
+    "confirmed": false
+   }
+  },
+  {
+   "id": "LIMAO-DOOR-HOURS-TEXT-1114",
+   "title": "禮貌生財門口互動點的字要有店名＋今天營業時間 19:00～23:30（§12 第 1、6 點）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "BB-C 11-14（經 LAWWW2-C 11:33）",
+   "note": "現在 tingzhou3d.js 138 行是「進禮貌生財」／「看禮貌生財」，沒寫營業時間。字歸 AA（D79／D137）；AA 定了句式（也可以一次定汀州路各店門口的統一句式），LAWWW 接。",
+   "first": {
+    "term": "Y1S1",
     "confirmed": false
    }
   }

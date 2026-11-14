@@ -52,4 +52,12 @@ const IP=path.join(R,LL.glb); if(!fs.existsSync(IP)) ok(false,'④ '+LL.glb+' �
       for(let i=0;i<a.count;i++){ const x=bin.readFloatLE(off+i*stv)*sc[0]+t[0], y=bin.readFloatLE(off+i*stv+4)*sc[1]+t[1], z=bin.readFloatLE(off+i*stv+8)*sc[2]+t[2];
         if(Math.abs(z-zc)<0.03&&x>LM.x0+0.9&&x<LM.x1-0.3&&y>-0.05&&y<2.8) hit[nd.name]=(hit[nd.name]||0)+1; } } }
   ok(Object.keys(hit).length===0,'⑤ tingzhou_street.glb：禮貌生財窗、門後面 0.8 m 沒有圖、沒有窗洞內牆（重建過）',JSON.stringify(hit)); }
+// ⑥ LIMAO-DOOR-CLOSED-1114（BB_379：打烊了鐵捲門前面還有一扇開著的格子門＝看起來還在營業）：門扇是街景模型裡自己的節點 COPY_LIMAO_LEAF，遊戲打烊時藏起來
+{ const b=fs.readFileSync(path.join(R,'assets/models/env/second_ai/tingzhou_street.glb')); const n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n));
+  const g=j.nodes.find(q=>q.name==='COPY_LIMAO_LEAF'); let tri=0, mx=[-1e9,-1e9,-1e9], mn=[1e9,1e9,1e9];
+  const walk=(q)=>{ if(q.mesh!==undefined) for(const p of j.meshes[q.mesh].primitives){ const a=j.accessors[p.attributes.POSITION]; tri+=j.accessors[p.indices].count/3; for(let i=0;i<3;i++){ mn[i]=Math.min(mn[i],a.min[i]); mx[i]=Math.max(mx[i],a.max[i]); } } for(const c of (q.children||[])) walk(j.nodes[c]); };
+  if(g) walk(g);
+  ok(!!g&&tri>=40,'⑥ tingzhou_street.glb 有門扇節點 COPY_LIMAO_LEAF（'+tri+' 個三角形）');
+  ok(!!g&&mx[1]>2.5&&mx[1]<2.8&&mn[2]>=gz-0.9&&mx[2]<=gz+0.05&&Math.abs((mn[0]+mx[0])/2-(cx-1.77))<0.1,'⑥ 門扇在門軸那裡、往騎樓開（高 2.66、z '+(g?mn[2].toFixed(2)+'～'+mx[2].toFixed(2):'?')+'）');
+  ok(/if\(lm\.leaf\) lm\.leaf\.visible=o;/.test(tz)&&/getObjectByName\('COPY_LIMAO_LEAF'\)/.test(tz),'⑥ tingzhou3d.js：營業顯示、打烊藏起來（和算命桌同一個開關 S.limaoOpen）'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

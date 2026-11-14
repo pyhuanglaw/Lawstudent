@@ -423,7 +423,7 @@ if SET == 'tingzhou':
                       # 第 2 版（BB 11-11 01:21：店面太暗太素、窗小、門洞窄、招牌下面一條黑）：牆＝這一棟的米白小方磚；格子窗加大（四直三橫）；門洞加寬、一扇格子門往外開著；騎樓天花板米白、暖黃燈；
                       #   兩盆植物（左高、右青花瓷盆）和算命桌在 nm_stalls.py 的 LIMAO_* 節點（位置在配置 limao）
                       cards=[('limao_win', -2.35, -0.1, 0.8, 2.7, 0.8, [-1.79, -1.23, -0.66], [1.43, 2.07]), ('limao_door', 0.15, 1.75, 0.0, 2.7, 0.8)], open=('limao_door',),
-                      leaves=[(1.75, 0.8, 2.66, 1)]),
+                      leaves=[(1.75, 0.8, 2.66, 1)], leaf_node='COPY_LIMAO_LEAF'),   # LIMAO-DOOR-CLOSED-1114：門扇是自己的節點，打烊藏起來
         # LIMAO-REAL-VIEW-1114（LAWWW2-C；店面標準 §12 第 1 點「從店外往裡看是立體的店內」）：real＝窗、門裡面不放景深卡（limao_win／limao_door 的圖），玻璃後面由遊戲放走進去的那一顆室內
         #   tz_limao_interior.glb（Z3.shopInsideReal，src/tingzhou3d.js 的 S.REAL_EXTRA）。室內寬 5.0（含牆）、高 3.3、深 10.4——這一棟玻璃後面只有 7 m，室內的後半（書房）伸進後面
         #   水源市場那一排（TM_N，z 13～19）的一樓量體裡，看不到；所以 back＝7（挖到這一棟的後面）、一樓量體只留室內兩邊的牆和室內天花板上面那一段（real_w、real_h）

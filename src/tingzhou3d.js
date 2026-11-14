@@ -107,13 +107,13 @@ const TZ3=(function(){
       const hc=S.clockHour(h,E2);   /* 營業／收攤照時鐘（LAWWW 2026-11-11：引擎傳進來的 h 是光線用的時間——冬天 17:30 的 h 是 19.2，模型會比能買的時間早開一個多小時；CC 看到「模型開著、按下去是收攤那一句」）；燈和夜色照舊用 h */
       let on=false; const off=zone.tzStallOff||{}; for(const q of stalls){ const o=!zone.tzStallsClosed&&!off[q.id]&&S.stallOpen(hc,q,L); q.isOpen=o; on=on||o; if(q.open) q.open.visible=o; if(q.closed) q.closed.visible=!o; }
       if(lm){ const o=S.limaoOpen(hc,L)&&!zone.tzLimaoOff, N=lm.nodes, room=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[LM.zone]; lm.open=o; lm.masterAway=o&&!!zone.tzLimaoAway;
-        if(N.LIMAO_TABLE_open) N.LIMAO_TABLE_open.visible=o; if(N.LIMAO_TABLE_closed) N.LIMAO_TABLE_closed.visible=!o; if(N.LIMAO_SHOPLIGHT) N.LIMAO_SHOPLIGHT.visible=o;
+        if(N.LIMAO_TABLE_open) N.LIMAO_TABLE_open.visible=o; if(N.LIMAO_TABLE_closed) N.LIMAO_TABLE_closed.visible=!o; if(N.LIMAO_SHOPLIGHT) N.LIMAO_SHOPLIGHT.visible=o; if(lm.leaf) lm.leaf.visible=o;   /* LIMAO-DOOR-CLOSED-1114（BB_379）：打烊收起往外開的格子門（鐵捲門前面不能還有一扇開著的門） */
         if(lm.door){ const d=lm.door; if(o&&room){ d.label='進'+LM.name; d.exit={to:LM.zone}; delete d.look; } else { d.label='看'+LM.name; delete d.exit; d.look=o?LM.name+'。':((typeof SH831!=='undefined'&&SH831.line&&SH831.line(LM.zone))||LM.name+'。門關著，裡面沒有開燈。'); } } }   /* 關著的那一句＝AA_831（src/data/shop_hours_aa831.js）；資料沒載到才是原本暫定的那一句 */
       if(zone.tzStallMat) zone.tzStallMat.emissiveIntensity=0.25+0.85*k; if(zone.tzGlowMat) zone.tzGlowMat.emissiveIntensity=0.4+1.4*k; zone.tzStallsOn=on; };
     const FG=L.fromGongguan, zone={group:g,nav,spawn:{x:FG.x,z:FG.z,yaw:FG.yaw},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       const tzR=c.scene.clone(true); Z3.attachWenzhouModel(E,g,tzR,'tzfb','tingzhou_street_glb'); zone.tzFormal=true;
-      if(Z3.ggShopLit) Z3.ggShopLit(tzR,zone,S.SHOP_LIT_PLACE,{glow:false});   /* TZ-FRONT-LIT-1112（LAWWW2-C；店面標準 §12 第 1 點）：店面板（xs_fronts_lit：招牌字、玻璃後面的亮光，extras.xsShops＝tzxile,tztai,tzlian,tzdong,tzkeju,tzyue,limao）照營業時間調暗——東南大聯、聯通、科舉、越好吃的招牌就在這一塊（不是 SIGN_FACE 板面），原本整晚亮。光暈由 shopRealGlow 管（glow:false）*/
+      if(Z3.ggShopLit) Z3.ggShopLit(tzR,zone,S.SHOP_LIT_PLACE,{glow:false}); if(lm){ const lf=tzR.getObjectByName('COPY_LIMAO_LEAF'); if(lf){ lm.leaf=lf; lf.visible=!!lm.open; } } /* LIMAO-DOOR-CLOSED-1114：街景模型的門扇節點 */   /* TZ-FRONT-LIT-1112（LAWWW2-C；店面標準 §12 第 1 點）：店面板（xs_fronts_lit：招牌字、玻璃後面的亮光，extras.xsShops＝tzxile,tztai,tzlian,tzdong,tzkeju,tzyue,limao）照營業時間調暗——東南大聯、聯通、科舉、越好吃的招牌就在這一塊（不是 SIGN_FACE 板面），原本整晚亮。光暈由 shopRealGlow 管（glow:false）*/
       if(Z3.openOnly) Z3.openOnly(tzR,zone);   /* OPEN-ONLY-1113：溫特寶邸門口立式衣架（OPENONLY__tz_wente__…）打烊收起來 */
       if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.shopReal()); if(Z3.shopRealGlow) Z3.shopRealGlow(g,'tingzhou_street_glb',zone,S.shopReal());   /* SHOP-REAL-INSIDE-1112：走得進去的店，玻璃後面放那一間的室內模型（BB_379：汀州路泰米村食、東南大聯、汀州聯通店外是照片貼圖、和店內不一樣）*/
       }).catch(e=>console.warn('汀州路正式模型載入失敗，用方塊立面',e));
