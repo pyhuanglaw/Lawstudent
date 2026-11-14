@@ -56918,7 +56918,7 @@
     "mainline": true,
     "confirmed": true
    },
-   "next": "【11-14 13:05】第二段完成：AA_959 783 列（企劃線 9b8fd62148）全部套好，--check 0＝cc10767480（10 支匯入工具加掛勾、HAND +43、syllabus 直接套表沒重匯）。第三段：修釘舊字的測試（已知 aa959_overlay_unit、d158_dates_1112_unit、date_lines_aa373_unit；其餘看 GHA）。｜【11-14 12:53 LAWWW-B】第一段完成：git merge rc2-76f8-wip＝4007124e82（5 衝突照 PLAN 解、產生檔重跑；AA_959 仍 405 列，--check 0；合併動到的 30 支測試雲端全過，GHA 977 跑全部）。第二段：AA_959 換 785 列（20 個重跑匯入工具、41 個加 HAND、修釘舊字的測試）。｜【11-14 12:4x LAWWW-B 接手】在 1889f7887a 試算 merge-tree：衝突還是計畫的 5 個（date_lines.js、ladder.js、三個 importer）。下一步照 PLAN：AA_959 用 785 列（企劃線 ecd30cea1a；AA-B 12:17 又核對過一版，動手前先看 cool-heisenberg 最新）→ merge → importer 兩個掛勾都留 → 20 個有工具的重跑、41 個手寫檔加進 HAND → --check 0 → 修釘舊字的測試。｜發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→b45c888f94（AA_1015 第二版；110b0fd990 是第一版、已被 BB 退件——AA-C 11-14 09:43 更正） 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
+   "next": "【11-14 13:30】第三段：用到 aa959_map／date_src_sha 的 65 支只剩 peishan_arc_1111_unit（等 AA 改表第 750 列 speaker）；修好 20 支（最後 0dfc48ecb7）。GHA 每推一次就取消上一次，沒有完整結果——改在容器背景跑全量（scratchpad/full），跑完看 65 支以外的。｜【11-14 13:05】第二段完成：AA_959 783 列（企劃線 9b8fd62148）全部套好，--check 0＝cc10767480（10 支匯入工具加掛勾、HAND +43、syllabus 直接套表沒重匯）。第三段：修釘舊字的測試（已知 aa959_overlay_unit、d158_dates_1112_unit、date_lines_aa373_unit；其餘看 GHA）。｜【11-14 12:53 LAWWW-B】第一段完成：git merge rc2-76f8-wip＝4007124e82（5 衝突照 PLAN 解、產生檔重跑；AA_959 仍 405 列，--check 0；合併動到的 30 支測試雲端全過，GHA 977 跑全部）。第二段：AA_959 換 785 列（20 個重跑匯入工具、41 個加 HAND、修釘舊字的測試）。｜【11-14 12:4x LAWWW-B 接手】在 1889f7887a 試算 merge-tree：衝突還是計畫的 5 個（date_lines.js、ladder.js、三個 importer）。下一步照 PLAN：AA_959 用 785 列（企劃線 ecd30cea1a；AA-B 12:17 又核對過一版，動手前先看 cool-heisenberg 最新）→ merge → importer 兩個掛勾都留 → 20 個有工具的重跑、41 個手寫檔加進 HAND → --check 0 → 修釘舊字的測試。｜發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→b45c888f94（AA_1015 第二版；110b0fd990 是第一版、已被 BB 退件——AA-C 11-14 09:43 更正） 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
    "xai": [],
    "note": "｜11-14 10:1x：AA_959 定版改成 784 列（企劃線 53b7a59c2d，pendingBB 空；多 AA_1021 6 列、AA_1022 12 列）。aa959.py HAND 要加 story3d.js、holff3d.js。順序 AA959.layer 先、B5.fix 後（B5 已換好的會略過）。v9.10.26 已發布，可以開始。｜11-14 10:1x 第一次試做已退回（開發分支沒變）：衝突解法可行；但 AA_959 784 列 --apply-hand 後還有 616 筆沒套到、分在 61 個檔，要逐檔判斷 importer／HAND，再修釘舊字的測試——工作量大。使用者用量只剩約 10%，留給下一個帳號。做法、61 個檔的清單：docs/handoff/rc2_port_1114/PLAN.md。"
   },
@@ -57495,7 +57495,7 @@
    "title": "校門照使用者參考圖改（中間圓弧紅磚門房＋石額「首都帝國大學」、旗桿、花圃、兩側車道、外側石柱＋燈＋鐵門；使用者 11-14 對 LAWWW2-B、BB-B）",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "【11-14 LAWWW-B 開 ID】參考圖：claude/elegant-brown-fcos7n 6e4645c097 docs/story_planning/BB_132_refs/ntu_gate_user_ref_1114.webp；LAWWW2-B WIP c24822c9a2（campus_gate.py）。校園建築照 D136：可以部分相同、不照抄。交件後 LAWWW 整合（CK.gate 校園、公館共用，導航 placeGate）、BB 驗收。",
+   "next": "【11-14 LAWWW2-B 交第 1 版 bc375ab018，等 LAWWW 整合】模型（campus_gate.glb／json／py、ixora_flower.png）＋gate_ref_nav_on_b4663868c1.patch 要一起進；整合後 CC 拍校園側、公館側白天晚上。｜【11-14 LAWWW-B 開 ID】參考圖：claude/elegant-brown-fcos7n 6e4645c097 docs/story_planning/BB_132_refs/ntu_gate_user_ref_1114.webp；LAWWW2-B WIP c24822c9a2（campus_gate.py）。校園建築照 D136：可以部分相同、不照抄。交件後 LAWWW 整合（CK.gate 校園、公館共用，導航 placeGate）、BB 驗收。",
    "xai": {
     "spec": "使用者參考圖＋UA-LAWWW2-1114",
     "branch": "claude/funny-albattani-iawshm",
@@ -57577,7 +57577,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "證據 CC WZ_REAL_r4（main 6106fae2d2）；改法：沒建的店放店內照片卡。",
+   "next": "【11-14 LAWWW2-B 交 1e15e307b0，等 LAWWW 整合】wz_real_lite_on_b4663868c1.patch（zones3d.js shopInsideReal＋新測試）；整合後 CC 量轉鏡頭長幀、WZ_REAL_r4 原站位重拍。｜證據 CC WZ_REAL_r4（main 6106fae2d2）；改法：沒建的店放店內照片卡。",
    "sha": null,
    "xai": {
     "spec": "BB-B 11-14 判定（BB_379）",
@@ -57603,7 +57603,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "照片外改天空色／地面延伸，或換各自的窗景照片。",
+   "next": "【11-14 LAWWW2-B 交第一部分 f2281a32ba，等 LAWWW 整合】winview_edge_blur_on_b4663868c1.patch（world3d.js W3.windowMat）；shader 沒在瀏覽器編過——整合後 CC 先確認窗景不是黑的，再拍公館三間 14:00／20:00＋一間教室、一間宿舍。第二部分（分層分界）LAWWW2 在做。｜照片外改天空色／地面延伸，或換各自的窗景照片。",
    "sha": null,
    "xai": {
     "spec": "BB-B 11-14 判定（BB_379）",
@@ -57765,6 +57765,32 @@
     "spec": "BB-B 11-14",
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "BB 重判 PASS",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA-1025-1027-INTEG-1114",
+   "title": "整合 AA_1025 F2～F15（寒暑假、美國交換對不上的字）、AA_1026（還寫「麵店」的 11 處＋Q 改稿）、AA_1027（大一下補五則動態）",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "企劃線 claude/cool-heisenberg-o8kuqx：AA_1025／AA_1026 用 2a6e72dd39 以後（Q1、Q3、Q4、Q7 改稿等 AA 併進去）、AA_1027 用 1029d03d0e（加進 FEED_Y1S2.posts，tests/aa504_505_feed_unit.js 加來源）。F1 已整合 75ffe6c10f。F2 要加條件：子晴寒假約的隔天在店休期間就不發。整合後告訴 BB，CC 重跑 HL2 的 Y1S2。排在 RC2-PORT 測試全綠之後。",
+   "sha": null,
+   "xai": {
+    "spec": "AA-B 11-14（BB 看過、定稿）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "BB 判／CC 重跑",
     "receiver": "LAWWW",
     "ack": "ACK"
    }
