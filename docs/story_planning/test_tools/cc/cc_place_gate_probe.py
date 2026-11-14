@@ -15,6 +15,7 @@
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
 11-12 BB-C 14:43：⑥ 機器判改看藏人那一輪連拍（有人那一輪翻的多半是客人在走，只記、也切條圖 strip_*_people_*）。
 11-12 BB-C 15:21：③ 櫃檯鏡頭改從門口方向看（退 min(2.5, 到門口距離×0.8) m）；⑦b 店外取色框往內往下收到玻璃以內。
+CC-B 11-14：ROOM_JS 量玩家那一層（二樓的店）；PARALLAX_NA＝二樓的店，⑤、⑦b 都 N/A。
 CC_02 清單 2026-11-13：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人（連 n.hidden 一起設：引擎每幀照 n.hidden 重設 visible，XS_REAL_cal_old_r3 店員沒藏到）、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；框太小（<6% 或寬 <15%）換下一個來源（TZ_REAL_consist 框到店外展示台）；⑤加店外連拍 outside_burst（只記）；STRIPS=1 藏人那一輪每個翻動格子切 12 張條圖（BB-C 10:23）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time, re
@@ -93,8 +94,8 @@ LOOKUP_Y = float(os.environ.get('LOOKUP_Y') or 5.0)
 PARALLAX_NA = (os.environ.get('PARALLAX_NA') or '0') == '1'
 SIDE_OFF = float(os.environ.get('SIDE_OFF') or 0)   # BB-C 11-14 LIMAO_PARALLAX_r2：⑤ 店外左右固定平移這麼多公尺（例 0.8），站不站得住都照拍；0＝照舊 1.5／1.0／0.6   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
-ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
-  if(N&&N.cols){ for(let j=0;j<N.rows;j++) for(let i=0;i<N.cols;i++){ const w=N.toWorld(i,j); if(E.canStand(w[0],w[1],0.3,0)){ n++; x0=Math.min(x0,w[0]); x1=Math.max(x1,w[0]); z0=Math.min(z0,w[1]); z1=Math.max(z1,w[1]); } } }
+ROOM_JS = r"""(()=>{ /* CC-B 11-14（BB-B 12:47，MOKUYOBI_r5 ① 整格黑）：原本 canStand 寫死第 0 層＝二樓的店量到的是一樓樓梯間（x −4.15～−3.35 那條），進門鏡頭往那裡推 3.5 m 推進牆裡；改量玩家那一層 */ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
+  if(N&&N.cols){ for(let j=0;j<N.rows;j++) for(let i=0;i<N.cols;i++){ const w=N.toWorld(i,j); if(E.canStand(w[0],w[1],0.3,E.player?(E.player.lv|0):0)){ n++; x0=Math.min(x0,w[0]); x1=Math.max(x1,w[0]); z0=Math.min(z0,w[1]); z1=Math.max(z1,w[1]); } } }
   const IT=(E.interactables||[]).filter(i=>!i.hidden); const lab=i=>String(typeof i.label==='function'?i.label():i.label||'');
   const ex=IT.filter(i=>i.exit).sort((a,b)=>(lab(b).startsWith('離開')?1:0)-(lab(a).startsWith('離開')?1:0))[0]||null;
   const CTW=[/點餐|點飲料|點菜|點東西/,/結帳|收銀/,/買|店員|老闆/,/吧台|吧檯|櫃/]; const ctr=i=>{ const L=lab(i); if(/^看/.test(L)) return 99; const k=CTW.findIndex(r=>r.test(L)); return k<0?99:k; };   /* CC-B 11-14（BB-B 12:24，GATE2_MOKUYOBI_r4）：木曜日的點單是「點東西（…）」；「看看書櫃」這類「看…」不是櫃台 */   // 11-13 BB-C：辛亥韓食先挑到「小菜櫃」（只看旁白、不點餐）＝點餐、結帳類優先
@@ -710,7 +711,8 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     fl = ['', '' if row['v'].get('2_window') == 'PASS' else row['v'].get('2_window', ''), '', '' if row['v'].get('3_ceiling') == 'PASS' else row['v'].get('3_ceiling', ''),
           '' if row['v'].get('5_parallax') in ('PASS', None) else row['v'].get('5_parallax'), '', '', '']
     verdict = '  '.join('%s=%s' % (k, v) for k, v in sorted(row['v'].items()))
-    if PARALLAX_NA and '5_parallax' in row['v']: row['v']['5_parallax'] = 'N/A'; verdict = verdict.replace('5_parallax=UNKNOWN', '5_parallax=N/A').replace('5_parallax=FAIL', '5_parallax=N/A')   # BB-B 12:24：二樓的店（木曜日）街上只看得到樓梯門和招牌，視差記 N/A
+    if PARALLAX_NA and '5_parallax' in row['v']: row['v']['5_parallax'] = 'N/A'; verdict = verdict.replace('5_parallax=UNKNOWN', '5_parallax=N/A').replace('5_parallax=FAIL', '5_parallax=N/A')
+    if PARALLAX_NA and '7b_consistent' in row['v']: verdict = verdict.replace('7b_consistent=' + row['v']['7b_consistent'], '7b_consistent=N/A'); row['v']['7b_consistent'] = 'N/A'   # BB-B 12:47（BB_379）：二樓的店 ⑦b（店外＝街上 vs 進門）也直接 N/A，不要每次 UNKNOWN   # BB-B 12:24：二樓的店（木曜日）街上只看得到樓梯門和招牌，視差記 N/A
     sh = await pg.evaluate(SHEET_JS, {'urls': urls, 'labels': labels, 'flags': fl, 'rects': [None, [r['rect'] for r in a2.get('rects', [])], None, None, None, None, None, None],
                                       'title': '%s %s %s（%s，%s）' % (rm['name'], zid, hh, TAG, SHA[:9]), 'verdict': verdict})
     open(os.path.join(OUT, 'gate_%s_%s.jpg' % (zid, hh)), 'wb').write(base64.b64decode(sh.split(',', 1)[1]))
