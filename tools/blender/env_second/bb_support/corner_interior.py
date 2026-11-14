@@ -514,7 +514,13 @@ pst.done()
 def leafy(name, x, y, z, cells, n=14, rad=0.35, hgt=(0.5, 1.2), size=(0.12, 0.16), pot=None, potcol='#e8e3d6', side=None, droop=0.5, seed=1):
     """盆栽：盆子（旋轉體）＋一根一根的莖（管子）＋葉片卡（兩面）"""
     if name == 'big_plant':   # SHOP-CC0-HELP-1113：右前的大盆栽（白盆）換 Poly Haven potted_plant_02（掃描）
-        CK.ph_put('potted_plant_02', x, y, z, yaw=1.1, share=False, height=hgt[1] + (pot[1] if pot else 0.0), decimate=0.03); return
+        o_ = CK.ph_put('potted_plant_02', x, y, z, yaw=1.1, share=False, height=hgt[1] + (pot[1] if pot else 0.0), decimate=0.03)
+        # 盆子那個材質換成店裡的 cr_vc（頂點色×Plastic006；盆子沒有頂點色＝白色塑膠盆，參考圖也是白盆）：材質數維持 12（tests/corner_glb_unit.js 第 1 項）
+        zs = {}
+        for pg in o_.data.polygons: zs.setdefault(pg.material_index, []).append(pg.center.z)
+        pot_i = min(zs, key=lambda i: sum(zs[i]) / len(zs[i]))
+        o_.data.materials[pot_i] = M['vc']
+        return
     p = Part(name, side=side); c = p['vc']; u = p['alpha']; rr = random.Random(seed)
     if pot:
         pr, ph = pot; clathe(c, [(0.0, 0.0), (pr * 0.78, 0.0), (pr, ph * 0.92), (pr * 1.04, ph), (pr * 0.96, ph), (0.0, ph * 0.9)], x, y, z, potcol, seg=18)
