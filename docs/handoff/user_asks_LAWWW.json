@@ -5409,6 +5409,15 @@
    "status": "進行中",
    "task": "HANDOFF-RULE-GAPS-1114",
    "src": "使用者對 LAWWW-B（三件：改接班規則、確認各職位照上一班交代的做完＝TAKEOVER-VERIFY-B-1114、舊規則刪掉）"
+  },
+  {
+   "id": "UA-LAWWW-1114-12",
+   "at": "2026-11-14T13:0xZ",
+   "quote": "其他職位到底有沒有跑完接班規則你跟他們確認",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "TAKEOVER-VERIFY-B-1114",
+   "src": "使用者對 LAWWW-B"
   }
  ]
 }
