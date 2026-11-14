@@ -18,6 +18,12 @@
 
 五間的建模腳本都已經改好、推上去（`tools/blender/env_second/bb_support/*_interior.py`＋共用 `cc0_kit.py`）；用腳本重建、還沒烘的原檔都過了店自己的單元測試、`shop_cc0_unit` 三項（LICENSES 列加上以後）。
 
+## 交班（2026-11-14，使用者「現在交班」，第二次）
+- 派給第③群的全部交完：大步、好拍、同弦、大口一二樓、coplanar 工具；v2 三間（好拍、大口 LAWWW2 PASS；大步 v2 ee32d5714f 已交 LAWWW2-C 等驗收）。新生運動 LAWWW2-C 接手。
+- 沒有正在做的、沒有在跑的烘焙、沒有排程。工作區乾淨、全部已 push。
+- 留給 LAWWW2／LAWWW：大步 WALL_left_left_vc×WALL_left_print 疊面 4.372 m²（沒要求、沒動）；好拍 v2 tris_drawn 57k→77k 等 CC 量手機效能；同弦、coplanar 工具等驗收。
+- 本分支規則包比 RULE_SOURCE 舊（hook 提醒 D157）；幫手不改 CLAUDE.md，沒跑 rules_sync。
+
 ## 交班（2026-11-14 02:05 UTC，使用者「現在換班」）
 - 停在：大口 v2 一樓正在烘（被我停掉、沒烘完；assets 沒有被改）。好拍 v2、大步 v2 排隊中（也停了）。**v2 三間都還沒烘、沒交。**
 - 已交、等驗收／整合：同弦 tongxian（768816c33c，tongxian.patch 底 2da495e693）、glb_coplanar instancing（edb96e33ec，coplanar_instancing.patch 底 2da495e693）。兩包誰後整合，後整合的要重跑 `--coplanar`（同弦那包的基準是舊工具算的）。
