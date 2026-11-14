@@ -2579,6 +2579,16 @@ HL1_CIRCLE_1028_r3b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/st
 HL1_CIRCLE_1028_r4 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_5_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 HL1_CIRCLE_1028_r4b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:4x：HL1 r4 4_2 跟丟、r4b 學姊在公館走不過去＝探針 → r5（走路的一看到就放背後 15 m；看不到就放到 8 m 內）
+# CC-B 11-14 13:5x：LAWWW-B 13:47 五包整合後（dev aa876bf9b9，之後只動 docs／tests；node-unit-auto 紅的與這些無關），副本 BB 判。①WINVIEW-MIRROR-TREE-1114 最優先（共用 shader：窗景有畫、不是黑的）
+WINVIEW_MIRROR_gg3 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 25 | ZONES=gg_xianguo,gg_antai,gg_rongendian;HOURS=14,20;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+WINVIEW_MIRROR_rooms | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 20 | ZONES=classroom,dorm;HOURS=14,20;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# ②GATE-REF-1114：校門 門外跟隨／門內跟隨／原固定相機（黑半圓）／校園側面向校門／公館區域的校門，白天 08:30、晚上 20:00；走過通道 z 0／±3／±5.5
+GATE_REF_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r1;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# ③WZ-REAL-LITE-EMPTY-1114：r4 原本的站位（玻璃外 3 m 舊算法）＋路中間 (44,0)；SUNNY SIDE、小路、日常失速、林家；SPIN＝原地轉一圈量最長幀
+WZ_LITE_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 30 | TAG=wz_lite_r1;SHOPS=wz_brunch,wz_teishoku,wz_offbeat,wz_lin;HOURS=14,22;MID=1;SPIN=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# ④SHOP-REALISM-1112：單車 v2.1（bikeshop，週一公休、10～20）、大步 v2（xs_dabu）地點關卡
+SHOPREAL_BIKE_v21 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_bike_v21;ZONES=bikeshop;DAY=2025-10-22;HOURS=14,19;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+SHOPREAL_DABU_v2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_dabu_v2;ZONES=xs_dabu;HOURS=14,20.5;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 HL1_CIRCLE_1028_r5 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:3x：BB_462 AA358_24_natural（不用捷徑三路）——雲端 81e5 三路 ALL PASS（A 賠十倍、B 你先看＋兩選項、C 不演），電腦正式跑
 AA358_24_natural | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 40 | PARTS=NATURAL;SHA=81e5f197fb0e017257ad3dfd359dfafffe54f95b
