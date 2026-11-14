@@ -1,17 +1,3 @@
-[02:21:08] ==== END   L118_KDT_e23d  exit=1  1666s   ====
-[02:21:13] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[02:21:13] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[02:21:13] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[02:21:13] memory 47% before starting CANON_NEWGAME_B2_r4 (2 running)
-[02:21:13] ==== START CANON_NEWGAME_B2_r4  (probe @ 27001bdc021143e98900cce3918de1261a446e8c) ====
-[02:21:16] [res] cpu=2% mem=47% (15.0/31.4 GB) chrome_testing=10  START CANON_NEWGAME_B2_r4
-[02:21:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 98 分／上限 600 分）、CANON_NEWGAME_B2_r3（已跑 13 分／上限 240 分）、CANON_NEWGAME_B2_r4（已跑 0 分／上限 240 分）——還沒測完，請不要關 (tests still running - please do not close)
-[02:26:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 103 分／上限 600 分）、CANON_NEWGAME_B2_r3（已跑 18 分／上限 240 分）、CANON_NEWGAME_B2_r4（已跑 5 分／上限 240 分）——還沒測完，請不要關 (tests still running - please do not close)
-[02:27:54] [res] cpu=5% mem=47% (15.0/31.4 GB) chrome_testing=10  END CANON_NEWGAME_B2_r3
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       9bcc1b6383..6beb6174fd  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[02:28:20] ==== END   CANON_NEWGAME_B2_r3  exit=1  1196s   ====
 [02:28:33] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [02:28:33] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
 [02:28:33] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
@@ -1998,3 +1984,17 @@
 [15:28:40] [res] cpu=1% mem=32% (10.1/31.4 GB) chrome_testing=0  START WZ_PERF_f3e1_touch_r2
 [15:31:56] 正在跑：WZ_PERF_f3e1_touch_r2（已跑 3 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:33:51] [res] cpu=7% mem=32% (10.2/31.4 GB) chrome_testing=0  END WZ_PERF_f3e1_touch_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3bd12d77ba..90bf62c10d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:34:01] ==== END   WZ_PERF_f3e1_touch_r2  exit=0  314s   ====
+[15:34:05] memory 29% before starting INVITE_PHONE_yue (0 running)
+[15:34:05] memory 29% before starting INVITE_PHONE_keju (1 running)
+[15:34:05] ==== START INVITE_PHONE_yue  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[15:34:05] memory 29% before starting TUTOR_BACK_r3 (2 running)
+[15:34:05] ==== START INVITE_PHONE_keju  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[15:34:05] ==== START TUTOR_BACK_r3  (probe @ a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492) ====
+[15:34:08] [res] cpu=2% mem=29% (9.4/31.4 GB) chrome_testing=0  START TUTOR_BACK_r3
+[15:34:08] [res] cpu=0% mem=29% (9.4/31.4 GB) chrome_testing=0  START INVITE_PHONE_yue
+[15:34:08] [res] cpu=2% mem=29% (9.4/31.4 GB) chrome_testing=0  START INVITE_PHONE_keju
+[15:36:42] [res] cpu=0% mem=44% (14.1/31.4 GB) chrome_testing=10  END INVITE_PHONE_yue
