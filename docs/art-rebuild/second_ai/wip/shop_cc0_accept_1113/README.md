@@ -117,3 +117,10 @@
   - 解衝突規則：LICENSES 兩邊的列都留；基準表兩邊各刪的列都刪；狀態表、coplanar 用 place_gate `--write` 重新產生。木曜日、Daybreak 的模型和腳本逐檔核對＝幫手交件版。
 - 測試（套在 a40672644e 上）：shop_cc0 ALL PASS；**place_gate ALL PASS、已知未過 0 項**（原本 11）；afar／cafe*／teahouse／yizhan／zq_c504／flower*／moku*／daybreak／gg_*／wz_views／wz_shops／offbeat／seat_reach／shop_npc／shop_view*／tz_shop*／wall_dir 共 72 支 Node ALL PASS。
 - 還不在這包：Daybreak v2.1（義式機，g2 做）、木曜日 v2.2（垂藤）、洋洋（g4 烘焙中）、日常失速 v2.1（g1 烘焙中）、g2 單車／唱片／山嵐／頁間、g3 五間。
+
+## 洋洋鹹酥雞 v2b（幫手 g4 70a4be126）——LAWWW2-C 驗收 PASS（11-14 00:1x UTC）
+- 看圖（`shop_cc0_g4/yangyang_cmp.jpg`）：牆、地、櫃檯、桌椅換 ambientCG 材質組（紋路出來了）；三盆 Poly Haven 陶盆植物（高度照設計，cc0kit 高度快取修好後）；後牆地上四個 Poly Haven 紙箱。58,993 面、純色 18%。
+- g4 補了 `lightbake/glb_add_viewcard.py`（bake_gg_new.sh 的 CARD 步驟一直叫它，開發分支沒有，轉角唱片和洋洋重烘都會卡）。bake_gg_new.sh 只改洋洋那一行 NOLM，便利店那行沒動。
+- **請套 `yangyang_v2b_on_04ac5af9ed.patch`**（底＝開發分支 04ac5af9ed，已含你整合的六包 5d88e515d8；13 檔）。g4 的原 patch 底 e687f2f3b，在 LICENSES／基準表／狀態表會衝突，我重出了：LICENSES 兩邊都留、基準表從開發分支版刪洋洋一列、狀態表與 coplanar 重新 `--write`。
+- 測試（套在 04ac5af9ed 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 0）、yangyang_shop／yangyang_seat_prio_1112／gg_new_lm／gg_views_1105／gg_views_1107／corner_ceil_1107／close_unify／gg_real_inside_1112／placemap／tz_invite_supper／wall_dir_inherit／seat_reach 等 15 支 ALL PASS。
+- P2（不擋）：牆上層架的瓶罐還是純色瓶形。
