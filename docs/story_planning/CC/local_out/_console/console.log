@@ -1,13 +1,3 @@
-[22:25:57] skip FN_func_a_new_r2 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:58] skip FN_func_a_old_r2 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:58] skip FN_shots_b_new_r2 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:58] skip FN_shots_b_old_r2 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:58] skip ART2_ggext_new (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip ART2_ggext_old (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:58] skip ART2_int_gg_new (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip ART2_int_gg_old (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:58] skip ART2_walls_new (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip ART2_walls_old (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
 [22:25:58] skip ART2_lmint_new (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
 [22:25:58] skip ART2_lmint_old (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
 [22:25:58] skip ART2_g0910_new (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
@@ -1998,3 +1988,13 @@
 [09:47:14] [res] cpu=18% mem=43% (13.7/31.4 GB) chrome_testing=10  START GATE2_MOKUYOBI_2F_r3
 [09:51:54] 正在跑：L118_CAM36_a_r4（已跑 14 分／上限 60 分）、L118_CAM36_b_r4（已跑 9 分／上限 60 分）、GATE2_MOKUYOBI_2F_r3（已跑 4 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:55:18] [res] cpu=6% mem=42% (13.4/31.4 GB) chrome_testing=10  END GATE2_MOKUYOBI_2F_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       18ccb48979..4ef95234d1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:55:31] ==== END   GATE2_MOKUYOBI_2F_r3  exit=1  487s   ====
+[09:55:43] memory 43% before starting WINVIEW_GG3_REL (2 running)
+[09:55:43] ==== START WINVIEW_GG3_REL  (probe @ bcc99693a7b18c4cd606dfac63124518198ca685) ====
+[09:55:46] [res] cpu=5% mem=43% (13.6/31.4 GB) chrome_testing=10  START WINVIEW_GG3_REL
+[09:55:46] worktree add bcc99693a7b18c4cd606dfac63124518198ca685: invalid reference - fetching main and the commit itself
+[09:56:54] 正在跑：L118_CAM36_a_r4（已跑 19 分／上限 60 分）、L118_CAM36_b_r4（已跑 14 分／上限 60 分）、WINVIEW_GG3_REL（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:58:39] [res] cpu=11% mem=45% (14.2/31.4 GB) chrome_testing=10  END WINVIEW_GG3_REL
