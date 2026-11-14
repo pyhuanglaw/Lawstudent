@@ -9,6 +9,7 @@ wz_brunch 白天模型卡、晚上 WZ_AA_NIGHTVIEW），wz_teahouse（一盞）�
   一盞（wz_teahouse）：前院不是卡——前院模型的網格（名字含 YARD／gate／lantern／tree／camphor／fence，或 wz_teahouse_yard 載進來的那一組）算中心，
     相機從房間中心往前院方向走到房間邊緣（緣側）、高 1.4 m 往前院看。
   每間每個時間另外拍一張遊戲自己的鏡頭（E.camera，站在出生點）。
+CC-B 11-14：PHOTO_SHADER=1 也算 W3.windowMat（照片窗景 shader：法律系館A、總圖、118 巷店）的網格（LAWWW-B WINVIEW-MIRROR-TREE-1114）。
 CC_02 清單 2026-11-14：1✓（日期 10/22 週三、13:00／21:00，照 LAWWW-C；打烊的跳過並記） 2✓（窗景卡從場景網格的名字找，不寫死座標；房間範圍從導航格算） 3✓（每一張卡都拍，不挑第一張） 4n/a（只拍照，不點畫面） 5n/a（不走路，讀檔進店） 6✓（等 ASSETS 載完、再等 1.5 秒讓 applyTime 換窗景圖） 7✓（lint、JS 在 node --check 驗過語法） 8✓（數字只記不判，判定歸 BB） 9✓（相機對準卡的中心、記卡的位置；找不到卡＝FAIL_SETUP） 10n/a（讀檔時關事件和手機） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：真的在那一間、找到窗景卡或前院） 13n/a（不走路）
 天花板（LAWWW-C 17:38，@d78586749b：wz_print／wz_lin／wz_teishoku 室內鏡頭距離 4.0→3.2）：CEIL_ZONES 的每一間、每個時間拍三張遊戲自己的鏡頭——
   ① 預設跟隨鏡頭 ② 手指往下拖（俯角拉到最大，鏡頭最高）③ 手指往上拖（俯角最小、抬頭）；拖是真的觸控（CDP touch，和玩家一樣）。
@@ -23,6 +24,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
+PHOTO_SHADER = (os.environ.get('PHOTO_SHADER') or '0') == '1'
 ZONES = [z for z in (os.environ.get('ZONES') or 'afar,daybreak,yangyang,corner_records,aoki,wz_mokuyobi,wz_offbeat,wz_brunch,wz_teahouse').split(',') if z]
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '13,21').split(',') if h]
 CEIL_ZONES = [z for z in (os.environ.get('CEIL_ZONES') or '').split(',') if z]
@@ -54,7 +56,7 @@ ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,
 CARDS_JS = r"""(a=>{ const E=GAME.E, z=E.zone, root=(z&&z.group)||E.scene, f=v=>+(+v).toFixed(2), out=[], yard=[]; const RX=/window_view|_VIEW|VIEW_|^VIEW/i, YX=/YARD|gate|lantern|camphor|tree|fence|takegaki|kabuki|ishi/i;
   const box=new THREE.Box3(), v=new THREE.Vector3();
   root.traverse(o=>{ if(!o.isMesh) return; const ms=[].concat(o.material||[]); const mn=ms.map(m=>m&&m.name||'').join('|');
-    if(RX.test(o.name||'')||RX.test(mn)){ box.setFromObject(o); if(box.isEmpty()) return; box.getCenter(v); const sz=new THREE.Vector3(); box.getSize(sz);
+    if(RX.test(o.name||'')||RX.test(mn)||(a&&a.photoShader&&ms.some(m=>m&&m.uniforms&&m.uniforms.photo&&m.uniforms.depth))){ box.setFromObject(o); if(box.isEmpty()) return; box.getCenter(v); const sz=new THREE.Vector3(); box.getSize(sz);
       const m0=ms[0]||{}; const url=(m0.map&&m0.map.userData&&m0.map.userData.url)||(m0.map&&m0.map.image&&m0.map.image.src&&String(m0.map.image.src).split('/').slice(-1)[0])||null;
       const mp=m0.map||null, im=mp&&mp.image, iw=im&&(im.naturalWidth||im.width), ih=im&&(im.naturalHeight||im.height);
       const uv=o.geometry&&o.geometry.attributes&&o.geometry.attributes.uv; let uvr=null; if(uv){ let a0=1e9,a1=-1e9,b0=1e9,b1=-1e9; for(let i=0;i<uv.count;i++){ const x=uv.getX(i), y=uv.getY(i); a0=Math.min(a0,x); a1=Math.max(a1,x); b0=Math.min(b0,y); b1=Math.max(b1,y); } uvr={u:[f(a0),f(a1)],v:[f(b0),f(b1)]}; }
@@ -90,7 +92,7 @@ async def one(pg, cdp, zid, h, rows):
     if s['zone'] != zid:
         R.note('%s 讀檔以後在 %s＝打烊或進不去，這個時間跳過（不判）' % (tag, s['zone'])); row['skipped'] = 'closed:' + s['zone']; rows.append(row); return
     room = await pg.evaluate(ROOM_JS); row['room'] = room
-    cd = await pg.evaluate(CARDS_JS, {'yard': zid == 'wz_teahouse'}); row['cards'] = cd['cards']; row['yardN'] = cd['yardN']
+    cd = await pg.evaluate(CARDS_JS, {'yard': zid == 'wz_teahouse', 'photoShader': PHOTO_SHADER}); row['cards'] = cd['cards']; row['yardN'] = cd['yardN']
     R.note('%s 房間 %s；窗景卡 %s；前院網格 %d 個 %s' % (tag, J(room), J(cd['cards']), cd['yardN'], J([y['n'] for y in cd['yard'][:10]])))
     want = bool(cd['cards']) or (zid == 'wz_teahouse' and cd['yardN'] > 0)
     if not R.check('FAIL_SETUP 檢查：%s 量得到房間、找到窗景卡%s' % (tag, '或前院' if zid == 'wz_teahouse' else ''), bool(room['box']) and want, J({'room': room, 'cards': len(cd['cards']), 'yard': cd['yardN']})):

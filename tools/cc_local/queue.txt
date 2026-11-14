@@ -2582,6 +2582,8 @@ HL1_CIRCLE_1028_r4b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/st
 # CC-B 11-14 13:5x：LAWWW-B 13:47 五包整合後（dev aa876bf9b9，之後只動 docs／tests；node-unit-auto 紅的與這些無關），副本 BB 判。①WINVIEW-MIRROR-TREE-1114 最優先（共用 shader：窗景有畫、不是黑的）
 WINVIEW_MIRROR_gg3 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 25 | ZONES=gg_xianguo,gg_antai,gg_rongendian;HOURS=14,20;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 WINVIEW_MIRROR_rooms | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 20 | ZONES=classroom,dorm;HOURS=14,20;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# CC-B 11-14 13:5x：rooms 第一輪 classroom、dorm 沒有窗景卡（那兩區不用照片窗景 shader）＝我挑錯區域；用 W3.windowMat 的是 building3d（法律系館A）、library3d（總圖大廳）、library_3f、118 巷店 → r2 PHOTO_SHADER=1
+WINVIEW_MIRROR_rooms_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 25 | ZONES=linze,library_hall,l118_korea;HOURS=14,20;PHOTO_SHADER=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ②GATE-REF-1114：校門 門外跟隨／門內跟隨／原固定相機（黑半圓）／校園側面向校門／公館區域的校門，白天 08:30、晚上 20:00；走過通道 z 0／±3／±5.5
 GATE_REF_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r1;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ③WZ-REAL-LITE-EMPTY-1114：r4 原本的站位（玻璃外 3 m 舊算法）＋路中間 (44,0)；SUNNY SIDE、小路、日常失速、林家；SPIN＝原地轉一圈量最長幀
