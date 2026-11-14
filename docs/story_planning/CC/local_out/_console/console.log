@@ -1,13 +1,3 @@
-[03:02:54] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[03:02:54] memory 43% before starting CANON458_D1C (2 running)
-[03:02:54] ==== START CANON458_D1C  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
-[03:02:57] [res] cpu=1% mem=43% (13.7/31.4 GB) chrome_testing=10  START CANON458_D1C
-[03:06:53] 正在跑：CANON_NEWGAME_B2_r5（已跑 12 分／上限 240 分）、CANON458_D5（已跑 7 分／上限 60 分）、CANON458_D1C（已跑 3 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
-[03:06:57] [res] cpu=4% mem=41% (13.2/31.4 GB) chrome_testing=10  END CANON458_D5
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       522f1f5818..7a2f7f81fa  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[03:07:40] ==== END   CANON458_D5  exit=0  449s   ====
 [03:07:45] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [03:07:45] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
 [03:07:45] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
@@ -1998,3 +1988,13 @@
        378618435c..4b72b8db85  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:45:26] ==== END   RONG_SIGN  exit=0  107s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4b72b8db85..debb007685  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:45:38] ==== END   YY_ORDER_r2_out  exit=0  204s   ====
+[15:45:42] memory 37% before starting WZ_LIN_SEAT_r2 (2 running)
+[15:45:42] ==== START WZ_LIN_SEAT_r2  (probe @ 5b7c5ce1243746453a74cb9c984514bc134475ef) ====
+[15:45:45] [res] cpu=4% mem=37% (11.9/31.4 GB) chrome_testing=4  START WZ_LIN_SEAT_r2
+[15:45:45] solo item FIRST_xs_tongxian_r8 waits: no new items start until the 2 running item(s) finish
+[15:46:56] 正在跑：L118_SELF_5b7c（已跑 2 分／上限 50 分）、WZ_LIN_SEAT_r2（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:47:36] [res] cpu=7% mem=37% (11.8/31.4 GB) chrome_testing=5  END WZ_LIN_SEAT_r2
