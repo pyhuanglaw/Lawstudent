@@ -506,8 +506,9 @@ def glass_wall(side, a0, a1, y0, y1, solid_runs=(), door=None):
     def seg(u0, u1):
         n = max(1, round((u1 - u0) / 1.6)); us = [u0 + (u1 - u0) * i / n for i in range(n + 1)]
         for u in us:
-            if side == 'front': fr.box(u - 0.04, u + 0.04, y0, y1, Z1 - 0.06, Z1 + 0.04)
-            else: fr.box(X0 - 0.04, X0 + 0.06, y0, y1, u - 0.04, u + 0.04)
+            # 直框比橫框薄 2 mm（前後各縮 2 mm）：兩個方塊的前、後面不在同一平面（SHOP-CC0-HELP-1113，place_gate 疊面：原本直框、橫框交接處整片疊在一起會閃）
+            if side == 'front': fr.box(u - 0.04, u + 0.04, y0, y1, Z1 - 0.058, Z1 + 0.038)
+            else: fr.box(X0 - 0.038, X0 + 0.058, y0, y1, u - 0.04, u + 0.04)
         if side == 'front':
             fr.box(u0, u1, y0, y0 + 0.1, Z1 - 0.06, Z1 + 0.04); fr.box(u0, u1, y1 - 0.08, y1, Z1 - 0.06, Z1 + 0.04); gl.box(u0, u1, y0 + 0.1, y1 - 0.08, Z1 - 0.01, Z1 + 0.0)
         else:
@@ -515,7 +516,7 @@ def glass_wall(side, a0, a1, y0, y1, solid_runs=(), door=None):
     if door:
         dx0, dx1 = door['x'] - door['w'] / 2, door['x'] + door['w'] / 2
         seg(a0, dx0); seg(dx1, a1)
-        for x in (dx0, (dx0 + dx1) / 2, dx1): fr.box(x - 0.04, x + 0.04, y0, 2.6, Z1 - 0.06, Z1 + 0.04)
+        x = (dx0 + dx1) / 2; fr.box(x - 0.04, x + 0.04, y0, 2.6, Z1 - 0.058, Z1 + 0.038)   # 門中間的直框（門兩邊的直框 seg() 已經有了：原本又疊一根一模一樣的）
         fr.box(dx0, dx1, 2.52, 2.6, Z1 - 0.06, Z1 + 0.04); gl.box(dx0 + 0.04, dx1 - 0.04, 0.05, 2.52, Z1 - 0.01, Z1)
         fr.box(dx0, dx1, 2.6, y1, Z1 - 0.06, Z1 + 0.04)   # 門上的窗框（簡化：一整塊）
         for x in ((dx0 + dx1) / 2 - 0.12, (dx0 + dx1) / 2 + 0.12): fr.box(x - 0.015, x + 0.015, 0.9, 1.3, Z1 - 0.12, Z1 - 0.06)   # 門把
