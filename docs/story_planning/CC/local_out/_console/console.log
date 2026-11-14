@@ -1,10 +1,3 @@
-[01:52:50] memory 47% before starting L118_KDT_e23d (2 running)
-[01:52:50] ==== START L118_KDT_e23d  (probe @ e23d56706e21b878fe045a1826b23c89ce04e39f) ====
-[01:52:53] [res] cpu=1% mem=44% (14.9/31.4 GB) chrome_testing=10  START L118_KDT_e23d
-[01:52:53] worktree add e23d56706e21b878fe045a1826b23c89ce04e39f: invalid reference - fetching main and the commit itself
-[01:56:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 73 分／上限 600 分）、CANON_NEWGAME_B2_r3（已跑 8 分／上限 240 分）、L118_KDT_e23d（已跑 4 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
-[02:01:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 78 分／上限 600 分）、CANON_NEWGAME_B2_r3（已跑 13 分／上限 240 分）、L118_KDT_e23d（已跑 9 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
-[02:06:53] 正在跑：CANON_NEWGAME_FULL_d21c（已跑 83 分／上限 600 分）、CANON_NEWGAME_B2_r3（已跑 18 分／上限 240 分）、L118_KDT_e23d（已跑 14 分／上限 100 分）——還沒測完，請不要關 (tests still running - please do not close)
 [02:07:33] [res] cpu=0% mem=47% (14.8/31.4 GB) chrome_testing=10  END CANON_NEWGAME_B2_r3
     To https://github.com/pyhuanglaw/Lawstudent.git
        706682dc57..241db8ad91  claude/cc-local -> claude/cc-local
@@ -1998,3 +1991,10 @@
 [15:20:25] ==== END   DATE35_PS_CLO  exit=0  181s   ====
 [15:20:28] solo item WZ_PERF_f3e1_desk_r2 waits: no new items start until the 2 running item(s) finish
 [15:21:53] [res] cpu=1% mem=40% (12.5/31.4 GB) chrome_testing=5  END US_CART_ASIA_moon
+[15:21:56] 正在跑：LIN_REAL_r2（已跑 11 分／上限 40 分）、US_CART_ASIA_moon（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       35ca4b06e0..6796d64298  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:22:01] ==== END   US_CART_ASIA_moon  exit=0  138s   ====
+[15:22:04] solo item WZ_PERF_f3e1_desk_r2 waits: no new items start until the 1 running item(s) finish
+[15:22:41] [res] cpu=1% mem=31% (9.8/31.4 GB) chrome_testing=0  END LIN_REAL_r2
