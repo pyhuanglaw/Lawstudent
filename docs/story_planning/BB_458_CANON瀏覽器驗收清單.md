@@ -176,3 +176,10 @@
   - **09:5x 改判 TEST_BUG（探針前置）**：LAWWW-C 查完——法服群組只在 src/story3d.js:1754 `PHONE.join(G,'lawclub_study','法服')` 加（條件 S.fafuJoined：CLUB_lawclub_study／SIS_CLUB_EXPO／lawclub／FAFU_SHIFT_N>0），群組加了不會退（phone3d.js:29 只新增）。探針是在已入社的存檔上拿掉旗標，群組本來就在 → 不是遊戲 bug。CC 重跑：前置一併刪 `G.phone.groups.lawclub_study`（或從沒入社的開局起跑）；若仍出現，附 `G.phone.groups.lawclub_study.day` 交 LAWWW。
 - **CANON458_BOOKSTORE_r4：TEST_SETUP**（約人選單沒有「看電影」那一項，探針找不到）；**ROMTIER_b1_twice：TEST_BUG**（探針讀邀約時已經 done）；ROMTIER a1／a2／b2 PASS；STUDY_SE01 PASS；DATE_PS／DATE_ZR PASS；save_v95_r5 PASS；INV_MEET_YIELD FAIL＝預期（LAWWW 還沒修）。
 - 其餘（舊 SHA 的店面、VACGAP、AA_SCENES、SAVE_COMPAT_c109 等約 70 支）下一批判。
+
+## 10:0x BB-C 判交班期間結果（CC 初判第一批 9 項）
+- 已判過、不重判：T1_76f8（173 行，P1 交 LAWWW＝STUCK-WALKSELF-1114，CC 另跑 T1_SEED4_SAVE 存檔）；STUDY_FA05（175 行，TEST_BUG→r2）；save_live_r3／ctl_r3（174 行，TEST_SETUP）；BOOKSTORE_r4、ROMTIER（177 行）。
+- **INV_MEET_YIELD_d8d3（INV-MEET-YIELD-1113，P3）：核心 PASS，探針兩項改**——d8d3 已含修正 50856f3ec6。①走到可昕旁邊時互動鍵是「坐下（用電腦）」，不是蔡宗霖的初見事件。BB_466 第 3 點的驗收標準就是「互動鍵是她或座位，不是別人的初見」，所以這一項算過；探針只認「可昕說話」太嚴，是 TEST_BUG。②演的是可昕第一次到總圖那一場（「（小聲）你們的總圖好大。」…，faDone=1），所以「我一章大概四十分鐘…」那一句不會出現。這是 TEST_SETUP：前置沒有先把第一次到總圖那一場標成演過。邀約變成 done、0 例外。要重跑的話前置補第一次到總圖的旗標，不擋任何東西。
+- STUDY_SE01_76f8、CANON458_DATE_PS、DATE_ZR、BG3D_GATE ×2：exit 0，照 CC 初判 PASS（BG3D_GATE 的截圖之後挑一張給 BB_132 第 128 組 6 號）。
+- WINVIEW_GG3_1939：TEST_SETUP（電腦的 Python 沒有 numpy），等 LAWWW2 回覆怎麼處理。
+- L118_CAM36 a／b／c r4：⑦點座位還是停在旁邊那一張，待 BB 看 gate_*_seat 截圖判（BB_379）。
