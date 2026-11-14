@@ -67,10 +67,12 @@ async def main():
             if not R.check('FAIL_SETUP 檢查：%s 讀檔以後真的在 %s' % (tag, ZONE), s['zone'] == ZONE, s['zone']):
                 rows.append({'hour': h, 'skipped': 'closed:' + s['zone']}); continue
             for c in cams:
+                wa = await D.wait_assets(pg, 20.0, 1000)   # BB-C 11-14（BG3D_GATE 黑半圓＝還在載入就拍）：每張拍之前等 ASSETS pending 歸 0（最多 20 秒）＋1 秒
+                R.note('%s 「%s」拍之前等資源：%s' % (tag, c['name'], J(wa)))
                 u = await pg.evaluate(SNAP, c); fn = 'close_%s_%s_%s.png' % (TAG, hh, c['name'])
                 open(os.path.join(OUT, fn), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
                 if PLAIN: open(os.path.join(OUT, c['name'] + '.png'), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
-                a = await pg.evaluate(ANALYZE_JS, u); rows.append({'hour': h, 'cam': c, 'img': a, 'file': fn})
+                a = await pg.evaluate(ANALYZE_JS, u); rows.append({'hour': h, 'cam': c, 'img': a, 'file': fn, 'assets': wa})
                 R.note('%s 近照「%s」相機 %s → %s（fov %s）：%s' % (tag, c['name'], c['from'], c['at'], c['fov'], J(a)))
             u = await pg.evaluate(GAMECAM); open(os.path.join(OUT, 'close_%s_%s_game.png' % (TAG, hh)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
             open(os.path.join(OUT, 'closeup.json'), 'w', encoding='utf-8').write(J({'sha': SHA, 'zone': ZONE, 'rows': rows}))
