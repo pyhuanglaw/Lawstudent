@@ -137,3 +137,6 @@
 - 測試（套在 0c49bcf64e 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 0）、bike／gg_new_lm／seat_reach／shop_npc／shop_viewpanes／wall_dir 共 13 支 ALL PASS。
 - **v2（g2，P2）**：右牆層架的商品還是一排排純色方盒＋圓柱水壺（D159 那一類）。商品方塊數量減半、改印刷包裝盒（Cardboard001＋品牌色塊、側標），水壺換有瓶蓋、瓶身弧度的；騰出的面數放 1～2 件 Poly Haven 掃描物（打氣筒、工具箱之類）。
 - 另：慢輪窗外（視差窗 `assets/models/env/views/bikeshop_{day,night}.webp`）也是 11-05 那批「椰子疊樟樹」，GG-STREET-TREES 一併重拍中（LAWWW2-C）。
+
+## LICENSES.md 去重（LAWWW-C 11-14 00:24 請託）
+- `licenses_dedup_on_984cd2ba8d.patch`：刪掉三列一字不差的重複（mokuyobi 的 potted_plant_04、book_encyclopedia_set_01 兩列；`Plaster001、Plastic006、Metal009、Fabric030、Leather037` 那列），各留第一次出現的。shop_cc0、place_gate 在 984cd2ba8d 上照舊 ALL PASS。
