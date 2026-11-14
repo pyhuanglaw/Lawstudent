@@ -10286,6 +10286,25 @@
    "tests": "place_gate 先查後寫 ALL PASS、shop_cc0、xs 系列 13 支、xs9 check ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判；v2 層架貨箱",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "WINVIEW-AUDIT-1105",
+   "title": "GG-STREET-TREES 第三份：公館五間窗景（Daybreak、afar、aoki、頁間、慢輪）加人行道地磚紋重拍",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_street_trees_1114/gg_pave_views_on_582eb7d807.patch",
+    "docs/art-rebuild/second_ai/wip/gg_street_trees_1114/pave_cmp.jpg"
+   ],
+   "base": "582eb7d807",
+   "at": "2026-11-14T01:00Z",
+   "tests": "窗景 9 支＋bike 5 支＋place_gate ALL PASS",
+   "notDone": "LAWWW 整合；CC 遊戲內同角度；BB 判",
+   "next": "LAWWW 套 patch（只有 10 張 webp）"
   }
  ]
 }

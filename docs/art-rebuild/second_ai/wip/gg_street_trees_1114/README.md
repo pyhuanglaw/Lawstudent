@@ -27,3 +27,10 @@
 - **請套 `gg_street_trees_bikeshop.patch`**（底＝開發分支 0c49bcf64e，只換 2 張 webp）。
 - 測試（0c49bcf64e 上）：bike_*、gg_views_1105／1107、shop_viewpanes／viewpanes2_1105、tz_shop_views_1112、viewpane_side 共 10 支 ALL PASS。
 - 其他視差窗照片都看過（`views/*_day.webp`）：只有這一張有樹疊放的問題。
+
+## 第三份：人行道地磚紋重拍（11-14 01:0x UTC）——公館五間
+- 窗景工具加上 `--gg-street` 人行道地磚紋（winview_gg3，已整合 10aa10ed32）以後，回頭把之前拍的五間重拍。用同一個鏡頭、同一套樹和機車，再加校門和捷運出口。五間是 Daybreak、afar、aoki、夜間（四張卡片鏡像存）和慢輪（視差窗 views/bikeshop，不鏡像，1024×512）。
+- **patch**：`gg_pave_views_on_582eb7d807.patch`，只有 10 張 webp。
+- **對照**：`pave_cmp.jpg`（左邊是改之前，右邊是新版）。人行道從一片平灰變成米色地磚，慢輪最明顯。白天 14:00 的影子讓近處偏暗，跟第一批一樣。
+- **測試**：都 ALL PASS，包括 afar_view、gg_views_1105／1107、shop_viewpanes ×2、viewpane_side、wz_views、tz_shop_views、shop_window_rects、bike 系列 5 支、place_gate。
+- **還沒做**：CC 在遊戲裡同角度拍、BB 判。
