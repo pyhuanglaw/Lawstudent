@@ -50,7 +50,8 @@ if(S7a&&T1R[0]) T1R[0].L=msgsOf(S7a.trim()); if(S7b&&T1R[7]) T1R[7].o1=S7b[1]+'�
 const OLD_T1O={'飯糰':[['照 1、2、3 的順序拉。','……你早點說。'],['拉破了也能吃。','我知道。我吃了三個破的。']],'櫻花':[['臺北的已經謝了。','嗯。這邊才剛開。'],['好看。','嗯。']],
   '洗衣機':[['一百圓是多少？','二十幾塊。我記了匯率。'],['記幾頁了？','十一頁。']],'號碼牌':[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']]};   /* 原本四則的回覆（「照舊」）*/
 const oldKey=L=>Object.keys(OLD_T1O).find(k=>L[0].includes(k));
-const T1O=T1R.map(r=>r.o1==='照舊'?OLD_T1O[oldKey(r.L)]:[rep(r.o1),rep(r.o2)].map(x=>x&&[x[0],x[1].join('')]));
+const M959b=t=>require('./aa959_map.js').map(t,'r2y3b_events.js');   /* RC2-PORT-DEV-1114：回覆的字遊戲也照覆寫表換了（第 546 列…）*/
+const T1O=T1R.map(r=>r.o1==='照舊'?OLD_T1O[oldKey(r.L)]:[rep(r.o1),rep(r.o2)].map(x=>x&&[x[0],M959b(x[1].join(''))]));
 /* 第 2、3 節 */
 const T2=rows(part('## 2.','## 3.')).find(r=>r[0]==='回。')||[];
 const MOM_SIS=T2[1], MOM_YES=(T2[2]||'').split('＋'), MOM_NO=T2[3];
