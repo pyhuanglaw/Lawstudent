@@ -10851,6 +10851,25 @@
    "notDone": "遊戲內重拍（CC）；第二個原因（近景／遠景分層把樹切開）要改分界、三間重拍，還沒做",
    "next": "LAWWW 套 patch → CC 拍公館三間 → BB 判；之後排分層重拍",
    "integratedAs": "aa876bf9b9"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "",
+   "receiver": "LAWWW-B（轉 CC 重拍）",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "b97bbc58b0",
+   "at": "2026-11-14T14:20Z",
+   "task": "WINVIEW-MIRROR-TREE-1114",
+   "title": "第二部分：公館三間窗景分兩層的分界 9 m → 6 m（樹、花台整個歸遠景）；要 CC 在電腦重拍",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/winview_mirror_tree_1114/gg3_views_split_on_b97bbc58b0.patch",
+    "docs/art-rebuild/second_ai/wip/winview_mirror_tree_1114/README.md"
+   ],
+   "tests": "gg3_views_split_1114_unit：D=9 FAILED 1 → D=6 ALL PASS",
+   "notDone": "CC 重拍 12 張；LAWWW2 看近景層、換圖、VIEW_LAYERS 三列、view 名稱、並排圖；P3 景的邊切到樹沒解",
+   "next": "LAWWW 套 patch、排 CC 重拍"
   }
  ]
 }

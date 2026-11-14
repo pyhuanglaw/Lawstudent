@@ -1,0 +1,40 @@
+diff --git a/tests/gg3_views_split_1114_unit.js b/tests/gg3_views_split_1114_unit.js
+new file mode 100644
+index 0000000000..9fc0beb5c5
+--- /dev/null
++++ b/tests/gg3_views_split_1114_unit.js
+@@ -0,0 +1,15 @@
++// WINVIEW-MIRROR-TREE-1114 第二部分（LAWWW2-B 11-14）：公館安泰、汀州鮮果、榮恩典的窗景分兩層拍時，近景／遠景的分界不能切過行道樹。
++// 第一次用 D＝9 m 拍（CC WINVIEW_GG3_1939_r3_remat）：近景層多出一小撮樹葉和一片圓形花台面、沒有樹幹（BB-B 11-14 判 FAIL：整棵樹和花台要放同一層）。
++// 這支不開瀏覽器：讀 tools/shots/shop_views_layers.py 的 VIEWS 三列和 src/zones3d.js 公館行道樹的位置，算分界面離每一棵樹多遠。
++const fs=require('fs'), path=require('path'); const R=path.join(__dirname,'..');
++const py=fs.readFileSync(path.join(R,'tools/shots/shop_views_layers.py'),'utf8'), z3=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8');
++let fail=0; const check=(n,ok,msg)=>{ console.log((ok?'PASS ':'FAIL ')+n+'　'+(msg||'')); if(!ok) fail++; };
++const V={}; for(const k of ['gg_antai','gg_xianguo','gg_rongendian']){ const m=new RegExp("'"+k+"': \\('gongguan', \\[[^\\]]+\\], \\[([-\\d.]+), ([-\\d.]+), ([-\\d.]+)\\], \\[[^\\]]+\\], ([\\d.]+), ([\\d.]+)\\)").exec(py); if(m) V[k]={x:+m[1],y:+m[2],z:+m[3],D:+m[4],top:+m[5]}; }
++check('1 三間都在 VIEWS（公館、鏡頭在店面玻璃內側 z 21.7）', Object.keys(V).length===3&&Object.values(V).every(v=>v.z===21.7), JSON.stringify(V));
++const tm=/for\(const \[x,z\] of (\[\[[-\d.,\[\]]+\]\])\)\{ const t=TREE\(0\.95\); t\.name='gg_street_tree'/.exec(z3); const trees=tm?JSON.parse(tm[1]):[];
++check('2 找得到公館人行道的行道樹位置（zones3d.js gg_street_tree）', trees.length>=4, JSON.stringify(trees));
++const CROWN=3.2;   // 樹冠半徑（TREE(0.95)＝高約 6 m 的行道樹，樹冠最寬約 6 m；多留 0.2）
++for(const [k,v] of Object.entries(V)){ const plane=v.z-v.D; const cut=trees.filter(([x,z])=>Math.abs(x-v.x)<20&&plane>z-CROWN&&plane<z+CROWN);
++  check('3 '+k+'：分界面（z '+plane.toFixed(1)+'）沒有切過 20 m 內任何一棵行道樹的樹冠', cut.length===0, cut.length?('切到 '+JSON.stringify(cut)):'');
++  check('4 '+k+'：騎樓前的機車（離鏡頭 2.5～5 m）整台在近景：D ≥ 5.5', v.D>=5.5, 'D='+v.D); }
++console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
+diff --git a/tools/shots/shop_views_layers.py b/tools/shots/shop_views_layers.py
+index feb605f34e..8b906f96f3 100644
+--- a/tools/shots/shop_views_layers.py
++++ b/tools/shots/shop_views_layers.py
+@@ -35,6 +35,14 @@ VIEWS = {
+     # 公館：近景只收 3.4 m 以下（TOP）——騎樓前緣的梁（2.7 m 外、3.85 m 高）照片只拍到下緣，貼到近景的景深以後變成窗上方一條飄在空中的線
+     'noodle': ('gongguan', [-63, 14], [-63.0, 2.1, 21.7], [-63, 2.1, -40], 9.0, 3.4),
+     'bookstore': ('gongguan', [-41.6, 14], [-41.6, 2.1, 21.7], [-41.6, 2.1, -40], 9.0, 3.4),
++    # 公館店面街第三批（GG-SHOPS3，LAWWW2-C 11-13，WINVIEW-AUDIT-1105）：安泰藥局 G04、汀州鮮果 G08、榮恩典文具社 G13 原位窗景。鏡頭＝店中心 x（zones3d.js 的 mk：-18.6、19.6、64.1）、窗中心高、
++    #   店面玻璃內側 z 21.7。
++    #   分界 D＝6 m（WINVIEW-MIRROR-TREE-1114 第二部分，LAWWW2-B 11-14）：第一次用 9 m 拍（CC WINVIEW_GG3_1939_r3_remat），分界面在 z 12.7——
++    #   人行道上的行道樹（z 9.0～9.6，樹冠半徑約 3 m，最前緣 z 12.6）和廣場的圓形花台剛好被切開：近景層多出一小撮樹葉和一片花台面、沒有樹幹（BB-B 判 FAIL）。
++    #   騎樓前的機車離鏡頭 2.5～5 m；6 m 把機車、柱子留在近景，樹和花台整個歸遠景。新增窗景時：分界不能落在樹、花台、攤車這種一整個的東西中間（tests/gg3_views_split_1114_unit.js）。
++    'gg_antai': ('gongguan', [-18.6, 14], [-18.6, 1.46, 21.7], [-18.6, 1.46, -40], 6.0, 3.4),
++    'gg_xianguo': ('gongguan', [19.6, 14], [19.6, 1.5, 21.7], [19.6, 1.5, -40], 6.0, 3.4),
++    'gg_rongendian': ('gongguan', [64.1, 14], [64.1, 1.48, 21.7], [64.1, 1.48, -40], 6.0, 3.4),
+     # 公館新店面（GG-SHOPS-REDO-1104，LAWWW2 11-04）：鏡頭在新店面窗的中心（世界 x＝店中心 cx－配置的窗中心 x；房間轉 180°）、高度＝窗中心高（ggRoom 的 winY）
+     #   日和便利店：正面落地窗＋自動門一整片 x −5.3～2.93（配置），中心 −1.19 → 世界 −27.7；winY 1.4（原本舊店面在 −29.4、2.1 m 高）
+     #   11-10（LAWWW2 帳號 A，WINVIEW-AUDIT-1105）：照正式模型 cvs_interior_v2 載入後的視差窗中心再對一次——店內 (−1.18, 1.4, 6.1)、玻璃在店內 z 5.44（視差窗在玻璃外 0.66 m），
