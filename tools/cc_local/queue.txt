@@ -2598,6 +2598,8 @@ AA358_24_natural_r2 | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/st
 LIMAO_CLOSE_r1 | c81a16b9c0c6da57774e49384bc6c54cb84eed80 | probe | docs/story_planning/test_tools/cc/cc_limao_close_probe.py | index.html | 20 | CLOSE_H=23.75;STAY_H=23.35;STAY_MAX=240;SHA=c81a16b9c0c6da57774e49384bc6c54cb84eed80
 # CC-B 11-14 13:5x：BB-B 13:39 HL3b（BB_468）——雲端 main ALL PASS（8 個 tag 都收到；最長 25 天沒有女主角訊息 10/8～11/3），電腦正式跑＋兩張手機截圖
 HL3B_r1 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 25 | PARTS=HL3B;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:5x：HL3B_r1 兩張截圖一樣（點到「傳訊息給」的名字）→ r2 只為截圖：對話串列表＋打開以安那一串
+HL3B_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 25 | PARTS=HL3B;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:2x：sports r2 關了手機一鍵還是空的——r3 記按鈕上蓋著什麼，點不開就【捷徑】ONETAP.openPop，只跑 Y2
 AA355_6_sports_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 20 | PARTS=SPORTS;ROUTES=Y2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:4x：sports r3 一鍵灰著「劇情進行中」（GAME busy）→ r4 照玩家等劇情演完、記是什麼在跑

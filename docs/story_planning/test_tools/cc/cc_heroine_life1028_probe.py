@@ -271,7 +271,10 @@ async def part_hl3b(pg, cdp, sv0, res):
     await pg.evaluate("(h=>{ GAME.G.hour=h; })", 21.0); await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
     await pg.evaluate("(()=>{ const t=[...document.querySelectorAll('#phone button, .phone button')].find(b=>/訊息/.test(b.textContent||'')); if(t) t.click(); })()"); await pg.wait_for_timeout(1000)
     await D.shot(pg, 'hl3b_msg_list', judge_black=False)
-    await pg.evaluate("(()=>{ const t=[...document.querySelectorAll('#phone *, .phone *')].find(e=>e.children.length<3&&/沈以安|以安|小安/.test(e.textContent||'')&&e.offsetParent); if(t) t.click(); })()"); await pg.wait_for_timeout(1000)
+    th_ = await pg.evaluate("(()=>{ const r=document.querySelector('.chatRow[data-th=\"p:heroine_01\"]')||document.querySelector('.chatRow[data-th^=\"p:heroine\"]'); if(!r) return null; r.scrollIntoView({block:'center'}); return r.dataset.th; })()"); await pg.wait_for_timeout(600)   # CC-B 11-14（HL3B_r1 第二張和第一張一樣：點到的是「傳訊息給」的名字按鈕）：對話串是 game3d.js 的 .chatRow[data-th]
+    await D.shot(pg, 'hl3b_msg_threads', judge_black=False)
+    if th_: await L.tap(pg, cdp, '.chatRow[data-th="%s"]' % th_); await pg.wait_for_timeout(1200)
+    R.note('%s 打開的對話串：%s' % (tag, th_))
     await D.shot(pg, 'hl3b_thread_an', judge_black=False)
     await close_panels(pg)
 
