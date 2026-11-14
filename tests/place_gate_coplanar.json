@@ -66,7 +66,7 @@
   "top": "WALL_back_cubby_wood×WALL_back_cubby_wood 0.489 m² @[-0.34,0.34,-4.08]"
  },
  "assets/models/env/second_ai/bb_support/bike.glb": {
-  "sha1": "7c8d5e7fd1ddc103742fef3908230c9cf11c3f83",
+  "sha1": "1461048530ed803b79c83a3ee1d2579e1f14c7c2",
   "wall": 2.91,
   "always": 5.35,
   "top": "WALL_left_wall_wall×WALL_back_wall_wall 0.432 m² @[-5.1,2.4,-1.96]"
@@ -84,10 +84,10 @@
   "top": "WALL_back_vc×cvs_vc 1.052 m² @[-0.08,0.07,-5.5]"
  },
  "assets/models/env/second_ai/bb_support/dabu.glb": {
-  "sha1": "d4dc2b3bd9fa57877883dd4d0835f7153b72223f",
-  "wall": 32.98,
-  "always": 33.11,
-  "top": "WALL_back_back_vc×WALL_back_back_paint 5.11 m² @[0.04,0.58,-5.88]"
+  "sha1": "db0c51ee3ab4a13e7660faf7a9c751d329482f78",
+  "wall": 18.09,
+  "always": 18.22,
+  "top": "WALL_left_left_vc×WALL_left_print 4.372 m² @[-3.52,1.76,3.77]"
  },
  "assets/models/env/second_ai/bb_support/dakou_1f.glb": {
   "sha1": "47d590002469ac07637635db208c47aa4251ee2d",

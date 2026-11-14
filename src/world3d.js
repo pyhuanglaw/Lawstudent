@@ -179,10 +179,15 @@ const W3 = (function(){
   function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)}, nmap:{value:null}, ndepth:{value:4}, near:{value:0}, map2:{value:null}, nmap2:{value:null}, near2:{value:0}, xf:{value:0} },
     vertexShader:'varying vec3 vP; varying vec3 vC; varying vec2 vUv; void main(){ vP=position; vUv=uv; vC=(inverse(modelMatrix)*vec4(cameraPosition,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
     fragmentShader:'uniform sampler2D map; uniform sampler2D nmap; uniform sampler2D map2; uniform sampler2D nmap2; uniform vec3 tint; uniform float depth; uniform float ndepth; uniform float photo; uniform float near; uniform float near2; uniform float xf; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
-      'vec2 wvMirror(vec2 u){ u=1.0-abs(1.0-mod(u,2.0)); return clamp(u,vec2(0.002),vec2(0.998)); }\n'+   /* WINVIEW-EDGE-STRIPE-1114（BB_379）：照片外面原本 clamp 到邊上那一排像素（邊上有樹的時候拉成一條一條）→ 鏡像回來 */
-      'void main(){ vec2 uv=vUv; vec4 nc=vec4(0.0); vec4 n2=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=wvMirror(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5));\n'+
+      /* 看到照片外面的時候（鏡頭抬高、往旁邊看）：
+           第一版 clamp 到邊上那一排像素——邊上有樹時拉成一條一條（WINVIEW-EDGE-STRIPE-1114，BB_379）；
+           第二版鏡像回來——邊上的樹變成左右／上下對稱的一團，半空一團沒有樹幹的樹葉、樹冠像萬花筒（WINVIEW-MIRROR-TREE-1114，BB-B 11-14 公館安泰、鮮果、榮恩典）；
+           現在：位置夾在邊上、但改取很模糊的那一層（mipmap 往上 7 層，1024×512 的照片剩 8×4 格）＝邊緣顏色柔和地往外延伸，沒有細節可以拉成條紋、也沒有東西可以對稱。
+           wvOut＝超出照片多少（uv）；超出 2.5% 以內由清楚漸漸變模糊，接縫看不出來。 */
+      'float wvOut(vec2 u){ vec2 o=max(-u,u-vec2(1.0)); return max(0.0,max(o.x,o.y)); }\n'+
+      'void main(){ vec2 uv=vUv; float wb=0.0; vec4 nc=vec4(0.0); vec4 n2=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; vec2 ur=vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5); wb=clamp(wvOut(ur)*40.0,0.0,1.0)*7.0; uv=clamp(ur,vec2(0.002),vec2(0.998));\n'+
       '  if(near>0.5||near2>0.5){ float tn=(ndepth+vC.z)/max(0.001,vC.z); vec2 hn=(vC.xy+d.xy*tn)*sxy; vec2 un=vec2(hn.x/(2.0*ndepth)+0.5,hn.y/ndepth+0.5); if(un.x>0.002&&un.x<0.998&&un.y>0.002&&un.y<0.998){ if(near>0.5) nc=texture2D(nmap,un); if(near2>0.5) n2=texture2D(nmap2,un); } } }\n'+
-      ' vec4 c=texture2D(map,uv); vec3 col=mix(c.rgb,nc.rgb,nc.a)*tint; if(xf>0.0){ vec4 c2=texture2D(map2,uv); col=mix(col,mix(c2.rgb,n2.rgb,n2.a),xf); } gl_FragColor=vec4(col,1.0);\n #include <colorspace_fragment>\n}',
+      ' vec4 c=texture2D(map,uv,wb); vec3 col=mix(c.rgb,nc.rgb,nc.a)*tint; if(xf>0.0){ vec4 c2=texture2D(map2,uv,wb); col=mix(col,mix(c2.rgb,n2.rgb,n2.a),xf); } gl_FragColor=vec4(col,1.0);\n #include <colorspace_fragment>\n}',
     toneMapped:false, fog:false }); }
   // 換貼圖（白天／晚上、照片或退回的程序化貼圖）＋色調
   function setWindowView(m,kind,night,fallback,tint,xf){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint);

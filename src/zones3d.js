@@ -1661,9 +1661,15 @@ const Z3 = (function(){
       if(s.pend.length){ warmQ.push({s,stage:'prep'}); return; }
       r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; if(s.kx&&s.kx!==1) r.scale.x=s.kx;   /* kx：室內的寬度方向縮一點（公館：室內和那一棟一樣寬、牆又往外厚 14～20 cm，會伸進隔壁店裡，從隔壁的窗看到一片牆的背面）*/ r.visible=false; g.add(r); s.grp=r; s.tmp=null; s.cache=null; s.pend=null; s.building=false; s.built=true; s.meshes=s.list.length; warm(s); };
     const detach=s=>{ if(s.building){ s.building=false; s.tmp=null; s.pend=null; s.cache=null; s.src=null; for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); return; } if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); fallback(s,true); };
+    const _camF=new THREE.Vector3();
     const dist=(s,p)=>Math.hypot(Math.max(0,Math.abs(p.x-(s.cx===undefined?s.x:s.cx))-(s.ex||0)),Math.max(0,Math.abs(p.z-(s.cz===undefined?s.z:s.cz))-(s.ez||0)));
     const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return; for(const s of shops) s.dd=dist(s,p); const by=shops.slice().sort((a,b)=>a.dd-b.dd);
-      if(lite){ const n0=by[0]; for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if((s.built||s.building)&&(s!==n0||s.dd>s.far)) detach(s); } }
+      if(lite){ let n0=by[0];
+        /* WZ-REAL-LITE-EMPTY-1114（LAWWW2-B；BB 11-14 WZ_REAL_r4：站在溫州街路中間看 SUNNY SIDE，最近的是背後對街的林家——lite 只建最近一間，眼前的櫥窗後面是空的）：
+           最近的那一間在鏡頭背後、而鏡頭前面有另一間在 near 以內 → 建鏡頭前面最近的那一間（還是只建一間，手機的負擔不變）。沒有鏡頭（測試）或都在同一側＝照舊挑最近的。 */
+        { const cam=E.camera; if(cam&&cam.position&&cam.getWorldDirection){ const f=cam.getWorldDirection(_camF), cx=cam.position.x, cz=cam.position.z, fl=Math.hypot(f.x,f.z);
+            if(fl>0.05){ const front=s=>(((s.cx===undefined?s.x:s.cx)-cx)*f.x+((s.cz===undefined?s.z:s.cz)-cz)*f.z)/fl>0.5; if(!front(n0)){ const alt=by.find(s=>s.dd<s.near&&front(s)); if(alt) n0=alt; } } } }
+        for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if((s.built||s.building)&&(s!==n0||s.dd>s.far)) detach(s); } }
       else{ for(const s of shops){ if(s.built){ if(s.dd<s.near){ s.want=true; if(s.ready&&!s.on) show(s,true); } else if(s.dd>s.far){ s.want=false; if(s.on) show(s,false); } } }
         /* 走到店前的那一間優先（BB 11-12 FAIL：第一次從街上走到 SUNNY SIDE 前 3 m，B7 built:false，看到空的玻璃盒——溫州街四間排隊預載，B7 離進場點最遠、排最後，一間要五十幾幀）：
            人已經在某一間的 near 裡、它還沒開始建，而正在建的是另一間遠的 → 先放掉那一間（之後再排），馬上建眼前這一間 */

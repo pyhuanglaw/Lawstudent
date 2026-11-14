@@ -73,6 +73,28 @@ sys.path.insert(0, os.path.dirname(HERE)); import cc0_kit   # noqa: E402,E401
 CK = cc0_kit.Kit(root, P[:-1])
 M['vc'] = CK.vc_tex(P + 'vc', 'Plastic006', vary=0.015, tile=0.35, rough_value=0.58, normal=0.25)   # vary 0.015、法線 0.25：淺色包裝不能有灰黑刮痕（HOWTO 第 1 節第 5 點）
 M['vcm'] = CK.vc_tex(P + 'vc_metal', 'Metal009', vary=0.12, tile=0.3, rough_value=0.38, metal=0.4)
+# v2（LAWWW2-C 11-14：右牆層架是一排排純色方盒）：包裝盒圖集＝自己畫的 4×4 種包裝（牛皮紙／白卡底、品牌色帶、白色側標、條紋；沒有字，D77）× ambientCG Cardboard001 的紙紋
+PKG_COLS = ['#c8462e', '#2f6fb8', '#e2a63a', '#3a7a4a', '#7a3a8a', '#1d1d1d', '#d85a8a', '#2a8a8a']
+
+
+def _pkg_draw(d, S):
+    rr_ = random.Random(1114); n = 4; c = S // n
+    for i in range(n):
+        for j in range(n):
+            x0, y0 = i * c, j * c; base = rr_.choice(['#c9a36e', '#d4b07a', '#efe9dc', '#e8e2d2', '#bf9a66'])
+            d.rectangle([x0, y0, x0 + c - 1, y0 + c - 1], fill=base)
+            col = PKG_COLS[(i * n + j) % len(PKG_COLS)]; bh = int(c * rr_.uniform(0.18, 0.32)); by = y0 + int(c * rr_.uniform(0.08, 0.2))
+            d.rectangle([x0, by, x0 + c - 1, by + bh], fill=col)                                                       # 品牌色帶
+            lw, lh = int(c * rr_.uniform(0.35, 0.55)), int(c * rr_.uniform(0.2, 0.3)); lx, ly = x0 + int(c * 0.12), by + bh + int(c * 0.1)
+            d.rectangle([lx, ly, lx + lw, ly + lh], fill='#f6f4ee', outline=col, width=3)                               # 白色側標
+            for k in range(3): d.rectangle([lx + 6, ly + 8 + k * (lh // 4), lx + lw - 6 - k * 14, ly + 12 + k * (lh // 4)], fill='#8a8a86')   # 標籤上的「字」（灰條）
+            if rr_.random() < 0.6: d.ellipse([x0 + c - int(c * 0.32), y0 + c - int(c * 0.32), x0 + c - int(c * 0.08), y0 + c - int(c * 0.08)], fill=col)   # 角落的圓標
+            d.rectangle([x0, y0 + c - 6, x0 + c - 1, y0 + c - 1], fill=col)                                             # 底邊色條
+
+
+M['pkg'] = CK.printed(P + 'pkg', 'bk_pkg_atlas', _pkg_draw, 'Cardboard001', size=1024, amp=0.12, rough_value=0.7)
+M['pkg']['tile'] = 1.0
+PKG_CELLS = [(i / 4 + 0.004, j / 4 + 0.004, (i + 1) / 4 - 0.004, (j + 1) / 4 - 0.004) for i in range(4) for j in range(4)]
 G3 = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))   # 遊戲 → Blender 的旋轉
 
 
@@ -131,7 +153,7 @@ class UM:
         self.bm.normal_update(); return B.mesh_obj(self.name, self.bm, self.mat, parent)
 
 
-UVK = ('goods', 'alpha', 'emit', 'sign')
+UVK = ('goods', 'alpha', 'emit', 'sign', 'pkg')
 
 
 class Part:
@@ -153,7 +175,7 @@ class Part:
             if ob is None: continue
             if self.T is not None: ob.matrix_basis = self.T
             if self.side: ob['dir'] = DIRS[self.side]
-            if self.smooth and key not in ('floor', 'wall', 'ceil', 'glass', 'sign', 'goods', 'alpha', 'emit'): L.smooth_mesh(ob, angle=0.6)
+            if self.smooth and key not in ('floor', 'wall', 'ceil', 'glass', 'sign', 'goods', 'alpha', 'emit', 'pkg'): L.smooth_mesh(ob, angle=0.6)
             obs.append(ob)
         self.m = {}; return obs
 
@@ -806,11 +828,23 @@ for bi, y in enumerate(BOARDS):
     z = sz1 - 0.12
     while z > sz0 + 0.1:
         kind = rr.choice(['pack', 'pack', 'blister', 'light', 'bottle', 'lock'] if bi < 3 else ['helmet'])
+        if kind == 'lock':   # v2：U 型鎖照原本三組（間距加大以後抽到的次數變多，鎖的模型面數高）
+            N_LOCKG = globals().get('N_LOCKG', 0)
+            if N_LOCKG >= 3: kind = 'pack'
+            else: globals()['N_LOCKG'] = N_LOCKG + 1
         if bi == 3 and kind == 'helmet':
             HEL[rr.randrange(4)].place(fm((sx0 + 0.2, y + 0.01, z), rot('Y', rr.uniform(-0.4, 0.4) - math.pi / 2) @ Matrix.Scale(1.0, 3))); z -= 0.34; continue
-        if kind == 'pack':
-            w2 = rr.uniform(0.18, 0.28); h2 = rr.uniform(0.12, 0.3); nm = f'pack{rr.randrange(8)}'
-            g.box(sx0 + 0.18, y + 0.01 + h2 / 2, z - w2 / 2, 0.26, h2, w2, nm, front='-x'); z -= w2 + 0.03
+        if kind == 'pack':   # v2：印刷包裝盒（一格一種包裝），大小不一；三成歪放、兩成開蓋；後面留空（數量約原本一半）
+            w2 = rr.uniform(0.14, 0.3); h2 = rr.uniform(0.1, 0.3); d2 = rr.uniform(0.16, 0.26); cel = rr.choice(PKG_CELLS); sid = rr.choice(PKG_CELLS)
+            pk_ = psr['pkg'] if rr.random() > 0.3 else None
+            if pk_ is not None:
+                pk_.box(sx0 + 0.04 + d2 / 2, y + 0.01 + h2 / 2, z - w2 / 2, d2, h2, w2, cel, front='-x', side=(sid[0], sid[1], sid[0] + 0.03, sid[3]))
+            else:   # 歪放：自己一個 Part，轉一點角度
+                pt_ = Part(f'pkgtilt{bi}_{int(z * 100)}', side='right', T=fm((sx0 + 0.04 + d2 / 2, y + 0.01, z - w2 / 2), rot('Y', rr.uniform(-0.35, 0.35)) @ rot('X', rr.choice([0.0, 0.0, 0.12]))))
+                pt_['pkg'].box(0, h2 / 2, 0, d2, h2, w2, cel, front='-x', side=(sid[0], sid[1], sid[0] + 0.03, sid[3])); pt_.done()
+            if rr.random() < 0.2 and pk_ is not None:   # 開蓋：上蓋翻開、靠在後面
+                pk_.rect((sx0 + 0.04 + d2, y + 0.01 + h2 + w2 * 0.0 + 0.06, z - w2 / 2), (0, 0, 1), (0.35, 0.94, 0), w2 / 2, 0.06, cel, both=True)
+            z -= w2 + rr.uniform(0.1, 0.22)
         elif kind == 'blister':   # 吊卡（掛在上一層板下面的掛勾）
             for j in range(2):
                 bz_ = z - j * 0.17; nm = f'blister{rr.randrange(4)}'
@@ -818,14 +852,17 @@ for bi, y in enumerate(BOARDS):
                 for q in range(3): g.rect((sx0 + 0.05 + q * 0.04, y + 0.27, bz_), (0, 0, 1), (0, 1, 0), 0.07, 0.09, ATL[nm], both=True)
             z -= 0.36
         elif kind == 'light':
-            for j in range(4):
-                col = ['#1d1d1d', '#c8202a', '#e8e6e0', '#1d1d1d'][j]
+            for j in range(2):   # v2：四個減成兩個
+                col = ['#1d1d1d', '#c8202a', '#e8e6e0', '#1d1d1d'][j * 2 + rr.randrange(2)]
                 crb(c, sx0 + 0.04, sx0 + 0.1, y + 0.01, y + 0.08, z - 0.05 - j * 0.09, z - 0.0 - j * 0.09, col, r=0.01)
                 crb(c, sx0 + 0.035, sx0 + 0.042, y + 0.025, y + 0.065, z - 0.045 - j * 0.09, z - 0.005 - j * 0.09, '#f4f0d0' if j != 1 else '#e04040', r=0.004)
-            z -= 0.4
+            z -= 0.32
         elif kind == 'bottle':
-            for j in range(3): clathe(c, [(0.0, 0.0), (0.035, 0.0), (0.036, 0.17), (0.022, 0.2), (0.0, 0.205)], sx0 + 0.12, y + 0.01, z - 0.04 - j * 0.09, ['#2f6fb8', '#e8e6e0', '#3a7a4a'][j], seg=8)
-            z -= 0.3
+            for j in range(2):   # v2：水壺兩支，有弧度的瓶身＋瓶蓋（黑）＋吸嘴
+                bx_, bz_ = sx0 + 0.12, z - 0.05 - j * 0.1; col = rr.choice(['#2f6fb8', '#e8e6e0', '#3a7a4a', '#c8462e'])
+                clathe(c, [(0.0, 0.0), (0.033, 0.0), (0.034, 0.07), (0.027, 0.1), (0.035, 0.15), (0.025, 0.185), (0.0, 0.19)], bx_, y + 0.01, bz_, col, seg=8)
+                clathe(c, [(0.0, 0.185), (0.024, 0.185), (0.022, 0.215), (0.0, 0.225)], bx_, y + 0.01, bz_, '#1d1d1d', seg=6)
+            z -= 0.28
         else:
             for j in range(2): LOCK[j % 2].place(fm((sx0 + 0.1, y + 0.11, z - 0.07 - j * 0.15), rot('Y', math.pi / 2)))
             z -= 0.32
@@ -834,8 +871,8 @@ w_.rbox(sx0 - 0.02, sx1, 0.1, 0.13, sz0, sz1, r=0.005)
 rr2 = random.Random(46); z = 2.32; N_LOW = 0
 while z > 0.3:
     w2 = rr2.uniform(0.2, 0.3); h2 = rr2.uniform(0.2, 0.42)
-    g.box(sx0 + 0.18, 0.13 + h2 / 2, z - w2 / 2, 0.26, h2, w2, rr2.choice(['kraft0', 'kraft1', 'kraft3', 'pack0', 'pack2', 'pack4', 'pack6']), front='-x'); z -= w2 + 0.03; N_LOW += 1
-z = 0.2
+    g.box(sx0 + 0.18, 0.13 + h2 / 2, z - w2 / 2, 0.26, h2, w2, rr2.choice(['kraft0', 'kraft1', 'kraft3', 'pack0', 'pack2', 'pack4', 'pack6']), front='-x'); low_end = z - w2; z -= w2 + rr2.uniform(0.25, 0.4); N_LOW += 1   # v2：間距加大（數量約一半）
+z = min(0.2, low_end - 0.03)   # v2.1：上一排最後一個盒子可能伸到 0.2 以下（兩個盒子互相插進去，疊面 +0.02 m²）——從它後面接著排
 while z > sz0 + 0.25:   # 最下層靠走道那一頭：再一排小零件盒（預算：安全帽太貴，用印刷圖集的盒子）
     w2 = rr2.uniform(0.18, 0.26); h2 = rr2.uniform(0.15, 0.3)
     g.box(sx0 + 0.18, 0.13 + h2 / 2, z - w2 / 2, 0.26, h2, w2, f'pack{rr2.randrange(8)}', front='-x'); z -= w2 + 0.03; N_LOW += 1
@@ -846,6 +883,7 @@ psr.done()
 pothos('pothos_tr', sx0 + 0.2, BOARDS[-1] + 0.01, sz1 - 0.22, side='right', nv=10, drop=0.8, dirx=-1)
 pu = IT['pumps']
 for k, (dxp, dzp) in enumerate(((-0.25, 0.04), (0.0, -0.03), (0.26, 0.05))):
+    if k == 1: CK.ph_put('tire_pump', pu['x'] + dxp, 0.0, pu['z'] + dzp, yaw=0.5, height=0.6, decimate=0.05); continue   # v2：Poly Haven 掃描的打氣筒
     PUMP[0 if k == 0 else 1].place(fm((pu['x'] + dxp, 0, pu['z'] + dzp), rot('Y', -0.4 + k * 0.3)))
 # 空壓機（綠色儲氣筒橫躺、兩個輪子、馬達、壓力錶；黃色風管捲在層架柱子上）
 cp = IT['compressor']; pcp = Part('compressor', T=fm((cp['x'], 0, cp['z']), rot('Y', 0.15))); c, cm = pcp['vc'], pcp['vcm']
@@ -992,6 +1030,7 @@ while t < pg['x'] + pg['w'] / 2 - 0.3:
 ppg.done()
 wbI = IT['workbench']; bx, bz, bw, bd2, bh = wbI['x'], wbI['z'], wbI['w'], wbI['d'], wbI['h']
 xa, xb, za, zb = bx - bw / 2, bx + bw / 2, bz - bd2 / 2, bz + bd2 / 2
+CK.ph_put('old_tyre', bx + bw / 2 + 0.25, 0.0, bz + 0.15, yaw=1.45, height=0.6, decimate=0.1)   # v2：工作台東端地上靠著一條舊外胎（Poly Haven 掃描）
 pwb = Part('workbench'); w_, c, cm, g = pwb['wood'], pwb['vc'], pwb['vcm'], pwb['goods']
 w_.rbox(xa, xb, bh - 0.05, bh, za, zb, r=0.008)
 for x in (xa + 0.04, xb - 0.04):

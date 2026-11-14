@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 852.4,
+ "bake_seconds": 1195.8,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -40,5 +40,5 @@
   "WALL_right_right_paint"
  ],
  "src": "assets/models/env/second_ai/bb_support/dabu.glb",
- "src_sha256": "169244b22cf89213bf2064619cecb40092a4356d5f45236628b0398d7b743771"
+ "src_sha256": "6cf5985591768390567c67df318b05870712135d42fbfc22cf437698f4f35bad"
 }

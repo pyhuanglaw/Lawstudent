@@ -212,7 +212,10 @@ const CK=(function(){ 'use strict';
      正式外觀是 Blender 模型（ASSETS 'bldg.campus_gate'，tools/blender/env_second/campus_gate.py，同一套尺寸）；這裡是導航阻擋、鏡頭碰撞的位置，以及正式模型載入失敗時的備用。
      本地座標：門的中線 z=0，+z 是校外、−z 是校內。g.userData.gate.blocks：[x,z,w,d,pad]（本地座標），區域放好之後轉成導航阻擋（zones3d.js placeBlocks）；
      .house：門房（鏡頭碰撞）；.lanes：兩條通道中心的 x（出口互動點放在通道上）。 */
-  const GATE={house:{x0:-1.7,x1:1.7,z0:-2.7,z1:2.1,h:3.5}, pillars:[-8.1,-2.45,2.45,8.1], leaves:[-7.55,-3.0,3.0,7.55], walls:[[-10,-8.6],[8.6,10]], lanes:[-5.27,5.27], PS:0.86, PH:3.9, leafL:2.15};
+  /* 2026-11-14 LAWWW2-B GATE-REF-1114（使用者：「學校裡的校門，請依照我的參考圖改」）：門房加寬成切角的紅磚亭（x ±2.7）、前面半圓花圃（半徑 3.5、圓心 z 1.7，要擋）、
+     只剩外側兩座大石柱（內側兩座拿掉）、石柱外側各一個小石墩（x ±8.95）、鐵門各一扇掛在石柱內側、矮牆從 ±9.25 起；通道中心 ±5.5（花圃邊 3.5～石柱內側 7.5）。尺寸和 campus_gate.py v2 同一套。 */
+  const GATE={house:{x0:-2.7,x1:2.7,z0:-2.6,z1:2.0,h:3.3}, pillars:[-8.1,8.1], piers:[-8.95,8.95], leaves:[-7.5,7.5], walls:[[-10,-9.25],[9.25,10]], lanes:[-5.5,5.5], PS:1.0, PH:3.3, leafL:2.6,
+    planter:[[0,1.0,7.0,1.4],[0,2.45,6.4,1.5],[0,3.95,5.0,1.5],[0,4.95,2.6,0.5]]};   // planter：半圓花圃的導航阻擋 [x,z,寬,深]（本地座標；由寬到窄四塊疊成半圓）
   function gate(o){ o=o||{}; const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
     const wall=wallMat(o.wall||'#8a5642'), trim=trimMat(o.trim||'#bfb29a'), iron=TK.col('#1f2124',{roughness:0.5,metalness:0.6}), base=TK.col('#8f8a82',{roughness:0.7});
     const PS=GATE.PS, PH=GATE.PH;
@@ -222,7 +225,9 @@ const CK=(function(){ 'use strict';
       bin.add(base,TK.boxG(1.12,0.55,1.12),x,0.275,0); bin.add(trim,TK.boxG(1.06,0.15,1.06,1.2),x,0.625,0); bin.add(trim,TK.boxG(PS,PH-0.7,PS,1.2),x,0.7+(PH-0.7)/2,0);
       bin.add(trim,TK.boxG(1.0,0.14,1.0,1.2),x,PH+0.07,0); bin.add(trim,TK.boxG(1.2,0.18,1.2,1.2),x,PH+0.23,0); bin.add(trim,TK.boxG(1.0,0.1,1.0,1.2),x,PH+0.37,0);
       bin.add(iron,TK.boxG(0.24,0.22,0.24),x,PH+0.53,0,0,{noShadow:true}); bin.add(lampMat,TK.boxG(0.38,0.58,0.38),x,PH+0.93,0,0,{noShadow:true}); bin.add(iron,TK.boxG(0.6,0.06,0.6),x,PH+1.25,0,0,{noShadow:true});
-      blocks.push([x,0,1.12,1.12,0.15]); }
+      blocks.push([x,0,1.24,1.24,0.15]); }
+    for(const x of GATE.piers){ bin.add(trim,TK.boxG(0.6,2.2,0.6,1.2),x,1.1,0); blocks.push([x,0,0.7,0.7,0.1]); }   // 石柱外側的小石墩
+    for(const [px,pz,pw,pd] of GATE.planter){ bin.add(base,TK.boxG(pw,0.3,pd),px,0.15,pz); blocks.push([px,pz,pw,pd,0.05]); }   // 門房前的半圓花圃（備用外觀只有石台）
     // 兩端的矮牆（面磚、花崗石勒腳、石材壓頂）：|x| 8.6～10，接上區域原本的圍牆
     for(const [a,b] of GATE.walls){ const wl=b-a, wc=(a+b)/2; bin.add(base,TK.boxG(wl,0.4,0.7),wc,0.2,0); bin.add(wall,TK.boxG(wl,1.45,0.6,1.2),wc,0.4+0.725,0); bin.add(trim,TK.boxG(wl,0.15,0.74,1.2),wc,1.925,0); blocks.push([wc,0,wl,0.74,0.15]); }
     // 鐵門：每條通道兩扇，白天往校內打開、靠在燈柱旁
