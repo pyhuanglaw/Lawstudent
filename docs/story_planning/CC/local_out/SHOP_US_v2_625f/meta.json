@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SHOP_US_v2_625f",
+  "sha": "625fefcf1e40e4edcee58234fd6916b7fe89ff75",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_place_gate_probe.py",
+  "env": "TAG=shop_us_v2;ZONES=us_market,us_asian_market;HOURS=13,20;NODEBUG=1;SHA=625fefcf1e40e4edcee58234fd6916b7fe89ff75",
+  "machine": "MSI",
+  "start": "2026-11-14T11:55:29",
+  "end": "2026-11-14T12:07:27",
+  "seconds": 718,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 30,
+    "mem": 52,
+    "used_gb": 16.8,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
