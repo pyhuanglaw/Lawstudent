@@ -1,0 +1,46 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_vacgap_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\VACGAP_A\out
+CC VACGAP（BB_457）：SHA 625fefcf1e40e4edcee58234fd6916b7fe89ff75；CASES ['W203_A', 'W203_B', 'REPAIR', 'BACK_IN', 'BACK_LATER']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [W203_A] 最小存檔讀到 2026-01-10 20.83 dorm（None 第 None 週）
+  [前置／捷徑] 【捷徑】[W203_A] 墊關係、群組：{"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}
+  [  50.2s] [W203_A] 墊完 {"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}；狀態 {"key": "2026-01-10", "wd": 6, "h": 20.92, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": ["kai"], "gymOn": false, "done": [], "cap": null, "cut": null}
+PASS FAIL_SETUP 檢查：[W203_A] 大一寒假（Y1W）、203 四人房、阿凱 FAMILIAR  {"key": "2026-01-10", "wd": 6, "h": 20.92, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": ["kai"], "gymOn": false, "done": [], "cap": null, "cut": null}
+  [  79.9s] [W203_A] 對話（事件 ev_kai_winter_203）：選項 [["「要。」", "「我剛吃過。」"]]；選了 ["「要。」"]；GAME.say [["", "（阿哲跟柏翰的床都只剩床墊。房間一下子大了很多。）"], ["阿凱", "（頭沒回）泡麵要不要。我煮兩包了。"], ["", "（他把一碗推到你書桌上，筷子插在麵上。）"], ["阿凱", "蛋只有一顆，給你。"], ["", "（吃到一半，他看了一眼你桌上那盞檯燈。）"], ["阿凱", "你那盞燈閃很久了。"], ["", "（他拿了一支小螺絲起子，蹲在你桌子底下弄了兩分鐘。燈不閃了。）"], ["阿凱", "接觸不良。……不算修，只是轉緊。"], ["", "（他回到螢幕前面。房間只剩他打字的聲音。）"]]
+  [  79.9s] [W203_A] 之後 dormWho（21:00 時）["kai"]；done ["ev_kai_winter_203"]
+PASS [W203_A] ev_kai_winter_203 演了（G.events.done）  ["ev_kai_winter_203"]
+  [前置／捷徑] [W203_B] 最小存檔讀到 2026-01-10 20.83 dorm（None 第 None 週）
+  [前置／捷徑] 【捷徑】[W203_B] 墊關係、群組：{"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}
+  [ 111.5s] [W203_B] 墊完 {"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}；狀態 {"key": "2026-01-10", "wd": 6, "h": 20.93, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": ["kai"], "gymOn": false, "done": [], "cap": null, "cut": null}
+PASS FAIL_SETUP 檢查：[W203_B] 大一寒假（Y1W）、203 四人房、阿凱 FAMILIAR  {"key": "2026-01-10", "wd": 6, "h": 20.93, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": ["kai"], "gymOn": false, "done": [], "cap": null, "cut": null}
+  [ 139.8s] [W203_B] 對話（事件 ev_kai_winter_203）：選項 [["「要。」", "「我剛吃過。」"]]；選了 ["「我剛吃過。」"]；GAME.say [["", "（阿哲跟柏翰的床都只剩床墊。房間一下子大了很多。）"], ["阿凱", "（頭沒回）泡麵要不要。我煮兩包了。"], ["阿凱", "那我吃兩碗。（他真的吃了兩碗。）"], ["", "（吃到一半，他看了一眼你桌上那盞檯燈。）"], ["阿凱", "你那盞燈閃很久了。"], ["", "（他拿了一支小螺絲起子，蹲在你桌子底下弄了兩分鐘。燈不閃了。）"], ["阿凱", "接觸不良。……不算修，只是轉緊。"], ["", "（他回到螢幕前面。房間只剩他打字的聲音。）"]]
+  [ 139.9s] [W203_B] 之後 dormWho（21:00 時）["kai"]；done ["ev_kai_winter_203"]
+PASS [W203_B] ev_kai_winter_203 演了（G.events.done）  ["ev_kai_winter_203"]
+  [ 154.0s] [REPAIR] 大一寒假 1/10 以前的二四六（阿凱在臺北）：["2025-12-23", "2025-12-25"]
+PASS FAIL_SETUP 檢查：[REPAIR] 找得到兩個打工日  ["2025-12-23", "2025-12-25"]
+  [前置／捷徑] [REPAIR] 最小存檔讀到 2025-12-23 18.83 dorm（None 第 None 週）
+  [前置／捷徑] 【捷徑】[REPAIR] 墊關係、群組：{"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}
+  [ 170.9s] [REPAIR] 墊完 {"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}；狀態 {"key": "2025-12-23", "wd": 2, "h": 18.93, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": ["kai"], "gymOn": false, "done": [], "cap": null, "cut": null}
+PASS FAIL_SETUP 檢查：[REPAIR] 大一寒假、203 四人房  {"key": "2025-12-23", "wd": 2, "h": 18.93, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": ["kai"], "gymOn": false, "done": [], "cap": null, "cut": null}
+  [ 195.7s] [REPAIR_1] 對話（事件 ev_kai_shop_visit_Y1W）：選項 [["「你在修什麼？」", "「店裡不能修嗎？」"]]；選了 ["「店裡不能修嗎？」"]；GAME.say [["", "（阿凱的桌上攤著一台拆開的筆電，旁邊是一個小盒子，裝滿螺絲。他戴著頭燈。）"], ["阿凱", "（沒抬頭）店裡修不完，老闆叫我帶回來。……你坐我床上，你的椅子我拿來放零件了。"], ["阿凱", "可以啊。可是店裡很吵，這裡只有你。"], ["阿凱", "你要是筆電怪怪的，拿來。學生不收錢。……我說不收就不收，老闆不知道。"]]
+PASS [REPAIR] ev_kai_shop_visit_Y1W 演了  ["ev_kai_shop_visit_Y1W"]
+  [前置／捷徑] [前置] 同一份進度跳到 2025-12-25（None 第 None 週）19.50 時 dorm；REPAIR
+  [ 203.6s] [REPAIR] 第二天狀態 {"key": "2025-12-25", "wd": 4, "h": 19.55, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": ["kai"], "gymOn": false, "done": ["ev_kai_shop_visit_Y1W"], "cap": null, "cut": null}
+PASS FAIL_SETUP 檢查：[REPAIR_2] kai 在這一區、看得到  {"x": 1.14, "z": 0.14, "lv": 0, "beh": "idle", "pose": "sit", "hidden": false, "leaving": false, "name": "阿凱", "label": null, "talk": true, "dMe": 2.53}
+  [ 206.3s] 「[REPAIR_2] kai 旁邊（第 1 輪）」途中停下（離目標 0.25 m）：你要是筆電怪怪的，拿來。學生不收錢。……我說不收就不收，老闆不知道。
+  [ 219.3s] [REPAIR_2] 對話（事件 ev_kai_mentions_ziqing）：選項 [["「什麼時候？」", "「我不會彈吉他。」", "「你去就好。」"]]；選了 ["「什麼時候？」"]；GAME.say [["阿凱", "欸，我們系有個學姊，高子晴，吉他社的。她說社團缺人，問我有沒有朋友想來。"], ["阿凱", "我說我室友法律系，她說什麼系都可以，來吃東西也行。"], ["阿凱", "第五週開始，週一、週三晚上七點，在B館一樓的多功能教室。她說不用會彈。"]]
+  [前置／捷徑] [BACK_IN] 最小存檔讀到 2026-02-20 21.92 dorm（None 第 None 週）
+  [前置／捷徑] 【捷徑】[BACK_IN] 墊關係、群組：{"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}
+  [ 248.9s] [BACK_IN] 墊完 {"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}；狀態 {"key": "2026-02-20", "wd": 5, "h": 22.01, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": [], "gymOn": false, "done": [], "cap": {"155": {"keep": ["msg_kai_lny_2026"], "cut": []}}, "cut": null}
+  [ 259.3s] [BACK_IN] 對話（事件 ev_kai_back_y1s2）：選項 []；選了 []；GAME.say [["", "（門開了。阿凱把背包丟在床上，從袋子裡拿出一盒餅，放在兩張書桌中間——遙控器平常放的那個位置。）"], ["阿凱", "我媽叫我帶的。你們三個分。"], ["阿凱", "……我也可以吃。我媽沒說我不能吃。"]]
+PASS [BACK_IN] ev_kai_back_y1s2 演了  ["ev_kai_back_y1s2"]
+  [前置／捷徑] [BACK_LATER] 最小存檔讀到 2026-02-20 21.50 campus（None 第 None 週）
+  [前置／捷徑] 【捷徑】[BACK_LATER] 墊關係、群組：{"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}
+PASS FAIL_SETUP 檢查：[BACK_LATER] 遊戲時間過了 22.20（現在 2026-02-20 22.20）
+  [前置／捷徑] [前置] 同一份進度跳到 2026-02-21（None 第 None 週）21.00 時 dorm；BACK_LATER
+  [前置／捷徑] [BACK_LATER] 2/20 晚上人在校園沒有回 203；【前置】2/21 21:00 讀到 203＝他回來以後第一次回 203
+  [ 402.8s] [BACK_LATER] 墊完 {"kai": {"stage": "FAMILIAR", "level": 1, "contact": true}, "groups": []}；狀態 {"key": "2026-02-21", "wd": 6, "h": 21.05, "zone": "dorm", "brk": "Y1W", "r203": true, "dormWho": ["kai"], "gymOn": false, "done": [], "cap": {"155": {"keep": ["msg_kai_lny_2026"], "cut": []}}, "cut": null}
+  [ 424.7s] [BACK_LATER] 對話（事件 ev_kai_winter_203）：選項 [["「要。」", "「我剛吃過。」"]]；選了 ["「要。」"]；GAME.say [["", "（阿哲跟柏翰的床都只剩床墊。房間一下子大了很多。）"], ["阿凱", "（頭沒回）泡麵要不要。我煮兩包了。"], ["", "（他把一碗推到你書桌上，筷子插在麵上。）"], ["阿凱", "蛋只有一顆，給你。"], ["", "（吃到一半，他看了一眼你桌上那盞檯燈。）"], ["阿凱", "你那盞燈閃很久了。"], ["", "（他拿了一支小螺絲起子，蹲在你桌子底下弄了兩分鐘。燈不閃了。）"], ["阿凱", "接觸不良。……不算修，只是轉緊。"], ["", "（他回到螢幕前面。房間只剩他打字的聲音。）"], ["", "（兩張書桌中間放著一盒宜蘭的餅，已經拆開少了兩塊。）"], ["阿凱", "（頭沒回）我媽叫我帶的。少的那兩塊是阿哲。"]]
+PASS [BACK_LATER] ev_kai_back_y1s2_later 演了  ["ev_kai_winter_203", "ev_kai_back_y1s2_later"]
+PASS 沒有 JS 例外  []
+ALL PASS

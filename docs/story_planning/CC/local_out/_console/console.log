@@ -1,11 +1,3 @@
-       ef225fb46d..7bf80d6ac6  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:34:18] ==== END   JPCLASS_MSGS_r2  exit=0  552s   ====
-[23:34:21] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[23:34:21] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[23:34:21] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[23:34:21] memory 45% before starting CANON_NEWGAME_B1_d21c (2 running)
-[23:34:21] ==== START CANON_NEWGAME_B1_d21c  (probe @ d21c698bdef7b3ae434112ce7175ae9945deadd8) ====
 [23:34:24] [res] cpu=12% mem=45% (14.2/31.4 GB) chrome_testing=5  START CANON_NEWGAME_B1_d21c
 [23:36:52] 正在跑：SAVE_LZ_growB（已跑 70 分／上限 120 分）、CANON_NEWGAME_A1_d21c（已跑 3 分／上限 220 分）、CANON_NEWGAME_B1_d21c（已跑 2 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:41:52] 正在跑：SAVE_LZ_growB（已跑 75 分／上限 120 分）、CANON_NEWGAME_A1_d21c（已跑 8 分／上限 220 分）、CANON_NEWGAME_B1_d21c（已跑 7 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1990,11 @@
 [13:00:14] [res] cpu=0% mem=44% (14.1/31.4 GB) chrome_testing=9  START VACGAP_B
 [13:01:55] 正在跑：YY_GATE_r2（已跑 16 分／上限 50 分）、VACGAP_A（已跑 3 分／上限 60 分）、VACGAP_B（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:03:39] [res] cpu=12% mem=47% (14.8/31.4 GB) chrome_testing=10  END YY_GATE_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       69f637166a..3af4f6a4a1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:03:48] ==== END   YY_GATE_r2  exit=1  1097s   ====
+[13:03:52] memory 47% before starting VACGAP_C (2 running)
+[13:03:52] ==== START VACGAP_C  (probe @ 625fefcf1e40e4edcee58234fd6916b7fe89ff75) ====
+[13:03:55] [res] cpu=0% mem=48% (15.0/31.4 GB) chrome_testing=10  START VACGAP_C
+[13:06:46] [res] cpu=5% mem=42% (13.2/31.4 GB) chrome_testing=10  END VACGAP_A
