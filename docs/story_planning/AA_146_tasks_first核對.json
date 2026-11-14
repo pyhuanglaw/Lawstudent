@@ -18,7 +18,7 @@
  "ART-01": {
   "term": "Y0S1",
   "week": 1,
-  "earliest": "**改**：經濟系開學典禮在社科院（E02，2024-09-02）比法律系開局早",
+  "earliest": "**改**：舊序章開學典禮在社科院（E02，2024-09-02）比法律系開局早",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -50,7 +50,7 @@
  "ART-05": {
   "term": "Y0S1",
   "week": 1,
-  "earliest": "**改**：kexin 在經濟系 E02 就出場；bl_zhe、xinci、bohan、peishan 是法律系大一上",
+  "earliest": "**改**：kexin 在舊序章 E02 就出場；bl_zhe、xinci、bohan、peishan 是法律系大一上",
   "mainline": true,
   "confirmed": true,
   "aa": "fix"
@@ -82,7 +82,7 @@
  "ART-09": {
   "term": "Y0S1",
   "week": 1,
-  "earliest": "E02（經濟系四人、家豪）；yule 是 K1b（大一上第 6～8 週）",
+  "earliest": "E02（舊序章四人、舊序章的人）；yule 是 K1b（大一上第 6～8 週）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -106,7 +106,7 @@
  "ART-12": {
   "term": "Y0S1",
   "week": null,
-  "earliest": "**改**：最早是 v0 E21 除夕的電話（2025-01-28，經濟系寒假）；法律系開局的玩家是大一上第一個週末",
+  "earliest": "**改**：最早是 v0 E21 除夕的電話（2025-01-28，舊序章寒假）；法律系開局的玩家是大一上第一個週末",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -178,7 +178,7 @@
  "V0-A1": {
   "term": "Y0S1",
   "week": 1,
-  "earliest": "經濟系開局第一天（2024-09-02）",
+  "earliest": "舊序章開局第一天（2024-09-02）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -202,7 +202,7 @@
  "V0-A4": {
   "term": "Y0S2",
   "week": null,
-  "earliest": "經濟系存檔接到法律系第一天（2025-09）",
+  "earliest": "舊序章存檔接到法律系第一天（2025-09）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -210,7 +210,7 @@
  "V0-A5": {
   "term": "Y0S2",
   "week": 6,
-  "earliest": "E30 休學那一週（Y0S2 第 6 週前後）",
+  "earliest": "E30 舊序章那一週（Y0S2 第 6 週前後）",
   "mainline": true,
   "confirmed": true,
   "aa": "fix"
@@ -250,7 +250,7 @@
  "V0-B3": {
   "term": "Y0S1",
   "week": 1,
-  "earliest": "阿勳 A1 從 E01、E02 起（`BB_112`）；R1～R8 在 Y0S2 第 6 週以後",
+  "earliest": "舊序章的人 A1 從 E01、E02 起（`BB_112`）；R1～R8 在 Y0S2 第 6 週以後",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -282,7 +282,7 @@
  "V0-E3": {
   "term": "Y1S1",
   "week": 1,
-  "earliest": "法律系第一天就讀（沒玩經濟系＝none）",
+  "earliest": "法律系第一天就讀（沒玩舊序章＝none）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -290,7 +290,7 @@
  "V0-SK": {
   "term": "Y1S1",
   "week": 3,
-  "earliest": "**改**：SK 系列是法律系時期的回聲；最早 SK01 法律系大一第 3 週（`BB_106` 第 31 行）。經濟系那年本身沒有 SK",
+  "earliest": "**改**：SK 系列是法律系時期的回聲；最早 SK01 法律系大一第 3 週（`BB_106` 第 31 行）。舊序章那年本身沒有 SK",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -1742,7 +1742,7 @@
  "DATE-C6": {
   "term": "Y1S2",
   "week": null,
-  "earliest": "第 6 階＋4 次正式約會＋心願（`AA_128` 155）；最早大一下（可昕從經濟系就在交往，不經過這一關）",
+  "earliest": "第 6 階＋4 次正式約會＋心願（`AA_128` 155）；最早大一下（可昕從舊序章就在交往，不經過這一關）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2102,7 +2102,7 @@
  "D14-T12": {
   "term": "Y1S1",
   "week": 3,
-  "earliest": "K1 第一次開車去木柵大學（第 3 週週六）",
+  "earliest": "K1 第一次開車去外校大學（第 3 週週六）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2383,7 +2383,7 @@
  "SCN-V3-02": {
   "term": "Y2S1",
   "week": 6,
-  "earliest": "研究室門口（學姊 W7，第 6～9 週）最早；**木柵大學小教室改用 classroom_small、河堤夜景用 riverside**（`AA_145`），這兩項從這裡拿掉",
+  "earliest": "研究室門口（學姊 W7，第 6～9 週）最早；**外校大學小教室改用 classroom_small、河堤夜景用 riverside**（`AA_145`），這兩項從這裡拿掉",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2663,7 +2663,7 @@
  "SYS-18": {
   "term": "Y1S1",
   "week": 3,
-  "earliest": "K1 導遊：第一次開車去木柵大學（第 3 週週六，`BB_95` 9-1）",
+  "earliest": "K1 導遊：第一次開車去外校大學（第 3 週週六，`BB_95` 9-1）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2728,7 +2728,7 @@
  "SCN-KX-01": {
   "term": "Y1S1",
   "week": 3,
-  "earliest": "**已解決**：`AA_112` 開頭的木柵大學場景對應（圖書館→翠嶺十舍樓下的長椅、河堤→木柵大學主要校園的路、大家的河堤→公館河濱、小教室→classroom_small）；台詞不動只換字幕",
+  "earliest": "**已解決**：`AA_112` 開頭的外校大學場景對應（圖書館→外校宿舍樓下的長椅、河堤→外校大學主要校園的路、大家的河堤→公館河濱、小教室→classroom_small）；台詞不動只換字幕",
   "mainline": false,
   "confirmed": true,
   "aa": "void"

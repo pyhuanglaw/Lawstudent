@@ -1,10 +1,11 @@
 {
  "_meta": {
+  "canon_1112": "CANON-NO-ECON-1112（D158）：舊序章、外校的字已改成代號。遊戲裡的字以 src 對照表 AA_886～AA_897 為準，不要再從本檔重匯。",
   "doc": "AA_784 邀約（invites.js）七個女主角的台詞覆蓋列（X324 D 區）",
   "by": "AA（帳號 A）2026-11-11",
   "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
   "format": "同 AA_783：files[{who, file:'invites', rows[{at, old, new, note}]}]，at＝INVITE_DATA 底下的 JS 路徑；old＝遊戲現在的字（開發分支 08:3x）。AA_783 已經給過的 invites 列（和 invite_replies 同句）不重複。玩家選項的字（ch[i].t）不動。",
-  "what": "刪節號每人只留笑點、被說中的幾個（數字見 counts）。換句：以安「下次講給我聽」→「你講給我聽」；芷若 acc 四個咖啡店有三個都是「我想坐窗邊／坐窗邊好不好」，日常失速、Daybreak 兩句換成那間店自己的（Daybreak 是早午餐店：鬆餅）；子晴「下次我會進步」→「我會進步的」；可昕「下次在木柵大學打」→「換你來木柵大學打」。店名（日常失速、afar、Daybreak、木曜日）是現行的溫州街店，沒動。配角（zhe、yu、柏翰、芯慈、kai、明軒、方奕廷）下一份。",
+  "what": "刪節號每人只留笑點、被說中的幾個（數字見 counts）。換句：以安「下次講給我聽」→「你講給我聽」；芷若 acc 四個咖啡店有三個都是「我想坐窗邊／坐窗邊好不好」，日常失速、Daybreak 兩句換成那間店自己的（Daybreak 是早午餐店：鬆餅）；子晴「下次我會進步」→「我會進步的」；可昕「下次在外校大學打」→「換你來外校大學打」。店名（日常失速、afar、Daybreak、木曜日）是現行的溫州街店，沒動。配角（zhe、yu、柏翰、芯慈、kai、明軒、方奕廷）下一份。",
   "counts": {
    "heroine_01": {
     "刪節號前": 16,
@@ -79,7 +80,8 @@
     "列": 1
    }
   },
-  "what2": "2026-11-11 加配角（阿哲、Alison、柏翰、芯慈、阿凱、明軒、方奕廷）和 libStudy 共用句（和 AA_707 一起念書第 1 場同一句的照 AA_707 的新字）。頂層表（walk118、slowreadLines、lawlibLines、lakeLines、*Acc）和 people.* 同句的路徑問題等 LAWWW 回（08:5x 問的）。"
+  "what2": "2026-11-11 加配角（阿哲、Alison、柏翰、芯慈、阿凱、明軒、方奕廷）和 libStudy 共用句（和 AA_707 一起念書第 1 場同一句的照 AA_707 的新字）。頂層表（walk118、slowreadLines、lawlibLines、lakeLines、*Acc）和 people.* 同句的路徑問題等 LAWWW 回（08:5x 問的）。",
+  "canon_1112_rows": "CANON-NO-ECON-1112（AA-C 11-12 19:4x）：可昕羽球 end[0]、總圖 bye 兩列移出本覆寫層（舊字不留在 old 欄）；這兩格照 AA_894 第 4 節直接改 src：「下一局換我發球。你不要跑。」「我回宿舍了。今天謝謝你。」"
  },
  "files": [
   {
@@ -537,12 +539,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "people.kexin.sport.gym_badminton.end[0]",
-     "old": "下次在木柵大學打。……你要上山。",
-     "new": "換你來木柵大學打。你要上山。",
-     "note": "換句（見 _meta）"
-    },
-    {
      "at": "people.kexin.firstAt.brunch[0]",
      "old": "蛋可以選熟度欸。……我要半熟。",
      "new": "蛋可以選熟度欸。我要半熟。",
@@ -551,7 +547,7 @@
     {
      "at": "people.kexin.firstAt.slowread[2]",
      "old": "（小聲）……好喝。可是我要坐滿三個小時才划算。",
-     "new": "（小聲）好喝。可是我要坐滿三個小時才划算。",
+     "new": "（小聲）好喝。我可以坐到他們趕人。",
      "note": "拿掉刪節號"
     },
     {
@@ -853,12 +849,6 @@
      "old": "下次我帶零食。……啊，圖書館不能吃。",
      "new": "我今天讀了十頁，畫了十頁。效率很平均。",
      "note": "照 AA_707 沛珊第 1 場"
-    },
-    {
-     "at": "libStudy.first.kexin.bye",
-     "old": "我要趕車回木柵了。……今天謝謝你。",
-     "new": "我回木柵了。今天謝謝你。",
-     "note": "照 AA_707 可昕第 1 場"
     },
     {
      "at": "libStudy.mid[1][0]",

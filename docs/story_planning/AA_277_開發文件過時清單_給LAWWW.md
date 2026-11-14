@@ -26,7 +26,7 @@
 | `docs/DUAL_AI_BOARD.md`、`docs/SECOND_AI_HANDOFF.md` | 兩個 AI 時期（10-10）的看板與交接；加「歷史」標記，以 `AI_SESSION_HANDOFF.md`、`HANDOFF_GAP_MATRIX.md` 為準 |
 | `docs/WAKEUP_REPORT_2026-10-10.md` | 一次性報告，加「歷史」標記 |
 | `docs/REVIEW_README.md`、`docs/REVIEW_NOTES.md` | v7 時期的系統總覽與技術疑慮；確認哪些還有效，其他加標記 |
-| `docs/TIMELINE_COMPAT_AUDIT.md` | 經濟系時間線相容性（LIFE-LINE 以前）；以 `AA_224`、`AA_272`、總表第 1 節為準 |
+| `docs/TIMELINE_COMPAT_AUDIT.md` | 舊序章時間線相容性（LIFE-LINE 以前）；以 `AA_224`、`AA_272`、總表第 1 節為準 |
 
 ## 3. 劇情相關但寫在開發文件裡的（請照總表改）
 - 可昕老家高雄、沛珊老家台中（重考期間整段在台中）、學姊沒有男朋友、明軒自己存錢去德國、國考報名就考上律師：如果 `PROJECT_DECISIONS.md`、`RELEASES.md` 或程式註解有舊說法，以總表第 2 節為準。
