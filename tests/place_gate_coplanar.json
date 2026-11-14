@@ -114,9 +114,9 @@
   "top": ""
  },
  "assets/models/env/second_ai/bb_support/nanyang_lobby.glb": {
-  "sha1": "03aaed78df85e614f67913e6493b13dc26020599",
+  "sha1": "c230ce94731783f0f9491751c0339f4370ade1f5",
   "wall": 9.31,
-  "always": 16.5,
+  "always": 16.43,
   "top": "WALL_left_wains×ny_maroon 7.665 m² @[-4.5,0.96,1.24]"
  },
  "assets/models/env/second_ai/bb_support/shaola_interior.glb": {

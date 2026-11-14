@@ -8,6 +8,7 @@
   右牆：插畫海報（夏日的風、河邊的約定、小站的…）、劇照板、每張上面一盞鵝頸燈；兩張木條長椅（黑鐵腳）；金屬垃圾桶。
 外觀對齊（nanyang_ext.webp）：正面左半是售票亭（窗口朝外，大廳這側是售票亭的背牆＋一扇小門），右半是玻璃門入口；進門右手邊有舊放映機展示和兩張紅色座椅。
 D77：片名、店名都是虛構的（參考圖上的片名照用，README 允許）；沒有真實品牌。D112：地板是紅地毯、不是深色木地板。
+v7（11-14，LAWWW2-C 驗收 P2）：飲料櫃瓶子有標籤帶、高矮不同；紅白條紋紙桶分五疊、有條紋；入口旁的放映機改成木頭展示台＋Poly Haven 掃描的舊放映機。
 v6（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；幫手 g4 11-13）：原本的純色材質（護牆板深紅、米色、樑、黃銅、黑鐵、不鏽鋼、天花板）改成 ambientCG 材質組（名字不變），
   櫃檯小東西照顏色分族（cc0kit.std_route）；收銀機、垃圾桶換 Poly Haven 掃描模型；吊燈乳白玻璃用塑膠紋路的發光材質。位置、座位、導航阻擋都沒動。
 配置只寫在 src/data/nanyang_layout.js（Blender 和遊戲共用）。座標：房間中心在原點，x 東、y 上、z 南；店門在 +z。
@@ -164,7 +165,21 @@ m_warm = K.glow('ny_warm', '#ffb860', tuple(v * 8.0 for v in B.srgb('#ffb860')))
 m_white = m_warm   # v5：材質 ≤ 12（天花板多一個單面材質），飲料櫃的燈也用暖光
 m_vc = L.vc_material('ny_props_vc', rough=0.6)
 M = {}; KK.std_mats(K, M)
-RV = KK.std_route(False)
+# v7（LAWWW2-C 11-14 P2）：①飲料櫃的瓶子不是一色一瓶：每種顏色一張「瓶身色＋白色標籤帶＋標籤上的字紋」×ambientCG 紙紋 ②紅白條紋紙桶有條紋
+DRINK = ['#3c8a4a', '#d8a030', '#c84030', '#e8e0c8', '#3a6fb0']
+def _drink(col):
+    c = tuple(int(col[i:i + 2], 16) for i in (1, 3, 5)); dk = tuple(max(0, v - 60) for v in c)
+    def dr(d, s_):
+        d.rectangle([0, 0, s_, s_], fill=c); d.rectangle([0, int(s_ * 0.18), s_, int(s_ * 0.5)], fill=(246, 242, 232))   # 瓶身色、白色標籤帶（box UV 每 0.38 m 一輪＝一層架一瓶）
+        d.rectangle([0, int(s_ * 0.22), s_, int(s_ * 0.26)], fill=dk); d.rectangle([0, int(s_ * 0.42), s_, int(s_ * 0.45)], fill=dk)
+        for k in range(0, s_, s_ // 8): d.rectangle([k + s_ // 32, int(s_ * 0.3), k + s_ // 12, int(s_ * 0.38)], fill=dk)   # 標籤上的字紋（不寫字、沒有品牌，D77）
+        d.rectangle([0, int(s_ * 0.86), s_, s_], fill=tuple(min(255, v + 40) for v in c))   # 瓶肩的反光
+    return dr
+for i_, c_ in enumerate(DRINK): M[f'drink{i_}'] = K.printed(f'drink{i_}', f'ny_drink{i_}', _drink(c_), 'Paper001', size=128, amp=0.1, tile=0.38, rough_value=0.3)
+def _stripe(d, s_):
+    for k in range(8): d.rectangle([k * s_ // 8, 0, (k + 1) * s_ // 8, s_], fill=(214, 58, 52) if k % 2 == 0 else (246, 240, 228))
+M['cupstripe'] = K.printed('cupstripe', 'ny_cupstripe', _stripe, 'Paper001', size=128, amp=0.12, tile=0.16, rough_value=0.6)
+RV = KK.std_route(False, dict({c_: f'drink{i_}' for i_, c_ in enumerate(DRINK)}, **{'#d63a34': 'cupstripe'}))
 TM = {}
 def tm(k):
     if k not in TM: TM[k] = Mesh(f'ny_cc_{k}', M[k])
@@ -270,10 +285,11 @@ for _ in range(320):   # 上面一顆一顆（v5：少一點、面數低一點�
 props.paint(list(props.bm.faces), '#f4dfa0')
 # 倒角（bevel）會釋放面、之後新加的面可能佔進前面的位置，所以用集合比對新面、不用 list[n:]（v3 飲料櫃側面變綠就是這個）
 n0 = set(props.bm.faces)
-for i in range(6):   # 紅白條紋紙桶疊
-    for j in range(3):
-        bx_, bz_ = cx + depth - 0.3, cz0 + 2.0 + i * 0.16
-        props.add_bm(L.lathe([(0.0, 0.0), (0.06, 0.0), (0.08, 0.17), (0.0, 0.17)], seg=12), Matrix.Translation(g2b(bx_, 1.06 + j * 0.12, bz_)))
+_cr = random.Random(616)
+for i in range(5):   # 紅白條紋紙桶疊（v7，LAWWW2-C P2：原本 6×3 個貼在一起變一整塊紅）→ 五疊分開、高低不同（3～7 個套在一起），中間留空、有一個單獨放
+    bx_, bz_ = cx + depth - 0.3 + _cr.uniform(-0.03, 0.03), cz0 + 2.0 + i * 0.2 + _cr.uniform(-0.02, 0.02)
+    for j in range(_cr.randint(3, 7) if i != 3 else 1):
+        props.add_bm(L.lathe([(0.0, 0.0), (0.055, 0.0), (0.075, 0.15), (0.08, 0.155), (0.072, 0.155), (0.05, 0.005), (0.0, 0.005)], seg=14), Matrix.Translation(g2b(bx_, 1.06 + j * 0.028, bz_)))
 props.paint([f for f in props.bm.faces if f not in n0], '#d63a34'); n0 = set(props.bm.faces)
 K.ph_put('CashRegister_01', cx + depth - 0.4, 1.06, cz0 + 3.175, math.pi / 2, height=0.3, decimate=0.1)   # 收銀機（v6：Poly Haven）
 props.add_bm(L.lathe([(0.0, 0.0), (0.1, 0.0), (0.12, 0.08), (0.12, 0.26), (0.07, 0.3), (0.0, 0.3)], seg=16), Matrix.Translation(g2b(cx + depth - 0.4, 1.06, cz0 + 3.7)))   # 糖果罐
@@ -284,7 +300,8 @@ for row in range(4):   # 一層一層的玻璃瓶、易開罐（旋轉體，顏�
     for k in range(5):
         n1 = set(props.bm.faces); bx_, by_, bz_ = X0 + 0.62, 0.36 + row * 0.38, cz0 + 4.43 + k * 0.145
         prof = [(0.0, 0.0), (0.035, 0.0), (0.035, 0.16), (0.014, 0.22), (0.012, 0.27), (0.0, 0.27)] if (k + row) % 2 == 0 else [(0.0, 0.0), (0.033, 0.0), (0.033, 0.12), (0.028, 0.125), (0.0, 0.125)]
-        props.add_bm(L.lathe(prof, seg=10), Matrix.Translation(g2b(bx_, by_, bz_)))
+        sc_ = 1.0 + 0.08 * (((k * 7 + row * 3) % 5) - 2) / 2   # v7：每瓶高矮差一點
+        props.add_bm(L.lathe([(r_, h_ * sc_) for r_, h_ in prof], seg=10), Matrix.Translation(g2b(bx_ + 0.012 * ((k + row) % 3 - 1), by_, bz_)))
         props.paint([f for f in props.bm.faces if f not in n1], ['#3c8a4a', '#d8a030', '#c84030', '#e8e0c8', '#3a6fb0'][(k + row) % 5])
     props.crbox(X0 + 0.12, X0 + 0.74, 0.33 + row * 0.38, 0.35 + row * 0.38, cz0 + 4.34, cz0 + 5.06, '#d8dcde', r=0.003)   # 層板
 n0 = set(props.bm.faces)
@@ -391,10 +408,10 @@ pend.finish(root); pg.finish(root, smooth=True)
 
 # ---------------- 進門右手邊：舊放映機展示＋兩張紅色座椅（外觀圖看得到）----------------
 pj = LAY['projector']
-pro = Mesh('PROJECTOR', m_iron); pro.rbox(pj['x'] - 0.25, pj['x'] + 0.25, 0.0, 1.0, pj['z'] - 0.3, pj['z'] + 0.3, r=0.03, seg=2); pro.rbox(pj['x'] - 0.2, pj['x'] + 0.2, 1.0, 1.4, pj['z'] - 0.35, pj['z'] + 0.25, r=0.04, seg=2)
-pro.cyl((pj['x'], 1.35, pj['z'] + 0.25), (pj['x'], 1.35, pj['z'] + 0.45), 0.07, seg=16)
-for dz in (-0.32, 0.18): pro.cyl((pj['x'] - 0.03, 1.85, pj['z'] + dz), (pj['x'] + 0.03, 1.85, pj['z'] + dz), 0.32, seg=28); pro.cyl((pj['x'], 1.4, pj['z'] + dz * 0.6), (pj['x'], 1.6, pj['z'] + dz), 0.02)
-pro.finish(root, smooth=True)
+# v7（LAWWW2-C P2：原本是一整塊純黑的立式方箱）：深色木頭展示台＋黃銅收邊＋Poly Haven 掃描的舊放映機（filmstrip_projector_8mm）放在上面；佔的地方和原本一樣
+pro = Mesh('PROJECTOR', m_wood); pro.rbox(pj['x'] - 0.25, pj['x'] + 0.25, 0.0, 0.95, pj['z'] - 0.3, pj['z'] + 0.3, r=0.02, seg=2); pro.finish(root, smooth=True)
+Mesh('PROJECTOR_TRIM', m_brass).rbox(pj['x'] - 0.27, pj['x'] + 0.27, 0.95, 0.98, pj['z'] - 0.32, pj['z'] + 0.32, r=0.01, seg=1).finish(root)
+K.ph_put('filmstrip_projector_8mm', pj['x'], 0.98, pj['z'], math.pi, height=0.62, decimate=0.2)
 seats = Mesh('RED_CHAIRS', m_maroon); seatl = Mesh('RED_CHAIRS_LEGS', m_iron)
 for k in range(2):
     z = pj['z'] - 1.0 - k * 0.6
@@ -423,12 +440,14 @@ def _remap_uv(obname, u0, u1, v0, v1):
     for d_ in me.uv_layers.active.data: d_.uv = (u0 + d_.uv[0] * (u1 - u0), v0 + d_.uv[1] * (v1 - v0))
 _remap_uv('CHALK_FACE', 0.0, 512 / 848, 1 - 444 / 512, 1.0)
 sx_, sz_ = 2.2, 0.0
-stn = Mesh('STANDEE_FRAME', m_iron)
+stn = Mesh('STANDEE_FRAME', m_wood)   # v7（LAWWW2-C P2：從店裡看是一塊純黑的立式方箱）：框改深色木頭，背面也貼海報
 stn.rbox(sx_ - 0.36, sx_ + 0.36, 0.55, 2.0, sz_ - 0.03, sz_ + 0.0, r=0.01, seg=1)
 for dx in (-0.3, 0.3): stn.box(sx_ + dx - 0.015, sx_ + dx + 0.015, 0.0, 0.6, sz_ - 0.02, sz_ + 0.0); stn.box(sx_ + dx - 0.02, sx_ + dx + 0.02, 0.0, 0.02, sz_ - 0.25, sz_ + 0.2)
 stn.finish(root)
 uvquad('STANDEE_FACE', (sx_ - 0.32, 0.6, sz_ + 0.003), (sx_ + 0.32, 0.6, sz_ + 0.003), (sx_ + 0.32, 1.96, sz_ + 0.003), (sx_ - 0.32, 1.96, sz_ + 0.003), IM['standee'])   # 面向入口（+z）
 _remap_uv('STANDEE_FACE', 512 / 848, 1.0, 0.0, 1.0)
+uvquad('STANDEE_FACE_BACK', (sx_ + 0.32, 0.6, sz_ - 0.033), (sx_ - 0.32, 0.6, sz_ - 0.033), (sx_ - 0.32, 1.96, sz_ - 0.033), (sx_ + 0.32, 1.96, sz_ - 0.033), IM['standee'])   # v7：背面（朝店裡）也是同一張海報
+_remap_uv('STANDEE_FACE_BACK', 512 / 848, 1.0, 0.0, 1.0)
 EXTRA.append([sx_, sz_ - 0.02, 0.8, 0.5, '本日放映立牌'])
 # 2) 排隊的地方：兩支紅龍柱（銅柱、深紅絨繩）——櫃檯前排隊那一條（x −3.2～−2.0）和中間走道中間；售票窗口在外觀那一面（LAWWW2），大廳裡排隊的是爆米花櫃檯
 qx, qz0, qz1 = -1.95, -1.4, 0.6

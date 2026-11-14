@@ -269,6 +269,7 @@
 | `potted_plant_02` | 落地植物六盆（小盆栽照舊葉片卡）（作者 Rico Cilliers） | 69,806 → 約 2,100 面 | `assets/models/env/second_ai/aa_support/yejian.glb`（公館頁間書屋店內，SHOP-CC0-HELP-1113，幫手 g2 2026-11-13；腳本 `tools/blender/env_second/aa_support/yejian_interior.py（`aa_kit.py` 的 `Shop.route` 照顏色轉材質組）`＋`cc0_kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh yejian`） |
 | `CashRegister_01` | 咖啡吧的收銀機（取代原本的黑方塊）（作者 Joe Seabuhr） | 9,927 → 約 1,000 面；高 0.26 m | `assets/models/env/second_ai/aa_support/yejian.glb`（公館頁間書屋店內，SHOP-CC0-HELP-1113，幫手 g2 2026-11-13；腳本 `tools/blender/env_second/aa_support/yejian_interior.py（`aa_kit.py` 的 `Shop.route` 照顏色轉材質組）`＋`cc0_kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh yejian`） |
 | `potted_plant_02` | 右前的大盆栽（作者 Rico Cilliers） | 69,806 → 約 2,100 面 | `assets/models/env/second_ai/bb_support/corner.glb`（公館轉角唱片店內，SHOP-CC0-HELP-1113，幫手 g2 2026-11-13；腳本 `tools/blender/env_second/bb_support/corner_interior.py（頂點色零件改 `cc0_kit.Kit.vc_tex`：頂點色 × 材質組）`＋`cc0_kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh corner`） |
+| `filmstrip_projector_8mm` | 入口旁展示台上的舊放映機（v7，取代原本一整塊純黑的方箱；作者 PeterM） | 32,697 → 約 6,500 面 | `assets/models/env/second_ai/bb_support/nanyang_lobby.glb`（新生南路南洋戲院大廳 v7，SHOP-CC0-HELP-1113 P2，幫手 g4 2026-11-14；腳本 `tools/blender/env_second/bb_support/nanyang_interior.py`＋`bb_support/cc0kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_xs.sh nanyang_lobby`） |
 
 ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
 
@@ -483,6 +484,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | `Marble012` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 咖啡吧檯面（vary 0.1） | `assets/models/env/second_ai/aa_support/yejian.glb`（公館頁間書屋店內，SHOP-CC0-HELP-1113，幫手 g2 2026-11-13；腳本 `tools/blender/env_second/aa_support/yejian_interior.py（`aa_kit.py` 的 `Shop.route` 照顏色轉材質組）`＋`cc0_kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh yejian`） |
 | `Plastic006` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 全部頂點色霧面零件（音響、唱盤、沙發、櫃子…）：頂點色 × 校成近白色的材質組（紋路＋法線，vary 0.05） | `assets/models/env/second_ai/bb_support/corner.glb`（公館轉角唱片店內，SHOP-CC0-HELP-1113，幫手 g2 2026-11-13；腳本 `tools/blender/env_second/bb_support/corner_interior.py（頂點色零件改 `cc0_kit.Kit.vc_tex`：頂點色 × 材質組）`＋`cc0_kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh corner`） |
 | `Metal009` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 全部頂點色金屬零件（鐵架、唱臂、燈具…）：頂點色 × 材質組（vary 0.12） | `assets/models/env/second_ai/bb_support/corner.glb`（公館轉角唱片店內，SHOP-CC0-HELP-1113，幫手 g2 2026-11-13；腳本 `tools/blender/env_second/bb_support/corner_interior.py（頂點色零件改 `cc0_kit.Kit.vc_tex`：頂點色 × 材質組）`＋`cc0_kit.py`，下載 `cc0_fetch.py`，光照 `lightbake/bake_gg_new.sh corner`） |
+| `Paper001` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 飲料瓶的標籤帶、紅白條紋紙桶（本作自己畫的色帶×紙紋，沒有字、沒有品牌） | `assets/models/env/second_ai/bb_support/nanyang_lobby.glb`（南洋戲院大廳 v7，SHOP-CC0-HELP-1113 P2，幫手 g4 2026-11-14） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 

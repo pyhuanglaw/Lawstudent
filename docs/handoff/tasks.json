@@ -56795,12 +56795,12 @@
      "branch": "claude/shop-cc0-g4",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g4/HANDOFF.md",
      "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）",
-     "closed": "2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA 7758962c2（交班補一個 HANDOFF commit；原 dddc6a19d）、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開",
-     "lastSha": "7758962c2",
+     "closed": "2026-11-14 10:34 LAWWW-C：11-14 續做的南洋 v7（BB P2 三點）LAWWW2 PASS（0beca1f5ba）、已整合；g4 收工，最後 SHA f205d5ef9（g4 更正後，遠端已核對）。使用者選只做南洋，洋洋層架瓶罐不做。｜之前：2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA 7758962c2（交班補一個 HANDOFF commit；原 dddc6a19d）、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開",
+     "lastSha": "f205d5ef9",
      "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA 7758962c2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     }
    ],
-   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。｜02:0x 交班時還沒整合（LAWWW2 已驗收或待驗收）：一盞 v1.1 15124fd457（PASS）；青木（g2，PASS 待整合）；頁間 v4 389adca8c0（待 LAWWW2）；同弦 768816c33c（待 LAWWW2）；glb_coplanar instancing edb96e33ec（待 LAWWW2；之後整合的店要重跑 --coplanar）。g2 唱片 v2／山嵐 v3／單車 v2／Daybreak v2.1b、g3 大口／好拍／大步 v2：腳本好了、沒烘。｜11-14 10:1x：同弦（2139f174de）、頁間 v4（56e023ef7b）、glb_coplanar instancing（c3df27e0c2）已整合；shop_cc0 baseline 剩山嵐、轉角唱片（g2）。｜11-14 10:3x LAWWW-C：整合 LAWWW2 驗收 PASS 的轉角唱片 v2（g2）、好拍 v2（g3）＝開發 07bf3613b4；shop_cc0 baseline 只剩山嵐。好拍三角形 57k→77k，請 CC 量手機效能。"
+   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。｜02:0x 交班時還沒整合（LAWWW2 已驗收或待驗收）：一盞 v1.1 15124fd457（PASS）；青木（g2，PASS 待整合）；頁間 v4 389adca8c0（待 LAWWW2）；同弦 768816c33c（待 LAWWW2）；glb_coplanar instancing edb96e33ec（待 LAWWW2；之後整合的店要重跑 --coplanar）。g2 唱片 v2／山嵐 v3／單車 v2／Daybreak v2.1b、g3 大口／好拍／大步 v2：腳本好了、沒烘。｜11-14 10:1x：同弦（2139f174de）、頁間 v4（56e023ef7b）、glb_coplanar instancing（c3df27e0c2）已整合；shop_cc0 baseline 剩山嵐、轉角唱片（g2）。｜11-14 10:3x LAWWW-C：整合 LAWWW2 驗收 PASS 的轉角唱片 v2（g2）、好拍 v2（g3）＝開發 07bf3613b4；shop_cc0 baseline 只剩山嵐。好拍三角形 57k→77k，請 CC 量手機效能。｜11-14 10:3x：南洋戲院大廳 v7（g4，LAWWW2 驗收 PASS 0beca1f5ba）整合；BB P2 三點（飲料櫃瓶子、紅白紙桶、入口立牌背面）＋放映機換 Poly Haven；純色 5%、疊面 always 16.50→16.43。"
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -57222,10 +57222,10 @@
    "id": "VACGAP-KAI-ROOM-1114",
    "title": "大二寒假 2027-02-09 22:40：阿凱剛傳「宵夜」、STORY.presence(kai)＝{here:true}，玩家回 203 宿舍卻沒有阿凱（npc null）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P1",
    "source": "BB_379 95782b24d9（VACGAP_C @625fefcf1e）；D99 ① 寒暑假",
-   "note": "說在房間、回去卻沒人。查寒假期間 presence 和宿舍生成 npc 的條件為什麼不一致。CC 在 main 重跑 VACGAP_C_r2（加收 presence 完整物件、NPC 清單、sched），結果回來再看。",
+   "note": "說在房間、回去卻沒人。查寒假期間 presence 和宿舍生成 npc 的條件為什麼不一致。CC 在 main 重跑 VACGAP_C_r2（加收 presence 完整物件、NPC 清單、sched），結果回來再看。｜11-14 10:28 BB-C 撤回（BB_379 4437399131）：大二起阿凱住別棟（BUG-KAI-Y2-SCHED-1022），2027-02-09 不在 203 是照設計；規格沒分年級＝TEST_BUG。授權：BB-C（測試判定歸 BB）。替代：無。",
    "first": {
     "term": "Y2S1",
     "confirmed": true
@@ -57275,10 +57275,10 @@
    "id": "GATE-BLACK-ARC-1114",
    "title": "校門的黑色半圓",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "source": "LAWWW2-C 11-14 10:25",
-   "note": "",
+   "note": "11-14 10:34 BB-C 撤回（經 LAWWW2-C）：改判 TEST_SETUP。替代：無。",
    "first": {
     "term": "Y1S1",
     "week": 1,
