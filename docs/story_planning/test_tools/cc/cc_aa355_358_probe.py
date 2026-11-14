@@ -358,7 +358,16 @@ async def part_natural(pg, cdp):
 
 
 async def onetap_cls(pg, cdp):
-    await L.close_panels(pg, cdp); await pg.wait_for_timeout(500)   # CC-B 11-14（AA355_6_sports 第一次跑：goPop 是空的）：前一步讀手機首頁字、手機還開著，點 #btnGo 點到手機上；先關面板
+    await L.close_panels(pg, cdp); await pg.wait_for_timeout(500)
+    bz = []   # CC-B 11-14（sports r3：GAME busy＝一鍵灰著寫「劇情進行中」）：照玩家等劇情演完——有對話就點、有選單就記下來選第一個，最多 90 秒；記下是什麼在跑
+    for _ in range(90):
+        q_ = await pg.evaluate("(()=>({busy:!!(GAME.busy||GAME.D&&GAME.D.active), dlg:(document.getElementById('dlgText')||{}).textContent||'', ch:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()), ev:(typeof EVENTS!=='undefined'&&EVENTS.running)?(EVENTS.running.id||String(EVENTS.running)):null, h:+(+GAME.G.hour).toFixed(2)}))()")
+        if not q_['busy']: break
+        if not bz or bz[-1] != [q_['ev'], q_['dlg'][:40], q_['ch']]: bz.append([q_['ev'], q_['dlg'][:40], q_['ch']])
+        if q_['ch']: await L.tap(pg, cdp, '#choices button:nth-child(1)'); await pg.wait_for_timeout(800); continue
+        if q_['dlg'] and (await D.st(pg)).get('dlg'): await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+        await pg.wait_for_timeout(1000)
+    R.note('一鍵之前遊戲 busy 的經過（事件、對話、選單）：%s；之後 busy=%s' % (J(bz[:12]), q_['busy']))   # CC-B 11-14（AA355_6_sports 第一次跑：goPop 是空的）：前一步讀手機首頁字、手機還開著，點 #btnGo 點到手機上；先關面板
     await L.tap(pg, cdp, '#btnGo'); await pg.wait_for_timeout(900)
     dg = await pg.evaluate("""(()=>{ const b=document.getElementById('btnGo'), pop=document.getElementById('goPop'); if(!b) return {btn:null}; const r=b.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, top=document.elementFromPoint(cx,cy);
       const vis=e=>{ for(let x=e;x&&x!==document.body;x=x.parentElement){ const cs=getComputedStyle(x); if(cs.display==='none'||cs.visibility==='hidden') return false; } return true; };

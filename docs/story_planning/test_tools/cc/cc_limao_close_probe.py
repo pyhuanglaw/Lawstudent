@@ -57,16 +57,23 @@ async def main():
             await L.go_to(pg, cdp, R, dr['x'], dr['z'] - 0.6, 0.6, '① 走到禮貌生財門口', max_s=60, stop=lambda q: '禮貌生財' in (q.get('interact') or ''))
             q = await D.st(pg); R.note('① 門口互動鍵：%s' % q.get('interact'))
             await pg.evaluate("window.__ccMsg=[]")
+            seen_ = []
             if '禮貌生財' in (q.get('interact') or ''):
-                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+                await L.tap(pg, cdp, '#interact')
+                for _ in range(10):   # 按了以後 2.5 秒內畫面上出現的字（對話框、字幕、提示）：GAME.say／toast 之外的也收（「看…」是旁白）
+                    await pg.wait_for_timeout(250)
+                    t_ = await pg.evaluate("(()=>{ const g=id=>{ const e=document.getElementById(id); return e&&e.offsetParent!==null?(e.textContent||'').trim():''; }; return [g('dlgText'),g('caption'),g('toast')].filter(Boolean); })()")
+                    for x_ in t_:
+                        if x_ not in seen_: seen_.append(x_)
             await D.shot(pg, 'closed_door_after', judge_black=False)
-            s1 = await pg.evaluate(STATE); res['closed1'] = s1
+            s1 = await pg.evaluate(STATE); s1['screen'] = seen_; res['closed1'] = s1
             for _ in range(6):
                 if not (await D.st(pg)).get('dlg'): break
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600)
             R.note('① 按了門以後：%s' % J(s1))
             R.check('① 打烊後進不去（還在 tingzhou）', s1['zone'] == 'tingzhou', s1['zone'])
-            txt = ' '.join(m_['t'] for m_ in s1['msgs'])
+            txt = ' '.join([m_['t'] for m_ in s1['msgs']] + s1['screen'])
+            R.note('① 門口的鍵是「%s」（「看…」＝打烊了只能看）；按了以後畫面上的字：%s' % (q.get('interact'), J(s1['screen'])))
             R.check('① 有提示，寫了營業時間（19:00／23:30 或「營業」字樣）', bool(txt) and ('19' in txt or '營業' in txt or '23:30' in txt), txt[:200])
         # ③
         s = await D.load_zone(pg, cdp, 'tz_limao', DAY, STAY_H, wait=8000)

@@ -2578,12 +2578,18 @@ HL1_CIRCLE_1028_r3b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/st
 # CC-B 11-14 13:3x：r3b 學姊列 ① vis false（只等 2.5 秒）→ 另排 r4b（r4 可能已經被電腦拿走）
 HL1_CIRCLE_1028_r4 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_5_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 HL1_CIRCLE_1028_r4b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:4x：HL1 r4 4_2 跟丟（先走到原位置，她們走出校園被收掉）→ r5 一看到就放背後 15 m 跟
+HL1_CIRCLE_1028_r5 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:3x：BB_462 AA358_24_natural（不用捷徑三路）——雲端 81e5 三路 ALL PASS（A 賠十倍、B 你先看＋兩選項、C 不演），電腦正式跑
 AA358_24_natural | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 40 | PARTS=NATURAL;SHA=81e5f197fb0e017257ad3dfd359dfafffe54f95b
 # CC-B 11-14 13:4x：PC 太快，前置檢查時 meetAn 已經開演（metAn true、met_an false）＝探針 → r2（A、B）
 AA358_24_natural_r2 | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 40 | PARTS=NATURAL;ROUTES=A,B;SHA=81e5f197fb0e017257ad3dfd359dfafffe54f95b
+# CC-B 11-14 13:4x：BB-B 13:35 ③ 禮貌生財打烊那輪（新探針 cc_limao_close_probe：打烊進不進得去、上師收攤、營業中待過 23:30 會不會被請出去）；雲端 81e5 ②③ PASS、① 門口變「看禮貌生財」（字改讀對話框）
+LIMAO_CLOSE_r1 | c81a16b9c0c6da57774e49384bc6c54cb84eed80 | probe | docs/story_planning/test_tools/cc/cc_limao_close_probe.py | index.html | 20 | CLOSE_H=23.75;STAY_H=23.35;STAY_MAX=240;SHA=c81a16b9c0c6da57774e49384bc6c54cb84eed80
 # CC-B 11-14 13:2x：sports r2 關了手機一鍵還是空的——r3 記按鈕上蓋著什麼，點不開就【捷徑】ONETAP.openPop，只跑 Y2
 AA355_6_sports_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 20 | PARTS=SPORTS;ROUTES=Y2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:4x：sports r3 一鍵灰著「劇情進行中」（GAME busy）→ r4 照玩家等劇情演完、記是什麼在跑
+AA355_6_sports_r4 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 20 | PARTS=SPORTS;ROUTES=Y2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 LIMAO_DOOR_r1 | c109767aaeeb910d28d9e15b04906a82ea43b7f7 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 45 | TAG=limao_door_r1;ZONES=tz_limao;HOURS=14,23.5;NODEBUG=1;SIDE_OFF=0.8;SHA=c109767aaeeb910d28d9e15b04906a82ea43b7f7
 # BB-C 10:07（BB_462 220f577bc1 第二層派 CC，P2）：BB-TEST-AA355-358-1021 四支兩路對照，對 main；新探針 cc_aa355_358_probe（第一次跑）
 AA358_21_noodle | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 30 | PARTS=NOODLE;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
