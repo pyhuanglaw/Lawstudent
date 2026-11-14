@@ -1,16 +1,36 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 全部待辦（2026-11-12 22:1x UTC 交班；LAWWW2-C）——以這一節為準
+## 全部待辦（2026-11-14 02:2x UTC 交班；LAWWW2-C）——以這一節為準
 
 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜claude/focused-cray-c9uwvw｜接班基準 5b317a192f｜2026-11-13（使用者「繼續」，同帳號同工作階段回班）
-上一班（本班交班）：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 見本節下面 A｜正常交班（使用者 22:0x「現在交班」）
+上一班（本班交班）：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 見下面「交班六類（11-14）」A｜正常交班（使用者 11-14 02:2x「現在交班」）
 
 ### 暫停中
-- BADMINTON-CLIP v4（WIP 1aba3ec42）、FAIR-TENT-CAM（WIP 未交）：照舊暫停（使用者室內美術優先）；恢復條件：SHOP-REALISM-1112 汀州路那批交完；下次檢查 11-19。
-- HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104；下次檢查 11-19。
-- PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
+- BADMINTON-CLIP v4（WIP 1aba3ec42）、FAIR-TENT-CAM（WIP 未交）：暫停。誰決定：使用者（室內美術優先）。恢復條件：SHOP-REALISM-1112 剩下的店交完。負責人 LAWWW2。下次檢查 11-19。
+- HAIR-NOODLE-1104：等 CC 近景探針 HAIR_1104。負責人 LAWWW2。下次檢查 11-19。
+- PHONE-MAP-ART-1113（LAWWW-C 開、五欄在 tasks.json）：恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的。下次檢查 11-20。
+- PERF-WZ-DAY-1103：等 PC 數字（CC PERF_WZ_SPLIT／FPS_WZ_ORDER）。下次檢查 11-19。
 
-### 下一班第一件事（任務 ID，照順序）
+### 下一班第一件事（11-14 交班；任務 ID，照順序）
+1. **確認四包整合結果**：
+   - WINVIEW-EDGE-STRIPE-1114（042661aff6，【表外】，請 LAWWW 開 ID，P2）：視差窗照片外面改成鏡像取樣。
+   - OFFBEAT-VIEW-P3-1114（b6b30dd52c）：溫州街 B1 側牆開窗，日常失速前窗重拍。
+   - COPLANAR-CREEP-1114 一盞 v1.1（15124fd457）：一盞整合後這個任務可以結案（洋洋 98a1bddf63 已整合）。
+   - 新生運動 CC0：已整合 cd3139741f，outbox 還要補 integrated。
+   - 這四包整合後，請 CC 用同一個鏡頭拍、BB 判。
+2. **SHOP-REALISM-1112 收幫手的件**（幫手是 LAWWW-C 開的，D163；我只驗收）：
+   - g2：山嵐 v2（烘好、在拍）、頁間 v4、轉角唱片（盆子改 cr_vc 以後重烘；corner_shop_unit 寫死的 GLB 大小會改，要看理由）。
+   - g3：同弦（烘焙中）。之後做 glb_coplanar 套用 instancing（LAWWW 已同意；條件見 E）、大口 v2、好拍 v2。
+   - g1：沒有工作了，叫它找 LAWWW 要。
+   - 驗收一律照 SHOP_CC0_HOWTO：先跑 place_gate 不加 --write，疊面沒有變多才 --write；檢查 mode change；在最新開發分支上重出 patch。
+3. shop_cc0 待辦還沒過的店：山嵐、頁間、轉角唱片（g2）、同弦（g3）。其他都已過或已交。
+4. P3（不擋，等 BB 或使用者提才做）：
+   - aa_cc0 霧面紋路（Plaster001）在大片淺色零件上有雲狀斑（g1 報）。要改 tile，小路、SUNNY SIDE、一盞、木曜日、日常失速五間都要重建重烘。
+   - 洋洋還剩一處疊面：地上兩件白色物件 [-0.94,0,-1.94] 0.122 m²。
+   - 日常失速前窗對面 B1 一樓還是平的（雨遮擋著，BB 判了再說）。
+5. 照舊：L118-SEAT-FIX-1112、SHOP-FIRST-APPROACH-1112、WZ-FRUIT-CLOSED（表外）、清州刀削麵打烊湯鍋檯（表外）。照 `check_handoff.py queue --owner LAWWW2` 看狀態。
+
+### 之前的進度紀錄（11-13～11-14 01:4x；已過時，只供查）
 0s. **（11-14 01:4x UTC）**
   - 新生運動 CC0（SHOP-REALISM-1112，從 g3 接手）
     - 底是 g3 的 252bc3765a，我加了其餘零件的 vc_tex、收銀機、紙箱；純色 5%。
@@ -112,6 +132,46 @@
 5. 【表外，請 LAWWW-C 開 ID】WZ-FRUIT-CLOSED：溫州街阿忠鮮果（wz_shopkit p_fruitstall）加收攤節點 FRUIT_CLOSED_on／FRUIT_OPEN_off（LAWWW-C 22:00Z，BB_379 50352b7e36 P2）。
 6. 【表外】清州刀削麵打烊後門口湯鍋檯還擺在外面（BB L118_CLOSED_LOOK_r2 P3）。
 7. SHOP-FIRST-APPROACH-1112（BB 仍 FAIL；長幀看街景那邊：行人、招牌圖集、LOD、陰影）；INCR-LAWWW2-1104 記帳；WINVIEW-AUDIT-1105；PERF-WZ-DAY-1103（等 CC 數字）。
+
+## 交班六類（2026-11-14 02:2x UTC；LAWWW2-C）
+- **A 本班成果**（11-13 回班～11-14 02:2x），都交在本分支 `claude/focused-cray-c9uwvw` 的 `docs/art-rebuild/second_ai/wip/`。沒發布、沒碰 main。
+  - 已整合：
+    - 汀州路 CC0 好幾批：泰米、洗樂、印得好、聯通、東南大聯、客居、越好吃、安泰、榮恩典、鮮果、禮貌生財。
+    - 第八批、第九批、afar、2:30 AM、一盞前院、日和、花序 P2、慢輪 CC0、GG-STREET-TREES 窗景（三份）、WINVIEW 公館第三批。
+    - 驗收幫手的件：南洋、阿德、Daybreak、洋洋、日常失速、木曜日 v2.1／v2.2、好拍、大口兩次。
+    - 洋洋疊面 98a1bddf63、HOWTO「疊面先查後寫」582eb7d807、新生運動 CC0 cd3139741f。
+  - 交了還沒整合：
+    - 一盞 v1.1（15124fd457）
+    - WINVIEW-EDGE-STRIPE-1114（042661aff6）
+    - OFFBEAT-VIEW-P3-1114（b6b30dd52c）
+  - 本班最後 commit：見 git log（交班 commit）。
+- **B 全部未完成**：上面「下一班第一件事」1～5，加上暫停中四項。
+  - 表外、請 LAWWW 開 ID：WINVIEW-EDGE-STRIPE-1114、WZ-FRUIT-CLOSED、清州湯鍋檯。
+  - 沒有【下一版必須】。
+- **C 正在做的**：沒有。四包都交了；沒有跑到一半的背景工作，scratchpad 的 worktree 都已經拿掉。
+- **D 最新決策與規則**：
+  - 「疊面先查、後寫」寫進 SHOP_CC0_HOWTO（582eb7d807）。
+  - place_gate --coplanar 只准變少，要放寬得加 --allow-grow，而且要 LAWWW 同意（8f1b338c22，LAWWW-C）。
+  - glb_coplanar 要套用 instancing：LAWWW 同意修工具，由 g3 做。條件：工具和基準重算放同一個單獨的 patch；附每個模型重算前後的表；變多的逐筆列；加一支小測試。
+  - 本班沒有新增 D 編號。
+- **E 跨 AI 協作**：
+  - → LAWWW-C：四包 DELIVERED（一盞 v1.1、EDGE-STRIPE、OFFBEAT-P3、新生運動已 ACTIONED）。
+  - → BB-C：EDGE-STRIPE 原因、OFFBEAT 對照圖 DELIVERED。
+  - g1：一盞 PASS，P3 雲狀斑先不做 DELIVERED。
+  - g3：大口 PASS、新生運動交接 ACK。
+  - g2：新流程 ACK。
+  - g4：已收工（dddc6a19d）。
+- **F 測試與問題**：
+  - EDGE-STRIPE 只做了 Node 測試，還沒在瀏覽器看過，要請 CC 重拍安泰、鮮果、榮恩典 14:00。
+  - OFFBEAT 新窗景沒有遊戲內截圖。
+  - 新生運動的對照圖是 Cycles 預覽，不是遊戲畫面。
+  - 溫州街重建後 glb_coplanar 多 0.46 m²（B1 牆角裡面，看不到）。
+  - 沒有 iPhone 實機。
+- **G 東西放在哪**：
+  - 交件：`wip/shop_cc0_accept_1113/`（驗收紀錄 README、各 patch）、`wip/xs_sports_cc0_1114/`、`wip/coplanar_creep_1114/`、`wip/winview_edge_1114/`、`wip/offbeat_view_p3_1114/`、`wip/gg_street_trees_1114/`（含 run_pave.sh、ggtrees.js、trees_gg.json）。
+  - 溫州街重建需要的貼圖：`tools/blender/textures/` 少了要跑 `python3 tools/blender/fetch_polyhaven.py`（不進 repo）；`tools/blender/env_second/textures/gen/` 從主 checkout 複製或跑各 *_tex.py。
+  - CC0 快取在 `~/.cache/lawstudent_cc0`。
+  - scratchpad 的東西都會隨容器不見，重要的都已進 patch。
 
 ## 交班六類（2026-11-12 22:1x UTC；LAWWW2-C）
 - **A 本班成果**：L118-SEAT-FIX r3、WZ-SUNNY-TAPNAV（tap nopath）、L118-SHUTTER-FULL、SHOP-FIRST r7 都已交、LAWWW-C 已整合；溫特寶邸 v2 **WIP 沒交件**（見上 1）。本班最後 commit 見 git log（交班 commit）。沒發布、沒碰 main。
