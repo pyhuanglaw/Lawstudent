@@ -26,7 +26,7 @@ const SHOPS={
   'bb_support/xinsheng_sports':{ bake:/^(L0_floor_floor|L0_ceiling_ceil|L1_slab_floor|L1_ceiling_ceil|L[01]_xs_plaster|L0_xs_stone|WALL_[a-z]+_L[01]_wall_wall)$/, live:/^(GLOW|L0_xs_goods|L0_xs_glass|L0_xs_vc$)/, walls:34, inst:57 },   /* SHOP-CC0-HELP-1113：原檔多了 1 組 Poly Haven instancing（球架上的足球），56 → 57 */
   'aa_support/shanlan':{ bake:/^(shl_floor|shl_ceiling1|L2_shl_floor2|L2_shl_ceiling2|shl_wall|WALL_[a-z]+_shl_(wall|wood))$/, live:/^(GLOW|shl_books|shl_bulb|shl_glass|L2_shl_books|WALL_front_shl_glass)/, walls:10, inst:0 },
   'bb_support/dakou_1f':{ bake:/^(FLOOR|CEILING|WALL_[a-z]+_(plaster|base|solid))$/, live:/^(NIGHT_|dk_glass|dk_warm|dk_lightpanel|dk_vc_matte)/, walls:13, inst:0 },
-  'bb_support/dakou_2f':{ bake:/^(FLOOR|CEILING|WALL_[a-z]+_(plaster|base|solid))$/, live:/^(NIGHT_|dk_glass|dk_warm|CEIL_LIGHTS|PENDANTS)/, walls:12, inst:23 },
+  'bb_support/dakou_2f':{ bake:/^(FLOOR|CEILING|WALL_[a-z]+_(plaster|base|solid))$/, live:/^(NIGHT_|dk_glass|dk_warm|CEIL_LIGHTS|PENDANTS)/, walls:12, inst:24 },   /* SHOP-CC0-HELP-1113：原檔多了 1 組 Poly Haven instancing（盆栽），23 → 24 */
   'bb_support/nanyang_lobby':{ bake:/^(ny_carpet|CEILING|WALL_[a-z]+_plaster)$/, live:/^(ny_glass|ny_warm|ny_vc_matte|WALL_[a-z]+_wains)/, walls:13, inst:0 },
   'bb_support/nanyang_hall':{ bake:/^(nh_carpet|CEILING|WALL_[a-z]+_plaster)$/, live:/^(SCONCE_GLASS|AISLE_LIGHTS|SCREEN|nh_velvet|WALL_[a-z]+_wains)/, walls:22, inst:0, dark:'nh_warm' },
 };
