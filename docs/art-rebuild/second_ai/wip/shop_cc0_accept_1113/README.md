@@ -257,3 +257,15 @@
 - **疊面**：place_gate（不加 --write）新的問題 0；--coplanar 牆 7.97 → 7.92、always 11.68 → 11.62（變少）。
 - **測試**：shop_cc0、xs_lm（instancing 65 → 66）、xsshop、xs_close、seat_reach、shop_npc、xs_wincard ×2、xs9_haopai_shanlan_check 都 ALL PASS。
 - **畫面**（`haopai_v2_cmp.jpg`）：後段鐵架的紙箱看起來像真的紙箱（有膠帶、皺折）。畫出的三角形 57k → 77k，要留意手機效能，請 CC 量。
+
+## 南洋戲院大廳 v7（g4 8034794c2，BB 的 P2 三點）——驗收 PASS（11-14 10:4x UTC）
+- **patch**：`nanyang_v7_on_07bf3613b4.patch`，底＝開發分支 07bf3613b4。LICENSES 有衝突，兩邊都留（新生運動廣場、南洋的列）。
+- **三點**：
+  - 飲料櫃的瓶子：有標籤帶、高矮不一。
+  - 紅白條紋紙桶：分成五疊，不再黏成一整塊。
+  - 入口的黑色立式方箱：原來是「本日放映」立牌的背面，改成深色木框，背面也貼海報。
+  - 另外，純黑方塊的舊放映機換成 Poly Haven `filmstrip_projector_8mm`，放在木展示台上。
+- **三項**：shop_cc0 過（純色 5%）。
+- **疊面**：先跑 place_gate（不加 --write），新的問題 0；再 --coplanar --write：always 16.50 → 16.43。
+- **測試**：nanyang、nanyang_bench、nanyang_staff_1107、nanyang_tap、cinema_work_spot_1112、shop_real_inside_1112、wall_dir_inherit、xs_close、xs_lm、xs_wincard2_1110 都 ALL PASS。
+- **畫面**（`nanyang_v7_cmp.jpg`）：三點都看得出來改了，放映機最明顯。

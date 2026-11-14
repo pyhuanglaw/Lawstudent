@@ -10596,6 +10596,24 @@
    "tests": "shop_cc0、xs_lm、xsshop 等 9 支 ALL PASS；疊面變少",
    "notDone": "LAWWW 整合；CC 量三角形 57k→77k；BB 判",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "07bf3613b4",
+   "at": "2026-11-14T10:45Z",
+   "task": "SHOP-REALISM-1112",
+   "title": "南洋戲院大廳 v7（g4 8034794c2）驗收 PASS：飲料櫃、紙桶、立牌背面、放映機換 Poly Haven",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/"
+   ],
+   "tests": "nanyang 系列等 10 支、shop_cc0、place_gate ALL PASS",
+   "notDone": "LAWWW 整合；CC 拍；BB 判",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
