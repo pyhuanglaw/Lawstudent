@@ -1,11 +1,3 @@
-[22:25:58] skip LM2_N6 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N7 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N8 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N9 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N10 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N10b (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_N11 (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
-[22:25:58] skip LM2_O1 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
 [22:25:58] skip LM2_O2 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
 [22:25:58] skip LM2_HOURS_new (already done on f581316311d7b4d1e5800348213b550219c087b1)
 [22:25:58] skip LM2_HOURS_old (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
@@ -1998,3 +1990,11 @@
 [10:10:10] [res] cpu=9% mem=45% (14.0/31.4 GB) chrome_testing=10  START YIZHAN_DINE_0c49_r3
 [10:11:54] 正在跑：L118_CAM36_b_r4（已跑 29 分／上限 60 分）、DATE_LAYER_76f8_r4（已跑 11 分／上限 60 分）、YIZHAN_DINE_0c49_r3（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:13:26] [res] cpu=5% mem=45% (14.3/31.4 GB) chrome_testing=10  END DATE_LAYER_76f8_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ba0de2dece..72304aa930  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:13:38] ==== END   DATE_LAYER_76f8_r4  exit=0  769s   ====
+[10:13:42] memory 39% before starting L118_CAM36_c_r4 (2 running)
+[10:13:42] ==== START L118_CAM36_c_r4  (probe @ d8d3a61b5e69123c69f06705a136f8442bed877a) ====
+[10:13:45] [res] cpu=14% mem=39% (12.5/31.4 GB) chrome_testing=5  START L118_CAM36_c_r4
+[10:13:51] [res] cpu=6% mem=41% (12.5/31.4 GB) chrome_testing=5  END YIZHAN_DINE_0c49_r3
