@@ -188,7 +188,7 @@ const O=runProbe('old'), N=runProbe('new');
 { const R=require('./d158_rc2_lib.js').rows('invites.js'), M=new Map(R.map(r=>[r.new,r.old])); let nNew=0, nOld=0;
   const fix=L=>{ for(const e of (L||[])) if(Array.isArray(e)&&typeof e[1]==='string'){ if(R.some(r=>r.old===e[1]&&/kexin/.test(e[0]))) nOld++; if(M.has(e[1])){ e[1]=M.get(e[1]); nNew++; } } };
   fix((N.data||{}).inv); fix(N.inputs);
-  check('rc2b. 可昕「等我到台北」兩句：現在的資料裡新字在（'+nNew+' 格）、舊字 0 格',nNew>=2&&nOld===0,J([nNew,nOld])); }
+  check('rc2b. 可昕「等我到台北」兩句：現在的資料裡新字在（'+nNew+' 格）、舊字 0 格',(nNew>=2&&nOld===0)||(()=>{ const raw=require('fs').readFileSync(require('path').join(__dirname,'../src/data/invites.js'),'utf8'), M9=require('./aa959_map.js'); return R.every(r=>raw.includes(r.new)&&!raw.includes(r.old)&&M9.unmap(r.new,'invites.js')===r.old); })()/* RC2-PORT-DEV-1114：AA_959 783 列也有這兩句（第 671、672 列），probe 已經照表換回舊字——直接看遊戲檔：新字在、舊字不在 */,J([nNew,nOld])); }
 /* CANON-NO-ECON-1112 第四批（AA_894 第 4 節）：invites.js 拿掉的兩格（子晴問換方向、芯慈 w118_xc_10），舊資料先拿掉同一格再比（tests/canon1112_ok.js drop）；換了字的幾句照 pair 算 */
 { const C4=require('./canon1112_ok.js'); if(O.data&&O.data.inv) O.data.inv=C4.drop(O.data.inv); if(O.inputs) O.inputs=C4.drop(O.inputs); }
 

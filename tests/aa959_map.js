@@ -30,7 +30,7 @@ for (const r of T.rows) {
 function rows(file, who) {
   let b = file ? path.basename(file) : null; const w = (who && who !== '(共用)') ? who : null; const b0 = b;
   for (const [src, fs_] of Object.entries(LINKED)) if (b && fs_.includes(b)) b = src;
-  return T.rows.concat(SYN).filter(r => !code(r) && (!w || r.speaker === w) && r.files.some(f => (!b || f === b || f === b0) && !skip(f, r.old)))   /* b0：表上直接標這個檔的列（AA_997 aa555_3d.js）也算 */.sort((a, c) => c.old.length - a.old.length);
+  return T.rows.concat(SYN).filter(r => !code(r) && (!w || r.speaker === w || !r.speaker || /見檔/.test(r.speaker)/* speaker 寫「（見檔）」的列（AA_994～）＝不分人 */) && r.files.some(f => (!b || f === b || f === b0) && !skip(f, r.old)))   /* b0：表上直接標這個檔的列（AA_997 aa555_3d.js）也算 */.sort((a, c) => c.old.length - a.old.length);
 }
 function map(s, file, who) {
   if (typeof s !== 'string') return s;
