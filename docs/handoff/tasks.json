@@ -56904,6 +56904,19 @@
    "priority": "P2",
    "source": "BB-C REL76_reach（76f8，2026-11-14）",
    "note": "原因：season_stalls3d.js plainLook 用 zone.id 判斷是不是公館，但 zones3d 的 build 回傳的 z 沒有 id → 溫州街也放一顆在 (44,20.8)（溫州街那裡是房子，按不到）。改：S.hook 把區域 id 傳進 attach → plainLook，不知道哪一區就不放。測試 season3_lines_1112_unit.js 加 7b（改前 FAIL：溫州街 1 顆）。只在開發分支，下一版；rc2d 不動。待 CC 重跑 reachability_all（溫州街 0 FAIL、公館「看門口的花」站得到）。"
+  },
+  {
+   "id": "COPLANAR-CREEP-1114",
+   "title": "yizhan、yangyang 疊面比 4556c4be0c 多（0.04／0.12 m²）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "LAWWW2-C 2026-11-14 00:41 自查",
+   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
   }
  ]
 }
