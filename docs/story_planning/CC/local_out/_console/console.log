@@ -1933,3 +1933,11 @@
 [19:35:11] [res] cpu=2% mem=36% (11.2/31.4 GB) chrome_testing=0  START TZ_WENTE_v2_r2_1500
 [19:35:55] 正在跑：TZ_WENTE_v2_r2_1500（已跑 0 分／上限 10 分）、TZ_WENTE_v2_r2_2300（已跑 0 分／上限 10 分）、YY_GATE_r3（已跑 0 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:37:29] [res] cpu=2% mem=51% (16.0/31.4 GB) chrome_testing=9  END TZ_WENTE_v2_r2_1500
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ee57de5076..6c3b66c8d1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:37:38] ==== END   TZ_WENTE_v2_r2_1500  exit=1  142s   ====
+[19:37:42] memory 50% before starting BLACKBG_460_r2 (2 running)
+[19:37:42] ==== START BLACKBG_460_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[19:37:45] [res] cpu=4% mem=49% (15.8/31.4 GB) chrome_testing=5  START BLACKBG_460_r2
+[19:38:16] [res] cpu=6% mem=49% (15.4/31.4 GB) chrome_testing=9  END TZ_WENTE_v2_r2_2300

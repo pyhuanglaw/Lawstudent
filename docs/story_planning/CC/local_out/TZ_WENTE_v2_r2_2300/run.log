@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout_window_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZ_WENTE_v2_r2_2300\out
+CC 進不去的店玻璃後立體：SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；tingzhou wente 2025-10-22 23.00；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：TINGZHOU_LAYOUT 配置裡有 wente  {"name": "溫特寶邸", "side": "W", "x": -5, "z": 5.75, "nx": 1, "w": 5.5}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 溫特寶邸 門面前 3 m (-2.00, 5.75) 2025-10-22 23.00（條件事件關掉）
+FAIL FAIL_SETUP 檢查：場景裡有店內模型（sk_in_／門面附近的 shopreal_）wente 網格  {"sk_in": 0, "visible": 0, "sk_in_old": 0, "shopreal": 0, "shopreal_visible": 0, "lights": 3, "hour": 23.09}
+PASS [黑畫面] wente_across_c 不是黑畫面（平均亮度 51.1、變化 44.9）  [51.1, 44.9]
+  [  67.2s] [截圖] wente_across_c：鏡頭 {"eye": [4, 1.7, 5.75], "look": [-5, 2, 5.75], "lens": 24, "vfov": 45.75}、亮度 [51.1, 44.9]
+PASS [黑畫面] wente_across_l 不是黑畫面（平均亮度 49.9、變化 43.5）  [49.9, 43.5]
+  [  69.3s] [截圖] wente_across_l：鏡頭 {"eye": [4, 1.7, 4.25], "look": [-5, 2, 5.75], "lens": 24, "vfov": 45.75}、亮度 [49.9, 43.5]
+PASS [黑畫面] wente_across_r 不是黑畫面（平均亮度 52.9、變化 45.9）  [52.9, 45.9]
+  [  71.4s] [截圖] wente_across_r：鏡頭 {"eye": [4, 1.7, 7.25], "look": [-5, 2, 5.75], "lens": 24, "vfov": 45.75}、亮度 [52.9, 45.9]
+PASS [黑畫面] wente_near_c 不是黑畫面（平均亮度 39.3、變化 33.3）  [39.3, 33.3]
+  [  73.4s] [截圖] wente_near_c：鏡頭 {"eye": [-1, 1.6, 5.75], "look": [-5, 2, 5.75], "lens": 24, "vfov": 45.75}、亮度 [39.3, 33.3]
+PASS [黑畫面] wente_near_l 不是黑畫面（平均亮度 41.6、變化 36.1）  [41.6, 36.1]
+  [  75.3s] [截圖] wente_near_l：鏡頭 {"eye": [-1, 1.6, 4.75], "look": [-5, 2, 5.75], "lens": 24, "vfov": 45.75}、亮度 [41.6, 36.1]
+PASS [黑畫面] wente_near_r 不是黑畫面（平均亮度 39.2、變化 31.8）  [39.2, 31.8]
+  [  77.4s] [截圖] wente_near_r：鏡頭 {"eye": [-1, 1.6, 6.75], "look": [-5, 2, 5.75], "lens": 24, "vfov": 45.75}、亮度 [39.2, 31.8]
+PASS [黑畫面] wente_glass_c 不是黑畫面（平均亮度 36.7、變化 23.5）  [36.7, 23.5]
+  [  79.3s] [截圖] wente_glass_c：鏡頭 {"eye": [-3.5, 1.5, 5.75], "look": [-7, 1.4, 5.75], "lens": 24, "vfov": 45.75}、亮度 [36.7, 23.5]
+  [  79.3s] 溫特寶邸：網格 {"sk_in": 0, "visible": 0, "sk_in_old": 0, "shopreal": 0, "shopreal_visible": 0, "lights": 3, "hour": 23.09}；拍了 7 張 ["wente_across_c", "wente_across_l", "wente_across_r", "wente_near_c", "wente_near_l", "wente_near_r", "wente_glass_c"]
+PASS 沒有 JS 例外  []
+FAILED 1: FAIL_SETUP 檢查：場景裡有店內模型（sk_in_／門面附近的 shopreal_）wente 網格
