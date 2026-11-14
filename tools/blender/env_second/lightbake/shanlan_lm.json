@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1366.7,
+ "bake_seconds": 1327.9,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -46,5 +46,5 @@
   "WALL_right_shl_wood"
  ],
  "src": "assets/models/env/second_ai/aa_support/shanlan.glb",
- "src_sha256": "2ac6992f245405ebe28d3676599387564c7c8fe119d621e712ad5f3720b45217"
+ "src_sha256": "a78a1f0017639776cc0ddd036706495f946515961384561e7c3cdbc7670ee1d2"
 }
