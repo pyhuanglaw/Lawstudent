@@ -56893,6 +56893,15 @@
    },
    "next": "【LAWWW-C 11-14 00:1x】heard_lines.js 加 10 句，說話的人照稿（pool_4／pool_10／pool_1／pool_13 都在同學池 pool3d／pool_more3d 的名單，不用換備案人）；國考 2029-08-04 → 第 10 列 until 2029-08-03；aa503_others（逐句對稿＋每句時間）、aa510_511 改期望，heard 相關 45 支 ALL PASS。待 BB／CC 瀏覽器看一句（例：大一上第 3 週郁婷）",
    "xai": []
+  },
+  {
+   "id": "FN-LOOK-REACH-1114",
+   "title": "「看門口的花」(44,20.8) 溫州街按不到（REL76_reach）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "BB-C REL76_reach（76f8，2026-11-14）",
+   "note": "原因：season_stalls3d.js plainLook 用 zone.id 判斷是不是公館，但 zones3d 的 build 回傳的 z 沒有 id → 溫州街也放一顆在 (44,20.8)（溫州街那裡是房子，按不到）。改：S.hook 把區域 id 傳進 attach → plainLook，不知道哪一區就不放。測試 season3_lines_1112_unit.js 加 7b（改前 FAIL：溫州街 1 顆）。只在開發分支，下一版；rc2d 不動。待 CC 重跑 reachability_all（溫州街 0 FAIL、公館「看門口的花」站得到）。"
   }
  ]
 }
