@@ -56930,6 +56930,19 @@
     "term": "Y1S1",
     "confirmed": false
    }
+  },
+  {
+   "id": "DATE-D05-PICK-1114",
+   "title": "光典臺北看完電影後的選點走 GM.choose，沒走 DATE.pickChoose（date_hotspots D05 用不到）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 2026-11-14 01:00 DATE_LAYER r2 判讀（BB_458、BB_466 #25）",
+   "note": "不擋 v9.10.26：能選、不卡、存檔不壞，玩家看到文字選單（同 D33）。發布後決定：改走 pickChoose（用 date_hotspots D05 的圖層選點），或把 D05 標成照設計走文字選單。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
   }
  ]
 }
