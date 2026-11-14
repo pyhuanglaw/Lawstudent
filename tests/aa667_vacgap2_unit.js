@@ -59,6 +59,7 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
     /* 2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c）：沛珊出發前電話（jps、ups）九句照新稿換了，不在 AA_667 裡——這九句對 AA_759（tests/peishan_dates_1111_unit.js 逐字對），這裡只認這九句、說的人要是沛珊（旁白那一句是 null） */
     const PS759=['好快。那你陪我講一下話，我今天沒人可以鬧。', '我這禮拜都在店裡幫忙，站到腳快斷了。可是想先問你。', '你還沒來過我們家的店。下次，我叫我爸留靠窗那桌。', '六點？那時候我一定還在睡。', '我定鬧鐘。三個。', '（電話那頭有碗盤的聲音。）', '我媽在叫我。你早點睡。', '📷（鬧鐘的截圖：05:30、05:40、05:50。）', '我真的起來了。一路平安～'];
     { const o0=okLine; okLine=(w,t)=>((w===PS||w==null)&&PS759.includes(t)&&((t[0]==='（')===(w==null)))||o0(w,t); }
+    { const o1=okLine; okLine=(w,t)=>o1(w,t)||o1(w,require('./aa959_map.js').unmap(t,'aa667_3d.js')); }   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字（第 537 列），換回舊字再對稿 */
     const OPTK=new Set(['go','backGo','backOpts','opts']);   /* 手機上玩家的回法（字串）*/
     const walk=(x,sp,key)=>{ if(x==null) return; if(typeof x==='string'){ if(key==='scene') return; if(OPTK.has(key)){ all.push([null,x]); if(!doc.includes('「'+x+'」')) bad.push('回法 '+x); return; } if(key==='sum') sp=null; all.push([sp,x]); if(!okLine(sp,x)) bad.push((sp?NM[sp]+'：':'')+x); return; }
       if(Array.isArray(x)){ if(x.length===2&&(x[0]===null||(typeof x[0]==='string'&&NM[x[0]]))&&typeof x[1]==='string'){ all.push(x); if(!okLine(x[0],x[1])) bad.push((x[0]?NM[x[0]]+'：':'')+x[1]); return; } for(const y of x) walk(y,sp,key); return; }

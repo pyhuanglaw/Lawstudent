@@ -20,7 +20,7 @@ const N='（你的錢不夠。她先付了。）';
     H.said=[]; const b=await DATE.pay(GM,t,60,'一份'); check('1. 錢不夠（25 付 60）＝不扣、旁白＋子晴那一句',b===0&&G.money===25&&J(H.said.map(s=>s.t))===J([N,AA.heroine_04]),J([b,G.money,said()]));
     H.said=[]; const c=await DATE.pay(GM,t,40,'回程'); check('1. 同一趟第二次不夠＝只有旁白、不扣',c===0&&G.money===25&&J(H.said.map(s=>s.t))===J([N]),J([c,G.money,said()]));
     H.said=[]; const d=await DATE.pay(GM,{who:'zhe'},999,'x'); check('1. 不是七位（沒有那一句）＝只有旁白；錢沒有變負的',d===0&&G.money>=0&&J(H.said.map(s=>s.t))===J([N]),J(said()));
-    check('2. 七位的台詞照 AA 11-11 18:58 原文',!!DATE.BROKE&&J(DATE.BROKE.lines)===J(AA)&&DATE.BROKE.narr===N,J(DATE.BROKE&&DATE.BROKE.lines)); }
+    check('2. 七位的台詞照 AA 11-11 18:58 原文',!!DATE.BROKE&&J(DATE.BROKE.lines)===J(require('./aa959_map.js').mapDeep(AA,'date3d.js')/* RC2-PORT-DEV-1114：AA_959 第 552 列（可昕那一句的標點），AA 原文照表換完再比 */)&&DATE.BROKE.narr===N,J(DATE.BROKE&&DATE.BROKE.lines)); }
   const src=rd('src/date3d.js'), ms=src.match(/GM\.money\(/g)||[];
   check('3. date3d.js 約會裡的扣錢都走 S.pay（GM.money 只剩 S.pay 裡那一處）',ms.length===1&&/S\.pay=async function[^\n]*\n[^\n]*GM\.money\(-c,label\)/.test(src),ms.length);
   check('3. 回程車資走 DATE.pay（outings3d.js）',/DATE\.pay\(GM,tr2,tr2\.fare,'交通'\)/.test(rd('src/outings3d.js')));

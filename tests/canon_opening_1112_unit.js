@@ -114,7 +114,7 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
       const o=[...A859.matchAll(/^選項[一二]：(「.+?」)$/mg)].map(m=>m[1]);
       check('4. 稿讀得到四段引用＋兩個選項',B.length===4&&o.length===2,J([B.length,o]));
       check('4. 選項的字逐字等於 AA_859',J(a.opts)===J(o),J(a.opts));
-      check('4. 選項一那一條：打牌那一句以後逐字等於 AA_859（開頭四句＋選項一＋結尾兩句）',J(a.L)===J(B[0].concat(B[1],B[3])),J(a.L));
+      check('4. 選項一那一條：打牌那一句以後逐字等於 AA_859（開頭四句＋選項一＋結尾兩句）',J(a.L)===J(require('./aa959_map.js').mapDeep(B[0].concat(B[1],B[3]),'camp_y1.js')/* RC2-PORT-DEV-1114：AA_959 第 771 列，稿上的字照表換完再比 */),J(a.L));
       check('4. 選項二那一條：逐字等於 AA_859（開頭四句＋選項二＋結尾兩句）',J(b.L)===J(B[0].concat(B[2],B[3])),J(b.L)); }
     check('4. 一起拿掉的：夜談的定義不在了',!ev('ev_camp_d2_talk'));
     check('4. 一起拿掉的：遊覽車那一段最後沒有「去年來過」那一句（條件 PLAYED_Y0 的列不在了）',!(ev('ev_camp_d1_bus').dialogue||[]).some(l=>l.if&&(l.if.flags||[]).includes('PLAYED_Y0')));

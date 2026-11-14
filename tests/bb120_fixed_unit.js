@@ -53,7 +53,7 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
     delete G.contacts.heroine_04; check('A 有點熟：沒有她的私人聯絡方式就不傳私訊',!D('zq_f1').ok(G,W5TUE)); G.contacts.heroine_04=W5TUE-3;
     G.contacts.heroine_04=W5TUE; check('A 今天才拿到聯絡方式：不和第一則訊息同一天',!D('zq_f1').ok(G,W5TUE)); G.contacts.heroine_04=W5TUE-3;
     R('heroine_04',...LV.FRI);
-    check('A 朋友、還沒看過 Q6：22:10 私訊吉他錄音三則、群組不發（BB_175 D14）',D('zq_r1').ok(G,W5TUE)&&hm(D('zq_r1').h(G))==='22:10'&&JSON.stringify(txt('zq_r1'))===JSON.stringify(['p:heroine_04｜你聽過這首嗎','p:heroine_04｜📎（一段吉他錄音）｜+1分','p:heroine_04｜我自己錄的 很爛不要笑｜+2分']),JSON.stringify(txt('zq_r1')));
+    check('A 朋友、還沒看過 Q6：22:10 私訊吉他錄音三則、群組不發（BB_175 D14）',D('zq_r1').ok(G,W5TUE)&&hm(D('zq_r1').h(G))==='22:10'&&JSON.stringify(txt('zq_r1'))===JSON.stringify(['p:heroine_04｜你聽過這首嗎','p:heroine_04｜📎（一段吉他錄音）｜+1分','p:heroine_04｜我自己錄的 很爛 聽完再罵｜+2分'/* RC2-PORT-DEV-1114：AA_959 第 742、743 列 */]),JSON.stringify(txt('zq_r1')));
     G.events.done.ev_ziqing_secret_game=1; check('A 朋友、看過 Q6：22:10 私訊 cat_v0.9「這版貓會爬樓梯。」、22:40 吉他社群組「新版本 要測的人報名」（你先拿到）',JSON.stringify(txt('zq_r1'))===JSON.stringify(['p:heroine_04｜📎 cat_v0.9','p:heroine_04｜這版貓會爬樓梯。｜+1分','g:guitar｜新版本 要測的人報名｜+30分']),JSON.stringify(txt('zq_r1')));
     const g0=G.msgs.length; G.flags.dpPick={id:'zq_r1',day:G.day}; run(22.1,23); const M=G.msgs.slice(g0).map(m=>hm(m.h!=null?m.h:G.hour)+'｜'+m.th+'｜'+m.text);
     check('A 朋友：實際收到的時間（私訊 22:10、群組 22:40）',G.msgs.slice(g0).length===3&&G.msgs.slice(g0)[2].th==='g:guitar',JSON.stringify(G.msgs.slice(g0).map(m=>m.th+'｜'+m.text)));

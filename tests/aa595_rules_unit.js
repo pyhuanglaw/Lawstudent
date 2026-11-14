@@ -103,7 +103,7 @@ await sec('3',async()=>{
   const sisLines=[]; for(const e of STORY_EVENTS) for(const l of e.dialogue||[]) if(l&&l.speaker==='heroine_05'&&typeof l.text==='string') sisLines.push(l.text);
   const walkL=(o)=>{ if(!o||typeof o!=='object') return; if(Array.isArray(o)) return o.forEach(walkL); for(const k in o){ const v=o[k]; if(typeof v==='string'&&/你們系/.test(v)) sisLines.push(v); else walkL(v); } };
   for(const T in LADDER.byTerm) walkL(LADDER.byTerm[T].heroine_05);
-  check('3. 學姊不說「你們系」：「系上的交換名單，美國那間我查過了。」；事件、階梯裡她的台詞都沒有「你們系」',s.includes("text:'系上的交換名單，美國那間我查過了。跟我同一個學期。'")&&!s.includes('你們系的交換名單')&&!sisLines.some(t=>/你們系/.test(t)),J(sisLines.filter(t=>/你們系/.test(t))));
+  check('3. 學姊不說「你們系」：「系上的交換名單，美國那間我查過了。」；事件、階梯裡她的台詞都沒有「你們系」',s.includes("text:'系上的交換名單，美國那間我看了。跟我同一個學期。'")/* RC2-PORT-DEV-1114：AA_959 第 699 列（AA_1019：「我查過了」留給以安）*/&&!s.includes('你們系的交換名單')&&!sisLines.some(t=>/你們系/.test(t)),J(sisLines.filter(t=>/你們系/.test(t))));
 });
 
 await sec('4',async()=>{

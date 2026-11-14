@@ -82,7 +82,7 @@ const cafe=async(p)=>{ G.day=d17; G.hour=15.5; G.zone='cafe'; said=[]; opts=[]; 
   fresh(d17,19,'dorm'); R('heroine_05','FAM'); runPhone(d17,19,22.6); check('5. 學姊不到 FRIEND、也不是交往中：沒有這一段', txt('p:heroine_05').length===0&&G.flags.SIS_FORM_REACT==null);
   // 6. F5
   fresh(d16,12,'campus'); date('kexin'); check('6. F5 11/15～11/17 和可昕交往：見面的最後要說', STORY.kxExchTalkDue(G)); said=[]; opts=[]; picks=[0,0]; await STORY.kxExchTalk(GM,'face'); const L6=lines();
-  check('6. F5「我在想要不要交換。」→「你問我意見，還是告訴我結果？」「……兩種都可以……」→「問妳。」→「那我的意見是：想去就去。……不用替我想。」→ 旁白（TW）', opts[0].join('|')==='「我在想要不要交換。」|「交換的表，我已經想好了。」'&&JSON.stringify(L6)===JSON.stringify(['杜可昕：你問我意見，還是告訴我結果？','杜可昕：……兩種都可以，我只是想知道是哪一種。','杜可昕：那我的意見是：想去就去。……不用替我想。','（你最後沒有交。）'])&&G.flags.KX_EXCHANGE_ASKED===true&&!STORY.kxExchTalkDue(G), JSON.stringify(L6));
+  check('6. F5「我在想要不要交換。」→「你問我意見，還是告訴我結果？」「……兩種都可以……」→「問妳。」→「那我的意見是：想去就去。……不用替我想。」→ 旁白（TW）', opts[0].join('|')==='「我在想要不要交換。」|「交換的表，我已經想好了。」'&&JSON.stringify(L6)===JSON.stringify(['杜可昕：你問我意見，還是告訴我結果？','杜可昕：……兩種都可以，我想知道是哪一種。'/* RC2-PORT-DEV-1114：AA_959 第 574 列 */,'杜可昕：那我的意見是：想去就去。……不用替我想。','（你最後沒有交。）'])&&G.flags.KX_EXCHANGE_ASKED===true&&!STORY.kxExchTalkDue(G), JSON.stringify(L6));
   check('6. F5 沒有假設題（「如果」）、沒有比較', !said.some(s=>/如果|比起/.test(s.t)));
   fresh(d17,22,'dorm'); date('kexin'); date('heroine_01'); check('6. 這三天沒見面：11/17 22:00 電話', STORY.kxExchCallDue(G)); said=[]; picks=[1]; await STORY.kxExchTalk(GM,'call');
   check('6. 電話版：「交換的表，我已經想好了。」→ 祐廷「日本。」→「好。那我們來排時差。」', JSON.stringify(lines())===JSON.stringify(['祐廷：日本。','可昕（電話）：好。那我們來排時差。']), JSON.stringify(lines()));

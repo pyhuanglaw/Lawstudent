@@ -206,7 +206,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     H.said=[]; H.opts=[]; H.picks=['「坐下來。」',1]; await EVENTS.run(ev('ev_l4a_pencil')); const L=said();
     check('6. L4a 坐下來：三個版本、她圈起來「好。就這個。」、記 L4A_SAT（BB_110 L4）',L[0]==='文學院門口的長椅上，芷若在讀一本很舊的英文劇本，用鉛筆在空白處寫中文。'&&L.includes('這一句，我翻了三個版本。你聽哪一個比較像人講的話。')&&L.includes('好。就這個。')&&G.flags.L4A_SAT===true,J(L)); }
   { const G=fresh('Y2S1',10,3,11,{know:[ZR]}); check('6. L4b 大二上、12/10 以前',chk('ev_l4b_poster')&&(()=>{ setDay(TD('Y2S1',15,3),11); const r=!chk('ev_l4b_poster'); setDay(TD('Y2S1',10,3),11); return r; })());
-    const L=await run('ev_l4b_poster',['（站在旁邊一起看）']); check('6. L4b 一起看：「你也在看字體？」「嗯。」「……騙人。」',L.includes('你也在看字體？')&&L.includes('嗯。')&&L.includes('……騙人。'),J(L)); }
+    const L=await run('ev_l4b_poster',['（站在旁邊一起看）']); check('6. L4b 一起看：「你也在看字體？」「嗯。」「……騙人。」',L.includes('你也在看字體？')&&L.includes('嗯。')&&L.includes('騙人。'/* RC2-PORT-DEV-1114：AA_959 第 471 列拿掉句首「……」 */),J(L)); }
   { const G=fresh('Y3S2',10,3,11,{know:[ZR],flags:{EXCHANGE_ROUTE:'TW',L4A_SAT:true}}); G.events.done.ev_zhiruo_no_sugar=1;
     check('6. L4c 大三下、台灣路線和美國路線（美國 8/2 才出發，AA_508 0-2 第 11 點）、Z11 以後；日本路線不演',chk('ev_l4c_bench')&&(()=>{ G.flags.EXCHANGE_ROUTE='US'; const r=chk('ev_l4c_bench'); G.flags.EXCHANGE_ROUTE='JP'; const j=!chk('ev_l4c_bench'); G.flags.EXCHANGE_ROUTE='TW'; return r&&j; })());
     const L=await run('ev_l4c_bench'); check('6. L4c：回來第一天、椅子還是會晃（AA-C 改過的那句）、坐下來過的多一句',J(L)===J(['我回來第一天就來坐這裡。','……這張椅子還是會晃。','你那時候選的那個版本，我後來交出去了。老師說很像人講的話。']),J(L)); }

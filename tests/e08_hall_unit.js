@@ -68,7 +68,7 @@ const J=x=>JSON.stringify(x);
   { const r=R['T02@Y2'], L=r.h.said, i=L.indexOf('（早上五點的機場。方奕廷的背包上掛著一個水壺，已經裝滿了。）');
     check('H3. T02：大廳裡水壺旁白後面接方奕廷「山上這幾天有霧。」「霧裡的樹比較好看。」（照順序）；登機以後不再演',i===0&&/山上這幾天有霧。$/.test(L[1]||'')&&/霧裡的樹比較好看。$/.test(L[2]||'')&&/^方奕廷：/.test(L[1]||'')&&L.length===3&&!r.a.said.some(t=>/水壺|霧裡的樹/.test(t)),J(L)); }
   { const r=R['T03@Y3'], L=r.h.said;
-    check('H4. T03：進大廳演一次——子晴「我在飛機上要睡覺。到了再叫我。」、阿凱「遊戲展第一天要排隊。……我查過了，九點開門。」，不用選項；登機以後不再演',L.length===2&&/^高子晴：我在飛機上要睡覺。到了再叫我。$/.test(L[0])&&/^阿凱：遊戲展第一天要排隊。……我查過了，九點開門。$/.test(L[1])&&J(r.h.bgs)===J(['blur'])&&!r.a.said.some(t=>/九點開門/.test(t)),J([L,r.h.bgs]));
+    check('H4. T03：進大廳演一次——子晴「我在飛機上要睡覺。到了再叫我。」、阿凱「遊戲展第一天要排隊。……我查過了，九點開門。」，不用選項；登機以後不再演',L.length===2&&/^高子晴：我在飛機上要睡覺。到了再叫我。$/.test(L[0])&&/^阿凱：遊戲展第一天要排隊。……九點開門，我八點就要到。$/.test(L[1])/* RC2-PORT-DEV-1114：AA_959 第 702 列（AA_1019：「我查過了」留給以安）*/&&J(r.h.bgs)===J(['blur'])&&!r.a.said.some(t=>/九點開門/.test(t)),J([L,r.h.bgs]));
     hall(); const t0=H.said.length; tick(); tick(); check('H4. 在大廳走動（每一格 airTick）不會再演',H.said.length===t0); }
   { const r=R['C10@Y2'], a=r.a, iA=a.said.indexOf('（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'), iC=a.said.findIndex(t=>/教室比法律系館A的小/.test(t)), i623=a.cards.findIndex(c=>/^6\/23（/.test(c[0])), bA=a.bgs.findIndex(b=>img(b,/us_airport/));
     check('H5. C10：大廳不演；登機以後「飛往美國」→「抵達」那一幕（飛機飛了十二個小時…，美國的機場大廳圖 us_airport）→ 6/23 的日期卡 → 第一堂課；沒有出境的 2D 機場圖',r.h.said.length===0&&J(a.cards[0])===J(['飛往美國','加州'+W+'約 12 小時'])&&iA>=0&&iC>iA&&i623>0&&a.bgs[0]==='dark'&&bA===1&&!a.bgs.some(b=>img(b,/airport_departure/)),J([iA,iC,i623,a.cards.slice(0,3),a.bgs.slice(0,3)]));
