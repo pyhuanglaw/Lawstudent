@@ -17,7 +17,7 @@
 **整合狀態**：六間全部 LAWWW2 PASS；林家、花序、燒臘已進開發分支；阿德 v2.1＋南洋、洋洋由 LAWWW2 重出的 patch 交 LAWWW-C 整合（以 LAWWW2 那兩包為準，不用我的 ade_v21／nanyang_v6／yangyang_v2 patch）。
 **洋洋 P2 兩點**（層架瓶罐、COPLANAR-CREEP-1114 已由 LAWWW2 修 98a1bddf63）：使用者 11-14 選「只做南洋」，洋洋層架瓶罐不做。
 
-## 目前做到哪（2026-11-14 00:50，使用者說「現在交班」：已停工）
+## 目前做到哪（2026-11-14 10:40，使用者第二次說「現在交班」：已停工；南洋 v7 PASS、交 LAWWW-C 整合）
 - 第④群六間都交完、都 PASS。幫手 g4 收尾：沒有進行中的工作。
 - 交件方式（給下一個幫手參考）：每間一份 patch，在乾淨的 worktree（底＝開發分支最新＋只放這間店的檔）跑 `node tests/place_gate_unit.js --coplanar --write`、`--write` 重產兩個檔、跑店的測試，再 `git diff --cached --binary` 出 patch；LICENSES 以開發分支為準只插那間店的列。不要直接合 g4 分支（上面的 assets 有 WIP 的歷史）。
 - **新流程（LAWWW 8f1b338c22）**：改了 GLB 先跑 `node tests/place_gate_unit.js`（不加 --write），看到「比基準多」就先修；沒有新疊面才跑 `--coplanar --write`；不准加 `--allow-grow`。我出 patch 時直接 `--coplanar --write`，洋洋多出來的疊面就是這樣漏掉的。
