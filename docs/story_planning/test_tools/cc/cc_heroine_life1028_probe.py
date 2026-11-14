@@ -13,7 +13,7 @@ PARTS：
       【捷徑：跳日子】每天 23:00 叫 FEED.tick（遊戲睡過、跳時間照原本時間補的同一套）到那天 21:00 → 記 FEED.visible(G) 全部（誰、日期、照片、一句前 30 字以上全文），打開手機動態頁截圖。
       檢查：動態的日期不晚於遊戲日期；每位女主角（heroine_01～05）那一學期至少有一則動態（到那天為止貼出來的）。「講她自己的事」的內容判斷歸 BB（全文都抄）。
   HL3 私訊：不在這支，用 random_play_sim.js --dump-msgs（種子 1、2，2025-09-01～2026-01-31）。
-CC-B 11-14：找日子從 day −400 起（遊戲的 day 0＝2025-09-16，大一上第 1、2 週是負的；HL2 Y1S1 找不到第 1 週）；字幕掛鉤在讀檔前裝；④ 走近 1 m 再看互動鍵。
+CC-B 11-14：④ 認 PRIVTALK.PLACE_EXCEPT；在走的人跟著走再聽；找日子從 day −400 起（遊戲的 day 0＝2025-09-16，大一上第 1、2 週是負的；HL2 Y1S1 找不到第 1 週）；字幕掛鉤在讀檔前裝；④ 走近 1 m 再看互動鍵。
 CC_02 清單 2026-11-14：1✓（日子照遊戲自己的 HCIRCLE.on 掃、動態照 FEED.tick） 2✓（列、句子、同伴、動態全從遊戲資料讀，不寫死句子） 3✓（每一列一個日子：第一個成立的，記下來） 4✓（找她說話照互動鍵、選單照字選「就這樣」） 5✓（go_to 走到她 3 m 外，走不到記下來） 6✓（字幕等 18 秒收齊；讀檔等 6 秒） 7✓（lint） 8✓（字幕用包 GAME.caption 記，不靠輪詢） 9✓（每一列兩張、每一天手機一張） 10✓（讀檔關條件事件、認識同伴） 11✓（SHA 40 碼） 12✓（FAIL_SETUP：區域、HCIRCLE.on、她在） 13✓（走路分段：go_to，途中有對話就停）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=HL1,HL2] [ROWS=c503_4_2,...] [FIX=tests/fixtures/user_save_day51_1110.json] python3 cc_heroine_life1028_probe.py <url> <out>"""
 import os, sys, json, asyncio, math
@@ -130,6 +130,12 @@ async def part_hl1(pg, cdp, sv0, res):
             if tgt: break
         if not R.check('FAIL_SETUP 檢查：%s 她旁邊 5 m 內找得到站得住的點' % tag, bool(tgt), J(h)): continue
         await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.4, '%s 走到她旁邊（%.1f m）' % (tag, math.hypot(tgt[0] - h['x'], tgt[1] - h['z'])), max_s=150, lv=h['lv'])
+        if h.get('pose') == 'walk':   # CC-B 11-14（HL1 r2 c503_4_2：兩個人邊走邊講，走到原本的位置時人已經走遠，一句都沒聽到）：在走的就跟著走（每輪重看她在哪、跟到 2.5 m），最多 6 輪，聽到第一句就停
+            for k_ in range(6):
+                if await pg.evaluate("(window.__ccCap||[]).length"): break
+                h2 = (await pg.evaluate(NPCPOS, {'ids': [info['who']], 'who': info['who'], 'row': rid}))['pos'].get(info['who'])
+                if not h2 or not h2.get('vis'): break
+                await L.go_to(pg, cdp, R, h2['x'], h2['z'], 2.5, '%s 跟著她走（第 %d 輪）' % (tag, k_ + 1), max_s=40, lv=h2['lv'], stop=lambda st_: False)
         caps = []; shot_cap = False
         for _ in range(36):
             caps = await pg.evaluate("window.__ccCap||[]")
@@ -158,7 +164,10 @@ async def part_hl1(pg, cdp, sv0, res):
             R.note('%s ④ 一個人的那一列：選單裡「約…」%s（只記，照規格同伴不在＝可以出現）' % (tag, J(inv)))
         else:
             near1 = {c: (round(math.hypot(p['x'] - np1['pos'][info['who']]['x'], p['z'] - np1['pos'][info['who']]['z']), 2) if p and np1['pos'].get(info['who']) else None) for c, p in np1['pos'].items() if c != info['who']}
-            if all(v is not None and v < 3.2 for v in near1.values()):
+            exc_ = await pg.evaluate("((a)=>{ try{ const L=(typeof PRIVTALK!=='undefined'&&PRIVTALK.PLACE_EXCEPT)||[]; const z=GAME.G.zone; const r=L.find(q=>q.who===a.who&&q.zone===z); return r?r.except:[]; }catch(e){ return []; } })", {'who': info['who']})
+            if exc_ and all(c in exc_ for c in near1):   # CC-B 11-14（HL1 r2 c503_6_2）：PRIVTALK.PLACE_EXCEPT（AA_627 P-18／AA_679）——語彤在茶屋、旁邊只有蘇姨＝不算有人，「約她去…」照設計會出
+                R.note('%s ④ 旁邊只有 %s，照 PRIVTALK.PLACE_EXCEPT 不算有人＝「約她去…」照設計可以出（%s）' % (tag, J(exc_), J(inv)))
+            elif all(v is not None and v < 3.2 for v in near1.values()):
                 R.check('%s ④ 同伴在她 3.2 m 內的時候，選單沒有「約她去…」' % tag, not inv, J({'menus': tm['menus'], 'company': np1.get('company'), 'dist': near1}))
             else:
                 R.note('%s ④ 找她說話那時同伴已經不在 3.2 m 內 %s——這一次不判（記下選單 %s）' % (tag, J(near1), J(tm['menus'])))
