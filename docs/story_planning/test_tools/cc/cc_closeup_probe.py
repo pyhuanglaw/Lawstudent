@@ -5,6 +5,7 @@
   座標是區域的世界座標（汀州路的店＝TZ_SHOPS_LAYOUT 的配置座標，門在 +z）；每張記相機、畫面中央亮度標準差（一片純色＝很小）、洋紅比例（缺貼圖）。
   另外拍一張遊戲自己的鏡頭（站在出生點）。
 CAMS 格式：名字@fx,fy,fz>ax,ay,az[@fov]，多組用「/」隔開（ENV 不能有「;」「|」）。
+CC-B 11-14：NOPEOPLE＝藏人（生圖參考）。
 CC_02 清單 2026-11-14：1✓（日期 10/22 週三 14:00，照 BB；打烊的跳過並記） 2✓（座標從 3cbdf9ef83 的 tz_shops_layout.js 讀出來寫進 CAMS，佇列那一行寫了來源） 3n/a（BB 指定的位置） 4n/a（只拍照） 5n/a（讀檔進店，不走路） 6✓（等 ASSETS 載完再等 1.5 秒） 7✓（lint、JS 在 node --check 驗過語法） 8✓（數字只記不判） 9✓（每張記相機和看的點；拍完存檔） 10n/a（讀檔時關事件和手機） 11✓（SHA 40 碼、ENV 沒有「;」「|」） 12✓（FAIL_SETUP 檢查：真的在那一間、CAMS 解析得出來） 13n/a（不走路）
 用法：LW_TESTS=<wt>/tests SHA=<sha> ZONE=gg_antai CAMS=… [HOURS=14] [TAG=…] python3 cc_closeup_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64
@@ -23,6 +24,8 @@ SPAWN = [float(v) for v in (os.environ.get('SPAWN') or '').split(',') if v]   # 
 DAY = os.environ.get('DAY') or '2025-10-22'
 VIEW = [int(v) for v in (os.environ.get('VIEW') or '').split('x') if v]   # BB-C 23:23 BG-3DSHOT：16:9（例 1600x900）
 PLAIN = (os.environ.get('PLAIN_NAMES') or '') == '1'   # 另存一份「<相機名>.png」（給使用者的參考圖要固定檔名）
+NOPEOPLE = (os.environ.get('NOPEOPLE') or '0') == '1'   # CC-B 11-14（BB-B 12:53 P0 生圖參考：畫面裡不要有人）：拍之前藏玩家、NPC、路人（同 cc_place_gate_probe 的 HIDE_PEOPLE）
+HIDE_PEOPLE = "(h=>{ const E=GAME.E; const run=()=>{ const L=[E.player].concat(E.npcs||[]).concat(E.extras||[]); for(const n of L){ if(n&&n.obj){ if(h){ if(n.obj.userData._ccv===undefined){ n.obj.userData._ccv=n.obj.visible; n.obj.userData._cch=n.hidden; } n.hidden=true; n.obj.visible=false; } else if(n.obj.userData._ccv!==undefined){ n.hidden=n.obj.userData._cch; n.obj.visible=n.obj.userData._ccv; delete n.obj.userData._ccv; delete n.obj.userData._cch; } } } return L.length; }; clearInterval(window.__ccHideIv); if(h) window.__ccHideIv=setInterval(run,100); return run(); })"   # 11-12 BB-C 16:37：連 E.extras、藏人期間每 0.1 秒重藏（日和 14:00 漏一位客人）   # XS_REAL_cal_old_r3：engine3d.js 每一幀 o.visible=!n.hidden&&…，只關 visible 下一幀店員又出現＝要連 n.hidden 一起設
 R = L.Run('closeup', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 
@@ -68,6 +71,7 @@ async def main():
             if not R.check('FAIL_SETUP 檢查：%s 讀檔以後真的在 %s' % (tag, ZONE), s['zone'] == ZONE, s['zone']):
                 rows.append({'hour': h, 'skipped': 'closed:' + s['zone']}); continue
             for c in cams:
+                if NOPEOPLE: await pg.evaluate(HIDE_PEOPLE + '(true)'); await pg.wait_for_timeout(300)
                 wa = await D.wait_assets(pg, 20.0, 1000)   # BB-C 11-14（BG3D_GATE 黑半圓＝還在載入就拍）：每張拍之前等 ASSETS pending 歸 0（最多 20 秒）＋1 秒
                 R.note('%s 「%s」拍之前等資源：%s' % (tag, c['name'], J(wa)))
                 u = await pg.evaluate(SNAP, c); fn = 'close_%s_%s_%s.png' % (TAG, hh, c['name'])
