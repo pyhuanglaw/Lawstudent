@@ -10330,10 +10330,10 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "1d38c560b0",
    "receiver": "LAWWW-C、幫手 g1",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-REALISM-1112",
    "title": "驗收 PASS 木曜日 v2.2（g1 dd0bc769a1；葉片卡全換 Poly Haven 蕨類盆栽；＋日常失速 fern_02 LICENSES 補登）",
@@ -10344,8 +10344,9 @@
    "base": "98a1bddf63",
    "at": "2026-11-14T01:35Z",
    "tests": "place_gate 先查後寫、shop_cc0、木曜日 7 支＋cafe 系列 ALL PASS",
-   "notDone": "LAWWW 整合；CC 第二層；BB 判",
-   "next": "LAWWW 套 patch"
+   "notDone": "CC 第二層；BB 判",
+   "next": "LAWWW 套 patch",
+   "integrated": "07bbd8564e"
   }
  ]
 }
