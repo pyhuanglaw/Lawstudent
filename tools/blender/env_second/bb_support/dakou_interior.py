@@ -880,7 +880,7 @@ else:
             for lp, uv in zip(f_.loops, ((r_[0], 0.05), (r_[2], 0.05), (r_[2], 0.95), (r_[0], 0.95))): lp[uvl].uv = (uv[0], uv[1])
             y = 0.0   # 書背（朝坐的人）也貼書名
             for (bi, th) in idx:
-                f2 = m.bm.faces.new([m.bm.verts.new(g2b(*p_)) for p_ in ((-0.12, y + 0.003, 0.1655), (0.12, y + 0.003, 0.1655), (0.12, y + th - 0.003, 0.1655), (-0.12, y + th - 0.003, 0.1655))])
+                f2 = m.bm.faces.new([m.bm.verts.new(g2b(*p_)) for p_ in ((-0.12, y + 0.003, 0.1665), (0.12, y + 0.003, 0.1665), (0.12, y + th - 0.003, 0.1665), (-0.12, y + th - 0.003, 0.1665))])   # v2：離書背 1.5 mm（書背改成 0.165 的面，0.5 mm 會閃）
                 for lp, uv in zip(f2.loops, ((bi / 5, 0.3), ((bi + 1) / 5, 0.3), ((bi + 1) / 5, 0.7), (bi / 5, 0.7))): lp[uvl].uv = uv
                 y += th
         return f
@@ -930,7 +930,7 @@ else:
     for x in F['frontTables2']: spots += [(x - 0.55, 7.1, math.pi / 2, 0.38), (x + 0.55, 7.1, -math.pi / 2, 0.38)]
     for z in F['eastStools']: spots.append((5.05, z, math.pi / 2, 0.62))
     for x in F['backStools']: spots.append((x, -7.05, math.pi, 0.62))
-    r = random.Random(88); yT = Y0 + 0.75; cnt = {}
+    r = random.Random(88); yT = Y0 + 0.75; cnt = {}; BOOK_AT = []
     for (sx, sz, yaw, fw) in spots:
         fx, fz = math.sin(yaw), math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw); iy = yaw + math.pi
         def at(lat, fwd): return sx + fx * fwd + rx * lat, sz + fz * fwd + rz * lat
@@ -940,7 +940,9 @@ else:
         else:
             x, z = at(0.0, fw - 0.06); put('notebook', x, yT, z, iy + r.uniform(-0.2, 0.2))
         if r.random() < 0.65:
-            k = r.randint(0, 3); x, z = at(r.choice([-0.28, 0.27]), fw); a_ = iy + r.uniform(-0.25, 0.25); put(f'books{k}', x, yT, z, a_); put(f'titles{k}', x, yT, z, a_)
+            k = r.randint(0, 3); x, z = at(r.choice([-0.28, 0.27]), fw); a_ = iy + r.uniform(-0.25, 0.25)
+            if all((x - bx_) ** 2 + (z - bz_) ** 2 > 0.3 ** 2 for bx_, bz_ in BOOK_AT):   # v2：相鄰座位的兩疊課本不放在同一個位置（glb_coplanar 套 instancing 以後抓到的真疊面）
+                BOOK_AT.append((x, z)); put(f'books{k}', x, yT, z, a_); put(f'titles{k}', x, yT, z, a_)
         if r.random() < 0.7: x, z = at(r.choice([-0.24, 0.26]), fw - 0.12); put('cup', x, yT, z, 0.0)
         if r.random() < 0.3: x, z = at(0.12, fw - 0.2); put('pencase', x, yT, z, iy + r.uniform(-0.4, 0.4))
         if r.random() < 0.14: x, z = at(-0.2, fw + 0.12); put('bag', x, yT, z, iy)
