@@ -226,7 +226,7 @@ async def part_hl1(pg, cdp, sv0, res):
 
 PREP3 = r"""((a)=>{ const G=GAME.G, H=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'];
   G.msgs=[]; G.phone=null; PHONE.rec(G); const F=G.flags=G.flags||{}; for(const k of ['dpN','dpPick','dpDay','dpLast','dpDayOf']) delete F[k];
-  G.contacts=G.contacts||{}; for(const id of H){ F['met_'+id]=true; G.contacts[id]=a.d0-1; try{ SOCIAL.meet(id,'campus'); }catch(e){} const r=SOCIAL.rel(id); Object.assign(r,{fam:25,trust:10,comf:10,rom:0,npcRom:0}); r.seen=Math.max(r.seen||0,20); r.talked=Math.max(r.talked||0,20); delete F['dating_'+id]; }   /* 剛好 FAMILIAR（social3d.js S.stage：fam≥20、不到 FRIEND 的 fam40／trust25）——子晴 dp_zq_f1／f2 要 stage===FAMILIAR */
+  G.contacts=G.contacts||{}; for(const id of H){ F['met_'+id]=true; G.contacts[id]=a.d0-1; try{ SOCIAL.meet(id,'campus'); }catch(e){} const r=SOCIAL.rel(id); Object.assign(r,a.stage==='FRIEND'?{fam:45,trust:30,comf:20,rom:0,npcRom:0}:{fam:25,trust:10,comf:10,rom:0,npcRom:0}); r.seen=Math.max(r.seen||0,20); r.talked=Math.max(r.talked||0,20); delete F['dating_'+id]; }   /* 剛好 FAMILIAR（social3d.js S.stage：fam≥20、不到 FRIEND 的 fam40／trust25）——子晴 dp_zq_f1／f2 要 stage===FAMILIAR */
   PHONE.join(G,'family_law','法律系家族'); PHONE.join(G,'guitar','吉他社');
   return {stages:Object.fromEntries(H.map(id=>[id,SOCIAL.stage(id)])), groups:Object.keys(PHONE.rec(G).groups)}; })"""
 STEP3 = r"""((a)=>{ const G=GAME.G; let err=null; const HS=[7.5,9,12,15,17.5,19,21,22.5,23.9];
@@ -284,6 +284,38 @@ async def part_hl3b(pg, cdp, sv0, res):
     await close_panels(pg)
 
 
+TERM_END = r"""((t)=>{ let a=null, b=null; for(let d=-400; d<2600; d++){ const T=CALENDAR.termOf(d); if(T&&T.id===t){ if(a==null) a=d; b=d; } } return a==null?null:{d0:a, d1:b, k0:CALENDAR.dateOf(a).key, k1:CALENDAR.dateOf(b).key}; })"""
+
+
+async def part_hl3c(pg, cdp, sv0, res):
+    """BB-B 13:49（AA-B 請求，BB_468 HL3c）：同 HL3b 的前置（關係固定 HL3C_STAGE＝FAMILIAR 或 FRIEND），每個學期分開：學期第一天～最後一天，列連續 14 天以上沒有任何女主角訊息的區間、每位幾則"""
+    stage = os.environ.get('HL3C_STAGE') or 'FAMILIAR'; out = res.setdefault('hl3c', {}).setdefault(stage, {})
+    for term in (os.environ.get('HL3C_TERMS') or 'Y1S2,Y2S1,Y2S2').split(','):
+        tag = '[HL3c %s %s]' % (term, stage)
+        te = await pg.evaluate(TERM_END, term)
+        if not R.check('FAIL_SETUP 檢查：%s 找得到學期起訖' % tag, bool(te), J(te)): continue
+        d0, d1 = te['d0'], te['d1']
+        s = await load(pg, cdp, sv0, d0, 7.0, 'dorm')
+        pr = await pg.evaluate(PREP3, {'d0': d0, 'stage': stage})
+        R.setup('%s 【前置／捷徑】讀使用者存檔到 %s、清掉手機紀錄當新學期；五位認識＋聯絡方式＋關係固定 %s；加 family_law、guitar 群組：%s' % (tag, te['k0'], stage, J(pr)))
+        if not R.check('FAIL_SETUP 檢查：%s 五位都是 %s、兩個群組都在' % (tag, stage), all(v == stage for v in pr['stages'].values()) and {'family_law', 'guitar'} <= set(pr['groups']), J(pr)): continue
+        R.setup('%s 【捷徑：跳日子】%s～%s 每天九個時間點叫 STORY.phoneRules＋PHONE.tick；天氣每 5 天下雨一天' % (tag, te['k0'], te['k1']))
+        msgs = []
+        for a in range(d0, d1 + 1, 15):
+            b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m]
+            for m in part:
+                if 'err' in m: R.note('%s 例外：%s' % (tag, m['err']))
+        by = {}
+        for m in msgs: by.setdefault(m['from'], []).append(m)
+        days = sorted(set(m['day'] for m in msgs)); pts = [d0 - 1] + days + [d1 + 1]
+        gaps = [(pts[i + 1] - pts[i] - 1, pts[i] + 1, pts[i + 1] - 1) for i in range(len(pts) - 1) if pts[i + 1] - pts[i] - 1 >= 14]
+        gl = [{'days': g[0], 'from': await keyof(pg, g[1]), 'to': await keyof(pg, g[2])} for g in gaps]
+        cnt = {k: len(v) for k, v in sorted(by.items())}
+        out[term] = {'range': [te['k0'], te['k1']], 'total': len(msgs), 'count': cnt, 'gaps14': gl, 'first': {k: v[0]['date'] for k, v in by.items()}, 'msgs': msgs}
+        R.note('%s %s～%s 共 %d 則；每位 %s；連續 14 天以上沒有女主角訊息：%s' % (tag, te['k0'], te['k1'], len(msgs), J(cnt), J(gl) if gl else '沒有'))
+        open(os.path.join(OUT, 'hl3c_%s.json' % stage), 'w', encoding='utf-8').write(J(out))
+
+
 async def part_hl2(pg, cdp, sv0, res):
     for term in TERMS:
         tag = '[HL2 %s]' % term
@@ -326,7 +358,7 @@ async def main():
         sv0 = await pg.evaluate("fetch(%s).then(r=>r.ok?r.json():null)" % J(FIX))
         if not R.check('FAIL_SETUP 檢查：讀得到使用者存檔 %s' % FIX, bool(sv0), ''): await b.close(); sys.exit(1)
         if not R.check('FAIL_SETUP 檢查：這個版本有 FEED、HCIRCLE', await pg.evaluate("typeof FEED!=='undefined'&&typeof HCIRCLE!=='undefined'"), ''): await b.close(); sys.exit(1)
-        for part, fn in (('HL1', part_hl1), ('HL2', part_hl2), ('HL3B', part_hl3b)):
+        for part, fn in (('HL1', part_hl1), ('HL2', part_hl2), ('HL3B', part_hl3b), ('HL3C', part_hl3c)):
             if part not in PARTS: continue
             try: await fn(pg, cdp, sv0, res)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
