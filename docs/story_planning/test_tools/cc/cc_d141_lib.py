@@ -160,17 +160,19 @@ async def load_zone(pg, cdp, zone, day_key, h=14.0, x=None, z=None, yaw=None, lv
 SEAT_TAP = os.environ.get('SEAT_TAP') or ''   # BB-C 11-14 21:20（L118 r3 #6）：visible＝點椅子「露出來」的那一點（射線第一個打到的就是這一張），不點被別張椅背擋住的中心投影
 SEAT_VIS = r"""((a)=>{ const E=GAME.E, cam=E.camera, W=innerWidth, H=innerHeight, r2=v=>+(+v).toFixed(2); const LG=E.zone&&E.zone.levelGroups, fy=(LG&&LG[a.lv|0])?LG[a.lv|0].y:0;
   const mine=new Set(); E.player.obj.traverse(o=>mine.add(o)); const rc=new THREE.Raycaster(); rc.camera=cam; let tried=0;
+  const realVis=o=>{ for(let q=o; q; q=q.parent){ if(q.visible===false) return false; if(/fallback|collider|nav_|navmesh|^hit_|blocker/i.test(q.name||'')) return false; } const m=Array.isArray(o.material)?o.material[0]:o.material; return !!m&&m.visible!==false&&!(m.transparent&&m.opacity<0.05)&&m.colorWrite!==false; };
   const others=E.interactables.filter(i=>i.seat&&!i.hidden&&(i.seat.lv|0)===(a.lv|0)&&!(Math.abs(i.seat.x-a.x)<1e-3&&Math.abs(i.seat.z-a.z)<1e-3)).map(i=>i.seat);
   for(const h of [0.45,0.4,0.5,0.35,0.55,0.3,0.6]) for(const dx of [0,-0.1,0.1,-0.18,0.18]) for(const dz of [0,-0.1,0.1,-0.18,0.18]){
     const v=new THREE.Vector3(a.x+dx,fy+h,a.z+dz).project(cam); if(v.z>=1) continue; const sx=(v.x+1)/2*W, sy=(1-v.y)/2*H; if(sx<40||sx>W-40||sy<120||sy>H-20) continue;
     const el=document.elementFromPoint(sx,sy); if(!el||el.tagName!=='CANVAS') continue; tried++;
-    rc.setFromCamera(new THREE.Vector2(v.x,v.y),cam); const q=rc.intersectObjects(E.scene.children,true).find(k=>!mine.has(k.object)&&k.object.visible!==false&&k.object.isMesh); if(!q) continue;
+    rc.setFromCamera(new THREE.Vector2(v.x,v.y),cam); const q=rc.intersectObjects(E.scene.children,true).find(k=>!mine.has(k.object)&&k.object.isMesh&&realVis(k.object)); if(!q) continue;   /* 11-14 BB-C（BB_379 eeeaa19b29 L118_CAM36_c_r4）：排除 fallback、看不見的碰撞體（往上整條都要 visible、材質要畫得出來）＝和實際點擊打到的第一個網格同一個 */
     const p=q.point, d=Math.hypot(p.x-a.x,p.z-a.z), dO=others.length?Math.min(...others.map(o=>Math.hypot(p.x-o.x,p.z-o.z))):99;
     if(d<0.35&&p.y>fy+0.15&&p.y<fy+1.0&&d<dO) return {sx:Math.round(sx),sy:Math.round(sy),hit:[r2(p.x),r2(p.y),r2(p.z)],name:q.object.name||(q.object.parent&&q.object.parent.name)||'?',d:r2(d),dOther:r2(dO),h,dx,dz,tried}; }
   return {none:true,tried}; })"""
 TAP_HIT = r"""((a)=>{ const E=GAME.E, cam=E.camera, r2=v=>+(+v).toFixed(2); const rc=new THREE.Raycaster(); rc.camera=cam; const W=E.w||innerWidth, H=E.h||innerHeight;
   rc.setFromCamera(new THREE.Vector2(a.x/W*2-1, -(a.y/H)*2+1), cam); const mine=new Set(); E.player.obj.traverse(o=>mine.add(o));
-  const hs=rc.intersectObjects(E.scene.children,true).filter(h=>!mine.has(h.object)&&h.object.visible!==false&&h.object.isMesh).slice(0,4)
+  const realVis=o=>{ for(let q=o; q; q=q.parent){ if(q.visible===false) return false; if(/fallback|collider|nav_|navmesh|^hit_|blocker/i.test(q.name||'')) return false; } const m=Array.isArray(o.material)?o.material[0]:o.material; return !!m&&m.visible!==false&&!(m.transparent&&m.opacity<0.05)&&m.colorWrite!==false; };
+  const hs=rc.intersectObjects(E.scene.children,true).filter(h=>!mine.has(h.object)&&h.object.isMesh&&realVis(h.object)).slice(0,4)
     .map(h=>({name:h.object.name||(h.object.parent&&h.object.parent.name)||'?', p:[r2(h.point.x),r2(h.point.y),r2(h.point.z)], d:r2(h.distance)}));
   let f=null; try{ const q=E.screenToFloor(a.x,a.y); f=q?(q.isVector3?[r2(q.x),r2(q.y),r2(q.z)]:JSON.parse(JSON.stringify(q,(k,v)=>(v&&v.isVector3)?[r2(v.x),r2(v.y),r2(v.z)]:(v&&v.isObject3D)?(v.name||'obj'):v))):q; }catch(e){ f='ERR '+String(e).slice(0,60); }
   return {screen:[Math.round(a.x),Math.round(a.y)], hits:hs, screenToFloor:f}; })"""
