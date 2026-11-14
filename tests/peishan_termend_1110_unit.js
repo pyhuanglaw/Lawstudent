@@ -15,6 +15,7 @@ const cp=require('child_process'), fs=require('fs'), path=require('path');
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const SHA='768b9a131', PS='classmate_peishan';   /* 2026-11-11：33a1769f8 → 768b9a131（AA 補大四下 6/8 台南那一頓 GF.tableByTerm.Y4S2，第 12 節；其他段兩版一樣）*/
 let A=null; try{ A=JSON.parse(cp.execFileSync('git',['show',SHA+':docs/story_planning/AA_751_peishan_termend.json'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<26})); }catch(e){ A=null; }
+if(A) A=require('./aa959_map.js').mapDeep(A,'termend_opts.js','classmate_peishan');   /* AA_959（AA_967）：匯入最後一步照覆寫表換了字——稿先照表換成遊戲的字再比 */
 const TOx=typeof TERMEND_OPTS!=='undefined'?TERMEND_OPTS:null, Lx=TERMEND_LINES;
 let WANT=[], CH=[], caps=[];
 GM.choose=async o=>{ const T=o.map(q=>q.t||q.text); CH.push(T); const w=WANT.shift(); const k=typeof w==='number'?w:T.indexOf(w); return k>=0?k:0; };

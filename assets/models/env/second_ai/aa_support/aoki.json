@@ -1,12 +1,66 @@
 {
- "objects": 23,
- "unique_meshes": 23,
- "tris": 39278,
- "tris_drawn": 39278,
- "materials": 18,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/aok/aoki.glb",
- "bytes": 2909760,
+ "objects": 53,
+ "unique_meshes": 46,
+ "tris": 49004,
+ "tris_drawn": 52488,
+ "materials": 33,
+ "out": "assets/models/env/second_ai/aa_support/aoki.glb",
+ "bytes": 4675576,
  "texres": 512,
  "layout": 3,
- "seats": 22
+ "seats": 22,
+ "cc0": [
+  [
+   "ambientCG",
+   "Wood049"
+  ],
+  [
+   "ambientCG",
+   "Wood066"
+  ],
+  [
+   "ambientCG",
+   "Fabric030"
+  ],
+  [
+   "ambientCG",
+   "Cardboard004"
+  ],
+  [
+   "ambientCG",
+   "Paper001"
+  ],
+  [
+   "ambientCG",
+   "Marble012"
+  ],
+  [
+   "ambientCG",
+   "Plastic006"
+  ],
+  [
+   "ambientCG",
+   "Metal009"
+  ],
+  [
+   "Poly Haven",
+   "ceramic_vase_03"
+  ],
+  [
+   "Poly Haven",
+   "potted_plant_04"
+  ],
+  [
+   "Poly Haven",
+   "tea_set_01"
+  ],
+  [
+   "Poly Haven",
+   "vintage_electric_kettle"
+  ],
+  [
+   "Poly Haven",
+   "potted_plant_02"
+  ]
+ ]
 }

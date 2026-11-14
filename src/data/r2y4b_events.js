@@ -2,7 +2,7 @@
    這裡是用事件系統演的段落（在場景裡碰到的、出遊、讀書會）；手機、時間、場景表（畢業後篇）、尾聲的掛勾在 src/r2y4b3d.js（R2Y4B）。
    31 ev_azalea_y4（3/8 12:25～12:55 椰林大道）　32 ev_mingxuan_saved（3/8 19:00 麵店）　33 ev_bar_study_first／_w14／_week（國考讀書會，活動 act_bar_study）
    34 ev_an_grad_pass（3/22 19:00 麵店）、ev_grad_result（21:00 宿舍二選一）　35 ev_spring_y4（4/3～4/4 宜蘭）、ev_kexin_trip_spring_y4（和可昕）
-   36 ev_peishan_open_class（4/14 台南）　38 ev_kexin_bday_visit_y4（4/24 開車上山）　39 ev_last_game_y4、ev_concert_y4（5/12）
+   36 ev_peishan_open_class（4/14 台南）　38 ev_kexin_bday_visit_y4（4/24 宿舍樓下喝湯）　39 ev_last_game_y4、ev_concert_y4（5/12）
    40（CANON-NO-ECON-1112 第三批拿掉）　43 ev_last_meal_y4（6/22）　44 ev_kexin_after_grad（7/7）　46 ev_heart_july（7/14；R2Y4B.julyScene）
    47 ev_zhiruo_back_cafe（9/1 22:00）、ev_zhiruo_back_ex（分開過：9/1～9/7 第一次進 Café）　48 ev_mingxuan_depart（9/2 機場）
    50 ev_an_columbia（2030-03-28 麵店）、ev_an_ny_sendoff（2030-08-11 機場）　56 ev_us_canyon（美國路線）　57 ev_sis_canyon（台灣、日本路線）
@@ -82,7 +82,7 @@ const R2Y4B_EVENTS=(function(){
     dialogue:[ {speaker:'classmate_mingxuan',expression:'laugh',text:'（衝進來，手機舉得很高）我存夠了！'},
       {speaker:'classmate_mingxuan',text:'德國，一年。九月走。……錢是我自己存的。'},
       {speaker:'classmate_mingxuan',text:'（喘氣）家教三年、暑假打工兩次。都沒跟你們說。'},   /* 裁定 #39 */
-      {if:kn('zhe'),speaker:'zhe',text:'……你什麼時候偷念的。我也要。'},   /* DIALOGUE-DEPTH-1031（AA_560 2-7 C6，D116 看到別人厲害＝看到可能性）換字 */
+      {if:kn('zhe'),speaker:'zhe',text:'你什麼時候偷念的。我也要。'},   /* DIALOGUE-DEPTH-1031（AA_560 2-7 C6，D116 看到別人厲害＝看到可能性）換字 */
       {if:kn('zhe'),speaker:'classmate_mingxuan',text:'我知道。'},
       {if:SAW,speaker:'classmate_mingxuan',text:'你有看到一點點。'},   /* 他坐下來以後小聲說（AA 審稿 #10：不算口頭禪）*/
       {set:{MX_SAVED:'there'}} ] },
@@ -173,7 +173,7 @@ const R2Y4B_EVENTS=(function(){
   { id:'ev_kexin_trip_spring_y4', title:'春假：開車旅行（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
     dialogue:[ {scene:'女生宿舍樓下',bg:'dark'},{scene:'車上',bg:'car'},   /* CANON-NO-ECON-1112 第四批（AA_880 #46）*/
       {speaker:'kexin',expression:'smile',text:'音樂我管，方向你管。'},   /* 車上開場、回程：大四版（AA_345 G3 新寫），不沿用大一、大二；三個地方都去過（迷路那一版）也一樣（AA_350 N3）*/
-      {speaker:'kexin',expression:'smile',text:'……目的地也你管。我只是想坐在車上。'},
+      {speaker:'kexin',expression:'smile',text:'目的地也你管。我只是想坐在車上。'},
       {if:{custom:G=>R().kxAllSeen(G)},goto:'lost'},
       {choice:[{text:'海邊',if:{custom:G=>!R().kxSeen(G).includes('sea')},set:{KX_TRIP_Y4S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:{custom:G=>!R().kxSeen(G).includes('oldtown')},set:{KX_TRIP_Y4S2:'oldtown'},goto:'d_old'},{text:'山上看星星',set:{KX_TRIP_Y4S2:'stars'},goto:'d_star'}]},   /* 「山上看星星」一定在（AA_336 C7 改的 1C-01 做法；只照「還沒去過的」的話「今天看得到。……」永遠不會出現）*/
       {label:'d_sea'},{scene:'海邊',bg:'y0_sea_blue'},{speaker:'kexin',expression:'teasing',text:'水比我想的冷。……你先下去。'},{goto:'back'},
@@ -183,9 +183,9 @@ const R2Y4B_EVENTS=(function(){
       {label:'lost'},{set:{KX_TRIP_Y4S2:'lost'}},   /* AA_350 N3：開場、回程用大四版，中間迷路的那一段照用（原本的開場「這次我不出行程表……」、回程「行程表我回去再補……」是大一、大二版）*/
       {scene:'迷路到的地方',bg:'country_road'},
       {speaker:null,text:'（開了一個多小時，轉錯三次彎。路的盡頭是一片田，一間沒有招牌的雜貨店，門口一台舊的投幣販賣機。）'},
-      {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'……我們到底在哪。'},
+      {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'我們到底在哪。'},
       {choice:[{text:'「買兩罐汽水。」',goto:'l1'},{text:'「下次再來？」',goto:'l2'},{text:'（坐在店門口的長椅）',goto:'l3'}]},
-      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。算它的。'},{goto:'lb'},   /* AA_350 R0：大四版開場說「沒有行程表」，這一拍不再說記在行程表上 */
+      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'十塊。算它的。'},{goto:'lb'},   /* AA_350 R0：大四版開場說「沒有行程表」，這一拍不再說記在行程表上 */
       {label:'l2'},{speaker:'kexin',expression:'laugh',text:'你記得路嗎？我完全不知道我們在哪。'},{goto:'lb'},
       {label:'l3'},{speaker:null,text:'（田裡的風吹過來。她拍了一張照片，照片裡只有路。）'},
       {label:'lb'},{goto:'back'},
@@ -220,7 +220,7 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-38 可昕的生日「今年不要慶祝」：帶一碗後門那家的熱湯餃到女生宿舍樓下，不進去（4/24 晚上）。CANON-NO-ECON-1112 第四批照 AA_880 #47 換字、加兩列，kxAway 拿掉 ---------- */
   { id:'ev_kexin_bday_visit_y4', title:'生日（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     dialogue:[ {scene:'女生宿舍樓下',bg:'girls_dorm_gate'},   /* BLACK-BG-AUDIT-1018（BB_460） */
-      {speaker:'kexin',expression:'surprised',text:'……你排了多久？後門那家晚上都要排。'},
+      {speaker:'kexin',expression:'surprised',text:'你排了多久？後門那家晚上都要排。'},
       {speaker:'kexin',expression:'smile',text:'湯還是熱的。'},
       {speaker:null,text:'（她坐在樓下的長椅上喝湯，書還夾在手臂下面。）'},
       {speaker:'kexin',expression:'smile',text:'今天我室友幫我過了，蛋糕很甜。這碗是鹹的，剛好。'} ],
@@ -383,7 +383,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'好。下禮拜同一個時間。'},{goto:'inv'},
       {label:'v0'},{speaker:null,text:'（畫面裡她的背後是一面白牆，桌上一杯咖啡。）'},
       {speaker:'heroine_05',text:'你那邊是早上吧。……我這邊剛寫完報告。'},
-      {speaker:'heroine_05',text:'今天有人問我臺灣在哪裡。我畫了一張地圖給他。'},
+      {speaker:'heroine_05',text:'有人問我臺灣在哪裡。我畫了一張地圖給他。'},
       {speaker:'heroine_05',text:'好，我去睡了。你去吃早餐。'},{goto:'inv'},
       {label:'v1'},{speaker:'heroine_05',text:'你下禮拜考試吧。……考完跟我說。'},
       {speaker:'heroine_05',text:'好，我去睡了。你去吃早餐。'},{goto:'inv'},
@@ -557,7 +557,7 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:G=>R().groupLine(G)==='k3'},speaker:'kexin',expression:'teasing',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},
       {if:{custom:G=>R().groupLine(G)==='k4'},speaker:'kexin',expression:'smile',text:'好，換你出題。出一題你自己也不確定的。'},   /* 裁定 #49 */
       {if:{custom:G=>R().groupLine(G)==='y1'},speaker:'heroine_03',text:'押租金那個，你講給我聽。不要講條號。'},
-      {if:{custom:G=>R().groupLine(G)==='y2'},speaker:'heroine_03',text:'……這個詞我在社會系也學過，可是意思不一樣。你講你們的。'},
+      {if:{custom:G=>R().groupLine(G)==='y2'},speaker:'heroine_03',text:'這個詞我在社會系也學過，可是意思不一樣。你講你們的。'},
       {if:{custom:G=>R().groupLine(G)==='y3'},speaker:'heroine_03',text:'你剛剛那一段，跟上禮拜講的不一樣。哪一個對？'},
       {if:{custom:G=>R().groupLine(G)==='y4'},speaker:'heroine_03',text:'我出一題我自己不會的。你答完，我抄下來。'},
       ...narrRows('yutong','y'),

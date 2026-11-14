@@ -18,7 +18,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 const SHA='33a1769f8', PS='classmate_peishan', ZR='heroine_02';
 const show=f=>{ try{ return JSON.parse(cp.execFileSync('git',['show',SHA+':docs/story_planning/'+f],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<26})); }catch(e){ return null; } };
 const show748=f=>{ try{ return JSON.parse(cp.execFileSync('git',['show','5d48cae98f:docs/story_planning/'+f],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<26})); }catch(e){ return null; } };   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：AA_748 白名單換 6dbfe10d7e（芷若 yes 第二句拿掉句首刪節號），芷若照這一版比；沛珊 AA_751 照舊；2026-11-13 AA_947 再換 5d48cae98f（「店長明天一定會看出來。」→「老闆…」）。舊：6dbfe10d7e */
-const A751=show('AA_751_peishan_termend.json'), A748=show748('AA_748_termend_heart_v2.json');
+const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：匯入最後一步照覆寫表換了字——稿先照表換成遊戲的字再比 */
+const A751=M959.mapDeep(show('AA_751_peishan_termend.json'),'termend_opts.js','classmate_peishan'), A748=M959.mapDeep(show748('AA_748_termend_heart_v2.json'),'termend_opts.js');
 const TOx=typeof TERMEND_OPTS!=='undefined'?TERMEND_OPTS:null, Lx=TERMEND_LINES;
 let WANT=[], CH=[];
 GM.choose=async o=>{ const T=o.map(q=>q.t||q.text); if(T.includes(TERMEND_LINES.HOOK_NO)) return 1;   /* 邀約鉤子（營隊…）：不接，不算在這裡數的選項裡 */ CH.push(T); const w=WANT.shift(); const k=typeof w==='number'?w:T.indexOf(w); return k>=0?k:0; };

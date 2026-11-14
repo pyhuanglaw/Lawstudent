@@ -50,7 +50,7 @@ await sec('1b',async()=>{ const te={term:'Y2S1'}; fresh('2026-12-30',18); H.said
   { const R=homeRun('2026-12-15','2027-02-20'); H.at(keyOf(R.a+4),21.1); ph(); const t5=th().map(m=>m.text);
     check('1. 接著演：寒假她在高雄第 5 天 21:00 夜市的照片（「沒空」那一條）、沒有第 3 天那則',t5.includes('（照片：夜市的燈）')&&t5.includes('這是你說沒空的那個夜市。')&&!th().some(m=>m.tag==='kxkhh_d3_Y2W'),J(t5)); }
   /* 每一頓、每個選項記的值＝照稿的 set（1cf434dee）；美國路線那一組不記；大五上三個都記 KX_Y5_CALL sat */
-  { let kx=null; /* rc2c（AA_1015）：稿換成白名單上的 b45c888f94（原本 1cf434dee；選項字改了，照字對存檔值要讀新版）*/ try{ kx=JSON.parse(cp.execSync('git show b45c888f94:docs/story_planning/AA_749_termend_kx_v2.json',{cwd:H.ROOT,encoding:'utf8'})).KX; }catch(e){ kx=null; }
+  { let kx=null; try{ kx=JSON.parse(cp.execSync('git show 1cf434dee:docs/story_planning/AA_749_termend_kx_v2.json',{cwd:H.ROOT,encoding:'utf8'})).KX; }catch(e){ kx=null; }
     const KEY={Y2S1:'Y2W',Y2S2:'Y2S',Y3S1:'Y3W',Y3S2:'Y3S',Y4S1:'Y4W'}, bad=[]; let n=0; TERMEND.SHUFFLE=false;
     try{ for(const term of Object.keys(kx||{})) for(const us of (kx[term].optsUS?[false,true]:[false])){ const src=us?kx[term].optsUS:kx[term].opts;
         for(let i=0;i<src.length;i++){ const day={Y2S1:'2026-12-30',Y2S2:'2027-06-19',Y3S1:'2028-01-14',Y3S2:'2028-06-17',Y4S1:'2028-12-24',Y5S1:'2029-12-20'}[term];

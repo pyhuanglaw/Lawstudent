@@ -291,8 +291,8 @@ await sec(9,async()=>{
   const cp=require('child_process'); let doc='';
   for(const r of ['187584ca8','origin/claude/story-planning']){ try{ doc=['AA_474_acceptsOpen使用者回答C_七位各自的條件','AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示'].map(f=>cp.execSync('git show '+r+':"docs/story_planning/'+f+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})).join('\n'); if(doc) break; }catch(e){ doc=''; } }   /* AA_474（第 3、5 節）＋AA_483（第 1 節第 1、2 點、第 2-1、2-2 節取代 ①② 與視訊的字）*/
   const inDoc=t=>doc.indexOf(t)>=0, K5=KNOWL(SIS).opts.find(o=>o.t==='「她知道。」').sub.find(q=>q.t==='「她說可以。」');
-  check('9. 第 5 節三處：學姊 Byes 第三句「……你去見她那天，出門前發一句給我就好。」；沛珊知情心意邀約的接受「好。可是她那邊也要知道喔。兩邊都不要偷偷的。」；學姊「她說可以。」第二次 then「……嗯。」、yes「這學期我一直在想這件事。」「好。我們試試看。」（AA_593 第 103 列拿掉「……」；第一次照原本「……好。我想一下。」）',
-    Lm().REPAIR.heroine_05.result.Byes[2]==='……你去見她那天，出門前發一句給我就好。'&&Lm().REPAIR.heroine_05.result.Byes[1]==='我還是喜歡你。這個我不想騙自己。'&&   /* AA_591 整合九件第 5 件（AA 11-02 21:25）：第二句「我還是喜歡你。……」放回（AA_591 第 11 節第 13 點時拿掉、這一項當時改成 Byes[1]），照 AA 的決定換回原本的期望 */
+  check('9. 第 5 節三處：學姊 Byes 第三句「你去見她那天，出門前發一句給我就好。」；沛珊知情心意邀約的接受「好。可是她那邊也要知道喔。兩邊都不要偷偷的。」；學姊「她說可以。」第二次 then「……嗯。」、yes「這學期我一直在想這件事。」「好。我們試試看。」（AA_593 第 103 列拿掉「……」；第一次照原本「……好。我想一下。」）',
+    Lm().REPAIR.heroine_05.result.Byes[2]==='你去見她那天，出門前發一句給我就好。'&&Lm().REPAIR.heroine_05.result.Byes[1]==='我還是喜歡你。這個我不想騙自己。'&&   /* AA_591 整合九件第 5 件（AA 11-02 21:25）：第二句「我還是喜歡你。……」放回（AA_591 第 11 節第 13 點時拿掉、這一項當時改成 Byes[1]），照 AA 的決定換回原本的期望 */
 J(KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes)===J(['好。可是她那邊也要知道喔。兩邊都不要偷偷的。'])
     &&J(K5.then)===J(['……好。我想一下。'])&&K5.first==='think'&&J(K5.again.then)===J(['……嗯。'])&&J(K5.again.accept.yes)===J(['這學期我一直在想這件事。','好。我們試試看。'])&&J(K5.again.accept.no)===J(['我還沒準備好。']));
   const all=[].concat(W().broke,W().heard,W().self,W().pause,W().end,W().endVideo,W().told,W().videoOpen).filter(x=>x!=null).map(x=>typeof x==='string'?x:String(x.n).replace(/^（|）$/g,''));

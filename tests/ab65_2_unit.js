@@ -59,7 +59,7 @@ await sec(4,async()=>{
   /* 4-6. 來首都帝大那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   check('4-7. kx_nye_ask：已經被後來的改稿取代（現在「我想在臺北跟阿哲他們跨年。」）；舊的「我答應桌遊團要去頂樓了。」沒有',ST.includes("{t:'我想在臺北跟阿哲他們跨年。'")&&!ST.includes('我答應桌遊團要去頂樓了。')&&!ST.includes('桌遊團好像要一起跨年，我想跟他們去。'));
   const go=texts(ev('ev_kexin_grades_open'));
-  check('4-8. ev_kexin_grades_open：已經被後來的改稿取代（AA-C 11:23「……都過了。好，這次才是真的放假。」）；舊的「好，寒假開始。」沒有',go.includes('……都過了。好，這次才是真的放假。')&&!go.some(t=>/寒假開始/.test(t)),J(go));
+  check('4-8. ev_kexin_grades_open：已經被後來的改稿取代（AA-C 11:23「都過了。好，這次才是真的放假。」）；舊的「好，寒假開始。」沒有',go.includes('都過了。好，這次才是真的放假。')&&!go.some(t=>/寒假開始/.test(t)),J(go));
   check('4-9. Kevin：「學弟有車！」（已經是；沒有「直屬學弟有車！」）',ST.includes("kv('學弟有車！')")&&!ST.includes('直屬學弟有車！')); });
 
 await sec(5,async()=>{

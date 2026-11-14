@@ -97,7 +97,7 @@ const TZ_SHOPS_LAYOUT=
     "decor": {"priceBoard": {"z0": 1.2, "z1": 3.6, "y0": 1.5, "y1": 2.9}, "samplePoster": {"z0": 0.0, "z1": 1.0, "y0": 1.5, "y1": 2.5}, "campusPoster": {"z0": -1.0, "z1": -0.2, "y0": 1.5, "y1": 2.4}}
   },
   "antai": {
-    "id": "antai", "viewDepth": 36, "view": "cvs", "zone": "gg_antai", "name": "安泰藥局", "asset": "bldg.gg_antai_interior", "glb": "assets/models/env/second_ai/gg_antai_interior.glb",
+    "id": "antai", "viewDepth": 36, "zone": "gg_antai", "name": "安泰藥局", "asset": "bldg.gg_antai_interior", "glb": "assets/models/env/second_ai/gg_antai_interior.glb",
     "w": 9.0, "d": 10.0, "h": 3.3, "warm": false, "wallColor": "#f4f4f0", "floor": "#d6d8d6",
     "note": "參考圖 int_antai：白色日光燈格柵天花板、淺色磁磚地板；中間走道兩邊各一排白色貨架（口罩、OK 繃、保健食品、乳液）；正後方藥師櫃台（白色、深綠踢腳）＋後牆整面藥品櫃、上面白底綠字招牌（規格：不用十字，用藥罐圖示）；左牆玻璃櫃和掛鉤商品、壁扇、時鐘；右牆衛教海報、書報架、血壓計桌和黑色圓凳。開業多年的社區藥局。",
     "front": {"door": [-0.75, 0.75, 2.6], "windows": [[-4.15, -0.9], [0.9, 4.15]], "sill": 0.12, "head": 2.8, "note": "照外觀（GG_XS G04）：鋁框玻璃自動門、兩側整面玻璃"},
@@ -121,7 +121,7 @@ const TZ_SHOPS_LAYOUT=
     ]
   },
   "xianguo": {
-    "id": "xianguo", "viewDepth": 36, "view": "noodle", "zone": "gg_xianguo", "name": "汀州鮮果", "asset": "bldg.gg_xianguo_interior", "glb": "assets/models/env/second_ai/gg_xianguo_interior.glb",
+    "id": "xianguo", "viewDepth": 36, "zone": "gg_xianguo", "name": "汀州鮮果", "asset": "bldg.gg_xianguo_interior", "glb": "assets/models/env/second_ai/gg_xianguo_interior.glb",
     "w": 8.0, "d": 10.0, "h": 3.3, "warm": true, "wallColor": "#efece2", "floor": "#b9b5ab",
     "note": "參考圖 int_tingzhou_xianguo：整面開著的傳統水果行。左邊階梯式木架和綠色塑膠籃（鳳梨、西瓜、蘋果、芭樂、葡萄、柳丁），最前面一桌香蕉；牆上水果壁畫、黃色吊燈；中間木工作桌（電子秤、切好的水果盒、砧板上的鳳梨、粉紅條紋塑膠袋）；右邊不鏽鋼冷藏展示櫃（切好的水果盒），門口右邊一籃橘子；後面紙箱堆、立扇、水槽層架；舊白磁磚牆、淺色地磚、日光燈。",
     "front": {"door": [-3.65, 3.65, 3.0], "windows": [], "sill": 0.0, "head": 3.0, "open": true, "note": "照外觀（GG_XS G08）：整面開著，沒有玻璃"},
@@ -148,7 +148,7 @@ const TZ_SHOPS_LAYOUT=
     ]
   },
   "rongendian": {
-    "id": "rongendian", "viewDepth": 36, "view": "bookstore", "zone": "gg_rongendian", "name": "榮恩典文具社", "asset": "bldg.gg_rongendian_interior", "glb": "assets/models/env/second_ai/gg_rongendian_interior.glb",
+    "id": "rongendian", "viewDepth": 36, "zone": "gg_rongendian", "name": "榮恩典文具社", "asset": "bldg.gg_rongendian_interior", "glb": "assets/models/env/second_ai/gg_rongendian_interior.glb",
     "w": 9.0, "d": 10.0, "h": 3.3, "warm": true, "wallColor": "#f3ecd8", "floor": "#c9c6bd",
     "note": "參考圖 int_rongendian：四十年老文具行，貨架密、商品滿。左牆整面筆（壓克力格，一格一格彩色的筆）；中間兩座木層架（筆記本、筆袋、膠帶、資料夾）；右牆畫材（畫筆、顏料瓶、調色盤、素描本）、靠牆的畫布和木畫架；正後方木櫃台（收銀機、檯燈），後牆層架、一個小十字架和植物；門口左邊特價推車；格柵天花板、日光燈、吊扇、淺灰地磚。",
     "front": {"door": [-0.6, 0.9, 2.7], "windows": [[-4.15, -0.75], [1.05, 4.15]], "sill": 0.12, "head": 2.85, "note": "照外觀（GG_XS G13）：鋁框玻璃、中間開著的門"},

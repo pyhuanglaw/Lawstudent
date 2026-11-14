@@ -11,7 +11,7 @@
      芷若＝Z3（ASKED_HER_DRINK）；可昕＝第一次帶了有糖的青茶（她那兩句，KNOW_FAV_KX）。知道了（或選對了）＝筆記本記第 1 節那一行（GM.addNote，id fav_<人>）。
    - 在哪裡問：以安、沛珊、語彤、學姊＝118 巷那間店門口的常客一起進來吃（L118.order 的 companions：以安週五、沛珊週三到 2026-12-16 在蛋包飯研究所；語彤大二上起週一在滇香；
      學姊大一平日 12:30 在一一八茶飲）；子晴＝她在 Café 的時候點餐（story3d.js 的 counter，芷若在班的點餐事件也接在最後）；
-     可昕＝她沒有日常作息：學期末約會（termend3d.js 的 kexinDinner）出發前一小時內，在溫州街的巷口茶飲多一個「帶一杯給可昕」，約會開頭、她的第一句之前演她的反應。
+     可昕＝（她的課外作息見 characters.js kexin.daily_schedule，AA_895 第 4 節；這裡照 AA_410 的設計）學期末約會（termend3d.js 的 kexinDinner）出發前一小時內，在溫州街的巷口茶飲多一個「帶一杯給可昕」，約會開頭、她的第一句之前演她的反應。
    - 以安、沛珊、語彤、學姊選對的那一次，店裡吃完的常客那一句不說（她剛才那兩句代替；不然以安會在「那這一半給你」之後又說一次「只吃得下半份」）。
    存檔：G.fav＝{know:{人:第幾天}, right:{人:第幾天}, ytWith:和語彤在滇香一起吃的那一天, kx:{id 出遊, term, item, oi, day}}（帶給可昕、還沒到約會的那一杯）；舊存檔沒有＝從空的開始。
    接線（各一兩行）：lane118.js 的 order、story3d.js 的 counter、events.js 芷若點餐事件的 after_treat（{call}，events3d.js）、wzshops3d.js 的 order364（巷口茶飲）、

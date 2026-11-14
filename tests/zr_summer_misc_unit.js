@@ -97,7 +97,7 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
     at('2026-08-25',20.9); runPhone(20.9,21.2); const q1=OUT.get(H.G,'vac_C08@Y1_re_heroine_02');
     check('A4. 8/25 21:00 不約（她還在台中）',!q1&&!txt('p:'+ZR).includes('明天我十點下班。'),J(q1));
     at('2026-08-26',20.9); runPhone(20.9,21.2); const q2=OUT.get(H.G,'vac_C08@Y1_re_heroine_02');
-    check('A4. 8/26 21:00「明天我十點下班。」「……你來的話，我晚一點關燈。」→ 8/27 22:00 2:30 AM 重逢',txt('p:'+ZR).includes('明天我十點下班。')&&txt('p:'+ZR).includes('……你來的話，我晚一點關燈。')&&!!q2&&q2.day===D('2026-08-27')&&q2.h===22&&q2.place==='2:30 AM',J(q2));
+    check('A4. 8/26 21:00「明天我十點下班。」「你來的話，我晚一點關燈。」→ 8/27 22:00 2:30 AM 重逢',txt('p:'+ZR).includes('明天我十點下班。')&&txt('p:'+ZR).includes('你來的話，我晚一點關燈。')&&!!q2&&q2.day===D('2026-08-27')&&q2.h===22&&q2.place==='2:30 AM',J(q2));
     const R=VAC_DATA.TRIP_MSG.reunion[ZR];
     check('A4. 重逢的台詞照原本（倒扣椅子、「回來了。」「第一杯，我還是做給你。坐。」、沒去的那句）',J(R.lines.map(l=>l.text||l.narr))===J(['（她把最後一張椅子倒扣在桌上。）','回來了。','第一杯，我還是做給你。坐。'])&&J(R.miss)===J(['昨天的那杯，我自己喝了。']));
   });

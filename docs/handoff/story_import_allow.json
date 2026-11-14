@@ -1272,7 +1272,9 @@
    "sha": "247198e8",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；247198e8 補 VA-10 沒去的玩家看到的第一天照片（阿哲傳三則，取代暫用句）",
-   "note": "AA-C 12:45：VA-09 芯慈事務所、VA-10 桌遊團香港；只在 AA 分支 claude/magical-albattani-bk7b4n"
+   "note": "AA-C 12:45：VA-09 芯慈事務所、VA-10 桌遊團香港；只在 AA 分支 claude/magical-albattani-bk7b4n",
+   "staleCheckedAt": "a3349e94b3",
+   "staleCheckNote": "LAWWW-C 11-13：檔名從「麵店團」改「桌遊團」（b711530d69、a3349e94b3 都只改名），舊檔名在 247198e8 的內容換名後和現在一字不差＝遊戲沒有舊字"
   },
   {
    "path": "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md",
@@ -9739,9 +9741,9 @@
   },
   {
    "path": "docs/story_planning/AA_749_termend_kx_v2.json",
-   "sha": "b45c888f94",
+   "sha": "bd1a6fda3",
    "status": "approved",
-   "approvedBy": "AA（D109）AA_1015 第二版；BB-C 11-14 00:00 照用（BB_465／BB_467），判進 rc2d（X364）",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 8 節，四處已改）",
    "task": "TERMEND-OPTS-1110",
    "kind": "json",
    "people": {
@@ -9749,14 +9751,6 @@
    },
    "note": "X324 可昕的學期末約會（大二上～大五上六頓；大一下第一次那頓照現有的）：有選項、選項有效果——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.KX）；place、invite、KX_PLACE、KX_EXTRA、KX_ASK 不動（AA _meta.target）。LAWWW 11-10 通知可以匯入（企劃線 898820f8b）。（11-10 補：AA 交代有選項稿的學期 KX_ASK 的二選一不再接在後面，KX_KHH.Y2W 改由選項「我去。妳排哪幾天？」記。）（11-10 再補，企劃線 1cf434dee：每個選項多 set——KX_KHH true＝原本二選一的「去」（yes）、false＝原本的「沒空」（no）；美國路線 optsUS 不記；大五上三個都記 KX_Y5_CALL（sat）。「我去。妳排哪幾天？」的特例拿掉，改讀 set。）；bd1a6fda3（AA 2026-11-11，企劃線 6bcf38237）：芷若、可昕、Alison、阿哲說的字改斷句（一口氣講的寫法，113 處，意思不變；選項文字 t、fx、set、if、條件、narr 沒動）；美國路線大三下 optsUS 還是沒有 set＝照匯入工具 KX_US_YES 的例外記 Y3S yes",
    "history": [
-    {
-     "sha": "110b0fd990",
-     "approvedBy": "（2026-11-14 rc2d 換成 b45c888f94：110b0fd990 是 AA_1015 第一版，大三上和 feed_y3s1 kx3e 對不上）"
-    },
-    {
-     "sha": "bd1a6fda3",
-     "approvedBy": "（2026-11-13 換成 110b0fd990 以前的版本）"
-    },
     {
      "sha": "1cf434dee",
      "approvedBy": "（2026-11-11 換成 bd1a6fda3 以前的版本）"

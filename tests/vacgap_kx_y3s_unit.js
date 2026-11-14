@@ -18,7 +18,7 @@ const start=(dating)=>{ H.fresh('2028-06-15',8,'dorm',{KX_MET:true}); LOG={}; H.
 start(true); runTo('2028-09-01',12,3);
 check('1. 實習三則：7/6、7/27、8/24 21:00，字照 AA_930 第 1 節',J([1,2,3].map(i=>when('msg_kx_intern_y3s_'+i)))===J(['2028-07-06 21','2028-07-27 21','2028-08-24 21'])&&J(got('msg_kx_intern_y3s_1').map(m=>m.text))===J(X.intern[0].ms));
 { const m=got('msg_kx_intern_y3s_2').slice(-1)[0]; check('2. 兩個按鈕、回覆開到隔天 18:00、她回的照稿',m&&m.ask&&J(m.ask.opts.map(o=>o.t))===J(['短一點比較好懂。','改到最後剩什麼？'])&&m.ask.until===T(D('2028-07-28'),18)&&m.ask.opts[1].say[0].text==='剩一句。那一句是對的'); }
-{ const tags=[1,2,3,4,5,6,7].map(i=>'msg_kx_home_y3s_night_'+i); check('3. 回家的晚上：6/19～6/25 每晚 22:00 一則、七句不重複',J(tags.map(when))===J([19,20,21,22,23,24,25].map(d=>'2028-06-'+d+' 22'))&&J(tags.map(t=>got(t)[0].text))===J(X.home)&&!got('msg_kx_home_y3s_night_8').length,J(tags.map(when))); }
+{ const tags=[1,2,3,4,5,6,7,8,9,10,11,12,13].map(i=>'msg_kx_home_y3s_night_'+i); const days=[19,20,21,22,23,24,25,26,27,28,29,30].map(d=>'2028-06-'+d+' 22').concat(['2028-07-01 22']); check('3. 回家的晚上：6/19～7/1 每晚 22:00 一則、十三句不重複（AA-C 11-13 補 6/26～7/1）',J(tags.map(when))===J(days)&&J(tags.map(t=>got(t)[0].text))===J(X.home)&&!got('msg_kx_home_y3s_night_14').length,J(tags.map(when))); }
 check('4. 8/30 21:00 開始讀國考、記 KX_PLAN_Y3S',when('msg_kx_plan_y3s')==='2028-08-30 21'&&H.G.flags.KX_PLAN_Y3S===true);
 start(false); runTo('2028-09-01',12,6);
 check('5. 沒交往＝都沒有',!Object.keys(LOG).some(t=>/^msg_kx_(intern|home_y3s_night|plan)/.test(t))&&!H.G.flags.KX_PLAN_Y3S);

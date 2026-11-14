@@ -1,11 +1,11 @@
 {
- "objects": 29,
- "unique_meshes": 29,
- "tris": 58844,
- "tris_drawn": 58844,
- "materials": 18,
+ "objects": 67,
+ "unique_meshes": 34,
+ "tris": 60542,
+ "tris_drawn": 77732,
+ "materials": 31,
  "out": "assets/models/env/second_ai/aa_support/mokuyobi.glb",
- "bytes": 3835064,
+ "bytes": 4612136,
  "texres": 512,
  "layout": 4,
  "seats": 24

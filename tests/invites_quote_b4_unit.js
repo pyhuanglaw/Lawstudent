@@ -31,7 +31,7 @@ const CHANGED=['src/data/events.js','src/data/pool_story.js','src/data/pool_stor
   'src/aa614_3d.js','src/sis_b13_3d.js','src/sup519_3d.js','src/whois3d.js','src/mokuyobi_sys3d.js','src/offbeat_sys3d.js','src/ggshops_sys3d.js'];
 const DATAF=['src/data/events.js','src/data/pool_story.js','src/data/pool_story_b2.js','src/data/pool_story_b3.js','src/data/pool_story_b4.js','src/mokuyobi_sys3d.js','src/offbeat_sys3d.js','src/ggshops_sys3d.js','src/whois3d.js'];
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
-const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+const cur=f=>require('./aa959_map.js').unmapCode(fs.readFileSync(path.join(ROOT,f),'utf8'),path.basename(f));   /* AA_959（DLG-FULL-REVIEW-1110）：之後照覆寫表換的整句先換回來，再和 BASE 比「」 */
 /* 外面整句一對「」（「A」「B」這種好幾段的不算）——和 src/invites3d.js 的 S.unq 同一把尺 */
 const wrapped=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return false; let d=0; for(let i=0;i<t.length;i++){ const c=t[i]; if(c==='「') d++; else if(c==='」'){ d--; if(d===0&&i!==t.length-1) return false; } } return d===0; };
 const unq=t=>wrapped(t)?t.slice(1,-1):t;
@@ -52,6 +52,8 @@ if(process.env.QUOTE_B4_PROBE) (async()=>{
   const mode=process.env.QUOTE_B4_PROBE;
   if(mode==='old'){ const OLD={}; for(const f of CHANGED) OLD[path.join(ROOT,f)]=gitShow(BASE,f); const real=fs.readFileSync;
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(OLD[k]!=null) return OLD[k]; } return real.apply(fs,arguments); }; }
+  if(mode==='new'){ const M959=require('./aa959_map.js'), CH=new Set(CHANGED.map(f=>path.join(ROOT,f))), real=fs.readFileSync;   /* AA_959（DLG-FULL-REVIEW-1110）：現在的檔照覆寫表換的整句先換回來，再和 BASE 演出來的比「」 */
+    fs.readFileSync=function(p){ const r=real.apply(fs,arguments); if(typeof p==='string'&&typeof r==='string'&&CH.has(path.resolve(p))) return M959.unmapCode(r,path.basename(p)); return r; }; }
   const IN=mode==='new'?JSON.parse(fs.readFileSync(0,'utf8')||'{}'):{};
   const out={errs:[]};
   const H=require('./pg_harness.js'); const {GM,E}=H;

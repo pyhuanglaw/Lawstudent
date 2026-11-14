@@ -36,11 +36,11 @@ const R2Y3B_EVENTS=(function(){
       {if:kn('yu','heroine_01'),speaker:'yu',text:'那三月以前每一頓都要來喔。'},
       {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'好。我盡量。'},
       {if:{custom:G=>route(G)==='JP'&&knows('zhe',G)&&knows('heroine_01',G)},speaker:'zhe',text:'（轉向你）你也是。一個月又三天。'},   /* 日本路線多一句 */
-      {if:kn('heroine_03'),speaker:'heroine_03',text:'……這學期週四，我去做田野。'},
+      {if:kn('heroine_03'),speaker:'heroine_03',text:'這學期週四，我去做田野。'},
       {if:kn('heroine_03','zhe'),speaker:'zhe',text:'她週四有自己的事了。'},
       {choice:[{text:'「先吃。」',goto:'a'},{text:'「週四妳去哪？」',if:kn('heroine_03'),goto:'b'}]},
       {label:'a'},{if:kn('zhe'),speaker:'zhe',text:'對。先吃。'},{goto:'end'},
-      {label:'b'},{speaker:'heroine_03',text:'……去問人問題。'},{speaker:null,text:'（她低頭吃飯了。）'},
+      {label:'b'},{speaker:'heroine_03',text:'去問人問題。'},{speaker:null,text:'（她低頭吃飯了。）'},
       {label:'end'} ],
     consequences:{flags:{Y3S2_FIRST_MEAL:true},memo:'大三下的開學第一頓（日常失速）'},
     outingMissed:G=>{ const x=X(); if(x) x.firstMealPhoto(G); } };
@@ -83,7 +83,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'手機筆記',text:'誰：社團（她是負責人）'},{speaker:'手機筆記',text:'向誰：經手的學弟，和社團大家'},{speaker:'手機筆記',text:'依據什麼：社團的規則、收支表和單據'},{speaker:'手機筆記',text:'請求什麼：'},
       {choice:C6_OPTS},
       {label:'p'},{speaker:'yu',text:'……他是學弟耶。我先不要這樣。'},{goto:'q'},
-      {label:'o'},{speaker:'yu',text:'……好。這樣比較不像在抓人。'},{goto:'q'},
+      {label:'o'},{speaker:'yu',text:'好。這樣比較不像在抓人。'},{goto:'q'},
       {label:'r'},{speaker:'yu',expression:'laugh',text:'對！我們社團有規則！……我去找出來。'},
       {label:'q'},
       {speaker:'player',text:'妳真正想要的是什麼？'},
@@ -95,14 +95,14 @@ const R2Y3B_EVENTS=(function(){
   const wishKx=G=>!!(G.flags&&G.flags.WISH_DONE_kexin)||(typeof DATE!=='undefined'&&!!DATE.log&&!!DATE.log(G,'kexin').wish);   /* 去過外澳（她的心願地點） */
   const K18={ id:'ev_kexin_k18', title:'最輕鬆的一學期', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
     dialogue:[ {scene:'車上',bg:'car_morning'},
-      {speaker:'kexin',expression:'smile',text:'今天去一個我沒去過的地方。你也沒去過，我問過了。'},   /* CANON-NO-ECON-1112 第四批：照 AA_880 #41 換字（兩列合成一列、不看條件）*/
+      {speaker:'kexin',expression:'smile',text:'去一個我沒去過的地方。你也沒去過，我問過了。'},   /* CANON-NO-ECON-1112 第四批：照 AA_880 #41 換字（兩列合成一列、不看條件）*/
       {scene:'山裡的舊車站',bg:'trip_oldrail'},   /* 2D trip_oldrail 待生成（G5-09）：沒有圖＝深色底＋地點字幕 */
       {speaker:null,text:'（山裡的舊車站。月台還在，鐵軌已經不走火車了。遠一點，是一座只剩橋墩的紅磚橋。）'},
       {speaker:'kexin',expression:'thinking',text:'這裡的火車，很久以前就不來了。'},
       {speaker:'kexin',expression:'sad',text:'……可是月台還在等。'},
       {choice:[{text:'「月台在等誰？」',goto:'a'},{text:'「走到那座斷橋？」',goto:'b'},{text:'（在月台上坐一下）',goto:'c'}]},
       {label:'a'},{speaker:'kexin',expression:'embarrassed',text:'……不知道。我亂講的。'},{speaker:null,text:'（她笑了一下。）'},{speaker:'kexin',expression:'smile',text:'走啦，去看那座橋。'},{goto:'back'},
-      {label:'b'},{speaker:null,text:'（你們走了四十分鐘。她在橋墩下站了很久。）'},{speaker:'kexin',expression:'tired',text:'……腳好痠。回去我要在車上睡。'},{goto:'back'},
+      {label:'b'},{speaker:null,text:'（你們走了四十分鐘。她在橋墩下站了很久。）'},{speaker:'kexin',expression:'tired',text:'腳好痠。回去我要在車上睡。'},{goto:'back'},
       {label:'c'},{speaker:null,text:'（她把頭靠在你肩上，說了一句「好安靜」，就沒有再說話。）'},
       {label:'back'},{scene:'車上',bg:'car_night'},
       {speaker:'kexin',expression:'laugh',text:'下一站去哪裡，我現在不想決定。這樣很好。'},
@@ -183,7 +183,7 @@ const R2Y3B_EVENTS=(function(){
       {if:kn('yu','heroine_01'),speaker:'yu',text:'（把吐司排好）欸，以安在日本有沒有吃早餐。'},
       {if:kn('classmate_bohan','heroine_01'),speaker:'classmate_bohan',text:'她傳了照片。日本的吐司比較厚。'},
       {if:kn('yu','heroine_01'),speaker:null,text:'（Alison 把手機拿給大家看：一片很厚的吐司，旁邊攤著一本手帳。）'},
-      {if:kn('classmate_xinci'),speaker:'classmate_xinci',text:'……我們的比較薄。可是我們有四種果醬。'},
+      {if:kn('classmate_xinci'),speaker:'classmate_xinci',text:'我們的比較薄。可是我們有四種果醬。'},
       {choice:[{text:'「我來烤。」',goto:'a'},{text:'（拍一張傳給以安）',if:fam('heroine_01','FRIEND'),goto:'b'},{text:'「期中週過完再來一次？」',goto:'c'}]},
       {label:'a'},{speaker:null,text:'（第一片烤焦了。阿哲：「焦的給我。」）'},{goto:'end'},
       {label:'b'},{speaker:null,text:'（十分鐘後，以安回了一張照片：同一片厚吐司，咬了一口。）'},{phone:'heroine_01',text:'這邊也是晚上。'},{goto:'end'},
@@ -296,7 +296,7 @@ const R2Y3B_EVENTS=(function(){
   /* ---------- 2-Y3-42 慈 6「暑期實習」（AA_547 2-4 新寫，D116：原本「第一名」、改輔系、隔天「排名出來了。我第一。」都拿掉）：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
   const XON={custom:()=>typeof XCROM!=='undefined'&&!!XCROM.ON};   /* 芯慈戀愛線開關（src/xcrom3d.js）*/
   const XC_LINES=[ {speaker:'classmate_xinci',text:'我申請了國際所的暑期實習。台灣分所。'},
-    {speaker:'classmate_xinci',expression:'smile',text:'……錄取了。金融那一組。'},
+    {speaker:'classmate_xinci',expression:'smile',text:'錄取了。金融那一組。'},
     {choice:[{text:'「恭喜！」',goto:'a'},{text:'「為什麼是金融那一組？」',goto:'b'},{text:'「妳爸媽怎麼說？」',goto:'c'}]},
     {label:'a'},{speaker:'classmate_xinci',expression:'smile',text:'謝謝。我想做的就是這個。'},{goto:'end'},
     {label:'b'},{speaker:'classmate_xinci',text:'因為那裡的合約，數字跟條文一樣多。'},{goto:'end'},
@@ -412,7 +412,7 @@ const R2Y3B_EVENTS=(function(){
        到的那週、四月（櫻花）、六月（梅雨）、七月底（行李箱）照月份，其他照順序補空的那一週（r2y3b3d.js S.abPickT1）；十則傳完就不再傳 */
     t1:[['（照片：公寓房間，箱子還沒拆）','到了。箱子明天拆。'],   /* 第 1 則、第 8 則回覆①照 AA_463 第 7 節改字（她在日本住公寓，AA_377）*/['（照片：便利商店的飯糰架）','飯糰的海苔要自己拉開。我研究了三天。'],['（照片：大學的櫻花）','四月。這邊的櫻花開得比較晚。'],
         ['（照片：公寓的投幣洗衣機）','一次一百圓。我每一筆都記下來了。'],['（照片：町公所的排隊號碼牌）','排了一個小時。'],['（照片：垃圾分類的月曆，貼在冰箱上）','星期二可燃，星期五資源。我貼在冰箱上了。'],
-        ['（照片：電車的月台，人排成兩排）','這邊排隊會排成兩排。我第一天排錯了。'],['（照片：窗外一片灰）','梅雨。衣服三天沒乾。'],['（照片：教室的黑板，寫滿日文）','今天上課被點到。我用日文答完，全班安靜了一下。'],
+        ['（照片：電車的月台，人排成兩排）','這邊排隊會排成兩排。我第一天排錯了。'],['（照片：窗外一片灰）','梅雨。衣服三天沒乾。'],['（照片：教室的黑板，寫滿日文）','上課被點到。我用日文答完，全班安靜了一下。'],
         ['（照片：行李箱，攤開在床上）','八月五號。我開始收了。']],
     t1O:[[['累嗎？','還好。……床比宿舍軟。'],['房間多大？','六疊。我量過了。']],[['照 1、2、3 的順序拉。','……你早點說。'],['拉破了也能吃。','我知道。我吃了三個破的。']],
         [['臺北的已經謝了。','嗯。這邊才剛開。'],['好看。','嗯。']],[['一百圓是多少？','二十幾塊。我記了匯率。'],['記幾頁了？','十一頁。']],[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']],
@@ -489,7 +489,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'heroine_02',text:'吧檯借我們一個下午。投影機是二輪戲院的老闆借我的。他說，九月以前要還。'},
       {speaker:null,text:'（吧檯上排著十二張點單，每一張寫著一部電影的片名，最後一張是空白的。）'},
       {speaker:'heroine_02',text:'我不在的時候，一個月一部。看完，在點單背面寫一句，寄給我。'},
-      {speaker:'heroine_02',text:'……我在那邊，也跟你同一天看。時差七個小時。算同一天。'},
+      {speaker:'heroine_02',text:'我在那邊，也跟你同一天看。時差七個小時。算同一天。'},
       {speaker:'heroine_02',text:'第一部，我們現在看。'},
       {speaker:null,text:'（兩個人坐在吧檯前，看第一部。牆上的光照到她的側臉。片子演完，她沒有開燈。）'},
       {speaker:'heroine_02',text:'第十二張是空的。'},

@@ -1,11 +1,11 @@
 {
- "objects": 30,
- "unique_meshes": 30,
- "tris": 38516,
- "tris_drawn": 38516,
- "materials": 18,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/sns/sunnyside.glb",
- "bytes": 2295120,
+ "objects": 37,
+ "unique_meshes": 34,
+ "tris": 42616,
+ "tris_drawn": 45598,
+ "materials": 25,
+ "out": "assets/models/env/second_ai/aa_support/sunnyside.glb",
+ "bytes": 3152020,
  "texres": 512,
  "layout": 3,
  "zone": "wz_brunch"

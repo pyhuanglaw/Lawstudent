@@ -38,7 +38,10 @@ const lum=c=>0.2126*c.r+0.7152*c.g+0.0722*c.b;
     if(z.formal){ const vw=mats(z,/^usm_outside_view$/), gl=mats(z,/^ck_glass$/); check('us_market：有門外的景（usm_outside_view）、正面玻璃（ck_glass）',vw.length>0&&gl.length>0);
       z.applyTime(14,'clear'); const d=vw.map(m=>lum(m.emissive)*(m.emissiveIntensity==null?1:m.emissiveIntensity)), dg=gl.map(m=>lum(m.color));
       z.applyTime(20,'clear'); const n=vw.map(m=>lum(m.emissive)*(m.emissiveIntensity==null?1:m.emissiveIntensity)), ng=gl.map(m=>lum(m.color));
-      check('us_market：20:00 門外的停車場變暗（自發光不到白天的一半）——②結帳區玻璃外還是白天',n.every((v,i)=>v<d[i]*0.5),`${d.map(v=>v.toFixed(2))}→${n.map(v=>v.toFixed(2))}`);
+      /* SHOP-INTERIOR-VIEW-1112（LAWWW-C 11-13）：門外的景換成白天／晚上兩張照片（US3.US_VIEW）——換了照片的卡晚上換夜版照片、不調暗（調暗是沒有夜版照片時的做法）*/
+      const sw=vw.filter(m=>m.userData.wvOwn); z.applyTime(20,'clear'); const nightImg=sw.length&&sw.every(m=>/_night\.webp$/.test((m.map&&m.map.userData.url)||'')&&(m.emissiveMap===m.map||!m.userData.wvEm0));   /* 這支測試把 GLB 的貼圖拿掉了（沒有 emissiveMap 就不換）*/
+      if(sw.length) check('us_market：20:00 門外的景換成夜版照片（us_market_night.webp）——②結帳區玻璃外還是白天',nightImg,sw.map(m=>m.map&&m.map.userData.url).join(','));
+      else check('us_market：20:00 門外的停車場變暗（自發光不到白天的一半）——②結帳區玻璃外還是白天',n.every((v,i)=>v<d[i]*0.5),`${d.map(v=>v.toFixed(2))}→${n.map(v=>v.toFixed(2))}`);
       check('us_market：20:00 正面玻璃跟著變暗',ng.every((v,i)=>v<dg[i]*0.5),`${dg.map(v=>v.toFixed(3))}→${ng.map(v=>v.toFixed(3))}`);
       const lamp=mats(z,/./).filter(m=>/^GLOW_/.test(m.name||'')&&!vw.includes(m)); z.applyTime(14,'clear'); const l14=lamp.map(m=>m.emissiveIntensity); z.applyTime(20,'clear');
       check('us_market：冷藏櫃、收銀台這些燈照舊整天都亮（20:00 和 14:00 一樣）',lamp.length>0&&lamp.every((m,i)=>m.emissiveIntensity===l14[i]),`${lamp.length} 個`); } }
