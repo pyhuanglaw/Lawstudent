@@ -1,12 +1,3 @@
-[17:45:55] skip STAIRX_new_run (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[17:45:55] skip STAIRX_new_walk10 (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[17:45:55] skip STAIRX_new_run10 (already done on 0d1eaadc7e746d4e6c6b00619f584e805266fbb6)
-[17:45:55] skip STAIRX_old_walk (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip STAIRX_old_run (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip STAIRX_old_walk10 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip STAIRX_old_run10 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip L118A6_EXT14 (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
-[17:45:55] skip L118A6_EXT20 (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
 [17:45:55] skip L118A6_VIEWS (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
 [17:45:55] skip L118A6_DRINK (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
 [17:45:55] skip L118A6_LANE (already done on a2dd74af190a174e383642ef8d2043b1d2947370)
@@ -1998,3 +1989,12 @@
 [22:00:10] ==== START SHOPREAL_DABU_v2  (probe @ aa876bf9b9ad16262c2106615619a1f4cec5f77b) ====
 [22:00:13] [res] cpu=3% mem=51% (16.1/31.4 GB) chrome_testing=9  START SHOPREAL_DABU_v2
 [22:00:45] [res] cpu=1% mem=50% (15.5/31.4 GB) chrome_testing=9  END WINVIEW_MIRROR_rooms_r2
+[22:00:55] 正在跑：SHOPREAL_BIKE_v21（已跑 7 分／上限 30 分）、WINVIEW_MIRROR_rooms_r2（已跑 3 分／上限 25 分）、SHOPREAL_DABU_v2（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b2e8bcbeb2..d79bd3fa34  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:00:57] ==== END   WINVIEW_MIRROR_rooms_r2  exit=0  192s   ====
+[22:01:12] memory 49% before starting HL1_CIRCLE_1028_r6 (2 running)
+[22:01:12] ==== START HL1_CIRCLE_1028_r6  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[22:01:15] [res] cpu=5% mem=49% (15.6/31.4 GB) chrome_testing=9  START HL1_CIRCLE_1028_r6
+[22:03:13] [res] cpu=8% mem=49% (15.4/31.4 GB) chrome_testing=10  END HL1_CIRCLE_1028_r6
