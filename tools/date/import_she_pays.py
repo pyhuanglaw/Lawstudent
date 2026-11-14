@@ -103,7 +103,7 @@ def build(src, sha, DL, sup=None):
         if not isinstance(r, dict) or set(r) - {'who', 'loc', 'n', 'key', 'text', 'note'}:
             raise SystemExit(f'{w}：只認 who、loc、n、key、text（note）')
         who, loc, n, key, text = r.get('who'), r.get('loc'), r.get('n'), r.get('key'), r.get('text')
-        if isinstance(text, str): text = _AA959.map_str(text, 'date_lines.js')
+        if isinstance(text, str): text = _AA959.map_str(text, 'date_lines.js', who)
         if not all(isinstance(x, str) and x for x in (who, loc, key, text)) or type(n) is not int or n < 1:
             raise SystemExit(f'{w}：who、loc、key、text 要是字串，n 要是正整數')
         m = re.fullmatch(r'((D\d\d)\.\w+)\.(\w+)(?:#(\d+))?', key)
@@ -213,7 +213,7 @@ def read812(src, sha, DL):
                     raise SystemExit(f'{w}：要是有字的句子陣列（同一句不能列兩次）')
                 now = []
                 for text in L:
-                    text = _AA959.map_str(text, 'date_lines.js')
+                    text = _AA959.map_str(text, 'date_lines.js', who)
                     was = None
                     if (who, pid, text) in REWORD:   # 源稿後來換了字（見 REWORD）：AA_812 那一句不在了才換
                         H = (((((DL.get('loc') or {}).get(pid[:3]) or {}).get('lines') or {}).get(who) or {}).get('hotspots') or {}).get(pid) or {}

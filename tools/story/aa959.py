@@ -22,7 +22,7 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TABLE = 'docs/handoff/AA_959_overlay.json'
-SRC_SHA = '9b8fd62148'   # 企劃線 claude/cool-heisenberg-o8kuqx，783 列（RC2-PORT-DEV-1114）；前一版：企劃線 claude/magical-albattani-bk7b4n（AA_951～967：七位女主角＋配角，405 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
+SRC_SHA = '300233fbcc'   # 企劃線 claude/cool-heisenberg-o8kuqx，783 列（RC2-PORT-DEV-1114）；前一版：企劃線 claude/magical-albattani-bk7b4n（AA_951～967：七位女主角＋配角，405 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
 
 # 說話的人對不上表上的 speaker（或不是某一個人的句子）：不換，報 AA。鍵＝(檔名, old)；表在 docs/handoff/AA_959_skip.json（tests/aa959_map.js 也讀）
 SKIPFILE = 'docs/handoff/AA_959_skip.json'
@@ -117,7 +117,24 @@ def apply(text, fname, log=None):
     return text
 
 
-def map_str(s, fname):
+_syn = {}
+
+
+def syn_rows(fname):
+    """old 帶 JSON 前後文（'heroine_01", "text": "…'）才唯一的列：拆成「引號之間不一樣的那幾段」＝(speaker, old, new)（tests/aa959_map.js 的 SYN 同一套）"""
+    b = os.path.basename(fname)
+    if b not in _syn:
+        out = []
+        for r in rows():
+            if b not in r['files'] or r.get('prefix') or r.get('all') or not any(c in r['old'] for c in Q) or (b, r['old']) in SKIP: continue
+            a, n = r['old'].split('"'), _new(r).split('"')
+            if len(a) != len(n) or (r.get('speaker') or '').startswith('narr'): continue
+            out += [(r.get('speaker'), x, y) for x, y in zip(a, n) if x != y]
+        _syn[b] = out
+    return _syn[b]
+
+
+def map_str(s, fname, who=None):
     """一句字串（不含引號）照表換完是什麼（不記 HITS）：給「覆蓋層的 new 後來又被 AA_959 換掉」的核對用。"""
     for _ in range(3):   # 一句被換兩次的（AA_953 砍「今天」→ AA_1020 再換句尾）：換到不動為止；old 帶雙引號的列用雙引號包著比
         s0 = s
@@ -127,6 +144,8 @@ def map_str(s, fname):
                 sp = _spans(t, r)
                 for a, b in reversed(sp): t = t[:a] + _new(r) + t[b:]
             s = t[1:-1]
+        hit = {y for w, x, y in syn_rows(fname) if x == s and (who is None or w == who)}   # 帶前後文的列：整句相同（who 給了就只看那個人的；沒給、而且幾個人換成不同的字＝不換）
+        if len(hit) == 1: s = hit.pop()
         if s == s0: break
     return s
 

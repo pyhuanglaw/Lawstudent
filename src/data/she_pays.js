@@ -185,7 +185,7 @@ const SHE_PAYS_DATA={
     "謝謝，那蛋糕我點，一人一半。"
    ],
    "D30.stall": [
-    "謝謝，那玉米我買，一人一半。"
+    "謝謝。那玉米換我，你挑一支。"
    ]
   },
   "heroine_04": {
@@ -444,7 +444,7 @@ const SHE_PAYS_DATA={
    "n": 50,
    "key": "D30.stall.first.choice[1]",
    "pid": "D30.stall",
-   "text": "謝謝，那玉米我買，一人一半。",
+   "text": "謝謝。那玉米換我，你挑一支。",
    "at": "/loc/D30/lines/heroine_01/hotspots/D30.stall/first/choice/1/reply/0/text"
   },
   {
