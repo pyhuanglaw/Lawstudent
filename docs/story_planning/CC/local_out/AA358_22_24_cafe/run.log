@@ -1,0 +1,52 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_aa355_358_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\AA358_22_24_cafe\out
+CC BB-TEST-AA355-358：SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；PARTS ['CAFE']；ROUTES 全部；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  37.7s] [CAFE_NOCAFE] ① 小安不在總圖、在場的時段 {"day": -13, "key": "2025-09-03", "h": 16, "zone": "cafe", "act": "read"}
+PASS FAIL_SETUP 檢查：[CAFE_NOCAFE] ① 掃得到小安在場（非總圖）的時段
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）16.00 時 cafe；[CAFE_NOCAFE] ① 2-2 talkAn anAfter（第一次在下午那段之後跟她說話）
+PASS FAIL_SETUP 檢查：[CAFE_NOCAFE] ① afternoonDone、anAfter 還沒說過、cafeView=無  {"key": "2025-09-03", "h": 16.05, "zone": "cafe", "mainDay": 3, "metAn": true, "met_an": true, "anSkipped": true, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "choicesCafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "ACQUAINTANCE", "split": false, "followup": false, "route": null, "jpDep": null, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}
+PASS FAIL_SETUP 檢查：[CAFE_NOCAFE_22] 小安在場、看得到  {"x": -5.95, "z": 3.95, "lv": 0, "beh": "idle", "pose": "read", "hidden": false, "leaving": false, "name": "沈以安", "label": "和沈以安說話", "talk": true, "dMe": 5.99}
+  [  58.2s] 「[CAFE_NOCAFE_22] 和小安說話：他旁邊（第 1 輪）」途中停下（離目標 1.52 m）：條件成立
+  [  65.0s] [CAFE_NOCAFE_22] 和小安說話：選項 []；選了 []；台詞 [["", "（她低頭在忙自己的事，沒有注意到你。）"]]
+  [  65.4s] [CAFE_NOCAFE_22] 小安：GAME.say [["", "（她低頭在忙自己的事，沒有注意到你。）"]]；observer [["", "（她低頭在忙自己的事，沒有注意到你。）"]]；talk_to {"lines": [["", "（她低頭在忙自己的事，沒有注意到你。）"]], "opts": [], "picked": [], "started": true, "label": "和沈以安說話"}
+FAIL [CAFE_NOCAFE] ① 那一句演了（anAfter 記上）  {"key": "2025-09-03", "h": 16.13, "zone": "cafe", "mainDay": 3, "metAn": true, "met_an": true, "anSkipped": true, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "choicesCafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "ACQUAINTANCE", "split": false, "followup": false, "route": null, "jpDep": null, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}
+PASS [CAFE_NOCAFE] ① 沒去咖啡廳：她不提「那天」、不說「賠十倍」  （她低頭在忙自己的事，沒有注意到你。） （她低頭在忙自己的事，沒有注意到你。） 
+  [前置／捷徑] [CAFE_NOCAFE] ②【捷徑】ev_an_report_split 記成演過、拿掉 REPORT_PARTNER 記憶（新局在 meetAn 一定記＝照程式走不到這一場）：{"split": -13, "memBefore": 0, "memAfter": 0, "has": false}
+  [  65.5s] [CAFE_NOCAFE] ② 小安在總圖的時段 {"day": -13, "key": "2025-09-03", "h": 9, "zone": "library", "act": "read"}
+PASS FAIL_SETUP 檢查：[CAFE_NOCAFE] ② 掃得到小安在總圖的時段
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）9.00 時 library；[CAFE_NOCAFE] ② 2-4 小安在總圖
+PASS FAIL_SETUP 檢查：[CAFE_NOCAFE] ② 在總圖、ev_an_report_split 演過、沒有 REPORT_PARTNER、followup 還沒演  {"key": "2025-09-03", "h": 9.04, "zone": "library", "mainDay": 3, "metAn": true, "met_an": true, "anSkipped": true, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "choicesCafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "ACQUAINTANCE", "split": true, "followup": false, "route": null, "jpDep": null, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}
+PASS FAIL_SETUP 檢查：[CAFE_NOCAFE_24] 小安在場、看得到  {"x": -10.55, "z": -0.6, "lv": 0, "beh": "idle", "pose": "read", "hidden": false, "leaving": false, "name": "小安", "label": null, "talk": true, "dMe": 21.83}
+  [ 108.9s] 「[CAFE_NOCAFE_24] 和小安說話：他旁邊（第 1 輪）」途中停下（離目標 0.25 m）：（她低頭在忙自己的事，沒有注意到你。）
+  [ 115.7s] [CAFE_NOCAFE_24] 和小安說話：選項 []；選了 []；台詞 [["", "（她抬頭看到你，點了一下頭。）"]]
+  [ 116.2s] [CAFE_NOCAFE_24] 小安：GAME.say [["", "（她抬頭看到你，點了一下頭。）"]]；observer [["", "（她抬頭看到你，點了一下頭。）"]]；talk_to {"lines": [["", "（她抬頭看到你，點了一下頭。）"]], "opts": [], "picked": [], "started": true, "label": "和小安說話"}
+FAIL [CAFE_NOCAFE] ② ev_an_report_followup 演了  {"key": "2025-09-03", "h": 9.2, "zone": "library", "mainDay": 3, "metAn": true, "met_an": true, "anSkipped": true, "anMissed": false, "afternoonDone": true, "plan": null, "companion": null, "cafeView": null, "choicesCafeView": null, "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "ACQUAINTANCE", "split": true, "followup": false, "route": null, "jpDep": null, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}
+FAIL [CAFE_NOCAFE] ② 沒去咖啡廳：有「（小聲）你先看。哪裡不通直接講。」  （她抬頭看到你，點了一下頭。） （她抬頭看到你，點了一下頭。） 
+PASS [CAFE_NOCAFE] ② 沒去咖啡廳：不提「那天」、不說「賠十倍」  （她抬頭看到你，點了一下頭。） （她抬頭看到你，點了一下頭。） 
+  [ 116.2s] [CAFE_NOCAFE] ② 選項 []（要「「妳寫得出來的。」」「「改天請妳喝咖啡。」」）
+FAIL [CAFE_NOCAFE] ② 沒去咖啡廳：選項是「妳寫得出來的。」／「改天請妳喝咖啡。」  []
+  [ 137.7s] [CAFE_A] ① 小安不在總圖、在場的時段 {"day": -13, "key": "2025-09-03", "h": 16, "zone": "cafe", "act": "read"}
+PASS FAIL_SETUP 檢查：[CAFE_A] ① 掃得到小安在場（非總圖）的時段
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）16.00 時 cafe；[CAFE_A] ① 2-2 talkAn anAfter（第一次在下午那段之後跟她說話）
+PASS FAIL_SETUP 檢查：[CAFE_A] ① afternoonDone、anAfter 還沒說過、cafeView=A  {"key": "2025-09-03", "h": 16.05, "zone": "cafe", "mainDay": 3, "metAn": true, "met_an": true, "anSkipped": false, "anMissed": false, "afternoonDone": true, "plan": "cafe", "companion": null, "cafeView": "A", "choicesCafeView": "A", "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "ACQUAINTANCE", "split": false, "followup": false, "route": null, "jpDep": null, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}
+PASS FAIL_SETUP 檢查：[CAFE_A_22] 小安在場、看得到  {"x": -5.95, "z": 3.95, "lv": 0, "beh": "idle", "pose": "read", "hidden": false, "leaving": false, "name": "沈以安", "label": "和沈以安說話", "talk": true, "dMe": 5.99}
+  [ 153.5s] 「[CAFE_A_22] 和小安說話：他旁邊（第 1 輪）」途中停下（離目標 1.52 m）：條件成立
+  [ 160.5s] [CAFE_A_22] 和小安說話：選項 []；選了 []；台詞 [["", "（她低頭在忙自己的事，沒有注意到你。）"]]
+  [ 160.9s] [CAFE_A_22] 小安：GAME.say [["", "（她低頭在忙自己的事，沒有注意到你。）"]]；observer [["", "（她低頭在忙自己的事，沒有注意到你。）"]]；talk_to {"lines": [["", "（她低頭在忙自己的事，沒有注意到你。）"]], "opts": [], "picked": [], "started": true, "label": "和沈以安說話"}
+FAIL [CAFE_A] ① 那一句演了（anAfter 記上）  {"key": "2025-09-03", "h": 16.13, "zone": "cafe", "mainDay": 3, "metAn": true, "met_an": true, "anSkipped": false, "anMissed": false, "afternoonDone": true, "plan": "cafe", "companion": null, "cafeView": "A", "choicesCafeView": "A", "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "ACQUAINTANCE", "split": false, "followup": false, "route": null, "jpDep": null, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}
+FAIL [CAFE_A] ① cafeView A：她提「不能賠十倍」  （她低頭在忙自己的事，沒有注意到你。） （她低頭在忙自己的事，沒有注意到你。） 
+  [前置／捷徑] [CAFE_A] ②【捷徑】ev_an_report_split 記成演過、拿掉 REPORT_PARTNER 記憶（新局在 meetAn 一定記＝照程式走不到這一場）：{"split": -13, "memBefore": 0, "memAfter": 0, "has": false}
+  [ 161.1s] [CAFE_A] ② 小安在總圖的時段 {"day": -13, "key": "2025-09-03", "h": 9, "zone": "library", "act": "read"}
+PASS FAIL_SETUP 檢查：[CAFE_A] ② 掃得到小安在總圖的時段
+  [前置／捷徑] [前置] 同一份進度跳到 2025-09-03（Y1S1 第 1 週）9.00 時 library；[CAFE_A] ② 2-4 小安在總圖
+PASS FAIL_SETUP 檢查：[CAFE_A] ② 在總圖、ev_an_report_split 演過、沒有 REPORT_PARTNER、followup 還沒演  {"key": "2025-09-03", "h": 9.05, "zone": "library", "mainDay": 3, "metAn": true, "met_an": true, "anSkipped": false, "anMissed": false, "afternoonDone": true, "plan": "cafe", "companion": null, "cafeView": "A", "choicesCafeView": "A", "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "ACQUAINTANCE", "split": true, "followup": false, "route": null, "jpDep": null, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}
+PASS FAIL_SETUP 檢查：[CAFE_A_24] 小安在場、看得到  {"x": -10.55, "z": -0.6, "lv": 0, "beh": "idle", "pose": "read", "hidden": false, "leaving": false, "name": "小安", "label": null, "talk": true, "dMe": 21.83}
+  [ 183.0s] 「[CAFE_A_24] 和小安說話：他旁邊（第 1 輪）」途中：bigmap 開著（遊戲暫停），先關掉
+  [ 192.3s] 「[CAFE_A_24] 和小安說話：他旁邊（第 1 輪）」途中停下（離目標 0.22 m）：（她低頭在忙自己的事，沒有注意到你。）
+  [ 199.2s] [CAFE_A_24] 和小安說話：選項 []；選了 []；台詞 [["", "（她抬頭看到你，點了一下頭。）"]]
+  [ 199.6s] [CAFE_A_24] 小安：GAME.say [["", "（她抬頭看到你，點了一下頭。）"]]；observer [["", "（她抬頭看到你，點了一下頭。）"]]；talk_to {"lines": [["", "（她抬頭看到你，點了一下頭。）"]], "opts": [], "picked": [], "started": true, "label": "和小安說話"}
+FAIL [CAFE_A] ② ev_an_report_followup 演了  {"key": "2025-09-03", "h": 9.21, "zone": "library", "mainDay": 3, "metAn": true, "met_an": true, "anSkipped": false, "anMissed": false, "afternoonDone": true, "plan": "cafe", "companion": null, "cafeView": "A", "choicesCafeView": "A", "zheNoodleDone": false, "anAfter": false, "reportPartner": false, "anStage": "ACQUAINTANCE", "split": true, "followup": false, "route": null, "jpDep": null, "jpRet": null, "rom": {"status": "none", "since": null, "knows": [], "suspicion": 0, "history": []}, "dinner": null, "treat": false, "flightKeys": []}
+FAIL [CAFE_A] ② cafeView A：有「不能讓人因為一個手誤賠十倍」  （她抬頭看到你，點了一下頭。） （她抬頭看到你，點了一下頭。） 
+PASS 沒有 JS 例外  []
+FAILED 8: [CAFE_NOCAFE] ① 那一句演了（anAfter 記上）；[CAFE_NOCAFE] ② ev_an_report_followup 演了；[CAFE_NOCAFE] ② 沒去咖啡廳：有「（小聲）你先看。哪裡不通直接講。」；[CAFE_NOCAFE] ② 沒去咖啡廳：選項是「妳寫得出來的。」／「改天請妳喝咖啡。」；[CAFE_A] ① 那一句演了（anAfter 記上）；[CAFE_A] ① cafeView A：她提「不能賠十倍」；[CAFE_A] ② ev_an_report_followup 演了；[CAFE_A] ② cafeView A：有「不能讓人因為一個手誤賠十倍」
