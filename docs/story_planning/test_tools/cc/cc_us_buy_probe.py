@@ -55,6 +55,10 @@ async def play(pg, cdp, tag, pick, shot):
             log.append(['點', u['choices'][k]])
             await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k + 1)); await pg.wait_for_timeout(700); free = 0; continue
         if u['dlg']:
+            for _w in range(8):   # 字是一個一個出來的：等字不再變長才記（雲端 r1 同一句記成半句＋整句）
+                await pg.wait_for_timeout(250); u2 = await pg.evaluate(UI_JS)
+                if not u2['dlg'] or u2['text'] == u['text']: break
+                u = u2
             key = ('dlg', u['who'], u['text'])
             if key not in seen: seen.add(key); log.append(['對話', (u['who'] + '：' if u['who'] else '') + u['text']])
             await pg.evaluate("GAME.dlgAdvance()"); await pg.wait_for_timeout(450); free = 0; continue
