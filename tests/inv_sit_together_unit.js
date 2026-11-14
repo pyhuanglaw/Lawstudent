@@ -93,7 +93,11 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     { G.invites=JSON.parse(JSON.stringify(saved)); const iv3=G.invites.find(q=>q.id===iv.id); iv3.lead.ph='wait'; G.zone='campus'; G.hour=iv3.h+INV.WAIT_H+0.1;
       const lt=INV.leadTick; INV.leadTick=()=>false; const m0=G.msgs.length; try{ INV.tick(GM); } finally { INV.leadTick=lt; }
       const M=G.msgs.slice(m0).map(m=>m.text);
-      check('8b. 帶路途中走出總圖、外面的事插進來拖過等待時間：cancelled＋「後來作罷了」，不是 missed／「你沒有赴約」',iv3.state==='cancelled'&&!iv3.lead&&M.some(t=>/後來作罷了/.test(t))&&!M.some(t=>/沒有赴約/.test(t)),JSON.stringify({st:iv3.state,M})); } }
+      check('8b. 帶路途中走出總圖、外面的事插進來拖過等待時間：cancelled＋「後來作罷了」，不是 missed／「你沒有赴約」',iv3.state==='cancelled'&&!iv3.lead&&M.some(t=>/後來作罷了/.test(t))&&!M.some(t=>/沒有赴約/.test(t)),JSON.stringify({st:iv3.state,M})); }
+    /* 8c BB_379 STUDY_fix_c_r3 leave（11-14）：走出總圖的時候她那一段路剛好走完（walkTo 放到目的地）→ 在新的區域找椅子（leadRepick）：原本把 iv.lead 清成 noLead，下一格記 missed */
+    { G.invites=JSON.parse(JSON.stringify(saved)); const iv4=G.invites.find(q=>q.id===iv.id); iv4.lead.ph='go'; G.zone='campus'; G.hour=iv4.h+INV.WAIT_H+0.1; const m0=G.msgs.length;
+      INV.leadRepick(GM,iv4,n2); INV.tick(GM); await W(5); const M=G.msgs.slice(m0).map(m=>m.text);
+      check('8c. 換了區域、她那段路才走完（找椅子）：cancelled＋「後來作罷了」，不是 noLead→missed',iv4.state==='cancelled'&&!iv4.lead&&!iv4.noLead&&M.some(t=>/後來作罷了/.test(t))&&!M.some(t=>/沒有赴約/.test(t)),JSON.stringify({st:iv4.state,noLead:iv4.noLead,M})); } }
   /* ---- 4 第二次約：一般句；閉館前：閉館廣播 ---- */
   { const G=setup('2025-09-12',21,'library_hall',hallSeats(),SPAWN); H.FRIEND('heroine_05'); G.flags.libStudy1={heroine_05:1}; const iv=INV.accept(G,'heroine_05','library',G.day,21,{by:'player'}); const n=npc('heroine_05',SPAWN.x+1,SPAWN.z,{beh:'idle'});
     INV.tick(GM); await W(10); const L=iv.lead, her=L&&INV.seatObj(E,L.her);

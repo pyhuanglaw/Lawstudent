@@ -690,7 +690,7 @@ const INV=(function(){
     let tx, tz, lv; if(L.ph==='go'){ const st=S.seatObj(E,L.her); if(!st) return S.leadRepick(GM,iv,n); const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; tx=ap[0]; tz=ap[1]; lv=st.lv|0; }
     else if(L.ph==='look'&&L.look){ tx=L.look.x; tz=L.look.z; lv=L.look.lv|0; } else return false;
     if(n.seat&&GM.standUp) GM.standUp(n); n._ivLead=iv.id; n.beh='idle'; n.frozen=false; n.path=null; n.seatTarget=L.ph==='go'?S.seatObj(E,L.her):null;
-    const gen=GM.loadGen, done=()=>{ if(GM.G!==G||GM.loadGen!==gen||iv.lead!==L||n._ivLead!==iv.id) return; S.leadReached(GM,iv,n); };
+    const gen=GM.loadGen, done=()=>{ if(GM.G!==G||GM.loadGen!==gen||iv.lead!==L||n._ivLead!==iv.id) return; if(L.z&&G.zone!==L.z){ if(iv.state==='accepted') S.leadDrop(GM,iv); return; } S.leadReached(GM,iv,n); };   /* BB_379 STUDY_fix_c_r3 leave（11-14）：玩家走出總圖、換區域的時候她那一段路剛好走完（NPC 拆掉＝walkTo 放到目的地）→ 原本接著 leadReached 在新區域找不到椅子 → leadRepick 把 iv.lead 清掉 → 下一格記成沒赴約。換了區域＝照走出那一區作罷 */
     if(GM.walkTo) Promise.resolve(GM.walkTo(n,tx,tz,{lv})).then(done,e=>console.warn('INV.leadWalk',e));   /* GM.walkTo：走不到或卡住 4 秒（遊戲時間）＝放到目的地，一定會到 */
     else if(!(E.moveTo&&E.moveTo(n,tx,tz,done,lv))){ if(E.placeAt) E.placeAt(n,tx,tz,lv); done(); }
     return true; };
@@ -699,7 +699,7 @@ const INV=(function(){
       if(!st||!me||S.seatBusy(GM,st,n)||S.seatBusy(GM,me,n,true)){ S.leadRepick(GM,iv,n); return; }   /* 走到了才發現被坐走：換下一組 */
       if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose=seatPose(iv.place)||'read'; n.frozen=true; n.beh='idle'; L.ph='wait'; if(GM.setGoal) GM.setGoal('坐到'+nameOf(iv.who)+'旁邊'); return; }
     if(L.ph==='look'){ const pr=S.leadSeats(GM,n,iv,S.sitRule(G,iv)); if(pr){ L.ph='go'; L.her=seatKey(pr.her); L.me=seatKey(pr.me); L.look=null; S.leadWalk(GM,iv,n); return; } L.ph='full'; n.pose=n.idlePose='idle'; } };
-  S.leadRepick=function(GM,iv,n){ const G=GM.G, L=iv.lead, P=S.place(iv.place)||{}, SA=P.sitAt||{}; const pr=S.leadSeats(GM,n,iv,S.sitRule(G,iv));
+  S.leadRepick=function(GM,iv,n){ const G=GM.G, L=iv.lead, P=S.place(iv.place)||{}, SA=P.sitAt||{}; if(L&&L.z&&G.zone!==L.z){ if(iv.state==='accepted') S.leadDrop(GM,iv); return false; }   /* 同上：不在帶路的那一區＝作罷，不清成 noLead（清掉＝下一格記成沒赴約）*/ const pr=S.leadSeats(GM,n,iv,S.sitRule(G,iv));
     if(pr){ L.ph='go'; L.her=seatKey(pr.her); L.me=seatKey(pr.me); return S.leadWalk(GM,iv,n); }
     if(SA.alt&&G.zone===P.zone){ L.ph='full'; L.her=L.me=null; n.seatTarget=null; return true; }   /* 這一層都沒有了：去三樓 */
     iv.lead=null; iv.noLead=1; n._ivLead=null; n.seatTarget=null; return false; };   /* 三樓也沒有：照舊開演（S.autoStart 接手）*/

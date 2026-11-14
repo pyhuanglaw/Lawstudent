@@ -56800,7 +56800,7 @@
      "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA 7758962c2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     }
    ],
-   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。｜02:0x 交班時還沒整合（LAWWW2 已驗收或待驗收）：一盞 v1.1 15124fd457（PASS）；青木（g2，PASS 待整合）；頁間 v4 389adca8c0（待 LAWWW2）；同弦 768816c33c（待 LAWWW2）；glb_coplanar instancing edb96e33ec（待 LAWWW2；之後整合的店要重跑 --coplanar）。g2 唱片 v2／山嵐 v3／單車 v2／Daybreak v2.1b、g3 大口／好拍／大步 v2：腳本好了、沒烘。｜11-14 10:1x：同弦（2139f174de）、頁間 v4（56e023ef7b）、glb_coplanar instancing（c3df27e0c2）已整合；shop_cc0 baseline 剩山嵐、轉角唱片（g2）。"
+   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。｜02:0x 交班時還沒整合（LAWWW2 已驗收或待驗收）：一盞 v1.1 15124fd457（PASS）；青木（g2，PASS 待整合）；頁間 v4 389adca8c0（待 LAWWW2）；同弦 768816c33c（待 LAWWW2）；glb_coplanar instancing edb96e33ec（待 LAWWW2；之後整合的店要重跑 --coplanar）。g2 唱片 v2／山嵐 v3／單車 v2／Daybreak v2.1b、g3 大口／好拍／大步 v2：腳本好了、沒烘。｜11-14 10:1x：同弦（2139f174de）、頁間 v4（56e023ef7b）、glb_coplanar instancing（c3df27e0c2）已整合；shop_cc0 baseline 剩山嵐、轉角唱片（g2）。｜11-14 10:3x LAWWW-C：整合 LAWWW2 驗收 PASS 的轉角唱片 v2（g2）、好拍 v2（g3）＝開發 07bf3613b4；shop_cc0 baseline 只剩山嵐。好拍三角形 57k→77k，請 CC 量手機效能。"
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -57242,6 +57242,59 @@
    "first": {
     "term": "Y1S1",
     "week": 1,
+    "confirmed": false
+   }
+  },
+  {
+   "id": "WINVIEW-ASIAN-DAYNIGHT-1114",
+   "title": "竹葉亞洲超市白天、晚上的窗景一樣",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 11-14（經 LAWWW2-C 10:25）",
+   "note": "D155 第 2 點：有窗的要有白天、晚上各一張窗景。",
+   "first": {
+    "term": "Y4S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "WINVIEW-TREE-BLOB-1114",
+   "title": "afar、日和窗外的樹看起來像綠球",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "BB-C 11-14（經 LAWWW2-C 10:25）",
+   "note": "",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "GATE-BLACK-ARC-1114",
+   "title": "校門的黑色半圓",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "LAWWW2-C 11-14 10:25",
+   "note": "",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "confirmed": false
+   }
+  },
+  {
+   "id": "STUDY-LEAVE-LEADEND-1114",
+   "title": "以安約念書：帶路途中走出總圖仍記 missed（她那段路剛好在換區域時走完）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "BB-C 11-14 10:22（BB_379 6735490ac4，STUDY_fix_c_r3）",
+   "note": "根因：換區域時 NPC 拆掉＝walkTo 放到目的地→leadReached 在新區域找不到椅子→leadRepick 把 iv.lead 清成 noLead→下一格記 missed（70f8f658d4 的保護看 iv.lead，已經被清掉）。修：leadWalk 的 done、leadRepick 開頭看 G.zone!==L.z＝S.leadDrop。tests/inv_sit_together_unit.js 8c（舊碼重現 missed、新碼 cancelled）。請 CC 重跑 STUDY_fix_c（r4 用開發分支）。",
+   "first": {
+    "term": "Y1S1",
     "confirmed": false
    }
   }
