@@ -52,6 +52,7 @@ WIN_LO, WIN_HI = float(os.environ.get('WIN_LO') or '40'), float(os.environ.get('
 ZF_LO, ZF_HI = float(os.environ.get('ZF_LO') or '0.3'), float(os.environ.get('ZF_HI') or '1.5')   # 只當參考（校正 r2）
 BURST_FAIL = int(os.environ.get('BURST_FAIL') or '3')
 NODEBUG = (os.environ.get('NODEBUG') or '0') == '1'
+ORDER_POOR = (os.environ.get('ORDER_POOR') or '') == '1'   # BB-C 01:45：點餐選第一項（不選「不點、要水」）、檢查有扣錢；另外先用 10 元打開選單看錢不夠的選項是不是灰的
 SPAWN = [float(v) for v in (os.environ.get('SPAWN') or '').split(',') if v]   # BB-C 01:32（木曜日 2F）：讀檔站的位置 x,z[,lv]——二樓的店從樓梯間出生，①～③ 鏡頭拍不到店內，改站二樓
 CUST_HOURS = [float(x) for x in (os.environ.get('CUST_HOURS') or '').split(',') if x]; MIN_CUST = int(os.environ.get('MIN_CUST') or 1)   # BB-C 11-14：這幾個時間要看客人（0 人＝FAIL）
 DEBUGTXT_JS = r"""(()=>{ const re=/career\s*A\s*\d|\bA\d+\s+B\d+\s+C\d+\b|\bfps\s*[:=]?\s*\d|\bdraw\s*calls?\b/i, hits=[];
@@ -212,13 +213,33 @@ async def do_func(pg, cdp, tag, rm, zid):
             await L.go_to(pg, cdp, R, ct['x'], ct['z'], 0.8 if k == 0 else 0.5, '%s ⑦ 走到「%s」（第 %d 段）' % (tag, ct['label'], k + 1), max_s=30)
             await pg.wait_for_timeout(600)
         q = await D.st(pg); ok_reach = ok_reach or q['interact'].startswith(ct['label'][:4])
-        said = 0; picked = []
+        said = 0; picked = []; poor = None
+        OPTS_JS = "(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>({t:b.textContent.trim(), dim:!!(b.disabled||b.classList.contains('dim')||b.getAttribute('aria-disabled')==='true')})))()"
+        if ok_reach and ORDER_POOR:   # BB-C 01:45（木曜日）：錢不夠的選項要是灰的——先把錢設成 10 元打開選單記每一項灰不灰，再關掉、錢還原
+            await pg.evaluate("GAME.G.money=10"); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+            for _ in range(10):
+                q = await D.st(pg)
+                if q['choices']: poor = await pg.evaluate(OPTS_JS); await pg.screenshot(path=os.path.join(OUT, '%s_order_poor.png' % tag.strip('[]').replace(' ', '_'))); break
+                if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+                await pg.wait_for_timeout(400)
+            await L.close_panels(pg, cdp)
+            for _ in range(10):
+                q = await D.st(pg)
+                if q['choices']:
+                    k = next((i for i, t in enumerate(q['choices']) if any(w in t for w in ('不點', '算了', '離開', '不用', '返回'))), None)
+                    if k is None: R.note('%s 錢 10 元的選單沒有「不點／算了／離開」可以退出：%s——照實記、讀檔重來' % (tag, J(q['choices']))); break
+                    await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k + 1)); await pg.wait_for_timeout(700); continue
+                if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+                if not q['busy']: break
+                await pg.wait_for_timeout(400)
+            await pg.evaluate("(m=>{ GAME.G.money=m; })", m0); R.note('%s 錢設 10 元時的點餐選單（每一項灰不灰）：%s' % (tag, J(poor)))
+            await L.go_to(pg, cdp, R, ct['x'], ct['z'], 0.6, ct['label'], max_s=60, lv=ct.get('lv', 0)); await D.settle(pg)
         if ok_reach:
             await L.tap(pg, cdp, '#interact'); t0 = time.time()
             while time.time() - t0 < 60:
                 q = await D.st(pg)
                 if q['choices']:
-                    opts = q['choices']; bad = ('不用了', '算了', '離開', '返回', '不買', '下次', '先不要')
+                    opts = q['choices']; bad = ('不用了', '算了', '離開', '返回', '不買', '下次', '先不要', '不點', '要水')   # BB-C 01:45：木曜日「不點、要水」不收錢，不能當點餐
                     k = next((i for i, t in enumerate(opts) if t.startswith('點好了') or t.startswith('結帳')), None) if picked else None
                     if k is None: k = next((i for i, t in enumerate(opts) if not any(t.startswith(b) for b in bad)), 0)
                     picked.append(opts[k]); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k + 1)); await pg.wait_for_timeout(900)
@@ -230,7 +251,11 @@ async def do_func(pg, cdp, tag, rm, zid):
         m1 = await pg.evaluate("GAME.G.money|0")
         ui = await pg.evaluate(UI_JS) if ok_reach and not picked and not said else None
         # PC GATE_CAL_bd86：便利商店按「結帳」沒有出選單也沒有對話＝探針看不懂那個畫面，記下畫面上的字、判 UNKNOWN（交 BB 看圖），不當 FAIL
-        res['order'] = {'reach': ok_reach, 'picked': picked, 'said': said, 'money': [m0, m1], 'ui': ui,
+        if ORDER_POOR and poor is not None:
+            pricey = [o for o in poor if not any(w in o['t'] for w in ('不點', '算了', '離開', '不用', '返回', '要水'))]
+            R.check('%s 錢不夠（10 元）時要花錢的選項是灰的' % tag, bool(pricey) and all(o['dim'] for o in pricey), J(poor))
+        if ORDER_POOR: R.check('%s 點了第一項有扣錢' % tag, m1 < m0, J({'picked': picked, 'money': [m0, m1]}))
+        res['order'] = {'reach': ok_reach, 'picked': picked, 'said': said, 'money': [m0, m1], 'ui': ui, 'poor': poor,
                         'verdict': 'PASS' if ok_reach and (m1 < m0 or said > 0) else ('UNKNOWN' if (not ok_reach or (not picked and not said)) else 'FAIL')}
     else:
         res['order'] = {'verdict': 'UNKNOWN', 'why': '沒有點餐／結帳類的互動點（這間可能不賣東西：交 BB 看）'}
