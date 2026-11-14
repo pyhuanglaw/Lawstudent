@@ -187,3 +187,12 @@
 - **修了哪些**：窗框直框、門邊重複的直框、樓梯口邊、踢腳板、員工通道牆、櫃檯身。
 - **測試**：都 ALL PASS，包括 shop_cc0（兩層都過）、dakou 系列 5 支、xs_lm、xsshop ×2、xs_wincard ×2、shop_real_inside、shop_window ×2、stair_tap、wall_onepass、shop_crowd_new、yue_meal_visible 等 21 支。
 - **畫面**：`dakou_cmp.jpg`，跟第一次交件差不多，看不出疊面修正的差別。v2（層架方塊、桌上的課本、紙袋、筆電）排在同弦後面。
+
+## 一盞 v1.1（g1 3077099179，COPLANAR-CREEP-1114 驛站那一半）——驗收 PASS（11-14 01:5x UTC）
+- **patch**：`yizhan_v11_on_2da495e693.patch`，8 個檔。
+- **改了什麼**：
+  - 電熱水壺抬高 3 mm，不再跟檯面同一個平面。
+  - 和紙吊燈框的橫木比柱子窄 3 mm。
+- **疊面**：先跑 place_gate（不加 --write），新的問題 0；之後 --coplanar --write：always 2.07 → 2.03（回到 4556c4be0c 原本的數字），wall 1.22 沒變。
+- **測試**：都 ALL PASS，包括 shop_cc0、yizhan_place、teahouse ×2、wz_teahouse ×2、wz_real_inside、shop_window ×2。
+- COPLANAR-CREEP-1114 兩半都修完：洋洋已整合 98a1bddf63，一盞是這一包。
