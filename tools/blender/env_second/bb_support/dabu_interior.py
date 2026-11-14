@@ -280,7 +280,11 @@ it = {}
 for i_ in LAY['items']: it.setdefault(i_['kind'], []).append(i_)
 rs = random.Random(77)
 WHITE, CREAM = '#efe9de', '#ecdcc2'
-BOXC = [('#efede7', '#e1ded6'), ('#b9bdc2', '#a9adb3'), ('#5e636b', '#53575e'), ('#c4a27a', '#b5946e')]
+BOXC = [('#efede7', '#e1ded6'), ('#b9bdc2', '#a9adb3'), ('#5e636b', '#53575e'), ('#c4a27a', '#b5946e'), ('#34405e', '#2b3550'), ('#c4583a', '#b04c32')]   # v2：多兩個品牌色（深藍、磚橘）
+# v2（LAWWW2 11-14 P2：鞋盒牆不要一樣大的白方塊）：每個顏色一組 ambientCG Cardboard001（盒身、盒蓋各一個顏色）；盒蓋另外一塊、比盒身大 3 mm；大小、顏色錯開，有的蓋子推開一點
+for ci_, (c0_, c1_) in enumerate(BOXC):
+    M[f'sb{ci_}'] = K.acg(f'{P}shoebox{ci_}', 'Cardboard001', maps=('diff',), vary=0.05, target=c0_, tile=0.3, rough_value=0.8, res=256)
+    M[f'sl{ci_}'] = K.acg(f'{P}shoelid{ci_}', 'Cardboard001', maps=('diff',), vary=0.05, target=c1_, tile=0.3, rough_value=0.8, res=256)
 
 # ---------------- 地板、天花板、外牆 ----------------
 Mesh(P + 'floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
@@ -452,23 +456,29 @@ def box_wall(face, a0, a1, depth, top, sh_n=6):
     def fpt(u, y, d): return (u, y, ZI0 + d) if face == 'back' else ((PX1 + d, y, u) if face == 'side' else (XI1 - d, y, u))
     nrm = {'back': '+z', 'side': '+x', 'right': '-x'}[face]
     nb = max(1, round((a1 - a0) / 0.9)); bw = (a1 - a0) / nb; ys = [0.08 + k * (top - 0.08) / sh_n for k in range(sh_n + 1)]
-    vc.cbox(*T_(a0, a1, 0.0, 0.08, 0.0, depth - 0.03), '#3a3430')
-    for y in ys: wd.rbox(*T_(a0, a1, y - 0.024, y, 0.0, depth), r=0.005, seg=1)
-    for b in range(nb + 1): u = a0 + b * bw; vc.cbox(*T_(u - 0.018, u + 0.018, 0.0, top, 0.0, depth), WHITE)
-    vc.cbox(*T_(a0, a1, 0.08, top, 0.0, 0.01), '#e9dfcf')
+    # v2：整座層架離牆 2 mm（原本背板、直板、層板、踢腳的背面和牆面在同一平面：place_gate 疊面 5.1／4.8／4.5 m²）
+    vc.cbox(*T_(a0, a1, 0.0, 0.08, 0.002, depth - 0.03), '#3a3430')
+    for y in ys: wd.rbox(*T_(a0, a1, y - 0.024, y, 0.002, depth), r=0.005, seg=1)
+    for b in range(nb + 1): u = a0 + b * bw; vc.cbox(*T_(u - 0.018, u + 0.018, 0.0, top, 0.002, depth), WHITE)
+    vc.cbox(*T_(a0, a1, 0.08, top, 0.002, 0.012), '#e9dfcf')
     for b in range(nb):
         for y in ys[:-1]:
             gap = ys[1] - ys[0]; ncol = 3; cw = (bw - 0.04) / ncol
             for c in range(ncol):
                 if rb.random() < 0.06: continue   # 空一格（被拿走了）
                 stack = 2 if gap > 0.3 and rb.random() > 0.3 else 1
-                ci = rb.choice([0, 0, 0, 1, 1, 2, 3]); col = BOXC[ci]; u0 = a0 + b * bw + 0.02 + c * cw + 0.01; u1 = u0 + cw - 0.02
+                u0c = a0 + b * bw + 0.02 + c * cw + 0.01; u1c = u0c + cw - 0.02; yb0 = y
                 for s_ in range(stack):
-                    yb0 = y + s_ * 0.13; dd = depth - 0.03 - rb.uniform(0, 0.025)
-                    if yb0 + 0.125 > y + gap - 0.02: break
-                    vc.cbox(*T_(u0, u1, yb0, yb0 + 0.124, 0.016, dd), col[0])   # 盒身＋盒蓋一個方塊（盒蓋的線畫在標籤上）
-                    uc = (u0 + u1) / 2; cx_, cy_, cz_ = fpt(uc, yb0 + 0.062, dd + 0.0015)
-                    pq(grp, f'boxend{ci + 4 * rb.randrange(4)}', face_quad(cx_, cy_, cz_, u1 - u0 - 0.004, 0.122, nrm), 2)
+                    ci = rb.choice([0, 0, 0, 1, 1, 2, 3, 4, 5]); h_ = rb.uniform(0.1, 0.125); wc_ = rb.uniform(0.0, 0.025)
+                    u0 = u0c + wc_ / 2 + rb.uniform(-0.004, 0.004); u1 = u0 + (u1c - u0c) - wc_
+                    dd = depth - 0.03 - rb.uniform(0, 0.03)
+                    if yb0 + h_ + 0.001 > y + gap - 0.02: break
+                    wm(grp, f'sb{ci}').box(*T_(u0, u1, yb0, yb0 + h_ - 0.028, 0.016, dd))                                  # 盒身
+                    ofs = rb.uniform(0.02, 0.05) if rb.random() < 0.15 else 0.0                                            # 有的蓋子推開一點（店員剛拿過）
+                    wm(grp, f'sl{ci}').box(*T_(u0 - 0.003, u1 + 0.003, yb0 + h_ - 0.03, yb0 + h_, 0.013 + ofs, dd + 0.003 + ofs))   # 盒蓋
+                    uc = (u0 + u1) / 2; cx_, cy_, cz_ = fpt(uc, yb0 + (h_ - 0.03) / 2, dd + 0.0015); hb_ = h_ - 0.034
+                    pq(grp, f'boxend{ci % 4 + 4 * rb.randrange(4)}', face_quad(cx_, cy_, cz_, u1 - u0 - 0.004, hb_, nrm), 2)
+                    yb0 += h_ + 0.004
 
 
 bws = {b['side']: b for b in it['box_wall']}
