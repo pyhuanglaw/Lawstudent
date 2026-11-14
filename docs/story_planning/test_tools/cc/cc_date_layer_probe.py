@@ -206,11 +206,25 @@ async def one(pg, cdp, case):
     await pg.reload(); await L.wait_loaded(pg, 600); await pg.wait_for_timeout(1500); await P.init(pg)   # 11-14 DATE_LAYER_76f8 D01／D12：reload 以後 __BBF 不見了（bbplay 的 helper 要重裝）
     ok = await L.tap(pg, cdp, '#btnContinue'); await pg.wait_for_timeout(6000)
     s1 = await pg.evaluate(STATE); await shot(pg, 'dl_%s_reload.png' % fn)
+    # BB-C 01:00（DATE_LAYER r2 D01／D12 ⑤ TEST_BUG）：讀回來會重新出發、回到選點圖層＝在等玩家點，不是卡住——照玩家點一個點，圖層要收掉、能接著演
+    pick = None
+    hit = await pg.evaluate(WAIT_LAYER, 30000)
+    if hit and not hit.get('menu'):
+        if hit.get('since') is not None and hit['since'] < 400: await pg.wait_for_timeout(420 - hit['since'])
+        c = await pg.evaluate(CENTER, hit['pid']) or hit
+        await shot(pg, 'dl_%s_reload_layer.png' % fn)
+        await L.touch_tap(cdp, c['x'], c['y']); await pg.wait_for_timeout(3000)
+        closed = not await pg.evaluate("!!document.querySelector('#dateLayer .dlHot')")
+        pick = {'pid': hit['pid'], 'closed_after_3s': closed}
+        R.note('%s ⑤ 讀回來出現選點圖層 → 點「%s」→ 3 秒後圖層收掉＝%s' % (tag, hit['pid'], closed))
     after2 = await SP.play(pg, cdp, '%s_reload' % fn, 0, prefer=(), start_s=8, max_s=90)
     s2 = await pg.evaluate(STATE); await shot(pg, 'dl_%s_reload_end.png' % fn)
-    R.note('%s ⑤ 重新整理 →「繼續」（%s）：讀回來 %s；之後照演 %d 句；最後 %s' % (tag, ok, J(s1), len(after2.get('lines') or []), J(s2)))
-    R.check('%s ⑤ 存讀檔以後沒有卡住（沒有留著圖層、對話跑得完、玩家不是一直 busy）' % tag, not s2['layer'] and not s2['busy'] and s2['depth'] == 0, J(s2))
-    res['reload'] = {'before': s0, 'loaded': s1, 'after': after2, 'end': s2}
+    R.note('%s ⑤ 重新整理 →「繼續」（%s）：讀回來 %s；點圖層 %s；之後照演 %d 句；最後 %s' % (tag, ok, J(s1), J(pick), len(after2.get('lines') or []), J(s2)))
+    if pick:
+        R.check('%s ⑤ 讀回來 → 點一個點 → 圖層收掉、能接著演' % tag, pick['closed_after_3s'] and (len(after2.get('lines') or []) > 0 or s2['layer'] or (not s2['busy'] and s2['depth'] == 0)), J([pick, s2]))
+    else:
+        R.check('%s ⑤ 存讀檔以後沒有卡住（沒有留著圖層、對話跑得完、玩家不是一直 busy）' % tag, not s2['layer'] and not s2['busy'] and s2['depth'] == 0, J(s2))
+    res['reload'] = {'before': s0, 'loaded': s1, 'pick': pick, 'after': after2, 'end': s2}
     return res
 
 
