@@ -1810,3 +1810,12 @@
 [18:27:35] ==== START T1_SEED4_FIX_full  (node @ 928690d709ebda924debffc05a2f4fe6e1687d51) ====
 [18:27:38] [res] cpu=4% mem=49% (15.4/31.4 GB) chrome_testing=10  START T1_SEED4_FIX_full
 [18:30:12] [res] cpu=1% mem=45% (14.2/31.4 GB) chrome_testing=5  END LIMAO_PARALLAX_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0d286b7205..f5554275e0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:30:20] ==== END   LIMAO_PARALLAX_r2  exit=1  343s   ====
+[18:30:34] memory 46% before starting SHOP_US_asian_window_r2 (2 running)
+[18:30:34] ==== START SHOP_US_asian_window_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[18:30:37] [res] cpu=0% mem=46% (14.6/31.4 GB) chrome_testing=5  START SHOP_US_asian_window_r2
+[18:30:55] 正在跑：SHOP_US_v2_r2（已跑 10 分／上限 70 分）、T1_SEED4_FIX_full（已跑 3 分／上限 30 分）、SHOP_US_asian_window_r2（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:32:11] [res] cpu=11% mem=45% (14.0/31.4 GB) chrome_testing=5  END SHOP_US_asian_window_r2
