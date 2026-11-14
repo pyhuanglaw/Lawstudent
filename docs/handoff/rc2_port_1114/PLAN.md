@@ -105,3 +105,6 @@
       2 aa519_lines.js
       1 events.js
 ```
+
+## 11-14 10:1x AA 已把 61 個檔分好
+AA 交接紀錄最上面那一節（企劃線 a3d996bfd4）：20 個有匯入工具（每個寫了工具路徑和來源稿：date_lines、syllabus、ladder、invite_replies、solo_before、gift_holiday、activity_scenes、study_scenes、msg_replies、l118_lunch…）＝重跑 importer；41 個手寫（pool_story、enc_walk、kxdrift3d、sup497_lines…）＝加進 aa959.py HAND。注意：date_lines（353 筆）、ladder、syllabus、invite_replies 的來源在企劃線——重跑前確認 importer 最後一步有套 AA959.layer（沒有就先加掛勾）。
