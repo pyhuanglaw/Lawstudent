@@ -43,7 +43,7 @@ const nameOf=id=>(CHARACTERS.find?CHARACTERS.find(c=>c.id===id):(CHARACTERS[id]|
 const paid=(r,name)=>r.ch.filter(([l])=>l===name).map(([,d])=>-d);
 const week=()=>{ H.G.day+=7; };   /* 同一個星期幾（週六），下週再去 */
 const PT=pid=>DATE.points(pid.slice(0,3)).find(p=>p.id===pid);
-const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請。','D13.drink':'這杯我請。不要跟我搶。','D18.teahouse':'這壺茶多少錢？好，不貴，這壺我請。'};   /* 2026-11-12（AA_832@b84e779563）：D18.teahouse 那一句 AA 改了字（同一格、還是她請），S.SHE_PAYS 跟著換。舊期望：'這壺茶多少錢？好，不貴。我請。' */
+const SAY0={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請。','D13.drink':'這杯我請。不要跟我搶。','D18.teahouse':'這壺茶多少錢？好，不貴，這壺我請。'}, SAY={}; for(const k in SAY0) SAY[k]=M959.map(SAY0[k],'date_lines.js','heroine_01');   /* RC2-PORT-DEV-1114：AA_959 又換了 D06.cafe 那一句（date_lines.js、date3d.js 一起換），期望照表 */   /* 2026-11-12（AA_832@b84e779563）：D18.teahouse 那一句 AA 改了字（同一格、還是她請），S.SHE_PAYS 跟著換。舊期望：'這壺茶多少錢？好，不貴。我請。' */
 
 (async()=>{
   await sec(1,async()=>{ const SPY=DATE.SHE_PAYS;
@@ -52,7 +52,7 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
        舊期望：S.SHE_PAYS 的人＝[以安].concat(she_pays.js 的人)、以安只有手寫三格 */
     check('1. S.SHE_PAYS 以安：手寫三個互動點、每個一句（AA_780 的 _meta.she_pays，date3d.js 手寫）在最前面，後面只多 she_pays.js 的以安格（AA_812）；別的人只有 she_pays.js 合進來的那幾個（第 8 節）',J(Object.keys(SPY))===J([AN].concat(Object.keys(SHE_PAYS_DATA.pays).filter(k=>k!==AN)))&&J(Object.keys(SPY[AN]))===J(Object.keys(SAY).concat(Object.keys(SHE_PAYS_DATA.pays[AN]||{})))&&Object.keys(SAY).every(k=>J(SPY[AN][k])===J([SAY[k]])),J(Object.keys(SPY)));
     const all=leaves(NOW,'',{}), want={'D06.cafe':'/remember/lines/0/text','D13.drink':'/normal/2/lines/0/text','D18.teahouse':'/normal/2/lines/0/text'}, bad=[];
-    for(const pid in SAY) for(const s of SPY[AN][pid]){   /* 2026-11-11（AA_812@f1fab0ec6）：只看手寫三格（以安 AA_812 那兩格的位置在 tests/date_she_pays_812_1111_unit.js）。舊期望：SPY[AN] 每一格（那時只有這三格）*/
+    for(const pid in SAY) for(const s_ of SPY[AN][pid]){ const s=M959.unmap(s_,'date_lines.js',AN);   /* NOW 是照覆寫表換回舊字的，S.SHE_PAYS 的句子也換回去再找 */   /* 2026-11-11（AA_812@f1fab0ec6）：只看手寫三格（以安 AA_812 那兩格的位置在 tests/date_she_pays_812_1111_unit.js）。舊期望：SPY[AN] 每一格（那時只有這三格）*/
       const loc=pid.slice(0,3), h=((((NOW.loc[loc]||{}).lines||{})[AN]||{}).hotspots||{})[pid], L=leaves(h,'',{}), at=Object.keys(L).filter(p=>L[p]===s);
       const tot=Object.keys(all).filter(p=>all[p]===s);
       if(at.length!==1) bad.push(pid+' 在她那個互動點底下 '+at.length+' 處');

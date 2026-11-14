@@ -37,7 +37,7 @@ for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*ladder\.js:3 (\S
   for(const r of rows){ const inDrop=DROP.some(([t,s])=>t===r.term&&r.path.split('.')[0]===s)||(r.term==='Y2S1'&&/^S3-L6\.extraIf\[0\]/.test(r.path))||r.nw==='（刪這一格）';
     if(inDrop){ skip.push(r.n); continue; }
     const L661=AA661[r.term+' '+r.path];   /* AA_661（企劃線 5df89d95a，AA 定稿）後來又改的格：遊戲＝AA_661 的字、稿上 AA_584 的改成＝AA_661 的原句 */
-    const v=at(r.term,r.path); if(L661?(v===L661[1]&&r.nw===L661[0]):((v===r.nw||v===require('./aa959_map.js').map(r.nw,'ladder.js','heroine_05')/* AA_959：之後又照覆寫表砍「今天」、拿掉開頭「……」*/)&&DOC.includes(r.nw))) ok++; else bad.push([r.n,r.term,r.path,v,r.nw]); }
+    const v=at(r.term,r.path); if(L661?(v===L661[1]&&r.nw===L661[0]):((v===r.nw||v===require('./aa959_map.js').map(r.nw,'ladder.js','heroine_05')||require('./aa959_map.js').unmap(v,'ladder.js','heroine_05')===r.nw/* RC2-PORT-DEV-1114：同一句舊字在三個地方換成三種新字（表第 461～463 列），從遊戲的字換回去比 *//* AA_959：之後又照覆寫表砍「今天」、拿掉開頭「……」*/)&&DOC.includes(r.nw))) ok++; else bad.push([r.n,r.term,r.path,v,r.nw]); }
   check('1. 刪掉的層、格以外，每一列遊戲資料那個位置＝稿上的「改成」（'+ok+' 列）',bad.length===0&&ok===rows.length-skip.length,J(bad));
   check('1. 在刪掉的層、格裡的列（不用換）：第 5、6、16～25、34、35、38、39、53～57、72～77 列',J(skip.sort((a,b)=>a-b))===J([5,6,16,17,18,19,20,21,22,23,24,25,34,35,38,39,53,54,55,56,57,72,73,74,75,76,77]),J(skip)); }
 

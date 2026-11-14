@@ -33,7 +33,7 @@ const HAND=rows.filter(r=>!isGen(r)&&r.old!==r.nw&&r.n!=='33');
 const AN780={'367':'今天差不多了。再走下去，我會開始看錶。','26':'這樣就回去了？好。排好的那幾個地方不會跑。'};
 { const bad=[]; for(const r of HAND){ const f=fileOf(r.where), nw=AN780[r.n]||r.nw.replace(/^「(.*)」$/,'$1'), old=r.old.replace(/^「(.*)」$/,'$1');
     const has=t=>inLit(CODE[f],t)||inLit(CODE[f],'「'+t+'」');
-    if(!f||!has(nw)) bad.push('#'+r.n+' 改成不在 '+f+'：'+r.nw);
+    if(!f||!(has(nw)||has(require('./aa959_map.js').map(nw,path.basename(f||'')))/* RC2-PORT-DEV-1114：之後又照 AA_959 換的字（date3d.js 第 772 列）*/)) bad.push('#'+r.n+' 改成不在 '+f+'：'+r.nw);
     if(f&&has(old)) bad.push('#'+r.n+' 原句還在 '+f+'：'+r.old);
     if(f&&AN780[r.n]&&(!/date3d\.js$/.test(f)||has(r.nw.replace(/^「(.*)」$/,'$1')))) bad.push('#'+r.n+' AA_780 換掉的那一句（這張表的改成）還在 '+f+'：'+r.nw); }
   check('2. 手抄檔與程式 '+HAND.length+' 列（含使1～使8）：改成是位置欄那個檔的字串常數、原句不在（第 367、26 列 date3d.js 那兩句＝AA_780 再換的字）',HAND.length===43&&!bad.length&&Object.keys(AN780).every(n=>HAND.some(r=>r.n===n)),J({n:HAND.length,bad})); }
