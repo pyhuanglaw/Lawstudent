@@ -436,7 +436,7 @@ const DATE=(function(){
       const t=S.book(G,Object.assign(o,{day:w.day,depart:w.depart,kind:w.kind,by:'player'})); if(!t.ok){ await GM.say(null,t.why||'約不成。'); return null; }
       const ty=S.t7aYes(G,id,only,w.day), wl=!ty&&w.kind!=='overnight'&&typeof WISH!=='undefined'&&WISH.playerLines?WISH.playerLines(G,id,loc):null;   /* 約的是她的心願地點（還沒去過）：她回心願那幾句（知道／還不知道；DATE-C4、C5）*/
       if(ty) await S.sayLines(GM,id,[ty],n); else if(wl) await WISH.sayInvite(GM,id,wl,n); else await S.speak(GM,id,G.flags&&G.flags['dating_'+id]?'acceptDating':'accept',t,n); if(prefOff) await S.speak(GM,id,'transport',t,n);   /* 答應（交往中那一句只給和她交往中的玩家；她在台中、約她來臺中＝T7a 那一句）；改掉她的交通偏好她說一句 */
-      await GM.say(null,'約好了：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+'，'+names+(ov?'（兩天一夜）':'')+'。'); return t; } };
+      await GM.say(null,'約好了：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+'，在'+names+(ov?'（兩天一夜）':'')+'。'); return t; } };
   /* 每 0.5 秒（OUT.tick 呼叫）：一天一次的 daily；出發前 60 分鐘手機提醒（AA_128 4-1）*/
   S.tick=function(GM){ const G=GM&&GM.G; if(!G) return; S.rec(G); if(G.dateLog._daily!==G.day){ G.dateLog._daily=G.day; S.daily(G); }
     if(G.flags&&!G.flags.SIS_EXAM_DONE&&typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey(S.SIS_EXAM_END)&&!S.sisPreexam(G)) G.flags.SIS_EXAM_DONE=true;   /* 學姊研究所筆試考完（2026-02-02 以後）：學姊心願 D15 的條件（wish_bb.json，BB-C 68f18538，取代 SIS_HEALED）*/

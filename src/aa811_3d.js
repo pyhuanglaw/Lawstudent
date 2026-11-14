@@ -81,7 +81,7 @@ const AA811=(function(){
     const D=S.hhDays(G), k=await GM.choose(D.map(d=>({t:S.hhLabel(G,d),hint:S.HH_HINT})).concat([{t:'算了'}])); if(!(k>=0&&k<D.length)) return null; const day=D[k], yes=L().hehuan.accept;
     if(typeof DATE!=='undefined'&&DATE.sayLines) await DATE.sayLines(GM,id,[yes],n); else await GM.say({name:nm(id),charId:id},yes);
     if(!S.hhPlan(G,day)) return null;
-    await GM.say(null,'約好了：'+S.hhLabel(G,day).trim()+' 04:00，'+S.hhTitle()+'。'); if(GM.autosave) GM.autosave(); return day; };
+    await GM.say(null,'約好了：'+S.hhLabel(G,day).trim()+' 04:00，在'+S.hhTitle()+'。'); if(GM.autosave) GM.autosave(); return day; };
   /* 那一天（ev_sis_hehuan 的 beforeOuting）*/
   S.hhBg=k=>{ if(typeof ADV!=='undefined'&&ADV.setBg&&typeof OUT!=='undefined'&&OUT.bg) ADV.setBg(OUT.bg(k)); };
   S.hhLine=async(GM,x)=>{ if(!x||typeof x.text!=='string') return; if(x.speaker) await GM.say({name:nm(x.speaker),charId:x.speaker},x.text); else await GM.say(null,x.text); };

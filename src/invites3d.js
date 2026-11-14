@@ -298,7 +298,7 @@ const INV=(function(){
     const iv={id:'iv'+G.invSeq,who:id,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:o.now?'going':'accepted',accepted:true,by:o.by||'player',now:!!o.now,label:'和'+nameOf(id)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name):P.name)};
     if(o.cat==='study'&&S.catsOf(P).length>1) iv.cat='study';   /* 在「念書」那一類選的（2:30 AM、木曜日這些也能坐坐的地方）；只能念書的地方、其他類不記（存檔欄位不多）*/
     G.invites.push(iv); if(G.invites.length>60){ const keep=G.invites.filter(q=>live(q)); const old=G.invites.filter(q=>!live(q)).slice(-30); G.invites=old.concat(keep); }
-    S.msg(G,id,o.now?'和'+nameOf(id)+'一起'+P.verb+'。':'約好了：'+when(G,day,h)+'，'+P.name+'（'+nameOf(id)+'）。',iv); return iv; };
+    S.msg(G,id,o.now?'和'+nameOf(id)+'一起'+P.verb+'。':'約好了：'+when(G,day,h)+'，在'+P.name+'（'+nameOf(id)+'）。'/* AA_1029 sys：地點前面加「在」（店名接在時間後面像兩個時間，BB-B P3）*/,iv); return iv; };
   S.byId=(G,ivId)=>(G.invites||[]).find(q=>q.id===ivId)||null;
   /* AA_675 1-1（AA_661 第 7 列，企劃線 920791094，AA-C 定 D109）：她寒暑假的平日在老家那個城市（presence 的 vacTown：語彤在淡水），答應臺北的邀約時，答應那一句後面多一句（vacTown.acc，輪流）。
      現在、約的那一天都在那個城市才說（週末她在臺北、C16 那兩週在臺北＝不說）；輪到第幾句記在 G.flags.TOWN_ACC_N（{人物: 次數}；舊存檔沒有＝從第一句）*/

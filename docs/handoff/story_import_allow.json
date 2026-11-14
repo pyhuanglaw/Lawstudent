@@ -11538,6 +11538,42 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "可昕「慢慢分開」同系版：src/kxdrift3d.js 新寫（D0～D6、D1c、她不爽那天、修補期、D6 開學起算 60 天），台詞照第 3 節一字不差；系統字「（不說）」「打給可昕」、地點字幕回報 AA。測試 tests/kx_drift_876_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_1029_sis_self_y1s1.json",
+   "sha": "d1b265d5cd",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-11-14 定稿（BB-B 同意、不用改；D153）",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "json",
+   "note": "學姊大一上講她自己的三則（家族群組）＋「約好了」系統句（分支 claude/cool-heisenberg-o8kuqx）：tools/story/import_self_msgs.py → src/data/self_msgs.js（SELF_MSGS）；播放 src/selfmsgs3d.js。LAWWW-B 2026-11-14 登（AA-1025-1027-INTEG-1114）"
+  },
+  {
+   "path": "docs/story_planning/AA_1030_sis_self_y1s2_y2.json",
+   "sha": "1d2eaeced2",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-11-14 定稿（BB-B 全部同意；D153）",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "json",
+   "note": "學姊大一下～大二下九則（家族群組）（分支 claude/cool-heisenberg-o8kuqx）：tools/story/import_self_msgs.py → src/data/self_msgs.js（SELF_MSGS）；播放 src/selfmsgs3d.js。LAWWW-B 2026-11-14 登（AA-1025-1027-INTEG-1114）"
+  },
+  {
+   "path": "docs/story_planning/AA_1031_zr_zq_self.json",
+   "sha": "6371f44c94",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-11-14 定稿（BB-B 不改字；D153）",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "json",
+   "note": "芷若六則、子晴八則私訊（分支 claude/cool-heisenberg-o8kuqx）：tools/story/import_self_msgs.py → src/data/self_msgs.js（SELF_MSGS）；播放 src/selfmsgs3d.js。LAWWW-B 2026-11-14 登（AA-1025-1027-INTEG-1114）"
+  },
+  {
+   "path": "docs/story_planning/AA_1032_y1s1_w6_9_self.json",
+   "sha": "3abd7e79ef",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-11-14 定稿（BB-B 同意四則不用改；D153）",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "json",
+   "note": "大一上第 6～9 週以安、語彤、芷若、子晴各一則；AA_1031 zr_self_y1s1_1 條件降到 FAMILIAR（分支 claude/cool-heisenberg-o8kuqx）：tools/story/import_self_msgs.py → src/data/self_msgs.js（SELF_MSGS）；播放 src/selfmsgs3d.js。LAWWW-B 2026-11-14 登（AA-1025-1027-INTEG-1114）"
   }
  ]
 }

@@ -79,7 +79,7 @@ const sumAdj=(id,k)=>ADJ.filter(([w])=>w===id).reduce((s,[,d])=>s+(+d[k]||0),0);
     const th=(G.msgs||[]).filter(m=>m.th==='p:'+SIS).map(m=>m.text);
     check('2. 她答應那一句照稿（手機＝「（手機）」＋寫進對話串）',say().includes('好。四點的客運。')&&H.said.some(s=>s.t==='好。四點的客運。'&&/（手機）$/.test(s.who||''))&&th.includes('好。四點的客運。'),J({said:H.said,th}));
     check('2. 排成出遊：6/16 04:00、ev_sis_hehuan、late −0.5、travelH 0.5、noRain、dawn、回到臺北',r===D('2029-06-16')&&!!q2&&q2.day===D('2029-06-16')&&q2.h===4&&q2.late===-0.5&&q2.travelH===0.5&&q2.noRain===true&&q2.dawn===true&&q2.back==='回到臺北。'&&q2.who===SIS&&q2.state==='planned',J(q2));
-    check('2. 「約好了：明天…」系統字（同 DATE.menu）',say().includes('約好了：'+DATE.dayLabel(G,D('2029-06-16')).trim()+' 04:00，合歡山北峰。'),J(say()));
+    check('2. 「約好了：明天…」系統字（同 DATE.menu）',say().includes('約好了：'+DATE.dayLabel(G,D('2029-06-16')).trim()+' 04:00，在合歡山北峰。'/* AA_1029 sys：地點前面加「在」*/),J(say()));
     const o=AA811.hhOffer(G,SIS); check('2. 約好了以後：灰掉「已經約好了」',!!o&&o.dim&&o.why==='已經約好了',J(o));
     H.said=[]; PICKS=['合歡山北峰']; CH=[]; await INV.flow(GM,SIS,null); check('2. 再選一次：說「已經約好了。」、不重複排',say().includes('已經約好了。')&&OUT.rec(G).filter(q=>q.ev==='ev_sis_hehuan').length===1,J(say()));
     const Gf=fresh('2029-06-12',15); sis(Gf); H.said=[]; PICKS=['合歡山北峰',1]; const n={obj:{position:{x:0,y:0,z:0}}};
