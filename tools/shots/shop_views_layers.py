@@ -16,8 +16,11 @@
 拍的是遊戲畫面（Playwright＋SwiftShader），不是照片。1024×512、水平視角 90°（垂直 53.13°）；白天 11:00、晚上 20:30；路人、玩家藏起來。
 用法（先開 http server）：python3 tools/shots/shop_views_layers.py http://127.0.0.1:8765/index.html [名稱...]"""
 import base64, io, json, os, subprocess, sys, tempfile
-import numpy as np
-from PIL import Image
+try:
+    import numpy as np          # 有 numpy 就用原本的寫法
+except ImportError:             # 使用者電腦的 Python 3.15 沒有 numpy（CC-C 11-14 WINVIEW_GG3_1939）：改用下面的純 PIL 版 _matte_pil
+    np = None
+from PIL import Image, ImageFilter
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
@@ -29,8 +32,19 @@ VIEWS = {
     # 公館：近景只收 3.4 m 以下（TOP）——騎樓前緣的梁（2.7 m 外、3.85 m 高）照片只拍到下緣，貼到近景的景深以後變成窗上方一條飄在空中的線
     'noodle': ('gongguan', [-63, 14], [-63.0, 2.1, 21.7], [-63, 2.1, -40], 9.0, 3.4),
     'bookstore': ('gongguan', [-41.6, 14], [-41.6, 2.1, 21.7], [-41.6, 2.1, -40], 9.0, 3.4),
-    'cvs': ('gongguan', [-29.4, 14], [-29.4, 2.1, 21.7], [-29.4, 2.1, -40], 9.0, 3.4),
+    # 公館新店面（GG-SHOPS-REDO-1104，LAWWW2 11-04）：鏡頭在新店面窗的中心（世界 x＝店中心 cx－配置的窗中心 x；房間轉 180°）、高度＝窗中心高（ggRoom 的 winY）
+    #   日和便利店：正面落地窗＋自動門一整片 x −5.3～2.93（配置），中心 −1.19 → 世界 −27.7；winY 1.4（原本舊店面在 −29.4、2.1 m 高）
+    #   11-10（LAWWW2 帳號 A，WINVIEW-AUDIT-1105）：照正式模型 cvs_interior_v2 載入後的視差窗中心再對一次——店內 (−1.18, 1.4, 6.1)、玻璃在店內 z 5.44（視差窗在玻璃外 0.66 m），
+    #   公館 x −28.8 + 1.18＝−27.62、z 22.07 − 0.66＝21.41（原本 21.7 是玻璃內側）。tests/cvs_view_cam_1110_unit.js 比對這一列和遊戲的視差窗。
+    #   照片（assets/models/env/views/cvs_*）還是 10-23 舊店面那個位置拍的，要在遊戲裡重拍（D131：CC 跑 `python3 tools/shots/shop_views_layers.py <網址> cvs`）
+    'cvs': ('gongguan', [-27.6, 14], [-27.62, 1.4, 21.41], [-27.62, 1.4, -40], 9.0, 3.4),
+    #   頁間書屋：窗 x −3.6～5.6（配置），中心 1.0 → 世界 −42.0；窗台 0.55～窗頂 2.85，中心 1.7（原本模型裡是一張靜態圖 WALL_front_VIEW，沒有夜景）
+    'yejian': ('gongguan', [-42.0, 14], [-42.0, 1.7, 21.7], [-42.0, 1.7, -40], 9.0, 3.4),
+    #   青木茶室：窗 x −1.93～1.27（配置），中心 −0.33 → 世界 −51.87；窗台 0.79～窗頂 2.5，中心 1.65（同上，原本是模型裡的靜態圖）
+    'aoki': ('gongguan', [-51.87, 14], [-51.87, 1.65, 21.7], [-51.87, 1.65, -40], 9.0, 3.4),
     'cafe': ('wenzhou', [50, 0], [55.1, 1.9, 0.0], [0, 1.9, 0.0], 7.0),
+    # 日日便利（溫州街 A5）：從溫州街進去的便利商店（cvs 區域、F.CVS_FROM='wenzhou'，AA_413）窗外原本是公館的景；這一張從 A5 的店面玻璃外往溫州街拍（對面是阿忠水果的攤子、半熟）（LAWWW2-B 10-23）
+    'cvs_wz': ('wenzhou', [44, 2.5], [44.0, 1.4, 5.6], [44.0, 1.4, -40], 6.0, 3.4),   # 11-04：高度跟著新的日和便利店室內改成窗中心 1.4（ggRoom 的 winY）
     'wz_lin': ('wenzhou', [36.4, 3.0], [36.45, 1.3, 4.6], [36.45, 1.3, -40], 6.0),
     'wz_teishoku': ('wenzhou', [-2.8, -3.0], [-2.8, 1.25, -4.6], [-2.8, 1.25, 40], 6.0),
     # 118 巷九間店（第二批，LAWWW2-B 10-23）：原本店裡的門外是模型裡一張 Cycles 算圖（WALL_S_view），改成遊戲裡拍的兩層窗景。
@@ -50,6 +64,11 @@ VIEWS = {
     'linze_3f': ('campus', [30, -98], [30.0, 10.5, -101.6], [30, 7.6, -60], 12.0, 40.0),
     'linze_4f': ('campus', [30, -98], [30.0, 14.1, -101.6], [30, 10.6, -60], 12.0, 40.0),
     'linze_5f': ('campus', [24, -98], [24.4, 17.7, -101.6], [24.4, 9.0, -60], 12.0, 40.0),
+    # 總圖研究小間（2F 東側，閱讀角的窗）、5F 書庫（南牆一排窗）：CLOSED-SPACES-1023 第 3 項（LAWWW2-B 10-23）。
+    #   總圖外觀 CK.hall 放在 (100, 0)、轉 −90°：大廳的 +z（正面）＝校園 −x（椰林大道）、大廳的 +x＝校園 +z（南側的草地、系館）。
+    #   研究小間：南側立面外 0.5 m、二樓的眼睛高（5.0＋1.65），往南；5F 書庫：正面立面外（門廊北邊、避開塔樓），5F 的眼睛高（4.3×3＋5.0＋1.6＝19.5），往西看椰林大道
+    'library_carrels': ('campus', [95, 20], [95.0, 6.65, 30.6], [95.0, 5.5, 80], 12.0, 40.0),
+    'library_stacks': ('campus', [80, 10], [86.4, 19.5, -9.0], [30.0, 15.0, -9.0], 10.0, 40.0),
 }
 # 近景邊緣淡出（上緣、左右各佔畫面的比例）：霖澤館的大樟樹樹冠高過照片上緣（3F 往上 40°，照片只到 22°），
 #   遊戲裡從窗下往上看，近景照片的上緣變成樹冠上一條水平切線（10-23 第一版 3F、4F 都看得到）；改成往上緣慢慢變透明
@@ -97,10 +116,69 @@ def edge_fade(H, W, top, side):
     return fy[:, None] * fx[None, :]
 
 
+def _fade_list(H, W, top, side):
+    """edge_fade 的純 Python 版（一維串列，H×W）"""
+    ss = lambda t: t * t * (3 - 2 * t)
+    cl = lambda t: 0.0 if t < 0 else (1.0 if t > 1 else t)
+    fy = [ss(cl((y + 0.5) / max(1, top * H))) if top > 0 else 1.0 for y in range(H)]
+    fx = [ss(cl(min(x + 0.5, W - 0.5 - x) / max(1, side * W))) if side > 0 else 1.0 for x in range(W)]
+    return [fy[y] * fx[x] for y in range(H) for x in range(W)]
+
+
+def _box(v, W, H, r):
+    """方框模糊的純 Python 版（v 是 H×W 的一維串列；邊緣照 numpy 版 mode='edge' 延伸）。先橫再直，各用一次累加和"""
+    from itertools import accumulate
+    k = 2 * r + 1; t = []
+    for y in range(H):
+        row = v[y * W:(y + 1) * W]; c = [0.0] + list(accumulate([row[0]] * r + row + [row[-1]] * r))
+        t.extend([(c[x + k] - c[x]) / k for x in range(W)])
+    out = [0.0] * (W * H)
+    for x in range(W):
+        col = t[x::W]; c = [0.0] + list(accumulate([col[0]] * r + col + [col[-1]] * r))
+        out[x::W] = [(c[y + k] - c[y]) / k for y in range(H)]
+    return out
+
+
+def _matte_pil(b, w, fade=None):
+    """matte() 不用 numpy 的版本：算法相同（alpha＝1－(白底－黑底) 平均、顏色＝黑底 ÷ alpha、透明處由近到遠填旁邊的顏色）；
+    模糊用 _box（浮點、邊緣延伸），結果和 numpy 版差 1～2 階灰（tests/shop_views_matte_unit.py 比過）"""
+    Wd, H = b.size; n = Wd * H
+    bb = [list(c.getdata()) for c in b.split()]; ww = [list(c.getdata()) for c in w.split()]
+    a = [0.0] * n; F = [[0] * n for _ in range(3)]
+    for i in range(n):
+        ai = 1.0 - ((ww[0][i] - bb[0][i]) + (ww[1][i] - bb[1][i]) + (ww[2][i] - bb[2][i])) / 765.0
+        ai = 0.0 if ai < 0.02 else (1.0 if ai > 1.0 else ai)
+        a[i] = ai
+        if ai > 1e-3:
+            for c in range(3):
+                v = bb[c][i] / max(ai, 1e-3); F[c][i] = 255 if v >= 255 else int(v + 0.5)
+    PA = [[F[c][i] * a[i] for i in range(n)] for c in range(3)]
+    fill = [F[c][:] for c in range(3)]; todo = [i for i in range(n) if a[i] <= 1e-3]
+    for r in (2, 6, 18, 54):                                           # 由近到遠一圈一圈往外填
+        if not todo: break
+        aa = _box(a, Wd, H, r); pa = [_box(PA[c], Wd, H, r) for c in range(3)]
+        left = []
+        for i in todo:
+            if aa[i] > 1e-4:
+                for c in range(3):
+                    v = pa[c][i] / aa[i]; fill[c][i] = 255 if v >= 255 else int(v + 0.5)
+            else:
+                left.append(i)
+        todo = left
+    if fade:
+        fl = _fade_list(H, Wd, *fade); a = [a[i] * fl[i] for i in range(n)]
+    out = []
+    for c in range(3):
+        im = Image.new('L', (Wd, H)); im.putdata(fill[c]); out.append(im)
+    al = Image.new('L', (Wd, H)); al.putdata([int(x * 255) for x in a]); out.append(al)
+    return Image.merge('RGBA', out), sum(a) / n
+
+
 def matte(b, w, fade=None):
     """黑底、白底兩張 → 有透明度的近景（顏色＝黑底 ÷ alpha）。
     透明的地方填上旁邊的顏色（預乘的模糊 ÷ alpha 的模糊）：遊戲取樣時雙線性插值會混到透明像素的顏色，填黑的話邊緣一圈黑邊。
     fade＝(上緣, 左右)：最後把透明度乘上 edge_fade（顏色不動）"""
+    if np is None: return _matte_pil(b, w, fade)
     B = np.asarray(b).astype(np.float32) / 255; W = np.asarray(w).astype(np.float32) / 255
     a = np.clip(1.0 - (W - B).mean(axis=2), 0.0, 1.0)
     a = np.where(a < 0.02, 0.0, a)                                     # 雜訊當成全透明
