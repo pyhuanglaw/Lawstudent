@@ -146,7 +146,7 @@ for k in range(40): xx = cx0 + 0.06 + k * (ct['w'] - 0.12) / 39; xf0.rbox(sh.a('
 sh.a('bulb').box(cx0 + 0.05, cx1 - 0.05, ct['h'] - 0.1, ct['h'] - 0.085, cz1 + 0.02, cz1 + 0.03)                    # 檯面下的燈條
 xf0.rbox(sh.a('vcg'), cx0 - 0.03, cx1 + 0.03, ct['h'] - 0.05, ct['h'], cz0 - 0.02, cz1 + 0.06, r=0.012, seg=1, col=STONE)
 top = ct['h']; m = sh.a('vcm')
-em = Xf(cx0 + 1.2, ct['z'] - 0.05, 0.0, top); vg = sh.a('vcg')                                                      # 雙孔義式咖啡機（v2.1，LAWWW2 11-13：原本是灰方盒＋三個黑點，BB 判 afar 同樣的機器 FAIL）
+em = Xf(cx0 + 1.2, ct['z'] - 0.05, 0.0, top + 0.003); vg = sh.a('vcg')                                                      # 雙孔義式咖啡機（v2.1，LAWWW2 11-13：原本是灰方盒＋三個黑點，BB 判 afar 同樣的機器 FAIL）
 SS, SS2, BK = '#e8e8e6', '#cfcfcb', '#2e2e2e'                                                                            # 不鏽鋼（Metal009）、拉絲深一點的、黑色電木
 for sx in (-0.36, 0.36):
     for sz in (-0.18, 0.14): em.cyl(m, (sx, 0.0, sz), (sx, 0.05, sz), 0.022, col=BK, seg=8)                              # 四支腳

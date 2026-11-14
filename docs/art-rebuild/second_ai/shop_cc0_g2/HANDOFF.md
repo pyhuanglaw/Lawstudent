@@ -5,7 +5,7 @@
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的（P2／P3） |
 |---|---|---|---|---|
 | 青木茶室 aoki | **LAWWW2 PASS**（v2）→ 已轉 LAWWW | 077485f27e | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底 4556c4be0，不帶 cc0_kit.py） | 等 LAWWW 整合 |
-| Daybreak | **LAWWW2 PASS**（v2，已在開發分支）；v2.1（P1）雙孔義式機、磨豆機；**v2.1b** 只留一台磨豆機，等重烘 | 871a6c878（v2.1b 腳本） | 還沒出 | 交件前要修：place_gate --coplanar 擋下門框疊面 always 1.42→1.44（WALL_front_dbk_frame 自己疊自己 @[1.81,0,4.06]），錯開 ≥2 mm 或合成一面再烘；不准 --allow-grow |
+| Daybreak | **LAWWW2 PASS**（v2，已在開發分支）；v2.1（P1）雙孔義式機、磨豆機；**v2.1b** 只留一台磨豆機，等重烘 | 871a6c878（v2.1b 腳本） | 還沒出 | 疊面已修（多出來的不是門框，是新義式機的黑腳貼在吧台面 y=1.0；整台抬 3 mm，always 1.44→1.40 ≤ 基準 1.42）；排在單車 v2 之後烘 |
 | 頁間書屋 yejian | **v4 已交 LAWWW2 驗收**（11-14；小盆栽葉片卡、椅子 walnut_veneer、雙孔義式機、CashRegister_01） | 389adca8c0 | `docs/art-rebuild/second_ai/cc0_g2/yejian_cc0.patch`（底 2da495e69） | 等 LAWWW2 判 |
 | 山嵐書店 shanlan | **自己退回、等重烘**（v2 小盆栽葉片卡、鏡頭換位置；v3 門把改黑鐵：店面牆分組回到 10 個，tests/xs_lm_unit.js 第 4 項） | 16dd002f4（v3 腳本） | 還沒做 | 唱片之後重烘 → 拍、交；7.96 萬面 |
 | 慢輪單車 bike | **LAWWW2 PASS**（v1，LAWWW2 重出 patch 給 LAWWW）；**v2 已建模、拍確認圖中** | a26a2b34d（v2 腳本） | v2 還沒出 | v2：層架方盒減半→印刷包裝盒（自製圖集×Cardboard001）、車燈 4→2、水壺有瓶蓋、Poly Haven tire_pump＋old_tyre；59,746 面；看完確認圖再排烘焙；並排圖加「近看右牆層架」 |
