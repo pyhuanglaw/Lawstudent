@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "CANON458_INV_LIB_r7",
+  "sha": "d5a12a9a626a640470107a20413128f7c4829b3b",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_invite_phone_probe.py",
+  "env": "TAG=c458_lib;ZONE=campus;WHO=kexin;DAY=2026-10-14;HOUR=14;REL=30;PICKS=念書>總圖>今天;ROUTE=travel:library_hall;EXPECT_SIT=總圖好大。我到現在還會走錯邊。;SEAT_R=3;SHA=d5a12a9a626a640470107a20413128f7c4829b3b;SEED_MET=pool_2;ALSO=pool_2;MEET_LEAD=1;FORBID=你們的總圖,妳們的圖書館",
+  "machine": "MSI",
+  "start": "2026-11-14T08:25:15",
+  "end": "2026-11-14T08:30:37",
+  "seconds": 322,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 39,
+    "mem": 60,
+    "used_gb": 19.1,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

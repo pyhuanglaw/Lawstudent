@@ -1,13 +1,3 @@
-[22:25:54] skip GSHOP_flower_old (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
-[22:25:54] skip GUI_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[22:25:54] skip GUI_old (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
-[22:25:54] skip GUI_fix (already done on 0ec32e6f6cc85ba9a9ff68a41ce60d8751a6a2da)
-[22:25:54] skip X276_new (already done on 8c050804c22e6e9b846e5d02b868cefc1a858af1)
-[22:25:54] skip X276_old (already done on 3f6dba142276f8cefcc52570f9b659b930d00861)
-[22:25:54] skip WAKE_a_new2 (already done on 8677568a378f133e45179f251f37f9dfa75943e6)
-[22:25:54] skip WAKE_a_old2 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[22:25:54] skip WW3B_old_n1930 (already done on 1827999fb488a30bdaccedaa1561697b3266a498)
-[22:25:54] skip WW3T_old_n1930 (already done on 1827999fb488a30bdaccedaa1561697b3266a498)
 [22:25:54] skip WW3B_new_n1930 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
 [22:25:54] skip WW3T_new_n1930 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
 [22:25:54] skip TEA2_old (already done on 2d58e8a5209ae061784c20f14dd5de5819b562e6)
@@ -1998,3 +1988,13 @@
 [08:16:54] 正在跑：REL76_social（已跑 112 分／上限 120 分）、FULL_a_76f8（已跑 90 分／上限 200 分）、FULL_b_76f8（已跑 83 分／上限 420 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:21:54] 正在跑：REL76_social（已跑 117 分／上限 120 分）、FULL_a_76f8（已跑 95 分／上限 200 分）、FULL_b_76f8（已跑 88 分／上限 420 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:24:49] [res] cpu=1% mem=52% (16.4/31.4 GB) chrome_testing=10  END REL76_social
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b970389367..852cd3bcca  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:25:02] ==== END   REL76_social  exit=1  7235s  timeout 120 min ====
+[08:25:15] memory 50% before starting CANON458_INV_LIB_r7 (2 running)
+[08:25:15] ==== START CANON458_INV_LIB_r7  (probe @ d5a12a9a626a640470107a20413128f7c4829b3b) ====
+[08:25:18] [res] cpu=3% mem=50% (15.9/31.4 GB) chrome_testing=10  START CANON458_INV_LIB_r7
+[08:25:18] worktree add d5a12a9a626a640470107a20413128f7c4829b3b: invalid reference - fetching main and the commit itself
+[08:26:54] 正在跑：FULL_a_76f8（已跑 100 分／上限 200 分）、FULL_b_76f8（已跑 93 分／上限 420 分）、CANON458_INV_LIB_r7（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:30:37] [res] cpu=3% mem=50% (15.9/31.4 GB) chrome_testing=10  END CANON458_INV_LIB_r7
