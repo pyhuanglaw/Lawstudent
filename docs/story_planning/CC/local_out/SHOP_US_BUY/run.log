@@ -1,0 +1,104 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_us_buy_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHOP_US_BUY\out
+CC SHOP_US_BUY：SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；us_market,us_asian_market 2028-09-16 13.00；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS FAIL_SETUP 檢查：遊戲載入
+  [前置／捷徑] [us_market] 【前置／捷徑】讀檔進 us_market 2028-09-16 13.00 時、美國路線旗標再讀一次、錢設 5000：{"zone": "us_market", "key": "2028-09-16", "wd": 6, "hour": 13.06, "money": 5000, "cart": [], "own": {}, "bag": [], "inUS": true, "last": null}
+PASS [us_market] FAIL_SETUP 檢查：在店裡、人在美國（EXCH.inUS）  {"zone": "us_market", "key": "2028-09-16", "wd": 6, "hour": 13.06, "money": 5000, "cart": [], "own": {}, "bag": [], "inUS": true, "last": null}
+  [  45.1s] [us_market] 貨架 aisle_household 今天賣：[{"id": "usm_tp", "n": "衛生紙（二十四捲）", "usd": 18.99, "p": 608, "kind": "own"}]
+PASS [us_market] FAIL_SETUP 檢查：貨架 aisle_household 有 usm_tp  [{"id": "usm_tp", "n": "衛生紙（二十四捲）", "usd": 18.99, "p": 608, "kind": "own"}]
+PASS [us_market] ① FAIL_SETUP 檢查：有互動點 aisle_household
+  [  59.5s] 到達「[us_market] ① 走到「第 7 走道：日用品」」附近（0.16 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS [us_market] ① FAIL_SETUP 檢查：走到以後互動鍵是「第 7 走道：日用品」（aisle_household）  {"it": "aisle_household", "shown": true}
+  [  66.3s] [us_market] ①    對話：日用品。衛生紙一串二十四捲。
+  [  66.3s] [us_market] ①    對話：（衛生紙二十四捲。冰箱門上的輪值表，這個月輪到你買。）
+  [  66.3s] [us_market] ①    選單：["衛生紙（二十四捲） $18.99", "不用了"]
+  [  66.3s] [us_market] ①    點：衛生紙（二十四捲） $18.99
+PASS [us_market] ① 貨架選單有「衛生紙（二十四捲）」、選了以後進推車（錢沒扣）  {"cart": ["usm_tp"], "money": [5000, 5000]}
+PASS [us_market] ② FAIL_SETUP 檢查：有互動點 checkout
+  [  75.3s] 到達「[us_market] ② 走到「結帳」」附近（0.16 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+PASS [us_market] ② FAIL_SETUP 檢查：走到以後互動鍵是「結帳」（checkout）  {"it": "checkout", "shown": true}
+  [  83.5s] [us_market] ②    對話：收銀員：嗨，今天過得怎麼樣？找到你要的東西了嗎？
+  [  83.5s] [us_market] ②    選單：["結帳 衛生紙（二十四捲） 共 $18.99（608 元）", "不用了"]
+  [  83.5s] [us_market] ②    點：結帳 衛生紙（二十四捲） 共 $18.99（608 元）
+  [  83.5s] [us_market] ②    對話：收銀員：要袋子嗎？一個十分錢。
+  [  83.5s] [us_market] ②    選單：["要 $0.10", "不用了"]
+  [  83.5s] [us_market] ②    點：不用了
+  [  83.5s] [us_market] ②    對話：收銀員：祝你有美好的一天。
+  [  83.8s] [us_market] ② 錢 5000 → 4392（扣 608）；推車 ["usm_tp"] → []；物品 {} → {"usm_tp": 1}；包包 [] → []；USMKT.last {"zone": "us_market", "day": 1096, "items": ["usm_tp"], "total": 608}
+PASS [us_market] ② 結帳扣了錢、推車清空  [5000, 4392, []]
+PASS [us_market] ② usm_tp 進「物品」（G.flags.GG3_OWN.us_market）  [{}, {"usm_tp": 1}]
+  [前置／捷徑] [us_market] ③ 【前置／捷徑】讀檔進 us_market 2028-09-16 13.00 時、美國路線旗標再讀一次、錢設 10：{"zone": "us_market", "key": "2028-09-16", "wd": 6, "hour": 13.07, "money": 10, "cart": [], "own": {}, "bag": [], "inUS": true, "last": {"zone": "us_market", "day": 1096, "items": ["usm_tp"], "total": 608}}
+PASS [us_market] ③ FAIL_SETUP 檢查：在店裡、人在美國（EXCH.inUS）  {"zone": "us_market", "key": "2028-09-16", "wd": 6, "hour": 13.07, "money": 10, "cart": [], "own": {}, "bag": [], "inUS": true, "last": {"zone": "us_market", "day": 1096, "items": ["usm_tp"], "total": 608}}
+PASS [us_market] ③ FAIL_SETUP 檢查：貨架 produce 有 usm_banana、價錢比 10 元貴  [{"id": "usm_apple", "n": "蘋果（一袋）", "usd": 4.99, "p": 160, "kind": "eat"}, {"id": "usm_banana", "n": "香蕉（一串）", "usd": 1.49, "p": 48, "kind": "eat"}]
+PASS [us_market] ③ FAIL_SETUP 檢查：有互動點 produce
+  [ 155.5s] 到達「[us_market] ③ 走到「蔬果」」附近（0.23 m）：點地面 20 次、轉鏡頭 0 次、搖桿 1 次，60 秒
+PASS [us_market] ③ FAIL_SETUP 檢查：走到以後互動鍵是「蔬果」（produce）  {"it": "produce", "shown": true}
+  [ 162.2s] [us_market] ③ 貨架    對話：蔬果區。蘋果有六種，青菜你只認得幾種。
+  [ 162.2s] [us_market] ③ 貨架    選單：["蘋果（一袋） $4.99", "香蕉（一串） $1.49", "不用了"]
+  [ 162.2s] [us_market] ③ 貨架    點：香蕉（一串） $1.49
+  [ 162.2s] [us_market] ③ 貨架    選單：["蘋果（一袋） $4.99", "不用了 推車：香蕉（一串） 共 $1.49"]
+  [ 162.2s] [us_market] ③ 貨架    點：不用了 推車：香蕉（一串） 共 $1.49
+PASS [us_market] ③ FAIL_SETUP 檢查：有互動點 checkout
+  [ 172.6s] 到達「[us_market] ③ 走到「結帳」」附近（0.19 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [us_market] ③ FAIL_SETUP 檢查：走到以後互動鍵是「結帳」（checkout）  {"it": "checkout", "shown": true}
+  [ 179.1s] [us_market] ③ 結帳    對話：收銀員：嗨，今天過得怎麼樣？找到你要的東西了嗎？
+  [ 179.1s] [us_market] ③ 結帳    選單：["結帳 香蕉（一串） 共 $1.49（48 元）", "不用了"]
+  [ 179.1s] [us_market] ③ 結帳    點：結帳 香蕉（一串） 共 $1.49（48 元）
+  [ 179.1s] [us_market] ③ 結帳    對話：（卡刷不過。你把最貴的那一樣拿給收銀員，請她先拿掉。）
+  [ 179.4s] [us_market] ③ 錢 10 → 10；推車 ["usm_banana"] → []
+PASS [us_market] ③ 錢不夠：有說一句（對話）、錢沒有變成負的  [["對話", "收銀員：嗨，今天過得怎麼樣？找到你要的東西了嗎？"], ["選單", ["結帳 香蕉（一串） 共 $1.49（48 元）", "不用了"]], ["點", "結帳 香蕉（一串） 共 $1.49（48 元）"], ["對話", "（卡刷不過。你把最貴的那一樣拿給收銀員，請她先拿掉。）"]]
+  [前置／捷徑] [us_asian_market] 【前置／捷徑】讀檔進 us_asian_market 2028-09-16 13.00 時、美國路線旗標再讀一次、錢設 5000：{"zone": "us_asian_market", "key": "2028-09-16", "wd": 6, "hour": 13.07, "money": 5000, "cart": [], "own": {}, "bag": [], "inUS": true, "last": {"zone": "us_market", "day": 1096, "items": ["usm_tp"], "total": 608}}
+PASS [us_asian_market] FAIL_SETUP 檢查：在店裡、人在美國（EXCH.inUS）  {"zone": "us_asian_market", "key": "2028-09-16", "wd": 6, "hour": 13.07, "money": 5000, "cart": [], "own": {}, "bag": [], "inUS": true, "last": {"zone": "us_market", "day": 1096, "items": ["usm_tp"], "total": 608}}
+  [ 202.0s] [us_asian_market] 貨架 asia_sauce 今天賣：[{"id": "usa_soy", "n": "醬油", "usd": 4.49, "p": 144, "kind": "own"}, {"id": "usa_satay", "n": "沙茶醬", "usd": 5.99, "p": 192, "kind": "own"}]
+PASS [us_asian_market] FAIL_SETUP 檢查：貨架 asia_sauce 有 usa_soy  [{"id": "usa_soy", "n": "醬油", "usd": 4.49, "p": 144, "kind": "own"}, {"id": "usa_satay", "n": "沙茶醬", "usd": 5.99, "p": 192, "kind": "own"}]
+PASS [us_asian_market] ① FAIL_SETUP 檢查：有互動點 asia_sauce
+  [ 206.2s] 到達「[us_asian_market] ① 走到「醬料（第 2 排）」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [us_asian_market] ① FAIL_SETUP 檢查：走到以後互動鍵是「醬料（第 2 排）」（asia_sauce）  {"it": "asia_sauce", "shown": true}
+  [ 212.6s] [us_asian_market] ①    對話：醬料。醬油有五種，沙茶醬只剩最後一罐。
+  [ 212.6s] [us_asian_market] ①    選單：["醬油 $4.49", "沙茶醬 $5.99", "不用了"]
+  [ 212.6s] [us_asian_market] ①    點：醬油 $4.49
+  [ 212.6s] [us_asian_market] ①    選單：["沙茶醬 $5.99", "不用了 推車：醬油 共 $4.49"]
+  [ 212.6s] [us_asian_market] ①    點：不用了 推車：醬油 共 $4.49
+PASS [us_asian_market] ① 貨架選單有「醬油」、選了以後進推車（錢沒扣）  {"cart": ["usa_soy"], "money": [5000, 5000]}
+PASS [us_asian_market] ② FAIL_SETUP 檢查：有互動點 asia_checkout
+  [ 271.8s] 到達「[us_asian_market] ② 走到「結帳櫃台」」附近（0.23 m）：點地面 19 次、轉鏡頭 1 次、搖桿 1 次，59 秒
+PASS [us_asian_market] ② FAIL_SETUP 檢查：走到以後互動鍵是「結帳櫃台」（asia_checkout）  {"it": "asia_checkout", "shown": true}
+  [ 279.6s] [us_asian_market] ②    對話：（櫃台上放著一盤月餅，一顆一顆用小紙盒裝。阿姨：「一顆五塊。再不買就沒了。」）
+  [ 279.6s] [us_asian_market] ②    選單：["月餅 $5.00", "不用了"]
+  [ 279.6s] [us_asian_market] ②    點：月餅 $5.00
+  [ 279.6s] [us_asian_market] ②    對話：阿姨：（櫃台後面的阿姨抬頭看了你一眼。）臺灣來的？
+  [ 279.6s] [us_asian_market] ②    選單：["結帳 醬油、月餅 共 $9.49（304 元）", "不用了"]
+  [ 279.6s] [us_asian_market] ②    點：結帳 醬油、月餅 共 $9.49（304 元）
+  [ 279.6s] [us_asian_market] ②    對話：阿姨：袋子要不要？不用錢。
+  [ 279.9s] [us_asian_market] ② 錢 5000 → 4696（扣 304）；推車 ["usa_soy"] → []；物品 {} → {"usa_soy": 1}；包包 [] → ["usa_mooncake"]；USMKT.last {"zone": "us_asian_market", "day": 1096, "items": ["usa_soy", "usa_mooncake"], "total": 304}
+PASS [us_asian_market] ② 結帳扣了錢、推車清空  [5000, 4696, []]
+PASS [us_asian_market] ② usa_soy 進「物品」（G.flags.GG3_OWN.us_asian_market）  [{}, {"usa_soy": 1}]
+PASS [us_asian_market] ④ 結帳櫃台有月餅那一句、問要不要拿一顆  [["對話", "（櫃台上放著一盤月餅，一顆一顆用小紙盒裝。阿姨：「一顆五塊。再不買就沒了。」）"], ["選單", ["月餅 $5.00", "不用了"]], ["點", "月餅 $5.00"], ["對話", "阿姨：（櫃台後面的阿姨抬頭看了你一眼。）臺灣來的？"], ["選單", ["結帳 醬油、月餅 共 $9.49（304 元）", "不用了"]], ["點", "結帳 醬油、月餅 共 $9.49（304 元）"]]
+PASS [us_asian_market] ④ 月餅買到了、進包包（G.flags.GIFTH.bag）  [[], ["usa_mooncake"], {"zone": "us_asian_market", "day": 1096, "items": ["usa_soy", "usa_mooncake"], "total": 304}]
+  [前置／捷徑] [us_asian_market] ③ 【前置／捷徑】讀檔進 us_asian_market 2028-09-16 13.00 時、美國路線旗標再讀一次、錢設 10：{"zone": "us_asian_market", "key": "2028-09-16", "wd": 6, "hour": 13.07, "money": 10, "cart": [], "own": {}, "bag": [], "inUS": true, "last": {"zone": "us_asian_market", "day": 1096, "items": ["usa_soy", "usa_mooncake"], "total": 304}}
+PASS [us_asian_market] ③ FAIL_SETUP 檢查：在店裡、人在美國（EXCH.inUS）  {"zone": "us_asian_market", "key": "2028-09-16", "wd": 6, "hour": 13.07, "money": 10, "cart": [], "own": {}, "bag": [], "inUS": true, "last": {"zone": "us_asian_market", "day": 1096, "items": ["usa_soy", "usa_mooncake"], "total": 304}}
+PASS [us_asian_market] ③ FAIL_SETUP 檢查：貨架 asia_produce 有 usa_tofu、價錢比 10 元貴  [{"id": "usa_bokchoy", "n": "青江菜", "usd": 2.29, "p": 73, "kind": "eat"}, {"id": "usa_tofu", "n": "豆腐", "usd": 1.99, "p": 64, "kind": "eat"}]
+PASS [us_asian_market] ③ FAIL_SETUP 檢查：有互動點 asia_produce
+  [ 295.5s] 到達「[us_asian_market] ③ 走到「青菜、豆腐」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [us_asian_market] ③ FAIL_SETUP 檢查：走到以後互動鍵是「青菜、豆腐」（asia_produce）  {"it": "asia_produce", "shown": true}
+  [ 301.9s] [us_asian_market] ③ 貨架    對話：青菜、豆腐。有青江菜和空心菜，豆腐一盒一盒冰著。
+  [ 301.9s] [us_asian_market] ③ 貨架    選單：["青江菜 $2.29", "豆腐 $1.99", "不用了"]
+  [ 301.9s] [us_asian_market] ③ 貨架    點：豆腐 $1.99
+  [ 301.9s] [us_asian_market] ③ 貨架    選單：["青江菜 $2.29", "不用了 推車：豆腐 共 $1.99"]
+  [ 301.9s] [us_asian_market] ③ 貨架    點：不用了 推車：豆腐 共 $1.99
+PASS [us_asian_market] ③ FAIL_SETUP 檢查：有互動點 asia_checkout
+  [ 363.7s] 走不到「[us_asian_market] ③ 走到「結帳櫃台」」：最後位置 (-5.65,4.79)，目標 (-4.07,4.65)；點地面 19 次、轉鏡頭 1 次、搖桿 1 次
+  [ 363.7s]   這段時間：畫面 3693 格／62 秒、遊戲時間 13.12→13.53、paused=False、開著的面板 []
+  [ 365.2s] [us_asian_market] ③ 點地沒走到，改推搖桿：{"ok": true, "t": 0.6, "pushes": 1, "by": "互動鍵＝結帳櫃台", "why": null}
+PASS [us_asian_market] ③ FAIL_SETUP 檢查：走到以後互動鍵是「結帳櫃台」（asia_checkout）  {"it": "asia_checkout", "shown": true}
+  [ 373.4s] [us_asian_market] ③ 結帳    對話：（櫃台上放著一盤月餅，一顆一顆用小紙盒裝。阿姨：「一顆五塊。再不買就沒了。」）
+  [ 373.4s] [us_asian_market] ③ 結帳    選單：["月餅 $5.00", "不用了"]
+  [ 373.4s] [us_asian_market] ③ 結帳    點：不用了
+  [ 373.4s] [us_asian_market] ③ 結帳    對話：阿姨：（櫃台後面的阿姨抬頭看了你一眼。）臺灣來的？
+  [ 373.4s] [us_asian_market] ③ 結帳    選單：["結帳 豆腐 共 $1.99（64 元）", "不用了"]
+  [ 373.4s] [us_asian_market] ③ 結帳    點：結帳 豆腐 共 $1.99（64 元）
+  [ 373.4s] [us_asian_market] ③ 結帳    對話：阿姨：（阿姨看了看你手上的錢。）先拿便宜的，其他下次。
+  [ 373.7s] [us_asian_market] ③ 錢 10 → 10；推車 ["usa_tofu"] → []
+PASS [us_asian_market] ③ 錢不夠：有說一句（對話）、錢沒有變成負的  [["對話", "（櫃台上放著一盤月餅，一顆一顆用小紙盒裝。阿姨：「一顆五塊。再不買就沒了。」）"], ["選單", ["月餅 $5.00", "不用了"]], ["點", "不用了"], ["對話", "阿姨：（櫃台後面的阿姨抬頭看了你一眼。）臺灣來的？"], ["選單", ["結帳 豆腐 共 $1.99（64 元）", "不用了"]], ["點", "結帳 豆腐 共 $1.99（64 元）"], ["對話", "阿姨：（阿姨看了看你手上的錢。）先拿便宜的，其他下次。"]]
+PASS 沒有 pageerror／JS 例外  []
+ALL PASS
