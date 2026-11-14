@@ -1,12 +1,3 @@
-[22:25:57] skip NM_ring_new (already done on e8918a0135d6e003d5d0486795e6a15917923d17)
-[22:25:57] skip NM_ring_old (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:57] skip NM_shots_r3 (already done on e8918a0135d6e003d5d0486795e6a15917923d17)
-[22:25:57] skip NM_tbl_edge_r2 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:57] skip NM_shots_a_r2 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:57] skip NM_shots_b_r2 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:57] skip NM_shots_c_r2 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:57] skip NM_walk_new_r2 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:57] skip NM_oldfps_new_r2 (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
 [22:25:57] skip NM2_open1_new (already done on e8918a0135d6e003d5d0486795e6a15917923d17)
 [22:25:57] skip NM2_open2_new (already done on e8918a0135d6e003d5d0486795e6a15917923d17)
 [22:25:57] skip NM2_closedbg_new (already done on e8918a0135d6e003d5d0486795e6a15917923d17)
@@ -1998,3 +1989,12 @@
 [09:37:02] ==== START L118_CAM36_a_r4  (probe @ d8d3a61b5e69123c69f06705a136f8442bed877a) ====
 [09:37:05] [res] cpu=0% mem=44% (13.9/31.4 GB) chrome_testing=10  START L118_CAM36_a_r4
 [09:41:15] [res] cpu=2% mem=43% (13.6/31.4 GB) chrome_testing=10  END DATE_LAYER_76f8_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       205ad43230..c729f84db7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:41:36] ==== END   DATE_LAYER_76f8_r3  exit=1  624s   ====
+[09:41:47] memory 43% before starting YIZHAN_DINE_0c49_r2 (2 running)
+[09:41:47] ==== START YIZHAN_DINE_0c49_r2  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
+[09:41:50] [res] cpu=38% mem=43% (13.7/31.4 GB) chrome_testing=10  START YIZHAN_DINE_0c49_r2
+[09:41:54] 正在跑：GATE2_MOKUYOBI_2F_r2（已跑 7 分／上限 25 分）、L118_CAM36_a_r4（已跑 4 分／上限 60 分）、YIZHAN_DINE_0c49_r2（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:42:30] [res] cpu=15% mem=42% (13.4/31.4 GB) chrome_testing=9  END GATE2_MOKUYOBI_2F_r2
