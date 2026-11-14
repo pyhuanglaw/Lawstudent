@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "ROMTIER_b2_zhe",
+  "sha": "bc53f04880ff16ba82a1c6aece2dba814c63eff3",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_invite_phone_probe.py",
+  "env": "TAG=romtier_b2;ZONE=gongguan;WHO=zhe;DAY=2026-10-14;HOUR=17.5;REL=65;PICKS=吃飯>燒臘>今天;ROUTE=travel:noodle;ARRIVE_LOG=30;SLEEP_CHECK=1;REL_TRACK=zhe;SHA=bc53f04880ff16ba82a1c6aece2dba814c63eff3",
+  "machine": "MSI",
+  "start": "2026-11-14T10:30:29",
+  "end": "2026-11-14T10:33:33",
+  "seconds": 184,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 26,
+    "mem": 50,
+    "used_gb": 15.7,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

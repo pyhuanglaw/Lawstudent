@@ -1,12 +1,3 @@
-[22:25:59] skip GOCLASS_guard_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:59] skip GOCLASS_phone_close2_new (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
-[22:25:59] skip GOCLASS_phone_close2_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:59] skip GOCLASS_phone_reply_new (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
-[22:25:59] skip GOCLASS_phone_reply_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:59] skip GOCLASS_repro_new (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
-[22:25:59] skip GOCLASS_repro_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:59] skip GOCLASS_userview_new (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
-[22:25:59] skip GOCLASS_userview_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
 [22:25:59] skip PACK7_ss_front (already done on b942470ff1f83b0fb577f32d6be582ac106988d5)
 [22:25:59] skip CLASS12_const_a (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
 [22:25:59] skip CLASS12_const_b (already done on 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397)
@@ -1998,3 +1989,12 @@
 [10:30:29] ==== START ROMTIER_b2_zhe  (probe @ bc53f04880ff16ba82a1c6aece2dba814c63eff3) ====
 [10:30:31] [res] cpu=15% mem=43% (13.6/31.4 GB) chrome_testing=10  START ROMTIER_b2_zhe
 [10:31:24] [res] cpu=16% mem=46% (14.6/31.4 GB) chrome_testing=9  END ROMTIER_b1_twice
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       17dc7fdc09..6ef92a3116  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:31:36] ==== END   ROMTIER_b1_twice  exit=1  227s   ====
+[10:31:39] memory 47% before starting REL76_save_v95_r5 (2 running)
+[10:31:39] ==== START REL76_save_v95_r5  (game @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[10:31:42] [res] cpu=6% mem=46% (14.8/31.4 GB) chrome_testing=9  START REL76_save_v95_r5
+[10:31:55] 正在跑：L118_CAM36_c_r4（已跑 18 分／上限 60 分）、ROMTIER_b2_zhe（已跑 1 分／上限 25 分）、REL76_save_v95_r5（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:33:33] [res] cpu=19% mem=44% (13.8/31.4 GB) chrome_testing=9  END ROMTIER_b2_zhe
