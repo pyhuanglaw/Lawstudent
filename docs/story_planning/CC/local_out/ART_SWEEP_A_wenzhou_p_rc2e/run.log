@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_closeup_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_SWEEP_A_wenzhou_p_rc2e\out
+CC 店內近照：TAG art_sweep_a_wenzhou_p；SHA 1404d5f2d4cb740d50df75741764be18ee746992；ZONE wenzhou；HOURS [14.0]；CAMS [{"name": "wz_scooter_row", "from": [10.0, 1.6, -0.6], "at": [12.2, 0.6, -3.95], "fov": 45.0}, {"name": "wz_park_overview", "from": [26.0, 1.6, -3.0], "at": [26.0, 2.0, 17.0], "fov": 60.0}, {"name": "wz_park_path", "from": [26.0, 1.6, 5.8], "at": [26.0, 1.4, 21.2], "fov": 50.0}, {"name": "wz_park_pathB", "from": [9.2, 1.6, 18.1], "at": [24.0, 1.2, 18.6], "fov": 50.0}]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：CAMS 解析得出來（4 組）  wz_scooter_row@10,1.6,-0.6>12.2,0.6,-3.95@45/wz_park_overview@26,1.6,-3>26,2,17@60/wz_park_path@26,1.6,5.8>26,1.4,21.2@50/wz_park_pathB@9.2,1.6,18.1>24,1.2,18.6@50
+  [前置／捷徑] [wenzhou 1400] 【前置／捷徑】讀檔進 wenzhou 2025-10-22 14.00 時（出生點）
+PASS FAIL_SETUP 檢查：[wenzhou 1400] 讀檔以後真的在 wenzhou  wenzhou
+  [  58.8s] [wenzhou 1400] 近照「wz_scooter_row」相機 [10.0, 1.6, -0.6] → [12.2, 0.6, -3.95]（fov 45.0）：{"magenta_pct": 0, "center_mean": 104.6, "center_sd": 62.4}
+  [  59.0s] [wenzhou 1400] 近照「wz_park_overview」相機 [26.0, 1.6, -3.0] → [26.0, 2.0, 17.0]（fov 60.0）：{"magenta_pct": 0, "center_mean": 82.6, "center_sd": 43.3}
+  [  59.3s] [wenzhou 1400] 近照「wz_park_path」相機 [26.0, 1.6, 5.8] → [26.0, 1.4, 21.2]（fov 50.0）：{"magenta_pct": 0, "center_mean": 67.9, "center_sd": 32.8}
+  [  59.7s] [wenzhou 1400] 近照「wz_park_pathB」相機 [9.2, 1.6, 18.1] → [24.0, 1.2, 18.6]（fov 50.0）：{"magenta_pct": 0, "center_mean": 103.2, "center_sd": 39.4}
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1751,3 +1751,11 @@
 [18:17:37] ==== START ART_SWEEP_A_wenzhou_p_rc2e  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
 [18:17:40] [res] cpu=16% mem=55% (17.2/31.4 GB) chrome_testing=8  START ART_SWEEP_A_wenzhou_p_rc2e
 [18:18:24] [res] cpu=3% mem=51% (16.3/31.4 GB) chrome_testing=8  END ART_SWEEP_A_wenzhou_l_rc2e
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a236c8f914..49a535884d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:18:34] ==== END   ART_SWEEP_A_wenzhou_l_rc2e  exit=0  95s   ====
+[18:18:37] memory 54% before starting KOREA_ORDER_1400_r2 (2 running)
+[18:18:37] ==== START KOREA_ORDER_1400_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[18:18:40] [res] cpu=1% mem=54% (17.2/31.4 GB) chrome_testing=8  START KOREA_ORDER_1400_r2
+[18:19:17] [res] cpu=20% mem=55% (17.2/31.4 GB) chrome_testing=8  END ART_SWEEP_A_wenzhou_p_rc2e
