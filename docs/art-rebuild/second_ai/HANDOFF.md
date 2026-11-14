@@ -11,6 +11,18 @@
 - PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
 
 ### 下一班第一件事（任務 ID，照順序）
+0r. **（11-14 00:5x UTC）疊面**
+  - 大口一樓退回：我先跑了 `--coplanar --write`，把基準蓋掉了。g3 已修（7b0eb8a714），一樓、二樓一起交，patch 要帶 tests/place_gate_coplanar.json。
+  - HOWTO「疊面先查、後寫」已整合（582eb7d807）。工具只准基準變少（8f1b338c22）。
+  - **COPLANAR-CREEP-1114（P3，歸我；g4 已收工 dddc6a19d）**
+    - yizhan 給 g1 下一版修。
+    - yangyang 我自己修。新增的疊面：
+      - plastic_w×plastic_w 0.122 m²，在 [-0.94,0,-1.94]，地上朝上。
+      - plastic_dk×plastic_w 0.135 m²，在 [1.9,0.1,-4.78]，朝 +z；另有 0.036 m²，在 [1.9,0,-5.03]。
+      - metal_m 0.038 m²，在 [3.55,0,-0.65]。
+      - 原本 [-0.4,0,-4.21] 那一對從 0.194 降到 0.036。
+    - 推測：cc0kit `std_route` 把頂點色件依顏色拆成不同材質，同一個物件原本共面的面因此變成兩個網格。
+    - 修法：在 yangyang_interior.py 把那幾件錯開 ≥2 mm，重建、重烘，先跑 place_gate（不加 --write）。等 ggv3 算圖跑完再開工。
 0q. **（11-14 01:1x UTC）** WINVIEW-AUDIT-1105 最後一批（公館安泰、汀州鮮果、榮恩典）交 5be14598a1（`wip/winview_gg3_1114/`）→ 整合後只剩 CC 拍、BB 判。慢輪窗景（984cd2ba8d）、LICENSES 去重（42100c21e1）、慢輪單車 CC0（ccbd520b61）已整合。`--gg-street` 現在有人行道地磚紋。
 0p. **（11-14 00:5x UTC）交件 patch 都在本分支 `claude/focused-cray-c9uwvw`（不是 second-ai-env-art）的 `docs/art-rebuild/second_ai/wip/` 底下。**
   - 已整合（LAWWW-C）：日常失速 v2.1、GG-STREET-TREES 四間窗景（0c49bcf64e，已整合待測試）、洋洋 v2b（d58846ba9a）、L118-SEAT-FIX-1112（總表 b4b3fa3809 改已整合待測試）。
