@@ -13,7 +13,7 @@ PARTS：
       【捷徑：跳日子】每天 23:00 叫 FEED.tick（遊戲睡過、跳時間照原本時間補的同一套）到那天 21:00 → 記 FEED.visible(G) 全部（誰、日期、照片、一句前 30 字以上全文），打開手機動態頁截圖。
       檢查：動態的日期不晚於遊戲日期；每位女主角（heroine_01～05）那一學期至少有一則動態（到那天為止貼出來的）。「講她自己的事」的內容判斷歸 BB（全文都抄）。
   HL3 私訊：不在這支，用 random_play_sim.js --dump-msgs（種子 1、2，2025-09-01～2026-01-31）。
-CC-B 11-14：字幕掛鉤在讀檔前裝；④ 走近 1 m 再看互動鍵。
+CC-B 11-14：④ 認 PRIVTALK.PLACE_EXCEPT；在走的人跟著走再聽；找日子從 day −400 起（遊戲的 day 0＝2025-09-16，大一上第 1、2 週是負的；HL2 Y1S1 找不到第 1 週）；字幕掛鉤在讀檔前裝；④ 走近 1 m 再看互動鍵。
 CC_02 清單 2026-11-14：1✓（日子照遊戲自己的 HCIRCLE.on 掃、動態照 FEED.tick） 2✓（列、句子、同伴、動態全從遊戲資料讀，不寫死句子） 3✓（每一列一個日子：第一個成立的，記下來） 4✓（找她說話照互動鍵、選單照字選「就這樣」） 5✓（go_to 走到她 3 m 外，走不到記下來） 6✓（字幕等 18 秒收齊；讀檔等 6 秒） 7✓（lint） 8✓（字幕用包 GAME.caption 記，不靠輪詢） 9✓（每一列兩張、每一天手機一張） 10✓（讀檔關條件事件、認識同伴） 11✓（SHA 40 碼） 12✓（FAIL_SETUP：區域、HCIRCLE.on、她在） 13✓（走路分段：go_to，途中有對話就停）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=HL1,HL2] [ROWS=c503_4_2,...] [FIX=tests/fixtures/user_save_day51_1110.json] python3 cc_heroine_life1028_probe.py <url> <out>"""
 import os, sys, json, asyncio, math
@@ -37,7 +37,7 @@ APPLY = r"""(async(s)=>{ document.getElementById('titleScreen').classList.add('h
 ROWINFO = r"""((id)=>{ const r=HCIRCLE.row(id); if(!r) return null; return {id:r.id, who:r.who, with:r.with||[], alone:!!r.alone, always:!!r.always, zone:r.zone||null, act:r.act||null, days:r.days||null, from:r.from, to:r.to, terms:r.terms||null,
   speakers:HCIRCLE.speakers(r), lines:(r.lines||[]).map(l=>({id:l.id||null, who:l.id?HCIRCLE.nameOf(l.id):null, label:l.label||null, t:l.t})), heard:r.heard||null}; })"""
 FINDROW = r"""((a)=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday,zone:G.zone}; const r=HCIRCLE.row(a.id); if(!r) return {err:'沒有這一列'}; let tried=0;
-  try{ for(let d=0; d<2600; d++){ const T=CALENDAR.termOf(d); if(!T||T.id!==a.term||(a.w0&&T.week<a.w0)) continue; const wd=CALENDAR.dateOf(d).wd%7; if(r.days&&!r.days.includes(wd)) continue;
+  try{ for(let d=-400; d<2600; d++){ const T=CALENDAR.termOf(d); if(!T||T.id!==a.term||(a.w0&&T.week<a.w0)) continue; const wd=CALENDAR.dateOf(d).wd%7; if(r.days&&!r.days.includes(wd)) continue;
       for(let h=(r.from!=null?r.from:8)+0.25; h<(r.to!=null?r.to:22)-0.2; h+=0.25){ G.day=d; G.weekday=wd; G.hour=h; G.zone=r.zone||G.zone; tried++; let ok=false; try{ ok=HCIRCLE.on(r,G,r.zone); }catch(e){}
         if(ok){ const e=HCIRCLE.heroEnt(r,G); return {day:d, key:CALENDAR.dateOf(d).key, wd, h:+h.toFixed(2), week:T.week, zone:(e&&e.zone)||r.zone, act:e&&e.act||null, tried}; } } } }
   finally{ Object.assign(G,keep); } return {none:true, tried}; })"""
@@ -51,7 +51,7 @@ NPCPOS = r"""((a)=>{ const out={}; for(const id of a.ids){ let n=null; try{ n=HC
   let tog=null; try{ const r=HCIRCLE.row(a.row), hn=HCIRCLE.npcOf(GAME,a.who); tog=hn?!!HCIRCLE.together(GAME,r,hn):null; }catch(e){ tog='ERR '+e.message; }
   let comp=null; try{ const hn=HCIRCLE.npcOf(GAME,a.who); comp=STORY.companyOf?STORY.companyOf(GAME.G,a.who,hn,GAME):null; }catch(e){ comp='ERR '+e.message; }
   const P=GAME.E.player&&GAME.E.player.obj; return {pos:out, together:tog, company:comp, player:P?{x:+P.position.x.toFixed(2), z:+P.position.z.toFixed(2)}:null, heard:((GAME.G.flags||{}).HCIRCLE||{}).heard||null}; })"""
-DAYOF = r"""((a)=>{ for(let d=0; d<2600; d++){ const T=CALENDAR.termOf(d); if(T&&T.id===a.term&&T.week===a.week&&CALENDAR.dateOf(d).wd===a.wd) return {day:d, key:CALENDAR.dateOf(d).key}; } return null; })"""
+DAYOF = r"""((a)=>{ for(let d=-400; d<2600; d++){ const T=CALENDAR.termOf(d); if(T&&T.id===a.term&&T.week===a.week&&CALENDAR.dateOf(d).wd===a.wd) return {day:d, key:CALENDAR.dateOf(d).key}; } return null; })"""
 PREP2 = r"""((a)=>{ const G=GAME.G, H=(typeof DATE!=='undefined'&&DATE.HEROINES)||['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
   G.contacts=G.contacts||{}; G.flags=G.flags||{}; for(const id of H){ G.flags['met_'+id]=true; if(G.contacts[id]==null) G.contacts[id]=a.d0-30; const r=SOCIAL.rel(id); r.fam=Math.max(r.fam,70); r.trust=Math.max(r.trust,55); r.comf=Math.max(r.comf,50); }
   delete G.flags.FEED; const R=FEED.rec(G); R.start=a.d0; return {heroines:H}; })"""
@@ -130,6 +130,12 @@ async def part_hl1(pg, cdp, sv0, res):
             if tgt: break
         if not R.check('FAIL_SETUP 檢查：%s 她旁邊 5 m 內找得到站得住的點' % tag, bool(tgt), J(h)): continue
         await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.4, '%s 走到她旁邊（%.1f m）' % (tag, math.hypot(tgt[0] - h['x'], tgt[1] - h['z'])), max_s=150, lv=h['lv'])
+        if h.get('pose') == 'walk':   # CC-B 11-14（HL1 r2 c503_4_2：兩個人邊走邊講，走到原本的位置時人已經走遠，一句都沒聽到）：在走的就跟著走（每輪重看她在哪、跟到 2.5 m），最多 6 輪，聽到第一句就停
+            for k_ in range(6):
+                if await pg.evaluate("(window.__ccCap||[]).length"): break
+                h2 = (await pg.evaluate(NPCPOS, {'ids': [info['who']], 'who': info['who'], 'row': rid}))['pos'].get(info['who'])
+                if not h2 or not h2.get('vis'): break
+                await L.go_to(pg, cdp, R, h2['x'], h2['z'], 2.5, '%s 跟著她走（第 %d 輪）' % (tag, k_ + 1), max_s=40, lv=h2['lv'], stop=lambda st_: False)
         caps = []; shot_cap = False
         for _ in range(36):
             caps = await pg.evaluate("window.__ccCap||[]")
@@ -158,7 +164,10 @@ async def part_hl1(pg, cdp, sv0, res):
             R.note('%s ④ 一個人的那一列：選單裡「約…」%s（只記，照規格同伴不在＝可以出現）' % (tag, J(inv)))
         else:
             near1 = {c: (round(math.hypot(p['x'] - np1['pos'][info['who']]['x'], p['z'] - np1['pos'][info['who']]['z']), 2) if p and np1['pos'].get(info['who']) else None) for c, p in np1['pos'].items() if c != info['who']}
-            if all(v is not None and v < 3.2 for v in near1.values()):
+            exc_ = await pg.evaluate("((a)=>{ try{ const L=(typeof PRIVTALK!=='undefined'&&PRIVTALK.PLACE_EXCEPT)||[]; const z=GAME.G.zone; const r=L.find(q=>q.who===a.who&&q.zone===z); return r?r.except:[]; }catch(e){ return []; } })", {'who': info['who']})
+            if exc_ and all(c in exc_ for c in near1):   # CC-B 11-14（HL1 r2 c503_6_2）：PRIVTALK.PLACE_EXCEPT（AA_627 P-18／AA_679）——語彤在茶屋、旁邊只有蘇姨＝不算有人，「約她去…」照設計會出
+                R.note('%s ④ 旁邊只有 %s，照 PRIVTALK.PLACE_EXCEPT 不算有人＝「約她去…」照設計可以出（%s）' % (tag, J(exc_), J(inv)))
+            elif all(v is not None and v < 3.2 for v in near1.values()):
                 R.check('%s ④ 同伴在她 3.2 m 內的時候，選單沒有「約她去…」' % tag, not inv, J({'menus': tm['menus'], 'company': np1.get('company'), 'dist': near1}))
             else:
                 R.note('%s ④ 找她說話那時同伴已經不在 3.2 m 內 %s——這一次不判（記下選單 %s）' % (tag, J(near1), J(tm['menus'])))

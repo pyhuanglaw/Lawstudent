@@ -2568,6 +2568,10 @@ LIMAO_DOOR_r2 | c109767aaeeb910d28d9e15b04906a82ea43b7f7 | probe | docs/story_pl
 HL1_CIRCLE_1028_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:1x：AA355_6_sports 一鍵點到開著的手機（goPop 空的）＝TEST_BUG → r2
 AA355_6_sports_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 20 | PARTS=SPORTS;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:2x：HL2 Y1S1 找不到第 1 週（遊戲 day 0＝9/16，第 1 週是負的）＝TEST_BUG → r2 只跑 Y1S1
+HL2_FEED_1028_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 30 | PARTS=HL2;TERMS=Y1S1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:2x：HL1 r2 剩 4_2（走路的兩人沒跟上）、6_2（PLACE_EXCEPT 蘇姨照設計）＝探針 → r3 只跑這兩列
+HL1_CIRCLE_1028_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_6_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 LIMAO_DOOR_r1 | c109767aaeeb910d28d9e15b04906a82ea43b7f7 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 45 | TAG=limao_door_r1;ZONES=tz_limao;HOURS=14,23.5;NODEBUG=1;SIDE_OFF=0.8;SHA=c109767aaeeb910d28d9e15b04906a82ea43b7f7
 # BB-C 10:07（BB_462 220f577bc1 第二層派 CC，P2）：BB-TEST-AA355-358-1021 四支兩路對照，對 main；新探針 cc_aa355_358_probe（第一次跑）
 AA358_21_noodle | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 30 | PARTS=NOODLE;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
