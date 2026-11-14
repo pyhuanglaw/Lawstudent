@@ -20,9 +20,10 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 OUT = os.path.join(ROOT, 'docs', 'handoff', 'history_audit')
 AUDIT = os.path.join(ROOT, 'docs', 'handoff', 'audit_1021')
 MAIN = 'origin/main'
-BB_BRANCHES = ['origin/claude/story-planning', 'origin/claude/wonderful-mayer-7fm9g6', 'origin/claude/story-planning']
+from role_ref import ref as _role_ref   # BRANCH-CLEAN-1114：各職位的分支照 duty.json，不寫死
+BB_BRANCHES = [_role_ref('BB'), 'origin/claude/wonderful-mayer-7fm9g6', _role_ref('AA')]
 BB_FILES = ['docs/story_planning/BB_218_瀏覽器實測紀錄.md']
-ROLE_BRANCH = {'LAWWW': None, 'AA': 'origin/claude/story-planning', 'BB': 'origin/claude/story-planning', 'LAWWW2': 'origin/claude/second-ai-env-art'}
+ROLE_BRANCH = {'LAWWW': None, 'AA': _role_ref('AA'), 'BB': _role_ref('BB'), 'LAWWW2': _role_ref('LAWWW2')}
 TIER_NAME = {1: '正式版已完成且實際驗收', 2: '已實作但尚未實際驗收', 3: '已驗收但尚未發布', 4: '部分完成', 5: '完全未開工', 6: '等待素材或使用者決定', 7: '經確認取消或被取代'}
 PASS_RE = re.compile(r'PASS|通過|✅|ＯＫ|\bOK\b|正常|沒問題|看到了|有出現|GO\b')
 FAIL_RE = re.compile(r'FAIL|NO-GO|沒出現|不見|卡住|錯誤|bug|BUG')
