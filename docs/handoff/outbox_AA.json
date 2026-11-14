@@ -8262,6 +8262,33 @@
    "next": "BB-C 二看 AA_1012 第 2 節、AA_1013 → 清 pendingBB → 交 LAWWW",
    "unfinished": "等 BB 二看",
    "note": "AA_1012 第 1 節是 AA-C 查錯，已更正"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110／去 AI 腔與可昕前提",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "AA_1013 1d5fe9a5fa；AA_1014 774afd5fcf；AA_1015 b45c888f94＋bb6a70b6ec＋c8b70889c8；AA_1016 51fb4b5dc9＋9b76424e21；AA_1017 f5cc38b65d；AA_1018 e12c139df1；AA_1019 f15cef4b36＋f540b2192a；AA_1020 3fab402fb3～4ddef337b4",
+   "files": [
+    "AA_1013",
+    "AA_1014",
+    "AA_1015",
+    "AA_1016",
+    "AA_1017",
+    "AA_1018",
+    "AA_1019",
+    "AA_1020",
+    "AA_959 覆寫表 766 列",
+    "AA_749_termend_kx_v2.json",
+    "AA_709_msg_replies.json",
+    "date_system/lines/D13.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-14T00:33Z",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C 00:30：AA_1015 進 rc2d（對字全對）；其餘排下一版、RC2-PORT-DEV-1114 用最終列數",
+   "noDirectIntegrate": true,
+   "next": "AA_1020 第四批 BB 看完 → 報最終列數給 LAWWW",
+   "unfinished": "AA_1020 第四批待 BB",
+   "note": "BB_465 逐批照用"
   }
  ],
  "items": [
