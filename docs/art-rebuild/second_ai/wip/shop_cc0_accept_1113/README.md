@@ -166,3 +166,15 @@
 - **我改的**：patch 把 bake_xs.sh 的執行權限拿掉了（100755→100644），我改回 755。
 - **畫面**：變化小，見 `haopai_cmp.jpg`。
 - **v2（P2）**：層架上的貨箱還是程式拼的方塊加標籤，改用 Poly Haven 紙箱；冷氣、櫃台下面的收納櫃。
+
+## 木曜日 v2.2（g1 dd0bc769a1）——驗收 PASS（11-14 01:3x UTC）
+- **patch**：`mokuyobi_v22_on_98a1bddf63.patch`，共 12 個檔，順便補上日常失速 v2.1 漏登的 fern_02 一列。
+- **改了什麼**：
+  - 全部小盆栽、層板和書櫃頂上垂下來的葉片卡，換成 Poly Haven planter_pot_clay＋fern_02。
+  - 木樑吊盆盆口那一圈葉片卡拿掉。
+  - 畫面上共 77,732 三角形。
+- **流程**：開發分支的疊面基準不動，先跑 place_gate（不加 --write），沒有新問題，才跑 --coplanar --write 和 --write。
+  - 疊面基準只有 sha1 變：木曜日的 wall 2.62、always 5.54 都沒變；另外好拍的 sha1 本來就沒更新，這次一起補上。
+  - g1 的 patch 裡也改了狀態表和疊面基準，我丟掉，用開發分支的版本重產。
+- **測試**：都 ALL PASS，包括 shop_cc0、木曜日 7 支、cafe 系列、wz_real_inside、shop_window ×2、seat_reach ×3。
+- **畫面**：`mokuyobi_v22_cmp.jpg`。葉片卡變成真的蕨類盆栽，東牆、木樑吊盆、書櫃頂上的差別最明顯。

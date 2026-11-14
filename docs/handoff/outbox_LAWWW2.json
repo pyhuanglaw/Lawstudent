@@ -10311,10 +10311,10 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "b9b69422cd",
    "receiver": "LAWWW-C",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "COPLANAR-CREEP-1114",
    "title": "洋洋鹹酥雞疊面修正：冷飲櫃踢腳板＋底座頂蓋錯開，重建重烘（always 2.25→1.46、wall 0.64→0.53）",
@@ -10325,6 +10325,26 @@
    "at": "2026-11-14T01:15Z",
    "tests": "place_gate 先查後寫 ALL PASS；yangyang、shop_cc0、gg 系列 15 支 ALL PASS",
    "notDone": "LAWWW 整合；yizhan 那半（g1 下一版）",
+   "next": "LAWWW 套 patch",
+   "integrated": "98a1bddf63"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C、幫手 g1",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS 木曜日 v2.2（g1 dd0bc769a1；葉片卡全換 Poly Haven 蕨類盆栽；＋日常失速 fern_02 LICENSES 補登）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/mokuyobi_v22_on_98a1bddf63.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/mokuyobi_v22_cmp.jpg"
+   ],
+   "base": "98a1bddf63",
+   "at": "2026-11-14T01:35Z",
+   "tests": "place_gate 先查後寫、shop_cc0、木曜日 7 支＋cafe 系列 ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判",
    "next": "LAWWW 套 patch"
   }
  ]
