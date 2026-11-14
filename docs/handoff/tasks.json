@@ -164,7 +164,8 @@
    "BADMINTON-CLIP": "LAWWW2 交接檔「BADMINTON-CLIP v4」＝BADMINTON-CLIP-V4-1102 的簡寫（總表有；LAWWW-C 11-12 22:2x 核對）",
    "FAIR-TENT-CAM": "LAWWW2 交接檔裡 FAIR-TENT-CAM-1102 的簡寫（總表有）",
    "INCR-LAWWW2-1104": "LAWWW2 自己的 incr 記帳工作（不是遊戲任務；LAWWW-C 11-12 核對）",
-   "WZ-FRUIT-CLOSED": "LAWWW2 交接檔表外那一行的暫名；總表 ID 是 WZ-FRUIT-CLOSED-1112（LAWWW-C 11-12 22:2x 開）"
+   "WZ-FRUIT-CLOSED": "LAWWW2 交接檔表外那一行的暫名；總表 ID 是 WZ-FRUIT-CLOSED-1112（LAWWW-C 11-12 22:2x 開）",
+   "NO-GO": "BB 交接檔裡的判定用語，不是任務（BB-B 11-14 確認）"
   },
   "offList": [
    {
@@ -57424,7 +57425,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-14 12:2x LAWWW-B】fetch（清掉 7.8 GB 中斷的 tmp_pack）、duty find＝claude/adoring-meitner-mqzst8（seq 155）、ff 合併 c109767aae、rules_sync、duty register。對帳：check 302（多數「等使用者」沒寫原因，上一班同）、duty verify 8（舊帳號分支歷史）、roles 7（表外：LAWWW2 L118-SEAT、LAUNDRY-SEAT-PRIO、WINVIEW-TREE-BLOB、第 39 行；AA K-D3、X5-L2；BB NO-GO——要補 offList／reconcileIgnore）、asks OK、userwork 上一班交代 19 項沒動、loose 22。還沒做：incr、branch_audit --write、check_orphans、place_gate、FACTS.md 讀完、roles 7 項補登。磁碟只剩約 2 GB（.git 很大，不要開 worktree）。下一步照上一班快照：RC2-PORT-DEV-1114 → CI-RED-AA553-CANON4-1114 → CANON-REPO-CLEAN-1114。",
+   "next": "【11-14 12:4x】duty sync 收 LAWWW2-B、AA-B、BB-B、CC-B（五職位帳號 B 值班）。｜【11-14 12:2x LAWWW-B】fetch（清掉 7.8 GB 中斷的 tmp_pack）、duty find＝claude/adoring-meitner-mqzst8（seq 155）、ff 合併 c109767aae、rules_sync、duty register。對帳：check 302（多數「等使用者」沒寫原因，上一班同）、duty verify 8（舊帳號分支歷史）、roles 7（表外：LAWWW2 L118-SEAT、LAUNDRY-SEAT-PRIO、WINVIEW-TREE-BLOB、第 39 行；AA K-D3、X5-L2；BB NO-GO——要補 offList／reconcileIgnore）、asks OK、userwork 上一班交代 19 項沒動、loose 22。還沒做：incr、branch_audit --write、check_orphans、place_gate、FACTS.md 讀完、roles 7 項補登。磁碟只剩約 2 GB（.git 很大，不要開 worktree）。下一步照上一班快照：RC2-PORT-DEV-1114 → CI-RED-AA553-CANON4-1114 → CANON-REPO-CLEAN-1114。",
    "evidence": "duty.json register",
    "sha": null
   },
@@ -57446,6 +57447,89 @@
    },
    "next": "【11-14 12:3x LAWWW-B 唯讀盤點】①內容全在 main（7 條，可刪）：claude/confident-ritchie-8rwh7t、claude/aa959-overlay-wip、claude/readme-1112、worktree-agent-a922d4ff0a6f9fe72、worktree-agent-a029e90a684b6474b、wip/onetap-fav-1103、wip/shop-diners-1103。②整條被後面的班包含（4 條，可刪）：claude/funny-albattani-iawshm、claude/second-ai-env-art ⊂ focused-cray-c9uwvw；claude/story-planning ⊂ magical-albattani／wonderful-mayer；（帳號 C 的 magical-albattani-bk7b4n、wonderful-mayer-7fm9g6 整條在帳號 B 的 cool-heisenberg／elegant-brown 裡，但 duty.json 還登記給帳號 C，等 AA-B、BB-B 登記完再列）。③要先確認的：claude/gha-node-trial（1）、claude/gha-results（4，瀏覽器測試結果）、codex/skills-multi-agent-20261110（3，不是我們的職位推的）、claude/second-ai-env-art-wip-trees（5，10-14 行道樹 WIP）。④保留：main、開發分支、五職位值班分支、cc-local、gha-node-sweep、rc2-76f8-wip／aa959-v505-wip（RC2-PORT 的輸入）、shop-cc0-g1～g4（g2、g3 還有等驗收的）、adoring-meitner-mqzst8（上一任，換班保留）。雲端工作階段刪不了別的分支（D85 第 8 點）；等使用者決定怎麼刪。branch_audit --no-fetch 背景在跑，跑完用 --write 更新 BRANCH_INVENTORY。",
    "sha": null
+  },
+  {
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "維護",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "HANDOFF-RULE-GAPS-1114",
+   "title": "交班規則的漏洞（使用者 11-14 經 LAWWW2-B 轉：「這個交班規則讓你根本就不知道接下來要做什麼的問題你要回報請修改規則的AI修改」）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "【11-14 12:4x LAWWW-B】①已改：CLAUDE.md 最上面「現在接班」「接班」也啟動十四步、沒做完不准回接班確認（D164）。還沒做：②duty register 沒跑 rules_sync／check／roles／asks／userwork／loose 就拒絕、印缺哪幾步 ③交班快照「下一班第一件事」每條必填做法／驗收標準在哪個檔；duty plan 自動列接班帳號上次值班以後新增的 D／HV 和必讀檔 ④check_handoff.py takeover 一次跑完第 1～9 步印一頁摘要。"
+  },
+  {
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "維護",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "GATE-REF-1114",
+   "title": "校門照使用者參考圖改（中間圓弧紅磚門房＋石額「首都帝國大學」、旗桿、花圃、兩側車道、外側石柱＋燈＋鐵門；使用者 11-14 對 LAWWW2-B、BB-B）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "next": "【11-14 LAWWW-B 開 ID】參考圖：claude/elegant-brown-fcos7n 6e4645c097 docs/story_planning/BB_132_refs/ntu_gate_user_ref_1114.webp；LAWWW2-B WIP c24822c9a2（campus_gate.py）。校園建築照 D136：可以部分相同、不照抄。交件後 LAWWW 整合（CK.gate 校園、公館共用，導航 placeGate）、BB 驗收。",
+   "xai": {
+    "spec": "使用者參考圖＋UA-LAWWW2-1114",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同角度疊圖 --mode campus、導航測試、BB ART_APPROVED",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   }
+  },
+  {
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "維護",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "UX-HOME-SUN-SLEEP-1114",
+   "title": "住家裡週日早上就有「睡覺 明天有課：先回宿舍再睡」，按了只是回宿舍沒睡（BB-B P3）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "BB 建議：傍晚以後才出，或白天字改「先回宿舍」。證據 cc-testing 787b7badb cloud_out/WEEKEND_HOME_cloud r1。"
+  },
+  {
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "維護",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "US-MARKET-POOR-1114",
+   "title": "美國超市錢不夠：AA_850 兩句改字（企劃線 0abf87885a）重匯入；草原超市錢不夠整車清掉、和程式開頭寫的不一樣（BB-B／AA-B）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "重跑 tools/story/import_us_markets.py、白名單換 0abf87885a；查 us_markets3d.js 錢不夠的處理。"
   }
  ]
 }
