@@ -116,7 +116,7 @@ ZF_JS = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, W=200, H=Math.ro
   const shot=yaw=>{ cam.position.set(...a.from); cam.rotation.set(0,0,0); cam.lookAt(...a.at); cam.rotateY(yaw); cam.updateMatrixWorld(true); if(z&&z.fadeWalls){ try{ z.fadeWalls(cam,P?P.position:cam.position); if(E.hideFaded) E.hideFaded(); }catch(e){} } r.render(E.scene,cam); g.drawImage(c,0,0,W,H); return g.getImageData(0,0,W,H).data; };
   const out=[]; for(let i=0;i<12;i++){ const b=(i-6)*0.004; const A=shot(b), B=shot(b+0.05*Math.PI/180); let n=0,m=0; for(let y=Math.floor(H*0.15);y<Math.floor(H*0.85);y++) for(let x=Math.floor(W*0.15);x<Math.floor(W*0.85);x++){ const o=(y*W+x)*4; const la=0.299*A[o]+0.587*A[o+1]+0.114*A[o+2], lb=0.299*B[o]+0.587*B[o+1]+0.114*B[o+2]; m++; if(Math.abs(la-lb)>40) n++; } out.push(+(n*100/m).toFixed(3)); }
   if(z&&z.fadeWalls&&E.camera){ try{ z.fadeWalls(E.camera,P.position); if(E.hideFaded) E.hideFaded(); }catch(e){} } r.render(E.scene,E.camera); const s=out.slice().sort((x,y)=>x-y); return {pct:out, median:s[6], max:s[11]}; })"""
-CEIL_JS = r"""(a=>{ const E=GAME.E, rc=new THREE.Raycaster(new THREE.Vector3(a[0],1.6,a[1]), new THREE.Vector3(0,1,0), 0.05, 6); const ex=new Set(); const P=E.player&&E.player.obj; if(P) P.traverse(o=>ex.add(o)); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o));
+CEIL_JS = r"""(a=>{ const E=GAME.E, rc=new THREE.Raycaster(new THREE.Vector3(a[0],(a[2]||0)+1.6,a[1]), new THREE.Vector3(0,1,0), 0.05, 6); const ex=new Set(); const P=E.player&&E.player.obj; if(P) P.traverse(o=>ex.add(o)); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o));
   const hs=rc.intersectObjects(E.scene.children,true).filter(x=>x.object.visible!==false&&!ex.has(x.object)); const h=hs[0];
   const nm=x=>String(x.object.name||(x.object.parent&&x.object.parent.name)||''); const ce=hs.find(x=>/^CEIL_/i.test(nm(x))&&!/light|lamp|glow|fan/i.test(nm(x)));   /* 11-14 BB-C a：白天花板＋燈管被當成天空——射線打到模型的 CEIL_*（不算燈）就以射線為準 */
   return h?{hit:true, d:+h.distance.toFixed(2), name:nm(h).slice(0,30), ceil:ce?{d:+ce.distance.toFixed(2), name:nm(ce).slice(0,30)}:null, hits:hs.slice(0,5).map(x=>[nm(x).slice(0,24),+x.distance.toFixed(2)])}:{hit:false}; })"""
@@ -364,7 +364,11 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         R.check('%s 玩家版畫面上沒有除錯字（career A0 B0 C0 那一類；網址 %s）' % (tag, dbg['url']), not dbg['hits'], J(dbg))
     rm = await pg.evaluate(ROOM_JS); row['room'] = rm
     if not R.check('%s 量得到房間範圍、有門' % tag, bool(rm['box']) and bool(rm['exit']), J(rm)): rows.append(row); return
-    cx, cz = rm['c']; ex, ez = rm['exit']['x'], rm['exit']['z']; dx, dz = cx - ex, cz - ez; m = math.hypot(dx, dz) or 1; ux, uz = dx / m, dz / m
+    cx, cz = rm['c']; ex, ez = rm['exit']['x'], rm['exit']['z']; by = 0.0
+    if len(SPAWN) >= 2:   # BB-C 01:5x（BB_379 木曜日 r2 4_solid TEST_BUG）：二樓的店，①～③ 固定鏡頭改從 SPAWN（二樓）算，高度加上玩家站的那層地板
+        ex, ez = SPAWN[0], SPAWN[1]; by = await pg.evaluate("(()=>{ const P=GAME.E.player&&GAME.E.player.obj; return P?+P.position.y.toFixed(2):0; })()") or 0.0
+        R.note('%s ①～③ 鏡頭從 SPAWN (%.2f, %.2f) 算、地板高 %.2f m（房間中心 %s）' % (tag, ex, ez, by, J(rm['c'])))
+    dx, dz = cx - ex, cz - ez; m = math.hypot(dx, dz) or 1; ux, uz = dx / m, dz / m
     ck = rm['counter'] or {'x': cx + ux * m * 0.8, 'z': cz + uz * m * 0.8, 'label': '（沒有櫃檯類互動點）'}
     # ① 人
     ppl = await pg.evaluate(PEOPLE_JS, rm['counter']); row['m']['people'] = ppl
@@ -386,17 +390,17 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
             except Exception: pass
     row['v']['1b_people_pos'] = 'FAIL' if (ppl.get('clerk_in_furniture') or ppl.get('face_wall')) else ('PASS' if ppl['total'] else 'UNKNOWN')
     await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(400)
-    s1 = await snap(pg, (ex + ux * 1.0, 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8), 66)
+    s1 = await snap(pg, (ex + ux * 1.0, by + 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, by + 1.2, cz + uz * m * 0.8), 66)
     await pg.evaluate(HIDE_PEOPLE + '(true)')   # ⑦b 比色用：同一個鏡頭藏人（XS_REAL r1：進門那張玩家的頭擋在畫面上）
-    s1h = await snap(pg, (ex + ux * 1.0, 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8), 66)
+    s1h = await snap(pg, (ex + ux * 1.0, by + 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, by + 1.2, cz + uz * m * 0.8), 66)
     await pg.evaluate(HIDE_PEOPLE + '(false)')
     await pg.evaluate(HIDE_PEOPLE + '(true)')   # PC GATE_CAL_1cd2：人站在窗前，泰米夜窗深藍只算到 42.9%＝誤判 PASS
-    s2 = await snap(pg, (cx, 1.6, cz), (ex - ux * 2.0, 1.8, ez - uz * 2.0), 60, win=True)
+    s2 = await snap(pg, (cx, by + 1.6, cz), (ex - ux * 2.0, by + 1.8, ez - uz * 2.0), 60, win=True)
     await pg.evaluate(HIDE_PEOPLE + '(false)')
     vx, vz = ex - ck['x'], ez - ck['z']; vm = math.hypot(vx, vz) or 1   # 11-12 BB-C 15:21：改從門口方向看櫃檯（原本往房間中心退 2.5 m，櫃檯離中心 <1 m 時退進後面的牆，19:00 全黑）
     back = min(2.5, max(1.0, vm * 0.8))
-    s3 = await snap(pg, (ck['x'] + vx / vm * back, 1.6, ck['z'] + vz / vm * back), (ck['x'], 1.1, ck['z']), 60)
-    sup = await snap(pg, (cx, 1.6, cz), (cx + 0.01, 8.0, cz + 0.3), 70)
+    s3 = await snap(pg, (ck['x'] + vx / vm * back, by + 1.6, ck['z'] + vz / vm * back), (ck['x'], by + 1.1, ck['z']), 60)
+    sup = await snap(pg, (cx, by + 1.6, cz), (cx + 0.01, by + 8.0, cz + 0.3), 70)
     u5 = await pg.evaluate(GAMECAM)
     a1 = await pg.evaluate(ANA_JS, {'u': s1['u']}); a2 = await pg.evaluate(ANA_JS, {'u': s2['u'], 'rects': s2['rects']}); a3 = await pg.evaluate(ANA_JS, {'u': s3['u']})
     aup = await pg.evaluate(ANA_JS, {'u': sup['u']}); a5 = await pg.evaluate(ANA_JS, {'u': u5})
@@ -414,7 +418,7 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     else:
         row['v']['2_window'] = 'UNKNOWN'; row['m']['window'] = {'why': '找不到窗玻璃的網格（名字／材質沒有 glass、window、窗，也沒有半透明材質）'}
     # ③ 天花板
-    ce = await pg.evaluate(CEIL_JS, [cx, cz]); row['m']['ceiling'] = {'ray': ce, 'sky_up_pct': aup['sky_all_pct'], 'sky_top_entry': a1['sky_top_pct'], 'sky_top_counter': a3['sky_top_pct']}
+    ce = await pg.evaluate(CEIL_JS, [cx, cz, by]); row['m']['ceiling'] = {'ray': ce, 'sky_up_pct': aup['sky_all_pct'], 'sky_top_entry': a1['sky_top_pct'], 'sky_top_counter': a3['sky_top_pct']}
     # 往上拍是主要證據（bd86 東南大聯沒天花板：往上 100% 天空，但射線打到 1.5 m 高的吊燈／彩旗，舊判法誤判 PASS）
     if ce.get('ceil') and 0.6 <= ce['ceil']['d'] <= 4.5: row['v']['3_ceiling'] = 'PASS'; row['m']['ceiling']['by'] = 'ray CEIL_*（上半偏藍 %s%% 只記：白天花板＋燈管會被當成天空，BB-C 11-14 a）' % aup['sky_all_pct']
     elif aup['sky_all_pct'] >= 30: row['v']['3_ceiling'] = 'FAIL'
@@ -426,8 +430,8 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     row['v']['4_solid'] = 'FAIL' if max(mags.values()) >= 0.5 else ('UNKNOWN' if max(flat.values()) >= 60 else 'PASS')
     # ⑥ 閃（固定鏡頭轉 0.05°）＋5 秒連拍
     if '6' in PARTS:
-        z1 = await pg.evaluate(ZF_JS, {'from': [ex + ux * 1.0, 1.6, ez + uz * 1.0], 'at': [cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8]})
-        z2 = await pg.evaluate(ZF_JS, {'from': [cx, 1.6, cz], 'at': [ex - ux * 2.0, 1.8, ez - uz * 2.0]})
+        z1 = await pg.evaluate(ZF_JS, {'from': [ex + ux * 1.0, by + 1.6, ez + uz * 1.0], 'at': [cx + ux * m * 0.8, by + 1.2, cz + uz * m * 0.8]})
+        z2 = await pg.evaluate(ZF_JS, {'from': [cx, by + 1.6, cz], 'at': [ex - ux * 2.0, by + 1.8, ez - uz * 2.0]})
         bu = await pg.evaluate(BURST_JS, {'overlay': True, 'pan': PAN, 'strips': STRIPS})   # 11-12 BB-C 14:43：有人那一輪也切條圖（日和 20:30 有人 4 格翻、藏人 0 格，原本沒有條圖）
         await pg.evaluate(HIDE_PEOPLE + '(true)'); bu2 = await pg.evaluate(BURST_JS, {'overlay': True, 'strips': STRIPS, 'pan': PAN}); await pg.evaluate(HIDE_PEOPLE + '(false)')
         for st_ in (bu2.pop('strips', None) or []):   # 藏人那一輪的翻動格子：同一格 12 張並排（上面 ms＝連拍開始後幾毫秒、g＝遊戲時間）
