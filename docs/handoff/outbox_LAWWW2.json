@@ -10531,7 +10531,7 @@
    "ack": "SENT",
    "state": "已交付",
    "noDirectIntegrate": false,
-   "base": "19314237c3",
+   "base": "15be72634e",
    "at": "2026-11-14T10:15Z",
    "task": "SHOP-REALISM-1112",
    "title": "一盞 v1.2（g1 4ba5e16e70）驗收 PASS：霧面紋路 tile 0.6→0.15，壁櫥雲狀斑消失",
