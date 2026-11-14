@@ -1,0 +1,4 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_ART_DORM_LOFT_rel_seats_rc2e\tests\seats_on_furniture.py http://127.0.0.1:8801/index.html dorm
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+OK  dorm：座位 27，有問題 0
+{"bad": 0}
