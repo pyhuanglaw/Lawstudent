@@ -189,3 +189,7 @@
 - 結果：CC 在 rc2e 跑 T1_SEED4_SAVE_stuck，種子 4 走到 2025-11-12、6706 步、0 FAIL，**沒有重現**（cc-local fcf8449bdd）。CC 已改在 76f8 原版本再跑兩支，拿卡住的存檔。
 - 判定不變：STUCK-WALKSELF-1114 是 P1 候選 bug。「約好的邀約選『自己走過去』以後 busy 沒放開」那條程式路在 rc2e 也還在，只是這次沒走到；**發布版有沒有這個 bug，等 76f8 的存檔在開發分支、發布版重現才知道**。不擋 X364（已經發布）。
 - **LIVE_X364_p0：ALL PASS**（cc-local 554d3b4de7，線上網址 9 個地點 27 項）。
+
+## 12:2x DATE-D05-PICK-1114：LAWWW 已改（b8fa06c090）
+- 芷若 D05 心願約會散場後選互動點，改走 2D 圖層（DATE.pickChoose）；圖載不到的時候照舊出文字選單。Node wish_pick_layer_1114_unit.js＋wish3d 13 支 ALL PASS。
+- BB 派 CC 跑 DATE_LAYER_r3 @b8fa06c090：只跑 D05 的 ①～④（出圖層、點得到、灰的按不下去、載不到時退回文字選單），再抽 D04、D01 有底圖的各一個做回歸。排在 HEROINE-LIFE 後面。
