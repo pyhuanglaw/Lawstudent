@@ -1,14 +1,3 @@
-[22:25:54] skip SEATFIG_old (already done on 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342)
-[22:25:54] skip SEATFIG_new_near (already done on 93d3e92691b344385636dc1f50741a871a4406a9)
-[22:25:55] skip SEATFIG_old_near (already done on 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342)
-[22:25:55] skip L98E_b1court (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[22:25:55] skip L98E_reach (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[22:25:55] skip L98E_invphone (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[22:25:55] skip L98E_libfloors (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[22:25:55] skip L98E_zone (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[22:25:55] skip L98E_p0 (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[22:25:55] skip L98E_main12 (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[22:25:55] skip L492_invgo (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
 [22:25:55] skip L492_invphone (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
 [22:25:55] skip L492_libfloors (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
 [22:25:55] skip L492_p0 (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
@@ -1998,3 +1987,14 @@
 [08:36:54] 正在跑：FULL_a_76f8（已跑 110 分／上限 200 分）、FULL_b_76f8（已跑 103 分／上限 420 分）、T1_rc2（已跑 6 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:39:33] [res] cpu=14% mem=47% (15.0/31.4 GB) chrome_testing=5  END FULL_a_76f8
 [08:39:34] D158：推送前把 6 處舊序章／外校的字換成代號
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3df3642f47..c18021279e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:39:48] ==== END   FULL_a_76f8  exit=0  6762s   ====
+[08:39:52] memory 48% before starting DATE_LAYER_76f8_r2 (2 running)
+[08:39:52] ==== START DATE_LAYER_76f8_r2  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[08:39:55] [res] cpu=13% mem=48% (15.1/31.4 GB) chrome_testing=5  START DATE_LAYER_76f8_r2
+[08:41:54] 正在跑：FULL_b_76f8（已跑 108 分／上限 420 分）、T1_rc2（已跑 11 分／上限 120 分）、DATE_LAYER_76f8_r2（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:46:54] 正在跑：FULL_b_76f8（已跑 113 分／上限 420 分）、T1_rc2（已跑 16 分／上限 120 分）、DATE_LAYER_76f8_r2（已跑 7 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:50:24] [res] cpu=21% mem=44% (13.7/31.4 GB) chrome_testing=5  END FULL_b_76f8
+[08:50:25] D158：推送前把 8 處舊序章／外校的字換成代號
