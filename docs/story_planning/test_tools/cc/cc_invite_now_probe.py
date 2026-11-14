@@ -69,12 +69,24 @@ async def main():
         await L.go_to(pg, cdp, R, her['x'], her['z'], 1.1, WHO, max_s=60); await D.settle(pg)
         st = await pg.evaluate(DLG); R.note('走到她旁邊，互動鍵「%s」' % st['interact'])
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
-        picked = []; lines = []; k = 0
+        picked = []; lines = []; k = 0; retalk = 0
         for j in range(80):
             st = await pg.evaluate(DLG)
             if st['choices']:
                 want = PICKS[k] if k < len(PICKS) else None
                 i = next((n for n, t in enumerate(st['choices']) if want and want in t), None)
+                if i is None and k == 0 and retalk < 2:   # 11-14 BB-C（BB_379 INVITE_TZ_keju TEST_BUG）：一搭話先插進來別的對話（學姊「第二句太長。…」那種）＝照玩家選第一個演完，再重新搭話
+                    retalk += 1; R.note('第一個選單不是約人的（插進來的對話）：%s → 照玩家點第一個演完，等一下重新搭話（第 %d 次）' % (J(st['choices']), retalk))
+                    picked.append([st['choices'], st['choices'][0]]); await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[0]).click(); })()"); await pg.wait_for_timeout(900)
+                    for _q in range(40):
+                        q2 = await pg.evaluate(DLG)
+                        if q2['choices']: await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[0]).click(); })()"); await pg.wait_for_timeout(800); continue
+                        if q2['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+                        if not q2['busy']: break
+                        await pg.wait_for_timeout(400)
+                    her2 = await pg.evaluate("(w=>{ const n=(GAME.E.npcs||[]).find(n=>n&&(n.charId===w||n.id===w)); return n&&n.obj?{x:n.obj.position.x,z:n.obj.position.z}:null; })", WHO)
+                    if her2: await L.go_to(pg, cdp, R, her2['x'], her2['z'], 1.1, WHO, max_s=40); await D.settle(pg)
+                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
                 if i is None:
                     R.note('選單沒有含「%s」的：%s' % (want, J(st['choices']))); await pg.screenshot(path=os.path.join(OUT, 'inv_%s_menu_miss.png' % TAG))
                     R.check('FAIL_SETUP 檢查：選單有含「%s」的選項' % want, False, J(st['choices']))
@@ -114,7 +126,11 @@ async def main():
             if not s2 or s2.get('zone') != arg: break
             stop = await sample(pg, '[%d] 到 %s 以後停 3 秒（每 0.5 秒）她：' % (n, arg), 6, 500, 'inv_%s_leg%d' % (TAG, n))
             legs.append({'to': arg, 'stop': stop})
-            R.check('[%d] 停下來她站著（沒坐姿、離 3 m 內）' % n, all(not x.get('seat') and x.get('pose') != 'sit' for x in stop[2:] if not x.get('none')) and any((x.get('d') or 99) < 3 for x in stop), J(stop[-1:]))
+            last_ = (n == max(i_ for i_, st_ in enumerate(ROUTE, 1) if st_.startswith('exit:')))
+            if last_:   # 11-14 BB-C（BB_379 INVITE_TZ TEST_BUG）：終點那間店照設計「到了她先坐」——pose sit／seat＝坐著，離 3 m 內
+                R.check('[%d] 到終點 %s 她坐著（pose sit 或 seat）、離 3 m 內' % (n, arg), any((x.get('seat') or x.get('pose') == 'sit') and (x.get('d') or 99) < 3 for x in stop[2:] if not x.get('none')), J(stop[-1:]))
+            else:
+                R.check('[%d] 中途停下來她站著（沒坐姿、離 3 m 內）' % n, all(not x.get('seat') and x.get('pose') != 'sit' for x in stop[2:] if not x.get('none')) and any((x.get('d') or 99) < 3 for x in stop), J(stop[-1:]))
         res['legs'] = legs
         if QUICK:
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)

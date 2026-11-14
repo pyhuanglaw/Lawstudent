@@ -142,7 +142,7 @@ async def use_exit(pg, cdp, tag, label0, to, pred=None):
     if not R.check('%s 走到那裡，互動按鈕是「%s」' % (tag, label0), s['interact'].startswith(label0), J({k: s[k] for k in ('x', 'z', 'lv', 'interact')})): return None
     await L.tap(pg, cdp, '#interact'); s = await wait_zone(pg, cdp, to)
     await pg.wait_for_timeout(2500); await L.close_panels(pg, cdp); s = await st(pg)
-    R.check('%s 按下去到了 %s（站得住、沒有被放到目的地）' % (tag, to), s['zone'] == to and s['stand'] and s['fb'] == fb0, J(s))
+    R.check('%s 按下去到了 %s（站得住或已經自動入座、沒有被放到目的地）' % (tag, to), s['zone'] == to and (s['stand'] or s.get('seat')) and s['fb'] == fb0, J(s))   # 11-14 BB-C（BB_379 INVITE_TZ TEST_BUG）：約好的店到了會自動入座（seat true、stand false）＝也算到
     return s
 
 

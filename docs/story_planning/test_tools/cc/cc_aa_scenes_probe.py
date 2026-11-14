@@ -200,12 +200,20 @@ async def part_supper(pg, cdp, res):
     for term, day in (('Y1S1', SUPPER_DAY),):
         tag = '[SUPPER %s %s]' % (term, day)
         await pg.goto(URL); await L.wait_loaded(pg)
-        dd = await pg.evaluate("(k=>STORY.dayOfKey(k))", day)
         fl = await pg.evaluate("(()=>Object.assign({}, GAME.defaults('祐廷').flags||{}, {DORM_FOUR:true}))()")   # 四人房（DORM_FOUR）：203 室友作息只在這個旗標下（story3d.js r203On）；load_state 會整個蓋掉 flags，所以先拿預設的再加
-        await L.load_state(pg, {'zone': 'dorm', 'hour': SUPPER_H, 'day': dd, 'weather': 'clear', 'flags': fl}, quiet_events=True)
+        sh = SUPPER_H
+        if day == 'auto':   # 11-14 BB-C（BB_379 DORM203_NOODLE TEST_BUG）：10/15 22:45 柏翰不在——照遊戲自己的 DORM203.allIn(G,TZIS.MATES,day,hour) 掃 Y1S1 第 2～15 週、21:00～23:45 每 15 分鐘，找三個室友都在的第一格
+            await L.load_state(pg, {'zone': 'dorm', 'hour': 22.0, 'day': await pg.evaluate("(k=>STORY.dayOfKey(k))", '2025-09-10'), 'weather': 'clear', 'flags': fl}, quiet_events=True); await pg.wait_for_timeout(4000)
+            sc = await pg.evaluate("""(()=>{ const G=GAME.G, R=CALENDAR.termDays('Y1S1'), M=(TZIS&&TZIS.MATES)||['zhe','classmate_bohan','kai']; G.flags.DORM_FOUR=true; const keep={day:G.day,hour:G.hour,weekday:G.weekday};
+              try{ for(let d=R.from+7; d<(R.to||R.from+110); d++){ const wd=CALENDAR.dateOf(d).wd%7; for(let h=21; h<23.99; h+=0.25){ G.day=d; G.hour=h; G.weekday=wd; let ok=false; try{ ok=DORM203.allIn(G,M,d,h); }catch(e){} if(ok) return {key:CALENDAR.dateOf(d).key, h, mates:M}; } } return null; } finally { Object.assign(G,keep); } })()""")
+            R.note('%s 掃三個室友都在 203 的時段（DORM203.allIn）：%s' % (tag, J(sc)))
+            if not R.check('FAIL_SETUP 檢查：%s Y1S1 找得到三個室友都在 203、21～24 點的時段' % tag, bool(sc), ''): return
+            day = sc['key']; sh = sc['h'] + 0.1; tag = '[SUPPER %s %s]' % (term, day)
+        dd = await pg.evaluate("(k=>STORY.dayOfKey(k))", day)
+        await L.load_state(pg, {'zone': 'dorm', 'hour': sh, 'day': dd, 'weather': 'clear', 'flags': fl}, quiet_events=True)
         await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
         pr = await pg.evaluate(SUPPER_PREP, {'term': term, 'packs': 1})
-        R.setup('%s 【前置／捷徑】讀檔到宿舍 203 %s %.2f、四人房 DORM_FOUR、物品放一袋東南大聯泡麵（五包裝）：遊戲自己的條件 TZIS.due=%s（室友都在 %s、學期內 %s、室友在場景 %s）' % (tag, day, SUPPER_H, pr['due'], pr['allIn'], pr['era'], pr['mates']))
+        R.setup('%s 【前置／捷徑】讀檔到宿舍 203 %s %.2f、四人房 DORM_FOUR、物品放一袋東南大聯泡麵（五包裝）：遊戲自己的條件 TZIS.due=%s（室友都在 %s、學期內 %s、室友在場景 %s）' % (tag, day, sh, pr['due'], pr['allIn'], pr['era'], pr['mates']))
         R.check('%s 條件成立（TZIS.due：泡麵、21 點後、203、室友都在）' % tag, pr['due'] is True, J(pr))
         await pg.evaluate("(t=>{ window.__evDone=false; EVENTS.run(STORY_EVENTS.find(e=>e.id===TZIS.evId(t))).then(()=>{ window.__evDone=true; }).catch(x=>{ window.__evDone='ERR '+String(x).slice(0,100); }); })", term)
         R.setup('%s 【捷徑】EVENTS.run 那一場（不等自動觸發）' % tag)
