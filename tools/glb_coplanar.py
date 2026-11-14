@@ -56,12 +56,25 @@ def triangles(path):
         nd = j['nodes'][ni]; M = P @ node_matrix(nd)
         if 'mesh' in nd:
             nm = nd.get('name') or j['meshes'][nd['mesh']].get('name', '?')
+            # EXT_mesh_gpu_instancing（2026-11-14 第③群幫手 SHOP-CC0-HELP-1113）：每一份的 TRS 套上去再比；
+            #   以前只拿原型放在節點的位置（多半是原點），不同原型在原點互相比，抓到假疊面（大口二樓四疊課本原型的底面都在 y=0）
+            Ms = [(M, nm)]
+            ext = (nd.get('extensions') or {}).get('EXT_mesh_gpu_instancing')
+            if ext:
+                at = ext.get('attributes', {}); n_ = None; T_ = R_ = S_ = None
+                if 'TRANSLATION' in at: T_ = acc(at['TRANSLATION']); n_ = len(T_)
+                if 'ROTATION' in at: R_ = acc(at['ROTATION']); n_ = len(R_)
+                if 'SCALE' in at: S_ = acc(at['SCALE']); n_ = len(S_)
+                if n_:
+                    Ms = [(M @ node_matrix({'translation': list(T_[k]) if T_ is not None else [0, 0, 0], 'rotation': list(R_[k]) if R_ is not None else [0, 0, 0, 1],
+                                            'scale': list(S_[k]) if S_ is not None else [1, 1, 1]}), '%s#%d' % (nm, k)) for k in range(n_)]
             for p in j['meshes'][nd['mesh']]['primitives']:
                 if p.get('mode', 4) != 4 or 'indices' not in p:
                     continue
-                V = acc(p['attributes']['POSITION']); V = (np.c_[V, np.ones(len(V))] @ M.T)[:, :3]
-                I = acc(p['indices']).reshape(-1, 3); mi = p.get('material')
-                out.append((nm, mats[mi] if mi is not None else '-', dbl[mi] if mi is not None else False, V[I]))
+                V0 = acc(p['attributes']['POSITION']); I = acc(p['indices']).reshape(-1, 3); mi = p.get('material')
+                for Mi, nmi in Ms:
+                    V = (np.c_[V0, np.ones(len(V0))] @ Mi.T)[:, :3]
+                    out.append((nmi, mats[mi] if mi is not None else '-', dbl[mi] if mi is not None else False, V[I]))
         for c in nd.get('children', []):
             walk(c, M)
     for sc in j.get('scenes', [{'nodes': list(range(len(j['nodes'])))}]):

@@ -67,14 +67,14 @@
  },
  "assets/models/env/second_ai/bb_support/bike.glb": {
   "sha1": "7c8d5e7fd1ddc103742fef3908230c9cf11c3f83",
-  "wall": 10.9,
-  "always": 17.45,
-  "top": "bk_wheel3_0_alpha_inst×WALL_left_wheel4_0_alpha_inst 0.547 m² @[0.16,-0.22,0]"
+  "wall": 2.91,
+  "always": 5.35,
+  "top": "WALL_left_wall_wall×WALL_back_wall_wall 0.432 m² @[-5.1,2.4,-1.96]"
  },
  "assets/models/env/second_ai/bb_support/corner.glb": {
   "sha1": "b3b547ce9142cf7aa14443a79fbe3bad61b907c4",
-  "wall": 11.87,
-  "always": 18.63,
+  "wall": 10.81,
+  "always": 13.31,
   "top": "WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32]"
  },
  "assets/models/env/second_ai/bb_support/cvs_interior.glb": {
@@ -85,8 +85,8 @@
  },
  "assets/models/env/second_ai/bb_support/dabu.glb": {
   "sha1": "d4dc2b3bd9fa57877883dd4d0835f7153b72223f",
-  "wall": 34.4,
-  "always": 34.54,
+  "wall": 32.98,
+  "always": 33.11,
   "top": "WALL_back_back_vc×WALL_back_back_paint 5.11 m² @[0.04,0.58,-5.88]"
  },
  "assets/models/env/second_ai/bb_support/dakou_1f.glb": {
@@ -98,13 +98,13 @@
  "assets/models/env/second_ai/bb_support/dakou_2f.glb": {
   "sha1": "9c0f45a8be48a52f15c1243a39a0f492e9783de7",
   "wall": 0.34,
-  "always": 6.3,
+  "always": 2.29,
   "top": "WALL_left_frame×WALL_left_frame 0.153 m² @[-5.99,3.6,5.33]"
  },
  "assets/models/env/second_ai/bb_support/haopai.glb": {
   "sha1": "2572a6de27b18a15bec307da2af2fc2d478a5c86",
-  "wall": 31.7,
-  "always": 35.44,
+  "wall": 7.97,
+  "always": 11.68,
   "top": "WALL_right_wall_wall×WALL_right_hp_vc 2.202 m² @[2.08,1.19,2.31]"
  },
  "assets/models/env/second_ai/bb_support/lin_interior.glb": {
@@ -127,14 +127,14 @@
  },
  "assets/models/env/second_ai/bb_support/tongxian.glb": {
   "sha1": "60b8224b1a149dffda51e497471864974a84981c",
-  "wall": 32.43,
-  "always": 38.08,
+  "wall": 1.8,
+  "always": 7.45,
   "top": "WALL_back_plaster×WALL_back_metal 0.364 m² @[-2.13,0.87,-5.26]"
  },
  "assets/models/env/second_ai/bb_support/xinsheng_sports.glb": {
   "sha1": "1c536cbc0c044f3b7ae613983b98663ad2a5c5c3",
   "wall": 2.12,
-  "always": 48.06,
+  "always": 6.38,
   "top": "WALL_left_L1_xs_goods×WALL_left_L1_xs_goods 1.2 m² @[-8.2,4.67,0.23]"
  },
  "assets/models/env/second_ai/bb_support/yangyang_interior.glb": {
@@ -170,7 +170,7 @@
  "assets/models/env/second_ai/gg_xianguo_interior.glb": {
   "sha1": "d28cb614a65222d384aa4ea3ff885571e84eb2f7",
   "wall": 0,
-  "always": 13.04,
+  "always": 10.19,
   "top": ""
  },
  "assets/models/env/second_ai/l118_cafe2.glb": {
