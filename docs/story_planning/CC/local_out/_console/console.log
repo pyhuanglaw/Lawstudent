@@ -1,13 +1,3 @@
-[22:25:55] skip WZCAT_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[22:25:55] skip GUIDE_063 (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
-[22:25:55] skip GGNAV_063 (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
-[22:25:55] skip X199_ANROUTE (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
-[22:25:55] skip GGLANE_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[22:25:55] skip GGLANE_old (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[22:25:55] skip WILLOW_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[22:25:55] skip WILLOW_old (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[22:25:55] skip W24_outing (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[22:25:55] skip W24_outing_old (already done on 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c)
 [22:25:55] skip W24_outing_r3 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
 [22:25:55] skip W24_invgo (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
 [22:25:55] skip W24_invgo_real (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
@@ -1998,3 +1988,13 @@
 [09:09:38] ==== START GATE2_CC0_offbeat_win_0c49  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
 [09:09:41] [res] cpu=14% mem=45% (14.0/31.4 GB) chrome_testing=4  START GATE2_CC0_offbeat_win_0c49
 [09:11:05] [res] cpu=4% mem=43% (13.4/31.4 GB) chrome_testing=5  END GATE2_CC0_offbeat_win_0c49
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       867605de28..a78486ff0a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:11:13] ==== END   GATE2_CC0_offbeat_win_0c49  exit=0  87s   ====
+[09:11:16] memory 44% before starting GATE2_GG_PAVE_4a97 (2 running)
+[09:11:16] ==== START GATE2_GG_PAVE_4a97  (probe @ 4a97c2a33f2caf6ef74bb5ebcea4d042cf35a2f2) ====
+[09:11:19] [res] cpu=10% mem=44% (13.9/31.4 GB) chrome_testing=5  START GATE2_GG_PAVE_4a97
+[09:11:19] worktree add 4a97c2a33f2caf6ef74bb5ebcea4d042cf35a2f2: invalid reference - fetching main and the commit itself
+[09:11:54] 正在跑：T1_rc2（已跑 41 分／上限 120 分）、GATE2_CC0_c_0c49（已跑 3 分／上限 50 分）、GATE2_GG_PAVE_4a97（已跑 0 分／上限 35 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:15:23] [res] cpu=14% mem=41% (12.9/31.4 GB) chrome_testing=5  END GATE2_GG_PAVE_4a97
