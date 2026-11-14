@@ -1,11 +1,3 @@
-[22:25:55] skip NANYANG_v4 (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[22:25:55] skip WINVIEW_tea195 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[22:25:55] skip X199_entry_new (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[22:25:55] skip X199_entry_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[22:25:55] skip X199_guide (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[22:25:55] skip X199_guide_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[22:25:55] skip X199_ggnav (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[22:25:55] skip X199_ggnav_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
 [22:25:55] skip X199_reach (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
 [22:25:55] skip X199_touch (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
 [22:25:55] skip X199_day2an (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
@@ -1998,3 +1990,11 @@
 [09:01:54] 正在跑：T1_rc2（已跑 31 分／上限 120 分）、GATE2_CC0_a_0c49（已跑 11 分／上限 50 分）、GATE2_CC0_b_0c49（已跑 8 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:06:54] 正在跑：T1_rc2（已跑 36 分／上限 120 分）、GATE2_CC0_a_0c49（已跑 16 分／上限 50 分）、GATE2_CC0_b_0c49（已跑 13 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:08:14] [res] cpu=20% mem=42% (13.4/31.4 GB) chrome_testing=5  END GATE2_CC0_a_0c49
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d2b5cb6c57..a3a9faee3a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:08:39] ==== END   GATE2_CC0_a_0c49  exit=1  1047s   ====
+[09:08:46] memory 44% before starting GATE2_CC0_c_0c49 (2 running)
+[09:08:46] ==== START GATE2_CC0_c_0c49  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
+[09:08:48] [res] cpu=9% mem=44% (13.8/31.4 GB) chrome_testing=5  START GATE2_CC0_c_0c49
+[09:09:24] [res] cpu=3% mem=42% (13.3/31.4 GB) chrome_testing=4  END GATE2_CC0_b_0c49
