@@ -98,8 +98,11 @@ async def drive_until_pick(pg, cdp, tag, max_s=300):
 
 
 async def one(pg, cdp, case):
-    loc, _, dep = case.partition('@'); dep = float(dep) if dep else 15.0   # BB-C 11-14：D05@20＝晚一點出發，讓時間不夠的點真的變暗
-    tag = '[%s%s]' % (case, ' nodatelayer' if NODL else ''); fn = case.replace('@', '_')
+    case, _, blk = case.partition('#')   # 11-14 BB-C（DATE-D05-PICK-1114 ④）：D05#d05_base_dusk＝把網址含這個字的圖擋掉（page.route abort），要退回文字選單
+    loc, _, dep = case.partition('@'); dep = float(dep) if dep else 15.0
+    if blk:
+        await pg.route('**/*%s*' % blk, lambda rt: rt.abort()); R.setup('[%s] 【模擬】擋掉網址含「%s」的請求（圖載不到）' % (case, blk))   # BB-C 11-14：D05@20＝晚一點出發，讓時間不夠的點真的變暗
+    tag = '[%s%s%s]' % (case, ' nodatelayer' if NODL else '', (' 擋 ' + blk) if blk else ''); fn = case.replace('@', '_') + ('_block' if blk else '')
     await pg.set_viewport_size(LAND)
     rel = 'DATING' if loc in ('D28',) else 'CLOSE'   # 11-14 DATE_LAYER_76f8：D28（兩天一夜）要第 6 階或交往中——用交往中
     d, seed = await SP.fresh(pg, cdp, tag, ['Y1S2', 5, 6], 14.5, 'dorm', {WHO: rel})
@@ -137,7 +140,7 @@ async def one(pg, cdp, case):
         elif s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(80)
     await shot(pg, 'dl_%s_first.png' % fn)
     res = {'loc': loc, 'book': bk, 'mode': mode, 'guard': guard}
-    want_menu = NODL or loc in ('D28', 'D33')   # BB-C 11-14：D33 和 D28 一樣走文字選單
+    want_menu = NODL or loc in ('D28', 'D33') or bool(blk)   # BB-C 11-14：D33 和 D28 一樣走文字選單；擋掉底圖＝要退回文字選單
     if mode in (None, 'picked_by_guard'):
         R.check('FAIL_SETUP 檢查：%s 走到選互動點那一步（圖層或文字選單）' % tag, False, J({'mode': mode, 'state': await pg.evaluate(STATE)})); return res
     if want_menu:
@@ -153,6 +156,11 @@ async def one(pg, cdp, case):
     await pg.wait_for_timeout(500)
     # ② 橫向
     a = await pg.evaluate(LAYER_JS); await shot(pg, 'dl_%s_land.png' % fn); res['land'] = a
+    bgi = await pg.evaluate("(()=>{ const r=document.getElementById('dateLayer'); if(!r) return null; const im=[...r.querySelectorAll('img')].map(i=>i.currentSrc||i.src); const bs=[...r.querySelectorAll('*')].map(e=>getComputedStyle(e).backgroundImage).filter(x=>x&&x!=='none'); return {imgs:im.slice(0,6), bgs:bs.slice(0,6)}; })()")
+    R.note('%s ① 圖層的底圖：%s；標記 %s' % (tag, J(bgi), J([h['pid'] for h in a['hots']]))); res['base'] = bgi
+    if loc == 'D05':   # BB-C 11-14 DATE-D05-PICK-1114 ①：散場後 d05_base_dusk、四個點 cafe／garden／shop／board 都在
+        R.check('%s ① 底圖是 d05_base_dusk' % tag, 'd05_base_dusk' in J(bgi), J(bgi))
+        R.check('%s ① 四個點（cafe、garden、shop、board）都在圖上' % tag, all(any(k in (h['pid'] or '') for h in a['hots']) for k in ('cafe', 'garden', 'shop', 'board')), J([h['pid'] for h in a['hots']]))
     R.note('%s ② 橫向 %sx%s：標記 %d（停用 %d）、畫面外 %s、她 %s（被裁 %s、蓋到標記 %s）、標籤重疊 %s、結束鍵 %s、除錯字 %s' % (tag, a['vw'], a['vh'], a['n'], a['dim'], a['outView'], a['her'], a['herClipped'], a['herOnHot'], a['labOverlap'], a['end'], a['debugText']))
     R.check('%s ② 橫向：畫面上沒有除錯字（id、座標、PLACEHOLDER）' % tag, not a['debugText'], J(a['debugText']))
     R.check('%s ② 每個標記的觸控範圍 ≥44×44 px（最小 %s px）' % (tag, a['minHot']), (a['minHot'] or 0) >= 44, J([[h['pid'], h['r']['w'], h['r']['h']] for h in a['hots']]))
@@ -249,6 +257,8 @@ async def main():
             except Exception as e:
                 R.check('[%s] 沒有中斷' % c, False, repr(e)[:300]); await pg.screenshot(path=os.path.join(OUT, 'crash_%s.png' % c))
             open(os.path.join(OUT, 'date_layer.json'), 'w', encoding='utf-8').write(J(out))
+            try: await pg.unroute_all()   # #block 那一個擋圖的設定不帶到下一個
+            except Exception: pass
             await pg.set_viewport_size(LAND); await pg.goto(URL); await L.wait_loaded(pg, 600)
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
