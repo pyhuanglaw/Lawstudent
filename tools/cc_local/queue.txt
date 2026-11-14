@@ -2369,8 +2369,8 @@ DATE_LAYER_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_
 DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_date_layer_probe.py | index.html?nodatelayer | 15 | CASES=D01;WHO=heroine_02;NODL=1;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 # FULL_b 不接 FULL_a 的存檔：runner 兩條並行，FULL_b 可能在 FULL_a 跑完以前就開跑；cc_flow_semester 也還沒有「從存檔接著跑」——照 BB-C 的備案，新玩家一路跑到 2026-02-23、上限 420 分鐘
 # HOLD BB-C 01:26 X364 GO（發布 rc2d bcc99693a7）：LAWWW 推 main、Pages 上線、BB 轉發布 SHA 以後拿掉 HOLD、填 <SHA>／<VER>（線上版本字樣，bcc9 index.html 目前寫 v9.10.25，以上線那份為準）；部署沒好隔 5 分鐘 RERUN，最多 3 次；放佇列最前面
-# HOLD LIVE_X364_deploy | <SHA> | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html <VER>;CC_HEADLESS=0
-# HOLD LIVE_X364_p0 | <SHA> | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
+# HOLD（已改成上面 10:01 那三行）LIVE_X364_deploy | <SHA> | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html <VER>;CC_HEADLESS=0
+# HOLD（已改成上面 10:01 那三行）LIVE_X364_p0 | <SHA> | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
 # HOLD BB-C 01:27 BB_466 發布後清單（LIVE deploy／p0、social_r2 跑完以後照這個順序；<SHA>＝發布版，<DEV>＝LAWWW 開發分支最新 head）
 # ① BUG-SIS-LIB-LOAD-1022：直接讀檔到總圖 3F 閱覽室（library）9/5、9/24 10:00，看學姊在不在（8 秒、16 秒各記一次）
 # HOLD SIS_LIB_LOAD_rel | <SHA> | probe | docs/story_planning/test_tools/cc/cc_sis_lib_load_probe.py | index.html | 15 | DAYS=2025-09-05,2025-09-24;HOUR=10;SHA=<SHA>
@@ -2429,6 +2429,10 @@ DATE_LAYER_76f8_r3 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/sto
 # LAWWW-C 01:57（P0，使用者選 rc2e，排最前面；BB 判）：rc2e 只改 index.html 一行（#btnNew 字拿掉、按鈕留著）。標題正常、「從法律系開始」能開局、讀檔正常、沒有 pageerror＋p0 搖桿移動
 RC2E_TITLE_SMOKE | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_rc_title_smoke_probe.py | index.html | 15 | SHA=1404d5f2d4cb740d50df75741764be18ee746992
 RC2E_p0 | 1404d5f2d4cb740d50df75741764be18ee746992 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+# BB-C 10:01 P0：v9.10.26 已推 main 6106fae2d2（發布樹 1a7d7e1994，遊戲檔＝rc2e＋版本字樣）；Pages run 43583124434 10:02 success。線上標題要「版本 v9.10.26（2026-11-14）」、?v= 全部 9.10.26；第一次還是 v9.10.25 就隔 3～5 分鐘 RERUN（不算 FAIL）
+LIVE_X364_deploy | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.26;CC_HEADLESS=0
+LIVE_X364_title | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_live_title_probe.py | index.html | 5 | EXPECT=v9.10.26
+LIVE_X364_p0 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
 # BB-C 09:57（P1，給 LAWWW 重現 STUCK-WALKSELF-1114）：T1_76f8 種子 4 在 2025-11-10 12:00 dorm_hall 第 7361 步卡住 → 同一顆種子在 rc2e 跑兩次存檔。--to 含當天（雲端試過：--to 08-31 停在 09-01 開始），所以 ① 用 --to 2025-11-09＝停在 11-10 開始；② --to 2025-11-11，卡住放棄時也寫存檔
 T1_SEED4_SAVE | 1404d5f2d4cb740d50df75741764be18ee746992 | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 30 | XARGS=--track law --seed 4 --from 2025-08-22 --to 2025-11-09 --root . --out {out} --save-out {out}/seed4_pre_1110.json
 T1_SEED4_SAVE_stuck | 1404d5f2d4cb740d50df75741764be18ee746992 | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 30 | XARGS=--track law --seed 4 --from 2025-08-22 --to 2025-11-11 --root . --out {out} --save-out {out}/seed4_stuck.json
