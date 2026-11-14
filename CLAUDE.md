@@ -1,16 +1,16 @@
 # CLAUDE.md — 《法條之外：台灣法律人生》共同規則
 
-> **永久啟動與回班規則（所有帳號 A／B／C／D、所有職位；任何方向輪值都一樣，HV-17）**：收到使用者「**我回來了，請同步 GitHub 最新進度，接續工作。**」、「**現在接班**」「接班」或意思相同的話（D164，使用者 2026-11-14：「這個交班規則讓你根本就不知道接下來要做什麼的問題你要回報請修改規則的AI修改」——LAWWW2-B 聽到「現在接班」只合併＋登記就開工，沒換規則、沒讀新規則），或第一次開工作階段貼的啟動提示詞，**自己**做下面四步和 §4 的十四步；**沒做完十四步不准回「接班確認」、不准開始一般工作**：
+> **永久啟動與回班規則（所有帳號 A／B／C／D、所有職位；任何方向輪值都一樣，HV-17）**：收到使用者「**我回來了，請同步 GitHub 最新進度，接續工作。**」、「**現在接班**」「接班」或意思相同的話（D164，使用者 2026-11-14：「這個交班規則讓你根本就不知道接下來要做什麼的問題你要回報請修改規則的AI修改」——LAWWW2-B 聽到「現在接班」只合併＋登記就開工，沒換規則、沒讀新規則），或第一次開工作階段貼的啟動提示詞，**自己**做下面四步；**沒跑 `takeover.py`、沒照它印的那一頁逐條回報，不准回「接班確認」、不准開始一般工作**：
 > 1. `git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune`
-> 2. `python3 tools/handoff/check_handoff.py duty find` → 得到 RULE_SOURCE（結束碼 1＝登記鏈分岔或找不到：停下來回報使用者，不自己挑）。
-> 3. 讀 **RULE_SOURCE 上的** `CLAUDE.md`（本檔）和**自己職位的** `docs/rules/ROLE_<LAWWW|LAWWW2|AA|BB|CC>.md`，再看 `docs/AI_SESSION_HANDOFF.md` 第 13 節（自己上次值班以後新增的 HV）。
-> 4. 照本檔 §4 的接班步驟做完、`duty register` 登記，才開始一般工作。
+> 2. `python3 tools/handoff/takeover.py --account <A|B|C|D> --role <職位> --apply`（D165；沒有這支就先 `git checkout origin/<值班 LAWWW 的分支> -- tools/handoff`，分支用 `git log --all -1 --format=%D -- docs/handoff/duty.json` 找）。它印**一頁**：上一任是誰、上一任交代的「下一班第一件事」原文、使用者交代你還沒做完的、你離開期間新增的規則。
+> 3. 照那一頁最後的五步做：合併上一任的分支 → `duty register` → 回使用者「接班確認」（上一任交代的每一條、使用者交代的每一條各寫一行：接了沒、做到哪）→ 通知值班 LAWWW → **照第一條開工**。
+> 4. 要讀的只有：那一頁、那一頁列的新規則、自己的職位頁 `docs/rules/ROLE_<職位>.md` 做事要用的章節。**不用把舊帳（check 幾百項、duty verify 的舊帳號分支）逐項寫**——那是值班 LAWWW 的事，不擋開工。
 >
 > **你啟動時看到的這份 CLAUDE.md 可能是舊的**（D157）：工作階段自動載入的是**自己分支**根目錄的 CLAUDE.md 和 hook，不是 RULE_SOURCE 的。所以第 3 步之前先跑 `python3 tools/handoff/rules_sync.py --apply`（沒有這支就 `git checkout origin/<RULE_SOURCE> -- tools/handoff` 再跑）、commit＋push——把 CLAUDE.md、`docs/rules/`、hook、`tools/handoff/`、FACTS.md 換成 RULE_SOURCE 的版本。之後每則使用者訊息 hook 都會比一次，舊了會提醒；`duty register` 遇到舊的規則包不給登記。值班 LAWWW 每次改規則，當回合通知同帳號各職位跑 `--apply`。
 >
 > 不准照舊對話、舊版 CLAUDE.md、啟動時載入的檔案假設「只有 A、B」或假設上一任是誰；上一任只看 `docs/handoff/duty.json` 的登記鏈。不叫醒休班帳號。
 
-**每一條規則只放一個地方**（使用者 2026-11-10 選擇題）：共同規則在本檔；各職位自己的做法在 `docs/rules/ROLE_<職位>.md`。D 編號是標籤，`grep -rn "D84" CLAUDE.md docs/rules` 找得到原本那一條。已經被取代的舊規則直接刪掉（git 歷史留著），不另外封存。下一個新決策用 **D165**。
+**每一條規則只放一個地方**（使用者 2026-11-10 選擇題）：共同規則在本檔；各職位自己的做法在 `docs/rules/ROLE_<職位>.md`。D 編號是標籤，`grep -rn "D84" CLAUDE.md docs/rules` 找得到原本那一條。已經被取代的舊規則直接刪掉（git 歷史留著），不另外封存。下一個新決策用 **D166**。
 
 ---
 
@@ -95,46 +95,23 @@
 
 讀別人分支上的檔：`git log --all -1 --format='%H %ci %D' -- <檔>` → `git branch -r --contains <commit>`；淺層複本先 `git fetch --deepen=300 origin <分支>`；git 不能用就用 GitHub 工具讀 `pyhuanglaw/Lawstudent`。LAWWW 以外的職位不合併開發分支的程式，規則檔用 `git show origin/<RULE_SOURCE>:<檔>` 讀，工具加 `--ref origin/<RULE_SOURCE>`。
 
-### 接班十四步（先對帳，再開工；不能讀完交班紀錄就直接做「下一步」）
-第 0 步（每個回合都一樣）：先回使用者、讀通知；接班也拆成短回合。
-1. `git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune`
-2. `check_handoff.py duty find` → RULE_SOURCE（結束碼 1 停下來回報）。舊 checkout 沒有這個指令：`git log --all -1 --format='%H %ci' -- docs/handoff/duty.json` → `git branch -r --contains <commit>` → `git checkout origin/<那條分支> -- tools/handoff/` 再跑。
-3. 讀 RULE_SOURCE 的本檔、自己的職位頁、`AI_SESSION_HANDOFF.md` 第 13 節（上次值班之後新增的 HV）；職位頁指定的接班必讀也讀。
-4. `check_handoff.py duty plan --account <X> --role <職位> --ref origin/<RULE_SOURCE>`：上一任、要合併的分支、快照、WIP、還沒交班的職位。
-5. 讀上一任這個職位的交接檔最新版（六類 A～F）。
-6. 讀 `docs/handoff/tasks.json`（以它為準）、`HANDOFF_GAP_MATRIX.md`、`docs/handoff/deliveries.json`。
-7. `check_handoff.py check --ref origin/<RULE_SOURCE>`：0 正常、1 有異常或查不了（不算正常）、**2 快照不存在或壞掉 → 寫 `REMEDIAL_FULL_AUDIT`，補做一次全面盤點**。
-8. `check_handoff.py duty verify --ref origin/<RULE_SOURCE>`：未整合分支、WIP、待 ACK、同一職位兩個帳號同時寫入。（LAWWW 另跑 `incr`，見 ROLE_LAWWW。）
-9. **確認任務沒有遺失**：不見的查證（已驗收要有證據、取消要有授權和替代 ID），證明不了恢復成「待開工」註明「待查」；沒核完寫 `AUDIT_PENDING：<範圍>`。跑 `roles`（逐職位「全部待辦」對總表，D93）、`asks`、`userwork --owner <職位>`（D145）。
-9b. 讀 USER_WANTS「不在遊戲裡」一節、跑 `python3 tools/story/check_orphans.py --out <scratchpad>/orphans.md`；LAWWW、BB、LAWWW2 另外跑 `node tests/place_gate_unit.js`（店面標準 §12，D155）、讀 `docs/handoff/SHOP_STANDARD_STATUS.md` 還沒過的店；過了檢查日、沒負責人、沒恢復條件的當班處理或報使用者。
-10. **確認自己的職位取得寫入權**：上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者；只有使用者在對話裡明確要你接（例：「上一班來不及交班，現在由帳號 <X> 接班。」）才在第 12 步加 `--user-ok`（記 `no-handoff` 異常）。
-11. 合併上一任的有效成果：**不 rebase、不 force push、不 reset、不用空白分支取代原成果、不刪還有未整合內容的 WIP 分支**；衝突兩邊都保留，看不懂先問使用者。
-12. `check_handoff.py duty register --account <X> --role <職位> --session <自己的 session ID（get_session 查）> --branch <系統指定的分支> [--ref origin/<RULE_SOURCE>] [--wip <分支>]` → commit＋push、核對遠端 SHA → 通知同帳號值班 LAWWW，LAWWW `duty sync` 收進來（HV-20：sync 只收比 duty.json 新、而且重新登記過的；印「[略過]」＝那個職位還沒登記，請它登記，不要手改 duty.json）。
-13. 回使用者「接班確認」（下面的格式）。
-14. 把自己的每小時保險喚醒改回 `enabled=true`（D129），立刻接續：`check_handoff.py queue --owner <職位>`，不用使用者再說開工。
+### 接班（D165，使用者 2026-11-14：「你們所有人都還不能確定已經完成接班，結果已經用了10%的每週使用額度…為什麼大家都很像不知道接下來要幹嘛」）
+所有職位：照本檔最上面的四步——`takeover.py` 印一頁、照那一頁做。原本的「十四步」拿掉了：它的輸出大半是每一班原封不動的舊帳，真正要知道的「上一班交代我做什麼」反而沒有一步印出來（11-14 帳號 B 五個職位都只合併＋登記就開工）。
+- **上一任沒正式交班**（那一頁第 1 行有 ⚠）：停下來回報使用者；使用者明說要你接（例：「上一班來不及交班，現在由帳號 <X> 接班。」）才在 `duty register` 加 `--user-ok`。兩條登記鏈分岔也一樣，不猜。
+- **合併**：不 rebase、不 force push、不 reset、不用空白分支取代原成果、不刪還有未整合內容的 WIP 分支；衝突兩邊都保留，看不懂先問使用者。
+- **登記以後**：把自己的每小時保險喚醒改回 `enabled=true`（D129）。其他職位通知值班 LAWWW，LAWWW `duty sync` 收進來（印「[略過]」＝那個職位還沒登記，不手改 duty.json）。
+- **值班 LAWWW 另外做（分批、不擋開工）**：`check`、`duty verify`、`roles`、`asks`、`incr`、`loose`、`branch_audit`、`check_orphans`、`place_gate`——有**新出現**的異常當班處理，舊帳排進任務慢慢清；並拿各職位分支上的 commit 核對它們回報的「上一任交代的每一條」（不只看回報）。
+- **交班的人**：交接檔一定要有一段標題含「下一班第一件事」，照順序、每條寫任務 ID 和**做法／驗收標準在哪個檔**——`takeover.py` 印的就是這一段，沒寫等於沒交代。
 
 ### 接班確認（回給使用者的格式）
 ```
-【接班確認｜<職位>-<帳號>（帳號 <A|B|C|D>）】
-工作階段：session_xxxxxxxx　分支：claude/…（接班基準：origin/<分支> 的 <commit>）
-值班狀態：duty find → RULE_SOURCE origin/<分支>（登記鏈 seq <n>）；duty verify 結束碼 <0|1|2>（異常：…／無）
-上一任：帳號 <X>（以 duty.json 為準），這個職位最後 commit <sha>（<時間>），正常交班／未交班（使用者指示接班，記 no-handoff）
-離開期間的變更：N 個 commit，重點：…
-規則來源：origin/<RULE_SOURCE> @ <規則 SHA>（HV-n）；自己上次值班之後新增的規則：…
-對帳：check 結束碼 <0|1|2>；上一班快照 N 項未完成，全部在總表／恢復 M 項／AUDIT_PENDING：…／REMEDIAL_FULL_AUDIT：…
-逐職位核對（D93）：roles 結束碼 <0|1>；異常 N 項：…（處理方式）
-使用者要求檔（HV-18）：asks 結束碼 <0|1>
-使用者要的、不在遊戲裡（HV-15）：N 項；過了下次檢查日的 d 項：…；check_orphans：…
-上一班交代的、使用者交代還沒做完的（D145，userwork 逐條）：每一條「這一班還沒動」的寫下一步、今天幾點以前做
-下一版必須（releasegate）：N 項，哪幾項還沒驗收
-未整合／未測試／WIP／待 ACK：…
-做過的東西（D148）：loose 結束碼 <0|1>（異常：…）；FACTS.md 已讀；上一班「G｜東西放在哪」逐條確認
-目前的任務：…　下一步：…（接著就做）
-值班登記：duty register 已 push <sha>；值班表：已更新（LAWWW）／等 LAWWW duty sync（其他職位）
+【接班確認｜<職位>-<帳號>】工作階段、分支、接班基準 commit；上一任：帳號 <X>，正常交班／未交班
+上一任交代的（逐條一行）：1. … 接了／還沒，做到哪　2. …
+使用者交代、還沒做完的（逐條一行）：…
+離開期間新增的規則：D…（已讀）
+現在做：<第一條的任務 ID>
 ```
-每個職位交接檔最上面放「值班登記：帳號｜職位｜session｜分支｜接班基準 commit｜時間」和「上一班：帳號｜職位｜session｜最後 commit｜正常交班／未交班」兩行，換班時更新。
-
-沒做到 `roles`、`asks` OK（或每項異常都已處理、寫明原因），**不得在接班確認、交班紀錄、對使用者的回報裡宣稱交接完整**，只能寫「異常 N 項未處理」並列出。
+每個職位交接檔最上面放「值班登記：帳號｜職位｜session｜分支｜接班基準 commit｜時間」一行，換班時更新。
 
 ### 做過的不能不見（D148，使用者 2026-11-10：「發現了很多什麼已經做過，結果忘記了交班，或你不知道什麼分支還在他的那邊……我需要的是一個交班規則可以排除以後再發生這樣的情況」）
 1. **`docs/handoff/FACTS.md`＝已經有的東西**（裝好的工具、使用者給過的圖和規格書放哪、哪些已經做好）。接班第 3 步必讀。**開口問使用者「要不要裝／有沒有／要不要重做／請再給一次」以前，先查 FACTS.md 和 repo（grep）**；查不到才問，問的時候說查過哪裡。發現下一班會需要的事實，當下交一行給值班 LAWWW 加進去；過時的那一行直接刪。
