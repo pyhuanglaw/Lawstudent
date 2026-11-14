@@ -1,0 +1,58 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_dorm_loft_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_DORM_LOFT_rel_shots_rc2e\out
+CC ART-DORM-LOFT 宿舍 203 四人房：14.00、21.50；SHA=1404d5f2d4cb740d50df75741764be18ee746992；Windows＋GPU ≠ iPhone
+  [前置／捷徑] CC_SEED=20261104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入  17.7 秒
+  [前置／捷徑] 讀檔：宿舍房間（法律系、第 7 天）14.00、晴、條件事件關閉
+PASS [1400] 讀檔進到宿舍房間、有 DORM_ROOM（場景 mesh 176、5 秒穩定）  {"version": "loft4-v2", "glb": true, "set": "203", "stage": "law", "day": 7, "hour": 14.038440666666553, "bathDoor": {"visible": true}}
+PASS [1400] 正式模型 dorm_room4.glb 載好了、家具是 203（法律系大一）  glb=True set=203
+  door_in_1400：calls 83、tris 15840｜門口往裡看（往後牆窗戶）
+  back_to_door_1400：calls 85、tris 14766｜後牆窗前往門口看（洗手間隔間、門、鞋櫃）
+  window_wall_1400：calls 49、tris 12740｜房間中間往窗戶那面牆看
+  bed_under_R1_1400：calls 41、tris 11080｜R1 的上舖：站在走道對面從下面往上看（床欄、床板、梯子）
+  bed_under_R2_1400：calls 49、tris 11846｜R2 的上舖：站在走道對面從下面往上看（床欄、床板、梯子）
+  bed_under_L1_1400：calls 38、tris 11412｜L1 的上舖：站在走道對面從下面往上看（床欄、床板、梯子）
+  bed_under_L2_1400：calls 46、tris 11804｜L2 的上舖：站在走道對面從下面往上看（床欄、床板、梯子）
+  desk_eye_R1_1400：calls 18、tris 7504｜R1 的書桌：坐著的眼睛高度往書桌看（室友的座位，只借鏡頭）
+  desk_eye_R2_1400：calls 22、tris 8940｜R2 的書桌：坐著的眼睛高度往書桌看（室友的座位，只借鏡頭）
+  desk_eye_L1_1400：calls 17、tris 7666｜L1 的書桌：坐著的眼睛高度往書桌看（室友的座位，只借鏡頭）
+  desk_eye_L2_1400：calls 29、tris 9822｜L2 的書桌：坐著的眼睛高度往書桌看（玩家自己的）
+  bath_door_1400：calls 36、tris 9356｜洗手間的門（遊戲裡門一直關著，沒有打開的狀態）
+PASS [1400] 玩家坐在自己的書桌（L2）  {"seat": true, "pose": "sit", "pos": [-1.14, 0.14], "cam": "follow"}
+PASS [1400] STORY.sleepSceneOf 拿得到玩家那一組的梯子資料  [-0.55, 1.505]
+  ladder_up_1_1400：玩家 y=0.314（停在 0.3）、姿勢 climb、鏡頭 [0.01, 1.85, 2.73]
+  ladder_up_2_1400：玩家 y=0.954（停在 0.94）、姿勢 climb、鏡頭 [0.12, 1.75, 3.13]
+  ladder_up_3_1400：玩家 y=1.594（停在 1.58）、姿勢 climb、鏡頭 [0.12, 1.75, 3.15]
+PASS [1400] 爬上去連拍 3 張  3 張；演出結束 done:true
+  ladder_down_1_1400：玩家 y=0（停在 1.3）、姿勢 idle、鏡頭 [0.12, 2.75, 0.92]
+  ladder_down_2_1400：玩家 y=0（停在 0.66）、姿勢 idle、鏡頭 [0.12, 2.75, 0.92]
+  ladder_down_3_1400：玩家 y=0（停在 0.34）、姿勢 idle、鏡頭 [0.12, 2.75, 0.92]
+PASS [1400] 爬下來連拍 3 張  3 張；演出結束 done
+  [前置／捷徑] 讀檔：宿舍房間（法律系、第 7 天）21.50、晴、條件事件關閉
+PASS [2150] 讀檔進到宿舍房間、有 DORM_ROOM（場景 mesh 176、5 秒穩定）  {"version": "loft4-v2", "glb": true, "set": "203", "stage": "law", "day": 7, "hour": 21.543220000000126, "bathDoor": {"visible": true}}
+PASS [2150] 正式模型 dorm_room4.glb 載好了、家具是 203（法律系大一）  glb=True set=203
+  door_in_2150：calls 82、tris 15826｜門口往裡看（往後牆窗戶）
+  back_to_door_2150：calls 84、tris 14752｜後牆窗前往門口看（洗手間隔間、門、鞋櫃）
+  window_wall_2150：calls 48、tris 12726｜房間中間往窗戶那面牆看
+  bed_under_R1_2150：calls 40、tris 11066｜R1 的上舖：站在走道對面從下面往上看（床欄、床板、梯子）
+  bed_under_R2_2150：calls 48、tris 11832｜R2 的上舖：站在走道對面從下面往上看（床欄、床板、梯子）
+  bed_under_L1_2150：calls 37、tris 11398｜L1 的上舖：站在走道對面從下面往上看（床欄、床板、梯子）
+  bed_under_L2_2150：calls 45、tris 11790｜L2 的上舖：站在走道對面從下面往上看（床欄、床板、梯子）
+  desk_eye_R1_2150：calls 17、tris 7490｜R1 的書桌：坐著的眼睛高度往書桌看（室友的座位，只借鏡頭）
+  desk_eye_R2_2150：calls 21、tris 8926｜R2 的書桌：坐著的眼睛高度往書桌看（室友的座位，只借鏡頭）
+  desk_eye_L1_2150：calls 16、tris 7652｜L1 的書桌：坐著的眼睛高度往書桌看（室友的座位，只借鏡頭）
+  desk_eye_L2_2150：calls 28、tris 9808｜L2 的書桌：坐著的眼睛高度往書桌看（玩家自己的）
+  bath_door_2150：calls 35、tris 9342｜洗手間的門（遊戲裡門一直關著，沒有打開的狀態）
+PASS [2150] 玩家坐在自己的書桌（L2）  {"seat": true, "pose": "sit", "pos": [-1.14, 0.14], "cam": "follow"}
+PASS [2150] STORY.sleepSceneOf 拿得到玩家那一組的梯子資料  [-0.55, 1.505]
+  ladder_up_1_2150：玩家 y=0.314（停在 0.3）、姿勢 climb、鏡頭 [0.01, 1.86, 2.7]
+  ladder_up_2_2150：玩家 y=0.954（停在 0.94）、姿勢 climb、鏡頭 [0.12, 1.76, 3.13]
+  ladder_up_3_2150：玩家 y=1.594（停在 1.58）、姿勢 climb、鏡頭 [0.12, 1.75, 3.15]
+PASS [2150] 爬上去連拍 3 張  3 張；演出結束 done:true
+  ladder_down_1_2150：玩家 y=0（停在 1.3）、姿勢 idle、鏡頭 [0.12, 2.75, 0.92]
+  ladder_down_2_2150：玩家 y=0（停在 0.66）、姿勢 idle、鏡頭 [0.12, 2.75, 0.92]
+  ladder_down_3_2150：玩家 y=0（停在 0.34）、姿勢 idle、鏡頭 [0.12, 2.75, 0.92]
+PASS [2150] 爬下來連拍 3 張  3 張；演出結束 done
+PASS 沒有 JS 例外  []
+INFO 一共 38 張；美術判定歸 BB（D120），這支只截圖
+ALL PASS
