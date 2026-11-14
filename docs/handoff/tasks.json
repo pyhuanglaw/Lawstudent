@@ -9534,7 +9534,7 @@
    "title": "美國篇 2D 底圖（巴士站、機場、上課、中餐館、US3、芝加哥三張）",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 C】等圖：暫停條件（v9.10 發布後）已成立：BB 照 D97 把美國篇純場景（上面 9 個代號＋芝加哥）寫成一次四份的提示詞向使用者要；收到後 LAWWW 在 src/outings3d.js S.BG 登錄 ｜ BB-B 待生成清單；AA_174 用途已確認（G5-07 七張＋us_chapel_steps）；下一步 BB-B 改清單（9187e49b 已改）、使用者生成",
    "priority": "P1",
    "first": {
@@ -9570,7 +9570,8 @@
     }
    ],
    "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立，改等圖）",
-   "notes": "【LAWWW-B 10-23 18:3x 對帳】bg_approved 的美國底圖全部已在 assets/bg 並登錄 OUT.BG（us_classroom、us_restaurant、us_bus_station(_winter)、chicago_*、us_airport、sf_*、us_lake、us_club_*、us_chapel_steps）；只差 us_shared_kitchen 沒有圖——BB 照 D97 向使用者要。"
+   "notes": "【LAWWW-B 10-23 18:3x 對帳】bg_approved 的美國底圖全部已在 assets/bg 並登錄 OUT.BG（us_classroom、us_restaurant、us_bus_station(_winter)、chicago_*、us_airport、sf_*、us_lake、us_club_*、us_chapel_steps）；只差 us_shared_kitchen 沒有圖——BB 照 D97 向使用者要。",
+   "note": "｜11-14 11:12 BB（BB_460 5ba9a5c3b2）核對：開發分支美國篇 8 張圖都在 assets/bg 且登記（巴士站、機場、教室、中餐館、芝加哥湖邊、恐龍、us_lake、小教堂台階 us_chapel_steps_snow，不是黑底）→ 已整合待測試。剩 P3：chicago_pizza 做好沒進遊戲（只在手機照片文字），BB 問 AA 放哪一句，LAWWW 接＝US-PIZZA-BG-1114。"
   },
   {
    "id": "SCN-US-CG",
@@ -57322,6 +57323,19 @@
    "note": "v9.10.26 發布樹 1a7d7e1994＝rc2e 1404d5f2d4 的遊戲檔（底 76f8b639f0，11-13 18:49）；git 歷史上開發分支 11-13 以後的 commit 雖然是祖先，程式沒進 main。判斷 main 有沒有某個修正要看 main 的檔案內容，不要用 merge-base --is-ancestor。USER_WANTS 查過：76f8 以後改成「在遊戲裡」的只有 X364（確實在 v9.10.26）。下一版發布前 BB 回歸要重拍：① SHOP_US_asian_window to_door 13:00／20:00（8415b48879 竹葉日夜窗景，WINVIEW-ASIAN-DAYNIGHT-1114）② WINVIEW-EDGE-STRIPE（fc1813e4f2 wvMirror）③ 本班整合的 STUCK-WALKSELF、STUDY-LEAVE-LEADEND、DATE-D05-PICK、LAUNDRY-SEAT-PRIO、L118-SEAT-FIX r5、CC0 各店（轉角、好拍、南洋 v7、山嵐 v3）、WINVIEW-TREE-BLOB。｜④ WINVIEW-AUDIT-1105（10aa10ed32，汀州鮮果、安泰、榮恩典自己的窗景；鮮果條紋）",
    "first": {
     "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "US-PIZZA-BG-1114",
+   "title": "芝加哥深盤披薩背景圖（使用者生成）做好沒進遊戲",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "source": "BB-C 11-14 11:12（BB_460 5ba9a5c3b2）",
+   "note": "assets/bg 有 chicago_pizza，沒有場景用到，只出現在手機照片文字。BB 問 AA 放在哪一句；AA 定了交 LAWWW 接。",
+   "first": {
+    "term": "Y4S1",
     "confirmed": false
    }
   }
