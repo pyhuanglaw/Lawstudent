@@ -56983,10 +56983,10 @@
    "id": "OFFBEAT-VIEW-P3-1114",
    "title": "日常失速前窗：對面整片平灰泥牆太單調；offbeat_view_front_day／night 最下面約 60 px 是天空色",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "BB_379（BB-C 11-14，日常失速 21:00 PASS 附註）",
-   "note": "LAWWW2：wz_street 那棟加窗、冷氣、雨遮；前窗兩張重拍（地面畫到底）。｜LAWWW2 b6b30dd52c 交件（溫州街 B1 西牆開窗＋前窗兩張重拍；另修 wenzhou_street.props.json A 字板位置 44.3→43.1）。整合後 CC 拍日常失速前窗日／夜、BB 判。",
+   "note": "LAWWW2：wz_street 那棟加窗、冷氣、雨遮；前窗兩張重拍（地面畫到底）。｜LAWWW2 b6b30dd52c 交件（溫州街 B1 西牆開窗＋前窗兩張重拍；另修 wenzhou_street.props.json A 字板位置 44.3→43.1）。整合後 CC 拍日常失速前窗日／夜、BB 判。｜11-14 10:0x 已整合；溫州街／日常失速／wz 系列 ALL PASS、place_gate ALL PASS。待 CC 拍日常失速前窗日／夜、BB 判。",
    "first": {
     "term": "Y1S1",
     "confirmed": false

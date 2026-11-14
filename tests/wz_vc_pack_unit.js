@@ -35,7 +35,7 @@ J.nodes.forEach((n,ni)=>{ if(n.mesh==null) return; const ch=chain(ni), hidden=ch
       add(CELL[k]+'｜'+(inst?'instancing':(mn==='wz_vc_pack'?'投影':'不投影'))+(hidden?'｜藏':''), inst||1); } } });
 check('2. 打包材質每個三角形三個頂點 UV 一樣、落在一格的正中央', badUV===0, badUV?badUV+' 個不對，例如 '+uvInfo:'');
 // 改之前（WZ_NOPACK=1 重建、和 repo 原本的 GLB 比過完全一樣）每一類的三角形數（instancing 乘實例數）
-const WANT={'亮面｜不投影':1776,'亮面｜instancing':11040,'金屬｜不投影':13612,'金屬｜不投影｜藏':36,'金屬｜instancing':31200,'金屬｜投影':1928,'霧面｜不投影':21266,'霧面｜instancing':13320,'霧面｜投影':2054};   /* WZ-LIN-STREET-REF-1112（LAWWW2-C 11-12）：林家乾麵門口的紅、藍塑膠凳拿掉（金屬 13744→13612、霧面 21362→21266）；SHOP-REAL-INSIDE 溫州街（11-12）：SUNNY SIDE、小路的簡化店內拿掉（霧面 21266→21230） */
+const WANT={'亮面｜不投影':1776,'亮面｜instancing':11040,'金屬｜不投影':13612,'金屬｜不投影｜藏':36,'金屬｜instancing':31674,'金屬｜投影':1928,'霧面｜不投影':21274,'霧面｜instancing':13360,'霧面｜投影':2054};   /* WZ-LIN-STREET-REF-1112（LAWWW2-C 11-12）：林家乾麵門口的紅、藍塑膠凳拿掉（金屬 13744→13612、霧面 21362→21266）；SHOP-REAL-INSIDE 溫州街（11-12）：SUNNY SIDE、小路的簡化店內拿掉（霧面 21266→21230）；OFFBEAT-VIEW-P3-1114（LAWWW2-C 11-14）：B1 西側牆開窗（日常失速前窗看出去那一面），多了窗框、鐵窗、冷氣（金屬 instancing 31200→31674、霧面不投影 21266→21274、霧面 instancing 13320→13360） */
 const diff=Object.keys({...WANT,...cnt}).filter(k=>WANT[k]!==cnt[k]);
 check('3. 每一格×投影／不投影／instancing 的三角形數和改之前一樣（同一個面讀到同一個粗糙度、金屬度，影子照舊）', !diff.length, diff.length?diff.map(k=>k+' 要 '+WANT[k]+' 實際 '+cnt[k]).join('；'):'');
 check('4. 頂點色的 primitive 28 → 16（含 COPY_ 兩種外觀）', vcPrims===16, String(vcPrims));
