@@ -1,11 +1,3 @@
-[22:25:58] skip ART2_lmint_new (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip ART2_lmint_old (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:58] skip ART2_g0910_new (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip ART2_g0910_old (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:58] skip ART2_lm18_new (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip ART2_xg_new_r2 (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip ART2_xg_old_r2 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:58] skip FN_func_a_new_r3 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
 [22:25:58] skip FN_int_a_r3 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
 [22:25:58] skip FN_int_b_r3 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
 [22:25:58] skip FN_shots_b_new_r3 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
@@ -1998,3 +1990,11 @@
 [09:55:46] worktree add bcc99693a7b18c4cd606dfac63124518198ca685: invalid reference - fetching main and the commit itself
 [09:56:54] 正在跑：L118_CAM36_a_r4（已跑 19 分／上限 60 分）、L118_CAM36_b_r4（已跑 14 分／上限 60 分）、WINVIEW_GG3_REL（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:58:39] [res] cpu=11% mem=45% (14.2/31.4 GB) chrome_testing=10  END WINVIEW_GG3_REL
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4ef95234d1..daa9e60fdc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:58:46] ==== END   WINVIEW_GG3_REL  exit=0  176s   ====
+[09:58:50] memory 42% before starting WINVIEW_GG3_REL_tree (2 running)
+[09:58:50] ==== START WINVIEW_GG3_REL_tree  (probe @ bcc99693a7b18c4cd606dfac63124518198ca685) ====
+[09:58:52] [res] cpu=0% mem=42% (13.4/31.4 GB) chrome_testing=10  START WINVIEW_GG3_REL_tree
+[10:00:17] [res] cpu=4% mem=45% (14.1/31.4 GB) chrome_testing=10  END WINVIEW_GG3_REL_tree
