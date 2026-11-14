@@ -34,7 +34,10 @@
 
 **D｜決策與規則**：D163（幫手交班，HV-43）＋第 4 點（使用者不用開幫手對話）；使用者選擇題 UA-LAWWW-1114-01（發 rc2e；268 檔拆 P0）。
 
-**E｜跨 AI 協作**：交班訊息已送 LAWWW2、AA、BB、CC、g1、g2、g3（DELIVERED，等回最後 SHA）。g4 已 closed（dddc6a19d）。
+**E｜跨 AI 協作**（02:0x 全部 ACK、都已交班）：LAWWW2-C `4ec1acd5c0`（focused-cray-c9uwvw）、AA-C `da4ce5ceb2`（magical-albattani-bk7b4n）、BB-C `f9f05028cb`（wonderful-mayer-7fm9g6）、CC-C `4f8135503a`（cc-testing）；幫手 g1 `bbd34c9afc`、g2 `f58cf983e2`、g3 `12b0fd3def`、g4 `7758962c2`（closed）。
+- **rc2e 的 GO 還沒有**：BB-C 靜態 PASS（BB_467 3b90a50dd8）；GHA run 926 交班時還在跑；**LIVE p0 煙霧測試沒排進 CC 佇列**（CC 收到時已交班）→ 下一班 BB 確認 926 綠、叫 CC 在 cc-testing tools/cc_local/queue.txt 最前面照 LIVE_X364_p0 那行加 rc2e（1404d5f2d4cb740d50df75741764be18ee746992、拿掉 HOLD）→ BB GO → LAWWW 發布。
+- 交班時才到、還沒整合：一盞 v1.1 15124fd457（COPLANAR-CREEP 結案）、WINVIEW-EDGE-STRIPE-1114 042661aff6（條紋原因＝視差窗 clamp）、OFFBEAT-VIEW-P3-1114 b6b30dd52c；待 LAWWW2 驗收：同弦 768816c33c、glb_coplanar instancing edb96e33ec、頁間 v4 389adca8c0。
+- AA 問 D99 擋住的劇情：回覆寫在任務 AA-D99-BLOCKERS-1114（這一班沒碰寒暑假／美國交換流程，下一班跑一次再列給 AA）。
 
 **F｜測試與問題**：rc2e 煙霧測試未跑；GATE2 補拍（木曜日二樓、洋洋座位、一盞）；街樹貼圖條紋待查；REL76_social 逾時（不擋）；D05 文字選單（不擋）。
 

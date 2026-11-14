@@ -56754,7 +56754,10 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g1",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g1/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 日常失速 v2.1（37ee5046b9，吊盆換 Poly Haven fern_02）LAWWW2 PASS、LAWWW 已整合（7db3174dd4 patch）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 日常失速 v2.1（37ee5046b9，吊盆換 Poly Haven fern_02）LAWWW2 PASS、LAWWW 已整合（7db3174dd4 patch）",
+     "lastSha": "bbd34c9afc",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA bbd34c9afc，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）",
+     "closed": "2026-11-14 02:0x LAWWW-C：第①群五間全部 LAWWW2 PASS；已整合到木曜日 v2.2、日常失速 v2.1；一盞 v1.1（LAWWW2 15124fd457）還沒整合＝下一班；只剩 P3 霧面雲狀斑。最後 SHA bbd34c9afc"
     },
     {
      "name": "幫手 g2",
@@ -56764,7 +56767,9 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g2",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g2/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 慢輪單車 CC0（c180ee1f75）LAWWW2 PASS、LAWWW 已整合（4fd3c0d98d patch）；層架商品 v2 g2 續做"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 慢輪單車 CC0（c180ee1f75）LAWWW2 PASS、LAWWW 已整合（4fd3c0d98d patch）；層架商品 v2 g2 續做",
+     "lastSha": "f58cf983e2",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA f58cf983e2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     },
     {
      "name": "幫手 g3",
@@ -56774,7 +56779,9 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g3",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g3/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 01:1x 新生運動改由 LAWWW2-C 自己接手（g3 留大口一樓、二樓、同弦）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 01:1x 新生運動改由 LAWWW2-C 自己接手（g3 留大口一樓、二樓、同弦）",
+     "lastSha": "12b0fd3def",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA 12b0fd3def，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     },
     {
      "name": "幫手 g4",
@@ -56785,10 +56792,12 @@
      "branch": "claude/shop-cc0-g4",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g4/HANDOFF.md",
      "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）",
-     "closed": "2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA dddc6a19d、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開"
+     "closed": "2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA 7758962c2（交班補一個 HANDOFF commit；原 dddc6a19d）、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開",
+     "lastSha": "7758962c2",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA 7758962c2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     }
    ],
-   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。"
+   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。｜02:0x 交班時還沒整合（LAWWW2 已驗收或待驗收）：一盞 v1.1 15124fd457（PASS）；青木（g2，PASS 待整合）；頁間 v4 389adca8c0（待 LAWWW2）；同弦 768816c33c（待 LAWWW2）；glb_coplanar instancing edb96e33ec（待 LAWWW2；之後整合的店要重跑 --coplanar）。g2 唱片 v2／山嵐 v3／單車 v2／Daybreak v2.1b、g3 大口／好拍／大步 v2：腳本好了、沒烘。"
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -56924,7 +56933,7 @@
    "status": "待開工",
    "priority": "P3",
    "source": "LAWWW2-C 2026-11-14 00:41 自查",
-   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。｜01:1x 洋洋那一半 LAWWW2 b9b69422cd 已整合：冷飲櫃踢腳板凸 3 mm、底座頂蓋從背板前開始；always 2.25→1.46、wall 0.64→0.53（低於原基準 2.13）。剩驛站 +0.04（g1 下一版）。",
+   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。｜01:1x 洋洋那一半 LAWWW2 b9b69422cd 已整合：冷飲櫃踢腳板凸 3 mm、底座頂蓋從背板前開始；always 2.25→1.46、wall 0.64→0.53（低於原基準 2.13）。剩驛站 +0.04（g1 下一版）。｜驛站那一半：一盞 v1.1（LAWWW2 15124fd457，2.07→2.03）已驗收、還沒整合；整合後本任務可結案。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -56974,10 +56983,10 @@
    "id": "OFFBEAT-VIEW-P3-1114",
    "title": "日常失速前窗：對面整片平灰泥牆太單調；offbeat_view_front_day／night 最下面約 60 px 是天空色",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P3",
    "source": "BB_379（BB-C 11-14，日常失速 21:00 PASS 附註）",
-   "note": "LAWWW2：wz_street 那棟加窗、冷氣、雨遮；前窗兩張重拍（地面畫到底）。",
+   "note": "LAWWW2：wz_street 那棟加窗、冷氣、雨遮；前窗兩張重拍（地面畫到底）。｜LAWWW2 b6b30dd52c 交件（溫州街 B1 西牆開窗＋前窗兩張重拍；另修 wenzhou_street.props.json A 字板位置 44.3→43.1）。整合後 CC 拍日常失速前窗日／夜、BB 判。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -57095,6 +57104,32 @@
    "priority": "P3",
    "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
    "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "WINVIEW-EDGE-STRIPE-1114",
+   "title": "公館窗外看到的條紋：視差窗 W3.windowMat 照片外面 clamp 到邊上一排像素（GG-STREET-TREES 以後邊上有樹，就拉成條紋）",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "source": "BB_379（BB-C 11-14 WINVIEW_GG3_r2）；LAWWW2-C 查到原因",
+   "note": "patch：claude/focused-cray-c9uwvw @ 042661aff6 docs/art-rebuild/second_ai/wip/winview_edge_1114/winview_edge_mirror_on_2da495e693.patch（shader 1 行改鏡像取樣 wvMirror＋新測試，改前 FAILED 2、改後 ALL PASS）。整合後 CC 重拍安泰、鮮果、榮恩典、Daybreak、afar、aoki、夜間 14:00 窗外，交下一班 BB 判（BB-C 交班後補的要求）。發布版有沒有：WINVIEW_GG3_REL 在 CC 佇列前面，下一班 BB 判。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "AA-D99-BLOCKERS-1114",
+   "title": "AA 問：寒暑假、美國交換（D99 兩個優先項目）有沒有擋住的劇情（缺字、接不上、條件卡住）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "AA-C 2026-11-14 01:57",
+   "note": "LAWWW-C 回（交班時寫進 GitHub，AA 下一班第一件讀這裡）：這一班（11-13～14）整合的都是店面、窗景、rc2 換字，沒有碰寒暑假、美國交換的流程，所以沒有遇到這兩塊的缺字或卡住——不是「確定沒有」。下一班 LAWWW：照 §6 跑一次寒暑假＋美國交換完整流程（或請 CC 排 flow 探針），把缺字、接不上的列成任務給 AA。AA 這段時間先照它說的，拿企劃線 AA_340 美國交換逐週劇本對照開發分支找缺的。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
