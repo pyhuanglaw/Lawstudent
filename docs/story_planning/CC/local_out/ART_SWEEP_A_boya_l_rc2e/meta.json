@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "ART_SWEEP_A_boya_l_rc2e",
+  "sha": "1404d5f2d4cb740d50df75741764be18ee746992",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_closeup_probe.py",
+  "env": "TAG=art_sweep_a_boya_l;ZONE=boya;HOURS=14;VIEW=1280x720;PLAIN_NAMES=1;CAMS=boya101_back@-11.3,3.4,-7.6>-10.5,1.3,7.0@55/boya101_stage@-12.5,1.6,7.8>-11.3,1.5,-6@60;SHA=1404d5f2d4cb740d50df75741764be18ee746992",
+  "machine": "MSI",
+  "start": "2026-11-14T18:11:34",
+  "end": "2026-11-14T18:12:58",
+  "seconds": 84,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 19,
+    "mem": 45,
+    "used_gb": 14.6,
+    "chrome_testing": 4
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
