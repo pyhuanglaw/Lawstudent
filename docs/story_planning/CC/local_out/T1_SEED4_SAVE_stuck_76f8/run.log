@@ -1,0 +1,184 @@
+@@HB {"seed":4,"day":"2025-09-17","step":0,"frame":1}
+@@HB {"seed":4,"day":"2025-08-22","step":12,"frame":36}
+@@HB {"seed":4,"day":"2025-08-23","step":81,"frame":339}
+@@HB {"seed":4,"day":"2025-08-24","step":99,"frame":433}
+@@HB {"seed":4,"day":"2025-08-29","step":115,"frame":536}
+@@HB {"seed":4,"day":"2025-08-30","step":175,"frame":894}
+@@HB {"seed":4,"day":"2025-08-31","step":236,"frame":2250}
+@@HB {"seed":4,"day":"2025-09-01","step":330,"frame":4628}
+@@HB {"seed":4,"day":"2025-09-02","step":417,"frame":6146}
+@@HB {"seed":4,"day":"2025-09-03","step":580,"frame":9332}
+@@HB {"seed":4,"day":"2025-09-03","step":785,"frame":13097}
+@@HB {"seed":4,"day":"2025-09-04","step":963,"frame":16071}
+@@HB {"seed":4,"day":"2025-09-04","step":1036,"frame":18449}
+@@HB {"seed":4,"day":"2025-09-04","step":1078,"frame":20500}
+@@HB {"seed":4,"day":"2025-09-05","step":1264,"frame":24052}
+@@HB {"seed":4,"day":"2025-09-06","step":1345,"frame":26876}
+@@HB {"seed":4,"day":"2025-09-06","step":1381,"frame":28329}
+@@HB {"seed":4,"day":"2025-09-07","step":1430,"frame":28800}
+@@HB {"seed":4,"day":"2025-09-07","step":1465,"frame":30326}
+@@HB {"seed":4,"day":"2025-09-08","step":1486,"frame":31091}
+@@HB {"seed":4,"day":"2025-09-09","step":1560,"frame":32082}
+@@HB {"seed":4,"day":"2025-09-10","step":1638,"frame":33947}
+@@HB {"seed":4,"day":"2025-09-11","step":1778,"frame":38155}
+@@HB {"seed":4,"day":"2025-09-11","step":1890,"frame":39331}
+@@HB {"seed":4,"day":"2025-09-11","step":1925,"frame":40112}
+@@HB {"seed":4,"day":"2025-09-12","step":1992,"frame":41822}
+@@HB {"seed":4,"day":"2025-09-12","step":2056,"frame":43428}
+@@HB {"seed":4,"day":"2025-09-13","step":2074,"frame":43729}
+@@HB {"seed":4,"day":"2025-09-13","step":2136,"frame":45668}
+@@HB {"seed":4,"day":"2025-09-14","step":2167,"frame":46654}
+@@HB {"seed":4,"day":"2025-09-15","step":2290,"frame":49100}
+@@HB {"seed":4,"day":"2025-09-16","step":2418,"frame":51309}
+@@HB {"seed":4,"day":"2025-09-17","step":2472,"frame":52300}
+@@HB {"seed":4,"day":"2025-09-18","step":2615,"frame":53964}
+@@HB {"seed":4,"day":"2025-09-18","step":2728,"frame":56460}
+@@HB {"seed":4,"day":"2025-09-19","step":2796,"frame":57459}
+@@HB {"seed":4,"day":"2025-09-20","step":2838,"frame":58174}
+@@HB {"seed":4,"day":"2025-09-20","step":2984,"frame":59515}
+@@HB {"seed":4,"day":"2025-09-21","step":3005,"frame":59723}
+@@HB {"seed":4,"day":"2025-09-22","step":3020,"frame":59896}
+@@HB {"seed":4,"day":"2025-09-23","step":3100,"frame":61874}
+@@HB {"seed":4,"day":"2025-09-24","step":3191,"frame":63534}
+@@HB {"seed":4,"day":"2025-09-24","step":3263,"frame":65559}
+@@HB {"seed":4,"day":"2025-09-25","step":3283,"frame":65998}
+@@HB {"seed":4,"day":"2025-09-25","step":3317,"frame":67190}
+@@HB {"seed":4,"day":"2025-09-26","step":3340,"frame":67638}
+@@HB {"seed":4,"day":"2025-09-27","step":3388,"frame":68522}
+@@HB {"seed":4,"day":"2025-09-28","step":3404,"frame":69194}
+@@HB {"seed":4,"day":"2025-09-29","step":3436,"frame":69561}
+@@HB {"seed":4,"day":"2025-09-30","step":3470,"frame":70064}
+@@HB {"seed":4,"day":"2025-10-01","step":3545,"frame":71331}
+@@HB {"seed":4,"day":"2025-10-02","step":3642,"frame":73402}
+@@HB {"seed":4,"day":"2025-10-02","step":3672,"frame":73740}
+@@HB {"seed":4,"day":"2025-10-03","step":3790,"frame":75512}
+@@HB {"seed":4,"day":"2025-10-04","step":3859,"frame":76606}
+@@HB {"seed":4,"day":"2025-10-04","step":3911,"frame":78448}
+@@HB {"seed":4,"day":"2025-10-05","step":3946,"frame":79572}
+@@HB {"seed":4,"day":"2025-10-05","step":4065,"frame":81321}
+@@HB {"seed":4,"day":"2025-10-06","step":4078,"frame":81549}
+@@HB {"seed":4,"day":"2025-10-06","step":4207,"frame":83780}
+@@HB {"seed":4,"day":"2025-10-07","step":4220,"frame":84603}
+@@HB {"seed":4,"day":"2025-10-07","step":4346,"frame":86445}
+@@HB {"seed":4,"day":"2025-10-08","step":4355,"frame":86514}
+@@HB {"seed":4,"day":"2025-10-08","step":4487,"frame":87559}
+@@HB {"seed":4,"day":"2025-10-09","step":4551,"frame":88540}
+@@HB {"seed":4,"day":"2025-10-10","step":4683,"frame":89852}
+@@HB {"seed":4,"day":"2025-10-11","step":4748,"frame":90656}
+@@HB {"seed":4,"day":"2025-10-12","step":4787,"frame":91318}
+@@HB {"seed":4,"day":"2025-10-12","step":4861,"frame":93242}
+@@HB {"seed":4,"day":"2025-10-12","step":4877,"frame":94596}
+@@HB {"seed":4,"day":"2025-10-13","step":4884,"frame":94921}
+@@HB {"seed":4,"day":"2025-10-13","step":4944,"frame":96913}
+@@HB {"seed":4,"day":"2025-10-14","step":4952,"frame":97343}
+@@HB {"seed":4,"day":"2025-10-14","step":5023,"frame":98399}
+@@HB {"seed":4,"day":"2025-10-15","step":5041,"frame":98871}
+@@HB {"seed":4,"day":"2025-10-15","step":5069,"frame":100200}
+@@HB {"seed":4,"day":"2025-10-15","step":5121,"frame":101905}
+@@HB {"seed":4,"day":"2025-10-16","step":5134,"frame":102234}
+@@HB {"seed":4,"day":"2025-10-16","step":5163,"frame":102736}
+@@HB {"seed":4,"day":"2025-10-16","step":5217,"frame":104024}
+@@HB {"seed":4,"day":"2025-10-16","step":5230,"frame":104362}
+@@HB {"seed":4,"day":"2025-10-17","step":5242,"frame":104508}
+@@HB {"seed":4,"day":"2025-10-17","step":5272,"frame":105035}
+@@HB {"seed":4,"day":"2025-10-18","step":5295,"frame":105768}
+@@HB {"seed":4,"day":"2025-10-19","step":5392,"frame":107779}
+@@HB {"seed":4,"day":"2025-10-19","step":5451,"frame":109068}
+@@HB {"seed":4,"day":"2025-10-20","step":5464,"frame":109938}
+@@HB {"seed":4,"day":"2025-10-21","step":5558,"frame":111932}
+@@HB {"seed":4,"day":"2025-10-22","step":5666,"frame":114057}
+@@HB {"seed":4,"day":"2025-10-23","step":5717,"frame":115491}
+@@HB {"seed":4,"day":"2025-10-23","step":5741,"frame":116188}
+@@HB {"seed":4,"day":"2025-10-23","step":5841,"frame":117840}
+@@HB {"seed":4,"day":"2025-10-24","step":5857,"frame":118535}
+@@HB {"seed":4,"day":"2025-10-24","step":5879,"frame":118768}
+@@HB {"seed":4,"day":"2025-10-25","step":5891,"frame":118958}
+@@HB {"seed":4,"day":"2025-10-25","step":5925,"frame":119252}
+@@HB {"seed":4,"day":"2025-10-26","step":5985,"frame":120499}
+@@HB {"seed":4,"day":"2025-10-27","step":6085,"frame":122656}
+@@HB {"seed":4,"day":"2025-10-27","step":6122,"frame":123318}
+@@HB {"seed":4,"day":"2025-10-28","step":6178,"frame":124750}
+@@HB {"seed":4,"day":"2025-10-29","step":6183,"frame":124852}
+@@HB {"seed":4,"day":"2025-10-30","step":6189,"frame":125042}
+@@HB {"seed":4,"day":"2025-10-30","step":6234,"frame":125655}
+@@HB {"seed":4,"day":"2025-10-31","step":6250,"frame":125778}
+@@HB {"seed":4,"day":"2025-10-31","step":6299,"frame":126781}
+@@HB {"seed":4,"day":"2025-10-31","step":6341,"frame":127550}
+@@HB {"seed":4,"day":"2025-10-31","step":6489,"frame":130475}
+@@HB {"seed":4,"day":"2025-11-01","step":6509,"frame":130736}
+@@HB {"seed":4,"day":"2025-11-02","step":6527,"frame":131572}
+@@HB {"seed":4,"day":"2025-11-02","step":6611,"frame":132799}
+@@HB {"seed":4,"day":"2025-11-03","step":6624,"frame":132859}
+@@HB {"seed":4,"day":"2025-11-03","step":6675,"frame":133705}
+@@HB {"seed":4,"day":"2025-11-04","step":6691,"frame":133876}
+@@HB {"seed":4,"day":"2025-11-04","step":6765,"frame":134988}
+@@HB {"seed":4,"day":"2025-11-05","step":6797,"frame":136067}
+@@HB {"seed":4,"day":"2025-11-05","step":6879,"frame":138175}
+@@HB {"seed":4,"day":"2025-11-06","step":6904,"frame":138420}
+@@HB {"seed":4,"day":"2025-11-06","step":7019,"frame":140587}
+@@HB {"seed":4,"day":"2025-11-07","step":7052,"frame":141490}
+@@HB {"seed":4,"day":"2025-11-07","step":7107,"frame":142756}
+@@HB {"seed":4,"day":"2025-11-08","step":7116,"frame":142829}
+@@HB {"seed":4,"day":"2025-11-08","step":7145,"frame":143162}
+@@HB {"seed":4,"day":"2025-11-09","step":7163,"frame":143254}
+@@HB {"seed":4,"day":"2025-11-09","step":7336,"frame":146010}
+@@HB {"seed":4,"day":"2025-11-10","step":7355,"frame":147004}
+
+!!! FAIL STUCK（UNKNOWN）busyDepth=0 busy=true by=[] ADV=false
+@@HB {"seed":4,"day":"2025-11-10","step":7361,"frame":147395}
+@@HB {"seed":4,"day":"2025-11-10","step":7443,"frame":149453}
+@@HB {"seed":4,"day":"2025-11-11","step":7473,"frame":149988}
+@@HB {"seed":4,"day":"2025-11-11","step":7552,"frame":151386}
+@@HB {"seed":4,"day":"2025-11-11","step":7570,"frame":151649}
+@@HB {"seed":4,"day":"2025-11-11","step":7580,"frame":153119}
+@@HB {"seed":4,"day":"2025-11-12","step":7590,"frame":153481}
+--save-out：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\T1_SEED4_SAVE_stuck_76f8\out\seed4_stuck.json　90165 字元（2025-11-12）
+
+================ 種子 4：FAIL ================
+區域 build 437 次、99.0 秒；turbo 格 62861
+到 2025-11-12　步數 7590　格數 153481　虛擬時間 7.8 小時　開頁面 13 次　真實 249.2 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":54,"day":57,"date":"2025-11-12","evDone":39,"money":96315,"stage":"law","contacts":6,"invites":27,"invDone":12,"goingSeen":0,"msgs":200}
+個性：{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001}
+假引擎 E 被讀但沒有的屬性：preObjs×5、simWalk×4
+
+【UNKNOWN】STUCK　第 7361 步、第 147394 格
+  為什麼：劇情鎖住、畫面上沒有對話或選項超過 30 秒（虛擬時間；game3d.js staleCheck 會說「畫面好像停住了」）
+  內容：busyDepth=0 busy=true by=[] ADV=false
+  G：{"day":55,"date":"2025-11-10","hour":12.007,"zone":"dorm_hall","stage":"law","money":96515,"energy":100,"weekday":1,"busy":true,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":false,"invites":["iv26:kai@gym_badminton:accepted"],"evDone":39,"page":12}
+  最後 20 個動作：
+    #7347 f146838 2025-11-09 22:25 library_b1｜一鍵：一鍵
+    #7348 f146845 2025-11-09 22:25 library_b1｜一鍵（收起來）：一鍵
+    #7349 f146848 2025-11-09 22:25 library_b1｜等一下（16 秒）
+    #7350 f146902 2025-11-09 22:32 library_b1｜等一下（15 秒）
+    #7351 f146952 2025-11-09 22:38 library_b1｜一鍵：一鍵
+    #7352 f146959 2025-11-09 22:38 library_b1｜一鍵選單：回去睡覺宿舍 203（爬上床直接睡）
+    #7353 f146961 2025-11-09 22:38 library_b1｜一鍵確認：確定
+    #7354 f146965 2025-11-09 22:38 library_b1｜一鍵確認：確定
+    #7355 f146982 2025-11-09 22:49 dorm｜走去床（1.1 m）
+    #7356 f147059 2025-11-10 08:11 dorm｜打開手機（today）想跳過時間
+    #7357 f147062 2025-11-10 08:11 dorm｜手機：等到晚上（20:00）
+    #7358 f147066 2025-11-10 08:11 dorm｜選單（2 個）：照樣跳過會錯過：09:10 憲法（上）
+    #7359 f147082 2025-11-10 12:00 dorm｜走去走出房間（0.7 m）
+    #7360 f147084 2025-11-10 12:00 dorm｜按互動：走出房間
+    #7360 f147085 2025-11-10 12:00 dorm｜（提示）手機｜沛珊（宿營同隊）：📷（一頁書，劃了一行線）
+    #7361 f147087 2025-11-10 12:00 dorm｜選單（2 個）：自己走過去
+    #7361 f147100 2025-11-10 12:00 dorm_hall｜（提示）手機｜沛珊（宿營同隊）：你不用回喔
+    #7361 f147138 2025-11-10 12:00 dorm_hall｜（提示）手機｜阿哲：今天換一間 我想吃牛排
+    #7361 f147176 2025-11-10 12:00 dorm_hall｜（提示）提醒：12:10 和阿凱約在新體育館羽球場。
+    #7361 f147195 2025-11-10 12:00 dorm_hall｜（提示）畫面好像停住了。可以打開選單讀檔，或回標題。
+  重現：node ..\Lawstudent_cclocal\docs\story_planning\test_tools\cc\random_play_sim.js --seed 4 --root C:\Users\USER\Documents\wt_cc_T1_SEED4_SAVE_stuck_76f8 --from 2025-08-22 --to 2025-11-11
+
+注意（不算 FAIL）：
+  86 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  67 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-29 22:55 lane118）
+  13 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  8 次　3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-03 16:04 afar）
+  8 次　3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-03 20:28 cafe）
+  7 次　3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗　例：NO_NET（random_play_sim 不下載素材）（2025-09-03 15:18 gongguan）
+  3 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-10-07 08:24 dorm）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.GG3_REN　例：G.flags.GG3_REN：undefined → true（2025-09-04 19:31 classroom）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772　例：G.l118.mv772：undefined → 2（2025-09-04 19:31 classroom）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-22 22:32 cvs）
+  1 次　game3d.js staleCheck：劇情鎖住沒有結束（BUG-BOWL-STUCK-1018 那一個保底）　例：劇情鎖住沒有結束（BUG-BOWL-STUCK-1018）（2025-11-10 12:00 dorm_hall）
+@@RESULT {"seed":4,"ok":false,"reached":"2025-11-12","steps":7590,"frames":153481,"vms":27943100,"pages":13,"fails":[{"kind":"STUCK","cls":"UNKNOWN","why":"劇情鎖住、畫面上沒有對話或選項超過 30 秒（虛擬時間；game3d.js staleCheck 會說「畫面好像停住了」）","msg":"busyDepth=0 busy=true by=[] ADV=false","step":7361,"frame":147394,"G":{"day":55,"date":"2025-11-10","hour":12.007,"zone":"dorm_hall","stage":"law","money":96515,"energy":100,"weekday":1,"busy":true,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":false,"invites":["iv26:kai@gym_badminton:accepted"],"evDone":39,"page":12},"lastActions":["#7347 f146838 2025-11-09 22:25 library_b1｜一鍵：一鍵","#7348 f146845 2025-11-09 22:25 library_b1｜一鍵（收起來）：一鍵","#7349 f146848 2025-11-09 22:25 library_b1｜等一下（16 秒）","#7350 f146902 2025-11-09 22:32 library_b1｜等一下（15 秒）","#7351 f146952 2025-11-09 22:38 library_b1｜一鍵：一鍵","#7352 f146959 2025-11-09 22:38 library_b1｜一鍵選單：回去睡覺宿舍 203（爬上床直接睡）","#7353 f146961 2025-11-09 22:38 library_b1｜一鍵確認：確定","#7354 f146965 2025-11-09 22:38 library_b1｜一鍵確認：確定","#7355 f146982 2025-11-09 22:49 dorm｜走去床（1.1 m）","#7356 f147059 2025-11-10 08:11 dorm｜打開手機（today）想跳過時間","#7357 f147062 2025-11-10 08:11 dorm｜手機：等到晚上（20:00）","#7358 f147066 2025-11-10 08:11 dorm｜選單（2 個）：照樣跳過會錯過：09:10 憲法（上）","#7359 f147082 2025-11-10 12:00 dorm｜走去走出房間（0.7 m）","#7360 f147084 2025-11-10 12:00 dorm｜按互動：走出房間","#7360 f147085 2025-11-10 12:00 dorm｜（提示）手機｜沛珊（宿營同隊）：📷（一頁書，劃了一行線）","#7361 f147087 2025-11-10 12:00 dorm｜選單（2 個）：自己走過去","#7361 f147100 2025-11-10 12:00 dorm_hall｜（提示）手機｜沛珊（宿營同隊）：你不用回喔","#7361 f147138 2025-11-10 12:00 dorm_hall｜（提示）手機｜阿哲：今天換一間 我想吃牛排","#7361 f147176 2025-11-10 12:00 dorm_hall｜（提示）提醒：12:10 和阿凱約在新體育館羽球場。","#7361 f147195 2025-11-10 12:00 dorm_hall｜（提示）畫面好像停住了。可以打開選單讀檔，或回標題。"],"count":1}],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":86,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":67,"ex":"unknown asset prop.bike_ride（2025-08-29 22:55 lane118）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":13,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型","n":8,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-03 16:04 afar）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型","n":8,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-03 20:28 cafe）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗","n":7,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-03 15:18 gongguan）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":3,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-10-07 08:24 dorm）","all":[{"at":"2025-10-07 08:24","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#4230 f84767 2025-10-07 08:21 dorm｜選單（2 個）：起床","#4231 f84790 2025-10-07 08:24 dorm｜走去床底下的紙箱（1.8 m）","#4232 f84802 2025-10-07 08:24 dorm｜按互動：床底下的紙箱"]},{"at":"2025-10-14 20:19","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和阿凱說話","last":["#4990 f97764 2025-10-14 20:18 dorm_hall｜按互動：回房間（203）","#4991 f97781 2025-10-14 20:19 dorm｜走去阿凱（2.5 m）","#4992 f97793 2025-10-14 20:19 dorm｜按互動：和阿凱說話（想找 阿凱）"]},{"at":"2025-11-08 18:47","zone":"wz_mokuyobi","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和沛珊說話","last":["#7143 f143135 2025-11-08 18:46 wz_mokuyobi｜（提示）已讀取","#7144 f143137 2025-11-08 18:46 wz_mokuyobi｜走去坐下（3.6 m）","#7145 f143161 2025-11-08 18:47 wz_mokuyobi｜按互動：和沛珊說話"]}]},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.GG3_REN","n":1,"ex":"G.flags.GG3_REN：undefined → true（2025-09-04 19:31 classroom）"},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772","n":1,"ex":"G.l118.mv772：undefined → 2（2025-09-04 19:31 classroom）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-22 22:32 cvs）"},{"k":"game3d.js staleCheck：劇情鎖住沒有結束（BUG-BOWL-STUCK-1018 那一個保底）","n":1,"ex":"劇情鎖住沒有結束（BUG-BOWL-STUCK-1018）（2025-11-10 12:00 dorm_hall）"}],"missingE":["preObjs×5","simWalk×4"],"persona":{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001},"sayStack":true,"chooseStack":true,"g":{"attended":54,"day":57,"date":"2025-11-12","evDone":39,"money":96315,"stage":"law","contacts":6,"invites":27,"invDone":12,"goingSeen":0,"msgs":200}}
+（249.2 秒）
