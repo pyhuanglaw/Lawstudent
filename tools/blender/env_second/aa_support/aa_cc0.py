@@ -21,11 +21,11 @@ STAGE = os.path.join(cc0_fetch.CACHE, 'staged_aa'); os.makedirs(STAGE, exist_ok=
 USED = []
 
 # 種類 → (ambientCG id, vary＝明暗起伏, tile＝幾公尺重複一次, 法線強度, 粗糙度, 金屬度)
-# vc／vcg／vcm 的 vary 0.03～0.04（第一版 0.05／0.05／0.10：SUNNY SIDE 的冰箱、咖啡機、白檯面大面積看起來髒、有條紋）
+# vc／vcg／vcm 的 vary 0.015／0.02／0.025、法線 0.08～0.12（一盞的壁櫥用 0.03 還看得到雲狀斑；一盞的壁櫥、SUNNY SIDE 的冰箱大面積有雲狀斑；第一版 0.05／0.05／0.10：SUNNY SIDE 的冰箱、咖啡機、白檯面大面積看起來髒、有條紋）
 KINDS = {
-    'vc':      ('Plaster001',  0.03, 0.6, 0.25, 0.72, 0.0),    # 霧面漆、紙、布以外的小東西：細的霧面顆粒
-    'vcg':     ('Plastic006',  0.03, 0.5, 0.20, 0.30, 0.0),    # 亮面：陶、瓷、玻璃瓶、塑膠（vary 0.05：白塑膠不會有黑紋）
-    'vcm':     ('Metal009',    0.04, 0.6, 0.30, 0.40, 0.35),   # 金屬：髮絲紋
+    'vc':      ('Plaster001',  0.015, 0.6, 0.08, 0.72, 0.0),    # 霧面漆、紙、布以外的小東西：細的霧面顆粒
+    'vcg':     ('Plastic006',  0.02, 0.5, 0.10, 0.30, 0.0),    # 亮面：陶、瓷、玻璃瓶、塑膠（vary 0.05：白塑膠不會有黑紋）
+    'vcm':     ('Metal009',    0.025, 0.6, 0.12, 0.40, 0.35),   # 金屬：髮絲紋
     'wood':    ('Wood049',     0.22, 0.9, 0.35, 0.55, 0.0),    # 木頭：木紋
     'leather': ('Leather037',  0.18, 0.5, 0.55, 0.50, 0.0),    # 皮革
     'fabric':  ('Fabric030',   0.16, 0.25, 0.60, 0.85, 0.0),   # 布：織紋
@@ -189,14 +189,13 @@ def ph_obj(sh, aid, height=None, decimate=None, recolor=None, part=None, tag='',
     if ('Poly Haven', aid) not in USED: USED.append(('Poly Haven', aid))
     new = [o for o in bpy.data.objects if o not in before]; ms = [o for o in new if o.type == 'MESH']
     if part is not None:
-        ms.sort(key=lambda o: o.name); kp = ms[part % len(ms)]
-        for o in ms:
-            if o is not kp: bpy.data.objects.remove(o)
-        new = [o for o in new if o.name in bpy.data.objects]; ms = [kp]
+        ms.sort(key=lambda o: o.name); kp = ms[part % len(ms)]; drop = [o for o in ms if o is not kp]
+        new = [o for o in new if o not in drop]; ms = [kp]
+        for o in drop: bpy.data.objects.remove(o)
     bpy.ops.object.select_all(action='DESELECT')
     for o in ms: mw = o.matrix_world.copy(); o.parent = None; o.matrix_world = mw; o.select_set(True)
     for o in new:
-        if o.type != 'MESH' and o.name in bpy.data.objects: bpy.data.objects.remove(o)
+        if o.type != 'MESH': bpy.data.objects.remove(o)
     bpy.context.view_layer.objects.active = ms[0]
     if len(ms) > 1: bpy.ops.object.join()
     o = bpy.context.view_layer.objects.active; bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)

@@ -15,7 +15,7 @@ RES=${4:-1024}
 TMP=$(mktemp -d)
 NAME=cafe230
 HIDE='a23_glass|a23_bulb|window_view'
-NOLM='a23_bulb|pothos|a23_print|a23_vc|window_view|a23_c_brass|a23_c_metal_dk|a23_c_ceramic|a23_c_clay|a23_c_fabric|a23_c_leather_r|a23_ph_'   # CC0（LAWWW2-C 11-13）：分出來的小零件材質組也照舊即時光
+NOLM='a23_bulb|pothos|a23_print|a23_vc|window_view|a23_c_brass|a23_c_metal_dk|a23_c_ceramic|a23_c_clay|a23_c_fabric|a23_c_wool|a23_c_leather_r|a23_ph_'   # CC0（LAWWW2-C 11-13）：分出來的小零件材質組也照舊即時光
 WARM=${LCOL:-1.0,0.80,0.58}
 PT=""; LIGHTS=""
 for p in "-5.4,2.02,-3.95" "-4.24,2.1,-3.95" "-3.08,2.02,-3.95" "-1.92,2.1,-3.95" "-0.76,2.02,-3.95" "0.4,2.1,-3.95" "-5.6,2.13,0"; do PT="$PT;$p,${PENDW:-30},$WARM,0.04"; done

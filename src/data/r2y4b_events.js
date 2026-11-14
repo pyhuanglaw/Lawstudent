@@ -2,7 +2,7 @@
    這裡是用事件系統演的段落（在場景裡碰到的、出遊、讀書會）；手機、時間、場景表（畢業後篇）、尾聲的掛勾在 src/r2y4b3d.js（R2Y4B）。
    31 ev_azalea_y4（3/8 12:25～12:55 椰林大道）　32 ev_mingxuan_saved（3/8 19:00 麵店）　33 ev_bar_study_first／_w14／_week（國考讀書會，活動 act_bar_study）
    34 ev_an_grad_pass（3/22 19:00 麵店）、ev_grad_result（21:00 宿舍二選一）　35 ev_spring_y4（4/3～4/4 宜蘭）、ev_kexin_trip_spring_y4（和可昕）
-   36 ev_peishan_open_class（4/14 台南）　38 ev_kexin_bday_visit_y4（4/24 開車上山）　39 ev_last_game_y4、ev_concert_y4（5/12）
+   36 ev_peishan_open_class（4/14 台南）　38 ev_kexin_bday_visit_y4（4/24 宿舍樓下喝湯）　39 ev_last_game_y4、ev_concert_y4（5/12）
    40（CANON-NO-ECON-1112 第三批拿掉）　43 ev_last_meal_y4（6/22）　44 ev_kexin_after_grad（7/7）　46 ev_heart_july（7/14；R2Y4B.julyScene）
    47 ev_zhiruo_back_cafe（9/1 22:00）、ev_zhiruo_back_ex（分開過：9/1～9/7 第一次進 Café）　48 ev_mingxuan_depart（9/2 機場）
    50 ev_an_columbia（2030-03-28 麵店）、ev_an_ny_sendoff（2030-08-11 機場）　56 ev_us_canyon（美國路線）　57 ev_sis_canyon（台灣、日本路線）

@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1416.9,
+ "bake_seconds": 2609.9,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -26,11 +26,7 @@
   "day": null,
   "night": null
  },
- "skytint": [
-  1.32,
-  1.0,
-  0.72
- ],
+ "skytint": null,
  "objects": [
   "ad_ceiling_ceil",
   "ad_floor_floor",
@@ -40,5 +36,5 @@
   "WALL_right_wall_wall"
  ],
  "src": "assets/models/env/second_ai/bb_support/ade.glb",
- "src_sha256": "e4d554c959a0ef123f51f00d194e05a6e6120d5ac765f9cd2a9d6304f2945be6"
+ "src_sha256": "d717f6a2a9aedc96a84cbd4bbc4ab08295cec8a11516fe3e8d81284c1b691be5"
 }

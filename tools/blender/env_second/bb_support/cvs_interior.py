@@ -350,8 +350,15 @@ def shelf_run(xb, sgn, z0, z1, levels, top, kinds, dep=0.38, real=None):
                 shape = SHAPE.get(kinds[i % len(kinds)], 'bag'); xc_ = xb + sgn * (dep - 0.05); z = za + 0.06
                 while z < zb - 0.05: z += real_item(shape, xc_, y, z, hh, sgn)
                 continue
-            xf = xb + sgn * d
-            gbox(GD, min(xb, xf), max(xb, xf), y, y + hh, za, zb, n, rect)
+            # SHOP-REALISM-1112（LAWWW2-C 11-13，D159「同類東西大小、角度要有變化」）：原本一格 1.2 m 一整塊同高同深的貼圖方塊，
+            #   改成拆成 3～6 段（一段＝一種商品一排），每段長度、高度、深度不一樣、中間留 1～3 cm 的縫；有的段賣掉一些（比較淺）
+            zz = za; kind = GC[kinds[i % len(kinds)]]
+            while zz < zb - 0.05:
+                ln = min(zb - zz, R.uniform(0.16, 0.38)); ln = zb - zz if zb - zz - ln < 0.12 else ln
+                h_ = hh * R.uniform(0.62, 1.0); d_ = dep * R.choice((R.uniform(0.86, 0.96), R.uniform(0.86, 0.96), R.uniform(0.45, 0.7)))   # 三段裡大概一段被買掉一些（往後退）
+                xf = xb + sgn * d_; g0 = R.uniform(0.006, 0.016)
+                gbox(GD, min(xb, xf), max(xb, xf), y, y + h_, zz + g0, zz + ln - g0, n, cell_u(kind[R.randrange(2)], ln - 2 * g0))
+                zz += ln
 
 
 for g in S['gondolas']:

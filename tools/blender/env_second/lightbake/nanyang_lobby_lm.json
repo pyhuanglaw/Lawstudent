@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 668.0,
+ "bake_seconds": 667.3,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -40,5 +40,5 @@
   "WALL_right_plaster"
  ],
  "src": "assets/models/env/second_ai/bb_support/nanyang_lobby.glb",
- "src_sha256": "25d722da86f73150d0f4ed2230052ad8a652e5f676f17c3c34bee9695601ae33"
+ "src_sha256": "8bacf00a1520991dc1ecafcc237047ac3569d726b9be0d155a091a598917b339"
 }

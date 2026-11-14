@@ -41,7 +41,7 @@ yangyang)
   PTS="1.2,2.2,2.9,$PW,$WC,0.08;1.2,2.2,0.6,$PW,$WC,0.08;1.1,2.2,-1.7,$PW,$WC,0.08;-2.9,2.2,-4.3,$PW,$WC,0.08"
   for zz in 4.6 3.3 0.3 -1.5 -3.3; do PTS="$PTS;4.27,2.35,$zz,$SW,$WC,0.06"; done
   HIDE='glass|GLASS_'
-  NOLM='^yy_vc$|yy_vm|_vm$|yy_food|yy_screens|yy_warm|print|yy_steel|glass|GLASS_'
+  NOLM='^yy_vc$|yy_vm|_vm$|yy_food|yy_screens|yy_warm|print|yy_steel|glass|GLASS_|_cc_|_ph_|^WALL_[a-z]+_(plastic|metal|cardboard|wood_d|brass)'   # v2（SHOP-CC0-HELP-1113）：CC0 材質組的零件（yy_cc_*、牆上的 WALL_*_plastic_w…）、Poly Haven 模型（*_ph_*）照舊即時光
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS")
   CARD=(--name WALL_front_VIEW_yy_window_view --mat yy_window_view --img assets/models/env/second_ai/bb_support/yangyang_view_day.webp --x0 -8 --x1 8 --y0 -1 --y1 5.5 --z 8.0)
   ;;

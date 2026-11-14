@@ -56730,7 +56730,50 @@
     "spec": "docs/art-rebuild/second_ai/research/SHOP_CC0_HOWTO.md",
     "acceptance": "tests/shop_cc0_unit.js 三項同時成立＋店自己的測試＋place_gate；LAWWW2 看並排圖驗收；BB 判美術",
     "ack": "ACK（AA-C 14:23）"
-   }
+   },
+   "helpers": [
+    {
+     "name": "幫手 g1",
+     "session": "session_01S1Gk9UtryMwS25pcG4ftKG",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g1",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g1/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 日常失速 v2.1（37ee5046b9，吊盆換 Poly Haven fern_02）LAWWW2 PASS、LAWWW 已整合（7db3174dd4 patch）"
+    },
+    {
+     "name": "幫手 g2",
+     "session": "session_01S1Gk9WD6NYVtTg6gopb8ks",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g2",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g2/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    },
+    {
+     "name": "幫手 g3",
+     "session": "session_01S1Gk9W71VVmQ9D23ZrxpdU",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g3",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g3/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+    },
+    {
+     "name": "幫手 g4",
+     "session": "session_01S1Gk9VE8qcQaXSoAvHHRiJ",
+     "account": "C",
+     "openedBy": "LAWWW-C",
+     "opened": "2026-11-13 19:4x",
+     "branch": "claude/shop-cc0-g4",
+     "handoff": "docs/art-rebuild/second_ai/shop_cc0_g4/HANDOFF.md",
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）",
+     "closed": "2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA dddc6a19d、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開"
+    }
+   ]
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -56773,6 +56816,82 @@
    "next": "【LAWWW-C 11-13 21:2x UTC】做好：invites3d.js S.meetPref（約好、當天、時間到、人在那一區＝她）＋ game3d.js updateInteract 設成 E.prefNpc（findWho 優先）→ engine3d 原有的 1.5 m 優先；tests/inv_meet_yield_1113_unit.js ALL PASS；相關 314 支 ALL PASS。不在 76f8；發布後 CC INV_LAWLIB 驗走到可昕旁邊互動鍵是她。｜【LAWWW-C 11-13 21:1x UTC】BB-C P3（76f8 INV_LIB 按到蔡宗霖）：LAWWW 決定讓位；v9.10.26 發布後做（E.nearestInteractable 的優先順序：約會對象＞初見事件），測試 CC INV_LAWLIB。",
    "source": "BB-C 11-13 21:02（76f8 測試）",
    "authorized": "BB 交 LAWWW 決定"
+  },
+  {
+   "id": "HELPER-HANDOFF-1113",
+   "title": "D163 幫手工作階段的交班規則（誰開歸誰管、幫手交接檔、換班先收幫手、不跨帳號、loose 檢查 helpers）",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "status": "已整合待測試",
+   "source": "使用者 2026-11-13 23:1x 對 LAWWW-C：「有幫手的對話四格是誰開的？那如果換帳號之後怎麼辦？他們怎麼交班他們沒有自己的交班規則」",
+   "authorized": "使用者原話；LAWWW 改規則（§0 誰改規則）",
+   "first": {
+    "term": "流程",
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-13 23:3x】CLAUDE.md §4 D163＋換班第 4b 步；check_handoff.py loose 讀 tasks.json helpers；SHOP-CC0-HELP-1113 登記 g1～g4；四個幫手都已在自己分支寫 HANDOFF.md（g1 af156a490f、g2 cbf7a248fb、g3 dac0add489、g4 5002861fb）。下次換班照 4b 步實際收一次幫手＝驗收。",
+   "xai": []
+  },
+  {
+   "id": "CAMP-GATE-BG-1113",
+   "title": "迎新宿營校門口兩場黑底（ev_camp_d1_bus 開頭、ev_camp_d3_end 回校門）：先用 ntu_avenue；black_bg_audit 加讀 camp_y1.js",
+   "owner": "LAWWW",
+   "priority": "P2",
+   "status": "已整合待測試",
+   "source": "BB-C 2026-11-13 23:22（BB_460）；LAWWW-C 裁定先用 ntu_avenue、新圖 BB 照常跟使用者要（BG-3DSHOT-1021）",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "mainline": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-13 23:5x】camp_y1.js 19、197 行 bg:'dark'→'ntu_avenue'；tools/story/black_bg_audit.js 加讀 camp_y1.js（改前抓到 2 場、改後 0）；camp_y1／camp_era_lines／ui_night_bg／t1_time_bugs／friend_cards ALL PASS。待：BB 看第一個畫面；新圖到了換掉（BG-3DSHOT-1021）",
+   "xai": []
+  },
+  {
+   "id": "GG-STREET-TREES",
+   "title": "公館街上的行道樹從店裡看出去是一顆顆浮著的綠球",
+   "owner": "LAWWW2",
+   "priority": "P2",
+   "status": "已整合待測試",
+   "source": "LAWWW2-C 2026-11-13 23:50（驗收空檔查）",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   },
+   "next": "LAWWW2 驗收空檔查",
+   "xai": [],
+   "note": "2026-11-14 00:2x LAWWW-C：LAWWW2 ee53e06709 gg_street_trees_views.patch 已整合（afar、青木、頁間、Daybreak 四間窗景日夜 8 張 webp 照遊戲 103 棵樹重拍，程式不動；窗景測試 25 支 ALL PASS）。待 BB 看圖判、CC 第二層拍窗景。"
+  },
+  {
+   "id": "RC2-PORT-DEV-1114",
+   "title": "76f8 rc2／rc2b／rc2c 的可昕同校換字（AA_987 pairs 20＋rows 26＋D158 5 列＋AA_1012 兩句＋AA_1015）補進開發分支——發布樹以後開發分支會換回自己的 src，沒補＝下一版把舊句帶回來",
+   "owner": "LAWWW",
+   "priority": "P0",
+   "status": "待開工",
+   "source": "LAWWW-C 2026-11-14；X364（CANON-NO-ECON-1112）",
+   "first": {
+    "term": "Y1S1",
+    "mainline": true,
+    "confirmed": true
+   },
+   "next": "發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→110b0fd990 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
+   "xai": []
+  },
+  {
+   "id": "KX-HEARD-1014",
+   "title": "AA_1014 別人說起可昕 10 句（heard_lines talk，h1014_1～10）",
+   "owner": "LAWWW",
+   "priority": "P2",
+   "status": "已整合待測試",
+   "source": "AA-C 2026-11-13 23:51（企劃線 774afd5fcf，BB_465 照用）",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-14 00:1x】heard_lines.js 加 10 句，說話的人照稿（pool_4／pool_10／pool_1／pool_13 都在同學池 pool3d／pool_more3d 的名單，不用換備案人）；國考 2029-08-04 → 第 10 列 until 2029-08-03；aa503_others（逐句對稿＋每句時間）、aa510_511 改期望，heard 相關 45 支 ALL PASS。待 BB／CC 瀏覽器看一句（例：大一上第 3 週郁婷）",
+   "xai": []
   }
  ]
 }

@@ -1,11 +1,11 @@
 {
- "objects": 35,
- "unique_meshes": 35,
- "tris": 53830,
- "tris_drawn": 53830,
- "materials": 30,
- "out": "../c230/cc0.glb",
- "bytes": 3492836,
+ "objects": 36,
+ "unique_meshes": 36,
+ "tris": 55934,
+ "tris_drawn": 55934,
+ "materials": 31,
+ "out": "assets/models/env/second_ai/aa_support/cafe230.glb",
+ "bytes": 3593624,
  "texres": 512,
  "layout": 3,
  "zone": "cafe"

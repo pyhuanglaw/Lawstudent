@@ -8,6 +8,8 @@
   右牆：插畫海報（夏日的風、河邊的約定、小站的…）、劇照板、每張上面一盞鵝頸燈；兩張木條長椅（黑鐵腳）；金屬垃圾桶。
 外觀對齊（nanyang_ext.webp）：正面左半是售票亭（窗口朝外，大廳這側是售票亭的背牆＋一扇小門），右半是玻璃門入口；進門右手邊有舊放映機展示和兩張紅色座椅。
 D77：片名、店名都是虛構的（參考圖上的片名照用，README 允許）；沒有真實品牌。D112：地板是紅地毯、不是深色木地板。
+v6（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；幫手 g4 11-13）：原本的純色材質（護牆板深紅、米色、樑、黃銅、黑鐵、不鏽鋼、天花板）改成 ambientCG 材質組（名字不變），
+  櫃檯小東西照顏色分族（cc0kit.std_route）；收銀機、垃圾桶換 Poly Haven 掃描模型；吊燈乳白玻璃用塑膠紋路的發光材質。位置、座位、導航阻擋都沒動。
 配置只寫在 src/data/nanyang_layout.js（Blender 和遊戲共用）。座標：房間中心在原點，x 東、y 上、z 南；店門在 +z。
 """
 import ast, json, math, os, random, subprocess, sys
@@ -16,6 +18,8 @@ sys.path.insert(0, os.path.dirname(HERE))
 import lib2 as L   # noqa: E402
 from lib2 import B, Mesh, CMesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
 from PIL import Image, ImageDraw, ImageFont, ImageFilter   # noqa: E402
+sys.path.insert(0, HERE)
+import cc0kit as KK   # noqa: E402
 
 LAY = json.loads(subprocess.check_output(['node', '-e', "process.stdout.write(JSON.stringify(require('./src/data/nanyang_layout.js')))"], cwd=L.ROOT))['lobby']
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
@@ -148,23 +152,30 @@ m_carpet = img_mat('ny_carpet', carpet_tex(os.path.join(TMP, 'carpet5.png')), ro
 m_wall = L.pbr('ny_plaster', 'painted_plaster_wall', tile=2.5, target='#c8864a', normal=0.3, maps=('diff', 'nor'))   # v5：暖黃的舊灰泥（不是白；參考圖在暖光下是橘黃）
 m_top = L.pbr('ny_counter', 'granite_tile_03', tile=0.8, target='#b8ab96', normal=0.3, maps=('diff', 'nor'), rough_value=0.3)
 m_wood = L.pbr('ny_wood', 'wood_table_001', tile=1.0, target='#4a2c1a', normal=0.3, maps=('diff', 'nor'), rough_value=0.45)   # v5：深色木頭（門、長椅、招牌框；不是地板）
-m_maroon = L.flat('ny_maroon', '#5e1418', rough=0.5)
-m_cream = L.flat('ny_cream', '#a0703e', rough=0.8)   # v5：天花板、售票亭背牆：暖褐米色、比牆暗（不是白）
-m_beam = L.flat('ny_beam', '#9c6e40', rough=0.8)
-m_brass = L.flat('ny_brass', '#b58a43', rough=0.32, metal=0.42)
-m_iron = L.flat('ny_iron', '#2b2a2a', rough=0.5, metal=0.35)
-m_steel = L.flat('ny_steel', '#a8a090', rough=0.35, metal=0.4)
+K = KK.Kit(root, 'ny')   # v6：純色材質換成 ambientCG 材質組（target＝原本的顏色）
+m_maroon = K.acg_as('ny_maroon', 'Wood049', target='#5e1418', tile=0.8, rough_value=0.5)   # 漆成深紅的木頭（護牆板、紅椅子）
+m_cream = K.acg_as('ny_cream', 'Plaster001', maps=('diff',), vary=0.04, target='#a0703e', tile=2.0, rough_value=0.8, res=256)   # v5：天花板、售票亭背牆：暖褐米色、比牆暗（不是白）
+m_beam = K.acg_as('ny_beam', 'Wood049', maps=('diff',), target='#9c6e40', tile=1.2, rough_value=0.8, res=256)
+m_brass = K.acg_as('ny_brass', 'Metal009', maps=('diff',), target='#b58a43', tile=0.5, rough_value=0.32, metal=0.42, res=256)
+m_iron = K.acg_as('ny_iron', 'Metal009', maps=('diff',), target='#2b2a2a', tile=0.6, rough_value=0.5, metal=0.35, res=256)
+m_steel = K.acg_as('ny_steel', 'Metal009', maps=('diff',), target='#a8a090', tile=0.6, rough_value=0.35, metal=0.4, res=256)
 m_glass = L.flat('ny_glass', '#d8e6ea', rough=0.05, alpha=0.25)
-m_warm = glowmat('ny_warm', '#ffb860', 8.0)
+m_warm = K.glow('ny_warm', '#ffb860', tuple(v * 8.0 for v in B.srgb('#ffb860')))   # v6：乳白玻璃燈罩（塑膠紋路＋發光；名字不變，烘焙時照名字藏起來）
 m_white = m_warm   # v5：材質 ≤ 12（天花板多一個單面材質），飲料櫃的燈也用暖光
 m_vc = L.vc_material('ny_props_vc', rough=0.6)
+M = {}; KK.std_mats(K, M)
+RV = KK.std_route(False)
+TM = {}
+def tm(k):
+    if k not in TM: TM[k] = Mesh(f'ny_cc_{k}', M[k])
+    return TM[k]
 IM = {k: img_mat('ny_' + k, p, rough=0.6) for k, p in P.items()}
 
 # ---------------- 地板、天花板、樑 ----------------
 _fl = Mesh('FLOOR', m_carpet); _uv = _fl.bm.loops.layers.uv.verify(); _f = _fl.bm.faces.new([_fl.bm.verts.new(g2b(*p_)) for p_ in ((X0, 0, Z1), (X1, 0, Z1), (X1, 0, Z0), (X0, 0, Z0))])
 for _lp, _t in zip(_f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): _lp[_uv].uv = _t
 _fl.finish(root, uv=False)
-Mesh('CEILING', L.flat('ny_ceiling', '#8a5e34', rough=0.85, cull=True)).quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]).finish(root, props={'ceiling': 1})   # v5：單面朝下、暖褐（不是白）
+Mesh('CEILING', K.acg_as('ny_ceiling', 'Plaster001', maps=('diff',), vary=0.04, target='#8a5e34', tile=2.4, rough_value=0.85, res=256, cull=True)).quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]).finish(root, props={'ceiling': 1})   # v5：單面朝下、暖褐（不是白）
 bm_ = Mesh('BEAMS', m_beam)
 for z in [Z0 + 2.0 * i for i in range(1, int(D / 2.0))]: bm_.rbox(X0, X1, H - 0.34, H, z - 0.17, z + 0.17, r=0.02, seg=2)
 for x in (X0 + 0.25, X1 - 0.25): bm_.rbox(x - 0.25, x + 0.25, H - 0.34, H, Z0, Z1, r=0.02, seg=2)
@@ -251,7 +262,7 @@ for sx in (-1, 1):
 pm.rbox(px - 0.41, px + 0.41, 2.05, 2.15, pz - 0.31, pz + 0.31, r=0.02, seg=2); pm.cyl((px, 1.82, pz), (px, 2.0, pz), 0.13, seg=18); pm.finish(root)
 Mesh('POPMACHINE_GLASS', m_glass).box(px - 0.375, px + 0.375, 1.3, 2.05, pz - 0.275, pz + 0.275).finish(root, props={'glass': 1})
 Mesh('POPMACHINE_LAMP', m_warm).box(px - 0.3, px + 0.3, 2.02, 2.04, pz - 0.22, pz + 0.22).finish(root)
-props = CMesh('CONC_PROPS', m_vc); rng = random.Random(7)
+props = KK.RCMesh('CONC_PROPS', m_vc, RV, tm); rng = random.Random(7)
 props.crbox(px - 0.36, px + 0.36, 1.3, 1.52, pz - 0.26, pz + 0.26, '#eccf86', r=0.04, seg=2)   # v5：機器裡滿到一半的爆米花（底下一整塊）
 for _ in range(320):   # 上面一顆一顆（v5：少一點、面數低一點，三角形省給別的）
     x = px + rng.uniform(-0.34, 0.34); z = pz + rng.uniform(-0.24, 0.24); y = 1.5 + abs(rng.gauss(0, 0.07)) * (1.4 - abs(x - px) * 2)
@@ -264,7 +275,7 @@ for i in range(6):   # 紅白條紋紙桶疊
         bx_, bz_ = cx + depth - 0.3, cz0 + 2.0 + i * 0.16
         props.add_bm(L.lathe([(0.0, 0.0), (0.06, 0.0), (0.08, 0.17), (0.0, 0.17)], seg=12), Matrix.Translation(g2b(bx_, 1.06 + j * 0.12, bz_)))
 props.paint([f for f in props.bm.faces if f not in n0], '#d63a34'); n0 = set(props.bm.faces)
-props.crbox(cx + depth - 0.6, cx + depth - 0.2, 1.06, 1.32, cz0 + 3.0, cz0 + 3.35, '#2a2b2e', r=0.03)                    # 收銀機
+K.ph_put('CashRegister_01', cx + depth - 0.4, 1.06, cz0 + 3.175, math.pi / 2, height=0.3, decimate=0.1)   # 收銀機（v6：Poly Haven）
 props.add_bm(L.lathe([(0.0, 0.0), (0.1, 0.0), (0.12, 0.08), (0.12, 0.26), (0.07, 0.3), (0.0, 0.3)], seg=16), Matrix.Translation(g2b(cx + depth - 0.4, 1.06, cz0 + 3.7)))   # 糖果罐
 props.paint([f for f in props.bm.faces if f not in n0], '#e7a7c0'); n0 = set(props.bm.faces)
 props.crbox(X0 + 0.1, X0 + 0.75, 0.0, 0.3, cz0 + 4.3, cz0 + 5.1, '#b4a68c', r=0.03); props.crbox(X0 + 0.1, X0 + 0.75, 1.9, 2.05, cz0 + 4.3, cz0 + 5.1, '#b4a68c', r=0.03)   # 飲料櫃（中間空的、放瓶子）
@@ -369,9 +380,7 @@ for bb in LAY['benches']:
     for zz in (z0 + 0.15, z1 - 0.15):
         bl.box(bx0 + 0.05, bx0 + 0.09, 0, 0.43, zz - 0.02, zz + 0.02); bl.box(X1 - 0.52, X1 - 0.48, 0, 1.0, zz - 0.02, zz + 0.02); bl.box(bx0 + 0.05, X1 - 0.48, 0.4, 0.43, zz - 0.02, zz + 0.02)
 bs.finish(root); bl.finish(root)
-tb = Mesh('BINS', L.flat('ny_bin', '#c4ae86', rough=0.5, metal=0.2))   # v5：米色漆的舊鐵桶（參考圖），不是亮銀
-for (x, z) in LAY['bins']: tb.add_bm(L.lathe([(0.0, 0.0), (0.17, 0.0), (0.19, 0.65), (0.17, 0.7), (0.0, 0.72)], seg=18), Matrix.Translation(g2b(x, 0.0, z)))
-tb.finish(root, smooth=True)
+for (x, z) in LAY['bins']: K.ph_put('metal_trash_can', x, 0.0, z, 0.3, height=0.72, decimate=0.2, part=0, recolor=('#6a5a3e', '#d8c49a'))   # v6：米色漆的舊鐵桶（Poly Haven，照原本的米色重新上色）
 
 # ---------------- 天花板的 Art Deco 吊燈（乳白玻璃、層層燈罩、銅吊桿）----------------
 pend = Mesh('PENDANT_ROD', m_brass); pg = Mesh('PENDANT_GLASS', m_warm)
@@ -447,6 +456,8 @@ EXTRA.append([X1 - 0.2, fz_, 0.4, 0.7, '放傳單的鐵架（右牆）'])
 root['extraBlocks'] = json.dumps(EXTRA, ensure_ascii=False)
 
 # ---------------- 減量（SCENE_RULES 第 10 節：材質 ≤ 12）----------------
+for m_ in TM.values(): m_.finish(root, uv=True, smooth=True)
+K.remove_protos()
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
 vc_m = L.vc_material('ny_vc_matte', rough=0.62); vc_g = L.vc_material('ny_vc_gloss', rough=0.35); vc_x = L.vc_metal('ny_vc_metal', rough=0.35, metal=0.4)
@@ -456,4 +467,5 @@ L.vc_consolidate(root, grp)
 L.atlas_small(root, os.path.join(TMP, 'ny3_atlas.png'), 'ny_atlas', max_tris=6000, max_rep=1, cell=512, rough=0.6)
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 L.export(OUT)
+print('CC0_USED', K.used())
 print('OK', OUT, B.stats())

@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1157.6,
+ "bake_seconds": 1364.7,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -40,5 +40,5 @@
   "WALL_right_mok_wall"
  ],
  "src": "assets/models/env/second_ai/aa_support/mokuyobi.glb",
- "src_sha256": "24f7d6406f2a496cd2956f8ec8997e1259ef9f11d58db907f1537bbe6434fe72"
+ "src_sha256": "189a9b2818a84d5df585c511d3f64f34294c31cd4058d67a134a80123049185c"
 }
