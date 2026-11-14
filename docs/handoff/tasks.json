@@ -57407,6 +57407,26 @@
     "term": "Y1S1",
     "confirmed": true
    }
+  },
+  {
+   "id": "TAKEOVER-B-1114",
+   "title": "帳號 B 接班（11-14 12:1x，使用者「現在接班」；上一任帳號 C）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "換班",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-14 12:2x LAWWW-B】fetch（清掉 7.8 GB 中斷的 tmp_pack）、duty find＝claude/adoring-meitner-mqzst8（seq 155）、ff 合併 c109767aae、rules_sync、duty register。對帳：check 302（多數「等使用者」沒寫原因，上一班同）、duty verify 8（舊帳號分支歷史）、roles 7（表外：LAWWW2 L118-SEAT、LAUNDRY-SEAT-PRIO、WINVIEW-TREE-BLOB、第 39 行；AA K-D3、X5-L2；BB NO-GO——要補 offList／reconcileIgnore）、asks OK、userwork 上一班交代 19 項沒動、loose 22。還沒做：incr、branch_audit --write、check_orphans、place_gate、FACTS.md 讀完、roles 7 項補登。磁碟只剩約 2 GB（.git 很大，不要開 worktree）。下一步照上一班快照：RC2-PORT-DEV-1114 → CI-RED-AA553-CANON4-1114 → CANON-REPO-CLEAN-1114。",
+   "evidence": "duty.json register",
+   "sha": null
   }
  ]
 }

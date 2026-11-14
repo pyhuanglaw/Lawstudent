@@ -3,9 +3,9 @@
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
  "ruleVersion": "HV-20",
  "ruleSource": {
-  "branch": "claude/adoring-meitner-mqzst8",
-  "sha": "90e4f76b",
-  "updated": "2026-11-14T09:46Z"
+  "branch": "claude/modest-rubin-2lyp7g",
+  "sha": "c109767a",
+  "updated": "2026-11-14T12:18Z"
  },
  "accounts": [
   "A",
@@ -13,31 +13,29 @@
   "C",
   "D"
  ],
- "onDuty": null,
+ "onDuty": "B",
  "previous": "C",
  "accountState": {
   "A": "off",
-  "B": "off",
+  "B": "on",
   "C": "off",
   "D": "unused"
  },
  "roles": {
   "LAWWW": {
-   "account": "C",
-   "session": "session_01Me1thu8Zn934H58kWKNfuF",
-   "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "3567ae29",
-   "sinceSha": "90e4f76b",
-   "since": "2026-11-14T09:46Z",
-   "state": "handed-off",
+   "account": "B",
+   "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "branch": "claude/modest-rubin-2lyp7g",
+   "sha": "c109767a",
+   "sinceSha": "c109767a",
+   "since": "2026-11-14T12:18Z",
+   "state": "on",
    "prev": {
     "account": "C",
     "session": "session_01Me1thu8Zn934H58kWKNfuF",
     "branch": "claude/adoring-meitner-mqzst8",
-    "sha": "84d21836"
-   },
-   "handedOffAt": "2026-11-14T11:53Z",
-   "handoffSnapshot": "2026-11-14T1157Z_C_LAWWW.json"
+    "sha": "3567ae29"
+   }
   },
   "LAWWW2": {
    "account": "C",
@@ -838,6 +836,21 @@
     }
    },
    "until": "2026-11-12T04:45Z"
+  },
+  {
+   "account": "C",
+   "role": "LAWWW",
+   "roles": {
+    "LAWWW": {
+     "session": "session_01Me1thu8Zn934H58kWKNfuF",
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "3567ae29",
+     "since": "2026-11-14T09:46Z",
+     "handedOffAt": "2026-11-14T11:53Z",
+     "state": "handed-off"
+    }
+   },
+   "until": "2026-11-14T12:18Z"
   }
  ],
  "anomalies": [
@@ -1220,7 +1233,7 @@
    "resolved": false
   }
  ],
- "seq": 155,
+ "seq": 156,
  "chain": [
   {
    "seq": 1,
@@ -2306,6 +2319,13 @@
    "account": "-",
    "role": "LAWWW2",
    "event": "sync"
+  },
+  {
+   "seq": 156,
+   "at": "2026-11-14T12:18Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "register"
   }
  ],
  "pending": null
